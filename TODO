@@ -12,7 +12,6 @@ H: high priority
 L: low priority
 
 [H] AX_CHECK_GL produces an error during configure
-[M] Enemies can get stuck when colliding.
 [M] When aborting a level, lives and score should remain the same as they
     were before. Solution: make more dependency between the game engine and worldmap
     or just backup those variables before starting a level.
@@ -21,12 +20,13 @@ L: low priority
 [M] Tux should fall while walking in tiles that have a space between.
 [M] Camera movement shouldn't be so fast at the beggining, it takes the focus from
     the game.
+[M] Change resolution to 800x600, increasing visible game area.
+[M] Moving platforms
 [L] time runs while being in in-game menu, at least a bit (jump, go to
    menu, wait a bit, leave menu, Tux will 'flip' to the ground,
    instead of fall, pause mode doesn't seem to have this problem, only
    menu)
-[L] change lispreader to throw exceptions instead of simply assert() on
-    syntax error
+[L] catch exceptions thrown by lispreader
 [L] fadein/out for intro/extro would be nice
 [L] when bumping a special with 2 blocks at once, it won't change direction
 [L] tux get killed if he kicks a iceblock while at the same time
@@ -35,7 +35,7 @@ L: low priority
     look like there are 2 blocks above each other when bumping against them as
     small tux...
 [L] Enemies should turn upside down after being hit by an kicked
-   iceblock
+   iceblock, fireball or bomb
 
 
 Stuff for past milestone1:
