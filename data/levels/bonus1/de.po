@@ -18,9 +18,8 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: data/levels/bonus1/bonus-level4.stl:5
-#, fuzzy
 msgid "Bonus Island Castle"
-msgstr "Bonusinsel I"
+msgstr "Bonusinsel I Burg"
 
 #: data/levels/bonus1/bonus-level5.stl:5
 msgid "Area 42"
