@@ -681,6 +681,13 @@
           (x-hotspot 0)
           (y-hotspot 0)
           (images "shared/walkingtree-left-small-1.png"))
- )
+
+  ; Door
+  (sprite (name "door")
+          (y-hotspot 0)
+          (y-hotspot 0)
+          (images "shared/door.png")
+  )
+)
 
 ;; EOF ;;
