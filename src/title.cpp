@@ -102,8 +102,15 @@ void generate_contrib_menu()
       LevelSubset* subset = new LevelSubset();
       subset->load(level_subsets.item[i]);
       contrib_menu->additem(MN_GOTO, subset->title.c_str(), i,
-          contrib_subset_menu, i+1);
+          contrib_subset_menu, i);
       contrib_subsets.push_back(subset);
+    }
+
+  for(int i = 0; i < worldmap_list.num_items; i++)
+    {
+    WorldMapNS::WorldMap worldmap;
+    worldmap.loadmap(worldmap_list.item[i]);
+    contrib_menu->additem(MN_ACTION, worldmap.get_world_title(),0,0, i + level_subsets.num_items);
     }
 
   contrib_menu->additem(MN_HL,"",0,0);
@@ -117,43 +124,46 @@ void check_levels_contrib_menu()
   static int current_subset = -1;
 
   int index = contrib_menu->check();
-  if (index != -1)
+  if (index == -1)
+    return;
+
+  if (index < (int)contrib_subsets.size())
     {
-      index -= 1;
-      if (index >= 0 && index <= int(contrib_subsets.size()))
-        {
-          if (current_subset != index)
-            {
-              current_subset = index;
-              // FIXME: This shouln't be busy looping
-              LevelSubset& subset = * (contrib_subsets[index]);
+    if (current_subset != index)
+      {
+      current_subset = index;
+      // FIXME: This shouln't be busy looping
+      LevelSubset& subset = * (contrib_subsets[index]);
           
-              current_contrib_subset = &subset;
+      current_contrib_subset = &subset;
 
-              contrib_subset_menu->clear();
+      contrib_subset_menu->clear();
 
-              contrib_subset_menu->additem(MN_LABEL, subset.title, 0,0);
-              contrib_subset_menu->additem(MN_HL,"",0,0);
+      contrib_subset_menu->additem(MN_LABEL, subset.title, 0,0);
+      contrib_subset_menu->additem(MN_HL,"",0,0);
               
-              for (int i = 0; i < subset.get_num_levels(); ++i)
-                {
-                  Level* level = new Level;
-                  level->load(subset.get_level_filename(i));
-                  contrib_subset_menu->additem(MN_ACTION, level->get_name(), 0, 0, i);
-                  delete level;
-                }
-              
-              contrib_subset_menu->additem(MN_HL,"",0,0);      
-              contrib_subset_menu->additem(MN_BACK, _("Back"), 0, 0);
-
-              titlesession->get_current_sector()->activate();
-              titlesession->set_current();
-            }
-        }
-      else
+      for (int i = 0; i < subset.get_num_levels(); ++i)
         {
-          // Back button
+        Level* level = new Level;
+        level->load(subset.get_level_filename(i));
+        contrib_subset_menu->additem(MN_ACTION, level->get_name(), 0, 0, i);
+        delete level;
         }
+
+      contrib_subset_menu->additem(MN_HL,"",0,0);      
+      contrib_subset_menu->additem(MN_BACK, _("Back"), 0, 0);
+
+      titlesession->get_current_sector()->activate();
+      titlesession->set_current();
+      }
+    }
+  else if(index < worldmap_list.num_items + (int)contrib_subsets.size())
+    {
+    WorldMapNS::WorldMap worldmap;
+    worldmap.loadmap(worldmap_list.item[index - contrib_subsets.size()]);
+    worldmap.display();
+
+    Menu::set_current(main_menu);
     }
 }
 
@@ -175,19 +185,6 @@ void check_contrib_subset_menu()
           titlesession->set_current();
         }
     }  
-}
-
-void check_contrib_worldmap_menu()
-{
-  int index = contrib_worldmap_menu->check();
-  if (index != -1)
-    {
-      WorldMapNS::WorldMap worldmap;
-      worldmap.loadmap(worldmap_list.item[index]);
-      worldmap.display();
-
-      Menu::set_current(main_menu);
-    }
 }
 
 void draw_demo(double frame_ratio)
@@ -252,18 +249,7 @@ void title(void)
   img_choose_subset = new Surface(datadir + "/images/status/choose-level-subset.png", true);
 
   /* Generating contrib maps by only using a string_list */
-  worldmap_list = dfiles("levels/worldmap", NULL, NULL);
-
-  contrib_worldmap_menu->additem(MN_LABEL, _("Contrib Worlds"), 0,0);
-  contrib_worldmap_menu->additem(MN_HL, "", 0,0);
-  for(int i = 0; i < worldmap_list.num_items; i++)
-    {
-    WorldMapNS::WorldMap worldmap;
-    worldmap.loadmap(worldmap_list.item[i]);
-    contrib_worldmap_menu->additem(MN_ACTION, worldmap.get_world_title(),0,0,i);
-    }
-  contrib_worldmap_menu->additem(MN_HL,"",0,0);
-  contrib_worldmap_menu->additem(MN_BACK,"Back",0,0);
+  worldmap_list = dfiles("levels/worldmap", NULL, "icyisland.stwm");
 
   titlesession->get_current_sector()->activate();
   titlesession->set_current();
@@ -330,8 +316,6 @@ void title(void)
                   // Start Game, ie. goto the slots menu
                   update_load_save_game_menu(load_game_menu);
                   break;
-                case MNID_WORLDMAP_CONTRIB:
-                  break;
                 case MNID_LEVELS_CONTRIB:
                   // Contrib Menu
                   puts("Entering contrib menu");
@@ -393,10 +377,6 @@ void title(void)
             {
               check_contrib_subset_menu();
             }
-          else if(menu == contrib_worldmap_menu)
-            {
-              check_contrib_worldmap_menu();
-            }
         }
 
       mouse_cursor->draw(context);
@@ -414,6 +394,7 @@ void title(void)
   /* Free surfaces: */
 
   free_contrib_menu();
+  string_list_free(&worldmap_list);
   delete titlesession;
   delete bkg_title;
   delete logo;
