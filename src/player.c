@@ -147,6 +147,23 @@ void player_action(player_type* pplayer)
   if (!pplayer->dying)
     {
 
+       while(issolid( pplayer->base.x + 16,  pplayer->base.y + pplayer->base.height) && !issolid( pplayer->base.x + 16,  pplayer->base.y + 1))
+        {
+          --pplayer->base.y;
+        }
+      while(issolid( pplayer->base.x + 16,  pplayer->base.y + 1) && !issolid( pplayer->base.x + 16,  pplayer->base.y + pplayer->base.height))
+        {
+          ++pplayer->base.y;
+        }
+      while(issolid( pplayer->base.x - 1,  pplayer->base.y + 1) || issolid( pplayer->base.x - 1,  pplayer->base.y+pplayer->base.height))
+        {
+          ++pplayer->base.x;
+        }
+      while(issolid( pplayer->base.x + 32,  pplayer->base.y + 1) || issolid( pplayer->base.x + 32,  pplayer->base.y+pplayer->base.height))
+        {
+          --pplayer->base.x;
+        }
+    
       /*if(physic_is_set(&pplayer->vphysic))
         {
           pplayer->base.ym = physic_get_velocity(&pplayer->vphysic);
@@ -172,23 +189,6 @@ void player_action(player_type* pplayer)
               pplayer->base.ym = 0;
             }
           physic_init(&pplayer->vphysic);
-        }
-
-      while(issolid( pplayer->base.x + 16,  pplayer->base.y + pplayer->base.height) && !issolid( pplayer->base.x + 16,  pplayer->base.y + 1))
-        {
-          --pplayer->base.y;
-        }
-      while(issolid( pplayer->base.x + 16,  pplayer->base.y + 1) && !issolid( pplayer->base.x + 16,  pplayer->base.y + pplayer->base.height))
-        {
-          ++pplayer->base.y;
-        }
-      while(issolid( pplayer->base.x - 1,  pplayer->base.y + 1) || issolid( pplayer->base.x - 1,  pplayer->base.y+pplayer->base.height))
-        {
-          ++pplayer->base.x;
-        }
-      while(issolid( pplayer->base.x + 32,  pplayer->base.y + 1) || issolid( pplayer->base.x + 32,  pplayer->base.y+pplayer->base.height))
-        {
-          --pplayer->base.x;
         }
 
       if(pplayer->base.ym < 0)
