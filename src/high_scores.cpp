@@ -16,6 +16,7 @@
 #include "screen.h"
 #include "texture.h"
 #include "setup.h"
+#include "lispreader.h"
 
 #ifdef WIN32
 const char * highscore_filename = "/st_highscore.dat";
@@ -24,58 +25,45 @@ const char * highscore_filename = "/highscore";
 #endif
 
 int hs_score;
-char hs_name[62]; /* highscores global variables*/
+std::string hs_name; /* highscores global variables*/
 
 /* Load data from high score file: */
 
 void load_hs(void)
 {
-  FILE * fi;
-  char temp[128];
-  int strl;
-  unsigned int i, c;
-
   hs_score = 100;
-  strcpy(hs_name, "Grandma\0");
-  c = 0;
+  hs_name  = "Grandma";
 
-  /* Try to open file: */
-
-  fi = opendata(highscore_filename, "r");
-  if (fi != NULL)
+  FILE * fi;
+  lisp_object_t* root_obj = 0;
+  fi = fopen(highscore_filename, "r");
+  if (fi == NULL)
     {
-      do
-        {
-          fgets(temp, sizeof(temp), fi);
-
-          if (!feof(fi))
-            {
-              temp[strlen(temp) - 1] = '\0';
-
-
-              /* Parse each line: */
-
-              if (strstr(temp, "highscore=") == temp)
-                {
-                  hs_score = atoi(temp + 10);
-
-                  if (hs_score == 0)
-                    hs_score = 100;
-                }
-              if (strstr(temp, "name=") == temp)
-                {
-                  fprintf(stderr, "name found\n");
-                  strl = strlen("name=");
-                  for(c = strl, i = 0; c < strlen(temp); ++c, ++i)
-                    hs_name[i] = temp[c];
-                  hs_name[i]= '\0';
-                }
-            }
-        }
-      while (!feof(fi));
-
-      fclose(fi);
+      perror(highscore_filename);
+      return;
     }
+
+  lisp_stream_t stream;
+  lisp_stream_init_file (&stream, fi);
+  root_obj = lisp_read (&stream);
+
+  if (root_obj->type == LISP_TYPE_EOF || root_obj->type == LISP_TYPE_PARSE_ERROR)
+    {
+      printf("HighScore: Parse Error in file %s", highscore_filename);
+    }
+
+
+  if (strcmp(lisp_symbol(lisp_car(root_obj)), "supertux-highscore") == 0)
+    {
+      LispReader reader(lisp_cdr(root_obj));
+      reader.read_int("score",  &hs_score);
+      reader.read_string("name", &hs_name);
+    }
+ 
+  fclose(fi);
+
+printf("name=%s\n", hs_name.c_str());
+printf("score=%i\n\n", hs_score);
 }
 
 void save_hs(int score)
@@ -84,7 +72,6 @@ void save_hs(int score)
 
   Surface* bkgd;
   SDL_Event event;
-  FILE * fi;
 
   bkgd = new Surface(datadir + "/images/highscore/highscore.png", IGNORE_ALPHA);
 
@@ -94,9 +81,9 @@ void save_hs(int score)
   Menu::set_current(highscore_menu);
 
   if(!highscore_menu->item[0].input)
-    highscore_menu->item[0].input = (char*) malloc(strlen(hs_name) + 1);
+    highscore_menu->item[0].input = (char*) malloc(strlen(hs_name.c_str()) + 1);
 
-  strcpy(highscore_menu->item[0].input,hs_name);
+  strcpy(highscore_menu->item[0].input,hs_name.c_str());
 
   /* ask for player's name */
   show_menu = 1;
@@ -120,7 +107,7 @@ void save_hs(int score)
         {
         case 0:
           if(highscore_menu->item[0].input != NULL)
-            strcpy(hs_name, highscore_menu->item[0].input);
+            hs_name = highscore_menu->item[0].input;
           break;
         }
 
@@ -128,8 +115,38 @@ void save_hs(int score)
     }
 
 
-  /* Try to open file: */
+  /* Save to file: */
 
+  FILE* fi;
+  std::string filename;
+
+  /* Save data file: */
+  filename = highscore_filename;
+
+  fcreatedir(filename.c_str());
+  if(fwriteable(filename.c_str()))
+    {
+      fi = fopen(filename.c_str(), "w");
+      if (fi == NULL)
+        {
+          perror(filename.c_str());
+        }
+
+      /* Write header: */
+      fprintf(fi,";SuperTux HighScores\n");
+      fprintf(fi,"(supertux-highscore\n");
+
+      /* Save title info: */
+      fprintf(fi,"  (name \"%s\")\n", hs_name.c_str());
+
+      /* Save the description: */
+      fprintf(fi,"  (score \"%i\")\n", hs_score);
+
+      fprintf( fi,")");
+      fclose(fi);
+    }
+
+/*
   fi = opendata(highscore_filename, "w");
   if (fi != NULL)
     {
@@ -141,5 +158,5 @@ void save_hs(int score)
       fprintf(fi, "# (File automatically created.)\n");
 
       fclose(fi);
-    }
+    }*/
 }

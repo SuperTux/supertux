@@ -11,7 +11,7 @@
 #include <stdio.h>
 
 extern int hs_score;
-extern char hs_name[62]; /* highscores global variables*/
+extern std::string hs_name; /* highscores global variables*/
 
 void save_hs(int score);
 void load_hs();
