@@ -29,3 +29,4 @@ These are mostly bugs:
   a timer that is started when up is pressed, when you then land and the timer
   is below a certain time, you can do the jump.
 - when bumping a special with 2 blocks at once, it won't change direction
+- points aren't reset when gameover
