@@ -21,7 +21,6 @@
 #include <iostream>
 #include <cassert>
 
-#include "gameloop.h"
 #include "app/globals.h"
 #include "player.h"
 #include "defines.h"
@@ -36,6 +35,7 @@
 #include "interactive_object.h"
 #include "video/screen.h"
 #include "statistics.h"
+#include "gameloop.h"
 
 // behavior definitions:
 #define TILES_FOR_BUTTJUMP 3
@@ -628,12 +628,16 @@ Player::handle_vertical_input()
       BadGuy* badguy = dynamic_cast<BadGuy*> (*i);
       if(badguy)
       {
-        
-	if (fabsf(base.x - badguy->base.x) < 150 &&
-            fabsf(base.y - badguy->base.y) < 60 &&
-            (issolid(badguy->base.x + 1, badguy->base.y + badguy->base.height) ||
-              issolid(badguy->base.x + badguy->base.width - 1, badguy->base.y + badguy->base.height)))
-          badguy->kill_me(25);
+        // don't kill when badguys are already dying or in a certain mode
+        if(badguy->dying == DYING_NOT && badguy->mode != BadGuy::BOMB_TICKING &&
+           badguy->mode != BadGuy::BOMB_EXPLODE)
+          {
+            if (fabsf(base.x - badguy->base.x) < 150 &&
+              fabsf(base.y - badguy->base.y) < 60 &&
+              (issolid(badguy->base.x + 1, badguy->base.y + badguy->base.height) ||
+               issolid(badguy->base.x + badguy->base.width - 1, badguy->base.y + badguy->base.height)))
+              badguy->kill_me(25);
+          }
       }
     }
   }
