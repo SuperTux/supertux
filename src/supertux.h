@@ -1,5 +1,5 @@
-#if !defined( SUPERTUX_SUPERTUX_H )
-#define SUPERTUX_SUPERTUX_H 1
+#ifndef SUPERTUX_SUPERTUX_H
+#define SUPERTUX_SUPERTUX_H
         #ifdef LINUX
         #include <pwd.h>
         #include <sys/types.h>
@@ -14,4 +14,4 @@
         #include "gameloop.h"
 	#include "leveleditor.h"
         #include "screen.h"
-#endif
+#endif /*SUPERTUX_SUPERTUX_H*/

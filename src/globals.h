@@ -16,19 +16,18 @@
 
 #include <SDL.h>
 #include "text.h"
+#include "menu.h"
 
-SDL_Surface * screen;
-text_type black_text, gold_text, blue_text, red_text;
+extern SDL_Surface * screen;
+extern text_type black_text, gold_text, white_text, white_small_text, blue_text, red_text, yellow_nums;
 
-int use_gl, use_joystick, use_fullscreen, debug_mode, show_fps;
-
-int game_started, level_editor_started;
+extern int use_gl, use_joystick, use_fullscreen, debug_mode, show_fps;
 
 /* SuperTux directory ($HOME/.supertux) and save directory($HOME/.supertux/save) */
-char *st_dir, *st_save_dir;
+extern char *st_dir, *st_save_dir;
 
 #ifdef JOY_YES
-SDL_Joystick * js;
+extern SDL_Joystick * js;
 #endif
 
 #endif /* SUPERTUX_GLOBALS_H */

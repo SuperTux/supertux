@@ -18,6 +18,7 @@
 #include "defines.h"
 #include "world.h"
 
+texture_type img_distro[4];
 
 void bouncy_distro_init(bouncy_distro_type* pbouncy_distro, float x, float y)
 {
@@ -75,6 +76,7 @@ void broken_brick_action(broken_brick_type* pbroken_brick)
 
 void broken_brick_draw(broken_brick_type* pbroken_brick)
 {
+SDL_Rect src, dest;
   if (pbroken_brick->base.alive)
     {
       src.x = rand() % 16;
@@ -82,8 +84,8 @@ void broken_brick_draw(broken_brick_type* pbroken_brick)
       src.w = 16;
       src.h = 16;
 
-      dest.x = pbroken_brick->base.x - scroll_x;
-      dest.y = pbroken_brick->base.y;
+      dest.x = (int)(pbroken_brick->base.x - scroll_x);
+      dest.y = (int)pbroken_brick->base.y;
       dest.w = 16;
       dest.h = 16;
 
@@ -126,25 +128,26 @@ void bouncy_brick_action(bouncy_brick_type* pbouncy_brick)
 void bouncy_brick_draw(bouncy_brick_type* pbouncy_brick)
 {
   int s;
-
+  SDL_Rect dest;
+  
   if (pbouncy_brick->base.alive)
     {
       if (pbouncy_brick->base.x >= scroll_x - 32 &&
           pbouncy_brick->base.x <= scroll_x + screen->w)
         {
-          dest.x = pbouncy_brick->base.x - scroll_x;
-          dest.y = pbouncy_brick->base.y;
+          dest.x = (int)(pbouncy_brick->base.x - scroll_x);
+          dest.y = (int)pbouncy_brick->base.y;
           dest.w = 32;
           dest.h = 32;
 
           if(current_level.bkgd_image[0] == '\0')
             {
               fillrect(pbouncy_brick->base.x - scroll_x,pbouncy_brick->base.y,32,32,current_level.bkgd_red,current_level.bkgd_green,
-                       current_level.bkgd_blue);
+                       current_level.bkgd_blue,0);
             }
           else
             {
-              s = scroll_x / 30;
+              s = (int)scroll_x / 30;
               texture_draw_part(&img_bkgd,dest.x + s,dest.y,dest.x,dest.y,dest.w,dest.h,NO_UPDATE);
             }
 
@@ -181,7 +184,7 @@ void floating_score_draw(floating_score_type* pfloating_score)
     {
       char str[10];
       sprintf(str, "%d", pfloating_score->value);
-      text_draw(&gold_text, str, pfloating_score->base.x + 16 - strlen(str) * 8, pfloating_score->base.y, 1, NO_UPDATE);
+      text_draw(&gold_text, str, (int)pfloating_score->base.x + 16 - strlen(str) * 8, (int)pfloating_score->base.y, 1, NO_UPDATE);
     }
 }
 

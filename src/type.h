@@ -29,7 +29,5 @@ typedef struct base_type
   }
 base_type;
 
-//double get_frame_ratio(base_type* pbase);
-
 #endif /*SUPERTUX_TYPE_H*/
 

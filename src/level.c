@@ -18,29 +18,113 @@
 #include "screen.h"
 #include "level.h"
 
-/* Load data for this level: */
+texture_type img_bkgd, img_bkgd_tile[2][4], img_solid[4], img_brick[2];
 
-void loadlevel(st_level* plevel, char *subset, int level)
+void subset_init(st_subset* st_subset)
+{
+  st_subset->title = NULL;
+  st_subset->description = NULL;
+  st_subset->levels = 0;
+}
+
+void subset_load(st_subset* st_subset, char *subset)
+{
+  FILE* fi;
+  char filename[1024];
+  char str[1024];
+  int len,i;
+
+  st_subset->name = (char*) malloc(sizeof(char)*(strlen(subset)+1));
+  strcpy(st_subset->name,subset);
+
+  snprintf(filename, 1024, "%s/levels/%s/info", st_dir, subset);
+  if(!faccessible(filename))
+    snprintf(filename, 1024, "%s/levels/%s/info", DATA_PREFIX, subset);
+  if(faccessible(filename))
+    {
+      fi = fopen(filename, "r");
+      if (fi == NULL)
+        {
+          perror(filename);
+        }
+
+      /* Load title info: */
+      fgets(str, 40, fi);
+      st_subset->title = (char*) malloc(sizeof(char)*(strlen(str)+1));
+      strcpy(st_subset->title, str);
+
+      /* Load the description: */
+
+      str[0] = '\0';
+      st_subset->description = NULL;
+      len = 0;
+      while(fgets(str, 300, fi) != NULL)
+        {
+          len += strlen(str);
+          if(st_subset->description == NULL)
+            st_subset->description = (char*) calloc(len+1,sizeof(char));
+          else
+            st_subset->description = (char*) realloc(st_subset->description, sizeof(char) * (len+1));
+          strcat(st_subset->description,str);
+        }
+      fclose(fi);
+
+      snprintf(str, 1024, "%s.png", filename);
+      if(faccessible(str))
+        {
+          texture_load(&st_subset->image,str,IGNORE_ALPHA);
+        }
+      else
+        {
+          snprintf(filename, 1024, "%s/images/status/level-subset-info.png", DATA_PREFIX);
+          texture_load(&st_subset->image,filename,IGNORE_ALPHA);
+        }
+    }
+
+  for(i=1; i != -1; ++i)
+    {
+      /* Get the number of levels in this subset */
+      snprintf(filename, 1024, "%s/levels/%s/level%d.dat", st_dir, subset,i);
+      if(!faccessible(filename))
+        {
+          snprintf(filename, 1024, "%s/levels/%s/level%d.dat", DATA_PREFIX, subset,i);
+          if(!faccessible(filename))
+            break;
+        }
+    }
+    st_subset->levels = --i;
+}
+
+void subset_free(st_subset* st_subset)
+{
+  free(st_subset->title);
+  free(st_subset->description);
+  free(st_subset->name);
+  texture_free(&st_subset->image);
+  st_subset->levels = 0;
+}
+
+/* Load data for this level: */
+/* Returns -1, if the loading of the level failed. */
+int level_load(st_level* plevel, char *subset, int level)
 {
   int y;
   FILE * fi;
   char str[80];
-  char * filename;
+  char filename[1024];
   char * line;
 
   /* Load data file: */
 
-  filename = (char *) malloc(sizeof(char) * (strlen(DATA_PREFIX) + 20) + strlen(subset));
-  sprintf(filename, "%s/levels/%s/level%d.dat", DATA_PREFIX, subset, level);
+  snprintf(filename, 1024, "%s/levels/%s/level%d.dat", st_dir, subset, level);
+  if(!faccessible(filename))
+    snprintf(filename, 1024, "%s/levels/%s/level%d.dat", DATA_PREFIX, subset, level);
   fi = fopen(filename, "r");
   if (fi == NULL)
     {
       perror(filename);
-      st_shutdown();
-      free(filename);
-      exit(-1);
+      return -1;
     }
-  free(filename);
 
 
   /* Load header info: */
@@ -92,7 +176,7 @@ void loadlevel(st_level* plevel, char *subset, int level)
     {
       fprintf(stderr, "Couldn't allocate space to load level data!");
       fclose(fi);
-      exit(1);
+      return -1;
     }
 
 
@@ -105,39 +189,40 @@ void loadlevel(st_level* plevel, char *subset, int level)
           fprintf(stderr, "Level %s isn't complete!\n",plevel->name);
           free(line);
           fclose(fi);
-          exit(1);
+          return -1;
         }
       line[strlen(line) - 1] = '\0';
-      plevel->tiles[y] = strdup(line);
+      plevel->tiles[y] = (unsigned char*) strdup(line);
     }
 
   free(line);
   fclose(fi);
-
+  return 0;
 }
 
 /* Save data for level: */
 
-void savelevel(st_level* plevel, char * subset, int level)
+void level_save(st_level* plevel, char * subset, int level)
 {
   FILE * fi;
-  char * filename;
+  char filename[1024];
   int y;
   char str[80];
 
   /* Save data file: */
+  sprintf(str, "/levels/%s/", subset);
+  fcreatedir(str);
+  snprintf(filename, 1024, "%s/levels/%s/level%d.dat", st_dir, subset, level);
+  if(!fwriteable(filename))
+    snprintf(filename, 1024, "%s/levels/%s/level%d.dat", DATA_PREFIX, subset, level);
 
-  filename = (char *) malloc(sizeof(char) * (strlen(DATA_PREFIX) + 20) + strlen(subset));
-  sprintf(filename, "%s/levels/%s/level%d.dat", DATA_PREFIX, subset, level);
   fi = fopen(filename, "w");
   if (fi == NULL)
     {
       perror(filename);
       st_shutdown();
-      free(filename);
       exit(-1);
     }
-  free(filename);
 
   fputs(plevel->name, fi);
   fputs("\n", fi);
@@ -147,7 +232,7 @@ void savelevel(st_level* plevel, char * subset, int level)
   fputs(str, fi);
   fputs(plevel->song_title, fi);	/* song filename */
   fputs("\n",fi);
-  fputs(plevel->bkgd_image, fi);	/* background image */  
+  fputs(plevel->bkgd_image, fi);	/* background image */
   sprintf(str, "\n%d\n", plevel->bkgd_red);	/* red background color */
   fputs(str, fi);
   sprintf(str, "%d\n", plevel->bkgd_green);	/* green background color */
@@ -159,7 +244,7 @@ void savelevel(st_level* plevel, char * subset, int level)
 
   for(y = 0; y < 15; ++y)
     {
-      fputs(plevel->tiles[y], fi);
+      fputs((const char*)plevel->tiles[y], fi);
       fputs("\n", fi);
     }
 
@@ -169,9 +254,12 @@ void savelevel(st_level* plevel, char * subset, int level)
 
 /* Unload data for this level: */
 
-void unloadlevel(st_level* plevel)
+void level_free(st_level* plevel)
 {
-  free(plevel->tiles);
+  int i;
+  for(i=0; i < 15; ++i)
+    free(plevel->tiles[i]);
+
   plevel->name[0] = '\0';
   plevel->theme[0] = '\0';
   plevel->song_title[0] = '\0';
@@ -180,26 +268,26 @@ void unloadlevel(st_level* plevel)
 
 /* Load graphics: */
 
-void loadlevelgfx(st_level *plevel)
+void level_load_gfx(st_level *plevel)
 {
 
-  load_level_image(&img_brick[0],plevel->theme,"brick0.png", IGNORE_ALPHA);
-  load_level_image(&img_brick[1],plevel->theme,"brick1.png", IGNORE_ALPHA);
+  level_load_image(&img_brick[0],plevel->theme,"brick0.png", IGNORE_ALPHA);
+  level_load_image(&img_brick[1],plevel->theme,"brick1.png", IGNORE_ALPHA);
 
-  load_level_image(&img_solid[0],plevel->theme,"solid0.png", USE_ALPHA);
-  load_level_image(&img_solid[1],plevel->theme,"solid1.png", USE_ALPHA);
-  load_level_image(&img_solid[2],plevel->theme,"solid2.png", USE_ALPHA);
-  load_level_image(&img_solid[3],plevel->theme,"solid3.png", USE_ALPHA);
+  level_load_image(&img_solid[0],plevel->theme,"solid0.png", USE_ALPHA);
+  level_load_image(&img_solid[1],plevel->theme,"solid1.png", USE_ALPHA);
+  level_load_image(&img_solid[2],plevel->theme,"solid2.png", USE_ALPHA);
+  level_load_image(&img_solid[3],plevel->theme,"solid3.png", USE_ALPHA);
 
-  load_level_image(&img_bkgd_tile[0][0],plevel->theme,"bkgd-00.png", USE_ALPHA);
-  load_level_image(&img_bkgd_tile[0][1],plevel->theme,"bkgd-01.png", USE_ALPHA);
-  load_level_image(&img_bkgd_tile[0][2],plevel->theme,"bkgd-02.png", USE_ALPHA);
-  load_level_image(&img_bkgd_tile[0][3],plevel->theme,"bkgd-03.png", USE_ALPHA);
+  level_load_image(&img_bkgd_tile[0][0],plevel->theme,"bkgd-00.png", USE_ALPHA);
+  level_load_image(&img_bkgd_tile[0][1],plevel->theme,"bkgd-01.png", USE_ALPHA);
+  level_load_image(&img_bkgd_tile[0][2],plevel->theme,"bkgd-02.png", USE_ALPHA);
+  level_load_image(&img_bkgd_tile[0][3],plevel->theme,"bkgd-03.png", USE_ALPHA);
 
-  load_level_image(&img_bkgd_tile[1][0],plevel->theme,"bkgd-10.png", USE_ALPHA);
-  load_level_image(&img_bkgd_tile[1][1],plevel->theme,"bkgd-11.png", USE_ALPHA);
-  load_level_image(&img_bkgd_tile[1][2],plevel->theme,"bkgd-12.png", USE_ALPHA);
-  load_level_image(&img_bkgd_tile[1][3],plevel->theme,"bkgd-13.png", USE_ALPHA);
+  level_load_image(&img_bkgd_tile[1][0],plevel->theme,"bkgd-10.png", USE_ALPHA);
+  level_load_image(&img_bkgd_tile[1][1],plevel->theme,"bkgd-11.png", USE_ALPHA);
+  level_load_image(&img_bkgd_tile[1][2],plevel->theme,"bkgd-12.png", USE_ALPHA);
+  level_load_image(&img_bkgd_tile[1][3],plevel->theme,"bkgd-13.png", USE_ALPHA);
 
   if(strcmp(plevel->bkgd_image,"") != 0)
     {
@@ -208,13 +296,12 @@ void loadlevelgfx(st_level *plevel)
       if(!faccessible(fname))
         snprintf(fname, 1024, "%s/images/background/%s", DATA_PREFIX, plevel->bkgd_image);
       texture_load(&img_bkgd, fname, IGNORE_ALPHA);
-      printf("%s",fname);
     }
 }
 
 /* Free graphics data for this level: */
 
-void unloadlevelgfx(void)
+void level_free_gfx(void)
 {
   int i;
 
@@ -233,7 +320,7 @@ void unloadlevelgfx(void)
 
 /* Load a level-specific graphic... */
 
-void load_level_image(texture_type* ptexture, char* theme, char * file, int use_alpha)
+void level_load_image(texture_type* ptexture, char* theme, char * file, int use_alpha)
 {
   char fname[1024];
 
@@ -257,3 +344,35 @@ void level_change(st_level* plevel, float x, float y, unsigned char c)
     plevel->tiles[yy][xx] = c;
 }
 
+/* Free music data for this level: */
+
+void level_free_song(void)
+{
+  free_music(level_song);
+  free_music(level_song_fast);
+}
+
+/* Load music: */
+
+void level_load_song(st_level* plevel)
+{
+
+  char * song_path;
+  char * song_subtitle;
+
+  song_path = (char *) malloc(sizeof(char) * (strlen(DATA_PREFIX) +
+                              strlen(plevel->song_title) + 8));
+  sprintf(song_path, "%s/music/%s", DATA_PREFIX, plevel->song_title);
+  level_song = load_song(song_path);
+  free(song_path);
+
+
+  song_path = (char *) malloc(sizeof(char) * (strlen(DATA_PREFIX) +
+                              strlen(plevel->song_title) + 8 + 5));
+  song_subtitle = strdup(plevel->song_title);
+  strcpy(strstr(song_subtitle, "."), "\0");
+  sprintf(song_path, "%s/music/%s-fast%s", DATA_PREFIX, song_subtitle, strstr(plevel->song_title, "."));
+  level_song_fast = load_song(song_path);
+  free(song_subtitle);
+  free(song_path);
+}

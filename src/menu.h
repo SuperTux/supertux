@@ -15,43 +15,71 @@
 
 #include <SDL.h>
 
-/* (global) menu variables */
-int menuaction;
-int menuitem;
-int menumenu;
-int show_menu;
-int menu_change;
+typedef struct menu_item_type
+{
+ int kind;
+ char *text;
+ char *input;
+ int toggled;
+ void* target_menu;
+}
+menu_item_type;
 
-#define MENU_MAIN_ITEM_MAX 3
-#define MENU_GAME_ITEM_MAX 4
-#define MENU_OPTIONS_ITEM_MAX 3
-#define MENU_LEVELEDITOR_ITEM_MAX 4
+menu_item_type* menu_item_create(int kind, char *text, int init_toggle, void* target_menu);
+
+typedef struct menu_type
+{
+ int num_items;
+ int active_item;
+ menu_item_type *item;
+}
+menu_type;
+
+void menu_init(menu_type* pmenu);
+void menu_free(menu_type* pmenu);
+void menu_additem(menu_type* pmenu, menu_item_type* pmenu_item);
+void menu_action(menu_type* pmenu);
+int menu_check(menu_type* pmenu);
+void menu_draw(menu_type* pmenu);
+void menu_set_current(menu_type* pmenu);
+
+/* Kinds of menu items */
+enum {
+  MN_ACTION,
+  MN_GOTO,
+  MN_TOGGLE,
+  MN_BACK,
+  MN_DEACTIVE,
+  MN_TEXTFIELD
+};
 
 /* Action done on the menu */
 enum {
   MN_UP,
   MN_DOWN,
-  MN_HIT
+  MN_HIT,
+  MN_INPUT,
+  MN_REMOVE
 };
 
-/* Menus */
-enum {
-  MENU_MAIN,
-  MENU_GAME,
-  MENU_OPTIONS,
-  MENU_LEVELEDITOR,
-  MENU_HIGHSCORE
-};
+/* (global) menu variables */
+extern int menuaction;
+extern int show_menu;
+extern int menu_change;
+extern texture_type checkbox, checkbox_checked;
+
+extern menu_type main_menu, game_menu, options_menu, leveleditor_menu, highscore_menu;
+extern menu_type* current_menu, * last_menu;
 
 /* input implementation variables */
-int delete_character;
-char input_string[62];
+extern int delete_character;
+extern char mn_input_char;
 
-/* Initialize the menu variables */
-void initmenu(void);
+/* Reset the global menu variables */
+void menu_reset(void);
 
 /* "Calculate" and draw the menu */
-int drawmenu(void);
+void menu_process_current(void);
 
 /* Check for a menu event */
 void menu_event(SDL_keysym* keysym);

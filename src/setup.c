@@ -23,8 +23,9 @@
 
 #ifdef LINUX
 #include <pwd.h>
-#include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/types.h>
+#include <dirent.h>
 #include <ctype.h>
 #endif
 
@@ -33,6 +34,7 @@
 #include "setup.h"
 #include "screen.h"
 #include "texture.h"
+#include "menu.h"
 
 /* Local function prototypes: */
 
@@ -49,17 +51,126 @@ int faccessible(char *filename)
     return YES;
 }
 
+/* Can we write to this location? */
+int fwriteable(char *filename)
+{
+  FILE* fi;
+  fi = fopen(filename, "wa");
+  if (fi == NULL)
+    {
+      return NO;
+    }
+  return YES;
+}
+
+/* Makes sure a directory is created in either the SuperTux base directory or the SuperTux base directory.*/
+int fcreatedir(char* relative_dir)
+{
+  char path[1024];
+  snprintf(path, 1024, "%s/%s/", st_dir, relative_dir);
+  if(mkdir(path,0755) != 0)
+    {
+      snprintf(path, 1024, "%s/%s/", DATA_PREFIX, relative_dir);
+      if(mkdir(path,0755) != 0)
+        {
+          return NO;
+        }
+      else
+        {
+          return YES;
+        }
+    }
+  else
+    {
+      return YES;
+    }
+}
+
+/* Get all names of sub-directories in a certain directory. */
+/* Returns the number of sub-directories found. */
+/* Note: The user has to free the allocated space. */
+char ** dsubdirs(char *rel_path, char* expected_file, int* num)
+{
+  DIR *dirStructP;
+  struct dirent *direntp;
+  int i = 0;
+  char ** sdirs= NULL;
+  char filename[100];
+  char path[1024];
+
+  sprintf(path,"%s/%s",st_dir,rel_path);
+  if((dirStructP = opendir(path)) != NULL)
+    {
+      while((direntp = readdir(dirStructP)) != NULL)
+        {
+          if ( direntp->d_type == DT_DIR )
+            {
+              if(expected_file != NULL)
+                {
+                  sprintf(filename,"%s/%s/%s",path,direntp->d_name,expected_file);
+                  if(!faccessible(filename))
+                    continue;
+                }
+
+              sdirs = (char**) realloc(sdirs, sizeof(char*) * (i+1));
+              sdirs[i] = (char*) malloc(sizeof(char) * strlen(direntp->d_name) + 1 );
+              strcpy(sdirs[i],direntp->d_name);
+              ++i;
+            }
+        }
+      closedir(dirStructP);
+    }
+
+  sprintf(path,"%s/%s",DATA_PREFIX,rel_path);
+  if((dirStructP = opendir(path)) != NULL)
+    {
+      while((direntp = readdir(dirStructP)) != NULL)
+        {
+          if ( direntp->d_type == DT_DIR )
+            {
+              if(expected_file != NULL)
+                {
+                  sprintf(filename,"%s/%s/%s",path,direntp->d_name,expected_file);
+                  if(!faccessible(filename))
+                    {
+                      continue;
+                    }
+                  else
+                    {
+                      sprintf(filename,"%s/%s/%s/%s",st_dir,rel_path,direntp->d_name,expected_file);
+                      if(faccessible(filename))
+                        continue;
+                    }
+                }
+
+              sdirs = (char**) realloc(sdirs, sizeof(char*) * (i+1));
+              sdirs[i] = (char*) malloc(sizeof(char) * strlen(direntp->d_name) + 1 );
+              strcpy(sdirs[i],direntp->d_name);
+              ++i;
+            }
+        }
+      closedir(dirStructP);
+    }
+
+  *num = i;
+  return sdirs;
+}
+
+void free_strings(char **strings, int num)
+{
+int i;
+for(i=0; i < num; ++i)
+free(strings[i]);
+}
 
 /* --- SETUP --- */
-
+/* Set SuperTux configuration and save directories */
 void st_directory_setup(void)
 {
-
-  /* Set SuperTux configuration and save directories */
-
+  char *home;
+  char str[1024];
   /* Get home directory (from $HOME variable)... if we can't determine it,
      use the current directory ("."): */
-  char *home;
   if (getenv("HOME") != NULL)
     home = getenv("HOME");
   else
@@ -75,18 +186,113 @@ void st_directory_setup(void)
   strcpy(st_save_dir,st_dir);
   strcat(st_save_dir,"/save");
 
-  /* Create them. In the case they exist it won't destroy anything. */
+  /* Create them. In the case they exist they won't destroy anything. */
 #ifdef LINUX
 
   mkdir(st_dir, 0755);
   mkdir(st_save_dir, 0755);
+
+  sprintf(str, "%s/levels", st_dir);
+  mkdir(str, 0755);
 #else
   #ifdef WIN32
 
   mkdir(st_dir);
   mkdir(st_save_dir);
+  sprintf(str, "%s/levels", st_dir);
+  mkdir(str);
 #endif
 #endif
+
+}
+
+/* Create and setup menus. */
+void st_menu(void)
+{
+
+  menu_init(&main_menu);
+  menu_additem(&main_menu,menu_item_create(MN_ACTION,"Start Game",0,0));
+  menu_additem(&main_menu,menu_item_create(MN_ACTION,"Load Game",0,0));
+  menu_additem(&main_menu,menu_item_create(MN_GOTO,"Options",0,&options_menu));
+  menu_additem(&main_menu,menu_item_create(MN_ACTION,"Level editor",0,0));
+  menu_additem(&main_menu,menu_item_create(MN_ACTION,"Quit",0,0));
+
+  menu_init(&options_menu);
+  menu_additem(&options_menu,menu_item_create(MN_TOGGLE,"Fullscreen",use_fullscreen,0));
+  if(audio_device == YES)
+    {
+      menu_additem(&options_menu,menu_item_create(MN_TOGGLE,"Sound",use_sound,0));
+      menu_additem(&options_menu,menu_item_create(MN_TOGGLE,"Music",use_music,0));
+    }
+  else
+    {
+      menu_additem(&options_menu,menu_item_create(MN_DEACTIVE,"Sound",use_sound,0));
+      menu_additem(&options_menu,menu_item_create(MN_DEACTIVE,"Music",use_music,0));
+    }
+  menu_additem(&options_menu,menu_item_create(MN_TOGGLE,"Show FPS",show_fps,0));
+  menu_additem(&options_menu,menu_item_create(MN_BACK,"Back",0,0));
+
+  menu_init(&leveleditor_menu);
+  menu_additem(&leveleditor_menu,menu_item_create(MN_ACTION,"Return To Level Editor",0,0));
+  menu_additem(&leveleditor_menu,menu_item_create(MN_ACTION,"New Level",0,0));
+  menu_additem(&leveleditor_menu,menu_item_create(MN_ACTION,"Load Level",0,0));
+  menu_additem(&leveleditor_menu,menu_item_create(MN_ACTION,"Save Level",0,0));
+  menu_additem(&leveleditor_menu,menu_item_create(MN_ACTION,"Quit Level Editor",0,0));
+
+  menu_init(&game_menu);
+  menu_additem(&game_menu,menu_item_create(MN_ACTION,"Return To Game",0,0));
+  menu_additem(&game_menu,menu_item_create(MN_ACTION,"Save Game",0,0));
+  menu_additem(&game_menu,menu_item_create(MN_ACTION,"Load Game",0,0));
+  menu_additem(&game_menu,menu_item_create(MN_GOTO,"Options",0,&options_menu));
+  menu_additem(&game_menu,menu_item_create(MN_ACTION,"Quit Game",0,0));
+
+  menu_init(&highscore_menu);
+  menu_additem(&highscore_menu,menu_item_create(MN_TEXTFIELD,"Enter your name:",0,0));
+
+}
+
+/* Handle changes made to global settings in the options menu. */
+void process_options_menu(void)
+{
+  switch (menu_check(&options_menu))
+    {
+    case 0:
+      if(use_fullscreen != options_menu.item[0].toggled)
+        {
+          use_fullscreen = !use_fullscreen;
+          st_video_setup();
+        }
+      break;
+    case 1:
+      if(use_sound != options_menu.item[1].toggled)
+        use_sound = !use_sound;
+      break;
+    case 2:
+      if(use_music != options_menu.item[2].toggled)
+        {
+          if(use_music == YES)
+            {
+              if(playing_music())
+                {
+                  halt_music();
+                }
+              use_music = NO;
+            }
+          else
+            {
+              use_music = YES;
+              if (!playing_music())
+                {
+                  play_current_music();
+                }
+            }
+        }
+      break;
+    case 3:
+      if(show_fps != options_menu.item[3].toggled)
+        show_fps = !show_fps;
+      break;
+    }
 }
 
 void st_general_setup(void)
@@ -96,12 +302,19 @@ void st_general_setup(void)
   srand(SDL_GetTicks());
 
   /* Load global images: */
-	   
- text_load(&black_text,DATA_PREFIX "/images/status/letters-black.png");
- text_load(&gold_text,DATA_PREFIX "/images/status/letters-gold.png");
- text_load(&blue_text,DATA_PREFIX "/images/status/letters-blue.png");
- text_load(&red_text,DATA_PREFIX "/images/status/letters-red.png");
- 
+
+  text_load(&black_text,DATA_PREFIX "/images/status/letters-black.png", TEXT_TEXT, 16,18);
+  text_load(&gold_text,DATA_PREFIX "/images/status/letters-gold.png", TEXT_TEXT, 16,18);
+  text_load(&blue_text,DATA_PREFIX "/images/status/letters-blue.png", TEXT_TEXT, 16,18);
+  text_load(&red_text,DATA_PREFIX "/images/status/letters-red.png", TEXT_TEXT, 16,18);
+  text_load(&white_text,DATA_PREFIX "/images/status/letters-white.png", TEXT_TEXT, 16,18);
+  text_load(&white_small_text,DATA_PREFIX "/images/status/letters-white-small.png", TEXT_TEXT, 8,9);
+  text_load(&yellow_nums,DATA_PREFIX "/images/status/numbers.png", TEXT_NUM, 32,32);
+
+  /* Load GUI/menu images: */
+  texture_load(&checkbox, DATA_PREFIX "/images/status/checkbox.png", USE_ALPHA);
+  texture_load(&checkbox_checked, DATA_PREFIX "/images/status/checkbox-checked.png", USE_ALPHA);
+
   /* Set icon image: */
 
   seticon();
@@ -109,11 +322,37 @@ void st_general_setup(void)
 
 }
 
+void st_general_free(void)
+{
+
+  /* Free global images: */
+
+  text_free(&black_text);
+  text_free(&gold_text);
+  text_free(&white_text);
+  text_free(&blue_text);
+  text_free(&red_text);
+  text_free(&white_small_text); 
+  
+  /* Free GUI/menu images: */
+  texture_free(&checkbox);
+  texture_free(&checkbox_checked);
+
+  /* Free menus */
+
+  menu_free(&main_menu);
+  menu_free(&game_menu);
+  menu_free(&options_menu);
+  menu_free(&leveleditor_menu);
+  menu_free(&highscore_menu);
+
+}
+
 void st_video_setup(void)
 {
 
-if(screen != NULL)
-   SDL_FreeSurface(screen); 
+  if(screen != NULL)
+    SDL_FreeSurface(screen);
 
   /* Init SDL Video: */
 
@@ -129,12 +368,12 @@ if(screen != NULL)
   /* Open display: */
 
   if(use_gl)
-  st_video_setup_gl();
+    st_video_setup_gl();
   else
-  st_video_setup_sdl();
-  
+    st_video_setup_sdl();
+
   texture_setup();
-    
+
   /* Set window manager stuff: */
 
   SDL_WM_SetCaption("Super Tux", "Super Tux");
@@ -143,6 +382,8 @@ if(screen != NULL)
 
 void st_video_setup_sdl(void)
 {
+  SDL_FreeSurface(screen);
+
   if (use_fullscreen == YES)
     {
       screen = SDL_SetVideoMode(640, 480, 16, SDL_FULLSCREEN ) ; /* | SDL_HWSURFACE); */
@@ -156,7 +397,7 @@ void st_video_setup_sdl(void)
           use_fullscreen = NO;
         }
     }
-    else
+  else
     {
       screen = SDL_SetVideoMode(640, 480, 16, SDL_HWSURFACE | SDL_DOUBLEBUF );
 
@@ -175,15 +416,15 @@ void st_video_setup_gl(void)
 {
 #ifndef NOOPENGL
 
-	SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 5);
-	SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 5);
-	SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 5);
-	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
-	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+  SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 5);
+  SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 5);
+  SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 5);
+  SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
+  SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
   if (use_fullscreen == YES)
     {
-      screen = SDL_SetVideoMode(640, 480, 32, SDL_FULLSCREEN | SDL_OPENGL ) ; /* | SDL_HWSURFACE); */
+      screen = SDL_SetVideoMode(640, 480, 32, SDL_FULLSCREEN | SDL_OPENGL | SDL_OPENGLBLIT ) ; /* | SDL_HWSURFACE); */
       if (screen == NULL)
         {
           fprintf(stderr,
@@ -194,7 +435,7 @@ void st_video_setup_gl(void)
           use_fullscreen = NO;
         }
     }
-    else
+  else
     {
       screen = SDL_SetVideoMode(640, 480, 32, SDL_HWSURFACE | SDL_OPENGL | SDL_OPENGLBLIT  );
 
@@ -207,23 +448,24 @@ void st_video_setup_gl(void)
           exit(1);
         }
     }
-    	
-	/*
-	 * Set up OpenGL for 2D rendering.
-	 */
-	glDisable(GL_DEPTH_TEST);
-	glDisable(GL_CULL_FACE);
 
-	glViewport(0, 0, screen->w, screen->h);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glOrtho(0, screen->w, screen->h, 0, -1.0, 1.0);
+  /*
+   * Set up OpenGL for 2D rendering.
+   */
+  glDisable(GL_DEPTH_TEST);
+  glDisable(GL_CULL_FACE);
 
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	glTranslatef(0.0f, 0.0f, 0.0f);
-	
+  glViewport(0, 0, screen->w, screen->h);
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity();
+  glOrtho(0, screen->w, screen->h, 0, -1.0, 1.0);
+
+  glMatrixMode(GL_MODELVIEW);
+  glLoadIdentity();
+  glTranslatef(0.0f, 0.0f, 0.0f);
+
 #endif
+
 }
 
 void st_joystick_setup(void)
@@ -393,7 +635,7 @@ void seticon(void)
   /* Create mask: */
 
   masklen = (((icon -> w) + 7) / 8) * (icon -> h);
-  mask = malloc(masklen * sizeof(Uint8));
+  mask = (Uint8*) malloc(masklen * sizeof(Uint8));
   memset(mask, 0xFF, masklen);
 
 
@@ -421,7 +663,7 @@ void parseargs(int argc, char * argv[])
   debug_mode = NO;
   use_fullscreen = NO;
   show_fps = NO;
-  use_gl = NO;    
+  use_gl = NO;
 
 #ifndef NOSOUND
 
@@ -453,13 +695,14 @@ void parseargs(int argc, char * argv[])
           show_fps = YES;
         }
       else if (strcmp(argv[i], "--opengl") == 0 ||
-          strcmp(argv[i], "-gl") == 0)
+               strcmp(argv[i], "-gl") == 0)
         {
-	#ifndef NOOPENGL
+#ifndef NOOPENGL
           /* Use OpengGL: */
 
           use_gl = YES;
-	#endif
+#endif
+
         }
       else if (strcmp(argv[i], "--usage") == 0)
         {
@@ -512,7 +755,7 @@ void parseargs(int argc, char * argv[])
           printf("----------  Command-line options  ----------\n\n");
 
           printf("  --opengl            - If opengl support was compiled in, this will enable the EXPERIMENTAL OpenGL mode.\n\n");
-	  
+
           printf("  --disable-sound     - If sound support was compiled in,  this will\n                        disable sound for this session of the game.\n\n");
 
           printf("  --disable-music     - Like above, but this will disable music.\n\n");

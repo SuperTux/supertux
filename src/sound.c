@@ -10,18 +10,16 @@
   April 22, 2000 - December 28, 2003
 */
 
-/* why do we need this ?
-#ifdef LINUX
-#include <pwd.h>
-#include <sys/types.h>
-#include <ctype.h>
-#endif
-*/
-
 #include "defines.h"
 #include "globals.h"
 #include "sound.h"
 #include "setup.h"
+
+/*global variable*/
+int use_sound;           /* handle sound on/off menu and command-line option */
+int use_music;           /* handle music on/off menu and command-line option */
+int audio_device;        /* != 0: available and initialized */
+int current_music;
 
 char * soundfilenames[NUM_SOUNDS] = {
                                       DATA_PREFIX "/sounds/jump.wav",
@@ -48,6 +46,9 @@ char * soundfilenames[NUM_SOUNDS] = {
 #ifndef NOSOUND
 
 #include <SDL_mixer.h>
+
+Mix_Chunk * sounds[NUM_SOUNDS];
+Mix_Music * level_song, * level_song_fast, * herring_song;
 
 /* --- OPEN THE AUDIO DEVICE --- */
 
@@ -227,6 +228,9 @@ void play_current_music(void)
 }
 
 #else
+
+void* sounds[NUM_SOUNDS];
+void* level_song, *herring_song;
 
 int open_audio (int frequency, int format, int channels, int chunksize)
 {

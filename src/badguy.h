@@ -18,6 +18,7 @@
 #include "type.h"
 #include "timer.h"
 #include "texture.h"
+#include "physic.h"
 #include "collision.h"
 
 /* Enemy modes: */
@@ -39,6 +40,7 @@ typedef struct bad_guy_type
     int frame;
     base_type base;
     timer_type timer;
+    physic_type physic;
   }
 bad_guy_type;
 
@@ -50,15 +52,15 @@ enum {
   BAD_MONEY
 };
 
-texture_type img_bsod_squished_left, img_bsod_squished_right,
+extern texture_type img_bsod_squished_left, img_bsod_squished_right,
 img_bsod_falling_left, img_bsod_falling_right,
 img_laptop_flat_left, img_laptop_flat_right,
 img_laptop_falling_left, img_laptop_falling_right;
-texture_type img_bsod_left[4], img_bsod_right[4],
+extern texture_type img_bsod_left[4], img_bsod_right[4],
 img_laptop_left[3], img_laptop_right[3],
 img_money_left[2], img_money_right[2];
 
-bitmask *bm_bsod;
+extern bitmask *bm_bsod;
 
 void badguy_create_bitmasks();
 

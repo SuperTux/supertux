@@ -31,6 +31,7 @@ int main(int argc, char * argv[])
   st_video_setup();
   st_joystick_setup();
   st_general_setup();
+  st_menu();
     
   done = intro();
   
@@ -39,13 +40,6 @@ int main(int argc, char * argv[])
   while (!done)
     {
       done = title();
-      if (!done)
-      {
-      if(game_started)
-	done = gameloop();
-      else if(level_editor_started)
-        done = leveleditor(1);
-      }
     }
   
   clearscreen(0, 0, 0);

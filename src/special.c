@@ -20,6 +20,10 @@
 #include "globals.h"
 #include "player.h"
 
+texture_type img_bullet;
+texture_type img_golden_herring;
+bitmask* bm_bullet;
+
 void create_special_bitmasks()
 {
   bm_bullet = bitmask_create_SDL(img_bullet.sdl_surface);
@@ -133,8 +137,8 @@ void upgrade_action(upgrade_type *pupgrade)
               pupgrade->base.x = pupgrade->base.x + pupgrade->base.xm * frame_ratio;
               pupgrade->base.y = pupgrade->base.y + pupgrade->base.ym * frame_ratio;
 
-              if (issolid(pupgrade->base.x, pupgrade->base.y + 31) ||
-                  issolid(pupgrade->base.x + 31, pupgrade->base.y + 31))
+              if (issolid(pupgrade->base.x, pupgrade->base.y + 31.) ||
+                  issolid(pupgrade->base.x + 31., pupgrade->base.y + 31.))
                 {
                   if (pupgrade->base.ym > 0)
                     {
@@ -153,10 +157,16 @@ void upgrade_action(upgrade_type *pupgrade)
               else
                 pupgrade->base.ym = pupgrade->base.ym + GRAVITY;
 
-              if (issolid(pupgrade->base.x, pupgrade->base.y))
-                {
-                  pupgrade->base.xm = -pupgrade->base.xm;
-                }
+		  if (issolid(pupgrade->base.x - 1, (int) pupgrade->base.y))
+                    {
+		      if(pupgrade->base.xm < 0)
+                      pupgrade->base.xm = -pupgrade->base.xm;
+                    }
+		    else if (issolid(pupgrade->base.x + pupgrade->base.width-1, (int) pupgrade->base.y))
+		    {
+		      if(pupgrade->base.xm > 0)
+                      pupgrade->base.xm = -pupgrade->base.xm;
+		    }
             }
 
 
@@ -171,16 +181,17 @@ void upgrade_action(upgrade_type *pupgrade)
 
 void upgrade_draw(upgrade_type* pupgrade)
 {
+SDL_Rect dest;
   if (pupgrade->base.alive)
     {
       if (pupgrade->base.height < 32)
         {
           /* Rising up... */
 
-          dest.x = pupgrade->base.x - scroll_x;
-          dest.y = pupgrade->base.y + 32 - pupgrade->base.height;
+          dest.x = (int)(pupgrade->base.x - scroll_x);
+          dest.y = (int)(pupgrade->base.y + 32 - pupgrade->base.height);
           dest.w = 32;
-          dest.h = pupgrade->base.height;
+          dest.h = (int)pupgrade->base.height;
 
           if (pupgrade->kind == UPGRADE_MINTS)
 	    texture_draw_part(&img_mints,0,0,dest.x,dest.y,dest.w,dest.h,NO_UPDATE);
@@ -223,7 +234,7 @@ void upgrade_collision(upgrade_type* pupgrade, void* p_c_object, int c_object)
       /* Remove the upgrade: */
 
       /* p_c_object is CO_PLAYER, so assign it to pplayer */
-      pplayer = p_c_object;
+      pplayer = (player_type*) p_c_object;
 
       pupgrade->base.alive = NO;
 
@@ -233,6 +244,7 @@ void upgrade_collision(upgrade_type* pupgrade, void* p_c_object, int c_object)
         {
           play_sound(sounds[SND_EXCELLENT], SOUND_CENTER_SPEAKER);
           pplayer->size = BIG;
+	  pplayer->base.height = 64;
           timer_start(&super_bkgd_timer, 350);
         }
       else if (pupgrade->kind == UPGRADE_COFFEE)

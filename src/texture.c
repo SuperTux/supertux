@@ -17,6 +17,14 @@
 #include "setup.h"
 #include "texture.h"
 
+void (*texture_load) (texture_type* ptexture, char * file, int use_alpha);
+void (*texture_load_part) (texture_type* ptexture, char * file, int x, int y, int w, int h, int use_alpha);
+void (*texture_free) (texture_type* ptexture);  
+void (*texture_draw) (texture_type* ptexture, float x, float y, int update);  
+void (*texture_draw_bg) (texture_type* ptexture, int update);  
+void (*texture_draw_part) (texture_type* ptexture, float sx, float sy, float x, float y, float w, float h, int update);
+
+
 void texture_setup(void)
 {
 #ifdef NOOPENGL
@@ -73,7 +81,7 @@ static int power_of_two(int input)
 	return value;
 }
 
-void texture_create_gl(SDL_Surface * surf, GLint * tex)
+void texture_create_gl(SDL_Surface * surf, GLuint * tex)
 {
   Uint32 saved_flags;
   Uint8  saved_alpha;
@@ -120,6 +128,7 @@ void texture_create_gl(SDL_Surface * surf, GLint * tex)
   glPixelStorei(GL_UNPACK_ROW_LENGTH, conv->pitch / conv->format->BytesPerPixel);
   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB10_A2, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, conv->pixels);
   glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
+  glDisable(GL_BLEND);
   SDL_FreeSurface(conv);
 }
 
@@ -131,8 +140,10 @@ void texture_free_gl(texture_type* ptexture)
 
 void texture_draw_gl(texture_type* ptexture, float x, float y, int update)
 {
+float pw = power_of_two(ptexture->w);
+float ph = power_of_two(ptexture->h);
 
-
+  glEnable(GL_TEXTURE_2D);
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -143,18 +154,22 @@ void texture_draw_gl(texture_type* ptexture, float x, float y, int update)
   glBegin(GL_QUADS);
   glTexCoord2f(0, 0);
   glVertex2f(x, y);
-  glTexCoord2f((float)ptexture->w / (float)power_of_two(ptexture->w), 0);
+  glTexCoord2f((float)ptexture->w / pw, 0);
   glVertex2f((float)ptexture->w+x, y);
-  glTexCoord2f((float)ptexture->w / (float)power_of_two(ptexture->w), (float)ptexture->h / (float)power_of_two(ptexture->h));  glVertex2f((float)ptexture->w+x, (float)ptexture->h+y);
-  glTexCoord2f(0, (float)ptexture->h / (float)power_of_two(ptexture->h));
+  glTexCoord2f((float)ptexture->w / pw, (float)ptexture->h / ph);  glVertex2f((float)ptexture->w+x, (float)ptexture->h+y);
+  glTexCoord2f(0, (float)ptexture->h / ph);
   glVertex2f(x, (float)ptexture->h+y);
   glEnd();
-
+  
+  glDisable(GL_TEXTURE_2D);
   glDisable(GL_BLEND);
 }
 
 void texture_draw_bg_gl(texture_type* ptexture, int update)
 {
+float pw = power_of_two(ptexture->w);
+float ph = power_of_two(ptexture->h);
+
   glColor3ub(255, 255, 255);
 
   glEnable(GL_TEXTURE_2D);
@@ -163,17 +178,21 @@ void texture_draw_bg_gl(texture_type* ptexture, int update)
   glBegin(GL_QUADS);
   glTexCoord2f(0, 0);
   glVertex2f(0, 0);
-  glTexCoord2f((float)ptexture->w / (float)power_of_two(ptexture->w), 0);
+  glTexCoord2f((float)ptexture->w / pw, 0);
   glVertex2f(screen->w, 0);
-  glTexCoord2f((float)ptexture->w / (float)power_of_two(ptexture->w), (float)ptexture->h / power_of_two(ptexture->h));
+  glTexCoord2f((float)ptexture->w / pw, (float)ptexture->h / ph);
   glVertex2f(screen->w, screen->h);
-  glTexCoord2f(0, (float)ptexture->h / (float)power_of_two(ptexture->h));
+  glTexCoord2f(0, (float)ptexture->h / ph);
   glVertex2f(0, screen->h);
   glEnd();
+  
+  glDisable(GL_TEXTURE_2D);
 }
 
 void texture_draw_part_gl(texture_type* ptexture,float sx, float sy, float x, float y, float w, float h, int update)
 {
+float pw = power_of_two(ptexture->w);
+float ph = power_of_two(ptexture->h);
 
   glBindTexture(GL_TEXTURE_2D, ptexture->gl_texture);
 
@@ -186,16 +205,17 @@ void texture_draw_part_gl(texture_type* ptexture,float sx, float sy, float x, fl
 
 
   glBegin(GL_QUADS);
-  glTexCoord2f(sx / (float)power_of_two(ptexture->w), sy / (float)power_of_two(ptexture->h));
+  glTexCoord2f(sx / pw, sy / ph);
   glVertex2f(x, y);
-  glTexCoord2f((float)(sx + w) / (float)power_of_two(ptexture->w), sy / (float)power_of_two(ptexture->h));
+  glTexCoord2f((float)(sx + w) / pw, sy / ph);
   glVertex2f(w+x, y);
-  glTexCoord2f((sx+w) / (float)power_of_two(ptexture->w), (sy+h) / (float)power_of_two(ptexture->h));
+  glTexCoord2f((sx+w) / pw, (sy+h) / ph);
   glVertex2f(w +x, h+y);
-  glTexCoord2f(sx / (float)power_of_two(ptexture->w), (float)(sy+h) / (float)power_of_two(ptexture->h));
+  glTexCoord2f(sx / pw, (float)(sy+h) / ph);
   glVertex2f(x, h+y);
   glEnd();
 
+  glDisable(GL_TEXTURE_2D);
   glDisable(GL_BLEND);
 
 }
@@ -210,6 +230,9 @@ void texture_load_sdl(texture_type* ptexture, char * file, int use_alpha)
   if (temp == NULL)
     st_abort("Can't load", file);
 
+  if(use_alpha == IGNORE_ALPHA)
+  ptexture->sdl_surface = SDL_DisplayFormat(temp);
+  else
   ptexture->sdl_surface = SDL_DisplayFormatAlpha(temp);
 
   if (ptexture->sdl_surface == NULL)
@@ -260,6 +283,9 @@ void texture_load_part_sdl(texture_type* ptexture, char * file, int x, int y, in
   SDL_SetAlpha(temp,0,0);
 
   SDL_BlitSurface(temp, &src, conv, NULL);
+  if(use_alpha == IGNORE_ALPHA)
+  ptexture->sdl_surface = SDL_DisplayFormat(conv);
+  else
   ptexture->sdl_surface = SDL_DisplayFormatAlpha(conv);
 
   if (ptexture->sdl_surface == NULL)
@@ -277,16 +303,30 @@ void texture_load_part_sdl(texture_type* ptexture, char * file, int x, int y, in
 
 void texture_from_sdl_surface(texture_type* ptexture, SDL_Surface* sdl_surf, int use_alpha)
 {
-
-  /* SDL_Surface * temp;
-
-   temp = IMG_Load(file);
-
-   if (temp == NULL)
-     st_abort("Can't load", file);*/
-
+  Uint32 saved_flags;
+  Uint8  saved_alpha;
+  
+  /* Save the alpha blending attributes */
+  saved_flags = sdl_surf->flags&(SDL_SRCALPHA|SDL_RLEACCELOK);
+  saved_alpha = sdl_surf->format->alpha;
+  if ( (saved_flags & SDL_SRCALPHA)
+       == SDL_SRCALPHA )
+    {
+      SDL_SetAlpha(sdl_surf, 0, 0);
+    }
+   
+  if(use_alpha == IGNORE_ALPHA)
+  ptexture->sdl_surface = SDL_DisplayFormat(sdl_surf);
+  else
   ptexture->sdl_surface = SDL_DisplayFormatAlpha(sdl_surf);
 
+  /* Restore the alpha blending attributes */
+  if ( (saved_flags & SDL_SRCALPHA)
+       == SDL_SRCALPHA )
+    {
+      SDL_SetAlpha(ptexture->sdl_surface, saved_flags, saved_alpha);
+    }
+  
   if (ptexture->sdl_surface == NULL)
     st_abort("Can't covert to display format", "SURFACE");
 
@@ -307,15 +347,15 @@ void texture_from_sdl_surface(texture_type* ptexture, SDL_Surface* sdl_surf, int
 
 void texture_draw_sdl(texture_type* ptexture, float x, float y, int update)
 {
+
   SDL_Rect dest;
 
-  dest.x = x;
-  dest.y = y;
+  dest.x = (int)x;
+  dest.y = (int)y;
   dest.w = ptexture->w;
   dest.h = ptexture->h;
-
   SDL_BlitSurface(ptexture->sdl_surface, NULL, screen, &dest);
-
+  
   if (update == UPDATE)
     SDL_UpdateRect(screen, dest.x, dest.y, dest.w, dest.h);
 }
@@ -324,14 +364,14 @@ void texture_draw_sdl(texture_type* ptexture, float x, float y, int update)
 void texture_draw_bg_sdl(texture_type* ptexture, int update)
 {
   SDL_Rect dest;
-
+  
   dest.x = 0;
   dest.y = 0;
   dest.w = screen->w;
   dest.h = screen->h;
-
-  SDL_BlitSurface(ptexture->sdl_surface, NULL, screen, &dest);
-
+  
+  SDL_SoftStretch(ptexture->sdl_surface, NULL, screen, &dest);
+  
   if (update == UPDATE)
     SDL_UpdateRect(screen, dest.x, dest.y, dest.w, dest.h);
 }
@@ -340,15 +380,15 @@ void texture_draw_part_sdl(texture_type* ptexture, float sx, float sy, float x, 
 {
   SDL_Rect src, dest;
 
-  src.x = sx;
-  src.y = sy;
-  src.w = w;
-  src.h = h;
+  src.x = (int)sx;
+  src.y = (int)sy;
+  src.w = (int)w;
+  src.h = (int)h;
 
-  dest.x = x;
-  dest.y = y;
-  dest.w = w;
-  dest.h = h;
+  dest.x = (int)x;
+  dest.y = (int)y;
+  dest.w = (int)w;
+  dest.h = (int)h;
 
 
   SDL_BlitSurface(ptexture->sdl_surface, &src, screen, &dest);

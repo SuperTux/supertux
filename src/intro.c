@@ -70,8 +70,8 @@ int intro(void)
   
   /* Allocate buffer for height array: */
   
-  height = malloc(sizeof(int) * (gown_upset.w));
-  height_speed = malloc(sizeof(int) * (gown_upset.w));
+  height = (int*) malloc(sizeof(int) * (gown_upset.w));
+  height_speed = (int*) malloc(sizeof(int) * (gown_upset.w));
   
   
   /* Initialize height arrays: */
@@ -137,7 +137,7 @@ int intro(void)
 	  texture_draw(&tux_sit, 270, 400, UPDATE);
 	  texture_draw(&gown_sit, 320, 400, UPDATE);
 	  
-	  text_drawf(&blue_text, intro_text[0], 0, -8, A_HMIDDLE, A_BOTTOM, 0, NO_UPDATE);
+	  text_drawf(&white_text, intro_text[0], 0, -8, A_HMIDDLE, A_BOTTOM, 0, NO_UPDATE);
 	}
       
       
@@ -146,8 +146,8 @@ int intro(void)
 	  ++scene;
 	  /* Helicopter begins to fly in: */
 	  
-	  erasecenteredtext(intro_text[0], 456, &bkgd, NO_UPDATE, 1);
-	  text_drawf(&blue_text, intro_text[1], 0,-8, A_HMIDDLE, A_BOTTOM, 0, NO_UPDATE);
+	  erasecenteredtext(intro_text[0], 454, &bkgd, NO_UPDATE, 1);
+	  text_drawf(&white_text, intro_text[1], 0,-8, A_HMIDDLE, A_BOTTOM, 0, NO_UPDATE);
 	}
 
       
@@ -200,8 +200,8 @@ int intro(void)
 	  texture_draw(&tux_upset, 270, 400, UPDATE);
 	  
 	  
-	  erasecenteredtext(intro_text[1], 456, &bkgd, UPDATE, 1);
-	  text_drawf(&blue_text, intro_text[2], 0,-8, A_HMIDDLE, A_BOTTOM, 0, NO_UPDATE);
+	  erasecenteredtext(intro_text[1], 454, &bkgd, UPDATE, 1);
+	  text_drawf(&white_text, intro_text[2], 0,-8, A_HMIDDLE, A_BOTTOM, 0, NO_UPDATE);
 	}
       
       
@@ -254,8 +254,8 @@ int intro(void)
 	  
 	  texture_draw(&tux_mad, 270, 400, UPDATE);
 	  
-	  erasecenteredtext(intro_text[2], 456, &bkgd, UPDATE, 1);
-	  text_drawf(&blue_text, intro_text[3], 0,-8, A_HMIDDLE, A_BOTTOM, 0, NO_UPDATE);
+	  erasecenteredtext(intro_text[2], 454, &bkgd, UPDATE, 1);
+	  text_drawf(&white_text, intro_text[3], 0,-8, A_HMIDDLE, A_BOTTOM, 0, NO_UPDATE);
 	}
       
       

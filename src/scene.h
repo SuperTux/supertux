@@ -22,35 +22,30 @@
 #include "level.h"
 
 #define FRAME_RATE 10 // 100 Frames per second (10ms)
-int score, distros, level, next_level, game_pause,
-done, quit, score_multiplier, endpos, counting_distros, distro_counter;
-timer_type  super_bkgd_timer;
-float scroll_x;
-int frame;
-bouncy_distro_type *bouncy_distros;
-broken_brick_type *broken_bricks;
-bouncy_brick_type *bouncy_bricks;
-bad_guy_type *bad_guys;
-floating_score_type *floating_scores;
-upgrade_type *upgrades;
-bullet_type *bullets;
-int num_bad_guys;
-int num_bouncy_distros;
-int num_broken_bricks;
-int num_bouncy_bricks;
-int num_floating_scores;
-int num_upgrades;
-int num_bullets;
-player_type tux;
-SDL_Rect src, dest;
-texture_type img_box_full, img_box_empty, img_mints, img_coffee, img_super_bkgd, img_red_glow;
-st_level current_level;
-unsigned int last_update_time;
-unsigned int update_time;
-timer_type time_left;
-double frame_ratio;
+extern int score, distros, level, next_level, game_pause, quit, score_multiplier, endpos, counting_distros, distro_counter;
+extern timer_type  super_bkgd_timer;
+extern float scroll_x;
+extern int frame;
+extern bouncy_distro_type *bouncy_distros;
+extern broken_brick_type *broken_bricks;
+extern bouncy_brick_type *bouncy_bricks;
+extern bad_guy_type *bad_guys;
+extern floating_score_type *floating_scores;
+extern upgrade_type *upgrades;
+extern bullet_type *bullets;
+extern int num_bad_guys;
+extern int num_bouncy_distros;
+extern int num_broken_bricks;
+extern int num_bouncy_bricks;
+extern int num_floating_scores;
+extern int num_upgrades;
+extern int num_bullets;
+extern player_type tux;
+extern texture_type img_box_full, img_box_empty, img_mints, img_coffee, img_super_bkgd, img_red_glow;
+extern timer_type time_left;
+extern double frame_ratio;
 
-void add_score(int x, int y, int s);
+void add_score(float x, float y, int s);
 void set_defaults(void);
 void arrays_init(void);
 void arrays_free(void);

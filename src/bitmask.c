@@ -30,12 +30,12 @@
 
 bitmask *bitmask_create(int w, int h)
 {
-  bitmask *temp = malloc(sizeof(bitmask));
+  bitmask *temp = (bitmask*) malloc(sizeof(bitmask));
   if (! temp)
     return 0;
   temp->w = w;
   temp->h = h;
-  temp->bits = calloc(h*((w - 1)/BITW_LEN + 1),sizeof(BITW));
+  temp->bits = (long unsigned int*) calloc(h*((w - 1)/BITW_LEN + 1),sizeof(BITW));
   if (! temp->bits)
     {
       free(temp);
@@ -51,12 +51,12 @@ bitmask *bitmask_create_SDL(SDL_Surface* surf)
   int bpp;
   Uint8* p;
 
-  bitmask *temp = malloc(sizeof(bitmask));
+  bitmask *temp = (bitmask*) malloc(sizeof(bitmask));
   if (! temp)
     return 0;
   temp->w = surf->w;
   temp->h = surf->h;
-  temp->bits = calloc(surf->h*((surf->w - 1)/BITW_LEN + 1),sizeof(BITW));
+  temp->bits = (long unsigned int*) calloc(surf->h*((surf->w - 1)/BITW_LEN + 1),sizeof(BITW));
   if (! temp->bits)
     {
       free(temp);

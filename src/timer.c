@@ -14,6 +14,8 @@
 #include "defines.h"
 #include "timer.h"
 
+unsigned int st_pause_ticks, st_pause_count;
+
 unsigned int st_get_ticks(void)
 {
 if(st_pause_count != 0)

@@ -22,9 +22,9 @@
 #define SOUND_RESERVED_CHANNELS 2
 
 /*global variable*/
-int use_sound;           /* handle sound on/off menu and command-line option */
-int use_music;           /* handle music on/off menu and command-line option */
-int audio_device;        /* != 0: available and initialized */
+extern int use_sound;           /* handle sound on/off menu and command-line option */
+extern int use_music;           /* handle music on/off menu and command-line option */
+extern int audio_device;        /* != 0: available and initialized */
 
 /* enum of different internal music types */
 enum Music_Type {
@@ -32,7 +32,9 @@ enum Music_Type {
   LEVEL_MUSIC,
   HURRYUP_MUSIC,
   HERRING_MUSIC
-} current_music;
+};
+
+extern int current_music;
 
 /* panning effects: terrible :-) ! */
 enum Sound_Speaker {
@@ -69,8 +71,8 @@ enum {
 #include <SDL_mixer.h>
 
 /* variables for stocking the sound and music */
-Mix_Chunk * sounds[NUM_SOUNDS];
-Mix_Music * level_song, * level_song_fast, * herring_song;
+extern Mix_Chunk * sounds[NUM_SOUNDS];
+extern Mix_Music * level_song, * level_song_fast, * herring_song;
 
 /* functions handling the sound and music */
 int open_audio(int frequency, Uint16 format, int channels, int chunksize);
@@ -91,8 +93,8 @@ void play_current_music(void);
 #else
 
 /* fake variables */
-void* sounds[NUM_SOUNDS];
-void* level_song, *herring_song;
+extern void* sounds[NUM_SOUNDS];
+extern void* level_song, *herring_song;
 
 /* fake sound handlers */
 int open_audio (int frequency, int format, int channels, int chunksize);

@@ -69,7 +69,7 @@ typedef struct player_type
 }
 player_type;
 
-texture_type tux_life,
+extern texture_type tux_life,
  tux_right[3],  tux_left[3],
  bigtux_right[3],  bigtux_left[3],
  bigtux_right_jump,  bigtux_left_jump,

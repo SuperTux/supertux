@@ -16,6 +16,15 @@
 #include "scene.h"
 #include "screen.h"
 
+texture_type img_bsod_squished_left, img_bsod_squished_right,
+img_bsod_falling_left, img_bsod_falling_right,
+img_laptop_flat_left, img_laptop_flat_right,
+img_laptop_falling_left, img_laptop_falling_right;
+texture_type img_bsod_left[4], img_bsod_right[4],
+img_laptop_left[3], img_laptop_right[3],
+img_money_left[2], img_money_right[2];
+bitmask *bm_bsod;
+
 void badguy_create_bitmasks()
 {
   /*bm_bsod = img_bsod_left[0];*/
@@ -36,6 +45,7 @@ void badguy_init(bad_guy_type* pbad, float x, float y, int kind)
   pbad->dir = LEFT;
   pbad->seen = NO;
   timer_init(&pbad->timer);
+  physic_init(&pbad->physic);
 }
 
 void badguy_action(bad_guy_type* pbad)
@@ -70,8 +80,14 @@ void badguy_action(bad_guy_type* pbad)
 
               if (!pbad->dying)
                 {
-                  if (issolid(pbad->base.x, pbad->base.y))
-                    pbad->dir = !pbad->dir;
+                  if (issolid( pbad->base.x - 1, (int) pbad->base.y))
+                    {
+                      pbad->dir = RIGHT;
+                    }
+		    else if (issolid( pbad->base.x + pbad->base.width-1, (int) pbad->base.y))
+		    {
+                      pbad->dir = LEFT;
+		    }
                 }
 
               /* Fall if we get off the ground: */
@@ -213,31 +229,22 @@ void badguy_action(bad_guy_type* pbad)
 
               pbad->base.y = pbad->base.y + pbad->base.ym * frame_ratio;
 
-
-              /* Fall if we get off the ground: */
-
-              if (pbad->dying != FALLING)
-                {
-                  if (!issolid(pbad->base.x, pbad->base.y + 32))
-                    {
-                      if (pbad->base.ym < MAX_YM)
-                        {
-                          pbad->base.ym = pbad->base.ym + GRAVITY * frame_ratio;
-                        }
-                    }
-                  else
-                    {
-                      /* Land: */
-
-                      if (pbad->base.ym > 0)
-                        {
-                          pbad->base.y = (int)(pbad->base.y / 32) * 32;
-                          pbad->base.ym = -MAX_YM;
-                        }
-                    }
-                }
-              else
-                pbad->base.ym = pbad->base.ym + GRAVITY * frame_ratio;
+	      if(physic_get_state(&pbad->physic) == -1)
+	      physic_set_state(&pbad->physic,PH_VTU);
+	      
+		if(issolid(pbad->base.x, pbad->base.y + 32))
+		{
+		physic_set_state(&pbad->physic,PH_VTU);
+		pbad->base.ym = -0.6;
+		}
+		else if(issolid(pbad->base.x, pbad->base.y - 1))
+		{ /* This works, but isn't the best solution imagineable */
+		pbad->base.ym = physic_get_velocity(&pbad->physic,-6.);
+		}
+		else
+		{
+		pbad->base.ym = physic_get_velocity(&pbad->physic,6.);
+		}
 
               if (pbad->base.y > screen->h)
                 pbad->base.alive = NO;
@@ -427,7 +434,7 @@ void badguy_draw(bad_guy_type* pbad)
         }
       else if (pbad->kind == BAD_MONEY)
         {
-          if (pbad->base.ym > -16)
+          if (pbad->base.ym != 300 /* > -16*/)
             {
               if (pbad->dir == LEFT)
                 {
@@ -491,7 +498,7 @@ void badguy_collision(bad_guy_type* pbad, void *p_c_object, int c_object)
       play_sound(sounds[SND_FALL], SOUND_CENTER_SPEAKER);
       break;
     case CO_BADGUY:
-      pbad_c = p_c_object;
+      pbad_c = (bad_guy_type*) p_c_object;
       if (pbad->mode != FLAT)
         pbad->dir = !pbad->dir;
       else
@@ -508,7 +515,7 @@ void badguy_collision(bad_guy_type* pbad, void *p_c_object, int c_object)
       pbad->dir = !pbad->dir;
       break;
     case CO_PLAYER:
-      pplayer_c = p_c_object;
+      pplayer_c = (player_type*) p_c_object;
       if (pbad->kind == BAD_BSOD)
         {
           pbad->dying = SQUISHED;

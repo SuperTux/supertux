@@ -36,12 +36,12 @@ typedef struct bullet_type
   }
 bullet_type;
 
-texture_type img_bullet;
-bitmask* bm_bullet;
+extern texture_type img_bullet;
+extern bitmask* bm_bullet;
 
 void create_special_bitmasks();
 
-texture_type img_golden_herring;
+extern texture_type img_golden_herring;
 
 void upgrade_init(upgrade_type *pupgrade, float x, float y, int kind);
 void upgrade_action(upgrade_type *pupgrade);

@@ -62,16 +62,16 @@ void collision_handler()
                 {
                   if(rectcollision(&bullets[i].base,&bad_guys[j].base) == YES)
                     {
-		    /* We have detected a collision and now call the collision functions of the collided objects. */
-		      bullet_collision(&bullets[i], CO_BADGUY);
-		      badguy_collision(&bad_guys[j], &bullets[i], CO_BULLET);
+                      /* We have detected a collision and now call the collision functions of the collided objects. */
+                      bullet_collision(&bullets[i], CO_BADGUY);
+                      badguy_collision(&bad_guys[j], &bullets[i], CO_BULLET);
                     }
                 }
             }
         }
     }
-    
-    /* CO_BADGUY & CO_BADGUY check */
+
+  /* CO_BADGUY & CO_BADGUY check */
   for(i = 0; i < num_bad_guys; ++i)
     {
       if(bad_guys[i].base.alive)
@@ -82,47 +82,49 @@ void collision_handler()
                 {
                   if(rectcollision(&bad_guys[i].base,&bad_guys[j].base) == YES)
                     {
-		    /* We have detected a collision and now call the collision functions of the collided objects. */
-		      badguy_collision(&bad_guys[j], &bad_guys[i], CO_BADGUY);
-		      badguy_collision(&bad_guys[i], &bad_guys[j], CO_BADGUY);                    
-		    }
+                      /* We have detected a collision and now call the collision functions of the collided objects. */
+                      badguy_collision(&bad_guys[j], &bad_guys[i], CO_BADGUY);
+                      badguy_collision(&bad_guys[i], &bad_guys[j], CO_BADGUY);
+                    }
                 }
             }
         }
     }
 
-    /* CO_BADGUY & CO_PLAYER check */
+  /* CO_BADGUY & CO_PLAYER check */
   for(i = 0; i < num_bad_guys; ++i)
     {
       if(bad_guys[i].base.alive)
         {
-		  if(bad_guys[i].dying == NO && rectcollision_offset(&bad_guys[i].base,&tux.base,0,0) == YES && tux.base.ym > 0)
-                    {
-		    /* We have detected a collision and now call the collision functions of the collided objects. */
-		      badguy_collision(&bad_guys[i], &tux, CO_PLAYER);
-		      }
-		   if(rectcollision(&bad_guys[i].base,&tux.base) == YES)
-		   {
-		      player_collision(&tux, &bad_guys[i], CO_BADGUY);
-		   }
-
+          if(bad_guys[i].dying == NO && rectcollision_offset(&bad_guys[i].base,&tux.base,0,0) == YES )
+            {
+              /* We have detected a collision and now call the collision functions of the collided objects. */
+              if (tux.base.ym > 0)
+                {
+                  badguy_collision(&bad_guys[i], &tux, CO_PLAYER);
+                }
+              else
+                {
+                  player_collision(&tux, &bad_guys[i], CO_BADGUY);
+                }
+            }
         }
     }
 
-    /* CO_UPGRADE & CO_PLAYER check */
+  /* CO_UPGRADE & CO_PLAYER check */
   for(i = 0; i < num_upgrades; ++i)
     {
       if(upgrades[i].base.alive)
         {
-		  if(rectcollision(&upgrades[i].base,&tux.base) == YES)
-                    {
-		    /* We have detected a collision and now call the collision functions of the collided objects. */
-		      upgrade_collision(&upgrades[i], &tux, CO_PLAYER);
-		      }
+          if(rectcollision(&upgrades[i].base,&tux.base) == YES)
+            {
+              /* We have detected a collision and now call the collision functions of the collided objects. */
+              upgrade_collision(&upgrades[i], &tux, CO_PLAYER);
+            }
 
         }
     }
-    
+
 }
 
 

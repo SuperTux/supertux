@@ -25,8 +25,8 @@
 #define IGNORE_ALPHA 1
 
 void load_and_display_image(char * file);
-void clearscreen(float r, float g, float b);
-void fillrect(float x, float y, float w, float h, float r, float g, float b);
+void clearscreen(int r, int g, int b);
+void fillrect(float x, float y, float w, float h, int r, int g, int b, int a);
 void updatescreen(void);
 void flipscreen(void);
 SDL_Surface * load_image(char * file, int use_alpha);

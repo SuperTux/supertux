@@ -15,6 +15,7 @@
 
 #include "sound.h"
 #include "type.h"
+#include "level.h"
 
 /* Bounciness of distros: */
 
@@ -35,14 +36,21 @@ enum {
   UPGRADE_HERRING
 };
 
+extern st_level current_level;
+
 /* Scores: */
 
 #define SCORE_BRICK 5
 #define SCORE_DISTRO 25
 
+/* GameLoop modes */
+
+#define ST_GL_PLAY 0
+#define ST_GL_TEST 1
+
 /* Function prototypes: */
 
-int gameloop(void);
+int gameloop(char * subset, int levelnb, int mode);
 void savegame(void);
 void loadgame(char* filename);
 int issolid(float x, float y);

@@ -22,7 +22,7 @@ typedef struct bouncy_distro_type /*It is easier to read the sources IMHO, if we
   }
 bouncy_distro_type;
 
-texture_type img_distro[4];
+extern texture_type img_distro[4];
 
 void bouncy_distro_init(bouncy_distro_type* pbouncy_distro, float x, float y);
 void bouncy_distro_action(bouncy_distro_type* pbouncy_distro);

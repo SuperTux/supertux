@@ -42,6 +42,7 @@
 /* extern variables */
 
 extern char* soundfilenames[NUM_SOUNDS];
+st_level current_level;
 
 /* Local variables: */
 
@@ -52,13 +53,15 @@ SDLKey key;
 char level_subset[100];
 char str[60];
 float fps_fps;
+int st_gl_mode;
+unsigned int last_update_time;
+unsigned int update_time;
+int pause_menu_frame;
 
 /* Local function prototypes: */
 
 void levelintro(void);
 void initgame(void);
-void loadlevelsong(void);
-void unloadlevelsong(void);
 void loadshared(void);
 void unloadshared(void);
 void drawstatus(void);
@@ -72,13 +75,13 @@ void levelintro(void)
   clearscreen(0, 0, 0);
 
   sprintf(str, "LEVEL %d", level);
-  text_drawf(&red_text, str, 0, 200, A_HMIDDLE, A_TOP, 1, NO_UPDATE);
+  text_drawf(&blue_text, str, 0, 200, A_HMIDDLE, A_TOP, 1, NO_UPDATE);
 
   sprintf(str, "%s", current_level.name);
   text_drawf(&gold_text, str, 0, 224, A_HMIDDLE, A_TOP, 1, NO_UPDATE);
 
   sprintf(str, "TUX x %d", tux.lives);
-  text_drawf(&blue_text, str, 0, 256, A_HMIDDLE, A_TOP, 1, NO_UPDATE);
+  text_drawf(&white_text, str, 0, 256, A_HMIDDLE, A_TOP, 1, NO_UPDATE);
 
   flipscreen();
 
@@ -139,16 +142,18 @@ void game_event(void)
             case SDLK_ESCAPE:    /* Escape: Open/Close the menu: */
               if(!game_pause)
                 {
-                  if(show_menu)
-		  {
-                    show_menu = 0;
-		    st_pause_ticks_stop();
-		    }
+                  if(st_gl_mode == ST_GL_TEST)
+                    quit = 1;
+                  else if(show_menu)
+                    {
+                      show_menu = 0;
+                      st_pause_ticks_stop();
+                    }
                   else
-		  {
-                    show_menu = 1;
-		    st_pause_ticks_start();
-		    }
+                    {
+                      show_menu = 1;
+                      st_pause_ticks_start();
+                    }
                 }
               break;
             default:
@@ -167,15 +172,15 @@ void game_event(void)
               if(!show_menu)
                 {
                   if(game_pause)
-		  {
-                    game_pause = 0;
-		    st_pause_ticks_stop();
-		    }
+                    {
+                      game_pause = 0;
+                      st_pause_ticks_stop();
+                    }
                   else
-		  {
-                    game_pause = 1;
-		    st_pause_ticks_start();
-		    }
+                    {
+                      game_pause = 1;
+                      st_pause_ticks_start();
+                    }
                 }
               break;
             case SDLK_TAB:
@@ -200,11 +205,11 @@ void game_event(void)
               break;
             case SDLK_l:
               if(debug_mode == YES)
-              --tux.lives;
+                --tux.lives;
               break;
             case SDLK_s:
               if(debug_mode == YES)
-              score += 1000;
+                score += 1000;
               break;
             default:
               break;
@@ -281,7 +286,6 @@ int game_action(void)
     {
       /* Tux either died, or reached the end of a level! */
 
-
       if (playing_music())
         halt_music();
 
@@ -291,24 +295,29 @@ int game_action(void)
           /* End of a level! */
           level++;
           next_level = 0;
-          drawresultscreen();
+          if(st_gl_mode == ST_GL_PLAY)
+            drawresultscreen();
           player_level_begin(&tux);
         }
       else
         {
-
           player_dying(&tux);
 
           /* No more lives!? */
 
           if (tux.lives < 0)
             {
-              drawendscreen();
+              if(st_gl_mode == ST_GL_PLAY)
+                drawendscreen();
 
-              if (score > hs_score)
-                save_hs(score);
-              unloadlevelgfx();
-              unloadlevelsong();
+              if(st_gl_mode == ST_GL_PLAY)
+                {
+                  if (score > hs_score)
+                    save_hs(score);
+                }
+              level_free_gfx();
+              level_free(&current_level);
+              level_free_song();
               unloadshared();
               arrays_free();
               return(0);
@@ -319,15 +328,18 @@ int game_action(void)
 
       player_level_begin(&tux);
       set_defaults();
-      loadlevel(&current_level,"default",level);
+      level_free(&current_level);
+      if(level_load(&current_level,level_subset,level) != 0)
+        exit(1);
       arrays_free();
       arrays_init();
       activate_bad_guys();
-      unloadlevelgfx();
-      loadlevelgfx(&current_level);
-      unloadlevelsong();
-      loadlevelsong();
-      levelintro();
+      level_free_gfx();
+      level_load_gfx(&current_level);
+      level_free_song();
+      level_load_song(&current_level);
+      if(st_gl_mode == ST_GL_PLAY)
+        levelintro();
       start_timers();
     }
 
@@ -421,7 +433,7 @@ void game_draw(void)
       /* Draw the real background */
       if(current_level.bkgd_image[0] != '\0')
         {
-          s = scroll_x / 30;
+          s = (int)scroll_x / 30;
           texture_draw_part(&img_bkgd,s,0,0,0,img_bkgd.w - s, img_bkgd.h, NO_UPDATE);
           texture_draw_part(&img_bkgd,0,0,screen->w - s ,0,s,img_bkgd.h, NO_UPDATE);
         }
@@ -504,10 +516,18 @@ void game_draw(void)
 
 
   if(game_pause)
-  text_drawf(&red_text, "PAUSE", 0, 230, A_HMIDDLE, A_TOP, 1, NO_UPDATE);
+    {
+      x = screen->h / 20;
+      for(i = 0; i < x; ++i)
+        {
+          fillrect(i % 2 ? (pause_menu_frame * i)%screen->w : -((pause_menu_frame * i)%screen->w) ,(i*20+pause_menu_frame)%screen->h,screen->w,10,20,20,20, rand() % 20 + 1);
+        }
+      fillrect(0,0,screen->w,screen->h,rand() % 50, rand() % 50, rand() % 50, 128);
+      text_drawf(&blue_text, "PAUSE - Press 'P' To Play", 0, 230, A_HMIDDLE, A_TOP, 1, NO_UPDATE);
+    }
 
   if(show_menu)
-    done = drawmenu();
+    menu_process_current();
 
   /* (Update it all!) */
 
@@ -518,12 +538,14 @@ void game_draw(void)
 
 /* --- GAME LOOP! --- */
 
-int gameloop(void)
+int gameloop(char * subset, int levelnb, int mode)
 {
-
-  /*Uint32 last_time, now_time*/
-  int fps_cnt, jump;
+  int fps_cnt, jump, done;
   timer_type fps_timer, frame_timer;
+
+  level = levelnb;
+  st_gl_mode = mode;
+  strcpy(level_subset,subset);
 
   /* Clear screen: */
 
@@ -534,21 +556,26 @@ int gameloop(void)
   /* Init the game: */
   arrays_init();
 
-  initmenu();
-  menumenu = MENU_GAME;
+  menu_reset();
+  menu_set_current(&game_menu);
+
   initgame();
   loadshared();
   set_defaults();
 
-  loadlevel(&current_level,"default",level);
-  loadlevelgfx(&current_level);
+  if(level_load(&current_level,level_subset,level) != 0)
+    exit(1);
+  level_load_gfx(&current_level);
   activate_bad_guys();
-  loadlevelsong();
-  load_hs();
+  level_load_song(&current_level);
+  if(st_gl_mode == ST_GL_PLAY)
+    load_hs();
 
   player_init(&tux);
 
-  levelintro();
+  if(st_gl_mode == ST_GL_PLAY)
+    levelintro();
+
   start_timers();
 
   /* --- MAIN GAME LOOP!!! --- */
@@ -565,12 +592,8 @@ int gameloop(void)
   game_draw();
   do
     {
-    jump = NO;
-    
-      /* Set the time the last update and the time of the current update */
-      last_update_time = update_time;
-      update_time = st_get_ticks();
-      
+      jump = NO;
+
       /* Calculate the movement-factor */
       frame_ratio = ((double)(update_time-last_update_time))/((double)FRAME_RATE);
 
@@ -585,9 +608,35 @@ int gameloop(void)
 
       tux.input.old_fire = tux.input.fire;
 
-      printf("%lf\n",frame_ratio);
-      
+      /*printf("%lf\n",frame_ratio);*/
+
       game_event();
+
+      if(show_menu)
+        {
+          if(current_menu == &game_menu)
+            {
+              switch (menu_check(&game_menu))
+                {
+                case 0:
+                  st_pause_ticks_stop();
+                  break;
+                case 1:
+                  savegame();
+                  break;
+                case 2:
+                  loadgame(NULL);
+                  break;
+                case 4:
+                  done = 1;
+                  break;
+                }
+            }
+          else if(current_menu == &options_menu)
+            {
+              process_options_menu();
+            }
+        }
 
 
       /* Handle actions: */
@@ -602,15 +651,18 @@ int gameloop(void)
             }
         }
       else
-        SDL_Delay(50);
-	
-	if(tux.input.down == DOWN)
-	SDL_Delay(30);
-	
+        {
+          ++pause_menu_frame;
+          SDL_Delay(50);
+        }
+
+      if(tux.input.down == DOWN)
+        SDL_Delay(30);
+
       /*Draw the current scene to the screen */
       /*If the machine running the game is too slow
         skip the drawing of the frame (so the calculations are more precise and
-	the FPS aren't affected).*/
+      the FPS aren't affected).*/
       /*if( ! fps_fps < 50.0 )
       game_draw();
       else
@@ -623,11 +675,18 @@ int gameloop(void)
           continue;
         }
 
+      /* Set the time the last update and the time of the current update */
+      last_update_time = update_time;
+      update_time = st_get_ticks();
+
+
       /* Pause till next frame, if the machine running the game is too fast: */
       /* FIXME: Works great for in OpenGl mode, where the CPU doesn't have to do that much. But
-                the results in SDL mode aren't perfect (thought the 100 FPS are reached), even on an AMD2500+. */      
+                the results in SDL mode aren't perfect (thought the 100 FPS are reached), even on an AMD2500+. */
       if(last_update_time >= update_time - 12 && jump != YES )
         SDL_Delay(10);
+      //if((update_time - last_update_time) < 10)
+      //  SDL_Delay((11 - (update_time - last_update_time))/2);
 
 
 
@@ -662,7 +721,7 @@ int gameloop(void)
       /* Calculate frames per second */
       if(show_fps)
         {
-	  ++fps_cnt;
+          ++fps_cnt;
           fps_fps = (1000.0 / (float)timer_get_gone(&fps_timer)) * (float)fps_cnt;
 
           if(!timer_check(&fps_timer))
@@ -678,8 +737,9 @@ int gameloop(void)
   if (playing_music())
     halt_music();
 
-  unloadlevelgfx();
-  unloadlevelsong();
+  level_free_gfx();
+  level_free(&current_level);
+  level_free_song();
   unloadshared();
   arrays_free();
 
@@ -691,42 +751,8 @@ int gameloop(void)
 
 void initgame(void)
 {
-  level = 1;
   score = 0;
   distros = 0;
-}
-
-/* Free music data for this level: */
-
-void unloadlevelsong(void)
-{
-  free_music(level_song);
-  free_music(level_song_fast);
-}
-
-/* Load music: */
-
-void loadlevelsong(void)
-{
-
-  char * song_path;
-  char * song_subtitle;
-
-  song_path = (char *) malloc(sizeof(char) * (strlen(DATA_PREFIX) +
-                              strlen(current_level.song_title) + 8));
-  sprintf(song_path, "%s/music/%s", DATA_PREFIX, current_level.song_title);
-  level_song = load_song(song_path);
-  free(song_path);
-
-
-  song_path = (char *) malloc(sizeof(char) * (strlen(DATA_PREFIX) +
-                              strlen(current_level.song_title) + 8 + 5));
-  song_subtitle = strdup(current_level.song_title);
-  strcpy(strstr(song_subtitle, "."), "\0");
-  sprintf(song_path, "%s/music/%s-fast%s", DATA_PREFIX, song_subtitle, strstr(current_level.song_title, "."));
-  level_song_fast = load_song(song_path);
-  free(song_subtitle);
-  free(song_path);
 }
 
 /* Load graphics/sounds shared between all levels: */
@@ -1273,7 +1299,7 @@ void drawshape(float x, float y, unsigned char c)
 
       /* Mark this as the end position of the level! */
 
-      endpos = x;
+      endpos = (int)x;
     }
   else if (c == '\\')
     {
@@ -1309,6 +1335,26 @@ unsigned char shape(float x, float y)
 
 /* Is is ground? */
 
+
+int issolid(float x, float y)
+{
+  if (isbrick(x, y) ||
+      isice(x, y) ||
+      (shape(x, y) == '[') ||
+      (shape(x, y) == '=') ||
+      (shape(x, y) == ']') ||
+      (shape(x, y) == 'A') ||
+      (shape(x, y) == 'B') ||
+      (shape(x, y) == '!') ||
+      (shape(x, y) == 'a'))
+    {
+      return YES;
+    }
+
+  return NO;
+}
+
+/*
 int issolid(float x, float y)
 {
   if (isbrick(x, y) ||
@@ -1334,7 +1380,7 @@ int issolid(float x, float y)
     }
 
   return NO;
-}
+}*/
 
 
 /* Is it a brick? */
@@ -1447,6 +1493,9 @@ void tryemptybox(float x, float y)
     {
       if (shape(x, y) == 'A')
         {
+	
+	DEBUG_MSG("Here I am");
+	
           /* Box with a distro! */
 
           add_bouncy_distro(((x + 1) / 32) * 32,
@@ -1562,31 +1611,38 @@ void drawstatus(void)
   int i;
 
   sprintf(str, "%d", score);
-  text_draw(&blue_text, "SCORE", 0, 0, 1, NO_UPDATE);
+  text_draw(&white_text, "SCORE", 0, 0, 1, NO_UPDATE);
   text_draw(&gold_text, str, 96, 0, 1, NO_UPDATE);
 
-  sprintf(str, "%d", hs_score);
-  text_draw(&blue_text, "HIGH", 0, 20, 1, NO_UPDATE);
-  text_draw(&gold_text, str, 96, 20, 1, NO_UPDATE);
-  
+  if(st_gl_mode == ST_GL_PLAY)
+    {
+      sprintf(str, "%d", hs_score);
+      text_draw(&white_text, "HIGH", 0, 20, 1, NO_UPDATE);
+      text_draw(&gold_text, str, 96, 20, 1, NO_UPDATE);
+    }
+  else if(st_gl_mode == ST_GL_TEST)
+    {
+      text_draw(&white_text,"Press ESC To Return",0,20,1, NO_UPDATE);
+    }
+
   if (timer_get_left(&time_left) > TIME_WARNING || (frame % 10) < 5)
     {
       sprintf(str, "%d", timer_get_left(&time_left) / 1000 );
-  text_draw(&blue_text, "TIME", 224, 0, 1, NO_UPDATE);
-  text_draw(&gold_text, str, 304, 0, 1, NO_UPDATE);
+      text_draw(&white_text, "TIME", 224, 0, 1, NO_UPDATE);
+      text_draw(&gold_text, str, 304, 0, 1, NO_UPDATE);
     }
 
   sprintf(str, "%d", distros);
-  text_draw(&blue_text, "DISTROS", screen->h, 0, 1, NO_UPDATE);
+  text_draw(&white_text, "DISTROS", screen->h, 0, 1, NO_UPDATE);
   text_draw(&gold_text, str, 608, 0, 1, NO_UPDATE);
 
-  text_draw(&blue_text, "LIVES", screen->h, 20, 1, NO_UPDATE);
+  text_draw(&white_text, "LIVES", screen->h, 20, 1, NO_UPDATE);
 
   if(show_fps)
     {
-      sprintf(str, "%f", fps_fps);
-      text_draw(&blue_text, "FPS", screen->h, 40, 1, NO_UPDATE);
-      text_draw(&blue_text, str, screen->h + 60, 40, 1, NO_UPDATE);
+      sprintf(str, "%2.1f", fps_fps);
+      text_draw(&white_text, "FPS", screen->h, 40, 1, NO_UPDATE);
+      text_draw(&gold_text, str, screen->h + 60, 40, 1, NO_UPDATE);
     }
 
   for(i=0; i < tux.lives; ++i)
@@ -1620,7 +1676,7 @@ void drawresultscreen(void)
 
   clearscreen(0, 0, 0);
 
-  text_drawf(&red_text, "Result:", 0, 200, A_HMIDDLE, A_TOP, 1, NO_UPDATE);
+  text_drawf(&blue_text, "Result:", 0, 200, A_HMIDDLE, A_TOP, 1, NO_UPDATE);
 
   sprintf(str, "SCORE: %d", score);
   text_drawf(&gold_text, str, 0, 224, A_HMIDDLE, A_TOP, 1, NO_UPDATE);
@@ -1688,14 +1744,16 @@ void loadgame(char* filename)
     {
       player_level_begin(&tux);
       set_defaults();
-      loadlevel(&current_level,"default",level);
+      level_free(&current_level);
+      if(level_load(&current_level,level_subset,level) != 0)
+        exit(1);
       arrays_free();
       arrays_init();
       activate_bad_guys();
-      unloadlevelgfx();
-      loadlevelgfx(&current_level);
-      unloadlevelsong();
-      loadlevelsong();
+      level_free_gfx();
+      level_load_gfx(&current_level);
+      level_free_song();
+      level_load_song(&current_level);
       levelintro();
       start_timers();
 

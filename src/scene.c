@@ -13,6 +13,29 @@
 #include <stdlib.h>
 #include "scene.h"
 
+int score, distros, level, next_level, game_pause, quit, score_multiplier, endpos, counting_distros, distro_counter;
+timer_type  super_bkgd_timer;
+float scroll_x;
+int frame;
+bouncy_distro_type *bouncy_distros;
+broken_brick_type *broken_bricks;
+bouncy_brick_type *bouncy_bricks;
+bad_guy_type *bad_guys;
+floating_score_type *floating_scores;
+upgrade_type *upgrades;
+bullet_type *bullets;
+int num_bad_guys;
+int num_bouncy_distros;
+int num_broken_bricks;
+int num_bouncy_bricks;
+int num_floating_scores;
+int num_upgrades;
+int num_bullets;
+player_type tux;
+texture_type img_box_full, img_box_empty, img_mints, img_coffee, img_super_bkgd, img_red_glow;
+timer_type time_left;
+double frame_ratio;
+
 /* Initialize all 'dynamic' arrays */
 void arrays_init(void)
 {
@@ -64,14 +87,14 @@ void set_defaults(void)
 
 /* Add score: */
 
-void add_score(int x, int y, int s)
+void add_score(float x, float y, int s)
 {
   int i, found;
 
 
   /* Add the score: */
 
-  score = score + s;
+  score += s;
 
 
   /* Add a floating score thing to the game: */
@@ -87,7 +110,7 @@ void add_score(int x, int y, int s)
   if (found == -1)
   {
   ++num_floating_scores;
-  floating_scores = realloc(floating_scores,num_floating_scores*sizeof(floating_score_type));
+  floating_scores = (floating_score_type*) realloc(floating_scores,num_floating_scores*sizeof(floating_score_type));
   floating_score_init(&floating_scores[num_floating_scores-1],x,y,s);
   found = -1;
   }
@@ -115,7 +138,7 @@ void add_bouncy_distro(float x, float y)
   if (found == -1)
   {
   ++num_bouncy_distros;
-  bouncy_distros = realloc(bouncy_distros,num_bouncy_distros*sizeof(bouncy_distro_type));
+  bouncy_distros = (bouncy_distro_type*) realloc(bouncy_distros,num_bouncy_distros*sizeof(bouncy_distro_type));
   found = num_bouncy_distros - 1;
   }
     
@@ -155,7 +178,7 @@ void add_broken_brick_piece(float x, float y, float xm, float ym)
   if (found == -1)
   {
   ++num_broken_bricks;
-  broken_bricks = realloc(broken_bricks,num_broken_bricks*sizeof(broken_brick_type));
+  broken_bricks = (broken_brick_type*) realloc(broken_bricks,num_broken_bricks*sizeof(broken_brick_type));
   found = num_broken_bricks - 1;
   }
 
@@ -183,7 +206,7 @@ void add_bouncy_brick(float x, float y)
   if (found == -1)
   {
   ++num_bouncy_bricks;
-  bouncy_bricks = realloc(bouncy_bricks,num_bouncy_bricks*sizeof(bouncy_brick_type));
+  bouncy_bricks = (bouncy_brick_type*) realloc(bouncy_bricks,num_bouncy_bricks*sizeof(bouncy_brick_type));
   found = num_bouncy_bricks - 1;
   }
 
@@ -211,7 +234,7 @@ void add_bad_guy(float x, float y, int kind)
   if (found == -1)
   {
   ++num_bad_guys;
-  bad_guys = realloc(bad_guys,num_bad_guys*sizeof(bad_guy_type));
+  bad_guys = (bad_guy_type*) realloc(bad_guys,num_bad_guys*sizeof(bad_guy_type));
   found = num_bad_guys - 1;
   }
 
@@ -238,7 +261,7 @@ void add_upgrade(float x, float y, int kind)
   if (found == -1)
   {
   ++num_upgrades;
-  upgrades = realloc(upgrades,num_upgrades*sizeof(upgrade_type));
+  upgrades = (upgrade_type*) realloc(upgrades,num_upgrades*sizeof(upgrade_type));
   found = num_upgrades - 1;
   }
 
@@ -265,7 +288,7 @@ void add_bullet(float x, float y, float xm, int dir)
   if (found == -1)
   {
   ++num_bullets;
-  bullets = realloc(bullets,num_bullets*sizeof(bullet_type));
+  bullets = (bullet_type*) realloc(bullets,num_bullets*sizeof(bullet_type));
   found = num_bullets - 1;
   }
 

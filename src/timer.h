@@ -21,8 +21,7 @@ typedef struct timer_type
   }
 timer_type;
 
-unsigned int st_pause_ticks;
-unsigned int st_pause_count;
+extern unsigned int st_pause_ticks, st_pause_count;
 
 unsigned int st_get_ticks(void);
 void st_pause_ticks_init(void);

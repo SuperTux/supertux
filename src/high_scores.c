@@ -16,9 +16,12 @@
 #include "screen.h"
 #include "texture.h"
 
+int hs_score;
+char hs_name[62]; /* highscores global variables*/
+
 FILE * opendata(char * mode)
 {
-  char * filename;
+  char * filename = NULL;
   FILE * fi;
 
 
@@ -64,12 +67,12 @@ void load_hs(void)
 {
   FILE * fi;
   char temp[128];
-  int c, strl;
+  int c, i, strl;
   
   hs_score = 100;
   strcpy(hs_name, "Grandma\0");
   c = 0;
-  
+
   /* Try to open file: */
 
   fi = opendata("r");
@@ -97,9 +100,9 @@ void load_hs(void)
                 {
                   fprintf(stderr, "name found\n");
                   strl = strlen("name=");
-		  hs_name[strl-1]='\0';
-                  for(c = strl; c < strlen(temp); c++)
-                    hs_name[c-strl] = temp[c];
+                  for(c = strl, i = 0; c < strlen(temp); ++c, ++i)
+                    hs_name[i] = temp[c];
+		  hs_name[i]= '\0';
                 }
             }
         }
@@ -111,6 +114,8 @@ void load_hs(void)
 
 void save_hs(int score)
 {
+  char str[80];
+
   texture_type bkgd;
   SDL_Event event;
   FILE * fi;
@@ -120,18 +125,41 @@ void save_hs(int score)
 
   hs_score = score;
 
+  menu_reset();
+  menu_set_current(&highscore_menu);
+
+  if(!highscore_menu.item[0].input)
+  highscore_menu.item[0].input = (char*) malloc(strlen(hs_name) + 1);
+  
+  strcpy(highscore_menu.item[0].input,hs_name);
+
   /* ask for player's name */
-  menumenu = MENU_HIGHSCORE;
   show_menu = 1;
   while(show_menu)
     {
       texture_draw_bg(&bkgd, NO_UPDATE);
-      drawmenu();
+
+      text_drawf(&blue_text, "Congratulations", 0, 130, A_HMIDDLE, A_TOP, 2, NO_UPDATE);
+      text_draw(&blue_text, "Your score:", 150, 180, 1, NO_UPDATE);
+      sprintf(str, "%d", hs_score);
+      text_draw(&yellow_nums, str, 350, 170, 1, NO_UPDATE);
+
+      menu_process_current();
       flipscreen();
 
       while(SDL_PollEvent(&event))
         if(event.type == SDL_KEYDOWN)
           menu_event(&event.key.keysym);
+
+      switch (menu_check(&highscore_menu))
+        {
+        case 0:
+          if(highscore_menu.item[0].input != NULL)
+            strcpy(hs_name, highscore_menu.item[0].input);
+          break;
+        }
+
+      SDL_Delay(25);
     }
 
 
