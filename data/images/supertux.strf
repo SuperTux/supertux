@@ -666,7 +666,7 @@
          (fps 15.0)
          (x-offset 5)
          (y-offset 62)
-         (images "shared/bigtux/head-duck-0.png"))
+         (images "shared/bigtux/head-fire-duck-0.png"))
 
        (action
          (name "duck-left")
