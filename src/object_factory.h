@@ -46,7 +46,7 @@ GameObject* create_object(const std::string& name, const Vector& pos);
 /** comment from Matze:
  * Yes I know macros are evil, but in this specific case they save
  * A LOT of typing and evil code duplication.
- * I'll happily acceppt alternatives if someone can present me one that does
+ * I'll happily accept alternatives if someone can present me one that does
  * not involve typing 4 or more lines for each object class
  */
 #define IMPLEMENT_FACTORY(CLASS, NAME)                            \

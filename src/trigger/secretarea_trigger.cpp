@@ -4,6 +4,7 @@
 #include "gameloop.h"
 #include "lisp/lisp.h"
 #include "lisp/writer.h"
+#include "object_factory.h"
 
 #define MESSAGE_TIME 3.5
 
@@ -72,4 +73,4 @@ SecretAreaTrigger::event(Player& , EventType type)
   }
 }
 
-//IMPLEMENT_FACTORY(SecretAreaTrigger, "secretarea_trigger")
+IMPLEMENT_FACTORY(SecretAreaTrigger, "secretarea");
