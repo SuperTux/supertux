@@ -70,6 +70,8 @@ public:
   Sector();
   ~Sector();
 
+  /// create new sector
+  static Sector *create(const std::string& name, size_t width, size_t height);
   /// read sector from lisp file
   void parse(LispReader& reader);
   void parse_old_format(LispReader& reader);

@@ -50,6 +50,16 @@ Level::Level()
 }
 
 void
+Level::create(const std::string& filename)
+{
+  Level level;
+  const size_t width = 25;
+  const size_t height = 19;
+  level.add_sector(Sector::create("main", width, height));
+  level.save(filename);
+}
+
+void
 Level::load(const std::string& filename)
 {
   std::string filepath;

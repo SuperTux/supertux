@@ -84,8 +84,11 @@ TileMap::TileMap(LispReader& reader)
 }
 
 TileMap::TileMap(int layer_, bool solid_, size_t width_, size_t height_)
-  : solid(solid_), speed(1), width(width_), height(height_), layer(layer_), vertical_flip(false)
+  : solid(solid_), speed(1), width(0), height(0), layer(layer_), vertical_flip(false)
 {
+  tilemanager = TileManager::instance();
+  
+  resize(width_, height_);
 }
 
 TileMap::~TileMap()

@@ -276,16 +276,21 @@ while(SDL_PollEvent(&event))
 
       if(create_subset_menu->check() == MN_ID_CREATE_SUBSET)
         {   // applying settings:
-        LevelSubset::create(create_subset_menu->get_item_by_id(MN_ID_FILENAME_SUBSET).input);
+        std::string subset_name = create_subset_menu->get_item_by_id(MN_ID_FILENAME_SUBSET).input;
+        LevelSubset::create(subset_name);
 
         delete level_subset;
         level_subset = new LevelSubset();
         level_subset->load(create_subset_menu->get_item_by_id(MN_ID_FILENAME_SUBSET).input);
 
-        level_subset->title = create_subset_menu->item[MN_ID_TITLE_SUBSET].input;
-        level_subset->description = create_subset_menu->item[MN_ID_DESCRIPTION_SUBSET].input;
-
-        load_level(1);
+        level_subset->title = create_subset_menu->get_item_by_id(MN_ID_TITLE_SUBSET).input;
+        level_subset->description = create_subset_menu->get_item_by_id(MN_ID_DESCRIPTION_SUBSET).input;
+        //FIXME: generate better level filenames
+        level_subset->add_level(subset_name+'/'+"new_level.stl");
+        Level::create(level_subset->get_level_filename(0));
+        level_subset->save();
+        
+        load_level(0);
 
         create_subset_menu->get_item_by_id(MN_ID_FILENAME_SUBSET).change_input("");
         create_subset_menu->get_item_by_id(MN_ID_TITLE_SUBSET).change_input("");
@@ -353,23 +358,23 @@ while(SDL_PollEvent(&event))
         Menu::set_current(settings_menu);
         break;
       case BT_NEXT_LEVEL:
-        if(level_nb+1 < level_subset->get_num_levels())
+        if(level_nb + 1 < level_subset->get_num_levels())
           load_level(level_nb + 1);
         else
           {
           char str[1024];
-          sprintf(str,_("Level %d doesn't exist. Create it?"), level_nb + 1);
+          sprintf(str,_("Level %d doesn't exist. Create it?"), level_nb + 2);
           if(confirm_dialog(NULL, str))
             {
-            Level new_lev;
             level_subset->add_level("new_level.stl");
-            new_lev.save(level_subset->get_level_filename(level_nb + 1));
-            load_level(level_nb);
+            Level::create(level_subset->get_level_filename(level_nb + 1));
+            level_subset->save();
+            load_level(level_nb + 1);
             }
           }
         break;
       case BT_PREVIOUS_LEVEL:
-        if(level_nb-1 > 0)
+        if(level_nb - 1 >= 0)
           load_level(level_nb - 1);
         break;
       case BT_NEXT_SECTOR:
@@ -712,7 +717,7 @@ void LevelEditor::load_level_subset(std::string filename)
 delete level_subset;
 level_subset = new LevelSubset();
 level_subset->load(filename.c_str());
-load_level(1);
+load_level(0);
 }
 
 void LevelEditor::load_level(std::string filename)
@@ -768,15 +773,12 @@ load_sector(sector);
 
 void LevelEditor::load_sector(Sector* sector_)
 {
-if(sector == NULL)
+if(sector_ == NULL)
   {
-  if(confirm_dialog(NULL, _("No more sectors exist. Create another?")))
-    {
-    Sector* nsector = new Sector();
-    level->add_sector(nsector);
-    sector = nsector;
-    }
-  return;
+  if(!confirm_dialog(NULL, _("No more sectors exist. Create another?")))
+    return;
+  sector_ = Sector::create("new_sector",25,19);
+  level->add_sector(sector_);
   }
 
 sector = sector_;
@@ -850,8 +852,8 @@ if(sound_manager)
 
 void LevelEditor::change(int x, int y, int newtile, int layer)
 {  // find the tilemap of the current layer, and then change the tile
-if(x < 0 || (unsigned int)x > sector->solids->get_width()*32 ||
-   y < 0 || (unsigned int)y > sector->solids->get_height()*32)
+if(x < 0 || (unsigned int)x >= sector->solids->get_width()*32 ||
+   y < 0 || (unsigned int)y >= sector->solids->get_height()*32)
   return;
 
 level_changed = true;
@@ -923,8 +925,8 @@ mouse_cursor->set_state(MC_HIDE);
 
 char str[1024];
 char *text1[] = {
-         _("This is the built-in level editor. It's aim is to be intuitive\n"
-         "and simple to use, so it should be pretty straight forward.\n"
+         _("This is the built-in level editor. Its aim is to be intuitive\n"
+         "and simple to use, so it should be pretty straightforward.\n"
          "\n"
          "To open a level, first you'll have to select a level subset from\n"
          "the menu (or create your own).\n"
@@ -933,24 +935,24 @@ char *text1[] = {
          "\n"
          "To access the menu from the level editor, just press Esc.\n"
          "\n"
-         "You are currently looking to the level, to scroll it, just\n"
+         "You are currently looking at the level. To scroll it, just\n"
          "press the right mouse button and drag the mouse. It will move like\n"
          "a strategy game.\n"
          "You can also use the arrow keys and Page Up/Down.\n"
          "\n"
-         "'+' and '-' keys can be used to zoom in/out the level.\n"
+         "'+' and '-' keys can be used to zoom the level in/out.\n"
          "\n"
-         "You probably already noticed those floating group of buttons.\n"
+         "You probably already noticed those floating groups of buttons.\n"
          "Each one serves a different purpose. To select a certain button\n"
          "just press the Left mouse button on it. A few buttons have key\n"
-         "shortcuts, you can know it by pressing the Right mouse button on\n"
-         "it. That will also show what that button does.\n"
-         "Group of buttons can also be move around by just dragging them,\n"
+         "shortcuts. You can find them by pressing the Right mouse button on\n"
+         "a button. That will also show what that button does.\n"
+         "Groups of buttons can also be moved around by just dragging them,\n"
          "while pressing the Left mouse button.\n"
          "\n"
-         "Let's learn a bit of what each group of buttons do, shall we?\n"
+         "Let's learn a bit of what each group of buttons does, shall we?\n"
          "\n"
-         "To starting putting tiles and objects around use the bigger gropup\n"
+         "To starting putting tiles and objects around use the bigger group\n"
          "of buttons. Each button is a different tile. To put it on the level,\n"
          "just press it and then left click in the level.\n"
          "You can also copy tiles from the level by using the middle mouse button.\n"
@@ -960,15 +962,15 @@ char *text1[] = {
 
 char *text2[] = {
          _("The Foreground/Interactive/Background buttons may be used to\n"
-         "see and edit the respective layer. Level's have three tiles layers:\n"
-         "Foreground - tiles are drawn in top of everything and have no contact\n"
+         "see and edit the respective layer. Levels have three tiles layers:\n"
+         "Foreground - tiles are drawn on top of everything and have no contact\n"
          "with the player.\n"
          "Interactive - these are the tiles that have contact with the player.\n"
-         "Background - tiles are drawn in bottom of everything and have no contact\n"
+         "Background - tiles are drawn underneath everything and have no contact\n"
          "with the player.\n"
          "The unselected layers will be drawn semi-transparently.\n"
          "\n"
-         "At last, but not least, the group of buttons that's left serves\n"
+         "Last, but not least, the group of buttons that's left serves\n"
          "to do related actions with the level.\n"
          "From left to right:\n"
          "Mini arrows - can be used to choose other sectors.\n"
@@ -976,7 +978,7 @@ char *text2[] = {
          "Big arrows - choose other level in the same level subset.\n"
          "Diskette - save the level\n"
          "Tux - test the level\n"
-         "Tools - set a few settings for the level, incluiding resizing it.\n"
+         "Tools - set a few settings for the level, including resizing it.\n"
          "\n"
          "We have reached the end of this Howto.\n"
          "\n"
@@ -985,8 +987,8 @@ char *text2[] = {
          "Enjoy,\n"
          "  SuperTux development team\n"
          "\n"
-         "ps: If you are looking for something more powerfull, you can give it a\n"
-         "try to FlexLay. FlexLay is a level editor that supports several games,\n"
+         "PS: If you are looking for something more powerful, you might like to\n"
+         "try FlexLay. FlexLay is a level editor that supports several games,\n"
          "including SuperTux. It is an independent project.\n"
          "Webpage: http://pingus.seul.org/~grumbel/flexlay/")
                 };

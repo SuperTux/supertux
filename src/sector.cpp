@@ -68,6 +68,23 @@ Sector::~Sector()
     _current = 0;
 }
 
+Sector *Sector::create(const std::string& name, size_t width, size_t height)
+{
+  Sector *sector = new Sector;
+  sector->name = name;
+  TileMap *background = new TileMap(LAYER_BACKGROUNDTILES, false, width, height);
+  TileMap *interactive = new TileMap(LAYER_TILES, true, width, height);
+  TileMap *foreground = new TileMap(LAYER_FOREGROUNDTILES, false, width, height);
+  sector->add_object(background);
+  sector->add_object(interactive);
+  sector->add_object(foreground);
+  sector->solids = interactive;
+  sector->camera = new Camera(sector);
+  sector->add_object(sector->camera);
+  sector->update_game_objects();
+  return sector;
+}
+
 void
 Sector::parse(LispReader& lispreader)
 {
