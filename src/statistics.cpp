@@ -21,6 +21,7 @@
 #include "utils/lispwriter.h"
 #include "statistics.h"
 #include "video/drawing_context.h"
+#include "app/gettext.h"
 #include "resources.h"
 
 Statistics global_stats;
@@ -45,7 +46,11 @@ stat_name_to_string(int stat_enum)
 
 Statistics::Statistics()
 {
-  reset();
+  timer.init(true);
+  display_stat = 1;
+
+  for(int i = 0; i < NUM_STATS; i++)
+    stats[i] = -1;
 }
 
 Statistics::~Statistics()
@@ -66,14 +71,45 @@ Statistics::write(LispWriter& writer)
     writer.write_int(stat_name_to_string(i), stats[i]);
 }
 
+#define TOTAL_DISPLAY_TIME 3400
+#define FADING_TIME         600
+
 void
 Statistics::draw_worldmap_info(DrawingContext& context)
 {
+  if(!timer.check())
+    {
+    timer.start(TOTAL_DISPLAY_TIME);
+    display_stat++;
+    if(display_stat >= NUM_STATS)
+      display_stat = 1;
+    }
+
+  int alpha;
+  if(timer.get_gone() < FADING_TIME)
+    alpha = timer.get_gone() * 255 / FADING_TIME;
+  else if(timer.get_left() < FADING_TIME)
+    alpha = timer.get_left() * 255 / FADING_TIME;
+  else
+    alpha = 255;
+
   char str[128];
 
-  //TODO: this is just a simple message, will be imporved
-  sprintf(str, "Level Max Score: %d", stats[SCORE_STAT]);
-  context.draw_text(white_small_text, str, Vector(580, 580), LAYER_GUI);
+  context.draw_text(white_small_text, _("Level Statistics"), Vector(550, 490), LAYER_GUI);
+
+  sprintf(str, _("Max score: %d"), stats[SCORE_STAT]);
+  context.draw_text(white_small_text, str, Vector(560, 506), LAYER_GUI);
+
+  if(display_stat == BADGUYS_SQUISHED_STAT)
+    sprintf(str, _("Max fragging: %d"), stats[BADGUYS_SQUISHED_STAT]);
+  else if(display_stat == SHOTS_STAT)
+    sprintf(str, _("Min shots: %d"), stats[SHOTS_STAT]);
+  else if(display_stat == TIME_NEEDED_STAT)
+    sprintf(str, _("Min time needed: %d"), stats[TIME_NEEDED_STAT]);
+  else// if(display_stat == JUMPS_STAT)
+    sprintf(str, _("Min jumps: %d"), stats[JUMPS_STAT]);
+
+  context.draw_text(white_small_text, str, Vector(560, 522), LAYER_GUI, NONE_EFFECT, alpha);
 }
 
 void

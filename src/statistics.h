@@ -20,6 +20,8 @@
 #ifndef SUPERTUX_STATISTICS_H
 #define SUPERTUX_STATISTICS_H
 
+#include "special/timer.h"
+
 using namespace SuperTux;
 
 namespace SuperTux {
@@ -57,11 +59,12 @@ public:
   void draw_worldmap_info(DrawingContext& context);
   void draw_message_info(DrawingContext& context);
 
+  /* Add / Set / Get points to/from one of the stats this can keep track of */
   void add_points(int stat, int points);
+  void set_points(int stat, int points);
   int get_points(int stat);
 
-  void set_points(int stat, int points);
-
+  /* Reset statistics */
   void reset();
 
   /* Give another Statistics object, find the best of each one */
@@ -72,6 +75,9 @@ public:
 
 private:
   int stats[NUM_STATS];
+
+  Timer timer;
+  int display_stat;
 };
 
 extern Statistics global_stats;
