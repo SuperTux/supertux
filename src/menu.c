@@ -450,6 +450,7 @@ void menu_event(SDL_keysym* keysym)
       menuaction = MN_RIGHT;
       menu_change = YES;
       break;
+    case SDLK_SPACE:
     case SDLK_RETURN: /* Menu Hit */
       menuaction = MN_HIT;
       menu_change = YES;
