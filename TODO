@@ -9,6 +9,10 @@ These are mostly bugs:
 - supertux crashs from time to time
 - leveleditor lacks enemies support (will be fixed soon by Tobias)
 - sometimes you die after being in pause modus and unpausing
+- sometimes the level restarts/you die after collecing a growup
+- mriceblock doesn't disapear after being kicked my another iceblock,
+  not sure when exactly it happens, might depend on direction or so
 - supertux lifting its feet for kicking is not drawn
+- fadein/out for intro/extro would be nice
 
 
