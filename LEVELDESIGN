@@ -1,0 +1,43 @@
+HEAD:
+--------
+
+1. Name of the level.
+2. The time you have to finish the level.
+3. Defines the music file, which should be played.
+4,5,6. RGB values for the background of the level.
+7. Defines the level's length.
+
+Example:
+----------
+Antarctica
+240
+ji_turn.it
+128
+192
+255
+375
+
+MAIN:
+-------
+ 
+Levels are created with the following characters:
+(15 lines and as many columns as defined in the seventh line of the levelfile)
+
+X/x <- Brick0
+Y/y <- Brick1
+A/B/! <- Box full
+a <- Box empty
+C-F <- Cloud0
+c-f <- Cloud1
+G-J <- Bkgd0
+g-j <- Bkgd1
+# <- Solid0
+[ <- Solid1
+= <- Solid2
+] <- Solid3
+$ <- Distro
+^ <- Waves
+* <- Poletop
+| <- Pole
+\ <- Flag
+& <- Water
