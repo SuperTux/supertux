@@ -37,6 +37,7 @@
 #include "badguy.h"
 #include "gameobjs.h"
 #include "door.h"
+#include "camera.h"
 
 LevelEditor::LevelEditor()
 {
@@ -47,8 +48,7 @@ global_frame_counter = 0;
 frame_timer.init(true);
 level_name_timer.init(true);
 selection_end = selection_ini = Vector(0,0);
-left_button = false;
-middle_button = false;
+left_button = middle_button = mouse_moved =  false;
 
 cur_layer = LAYER_TILES;
 level_changed = false;
@@ -236,6 +236,8 @@ if(level_changed)
 
 void LevelEditor::events()
 {
+mouse_moved = false;
+
 while(SDL_PollEvent(&event))
   {
   Menu* menu = Menu::current();
@@ -373,6 +375,7 @@ std::cerr << "previous sector.\n";
     switch(event.type)
       {
       case SDL_MOUSEMOTION:
+        mouse_moved = true;
         if(SDL_GetMouseState(NULL, NULL)&SDL_BUTTON(SDL_BUTTON_RIGHT))
           {  // movement like in strategy games
           scroll.x += -1 * event.motion.xrel;
@@ -381,6 +384,7 @@ std::cerr << "previous sector.\n";
         break;
 
       case SDL_MOUSEBUTTONDOWN:
+        mouse_moved = true;
         if(event.button.button == SDL_BUTTON_LEFT)
           left_button = true;
         else if(event.button.button == SDL_BUTTON_MIDDLE)
@@ -391,6 +395,7 @@ std::cerr << "previous sector.\n";
         break;
 
       case SDL_MOUSEBUTTONUP:
+        mouse_moved = true;
         if(event.button.button == SDL_BUTTON_LEFT)
           left_button = false;
         else if(event.button.button == SDL_BUTTON_MIDDLE)
@@ -525,11 +530,14 @@ if(sector)
   if(scroll.y > height - screen->h/2)
     scroll.y = height - screen->h/2;
 
-  if(left_button)
+  // set camera translation, since BadGuys like it
+  sector->camera->set_scrolling((int)scroll.x, (int)scroll.y);
+
+  if(left_button && mouse_moved)
     for(unsigned int x = 0; x < selection.size(); x++)
       for(unsigned int y = 0; y < selection[x].size(); y++)
-        change((int)((scroll.x + event.button.x)/(32*zoom)) + x,
-             (int)((scroll.y + event.button.y)/(32*zoom)) + y, selection[x][y], 
+        change((int)(scroll.x + event.button.x) + (x*32),
+             (int)(scroll.y + event.button.y) + (y*32), selection[x][y], 
              cur_layer);
   }
 }
@@ -804,11 +812,17 @@ sound_manager->halt_music();
 
 void LevelEditor::change(int x, int y, int newtile, int layer)
 {  // find the tilemap of the current layer, and then change the tile
-if(x < 0 || (unsigned int)x > sector->solids->get_width() ||
-   y < 0 || (unsigned int)y > sector->solids->get_height())
+if(x < 0 || (unsigned int)x > sector->solids->get_width()*32 ||
+   y < 0 || (unsigned int)y > sector->solids->get_height()*32)
   return;
 
 level_changed = true;
+
+if(zoom != 1)
+  {  // no need to do this for normal view (no zoom)
+  x = (int)(x * (zoom*32) / 32);
+  y = (int)(y * (zoom*32) / 32);
+  }
 
 if(newtile < 0)  // add object
   {
@@ -816,45 +830,48 @@ if(newtile < 0)  // add object
   change(x, y, 0, LAYER_TILES);
 
   if(newtile == OBJ_TRAMPOLINE)
-    sector->add_object(new Trampoline(x*32, y*32));
+    sector->add_object(new Trampoline(x, y));
   else if(newtile == OBJ_FLYING_PLATFORM)
-    sector->add_object(new FlyingPlatform(x*32, y*32));
+    sector->add_object(new FlyingPlatform(x, y));
   else if(newtile == OBJ_DOOR)
-    sector->add_object(new Door(x*32, y*32));
+    sector->add_object(new Door(x, y));
   else
-    sector->add_object(new BadGuy(BadGuyKind((-newtile)-1), x*32, y*32));
+    sector->add_object(new BadGuy(BadGuyKind((-newtile)-1), x, y));
 
   sector->update_game_objects();
   }
 else if(cur_layer == LAYER_FOREGROUNDTILES)
-  foregrounds->change(x, y, newtile);
+  foregrounds->change(x/32, y/32, newtile);
 else if(cur_layer == LAYER_TILES)
   {
   // remove a bad guy if it's there
+  // we /32 in order to round numbers
   for(Sector::GameObjects::iterator i = sector->gameobjects.begin(); i < sector->gameobjects.end(); i++)
     {
     BadGuy* badguy = dynamic_cast<BadGuy*> (*i);
     if(badguy)
-      if(badguy->base.x == x*32 && badguy->base.y == y*32)
+      if((int)badguy->base.x/32 == x/32 && (int)badguy->base.y/32 == y/32)
         sector->gameobjects.erase(i);
     Trampoline* trampoline = dynamic_cast<Trampoline*> (*i);
     if(trampoline)
-      if(trampoline->base.x == x*32 && trampoline->base.y == y*32)
+    {
+      if((int)trampoline->base.x/32 == x/32 && (int)trampoline->base.y/32 == y/32)
         sector->gameobjects.erase(i);
+        }
     FlyingPlatform* flying_platform = dynamic_cast<FlyingPlatform*> (*i);
     if(flying_platform)
-      if(flying_platform->base.x == x*32 && flying_platform->base.y == y*32)
+      if((int)flying_platform->base.x/32 == x/32 && (int)flying_platform->base.y/32 == y/32)
         sector->gameobjects.erase(i);
     Door* door = dynamic_cast<Door*> (*i);
     if(door)
-      if(door->get_area().x == x*32 && door->get_area().y == y*32)
+      if((int)door->get_area().x/32 == x/32 && (int)door->get_area().y/32 == y/32)
         sector->gameobjects.erase(i);
     }
   sector->update_game_objects();
-  solids->change(x, y, newtile);
+  solids->change(x/32, y/32, newtile);
   }
 else if(cur_layer == LAYER_BACKGROUNDTILES)
-  backgrounds->change(x, y, newtile);
+  backgrounds->change(x/32, y/32, newtile);
 }
 
 void LevelEditor::show_help()

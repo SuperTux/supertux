@@ -121,7 +121,7 @@ private:
   Menu* create_subset_menu;
   Menu* settings_menu;
 
-  bool left_button, middle_button;
+  bool left_button, middle_button, mouse_moved;
   bool done;
   bool show_grid;
 
