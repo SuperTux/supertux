@@ -104,7 +104,6 @@ GameSession::GameSession(const std::string& subset_, int levelnb_, int mode)
     }
 
   world->get_level()->load_gfx();
-  loadshared();
   
   world->activate_bad_guys();
   world->activate_particle_systems();
@@ -363,7 +362,6 @@ GameSession::action(double frame_ratio)
               world->get_level()->free_song();
               world->arrays_free();
 
-              unloadshared();
               return(0);
             }
           tux.level_begin();
@@ -390,7 +388,6 @@ GameSession::action(double frame_ratio)
               world->get_level()->free_song();
               world->arrays_free();
 
-              unloadshared();
               return(0);
             } /* if (lives < 0) */
         }
@@ -640,7 +637,6 @@ GameSession::run()
   world->get_level()->cleanup();
   world->get_level()->free_song();
 
-  unloadshared();
   world->arrays_free();
 
   return quit;

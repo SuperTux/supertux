@@ -11,9 +11,7 @@
 */
 
 #include "supertux.h"
-
-
-/* --- MAIN --- */
+#include "resources.h"
 
 int main(int argc, char * argv[])
 {
@@ -42,7 +40,9 @@ int main(int argc, char * argv[])
       done = false;
       while (!done)
         {
+          loadshared();
           done = title();
+          unloadshared();
         }
     }
   

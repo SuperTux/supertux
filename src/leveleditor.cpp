@@ -242,7 +242,6 @@ int leveleditor(int levelnb)
                       leveleditor_menu->item[3].kind = MN_GOTO;
                       le_level = 1;
                       global_world.arrays_free();
-                      loadshared();
                       le_current_level = new Level;
                       if(le_current_level->load(le_level_subset.name.c_str(), le_level) != 0)
                         {
@@ -273,7 +272,6 @@ int leveleditor(int levelnb)
                       leveleditor_menu->item[3].kind = MN_GOTO;
                       le_level = 1;
                       global_world.arrays_free();
-                      loadshared();
                       le_current_level = new Level;
                       if(le_current_level->load(le_level_subset.name.c_str(), le_level) != 0)
                         {
@@ -595,7 +593,6 @@ void le_quit(void)
       le_current_level->free_gfx();
       le_current_level->cleanup();
       global_world.arrays_free();
-      unloadshared();
     }
 }
 
@@ -1194,7 +1191,6 @@ void le_testlevel()
   Menu::set_current(leveleditor_menu);
   global_world.arrays_free();
   le_current_level->load_gfx();
-  loadshared();
   global_world.activate_bad_guys();
 }
 

@@ -146,7 +146,6 @@ bool title(void)
   st_pause_ticks_init();
 
   GameSession session(datadir + "/levels/misc/menu.stl");
-  loadshared();
 
   //FIXME:activate_particle_systems();
 
