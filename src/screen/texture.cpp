@@ -449,9 +449,10 @@ SurfaceOpenGL::SurfaceOpenGL(const std::string& file, int use_alpha)
   h = sdl_surface->h;
 }
 
-SurfaceOpenGL::SurfaceOpenGL(const std::string& file, int x, int y, int w, int h, int use_alpha)
+SurfaceOpenGL::SurfaceOpenGL(const std::string& file_, int x_, int y_, int w_, int h_, int use_alpha_)
 {
-  sdl_surface = sdl_surface_part_from_file(file,x,y,w,h,use_alpha);
+  sdl_surface = sdl_surface_part_from_file(file_,x_,y_,w_,h_,use_alpha_);
+  
   create_gl(sdl_surface, &gl_texture);
 
   w = sdl_surface->w;
