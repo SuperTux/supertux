@@ -23,7 +23,6 @@
 #endif
 
 #ifndef WIN32
-#include <pwd.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <dirent.h>

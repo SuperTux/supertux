@@ -217,7 +217,7 @@ WorldMap::~WorldMap()
 void
 WorldMap::load_map()
 {
-  lisp_object_t* root_obj = lisp_read_from_file(datadir +  "levels/default/worldmap.scm");
+  lisp_object_t* root_obj = lisp_read_from_file(datadir +  "levels/default/worldmap.stwm");
   assert(root_obj);
   
   if (strcmp(lisp_symbol(lisp_car(root_obj)), "supertux-worldmap") == 0)
