@@ -79,14 +79,31 @@ Sprite::parse_action(LispReader& lispreader)
   if(!lispreader.read_string_vector("images", images))
     Termination::abort("Sprite contains no images: ", action->name.c_str());
 
-  for(std::vector<std::string>::size_type i = 0; i < images.size(); ++i)
+  for(std::vector<std::string>::size_type i = 0; i < images.size(); i++)
     {
       action->surfaces.push_back(
           new Surface(datadir + "/images/" + images[i], true));
-    }        
+    }
+
+  // TODO: add a top filter entry
+  std::vector <int> mask_color;
+  lispreader.read_int_vector("apply-mask", mask_color);
+  if(mask_color.size() == 4)
+    {
+    for(std::vector<Surface*>::iterator i = action->surfaces.begin();
+        i < action->surfaces.end(); i++)
+      {
+        (*i)->apply_mask(Color(mask_color));
+      }
+    }
 
   actions[action->name] = action;
 }
+
+/*void Sprite::parse_filter(LispReader& lispreader)
+{
+
+}*/
 
 void
 Sprite::init_defaults(Action* act)
