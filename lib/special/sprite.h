@@ -90,7 +90,7 @@ namespace SuperTux
         { return (int)frame; }
       /** Set current frame */
       void set_frame(int frame_)
-        { frame = frame_; }
+        { if(frame_ > get_frames()) frame = 0; else frame = frame_; }
       Surface* get_frame(unsigned int frame)
       {
         if(frame < action->surfaces.size())

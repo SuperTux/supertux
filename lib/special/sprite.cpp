@@ -150,20 +150,20 @@ else
 
 last_tick = SDL_GetTicks();
 
-if(!animation_reversed)
+if(animation_reversed)
   {
-  if((unsigned int)frame >= action->surfaces.size())
+  if((unsigned int)frame < 0)
     {
-    frame = 0;
+    frame = get_frames()-1;
     if(animation_loops > 0)
       animation_loops--;
     }
   }
 else
   {
-  if((unsigned int)frame < 0)
+  if((unsigned int)frame >= action->surfaces.size())
     {
-    frame = get_frames()-1;
+    frame = 0;
     if(animation_loops > 0)
       animation_loops--;
     }
@@ -176,8 +176,8 @@ Sprite::draw(DrawingContext& context, const Vector& pos, int layer,
 {
   update();
 
-  if((int)frame >= get_frames())
-    std::cerr << "Warning: frame higher than total frames!\n";
+  if((int)frame >= get_frames() || (int)frame < 0)
+    std::cerr << "Warning: frame higher than total frames or lower than 0!\n";
   else
     context.draw_surface(action->surfaces[(int)frame],
             pos - Vector(action->x_hotspot, action->y_hotspot), layer, drawing_effect);
