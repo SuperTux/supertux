@@ -1,1 +1,4 @@
-SUBDIRS = src
+SUBDIRS = src data
+
+# EOF #
+
