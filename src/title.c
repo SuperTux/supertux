@@ -166,7 +166,15 @@ int title(void)
                       if(subsets_num != 0)
                         {
                           texture_draw(&subset.image,(screen->w - subset.image.w) / 2 + 25,78,NO_UPDATE);
+			  if(subsets_num > 1)
+			  {
+			  if(i > 0)
+			  texture_draw(&arrow_left,(screen->w / 2) - ((strlen(subset.title)+2)*16)/2,20,NO_UPDATE);
+			  if(i < subsets_num-1)
+			  texture_draw(&arrow_right,(screen->w / 2) + ((strlen(subset.title))*16)/2,20,NO_UPDATE);
+			  }
                           text_drawf(&gold_text, subset.title, 0, 20, A_HMIDDLE, A_TOP, 1, NO_UPDATE);
+                          text_drawf(&gold_text, subset.description, 20, -20, A_HMIDDLE, A_BOTTOM, 1, NO_UPDATE);
                         }
                       updatescreen();
                       SDL_Delay(50);
