@@ -1,8 +1,8 @@
 ;; Generated with Flexlay Editor
 (supertux-worldmap
-  (name "Icyisland")
   (properties 
     (name  "Icyisland")
+    (name-pt_PT  "Ilha Gelada")
     (music "SALCON.MOD"))
   (tilemap 
     (width  40)
