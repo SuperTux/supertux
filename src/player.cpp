@@ -590,14 +590,18 @@ Player::handle_vertical_input()
                can_flap = false;
                falling_from_flap = true;
             }
-         //TODO: The slowing down of Tux should be handled...
-         if (physic.get_velocity_x() > 0) {physic.set_velocity_x(WALK_SPEED);}
-         else if (physic.get_velocity_x() < 0) {physic.set_velocity_x(WALK_SPEED * (-1));}
          jumping = true;
          flapping = true;
+         float iv = physic.get_velocity_x();
+         float fv = 1.2;
+         float cv = 0;
+         if (iv < 0) {fv *= (-1);}
          if (flapping_timer.get_gone() <= TUX_FLAPPING_TIME)
             {
-               //TODO: ...here, using get_gone to slow him down at an increasing rate
+               //FIXME: Changing directions while flapping doesn't work yet
+               if (iv == 0) {cv = 0;}
+               else {cv = (iv-((iv-fv)*(float)flapping_timer.get_gone()/TUX_FLAPPING_TIME));}
+               physic.set_velocity_x(cv);
                physic.set_velocity_y((float)flapping_timer.get_gone()/700);
             }
      }
