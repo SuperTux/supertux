@@ -22,6 +22,7 @@
 #define SUPERTUX_FONT_H
 
 #include <string>
+#include <stdint.h>
 
 #include "video/surface.h"
 #include "math/vector.h"
@@ -29,7 +30,7 @@
 namespace SuperTux
   {
 
-  enum {
+  enum FontAlignment {
     LEFT_ALLIGN,
     CENTER_ALLIGN,
     RIGHT_ALLIGN
@@ -45,7 +46,8 @@ namespace SuperTux
         NUM   // only images for numbers
       };
 
-      Font(const std::string& file, FontType type, int w, int h, int shadowsize=2);
+      Font(const std::string& file, FontType type, int w, int h,
+          int shadowsize=2);
       ~Font();
 
       /** returns the width of a given text. (Note that I won't add a normal
@@ -69,17 +71,17 @@ namespace SuperTux
       /** Draws the given text to the screen. Also needs the position.
        * Type of alignment, drawing effect and alpha are optional. */
       void draw(const std::string& text, const Vector& pos,
-                int allignment = LEFT_ALLIGN,
-                Uint32 drawing_effect = NONE_EFFECT, int alpha = 255);
+          FontAlignment allignment = LEFT_ALLIGN,
+          uint32_t drawing_effect = NONE_EFFECT, uint8_t alpha = 255) const;
 
     private:
       friend class DrawingContext;
 
       void draw_text(const std::string& text, const Vector& pos,
-                Uint32 drawing_effect = NONE_EFFECT, int alpha = 255);
+          uint32_t drawing_effect = NONE_EFFECT, uint8_t alpha = 255) const;
 
       void draw_chars(Surface* pchars, const std::string& text,
-                      const Vector& position, Uint32 drawing_effect, int alpha);
+          const Vector& position, uint32_t drawing_effect, uint8_t alpha) const;
 
       Surface* chars;
       Surface* shadow_chars;
@@ -93,12 +95,6 @@ namespace SuperTux
       /// the number of the last character that is represented in the font
       int last_char;
     };
-
-
-  /** Reads a text file (using LispReader, so it as to be in its formatting)
-      and displays it in a StarTrek fashion */
-  void display_text_file(const std::string& file, float scroll_speed, Font* heading_font, Font* normal_font, Font* small_font, Font* reference_font );
-
 } //namespace SuperTux
 
 #endif /*SUPERTUX_FONT_H*/

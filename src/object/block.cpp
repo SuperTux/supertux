@@ -7,6 +7,7 @@
 #include "special/sprite.h"
 #include "special/sprite_manager.h"
 #include "video/drawing_context.h"
+#include "lisp/lisp.h"
 #include "gameobjs.h"
 #include "specialriser.h"
 #include "growup.h"
@@ -22,13 +23,11 @@ static const float BOUNCY_BRICK_MAX_OFFSET=8;
 static const float BOUNCY_BRICK_SPEED=90;
 static const float EPSILON = .0001;
 
-Block::Block(const Vector& pos, Sprite* newsprite)
+Block::Block(Sprite* newsprite)
   : sprite(newsprite), bouncing(false), bounce_dir(0), bounce_offset(0)
 {
-  bbox.set_pos(pos);
   bbox.set_size(32, 32.1);
   flags |= FLAG_SOLID;
-  original_y = pos.y;
 }
 
 Block::~Block()
@@ -97,10 +96,49 @@ Block::start_bounce()
 
 //---------------------------------------------------------------------------
 
-BonusBlock::BonusBlock(const Vector& pos, int newdata)
-  : Block(pos, sprite_manager->create("bonusblock")), data(newdata)
+BonusBlock::BonusBlock(const Vector& pos, int data)
+  : Block(sprite_manager->create("bonusblock"))
 {
+  bbox.set_pos(pos);
   sprite->set_action("default");
+  switch(data) {
+    case 1: contents = CONTENT_COIN; break;
+    case 2: contents = CONTENT_FIREGROW; break;
+    case 3: contents = CONTENT_STAR; break;
+    case 4: contents = CONTENT_1UP; break;
+    case 5: contents = CONTENT_ICEGROW; break;
+    default:
+      std::cerr << "Invalid box contents!\n";
+      contents = CONTENT_COIN;
+      break;
+  }          
+}
+
+BonusBlock::BonusBlock(const lisp::Lisp& lisp)
+  : Block(sprite_manager->create("bonusblock"))
+{
+  Vector pos;
+  lisp.get("x", pos.x);
+  lisp.get("y", pos.y);
+  bbox.set_pos(pos);
+
+  std::string contentstring;
+  contents = CONTENT_COIN;
+  if(lisp.get("contents", contentstring)) {
+    if(contentstring == "coin") {
+      contents = CONTENT_COIN;
+    } else if(contentstring == "firegrow") {
+      contents = CONTENT_FIREGROW;
+    } else if(contentstring == "icegrow") {
+      contents = CONTENT_ICEGROW;
+    } else if(contentstring == "star") {
+      contents = CONTENT_STAR;
+    } else if(contentstring == "1up") {
+      contents = CONTENT_1UP;
+    } else {
+      std::cerr << "Invalid box contents '" << contentstring << "'.\n";
+    }
+  }
 }
 
 void
@@ -119,13 +157,13 @@ BonusBlock::try_open()
   
   Sector* sector = Sector::current();
   Player& player = *(sector->player);
-  switch(data) {
-    case 1: // coin
+  switch(contents) {
+    case CONTENT_COIN:
       Sector::current()->add_object(new BouncyCoin(get_pos()));
       player.get_status().incCoins();
       break;
 
-    case 2: // grow/fireflower
+    case CONTENT_FIREGROW:
       if(player.size == SMALL) {
         SpecialRiser* riser = new SpecialRiser(
             new GrowUp(get_pos() + Vector(0, -32)));
@@ -138,7 +176,7 @@ BonusBlock::try_open()
       SoundManager::get()->play_sound(IDToSound(SND_UPGRADE));
       break;
 
-    case 5: // grow/iceflower
+    case CONTENT_ICEGROW:
       if(player.size == SMALL) {
         SpecialRiser* riser = new SpecialRiser(
             new GrowUp(get_pos() + Vector(0, -32)));
@@ -151,11 +189,11 @@ BonusBlock::try_open()
       SoundManager::get()->play_sound(IDToSound(SND_UPGRADE));
       break;
 
-    case 3: // star
+    case CONTENT_STAR:
       sector->add_object(new Star(get_pos() + Vector(0, -32)));
       break;
 
-    case 4: // 1up
+    case CONTENT_1UP:
       sector->add_object(new OneUp(get_pos()));
       break;
 
@@ -167,14 +205,15 @@ BonusBlock::try_open()
   sprite->set_action("empty");
 }
 
-//IMPLEMENT_FACTORY(BonusBlock, "bonusblock")
+IMPLEMENT_FACTORY(BonusBlock, "bonusblock")
 
 //---------------------------------------------------------------------------
 
 Brick::Brick(const Vector& pos, int data)
-  : Block(pos, sprite_manager->create("brick")), breakable(false),
+  : Block(sprite_manager->create("brick")), breakable(false),
     coin_counter(0)
 {
+  bbox.set_pos(pos);
   if(data == 1)
     coin_counter = 5;
   else

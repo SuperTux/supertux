@@ -44,6 +44,7 @@
 #include "resources.h"
 #include "misc.h"
 #include "player_status.h"
+#include "textscroller.h"
 
 #define map_message_TIME 2.8
 
@@ -835,8 +836,7 @@ WorldMap::update(float delta)
         if (!level->extro_filename.empty()) {
           // Display a text file
           std::string filename = levels_path + level->extro_filename;
-          display_text_file(filename, SCROLL_SPEED_MESSAGE,
-                            white_big_text , white_text, white_small_text, blue_text );
+          display_text_file(filename);
         }
 
         if (!level->next_worldmap.empty())
@@ -1040,8 +1040,7 @@ WorldMap::display()
 
   if(!intro_displayed && intro_filename != "") {
     std::string filename = levels_path + intro_filename;
-    display_text_file(filename, SCROLL_SPEED_MESSAGE,
-                      white_big_text, white_text, white_small_text, blue_text);
+    display_text_file(filename);
     intro_displayed = true;
   }
 

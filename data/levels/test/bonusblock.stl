@@ -55,7 +55,7 @@
         0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
         ))
     (tilemap
-      (layer  "main")
+      (layer  "interactive")
       (solid #t)
       (speed  1.000000)
       (width  30)
@@ -135,6 +135,15 @@
       (path
     ))
 
+    (infoblock
+      (x 128)
+      (y 800)
+      (message (_ 
+"-Info
+#This is an info block
+#(WOW GREAT)
+#This rocks"))
+    )
    )
  )
 

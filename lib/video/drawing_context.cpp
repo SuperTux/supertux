@@ -39,7 +39,7 @@ DrawingContext::~DrawingContext()
 
 void
 DrawingContext::draw_surface(const Surface* surface, const Vector& position,
-    int layer, Uint32 drawing_effect)
+    int layer, uint32_t drawing_effect)
 {
   assert(surface != 0);
   
@@ -63,7 +63,7 @@ DrawingContext::draw_surface(const Surface* surface, const Vector& position,
 
 void
 DrawingContext::draw_surface_part(const Surface* surface, const Vector& source,
-    const Vector& size, const Vector& dest, int layer, Uint32 drawing_effect)
+    const Vector& size, const Vector& dest, int layer, uint32_t drawing_effect)
 {
   assert(surface != 0);
 
@@ -101,9 +101,9 @@ DrawingContext::draw_surface_part(const Surface* surface, const Vector& source,
 }
 
 void
-DrawingContext::draw_text(Font* font, const std::string& text,
-    const Vector& position, int allignment, int layer,
-    Uint32 drawing_effect)
+DrawingContext::draw_text(const Font* font, const std::string& text,
+    const Vector& position, FontAlignment alignment, int layer,
+    uint32_t drawing_effect)
 {
   DrawingRequest request;
 
@@ -117,18 +117,18 @@ DrawingContext::draw_text(Font* font, const std::string& text,
   TextRequest* textrequest = new TextRequest;
   textrequest->font = font;
   textrequest->text = text;
-  textrequest->allignment = allignment;
+  textrequest->alignment = alignment;
   request.request_data = textrequest;
 
   drawingrequests.push_back(request);
 }
 
 void
-DrawingContext::draw_center_text(Font* font, const std::string& text,
-    const Vector& position, int layer, Uint32 drawing_effect)
+DrawingContext::draw_center_text(const Font* font, const std::string& text,
+    const Vector& position, int layer, uint32_t drawing_effect)
 {
-draw_text(font, text, Vector(position.x + screen->w/2, position.y),
-          CENTER_ALLIGN, layer, drawing_effect);
+  draw_text(font, text, Vector(position.x + screen->w/2, position.y),
+      CENTER_ALLIGN, layer, drawing_effect);
 }
 
 void
@@ -240,7 +240,8 @@ DrawingContext::draw_text(DrawingRequest& request)
 {
   TextRequest* textrequest = (TextRequest*) request.request_data;
 
-  textrequest->font->draw(textrequest->text, request.pos, textrequest->allignment, request.drawing_effect, request.alpha);
+  textrequest->font->draw(textrequest->text, request.pos,
+      textrequest->alignment, request.drawing_effect, request.alpha);
 
   delete textrequest;
 }

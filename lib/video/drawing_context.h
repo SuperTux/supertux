@@ -21,18 +21,19 @@
 
 #include <vector>
 #include <string>
+#include <stdint.h>
 
 #include "SDL.h"
 
 #include "math/vector.h"
 #include "video/screen.h"
 #include "video/surface.h"
+#include "video/font.h"
 
 namespace SuperTux
   {
 
   class Surface;
-  class Font;
 
   // some constants for predefined layer values
   enum {
@@ -59,23 +60,23 @@ namespace SuperTux
       ~DrawingContext();
 
       /// Adds a drawing request for a surface into the request list.
-      void draw_surface(const Surface* surface, const Vector& position, int layer,
-                        Uint32 drawing_effect = NONE_EFFECT);
+      void draw_surface(const Surface* surface, const Vector& position,
+          int layer, uint32_t drawing_effect = NONE_EFFECT);
       /// Adds a drawing request for part of a surface.
       void draw_surface_part(const Surface* surface, const Vector& source,
                              const Vector& size, const Vector& dest, int layer,
-                             Uint32 drawing_effect = NONE_EFFECT);
+                             uint32_t drawing_effect = NONE_EFFECT);
       /// Draws a text.
-      void draw_text(Font* font, const std::string& text, const Vector& position,
-                     int allignment, int layer,
-                     Uint32 drawing_effect = NONE_EFFECT);
+      void draw_text(const Font* font, const std::string& text,
+          const Vector& position, FontAlignment alignment, int layer,
+          uint32_t drawing_effect = NONE_EFFECT);
 
       /// Draws text on screen center (feed Vector.x with a 0).
       /// This is the same as draw_text() with a screen->w/2 position and
-      /// allignment set to LEFT_ALLIGN
-      void draw_center_text(Font* font, const std::string& text,
+      /// alignment set to LEFT_ALLIGN
+      void draw_center_text(const Font* font, const std::string& text,
                            const Vector& position, int layer,
-                           Uint32 drawing_effect = NONE_EFFECT);
+                           uint32_t drawing_effect = NONE_EFFECT);
       /// Draws a color gradient onto the whole screen */
       void draw_gradient(Color from, Color to, int layer);
       /// Fills a rectangle.
@@ -87,7 +88,7 @@ namespace SuperTux
 
       const Vector& get_translation() const
       {  return transform.translation;  }
-      Uint32 get_drawing_effect() const
+      uint32_t get_drawing_effect() const
       {  return transform.drawing_effect;  }
 
       void set_translation(const Vector& newtranslation)
@@ -108,7 +109,7 @@ namespace SuperTux
       {
       public:
         Vector translation;
-        Uint32 drawing_effect;
+        uint32_t drawing_effect;
         float zoom;
         int alpha;
 
@@ -140,9 +141,9 @@ namespace SuperTux
 
       struct TextRequest
         {
-          Font* font;
+          const Font* font;
           std::string text;
-          int allignment;
+          FontAlignment alignment;
         };
 
       struct GradientRequest
@@ -163,7 +164,7 @@ namespace SuperTux
           Vector pos;                
           
           int layer;
-          Uint32 drawing_effect;
+          uint32_t drawing_effect;
           float zoom;
           int alpha;
 

@@ -2,6 +2,7 @@
 #define __BLOCK_H__
 
 #include "special/moving_object.h"
+#include "lisp/lisp.h"
 
 namespace SuperTux {
   class Sprite;
@@ -13,7 +14,7 @@ using namespace SuperTux;
 class Block : public MovingObject
 {
 public:
-  Block(const Vector& pos, Sprite* sprite);
+  Block(Sprite* sprite = 0);
   ~Block();
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
@@ -35,6 +36,7 @@ class BonusBlock : public Block
 {
 public:
   BonusBlock(const Vector& pos, int data);
+  BonusBlock(const lisp::Lisp& lisp);
 
   void try_open();
 
@@ -42,7 +44,15 @@ protected:
   virtual void hit(Player& player);
 
 private:
-  int data;
+  enum Contents {
+    CONTENT_COIN,
+    CONTENT_FIREGROW,
+    CONTENT_ICEGROW,
+    CONTENT_STAR,
+    CONTENT_1UP
+  };
+
+  Contents contents;
 };
 
 class Brick : public Block

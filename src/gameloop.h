@@ -22,6 +22,7 @@
 #ifndef SUPERTUX_GAMELOOP_H
 #define SUPERTUX_GAMELOOP_H
 
+#include <SDL.h>
 #include "timer.h"
 #include "statistics.h"
 
@@ -79,6 +80,7 @@ public:
       const std::string& spawnpointname);
   void set_reset_point(const std::string& sectorname,
       const Vector& pos);
+  void display_info_box(const std::string& text);
   Sector* get_current_sector()
   { return currentsector; }
 
@@ -95,11 +97,11 @@ private:
   void levelintro();
   void drawstatus(DrawingContext& context);
   void drawendscreen();
-  void drawresultscreen(void);
+  void drawresultscreen();
+  void draw_pause();
 
   void on_escape_press();
   void process_menu();
-
 
   Uint32 fps_ticks;
   Timer2 endsequence_timer;

@@ -62,6 +62,7 @@
 #include "statistics.h"
 #include "timer.h"
 #include "object/fireworks.h"
+#include "textscroller.h"
 
 GameSession* GameSession::current_ = 0;
 
@@ -103,15 +104,6 @@ GameSession::restart_level()
 
   last_keys.clear();
 
-#if 0
-  Vector tux_pos = Vector(-1,-1);
-  if (currentsector)
-    { 
-      // Tux has lost a life, so we try to respawn him at the nearest reset point
-      tux_pos = currentsector->player->base;
-    }
-#endif
-  
   delete level;
   currentsector = 0;
 
@@ -571,11 +563,10 @@ void
 GameSession::action(float elapsed_time)
 {
   // advance timers
-  if (exit_status == ES_NONE && !currentsector->player->growing_timer.check())
-    {
-      // Update Tux and the World
-      currentsector->action(elapsed_time);
-    }
+  if(!currentsector->player->growing_timer.started()) {
+    // Update Tux and the World
+    currentsector->action(elapsed_time);
+  }
 
   // respawning in new sector?
   if(newsector != "" && newspawnpoint != "") {
@@ -594,45 +585,45 @@ GameSession::draw()
   drawstatus(*context);
 
   if(game_pause)
-    {
-      int x = screen->h / 20;
-      for(int i = 0; i < x; ++i)
-        {
-          context->draw_filled_rect(
-              Vector(i % 2 ? (pause_menu_frame * i)%screen->w :
-                -((pause_menu_frame * i)%screen->w)
-                ,(i*20+pause_menu_frame)%screen->h),
-              Vector(screen->w,10),
-              Color(20,20,20, rand() % 20 + 1), LAYER_FOREGROUND1+1);
-        }
-      context->draw_filled_rect(
-          Vector(0,0), Vector(screen->w, screen->h),
-          Color(rand() % 50, rand() % 50, rand() % 50, 128), LAYER_FOREGROUND1);
-      context->draw_text(blue_text, _("PAUSE - Press 'P' To Play"),
-          Vector(screen->w/2, 230), CENTER_ALLIGN, LAYER_FOREGROUND1+2);
+    draw_pause();
 
-      char str1[60];
-      char str2[124];
-      sprintf(str1, _("Playing: "));
-      sprintf(str2, level->name.c_str());
-
-      context->draw_text(blue_text, str1,
-          Vector((screen->w - (blue_text->get_text_width(str1) + white_text->get_text_width(str2)))/2, 340),
-          LEFT_ALLIGN, LAYER_FOREGROUND1+2);
-      context->draw_text(white_text, str2,
-          Vector(((screen->w - (blue_text->get_text_width(str1) + white_text->get_text_width(str2)))/2)+blue_text->get_text_width(str1), 340),
-          LEFT_ALLIGN, LAYER_FOREGROUND1+2);
-    }
-
-  if(Menu::current())
-    {
-      Menu::current()->draw(*context);
-      mouse_cursor->draw(*context);
-    }
+  if(Menu::current()) {
+    Menu::current()->draw(*context);
+    mouse_cursor->draw(*context);
+  }
 
   context->do_drawing();
 }
 
+void
+GameSession::draw_pause()
+{
+  int x = screen->h / 20;
+  for(int i = 0; i < x; ++i) {
+    context->draw_filled_rect(
+        Vector(i % 2 ? (pause_menu_frame * i)%screen->w :
+          -((pause_menu_frame * i)%screen->w)
+          ,(i*20+pause_menu_frame)%screen->h),
+        Vector(screen->w,10),
+        Color(20,20,20, rand() % 20 + 1), LAYER_FOREGROUND1+1);
+  }
+  context->draw_filled_rect(
+      Vector(0,0), Vector(screen->w, screen->h),
+      Color(rand() % 50, rand() % 50, rand() % 50, 128), LAYER_FOREGROUND1);
+  context->draw_text(blue_text, _("PAUSE - Press 'P' To Play"),
+      Vector(screen->w/2, 230), CENTER_ALLIGN, LAYER_FOREGROUND1+2);
+
+  const char* str1 = _("Playing: ");
+  const char* str2 = level->get_name().c_str();
+
+  context->draw_text(blue_text, str1,
+      Vector((screen->w - (blue_text->get_text_width(str1) + white_text->get_text_width(str2)))/2, 340),
+      LEFT_ALLIGN, LAYER_FOREGROUND1+2);
+  context->draw_text(white_text, str2,
+      Vector(((screen->w - (blue_text->get_text_width(str1) + white_text->get_text_width(str2)))/2)+blue_text->get_text_width(str1), 340),
+      LEFT_ALLIGN, LAYER_FOREGROUND1+2);
+}
+  
 void
 GameSession::process_menu()
 {
@@ -778,6 +769,29 @@ GameSession::set_reset_point(const std::string& sector, const Vector& pos)
 {
   reset_sector = sector;
   reset_pos = pos;
+}
+
+void
+GameSession::display_info_box(const std::string& text)
+{
+  InfoBox* box = new InfoBox(text);
+
+  bool running = true;
+  while(running)  {
+    SDL_Event event;
+    while (SDL_PollEvent(&event)) {
+      switch(event.type) {
+        case SDL_KEYDOWN:
+          running = false;
+          break;
+      }
+    }
+
+    box->draw(*context);
+    draw();
+  }
+
+  delete box;
 }
 
 void

@@ -8,8 +8,9 @@
 #include "object_factory.h"
 
 InvisibleBlock::InvisibleBlock(const Vector& pos)
-  : Block(pos, sprite_manager->create("invisibleblock")), visible(false)
+  : Block(sprite_manager->create("invisibleblock")), visible(false)
 {
+  bbox.set_pos(pos);
   flags &= ~FLAG_SOLID;
 }
 

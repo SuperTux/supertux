@@ -1,6 +1,7 @@
 ; Credits text
 (supertux-text
   (background "oiltux.jpg")
+  (speed 1.5)
 
   (text (_ "-- SuperTux -
 	Milestone 1

@@ -31,14 +31,7 @@ enum MainMenuIDs {
   MNID_QUITMAINMENU
   };
   
-/* Scrolling text speed */
-
-#define SCROLL_SPEED_CREDITS 1.5
-#define SCROLL_SPEED_MESSAGE 1.0
-
-void title(void);
+void title();
 
 #endif //SUPERTUX_TITLE_H
-
-// EOF //
 

@@ -119,10 +119,11 @@ Font::get_height() const
 }
 
 void
-Font::draw(const std::string& text, const Vector& pos_, int allignment, Uint32 drawing_effect, int alpha)
+Font::draw(const std::string& text, const Vector& pos_, FontAlignment alignment,
+    uint32_t drawing_effect, uint8_t alpha) const
 {
   /* Cut lines changes into seperate strings, needed to support center/right text
-     allignments with break lines.
+     alignments with break lines.
      Feel free to replace this hack with a more elegant solution
   */
   char temp[1024];
@@ -141,11 +142,11 @@ Font::draw(const std::string& text, const Vector& pos_, int allignment, Uint32 d
 
     temp[text.copy(temp, l - i, i)] = '\0';
 
-    // calculate X positions based on the allignment type
+    // calculate X positions based on the alignment type
     Vector pos = Vector(pos_);
-    if(allignment == CENTER_ALLIGN)
+    if(alignment == CENTER_ALLIGN)
       pos.x -= get_text_width(temp) / 2;
-    else if(allignment == RIGHT_ALLIGN)
+    else if(alignment == RIGHT_ALLIGN)
       pos.x -= get_text_width(temp);
 
     draw_text(temp, pos + Vector(0,y), drawing_effect, alpha);
@@ -156,7 +157,8 @@ Font::draw(const std::string& text, const Vector& pos_, int allignment, Uint32 d
 }
 
 void
-Font::draw_text(const std::string& text, const Vector& pos, Uint32 drawing_effect, int alpha)
+Font::draw_text(const std::string& text, const Vector& pos, 
+    uint32_t drawing_effect, uint8_t alpha) const
 {
   if(shadowsize > 0)
     draw_chars(shadow_chars, text, pos + Vector(shadowsize, shadowsize),
@@ -167,7 +169,7 @@ Font::draw_text(const std::string& text, const Vector& pos, Uint32 drawing_effec
 
 void
 Font::draw_chars(Surface* pchars, const std::string& text, const Vector& pos,
-                 Uint32 drawing_effect, int alpha)
+                 uint32_t drawing_effect, uint8_t alpha) const
 {
   SurfaceImpl* impl = pchars->impl;
 
@@ -195,172 +197,5 @@ Font::draw_chars(Surface* pchars, const std::string& text, const Vector& pos,
     impl->draw_part(source_x, source_y, p.x, p.y, w, h, alpha, drawing_effect);
     p.x += w;
   }
-}
-
-/* --- SCROLL TEXT FUNCTION --- */
-
-#define MAX_VEL     10
-#define SPEED_INC   0.01
-#define SCROLL      60
-#define ITEMS_SPACE 4
-
-void SuperTux::display_text_file(const std::string& file, float scroll_speed,
-    Font* heading_font, Font* normal_font, Font* small_font,
-    Font* reference_font)
-{
-  std::string text;
-  std::string background_file;
-  std::vector<std::string> names;
-
-  std::string filename = datadir + "/" + file;
-  lisp::Parser parser;
-  try {
-    std::auto_ptr<lisp::Lisp> root (parser.parse(filename));
-
-    const lisp::Lisp* text_lisp = root->get_lisp("supertux-text");
-    if(!text_lisp)
-      throw std::runtime_error("File isn't a supertux-text file");
-    
-    if(!text_lisp->get("text", text))
-      throw std::runtime_error("file doesn't contain a text field");
-    if(!text_lisp->get("background", background_file))
-      throw std::runtime_error("file doesn't contain a background file");
-  } catch(std::exception& e) {
-    std::cerr << "Couldn't load file '" << filename << "': " << e.what() <<
-      "\n";
-    return;
-  }
-
-  // Split text string lines into a vector
-  names.clear();
-  std::string::size_type i, l;
-  i = 0;
-  while(true)
-    {
-    l = text.find("\n", i);
-
-    if(l == std::string::npos)
-      {
-      char temp[1024];
-      temp[text.copy(temp, text.size() - i, i)] = '\0';
-      names.push_back(temp);
-      break;
-      }
-
-    char temp[1024];
-    temp[text.copy(temp, l-i, i)] = '\0';
-    names.push_back(temp);
-
-    i = l+1;
-    }
-
-  // load background image
-  Surface* background = new Surface(datadir + "/images/background/" + background_file, false);
-
-  int done = 0;
-  float scroll = 0;
-  float speed = scroll_speed / 50;
-  float left_border = 50;
-
-  DrawingContext context;
-  SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
-
-  Uint32 lastticks = SDL_GetTicks();
-  while(!done)
-    {
-      /* in case of input, exit */
-      SDL_Event event;
-      while(SDL_PollEvent(&event))
-        switch(event.type)
-          {
-          case SDL_KEYDOWN:
-            switch(event.key.keysym.sym)
-              {
-              case SDLK_UP:
-                speed -= SPEED_INC;
-                break;
-              case SDLK_DOWN:
-                speed += SPEED_INC;
-                break;
-              case SDLK_SPACE:
-              case SDLK_RETURN:
-                if(speed >= 0)
-                  scroll += SCROLL;
-                break;
-              case SDLK_ESCAPE:
-                done = 1;
-                break;
-              default:
-                break;
-              }
-            break;
-          case SDL_QUIT:
-            done = 1;
-            break;
-          default:
-            break;
-          }
-
-      if(speed > MAX_VEL)
-        speed = MAX_VEL;
-      else if(speed < -MAX_VEL)
-        speed = -MAX_VEL;
-
-      /* draw the credits */
-      context.draw_surface(background, Vector(0,0), 0);
-
-      float y = 0;
-      for(size_t i = 0; i < names.size(); i++) {
-        if(names[i].size() == 0) {
-          y += normal_font->get_height() + ITEMS_SPACE;
-          continue;
-        }
-
-        Font* font = 0;
-        bool center = true;
-        switch(names[i][0])
-        {
-          case ' ': font = small_font; break;
-          case '\t': font = normal_font; break;
-          case '-': font = heading_font; break;
-          case '*': font = reference_font; break;
-          case '#': font = normal_font; center = false; break;
-          default: 
-            break;
-        }
-        
-        if(font) {
-          if(center) {
-            context.draw_text(font,
-                              names[i].substr(1, names[i].size()-1),
-                              Vector(screen->w/2, screen->h + y - scroll),
-                              CENTER_ALLIGN, LAYER_FOREGROUND1);
-          } else {
-            context.draw_text(font,
-                              names[i].substr(1, names[i].size()-1),
-                              Vector(left_border, screen->h + y - scroll),
-                              LEFT_ALLIGN, LAYER_FOREGROUND1);
-          }
-        }                   
-          
-        y += font->get_height() + ITEMS_SPACE;
-      }
-
-      context.do_drawing();
-
-      if(screen->h+y-scroll < 0 && 20+screen->h+y-scroll < 0)
-        done = 1;
-
-      Uint32 ticks = SDL_GetTicks();
-      scroll += speed * (ticks - lastticks);
-      lastticks = ticks;
-      if(scroll < 0)
-        scroll = 0;
-
-      SDL_Delay(10);
-    }
-
-  SDL_EnableKeyRepeat(0, 0);    // disables key repeating
-  delete background;
 }
 

@@ -60,6 +60,7 @@
 #include "resources.h"
 #include "app/gettext.h"
 #include "misc.h"
+#include "textscroller.h"
 
 static Surface* bkg_title;
 static Surface* logo;
@@ -387,7 +388,7 @@ void title(void)
                   fadeout(500);
                   credits_music = SoundManager::get()->load_music(datadir + "/music/credits.ogg");
                   SoundManager::get()->play_music(credits_music);
-                  display_text_file("credits.txt", SCROLL_SPEED_CREDITS, white_big_text , white_text, white_small_text, blue_text );
+                  display_text_file("credits.txt");
                   fadeout(500);
                   Menu::set_current(main_menu);
                   break;
