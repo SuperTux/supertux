@@ -1,20 +1,28 @@
-/*
-  menu.h
-  
-  Super Tux - Menu
-  
-  by Tobias Glaesser
-  tobi.web@gmx.de
-  http://www.newbreedsoftware.com/supertux/
-  
-  December 20, 2003
-*/
+//  $Id$
+// 
+//  SuperTux
+//  Copyright (C) 2004 Tobias Glaesser <tobi.web@gmx.de>
+//
+//  This program is free software; you can redistribute it and/or
+//  modify it under the terms of the GNU General Public License
+//  as published by the Free Software Foundation; either version 2
+//  of the License, or (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+// 
+//  You should have received a copy of the GNU General Public License
+//  along with this program; if not, write to the Free Software
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #ifndef SUPERTUX_MENU_H
 #define SUPERTUX_MENU_H
 
 #include <SDL.h>
 #include <vector>
+#include <stack>
 #include "texture.h"
 #include "timer.h"
 #include "type.h"
@@ -55,6 +63,16 @@ public:
 
 class Menu
 {
+private:  
+  static std::stack<Menu*> last_menus;
+  static Menu* current_;
+public:
+  /** Set the current menu, if pmenu is NULL, hide the current menu */
+  static void set_current(Menu* pmenu);
+
+  /** Return the current active menu or NULL if none is active */
+  static Menu* current() { return current_; }
+
 private:
   /* Action done on the menu */
   enum MenuAction {
@@ -73,27 +91,22 @@ private:
   int pos_y;
   bool has_backitem;
 
-  /** input event for the menu */
+  /** input event for the menu (up, down, left, right, etc.) */
   MenuAction menuaction;
 
   /* input implementation variables */
   int delete_character;
   char mn_input_char;
   
-  Menu* last_menu;
   int width();
   int height();
-  
-  static Menu* current_;
+
 public:
   Timer effect;
   int arrange_left;
   int active_item;
-  std::vector<MenuItem> item;
 
-  /** Set the current menu, if pmenu is NULL, hide the current menu */
-  static void set_current(Menu* pmenu);
-  static Menu* current() { return current_; }
+  std::vector<MenuItem> item;
 
   Menu();
   ~Menu();
@@ -105,8 +118,11 @@ public:
   /** Remove all entries from the menu */
   void clear();
 
-  /** Check, if the value of the active menu item has changed. */
+  /** Check, if the value of the active menu item has changed. FIXME:
+      Somebody should document the exact meaning of this function a
+      bit more */
   int  check  ();
+
   void draw   ();
   void draw_item(int index, int menu_width, int menu_height);
   void set_pos(int x, int y, float rw = 0, float rh = 0);

@@ -27,8 +27,6 @@
 
 int main(int argc, char * argv[])
 {
-  bool done;
-  
   st_directory_setup();
   parseargs(argc, argv);
   
@@ -51,11 +49,7 @@ int main(int argc, char * argv[])
     }
   else
     {  
-      done = false;
-      while (!done)
-        {
-          done = title();
-        }
+      title();
     }
   
   clearscreen(0, 0, 0);

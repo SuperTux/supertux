@@ -49,8 +49,6 @@ static Surface* img_choose_subset;
 static bool walking;
 static Timer random_timer;
 
-static SDL_Event event;
-static SDLKey key;
 static int frame, i;
 static unsigned int last_update_time;
 static unsigned int update_time;
@@ -217,7 +215,7 @@ void draw_demo(GameSession* session, double frame_ratio)
 }
 
 /* --- TITLE SCREEN --- */
-bool title(void)
+void title(void)
 {
   st_subset subset;
   random_timer.init(true);
@@ -232,24 +230,21 @@ bool title(void)
   updatescreen();
 
   /* Load images: */
-
   bkg_title = new Surface(datadir + "/images/title/background.jpg", IGNORE_ALPHA);
   logo = new Surface(datadir + "/images/title/logo.png", USE_ALPHA);
   img_choose_subset = new Surface(datadir + "/images/status/choose-level-subset.png", USE_ALPHA);
 
   /* --- Main title loop: --- */
-  bool done = 0;
   frame = 0;
 
   /* Draw the title background: */
   bkg_title->draw_bg();
-  load_hs();
 
   update_time = st_get_ticks();
   random_timer.start(rand() % 2000 + 2000);
 
   Menu::set_current(main_menu);
-  while (!done)
+  while (Menu::current())
     {
       // Calculate the movement-factor
       double frame_ratio = ((double)(update_time-last_update_time))/((double)FRAME_RATE);
@@ -258,29 +253,18 @@ bool title(void)
       /* Lower the frame_ratio that Tux doesn't jump to hectically throught the demo. */
       frame_ratio /= 2;
 
-      /* Handle events: */
-
+      SDL_Event event;
       while (SDL_PollEvent(&event))
         {
-          if (event.type == SDL_QUIT)
+          if (Menu::current())
             {
-              done = true;
+              Menu::current()->event(event);
             }
-          else if (event.type == SDL_KEYDOWN)
+          else
             {
-              /* Keypress... */
-              key = event.key.keysym.sym;
-
-              if (Menu::current())
-                {
-                  Menu::current()->event(event);
-                }
-
-              if (!Menu::current())
-                {
-                  /* Escape: Quit: */
-                  done = true;
-                }
+              // FIXME: QUIT signal should be handled more generic, not locally
+              if (event.type == SDL_QUIT)
+                Menu::set_current(0);
             }
         }
 
@@ -299,7 +283,7 @@ bool title(void)
                              0, 420, 0);
 
       /* Don't draw menu, if quit is true */
-      if(!done)
+      if(Menu::current())
         {
           Menu::current()->action();
           Menu::current()->draw();
@@ -318,15 +302,15 @@ bool title(void)
               update_contrib_menu();
               break;
             case 3:
-              done = true;
-              done = leveleditor(1);
+              leveleditor(1);
               Menu::set_current(main_menu);
               break;
             case 4:
               display_credits();
+              Menu::set_current(main_menu);
               break;
             case 5:
-              done = true;
+              Menu::set_current(0);
               break;
             }
         }
@@ -371,9 +355,6 @@ bool title(void)
 
   delete bkg_title;
   delete logo;
-  
-  /* Return to main! */
-  return done;
 }
 
 #define MAX_VEL 10
@@ -427,6 +408,7 @@ void display_credits()
   while(done == 0)
     {
       /* in case of input, exit */
+      SDL_Event event;
       while(SDL_PollEvent(&event))
         switch(event.type)
           {

@@ -131,22 +131,14 @@ GameSession::start_timers()
 void
 GameSession::on_escape_press()
 {
-  if(!game_pause)
+  if(st_gl_mode == ST_GL_TEST)
     {
-      if(st_gl_mode == ST_GL_TEST)
-        {
-          exit_status = LEVEL_ABORT;
-        }
-      else if (!Menu::current())
-        {
-          Menu::set_current(game_menu);
-          st_pause_ticks_stop();
-        }
-      else
-        {
-          Menu::set_current(NULL);
-          st_pause_ticks_start();
-        }
+      exit_status = LEVEL_ABORT;
+    }
+  else if (!Menu::current())
+    {
+      Menu::set_current(game_menu);
+      st_pause_ticks_stop();
     }
 }
 
@@ -160,151 +152,153 @@ GameSession::process_events()
     {
       /* Check for menu-events, if the menu is shown */
       if (Menu::current())
-        Menu::current()->event(event);
-
-      switch(event.type)
         {
-        case SDL_QUIT:        /* Quit event - quit: */
-          st_abort("Received window close", "");
-          break;
-
-        case SDL_KEYDOWN:     /* A keypress! */
-          {
-            SDLKey key = event.key.keysym.sym;
-            
-            if(tux.key_event(key,DOWN))
-              break;
-
-            switch(key)
-              {
-              case SDLK_ESCAPE:    /* Escape: Open/Close the menu: */
-                on_escape_press();
-                break;
-              default:
-                break;
-              }
-          }
-          break;
-        case SDL_KEYUP:      /* A keyrelease! */
-          {
-            SDLKey key = event.key.keysym.sym;
-
-            if(tux.key_event(key, UP))
-              break;
-
-            switch(key)
-              {
-              case SDLK_p:
-                if(!Menu::current())
-                  {
-                    if(game_pause)
-                      {
-                        game_pause = false;
-                        st_pause_ticks_stop();
-                      }
-                    else
-                      {
-                        game_pause = true;
-                        st_pause_ticks_start();
-                      }
-                  }
-                break;
-              case SDLK_TAB:
-                if(debug_mode)
-                  {
-                    tux.size = !tux.size;
-                    if(tux.size == BIG)
-                      {
-                        tux.base.height = 64;
-                      }
-                    else
-                      tux.base.height = 32;
-                  }
-                break;
-              case SDLK_END:
-                if(debug_mode)
-                  player_status.distros += 50;
-                break;
-              case SDLK_DELETE:
-                if(debug_mode)
-                  tux.got_coffee = 1;
-                break;
-              case SDLK_INSERT:
-                if(debug_mode)
-                  tux.invincible_timer.start(TUX_INVINCIBLE_TIME);
-                break;
-              case SDLK_l:
-                if(debug_mode)
-                  --player_status.lives;
-                break;
-              case SDLK_s:
-                if(debug_mode)
-                  player_status.score += 1000;
-              case SDLK_f:
-                if(debug_fps)
-                  debug_fps = false;
-                else
-                  debug_fps = true;
-                break;
-              default:
-                break;
-              }
-          }
-          break;
-
-        case SDL_JOYAXISMOTION:
-          switch(event.jaxis.axis)
+          Menu::current()->event(event);
+        }
+      else
+        {
+          switch(event.type)
             {
-            case JOY_X:
-              if (event.jaxis.value < -JOYSTICK_DEAD_ZONE)
+            case SDL_QUIT:        /* Quit event - quit: */
+              st_abort("Received window close", "");
+              break;
+
+            case SDL_KEYDOWN:     /* A keypress! */
+              {
+                SDLKey key = event.key.keysym.sym;
+            
+                if(tux.key_event(key,DOWN))
+                  break;
+
+                switch(key)
+                  {
+                  case SDLK_ESCAPE:    /* Escape: Open/Close the menu: */
+                    on_escape_press();
+                    break;
+                  default:
+                    break;
+                  }
+              }
+              break;
+            case SDL_KEYUP:      /* A keyrelease! */
+              {
+                SDLKey key = event.key.keysym.sym;
+
+                if(tux.key_event(key, UP))
+                  break;
+
+                switch(key)
+                  {
+                  case SDLK_p:
+                    if(!Menu::current())
+                      {
+                        if(game_pause)
+                          {
+                            game_pause = false;
+                            st_pause_ticks_stop();
+                          }
+                        else
+                          {
+                            game_pause = true;
+                            st_pause_ticks_start();
+                          }
+                      }
+                    break;
+                  case SDLK_TAB:
+                    if(debug_mode)
+                      {
+                        tux.size = !tux.size;
+                        if(tux.size == BIG)
+                          {
+                            tux.base.height = 64;
+                          }
+                        else
+                          tux.base.height = 32;
+                      }
+                    break;
+                  case SDLK_END:
+                    if(debug_mode)
+                      player_status.distros += 50;
+                    break;
+                  case SDLK_DELETE:
+                    if(debug_mode)
+                      tux.got_coffee = 1;
+                    break;
+                  case SDLK_INSERT:
+                    if(debug_mode)
+                      tux.invincible_timer.start(TUX_INVINCIBLE_TIME);
+                    break;
+                  case SDLK_l:
+                    if(debug_mode)
+                      --player_status.lives;
+                    break;
+                  case SDLK_s:
+                    if(debug_mode)
+                      player_status.score += 1000;
+                  case SDLK_f:
+                    if(debug_fps)
+                      debug_fps = false;
+                    else
+                      debug_fps = true;
+                    break;
+                  default:
+                    break;
+                  }
+              }
+              break;
+
+            case SDL_JOYAXISMOTION:
+              switch(event.jaxis.axis)
                 {
-                  tux.input.left  = DOWN;
-                  tux.input.right = UP;
-                }
-              else if (event.jaxis.value > JOYSTICK_DEAD_ZONE)
-                {
-                  tux.input.left  = UP;
-                  tux.input.right = DOWN;
-                }
-              else
-                {
-                  tux.input.left  = DOWN;
-                  tux.input.right = DOWN;
+                case JOY_X:
+                  if (event.jaxis.value < -JOYSTICK_DEAD_ZONE)
+                    {
+                      tux.input.left  = DOWN;
+                      tux.input.right = UP;
+                    }
+                  else if (event.jaxis.value > JOYSTICK_DEAD_ZONE)
+                    {
+                      tux.input.left  = UP;
+                      tux.input.right = DOWN;
+                    }
+                  else
+                    {
+                      tux.input.left  = DOWN;
+                      tux.input.right = DOWN;
+                    }
+                  break;
+                case JOY_Y:
+                  if (event.jaxis.value > JOYSTICK_DEAD_ZONE)
+                    tux.input.down = DOWN;
+                  else if (event.jaxis.value < -JOYSTICK_DEAD_ZONE)
+                    tux.input.down = UP;
+                  else
+                    tux.input.down = UP;
+              
+                  break;
+                default:
+                  break;
                 }
               break;
-            case JOY_Y:
-              if (event.jaxis.value > JOYSTICK_DEAD_ZONE)
-                tux.input.down = DOWN;
-              else if (event.jaxis.value < -JOYSTICK_DEAD_ZONE)
-                tux.input.down = UP;
-              else
-                tux.input.down = UP;
-              
-	      break;
+            case SDL_JOYBUTTONDOWN:
+              if (event.jbutton.button == JOY_A)
+                tux.input.up = DOWN;
+              else if (event.jbutton.button == JOY_B)
+                tux.input.fire = DOWN;
+              else if (event.jbutton.button == JOY_START)
+                on_escape_press();
+              break;
+            case SDL_JOYBUTTONUP:
+              if (event.jbutton.button == JOY_A)
+                tux.input.up = UP;
+              else if (event.jbutton.button == JOY_B)
+                tux.input.fire = UP;
+              break;
+
             default:
               break;
-            }
-          break;
-        case SDL_JOYBUTTONDOWN:
-          if (event.jbutton.button == JOY_A)
-            tux.input.up = DOWN;
-          else if (event.jbutton.button == JOY_B)
-            tux.input.fire = DOWN;
-          else if (event.jbutton.button == JOY_START)
-            on_escape_press();
-          break;
-        case SDL_JOYBUTTONUP:
-          if (event.jbutton.button == JOY_A)
-            tux.input.up = UP;
-          else if (event.jbutton.button == JOY_B)
-            tux.input.fire = UP;
-          break;
-
-        default:
-          break;
-
-        }  /* switch */
-
+            }  /* switch */
+        }
     } /* while */
 }
 
@@ -331,14 +325,6 @@ GameSession::check_end_conditions()
             { // No more lives!?
               if(st_gl_mode != ST_GL_TEST)
                 drawendscreen();
-          
-              if(st_gl_mode != ST_GL_TEST)
-                {
-                  // FIXME: highscore soving doesn't make sense in its
-                  // current form
-                  //if (player_status.score > hs_score)
-                  //save_hs(player_status.score);
-                }
               
               exit_status = GAME_OVER;
             }
@@ -572,13 +558,7 @@ GameSession::drawstatus()
   white_text->draw("SCORE", 0, 0, 1);
   gold_text->draw(str, 96, 0, 1);
 
-  if(st_gl_mode != ST_GL_TEST)
-    {
-      sprintf(str, "%d", hs_score);
-      white_text->draw("HIGH", 0, 20, 1);
-      gold_text->draw(str, 96, 20, 1);
-    }
-  else
+  if(st_gl_mode == ST_GL_TEST)
     {
       white_text->draw("Press ESC To Return",0,20,1);
     }

@@ -1,20 +1,28 @@
-/*
-  menu.c
-  
-  Super Tux - Menu
-  
-  by Tobias Glaesser
-  tobi.web@gmx.de
-  http://www.newbreedsoftware.com/supertux/
-  
-  December 20, 2003 - March 15, 2004
-*/
+//  $Id$
+// 
+//  SuperTux
+//  Copyright (C) 2004 Tobias Glaesser <tobi.web@gmx.de>
+//
+//  This program is free software; you can redistribute it and/or
+//  modify it under the terms of the GNU General Public License
+//  as published by the Free Software Foundation; either version 2
+//  of the License, or (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+// 
+//  You should have received a copy of the GNU General Public License
+//  along with this program; if not, write to the Free Software
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #ifndef WIN32
 #include <sys/types.h>
 #include <ctype.h>
 #endif
 
+#include <iostream>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -47,6 +55,7 @@ Menu* save_game_menu = 0;
 Menu* contrib_menu   = 0;
 Menu* contrib_subset_menu   = 0;
 
+std::stack<Menu*> Menu::last_menus;
 Menu* Menu::current_ = 0;
 
 void
@@ -54,7 +63,9 @@ Menu::set_current(Menu* menu)
 {
   if (menu)
     {
-      menu->last_menu = current_;
+      if (last_menus.empty() || menu != last_menus.top())
+        last_menus.push(current_);
+
       menu->effect.start(500);
     }
   
@@ -136,10 +147,8 @@ Menu::Menu()
   pos_x        = screen->w/2;
   pos_y        = screen->h/2;
   has_backitem = false;
-  last_menu    = 0;
   arrange_left = 0;
   active_item  = 0;
-  last_menu    = 0;
   effect.init(false);
 }
 
@@ -242,8 +251,11 @@ Menu::action()
                 break;
 
               case MN_BACK:
-                if(last_menu != NULL)
-                  Menu::set_current(last_menu);
+                if (!last_menus.empty())
+                  {
+                    Menu::set_current(last_menus.top());
+                    last_menus.pop();
+                  }
                 break;
               default:
                 break;
@@ -581,8 +593,11 @@ Menu::event(SDL_Event& event)
         case SDLK_ESCAPE:
           if(Menu::current())
             {
-              if (has_backitem == true && last_menu != NULL)
-                Menu::set_current(last_menu);
+              if (has_backitem == true && !last_menus.empty())
+                {
+                  Menu::set_current(last_menus.top());
+                  last_menus.pop();
+                }
               else
                 Menu::set_current(0);
             }

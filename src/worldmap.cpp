@@ -364,8 +364,7 @@ WorldMap::load_map()
 void
 WorldMap::on_escape_press()
 {
-  std::cout << "on escape press" << std::endl;
-
+  // Show or hide the menu
   if(!Menu::current())
     Menu::set_current(worldmap_menu); 
   else
