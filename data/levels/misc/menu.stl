@@ -4,7 +4,7 @@
   (name "Hello World")
   (width  300)
   (height 15)
-  (background "arctis.png")
+  (background "arctis2.jpg")
   (music "theme.mod")
   (bkgd_red    150)
   (bkgd_green  200)
