@@ -176,6 +176,28 @@ private:
   Vector position;
 };
 
+class Particles : public GameObject
+{
+public:
+  Particles(const Vector& epicenter, int number, Color color, int size, float velocity, int life_time);
+  ~Particles();
+  
+  virtual void action(float elapsed_time);
+  virtual void draw(DrawingContext& context);
+
+private:
+  Color color;
+  float size;
+  float velocity;
+  Timer timer;
+
+  struct Particle {
+    Vector pos;
+    float angle;
+    };
+  std::vector <Particle*> particles;
+};
+
 void load_object_gfx();
 
 #endif 

@@ -466,7 +466,13 @@ Sector::update_game_objects()
             std::remove(smoke_clouds.begin(), smoke_clouds.end(), smoke_cloud),
             smoke_clouds.end());
       }
-                                                                                
+      Particles* particle = dynamic_cast<Particles*> (*i);
+      if(particle) {
+        particles.erase(
+            std::remove(particles.begin(), particles.end(), particle),
+            particles.end());
+      }
+
       delete *i;
       i = gameobjects.erase(i);
     } else {
@@ -500,7 +506,9 @@ Sector::update_game_objects()
           SmokeCloud* smoke_cloud = dynamic_cast<SmokeCloud*> (*i);
           if(smoke_cloud)
             smoke_clouds.push_back(smoke_cloud);
-
+          Particles* particle = dynamic_cast<Particles*> (*i);
+          if(particle)
+            particles.push_back(particle);
 
           gameobjects.push_back(*i);
   }
@@ -725,6 +733,13 @@ bool
 Sector::add_smoke_cloud(const Vector& pos)
 {
   add_object(new SmokeCloud(pos));
+  return true;
+}
+
+bool
+Sector::add_particles(const Vector& epicenter, int number, Color color, int size, float velocity, int life_time)
+{
+  add_object(new Particles(epicenter, number, color, size, velocity, life_time));
   return true;
 }
 

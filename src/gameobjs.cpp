@@ -32,6 +32,7 @@
 #include "resources.h"
 #include "sector.h"
 #include "tilemap.h"
+#include "video/drawing_context.h"
 
 BouncyDistro::BouncyDistro(const Vector& pos)
   : position(pos)
@@ -435,6 +436,53 @@ void
 SmokeCloud::draw(DrawingContext& context)
 {
   img_smoke_cloud->draw(context, position, LAYER_OBJECTS+1);
+}
+
+Particles::Particles(const Vector& epicenter, int number, Color color_, int size_, float velocity_, int life_time)
+  : color(color_), size(size_), velocity(velocity_)
+{
+  timer.start(life_time);
+
+  // create particles
+  for(int p = 0; p < number; p++)
+    {
+    Particle* particle = new Particle;
+    particle->pos = epicenter;
+    particle->angle = (rand() % 360) * (M_PI / 180);  // in radius
+
+    particles.push_back(particle);
+    }
+}
+
+Particles::~Particles()
+{
+  // free particles
+  for(std::vector<Particle*>::iterator i = particles.begin(); i < particles.end(); i++)
+    delete (*i);
+}
+
+void
+Particles::action(float elapsed_time)
+{
+  // update particles
+  for(int p = 0; p < particles.size(); p++)
+    {
+    particles[p]->pos.x += sin(particles[p]->angle) * velocity * elapsed_time;
+    particles[p]->pos.y += cos(particles[p]->angle) * velocity * elapsed_time;
+    }
+
+  if(!timer.check())
+    remove_me();
+}
+
+void
+Particles::draw(DrawingContext& context)
+{
+  // draw particles
+  for(int p = 0; p < particles.size(); p++)
+    {
+    context.draw_filled_rect(particles[p]->pos, Vector(size,size), color, LAYER_OBJECTS+10);
+    }
 }
 
 void load_object_gfx()
