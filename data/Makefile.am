@@ -23,6 +23,8 @@ EXTRA_DIST = \
   $(wildcard images/leveleditor/*.png) \
   $(wildcard images/map/*.png) \
   $(wildcard images/shared/*.png) \
+  $(wildcard images/shared/smalltux/*.png) \
+  $(wildcard images/shared/bigtux/*.png) \
   $(wildcard images/status/*.png) \
   $(wildcard images/themes/*/*.png) \
   $(wildcard images/worldmap/*.png) \
