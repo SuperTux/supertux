@@ -927,10 +927,7 @@ void le_drawlevel()
   Uint8 a;
 
   /* Draw the real background */
-  if (le_world->get_level()->img_bkgd)
-    le_world->get_level()->draw_bg();
-  else
-    drawgradient(le_world->get_level()->bkgd_top, le_world->get_level()->bkgd_bottom);
+  le_world->get_level()->draw_bg();
 
   if(le_current.IsTile())
   {
