@@ -51,7 +51,8 @@ installbin = install -g $(USERNAME) -o $(USERNAME) -m 755
 installdat = install -g $(USERNAME) -o $(USERNAME) -m 644
 
 
-OBJECTS=obj/supertux.o obj/setup.o obj/intro.o obj/title.o obj/scene.o obj/collision.o obj/bitmask.o obj/type.o obj/badguy.o obj/special.o  obj/world.o obj/player.o obj/level.o obj/gameloop.o \
+OBJECTS=obj/supertux.o obj/setup.o obj/intro.o obj/title.o obj/scene.o obj/collision.o obj/bitmask.o obj/type.o \
+	obj/timer.o obj/texture.o obj/badguy.o obj/special.o  obj/world.o obj/player.o obj/level.o obj/gameloop.o \
 	obj/screen.o obj/sound.o obj/high_scores.o obj/menu.o obj/leveleditor.o
 
 # Make commands:
@@ -134,6 +135,16 @@ obj/type.o:	src/type.c src/type.h \
 		src/defines.h src/globals.h src/screen.h src/scene.h src/gameloop.h obj/sound.o \
 		src/setup.h obj/level.o
 	$(CC) $(CFLAGS) src/type.c -c -o obj/type.o
+	
+obj/timer.o:	src/timer.c src/timer.h \
+		src/defines.h src/globals.h src/screen.h src/scene.h src/gameloop.h obj/sound.o \
+		src/setup.h obj/level.o
+	$(CC) $(CFLAGS) src/timer.c -c -o obj/timer.o
+	
+obj/texture.o:	src/texture.c src/texture.h \
+		src/defines.h src/globals.h src/screen.h src/scene.h src/gameloop.h obj/sound.o \
+		src/setup.h obj/level.o
+	$(CC) $(CFLAGS) src/texture.c -c -o obj/texture.o
 
 obj/badguy.o:	src/badguy.c src/badguy.h \
 		src/defines.h src/globals.h src/screen.h src/gameloop.h obj/sound.o \
