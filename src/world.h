@@ -40,6 +40,8 @@ class World
 private:
   typedef std::list<BadGuy*> BadGuys;
   BadGuys bad_guys_to_add;
+  typedef std::list<Trampoline*> Trampolines;
+  Trampolines trampolines;
   Level* level;
   Player tux;
 
@@ -91,6 +93,7 @@ public:
   
   void activate_particle_systems();
   void activate_bad_guys();
+  void activate_objects();
 
   void add_score(float x, float y, int s);
   void add_bouncy_distro(float x, float y);
@@ -99,6 +102,7 @@ public:
   void add_bouncy_brick(float x, float y);
 
   BadGuy* add_bad_guy(float x, float y, BadGuyKind kind, bool stay_on_platform = false);
+  template <class T, class U> T* add_object(U data);
 
   void add_upgrade(float x, float y, Direction dir, UpgradeKind kind);
   void add_bullet(float x, float y, float xm, Direction dir);

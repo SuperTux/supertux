@@ -156,6 +156,17 @@ World::activate_bad_guys()
 }
 
 void
+World::activate_objects()
+{
+  for (std::vector< ObjectData<TrampolineData> >::iterator i = level->trampoline_data.begin();
+       i != level->trampoline_data.end();
+       ++i)
+  {
+    add_object<Trampoline, ObjectData<TrampolineData> >(*i);
+  }
+}
+
+void
 World::activate_particle_systems()
 {
   if (level->particle_system == "clouds")
@@ -528,6 +539,16 @@ World::add_bad_guy(float x, float y, BadGuyKind kind, bool stay_on_platform)
   BadGuy* badguy = new BadGuy(x,y,kind, stay_on_platform);
   bad_guys.push_back(badguy);
   return badguy;
+}
+
+template<class T, class U>
+T*
+World::add_object(U data)
+{
+  T* tobject = new T(data);
+  trampolines.push_back(tobject);
+
+  return tobject;
 }
 
 void

@@ -27,25 +27,28 @@
 #include "timer.h"
 #include "scene.h"
 
+enum ObjectType { OBJ_NONE, OBJ_BADGUY, OBJ_TRAMPOLINE };
+
 template <class T>
 struct ObjectData
 {
   int x;
   int y;
+  ObjectType type;
   T type_specific;
 
   ObjectData(ObjectData* pobject)
-    : x((int)pobject->x), y((int)pobject->y) {};
-  ObjectData(int x_, int y_, T type_specific_) 
-    : x(x_), y(y_), type_specific(type_specific_) {};
+    : x((int)pobject->x), y((int)pobject->y), type(pobject->type), type_specific(pobject->type_specific) {};
+  ObjectData(int x_, int y_, ObjectType type_, T type_specific_) 
+    : x(x_), y(y_), type(type_), type_specific(type_specific_) {};
 
   ObjectData()
-    : x(0), y(0), type_specific() {};
+    : x(0), y(0), type(OBJ_NONE), type_specific() {};
 };
 
 struct TrampolineData
 {
-  unsigned int power;
+  int power;
 };
 
 
@@ -114,6 +117,17 @@ class Trampoline : public GameObject
   void action(double frame_ratio);
   void draw();
   std::string type() { return "Trampoline"; };
+
+  Trampoline(ObjectData<TrampolineData> data)
+  {
+    base.x = data.x;
+    base.y = data.y;
+
+    power = data.type_specific.power;
+  }
+
+ private:
+  int power;
 };
 
 void load_trampoline_gfx();
