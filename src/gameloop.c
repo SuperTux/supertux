@@ -562,9 +562,10 @@ int gameloop(void)
 	      /* Either way, (re-)load the (next) level... */
 	      
 	      loadlevel();
-
 	      unloadlevelgfx();
 	      loadlevelgfx();
+	      unloadlevelsong();
+	      loadlevelsong();
 	}
 
       /* Move tux: */
@@ -2243,6 +2244,7 @@ void loadlevel(void)
   /* (Song file for this level) */
   fgets(str, 20, fi);
   strcpy(song_title, str);
+  song_title[strlen(song_title)-1] = '\0';
   
   /* (Level background color) */
   fgets(str, 10, fi);
@@ -2399,7 +2401,7 @@ void loadlevelsong(void)
 
   sprintf(song_path, "%s/music/%s", DATA_PREFIX, song_title);
   
-  song = load_song(DATA_PREFIX "/music/ji_turn.it");
+  song = load_song(song_path);
 
   free(song_path);
 }
