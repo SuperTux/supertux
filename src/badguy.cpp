@@ -845,6 +845,7 @@ BadGuy::squish(Player* player)
         }
 
         mode = KICK;
+        player->kick_timer.start(KICKING_TIME);
         set_sprite(img_mriceblock_flat_left, img_mriceblock_flat_right);
       }
 
@@ -1036,6 +1037,7 @@ BadGuy::collision(void *p_c_object, int c_object, CollisionType type)
         }
 
         mode = KICK;
+        player->kick_timer.start(KICKING_TIME);
         set_sprite(img_mriceblock_flat_left, img_mriceblock_flat_right);
       }
       break;
