@@ -63,9 +63,6 @@ worths when lookins at the results ;-)
  (text-fr "Bonjour Monde!
            Au revoir Monde!")
 
- Note: When translating data files do not forget to set the charset to UTF-8!!
-       For instance, in KWrite, go to Edit and under Codification select UTF-8.
-
 
  == DEVELOPERS ==
 
