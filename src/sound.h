@@ -7,7 +7,7 @@
   bill@newbreedsoftware.com
   http://www.newbreedsoftware.com/supertux/
  
-  April 22, 2000 - July 15, 2002
+  April 22, 2000 - December 27, 2003
 
   Current maintainer:
         Duong-Khang NGUYEN <neoneurone@users.sf.net>
@@ -53,6 +53,7 @@ Mix_Music * load_song(char * file);
 int playing_music(void);
 int halt_music(void);
 int play_music(Mix_Music*music, int loops);
+void set_music_position(int pos);
 void free_music(Mix_Music*music);
 void free_chunk(Mix_Chunk*chunk);
 
