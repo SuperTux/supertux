@@ -31,6 +31,8 @@
 #include "worldmap.h"
 #include "resources.h"
 
+#define DISPLAY_MAP_MESSAGE_TIME 2600
+
 namespace WorldMapNS {
 
 Direction reverse_dir(Direction direction)
@@ -249,7 +251,7 @@ Tux::update(float delta)
     {
       if (input_direction != D_NONE)
         { 
-          WorldMap::Level* level = worldmap->at_level();
+          WorldMapNS::WorldMap::Level* level = worldmap->at_level();
 
           // We got a new direction, so lets start walking when possible
           Point next_tile;
@@ -280,7 +282,11 @@ Tux::update(float delta)
         { // We reached the next tile, so we check what to do now
           offset -= 32;
 
-          if (worldmap->at(tile_pos)->stop || worldmap->at_level())
+          WorldMap::Level* level = worldmap->at_level();
+          if(level && level->name.empty() && !level->display_map_message.empty())
+            level->display_map_message_timer.start(DISPLAY_MAP_MESSAGE_TIME);
+
+          if (worldmap->at(tile_pos)->stop || (level && !level->name.empty()))
             {
               stop();
             }
@@ -435,6 +441,7 @@ WorldMap::load_map()
                       reader.read_int("x", &level.x);
                       reader.read_int("y", &level.y);
                       reader.read_string("map-message", &level.display_map_message);
+                      level.display_map_message_timer.init(true);
                       level.auto_path = true;
                       reader.read_bool("auto-path", &level.auto_path);
 
@@ -861,12 +868,22 @@ WorldMap::draw_status()
                 }
 
               /* Display a message in the map, if any as been selected */
-              if(!i->display_map_message.empty())
+              if((!i->display_map_message.empty() && !i->name.empty()))
                 gold_text->draw_align(i->display_map_message.c_str(),
                      screen->w/2, screen->h - 30,A_HMIDDLE, A_BOTTOM);
               break;
             }
         }
+    }
+  for(Levels::iterator i = levels.begin(); i != levels.end(); ++i)
+    {
+    /* Display a message in the map, if any as been selected */
+    if(i->display_map_message_timer.check())
+      {
+      gold_text->draw_align(i->display_map_message.c_str(),
+                            screen->w/2, screen->h - 30,A_HMIDDLE, A_BOTTOM);
+      break;
+      }
     }
 }
 

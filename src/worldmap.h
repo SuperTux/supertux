@@ -160,8 +160,9 @@ public:
         successfully completed */
     std::string extro_filename;
 
-    /** Message to show in the Map */
+    /** Message to show in the Map during a certain time */
     std::string display_map_message;
+    Timer display_map_message_timer;
 
     /** If false, disables the auto walking after finishing a level */
     bool auto_path;
