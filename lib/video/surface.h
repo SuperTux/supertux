@@ -155,7 +155,7 @@ namespace SuperTux
     public:
       SurfaceSDL(SDL_Surface* surf, bool use_alpha);
       SurfaceSDL(const std::string& file, bool use_alpha);
-      SurfaceSDL(const std::string& file, int x, int y, int w, int h, bool use_alpha);
+      SurfaceSDL(const std::string& file, int x, int y, int w_, int h_, bool use_alpha);
       SurfaceSDL(Color top_gradient, Color bottom_gradient, int w, int h);
       virtual ~SurfaceSDL();
 

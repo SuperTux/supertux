@@ -166,8 +166,8 @@ Surface::Surface(const std::string& file, bool use_alpha)
   surfaces.push_back(this);
 }
 
-Surface::Surface(const std::string& file, int x, int y, int w, int h, bool use_alpha)
-    : data(file, x, y, w, h, use_alpha), w(0), h(0)
+Surface::Surface(const std::string& file, int x, int y, int w_, int h_, bool use_alpha)
+    : data(file, x, y, w_, h_, use_alpha), w(0), h(0)
 {
   impl = data.create();
   if (impl)
