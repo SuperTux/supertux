@@ -217,7 +217,7 @@ void SuperTux::display_text_file(const std::string& file, float scroll_speed, Fo
 
   // Split text string lines into a vector
   names.clear();
-  unsigned int i, l;
+  std::string::size_type i, l;
   i = 0;
   while(true)
     {
