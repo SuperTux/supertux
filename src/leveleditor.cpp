@@ -785,9 +785,9 @@ void le_drawminimap()
   int left_offset = (screen->w - 64 - le_world->get_level()->width*mini_tile_width) / 2;
 
   int mini_tile_height;
-  if(screen->h - 64 > le_world->get_level()->height * 4)
+  if(screen->h > le_world->get_level()->height * 4)
     mini_tile_height = 4;
-  else if(screen->h - 64 > le_world->get_level()->height * 2)
+  else if(screen->h > le_world->get_level()->height * 2)
     mini_tile_height = 2;
   else
     mini_tile_height = 1;
@@ -797,24 +797,33 @@ void le_drawminimap()
     for (int x = 0; x < le_world->get_level()->width; ++x)
     {
 
-      Tile::draw_stretched(left_offset + mini_tile_width*x, y * 4,
-          mini_tile_width , 4, level->bg_tiles[y * level->width + x]);
+      Tile::draw_stretched(left_offset + mini_tile_width*x, y * mini_tile_height,
+          mini_tile_width , mini_tile_height, level->bg_tiles[y * level->width + x]);
 
-      Tile::draw_stretched(left_offset + mini_tile_width*x, y * 4,
-          mini_tile_width , 4, level->ia_tiles[y * level->width + x]);
+      Tile::draw_stretched(left_offset + mini_tile_width*x, y * mini_tile_height,
+          mini_tile_width , mini_tile_height, level->ia_tiles[y * level->width + x]);
 
-      Tile::draw_stretched(left_offset + mini_tile_width*x, y * 4,
-          mini_tile_width , 4, level->fg_tiles[y + level->width + x]);
+      Tile::draw_stretched(left_offset + mini_tile_width*x, y * mini_tile_height,
+          mini_tile_width , mini_tile_height, level->fg_tiles[y + level->width + x]);
 
     }
 
-  fillrect(left_offset, 0, le_world->get_level()->width*mini_tile_width, le_world->get_level()->height*mini_tile_height, 200, 200, 200, 128);
+  fillrect(left_offset, 0,
+             le_world->get_level()->width*mini_tile_width, le_world->get_level()->height*mini_tile_height,
+             200, 200, 200, 96);
 
-  fillrect(left_offset + (pos_x/32)*mini_tile_width, 0, 19*mini_tile_width, 2, 200, 200, 200, 200);
-  fillrect(left_offset + (pos_x/32)*mini_tile_width, 0, 2, le_world->get_level()->height*mini_tile_height, 200, 200, 200, 200);
-  fillrect(left_offset + (pos_x/32)*mini_tile_width + 19*mini_tile_width - 2, 0, 2, le_world->get_level()->height*mini_tile_height, 200, 200, 200, 200);
-  fillrect(left_offset + (pos_x/32)*mini_tile_width, le_world->get_level()->height*mini_tile_height-2, 19*mini_tile_width, 2, 200, 200, 200, 200);
-
+  fillrect(left_offset + (pos_x/32)*mini_tile_width, (pos_y/32)*mini_tile_height,
+             (VISIBLE_TILES_X-3)*mini_tile_width, 2,
+             200, 200, 200, 200);
+  fillrect(left_offset + (pos_x/32)*mini_tile_width, (pos_y/32)*mini_tile_height,
+             2, (VISIBLE_TILES_Y-1)*mini_tile_height,
+             200, 200, 200, 200);
+  fillrect(left_offset + (pos_x/32)*mini_tile_width + (VISIBLE_TILES_X-3)*mini_tile_width - 2, (pos_y/32)*mini_tile_height,
+             2, (VISIBLE_TILES_Y-1)*mini_tile_height,
+             200, 200, 200, 200);
+  fillrect(left_offset + (pos_x/32)*mini_tile_width, (pos_y/32)*mini_tile_height + (VISIBLE_TILES_Y-1)*mini_tile_height - 2,
+             (VISIBLE_TILES_X-3)*mini_tile_width, 2,
+             200, 200, 200, 200);
 }
 
 void le_drawinterface()
@@ -1538,6 +1547,9 @@ void le_checkevents()
   {
     show_minimap = false;
 
+    if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_TAB)
+      show_minimap = true;
+
     le_move_left_bt->event(event);
     le_move_right_bt->event(event);
     le_move_up_bt->event(event);
@@ -1610,19 +1622,17 @@ void le_checkevents()
       break;
     }
 
-      /* checking if pos_x and pos_y is within the limits... */
-      if(pos_x > (le_world->get_level()->width * 32 + 32*2) - screen->w)
-        pos_x = (le_world->get_level()->width * 32 + 32*2) - screen->w;
-      if(pos_x < 0)
-        pos_x = 0;
+    /* checking if pos_x and pos_y is within the limits... */
+    if(pos_x > (le_world->get_level()->width * 32 + 32*2) - screen->w)
+      pos_x = (le_world->get_level()->width * 32 + 32*2) - screen->w;
+    if(pos_x < 0)
+      pos_x = 0;
 
-      if(pos_y > (le_world->get_level()->height * 32) - screen->h)
-        pos_y = (le_world->get_level()->height * 32) - screen->h;
-      if(pos_y < 0)
-        pos_y = 0;
-
+    if(pos_y > (le_world->get_level()->height * 32) - screen->h)
+      pos_y = (le_world->get_level()->height * 32) - screen->h;
+    if(pos_y < 0)
+      pos_y = 0;
   }
-
 }
 
 void le_highlight_selection()
