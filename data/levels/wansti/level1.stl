@@ -2,6 +2,7 @@
 (supertux-level
   (version 1)
   (name "Entrance to the Cave")
+  (author "Marek M")
   (width  500)
   (height 15)
   (background "arctis.png")

@@ -2,6 +2,7 @@
 (supertux-level
   (version 1)
   (name "mondo")
+  (author "C Ratchet")
   (width  350)
   (height 15)
   (background "arctis.png")

@@ -2,6 +2,7 @@
 (supertux-level
   (version 1)
   (name "Into the Castle")
+  (author "Marek M")
   (width  500)
   (height 15)
   (background "ocean.png")

@@ -2,6 +2,7 @@
 (supertux-level
   (version 1)
   (name "The Escape")
+  (author "Marek M")
   (width  500)
   (height 15)
   (background "arctis.png")

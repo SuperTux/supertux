@@ -2,6 +2,7 @@
 (supertux-level
   (version 1)
   (name "Antarctica 1")
+  (author "Bill Kendrick")
   (width  375)
   (height 15)
   (background "arctis.png")
