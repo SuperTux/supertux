@@ -775,7 +775,7 @@ void st_joystick_setup(void)
       /* Open joystick: */
       if (SDL_NumJoysticks() <= 0)
         {
-          fprintf(stderr, "Warning: No joysticks are available.\n");
+          fprintf(stderr, "Info: No joysticks were found.\n");
 
           use_joystick = false;
         }

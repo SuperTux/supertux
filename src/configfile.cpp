@@ -88,17 +88,16 @@ void loadconfig(void)
     use_gl = false;
 
   reader.read_int ("joystick", joystick_num);
-  if (!(joystick_num >= 0))
-    use_joystick = false;
-  else
-    use_joystick = true;
 
-  reader.read_int ("joystick-x", joystick_keymap.x_axis);
-  reader.read_int ("joystick-y", joystick_keymap.y_axis);
-  reader.read_int ("joystick-a", joystick_keymap.a_button);
-  reader.read_int ("joystick-b", joystick_keymap.b_button);
-  reader.read_int ("joystick-start", joystick_keymap.start_button);
-  reader.read_int ("joystick-deadzone", joystick_keymap.dead_zone);
+  if (joystick_num >= 0)
+    {
+    reader.read_int ("joystick-x", joystick_keymap.x_axis);
+    reader.read_int ("joystick-y", joystick_keymap.y_axis);
+    reader.read_int ("joystick-a", joystick_keymap.a_button);
+    reader.read_int ("joystick-b", joystick_keymap.b_button);
+    reader.read_int ("joystick-start", joystick_keymap.start_button);
+    reader.read_int ("joystick-deadzone", joystick_keymap.dead_zone);
+    }
 
   reader.read_int ("keyboard-jump", keymap.jump);
   reader.read_int ("keyboard-activate", keymap.activate);
@@ -127,15 +126,18 @@ void saveconfig (void)
       fprintf(config, "\n\t;; either \"opengl\" or \"sdl\"\n");
       fprintf(config, "\t(video      \"%s\")\n", use_gl ? "opengl" : "sdl");
 
-      fprintf(config, "\n\t;; joystick number (-1 means no joystick):\n");
-      fprintf(config, "\t(joystick   %d)\n", use_joystick ? joystick_num : -1);
+      if(use_joystick)
+        {
+        fprintf(config, "\n\t;; joystick number:\n");
+        fprintf(config, "\t(joystick   %d)\n", joystick_num);
 
-      fprintf(config, "\t(joystick-x   %d)\n", joystick_keymap.x_axis);
-      fprintf(config, "\t(joystick-y   %d)\n", joystick_keymap.y_axis);
-      fprintf(config, "\t(joystick-a   %d)\n", joystick_keymap.a_button);
-      fprintf(config, "\t(joystick-b   %d)\n", joystick_keymap.b_button);
-      fprintf(config, "\t(joystick-start  %d)\n", joystick_keymap.start_button);
-      fprintf(config, "\t(joystick-deadzone  %d)\n", joystick_keymap.dead_zone);
+        fprintf(config, "\t(joystick-x   %d)\n", joystick_keymap.x_axis);
+        fprintf(config, "\t(joystick-y   %d)\n", joystick_keymap.y_axis);
+        fprintf(config, "\t(joystick-a   %d)\n", joystick_keymap.a_button);
+        fprintf(config, "\t(joystick-b   %d)\n", joystick_keymap.b_button);
+        fprintf(config, "\t(joystick-start  %d)\n", joystick_keymap.start_button);
+        fprintf(config, "\t(joystick-deadzone  %d)\n", joystick_keymap.dead_zone);
+        }
 
       fprintf(config, "\t(keyboard-jump  %d)\n", keymap.jump);
       fprintf(config, "\t(keyboard-duck  %d)\n", keymap.duck);
