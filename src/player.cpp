@@ -183,17 +183,27 @@ Player::action(double frame_ratio)
   previous_base = base;
 
   physic.apply(frame_ratio, base.x, base.y);
-  if(dying == DYING_NOT) {
+  if(dying == DYING_NOT) 
+    {
+      base_type target = base;
+
       collision_swept_object_map(&old_base, &base);
+
+      // Don't accelerate Tux if he is running against a wall
+      if (target.x != base.x)
+        {
+          physic.set_velocity_x(0);
+        }
+
       // special exception for cases where we're stuck under tiles after
       // being ducked. In this case we drift out
       if(!duck && on_ground() && old_base.x == base.x && old_base.y == base.y
-              && collision_object_map(&base)) {
-          base.x += frame_ratio * WALK_SPEED * (dir ? 1 : -1);
-          previous_base = old_base = base;
+         && collision_object_map(&base)) {
+        base.x += frame_ratio * WALK_SPEED * (dir ? 1 : -1);
+        previous_base = old_base = base;
       }
       keep_in_bounds();
-  }
+    }
 
   if (dying == DYING_NOT)
     {
@@ -273,10 +283,10 @@ Player::action(double frame_ratio)
   if (get_current_music() == HERRING_MUSIC && !invincible_timer.check())
     {
       /*
-         no, we are no more invincible
-         or we were not in invincible mode
-         but are we in hurry ?
-       */
+        no, we are no more invincible
+        or we were not in invincible mode
+        but are we in hurry ?
+      */
 
       // FIXME: Move this to gamesession
       if (GameSession::current()->time_left.get_left() < TIME_WARNING)
@@ -284,7 +294,7 @@ Player::action(double frame_ratio)
           /* yes, we are in hurry
              stop the herring_song, prepare to play the correct
              fast level_song !
-           */
+          */
           set_current_music(HURRYUP_MUSIC);
         }
       else

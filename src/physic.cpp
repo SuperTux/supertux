@@ -85,6 +85,18 @@ Physic::get_velocity_y()
 }
 
 void
+Physic::set_acceleration_x(float nax)
+{
+  ax = nax;
+}
+
+void
+Physic::set_acceleration_y(float nay)
+{
+  ay = -nay;
+}
+
+void
 Physic::set_acceleration(float nax, float nay)
 {
     ax = nax;

@@ -51,6 +51,9 @@ public:
      */
     void set_acceleration(float ax, float ay);
 
+    void set_acceleration_x(float ax);
+    void set_acceleration_y(float ay);
+
     float get_acceleration_x();
     float get_acceleration_y();
 
