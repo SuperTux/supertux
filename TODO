@@ -23,13 +23,15 @@ L: low priority
 [?] Default keyboard setup should change. Up will be needed for other features
     like going through doors and looking up, etc.
 
+[H] Make sure there are no invalid tile numbers in the level files
+     - Tile 6 occurs in world1/level5.stl as well as other levels
 [H] Change resolution to 800x600
      - Levels need to be updated to resolution
          (half of the levels have been already updated)
 [H] Buttjump related things
      ? Right now only breaks bricks beneath tux - what else should it break
-     - Breaks 1 box too much at the left when tux is facing left.
      - Should kill enemies with a certain range
+        - Done--now needs to be tweaked
      - Animation (need images)
      ? Should disable Tux's movement temporarily (1 second?)
 [H] Tux should fall while walking in tiles that have a space between.
