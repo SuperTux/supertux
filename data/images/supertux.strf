@@ -1282,12 +1282,12 @@
        (action
           (name "default")
           (x-offset 0)
-          (y-offset 64)
+          (y-offset 0)
           (images "shared/door-1.png"))
        (action
           (name "open")
           (x-offset 0)
-          (y-offset 64)
+          (y-offset 0)
           (images "shared/door-1.png"
                   "shared/door-2.png"
                   "shared/door-3.png"
