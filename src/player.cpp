@@ -622,7 +622,6 @@ Player::draw()
 void
 Player::collision(void* p_c_object, int c_object)
 {
-return;
   BadGuy* pbad_c = NULL;
 
   switch (c_object)
