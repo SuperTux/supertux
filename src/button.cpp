@@ -22,12 +22,10 @@
 #include <stdlib.h>
 #include "setup.h"
 #include "screen/screen.h"
+#include "screen/drawing_context.h"
 #include "globals.h"
 #include "button.h"
 #include "camera.h"
-
-// TODO
-#if 0
 
 Timer Button::popup_timer;
 
@@ -50,7 +48,6 @@ Button::Button(Surface* button_image, const std::string& ninfo,
   tag = -1;
   state = BUTTON_NONE;
   show_info = false;
-  drawable = NULL;
 }
 
 Button::Button(const std::string& imagefilename, const std::string& ninfo,
@@ -71,7 +68,6 @@ Button::Button(const std::string& imagefilename, const std::string& ninfo,
   tag = -1;
   state = BUTTON_NONE;
   show_info = false;
-  drawable = NULL;
 }
 
 void Button::add_icon(const std::string& icon_file, int mw, int mh)
@@ -99,7 +95,7 @@ void Button::add_icon(const std::string& icon_file, int mw, int mh)
 
 }
 
-void Button::draw()
+void Button::draw(DrawingContext& context)
 {
   if(state == BUTTON_HOVER)
     if(!popup_timer.check())
@@ -109,14 +105,14 @@ void Button::draw()
   fillrect(rect.x+1,rect.y+1,rect.w-2,rect.h-2,175,175,175,200);
 
   for(std::vector<Surface*>::iterator it = icon.begin(); it != icon.end(); ++it)
-    (*it)->draw(rect.x,rect.y);
+    context.draw_surface(*it, Vector(rect.x,rect.y), LAYER_GUI);
 
-  if(drawable)
+/*  if(drawable)
   {
     Camera viewport;
     viewport.set_translation(Vector(rect.x, rect.y));
     drawable->draw(viewport, 0);
-  }
+  }*/
 
   if(show_info)
   {
@@ -127,9 +123,9 @@ void Button::draw()
       i = rect.w + strlen(info.c_str()) * white_small_text->w;
 
     if(!info.empty())
-      white_small_text->draw(info.c_str(), i + rect.x - strlen(info.c_str()) * white_small_text->w, rect.y, 1);
+      context.draw_text(white_small_text, info.c_str(), Vector(i + rect.x - strlen(info.c_str()) * white_small_text->w, rect.y), LAYER_GUI);
     sprintf(str,"(%s)", SDL_GetKeyName(shortcut));
-    white_small_text->draw(str, i + rect.x - strlen(str) * white_small_text->w, rect.y + white_small_text->h+2, 1);
+    context.draw_text(white_small_text, str, Vector(i + rect.x - strlen(str) * white_small_text->w, rect.y + white_small_text->h+2), LAYER_GUI);
   }
   if(state == BUTTON_PRESSED || state == BUTTON_DEACTIVE)
     fillrect(rect.x,rect.y,rect.w,rect.h,75,75,75,200);
@@ -272,7 +268,7 @@ ButtonPanel::~ButtonPanel()
   item.clear();
 }
 
-void ButtonPanel::draw()
+void ButtonPanel::draw(DrawingContext& context)
 {
 
   if(hidden == false)
@@ -280,7 +276,7 @@ void ButtonPanel::draw()
     fillrect(rect.x,rect.y,rect.w,rect.h,100,100,100,200);
     for(std::vector<Button*>::iterator it = item.begin(); it != item.end(); ++it)
     {
-      (*it)->draw();
+      (*it)->draw(context);
       if(hlast && it == last_clicked)
       {
         fillrect((*it)->get_pos().x,(*it)->get_pos().y,(*it)->get_pos().w,(*it)->get_pos().h,100,100,100,128);
@@ -326,6 +322,3 @@ void ButtonPanel::highlight_last(bool b)
 {
   hlast = b;
 }
-#endif
-
-

@@ -89,7 +89,10 @@ bool confirm_dialog(Surface *background, std::string text)
       dialog->event(event);
     }
 
-    context.draw_surface(background, Vector(0,0), LAYER_BACKGROUND0);
+    if(background == NULL)
+      context.draw_gradient(Color(200, 100, 200), Color(100, 200, 100), LAYER_BACKGROUND0);
+    else
+      context.draw_surface(background, Vector(0,0), LAYER_BACKGROUND0);
 
     dialog->draw(context);
     dialog->action();

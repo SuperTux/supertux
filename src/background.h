@@ -40,6 +40,15 @@ public:
 
   void set_gradient(Color top, Color bottom);
 
+  std::string get_image() const
+        { return imagefile; }
+  float get_speed() const
+        { return speed; }
+  Color get_gradient_top() const
+        { return gradient_top; }
+  Color get_gradient_bottom() const
+        { return gradient_bottom; }
+
   virtual void action(float elapsed_time);
 
   virtual void draw(DrawingContext& context);

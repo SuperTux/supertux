@@ -24,9 +24,6 @@
 #include <vector>
 #include "screen/texture.h"
 
-// TODO
-#if 0
-
 enum ButtonState {
   BUTTON_NONE = -1,
   BUTTON_CLICKED,
@@ -51,18 +48,18 @@ public:
   
   ~Button();
   void event(SDL_Event& event);
-  void draw();
+  void draw(DrawingContext& context);
   int get_state();
   void set_active(bool active) { active ? state = BUTTON_NONE : state = BUTTON_DEACTIVE; };
   void add_icon(const std::string& imagefile, int mw, int mh);
   SDL_Rect get_pos() { return rect; }
   int get_tag(){return tag; }
-  void set_drawable(Drawable* newdrawable)
-  { drawable = newdrawable; }
+//  void set_drawable(Drawable* newdrawable)
+//  { drawable = newdrawable; }
 
 private:
   static Timer popup_timer;
-  Drawable* drawable;
+//  Drawable* drawable;
   std::vector<Surface*> icon;
   std::string info;
   SDLKey shortcut;
@@ -77,7 +74,7 @@ class ButtonPanel
 public:
   ButtonPanel(int x, int y, int w, int h);
   ~ButtonPanel();
-  void draw();
+  void draw(DrawingContext& context);
   Button* event(SDL_Event &event);
   void additem(Button* pbutton, int tag);
   Button* button_panel_event(SDL_Event& event);
@@ -95,6 +92,5 @@ private:
   std::vector<Button*> item;
   std::vector<Button*>::iterator last_clicked;
 };
-#endif
 
 #endif /*SUPERTUX_BUTTON_H*/

@@ -119,11 +119,11 @@ private:
   
   std::string name;
 
-  std::string song_title;
   MusicRef level_song;
   MusicRef level_song_fast;
 
 public:
+  std::string song_title;
   float gravity;
 
   // some special objects, where we need direct access

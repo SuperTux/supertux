@@ -297,8 +297,7 @@ void title(void)
                   generate_contrib_menu();
                   break;
                 case MNID_LEVELEDITOR:
-                  // TODO
-                  //leveleditor();
+                  leveleditor();
                   Menu::set_current(main_menu);
                   break;
                 case MNID_CREDITS:

@@ -274,6 +274,45 @@ Level::load_old_format(LispReader& reader)
   add_sector(sector);
 }
 
+void
+Level::save(const std::string& filename)
+{
+#if 0
+  LispReader* level = LispReader::load(filename, "supertux-level");
+
+  int version = 1;
+  level->read_int("version", version);
+  if(version == 1) {
+    load_old_format(*level);
+    return;
+  }
+
+  for(lisp_object_t* cur = level->get_lisp(); !lisp_nil_p(cur);
+      cur = lisp_cdr(cur)) {
+    std::string token = lisp_symbol(lisp_car(lisp_car(cur)));
+    lisp_object_t* data = lisp_car(lisp_cdr(lisp_car(cur)));
+    LispReader reader(lisp_cdr(lisp_car(cur)));
+
+    if(token == "name") {
+      name = lisp_string(data);
+    } else if(token == "author") {
+      author = lisp_string(data);
+    } else if(token == "time") {
+      time_left = lisp_integer(data);
+    } else if(token == "sector") {
+      Sector* sector = new Sector;
+      sector->parse(reader);
+      add_sector(sector);
+    } else {
+      std::cerr << "Unknown token '" << token << "' in level file.\n";
+      continue;
+    }
+  }
+  
+  delete level;
+#endif
+}
+
 Level::~Level()
 {
   for(Sectors::iterator i = sectors.begin(); i != sectors.end(); ++i)

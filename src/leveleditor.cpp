@@ -37,16 +37,16 @@
 #include "setup.h"
 #include "menu.h"
 #include "level.h"
+#include "sector.h"
+#include "tilemap.h"
 #include "gameloop.h"
 #include "badguy.h"
+#include "player.h"
 #include "scene.h"
 #include "button.h"
 #include "tile.h"
 #include "resources.h"
 #include "background.h"
-
-// TODO
-#if 0
 
 /* definitions to aid development */
 
@@ -68,13 +68,15 @@
 #define SELECT_W 2 // size of the selections lines
 #define SELECT_CLR 0, 255, 0, 255  // lines color (R, G, B, A)
 
+enum { TM_IA, TM_BG, TM_FG };
+
 /* own declerations */
 /* crutial ones (main loop) */
 int le_init();
 void le_quit();
 int le_load_level_subset(char *filename);
-void le_drawlevel();
-void le_drawinterface();
+void le_drawlevel(DrawingContext& context);
+void le_drawinterface(DrawingContext& context);
 void le_checkevents();
 void le_change(float x, float y, int tm, unsigned int c);
 void le_testlevel();
@@ -114,8 +116,8 @@ static bool show_minimap;
 static bool show_selections;
 static bool le_help_shown;
 static int pos_x, pos_y, cursor_x, cursor_y;
-static int le_level;
-static World* le_world;
+static int le_levelnb;
+static Level* le_level;
 static LevelSubset* le_level_subset;
 static int le_show_grid;
 static int le_frame;
@@ -142,6 +144,7 @@ static Button* le_objects_bt;
 static Button* le_object_select_bt;
 static Button* le_object_properties_bt;
 static ButtonPanel* le_tilemap_panel;
+static int active_tm;
 static Menu* leveleditor_menu;
 static Menu* subset_load_menu;
 static Menu* subset_new_menu;
@@ -163,23 +166,19 @@ static MovingObject* selected_game_object;
 static square selection;
 static SelectionMode le_selection_mode;
 static SDL_Event event;
-TileMapType active_tm;
 
 int leveleditor(char* filename)
 {
   int last_time, now_time, i;
+  DrawingContext context;
 
-  le_level = 1;
+  le_level = NULL;
+  le_levelnb = 1;
 
   if(le_init() != 0)
     return 1;
 
-  /* Clear screen: */
-
-  clearscreen(0, 0, 0);
-  updatescreen();
-
-  music_manager->halt_music();
+  sound_manager->halt_music();
 
   while (SDL_PollEvent(&event))
   {}
@@ -215,23 +214,23 @@ int leveleditor(char* filename)
         select_objects_menu->set_pos(screen->w - 64,82,-0.5,0.5);
     }
 
-    if(le_world != NULL)
+    if(le_level != NULL)
     {
       /* making events results to be in order */
 
       /* draw the level */
-      le_drawlevel();
+      le_drawlevel(context);
     }
     else
-      clearscreen(0, 0, 0);
+      fillrect(0, 0, screen->w, screen->h, 0, 0, 0);
 
     /* draw editor interface */
-    le_drawinterface();
+    le_drawinterface(context);
 
     Menu* menu = Menu::current();
     if(menu)
     {
-      menu->draw();
+      menu->draw(context);
       menu->action();
 
       if(menu == leveleditor_menu)
@@ -239,7 +238,7 @@ int leveleditor(char* filename)
         switch (leveleditor_menu->check())
         {
         case MNID_RETURNLEVELEDITOR:
-          if(le_world != NULL)
+          if(le_level != NULL)
             Menu::set_current(0);
           else
             Menu::set_current(leveleditor_menu);
@@ -351,7 +350,7 @@ int leveleditor(char* filename)
       }
     }
 
-    MouseCursor::current()->draw();
+    MouseCursor::current()->draw(context);
 
     if(done)
     {
@@ -366,7 +365,7 @@ int leveleditor(char* filename)
     if (now_time < last_time + FPS)
       SDL_Delay(last_time + FPS - now_time);	/* delay some time */
 
-    flipscreen();
+    context.do_drawing();
   }
 
   return done;
@@ -376,8 +375,8 @@ int le_load_level_subset(char *filename)
 {
   le_level_subset->load(filename);
   leveleditor_menu->get_item_by_id(MNID_SUBSETSETTINGS).kind = MN_GOTO;
-  le_level = 1;
-  le_goto_level(1);
+  le_levelnb = 1;
+  le_goto_level(le_levelnb);
 
   //GameSession* session = new GameSession(datadir + "/levels/" + le_level_subset->name + "/level1.stl", 0, ST_GL_DEMO_GAME);
 
@@ -497,17 +496,16 @@ void le_init_menus()
   select_objects_menu->additem(MN_ACTION,"BadGuys",0,0,1);
   objects_map["BadGuys"] = new ButtonPanel(screen->w - 64,96, 64, 318);
 
-  DisplayManager dummy;
   for(int i = 0; i < NUM_BadGuyKinds; ++i)
   {
-    BadGuy bad_tmp(dummy, BadGuyKind(i), 0, 0);
-    objects_map["BadGuys"]->additem(new Button(0, "BadGuy",(SDLKey)(i+'a'),0,0,32,32),1000000+i);
+//    BadGuy bad_tmp(BadGuyKind(i), 0, 0);
+//    objects_map["BadGuys"]->additem(new Button(0, "BadGuy",(SDLKey)(i+'a'),0,0,32,32),1000000+i);
+/* FIXME: maybe addbutton should already have a parameter for the surface
     objects_map["BadGuys"]->manipulate_button(i)->set_drawable(new
-        BadGuy(dummy,
-          BadGuyKind(i),
+        BadGuy(BadGuyKind(i),
           objects_map["BadGuys"]->manipulate_button(i)->get_pos().x,
           objects_map["BadGuys"]->manipulate_button(i)->get_pos().y
-          ));
+          ));*/
   }
 
   select_objects_menu->additem(MN_HL,"",0,0);
@@ -519,7 +517,8 @@ int le_init()
   level_subsets = dsubdirs("/levels", "level1.stl");
   le_level_subset = new LevelSubset;
 
-  le_world = NULL;
+  le_level = NULL;
+  le_levelnb = 1;
   selected_game_object = NULL;
 
   active_tm = TM_IA;
@@ -569,7 +568,7 @@ int le_init()
   le_tilemap_panel = new ButtonPanel(screen->w-64,screen->h-32,32,32);
   le_tilemap_panel->set_button_size(32,10);
   le_tilemap_panel->additem(new Button("/images/icons/bkgrd.png","Background",SDLK_b,0,0),TM_BG);
-  le_tilemap_panel->additem(new Button("/images/icons/intact.png","Interactive",SDLK_i,0,0),TM_IA);
+  le_tilemap_panel->additem(new Button("/images/icons/intact.png","Interactive",SDLK_i,0,0), TM_IA);
   le_tilemap_panel->additem(new Button("/images/icons/frgrd.png","Foreground",SDLK_f,0,0),TM_FG);
   le_tilemap_panel->highlight_last(true);
   le_tilemap_panel->set_last_clicked(TM_IA);
@@ -589,8 +588,8 @@ void update_level_settings_menu()
   char str[80];
   int i;
 
-  level_settings_menu->get_item_by_id(MNID_NAME).change_input(le_world->get_level()->name.c_str());
-  level_settings_menu->get_item_by_id(MNID_AUTHOR).change_input(le_world->get_level()->author.c_str());
+  level_settings_menu->get_item_by_id(MNID_NAME).change_input(le_level->name.c_str());
+  level_settings_menu->get_item_by_id(MNID_AUTHOR).change_input(le_level->author.c_str());
 
   string_list_copy(level_settings_menu->get_item_by_id(MNID_SONG).list, dfiles("music/",NULL, "-fast"));
   string_list_copy(level_settings_menu->get_item_by_id(MNID_BGIMG).list, dfiles("images/background",NULL, NULL));
@@ -599,34 +598,34 @@ void update_level_settings_menu()
   string_list_add_item(level_settings_menu->get_item_by_id(MNID_PARTICLE).list,"snow");
   string_list_add_item(level_settings_menu->get_item_by_id(MNID_PARTICLE).list,"clouds");
 
-  if((i = string_list_find(level_settings_menu->get_item_by_id(MNID_SONG).list,le_world->get_level()->song_title.c_str())) != -1)
+  if((i = string_list_find(level_settings_menu->get_item_by_id(MNID_SONG).list,le_level->get_sector("main")->song_title.c_str())) != -1)
     level_settings_menu->get_item_by_id(MNID_SONG).list->active_item = i;
-  if((i = string_list_find(level_settings_menu->get_item_by_id(MNID_BGIMG).list,le_world->get_level()->bkgd_image.c_str())) != -1)
+  if((i = string_list_find(level_settings_menu->get_item_by_id(MNID_BGIMG).list,le_level->get_sector("main")->background->get_image().c_str())) != -1)
     level_settings_menu->get_item_by_id(MNID_BGIMG).list->active_item = i;
-  if((i = string_list_find(level_settings_menu->get_item_by_id(MNID_PARTICLE).list,le_world->get_level()->particle_system.c_str())) != -1)
-    level_settings_menu->get_item_by_id(MNID_PARTICLE).list->active_item = i;
+/*  if((i = string_list_find(level_settings_menu->get_item_by_id(MNID_PARTICLE).list,le_level->get_sector("main")->particlesystem.c_str())) != -1)
+    level_settings_menu->get_item_by_id(MNID_PARTICLE).list->active_item = i;*/
 
-  sprintf(str,"%d",le_world->get_level()->width);
+  sprintf(str,"%d",le_level->get_sector("main")->solids->get_width());
   level_settings_menu->get_item_by_id(MNID_LENGTH).change_input(str);
-  sprintf(str,"%d",le_world->get_level()->height);
+  sprintf(str,"%d",le_level->get_sector("main")->solids->get_height());
   level_settings_menu->get_item_by_id(MNID_HEIGHT).change_input(str);
-  sprintf(str,"%d",le_world->get_level()->time_left);
+  sprintf(str,"%d",le_level->time_left);
   level_settings_menu->get_item_by_id(MNID_TIME).change_input(str);
-  sprintf(str,"%2.0f",le_world->get_level()->gravity);
+  sprintf(str,"%2.0f",le_level->get_sector("main")->gravity);
   level_settings_menu->get_item_by_id(MNID_GRAVITY).change_input(str);
-  sprintf(str,"%d",le_world->get_level()->bkgd_speed);
+  sprintf(str,"%d",le_level->get_sector("main")->background->get_speed());
   level_settings_menu->get_item_by_id(MNID_BGSPEED).change_input(str);
-  sprintf(str,"%d",le_world->get_level()->bkgd_top.red);
+  sprintf(str,"%d",le_level->get_sector("main")->background->get_gradient_top().red);
   level_settings_menu->get_item_by_id(MNID_TopRed).change_input(str);
-  sprintf(str,"%d",le_world->get_level()->bkgd_top.green);
+  sprintf(str,"%d",le_level->get_sector("main")->background->get_gradient_top().green);
   level_settings_menu->get_item_by_id(MNID_TopGreen).change_input(str);
-  sprintf(str,"%d",le_world->get_level()->bkgd_top.blue);
+  sprintf(str,"%d",le_level->get_sector("main")->background->get_gradient_top().blue);
   level_settings_menu->get_item_by_id(MNID_TopBlue).change_input(str);
-  sprintf(str,"%d",le_world->get_level()->bkgd_bottom.red);
+  sprintf(str,"%d",le_level->get_sector("main")->background->get_gradient_bottom().red);
   level_settings_menu->get_item_by_id(MNID_BottomRed).change_input(str);
-  sprintf(str,"%d",le_world->get_level()->bkgd_bottom.green);
+  sprintf(str,"%d",le_level->get_sector("main")->background->get_gradient_bottom().green);
   level_settings_menu->get_item_by_id(MNID_BottomGreen).change_input(str);
-  sprintf(str,"%d",le_world->get_level()->bkgd_bottom.blue);
+  sprintf(str,"%d",le_level->get_sector("main")->background->get_gradient_bottom().blue);
   level_settings_menu->get_item_by_id(MNID_BottomBlue).change_input(str);
 }
 
@@ -642,39 +641,39 @@ void apply_level_settings_menu()
   i = false;
   le_level_changed = true;
 
-  le_world->get_level()->name = level_settings_menu->get_item_by_id(MNID_NAME).input;
-  le_world->get_level()->author = level_settings_menu->get_item_by_id(MNID_AUTHOR).input;
+  le_level->name = level_settings_menu->get_item_by_id(MNID_NAME).input;
+  le_level->author = level_settings_menu->get_item_by_id(MNID_AUTHOR).input;
 
-  if(le_world->get_level()->bkgd_image.compare(string_list_active(level_settings_menu->get_item_by_id(MNID_BGIMG).list)) != 0)
+  if(le_level->get_sector("main")->background->get_image().compare(string_list_active(level_settings_menu->get_item_by_id(MNID_BGIMG).list)) != 0)
   {
-    le_world->get_level()->bkgd_image = string_list_active(level_settings_menu->get_item_by_id(MNID_BGIMG).list);
+    le_level->get_sector("main")->background->set_image(string_list_active(level_settings_menu->get_item_by_id(MNID_BGIMG).list), atoi(level_settings_menu->get_item_by_id(MNID_BGSPEED).input));
     i = true;
   }
 
-  if(le_world->get_level()->particle_system.compare(string_list_active(level_settings_menu->get_item_by_id(MNID_PARTICLE).list)) != 0)
+/*  if(le_level->get_sector("main")->particlesystem.compare(string_list_active(level_settings_menu->get_item_by_id(MNID_PARTICLE).list)) != 0)
   {
-    le_world->get_level()->particle_system = string_list_active(level_settings_menu->get_item_by_id(MNID_PARTICLE).list);
-  }
+    le_level->->get_sector("main")->particlesystem = string_list_active(level_settings_menu->get_item_by_id(MNID_PARTICLE).list);
+  }*/
 
-  if(i)
+/*  if(i)
   {
-    le_world->get_level()->load_gfx();
-  }
+    le_level->load_gfx();
+  }*/
 
-  le_world->get_level()->song_title = string_list_active(level_settings_menu->get_item_by_id(MNID_SONG).list);
+  le_level->get_sector("main")->song_title = string_list_active(level_settings_menu->get_item_by_id(MNID_SONG).list);
 
-  le_world->get_level()->resize(
+  le_level->get_sector("main")->solids->resize(
       atoi(level_settings_menu->get_item_by_id(MNID_LENGTH).input),
       atoi(level_settings_menu->get_item_by_id(MNID_HEIGHT).input));
-  le_world->get_level()->time_left = atoi(level_settings_menu->get_item_by_id(MNID_TIME).input);
-  le_world->get_level()->gravity = atof(level_settings_menu->get_item_by_id(MNID_GRAVITY).input);
-  le_world->get_level()->bkgd_speed = atoi(level_settings_menu->get_item_by_id(MNID_BGSPEED).input);
-  le_world->get_level()->bkgd_top.red = atoi(level_settings_menu->get_item_by_id(MNID_TopRed).input);
-  le_world->get_level()->bkgd_top.green = atoi(level_settings_menu->get_item_by_id(MNID_TopGreen).input);
-  le_world->get_level()->bkgd_top.blue = atoi(level_settings_menu->get_item_by_id(MNID_TopBlue).input);
-  le_world->get_level()->bkgd_bottom.red = atoi(level_settings_menu->get_item_by_id(MNID_BottomRed).input);
-  le_world->get_level()->bkgd_bottom.green = atoi(level_settings_menu->get_item_by_id(MNID_BottomGreen).input);
-  le_world->get_level()->bkgd_bottom.blue = atoi(level_settings_menu->get_item_by_id(MNID_BottomBlue).input);
+  le_level->time_left = atoi(level_settings_menu->get_item_by_id(MNID_TIME).input);
+  le_level->get_sector("main")->gravity = atof(level_settings_menu->get_item_by_id(MNID_GRAVITY).input);
+  le_level->get_sector("main")->background->set_gradient(Color(
+      atoi(level_settings_menu->get_item_by_id(MNID_TopRed).input),
+      atoi(level_settings_menu->get_item_by_id(MNID_TopGreen).input),
+      atoi(level_settings_menu->get_item_by_id(MNID_TopBlue).input)), Color(
+      atoi(level_settings_menu->get_item_by_id(MNID_BottomRed).input),
+      atoi(level_settings_menu->get_item_by_id(MNID_BottomGreen).input),
+      atoi(level_settings_menu->get_item_by_id(MNID_BottomBlue).input)));
 }
 
 void save_subset_settings_menu()
@@ -689,27 +688,28 @@ void le_unload_level()
 {
   if(le_level_changed)
   {
-    le_drawlevel();
-    le_drawinterface();
     char str[1024];
     sprintf(str,"Save changes to level %d of %s?",le_level,le_level_subset->name.c_str());
-    if(confirm_dialog(str))
+    Surface* surf = new Surface(le_level->get_sector("main")->background->get_image(), false);
+    if(confirm_dialog(surf, str))
     {
-      le_world->get_level()->save(le_level_subset->name.c_str(), le_level,
-          le_world);
+      le_level->save(le_level_subset->get_level_filename(le_levelnb));
     }
+    if(surf != NULL)
+      delete surf;
   }
 
-  delete le_world;
+  delete le_level;
   le_level_changed = false;
 }
 
 void le_goto_level(int levelnb)
 {
   le_unload_level();
-  le_world = new World(le_level_subset->name, levelnb);
+  le_level = new Level();
+  le_level->load(le_level_subset->get_level_filename(levelnb));
   display_level_info.start(2500);
-  le_level = levelnb;
+  le_levelnb = levelnb;
 }
 
 void le_quit(void)
@@ -762,44 +762,44 @@ void le_quit(void)
 
 void le_drawminimap()
 {
-  if(le_world == NULL)
-    return;
+#if 0
+//  if(le_level == NULL)
+//    return;
 
   int mini_tile_width;
-  if(screen->w - 64 > le_world->get_level()->width * 4)
+  if((unsigned)screen->w - 64 > le_level->get_sector("main")->solids->get_width() * 4)
     mini_tile_width = 4;
-  else if(screen->w - 64 > le_world->get_level()->width * 2)
+  else if((unsigned)screen->w - 64 > le_level->get_sector("main")->solids->get_width() * 2)
     mini_tile_width = 2;
   else
     mini_tile_width = 1;
-  int left_offset = (screen->w - 64 - le_world->get_level()->width*mini_tile_width) / 2;
+  int left_offset = (screen->w - 64 - le_level->get_sector("main")->solids->get_width()*mini_tile_width) / 2;
 
   int mini_tile_height;
-  if(screen->h > le_world->get_level()->height * 4)
+  if((unsigned)screen->h > le_level->get_sector("main")->solids->get_height() * 4)
     mini_tile_height = 4;
-  else if(screen->h > le_world->get_level()->height * 2)
+  else if((unsigned)screen->h > le_level->get_sector("main")->solids->get_height() * 2)
     mini_tile_height = 2;
   else
     mini_tile_height = 1;
 
-  Level* level = le_world->get_level();
-  for (int y = 0; y < le_world->get_level()->height; ++y)
-    for (int x = 0; x < le_world->get_level()->width; ++x)
+  for (unsigned int y = 0; y < le_level->get_sector("main")->solids->get_height(); ++y)
+    for (unsigned int x = 0; x < le_level->get_sector("main")->solids->get_width(); ++x)
     {
 
       Tile::draw_stretched(left_offset + mini_tile_width*x, y * mini_tile_height,
-          mini_tile_width , mini_tile_height, level->bg_tiles[y * level->width + x]);
+          mini_tile_width , mini_tile_height, le_level->bg_tiles[y * le_level->get_sector("main")->solids->get_width() + x]);
 
       Tile::draw_stretched(left_offset + mini_tile_width*x, y * mini_tile_height,
-          mini_tile_width , mini_tile_height, level->ia_tiles[y * level->width + x]);
+          mini_tile_width , mini_tile_height, le_level->ia_tiles[y * le_level->get_sector("main")->solids->get_width() + x]);
 
       Tile::draw_stretched(left_offset + mini_tile_width*x, y * mini_tile_height,
-          mini_tile_width , mini_tile_height, level->fg_tiles[y + level->width + x]);
+          mini_tile_width , mini_tile_height, le_level->fg_tiles[y + le_level->get_sector("main")->solids->get_width() + x]);
 
     }
 
   fillrect(left_offset, 0,
-             le_world->get_level()->width*mini_tile_width, le_world->get_level()->height*mini_tile_height,
+             le_level->get_sector("main")->solids->get_width()*mini_tile_width, le_level->get_sector("main")->solids->get_height()*mini_tile_height,
              200, 200, 200, 96);
 
   fillrect(left_offset + (pos_x/32)*mini_tile_width, (pos_y/32)*mini_tile_height,
@@ -814,14 +814,15 @@ void le_drawminimap()
   fillrect(left_offset + (pos_x/32)*mini_tile_width, (pos_y/32)*mini_tile_height + (VISIBLE_TILES_Y-1)*mini_tile_height - 2,
              (VISIBLE_TILES_X-3)*mini_tile_width, 2,
              200, 200, 200, 200);
+#endif
 }
 
-void le_drawinterface()
+void le_drawinterface(DrawingContext &context)
 {
   int x,y;
   char str[80];
 
-  if(le_world != NULL)
+  if(le_level != NULL)
   {
     /* draw a grid (if selected) */
     if(le_show_grid)
@@ -841,7 +842,7 @@ void le_drawinterface()
     if(le_selection_mode == CURSOR)
     {
       if(le_current.IsTile())
-        le_selection->draw(cursor_x - pos_x, cursor_y - pos_y);
+        context.draw_surface(le_selection, Vector(cursor_x - pos_x, cursor_y - pos_y), LAYER_GUI);
     }
     else if(le_selection_mode == SQUARE)
     {
@@ -850,22 +851,24 @@ void le_drawinterface()
       /* draw current selection */
       w = selection.x2 - selection.x1;
       h = selection.y2 - selection.y1;
-      fillrect(selection.x1 - pos_x, selection.y1 - pos_y, w, SELECT_W, SELECT_CLR);
-      fillrect(selection.x1 - pos_x + w, selection.y1 - pos_y, SELECT_W, h, SELECT_CLR);
-      fillrect(selection.x1 - pos_x, selection.y1 - pos_y + h, w, SELECT_W, SELECT_CLR);
-      fillrect(selection.x1 - pos_x, selection.y1 - pos_y, SELECT_W, h, SELECT_CLR);
+      context.draw_filled_rect(Vector(selection.x1 - pos_x, selection.y1 - pos_y), Vector(w, SELECT_W), Color(SELECT_CLR), LAYER_GUI);
+      context.draw_filled_rect(Vector(selection.x1 - pos_x + w, selection.y1 - pos_y), Vector(SELECT_W, h), Color(SELECT_CLR), LAYER_GUI);
+      context.draw_filled_rect(Vector(selection.x1 - pos_x, selection.y1 - pos_y + h), Vector(w, SELECT_W), Color(SELECT_CLR), LAYER_GUI);
+      context.draw_filled_rect(Vector(selection.x1 - pos_x, selection.y1 - pos_y), Vector(SELECT_W, h), Color(SELECT_CLR), LAYER_GUI);
     }
   }
 
 
   /* draw button bar */
-  fillrect(screen->w - 64, 0, 64, screen->h, 50, 50, 50,255);
+  context.draw_filled_rect(Vector(screen->w - 64, 0), Vector(64, screen->h), Color(50, 50, 50,255), LAYER_GUI);
 
   if(le_current.IsTile())
   {
-    Tile::draw(screen->w - 32, screen->h - 32, le_current.tile);
+//    le_level->get_sector("main")->solids->draw(context);
+
+/*screen->w - 32, screen->h - 32, le_current.tile);
     if(TileManager::instance()->get(le_current.tile)->editor_images.size() > 0)
-      TileManager::instance()->get(le_current.tile)->editor_images[0]->draw( screen->w - 32, screen->h - 32);
+      TileManager::instance()->get(le_current.tile)->editor_images[0]->draw( screen->w - 32, screen->h - 32);*/
   }
 #if 0 // XXX FIXME TODO: Do we have a new solution for draw_on_screen()?
   if(le_current.IsObject() && MouseCursor::current() != mouse_select_object)
@@ -883,72 +886,74 @@ void le_drawinterface()
     fillrect(selected_game_object->base.x-pos_x+selected_game_object->base.width,selected_game_object->base.y-pos_y,3,selected_game_object->base.height,255,0,0,255);
   }
 
-  if(le_world != NULL)
+  if(le_level != NULL)
   {
-    le_save_level_bt->draw();
-    le_exit_bt->draw();
-    le_test_level_bt->draw();
-    le_next_level_bt->draw();
-    le_previous_level_bt->draw();
-    le_rubber_bt->draw();
+    le_save_level_bt->draw(context);
+    le_exit_bt->draw(context);
+    le_test_level_bt->draw(context);
+    le_next_level_bt->draw(context);
+    le_previous_level_bt->draw(context);
+    le_rubber_bt->draw(context);
     if(le_selection_mode == SQUARE)
-      le_select_mode_one_bt->draw();
+      le_select_mode_one_bt->draw(context);
     else if(le_selection_mode == CURSOR)
-      le_select_mode_two_bt->draw();
-    le_settings_bt->draw();
-    le_move_right_bt->draw();
-    le_move_left_bt->draw();
-    le_move_up_bt->draw();
-    le_move_down_bt->draw();
-    le_tilegroup_bt->draw();
-    le_objects_bt->draw();
+      le_select_mode_two_bt->draw(context);
+    le_settings_bt->draw(context);
+    le_move_right_bt->draw(context);
+    le_move_left_bt->draw(context);
+    le_move_up_bt->draw(context);
+    le_move_down_bt->draw(context);
+    le_tilegroup_bt->draw(context);
+    le_objects_bt->draw(context);
     if(!cur_tilegroup.empty())
-      tilegroups_map[cur_tilegroup]->draw();
+      tilegroups_map[cur_tilegroup]->draw(context);
     else if(!cur_objects.empty())
     {
-      objects_map[cur_objects]->draw();
+      objects_map[cur_objects]->draw(context);
     }
 
-    le_tilemap_panel->draw();
+    le_tilemap_panel->draw(context);
 
     if(!cur_objects.empty())
     {
-      le_object_select_bt->draw();
-      le_object_properties_bt->draw();
+      le_object_select_bt->draw(context);
+      le_object_properties_bt->draw(context);
     }
 
-    sprintf(str, "%d/%d", le_level,le_level_subset->levels);
-    white_text->drawf(str, (le_level_subset->levels < 10) ? -10 : 0, 16, A_RIGHT, A_TOP, 0);
+    sprintf(str, "%d/%d", le_levelnb,le_level_subset->levels);
+    context.draw_text(white_text, str, Vector((le_level_subset->levels < 10) ? -10 : 0, 16), LAYER_GUI);
 
     if(!le_help_shown)
-      white_small_text->draw("F1 for Help", 10, 430, 1);
+      context.draw_text(white_small_text, "F1 for Help", Vector(10, 430), LAYER_GUI);
 
     if(display_level_info.check())
-      white_text->drawf(le_world->get_level()->name.c_str(), 0, 0, A_HMIDDLE, A_TOP, 0);
+      context.draw_text_center(white_text, le_level->name.c_str(), Vector(0, 0), LAYER_GUI);
   }
   else
   {
     if(!Menu::current())
-      white_small_text->draw("No Level Subset loaded - Press ESC and choose one in the menu", 10, 430, 1);
+      context.draw_text(white_small_text, "No Level Subset loaded - Press ESC and choose one in the menu", Vector(10, 430), LAYER_GUI);
     else
-      white_small_text->draw("No Level Subset loaded", 10, 430, 1);
+      context.draw_text(white_small_text, "No Level Subset loaded", Vector(10, 430), LAYER_GUI);
   }
 
 }
 
-void le_drawlevel()
+void le_drawlevel(DrawingContext& context)
 {
-  unsigned int y,x;
-  Uint8 a;
+//  unsigned int y,x;
+//  Uint8 a;
 
   /* Draw the real background */
-  le_world->background->draw(*le_world->camera, LAYER_BACKGROUND0);
+  le_level->get_sector("main")->background->draw(context);
 
   if(le_current.IsTile())
   {
+le_level->get_sector("main")->solids->draw(context);
+/*
     Tile::draw(cursor_x-pos_x, cursor_y-pos_y,le_current.tile,128);
     if(!TileManager::instance()->get(le_current.tile)->images.empty())
-      fillrect(cursor_x-pos_x,cursor_y-pos_y,TileManager::instance()->get(le_current.tile)->images[0]->w,TileManager::instance()->get(le_current.tile)->images[0]->h,50,50,50,50);
+      fillrect(cursor_x-pos_x,cursor_y-pos_y,TileManager::instance()->get(le_current.tile)->images[0]->w,TileManager::instance()->get(le_current.tile)->images[0]->h,50,50,50,50);*/
   }
 #if 0 // XXX FIXME TODO: Do we have a new solution for move_to()?
   if(le_current.IsObject())
@@ -959,8 +964,12 @@ void le_drawlevel()
 
   /*       clearscreen(current_level.bkgd_red, current_level.bkgd_green, current_level.bkgd_blue); */
 
-  Level* level = le_world->get_level();
-  for (y = 0; y < VISIBLE_TILES_Y && y < (unsigned)le_world->get_level()->height; ++y)
+
+le_level->get_sector("main")->solids->draw(context);
+
+// FIXME: make tiles to be drawn semi-transparent when not selected
+#if 0
+  for (y = 0; y < VISIBLE_TILES_Y && y < (unsigned)le_level->get_section("main")->height; ++y)
     for (x = 0; x < (unsigned)VISIBLE_TILES_X - 2; ++x)
     {
 
@@ -970,7 +979,7 @@ void le_drawlevel()
         a = 128;
 
       Tile::draw(32*x - fmodf(pos_x, 32), y*32 - fmodf(pos_y, 32),
-          level->bg_tiles[ (y + (int)(pos_y / 32)) * level->width + 
+          le_level->bg_tiles[ (y + (int)(pos_y / 32)) * le_level->get_sector("main")->solids->get_width() + 
           (x + (int)(pos_x / 32))],a);
 
       if(active_tm == TM_IA)
@@ -979,7 +988,7 @@ void le_drawlevel()
         a = 128;
 
       Tile::draw(32*x - fmodf(pos_x, 32), y*32 - fmodf(pos_y, 32),
-          level->ia_tiles[ (y + (int)(pos_y / 32)) * level->width +       
+          le_level->ia_tiles[ (y + (int)(pos_y / 32)) * le_level->get_section("main")->width +       
           (x + (int)(pos_x / 32))],a);
 
       
@@ -989,41 +998,39 @@ void le_drawlevel()
         a = 128;
 
       Tile::draw(32*x - fmodf(pos_x, 32), y*32 - fmodf(pos_y, 32),
-          level->fg_tiles[ (y + (int)(pos_y / 32)) * level->width +       
+          le_level->fg_tiles[ (y + (int)(pos_y / 32)) * le_level->get_sector("main")->solids->get_width() +       
           (x + (int)(pos_x / 32))],a);
 
       /* draw whats inside stuff when cursor is selecting those */
       /* (draw them all the time - is this the right behaviour?) */
       Tile* edit_image = TileManager::instance()->get(
-          level->ia_tiles
-          [ (y + (int)(pos_y / 32)) * level->width + (x + (int)(pos_x / 32))]);
+          le_level->ia_tiles
+          [ (y + (int)(pos_y / 32)) * le_level->get_section("main")->width + (x + (int)(pos_x / 32))]);
       if(edit_image && !edit_image->editor_images.empty())
         edit_image->editor_images[0]->draw( x * 32 - ((int)pos_x % 32), y*32 - ((int)pos_y % 32));
 
     }
-
+#endif
   /* Draw the Bad guys: */
-  for (std::vector<GameObject*>::iterator it = le_world->gameobjects.begin();
-       it != le_world->gameobjects.end(); ++it)
+  for (std::vector<GameObject*>::iterator it = le_level->get_sector("main")->gameobjects.begin();
+       it != le_level->get_sector("main")->gameobjects.end(); ++it)
   {
     BadGuy* badguy = dynamic_cast<BadGuy*> (*it);
     if(badguy == 0)
       continue;
     
     /* to support frames: img_bsod_left[(frame / 5) % 4] */
-    Camera viewport;
-    viewport.set_translation(Vector(pos_x, pos_y));
-    badguy->draw(viewport, 0);
+    badguy->draw(context);
   }
 
   /* Draw the player: */
   /* for now, the position is fixed at (100, 240) */
-  largetux.walk_right->draw( 100 - pos_x, 240 - pos_y);
+  largetux.walk_right->draw(context, Vector(100 - pos_x, 240 - pos_y), LAYER_OBJECTS-1);
 }
 
 void le_change_object_properties(GameObject *pobj)
 {
-  //Surface* cap_screen = Surface::CaptureScreen();
+  DrawingContext context;
     
   Menu* object_properties_menu = new Menu();
   bool loop = true;
@@ -1062,7 +1069,7 @@ void le_change_object_properties(GameObject *pobj)
 
     //cap_screen->draw(0,0);
 
-    object_properties_menu->draw();
+    object_properties_menu->draw(context);
     object_properties_menu->action();
 
     switch (object_properties_menu->check())
@@ -1085,8 +1092,8 @@ void le_change_object_properties(GameObject *pobj)
     if(Menu::current() == NULL)
       loop = false;
 
-    mouse_cursor->draw();
-    flipscreen();
+    mouse_cursor->draw(context);
+//    context.draw_filled_rect();
     SDL_Delay(25);
   }
 
@@ -1110,7 +1117,7 @@ void le_checkevents()
     if (Menu::current())
     {
       Menu::current()->event(event);
-      if(!le_world && !Menu::current())
+      if(!le_level && !Menu::current())
         Menu::set_current(leveleditor_menu);
     }
     else
@@ -1134,7 +1141,7 @@ void le_checkevents()
             Menu::set_current(leveleditor_menu);
             break;
           case SDLK_F1:
-            if(le_world != NULL)
+            if(le_level != NULL)
               le_showhelp();
             break;
           case SDLK_HOME:
@@ -1142,7 +1149,7 @@ void le_checkevents()
             pos_x = cursor_x;
             break;
           case SDLK_END:
-            cursor_x = (le_world->get_level()->width * 32) - 32;
+            cursor_x = (le_level->get_sector("main")->solids->get_width() * 32) - 32;
             pos_x = cursor_x;
             break;
           case SDLK_F9:
@@ -1220,7 +1227,7 @@ void le_checkevents()
       }
     }
 
-    if(le_world != NULL)
+    if(le_level != NULL)
     {
       if(event.type == SDL_KEYDOWN || event.type == SDL_KEYUP || ((event.type == SDL_MOUSEBUTTONDOWN || SDL_MOUSEMOTION) && (event.motion.x > screen->w-64 && event.motion.x < screen->w &&
           event.motion.y > 0 && event.motion.y < screen->h)))
@@ -1236,8 +1243,7 @@ void le_checkevents()
             le_testlevel();
           le_save_level_bt->event(event);
           if(le_save_level_bt->get_state() == BUTTON_CLICKED)
-            le_world->get_level()->save(le_level_subset->name.c_str(),le_level,
-                le_world);
+            le_level->save(le_level_subset->name.c_str());
           le_exit_bt->event(event);
           if(le_exit_bt->get_state() == BUTTON_CLICKED)
           {
@@ -1246,29 +1252,31 @@ void le_checkevents()
           le_next_level_bt->event(event);
           if(le_next_level_bt->get_state() == BUTTON_CLICKED)
           {
-            if(le_level < le_level_subset->levels)
+            if(le_levelnb < le_level_subset->levels)
             {
-              le_goto_level(le_level+1);
+              le_goto_level(le_levelnb+1);
             }
             else
             {
               Level new_lev;
               char str[1024];
-              sprintf(str,"Level %d doesn't exist. Create it?",le_level+1);
-              if(confirm_dialog(str))
+              sprintf(str,"Level %d doesn't exist. Create it?",le_levelnb+1);
+              Surface* surf = new Surface(le_level->get_sector("main")->background->get_image(), false);
+              if(confirm_dialog(surf, str))
               {
-                new_lev.init_defaults();
-                new_lev.save(le_level_subset->name.c_str(),le_level+1, le_world);
-                le_level_subset->levels = le_level;
-                le_goto_level(le_level);
+                new_lev.save(le_level_subset->name.c_str());
+                le_level_subset->levels = le_levelnb;
+                le_goto_level(le_levelnb);
               }
+             if(surf != NULL)
+              delete surf;
             }
           }
           le_previous_level_bt->event(event);
           if(le_previous_level_bt->get_state() == BUTTON_CLICKED)
           {
-            if(le_level > 1)
-              le_goto_level(le_level -1);
+            if(le_levelnb > 1)
+              le_goto_level(le_levelnb -1);
           }
           le_rubber_bt->event(event);
           if(le_rubber_bt->get_state() == BUTTON_CLICKED)
@@ -1426,7 +1434,7 @@ void le_checkevents()
           {
             if(pbutton->get_state() == BUTTON_CLICKED)
             {
-              active_tm = static_cast<TileMapType>(pbutton->get_tag());
+              active_tm = pbutton->get_tag();
             }
           }
         }
@@ -1480,8 +1488,8 @@ void le_checkevents()
             cursor_base.height = 32;
 
             for(std::vector<GameObject*>::iterator it =
-                le_world->gameobjects.begin();
-                it != le_world->gameobjects.end(); ++it) {
+                le_level->get_sector("main")->gameobjects.begin();
+                it != le_level->get_sector("main")->gameobjects.end(); ++it) {
               MovingObject* mobj = dynamic_cast<MovingObject*> (*it);
               if(!mobj)
                 continue;
@@ -1508,6 +1516,8 @@ void le_checkevents()
           else
           {
             // FIXME TODO
+#if 0
+//FIXME: objects interactions with the level editor should have a major improvement
             if(le_current.IsObject())
             {
               le_level_changed  = true;
@@ -1515,16 +1525,16 @@ void le_checkevents()
 
               if(pbadguy)
               {
-                Camera& camera = *le_world->camera;
-                DisplayManager dummy;
+                Camera& camera = *le_level->get_sector("main")->camera;
 
-                le_world->bad_guys.push_back(
-                    new BadGuy(dummy, pbadguy->kind,
+                le_level->get_sector("main")->bad_guys.push_back(
+                    new BadGuy(pbadguy->kind,
                       cursor_x + camera.get_translation().x,
                       cursor_y + camera.get_translation().y));
-                le_world->gameobjects.push_back(le_world->bad_guys.back());
+                le_level->get_sector("main")->gameobjects.push_back(le_level->get_sector("main")->bad_guys.back());
               }
             }
+#endif
 
           }
 	  
@@ -1614,13 +1624,13 @@ void le_checkevents()
     }
 
     /* checking if pos_x and pos_y is within the limits... */
-    if(pos_x > (le_world->get_level()->width * 32 + 32*2) - screen->w)
-      pos_x = (le_world->get_level()->width * 32 + 32*2) - screen->w;
+    if((unsigned)pos_x > (le_level->get_sector("main")->solids->get_width() * 32 + 32*2) - screen->w)
+      pos_x = (le_level->get_sector("main")->solids->get_width() * 32 + 32*2) - screen->w;
     if(pos_x < 0)
       pos_x = 0;
 
-    if(pos_y > (le_world->get_level()->height * 32) - screen->h)
-      pos_y = (le_world->get_level()->height * 32) - screen->h;
+    if((unsigned)pos_y > (le_level->get_sector("main")->solids->get_height() * 32) - screen->h)
+      pos_y = (le_level->get_sector("main")->solids->get_height() * 32) - screen->h;
     if(pos_y < 0)
       pos_y = 0;
   }
@@ -1661,7 +1671,7 @@ void le_highlight_selection()
 
 void le_change(float x, float y, int tm, unsigned int c)
 {
-  if(le_world != NULL)
+  if(le_level != NULL)
   {
     int xx,yy;
     int x1, x2, y1, y2;
@@ -1671,7 +1681,7 @@ void le_change(float x, float y, int tm, unsigned int c)
     switch(le_selection_mode)
     {
     case CURSOR:
-      le_world->get_level()->change(x,y,tm,c);
+      le_change(x,y,tm,c);
 
       base_type cursor_base;
       cursor_base.x = x;
@@ -1681,16 +1691,17 @@ void le_change(float x, float y, int tm, unsigned int c)
 
       /* if there is a bad guy over there, remove it */
       // XXX TODO
-      for(std::vector<GameObject*>::iterator it = le_world->gameobjects.begin();
-            it != le_world->gameobjects.end(); ++it) {
+      for(std::vector<GameObject*>::iterator it = le_level->get_sector("main")->gameobjects.begin();
+            it != le_level->get_sector("main")->gameobjects.end(); ++it) {
         BadGuy* badguy = dynamic_cast<BadGuy*>((*it));
         if (badguy)
         {
           if(rectcollision(cursor_base, badguy->base))
           {
             delete (*it);
-            //le_world->bad_guys.erase(it);
-            le_world->gameobjects.erase(std::remove(le_world->gameobjects.begin(), le_world->gameobjects.end(), *it), le_world->gameobjects.end());
+            le_level->get_sector("main")->gameobjects.erase(std::remove(le_level->get_sector("main")->gameobjects.begin(),
+               le_level->get_sector("main")->gameobjects.end(), *it),
+               le_level->get_sector("main")->gameobjects.end());
             break;
           }
         }
@@ -1726,8 +1737,8 @@ void le_change(float x, float y, int tm, unsigned int c)
 
       /* if there is a bad guy over there, remove it */
       // TODO FIXME
-      for(std::vector<GameObject*>::iterator it = le_world->gameobjects.begin();
-          it != le_world->gameobjects.end(); ++it /* will be at end of loop */)
+      for(std::vector<GameObject*>::iterator it = le_level->get_sector("main")->gameobjects.begin();
+          it != le_level->get_sector("main")->gameobjects.end(); ++it /* will be at end of loop */)
       {
         MovingObject* pmobject = dynamic_cast<MovingObject*> (*it);       
         if (pmobject)
@@ -1736,8 +1747,7 @@ void le_change(float x, float y, int tm, unsigned int c)
               && pmobject->base.y/32 >= y1 && pmobject->base.y/32 <= y2)
           {
             delete (*it);
-            //it = le_world->gameobjects.erase(it);
-            le_world->gameobjects.erase(std::remove(le_world->gameobjects.begin(), le_world->gameobjects.end(), *it), le_world->gameobjects.end());
+            le_level->get_sector("main")->gameobjects.erase(std::remove(le_level->get_sector("main")->gameobjects.begin(), le_level->get_sector("main")->gameobjects.end(), *it), le_level->get_sector("main")->gameobjects.end());
             continue;
           }
           else
@@ -1750,7 +1760,7 @@ void le_change(float x, float y, int tm, unsigned int c)
       for(xx = x1; xx <= x2; xx++)
         for(yy = y1; yy <= y2; yy++)
         {
-          le_world->get_level()->change(xx*32, yy*32, tm, c);
+          le_change(xx*32, yy*32, tm, c);
 
         }
       break;
@@ -1763,23 +1773,24 @@ void le_change(float x, float y, int tm, unsigned int c)
 void le_testlevel()
 {
   //Make sure a time value is set when testing the level
-  if(le_world->get_level()->time_left == 0)
-    le_world->get_level()->time_left = 250;
+  if(le_level->time_left == 0)
+    le_level->time_left = 250;
 
-  le_world->get_level()->save("test", le_level, le_world);
+  le_level->save("test.stl");
 
-  GameSession session("test",le_level, ST_GL_TEST);
+  GameSession session("test.stl", ST_GL_TEST);
   session.run();
   player_status.reset();
 
-  music_manager->halt_music();
+  sound_manager->halt_music();
 
   Menu::set_current(NULL);
-  World::set_current(le_world);
 }
 
 void le_showhelp()
 {
+  DrawingContext context;
+
   bool tmp_show_grid = le_show_grid;
   SelectionMode temp_le_selection_mode = le_selection_mode;
   le_selection_mode = NONE;
@@ -1787,12 +1798,10 @@ void le_showhelp()
   le_show_grid = false;
   le_help_shown = true;
 
-  drawgradient(Color(0,0,0), Color(255,255,255));
-  le_drawinterface();
-
   SDL_Event event;
-  unsigned int i, done_;
-  char *text[] = {
+  unsigned int done_;
+  char str[1024];
+  char *text1[] = {
 
                    " - Supertux level editor tutorial - ",
                    "",
@@ -1860,71 +1869,35 @@ void le_showhelp()
                     "- SuperTux team"
                   };
 
+  char **text[] = { text1, text2, text3 };
 
 
-  blue_text->drawf("- Help -", 0, 30, A_HMIDDLE, A_TOP, 2);
+  for(int i = 0; i < 3; i++)
+    {
+    context.draw_gradient(Color(0,0,0), Color(255,255,255), LAYER_BACKGROUND0);
+    le_drawinterface(context);
 
-  for(i = 0; i < sizeof(text)/sizeof(char *); i++)
-    white_text->draw(text[i], 5, 80+(i*white_text->h), 1);
+    context.draw_text_center(blue_text, "- Help -", Vector(0, 30), LAYER_GUI);
 
-  gold_text->drawf("Press Anything to Continue - Page 1/3", 0, 0, A_LEFT, A_BOTTOM, 1);
+    for(unsigned int t = 0; t < sizeof(text[i])/sizeof(char *); t++)
+      context.draw_text(white_text, text[i][t], Vector(5, 80+(t*white_text->h)), LAYER_GUI);
 
-  flipscreen();
+    sprintf(str,"Press any key to continue - Page %d/%d?", i, sizeof(text));
+    context.draw_text(gold_text, str, Vector(0, 0), LAYER_GUI);
 
-  done_ = 0;
+    context.do_drawing();
 
-  while(done_ == 0)
-  {
-    done_ = wait_for_event(event);
-    SDL_Delay(50);
-  }
+    done_ = 0;
 
-  drawgradient(Color(0,0,0), Color(255,255,255));
-  le_drawinterface();
-
-
-  blue_text->drawf("- Help -", 0, 30, A_HMIDDLE, A_TOP, 2);
-
-  for(i = 0; i < sizeof(text2)/sizeof(char *); i++)
-    white_text->draw(text2[i], 5, 80+(i*white_text->h), 1);
-
-  gold_text->drawf("Press Anything to Continue - Page 2/3", 0, 0, A_LEFT, A_BOTTOM, 1);
-
-  flipscreen();
-
-  done_ = 0;
-
-  while(done_ == 0)
-  {
-    done_ = wait_for_event(event);
-    SDL_Delay(50);
-  }
-
-  drawgradient(Color(0,0,0), Color(255,255,255));
-  le_drawinterface();
-
-
-  blue_text->drawf("- Help -", 0, 30, A_HMIDDLE, A_TOP, 2);
-
-  for(i = 0; i < sizeof(text3)/sizeof(char *); i++)
-    white_text->draw(text3[i], 5, 80+(i*white_text->h), 1);
-
-  gold_text->drawf("Press Anything to Continue - Page 3/3", 0, 0, A_LEFT, A_BOTTOM, 1);
-
-  flipscreen();
-
-  done_ = 0;
-
-  while(done_ == 0)
-  {
-    done_ = wait_for_event(event);
-    SDL_Delay(50);
-  }
+    while(done_ == 0)
+      {
+      done_ = wait_for_event(event);
+      SDL_Delay(50);
+      }
+    }
 
   show_selections = true;
   le_show_grid = tmp_show_grid;
   le_selection_mode = temp_le_selection_mode;
   le_help_shown = false;
 }
-
-#endif
