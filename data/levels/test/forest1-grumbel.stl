@@ -13,7 +13,7 @@
     (background (image "forest1.jpg")
     		(speed 0.5))
     (background (image "leaves.png")
-                (speed 0.8)
+                (speed 1.2)
 		(layer 400))
 		
     (tilemap

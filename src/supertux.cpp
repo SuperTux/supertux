@@ -23,6 +23,7 @@
 #include <cctype>
 #include <iostream>
 #include <exception>
+#include <locale.h>
 
 #include "utils/exceptions.h"
 #include "defines.h"
@@ -48,7 +49,11 @@ int main(int argc, char * argv[])
   try {
 #endif
     config = new MyConfig;
-    setlocale(LC_ALL, "");
+    
+    // we want translations only on messages
+    setlocale(LC_ALL, "C");
+    setlocale(LC_MESSAGES, "");
+    
     (void) bindtextdomain(PACKAGE, LOCALEDIR);
     (void) textdomain(PACKAGE);
     (void) bind_textdomain_codeset(PACKAGE, "ISO-8859-1");
