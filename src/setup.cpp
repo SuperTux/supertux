@@ -407,8 +407,8 @@ void st_menu(void)
   
   options_controls_menu->additem(MN_LABEL,"Controls",0,0);
   options_controls_menu->additem(MN_HL,"",0,0);
-  options_controls_menu->additem(MN_CONTROLFIELD,"Right move", 0,0, &keymap.right);
   options_controls_menu->additem(MN_CONTROLFIELD,"Left move", 0,0, &keymap.left);
+  options_controls_menu->additem(MN_CONTROLFIELD,"Right move", 0,0, &keymap.right);
   options_controls_menu->additem(MN_CONTROLFIELD,"Jump", 0,0, &keymap.jump);
   options_controls_menu->additem(MN_CONTROLFIELD,"Duck", 0,0, &keymap.duck);
   options_controls_menu->additem(MN_CONTROLFIELD,"Power", 0,0, &keymap.fire);
