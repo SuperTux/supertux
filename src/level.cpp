@@ -555,7 +555,7 @@ Level::save(const std::string& subset, int level)
 
 
   /* Write header: */
-  fprintf(fi,";SuperTux-Level\n");
+  fprintf(fi,";SuperTux level made using the built-in leveleditor\n");
   fprintf(fi,"(supertux-level\n");
 
   fprintf(fi,"  (version %d)\n", 1);
@@ -586,6 +586,7 @@ Level::save(const std::string& subset, int level)
     {
       for(int i = 0; i < width; ++i)
         fprintf(fi," %d ", bg_tiles[y][i]);
+      fprintf(fi,"\n");
     }
 
   fprintf( fi,")\n");
@@ -595,6 +596,7 @@ Level::save(const std::string& subset, int level)
     {
       for(int i = 0; i < width; ++i)
         fprintf(fi," %d ", ia_tiles[y][i]);
+      fprintf(fi,"\n");
     }
 
   fprintf( fi,")\n");
@@ -604,6 +606,7 @@ Level::save(const std::string& subset, int level)
     {
       for(int i = 0; i < width; ++i)
         fprintf(fi," %d ", fg_tiles[y][i]);
+      fprintf(fi,"\n");
     }
 
   fprintf( fi,")\n");
@@ -619,7 +622,7 @@ Level::save(const std::string& subset, int level)
   for(std::vector<BadGuyData>::iterator it = badguy_data.begin();
       it != badguy_data.end();
       ++it)
-    fprintf( fi,"(%s (x %d) (y %d) (stay-on-platform %s))\n",
+    fprintf( fi,"  (%s (x %d) (y %d) (stay-on-platform %s))\n",
              badguykind_to_string((*it).kind).c_str(),(*it).x,(*it).y,
              it->stay_on_platform ? "#t" : "#f");
 
