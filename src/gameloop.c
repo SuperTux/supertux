@@ -31,7 +31,7 @@
 #include "setup.h"
 #include "high_scores.h"
 #include "menu.h"
-#include "enemy.h"
+#include "badguy.h"
 #include "world.h"
 #include "player.h"
 
