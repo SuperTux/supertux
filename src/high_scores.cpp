@@ -94,8 +94,8 @@ void save_hs(int score)
       sprintf(str, "%d", hs_score);
       yellow_nums->draw(str, 350, 170, 1, NO_UPDATE);
 
-      Menu::current()->action();
       Menu::current()->draw();
+      Menu::current()->action();
 
       flipscreen();
 

@@ -22,7 +22,6 @@
 
 #include <SDL.h>
 #include <vector>
-#include <stack>
 #include "texture.h"
 #include "timer.h"
 #include "type.h"
@@ -64,7 +63,7 @@ public:
 class Menu
 {
 private:  
-  static std::stack<Menu*> last_menus;
+  static std::vector<Menu*> last_menus;
   static Menu* current_;
 
   static void push_current(Menu* pmenu);
@@ -89,6 +88,10 @@ private:
     MENU_ACTION_REMOVE
   };
 
+  /** Number of the item that got 'hit' (ie. pressed) in the last
+      event()/action() call, -1 if none */
+  int hit_item;
+
   // position of the menu (ie. center of the menu, not top/left)
   int pos_x;
   int pos_y;
@@ -101,9 +104,6 @@ private:
   int delete_character;
   char mn_input_char;
   
-  int width();
-  int height();
-
 public:
   Timer effect;
   int arrange_left;
@@ -116,15 +116,17 @@ public:
 
   void additem(MenuItem* pmenu_item);
   void additem(MenuItemKind kind, const std::string& text, int init_toggle, Menu* target_menu);
-  void action ();
+  
+  void  action ();
   
   /** Remove all entries from the menu */
   void clear();
 
-  /** Check, if the value of the active menu item has changed. FIXME:
-      Somebody should document the exact meaning of this function a
-      bit more */
+  /** Return the index of the menu item that was 'hit' (ie. the user
+      clicked on it) in the last event() call */
   int  check  ();
+
+  MenuItem& get_item(int index) { return item[index]; }
 
   void draw   ();
   void draw_item(int index, int menu_width, int menu_height);
@@ -132,6 +134,9 @@ public:
 
   /** translate a SDL_Event into a menu_action */
   void event(SDL_Event& event);
+
+  int get_width() const;
+  int get_height() const;
 };
 
 extern Surface* checkbox;

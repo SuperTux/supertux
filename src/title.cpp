@@ -58,33 +58,26 @@ void display_credits();
 std::vector<st_subset> contrib_subsets;
 std::string current_contrib_subset;
 
-void update_contrib_menu()
+void generate_contrib_menu()
 {
-  // FIXME: Hack to update only once
-  static bool up_to_date = false;
+  string_list_type level_subsets = dsubdirs("/levels", "info");
 
-  if (!up_to_date)
+  contrib_menu->clear();
+  contrib_menu->additem(MN_LABEL,"Contrib Levels",0,0);
+  contrib_menu->additem(MN_HL,"",0,0);
+
+  for (int i = 0; i < level_subsets.num_items; ++i)
     {
-      string_list_type level_subsets = dsubdirs("/levels", "info");
-
-      contrib_menu->clear();
-      contrib_menu->additem(MN_LABEL,"Contrib Levels",0,0);
-      contrib_menu->additem(MN_HL,"",0,0);
-
-      for (int i = 0; i < level_subsets.num_items; ++i)
-        {
-          st_subset subset;
-          subset.load(level_subsets.item[i]);
-          contrib_menu->additem(MN_GOTO, subset.title.c_str(), i, contrib_subset_menu);
-          contrib_subsets.push_back(subset);
-        }
-
-      contrib_menu->additem(MN_HL,"",0,0);
-      contrib_menu->additem(MN_BACK,"Back",0,0);
-
-      string_list_free(&level_subsets);
-      up_to_date = true;
+      st_subset subset;
+      subset.load(level_subsets.item[i]);
+      contrib_menu->additem(MN_GOTO, subset.title.c_str(), i, contrib_subset_menu);
+      contrib_subsets.push_back(subset);
     }
+
+  contrib_menu->additem(MN_HL,"",0,0);
+  contrib_menu->additem(MN_BACK,"Back",0,0);
+
+  string_list_free(&level_subsets);
 }
 
 void check_contrib_menu()
@@ -133,11 +126,14 @@ void check_contrib_subset_menu()
   int index = contrib_subset_menu->check();
   if (index != -1)
     {
-      index -= 1; // FIXME: Hack
-      std::cout << "Sarting level: " << index << std::endl;
-      GameSession session(current_contrib_subset, index, ST_GL_PLAY);
-      session.run();
-      Menu::set_current(main_menu);
+      if (contrib_subset_menu->get_item(index).kind == MN_ACTION)
+        {
+          index -= 1; // FIXME: Hack
+          std::cout << "Sarting level: " << index << std::endl;
+          GameSession session(current_contrib_subset, index, ST_GL_PLAY);
+          session.run();
+          Menu::set_current(main_menu);
+        }
     }  
 }
 
@@ -283,59 +279,61 @@ void title(void)
                              0, 420, 0);
 
       /* Don't draw menu, if quit is true */
-      if(Menu::current())
+      Menu* menu = Menu::current();
+      if(menu)
         {
-          Menu::current()->action();
-          Menu::current()->draw();
-        }
-
-      if(Menu::current() == main_menu)
-        {
-          switch (main_menu->check())
+          menu->draw();
+          menu->action();
+        
+          if(menu == main_menu)
             {
-            case 0:
-              // Start Game, ie. goto the slots menu
-              update_load_save_game_menu(load_game_menu);
-              break;
-            case 1:
-              // Contrib Menu
-              update_contrib_menu();
-              break;
-            case 3:
-              leveleditor(1);
-              Menu::set_current(main_menu);
-              break;
-            case 4:
-              display_credits();
-              Menu::set_current(main_menu);
-              break;
-            case 5:
-              Menu::set_current(0);
-              break;
+              switch (main_menu->check())
+                {
+                case 0:
+                  // Start Game, ie. goto the slots menu
+                  update_load_save_game_menu(load_game_menu);
+                  break;
+                case 1:
+                  // Contrib Menu
+                  puts("Entering contrib menu");
+                  generate_contrib_menu();
+                  break;
+                case 3:
+                  leveleditor(1);
+                  Menu::set_current(main_menu);
+                  break;
+                case 4:
+                  display_credits();
+                  Menu::set_current(main_menu);
+                  break;
+                case 5:
+                  Menu::set_current(0);
+                  break;
+                }
             }
-        }
-      else if(Menu::current() == options_menu)
-        {
-          process_options_menu();
-        }
-      else if(Menu::current() == load_game_menu)
-        {
-          if (process_load_game_menu())
+          else if(menu == options_menu)
             {
-              // FIXME: shouldn't be needed if GameSession doesn't relay on global variables
-              // reset tux
-              scroll_x = 0;
-              //titletux.level_begin();
-              update_time = st_get_ticks();
+              process_options_menu();
             }
-        }
-      else if(Menu::current() == contrib_menu)
-        {
-          check_contrib_menu();
-        }
-      else if (Menu::current() == contrib_subset_menu)
-        {
-          check_contrib_subset_menu();
+          else if(menu == load_game_menu)
+            {
+              if (process_load_game_menu())
+                {
+                  // FIXME: shouldn't be needed if GameSession doesn't relay on global variables
+                  // reset tux
+                  scroll_x = 0;
+                  //titletux.level_begin();
+                  update_time = st_get_ticks();
+                }
+            }
+          else if(menu == contrib_menu)
+            {
+              check_contrib_menu();
+            }
+          else if (menu == contrib_subset_menu)
+            {
+              check_contrib_subset_menu();
+            }
         }
 
       mouse_cursor->draw();

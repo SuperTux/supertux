@@ -393,7 +393,6 @@ GameSession::draw()
 
   if(Menu::current())
     {
-      Menu::current()->action();
       Menu::current()->draw();
       mouse_cursor->draw();
     }
@@ -405,6 +404,7 @@ GameSession::draw()
 GameSession::ExitStatus
 GameSession::run()
 {
+  Menu::set_current(0);
   Player* tux = world->get_tux();
   current_ = this;
   
@@ -448,10 +448,13 @@ GameSession::run()
       tux->input.old_fire = tux->input.fire;
 
       process_events();
-
-      if(Menu::current())
+      
+      Menu* menu = Menu::current();
+      if(menu)
         {
-          if(Menu::current() == game_menu)
+          menu->action();
+
+          if(menu == game_menu)
             {
               switch (game_menu->check())
                 {
@@ -464,11 +467,11 @@ GameSession::run()
                   break;
                 }
             }
-          else if(Menu::current() == options_menu)
+          else if(menu == options_menu)
             {
               process_options_menu();
             }
-          else if(Menu::current() == load_game_menu )
+          else if(menu == load_game_menu )
             {
               process_load_game_menu();
             }

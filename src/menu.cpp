@@ -55,16 +55,17 @@ Menu* save_game_menu = 0;
 Menu* contrib_menu   = 0;
 Menu* contrib_subset_menu   = 0;
 
-std::stack<Menu*> Menu::last_menus;
+std::vector<Menu*> Menu::last_menus;
 Menu* Menu::current_ = 0;
 
 void
 Menu::push_current(Menu* pmenu)
 {
   if (current_)
-    last_menus.push(current_);
+    last_menus.push_back(current_);
   
-  set_current(pmenu);
+  current_ = pmenu;
+  current_->effect.start(500);
 }
 
 void
@@ -72,18 +73,22 @@ Menu::pop_current()
 {
   if (!last_menus.empty())
     {
-      set_current(last_menus.top());
-      last_menus.pop();
+      current_ = last_menus.back();
+      current_->effect.start(500);
+
+      last_menus.pop_back();
     }
   else
     {
-      set_current(0);
+      current_ = 0;
     }
 }
 
 void
 Menu::set_current(Menu* menu)
 {
+  last_menus.clear();
+
   if (menu)
     menu->effect.start(500);
   
@@ -158,6 +163,7 @@ Menu::~Menu()
 
 Menu::Menu()
 {
+  hit_item = -1;
   menuaction = MENU_ACTION_NONE;
   delete_character = 0;
   mn_input_char = '\0';
@@ -172,8 +178,8 @@ Menu::Menu()
 
 void Menu::set_pos(int x, int y, float rw, float rh)
 {
-  pos_x = x + (int)((float)width() * rw);
-  pos_y = y + (int)((float)height() * rh);
+  pos_x = x + (int)((float)get_width() * rw);
+  pos_y = y + (int)((float)get_height() * rh);
 }
 
 void
@@ -206,6 +212,7 @@ Menu::clear()
 void
 Menu::action()
 {
+  hit_item = -1;
   if(item.size() != 0)
     {
       switch(menuaction)
@@ -248,6 +255,7 @@ Menu::action()
 
         case MENU_ACTION_HIT:
           {
+            hit_item = active_item;
             switch (item[active_item].kind)
               {
               case MN_GOTO:
@@ -265,6 +273,7 @@ Menu::action()
               case MN_TEXTFIELD:
               case MN_NUMFIELD:
               case MN_CONTROLFIELD:
+                Menu::set_current(0); 
                 item[active_item].toggled = true;
                 break;
 
@@ -338,18 +347,21 @@ Menu::action()
 int
 Menu::check()
 {
+  return hit_item;
+  /*
   if (item.size() != 0)
     {
       if((item[active_item].kind == MN_ACTION
           || item[active_item].kind == MN_TEXTFIELD
           || item[active_item].kind == MN_NUMFIELD)
           && item[active_item].toggled)
-        {
+        { 
           item[active_item].toggled = false;
           Menu::set_current(0);
           return active_item;
         }
-      else if(item[active_item].kind == MN_TOGGLE || item[active_item].kind == MN_GOTO)
+      else if(item[active_item].kind == MN_TOGGLE 
+              || item[active_item].kind == MN_GOTO)
         {
           return active_item;
         }
@@ -358,6 +370,7 @@ Menu::check()
     }
   else
     return -1;
+  */
 }
 
 void
@@ -506,7 +519,7 @@ Menu::draw_item(int index, // Position of the current item in the menu
     }
 }
 
-int Menu::width()
+int Menu::get_width() const
 {
   /* The width of the menu has to be more than the width of the text
      with the most characters */
@@ -525,7 +538,7 @@ int Menu::width()
   return (menu_width * 16 + 24);
 }
 
-int Menu::height()
+int Menu::get_height() const
 {
   return item.size() * 24;
 }
@@ -534,8 +547,8 @@ int Menu::height()
 void
 Menu::draw()
 {
-  int menu_height = height();
-  int menu_width = width();
+  int menu_height = get_height();
+  int menu_width  = get_width();
 
   /* Draw a transparent background */
   fillrect(pos_x - menu_width/2,
@@ -635,10 +648,10 @@ Menu::event(SDL_Event& event)
     case SDL_MOUSEBUTTONDOWN:
       x = event.motion.x;
       y = event.motion.y;
-      if(x > pos_x - width()/2 &&
-         x < pos_x + width()/2 &&
-         y > pos_y - height()/2 &&
-         y < pos_y + height()/2)
+      if(x > pos_x - get_width()/2 &&
+         x < pos_x + get_width()/2 &&
+         y > pos_y - get_height()/2 &&
+         y < pos_y + get_height()/2)
         {
           menuaction = MENU_ACTION_HIT;
         }
@@ -646,12 +659,12 @@ Menu::event(SDL_Event& event)
     case SDL_MOUSEMOTION:
       x = event.motion.x;
       y = event.motion.y;
-      if(x > pos_x - width()/2 &&
-         x < pos_x + width()/2 &&
-         y > pos_y - height()/2 &&
-         y < pos_y + height()/2)
+      if(x > pos_x - get_width()/2 &&
+         x < pos_x + get_width()/2 &&
+         y > pos_y - get_height()/2 &&
+         y < pos_y + get_height()/2)
         {
-          active_item = (y - (pos_y - height()/2)) / 24;
+          active_item = (y - (pos_y - get_height()/2)) / 24;
           mouse_cursor->set_state(MC_LINK);
         }
       else

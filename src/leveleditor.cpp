@@ -210,8 +210,8 @@ int leveleditor(int levelnb)
 
       if(Menu::current())
         {
-          Menu::current()->action();
           Menu::current()->draw();
+          Menu::current()->action();
 
           if(Menu::current() == leveleditor_menu)
             {

@@ -567,9 +567,12 @@ WorldMap::update()
       tux->update(0.33f);
     }
   
-  if(Menu::current())
+  Menu* menu = Menu::current();
+  if(menu)
     {
-      if(Menu::current() == worldmap_menu)
+      menu->action();
+
+      if(menu == worldmap_menu)
         {
           switch (worldmap_menu->check())
             {
@@ -584,6 +587,10 @@ WorldMap::update()
               quit = true;
               break;
             }
+        }
+      else if(menu == options_menu)
+        {
+          process_options_menu();
         }
     }
 }
@@ -707,7 +714,6 @@ WorldMap::display()
 
   if(Menu::current())
     {
-      Menu::current()->action();
       Menu::current()->draw();
       mouse_cursor->draw();
     }
