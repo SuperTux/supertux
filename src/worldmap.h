@@ -138,11 +138,11 @@ private:
   TileManager* tile_manager;
 
 public:
-  struct Level
+  struct SpecialTile
   {
     int x;
     int y;
-    std::string name;
+    std::string level_name;
     std::string title;
     bool solved;
 
@@ -180,8 +180,8 @@ public:
 private:
   std::string map_filename;
 
-  typedef std::vector<Level> Levels;
-  Levels levels;
+  typedef std::vector<SpecialTile> SpecialTiles;
+  SpecialTiles special_tiles;
 
   MusicRef song;
 
@@ -191,7 +191,7 @@ private:
   Vector offset;
   std::string savegame_file;
 
-  void get_level_title(Level& level);
+  void get_level_title(SpecialTile& special_tile);
 
   void draw_status(DrawingContext& context);
 public:
@@ -213,7 +213,7 @@ public:
 
   Vector get_next_tile(Vector pos, Direction direction);
   Tile* at(Vector pos);
-  WorldMap::Level* at_level();
+  WorldMap::SpecialTile* at_special_tile();
 
   /** Check if it is possible to walk from \a pos into \a direction,
       if possible, write the new position to \a new_pos */
