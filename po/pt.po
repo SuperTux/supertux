@@ -1,4 +1,5 @@
-# translation of pt.po to 
+# translation of pt.po to European Portuguese
+# translation of pt.po to
 # translation of pt.po to
 # translation of pt.po to
 # translation of pt.po to
@@ -11,13 +12,14 @@ msgstr ""
 "Project-Id-Version: pt\n"
 "Report-Msgid-Bugs-To: super-tux-devel@lists.sourceforge.net\n"
 "POT-Creation-Date: 2004-09-15 00:08+0100\n"
-"PO-Revision-Date: 2004-06-10 14:53+0100\n"
+"PO-Revision-Date: 2004-09-15 11:51+0100\n"
 "Last-Translator: Ricardo Cruz <rick2@aeiou.pt>\n"
-"Language-Team: \n"
+"Language-Team: European Portuguese\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.3\n"
+"Plural-Forms:  nplurals=2; plural=(n != 1);\n"
 
 #: src/gameloop.cpp:186
 msgid "by "
@@ -25,7 +27,7 @@ msgstr "por "
 
 #: src/gameloop.cpp:192
 msgid "Level Vertically Flipped!"
-msgstr ""
+msgstr "Nível Invertido na Vertical!"
 
 #: src/gameloop.cpp:612
 msgid "PAUSE - Press 'P' To Play"
@@ -77,11 +79,11 @@ msgstr "MOEDAS: %d"
 
 #: src/gameloop.cpp:898
 msgid "Slot"
-msgstr ""
+msgstr "Slot"
 
 #: src/gameloop.cpp:898
 msgid "Free"
-msgstr ""
+msgstr "Livre"
 
 #: src/misc.cpp:94 src/misc.cpp:154
 msgid "Start Game"
@@ -223,9 +225,8 @@ msgstr ""
 "para mais informações.\n"
 
 #: src/title.cpp:385
-#, fuzzy
 msgid "Are you sure you want to delete slot"
-msgstr "Tens a certeza que queres remover o slot %d?"
+msgstr "Tens a certeza que queres remover o slot"
 
 #: src/worldmap.cpp:908
 msgid "GAMEOVER"
@@ -241,7 +242,6 @@ msgstr ""
 "\n"
 
 #: lib/app/setup.cpp:775
-#, fuzzy
 msgid ""
 "Display Options:\n"
 "  -f, --fullscreen    Run in fullscreen mode.\n"
@@ -273,7 +273,8 @@ msgid ""
 "\n"
 msgstr ""
 "Opções Gráficas:\n"
-"  --fullscreen        Ocupar todo o ecrã.\n"
+"  --fullscreen        Correr ocupando todo o ecrã.\n"
+"  -w, --window        Correr numa janela.\n"
 "  --opengl            Caso tenha sido compilado com suporte para OpenGL, "
 "isto irá fazer\n"
 "                      com que o SuperTux o use.\n"
@@ -290,6 +291,8 @@ msgstr ""
 "                      Define como os botões e eixos devem ser mapeados\n"
 "  --leveleditor       Abre o editor de níveis num dado ficheiro (e apenas "
 "quando um é fornecido.)\n"
+"  --worldmap          Abre o ficheiro de worldmap especificado.\n"
+"  --flip-levels       Inverte os níveis na vertical.\n"
 "  -d, --datadir DIR   Carregar os dados do jogo do DIR (omissão: "
 "automático)\n"
 "  --debug-mode        Activa o modo de depuração, que é útil para "
@@ -299,19 +302,19 @@ msgstr ""
 "                      opções, licença e contolos do jogo.\n"
 "  --usage             Mostra uma breve listagem das opções via a linha de "
 "comandos.\n"
-"  --version           Mostra a versão do SuperTux que está a correr.\n"
+"  --version           Mostra a versão do SuperTux que estás a correr.\n"
 "\n"
 
 #: lib/app/setup.cpp:834
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [--fullscreen] [--opengl] [--disable-sound] [--disable-music] [--"
 "debug] | [--usage | --help | --version] [--leveleditor] [--worldmap] [--flip-"
 "levels] FILENAME\n"
 msgstr ""
 "Uso: %s [--fullscreen] [--opengl] [--disable-sound] [--disable-music] [--"
-"debug-mode] | [--usage | --help | --version] [--leveleditor] "
-"NOME_DO_FICHEIRO\n"
+"debug] | [--usage | --help | --version] [--leveleditor] [--worldmap] [--flip-"
+"levels] NOME_DO_FICHEIRO\n"
 
 #: lib/gui/menu.cpp:67
 msgid "Yes"
@@ -369,18 +372,3 @@ msgstr "Alt direito"
 msgid "Left Alt"
 msgstr "Alt esquerdo"
 
-#~ msgid "Slot %d - Savegame"
-#~ msgstr "Slot %d - Jogo gravado"
-
-#~ msgid "Slot %d - Free"
-#~ msgstr "Slot %d - Livre"
-
-#~ msgid "  SuperTux  "
-#~ msgstr "  SuperTux  "
-
-#~ msgid ""
-#~ "\n"
-#~ "  Please see the file \"README.txt\" for more details.\n"
-#~ msgstr ""
-#~ "\n"
-#~ "  Dá uma olhadela no ficheiro  \"README.txt\" para mais detalhes.\n"
