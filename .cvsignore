@@ -13,3 +13,5 @@ mkinstalldirs
 Makefile
 autom4te.cache
 libtool
+.project
+.cdtproject
