@@ -53,6 +53,7 @@ extern texture_type img_mrbomb_left[4];
 extern texture_type img_mrbomb_right[4];
 extern texture_type img_stalactite;
 extern texture_type img_stalactite_broken;
+extern texture_type img_flame[2];
 
 /* Bad guy kinds: */
 enum BadGuyKind {
@@ -61,11 +62,14 @@ enum BadGuyKind {
   BAD_MONEY,
   BAD_MRBOMB,
   BAD_BOMB,
-  BAD_STALACTITE
+  BAD_STALACTITE,
+  BAD_FLAME
 };
 
 BadGuyKind  badguykind_from_string(const std::string& str);
 std::string badguykind_to_string(BadGuyKind kind);
+void load_badguy_gfx();
+void free_badguy_gfx();
 
 struct BadGuyData
 {
@@ -126,6 +130,9 @@ class BadGuy
 
   void action_stalactite();
   void draw_stalactite();
+
+  void action_flame();
+  void draw_flame();
 
   void make_player_jump(Player* player);
   void check_horizontal_bump(bool checkcliff = false);

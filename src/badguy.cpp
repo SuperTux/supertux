@@ -9,6 +9,7 @@
 // Copyright: See COPYING file that comes with this distribution
 //
 //
+#include <math.h>
 
 #include "globals.h"
 #include "defines.h"
@@ -34,6 +35,7 @@ texture_type img_mrbomb_left[4];
 texture_type img_mrbomb_right[4];
 texture_type img_stalactite;
 texture_type img_stalactite_broken;
+texture_type img_flame[2];
 
 BadGuyKind  badguykind_from_string(const std::string& str)
 {
@@ -47,6 +49,8 @@ BadGuyKind  badguykind_from_string(const std::string& str)
     return BAD_MRBOMB;
   else if (str == "stalactite")
     return BAD_STALACTITE;
+  else if (str == "flame")
+    return BAD_FLAME;
   else
     {
       printf("Couldn't convert badguy: %s\n", str.c_str());
@@ -72,6 +76,9 @@ std::string badguykind_to_string(BadGuyKind kind)
       break;
     case BAD_STALACTITE:
       return "stalactite";
+      break;
+    case BAD_FLAME:
+      return "flame";
       break;
     default:
       return "bsod";
@@ -101,6 +108,8 @@ BadGuy::init(float x, float y, BadGuyKind kind_)
     mode = BOMB_TICKING;
     // hack so that the bomb doesn't hurt until it expldes...
     dying = DYING_SQUISHED;
+  } else if(kind == BAD_FLAME) {
+    base.ym = 0; // we misuse base.ym as angle for the flame
   }
 }
 
@@ -430,6 +439,17 @@ void BadGuy::action_stalactite()
 }
 
 void
+BadGuy::action_flame()
+{
+    static const float radius = 100;
+    static const float speed = 0.02;
+    base.x = old_base.x + cos(base.ym) * radius;
+    base.y = old_base.y + sin(base.ym) * radius;
+
+    base.ym = fmodf(base.ym + frame_ratio * speed, 2*M_PI);
+}
+
+void
 BadGuy::action()
 { 
   if (seen)
@@ -460,6 +480,9 @@ BadGuy::action()
           action_stalactite();
           break;
 
+        case BAD_FLAME:
+          action_flame();
+          break;
         }
     }
 
@@ -576,6 +599,15 @@ BadGuy::draw_stalactite()
 }
 
 void
+BadGuy::draw_flame()
+{
+  size_t frame = (global_frame_counter / 10) % 2;
+  texture_type* texture = &img_flame[frame];
+
+  texture_draw(texture, base.x - scroll_x, base.y);
+}
+
+void
 BadGuy::draw()
 {
   // Don't try to draw stuff that is outside of the screen
@@ -607,6 +639,11 @@ BadGuy::draw()
         case BAD_STALACTITE:
           draw_stalactite();
           break;
+
+        case BAD_FLAME:
+          draw_flame();
+          break;
+
         }
     }
 }
@@ -707,7 +744,7 @@ BadGuy::collision(void *p_c_object, int c_object, CollisionType type)
   switch (c_object)
     {
     case CO_BULLET:
-      if(kind == BAD_BOMB || kind == BAD_STALACTITE)
+      if(kind == BAD_BOMB || kind == BAD_STALACTITE || kind == BAD_FLAME)
         return;
 
       dying = DYING_FALLING;
@@ -755,6 +792,188 @@ BadGuy::collision(void *p_c_object, int c_object, CollisionType type)
         }
       break;
     }
+}
+
+//---------------------------------------------------------------------------
+
+void load_badguy_gfx()
+{
+  /* (BSOD) */
+  texture_load(&img_bsod_left[0], datadir +
+               "/images/shared/bsod-left-0.png",
+               USE_ALPHA);
+
+  texture_load(&img_bsod_left[1], datadir +
+               "/images/shared/bsod-left-1.png",
+               USE_ALPHA);
+
+  texture_load(&img_bsod_left[2], datadir +
+               "/images/shared/bsod-left-2.png",
+               USE_ALPHA);
+
+  texture_load(&img_bsod_left[3], datadir +
+               "/images/shared/bsod-left-3.png",
+               USE_ALPHA);
+
+  texture_load(&img_bsod_right[0], datadir +
+               "/images/shared/bsod-right-0.png",
+               USE_ALPHA);
+
+  texture_load(&img_bsod_right[1], datadir +
+               "/images/shared/bsod-right-1.png",
+               USE_ALPHA);
+
+  texture_load(&img_bsod_right[2], datadir +
+               "/images/shared/bsod-right-2.png",
+               USE_ALPHA);
+
+  texture_load(&img_bsod_right[3], datadir +
+               "/images/shared/bsod-right-3.png",
+               USE_ALPHA);
+
+  texture_load(&img_bsod_squished_left, datadir +
+               "/images/shared/bsod-squished-left.png",
+               USE_ALPHA);
+
+  texture_load(&img_bsod_squished_right, datadir +
+               "/images/shared/bsod-squished-right.png",
+               USE_ALPHA);
+
+  texture_load(&img_bsod_falling_left, datadir +
+               "/images/shared/bsod-falling-left.png",
+               USE_ALPHA);
+
+  texture_load(&img_bsod_falling_right, datadir +
+               "/images/shared/bsod-falling-right.png",
+               USE_ALPHA);
+
+
+  /* (Laptop) */
+
+  texture_load(&img_laptop_left[0], datadir +
+               "/images/shared/laptop-left-0.png",
+               USE_ALPHA);
+
+  texture_load(&img_laptop_left[1], datadir +
+               "/images/shared/laptop-left-1.png",
+               USE_ALPHA);
+
+  texture_load(&img_laptop_left[2], datadir +
+               "/images/shared/laptop-left-2.png",
+               USE_ALPHA);
+
+  texture_load(&img_laptop_right[0], datadir +
+               "/images/shared/laptop-right-0.png",
+               USE_ALPHA);
+
+  texture_load(&img_laptop_right[1], datadir +
+               "/images/shared/laptop-right-1.png",
+               USE_ALPHA);
+
+  texture_load(&img_laptop_right[2], datadir +
+               "/images/shared/laptop-right-2.png",
+               USE_ALPHA);
+
+  texture_load(&img_laptop_flat_left, datadir +
+               "/images/shared/laptop-flat-left.png",
+               USE_ALPHA);
+
+  texture_load(&img_laptop_flat_right, datadir +
+               "/images/shared/laptop-flat-right.png",
+               USE_ALPHA);
+
+  texture_load(&img_laptop_falling_left, datadir +
+               "/images/shared/laptop-falling-left.png",
+               USE_ALPHA);
+
+  texture_load(&img_laptop_falling_right, datadir +
+               "/images/shared/laptop-falling-right.png",
+               USE_ALPHA);
+
+
+  /* (Money) */
+
+  texture_load(&img_money_left[0], datadir +
+               "/images/shared/bag-left-0.png",
+               USE_ALPHA);
+
+  texture_load(&img_money_left[1], datadir +
+               "/images/shared/bag-left-1.png",
+               USE_ALPHA);
+
+  texture_load(&img_money_right[0], datadir +
+               "/images/shared/bag-right-0.png",
+               USE_ALPHA);
+
+  texture_load(&img_money_right[1], datadir +
+               "/images/shared/bag-right-1.png",
+               USE_ALPHA);
+
+  /* Mr. Bomb */
+  for(int i=0; i<4; ++i) {
+      char num[4];
+      snprintf(num, 4, "%d", i);
+      texture_load(&img_mrbomb_left[i],
+              datadir + "/images/shared/mrbomb-left-" + num + ".png", USE_ALPHA);
+      texture_load(&img_mrbomb_right[i],
+              datadir + "/images/shared/mrbomb-right-" + num + ".png", USE_ALPHA);
+  }
+
+  /* stalactite */
+  texture_load(&img_stalactite, 
+          datadir + "/images/shared/stalactite.png", USE_ALPHA);
+  texture_load(&img_stalactite_broken,
+          datadir + "/images/shared/stalactite-broken.png", USE_ALPHA);
+
+  /* flame */
+  texture_load(&img_flame[0],
+          datadir + "/images/shared/flame-0.png", USE_ALPHA);
+  texture_load(&img_flame[1],
+          datadir + "/images/shared/flame-1.png", USE_ALPHA);  
+}
+
+void free_badguy_gfx()
+{
+  for (int i = 0; i < 4; i++)
+    {
+      texture_free(&img_bsod_left[i]);
+      texture_free(&img_bsod_right[i]);
+    }
+
+  texture_free(&img_bsod_squished_left);
+  texture_free(&img_bsod_squished_right);
+
+  texture_free(&img_bsod_falling_left);
+  texture_free(&img_bsod_falling_right);
+
+  for (int i = 0; i < 3; i++)
+    {
+      texture_free(&img_laptop_left[i]);
+      texture_free(&img_laptop_right[i]);
+    }
+
+  texture_free(&img_laptop_flat_left);
+  texture_free(&img_laptop_flat_right);
+
+  texture_free(&img_laptop_falling_left);
+  texture_free(&img_laptop_falling_right);
+
+  for (int i = 0; i < 2; i++)
+    {
+      texture_free(&img_money_left[i]);
+      texture_free(&img_money_right[i]);
+    }
+
+  for(int i = 0; i < 4; i++) {
+      texture_free(&img_mrbomb_left[i]);
+      texture_free(&img_mrbomb_right[i]);
+  }
+
+  texture_free(&img_stalactite);
+  texture_free(&img_stalactite_broken);
+
+  texture_free(&img_flame[0]);
+  texture_free(&img_flame[1]);
 }
 
 // EOF //
