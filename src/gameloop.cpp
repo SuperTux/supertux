@@ -157,7 +157,7 @@ GameSession::levelintro(void)
   white_text->drawf(str, 0, 224, A_HMIDDLE, A_TOP, 1);
   
   sprintf(str, "by %s", world->get_level()->author.c_str());
-  white_small_text->drawf(str, 0, 400, A_HMIDDLE, A_TOP, 1);
+  white_small_text->drawf(str, 0, 360, A_HMIDDLE, A_TOP, 1);
   
 
   flipscreen();
@@ -527,8 +527,8 @@ GameSession::run()
   update_time = last_update_time = st_get_ticks();
 
   /* Clear screen: */
-  clearscreen(0, 0, 0);
-  updatescreen();
+//  clearscreen(0, 0, 0);
+//  updatescreen();
 
   // Eat unneeded events
   SDL_Event event;
