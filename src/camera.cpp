@@ -82,7 +82,7 @@ Camera::scroll_normal(float elapsed_time)
 
   bool do_y_scrolling = true;
 
-  if(player->dying)
+  if(player->dying || level->height == 19)
     do_y_scrolling = false;
 
   if(do_y_scrolling) {
@@ -115,7 +115,7 @@ Camera::scroll_normal(float elapsed_time)
   if((player->dir == ::LEFT && scrollchange == RIGHT)
       || (player->dir == ::RIGHT && scrollchange == LEFT))
     scrollchange = NONE;
-  if(player->base.x < translation.x + screen->w/3)
+  if(player->base.x < translation.x + screen->w/3 && level->back_scrolling)
     scrollchange = LEFT;
   else if(player->base.x > translation.x + screen->w/3*2)
     scrollchange = RIGHT;
