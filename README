@@ -125,6 +125,13 @@ SCORING
     You can also score by shooting at the enemies. Don't forget to get
     the iceflower in order to get the ability to fire.
 
+VIDEO/AUDIO CONFIGURATION
+-------------------------
+
+We're using SDL for the low-level audio and video output. Configuring SDL is
+explained here:
+
+  http://sdldoc.csn.ul.ie/sdlenvvars.php
 
 OPTIONS FILE
 ------------
