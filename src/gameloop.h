@@ -25,6 +25,7 @@
 #include "special/timer.h"
 #include "special/base.h"
 #include "special/frame_rate.h"
+#include "statistics.h"
 
 using namespace SuperTux;
 
@@ -122,6 +123,12 @@ private:
   // for fire works
   Timer random_timer;
 
+  // swap points
+  Vector last_swap_point;
+  Statistics last_swap_stats;
+
+  Statistics* best_level_statistics;
+
   void restart_level();
 
   void check_end_conditions();
@@ -135,8 +142,6 @@ private:
 
   void on_escape_press();
   void process_menu();
-
-  Statistics* best_level_statistics;
 };
 
 std::string slotinfo(int slot);

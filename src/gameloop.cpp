@@ -99,6 +99,9 @@ GameSession::GameSession(const std::string& levelname_, int mode, bool flip_leve
   if(flip_levels_mode)
     flip_level = true;
 
+  last_swap_point = Vector(-1, -1);
+  last_swap_stats.reset();
+
   restart_level();
 }
 
@@ -143,9 +146,19 @@ GameSession::restart_level()
   if(tux_pos.x != -1)
     {
     tux_pos = currentsector->get_best_spawn_point(tux_pos);
+
+    if(last_swap_point.x > tux_pos.x)
+      tux_pos = last_swap_point;
+    else  // new swap point
+      {
+      last_swap_point = tux_pos;
+
+      last_swap_stats += global_stats;
+      }
+
     currentsector->player->base.x = tux_pos.x;
     currentsector->player->base.y = tux_pos.y;
-    
+
     // has to reset camera on swapping
     currentsector->camera->reset(Vector(currentsector->player->base.x,
                                         currentsector->player->base.y));
@@ -543,6 +556,7 @@ GameSession::check_end_conditions()
   if(end_sequence && !endsequence_timer.check())
     {
       exit_status = ES_LEVEL_FINISHED;
+      global_stats += last_swap_stats;  // add swap points stats
       return;
     }
   else if(end_sequence == ENDSEQUENCE_RUNNING && endtile && endtile->data >= 1)
