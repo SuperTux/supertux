@@ -59,6 +59,8 @@ void LevelSubset::create(const std::string& subset_name)
 void LevelSubset::read_info_file(const std::string& info_file)
 {
   lisp_object_t* root_obj = lisp_read_from_file(info_file);
+  if (root_obj == NULL)
+    return;
   lisp_object_t* cur = lisp_car(root_obj);
 
   if (lisp_symbol_p(cur) && strcmp(lisp_symbol(cur), "supertux-level-subset") == 0)
