@@ -1186,7 +1186,10 @@ void le_change(float x, float y, int tm, unsigned int c)
 void le_testlevel()
 {
   le_current_level->save("test", le_level);
-  gameloop("test",le_level, ST_GL_TEST);
+  
+  GameSession session("test",le_level, ST_GL_TEST);
+  session.run();
+
   Menu::set_current(leveleditor_menu);
   arrays_free();
   le_current_level->load_gfx();

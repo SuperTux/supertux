@@ -579,10 +579,8 @@ void game_draw(void)
 
 /* --- GAME LOOP! --- */
 
-int gameloop(const char * subset, int levelnb, int mode)
+GameSession::GameSession(const char * subset, int levelnb, int mode)
 {
-  int fps_cnt, jump, done;
-  timer_type fps_timer, frame_timer;
   timer_init(&fps_timer, true);
   timer_init(&frame_timer, true);
 
@@ -627,11 +625,18 @@ int gameloop(const char * subset, int levelnb, int mode)
 
   if(st_gl_mode == ST_GL_LOAD_GAME)
     loadgame(levelnb);
+}
+
+int
+GameSession::run()
+{
+  int  fps_cnt;
+  bool jump;
+  bool done;
 
   /* --- MAIN GAME LOOP!!! --- */
-
   jump = false;
-  done = 0;
+  done = false;
   quit = 0;
   global_frame_counter = 0;
   game_pause = 0;
@@ -641,13 +646,11 @@ int gameloop(const char * subset, int levelnb, int mode)
   fps_cnt = 0;
 
   /* Clear screen: */
-
   clearscreen(0, 0, 0);
   updatescreen();
 
   /* Play music: */
   play_current_music();
-
 
   while (SDL_PollEvent(&event))
   {}
@@ -691,7 +694,7 @@ int gameloop(const char * subset, int levelnb, int mode)
                   break;
                 case 7:
                   st_pause_ticks_stop();
-                  done = 1;
+                  done = true;
                   break;
                 }
             }

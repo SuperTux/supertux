@@ -29,11 +29,16 @@ extern Level current_level;
 
 extern int game_started;
 
-/* Function prototypes: */
-class Tile;
+class GameSession
+{
+ private:
+    timer_type fps_timer, frame_timer;
+ public:
+  GameSession(const char * subset, int levelnb, int mode);
+  int run();
+};
 
 void  activate_bad_guys(Level* plevel);
-int   gameloop(const char * subset, int levelnb, int mode);
 void  savegame(int slot);
 void  loadgame(int slot);
 std::string slotinfo(int slot);

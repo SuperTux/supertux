@@ -34,7 +34,8 @@ int main(int argc, char * argv[])
     }
   else if (level_startup_file)
     {
-      gameloop(level_startup_file, 1, ST_GL_LOAD_LEVEL_FILE);
+      GameSession session(level_startup_file, 1, ST_GL_LOAD_LEVEL_FILE);
+      session.run();
     }
   else
     {  

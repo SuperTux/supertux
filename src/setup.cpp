@@ -468,7 +468,9 @@ bool process_load_game_menu()
 
       if (tmp.length() == strlen("Slot X - Free"))
         { // Slot is free, so start a new game
-          gameloop("default", 1, ST_GL_PLAY);
+          GameSession session("default", 1, ST_GL_PLAY);
+          session.run();
+
           show_menu = true;
           Menu::set_current(main_menu);
         }
@@ -476,7 +478,9 @@ bool process_load_game_menu()
         { // Slot contains a level, so load it
           if (game_started)
             {
-              gameloop("default",slot - 1,ST_GL_LOAD_GAME);
+              GameSession session("default",slot - 1,ST_GL_LOAD_GAME);
+              session.run();
+
               show_menu = true;
               Menu::set_current(main_menu);
             }
