@@ -310,7 +310,7 @@ World::action(double frame_ratio)
   }
 }
 
-/* the space that it takes for the screen to start scrolling, regarding
+/* the space that it takes for the screen to start scrolling, regarding */
 /* screen bounds (in pixels) */
 // should be higher than screen->w/2 (320)
 #define X_SPACE (400-16)
@@ -414,7 +414,7 @@ World::collision_handler()
               // collision functions of the collided objects.
               // collide with bad_guy first, since bullet_collision will
               // delete the bullet
-              (*j)->collision(0, CO_BULLET);
+              (*j)->collision(&bullets[i], CO_BULLET);
               bullets[i].collision(CO_BADGUY);
               break; // bullet is invalid now, so break
             }
