@@ -144,6 +144,8 @@
         /* Function prototypes: */
 
         int gameloop(void);
-
+	void savegame(void);
+	void loadgame(char* filename);
+	
 #endif
 

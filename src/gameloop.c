@@ -15,6 +15,7 @@
 #include <string.h>
 #include <errno.h>
 #include <unistd.h>
+#include <time.h>
 #include <SDL.h>
 
 #ifdef LINUX
@@ -103,7 +104,6 @@ void unloadlevelsong(void);
 void loadshared(void);
 void unloadshared(void);
 void drawshape(int x, int y, unsigned char c);
-void savegame(void);
 unsigned char shape(int x, int y, int sx);
 int issolid(int x, int y, int sx);
 int isbrick(int x, int y, int sx);
@@ -2585,7 +2585,7 @@ SDL_Surface * load_level_image(char * file, int use_alpha)
 {
   char fname[1024];
 
-  snprintf(fname, 1024, "%s/images/%s/%s", DATA_PREFIX, leveltheme, file);
+  snprintf(fname, 1024, "%s/images/themes/%s/%s", DATA_PREFIX, leveltheme, file);
 
   return(load_image(fname, use_alpha));
 }
@@ -3842,4 +3842,65 @@ void drawresultscreen(void)
 }
 
 void savegame(void)
-{}
+{
+char savefile[300];
+
+time_t current_time = time(NULL);
+struct tm* time_struct;
+time_struct = localtime(&current_time);
+sprintf(savefile,"%s/%d-%d-%d-%d.save",st_save_dir,time_struct->tm_year+1900,time_struct->tm_mon,time_struct->tm_mday,time_struct->tm_hour);
+printf("%s",savefile);
+
+FILE* fi;
+
+  fi = fopen(savefile, "wb");
+
+  if (fi == NULL)
+    {
+      fprintf(stderr, "Warning: I could not open the high score file ");
+
+    }
+  else
+  {
+   fwrite(&level,4,1,fi);
+   fwrite(&score,4,1,fi);
+   fwrite(&distros,4,1,fi);
+   fwrite(&tux_x,4,1,fi);
+   fwrite(&tux_y,4,1,fi);
+   fwrite(&scroll_x,4,1,fi);
+  }
+  fclose(fi);
+
+}
+
+void loadgame(char* filename)
+{
+char savefile[300];
+
+time_t current_time = time(NULL);
+struct tm* time_struct;
+time_struct = localtime(&current_time);
+sprintf(savefile,"%s/%d-%d-%d-%d.save",st_save_dir,time_struct->tm_year+1900,time_struct->tm_mon,time_struct->tm_mday,time_struct->tm_hour);
+printf("%s",savefile);
+
+FILE* fi;
+
+  fi = fopen(savefile, "rb");
+
+  if (fi == NULL)
+    {
+      fprintf(stderr, "Warning: I could not open the high score file ");
+
+    }
+  else
+  {
+   fread(&level,4,1,fi);
+   fread(&score,4,1,fi);
+   fread(&distros,4,1,fi);
+   fread(&tux_x,4,1,fi);
+   fread(&tux_y,4,1,fi);
+   fread(&scroll_x,4,1,fi);
+   fclose(fi);
+  }
+
+}
