@@ -18,10 +18,6 @@
 #include <SDL.h>
 #include <SDL_image.h>
 
-#ifndef NOSOUND
-#include <SDL_mixer.h>
-#endif
-
 #ifdef LINUX
 #include <pwd.h>
 #include <sys/types.h>

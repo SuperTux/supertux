@@ -18,10 +18,6 @@
 #include <SDL.h>
 #include <SDL_image.h>
 
-#ifndef NOSOUND
-#include <SDL_mixer.h>
-#endif
-
 #ifdef LINUX
 #include <pwd.h>
 #include <sys/types.h>
@@ -32,6 +28,7 @@
 #include "globals.h"
 #include "setup.h"
 #include "screen.h"
+#include "sound.h"
 
 
 /* Local function prototypes: */
@@ -141,20 +138,18 @@ void st_setup(void)
   
   /* Open sound: */
   
-#ifndef NOSOUND
   if (use_sound == YES)
     {
-      if (Mix_OpenAudio(11025, AUDIO_S16, 2, 512) < 0)
+      if (Mix_OpenAudio(44100, AUDIO_S16, 2, 512) < 0)
         {
           fprintf(stderr,
-                  "\nWarning: I could not set up audio for 11025 Hz "
+                  "\nWarning: I could not set up audio for 44100 Hz "
                   "16-bit stereo.\n"
                   "The Simple DirectMedia error that occured was:\n"
                   "%s\n\n", SDL_GetError());
-          use_sound = 0;
+          use_sound = NO;
         }
     }
-#endif
 
 
   /* Open display: */
@@ -283,8 +278,11 @@ void parseargs(int argc, char * argv[])
   /* Set defaults: */
   
   use_fullscreen = NO;
+  #ifndef NOSOUND
   use_sound = YES;
-  
+  #else
+  use_sound = NO;
+  #endif
   
   /* Parse arguments: */
   
@@ -310,14 +308,45 @@ void parseargs(int argc, char * argv[])
 	  printf("Super Tux - version " VERSION "\n");
 	  exit(0);
 	}
+       else if (strcmp(argv[i], "--disable-sound") == 0)
+  	{
+ 	  /* Disable the compiled in sound & music feature */
+ #ifndef NOSOUND
+ 	  printf("Sounds and music disabled \n");
+ 	  use_sound = NO;
+ #else
+ 	  printf("Sounds and music feature is not compiled in \n");
+ #endif
+  	}
       else if (strcmp(argv[i], "--help") == 0)
-	{
-	  /* Show version: */
-	  
-	  printf("Super Tux - Help summary\n");
-	  printf("[ under construction ]\n");
-	  exit(0);
-	}
+	{ 	  /* Show help: */
+ 
+ 	  printf("Super Tux " VERSION "\n\n");
+ 
+ 	  printf("----------  Command-line options  ----------\n\n");
+ 
+           printf("  --disable-sound     - If sound support was compiled in,  this will\n                        disable it for this session of the game.\n\n");
+ 
+ 	  printf("  --fullscreen        - Run in fullscreen mode.\n\n");
+ 
+ 	  printf("  --help              - Display a help message summarizing command-line\n                        options, license and game controls.\n\n");
+ 
+ 	  printf("  --usage             - Display a brief message summarizing command-line options.\n\n");
+ 
+ 	  printf("  --version           - Display the version of SuperTux you're running.\n\n\n");
+ 
+ 
+ 	  printf("----------          License       ----------\n\n");
+ 	  printf("  This program comes with ABSOLUTELY NO WARRANTY.\n");
+ 	  printf("  This is free software, and you are welcome to redistribute\n");
+ 	  printf("  or modify it under certain conditions. See the file \n");
+ 	  printf("  \"COPYING.txt\" for more details.\n\n\n");
+ 
+ 	  printf("----------      Game controls     ----------\n\n");
+ 	  printf("  Please see the file \"README.txt\"\n\n");
+ 
+ 	  exit(0);
+      }
       else
 	{
 	  /* Unknown - complain! */
@@ -345,7 +374,7 @@ void usage(char * prog, int ret)
   
   /* Display the usage message: */
   
-  fprintf(fi, "Usage: %s [--fullscreen] | [--usage | --help | --version]\n",
+  fprintf(fi, "Usage: %s [--fullscreen] | [--disable-sound] |  [--usage | --help | --version]\n",
 	  prog);
   
   

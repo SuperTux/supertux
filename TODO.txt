@@ -6,16 +6,18 @@ http://www.newbreedsoftware.com/supertux/
 
 Version 0.0.5
 
-December 9, 2003
+December 17, 2003
 
 
 TO DO
 -----
   Different, better and more music
-  One-ups
   More enemies
   Redo laptop enemy graphics
   More levels
   Play as Gown, rescuing Tux
-  End game on game over
-  High score
+ 
+DONE
+-----
+  One-ups, End game on game over (by Tobias Glaesser <tobi.web@gmx.de>)
+  High score (by Adam Czachorowski <gislan@o2.pl>)

@@ -10,8 +10,6 @@
   April 22, 2000 - July 15, 2002
 */
 
-#ifndef NOSOUND
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -19,8 +17,6 @@
 #include <unistd.h>
 #include <SDL.h>
 #include <SDL_image.h>
-
-#include <SDL_mixer.h>
 
 #ifdef LINUX
 #include <pwd.h>
@@ -33,6 +29,7 @@
 #include "sound.h"
 #include "setup.h"
 
+#ifndef NOSOUND
 
 /* --- LOAD A SOUND --- */
 
@@ -54,14 +51,6 @@ Mix_Chunk * load_sound(char * file)
 }
 
 
-/* --- PLAY A SOUND --- */
-
-void playsound(Mix_Chunk * snd)
-{
-  Mix_PlayChannel(-1, snd, 0);
-}
-
-
 /* --- LOAD A SONG --- */
 
 Mix_Music * load_song(char * file)
@@ -80,5 +69,82 @@ Mix_Music * load_song(char * file)
 
   return (sng);
 }
+
+
+/* --- PLAY A SOUND --- */
+  
+ void playsound(Mix_Chunk * snd)
+ {
+  // this won't call the function if the user has disabled sound
+  if (use_sound) {
+    Mix_PlayChannel(-1, snd, 0);
+  }
+}
+ 
+ 
+void free_chunk(Mix_Chunk *chunk)
+{
+  if (use_sound)
+    Mix_FreeChunk( chunk );
+}
+    
+int playing_music(void)
+{
+ if (use_sound) {
+    return Mix_PlayingMusic();
+  }
+  else {
+    // we are in --disable-sound or NOSOUND, we can't be playing music !
+    return 0;
+  }
+}
+
+ 
+int halt_music(void)
+{
+  if (use_sound) {
+    return Mix_HaltMusic();
+  }
+  else {
+    return 0;
+  }
+}
+ 
+ 
+int play_music(Mix_Music *music, int loops)
+{
+  if (use_sound) {
+    return Mix_PlayMusic(music, loops);
+  }
+  else {
+    // return error since you're trying to play music in --disable-sound mode
+    return -1;
+  }
+}
+ 
+
+void free_music(Mix_Music *music)
+{
+  if (use_sound)
+    Mix_FreeMusic( music );
+}
+
+#else
+
+void* load_sound(void* file) { return NULL; }
+void playsound(void * snd) {}
+void* load_song(void* file) { return NULL; }
+int Mix_PlayingMusic() { return 0; }
+void Mix_HaltMusic() {}
+int Mix_PlayMusic() { return -1; }
+void Mix_FreeMusic() {}
+void Mix_FreeChunk() {}
+int Mix_OpenAudio(int a, int b, int c, int d) { return -1; }
+
+int playing_music() { return 0; }
+void halt_music() {}
+int play_music(int *music, int loops) { return 0;}
+void free_music(int *music) {}
+void free_chunk(int *chunk) {}
 
 #endif

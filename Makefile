@@ -78,9 +78,9 @@ win32:
 	chmod 644 SDL*.dll
 
 clean:
-	-rm supertux supertux.exe
-	-rm obj/*.o
-	-rm SDL*.dll
+	-rm -f supertux supertux.exe
+	-rm -f obj/*.o
+	-rm -f SDL*.dll
 
 
 # Main executable:

@@ -6,8 +6,8 @@ http://www.newbreedsoftware.com/supertux/
 
 Version 0.0.5
 
-December 9, 2003
-
+December 17, 2003
+ 
 
 NOTICE!  THIS GAME IS UNDER CONSTRUCTION!
 Things you'll notice:
@@ -51,8 +51,6 @@ RUNNING THE GAME
 
   The program accepts some options:
 
-UNDER CONSTRUCTION
-
     --disable-sound     - If sound support was compiled in, this will
                           disable it for this session of the game.
 
@@ -82,24 +80,25 @@ SCREEN LAYOUT
 -------------
   UNDER CONSTRUCTION
 
-    +----------------------------------------+
-    |SCORE 1230    TIME 128     DISTROS 93   |
-    |                                        |
-    |                                        |
-    |                                        |
-    |                                        |
-    |                                        |
-    |                                        |
-    |                                        |
-    |                                        |
-    |                                        |
-    |                                        |
-    +----------------------------------------+
+    +-------------------------------------------------+
+    |SCORE 1230    TIME 128     DISTROS 93    |
+    |HIGH 100                                                 |
+    |                                                               |
+    |                                                               |
+    |                                                               |
+    |                                                               |
+    |                                                               |
+    |                                                               |
+    |                                                               |
+    |                                                               |
+    |                                                               |
+    +-------------------------------------------------+
 
 
   Status
   ------
     Your score is displayed at the upper left.
+    Under your current score is the last highscore.
 
     The amount of time you have left to complete this level is displayed in
     the center at the top of the screen.  (Note: Time is NOT in seconds!)
@@ -146,6 +145,8 @@ SCORING
     the first and onto the second, it's worth 100 points.  If you also get
     the third, it's worth 150 points.
 
+    You can also score by shooting at the ennemies. Don't forget to drink
+    the coffee in order to get the ability to fire.
 
 GAME OVER SCREEN
 ----------------

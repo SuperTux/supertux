@@ -4,8 +4,11 @@ by Bill Kendrick
 bill@newbreedsoftware.com
 http://www.newbreedsoftware.com/supertux/
 
-0.0.5 - ???
------------
+0.0.5 - December 19th, 2003 - ???
+---------------------------
+  * command-line option "--disable-sound" and "--help" now work
+    Duong-Khang NGUYEN <neoneurone@users.sf.net>
+    
   * Added high score feature.
     Adam Czachorowski <gislan@o2.pl>
 

@@ -17,10 +17,6 @@
 #include <SDL.h>
 #include <SDL_image.h>
 
-#ifndef NOSOUND
-#include <SDL_mixer.h>
-#endif
-
 SDL_Surface * screen;
 SDL_Surface * letters_black, * letters_gold, * letters_blue, * letters_red;
 
