@@ -20,7 +20,6 @@
 
 #include <cmath>
 #include <cassert>
-#include <cmath>
 #include <iostream>
 
 #include "app/globals.h"
