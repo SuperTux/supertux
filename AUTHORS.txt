@@ -4,9 +4,9 @@ by Bill Kendrick
 bill@newbreedsoftware.com
 http://www.newbreedsoftware.com/supertux/
 
-Version 0.0.5
+Version 0.0.6 (in development)
 
-December 24th, 2003
+December 26th, 2003
 
 
 CREDITS

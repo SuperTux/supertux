@@ -4,9 +4,9 @@ by Bill Kendrick
 bill@newbreedsoftware.com
 http://www.newbreedsoftware.com/supertux/
 
-Version 0.0.5
+Version 0.0.6 (in development)
 
-December 9, 2003
+December 26th, 2003
 
 
 REQUIREMENTS
@@ -85,6 +85,13 @@ INSTALLING UNDER LINUX/UNIX
       support.  If you don't have a version of SDL that supports
       joystick, or just don't want joystick support, set this to "NO".
 
+    DEBUG_FLAG=-DDEBUG
+
+      This tells the compiler to generate an executable file with
+      internal debugging messages. If you don't want to see those
+      annoying texts, just edit it as below:
+
+    DEBUG_FLAG=
 
   To compile the game, type the command:
 

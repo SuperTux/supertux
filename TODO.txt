@@ -4,9 +4,9 @@ by Bill Kendrick
 bill@newbreedsoftware.com
 http://www.newbreedsoftware.com/supertux/
 
-Version 0.0.5
+Version 0.0.6 (in development)
 
-December 17, 2003
+December 26th, 2003
 
 
 TO DO
@@ -21,3 +21,4 @@ DONE
 -----
   One-ups, End game on game over (by Tobias Glaesser <tobi.web@gmx.de>)
   High score (by Adam Czachorowski <gislan@o2.pl>)
+  

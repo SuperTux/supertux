@@ -4,6 +4,16 @@ by Bill Kendrick & Tobias Glaesser
 bill@newbreedsoftware.com
 http://www.newbreedsoftware.com/supertux/
 
+
+0.0.6 - current CVS version
+---------------------------
+  * Added: displaying tux left
+    Tobias Glaesser <tobi.web@gmx.de>
+
+  * Added: --disable-music and music on/off menu option
+    Duong-Khang NGUYEN <neoneurone@users.sf.net>
+
+
 0.0.5 - December 24th, 2003
 ---------------------------
   * Added "Level 2"

@@ -4,9 +4,9 @@ by Bill Kendrick
 bill@newbreedsoftware.com
 http://www.newbreedsoftware.com/supertux/
 
-Version 0.0.5
+Version 0.0.6 (in development)
 
-December 24th, 2003
+December 26th, 2003
  
 
 NOTICE!  THIS GAME IS UNDER CONSTRUCTION!
@@ -52,7 +52,11 @@ RUNNING THE GAME
   The program accepts some options:
 
     --disable-sound     - If sound support was compiled in, this will
-                          disable it for this session of the game.
+                          disable it. You can also turn on/off sound
+                          during the game.
+
+    --disable-music     - This option disables music. However, you can
+                          still turn it on/off later in the game.
 
     --fullscreen        - Run in fullscreen mode.
 
@@ -69,7 +73,10 @@ TITLE SCREEN
 ------------
   Press [RETURN] or a joystick firebutton to begin a game.
 
-  Press [ESCAPE] to quit.
+  Press [ESCAPE] or choose [Quit] to quit.
+
+  Use arrow keys to move between menu's items. Press [RETURN] or [SPACE] to validate
+  your choice.
 
   Note: If you're playing Super Tux in a window, you can also use
   your window manager's close option (usually an "X" button on the window's
@@ -127,8 +134,10 @@ PLAYING THE GAME
 
   Quitting
   --------
-    To quit the current game, you can press [ESCAPE].  This forfeits your game
-    (as though you ran out of lives).
+    To quit the current game, you can press [ESCAPE] to open the game's menu
+    then choose [Quit game]. This forfeits your game (as though you ran
+    out of lives).
+ 
 
     To quit Super Tux altogether, you can use your window manager's
     close command.  See the note in the "Title Screen" section, above.
@@ -157,13 +166,21 @@ OPTIONS FILE
 
   When Super Tux starts up, it looks for an options file.
 
-  Under Linux, this file is ".supertux" in your home directory ($HOME).
+  Under Linux, this file is "config" in your directory
+  ($HOME/.supertux/).
   Under Windows, this file is "supertux.dat" in the Super Tux folder.
+  
+  This file records program's settings.
 
-  This file records high score scores and initials, and volume settings.
-  Currently it only records high score.
+HIGHSCORE FILE
+--------------
 
-
+  When Super Tux starts up, it looks for an highscore file.
+  
+  Under Linux, this file is "highscore" in your directory
+  ($HOME/.supertux/).
+  Under Windows, this file is "st_highscore.dat" in the Super Tux folder.
+  
 THE END
 -------
   Thanks for trying out Super Tux.
