@@ -268,13 +268,6 @@ void menu_draw_item(menu_type* pmenu,
 
   const menu_item_type& pitem =  pmenu->item[index];
 
-  int x_pos = 0;
-  if(pmenu->arrange_left == YES)
-    x_pos = 24 - menu_width/2
-      + (font_width * (strlen(pitem.text) 
-               + strlen(pitem.input)
-               + strlen(string_list_active(pitem.list))))/2;
-      
   int effect_offset = 0;
   {
     int effect_time = 0;
@@ -284,15 +277,17 @@ void menu_draw_item(menu_type* pmenu,
     effect_offset = (index % 2) ? effect_time : -effect_time;
   }
 
-  int raw_y_pos  = 24*index - menu_height/2; 
-  int top        = raw_y_pos + effect_offset;
-  int bottom     = top + 10; // bottom of the menu item 
-
-  int start_x    = screen->w/2 + x_pos;
-  int cen_y_10_f = screen->h/2 + bottom;
-
+  int x_pos       = screen->w/2;
+  int y_pos       = screen->h/2 + 24*index - menu_height/2 + 12 + effect_offset;
   int shadow_size = 2;
+  int text_width  = strlen(pitem.text) * font_width;
+  int input_width = strlen(pitem.input) * font_width;
+  int list_width  = strlen(string_list_active(pitem.list)) * font_width;
   text_type* text_font = &white_text;
+
+  if(pmenu->arrange_left == YES)
+    x_pos += 24 - menu_width/2 + (text_width + input_width + list_width)/2;
+  
   if(index == pmenu->active_item)
     {
       shadow_size = 3;
@@ -303,8 +298,8 @@ void menu_draw_item(menu_type* pmenu,
     {
     case MN_DEACTIVE:
       {
-        text_drawf(&black_text, pitem.text, 
-                   x_pos, bottom,
+        text_draw_align(&black_text, pitem.text, 
+                   x_pos, y_pos,
                    A_HMIDDLE, A_VMIDDLE, 2);
         break;
       }
@@ -312,7 +307,7 @@ void menu_draw_item(menu_type* pmenu,
     case MN_HL:
       {
         int x = screen->w/2 - menu_width/2; 
-        int y = screen->h/2 + raw_y_pos;
+        int y = y_pos - 12 - effect_offset;
         /* Draw a horizontal line with a little 3d effect */
         fillrect(x, y + 6,
                  menu_width, 4,
@@ -324,72 +319,76 @@ void menu_draw_item(menu_type* pmenu,
       }
     case MN_LABEL:
       {
-        text_drawf(&white_big_text, pitem.text, 
-                   x_pos, bottom,
-                   A_HMIDDLE, A_VMIDDLE, 2);
+        text_draw_align(&white_big_text, pitem.text, 
+                        x_pos, y_pos,
+                        A_HMIDDLE, A_VMIDDLE, 2);
         break;
       }
     case MN_TEXTFIELD:
     case MN_NUMFIELD:
       {
-        int input_pos = (strlen(pitem.input)*font_width)/2;
-        int text_pos  = (strlen(pitem.text)+1)*font_width/2;
+        int input_pos = input_width/2;
+        int text_pos  = (text_width + font_width)/2;
 
-        fillrect(start_x - input_pos + text_pos - 1, cen_y_10_f - 10,
-                 (strlen(pitem.input)+1)*font_width + 2, 20,
+        fillrect(x_pos - input_pos + text_pos - 1, y_pos - 10,
+                 input_width + font_width + 2, 20,
                  255,255,255,255);
-        fillrect(start_x - input_pos + text_pos, cen_y_10_f - 9,
-                 (strlen(pitem.input)+1)*font_width, 18,
+        fillrect(x_pos - input_pos + text_pos, y_pos - 9,
+                 input_width + font_width, 18,
                  0,0,0,128);
 
-        text_drawf(&gold_text, pitem.input,
-                   x_pos + text_pos, bottom, 
-                   A_HMIDDLE, A_VMIDDLE, 2);
+        text_draw_align(&gold_text, pitem.input,
+                        x_pos + text_pos, y_pos, 
+                        A_HMIDDLE, A_VMIDDLE, 2);
 
-        text_drawf(text_font, pitem.text, 
-                   x_pos - (((strlen(pitem.input)+1) * font_width)/2), bottom,
-                   A_HMIDDLE, A_VMIDDLE, shadow_size);
+        text_draw_align(text_font, pitem.text, 
+                        x_pos - (input_width + font_width)/2, y_pos,
+                        A_HMIDDLE, A_VMIDDLE, shadow_size);
         break;
       }
     case MN_STRINGSELECT:
       {
-        int list_pos_2 = (strlen(string_list_active(pitem.list))+1)*font_width;
-        int list_pos   = (strlen(string_list_active(pitem.list))*font_width)/2;
-        int text_pos   = ((strlen(pitem.text) + 1)*font_width)/2;
+        int list_pos_2 = list_width + font_width;
+        int list_pos   = list_width/2;
+        int text_pos   = (text_width + font_width)/2;
 
         /* Draw arrows */
-        texture_draw(&arrow_left,  start_x - list_pos + text_pos - 17, cen_y_10_f - 8);
-        texture_draw(&arrow_right, start_x - list_pos + text_pos - 1 + list_pos_2, cen_y_10_f - 8);
+        texture_draw(&arrow_left,  x_pos - list_pos + text_pos - 17, y_pos - 8);
+        texture_draw(&arrow_right, x_pos - list_pos + text_pos - 1 + list_pos_2, y_pos - 8);
 
         /* Draw input background */
-        fillrect(start_x - list_pos + text_pos - 1, cen_y_10_f - 10,
+        fillrect(x_pos - list_pos + text_pos - 1, y_pos - 10,
                  list_pos_2 + 2, 20,
                  255,255,255,255);
-        fillrect(start_x - list_pos + text_pos, cen_y_10_f - 9,
+        fillrect(x_pos - list_pos + text_pos, y_pos - 9,
                  list_pos_2, 18,
                  0,0,0,128);
 
-        text_drawf(&gold_text, string_list_active(pitem.list), 
-                   x_pos + text_pos, bottom,
+        text_draw_align(&gold_text, string_list_active(pitem.list), 
+                   x_pos + text_pos, y_pos,
                    A_HMIDDLE, A_VMIDDLE,2);
 
-        text_drawf(text_font, pitem.text,
-                   x_pos - list_pos_2/2, bottom,
-                   A_HMIDDLE, A_VMIDDLE, shadow_size);
+        text_draw_align(text_font, pitem.text,
+                        x_pos - list_pos_2/2, y_pos,
+                        A_HMIDDLE, A_VMIDDLE, shadow_size);
         break;
       }
     case MN_BACK:
       {
-        texture_draw(&back, start_x + (strlen(pitem.text) * font_width)/2  + font_width, cen_y_10_f - 8);
+        texture_draw(&back, x_pos + text_width/2  + font_width, y_pos - 8);
         break;
       }
 
     case MN_TOGGLE:
       {
         if(pitem.toggled == YES)
-          texture_draw(&checkbox_checked, start_x + (strlen(pitem.text) * font_width)/2 + font_width, cen_y_10_f - 8);
+          texture_draw(&checkbox_checked, 
+                       x_pos + (text_width+font_width)/2,
+                       y_pos - 8);
         else
-          texture_draw(&checkbox, start_x + (strlen(pitem.text) * font_width)/2 + font_width, cen_y_10_f - 8);
+          texture_draw(&checkbox, 
+                       x_pos + (text_width+font_width)/2,
+                       y_pos - 8);
         break;
       }
     case MN_ACTION:
@@ -405,7 +404,7 @@ void menu_draw_item(menu_type* pmenu,
     case MN_GOTO:
     case MN_TOGGLE:
     case MN_BACK:
-      text_drawf(text_font, pitem.text, x_pos, bottom, A_HMIDDLE, A_VMIDDLE, shadow_size);
+      text_draw_align(text_font, pitem.text, x_pos, y_pos, A_HMIDDLE, A_VMIDDLE, shadow_size);
       break;
     case MN_DEACTIVE:
     case MN_TEXTFIELD:

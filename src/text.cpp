@@ -147,7 +147,7 @@ void text_draw_align(text_type* ptext, const char* text, int x, int y,
           break;
         }
 
-      text_draw(ptext,text,x,y,shadowsize,update);
+      text_draw(ptext, text, x, y, shadowsize, update);
     }
 }
 
