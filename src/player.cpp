@@ -737,10 +737,8 @@ Player::handle_vertical_input()
         if(badguy->dying == DYING_NOT && badguy->mode != BadGuy::BOMB_TICKING &&
            badguy->mode != BadGuy::BOMB_EXPLODE)
           {
-            if (fabsf(base.x - badguy->base.x) < 150 &&
-              fabsf(base.y - badguy->base.y) < 60 &&
-              (issolid(badguy->base.x + 1, badguy->base.y + badguy->base.height) ||
-               issolid(badguy->base.x + badguy->base.width - 1, badguy->base.y + badguy->base.height)))
+            if (fabsf(base.x - badguy->base.x) < 96 &&
+                fabsf(base.y - badguy->base.y) < 64)
               badguy->kill_me(25);
           }
       }
