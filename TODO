@@ -1,22 +1,25 @@
+                                TODO
 
-- To do for Milestone2 -
-http://super-tux.sf.net/
+Milestone 2
+~~~~~~~~~~~
+Documents and ideas: http://super-tux.sourceforge.net/milestone2
+Wiki: http://netpanzer.berlios.de/supertux
+        esp. http://netpanzer.berlios.de/supertux/index.php/Forest
 
-High priority: milestone goals that should be implemented for next milestone
-Medium priority: would be nice to have for next milestone, but should
-    be secondary to high priority goals
-Low priority: things that should be fixed sometime
+
+Notes
+~~~~~
+High priority [H]:   milestone goals that should be implemented for next
+                     milestone
+Medium priority [M]: would be nice to have for next milestone, but should
+                     be secondary to high priority goals
+Low priority [L]:    things that should be fixed sometime
 ?: Things that need to be discussed to determine whether or not they should be
     implemented
 
-Todo
-----
-H: high priority
-M: medium priority
-L: low priority
-?: bug or feature?
-    - needs discussion
 
+Programming
+~~~~~~~~~~~
 --Scons--
  * [H] Add an install target - done (however scons is creating stupid .sconsign
                                      files at the install location :-/)
@@ -81,26 +84,19 @@ L: low priority
    without OO support in the scripting language.
    Other candidates are python, ruby and less likely java, mono/.net,
    surely no own invention, perl or 1 of these c-like scripting languages)
-
-[?] Default keyboard setup should change. Up will be needed for other features
-    like going through doors and looking up, etc.
-  Up arrow    - Look up / activate
-  Down arrow  - Look down / duck
-  Left arrow  - Left move
-  Right arrow - Right move
-  Ctrl        - Run / Power
-  Space       - Jump
-
-[H] Worldmap should have a flag to allow to go to another map after finishing
-    a level from that one.
-    It might be cool to have a (place group in the worldmap file that would
-    allow such stuff as: levels, messages, wrapping and worldmap changing
-    (or even combinations).
-[H] Change resolution to 800x600
-     - Levels need to be updated to resolution
-        - half of the levels have been already updated
-        - some fixed levels still have "glitches". See the menu level where
-          some of the tiles are "wrong" and don't fit
+[H] Create a "sound object" that is an object or area, that can be placed on the
+    map and constantly plays a .wav file to improve game athmosphere.
+    Good examples would be a water sound which can be placed at waterfalls,
+    a kuckoo sound that can be placed into the wood, bubling sound for lava,
+    ...
+[?] Create a falling leaves particle system. (I.e. slowly falling leaves in the
+    background) along with nice leaves graphics.
+        - the problem here is that leaves don't fall of the sky and fir trees
+        don't have leaves :-/
+[H] Add a simple rock object that can be carried around
+[H] Add a rope object on which tux is able to climb, also add a ? block that
+    emits a rope when hit
+[H] redo trampolines
 [H] Buttjump related things
      - Should kill enemies with a certain range
         - Done--now needs to be tweaked
@@ -117,18 +113,31 @@ L: low priority
      - New forest tileset
      - Badguy sprites
      - Tux's buttjump animation
-
 [M] Save score on per-level basis to make high-score
 [M] Save time on per-level basis to make low-time-score
 [M] Add bonus score for extra time left when finishing a level
 [M] when bumping a special with 2 blocks at once, it won't change direction
 [M] tux get killed if he kicks a iceblock while at the same time bouncing on
-
 [L] Allow any object to be inside of a [?] box, ie. trampoline or badguy
     - Not sure if this would be gameplay wise.
 
+Graphics
+~~~~~~~~
+
+[H] Graphics+Animations for the Yeti
+        (see also http://netpanzer.berlios.de/supertux/index.php/Yeti)
+[H] Graphics for the 5 keys in the forest world, graphics for the castle door
+    with 5 key holes
+[H] New tiles for the forest worldmap
+[H] Create a graphics to visually present reset points. (Maybe a bell that
+    starts swinging once tux touched it?)
+[M] Add graphics for ropes
+[L] Create graphics for bubbles and soap (not necessary for milestone2)
+
+-new enemies need to be designed and added
+
 Beyond Milestone2
------------------
+~~~~~~~~~~~~~~~~~
 - More things than just levels on the worldmap (similar to SMB3)
 - if we have a logical framerate we could record/play demos by simply storing
   the pressed keys in each frame...
