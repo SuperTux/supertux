@@ -818,204 +818,202 @@ int gameloop(const char * subset, int levelnb, int mode)
 void loadshared(void)
 {
   int i;
-  char * herring_song_path; /* for loading herring song*/
 
   /* Tuxes: */
+  texture_load(&tux_right[0], datadir + "/images/shared/tux-right-0.png", USE_ALPHA);
+  texture_load(&tux_right[1], datadir + "/images/shared/tux-right-1.png", USE_ALPHA);
+  texture_load(&tux_right[2], datadir + "/images/shared/tux-right-2.png", USE_ALPHA);
 
-  texture_load(&tux_right[0],DATA_PREFIX "/images/shared/tux-right-0.png", USE_ALPHA);
-  texture_load(&tux_right[1],DATA_PREFIX "/images/shared/tux-right-1.png", USE_ALPHA);
-  texture_load(&tux_right[2],DATA_PREFIX "/images/shared/tux-right-2.png", USE_ALPHA);
+  texture_load(&tux_left[0], datadir + "/images/shared/tux-left-0.png", USE_ALPHA);
+  texture_load(&tux_left[1], datadir + "/images/shared/tux-left-1.png", USE_ALPHA);
+  texture_load(&tux_left[2], datadir + "/images/shared/tux-left-2.png", USE_ALPHA);
 
-  texture_load(&tux_left[0],DATA_PREFIX "/images/shared/tux-left-0.png", USE_ALPHA);
-  texture_load(&tux_left[1],DATA_PREFIX "/images/shared/tux-left-1.png", USE_ALPHA);
-  texture_load(&tux_left[2],DATA_PREFIX "/images/shared/tux-left-2.png", USE_ALPHA);
+  texture_load(&firetux_right[0], datadir + "/images/shared/firetux-right-0.png", USE_ALPHA);
+  texture_load(&firetux_right[1], datadir + "/images/shared/firetux-right-1.png", USE_ALPHA);
+  texture_load(&firetux_right[2], datadir + "/images/shared/firetux-right-2.png", USE_ALPHA);
 
-  texture_load(&firetux_right[0],DATA_PREFIX "/images/shared/firetux-right-0.png", USE_ALPHA);
-  texture_load(&firetux_right[1],DATA_PREFIX "/images/shared/firetux-right-1.png", USE_ALPHA);
-  texture_load(&firetux_right[2],DATA_PREFIX "/images/shared/firetux-right-2.png", USE_ALPHA);
-
-  texture_load(&firetux_left[0],DATA_PREFIX "/images/shared/firetux-left-0.png", USE_ALPHA);
-  texture_load(&firetux_left[1],DATA_PREFIX "/images/shared/firetux-left-1.png", USE_ALPHA);
-  texture_load(&firetux_left[2],DATA_PREFIX "/images/shared/firetux-left-2.png", USE_ALPHA);
+  texture_load(&firetux_left[0], datadir + "/images/shared/firetux-left-0.png", USE_ALPHA);
+  texture_load(&firetux_left[1], datadir + "/images/shared/firetux-left-1.png", USE_ALPHA);
+  texture_load(&firetux_left[2], datadir + "/images/shared/firetux-left-2.png", USE_ALPHA);
 
 
-  texture_load(&cape_right[0] ,DATA_PREFIX "/images/shared/cape-right-0.png",
+  texture_load(&cape_right[0], datadir + "/images/shared/cape-right-0.png",
                USE_ALPHA);
 
-  texture_load(&cape_right[1] ,DATA_PREFIX "/images/shared/cape-right-1.png",
+  texture_load(&cape_right[1], datadir + "/images/shared/cape-right-1.png",
                USE_ALPHA);
 
-  texture_load(&cape_left[0] ,DATA_PREFIX "/images/shared/cape-left-0.png",
+  texture_load(&cape_left[0], datadir + "/images/shared/cape-left-0.png",
                USE_ALPHA);
 
-  texture_load(&cape_left[1] ,DATA_PREFIX "/images/shared/cape-left-1.png",
+  texture_load(&cape_left[1], datadir + "/images/shared/cape-left-1.png",
                USE_ALPHA);
 
-  texture_load(&bigtux_right[0] ,DATA_PREFIX "/images/shared/bigtux-right-0.png",
+  texture_load(&bigtux_right[0], datadir + "/images/shared/bigtux-right-0.png",
                USE_ALPHA);
 
-  texture_load(&bigtux_right[1] ,DATA_PREFIX "/images/shared/bigtux-right-1.png",
+  texture_load(&bigtux_right[1], datadir + "/images/shared/bigtux-right-1.png",
                USE_ALPHA);
 
-  texture_load(&bigtux_right[2] ,DATA_PREFIX "/images/shared/bigtux-right-2.png",
+  texture_load(&bigtux_right[2], datadir + "/images/shared/bigtux-right-2.png",
                USE_ALPHA);
 
-  texture_load(&bigtux_right_jump ,DATA_PREFIX "/images/shared/bigtux-right-jump.png", USE_ALPHA);
+  texture_load(&bigtux_right_jump, datadir + "/images/shared/bigtux-right-jump.png", USE_ALPHA);
 
-  texture_load(&bigtux_left[0] ,DATA_PREFIX "/images/shared/bigtux-left-0.png",
+  texture_load(&bigtux_left[0], datadir + "/images/shared/bigtux-left-0.png",
                USE_ALPHA);
 
-  texture_load(&bigtux_left[1] ,DATA_PREFIX "/images/shared/bigtux-left-1.png",
+  texture_load(&bigtux_left[1], datadir + "/images/shared/bigtux-left-1.png",
                USE_ALPHA);
 
-  texture_load(&bigtux_left[2] ,DATA_PREFIX "/images/shared/bigtux-left-2.png",
+  texture_load(&bigtux_left[2], datadir + "/images/shared/bigtux-left-2.png",
                USE_ALPHA);
 
-  texture_load(&bigtux_left_jump ,DATA_PREFIX "/images/shared/bigtux-left-jump.png", USE_ALPHA);
+  texture_load(&bigtux_left_jump, datadir + "/images/shared/bigtux-left-jump.png", USE_ALPHA);
 
-  texture_load(&bigcape_right[0] ,DATA_PREFIX "/images/shared/bigcape-right-0.png",
+  texture_load(&bigcape_right[0], datadir + "/images/shared/bigcape-right-0.png",
                USE_ALPHA);
 
-  texture_load(&bigcape_right[1] ,DATA_PREFIX "/images/shared/bigcape-right-1.png",
+  texture_load(&bigcape_right[1], datadir + "/images/shared/bigcape-right-1.png",
                USE_ALPHA);
 
-  texture_load(&bigcape_left[0] ,DATA_PREFIX "/images/shared/bigcape-left-0.png",
+  texture_load(&bigcape_left[0], datadir + "/images/shared/bigcape-left-0.png",
                USE_ALPHA);
 
-  texture_load(&bigcape_left[1] ,DATA_PREFIX "/images/shared/bigcape-left-1.png",
+  texture_load(&bigcape_left[1], datadir + "/images/shared/bigcape-left-1.png",
                USE_ALPHA);
 
-  texture_load(&bigfiretux_right[0] ,DATA_PREFIX "/images/shared/bigfiretux-right-0.png",
+  texture_load(&bigfiretux_right[0], datadir + "/images/shared/bigfiretux-right-0.png",
                USE_ALPHA);
 
-  texture_load(&bigfiretux_right[1] ,DATA_PREFIX "/images/shared/bigfiretux-right-1.png",
+  texture_load(&bigfiretux_right[1], datadir + "/images/shared/bigfiretux-right-1.png",
                USE_ALPHA);
 
-  texture_load(&bigfiretux_right[2] ,DATA_PREFIX "/images/shared/bigfiretux-right-2.png",
+  texture_load(&bigfiretux_right[2], datadir + "/images/shared/bigfiretux-right-2.png",
                USE_ALPHA);
 
-  texture_load(&bigfiretux_right_jump ,DATA_PREFIX "/images/shared/bigfiretux-right-jump.png", USE_ALPHA);
+  texture_load(&bigfiretux_right_jump, datadir + "/images/shared/bigfiretux-right-jump.png", USE_ALPHA);
 
-  texture_load(&bigfiretux_left[0] ,DATA_PREFIX "/images/shared/bigfiretux-left-0.png",
+  texture_load(&bigfiretux_left[0], datadir + "/images/shared/bigfiretux-left-0.png",
                USE_ALPHA);
 
-  texture_load(&bigfiretux_left[1] ,DATA_PREFIX "/images/shared/bigfiretux-left-1.png",
+  texture_load(&bigfiretux_left[1], datadir + "/images/shared/bigfiretux-left-1.png",
                USE_ALPHA);
 
-  texture_load(&bigfiretux_left[2] ,DATA_PREFIX "/images/shared/bigfiretux-left-2.png",
+  texture_load(&bigfiretux_left[2], datadir + "/images/shared/bigfiretux-left-2.png",
                USE_ALPHA);
 
-  texture_load(&bigfiretux_left_jump ,DATA_PREFIX "/images/shared/bigfiretux-left-jump.png", USE_ALPHA);
+  texture_load(&bigfiretux_left_jump, datadir + "/images/shared/bigfiretux-left-jump.png", USE_ALPHA);
 
-  texture_load(&bigcape_right[0] ,DATA_PREFIX "/images/shared/bigcape-right-0.png",
+  texture_load(&bigcape_right[0], datadir + "/images/shared/bigcape-right-0.png",
                USE_ALPHA);
 
-  texture_load(&bigcape_right[1] ,DATA_PREFIX "/images/shared/bigcape-right-1.png",
+  texture_load(&bigcape_right[1], datadir + "/images/shared/bigcape-right-1.png",
                USE_ALPHA);
 
-  texture_load(&bigcape_left[0] ,DATA_PREFIX "/images/shared/bigcape-left-0.png",
+  texture_load(&bigcape_left[0], datadir + "/images/shared/bigcape-left-0.png",
                USE_ALPHA);
 
-  texture_load(&bigcape_left[1] ,DATA_PREFIX "/images/shared/bigcape-left-1.png",
+  texture_load(&bigcape_left[1], datadir + "/images/shared/bigcape-left-1.png",
                USE_ALPHA);
 
 
-  texture_load(&ducktux_right ,DATA_PREFIX
+  texture_load(&ducktux_right, datadir +
                "/images/shared/ducktux-right.png",
                USE_ALPHA);
 
-  texture_load(&ducktux_left ,DATA_PREFIX
+  texture_load(&ducktux_left, datadir +
                "/images/shared/ducktux-left.png",
                USE_ALPHA);
 
-  texture_load(&skidtux_right ,DATA_PREFIX
+  texture_load(&skidtux_right, datadir +
                "/images/shared/skidtux-right.png",
                USE_ALPHA);
 
-  texture_load(&skidtux_left ,DATA_PREFIX
+  texture_load(&skidtux_left, datadir +
                "/images/shared/skidtux-left.png",
                USE_ALPHA);
 
-  texture_load(&duckfiretux_right ,DATA_PREFIX
+  texture_load(&duckfiretux_right, datadir +
                "/images/shared/duckfiretux-right.png",
                USE_ALPHA);
 
-  texture_load(&duckfiretux_left ,DATA_PREFIX
+  texture_load(&duckfiretux_left, datadir +
                "/images/shared/duckfiretux-left.png",
                USE_ALPHA);
 
-  texture_load(&skidfiretux_right ,DATA_PREFIX
+  texture_load(&skidfiretux_right, datadir +
                "/images/shared/skidfiretux-right.png",
                USE_ALPHA);
 
-  texture_load(&skidfiretux_left ,DATA_PREFIX
+  texture_load(&skidfiretux_left, datadir +
                "/images/shared/skidfiretux-left.png",
                USE_ALPHA);
 
 
   /* Boxes: */
 
-  texture_load(&img_box_full ,DATA_PREFIX "/images/shared/box-full.png",
+  texture_load(&img_box_full, datadir + "/images/shared/box-full.png",
                IGNORE_ALPHA);
-  texture_load(&img_box_empty ,DATA_PREFIX "/images/shared/box-empty.png",
+  texture_load(&img_box_empty, datadir + "/images/shared/box-empty.png",
                IGNORE_ALPHA);
 
 
   /* Water: */
 
 
-  texture_load(&img_water ,DATA_PREFIX "/images/shared/water.png", IGNORE_ALPHA);
+  texture_load(&img_water, datadir + "/images/shared/water.png", IGNORE_ALPHA);
 
-  texture_load(&img_waves[0] ,DATA_PREFIX "/images/shared/waves-0.png",
+  texture_load(&img_waves[0], datadir + "/images/shared/waves-0.png",
                USE_ALPHA);
 
-  texture_load(&img_waves[1] ,DATA_PREFIX "/images/shared/waves-1.png",
+  texture_load(&img_waves[1], datadir + "/images/shared/waves-1.png",
                USE_ALPHA);
 
-  texture_load(&img_waves[2] ,DATA_PREFIX "/images/shared/waves-2.png",
+  texture_load(&img_waves[2], datadir + "/images/shared/waves-2.png",
                USE_ALPHA);
 
 
   /* Pole: */
 
-  texture_load(&img_pole ,DATA_PREFIX "/images/shared/pole.png", USE_ALPHA);
-  texture_load(&img_poletop ,DATA_PREFIX "/images/shared/poletop.png",
+  texture_load(&img_pole, datadir + "/images/shared/pole.png", USE_ALPHA);
+  texture_load(&img_poletop, datadir + "/images/shared/poletop.png",
                USE_ALPHA);
 
 
   /* Flag: */
 
-  texture_load(&img_flag[0] ,DATA_PREFIX "/images/shared/flag-0.png",
+  texture_load(&img_flag[0], datadir + "/images/shared/flag-0.png",
                USE_ALPHA);
-  texture_load(&img_flag[1] ,DATA_PREFIX "/images/shared/flag-1.png",
+  texture_load(&img_flag[1], datadir + "/images/shared/flag-1.png",
                USE_ALPHA);
 
 
   /* Cloud: */
 
-  texture_load(&img_cloud[0][0] ,DATA_PREFIX "/images/shared/cloud-00.png",
+  texture_load(&img_cloud[0][0], datadir + "/images/shared/cloud-00.png",
                USE_ALPHA);
 
-  texture_load(&img_cloud[0][1] ,DATA_PREFIX "/images/shared/cloud-01.png",
+  texture_load(&img_cloud[0][1], datadir + "/images/shared/cloud-01.png",
                USE_ALPHA);
 
-  texture_load(&img_cloud[0][2] ,DATA_PREFIX "/images/shared/cloud-02.png",
+  texture_load(&img_cloud[0][2], datadir + "/images/shared/cloud-02.png",
                USE_ALPHA);
 
-  texture_load(&img_cloud[0][3] ,DATA_PREFIX "/images/shared/cloud-03.png",
+  texture_load(&img_cloud[0][3], datadir + "/images/shared/cloud-03.png",
                USE_ALPHA);
 
 
-  texture_load(&img_cloud[1][0] ,DATA_PREFIX "/images/shared/cloud-10.png",
+  texture_load(&img_cloud[1][0], datadir + "/images/shared/cloud-10.png",
                USE_ALPHA);
 
-  texture_load(&img_cloud[1][1] ,DATA_PREFIX "/images/shared/cloud-11.png",
+  texture_load(&img_cloud[1][1], datadir + "/images/shared/cloud-11.png",
                USE_ALPHA);
 
-  texture_load(&img_cloud[1][2] ,DATA_PREFIX "/images/shared/cloud-12.png",
+  texture_load(&img_cloud[1][2], datadir + "/images/shared/cloud-12.png",
                USE_ALPHA);
 
-  texture_load(&img_cloud[1][3] ,DATA_PREFIX "/images/shared/cloud-13.png",
+  texture_load(&img_cloud[1][3], datadir + "/images/shared/cloud-13.png",
                USE_ALPHA);
 
 
@@ -1023,113 +1021,113 @@ void loadshared(void)
 
   /* (BSOD) */
 
-  texture_load(&img_bsod_left[0] ,DATA_PREFIX
+  texture_load(&img_bsod_left[0], datadir +
                "/images/shared/bsod-left-0.png",
                USE_ALPHA);
 
-  texture_load(&img_bsod_left[1] ,DATA_PREFIX
+  texture_load(&img_bsod_left[1], datadir +
                "/images/shared/bsod-left-1.png",
                USE_ALPHA);
 
-  texture_load(&img_bsod_left[2] ,DATA_PREFIX
+  texture_load(&img_bsod_left[2], datadir +
                "/images/shared/bsod-left-2.png",
                USE_ALPHA);
 
-  texture_load(&img_bsod_left[3] ,DATA_PREFIX
+  texture_load(&img_bsod_left[3], datadir +
                "/images/shared/bsod-left-3.png",
                USE_ALPHA);
 
-  texture_load(&img_bsod_right[0] ,DATA_PREFIX
+  texture_load(&img_bsod_right[0], datadir +
                "/images/shared/bsod-right-0.png",
                USE_ALPHA);
 
-  texture_load(&img_bsod_right[1] ,DATA_PREFIX
+  texture_load(&img_bsod_right[1], datadir +
                "/images/shared/bsod-right-1.png",
                USE_ALPHA);
 
-  texture_load(&img_bsod_right[2] ,DATA_PREFIX
+  texture_load(&img_bsod_right[2], datadir +
                "/images/shared/bsod-right-2.png",
                USE_ALPHA);
 
-  texture_load(&img_bsod_right[3] ,DATA_PREFIX
+  texture_load(&img_bsod_right[3], datadir +
                "/images/shared/bsod-right-3.png",
                USE_ALPHA);
 
-  texture_load(&img_bsod_squished_left ,DATA_PREFIX
+  texture_load(&img_bsod_squished_left, datadir +
                "/images/shared/bsod-squished-left.png",
                USE_ALPHA);
 
-  texture_load(&img_bsod_squished_right ,DATA_PREFIX
+  texture_load(&img_bsod_squished_right, datadir +
                "/images/shared/bsod-squished-right.png",
                USE_ALPHA);
 
-  texture_load(&img_bsod_falling_left ,DATA_PREFIX
+  texture_load(&img_bsod_falling_left, datadir +
                "/images/shared/bsod-falling-left.png",
                USE_ALPHA);
 
-  texture_load(&img_bsod_falling_right ,DATA_PREFIX
+  texture_load(&img_bsod_falling_right, datadir +
                "/images/shared/bsod-falling-right.png",
                USE_ALPHA);
 
 
   /* (Laptop) */
 
-  texture_load(&img_laptop_left[0] ,DATA_PREFIX
+  texture_load(&img_laptop_left[0], datadir +
                "/images/shared/laptop-left-0.png",
                USE_ALPHA);
 
-  texture_load(&img_laptop_left[1] ,DATA_PREFIX
+  texture_load(&img_laptop_left[1], datadir +
                "/images/shared/laptop-left-1.png",
                USE_ALPHA);
 
-  texture_load(&img_laptop_left[2] ,DATA_PREFIX
+  texture_load(&img_laptop_left[2], datadir +
                "/images/shared/laptop-left-2.png",
                USE_ALPHA);
 
-  texture_load(&img_laptop_right[0] ,DATA_PREFIX
+  texture_load(&img_laptop_right[0], datadir +
                "/images/shared/laptop-right-0.png",
                USE_ALPHA);
 
-  texture_load(&img_laptop_right[1] ,DATA_PREFIX
+  texture_load(&img_laptop_right[1], datadir +
                "/images/shared/laptop-right-1.png",
                USE_ALPHA);
 
-  texture_load(&img_laptop_right[2] ,DATA_PREFIX
+  texture_load(&img_laptop_right[2], datadir +
                "/images/shared/laptop-right-2.png",
                USE_ALPHA);
 
-  texture_load(&img_laptop_flat_left ,DATA_PREFIX
+  texture_load(&img_laptop_flat_left, datadir +
                "/images/shared/laptop-flat-left.png",
                USE_ALPHA);
 
-  texture_load(&img_laptop_flat_right ,DATA_PREFIX
+  texture_load(&img_laptop_flat_right, datadir +
                "/images/shared/laptop-flat-right.png",
                USE_ALPHA);
 
-  texture_load(&img_laptop_falling_left ,DATA_PREFIX
+  texture_load(&img_laptop_falling_left, datadir +
                "/images/shared/laptop-falling-left.png",
                USE_ALPHA);
 
-  texture_load(&img_laptop_falling_right ,DATA_PREFIX
+  texture_load(&img_laptop_falling_right, datadir +
                "/images/shared/laptop-falling-right.png",
                USE_ALPHA);
 
 
   /* (Money) */
 
-  texture_load(&img_money_left[0] ,DATA_PREFIX
+  texture_load(&img_money_left[0], datadir +
                "/images/shared/bag-left-0.png",
                USE_ALPHA);
 
-  texture_load(&img_money_left[1] ,DATA_PREFIX
+  texture_load(&img_money_left[1], datadir +
                "/images/shared/bag-left-1.png",
                USE_ALPHA);
 
-  texture_load(&img_money_right[0] ,DATA_PREFIX
+  texture_load(&img_money_right[0], datadir +
                "/images/shared/bag-right-0.png",
                USE_ALPHA);
 
-  texture_load(&img_money_right[1] ,DATA_PREFIX
+  texture_load(&img_money_right[1], datadir +
                "/images/shared/bag-right-1.png",
                USE_ALPHA);
 
@@ -1137,48 +1135,48 @@ void loadshared(void)
 
   /* Upgrades: */
 
-  texture_load(&img_mints ,DATA_PREFIX "/images/shared/mints.png", USE_ALPHA);
-  texture_load(&img_coffee ,DATA_PREFIX "/images/shared/coffee.png", USE_ALPHA);
+  texture_load(&img_mints, datadir + "/images/shared/mints.png", USE_ALPHA);
+  texture_load(&img_coffee, datadir + "/images/shared/coffee.png", USE_ALPHA);
 
 
   /* Weapons: */
 
-  texture_load(&img_bullet ,DATA_PREFIX "/images/shared/bullet.png", USE_ALPHA);
+  texture_load(&img_bullet, datadir + "/images/shared/bullet.png", USE_ALPHA);
 
-  texture_load(&img_red_glow ,DATA_PREFIX "/images/shared/red-glow.png",
+  texture_load(&img_red_glow, datadir + "/images/shared/red-glow.png",
                USE_ALPHA);
 
 
 
   /* Distros: */
 
-  texture_load(&img_distro[0] ,DATA_PREFIX "/images/shared/distro-0.png",
+  texture_load(&img_distro[0], datadir + "/images/shared/distro-0.png",
                USE_ALPHA);
 
-  texture_load(&img_distro[1] ,DATA_PREFIX "/images/shared/distro-1.png",
+  texture_load(&img_distro[1], datadir + "/images/shared/distro-1.png",
                USE_ALPHA);
 
-  texture_load(&img_distro[2] ,DATA_PREFIX "/images/shared/distro-2.png",
+  texture_load(&img_distro[2], datadir + "/images/shared/distro-2.png",
                USE_ALPHA);
 
-  texture_load(&img_distro[3] ,DATA_PREFIX "/images/shared/distro-3.png",
+  texture_load(&img_distro[3], datadir + "/images/shared/distro-3.png",
                USE_ALPHA);
 
 
   /* Tux life: */
 
-  texture_load(&tux_life ,DATA_PREFIX "/images/shared/tux-life.png",
+  texture_load(&tux_life, datadir + "/images/shared/tux-life.png",
                USE_ALPHA);
 
   /* Herring: */
 
-  texture_load(&img_golden_herring, DATA_PREFIX "/images/shared/golden-herring.png",
+  texture_load(&img_golden_herring, datadir + "/images/shared/golden-herring.png",
                USE_ALPHA);
 
 
   /* Super background: */
 
-  texture_load(&img_super_bkgd ,DATA_PREFIX "/images/shared/super-bkgd.png",
+  texture_load(&img_super_bkgd, datadir + "/images/shared/super-bkgd.png",
                IGNORE_ALPHA);
 
 
@@ -1195,15 +1193,7 @@ void loadshared(void)
     sounds[i] = load_sound(soundfilenames[i]);
 
   /* Herring song */
-  herring_song_path = (char *) malloc(sizeof(char) * (strlen(DATA_PREFIX) +
-                                      strlen("SALCON.MOD") + 8));
-
-  sprintf(herring_song_path, "%s/music/%s", DATA_PREFIX, "SALCON.MOD");
-
-  herring_song = load_song(herring_song_path);
-
-  free(herring_song_path);
-
+  herring_song = load_song(datadir + "/music/SALCON.MOD");
 }
 
 

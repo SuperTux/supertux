@@ -54,18 +54,18 @@ int intro(void)
   timer_type timer;
     
   /* Load sprite images: */
-  texture_load(&bkgd, DATA_PREFIX "/images/intro/intro.png", IGNORE_ALPHA);  
-  texture_load(&gown_sit, DATA_PREFIX "/images/intro/gown-sit.png", USE_ALPHA);
-  texture_load(&gown_lookup, DATA_PREFIX "/images/intro/gown-lookup.png", USE_ALPHA);
-  texture_load(&gown_upset, DATA_PREFIX "/images/intro/gown-upset.png", USE_ALPHA);
-  texture_load(&tux_sit, DATA_PREFIX "/images/intro/tux-sit.png", USE_ALPHA);
-  texture_load(&tux_upset, DATA_PREFIX "/images/intro/tux-upset.png", USE_ALPHA);
-  texture_load(&tux_mad, DATA_PREFIX "/images/intro/tux-mad.png", USE_ALPHA);
-  texture_load(&copter[0], DATA_PREFIX "/images/intro/copter1.png", USE_ALPHA);
-  texture_load(&copter[1], DATA_PREFIX "/images/intro/copter2.png", USE_ALPHA); 
-  texture_load(&copter_squish, DATA_PREFIX "/images/intro/copter-squish.png", USE_ALPHA); 
-  texture_load(&copter_stretch, DATA_PREFIX "/images/intro/copter-stretch.png", USE_ALPHA); 
-  texture_load(&beam, DATA_PREFIX "/images/intro/beam.png", USE_ALPHA); 
+  texture_load(&bkgd, datadir + "/images/intro/intro.png", IGNORE_ALPHA);  
+  texture_load(&gown_sit, datadir + "/images/intro/gown-sit.png", USE_ALPHA);
+  texture_load(&gown_lookup, datadir + "/images/intro/gown-lookup.png", USE_ALPHA);
+  texture_load(&gown_upset, datadir + "/images/intro/gown-upset.png", USE_ALPHA);
+  texture_load(&tux_sit, datadir + "/images/intro/tux-sit.png", USE_ALPHA);
+  texture_load(&tux_upset, datadir + "/images/intro/tux-upset.png", USE_ALPHA);
+  texture_load(&tux_mad, datadir + "/images/intro/tux-mad.png", USE_ALPHA);
+  texture_load(&copter[0], datadir + "/images/intro/copter1.png", USE_ALPHA);
+  texture_load(&copter[1], datadir + "/images/intro/copter2.png", USE_ALPHA); 
+  texture_load(&copter_squish, datadir + "/images/intro/copter-squish.png", USE_ALPHA); 
+  texture_load(&copter_stretch, datadir + "/images/intro/copter-stretch.png", USE_ALPHA); 
+  texture_load(&beam, datadir + "/images/intro/beam.png", USE_ALPHA); 
   
   /* Allocate buffer for height array: */
   

@@ -69,6 +69,7 @@ extern char* soundfilenames[NUM_SOUNDS];
 
 #ifndef NOSOUND
 
+#include <string>
 #include <SDL_mixer.h>
 
 /* variables for stocking the sound and music */
@@ -79,9 +80,9 @@ extern Mix_Music * level_song, * level_song_fast, * herring_song;
 int open_audio(int frequency, Uint16 format, int channels, int chunksize);
 void close_audio( void );
 
-Mix_Chunk * load_sound(char * file);
+Mix_Chunk * load_sound(const std::string& file);
 void play_sound(Mix_Chunk * snd, enum Sound_Speaker whichSpeaker);
-Mix_Music * load_song(char * file);
+Mix_Music * load_song(const std::string& file);
 
 int playing_music(void);
 int halt_music(void);

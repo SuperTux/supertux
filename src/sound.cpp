@@ -89,15 +89,15 @@ void close_audio( void )
 
 /* --- LOAD A SOUND --- */
 
-Mix_Chunk * load_sound(char * file)
+Mix_Chunk * load_sound(const std::string& file)
 {
   Mix_Chunk * snd;
 
-  snd = Mix_LoadWAV(file);
+  snd = Mix_LoadWAV(file.c_str());
 
   /* printf message and abort if there is an initialized audio device */
   if ((snd == NULL) && (audio_device == YES))
-    st_abort("Can't load", file);
+    st_abort("Can't load", file.c_str());
 
   return(snd);
 }
@@ -105,15 +105,15 @@ Mix_Chunk * load_sound(char * file)
 
 /* --- LOAD A SONG --- */
 
-Mix_Music * load_song(char * file)
+Mix_Music * load_song(const std::string& file)
 {
   Mix_Music * sng;
 
-  sng = Mix_LoadMUS(file);
+  sng = Mix_LoadMUS(file.c_str());
 
   /* printf message and abort if there is an initialized audio device */
   if ((sng == NULL) && (audio_device == YES))
-    st_abort("Can't load", file);
+    st_abort("Can't load", file.c_str());
   return (sng);
 }
 

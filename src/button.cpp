@@ -23,13 +23,13 @@ void button_load(button_type* pbutton,char* icon_file, char* info, SDLKey shortc
 
   if(icon_file != NULL)
     {
-      snprintf(filename, 1024, "%s/%s", DATA_PREFIX, icon_file);
+      snprintf(filename, 1024, "%s/%s", datadir.c_str(), icon_file);
       if(!faccessible(filename))
-        snprintf(filename, 1024, "%s/images/icons/default-icon.png", DATA_PREFIX);
+        snprintf(filename, 1024, "%s/images/icons/default-icon.png", datadir.c_str());
     }
   else
     {
-      snprintf(filename, 1024, "%s/images/icons/default-icon.png", DATA_PREFIX);
+      snprintf(filename, 1024, "%s/images/icons/default-icon.png", datadir.c_str());
     }
   texture_load(&pbutton->icon,filename,USE_ALPHA);
 
@@ -61,13 +61,13 @@ void button_change_icon(button_type* pbutton,char* icon_file)
 
   if(icon_file != NULL)
     {
-      snprintf(filename, 1024, "%s/%s", DATA_PREFIX, icon_file);
+      snprintf(filename, 1024, "%s/%s", datadir.c_str(), icon_file);
       if(!faccessible(filename))
-        snprintf(filename, 1024, "%s/images/icons/default-icon.png", DATA_PREFIX);
+        snprintf(filename, 1024, "%s/images/icons/default-icon.png", datadir.c_str());
     }
   else
     {
-      snprintf(filename, 1024, "%s/images/icons/default-icon.png", DATA_PREFIX);
+      snprintf(filename, 1024, "%s/images/icons/default-icon.png", datadir.c_str());
     }
   
   texture_free(&pbutton->icon);

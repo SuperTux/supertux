@@ -17,12 +17,12 @@
 #include "setup.h"
 #include "texture.h"
 
-void (*texture_load) (texture_type* ptexture,const  char * file, int use_alpha);
-void (*texture_load_part) (texture_type* ptexture,const  char * file, int x, int y, int w, int h, int use_alpha);
-void (*texture_free) (texture_type* ptexture);  
-void (*texture_draw) (texture_type* ptexture, float x, float y, int update);  
-void (*texture_draw_bg) (texture_type* ptexture, int update);  
-void (*texture_draw_part) (texture_type* ptexture, float sx, float sy, float x, float y, float w, float h, int update);
+void (*texture_load)     (texture_type* ptexture, const std::string& file, int use_alpha);
+void (*texture_load_part)(texture_type* ptexture, const std::string& file, int x, int y, int w, int h, int use_alpha);
+void (*texture_free)     (texture_type* ptexture);  
+void (*texture_draw)     (texture_type* ptexture, float x, float y, int update);  
+void (*texture_draw_bg)  (texture_type* ptexture, int update);  
+void (*texture_draw_part)(texture_type* ptexture, float sx, float sy, float x, float y, float w, float h, int update);
 
 
 void texture_setup(void)
@@ -58,13 +58,13 @@ void texture_setup(void)
 }
 
 #ifndef NOOPENGL
-void texture_load_gl(texture_type* ptexture,const  char * file, int use_alpha)
+void texture_load_gl(texture_type* ptexture, const std::string& file, int use_alpha)
 {
   texture_load_sdl(ptexture,file,use_alpha);
   texture_create_gl(ptexture->sdl_surface,&ptexture->gl_texture);
 }
 
-void texture_load_part_gl(texture_type* ptexture,const  char * file, int x, int y, int w, int h, int use_alpha)
+void texture_load_part_gl(texture_type* ptexture, const std::string& file, int x, int y, int w, int h, int use_alpha)
 {
   texture_load_part_sdl(ptexture,file,x,y,w,h,use_alpha);
   texture_create_gl(ptexture->sdl_surface,&ptexture->gl_texture);
@@ -218,14 +218,14 @@ float ph = power_of_two(ptexture->h);
 }
 #endif
 
-void texture_load_sdl(texture_type* ptexture,const  char * file, int use_alpha)
+void texture_load_sdl(texture_type* ptexture, const std::string& file, int use_alpha)
 {
   SDL_Surface * temp;
   
-  temp = IMG_Load(file);
+  temp = IMG_Load(file.c_str());
 
   if (temp == NULL)
-    st_abort("Can't load", file);
+    st_abort("Can't load", file.c_str());
 
   if(use_alpha == IGNORE_ALPHA && !use_gl)
   ptexture->sdl_surface = SDL_DisplayFormat(temp);
@@ -233,7 +233,7 @@ void texture_load_sdl(texture_type* ptexture,const  char * file, int use_alpha)
   ptexture->sdl_surface = SDL_DisplayFormatAlpha(temp);
   
   if (ptexture->sdl_surface == NULL)
-    st_abort("Can't covert to display format", file);
+    st_abort("Can't covert to display format", file.c_str());
 
   if (use_alpha == IGNORE_ALPHA && !use_gl)
     SDL_SetAlpha(ptexture->sdl_surface, 0, 0);
@@ -245,17 +245,17 @@ void texture_load_sdl(texture_type* ptexture,const  char * file, int use_alpha)
   
 }
 
-void texture_load_part_sdl(texture_type* ptexture,const  char * file, int x, int y, int w, int h,  int use_alpha)
+void texture_load_part_sdl(texture_type* ptexture, const std::string& file, int x, int y, int w, int h,  int use_alpha)
 {
 
   SDL_Rect src;
   SDL_Surface * temp;
   SDL_Surface * conv;
 
-  temp = IMG_Load(file);
+  temp = IMG_Load(file.c_str());
 
   if (temp == NULL)
-    st_abort("Can't load", file);
+    st_abort("Can't load", file.c_str());
 
   /* Set source rectangle for conv: */
 
@@ -286,7 +286,7 @@ void texture_load_part_sdl(texture_type* ptexture,const  char * file, int x, int
   ptexture->sdl_surface = SDL_DisplayFormatAlpha(conv);
 
   if (ptexture->sdl_surface == NULL)
-    st_abort("Can't covert to display format", file);
+    st_abort("Can't covert to display format", file.c_str());
 
   if (use_alpha == IGNORE_ALPHA && !use_gl)
     SDL_SetAlpha(ptexture->sdl_surface, 0, 0);
