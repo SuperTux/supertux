@@ -818,28 +818,10 @@ BadGuy::action_wingling(double elapsed_time)
 void
 BadGuy::action_walkingtree(double elapsed_time)
 {
-  Player& tux = *Sector::current()->player;
-  Direction v_dir = physic.get_velocity_x() < 0 ? LEFT : RIGHT;
-
   if (dying == DYING_NOT)
     check_horizontal_bump();
 
   fall();
-
-  if (mode == BGM_BIG && tux.dying == DYING_NOT)
-  {
-    if ((tux.base.x + tux.base.width/2 > base.x + base.width/2) && v_dir == LEFT)
-    {
-      dir = RIGHT;
-      physic.set_velocity_x(-physic.get_velocity_x());
-    }
-    else if ((tux.base.x + tux.base.width/2 < base.x + base.width/2) && v_dir == RIGHT)
-    {
-      dir = LEFT;
-      physic.set_velocity_x(-physic.get_velocity_x());
-    }
-  }
-  
 
   physic.apply(elapsed_time, base.x, base.y, Sector::current()->gravity);
   if (dying != DYING_FALLING)
@@ -1131,6 +1113,12 @@ BadGuy::squish(Player* player)
     {
       set_sprite(img_walkingtree_left_small, img_walkingtree_left_small);
       physic.set_velocity_x(physic.get_velocity_x() * 2.0f);
+
+      /* Move to the player's direction */
+      if(dir != Sector::current()->player->dir)
+        physic.set_velocity_x(-physic.get_velocity_x());
+      dir = Sector::current()->player->dir;
+
       // XXX magic number: 66 is BGM_BIG height
 
       player->bounce(this);
