@@ -246,7 +246,7 @@ void display_text_file(const std::string& file, Surface* surface)
   string_list_type names;
   char filename[1024];
   string_list_init(&names);
-  sprintf(filename,"%s/%s", datadir.c_str(), file);
+  sprintf(filename,"%s/%s", datadir.c_str(), file.c_str());
   if((fi = fopen(filename,"r")) != NULL)
     {
       while(fgets(temp, sizeof(temp), fi) != NULL)

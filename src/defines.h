@@ -87,8 +87,7 @@ enum DyingType {
 
 /* Timing constants (in ms): */
 
-#define KICKING_TIME 600
-
+#define KICKING_TIME 200
 
 /* Debugging */
 
