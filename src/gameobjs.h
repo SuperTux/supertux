@@ -138,8 +138,51 @@ class Trampoline : public GameObject
   unsigned int frame;
 };
 
-
 void load_object_gfx();
+
+
+class ObjectManager
+{
+ private:
+  ObjectManager();
+  ~ObjectManager();
+
+  static ObjectManager* instance_;
+
+  // XXX Objects will have to be split up into two categories:
+  //  - Drawn before tux
+  //  - Drawn after tux
+
+  std::vector<BadGuy*> badguys;
+  std::vector<Trampoline> trampolines;
+  //std::vector<ParticleSystem> particle_systems;
+  std::vector<BouncyDistro> bouncy_distros;
+  std::vector<BrokenBrick> broken_bricks;
+  std::vector<BouncyBrick> bouncy_bricks;
+  //std::vector<Upgrade> upgrades;
+  //std::vector<Bullet> bullets;
+
+  void load_badguys(std::string filename);
+
+ public:
+  static ObjectManager* instance() { return instance_ ? instance_ : instance_ = new ObjectManager(); }
+  static void destroy_instance() { delete instance_; instance_ = 0; }
+  
+/*  Object* get(unsigned int id) {
+    if(id < badguys.size())
+      {
+        return badguys[id]; 
+      }
+    else
+      {
+        // Never return 0, but return the 0th tile instead so that
+        // user code doesn't have to check for NULL pointers all over
+        // the place
+        return badguys[0]; 
+      } 
+  }
+*/
+};
 
 #endif 
 

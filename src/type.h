@@ -87,5 +87,7 @@ void  string_list_sort(string_list_type* pstring_list);
 void  string_list_add_item(string_list_type* pstring_list, const char* str);
 void  string_list_free(string_list_type* pstring_list);
 
+
+
 #endif /*SUPERTUX_TYPE_H*/
 
