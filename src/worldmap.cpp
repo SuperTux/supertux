@@ -210,8 +210,7 @@ WorldMap::get_input()
               break;
             case SDLK_LCTRL:
             case SDLK_RETURN:
-              if (!tux_moving)
-                enter_level = true;
+              enter_level = true;
               break;
             default:
               break;
@@ -295,7 +294,7 @@ WorldMap::update()
 {
   float speed = 4.5;
 
-  if (enter_level)
+  if (enter_level && !tux_moving)
     {
       for(Levels::iterator i = levels.begin(); i != levels.end(); ++i)
         {

@@ -31,14 +31,10 @@ FILE * opendata(char * mode)
   strcpy(filename, st_dir);
   /* Open the high score file: */
 
-#ifdef LINUX
-
+#ifndef WIN32
   strcat(filename, "/highscore");
 #else
-#ifdef WIN32
-
   strcat(filename, "/st_highscore.dat");
-#endif
 #endif
 
 

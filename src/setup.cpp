@@ -21,7 +21,7 @@
 #include <SDL_opengl.h>
 #endif
 
-#ifdef LINUX
+#ifndef WIN32
 #include <pwd.h>
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -273,21 +273,17 @@ void st_directory_setup(void)
   strcat(st_save_dir,"/save");
 
   /* Create them. In the case they exist they won't destroy anything. */
-#ifdef LINUX
-
+#ifndef WIN32
   mkdir(st_dir, 0755);
   mkdir(st_save_dir, 0755);
 
   sprintf(str, "%s/levels", st_dir);
   mkdir(str, 0755);
 #else
-  #ifdef WIN32
-
   mkdir(st_dir);
   mkdir(st_save_dir);
   sprintf(str, "%s/levels", st_dir);
   mkdir(str);
-#endif
 #endif
 
 }

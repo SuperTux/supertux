@@ -10,7 +10,7 @@
   December 20, 2003 - March 15, 2004
 */
 
-#ifdef LINUX
+#ifndef WIN32
 #include <pwd.h>
 #include <sys/types.h>
 #include <ctype.h>

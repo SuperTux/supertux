@@ -18,7 +18,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 
-#ifdef LINUX
+#ifndef WIN32
 #include <pwd.h>
 #include <sys/types.h>
 #include <ctype.h>
