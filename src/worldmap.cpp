@@ -684,6 +684,8 @@ WorldMap::update(float delta)
                       { // Display final credits and go back to the main menu
                         display_text_file(level->extro_filename,
                                           "/images/background/arctis2.jpg");
+                        display_text_file("CREDITS",
+                                          "/images/background/oiltux.jpg");
                         quit = true;
                       }
                   }
