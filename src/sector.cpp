@@ -267,6 +267,18 @@ Sector::write(LispWriter& writer)
   writer.write_float("gravity", gravity);
   writer.write_string("music", song_title);
 
+  // write spawnpoints
+  for(SpawnPoints::iterator i = spawnpoints.begin(); i != spawnpoints.end();
+      ++i) {
+    SpawnPoint* spawn = *i;
+    writer.start_list("playerspawn");
+    writer.write_string("name", spawn->name);
+    writer.write_float("x", spawn->pos.x);
+    writer.write_float("y", spawn->pos.y);
+    writer.end_list("playerspawn");
+  }
+
+  // write objects
   for(GameObjects::iterator i = gameobjects.begin();
       i != gameobjects.end(); ++i) {
     Serializable* serializable = dynamic_cast<Serializable*> (*i);
