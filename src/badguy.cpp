@@ -961,7 +961,7 @@ BadGuy::kill_me(int score)
       tux.holding_something = false;
     }
   }
-  
+
   physic.enable_gravity(true);
 
   /* Gain some points: */
@@ -1003,16 +1003,14 @@ BadGuy::collision(void *p_c_object, int c_object, CollisionType type)
 
       if(pbullet_c->kind == FIRE_BULLET)
         {
-        if(kind == BAD_MRICEBLOCK || kind == BAD_STALACTITE ||
-            kind == BAD_FISH || kind == BAD_BOUNCINGSNOWBALL ||
-            kind == BAD_FLYINGSNOWBALL || kind == BAD_FLYINGSNOWBALL)
-        kill_me(10);
+        if (kind != BAD_BOMB && kind != BAD_STALACTITE && kind != BAD_FLAME)
+          kill_me(10);
         }
       else if(pbullet_c->kind == ICE_BULLET)
         {
-        if(kind == BAD_FLAME)
-          kill_me(10);
-        else
+        //if(kind == BAD_FLAME)
+        //  kill_me(10);
+        //else
           frozen_timer.start(FROZEN_TIME);
         }
       break;
