@@ -42,7 +42,7 @@ unsigned char shape(float x, float y);
 void bumpbrick(float x, float y);
 void trygrabdistro(float x, float y, int bounciness);
 void trybreakbrick(float x, float y);
-void tryemptybox(float x, float y);
+void tryemptybox(float x, float y, int col_side);
 void trybumpbadguy(float x, float y);
 
 #endif /*SUPERTUX_GAMELOOP_H*/

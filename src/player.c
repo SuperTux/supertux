@@ -205,7 +205,7 @@ void player_action(player_type* pplayer)
                 trybreakbrick(pplayer->base.x, pplayer->base.y);
 
               bumpbrick(pplayer->base.x, pplayer->base.y);
-              tryemptybox(pplayer->base.x, pplayer->base.y);
+              tryemptybox(pplayer->base.x, pplayer->base.y, RIGHT);
             }
 
           if (isbrick(pplayer->base.x+ 31, pplayer->base.y) ||
@@ -218,7 +218,7 @@ void player_action(player_type* pplayer)
                 trybreakbrick(pplayer->base.x+ 31, pplayer->base.y);
 
               bumpbrick(pplayer->base.x+ 31, pplayer->base.y);
-              tryemptybox(pplayer->base.x+ 31, pplayer->base.y);
+              tryemptybox(pplayer->base.x+ 31, pplayer->base.y, LEFT);
             }
 
 

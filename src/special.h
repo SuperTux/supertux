@@ -52,7 +52,7 @@ void create_special_bitmasks();
 
 extern texture_type img_golden_herring;
 
-void upgrade_init(upgrade_type *pupgrade, float x, float y, int kind);
+void upgrade_init(upgrade_type *pupgrade, float x, float y, int dir, int kind);
 void upgrade_action(upgrade_type *pupgrade);
 void upgrade_draw(upgrade_type *pupgrade);
 void upgrade_collision(upgrade_type *pupgrade, void* p_c_object, int c_object);

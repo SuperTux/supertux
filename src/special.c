@@ -101,7 +101,7 @@ void bullet_collision(bullet_type* pbullet, int c_object)
 
 }
 
-void upgrade_init(upgrade_type *pupgrade, float x, float y, int kind)
+void upgrade_init(upgrade_type *pupgrade, float x, float y, int dir, int kind)
 {
   pupgrade->base.width = 32;
   pupgrade->base.height = 0;
@@ -109,7 +109,10 @@ void upgrade_init(upgrade_type *pupgrade, float x, float y, int kind)
   pupgrade->kind = kind;
   pupgrade->base.x = x;
   pupgrade->base.y = y;
-  pupgrade->base.xm = 2;
+  if(dir == LEFT)
+    pupgrade->base.xm = -2;
+  else
+    pupgrade->base.xm = 2;
   pupgrade->base.ym = -2;
   pupgrade->base.height = 0;
   pupgrade->old_base = pupgrade->base;

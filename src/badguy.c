@@ -173,7 +173,7 @@ void badguy_action(bad_guy_type* pbad)
 
                   if(tux.input.fire != DOWN) /* SHOOT! */
                     {
-                      if(pbad->dir = LEFT)
+                      if(pbad->dir == LEFT)
                         pbad->base.x -= 24;
                       else
                         pbad->base.x += 24;

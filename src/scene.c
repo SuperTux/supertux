@@ -246,7 +246,7 @@ void add_bad_guy(float x, float y, int kind)
 
 /* Add an upgrade: */
 
-void add_upgrade(float x, float y, int kind)
+void add_upgrade(float x, float y, int dir, int kind)
 {
   int i, found;
 
@@ -267,7 +267,7 @@ void add_upgrade(float x, float y, int kind)
 
   if (found != -1)
     {
-      upgrade_init(&upgrades[found], x, y, kind);
+      upgrade_init(&upgrades[found], x, y, dir, kind);
     }
 }
 

@@ -1524,58 +1524,42 @@ void bumpbrick(float x, float y)
 
 /* Empty a box: */
 
-void tryemptybox(float x, float y)
+void tryemptybox(float x, float y, int col_side)
 {
-  if (isfullbox(x, y))
-    {
-      if (shape(x, y) == 'A')
-        {
+if (!isfullbox(x, y))
+  return;
 
-          /* Box with a distro! */
+// according to the collision side, set the upgrade direction
 
-          add_bouncy_distro(((int)(x + 1) / 32) * 32,
-                            (int)(y / 32) * 32 - 32);
+if(col_side == LEFT)
+  col_side = RIGHT;
+else
+  col_side = LEFT;
 
-          play_sound(sounds[SND_DISTRO], SOUND_CENTER_SPEAKER);
-          score = score + SCORE_DISTRO;
-          distros++;
-        }
-      else if (shape(x, y) == 'B')
-        {
-          /* Add an upgrade! */
+switch(shape(x,y))
+  {
+  case 'A':      /* Box with a distro! */
+    add_bouncy_distro(((int)(x + 1) / 32) * 32, (int)(y / 32) * 32 - 32);
+    play_sound(sounds[SND_DISTRO], SOUND_CENTER_SPEAKER);
+    score = score + SCORE_DISTRO;
+    distros++;
+    break;
+  case 'B':      /* Add an upgrade! */
+    if (tux.size == SMALL)     /* Tux is small, add mints! */
+      add_upgrade((int)((x + 1) / 32) * 32, (int)(y / 32) * 32 - 32, col_side, UPGRADE_MINTS);
+    else     /* Tux is big, add coffee: */
+      add_upgrade((int)((x + 1) / 32) * 32, (int)(y / 32) * 32 - 32, col_side, UPGRADE_COFFEE);
+    play_sound(sounds[SND_UPGRADE], SOUND_CENTER_SPEAKER);
+    break;
+  case '!':     /* Add a golden herring */
+    add_upgrade((int)((x + 1) / 32) * 32, (int)(y / 32) * 32 - 32, col_side, UPGRADE_HERRING);
+    break;
+  default:
+    break;
+  }
 
-          if (tux.size == SMALL)
-            {
-              /* Tux is small, add mints! */
-
-              add_upgrade((int)((x + 1) / 32) * 32,
-                          (int)(y / 32) * 32 - 32,
-                          UPGRADE_MINTS);
-            }
-          else
-            {
-              /* Tux is big, add coffee: */
-
-              add_upgrade((int)((x + 1) / 32) * 32,
-                          (int)(y / 32) * 32 - 32,
-                          UPGRADE_COFFEE);
-            }
-
-          play_sound(sounds[SND_UPGRADE], SOUND_CENTER_SPEAKER);
-        }
-      else if (shape(x, y) == '!')
-        {
-          /* Add a golden herring */
-
-          add_upgrade((int)((x + 1) / 32) * 32,
-                      (int)(y / 32) * 32 - 32,
-                      UPGRADE_HERRING);
-        }
-
-      /* Empty the box: */
-
-      level_change(&current_level,x, y, 'a');
-    }
+/* Empty the box: */
+level_change(&current_level,x, y, 'a');
 }
 
 
