@@ -21,7 +21,8 @@ L: low priority
      - Should kill enemies with a certain range
      - Should disable Tux Temporarily
      - Animation (need images)
-     - 
+     - Change controls (just press down while in air, not Up+Down)
+
 [H] Camera movement shouldn't be so fast at the beggining, it takes the focus from
     the game (backscrolling)
 [H] Tux should fall while walking in tiles that have a space between.
