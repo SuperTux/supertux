@@ -10,8 +10,8 @@ def Glob(dirs, pattern = '*' ):
             for file in os.listdir( Dir(dir).srcnode().abspath ):
                 if fnmatch.fnmatch(file, pattern) :
                     files.append( os.path.join( dir, file ) )
-        except:
-            print "Warning, couldn't find directory " + dir
+        except Exception, e:
+            print "Warning, couldn't find directory '%s': %s" % (dir, str(e))
         
     return files
 
