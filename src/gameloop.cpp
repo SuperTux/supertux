@@ -381,7 +381,8 @@ GameSession::draw()
 
   if(Menu::current())
     {
-      menu_process_current();
+      Menu::current()->action();
+      Menu::current()->draw();
       mouse_cursor->draw();
     }
 

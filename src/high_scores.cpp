@@ -94,7 +94,9 @@ void save_hs(int score)
       sprintf(str, "%d", hs_score);
       yellow_nums->draw(str, 350, 170, 1, NO_UPDATE);
 
-      menu_process_current();
+      Menu::current()->action();
+      Menu::current()->draw();
+
       flipscreen();
 
       while(SDL_PollEvent(&event))

@@ -300,7 +300,10 @@ bool title(void)
 
       /* Don't draw menu, if quit is true */
       if(!done)
-        menu_process_current();
+        {
+          Menu::current()->action();
+          Menu::current()->draw();
+        }
 
       if(Menu::current() == main_menu)
         {

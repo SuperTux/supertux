@@ -523,17 +523,6 @@ Menu::draw()
     }
 }
 
-/* --- MENU --- */
-/* Draw the current menu and execute the (menu)events */
-void menu_process_current()
-{
-  if(Menu::current())
-    {
-      Menu::current()->action();
-      Menu::current()->draw();
-    }
-}
-
 /* Check for menu event */
 void
 Menu::event(SDL_Event& event)

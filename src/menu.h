@@ -132,9 +132,6 @@ extern Menu* highscore_menu;
 extern Menu* load_game_menu;
 extern Menu* save_game_menu;
 
-/* "Calculate" and draw the menu */
-void menu_process_current(void);
-
 #endif /*SUPERTUX_MENU_H*/
 
 /* Local Variables: */
