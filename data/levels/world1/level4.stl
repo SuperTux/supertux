@@ -3,6 +3,7 @@
   (version 1)
   (author "Tobias Glaesser")
   (name "Tobgle Road")
+  (name-pt_PT "A Estrada do Tobgle")
   (width  270)
   (height 19)
   (start_pos_x    100)
