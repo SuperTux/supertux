@@ -496,7 +496,7 @@ Player::handle_vertical_input()
 
    /* In case the player has pressed Down while in a certain range of air,
       enable butt jump action */
-  if (input.down == DOWN && !butt_jump)
+  if (input.down == DOWN && !butt_jump && !duck)
     if(tiles_on_air(TILES_FOR_BUTTJUMP) && jumping)
       butt_jump = true;
 
