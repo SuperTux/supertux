@@ -186,9 +186,12 @@ void player_action(player_type* pplayer)
             }
 
           physic_init(&pplayer->vphysic);
+
+          /* Reset score multiplier (for multi-hits): */
+
+          score_multiplier = 1;
         }
-
-
+	
       if(jumped_in_solid == YES)
         {
 
@@ -275,11 +278,6 @@ void player_action(player_type* pplayer)
               pplayer->jumping = NO;
             }
         }
-
-      /* Reset score multiplier (for multi-hits): */
-
-      if (pplayer->base.ym > 2)
-        score_multiplier = 1;
 
     }
 
@@ -900,9 +898,10 @@ void player_collision(player_type* pplayer, void* p_c_object, int c_object)
                       else
                         {
                           pbad_c->dying = FALLING;
-                          physic_set_state(&pplayer->vphysic,PH_VT);
-                          physic_set_start_vy(&pplayer->vphysic,-2.);
                           play_sound(sounds[SND_FALL], SOUND_CENTER_SPEAKER);
+                          add_score(pbad_c->base.x - scroll_x,
+                                    pbad_c->base.y,
+                                    25 * score_multiplier);
                         }
                     }
                 }
@@ -916,9 +915,10 @@ void player_collision(player_type* pplayer, void* p_c_object, int c_object)
               else
                 {
                   pbad_c->dying = FALLING;
-                  physic_set_state(&pplayer->vphysic,PH_VT);
-                  physic_set_start_vy(&pplayer->vphysic,-2.);
                   play_sound(sounds[SND_FALL], SOUND_CENTER_SPEAKER);
+                  add_score(pbad_c->base.x - scroll_x,
+                            pbad_c->base.y,
+                            25 * score_multiplier);
                 }
             }
           score_multiplier++;

@@ -1748,12 +1748,10 @@ void savegame(int slot)
       fwrite(&scroll_x,sizeof(float),1,fi);
       fwrite(&tux,sizeof(player_type),1,fi);
       timer_fwrite(&tux.invincible_timer,fi);
-      printf("Time inv LEFT: %d\n",timer_get_left(&tux.invincible_timer));
       timer_fwrite(&tux.skidding_timer,fi);
       timer_fwrite(&tux.safe_timer,fi);
       timer_fwrite(&tux.frame_timer,fi);
       timer_fwrite(&time_left,fi);
-      printf("Time LEFT: %d\n",timer_get_left(&time_left));
       ui = st_get_ticks();
       fwrite(&ui,sizeof(int),1,fi);
     }
@@ -1805,12 +1803,10 @@ void loadgame(int slot)
       fread(&scroll_x,sizeof(float),1,fi);
       fread(&tux,sizeof(player_type),1,fi);
       timer_fread(&tux.invincible_timer,fi);
-      printf("Time inv LEFT: %d - %d\n",timer_get_left(&tux.invincible_timer),tux.invincible_timer.time);
       timer_fread(&tux.skidding_timer,fi);
       timer_fread(&tux.safe_timer,fi);
       timer_fread(&tux.frame_timer,fi);
       timer_fread(&time_left,fi);
-      printf("Time LEFT: %d\n",timer_get_left(&time_left));
       fread(&ui,sizeof(int),1,fi);
       tux.hphysic.start_time += st_get_ticks() - ui;
       tux.vphysic.start_time += st_get_ticks() - ui;

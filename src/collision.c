@@ -242,11 +242,11 @@ void collision_handler()
   /* CO_BADGUY & CO_BADGUY check */
   for(i = 0; i < num_bad_guys; ++i)
     {
-      if(bad_guys[i].base.alive)
+      if(bad_guys[i].base.alive && bad_guys[i].dying == NO)
         {
           for(j = i+1; j < num_bad_guys; ++j)
             {
-              if(j != i && bad_guys[j].base.alive)
+              if(j != i && bad_guys[j].base.alive && bad_guys[j].dying == NO)
                 {
                   if(rectcollision(&bad_guys[i].base,&bad_guys[j].base) == YES)
                     {

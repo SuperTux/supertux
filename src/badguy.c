@@ -77,7 +77,7 @@ void badguy_action(bad_guy_type* pbad)
               pbad->base.y = pbad->base.y + pbad->base.ym * frame_ratio;
 
               if (pbad->dying != FALLING)
-              collision_swept_object_map(&pbad->old_base,&pbad->base);
+                collision_swept_object_map(&pbad->old_base,&pbad->base);
               if (pbad->base.y > screen->h)
                 pbad->base.alive = NO;
 
@@ -154,7 +154,7 @@ void badguy_action(bad_guy_type* pbad)
               else if (pbad->mode == HELD)
                 { /* FIXME: The pbad object shouldn't know about pplayer objects. */
                   /* If we're holding the laptop */
-		  pbad->dir=tux.dir;
+                  pbad->dir=tux.dir;
                   if(pbad->dir==RIGHT)
                     {
                       pbad->base.x = tux.base.x + 16;
@@ -165,19 +165,19 @@ void badguy_action(bad_guy_type* pbad)
                       pbad->base.x = tux.base.x - 16;
                       pbad->base.y = tux.base.y + tux.base.height/1.5 - pbad->base.height;
                     }
-		    if(collision_object_map(&pbad->base))
-		    {
-		      pbad->base.x = tux.base.x;
-		      pbad->base.y = tux.base.y + tux.base.height/1.5 - pbad->base.height;
-		    }
+                  if(collision_object_map(&pbad->base))
+                    {
+                      pbad->base.x = tux.base.x;
+                      pbad->base.y = tux.base.y + tux.base.height/1.5 - pbad->base.height;
+                    }
 
                   if(tux.input.fire != DOWN) /* SHOOT! */
                     {
-		      if(pbad->dir = LEFT)
-		      pbad->base.x -= 24;
-		      else
-		      pbad->base.x += 24;
-		      
+                      if(pbad->dir = LEFT)
+                        pbad->base.x -= 24;
+                      else
+                        pbad->base.x += 24;
+
                       pbad->mode=KICK;
                       pbad->base.ym-=8;
                       play_sound(sounds[SND_KICK],SOUND_CENTER_SPEAKER);
@@ -189,9 +189,9 @@ void badguy_action(bad_guy_type* pbad)
 
               if(pbad->mode != HELD)
                 pbad->base.y = pbad->base.y + pbad->base.ym * frame_ratio;
-		
+
               if (pbad->dying != FALLING)
-              collision_swept_object_map(&pbad->old_base,&pbad->base);
+                collision_swept_object_map(&pbad->old_base,&pbad->base);
               if (pbad->base.y > screen->h)
                 pbad->base.alive = NO;
               /* Bump into things horizontally: */
@@ -273,9 +273,9 @@ void badguy_action(bad_guy_type* pbad)
               /* Move vertically: */
 
               pbad->base.y = pbad->base.y + pbad->base.ym * frame_ratio;
-	      
+
               if (pbad->dying != FALLING)
-              collision_swept_object_map(&pbad->old_base,&pbad->base);
+                collision_swept_object_map(&pbad->old_base,&pbad->base);
 
               if (pbad->base.y > screen->h)
                 pbad->base.alive = NO;
@@ -299,7 +299,7 @@ void badguy_action(bad_guy_type* pbad)
                       physic_set_state(&pbad->physic,PH_VT);
                       physic_set_start_vy(&pbad->physic,0.);
                       pbad->base.ym = physic_get_velocity(&pbad->physic);
-		      ++pbad->base.y;
+                      ++pbad->base.y;
                     }
                   else
                     {
@@ -585,59 +585,63 @@ void badguy_collision(bad_guy_type* pbad, void *p_c_object, int c_object)
       break;
     case CO_PLAYER:
       pplayer_c = (player_type*) p_c_object;
-      if (pbad->kind == BAD_BSOD)
+      if(pbad->kind != BAD_MONEY)
         {
-          pbad->dying = SQUISHED;
-          timer_start(&pbad->timer,4000);
-          physic_set_state(&pplayer_c->vphysic,PH_VT);
-          physic_set_start_vy(&pplayer_c->vphysic,2.);
-
-          add_score(pbad->base.x - scroll_x, pbad->base.y,
-                    50 * score_multiplier);
-
-          play_sound(sounds[SND_SQUISH], SOUND_CENTER_SPEAKER);
-        }
-      else if (pbad->kind == BAD_LAPTOP)
-        {
-
-          if (pbad->mode != KICK)
+          if (pbad->kind == BAD_BSOD)
             {
-              /* Flatten! */
+              pbad->dying = SQUISHED;
+              timer_start(&pbad->timer,4000);
+              physic_set_state(&pplayer_c->vphysic,PH_VT);
+              physic_set_start_vy(&pplayer_c->vphysic,2.);
 
-              play_sound(sounds[SND_STOMP], SOUND_CENTER_SPEAKER);
-              pbad->mode = FLAT;
-              pbad->base.xm = 4;
+              add_score(pbad->base.x - scroll_x, pbad->base.y,
+                        50 * score_multiplier);
 
-              timer_start(&pbad->timer,10000);
+              play_sound(sounds[SND_SQUISH], SOUND_CENTER_SPEAKER);
+            }
+          else if (pbad->kind == BAD_LAPTOP)
+            {
+
+              if (pbad->mode != KICK)
+                {
+                  /* Flatten! */
+
+                  play_sound(sounds[SND_STOMP], SOUND_CENTER_SPEAKER);
+                  pbad->mode = FLAT;
+                  pbad->base.xm = 4;
+
+                  timer_start(&pbad->timer,10000);
+
+                  physic_set_state(&pplayer_c->vphysic,PH_VT);
+                  physic_set_start_vy(&pplayer_c->vphysic,2.);
+                }
+              else
+                {
+                  /* Kick! */
+
+                  play_sound(sounds[SND_KICK], SOUND_CENTER_SPEAKER);
+
+                  if (pplayer_c->base.x <= pbad->base.x)
+                    pbad->dir = RIGHT;
+                  else
+                    pbad->dir = LEFT;
+
+                  pbad->base.xm = 8;
+
+                  timer_start(&pbad->timer,5000);
+                }
 
               physic_set_state(&pplayer_c->vphysic,PH_VT);
               physic_set_start_vy(&pplayer_c->vphysic,2.);
+
+              add_score(pbad->base.x - scroll_x,
+                        pbad->base.y,
+                        25 * score_multiplier);
+
+              /* play_sound(sounds[SND_SQUISH]); */
             }
-          else
-            {
-              /* Kick! */
-
-              play_sound(sounds[SND_KICK], SOUND_CENTER_SPEAKER);
-
-              if (pplayer_c->base.x <= pbad->base.x)
-                pbad->dir = RIGHT;
-              else
-                pbad->dir = LEFT;
-
-              pbad->base.xm = 8;
-
-              timer_start(&pbad->timer,5000);
-            }
-
-          physic_set_state(&pplayer_c->vphysic,PH_VT);
-          physic_set_start_vy(&pplayer_c->vphysic,2.);
-
-          add_score(pbad->base.x - scroll_x,
-                    pbad->base.y,
-                    25 * score_multiplier);
-
-          /* play_sound(sounds[SND_SQUISH]); */
-	  }
+          score_multiplier++;
+        }
       break;
     }
 
