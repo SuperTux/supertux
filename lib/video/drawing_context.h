@@ -69,6 +69,13 @@ namespace SuperTux
       void draw_text(Font* font, const std::string& text, const Vector& position,
                      int allignment, int layer,
                      Uint32 drawing_effect = NONE_EFFECT);
+
+      /// Draws text on screen center (feed Vector.x with a 0).
+      /// This is the same as draw_text() with a screen->w/2 position and
+      /// allignment set to LEFT_ALLIGN
+      void draw_center_text(Font* font, const std::string& text,
+                           const Vector& position, int layer,
+                           Uint32 drawing_effect = NONE_EFFECT);
       /// Draws a color gradient onto the whole screen */
       void draw_gradient(Color from, Color to, int layer);
       /// Fills a rectangle.

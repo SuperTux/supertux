@@ -104,6 +104,14 @@ DrawingContext::draw_text(Font* font, const std::string& text,
 }
 
 void
+DrawingContext::draw_center_text(Font* font, const std::string& text,
+    const Vector& position, int layer, Uint32 drawing_effect)
+{
+draw_text(font, text, Vector(position.x + screen->w/2, position.y),
+          CENTER_ALLIGN, layer, drawing_effect);
+}
+
+void
 DrawingContext::draw_gradient(Color top, Color bottom, int layer)
 {
   DrawingRequest request;
