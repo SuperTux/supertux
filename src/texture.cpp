@@ -571,10 +571,27 @@ SurfaceSDL::draw(float x, float y, Uint8 alpha, bool update)
   dest.w = w;
   dest.h = h;
   
-  if(alpha != 255) /* SDL isn't capable of this kind of alpha :( therefore we'll leave now. */
-    return -1;
+  if(alpha != 255)
+    {
+    /* Copy the SDL surface, then make it using alpha and use it to blit into the screen */
+    SDL_Surface* sdl_surface_copy = SDL_CreateRGBSurface (sdl_surface->flags,
+      sdl_surface->w, sdl_surface->h, sdl_surface->format->BitsPerPixel,
+      sdl_surface->format->Rmask, sdl_surface->format->Gmask, sdl_surface->format->Bmask,
+      sdl_surface->format->Amask);
+
+    SDL_BlitSurface(sdl_surface, NULL, sdl_surface_copy, NULL);
+      
+    SDL_SetAlpha(sdl_surface_copy ,SDL_SRCALPHA,alpha);
+
+    int ret = SDL_BlitSurface(sdl_surface_copy, NULL, screen, &dest);
   
-  SDL_SetAlpha(sdl_surface ,SDL_SRCALPHA,alpha);
+    if (update == UPDATE)
+      SDL_UpdateRect(screen, dest.x, dest.y, dest.w, dest.h);
+    
+    SDL_FreeSurface (sdl_surface_copy) ;
+    return ret;
+    }
+ 
   int ret = SDL_BlitSurface(sdl_surface, NULL, screen, &dest);
   
   if (update == UPDATE)
