@@ -75,7 +75,7 @@ int main(int argc, char * argv[])
     }
 
     SDL_FillRect(screen, 0, 0);
-    SDL_Flip(screen);
+    //SDL_Flip(screen);
 
     unloadshared();
     st_general_free();
