@@ -30,19 +30,25 @@ pphysic->state = nstate;
 pphysic->start_time = st_get_ticks();
 }
 
-float physic_get_velocity(physic_type* pphysic, float start_velocity)
+void physic_set_start_vy(physic_type* pphysic, float start_vy)
 {
-return - (start_velocity - 10.* ((float)(st_get_ticks() - pphysic->start_time))/1000.);
+pphysic->start_vy = start_vy;
 }
 
-float physic_get_max_distance(physic_type* pphysic, float start_velocity)
+float physic_get_velocity(physic_type* pphysic)
 {
-return (start_velocity * start_velocity / 2.*10.);
+if(pphysic->state == PH_VT)
+return - (pphysic->start_vy - 10.* ((float)(st_get_ticks() - pphysic->start_time))/1000.);
 }
 
-unsigned int physic_get_max_time(physic_type* pphysic, float start_velocity)
+float physic_get_max_distance(physic_type* pphysic)
 {
-return (unsigned int)((start_velocity / 10.) * 1000);
+return (pphysic->start_vy * pphysic->start_vy / 2.*10.);
+}
+
+unsigned int physic_get_max_time(physic_type* pphysic)
+{
+return (unsigned int)((pphysic->start_vy / 10.) * 1000);
 }
 
 unsigned int physic_get_time_gone(physic_type* pphysic)

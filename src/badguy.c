@@ -84,10 +84,10 @@ void badguy_action(bad_guy_type* pbad)
                     {
                       pbad->dir = RIGHT;
                     }
-		    else if (issolid( pbad->base.x + pbad->base.width-1, (int) pbad->base.y))
-		    {
+                  else if (issolid( pbad->base.x + pbad->base.width-1, (int) pbad->base.y))
+                    {
                       pbad->dir = LEFT;
-		    }
+                    }
                 }
 
               /* Fall if we get off the ground: */
@@ -172,26 +172,32 @@ void badguy_action(bad_guy_type* pbad)
 
               /* Bump into things horizontally: */
 
+              /* Bump into things horizontally: */
+
               if (!pbad->dying)
                 {
-                  if (issolid(pbad->base.x, pbad->base.y))
+                  int changed = pbad->dir;
+                  if (issolid( pbad->base.x - 1, (int) pbad->base.y))
                     {
-                      pbad->dir = !pbad->dir;
-
-                      if (pbad->mode == KICK)
-                        {
-                          /* handle stereo sound */
-                          /* FIXME: In theory a badguy object doesn't know anything about player objects */
-                          if (tux.base.x  > pbad->base.x)
-                            play_sound(sounds[SND_RICOCHET], SOUND_LEFT_SPEAKER);
-                          else if (tux.base.x  < pbad->base.x)
-                            play_sound(sounds[SND_RICOCHET], SOUND_RIGHT_SPEAKER);
-                          else
-                            play_sound(sounds[SND_RICOCHET], SOUND_CENTER_SPEAKER);
-                        }
+                      pbad->dir = RIGHT;
                     }
-                }
+                  else if (issolid( pbad->base.x + pbad->base.width-1, (int) pbad->base.y))
+                    {
+                      pbad->dir = LEFT;
+                    }
+                  if(pbad->mode == KICK && changed != pbad->dir)
+                    {
+                      /* handle stereo sound */
+                      /* FIXME: In theory a badguy object doesn't know anything about player objects */
+                      if (tux.base.x  > pbad->base.x)
+                        play_sound(sounds[SND_RICOCHET], SOUND_LEFT_SPEAKER);
+                      else if (tux.base.x  < pbad->base.x)
+                        play_sound(sounds[SND_RICOCHET], SOUND_RIGHT_SPEAKER);
+                      else
+                        play_sound(sounds[SND_RICOCHET], SOUND_CENTER_SPEAKER);
+                    }
 
+                }
 
               /* Fall if we get off the ground: */
 
@@ -229,22 +235,28 @@ void badguy_action(bad_guy_type* pbad)
 
               pbad->base.y = pbad->base.y + pbad->base.ym * frame_ratio;
 
-	      if(physic_get_state(&pbad->physic) == -1)
-	      physic_set_state(&pbad->physic,PH_VTU);
-	      
-		if(issolid(pbad->base.x, pbad->base.y + 32))
-		{
-		physic_set_state(&pbad->physic,PH_VTU);
-		pbad->base.ym = -0.6;
-		}
-		else if(issolid(pbad->base.x, pbad->base.y - 1))
-		{ /* This works, but isn't the best solution imagineable */
-		pbad->base.ym = physic_get_velocity(&pbad->physic,-6.);
-		}
-		else
-		{
-		pbad->base.ym = physic_get_velocity(&pbad->physic,6.);
-		}
+              if(physic_get_state(&pbad->physic) == -1)
+                {
+                  physic_set_state(&pbad->physic,PH_VT);
+                  physic_set_start_vy(&pbad->physic,0.);
+                }
+
+              if(issolid(pbad->base.x, pbad->base.y + 32))
+                {
+                  physic_set_state(&pbad->physic,PH_VT);
+                  physic_set_start_vy(&pbad->physic,6.);
+                  pbad->base.ym = physic_get_velocity(&pbad->physic);
+                }
+              else if(issolid(pbad->base.x, pbad->base.y - 1))
+                { /* This works, but isn't the best solution imagineable */
+		  physic_set_state(&pbad->physic,PH_VT);
+                  physic_set_start_vy(&pbad->physic,0.);
+                  pbad->base.ym = physic_get_velocity(&pbad->physic);
+                }
+              else
+                {
+                  pbad->base.ym = physic_get_velocity(&pbad->physic);
+                }
 
               if (pbad->base.y > screen->h)
                 pbad->base.alive = NO;
