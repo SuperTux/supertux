@@ -865,8 +865,7 @@ WorldMap::update(float delta)
                       + offset.y)), 500);
               GameSession session(
                   get_resource_filename(std::string("levels/" + level->name)),
-                                  ST_GL_LOAD_LEVEL_FILE, level->vertical_flip,
-                                  &level->statistics);
+                                  ST_GL_LOAD_LEVEL_FILE, &level->statistics);
 
               switch (session.run())
                 {

@@ -64,9 +64,6 @@ public:
   const std::string& get_author() const
   { return author; }
 
-  /** Flips the level vertically */
-  void do_vertical_flip();
-
   void add_sector(Sector* sector);
 
   Sector* get_sector(const std::string& name);

@@ -42,6 +42,7 @@
 #include "object/gameobjs.h"
 #include "object/camera.h"
 #include "object/tilemap.h"
+#include "object/coin.h"
 
 using namespace std;
 
@@ -155,15 +156,6 @@ Level::~Level()
 }
 
 void
-Level::do_vertical_flip()
-{
-#if 0
-  for(Sectors::iterator i = sectors.begin(); i != sectors.end(); ++i)
-    i->second->do_vertical_flip();
-#endif
-}
-
-void
 Level::add_sector(Sector* sector)
 {
   sectors.insert(std::make_pair(sector->get_name(), sector));       
@@ -233,18 +225,13 @@ Level::get_total_coins()
 {
   int total_coins = 0;
   for(Sectors::iterator i = sectors.begin(); i != sectors.end(); ++i) {
-    TileMap* solids = i->second->solids;
-    assert(solids != 0);
-    for(size_t x = 0; x < solids->get_width(); ++x)
-      for(size_t y = 0; y < solids->get_height(); ++y) {
-        const Tile* tile = solids->get_tile(x, y);
-        if(tile == 0) {
-          std::cerr << "Invalid tile in sector '" << i->first << "'.\n";
-          continue;
-        }
-        if(tile->attributes & Tile::COIN)
-          total_coins++;
-      }
+    Sector* sector = i->second;
+    for(Sector::GameObjects::iterator o = sector->gameobjects.begin();
+        o != sector->gameobjects.end(); ++o) {
+      Coin* coin = dynamic_cast<Coin*> (*o);
+      if(coin)
+        total_coins++;
+    }
   }
   return total_coins;
 }

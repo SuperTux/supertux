@@ -80,10 +80,10 @@ bool compare_last(std::string& haystack, std::string needle)
 }
 
 GameSession::GameSession(const std::string& levelfile_, int mode,
-    bool flip_level_, Statistics* statistics)
+    Statistics* statistics)
   : level(0), currentsector(0), st_gl_mode(mode),
     end_sequence(NO_ENDSEQUENCE), levelfile(levelfile_),
-    flip_level(flip_level_), best_level_statistics(statistics)
+    best_level_statistics(statistics)
 {
   current_ = this;
   
@@ -91,9 +91,6 @@ GameSession::GameSession(const std::string& levelfile_, int mode,
   fps_fps = 0;
 
   context = new DrawingContext();
-
-  if(flip_levels_mode)
-    flip_level = true;
 
   last_swap_point = Vector(-1, -1);
   last_swap_stats.reset();
@@ -124,8 +121,6 @@ GameSession::restart_level()
 
   level = new Level;
   level->load(levelfile);
-  if(flip_level)
-    level->do_vertical_flip();
 
   global_stats.reset();
   global_stats.set_total_points(COINS_COLLECTED_STAT, level->get_total_coins());
@@ -208,11 +203,6 @@ GameSession::levelintro(void)
       std::string(_("contributed by ")) + level->get_author(), 
       Vector(screen->w/2, 350), CENTER_ALLIGN, LAYER_FOREGROUND1);
 
-
-  if(flip_level)
-    context.draw_text(white_text,
-      _("Level Vertically Flipped!"),
-      Vector(screen->w/2, 310), CENTER_ALLIGN, LAYER_FOREGROUND1);
 
   if(best_level_statistics != NULL)
     best_level_statistics->draw_message_info(context, _("Best Level Statistics"));

@@ -27,80 +27,13 @@
 #include "app/globals.h"
 #include "tile.h"
 #include "scene.h"
+#include "resources.h"
 #include "utils/lispreader.h"
 #include "math/vector.h"
 #include "video/drawing_context.h"
 
-/** Dirty little helper to create a surface from a snipped of lisp:
- *
- *  "filename"
- *  (region "filename" x y w h)
- */
-static
-Surface* create_surface(lisp_object_t* cur)
-{
-  if (lisp_string_p(cur))
-    {
-      return new Surface(datadir + "/images/tilesets/" + lisp_string(cur),
-                         true);
-    }
-  else if (lisp_cons_p(cur) && lisp_symbol_p(lisp_car(cur)))
-    {
-      lisp_object_t* sym  = lisp_car(cur);
-      lisp_object_t* data = lisp_cdr(cur);
-      
-      if (strcmp(lisp_symbol(sym), "region") == 0)
-        {
-          if (lisp_list_length(data) == 5) // (image-region filename x y w h)
-            {
-              return new Surface(datadir + "/images/tilesets/" + lisp_string(lisp_car(data)), 
-                                 lisp_integer(lisp_list_nth(data, 1)),
-                                 lisp_integer(lisp_list_nth(data, 2)),
-                                 lisp_integer(lisp_list_nth(data, 3)),
-                                 lisp_integer(lisp_list_nth(data, 4)),
-                                 true);
-            }
-          else
-            {
-              std::cout << "Tile: Type mispatch, should be '(region \"somestring\" x y w h)'" << std::endl;
-              return 0;
-            }
-        }
-      else
-        {
-          std::cout << "Tile: Unhandled tag: " << lisp_symbol(sym) << std::endl;
-          return 0;
-        }
-    }
-
-  std::cout << "Tile: unhandled element" << std::endl;
-  return 0;  
-}
-
-/** Create a vector of surfaces (aka Sprite) from a piece of lisp:
-    ((image "bla.png") (image-region "bla.png") ...)
- */
-static 
-std::vector<Surface*> create_surfaces(lisp_object_t* cur)
-{
-  std::vector<Surface*> surfs;
-
-  while(cur)
-    {
-      Surface* surface = create_surface(lisp_car(cur));
-      if (surface)
-        surfs.push_back(surface); 
-      else
-        std::cout << "Tile: Couldn't create image" << std::endl;
-        
-      cur = lisp_cdr(cur);
-    }
-  
-  return surfs;
-}
-
 Tile::Tile()
-  : id(0), attributes(0), data(0), next_tile(0), anim_fps(1)
+  : id(0), editor_image(0), attributes(0), data(0), anim_fps(1)
 {
 }
 
@@ -110,14 +43,11 @@ Tile::~Tile()
       ++i) {
     delete *i;
   }
-  for(std::vector<Surface*>::iterator i = editor_images.begin();
-      i != editor_images.end(); ++i) {
-    delete *i;                                                                
-  }
+  delete editor_image;
 }
 
 void
-Tile::read(LispReader& reader)
+Tile::parse(LispReader& reader)
 {
   if(!reader.read_uint("id", id)) {
     throw std::runtime_error("Missing tile-id.");
@@ -147,14 +77,83 @@ Tile::read(LispReader& reader)
 
   reader.read_int("data", data);
   reader.read_float("anim-fps", anim_fps);
-  reader.read_int("next-tile", next_tile);
 
   if(reader.read_int("slope-type", data)) {
     attributes |= SOLID | SLOPE;
   }
 
-  images        = create_surfaces(reader.read_lisp("images"));
-  editor_images = create_surfaces(reader.read_lisp("editor-images"));
+  parse_images(reader.read_lisp("images"));
+  reader.read_string("editor-images", editor_imagefile);
+}
+
+void
+Tile::parse_images(lisp_object_t* list)
+{
+  while(!lisp_nil_p(list)) {
+    lisp_object_t* cur = lisp_car(list);
+    if(lisp_string_p(cur)) {
+      imagespecs.push_back(ImageSpec(lisp_string(cur), Rectangle(0, 0, 0, 0)));
+    } else if(lisp_cons_p(cur) && lisp_symbol_p(lisp_car(cur))) {
+      lisp_object_t* sym  = lisp_car(cur);
+      lisp_object_t* data = lisp_cdr(cur);
+      
+      if (strcmp(lisp_symbol(sym), "region") == 0) {
+        float x = lisp_integer(lisp_list_nth(data, 1));
+        float y = lisp_integer(lisp_list_nth(data, 2));
+        float width = lisp_integer(lisp_list_nth(data, 3));
+        float height = lisp_integer(lisp_list_nth(data, 4));
+        imagespecs.push_back(ImageSpec(lisp_string(lisp_car(data)),
+              Rectangle(x, y, x+width, y+height)));
+      } else {
+        std::cerr << "Tile: Type mismatch, should be '(region \"somestring\" x y w h)'" << std::endl;
+        continue;
+      }
+    } else {
+      std::cerr << "Expected string or list in images tag.\n";
+      continue;
+    }
+    
+    list = lisp_cdr(list);
+  }
+}
+
+void
+Tile::load_images()
+{
+  assert(images.size() == 0);
+  for(std::vector<ImageSpec>::iterator i = imagespecs.begin(); i !=
+      imagespecs.end(); ++i) {
+    const ImageSpec& spec = *i;
+    Surface* surface;
+    std::string file 
+      = get_resource_filename(std::string("images/tilesets/") + spec.file);
+    if(spec.rect.get_width() <= 0) {
+      surface = new Surface(file, true);
+    } else {
+      surface = new Surface(file,
+          (int) spec.rect.p1.x,
+          (int) spec.rect.p1.y,
+          (int) spec.rect.get_width(),
+          (int) spec.rect.get_height(), true);
+    }
+    images.push_back(surface);
+  }
+  if(editor_imagefile != "") {
+    editor_image = new Surface(
+        get_resource_filename(
+          std::string("images/tilesets/") + editor_imagefile), true);
+  }
+}
+
+Surface*
+Tile::get_editor_image() const
+{
+  if(editor_image)
+    return editor_image;
+  if(images.size() > 0)
+    return images[0];
+
+  return 0;
 }
 
 void

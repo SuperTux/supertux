@@ -10,8 +10,7 @@ SequenceTrigger::SequenceTrigger(LispReader& reader)
   // TODO
 }
 
-SequenceTrigger::SequenceTrigger(const Vector& pos,
-    const std::string& sequence)
+SequenceTrigger::SequenceTrigger(const Vector& pos, const std::string& sequence)
 {
   bbox.set_pos(pos);
   bbox.set_size(32, 32);

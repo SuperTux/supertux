@@ -110,12 +110,8 @@ LevelEditor::LevelEditor()
     if(!tile)
       continue;
 
-    Surface* surface;
-    if(tile->editor_images.size())
-      surface = tile->editor_images[0];
-    else if(tile->images.size())
-      surface = tile->images[0];
-    else
+    Surface* surface = tile->get_editor_image();
+    if(!surface)
       continue;
 
     Button button = Button(surface, "", SDLKey(0));
@@ -459,7 +455,7 @@ std::cerr << "previous sector.\n";
               {
               vector.push_back(tilemap->get_tile(x +
                (int)(((selection_ini.x+scroll.x)*zoom)/32),
-               y + (int)(((selection_ini.y+scroll.y)*zoom)/32))->id);
+               y + (int)(((selection_ini.y+scroll.y)*zoom)/32))->getID());
               }
             selection.push_back(vector);
             }

@@ -44,9 +44,6 @@ TileManager::~TileManager()
 
 void TileManager::load_tileset(std::string filename)
 {
-  if(filename == current_tileset)
-    return;
-  
   // free old tiles
   for(Tiles::iterator i = tiles.begin(); i != tiles.end(); ++i)
     delete *i;
@@ -71,7 +68,7 @@ void TileManager::load_tileset(std::string filename)
         LispReader reader(lisp_cdr(element));
 
         Tile* tile = new Tile;
-        tile->read(reader);
+        tile->parse(reader);
 
         while(tile->id >= tiles.size()) {
             tiles.push_back(0);
@@ -110,6 +107,5 @@ void TileManager::load_tileset(std::string filename)
   }
 
   lisp_free(root_obj);
-  current_tileset = filename;
 }
 

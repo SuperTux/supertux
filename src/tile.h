@@ -17,19 +17,15 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
-
 #ifndef TILE_H
 #define TILE_H
 
 #include <vector>
-#include "SDL.h"
 #include "video/surface.h"
+#include "utils/lispreader.h"
+#include "math/rectangle.h"
 
 using namespace SuperTux;
-
-namespace SuperTux {
-class LispReader;
-}
 
 /**
 Tile Class
@@ -37,58 +33,74 @@ Tile Class
 class Tile
 {
 public:
-  Tile();
-  ~Tile();
-
-  /// parses the tile and returns it's id number
-  void read(LispReader& reader);
-
+  /// bitset for tile attributes
+  enum {
+    /** solid tile that is indestructable by Tux */                         
+    SOLID     = 0x0001,
+    /** uni-directional solid tile */
+    UNISOLID  = 0x0002,
+    /** a brick that can be destroyed by jumping under it */
+    BRICK     = 0x0004,
+    /** an ice brick that makes tux sliding more than usual */
+    ICE       = 0x0008,
+    /** a water tile in which tux starts to swim */                         
+    WATER     = 0x0010,
+    /** a tile that hurts the player if he touches it */
+    SPIKE     = 0x0020,
+    /** Bonusbox, content is stored in \a data */
+    FULLBOX   = 0x0040,
+    /** Tile is a coin */
+    COIN      = 0x0080,
+    /** the level should be finished when touching a goaltile.
+     * if data is 0 then the endsequence should be triggered, if data is 1
+     * then we can finish the level instantly.
+     */
+    GOAL      = 0x0100,
+    /** slope tile */
+    SLOPE     = 0x0200
+  };
+  
+private:
   unsigned int id;
 
-  std::vector<Surface*> images;
-  std::vector<Surface*> editor_images;
-  
-  /// bitset for tileflags
-  enum {
-      /** solid tile that is indestructable by Tux */
-      SOLID     = 0x0001,
-      /** uni-directional solid tile */
-      UNISOLID  = 0x0002,
-      /** a brick that can be destroyed by jumping under it */
-      BRICK     = 0x0004,
-      /** an ice brick that makes tux sliding more than usual */
-      ICE       = 0x0008,
-      /** a water tile in which tux starts to swim */
-      WATER     = 0x0010,
-      /** a tile that hurts the player if he touches it */
-      SPIKE     = 0x0020,
-      /** Bonusbox, content is stored in \a data */
-      FULLBOX   = 0x0040,
-      /** Tile is a coin */
-      COIN      = 0x0080,
-      /** the level should be finished when touching a goaltile.
-       * if data is 0 then the endsequence should be triggered, if data is 1
-       * then we can finish the level instantly.
-       */
-      GOAL      = 0x0100,
-      /** slope tile */
-      SLOPE     = 0x0200
-  };
+  struct ImageSpec {
+    ImageSpec(const std::string& newfile, const Rectangle& newrect)
+      : file(newfile), rect(newrect)
+    { }
 
+    std::string file;
+    Rectangle rect;
+  };
+  std::vector<ImageSpec> imagespecs;
+  std::vector<Surface*> images;
+
+  std::string editor_imagefile;
+  Surface* editor_image;
+  
   /** tile attributes */
   Uint32 attributes;
   
   /** General purpose data attached to a tile (content of a box, type of coin)*/
   int data;
 
-  /** Id of the tile that is going to replace this tile once it has
-      been collected or jumped at */
-  int next_tile;
-
   float anim_fps;
 
+public:
+  ~Tile();
+  
   /** Draw a tile on the screen */
   void draw(DrawingContext& context, const Vector& pos, int layer) const;
+
+  Surface* get_editor_image() const;
+
+  unsigned int getID() const
+  { return id; }
+
+  Uint32 getAttributes() const
+  { return attributes; }
+
+  int getData() const
+  { return data; }
 
   /// returns the width of the tile in pixels
   int getWidth() const
@@ -105,8 +117,16 @@ public:
       return 0;
     return images[0]->h;
   }
+
+protected:
+  friend class TileManager;
+  Tile();
+
+  void load_images();
+
+  /// parses the tile and returns it's id number
+  void parse(LispReader& reader);
+  void parse_images(lisp_object_t* cur);
 };
 
 #endif
-
-/* EOF */

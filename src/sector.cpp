@@ -331,31 +331,31 @@ Sector::fix_old_tiles()
       const Tile* tile = solids->get_tile(x, y);
       Vector pos(x*32, y*32);
       
-      if(tile->id == 112) {
+      if(tile->getID() == 112) {
         add_object(new InvisibleBlock(pos));
         solids->change(x, y, 0);
-      } else if(tile->id == 295) {
+      } else if(tile->getID() == 295) {
         add_object(new Spike(pos, Spike::NORTH));
         solids->change(x, y, 0);
-      } else if(tile->id == 296) {
+      } else if(tile->getID() == 296) {
         add_object(new Spike(pos, Spike::EAST));
         solids->change(x, y, 0);
-      } else if(tile->id == 297) {
+      } else if(tile->getID() == 297) {
         add_object(new Spike(pos, Spike::SOUTH));
         solids->change(x, y, 0);
-      } else if(tile->id == 298) {
+      } else if(tile->getID() == 298) {
         add_object(new Spike(pos, Spike::WEST));
         solids->change(x, y, 0);
-      } else if(tile->attributes & Tile::COIN) {
+      } else if(tile->getAttributes() & Tile::COIN) {
         add_object(new Coin(pos));
         solids->change(x, y, 0);
-      } else if(tile->attributes & Tile::FULLBOX) {
-        add_object(new BonusBlock(pos, tile->data));
+      } else if(tile->getAttributes() & Tile::FULLBOX) {
+        add_object(new BonusBlock(pos, tile->getData()));
         solids->change(x, y, 0);
-      } else if(tile->attributes & Tile::BRICK) {
-        add_object(new Brick(pos, tile->data));
+      } else if(tile->getAttributes() & Tile::BRICK) {
+        add_object(new Brick(pos, tile->getData()));
         solids->change(x, y, 0);
-      } else if(tile->attributes & Tile::GOAL) {
+      } else if(tile->getAttributes() & Tile::GOAL) {
         add_object(new SequenceTrigger(pos, "endsequence"));
         solids->change(x, y, 0);
       }
@@ -600,16 +600,16 @@ Sector::collision_tilemap(MovingObject* object, int depth)
       const Tile* tile = solids->get_tile(x, y);
       if(!tile)
         continue;
-      if(!(tile->attributes & Tile::SOLID))
+      if(!(tile->getAttributes() & Tile::SOLID))
         continue;
-      if((tile->attributes & Tile::UNISOLID) && object->movement.y < 0)
+      if((tile->getAttributes() & Tile::UNISOLID) && object->movement.y < 0)
         continue;
 
-      if(tile->attributes & Tile::SLOPE) { // slope tile
+      if(tile->getAttributes() & Tile::SLOPE) { // slope tile
         AATriangle triangle;
         Vector p1(x*32, y*32);
         Vector p2((x+1)*32, (y+1)*32);
-        triangle = AATriangle(p1, p2, tile->data);
+        triangle = AATriangle(p1, p2, tile->getData());
 
         if(Collision::rectangle_aatriangle(temphit, dest, object->movement,
               triangle)) {

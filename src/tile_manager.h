@@ -27,8 +27,7 @@
 #include <map>
 #include <stdint.h>
 #include <assert.h>
-
-class Tile;
+#include "tile.h"
 
 struct TileGroup
 {
@@ -43,7 +42,7 @@ struct TileGroup
 
 class TileManager
 {
- private:
+private:
   TileManager();
   ~TileManager();
   
@@ -54,9 +53,7 @@ class TileManager
   std::set<TileGroup> tilegroups;
   void load_tileset(std::string filename);
 
-  std::string current_tileset;
-  
- public:
+public:
   static TileManager* instance()
   { return instance_ ? instance_ : instance_ = new TileManager(); }
   static void destroy_instance()
@@ -70,16 +67,16 @@ class TileManager
   const Tile* get(uint32_t id) const
   {
     assert(id < tiles.size());
-    Tile* t = tiles[id];
-    if (t) 
-      {
-        return t;
-      }
-    else
-      {
-        std::cout << "TileManager: Invalid tile: " << id << std::endl;
-        return tiles[0];
-      }
+    Tile* tile = tiles[id];
+    if(!tile) {
+      std::cout << "TileManager: Invalid tile: " << id << std::endl;
+      return tiles[0];
+    }
+
+    if(tile->images.size() == 0 && tile->imagespecs.size() != 0)
+      tile->load_images();
+    
+    return tile;
   }
 
   uint32_t get_max_tileid() const
