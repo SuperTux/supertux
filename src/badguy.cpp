@@ -215,9 +215,16 @@ BadGuy::init()
         --base.y;
     }
 
-  // just activate the badguy, since he might be on screen already. If not he
-  // gets deactivated anyway
-  activate(LEFT);
+  if(World::current()->camera) {
+    Vector scroll = World::current()->camera->get_translation();
+
+    if(start_position.x > scroll.x - X_OFFSCREEN_DISTANCE &&
+        start_position.x < scroll.x + screen->w + X_OFFSCREEN_DISTANCE &&
+        start_position.y > scroll.y - Y_OFFSCREEN_DISTANCE &&
+        start_position.y < scroll.y + screen->h + Y_OFFSCREEN_DISTANCE) {
+      activate(LEFT);
+    }
+  }
 }
 
 void

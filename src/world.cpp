@@ -43,6 +43,7 @@ Surface* img_distro[4];
 World* World::current_ = 0;
 
 World::World(const std::string& filename, int level_nr)
+  : level(0), tux(0), background(0), camera(0)
 {
   // FIXME: Move this to action and draw and everywhere else where the
   // world calls child functions
@@ -109,6 +110,8 @@ World::~World()
   }
 
   delete level;
+
+  current_ = 0;
 }
 
 void
