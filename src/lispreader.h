@@ -3,6 +3,7 @@
  * lispreader.h
  *
  * Copyright (C) 1998-2000 Mark Probst
+ * Copyright (C) 2002 Ingo Ruhnke <grumbel@gmx.de>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -24,6 +25,7 @@
 #define __LISPREADER_H__
 
 #include <stdio.h>
+#include <vector>
 
 #define LISP_STREAM_FILE       1
 #define LISP_STREAM_STRING     2
@@ -52,57 +54,62 @@
 #define LISP_PATTERN_OR         8
 
 typedef struct
-{
+  {
     int type;
 
     union
-    {
-	FILE *file;
-	struct
-	{
-	    char *buf;
-	    int pos;
-	} string;
+      {
+        FILE *file;
         struct
-	{
-	    void *data;
-	    int (*next_char) (void *data);
-	    void (*unget_char) (char c, void *data);
-	} any;
-    } v;
-} lisp_stream_t;
+          {
+            char *buf;
+            int pos;
+          }
+        string;
+        struct
+          {
+            void *data;
+            int (*next_char) (void *data);
+            void (*unget_char) (char c, void *data);
+          }
+        any;
+      } v;
+  }
+lisp_stream_t;
 
 typedef struct _lisp_object_t lisp_object_t;
 struct _lisp_object_t
-{
+  {
     int type;
 
     union
-    {
-	struct
-	{
-	    struct _lisp_object_t *car;
-	    struct _lisp_object_t *cdr;
-	} cons;
+      {
+        struct
+          {
+            struct _lisp_object_t *car;
+            struct _lisp_object_t *cdr;
+          }
+        cons;
 
-	char *string;
-	int integer;
-	float real;
+        char *string;
+        int integer;
+        float real;
 
-	struct
-	{
-	    int type;
-	    int index;
-	    struct _lisp_object_t *sub;
-	} pattern;
-    } v;
-};
+        struct
+          {
+            int type;
+            int index;
+            struct _lisp_object_t *sub;
+          }
+        pattern;
+      } v;
+  };
 
 lisp_stream_t* lisp_stream_init_file (lisp_stream_t *stream, FILE *file);
 lisp_stream_t* lisp_stream_init_string (lisp_stream_t *stream, char *buf);
-lisp_stream_t* lisp_stream_init_any (lisp_stream_t *stream, void *data, 
-				     int (*next_char) (void *data),
-				     void (*unget_char) (char c, void *data));
+lisp_stream_t* lisp_stream_init_any (lisp_stream_t *stream, void *data,
+                                     int (*next_char) (void *data),
+                                     void (*unget_char) (char c, void *data));
 
 lisp_object_t* lisp_read (lisp_stream_t *in);
 void lisp_free (lisp_object_t *obj);
@@ -146,5 +153,43 @@ void lisp_dump (lisp_object_t *obj, FILE *out);
 #define lisp_string_p(obj)   (lisp_type((obj)) == LISP_TYPE_STRING)
 #define lisp_cons_p(obj)     (lisp_type((obj)) == LISP_TYPE_CONS)
 #define lisp_boolean_p(obj)  (lisp_type((obj)) == LISP_TYPE_BOOLEAN)
+
+/** */
+class LispReader
+  {
+  private:
+    lisp_object_t* lst;
+
+    lisp_object_t* search_for(const char* name);
+  public:
+    /** cur == ((pos 1 2 3) (id 12 3 4)...) */
+    LispReader (lisp_object_t* l);
+
+    bool read_int (const char* name, int* i);
+    bool read_float (const char* name, float* f);
+    bool read_bool (const char* name, bool* b);
+  };
+
+/** */
+class LispWriter
+  {
+  private:
+    std::vector<lisp_object_t*> lisp_objs;
+
+    void append (lisp_object_t* obj);
+    lisp_object_t* make_list3 (lisp_object_t*, lisp_object_t*, lisp_object_t*);
+    lisp_object_t* make_list2 (lisp_object_t*, lisp_object_t*);
+  public:
+    LispWriter (const char* name);
+    void write_float (const char* name, float f);
+    void write_int (const char* name, int i);
+    void write_boolean (const char* name, bool b);
+    void write_string (const char* name, const char* str);
+    void write_symbol (const char* name, const char* symname);
+    void write_lisp_obj(const char* name, lisp_object_t* lst);
+
+    /** caller is responible to free the returned lisp_object_t */
+    lisp_object_t* create_lisp ();
+  };
 
 #endif
