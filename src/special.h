@@ -52,7 +52,7 @@ public:
   void init(float x, float y, Direction dir, UpgradeKind kind);
   void action(double frame_ratio);
   void draw();
-  void collision(void* p_c_object, int c_object);
+  void collision(void* p_c_object, int c_object, CollisionType type);
 
 private:
   /** removes the Upgrade from the global upgrade list. Note that after this
@@ -60,6 +60,8 @@ private:
    * anymore then
    */
   void remove_me();
+
+  void bump(Player* player);
 };
 
 class Bullet

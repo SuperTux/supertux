@@ -288,9 +288,31 @@ Upgrade::draw()
 }
 
 void
-Upgrade::collision(void* p_c_object, int c_object)
+Upgrade::bump(Player* )
+{
+  // these can't be bumped
+  if(kind != UPGRADE_GROWUP)
+    return;
+
+  play_sound(sounds[SND_BUMP_UPGRADE], SOUND_CENTER_SPEAKER);
+  
+  // do a little jump and change direction
+  physic.set_velocity(-physic.get_velocity_x(), 3);
+  dir = dir == LEFT ? RIGHT : LEFT;
+  physic.enable_gravity(true);
+}
+
+void
+Upgrade::collision(void* p_c_object, int c_object, CollisionType type)
 {
   Player* pplayer = NULL;
+
+  if(type == COLLISION_BUMP) {
+    if(c_object == CO_PLAYER)
+      pplayer = (Player*) p_c_object;
+    bump(pplayer);
+    return;
+  }
 
   switch (c_object)
     {

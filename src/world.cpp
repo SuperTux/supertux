@@ -375,7 +375,7 @@ World::collision_handler()
         {
           // We have detected a collision and now call the collision
           // functions of the collided objects.
-          upgrades[i].collision(&tux, CO_PLAYER);
+          upgrades[i].collision(&tux, CO_PLAYER, COLLISION_NORMAL);
         }
     }
 }
@@ -614,9 +614,7 @@ World::trybumpbadguy(float x, float y)
           upgrades[i].base.x >= x - 32 && upgrades[i].base.x <= x + 32 &&
           upgrades[i].base.y >= y - 16 && upgrades[i].base.y <= y + 16)
         {
-          upgrades[i].base.xm = -upgrades[i].base.xm;
-          upgrades[i].base.ym = -8;
-          play_sound(sounds[SND_BUMP_UPGRADE], SOUND_CENTER_SPEAKER);
+          upgrades[i].collision(&tux, CO_PLAYER, COLLISION_BUMP);
         }
     }
 }
