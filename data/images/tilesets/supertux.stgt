@@ -12,7 +12,7 @@
  (tilegroup (name "Classic-Bg") (tiles 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101))
  (tilegroup (name "Points") (tiles 132 133))
  (tilegroup (name "Bonus") (tiles 44 83 84 102 103 104 105 112 128))
- (tilegroup (name "Misc") (tiles 75 76 79 80 81 126 127 129 130 134 135 136 137 138 139))
+ (tilegroup (name "Misc") (tiles 75 76 79 80 126 127 129 130 134 135 136 137 138 139 81))
  (tilegroup (name "Pipe") (tiles 53 54 55 56 57 58 59 60))
  (tilegroup (name "Grey") (tiles 64 65 66 67 68 69))
  (tile (id 0)
@@ -268,7 +268,8 @@
        (solid #f))
  (tile (id 81)
        (images "flag-0.png" "flag-1.png")
-       (solid #f))
+       (solid #f)
+       (anim-speed 50))
 
  (tile (id 82)
 ;;       (images "distro-0.png" "distro-1.png" "distro-2.png" "distro-3.png")
