@@ -312,7 +312,10 @@ Player::on_ground()
 {
   return ( issolid(base.x + base.width / 2, base.y + base.height) ||
            issolid(base.x + 1, base.y + base.height) ||
-           issolid(base.x + base.width - 1, base.y + base.height)  );
+           issolid(base.x + base.width - 1, base.y + base.height) ||
+	   isunisolid(base.x + base.width / 2, base.y + base.height) ||
+	   isunisolid(base.x + 1, base.y + base.height) ||
+	   isunisolid(base.x + base.width - 1, base.y + base.height) );
 }
 
 bool

@@ -251,6 +251,13 @@ bool issolid(float x, float y)
   return tile && tile->solid;
 }
 
+bool isunisolid(float x, float y)
+{
+    Tile* tile = gettile(x,y);
+    return tile && tile->unisolid;
+}
+
+
 bool isbrick(float x, float y)
 {
   Tile* tile = gettile(x,y);

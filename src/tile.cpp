@@ -88,6 +88,7 @@ void TileManager::load_tileset(std::string filename)
               Tile* tile = new Tile;
               tile->id      = -1;
               tile->solid   = false;
+	      tile->unisolid = false;
               tile->brick   = false;
               tile->ice     = false;
               tile->water   = false;
@@ -102,6 +103,7 @@ void TileManager::load_tileset(std::string filename)
               LispReader reader(lisp_cdr(element));
               assert(reader.read_int("id",  &tile->id));
               reader.read_bool("solid",     &tile->solid);
+	      reader.read_bool("unisolid",  &tile->unisolid);
               reader.read_bool("brick",     &tile->brick);
               reader.read_bool("ice",       &tile->ice);
               reader.read_bool("water",     &tile->water);

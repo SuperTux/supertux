@@ -50,6 +50,9 @@ public:
   /** solid tile that is indestructable by Tux */
   bool solid;
 
+  /** uni-directional solid tile */
+  bool unisolid;
+
   /** a brick that can be destroyed by jumping under it */
   bool brick;
 
