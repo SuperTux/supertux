@@ -1415,9 +1415,6 @@ Tile* gettile(float x, float y)
   return TileManager::instance()->get(shape(x, y));
 }
 
-/* Is is ground? */
-
-
 bool issolid(float x, float y)
 {
   Tile* tile = TileManager::instance()->get
@@ -1623,7 +1620,7 @@ void trygrabdistro(float x, float y, int bounciness)
 void trybumpbadguy(float x, float y)
 {
   /* Bad guys: */
-  for (unsigned int i; i = 0; i < bad_guys.size(); i++)
+  for (unsigned int i = 0; i < bad_guys.size(); i++)
     {
       if (bad_guys[i].base.x >= x - 32 && bad_guys[i].base.x <= x + 32 &&
           bad_guys[i].base.y >= y - 16 && bad_guys[i].base.y <= y + 16)
