@@ -563,7 +563,10 @@ Player::handle_vertical_input()
    // Flapping
    if (input.up == DOWN && can_flap)
      {
-         if (!flapping_timer.started()) {flapping_timer.start(TUX_FLAPPING_TIME);}
+         if (!flapping_timer.started())
+            {
+               flapping_timer.start(TUX_FLAPPING_TIME);
+            }
          if (!flapping_timer.check()) 
             {
                can_flap = false;
@@ -651,6 +654,7 @@ Player::handle_vertical_input()
       jumping = false;
       flapping = false;
       falling_from_flap = false;
+      if (flapping_timer.started()) {flapping_timer.stop();}
     }
 
   input.old_up = input.up;
