@@ -87,4 +87,4 @@ class FloatingScore
 
 /* Local Variables: */
 /* mode:c++ */
-/* End */
+/* End: */

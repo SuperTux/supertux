@@ -16,7 +16,14 @@
 std::string datadir;
 
 SDL_Surface * screen;
-text_type black_text, gold_text, blue_text, red_text, yellow_nums, white_text, white_small_text, white_big_text;
+Text* black_text;
+Text* gold_text;
+Text* blue_text;
+Text* red_text;
+Text* yellow_nums;
+Text* white_text;
+Text* white_small_text;
+Text* white_big_text;
 
 MouseCursor * mouse_cursor;
 

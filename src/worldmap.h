@@ -174,4 +174,4 @@ void worldmap_run();
 
 /* Local Variables: */
 /* mode:c++ */
-/* End */
+/* End: */

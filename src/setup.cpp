@@ -573,14 +573,14 @@ void st_general_setup(void)
 
   /* Load global images: */
 
-  text_load(&black_text, datadir + "/images/status/letters-black.png", TEXT_TEXT, 16,18);
-  text_load(&gold_text,datadir + "/images/status/letters-gold.png", TEXT_TEXT, 16,18);
-  text_load(&blue_text,datadir + "/images/status/letters-blue.png", TEXT_TEXT, 16,18);
-  text_load(&red_text,datadir + "/images/status/letters-red.png", TEXT_TEXT, 16,18);
-  text_load(&white_text,datadir + "/images/status/letters-white.png", TEXT_TEXT, 16,18);
-  text_load(&white_small_text,datadir + "/images/status/letters-white-small.png", TEXT_TEXT, 8,9);
-  text_load(&white_big_text,datadir + "/images/status/letters-white-big.png", TEXT_TEXT, 20,23);
-  text_load(&yellow_nums,datadir + "/images/status/numbers.png", TEXT_NUM, 32,32);
+  black_text  = new Text(datadir + "/images/status/letters-black.png", TEXT_TEXT, 16,18);
+  gold_text   = new Text(datadir + "/images/status/letters-gold.png", TEXT_TEXT, 16,18);
+  blue_text   = new Text(datadir + "/images/status/letters-blue.png", TEXT_TEXT, 16,18);
+  red_text    = new Text(datadir + "/images/status/letters-red.png", TEXT_TEXT, 16,18);
+  white_text  = new Text(datadir + "/images/status/letters-white.png", TEXT_TEXT, 16,18);
+  white_small_text = new Text(datadir + "/images/status/letters-white-small.png", TEXT_TEXT, 8,9);
+  white_big_text   = new Text(datadir + "/images/status/letters-white-big.png", TEXT_TEXT, 20,23);
+  yellow_nums = new Text(datadir + "/images/status/numbers.png", TEXT_NUM, 32,32);
 
   /* Load GUI/menu images: */
   checkbox = new Surface(datadir + "/images/status/checkbox.png", USE_ALPHA);
@@ -599,13 +599,13 @@ void st_general_free(void)
 
   /* Free global images: */
 
-  text_free(&black_text);
-  text_free(&gold_text);
-  text_free(&white_text);
-  text_free(&blue_text);
-  text_free(&red_text);
-  text_free(&white_small_text);
-  text_free(&white_big_text);
+  delete black_text;
+  delete gold_text;
+  delete white_text;
+  delete blue_text;
+  delete red_text;
+  delete white_small_text;
+  delete white_big_text;
 
   /* Free GUI/menu images: */
   delete checkbox;

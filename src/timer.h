@@ -55,4 +55,4 @@ class Timer
 
 /* Local Variables: */
 /* mode:c++ */
-/* End */
+/* End: */

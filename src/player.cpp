@@ -729,7 +729,7 @@ Player::draw()
     }
 
   if(dying)
-    text_drawf(&gold_text,"Penguins can fly !:",0,0,A_HMIDDLE,A_VMIDDLE,1);
+    gold_text->drawf("Penguins can fly !:",0,0,A_HMIDDLE,A_VMIDDLE,1);
 
   if (debug_mode)
     fillrect(base.x - scroll_x, base.y, 32, 32, 75,75,75, 150);

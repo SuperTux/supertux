@@ -137,16 +137,16 @@ GameSession::levelintro(void)
   clearscreen(0, 0, 0);
 
   sprintf(str, "LEVEL %d", levelnb);
-  text_drawf(&blue_text, str, 0, 200, A_HMIDDLE, A_TOP, 1);
+  blue_text->drawf(str, 0, 200, A_HMIDDLE, A_TOP, 1);
 
   sprintf(str, "%s", world->get_level()->name.c_str());
-  text_drawf(&gold_text, str, 0, 224, A_HMIDDLE, A_TOP, 1);
+  gold_text->drawf(str, 0, 224, A_HMIDDLE, A_TOP, 1);
 
   sprintf(str, "by %s", world->get_level()->author.c_str());
-  text_drawf(&gold_text, str, 0, 256, A_HMIDDLE, A_TOP, 1);
+  gold_text->drawf(str, 0, 256, A_HMIDDLE, A_TOP, 1);
   
   sprintf(str, "TUX x %d", tux.lives);
-  text_drawf(&white_text, str, 0, 288, A_HMIDDLE, A_TOP, 1);
+  white_text->drawf(str, 0, 288, A_HMIDDLE, A_TOP, 1);
 
   flipscreen();
 
@@ -449,7 +449,7 @@ GameSession::draw()
           fillrect(i % 2 ? (pause_menu_frame * i)%screen->w : -((pause_menu_frame * i)%screen->w) ,(i*20+pause_menu_frame)%screen->h,screen->w,10,20,20,20, rand() % 20 + 1);
         }
       fillrect(0,0,screen->w,screen->h,rand() % 50, rand() % 50, rand() % 50, 128);
-      text_drawf(&blue_text, "PAUSE - Press 'P' To Play", 0, 230, A_HMIDDLE, A_TOP, 1);
+      blue_text->drawf("PAUSE - Press 'P' To Play", 0, 230, A_HMIDDLE, A_TOP, 1);
     }
 
   if(show_menu)
@@ -662,38 +662,38 @@ GameSession::drawstatus()
   char str[60];
 
   sprintf(str, "%d", player_status.score);
-  text_draw(&white_text, "SCORE", 0, 0, 1);
-  text_draw(&gold_text, str, 96, 0, 1);
+  white_text->draw("SCORE", 0, 0, 1);
+  gold_text->draw(str, 96, 0, 1);
 
   if(st_gl_mode != ST_GL_TEST)
     {
       sprintf(str, "%d", hs_score);
-      text_draw(&white_text, "HIGH", 0, 20, 1);
-      text_draw(&gold_text, str, 96, 20, 1);
+      white_text->draw("HIGH", 0, 20, 1);
+      gold_text->draw(str, 96, 20, 1);
     }
   else
     {
-      text_draw(&white_text,"Press ESC To Return",0,20,1);
+      white_text->draw("Press ESC To Return",0,20,1);
     }
 
   if (time_left.get_left() > TIME_WARNING || (global_frame_counter % 10) < 5)
     {
       sprintf(str, "%d", time_left.get_left() / 1000 );
-      text_draw(&white_text, "TIME", 224, 0, 1);
-      text_draw(&gold_text, str, 304, 0, 1);
+      white_text->draw("TIME", 224, 0, 1);
+      gold_text->draw(str, 304, 0, 1);
     }
 
   sprintf(str, "%d", player_status.distros);
-  text_draw(&white_text, "DISTROS", screen->h, 0, 1);
-  text_draw(&gold_text, str, 608, 0, 1);
+  white_text->draw("DISTROS", screen->h, 0, 1);
+  gold_text->draw(str, 608, 0, 1);
 
-  text_draw(&white_text, "LIVES", screen->h, 20, 1);
+  white_text->draw("LIVES", screen->h, 20, 1);
 
   if(show_fps)
     {
       sprintf(str, "%2.1f", fps_fps);
-      text_draw(&white_text, "FPS", screen->h, 40, 1);
-      text_draw(&gold_text, str, screen->h + 60, 40, 1);
+      white_text->draw("FPS", screen->h, 40, 1);
+      gold_text->draw(str, screen->h + 60, 40, 1);
     }
 
   for(int i= 0; i < tux.lives; ++i)
@@ -709,13 +709,13 @@ GameSession::drawendscreen()
 
   clearscreen(0, 0, 0);
 
-  text_drawf(&blue_text, "GAMEOVER", 0, 200, A_HMIDDLE, A_TOP, 1);
+  blue_text->drawf("GAMEOVER", 0, 200, A_HMIDDLE, A_TOP, 1);
 
   sprintf(str, "SCORE: %d", player_status.score);
-  text_drawf(&gold_text, str, 0, 224, A_HMIDDLE, A_TOP, 1);
+  gold_text->drawf(str, 0, 224, A_HMIDDLE, A_TOP, 1);
 
   sprintf(str, "DISTROS: %d", player_status.distros);
-  text_drawf(&gold_text, str, 0, 256, A_HMIDDLE, A_TOP, 1);
+  gold_text->drawf(str, 0, 256, A_HMIDDLE, A_TOP, 1);
 
   flipscreen();
   
@@ -730,13 +730,13 @@ GameSession::drawresultscreen(void)
 
   clearscreen(0, 0, 0);
 
-  text_drawf(&blue_text, "Result:", 0, 200, A_HMIDDLE, A_TOP, 1);
+  blue_text->drawf("Result:", 0, 200, A_HMIDDLE, A_TOP, 1);
 
   sprintf(str, "SCORE: %d", player_status.score);
-  text_drawf(&gold_text, str, 0, 224, A_HMIDDLE, A_TOP, 1);
+  gold_text->drawf(str, 0, 224, A_HMIDDLE, A_TOP, 1);
 
   sprintf(str, "DISTROS: %d", player_status.distros);
-  text_drawf(&gold_text, str, 0, 256, A_HMIDDLE, A_TOP, 1);
+  gold_text->drawf(str, 0, 256, A_HMIDDLE, A_TOP, 1);
 
   flipscreen();
   

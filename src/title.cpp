@@ -300,7 +300,7 @@ bool title(void)
       if (current_menu == main_menu)
         logo->draw( 160, 30);
 
-      text_draw(&white_small_text, 
+      white_small_text->draw(
                 " SuperTux " VERSION "\n"
                 "Copyright (c) 2003 SuperTux Devel Team\n"
                 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you\n"
@@ -566,7 +566,7 @@ void display_credits()
 
       draw_background();
 
-      text_drawf(&white_big_text, "- Credits -", 0, screen->h-scroll, A_HMIDDLE, A_TOP, 2);
+      white_big_text->drawf("- Credits -", 0, screen->h-scroll, A_HMIDDLE, A_TOP, 2);
 
       for(i = 0, n = 0, d = 0; i < length; i++,n++,d++)
         {
@@ -575,13 +575,13 @@ void display_credits()
           else
             {
               if(names.item[i][0] == ' ')
-                text_drawf(&white_small_text, names.item[i], 0, 60+screen->h+(n*18)+(d*18)-scroll-10, A_HMIDDLE, A_TOP, 1);
+                white_small_text->drawf(names.item[i], 0, 60+screen->h+(n*18)+(d*18)-scroll-10, A_HMIDDLE, A_TOP, 1);
               else if(names.item[i][0] == '	')
-                text_drawf(&white_text, names.item[i], 0, 60+screen->h+(n*18)+(d*18)-scroll, A_HMIDDLE, A_TOP, 1);
+                white_text->drawf(names.item[i], 0, 60+screen->h+(n*18)+(d*18)-scroll, A_HMIDDLE, A_TOP, 1);
               else if(names.item[i+1][0] == '-' || names.item[i][0] == '-')
-                text_drawf(&white_big_text, names.item[i], 0, 60+screen->h+(n*18)+(d*18)-scroll, A_HMIDDLE, A_TOP, 3);
+                white_big_text->drawf(names.item[i], 0, 60+screen->h+(n*18)+(d*18)-scroll, A_HMIDDLE, A_TOP, 3);
               else
-                text_drawf(&blue_text, names.item[i], 0, 60+screen->h+(n*18)+(d*18)-scroll, A_HMIDDLE, A_TOP, 1);
+                blue_text->drawf(names.item[i], 0, 60+screen->h+(n*18)+(d*18)-scroll, A_HMIDDLE, A_TOP, 1);
             }
         }
 

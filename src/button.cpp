@@ -105,13 +105,13 @@ void Button::draw()
       char str[80];
       int i = -32;
 
-      if(0 > rect.x - (int)strlen(info.c_str()) * white_small_text.w)
-        i = rect.w + strlen(info.c_str()) * white_small_text.w;
+      if(0 > rect.x - (int)strlen(info.c_str()) * white_small_text->w)
+        i = rect.w + strlen(info.c_str()) * white_small_text->w;
 
       if(!info.empty())
-        text_draw(&white_small_text, info.c_str(), i + rect.x - strlen(info.c_str()) * white_small_text.w, rect.y, 1);
+        white_small_text->draw(info.c_str(), i + rect.x - strlen(info.c_str()) * white_small_text->w, rect.y, 1);
       sprintf(str,"(%s)", SDL_GetKeyName(shortcut));
-      text_draw(&white_small_text, str, i + rect.x - strlen(str) * white_small_text.w, rect.y + white_small_text.h+2, 1);
+      white_small_text->draw(str, i + rect.x - strlen(str) * white_small_text->w, rect.y + white_small_text->h+2, 1);
     }
   if(state == BUTTON_PRESSED)
     fillrect(rect.x,rect.y,rect.w,rect.h,75,75,75,200);

@@ -15,15 +15,6 @@
 
 #include "texture.h"
 
-/* Text type */
-struct text_type
-{
-  Surface* chars;
-  Surface* shadow_chars;
-  int kind;
-  int w;
-  int h;
-};
 
 /* Kinds of texts. */
 enum {
@@ -43,14 +34,26 @@ enum TextVAlign {
    A_BOTTOM,
 };
 
-void text_load(text_type* ptext, const std::string& file, int kind, int w, int h);
-void text_draw(text_type* ptext, const char* text, int x, int y, int shadowsize, int update = NO_UPDATE);
-void text_draw_chars(text_type* ptext, Surface* pchars, const char* text, int x, int y, int update = NO_UPDATE);
-void text_drawf(text_type* ptext, const char* text, int x, int y, TextHAlign halign, TextVAlign valign, int shadowsize, int update = NO_UPDATE);
-void text_draw_align(text_type* ptext, const char* text, int x, int y, TextHAlign halign, TextVAlign valign, int shadowsize, int update = NO_UPDATE);
-void text_free(text_type* ptext);
-void erasetext(text_type* ptext, const char * text, int x, int y, Surface* surf, int update, int shadowsize);
-void erasecenteredtext(text_type* ptext, const char * text, int y, Surface* surf, int update, int shadowsize);
+/* Text type */
+class Text
+{
+ public:
+  Surface* chars;
+  Surface* shadow_chars;
+  int kind;
+  int w;
+  int h;
+ public:
+  Text(const std::string& file, int kind, int w, int h);
+  ~Text();
+
+  void draw(const char* text, int x, int y, int shadowsize, int update = NO_UPDATE);
+  void draw_chars(Surface* pchars, const char* text, int x, int y, int update = NO_UPDATE);
+  void drawf(const char* text, int x, int y, TextHAlign halign, TextVAlign valign, int shadowsize, int update = NO_UPDATE);
+  void draw_align(const char* text, int x, int y, TextHAlign halign, TextVAlign valign, int shadowsize, int update = NO_UPDATE);
+  void erasetext(const char * text, int x, int y, Surface* surf, int update, int shadowsize);
+  void erasecenteredtext(const char * text, int y, Surface* surf, int update, int shadowsize);
+};
 
 #endif /*SUPERTUX_TEXT_H*/
 

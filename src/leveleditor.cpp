@@ -671,16 +671,16 @@ void le_drawinterface()
       le_tilemap_panel->draw();
 
       sprintf(str, "%d/%d", le_level,le_level_subset.levels);
-      text_drawf(&white_text, str, -10, 16, A_RIGHT, A_TOP, 0);
+      white_text->drawf(str, -10, 16, A_RIGHT, A_TOP, 0);
 
-      text_draw(&white_small_text, "F1 for Help", 10, 430, 1);
+      white_small_text->draw("F1 for Help", 10, 430, 1);
     }
   else
     {
       if(show_menu == false)
-        text_draw(&white_small_text, "No Level Subset loaded - Press ESC and choose one in the menu", 10, 430, 1);
+        white_small_text->draw("No Level Subset loaded - Press ESC and choose one in the menu", 10, 430, 1);
       else
-        text_draw(&white_small_text, "No Level Subset loaded", 10, 430, 1);
+        white_small_text->draw("No Level Subset loaded", 10, 430, 1);
     }
 
 }
@@ -949,9 +949,9 @@ void le_checkevents()
                           char str[1024];
                           int d = 0;
                           sprintf(str,"Level %d doesn't exist.",le_level+1);
-                          text_drawf(&white_text,str,0,-18,A_HMIDDLE,A_VMIDDLE,2);
-                          text_drawf(&white_text,"Do you want to create it?",0,0,A_HMIDDLE,A_VMIDDLE,2);
-                          text_drawf(&red_text,"(Y)es/(N)o",0,20,A_HMIDDLE,A_VMIDDLE,2);
+                          white_text->drawf(str,0,-18,A_HMIDDLE,A_VMIDDLE,2);
+                          white_text->drawf("Do you want to create it?",0,0,A_HMIDDLE,A_VMIDDLE,2);
+                          red_text->drawf("(Y)es/(N)o",0,20,A_HMIDDLE,A_VMIDDLE,2);
                           flipscreen();
                           while(d == 0)
                             {
@@ -1246,12 +1246,12 @@ void le_showhelp()
                  };
 
 
-  text_drawf(&blue_text, "- Help -", 0, 30, A_HMIDDLE, A_TOP, 2);
+  blue_text->drawf("- Help -", 0, 30, A_HMIDDLE, A_TOP, 2);
 
   for(i = 0; i < sizeof(text)/sizeof(char *); i++)
-    text_draw(&white_text, text[i], 5, 80+(i*18), 1);
+    white_text->draw(text[i], 5, 80+(i*18), 1);
 
-  text_drawf(&gold_text, "Press Any Key to Continue", 0, 440, A_HMIDDLE, A_TOP, 1);
+  gold_text->drawf("Press Any Key to Continue", 0, 440, A_HMIDDLE, A_TOP, 1);
 
   flipscreen();
 

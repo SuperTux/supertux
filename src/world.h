@@ -117,5 +117,5 @@ extern World global_world;
 
 /* Local Variables: */
 /* mode:c++ */
-/* End */
+/* End: */
 

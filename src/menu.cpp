@@ -359,7 +359,7 @@ Menu::draw_item(int index, // Position of the current item in the menu
   int text_width  = strlen(pitem.text) * font_width;
   int input_width = strlen(pitem.input) * font_width;
   int list_width  = strlen(string_list_active(pitem.list)) * font_width;
-  text_type* text_font = &white_text;
+  Text* text_font = white_text;
 
   if (arrange_left)
     x_pos += 24 - menu_width/2 + (text_width + input_width + list_width)/2;
@@ -367,16 +367,16 @@ Menu::draw_item(int index, // Position of the current item in the menu
   if(index == active_item)
     {
       shadow_size = 3;
-      text_font = &blue_text;
+      text_font = blue_text;
     }
 
   switch (pitem.kind)
     {
     case MN_DEACTIVE:
       {
-        text_draw_align(&black_text, pitem.text,
-                        x_pos, y_pos,
-                        A_HMIDDLE, A_VMIDDLE, 2);
+        black_text->draw_align(pitem.text,
+                               x_pos, y_pos,
+                               A_HMIDDLE, A_VMIDDLE, 2);
         break;
       }
 
@@ -395,9 +395,9 @@ Menu::draw_item(int index, // Position of the current item in the menu
       }
     case MN_LABEL:
       {
-        text_draw_align(&white_big_text, pitem.text,
-                        x_pos, y_pos,
-                        A_HMIDDLE, A_VMIDDLE, 2);
+        white_big_text->draw_align(pitem.text,
+                                   x_pos, y_pos,
+                                   A_HMIDDLE, A_VMIDDLE, 2);
         break;
       }
     case MN_TEXTFIELD:
@@ -414,13 +414,13 @@ Menu::draw_item(int index, // Position of the current item in the menu
                  input_width + font_width, 18,
                  0,0,0,128);
 
-        text_draw_align(&gold_text, pitem.input,
-                        x_pos + text_pos, y_pos,
-                        A_HMIDDLE, A_VMIDDLE, 2);
+        gold_text->draw_align(pitem.input,
+                              x_pos + text_pos, y_pos,
+                              A_HMIDDLE, A_VMIDDLE, 2);
 
-        text_draw_align(text_font, pitem.text,
-                        x_pos - (input_width + font_width)/2, y_pos,
-                        A_HMIDDLE, A_VMIDDLE, shadow_size);
+        text_font->draw_align(pitem.text,
+                              x_pos - (input_width + font_width)/2, y_pos,
+                              A_HMIDDLE, A_VMIDDLE, shadow_size);
         break;
       }
     case MN_STRINGSELECT:
@@ -441,25 +441,25 @@ Menu::draw_item(int index, // Position of the current item in the menu
                  list_pos_2, 18,
                  0,0,0,128);
 
-        text_draw_align(&gold_text, string_list_active(pitem.list),
+        gold_text->draw_align(string_list_active(pitem.list),
                         x_pos + text_pos, y_pos,
                         A_HMIDDLE, A_VMIDDLE,2);
 
-        text_draw_align(text_font, pitem.text,
+        text_font->draw_align(pitem.text,
                         x_pos - list_pos_2/2, y_pos,
                         A_HMIDDLE, A_VMIDDLE, shadow_size);
         break;
       }
     case MN_BACK:
       {
-        text_draw_align(text_font, pitem.text, x_pos, y_pos, A_HMIDDLE, A_VMIDDLE, shadow_size);
+        text_font->draw_align(pitem.text, x_pos, y_pos, A_HMIDDLE, A_VMIDDLE, shadow_size);
         back->draw( x_pos + text_width/2  + font_width, y_pos - 8);
         break;
       }
 
     case MN_TOGGLE:
       {
-        text_draw_align(text_font, pitem.text, x_pos, y_pos, A_HMIDDLE, A_VMIDDLE, shadow_size);
+        text_font->draw_align(pitem.text, x_pos, y_pos, A_HMIDDLE, A_VMIDDLE, shadow_size);
 
         if(pitem.toggled)
           checkbox_checked->draw(
@@ -472,11 +472,11 @@ Menu::draw_item(int index, // Position of the current item in the menu
         break;
       }
     case MN_ACTION:
-      text_draw_align(text_font, pitem.text, x_pos, y_pos, A_HMIDDLE, A_VMIDDLE, shadow_size);
+      text_font->draw_align(pitem.text, x_pos, y_pos, A_HMIDDLE, A_VMIDDLE, shadow_size);
       break;
 
     case MN_GOTO:
-      text_draw_align(text_font, pitem.text, x_pos, y_pos, A_HMIDDLE, A_VMIDDLE, shadow_size);
+      text_font->draw_align(pitem.text, x_pos, y_pos, A_HMIDDLE, A_VMIDDLE, shadow_size);
       break;
     }
 }

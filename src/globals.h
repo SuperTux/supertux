@@ -23,14 +23,14 @@
 extern std::string datadir;
 
 extern SDL_Surface * screen;
-extern text_type black_text;
-extern text_type gold_text;
-extern text_type white_text;
-extern text_type white_small_text;
-extern text_type white_big_text;
-extern text_type blue_text;
-extern text_type red_text;
-extern text_type yellow_nums;
+extern Text* black_text;
+extern Text* gold_text;
+extern Text* white_text;
+extern Text* white_small_text;
+extern Text* white_big_text;
+extern Text* blue_text;
+extern Text* red_text;
+extern Text* yellow_nums;
 
 extern MouseCursor * mouse_cursor;
 

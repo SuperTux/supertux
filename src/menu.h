@@ -142,4 +142,4 @@ void menu_process_current(void);
 
 /* Local Variables: */
 /* mode: c++ */
-/* End */
+/* End: */

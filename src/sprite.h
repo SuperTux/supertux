@@ -57,4 +57,4 @@ class Sprite
 
 /* Local Variables: */
 /* mode:c++ */
-/* End */
+/* End: */

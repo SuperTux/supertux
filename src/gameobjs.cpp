@@ -177,7 +177,7 @@ FloatingScore::draw()
 {
   char str[10];
   sprintf(str, "%d", value);
-  text_draw(&gold_text, str, (int)base.x + 16 - strlen(str) * 8, (int)base.y, 1);
+  gold_text->draw(str, (int)base.x + 16 - strlen(str) * 8, (int)base.y, 1);
 }
 
 /* EOF */
