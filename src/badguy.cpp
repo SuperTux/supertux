@@ -973,6 +973,27 @@ BadGuy::collision(void *p_c_object, int c_object, CollisionType type)
           pbad_c->kill_me();
           kill_me();
         }
+
+      /* Kill badguys that run into exploding bomb */
+      else if (kind == BAD_BOMB && dying == DYING_NOT)
+      {
+        if (pbad_c->kind == BAD_MRBOMB)
+        {
+          // FIXME: this is where other MrBombs *should* explode istead of dying
+          pbad_c->kill_me(); 
+        }
+        else if (pbad_c->kind != BAD_BOMB)
+        {
+          pbad_c->kill_me();
+        }
+      }
+
+      /* Kill any badguys that get hit by stalactite */
+      else if (kind == BAD_STALACTITE && dying == DYING_NOT)
+      {
+        pbad_c->kill_me();
+      }
+      
       break;
     }
 }
