@@ -115,29 +115,23 @@ void activate_bad_guys(void)
 
 void game_event(void)
 {
-
   while (SDL_PollEvent(&event))
     {
-
-      if (event.type == SDL_QUIT)
-        {
-          /* Quit event - quit: */
-
+    switch(event.type)
+      {
+      case SDL_QUIT:        /* Quit event - quit: */
           quit = 1;
-        }
-      else if (event.type == SDL_KEYDOWN)
-        {
-          /* A keypress! */
-
+          break;
+      case SDL_KEYDOWN:     /* A keypress! */
           key = event.key.keysym.sym;
 
           /* Check for menu-events, if the menu is shown */
           if(show_menu)
             menu_event(key);
 
-          if (key == SDLK_ESCAPE)
+          switch(key)
             {
-              /* Escape: Open/Close the menu: */
+            case SDLK_ESCAPE:    /* Escape: Open/Close the menu: */
               if(!game_pause)
                 {
                   if(show_menu)
@@ -145,56 +139,47 @@ void game_event(void)
                   else
                     show_menu = 1;
                 }
-            }
-          else if (key == SDLK_RIGHT)
-            {
+               break;
+          case SDLK_RIGHT:
               tux.input.right = DOWN;
-            }
-          else if (key == SDLK_LEFT)
-            {
+               break;
+          case SDLK_LEFT:
               tux.input.left = DOWN;
-            }
-          else if (key == SDLK_UP)
-            {
+            break;
+          case SDLK_UP:
               tux.input.up = DOWN;
-            }
-          else if (key == SDLK_DOWN)
-            {
+            break;
+          case SDLK_DOWN:
               tux.input.down = DOWN;
-            }
-          else if (key == SDLK_LCTRL)
-            {
+            break;
+          case SDLK_LCTRL:
               tux.input.fire = DOWN;
-            }
+            break;
+           default:
+            break;
         }
-      else if (event.type == SDL_KEYUP)
-        {
-          /* A keyrelease! */
-
+        break;
+      case SDL_KEYUP:      /* A keyrelease! */
           key = event.key.keysym.sym;
 
-          if (key == SDLK_RIGHT)
-            {
+          switch(key)
+           {
+          case SDLK_RIGHT:
               tux.input.right = UP;
-            }
-          else if (key == SDLK_LEFT)
-            {
+            break;
+          case SDLK_LEFT:
               tux.input.left = UP;
-            }
-          else if (key == SDLK_UP)
-            {
+            break;
+          case SDLK_UP:
               tux.input.up = UP;
-            }
-          else if (key == SDLK_DOWN)
-            {
+            break;
+          case SDLK_DOWN:
               tux.input.down = UP;
-            }
-          else if (key == SDLK_LCTRL)
-            {
+            break;
+          case SDLK_LCTRL:
               tux.input.fire = UP;
-            }
-          else if (key == SDLK_p)
-            {
+            break;
+          case SDLK_p:
               if(!show_menu)
                 {
                   if(game_pause)
@@ -202,33 +187,36 @@ void game_event(void)
                   else
                     game_pause = 1;
                 }
-            }
-          else if (key == SDLK_TAB && debug_mode == YES)
-            {
+            break;
+          case SDLK_TAB:
+            if(debug_mode == YES)
               tux.size = !tux.size;
-            }
-          else if (key == SDLK_END && debug_mode == YES)
-            {
+            break;
+          case SDLK_END:
+            if(debug_mode == YES)
               distros += 50;
-            }
-          else if (key == SDLK_SPACE && debug_mode == YES)
-            {
+            break;
+          case SDLK_SPACE:
+            if(debug_mode == YES)
               next_level = 1;
-            }
-          else if (key == SDLK_DELETE && debug_mode == YES)
-            {
+            break;
+          case SDLK_DELETE:
+            if(debug_mode == YES)
               tux.got_coffee = 1;
-            }
-          else if (key == SDLK_INSERT && debug_mode == YES)
-            {
+            break;
+          case SDLK_INSERT:
+            if(debug_mode == YES)
               timer_start(&tux.invincible_timer,TUX_INVINCIBLE_TIME);
-            }
+            break;
+           default:
+            break;
         }
+        break;
 #ifdef JOY_YES
-      else if (event.type == SDL_JOYAXISMOTION)
-        {
-          if (event.jaxis.axis == JOY_X)
-            {
+      case SDL_JOYAXISMOTION:
+        switch(event.jaxis.axis)
+           {
+           case JOY_X:
               if (event.jaxis.value < -256)
                 tux.input.left = DOWN;
               else
@@ -238,9 +226,8 @@ void game_event(void)
                 tux.input.right = DOWN;
               else
                 tux.input.right = UP;
-            }
-          else if (event.jaxis.axis == JOY_Y)
-            {
+            break;
+          case JOY_Y:
               if (event.jaxis.value > 256)
                 tux.input.down = DOWN;
               else
@@ -254,17 +241,18 @@ void game_event(void)
                   else
                     menuaction = MN_UP;
                 }
-            }
+            break;
+            default:
+              break;
         }
-      else if (event.type == SDL_JOYBUTTONDOWN)
-        {
+        break;
+      case SDL_JOYBUTTONDOWN:
           if (event.jbutton.button == JOY_A)
             tux.input.up = DOWN;
           else if (event.jbutton.button == JOY_B)
             tux.input.fire = DOWN;
-        }
-      else if (event.type == SDL_JOYBUTTONUP)
-        {
+        break;
+      case SDL_JOYBUTTONUP:
           if (event.jbutton.button == JOY_A)
             tux.input.up = UP;
           else if (event.jbutton.button == JOY_B)
@@ -272,6 +260,9 @@ void game_event(void)
 
           if(show_menu)
             menuaction = MN_HIT;
+          break;
+       default:
+         break;
 
         }
 #endif
