@@ -202,7 +202,7 @@ World::draw()
       for (x = 0; x < 21; ++x)
         {
           Tile::draw(32*x - fmodf(scroll_x, 32), y * 32,
-                     level->bg_tiles[(int)y][(int)x + (int)(scroll_x / 32)]);
+                     level->bg_tiles[(int)y + (int)(scroll_y / 32)][(int)x + (int)(scroll_x / 32)]);
         }
     }
 
@@ -212,7 +212,7 @@ World::draw()
       for (x = 0; x < 21; ++x)
         {
           Tile::draw(32*x - fmodf(scroll_x, 32), y * 32,
-                     level->ia_tiles[(int)y][(int)x + (int)(scroll_x / 32)]);
+                     level->ia_tiles[(int)y + (int)(scroll_y / 32)][(int)x + (int)(scroll_x / 32)]);
         }
     }
 
@@ -246,7 +246,7 @@ World::draw()
       for (x = 0; x < 21; ++x)
         {
           Tile::draw(32*x - fmodf(scroll_x, 32), y * 32,
-                     level->fg_tiles[(int)y][(int)x + (int)(scroll_x / 32)]);
+                     level->fg_tiles[(int)y + (int)(scroll_y / 32)][(int)x + (int)(scroll_x / 32)]);
         }
     }
 
@@ -390,6 +390,18 @@ void World::scrolling(double frame_ratio)
     scroll_x = 0;
   if(scroll_x > level->width * 32 - screen->w)
     scroll_x = level->width * 32 - screen->w;
+
+  /* Y-axis scrolling */
+
+  int tux_pos_y = (int)(tux.base.y + (tux.base.height/2));
+
+  scroll_y = tux_pos_y - (screen->h / 2);
+
+  // this code prevent the screen to scroll before the start or after the level's end
+  if(scroll_y < 0)
+    scroll_y = 0;
+  if(scroll_y > level->height * 32 - screen->h)
+    scroll_y = level->height * 32 - screen->h;
 }
 
 void

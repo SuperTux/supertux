@@ -54,7 +54,7 @@ void
 BouncyDistro::draw()
 {
   img_distro[0]->draw(base.x - scroll_x,
-                      base.y);
+                      base.y - scroll_y);
 }
 
 
@@ -98,7 +98,7 @@ BrokenBrick::draw()
   src.h = 16;
 
   dest.x = (int)(base.x - scroll_x);
-  dest.y = (int)base.y;
+  dest.y = (int)(base.y  - scroll_y);
   dest.w = 16;
   dest.h = 16;
   
@@ -147,7 +147,7 @@ BouncyBrick::draw()
       base.x <= scroll_x + screen->w)
     {
       dest.x = (int)(base.x - scroll_x);
-      dest.y = (int)base.y;
+      dest.y = (int)(base.y - scroll_y);
       dest.w = 32;
       dest.h = 32;
 
@@ -157,7 +157,7 @@ BouncyBrick::draw()
       // paint it later at on offseted position
       if(plevel->bkgd_image[0] == '\0')
         {
-          fillrect(base.x - scroll_x, base.y,
+          fillrect(base.x - scroll_x, base.y - scroll_y,
                    32,32, 
                    plevel->bkgd_top.red, plevel->bkgd_top.green, plevel->bkgd_top.blue, 0);
 // FIXME: doesn't respect the gradient, futhermore is this necessary at all??
@@ -170,7 +170,7 @@ BouncyBrick::draw()
         }
 
       Tile::draw(base.x - scroll_x,
-                 base.y + offset,
+                 base.y - scroll_y + offset,
                  shape);
     }
 }
