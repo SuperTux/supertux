@@ -75,7 +75,7 @@ Font::get_text_width(const std::string& text) const
 {
   /** Let's calculate the size of the biggest paragraph */
   std::string::size_type l, hl;
-  hl = 0; l = -1;
+  hl = 0; l = 0;
   while(true)
     {
     l = text.find("\n", l+1);
@@ -95,7 +95,7 @@ Font::get_text_height(const std::string& text) const
 {
   /** Let's calculate height of the text */
   std::string::size_type l, hh;
-  hh = h; l = -1;
+  hh = h; l = 0;
   while(true)
     {
     l = text.find("\n", l+1);
