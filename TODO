@@ -123,6 +123,8 @@ Programming
     again. This will suddenly raise the camera up.
 [L] Allow any object to be inside of a [?] box, ie. trampoline or badguy
     - Not sure if this would be gameplay wise.
+[L] There is a report that the joypad is always used on windows and more severe
+    it generates random up/down events, though it is callibrated correctly.
 
 Graphics
 ~~~~~~~~
