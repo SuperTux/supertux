@@ -969,6 +969,28 @@
  (tile (id 336)
        (images "tree_branch2.png"))
 
+ (tile (id 337)
+       (solid #t)
+       (images "rock_plate1.png"))
+ (tile (id 338)
+       (solid #t)
+       (images "rock_plate2.png"))
+ (tile (id 339)
+       (solid #t)
+       (images "rock_plate3.png"))
+ (tile (id 340)
+       (solid #t)
+       (images "rock_plate_cracked1.png"))
+ (tile (id 341)
+       (solid #t)
+       (images "rock_plate_cracked2.png"))
+ (tile (id 342)
+       (solid #t)
+       (images "rock_plate_cracked3.png"))
+
+ (tile (id 360)
+       (images "mushrooms.png"))
+
 
 ; Slopes
 
