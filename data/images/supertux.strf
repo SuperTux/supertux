@@ -1234,29 +1234,13 @@
         (name "default")
         (images "tilesets/brick1.png"))
   )
+
+  (sprite (name "invisibleblock")
+      (action
+        (name "empty")
+        (images "tilesets/bonus2-d.png"))
+  )
                  
-;   (sprite (name "openingdoor")
-;        (action
-;           (x-offset 0)
-;           (y-offset 64)
-;           (images "shared/door-1.png"
-; 	   "shared/door-2.png"
-; 	   "shared/door-3.png"
-; 	   "shared/door-4.png"
-; 	   "shared/door-5.png"
-; 	   "shared/door-6.png"
-; 	   "shared/door-7.png"
-; 	   "shared/door-8.png"
-; 	   "shared/door-8.png"
-; 	   "shared/door-7.png"
-; 	   "shared/door-6.png"
-; 	   "shared/door-5.png"
-; 	   "shared/door-4.png"
-; 	   "shared/door-3.png"
-; 	   "shared/door-2.png"
-; 	   "shared/door-1.png")
-;   ))
-  
   ; Stomp
   (sprite (name "stomp")
        (action

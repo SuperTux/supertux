@@ -20,6 +20,7 @@
 
 #include <iostream>
 #include <cmath>
+#include <cassert>
 #include <stdexcept>
 
 #include "../app/globals.h"
@@ -159,6 +160,7 @@ void
 Sprite::draw(DrawingContext& context, const Vector& pos, int layer,
     Uint32 drawing_effect)
 {
+  assert(action != 0);
   update();
 
   if((int)frame >= get_frames() || (int)frame < 0)
@@ -175,6 +177,7 @@ void
 Sprite::draw_part(DrawingContext& context, const Vector& source,
     const Vector& size, const Vector& pos, int layer, Uint32 drawing_effect)
 {
+  assert(action != 0);
   update();
 
   if((int)frame >= get_frames() || (int)frame < 0)

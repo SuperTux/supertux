@@ -44,6 +44,7 @@
 #include "math/aatriangle.h"
 #include "object/coin.h"
 #include "object/block.h"
+#include "object/invisible_block.h"
 #include "object/platform.h"
 #include "trigger/door.h"
 #include "object/bullet.h"
@@ -121,6 +122,7 @@ Sector::parseObject(const std::string& name, LispReader& reader)
         return 0;
       }
       solids = tilemap;
+      fix_old_tiles();
     }
     return tilemap;
   } else if(name == "particles-snow") {
@@ -275,31 +277,7 @@ Sector::parse_old_format(LispReader& reader)
     solids = tilemap;
     add_object(tilemap);
 
-    // hack for now...
-    for(size_t x=0; x < solids->get_width(); ++x) {
-      for(size_t y=0; y < solids->get_height(); ++y) {
-        const Tile* tile = solids->get_tile(x, y);
-
-        if(tile->attributes & Tile::COIN) {
-          Coin* coin = new Coin(Vector(x*32, y*32));
-          add_object(coin);
-          solids->change(x, y, 0);
-        } else if(tile->attributes & Tile::FULLBOX) {
-          BonusBlock* block = new BonusBlock(Vector(x*32, y*32), tile->data);
-          add_object(block);
-          solids->change(x, y, 0);
-        } else if(tile->attributes & Tile::BRICK) {
-          Brick* brick = new Brick(Vector(x*32, y*32), tile->data);
-          add_object(brick);
-          solids->change(x, y, 0);
-        } else if(tile->attributes & Tile::GOAL) {
-          SequenceTrigger* trigger = new SequenceTrigger(Vector(x*32, y*32),
-              "endsequence");
-          add_object(trigger);
-          solids->change(x, y, 0);
-        }
-      }                                                   
-    }
+    fix_old_tiles();
   }
 
   if(reader.read_int_vector("background-tm", tiles)) {
@@ -361,6 +339,35 @@ Sector::parse_old_format(LispReader& reader)
   // add a camera
   camera = new Camera(this);
   add_object(camera);
+}
+
+void
+Sector::fix_old_tiles()
+{
+  // hack for now...
+  for(size_t x=0; x < solids->get_width(); ++x) {
+    for(size_t y=0; y < solids->get_height(); ++y) {
+      const Tile* tile = solids->get_tile(x, y);
+      Vector pos(x*32, y*32);
+      
+      if(tile->id == 112) {
+        add_object(new InvisibleBlock(pos));
+        solids->change(x, y, 0);
+      } else if(tile->attributes & Tile::COIN) {
+        add_object(new Coin(pos));
+        solids->change(x, y, 0);
+      } else if(tile->attributes & Tile::FULLBOX) {
+        add_object(new BonusBlock(pos, tile->data));
+        solids->change(x, y, 0);
+      } else if(tile->attributes & Tile::BRICK) {
+        add_object(new Brick(pos, tile->data));
+        solids->change(x, y, 0);
+      } else if(tile->attributes & Tile::GOAL) {
+        add_object(new SequenceTrigger(pos, "endsequence"));
+        solids->change(x, y, 0);
+      }
+    }                                                   
+  }
 }
 
 void

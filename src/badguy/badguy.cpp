@@ -164,6 +164,8 @@ BadGuy::kill_squished(Player& player)
 void
 BadGuy::kill_fall()
 {
+  SoundManager::get()->play_sound(IDToSound(SND_FALL), this,
+      Sector::current()->player->get_pos());
   physic.set_velocity_y(0);
   physic.enable_gravity(true);
   set_state(STATE_FALLING);

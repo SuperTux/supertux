@@ -66,8 +66,8 @@ SurfaceData::SurfaceData(const std::string& file_, int x_, int y_, int w_, int h
 SurfaceData::SurfaceData(Color top_gradient_, Color bottom_gradient_, int w_, int h_)
     : type(GRADIENT), surface(0), use_alpha(false), w(w_), h(h_)
 {
-top_gradient = top_gradient_;
-bottom_gradient = bottom_gradient_;
+  top_gradient = top_gradient_;
+  bottom_gradient = bottom_gradient_;
 }
 
 

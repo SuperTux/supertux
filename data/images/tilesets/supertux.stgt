@@ -2379,7 +2379,7 @@
       (region "foresttiles-5.png" 0 32 32 32)
     )
     (solid #t)
-    (slope-type 0)
+    (slope-type 2)
   )
   (tile
     (id 1048)
@@ -2387,8 +2387,7 @@
       (region "foresttiles-5.png" 32 32 32 32)
     )
     (solid #t)
-    (slope-type 2)
-    (data 2)
+    (slope-type 0)
   )
   (tile
     (id 1049)

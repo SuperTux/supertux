@@ -21,7 +21,7 @@ public:
   virtual void draw(DrawingContext& context);
 
 protected:
-  virtual void hit(Player* player) = 0;
+  virtual void hit(Player& player) = 0;
   void start_bounce();
 
   Sprite* sprite;
@@ -37,7 +37,7 @@ public:
   BonusBlock(const Vector& pos, int data);
 
 protected:
-  virtual void hit(Player* player);
+  virtual void hit(Player& player);
 
 private:
   int data;
@@ -49,7 +49,7 @@ public:
   Brick(const Vector& pos, int data);
 
 protected:
-  virtual void hit(Player* player);
+  virtual void hit(Player& player);
 
 private:
   bool breakable;

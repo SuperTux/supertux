@@ -85,7 +85,7 @@ L: low priority
  * fix flapping
  ** having a star doesn't kill enemies - ok
  * tux always jumps to full height at the moment - ok
- * invisble blocks are visible and make the game crash when bumped
+ * invisble blocks are visible and make the game crash when bumped - ok
  * reimplement spikes as objects
  * what to do when stuck under tiles (after using duck-sliding)
  * do we want multi hit scores again?
@@ -158,8 +158,6 @@ L: low priority
 [M] Add bonus score for extra time left when finishing a level
 [M] when bumping a special with 2 blocks at once, it won't change direction
 [M] tux get killed if he kicks a iceblock while at the same time bouncing on
-[M] You shouldn't be able to stand on invisible blocks, before you bumped them
-    the roof
 
 [L] Allow any object to be inside of a [?] box, ie. trampoline or badguy
     - Not sure if this would be gameplay wise.

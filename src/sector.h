@@ -153,6 +153,8 @@ public: // TODO make this private again
   GameObjects gameobjects;
 
 private:
+  void fix_old_tiles();
+  
   /// container for newly created objects, they'll be added in Sector::action
   GameObjects gameobjects_new;
   

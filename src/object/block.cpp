@@ -47,7 +47,8 @@ Block::collision(GameObject& other, const CollisionHit& hitdata)
   // collided from below?
   if(hitdata.normal.x == 0 && hitdata.normal.y < 0
       && player->get_movement().y < 0) {
-    hit(player);
+    printf("hit.\n");
+    hit(*player);
   }
 
   return ABORT_MOVE;
@@ -95,7 +96,7 @@ BonusBlock::BonusBlock(const Vector& pos, int newdata)
 }
 
 void
-BonusBlock::hit(Player* player)
+BonusBlock::hit(Player& player)
 {
   if(sprite->get_action_name() == "empty") {
     SoundManager::get()->play_sound(IDToSound(SND_BRICK));
@@ -106,11 +107,11 @@ BonusBlock::hit(Player* player)
   switch(data) {
     case 1: // coin
       Sector::current()->add_object(new BouncyCoin(get_pos()));
-      player->get_status().incCoins();
+      player.get_status().incCoins();
       break;
 
     case 2: // grow/fireflower
-      if(player->size == SMALL) {
+      if(player.size == SMALL) {
         SpecialRiser* riser = new SpecialRiser(
             new GrowUp(get_pos() + Vector(0, -32)));
         sector->add_object(riser);
@@ -123,7 +124,7 @@ BonusBlock::hit(Player* player)
       break;
 
     case 5: // grow/iceflower
-      if(player->size == SMALL) {
+      if(player.size == SMALL) {
         SpecialRiser* riser = new SpecialRiser(
             new GrowUp(get_pos() + Vector(0, -32)));
         sector->add_object(riser);                                            
@@ -154,8 +155,8 @@ BonusBlock::hit(Player* player)
 //---------------------------------------------------------------------------
 
 Brick::Brick(const Vector& pos, int data)
-  : Block(pos, sprite_manager->create("brick")),
-  breakable(false), coin_counter(0)
+  : Block(pos, sprite_manager->create("brick")), breakable(false),
+    coin_counter(0)
 {
   if(data == 1)
     coin_counter = 5;
@@ -164,7 +165,7 @@ Brick::Brick(const Vector& pos, int data)
 }
 
 void
-Brick::hit(Player* player)
+Brick::hit(Player& player)
 {
   if(sprite->get_action_name() == "empty")
     return;
@@ -174,12 +175,12 @@ Brick::hit(Player* player)
   if(coin_counter > 0) {
     sector->add_object(new BouncyCoin(get_pos()));
     coin_counter--;
-    player->get_status().incCoins();
+    player.get_status().incCoins();
     if(coin_counter == 0)
       sprite->set_action("empty");
     start_bounce();
   } else if(breakable) {
-    if(player->size == SMALL) {
+    if(player.size == SMALL) {
       start_bounce();
       return;
     }
