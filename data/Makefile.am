@@ -12,8 +12,6 @@ EXTRA_DIST = \
   $(wildcard images/themes/*/*.png) \
   $(wildcard images/worldmap/*.png) \
   $(wildcard images/title/*.png) \
-  levels/default/info.png \
-  levels/default/info \
   levels/default/worldmap.stwm \
   $(wildcard levels/default/*.dat) \
   $(wildcard levels/default/*.stl) \
