@@ -1,6 +1,7 @@
 .deps
+.libs
 Makefile
 Makefile.in
 supertux
-supertux.exe
+*.exe
 
