@@ -200,8 +200,7 @@ World::draw()
 void
 World::action(float elapsed_time)
 {
-  tux->check_bounds(*camera,
-      level->back_scrolling, (bool)level->hor_autoscroll_speed);
+  tux->check_bounds(*camera);
     
   /* update objects (don't use iterators here, because the list might change
    * during the iteration)

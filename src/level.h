@@ -94,8 +94,6 @@ class Level
   int bkgd_speed;
   Vector start_pos;
   float gravity;
-  bool back_scrolling;
-  float hor_autoscroll_speed;
 
   /** A collection of points to which Tux can be reset after a lost live */
   std::vector<ResetPoint> reset_points;

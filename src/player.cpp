@@ -886,8 +886,7 @@ Player::move(const Vector& vector)
 }
 
 void
-Player::check_bounds(Camera& viewport,
-    bool back_scrolling, bool hor_autoscroll)
+Player::check_bounds(Camera& viewport)
 {
   /* Keep tux in bounds: */
   if (base.x < 0)
@@ -921,17 +920,6 @@ Player::check_bounds(Camera& viewport,
       return;
     }
   }
-
-  if(hor_autoscroll)
-    {
-    if(base.x == viewport.get_translation().x)
-      if(issolid(base.x+32, base.y) || (size != SMALL && issolid(base.x+32, base.y+32)))
-        kill(KILL);
-
-    if(base.x + base.width > viewport.get_translation().x + screen->w)
-      base.x = viewport.get_translation().x + screen->w - base.width;
-    }
-    
 }
 
 // EOF //

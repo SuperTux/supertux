@@ -161,7 +161,7 @@ public:
   void collision(void* p_c_object, int c_object);
   void kill(HurtMode mode);
   void player_remove_powerups();
-  void check_bounds(Camera& viewport, bool back_scrolling, bool hor_autoscroll);
+  void check_bounds(Camera& viewport);
   bool on_ground();
   bool under_solid();
   bool tiles_on_air(int tiles);

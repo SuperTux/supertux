@@ -227,8 +227,6 @@ Level::init_defaults()
   start_pos.y = 170;
   time_left  = 100;
   gravity    = 10.;
-  back_scrolling = false;
-  hor_autoscroll_speed = 0;
   bkgd_speed = 50;
   bkgd_top.red   = 0;
   bkgd_top.green = 0;
@@ -265,7 +263,9 @@ Level::load(const std::string& filename, World* world)
 
   if (root_obj->type == LISP_TYPE_EOF || root_obj->type == LISP_TYPE_PARSE_ERROR)
     {
-      printf("World: Parse Error in file %s", filename.c_str());
+      lisp_free(root_obj);
+      std::cout << "World: Parse Error in file '" << filename
+                << "'.\n";
       return -1;
     }
 
@@ -281,21 +281,16 @@ Level::load(const std::string& filename, World* world)
       if (!reader.read_float("start_pos_y", &start_pos.y)) start_pos.y = 170;
       time_left = 500;
       if(!reader.read_int("time",  &time_left)) {
-        printf("Warning no time specified for level.\n");
+        printf("Warning: no time specified for level.\n");
       }
       
       height = 15;
-      reader.read_int("height",  &height);
-      
-      back_scrolling = false;
-      reader.read_bool("back_scrolling",  &back_scrolling);
-
-      hor_autoscroll_speed = 0;
-      reader.read_float("hor_autoscroll_speed",  &hor_autoscroll_speed);
+      if(!reader.read_int("height",  &height)) {
+        printf("Warning: no height specified for level.\n");
+      }
       
       bkgd_speed = 50;
       reader.read_int("bkgd_speed",  &bkgd_speed);
-
       
       bkgd_top.red = bkgd_top.green = bkgd_top.blue = 0;
       reader.read_int("bkgd_red_top",  &bkgd_top.red);
@@ -369,8 +364,9 @@ Level::load(const std::string& filename, World* world)
         if (reader.read_lisp("camera", &cur))
           {
             LispReader reader(cur);
-            if(world)
+            if(world) {
               world->camera->read(reader);
+            }
           }
       }
     }
@@ -388,13 +384,13 @@ Level::save(const std::string& subset, int level, World* world)
   char str[80];
 
   /* Save data file: */
-  sprintf(str, "/levels/%s/", subset.c_str());
+  snprintf(str, sizeof(str), "/levels/%s/", subset.c_str());
   fcreatedir(str);
-  snprintf(filename, 1024, "%s/levels/%s/level%d.stl", st_dir, subset.c_str(),
-      level);
+  snprintf(filename, sizeof(filename),
+      "%s/levels/%s/level%d.stl", st_dir, subset.c_str(), level);
   if(!fwriteable(filename))
-    snprintf(filename, 1024, "%s/levels/%s/level%d.stl", datadir.c_str(),
-        subset.c_str(), level);
+    snprintf(filename, sizeof(filename), "%s/levels/%s/level%d.stl",
+        datadir.c_str(), subset.c_str(), level);
 
   std::ofstream out(filename);
   if(!out.good()) {
@@ -422,8 +418,6 @@ Level::save(const std::string& subset, int level, World* world)
   writer.write_int("time", time_left);
   writer.write_int("width", width);
   writer.write_int("height", height);
-  writer.write_bool("back_scrolling", back_scrolling);
-  writer.write_float("hor_autoscroll_speed", hor_autoscroll_speed);
   writer.write_float("gravity", gravity);
 
   writer.write_int_vector("background-tm", bg_tiles);
