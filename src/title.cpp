@@ -76,8 +76,8 @@ void update_contrib_menu()
       for (int i = 0; i < level_subsets.num_items; ++i)
         {
           st_subset subset;
-          subset.load(level_subsets.item[0]);
-          contrib_menu->additem(MN_GOTO, subset.title.c_str(), 0, contrib_subset_menu);
+          subset.load(level_subsets.item[i]);
+          contrib_menu->additem(MN_GOTO, subset.title.c_str(), i, contrib_subset_menu);
           contrib_subsets.push_back(subset);
         }
 
