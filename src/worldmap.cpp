@@ -647,7 +647,7 @@ WorldMap::update(float delta)
   if (enter_level && !tux->is_moving())
     {
       Level* level = at_level();
-      if (level)
+      if (level && !level->name.empty())
         {
           if (level->x == tux->get_tile_pos().x && 
               level->y == tux->get_tile_pos().y)
@@ -951,7 +951,7 @@ WorldMap::savegame(const std::string& filename)
   
   for(Levels::iterator i = levels.begin(); i != levels.end(); ++i)
     {
-      if (i->solved)
+      if (i->solved && !i->name.empty())
         {
           out << "     (level (name \"" << i->name << "\")\n"
               << "            (solved #t))\n";
