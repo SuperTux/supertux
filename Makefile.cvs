@@ -55,7 +55,7 @@ CC = gcc
 
 OBJECTS=obj/supertux.o obj/setup.o obj/intro.o obj/title.o obj/scene.o obj/collision.o obj/bitmask.o obj/type.o \
 	obj/timer.o obj/text.o obj/texture.o obj/badguy.o obj/special.o  obj/world.o obj/player.o obj/level.o obj/gameloop.o \
-	obj/screen.o obj/sound.o obj/high_scores.o obj/menu.o obj/leveleditor.o obj/globals.o obj/button.o obj/physic.o
+	obj/screen.o obj/sound.o obj/high_scores.o obj/menu.o obj/leveleditor.o obj/globals.o obj/button.o obj/physic.o obj/lispreader.o
 
 # Make commands:
 
@@ -168,6 +168,9 @@ obj/menu.o:	src/menu.c
 
 obj/leveleditor.o:	src/leveleditor.c
 	$(CC) $(CFLAGS) src/leveleditor.c -c -o obj/leveleditor.o
+
+obj/lispreader.o:	src/lispreader.c
+$(CC) $(CFLAGS) src/lispreader.c -c -o obj/lispreader.o
 
 obj/globals.o:	src/globals.c
 	$(CC) $(CFLAGS) src/globals.c -c -o obj/globals.o

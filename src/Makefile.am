@@ -22,6 +22,8 @@ supertux_SOURCES = \
   level.h \
   leveleditor.c \
   leveleditor.h \
+  lispreader.c \
+  lispreader.h \
   menu.c \
   menu.h \
   physic.c \
