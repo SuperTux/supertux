@@ -946,9 +946,12 @@ void parseargs(int argc, char * argv[])
       if (strcmp(argv[i], "--fullscreen") == 0 ||
           strcmp(argv[i], "-f") == 0)
         {
-          /* Use full screen: */
-
           use_fullscreen = true;
+        }
+      else if (strcmp(argv[i], "--window") == 0 ||
+               strcmp(argv[i], "-w") == 0)
+        {
+          use_fullscreen = false;
         }
       else if (strcmp(argv[i], "--joystick") == 0 || strcmp(argv[i], "-j") == 0)
         {
@@ -1044,7 +1047,8 @@ void parseargs(int argc, char * argv[])
                "  Please see the file \"README.txt\" for more details.\n"));
           printf(_("Usage: %s [OPTIONS] FILENAME\n\n"), argv[0]);
           puts(_("Display Options:\n"
-               "  --fullscreen        Run in fullscreen mode.\n"
+               "  -f, --fullscreen    Run in fullscreen mode.\n"
+               "  -w, --window        Run in window mode.\n"
                "  --opengl            If OpenGL support was compiled in, this will tell\n"
                "                      SuperTux to make use of it.\n"
                "  --sdl               Use the SDL software graphical renderer\n"
