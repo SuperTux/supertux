@@ -1140,12 +1140,11 @@ BadGuy::squish(Player* player)
     if (mode == BGM_BIG)
     {
       set_sprite(img_walkingtree_left_small, img_walkingtree_left_small);
-      physic.set_velocity_x(physic.get_velocity_x() * 1.1);
+      physic.set_velocity_x(physic.get_velocity_x() * 2.0f);
       // XXX magic number: 66 is BGM_BIG height
-      base.y += 66 - base.height;
 
-      player->base.y = base.y - player->base.height - 2;
       make_player_jump(player);
+      base.y += 66 - base.height;
 	      
       World::current()->add_score(Vector(base.x, base.y),
                                 25 * player_status.score_multiplier);
@@ -1156,8 +1155,6 @@ BadGuy::squish(Player* player)
     else
       squish_me(player);
   }
-    
-  
 }
 
 void
