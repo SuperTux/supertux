@@ -241,6 +241,7 @@ Level::init_defaults()
   bkgd_bottom.green = 255;
   bkgd_bottom.blue  = 255;
   endpos     = 0;
+  use_endsequence = false;
 
   for(int i = 0; i < 15; ++i)
     {
@@ -305,6 +306,7 @@ Level::load(const std::string& filename)
     {
       LispReader reader(lisp_cdr(root_obj));
       reader.read_int("version",  &version);
+      reader.read_bool("use-endsequence", &use_endsequence);
       reader.read_int("width",  &width);
       if (!reader.read_int("start_pos_x", &start_pos_x)) start_pos_x = 100;
       if (!reader.read_int("start_pos_y", &start_pos_y)) start_pos_y = 170;
@@ -493,7 +495,10 @@ Level::load(const std::string& filename)
   //  Mark the end position of this level!
   // FIXME: -10 is a rather random value, we still need some kind of
   // real levelend gola
-  endpos = 32*(width-20);
+  if (use_endsequence)
+    endpos = 32*(width-20);
+  else
+    endpos = 32*(width-15);
 
   fclose(fi);
   return 0;

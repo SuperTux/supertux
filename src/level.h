@@ -87,6 +87,7 @@ class Level
   int start_pos_x;
   int start_pos_y;
   int  endpos;
+  bool use_endsequence;
   float gravity;
 
   std::vector<BadGuyData> badguy_data;

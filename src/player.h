@@ -86,6 +86,17 @@ extern Sprite*  smalltux_skid_right;
 extern Sprite*  smalltux_gameover;
 extern Sprite*  largetux_stand_left;
 extern Sprite*  largetux_stand_right;
+
+extern Sprite*  smalltux_kick_left;
+extern Sprite*  smalltux_kick_right;
+extern Sprite*  smalltux_grab_left;
+extern Sprite*  smalltux_grab_right;
+
+extern Sprite*  largetux_kick_left;
+extern Sprite*  largetux_kick_right;
+extern Sprite*  largetux_grab_left;
+extern Sprite*  largetux_grab_right;
+
 extern Sprite* bigtux_right;
 extern Sprite* bigtux_left;
 extern Sprite* bigtux_right_jump;

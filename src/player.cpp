@@ -38,6 +38,17 @@ Surface* smalltux_stand_right;
 Sprite*  smalltux_gameover;
 Sprite*  smalltux_skid_left;
 Sprite*  smalltux_skid_right;
+
+Sprite*  smalltux_kick_left;
+Sprite*  smalltux_kick_right;
+Sprite*  smalltux_grab_left;
+Sprite*  smalltux_grab_right;
+
+Sprite*  largetux_kick_left;
+Sprite*  largetux_kick_right;
+Sprite*  largetux_grab_left;
+Sprite*  largetux_grab_right;
+
 Sprite*  largetux_stand_left;
 Sprite*  largetux_stand_right;
 

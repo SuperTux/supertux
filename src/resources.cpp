@@ -46,6 +46,16 @@ void loadshared()
   sprite_manager = new SpriteManager(datadir + "/supertux.strf");
 
   /* Tuxes: */
+  smalltux_kick_left  = sprite_manager->load("smalltux-kick-left");
+  smalltux_kick_right = sprite_manager->load("smalltux-kick-right");
+  smalltux_grab_left  = sprite_manager->load("smalltux-grab-left");
+  smalltux_grab_right = sprite_manager->load("smalltux-grab-right");
+
+  largetux_kick_left  = sprite_manager->load("largetux-kick-left");
+  largetux_kick_right = sprite_manager->load("largetux-kick-right");
+  largetux_grab_left  = sprite_manager->load("largetux-grab-left");
+  largetux_grab_right = sprite_manager->load("largetux-grab-right");
+
   largetux_stand_left  = sprite_manager->load("largetux-stand-left");
   largetux_stand_right = sprite_manager->load("largetux-stand-right");
 
