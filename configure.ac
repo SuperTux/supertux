@@ -43,6 +43,7 @@ AC_MSG_CHECKING(for debug mode)
 AC_ARG_ENABLE(debug,
               AC_HELP_STRING([--enable-debug], [enable debugging mode],, enable_debug="no"))
 if test "x${enable_debug}" != "xno"; then
+    CFLAGS="$CFLAGS -DDEBUG"
     AC_MSG_RESULT([enabled])
 else
     AC_MSG_RESULT([disabled])
