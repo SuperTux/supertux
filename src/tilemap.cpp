@@ -125,26 +125,57 @@ TileMap::action(float )
 
 void
 TileMap::draw(DrawingContext& context)
-{
-  /** if we don't round here, we'll have a 1 pixel gap on screen sometimes.
-   * I have no idea why */
-  float start_x = roundf(context.get_translation().x * speed);
-  float start_y = roundf(context.get_translation().y * speed);
-  float end_x = std::min(start_x + screen->w, float(width * 32));
-  float end_y = std::min(start_y + screen->h, float(height * 32));
-  start_x -= int(start_x) % 32;
-  start_y -= int(start_y) % 32;  
-  int tsx = int(start_x / 32); // tilestartindex x
-  int tsy = int(start_y / 32); // tilestartindex y
-  
-  Vector pos;
-  int tx, ty;
-  for(pos.x = start_x, tx = tsx; pos.x < end_x; pos.x += 32, ++tx) {
-    for(pos.y = start_y, ty = tsy; pos.y < end_y; pos.y += 32, ++ty) {
-      if (!tiles[ty*width + tx].hidden)
-        tilemanager->draw_tile(context, tiles[ty*width + tx].id, pos, layer);
+{ 
+  if (speed == 1.0)
+    {
+      /** if we don't round here, we'll have a 1 pixel gap on screen sometimes.
+       * I have no idea why */
+      float start_x = roundf(context.get_translation().x);
+      float start_y = roundf(context.get_translation().y);
+      float end_x = std::min(start_x + screen->w, float(width * 32));
+      float end_y = std::min(start_y + screen->h, float(height * 32));
+      start_x -= int(start_x) % 32;
+      start_y -= int(start_y) % 32;  
+      int tsx = int(start_x / 32); // tilestartindex x
+      int tsy = int(start_y / 32); // tilestartindex y
+
+      Vector pos;
+      int tx, ty;
+      for(pos.x = start_x, tx = tsx; pos.x < end_x; pos.x += 32, ++tx) {
+        for(pos.y = start_y, ty = tsy; pos.y < end_y; pos.y += 32, ++ty) {
+          if (!tiles[ty*width + tx].hidden)
+            tilemanager->draw_tile(context, tiles[ty*width + tx].id, pos, layer);
+        }
+      }
     }
-  }
+  else
+    {
+      float trans_x = roundf(context.get_translation().x);
+      float trans_y = roundf(context.get_translation().y);
+
+      context.push_transform();
+      context.set_translation(Vector(trans_x * speed, trans_y * speed));
+
+      float start_x = roundf(context.get_translation().x);
+      float start_y = roundf(context.get_translation().y);
+      float end_x = std::min(start_x + screen->w, float(width * 32));
+      float end_y = std::min(start_y + screen->h, float(height * 32));
+      start_x -= int(start_x) % 32;
+      start_y -= int(start_y) % 32;  
+      int tsx = int(start_x / 32); // tilestartindex x
+      int tsy = int(start_y / 32); // tilestartindex y     
+
+      Vector pos;
+      int tx, ty;
+      for(pos.x = start_x, tx = tsx; pos.x < end_x; pos.x += 32, ++tx) {
+        for(pos.y = start_y, ty = tsy; pos.y < end_y; pos.y += 32, ++ty) {
+          if (!tiles[ty*width + tx].hidden)
+            tilemanager->draw_tile(context, tiles[ty*width + tx].id, pos, layer);
+        }
+      }
+
+      context.pop_transform();
+    }
 }
 
 void
