@@ -83,6 +83,10 @@ TileMap::TileMap(const lisp::Lisp& reader)
   if(int(tiles.size()) != width*height) {
     throw std::runtime_error("wrong number of tiles in tilemap.");
   }
+
+  // make sure all tiles are loaded
+  for(Tiles::iterator i = tiles.begin(); i != tiles.end(); ++i)
+    tilemanager->get(*i);
 }
 
 TileMap::TileMap(int layer_, bool solid_, size_t width_, size_t height_)
@@ -200,6 +204,10 @@ TileMap::set(int newwidth, int newheight, const std::vector<unsigned int>&newt,
   solid  = newsolid;
   if(solid)
     flags |= FLAG_SOLID;
+
+  // make sure all tiles are loaded
+  for(Tiles::iterator i = tiles.begin(); i != tiles.end(); ++i)
+    tilemanager->get(*i);                                        
 }
 
 void
