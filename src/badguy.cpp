@@ -199,8 +199,8 @@ BadGuy::init()
       activate(LEFT);
     }
   } } else {
-    if(start_position.x > 0 && start_position.x <= screen->w
-        && start_position.y > 0 && start_position.y <= screen->h)
+    if(start_position.x >= 0 && start_position.x < screen->w
+        && start_position.y >= 0 && start_position.y < screen->h)
       activate(LEFT);
   }
 }
@@ -284,6 +284,21 @@ BadGuy::activate(Direction activation_dir)
 Surface*
 BadGuy::get_image()
 {
+// Set action as the "default" one.
+specs->sprite->set_action("left");
+if(BAD_JUMPY)
+  specs->sprite->set_action("left-up");
+else if(kind == BAD_BOMB)
+  specs->sprite->set_action("ticking-left");
+else if(kind == BAD_FLAME)
+  specs->sprite->set_action("normal");
+else if(kind == BAD_STALACTITE)
+  specs->sprite->set_action("normal");
+else if(kind == BAD_FISH)
+  specs->sprite->set_action("normal");
+else if(kind == BAD_FLAMEFISH)
+  specs->sprite->set_action("normal");
+
 return specs->sprite->get_frame(0);
 }
 
