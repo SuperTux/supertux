@@ -48,7 +48,7 @@ fi
 
 AC_MSG_CHECKING(for debug mode)
 AC_ARG_ENABLE(debug,
-              AC_HELP_STRING([--enable-debug], [enable debugging mode]),, enable_debug="yes")
+              AC_HELP_STRING([--enable-debug], [enable debugging mode]),, enable_debug="no")
 if test "x${enable_debug}" != "xno"; then
     CXXFLAGS="$CXXFLAGS -Wall -Werror -DDEBUG -O3 -g"
     AC_MSG_RESULT([enabled])
