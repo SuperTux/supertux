@@ -1265,7 +1265,7 @@ BadGuy::collision(void *p_c_object, int c_object, CollisionType type)
           pbad_c->explode(true);
           return;
         }
-        else if (pbad_c->kind != BAD_MRBOMB)
+        else
         {
           pbad_c->kill_me(50);
         }
