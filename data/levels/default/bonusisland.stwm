@@ -132,6 +132,10 @@
 			(level (map-message "You found a secret place!")
            (x 33)
            (y 39) (apply-action-right #f))
+			  
+			(level (map-message "Hint: Use igloos to get back here.")
+           (x 35)
+           (y 5) (passive-message #f))
 
 			(level 
 	        (x 33)
