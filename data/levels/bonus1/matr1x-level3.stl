@@ -3,7 +3,7 @@
   (version 1)
   (name "Fire In The Sky")
   (author "Matr1x")
-  (music "Mortimers_chipdisko.mod")
+  (music "fortress.mod")
   (background "")
   (particle_system "snow")
   (bkgd_speed 5)
