@@ -141,7 +141,7 @@ void player_action(player_type* pplayer)
   player_input(pplayer);
 
   /* Move tux: */
-  
+
   pplayer->previous_base = pplayer->base;
 
   pplayer->base.x += pplayer->base.xm * frame_ratio;
@@ -362,7 +362,7 @@ void player_handle_horizontal_input(player_type *pplayer, int dir)
 {
 
   if ((dir ? (pplayer->base.xm < -SKID_XM) : (pplayer->base.xm > SKID_XM)) && !timer_started(&pplayer->skidding_timer) &&
-      pplayer->dir == !dir)
+      pplayer->dir == !dir && player_on_ground(pplayer))
     {
       timer_start(&pplayer->skidding_timer, SKID_TIME);
 

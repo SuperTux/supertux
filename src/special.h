@@ -42,6 +42,7 @@ upgrade_type;
 typedef struct bullet_type
   {
     base_type base;
+    base_type old_base;
   }
 bullet_type;
 

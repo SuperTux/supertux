@@ -48,6 +48,7 @@ void bullet_init(bullet_type* pbullet, float x, float y, float xm, int dir)
 
   pbullet->base.y = y;
   pbullet->base.ym = BULLET_STARTING_YM;
+  pbullet->old_base = pbullet->base;
 }
 
 void bullet_action(bullet_type* pbullet)
@@ -57,24 +58,22 @@ void bullet_action(bullet_type* pbullet)
       pbullet->base.x = pbullet->base.x + pbullet->base.xm * frame_ratio;
       pbullet->base.y = pbullet->base.y + pbullet->base.ym * frame_ratio;
 
-      if (issolid(pbullet->base.x, pbullet->base.y))
+      collision_swept_object_map(&pbullet->old_base,&pbullet->base);
+      
+      if (issolid(pbullet->base.x, pbullet->base.y + 4) || issolid(pbullet->base.x, pbullet->base.y))
         {
-          if (issolid(pbullet->base.x, pbullet->base.y - pbullet->base.ym))
-            pbullet->base.alive = NO;
-          else
-            {
-              if (pbullet->base.ym >= 0)
-                {
-                  pbullet->base.y = (int)(pbullet->base.y / 32) * 32 - 8;
-                }
               pbullet->base.ym = -pbullet->base.ym;
-            }
+	      pbullet->base.y = (int)(pbullet->base.y / 32) * 32;
         }
 
       pbullet->base.ym = pbullet->base.ym + GRAVITY;
 
       if (pbullet->base.x < scroll_x ||
-          pbullet->base.x > scroll_x + screen->w)
+          pbullet->base.x > scroll_x + screen->w ||
+	  pbullet->base.y < 0 ||
+	  pbullet->base.y > screen->h ||
+	  issolid(pbullet->base.x + 4, pbullet->base.y + 2) ||
+	  issolid(pbullet->base.x, pbullet->base.y + 2))
         {
           pbullet->base.alive = NO;
         }

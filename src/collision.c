@@ -89,7 +89,7 @@ int collision_object_map(base_type* pbase)
 int collision_swept_object_map(base_type* old, base_type* current)
 {
   int steps; /* Used to speed up the collision tests, by stepping every 16pixels in the path. */
-  int h; 
+  int h;
   float i;
   float lpath; /* Holds the longest path, which is either in X or Y direction. */
   float xd,yd; /* Hold the smallest steps in X and Y directions. */
@@ -165,7 +165,6 @@ int collision_swept_object_map(base_type* old, base_type* current)
 
       if(collision_object_map(old))
         {
-
           switch(h)
             {
             case 1:
@@ -193,15 +192,22 @@ int collision_swept_object_map(base_type* old, base_type* current)
               current->x = xt;
               if(!collision_object_map(current))
                 break;
-
               current->x = temp;
               temp = current->y;
               current->y = yt;
 
               if(!collision_object_map(current))
-                break;
-
-              current->y = temp;
+                {
+                  break;
+                }
+              else
+                {
+                  current->y = temp;
+                  while(!collision_object_map(current))
+                    current->y += yd;
+		  current->y -= yd;
+                  break;
+                }
 
               break;
             default:
@@ -260,7 +266,7 @@ void collision_handler()
     }
 
 
-    
+
   /* CO_BADGUY & CO_PLAYER check */
   for(i = 0; i < num_bad_guys; ++i)
     {
@@ -270,8 +276,8 @@ void collision_handler()
             {
               /* We have detected a collision and now call the collision functions of the collided objects. */
               if (tux.previous_base.y < tux.base.y &&
-	      tux.previous_base.y + tux.previous_base.height < bad_guys[i].base.y + bad_guys[i].base.height/2 &&
-	      bad_guys[i].kind != BAD_MONEY && bad_guys[i].mode != HELD)
+                  tux.previous_base.y + tux.previous_base.height < bad_guys[i].base.y + bad_guys[i].base.height/2 &&
+                  bad_guys[i].kind != BAD_MONEY && bad_guys[i].mode != HELD)
                 {
                   badguy_collision(&bad_guys[i], &tux, CO_PLAYER);
                 }
