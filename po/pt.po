@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pt\n"
 "Report-Msgid-Bugs-To: super-tux-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2004-09-15 00:08+0100\n"
-"PO-Revision-Date: 2004-09-15 11:51+0100\n"
+"POT-Creation-Date: 2004-09-15 23:17+0100\n"
+"PO-Revision-Date: 2004-09-15 23:17+0100\n"
 "Last-Translator: Ricardo Cruz <rick2@aeiou.pt>\n"
 "Language-Team: European Portuguese\n"
 "MIME-Version: 1.0\n"
@@ -21,67 +21,71 @@ msgstr ""
 "X-Generator: KBabel 1.3\n"
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
 
-#: src/gameloop.cpp:186
+#: src/gameloop.cpp:187
 msgid "by "
 msgstr "por "
 
-#: src/gameloop.cpp:192
+#: src/gameloop.cpp:193
 msgid "Level Vertically Flipped!"
 msgstr "Nível Invertido na Vertical!"
 
-#: src/gameloop.cpp:612
+#: src/gameloop.cpp:197
+msgid "Best Level Statistics"
+msgstr "Melhores Estatísticas do Nível"
+
+#: src/gameloop.cpp:628
 msgid "PAUSE - Press 'P' To Play"
 msgstr "PAUSA - Carrega no 'P' para continuar"
 
-#: src/gameloop.cpp:617
+#: src/gameloop.cpp:633
 #, c-format
 msgid "Playing: "
 msgstr "Jogando: "
 
-#: src/gameloop.cpp:792 src/worldmap.cpp:1068
+#: src/gameloop.cpp:808 src/worldmap.cpp:1071
 msgid "SCORE"
 msgstr "PONTOS"
 
-#: src/gameloop.cpp:797
+#: src/gameloop.cpp:813
 msgid "Press ESC To Return"
 msgstr "Carrega no ESC para sair"
 
-#: src/gameloop.cpp:802
+#: src/gameloop.cpp:818
 msgid "TIME's UP"
 msgstr "PASSOU O TEMPO"
 
-#: src/gameloop.cpp:806
+#: src/gameloop.cpp:822
 msgid "TIME"
 msgstr "TEMPO"
 
-#: src/gameloop.cpp:813 src/gameloop.cpp:814 src/worldmap.cpp:1072
+#: src/gameloop.cpp:829 src/gameloop.cpp:830 src/worldmap.cpp:1075
 msgid "COINS"
 msgstr "MOEDAS"
 
-#: src/gameloop.cpp:835 src/gameloop.cpp:836 src/worldmap.cpp:1093
-#: src/worldmap.cpp:1094
+#: src/gameloop.cpp:851 src/gameloop.cpp:852 src/worldmap.cpp:1096
+#: src/worldmap.cpp:1097
 msgid "LIVES"
 msgstr "VIDAS"
 
-#: src/gameloop.cpp:858
+#: src/gameloop.cpp:874
 msgid "Result:"
 msgstr "Resultado:"
 
-#: src/gameloop.cpp:861 src/worldmap.cpp:911
+#: src/gameloop.cpp:877
 #, c-format
 msgid "SCORE: %d"
 msgstr "PONTOS: %d"
 
-#: src/gameloop.cpp:864 src/worldmap.cpp:915
+#: src/gameloop.cpp:880 src/worldmap.cpp:916
 #, c-format
 msgid "COINS: %d"
 msgstr "MOEDAS: %d"
 
-#: src/gameloop.cpp:898
+#: src/gameloop.cpp:914
 msgid "Slot"
 msgstr "Slot"
 
-#: src/gameloop.cpp:898
+#: src/gameloop.cpp:914
 msgid "Free"
 msgstr "Livre"
 
@@ -210,6 +214,35 @@ msgstr "Sair do Jogo"
 msgid "Enter your name:"
 msgstr "Insira o seu nome:"
 
+#: src/statistics.cpp:111
+msgid "Level Statistics"
+msgstr "Estatísticas do Nível"
+
+#: src/statistics.cpp:113 src/statistics.cpp:140
+#, c-format
+msgid "Max score: %d"
+msgstr "Máx pontos: %d"
+
+#: src/statistics.cpp:117 src/statistics.cpp:142
+#, c-format
+msgid "Max fragging: %d"
+msgstr "Max matança: %d"
+
+#: src/statistics.cpp:119 src/statistics.cpp:144
+#, c-format
+msgid "Min shots: %d"
+msgstr "Min tiros: %d"
+
+#: src/statistics.cpp:121 src/statistics.cpp:146
+#, c-format
+msgid "Min time needed: %d"
+msgstr "Min tempo necessário: %d"
+
+#: src/statistics.cpp:123 src/statistics.cpp:148
+#, c-format
+msgid "Min jumps: %d"
+msgstr "Min saltos: %d"
+
 #: src/title.cpp:333
 msgid ""
 "Copyright (c) 2003 SuperTux Devel Team\n"
@@ -228,9 +261,13 @@ msgstr ""
 msgid "Are you sure you want to delete slot"
 msgstr "Tens a certeza que queres remover o slot"
 
-#: src/worldmap.cpp:908
+#: src/worldmap.cpp:909
 msgid "GAMEOVER"
 msgstr "FIM DO JOGO"
+
+#: src/worldmap.cpp:920
+msgid "Total Statistics"
+msgstr "Estatísticas Totais"
 
 #: lib/app/setup.cpp:774
 #, c-format

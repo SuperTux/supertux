@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nn\n"
 "Report-Msgid-Bugs-To: super-tux-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2004-09-15 00:08+0100\n"
+"POT-Creation-Date: 2004-09-15 23:17+0100\n"
 "PO-Revision-Date: 2004-07-19 12:55+0200\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -17,67 +17,71 @@ msgstr ""
 "X-Generator: KBabel 1.3\n"
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
 
-#: src/gameloop.cpp:186
+#: src/gameloop.cpp:187
 msgid "by "
 msgstr "av "
 
-#: src/gameloop.cpp:192
+#: src/gameloop.cpp:193
 msgid "Level Vertically Flipped!"
 msgstr "Brettet er snudd opp-ned!"
 
-#: src/gameloop.cpp:612
+#: src/gameloop.cpp:197
+msgid "Best Level Statistics"
+msgstr ""
+
+#: src/gameloop.cpp:628
 msgid "PAUSE - Press 'P' To Play"
 msgstr "PAUSE – Trykk «P» for å halda fram"
 
-#: src/gameloop.cpp:617
+#: src/gameloop.cpp:633
 #, c-format
 msgid "Playing: "
 msgstr "Brett: "
 
-#: src/gameloop.cpp:792 src/worldmap.cpp:1068
+#: src/gameloop.cpp:808 src/worldmap.cpp:1071
 msgid "SCORE"
 msgstr "POENG"
 
-#: src/gameloop.cpp:797
+#: src/gameloop.cpp:813
 msgid "Press ESC To Return"
 msgstr "Trykk «Escape» for å gå tilbake"
 
-#: src/gameloop.cpp:802
+#: src/gameloop.cpp:818
 msgid "TIME's UP"
 msgstr "DU HAR BRUKT OPP TIDA"
 
-#: src/gameloop.cpp:806
+#: src/gameloop.cpp:822
 msgid "TIME"
 msgstr "TID"
 
-#: src/gameloop.cpp:813 src/gameloop.cpp:814 src/worldmap.cpp:1072
+#: src/gameloop.cpp:829 src/gameloop.cpp:830 src/worldmap.cpp:1075
 msgid "COINS"
 msgstr "MYNTAR"
 
-#: src/gameloop.cpp:835 src/gameloop.cpp:836 src/worldmap.cpp:1093
-#: src/worldmap.cpp:1094
+#: src/gameloop.cpp:851 src/gameloop.cpp:852 src/worldmap.cpp:1096
+#: src/worldmap.cpp:1097
 msgid "LIVES"
 msgstr "LIV"
 
-#: src/gameloop.cpp:858
+#: src/gameloop.cpp:874
 msgid "Result:"
 msgstr "Resultat:"
 
-#: src/gameloop.cpp:861 src/worldmap.cpp:911
+#: src/gameloop.cpp:877
 #, c-format
 msgid "SCORE: %d"
 msgstr "POENG: %d"
 
-#: src/gameloop.cpp:864 src/worldmap.cpp:915
+#: src/gameloop.cpp:880 src/worldmap.cpp:916
 #, c-format
 msgid "COINS: %d"
 msgstr "MYNTAR: %d"
 
-#: src/gameloop.cpp:898
+#: src/gameloop.cpp:914
 msgid "Slot"
 msgstr ""
 
-#: src/gameloop.cpp:898
+#: src/gameloop.cpp:914
 msgid "Free"
 msgstr ""
 
@@ -206,6 +210,35 @@ msgstr "Avslutt spel"
 msgid "Enter your name:"
 msgstr "Skriv inn namnet ditt:"
 
+#: src/statistics.cpp:111
+msgid "Level Statistics"
+msgstr ""
+
+#: src/statistics.cpp:113 src/statistics.cpp:140
+#, c-format
+msgid "Max score: %d"
+msgstr ""
+
+#: src/statistics.cpp:117 src/statistics.cpp:142
+#, c-format
+msgid "Max fragging: %d"
+msgstr ""
+
+#: src/statistics.cpp:119 src/statistics.cpp:144
+#, c-format
+msgid "Min shots: %d"
+msgstr ""
+
+#: src/statistics.cpp:121 src/statistics.cpp:146
+#, c-format
+msgid "Min time needed: %d"
+msgstr ""
+
+#: src/statistics.cpp:123 src/statistics.cpp:148
+#, c-format
+msgid "Min jumps: %d"
+msgstr ""
+
 #: src/title.cpp:333
 msgid ""
 "Copyright (c) 2003 SuperTux Devel Team\n"
@@ -224,9 +257,13 @@ msgstr ""
 msgid "Are you sure you want to delete slot"
 msgstr "Er du sikker på at du vil sletta plass %d?"
 
-#: src/worldmap.cpp:908
+#: src/worldmap.cpp:909
 msgid "GAMEOVER"
 msgstr "SPELET ER SLUTT"
+
+#: src/worldmap.cpp:920
+msgid "Total Statistics"
+msgstr ""
 
 #: lib/app/setup.cpp:774
 #, c-format
