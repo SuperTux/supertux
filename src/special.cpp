@@ -62,7 +62,7 @@ Bullet::init(float x, float y, float xm, Direction dir, int kind_)
       base.xm = -BULLET_XM + xm;
     }
 
-  base.y = y;
+  base.y = y + base.height/2;
   base.ym = BULLET_STARTING_YM;
   old_base = base;
   kind = kind_;
