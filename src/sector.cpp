@@ -48,7 +48,6 @@
 #include "object/coin.h"
 #include "object/block.h"
 #include "object/invisible_block.h"
-#include "object/invisible_tile.h"
 #include "object/platform.h"
 #include "object/bullet.h"
 #include "badguy/jumpy.h"
@@ -329,9 +328,6 @@ Sector::fix_old_tiles()
       if(tile->getID() == 112) {
         add_object(new InvisibleBlock(pos));
         solids->change(x, y, 0);
-      } else if(tile->getID() == 1311) {
-        add_object(new InvisibleTile(pos));
-	solids->change(x, y, 0);
       } else if(tile->getID() == 295) {
         add_object(new Spike(pos, Spike::NORTH));
         solids->change(x, y, 0);
