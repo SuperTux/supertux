@@ -107,7 +107,7 @@ public:
       const Vector& movement, Tile* tile);
   void add_bouncy_brick(const Vector& pos);
                                                                                 
-  BadGuy* add_bad_guy(float x, float y, BadGuyKind kind);
+  BadGuy* add_bad_guy(float x, float y, BadGuyKind kind, bool activate);
                                                                                 
   void add_upgrade(const Vector& pos, Direction dir, UpgradeKind kind);
   bool add_bullet(const Vector& pos, float xm, Direction dir);

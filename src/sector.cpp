@@ -701,10 +701,12 @@ Sector::add_bouncy_brick(const Vector& pos)
 }
 
 BadGuy*
-Sector::add_bad_guy(float x, float y, BadGuyKind kind)
+Sector::add_bad_guy(float x, float y, BadGuyKind kind, bool activate)
 {
   BadGuy* badguy = new BadGuy(kind, x, y);
   add_object(badguy);
+  if(activate)
+    badguy->activate(LEFT);
   return badguy;
 }
                                                                                 

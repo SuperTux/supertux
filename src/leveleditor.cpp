@@ -132,7 +132,7 @@ for(int i = 0; i < NUM_BadGuyKinds; i++)
 
   BadGuyKind kind = BadGuyKind(i);
   BadGuy badguy(kind, 0,0);
-//  badguy.activate(LEFT);
+  badguy.activate(LEFT);
 
   Surface *img = badguy.get_image();
   tiles_board->add_button(Button(img, "", SDLKey(SDLK_1+i)), -(i+1));
@@ -623,7 +623,7 @@ if(sector)
           {
           BadGuyKind kind = BadGuyKind((-id)-1);
           BadGuy badguy(kind, 0,0);
-//          badguy.activate(LEFT);
+          badguy.activate(LEFT);
           Surface *img = badguy.get_image();
 
           context.draw_surface(img, Vector(event.button.x - 8,
@@ -786,8 +786,8 @@ foregrounds = solids = backgrounds = 0;
 for(Sector::GameObjects::iterator i = sector->gameobjects.begin(); i != sector->gameobjects.end(); i++)
   {
   BadGuy* badguy = dynamic_cast<BadGuy*> (*i);
-//  if(badguy)
-//    badguy->activate(LEFT);
+  if(badguy)
+    badguy->activate(LEFT);
 
   TileMap* tilemap = dynamic_cast<TileMap*> (*i);
   if(tilemap)
@@ -869,7 +869,7 @@ if(newtile < 0)  // add object
   else if(newtile == OBJ_DOOR)
     sector->add_object(new Door(x, y));
   else
-    sector->add_object(new BadGuy(BadGuyKind((-newtile)-1), x, y));
+    sector->add_bad_guy(x, y, BadGuyKind((-newtile)-1), true);
 
   sector->update_game_objects();
   }

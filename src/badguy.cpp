@@ -161,8 +161,8 @@ BadGuy::init()
 {
   base.x = 0;
   base.y = 0;
-  base.width  = 0;
-  base.height = 0;
+  base.width  = 32;
+  base.height = 32;
   
   mode     = NORMAL;
   dying    = DYING_NOT;
@@ -188,20 +188,6 @@ BadGuy::init()
       while(collision_object_map(base))
         --base.y;
     }
-
-  if(Sector::current()->camera) {
-    Vector scroll = Sector::current()->camera->get_translation();
-
-    if(start_position.x > scroll.x - X_OFFSCREEN_DISTANCE &&
-        start_position.x < scroll.x + screen->w + X_OFFSCREEN_DISTANCE &&
-        start_position.y > scroll.y - Y_OFFSCREEN_DISTANCE &&
-        start_position.y < scroll.y + screen->h + Y_OFFSCREEN_DISTANCE) {
-      activate(LEFT);
-    }
-  } } else {
-    if(start_position.x >= 0 && start_position.x < screen->w
-        && start_position.y >= 0 && start_position.y < screen->h)
-      activate(LEFT);
   }
 }
 
@@ -229,7 +215,7 @@ BadGuy::activate(Direction activation_dir)
 
   dir = activation_dir;
   float dirsign = activation_dir == LEFT ? -1 : 1;
-  
+
   set_action("left", "right");
   if(kind == BAD_MRBOMB) {
     physic.set_velocity(dirsign * BADGUY_WALK_SPEED, 0);
@@ -772,14 +758,6 @@ BadGuy::action_spiky(double elapsed_time)
     check_horizontal_bump();
 
   fall();
-#if 0
-  // jump when we're about to fall
-  if (physic.get_velocity_y() == 0 && 
-          !issolid(base.x+base.width/2, base.y + base.height)) {
-    physic.enable_gravity(true);
-    physic.set_velocity_y(2);
-  }
-#endif
 
   physic.apply(elapsed_time, base.x, base.y, Sector::current()->gravity);
   if (dying != DYING_FALLING)
@@ -793,6 +771,13 @@ BadGuy::action_snowball(double elapsed_time)
     check_horizontal_bump();
 
   fall();
+
+  // jump when we're about to fall
+  if (physic.get_velocity_y() == 0 && 
+          !issolid(base.x+base.width/2, base.y + base.height)) {
+    physic.enable_gravity(true);
+    physic.set_velocity_y(2);
+  }
 
   physic.apply(elapsed_time, base.x, base.y, Sector::current()->gravity);
   if (dying != DYING_FALLING)
@@ -876,37 +861,44 @@ BadGuy::action(float elapsed_time)
          kill_me(0);
       }
 
-  if(!seen) {
-    /* activate badguys if they're just inside the offscreen_distance around the
-     * screen. Don't activate them inside the screen, since that might have the
-     * effect of badguys suddenly popping up from nowhere
+  if(!seen)
+    {
+    /* Activate badguys if they're just around the screen to avoid
+     * the effect of having badguys suddenly popping up from nowhere.
      */
     if (start_position.x > scroll_x - X_OFFSCREEN_DISTANCE &&
-        start_position.x < scroll_x - base.width)
+        start_position.x < scroll_x - base.width &&
+        start_position.y > scroll_y - Y_OFFSCREEN_DISTANCE &&
+        start_position.y < scroll_y + Y_OFFSCREEN_DISTANCE)
       activate(RIGHT);
-    else if(start_position.x > scroll_y - Y_OFFSCREEN_DISTANCE &&
-        start_position.y < scroll_y - base.height)
+    else if (start_position.x > scroll_x + screen->w &&
+        start_position.x < scroll_x + screen->w + X_OFFSCREEN_DISTANCE &&
+        start_position.y > scroll_y - Y_OFFSCREEN_DISTANCE &&
+        start_position.y < scroll_y + Y_OFFSCREEN_DISTANCE)
       activate(LEFT);
-    else if(start_position.x > scroll_x + screen->w &&
-        start_position.x < scroll_x + screen->w + X_OFFSCREEN_DISTANCE)
+    /* Special case for badguys on start of the level.
+     * If in the future, it's possible to set Tux start pos, this case
+     * should contemplate that. */
+    else if (start_position.x > 0 && start_position.x < screen->w &&
+             start_position.y > 0 && start_position.y < screen->h)
       activate(LEFT);
-    else if(start_position.y > scroll_y + screen->h &&
-        start_position.y < scroll_y + screen->h + Y_OFFSCREEN_DISTANCE)
-      activate(LEFT);
-  } else {
+    }
+  else
+    {
     if(base.x + base.width < scroll_x - X_OFFSCREEN_DISTANCE*4
       || base.x > scroll_x + screen->w + X_OFFSCREEN_DISTANCE*4
       || base.y + base.height < scroll_y - Y_OFFSCREEN_DISTANCE*4
-      || base.y > scroll_y + screen->h + Y_OFFSCREEN_DISTANCE*4) {
+      || base.y > scroll_y + screen->h + Y_OFFSCREEN_DISTANCE*4)
+      {
       seen = false;
       if(dying != DYING_NOT)
         remove_me();
+      }
     }
-  }
-  
+
   if(!seen)
     return;
-  
+
   switch (kind)
     {
     case BAD_MRICEBLOCK:
@@ -1007,7 +999,7 @@ BadGuy::set_action(std::string left, std::string right)
   else
     {
       // FIXME: Using the image size for the physics and collision is
-      // a bad idea, since images should always overlap there physical
+      // a bad idea, since images should always overlap their physical
       // representation
       if(left != 0) {
         if(base.width == 0 && base.height == 0) {
@@ -1205,7 +1197,7 @@ BadGuy::kill_me(int score)
 void
 BadGuy::explode(bool right_way)
 {
-  BadGuy *badguy = Sector::current()->add_bad_guy(base.x, base.y, BAD_BOMB);
+  BadGuy *badguy = Sector::current()->add_bad_guy(base.x, base.y, BAD_BOMB, true);
   if(right_way)
     {
     badguy->timer.start(0);
