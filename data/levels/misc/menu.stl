@@ -4,7 +4,7 @@
   (name "Hello World")
   (author "unknown author")
   (music "theme.mod")
-  (background "arctis2.jpg")
+  (background "arctis.jpg")
   (particle_system "")
   (bkgd_speed "2")
   (bkgd_red_top 0)

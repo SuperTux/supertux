@@ -4,7 +4,7 @@
   (name "23rd Airborne")
   (author "Ingo Ruhnke")
   (music "Mortimers_chipdisko.mod")
-  (background "arctis2.jpg")
+  (background "arctis.jpg")
   (particle_system "")
   (bkgd_speed "2")
   (bkgd_red_top 150)
