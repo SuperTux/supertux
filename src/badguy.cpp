@@ -1018,13 +1018,14 @@ BadGuy::collision(void *p_c_object, int c_object, CollisionType type)
     case CO_BADGUY:
       pbad_c = (BadGuy*) p_c_object;
 
-      /* If we're a kicked mriceblock, kill any badguys we hit */
-      if(kind == BAD_MRICEBLOCK && mode == KICK)
+      /* If we're a kicked mriceblock, kill [almost] any badguys we hit */
+      if(kind == BAD_MRICEBLOCK && mode == KICK &&
+         kind != BAD_FLAME && kind != BAD_BOMB && kind != BAD_STALACTITE)
         {
           pbad_c->kill_me(25);
         }
 
-      // a held mriceblock gets kills the enemy too but falls to ground then
+      // a held mriceblock kills the enemy too but falls to ground then
       else if(kind == BAD_MRICEBLOCK && mode == HELD)
         {
           pbad_c->kill_me(25);
@@ -1081,8 +1082,6 @@ BadGuy::collision(void *p_c_object, int c_object, CollisionType type)
             physic.set_velocity(-fabsf(physic.get_velocity_x()), 2);
           }
 
-
-
           break;
         }
         else if (base.y + base.height > pbad_c->base.y + pbad_c->base.height)
@@ -1094,6 +1093,9 @@ BadGuy::collision(void *p_c_object, int c_object, CollisionType type)
             {
               dir = RIGHT;
               physic.set_velocity_x(fabsf(physic.get_velocity_x()));
+
+              // in case badguys get "jammed"
+              base.x = pbad_c->base.x + pbad_c->base.width;
             }
             else if (dir == RIGHT)
             {
