@@ -4690,6 +4690,13 @@
   (tile
     (id 1312)
     (solid #t)
-    (images "easteregg.png")
+    (images "havoktux-0.png")
   )
+  ;(tile
+  ;  (id 1313)
+  ;  (solid #f)
+  ;  (images "havoktux-1.png"
+  ;          "havoktux-2.png")
+  ;  (anim-fps 2)
+  ;)
 )
