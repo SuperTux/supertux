@@ -98,6 +98,30 @@ private:
     Surface* snowimages[3];
 };
 
+class RainParticleSystem : public ParticleSystem, public Serializable
+{
+public:
+    RainParticleSystem();
+    virtual ~RainParticleSystem();
+
+    void parse(const lisp::Lisp& lisp);
+    void write(lisp::Writer& writer);
+
+    virtual void action(float elapsed_time);
+
+    std::string type() const
+    { return "RainParticleSystem"; }
+    
+private:
+    class RainParticle : public Particle
+    {
+    public:
+        float speed;
+    };
+    
+    Surface* rainimages[2];
+};
+
 class CloudParticleSystem : public ParticleSystem, public Serializable
 {
 public:

@@ -17,7 +17,7 @@
   (bkgd_blue_bottom   255)
   (time  500)
   (gravity  10)
-  (particle_system "")
+  (particle_system "rain")
   (theme "antarctica")
   (interactive-tm
    0  0  0  0  0  212 0  0  0  0  0  0  0  0  0  0  133 0  0  0  0  0  0  0  0  0  0  212 212 212 

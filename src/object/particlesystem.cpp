@@ -130,6 +130,64 @@ void SnowParticleSystem::action(float elapsed_time)
     }
 }
 
+RainParticleSystem::RainParticleSystem()
+{
+    rainimages[0] = new Surface(datadir+"/images/shared/rain0.png", true);
+    rainimages[1] = new Surface(datadir+"/images/shared/rain1.png", true);
+
+    virtual_width = screen->w * 2;
+
+    // create some random snowflakes
+    size_t raindropcount = size_t(virtual_width/8.0);
+    for(size_t i=0; i<raindropcount; ++i) {
+        RainParticle* particle = new RainParticle;
+        particle->pos.x = rand() % int(virtual_width);
+        particle->pos.y = rand() % screen->h;
+        int rainsize = rand() % 2;
+        particle->texture = rainimages[rainsize];
+        do {
+            particle->speed = (rainsize+1)*45 + (float(rand()%10)*.4);
+        } while(particle->speed < 1);
+        particle->speed *= 10; // gravity
+
+        particles.push_back(particle);
+    }
+}
+
+void
+RainParticleSystem::parse(const lisp::Lisp& reader)
+{
+  reader.get("layer", layer);
+}
+
+void
+RainParticleSystem::write(lisp::Writer& writer)
+{
+  writer.start_list("particles-rain");
+  writer.write_int("layer", layer);
+  writer.end_list("particles-rain");
+}
+
+RainParticleSystem::~RainParticleSystem()
+{
+  for(int i=0;i<2;++i)
+    delete rainimages[i];
+}
+
+void RainParticleSystem::action(float elapsed_time)
+{
+    std::vector<Particle*>::iterator i;
+    for(i = particles.begin(); i != particles.end(); ++i) {
+        RainParticle* particle = (RainParticle*) *i;
+        particle->pos.y += particle->speed * elapsed_time;
+        particle->pos.x -= particle->speed * elapsed_time;
+        if(particle->pos.y > screen->h) {
+            particle->pos.y = fmodf(particle->pos.y , virtual_height);
+            particle->pos.x = rand() % int(virtual_width);
+        }
+    }
+}
+
 CloudParticleSystem::CloudParticleSystem()
 {
     cloudimage = new Surface(datadir + "/images/shared/cloud.png", true);

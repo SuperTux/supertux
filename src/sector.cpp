@@ -100,6 +100,10 @@ Sector::parse_object(const std::string& name, const lisp::Lisp& reader)
     SnowParticleSystem* partsys = new SnowParticleSystem();
     partsys->parse(reader);
     return partsys;
+  } else if(name == "particles-rain") {
+    RainParticleSystem* partsys = new RainParticleSystem();
+    partsys->parse(reader);
+    return partsys;
   } else if(name == "particles-clouds") {
     CloudParticleSystem* partsys = new CloudParticleSystem();
     partsys->parse(reader);
@@ -206,6 +210,8 @@ Sector::parse_old_format(const lisp::Lisp& reader)
     add_object(new CloudParticleSystem());
   else if(particlesystem == "snow")
     add_object(new SnowParticleSystem());
+  else if(particlesystem == "rain")
+    add_object(new RainParticleSystem());
 
   Vector startpos(100, 170);
   reader.get("start_pos_x", startpos.x);
