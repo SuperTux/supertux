@@ -6,7 +6,7 @@
 
 # Version 0.0.5
 
-# April 11, 2000 - December 9, 2003
+# April 11, 2000 - December 10, 2003
 
 
 # User-definable stuff:
@@ -39,7 +39,7 @@ installdat = install -g root -o root -m 644
 
 
 OBJECTS=obj/supertux.o obj/setup.o obj/intro.o obj/title.o obj/gameloop.o \
-	obj/screen.o obj/sound.o
+	obj/screen.o obj/sound.o obj/high_scores.o
 
 # Make commands:
 
@@ -105,3 +105,8 @@ obj/screen.o:	src/screen.c src/defines.h src/globals.h src/screen.h
 
 obj/sound.o:	src/sound.c src/defines.h src/globals.h src/sound.h
 	$(CC) $(CFLAGS) src/sound.c -c -o obj/sound.o
+
+obj/high_scores.o:	src/high_scores.c src/defines.h src/globals.h \
+			src/sound.h
+	$(CC) $(CFLAGS) src/high_scores.c -c -o obj/high_scores.o
+

@@ -34,6 +34,7 @@
 #include "screen.h"
 #include "sound.h"
 #include "setup.h"
+#include "high_scores.h"
 
 
 /* Sound files: */
@@ -78,7 +79,7 @@ char * soundfilenames[NUM_SOUNDS] = {
 
 /* Local variables: */
 
-int score, distros, level, lives, scroll_x, next_level,
+int score, highscore, distros, level, lives, scroll_x, next_level,
   tux_dir, tux_size, tux_duck, tux_x, tux_xm, tux_y, tux_ym,
   tux_dying, tux_safe, jumping, jump_counter, frame, score_multiplier,
   tux_frame_main, tux_frame, tux_got_coffee, tux_skidding,
@@ -154,6 +155,7 @@ void trybumpbadguy(int x, int y, int sx);
 void add_upgrade(int x, int y, int kind);
 void killtux(int mode);
 void add_bullet(int x, int y, int dir, int xm);
+void drawendscreen(void);
 
 
 /* --- GAME LOOP! --- */
@@ -181,6 +183,7 @@ int gameloop(void)
   loadlevel();
   loadlevelgfx();
   loadlevelsong();
+  highscore = load_hs();
   
   
   /* --- MAIN GAME LOOP!!! --- */
@@ -549,34 +552,14 @@ int gameloop(void)
 	      
 	      /* No more lives!? */
 
-	      if (lives <= 0)
+	      if (lives < 0)
 	      {
+                drawendscreen();
 
+		if (score > highscore)
+		  save_hs(score);
 
-		/* Display end-of-level stuff */
-		/* (FIXME: This should go in its own event loop function!) */
-		
-		clearscreen(0, 0, 0);
-
-		drawcenteredtext("GAMEOVER", 200, letters_red, NO_UPDATE);
-
-		sprintf(str, "SCORE: %d", score);
-		drawcenteredtext(str, 224, letters_gold, NO_UPDATE);
-
-		sprintf(str, "DISTROS: %d", distros);
-		drawcenteredtext(str, 256, letters_blue, NO_UPDATE);
-
-		SDL_Flip(screen);
-		SDL_Delay(5000);
-
-
-		/* FIXME: Should return to title screen, not restart game... */
-		
-		level = 0;
-		lives = 3;
-		
-		score=0;
-		distros=0;
+		return(0);
 	      }
 	      
 	      
@@ -2146,6 +2129,10 @@ int gameloop(void)
       sprintf(str, "%d", score);
       drawtext("SCORE", 0, 0, letters_blue, NO_UPDATE);
       drawtext(str, 96, 0, letters_gold, NO_UPDATE);
+
+      sprintf(str, "%d", highscore);
+      drawtext("HIGH", 0, 20, letters_blue, NO_UPDATE);
+      drawtext(str, 80, 20, letters_gold, NO_UPDATE);
       
       if (time_left >= 50 || (frame % 10) < 5)
 	{
@@ -3542,4 +3529,23 @@ void add_bullet(int x, int y, int dir, int xm)
       playsound(sounds[SND_SHOOT]);
 #endif
     }
+
+
+void drawendscreen(void)
+{
+  char str[80];
+  
+  clearscreen(0, 0, 0);
+
+  drawcenteredtext("GAMEOVER", 200, letters_red, NO_UPDATE);
+
+  sprintf(str, "SCORE: %d", score);
+  drawcenteredtext(str, 224, letters_gold, NO_UPDATE);
+
+  sprintf(str, "DISTROS: %d", distros);
+  drawcenteredtext(str, 256, letters_blue, NO_UPDATE);
+
+  SDL_Flip(screen);
+  SDL_Delay(2000);
 }
+

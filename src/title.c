@@ -7,7 +7,7 @@
   bill@newbreedsoftware.com
   http://www.newbreedsoftware.com/supertux/
   
-  April 11, 2000 - April 12, 2000
+  April 11, 2000 - December 9, 2003
 */
 
 #include <stdio.h>
@@ -32,6 +32,7 @@
 #include "globals.h"
 #include "title.h"
 #include "screen.h"
+#include "high_scores.h"
 
 
 /* --- TITLE SCREEN --- */
@@ -42,6 +43,7 @@ int title(void)
   SDL_Event event;
   SDLKey key;
   int done, quit, frame, pict;
+  char str[80];
   
   
   /* Clear screen: */
@@ -62,6 +64,12 @@ int title(void)
   /* Draw the title background: */
   
   drawimage(title, 0, 0, UPDATE);
+
+
+  /* Draw the high score: */
+
+  sprintf(str, "High score: %d", load_hs());
+  drawcenteredtext(str, 460, letters_red, UPDATE);
   
   
   /* --- Main title loop: --- */
