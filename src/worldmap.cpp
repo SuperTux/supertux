@@ -517,8 +517,12 @@ WorldMap::draw(const Point& offset)
   
   for(Levels::iterator i = levels.begin(); i != levels.end(); ++i)
     {
-      leveldot_green->draw(i->x*32 + offset.x, 
-                           i->y*32 + offset.y);
+      if (i->solved)
+        leveldot_green->draw(i->x*32 + offset.x, 
+                             i->y*32 + offset.y);
+      else
+        leveldot_red->draw(i->x*32 + offset.x, 
+                           i->y*32 + offset.y);        
     }
 
   tux->draw(offset);
@@ -673,16 +677,25 @@ WorldMap::loadgame(const std::string& filename)
         {
           while(level_cur)
             {
-              std::string name;
-              bool solved = false;
-              LispReader level_reader(level_cur);
-              level_reader.read_string("name",   &name);
-              level_reader.read_bool("solved", &solved);
+              lisp_object_t* sym  = lisp_car(lisp_car(level_cur));
+              lisp_object_t* data = lisp_cdr(lisp_car(level_cur));
 
-              for(Levels::iterator i = levels.begin(); i != levels.end(); ++i)
+              if (strcmp(lisp_symbol(sym), "level") == 0)
                 {
-                  if (name == i->name)
-                    i->solved = solved;
+                  std::string name;
+                  bool solved = false;
+              
+                  LispReader level_reader(data);
+                  level_reader.read_string("name",   &name);
+                  level_reader.read_bool("solved", &solved);
+
+                  std::cout << "Name: " << name << " " << solved << std::endl;
+
+                  for(Levels::iterator i = levels.begin(); i != levels.end(); ++i)
+                    {
+                      if (name == i->name)
+                        i->solved = solved;
+                    }
                 }
 
               level_cur = lisp_cdr(level_cur);
