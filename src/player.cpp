@@ -203,7 +203,7 @@ Player::action(double frame_ratio)
       if(!duck && on_ground() && old_base.x == base.x && old_base.y == base.y
          && collision_object_map(base))
         {
-          base.x += frame_ratio * WALK_SPEED * (dir ? 1 : -1);
+          base.x += frame_ratio * WALK_SPEED;
           previous_base = old_base = base;
         }
 
@@ -417,7 +417,7 @@ Player::handle_vertical_input()
       physic.set_velocity_y(0);
     }
 
-  if (input.down == DOWN && !on_ground() && !duck)
+  if (input.down == DOWN && !on_ground() && !duck && size == BIG)
     butt_jump = true;
   else if (input.down == UP)
     butt_jump = false;
