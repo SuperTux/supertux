@@ -668,8 +668,6 @@ void st_video_setup(void)
 
 void st_video_setup_sdl(void)
 {
-  SDL_FreeSurface(screen);
-
   if (use_fullscreen)
     {
       screen = SDL_SetVideoMode(SCREEN_W, SCREEN_H, 0, SDL_FULLSCREEN ) ; /* | SDL_HWSURFACE); */
