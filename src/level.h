@@ -61,6 +61,9 @@ public:
 
   Sector* get_sector(const std::string& name);
 
+  int get_total_badguys();
+  int get_total_coins();
+
 private:
   void load_old_format(LispReader& reader);
 };

@@ -1072,7 +1072,6 @@ BadGuy::squish(Player* player)
                                 25 * player_status.score_multiplier);
     SoundManager::get()->play_sound(IDToSound(SND_SQUISH), get_pos(), Sector::current()->player->get_pos());
 
-    global_stats.add_points(BADGUYS_SQUISHED_STAT, 1);
     player_status.score_multiplier++;
     return;
 
@@ -1125,7 +1124,6 @@ BadGuy::squish(Player* player)
     Sector::current()->add_score(Vector(base.x, base.y),
                                 25 * player_status.score_multiplier);
 
-    global_stats.add_points(BADGUYS_SQUISHED_STAT, 1);
     player_status.score_multiplier++;
      
     // simply remove the fish...
@@ -1162,7 +1160,6 @@ BadGuy::squish(Player* player)
       player->bounce(this);
       base.y += 66 - base.height;
 
-      global_stats.add_points(BADGUYS_SQUISHED_STAT, 1);
       Sector::current()->add_score(Vector(base.x, base.y),
                                 25 * player_status.score_multiplier);
       player_status.score_multiplier++;
@@ -1179,6 +1176,9 @@ BadGuy::kill_me(int score)
 {
   if(kind == BAD_BOMB)
     return;
+
+  if(mode != HELD)
+    global_stats.add_points(BADGUYS_KILLED_STAT, 1);
 
   dying = DYING_FALLING;
   if(kind == BAD_MRICEBLOCK) {

@@ -30,12 +30,14 @@ class LispWriter;
 class DrawingContext;
 }
 
+#define SPLAYER 0
+#define STOTAL  1
+
 enum {
   SCORE_STAT,
-  BADGUYS_SQUISHED_STAT,
-  SHOTS_STAT,
+  COINS_COLLECTED_STAT,
+  BADGUYS_KILLED_STAT,
   TIME_NEEDED_STAT,
-  JUMPS_STAT,
   NUM_STATS
 };
 
@@ -46,6 +48,7 @@ enum {
 class Statistics
 {
 public:
+  // don't forget to call reset() to init stat
   Statistics();
   ~Statistics();
 
@@ -64,6 +67,8 @@ public:
   void set_points(int stat, int points);
   int get_points(int stat);
 
+  void set_total_points(int stat, int points);
+
   /* Reset statistics */
   void reset();
 
@@ -74,7 +79,7 @@ public:
   void operator+=(const Statistics& o);
 
 private:
-  int stats[NUM_STATS];
+  int stats[NUM_STATS][2];
 
   Timer timer;
   int display_stat;

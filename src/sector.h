@@ -139,6 +139,9 @@ public:
   static Sector* current()
   { return _current; }
 
+  /** Get total number of some stuff */
+  int get_total_badguys();
+
 private:
   void load_music();
   

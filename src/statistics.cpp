@@ -34,14 +34,12 @@ stat_name_to_string(int stat_enum)
     {
     case SCORE_STAT:
       return "score";
-    case BADGUYS_SQUISHED_STAT:
-      return "badguys-squished";
-    case SHOTS_STAT:
-      return "shots";
+    case COINS_COLLECTED_STAT:
+      return "coins-collected";
+    case BADGUYS_KILLED_STAT:
+      return "badguys-killed";
     case TIME_NEEDED_STAT:
-      return "time-needed";
-    case JUMPS_STAT:
-      return "jumps";
+      return "time-needed";;
     }
 }
 
@@ -61,7 +59,8 @@ Statistics::Statistics()
   display_stat = 1;
 
   for(int i = 0; i < NUM_STATS; i++)
-    stats[i] = -1;
+    for(int j = 0; j < 2; j++)
+      stats[i][j] = -1;
 }
 
 Statistics::~Statistics()
@@ -72,26 +71,32 @@ void
 Statistics::parse(LispReader& reader)
 {
   for(int i = 0; i < NUM_STATS; i++)
-    reader.read_int(stat_name_to_string(i).c_str(), stats[i]);
+    {
+    reader.read_int(stat_name_to_string(i).c_str(), stats[i][SPLAYER]);
+    reader.read_int((stat_name_to_string(i) + "-total").c_str(), stats[i][STOTAL]);
+    }
 }
 
 void
 Statistics::write(LispWriter& writer)
 {
   for(int i = 0; i < NUM_STATS; i++)
-    writer.write_int(stat_name_to_string(i), stats[i]);
+    {
+    writer.write_int(stat_name_to_string(i), stats[i][SPLAYER]);
+    writer.write_int(stat_name_to_string(i) + "-total", stats[i][STOTAL]);
+    }
 }
 
 #define TOTAL_DISPLAY_TIME 3400
 #define FADING_TIME         600
 
-#define WMAP_INFO_LEFT_X  555
-#define WMAP_INFO_RIGHT_X 705
+#define WMAP_INFO_LEFT_X  540
+#define WMAP_INFO_RIGHT_X 720
 
 void
 Statistics::draw_worldmap_info(DrawingContext& context)
 {
-  if(stats[SCORE_STAT] == -1)  // not initialized yet
+  if(stats[SCORE_STAT][SPLAYER] == -1)  // not initialized yet
     return;
 
   if(!timer.check())
@@ -112,37 +117,36 @@ Statistics::draw_worldmap_info(DrawingContext& context)
 
   char str[128];
 
-  context.draw_text(white_small_text, _("Level Statistics"),
+  context.draw_text(white_small_text, _("Best Level Statistics"),
                     Vector((WMAP_INFO_LEFT_X + WMAP_INFO_RIGHT_X) / 2, 490),
                     CENTER_ALLIGN, LAYER_GUI);
 
   sprintf(str, _("Max score:"));
   context.draw_text(white_small_text, str, Vector(WMAP_INFO_LEFT_X, 506), LEFT_ALLIGN, LAYER_GUI);
 
-  sprintf(str, "%d", stats[SCORE_STAT]);
+  sprintf(str, "%d", stats[SCORE_STAT][SPLAYER]);
   context.draw_text(white_small_text, str, Vector(WMAP_INFO_RIGHT_X, 506), RIGHT_ALLIGN, LAYER_GUI);
 
   // draw other small info
 
-  if(display_stat == BADGUYS_SQUISHED_STAT)
+  if(display_stat == COINS_COLLECTED_STAT)
+    sprintf(str, _("Max coins collected:"));
+  else if(display_stat == BADGUYS_KILLED_STAT)
     sprintf(str, _("Max fragging:"));
-  else if(display_stat == SHOTS_STAT)
-    sprintf(str, _("Min shots:"));
-  else if(display_stat == TIME_NEEDED_STAT)
+  else// if(display_stat == TIME_NEEDED_STAT)
     sprintf(str, _("Min time needed:"));
-  else// if(display_stat == JUMPS_STAT)
-    sprintf(str, _("Min jumps:"));
 
   context.draw_text(white_small_text, str, Vector(WMAP_INFO_LEFT_X, 522), LEFT_ALLIGN, LAYER_GUI, NONE_EFFECT, alpha);
 
-  if(display_stat == BADGUYS_SQUISHED_STAT)
-    sprintf(str, "%d", stats[BADGUYS_SQUISHED_STAT]);
-  else if(display_stat == SHOTS_STAT)
-    sprintf(str, "%d", stats[SHOTS_STAT]);
-  else if(display_stat == TIME_NEEDED_STAT)
-    sprintf(str, "%d", stats[TIME_NEEDED_STAT]);
-  else// if(display_stat == JUMPS_STAT)
-    sprintf(str, "%d", stats[JUMPS_STAT]);
+  if(display_stat == COINS_COLLECTED_STAT)
+    sprintf(str, "%d/%d", stats[COINS_COLLECTED_STAT][SPLAYER],
+                          stats[COINS_COLLECTED_STAT][STOTAL]);
+  else if(display_stat == BADGUYS_KILLED_STAT)
+    sprintf(str, "%d/%d", stats[BADGUYS_KILLED_STAT][SPLAYER],
+                          stats[BADGUYS_KILLED_STAT][STOTAL]);
+  else// if(display_stat == TIME_NEEDED_STAT)
+    sprintf(str, "%d/%d", stats[TIME_NEEDED_STAT][SPLAYER],
+                          stats[TIME_NEEDED_STAT][STOTAL]);
 
   context.draw_text(white_small_text, str, Vector(WMAP_INFO_RIGHT_X, 522), RIGHT_ALLIGN, LAYER_GUI, NONE_EFFECT, alpha);
 }
@@ -150,26 +154,27 @@ Statistics::draw_worldmap_info(DrawingContext& context)
 void
 Statistics::draw_message_info(DrawingContext& context, std::string title)
 {
-  if(stats[SCORE_STAT] == -1)  // not initialized yet
+  if(stats[SCORE_STAT][SPLAYER] == -1)  // not initialized yet
     return;
 
   context.draw_text(gold_text, title, Vector(screen->w/2, 410), CENTER_ALLIGN, LAYER_GUI);
 
   char str[128];
 
-  sprintf(str, _(    "Max score:       %d"), stats[SCORE_STAT]);
+  sprintf(str, _(    "Max score:           %d"), stats[SCORE_STAT][SPLAYER]);
   context.draw_text(white_text, str, Vector(screen->w/2, 450), CENTER_ALLIGN, LAYER_GUI);
 
   for(int i = 1; i < NUM_STATS; i++)
     {
-    if(i == BADGUYS_SQUISHED_STAT)
-      sprintf(str, _("Max fragging:    %d"), stats[BADGUYS_SQUISHED_STAT]);
-    else if(i == SHOTS_STAT)
-      sprintf(str, _("Min shots:       %d"), stats[SHOTS_STAT]);
-    else if(i == TIME_NEEDED_STAT)
-      sprintf(str, _("Min time needed: %d"), stats[TIME_NEEDED_STAT]);
-    else// if(i == JUMPS_STAT)
-      sprintf(str, _("Min jumps:       %d"), stats[JUMPS_STAT]);
+    if(i == COINS_COLLECTED_STAT)
+      sprintf(str, _("Max coins collected: %d"), ((float)stats[COINS_COLLECTED_STAT][SPLAYER] /
+                                                 (float)stats[COINS_COLLECTED_STAT][STOTAL]) * 100);
+    else if(i == BADGUYS_KILLED_STAT)
+      sprintf(str, _("Max fragging:        %d"), ((float)stats[BADGUYS_KILLED_STAT][SPLAYER] /
+                                                 (float)stats[BADGUYS_KILLED_STAT][STOTAL]) * 100);
+    else// if(i == TIME_NEEDED_STAT)
+      sprintf(str, _("Min time needed:     %d"), ((float)stats[TIME_NEEDED_STAT][SPLAYER] /
+                                                 (float)stats[TIME_NEEDED_STAT][STOTAL]) * 100);
 
     context.draw_text(white_small_text, str, Vector(screen->w/2, 462 + i*18), CENTER_ALLIGN, LAYER_GUI);
     }
@@ -178,44 +183,56 @@ Statistics::draw_message_info(DrawingContext& context, std::string title)
 void
 Statistics::add_points(int stat, int points)
 {
-  stats[stat] += points;
+  stats[stat][SPLAYER] += points;
 }
 
 int
 Statistics::get_points(int stat)
 {
-  return stats[stat];
+  return stats[stat][SPLAYER];
 }
 
 void
 Statistics::set_points(int stat, int points)
 {
-  stats[stat] = points;
+  stats[stat][SPLAYER] = points;
+}
+
+void
+Statistics::set_total_points(int stat, int points)
+{
+  stats[stat][STOTAL] = points;
 }
 
 void
 Statistics::reset()
 {
   for(int i = 0; i < NUM_STATS; i++)
-    stats[i] = 0;
+    stats[i][SPLAYER] = 0;
 }
 
 void
 Statistics::merge(Statistics& stats_)
 {
-  stats[SCORE_STAT] = std::max(stats[SCORE_STAT], stats_.stats[SCORE_STAT]);
-  if(stats[JUMPS_STAT] != -1)
-    stats[JUMPS_STAT] = my_min(stats[JUMPS_STAT], stats_.stats[JUMPS_STAT]);
-  stats[BADGUYS_SQUISHED_STAT] =
-    std::max(stats[BADGUYS_SQUISHED_STAT], stats_.stats[BADGUYS_SQUISHED_STAT]);
-  stats[SHOTS_STAT] = my_min(stats[SHOTS_STAT], stats_.stats[SHOTS_STAT]);
-  stats[TIME_NEEDED_STAT] =
-    my_min(stats[TIME_NEEDED_STAT], stats_.stats[TIME_NEEDED_STAT]);
+  stats[SCORE_STAT][SPLAYER] = std::max(stats[SCORE_STAT][SPLAYER], stats_.stats[SCORE_STAT][SPLAYER]);
+  stats[COINS_COLLECTED_STAT][SPLAYER] = std::max(stats[COINS_COLLECTED_STAT][SPLAYER], stats_.stats[COINS_COLLECTED_STAT][SPLAYER]);
+  stats[BADGUYS_KILLED_STAT][SPLAYER] =
+    std::max(stats[BADGUYS_KILLED_STAT][SPLAYER], stats_.stats[BADGUYS_KILLED_STAT][SPLAYER]);
+  stats[TIME_NEEDED_STAT][SPLAYER] =
+    my_min(stats[TIME_NEEDED_STAT][SPLAYER], stats_.stats[TIME_NEEDED_STAT][SPLAYER]);
+
+  stats[COINS_COLLECTED_STAT][STOTAL] = stats_.stats[COINS_COLLECTED_STAT][STOTAL];
+  stats[BADGUYS_KILLED_STAT][STOTAL] = stats_.stats[BADGUYS_KILLED_STAT][STOTAL];
+  stats[TIME_NEEDED_STAT][STOTAL] = stats_.stats[TIME_NEEDED_STAT][STOTAL];
 }
 
 void
 Statistics::operator+=(const Statistics& stats_)
 {
   for(int i = 0; i < NUM_STATS; i++)
-    stats[i] += stats_.stats[i];
+    {
+    stats[i][SPLAYER] += stats_.stats[i][SPLAYER];
+    if(stats_.stats[i][STOTAL] != -1)
+      stats[i][STOTAL] += stats_.stats[i][STOTAL];
+    }
 }

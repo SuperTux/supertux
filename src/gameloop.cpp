@@ -129,6 +129,11 @@ GameSession::restart_level()
   if(flip_level)
     level->do_vertical_flip();
 
+  global_stats.reset();
+  global_stats.set_total_points(COINS_COLLECTED_STAT, level->get_total_coins());
+  global_stats.set_total_points(BADGUYS_KILLED_STAT, level->get_total_badguys());
+  global_stats.set_total_points(TIME_NEEDED_STAT, level->time_left);
+
   currentsector = level->get_sector("main");
   if(!currentsector)
     Termination::abort("Level has no main sector.", "");
@@ -151,8 +156,6 @@ GameSession::restart_level()
       if(st_gl_mode == ST_GL_PLAY || st_gl_mode == ST_GL_LOAD_LEVEL_FILE)
         levelintro();
     }
-
-  global_stats.reset();
 
   time_left.init(true);
   start_timers();

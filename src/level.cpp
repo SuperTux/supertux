@@ -39,6 +39,7 @@
 #include "resources.h"
 #include "gameobjs.h"
 #include "utils/lispwriter.h"
+#include "tilemap.h"
 
 using namespace std;
 
@@ -155,4 +156,25 @@ Level::get_sector(const std::string& name)
     return 0;
 
   return i->second;
+}
+
+int
+Level::get_total_badguys()
+{
+  int total_badguys = 0;
+  for(Sectors::iterator i = sectors.begin(); i != sectors.end(); ++i)
+    total_badguys += i->second->get_total_badguys();
+  return total_badguys;
+}
+
+int
+Level::get_total_coins()
+{
+  int total_coins = 0;
+  for(Sectors::iterator it = sectors.begin(); it != sectors.end(); ++it)
+    for(int x = 0; x < it->second->solids->get_width(); x++)
+      for(int y = 0; y < it->second->solids->get_height(); y++)
+        if(it->second->solids->get_tile(x,y)->attributes & Tile::COIN)
+          total_coins++;
+  return total_coins;
 }

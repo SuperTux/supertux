@@ -736,7 +736,6 @@ Sector::add_bullet(const Vector& pos, float xm, Direction dir)
     throw std::runtime_error("wrong bullet type.");
   add_object(new_bullet);
 
-  global_stats.add_points(SHOTS_STAT, 1);
   SoundManager::get()->play_sound(IDToSound(SND_SHOOT));
                                                                                 
   return true;
@@ -795,6 +794,7 @@ Sector::trybreakbrick(const Vector& pos, bool small)
 
           SoundManager::get()->play_sound(IDToSound(SND_DISTRO));
           global_stats.add_points(SCORE_STAT, SCORE_DISTRO);
+          global_stats.add_points(COINS_COLLECTED_STAT, 1);
           player_status.distros++;
           return true;
         }
@@ -849,6 +849,7 @@ Sector::tryemptybox(const Vector& pos, Direction col_side)
       add_bouncy_distro(Vector(posx, posy));
       SoundManager::get()->play_sound(IDToSound(SND_DISTRO));
       global_stats.add_points(SCORE_STAT, SCORE_DISTRO);
+      global_stats.add_points(COINS_COLLECTED_STAT, 1);
       player_status.distros++;
       break;
                                                                                 
@@ -906,7 +907,7 @@ Sector::trygrabdistro(const Vector& pos, int bounciness)
 
   solids->change_at(pos, tile->next_tile);
   SoundManager::get()->play_sound(IDToSound(SND_DISTRO));
-                                                                            
+
   if (bounciness == BOUNCE)
     {
       add_bouncy_distro(Vector(((int)(pos.x + 1) / 32) * 32,
@@ -914,6 +915,7 @@ Sector::trygrabdistro(const Vector& pos, int bounciness)
     }
                                                                             
   global_stats.add_points(SCORE_STAT, SCORE_DISTRO);
+  global_stats.add_points(COINS_COLLECTED_STAT, 1);
   player_status.distros++;
 
 }
@@ -991,4 +993,17 @@ int
 Sector::get_music_type()
 {
   return currentmusic;
+}
+
+int
+Sector::get_total_badguys()
+{
+  int total_badguys = 0;
+  for(GameObjects::iterator i = gameobjects_new.begin(); i != gameobjects_new.end(); ++i)
+    {
+    BadGuy* badguy = dynamic_cast<BadGuy*> (*i);
+    if(badguy)
+      total_badguys++;
+    }
+  return total_badguys;
 }
