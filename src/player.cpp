@@ -88,29 +88,29 @@ void player_input_init(player_input_type* pplayer_input)
 void
 TuxBodyParts::set_action(std::string action)
 {
-head->set_action(action);
-body->set_action(action);
-arms->set_action(action);
-feet->set_action(action);
+  head->set_action(action);
+  body->set_action(action);
+  arms->set_action(action);
+  feet->set_action(action);
 }
 
 void
 TuxBodyParts::one_time_animation()
 {
-head->start_animation(1);
-body->start_animation(1);
-arms->start_animation(1);
-feet->start_animation(1);
+  head->start_animation(1);
+  body->start_animation(1);
+  arms->start_animation(1);
+  feet->start_animation(1);
 }
 
 void
 TuxBodyParts::draw(DrawingContext& context, const Vector& pos, int layer,
                   Uint32 drawing_effect)
 {
-head->draw(context, pos, layer, drawing_effect);
-body->draw(context, pos, layer, drawing_effect);
-arms->draw(context, pos, layer, drawing_effect);
-feet->draw(context, pos, layer, drawing_effect);
+  head->draw(context, pos, layer, drawing_effect);
+  body->draw(context, pos, layer, drawing_effect);
+  arms->draw(context, pos, layer, drawing_effect);
+  feet->draw(context, pos, layer, drawing_effect);
 }
 
 Player::Player()
