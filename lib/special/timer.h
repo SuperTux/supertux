@@ -23,12 +23,20 @@
 
 extern unsigned int st_pause_ticks, st_pause_count;
 
+/// Time a game is running. (Non-pause mode, etc.)
 unsigned int st_get_ticks(void);
+
 void st_pause_ticks_init(void);
 void st_pause_ticks_start(void);
 void st_pause_ticks_stop(void);
 bool st_pause_ticks_started(void);
 
+/// Timer
+/** This class can be used as stop watch
+    for example. It's also possible to calculate
+    frames per seconds and things like that with it.
+    It's a general timing class, but it
+    can esspecially be used together with st_get_ticks(). */
 class Timer
 {
  public:
@@ -39,26 +47,35 @@ class Timer
  public:
   Timer();
   
+  /// Initialize the timer.
+  /** @Param st_ticks: If true internally st_get_ticks() is used, else SDL_GetTicks() is used. */
   void init(bool st_ticks);
+  
+  /// Start the timer with the given period (in ms).
   void start(unsigned int period);
+  
+  /// Stop the timer.
   void stop();
 
-  /*======================================================================
-    return: NO  = the timer is not started
-    or it is over
-    YES = otherwise
-    ======================================================================*/
+  /// Check if the timer is started and within its period.
+  /** If one of these requirements isn't the case the timer
+      is automatically reseted. */  
   int check();
+  
+  /// Is the timer started?
   int started();
 
-  /*======================================================================
-    return: the time left (in millisecond)
-    note  : the returned value can be negative
-    ======================================================================*/
+  /// Get time left until the last timing period is finished. 
+  /** The returned value can be negative. */    
   int get_left();
 
+  /// Get the gone time, since last timer start. 
+  /** The returned value can be negative. */
   int  get_gone();
+  
+  /// Write the timer value to a file (For save games in example).
   void fwrite(FILE* fi);
+  /// Read a timer value from a file (From save games in example).
   void fread(FILE* fi);
 };
 
