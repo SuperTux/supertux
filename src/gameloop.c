@@ -1498,6 +1498,7 @@ int game_action(void)
                       /* Kick: */
 
                       bad_guys[i].mode = KICK;
+                      play_sound(sounds[SND_KICK]);
 
                       if (tux_x + scroll_x <= bad_guys[i].x)
                         {
