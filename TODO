@@ -26,6 +26,8 @@ L: low priority
     small tux...
 [L] Life counter should be decreased once the die-animation starts,
    not when it ends
+[L] Enemies should turn upside down after being hit by an kicked
+   iceblock
 - leveleditor crashs when pressing the button with the levelsettings
 
 
