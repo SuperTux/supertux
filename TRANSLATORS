@@ -1,0 +1,60 @@
+
+- Translation info -
+http://super-tux.sf.net/
+
+Last update: June 4, 2004
+
+ == TRANSLATORS ==
+
+* Translation Hints *
+
+ If there isn't a good translation for some term (ie. fullscreen), you might consider
+to just keep it. It's better than making the user confused.
+
+ In English, there is only one singular second person mode (You). If your language does
+have more than one - a personal and impersonal - remember that this is a game, so you
+should use the personal one. However, if it is possible to ommit it in your language,
+it might be a good idea.
+
+ Names like SuperTux, Tux, Penny and other game elements should not be translated. If you
+really think one of these to be a too strange word for your people, first inform us at
+our mailing list.
+
+ Translating lots of strings can be boring and time consuming, but, in my opinion, it
+worths when lookins at the results ;-)
+
+Note: If somewhere in the game, after translating a string, it doesn't look well (bad
+aligment, overlaps other text...), contact us.
+
+* Programs to Aid Translation *
+
+ My personal favourite is KBabel (don't forget to fill the configuration regarding your
+country).
+ I am also aware that (X)Emacs has also a plugin for this effect. I believe Qt also has a
+translation aid program called QTranslator.
+
+ If you are new to this, the translation file that you should use is the supertux.pot that
+is inside the po/ root folder. Rename it to your language (ie. Spanish - es.po) and then
+open it with any program.
+ It is only a plain text file, so you can even use any text editor you want to translate it,
+but it may be wise to use a specific program for the purpose.
+ After translating the file, add it to LINGUAS (ie. Spanish - es) and run 'make update-po'.
+Then a binary file will be created. In order to make SuperTux using it, you will have to
+install it ('make install').
+
+Note: Currently, only the game itself is translatable. Data files, like levels,
+credits, story... are not yet translatable.
+
+
+ == DEVELOPERS ==
+
+* Translatable Strings *
+
+ Output should not be translated, since their purpose is mainly for debugging.
+ However, command description (ie. --help) should obviously be translated. Messages
+that give the user a solution for a problem, might be translatable, as well.
+
+ Parametars shouldn't also be translatable. It breaks scripting. Besides advanced users,
+the ones that will make use of this, usually don't like it.
+
+The SuperTux Team
