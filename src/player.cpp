@@ -379,7 +379,20 @@ Player::handle_horizontal_input()
           ax = WALK_ACCELERATION_X * -1.5;
       }
   }
- 
+
+  // if we're on ice slow down acceleration or deceleration
+  if (isice(base.x, base.y + base.height))
+  {
+    /* the acceleration/deceleration rate on ice is inversely proportional to
+     * the current velocity.
+     */
+
+    // increasing 1 will increase acceleration/deceleration rate
+    // decreasing 1 will decrease acceleration/deceleration rate
+    //  must stay above zero, though
+    if (ax != 0) ax *= 1 / fabs(vx);
+  }
+
   physic.set_velocity(vx, vy);
   physic.set_acceleration(ax, ay);
 }
