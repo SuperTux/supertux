@@ -786,7 +786,8 @@ BadGuy::bump()
   if(kind == BAD_FLAME || kind == BAD_BOMB || kind == BAD_FISH
       || kind == BAD_FLYINGSNOWBALL)
     return;
-  
+
+  physic.set_velocity_y(3);
   kill_me(25);
 }
 
@@ -912,7 +913,6 @@ BadGuy::kill_me(int score)
   }
   
   physic.enable_gravity(true);
-  physic.set_velocity_y(0);
 
   /* Gain some points: */
     World::current()->add_score(base.x - scroll_x, base.y,
