@@ -141,6 +141,8 @@ void player_action(player_type* pplayer)
   player_input(pplayer);
 
   /* Move tux: */
+  
+  pplayer->previous_base = pplayer->base;
 
   pplayer->base.x += pplayer->base.xm * frame_ratio;
   pplayer->base.y += pplayer->base.ym * frame_ratio;

@@ -77,6 +77,7 @@ typedef struct player_type
  int lives;
  base_type base;
  base_type old_base;
+ base_type previous_base;
  timer_type invincible_timer;
  timer_type skidding_timer;
  timer_type safe_timer;

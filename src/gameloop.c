@@ -710,7 +710,7 @@ int gameloop(char * subset, int levelnb, int mode)
         }
 
       if(debug_mode && debug_fps == YES)
-        SDL_Delay(160);
+        SDL_Delay(50);
 
       /*Draw the current scene to the screen */
       /*If the machine running the game is too slow

@@ -259,6 +259,8 @@ void collision_handler()
         }
     }
 
+
+    
   /* CO_BADGUY & CO_PLAYER check */
   for(i = 0; i < num_bad_guys; ++i)
     {
@@ -267,7 +269,9 @@ void collision_handler()
           if(bad_guys[i].dying == NO && rectcollision_offset(&bad_guys[i].base,&tux.base,0,0) == YES )
             {
               /* We have detected a collision and now call the collision functions of the collided objects. */
-              if (tux.base.y + tux.base.height < bad_guys[i].base.y + 8 > 0 && bad_guys[i].kind != BAD_MONEY && bad_guys[i].mode != HELD)
+              if (tux.previous_base.y < tux.base.y &&
+	      tux.previous_base.y + tux.previous_base.height < bad_guys[i].base.y + bad_guys[i].base.height/2 &&
+	      bad_guys[i].kind != BAD_MONEY && bad_guys[i].mode != HELD)
                 {
                   badguy_collision(&bad_guys[i], &tux, CO_PLAYER);
                 }

@@ -569,7 +569,9 @@ void badguy_collision(bad_guy_type* pbad, void *p_c_object, int c_object)
     case CO_BADGUY:
       pbad_c = (bad_guy_type*) p_c_object;
       if (pbad->mode == NORMAL)
-        pbad->dir = !pbad->dir;
+      {
+      /* do nothing */
+      }
       else
         {
           /* We're in kick mode, kill the other guy: */
@@ -592,6 +594,7 @@ void badguy_collision(bad_guy_type* pbad, void *p_c_object, int c_object)
               timer_start(&pbad->timer,4000);
               physic_set_state(&pplayer_c->vphysic,PH_VT);
               physic_set_start_vy(&pplayer_c->vphysic,2.);
+	      pplayer_c->base.y = pbad->base.y - pplayer_c->base.height;
 
               add_score(pbad->base.x - scroll_x, pbad->base.y,
                         50 * score_multiplier);
@@ -613,6 +616,7 @@ void badguy_collision(bad_guy_type* pbad, void *p_c_object, int c_object)
 
                   physic_set_state(&pplayer_c->vphysic,PH_VT);
                   physic_set_start_vy(&pplayer_c->vphysic,2.);
+		  pplayer_c->base.y = pbad->base.y - pplayer_c->base.height;
                 }
               else if (pbad->mode == FLAT)
                 {
@@ -632,7 +636,8 @@ void badguy_collision(bad_guy_type* pbad, void *p_c_object, int c_object)
 
               physic_set_state(&pplayer_c->vphysic,PH_VT);
               physic_set_start_vy(&pplayer_c->vphysic,2.);
-
+	      pplayer_c->base.y = pbad->base.y - pplayer_c->base.height;
+	      
               add_score(pbad->base.x - scroll_x,
                         pbad->base.y,
                         25 * score_multiplier);
