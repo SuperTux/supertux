@@ -3,7 +3,7 @@
   (version 1)
   (name (_ "Menu Level"))
   (author "SuperTux Team")
-  (music "theme.mod")
+  (music "theme.ogg")
   (background "arctis.jpg")
   (particle_system "")
   (bkgd_speed 50)

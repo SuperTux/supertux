@@ -1,7 +1,7 @@
 ; Ending text
 (supertux-text
   (background "extro.jpg")
-  (music "theme.mod")
+  (music "theme.ogg")
   (show-after "CREDITS")
 
   (text (_ "-Entering Nolok's Throne Room!
