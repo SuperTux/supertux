@@ -54,8 +54,8 @@ enum DyingType {
 /* Screen-related stuff */
 // +1 is needed because when tiles are wrapping around the screen there
 //  are two partial tiles on the screen
-#define VISIBLE_TILES_X 25 +1
-#define VISIBLE_TILES_Y 19 +1
+#define VISIBLE_TILES_X (25 +1)
+#define VISIBLE_TILES_Y (19 +1)
 
 /* Sizes: */
 
@@ -92,8 +92,8 @@ enum DyingType {
 
 /* Size constraints: */
 
-#define X_OFFSCREEN_DISTANCE screen->w/2
-#define Y_OFFSCREEN_DISTANCE screen->h/2
+#define X_OFFSCREEN_DISTANCE (screen->w/2)
+#define Y_OFFSCREEN_DISTANCE (screen->h/2)
 
 #define LEVEL_WIDTH 375
 
