@@ -51,13 +51,14 @@ public:
   int toggled;
   char *text;
   char *input;
+  int *int_p;   // used for setting keys (can be used for more stuff...)
   string_list_type* list;
   Menu* target_menu;
 
   void change_text (const char *text);
   void change_input(const char *text);
 
-  static MenuItem* create(MenuItemKind kind, const char *text, int init_toggle, Menu* target_menu);
+  static MenuItem* create(MenuItemKind kind, const char *text, int init_toggle, Menu* target_menu, int* int_p);
 };
 
 class Menu
@@ -115,7 +116,7 @@ public:
   ~Menu();
 
   void additem(MenuItem* pmenu_item);
-  void additem(MenuItemKind kind, const std::string& text, int init_toggle, Menu* target_menu);
+  void additem(MenuItemKind kind, const std::string& text, int init_toggle, Menu* target_menu, int *int_p = NULL);
   
   void  action ();
   

@@ -58,6 +58,8 @@ public:
   PlayerKeymap();
 };
 
+extern PlayerKeymap keymap;
+
 struct player_input_type
 {
   int right;

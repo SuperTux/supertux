@@ -50,6 +50,8 @@
 #include "scene.h"
 #include "worldmap.h"
 
+#include "player.h"
+
 #ifdef WIN32
 #define mkdir(dir, mode)    mkdir(dir)
 // on win32 we typically don't want LFS paths
@@ -405,7 +407,11 @@ void st_menu(void)
   
   options_controls_menu->additem(MN_LABEL,"Controls",0,0);
   options_controls_menu->additem(MN_HL,"",0,0);
-  //FIXME:options_controls_menu->additem(MN_CONTROLFIELD,"Move Right", tux.keymap.right,0);
+  options_controls_menu->additem(MN_CONTROLFIELD,"Right move", 0,0, &keymap.right);
+  options_controls_menu->additem(MN_CONTROLFIELD,"Left move", 0,0, &keymap.left);
+  options_controls_menu->additem(MN_CONTROLFIELD,"Jump", 0,0, &keymap.jump);
+  options_controls_menu->additem(MN_CONTROLFIELD,"Duck", 0,0, &keymap.duck);
+  options_controls_menu->additem(MN_CONTROLFIELD,"Power", 0,0, &keymap.fire);
   options_controls_menu->additem(MN_HL,"",0,0);
   options_controls_menu->additem(MN_BACK,"Back",0,0);
 

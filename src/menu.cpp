@@ -97,7 +97,7 @@ Menu::set_current(Menu* menu)
 
 /* Return a pointer to a new menu item */
 MenuItem*
-MenuItem::create(MenuItemKind kind_, const char *text_, int init_toggle_, Menu* target_menu_)
+MenuItem::create(MenuItemKind kind_, const char *text_, int init_toggle_, Menu* target_menu_, int* int_p_)
 {
   MenuItem *pnew_item = new MenuItem;
   
@@ -121,6 +121,9 @@ MenuItem::create(MenuItemKind kind_, const char *text_, int init_toggle_, Menu* 
     }
   else
     pnew_item->list = NULL;
+
+  pnew_item->int_p = int_p_;
+
   return pnew_item;
 }
 
@@ -183,12 +186,12 @@ void Menu::set_pos(int x, int y, float rw, float rh)
 }
 
 void
-Menu::additem(MenuItemKind kind_, const std::string& text_, int toggle_, Menu* menu_)
+Menu::additem(MenuItemKind kind_, const std::string& text_, int toggle_, Menu* menu_, int* int_p)
 {
   if(kind_ == MN_BACK)
     has_backitem = true;
 
-  additem(MenuItem::create(kind_, text_.c_str(), toggle_, menu_));
+  additem(MenuItem::create(kind_, text_.c_str(), toggle_, menu_, int_p));
 }
 
 /* Add an item to a menu */
@@ -272,9 +275,10 @@ Menu::action()
               case MN_ACTION:
               case MN_TEXTFIELD:
               case MN_NUMFIELD:
-              case MN_CONTROLFIELD:
                 Menu::set_current(0); 
                 item[active_item].toggled = true;
+                break;
+              case MN_CONTROLFIELD:
                 break;
 
               case MN_BACK:
@@ -321,7 +325,6 @@ Menu::action()
                   item[active_item].input[1] = '\0';
                 }
             }
-          break;
 
         case MENU_ACTION_NONE:
           break;
@@ -587,6 +590,14 @@ Menu::event(SDL_Event& event)
         {
           /* An International Character. */
         }
+
+      if(item[active_item].kind == MN_CONTROLFIELD)
+        {
+        *item[active_item].int_p = event.key.keysym.unicode;
+        menuaction = MENU_ACTION_DOWN;
+        return;
+        }
+
 
       switch(key)
         {
