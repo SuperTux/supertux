@@ -17,6 +17,8 @@
 #include "setup.h"
 #include "texture.h"
 
+#define NO_TEXTURE 0
+
 void (*texture_load)     (texture_type* ptexture, const std::string& file, int use_alpha);
 void (*texture_load_part)(texture_type* ptexture, const std::string& file, int x, int y, int w, int h, int use_alpha);
 void (*texture_free)     (texture_type* ptexture);  
@@ -137,6 +139,9 @@ void texture_free_gl(texture_type* ptexture)
 
 void texture_draw_gl(texture_type* ptexture, float x, float y, Uint8 alpha, bool update)
 {
+if(ptexture->gl_texture == NO_TEXTURE)
+  texture_create_gl(ptexture->sdl_surface,&ptexture->gl_texture);
+
 float pw = power_of_two(ptexture->w);
 float ph = power_of_two(ptexture->h);
 
@@ -168,6 +173,9 @@ if(update)
 
 void texture_draw_bg_gl(texture_type* ptexture, Uint8 alpha, bool update)
 {
+if(ptexture->gl_texture == NO_TEXTURE)
+  texture_create_gl(ptexture->sdl_surface,&ptexture->gl_texture);
+
 float pw = power_of_two(ptexture->w);
 float ph = power_of_two(ptexture->h);
 
@@ -196,6 +204,9 @@ if(update)
 
 void texture_draw_part_gl(texture_type* ptexture,float sx, float sy, float x, float y, float w, float h, Uint8 alpha, bool update)
 {
+if(ptexture->gl_texture == NO_TEXTURE)
+  texture_create_gl(ptexture->sdl_surface,&ptexture->gl_texture);
+
 float pw = power_of_two(ptexture->w);
 float ph = power_of_two(ptexture->h);
 
@@ -254,6 +265,7 @@ void texture_load_sdl(texture_type* ptexture, const std::string& file, int use_a
   ptexture->w = ptexture->sdl_surface->w;
   ptexture->h = ptexture->sdl_surface->h;
   
+  ptexture->gl_texture = NO_TEXTURE;
 }
 
 void texture_load_part_sdl(texture_type* ptexture, const std::string& file, int x, int y, int w, int h,  int use_alpha)
@@ -416,5 +428,9 @@ void texture_draw_part_sdl(texture_type* ptexture, float sx, float sy, float x, 
 void texture_free_sdl(texture_type* ptexture)
 {
   SDL_FreeSurface(ptexture->sdl_surface);
+#ifndef NOOPENGL
+  if(ptexture->gl_texture != NO_TEXTURE)
+    glDeleteTextures(1, &ptexture->gl_texture);
+#endif
 }
 

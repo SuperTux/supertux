@@ -373,6 +373,7 @@ void st_menu(void)
 
   options_menu->additem(MN_LABEL,"Options",0,0);
   options_menu->additem(MN_HL,"",0,0);
+  options_menu->additem(MN_TOGGLE,"OpenGL",use_gl,0);
   options_menu->additem(MN_TOGGLE,"Fullscreen",use_fullscreen,0);
   if(audio_device)
     {
@@ -509,18 +510,27 @@ void process_options_menu(void)
   switch (options_menu->check())
     {
     case 2:
-      if(use_fullscreen != options_menu->item[2].toggled)
+      if(use_gl != options_menu->item[2].toggled)
+        {
+#ifndef NOOPENGL
+          use_gl = !use_gl;
+          st_video_setup();
+#endif
+        }
+      break;
+    case 3:
+      if(use_fullscreen != options_menu->item[3].toggled)
         {
           use_fullscreen = !use_fullscreen;
           st_video_setup();
         }
       break;
-    case 3:
-      if(use_sound != options_menu->item[3].toggled)
+    case 4:
+      if(use_sound != options_menu->item[4].toggled)
         use_sound = !use_sound;
       break;
-    case 4:
-      if(use_music != options_menu->item[4].toggled)
+    case 5:
+      if(use_music != options_menu->item[5].toggled)
         {
           if(use_music)
             {
@@ -540,8 +550,8 @@ void process_options_menu(void)
             }
         }
       break;
-    case 5:
-      if(show_fps != options_menu->item[5].toggled)
+    case 6:
+      if(show_fps != options_menu->item[6].toggled)
         show_fps = !show_fps;
       break;
     }
