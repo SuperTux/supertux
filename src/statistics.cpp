@@ -19,11 +19,11 @@
 
 #include "utils/lispreader.h"
 #include "utils/lispwriter.h"
-#include "statistics.h"
 #include "video/drawing_context.h"
 #include "app/gettext.h"
 #include "app/globals.h"
 #include "resources.h"
+#include "statistics.h"
 
 Statistics global_stats;
 
@@ -91,8 +91,8 @@ Statistics::write(LispWriter& writer)
 #define TOTAL_DISPLAY_TIME 3400
 #define FADING_TIME         600
 
-#define WMAP_INFO_LEFT_X  540
-#define WMAP_INFO_RIGHT_X 720
+#define WMAP_INFO_LEFT_X  520
+#define WMAP_INFO_RIGHT_X 740
 
 void
 Statistics::draw_worldmap_info(DrawingContext& context)
@@ -118,15 +118,15 @@ Statistics::draw_worldmap_info(DrawingContext& context)
 
   char str[128];
 
-  context.draw_text(white_small_text, _("Best Level Statistics"),
-                    Vector((WMAP_INFO_LEFT_X + WMAP_INFO_RIGHT_X) / 2, 490),
+  context.draw_text(white_small_text, _("- Best Level Statistics -"),
+                    Vector((WMAP_INFO_LEFT_X + WMAP_INFO_RIGHT_X) / 2, 470),
                     CENTER_ALLIGN, LAYER_GUI);
 
   sprintf(str, _("Max score:"));
-  context.draw_text(white_small_text, str, Vector(WMAP_INFO_LEFT_X, 506), LEFT_ALLIGN, LAYER_GUI);
+  context.draw_text(white_small_text, str, Vector(WMAP_INFO_LEFT_X, 490), LEFT_ALLIGN, LAYER_GUI);
 
   sprintf(str, "%d", stats[SCORE_STAT][SPLAYER]);
-  context.draw_text(white_small_text, str, Vector(WMAP_INFO_RIGHT_X, 506), RIGHT_ALLIGN, LAYER_GUI);
+  context.draw_text(white_small_text, str, Vector(WMAP_INFO_RIGHT_X, 490), RIGHT_ALLIGN, LAYER_GUI);
 
   // draw other small info
 
@@ -137,7 +137,7 @@ Statistics::draw_worldmap_info(DrawingContext& context)
   else// if(display_stat == TIME_NEEDED_STAT)
     sprintf(str, _("Min time needed:"));
 
-  context.draw_text(white_small_text, str, Vector(WMAP_INFO_LEFT_X, 522), LEFT_ALLIGN, LAYER_GUI, NONE_EFFECT, alpha);
+  context.draw_text(white_small_text, str, Vector(WMAP_INFO_LEFT_X, 508), LEFT_ALLIGN, LAYER_GUI, NONE_EFFECT, alpha);
 
   if(display_stat == COINS_COLLECTED_STAT)
     sprintf(str, "%d/%d", stats[COINS_COLLECTED_STAT][SPLAYER],
@@ -149,7 +149,7 @@ Statistics::draw_worldmap_info(DrawingContext& context)
     sprintf(str, "%d/%d", stats[TIME_NEEDED_STAT][SPLAYER],
                           stats[TIME_NEEDED_STAT][STOTAL]);
 
-  context.draw_text(white_small_text, str, Vector(WMAP_INFO_RIGHT_X, 522), RIGHT_ALLIGN, LAYER_GUI, NONE_EFFECT, alpha);
+  context.draw_text(white_small_text, str, Vector(WMAP_INFO_RIGHT_X, 508), RIGHT_ALLIGN, LAYER_GUI, NONE_EFFECT, alpha);
 }
 
 void
@@ -162,20 +162,24 @@ Statistics::draw_message_info(DrawingContext& context, std::string title)
 
   char str[128];
 
-  sprintf(str, _(    "Max score:           %d"), stats[SCORE_STAT][SPLAYER]);
+  sprintf(str, _(    "Max score:             %d"), stats[SCORE_STAT][SPLAYER]);
   context.draw_text(white_text, str, Vector(screen->w/2, 450), CENTER_ALLIGN, LAYER_GUI);
 
   for(int i = 1; i < NUM_STATS; i++)
     {
     if(i == COINS_COLLECTED_STAT)
-      sprintf(str, _("Max coins collected: %d"), ((float)stats[COINS_COLLECTED_STAT][SPLAYER] /
-                                                 (float)stats[COINS_COLLECTED_STAT][STOTAL]) * 100);
+      sprintf(str, _("Max coins collected:   %d / %d"),
+              stats[COINS_COLLECTED_STAT][SPLAYER],
+              stats[COINS_COLLECTED_STAT][STOTAL]);
     else if(i == BADGUYS_KILLED_STAT)
-      sprintf(str, _("Max fragging:        %d"), ((float)stats[BADGUYS_KILLED_STAT][SPLAYER] /
-                                                 (float)stats[BADGUYS_KILLED_STAT][STOTAL]) * 100);
+      sprintf(str, _("Max fragging:          %d / %d"),
+              stats[BADGUYS_KILLED_STAT][SPLAYER],
+              stats[BADGUYS_KILLED_STAT][STOTAL]);
     else// if(i == TIME_NEEDED_STAT)
-      sprintf(str, _("Min time needed:     %d"), ((float)stats[TIME_NEEDED_STAT][SPLAYER] /
-                                                 (float)stats[TIME_NEEDED_STAT][STOTAL]) * 100);
+      sprintf(str, _("Min time needed:       %d / %d"),
+              stats[TIME_NEEDED_STAT][SPLAYER],
+              stats[TIME_NEEDED_STAT][STOTAL]);
+
 
     context.draw_text(white_small_text, str, Vector(screen->w/2, 462 + i*18), CENTER_ALLIGN, LAYER_GUI);
     }
