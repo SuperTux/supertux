@@ -161,6 +161,13 @@ void check_levels_contrib_menu()
 
     std::string map_filename = *it;
 
+    // some fading
+    fadeout(256);
+    DrawingContext context;
+      context.draw_text(white_text, "Loading...",
+                        Vector(screen->w/2, screen->h/2), CENTER_ALLIGN, LAYER_FOREGROUND1);
+      context.do_drawing();
+
     worldmap.set_map_filename(map_filename);
 
     // hack to erase the extension

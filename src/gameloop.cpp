@@ -970,12 +970,11 @@ bool process_load_game_menu()
 
       if (access(slotfile.c_str(), F_OK) != 0)
         {
+          shrink_fade(Vector(screen->w/2,screen->h/2), 600);
           draw_intro();
         }
 
-      // shrink_fade(Point((screen->w/2),(screen->h/2)), 1000);
       fadeout(256);
-
       DrawingContext context;
       context.draw_text(white_text, "Loading...",
                         Vector(screen->w/2, screen->h/2), CENTER_ALLIGN, LAYER_FOREGROUND1);
