@@ -38,8 +38,9 @@ dnl Give advanced users some options to play with
 
 AC_MSG_CHECKING(for gprof mode)
 AC_ARG_ENABLE(gprof,
-              AC_HELP_STRING([--enable-gprof], [enable GNU profiling support]),, enable_gprof="no")
-if test "x${enable_gprof}" != "xno"; then
+              AC_HELP_STRING([--enable-gprof], [enable GNU profiling support]),
+              [enable_gprof=$enableval], [enable_gprof=no])
+if test "$enable_gprof" = "no"; then
     CXXFLAGS="$CXXFLAGS -pg"
     AC_MSG_RESULT([enabled])
 else
@@ -59,8 +60,9 @@ fi
 
 AC_MSG_CHECKING(wether OpenGL should be used)
 AC_ARG_ENABLE(opengl,
-              AC_HELP_STRING([--disable-opengl], [disable OpenGL support]),, enable_opengl="yes")
-if test "x${enable_opengl}" != "xno"; then
+              AC_HELP_STRING([--disable-opengl], [disable OpenGL support]),
+              [enable_opengl=$enableval], enable_opengl=yes)
+if test "$enable_opengl" = "yes"; then
     AC_MSG_RESULT([yes])
 else
     AC_MSG_RESULT([no])
@@ -85,12 +87,12 @@ AC_CHECK_LIB(SDL_mixer, Mix_OpenAudio,,
 AC_CHECK_LIB(SDL_image, IMG_Load,,
 	AC_MSG_ERROR([SDL_image library required]))
 
-if test "x${enable_opengl}" != "xno"; then
+if test "$enable_opengl" = "yes"; then
   AX_CHECK_GL
 fi
-if test "x$no_gl" = "xyes" -o "x$enable_opengl" = "xno"; then
+if test "$no_gl" = "yes" -o "$enable_opengl" = "no"; then
   CXXFLAGS="$CXXFLAGS -DNOOPENGL"
-  enable_opengl="no"
+  enable_opengl=no
 else
   CFLAGS="$CFLAGS $GL_CFLAGS"
   CXXFLAGS="$CXXFLAGS $GL_CFLAGS"
