@@ -1086,28 +1086,7 @@
          (x-offset 6)
          (y-offset 10)
          (mirror-action "iced-left")))
-
-  ; Wingling
-  (sprite (name "wingling")
-       (action
-         (name "left")
-          (x-offset 0)
-          (y-offset 0)
-          (images "shared/wingling-1.png")))
-
-  ; Walkingtree
-  (sprite (name "walkingtree")
-       (action
-         (name "left")
-          (x-offset 0)
-          (y-offset 0)
-          (images "shared/walkingtree-left-1.png"))
-       (action
-          (name "left-small")
-          (x-offset 0)
-          (y-offset 0)
-          (images "shared/walkingtree-left-small-1.png")))
-         
+        
   ; Dispenser
   (sprite (name "dispenser")
        (action
