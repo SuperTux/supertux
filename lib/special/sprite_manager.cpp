@@ -88,15 +88,12 @@ Sprite*
 SpriteManager::load(const std::string& name)
 {
   Sprites::iterator i = sprites.find(name);
-  if (i != sprites.end())
+  if (i == sprites.end())
     {
-      return i->second;
-    }
-  else
-    {
-      std::cout << "SpriteManager: Sprite '" << name << "' not found" << std::endl;
+      std::cerr << "Warning: Sprite '" << name << "' not found" << std::endl;
       return 0;
     }
+  return i->second;
 }
 
 /* EOF */
