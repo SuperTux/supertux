@@ -90,14 +90,19 @@ void badguy_action(bad_guy_type* pbad)
                     }
                 }
 
-              /* Fall if we get off the ground: */
+ /* Fall if we get off the ground: */
 
               if (pbad->dying != FALLING)
                 {
-                  if (!issolid(pbad->base.x, pbad->base.y + 32) &&
-                      pbad->base.ym < MAX_YM)
+                  if (!issolid(pbad->base.x+16, pbad->base.y + 32))
                     {
-                      pbad->base.ym = pbad->base.ym + GRAVITY;
+                      if(!physic_is_set(&pbad->physic))
+                        {
+                          physic_set_state(&pbad->physic,PH_VT);
+                          physic_set_start_vy(&pbad->physic,2.);
+                        }
+
+                          pbad->base.ym = physic_get_velocity(&pbad->physic);
                     }
                   else
                     {
@@ -108,10 +113,18 @@ void badguy_action(bad_guy_type* pbad)
                           pbad->base.y = (int)(pbad->base.y / 32) * 32;
                           pbad->base.ym = 0;
                         }
+                      physic_init(&pbad->physic);
                     }
                 }
               else
-                pbad->base.ym = pbad->base.ym + GRAVITY;
+                {
+                  if(!physic_is_set(&pbad->physic))
+                    {
+                      physic_set_state(&pbad->physic,PH_VT);
+                      physic_set_start_vy(&pbad->physic,2.);
+                    }
+                  pbad->base.ym = physic_get_velocity(&pbad->physic);
+                }
 
               if (pbad->base.y > screen->h)
                 pbad->base.alive = NO;
@@ -177,11 +190,11 @@ void badguy_action(bad_guy_type* pbad)
               if (!pbad->dying)
                 {
                   int changed = pbad->dir;
-                  if (issolid( pbad->base.x - 1, (int) pbad->base.y))
+                  if (issolid( pbad->base.x - 1, (int) pbad->base.y + 16))
                     {
                       pbad->dir = RIGHT;
                     }
-                  else if (issolid( pbad->base.x + pbad->base.width-1, (int) pbad->base.y))
+                  else if (issolid( pbad->base.x + pbad->base.width-1, (int) pbad->base.y + 16))
                     {
                       pbad->dir = LEFT;
                     }
@@ -199,15 +212,23 @@ void badguy_action(bad_guy_type* pbad)
 
                 }
 
+
               /* Fall if we get off the ground: */
 
               if (pbad->dying != FALLING)
                 {
-                  if (!issolid(pbad->base.x, pbad->base.y + 32) &&
-                      pbad->base.ym < MAX_YM)
+                  if (!issolid(pbad->base.x+16, pbad->base.y + 32))
                     {
+                      if(!physic_is_set(&pbad->physic))
+                        {
+                          physic_set_state(&pbad->physic,PH_VT);
+                          physic_set_start_vy(&pbad->physic,0.);
+                        }
+
                       if(pbad->mode != HELD)
-                        pbad->base.ym = pbad->base.ym + GRAVITY;
+                        {
+                          pbad->base.ym = physic_get_velocity(&pbad->physic);
+                        }
                     }
                   else
                     {
@@ -218,10 +239,18 @@ void badguy_action(bad_guy_type* pbad)
                           pbad->base.y = (int)(pbad->base.y / 32) * 32;
                           pbad->base.ym = 0;
                         }
+                      physic_init(&pbad->physic);
                     }
                 }
               else
-                pbad->base.ym = pbad->base.ym + GRAVITY;
+                {
+                  if(!physic_is_set(&pbad->physic))
+                    {
+                      physic_set_state(&pbad->physic,PH_VT);
+                      physic_set_start_vy(&pbad->physic,0.);
+                    }
+                  pbad->base.ym = physic_get_velocity(&pbad->physic);
+                }
 
               if (pbad->base.y > screen->h)
                 pbad->base.alive = NO;
@@ -249,7 +278,7 @@ void badguy_action(bad_guy_type* pbad)
                 }
               else if(issolid(pbad->base.x, pbad->base.y - 1))
                 { /* This works, but isn't the best solution imagineable */
-		  physic_set_state(&pbad->physic,PH_VT);
+                  physic_set_state(&pbad->physic,PH_VT);
                   physic_set_start_vy(&pbad->physic,0.);
                   pbad->base.ym = physic_get_velocity(&pbad->physic);
                 }

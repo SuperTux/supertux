@@ -33,6 +33,7 @@ void physic_init(physic_type* pphysic);
 int physic_get_state(physic_type* pphysic);
 void physic_set_state(physic_type* pphysic, int nstate);
 void physic_set_start_vy(physic_type* pphysic, float start_vy);
+int physic_is_set(physic_type* pphysic);
 float physic_get_velocity(physic_type* pphysic);
 float physic_get_max_distance(physic_type* pphysic);
 unsigned int physic_get_max_time(physic_type* pphysic);
