@@ -343,7 +343,6 @@ void title(void)
                 char str[1024];
                 sprintf(str,"Are you sure you want to delete slot %d?", slot);
                 
-                Menu::set_current(0);
                 draw_background();
 
                 if(confirm_dialog(str))
@@ -353,8 +352,8 @@ void title(void)
                   remove(str);
                   }
 
+                update_load_save_game_menu(load_game_menu);
                 update_time = st_get_ticks();
-                Menu::set_current(load_game_menu);
                 }
               else if (process_load_game_menu())
                 {
