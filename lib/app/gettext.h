@@ -21,7 +21,7 @@
 
 #define _(String) \
   SuperTux::dictionary_manager.get_dictionary().translate(String).c_str()
-#define ngettext(id, id2, num) \
+#define N_(id, id2, num) \
   SuperTux::dictionary_manager.get_dictionary().translate(id, di2, num).c_str()
 
 #endif /* _LIBGETTEXT_H */
