@@ -322,7 +322,8 @@
   (south #t)
   (west  #f)
   (east  #f)
-  (stop #f))
+  (stop #f)
+  (one-way "north-south"))
 					    
 
 )
