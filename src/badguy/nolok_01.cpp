@@ -6,7 +6,7 @@
 
 #define WALK_TIME 2.5
 #define SHOOT_TIME 0.4
-#define JUMP_TIME 0.3
+#define JUMP_TIME 0.5
 
 static const float WALKSPEED = 90;
 
@@ -55,6 +55,7 @@ Nolok_01::active_action(float elapsed_time)
      switch (action) {       
        case WALKING:
         {
+         sprite->set_action("jump");
          physic.set_velocity_y(700);
          action = JUMPING;
          action_timer.start(JUMP_TIME);
