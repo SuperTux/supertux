@@ -199,7 +199,7 @@ Player::action(float elapsed_time)
 
       collision_swept_object_map(&old_base, &base);
 
-      if (!invincible_timer.started()
+      if ((!invincible_timer.started() && !safe_timer.started())
           && (isspike(base.x, base.y) || isspike(base.x + base.width, base.y)
           ||  isspike(base.x, base.y + base.height)
           ||  isspike(base.x + base.width, base.y + base.height)))
