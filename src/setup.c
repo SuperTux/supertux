@@ -554,7 +554,7 @@ void st_video_setup_sdl(void)
 
   if (use_fullscreen == YES)
     {
-      screen = SDL_SetVideoMode(640, 480, 16, SDL_FULLSCREEN ) ; /* | SDL_HWSURFACE); */
+      screen = SDL_SetVideoMode(640, 480, 0, SDL_FULLSCREEN ) ; /* | SDL_HWSURFACE); */
       if (screen == NULL)
         {
           fprintf(stderr,
@@ -567,7 +567,7 @@ void st_video_setup_sdl(void)
     }
   else
     {
-      screen = SDL_SetVideoMode(640, 480, 16, SDL_HWSURFACE | SDL_DOUBLEBUF );
+      screen = SDL_SetVideoMode(640, 480, 0, SDL_HWSURFACE | SDL_DOUBLEBUF );
 
       if (screen == NULL)
         {
@@ -592,7 +592,7 @@ void st_video_setup_gl(void)
 
   if (use_fullscreen == YES)
     {
-      screen = SDL_SetVideoMode(640, 480, 32, SDL_FULLSCREEN | SDL_OPENGL) ; /* | SDL_HWSURFACE); */
+      screen = SDL_SetVideoMode(640, 480, 0, SDL_FULLSCREEN | SDL_OPENGL) ; /* | SDL_HWSURFACE); */
       if (screen == NULL)
         {
           fprintf(stderr,
@@ -605,7 +605,7 @@ void st_video_setup_gl(void)
     }
   else
     {
-      screen = SDL_SetVideoMode(640, 480, 32, SDL_OPENGL);
+      screen = SDL_SetVideoMode(640, 480, 0, SDL_OPENGL);
 
       if (screen == NULL)
         {
