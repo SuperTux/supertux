@@ -1,5 +1,9 @@
 ;; Generated with Flexlay Editor
 (supertux-worldmap
+  (name "Icyisland")
+  (properties 
+    (name  "Icyisland")
+    (music "SALCON.MOD"))
   (tilemap 
     (width  40)
     (height 30)
