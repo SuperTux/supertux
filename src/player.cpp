@@ -694,7 +694,7 @@ Player::draw(DrawingContext& context)
     {
       if (dying == DYING_SQUISHED)
         {
-          smalltux_gameover->draw(context, pos, LAYER_OBJECTS);
+          smalltux_gameover->draw(context, pos, LAYER_OBJECTS+1);
         }
       else
         {
