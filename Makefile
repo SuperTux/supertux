@@ -51,7 +51,7 @@ installdat = install -g $(USERNAME) -o $(USERNAME) -m 644
 
 
 OBJECTS=obj/supertux.o obj/setup.o obj/intro.o obj/title.o obj/gameloop.o \
-	obj/screen.o obj/sound.o obj/high_scores.o
+	obj/screen.o obj/sound.o obj/high_scores.o obj/menu.o
 
 # Make commands:
 
@@ -125,3 +125,6 @@ obj/high_scores.o:	src/high_scores.c src/defines.h src/globals.h \
 			src/sound.h
 	$(CC) $(CFLAGS) src/high_scores.c -c -o obj/high_scores.o
 
+obj/menu.o:	src/menu.c src/defines.h src/globals.h \
+			src/sound.h
+	$(CC) $(CFLAGS) src/menu.c -c -o obj/menu.o
