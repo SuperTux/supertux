@@ -122,10 +122,11 @@ else
 
   while(alpha >= 0 && alpha < 256)
     {
+    surface->draw(0,0,(int)alpha);
+    flipscreen();
+
     old_time = cur_time;
     cur_time = SDL_GetTicks();
-
-    surface->draw(0,0,(int)alpha, true);
 
     /* Calculate the next alpha value */
     float calc = (float) ((cur_time - old_time) / seconds);
