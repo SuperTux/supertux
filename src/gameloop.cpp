@@ -231,7 +231,6 @@ void game_event(void)
               break;
             }
           break;
-#ifdef JOY_YES
 
         case SDL_JOYAXISMOTION:
           switch(event.jaxis.axis)
@@ -282,7 +281,6 @@ void game_event(void)
             menuaction = MN_HIT;
           break;
 
-#endif
         default:
           break;
 

@@ -661,7 +661,6 @@ void st_joystick_setup(void)
 
   /* Init Joystick: */
 
-#ifdef JOY_YES
   use_joystick = YES;
 
   if (SDL_Init(SDL_INIT_JOYSTICK) < 0)
@@ -675,7 +674,6 @@ void st_joystick_setup(void)
   else
     {
       /* Open joystick: */
-
       if (SDL_NumJoysticks() <= 0)
         {
           fprintf(stderr, "Warning: No joysticks are available.\n");
@@ -719,8 +717,6 @@ void st_joystick_setup(void)
             }
         }
     }
-#endif
-
 }
 
 void st_audio_setup(void)

@@ -26,8 +26,6 @@ bool launch_worldmap_mode = false;
 /* SuperTux directory ($HOME/.supertux) and save directory($HOME/.supertux/save) */
 char *st_dir, *st_save_dir;
 
-#ifdef JOY_YES
 SDL_Joystick * js;
-#endif
 
 

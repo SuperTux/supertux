@@ -124,7 +124,6 @@ int title(void)
                   quit = 1;
                 }
             }
-#ifdef JOY_YES
           else if (event.type == SDL_JOYAXISMOTION && event.jaxis.axis == JOY_Y)
             {
               if (event.jaxis.value > 1024)
@@ -138,8 +137,6 @@ int title(void)
 
               menuaction = MN_HIT;
             }
-#endif
-
         }
 
       /* Draw the background: */

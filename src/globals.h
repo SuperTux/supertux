@@ -32,8 +32,6 @@ extern bool launch_worldmap_mode;
 /* SuperTux directory ($HOME/.supertux) and save directory($HOME/.supertux/save) */
 extern char *st_dir, *st_save_dir;
 
-#ifdef JOY_YES
 extern SDL_Joystick * js;
-#endif
 
 #endif /* SUPERTUX_GLOBALS_H */

@@ -113,14 +113,12 @@ int intro(void)
 	      
 	      done = 1;
 	    }
-#ifdef JOY_YES
 	  else if (event.type == SDL_JOYBUTTONDOWN)
 	    {
 	      /* Fire button - skip intro: */
 	      
 	      done = 1;
 	    }
-#endif
 	}
       
       
