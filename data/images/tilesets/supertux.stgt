@@ -533,15 +533,31 @@
 
  (tile (id 149)
        (images (region "snow-para-1.png" 0 0 32 32)))
-
  (tile (id 150)
        (images (region "snow-para-1.png" 32 0 32 32)))
-
  (tile (id 151)
-       (images (region "snow-para-1.png" 0 32 32 32)))
+       (images (region "snow-para-1.png" 64 0 32 32)))
 
  (tile (id 152)
+       (images (region "snow-para-1.png" 0 32 32 32)))
+ (tile (id 153)
        (images (region "snow-para-1.png" 32 32 32 32)))
+ (tile (id 154)
+       (images (region "snow-para-1.png" 64 32 32 32)))
+
+ (tile (id 155)
+       (images (region "snow-para-1.png" 0 64 32 32)))
+ (tile (id 156)
+       (images (region "snow-para-1.png" 32 64 32 32)))
+ (tile (id 157)
+       (images (region "snow-para-1.png" 64 64 32 32)))
+
+ (tile (id 158)
+       (images (region "snow-para-1.png" 96 0 32 32)))
+ (tile (id 159)
+       (images (region "snow-para-1.png" 96 32 32 32)))
+ (tile (id 160)
+       (images (region "snow-para-1.png" 96 64 32 32)))
 
  ;; Jungle
 
