@@ -94,7 +94,7 @@ int playing_music(void)
     return Mix_PlayingMusic();
   }
   else {
-    // we are in --disable-sound or NOSOUND, we can't be playing music !
+    /* we are in --disable-sound we can't be playing music */
     return 0;
   }
 }
@@ -117,7 +117,7 @@ int play_music(Mix_Music *music, int loops)
     return Mix_PlayMusic(music, loops);
   }
   else {
-    // return error since you're trying to play music in --disable-sound mode
+    /* return error since you're trying to play music in --disable-sound mode */
     return -1;
   }
 }

@@ -149,6 +149,7 @@ void add_upgrade(int x, int y, int kind);
 void killtux(int mode);
 void add_bullet(int x, int y, int dir, int xm);
 void drawendscreen(void);
+void drawresultscreen(void);
 
 
 /* --- GAME LOOP! --- */
@@ -272,6 +273,10 @@ int gameloop(void)
 		{
 		  distros += 50;
 		}
+	      else if (key == SDLK_SPACE)
+		{
+		  next_level = 1;
+		}
 	    }
 #ifdef JOY_YES
 	  else if (event.type == SDL_JOYAXISMOTION)
@@ -318,7 +323,7 @@ int gameloop(void)
       
       /* Handle key and joystick state: */
       
-      if (!tux_dying && !next_level)
+      if (!(tux_dying || next_level))
 	{
 	  if (right == DOWN && left == UP)
 	    {
@@ -432,9 +437,7 @@ int gameloop(void)
 
 	  if (tux_x >= endpos && endpos != 0)
 	  {
-            /* FIXME: No need to kill Tux to end the level! ;^) */
 	    next_level = 1;
-	    tux_dying = 1;
 	  }
 	  
 	  
@@ -511,48 +514,49 @@ int gameloop(void)
 	      else
 		tux_duck = NO;
 	    }
-	} /* !tux_dying && !next_level */
+	} /* (tux_dying || next_level) */
       else
 	{
           /* Tux either died, or reached the end of a level! */
 		
+			
+	  if (use_sound)
+	  {
+	    if (Mix_PlayingMusic())
+	     Mix_HaltMusic();
+	  }
+    
+		
+	  if (next_level)
+	  {
+	  /* End of a level! */
+         level++;
+	 next_level = 0;
+	 drawresultscreen();
+	  }
+	  else
+	  {
+	      
 	  tux_ym = tux_ym + GRAVITY;
 	  
-	  if (tux_y >= 480)
-	    {
-	      if (use_sound)
-	        {
-	          if (Mix_PlayingMusic())
-		    Mix_HaltMusic();
-		}
-	     
-	      if (next_level)
-	      {
-		/* End of a level! */
-
-		level++;
-		next_level = 0;
-	      }
-	      else
-	      {
-		/* He died :^( */
-		      
-	        lives--;
-	      }
 
 	      
-	      /* No more lives!? */
+	/* He died :^( */
+		      
+	  lives--;
+		
+	/* No more lives!? */
 
-	      if (lives < 0)
-	      {
-                drawendscreen();
+	 if (lives < 0)
+	 {
+                 drawendscreen();
 
 		if (score > highscore)
 		  save_hs(score);
 
 		return(0);
 	      }
-	      
+	      }	      
 	      
 	      /* Either way, (re-)load the (next) level... */
 	      
@@ -560,7 +564,6 @@ int gameloop(void)
 
 	      unloadlevelgfx();
 	      loadlevelgfx();
-	    }
 	}
 
       /* Move tux: */
@@ -860,11 +863,10 @@ int gameloop(void)
 
       if (distros >= DISTROS_LIFEUP)
       {
-	/* FIXME: Play a special sound or flash or both! */
-
 	distros = distros - DISTROS_LIFEUP;
-	lives++;
-        playsound(sounds[SND_LIFEUP]);
+	if(lives < MAX_LIVES)
+	 lives++;
+        playsound(sounds[SND_LIFEUP]); /*We want to hear the sound even, if MAX_LIVES is reached*/
       }
      
 
@@ -2383,6 +2385,7 @@ void loadlevelgfx(void)
 
 void loadlevelsong(void)
 {
+
   char * song_path;
 
   song_path = (char *) malloc(sizeof(char) * (strlen(DATA_PREFIX) +
@@ -3474,6 +3477,24 @@ void drawendscreen(void)
   clearscreen(0, 0, 0);
 
   drawcenteredtext("GAMEOVER", 200, letters_red, NO_UPDATE);
+
+  sprintf(str, "SCORE: %d", score);
+  drawcenteredtext(str, 224, letters_gold, NO_UPDATE);
+
+  sprintf(str, "DISTROS: %d", distros);
+  drawcenteredtext(str, 256, letters_blue, NO_UPDATE);
+
+  SDL_Flip(screen);
+  SDL_Delay(2000);
+}
+
+void drawresultscreen(void)
+{
+  char str[80];
+  
+  clearscreen(0, 0, 0);
+
+  drawcenteredtext("Result:", 200, letters_red, NO_UPDATE);
 
   sprintf(str, "SCORE: %d", score);
   drawcenteredtext(str, 224, letters_gold, NO_UPDATE);

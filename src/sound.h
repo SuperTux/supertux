@@ -13,7 +13,8 @@
 #ifndef SUPERTUX_SOUND_H
 #define SUPERTUX_SOUND_H
 
-#define NUM_SOUNDS 16  // all the sounds we have
+ /*all the sounds we have*/
+#define NUM_SOUNDS 16
 
 #ifndef NOSOUND
 

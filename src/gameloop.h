@@ -84,6 +84,7 @@ enum {
 #define MAX_RUN_XM 24
 #define MAX_YM 24
 #define MAX_JUMP_COUNT 3
+#define MAX_LIVES 4
 
 #define WALK_SPEED 2
 #define RUN_SPEED 4
