@@ -10,7 +10,7 @@
  (tilegroup (name "Background") (tiles 24 25 63 70 71 72 73 74 106 107 108 109 110 111))
  (tilegroup (name "Classic-Bg") (tiles 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101))
  (tilegroup (name "Points") (tiles 132 133))
- (tilegroup (name "Bonus") (tiles 26 44 45 46 82 83 84 102 103 104 105 112 128))
+ (tilegroup (name "Bonus") (tiles 44 83 84 102 103 104 105 112 128))
  (tilegroup (name "Goodies") (tiles 126 127 136 137 138 139))
  (tilegroup (name "Pipe") (tiles 53 54 55 56 57 58 59 60))
  (tile (id 0)
