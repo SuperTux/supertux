@@ -297,16 +297,21 @@ void Setup::directories(void)
         }
       else
         {
-          std::string exedir = std::string(dirname(exe_file)) + "/";
-          
-          datadir = exedir + "../../data"; // SuperTux run from source dir
+	  std::string exedir = std::string(dirname(exe_file)) + "/";
+	  
+          datadir = exedir + "../data"; // SuperTux run from source dir
           if (access(datadir.c_str(), F_OK) != 0)
             {
+	      datadir = exedir + "../../data";  //SuperTux run from source dir (with libtool script)
+	      
+	      if (access(datadir.c_str(), F_OK) != 0)
+	      {
               datadir = exedir + "../share/" + package_symbol_name; // SuperTux run from PATH
               if (access(datadir.c_str(), F_OK) != 0) 
                 { // If all fails, fall back to compiled path
                   datadir = DATA_PREFIX; 
                 }
+	      }
             }
         }
 #else
