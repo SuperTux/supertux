@@ -519,10 +519,11 @@ GameSession::run()
                   st_pause_ticks_stop();
                   break;
                 case 3:
-                  update_load_save_game_menu(save_game_menu, false);
+                  // FIXME:
+                  //update_load_save_game_menu(save_game_menu);
                   break;
                 case 4:
-                  update_load_save_game_menu(load_game_menu, true);
+                  update_load_save_game_menu(load_game_menu);
                   break;
                 case 7:
                   st_pause_ticks_stop();
@@ -737,33 +738,16 @@ GameSession::drawresultscreen(void)
 
 std::string slotinfo(int slot)
 {
-  FILE* fi;
+  char tmp[1024];
   char slotfile[1024];
-  char tmp[200];
-  char str[5];
-  int slot_level;
-  sprintf(slotfile,"%s/slot%d.save",st_save_dir,slot);
+  sprintf(slotfile,"%s/slot%d.stsg",st_save_dir,slot);
 
-  fi = fopen(slotfile, "rb");
-
-  sprintf(tmp,"Slot %d - ",slot);
-
-  if (fi == NULL)
-    {
-      strcat(tmp,"Free");
-    }
+  if (access(slotfile, F_OK) == 0)
+    sprintf(tmp,"Slot %d - Savegame",slot);
   else
-    {
-      fgets(str, 100, fi);
-      str[strlen(str)-1] = '\0';
-      strcat(tmp, str);
-      strcat(tmp, " / Level:");
-      fread(&slot_level,sizeof(int),1,fi);
-      sprintf(str,"%d",slot_level);
-      strcat(tmp,str);
-      fclose(fi);
-    }
+    sprintf(tmp,"Slot %d - Free",slot);
 
   return tmp;
 }
+
 

@@ -39,7 +39,7 @@ void process_options_menu(void);
 /** Return true if the gameloop() was entered, false otherwise */
 bool process_load_game_menu();
 
-void update_load_save_game_menu(Menu* pmenu, int load);
+void update_load_save_game_menu(Menu* pmenu);
 void parseargs(int argc, char * argv[]);
 
 #endif /*SUPERTUX_SETUP_H*/

@@ -41,7 +41,8 @@ int main(int argc, char * argv[])
 
   if (launch_worldmap_mode)
     {
-      worldmap_run();
+      WorldMapNS::WorldMap worldmap;
+      worldmap.display();
     }
   else if (level_startup_file)
     {

@@ -408,7 +408,7 @@ bool title(void)
 #endif
             case 0:
               // Start Game, ie. goto the slots menu
-              update_load_save_game_menu(load_game_menu, true);
+              update_load_save_game_menu(load_game_menu);
               break;
             case 1:
               // Contrib Menu

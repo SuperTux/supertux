@@ -450,7 +450,8 @@ WorldMap::update()
               play_music(song, 1);
               show_menu = 0;
               menu_reset();
-              savegame(std::string(st_save_dir) + "/slot1.stsg");
+              if (!savegame_file.empty())
+                savegame(savegame_file);
               return;
             }
         }
@@ -591,14 +592,23 @@ WorldMap::display()
 void
 WorldMap::savegame(const std::string& filename)
 {
+  std::cout << "savegame: " << filename << std::endl;
   std::ofstream out(filename.c_str());
+
+  int nb_solved_levels = 0;
+  for(Levels::iterator i = levels.begin(); i != levels.end(); ++i)
+    {
+      if (i->solved)
+        ++nb_solved_levels;
+    }
 
   out << "(supertux-savegame\n"
       << "  (version 1)\n"
+      << "  (title  \"Icyisland - " << nb_solved_levels << "/" << levels.size() << "\")\n"
       << "  (lives   " << player_status.lives << ")\n"
       << "  (score   " << player_status.score << ")\n"
       << "  (distros " << player_status.distros << ")\n"
-      << "  (tux     (x " << tux->get_tile_pos().x << ") (y " << tux->get_tile_pos().y << ")\n"
+      << "  (tux     (x " << tux->get_tile_pos().x << ") (y " << tux->get_tile_pos().y << "))\n"
       << "  (levels\n";
   
   for(Levels::iterator i = levels.begin(); i != levels.end(); ++i)
@@ -614,13 +624,60 @@ WorldMap::savegame(const std::string& filename)
       << " )\n\n;; EOF ;;" << std::endl;
 }
 
-} // namespace WorldMapNS
-
-void worldmap_run()
+void
+WorldMap::loadgame(const std::string& filename)
 {
-  WorldMapNS::WorldMap worldmap;
+  std::cout << "loadgame: " << filename << std::endl;
+  savegame_file = filename;
+
+  if (access(filename.c_str(), F_OK) == 0)
+    {
+      lisp_object_t* cur = lisp_read_from_file(filename);
+
+      if (strcmp(lisp_symbol(lisp_car(cur)), "supertux-savegame") != 0)
+        return;
+
+      cur = lisp_cdr(cur);
+      LispReader reader(cur);
   
-  worldmap.display();
+      reader.read_int("lives",  &player_status.lives);
+      reader.read_int("score",  &player_status.score);
+      reader.read_int("distros", &player_status.distros);
+
+      lisp_object_t* tux_cur = 0;
+      if (reader.read_lisp("tux", &tux_cur))
+        {
+          Point p;
+          LispReader tux_reader(tux_cur);
+          tux_reader.read_int("x", &p.x);
+          tux_reader.read_int("y", &p.y);
+      
+          tux->set_tile_pos(p);
+        }
+
+      lisp_object_t* level_cur = 0;
+      if (reader.read_lisp("levels", &level_cur))
+        {
+          while(level_cur)
+            {
+              std::string name;
+              bool solved = false;
+              LispReader level_reader(level_cur);
+              level_reader.read_string("name",   &name);
+              level_reader.read_bool("solved", &solved);
+
+              for(Levels::iterator i = levels.begin(); i != levels.end(); ++i)
+                {
+                  if (name == i->name)
+                    i->solved = solved;
+                }
+
+              level_cur = lisp_cdr(level_cur);
+            }
+        }
+    }
 }
+
+} // namespace WorldMapNS
 
 /* EOF */

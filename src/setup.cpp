@@ -11,6 +11,7 @@
 */
 
 #include <assert.h>
+#include <stdio.h>
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
@@ -440,18 +441,14 @@ void st_menu(void)
   highscore_menu->additem(MN_TEXTFIELD,"Enter your name:",0,0);
 }
 
-void update_load_save_game_menu(Menu* pmenu, int load)
+void update_load_save_game_menu(Menu* pmenu)
 {
   for(int i = 2; i < 7; ++i)
     {
       // FIXME: Insert a real savegame struct/class here instead of
       // doing string vodoo
-      std::string tmp = slotinfo(i-1);
-
-      if(load && tmp.length() == strlen("Slot X - Free"))
-        pmenu->item[i].kind = MN_ACTION;
-      else
-        pmenu->item[i].kind = MN_ACTION;
+      std::string tmp = slotinfo(i - 1);
+      pmenu->item[i].kind = MN_ACTION;
       pmenu->item[i].change_text(tmp.c_str());
     }
 }
@@ -462,21 +459,18 @@ bool process_load_game_menu()
 
   if(slot != -1)
     {
-      // FIXME: Insert a real savegame struct/class here instead of
-      // doing string vodoo
-      std::string tmp = slotinfo(slot-1);
+      WorldMapNS::WorldMap worldmap;
 
-      if (tmp.length() == strlen("Slot X - Free"))
-        { // Slot is free, so start a new game
-          worldmap_run();
-          
-          show_menu = true;
-          Menu::set_current(main_menu);
-        }
-      else
-        { 
-          puts("Warning: Loading games isn't supported at the moment");
-        }
+      char slotfile[1024];
+      snprintf(slotfile, 1024, "%s/slot%d.stsg", st_save_dir, slot-1);
+      
+      worldmap.loadgame(slotfile);
+
+      worldmap.display();
+      
+      show_menu = true;
+      Menu::set_current(main_menu);
+
       st_pause_ticks_stop();
       return true;
     }

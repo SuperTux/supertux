@@ -144,6 +144,7 @@ private:
   bool enter_level;
 
   Point offset;
+  std::string savegame_file;
 
   void draw_status();
 public:
@@ -171,11 +172,10 @@ public:
   bool path_ok(Direction direction, Point pos, Point* new_pos);
 
   void savegame(const std::string& filename);
+  void loadgame(const std::string& filename);
 };
 
 } // namespace WorldMapNS
-
-void worldmap_run();
 
 #endif
 
