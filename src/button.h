@@ -17,7 +17,8 @@
 
 enum {
   BN_CLICKED,
-  BN_PRESSED
+  BN_PRESSED,
+  BN_HOVER
 };
 
 typedef struct button_type

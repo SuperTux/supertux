@@ -90,6 +90,7 @@ static texture_type le_selection;
 static int done;
 static char le_current_tile;
 static int le_mouse_pressed;
+static button_type le_save_level_bt;
 static button_type le_test_level_bt;
 static button_type le_next_level_bt;
 static button_type le_previous_level_bt;
@@ -227,8 +228,8 @@ int leveleditor(int levelnb)
                     {
                       subset_load(&le_level_subset,level_subsets[i-2]);
                       leveleditor_menu.item[3].kind = MN_GOTO;
-		      menu_item_change_input(&subset_settings_menu.item[2],le_level_subset.title);
-		      menu_item_change_input(&subset_settings_menu.item[3],le_level_subset.description);
+                      menu_item_change_input(&subset_settings_menu.item[2],le_level_subset.title);
+                      menu_item_change_input(&subset_settings_menu.item[3],le_level_subset.description);
                       le_level = 1;
                       arrays_init();
                       loadshared();
@@ -251,16 +252,16 @@ int leveleditor(int levelnb)
               if(subset_new_menu.item[2].input[0] == '\0')
                 subset_new_menu.item[3].kind = MN_DEACTIVE;
               else
-	      {
-                subset_new_menu.item[3].kind = MN_ACTION;
-
-              switch (i = menu_check(&subset_new_menu))
                 {
-                case 3:
-		    le_new_subset(subset_new_menu.item[2].input);
-                  break;
+                  subset_new_menu.item[3].kind = MN_ACTION;
+
+                  switch (i = menu_check(&subset_new_menu))
+                    {
+                    case 3:
+                      le_new_subset(subset_new_menu.item[2].input);
+                      break;
+                    }
                 }
-		}
             }
         }
 
@@ -367,16 +368,17 @@ int le_init()
   texture_load(&le_selection,DATA_PREFIX "/images/leveleditor/select.png", USE_ALPHA);
 
   /* Load buttons */
+  button_load(&le_save_level_bt,"/images/icons/save.png","Save level", SDLK_F6,screen->w-64,32);
   button_load(&le_next_level_bt,"/images/icons/up.png","Next level", SDLK_PAGEUP,screen->w-64,0);
   button_load(&le_previous_level_bt,"/images/icons/down.png","Previous level",SDLK_PAGEDOWN,screen->w-32,0);
-  button_load(&le_rubber_bt,"/images/icons/rubber.png","Rubber",SDLK_DELETE,screen->w-64,32);
-  button_load(&le_select_mode_one_bt,"/images/icons/select-mode1.png","Select single tile",SDLK_F3,screen->w-64,16);
-  button_load(&le_select_mode_two_bt,"/images/icons/select-mode2.png","Select multiple tiles",SDLK_F3,screen->w-32,16);
+  button_load(&le_rubber_bt,"/images/icons/rubber.png","Rubber",SDLK_DELETE,screen->w-32,48);
+  button_load(&le_select_mode_one_bt,"/images/icons/select-mode1.png","Select single tile",SDLK_F3,screen->w-64,48);
+  button_load(&le_select_mode_two_bt,"/images/icons/select-mode2.png","Select multiple tiles",SDLK_F3,screen->w-64,64);
   button_load(&le_test_level_bt,"/images/icons/test-level.png","Test level",SDLK_F4,screen->w-64,screen->h - 64);
   button_load(&le_settings_bt,"/images/icons/settings.png","Level settings",SDLK_F5,screen->w-32,screen->h - 64);
-  button_load(&le_move_left_bt,"/images/icons/left.png","Move left",SDLK_LEFT,screen->w-64,screen->h - 32);
-  button_load(&le_move_right_bt,"/images/icons/right.png","Move right",SDLK_RIGHT,screen->w-48,screen->h - 32);
-  button_panel_init(&le_bt_panel, screen->w - 64,64, 64, 380);
+  button_load(&le_move_left_bt,"/images/icons/left.png","Move left",SDLK_LEFT,0,0);
+  button_load(&le_move_right_bt,"/images/icons/right.png","Move right",SDLK_RIGHT,screen->w-80,0);
+  button_panel_init(&le_bt_panel, screen->w - 64,82, 64, 334);
 
   menu_init(&leveleditor_menu);
   menu_additem(&leveleditor_menu,menu_item_create(MN_LABEL,"Level Editor Menu",0,0));
@@ -582,6 +584,7 @@ void le_drawinterface()
 
   if(le_current_level != NULL)
     {
+      button_draw(&le_save_level_bt);
       button_draw(&le_test_level_bt);
       button_draw(&le_next_level_bt);
       button_draw(&le_previous_level_bt);
@@ -595,8 +598,7 @@ void le_drawinterface()
       button_panel_draw(&le_bt_panel);
 
       sprintf(str, "%d/%d", le_level,le_level_subset.levels);
-      text_draw(&white_text, "LEV", 0, 0, 1, NO_UPDATE);
-      text_draw(&gold_text, str, 80, 0, 1, NO_UPDATE);
+      text_drawf(&white_text, str, -8, 16, A_RIGHT, A_NONE, 1, NO_UPDATE);
 
       text_draw(&white_small_text, "F1 for Help", 10, 430, 1, NO_UPDATE);
     }
@@ -696,6 +698,11 @@ void le_checkevents()
               if(show_menu)
                 {
                   menu_event(&event.key.keysym);
+                  if(key == SDLK_ESCAPE)
+                    {
+                      show_menu = NO;
+                      menu_set_current(&leveleditor_menu);
+                    }
                   break;
                 }
               switch(key)
@@ -959,12 +966,15 @@ void le_checkevents()
   if(le_current_level != NULL)
     {
       if(event.type == SDL_KEYDOWN || event.type == SDL_KEYUP || ((event.type == SDL_MOUSEBUTTONDOWN || SDL_MOUSEMOTION) && (event.motion.x > screen->w-64 && event.motion.x < screen->w &&
-                                       event.motion.y > 0 && event.motion.y < screen->h)))
+          event.motion.y > 0 && event.motion.y < screen->h)))
         {
           /* Check for button events */
           button_event(&le_test_level_bt,&event);
           if(button_get_state(&le_test_level_bt) == BN_CLICKED)
             le_testlevel();
+          button_event(&le_save_level_bt,&event);
+          if(button_get_state(&le_save_level_bt) == BN_CLICKED)
+            level_save(le_current_level,le_level_subset.name,le_level);
           button_event(&le_next_level_bt,&event);
           if(button_get_state(&le_next_level_bt) == BN_CLICKED)
             {
@@ -977,12 +987,6 @@ void le_checkevents()
               if(le_level > 1)
                 le_goto_level(--le_level);
             }
-          button_event(&le_move_left_bt,&event);
-          if(button_get_state(&le_move_left_bt) == BN_PRESSED)
-            pos_x -= 180;
-          button_event(&le_move_right_bt,&event);
-          if(button_get_state(&le_move_right_bt) == BN_PRESSED)
-            pos_x += 180;
           button_event(&le_rubber_bt,&event);
           if(button_get_state(&le_rubber_bt) == BN_CLICKED)
             le_current_tile = '.';
@@ -1011,6 +1015,25 @@ void le_checkevents()
                 }
             }
         }
+    }
+
+  button_event(&le_move_left_bt,&event);
+  if(button_get_state(&le_move_left_bt) == BN_PRESSED)
+    {
+      pos_x -= 192;
+    }
+  else if(button_get_state(&le_move_left_bt) == BN_HOVER)
+    {
+      pos_x -= 96;
+    }
+  button_event(&le_move_right_bt,&event);
+  if(button_get_state(&le_move_right_bt) == BN_PRESSED)
+    {
+      pos_x += 192;
+    }
+  else if(button_get_state(&le_move_right_bt) == BN_HOVER)
+    {
+      pos_x += 96;
     }
 
   if(le_mouse_pressed)

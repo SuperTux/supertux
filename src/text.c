@@ -118,7 +118,7 @@ void text_drawf(text_type* ptext, char* text, int x, int y, int halign, int vali
   if(text != NULL)
     {
       if(halign == A_RIGHT)
-        x += screen->w;
+        x += screen->w - (strlen(text)*ptext->w);
       else if(halign == A_HMIDDLE)
         x += screen->w/2 - ((strlen(text)*ptext->w)/2);
 

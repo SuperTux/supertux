@@ -68,13 +68,20 @@ void button_draw(button_type* pbutton)
   if(pbutton->show_info == YES)
     {
       char str[80];
+      int i = -32;
+      
+      if(0 > pbutton->x - (int)strlen(pbutton->info) * white_small_text.w)
+          i = pbutton->w + strlen(pbutton->info) * white_small_text.w;
+
       if(pbutton->info)
-        text_draw(&white_small_text, pbutton->info, pbutton->x - strlen(pbutton->info) * white_small_text.w, pbutton->y, 1, NO_UPDATE);
+        text_draw(&white_small_text, pbutton->info, i + pbutton->x - strlen(pbutton->info) * white_small_text.w, pbutton->y, 1, NO_UPDATE);
       sprintf(str,"(%s)", SDL_GetKeyName(pbutton->shortcut));
-      text_draw(&white_small_text, str, pbutton->x - strlen(str) * white_small_text.w, pbutton->y + white_small_text.h+2, 1, NO_UPDATE);
+      text_draw(&white_small_text, str, i + pbutton->x - strlen(str) * white_small_text.w, pbutton->y + white_small_text.h+2, 1, NO_UPDATE);
     }
   if(pbutton->state == BN_PRESSED)
     fillrect(pbutton->x,pbutton->y,pbutton->w,pbutton->h,75,75,75,200);
+  else if(pbutton->state == BN_HOVER)
+    fillrect(pbutton->x,pbutton->y,pbutton->w,pbutton->h,150,150,150,128);
 }
 
 void button_free(button_type* pbutton)
@@ -85,7 +92,7 @@ void button_free(button_type* pbutton)
 
 void button_event(button_type* pbutton, SDL_Event *event)
 {
-SDLKey key = event->key.keysym.sym;
+  SDLKey key = event->key.keysym.sym;
 
   if(event->motion.x > pbutton->x && event->motion.x < pbutton->x + pbutton->w &&
       event->motion.y > pbutton->y && event->motion.y < pbutton->y + pbutton->h)
@@ -101,7 +108,7 @@ SDLKey key = event->key.keysym.sym;
               pbutton->show_info = YES;
             }
         }
-      if(event->type == SDL_MOUSEBUTTONUP)
+      else if(event->type == SDL_MOUSEBUTTONUP)
         {
           if(event->button.button == SDL_BUTTON_LEFT && pbutton->state == BN_PRESSED)
             {
@@ -112,8 +119,13 @@ SDLKey key = event->key.keysym.sym;
               pbutton->show_info = YES;
             }
         }
+
+      if(pbutton->state != BN_PRESSED && pbutton->state != BN_CLICKED)
+        {
+          pbutton->state = BN_HOVER;
+        }
     }
-  else if(event->type == SDL_MOUSEBUTTONDOWN || event->type == SDL_MOUSEBUTTONUP)
+  else if(event->type != SDL_KEYDOWN && event->type != SDL_KEYUP)
     {
       pbutton->state = -1;
       if(pbutton->show_info)
@@ -121,7 +133,7 @@ SDLKey key = event->key.keysym.sym;
           pbutton->show_info = NO;
         }
     }
-    
+
   if(event->type == SDL_KEYDOWN)
     {
       if(key == pbutton->shortcut)
@@ -179,6 +191,7 @@ void button_panel_free(button_panel_type* pbutton_panel)
 void button_panel_draw(button_panel_type* pbutton_panel)
 {
   int i;
+  fillrect(pbutton_panel->x,pbutton_panel->y,pbutton_panel->w,pbutton_panel->h,100,100,100,200);
   for(i = 0; i < pbutton_panel->num_items; ++i)
     {
       button_draw(&pbutton_panel->item[i]);
