@@ -1396,6 +1396,11 @@
          )
        )
   )
+  
+  (sprite (name "unstable_tile")
+    (action
+      (images "shared/unstable_tile.png"))
+  )
 )
 
 ;; EOF ;;

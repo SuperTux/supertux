@@ -21,6 +21,9 @@ public:
    * successfull check
    */
   bool check();
+  /** stop the timer */
+  void stop()
+  { start(0); }
 
   /** returns the period of the timer or 0 if it isn't started */
   float get_period() const
