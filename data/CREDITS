@@ -1,104 +1,87 @@
-CREDITS for Super Tux
-
-	Milestone1
-
-
-Developers
-----------
-
-Tobias Glaesser
- Maintainer and main developer
-
-Bill Kendrick
- Original author
-
-Ricardo Cruz
- Main developer
- Made the very first leveleditor and
- now works a bit everywhere.
-
-Ingo Ruhnke
- Main developer
- Made a lot of C++ ports, introduced
- the worldmap and the lispreader.
-
-Ryan Flegel
-Duong-Khang NGUYEN
- Contributors
+-- SuperTux -
+	 Milestone 1
 
 
-Artists
--------
+-Programming
 
-Bill Kendrick
- Antartic/Geek theme
-
-Wesley Poole
- Most Tux images
-
-Eric Windisch
- Title screen
-
-Tobias Glaesser
-Duong-Khang NGUYEN
- Graphics improvements
+	Tobias Glaesser
+	Ricardo Cruz
+	Ingo Ruhnke
+	Matze Braun
 
 
-Designing
----------
+-Contrib Programming
 
-Ingo Ruhnke
- Good constructive criticist and
- never-ending source of inspiration.
- Author and maintainer of the webpage.
- Basically he makes suggestions for everything from
- the engine itself to the gameplay.
+	Ryan Flegel
+	Duong-Khang NGUYEN
 
-Marek Moeckel
- Level organization and polishing.
 
-Sound Effects
--------------
+-Graphics
 
-Marek Moeckel
- Made a few musics.
+	Ingo Ruhnke
+	Christopher A. Webber
 
-Royalty free sound effects
+
+-Level Design
+
+	Marek Moeckel
+	Ingo Ruhnke
+
+
+-Music
+
+	Marek Moeckel
+
+
+-Sound
+
+	Royalty free sound effects
  CDROMs and FTP sites
 
 
-Thanks to
----------
+-Based on the original
+-SuperTux by:
 
-Larry Ewing
+	Bill Kendrick
+	Wesley Poole
+	Eric Windisch
+
+
+-Thanks to
+
+	Larry Ewing
  Creator of Tux, the Linux penguin
 
-SDL and OpenGL
+	SDL and OpenGL
  For giving such a great gaming experience
  possible in Linux
 
 
-We hope you enjoy this game! ,-)
-- SuperTux team
 
+-Contact
 
-Visit our webpage at
- http://super-tux.sf.net
+	Visit our webpage at
+http://super-tux.sf.net
 
-Have a nice flaming with us at
- #supertux at irc.freenode.net
+	Or visit us directly at IRC:
+#supertux at irc.freenode.net
 
-Comments, ideas and suggestions
-go to our mailing list
- super-tux-devel(at)lists.sourceforge.net
-
-If you want to contribute;
- graphics, sounds, levels,
- coding and
- even ideas are allways
- appreciated!
+	Comments, ideas and suggestions
+	go to our mailing list
+super-tux-devel(at)lists.sourceforge.net
 
 
 
-	I'm sure nobody will read
-	this until the end... !-)
+
+
+
+
+
+	Thank you for
+	playing
+
+-SuperTux
+
+
+
+	See you soon in Milestone2!
