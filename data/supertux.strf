@@ -152,11 +152,11 @@
 
  (sprite (name "largetux-duck-left")
          (x-hotspot 6)
-         (y-hotspot 2)
+         (y-hotspot 6)
          (images "shared/tux-duck-left.png"))
  (sprite (name "largetux-duck-right")
          (x-hotspot 6)
-         (y-hotspot 2)
+         (y-hotspot 6)
          (images "shared/tux-duck-right.png"))
 
 
@@ -240,7 +240,7 @@
 
  (sprite (name "firetux-duck-left")
          (x-hotspot 6)
-         (y-hotspot 2)
+         (y-hotspot 6)
          (images "shared/tux-duck-left.png"))
  (sprite (name "firetux-duck-right")
          (x-hotspot 6)
