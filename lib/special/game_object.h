@@ -27,6 +27,8 @@ namespace SuperTux
 
   class DrawingContext;
 
+  class ObjectRemoveListener;
+
   /**
    * Base class for all game objects. This contains functions for:
    *  -querying the actual type of the object
@@ -67,6 +69,18 @@ namespace SuperTux
       {
         wants_to_die = true;
       }
+      /** registers a remove listener which will be called if the object 
+       * gets removed/destroyed
+       */
+      void add_remove_listener(ObjectRemoveListener* listener)
+      {
+        RemoveListenerListEntry* entry = new RemoveListenerListEntry();
+        entry->next = remove_listeners;
+        entry->listener = listener;
+
+        remove_listeners = entry;
+      }
+        
 
       // flags
       enum {
@@ -86,6 +100,13 @@ namespace SuperTux
        * frame
        */
       bool wants_to_die;
+
+      struct RemoveListenerListEntry
+      {
+        RemoveListenerListEntry* next;
+        ObjectRemoveListener* listener;
+      };
+      RemoveListenerListEntry* remove_listeners;
 
     protected:
       int flags;

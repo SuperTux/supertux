@@ -19,18 +19,27 @@
 
 #include <config.h>
 
-#include "special/game_object.h"
+#include "game_object.h"
+#include "object_remove_listener.h"
 
 namespace SuperTux
 {
 
 GameObject::GameObject()
-  : wants_to_die(false), flags(0)
+  : wants_to_die(false), remove_listeners(0), flags(0)
 {
 }
 
 GameObject::~GameObject()
 {
+  // call remove listeners (and remove them from the list)
+  RemoveListenerListEntry* entry = remove_listeners;
+  while(entry != 0) {
+    RemoveListenerListEntry* next = entry->next;
+    entry->listener->object_removed(this);
+    delete entry;
+    entry = next;
+  }
 }
 
 }
