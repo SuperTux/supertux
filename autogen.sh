@@ -7,7 +7,6 @@ if test ! -f configure.ac ; then
 fi
 
 autoheader
-libtoolize --force
 aclocal -I mk/autoconf
 
 # generate Jamconfig.in

@@ -12,11 +12,11 @@ dnl ===========================================================================
 dnl Process this file with autoconf to produce a configure script.
 AC_PREREQ([2.54])
 AC_INIT(supertux, 0.2-cvs)
-AC_CONFIG_HEADERS(config.h)
 AC_CONFIG_SRCDIR([src/supertux.cpp])
+AC_CONFIG_AUX_DIR([mk/autoconf])
 AC_CANONICAL_TARGET
-AM_INIT_AUTOMAKE
-dnl This is obsolete see automake1.7 // AM_CONFIG_HEADER
+
+AC_CONFIG_HEADERS(config.h)
 
 # we don't want the stupid autoconf default -g -O2
 test ".$CXXFLAGS" = "." && CXXFLAGS=" "
@@ -26,7 +26,6 @@ CXXFLAGS="$CXXFLAGS -ffast-math"
 AC_PROG_CC
 AC_PROG_CXX
 AC_PROG_INSTALL
-AC_PROG_LIBTOOL
 
 dnl Checks for header files.
 AC_HEADER_DIRENT
@@ -78,7 +77,9 @@ else
     AC_MSG_RESULT([no])
 fi
 
-AM_ICONV
+AC_CHECK_LIB([iconv], [iconv_open])
+AC_TRY_LINK([#include <iconv.h>], [iconv_open(0, 0);],,
+    AC_MSG_ERROR([Couldn't find iconv library]))
 
 dnl ===========================================================================
 dnl Check for SDL
@@ -127,10 +128,7 @@ AC_CHECK_FUNCS(mkdir strdup strstr)
 AC_INIT_JAM
 AC_CONFIG_FILES([Jamconfig])
 
-AC_OUTPUT(Makefile
-          src/Makefile
-          data/Makefile
-	  lib/Makefile)
+AC_OUTPUT
 
 echo ""
 echo "Features:"
@@ -141,4 +139,5 @@ echo " OpenGL Support: $enable_opengl"
 echo ""
 echo ""
 echo "       NOTE: This project uses jam (and not make) as build tool"
+echo ""
 
