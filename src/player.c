@@ -918,7 +918,10 @@ void player_input(player_type *pplayer)
   if (pplayer->input.down == DOWN)
     {
       if (pplayer->size == BIG)
+      {
         pplayer->duck = YES;
+	pplayer->base.height = 32;
+	}
     }
   else
     {
@@ -927,10 +930,15 @@ void player_input(player_type *pplayer)
           /* Make sure we're not standing back up into a solid! */
 
           if (!issolid(pplayer->base.x + 16, pplayer->base.y - 16))
+	  {
             pplayer->duck = NO;
+	    pplayer->base.height = 64;
+	    }
         }
       else
+      {
         pplayer->duck = NO;
+	}
     }
 
   /* (Tux): */
@@ -1117,12 +1125,12 @@ void player_draw(player_type* pplayer)
                 {
                   if (pplayer->dir == RIGHT)
                     {
-                      texture_draw(&ducktux_right, pplayer->base.x- scroll_x - 8, pplayer->base.y,
+                      texture_draw(&ducktux_right, pplayer->base.x- scroll_x - 8, pplayer->base.y - 16,
                                    NO_UPDATE);
                     }
                   else
                     {
-                      texture_draw(&ducktux_left, pplayer->base.x- scroll_x - 8, pplayer->base.y,
+                      texture_draw(&ducktux_left, pplayer->base.x- scroll_x - 8, pplayer->base.y - 16,
                                    NO_UPDATE);
                     }
                 }
@@ -1186,12 +1194,12 @@ void player_draw(player_type* pplayer)
                 {
                   if (pplayer->dir == RIGHT)
                     {
-                      texture_draw(&duckfiretux_right, pplayer->base.x- scroll_x - 8, pplayer->base.y,
+                      texture_draw(&duckfiretux_right, pplayer->base.x- scroll_x - 8, pplayer->base.y - 16,
                                    NO_UPDATE);
                     }
                   else
                     {
-                      texture_draw(&duckfiretux_left, pplayer->base.x- scroll_x - 8, pplayer->base.y,
+                      texture_draw(&duckfiretux_left, pplayer->base.x- scroll_x - 8, pplayer->base.y - 16,
                                    NO_UPDATE);
                     }
                 }

@@ -692,7 +692,7 @@ int gameloop(char * subset, int levelnb, int mode)
           SDL_Delay(50);
         }
 
-      if(tux.input.down == DOWN)
+      if(debug_mode && tux.input.down == DOWN)
         SDL_Delay(45);
 
       /*Draw the current scene to the screen */
