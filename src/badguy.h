@@ -111,6 +111,8 @@ public:
   void draw();
   std::string type() { return "BadGuy"; };
 
+  void explode(BadGuy* badguy);
+
   void collision(void* p_c_object, int c_object,
                  CollisionType type = COLLISION_NORMAL);
 

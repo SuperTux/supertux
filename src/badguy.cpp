@@ -929,6 +929,12 @@ BadGuy::kill_me(int score)
   play_sound(sounds[SND_FALL], SOUND_CENTER_SPEAKER);
 }
 
+void BadGuy::explode(BadGuy *badguy)
+{
+World::current()->add_bad_guy(badguy->base.x, badguy->base.y, BAD_BOMB);
+badguy->remove_me();
+}
+
 void
 BadGuy::collision(void *p_c_object, int c_object, CollisionType type)
 {
@@ -974,9 +980,7 @@ BadGuy::collision(void *p_c_object, int c_object, CollisionType type)
         if (pbad_c->kind == BAD_MRBOMB)
         {
           // mrbomb transforms into a bomb now
-          World::current()->add_bad_guy(pbad_c->base.x, pbad_c->base.y,
-                                        BAD_BOMB);
-          pbad_c->remove_me();
+          explode(pbad_c);
           return;
         }
         else if (pbad_c->kind != BAD_MRBOMB)
@@ -991,9 +995,7 @@ BadGuy::collision(void *p_c_object, int c_object, CollisionType type)
         if (pbad_c->kind == BAD_MRBOMB)
         {
           // mrbomb transforms into a bomb now
-          World::current()->add_bad_guy(pbad_c->base.x, pbad_c->base.y,
-                                        BAD_BOMB);
-          pbad_c->remove_me();
+          explode(pbad_c);
           return;
         }
         else
@@ -1073,6 +1075,7 @@ BadGuy::collision(void *p_c_object, int c_object, CollisionType type)
 
     }
 }
+
 
 //---------------------------------------------------------------------------
 
