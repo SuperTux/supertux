@@ -11,6 +11,8 @@
   (tileset 
         (file "grey.stgt"))
   (tileset 
-        (file "snow.stgt"))	
+        (file "snow.stgt"))
+  (tileset
+        (file "jungle.stgt"))
 )
         
