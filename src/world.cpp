@@ -671,7 +671,15 @@ World::tryemptybox(float x, float y, Direction col_side)
       player_status.distros++;
       break;
 
-    case 2: // Add an upgrade!
+    case 2: // Add a fire flower upgrade!
+      if (tux.size == SMALL)     /* Tux is small, add mints! */
+        add_upgrade(posx, posy, col_side, UPGRADE_GROWUP);
+      else     /* Tux is big, add a fireflower: */
+        add_upgrade(posx, posy, col_side, UPGRADE_FIREFLOWER);
+      play_sound(sounds[SND_UPGRADE], SOUND_CENTER_SPEAKER);
+      break;
+    
+    case 5: // Add an ice flower upgrade!
       if (tux.size == SMALL)     /* Tux is small, add mints! */
         add_upgrade(posx, posy, col_side, UPGRADE_GROWUP);
       else     /* Tux is big, add an iceflower: */
