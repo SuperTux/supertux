@@ -62,8 +62,10 @@ Player::init()
   size = SMALL;
   got_coffee = false;
 
-  base.x = 0;
+  // FIXME: Make the start position configurable via the levelfile
+  base.x = 100;
   base.y = 240;
+  
   base.xm = 0;
   base.ym = 0;
   old_base = base;
@@ -130,8 +132,8 @@ Player::key_event(SDLKey key, int state)
 void
 Player::level_begin()
 {
-  base.x = 0;
-  base.y = 240;
+  base.x  = 100;
+  base.y  = 240;
   base.xm = 0;
   base.ym = 0;
   old_base = base;
@@ -241,7 +243,6 @@ Player::action()
           if(size == SMALL)
             {
               /* Get a distro from a brick? */
-
               if (shape(base.x, base.y) == 'x' ||
                   shape(base.x, base.y) == 'y')
                 {

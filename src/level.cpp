@@ -249,7 +249,6 @@ int level_load(st_level* plevel, const  char *subset, int level)
 
 int level_load(st_level* plevel, const char* filename)
 {
-  int x, y, j;
   FILE * fi;
   lisp_object_t* root_obj = 0;
   fi = fopen(filename, "r");
@@ -273,10 +272,12 @@ int level_load(st_level* plevel, const char* filename)
   vector<int> bg_tm;
   vector<int> fg_tm;
 
+  int version = 0;
   if (strcmp(lisp_symbol(lisp_car(root_obj)), "supertux-level") == 0)
     {
       LispReader reader(lisp_cdr(root_obj));
 
+      reader.read_int("version",  &version);
       reader.read_int("width",  &plevel->width);
       reader.read_int("time",  &plevel->time_left);
       reader.read_int("bkgd_red",  &plevel->bkgd_red);
@@ -289,14 +290,65 @@ int level_load(st_level* plevel, const char* filename)
       reader.read_string("background",  &plevel->bkgd_image);
       reader.read_string("particle_system", &plevel->particle_system);
       reader.read_int_vector("background-tm",  &bg_tm);
-      reader.read_int_vector("interactive-tm",  &ia_tm);
-      reader.read_int_vector("dynamic-tm",  &dn_tm);
+      reader.read_int_vector("interactive-tm", &ia_tm);
+      reader.read_int_vector("dynamic-tm",     &dn_tm);
       reader.read_int_vector("foreground-tm",  &fg_tm);
+
+      // Convert old levels to the new tile numbers
+      if (version == 0)
+        {
+          int transtable[256];
+          transtable[(int)'.'] = 0;
+          transtable[(int)'0'] = 0;
+          transtable[(int)'1'] = 1;
+          transtable[(int)'2'] = 2;
+          transtable[(int)'x'] = 77;
+          transtable[(int)'X'] = 77;
+          transtable[(int)'y'] = 78;
+          transtable[(int)'Y'] = 78;
+          transtable[(int)'A'] = 83;
+          transtable[(int)'B'] = 102;
+          transtable[(int)'!'] = 103;
+          transtable[(int)'a'] = 84;
+          transtable[(int)'C'] = 85;
+          transtable[(int)'D'] = 86;
+          transtable[(int)'E'] = 87;
+          transtable[(int)'F'] = 88;
+          transtable[(int)'c'] = 89;
+          transtable[(int)'d'] = 90;
+          transtable[(int)'e'] = 91;
+          transtable[(int)'f'] = 92;
+
+          transtable[(int)'G'] = 93;
+          transtable[(int)'H'] = 94;
+          transtable[(int)'I'] = 95;
+          transtable[(int)'J'] = 96;
+
+          transtable[(int)'g'] = 97;
+          transtable[(int)'h'] = 98;
+          transtable[(int)'i'] = 99;
+          transtable[(int)'j'] = 100
+;
+          transtable[(int)'#'] = 11;
+          transtable[(int)'['] = 13; 
+          transtable[(int)'='] = 14;
+          transtable[(int)']'] = 15;
+          transtable[(int)'$'] = 82;
+          transtable[(int)'^'] = 76;
+          transtable[(int)'*'] = 80;
+          transtable[(int)'|'] = 79;
+          transtable[(int)'\\'] = 81;
+          transtable[(int)'&'] = 75;
+
+          for(std::vector<int>::iterator i = ia_tm.begin(); i != ia_tm.end(); ++i)
+            if (*i < 256)
+              *i = transtable[*i];
+            else
+              puts("Error: Value to high, conversion will fail");
+        }
     }
 
-
-  int i;
-  for( i = 0; i < 15; ++i)
+  for(int i = 0; i < 15; ++i)
     {
       plevel->dn_tiles[i] = (unsigned int*) calloc((plevel->width +1) , sizeof(unsigned int) );
       plevel->ia_tiles[i] = (unsigned int*) calloc((plevel->width +1) , sizeof(unsigned int) );
@@ -304,10 +356,10 @@ int level_load(st_level* plevel, const char* filename)
       plevel->fg_tiles[i] = (unsigned int*) calloc((plevel->width +1) , sizeof(unsigned int) );
     }
 
-  i = j = 0;
+  int i = 0;
+  int j = 0;
   for(vector<int>::iterator it = ia_tm.begin(); it != ia_tm.end(); ++it, ++i)
     {
-
       plevel->ia_tiles[j][i] = (*it);
       if(i == plevel->width - 1)
         {
@@ -358,16 +410,16 @@ int level_load(st_level* plevel, const char* filename)
   /*  Mark the end position of this level! - Is a bit wrong here thought * /
 
   for (y = 0; y < 15; ++y)
-    {
-      for (x = 0; x < plevel->width; ++x)
-        {
-          if(plevel->tiles[y][x] == '|')
-            {
-              if(x*32 > endpos)
-                endpos = x*32;
-            }
-        }
-    }*/
+  {
+  for (x = 0; x < plevel->width; ++x)
+  {
+  if(plevel->tiles[y][x] == '|')
+  {
+  if(x*32 > endpos)
+  endpos = x*32;
+  }
+  }
+  }*/
 
   fclose(fi);
   return 0;
@@ -402,6 +454,7 @@ void level_save(st_level* plevel,const  char * subset, int level)
   fprintf(fi,";SuperTux-Level\n");
   fprintf(fi,"(supertux-level\n");
 
+  fprintf(fi,"  (version %d)\n", 1);
   fprintf(fi,"  (name \"%s\")\n", plevel->name.c_str());
   fprintf(fi,"  (theme \"%s\")\n", plevel->theme.c_str());
   fprintf(fi,"  (music \"%s\")\n", plevel->song_title.c_str());

@@ -1318,8 +1318,6 @@ void unloadshared(void)
 
 void drawshape(float x, float y, unsigned int c)
 {
-  int z;
-
   Tile* ptile = TileManager::instance()->get
                 (c);
   if(ptile)
@@ -1396,7 +1394,6 @@ void drawshape(float x, float y, unsigned int c)
 
 
 /* What shape is at some position? */
-
 unsigned int shape(float x, float y)
 {
 
@@ -1414,6 +1411,11 @@ unsigned int shape(float x, float y)
     c = '.';
 
   return(c);
+}
+
+Tile* gettile(float x, float y)
+{
+  return TileManager::instance()->get(shape(x, y));
 }
 
 /* Is is ground? */
@@ -1494,6 +1496,12 @@ bool isfullbox(float x, float y)
     }
 }
 
+bool isdistro(float x, float y)
+{
+  Tile* tile = TileManager::instance()->get(shape(x,y));
+  return tile && tile->distro;
+}
+
 /* Break a brick: */
 
 void trybreakbrick(float x, float y)
@@ -1568,22 +1576,23 @@ void tryemptybox(float x, float y, int col_side)
   else
     col_side = LEFT;
 
-  switch(shape(x,y))
+  // FIXME: Content of boxes must be handled otherwise
+  switch(gettile(x,y)->data)
     {
-    case 'A':      /* Box with a distro! */
+    case 1: //'A':      /* Box with a distro! */
       add_bouncy_distro(((int)(x + 1) / 32) * 32, (int)(y / 32) * 32 - 32);
       play_sound(sounds[SND_DISTRO], SOUND_CENTER_SPEAKER);
       score = score + SCORE_DISTRO;
       distros++;
       break;
-    case 'B':      /* Add an upgrade! */
+    case 2: // 'B':      /* Add an upgrade! */
       if (tux.size == SMALL)     /* Tux is small, add mints! */
         add_upgrade((int)((x + 1) / 32) * 32, (int)(y / 32) * 32 - 32, col_side, UPGRADE_MINTS);
       else     /* Tux is big, add coffee: */
         add_upgrade((int)((x + 1) / 32) * 32, (int)(y / 32) * 32 - 32, col_side, UPGRADE_COFFEE);
       play_sound(sounds[SND_UPGRADE], SOUND_CENTER_SPEAKER);
       break;
-    case '!':     /* Add a golden herring */
+    case 3:// '!':     /* Add a golden herring */
       add_upgrade((int)((x + 1) / 32) * 32, (int)(y / 32) * 32 - 32, col_side, UPGRADE_HERRING);
       break;
     default:
@@ -1599,7 +1608,8 @@ void tryemptybox(float x, float y, int col_side)
 
 void trygrabdistro(float x, float y, int bounciness)
 {
-  if (shape(x, y) == '$')
+  Tile* tile = gettile(x, y);
+  if (tile && tile->distro)
     {
       level_change(&current_level,x, y, TM_IA, '.');
       play_sound(sounds[SND_DISTRO], SOUND_CENTER_SPEAKER);

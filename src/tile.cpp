@@ -16,7 +16,7 @@ TileManager* TileManager::instance_  = 0;
 
 TileManager::TileManager()
 {
-  std::string filename = datadir +  "images/tilesets/main.stgt"; 
+  std::string filename = datadir +  "images/tilesets/supertux.stgt"; 
   load_tileset(filename);
 }
 
@@ -46,7 +46,9 @@ void TileManager::load_tileset(std::string filename)
 	      tile->brick = false;
 	      tile->ice = false;	  
 	      tile->fullbox = false;	      
-              tile->alpha  = 0;
+              tile->alpha = 0;
+              tile->distro = 0;
+              tile->data  = 0;
               tile->anim_speed = 25;
   
               LispReader reader(lisp_cdr(element));
@@ -55,18 +57,20 @@ void TileManager::load_tileset(std::string filename)
               reader.read_bool("brick", &tile->brick);
               reader.read_bool("ice", &tile->ice);	   
               reader.read_bool("fullbox", &tile->fullbox);
+              reader.read_bool("distro", &tile->distro);
+              reader.read_int("data",  (int*)&tile->data);
               reader.read_int("alpha",  (int*)&tile->alpha);
               reader.read_int("anim-speed",  &tile->anim_speed);
               reader.read_string_vector("images",  &filenames);
 
 	      for(std::vector<std::string>::iterator it = filenames.begin(); it != filenames.end(); ++it)
-	      {
-	      texture_type cur_image;
-	      tile->images.push_back(cur_image);
-              texture_load(&tile->images[tile->images.size()-1], 
-                           datadir +  "images/tilesets/" + (*it), 
-                           USE_ALPHA);
-			   }
+                {
+                  texture_type cur_image;
+                  tile->images.push_back(cur_image);
+                  texture_load(&tile->images[tile->images.size()-1], 
+                               datadir +  "images/tilesets/" + (*it), 
+                               USE_ALPHA);
+                }
 
               if (id+tileset_id >= int(tiles.size()))
                 tiles.resize(id+tileset_id+1);
@@ -100,3 +104,6 @@ void TileManager::load_tileset(std::string filename)
       assert(0);
     }
 }
+
+// EOF //
+
