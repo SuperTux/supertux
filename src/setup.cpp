@@ -98,6 +98,7 @@ int fwriteable(const char *filename)
     {
       return false;
     }
+  fclose(fi);
   return true;
 }
 
@@ -385,7 +386,7 @@ void st_menu(void)
 
   main_menu->set_pos(screen->w/2, 335);
   main_menu->additem(MN_GOTO, "Start Game",0,load_game_menu, MNID_STARTGAME);
-  main_menu->additem(MN_GOTO, "Contrib Levels",0,contrib_menu, MNID_CONTRIB);
+  main_menu->additem(MN_GOTO, "Bonus Levels",0,contrib_menu, MNID_CONTRIB);
   main_menu->additem(MN_GOTO, "Options",0,options_menu, MNID_OPTIONMENU);
   main_menu->additem(MN_ACTION,"Level Editor",0,0, MNID_LEVELEDITOR);
   main_menu->additem(MN_ACTION,"Credits",0,0, MNID_CREDITS);
@@ -507,6 +508,10 @@ bool process_load_game_menu()
 
       fadeout();
       WorldMapNS::WorldMap worldmap;
+      
+      //TODO: Define the circumstances under which BonusIsland is chosen
+      worldmap.set_map_file("worldmap.stwm");
+      worldmap.load_map();
      
       // Load the game or at least set the savegame_file variable
       worldmap.loadgame(slotfile);

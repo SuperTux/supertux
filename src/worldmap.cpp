@@ -21,6 +21,7 @@
 #include <fstream>
 #include <vector>
 #include <assert.h>
+#include <unistd.h>
 #include "globals.h"
 #include "texture.h"
 #include "screen.h"
@@ -30,24 +31,26 @@
 #include "worldmap.h"
 #include "resources.h"
 
+#define DISPLAY_MAP_MESSAGE_TIME 2800
+
 namespace WorldMapNS {
 
 Direction reverse_dir(Direction direction)
 {
   switch(direction)
     {
-    case WEST:
-      return EAST;
-    case EAST:
-      return WEST;
-    case NORTH:
-      return SOUTH;
-    case SOUTH:
-      return NORTH;
-    case NONE:
-      return NONE;
+    case D_WEST:
+      return D_EAST;
+    case D_EAST:
+      return D_WEST;
+    case D_NORTH:
+      return D_SOUTH;
+    case D_SOUTH:
+      return D_NORTH;
+    case D_NONE:
+      return D_NONE;
     }
-  return NONE;
+  return D_NONE;
 }
 
 std::string
@@ -55,13 +58,13 @@ direction_to_string(Direction direction)
 {
   switch(direction)
     {
-    case WEST:
+    case D_WEST:
       return "west";
-    case EAST:
+    case D_EAST:
       return "east";
-    case NORTH:
+    case D_NORTH:
       return "north";
-    case SOUTH:
+    case D_SOUTH:
       return "south";
     default:
       return "none";
@@ -72,15 +75,15 @@ Direction
 string_to_direction(const std::string& directory)
 {
   if (directory == "west")
-    return WEST;
+    return D_WEST;
   else if (directory == "east")
-    return EAST;
+    return D_EAST;
   else if (directory == "north")
-    return NORTH;
+    return D_NORTH;
   else if (directory == "south")
-    return SOUTH;
+    return D_SOUTH;
   else
-    return NONE;
+    return D_NONE;
 }
 
 TileManager::TileManager()
@@ -121,6 +124,21 @@ TileManager::TileManager()
               reader.read_bool("stop",  &tile->stop);
               reader.read_bool("auto-walk",  &tile->auto_walk);
               reader.read_string("image",  &filename);
+
+              std::string temp;
+              reader.read_string("one-way",  &temp);
+              tile->one_way = BOTH_WAYS;
+              if(!temp.empty())
+                {
+                if(temp == "north-south")
+                  tile->one_way = NORTH_SOUTH_WAY;
+                else if(temp == "south-north")
+                  tile->one_way = SOUTH_NORTH_WAY;
+                else if(temp == "east-west")
+                  tile->one_way = EAST_WEST_WAY;
+                else if(temp == "west-east")
+                  tile->one_way = WEST_EAST_WAY;
+                }
 
               tile->sprite = new Surface(
                            datadir +  "/images/worldmap/" + filename, 
@@ -171,10 +189,10 @@ Tux::Tux(WorldMap* worldmap_)
 
   offset = 0;
   moving = false;
-  tile_pos.x = 4;
-  tile_pos.y = 5;
-  direction = NONE;
-  input_direction = NONE;
+  tile_pos.x = worldmap->get_start_x();
+  tile_pos.y = worldmap->get_start_y();
+  direction = D_NONE;
+  input_direction = D_NONE;
 }
 
 Tux::~Tux()
@@ -214,19 +232,19 @@ Tux::get_pos()
 
   switch(direction)
     {
-    case WEST:
+    case D_WEST:
       x -= offset - 32;
       break;
-    case EAST:
+    case D_EAST:
       x += offset - 32;
       break;
-    case NORTH:
+    case D_NORTH:
       y -= offset - 32;
       break;
-    case SOUTH:
+    case D_SOUTH:
       y += offset - 32;
       break;
-    case NONE:
+    case D_NONE:
       break;
     }
   
@@ -237,7 +255,7 @@ void
 Tux::stop()
 {
   offset = 0;
-  direction = NONE;
+  direction = D_NONE;
   moving = false;
 }
 
@@ -246,13 +264,13 @@ Tux::update(float delta)
 {
   if (!moving)
     {
-      if (input_direction != NONE)
+      if (input_direction != D_NONE)
         { 
-          WorldMap::Level* level = worldmap->at_level();
+          WorldMapNS::WorldMap::Level* level = worldmap->at_level();
 
           // We got a new direction, so lets start walking when possible
           Point next_tile;
-          if ((!level || level->solved)
+          if ((!level || level->solved || level->name.empty())
               && worldmap->path_ok(input_direction, tile_pos, &next_tile))
             {
               tile_pos = next_tile;
@@ -262,7 +280,6 @@ Tux::update(float delta)
             }
           else if (input_direction == back_direction)
             {
-              std::cout << "Back triggered" << std::endl;
               moving = true;
               direction = input_direction;
               tile_pos = worldmap->get_next_tile(tile_pos, direction);
@@ -279,7 +296,23 @@ Tux::update(float delta)
         { // We reached the next tile, so we check what to do now
           offset -= 32;
 
-          if (worldmap->at(tile_pos)->stop || worldmap->at_level())
+          WorldMap::Level* level = worldmap->at_level();
+          if(level && level->name.empty() && !level->display_map_message.empty() &&
+             level->passive_message)
+            {  // direction and the apply_action_ are opposites, since they "see"
+               // directions in a different way
+            if((direction == D_NORTH && level->apply_action_south) ||
+               (direction == D_SOUTH && level->apply_action_north) ||
+               (direction == D_WEST && level->apply_action_east) ||
+               (direction == D_EAST && level->apply_action_west))
+              {
+              worldmap->passive_message = level->display_map_message;
+              worldmap->passive_message_timer.start(DISPLAY_MAP_MESSAGE_TIME);
+              }
+            }
+
+          Tile* cur_tile = worldmap->at(tile_pos);
+          if (cur_tile->stop || (level && (!level->name.empty() || level->teleport_dest_x != -1)))
             {
               stop();
             }
@@ -288,18 +321,18 @@ Tux::update(float delta)
               if (worldmap->at(tile_pos)->auto_walk)
                 { // Turn to a new direction
                   Tile* tile = worldmap->at(tile_pos);
-                  Direction dir = NONE;
+                  Direction dir = D_NONE;
                   
-                  if (tile->north && back_direction != NORTH)
-                    dir = NORTH;
-                  else if (tile->south && back_direction != SOUTH)
-                    dir = SOUTH;
-                  else if (tile->east && back_direction != EAST)
-                    dir = EAST;
-                  else if (tile->west && back_direction != WEST)
-                    dir = WEST;
+                  if (tile->north && back_direction != D_NORTH)
+                    dir = D_NORTH;
+                  else if (tile->south && back_direction != D_SOUTH)
+                    dir = D_SOUTH;
+                  else if (tile->east && back_direction != D_EAST)
+                    dir = D_EAST;
+                  else if (tile->west && back_direction != D_WEST)
+                    dir = D_WEST;
 
-                  if (dir != NONE)
+                  if (dir != D_NONE)
                     {
                       direction = dir;
                       back_direction = reverse_dir(direction);
@@ -320,7 +353,6 @@ Tux::update(float delta)
                 }
               else
                 {
-                  puts("Tilemap data is buggy");
                   stop();
                 }
             }
@@ -343,22 +375,27 @@ Tile::~Tile()
 WorldMap::WorldMap()
 {
   tile_manager = new TileManager();
-  tux = new Tux(this);
 
   width  = 20;
   height = 15;
+  
+  start_x = 4;
+  start_y = 5;
+
+  passive_message_timer.init(true);
 
   level_sprite = new Surface(datadir +  "/images/worldmap/levelmarker.png", USE_ALPHA);
   leveldot_green = new Surface(datadir +  "/images/worldmap/leveldot_green.png", USE_ALPHA);
   leveldot_red = new Surface(datadir +  "/images/worldmap/leveldot_red.png", USE_ALPHA);
-
-  input_direction = NONE;
+  leveldot_teleporter = new Surface(datadir +  "/images/worldmap/teleporter.png", USE_ALPHA);
+  
+  map_file = datadir + "/levels/default/worldmap.stwm";
+  
+  input_direction = D_NONE;
   enter_level = false;
 
   name = "<no file>";
   music = "SALCON.MOD";
-
-  load_map();
 }
 
 WorldMap::~WorldMap()
@@ -369,16 +406,21 @@ WorldMap::~WorldMap()
   delete level_sprite;
   delete leveldot_green;
   delete leveldot_red;
+  delete leveldot_teleporter;
+}
+
+void
+WorldMap::set_map_file(std::string mapfile)
+{
+  map_file = datadir + "/levels/default/" + mapfile;
 }
 
 void
 WorldMap::load_map()
 {
-  std::string filename = datadir +  "/levels/default/worldmap.stwm";
-  
-  lisp_object_t* root_obj = lisp_read_from_file(filename);
+  lisp_object_t* root_obj = lisp_read_from_file(map_file);
   if (!root_obj)
-    st_abort("Couldn't load file", filename);
+    st_abort("Couldn't load file", map_file);
   
   if (strcmp(lisp_symbol(lisp_car(root_obj)), "supertux-worldmap") == 0)
     {
@@ -400,6 +442,8 @@ WorldMap::load_map()
               LispReader reader(lisp_cdr(element));
               reader.read_string("name",  &name);
               reader.read_string("music", &music);
+   	      reader.read_int("start_pos_x", &start_x);
+	      reader.read_int("start_pos_y", &start_y);
             }
           else if (strcmp(lisp_symbol(lisp_car(element)), "levels") == 0)
             {
@@ -424,8 +468,28 @@ WorldMap::load_map()
                       reader.read_string("name",  &level.name);
                       reader.read_int("x", &level.x);
                       reader.read_int("y", &level.y);
+                      reader.read_string("map-message", &level.display_map_message);
+                      level.auto_path = true;
+                      reader.read_bool("auto-path", &level.auto_path);
+                      level.passive_message = true;
+                      reader.read_bool("passive-message", &level.passive_message);
+							 
+							 level.invisible_teleporter = false;
+							 level.teleport_dest_x = level.teleport_dest_y = -1;
+							 reader.read_int("dest_x", &level.teleport_dest_x);
+							 reader.read_int("dest_y", &level.teleport_dest_y);
+							 reader.read_string("teleport-message", &level.teleport_message);
+							 reader.read_bool("invisible-teleporter", &level.invisible_teleporter);
+                      
+							 level.apply_action_north = level.apply_action_south =
+                            level.apply_action_east = level.apply_action_west = true;
+                      reader.read_bool("apply-action-up", &level.apply_action_north);
+                      reader.read_bool("apply-action-down", &level.apply_action_south);
+                      reader.read_bool("apply-action-left", &level.apply_action_west);
+                      reader.read_bool("apply-action-right", &level.apply_action_east);
 
-                      get_level_title(&level);   // get level's title
+                      if(!level.name.empty())
+                        get_level_title(&level);   // get level's title
 
                       levels.push_back(level);
                     }
@@ -442,7 +506,8 @@ WorldMap::load_map()
         }
     }
 
-    lisp_free(root_obj);
+    lisp_free(root_obj);   
+    tux = new Tux(this);
 }
 
 void WorldMap::get_level_title(Levels::pointer level)
@@ -493,7 +558,7 @@ void
 WorldMap::get_input()
 {
   enter_level = false;
-  input_direction = NONE;
+  input_direction = D_NONE;
    
   SDL_Event event;
   while (SDL_PollEvent(&event))
@@ -529,16 +594,16 @@ WorldMap::get_input()
               if (event.jaxis.axis == joystick_keymap.x_axis)
                 {
                   if (event.jaxis.value < -joystick_keymap.dead_zone)
-                    input_direction = WEST;
+                    input_direction = D_WEST;
                   else if (event.jaxis.value > joystick_keymap.dead_zone)
-                    input_direction = EAST;
+                    input_direction = D_EAST;
                 }
               else if (event.jaxis.axis == joystick_keymap.y_axis)
                 {
                   if (event.jaxis.value > joystick_keymap.dead_zone)
-                    input_direction = SOUTH;
+                    input_direction = D_SOUTH;
                   else if (event.jaxis.value < -joystick_keymap.dead_zone)
-                    input_direction = NORTH;
+                    input_direction = D_NORTH;
                 }
               break;
 
@@ -560,13 +625,13 @@ WorldMap::get_input()
       Uint8 *keystate = SDL_GetKeyState(NULL);
   
       if (keystate[SDLK_LEFT])
-        input_direction = WEST;
+        input_direction = D_WEST;
       else if (keystate[SDLK_RIGHT])
-        input_direction = EAST;
+        input_direction = D_EAST;
       else if (keystate[SDLK_UP])
-        input_direction = NORTH;
+        input_direction = D_NORTH;
       else if (keystate[SDLK_DOWN])
-        input_direction = SOUTH;
+        input_direction = D_SOUTH;
     }
 }
 
@@ -575,19 +640,19 @@ WorldMap::get_next_tile(Point pos, Direction direction)
 {
   switch(direction)
     {
-    case WEST:
+    case D_WEST:
       pos.x -= 1;
       break;
-    case EAST:
+    case D_EAST:
       pos.x += 1;
       break;
-    case NORTH:
+    case D_NORTH:
       pos.y -= 1;
       break;
-    case SOUTH:
+    case D_SOUTH:
       pos.y += 1;
       break;
-    case NONE:
+    case D_NONE:
       break;
     }
   return pos;
@@ -603,23 +668,32 @@ WorldMap::path_ok(Direction direction, Point old_pos, Point* new_pos)
     { // New position is outsite the tilemap
       return false;
     }
+  else if(at(*new_pos)->one_way != BOTH_WAYS)
+    {
+      if((at(*new_pos)->one_way == NORTH_SOUTH_WAY && direction != D_SOUTH) ||
+         (at(*new_pos)->one_way == SOUTH_NORTH_WAY && direction != D_NORTH) ||
+         (at(*new_pos)->one_way == EAST_WEST_WAY && direction != D_WEST) ||
+         (at(*new_pos)->one_way == WEST_EAST_WAY && direction != D_EAST))
+        return false;
+      return true;
+    }
   else
     { // Check if we the tile allows us to go to new_pos
       switch(direction)
         {
-        case WEST:
+        case D_WEST:
           return (at(old_pos)->west && at(*new_pos)->east);
 
-        case EAST:
+        case D_EAST:
           return (at(old_pos)->east && at(*new_pos)->west);
 
-        case NORTH:
+        case D_NORTH:
           return (at(old_pos)->north && at(*new_pos)->south);
 
-        case SOUTH:
+        case D_SOUTH:
           return (at(old_pos)->south && at(*new_pos)->north);
 
-        case NONE:
+        case D_NONE:
           assert(!"path_ok() can't work if direction is NONE");
         }
       return false;
@@ -632,7 +706,7 @@ WorldMap::update(float delta)
   if (enter_level && !tux->is_moving())
     {
       Level* level = at_level();
-      if (level)
+      if (level && !level->name.empty())
         {
           if (level->x == tux->get_tile_pos().x && 
               level->y == tux->get_tile_pos().y)
@@ -643,7 +717,7 @@ WorldMap::update(float delta)
 
               switch (session.run())
                 {
-                case GameSession::LEVEL_FINISHED:
+                case GameSession::ES_LEVEL_FINISHED:
                   {
                     bool old_level_state = level->solved;
                     level->solved = true;
@@ -655,23 +729,23 @@ WorldMap::update(float delta)
                     else
                       player_status.bonus = PlayerStatus::NO_BONUS;
 
-                    if (old_level_state != level->solved)
+                    if (old_level_state != level->solved && level->auto_path)
                       { // Try to detect the next direction to which we should walk
                         // FIXME: Mostly a hack
-                        Direction dir = NONE;
+                        Direction dir = D_NONE;
                     
                         Tile* tile = at(tux->get_tile_pos());
 
-                        if (tile->north && tux->back_direction != NORTH)
-                          dir = NORTH;
-                        else if (tile->south && tux->back_direction != SOUTH)
-                          dir = SOUTH;
-                        else if (tile->east && tux->back_direction != EAST)
-                          dir = EAST;
-                        else if (tile->west && tux->back_direction != WEST)
-                          dir = WEST;
+                        if (tile->north && tux->back_direction != D_NORTH)
+                          dir = D_NORTH;
+                        else if (tile->south && tux->back_direction != D_SOUTH)
+                          dir = D_SOUTH;
+                        else if (tile->east && tux->back_direction != D_EAST)
+                          dir = D_EAST;
+                        else if (tile->west && tux->back_direction != D_WEST)
+                          dir = D_WEST;
 
-                        if (dir != NONE)
+                        if (dir != D_NONE)
                           {
                             tux->set_direction(dir);
                             //tux->update(delta);
@@ -695,7 +769,7 @@ WorldMap::update(float delta)
                   }
 
                   break;
-                case GameSession::LEVEL_ABORT:
+                case GameSession::ES_LEVEL_ABORT:
                   // Reseting the player_status might be a worthy
                   // consideration, but I don't think we need it
                   // 'cause only the bad players will use it to
@@ -704,11 +778,11 @@ WorldMap::update(float delta)
                   // then stop playing the game all together since it
                   // is to hard)
                   break;
-                case GameSession::GAME_OVER:
+                case GameSession::ES_GAME_OVER:
                   quit = true;
                   player_status.reset();
                   break;
-                case GameSession::NONE:
+                case GameSession::ES_NONE:
                   // Should never be reached 
                   break;
                 }
@@ -720,7 +794,17 @@ WorldMap::update(float delta)
               return;
             }
         }
-      else
+      else if (level && level->teleport_dest_x != -1 && level->teleport_dest_y != -1) {
+			if (level->x == tux->get_tile_pos().x && 
+              level->y == tux->get_tile_pos().y)
+				{
+					play_sound(sounds[SND_TELEPORT], SOUND_CENTER_SPEAKER);
+					tux->back_direction = D_NONE;
+					tux->set_tile_pos(Point(level->teleport_dest_x, level->teleport_dest_y));
+					SDL_Delay(1000);
+				}
+		}
+		else
         {
           std::cout << "Nothing to enter at: "
                     << tux->get_tile_pos().x << ", " << tux->get_tile_pos().y << std::endl;
@@ -793,7 +877,15 @@ WorldMap::draw(const Point& offset)
   
   for(Levels::iterator i = levels.begin(); i != levels.end(); ++i)
     {
-      if (i->solved)
+      if(i->name.empty()) {
+      	if ((i->teleport_dest_x != -1) && !i->invisible_teleporter) {
+				leveldot_teleporter->draw(i->x*32 + offset.x, 
+                             i->y*32 + offset.y);
+			}
+			else continue;
+		}
+
+      else if (i->solved)
         leveldot_green->draw(i->x*32 + offset.x, 
                              i->y*32 + offset.y);
       else
@@ -837,11 +929,28 @@ WorldMap::draw_status()
           if (i->x == tux->get_tile_pos().x && 
               i->y == tux->get_tile_pos().y)
             {
+              if(!i->name.empty())
+                {
               white_text->draw_align(i->title.c_str(), screen->w/2, screen->h,  A_HMIDDLE, A_BOTTOM);
+                }
+				  else if (i->teleport_dest_x != -1) {
+				  	if(!i->teleport_message.empty())
+               	 gold_text->draw_align(i->teleport_message.c_str(), screen->w/2, screen->h,  A_HMIDDLE, A_BOTTOM);
+				  }
+
+              /* Display a message in the map, if any as been selected */
+              if(!i->display_map_message.empty() && !i->passive_message)
+                gold_text->draw_align(i->display_map_message.c_str(),
+                     screen->w/2, screen->h - 30,A_HMIDDLE, A_BOTTOM);
               break;
             }
         }
     }
+
+  /* Display a passive message in the map, if needed */
+  if(passive_message_timer.check())
+    gold_text->draw_align(passive_message.c_str(),
+                          screen->w/2, screen->h - 30,A_HMIDDLE, A_BOTTOM);
 }
 
 void
@@ -925,7 +1034,7 @@ WorldMap::savegame(const std::string& filename)
   
   for(Levels::iterator i = levels.begin(); i != levels.end(); ++i)
     {
-      if (i->solved)
+      if (i->solved && !i->name.empty())
         {
           out << "     (level (name \"" << i->name << "\")\n"
               << "            (solved #t))\n";
@@ -1014,6 +1123,14 @@ WorldMap::loadgame(const std::string& filename)
     }
  
   lisp_free(savegame);
+}
+
+void
+WorldMap::loadmap(const std::string& filename)
+{
+  savegame_file = "";
+  set_map_file(filename);
+  load_map();
 }
 
 } // namespace WorldMapNS

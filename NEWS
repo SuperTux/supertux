@@ -1,9 +1,22 @@
-Super Tux 0.1.1 (...)
+Super Tux 0.1.2 (24 August 04)
+=====================
+  * a brand new island containing 22 contributed and "official" levels!
+  * a "new" enemy: The Fish
+  * some new music and graphics
+  * additions to level-/worldmap format and gameplay:
+    -support for autoscrolling levels
+    -map-messages, one-way roads and teleporters
+    -kicked ice blocks destroy wooden crates and open "?"-boxes
+  * minor bug fixes
+
+
+Super Tux 0.1.1 (11 May 04)
 =====================
   * new handwritten font
-  * endseq bug squished
-  * build in leveledior
+  * endseq bugs squished
+  * build in leveleditor
   * support for g++-2.95  
+  * various bug fixes
   
 
 Super Tux 0.1.0 (3 May 04)

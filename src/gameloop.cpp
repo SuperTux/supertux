@@ -76,7 +76,7 @@ void
 GameSession::restart_level()
 {
   game_pause   = false;
-  exit_status  = NONE;
+  exit_status  = ES_NONE;
   end_sequence = NO_ENDSEQUENCE;
 
   fps_timer.init(true);
@@ -119,6 +119,9 @@ GameSession::restart_level()
         {
           world->get_tux()->base.x = best_reset_point.x;
           world->get_tux()->base.y = best_reset_point.y;
+
+          if((bool)world->get_level()->hor_autoscroll_speed)
+            scroll_x = best_reset_point.x;
         }
     }
     
@@ -183,7 +186,7 @@ GameSession::on_escape_press()
 
   if(st_gl_mode == ST_GL_TEST)
     {
-      exit_status = LEVEL_ABORT;
+      exit_status = ES_LEVEL_ABORT;
     }
   else if (!Menu::current())
     {
@@ -263,6 +266,16 @@ GameSession::process_events()
               Menu::current()->event(event);
 	      if(!Menu::current())
 	      st_pause_ticks_stop();
+
+            /* Tell Tux that the keys are all down, otherwise
+               it could have nasty bugs, like going allways to the right
+               or whatever that key does */
+            Player& tux = *world->get_tux();
+            tux.key_event((SDLKey)keymap.jump, UP);
+            tux.key_event((SDLKey)keymap.duck, UP);
+            tux.key_event((SDLKey)keymap.left, UP);
+            tux.key_event((SDLKey)keymap.right, UP);
+            tux.key_event((SDLKey)keymap.fire, UP);
             }
           else
             {
@@ -431,7 +444,7 @@ GameSession::check_end_conditions()
     }
   else if(end_sequence && !endsequence_timer.check())
     {
-      exit_status = LEVEL_FINISHED;
+      exit_status = ES_LEVEL_FINISHED;
       return;
     }
   else if(end_sequence == ENDSEQUENCE_RUNNING && endtile && endtile->data >= 1)
@@ -455,7 +468,7 @@ GameSession::check_end_conditions()
           if(st_gl_mode != ST_GL_TEST)
             drawendscreen();
           
-          exit_status = GAME_OVER;
+          exit_status = ES_GAME_OVER;
         }
       else
         { // Still has lives, so reset Tux to the levelstart
@@ -469,7 +482,7 @@ GameSession::check_end_conditions()
 void
 GameSession::action(double frame_ratio)
 {
-  if (exit_status == NONE)
+  if (exit_status == ES_NONE)
     {
       // Update Tux and the World
       world->action(frame_ratio);
@@ -519,7 +532,7 @@ GameSession::process_menu()
               break;
             case MNID_ABORTLEVEL:
               st_pause_ticks_stop();
-              exit_status = LEVEL_ABORT;
+              exit_status = ES_LEVEL_ABORT;
               break;
             }
         }
@@ -550,7 +563,7 @@ GameSession::run()
 
   draw();
 
-  while (exit_status == NONE)
+  while (exit_status == ES_NONE)
     {
       /* Calculate the movement-factor */
       double frame_ratio = ((double)(update_time-last_update_time))/((double)FRAME_RATE);

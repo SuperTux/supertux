@@ -65,6 +65,7 @@ enum {
   SND_STOMP,
   SND_KICK,
   SND_EXPLODE,
+  SND_TELEPORT,
   NUM_SOUNDS
 };
 

@@ -579,7 +579,7 @@ World::get_music_type()
 
 /* Break a brick: */
 void
-World::trybreakbrick(float x, float y, bool small)
+World::trybreakbrick(float x, float y, bool small, Direction col_side)
 {
   Level* plevel = get_level();
   
@@ -628,6 +628,8 @@ World::trybreakbrick(float x, float y, bool small)
           player_status.score = player_status.score + SCORE_BRICK;
         }
     }
+  else if(tile->fullbox)
+    tryemptybox(x, y, col_side);
 }
 
 /* Empty a box: */

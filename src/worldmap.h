@@ -46,6 +46,15 @@ struct Point
   int y;
 };
 
+// For one way tiles
+enum {
+  BOTH_WAYS,
+  NORTH_SOUTH_WAY,
+  SOUTH_NORTH_WAY,
+  EAST_WEST_WAY,
+  WEST_EAST_WAY
+  };
+
 class Tile
 {
 public:
@@ -59,6 +68,9 @@ public:
   bool east;
   bool south;
   bool west;
+
+  /** One way tile */
+  int one_way;
 
   /** Stop on this tile or walk over it? */
   bool stop;
@@ -81,7 +93,7 @@ public:
   Tile* get(int i);
 };
 
-enum Direction { NONE, WEST, EAST, NORTH, SOUTH };
+enum Direction { D_NONE, D_WEST, D_EAST, D_NORTH, D_SOUTH };
 
 std::string direction_to_string(Direction d);
 Direction   string_to_direction(const std::string& d);
@@ -134,6 +146,7 @@ private:
   Surface* level_sprite;
   Surface* leveldot_green;
   Surface* leveldot_red;
+  Surface* leveldot_teleporter;
 
   std::string name;
   std::string music;
@@ -141,6 +154,9 @@ private:
   std::vector<int> tilemap;
   int width;
   int height;
+  
+  int start_x;
+  int start_y;
 
   TileManager* tile_manager;
 
@@ -157,12 +173,35 @@ public:
         successfully completed */
     std::string extro_filename;
 
+    /** Message to show in the Map during a certain time */
+    std::string display_map_message;
+    bool passive_message;
+	 
+	 /** Teleporters */
+	 int teleport_dest_x;
+	 int teleport_dest_y;
+	 std::string teleport_message;
+	 bool invisible_teleporter;
+
+    /** If false, disables the auto walking after finishing a level */
+    bool auto_path;
+
+    /** Only applies actions (ie. map messages) when going to that direction */
+    bool apply_action_north;
+    bool apply_action_east;
+    bool apply_action_south;
+    bool apply_action_west;
+
     // Directions which are walkable from this level
     bool north;
     bool east;
     bool south;
     bool west;
   };
+
+  /** Variables to deal with the passive map messages */
+  Timer passive_message_timer;
+  std::string passive_message;
 
 private:
   typedef std::vector<Level> Levels;
@@ -175,6 +214,7 @@ private:
 
   Point offset;
   std::string savegame_file;
+  std::string map_file;
 
   void get_level_title(Levels::pointer level);
 
@@ -182,6 +222,8 @@ private:
 public:
   WorldMap();
   ~WorldMap();
+
+  void set_map_file(std::string mapfile);
 
   /** Busy loop */
   void display();
@@ -206,6 +248,23 @@ public:
 
   void savegame(const std::string& filename);
   void loadgame(const std::string& filename);
+  void loadmap(const std::string& filename);
+
+  const std::string& get_world_title() const
+    { return name; }
+  
+  const int& get_start_x() const
+    { return start_x; }
+  
+  const int& get_start_y() const
+    { return start_y; }
+
+  /** This functions should be call by contrib menu to set
+     all levels as played, since their state is not saved. */
+  void set_levels_as_solved()
+    { for(Levels::iterator i = levels.begin(); i != levels.end(); ++i)
+        i->solved = true;  }
+
 private:
   void on_escape_press();
 };

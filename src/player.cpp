@@ -228,7 +228,7 @@ Player::action(double frame_ratio)
               World::current()->trygrabdistro(base.x, base.y - 32,BOUNCE);
               World::current()->trybumpbadguy(base.x, base.y - 64);
 
-              World::current()->trybreakbrick(base.x, base.y, size == SMALL);
+              World::current()->trybreakbrick(base.x, base.y, size == SMALL, RIGHT);
 
               bumpbrick(base.x, base.y);
               World::current()->tryemptybox(base.x, base.y, RIGHT);
@@ -241,7 +241,7 @@ Player::action(double frame_ratio)
               World::current()->trybumpbadguy(base.x+ 31, base.y - 64);
 
               if(size == BIG)
-                World::current()->trybreakbrick(base.x+ 31, base.y, size == SMALL);
+                World::current()->trybreakbrick(base.x+ 31, base.y, size == SMALL, LEFT);
 
               bumpbrick(base.x+ 31, base.y);
               World::current()->tryemptybox(base.x+ 31, base.y, LEFT);
@@ -594,7 +594,7 @@ Player::draw()
             }
                       
           // Draw arm overlay graphics when Tux is holding something
-          if (holding_something && physic.get_velocity_y() == 0)
+          if (holding_something && physic.get_velocity_y() == 0 && !duck)
             {
               if (dir == RIGHT)
                 sprite->grab_right->draw(base.x - scroll_x, base.y);
@@ -761,7 +761,7 @@ Player::check_bounds(bool back_scrolling, bool hor_autoscroll)
   if(hor_autoscroll)
     {
     if(base.x == scroll_x)
-      if(issolid(base.x+32, base.y) || (size != SMALL && issolid(base.x+32, base.y+32)))
+      if((issolid(base.x+32, base.y) || (size != SMALL && !duck && issolid(base.x+32, base.y+32))) && (dying == DYING_NOT))
         kill(KILL);
 
     if(base.x + base.width > scroll_x + screen->w)
