@@ -1,5 +1,6 @@
 #
 # SConstruct build file. See http://www.scons.org for details.
+import os
 
 # based on a script from chenlee@ustc.edu
 def Glob(dirs, pattern = '*' ):
@@ -11,6 +12,7 @@ def Glob(dirs, pattern = '*' ):
                 files.append( os.path.join( dir, file ) ) 
     return files 
 
+# thanks to Michael P Jung
 def CheckSDLConfig(context, minVersion):
     context.Message('Checking for sdl-config >= %s... ' % minVersion)
     from popen2 import Popen3
@@ -34,7 +36,7 @@ def CheckSDLConfig(context, minVersion):
     context.Result(ret)
     return ret
 
-opts = Options('custom.py')
+opts = Options('build_config.py')
 opts.Add('CXX', 'The C++ compiler', 'g++')
 opts.Add('CXXFLAGS', 'Additional C++ compiler flags', '')
 opts.Add('CPPPATH', 'Additional preprocessor paths', '')
@@ -44,47 +46,54 @@ opts.Add('LIBS', 'Additional libraries', '')
 opts.Add('DESTDIR', \
         'destination directory for installation. It is prepended to PREFIX', '')
 opts.Add('PREFIX', 'Installation prefix', '/usr/local')
-opts.Add(ListOption('VARIANT', 'Build variant', 'optimize',
+opts.Add(EnumOption('VARIANT', 'Build variant', 'optimize',
             ['optimize', 'debug', 'profile']))
 
 env = Environment(options = opts)
-conf = Configure(env, custom_tests = {
-    'CheckSDLConfig' : CheckSDLConfig
-})
+env.SourceSignatures('timestamp')
 
-# TODO check -config apps in the Configure context
-   
-if not conf.CheckSDLConfig('1.2.4'):
-    print "Couldn't find libSDL >= 1.2.4"
-    Exit(1)
-if not conf.CheckLib('SDL_mixer'):
-    print "Couldn't find SDL_mixer library!"
-    Exit(1)
-if not conf.CheckLib('SDL_image'):
-    print "Couldn't find SDL_image library!"
-    Exit(1)
-if not conf.CheckLib('GL'):
-    print "Couldn't find OpenGL library!"
-    Exit(1)
+if not os.path.exists("build_config.py"):
+    print "build_config.py doesn't exist - Generating new build config..."
+        
+    conf = Configure(env, custom_tests = {
+        'CheckSDLConfig' : CheckSDLConfig
+    })
 
-env = conf.Finish()
+    if not conf.CheckSDLConfig('1.2.4'):
+        print "Couldn't find libSDL >= 1.2.4"
+        Exit(1)
+    if not conf.CheckLib('SDL_mixer'):
+        print "Couldn't find SDL_mixer library!"
+        Exit(1)
+    if not conf.CheckLib('SDL_image'):
+        print "Couldn't find SDL_image library!"
+        Exit(1)
+    if not conf.CheckLib('GL'):
+        print "Couldn't find OpenGL library!"
+        Exit(1)
 
-if str(env['VARIANT']) == "optimize":
-    env.Append(CXXFLAGS = "-O2 -g")
-elif str(env['VARIANT']) == "debug":
-    env.Append(CXXFLAGS = "-O0 -g3")
-    env.Append(CPPDEFINES = { "DEBUG":"1" })
-elif str(env['VARIANT']) == "profile":
-    env.Append(CXXFLAGS = "-pg -O2")
+    env = conf.Finish()
 
-env.ParseConfig('sdl-config --cflags --libs')
-env.Append(CPPPATH = ["#", "#/src", "#/lib"])
-env.Append(CPPDEFINES = \
+    env.ParseConfig('sdl-config --cflags --libs')
+    env.Append(CPPDEFINES = \
         {'DATA_PREFIX':"'\"" + env['PREFIX'] + "/share/supertux\"'" ,
          'LOCALEDIR'  :"'\"" + env['PREFIX'] + "/locales\"'"})
+    opts.Save("build_config.py", env)
+else:
+    print "Using build_config.py"
+    
 
-build_dir="build/" + env['PLATFORM'] + "/" + str(env['VARIANT'])
+if env['VARIANT'] == "optimize":
+    env.Append(CXXFLAGS = "-O2 -g")
+elif env['VARIANT'] == "debug":
+    env.Append(CXXFLAGS = "-O0 -g3")
+    env.Append(CPPDEFINES = { "DEBUG":"1" })
+elif env['VARIANT'] == "profile":
+    env.Append(CXXFLAGS = "-pg -O2")
 
+build_dir="build/" + env['PLATFORM'] + "/" + env['VARIANT']
+
+env.Append(CPPPATH = ["#", "#/src", "#/lib"])
 env.Append(LIBS = ["supertux"])
 env.Append(LIBPATH=["#" + build_dir + "/lib"])
 
