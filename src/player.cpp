@@ -64,15 +64,16 @@ void player_input_init(player_input_type* pplayer_input)
 void
 Player::init()
 {
+  Level* plevel = World::current()->get_level();
+
   base.width = 32;
   base.height = 32;
 
   size = SMALL;
   got_coffee = false;
 
-  // FIXME: Make the start position configurable via the levelfile
-  base.x = 100;
-  base.y = 170;
+  base.x = plevel->start_pos_x;
+  base.y = plevel->start_pos_y;
   base.xm = 0;
   base.ym = 0;
   previous_base = old_base = base;

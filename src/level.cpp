@@ -213,6 +213,8 @@ Level::init_defaults()
   song_title = "Mortimers_chipdisko.mod";
   bkgd_image = "arctis.png";
   width      = 21;
+  start_pos_x = 100;
+  start_pos_y = 170;
   time_left  = 100;
   gravity    = 10.;
   bkgd_top.red   = 0;
@@ -285,9 +287,10 @@ Level::load(const std::string& filename)
   if (strcmp(lisp_symbol(lisp_car(root_obj)), "supertux-level") == 0)
     {
       LispReader reader(lisp_cdr(root_obj));
-
       reader.read_int("version",  &version);
       reader.read_int("width",  &width);
+      if (!reader.read_int("start_pos_x", &start_pos_x)) start_pos_x = 100;
+      if (!reader.read_int("start_pos_y", &start_pos_y)) start_pos_y = 170;
       reader.read_int("time",  &time_left);
 
       reader.read_int("bkgd_top_red",  &bkgd_top.red);
