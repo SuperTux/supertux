@@ -113,7 +113,7 @@ static bool le_level_changed;  /* if changes, ask for saving, when quiting*/
 static int pos_x, cursor_x, cursor_y, fire;
 static int le_level;
 static LevelEditorWorld le_world;
-static LevelSubset le_level_subset;
+static LevelSubset* le_level_subset;
 static int le_show_grid;
 static int le_frame;
 static Surface* le_selection;
@@ -140,7 +140,8 @@ static Menu* subset_settings_menu;
 static Menu* level_settings_menu;
 static Menu* select_tilegroup_menu;
 static Timer select_tilegroup_menu_effect;
-static std::map<std::string, ButtonPanel* > tilegroups_map;
+typedef std::map<std::string, ButtonPanel*> TileGroupsMap;
+static TileGroupsMap tilegroups_map;
 static std::string cur_tilegroup;
 
 static square selection;
@@ -258,11 +259,10 @@ int leveleditor(int levelnb)
               switch (it = select_tilegroup_menu->check())
                 {
                 default:
-		  if(it != -1)
+		  if(it >= 0)
                     {
-                      if(select_tilegroup_menu->item[it].kind == MN_ACTION)
-                        cur_tilegroup = select_tilegroup_menu->item[it].text;
-		  
+                      cur_tilegroup 
+                        = select_tilegroup_menu->get_item_by_id(it).text;
                       Menu::set_current(0);
                     }
                   break;
@@ -277,12 +277,13 @@ int leveleditor(int levelnb)
                 default:
                   if(i >= 1)
                     {
-                      le_level_subset.load(level_subsets.item[i-1]);
+                      le_level_subset->load(level_subsets.item[i-1]);
                       leveleditor_menu->item[3].kind = MN_GOTO;
                       le_level = 1;
                       le_world.arrays_free();
+                      delete le_current_level;
                       le_current_level = new Level;
-                      if(le_current_level->load(le_level_subset.name.c_str(), le_level) != 0)
+                      if(le_current_level->load(le_level_subset->name, le_level) != 0)
                         {
                           le_quit();
                           return 1;
@@ -309,12 +310,13 @@ int leveleditor(int levelnb)
                     {
                     case MNID_CREATESUBSET:
                       LevelSubset::create(subset_new_menu->item[2].input);
-                      le_level_subset.load(subset_new_menu->item[2].input);
+                      le_level_subset->load(subset_new_menu->item[2].input);
                       leveleditor_menu->item[3].kind = MN_GOTO;
                       le_level = 1;
                       le_world.arrays_free();
+                      delete le_current_level;
                       le_current_level = new Level;
-                      if(le_current_level->load(le_level_subset.name.c_str(), le_level) != 0)
+                      if(le_current_level->load(le_level_subset->name, le_level) != 0)
                         {
                           le_quit();
                           return 1;
@@ -331,7 +333,7 @@ int leveleditor(int levelnb)
             }
           else if(menu == subset_settings_menu)
             {
-              if(le_level_subset.title.compare(subset_settings_menu->item[2].input) == 0 && le_level_subset.description.compare(subset_settings_menu->item[3].input) == 0  )
+              if(le_level_subset->title.compare(subset_settings_menu->item[2].input) == 0 && le_level_subset->description.compare(subset_settings_menu->item[3].input) == 0  )
                 subset_settings_menu->item[5].kind = MN_DEACTIVE;
               else
                 subset_settings_menu->item[5].kind = MN_ACTION;
@@ -365,6 +367,7 @@ int leveleditor(int levelnb)
       flipscreen();
     }
 
+  le_quit();
   return done;
 }
 
@@ -372,6 +375,8 @@ int le_init()
 {
   int i;
   level_subsets = dsubdirs("/levels", "info");
+  
+  le_level_subset = new LevelSubset;
 
   active_tm = TM_IA;
   
@@ -480,14 +485,24 @@ int le_init()
   select_tilegroup_menu->additem(MN_LABEL,"Select Tilegroup",0,0);
   select_tilegroup_menu->additem(MN_HL,"",0,0);
   std::vector<TileGroup>* tilegroups = TileManager::tilegroups();
-  for(std::vector<TileGroup>::iterator it = tilegroups->begin(); it != tilegroups->end(); ++it )
+  int tileid = 1;
+  for(std::vector<TileGroup>::iterator it = tilegroups->begin();
+      it != tilegroups->end(); ++it )
     {
-
-      select_tilegroup_menu->additem(MN_ACTION,const_cast<char*>((*it).name.c_str()),0,0);
+      select_tilegroup_menu->additem(MN_ACTION, it->name, 0, 0, tileid);
+      tileid++;
       tilegroups_map[(*it).name] = new ButtonPanel(screen->w - 64,96, 64, 318);
       i = 0;
-      for(std::vector<int>::iterator sit = (*it).tiles.begin(); sit != (*it).tiles.end(); ++sit, ++i)
-        tilegroups_map[(*it).name]->additem(new Button(const_cast<char*>(("images/tilesets/" + TileManager::instance()->get(*sit)->filenames[0]).c_str()), const_cast<char*>((*it).name.c_str()),(SDLKey)(i+'a'),0,0,32,32),(*sit));
+      
+      for(std::vector<int>::iterator sit = (*it).tiles.begin();
+              sit != (*it).tiles.end(); ++sit, ++i)
+        {
+          std::string imagefile = "/images/tilesets/" ;
+          imagefile += TileManager::instance()->get(*sit)->filenames[0];
+          Button* button = new Button(imagefile, it->name, SDLKey(SDLK_a + i),
+                  0, 0, 32, 32);
+          tilegroups_map[it->name]->additem(button, *sit);
+        }
     }
   select_tilegroup_menu->additem(MN_HL,"",0,0);
 
@@ -537,8 +552,8 @@ void update_level_settings_menu()
 
 void update_subset_settings_menu()
 {
-  subset_settings_menu->item[2].change_input(le_level_subset.title.c_str());
-  subset_settings_menu->item[3].change_input(le_level_subset.description.c_str());
+  subset_settings_menu->item[2].change_input(le_level_subset->title.c_str());
+  subset_settings_menu->item[3].change_input(le_level_subset->description.c_str());
 }
 
 void apply_level_settings_menu()
@@ -582,9 +597,9 @@ void apply_level_settings_menu()
 
 void save_subset_settings_menu()
 {
-  le_level_subset.title = subset_settings_menu->item[2].input;
-  le_level_subset.description = subset_settings_menu->item[3].input;
-  le_level_subset.save();
+  le_level_subset->title = subset_settings_menu->item[2].input;
+  le_level_subset->description = subset_settings_menu->item[3].input;
+  le_level_subset->save();
 }
 
 void le_goto_level(int levelnb)
@@ -592,9 +607,9 @@ void le_goto_level(int levelnb)
   le_world.arrays_free();
 
   le_current_level->cleanup();
-  if(le_current_level->load(le_level_subset.name.c_str(), levelnb) != 0)
+  if(le_current_level->load(le_level_subset->name.c_str(), levelnb) != 0)
     {
-      le_current_level->load(le_level_subset.name.c_str(), le_level);
+      le_current_level->load(le_level_subset->name.c_str(), le_level);
     }
   else
     {
@@ -638,11 +653,13 @@ void le_quit(void)
   delete le_tilegroup_bt;
   delete le_tilemap_panel;
 
-  if(le_current_level != NULL)
+  delete le_current_level;
+  le_current_level = 0;
+
+  for(TileGroupsMap::iterator i = tilegroups_map.begin();
+      i != tilegroups_map.end(); ++i)
     {
-      le_current_level->free_gfx();
-      le_current_level->cleanup();
-      le_world.arrays_free();
+      delete i->second;
     }
 }
 
@@ -704,7 +721,7 @@ void le_drawinterface()
       tilegroups_map[cur_tilegroup]->draw();
       le_tilemap_panel->draw();
 
-      sprintf(str, "%d/%d", le_level,le_level_subset.levels);
+      sprintf(str, "%d/%d", le_level,le_level_subset->levels);
       white_text->drawf(str, -10, 16, A_RIGHT, A_TOP, 0);
 
       white_small_text->draw("F1 for Help", 10, 430, 1);
@@ -958,7 +975,7 @@ void le_checkevents()
                     le_testlevel();
                   le_save_level_bt->event(event);
                   if(le_save_level_bt->get_state() == BUTTON_CLICKED)
-                    le_current_level->save(le_level_subset.name.c_str(),le_level);
+                    le_current_level->save(le_level_subset->name.c_str(),le_level);
                   le_exit_bt->event(event);
                   if(le_exit_bt->get_state() == BUTTON_CLICKED)
                     {
@@ -967,7 +984,7 @@ void le_checkevents()
                   le_next_level_bt->event(event);
                   if(le_next_level_bt->get_state() == BUTTON_CLICKED)
                     {
-                      if(le_level < le_level_subset.levels)
+                      if(le_level < le_level_subset->levels)
                         {
                           le_goto_level(++le_level);
                         }
@@ -979,8 +996,8 @@ void le_checkevents()
                           if(confirm_dialog(str))
                             {
                             new_lev.init_defaults();
-                            new_lev.save(le_level_subset.name.c_str(),++le_level);
-                            le_level_subset.levels = le_level;
+                            new_lev.save(le_level_subset->name.c_str(),++le_level);
+                            le_level_subset->levels = le_level;
                             le_goto_level(le_level);
                             }
                         }

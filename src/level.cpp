@@ -55,7 +55,7 @@ void LevelSubset::create(const std::string& subset_name)
   new_subset.description = "No description so far.";
   new_subset.save();
   new_lev.init_defaults();
-  new_lev.save(subset_name.c_str(),1);
+  new_lev.save(subset_name, 1);
 }
 
 void LevelSubset::parse (lisp_object_t* cursor)
@@ -138,11 +138,13 @@ void LevelSubset::load(char *subset)
       snprintf(str, 1024, "%s.png", filename);
       if(faccessible(str))
         {
+          delete image;
           image = new Surface(str,IGNORE_ALPHA);
         }
       else
         {
           snprintf(filename, 1024, "%s/images/status/level-subset-info.png", datadir.c_str());
+          delete image;
           image = new Surface(filename,IGNORE_ALPHA);
         }
     }
@@ -507,17 +509,19 @@ Level::load(const std::string& filename)
 /* Save data for level: */
 
 void 
-Level::save(const  char * subset, int level)
+Level::save(const std::string& subset, int level)
 {
   char filename[1024];
   char str[80];
 
   /* Save data file: */
-  sprintf(str, "/levels/%s/", subset);
+  sprintf(str, "/levels/%s/", subset.c_str());
   fcreatedir(str);
-  snprintf(filename, 1024, "%s/levels/%s/level%d.stl", st_dir, subset, level);
+  snprintf(filename, 1024, "%s/levels/%s/level%d.stl", st_dir, subset.c_str(),
+      level);
   if(!fwriteable(filename))
-    snprintf(filename, 1024, "%s/levels/%s/level%d.stl", datadir.c_str(), subset, level);
+    snprintf(filename, 1024, "%s/levels/%s/level%d.stl", datadir.c_str(),
+        subset.c_str(), level);
 
   FILE * fi = fopen(filename, "w");
   if (fi == NULL)

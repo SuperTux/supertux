@@ -122,7 +122,7 @@ class Level
   MusicRef get_level_music();
   MusicRef get_level_music_fast();
 
-  void save(const char* subset, int level);
+  void save(const std::string& subset, int level);
 
   /** Edit a piece of the map! */
   void change(float x, float y, int tm, unsigned int c);
