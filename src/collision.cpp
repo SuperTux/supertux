@@ -208,15 +208,17 @@ void collision_handler()
     {
       for(unsigned int j = 0; j < bad_guys.size(); ++j)
         {
-          if(bad_guys[j].dying == DYING_NOT)
+          if(bad_guys[j].dying != DYING_NOT)
+            continue;
+          if(rectcollision(&bullets[i].base, &bad_guys[j].base))
             {
-              if(rectcollision(&bullets[i].base,&bad_guys[j].base))
-                {
-                  // We have detected a collision and now call the
-                  // collision functions of the collided objects.
-                  bullet_collision(&bullets[i], CO_BADGUY);
-                  bad_guys[j].collision(&bullets[i], CO_BULLET);
-                }
+              // We have detected a collision and now call the
+              // collision functions of the collided objects.
+              // collide with bad_guy first, since bullet_collision will
+              // delete the bullet
+              bad_guys[j].collision(0, CO_BULLET);
+              bullet_collision(&bullets[i], CO_BADGUY);
+              break; // bullet is invalid now, so break
             }
         }
     }
@@ -224,20 +226,20 @@ void collision_handler()
   /* CO_BADGUY & CO_BADGUY check */
   for(unsigned int i = 0; i < bad_guys.size(); ++i)
     {
-      if(bad_guys[i].dying == DYING_NOT)
+      if(bad_guys[i].dying != DYING_NOT)
+        continue;
+      
+      for(unsigned int j = i+1; j < bad_guys.size(); ++j)
         {
-          for(unsigned int j = i+1; j < bad_guys.size(); ++j)
+          if(j == i || bad_guys[j].dying != DYING_NOT)
+            continue;
+
+          if(rectcollision(&bad_guys[i].base, &bad_guys[j].base))
             {
-              if(j != i && !bad_guys[j].dying)
-                {
-                  if(rectcollision(&bad_guys[i].base, &bad_guys[j].base))
-                    {
-                      // We have detected a collision and now call the
-                      // collision functions of the collided objects.
-                      bad_guys[j].collision(&bad_guys[i], CO_BADGUY);
-                      bad_guys[i].collision(&bad_guys[j], CO_BADGUY);
-                    }
-                }
+              // We have detected a collision and now call the
+              // collision functions of the collided objects.
+              bad_guys[j].collision(&bad_guys[i], CO_BADGUY);
+              bad_guys[i].collision(&bad_guys[j], CO_BADGUY);
             }
         }
     }
@@ -245,7 +247,10 @@ void collision_handler()
   // CO_BADGUY & CO_PLAYER check 
   for(unsigned int i = 0; i < bad_guys.size(); ++i)
     {
-      if(bad_guys[i].dying == DYING_NOT && rectcollision_offset(&bad_guys[i].base,&tux.base,0,0))
+      if(bad_guys[i].dying != DYING_NOT)
+        continue;
+      
+      if(rectcollision_offset(&bad_guys[i].base,&tux.base,0,0))
         {
           // We have detected a collision and now call the collision
           // functions of the collided objects.

@@ -132,8 +132,15 @@ Menu::Menu()
   arrange_left = 0;
   num_items    = 0;
   active_item  = 0;
+  last_menu    = 0;
   item         = NULL;
   timer_init(&effect,false);
+}
+
+void Menu::set_pos(int x, int y, float rw, float rh)
+{
+ pos_x = x + (int)((float)width() * rw);
+ pos_y = y + (int)((float)height() * rh);
 }
 
 void

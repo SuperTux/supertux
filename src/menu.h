@@ -81,6 +81,7 @@ public:
   int  check  ();
   void draw   ();
   void draw_item(int index, int menu_width, int menu_height);
+  void set_pos(int x, int y, float rw = 0, float rh = 0);
 };
 
 

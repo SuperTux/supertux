@@ -53,6 +53,11 @@ struct Tile
   int anim_speed;
 };
 
+struct TileGroup
+{
+  std::string name;
+  std::vector<int> tiles;
+};
 
 class TileManager
 {
@@ -60,10 +65,12 @@ class TileManager
   TileManager();
   std::vector<Tile*> tiles;
   static TileManager* instance_ ;
+  static std::vector<TileGroup>* tilegroups_;
   void load_tileset(std::string filename);
   
  public:
   static TileManager* instance() { return instance_ ? instance_ : instance_ = new TileManager(); }
+  static std::vector<TileGroup>* tilegroups() { return tilegroups_ ? tilegroups_ : tilegroups_ = new std::vector<TileGroup>; }
   Tile* get(unsigned int id) {
     if(id < tiles.size())
       {

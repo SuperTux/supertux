@@ -207,9 +207,9 @@ void BadGuy::action_laptop()
       if(mode == KICK && changed != dir)
         {
           /* handle stereo sound (number 10 should be tweaked...)*/
-          if (base.x < scroll_x - 10)
+          if (base.x < scroll_x + screen->w/2 - 10)
             play_sound(sounds[SND_RICOCHET], SOUND_LEFT_SPEAKER);
-          else if (base.x > scroll_x + 10)
+          else if (base.x > scroll_x + screen->w/2 + 10)
             play_sound(sounds[SND_RICOCHET], SOUND_RIGHT_SPEAKER);
           else
             play_sound(sounds[SND_RICOCHET], SOUND_CENTER_SPEAKER);

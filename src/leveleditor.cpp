@@ -13,9 +13,11 @@
  Ricardo Cruz <rick2@aeiou.pt>
  Tobias Glaesser <tobi.web@gmx.de>                      */
 
+#include <map>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 #include <errno.h>
 #include <unistd.h>
 #include <SDL.h>
@@ -31,6 +33,7 @@
 #include "badguy.h"
 #include "scene.h"
 #include "button.h"
+#include "tile.h"
 
 /* definitions to aid development */
 #define DONE_LEVELEDITOR 1
@@ -102,17 +105,16 @@ static button_type le_rubber_bt;
 static button_type le_select_mode_one_bt;
 static button_type le_select_mode_two_bt;
 static button_type le_settings_bt;
-static button_type le_bad_bt;
-static button_type le_bkgd_bt;
-static button_type le_fgd_bt;
-static button_panel_type le_bkgd_panel;
-static button_panel_type le_fgd_panel;
-static button_panel_type le_bad_panel;
+static button_type le_tilegroup_bt;
 static Menu* leveleditor_menu;
 static Menu* subset_load_menu;
 static Menu* subset_new_menu;
 static Menu* subset_settings_menu;
 static Menu* level_settings_menu;
+static Menu* select_tilegroup_menu;
+static timer_type select_tilegroup_menu_effect;
+static std::map<std::string, button_panel_type > tilegroups_map;
+static std::string cur_tilegroup;
 
 static square selection;
 static int le_selection_mode;
@@ -151,6 +153,16 @@ int leveleditor(int levelnb)
       le_frame++;
 
       le_checkevents();
+
+      if(current_menu == select_tilegroup_menu)
+        {
+          if(timer_check(&select_tilegroup_menu_effect))
+            {
+              select_tilegroup_menu->set_pos(screen->w - 64 + timer_get_left(&select_tilegroup_menu_effect),82,-0.5,0.5);
+            }
+          else
+            select_tilegroup_menu->set_pos(screen->w - 64,82,-0.5,0.5);
+        }
 
       if(le_current_level != NULL)
         {
@@ -197,6 +209,22 @@ int leveleditor(int levelnb)
                   break;
                 default:
                   show_menu = true;
+                  break;
+                }
+            }
+          else if(current_menu == select_tilegroup_menu)
+            {
+	    int it = -1;
+              switch (it = select_tilegroup_menu->check())
+                {
+                default:
+		  if(it != -1)
+		  {
+		  if(select_tilegroup_menu->item[it].kind == MN_ACTION)
+		  cur_tilegroup = select_tilegroup_menu->item[it].text;
+		  
+                  show_menu = false;
+		  }
                   break;
                 }
             }
@@ -305,7 +333,7 @@ int leveleditor(int levelnb)
 
 void le_update_buttons(const char *theme)
 {
-  int i;
+  /*int i;
   char filename[1024];
   char pathname[1024];
   SDLKey key;
@@ -342,7 +370,7 @@ void le_update_buttons(const char *theme)
     {
       sprintf(filename,"%s/%s",pathname,fgd_files.item[i]);
       button_change_icon(&le_fgd_panel.item[i+14],filename);
-    }
+    }*/
 }
 
 int le_init()
@@ -370,6 +398,8 @@ int le_init()
 
   texture_load(&le_selection, datadir + "/images/leveleditor/select.png", USE_ALPHA);
 
+  timer_init(&select_tilegroup_menu_effect,false);
+
   /* Load buttons */
   button_load(&le_save_level_bt,"/images/icons/save.png","Save level", SDLK_F6,screen->w-64,32);
   button_load(&le_next_level_bt,"/images/icons/up.png","Next level", SDLK_PAGEUP,screen->w-64,0);
@@ -381,103 +411,14 @@ int le_init()
   button_load(&le_settings_bt,"/images/icons/settings.png","Level settings",SDLK_F5,screen->w-32,screen->h - 64);
   button_load(&le_move_left_bt,"/images/icons/left.png","Move left",SDLK_LEFT,0,0);
   button_load(&le_move_right_bt,"/images/icons/right.png","Move right",SDLK_RIGHT,screen->w-80,0);
-  button_load(&le_fgd_bt,"/images/icons/fgd.png","Foreground tiles", SDLK_F7,screen->w-64,82);
-  button_load(&le_bkgd_bt,"/images/icons/bgd.png","Background tiles", SDLK_F8,screen->w-43,82);
-  button_load(&le_bad_bt,"/images/icons/emy.png","Enemies", SDLK_F9,screen->w-22,82);
-
-  bkgd_files =  dfiles("images/themes/antarctica","bkgd-", NULL);
-  string_list_sort(&bkgd_files);
-
-  button_panel_init(&le_bkgd_panel, screen->w - 64,98, 64, 318);
-  le_bkgd_panel.hidden = true;
-  key = SDLK_a;
-  for(i = 0; i < bkgd_files.num_items; ++i)
-    {
-      sprintf(filename,"images/themes/antarctica/%s",bkgd_files.item[i]);
-      button_panel_additem(&le_bkgd_panel,button_create(filename, "Background Tile",(SDLKey)((int)key+i),0,0),i);
-    }
-
-  string_list_free(&bkgd_files);
-  bkgd_files = dfiles("images/shared","cloud-", NULL);
-  string_list_sort(&bkgd_files);
-
-  for(i = 0; i < bkgd_files.num_items; ++i)
-    {
-      sprintf(filename,"images/shared/%s",bkgd_files.item[i]);
-      button_panel_additem(&le_bkgd_panel,button_create(filename, "Background Tile",(SDLKey)((int)key+i+8),0,0),i+8);
-    }
-
-  fgd_files =  dfiles("images/themes/antarctica","solid", NULL);
-  string_list_sort(&fgd_files);
-  key = SDLK_a;
-  button_panel_init(&le_fgd_panel, screen->w - 64,98, 64, 318);
-  for(i = 0; i < fgd_files.num_items; ++i)
-    {
-      sprintf(filename,"images/themes/antarctica/%s",fgd_files.item[i]);
-      button_panel_additem(&le_fgd_panel,button_create(filename, "Foreground Tile",(SDLKey)((int)key+i),0,0),i);
-    }
-
-  string_list_free(&fgd_files);
-  string_list_add_item(&fgd_files,"waves-0.png");
-  string_list_add_item(&fgd_files,"water.png");
-  string_list_add_item(&fgd_files,"pole.png");
-  string_list_add_item(&fgd_files,"poletop.png");
-  string_list_add_item(&fgd_files,"flag-0.png");
-  string_list_add_item(&fgd_files,"box-empty.png");
-  string_list_add_item(&fgd_files,"mints.png");
-  string_list_add_item(&fgd_files,"distro-0.png");
-  string_list_add_item(&fgd_files,"golden-herring.png");
-  string_list_add_item(&fgd_files,"distro-0.png");
-
-  for(i = 0; i < fgd_files.num_items; ++i)
-    {
-      sprintf(filename,"images/shared/%s",fgd_files.item[i]);
-      button_panel_additem(&le_fgd_panel,button_create(filename, "Foreground Tile",(SDLKey)((int)key+i+4),0,0),i+4);
-    }
-
-  string_list_free(&fgd_files);
-  fgd_files =  dfiles("images/themes/antarctica","brick", NULL);
-  string_list_sort(&fgd_files);
-
-  for(i = 0; i < fgd_files.num_items; ++i)
-    {
-      sprintf(filename,"images/themes/antarctica/%s",fgd_files.item[i]);
-      button_panel_additem(&le_fgd_panel,button_create(filename, "Foreground Tile",(SDLKey)((int)key+i+14),0,0),i+14);
-    }
-
-  string_list_free(&fgd_files);
-  string_list_add_item(&fgd_files,"distro-0.png");
-  string_list_add_item(&fgd_files,"distro-0.png");
-  for(i = 0; i < fgd_files.num_items; ++i)
-    {
-      sprintf(filename,"images/shared/%s",fgd_files.item[i]);
-      button_panel_additem(&le_fgd_panel,button_create(filename, "Foreground Tile",(SDLKey)((int)key+i+16),0,0),i+16);
-    }
-
-  le_fgd_panel.item[10].bkgd = &le_fgd_panel.item[9].icon;
-  le_fgd_panel.item[11].bkgd = &le_fgd_panel.item[9].icon;
-  le_fgd_panel.item[12].bkgd = &le_fgd_panel.item[9].icon;
-  le_fgd_panel.item[16].bkgd = &le_fgd_panel.item[14].icon;
-  le_fgd_panel.item[17].bkgd = &le_fgd_panel.item[15].icon;
-
-  string_list_init(&bad_files);
-  string_list_add_item(&bad_files,"bsod-left-0.png");
-  string_list_add_item(&bad_files,"laptop-left-0.png");
-  string_list_add_item(&bad_files,"bag-left-0.png");
-  button_panel_init(&le_bad_panel, screen->w - 64,98, 64, 318);
-  le_bad_panel.hidden = true;
-  key = SDLK_a;
-  for(i = 0; i < bad_files.num_items; ++i)
-    {
-      sprintf(filename,"images/shared/%s",bad_files.item[i]);
-      button_panel_additem(&le_bad_panel,button_create(filename, "Bad Guy",(SDLKey)((int)key+i),0,0),i);
-    }
+  button_load(&le_tilegroup_bt,"/images/icons/tilegroup.png","Select Tilegroup", SDLK_F7,screen->w-64,82);
 
   leveleditor_menu = new Menu();
   subset_load_menu = new Menu();
   subset_new_menu  = new Menu();
   subset_settings_menu = new Menu();
   level_settings_menu  = new Menu();
+  select_tilegroup_menu  = new Menu();
 
   leveleditor_menu->additem(MN_LABEL,"Level Editor Menu",0,0);
   leveleditor_menu->additem(MN_HL,"",0,0);
@@ -533,6 +474,20 @@ int le_init()
   level_settings_menu->additem(MN_NUMFIELD,"Blue   ",0,0);
   level_settings_menu->additem(MN_HL,"",0,0);
   level_settings_menu->additem(MN_ACTION,"Apply Changes",0,0);
+
+  select_tilegroup_menu->arrange_left = true;
+  select_tilegroup_menu->additem(MN_LABEL,"Select Tilegroup",0,0);
+  select_tilegroup_menu->additem(MN_HL,"",0,0);
+  std::vector<TileGroup>* tilegroups = TileManager::tilegroups();
+  for(std::vector<TileGroup>::iterator it = tilegroups->begin(); it != tilegroups->end(); ++it )
+    {
+
+      select_tilegroup_menu->additem(MN_ACTION,const_cast<char*>((*it).name.c_str()),0,0);
+      button_panel_init(&tilegroups_map[(*it).name], screen->w - 64,98, 64, 318);
+      for(std::vector<int>::iterator sit = (*it).tiles.begin(); sit != (*it).tiles.end(); ++sit)
+        button_panel_additem(&tilegroups_map[(*it).name],button_create(const_cast<char*>(("images/tilesets/" + TileManager::instance()->get(*sit)->filenames[0]).c_str()), const_cast<char*>((*it).name.c_str()),(SDLKey)((int)key),0,0),(*sit));
+    }
+  select_tilegroup_menu->additem(MN_HL,"",0,0);
 
   SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
 
@@ -657,9 +612,7 @@ void le_quit(void)
   delete subset_new_menu;
   delete subset_settings_menu;
   delete level_settings_menu;
-  button_panel_free(&le_bkgd_panel);
-  button_panel_free(&le_fgd_panel);
-  button_panel_free(&le_bad_panel);
+  delete select_tilegroup_menu;
   button_free(&le_save_level_bt);
   button_free(&le_test_level_bt);
   button_free(&le_next_level_bt);
@@ -670,9 +623,7 @@ void le_quit(void)
   button_free(&le_select_mode_one_bt);
   button_free(&le_select_mode_two_bt);
   button_free(&le_settings_bt);
-  button_free(&le_bad_bt);
-  button_free(&le_bkgd_bt);
-  button_free(&le_fgd_bt);
+  button_free(&le_tilegroup_bt);
 
   if(le_current_level != NULL)
     {
@@ -757,12 +708,8 @@ void le_drawinterface()
       button_draw(&le_settings_bt);
       button_draw(&le_move_right_bt);
       button_draw(&le_move_left_bt);
-      button_draw(&le_bad_bt);
-      button_draw(&le_bkgd_bt);
-      button_draw(&le_fgd_bt);
-      button_panel_draw(&le_bkgd_panel);
-      button_panel_draw(&le_fgd_panel);
-      button_panel_draw(&le_bad_panel);
+      button_draw(&le_tilegroup_bt);
+      button_panel_draw(&tilegroups_map[cur_tilegroup]);
 
       sprintf(str, "%d/%d", le_level,le_level_subset.levels);
       text_drawf(&white_text, str, -8, 16, A_RIGHT, A_TOP, 1);
@@ -800,7 +747,7 @@ void le_drawlevel()
   for (y = 0; y < 15; ++y)
     for (x = 0; x < 20; ++x)
       {
-        drawshape(x * 32 - ((int)pos_x % 32), y * 32, le_current_level->ia_tiles[y][x + (int)(pos_x / 32)]);
+        drawshape(32*x - fmodf(pos_x, 32), y * 32, le_current_level->ia_tiles[y][x + (int)(pos_x / 32)]);
 
         /* draw whats inside stuff when cursor is selecting those */
         /* (draw them all the time - is this the right behaviour?) */
@@ -852,9 +799,9 @@ void le_checkevents()
   while(SDL_PollEvent(&event))
     {
       if(show_menu)
-          menu_event(event);
+        menu_event(event);
       else
-          mouse_cursor->set_state(MC_NORMAL);
+        mouse_cursor->set_state(MC_NORMAL);
 
       /* testing SDL_KEYDOWN, SDL_KEYUP and SDL_QUIT events*/
       if(event.type == SDL_KEYDOWN || ((event.type == SDL_MOUSEBUTTONDOWN || SDL_MOUSEMOTION) && (event.motion.x > 0 && event.motion.x < screen->w - 64 &&
@@ -1077,44 +1024,30 @@ void le_checkevents()
                   if(button_get_state(&le_select_mode_two_bt) == BUTTON_CLICKED)
                     le_selection_mode = SQUARE;
 
-                  button_event(&le_bad_bt,&event);
-                  if(button_get_state(&le_bad_bt) == BUTTON_CLICKED)
+                  button_event(&le_tilegroup_bt,&event);
+                  if(button_get_state(&le_tilegroup_bt) == BUTTON_CLICKED)
                     {
-                      le_bad_panel.hidden = false;
-                      le_fgd_panel.hidden = true;
-                      le_bkgd_panel.hidden = true;
+                      Menu::set_current(select_tilegroup_menu);
+                      timer_start(&select_tilegroup_menu_effect,200);
+                      select_tilegroup_menu->set_pos(screen->w - 64,100,-0.5,0.5);
+                      show_menu = true;
                     }
 
-                  button_event(&le_fgd_bt,&event);
-                  if(button_get_state(&le_fgd_bt) == BUTTON_CLICKED)
-                    {
-                      le_bad_panel.hidden = true;
-                      le_fgd_panel.hidden = false;
-                      le_bkgd_panel.hidden = true;
-                    }
-                  button_event(&le_bkgd_bt,&event);
-                  if(button_get_state(&le_bkgd_bt) == BUTTON_CLICKED)
-                    {
-                      le_bad_panel.hidden = true;
-                      le_fgd_panel.hidden = true;
-                      le_bkgd_panel.hidden = false;
-                    }
                   button_event(&le_settings_bt,&event);
                   if(button_get_state(&le_settings_bt) == BUTTON_CLICKED)
                     {
-                      if(show_menu == false)
-                        {
-                          update_level_settings_menu();
-                          Menu::set_current(level_settings_menu);
-                          show_menu = true;
-                        }
-                      else
-                        {
-                          Menu::set_current(leveleditor_menu);
-                          show_menu = false;
-                        }
+                      update_level_settings_menu();
+                      Menu::set_current(level_settings_menu);
+                      show_menu = true;
                     }
-                  if((pbutton = button_panel_event(&le_bkgd_panel,&event)) != NULL)
+		  if((pbutton = button_panel_event(&tilegroups_map[cur_tilegroup],&event)) != NULL)
+		  {
+		    if(button_get_state(pbutton) == BUTTON_CLICKED)
+		      {
+		      le_current_tile = pbutton->tag;
+		      }
+		  }
+                  /*if((pbutton = button_panel_event(&le_bkgd_panel,&event)) != NULL)
                     {
                       if(button_get_state(pbutton) == BUTTON_CLICKED)
                         {
@@ -1130,80 +1063,21 @@ void le_checkevents()
                           if(c != '\0')
                             le_current_tile = c;
                         }
-                    }
-                  if((pbutton = button_panel_event(&le_fgd_panel,&event)) != NULL)
-                    {
-                      if(button_get_state(pbutton) == BUTTON_CLICKED)
-                        {
-                          char c = '\0';
-                          if(pbutton->tag == 0)
-                            c = '#' ;
-                          else if(pbutton->tag == 1)
-                            c = '[';
-                          else if(pbutton->tag == 2)
-                            c = '=';
-                          else if(pbutton->tag == 3)
-                            c = ']';
-                          else if(pbutton->tag == 4)
-                            c = '^';
-                          else if(pbutton->tag == 5)
-                            c = '&';
-                          else if(pbutton->tag == 6)
-                            c = '|';
-                          else if(pbutton->tag == 7)
-                            c = '*';
-                          else if(pbutton->tag == 8)
-                            c = '\\';
-                          else if(pbutton->tag == 9)
-                            c = 'a';
-                          else if(pbutton->tag == 10)
-                            c = 'B';
-                          else if(pbutton->tag == 11)
-                            c = 'A';
-                          else if(pbutton->tag == 12)
-                            c = '!';
-                          else if(pbutton->tag == 13)
-                            c = '$';
-                          else if(pbutton->tag == 14)
-                            c = 'X';
-                          else if(pbutton->tag == 15)
-                            c = 'Y';
-                          else if(pbutton->tag == 16)
-                            c = 'x';
-                          else if(pbutton->tag == 17)
-                            c = 'y';
-                          if(c != '\0')
-                            le_current_tile = c;
-                        }
-                    }
-                  if((pbutton = button_panel_event(&le_bad_panel,&event)) != NULL)
-                    {
-                      if(button_get_state(pbutton) == BUTTON_CLICKED)
-                        {
-                          char c = '\0';
-                          if(pbutton->tag >= 0 && pbutton->tag <= 2)
-                            c = '0' + pbutton->tag;
-                          if(c != '\0')
-                            le_current_tile = c;
-                        }
-                    }
+                    }*/
                 }
               else
                 {
                   button_event(&le_settings_bt,&event);
                   if(button_get_state(&le_settings_bt) == BUTTON_CLICKED)
                     {
-                      if(show_menu == false)
-                        {
-                          update_level_settings_menu();
-                          Menu::set_current(level_settings_menu);
-                          show_menu = true;
-                        }
-                      else
-                        {
-                          Menu::set_current(leveleditor_menu);
-                          show_menu = false;
-                        }
+                      Menu::set_current(leveleditor_menu);
+                      show_menu = false;
+                    }
+                  button_event(&le_tilegroup_bt,&event);
+                  if(button_get_state(&le_tilegroup_bt) == BUTTON_CLICKED)
+                    {
+                      Menu::set_current(leveleditor_menu);
+                      show_menu = false;
                     }
                 }
             }
