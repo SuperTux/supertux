@@ -42,10 +42,13 @@
 void loadshared(void);
 void activate_particle_systems(void);
 
-static texture_type bkg_title, img_choose_subset, anim1, anim2;
+static texture_type bkg_title;
+static texture_type logo;
+static texture_type img_choose_subset;
+
 static SDL_Event event;
 static SDLKey key;
-static int frame, pict, i;
+static int frame, i;
 static unsigned int last_update_time;
 static unsigned int update_time;
 
@@ -56,17 +59,6 @@ void draw_background()
   /* Draw the title background: */
 
   texture_draw_bg(&bkg_title);
-
-  /* Animate title screen: */
-
-  pict = (frame / 5) % 3;
-
-  if (pict == 0)
-    texture_draw_part(&bkg_title, 560, 270, 560, 270, 80, 75);
-  else if (pict == 1)
-    texture_draw(&anim1, 560, 270);
-  else if (pict == 2)
-    texture_draw(&anim2, 560, 270);
 }
 
 /* --- TITLE SCREEN --- */
@@ -74,7 +66,6 @@ void draw_background()
 int title(void)
 {
   int done;
-  char str[80];
   string_list_type level_subsets;
   st_subset subset;
   level_subsets = dsubdirs("/levels", "info");
@@ -100,9 +91,8 @@ int title(void)
 
   /* Load images: */
 
-  texture_load(&bkg_title,datadir + "/images/title/title.png", IGNORE_ALPHA);
-  texture_load(&anim1,datadir + "/images/title/title-anim2.png", IGNORE_ALPHA);
-  texture_load(&anim2,datadir + "/images/title/title-anim1.png", IGNORE_ALPHA);
+  texture_load(&bkg_title,datadir + "/images/title/background.jpg", IGNORE_ALPHA);
+  texture_load(&logo,datadir + "/images/title/logo.png", USE_ALPHA);
   texture_load(&img_choose_subset,datadir + "/images/status/choose-level-subset.png", USE_ALPHA);
 
   /* --- Main title loop: --- */
@@ -214,11 +204,12 @@ int title(void)
       /* DEMO end */
 
       /* Draw the high score: */
+      /*
       sprintf(str, "High score: %d", hs_score);
       text_drawf(&gold_text, str, 0, -40, A_HMIDDLE, A_BOTTOM, 1);
       sprintf(str, "by %s", hs_name);
       text_drawf(&gold_text, str, 0, -20, A_HMIDDLE, A_BOTTOM, 1);
-
+      */
 
       /* Don't draw menu, if quit is true */
       if(show_menu && !quit)
@@ -329,6 +320,8 @@ int title(void)
           process_save_load_game_menu(false);
         }
 
+      texture_draw(&logo, 160, 30);
+
       mouse_cursor->draw();
       
       flipscreen();
@@ -345,8 +338,7 @@ int title(void)
   /* Free surfaces: */
 
   texture_free(&bkg_title);
-  texture_free(&anim1);
-  texture_free(&anim2);
+  texture_free(&logo);
   string_list_free(&level_subsets);
 
   /* Return to main! */

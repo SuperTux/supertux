@@ -38,8 +38,6 @@ int main(int argc, char * argv[])
     }
   else
     {  
-      done = intro();
-  
       done = 0;
   
       while (!done)

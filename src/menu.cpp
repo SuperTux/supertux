@@ -370,10 +370,10 @@ Menu::draw_item(int index, // Position of the current item in the menu
         /* Draw a horizontal line with a little 3d effect */
         fillrect(x, y + 6,
                  menu_width, 4,
-                 210,50,50,225);
+                 150,200,255,225);
         fillrect(x, y + 6,
                  menu_width, 2,
-                 0,0,0,255);
+                 255,255,255,255);
         break;
       }
     case MN_LABEL:
@@ -498,7 +498,8 @@ Menu::draw()
   /* Draw a transparent background */
   fillrect(pos_x - menu_width/2,
            pos_y - 24*num_items/2,
-           menu_width,menu_height,150,150,150,100);
+           menu_width,menu_height,
+           150,180,200,100);
 
   for(int i = 0; i < num_items; ++i)
     {
