@@ -408,5 +408,14 @@
  (tile (id 127)
        (images "exitfg.png")
        (solid #f))
+
+  (tile (id 128)
+        (images "bonus2-1.png" "bonus2-2.png" "bonus2-3.png" "bonus2-4.png" "bonus2-5.png" "bonus2-4.png"
+                "bonus2-3.png" "bonus2-2.png" "bonus2-1.png" "bonus2-1.png" "bonus2-1.png")
+        (editor-images "bonus-1up.png")
+        (solid #t)
+        (fullbox #t)
+        (data 4)
+        (next-tile 84))
  )
 
