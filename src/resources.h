@@ -33,7 +33,6 @@ extern Surface* img_flag[2];
 extern Surface* img_cloud[2][4];
 
 extern Surface* img_super_bkgd;
-extern Surface* img_red_glow;
 
 extern MusicRef herring_song;
 extern MusicRef level_end_song;

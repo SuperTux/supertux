@@ -34,8 +34,6 @@ Surface* img_poletop;
 Surface* img_flag[2];
 Surface* img_cloud[2][4];
 
-Surface* img_red_glow;
-
 MusicRef herring_song;
 MusicRef level_end_song;
 
@@ -161,10 +159,6 @@ void loadshared()
   /* Upgrades: */
   load_special_gfx();
 
-  /* Weapons: */
-  img_red_glow = new Surface(datadir + "/images/shared/red-glow.png",
-               USE_ALPHA);
-
   /* Distros: */
   img_distro[0] = new Surface(datadir + "/images/tilesets/coin1.png",
                USE_ALPHA);
@@ -220,7 +214,6 @@ void unloadshared(void)
   for (i = 0; i < 2; i++)
     delete img_flag[i];
 
-  delete img_red_glow;
   for (i = 0; i < 4; i++)
     {
       delete img_distro[i];
