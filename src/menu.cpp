@@ -128,7 +128,7 @@ void menu_init(menu_type* pmenu)
 void menu_additem(menu_type* pmenu, menu_item_type* pmenu_item)
 {
   ++pmenu->num_items;
-  pmenu->item = (menu_item_type*) realloc(pmenu->item, sizeof(menu_item_type) * pmenu->num_items);
+  pmenu->item = (menu_item_type*)realloc(pmenu->item, sizeof(menu_item_type) * pmenu->num_items);
   memcpy(&pmenu->item[pmenu->num_items-1],pmenu_item,sizeof(menu_item_type));
   free(pmenu_item);
 }
@@ -148,12 +148,14 @@ void menu_action(menu_type* pmenu)
           else
             pmenu->active_item = pmenu->num_items-1;
           break;
+
         case MENU_ACTION_DOWN:
           if(pmenu->active_item < pmenu->num_items-1)
             ++pmenu->active_item;
           else
             pmenu->active_item = 0;
           break;
+
         case MENU_ACTION_LEFT:
           if(item.kind == MN_STRINGSELECT
              && item.list->num_items != 0)
@@ -174,6 +176,7 @@ void menu_action(menu_type* pmenu)
                 item.list->active_item = 0;
             }
           break;
+
         case MENU_ACTION_HIT:
           if(item.kind == MN_GOTO
              && item.target_menu != NULL)
@@ -194,6 +197,7 @@ void menu_action(menu_type* pmenu)
                 menu_set_current(last_menu);
             }
           break;
+
         case MENU_ACTION_REMOVE:
           if(item.kind == MN_TEXTFIELD
              || item.kind == MN_NUMFIELD)
@@ -210,6 +214,7 @@ void menu_action(menu_type* pmenu)
                 }
             }
           break;
+
         case MENU_ACTION_INPUT:
           if(item.kind == MN_TEXTFIELD
              || (item.kind == MN_NUMFIELD && mn_input_char >= '0' && mn_input_char <= '9'))
@@ -229,20 +234,24 @@ void menu_action(menu_type* pmenu)
                 }
             }
           break;
+
         case MENU_ACTION_NONE:
           break;
         }
     }
 
-  if(item.kind == MN_DEACTIVE || item.kind == MN_LABEL || item.kind == MN_HL)
+  menu_item_type& new_item = pmenu->item[pmenu->active_item];
+  if(new_item.kind == MN_DEACTIVE
+     || new_item.kind == MN_LABEL 
+     || new_item.kind == MN_HL)
     {
+      // Skip the horzontal line item
       if(menuaction != MENU_ACTION_UP && menuaction != MENU_ACTION_DOWN)
         menuaction = MENU_ACTION_DOWN;
 
       if(pmenu->num_items > 1)
         menu_action(pmenu);
     }
-
 }
 
 /* Check, if the value of the active menu item has changed. */
