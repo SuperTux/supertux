@@ -169,7 +169,6 @@ Player::action(double frame_ratio)
 
   /* Move tux: */
   previous_base = base;
-  duck = false;
 
   physic.apply(frame_ratio, base.x, base.y);
   if(dying == DYING_NOT) {
@@ -290,23 +289,6 @@ Player::action(double frame_ratio)
       && World::current()->get_level()->endpos != 0)
     {
       player_status.next_level = 1;
-    }
-
-  /* Duck! */
-  if (input.down == DOWN && size == BIG && !duck)
-    {
-      duck = true;
-      base.height = 32;                             
-      base.y += 32;
-      // changing base size confuses collision otherwise
-      old_base = previous_base = base;
-    }
-  else if(input.down == UP && size == BIG && duck)
-    {
-      duck = false;
-      base.y -= 32;
-      base.height = 64;
-      old_base = previous_base = base;
     }
 
   // check some timers
