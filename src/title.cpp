@@ -52,7 +52,6 @@
 #include "resources.h"
 
 static Surface* bkg_title;
-static Surface* bkg_credits;
 static Surface* logo;
 static Surface* img_choose_subset;
 
@@ -228,7 +227,6 @@ void title(void)
 
   /* Load images: */
   bkg_title = new Surface(datadir + "/images/title/background.jpg", IGNORE_ALPHA);
-  bkg_credits = new Surface(datadir + "/images/background/oiltux.jpg", IGNORE_ALPHA);
   logo = new Surface(datadir + "/images/title/logo.png", USE_ALPHA);
   img_choose_subset = new Surface(datadir + "/images/status/choose-level-subset.png", USE_ALPHA);
 
@@ -305,7 +303,7 @@ void title(void)
                   Menu::set_current(main_menu);
                   break;
                 case MNID_CREDITS:
-                  display_text_file("CREDITS", bkg_credits, SCROLL_SPEED_CREDITS);
+                  display_text_file("CREDITS", bkg_title, SCROLL_SPEED_CREDITS);
                   Menu::set_current(main_menu);
                   break;
                 case MNID_QUITMAINMENU:
@@ -373,7 +371,6 @@ void title(void)
 
   free_contrib_menu();
   delete bkg_title;
-  delete bkg_credits;
   delete logo;
   delete img_choose_subset;
 }
