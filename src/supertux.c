@@ -31,7 +31,7 @@ int main(int argc, char * argv[])
   st_video_setup();
   st_joystick_setup();
   st_general_setup();
-  
+    
   done = intro();
   
   done = 0;

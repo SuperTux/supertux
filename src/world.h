@@ -10,43 +10,71 @@
 //
 //
 
+#ifndef SUPERTUX_WORLD_H
+#define SUPERTUX_WORLD_H
+
+#include <SDL.h>
+#include "type.h"
+
 typedef struct bouncy_distro_type /*It is easier to read the sources IMHO, if we don't write something like int a,b,c; */
   {
     int alive;
-    int x;
-    int y;
-    int ym;
+    float x;
+    float y;
+    float ym;
   }
 bouncy_distro_type;
+
+texture_type img_distro[4];
+
+void bouncy_distro_init(bouncy_distro_type* pbouncy_distro);
+void bouncy_distro_action(bouncy_distro_type* pbouncy_distro);
+void bouncy_distro_draw(bouncy_distro_type* pbouncy_distro);
+void bouncy_distro_collision(bouncy_distro_type* pbouncy_distro, int c_object);
+
+#define BOUNCY_BRICK_MAX_OFFSET 8
+#define BOUNCY_BRICK_SPEED 4
 
 typedef struct broken_brick_type
   {
     int alive;
-    int x;
-    int y;
-    int xm;
-    int ym;
+    float x;
+    float y;
+    float xm;
+    float ym;
   }
 broken_brick_type;
+
+void broken_brick_action(broken_brick_type* pbroken_brick);
+void broken_brick_draw(broken_brick_type* pbroken_brick);
 
 typedef struct bouncy_brick_type
   {
     int alive;
-    int x;
-    int y;
-    int offset;
-    int offset_m;
+    float x;
+    float y;
+    float offset;
+    float offset_m;
     int shape;
   }
 bouncy_brick_type;
 
+void bouncy_brick_action(bouncy_brick_type* pbouncy_brick);
+void bouncy_brick_draw(bouncy_brick_type* pbouncy_brick);
+
 typedef struct floating_score_type
   {
     int alive;
-    int timer;
-    int x;
-    int y;
+    float x;
+    float y;
     int value;
+    timer_type timer;
   }
 floating_score_type;
+
+void floating_score_init(floating_score_type* pfloating_score, int x, int y, int s);
+void floating_score_action(floating_score_type* pfloating_score);
+void floating_score_draw(floating_score_type* pfloating_score);
+
+#endif /*SUPERTUX_WORLD_H*/
 

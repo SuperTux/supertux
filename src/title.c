@@ -30,13 +30,14 @@
 #include "screen.h"
 #include "high_scores.h"
 #include "menu.h"
+#include "type.h"
 
 
 /* --- TITLE SCREEN --- */
 
 int title(void)
 {
-  SDL_Surface * title, * anim1, * anim2;
+  texture_type title, anim1, anim2;
   SDL_Event event;
   SDLKey key;
   int done, quit, frame, pict, last_highscore;
@@ -48,16 +49,14 @@ int title(void)
   /* Init menu variables */
   initmenu();
 
+  clearscreen(0, 0, 0);
   updatescreen();
-
 
   /* Load images: */
 
-  title = load_image(DATA_PREFIX "/images/title/title.png", IGNORE_ALPHA);
-  anim1 = load_image(DATA_PREFIX "/images/title/title-anim2.png",
-                     IGNORE_ALPHA);
-  anim2 = load_image(DATA_PREFIX "/images/title/title-anim1.png",
-                     IGNORE_ALPHA);
+  texture_load(&title,DATA_PREFIX "/images/title/title.png", IGNORE_ALPHA);
+  texture_load(&anim1,DATA_PREFIX "/images/title/title-anim2.png", IGNORE_ALPHA);
+  texture_load(&anim2,DATA_PREFIX "/images/title/title-anim1.png", IGNORE_ALPHA);
 
 
   /* --- Main title loop: --- */
@@ -70,7 +69,7 @@ int title(void)
 
 
   /* Draw the title background: */
-  drawimage(title, 0, 0, NO_UPDATE);
+  texture_draw(&title, 0, 0, NO_UPDATE);
 
 
   /* Draw the high score: */
@@ -80,6 +79,7 @@ int title(void)
 
   while (!done && !quit)
     {
+      
       frame++;
 
 
@@ -90,7 +90,6 @@ int title(void)
           if (event.type == SDL_QUIT)
             {
               /* Quit event - quit: */
-
               quit = 1;
             }
           else if (event.type == SDL_KEYDOWN)
@@ -128,11 +127,11 @@ int title(void)
 
         }
 
-      if(menu_change)
+      if(use_gl || menu_change)
         {
           /* Draw the title background: */
 
-          drawimage(title, 0, 0, NO_UPDATE);
+          texture_draw_bg(&title, NO_UPDATE);
 
           /* Draw the high score: */
           sprintf(str, "High score: %d", last_highscore);
@@ -151,14 +150,13 @@ int title(void)
       pict = (frame / 5) % 3;
 
       if (pict == 0)
-        drawpart(title, 560, 270, 80, 75, NO_UPDATE);
+        texture_draw_part(&title, 560, 270, 80, 75, NO_UPDATE);
       else if (pict == 1)
-        drawimage(anim1, 560, 270, NO_UPDATE);
+        texture_draw(&anim1, 560, 270, NO_UPDATE);
       else if (pict == 2)
-        drawimage(anim2, 560, 270, NO_UPDATE);
+        texture_draw(&anim2, 560, 270, NO_UPDATE);
 
-
-      SDL_Flip(screen);
+      flipscreen();
 
       /* Pause: */
 
@@ -169,9 +167,9 @@ int title(void)
 
   /* Free surfaces: */
 
-  SDL_FreeSurface(title);
-  SDL_FreeSurface(anim1);
-  SDL_FreeSurface(anim2);
+  texture_free(&title);
+  texture_free(&anim1);
+  texture_free(&anim2);
 
 
   /* Return to main! */

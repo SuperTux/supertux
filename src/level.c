@@ -1,7 +1,7 @@
 //
 // C Implementation: level
 //
-// Description: 
+// Description:
 //
 //
 // Author: Tobias Glaesser <tobi.web@gmx.de>, (C) 2003
@@ -13,6 +13,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include "globals.h"
 #include "setup.h"
 #include "screen.h"
 #include "level.h"
@@ -87,6 +88,7 @@ void loadlevel(st_level* plevel, char *subset, int level)
   if (line == NULL)
     {
       fprintf(stderr, "Couldn't allocate space to load level data!");
+      fclose(fi);
       exit(1);
     }
 
@@ -98,23 +100,84 @@ void loadlevel(st_level* plevel, char *subset, int level)
       if(fgets(line, plevel->width + 5, fi) == NULL)
         {
           fprintf(stderr, "Level %s isn't complete!\n",plevel->name);
+          free(line);
+          fclose(fi);
           exit(1);
         }
       line[strlen(line) - 1] = '\0';
       plevel->tiles[y] = strdup(line);
     }
 
+  free(line);
   fclose(fi);
-  
+
+}
+
+/* Load graphics: */
+
+void loadlevelgfx(st_level *plevel)
+{
+
+  load_level_image(&img_brick[0],plevel->theme,"brick0.png", IGNORE_ALPHA);
+  load_level_image(&img_brick[1],plevel->theme,"brick1.png", IGNORE_ALPHA);
+
+  load_level_image(&img_solid[0],plevel->theme,"solid0.png", USE_ALPHA);
+  load_level_image(&img_solid[1],plevel->theme,"solid1.png", USE_ALPHA);
+  load_level_image(&img_solid[2],plevel->theme,"solid2.png", USE_ALPHA);
+  load_level_image(&img_solid[3],plevel->theme,"solid3.png", USE_ALPHA);
+   
+  load_level_image(&img_bkgd[0][0],plevel->theme,"bkgd-00.png", USE_ALPHA);
+  load_level_image(&img_bkgd[0][1],plevel->theme,"bkgd-01.png", USE_ALPHA);
+  load_level_image(&img_bkgd[0][2],plevel->theme,"bkgd-02.png", USE_ALPHA);
+  load_level_image(&img_bkgd[0][3],plevel->theme,"bkgd-03.png", USE_ALPHA);
+   
+  load_level_image(&img_bkgd[1][0],plevel->theme,"bkgd-10.png", USE_ALPHA);
+  load_level_image(&img_bkgd[1][1],plevel->theme,"bkgd-11.png", USE_ALPHA);
+  load_level_image(&img_bkgd[1][2],plevel->theme,"bkgd-12.png", USE_ALPHA);
+  load_level_image(&img_bkgd[1][3],plevel->theme,"bkgd-13.png", USE_ALPHA);
+}
+
+/* Free graphics data for this level: */
+
+void unloadlevelgfx(void)
+{
+  int i;
+
+  for (i = 0; i < 2; i++)
+    {
+      texture_free(&img_brick[i]);
+    }
+  for (i = 0; i < 4; i++)
+    {
+      texture_free(&img_solid[i]);
+      texture_free(&img_bkgd[0][i]);
+      texture_free(&img_bkgd[1][i]);
+    }
 }
 
 /* Load a level-specific graphic... */
 
-SDL_Surface * load_level_image(char* theme, char * file, int use_alpha)
+void load_level_image(texture_type* ptexture, char* theme, char * file, int use_alpha)
 {
-  char fname[2024];
+  char fname[1024];
 
-  snprintf(fname, 21024, "%simages/themes/%s/%s", DATA_PREFIX, theme, file);
+  snprintf(fname, 1024, "%s/themes/%s/%s", st_dir, theme, file);
+  if(!faccessible(fname))
+  snprintf(fname, 1024, "%s/images/themes/%s/%s", DATA_PREFIX, theme, file);
   
-  return(load_image(fname, use_alpha));
+  texture_load(ptexture, fname, use_alpha);
 }
+
+/* Edit a piece of the map! */
+
+void level_change(st_level* plevel, float x, float y, unsigned char c)
+{
+  int xx, yy;
+
+  yy = (y / 32);
+  xx = (x / 32);
+
+  if (yy >= 0 && yy < 15 && xx >= 0 && xx <= plevel->width)
+    plevel->tiles[yy][xx] = c;
+}
+

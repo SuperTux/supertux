@@ -19,27 +19,26 @@ FILE * opendata(char * mode)
   FILE * fi;
 
 
-#ifdef LINUX
-
-  /* Create the buffer for the filename: */
-
   filename = (char *) malloc(sizeof(char) * (strlen(st_dir) +
-                             strlen("/highscore") + 1));
+                             strlen("/st_highscore.dat") + 1));
 
   strcpy(filename, st_dir);
   /* Open the high score file: */
-
+  
+#ifdef LINUX
   strcat(filename, "/highscore");
 #else
-
-  filename = "st_highscore.dat";
+#ifdef WIN32
+ strcat(filename, "/st_highscore.dat");
+ #endif
 #endif
 
 
   /* Try opening the file: */
 
   fi = fopen(filename, mode);
-
+  free( filename );
+  
   if (fi == NULL)
     {
       fprintf(stderr, "Warning: I could not open the high score file ");

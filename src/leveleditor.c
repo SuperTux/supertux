@@ -7,9 +7,9 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-  
-/*  December 28, 2003 - December 30, 2003 */
- 
+
+/*  December 28, 2003 - January 1st, 2004 */
+
 /* leveleditor.c - A built-in level editor for SuperTux
  by Ricardo Cruz <rick2@aeiou.pt>                      */
 
@@ -20,9 +20,8 @@
 #include <unistd.h>
 #include <SDL.h>
 #include <SDL_image.h>
-
 #include "leveleditor.h"
-#include "gameloop.h"
+
 #include "screen.h"
 #include "defines.h"
 #include "globals.h"
@@ -30,6 +29,8 @@
 #include "menu.h"
 #include "level.h"
 #include "badguy.h"
+#include "gameloop.h"
+#include "scene.h"
 
 /* definitions to aid development */
 #define DONE_LEVELEDITOR    1
@@ -39,60 +40,57 @@
 /* definitions that affect gameplay */
 #define KEY_CURSOR_SPEED 32
 #define KEY_CURSOR_FASTSPEED 64
-#define KEY_LEFT_MARGIN 160
-#define KEY_RIGHT_MARGIN 480
+
+#define CURSOR_LEFT_MARGIN 96
+#define CURSOR_RIGHT_MARGIN 512
+/* right_margin should noticed that the cursor is 32 pixels,
+   so it should subtract that value */
 
 #define MOUSE_LEFT_MARGIN 32
 #define MOUSE_RIGHT_MARGIN 608
 #define MOUSE_POS_SPEED 32
 
-  /* Level Intro: */
+/* Level Intro: */
 /*
   clearscreen(0, 0, 0);
-
+ 
   sprintf(str, "Editing Level %s", levelfilename);
   drawcenteredtext(str, 200, letters_red, NO_UPDATE, 1);
-
+ 
   sprintf(str, "%s", levelname);
   drawcenteredtext(str, 224, letters_gold, NO_UPDATE, 1);
-
-  SDL_Flip(screen);
-
+ 
+  flipscreen();
+ 
   SDL_Delay(1000);
 */
 
+/* gameloop funcs declerations */
+
+void loadshared(void);
+void unloadshared(void);
+
+/* own declerations */
+
+void savelevel();
+void le_change(float x, float y, unsigned char c);
+void showhelp();
+void le_set_defaults(void);
+void le_activate_bad_guys(void);
+
 /* global variables (based on the gameloop ones) */
 
-bad_guy_type bad_guys[NUM_BAD_GUYS];
-SDL_Surface *img_bsod_left[4], *img_laptop_left[3], *img_money_left[2];
 int level;
 st_level current_level;
 char level_subset[100];
 
 int frame;
-SDL_Surface *selection;
-
-/* gameloop funcs declerations */
-
-void loadlevelgfx(void);
-void unloadlevelgfx(void);
-void add_bad_guy(int x, int y, int kind);
-void loadshared(void);
-void unloadshared(void);
-void drawshape(int x, int y, unsigned char c);
-
-/* own declerations */
-
-void savelevel();
-void le_loadlevel(void);
-void le_change(int x, int y, int sx, unsigned char c);
-void showhelp();
-void le_set_defaults(void);
-void le_activate_bad_guys(void);
+texture_type selection;
+int last_time, now_time;
 
 void le_activate_bad_guys(void)
 {
-int x,y;
+  int x,y;
 
   /* Activate bad guys: */
 
@@ -115,25 +113,22 @@ void le_set_defaults()
 
 /* FIXME: Needs to be implemented. It should ask the user for the level(file)name and then let him create a new level based on this. */
 void newlevel()
-{
-}
+{}
 
 /* FIXME: It should let select the user a level, which is in the leveldirectory and then load it. */
 void selectlevel()
-{
-}
+{}
 
 int leveleditor()
 {
-  char str[10];
+  char str[LEVEL_NAME_MAX];
   int done;
   int x, y, i;	/* for cicles */
-  int pos_x, cursor_x, cursor_y, old_cursor_x, fire;
+  int pos_x, cursor_x, cursor_y, fire;
   SDL_Event event;
   SDLKey key;
   SDLMod keymod;
-  int last_time, now_time;
-  
+
   strcpy(level_subset,"default");
 
   level = 1;
@@ -143,20 +138,21 @@ int leveleditor()
   show_menu = YES;
 
   frame = 0;	/* support for frames in some tiles, like waves and bad guys */
-  
+
   loadshared();
+  set_defaults();
+
   loadlevel(&current_level,"default",level);
-  loadlevelgfx();
+  loadlevelgfx(&current_level);
 
   le_activate_bad_guys();
   le_set_defaults();
-  
-  selection = load_image(DATA_PREFIX "/images/leveleditor/select.png", USE_ALPHA);
+
+  texture_load(&selection,DATA_PREFIX "/images/leveleditor/select.png", USE_ALPHA);
 
   done = 0;
   pos_x = 0;
   cursor_x = 3*32;
-  old_cursor_x = cursor_x;
   cursor_y = 2*32;
   fire = DOWN;
 
@@ -164,11 +160,11 @@ int leveleditor()
 
   while(1)
     {
-      SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, current_level.bkgd_red, current_level.bkgd_green, current_level.bkgd_blue));
+      clearscreen(current_level.bkgd_red, current_level.bkgd_green, current_level.bkgd_blue);
 
       last_time = SDL_GetTicks();
       frame++;
-      
+
       keymod = SDL_GetModState();
 
       while(SDL_PollEvent(&event))
@@ -218,11 +214,11 @@ int leveleditor()
                   else
                     cursor_y += KEY_CURSOR_FASTSPEED;
 
-                  if(cursor_y > 480-32)
-                    cursor_y = 480-32;
+                  if(cursor_y > screen->h-32)
+                    cursor_y = screen->h-32;
                   break;
                 case SDLK_LCTRL:
-                  fire = UP;
+                  fire =UP;
                   break;
                 case SDLK_F1:
                   showhelp();
@@ -234,114 +230,114 @@ int leveleditor()
                   cursor_x = (current_level.width * 32) - 32;
                   break;
                 case SDLK_PERIOD:
-                  le_change(cursor_x, cursor_y, 0, '.');
+                  le_change(cursor_x, cursor_y, '.');
                   break;
                 case SDLK_a:
                   if(keymod == KMOD_LSHIFT || keymod == KMOD_RSHIFT || keymod == KMOD_CAPS)
-                    le_change(cursor_x, cursor_y, 0, 'A');
+                    le_change(cursor_x, cursor_y, 'A');
                   else
-                    le_change(cursor_x, cursor_y, 0, 'a');
+                    le_change(cursor_x, cursor_y, 'a');
                   break;
                 case SDLK_b:
                   if(keymod == KMOD_LSHIFT || keymod == KMOD_RSHIFT || keymod == KMOD_CAPS)
-                    le_change(cursor_x, cursor_y, 0, 'B');
+                    le_change(cursor_x, cursor_y, 'B');
                   break;
                 case SDLK_c:
                   if(keymod == KMOD_LSHIFT || keymod == KMOD_RSHIFT || keymod == KMOD_CAPS)
-                    le_change(cursor_x, cursor_y, 0, 'C');
+                    le_change(cursor_x, cursor_y, 'C');
                   else
-                    le_change(cursor_x, cursor_y, 0, 'c');
+                    le_change(cursor_x, cursor_y, 'c');
                   break;
                 case SDLK_d:
                   if(keymod == KMOD_LSHIFT || keymod == KMOD_RSHIFT || keymod == KMOD_CAPS)
-                    le_change(cursor_x, cursor_y, 0, 'D');
+                    le_change(cursor_x, cursor_y, 'D');
                   else
-                    le_change(cursor_x, cursor_y, 0, 'd');
+                    le_change(cursor_x, cursor_y, 'd');
                   break;
                 case SDLK_e:
                   if(keymod == KMOD_LSHIFT || keymod == KMOD_RSHIFT || keymod == KMOD_CAPS)
-                    le_change(cursor_x, cursor_y, 0, 'E');
+                    le_change(cursor_x, cursor_y, 'E');
                   else
-                    le_change(cursor_x, cursor_y, 0, 'e');
+                    le_change(cursor_x, cursor_y, 'e');
                   break;
                 case SDLK_f:
                   if(keymod == KMOD_LSHIFT || keymod == KMOD_RSHIFT || keymod == KMOD_CAPS)
-                    le_change(cursor_x, cursor_y, 0, 'F');
+                    le_change(cursor_x, cursor_y, 'F');
                   else
-                    le_change(cursor_x, cursor_y, 0, 'f');
+                    le_change(cursor_x, cursor_y, 'f');
                   break;
                 case SDLK_g:
                   if(keymod == KMOD_LSHIFT || keymod == KMOD_RSHIFT || keymod == KMOD_CAPS)
-                    le_change(cursor_x, cursor_y, 0, 'G');
+                    le_change(cursor_x, cursor_y, 'G');
                   else
-                    le_change(cursor_x, cursor_y, 0, 'g');
+                    le_change(cursor_x, cursor_y, 'g');
                   break;
                 case SDLK_h:
                   if(keymod == KMOD_LSHIFT || keymod == KMOD_RSHIFT || keymod == KMOD_CAPS)
-                    le_change(cursor_x, cursor_y, 0, 'H');
+                    le_change(cursor_x, cursor_y, 'H');
                   else
-                    le_change(cursor_x, cursor_y, 0, 'h');
+                    le_change(cursor_x, cursor_y, 'h');
                   break;
                 case SDLK_i:
                   if(keymod == KMOD_LSHIFT || keymod == KMOD_RSHIFT || keymod == KMOD_CAPS)
-                    le_change(cursor_x, cursor_y, 0, 'I');
+                    le_change(cursor_x, cursor_y, 'I');
                   else
-                    le_change(cursor_x, cursor_y, 0, 'i');
+                    le_change(cursor_x, cursor_y, 'i');
                   break;
                 case SDLK_j:
                   if(keymod == KMOD_LSHIFT || keymod == KMOD_RSHIFT || keymod == KMOD_CAPS)
-                    le_change(cursor_x, cursor_y, 0, 'J');
+                    le_change(cursor_x, cursor_y, 'J');
                   else
-                    le_change(cursor_x, cursor_y, 0, 'j');
+                    le_change(cursor_x, cursor_y, 'j');
                   break;
                 case SDLK_x:
                   if(keymod == KMOD_LSHIFT || keymod == KMOD_RSHIFT || keymod == KMOD_CAPS)
-                    le_change(cursor_x, cursor_y, 0, 'X');
+                    le_change(cursor_x, cursor_y, 'X');
                   else
-                    le_change(cursor_x, cursor_y, 0, 'x');
+                    le_change(cursor_x, cursor_y, 'x');
                   break;
                 case SDLK_y:
                   if(keymod == KMOD_LSHIFT || keymod == KMOD_RSHIFT || keymod == KMOD_CAPS)
-                    le_change(cursor_x, cursor_y, 0, 'Y');
+                    le_change(cursor_x, cursor_y, 'Y');
                   else
-                    le_change(cursor_x, cursor_y, 0, 'y');
+                    le_change(cursor_x, cursor_y, 'y');
                   break;
                 case SDLK_LEFTBRACKET:
-                  le_change(cursor_x, cursor_y, 0, '[');
+                  le_change(cursor_x, cursor_y, '[');
                   break;
                 case SDLK_RIGHTBRACKET:
-                  le_change(cursor_x, cursor_y, 0, ']');
+                  le_change(cursor_x, cursor_y, ']');
                   break;
                 case SDLK_HASH:
                 case SDLK_3:
                   if(keymod == KMOD_LSHIFT || keymod == KMOD_RSHIFT || keymod == KMOD_CAPS)
-                    le_change(cursor_x, cursor_y, 0, '#');
+                    le_change(cursor_x, cursor_y, '#');
                   break;
                 case SDLK_DOLLAR:
                 case SDLK_4:
                   if(keymod == KMOD_LSHIFT || keymod == KMOD_RSHIFT || keymod == KMOD_CAPS)
-                    le_change(cursor_x, cursor_y, 0, '$');
+                    le_change(cursor_x, cursor_y, '$');
                   break;
                 case SDLK_BACKSLASH:
                   if(keymod == KMOD_LSHIFT || keymod == KMOD_RSHIFT || keymod == KMOD_CAPS)
-                    le_change(cursor_x, cursor_y, 0, '|');
+                    le_change(cursor_x, cursor_y, '|');
                   else
-                    le_change(cursor_x, cursor_y, 0, '\\');
+                    le_change(cursor_x, cursor_y, '\\');
                   break;
                 case SDLK_CARET:
-                  le_change(cursor_x, cursor_y, 0, '^');
+                  le_change(cursor_x, cursor_y, '^');
                   break;
                 case SDLK_AMPERSAND:
                 case SDLK_6:
                   if(keymod == KMOD_LSHIFT || keymod == KMOD_RSHIFT || keymod == KMOD_CAPS)
-                    le_change(cursor_x, cursor_y, 0, '&');
+                    le_change(cursor_x, cursor_y, '&');
                   break;
                 case SDLK_EQUALS:
                 case SDLK_0:
                   if(keymod == KMOD_LSHIFT || keymod == KMOD_RSHIFT || keymod == KMOD_CAPS)
-                    le_change(cursor_x, cursor_y, 0, '=');
+                    le_change(cursor_x, cursor_y, '=');
                   else		/* let's add a bad guy */
-                    le_change(cursor_x, cursor_y, 0, '0');
+                    le_change(cursor_x, cursor_y, '0');
 
                   for(i = 0; i < NUM_BAD_GUYS; ++i)
                     if (bad_guys[i].alive == NO)
@@ -355,9 +351,9 @@ int leveleditor()
                   break;
                 case SDLK_1:
                   if(keymod == KMOD_LSHIFT || keymod == KMOD_RSHIFT || keymod == KMOD_CAPS)
-                    le_change(cursor_x, cursor_y, 0, '!');
+                    le_change(cursor_x, cursor_y, '!');
                   else		/* let's add a bad guy */
-                    le_change(cursor_x, cursor_y, 0, '1');
+                    le_change(cursor_x, cursor_y, '1');
 
                   for(i = 0; i < NUM_BAD_GUYS; ++i)
                     if (bad_guys[i].alive == NO)
@@ -370,7 +366,7 @@ int leveleditor()
                       }
                   break;
                 case SDLK_2:
-                  le_change(cursor_x, cursor_y, 0, '2');
+                  le_change(cursor_x, cursor_y, '2');
 
                   for(i = 0; i < NUM_BAD_GUYS; ++i)
                     if (bad_guys[i].alive == NO)
@@ -384,7 +380,7 @@ int leveleditor()
                   break;
                 case SDLK_PLUS:
                   if(keymod == KMOD_LSHIFT || keymod == KMOD_RSHIFT || keymod == KMOD_CAPS)
-                    le_change(cursor_x, cursor_y, 0, '*');
+                    le_change(cursor_x, cursor_y, '*');
                   break;
                 default:
                   break;
@@ -406,8 +402,14 @@ int leveleditor()
                   break;
                 }
               break;
-            case SDL_MOUSEBUTTONDOWN:
-              if(event.button.button == SDL_BUTTON_LEFT)
+              /*            case SDL_MOUSEBUTTONDOWN:
+                            if(event.button.button == SDL_BUTTON_LEFT)
+                              {
+              This will draw current tile in the cursor position, when the interface is done.
+                              }
+                            break;*/
+            case SDL_MOUSEMOTION:
+              if(!show_menu)
                 {
                   x = event.motion.x;
                   y = event.motion.y;
@@ -415,13 +417,6 @@ int leveleditor()
                   cursor_x = ((int)(pos_x + x) / 32) * 32;
                   cursor_y = ((int) y / 32) * 32;
                 }
-              break;
-            case SDL_MOUSEMOTION:
-              x = event.motion.x;
-              y = event.motion.y;
-
-              cursor_x = ((int)(pos_x + x) / 32) * 32;
-              cursor_y = ((int) y / 32) * 32;
               break;
             case SDL_QUIT:	// window closed
               done = DONE_QUIT;
@@ -432,27 +427,23 @@ int leveleditor()
         }
 
       /* mouse movements */
-      x = event.motion.x;
-      if(x < MOUSE_LEFT_MARGIN)
-        pos_x -= MOUSE_POS_SPEED;
-      else if(x > MOUSE_RIGHT_MARGIN)
-        pos_x += MOUSE_POS_SPEED;
+      /*      x = event.motion.x;
+            if(x < MOUSE_LEFT_MARGIN)
+              pos_x -= MOUSE_POS_SPEED;
+            else if(x > MOUSE_RIGHT_MARGIN)
+              pos_x += MOUSE_POS_SPEED;*/
 
-      if(old_cursor_x != cursor_x)
-        {
-          if(cursor_x < pos_x + KEY_LEFT_MARGIN)
-            pos_x = cursor_x - KEY_LEFT_MARGIN;
 
-          if(cursor_x > pos_x + KEY_RIGHT_MARGIN)
-            pos_x = cursor_x - KEY_RIGHT_MARGIN;
-        }
+      if(cursor_x < pos_x + CURSOR_LEFT_MARGIN)
+        pos_x = cursor_x - CURSOR_LEFT_MARGIN;
+
+      if(cursor_x > pos_x + CURSOR_RIGHT_MARGIN)
+        pos_x = cursor_x - CURSOR_RIGHT_MARGIN;
 
       if(pos_x < 0)
         pos_x = 0;
-      if(pos_x > (current_level.width * 32) - 640)
-        pos_x = (current_level.width * 32) - 640;
-
-      old_cursor_x = cursor_x;
+      if(pos_x > (current_level.width * 32) - screen->w)
+        pos_x = (current_level.width * 32) - screen->w;
 
       for (y = 0; y < 15; ++y)
         for (x = 0; x < 21; ++x)
@@ -466,15 +457,15 @@ int leveleditor()
             continue;
           /* to support frames: img_bsod_left[(frame / 5) % 4] */
           if(bad_guys[i].kind == BAD_BSOD)
-            drawimage(img_bsod_left[(frame / 5) % 4], ((int)(bad_guys[i].x - pos_x)/32)*32, bad_guys[i].y, NO_UPDATE);
+            texture_draw(&img_bsod_left[(frame / 5) % 4], ((int)(bad_guys[i].x - pos_x)/32)*32, bad_guys[i].y, NO_UPDATE);
           else if(bad_guys[i].kind == BAD_LAPTOP)
-            drawimage(img_laptop_left[(frame / 5) % 3], ((int)(bad_guys[i].x - pos_x)/32)*32, bad_guys[i].y, NO_UPDATE);
+            texture_draw(&img_laptop_left[(frame / 5) % 3], ((int)(bad_guys[i].x - pos_x)/32)*32, bad_guys[i].y, NO_UPDATE);
           else if (bad_guys[i].kind == BAD_MONEY)
-            drawimage(img_money_left[(frame / 5) % 2], ((int)(bad_guys[i].x - pos_x)/32)*32, bad_guys[i].y, NO_UPDATE);
+            texture_draw(&img_money_left[(frame / 5) % 2], ((int)(bad_guys[i].x - pos_x)/32)*32, bad_guys[i].y, NO_UPDATE);
         }
 
 
-      drawimage(selection, ((int)(cursor_x - pos_x)/32)*32, cursor_y, NO_UPDATE);
+      texture_draw(&selection, ((int)(cursor_x - pos_x)/32)*32, cursor_y, NO_UPDATE);
 
       sprintf(str, "%d", current_level.time_left);
       drawtext("TIME", 324, 0, letters_blue, NO_UPDATE, 1);
@@ -496,38 +487,36 @@ int leveleditor()
         return 1;
 
       SDL_Delay(50);
-	now_time = SDL_GetTicks();
-	if (now_time < last_time + FPS)
-		SDL_Delay(last_time + FPS - now_time);	/* delay some time */
+      now_time = SDL_GetTicks();
+      if (now_time < last_time + FPS)
+        SDL_Delay(last_time + FPS - now_time);	/* delay some time */
 
-      SDL_Flip(screen);
+      flipscreen();
     }
 
   unloadlevelgfx();
   unloadshared();
 
-  SDL_FreeSurface(selection);
+  texture_free(&selection);
 
   return done;
 }
 
-void le_change(int x, int y, int sx, unsigned char c)
+void le_change(float x, float y, unsigned char c)
 {
-  int xx, yy;
-  int i;
+int i;
+int xx, yy;
+
+  level_change(&current_level,x,y,c);
 
   yy = (y / 32);
-  xx = ((x + sx) / 32);
+  xx = (x / 32);
 
   /* if there is a bad guy over there, remove it */
   for(i = 0; i < NUM_BAD_GUYS; ++i)
     if (bad_guys[i].alive)
       if(xx == bad_guys[i].x/32 && yy == bad_guys[i].y/32)
         bad_guys[i].alive = NO;
-
-
-  if (yy >= 0 && yy < 15 && xx >= 0 && xx <= current_level.width)
-    current_level.tiles[yy][xx] = c;
 }
 
 /* Save data for this level: */
@@ -580,7 +569,7 @@ void savelevel(void)
   fclose(fi);
 
   drawcenteredtext("SAVED!", 240, letters_gold, NO_UPDATE, 1);
-  SDL_Flip(screen);
+  flipscreen();
   SDL_Delay(1000);
 }
 
@@ -610,16 +599,18 @@ void showhelp()
                    "0-2 - BadGuys",
                    "./Del - Remove tile",
                    "Esc - Menu"};
-  int i;
 
 
-  drawcenteredtext("- Help -", 30, letters_red, NO_UPDATE, 1);
+  drawcenteredtext("- Help -", 30, letters_red, NO_UPDATE, 2);
   drawtext("Keys:", 80, 60, letters_gold, NO_UPDATE, 1);
 
+  int i;
   for(i = 0; i < sizeof(text)/sizeof(char *); i++)
     drawtext(text[i], 40, 90+(i*16), letters_blue, NO_UPDATE, 1);
 
-  SDL_Flip(screen);
+  drawcenteredtext("Press Any Key to Continue", 460, letters_gold, NO_UPDATE, 1);
+
+  flipscreen();
 
   done = 0;
 
@@ -627,6 +618,7 @@ void showhelp()
     while(SDL_PollEvent(&event))
       switch(event.type)
         {
+        case SDL_MOUSEBUTTONDOWN:		// mouse pressed
         case SDL_KEYDOWN:		// key pressed
           done = 1;
           break;

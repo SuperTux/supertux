@@ -207,6 +207,25 @@ void free_music(Mix_Music *music)
     }
 }
 
+void play_current_music(void)
+{
+          switch (current_music)
+            {
+            case LEVEL_MUSIC:
+              play_music(level_song, 1);
+              break;
+            case HERRING_MUSIC:
+              play_music(herring_song, 1);
+              break;
+            case HURRYUP_MUSIC: // keep the compiler happy
+              play_music(level_song_fast, 1);
+              break;
+            case NO_MUSIC:      // keep the compiler happy for the moment :-)
+            {}
+              /*default:*/
+            }
+}
+
 #else
 
 int open_audio (int frequency, int format, int channels, int chunksize)
@@ -256,6 +275,9 @@ void free_music(void *music)
 
 
 void free_chunk(void *chunk)
+{}
+
+void play_current_music(void)
 {}
 
 #endif

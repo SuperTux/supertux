@@ -115,19 +115,7 @@ void menu_option_music()
                   use_music = YES;
                   if (!playing_music())
                     {
-                      switch (current_music)
-                        {
-                        case LEVEL_MUSIC:
-                          play_music(level_song, 2);
-                          break;
-                        case HERRING_MUSIC:
-                          play_music(herring_song, 2);
-                          break;
-                        case HURRYUP_MUSIC: // keep the compiler happy
-                        case NO_MUSIC:      // keep the compiler happy for the moment :-)
-                        {}
-                          /*default:*/
-                        }
+		    play_current_music();
                     }
                 }
               menu_change = YES;

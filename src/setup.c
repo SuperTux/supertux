@@ -7,7 +7,7 @@
   bill@newbreedsoftware.com
   http://www.newbreedsoftware.com/supertux/
   
-  April 11, 2000 - November 7, 2001
+  April 11, 2000 - January 1st, 2004
 */
 
 #include <stdio.h>
@@ -17,6 +17,7 @@
 #include <unistd.h>
 #include <SDL.h>
 #include <SDL_image.h>
+#include <SDL_opengl.h>
 
 #ifdef LINUX
 #include <pwd.h>
@@ -30,11 +31,20 @@
 #include "setup.h"
 #include "screen.h"
 
-
 /* Local function prototypes: */
 
 void seticon(void);
 void usage(char * prog, int ret);
+
+/* Does the given file exist and is it accessible? */
+int faccessible(char *filename)
+{
+  struct stat filestat;
+  if (stat(filename, &filestat) == -1)
+    return NO;
+  else
+    return YES;
+}
 
 
 /* --- SETUP --- */
@@ -63,8 +73,17 @@ void st_directory_setup(void)
   strcat(st_save_dir,"/save");
 
   /* Create them. In the case they exist it won't destroy anything. */
+#ifdef LINUX
+
   mkdir(st_dir, 0755);
   mkdir(st_save_dir, 0755);
+#else
+  #ifdef WIN32
+
+  mkdir(st_dir);
+  mkdir(st_save_dir);
+#endif
+#endif
 }
 
 void st_general_setup(void)
@@ -72,7 +91,7 @@ void st_general_setup(void)
   /* Seed random number generator: */
 
   srand(SDL_GetTicks());
-  
+
   /* Load global images: */
 
   letters_black = load_image(DATA_PREFIX "/images/status/letters-black.png",
@@ -80,8 +99,8 @@ void st_general_setup(void)
 
   letters_gold = load_image(DATA_PREFIX "/images/status/letters-gold.png",
                             USE_ALPHA);/*
-  if (tux_x < 0)
-    tux_x = 0;*/
+      if (tux_x < 0)
+        tux_x = 0;*/
 
   letters_blue = load_image(DATA_PREFIX "/images/status/letters-blue.png",
                             USE_ALPHA);
@@ -99,6 +118,9 @@ void st_general_setup(void)
 void st_video_setup(void)
 {
 
+if(screen != NULL)
+   SDL_FreeSurface(screen); 
+
   /* Init SDL Video: */
 
   if (SDL_Init(SDL_INIT_VIDEO) < 0)
@@ -112,6 +134,19 @@ void st_video_setup(void)
 
   /* Open display: */
 
+  if(use_gl)
+  st_video_setup_gl();
+  else
+  st_video_setup_sdl();
+
+  /* Set window manager stuff: */
+
+  SDL_WM_SetCaption("Super Tux", "Super Tux");
+
+}
+
+void st_video_setup_sdl(void)
+{
   if (use_fullscreen == YES)
     {
       screen = SDL_SetVideoMode(640, 480, 16, SDL_FULLSCREEN ) ; /* | SDL_HWSURFACE); */
@@ -125,10 +160,9 @@ void st_video_setup(void)
           use_fullscreen = NO;
         }
     }
-
-  if (use_fullscreen == NO)
+    else
     {
-      screen = SDL_SetVideoMode(640, 480, 16, SDL_HWSURFACE | SDL_DOUBLEBUF);
+      screen = SDL_SetVideoMode(640, 480, 16, SDL_HWSURFACE | SDL_DOUBLEBUF );
 
       if (screen == NULL)
         {
@@ -139,11 +173,68 @@ void st_video_setup(void)
           exit(1);
         }
     }
+}
 
-  /* Set window manager stuff: */
+void st_video_setup_gl(void)
+{
 
-  SDL_WM_SetCaption("Super Tux", "Super Tux");
+	SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 5);
+	SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 5);
+	SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 5);
+	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
+	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+		
+  if (use_fullscreen == YES)
+    {
+      screen = SDL_SetVideoMode(640, 480, 32, SDL_FULLSCREEN | SDL_OPENGL ) ; /* | SDL_HWSURFACE); */
+      if (screen == NULL)
+        {
+          fprintf(stderr,
+                  "\nWarning: I could not set up fullscreen video for "
+                  "640x480 mode.\n"
+                  "The Simple DirectMedia error that occured was:\n"
+                  "%s\n\n", SDL_GetError());
+          use_fullscreen = NO;
+        }
+    }
+    else
+    {
+      screen = SDL_SetVideoMode(640, 480, 32, SDL_HWSURFACE | SDL_OPENGL | SDL_OPENGLBLIT  );
+
+      if (screen == NULL)
+        {
+          fprintf(stderr,
+                  "\nError: I could not set up video for 640x480 mode.\n"
+                  "The Simple DirectMedia error that occured was:\n"
+                  "%s\n\n", SDL_GetError());
+          exit(1);
+        }
+    }
     
+    /* Initialisierung von OpenGL * /
+	glViewport(0, 0, screen->w, screen->h);
+
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glOrtho(0, screen->w, screen->h, 0, -1.0, 1.0);
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+*/
+    	/*
+	 * Set up OpenGL for 2D rendering.
+	 */
+	glDisable(GL_DEPTH_TEST);
+	glDisable(GL_CULL_FACE);
+
+	glViewport(0, 0, screen->w, screen->h);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glOrtho(0, screen->w, screen->h, 0, -1.0, 1.0);
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	glTranslatef(0.0f, 0.0f, 0.0f);
 }
 
 void st_joystick_setup(void)
@@ -363,6 +454,13 @@ void parseargs(int argc, char * argv[])
 
           use_fullscreen = YES;
         }
+      if (strcmp(argv[i], "--opengl") == 0 ||
+          strcmp(argv[i], "-g") == 0)
+        {
+          /* Use full screen: */
+
+          use_gl = YES;
+        }
       else if (strcmp(argv[i], "--usage") == 0)
         {
           /* Show usage: */
@@ -383,8 +481,10 @@ void parseargs(int argc, char * argv[])
           printf("Sounds disabled \n");
           use_sound = NO;
 #else
+
           printf("Warning: Sounds feature is not compiled in \n");
 #endif
+
         }
       else if (strcmp(argv[i], "--disable-music") == 0)
         {
@@ -393,13 +493,15 @@ void parseargs(int argc, char * argv[])
           printf("Music disabled \n");
           use_music = NO;
 #else
+
           printf("Warning: Music feature is not compiled in \n");
 #endif
+
         }
       else if (strcmp(argv[i], "--debug-mode") == 0)
         {
           /* Enable the debug-mode */
-	debug_mode = YES;
+          debug_mode = YES;
 
         }
       else if (strcmp(argv[i], "--help") == 0)
@@ -416,7 +518,7 @@ void parseargs(int argc, char * argv[])
           printf("  --fullscreen        - Run in fullscreen mode.\n\n");
 
           printf("  --debug-mode        - Enables the debug-mode, which is useful for developers.\n\n");
-	  
+
           printf("  --help              - Display a help message summarizing command-line\n                        options, license and game controls.\n\n");
 
           printf("  --usage             - Display a brief message summarizing command-line options.\n\n");
@@ -463,10 +565,11 @@ void usage(char * prog, int ret)
   /* Display the usage message: */
 
   fprintf(fi, "Usage: %s [--fullscreen] [--disable-sound] [--disable-music] [--debug-mode] | [--usage | --help | --version]\n",
-           prog);
+          prog);
 
 
   /* Quit! */
 
   exit(ret);
 }
+

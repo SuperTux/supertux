@@ -86,6 +86,8 @@ int play_music(Mix_Music*music, int loops);
 void free_music(Mix_Music*music);
 void free_chunk(Mix_Chunk*chunk);
 
+void play_current_music(void);
+
 #else
 
 /* fake variables */
@@ -105,6 +107,8 @@ void halt_music();
 int play_music(void *music, int loops);
 void free_music(void *music);
 void free_chunk(void *chunk);
+
+void play_current_music(void);
 
 #endif
 

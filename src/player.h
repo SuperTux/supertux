@@ -1,5 +1,5 @@
 //
-// Interface: tux
+// Interface: player/tux
 //
 // Description: 
 //
@@ -10,25 +10,82 @@
 //
 //
 
-typedef struct upgrade_type
-  {
-    int alive;
-    int kind;
-    int height;
-    int x;
-    int y;
-    int xm;
-    int ym;
-  }
-upgrade_type;
+#ifndef SUPERTUX_PLAYER_H
+#define SUPERTUX_PLAYER_H
 
-typedef struct bullet_type
-  {
-    int alive;
-    int x;
-    int y;
-    int xm;
-    int ym;
-  }
-bullet_type;
+#include <SDL.h>
+#include "bitmask.h"
+#include "type.h"
+#include "collision.h"
 
+/* Times: */
+
+#define TUX_SAFE_TIME 16
+#define TUX_INVINCIBLE_TIME 10000
+#define TIME_WARNING 20000     /* When to alert player they're low on time! */
+
+typedef struct player_input_type
+{
+ int right;
+ int left;
+ int up;
+ int down;
+ int fire;
+ int old_fire;
+}
+player_input_type;
+
+typedef struct player_type 
+{
+ player_input_type input;
+ int got_coffee;
+ int size;
+ int skidding;
+ int safe;
+ int duck;
+ int dying;
+ int dir;
+ int jumping;
+ int frame_main;
+ int frame;
+ int lives;
+ float x;
+ float y;
+ float xm;
+ float ym;
+ float width;
+ float height;
+ timer_type invincible_timer;
+ timer_type jump_timer;
+ unsigned int updated;
+ itop_type it;
+}
+player_type;
+
+texture_type tux_life,
+ tux_right[3],  tux_left[3],
+ bigtux_right[3],  bigtux_left[3],
+ bigtux_right_jump,  bigtux_left_jump,
+ ducktux_right,  ducktux_left,
+ skidtux_right,  skidtux_left,
+ firetux_right[3],  firetux_left[3],
+ bigfiretux_right[3],  bigfiretux_left[3],
+ bigfiretux_right_jump,  bigfiretux_left_jump,
+ duckfiretux_right,  duckfiretux_left,
+ skidfiretux_right,  skidfiretux_left,
+ cape_right[2],  cape_left[2],
+ bigcape_right[2],  bigcape_left[2];
+
+void player_init(player_type* pplayer);
+void player_level_begin(player_type* pplayer);
+void player_action(player_type* pplayer);
+void player_input(player_type* pplayer);
+void player_grabdistros(player_type *pplayer);
+void player_draw(player_type* pplayer);
+void player_collision(player_type* pplayer,void* p_c_object, int c_object);
+void player_kill(player_type *pplayer, int mode);
+void player_dying(player_type *pplayer);
+void player_remove_powerups(player_type *pplayer);
+void player_keep_in_bounds(player_type *pplayer);
+
+#endif /*SUPERTUX_PLAYER_H*/

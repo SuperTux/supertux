@@ -7,8 +7,8 @@
   bill@newbreedsoftware.com
   http://www.newbreedsoftware.com/supertux/
   
-  April 11, 2000 - December 29, 2003
-*/
+  April 11, 2000 - January 1st, 2004
+ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -33,8 +33,11 @@
 #include "menu.h"
 #include "badguy.h"
 #include "world.h"
+#include "special.h"
 #include "player.h"
 #include "level.h"
+#include "scene.h"
+#include "collision.h"
 
 /* extern variables */
 
@@ -42,88 +45,23 @@ extern char* soundfilenames[NUM_SOUNDS];
 
 /* Local variables: */
 
-int score, highscore, distros, level, lives, scroll_x, next_level, game_pause,
-done, quit, tux_dir, tux_size, tux_duck, tux_x, tux_xm, tux_y, tux_ym,
-tux_dying, tux_safe, jumping, jump_counter, frame, score_multiplier,
-tux_frame_main, tux_frame, tux_got_coffee, tux_skidding,
-super_bkgd_time, tux_invincible_time, endpos,
-counting_distros, distro_counter;
-int left, right, up, down, fire, old_fire;
-SDL_Surface * img_brick[2], * img_solid[4], * img_distro[4],
-* img_waves[3], * img_water, * img_pole, * img_poletop, * img_flag[2];
-SDL_Surface * img_bkgd[2][4];
-SDL_Surface * img_golden_herring;
-SDL_Surface * img_bsod_left[4], * img_bsod_right[4],
-* img_laptop_left[3], * img_laptop_right[3],
-* img_money_left[2], * img_money_right[2];
-SDL_Surface * img_bsod_squished_left, * img_bsod_squished_right,
-* img_bsod_falling_left, * img_bsod_falling_right,
-* img_laptop_flat_left, * img_laptop_flat_right,
-* img_laptop_falling_left, * img_laptop_falling_right;
-SDL_Surface * img_box_full, * img_box_empty, * img_mints, * img_coffee,
-* img_super_bkgd, * img_bullet, * img_red_glow;
-SDL_Surface * img_cloud[2][4];
-SDL_Surface * tux_life,
-* tux_right[3], * tux_left[3],
-* bigtux_right[3], * bigtux_left[3],
-* bigtux_right_jump, * bigtux_left_jump,
-* ducktux_right, * ducktux_left,
-* skidtux_right, * skidtux_left,
-* firetux_right[3], * firetux_left[3],
-* bigfiretux_right[3], * bigfiretux_left[3],
-* bigfiretux_right_jump, * bigfiretux_left_jump,
-* duckfiretux_right, * duckfiretux_left,
-* skidfiretux_right, * skidfiretux_left,
-* cape_right[2], * cape_left[2],
-* bigcape_right[2], * bigcape_left[2];
+texture_type img_waves[3], img_water, img_pole, img_poletop, img_flag[2];
+texture_type img_cloud[2][4];
 SDL_Event event;
-SDL_Rect src, dest;
 SDLKey key;
-bouncy_distro_type bouncy_distros[NUM_BOUNCY_DISTROS];
-broken_brick_type broken_bricks[NUM_BROKEN_BRICKS];
-bouncy_brick_type bouncy_bricks[NUM_BOUNCY_BRICKS];
-bad_guy_type bad_guys[NUM_BAD_GUYS];
-floating_score_type floating_scores[NUM_FLOATING_SCORES];
-upgrade_type upgrades[NUM_UPGRADES];
-bullet_type bullets[NUM_BULLETS];
-st_level current_level;
 char level_subset[100];
 char str[60];
-
+timer_type time_left;
 
 /* Local function prototypes: */
 
 void levelintro(void);
-void set_default(void);
 void initgame(void);
-void loadlevelgfx(void);
 void loadlevelsong(void);
-void unloadlevelgfx(void);
 void unloadlevelsong(void);
 void loadshared(void);
 void unloadshared(void);
-void drawshape(int x, int y, unsigned char c);
-unsigned char shape(int x, int y, int sx);
-int issolid(int x, int y, int sx);
-int isbrick(int x, int y, int sx);
-int isice(int x, int y, int sx);
-int isfullbox(int x, int y, int sx);
-void change(int x, int y, int sx, unsigned char c);
-void trybreakbrick(int x, int y, int sx);
-void bumpbrick(int x, int y, int sx);
-void tryemptybox(int x, int y, int sx);
-void trygrabdistro(int x, int y, int sx, int bounciness);
-void add_bouncy_distro(int x, int y);
-void add_broken_brick(int x, int y);
-void add_broken_brick_piece(int x, int y, int xm, int ym);
-void add_bouncy_brick(int x, int y);
-void add_bad_guy(int x, int y, int kind);
-void add_score(int x, int y, int s);
-void trybumpbadguy(int x, int y, int sx);
-void add_upgrade(int x, int y, int kind);
-void killtux(int mode);
-void remove_powerups(void);
-void add_bullet(int x, int y, int dir, int xm);
+void drawstatus(void);
 void drawendscreen(void);
 void drawresultscreen(void);
 
@@ -139,84 +77,23 @@ void levelintro(void)
   sprintf(str, "%s", current_level.name);
   drawcenteredtext(str, 224, letters_gold, NO_UPDATE, 1);
 
-  sprintf(str, "TUX x %d", lives);
+  sprintf(str, "TUX x %d", tux.lives);
   drawcenteredtext(str, 256, letters_blue, NO_UPDATE, 1);
 
-  SDL_Flip(screen);
+  flipscreen();
 
   SDL_Delay(1000);
 }
 
-void set_defaults(void)
+/* Reset Timers */
+void start_timers(void)
 {
-  int i;
-  
-  /* Reset arrays: */
-
-  for (i = 0; i < NUM_BOUNCY_DISTROS; i++)
-    bouncy_distros[i].alive = NO;
-
-  for (i = 0; i < NUM_BROKEN_BRICKS; i++)
-    broken_bricks[i].alive = NO;
-
-  for (i = 0; i < NUM_BOUNCY_BRICKS; i++)
-    bouncy_bricks[i].alive = NO;
-
-  for (i = 0; i < NUM_BAD_GUYS; i++)
-    bad_guys[i].alive = NO;
-
-  for (i = 0; i < NUM_FLOATING_SCORES; i++)
-    floating_scores[i].alive = NO;
-
-  for (i = 0; i < NUM_UPGRADES; i++)
-    upgrades[i].alive = NO;
-
-  for (i = 0; i < NUM_BULLETS; i++)
-    bullets[i].alive = NO;
-
-
-  /* Set defaults: */
-
-  tux_x = 0;
-  tux_xm = 0;
-  tux_y = 240;
-  tux_ym = 0;
-  tux_dir = RIGHT;
-  tux_invincible_time = 0;
-  tux_duck = NO;
-
-  tux_dying = NO;
-  tux_safe = TUX_SAFE_TIME;
-
-  jumping = NO;
-  jump_counter = 0;
-
-  tux_skidding = 0;
-
-  scroll_x = 0;
-
-  right = UP;
-  left = UP;
-  up = UP;
-  down = UP;
-  fire = UP;
-  old_fire = UP;
-
-  score_multiplier = 1;
-  super_bkgd_time = 0;
-
-  counting_distros = NO;
-  distro_counter = 0;
-
-  endpos = 0;
-
-  /* set current song/music */
-  current_music = LEVEL_MUSIC;
+  timer_start(&time_left,current_level.time_left*1000);
 }
 
 void activate_bad_guys(void)
 {
-int x,y;
+  int x,y;
 
   /* Activate bad guys: */
 
@@ -231,7 +108,7 @@ int x,y;
             }
         }
     }
-    
+
 }
 
 /* --- GAME EVENT! --- */
@@ -271,23 +148,23 @@ void game_event(void)
             }
           else if (key == SDLK_RIGHT)
             {
-              right = DOWN;
+              tux.input.right = DOWN;
             }
           else if (key == SDLK_LEFT)
             {
-              left = DOWN;
+              tux.input.left = DOWN;
             }
           else if (key == SDLK_UP)
             {
-              up = DOWN;
+              tux.input.up = DOWN;
             }
           else if (key == SDLK_DOWN)
             {
-              down = DOWN;
+              tux.input.down = DOWN;
             }
           else if (key == SDLK_LCTRL)
             {
-              fire = DOWN;
+              tux.input.fire = DOWN;
             }
         }
       else if (event.type == SDL_KEYUP)
@@ -298,23 +175,23 @@ void game_event(void)
 
           if (key == SDLK_RIGHT)
             {
-              right = UP;
+              tux.input.right = UP;
             }
           else if (key == SDLK_LEFT)
             {
-              left = UP;
+              tux.input.left = UP;
             }
           else if (key == SDLK_UP)
             {
-              up = UP;
+              tux.input.up = UP;
             }
           else if (key == SDLK_DOWN)
             {
-              down = UP;
+              tux.input.down = UP;
             }
           else if (key == SDLK_LCTRL)
             {
-              fire = UP;
+              tux.input.fire = UP;
             }
           else if (key == SDLK_p)
             {
@@ -328,7 +205,7 @@ void game_event(void)
             }
           else if (key == SDLK_TAB && debug_mode == YES)
             {
-              tux_size = !tux_size;
+              tux.size = !tux.size;
             }
           else if (key == SDLK_END && debug_mode == YES)
             {
@@ -338,6 +215,14 @@ void game_event(void)
             {
               next_level = 1;
             }
+          else if (key == SDLK_DELETE && debug_mode == YES)
+            {
+              tux.got_coffee = 1;
+            }
+          else if (key == SDLK_INSERT && debug_mode == YES)
+            {
+              timer_start(&tux.invincible_timer,TUX_INVINCIBLE_TIME);
+            }
         }
 #ifdef JOY_YES
       else if (event.type == SDL_JOYAXISMOTION)
@@ -345,26 +230,26 @@ void game_event(void)
           if (event.jaxis.axis == JOY_X)
             {
               if (event.jaxis.value < -256)
-                left = DOWN;
+                tux.input.left = DOWN;
               else
-                left = UP;
+                tux.input.left = UP;
 
               if (event.jaxis.value > 256)
-                right = DOWN;
+                tux.input.right = DOWN;
               else
-                right = UP;
+                tux.input.right = UP;
             }
           else if (event.jaxis.axis == JOY_Y)
             {
               if (event.jaxis.value > 256)
-                down = DOWN;
+                tux.input.down = DOWN;
               else
-                down = UP;
+                tux.input.down = UP;
 
               /* Handle joystick for the menu */
               if(show_menu)
                 {
-                  if(down == DOWN)
+                  if(tux.input.down == DOWN)
                     menuaction = MN_DOWN;
                   else
                     menuaction = MN_UP;
@@ -374,16 +259,16 @@ void game_event(void)
       else if (event.type == SDL_JOYBUTTONDOWN)
         {
           if (event.jbutton.button == JOY_A)
-            up = DOWN;
+            tux.input.up = DOWN;
           else if (event.jbutton.button == JOY_B)
-            fire = DOWN;
+            tux.input.fire = DOWN;
         }
       else if (event.type == SDL_JOYBUTTONUP)
         {
           if (event.jbutton.button == JOY_A)
-            up = UP;
+            tux.input.up = UP;
           else if (event.jbutton.button == JOY_B)
-            fire = UP;
+            tux.input.fire = UP;
 
           if(show_menu)
             menuaction = MN_HIT;
@@ -399,205 +284,10 @@ void game_event(void)
 
 int game_action(void)
 {
-  int i,j;
+int i;
 
-  /* --- HANDLE TUX! --- */
-
-  /* Handle key and joystick state: */
-
-  if (!(tux_dying || next_level))
-    {
-      if (right == DOWN && left == UP)
-        {
-          if (jumping == NO)
-            {
-              if (tux_xm < -SKID_XM && !tux_skidding &&
-                  tux_dir == LEFT)
-                {
-                  tux_skidding = SKID_TIME;
-
-                  play_sound(sounds[SND_SKID], SOUND_CENTER_SPEAKER);
-
-                }
-              tux_dir = RIGHT;
-            }
-
-          if (tux_xm < 0 && !isice(tux_x, tux_y + 32, scroll_x) &&
-              !tux_skidding)
-            {
-              tux_xm = 0;
-            }
-
-          if (!tux_duck)
-            {
-              if (tux_dir == RIGHT)
-                {
-                  /* Facing the direction we're jumping?  Go full-speed: */
-
-                  if (fire == UP)
-                    {
-                      tux_xm = tux_xm + WALK_SPEED;
-
-                      if (tux_xm > MAX_WALK_XM)
-                        tux_xm = MAX_WALK_XM;
-                    }
-                  else if (fire == DOWN)
-                    {
-                      tux_xm = tux_xm + RUN_SPEED;
-
-                      if (tux_xm > MAX_RUN_XM)
-                        tux_xm = MAX_RUN_XM;
-                    }
-                }
-              else
-                {
-                  /* Not facing the direction we're jumping?
-                  Go half-speed: */
-
-                  tux_xm = tux_xm + WALK_SPEED / 2;
-
-                  if (tux_xm > MAX_WALK_XM / 2)
-                    tux_xm = MAX_WALK_XM / 2;
-                }
-            }
-        }
-      else if (left == DOWN && right == UP)
-        {
-          if (jumping == NO)
-            {
-              if (tux_xm > SKID_XM && !tux_skidding &&
-                  tux_dir == RIGHT)
-                {
-                  tux_skidding = SKID_TIME;
-                  play_sound(sounds[SND_SKID], SOUND_CENTER_SPEAKER);
-                }
-              tux_dir = LEFT;
-            }
-
-          if (tux_xm > 0 && !isice(tux_x, tux_y + 32, scroll_x) &&
-              !tux_skidding)
-            {
-              tux_xm = 0;
-            }
-
-          if (!tux_duck)
-            {
-              if (tux_dir == LEFT)
-                {
-                  /* Facing the direction we're jumping?  Go full-speed: */
-
-                  if (fire == UP)
-                    {
-                      tux_xm = tux_xm - WALK_SPEED;
-
-                      if (tux_xm < -MAX_WALK_XM)
-                        tux_xm = -MAX_WALK_XM;
-                    }
-                  else if (fire == DOWN)
-                    {
-                      tux_xm = tux_xm - RUN_SPEED;
-
-                      if (tux_xm < -MAX_RUN_XM)
-                        tux_xm = -MAX_RUN_XM;
-                    }
-                }
-              else
-                {
-                  /* Not facing the direction we're jumping?
-                  Go half-speed: */
-
-                  tux_xm = tux_xm - WALK_SPEED / 2;
-
-                  if (tux_xm < -MAX_WALK_XM / 2)
-                    tux_xm = -MAX_WALK_XM / 2;
-                }
-            }
-        }
-
-
-      /* End of level? */
-
-      if (tux_x >= endpos && endpos != 0)
-        {
-          next_level = 1;
-        }
-
-
-      /* Jump/jumping? */
-
-      if (up == DOWN)
-        {
-          if (jump_counter == 0)
-            {
-              /* Taking off? */
-
-              if (!issolid(tux_x, tux_y + 32, scroll_x) ||
-                  tux_ym != 0)
-                {
-                  /* If they're not on the ground, or are currently moving
-                  vertically, don't jump! */
-
-                  jump_counter = MAX_JUMP_COUNT;
-                }
-              else
-                {
-                  /* Make sure we're not standing back up into a solid! */
-
-                  if (tux_size == SMALL || tux_duck == NO ||
-                      !issolid(tux_x, tux_y, scroll_x))
-                    {
-                      jumping = YES;
-
-                      if (tux_size == SMALL)
-                        play_sound(sounds[SND_JUMP], SOUND_CENTER_SPEAKER);
-                      else
-                        play_sound(sounds[SND_BIGJUMP], SOUND_CENTER_SPEAKER);
-                    }
-                }
-            }
-
-
-          /* Keep jumping for a while: */
-
-          if (jump_counter < MAX_JUMP_COUNT)
-            {
-              tux_ym = tux_ym - JUMP_SPEED;
-              jump_counter++;
-            }
-        }
-      else
-        jump_counter = 0;
-
-
-      /* Shoot! */
-
-      if (fire == DOWN && old_fire == UP && tux_got_coffee)
-        {
-          add_bullet(tux_x + scroll_x, tux_y, tux_dir, tux_xm);
-        }
-
-
-      /* Duck! */
-
-      if (down == DOWN)
-        {
-          if (tux_size == BIG)
-            tux_duck = YES;
-        }
-      else
-        {
-          if (tux_size == BIG && tux_duck == YES)
-            {
-              /* Make sure we're not standing back up into a solid! */
-
-              if (!issolid(tux_x, tux_y - 32, scroll_x))
-                tux_duck = NO;
-            }
-          else
-            tux_duck = NO;
-        }
-    } /* (tux_dying || next_level) */
-  else
+  /* (tux_dying || next_level) */
+  if (tux.dying || next_level)
     {
       /* Tux either died, or reached the end of a level! */
 
@@ -616,24 +306,16 @@ int game_action(void)
       else
         {
 
-          tux_ym = tux_ym + GRAVITY;
-
-
-
-          /* He died :^( */
-
-          --lives;
-	  remove_powerups();
-
+	player_dying(&tux);
+	
           /* No more lives!? */
 
-          if (lives < 0)
+          if (tux.lives < 0)
             {
               drawendscreen();
 
               if (score > highscore)
                 save_hs(score);
-
               unloadlevelgfx();
               unloadlevelsong();
               unloadshared();
@@ -643,396 +325,25 @@ int game_action(void)
 
       /* Either way, (re-)load the (next) level... */
 
+      player_level_begin(&tux);
       set_defaults();
       loadlevel(&current_level,"default",level);
       activate_bad_guys();
       unloadlevelgfx();
-      loadlevelgfx();
+      loadlevelgfx(&current_level);
       unloadlevelsong();
       loadlevelsong();
       levelintro();
+      start_timers();
     }
 
-  /* Move tux: */
-
-  tux_x = tux_x + tux_xm;
-  tux_y = tux_y + tux_ym;
-
-
-  /* Keep tux in bounds: */
-  if (tux_x < 0)
-    tux_x = 0;
-  else if (tux_x < 160 && scroll_x > 0 && debug_mode == YES)
-    {
-      scroll_x = scroll_x - ( 160 - tux_x);
-      tux_x = 160;
-
-      if(scroll_x < 0)
-        scroll_x = 0;
-
-    }
-  else if (tux_x > 320 && scroll_x < ((current_level.width * 32) - 640))
-    {
-      /* Scroll the screen in past center: */
-
-      scroll_x = scroll_x + (tux_x - 320);
-      tux_x = 320;
-
-      if (scroll_x > ((current_level.width * 32) - 640))
-        scroll_x = ((current_level.width * 32) - 640);
-    }
-  else if (tux_x > 608)
-    {
-      /* ... unless there's no more to scroll! */
-
-      tux_x = 608;
-    }
-
-
-  /* Land: */
-
-  if (!tux_dying)
-    {
-      if (issolid(tux_x, tux_y + 31, scroll_x) &&
-          !issolid(tux_x - tux_xm, tux_y + 31, scroll_x))
-        {
-          while (issolid(tux_x, tux_y + 31, scroll_x))
-            {
-              if (tux_xm < 0)
-                tux_x++;
-              else if (tux_xm > 0)
-                tux_x--;
-            }
-
-          tux_xm = 0;
-        }
-
-      if (issolid(tux_x, tux_y, scroll_x) &&
-          !issolid(tux_x - tux_xm, tux_y, scroll_x))
-        {
-          while (issolid(tux_x, tux_y, scroll_x))
-            {
-              if (tux_xm < 0)
-                tux_x++;
-              else if (tux_xm > 0)
-                tux_x--;
-            }
-
-          tux_xm = 0;
-        }
-
-      if (issolid(tux_x, tux_y + 31, scroll_x))
-        {
-          /* Set down properly: */
-
-          while (issolid(tux_x, tux_y + 31, scroll_x))
-            {
-              if (tux_ym < 0)
-                tux_y++;
-              else if (tux_ym > 0)
-                tux_y--;
-            }
-
-
-          /* Reset score multiplier (for mutli-hits): */
-
-          if (tux_ym > 0)
-            score_multiplier = 1;
-
-
-          /* Stop jumping! */
-
-          tux_ym = 0;
-          jumping = NO;
-        }
-
-
-      /* Bump into things: */
-
-      if (issolid(tux_x, tux_y, scroll_x) ||
-          (tux_size == BIG && !tux_duck &&
-           (issolid(tux_x, tux_y - 32, scroll_x))))
-        {
-          if (!issolid(tux_x - tux_xm, tux_y, scroll_x) &&
-              (tux_size == SMALL || tux_duck ||
-               !issolid(tux_x - tux_xm, tux_y - 32, scroll_x)))
-            {
-              tux_x = tux_x - tux_xm;
-              tux_xm = 0;
-            }
-          else if (!issolid(tux_x, tux_y - tux_ym, scroll_x) &&
-                   (tux_size == SMALL || tux_duck ||
-                    !issolid(tux_x, tux_y - 32 - tux_ym, scroll_x)))
-            {
-              if (tux_ym <= 0)
-                {
-                  /* Jumping up? */
-
-                  if (tux_size == BIG)
-                    {
-                      /* Break bricks and empty boxes: */
-
-                      if (!tux_duck)
-                        {
-                          if (isbrick(tux_x, tux_y - 32, scroll_x) ||
-                              isfullbox(tux_x, tux_y - 32, scroll_x))
-                            {
-                              trygrabdistro(tux_x, tux_y - 64, scroll_x,
-                                            BOUNCE);
-                              trybumpbadguy(tux_x, tux_y - 96, scroll_x);
-
-                              if (isfullbox(tux_x, tux_y - 32,
-                                            scroll_x))
-                                {
-                                  bumpbrick(tux_x, tux_y - 32,
-                                            scroll_x);
-                                }
-
-                              trybreakbrick(tux_x, tux_y - 32, scroll_x);
-                              tryemptybox(tux_x, tux_y - 32, scroll_x);
-                            }
-
-                          if (isbrick(tux_x + 31, tux_y - 32, scroll_x) ||
-                              isfullbox(tux_x + 31, tux_y - 32, scroll_x))
-                            {
-                              trygrabdistro(tux_x + 31,
-                                            tux_y - 64,
-                                            scroll_x,
-                                            BOUNCE);
-                              trybumpbadguy(tux_x + 31,
-                                            tux_y - 96,
-                                            scroll_x);
-
-                              if (isfullbox(tux_x + 31, tux_y - 32,
-                                            scroll_x))
-                                {
-                                  bumpbrick(tux_x + 31, tux_y - 32,
-                                            scroll_x);
-                                }
-
-                              trybreakbrick(tux_x + 31,
-                                            tux_y - 32,
-                                            scroll_x);
-                              tryemptybox(tux_x + 31,
-                                          tux_y - 32,
-                                          scroll_x);
-                            }
-                        }
-                      else /* ducking */
-                        {
-                          if (isbrick(tux_x, tux_y, scroll_x) ||
-                              isfullbox(tux_x, tux_y, scroll_x))
-                            {
-                              trygrabdistro(tux_x, tux_y - 32, scroll_x,
-                                            BOUNCE);
-                              trybumpbadguy(tux_x, tux_y - 64, scroll_x);
-                              if (isfullbox(tux_x, tux_y, scroll_x))
-                                bumpbrick(tux_x, tux_y, scroll_x);
-                              trybreakbrick(tux_x, tux_y, scroll_x);
-                              tryemptybox(tux_x, tux_y, scroll_x);
-                            }
-
-                          if (isbrick(tux_x + 31, tux_y, scroll_x) ||
-                              isfullbox(tux_x + 31, tux_y, scroll_x))
-                            {
-                              trygrabdistro(tux_x + 31,
-                                            tux_y - 32,
-                                            scroll_x,
-                                            BOUNCE);
-                              trybumpbadguy(tux_x + 31,
-                                            tux_y - 64,
-                                            scroll_x);
-                              if (isfullbox(tux_x + 31, tux_y, scroll_x))
-                                bumpbrick(tux_x + 31, tux_y, scroll_x);
-                              trybreakbrick(tux_x + 31, tux_y, scroll_x);
-                              tryemptybox(tux_x + 31, tux_y, scroll_x);
-                            }
-                        }
-                    }
-                  else
-                    {
-                      /* It's a brick and we're small, make the brick
-                         bounce, and grab any distros above it: */
-
-                      if (isbrick(tux_x, tux_y, scroll_x) ||
-                          isfullbox(tux_x, tux_y, scroll_x))
-                        {
-                          trygrabdistro(tux_x, tux_y - 32, scroll_x,
-                                        BOUNCE);
-                          trybumpbadguy(tux_x, tux_y - 64, scroll_x);
-                          bumpbrick(tux_x, tux_y, scroll_x);
-                          tryemptybox(tux_x, tux_y, scroll_x);
-                        }
-
-                      if (isbrick(tux_x + 31, tux_y, scroll_x) ||
-                          isfullbox(tux_x + 31, tux_y, scroll_x))
-                        {
-                          trygrabdistro(tux_x + 31, tux_y - 32, scroll_x,
-                                        BOUNCE);
-                          trybumpbadguy(tux_x + 31, tux_y - 64, scroll_x);
-                          bumpbrick(tux_x + 31, tux_y, scroll_x);
-                          tryemptybox(tux_x + 31, tux_y, scroll_x);
-                        }
-
-
-                      /* Get a distro from a brick? */
-
-                      if (shape(tux_x, tux_y, scroll_x) == 'x' ||
-                          shape(tux_x, tux_y, scroll_x) == 'y')
-                        {
-                          add_bouncy_distro(((tux_x + scroll_x + 1)
-                                             / 32) * 32,
-                                            (tux_y / 32) * 32);
-
-                          if (counting_distros == NO)
-                            {
-                              counting_distros = YES;
-                              distro_counter = 100;
-                            }
-
-                          if (distro_counter <= 0)
-                            change(tux_x, tux_y, scroll_x, 'a');
-
-                          play_sound(sounds[SND_DISTRO], SOUND_CENTER_SPEAKER);
-                          score = score + SCORE_DISTRO;
-                          distros++;
-                        }
-                      else if (shape(tux_x + 31, tux_y, scroll_x) == 'x' ||
-                               shape(tux_x + 31, tux_y, scroll_x) == 'y')
-                        {
-                          add_bouncy_distro(((tux_x + scroll_x + 1 + 31)
-                                             / 32) * 32,
-                                            (tux_y / 32) * 32);
-
-                          if (counting_distros == NO)
-                            {
-                              counting_distros = YES;
-                              distro_counter = 100;
-                            }
-
-                          if (distro_counter <= 0)
-                            change(tux_x + 31, tux_y, scroll_x, 'a');
-
-                          play_sound(sounds[SND_DISTRO], SOUND_CENTER_SPEAKER);
-                          score = score + SCORE_DISTRO;
-                          distros++;
-                        }
-                    }
-
-
-                  /* Bump head: */
-
-                  tux_y = (tux_y / 32) * 32 + 30;
-                }
-              else
-                {
-                  /* Land on feet: */
-
-                  tux_y = (tux_y / 32) * 32 - 32;
-                }
-
-              tux_ym = 0;
-              jumping = NO;
-              jump_counter = MAX_JUMP_COUNT;
-            }
-        }
-    }
-
-
-  /* Grab distros: */
-
-  if (!tux_dying)
-    {
-      trygrabdistro(tux_x, tux_y, scroll_x, NO_BOUNCE);
-      trygrabdistro(tux_x + 31, tux_y, scroll_x, NO_BOUNCE);
-
-      if (tux_size == BIG && !tux_duck)
-        {
-          trygrabdistro(tux_x, tux_y - 32, scroll_x, NO_BOUNCE);
-          trygrabdistro(tux_x + 31, tux_y - 32, scroll_x, NO_BOUNCE);
-        }
-    }
-
-
-  /* Enough distros for a One-up? */
-
-  if (distros >= DISTROS_LIFEUP)
-    {
-      distros = distros - DISTROS_LIFEUP;
-      if(lives < MAX_LIVES)
-        lives++;
-      /*We want to hear the sound even, if MAX_LIVES is reached*/
-      play_sound(sounds[SND_LIFEUP], SOUND_CENTER_SPEAKER);
-    }
-
-
-  /* Keep in-bounds, vertically: */
-
-  if (tux_y < 0)
-    tux_y = 0;
-  else if (tux_y > 480)
-    {
-      killtux(KILL);
-    }
-
-
-  /* Slow down horizontally: */
-
-  if (!tux_dying)
-    {
-      if (right == UP && left == UP)
-        {
-          if (isice(tux_x, tux_y + 32, scroll_x) ||
-              !issolid(tux_x, tux_y + 32, scroll_x))
-            {
-              /* Slowly on ice or in air: */
-
-              if (tux_xm > 0)
-                tux_xm--;
-              else if (tux_xm < 0)
-                tux_xm++;
-            }
-          else
-            {
-              /* Quickly, otherwise: */
-
-              tux_xm = tux_xm / 2;
-            }
-        }
-
-
-      /* Drop vertically: */
-
-      if (!issolid(tux_x, tux_y + 32, scroll_x))
-        {
-          tux_ym = tux_ym + GRAVITY;
-
-          if (tux_ym > MAX_YM)
-            tux_ym = MAX_YM;
-        }
-    }
-
-
-  if (tux_safe > 0)
-    tux_safe--;
-
-
-  /* ---- DONE HANDLING TUX! --- */
-
+  player_action(&tux);
 
   /* Handle bouncy distros: */
 
   for (i = 0; i < NUM_BOUNCY_DISTROS; i++)
     {
-      if (bouncy_distros[i].alive)
-        {
-          bouncy_distros[i].y = bouncy_distros[i].y + bouncy_distros[i].ym;
-
-          bouncy_distros[i].ym++;
-
-          if (bouncy_distros[i].ym >= 0)
-            bouncy_distros[i].alive = NO;
-        }
+      bouncy_distro_action(&bouncy_distros[i]);
     }
 
 
@@ -1040,16 +351,7 @@ int game_action(void)
 
   for (i = 0; i < NUM_BROKEN_BRICKS; i++)
     {
-      if (broken_bricks[i].alive)
-        {
-          broken_bricks[i].x = broken_bricks[i].x + broken_bricks[i].xm;
-          broken_bricks[i].y = broken_bricks[i].y + broken_bricks[i].ym;
-
-          broken_bricks[i].ym++;
-
-          if (broken_bricks[i].ym >= 0)
-            broken_bricks[i].alive = NO;
-        }
+      broken_brick_action(&broken_bricks[i]);
     }
 
 
@@ -1068,22 +370,7 @@ int game_action(void)
 
   for (i = 0; i < NUM_BOUNCY_BRICKS; i++)
     {
-      if (bouncy_bricks[i].alive)
-        {
-          bouncy_bricks[i].offset = (bouncy_bricks[i].offset +
-                                     bouncy_bricks[i].offset_m);
-
-          /* Go back down? */
-
-          if (bouncy_bricks[i].offset < -BOUNCY_BRICK_MAX_OFFSET)
-            bouncy_bricks[i].offset_m = BOUNCY_BRICK_SPEED;
-
-
-          /* Stop bouncing? */
-
-          if (bouncy_bricks[i].offset == 0)
-            bouncy_bricks[i].alive = NO;
-        }
+      bouncy_brick_action(&bouncy_bricks[i]);
     }
 
 
@@ -1091,88 +378,15 @@ int game_action(void)
 
   for (i = 0; i < NUM_FLOATING_SCORES; i++)
     {
-      if (floating_scores[i].alive)
-        {
-          floating_scores[i].y = floating_scores[i].y - 2;
-          floating_scores[i].timer--;
-
-          if (floating_scores[i].timer <= 0)
-            floating_scores[i].alive = NO;
-        }
+      floating_score_action(&floating_scores[i]);
     }
 
 
   /* Handle bullets: */
 
-  for (i = 0; i < NUM_BULLETS; i++)
+  for (i = 0; i < NUM_BULLETS; ++i)
     {
-      if (bullets[i].alive)
-        {
-          bullets[i].x = bullets[i].x + bullets[i].xm;
-          bullets[i].y = bullets[i].y + bullets[i].ym;
-
-          if (issolid(bullets[i].x, bullets[i].y, 0))
-            {
-              if (issolid(bullets[i].x, bullets[i].y - bullets[i].ym, 0))
-                bullets[i].alive = NO;
-              else
-                {
-                  if (bullets[i].ym >= 0)
-                    {
-                      bullets[i].y = (bullets[i].y / 32) * 32 - 8;
-                    }
-                  bullets[i].ym = -bullets[i].ym;
-                }
-            }
-
-          bullets[i].ym = bullets[i].ym + GRAVITY;
-
-          if (bullets[i].x < scroll_x ||
-              bullets[i].x > scroll_x + 640)
-            {
-              bullets[i].alive = NO;
-            }
-        }
-
-
-      if (bullets[i].alive)
-        {
-          for (j = 0; j < NUM_BAD_GUYS; j++)
-            {
-              if (bad_guys[j].alive && !bad_guys[j].dying)
-                {
-                  if (bullets[i].x >= bad_guys[j].x - 4 &&
-                      bullets[i].x <= bad_guys[j].x + 32 + 4 &&
-                      bullets[i].y >= bad_guys[j].y - 4 &&
-                      bullets[i].y <= bad_guys[j].y + 32 + 4)
-                    {
-                      /* Kill the bad guy! */
-
-                      bullets[i].alive = 0;
-                      bad_guys[j].dying = FALLING;
-                      bad_guys[j].ym = -8;
-
-
-                      /* Gain some points: */
-
-                      if (bad_guys[j].kind == BAD_BSOD)
-                        {
-                          add_score(bad_guys[j].x - scroll_x, bad_guys[j].y,
-                                    50 * score_multiplier);
-                        }
-                      else if (bad_guys[j].kind == BAD_LAPTOP)
-                        {
-                          add_score(bad_guys[j].x - scroll_x, bad_guys[j].y,
-                                    25 * score_multiplier);
-                        }
-
-
-                      /* Play death sound: */
-                      play_sound(sounds[SND_FALL], SOUND_CENTER_SPEAKER);
-                    }
-                }
-            }
-        }
+      bullet_action(&bullets[i]);
     }
 
 
@@ -1182,557 +396,23 @@ int game_action(void)
     super_bkgd_time--;
 
 
-  /* Handle invincibility timer: */
-
-
-  if (tux_invincible_time > 50)
-    {
-      tux_invincible_time--;
-
-
-      if (!playing_music())
-        play_music( herring_song, 1 );
-    }
-  else
-    {
-      if (current_music == HERRING_MUSIC)
-        {
-          /* stop the herring_song, now play the level_song ! */
-          current_music = LEVEL_MUSIC;
-          halt_music();
-        }
-
-      if (!playing_music())
-        {
-          if (current_level.time_left <= TIME_WARNING)
-            play_music( level_song_fast, 1 );
-          else
-            play_music( level_song, 1 );
-        }
-
-      if (tux_invincible_time > 0)
-        tux_invincible_time--;
-    }
-
-
   /* Handle upgrades: */
 
   for (i = 0; i < NUM_UPGRADES; i++)
     {
-      if (upgrades[i].alive)
-        {
-          if (upgrades[i].height < 32)
-            {
-              /* Rise up! */
-
-              upgrades[i].height++;
-            }
-          else
-            {
-              /* Move around? */
-
-              if (upgrades[i].kind == UPGRADE_MINTS ||
-                  upgrades[i].kind == UPGRADE_HERRING)
-                {
-                  upgrades[i].x = upgrades[i].x + upgrades[i].xm;
-                  upgrades[i].y = upgrades[i].y + upgrades[i].ym;
-
-                  if (issolid(upgrades[i].x, upgrades[i].y + 31, 0) ||
-                      issolid(upgrades[i].x + 31, upgrades[i].y + 31, 0))
-                    {
-                      if (upgrades[i].ym > 0)
-                        {
-                          if (upgrades[i].kind == UPGRADE_MINTS)
-                            {
-                              upgrades[i].ym = 0;
-                            }
-                          else if (upgrades[i].kind == UPGRADE_HERRING)
-                            {
-                              upgrades[i].ym = -24;
-                            }
-
-                          upgrades[i].y = (upgrades[i].y / 32) * 32;
-                        }
-                    }
-                  else
-                    upgrades[i].ym = upgrades[i].ym + GRAVITY;
-
-                  if (issolid(upgrades[i].x, upgrades[i].y, 0))
-                    {
-                      upgrades[i].xm = -upgrades[i].xm;
-                    }
-                }
-
-
-              /* Off the screen?  Kill it! */
-
-              if (upgrades[i].x < scroll_x)
-                upgrades[i].alive = NO;
-
-
-              /* Did the player grab it? */
-
-              if (tux_x + scroll_x >= upgrades[i].x - 32 &&
-                  tux_x + scroll_x <= upgrades[i].x + 32 &&
-                  tux_y >= upgrades[i].y - 32 &&
-                  tux_y <= upgrades[i].y + 32)
-                {
-                  /* Remove the upgrade: */
-
-                  upgrades[i].alive = NO;
-
-
-                  /* Affect the player: */
-
-                  if (upgrades[i].kind == UPGRADE_MINTS)
-                    {
-                      play_sound(sounds[SND_EXCELLENT], SOUND_CENTER_SPEAKER);
-                      tux_size = BIG;
-                      super_bkgd_time = 8;
-                    }
-                  else if (upgrades[i].kind == UPGRADE_COFFEE)
-                    {
-                      play_sound(sounds[SND_COFFEE], SOUND_CENTER_SPEAKER);
-                      tux_got_coffee = YES;
-                      super_bkgd_time = 4;
-                    }
-                  else if (upgrades[i].kind == UPGRADE_HERRING)
-                    {
-                      play_sound(sounds[SND_HERRING], SOUND_CENTER_SPEAKER);
-                      tux_invincible_time = TUX_INVINCIBLE_TIME;
-                      super_bkgd_time = 4;
-                      /* play the herring song ^^ */
-                      current_music = HERRING_MUSIC;
-                      if (playing_music())
-                        halt_music();
-                      play_music( herring_song, 1 );
-                    }
-                }
-            }
-        }
-    }
+	upgrade_action(&upgrades[i]);
+    } /* for (i = 0; i < NUM_UPGRADES; i++) */
 
 
   /* Handle bad guys: */
 
   for (i = 0; i < NUM_BAD_GUYS; i++)
     {
-      if (bad_guys[i].alive)
-        {
-          if (bad_guys[i].seen)
-            {
-              if (bad_guys[i].kind == BAD_BSOD)
-                {
-                  /* --- BLUE SCREEN OF DEATH MONSTER: --- */
-
-                  /* Move left/right: */
-
-                  if (bad_guys[i].dying == NO ||
-                      bad_guys[i].dying == FALLING)
-                    {
-                      if (bad_guys[i].dir == RIGHT)
-                        bad_guys[i].x = bad_guys[i].x + 4;
-                      else if (bad_guys[i].dir == LEFT)
-                        bad_guys[i].x = bad_guys[i].x - 4;
-                    }
-
-
-                  /* Move vertically: */
-
-                  bad_guys[i].y = bad_guys[i].y + bad_guys[i].ym;
-
-
-                  /* Bump into things horizontally: */
-
-                  if (!bad_guys[i].dying)
-                    {
-                      if (issolid(bad_guys[i].x, bad_guys[i].y, 0))
-                        bad_guys[i].dir = !bad_guys[i].dir;
-                    }
-
-
-                  /* Bump into other bad guys: */
-
-                  for (j = 0; j < NUM_BAD_GUYS; j++)
-                    {
-                      if (j != i && bad_guys[j].alive &&
-                          !bad_guys[j].dying && !bad_guys[i].dying &&
-                          bad_guys[i].x >= bad_guys[j].x - 32 &&
-                          bad_guys[i].x <= bad_guys[j].x + 32 &&
-                          bad_guys[i].y >= bad_guys[j].y - 32 &&
-                          bad_guys[i].y <= bad_guys[j].y + 32)
-                        {
-                          bad_guys[i].dir = !bad_guys[i].dir;
-                        }
-                    }
-
-
-                  /* Fall if we get off the ground: */
-
-                  if (bad_guys[i].dying != FALLING)
-                    {
-                      if (!issolid(bad_guys[i].x, bad_guys[i].y + 32, 0) &&
-                          bad_guys[i].ym < MAX_YM)
-                        {
-                          bad_guys[i].ym = bad_guys[i].ym + GRAVITY;
-                        }
-                      else
-                        {
-                          /* Land: */
-
-                          if (bad_guys[i].ym > 0)
-                            {
-                              bad_guys[i].y = (bad_guys[i].y / 32) * 32;
-                              bad_guys[i].ym = 0;
-                            }
-                        }
-                    }
-                  else
-                    bad_guys[i].ym = bad_guys[i].ym + GRAVITY;
-
-                  if (bad_guys[i].y > 480)
-                    bad_guys[i].alive = NO;
-                }
-              else if (bad_guys[i].kind == BAD_LAPTOP)
-                {
-                  /* --- LAPTOP MONSTER: --- */
-
-                  /* Move left/right: */
-
-                  if (bad_guys[i].mode != FLAT && bad_guys[i].mode != KICK)
-                    {
-                      if (bad_guys[i].dying == NO ||
-                          bad_guys[i].dying == FALLING)
-                        {
-                          if (bad_guys[i].dir == RIGHT)
-                            bad_guys[i].x = bad_guys[i].x + 4;
-                          else if (bad_guys[i].dir == LEFT)
-                            bad_guys[i].x = bad_guys[i].x - 4;
-                        }
-                    }
-                  else if (bad_guys[i].mode == KICK)
-                    {
-                      if (bad_guys[i].dir == RIGHT)
-                        bad_guys[i].x = bad_guys[i].x + 16;
-                      else if (bad_guys[i].dir == LEFT)
-                        bad_guys[i].x = bad_guys[i].x - 16;
-                    }
-
-
-                  /* Move vertically: */
-
-                  bad_guys[i].y = bad_guys[i].y + bad_guys[i].ym;
-
-
-                  /* Bump into things horizontally: */
-
-                  if (!bad_guys[i].dying)
-                    {
-                      if (issolid(bad_guys[i].x, bad_guys[i].y, 0))
-                        {
-                          bad_guys[i].dir = !bad_guys[i].dir;
-
-                          if (bad_guys[i].mode == KICK)
-                            {
-                              /* handle stereo sound */
-                              if (tux_x + scroll_x > bad_guys[i].x)
-                                play_sound(sounds[SND_RICOCHET], SOUND_LEFT_SPEAKER);
-                              else if (tux_x + scroll_x < bad_guys[i].x)
-                                play_sound(sounds[SND_RICOCHET], SOUND_RIGHT_SPEAKER);
-                              else
-                                play_sound(sounds[SND_RICOCHET], SOUND_CENTER_SPEAKER);
-                            }
-                        }
-                    }
-
-
-                  /* Bump into other bad guys: */
-
-                  for (j = 0; j < NUM_BAD_GUYS; j++)
-                    {
-                      if (j != i && bad_guys[j].alive &&
-                          !bad_guys[j].dying && !bad_guys[i].dying &&
-                          bad_guys[i].x >= bad_guys[j].x - 32 &&
-                          bad_guys[i].x <= bad_guys[j].x + 32 &&
-                          bad_guys[i].y >= bad_guys[j].y - 32 &&
-                          bad_guys[i].y <= bad_guys[j].y + 32)
-                        {
-                          if (bad_guys[i].mode != KICK)
-                            bad_guys[i].dir = !bad_guys[i].dir;
-                          else
-                            {
-                              /* We're in kick mode, kill the other guy: */
-
-                              bad_guys[j].dying = FALLING;
-                              bad_guys[j].ym = -8;
-                              play_sound(sounds[SND_FALL], SOUND_CENTER_SPEAKER);
-
-                              add_score(bad_guys[i].x - scroll_x,
-                                        bad_guys[i].y, 100);
-                            }
-                        }
-                    }
-
-
-                  /* Fall if we get off the ground: */
-
-                  if (bad_guys[i].dying != FALLING)
-                    {
-                      if (!issolid(bad_guys[i].x, bad_guys[i].y + 32, 0) &&
-                          bad_guys[i].ym < MAX_YM)
-                        {
-                          bad_guys[i].ym = bad_guys[i].ym + GRAVITY;
-                        }
-                      else
-                        {
-                          /* Land: */
-
-                          if (bad_guys[i].ym > 0)
-                            {
-                              bad_guys[i].y = (bad_guys[i].y / 32) * 32;
-                              bad_guys[i].ym = 0;
-                            }
-                        }
-                    }
-                  else
-                    bad_guys[i].ym = bad_guys[i].ym + GRAVITY;
-
-                  if (bad_guys[i].y > 480)
-                    bad_guys[i].alive = NO;
-                }
-              else if (bad_guys[i].kind == BAD_MONEY)
-                {
-                  /* --- MONEY BAGS: --- */
-
-
-                  /* Move vertically: */
-
-                  bad_guys[i].y = bad_guys[i].y + bad_guys[i].ym;
-
-
-                  /* Fall if we get off the ground: */
-
-                  if (bad_guys[i].dying != FALLING)
-                    {
-                      if (!issolid(bad_guys[i].x, bad_guys[i].y + 32, 0))
-                        {
-                          if (bad_guys[i].ym < MAX_YM)
-                            {
-                              bad_guys[i].ym = bad_guys[i].ym + GRAVITY;
-                            }
-                        }
-                      else
-                        {
-                          /* Land: */
-
-                          if (bad_guys[i].ym > 0)
-                            {
-                              bad_guys[i].y = (bad_guys[i].y / 32) * 32;
-                              bad_guys[i].ym = -MAX_YM;
-                            }
-                        }
-                    }
-                  else
-                    bad_guys[i].ym = bad_guys[i].ym + GRAVITY;
-
-                  if (bad_guys[i].y > 480)
-                    bad_guys[i].alive = NO;
-                }
-              else if (bad_guys[i].kind == -1)
-              {}
-
-
-              /* Kill it if the player jumped on it: */
-
-              if (!bad_guys[i].dying && !tux_dying && !tux_safe &&
-                  tux_x + scroll_x >= bad_guys[i].x - 32 &&
-                  tux_x + scroll_x <= bad_guys[i].x + 32 &&
-                  tux_y >= bad_guys[i].y - 32 &&
-                  tux_y <= bad_guys[i].y - 8
-                  /* &&
-                  tux_ym >= 0 */)
-                {
-                  if (bad_guys[i].kind == BAD_BSOD)
-                    {
-                      bad_guys[i].dying = SQUISHED;
-                      bad_guys[i].timer = 16;
-                      tux_ym = -KILL_BOUNCE_YM;
-
-                      add_score(bad_guys[i].x - scroll_x, bad_guys[i].y,
-                                50 * score_multiplier);
-
-                      play_sound(sounds[SND_SQUISH], SOUND_CENTER_SPEAKER);
-                    }
-                  else if (bad_guys[i].kind == BAD_LAPTOP)
-                    {
-                      if (bad_guys[i].mode != FLAT)
-                        {
-                          /* Flatten! */
-
-                          play_sound(sounds[SND_STOMP], SOUND_CENTER_SPEAKER);
-                          bad_guys[i].mode = FLAT;
-
-                          bad_guys[i].timer = 64;
-
-                          tux_y = tux_y - 32;
-                        }
-                      else
-                        {
-                          /* Kick! */
-
-                          bad_guys[i].mode = KICK;
-                          play_sound(sounds[SND_KICK], SOUND_CENTER_SPEAKER);
-
-                          if (tux_x + scroll_x <= bad_guys[i].x)
-                            bad_guys[i].dir = RIGHT;
-                          else
-                            bad_guys[i].dir = LEFT;
-
-                          bad_guys[i].timer = 8;
-                        }
-
-                      tux_ym = -KILL_BOUNCE_YM;
-
-                      add_score(bad_guys[i].x - scroll_x,
-                                bad_guys[i].y,
-                                25 * score_multiplier);
-
-                      /* play_sound(sounds[SND_SQUISH]); */
-                    }
-                  else if (bad_guys[i].kind == -1)
-                  {}
-
-                  score_multiplier++;
-                }
-
-
-              /* Hurt the player if he just touched it: */
-
-              if (!bad_guys[i].dying && !tux_dying &&
-                  !tux_safe &&
-                  tux_x + scroll_x >= bad_guys[i].x - 32 &&
-                  tux_x + scroll_x <= bad_guys[i].x + 32 &&
-                  tux_y >= bad_guys[i].y - 32 &&
-                  tux_y <= bad_guys[i].y + 32)
-                {
-                  if (bad_guys[i].mode == FLAT)
-                    {
-                      /* Kick: */
-
-                      bad_guys[i].mode = KICK;
-                      play_sound(sounds[SND_KICK], SOUND_CENTER_SPEAKER);
-
-                      if (tux_x + scroll_x <= bad_guys[i].x)
-                        {
-                          bad_guys[i].dir = RIGHT;
-                          bad_guys[i].x = bad_guys[i].x + 16;
-                        }
-                      else
-                        {
-                          bad_guys[i].dir = LEFT;
-                          bad_guys[i].x = bad_guys[i].x - 16;
-                        }
-
-                      bad_guys[i].timer = 8;
-                    }
-                  else if (bad_guys[i].mode == KICK)
-                    {
-                      if (tux_y < bad_guys[i].y - 16 &&
-                          bad_guys[i].timer == 0)
-                        {
-                          /* Step on (stop being kicked) */
-
-                          bad_guys[i].mode = FLAT;
-                          play_sound(sounds[SND_STOMP], SOUND_CENTER_SPEAKER);
-                          bad_guys[i].timer = 64;
-                        }
-                      else
-                        {
-                          /* Hurt if you get hit by kicked laptop: */
-
-                          if (bad_guys[i].timer == 0)
-                            {
-                              if (tux_invincible_time == 0)
-                                {
-                                  killtux(SHRINK);
-                                }
-                              else
-                                {
-                                  bad_guys[i].dying = FALLING;
-                                  bad_guys[i].ym = -8;
-                                  play_sound(sounds[SND_FALL], SOUND_CENTER_SPEAKER);
-                                }
-                            }
-                        }
-                    }
-                  else
-                    {
-                      if (tux_invincible_time == 0)
-                        {
-                          killtux(SHRINK);
-                        }
-                      else
-                        {
-                          bad_guys[i].dying = FALLING;
-                          bad_guys[i].ym = -8;
-                          play_sound(sounds[SND_FALL], SOUND_CENTER_SPEAKER);
-                        }
-                    }
-                }
-
-
-              /* Handle mode timer: */
-
-              if (bad_guys[i].mode == FLAT)
-                {
-                  bad_guys[i].timer--;
-
-                  if (bad_guys[i].timer <= 0)
-                    bad_guys[i].mode = NORMAL;
-                }
-              else if (bad_guys[i].mode == KICK)
-                {
-                  if (bad_guys[i].timer > 0)
-                    bad_guys[i].timer--;
-                }
-
-
-              /* Handle dying timer: */
-
-              if (bad_guys[i].dying == SQUISHED)
-                {
-                  bad_guys[i].timer--;
-
-
-                  /* Remove it if time's up: */
-
-                  if (bad_guys[i].timer <= 0)
-                    bad_guys[i].alive = NO;
-                }
-
-
-              /* Remove if it's far off the screen: */
-
-              if (bad_guys[i].x < scroll_x - OFFSCREEN_DISTANCE)
-                bad_guys[i].alive = NO;
-            }
-          else /* !seen */
-            {
-              /* Once it's on screen, it's activated! */
-
-              if (bad_guys[i].x <= scroll_x + 640 + OFFSCREEN_DISTANCE)
-                bad_guys[i].seen = YES;
-            }
-        }
+	badguy_action(&bad_guys[i]);
     }
 
-
-  /* Handle skidding: */
-
-  if (tux_skidding > 0)
-    {
-      tux_skidding--;
-    }
+  /* Handle all possible collisions. */
+  collision_handler();
 
   return -1;
 }
@@ -1745,16 +425,15 @@ void game_draw()
 
   /* Draw screen: */
 
-  if (tux_dying && (frame % 4) == 0)
+  if (tux.dying && (frame % 4) == 0)
     clearscreen(255, 255, 255);
   else
     {
       if (super_bkgd_time == 0)
         clearscreen(current_level.bkgd_red, current_level.bkgd_green, current_level.bkgd_blue);
       else
-        drawimage(img_super_bkgd, 0, 0, NO_UPDATE);
+        texture_draw(&img_super_bkgd, 0, 0, NO_UPDATE);
     }
-
 
   /* Draw background: */
 
@@ -1762,8 +441,8 @@ void game_draw()
     {
       for (x = 0; x < 21; x++)
         {
-          drawshape(x * 32 - (scroll_x % 32), y * 32,
-                    current_level.tiles[y][x + (scroll_x / 32)]);
+          drawshape(x * 32 - ((int)scroll_x % 32), y * 32,
+                    current_level.tiles[(int)y][(int)x + (int)(scroll_x / 32)]);
         }
     }
 
@@ -1772,26 +451,7 @@ void game_draw()
 
   for (i = 0; i < NUM_BOUNCY_BRICKS; i++)
     {
-      if (bouncy_bricks[i].alive)
-        {
-          if (bouncy_bricks[i].x >= scroll_x - 32 &&
-              bouncy_bricks[i].x <= scroll_x + 640)
-            {
-              dest.x = bouncy_bricks[i].x - scroll_x;
-              dest.y = bouncy_bricks[i].y;
-              dest.w = 32;
-              dest.h = 32;
-
-              SDL_FillRect(screen, &dest, SDL_MapRGB(screen->format,
-                                                     current_level.bkgd_red,
-                                                     current_level.bkgd_green,
-                                                     current_level.bkgd_blue));
-
-              drawshape(bouncy_bricks[i].x - scroll_x,
-                        bouncy_bricks[i].y + bouncy_bricks[i].offset,
-                        bouncy_bricks[i].shape);
-            }
-        }
+	bouncy_brick_draw(&bouncy_bricks[i]);
     }
 
 
@@ -1799,436 +459,25 @@ void game_draw()
 
   for (i = 0; i < NUM_BAD_GUYS; i++)
     {
-      if (bad_guys[i].alive &&
-          bad_guys[i].x > scroll_x - 32 &&
-          bad_guys[i].x < scroll_x + 640)
-        {
-          if (bad_guys[i].kind == BAD_BSOD)
-            {
-              /* --- BLUE SCREEN OF DEATH MONSTER: --- */
-
-              if (bad_guys[i].dying == NO)
-                {
-                  /* Alive: */
-
-                  if (bad_guys[i].dir == LEFT)
-                    {
-                      drawimage(img_bsod_left[(frame / 5) % 4],
-                                bad_guys[i].x - scroll_x,
-                                bad_guys[i].y,
-                                NO_UPDATE);
-                    }
-                  else
-                    {
-                      drawimage(img_bsod_right[(frame / 5) % 4],
-                                bad_guys[i].x - scroll_x,
-                                bad_guys[i].y,
-                                NO_UPDATE);
-                    }
-                }
-              else if (bad_guys[i].dying == FALLING)
-                {
-                  /* Falling: */
-
-                  if (bad_guys[i].dir == LEFT)
-                    {
-                      drawimage(img_bsod_falling_left,
-                                bad_guys[i].x - scroll_x,
-                                bad_guys[i].y,
-                                NO_UPDATE);
-                    }
-                  else
-                    {
-                      drawimage(img_bsod_falling_right,
-                                bad_guys[i].x - scroll_x,
-                                bad_guys[i].y,
-                                NO_UPDATE);
-                    }
-                }
-              else if (bad_guys[i].dying == SQUISHED)
-                {
-                  /* Dying - Squished: */
-
-                  if (bad_guys[i].dir == LEFT)
-                    {
-                      drawimage(img_bsod_squished_left,
-                                bad_guys[i].x - scroll_x,
-                                bad_guys[i].y + 24,
-                                NO_UPDATE);
-                    }
-                  else
-                    {
-                      drawimage(img_bsod_squished_right,
-                                bad_guys[i].x - scroll_x,
-                                bad_guys[i].y + 24,
-                                NO_UPDATE);
-                    }
-                }
-            }
-          else if (bad_guys[i].kind == BAD_LAPTOP)
-            {
-              /* --- LAPTOP MONSTER: --- */
-
-              if (bad_guys[i].dying == NO)
-                {
-                  /* Alive: */
-
-                  if (bad_guys[i].mode == NORMAL)
-                    {
-                      /* Not flat: */
-
-                      if (bad_guys[i].dir == LEFT)
-                        {
-                          drawimage(img_laptop_left[(frame / 5) % 3],
-                                    bad_guys[i].x - scroll_x,
-                                    bad_guys[i].y,
-                                    NO_UPDATE);
-                        }
-                      else
-                        {
-                          drawimage(img_laptop_right[(frame / 5) % 3],
-                                    bad_guys[i].x - scroll_x,
-                                    bad_guys[i].y,
-                                    NO_UPDATE);
-                        }
-                    }
-                  else
-                    {
-                      /* Flat: */
-
-                      if (bad_guys[i].dir == LEFT)
-                        {
-                          drawimage(img_laptop_flat_left,
-                                    bad_guys[i].x - scroll_x,
-                                    bad_guys[i].y,
-                                    NO_UPDATE);
-                        }
-                      else
-                        {
-                          drawimage(img_laptop_flat_right,
-                                    bad_guys[i].x - scroll_x,
-                                    bad_guys[i].y,
-                                    NO_UPDATE);
-                        }
-                    }
-                }
-              else if (bad_guys[i].dying == FALLING)
-                {
-                  /* Falling: */
-
-                  if (bad_guys[i].dir == LEFT)
-                    {
-                      drawimage(img_laptop_falling_left,
-                                bad_guys[i].x - scroll_x,
-                                bad_guys[i].y,
-                                NO_UPDATE);
-                    }
-                  else
-                    {
-                      drawimage(img_laptop_falling_right,
-                                bad_guys[i].x - scroll_x,
-                                bad_guys[i].y,
-                                NO_UPDATE);
-                    }
-                }
-            }
-          else if (bad_guys[i].kind == BAD_MONEY)
-            {
-              if (bad_guys[i].ym > -16)
-                {
-                  if (bad_guys[i].dir == LEFT)
-                    {
-                      drawimage(img_money_left[0],
-                                bad_guys[i].x - scroll_x,
-                                bad_guys[i].y,
-                                NO_UPDATE);
-                    }
-                  else
-                    {
-                      drawimage(img_money_right[0],
-                                bad_guys[i].x - scroll_x,
-                                bad_guys[i].y,
-                                NO_UPDATE);
-                    }
-                }
-              else
-                {
-                  if (bad_guys[i].dir == LEFT)
-                    {
-                      drawimage(img_money_left[1],
-                                bad_guys[i].x - scroll_x,
-                                bad_guys[i].y,
-                                NO_UPDATE);
-                    }
-                  else
-                    {
-                      drawimage(img_money_right[1],
-                                bad_guys[i].x - scroll_x,
-                                bad_guys[i].y,
-                                NO_UPDATE);
-                    }
-                }
-            }
-          else if (bad_guys[i].kind == -1)
-          {}
-        }
+	badguy_draw(&bad_guys[i]);
     }
-
 
   /* (Tux): */
-
-  if (right == UP && left == UP)
-    {
-      tux_frame_main = 1;
-      tux_frame = 1;
-    }
-  else
-    {
-      if ((fire == DOWN && (frame % 2) == 0) ||
-          (frame % 4) == 0)
-        tux_frame_main = (tux_frame_main + 1) % 4;
-
-      tux_frame = tux_frame_main;
-
-      if (tux_frame == 3)
-        tux_frame = 1;
-    }
-
-
-  if (tux_safe == 0 || (frame % 2) == 0)
-    {
-      if (tux_size == SMALL)
-        {
-          if (tux_invincible_time)
-            {
-              /* Draw cape: */
-
-              if (tux_dir == RIGHT)
-                {
-                  drawimage(cape_right[frame % 2],
-                            tux_x, tux_y,
-                            NO_UPDATE);
-                }
-              else
-                {
-                  drawimage(cape_left[frame % 2],
-                            tux_x, tux_y,
-                            NO_UPDATE);
-                }
-            }
-
-
-          if (!tux_got_coffee)
-            {
-              if (tux_dir == RIGHT)
-                {
-                  drawimage(tux_right[tux_frame], tux_x, tux_y, NO_UPDATE);
-                }
-              else
-                {
-                  drawimage(tux_left[tux_frame], tux_x, tux_y, NO_UPDATE);
-                }
-            }
-          else
-            {
-              /* Tux got coffee! */
-
-              if (tux_dir == RIGHT)
-                {
-                  drawimage(firetux_right[tux_frame], tux_x, tux_y, NO_UPDATE);
-                }
-              else
-                {
-                  drawimage(firetux_left[tux_frame], tux_x, tux_y, NO_UPDATE);
-                }
-            }
-        }
-      else
-        {
-          if (tux_invincible_time)
-            {
-              /* Draw cape: */
-
-              if (tux_dir == RIGHT)
-                {
-                  drawimage(bigcape_right[frame % 2],
-                            tux_x - 8 - 16, tux_y - 32,
-                            NO_UPDATE);
-                }
-              else
-                {
-                  drawimage(bigcape_left[frame % 2],
-                            tux_x - 8, tux_y - 32,
-                            NO_UPDATE);
-                }
-            }
-
-          if (!tux_got_coffee)
-            {
-              if (!tux_duck)
-                {
-                  if (!tux_skidding)
-                    {
-                      if (!jumping || tux_ym > 0)
-                        {
-                          if (tux_dir == RIGHT)
-                            {
-                              drawimage(bigtux_right[tux_frame],
-                                        tux_x - 8, tux_y - 32,
-                                        NO_UPDATE);
-                            }
-                          else
-                            {
-                              drawimage(bigtux_left[tux_frame],
-                                        tux_x - 8, tux_y - 32,
-                                        NO_UPDATE);
-                            }
-                        }
-                      else
-                        {
-                          if (tux_dir == RIGHT)
-                            {
-                              drawimage(bigtux_right_jump,
-                                        tux_x - 8, tux_y - 32,
-                                        NO_UPDATE);
-                            }
-                          else
-                            {
-                              drawimage(bigtux_left_jump,
-                                        tux_x - 8, tux_y - 32,
-                                        NO_UPDATE);
-                            }
-                        }
-                    }
-                  else
-                    {
-                      if (tux_dir == RIGHT)
-                        {
-                          drawimage(skidtux_right,
-                                    tux_x - 8, tux_y - 32,
-                                    NO_UPDATE);
-                        }
-                      else
-                        {
-                          drawimage(skidtux_left,
-                                    tux_x - 8, tux_y - 32,
-                                    NO_UPDATE);
-                        }
-                    }
-                }
-              else
-                {
-                  if (tux_dir == RIGHT)
-                    {
-                      drawimage(ducktux_right, tux_x - 8, tux_y - 16,
-                                NO_UPDATE);
-                    }
-                  else
-                    {
-                      drawimage(ducktux_left, tux_x - 8, tux_y - 16,
-                                NO_UPDATE);
-                    }
-                }
-            }
-          else
-            {
-              /* Tux has coffee! */
-
-              if (!tux_duck)
-                {
-                  if (!tux_skidding)
-                    {
-                      if (!jumping || tux_ym > 0)
-                        {
-                          if (tux_dir == RIGHT)
-                            {
-                              drawimage(bigfiretux_right[tux_frame],
-                                        tux_x - 8, tux_y - 32,
-                                        NO_UPDATE);
-                            }
-                          else
-                            {
-                              drawimage(bigfiretux_left[tux_frame],
-                                        tux_x - 8, tux_y - 32,
-                                        NO_UPDATE);
-                            }
-                        }
-                      else
-                        {
-                          if (tux_dir == RIGHT)
-                            {
-                              drawimage(bigfiretux_right_jump,
-                                        tux_x - 8, tux_y - 32,
-                                        NO_UPDATE);
-                            }
-                          else
-                            {
-                              drawimage(bigfiretux_left_jump,
-                                        tux_x - 8, tux_y - 32,
-                                        NO_UPDATE);
-                            }
-                        }
-                    }
-                  else
-                    {
-                      if (tux_dir == RIGHT)
-                        {
-                          drawimage(skidfiretux_right,
-                                    tux_x - 8, tux_y - 32,
-                                    NO_UPDATE);
-                        }
-                      else
-                        {
-                          drawimage(skidfiretux_left,
-                                    tux_x - 8, tux_y - 32,
-                                    NO_UPDATE);
-                        }
-                    }
-                }
-              else
-                {
-                  if (tux_dir == RIGHT)
-                    {
-                      drawimage(duckfiretux_right, tux_x - 8, tux_y - 16,
-                                NO_UPDATE);
-                    }
-                  else
-                    {
-                      drawimage(duckfiretux_left, tux_x - 8, tux_y - 16,
-                                NO_UPDATE);
-                    }
-                }
-            }
-        }
-    }
-
+  
+  player_draw(&tux);
 
   /* (Bullets): */
 
   for (i = 0; i < NUM_BULLETS; i++)
     {
-      if (bullets[i].alive &&
-          bullets[i].x >= scroll_x - 4 &&
-          bullets[i].x <= scroll_x + 640)
-        {
-          drawimage(img_bullet, bullets[i].x - scroll_x, bullets[i].y,
-                    NO_UPDATE);
-        }
+       bullet_draw(&bullets[i]);
     }
-
 
   /* (Floating scores): */
 
   for (i = 0; i < NUM_FLOATING_SCORES; i++)
     {
-      if (floating_scores[i].alive)
-        {
-          sprintf(str, "%d", floating_scores[i].value);
-          drawtext(str,
-                   floating_scores[i].x + 16 - strlen(str) * 8,
-                   floating_scores[i].y,
-                   letters_gold, NO_UPDATE, 1);
-        }
+	floating_score_draw(&floating_scores[i]);
     }
 
 
@@ -2236,51 +485,7 @@ void game_draw()
 
   for (i = 0; i < NUM_UPGRADES; i++)
     {
-      if (upgrades[i].alive)
-        {
-          if (upgrades[i].height < 32)
-            {
-              /* Rising up... */
-
-              dest.x = upgrades[i].x - scroll_x;
-              dest.y = upgrades[i].y + 32 - upgrades[i].height;
-              dest.w = 32;
-              dest.h = upgrades[i].height;
-
-              src.x = 0;
-              src.y = 0;
-              src.w = 32;
-              src.h = upgrades[i].height;
-
-              if (upgrades[i].kind == UPGRADE_MINTS)
-                SDL_BlitSurface(img_mints, &src, screen, &dest);
-              else if (upgrades[i].kind == UPGRADE_COFFEE)
-                SDL_BlitSurface(img_coffee, &src, screen, &dest);
-              else if (upgrades[i].kind == UPGRADE_HERRING)
-                SDL_BlitSurface(img_golden_herring, &src, screen, &dest);
-            }
-          else
-            {
-              if (upgrades[i].kind == UPGRADE_MINTS)
-                {
-                  drawimage(img_mints,
-                            upgrades[i].x - scroll_x, upgrades[i].y,
-                            NO_UPDATE);
-                }
-              else if (upgrades[i].kind == UPGRADE_COFFEE)
-                {
-                  drawimage(img_coffee,
-                            upgrades[i].x - scroll_x, upgrades[i].y,
-                            NO_UPDATE);
-                }
-              else if (upgrades[i].kind == UPGRADE_HERRING)
-                {
-                  drawimage(img_golden_herring,
-                            upgrades[i].x - scroll_x, upgrades[i].y,
-                            NO_UPDATE);
-                }
-            }
-        }
+	upgrade_draw(&upgrades[i]);
     }
 
 
@@ -2288,13 +493,7 @@ void game_draw()
 
   for (i = 0; i < NUM_BOUNCY_DISTROS; i++)
     {
-      if (bouncy_distros[i].alive)
-        {
-          drawimage(img_distro[0],
-                    bouncy_distros[i].x - scroll_x,
-                    bouncy_distros[i].y,
-                    NO_UPDATE);
-        }
+      bouncy_distro_draw(&bouncy_distros[i]);
     }
 
 
@@ -2302,50 +501,11 @@ void game_draw()
 
   for (i = 0; i < NUM_BROKEN_BRICKS; i++)
     {
-      if (broken_bricks[i].alive)
-        {
-          src.x = rand() % 16;
-          src.y = rand() % 16;
-          src.w = 16;
-          src.h = 16;
-
-          dest.x = broken_bricks[i].x - scroll_x;
-          dest.y = broken_bricks[i].y;
-          dest.w = 16;
-          dest.h = 16;
-
-          SDL_BlitSurface(img_brick[0], &src, screen, &dest);
-        }
+	broken_brick_draw(&broken_bricks[i]);
     }
 
+  drawstatus();
 
-  /* (Status): */
-
-  sprintf(str, "%d", score);
-  drawtext("SCORE", 0, 0, letters_blue, NO_UPDATE, 1);
-  drawtext(str, 96, 0, letters_gold, NO_UPDATE, 1);
-
-  sprintf(str, "%d", highscore);
-  drawtext("HIGH", 0, 20, letters_blue, NO_UPDATE, 1);
-  drawtext(str, 96, 20, letters_gold, NO_UPDATE, 1);
-
-  if (current_level.time_left >= TIME_WARNING || (frame % 10) < 5)
-    {
-      sprintf(str, "%d", current_level.time_left);
-      drawtext("TIME", 224, 0, letters_blue, NO_UPDATE, 1);
-      drawtext(str, 304, 0, letters_gold, NO_UPDATE, 1);
-    }
-
-  sprintf(str, "%d", distros);
-  drawtext("DISTROS", 480, 0, letters_blue, NO_UPDATE, 1);
-  drawtext(str, 608, 0, letters_gold, NO_UPDATE, 1);
-
-  drawtext("LIVES", 480, 20, letters_blue, NO_UPDATE, 1);
-
-  for(i=0; i < lives; ++i)
-    {
-      drawimage(tux_life,565+(18*i),20,NO_UPDATE);
-    }
 
   if(game_pause)
     drawcenteredtext("PAUSE",230,letters_red, NO_UPDATE, 1);
@@ -2379,28 +539,26 @@ int gameloop(void)
   menumenu = MENU_GAME;
   initgame();
   loadshared();
-  
-  tux_size = SMALL;
-  tux_got_coffee = NO;
-
   set_defaults();
+  
   loadlevel(&current_level,"default",level);
-  loadlevelgfx();
+  loadlevelgfx(&current_level);
   activate_bad_guys();
   loadlevelsong();
   highscore = load_hs();
 
-  levelintro();
+  player_init(&tux);
   
+  levelintro();
+  start_timers();
+    
   /* --- MAIN GAME LOOP!!! --- */
 
   done = 0;
   quit = 0;
   frame = 0;
-  tux_frame_main = 0;
-  tux_frame = 0;
   game_pause = 0;
-
+  
   game_draw();
   do
     {
@@ -2410,10 +568,11 @@ int gameloop(void)
 
       /* Handle events: */
 
-      old_fire = fire;
+      tux.input.old_fire = tux.input.fire;
 
       game_event();
 
+     
       /* Handle actions: */
 
       if(!game_pause && !show_menu)
@@ -2431,29 +590,6 @@ int gameloop(void)
       /*Draw the current scene to the screen */
       game_draw();
 
-      /* Keep playing music: */
-
-
-      if (!playing_music())
-        {
-          switch (current_music)
-            {
-            case LEVEL_MUSIC:
-              if (current_level.time_left <= TIME_WARNING)
-                play_music(level_song_fast, 1);
-              else
-                play_music(level_song, 1);
-              break;
-            case HERRING_MUSIC:
-              play_music(herring_song, 1);
-              break;
-            case HURRYUP_MUSIC: // keep the compiler happy
-            case NO_MUSIC:      // keep the compiler happy for the moment :-)
-            {}
-              /*default:*/
-            }
-        }
-
       /* Time stops in pause mode */
       if(game_pause || show_menu )
         {
@@ -2463,23 +599,40 @@ int gameloop(void)
       /* Pause til next frame: */
 
       now_time = SDL_GetTicks();
-      if (now_time < last_time + FPS)
-        SDL_Delay(last_time + FPS - now_time);
+      /*if (now_time < last_time + FPS)
+        SDL_Delay(last_time + FPS - now_time);*/
+	SDL_Delay(10);
 
 
       /* Handle time: */
 
-      if ((frame % 10) == 0 && current_level.time_left > 0)
+      if (timer_check(&time_left))
         {
-          current_level.time_left--;
-
-          /* Stop the music; it will start again, faster! */
-          if (current_level.time_left == TIME_WARNING)
-            halt_music();
-
-          if (current_level.time_left <= 0)
-            killtux(KILL);
+	      /* are we low on time ? */
+      if ((timer_get_left(&time_left) < TIME_WARNING)
+          && (current_music != HURRYUP_MUSIC))
+        {
+          current_music = HURRYUP_MUSIC;
+          /* stop the others music, prepare to play the fast music */
+          if (playing_music())
+            {
+              halt_music();
+            }
         }
+
+        }
+	else
+	player_kill(&tux,KILL);
+	
+
+      /* Keep playing the correct music: */
+
+      if (!playing_music())
+        {
+	   play_current_music();
+        }
+
+	
     }
   while (!done && !quit);
 
@@ -2501,33 +654,15 @@ void initgame(void)
   level = 1;
   score = 0;
   distros = 0;
-  lives = 3;
 }
 
-/* Load graphics: */
+/* Free music data for this level: */
 
-void loadlevelgfx(void)
+void unloadlevelsong(void)
 {
-
-  img_brick[0] = load_level_image(current_level.theme,"brick0.png", IGNORE_ALPHA);
-  img_brick[1] = load_level_image(current_level.theme,"brick1.png", IGNORE_ALPHA);
-
-  img_solid[0] = load_level_image(current_level.theme,"solid0.png", USE_ALPHA);
-  img_solid[1] = load_level_image(current_level.theme,"solid1.png", USE_ALPHA);
-  img_solid[2] = load_level_image(current_level.theme,"solid2.png", USE_ALPHA);
-  img_solid[3] = load_level_image(current_level.theme,"solid3.png", USE_ALPHA);
-
-  img_bkgd[0][0] = load_level_image(current_level.theme,"bkgd-00.png", USE_ALPHA);
-  img_bkgd[0][1] = load_level_image(current_level.theme,"bkgd-01.png", USE_ALPHA);
-  img_bkgd[0][2] = load_level_image(current_level.theme,"bkgd-02.png", USE_ALPHA);
-  img_bkgd[0][3] = load_level_image(current_level.theme,"bkgd-03.png", USE_ALPHA);
-
-  img_bkgd[1][0] = load_level_image(current_level.theme,"bkgd-10.png", USE_ALPHA);
-  img_bkgd[1][1] = load_level_image(current_level.theme,"bkgd-11.png", USE_ALPHA);
-  img_bkgd[1][2] = load_level_image(current_level.theme,"bkgd-12.png", USE_ALPHA);
-  img_bkgd[1][3] = load_level_image(current_level.theme,"bkgd-13.png", USE_ALPHA);
+  free_music(level_song);
+  free_music(level_song_fast);
 }
-
 
 /* Load music: */
 
@@ -2543,7 +678,7 @@ void loadlevelsong(void)
   level_song = load_song(song_path);
   free(song_path);
 
-
+  
   song_path = (char *) malloc(sizeof(char) * (strlen(DATA_PREFIX) +
                               strlen(current_level.song_title) + 8 + 5));
   song_subtitle = strdup(current_level.song_title);
@@ -2554,34 +689,6 @@ void loadlevelsong(void)
   free(song_path);
 }
 
-
-/* Free graphics data for this level: */
-
-void unloadlevelgfx(void)
-{
-  int i;
-
-  for (i = 0; i < 2; i++)
-    {
-      SDL_FreeSurface(img_brick[i]);
-    }
-  for (i = 0; i < 4; i++)
-    {
-      SDL_FreeSurface(img_solid[i]);
-      SDL_FreeSurface(img_bkgd[0][i]);
-      SDL_FreeSurface(img_bkgd[1][i]);
-    }
-}
-
-
-/* Free music data for this level: */
-
-void unloadlevelsong(void)
-{
-  free_music(level_song);
-}
-
-
 /* Load graphics/sounds shared between all levels: */
 
 void loadshared(void)
@@ -2591,231 +698,200 @@ void loadshared(void)
 
   /* Tuxes: */
 
-  tux_right[0] = load_image(DATA_PREFIX "/images/shared/tux-right-0.png",
-                            USE_ALPHA);
+  texture_load(&tux_right[0],DATA_PREFIX "/images/shared/tux-right-0.png", USE_ALPHA);
+  texture_load(&tux_right[1],DATA_PREFIX "/images/shared/tux-right-1.png", USE_ALPHA);
+  texture_load(&tux_right[2],DATA_PREFIX "/images/shared/tux-right-2.png", USE_ALPHA);  
 
-  tux_right[1] = load_image(DATA_PREFIX "/images/shared/tux-right-1.png",
-                            USE_ALPHA);
+  texture_load(&tux_left[0],DATA_PREFIX "/images/shared/tux-left-0.png", USE_ALPHA);
+  texture_load(&tux_left[1],DATA_PREFIX "/images/shared/tux-left-1.png", USE_ALPHA);
+  texture_load(&tux_left[2],DATA_PREFIX "/images/shared/tux-left-2.png", USE_ALPHA);  
+  
+  texture_load(&firetux_right[0],DATA_PREFIX "/images/shared/firetux-right-0.png", USE_ALPHA);  
+  texture_load(&firetux_right[1],DATA_PREFIX "/images/shared/firetux-right-1.png", USE_ALPHA); 
+  texture_load(&firetux_right[2],DATA_PREFIX "/images/shared/firetux-right-2.png", USE_ALPHA); 
 
-  tux_right[2] = load_image(DATA_PREFIX "/images/shared/tux-right-2.png",
-                            USE_ALPHA);
+  texture_load(&firetux_left[0],DATA_PREFIX "/images/shared/firetux-left-0.png", USE_ALPHA);  
+  texture_load(&firetux_left[1],DATA_PREFIX "/images/shared/firetux-left-1.png", USE_ALPHA); 
+  texture_load(&firetux_left[2],DATA_PREFIX "/images/shared/firetux-left-2.png", USE_ALPHA); 
 
-  tux_left[0] = load_image(DATA_PREFIX "/images/shared/tux-left-0.png",
-                           USE_ALPHA);
 
-  tux_left[1] = load_image(DATA_PREFIX "/images/shared/tux-left-1.png",
-                           USE_ALPHA);
-
-  tux_left[2] = load_image(DATA_PREFIX "/images/shared/tux-left-2.png",
-                           USE_ALPHA);
-
-  firetux_right[0] = load_image(DATA_PREFIX "/images/shared/firetux-right-0.png",
-                                USE_ALPHA);
-
-  firetux_right[1] = load_image(DATA_PREFIX "/images/shared/firetux-right-1.png",
-                                USE_ALPHA);
-
-  firetux_right[2] = load_image(DATA_PREFIX "/images/shared/firetux-right-2.png",
-                                USE_ALPHA);
-
-  firetux_left[0] = load_image(DATA_PREFIX "/images/shared/firetux-left-0.png",
-                               USE_ALPHA);
-
-  firetux_left[1] = load_image(DATA_PREFIX "/images/shared/firetux-left-1.png",
-                               USE_ALPHA);
-
-  firetux_left[2] = load_image(DATA_PREFIX "/images/shared/firetux-left-2.png",
-                               USE_ALPHA);
-
-  cape_right[0] = load_image(DATA_PREFIX "/images/shared/cape-right-0.png",
+  texture_load(&cape_right[0] ,DATA_PREFIX "/images/shared/cape-right-0.png",
                              USE_ALPHA);
 
-  cape_right[1] = load_image(DATA_PREFIX "/images/shared/cape-right-1.png",
+  texture_load(&cape_right[1] ,DATA_PREFIX "/images/shared/cape-right-1.png",
                              USE_ALPHA);
 
-  cape_left[0] = load_image(DATA_PREFIX "/images/shared/cape-left-0.png",
+  texture_load(&cape_left[0] ,DATA_PREFIX "/images/shared/cape-left-0.png",
                             USE_ALPHA);
 
-  cape_left[1] = load_image(DATA_PREFIX "/images/shared/cape-left-1.png",
+  texture_load(&cape_left[1] ,DATA_PREFIX "/images/shared/cape-left-1.png",
                             USE_ALPHA);
 
-  bigtux_right[0] = load_image(DATA_PREFIX "/images/shared/bigtux-right-0.png",
+  texture_load(&bigtux_right[0] ,DATA_PREFIX "/images/shared/bigtux-right-0.png",
                                USE_ALPHA);
 
-  bigtux_right[1] = load_image(DATA_PREFIX "/images/shared/bigtux-right-1.png",
+  texture_load(&bigtux_right[1] ,DATA_PREFIX "/images/shared/bigtux-right-1.png",
                                USE_ALPHA);
 
-  bigtux_right[2] = load_image(DATA_PREFIX "/images/shared/bigtux-right-2.png",
+  texture_load(&bigtux_right[2] ,DATA_PREFIX "/images/shared/bigtux-right-2.png",
                                USE_ALPHA);
 
-  bigtux_right_jump =
-    load_image(DATA_PREFIX "/images/shared/bigtux-right-jump.png", USE_ALPHA);
+  texture_load(&bigtux_right_jump ,DATA_PREFIX "/images/shared/bigtux-right-jump.png", USE_ALPHA);
 
-  bigtux_left[0] = load_image(DATA_PREFIX "/images/shared/bigtux-left-0.png",
+  texture_load(&bigtux_left[0] ,DATA_PREFIX "/images/shared/bigtux-left-0.png",
                               USE_ALPHA);
 
-  bigtux_left[1] = load_image(DATA_PREFIX "/images/shared/bigtux-left-1.png",
+  texture_load(&bigtux_left[1] ,DATA_PREFIX "/images/shared/bigtux-left-1.png",
                               USE_ALPHA);
 
-  bigtux_left[2] = load_image(DATA_PREFIX "/images/shared/bigtux-left-2.png",
+  texture_load(&bigtux_left[2] ,DATA_PREFIX "/images/shared/bigtux-left-2.png",
                               USE_ALPHA);
 
-  bigtux_left_jump =
-    load_image(DATA_PREFIX "/images/shared/bigtux-left-jump.png", USE_ALPHA);
+  texture_load(&bigtux_left_jump ,DATA_PREFIX "/images/shared/bigtux-left-jump.png", USE_ALPHA);
 
-  bigcape_right[0] =
-    load_image(DATA_PREFIX "/images/shared/bigcape-right-0.png",
+  texture_load(&bigcape_right[0] ,DATA_PREFIX "/images/shared/bigcape-right-0.png",
                USE_ALPHA);
 
-  bigcape_right[1] =
-    load_image(DATA_PREFIX "/images/shared/bigcape-right-1.png",
+  texture_load(&bigcape_right[1] ,DATA_PREFIX "/images/shared/bigcape-right-1.png",
                USE_ALPHA);
 
-  bigcape_left[0] =
-    load_image(DATA_PREFIX "/images/shared/bigcape-left-0.png",
+  texture_load(&bigcape_left[0] ,DATA_PREFIX "/images/shared/bigcape-left-0.png",
                USE_ALPHA);
 
-  bigcape_left[1] =
-    load_image(DATA_PREFIX "/images/shared/bigcape-left-1.png",
+  texture_load(&bigcape_left[1] ,DATA_PREFIX "/images/shared/bigcape-left-1.png",
                USE_ALPHA);
 
-  bigfiretux_right[0] = load_image(DATA_PREFIX "/images/shared/bigfiretux-right-0.png",
+  texture_load(&bigfiretux_right[0] ,DATA_PREFIX "/images/shared/bigfiretux-right-0.png",
                                    USE_ALPHA);
 
-  bigfiretux_right[1] = load_image(DATA_PREFIX "/images/shared/bigfiretux-right-1.png",
+  texture_load(&bigfiretux_right[1] ,DATA_PREFIX "/images/shared/bigfiretux-right-1.png",
                                    USE_ALPHA);
 
-  bigfiretux_right[2] = load_image(DATA_PREFIX "/images/shared/bigfiretux-right-2.png",
+  texture_load(&bigfiretux_right[2] ,DATA_PREFIX "/images/shared/bigfiretux-right-2.png",
                                    USE_ALPHA);
 
-  bigfiretux_right_jump =
-    load_image(DATA_PREFIX "/images/shared/bigfiretux-right-jump.png", USE_ALPHA);
+  texture_load(&bigfiretux_right_jump ,DATA_PREFIX "/images/shared/bigfiretux-right-jump.png", USE_ALPHA);
 
-  bigfiretux_left[0] = load_image(DATA_PREFIX "/images/shared/bigfiretux-left-0.png",
+  texture_load(&bigfiretux_left[0] ,DATA_PREFIX "/images/shared/bigfiretux-left-0.png",
                                   USE_ALPHA);
 
-  bigfiretux_left[1] = load_image(DATA_PREFIX "/images/shared/bigfiretux-left-1.png",
+  texture_load(&bigfiretux_left[1] ,DATA_PREFIX "/images/shared/bigfiretux-left-1.png",
                                   USE_ALPHA);
 
-  bigfiretux_left[2] = load_image(DATA_PREFIX "/images/shared/bigfiretux-left-2.png",
+  texture_load(&bigfiretux_left[2] ,DATA_PREFIX "/images/shared/bigfiretux-left-2.png",
                                   USE_ALPHA);
 
-  bigfiretux_left_jump =
-    load_image(DATA_PREFIX "/images/shared/bigfiretux-left-jump.png", USE_ALPHA);
+  texture_load(&bigfiretux_left_jump ,DATA_PREFIX "/images/shared/bigfiretux-left-jump.png", USE_ALPHA);
 
-  bigcape_right[0] =
-    load_image(DATA_PREFIX "/images/shared/bigcape-right-0.png",
+  texture_load(&bigcape_right[0] ,DATA_PREFIX "/images/shared/bigcape-right-0.png",
                USE_ALPHA);
 
-  bigcape_right[1] =
-    load_image(DATA_PREFIX "/images/shared/bigcape-right-1.png",
+  texture_load(&bigcape_right[1] ,DATA_PREFIX "/images/shared/bigcape-right-1.png",
                USE_ALPHA);
 
-  bigcape_left[0] =
-    load_image(DATA_PREFIX "/images/shared/bigcape-left-0.png",
+  texture_load(&bigcape_left[0] ,DATA_PREFIX "/images/shared/bigcape-left-0.png",
                USE_ALPHA);
 
-  bigcape_left[1] =
-    load_image(DATA_PREFIX "/images/shared/bigcape-left-1.png",
+  texture_load(&bigcape_left[1] ,DATA_PREFIX "/images/shared/bigcape-left-1.png",
                USE_ALPHA);
 
 
-  ducktux_right = load_image(DATA_PREFIX
+  texture_load(&ducktux_right ,DATA_PREFIX
                              "/images/shared/ducktux-right.png",
                              USE_ALPHA);
 
-  ducktux_left = load_image(DATA_PREFIX
+  texture_load(&ducktux_left ,DATA_PREFIX
                             "/images/shared/ducktux-left.png",
                             USE_ALPHA);
 
-  skidtux_right = load_image(DATA_PREFIX
+  texture_load(&skidtux_right ,DATA_PREFIX
                              "/images/shared/skidtux-right.png",
                              USE_ALPHA);
 
-  skidtux_left = load_image(DATA_PREFIX
+  texture_load(&skidtux_left ,DATA_PREFIX
                             "/images/shared/skidtux-left.png",
                             USE_ALPHA);
 
-  duckfiretux_right = load_image(DATA_PREFIX
+  texture_load(&duckfiretux_right ,DATA_PREFIX
                                  "/images/shared/duckfiretux-right.png",
                                  USE_ALPHA);
 
-  duckfiretux_left = load_image(DATA_PREFIX
+  texture_load(&duckfiretux_left ,DATA_PREFIX
                                 "/images/shared/duckfiretux-left.png",
                                 USE_ALPHA);
 
-  skidfiretux_right = load_image(DATA_PREFIX
+  texture_load(&skidfiretux_right ,DATA_PREFIX
                                  "/images/shared/skidfiretux-right.png",
                                  USE_ALPHA);
 
-  skidfiretux_left = load_image(DATA_PREFIX
+  texture_load(&skidfiretux_left ,DATA_PREFIX
                                 "/images/shared/skidfiretux-left.png",
                                 USE_ALPHA);
 
 
   /* Boxes: */
 
-  img_box_full = load_image(DATA_PREFIX "/images/shared/box-full.png",
+  texture_load(&img_box_full ,DATA_PREFIX "/images/shared/box-full.png",
                             IGNORE_ALPHA);
-  img_box_empty = load_image(DATA_PREFIX "/images/shared/box-empty.png",
+  texture_load(&img_box_empty ,DATA_PREFIX "/images/shared/box-empty.png",
                              IGNORE_ALPHA);
 
 
   /* Water: */
 
 
-  img_water = load_image(DATA_PREFIX "/images/shared/water.png", IGNORE_ALPHA);
+  texture_load(&img_water ,DATA_PREFIX "/images/shared/water.png", IGNORE_ALPHA);
 
-  img_waves[0] = load_image(DATA_PREFIX "/images/shared/waves-0.png",
+  texture_load(&img_waves[0] ,DATA_PREFIX "/images/shared/waves-0.png",
                             USE_ALPHA);
 
-  img_waves[1] = load_image(DATA_PREFIX "/images/shared/waves-1.png",
+  texture_load(&img_waves[1] ,DATA_PREFIX "/images/shared/waves-1.png",
                             USE_ALPHA);
 
-  img_waves[2] = load_image(DATA_PREFIX "/images/shared/waves-2.png",
+  texture_load(&img_waves[2] ,DATA_PREFIX "/images/shared/waves-2.png",
                             USE_ALPHA);
 
 
   /* Pole: */
 
-  img_pole = load_image(DATA_PREFIX "/images/shared/pole.png", USE_ALPHA);
-  img_poletop = load_image(DATA_PREFIX "/images/shared/poletop.png",
+  texture_load(&img_pole ,DATA_PREFIX "/images/shared/pole.png", USE_ALPHA);
+  texture_load(&img_poletop ,DATA_PREFIX "/images/shared/poletop.png",
                            USE_ALPHA);
 
 
   /* Flag: */
 
-  img_flag[0] = load_image(DATA_PREFIX "/images/shared/flag-0.png",
+  texture_load(&img_flag[0] ,DATA_PREFIX "/images/shared/flag-0.png",
                            USE_ALPHA);
-  img_flag[1] = load_image(DATA_PREFIX "/images/shared/flag-1.png",
+  texture_load(&img_flag[1] ,DATA_PREFIX "/images/shared/flag-1.png",
                            USE_ALPHA);
 
 
   /* Cloud: */
 
-  img_cloud[0][0] = load_image(DATA_PREFIX "/images/shared/cloud-00.png",
+  texture_load(&img_cloud[0][0] ,DATA_PREFIX "/images/shared/cloud-00.png",
                                USE_ALPHA);
 
-  img_cloud[0][1] = load_image(DATA_PREFIX "/images/shared/cloud-01.png",
+  texture_load(&img_cloud[0][1] ,DATA_PREFIX "/images/shared/cloud-01.png",
                                USE_ALPHA);
 
-  img_cloud[0][2] = load_image(DATA_PREFIX "/images/shared/cloud-02.png",
+  texture_load(&img_cloud[0][2] ,DATA_PREFIX "/images/shared/cloud-02.png",
                                USE_ALPHA);
 
-  img_cloud[0][3] = load_image(DATA_PREFIX "/images/shared/cloud-03.png",
+  texture_load(&img_cloud[0][3] ,DATA_PREFIX "/images/shared/cloud-03.png",
                                USE_ALPHA);
 
 
-  img_cloud[1][0] = load_image(DATA_PREFIX "/images/shared/cloud-10.png",
+  texture_load(&img_cloud[1][0] ,DATA_PREFIX "/images/shared/cloud-10.png",
                                USE_ALPHA);
 
-  img_cloud[1][1] = load_image(DATA_PREFIX "/images/shared/cloud-11.png",
+  texture_load(&img_cloud[1][1] ,DATA_PREFIX "/images/shared/cloud-11.png",
                                USE_ALPHA);
 
-  img_cloud[1][2] = load_image(DATA_PREFIX "/images/shared/cloud-12.png",
+  texture_load(&img_cloud[1][2] ,DATA_PREFIX "/images/shared/cloud-12.png",
                                USE_ALPHA);
 
-  img_cloud[1][3] = load_image(DATA_PREFIX "/images/shared/cloud-13.png",
+  texture_load(&img_cloud[1][3] ,DATA_PREFIX "/images/shared/cloud-13.png",
                                USE_ALPHA);
 
 
@@ -2823,115 +899,113 @@ void loadshared(void)
 
   /* (BSOD) */
 
-  img_bsod_left[0] = load_image(DATA_PREFIX
+  texture_load(&img_bsod_left[0] ,DATA_PREFIX
                                 "/images/shared/bsod-left-0.png",
                                 USE_ALPHA);
 
-  img_bsod_left[1] = load_image(DATA_PREFIX
+  texture_load(&img_bsod_left[1] ,DATA_PREFIX
                                 "/images/shared/bsod-left-1.png",
                                 USE_ALPHA);
 
-  img_bsod_left[2] = load_image(DATA_PREFIX
+  texture_load(&img_bsod_left[2] ,DATA_PREFIX
                                 "/images/shared/bsod-left-2.png",
                                 USE_ALPHA);
 
-  img_bsod_left[3] = load_image(DATA_PREFIX
+  texture_load(&img_bsod_left[3] ,DATA_PREFIX
                                 "/images/shared/bsod-left-3.png",
                                 USE_ALPHA);
 
-  img_bsod_right[0] = load_image(DATA_PREFIX
+  texture_load(&img_bsod_right[0] ,DATA_PREFIX
                                  "/images/shared/bsod-right-0.png",
                                  USE_ALPHA);
 
-  img_bsod_right[1] = load_image(DATA_PREFIX
+  texture_load(&img_bsod_right[1] ,DATA_PREFIX
                                  "/images/shared/bsod-right-1.png",
                                  USE_ALPHA);
 
-  img_bsod_right[2] = load_image(DATA_PREFIX
+  texture_load(&img_bsod_right[2] ,DATA_PREFIX
                                  "/images/shared/bsod-right-2.png",
                                  USE_ALPHA);
 
-  img_bsod_right[3] = load_image(DATA_PREFIX
+  texture_load(&img_bsod_right[3] ,DATA_PREFIX
                                  "/images/shared/bsod-right-3.png",
                                  USE_ALPHA);
 
-  img_bsod_squished_left = load_image(DATA_PREFIX
+  texture_load(&img_bsod_squished_left ,DATA_PREFIX
                                       "/images/shared/bsod-squished-left.png",
                                       USE_ALPHA);
 
-  img_bsod_squished_right = load_image(DATA_PREFIX
+  texture_load(&img_bsod_squished_right ,DATA_PREFIX
                                        "/images/shared/bsod-squished-right.png",
                                        USE_ALPHA);
 
-  img_bsod_falling_left = load_image(DATA_PREFIX
+  texture_load(&img_bsod_falling_left ,DATA_PREFIX
                                      "/images/shared/bsod-falling-left.png",
                                      USE_ALPHA);
 
-  img_bsod_falling_right = load_image(DATA_PREFIX
+  texture_load(&img_bsod_falling_right ,DATA_PREFIX
                                       "/images/shared/bsod-falling-right.png",
                                       USE_ALPHA);
 
 
   /* (Laptop) */
 
-  img_laptop_left[0] = load_image(DATA_PREFIX
+  texture_load(&img_laptop_left[0] ,DATA_PREFIX
                                   "/images/shared/laptop-left-0.png",
                                   USE_ALPHA);
 
-  img_laptop_left[1] = load_image(DATA_PREFIX
+  texture_load(&img_laptop_left[1] ,DATA_PREFIX
                                   "/images/shared/laptop-left-1.png",
                                   USE_ALPHA);
 
-  img_laptop_left[2] = load_image(DATA_PREFIX
+  texture_load(&img_laptop_left[2] ,DATA_PREFIX
                                   "/images/shared/laptop-left-2.png",
                                   USE_ALPHA);
 
-  img_laptop_right[0] = load_image(DATA_PREFIX
+  texture_load(&img_laptop_right[0] ,DATA_PREFIX
                                    "/images/shared/laptop-right-0.png",
                                    USE_ALPHA);
 
-  img_laptop_right[1] = load_image(DATA_PREFIX
+  texture_load(&img_laptop_right[1] ,DATA_PREFIX
                                    "/images/shared/laptop-right-1.png",
                                    USE_ALPHA);
 
-  img_laptop_right[2] = load_image(DATA_PREFIX
+  texture_load(&img_laptop_right[2] ,DATA_PREFIX
                                    "/images/shared/laptop-right-2.png",
                                    USE_ALPHA);
 
-  img_laptop_flat_left = load_image(DATA_PREFIX
+  texture_load(&img_laptop_flat_left ,DATA_PREFIX
                                     "/images/shared/laptop-flat-left.png",
                                     USE_ALPHA);
 
-  img_laptop_flat_right = load_image(DATA_PREFIX
+  texture_load(&img_laptop_flat_right ,DATA_PREFIX
                                      "/images/shared/laptop-flat-right.png",
                                      USE_ALPHA);
 
-  img_laptop_falling_left =
-    load_image(DATA_PREFIX
+  texture_load(&img_laptop_falling_left ,DATA_PREFIX
                "/images/shared/laptop-falling-left.png",
                USE_ALPHA);
 
-  img_laptop_falling_right =
-    load_image(DATA_PREFIX
+  texture_load(&img_laptop_falling_right ,DATA_PREFIX
                "/images/shared/laptop-falling-right.png",
                USE_ALPHA);
 
 
   /* (Money) */
 
-  img_money_left[0] = load_image(DATA_PREFIX
+  texture_load(&img_money_left[0] ,DATA_PREFIX
                                  "/images/shared/bag-left-0.png",
                                  USE_ALPHA);
 
-  img_money_left[1] = load_image(DATA_PREFIX
+  texture_load(&img_money_left[1] ,DATA_PREFIX
                                  "/images/shared/bag-left-1.png",
                                  USE_ALPHA);
 
-  img_money_right[0] = load_image(DATA_PREFIX
+  texture_load(&img_money_right[0] ,DATA_PREFIX
                                   "/images/shared/bag-right-0.png",
                                   USE_ALPHA);
 
-  img_money_right[1] = load_image(DATA_PREFIX
+  texture_load(&img_money_right[1] ,DATA_PREFIX
                                   "/images/shared/bag-right-1.png",
                                   USE_ALPHA);
 
@@ -2939,49 +1013,48 @@ void loadshared(void)
 
   /* Upgrades: */
 
-  img_mints = load_image(DATA_PREFIX "/images/shared/mints.png", USE_ALPHA);
-  img_coffee = load_image(DATA_PREFIX "/images/shared/coffee.png", USE_ALPHA);
+  texture_load(&img_mints ,DATA_PREFIX "/images/shared/mints.png", USE_ALPHA);
+  texture_load(&img_coffee ,DATA_PREFIX "/images/shared/coffee.png", USE_ALPHA);
 
 
   /* Weapons: */
 
-  img_bullet = load_image(DATA_PREFIX "/images/shared/bullet.png", USE_ALPHA);
+  texture_load(&img_bullet ,DATA_PREFIX "/images/shared/bullet.png", USE_ALPHA);
 
-  img_red_glow = load_image(DATA_PREFIX "/images/shared/red-glow.png",
+  texture_load(&img_red_glow ,DATA_PREFIX "/images/shared/red-glow.png",
                             USE_ALPHA);
 
 
 
   /* Distros: */
 
-  img_distro[0] = load_image(DATA_PREFIX "/images/shared/distro-0.png",
+  texture_load(&img_distro[0] ,DATA_PREFIX "/images/shared/distro-0.png",
                              USE_ALPHA);
 
-  img_distro[1] = load_image(DATA_PREFIX "/images/shared/distro-1.png",
+  texture_load(&img_distro[1] ,DATA_PREFIX "/images/shared/distro-1.png",
                              USE_ALPHA);
 
-  img_distro[2] = load_image(DATA_PREFIX "/images/shared/distro-2.png",
+  texture_load(&img_distro[2] ,DATA_PREFIX "/images/shared/distro-2.png",
                              USE_ALPHA);
 
-  img_distro[3] = load_image(DATA_PREFIX "/images/shared/distro-3.png",
+  texture_load(&img_distro[3] ,DATA_PREFIX "/images/shared/distro-3.png",
                              USE_ALPHA);
 
 
   /* Tux life: */
 
-  tux_life = load_image(DATA_PREFIX "/images/shared/tux-life.png",
+  texture_load(&tux_life ,DATA_PREFIX "/images/shared/tux-life.png",
                         USE_ALPHA);
 
   /* Herring: */
 
-  img_golden_herring =
-    load_image(DATA_PREFIX "/images/shared/golden-herring.png",
+  texture_load(&img_golden_herring, DATA_PREFIX "/images/shared/golden-herring.png",
                USE_ALPHA);
 
 
   /* Super background: */
 
-  img_super_bkgd = load_image(DATA_PREFIX "/images/shared/super-bkgd.png",
+  texture_load(&img_super_bkgd ,DATA_PREFIX "/images/shared/super-bkgd.png",
                               IGNORE_ALPHA);
 
 
@@ -3018,83 +1091,83 @@ void unloadshared(void)
 
   for (i = 0; i < 3; i++)
     {
-      SDL_FreeSurface(tux_right[i]);
-      SDL_FreeSurface(tux_left[i]);
-      SDL_FreeSurface(bigtux_right[i]);
-      SDL_FreeSurface(bigtux_left[i]);
+      texture_free(&tux_right[i]);
+      texture_free(&tux_left[i]);
+      texture_free(&bigtux_right[i]);
+      texture_free(&bigtux_left[i]);
     }
 
-  SDL_FreeSurface(bigtux_right_jump);
-  SDL_FreeSurface(bigtux_left_jump);
+  texture_free(&bigtux_right_jump);
+  texture_free(&bigtux_left_jump);
 
   for (i = 0; i < 2; i++)
     {
-      SDL_FreeSurface(cape_right[i]);
-      SDL_FreeSurface(cape_left[i]);
-      SDL_FreeSurface(bigcape_right[i]);
-      SDL_FreeSurface(bigcape_left[i]);
+      texture_free(&cape_right[i]);
+      texture_free(&cape_left[i]);
+      texture_free(&bigcape_right[i]);
+      texture_free(&bigcape_left[i]);
     }
 
-  SDL_FreeSurface(ducktux_left);
-  SDL_FreeSurface(ducktux_right);
+  texture_free(&ducktux_left);
+  texture_free(&ducktux_right);
 
-  SDL_FreeSurface(skidtux_left);
-  SDL_FreeSurface(skidtux_right);
+  texture_free(&skidtux_left);
+  texture_free(&skidtux_right);
 
   for (i = 0; i < 4; i++)
     {
-      SDL_FreeSurface(img_bsod_left[i]);
-      SDL_FreeSurface(img_bsod_right[i]);
+      texture_free(&img_bsod_left[i]);
+      texture_free(&img_bsod_right[i]);
     }
 
-  SDL_FreeSurface(img_bsod_squished_left);
-  SDL_FreeSurface(img_bsod_squished_right);
+  texture_free(&img_bsod_squished_left);
+  texture_free(&img_bsod_squished_right);
 
-  SDL_FreeSurface(img_bsod_falling_left);
-  SDL_FreeSurface(img_bsod_falling_right);
+  texture_free(&img_bsod_falling_left);
+  texture_free(&img_bsod_falling_right);
 
   for (i = 0; i < 3; i++)
     {
-      SDL_FreeSurface(img_laptop_left[i]);
-      SDL_FreeSurface(img_laptop_right[i]);
+      texture_free(&img_laptop_left[i]);
+      texture_free(&img_laptop_right[i]);
     }
 
-  SDL_FreeSurface(img_laptop_flat_left);
-  SDL_FreeSurface(img_laptop_flat_right);
+  texture_free(&img_laptop_flat_left);
+  texture_free(&img_laptop_flat_right);
 
-  SDL_FreeSurface(img_laptop_falling_left);
-  SDL_FreeSurface(img_laptop_falling_right);
+  texture_free(&img_laptop_falling_left);
+  texture_free(&img_laptop_falling_right);
 
   for (i = 0; i < 2; i++)
     {
-      SDL_FreeSurface(img_money_left[i]);
-      SDL_FreeSurface(img_money_right[i]);
+      texture_free(&img_money_left[i]);
+      texture_free(&img_money_right[i]);
     }
 
-  SDL_FreeSurface(img_box_full);
-  SDL_FreeSurface(img_box_empty);
+  texture_free(&img_box_full);
+  texture_free(&img_box_empty);
 
-  SDL_FreeSurface(img_water);
+  texture_free(&img_water);
   for (i = 0; i < 3; i++)
-    SDL_FreeSurface(img_waves[i]);
+    texture_free(&img_waves[i]);
 
-  SDL_FreeSurface(img_pole);
-  SDL_FreeSurface(img_poletop);
+  texture_free(&img_pole);
+  texture_free(&img_poletop);
 
   for (i = 0; i < 2; i++)
-    SDL_FreeSurface(img_flag[i]);
+    texture_free(&img_flag[i]);
 
-  SDL_FreeSurface(img_mints);
-  SDL_FreeSurface(img_coffee);
+  texture_free(&img_mints);
+  texture_free(&img_coffee);
 
   for (i = 0; i < 4; i++)
     {
-      SDL_FreeSurface(img_distro[i]);
-      SDL_FreeSurface(img_cloud[0][i]);
-      SDL_FreeSurface(img_cloud[1][i]);
+      texture_free(&img_distro[i]);
+      texture_free(&img_cloud[0][i]);
+      texture_free(&img_cloud[1][i]);
     }
 
-  SDL_FreeSurface(img_golden_herring);
+  texture_free(&img_golden_herring);
 
   for (i = 0; i < NUM_SOUNDS; i++)
     free_chunk(sounds[i]);
@@ -3106,56 +1179,57 @@ void unloadshared(void)
 
 /* Draw a tile on the screen: */
 
-void drawshape(int x, int y, unsigned char c)
+void drawshape(float x, float y, unsigned char c)
 {
   int z;
 
   if (c == 'X' || c == 'x')
-    drawimage(img_brick[0], x, y, NO_UPDATE);
+    texture_draw(&img_brick[0], x, y, NO_UPDATE);
   else if (c == 'Y' || c == 'y')
-    drawimage(img_brick[1], x, y, NO_UPDATE);
+    texture_draw(&img_brick[1], x, y, NO_UPDATE);
   else if (c == 'A' || c =='B' || c == '!')
-    drawimage(img_box_full, x, y, NO_UPDATE);
+    texture_draw(&img_box_full, x, y, NO_UPDATE);
   else if (c == 'a')
-    drawimage(img_box_empty, x, y, NO_UPDATE);
+    texture_draw(&img_box_empty, x, y, NO_UPDATE);
   else if (c >= 'C' && c <= 'F')
-    drawimage(img_cloud[0][c - 'C'], x, y, NO_UPDATE);
+    texture_draw(&img_cloud[0][c - 'C'], x, y, NO_UPDATE);
   else if (c >= 'c' && c <= 'f')
-    drawimage(img_cloud[1][c - 'c'], x, y, NO_UPDATE);
+    texture_draw(&img_cloud[1][c - 'c'], x, y, NO_UPDATE);
   else if (c >= 'G' && c <= 'J')
-    drawimage(img_bkgd[0][c - 'G'], x, y, NO_UPDATE);
+    texture_draw(&img_bkgd[0][c - 'G'], x, y, NO_UPDATE);
   else if (c >= 'g' && c <= 'j')
-    drawimage(img_bkgd[1][c - 'g'], x, y, NO_UPDATE);
+    texture_draw(&img_bkgd[1][c - 'g'], x, y, NO_UPDATE);
   else if (c == '#')
-    drawimage(img_solid[0], x, y, NO_UPDATE);
+    texture_draw(&img_solid[0], x, y, NO_UPDATE);
   else if (c == '[')
-    drawimage(img_solid[1], x, y, NO_UPDATE);
+    texture_draw(&img_solid[1], x, y, NO_UPDATE);
   else if (c == '=')
-    drawimage(img_solid[2], x, y, NO_UPDATE);
+    texture_draw(&img_solid[2], x, y, NO_UPDATE);
   else if (c == ']')
-    drawimage(img_solid[3], x, y, NO_UPDATE);
+    texture_draw(&img_solid[3], x, y, NO_UPDATE);
   else if (c == '$')
     {
+      
       z = (frame / 2) % 6;
 
       if (z < 4)
-        drawimage(img_distro[z], x, y, NO_UPDATE);
+        texture_draw(&img_distro[z], x, y, NO_UPDATE);
       else if (z == 4)
-        drawimage(img_distro[2], x, y, NO_UPDATE);
+        texture_draw(&img_distro[2], x, y, NO_UPDATE);
       else if (z == 5)
-        drawimage(img_distro[1], x, y, NO_UPDATE);
+        texture_draw(&img_distro[1], x, y, NO_UPDATE);
     }
   else if (c == '^')
     {
       z = (frame / 3) % 3;
 
-      drawimage(img_waves[z], x, y, NO_UPDATE);
+      texture_draw(&img_waves[z], x, y, NO_UPDATE);
     }
   else if (c == '*')
-    drawimage(img_poletop, x, y, NO_UPDATE);
+    texture_draw(&img_poletop, x, y, NO_UPDATE);
   else if (c == '|')
     {
-      drawimage(img_pole, x, y, NO_UPDATE);
+      texture_draw(&img_pole, x, y, NO_UPDATE);
 
       /* Mark this as the end position of the level! */
 
@@ -3165,150 +1239,119 @@ void drawshape(int x, int y, unsigned char c)
     {
       z = (frame / 3) % 2;
 
-      drawimage(img_flag[z], x + 16, y, NO_UPDATE);
+      texture_draw(&img_flag[z], x + 16, y, NO_UPDATE);
     }
   else if (c == '&')
-    drawimage(img_water, x, y, NO_UPDATE);
+    texture_draw(&img_water, x, y, NO_UPDATE);
 }
 
 
 /* What shape is at some position? */
 
-unsigned char shape(int x, int y, int sx)
+unsigned char shape(float x, float y)
 {
 
   int xx, yy;
   unsigned char c;
-  
-  yy = (y / 32);
-  xx = ((x + sx) / 32);
- 
+
+  yy = ((int)y / 32);
+  xx = ((int)x / 32);
 
   if (yy >= 0 && yy < 15 && xx >= 0 && xx <= current_level.width)
+  {
     c = current_level.tiles[yy][xx];
+    }
   else
     c = '.';
     
   return(c);
 }
 
-
 /* Is is ground? */
 
-int issolid(int x, int y, int sx)
+int issolid(float x, float y)
 {
-  int v;
-
-  v = 0;
-
-  if (isbrick(x, y, sx) ||
-      isbrick(x + 31, y, sx) ||
-      isice(x, y, sx) ||
-      isice(x + 31, y, sx) ||
-      (shape(x, y, sx) == '[' ||
-       shape(x + 31, y, sx) == '[') ||
-      (shape(x, y, sx) == '=' ||
-       shape(x + 31, y, sx) == '=') ||
-      (shape(x, y, sx) == ']' ||
-       shape(x + 31, y, sx) == ']') ||
-      (shape(x, y, sx) == 'A' ||
-       shape(x + 31, y, sx) == 'A') ||
-      (shape(x, y, sx) == 'B' ||
-       shape(x + 31, y, sx) == 'B') ||
-      (shape(x, y, sx) == '!' ||
-       shape(x + 31, y, sx) == '!') ||
-      (shape(x, y, sx) == 'a' ||
-       shape(x + 31, y, sx) == 'a'))
+  if (isbrick(x, y) ||
+      isbrick(x + 31, y) ||
+      isice(x, y) ||
+      isice(x + 31, y) ||
+      (shape(x, y) == '[' ||
+       shape(x + 31, y) == '[') ||
+      (shape(x, y) == '=' ||
+       shape(x + 31, y) == '=') ||
+      (shape(x, y) == ']' ||
+       shape(x + 31, y) == ']') ||
+      (shape(x, y) == 'A' ||
+       shape(x + 31, y) == 'A') ||
+      (shape(x, y) == 'B' ||
+       shape(x + 31, y) == 'B') ||
+      (shape(x, y) == '!' ||
+       shape(x + 31, y) == '!') ||
+      (shape(x, y) == 'a' ||
+       shape(x + 31, y) == 'a'))
     {
-      v = 1;
+      return YES;
     }
 
-  return(v);
+  return NO;
 }
 
 
 /* Is it a brick? */
 
-int isbrick(int x, int y, int sx)
+int isbrick(float x, float y)
 {
-  int v;
-
-  v = 0;
-
-  if (shape(x, y, sx) == 'X' ||
-      shape(x, y, sx) == 'x' ||
-      shape(x, y, sx) == 'Y' ||
-      shape(x, y, sx) == 'y')
+  if (shape(x, y) == 'X' ||
+      shape(x, y) == 'x' ||
+      shape(x, y) == 'Y' ||
+      shape(x, y) == 'y')
     {
-      v = 1;
+      return YES;
     }
 
-  return(v);
+  return NO;
 }
 
 
 /* Is it ice? */
 
-int isice(int x, int y, int sx)
+int isice(float x, float y)
 {
-  int v;
-
-  v = 0;
-
-  if (shape(x, y, sx) == '#')
+  if (shape(x, y) == '#')
     {
-      v = 1;
+      return YES;
     }
 
-  return(v);
+  return NO;
 }
 
 
 /* Is it a full box? */
 
-int isfullbox(int x, int y, int sx)
+int isfullbox(float x, float y)
 {
-  int v;
-
-  v = 0;
-
-  if (shape(x, y, sx) == 'A' ||
-      shape(x, y, sx) == 'B' ||
-      shape(x, y, sx) == '!')
+  if (shape(x, y) == 'A' ||
+      shape(x, y) == 'B' ||
+      shape(x, y) == '!')
     {
-      v = 1;
+      return YES;
     }
 
-  return(v);
+  return NO;
 }
-
-
-/* Edit a piece of the map! */
-
-void change(int x, int y, int sx, unsigned char c)
-{
-  int xx, yy;
-
-  yy = (y / 32);
-  xx = ((x + sx) / 32);
-
-  if (yy >= 0 && yy < 15 && xx >= 0 && xx <= current_level.width)
-    current_level.tiles[yy][xx] = c;
-}
-
 
 /* Break a brick: */
 
-void trybreakbrick(int x, int y, int sx)
+void trybreakbrick(float x, float y)
 {
-  if (isbrick(x, y, sx))
+  if (isbrick(x, y))
     {
-      if (shape(x, y, sx) == 'x' || shape(x, y, sx) == 'y')
+      if (shape(x, y) == 'x' || shape(x, y) == 'y')
         {
           /* Get a distro from it: */
 
-          add_bouncy_distro(((x + sx + 1) / 32) * 32,
-                            (y / 32) * 32);
+          add_bouncy_distro(((x + 1) / 32) * 32,
+                            (int)(y / 32) * 32);
 
           if (counting_distros == NO)
             {
@@ -3317,7 +1360,7 @@ void trybreakbrick(int x, int y, int sx)
             }
 
           if (distro_counter <= 0)
-            change(x, y, sx, 'a');
+            level_change(&current_level,x, y, 'a');
 
           play_sound(sounds[SND_DISTRO], SOUND_CENTER_SPEAKER);
           score = score + SCORE_DISTRO;
@@ -3327,14 +1370,14 @@ void trybreakbrick(int x, int y, int sx)
         {
           /* Get rid of it: */
 
-          change(x, y, sx, '.');
+          level_change(&current_level,x, y,'.');
         }
 
 
       /* Replace it with broken bits: */
 
-      add_broken_brick(((x + sx + 1) / 32) * 32,
-                       (y / 32) * 32);
+      add_broken_brick(((x + 1) / 32) * 32,
+                       (int)(y / 32) * 32);
 
 
       /* Get some score: */
@@ -3347,10 +1390,10 @@ void trybreakbrick(int x, int y, int sx)
 
 /* Bounce a brick: */
 
-void bumpbrick(int x, int y, int sx)
+void bumpbrick(float x, float y)
 {
-  add_bouncy_brick(((x + sx + 1) / 32) * 32,
-                   (y / 32) * 32);
+  add_bouncy_brick(((int)(x + 1) / 32) * 32,
+                   (int)(y / 32) * 32);
 
   play_sound(sounds[SND_BRICK], SOUND_CENTER_SPEAKER);
 }
@@ -3358,73 +1401,73 @@ void bumpbrick(int x, int y, int sx)
 
 /* Empty a box: */
 
-void tryemptybox(int x, int y, int sx)
+void tryemptybox(float x, float y)
 {
-  if (isfullbox(x, y, sx))
+  if (isfullbox(x, y))
     {
-      if (shape(x, y, sx) == 'A')
+      if (shape(x, y) == 'A')
         {
           /* Box with a distro! */
 
-          add_bouncy_distro(((x + sx + 1) / 32) * 32,
-                            (y / 32) * 32 - 32);
+          add_bouncy_distro(((x + 1) / 32) * 32,
+                            (int)(y / 32) * 32 - 32);
 
           play_sound(sounds[SND_DISTRO], SOUND_CENTER_SPEAKER);
           score = score + SCORE_DISTRO;
           distros++;
         }
-      else if (shape(x, y, sx) == 'B')
+      else if (shape(x, y) == 'B')
         {
           /* Add an upgrade! */
 
-          if (tux_size == SMALL)
+          if (tux.size == SMALL)
             {
               /* Tux is small, add mints! */
 
-              add_upgrade(((x + sx + 1) / 32) * 32,
-                          (y / 32) * 32 - 32,
+              add_upgrade(((x + 1) / 32) * 32,
+                          (int)(y / 32) * 32 - 32,
                           UPGRADE_MINTS);
             }
           else
             {
               /* Tux is big, add coffee: */
 
-              add_upgrade(((x + sx + 1) / 32) * 32,
-                          (y / 32) * 32 - 32,
+              add_upgrade(((x + 1) / 32) * 32,
+                          (int)(y / 32) * 32 - 32,
                           UPGRADE_COFFEE);
             }
 
           play_sound(sounds[SND_UPGRADE], SOUND_CENTER_SPEAKER);
         }
-      else if (shape(x, y, sx) == '!')
+      else if (shape(x, y) == '!')
         {
           /* Add a golden herring */
 
-          add_upgrade(((x + sx + 1) / 32) * 32,
-                      (y / 32) * 32 - 32,
+          add_upgrade(((x + 1) / 32) * 32,
+                      (int)(y / 32) * 32 - 32,
                       UPGRADE_HERRING);
         }
 
       /* Empty the box: */
 
-      change(x, y, sx, 'a');
+      level_change(&current_level,x, y, 'a');
     }
 }
 
 
 /* Try to grab a distro: */
 
-void trygrabdistro(int x, int y, int sx, int bounciness)
+void trygrabdistro(float x, float y, int bounciness)
 {
-  if (shape(x, y, sx) == '$')
+  if (shape(x, y) == '$')
     {
-      change(x, y, sx, '.');
+      level_change(&current_level,x, y, '.');
       play_sound(sounds[SND_DISTRO], SOUND_CENTER_SPEAKER);
 
       if (bounciness == BOUNCE)
         {
-          add_bouncy_distro(((x + sx + 1) / 32) * 32,
-                            (y / 32) * 32);
+          add_bouncy_distro(((x + 1) / 32) * 32,
+                            (int)(y / 32) * 32);
         }
 
       score = score + SCORE_DISTRO;
@@ -3432,162 +1475,9 @@ void trygrabdistro(int x, int y, int sx, int bounciness)
     }
 }
 
-
-/* Add a bouncy distro: */
-
-void add_bouncy_distro(int x, int y)
-{
-  int i, found;
-
-  found = -1;
-
-  for (i = 0; i < NUM_BOUNCY_DISTROS && found == -1; i++)
-    {
-      if (!bouncy_distros[i].alive)
-        found = i;
-    }
-
-  if (found != -1)
-    {
-      bouncy_distros[found].alive = YES;
-      bouncy_distros[found].x = x;
-      bouncy_distros[found].y = y;
-      bouncy_distros[found].ym = -6;
-    }
-}
-
-
-/* Add broken brick pieces: */
-
-void add_broken_brick(int x, int y)
-{
-  add_broken_brick_piece(x, y, -4, -16);
-  add_broken_brick_piece(x, y + 16, -6, -12);
-
-  add_broken_brick_piece(x + 16, y, 4, -16);
-  add_broken_brick_piece(x + 16, y + 16, 6, -12);
-}
-
-
-/* Add a broken brick piece: */
-
-void add_broken_brick_piece(int x, int y, int xm, int ym)
-{
-  int i, found;
-
-  found = -1;
-
-  for (i = 0; i < NUM_BROKEN_BRICKS && found == -1; i++)
-    {
-      if (!broken_bricks[i].alive)
-        found = i;
-    }
-
-  if (found != -1)
-    {
-      broken_bricks[found].alive = YES;
-      broken_bricks[found].x = x;
-      broken_bricks[found].y = y;
-      broken_bricks[found].xm = xm;
-      broken_bricks[found].ym = ym;
-    }
-}
-
-
-/* Add a bouncy brick piece: */
-
-void add_bouncy_brick(int x, int y)
-{
-  int i, found;
-
-  found = -1;
-
-  for (i = 0; i < NUM_BOUNCY_BRICKS && found == -1; i++)
-    {
-      if (!bouncy_bricks[i].alive)
-        found = i;
-    }
-
-  if (found != -1)
-    {
-      bouncy_bricks[found].alive = YES;
-      bouncy_bricks[found].x = x;
-      bouncy_bricks[found].y = y;
-      bouncy_bricks[found].offset = 0;
-      bouncy_bricks[found].offset_m = -BOUNCY_BRICK_SPEED;
-      bouncy_bricks[found].shape = shape(x, y, 0);
-    }
-}
-
-
-/* Add a bad guy: */
-
-void add_bad_guy(int x, int y, int kind)
-{
-  int i, found;
-
-  found = -1;
-
-  for (i = 0; i < NUM_BAD_GUYS && found == -1; i++)
-    {
-      if (!bad_guys[i].alive)
-        found = i;
-    }
-
-  if (found != -1)
-    {
-      bad_guys[found].alive = YES;
-      bad_guys[found].mode = NORMAL;
-      bad_guys[found].dying = NO;
-      bad_guys[found].timer = 0;
-      bad_guys[found].kind = kind;
-      bad_guys[found].x = x;
-      bad_guys[found].y = y;
-      bad_guys[found].xm = 0;
-      bad_guys[found].ym = 0;
-      bad_guys[found].dir = LEFT;
-      bad_guys[found].seen = NO;
-    }
-}
-
-
-/* Add score: */
-
-void add_score(int x, int y, int s)
-{
-  int i, found;
-
-
-  /* Add the score: */
-
-  score = score + s;
-
-
-  /* Add a floating score thing to the game: */
-
-  found = -1;
-
-  for (i = 0; i < NUM_FLOATING_SCORES && found == -1; i++)
-    {
-      if (!floating_scores[i].alive)
-        found = i;
-    }
-
-
-  if (found != -1)
-    {
-      floating_scores[found].alive = YES;
-      floating_scores[found].x = x;
-      floating_scores[found].y = y - 16;
-      floating_scores[found].timer = 8;
-      floating_scores[found].value = s;
-    }
-}
-
-
 /* Try to bump a bad guy from below: */
 
-void trybumpbadguy(int x, int y, int sx)
+void trybumpbadguy(float x, float y)
 {
   int i;
 
@@ -3597,7 +1487,7 @@ void trybumpbadguy(int x, int y, int sx)
   for (i = 0; i < NUM_BAD_GUYS; i++)
     {
       if (bad_guys[i].alive &&
-          bad_guys[i].x >= x + sx - 32 && bad_guys[i].x <= x + sx + 32 &&
+          bad_guys[i].x >= x - 32 && bad_guys[i].x <= x + 32 &&
           bad_guys[i].y >= y - 16 && bad_guys[i].y <= y + 16)
         {
           if (bad_guys[i].kind == BAD_BSOD ||
@@ -3616,7 +1506,7 @@ void trybumpbadguy(int x, int y, int sx)
   for (i = 0; i < NUM_UPGRADES; i++)
     {
       if (upgrades[i].alive && upgrades[i].height == 32 &&
-          upgrades[i].x >= x + sx - 32 && upgrades[i].x <= x + sx + 32 &&
+          upgrades[i].x >= x - 32 && upgrades[i].x <= x + 32 &&
           upgrades[i].y >= y - 16 && upgrades[i].y <= y + 16)
         {
           upgrades[i].xm = -upgrades[i].xm;
@@ -3629,7 +1519,7 @@ void trybumpbadguy(int x, int y, int sx)
 
 /* Add an upgrade: */
 
-void add_upgrade(int x, int y, int kind)
+void add_upgrade(float x, float y, int kind)
 {
   int i, found;
 
@@ -3647,54 +1537,19 @@ void add_upgrade(int x, int y, int kind)
       upgrades[found].kind = kind;
       upgrades[found].x = x;
       upgrades[found].y = y;
-      upgrades[found].xm = 4;
-      upgrades[found].ym = -4;
+      upgrades[found].xm = 2;
+      upgrades[found].ym = -2;
       upgrades[found].height = 0;
     }
 }
 
-/* Remove Tux's power ups */
-void remove_powerups(void)
-{
-	tux_got_coffee = NO;
-	tux_size = SMALL;
-}
-
-
-/* Kill tux! */
-
-void killtux(int mode)
-{
-  tux_ym = -16;
-
-  play_sound(sounds[SND_HURT], SOUND_CENTER_SPEAKER);
-
-  if (tux_dir == RIGHT)
-    tux_xm = -8;
-  else if (tux_dir == LEFT)
-    tux_xm = 8;
-
-  if (mode == SHRINK && tux_size == BIG)
-    {
-      if (tux_got_coffee)
-        tux_got_coffee = NO;
-
-      tux_size = SMALL;
-
-      tux_safe = TUX_SAFE_TIME;
-    }
-  else
-    {
-      tux_dying = 1;
-    }
-}
-
-
 /* Add a bullet: */
 
-void add_bullet(int x, int y, int dir, int xm)
+void add_bullet(float x, float y, float xm, int dir)
 {
   int i, found;
+  
+  printf("X: %f Y: %f -- YOOYOYOYO\n",x,y);
 
   found = -1;
 
@@ -3727,6 +1582,39 @@ void add_bullet(int x, int y, int dir, int xm)
 }
 
 
+/* (Status): */
+void drawstatus(void)
+{
+int i;
+
+  sprintf(str, "%d", score);
+  drawtext("SCORE", 0, 0, letters_blue, NO_UPDATE, 1);
+  drawtext(str, 96, 0, letters_gold, NO_UPDATE, 1);
+
+  sprintf(str, "%d", highscore);
+  drawtext("HIGH", 0, 20, letters_blue, NO_UPDATE, 1);
+  drawtext(str, 96, 20, letters_gold, NO_UPDATE, 1);
+
+  if (timer_get_left(&time_left) > TIME_WARNING || (frame % 10) < 5)
+    {
+      sprintf(str, "%d", timer_get_left(&time_left) / 1000 );
+      drawtext("TIME", 224, 0, letters_blue, NO_UPDATE, 1);
+      drawtext(str, 304, 0, letters_gold, NO_UPDATE, 1);
+    }
+
+  sprintf(str, "%d", distros);
+  drawtext("DISTROS", screen->h, 0, letters_blue, NO_UPDATE, 1);
+  drawtext(str, 608, 0, letters_gold, NO_UPDATE, 1);
+
+  drawtext("LIVES", screen->h, 20, letters_blue, NO_UPDATE, 1);
+
+  for(i=0; i < tux.lives; ++i)
+    {
+      texture_draw(&tux_life,565+(18*i),20,NO_UPDATE);
+    }
+}
+
+
 void drawendscreen(void)
 {
   char str[80];
@@ -3741,7 +1629,7 @@ void drawendscreen(void)
   sprintf(str, "DISTROS: %d", distros);
   drawcenteredtext(str, 256, letters_blue, NO_UPDATE, 1);
 
-  SDL_Flip(screen);
+  flipscreen();
   SDL_Delay(2000);
 }
 
@@ -3759,7 +1647,7 @@ void drawresultscreen(void)
   sprintf(str, "DISTROS: %d", distros);
   drawcenteredtext(str, 256, letters_blue, NO_UPDATE, 1);
 
-  SDL_Flip(screen);
+  flipscreen();
   SDL_Delay(2000);
 }
 
@@ -3783,15 +1671,15 @@ void savegame(void)
 
     }
   else
-  {
-   fwrite(&level,4,1,fi);
-   fwrite(&score,4,1,fi);
-   fwrite(&distros,4,1,fi);
-   fwrite(&tux_x,4,1,fi);
-   fwrite(&tux_y,4,1,fi);
-   fwrite(&scroll_x,4,1,fi);
-   fwrite(&current_level.time_left,4,1,fi);
-  }
+    {
+      fwrite(&level,4,1,fi);
+      fwrite(&score,4,1,fi);
+      fwrite(&distros,4,1,fi);
+      fwrite(&tux.x,4,1,fi);
+      fwrite(&tux.y,4,1,fi);
+      fwrite(&scroll_x,4,1,fi);
+      fwrite(&current_level.time_left,4,1,fi);
+    }
   fclose(fi);
 
 }
@@ -3802,7 +1690,7 @@ void loadgame(char* filename)
   FILE* fi;
   time_t current_time = time(NULL);
   struct tm* time_struct;
-  
+
   time_struct = localtime(&current_time);
   sprintf(savefile,"%s/%d-%d-%d-%d.save",st_save_dir,time_struct->tm_year+1900,time_struct->tm_mon,time_struct->tm_mday,time_struct->tm_hour);
   printf("%s",savefile);
@@ -3816,24 +1704,26 @@ void loadgame(char* filename)
 
     }
   else
-  { 
-  set_defaults();
-         loadlevel(&current_level,"default",level);
-	 activate_bad_guys();
+    {
+    player_level_begin(&tux);
+      set_defaults();
+      loadlevel(&current_level,"default",level);
+      activate_bad_guys();
       unloadlevelgfx();
-      loadlevelgfx();
+      loadlevelgfx(&current_level);
       unloadlevelsong();
       loadlevelsong();
       levelintro();
-      
-   fread(&level,4,1,fi);
-   fread(&score,4,1,fi);
-   fread(&distros,4,1,fi);
-   fread(&tux_x,4,1,fi);
-   fread(&tux_y,4,1,fi);
-   fread(&scroll_x,4,1,fi);
-   fread(&current_level.time_left,4,1,fi);
-   fclose(fi);
-  }
+      start_timers();
+
+      fread(&level,4,1,fi);
+      fread(&score,4,1,fi);
+      fread(&distros,4,1,fi);
+      fread(&tux.x,4,1,fi);
+      fread(&tux.y,4,1,fi);
+      fread(&scroll_x,4,1,fi);
+      fread(&current_level.time_left,4,1,fi);
+      fclose(fi);
+    }
 
 }
