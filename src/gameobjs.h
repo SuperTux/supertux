@@ -179,7 +179,7 @@ private:
 class Particles : public GameObject
 {
 public:
-  Particles(const Vector& epicenter, int number, Color color, int size, float velocity, int life_time);
+  Particles(const Vector& epicenter, const Vector& velocity, const Vector& acceleration, int number, Color color, int size, int life_time);
   ~Particles();
   
   virtual void action(float elapsed_time);
@@ -188,7 +188,7 @@ public:
 private:
   Color color;
   float size;
-  float velocity;
+  Vector vel, accel;
   Timer timer;
 
   struct Particle {

@@ -107,7 +107,7 @@ public:
   void add_upgrade(const Vector& pos, Direction dir, UpgradeKind kind);
   bool add_bullet(const Vector& pos, float xm, Direction dir);
   bool add_smoke_cloud(const Vector& pos);
-  bool add_particles(const Vector& epicenter, int number, Color color, int size, float velocity, int life_time);
+  bool add_particles(const Vector& epicenter, const Vector& velocity, const Vector& acceleration, int number, Color color, int size, int life_time);
                                                                                 
   /** Try to grab the coin at the given coordinates */
   void trygrabdistro(const Vector& pos, int bounciness);

@@ -75,7 +75,8 @@ char * soundfilenames[NUM_SOUNDS] = {
                                        "/sounds/stomp.wav",
                                        "/sounds/kick.wav",
                                        "/sounds/explosion.wav",
-                                       "/sounds/warp.wav"
+                                       "/sounds/warp.wav",
+                                       "/sounds/fireworks.wav"
                                     };
 
 

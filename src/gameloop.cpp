@@ -515,7 +515,7 @@ GameSession::check_end_conditions()
   else if(!end_sequence && endtile && endtile->data == 0)
     {
       end_sequence = ENDSEQUENCE_RUNNING;
-      random_timer.start(200);  // start 1st fire work
+      random_timer.start(200);  // start 1st firework
       last_x_pos = -1;
       SoundManager::get()->play_music(level_end_song, 0);
       endsequence_timer.start(7000); // 5 seconds until we finish the map
@@ -556,18 +556,20 @@ GameSession::action(double frame_ratio)
     newsector = newspawnpoint = "";
   }
 
-  // on end sequence make a few fire works
+  // on end sequence make a few fireworks
   if(end_sequence == ENDSEQUENCE_RUNNING && !random_timer.check())
     {
     Vector epicenter = currentsector->camera->get_translation();
     epicenter.x += screen->w * ((float)rand() / RAND_MAX);
     epicenter.y += (screen->h/2) * ((float)rand() / RAND_MAX);
 
-    int red = rand() % 255;  // calculate fire work color
+    int red = rand() % 255;  // calculate firework color
     int green = rand() % red;
-    currentsector->add_particles(epicenter, 45, Color(red,green,0), 3, 1.4, 1300);
+    currentsector->add_particles(epicenter, Vector(1.4,1.4), Vector(0,0),
+                                 45, Color(red,green,0), 3, 1300);
 
-    random_timer.start(rand() % 400 + 600);  // next fire work
+    SoundManager::get()->play_sound(IDToSound(SND_FIREWORKS));
+    random_timer.start(rand() % 400 + 600);  // next firework
     }
 }
 

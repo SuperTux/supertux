@@ -438,8 +438,8 @@ SmokeCloud::draw(DrawingContext& context)
   img_smoke_cloud->draw(context, position, LAYER_OBJECTS+1);
 }
 
-Particles::Particles(const Vector& epicenter, int number, Color color_, int size_, float velocity_, int life_time)
-  : color(color_), size(size_), velocity(velocity_)
+Particles::Particles(const Vector& epicenter, const Vector& velocity, const Vector& acceleration, int number, Color color_, int size_, int life_time)
+  : color(color_), size(size_), vel(velocity), accel(acceleration)
 {
   timer.start(life_time);
 
@@ -464,11 +464,14 @@ Particles::~Particles()
 void
 Particles::action(float elapsed_time)
 {
+  vel.x += accel.x * elapsed_time;
+  vel.y += accel.y * elapsed_time;
+
   // update particles
   for(int p = 0; p < particles.size(); p++)
     {
-    particles[p]->pos.x += sin(particles[p]->angle) * velocity * elapsed_time;
-    particles[p]->pos.y += cos(particles[p]->angle) * velocity * elapsed_time;
+    particles[p]->pos.x += sin(particles[p]->angle) * vel.x * elapsed_time;
+    particles[p]->pos.y += cos(particles[p]->angle) * vel.y * elapsed_time;
     }
 
   if(!timer.check())
