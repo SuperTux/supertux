@@ -235,12 +235,16 @@ Trampoline::init(float x, float y)
 
   base.width = 32;
   base.height = 32;
+
+  frame = 0;
 }
 
 void
 Trampoline::draw()
 {
-  img_trampoline[0]->draw((int)base.x, (int)base.y);
+  img_trampoline[frame]->draw((int)base.x, (int)base.y);
+
+  frame = 0;
 
   if (debug_mode)
     fillrect(base.x - scroll_x, base.y - scroll_y, base.width, base.height, 75, 75, 0, 150);
@@ -251,7 +255,7 @@ Trampoline::action(double frame_ratio)
 {
   physic.apply(frame_ratio, base.x, base.y);
 
-
+  // Falling
   if (issolid(base.x + base.width/2, base.y + base.height))
   {
     base.y = int((base.y + base.height)/32) * 32 - base.height;
@@ -289,12 +293,19 @@ Trampoline::collision(void *p_c_object, int c_object, CollisionType type)
         // TODO: compress springs
         // TODO: launch tux, if necessary
 
-        base.y = pplayer_c->base.y + pplayer_c->base.height;
-        base.height = (32 - (int)pplayer_c->base.y % 32);
-        if (base.height < 16)
-        {
-          base.height = 32;
+        int squish_amount = (32 - (int)pplayer_c->base.y % 32);
 
+        if (squish_amount < 24)
+          frame = 3;
+        else if (squish_amount < 28)
+          frame = 2;
+        else if (squish_amount < 30)
+          frame = 1;
+        else
+          frame = 0;
+
+        if (squish_amount < 24)
+        {
           pplayer_c->physic.set_velocity_y(8);
         }
       }

@@ -134,6 +134,7 @@ class Trampoline : public GameObject
 
  private:
   int power;
+  unsigned int frame;
 };
 
 
