@@ -1,4 +1,3 @@
-#!/usr/bin/scons -Q
 #
 # A simple SConstruct file.
 # See http://www.scons.org/ for more information about what SCons is and how it
@@ -72,7 +71,7 @@ supertux_src=[
   'src/worldmap.cpp'
 ]
 			
-Library(
+SharedLibrary(
   target="lib/supertux",
   source=libsupertux_src,
   CPPPATH=SDL_INCLUDE_PATH
