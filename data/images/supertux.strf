@@ -1326,6 +1326,45 @@
         (images "tilesets/bonus2-d.png"))
   )                                        
 
+  (sprite (name "mrtree")
+      (action
+        (y-offset -3)
+        (fps 5)
+        (name "left")
+        (images "shared/mrtree-walk-left-0.png"
+                "shared/mrtree-walk-left-1.png"
+                "shared/mrtree-walk-left-2.png")
+      )
+      (action
+        (y-offset -3)
+        (fps 5)
+        (name "right")
+        (mirror-action "left")
+      )
+      (action
+        (y-offset -3)
+        (name "small-left")
+        (images "shared/mrtree-small-left-0.png"
+                "shared/mrtree-small-left-1.png"
+                "shared/mrtree-small-left-2.png")
+      )
+      (action
+        (y-offset -3)
+        (name "small-right")
+        (mirror-action "small-left")
+      )
+      (action
+        (y-offset -6)
+        (name "squished-left")
+        (images "shared/mrtree-squished-left.png")
+      )
+      (action
+        (y-offset -6)
+        (name "squished-right")
+        (mirror-action "squished-left")
+      )
+  )
+
   ; Stomp
   (sprite (name "stomp")
        (action

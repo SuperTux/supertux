@@ -32,12 +32,12 @@ Nolok_01::Nolok_01(float pos_x, float pos_y)
 void
 Nolok_01::write(lisp::Writer& writer)
 {
-  writer.start_list("nolok01");
+  writer.start_list("nolok_01");
 
   writer.write_float("x", start_position.x);
   writer.write_float("y", start_position.y);
 
-  writer.end_list("nolok01");
+  writer.end_list("nolok_01");
 }
 
 void
