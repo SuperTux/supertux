@@ -510,11 +510,18 @@ void process_options_menu(void)
   switch (options_menu->check())
     {
     case 2:
-      if(use_gl != options_menu->item[2].toggled)
+      if(/*use_gl != */options_menu->item[2].toggled)
         {
 #ifndef NOOPENGL
+/*
           use_gl = !use_gl;
           st_video_setup();
+*/
+options_menu->item[2].toggled = false;
+printf("This feature has been temporarly disabled\n");
+#else
+  options_menu->item[2].toggled = false;
+  printf("OpenGL hasn't been enabled during compiling time.\n");
 #endif
         }
       break;
