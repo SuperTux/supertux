@@ -632,7 +632,7 @@ Player::draw()
     }     
   
   if (debug_mode)
-    fillrect(base.x, base.y, 
+    fillrect(base.x - scroll_x, base.y - scroll_y, 
              base.width, base.height, 75,75,75, 150);
 }
 

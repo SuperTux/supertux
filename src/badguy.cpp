@@ -749,7 +749,7 @@ BadGuy::draw()
   sprite->draw(base.x, base.y);
 
   if (debug_mode)
-    fillrect(base.x, base.y, base.width, base.height, 75,0,75, 150);
+    fillrect(base.x - scroll_x, base.y - scroll_y, base.width, base.height, 75,0,75, 150);
 }
 
 void
