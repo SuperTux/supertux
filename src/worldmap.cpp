@@ -370,11 +370,11 @@ WorldMap::get_input()
   SDL_Event event;
   while (SDL_PollEvent(&event))
     {
-      if(show_menu)
-        {
-          current_menu->event(event);
-        }
-      else
+      if(!show_menu && event.key.keysym.sym == SDLK_ESCAPE)
+        Menu::set_current(worldmap_menu);
+
+      current_menu->event(event);
+      if(!show_menu)
         {
           switch(event.type)
             {
@@ -385,10 +385,6 @@ WorldMap::get_input()
             case SDL_KEYDOWN:
               switch(event.key.keysym.sym)
                 {
-                case SDLK_ESCAPE:
-                  Menu::set_current(worldmap_menu);
-                  show_menu = !show_menu;
-                  break;
                 case SDLK_LCTRL:
                 case SDLK_RETURN:
                   enter_level = true;
@@ -643,8 +639,7 @@ WorldMap::draw_status()
 void
 WorldMap::display()
 {
-  show_menu = 0;
-  menu_reset();
+  show_menu = false;
 
   quit = false;
 
@@ -669,7 +664,11 @@ WorldMap::display()
     get_input();
     update();
 
-    menu_process_current();
+  if(show_menu)
+    {
+      menu_process_current();
+      mouse_cursor->draw();
+    }
     flipscreen();
 
     SDL_Delay(20);

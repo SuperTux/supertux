@@ -144,6 +144,7 @@ Menu::Menu()
 {
   pos_x        = screen->w/2;
   pos_y        = screen->h/2;
+  has_backitem = false;
   last_menu    = 0;
   arrange_left = 0;
   active_item  = 0;
@@ -160,6 +161,9 @@ void Menu::set_pos(int x, int y, float rw, float rh)
 void
 Menu::additem(MenuItemKind kind_, const std::string& text_, int toggle_, Menu* menu_)
 {
+  if(kind_ == MN_BACK)
+    has_backitem = true;
+
   additem(MenuItem::create(kind_, text_.c_str(), toggle_, menu_));
 }
 
@@ -167,6 +171,9 @@ Menu::additem(MenuItemKind kind_, const std::string& text_, int toggle_, Menu* m
 void
 Menu::additem(MenuItem* pmenu_item)
 {
+  if(pmenu_item->kind == MN_BACK)
+    has_backitem = true;
+
   item.push_back(*pmenu_item);
   delete pmenu_item;
 }
@@ -540,6 +547,9 @@ void menu_reset(void)
 /* Draw the current menu and execute the (menu)events */
 void menu_process_current(void)
 {
+  if(!show_menu)
+    return;
+
   menu_change = false;
 
   if(current_menu != NULL)
@@ -555,6 +565,9 @@ void menu_process_current(void)
 void
 Menu::event(SDL_Event& event)
 {
+  if(show_menu == false && event.key.keysym.sym != SDLK_ESCAPE)
+    return;
+
   SDLKey key;
   switch(event.type)
     {
@@ -613,6 +626,13 @@ Menu::event(SDL_Event& event)
           menu_change = true;
           delete_character++;
           break;
+        case SDLK_ESCAPE:
+          if(show_menu && has_backitem == true && last_menu != NULL)
+            Menu::set_current(last_menu);
+          else if(show_menu)
+            show_menu = false;
+          else
+            show_menu = true;
         default:
           if( (key >= SDLK_0 && key <= SDLK_9) || (key >= SDLK_a && key <= SDLK_z) || (key >= SDLK_SPACE && key <= SDLK_SLASH))
             {

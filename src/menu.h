@@ -59,6 +59,7 @@ private:
   // position of the menu (ie. center of the menu, not top/left)
   int pos_x;
   int pos_y;
+  bool has_backitem;
   
   Menu* last_menu;
   int width();

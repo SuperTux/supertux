@@ -32,7 +32,8 @@ void st_pause_ticks_init(void)
 
 void st_pause_ticks_start(void)
 {
-  st_pause_count = SDL_GetTicks();
+  if(st_pause_count == 0)
+    st_pause_count = SDL_GetTicks();
 }
 
 void st_pause_ticks_stop(void)

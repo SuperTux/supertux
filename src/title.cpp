@@ -285,7 +285,7 @@ bool title(void)
               /* Check for menu events */
               //menu_event(event);
 
-              if (key == SDLK_ESCAPE)
+              if (!show_menu)
                 {
                   /* Escape: Quit: */
                   done = true;

@@ -40,7 +40,6 @@
 /* definitions to aid development */
 #define DONE_LEVELEDITOR 1
 #define DONE_QUIT        2
-#define DONE_CHANGELEVEL 3
 
 /* definitions that affect gameplay */
 #define KEY_CURSOR_SPEED 32
@@ -338,12 +337,6 @@ int leveleditor(int levelnb)
         {
           le_quit();
           return 0;
-        }
-
-      if(done == DONE_QUIT)
-        {
-          le_quit();
-          return 1;
         }
 
       ++global_frame_counter;
@@ -791,9 +784,8 @@ void le_checkevents()
 
   while(SDL_PollEvent(&event))
     {
-      if(show_menu)
-        current_menu->event(event);
-      else
+      current_menu->event(event);
+      if(!show_menu)
         mouse_cursor->set_state(MC_NORMAL);
 
       /* testing SDL_KEYDOWN, SDL_KEYUP and SDL_QUIT events*/
@@ -804,23 +796,8 @@ void le_checkevents()
             {
             case SDL_KEYDOWN:	// key pressed
               key = event.key.keysym.sym;
-              if(show_menu)
-                {
-                  if(key == SDLK_ESCAPE)
-                    {
-                      show_menu = false;
-                      Menu::set_current(leveleditor_menu);
-                    }
-                  break;
-                }
               switch(key)
                 {
-                case SDLK_ESCAPE:
-                  if(!show_menu)
-                    show_menu = true;
-                  else
-                    show_menu = false;
-                  break;
                 case SDLK_LEFT:
                   if(fire == DOWN)
                     cursor_x -= KEY_CURSOR_SPEED;

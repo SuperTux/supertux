@@ -134,8 +134,7 @@ GameSession::process_events()
   while (SDL_PollEvent(&event))
     {
       /* Check for menu-events, if the menu is shown */
-      if(show_menu)
-        current_menu->event(event);
+      current_menu->event(event);
 
       switch(event.type)
         {
@@ -159,7 +158,7 @@ GameSession::process_events()
                       {
                         exit_status = LEVEL_ABORT;
                       }
-                    else if(show_menu)
+                    else if(!show_menu)
                       {
                         Menu::set_current(game_menu);
                         show_menu = 0;
