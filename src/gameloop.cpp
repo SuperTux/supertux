@@ -100,27 +100,11 @@ void start_timers(void)
 
 void activate_bad_guys(void)
 {
-  // Activate badguys the new style
   for (std::vector<BadGuyData>::iterator i = current_level.badguy_data.begin();
        i != current_level.badguy_data.end();
        ++i)
     {
       add_bad_guy(i->x, i->y, i->kind);
-    }
-
-  // FIXME: should be removed;
-  // Activate bad guys the old style
-  for (int y = 0; y < 15; y++)
-    {
-      for (int x = 0; x < current_level.width; x++)
-        {
-          if (current_level.ia_tiles[y][x] >= 1000 && current_level.ia_tiles[y][x] <= 1010)
-            {
-              add_bad_guy(x * 32, y * 32,  
-                          static_cast<BadGuyKind>(current_level.ia_tiles[y][x] - 1000));
-              current_level.ia_tiles[y][x] = 0;
-            }
-        }
     }
 }
 

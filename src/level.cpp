@@ -322,9 +322,6 @@ int level_load(st_level* plevel, const char* filename)
         {
           std::map<char, int> transtable;
           transtable['.'] = 0;
-          transtable['0'] = 1000;
-          transtable['1'] = 1001;
-          transtable['2'] = 1002;
           transtable['x'] = 104;
           transtable['X'] = 77;
           transtable['y'] = 78;
@@ -363,13 +360,29 @@ int level_load(st_level* plevel, const char* filename)
           transtable['\\'] = 81;
           transtable['&'] = 75;
 
+          int x = 0;
+          int y = 0;
           for(std::vector<int>::iterator i = ia_tm.begin(); i != ia_tm.end(); ++i)
             {
-              std::map<char, int>::iterator j = transtable.find(*i);
-              if (j != transtable.end())
-                *i = j->second;
+              if (*i == '0' || *i == '1' || *i == '2')
+                {
+                  plevel->badguy_data.push_back(BadGuyData(static_cast<BadGuyKind>(*i-'0'),
+                                                           x*32, y*32));
+                  *i = 0;
+                }
               else
-                printf("Error: conversion will fail, unsupported char: '%c' (%d)\n", *i, *i);
+                {
+                  std::map<char, int>::iterator j = transtable.find(*i);
+                  if (j != transtable.end())
+                    *i = j->second;
+                  else
+                    printf("Error: conversion will fail, unsupported char: '%c' (%d)\n", *i, *i);
+                }
+              ++x;
+              if (x >= plevel->width) {
+                x = 0;
+                ++y;
+              }
             }
         }
     }
