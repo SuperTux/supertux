@@ -7,6 +7,33 @@ http://www.newbreedsoftware.com/supertux/
 
 0.0.6 - current CVS version
 ---------------------------
+  * Added realistic physic. Only implemented for the bad money atm.
+    Tobias Glaesser <tobi.web@gmx.de>
+
+  * Created new letters.
+    Ingo Ruhnke <grumbel@gmx.de>
+
+  * Gameplay fixes. (with the aim to make it at least as playable as 0.0.5 was)
+    Tobias Glaesser <tobi.web@gmx.de>
+
+  * Flexible font (text) handling.
+    Tobias Glaesser <tobi.web@gmx.de>
+
+  * Rewritten menu code.
+    Tobias Glaesser <tobi.web@gmx.de>
+
+  * Upgrades go into the opposite direction Tux collided with.
+    Ricardo Cruz <rick2@aeiou.pt>
+
+  * First implementation of a graphical leveleditor interface.
+    Tobias Glaesser <tobi.web@gmx.de>
+    
+  * You can test levels directly in the leveleditor.
+    Ricardo Cruz <rick2@aeiou.pt> & Tobias Glaesser <tobi.web@gmx.de>
+    
+  * Reinit timers when tux dies.
+    Duong-Khang NGUYEN <neoneurone@users.sf.net>
+
   * Got rid of the TEXTURE_RECTANGLE NVIDIA extension. It should be possible
     to play the game in OpenGl mode with the most graphic cards now.
     Tobias Glaesser <tobi.web@gmx.de>   

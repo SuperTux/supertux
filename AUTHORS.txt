@@ -1,7 +1,6 @@
 AUTHORS.txt for Super Tux
 
-by Bill Kendrick
-bill@newbreedsoftware.com
+by Bill Kendrick <bill@newbreedsoftware.com> & Tobias Glaesser <tobi.web@gmx.d>
 http://www.newbreedsoftware.com/supertux/
 
 Version 0.0.6 (in development)

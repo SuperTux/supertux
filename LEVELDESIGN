@@ -1,3 +1,10 @@
+
+This document describes both the level format and
+the level editor.
+
+= LEVEL FORMAT =
+
+
 HEAD:
 --------
 
@@ -50,3 +57,52 @@ Bad guys:
 1 <- Laptop
 2 <- Money
 
+= BUILT-IN LEVEL EDITOR =
+
+
+//FIXME: Check if all the informations are still valid, when releasing 0.0.6.
+USING THE BUILT-IN LEVEL EDITOR:
+--------------------------------
+
+The built-in level editor can already be used for
+production, but more advances are expected in the
+future, including a mouse driven interface.
+
+When opening the leveleditor, a menu will appear. This
+menu can be used to add, edit, load, save and test levels.
+
+Menu entries:
+- Return to Level Editor - just closes the menu and goes
+to the editing mode. To come back to the menu, press Esc.
+- New Level - creates a new level. The number of the level
+is showed in the upper left part of the screen. The level
+file are currently placed on data/levels/default.
+- Test Level - if you want to test the current level, use
+this option.
+- Level Settings - this allows you to edit the header of the
+file (as described in the beggining of this document). An
+important field is the 'Level width' that allows you to
+adjust level's size.
+(Warning: there are some characters that do not work, cause
+they are not supported by the fonts)
+- Load Level - goes to a given level number.
+- Save Level - saves the current level.
+- Quit Level Editor - goes back to SuperTux's main menu.
+
+Editing mode:
+To edit the level, you'll have to use the mouse or the
+keyboard to control the red cursor, using the keyboard
+to change tiles. Tiles keys are the same used by the
+level format, listed above. You can check them in the fly,
+pressing F1. I'd suggest you to print the above list of keys.
+In the future, a mouse interface will be introduced.
+
+To go back to the menu, just press Esc.
+
+Now, do lots of levels and HAVE FUN!!
+
+Please, send your levels or any art you created to the SuperTux's
+mailinglist or to the maintainer (look at AUTHORS.txt).
+
+
+SuperTux developers
