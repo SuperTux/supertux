@@ -488,8 +488,6 @@ if(!last_keys.empty())
     tux.invincible_timer.start(time_left.get_left());
     last_keys.clear();
     }
-  if(last_keys.size() > 15)
-    last_keys.clear();
   }
 }
 
