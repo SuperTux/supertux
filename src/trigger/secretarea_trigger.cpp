@@ -18,8 +18,7 @@ SecretAreaTrigger::SecretAreaTrigger(const Vector& pos,
 {
   bbox.set_pos(pos);
   bbox.set_size(32, 32);
-  triggerevent = EVENT_TOUCH;
-  show_message = 0;
+  message = "You found a secret area!";
 }
 
 SecretAreaTrigger::~SecretAreaTrigger()
@@ -43,16 +42,20 @@ SecretAreaTrigger::write(LispWriter& writer)
 void
 SecretAreaTrigger::draw(DrawingContext& context)
 {
-   if (show_message == 1) {
-      context.draw_center_text(gold_text, message, Vector(0, screen->h/2 - gold_text->get_height()/2), LAYER_GUI);
-      std::cout<<message<<std::endl;
+   if (message_timer.started()) {
+      Vector pos = Vector(0, screen->h/2 - gold_text->get_height()/2);
+      context.draw_center_text(gold_text, message, pos, LAYER_GUI);
+      //TODO: Prevent text from scrolling with the rest of the level
+   }
+   if (message_timer.check()) {
+      remove_me();
    }
 }
 
 void
 SecretAreaTrigger::event(Player& , EventType type)
 {
-  if(type == triggerevent) {
-    show_message = 1;
+  if(type == EVENT_TOUCH) {
+    message_timer.start(MESSAGE_TIME);
   }
 }

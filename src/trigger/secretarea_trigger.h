@@ -6,6 +6,9 @@
 #include "resources.h"
 #include "video/drawing_context.h"
 #include "app/globals.h"
+#include "timer.h"
+
+#define MESSAGE_TIME 3
 
 class SecretAreaTrigger : public TriggerBase, public Serializable
 {
@@ -19,9 +22,8 @@ public:
   void draw(DrawingContext& context);
   
 private:
-  EventType triggerevent;
   std::string message;
-  int show_message;
+  Timer2 message_timer;
 };
 
 #endif
