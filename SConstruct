@@ -3,28 +3,50 @@
 # See http://www.scons.org/ for more information about what SCons is and how it
 # may help you... :-)
 # I've never done anything with SCons before. Quite obviously this script is in
-# a non-working state!! Maybe someone with more knowledge of the materia who
-# thinks that SCons might be better suited than make can take over....
+# a non-working state!! Maybe someone with more knowledge of the materia can
+# take over....
 #                                              - Benjamin P. 'litespeed' Jung -
 #
 
 # TODO: such static entries are obviously not what we want.
-#       Using e.g. 'sdl-config' to obtain parameters would be muuuuuch
-#       better.
+# Using e.g. 'sdl-config' to obtain parameters would be muuuuuch
+# better.
 
 
 DATA_PREFIX = '\\\"/usr/local/share/supertux\\\"'
 LOCALEDIR = '\\\"/usr/local/share/locale\\\"'
 
-SDL_DYNAMIC_CCFLAGS = ['-D_REENTRANT', '-lSDL -lpthread']
-SDL_STATIC_CCFLAGS = ['-lSDL -lpthread -lm -ldl -lasound -L/usr/X11R6/lib -lX11 -lXext -lvga -laa']
+CCFLAGS = [
+  '-O2',
+  '-DDATA_PREFIX=' + DATA_PREFIX,
+  '-DLOCALEDIR=' + LOCALEDIR
+]
 
-CCFLAGS = ['-DHAVE_CONFIG_H', '-O2', '-DDATA_PREFIX=' + DATA_PREFIX, '-DLOCALEDIR=' + LOCALEDIR]
+CPPPATH = ['/usr/include/SDL', '/usr/include/X11', 'src', 'lib', 'intl', '.']
 
-LIBSUPERTUX_DYNAMIC_CCFLAGS = SDL_DYNAMIC_CCFLAGS + CCFLAGS
-LIBSUPERTUX_STATIC_CCFLAGS = SDL_STATIC_CCFLAGS + CCFLAGS
+LIBPATH = [
+  'lib',
+  '/lib',
+  '/usr/lib',
+  '/usr/lib/X11',
+  '/usr/local/lib'
+]
 
-CPPPATH = ['/usr/include/SDL', 'src', 'lib', 'intl', '.']
+LIBS = [
+  'supertux',
+  'SDL',
+  'SDL_gfx',
+  'SDL_image',
+  'SDL_mixer',
+  'SDL_sound',
+  'pthread',
+  'm',
+  'dl',
+  'asound',
+  'GL',
+  'GLU'
+]
+  
 
 libsupertux_src = [
   'lib/app/globals.cpp',
@@ -84,39 +106,18 @@ supertux_src = [
 ]
 			
 
-
 StaticLibrary(
-  target='lib/supertux',
-  source=libsupertux_src,
-  CPPPATH=CPPPATH,
-  CCFLAGS=LIBSUPERTUX_STATIC_CCFLAGS
+  target = 'lib/supertux',
+  source = libsupertux_src,
+  CPPPATH = CPPPATH,
+  CCFLAGS = CCFLAGS
 )
 
 Program(
-  target='src/supertux',
-  source=supertux_src,
-  CPPPATH=CPPPATH,
-  CCFLAGS=LIBSUPERTUX_STATIC_CCFLAGS,
-  LIBPATH='lib',
-  LIBS='supertux'
+  target = 'src/supertux',
+  source = supertux_src,
+  CPPPATH = CPPPATH,
+  CCFLAGS = CCFLAGS,
+  LIBPATH = LIBPATH,
+  LIBS = LIBS
 )
-
-
-
-#
-# The following lines _should_ (hehe!) build a shared SuperTux library (hey! At
-# least that part works pretty fine...) and then create a supertux exceutable
-# which links dynamically against that lib.
-#
-#SharedLibrary(
-#  target='lib/supertux',
-#  source=libsupertux_src,
-#  CPPPATH=CPPPATH,
-#  CCFLAGS=CCFLAGS
-#)
-#Program(
-#  target='src/supertux',
-#  source=supertux_src,
-#  CPPPATH=CPPPATH,
-#  CCFLAGS=LIBSUPERTUX_DYNAMIC_CCFLAGS
-#)
