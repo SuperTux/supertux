@@ -1,3 +1,4 @@
+#include <assert.h>
 #include "drawing_context.h"
 
 #include <iostream>
