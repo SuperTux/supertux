@@ -66,6 +66,9 @@ class Menu
 private:  
   static std::stack<Menu*> last_menus;
   static Menu* current_;
+
+  static void push_current(Menu* pmenu);
+  static void pop_current();
 public:
   /** Set the current menu, if pmenu is NULL, hide the current menu */
   static void set_current(Menu* pmenu);

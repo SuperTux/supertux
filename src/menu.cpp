@@ -59,15 +59,33 @@ std::stack<Menu*> Menu::last_menus;
 Menu* Menu::current_ = 0;
 
 void
+Menu::push_current(Menu* pmenu)
+{
+  if (current_)
+    last_menus.push(current_);
+  
+  set_current(pmenu);
+}
+
+void
+Menu::pop_current()
+{
+  if (!last_menus.empty())
+    {
+      set_current(last_menus.top());
+      last_menus.pop();
+    }
+  else
+    {
+      set_current(0);
+    }
+}
+
+void
 Menu::set_current(Menu* menu)
 {
   if (menu)
-    {
-      if (last_menus.empty() || menu != last_menus.top())
-        last_menus.push(current_);
-
-      menu->effect.start(500);
-    }
+    menu->effect.start(500);
   
   current_ = menu;
 }
@@ -234,7 +252,7 @@ Menu::action()
               {
               case MN_GOTO:
                 if (item[active_item].target_menu != NULL)
-                  Menu::set_current(item[active_item].target_menu);
+                  Menu::push_current(item[active_item].target_menu);
                 else
                   puts("NULLL");
                 break;
@@ -251,11 +269,7 @@ Menu::action()
                 break;
 
               case MN_BACK:
-                if (!last_menus.empty())
-                  {
-                    Menu::set_current(last_menus.top());
-                    last_menus.pop();
-                  }
+                Menu::pop_current();
                 break;
               default:
                 break;
@@ -591,16 +605,8 @@ Menu::event(SDL_Event& event)
           delete_character++;
           break;
         case SDLK_ESCAPE:
-          if(Menu::current())
-            {
-              if (has_backitem == true && !last_menus.empty())
-                {
-                  Menu::set_current(last_menus.top());
-                  last_menus.pop();
-                }
-              else
-                Menu::set_current(0);
-            }
+          Menu::pop_current();
+          break;
         default:
           if( (key >= SDLK_0 && key <= SDLK_9) || (key >= SDLK_a && key <= SDLK_z) || (key >= SDLK_SPACE && key <= SDLK_SLASH))
             {
