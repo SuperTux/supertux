@@ -176,6 +176,10 @@ void game_event(void)
 
           key = event.key.keysym.sym;
 
+	  /* Check for menu-events, if the menu is shown */
+          if(show_menu)
+            menu_event(key);
+	  
           if (key == SDLK_ESCAPE)
             {
               /* Escape: Open/Close the menu: */
@@ -213,10 +217,6 @@ void game_event(void)
           /* A keyrelease! */
 
           key = event.key.keysym.sym;
-
-          /* Check for menu-events, if the menu is shown */
-          if(show_menu)
-            menu_event(key);
 
           if (key == SDLK_RIGHT)
             {

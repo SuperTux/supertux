@@ -29,7 +29,7 @@ void initmenu(void)
 {
   menu_change = NO;
   show_menu = NO;
-  menuitem = -1;
+  menuitem = 0;
   menumenu = 0;
   menuaction = -1;
 }

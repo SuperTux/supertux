@@ -97,18 +97,15 @@ int title(void)
 
               key = event.key.keysym.sym;
 
+	      /* Check for menu events */
+              menu_event(key);
+	      
               if (key == SDLK_ESCAPE)
                 {
                   /* Escape: Quit: */
 
                   quit = 1;
                 }
-            }
-          else if (event.type == SDL_KEYUP)
-            {
-              key = event.key.keysym.sym;
-              /* Check for menu events */
-              menu_event(key);
             }
 #ifdef JOY_YES
           else if (event.type == SDL_JOYAXISMOTION)
