@@ -165,7 +165,7 @@ void BadGuy::action_laptop()
           base.y = tux.base.y + tux.base.height/1.5 - base.height;
         }
 
-      if(tux.input.fire != DOWN) /* SHOOT! */
+      if(tux.input_.fire != DOWN) /* SHOOT! */
         {
           if(dir == LEFT)
             base.x -= 24;
@@ -377,13 +377,13 @@ BadGuy::draw_bsod()
       /* Alive: */
       if (dir == LEFT)
         {
-          texture_draw(&img_bsod_left[(frame / 5) % 4],
+          texture_draw(&img_bsod_left[(global_frame_counter / 5) % 4],
                        base.x - scroll_x,
                        base.y);
         }
       else
         {
-          texture_draw(&img_bsod_right[(frame / 5) % 4],
+          texture_draw(&img_bsod_right[(global_frame_counter / 5) % 4],
                        base.x - scroll_x,
                        base.y);
         }
@@ -436,13 +436,13 @@ void BadGuy::draw_laptop()
           /* Not flat: */
           if (dir == LEFT)
             {
-              texture_draw(&img_laptop_left[(frame / 5) % 3],
+              texture_draw(&img_laptop_left[(global_frame_counter / 5) % 3],
                            base.x - scroll_x,
                            base.y);
             }
           else
             {
-              texture_draw(&img_laptop_right[(frame / 5) % 3],
+              texture_draw(&img_laptop_right[(global_frame_counter / 5) % 3],
                            base.x - scroll_x,
                            base.y);
             }
@@ -549,7 +549,7 @@ void
 BadGuy::collision(void *p_c_object, int c_object)
 {
   BadGuy* pbad_c    = NULL;
-  player_type*  pplayer_c = NULL;
+  Player* pplayer_c = NULL;
 
   switch (c_object)
     {
@@ -600,7 +600,7 @@ BadGuy::collision(void *p_c_object, int c_object)
       break;
 
     case CO_PLAYER:
-      pplayer_c = (player_type*) p_c_object;
+      pplayer_c = static_cast<Player*>(p_c_object);
       if(kind != BAD_MONEY)
         {
           if (kind == BAD_BSOD)

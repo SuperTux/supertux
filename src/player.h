@@ -58,9 +58,36 @@ struct player_input_type
 
 void player_input_init(player_input_type* pplayer_input);
 
-struct player_type 
+extern texture_type tux_life;
+extern texture_type tux_right[3];
+extern texture_type tux_left[3];
+extern texture_type bigtux_right[3];
+extern texture_type bigtux_left[3];
+extern texture_type bigtux_right_jump;
+extern texture_type bigtux_left_jump;
+extern texture_type ducktux_right;
+extern texture_type ducktux_left;
+extern texture_type skidtux_right;
+extern texture_type skidtux_left;
+extern texture_type firetux_right[3];
+extern texture_type firetux_left[3];
+extern texture_type bigfiretux_right[3];
+extern texture_type bigfiretux_left[3];
+extern texture_type bigfiretux_right_jump;
+extern texture_type bigfiretux_left_jump;
+extern texture_type duckfiretux_right;
+extern texture_type duckfiretux_left;
+extern texture_type skidfiretux_right;
+extern texture_type skidfiretux_left;
+extern texture_type cape_right[2];
+extern texture_type cape_left[2];
+extern texture_type bigcape_right[2];
+extern texture_type bigcape_left[2];
+
+class Player
 {
-  player_input_type input;
+ public:
+  player_input_type  input_;
   player_keymap_type keymap;
   int score;
   int distros;
@@ -70,8 +97,8 @@ struct player_type
   DyingType dying;
   int dir;
   bool jumping;
+  int frame_;
   int frame_main;
-  int frame;
   int lives;
   base_type base;
   base_type old_base;
@@ -82,35 +109,26 @@ struct player_type
   timer_type frame_timer;
   physic_type vphysic;
   physic_type hphysic;
+
+ public:
+  void init();
+  int  key_event(SDLKey key, int state);
+  void level_begin();
+  void action();
+  void input();
+  void grabdistros();
+  void draw();
+  void collision(void* p_c_object, int c_object);
+  void kill(int mode);
+  void is_dying();
+  void player_remove_powerups();
+  void keep_in_bounds();
+  bool on_ground();
+  bool under_solid();
+ private:
+  void handle_horizontal_input(int dir);
+  void handle_vertical_input();
+  void remove_powerups();
 };
-
-extern texture_type tux_life,
- tux_right[3],  tux_left[3],
- bigtux_right[3],  bigtux_left[3],
- bigtux_right_jump,  bigtux_left_jump,
- ducktux_right,  ducktux_left,
- skidtux_right,  skidtux_left,
- firetux_right[3],  firetux_left[3],
- bigfiretux_right[3],  bigfiretux_left[3],
- bigfiretux_right_jump,  bigfiretux_left_jump,
- duckfiretux_right,  duckfiretux_left,
- skidfiretux_right,  skidfiretux_left,
- cape_right[2],  cape_left[2],
- bigcape_right[2],  bigcape_left[2];
-
-void player_init(player_type* pplayer);
-int player_key_event(player_type* pplayer, SDLKey key, int state);
-void player_level_begin(player_type* pplayer);
-void player_action(player_type* pplayer);
-void player_input(player_type* pplayer);
-void player_grabdistros(player_type *pplayer);
-void player_draw(player_type* pplayer);
-void player_collision(player_type* pplayer,void* p_c_object, int c_object);
-void player_kill(player_type *pplayer, int mode);
-void player_dying(player_type *pplayer);
-void player_remove_powerups(player_type *pplayer);
-void player_keep_in_bounds(player_type *pplayer);
-bool player_on_ground(player_type *pplayer);
-bool player_under_solid(player_type *pplayer);
 
 #endif /*SUPERTUX_PLAYER_H*/

@@ -133,7 +133,7 @@ void game_event(void)
           if(show_menu)
             menu_event(&event.key.keysym);
 
-          if(player_key_event(&tux,key,DOWN))
+          if(tux.key_event(key,DOWN))
             break;
 
           switch(key)
@@ -164,7 +164,7 @@ void game_event(void)
         case SDL_KEYUP:      /* A keyrelease! */
           key = event.key.keysym.sym;
 
-          if(player_key_event(&tux,key,UP))
+          if(tux.key_event(key, UP))
             break;
 
           switch(key)
@@ -236,32 +236,32 @@ void game_event(void)
             case JOY_X:
               if (event.jaxis.value < -JOYSTICK_DEAD_ZONE)
                 {
-                  tux.input.left  = DOWN;
-                  tux.input.right = UP;
+                  tux.input_.left  = DOWN;
+                  tux.input_.right = UP;
                 }
               else if (event.jaxis.value > JOYSTICK_DEAD_ZONE)
                 {
-                  tux.input.left  = UP;
-                  tux.input.right = DOWN;
+                  tux.input_.left  = UP;
+                  tux.input_.right = DOWN;
                 }
               else
                 {
-                  tux.input.left  = DOWN;
-                  tux.input.right = DOWN;
+                  tux.input_.left  = DOWN;
+                  tux.input_.right = DOWN;
                 }
               break;
             case JOY_Y:
               if (event.jaxis.value > JOYSTICK_DEAD_ZONE)
-                tux.input.down = DOWN;
+                tux.input_.down = DOWN;
               else if (event.jaxis.value < -JOYSTICK_DEAD_ZONE)
-                tux.input.down = UP;
+                tux.input_.down = UP;
               else
-                tux.input.down = UP;
+                tux.input_.down = UP;
 
               /* Handle joystick for the menu */
               if(show_menu)
                 {
-                  if(tux.input.down == DOWN)
+                  if(tux.input_.down == DOWN)
                     menuaction = MENU_ACTION_DOWN;
                   else
                     menuaction = MENU_ACTION_UP;
@@ -273,15 +273,15 @@ void game_event(void)
           break;
         case SDL_JOYBUTTONDOWN:
           if (event.jbutton.button == JOY_A)
-            tux.input.up = DOWN;
+            tux.input_.up = DOWN;
           else if (event.jbutton.button == JOY_B)
-            tux.input.fire = DOWN;
+            tux.input_.fire = DOWN;
           break;
         case SDL_JOYBUTTONUP:
           if (event.jbutton.button == JOY_A)
-            tux.input.up = UP;
+            tux.input_.up = UP;
           else if (event.jbutton.button == JOY_B)
-            tux.input.fire = UP;
+            tux.input_.fire = UP;
 
           if(show_menu)
             menuaction = MENU_ACTION_HIT;
@@ -327,11 +327,11 @@ int game_action(void)
               arrays_free();
               return(0);
             }
-          player_level_begin(&tux);
+          tux.level_begin();
         }
       else
         {
-          player_dying(&tux);
+          tux.is_dying();
 
           /* No more lives!? */
 
@@ -356,7 +356,7 @@ int game_action(void)
 
       /* Either way, (re-)load the (next) level... */
 
-      player_level_begin(&tux);
+      tux.level_begin();
       set_defaults();
       level_free(&current_level);
 
@@ -385,10 +385,9 @@ int game_action(void)
       play_current_music();
     }
 
-  player_action(&tux);
+  tux.action();
 
   /* Handle bouncy distros: */
-
   for (i = 0; i < bouncy_distros.size(); i++)
     {
       bouncy_distro_action(&bouncy_distros[i]);
@@ -396,7 +395,6 @@ int game_action(void)
 
 
   /* Handle broken bricks: */
-
   for (i = 0; i < broken_bricks.size(); i++)
     {
       broken_brick_action(&broken_bricks[i]);
@@ -467,7 +465,7 @@ void game_draw(void)
 
   /* Draw screen: */
 
-  if (tux.dying && (frame % 4) == 0)
+  if (tux.dying && (global_frame_counter % 4) == 0)
     clearscreen(255, 255, 255);
   else if(timer_check(&super_bkgd_timer))
     texture_draw(&img_super_bkgd, 0, 0);
@@ -507,25 +505,21 @@ void game_draw(void)
 
 
   /* (Bad guys): */
-
   for (i = 0; i < bad_guys.size(); ++i)
     {
       bad_guys[i].draw();
     }
 
   /* (Tux): */
-
-  player_draw(&tux);
+  tux.draw();
 
   /* (Bullets): */
-
   for (i = 0; i < bullets.size(); ++i)
     {
       bullet_draw(&bullets[i]);
     }
 
   /* (Floating scores): */
-
   for (i = 0; i < floating_scores.size(); ++i)
     {
       floating_score_draw(&floating_scores[i]);
@@ -533,7 +527,6 @@ void game_draw(void)
 
 
   /* (Upgrades): */
-
   for (i = 0; i < upgrades.size(); ++i)
     {
       upgrade_draw(&upgrades[i]);
@@ -541,7 +534,6 @@ void game_draw(void)
 
 
   /* (Bouncy distros): */
-
   for (i = 0; i < bouncy_distros.size(); ++i)
     {
       bouncy_distro_draw(&bouncy_distros[i]);
@@ -549,14 +541,12 @@ void game_draw(void)
 
 
   /* (Broken bricks): */
-
   for (i = 0; i < broken_bricks.size(); ++i)
     {
       broken_brick_draw(&broken_bricks[i]);
     }
 
   drawstatus();
-
 
   if(game_pause)
     {
@@ -614,7 +604,7 @@ int gameloop(const char * subset, int levelnb, int mode)
   activate_bad_guys();
   level_load_song(&current_level);
 
-  player_init(&tux);
+  tux.init();
 
   if(st_gl_mode != ST_GL_TEST)
     load_hs();
@@ -636,7 +626,7 @@ int gameloop(const char * subset, int levelnb, int mode)
   jump = false;
   done = 0;
   quit = 0;
-  frame = 0;
+  global_frame_counter = 0;
   game_pause = 0;
   timer_init(&fps_timer,true);
   timer_init(&frame_timer,true);
@@ -667,12 +657,12 @@ int gameloop(const char * subset, int levelnb, int mode)
       if(!timer_check(&frame_timer))
         {
           timer_start(&frame_timer,25);
-          ++frame;
+          ++global_frame_counter;
         }
 
       /* Handle events: */
 
-      tux.input.old_fire = tux.input.fire;
+      tux.input_.old_fire = tux.input_.fire;
 
       game_event();
 
@@ -783,7 +773,7 @@ int gameloop(const char * subset, int levelnb, int mode)
 
         }
       else
-        player_kill(&tux,KILL);
+        tux.kill(KILL);
 
 
       /* Calculate frames per second */
@@ -1326,7 +1316,7 @@ void drawshape(float x, float y, unsigned char c)
     texture_draw(&img_solid[3], x, y);
   else if (c == '$')
     {
-      z = (frame / 2) % 6;
+      z = (global_frame_counter / 2) % 6;
 
       if (z < 4)
         texture_draw(&img_distro[z], x, y);
@@ -1337,7 +1327,7 @@ void drawshape(float x, float y, unsigned char c)
     }
   else if (c == '^')
     {
-      z = (frame / 3) % 3;
+      z = (global_frame_counter / 3) % 3;
 
       texture_draw(&img_waves[z], x, y);
     }
@@ -1350,7 +1340,7 @@ void drawshape(float x, float y, unsigned char c)
     }
   else if (c == '\\')
     {
-      z = (frame / 3) % 2;
+      z = (global_frame_counter / 3) % 2;
 
       texture_draw(&img_flag[z], x + 16, y);
     }
@@ -1601,7 +1591,7 @@ void drawstatus(void)
       text_draw(&white_text,"Press ESC To Return",0,20,1);
     }
 
-  if (timer_get_left(&time_left) > TIME_WARNING || (frame % 10) < 5)
+  if (timer_get_left(&time_left) > TIME_WARNING || (global_frame_counter % 10) < 5)
     {
       sprintf(str, "%d", timer_get_left(&time_left) / 1000 );
       text_draw(&white_text, "TIME", 224, 0, 1);
@@ -1687,7 +1677,7 @@ void savegame(int slot)
       fwrite(&score,sizeof(int),1,fi);
       fwrite(&distros,sizeof(int),1,fi);
       fwrite(&scroll_x,sizeof(float),1,fi);
-      fwrite(&tux,sizeof(player_type),1,fi);
+      fwrite(&tux,sizeof(Player),1,fi);
       timer_fwrite(&tux.invincible_timer,fi);
       timer_fwrite(&tux.skidding_timer,fi);
       timer_fwrite(&tux.safe_timer,fi);
@@ -1740,7 +1730,7 @@ void loadgame(int slot)
       fread(&score,sizeof(int),1,fi);
       fread(&distros,sizeof(int),1,fi);
       fread(&scroll_x,sizeof(float),1,fi);
-      fread(&tux,sizeof(player_type),1,fi);
+      fread(&tux, sizeof(Player), 1, fi);
       timer_fread(&tux.invincible_timer,fi);
       timer_fread(&tux.skidding_timer,fi);
       timer_fread(&tux.safe_timer,fi);

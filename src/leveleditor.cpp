@@ -854,7 +854,7 @@ void le_drawlevel()
           case 'x':
           case 'y':
           case 'A':
-            texture_draw(&img_distro[(frame / 5) % 4], x * 32 - ((int)pos_x % 32), y*32);
+            texture_draw(&img_distro[(global_frame_counter / 5) % 4], x * 32 - ((int)pos_x % 32), y*32);
             break;
           default:
             break;
@@ -876,7 +876,7 @@ void le_drawlevel()
 
   /* Draw the player: */
   /* for now, the position is fixed at (0, 240) */
-  texture_draw(&tux_right[(frame / 5) % 3], 0 - pos_x, 240);
+  texture_draw(&tux_right[(global_frame_counter / 5) % 3], 0 - pos_x, 240);
 }
 
 void le_checkevents()

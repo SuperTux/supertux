@@ -221,7 +221,7 @@ void upgrade_draw(upgrade_type* pupgrade)
 
 void upgrade_collision(upgrade_type* pupgrade, void* p_c_object, int c_object)
 {
-  player_type* pplayer = NULL;
+  Player* pplayer = NULL;
 
   switch (c_object)
     {
@@ -229,7 +229,7 @@ void upgrade_collision(upgrade_type* pupgrade, void* p_c_object, int c_object)
       /* Remove the upgrade: */
 
       /* p_c_object is CO_PLAYER, so assign it to pplayer */
-      pplayer = (player_type*) p_c_object;
+      pplayer = (Player*) p_c_object;
 
       upgrades.erase(static_cast<std::vector<upgrade_type>::iterator>(pupgrade));
 

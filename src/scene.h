@@ -35,7 +35,7 @@ extern int distro_counter;
 
 extern timer_type  super_bkgd_timer;
 extern float scroll_x;
-extern int frame;
+extern int global_frame_counter;
 extern std::vector<bouncy_distro_type> bouncy_distros;
 extern std::vector<broken_brick_type> broken_bricks;
 extern std::vector<bouncy_brick_type> bouncy_bricks;
@@ -43,7 +43,7 @@ extern std::vector<BadGuy> bad_guys;
 extern std::vector<floating_score_type> floating_scores;
 extern std::vector<upgrade_type> upgrades;
 extern std::vector<bullet_type> bullets;
-extern player_type tux;
+extern Player tux;
 extern texture_type img_box_full, img_box_empty, img_mints, img_coffee, img_super_bkgd, img_red_glow;
 extern timer_type time_left;
 extern double frame_ratio;

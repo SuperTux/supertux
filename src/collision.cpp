@@ -261,7 +261,7 @@ void collision_handler()
             }
           else
             {
-              player_collision(&tux, &bad_guys[i], CO_BADGUY);
+              tux.collision(&bad_guys[i], CO_BADGUY);
             }
         }
     }
