@@ -1,0 +1,17 @@
+;SuperTux-Tile-Definition
+(supertux-tiles
+  (properties 
+        (id 2))
+  (tile (id 1)
+        (images "water.png"))
+  (tile (id 2)
+        (images "waves-0.png" "waves-1.png" "waves-2.png")
+	(anim-speed 25))
+  (tile (id 3)
+        (images "brick0.png")
+	(solid #t))	
+  (tile (id 4)
+        (images "brick1.png")
+	(solid #t))
+	)
+        

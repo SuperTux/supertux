@@ -1,0 +1,16 @@
+;SuperTux-Tile-Definition
+(supertux-tiles
+  (tileset 
+        (file "background.stgt"))
+  (tileset 
+        (file "block.stgt"))
+  (tileset 
+        (file "misc.stgt"))
+  (tileset 
+        (file "darksnow.stgt"))
+  (tileset 
+        (file "grey.stgt"))
+  (tileset 
+        (file "snow.stgt"))	
+)
+        

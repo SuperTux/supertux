@@ -1,0 +1,24 @@
+;SuperTux-Tile-Definition
+(supertux-tiles
+  (properties 
+        (id 4))
+  (tile (id 1)
+        (images "grey.png")
+	(solid #t))
+  (tile (id 2)
+        (images "grey2.png")
+	(solid #t))
+  (tile (id 3)
+        (images "grey3.png")
+	(solid #t))
+  (tile (id 4)
+        (images "grey4.png")
+	(solid #t))
+  (tile (id 5)
+        (images "grey5.png")
+	(solid #t))
+  (tile (id 6)
+        (images "grey6.png")
+	(solid #t))
+	)
+        
