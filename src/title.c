@@ -69,8 +69,9 @@ int title(void)
   int done;
   char str[80];
   string_list_type level_subsets;
-  level_subsets = dsubdirs("/levels", "info");
   st_subset subset;
+  level_subsets = dsubdirs("/levels", "info");
+
   subset_init(&subset);
 
   /* Reset menu variables */
@@ -287,8 +288,8 @@ void display_credits()
   FILE* fi;
   char temp[1024];
   string_list_type names;
-  string_list_init(&names);
   char filename[1024];
+  string_list_init(&names);
   sprintf(filename,"%s/CREDITS",DATA_PREFIX);
   if((fi = fopen(filename,"r")) != NULL)
     {
