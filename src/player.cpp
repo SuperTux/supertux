@@ -756,13 +756,15 @@ Player::check_bounds(bool back_scrolling, bool hor_autoscroll)
   if(base.x < scroll_x && (!back_scrolling || hor_autoscroll))  // can happen if back scrolling is disabled
     base.x = scroll_x;
 
-  if(base.x == scroll_x && hor_autoscroll)
-    if(issolid(base.x+32, base.y) || (size != SMALL && issolid(base.x+32, base.y+32)))
-      kill(KILL);
+  if(hor_autoscroll)
+    {
+    if(base.x == scroll_x)
+      if(issolid(base.x+32, base.y) || (size != SMALL && issolid(base.x+32, base.y+32)))
+        kill(KILL);
 
-  if(base.x + base.width > scroll_x + screen->w && hor_autoscroll)
-    base.x = scroll_x + screen->w - base.width;
-
+    if(base.x + base.width > scroll_x + screen->w)
+      base.x = scroll_x + screen->w - base.width;
+    }
     
 }
 
