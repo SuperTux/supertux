@@ -395,7 +395,7 @@ World::collision_handler()
             {
               // We have detected a collision and now call the
               // collision functions of the collided objects.
-              (*j)->collision(&bullets[i], CO_BULLET, COLLISION_NORMAL);
+              (*j)->collision(bullets[i], CO_BULLET, COLLISION_NORMAL);
               bullets[i]->collision(CO_BADGUY);
               break; // bullet is invalid now, so break
             }
