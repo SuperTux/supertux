@@ -88,6 +88,13 @@ fi
 AC_CHECK_LIB(SDL_image, IMG_Load, ,AC_MSG_ERROR(SDL_image library required))
 
 if test "x${enable_opengl}" != "xno"; then
+  # grumbel: xlib path is needed on my system to get OpenGL right,
+  # else I end up with a black screen, might be a debian issue or a
+  # local issue on my system, not sure
+  AC_PATH_XTRA
+  CFLAGS="$CFLAGS $X_CFLAGS"
+  LDFLAGS="$LDFLAGS $X_LIBS"
+
   AC_CHECK_LIB(GL, glBegin, ,AC_MSG_ERROR(GL library required))
 fi
 
