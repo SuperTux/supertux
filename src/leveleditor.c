@@ -1068,7 +1068,6 @@ void le_checkevents()
 
                   if(le_mouse_pressed[RIGHT] == YES)
                     {
-                      fprintf(stderr, "mouse scrolling\n");
                       pos_x += -1 * event.motion.xrel;
                     }
                 }
