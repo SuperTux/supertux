@@ -37,6 +37,8 @@ struct PlayerStatus
   int  score_multiplier;
 
   PlayerStatus();
+
+  void reset();
 };
 
 std::string bonus_to_string(PlayerStatus::BonusType b);

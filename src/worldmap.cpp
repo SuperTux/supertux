@@ -706,7 +706,7 @@ WorldMap::update(float delta)
                   break;
                 case GameSession::GAME_OVER:
                   quit = true;
-                  player_status.bonus = PlayerStatus::NO_BONUS;
+                  player_status.reset();
                   break;
                 case GameSession::NONE:
                   // Should never be reached 

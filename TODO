@@ -17,7 +17,6 @@ Todo
   a timer that is started when up is pressed, when you then land and the timer
   is below a certain time, you can do the jump.
 - when bumping a special with 2 blocks at once, it won't change direction
-- points aren't reset when gameover
 
 - leveleditor lacks enemies support (will be fixed soon by Tobias)
 - sometimes you die after being in pause modus and unpausing - still true?
@@ -26,6 +25,7 @@ Todo
 Fixed
 -----
 
+- points aren't reset when gameover
 - when jumping into the exit with a star, the endgame music will change back to
   levelmusic after a short time
 - when jupming against the 2nd multiple coin block in a level only 1 coin will

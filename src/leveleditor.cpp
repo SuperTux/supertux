@@ -1225,6 +1225,7 @@ void le_testlevel()
   
   GameSession session("test",le_level, ST_GL_TEST);
   session.run();
+  player_status.reset();
 
   music_manager->halt_music();
 
