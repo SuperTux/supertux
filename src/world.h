@@ -37,28 +37,27 @@ class Level;
     bouncy distros, etc) that are needed to run a game. */
 class World
 {
- public:
+private:
+  std::vector<BadGuy*> bad_guys;
   Level* level;
-
   Player tux;
-  
+
+  int distro_counter;
+  bool counting_distros;
+  int currentmusic;
+
+  static World* current_;
+public:
   std::vector<BouncyDistro> bouncy_distros;
   std::vector<BrokenBrick>  broken_bricks;
   std::vector<BouncyBrick>  bouncy_bricks;
   std::vector<FloatingScore> floating_scores;
 
-  std::vector<BadGuy> bad_guys;
   std::vector<Upgrade> upgrades;
   std::vector<Bullet> bullets;
   std::vector<ParticleSystem*> particle_systems;
 
-  int distro_counter;
-  bool counting_distros;
-
-  int currentmusic;
-
-  static World* current_;
- public:
+public:
   static World* current() { return current_; }
   static void set_current(World* w) { current_ = w; }
 
@@ -92,7 +91,10 @@ class World
   void add_broken_brick(Tile* tile, float x, float y);
   void add_broken_brick_piece(Tile* tile, float x, float y, float xm, float ym);
   void add_bouncy_brick(float x, float y);
-  void add_bad_guy(float x, float y, BadGuyKind kind, bool stay_on_platform = false);
+
+  BadGuy* add_bad_guy(float x, float y, BadGuyKind kind, bool stay_on_platform = false);
+  void    remove_bad_guy(BadGuy* badguy);
+
   void add_upgrade(float x, float y, Direction dir, UpgradeKind kind);
   void add_bullet(float x, float y, float xm, Direction dir);
 

@@ -408,14 +408,7 @@ BadGuy::fall()
 void
 BadGuy::remove_me()
 {
-  for(std::vector<BadGuy>::iterator i = World::current()->bad_guys.begin(); 
-      i != World::current()->bad_guys.end(); ++i) 
-    {
-      if( & (*i) == this) {
-        World::current()->bad_guys.erase(i);
-        return;
-      }
-    }
+  World::current()->remove_bad_guy(this);
 }
 
 void
