@@ -6,6 +6,7 @@ Super Tux 0.0.7 (         )
   * switched to C++
   * automagic detection of the datafile location, no more requirement
     to run 'make install'
+  * Win32 port
 
 Super Tux 0.0.6 (16 Mar 04)
 ===========================
