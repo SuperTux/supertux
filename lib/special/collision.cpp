@@ -15,38 +15,51 @@
 namespace SuperTux
 {
 
+static const float DELTA = .0001;
+
 bool
 Collision::rectangle_rectangle(CollisionHit& hit, const Rectangle& r1,
-    const Rectangle& r2)
+    const Vector& movement, const Rectangle& r2)
 {
   if(r1.p2.x < r2.p1.x || r1.p1.x > r2.p2.x)
     return false;
   if(r1.p2.y < r2.p1.y || r1.p1.y > r2.p2.y)
     return false;
-  
-  hit.depth = r1.p2.x - r2.p1.x;
-  hit.normal.x = -1;
-  hit.normal.y = 0;
 
-  float px2 = r2.p2.x - r1.p1.x;
-  if(px2 < hit.depth) {
-    hit.depth = px2;
+  float xr;
+  if(movement.x > DELTA) {
+    hit.depth = r1.p2.x - r2.p1.x;
+    hit.normal.x = -1;
+    hit.normal.y = 0;
+    xr = hit.depth / movement.x;
+  } else if(movement.x < -DELTA) {
+    hit.depth = r2.p2.x - r1.p1.x;
     hit.normal.x = 1;
     hit.normal.y = 0;
+    xr = hit.depth / -movement.x;
+  } else {
+    xr = FLT_MAX;
+    if(movement.y > -DELTA && movement.y < DELTA) {
+      return false;
+    }
   }
 
-  float py1 = r1.p2.y - r2.p1.y;
-  if(py1 < hit.depth) {
-    hit.depth = py1;
-    hit.normal.x = 0;
-    hit.normal.y = -1;
-  }
-
-  float py2 = r2.p2.y - r1.p1.y;
-  if(py2 < hit.depth) {
-    hit.depth = py2;
-    hit.normal.x = 0;
-    hit.normal.y = 1;
+  if(movement.y > DELTA) {
+    float ydepth = r1.p2.y - r2.p1.y;
+    float yr = ydepth / movement.y;
+    if(yr < xr) {
+      hit.depth = ydepth;
+      hit.normal.x = 0;
+      hit.normal.y = -1;
+    }
+  } else if(movement.y < -DELTA) {
+    float ydepth = r2.p2.y - r1.p1.y;
+    float yr = ydepth / -movement.y;
+    if(yr < xr) {
+      hit.depth = ydepth;
+      hit.normal.x = 0;
+      hit.normal.y = 1;
+    }
   }
 
   return true;
@@ -65,9 +78,9 @@ static void makePlane(const Vector& p1, const Vector& p2, Vector& n, float& c)
 
 bool
 Collision::rectangle_aatriangle(CollisionHit& hit, const Rectangle& rect,
-    const AATriangle& triangle)
+    const Vector& movement, const AATriangle& triangle)
 {
-  if(!rectangle_rectangle(hit, rect, (const Rectangle&) triangle))
+  if(!rectangle_rectangle(hit, rect, movement, (const Rectangle&) triangle))
     return false;
   
   Vector normal;

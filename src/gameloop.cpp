@@ -724,8 +724,8 @@ GameSession::run()
     global_time += elapsed_time;
     lastticks = ticks;
     // 40fps is minimum
-    if(elapsed_time > .05)
-      elapsed_time = .05;
+    if(elapsed_time > .025)
+      elapsed_time = .025;
     
     /* Handle events: */
     currentsector->player->input.old_fire = currentsector->player->input.fire;

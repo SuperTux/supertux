@@ -35,22 +35,18 @@ Block::~Block()
 HitResponse
 Block::collision(GameObject& other, const CollisionHit& hitdata)
 {
-  if(bouncing)
-    return FORCE_MOVE;
-  
   // TODO kill badguys when bumping them...
   
   Player* player = dynamic_cast<Player*> (&other);
-  if(!player)
-    return ABORT_MOVE;
-
-  // collided from below?
-  if(hitdata.normal.x == 0 && hitdata.normal.y < 0
-      && player->get_movement().y < 0) {
-    hit(*player);
+  if(player) {
+    // collided from below?
+    if(hitdata.normal.x == 0 && hitdata.normal.y < 0
+        && player->get_movement().y < 0) {
+      hit(*player);
+    }
   }
 
-  return ABORT_MOVE;
+  return FORCE_MOVE;
 }
 
 void
@@ -61,9 +57,9 @@ Block::action(float elapsed_time)
   
   float offset = original_y - get_pos().y;
   if(offset > BOUNCY_BRICK_MAX_OFFSET) {
-    bounce_dir *= -1;
+    bounce_dir = BOUNCY_BRICK_SPEED;
     movement = Vector(0, bounce_dir * elapsed_time);
-  } else if(offset < -EPSILON) {
+  } else if(offset < BOUNCY_BRICK_SPEED * elapsed_time && bounce_dir > 0) {
     movement = Vector(0, offset);
     bounce_dir = 0;
     bouncing = false;

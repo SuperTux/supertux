@@ -347,6 +347,7 @@ void
 Menu::clear()
 {
   item.clear();
+  active_item = 0;
 }
 
 /* Process actions done on the menu */

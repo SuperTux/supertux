@@ -14,7 +14,7 @@ class SecretAreaTrigger : public TriggerBase, public Serializable
 {
 public:
   SecretAreaTrigger(LispReader& reader);
-  SecretAreaTrigger(const Vector& pos, const std::string& sequence);
+  SecretAreaTrigger(const Vector& pos);
   ~SecretAreaTrigger();
  
   void write(LispWriter& writer);

@@ -728,7 +728,7 @@ Player::draw(DrawingContext& context)
   else
     tux_body = big_tux;
 
-  int layer = LAYER_OBJECTS - 1;
+  int layer = LAYER_OBJECTS + 10;
 
   /* Set Tux sprite action */
   if (duck && size == BIG)
@@ -858,15 +858,15 @@ Player::draw(DrawingContext& context)
      && !dying)
   {
     if (size == SMALL || duck)
-      smalltux_star->draw(context, get_pos(), LAYER_OBJECTS + 2);
+      smalltux_star->draw(context, get_pos(), layer + 5);
     else
-      bigtux_star->draw(context, get_pos(), LAYER_OBJECTS + 2);
+      bigtux_star->draw(context, get_pos(), layer + 5);
   }
  
   if (debug_mode)
     context.draw_filled_rect(get_pos(),
         Vector(bbox.get_width(), bbox.get_height()),
-        Color(75,75,75, 150), LAYER_OBJECTS+1);
+        Color(75,75,75, 150), LAYER_OBJECTS+20);
 }
 
 HitResponse
@@ -882,7 +882,7 @@ Player::collision(GameObject& other, const CollisionHit& hit)
         physic.set_velocity_y(0);
       on_ground_flag = true;
     } else if(hit.normal.y > 0) { // bumped against the roof
-      physic.set_velocity_y(0);
+      physic.set_velocity_y(.1);
     }
     
     if(hit.normal.x != 0) { // hit on the side?

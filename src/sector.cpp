@@ -668,13 +668,15 @@ Sector::collision_tilemap(MovingObject* object, int depth)
             break;
         }
 
-        if(Collision::rectangle_aatriangle(temphit, dest, triangle)) {
+        if(Collision::rectangle_aatriangle(temphit, dest, object->movement,
+              triangle)) {
           if(temphit.depth > hit.depth)
             hit = temphit;
         }
       } else { // normal rectangular tile
         Rectangle rect(x*32, y*32, (x+1)*32, (y+1)*32);
-        if(Collision::rectangle_rectangle(temphit, dest, rect)) {
+        if(Collision::rectangle_rectangle(temphit, dest,
+              object->movement, rect)) {
           if(temphit.depth > hit.depth)
             hit = temphit;
         }
@@ -683,7 +685,7 @@ Sector::collision_tilemap(MovingObject* object, int depth)
   }
 
   // did we collide at all?
-  if(hit.depth == -1)
+  if(hit.depth < 0)
     return;
  
   // call collision function
@@ -708,19 +710,27 @@ Sector::collision_object(MovingObject* object1, MovingObject* object2)
   dest1.move(object1->get_movement());
   Rectangle dest2 = object2->get_bbox();
   dest2.move(object2->get_movement());
-  if(Collision::rectangle_rectangle(hit, dest1, dest2)) {
-    HitResponse response = object1->collision(*object2, hit);
-    if(response == ABORT_MOVE) {
-      object1->movement = Vector(0, 0);
-    } else if(response == CONTINUE) {
-      object1->movement += hit.normal * (hit.depth/2 + .001);
-    }
+
+  Vector movement = object1->get_movement() - object2->get_movement();
+  if(Collision::rectangle_rectangle(hit, dest1, movement, dest2)) {
+    HitResponse response1 = object1->collision(*object2, hit);
+    Vector hitnormal1 = hit.normal;
     hit.normal *= -1;
-    response = object2->collision(*object1, hit);
-    if(response == ABORT_MOVE) {
-      object2->movement = Vector(0, 0);
-    } else if(response == CONTINUE) {
-      object2->movement += hit.normal * (hit.depth/2 + .001);
+    HitResponse response2 = object2->collision(*object1, hit);
+
+    if(response1 != CONTINUE) {
+      if(response1 == ABORT_MOVE)
+        object1->movement = Vector(0, 0);
+      if(response2 == CONTINUE)
+        object2->movement += hit.normal * (hit.depth + .1);
+    } else if(response2 != CONTINUE) {
+      if(response2 == ABORT_MOVE)
+        object2->movement = Vector(0, 0);
+      if(response1 == CONTINUE)
+        object1->movement += hitnormal1 * (hit.depth + .1);
+    } else {
+      object1->movement += hitnormal1 * (hit.depth/2 + 1);
+      object2->movement += hit.normal * (hit.depth/2 + 1);
     }
   }
 }
@@ -737,7 +747,7 @@ Sector::collision_handler()
     MovingObject* movingobject = dynamic_cast<MovingObject*> (gameobject);
     if(!movingobject)
       continue;
-  
+
     // collision with tilemap
     if(! (movingobject->movement == Vector(0, 0)))
       collision_tilemap(movingobject, 0);
@@ -755,7 +765,7 @@ Sector::collision_handler()
 
       collision_object(movingobject, movingobject2);
     }
-    
+
     movingobject->bbox.move(movingobject->get_movement());
     movingobject->movement = Vector(0, 0);
   }

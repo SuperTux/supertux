@@ -13,8 +13,7 @@ SecretAreaTrigger::SecretAreaTrigger(LispReader& reader)
   reader.read_string("message", message);
 }
 
-SecretAreaTrigger::SecretAreaTrigger(const Vector& pos,
-    const std::string& secretarea)
+SecretAreaTrigger::SecretAreaTrigger(const Vector& pos)
 {
   bbox.set_pos(pos);
   bbox.set_size(32, 32);

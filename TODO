@@ -41,7 +41,7 @@ L: low priority
 --Collision Detection Rewrite (all [H])--
  * make blocks bounce again - ok
  * bonusblocks don't always bounce back to their original position (but stay a
-    few pixels higher)
+    few pixels higher) - hopefully ok
  * it's impossible to go into passages that have exactly the size of tux,
    either reduce collision rectangle by DELTA or round collision coordinates to
    integers... 
@@ -73,6 +73,9 @@ L: low priority
  * rework collision detection to take movement into account - this should fix
     the egg suddenly turning directions and the somtimes strange behaviour
     when hitting a block from the side when falling.
+      - done for rectangles, fixes the issues with blocks and enemies hitting
+        when they should get squished, still it's not optimal as when hitting 2
+        blocks now only 1 gets cleared...
  * rethink slopes collision feedback... tux becomes too slow when walking up
     and starts jumping when walking down
  * think about an attachement mechanism for moving platforms
