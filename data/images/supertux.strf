@@ -81,6 +81,30 @@
          (y-hotspot 9)
          (images "shared/bigtux/arms-stand-right-0.png"))
 
+       (action
+         (name "buttjump-left")
+         (x-hotspot 5)
+         (y-hotspot 9)
+         (images "shared/bigtux/arms-stand-left-0.png"))
+
+       (action
+         (name "buttjump-right")
+         (x-hotspot 5)
+         (y-hotspot 9)
+         (images "shared/bigtux/arms-stand-right-0.png"))
+
+       (action
+         (name "idle-left")
+         (x-hotspot 6)
+         (y-hotspot 8)
+         (images "shared/bigtux/arms-stand-left-0.png"))
+
+       (action
+         (name "idle-right")
+         (x-hotspot 6)
+         (y-hotspot 8)
+         (images "shared/bigtux/arms-stand-right-0.png"))
+
 ; Grabbing is arms specific!
        (action
          (name "grab-left")
@@ -161,7 +185,36 @@
          (name "kick-right")
          (x-hotspot 5)
          (y-hotspot 9)
-         (images "shared/bigtux/head-stand-right-0.png")))
+         (images "shared/bigtux/head-stand-right-0.png"))
+
+       (action
+         (name "buttjump-left")
+         (x-hotspot 5)
+         (y-hotspot 9)
+         (images "shared/bigtux/head-stand-left-0.png"))
+
+       (action
+         (name "buttjump-right")
+         (x-hotspot 5)
+         (y-hotspot 9)
+         (images "shared/bigtux/head-stand-right-0.png"))
+
+       (action
+         (name "idle-left")
+         (fps 1.0)
+         (x-hotspot 6)
+         (y-hotspot 8)
+         (images "shared/bigtux/head-idle-blink-left-0.png"
+                 "shared/bigtux/head-idle-blink-left-1.png"))
+
+       (action
+         (name "idle-right")
+         (fps 1.0)
+         (x-hotspot 6)
+         (y-hotspot 8)
+         (images "shared/bigtux/head-idle-blink-right-0.png"
+                 "shared/bigtux/head-idle-blink-right-1.png")))
+
 
 ;; Big Tux Body
  (sprite
@@ -230,6 +283,30 @@
          (name "kick-right")
          (x-hotspot 5)
          (y-hotspot 9)
+         (images "shared/bigtux/body-stand-right-0.png"))
+
+       (action
+         (name "buttjump-left")
+         (x-hotspot 5)
+         (y-hotspot 9)
+         (images "shared/bigtux/body-stand-left-0.png"))
+
+       (action
+         (name "buttjump-right")
+         (x-hotspot 5)
+         (y-hotspot 9)
+         (images "shared/bigtux/body-stand-right-0.png"))
+
+       (action
+         (name "idle-left")
+         (x-hotspot 6)
+         (y-hotspot 8)
+         (images "shared/bigtux/body-stand-left-0.png"))
+
+       (action
+         (name "idle-right")
+         (x-hotspot 6)
+         (y-hotspot 8)
          (images "shared/bigtux/body-stand-right-0.png")))
 
 ;; Big Tux Feet
@@ -264,8 +341,7 @@
          (fps 15.0)
          (x-hotspot 5)
          (y-hotspot 9)
-         (images "shared/bigtux/feet-stand-left-0.png"
-                 ))
+         (images "shared/bigtux/feet-stand-left-0.png"))
 
        (action
          (name "stand-right")
@@ -310,7 +386,32 @@
          (name "kick-right")
          (x-hotspot 5)
          (y-hotspot 9)
-         (images "shared/bigtux/feet-kick-right-0.png")))
+         (images "shared/bigtux/feet-kick-right-0.png"))
+
+       (action
+         (name "buttjump-left")
+         (x-hotspot 5)
+         (y-hotspot 9)
+         (images "shared/bigtux/feet-buttjump-left-0.png"))
+
+       (action
+         (name "buttjump-right")
+         (x-hotspot 5)
+         (y-hotspot 9)
+         (images "shared/bigtux/feet-buttjump-right-0.png"))
+
+
+       (action
+         (name "idle-left")
+         (x-hotspot 6)
+         (y-hotspot 8)
+         (images "shared/bigtux/feet-stand-left-0.png"))
+
+       (action
+         (name "idle-right")
+         (x-hotspot 6)
+         (y-hotspot 8)
+         (images "shared/bigtux/feet-stand-right-0.png")))
 
 ; End of Big Tux (no power) sprite
 
@@ -382,7 +483,33 @@
          (name "kick-right")
          (x-hotspot 5)
          (y-hotspot 9)
-         (images "shared/bigtux/head-fire-stand-right-0.png")))
+         (images "shared/bigtux/head-fire-stand-right-0.png"))
+
+       (action
+         (name "buttjump-left")
+         (x-hotspot 5)
+         (y-hotspot 9)
+         (images "shared/bigtux/head-fire-stand-left-0.png"))
+
+       (action
+         (name "buttjump-right")
+         (x-hotspot 5)
+         (y-hotspot 9)
+         (images "shared/bigtux/head-fire-stand-right-0.png"))
+
+       (action
+         (name "idle-left")
+         (x-hotspot 6)
+         (y-hotspot 8)
+         (images "shared/bigtux/head-idle-blink-left-0.png"
+                 "shared/bigtux/head-idle-blink-left-1.png"))
+
+       (action
+         (name "idle-right")
+         (x-hotspot 6)
+         (y-hotspot 8)
+         (images "shared/bigtux/head-idle-blink-right-0.png"
+                 "shared/bigtux/head-idle-blink-right-1.png")))
 
 ; End of Big Fire Tux sprite
 
@@ -392,24 +519,24 @@
          (fps 10.0)
          (x-hotspot 13)
          (y-hotspot 6)
-         (images "shared/smalltux-gameover-0.png"
-                 "shared/smalltux-gameover-1.png")))
+         (images "shared/smalltux/gameover-0.png"
+                 "shared/smalltux/gameover-1.png")))
 
  (sprite (name "smalltux-star")
        (action
          (x-hotspot 5)
          (y-hotspot 15)
-         (images "shared/smalltux-star-0.png"
-                 "shared/smalltux-star-1.png"
-                 "shared/smalltux-star-2.png")))
+         (images "shared/smalltux/extra-star-0.png"
+                 "shared/smalltux/extra-star-1.png"
+                 "shared/smalltux/extra-star-2.png")))
 
  (sprite (name "bigtux-star")
        (action
          (x-hotspot 8)
          (y-hotspot 8)
-         (images "shared/bigtux-star-0.png"
-                 "shared/bigtux-star-1.png"
-                 "shared/bigtux-star-2.png")))
+         (images "shared/bigtux/extra-star-0.png"
+                 "shared/bigtux/extra-star-1.png"
+                 "shared/bigtux/extra-star-2.png")))
 
 ;   ;; Growing Tux animation
 ;  (sprite (name "tux-grow-left")
