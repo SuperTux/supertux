@@ -10,11 +10,70 @@
 //
 //
 
+#include <assert.h>
 #include "SDL.h"
 #include "SDL_image.h"
 #include "texture.h"
 #include "globals.h"
 #include "setup.h"
+
+Surface::Surfaces Surface::surfaces;
+
+SurfaceData::SurfaceData(SDL_Surface* surf, int use_alpha_)
+  : type(SURFACE), surface(surf), use_alpha(use_alpha_)
+{
+}
+
+SurfaceData::SurfaceData(const std::string& file_, int use_alpha_)
+  : type(LOAD), file(file_), use_alpha(use_alpha_)
+{
+}
+  
+SurfaceData::SurfaceData(const std::string& file_, int x_, int y_, int w_, int h_, int use_alpha_)
+  : type(LOAD_PART), file(file_), use_alpha(use_alpha_),
+    x(x_), y(y_), w(w_), h(h_)
+{
+}
+
+SurfaceImpl*
+SurfaceData::create()
+{
+  if (use_gl)
+    return create_SurfaceOpenGL();
+  else
+    return create_SurfaceSDL();
+}
+
+SurfaceSDL*
+SurfaceData::create_SurfaceSDL()
+{
+  switch(type)
+    {
+    case LOAD:
+      return new SurfaceSDL(file, use_alpha);
+    case LOAD_PART:
+      return new SurfaceSDL(file, x, y, w, h, use_alpha);
+    case SURFACE:
+      return 0; //new SurfaceSDL(surface, use_alpha);
+    }
+  assert(0);
+}
+
+SurfaceOpenGL*
+SurfaceData::create_SurfaceOpenGL()
+{
+  switch(type)
+    {
+    case LOAD:
+      return new SurfaceOpenGL(file, use_alpha);
+    case LOAD_PART:
+      return new SurfaceOpenGL(file, x, y, w, h, use_alpha);
+    case SURFACE:
+      return 0; //new SurfaceOpenGL(surface, use_alpha);
+    }
+  assert(0);
+}
+
 
 /* Quick utility function for texture creation */
 static int power_of_two(int input)
@@ -28,41 +87,66 @@ static int power_of_two(int input)
 }
 
 Surface::Surface(SDL_Surface* surf, int use_alpha)
+  : data(surf, use_alpha), w(0), h(0)
 {
-  if (use_gl)
-    impl = new SurfaceOpenGL(surf, use_alpha);
-  else
-    impl = new SurfaceSDL(surf, use_alpha);
-
-  w = impl->w;
- h = impl->h;
+  impl = data.create();
+  if (impl) 
+    {
+      w = impl->w;
+      h = impl->h;
+    }
+  surfaces.push_back(this);
 }
 
 Surface::Surface(const std::string& file, int use_alpha)
+  : data(file, use_alpha), w(0), h(0)
 {
-  if (use_gl)
-    impl = new SurfaceOpenGL(file, use_alpha);
-  else
-    impl = new SurfaceSDL(file, use_alpha);
-
-  w = impl->w;
-  h = impl->h;
+  impl = data.create();
+  if (impl) 
+    {
+      w = impl->w;
+      h = impl->h;
+    }
+  surfaces.push_back(this);
 }
 
 Surface::Surface(const std::string& file, int x, int y, int w, int h, int use_alpha)
+  : data(file, x, y, w, h, use_alpha), w(0), h(0)
 {
-  if (use_gl)
-    impl = new SurfaceOpenGL(file, x, y, w, h, use_alpha);
-  else
-    impl = new SurfaceSDL(file, x, y, w, h, use_alpha);
+  impl = data.create();
+  if (impl) 
+    {
+      w = impl->w;
+      h = impl->h;
+    }
+  surfaces.push_back(this);
+}
 
-  w = impl->w;
-  h = impl->h;
+void
+Surface::reload()
+{
+  delete impl;
+  impl = data.create();
+  if (impl) 
+    {
+      w = impl->w;
+      h = impl->h;  
+    }
 }
 
 Surface::~Surface()
 {
+  surfaces.remove(this);
   delete impl;
+}
+
+void
+Surface::reload_all()
+{
+  for(Surfaces::iterator i = surfaces.begin(); i != surfaces.end(); ++i)
+    {
+      (*i)->reload();
+    }
 }
 
 void
@@ -413,7 +497,7 @@ SurfaceSDL::draw(float x, float y, Uint8 alpha, bool update)
   dest.h = h;
   
   if(alpha != 255) /* SDL isn't capable of this kind of alpha :( therefore we'll leave now. */
-  return;
+    return;
   
   SDL_SetAlpha(sdl_surface ,SDL_SRCALPHA,alpha);
   SDL_BlitSurface(sdl_surface, NULL, screen, &dest);
@@ -433,7 +517,7 @@ SurfaceSDL::draw_bg(Uint8 alpha, bool update)
   dest.h = screen->h;
 
   if(alpha != 255)
-  SDL_SetAlpha(sdl_surface ,SDL_SRCALPHA,alpha);
+    SDL_SetAlpha(sdl_surface ,SDL_SRCALPHA,alpha);
   SDL_SoftStretch(sdl_surface, NULL, screen, &dest);
   
   if (update == UPDATE)
@@ -456,7 +540,7 @@ SurfaceSDL::draw_part(float sx, float sy, float x, float y, float w, float h, Ui
   dest.h = (int)h;
 
   if(alpha != 255)
-  SDL_SetAlpha(sdl_surface ,SDL_SRCALPHA,alpha);
+    SDL_SetAlpha(sdl_surface ,SDL_SRCALPHA,alpha);
   
   SDL_BlitSurface(sdl_surface, &src, screen, &dest);
 

@@ -628,7 +628,6 @@ void st_general_free(void)
 
 void st_video_setup(void)
 {
-
   if(screen != NULL)
     SDL_FreeSurface(screen);
 
@@ -649,9 +648,10 @@ void st_video_setup(void)
   else
     st_video_setup_sdl();
 
+  Surface::reload_all();
+
   /* Set window manager stuff: */
   SDL_WM_SetCaption("SuperTux " VERSION, "SuperTux");
-
 }
 
 void st_video_setup_sdl(void)
