@@ -152,16 +152,8 @@ Tile*
 TileManager::get(unsigned int id)
 {
 Tiles::iterator i = tiles.find(id);
-
 if(i == tiles.end())
-  {
-  std::cerr << "Warning: Asked for a non-existing tile id. Ignoring.\n";
-  // Never return 0, but return the first tile instead so that
-  // user code doesn't have to check for NULL pointers all over
-  // the place
-  i = tiles.begin();
-  return i->second;
-  }
+  return 0;
 return i->second;
 }
 

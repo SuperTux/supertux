@@ -155,6 +155,8 @@ TileMap::draw(DrawingContext& context)
       int tx, ty;
       for(pos.x = start_x, tx = tsx; pos.x < end_x; pos.x += 32, ++tx) {
         for(pos.y = start_y, ty = tsy; pos.y < end_y; pos.y += 32, ++ty) {
+          if(tx < 0 || tx > width || ty < 0 || ty > height)
+            continue;  // outside tilemap
           if (!tiles[ty*width + tx].hidden)
             tilemanager->draw_tile(context, tiles[ty*width + tx].id, pos, layer);
         }
@@ -186,6 +188,8 @@ TileMap::draw(DrawingContext& context)
       int tx, ty;
       for(pos.x = start_x, tx = tsx; pos.x < end_x; pos.x += 32, ++tx) {
         for(pos.y = start_y, ty = tsy; pos.y < end_y; pos.y += 32, ++ty) {
+          if(tx < 0 || tx > width || ty < 0 || ty > height)
+            continue;  // outside tilemap
           if (!tiles[ty*width + tx].hidden)
             tilemanager->draw_tile(context, tiles[ty*width + tx].id, pos, layer);
         }
