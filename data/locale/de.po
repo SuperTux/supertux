@@ -419,9 +419,8 @@ msgid "B button"
 msgstr ""
 
 #: src/misc.cpp:162
-#, fuzzy
 msgid "Save Game"
-msgstr "Spiel Beginnen"
+msgstr "Spiel Speichern"
 
 #: src/misc.cpp:172 src/misc.cpp:179
 msgid "Pause"
@@ -432,14 +431,12 @@ msgid "Continue"
 msgstr ""
 
 #: src/misc.cpp:177
-#, fuzzy
 msgid "Abort Level"
-msgstr "Zusatzlevel"
+msgstr "Level Abbrechen"
 
 #: src/misc.cpp:184
-#, fuzzy
 msgid "Quit Game"
-msgstr "Spiel Beginnen"
+msgstr "Spiel Beenden"
 
 #: src/misc.cpp:186
 msgid "Enter your name:"
