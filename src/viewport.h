@@ -2,7 +2,6 @@
 #define __VIEWPORT_H__
 
 #include "vector.h"
-#include "rectangle.h"
 
 class ViewPort
 {
