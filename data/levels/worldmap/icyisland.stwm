@@ -4,6 +4,7 @@
     (name  "Icyisland")
     (name-pt_PT  "Ilha Gelada")
     (name-de "Eisige Insel")
+    (name-es "Isla de hielo")
     (music "SALCON.MOD")
     (start_pos_x 4)
     (start_pos_y 5))
@@ -45,7 +46,7 @@
 
 
   (levels
-    (level (name "world1/level1.stl")
+    (level (name "")
            (x 4)
            (y 6))
     (level (name "world1/level2.stl")
