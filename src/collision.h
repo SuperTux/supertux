@@ -21,36 +21,20 @@
 #ifndef SUPERTUX_COLLISION_H
 #define SUPERTUX_COLLISION_H
 
-#include "special/base.h"
+#include "math/rectangle.h"
 
 using namespace SuperTux;
 
-class Tile;
-
-/* Collision objects */
-enum
-{
-  CO_BULLET,
-  CO_BADGUY,
-  CO_PLAYER,
-  CO_TRAMPOLINE,
-  CO_FLYING_PLATFORM
-};
-
-enum CollisionType {
-    COLLISION_NORMAL,
-    COLLISION_BUMP,
-    COLLISION_SQUISH
-};
-
+#if 0
 bool rectcollision(const base_type& one, const base_type& two);
 bool rectcollision_offset(const base_type& one, const base_type& two, float off_x, float off_y);
 
 void collision_swept_object_map(base_type* old, base_type* current);
 bool collision_object_map(const base_type& object);
+bool collision_object_map(const Rectangle& rect);
 
 /** Return a pointer to the tile at the given x/y coordinates */
-Tile* gettile(float x, float y);
+const Tile* gettile(float x, float y);
 
 // Some little helper function to check for tile properties
 bool  issolid(float x, float y);
@@ -59,14 +43,14 @@ bool  isice(float x, float y);
 bool  isspike(float x, float y);
 bool  isfullbox(float x, float y);
 
-typedef void* (*tiletestfunction)(Tile* tile);
+typedef void* (*tiletestfunction)(const Tile* tile);
 /** invokes the function for each tile the baserectangle collides with. The
  * function aborts and returns true as soon as the tiletestfunction returns
  * != 0 then this value is returned. returns 0 if all tests failed.
  */
 void* collision_func(const base_type& base, tiletestfunction* function);
-
-Tile* collision_goal(const base_type& base);
+const Tile* collision_goal(const Rectangle& rect);
+#endif
 
 #endif /*SUPERTUX_COLLISION_H*/
 

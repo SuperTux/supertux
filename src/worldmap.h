@@ -27,7 +27,11 @@
 #include "audio/musicref.h"
 #include "video/screen.h"
 #include "statistics.h"
-#include "special/timer.h"
+#include "timer.h"
+
+namespace SuperTux {
+  class Menu;
+}
 
 extern Menu* worldmap_menu;
 
@@ -216,7 +220,7 @@ public:
   };
 
   /** Variables to deal with the passive map messages */
-  Timer passive_message_timer;
+  Timer2 passive_message_timer;
   std::string passive_message;
 
 private:
@@ -244,7 +248,7 @@ private:
   Statistics total_stats;
   void calculate_total_stats();
 
-  Timer frame_timer;
+  Timer2 frame_timer;
 
 public:
   WorldMap();

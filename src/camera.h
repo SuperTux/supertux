@@ -56,9 +56,8 @@ public:
 
   virtual void action(float elapsed_time);
 
-  virtual void draw(DrawingContext& context)
+  virtual void draw(DrawingContext& )
   {
-    UNUSED_ARG(context);
   }
 
   void set_scrolling(int scroll_x, int scroll_y)

@@ -23,7 +23,6 @@
 #include <vector>
 #include <set>
 #include <string>
-#include "../gui/menu.h"
 
 namespace SuperTux {
 

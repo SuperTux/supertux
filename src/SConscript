@@ -1,7 +1,7 @@
 Import('*')
 
 supertux_src = Glob(
-    dirs=[".", "object", "badguy"],
+    dirs=[".", "object", "badguy", "trigger"],
     pattern="*.cpp"
 )
 app = env.Program(

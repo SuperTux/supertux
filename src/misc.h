@@ -19,7 +19,6 @@
 #define SUPERTUX_MISC_H
 
 #include "app/setup.h"
-#include "app/globals.h"
 #include "resources.h"
 #include "gui/menu.h"
 #include "utils/configfile.h"
@@ -44,16 +43,11 @@ enum OptionsMenuIDs {
   MNID_SHOWFPS
   };
 
-/* Screen proprities: */
-/* Don't use this to test for the actual screen sizes. Use screen->w/h instead! */
-#define SCREEN_W 800
-#define SCREEN_H 600
-    
 /* Handle changes made to global settings in the options menu. */
-void process_options_menu(void);
+void process_options_menu();
 
 /* Create and setup menus. */
-void st_menu(void);
+void st_menu();
 void st_menu_free();
 
 #endif //SUPERTUX_MISC_H

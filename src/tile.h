@@ -41,9 +41,9 @@ public:
   ~Tile();
 
   /// parses the tile and returns it's id number
-  int read(LispReader& reader);
+  void read(LispReader& reader);
 
-  int id;
+  unsigned int id;
 
   std::vector<Surface*> images;
   std::vector<Surface*> editor_images;
@@ -70,7 +70,9 @@ public:
        * if data is 0 then the endsequence should be triggered, if data is 1
        * then we can finish the level instantly.
        */
-      GOAL      = 0x0100
+      GOAL      = 0x0100,
+      /** slope tile */
+      SLOPE     = 0x0200
   };
 
   /** tile attributes */
@@ -85,11 +87,8 @@ public:
 
   int anim_speed;
 
-  /** This is the angle of the slope. Set to 0, if this is no slope. */
-  float slope_angle;
-  
-  /** Draw a tile on the screen: */
-  static void draw(const Vector& pos, unsigned int c, Uint8 alpha = 255);
+  /** Draw a tile on the screen */
+  void draw(DrawingContext& context, const Vector& pos, int layer) const;
 
   /// returns the width of the tile in pixels
   int getWidth() const

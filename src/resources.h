@@ -21,13 +21,15 @@
 #define SUPERTUX_RESOURCES_H
 
 #include "audio/musicref.h"
-#include "gui/menu.h"
 
 using namespace SuperTux;
 
 namespace SuperTux {
 class SpriteManager;
 class SoundManager;
+class Menu;
+class Font;
+class Surface;
 }
 
 /* Sound files: */
@@ -71,7 +73,6 @@ extern MusicRef herring_song;
 extern MusicRef level_end_song;
 
 extern SpriteManager* sprite_manager;
-extern SoundManager* sound_manager;
 
 extern Menu* contrib_menu;
 extern Menu* contrib_subset_menu;
@@ -96,6 +97,4 @@ void loadshared();
 void unloadshared();
 
 #endif
-
-/* EOF */
 

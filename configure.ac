@@ -18,7 +18,10 @@ AC_CANONICAL_TARGET
 AM_INIT_AUTOMAKE
 dnl This is obsolete see automake1.7 // AM_CONFIG_HEADER
 
-SDL_VERSION=1.2.4
+# we don't want the stupid autoconf default -g -O2
+test ".$CXXFLAGS" = "." && CXXFLAGS=" "
+
+CXXFLAGS="$CXXFLAGS -ffast-math"
 
 AC_PROG_CC
 AC_PROG_CXX
@@ -40,7 +43,7 @@ AC_MSG_CHECKING(for gprof mode)
 AC_ARG_ENABLE(gprof,
               AC_HELP_STRING([--enable-gprof], [enable GNU profiling support]),
               [enable_gprof=$enableval], [enable_gprof=no])
-if test "$enable_gprof" = "no"; then
+if test "$enable_gprof" = "yes"; then
     CXXFLAGS="$CXXFLAGS -pg"
     AC_MSG_RESULT([enabled])
 else
@@ -52,9 +55,11 @@ AC_ARG_ENABLE(debug,
               AC_HELP_STRING([--enable-debug], [enable debugging mode]),
               [enable_debug=$enableval], [enable_debug=no])
 if test "$enable_debug" = "yes"; then
-    CXXFLAGS="$CXXFLAGS -Wall -Werror -DDEBUG -O0 -g3"
+    AC_DEFINE([DEBUG], 1, [define to compile in debug checks])
+    CXXFLAGS="$CXXFLAGS -Wall -Werror -O0 -g3"
     AC_MSG_RESULT([enabled])
 else
+    CXXFLAGS="$CXXFLAGS -O2 -g"
     AC_MSG_RESULT([disabled])
 fi
 
@@ -72,6 +77,7 @@ AM_GNU_GETTEXT
 
 dnl ===========================================================================
 dnl Check for SDL
+SDL_VERSION=1.2.4
 AM_PATH_SDL($SDL_VERSION,
             :,
 	    AC_MSG_ERROR([*** SDL version $SDL_VERSION not found!]))

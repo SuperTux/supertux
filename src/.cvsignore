@@ -4,4 +4,4 @@ Makefile
 Makefile.in
 supertux
 *.exe
-
+.sconsign

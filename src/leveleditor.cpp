@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <config.h>
+
 #include <stdlib.h>
 #include <algorithm>
 
@@ -36,128 +38,129 @@
 #include "gameloop.h"
 #include "badguy.h"
 #include "gameobjs.h"
-#include "door.h"
 #include "camera.h"
 
 LevelEditor::LevelEditor()
 {
-show_grid = true;
+  show_grid = true;
 
-selection.clear();
-global_frame_counter = 0;
-frame_timer.init(true);
-level_name_timer.init(true);
-selection_end = selection_ini = Vector(0,0);
-left_button = middle_button = mouse_moved =  false;
-level = 0;
-level_subset = 0;
+  selection.clear();
+  global_frame_counter = 0;
+  selection_end = selection_ini = Vector(0,0);
+  left_button = middle_button = mouse_moved =  false;
+  level = 0;
+  level_subset = 0;
 
-cur_layer = LAYER_TILES;
-level_changed = false;
+  cur_layer = LAYER_TILES;
+  level_changed = false;
 
-sector = 0;
-zoom = 1.0;
+  sector = 0;
+  zoom = 1.0;
 
-/* Creating menus */
-level_subsets = FileSystem::dsubdirs("/levels", "info");
-subset_menu = new Menu();
-subset_menu->additem(MN_LABEL,_("Load Subset"),0,0);
-subset_menu->additem(MN_HL,"",0,0);
-int i = 0;
-for(std::set<std::string>::iterator it = level_subsets.begin(); it != level_subsets.end(); ++it, ++i)
-  subset_menu->additem(MN_ACTION, (*it),0,0,i);
-subset_menu->additem(MN_HL,"",0,0);
-subset_menu->additem(MN_BACK,_("Back"),0,0);
+  /* Creating menus */
+  level_subsets = FileSystem::dsubdirs("/levels", "info");
+  subset_menu = new Menu();
+  subset_menu->additem(MN_LABEL,_("Load Subset"),0,0);
+  subset_menu->additem(MN_HL,"",0,0);
+  int i = 0;
+  for(std::set<std::string>::iterator it = level_subsets.begin(); it != level_subsets.end(); ++it, ++i)
+    subset_menu->additem(MN_ACTION, (*it),0,0,i);
+  subset_menu->additem(MN_HL,"",0,0);
+  subset_menu->additem(MN_BACK,_("Back"),0,0);
 
-create_subset_menu = new Menu();
-create_subset_menu->additem(MN_LABEL,_("New Level Subset"),0,0);
-create_subset_menu->additem(MN_HL,"",0,0);
-create_subset_menu->additem(MN_TEXTFIELD,_("Filename   "),0,0,MN_ID_FILENAME_SUBSET);
-create_subset_menu->additem(MN_TEXTFIELD,_("Title      "),0,0,MN_ID_TITLE_SUBSET);
-create_subset_menu->additem(MN_TEXTFIELD,_("Description"),0,0,MN_ID_DESCRIPTION_SUBSET);
-create_subset_menu->additem(MN_ACTION,_("Create"),0,0, MN_ID_CREATE_SUBSET);
-create_subset_menu->additem(MN_HL,"",0,0);
-create_subset_menu->additem(MN_BACK,_("Back"),0,0);
+  create_subset_menu = new Menu();
+  create_subset_menu->additem(MN_LABEL,_("New Level Subset"),0,0);
+  create_subset_menu->additem(MN_HL,"",0,0);
+  create_subset_menu->additem(MN_TEXTFIELD,_("Filename   "),0,0,MN_ID_FILENAME_SUBSET);
+  create_subset_menu->additem(MN_TEXTFIELD,_("Title      "),0,0,MN_ID_TITLE_SUBSET);
+  create_subset_menu->additem(MN_TEXTFIELD,_("Description"),0,0,MN_ID_DESCRIPTION_SUBSET);
+  create_subset_menu->additem(MN_ACTION,_("Create"),0,0, MN_ID_CREATE_SUBSET);
+  create_subset_menu->additem(MN_HL,"",0,0);
+  create_subset_menu->additem(MN_BACK,_("Back"),0,0);
 
-main_menu = new Menu();
-main_menu->additem(MN_LABEL,_("Level Editor Menu"),0,0);
-main_menu->additem(MN_HL,"",0,0);
-main_menu->additem(MN_ACTION,_("Return to Level Editor"),0,0,MN_ID_RETURN);
-main_menu->additem(MN_GOTO,_("Create Level Subset"),0,create_subset_menu);
-main_menu->additem(MN_GOTO,_("Load Level Subset"),0,subset_menu);
-main_menu->additem(MN_HL,"",0,0);
-main_menu->additem(MN_ACTION,_("Quit Level Editor"),0,0,MN_ID_QUIT);
+  main_menu = new Menu();
+  main_menu->additem(MN_LABEL,_("Level Editor Menu"),0,0);
+  main_menu->additem(MN_HL,"",0,0);
+  main_menu->additem(MN_ACTION,_("Return to Level Editor"),0,0,MN_ID_RETURN);
+  main_menu->additem(MN_GOTO,_("Create Level Subset"),0,create_subset_menu);
+  main_menu->additem(MN_GOTO,_("Load Level Subset"),0,subset_menu);
+  main_menu->additem(MN_HL,"",0,0);
+  main_menu->additem(MN_ACTION,_("Quit Level Editor"),0,0,MN_ID_QUIT);
 
-settings_menu = new Menu();
-settings_menu->additem(MN_LABEL,_("Level Settings"),0,0);
-settings_menu->additem(MN_HL,"",0,0);
-settings_menu->additem(MN_TEXTFIELD,_("Name    "),0,0,MN_ID_NAME);
-settings_menu->additem(MN_TEXTFIELD,_("Author  "),0,0,MN_ID_AUTHOR);
-settings_menu->additem(MN_NUMFIELD, _("Width   "),0,0,MN_ID_WIDTH);
-settings_menu->additem(MN_NUMFIELD, _("Height  "),0,0,MN_ID_HEIGHT);
-settings_menu->additem(MN_HL,"",0,0);
-settings_menu->additem(MN_ACTION,_("Apply"),0,0,MN_ID_APPLY_SETTINGS);
+  settings_menu = new Menu();
+  settings_menu->additem(MN_LABEL,_("Level Settings"),0,0);
+  settings_menu->additem(MN_HL,"",0,0);
+  settings_menu->additem(MN_TEXTFIELD,_("Name    "),0,0,MN_ID_NAME);
+  settings_menu->additem(MN_TEXTFIELD,_("Author  "),0,0,MN_ID_AUTHOR);
+  settings_menu->additem(MN_NUMFIELD, _("Width   "),0,0,MN_ID_WIDTH);
+  settings_menu->additem(MN_NUMFIELD, _("Height  "),0,0,MN_ID_HEIGHT);
+  settings_menu->additem(MN_HL,"",0,0);
+  settings_menu->additem(MN_ACTION,_("Apply"),0,0,MN_ID_APPLY_SETTINGS);
 
-/* Creating button groups */
-load_buttons_gfx();
+  /* Creating button groups */
+  load_buttons_gfx();
 
-tiles_board = new ButtonGroup(Vector(screen->w - 140, 100),
-          Vector(32,32), Vector(4,8));
+  tiles_board = new ButtonGroup(Vector(screen->w - 140, 100),
+            Vector(32,32), Vector(4,8));
 
-TileManager* tilemanager = TileManager::instance();
+  TileManager* tilemanager = TileManager::instance();
 
-tiles_board->add_button(Button(img_rubber_bt, _("Eraser"), SDLKey(SDLK_DELETE)), 0);
-for(unsigned int id = 1; id < tilemanager->total_ids(); id++)
-  {
-  Tile* tile = tilemanager->get(id);
-  if(!tile)
-    continue;
+  tiles_board->add_button(Button(img_rubber_bt, _("Eraser"), SDLKey(SDLK_DELETE)), 0);
+  for(unsigned int id = 1; id < tilemanager->get_max_tileid(); id++)
+    {
+    const Tile* tile = tilemanager->get(id);
+    if(!tile)
+      continue;
 
-  Surface* surface;
-  if(tile->editor_images.size())
-    surface = tile->editor_images[0];
-  else if(tile->images.size())
-    surface = tile->images[0];
-  else
-    continue;
+    Surface* surface;
+    if(tile->editor_images.size())
+      surface = tile->editor_images[0];
+    else if(tile->images.size())
+      surface = tile->images[0];
+    else
+      continue;
 
-  Button button = Button(surface, "", SDLKey(0));
-  tiles_board->add_button(button, id);
-  }
-for(int i = 0; i < NUM_BadGuyKinds; i++)
-  {
-  // filter bomb, since it is only for internal use, not for levels
-  if(i == BAD_BOMB)
-    continue;
+    Button button = Button(surface, "", SDLKey(0));
+    tiles_board->add_button(button, id);
+    }
 
-  BadGuyKind kind = BadGuyKind(i);
-  BadGuy badguy(kind, 0,0);
-  badguy.activate(LEFT);
+  #if 0
+  for(int i = 0; i < NUM_BadGuyKinds; i++)
+    {
+    // filter bomb, since it is only for internal use, not for levels
+    if(i == BAD_BOMB)
+      continue;
 
-  Surface *img = badguy.get_image();
-  tiles_board->add_button(Button(img, "", SDLKey(SDLK_1+i)), -(i+1));
-  }
+    BadGuyKind kind = BadGuyKind(i);
+    BadGuy badguy(kind, 0,0);
+    badguy.activate(LEFT);
 
-tiles_board->add_button(Button(img_trampoline[0].get_frame(0), _("Trampoline"), SDLKey(0)), OBJ_TRAMPOLINE);
-tiles_board->add_button(Button(img_flying_platform->get_frame(0), _("Flying Platform"), SDLKey(0)), OBJ_FLYING_PLATFORM);
-tiles_board->add_button(Button(door->get_frame(0), _("Door"), SDLKey(0)), OBJ_DOOR);
+    Surface *img = badguy.get_image();
+    tiles_board->add_button(Button(img, "", SDLKey(SDLK_1+i)), -(i+1));
+    }
+  #endif
 
-tiles_layer = new ButtonGroup(Vector(12, screen->h-64), Vector(80,20), Vector(1,3));
-tiles_layer->add_button(Button(img_foreground_bt, _("Edtit foreground tiles"),
-                       SDLK_F10), LAYER_FOREGROUNDTILES);
-tiles_layer->add_button(Button(img_interactive_bt, _("Edit interactive tiles"),
-                       SDLK_F11), LAYER_TILES, true);
-tiles_layer->add_button(Button(img_background_bt, _("Edit background tiles"),
-                       SDLK_F12), LAYER_BACKGROUNDTILES);
+  #if 0
+  tiles_board->add_button(Button(img_trampoline[0].get_frame(0), _("Trampoline"), SDLKey(0)), OBJ_TRAMPOLINE);
+  tiles_board->add_button(Button(img_flying_platform->get_frame(0), _("Flying Platform"), SDLKey(0)), OBJ_FLYING_PLATFORM);
+  #endif
 
-level_options = new ButtonGroup(Vector(screen->w-164, screen->h-36), Vector(32,32), Vector(5,1));
-level_options->add_pair_of_buttons(Button(img_next_sector_bt, _("Next sector"), SDLKey(0)), BT_NEXT_SECTOR,
-               Button(img_previous_sector_bt, _("Prevous sector"), SDLKey(0)), BT_PREVIOUS_SECTOR);
-level_options->add_pair_of_buttons(Button(img_next_level_bt, _("Next level"), SDLKey(0)), BT_NEXT_LEVEL,
-               Button(img_previous_level_bt, _("Prevous level"), SDLKey(0)), BT_PREVIOUS_LEVEL);
-level_options->add_button(Button(img_save_level_bt, _("Save level"), SDLK_F5), BT_LEVEL_SAVE);
-level_options->add_button(Button(img_test_level_bt, _("Test level"), SDLK_F6), BT_LEVEL_TEST);
-level_options->add_button(Button(img_setup_level_bt, _("Setup level"), SDLK_F7), BT_LEVEL_SETUP);
+  tiles_layer = new ButtonGroup(Vector(12, screen->h-64), Vector(80,20), Vector(1,3));
+  tiles_layer->add_button(Button(img_foreground_bt, _("Edtit foreground tiles"),
+                         SDLK_F10), LAYER_FOREGROUNDTILES);
+  tiles_layer->add_button(Button(img_interactive_bt, _("Edit interactive tiles"),
+                         SDLK_F11), LAYER_TILES, true);
+  tiles_layer->add_button(Button(img_background_bt, _("Edit background tiles"),
+                         SDLK_F12), LAYER_BACKGROUNDTILES);
+
+  level_options = new ButtonGroup(Vector(screen->w-164, screen->h-36), Vector(32,32), Vector(5,1));
+  level_options->add_pair_of_buttons(Button(img_next_sector_bt, _("Next sector"), SDLKey(0)), BT_NEXT_SECTOR,
+                 Button(img_previous_sector_bt, _("Prevous sector"), SDLKey(0)), BT_PREVIOUS_SECTOR);
+  level_options->add_pair_of_buttons(Button(img_next_level_bt, _("Next level"), SDLKey(0)), BT_NEXT_LEVEL,
+                 Button(img_previous_level_bt, _("Prevous level"), SDLKey(0)), BT_PREVIOUS_LEVEL);
+  level_options->add_button(Button(img_save_level_bt, _("Save level"), SDLK_F5), BT_LEVEL_SAVE);
+  level_options->add_button(Button(img_test_level_bt, _("Test level"), SDLK_F6), BT_LEVEL_TEST);
+  level_options->add_button(Button(img_setup_level_bt, _("Setup level"), SDLK_F7), BT_LEVEL_SETUP);
 }
 
 LevelEditor::~LevelEditor()
@@ -230,6 +233,7 @@ else
 
 mouse_cursor->set_state(MC_NORMAL);
 
+frame_timer.start(.25, true);
 done = false;
 while(!done)
   {
@@ -531,10 +535,8 @@ if(tiles_board->is_hover() || tiles_layer->is_hover() || level_options->is_hover
 
 if(sector)
   {
-  if(!frame_timer.check())
-    {
-    frame_timer.start(25);
-    ++global_frame_counter;
+    if(frame_timer.check()) {
+      ++global_frame_counter;
     }
 
   // don't scroll before the start or after the level's end
@@ -562,7 +564,7 @@ if(sector)
   }
 }
 
-#define FADING_TIME 600
+#define FADING_TIME .6
 
 void LevelEditor::draw(DrawingContext& context)
 {
@@ -575,8 +577,8 @@ context.draw_filled_rect(Vector(0,0), Vector(screen->w,screen->h), Color(60,60,6
 if(level_name_timer.check())
   {
   context.push_transform();
-  if(level_name_timer.get_left() < FADING_TIME)
-    context.set_alpha(level_name_timer.get_left() * 255 / FADING_TIME);
+  if(level_name_timer.get_timeleft() < FADING_TIME)
+    context.set_alpha(int(level_name_timer.get_timeleft() * 255 / FADING_TIME));
 
   context.draw_text(gold_text, level->name, Vector(screen->w/2, 30), CENTER_ALLIGN, LAYER_GUI);
   if(level_nb != -1)
@@ -619,17 +621,22 @@ if(sector)
         {
         int id = selection[0][0];
 
+#if 0
         if(id == OBJ_TRAMPOLINE)
           context.draw_surface(img_trampoline[0].get_frame(0), Vector(event.button.x - 8,
           event.button.y - 8), LAYER_GUI-2);
         else if(id == OBJ_FLYING_PLATFORM)
           context.draw_surface(img_flying_platform->get_frame(0), Vector(event.button.x - 8,
           event.button.y - 8), LAYER_GUI-2);
-        else if(id == OBJ_DOOR)
-          context.draw_surface(door->get_frame(0), Vector(event.button.x - 8,
-          event.button.y - 8), LAYER_GUI-2);
+        else
+#endif
+        if(id == OBJ_DOOR)
+          /*context.draw_surface(door->get_frame(0), Vector(event.button.x - 8,
+          event.button.y - 8), LAYER_GUI-2);*/
+          ;
         else
           {
+#if 0
           BadGuyKind kind = BadGuyKind((-id)-1);
           BadGuy badguy(kind, 0,0);
           badguy.activate(LEFT);
@@ -637,16 +644,19 @@ if(sector)
 
           context.draw_surface(img, Vector(event.button.x - 8,
           event.button.y - 8), LAYER_GUI-2);
+#endif
           }
         }
       else
         {
         TileManager* tilemanager = TileManager::instance();
         for(unsigned int x = 0; x < selection.size(); x++)
-          for(unsigned int y = 0; y < selection[x].size(); y++)
-            tilemanager->draw_tile(context, selection[x][y],
+          for(unsigned int y = 0; y < selection[x].size(); y++) {
+            const Tile* tile = tilemanager->get(selection[x][y]);
+            tile->draw(context,
                 Vector(event.button.x + x*32 - 8, event.button.y + y*32 - 8),
                 LAYER_GUI-2);
+          }
         }
       }
     context.set_drawing_effect(NONE_EFFECT);
@@ -791,9 +801,11 @@ foregrounds = solids = backgrounds = 0;
 /* Point foregrounds, backgrounds, solids to its layer */
 for(Sector::GameObjects::iterator i = sector->gameobjects.begin(); i != sector->gameobjects.end(); i++)
   {
+#if 0
   BadGuy* badguy = dynamic_cast<BadGuy*> (*i);
   if(badguy)
     badguy->activate(LEFT);
+#endif
 
   TileMap* tilemap = dynamic_cast<TileMap*> (*i);
   if(tilemap)
@@ -835,83 +847,88 @@ level_changed = false;
 
 void LevelEditor::test_level()
 {
-if(level_changed)
-  {
-  if(confirm_dialog(NULL, _("Level not saved. Wanna to?")))
-    save_level();
-  else
-    return;
+  if(level_changed) {
+    if(confirm_dialog(NULL, _("Level not saved. Wanna to?")))
+      save_level();
+    else
+      return;
   }
 
-GameSession session(level_filename, ST_GL_TEST);
-session.run();
-//  player_status.reset();
-if(sound_manager)
-  sound_manager->halt_music();
+  GameSession session(level_filename, ST_GL_TEST);
+  session.run();
+  //  player_status.reset();
+  SoundManager::get()->halt_music();
 }
 
 void LevelEditor::change(int x, int y, int newtile, int layer)
-{  // find the tilemap of the current layer, and then change the tile
-if(x < 0 || (unsigned int)x >= sector->solids->get_width()*32 ||
-   y < 0 || (unsigned int)y >= sector->solids->get_height()*32)
-  return;
+{  
+  // find the tilemap of the current layer, and then change the tile
+  if(x < 0 || (unsigned int)x >= sector->solids->get_width()*32 ||
+      y < 0 || (unsigned int)y >= sector->solids->get_height()*32)
+    return;
 
-level_changed = true;
-
-if(zoom != 1)
+  level_changed = true;
+  
+  if(zoom != 1)
   {  // no need to do this for normal view (no zoom)
-  x = (int)(x * (zoom*32) / 32);
-  y = (int)(y * (zoom*32) / 32);
+    x = (int)(x * (zoom*32) / 32);
+    y = (int)(y * (zoom*32) / 32);
   }
 
-if(newtile < 0)  // add object
+  if(newtile < 0)  // add object
   {
-  // remove an active tile or object that might be there
-  change(x, y, 0, LAYER_TILES);
+    // remove an active tile or object that might be there
+    change(x, y, 0, LAYER_TILES);
 
-  if(newtile == OBJ_TRAMPOLINE)
-    sector->add_object(new Trampoline(x, y));
-  else if(newtile == OBJ_FLYING_PLATFORM)
-    sector->add_object(new FlyingPlatform(x, y));
-  else if(newtile == OBJ_DOOR)
-    sector->add_object(new Door(x, y));
-  else
-    sector->add_bad_guy(x, y, BadGuyKind((-newtile)-1), true);
+#if 0
+    if(newtile == OBJ_TRAMPOLINE)
+      sector->add_object(new Trampoline(x, y));
+    else if(newtile == OBJ_FLYING_PLATFORM)
+      sector->add_object(new FlyingPlatform(x, y));
+    else
+      if(newtile == OBJ_DOOR)
+        sector->add_object(new Door(x, y));
+      else
+        sector->add_bad_guy(x, y, BadGuyKind((-newtile)-1), true);
+#endif
 
-  sector->update_game_objects();
-  }
-else if(cur_layer == LAYER_FOREGROUNDTILES)
-  foregrounds->change(x/32, y/32, newtile);
-else if(cur_layer == LAYER_TILES)
-  {
-  // remove a bad guy if it's there
-  // we /32 in order to round numbers
-  for(Sector::GameObjects::iterator i = sector->gameobjects.begin(); i < sector->gameobjects.end(); i++)
-    {
-    BadGuy* badguy = dynamic_cast<BadGuy*> (*i);
-    if(badguy)
-      if((int)badguy->base.x/32 == x/32 && (int)badguy->base.y/32 == y/32)
-        sector->gameobjects.erase(i);
-    Trampoline* trampoline = dynamic_cast<Trampoline*> (*i);
-    if(trampoline)
-    {
-      if((int)trampoline->base.x/32 == x/32 && (int)trampoline->base.y/32 == y/32)
-        sector->gameobjects.erase(i);
-        }
-    FlyingPlatform* flying_platform = dynamic_cast<FlyingPlatform*> (*i);
-    if(flying_platform)
-      if((int)flying_platform->base.x/32 == x/32 && (int)flying_platform->base.y/32 == y/32)
-        sector->gameobjects.erase(i);
-    Door* door = dynamic_cast<Door*> (*i);
-    if(door)
-      if((int)door->get_area().x/32 == x/32 && (int)door->get_area().y/32 == y/32)
-        sector->gameobjects.erase(i);
+    sector->update_game_objects();
+  } else if(cur_layer == LAYER_FOREGROUNDTILES) {
+    foregrounds->change(x/32, y/32, newtile);
+  } else if(cur_layer == LAYER_TILES) {
+    // remove a bad guy if it's there
+    // we /32 in order to round numbers
+    for(Sector::GameObjects::iterator i = sector->gameobjects.begin();
+        i < sector->gameobjects.end(); i++) {
+#if 0
+      BadGuy* badguy = dynamic_cast<BadGuy*> (*i);
+      if(badguy)
+        if((int)badguy->base.x/32 == x/32 && (int)badguy->base.y/32 == y/32)
+          sector->gameobjects.erase(i);
+#endif
+#if 0
+      Trampoline* trampoline = dynamic_cast<Trampoline*> (*i);
+      if(trampoline)
+      {
+        if((int)trampoline->base.x/32 == x/32 && (int)trampoline->base.y/32 == y/32)
+          sector->gameobjects.erase(i);
+      }
+      FlyingPlatform* flying_platform = dynamic_cast<FlyingPlatform*> (*i);
+      if(flying_platform)
+        if((int)flying_platform->base.x/32 == x/32 && (int)flying_platform->base.y/32 == y/32)
+          sector->gameobjects.erase(i);
+#endif
+#if 0
+      Door* door = dynamic_cast<Door*> (*i);
+      if(door)
+        if((int)door->get_area().x/32 == x/32 && (int)door->get_area().y/32 == y/32)
+          sector->gameobjects.erase(i);
+#endif
     }
-  sector->update_game_objects();
-  solids->change(x/32, y/32, newtile);
-  }
-else if(cur_layer == LAYER_BACKGROUNDTILES)
-  backgrounds->change(x/32, y/32, newtile);
+    sector->update_game_objects();
+    solids->change(x/32, y/32, newtile);
+  } else if(cur_layer == LAYER_BACKGROUNDTILES)
+    backgrounds->change(x/32, y/32, newtile);
 }
 
 void LevelEditor::show_help()

@@ -18,6 +18,8 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 
+#include <config.h>
+
 #include <cstdio>
 
 #include "../math/physic.h"
@@ -119,24 +121,18 @@ Physic::enable_gravity(bool enable_gravity)
   gravity_enabled = enable_gravity;
 }
 
-void
-Physic::apply(float elapsed_time, float &x, float &y, float gravity)
+Vector
+Physic::get_movement(float elapsed_time)
 {
-  float grav;
-  if(gravity_enabled)
-    grav = gravity / 100.0;
-  else
-    grav = 0;
-
-  x += vx * elapsed_time + ax * elapsed_time * elapsed_time;
-  y += vy * elapsed_time + (ay + grav) * elapsed_time * elapsed_time;
+  float grav = gravity_enabled ? 1000 : 0;
+  
+  Vector result(
+      vx * elapsed_time + ax * elapsed_time * elapsed_time,
+      vy * elapsed_time + (ay + grav) * elapsed_time * elapsed_time
+  );
   vx += ax * elapsed_time;
-  vy += (ay + grav) * elapsed_time;
-}
+  vy += (ay + grav) * elapsed_time;  
 
-void
-Physic::apply(Vector& vector, float elapsed_time, float gravity)
-{
-  apply(elapsed_time, vector.x, vector.y, gravity);
+  return result;
 }
 

@@ -27,11 +27,11 @@
 #include "SDL.h"
 
 #include "../video/font.h"
-#include "../gui/menu.h"
-#include "../gui/mousecursor.h"
 
 namespace SuperTux
   {
+
+  class MouseCursor;
 
   extern std::string datadir;
   extern std::string package_symbol_name;

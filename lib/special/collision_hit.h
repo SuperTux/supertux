@@ -16,41 +16,39 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+#ifndef SUPERTUX_COLLISION_HIT_H
+#define SUPERTUX_COLLISION_HIT_H
 
-#ifndef SUPERTUX_INTERACTIVE_OBJECT_H
-#define SUPERTUX_INTERACTIVE_OBJECT_H
+#include "math/vector.h"
 
-#include "special/game_object.h"
-#include "special/base.h"
-
-using namespace SuperTux;
-
-enum InteractionType
+namespace SuperTux
 {
-  INTERACTION_TOUCH, INTERACTION_ACTIVATE // more to come
+
+/**
+ * Used as return value for the collision functions, to indicate how the
+ * collision should be handled
+ */
+enum HitResponse
+{
+  ABORT_MOVE,   // don't move the object
+  FORCE_MOVE,   // do the move ignoring the collision
+  CONTINUE      // move object out of collision and check for collisions again
+                // if this happens to often then the move will just be aborted
 };
 
-/** This class is the base class for all objects you can interact with in some
- * way. There are several interaction types defined like touch and activate
+/**
+ * This class collects data about a collision
  */
-class InteractiveObject : public GameObject
+class CollisionHit
 {
 public:
-  InteractiveObject();
-  virtual ~InteractiveObject();
-
-  /** this function is called when an interaction has taken place */
-  virtual void interaction(InteractionType type) = 0;
-
-  const base_type& get_area() const
-  { return area; }
-
-  void set_area(float x, float y)
-  { area.x = x; area.y = y; }
-
-protected:
-  base_type area;
+  /// penetration depth
+  float depth;
+  // The normal of the side we collided with
+  Vector normal;
 };
 
-#endif /*SUPERTUX_INTERACTIVE_OBJECT_H*/
+}
+
+#endif
 

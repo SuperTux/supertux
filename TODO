@@ -37,7 +37,76 @@ L: low priority
 
        g++ -Wall .... -o build/linux/src/error.o src/error.cpp
 
+--Collision Detection Rewrite (all [H])--
+ * make blocks bounce again - ok
+ * bonusblocks don't always bounce back to their original position (but stay a
+    few pixels higher)
+ * it's impossible to go into passages that have exactly the size of tux,
+   either reduce collision rectangle by DELTA or round collision coordinates to
+   integers... 
+ ** implement 1up - ok
+ ** implement star - ok
+ * bring back the enemies
+    - add activation again
+    - make api simpler
+    - implement jumpy - ok
+    -* implement spiky - ok
+    - implement snowball - ok
+    - implement fish
+    - implement bouncingsnowball - ok
+    -* implement mriceblock - ~ok
+    - implement flame - ok
+    -* implement mrbomb - ok
+    - implement flyingsnowball
+    - implement wingling
+    - implement tree (really?)
+    - bring back stay on platform flag
+    - make enemies bounce of upon each other again
+    - make enemies fall again
+    -* activate/deactive enemies when on screen/away again - ok
+ ** implement ability to cary mriceblock (and other objects) around - delayed
+    for  after big commit...
+ * smoke clouds are too fast
+ * some shots disappear in the ground with a "max collision depth reached"
+   message
+ * rework collision detection to take movement into account - this should fix
+    the egg suddenly turning directions and the somtimes strange behaviour
+    when hitting a block from the side when falling.
+ * rethink slopes collision feedback... tux becomes too slow when walking up
+    and starts jumping when walking down
+ * think about an attachement mechanism for moving platforms
+ * implement paths for the moving platform, implement simple moving platforms
+ ** activate level end sequence again - ok
+ ** make bullets kill enemies - ok
+ * fix bullet speed/behaviour
+ ** fix ducking - ok
+ * check if unducking is actually possible or if something is in the way
+ * fix flapping
+ ** having a star doesn't kill enemies - ok
+
+--Code Refactoring/Cleanup/Optimisation--
+[H] make the title using GameSession instead of reimplementing all the stuff
+[L] rename gameloop.* files to gamesession.*
+[L] rename GameObject::action to GameObject::update()
+[L] use physfs for loading files
+[L] eventually move over new lispreader code from tuxkart
+[L] change physics class y-velocity-coordinate to be like all other
+    y-coordinates again (positive y to go down)
+[M] harmonize to 1 single gameloop that switches between title, worldmap,
+    ingame mode and eventually leveleditor mode
+[H] introduce a special mode in DrawingContext for objects that want to draw
+    themselfes. This could speed up rendering of tilemaps.
+[H] implement quadtree to speed up collision detection
+[?] remove badguyspecs and bitmask files
+
 --Miscelaneous--
+[?] think about how to implement scripting, and how to make a simple and easy to
+  use api for the scripting interface
+  (language will probably be lua - just have to figure out how well we can do
+   without OO support in the scripting language.
+   Other candidates are python, ruby and less likely java, mono/.net,
+   surely no own invention, perl or 1 of these c-like scripting languages)
+
 [?] Default keyboard setup should change. Up will be needed for other features
     like going through doors and looking up, etc.
   Up arrow    - Look up / activate

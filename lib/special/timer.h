@@ -30,12 +30,12 @@ namespace SuperTux
     {
     public:
       /// Time a game is running. (Non-pause mode, etc.)
-      static unsigned int get(void);
+      static unsigned int get();
 
-      static void pause_init(void);
-      static void pause_start(void);
-      static void pause_stop(void);
-      static bool pause_started(void);
+      static void pause_init();
+      static void pause_start();
+      static void pause_stop();
+      static bool pause_started();
 
     private:
       static unsigned int pause_ticks;

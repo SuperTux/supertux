@@ -18,6 +18,7 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
+#include <config.h>
 
 #include <iostream>
 #include <sstream>
@@ -42,7 +43,7 @@
 #include "video/surface.h"
 #include "high_scores.h"
 #include "gui/menu.h"
-#include "special/timer.h"
+#include "timer.h"
 #include "special/frame_rate.h"
 #include "app/setup.h"
 #include "level.h"
@@ -56,7 +57,6 @@
 #include "sector.h"
 #include "tilemap.h"
 #include "resources.h"
-#include "special/base.h"
 #include "app/gettext.h"
 #include "misc.h"
 #include "camera.h"
@@ -66,7 +66,7 @@ static Surface* logo;
 static Surface* img_choose_subset;
 
 static bool walking;
-static Timer random_timer;
+static Timer2 random_timer;
 
 static int frame;
 
@@ -118,7 +118,7 @@ void free_contrib_menu()
 
 void generate_contrib_menu()
 {
-  /** Generating contrib levels list by making use of Level Subset */
+  /** Generating contrib levels list by making use of Level Subset  */
   std::set<std::string> level_subsets = FileSystem::dsubdirs("/levels", "info");
 
   free_contrib_menu();
@@ -272,7 +272,7 @@ void check_contrib_subset_menu()
     }  
 }
 
-void draw_demo(double frame_ratio)
+void draw_demo(float elapsed_time)
 {
   Sector* world  = titlesession->get_current_sector();
   Player* tux = world->player;
@@ -282,35 +282,32 @@ void draw_demo(double frame_ratio)
   global_frame_counter++;
   tux->key_event((SDLKey) keymap.right,DOWN);
   
-  if(random_timer.check())
-    {
+  if(random_timer.check()) {
+    random_timer.start(float(rand() % 3000 + 3000) / 1000.);
+    walking = !walking;
+  } else {
       if(walking)
         tux->key_event((SDLKey) keymap.jump,UP);
       else
         tux->key_event((SDLKey) keymap.jump,DOWN);
-    }
-  else
-    {
-      random_timer.start(rand() % 3000 + 3000);
-      walking = !walking;
-    }
+  }
 
   // Wrap around at the end of the level back to the beginnig
-  if(world->solids->get_width() * 32 - 320 < tux->base.x)
+  if(world->solids->get_width() * 32 - 320 < tux->get_pos().x)
     {
       tux->level_begin();
-      world->camera->reset(Vector(tux->base.x, tux->base.y));
+      world->camera->reset(tux->get_pos());
     }
 
   tux->can_jump = true;
-  float last_tux_x_pos = tux->base.x;
-  world->action(frame_ratio);
+  float last_tux_x_pos = tux->get_pos().x;
+  world->action(elapsed_time);
   
 
   // disabled for now, since with the new jump code we easily get deadlocks
   // Jump if tux stays in the same position for one loop, ie. if he is
   // stuck behind a wall
-  if (last_tux_x_pos == tux->base.x)
+  if (last_tux_x_pos == tux->get_pos().x)
     {
       walking = false;
     }
@@ -324,7 +321,6 @@ void title(void)
   walking = true;
   LevelEditor* leveleditor;
 
-  random_timer.init(true);
   Ticks::pause_init();
 
   titlesession = new GameSession("misc/menu.stl", ST_GL_DEMO_GAME);
@@ -343,24 +339,26 @@ void title(void)
   /* --- Main title loop: --- */
   frame = 0;
 
-  frame_rate.set_frame_limit(false);
-  
-  random_timer.start(rand() % 2000 + 2000);
+  random_timer.start(float(rand() % 2000 + 2000) / 1000.0);
 
+  Uint32 lastticks = SDL_GetTicks();
+  
   Menu::set_current(main_menu);
   DrawingContext& context = *titlesession->context;
   while (Menu::current())
     {
-      // if we spent to much time on a menu entry
-      frame_rate.smooth_hanger();
-    
       // Calculate the movement-factor
-      double frame_ratio = frame_rate.get();
+      Uint32 ticks = SDL_GetTicks();
+      float elapsed_time = float(ticks - lastticks) / 1000.;
+      global_time += elapsed_time;
+      lastticks = ticks;
+      // 40fps is minimum
+      if(elapsed_time > .04)
+        elapsed_time = .04;
       
-      if(frame_ratio > 1.5) /* Quick hack to correct the unprecise CPU clocks a little bit. */
-        frame_ratio = 1.5 + (frame_ratio - 1.5) * 0.85;
-      /* Lower the frame_ratio that Tux doesn't jump to hectically throught the demo. */
-      frame_ratio /= 2;
+      /* Lower the speed so that Tux doesn't jump too hectically throught
+         the demo. */
+      elapsed_time /= 2;
 
       SDL_Event event;
       while (SDL_PollEvent(&event))
@@ -375,14 +373,15 @@ void title(void)
         }
   
       /* Draw the background: */
-      draw_demo(frame_ratio);
+      draw_demo(elapsed_time);
       
       
       if (Menu::current() == main_menu)
         context.draw_surface(logo, Vector(screen->w/2 - logo->w/2, 30),
             LAYER_FOREGROUND1+1);
 
-      context.draw_text(white_small_text, " SuperTux " VERSION "\n", Vector(0, screen->h - 70), LEFT_ALLIGN, LAYER_FOREGROUND1);
+      context.draw_text(white_small_text, " SuperTux " PACKAGE_VERSION "\n",
+              Vector(0, screen->h - 70), LEFT_ALLIGN, LAYER_FOREGROUND1);
       context.draw_text(white_small_text,
         _("Copyright (c) 2003 SuperTux Devel Team\n"
           "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you\n"
@@ -474,7 +473,6 @@ void title(void)
 
       /* Pause: */
       frame++;
-      SDL_Delay(25);
     }
   /* Free surfaces: */
 

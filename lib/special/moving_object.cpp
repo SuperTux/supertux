@@ -17,14 +17,14 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
+#include <config.h>
+
 #include "../special/moving_object.h"
 
 using namespace SuperTux;
 
 MovingObject::MovingObject()
 {
-  base.x = base.y = base.width = base.height = 0;
-  old_base = base;
 }
 
 MovingObject::~MovingObject()

@@ -17,6 +17,8 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
+#include <config.h>
+
 #include <iostream>
 #include <cstdio>
 #include <cstdlib>
@@ -36,7 +38,6 @@
 #include "../video/screen.h"
 #include "../app/globals.h"
 #include "../video/drawing_context.h"
-#include "../special/base.h"
 #include "../math/vector.h"
 
 using namespace SuperTux;

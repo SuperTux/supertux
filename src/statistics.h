@@ -20,7 +20,7 @@
 #ifndef SUPERTUX_STATISTICS_H
 #define SUPERTUX_STATISTICS_H
 
-#include "special/timer.h"
+#include "timer.h"
 
 using namespace SuperTux;
 
@@ -81,7 +81,7 @@ public:
 private:
   int stats[NUM_STATS][2];
 
-  Timer timer;
+  Timer2 timer;
   int display_stat;
 };
 

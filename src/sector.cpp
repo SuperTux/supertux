@@ -17,6 +17,8 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
+#include <config.h>
+
 #include <memory>
 #include <algorithm>
 #include <stdexcept>
@@ -28,7 +30,6 @@
 #include "sector.h"
 #include "utils/lispreader.h"
 #include "badguy.h"
-#include "special.h"
 #include "gameobjs.h"
 #include "camera.h"
 #include "background.h"
@@ -38,15 +39,27 @@
 #include "audio/sound_manager.h"
 #include "gameloop.h"
 #include "resources.h"
-#include "interactive_object.h"
-#include "door.h"
 #include "statistics.h"
+#include "special/collision.h"
+#include "math/rectangle.h"
+#include "math/aatriangle.h"
+#include "object/coin.h"
+#include "object/block.h"
+#include "object/platform.h"
+#include "trigger/door.h"
+#include "object/bullet.h"
+#include "badguy/jumpy.h"
+#include "badguy/snowball.h"
+#include "badguy/bouncing_snowball.h"
+#include "badguy/flame.h"
+#include "badguy/mriceblock.h"
+#include "badguy/mrbomb.h"
+#include "trigger/sequence_trigger.h"
 
 Sector* Sector::_current = 0;
 
 Sector::Sector()
-  : end_sequence_animation_type(NONE_ENDSEQ_ANIM),
-    gravity(10), player(0), solids(0), background(0), camera(0),
+  : gravity(10), player(0), solids(0), background(0), camera(0),
     currentmusic(LEVEL_MUSIC)
 {
   song_title = "Mortimers_chipdisko.mod";
@@ -57,8 +70,9 @@ Sector::Sector()
 Sector::~Sector()
 {
   for(GameObjects::iterator i = gameobjects.begin(); i != gameobjects.end();
-      ++i)
+      ++i) {
     delete *i;
+  }
 
   for(SpawnPoints::iterator i = spawnpoints.begin(); i != spawnpoints.end();
       ++i)
@@ -85,6 +99,69 @@ Sector *Sector::create(const std::string& name, size_t width, size_t height)
   return sector;
 }
 
+GameObject*
+Sector::parseObject(const std::string& name, LispReader& reader)
+{
+  if(name == "background") {
+    background = new Background(reader);
+    return background;
+  } else if(name == "camera") {
+    if(camera) {
+      std::cerr << "Warning: More than 1 camera defined in sector.\n";
+      return 0;
+    }
+    camera = new Camera(this);
+    camera->read(reader);
+    return camera;
+  } else if(name == "tilemap") {
+    TileMap* tilemap = new TileMap(reader);
+
+    if(tilemap->is_solid()) {
+      if(solids) {
+        std::cerr << "Warning multiple solid tilemaps in sector.\n";
+        return 0;
+      }
+      solids = tilemap;
+    }
+    return tilemap;
+  } else if(name == "particles-snow") {
+    SnowParticleSystem* partsys = new SnowParticleSystem();
+    partsys->parse(reader);
+    return partsys;
+  } else if(name == "particles-clouds") {
+    CloudParticleSystem* partsys = new CloudParticleSystem();
+    partsys->parse(reader);
+    return partsys;
+  } else if(name == "door") {
+    return new Door(reader);
+  } else if(name == "platform") {
+    return new Platform(reader);
+  } else if(name == "jumpy" || name == "money") {
+    return new Jumpy(reader);
+  } else if(name == "snowball") {
+    return new SnowBall(reader);
+  } else if(name == "bouncingsnowball") {
+    return new BouncingSnowball(reader);
+  } else if(name == "flame") {
+    return new Flame(reader);
+  } else if(name == "mriceblock") {
+    return new MrIceBlock(reader);
+  } else if(name == "mrbomb") {
+    return new MrBomb(reader);
+  }
+#if 0
+    else if(badguykind_from_string(name) != BAD_INVALID) {
+      return new BadGuy(badguykind_from_string(name), reader);
+    } else if(name == "trampoline") {
+      return new Trampoline(reader);
+    } else if(name == "flying-platform") {
+      return new FlyingPlatform(reader);
+#endif
+
+   std::cerr << "Unknown object type '" << name << "'.\n";
+   return 0;
+}
+
 void
 Sector::parse(LispReader& lispreader)
 {
@@ -104,56 +181,17 @@ Sector::parse(LispReader& lispreader)
     } else if(token == "music") {
       song_title = lisp_string(data);
       load_music();
-    } else if(token == "end-sequence-animation") {
-      std::string end_seq_anim = lisp_string(data);
-      if(end_seq_anim == "fireworks")
-        end_sequence_animation_type = FIREWORKS_ENDSEQ_ANIM;
-    } else if(token == "camera") {
-      if(camera) {
-        std::cerr << "Warning: More than 1 camera defined in sector.\n";
-        continue;
-      }
-      camera = new Camera(this);
-      camera->read(reader);
-      add_object(camera);
-    } else if(token == "background") {
-      background = new Background(reader);
-      add_object(background);
     } else if(token == "spawn-points") {
       SpawnPoint* sp = new SpawnPoint;
       reader.read_string("name", sp->name);
       reader.read_float("x", sp->pos.x);
       reader.read_float("y", sp->pos.y);
       spawnpoints.push_back(sp);
-    } else if(token == "tilemap") {
-      TileMap* tilemap = new TileMap(reader);
-      add_object(tilemap);
-
-      if(tilemap->is_solid()) {
-        if(solids) {
-          std::cerr << "Warning multiple solid tilemaps in sector.\n";
-          continue;
-        }
-        solids = tilemap;
-      }
-    } else if(badguykind_from_string(token) != BAD_INVALID) {
-      add_object(new BadGuy(badguykind_from_string(token), reader));
-    } else if(token == "trampoline") {
-      add_object(new Trampoline(reader));
-    } else if(token == "flying-platform") {
-      add_object(new FlyingPlatform(reader));
-    } else if(token == "particles-snow") {
-      SnowParticleSystem* partsys = new SnowParticleSystem();
-      partsys->parse(reader);
-      add_object(partsys);
-    } else if(token == "particles-clouds") {
-      CloudParticleSystem* partsys = new CloudParticleSystem();
-      partsys->parse(reader);
-      add_object(partsys);
-    } else if(token == "door") {
-      add_object(new Door(reader));
     } else {
-      std::cerr << "Unknown object type '" << token << "'.\n";
+      GameObject* object = parseObject(token, reader);
+      if(object) {
+        add_object(object);
+      }
     }
   }
 
@@ -206,13 +244,6 @@ Sector::parse_old_format(LispReader& reader)
     add_object(background);
   }
 
-  std::string end_seq_anim;
-  reader.read_string("end-sequence-animation", end_seq_anim);
-  if(end_seq_anim == "fireworks")
-    end_sequence_animation_type = FIREWORKS_ENDSEQ_ANIM;
-//  else
-//    end_sequence_animation = NONE_ENDSEQ_ANIM;
-
   std::string particlesystem;
   reader.read_string("particle_system", particlesystem);
   if(particlesystem == "clouds")
@@ -244,6 +275,32 @@ Sector::parse_old_format(LispReader& reader)
     tilemap->set(width, height, tiles, LAYER_TILES, true);
     solids = tilemap;
     add_object(tilemap);
+
+    // hack for now...
+    for(size_t x=0; x < solids->get_width(); ++x) {
+      for(size_t y=0; y < solids->get_height(); ++y) {
+        const Tile* tile = solids->get_tile(x, y);
+
+        if(tile->attributes & Tile::COIN) {
+          Coin* coin = new Coin(Vector(x*32, y*32));
+          add_object(coin);
+          solids->change(x, y, 0);
+        } else if(tile->attributes & Tile::FULLBOX) {
+          BonusBlock* block = new BonusBlock(Vector(x*32, y*32), tile->data);
+          add_object(block);
+          solids->change(x, y, 0);
+        } else if(tile->attributes & Tile::BRICK) {
+          Brick* brick = new Brick(Vector(x*32, y*32), tile->data);
+          add_object(brick);
+          solids->change(x, y, 0);
+        } else if(tile->attributes & Tile::GOAL) {
+          SequenceTrigger* trigger = new SequenceTrigger(Vector(x*32, y*32),
+              "endsequence");
+          add_object(trigger);
+          solids->change(x, y, 0);
+        }
+      }                                                   
+    }
   }
 
   if(reader.read_int_vector("background-tm", tiles)) {
@@ -289,18 +346,14 @@ Sector::parse_old_format(LispReader& reader)
         std::string object_type = lisp_symbol(lisp_car(data));
                                                                                 
         LispReader reader(lisp_cdr(data));
-                                                                                
-        if(object_type == "trampoline") {
-          add_object(new Trampoline(reader));
+
+        GameObject* object = parseObject(object_type, reader);
+        if(object) {
+          add_object(object);
+        } else {
+          std::cerr << "Unknown object '" << object_type << "' in level.\n";
         }
-        else if(object_type == "flying-platform") {
-          add_object(new FlyingPlatform(reader));
-        }
-        else {
-          BadGuyKind kind = badguykind_from_string(object_type);
-          add_object(new BadGuy(kind, reader));
-        }
-                                                                                
+                                                                               
         cur = lisp_cdr(cur);
       }
     }
@@ -341,6 +394,8 @@ Sector::write(LispWriter& writer)
 void
 Sector::do_vertical_flip()
 {
+  // remove or fix later
+#if 0
   for(GameObjects::iterator i = gameobjects_new.begin(); i != gameobjects_new.end(); ++i)
     {
     TileMap* tilemap = dynamic_cast<TileMap*> (*i);
@@ -368,11 +423,28 @@ Sector::do_vertical_flip()
     SpawnPoint* spawn = *i;
     spawn->pos.y = solids->get_height()*32 - spawn->pos.y - 32;
   }
+#endif
 }
 
 void
 Sector::add_object(GameObject* object)
 {
+  // make sure the object isn't already in the list
+#ifdef DEBUG
+  for(GameObjects::iterator i = gameobjects.begin(); i != gameobjects.end();
+      ++i) {
+    if(*i == object) {
+      assert("object already added to sector" == 0);
+    }
+  }
+  for(GameObjects::iterator i = gameobjects_new.begin();
+      i != gameobjects_new.end(); ++i) {
+    if(*i == object) {
+      assert("object already added to sector" == 0);
+    }
+  }
+#endif
+
   gameobjects_new.push_back(object);
 }
 
@@ -410,23 +482,23 @@ Sector::activate(const std::string& spawnpoint)
     player->move(sp->pos);
   }
 
-  camera->reset(Vector(player->base.x, player->base.y));
+  camera->reset(player->get_pos());
 }
 
 Vector
 Sector::get_best_spawn_point(Vector pos)
 {
-Vector best_reset_point = Vector(-1,-1);
+  Vector best_reset_point = Vector(-1,-1);
 
-for(SpawnPoints::iterator i = spawnpoints.begin(); i != spawnpoints.end();
+  for(SpawnPoints::iterator i = spawnpoints.begin(); i != spawnpoints.end();
       ++i) {
-  if((*i)->name != "main")
-    continue;
-  if((*i)->pos.x > best_reset_point.x && (*i)->pos.x < pos.x)
-    best_reset_point = (*i)->pos;
+    if((*i)->name != "main")
+      continue;
+    if((*i)->pos.x > best_reset_point.x && (*i)->pos.x < pos.x)
+      best_reset_point = (*i)->pos;
   }
 
-return best_reset_point;
+  return best_reset_point;
 }
 
 void
@@ -434,12 +506,15 @@ Sector::action(float elapsed_time)
 {
   player->check_bounds(camera);
                                                                                 
-  /* update objects (don't use iterators here, because the list might change
-   * during the iteration)
-   */
-  for(size_t i = 0; i < gameobjects.size(); ++i)
-    if(gameobjects[i]->is_valid())
-      gameobjects[i]->action(elapsed_time);
+  /* update objects */
+  for(GameObjects::iterator i = gameobjects.begin();
+          i != gameobjects.end(); ++i) {
+    GameObject* object = *i;
+    if(!object->is_valid())
+      continue;
+    
+    object->action(elapsed_time);
+  }
                                                                                 
   /* Handle all possible collisions. */
   collision_handler();
@@ -454,17 +529,13 @@ Sector::update_game_objects()
   for(std::vector<GameObject*>::iterator i = gameobjects.begin();
       i != gameobjects.end(); /* nothing */) {
     if((*i)->is_valid() == false) {
-      BadGuy* badguy = dynamic_cast<BadGuy*> (*i);
-      if(badguy) {
-        badguys.erase(std::remove(badguys.begin(), badguys.end(), badguy),
-            badguys.end());
-      }
       Bullet* bullet = dynamic_cast<Bullet*> (*i);
       if(bullet) {
         bullets.erase(
             std::remove(bullets.begin(), bullets.end(), bullet),
             bullets.end());
       }
+#if 0
       InteractiveObject* interactive_object =
           dynamic_cast<InteractiveObject*> (*i);
       if(interactive_object) {
@@ -472,37 +543,7 @@ Sector::update_game_objects()
             std::remove(interactive_objects.begin(), interactive_objects.end(),
                 interactive_object), interactive_objects.end());
       }
-      Upgrade* upgrade = dynamic_cast<Upgrade*> (*i);
-      if(upgrade) {
-        upgrades.erase(
-            std::remove(upgrades.begin(), upgrades.end(), upgrade),
-            upgrades.end());
-      }
-      Trampoline* trampoline = dynamic_cast<Trampoline*> (*i);
-      if(trampoline) {
-        trampolines.erase(
-            std::remove(trampolines.begin(), trampolines.end(), trampoline),
-            trampolines.end());
-      }
-      FlyingPlatform* flying_platform= dynamic_cast<FlyingPlatform*> (*i);
-      if(flying_platform) {
-        flying_platforms.erase(
-            std::remove(flying_platforms.begin(), flying_platforms.end(), flying_platform),
-            flying_platforms.end());
-      }
-      SmokeCloud* smoke_cloud = dynamic_cast<SmokeCloud*> (*i);
-      if(smoke_cloud) {
-        smoke_clouds.erase(
-            std::remove(smoke_clouds.begin(), smoke_clouds.end(), smoke_cloud),
-            smoke_clouds.end());
-      }
-      Particles* particle = dynamic_cast<Particles*> (*i);
-      if(particle) {
-        particles.erase(
-            std::remove(particles.begin(), particles.end(), particle),
-            particles.end());
-      }
-
+#endif
       delete *i;
       i = gameobjects.erase(i);
     } else {
@@ -514,31 +555,15 @@ Sector::update_game_objects()
   for(std::vector<GameObject*>::iterator i = gameobjects_new.begin();
       i != gameobjects_new.end(); ++i)
   {
-          BadGuy* badguy = dynamic_cast<BadGuy*> (*i);
-          if(badguy)
-            badguys.push_back(badguy);
           Bullet* bullet = dynamic_cast<Bullet*> (*i);
           if(bullet)
             bullets.push_back(bullet);
-          Upgrade* upgrade = dynamic_cast<Upgrade*> (*i);
-          if(upgrade)
-            upgrades.push_back(upgrade);
-          Trampoline* trampoline = dynamic_cast<Trampoline*> (*i);
-          if(trampoline)
-            trampolines.push_back(trampoline);
-          FlyingPlatform* flying_platform = dynamic_cast<FlyingPlatform*> (*i);
-          if(flying_platform)
-            flying_platforms.push_back(flying_platform);
+#if 0
           InteractiveObject* interactive_object 
               = dynamic_cast<InteractiveObject*> (*i);
           if(interactive_object)
             interactive_objects.push_back(interactive_object);
-          SmokeCloud* smoke_cloud = dynamic_cast<SmokeCloud*> (*i);
-          if(smoke_cloud)
-            smoke_clouds.push_back(smoke_cloud);
-          Particles* particle = dynamic_cast<Particles*> (*i);
-          if(particle)
-            particles.push_back(particle);
+#endif
 
           gameobjects.push_back(*i);
   }
@@ -553,130 +578,177 @@ Sector::draw(DrawingContext& context)
   
   for(GameObjects::iterator i = gameobjects.begin();
       i != gameobjects.end(); ++i) {
-    if( (*i)->is_valid() )
-      (*i)->draw(context);
+    GameObject* object = *i; 
+    if(!object->is_valid())
+      continue;
+    
+    object->draw(context);
   }
 
   context.pop_transform();
 }
 
 void
-Sector::collision_handler()
+Sector::collision_tilemap(MovingObject* object, int depth)
 {
-  // CO_BULLET & CO_BADGUY check
-  for(unsigned int i = 0; i < bullets.size(); ++i)
-    {
-      for (BadGuys::iterator j = badguys.begin(); j != badguys.end(); ++j)
-        {
-          if((*j)->dying != DYING_NOT)
-            continue;
-                                                                                
-          if(rectcollision(bullets[i]->base, (*j)->base))
-            {
-              // We have detected a collision and now call the
-              // collision functions of the collided objects.
-              (*j)->collision(bullets[i], CO_BULLET, COLLISION_NORMAL);
-              bullets[i]->collision(CO_BADGUY);
-              break; // bullet is invalid now, so break
-            }
-        }
-    }
-                                                                                
-  /* CO_BADGUY & CO_BADGUY check */
-  for (BadGuys::iterator i = badguys.begin(); i != badguys.end(); ++i)
-    {
-      if((*i)->dying != DYING_NOT)
+  if(depth >= 4) {
+#ifdef DEBUG
+    std::cout << "Max collision depth reached.\n";
+#endif
+    object->movement = Vector(0, 0);
+    return;
+  }
+
+  // calculate rectangle where the object will move
+  float x1, x2;
+  if(object->get_movement().x >= 0) {
+    x1 = object->get_pos().x;
+    x2 = object->get_bbox().p2.x + object->get_movement().x;
+  } else {
+    x1 = object->get_pos().x + object->get_movement().x;
+    x2 = object->get_bbox().p2.x;
+  }
+  float y1, y2;
+  if(object->get_movement().y >= 0) {
+    y1 = object->get_pos().y;
+    y2 = object->get_bbox().p2.y + object->get_movement().y;
+  } else {
+    y1 = object->get_pos().y + object->get_movement().y;
+    y2 = object->get_bbox().p2.y;
+  }
+
+  // test with all tiles in this rectangle
+  int starttilex = int(x1-1) / 32;
+  int starttiley = int(y1-1) / 32;
+  int max_x = int(x2+1);
+  int max_y = int(y2+1);
+
+  CollisionHit temphit, hit;
+  Rectangle dest = object->get_bbox();
+  dest.move(object->movement);
+  hit.depth = -1;
+  for(int x = starttilex; x*32 < max_x; ++x) {
+    for(int y = starttiley; y*32 < max_y; ++y) {
+      const Tile* tile = solids->get_tile(x, y);
+      if(!tile)
         continue;
-                                                                                
-      BadGuys::iterator j = i;
-      ++j;
-      for (; j != badguys.end(); ++j)
-        {
-          if(j == i || (*j)->dying != DYING_NOT)
-            continue;
-                                                                                
-          if(rectcollision((*i)->base, (*j)->base))
-            {
-              // We have detected a collision and now call the
-              // collision functions of the collided objects.
-              (*j)->collision(*i, CO_BADGUY);
-              (*i)->collision(*j, CO_BADGUY);
-            }
-        }
-    }
-  if(player->dying != DYING_NOT) return;
-                                                                                
-  // CO_BADGUY & CO_PLAYER check
-  for (BadGuys::iterator i = badguys.begin(); i != badguys.end(); ++i)
-    {
-      if((*i)->dying != DYING_NOT)
+      if(!(tile->attributes & Tile::SOLID))
         continue;
-                                                                                
-      if(rectcollision_offset((*i)->base, player->base, 0, 0))
-        {
-          // We have detected a collision and now call the collision
-          // functions of the collided objects.
-          if (player->previous_base.y < player->base.y &&
-              player->previous_base.y + player->previous_base.height
-              < (*i)->base.y + (*i)->base.height/2
-              && !player->invincible_timer.started())
-            {
-              (*i)->collision(player, CO_PLAYER, COLLISION_SQUISH);
-            }
-          else
-            {
-              player->collision(*i, CO_BADGUY);
-              (*i)->collision(player, CO_PLAYER, COLLISION_NORMAL);
-            }
+      if((tile->attributes & Tile::UNISOLID) && object->movement.y < 0)
+        continue;
+
+      if(tile->attributes & Tile::SLOPE) { // slope tile
+        AATriangle triangle;
+        Vector p1(x*32, y*32);
+        Vector p2((x+1)*32, (y+1)*32);
+        switch(tile->data) {
+          case 0:
+            triangle = AATriangle(p1, p2, AATriangle::SOUTHWEST);
+            break;
+          case 1:
+            triangle = AATriangle(p1, p2, AATriangle::NORTHEAST);
+            break;
+          case 2:
+            triangle = AATriangle(p1, p2, AATriangle::SOUTHEAST);
+            break;
+          case 3:
+            triangle = AATriangle(p1, p2, AATriangle::NORTHWEST);
+            break;
+          default:
+            printf("Invalid slope angle in tile %d !\n", tile->id);
+            break;
         }
-    }
-                                                                                
-  // CO_UPGRADE & CO_PLAYER check
-  for(unsigned int i = 0; i < upgrades.size(); ++i)
-    {
-      if(rectcollision(upgrades[i]->base, player->base))
-        {
-          // We have detected a collision and now call the collision
-          // functions of the collided objects.
-          upgrades[i]->collision(player, CO_PLAYER, COLLISION_NORMAL);
+
+        if(Collision::rectangle_aatriangle(temphit, dest, triangle)) {
+          if(temphit.depth > hit.depth)
+            hit = temphit;
         }
-    }
-                                                                                
-  // CO_TRAMPOLINE & (CO_PLAYER or CO_BADGUY)
-  for (Trampolines::iterator i = trampolines.begin(); i != trampolines.end(); ++i)
-  {
-    if (rectcollision((*i)->base, player->base))
-    {
-      if (player->previous_base.y < player->base.y &&
-          player->previous_base.y + player->previous_base.height
-          < (*i)->base.y + (*i)->base.height/2)
-      {
-        (*i)->collision(player, CO_PLAYER, COLLISION_SQUISH);
-      }
-      else if (player->previous_base.y <= player->base.y)
-      {
-        player->collision(*i, CO_TRAMPOLINE);
-        (*i)->collision(player, CO_PLAYER, COLLISION_NORMAL);
+      } else { // normal rectangular tile
+        Rectangle rect(x*32, y*32, (x+1)*32, (y+1)*32);
+        if(Collision::rectangle_rectangle(temphit, dest, rect)) {
+          if(temphit.depth > hit.depth)
+            hit = temphit;
+        }
       }
     }
   }
-                                                                                
-  // CO_FLYING_PLATFORM & (CO_PLAYER or CO_BADGUY)
-  for (FlyingPlatforms::iterator i = flying_platforms.begin(); i != flying_platforms.end(); ++i)
-  {
-    if (rectcollision((*i)->base, player->base))
-    {
-      if (player->previous_base.y < player->base.y &&
-          player->previous_base.y + player->previous_base.height
-          < (*i)->base.y + (*i)->base.height/2)
-      {
-        (*i)->collision(player, CO_PLAYER, COLLISION_SQUISH);
-        player->collision(*i, CO_FLYING_PLATFORM);
-      }
-/*      else if (player->previous_base.y <= player->base.y)
-      {
-      }*/
+
+  // did we collide at all?
+  if(hit.depth == -1)
+    return;
+ 
+  // call collision function
+  HitResponse response = object->collision(*solids, hit);
+  if(response == ABORT_MOVE) {
+    object->movement = Vector(0, 0);
+    return;
+  }
+  if(response == FORCE_MOVE) {
+      return;
+  }
+  // move out of collision and try again
+  object->movement += hit.normal * (hit.depth + .001);
+  collision_tilemap(object, depth+1);
+}
+
+void
+Sector::collision_object(MovingObject* object1, MovingObject* object2)
+{
+  CollisionHit hit;
+  Rectangle dest1 = object1->get_bbox();
+  dest1.move(object1->get_movement());
+  Rectangle dest2 = object2->get_bbox();
+  dest2.move(object2->get_movement());
+  if(Collision::rectangle_rectangle(hit, dest1, dest2)) {
+    HitResponse response = object1->collision(*object2, hit);
+    if(response == ABORT_MOVE) {
+      object1->movement = Vector(0, 0);
+    } else if(response == CONTINUE) {
+      object1->movement += hit.normal * (hit.depth/2 + .001);
     }
+    hit.normal *= -1;
+    response = object2->collision(*object1, hit);
+    if(response == ABORT_MOVE) {
+      object2->movement = Vector(0, 0);
+    } else if(response == CONTINUE) {
+      object2->movement += hit.normal * (hit.depth/2 + .001);
+    }
+  }
+}
+
+void
+Sector::collision_handler()
+{
+  for(std::vector<GameObject*>::iterator i = gameobjects.begin();
+      i != gameobjects.end(); ++i) {
+    GameObject* gameobject = *i;
+    if(!gameobject->is_valid() 
+        || gameobject->get_flags() & GameObject::FLAG_NO_COLLDET)
+      continue;
+    MovingObject* movingobject = dynamic_cast<MovingObject*> (gameobject);
+    if(!movingobject)
+      continue;
+  
+    // collision with tilemap
+    if(! (movingobject->movement == Vector(0, 0)))
+      collision_tilemap(movingobject, 0);
+
+    // collision with other objects
+    for(std::vector<GameObject*>::iterator i2 = i+1;
+        i2 != gameobjects.end(); ++i2) {
+      GameObject* other_object = *i2;
+      if(!other_object->is_valid() 
+          || other_object->get_flags() & GameObject::FLAG_NO_COLLDET)
+        continue;
+      MovingObject* movingobject2 = dynamic_cast<MovingObject*> (other_object);
+      if(!movingobject2)
+        continue;
+
+      collision_object(movingobject, movingobject2);
+    }
+    
+    movingobject->bbox.move(movingobject->get_movement());
+    movingobject->movement = Vector(0, 0);
   }
 }
 
@@ -688,64 +760,16 @@ Sector::add_score(const Vector& pos, int s)
   add_object(new FloatingText(pos, s));
 }
                                                                                 
-void
-Sector::add_bouncy_distro(const Vector& pos)
-{
-  add_object(new BouncyDistro(pos));
-}
-                                                                                
-void
-Sector::add_broken_brick(const Vector& pos, Tile* tile)
-{
-  add_broken_brick_piece(pos, Vector(-1, -4), tile);
-  add_broken_brick_piece(pos + Vector(0, 16), Vector(-1.5, -3), tile);
-                                                                                
-  add_broken_brick_piece(pos + Vector(16, 0), Vector(1, -4), tile);
-  add_broken_brick_piece(pos + Vector(16, 16), Vector(1.5, -3), tile);
-}
-                                                                                
-void
-Sector::add_broken_brick_piece(const Vector& pos, const Vector& movement,
-    Tile* tile)
-{
-  add_object(new BrokenBrick(tile, pos, movement));
-}
-                                                                                
-void
-Sector::add_bouncy_brick(const Vector& pos)
-{
-  add_object(new BouncyBrick(pos));
-}
-
-BadGuy*
-Sector::add_bad_guy(float x, float y, BadGuyKind kind, bool activate)
-{
-  BadGuy* badguy = new BadGuy(kind, x, y);
-  add_object(badguy);
-  if(activate)
-    badguy->activate(LEFT);
-  return badguy;
-}
-                                                                                
-void
-Sector::add_upgrade(const Vector& pos, Direction dir, UpgradeKind kind)
-{
-  add_object(new Upgrade(pos, dir, kind));
-}
-                                                                                
 bool
 Sector::add_bullet(const Vector& pos, float xm, Direction dir)
 {
-  if(player->got_power == Player::FIRE_POWER)
-    {
+  if(player->got_power == Player::FIRE_POWER) {
     if(bullets.size() > MAX_FIRE_BULLETS-1)
       return false;
-    }
-  else if(player->got_power == Player::ICE_POWER)
-    {
+  } else if(player->got_power == Player::ICE_POWER) {
     if(bullets.size() > MAX_ICE_BULLETS-1)
       return false;
-    }
+  }
                                                                                 
   Bullet* new_bullet = 0;
   if(player->got_power == Player::FIRE_POWER)
@@ -757,7 +781,7 @@ Sector::add_bullet(const Vector& pos, float xm, Direction dir)
   add_object(new_bullet);
 
   SoundManager::get()->play_sound(IDToSound(SND_SHOOT));
-                                                                                
+
   return true;
 }
 
@@ -779,197 +803,6 @@ void
 Sector::add_floating_text(const Vector& pos, const std::string& text)
 {
   add_object(new FloatingText(pos, text));
-}
-
-/* Break a brick: */
-bool
-Sector::trybreakbrick(const Vector& pos, bool small)
-{
-  Tile* tile = solids->get_tile_at(pos);
-  if (!tile)
-  {
-    char errmsg[64];
-    sprintf(errmsg, "Invalid tile at %i,%i", (int)((pos.x+1)/32*32), (int)((pos.y+1)/32*32));
-    throw SuperTuxException(errmsg, __FILE__, __LINE__);
-  }
-
-  if (tile->attributes & Tile::BRICK)
-    {
-      if (tile->data > 0)
-        {
-          /* Get a distro from it: */
-          add_bouncy_distro(
-              Vector(((int)(pos.x + 1) / 32) * 32, (int)(pos.y / 32) * 32));
-                                                                                
-          // TODO: don't handle this in a global way but per-tile...
-          if (!counting_distros)
-            {
-              counting_distros = true;
-              distro_counter = 5;
-            }
-          else
-            {
-              distro_counter--;
-            }
-                                                                                
-          if (distro_counter <= 0)
-            {
-              counting_distros = false;
-              solids->change_at(pos, tile->next_tile);
-            }
-
-          SoundManager::get()->play_sound(IDToSound(SND_DISTRO));
-          global_stats.add_points(SCORE_STAT, SCORE_DISTRO);
-          global_stats.add_points(COINS_COLLECTED_STAT, 1);
-          player_status.distros++;
-          return true;
-        }
-      else if (!small)
-        {
-          /* Get rid of it: */
-          solids->change_at(pos, tile->next_tile);
-                                                                                
-          /* Replace it with broken bits: */
-          add_broken_brick(Vector(
-                                 ((int)(pos.x + 1) / 32) * 32,
-                                 (int)(pos.y / 32) * 32), tile);
-                                                                                
-          /* Get some score: */
-          SoundManager::get()->play_sound(IDToSound(SND_BRICK));
-          global_stats.add_points(SCORE_STAT, SCORE_BRICK);
-                                                                                
-          return true;
-        }
-    }
-                                                                                
-  return false;
-}
-                                                                                
-/* Empty a box: */
-void
-Sector::tryemptybox(const Vector& pos, Direction col_side)
-{
-  Tile* tile = solids->get_tile_at(pos);
-  if (!tile)
-  {
-    char errmsg[64];
-    sprintf(errmsg, "Invalid tile at %i,%i", (int)((pos.x+1)/32*32), (int)((pos.y+1)/32*32));
-    throw SuperTuxException(errmsg, __FILE__, __LINE__);
-  }
-
-
-  if (!(tile->attributes & Tile::FULLBOX))
-    return;
-                                                                                
-  // according to the collision side, set the upgrade direction
-  if(col_side == LEFT)
-    col_side = RIGHT;
-  else
-    col_side = LEFT;
-                                                                                
-  int posx = ((int)(pos.x+1) / 32) * 32;
-  int posy = (int)(pos.y/32) * 32 - 32;
-  switch(tile->data)
-    {
-    case 1: // Box with a distro!
-      add_bouncy_distro(Vector(posx, posy));
-      SoundManager::get()->play_sound(IDToSound(SND_DISTRO));
-      global_stats.add_points(SCORE_STAT, SCORE_DISTRO);
-      global_stats.add_points(COINS_COLLECTED_STAT, 1);
-      player_status.distros++;
-      break;
-                                                                                
-    case 2: // Add a fire flower upgrade!
-      if (player->size == SMALL)     /* Tux is small, add mints! */
-        add_upgrade(Vector(posx, posy), col_side, UPGRADE_GROWUP);
-      else     /* Tux is big, add a fireflower: */
-        add_upgrade(Vector(posx, posy), col_side, UPGRADE_FIREFLOWER);
-      SoundManager::get()->play_sound(IDToSound(SND_UPGRADE));
-      break;
-                                                                                
-    case 5: // Add an ice flower upgrade!
-      if (player->size == SMALL)     /* Tux is small, add mints! */
-        add_upgrade(Vector(posx, posy), col_side, UPGRADE_GROWUP);
-      else     /* Tux is big, add an iceflower: */
-        add_upgrade(Vector(posx, posy), col_side, UPGRADE_ICEFLOWER);
-      SoundManager::get()->play_sound(IDToSound(SND_UPGRADE));
-      break;
-                                                                                
-    case 3: // Add a golden herring
-      add_upgrade(Vector(posx, posy), col_side, UPGRADE_STAR);
-      break;
-                                                                                
-    case 4: // Add a 1up extra
-      add_upgrade(Vector(posx, posy), col_side, UPGRADE_1UP);
-      break;
-    default:
-      break;
-    }
-                                                                                
-  /* Empty the box: */
-  solids->change_at(pos, tile->next_tile);
-}
-                                                                                
-/* Try to grab a distro: */
-void
-Sector::trygrabdistro(const Vector& pos, int bounciness)
-{
-  Tile* tile = solids->get_tile_at(pos);
-  if (!tile)
-  {
-    /*char errmsg[64];
-    sprintf(errmsg, "Invalid tile at %i,%i", (int)((pos.x+1)/32*32), (int)((pos.y+1)/32*32));
-    throw SuperTuxException(errmsg, __FILE__, __LINE__); */
-    
-    //Bad tiles (i.e. tiles that are not defined in supertux.stgt but appear in the map) are changed to ID 0 (blank tile)
-    std::cout << "Warning: Undefined tile at " <<(int)pos.x/32 << "/" << (int)pos.y/32 << " (ID: " << (int)solids->get_tile_id_at(pos).id << ")" << std::endl;
-    solids->change_at(pos,0);
-    tile = solids->get_tile_at(pos);
-  }
-
-
-  if (!(tile->attributes & Tile::COIN))
-    return;
-
-  solids->change_at(pos, tile->next_tile);
-  SoundManager::get()->play_sound(IDToSound(SND_DISTRO));
-
-  if (bounciness == BOUNCE)
-    {
-      add_bouncy_distro(Vector(((int)(pos.x + 1) / 32) * 32,
-                              (int)(pos.y / 32) * 32));
-    }
-                                                                            
-  global_stats.add_points(SCORE_STAT, SCORE_DISTRO);
-  global_stats.add_points(COINS_COLLECTED_STAT, 1);
-  player_status.distros++;
-
-}
-                                                                                
-/* Try to bump a bad guy from below: */
-void
-Sector::trybumpbadguy(const Vector& pos)
-{
-  // Bad guys:
-  for (BadGuys::iterator i = badguys.begin(); i != badguys.end(); ++i)
-    {
-      if ((*i)->base.x >= pos.x - 32 && (*i)->base.x <= pos.x + 32 &&
-          (*i)->base.y >= pos.y - 16 && (*i)->base.y <= pos.y + 16)
-        {
-          (*i)->collision(player, CO_PLAYER, COLLISION_BUMP);
-        }
-    }
-                                                                                
-  // Upgrades:
-  for (unsigned int i = 0; i < upgrades.size(); i++)
-    {
-      if (upgrades[i]->base.height == 32 &&
-          upgrades[i]->base.x >= pos.x - 32 && upgrades[i]->base.x <= pos.x + 32 &&
-          upgrades[i]->base.y >= pos.y - 16 && upgrades[i]->base.y <= pos.y + 16)
-        {
-          upgrades[i]->collision(player, CO_PLAYER, COLLISION_BUMP);
-        }
-    }
 }
 
 void
@@ -1025,11 +858,24 @@ int
 Sector::get_total_badguys()
 {
   int total_badguys = 0;
+#if 0
   for(GameObjects::iterator i = gameobjects_new.begin(); i != gameobjects_new.end(); ++i)
     {
     BadGuy* badguy = dynamic_cast<BadGuy*> (*i);
     if(badguy)
       total_badguys++;
     }
+#endif
   return total_badguys;
+}
+
+bool
+Sector::inside(const Rectangle& rect) const
+{
+  if(rect.p1.x > solids->get_width() * 32 
+      || rect.p1.y > solids->get_height() * 32
+      || rect.p2.x < 0 || rect.p2.y < 0)
+    return false;
+
+  return true;
 }

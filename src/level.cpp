@@ -18,6 +18,8 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 
+#include <config.h>
+
 #include <map>
 #include <cstdlib>
 #include <cstdio>
@@ -44,8 +46,8 @@
 using namespace std;
 
 Level::Level()
-  : name("noname"), author("mr. x"), time_left(500)
-
+  : name("noname"), author("mr. x"), timelimit(500),
+    end_sequence_type(NONE_ENDSEQ_ANIM) 
 {
 }
 
@@ -90,16 +92,28 @@ Level::load(const std::string& filename)
     lisp_object_t* data = lisp_car(lisp_cdr(lisp_car(cur)));
     LispReader reader(lisp_cdr(lisp_car(cur)));
 
-    if(token == "name") {
+    if(token == "version") {
+      if(lisp_integer(data) > 2) {
+        std::cerr << "Warning: level format newer than application.\n";
+      }
+    } else if(token == "name") {
       name = lisp_string(data);
     } else if(token == "author") {
       author = lisp_string(data);
     } else if(token == "time") {
-      time_left = lisp_integer(data);
+      timelimit = lisp_integer(data);
     } else if(token == "sector") {
       Sector* sector = new Sector;
       sector->parse(reader);
       add_sector(sector);
+    } else if(token == "end-sequence-animation") {
+      std::string endsequencename = lisp_string(data);
+      if(endsequencename == "fireworks") {
+        end_sequence_type = FIREWORKS_ENDSEQ_ANIM;
+      } else {
+        std::cout << "Unknown endsequence type: '" << endsequencename <<
+          "'.\n";
+      }
     } else {
       std::cerr << "Unknown token '" << token << "' in level file.\n";
       continue;
@@ -114,7 +128,7 @@ Level::load_old_format(LispReader& reader)
 {
   reader.read_string("name", name, true);
   reader.read_string("author", author);
-  reader.read_int("time", time_left);
+  reader.read_int("time", timelimit);
 
   Sector* sector = new Sector;
   sector->parse_old_format(reader);
@@ -140,14 +154,15 @@ Level::save(const std::string& filename)
 
  writer->write_string("name", name);
  writer->write_string("author", author);
- writer->write_int("time", time_left);
+ writer->write_int("time", timelimit);
+ writer->write_string("end-sequence-animation",
+     end_sequence_type == FIREWORKS_ENDSEQ_ANIM ? "fireworks" : "none");
 
- for(Sectors::iterator i = sectors.begin(); i != sectors.end(); ++i)
-   {
+ for(Sectors::iterator i = sectors.begin(); i != sectors.end(); ++i) {
    writer->start_list("sector");
    i->second->write(*writer);
    writer->end_list("sector");
-   }
+ }
 
  writer->end_list("supertux-level");
 

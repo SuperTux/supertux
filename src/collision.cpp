@@ -18,6 +18,8 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 
+#include <config.h>
+
 #include <cmath>
 #include "defines.h"
 #include "collision.h"
@@ -27,12 +29,7 @@
 #include "tilemap.h"
 #include "tile.h"
 
-struct TileInfo
-{
-  Tile *tile;
-  int x, y;
-} tileinfo;
-
+#if 0
 bool rectcollision(const base_type& one, const base_type& two)
 {
   return (one.x >= two.x - one.width + 1  &&
@@ -49,6 +46,16 @@ bool rectcollision_offset(const base_type& one, const base_type& two, float off_
           one.y <= two.y + two.height + off_y - 1);
 }
 
+bool collision_object_map(const Rectangle& rect)
+{
+  base_type base;
+  base.x = rect.p1.x;
+  base.y = rect.p1.y;
+  base.width = rect.get_width();    
+  base.height = rect.get_height();
+  return collision_object_map(base);
+}
+
 bool collision_object_map(const base_type& base)
 {
   const TileMap& tilemap = *Sector::current()->solids;
@@ -59,18 +66,11 @@ bool collision_object_map(const base_type& base)
   int max_x = int(base.x + base.width);
   int max_y = int(base.y + base.height);
 
-  tileinfo.tile = NULL;
-
   for(int x = starttilex; x*32 < max_x; ++x) {
     for(int y = starttiley; y*32 < max_y; ++y) {
-      Tile* tile = tilemap.get_tile(x, y);
+      const Tile* tile = tilemap.get_tile(x, y);
       if(tile && tile->attributes & Tile::SOLID)
-        {
-        tileinfo.tile = tile;
-        tileinfo.x = x*32;
-        tileinfo.y = y*32;
         return true;
-        }
     }
   }
 
@@ -88,7 +88,7 @@ void* collision_func(const base_type& base, tiletestfunction function)
 
   for(int x = starttilex; x*32 < max_x; ++x) {
     for(int y = starttiley; y*32 < max_y; ++y) {
-      Tile* tile = tilemap.get_tile(x, y);
+      const Tile* tile = tilemap.get_tile(x, y);
       void* result = function(tile);
       if(result != 0)
         return result;
@@ -98,16 +98,22 @@ void* collision_func(const base_type& base, tiletestfunction function)
   return 0;
 }
 
-static void* test_goal_tile_function(Tile* tile)
+static void* test_goal_tile_function(const Tile* tile)
 {
   if(tile && (tile->attributes & Tile::GOAL))
-    return tile;
+    return const_cast<void*> ((const void*) tile); // evil cast...
   return 0;
 }
 
-Tile* collision_goal(const base_type& base)
+const Tile* collision_goal(const Rectangle& rect)
 {
-  return (Tile*) collision_func(base, test_goal_tile_function);
+  // too lazy to rewrite for now, so we transform to base_type...
+  base_type base;
+  base.x = rect.p1.x;
+  base.y = rect.p1.y;
+  base.width = rect.get_width();
+  base.height = rect.get_height();
+  return (const Tile*) collision_func(base, test_goal_tile_function);
 }
 
 void collision_swept_object_map(base_type* old, base_type* current)
@@ -189,21 +195,6 @@ void collision_swept_object_map(base_type* old, base_type* current)
 
       if(collision_object_map(*old))
         {
-        if(tileinfo.tile->slope_angle != 0)
-          {  // in case this is a slope, set the right Y position
-          // left-right slope:
-          if(tileinfo.tile->slope_angle > 0 && tileinfo.tile->slope_angle < M_PI/2)
-            current->y = tileinfo.y - current->height +
-                         (tileinfo.x - current->x)*tan(M_PI/2 - tileinfo.tile->slope_angle)
-                         - 1;
-          // right-left slope:
-          if(tileinfo.tile->slope_angle > M_PI/2 && tileinfo.tile->slope_angle < M_PI)
-            current->y = tileinfo.y - current->height +
-                         (current->x - tileinfo.x)*tan(M_PI - tileinfo.tile->slope_angle)
-                         - 1;
-          }
-        else
-          {
           switch(h)
             {
             case 1:
@@ -254,7 +245,6 @@ void collision_swept_object_map(base_type* old, base_type* current)
             }
           break;
         }
-      }
     }
 
   if((xd > 0 && current->x < orig_x) || (xd < 0 && current->x > orig_x))
@@ -265,7 +255,7 @@ void collision_swept_object_map(base_type* old, base_type* current)
   *old = *current;
 }
 
-Tile* gettile(float x, float y)
+const Tile* gettile(float x, float y)
 {
   const TileMap& tilemap = *Sector::current()->solids;
   return tilemap.get_tile_at(Vector(x, y));
@@ -273,40 +263,39 @@ Tile* gettile(float x, float y)
 
 bool issolid(float x, float y)
 {
-  Tile* tile = gettile(x,y);
+  const Tile* tile = gettile(x,y);
   return tile && (tile->attributes & Tile::SOLID);
 }
 
 bool isbrick(float x, float y)
 {
-  Tile* tile = gettile(x,y);
+  const Tile* tile = gettile(x,y);
   return tile && (tile->attributes & Tile::BRICK);
 }
 
 bool isice(float x, float y)
 {
-  Tile* tile = gettile(x,y);
+  const Tile* tile = gettile(x,y);
   return tile && (tile->attributes & Tile::ICE);
 }
 
 bool isspike(float x, float y)
 {
-  Tile* tile = gettile(x,y);
+  const Tile* tile = gettile(x,y);
   return tile && (tile->attributes & Tile::SPIKE);
 }
 
 bool isfullbox(float x, float y)
 {
-  Tile* tile = gettile(x,y);
+  const Tile* tile = gettile(x,y);
   return tile && (tile->attributes & Tile::FULLBOX);
 }
 
 bool iscoin(float x, float y)
 {
-  Tile* tile = gettile(x,y);
+  const Tile* tile = gettile(x,y);
   return tile && (tile->attributes & Tile::COIN);
 }
 
-/* EOF */
-
+#endif
 

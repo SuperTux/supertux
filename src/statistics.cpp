@@ -17,6 +17,8 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 
+#include <config.h>
+
 #include "utils/lispreader.h"
 #include "utils/lispwriter.h"
 #include "video/drawing_context.h"
@@ -56,7 +58,6 @@ return std::min(a, b);
 
 Statistics::Statistics()
 {
-  timer.init(true);
   display_stat = 1;
 
   for(int i = 0; i < NUM_STATS; i++)
@@ -100,7 +101,7 @@ Statistics::draw_worldmap_info(DrawingContext& context)
   if(stats[SCORE_STAT][SPLAYER] == -1)  // not initialized yet
     return;
 
-  if(!timer.check())
+  if(timer.check())
     {
     timer.start(TOTAL_DISPLAY_TIME);
     display_stat++;
@@ -123,10 +124,10 @@ Statistics::draw_worldmap_info(DrawingContext& context)
   // draw other small info
 
   int alpha;
-  if(timer.get_gone() < FADING_TIME)
-    alpha = timer.get_gone() * 255 / FADING_TIME;
-  else if(timer.get_left() < FADING_TIME)
-    alpha = timer.get_left() * 255 / FADING_TIME;
+  if(timer.get_timegone() < FADING_TIME)
+    alpha = int(timer.get_timegone() * 255 / FADING_TIME);
+  else if(timer.get_timeleft() < FADING_TIME)
+    alpha = int(timer.get_timeleft() * 255 / FADING_TIME);
   else
     alpha = 255;
 

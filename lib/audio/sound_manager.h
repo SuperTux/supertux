@@ -47,7 +47,6 @@ namespace SuperTux
   class SoundManager
     {
     public:
-
       /// Play sound.
       void play_sound(Mix_Chunk* sound);
       /// Play sound relative to two Vectors.
@@ -161,7 +160,6 @@ namespace SuperTux
       bool m_music_enabled;
       bool m_sound_enabled;
       bool audio_device;        /* != 0: available and initialized */
-
     };
 
    Mix_Chunk* IDToSound(int id);

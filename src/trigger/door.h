@@ -16,29 +16,18 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
 #ifndef SUPERTUX_DOOR_H
 #define SUPERTUX_DOOR_H
 
 #include <string>
 
 #include "video/surface.h"
-#include "interactive_object.h"
+#include "special/sprite.h"
+#include "trigger_base.h"
 #include "serializable.h"
-#include "special/timer.h"
+#include "timer.h"
 
-namespace SuperTux {
-class Sprite;
-class LispReader;
-}
-
-/** data images */
-#define DOOR_OPENING_TIME 1500
-#define DOOR_OPENING_FRAMES 8
-extern Sprite* door;
-extern Surface* door_opening[DOOR_OPENING_FRAMES];
-
-class Door : public InteractiveObject, public Serializable
+class Door : public TriggerBase, public Serializable
 {
 public:
   Door(LispReader& reader);
@@ -49,14 +38,12 @@ public:
   
   virtual void action(float elapsed_time);
   virtual void draw(DrawingContext& context);
-  virtual void interaction(InteractionType type);
+  virtual void event(Player& player, EventType type);
 
 private:
   std::string target_sector;
   std::string target_spawnpoint;
-  Timer animation_timer; //Used for door animation
-  bool door_activated;
+  Sprite* sprite;
 };
 
-#endif /*SUPERTUX_DOOR_H*/
-
+#endif

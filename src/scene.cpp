@@ -17,10 +17,13 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
+#include <config.h>
+
 #include <cstdlib>
 
 #include "scene.h"
 #include "defines.h"
+#include "resources.h"
 
 PlayerStatus player_status;
 
@@ -40,6 +43,25 @@ void PlayerStatus::reset()
   bonus = NO_BONUS;
   score_multiplier = 1;
   max_score_multiplier = 1;
+}
+
+void
+PlayerStatus::incLives()
+{
+  if(lives < MAX_LIVES)
+    ++lives;
+  SoundManager::get()->play_sound(IDToSound(SND_LIFEUP));
+}
+
+void
+PlayerStatus::incCoins()
+{
+  distros++;
+  if(distros >= 100) {
+    incLives();
+    distros = 0;
+  }
+  SoundManager::get()->play_sound(IDToSound(SND_DISTRO));
 }
 
 std::string bonus_to_string(PlayerStatus::BonusType b)

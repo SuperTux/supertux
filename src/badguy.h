@@ -26,7 +26,7 @@
 #include "SDL.h"
 
 #include "utils/lispreader.h"
-#include "special/timer.h"
+#include "timer.h"
 #include "math/physic.h"
 #include "defines.h"
 #include "special/moving_object.h"
@@ -36,9 +36,8 @@
 
 using namespace SuperTux;
 
-/* Timing constants (in ms): */
-
-#define KICKING_TIME 200
+/* Timing constants */
+#define KICKING_TIME .2
 
 /* Bad guy kinds: */
 enum BadGuyKind {
@@ -64,6 +63,8 @@ enum BadGuyKind {
 BadGuyKind  badguykind_from_string(const std::string& str);
 std::string badguykind_to_string(BadGuyKind kind);
 
+#if 0
+
 class Player;
 class BadGuySpecs;
 
@@ -72,7 +73,7 @@ class BadGuy : public MovingObject, public Serializable
 {
 public:
   /* Enemy modes: */
-  enum BadGuyMode {
+  enum BadGuyState {
     NORMAL=0,
     FLAT,
     KICK,
@@ -95,9 +96,9 @@ public:
     BGM_SMALL
   };
 public:
-  DyingType  dying;
-  BadGuyKind kind;
-  BadGuyMode mode;
+  DyingType   dying;
+  BadGuyKind  kind;
+  BadGuyState state;
 
   /** If true the enemy will stay on its current platform, ie. if he
       reaches the edge he will turn around and walk into the other
@@ -110,7 +111,6 @@ public:
   Timer frozen_timer;  // gets frozen when a ice shot hits it
 
 private:
-  bool removable;
   bool seen;
   int squishcount; /// number of times this enemy was squiched
   Vector target; // Target that badguy is aiming for (wingling uses this)
@@ -186,9 +186,6 @@ private:
   void set_action(std::string action_left, std::string action_right);
 };
 
+#endif
+
 #endif /*SUPERTUX_BADGUY_H*/
-
-/* Local Variables: */
-/* mode:c++ */
-/* End: */
-

@@ -17,6 +17,7 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
+#include <config.h>
 
 #include <sys/types.h>
 #include <cctype>
@@ -48,17 +49,17 @@ int main(int argc, char * argv[])
 #endif
     config = new MyConfig;
     setlocale(LC_ALL, "");
-    bindtextdomain(PACKAGE, LOCALEDIR);
-    textdomain(PACKAGE);
-    bind_textdomain_codeset(PACKAGE, "ISO-8859-1");
+    (void) bindtextdomain(PACKAGE, LOCALEDIR);
+    (void) textdomain(PACKAGE);
+    (void) bind_textdomain_codeset(PACKAGE, "ISO-8859-1");
     
-    Setup::info(PACKAGE_NAME,PACKAGE,PACKAGE_VERSION);  
+    Setup::info(PACKAGE_NAME, PACKAGE, PACKAGE_VERSION);  
     
     Setup::directories();
     Setup::parseargs(argc, argv);
 
     Setup::audio();
-    Setup::video(SCREEN_W,SCREEN_H);
+    Setup::video(800, 600);
     Setup::joystick();
     Setup::general();
     st_menu();
@@ -95,25 +96,18 @@ int main(int argc, char * argv[])
       title();
     }
 
-    SDL_FillRect(screen, 0, 0);
-    //SDL_Flip(screen);
-
     unloadshared();
     Setup::general_free();
     st_menu_free();
     TileManager::destroy_instance();
-    #ifdef DEBUG
+#ifdef DEBUG
     Surface::debug_check();
-    #endif
+#endif
     Termination::shutdown();
 #ifndef DEBUG  // we want to see the backtrace in gdb when in debug mode
-  }
-  catch (SuperTuxException &e)
-  {
+  } catch (SuperTuxException &e) {
     std::cerr << "Unhandled SuperTux exception:\n  " << e.what_file() << ":" << e.what_line() << ": " << e.what() << std::endl;
-  }
-  catch (std::exception &e)
-  {
+  } catch (std::exception &e) {
     std:: cerr << "Unhandled exception: " << e.what() << std::endl;
   }
 #endif

@@ -20,10 +20,12 @@
 #ifndef SUPERTUX_MOVING_OBJECT_H
 #define SUPERTUX_MOVING_OBJECT_H
 
-#include "../special/base.h"
-#include "../special/game_object.h"
-#include "../math/vector.h"
-//#include "rectangle.h"
+#include "game_object.h"
+#include "collision_hit.h"
+#include "math/vector.h"
+#include "math/rectangle.h"
+
+class Sector;
 
 namespace SuperTux
   {
@@ -40,26 +42,35 @@ namespace SuperTux
 
       /** this function is called when the object collided with any other object
        */
-      virtual void collision(const MovingObject& other_object,
-                             int collision_type) = 0;
+      virtual HitResponse collision(GameObject& other,
+          const CollisionHit& hit) = 0;
 
-      Vector get_pos() const
+      const Vector& get_pos() const
         {
-          return Vector(base.x, base.y);
+          return bbox.p1;
         }
 
-      base_type base;
-      base_type old_base;
+      /** returns the bounding box of the Object */
+      const Rectangle& get_bbox() const
+      {
+        return bbox;
+      }
+
+      const Vector& get_movement() const
+      {
+        return movement;
+      }
 
     protected:
-#if 0 // this will be used in my collision detection rewrite later
-      /// the current position of the object
-      Vector pos;
-      /// the position we want to move until next frame
-      Vector new_pos;
-      /// the bounding box relative to the current position
-      Rectangle bounding_box;
-#endif
+      friend class Sector;
+      
+      /** The bounding box of the object (as used for collision detection, this
+       * isn't necessarily the bounding box for graphics)
+       */
+      Rectangle bbox;
+      /** The movement that will happen till next frame
+       */
+      Vector movement;
     };
 
 } //namespace SuperTux

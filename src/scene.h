@@ -21,7 +21,7 @@
 #define SUPERTUX_SCENE_H
 
 #include "video/surface.h"
-#include "special/timer.h"
+#include "timer.h"
 
 #define FRAME_RATE 10 // 100 Frames per second (10ms)
 
@@ -37,8 +37,9 @@ struct PlayerStatus
   int max_score_multiplier;
 
   PlayerStatus();
-
   void reset();
+  void incLives();
+  void incCoins();
 };
 
 std::string bonus_to_string(PlayerStatus::BonusType b);

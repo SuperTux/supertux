@@ -18,9 +18,12 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 
+#include <config.h>
+
 #include <cmath>
 #include <cassert>
 #include <iostream>
+#include <stdexcept>
 
 #include "app/globals.h"
 #include "tile.h"
@@ -98,7 +101,7 @@ std::vector<Surface*> create_surfaces(lisp_object_t* cur)
 }
 
 Tile::Tile()
-  : id(-1), attributes(0), data(0), next_tile(0), anim_speed(25)
+  : id(0), attributes(0), data(0), next_tile(0), anim_speed(25)
 {
 }
 
@@ -114,19 +117,18 @@ Tile::~Tile()
   }
 }
 
-int
+void
 Tile::read(LispReader& reader)
 {
-  if(!reader.read_int("id", id)) {
-    std::cerr << "Missing tile-id.\n";
-    return -1;
+  if(!reader.read_uint("id", id)) {
+    throw std::runtime_error("Missing tile-id.");
   }
   
   bool value;
   if(reader.read_bool("solid", value) && value)
     attributes |= SOLID;
   if(reader.read_bool("unisolid", value) && value)
-    attributes |= GOAL;                            
+    attributes |= UNISOLID | SOLID;
   if(reader.read_bool("brick", value) && value)
     attributes |= BRICK;
   if(reader.read_bool("ice", value) && value)
@@ -148,20 +150,22 @@ Tile::read(LispReader& reader)
   reader.read_int("anim-speed", anim_speed);
   reader.read_int("next-tile", next_tile);
 
-  slope_angle = 0;
-  reader.read_float("slope-angle", slope_angle);
-  if(slope_angle != 0)
-    {   // convert angle to radians from degrees:
-    slope_angle = (slope_angle * M_PI) / 180;
-    attributes |= SOLID;
-    }
+  if(reader.read_int("slope-type", data)) {
+    attributes |= SOLID | SLOPE;
+  }
 
-  // FIXME: make images and editor_images a sprite
   images        = create_surfaces(reader.read_lisp("images"));
   editor_images = create_surfaces(reader.read_lisp("editor-images"));
-
-  return id;
 }
 
-/* EOF */
+void
+Tile::draw(DrawingContext& context, const Vector& pos, int layer) const
+{
+  if(images.size() > 1) {
+    size_t frame = ((global_frame_counter*25) / anim_speed) % images.size();
+    context.draw_surface(images[frame], pos, layer);
+  } else if (images.size() == 1) {
+    context.draw_surface(images[0], pos, layer);
+  }
+}
 

@@ -22,9 +22,8 @@
 #ifndef SUPERTUX_GAMEOBJS_H
 #define SUPERTUX_GAMEOBJS_H
 
-#include "special/base.h"
 #include "video/surface.h"
-#include "special/timer.h"
+#include "timer.h"
 #include "scene.h"
 #include "math/physic.h"
 #include "collision.h"
@@ -41,54 +40,34 @@ namespace SuperTux {
 class Sprite;
 }
 
-struct TileId;
-
-class BouncyDistro : public GameObject
+class BouncyCoin : public GameObject
 {
 public:
-  BouncyDistro(const Vector& pos);
+  BouncyCoin(const Vector& pos);
+  ~BouncyCoin();
   virtual void action(float elapsed_time);
   virtual void draw(DrawingContext& context);
 
 private:
+  Sprite* sprite;
   Vector position;
-  float ym;
+  Timer2 timer;
 };
-
-extern Surface* img_distro[4];
-
-#define BOUNCY_BRICK_MAX_OFFSET 8
-#define BOUNCY_BRICK_SPEED 0.9
-
-class Tile;
 
 class BrokenBrick : public GameObject
 {
 public:
-  BrokenBrick(Tile* tile, const Vector& pos, const Vector& movement);
+  BrokenBrick(Sprite* sprite, const Vector& pos, const Vector& movement);
+  ~BrokenBrick();
 
   virtual void action(float elapsed_time);
   virtual void draw(DrawingContext& context);
 
 private:
-  Timer timer;
-  Tile* tile;
+  Timer2 timer;
+  Sprite* sprite;
   Vector position;
   Vector movement;
-};
-
-class BouncyBrick : public GameObject
-{
-public:
-  BouncyBrick(const Vector& pos);
-  virtual void action(float elapsed_time);
-  virtual void draw(DrawingContext& context);
-  
-private:
-  Vector position;
-  float offset;   
-  float offset_m;
-  TileId& shape;      
 };
 
 class FloatingText : public GameObject
@@ -103,9 +82,10 @@ public:
 private:
   Vector position;
   std::string text;
-  Timer timer;  
+  Timer2 timer;  
 };
 
+#if 0
 extern Sprite *img_trampoline;
 
 class Trampoline : public MovingObject, public Serializable
@@ -128,39 +108,7 @@ public:
   float power;
   unsigned int frame;
 };
-
-extern Sprite *img_flying_platform;
-
-class FlyingPlatform : public MovingObject, public Serializable
-{
-public:
-  FlyingPlatform(LispReader& reader);
-  FlyingPlatform(int x, int y);
- 
-  virtual void write(LispWriter& writer);
-  virtual void action(float frame_ratio);
-  virtual void draw(DrawingContext& context);
-
-  virtual void collision(const MovingObject& other, int);
-  void collision(void *p_c_object, int c_object, CollisionType type);
-
-  float get_vel_x() { return vel_x; }
-  float get_vel_y() { return vel_y; }
-
-  Physic physic;
-  enum { M_NORMAL, M_HELD } mode;
-
- private:
-  std::vector<int> pos_x;
-  std::vector<int> pos_y;
-  float velocity;
-
-  float vel_x, vel_y;  // calculated based in the velocity
-
-  int point;
-  bool move;
-  unsigned int frame;
-};
+#endif
 
 extern Sprite *img_smoke_cloud;
 
@@ -173,7 +121,7 @@ public:
   virtual void draw(DrawingContext& context);
 
 private:
-  Timer timer;
+  Timer2 timer;
   Vector position;
 };
 
@@ -190,7 +138,7 @@ public:
 
 private:
   Vector accel;
-  Timer timer;
+  Timer2 timer;
   bool live_forever;
 
   Color color;
@@ -205,6 +153,7 @@ private:
 };
 
 void load_object_gfx();
+void free_object_gfx();
 
 #endif 
 

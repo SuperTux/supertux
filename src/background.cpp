@@ -17,6 +17,8 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
+#include <config.h>
+
 #include "background.h"
 #include "app/globals.h"
 #include "camera.h"
@@ -116,10 +118,11 @@ Background::draw(DrawingContext& context)
       context.pop_transform();
       }
   } else if(type == IMAGE) {
-    int sx = int(-context.get_translation().x * speed)
-      % image->w - image->w;
-    int sy = int(-context.get_translation().y * speed)
-      % image->h - image->h;
+    if(!image)
+      return;
+    
+    int sx = int(-context.get_translation().x * speed) % image->w - image->w;
+    int sy = int(-context.get_translation().y * speed) % image->h - image->h;
     context.push_transform();
     context.set_translation(Vector(0, 0));
     for(int x = sx; x < screen->w; x += image->w)

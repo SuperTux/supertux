@@ -16,14 +16,47 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+#include <config.h>
 
-#include "interactive_object.h"
+#include "trigger_base.h"
+#include "player.h"
+#include "video/drawing_context.h"
 
-InteractiveObject::InteractiveObject()
+TriggerBase::TriggerBase()
+  : sprite(0)
 {
 }
 
-InteractiveObject::~InteractiveObject()
+TriggerBase::~TriggerBase()
 {
+}
+
+void
+TriggerBase::action(float )
+{
+  lasthit = hit;
+  hit = false;
+}
+
+void
+TriggerBase::draw(DrawingContext& context)
+{
+  if(!sprite)
+    return;
+
+  sprite->draw(context, get_pos(), LAYER_TILES+1);
+}
+
+HitResponse
+TriggerBase::collision(GameObject& other, const CollisionHit& collhit)
+{
+  Player* player = dynamic_cast<Player*> (&other);
+  if(player) {
+    hit = true;
+    if(!lasthit)
+      event(*player, EVENT_TOUCH);
+  }
+
+  return ABORT_MOVE;
 }
 

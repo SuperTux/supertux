@@ -20,7 +20,8 @@
 
 #include <config.h>
 
-#include "../app/globals.h"
+#include "app/globals.h"
+#include "special/timer.h"
 
 namespace SuperTux {
 

@@ -20,6 +20,8 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 
+#include <config.h>
+
 #include <iostream>
 #include <cmath>
 
@@ -126,8 +128,9 @@ std::string badguykind_to_string(BadGuyKind kind)
     }
 }
 
+#if 0
 BadGuy::BadGuy(BadGuyKind kind_, LispReader& lispreader)
-  : removable(false), squishcount(0)
+  : squishcount(0)
 {
   lispreader.read_float("x", start_position.x);
   lispreader.read_float("y", start_position.y);
@@ -141,7 +144,7 @@ BadGuy::BadGuy(BadGuyKind kind_, LispReader& lispreader)
 }
 
 BadGuy::BadGuy(BadGuyKind kind_, float x, float y)
-  : removable(false), squishcount(0)
+  : squishcount(0)
 {
   start_position.x = x;
   start_position.y = y;
@@ -159,12 +162,10 @@ BadGuy::~BadGuy()
 void
 BadGuy::init()
 {
-  base.x = start_position.x;
-  base.y = start_position.y;
-  base.width  = 32;
-  base.height = 32;
+  bbox.set_pos(start_position);
+  bbox.set_size(32, 32);
   
-  mode     = NORMAL;
+  state    = NORMAL;
   old_base = base;
   dir      = LEFT;
   seen     = false;
@@ -175,17 +176,6 @@ BadGuy::init()
   timer.init(true);
 
   specs = badguyspecs_manager->load(badguykind_to_string(kind));
-
-  // if we're in a solid tile at start correct that now
-  if(Sector::current()) {
-  if(kind != BAD_FLAME && kind != BAD_FISH && kind != BAD_FLAMEFISH && collision_object_map(base)) 
-    {
-      std::cout << "Warning: badguy started in wall: kind: " << badguykind_to_string(kind) 
-                << " pos: (" << base.x << ", " << base.y << ")" << std::endl;
-      while(collision_object_map(base))
-        --base.y;
-    }
-  }
 }
 
 void
@@ -203,12 +193,12 @@ BadGuy::write(LispWriter& writer)
 void
 BadGuy::activate(Direction activation_dir)
 {
-  mode     = NORMAL;
+  state     = NORMAL;
   animation_offset = 0;
   target.x = target.y = -1;
   physic.reset();
-  frozen_timer.init(true);
-  timer.init(true);
+  frozen_timer.start(0);
+  timer.start(0);
 
   dying = DYING_NOT;
   seen = true;
@@ -225,7 +215,7 @@ BadGuy::activate(Direction activation_dir)
     set_action("left-up", "right-up");
   } else if(kind == BAD_BOMB) {
     set_action("ticking-left", "ticking-right");
-    // hack so that the bomb doesn't hurt until it expldes...           
+    // hack so that the bomb doesn't hurt until it explodes...
     dying = DYING_SQUISHED;
   } else if(kind == BAD_FLAME) {
     angle = 0;
@@ -255,51 +245,51 @@ BadGuy::activate(Direction activation_dir)
   } else if (kind == BAD_WALKINGTREE) {
     // TODO: why isn't the height/width being set properly in set_action?
     physic.set_velocity(dirsign * BADGUY_WALK_SPEED, 0);
-    mode = BGM_BIG;
+    state = BGM_BIG;
     set_action("left", "left");
-    base.width = 66;
-    base.height = 66;
+    bbox.set_size(66, 66);
   }
 }
 
 Surface*
 BadGuy::get_image()
 {
-// Set action as the "default" one.
-specs->sprite->set_action("left");
-if(BAD_JUMPY)
-  specs->sprite->set_action("left-up");
-else if(kind == BAD_BOMB)
-  specs->sprite->set_action("ticking-left");
-else if(kind == BAD_FLAME)
-  specs->sprite->set_action("normal");
-else if(kind == BAD_STALACTITE)
-  specs->sprite->set_action("normal");
-else if(kind == BAD_FISH)
-  specs->sprite->set_action("normal");
-else if(kind == BAD_FLAMEFISH)
-  specs->sprite->set_action("normal");
+  // Set action as the "default" one.
+  specs->sprite->set_action("left");
+  if(BAD_JUMPY)
+    specs->sprite->set_action("left-up");
+  else if(kind == BAD_BOMB)
+    specs->sprite->set_action("ticking-left");
+  else if(kind == BAD_FLAME)
+    specs->sprite->set_action("normal");
+  else if(kind == BAD_STALACTITE)
+    specs->sprite->set_action("normal");
+  else if(kind == BAD_FISH)
+    specs->sprite->set_action("normal");
+  else if(kind == BAD_FLAMEFISH)
+    specs->sprite->set_action("normal");
 
-return specs->sprite->get_frame(0);
+  return specs->sprite->get_frame(0);
 }
 
+#if 0
 void
 BadGuy::action_mriceblock(double elapsed_time)
 {
   Player& tux = *Sector::current()->player;
 
-  if(mode != HELD)
+  if(state != HELD)
     fall();
   
   /* Move left/right: */
-  if (mode != HELD)
+  if (state != HELD)
     {
       // move
       physic.apply(elapsed_time, base.x, base.y, Sector::current()->gravity);
       if (dying != DYING_FALLING)
         collision_swept_object_map(&old_base,&base);
     }
-  else if (mode == HELD)
+  else if (state == HELD)
     { /* FIXME: The pbad object shouldn't know about pplayer objects. */
       /* If we're holding the iceblock */
       dir = tux.dir;
@@ -334,7 +324,7 @@ BadGuy::action_mriceblock(double elapsed_time)
             base.x = tux.base.x + tux.base.width;
           old_base = base;
 
-          mode=KICK;
+          state=KICK;
           tux.kick_timer.start(KICKING_TIME);
           set_action("flat-left", "flat-right");
           physic.set_velocity_x((dir == LEFT) ? -3.5 : 3.5);
@@ -346,18 +336,18 @@ BadGuy::action_mriceblock(double elapsed_time)
     {
       int changed = dir;
       check_horizontal_bump();
-      if(mode == KICK && changed != dir)
+      if(state == KICK && changed != dir)
         {
           SoundManager::get()->play_sound(IDToSound(SND_RICOCHET), get_pos(), Sector::current()->player->get_pos());
         }
     }
 
-  /* Handle mode timer: */
-  if (mode == FLAT)
+  /* Handle state timer: */
+  if (state == FLAT)
     {
       if(!timer.check())
         {
-          mode = NORMAL;
+          state = NORMAL;
           set_action("left", "right");
           physic.set_velocity( (dir == LEFT) ? -.8 : .8, 0);
         }
@@ -370,7 +360,7 @@ BadGuy::check_horizontal_bump(bool checkcliff)
     float halfheight = base.height / 2;
     if (dir == LEFT && issolid( base.x, base.y + halfheight))
     {
-        if (kind == BAD_MRICEBLOCK && mode == KICK)
+        if (kind == BAD_MRICEBLOCK && state == KICK)
             {
             Sector::current()->trybreakbrick(Vector(base.x, base.y + halfheight), false);
             Sector::current()->tryemptybox(Vector(base.x, base.y + halfheight), dir);
@@ -382,7 +372,7 @@ BadGuy::check_horizontal_bump(bool checkcliff)
     }
     if (dir == RIGHT && issolid( base.x + base.width, base.y + halfheight))
     {
-        if (kind == BAD_MRICEBLOCK && mode == KICK)
+        if (kind == BAD_MRICEBLOCK && state == KICK)
             {
             Sector::current()->trybreakbrick(
                 Vector(base.x + base.width, base.y + halfheight), false);
@@ -438,7 +428,7 @@ BadGuy::fall()
           // no gravity anymore please
           physic.enable_gravity(false);
 
-          if (stay_on_platform && mode == NORMAL)
+          if (stay_on_platform && state == NORMAL)
             {
               if (!issolid(base.x + ((dir == LEFT) ? 0 : base.width),
                            base.y + base.height))
@@ -462,22 +452,22 @@ BadGuy::fall()
       physic.enable_gravity(true);
     }
 }
+#endif
 
 void
 BadGuy::action_jumpy(double elapsed_time)
 {
-  if(frozen_timer.check())
-    {
+  if(frozen_timer.check()) {
     set_action("left-iced", "right-iced");
     return;
-    }
+  }
 
   const float vy = physic.get_velocity_y();
 
   // XXX: These tests *should* use location from ground, not velocity
-  if (fabsf(vy) > 5.6f)
+  if (fabsf(vy) > 560)
     set_action("left-down", "right-down");
-  else if (fabsf(vy) > 5.3f)
+  else if (fabsf(vy) > 530)
     set_action("left-middle", "right-middle");
   else
     set_action("left-up", "right-up");
@@ -493,21 +483,20 @@ BadGuy::action_jumpy(double elapsed_time)
       physic.set_velocity_y(JUMPV);
       physic.enable_gravity(true);
 
-      mode = JUMPY_JUMP;
+      state = JUMPY_JUMP;
     }
-  else if(mode == JUMPY_JUMP)
+  else if(state == JUMPY_JUMP)
     {
-      mode = NORMAL;
+      state = NORMAL;
     }
 
   // set direction based on tux
-  if(dying == DYING_NOT)
-    {
+  if(dying == DYING_NOT) {
     if(tux.base.x > base.x)
       dir = RIGHT;
     else
       dir = LEFT;
-    }
+  }
 
   // move
   physic.apply(elapsed_time, base.x, base.y, Sector::current()->gravity);
@@ -542,18 +531,18 @@ BadGuy::action_bomb(double elapsed_time)
     
   fall();
 
-  if(mode == NORMAL) {
-    mode = BOMB_TICKING;
+  if(state == NORMAL) {
+    state = BOMB_TICKING;
     timer.start(TICKINGTIME);
   } else if(!timer.check()) {
-    if(mode == BOMB_TICKING) {
-      mode = BOMB_EXPLODE;
+    if(state == BOMB_TICKING) {
+      state = BOMB_EXPLODE;
       set_action("explosion", "explosion");
       dying = DYING_NOT; // now the bomb hurts
       timer.start(EXPLODETIME);
 
       SoundManager::get()->play_sound(IDToSound(SND_EXPLODE), this, Sector::current()->player->get_pos());
-    } else if(mode == BOMB_EXPLODE) {
+    } else if(state == BOMB_EXPLODE) {
       remove_me();
       return;
     }
@@ -572,31 +561,31 @@ BadGuy::action_stalactite(double elapsed_time)
   static const int SHAKETIME = 800;
   static const int RANGE = 40;
     
-  if(mode == NORMAL) {
+  if(state == NORMAL) {
     // start shaking when tux is below the stalactite and at least 40 pixels
     // near
     if(tux.base.x + 32 > base.x - RANGE && tux.base.x < base.x + 32 + RANGE
             && tux.base.y + tux.base.height > base.y
             && tux.dying == DYING_NOT) {
       timer.start(SHAKETIME);
-      mode = STALACTITE_SHAKING;
+      state = STALACTITE_SHAKING;
     }
-  } if(mode == STALACTITE_SHAKING) {
+  } if(state == STALACTITE_SHAKING) {
     base.x = old_base.x + (rand() % 6) - 3; // TODO this could be done nicer...
     if(!timer.check()) {
-      mode = STALACTITE_FALL;
+      state = STALACTITE_FALL;
     }
-  } else if(mode == STALACTITE_FALL) {
+  } else if(state == STALACTITE_FALL) {
     fall();
     /* Destroy if we collides with land */
     if(issolid(base.x+base.width/2, base.y+base.height))
     {
       timer.start(2000);
       dying = DYING_SQUISHED;
-      mode = FLAT;
+      state = FLAT;
       set_action("broken", "broken");
     }
-  } else if(mode == FLAT) {
+  } else if(state == FLAT) {
     fall();
   }
 
@@ -634,23 +623,23 @@ BadGuy::action_fish(double elapsed_time)
   static const float JUMPV = 6;
   static const int WAITTIME = 1000;
     
-  // go in wait mode when back in water
+  // go in wait state when back in water
   if(dying == DYING_NOT 
       && gettile(base.x, base.y + base.height)
       && gettile(base.x, base.y + base.height)->attributes & Tile::WATER
-      && physic.get_velocity_y() <= 0 && mode == NORMAL)
+      && physic.get_velocity_y() <= 0 && state == NORMAL)
     {
-      mode = FISH_WAIT;
+      state = FISH_WAIT;
       set_action("hide", "hide");
       physic.set_velocity(0, 0);
       physic.enable_gravity(false);
       timer.start(WAITTIME);
     }
-  else if(mode == FISH_WAIT && !timer.check())
+  else if(state == FISH_WAIT && !timer.check())
     {
       // jump again
       set_action("normal", "normal");
-      mode = NORMAL;
+      state = NORMAL;
       physic.set_velocity(0, JUMPV);
       physic.enable_gravity(true);
     }
@@ -680,7 +669,7 @@ BadGuy::action_bouncingsnowball(double elapsed_time)
     }                                                     
   else
     {
-      mode = NORMAL;
+      state = NORMAL;
     }
 
   // check for right/left collisions
@@ -701,19 +690,19 @@ BadGuy::action_flyingsnowball(double elapsed_time)
   static const float FLYINGSPEED = 1;
   static const int DIRCHANGETIME = 1000;
     
-  // go into flyup mode if none specified yet
-  if(dying == DYING_NOT && mode == NORMAL) {
-    mode = FLY_UP;
+  // go into flyup state if none specified yet
+  if(dying == DYING_NOT && state == NORMAL) {
+    state = FLY_UP;
     physic.set_velocity_y(FLYINGSPEED);
     timer.start(DIRCHANGETIME/2);
   }
 
   if(dying == DYING_NOT && !timer.check()) {
-    if(mode == FLY_UP) {
-      mode = FLY_DOWN;
+    if(state == FLY_UP) {
+      state = FLY_DOWN;
       physic.set_velocity_y(-FLYINGSPEED);
-    } else if(mode == FLY_DOWN) {
-      mode = FLY_UP;
+    } else if(state == FLY_DOWN) {
+      state = FLY_UP;
       physic.set_velocity_y(FLYINGSPEED);
     }
     timer.start(DIRCHANGETIME);
@@ -986,7 +975,7 @@ BadGuy::draw(DrawingContext& context)
   else
     specs->sprite->draw(context, Vector(base.x, base.y), LAYER_OBJECTS);
 
-  if(debug_mode)
+  if(debug_state)
     context.draw_filled_rect(Vector(base.x, base.y),
         Vector(base.width, base.height), Color(75,0,75, 150), LAYER_OBJECTS+1);
 }
@@ -1079,16 +1068,16 @@ BadGuy::squish(Player* player)
     return;
 
   } else if (kind == BAD_MRICEBLOCK) {
-    if (mode == NORMAL || mode == KICK)
+    if (state == NORMAL || state == KICK)
       {
         /* Flatten! */
         SoundManager::get()->play_sound(IDToSound(SND_STOMP), get_pos(), Sector::current()->player->get_pos());
-        mode = FLAT;
+        state = FLAT;
         set_action("flat-left", "flat-right");
         physic.set_velocity_x(0);
 
         timer.start(4000);
-      } else if (mode == FLAT) {
+      } else if (state == FLAT) {
         /* Kick! */
         SoundManager::get()->play_sound(IDToSound(SND_KICK), this, Sector::current()->player->get_pos());
 
@@ -1100,7 +1089,7 @@ BadGuy::squish(Player* player)
           dir = LEFT;
         }
 
-        mode = KICK;
+        state = KICK;
         player->kick_timer.start(KICKING_TIME);
         set_action("flat-left", "flat-right");
       }
@@ -1148,7 +1137,7 @@ BadGuy::squish(Player* player)
     squish_me(player);
     set_action("left", "right");
   } else if(kind == BAD_WALKINGTREE) {
-    if (mode == BGM_BIG)
+    if (state == BGM_BIG)
     {
       set_action("left-small", "left-small");
       physic.set_velocity_x(physic.get_velocity_x() * 2.0f);
@@ -1167,7 +1156,7 @@ BadGuy::squish(Player* player)
                                 25 * player_status.score_multiplier);
       player_status.score_multiplier++;
 
-      mode = BGM_SMALL;
+      state = BGM_SMALL;
     }
     else
       squish_me(player);
@@ -1180,14 +1169,14 @@ BadGuy::kill_me(int score)
   if(kind == BAD_BOMB)
     return;
 
-  if(mode != HELD)
+  if(state != HELD)
     global_stats.add_points(BADGUYS_KILLED_STAT, 1);
 
   dying = DYING_FALLING;
   if(kind == BAD_MRICEBLOCK) {
     set_action("falling-left", "falling-right");
-    if(mode == HELD) {
-      mode = NORMAL;
+    if(state == HELD) {
+      state = NORMAL;
       Player& tux = *Sector::current()->player;
       tux.holding_something = false;
     }
@@ -1211,7 +1200,7 @@ BadGuy::explode(bool right_way)
   if(right_way)
     {
     badguy->timer.start(0);
-    badguy->mode = BOMB_TICKING;
+    badguy->state = BOMB_TICKING;
     }
   badguy->dir = dir;
 
@@ -1267,14 +1256,14 @@ BadGuy::collision(void *p_c_object, int c_object, CollisionType type)
 
 
       /* If we're a kicked mriceblock, kill [almost] any badguys we hit */
-      if(kind == BAD_MRICEBLOCK && mode == KICK &&
+      if(kind == BAD_MRICEBLOCK && state == KICK &&
          kind != BAD_FLAME && kind != BAD_BOMB && kind != BAD_STALACTITE)
         {
           pbad_c->kill_me(25);
         }
 
       // a held mriceblock kills the enemy too but falls to ground then
-      else if(kind == BAD_MRICEBLOCK && mode == HELD)
+      else if(kind == BAD_MRICEBLOCK && state == HELD)
         {
           pbad_c->kill_me(25);
           kill_me(0);
@@ -1366,7 +1355,7 @@ BadGuy::collision(void *p_c_object, int c_object, CollisionType type)
     case CO_PLAYER:
       Player* player = static_cast<Player*>(p_c_object);
       /* Get kicked if were flat */
-      if (mode == FLAT && !dying)
+      if (state == FLAT && !dying)
       {
         SoundManager::get()->play_sound(IDToSound(SND_KICK), this, Sector::current()->player->get_pos());
 
@@ -1381,7 +1370,7 @@ BadGuy::collision(void *p_c_object, int c_object, CollisionType type)
           dir = LEFT;
         }
 
-        mode = KICK;
+        state = KICK;
         player->kick_timer.start(KICKING_TIME);
         set_action("flat-left", "flat-right");
       }
@@ -1390,4 +1379,4 @@ BadGuy::collision(void *p_c_object, int c_object, CollisionType type)
     }
 }
 
-// EOF //
+#endif

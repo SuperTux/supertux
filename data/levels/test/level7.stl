@@ -1,7 +1,7 @@
 ;SuperTux level made using the built-in leveleditor
 (supertux-level
   (version 1)
-  (name "Fire Test")
+  (name "Slope/Platform Test")
   (author "Ingo Ruhnke")
   (music "Mortimers_chipdisko.mod")
   (background "")
@@ -77,5 +77,6 @@
   (fish (x 1726) (y 243) (stay-on-platform #f))
   (spiky (x 1398) (y 315) (stay-on-platform #f))
   (flyingsnowball (x 1490) (y 267) (stay-on-platform #f))
+  (platform (x 50) (y 100))
 )
 )

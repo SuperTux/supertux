@@ -35,11 +35,17 @@ class LispReader;
 class Level
 {
 public:
+  enum EndSequenceType{
+    NONE_ENDSEQ_ANIM,
+    FIREWORKS_ENDSEQ_ANIM
+  };
+
   std::string name;
   std::string author;
-  int time_left;
+  int timelimit;
   typedef std::map<std::string, Sector*> Sectors;
   Sectors sectors;
+  EndSequenceType end_sequence_type;
 
 public:
   Level();
@@ -48,6 +54,9 @@ public:
   void load(const std::string& filename);
   void save(const std::string& filename);
   static void create(const std::string& filename);
+
+  EndSequenceType get_end_sequence_type() const
+  { return end_sequence_type; }
 
   const std::string& get_name() const
   { return name; }

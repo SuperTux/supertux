@@ -1,7 +1,7 @@
 //  $Id$
 //
 //  SuperTux -  A Jump'n Run
-//  Copyright (C) 2004 Matthias Braun <matze@braunis.de
+//  Copyright (C) 2004 Matthias Braun <matze@braunis.de>
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -20,8 +20,6 @@
 #ifndef SUPERTUX_VECTOR_H
 #define SUPERTUX_VECTOR_H
 
-#include "../special/base.h"
-
 namespace SuperTux
   {
 
@@ -35,9 +33,6 @@ namespace SuperTux
       { }
       Vector(const Vector& other)
           : x(other.x), y(other.y)
-      { }
-      Vector(const base_type& base)
-          : x(base.x), y(base.y)
       { }
       Vector()
           : x(0), y(0)
@@ -89,6 +84,20 @@ namespace SuperTux
       {
         x += other.x;
         y += other.y;
+        return *this;
+      }
+
+      const Vector& operator *=(float val)
+      {
+        x *= val;
+        y *= val;
+        return *this;
+      }
+
+      const Vector& operator /=(float val)
+      {
+        x /= val;
+        y /= val;
         return *this;
       }
 

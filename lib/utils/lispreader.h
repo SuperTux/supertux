@@ -61,14 +61,6 @@ namespace SuperTux {
 #define LISP_PATTERN_LIST       7
 #define LISP_PATTERN_OR         8
 
-// Exception
-class LispReaderException : public SuperTuxException
-{
-  public:
-    LispReaderException(const char* _message = "lispreader error", const char* _file = "", const unsigned int _line = 0)
-      : SuperTuxException(_message, _file, _line) { };
-};
-
 typedef struct
   {
     int type;
@@ -191,6 +183,7 @@ public:
   bool read_string_vector(const char* name, std::vector<std::string>& vec);
   bool read_string(const char* name, std::string& str, bool translatable = false);
   bool read_int(const char* name, int& i);
+  bool read_uint(const char* name, unsigned int& i);
   bool read_float(const char* name, float& f);
   bool read_bool(const char* name, bool& b);
   bool read_lisp(const char* name, lisp_object_t*& b);

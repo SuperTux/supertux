@@ -16,6 +16,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+#include <config.h>
+
 #include <algorithm>
 #include <cassert>
 #include <iostream>
@@ -29,9 +31,9 @@ using namespace SuperTux;
 
 DrawingContext::DrawingContext()
 {
-transform.draw_effect = NONE_EFFECT;
-transform.zoom = 1;
-transform.alpha = 255;
+  transform.draw_effect = NONE_EFFECT;
+  transform.zoom = 1;
+  transform.alpha = 255;
 }
 
 DrawingContext::~DrawingContext()
@@ -50,6 +52,11 @@ DrawingContext::draw_surface(const Surface* surface, const Vector& position,
   request.layer = layer;
   request.request_data = const_cast<Surface*> (surface);
   request.pos = transform.apply(position);
+
+  if(request.pos.x >= screen->w || request.pos.y >= screen->h
+      || request.pos.x + surface->w < 0 || request.pos.y + surface->h < 0)
+    return;
+  
   request.drawing_effect = drawing_effect;
   request.drawing_effect = transform.draw_effect | drawing_effect;
   request.zoom = transform.zoom;

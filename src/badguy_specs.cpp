@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <config.h>
+
 #include <iostream>
 
 #include "special/sprite_manager.h"
@@ -124,12 +126,11 @@ BadGuySpecs::BadGuySpecs(LispReader& reader)
   if(str.empty())
     std::cerr << "Warning: No sprite has been set to badguy " << kind << std::endl;
   else
-    sprite = sprite_manager->load(str);
+    sprite = sprite_manager->create(str);
 
-  if(!sprite)
-    {
+  if(!sprite) {
     std::cerr << "Warning: Sprite '" << str << "' could not be loaded.\n";
-    }
+  }
 }
 
 BadGuySpecs::BadGuySpecs(std::string& kind_)
@@ -140,6 +141,7 @@ BadGuySpecs::BadGuySpecs(std::string& kind_)
 
 BadGuySpecs::~BadGuySpecs()
 {
+  delete sprite;
 }
 
 void

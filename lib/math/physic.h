@@ -21,7 +21,7 @@
 #ifndef SUPERTUX_PHYSIC_H
 #define SUPERTUX_PHYSIC_H
 
-#include "../math/vector.h"
+#include "math/vector.h"
 
 namespace SuperTux
   {
@@ -67,11 +67,7 @@ namespace SuperTux
       /// Enables or disables handling of gravity.
       void enable_gravity(bool gravity_enabled);
 
-      /// Applies the physical simulation to given x and y coordinates.
-      void apply(float frame_ratio, float &x, float &y, float gravity = 10.0f);
-
-      /// applies the physical simulation to given x and y coordinates.
-      void apply(Vector& vector, float frame_ratio, float gravity = 10.0f);
+      Vector get_movement(float elapsed_time);
 
     private:
       /// horizontal and vertical acceleration

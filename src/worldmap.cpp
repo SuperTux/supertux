@@ -17,6 +17,8 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
+#include <config.h>
+
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -39,7 +41,7 @@
 #include "app/gettext.h"
 #include "misc.h"
 
-#define map_message_TIME 2800
+#define map_message_TIME 2.8
 
 Menu* worldmap_menu  = 0;
 
@@ -359,7 +361,7 @@ Tux::action(float delta)
             {
               if(special_tile && !special_tile->map_message.empty() &&
                 !special_tile->passive_message)
-                worldmap->passive_message_timer.stop();
+                worldmap->passive_message_timer.start(0);
               stop();
             }
           else
@@ -488,7 +490,6 @@ WorldMap::WorldMap()
   music = "SALCON.MOD";
 
   global_frame_counter = 0;
-  frame_timer.init(true);
 
   total_stats.reset();
 }
@@ -829,11 +830,9 @@ std::cerr << "one way only\n";
 void
 WorldMap::update(float delta)
 {
-  if(!frame_timer.check())
-    {
-    frame_timer.start(25);
+  if(!frame_timer.check()) {
     global_frame_counter++;
-    }
+  }
 
   if (enter_level && !tux->is_moving())
     {
@@ -1184,6 +1183,7 @@ WorldMap::display()
   frame_rate.set_frame_limit(false);
 
   frame_rate.start();
+  frame_timer.start(.25, true);
 
   DrawingContext context;
   while(!quit)

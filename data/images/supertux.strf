@@ -783,9 +783,9 @@
 
 ;; Bad Guys follow
 
- ;; Laptop
+ ;; MrIceBlock
  (sprite (name "mriceblock")
-       (action
+    (action
          (name "left")
          (x-offset 2)
          (y-offset 3)
@@ -794,27 +794,27 @@
                  "shared/mriceblock-left-2.png"
                  "shared/mriceblock-left-1.png"))
 
- (action (name "right")
+    (action (name "right")
          (x-offset 2)
          (y-offset 3)
          (mirror-action "left"))
 
- (action (name "falling-left")
+    (action (name "falling-left")
          (x-offset 2)
          (y-offset 3)
          (images "shared/mriceblock-flat-left.png"))
 
- (action (name "falling-right")
+    (action (name "falling-right")
          (x-offset 2)
          (y-offset 3)
          (mirror-action "falling-left"))
  
- (action (name "flat-left")
+    (action (name "flat-left")
          (x-offset 2)
          (y-offset 3)
          (images "shared/mriceblock-flat-left.png"))
 
- (action (name "flat-right")
+    (action (name "flat-right")
          (x-offset 2)
          (y-offset 3)
          (mirror-action "falling-left")))
@@ -1162,10 +1162,79 @@
   ; Door
   (sprite (name "door")
        (action
+          (name "default")
           (x-offset 0)
           (y-offset 64)
-          (images "shared/door-1.png")
-  ))
+          (images "shared/door-1.png"))
+       (action
+          (name "open")
+          (x-offset 0)
+          (y-offset 64)
+          (images "shared/door-1.png"
+                  "shared/door-2.png"
+                  "shared/door-3.png"
+                  "shared/door-4.png"
+                  "shared/door-5.png"
+                  "shared/door-6.png"
+                  "shared/door-7.png"
+                  "shared/door-8.png"
+                  "shared/door-7.png"
+                  "shared/door-6.png"
+                  "shared/door-5.png"
+                  "shared/door-4.png"
+                  "shared/door-3.png"
+                  "shared/door-2.png"
+                  "shared/door-1.png"))
+  )
+
+  ; coin
+  (sprite (name "coin")
+      (action 
+          (name "default")
+          (images "tilesets/coin-1.png"
+                  "tilesets/coin-2.png"
+                  "tilesets/coin-3.png"
+                  "tilesets/coin-4.png"
+                  "tilesets/coin-5.png"
+                  "tilesets/coin-6.png"
+                  "tilesets/coin-7.png"
+                  "tilesets/coin-8.png"))
+      (action
+          (name "still")
+          (images "tilesets/coin-1.png"))
+  )
+
+  (sprite (name "bonusblock")
+      (action
+         (name "default")
+         (images "tilesets/bonus2-1.png"
+                 "tilesets/bonus2-2.png"
+                 "tilesets/bonus2-3.png"
+                 "tilesets/bonus2-4.png"
+                 "tilesets/bonus2-5.png"))
+      (action
+         (name "empty")
+         (images "tilesets/bonus2-d.png"))
+  )
+
+  (sprite (name "brick")
+      (action 
+        (name "empty")
+        (images "tilesets/bonus2-d.png"))
+      (action 
+        (name "default")
+        (images "tilesets/brick0.png"))
+  )
+
+  (sprite (name "icedbrick")
+      (action 
+        (name "empty")
+        (images "tilesets/bonus2-d.png"))
+      (action 
+        (name "default")
+        (images "tilesets/brick1.png"))
+  )
+                 
 ;   (sprite (name "openingdoor")
 ;        (action
 ;           (x-offset 0)

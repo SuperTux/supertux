@@ -21,6 +21,7 @@
 #define SUPERTUX_TILEMAP_H
 
 #include <vector>
+#include <stdint.h>
 
 #include "special/game_object.h"
 #include "serializable.h"
@@ -35,15 +36,6 @@ class LispReader;
 class Level;
 class TileManager;
 class Tile;
-
-struct TileId
-{
-  TileId() : id(0), hidden(0) {}
-  explicit TileId(unsigned int i, bool hidden_ = false) : id(i), hidden(hidden_) {}
-
-  unsigned id     :31;
-  unsigned hidden :1;
-};
 
 /**
  * This class is reponsible for drawing the level tiles
@@ -85,19 +77,17 @@ public:
   bool is_solid() const
   { return solid; }
 
-  TileId& get_tile_id_at(const Vector& pos);
-
   /// returns tile in row y and column y (of the tilemap)
-  Tile* get_tile(int x, int y) const;
+  const Tile* get_tile(int x, int y) const;
   /// returns tile at position pos (in world coordinates)
-  Tile* get_tile_at(const Vector& pos) const;
+  const Tile* get_tile_at(const Vector& pos) const;
 
-  void change(int x, int y, unsigned int newtile);
+  void change(int x, int y, uint32_t newtile);
 
-  void change_at(const Vector& pos, unsigned int newtile);
+  void change_at(const Vector& pos, uint32_t newtile);
 
 private:
-  std::vector<TileId> tiles;
+  std::vector<uint32_t> tiles;
   
 private:
   TileManager* tilemanager;

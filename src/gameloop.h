@@ -22,9 +22,7 @@
 #ifndef SUPERTUX_GAMELOOP_H
 #define SUPERTUX_GAMELOOP_H
 
-#include "special/timer.h"
-#include "special/base.h"
-#include "special/frame_rate.h"
+#include "timer.h"
 #include "statistics.h"
 
 using namespace SuperTux;
@@ -58,16 +56,15 @@ class DrawingContext;
 class GameSession
 {
 private:
-  Timer fps_timer;
-  Timer frame_timer;
-  Timer endsequence_timer;
+  Uint32 fps_ticks;
+  Timer2 frame_timer;
+  Timer2 endsequence_timer;
   Level* level;
   Sector* currentsector;
 
   int st_gl_mode;
   int levelnb;
   float fps_fps;
-  FrameRate frame_rate;
   int pause_menu_frame;
 
   /** If true the end_sequence will be played, user input will be
@@ -95,7 +92,7 @@ private:
   ExitStatus exit_status;
 public:
   DrawingContext* context;
-  Timer time_left;
+  Timer2 time_left;
 
   GameSession(const std::string& level, int mode, bool flip_level_ = false, Statistics* statistics = NULL);
   ~GameSession();
@@ -104,7 +101,7 @@ public:
   ExitStatus run();
 
   void draw();
-  void action(double frame_ratio);
+  void action(float frame_ratio);
 
   void set_current()
   { current_ = this; }
@@ -114,14 +111,14 @@ public:
       const std::string& spawnpointname);
   Sector* get_current_sector()
   { return currentsector; }
+
+  void start_sequence(const std::string& sequencename);
   
 private:
   static GameSession* current_;
 
   // for cheating
   std::string last_keys;
-  // for fire works
-  Timer random_timer;
 
   // swap points
   Vector last_swap_point;
@@ -146,7 +143,6 @@ private:
 
 std::string slotinfo(int slot);
 
-bool rectcollision(base_type* one, base_type* two);
 void bumpbrick(float x, float y);
 
 /** Return true if the gameloop() was entered, false otherwise */

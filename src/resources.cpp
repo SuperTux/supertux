@@ -17,18 +17,18 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
+#include <config.h>
+
 #include "app/globals.h"
 #include "special/sprite_manager.h"
-#include "audio/sound_manager.h"
 #include "app/setup.h"
+#include "gui/menu.h"
 #include "gui/button.h"
 #include "scene.h"
 #include "player.h"
 #include "badguy.h"
 #include "gameobjs.h"
-#include "special.h"
 #include "resources.h"
-#include "door.h"
 #include "badguy_specs.h"
 
 Surface* img_waves[3]; 
@@ -54,7 +54,6 @@ MusicRef herring_song;
 MusicRef level_end_song;
 
 SpriteManager* sprite_manager = 0;
-SoundManager* sound_manager = 0;
 
 char * soundfilenames[NUM_SOUNDS] = {
                                        "/sounds/jump.wav",
@@ -120,9 +119,9 @@ void loadshared()
   sprite_manager = new SpriteManager(datadir + "/images/supertux.strf");
 
   /* Tuxes: */
-  smalltux_star = sprite_manager->load("smalltux-star");
-  bigtux_star = sprite_manager->load("bigtux-star");
-  smalltux_gameover = sprite_manager->load("smalltux-gameover");
+  smalltux_star = sprite_manager->create("smalltux-star");
+  bigtux_star = sprite_manager->create("bigtux-star");
+  smalltux_gameover = sprite_manager->create("smalltux-gameover");
 
   char img_name[1024];
   for (int i = 0; i < GROWING_FRAMES; i++)
@@ -135,28 +134,28 @@ void loadshared()
     }
 
   small_tux = new TuxBodyParts();
-  small_tux->head = NULL;
-  small_tux->body = sprite_manager->load("small-tux-body");
-  small_tux->arms = sprite_manager->load("small-tux-arms");
-  small_tux->feet = NULL;
+  small_tux->head = 0;
+  small_tux->body = sprite_manager->create("small-tux-body");
+  small_tux->arms = sprite_manager->create("small-tux-arms");
+  small_tux->feet = 0;
 
   big_tux = new TuxBodyParts();
-  big_tux->head = sprite_manager->load("big-tux-head");
-  big_tux->body = sprite_manager->load("big-tux-body");
-  big_tux->arms = sprite_manager->load("big-tux-arms");
-  big_tux->feet = sprite_manager->load("big-tux-feet");
+  big_tux->head = sprite_manager->create("big-tux-head");
+  big_tux->body = sprite_manager->create("big-tux-body");
+  big_tux->arms = sprite_manager->create("big-tux-arms");
+  big_tux->feet = sprite_manager->create("big-tux-feet");
 
   fire_tux = new TuxBodyParts();
-  fire_tux->head = sprite_manager->load("big-fire-tux-head");
-  fire_tux->body = sprite_manager->load("big-tux-body");
-  fire_tux->arms = sprite_manager->load("big-tux-arms");
-  fire_tux->feet = sprite_manager->load("big-tux-feet");
+  fire_tux->head = sprite_manager->create("big-fire-tux-head");
+  fire_tux->body = sprite_manager->create("big-tux-body");
+  fire_tux->arms = sprite_manager->create("big-tux-arms");
+  fire_tux->feet = sprite_manager->create("big-tux-feet");
 
   ice_tux = new TuxBodyParts();
-  ice_tux->head = sprite_manager->load("big-tux-head");
-  ice_tux->body = sprite_manager->load("big-tux-body");
-  ice_tux->arms = sprite_manager->load("big-tux-arms");
-  ice_tux->feet = sprite_manager->load("big-tux-feet");
+  ice_tux->head = sprite_manager->create("big-tux-head");
+  ice_tux->body = sprite_manager->create("big-tux-body");
+  ice_tux->arms = sprite_manager->create("big-tux-arms");
+  ice_tux->feet = sprite_manager->create("big-tux-feet");
 
   /* Load Bad Guys resources */
   badguyspecs_manager = new BadGuySpecsManager(datadir + "/badguys.strf");
@@ -217,19 +216,8 @@ void loadshared()
   img_cloud[1][3] = new Surface(datadir + "/images/shared/cloud-13.png",
                                 true);
 
-  /* Upgrades: */
-  load_special_gfx();
-
   /* Objects */
   load_object_gfx();
-
-  // load the door object graphics:
-  door = sprite_manager->load("door");
-  for (int i = 0; i < DOOR_OPENING_FRAMES; i++)
-    {
-      sprintf(img_name, "%s/images/shared/door-%i.png", datadir.c_str(), i+1);
-      door_opening[i] = new Surface(img_name, true);
-    }
 
   /* Distros: */
   img_distro[0] = new Surface(datadir + "/images/tilesets/coin1.png",
@@ -274,6 +262,10 @@ void loadshared()
 /* Free shared data: */
 void unloadshared(void)
 {
+  delete smalltux_star;
+  delete bigtux_star;
+  delete smalltux_gameover;
+
   /* Free global images: */
   delete gold_text;
   delete white_text;
@@ -283,26 +275,23 @@ void unloadshared(void)
   delete white_big_text;
   delete yellow_nums;
   
-  int i;
-
-  free_special_gfx();
+  free_object_gfx();
 
   delete img_water;
-  for (i = 0; i < 3; i++)
+  for (int i = 0; i < 3; i++)
     delete img_waves[i];
 
   delete img_pole;
   delete img_poletop;
 
-  for (i = 0; i < 2; i++)
+  for (int i = 0; i < 2; i++)
     delete img_flag[i];
 
-  for (i = 0; i < 4; i++)
-    {
-      delete img_distro[i];
-      delete img_cloud[0][i];
-      delete img_cloud[1][i];
-    }
+  for (int i = 0; i < 4; i++) {
+    delete img_distro[i];
+    delete img_cloud[0][i];
+    delete img_cloud[1][i];
+  }
 
   delete tux_life;
 
@@ -311,20 +300,12 @@ void unloadshared(void)
   delete fire_tux;
   delete ice_tux;
 
-  for (int i = 0; i < GROWING_FRAMES; i++)
-  {
+  for (int i = 0; i < GROWING_FRAMES; i++) {
     delete growingtux_left[i];
     delete growingtux_right[i];
   }
 
-  // door game object:
-
-  for (int i = 0; i < DOOR_OPENING_FRAMES; i++)
-    delete door_opening[i];
-
   delete sprite_manager;
   sprite_manager = 0;
-  sound_manager = 0;
 }
 
-/* EOF */

@@ -16,18 +16,17 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
 #ifndef SUPERTUX_PLAYER_H
 #define SUPERTUX_PLAYER_H
 
 #include "SDL.h"
 
 #include "bitmask.h"
-#include "special/timer.h"
-#include "special/base.h"
+#include "timer.h"
 #include "video/surface.h"
 #include "collision.h"
 #include "special/moving_object.h"
+#include "special/sprite.h"
 #include "math/physic.h"
 #include "defines.h"
 
@@ -37,15 +36,11 @@ class BadGuy;
 
 /* Times: */
 
-#define TUX_SAFE_TIME 1250
-#define TUX_INVINCIBLE_TIME 10000
-#define TUX_INVINCIBLE_TIME_WARNING 2000
-#define TUX_FLAPPING_TIME 1000 /* How long Tux can flap his wings to gain additional jump height */
-#define TIME_WARNING 20000     /* When to alert player they're low on time! */
-
-/* One-ups... */
-
-#define DISTROS_LIFEUP 100
+#define TUX_SAFE_TIME 1.250
+#define TUX_INVINCIBLE_TIME 10.0
+#define TUX_INVINCIBLE_TIME_WARNING 2.0
+#define TUX_FLAPPING_TIME 1 /* How long Tux can flap his wings to gain additional jump height */
+#define TIME_WARNING 20     /* When to alert player they're low on time! */
 
 /* Scores: */
 
@@ -79,6 +74,7 @@ struct player_input_type
   int right;
   int left;
   int up;
+  int old_up;
   int down;
   int fire;
   int old_fire;
@@ -89,10 +85,8 @@ struct player_input_type
 
 void player_input_init(player_input_type* pplayer_input);
 
-namespace SuperTux {
-class Sprite;
-}
 class Camera;
+class PlayerStatus;
 
 extern Surface* tux_life;
 
@@ -100,7 +94,7 @@ extern Sprite* smalltux_gameover;
 extern Sprite* smalltux_star;
 extern Sprite* bigtux_star;
 
-#define GROWING_TIME 1000
+#define GROWING_TIME 1.0
 #define GROWING_FRAMES 7
 extern Surface* growingtux_left[GROWING_FRAMES];
 extern Surface* growingtux_right[GROWING_FRAMES];
@@ -108,8 +102,15 @@ extern Surface* growingtux_right[GROWING_FRAMES];
 class TuxBodyParts
 {
 public:
-  TuxBodyParts() { };
-  ~TuxBodyParts() { };
+  TuxBodyParts()
+    : head(0), body(0), arms(0), feet(0)
+  { }
+  ~TuxBodyParts() {
+    delete head;
+    delete body;
+    delete arms;
+    delete feet;
+  }
 
   void set_action(std::string action);
   void one_time_animation();
@@ -148,6 +149,7 @@ public:
   float last_ground_y;
   FallMode fall_mode;
 
+  bool on_ground_flag;
   bool jumping;
   bool flapping;
   bool can_jump;
@@ -167,17 +169,16 @@ public:
   enum { MAREK_FLAP, RICARDO_FLAP, RYAN_FLAP, NONE_FLAP };
   int flapping_mode;
 
-  base_type  previous_base;
-  Timer invincible_timer;
-  Timer skidding_timer;
-  Timer safe_timer;
-  Timer frame_timer;
-  Timer kick_timer;
-  Timer shooting_timer;   // used to show the arm when Tux is shooting
-  Timer dying_timer;
-  Timer growing_timer;
-  Timer idle_timer;
-  Timer flapping_timer;
+  Timer2 invincible_timer;
+  Timer2 skidding_timer;
+  Timer2 safe_timer;
+  Timer2 frame_timer;
+  Timer2 kick_timer;
+  Timer2 shooting_timer;   // used to show the arm when Tux is shooting
+  Timer2 dying_timer;
+  Timer2 growing_timer;
+  Timer2 idle_timer;
+  Timer2 flapping_timer;
   Physic physic;
   
 public:
@@ -189,24 +190,26 @@ public:
   void handle_input();
   void grabdistros();
 
+  PlayerStatus& get_status();
+
   virtual void action(float elapsed_time);
   virtual void draw(DrawingContext& context);
-  virtual void collision(const MovingObject& other_object,
-      int collision_type);
+  virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
 
-  void collision(void* p_c_object, int c_object);
+  void make_invincible();
+  bool is_invincible() const
+  {
+      return invincible_timer.started();
+  }
   void kill(HurtMode mode);
   void player_remove_powerups();
   void check_bounds(Camera* camera);
   bool on_ground();
   bool under_solid();
-  bool tiles_on_air(int tiles);
-  void grow(bool animate);
+  void grow(bool animate = false);
   void move(const Vector& vector);
 
-  /** let the player jump a bit or more if jump button is hold down
-      (used when you hit a badguy) */
-  void bounce(BadGuy* badguy);
+  void bounce(BadGuy& badguy);
 
   bool is_dead() const
   { return dead; }

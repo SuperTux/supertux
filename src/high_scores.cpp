@@ -20,6 +20,8 @@
 
 /* Open the highscore file: */
 
+#include <config.h>
+
 #include <cstring>
 #include <cstdlib>
 

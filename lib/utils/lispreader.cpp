@@ -20,8 +20,11 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  * Boston, MA 02111-1307, USA.
  */
+#include <config.h>
+
 #include <iostream>
 #include <vector>
+#include <stdexcept>
 #include <string>
 #include <cctype>
 #include <cstdlib>
@@ -68,7 +71,7 @@ static void
 _token_append (char c)
 {
   if (token_length >= MAX_TOKEN_LENGTH)
-    throw LispReaderException("_token_append()", __FILE__, __LINE__);
+    throw std::runtime_error("token too long.");
 
   token_string[token_length++] = c;
   token_string[token_length] = '\0';
@@ -98,7 +101,7 @@ _next_char (lisp_stream_t *stream)
       return stream->v.any.next_char(stream->v.any.data);
     }
 
-  throw LispReaderException("_next_char()", __FILE__, __LINE__);
+  assert(false);
   return EOF;
 }
 
@@ -120,7 +123,7 @@ _unget_char (char c, lisp_stream_t *stream)
       break;
 
     default :
-      throw LispReaderException("_unget_char()", __FILE__, __LINE__);
+      assert(false);
     }
 }
 
@@ -272,7 +275,7 @@ _scan (lisp_stream_t *stream)
         }
     }
 
-  throw LispReaderException("_scan()", __FILE__, __LINE__);
+  throw std::runtime_error("invalid token in lisp file");
   return TOKEN_ERROR;
 }
 
@@ -311,7 +314,7 @@ SuperTux::lisp_stream_init_any (lisp_stream_t *stream, void *data,
                       void (*unget_char) (char c, void *data))
 {
   if (next_char == 0 || unget_char == 0)
-    throw LispReaderException("lisp_stream_init_any()", __FILE__, __LINE__);
+    throw std::runtime_error("no data");
 
   stream->type = LISP_STREAM_ANY;
   stream->v.any.data = data;
@@ -499,7 +502,7 @@ SuperTux::lisp_read (lisp_stream_t *in)
       return lisp_make_boolean(0);
     }
 
-  throw LispReaderException("lisp_read()", __FILE__, __LINE__);
+  throw std::runtime_error("syntax error in lisp file");
   return &error_object;
 }
 
@@ -663,7 +666,7 @@ static int
 _match_pattern_var (lisp_object_t *pattern, lisp_object_t *obj, lisp_object_t **vars)
 {
   if (lisp_type(pattern) != LISP_TYPE_PATTERN_VAR)
-    throw LispReaderException("_match_pattern_var", __FILE__, __LINE__);
+    throw std::runtime_error("type is not a var");
 
   switch (pattern->v.pattern.type)
     {
@@ -708,7 +711,7 @@ _match_pattern_var (lisp_object_t *pattern, lisp_object_t *obj, lisp_object_t **
         for (sub = pattern->v.pattern.sub; sub != 0; sub = lisp_cdr(sub))
           {
             if (lisp_type(sub) != LISP_TYPE_CONS)
-              throw LispReaderException("_match_pattern_var()", __FILE__, __LINE__);
+              throw std::runtime_error("type isn't a car/cons");
 
             if (_match_pattern(lisp_car(sub), obj, vars))
               matched = 1;
@@ -720,7 +723,7 @@ _match_pattern_var (lisp_object_t *pattern, lisp_object_t *obj, lisp_object_t **
       break;
 
     default :
-      throw LispReaderException("_match_pattern_var()", __FILE__, __LINE__);
+      assert(false);
     }
 
   if (vars != 0)
@@ -770,7 +773,7 @@ _match_pattern (lisp_object_t *pattern, lisp_object_t *obj, lisp_object_t **vars
       break;
 
     default :
-      throw LispReaderException("_match_pattern()", __FILE__, __LINE__);
+      assert(false);
     }
 
   return 0;
@@ -826,7 +829,7 @@ int
 SuperTux::lisp_integer (lisp_object_t *obj)
 {
   if (obj->type != LISP_TYPE_INTEGER)
-    throw LispReaderException("lisp_integer()", __FILE__, __LINE__);
+    throw std::runtime_error("expected integer");
 
   return obj->v.integer;
 }
@@ -835,7 +838,7 @@ char*
 SuperTux::lisp_symbol (lisp_object_t *obj)
 {
   if (obj->type != LISP_TYPE_SYMBOL)
-    throw LispReaderException("lisp_symbol()", __FILE__, __LINE__);
+    throw std::runtime_error("expected symbol");
 
   return obj->v.string;
 }
@@ -844,7 +847,7 @@ char*
 SuperTux::lisp_string (lisp_object_t *obj)
 {
   if (obj->type != LISP_TYPE_STRING)
-    throw LispReaderException("lisp_string()", __FILE__, __LINE__);
+    throw std::runtime_error("expected string");
 
   return obj->v.string;
 }
@@ -853,7 +856,7 @@ int
 SuperTux::lisp_boolean (lisp_object_t *obj)
 {
   if (obj->type != LISP_TYPE_BOOLEAN)
-    throw LispReaderException("lisp_boolean()", __FILE__, __LINE__);
+    throw std::runtime_error("expected boolean");
 
   return obj->v.integer;
 }
@@ -862,7 +865,7 @@ float
 SuperTux::lisp_real (lisp_object_t *obj)
 {
   if (obj->type != LISP_TYPE_REAL && obj->type != LISP_TYPE_INTEGER)
-    throw LispReaderException("lisp_real()", __FILE__, __LINE__);
+    throw std::runtime_error("expected real");
 
   if (obj->type == LISP_TYPE_INTEGER)
     return obj->v.integer;
@@ -873,7 +876,7 @@ lisp_object_t*
 SuperTux::lisp_car (lisp_object_t *obj)
 {
   if (obj->type != LISP_TYPE_CONS && obj->type != LISP_TYPE_PATTERN_CONS)
-    throw LispReaderException("lisp_car()", __FILE__, __LINE__);
+    throw std::runtime_error("expected car");
 
   return obj->v.cons.car;
 }
@@ -882,7 +885,7 @@ lisp_object_t*
 SuperTux::lisp_cdr (lisp_object_t *obj)
 {
   if (obj->type != LISP_TYPE_CONS && obj->type != LISP_TYPE_PATTERN_CONS)
-    throw LispReaderException("lisp_cdr()", __FILE__, __LINE__);
+    throw std::runtime_error("expected cons");
 
   return obj->v.cons.cdr;
 }
@@ -898,7 +901,7 @@ SuperTux::lisp_cxr (lisp_object_t *obj, const char *x)
     else if (x[i] == 'd')
       obj = lisp_cdr(obj);
     else
-      throw LispReaderException("lisp_cxr()", __FILE__, __LINE__);
+      throw std::runtime_error("couldn't parse cxr");
 
   return obj;
 }
@@ -911,7 +914,7 @@ SuperTux::lisp_list_length (lisp_object_t *obj)
   while (obj != 0)
     {
       if (obj->type != LISP_TYPE_CONS && obj->type != LISP_TYPE_PATTERN_CONS)
-        throw LispReaderException("lisp_list_length()", __FILE__, __LINE__);
+        throw std::runtime_error("expected cons");
 
       ++length;
       obj = obj->v.cons.cdr;
@@ -926,9 +929,9 @@ SuperTux::lisp_list_nth_cdr (lisp_object_t *obj, int index)
   while (index > 0)
     {
       if (obj == 0)
-        throw LispReaderException("lisp_list_nth_cdr()", __FILE__, __LINE__);
+        throw std::runtime_error("list too short");
       if (obj->type != LISP_TYPE_CONS && obj->type != LISP_TYPE_PATTERN_CONS)
-        throw LispReaderException("lisp_list_nth_cdr()", __FILE__, __LINE__);
+        throw std::runtime_error("expected cons");
 
       --index;
       obj = obj->v.cons.cdr;
@@ -943,7 +946,7 @@ SuperTux::lisp_list_nth (lisp_object_t *obj, int index)
   obj = lisp_list_nth_cdr(obj, index);
 
   if (obj == 0)
-    throw LispReaderException("lisp_list_nth()", __FILE__, __LINE__);
+    throw std::runtime_error("list too short");
 
   return obj->v.cons.car;
 }
@@ -1025,7 +1028,7 @@ SuperTux::lisp_dump (lisp_object_t *obj, FILE *out)
       break;
 
     default :
-      throw LispReaderException("lisp_dump()", __FILE__, __LINE__);
+      throw std::runtime_error("unknown list type");
     }
 }
 
@@ -1049,13 +1052,12 @@ LispReader::load(const std::string& filename, const std::string& toplevellist)
 
   if(obj->type == LISP_TYPE_EOF || obj->type == LISP_TYPE_PARSE_ERROR) {
     lisp_free(obj);
-    throw LispReaderException("LispReader::load", __FILE__, __LINE__);
+    throw std::runtime_error("Error while parsing lispfile");
   }
 
   if(toplevellist != lisp_symbol(lisp_car(obj))) {
     lisp_car(obj);
-    throw LispReaderException("LispReader::load wrong toplevel symbol",
-        __FILE__, __LINE__);
+    throw std::runtime_error("Worng toplevel symbol in lisp file");
   }
   
   LispReader* reader = new LispReader(lisp_cdr(obj));  
@@ -1077,7 +1079,6 @@ LispReader::search_for(const char* name)
       if (!lisp_cons_p(cur) || !lisp_symbol_p (lisp_car(cur)))
         {
           lisp_dump(cur, stdout);
-          //throw ConstruoError (std::string("LispReader: Read error in search_for ") + name);
 	  printf("LispReader: Read error in search\n");
         }
       else
@@ -1104,6 +1105,20 @@ LispReader::read_int (const char* name, int& i)
     return false;
   
   i = lisp_integer(lisp_car(obj));
+  return true;
+}
+
+bool
+LispReader::read_uint (const char* name, unsigned int& i)
+{
+  lisp_object_t* obj = search_for (name);
+  if(!obj)
+    return false;
+      
+  if (!lisp_integer_p(lisp_car(obj)))
+    return false;
+  
+  i = (unsigned int) lisp_integer(lisp_car(obj));
   return true;
 }
 
@@ -1291,5 +1306,3 @@ lisp_object_t* SuperTux::lisp_read_from_file(const std::string& filename)
 
   return obj;
 }
-
-// EOF //

@@ -1,7 +1,7 @@
 //  $Id$
 //
 //  SuperTux -  A Jump'n Run
-//  Copyright (C) 2004 Matthias Braun <matze@braunis.de
+//  Copyright (C) 2004 Matthias Braun <matze@braunis.de>
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -46,8 +46,9 @@ namespace SuperTux
       virtual ~GameObject();
 
       /** This function is called once per frame and allows the object to update
-       * it's state. The elapsed_time is the time since the last frame and should be
-       * the base for all timed things.
+       * it's state. The elapsed_time is the time since the last frame in
+       * seconds and should be the base for all timed calculations (don't use
+       * SDL_GetTicks directly as this will fail in pause mode)
        */
       virtual void action(float elapsed_time) = 0;
 
@@ -67,11 +68,27 @@ namespace SuperTux
         wants_to_die = true;
       }
 
+      // flags
+      enum {
+        /// the tile so you can stand on it
+        FLAG_SOLID       = 0x0001,
+        /// can be used to temporatily disable collision detection
+        FLAG_NO_COLLDET  = 0x0002
+      };                     
+
+      int get_flags() const
+      {
+        return flags;            
+      }
+
     private:
       /** this flag indicates if the object should be removed at the end of the
        * frame
        */
       bool wants_to_die;
+
+    protected:
+      int flags;
     };
 
 }

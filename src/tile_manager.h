@@ -25,6 +25,8 @@
 #include <vector>
 #include <string>
 #include <map>
+#include <stdint.h>
+#include <assert.h>
 
 class Tile;
 
@@ -45,11 +47,11 @@ class TileManager
   TileManager();
   ~TileManager();
   
-  typedef std::map<int, Tile*> Tiles;
+  typedef std::vector<Tile*> Tiles;
   Tiles tiles;
 
   static TileManager* instance_ ;
-  static std::set<TileGroup>* tilegroups_;
+  std::set<TileGroup> tilegroups;
   void load_tileset(std::string filename);
 
   std::string current_tileset;
@@ -60,15 +62,21 @@ class TileManager
   static void destroy_instance()
   { delete instance_; instance_ = 0; }
 
-  void draw_tile(DrawingContext& context, unsigned int id,
-      const Vector& pos, int layer);
-  
-  static std::set<TileGroup>* tilegroups() { if(!instance_) { instance_ = new TileManager(); } return tilegroups_ ? tilegroups_ : tilegroups_ = new std::set<TileGroup>; }
+  const std::set<TileGroup>& get_tilegroups() const
+  {
+    return tilegroups;
+  }
 
-  unsigned int total_ids()
-    { return tiles.size(); }
+  const Tile* get(uint32_t id) const
+  {
+    assert(id < tiles.size());
+    return tiles[id];
+  }
 
-  Tile* get(unsigned int id);
+  uint32_t get_max_tileid() const
+  {
+    return tiles.size();
+  }
 };
 
 #endif

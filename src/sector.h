@@ -25,7 +25,6 @@
 
 #include "math/vector.h"
 #include "badguy.h"
-#include "special.h"
 #include "audio/musicref.h"
 #include "video/drawing_context.h"
 
@@ -34,6 +33,7 @@ using namespace SuperTux;
 namespace SuperTux {
 class GameObject;
 class LispReader;
+class Sprite;
 }
 
 class InteractiveObject;
@@ -55,11 +55,6 @@ struct SpawnPoint
   std::string name;
   Vector pos;
 };
-
-enum {
-  NONE_ENDSEQ_ANIM,
-  FIREWORKS_ENDSEQ_ANIM
-  };
 
 /** This class holds a sector (a part of a level) and all the game objects
  * (badguys, player, background, tilemap, ...)
@@ -94,6 +89,9 @@ public:
   const std::string& get_name() const
   { return name; }
 
+  /// tests if a given rectangle is inside the sector
+  bool inside(const Rectangle& rectangle) const;
+
   void play_music(int musictype);
   int get_music_type();
   
@@ -101,52 +99,33 @@ public:
       collision_handlers, which the collision_objects provide for this
       case (or not). */
   void collision_handler();
-                                                                                
+
   void add_score(const Vector& pos, int s);
-  void add_bouncy_distro(const Vector& pos);
-  void add_broken_brick(const Vector& pos, Tile* tile);
-  void add_broken_brick_piece(const Vector& pos,
-      const Vector& movement, Tile* tile);
-  void add_bouncy_brick(const Vector& pos);
-                                                                                
-  BadGuy* add_bad_guy(float x, float y, BadGuyKind kind, bool activate);
-                                                                                
-  void add_upgrade(const Vector& pos, Direction dir, UpgradeKind kind);
+ 
   bool add_bullet(const Vector& pos, float xm, Direction dir);
   bool add_smoke_cloud(const Vector& pos);
-  bool add_particles(const Vector& epicenter, int min_angle, int max_angle, const Vector& initial_velocity, const Vector& acceleration, int number, Color color, int size, int life_time, int drawing_layer);
+  bool add_particles(const Vector& epicenter, int min_angle, int max_angle,
+      const Vector& initial_velocity, const Vector& acceleration, int number,
+      Color color, int size, int life_time, int drawing_layer);
   void add_floating_text(const Vector& pos, const std::string& text);
                                                                                 
-  /** Try to grab the coin at the given coordinates */
-  void trygrabdistro(const Vector& pos, int bounciness);
-                                                                                
-  /** Try to break the brick at the given coordinates */
-  bool trybreakbrick(const Vector& pos, bool small);
-                                                                                
-  /** Try to get the content out of a bonus box, thus emptying it */
-  void tryemptybox(const Vector& pos, Direction col_side);
-                                                                                
-  /** Try to bumb a badguy that might we walking above Tux, thus shaking
-      the tile which the badguy is walking on an killing him this way */
-  void trybumpbadguy(const Vector& pos);
-
   /** Flip the all the sector vertically. The purpose of this is to let
       player to play the same level in a different way :) */
   void do_vertical_flip();
 
-  /** Get end sequence animation */
-  int end_sequence_animation()
-    { return end_sequence_animation_type; }
-
-  /** @evil@ */
+  /** @evil@ but can#t always be avoided in current design... */
   static Sector* current()
   { return _current; }
 
-  /** Get total number of some stuff */
+  /** Get total number of badguys */
   int get_total_badguys();
 
 private:
+  void collision_tilemap(MovingObject* object, int depth);
+  void collision_object(MovingObject* object1, MovingObject* object2);
+  
   void load_music();
+  GameObject* parseObject(const std::string& name, LispReader& reader);
   
   static Sector* _current;
   
@@ -154,8 +133,6 @@ private:
 
   MusicRef level_song;
   MusicRef level_song_fast;
-
-  int end_sequence_animation_type;
 
 public:
   std::string song_title;
@@ -168,31 +145,21 @@ public:
   Camera* camera;
   
 private:
-  typedef std::vector<BadGuy*> BadGuys;
-  BadGuys badguys;
-  typedef std::vector<Trampoline*> Trampolines;
-  Trampolines trampolines;
-  typedef std::vector<FlyingPlatform*> FlyingPlatforms;
-  FlyingPlatforms flying_platforms;
-
-  std::vector<Upgrade*> upgrades;
   std::vector<Bullet*> bullets;
-  std::vector<SmokeCloud*> smoke_clouds;
-  std::vector<Particles*> particles;
 
-public: // ugly
+public: // TODO make this private again
   typedef std::vector<InteractiveObject*> InteractiveObjects;
   InteractiveObjects interactive_objects;
   typedef std::vector<GameObject*> GameObjects;
   GameObjects gameobjects;
-  GameObjects gameobjects_new; // For newly created objects
 
 private:
+  /// container for newly created objects, they'll be added in Sector::action
+  GameObjects gameobjects_new;
+  
   typedef std::vector<SpawnPoint*> SpawnPoints;
   SpawnPoints spawnpoints;
 
-  int distro_counter;
-  bool counting_distros;
   int currentmusic;
 };
 

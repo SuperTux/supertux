@@ -19,6 +19,8 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
+#include <config.h>
+
 #include <iostream>
 #include <sstream>
 #include <cassert>
@@ -46,7 +48,6 @@
 #include "gui/menu.h"
 #include "badguy.h"
 #include "sector.h"
-#include "special.h"
 #include "player.h"
 #include "level.h"
 #include "scene.h"
@@ -62,23 +63,26 @@
 #include "misc.h"
 #include "camera.h"
 #include "statistics.h"
+#include "timer.h"
+#include "object/fireworks.h"
 
 GameSession* GameSession::current_ = 0;
 
 bool compare_last(std::string& haystack, std::string needle)
 {
-int haystack_size = haystack.size();
-int needle_size = needle.size();
+  int haystack_size = haystack.size();
+  int needle_size = needle.size();
 
-if(haystack_size < needle_size)
+  if(haystack_size < needle_size)
+    return false;
+
+  if(haystack.compare(haystack_size-needle_size, needle_size, needle) == 0)
+    return true;
   return false;
-
-if(haystack.compare(haystack_size-needle_size, needle_size, needle) == 0)
-  return true;
-return false;
 }
 
-GameSession::GameSession(const std::string& levelname_, int mode, bool flip_level_, Statistics* statistics)
+GameSession::GameSession(const std::string& levelname_, int mode,
+    bool flip_level_, Statistics* statistics)
   : level(0), currentsector(0), st_gl_mode(mode),
     end_sequence(NO_ENDSEQUENCE), levelname(levelname_), flip_level(flip_level_),
     best_level_statistics(statistics)
@@ -88,11 +92,6 @@ GameSession::GameSession(const std::string& levelname_, int mode, bool flip_leve
   global_frame_counter = 0;
   game_pause = false;
   fps_fps = 0;
-
-  fps_timer.init(true);
-  frame_timer.init(true);
-  random_timer.init(true);
-  frame_rate.set_fps(100);
 
   context = new DrawingContext();
 
@@ -112,17 +111,16 @@ GameSession::restart_level()
   exit_status  = ES_NONE;
   end_sequence = NO_ENDSEQUENCE;
 
-  fps_timer.init(true);
-  frame_timer.init(true);
-  random_timer.init(true);
-
   last_keys.clear();
 
+#if 0
   Vector tux_pos = Vector(-1,-1);
   if (currentsector)
-    { // Tux has lost a life, so we try to respawn him at the nearest reset point
+    { 
+      // Tux has lost a life, so we try to respawn him at the nearest reset point
       tux_pos = currentsector->player->base;
     }
+#endif
   
   delete level;
   currentsector = 0;
@@ -135,13 +133,14 @@ GameSession::restart_level()
   global_stats.reset();
   global_stats.set_total_points(COINS_COLLECTED_STAT, level->get_total_coins());
   global_stats.set_total_points(BADGUYS_KILLED_STAT, level->get_total_badguys());
-  global_stats.set_total_points(TIME_NEEDED_STAT, level->time_left);
+  global_stats.set_total_points(TIME_NEEDED_STAT, level->timelimit);
 
   currentsector = level->get_sector("main");
   if(!currentsector)
     Termination::abort("Level has no main sector.", "");
   currentsector->activate("main");
 
+#if 0
   // Set Tux to the nearest reset point
   if(tux_pos.x != -1)
     {
@@ -163,6 +162,7 @@ GameSession::restart_level()
     currentsector->camera->reset(Vector(currentsector->player->base.x,
                                         currentsector->player->base.y));
     }
+#endif
 
   if (st_gl_mode != ST_GL_DEMO_GAME)
     {
@@ -170,7 +170,6 @@ GameSession::restart_level()
         levelintro();
     }
 
-  time_left.init(true);
   start_timers();
   currentsector->play_music(LEVEL_MUSIC);
 }
@@ -189,7 +188,8 @@ GameSession::levelintro(void)
   char str[60];
 
   DrawingContext context;
-  currentsector->background->draw(context);
+  if(currentsector->background)
+    currentsector->background->draw(context);
 
 //  context.draw_text(gold_text, level->get_name(), Vector(screen->w/2, 160),
 //      CENTER_ALLIGN, LAYER_FOREGROUND1);
@@ -224,9 +224,8 @@ GameSession::levelintro(void)
 void
 GameSession::start_timers()
 {
-  time_left.start(level->time_left*1000);
+  time_left.start(level->timelimit);
   Ticks::pause_init();
-  frame_rate.start();
 }
 
 void
@@ -272,12 +271,12 @@ GameSession::process_events()
       tux.input.right = DOWN;
       tux.input.down  = UP; 
 
-      if (int(last_x_pos) == int(tux.base.x))
+      if (int(last_x_pos) == int(tux.get_pos().x))
         tux.input.up    = DOWN; 
       else
         tux.input.up    = UP; 
 
-      last_x_pos = tux.base.x;
+      last_x_pos = tux.get_pos().x;
 
       SDL_Event event;
       while (SDL_PollEvent(&event))
@@ -373,7 +372,7 @@ GameSession::process_events()
                         {
                           char buf[160];
                           snprintf(buf, sizeof(buf), "P: %4.1f,%4.1f",
-                              tux.base.x, tux.base.y);
+                              tux.get_pos().x, tux.get_pos().y);
                           context->draw_text(white_text, buf,
                               Vector(0, screen->h - white_text->get_height()),
                               LEFT_ALLIGN, LAYER_FOREGROUND1);
@@ -451,7 +450,7 @@ GameSession::process_events()
                           }
                         if(compare_last(last_keys, "invincible"))
                           {    // be invincle for the rest of the level
-                          tux.invincible_timer.start(time_left.get_left());
+                          tux.invincible_timer.start(10000);
                           last_keys.clear();
                           }
                         if(compare_last(last_keys, "shrink"))
@@ -472,9 +471,12 @@ GameSession::process_events()
                           }
                         if(compare_last(last_keys, "gotoend"))
                           {    // goes to the end of the level
-                          tux.base.x = (currentsector->solids->get_width()*32) - (screen->w*2);
-                          tux.base.y = 0;
-                          currentsector->camera->reset(Vector(tux.base.x, tux.base.y));
+                          tux.move(Vector(
+                              (currentsector->solids->get_width()*32) 
+                                - (screen->w*2),
+                                0));
+                          currentsector->camera->reset(
+                              Vector(tux.get_pos().x, tux.get_pos().y));
                           last_keys.clear();
                           }
                         // temporary to help player's choosing a flapping
@@ -584,55 +586,31 @@ GameSession::check_end_conditions()
   Player* tux = currentsector->player;
 
   /* End of level? */
-  Tile* endtile = collision_goal(tux->base);
-
-  if(end_sequence && !endsequence_timer.check())
-    {
+  if(end_sequence && endsequence_timer.check()) {
       exit_status = ES_LEVEL_FINISHED;
       global_stats += last_swap_stats;  // add swap points stats
       return;
-    }
-  else if(end_sequence == ENDSEQUENCE_RUNNING && endtile && endtile->data >= 1)
-    {
-      end_sequence = ENDSEQUENCE_WAITING;
-    }
-  else if(!end_sequence && endtile && endtile->data == 0)
-    {
-      end_sequence = ENDSEQUENCE_RUNNING;
-      endsequence_timer.start(7000); // 5 seconds until we finish the map
-      last_x_pos = -1;
-      SoundManager::get()->play_music(level_end_song, 0);
-      tux->invincible_timer.start(7000); //FIXME: Implement a winning timer for the end sequence (with special winning animation etc.)
+  } else if (!end_sequence && tux->is_dead()) {
+    player_status.bonus = PlayerStatus::NO_BONUS;
 
-      // add left time to stats
-      global_stats.set_points(TIME_NEEDED_STAT, time_left.get_gone() / 1000);
-
-      random_timer.start(200);  // start 1st firework
+    if (player_status.lives < 0) { // No more lives!?
+      exit_status = ES_GAME_OVER;
+    } else { // Still has lives, so reset Tux to the levelstart
+      restart_level();
     }
-  else if (!end_sequence && tux->is_dead())
-    {
-      player_status.bonus = PlayerStatus::NO_BONUS;
-
-      if (player_status.lives < 0)
-        { // No more lives!?
-          exit_status = ES_GAME_OVER;
-        }
-      else
-        { // Still has lives, so reset Tux to the levelstart
-          restart_level();
-        }
-
-      return;
-    }
+    
+    return;
+  }
 }
 
 void
-GameSession::action(double frame_ratio)
+GameSession::action(float elapsed_time)
 {
+  // advance timers
   if (exit_status == ES_NONE && !currentsector->player->growing_timer.check())
     {
       // Update Tux and the World
-      currentsector->action(frame_ratio);
+      currentsector->action(elapsed_time);
     }
 
   // respawning in new sector?
@@ -643,24 +621,6 @@ GameSession::action(double frame_ratio)
     currentsector->play_music(LEVEL_MUSIC);
     newsector = newspawnpoint = "";
   }
-
-  // on end sequence make a few fireworks
-  if(end_sequence == ENDSEQUENCE_RUNNING && !random_timer.check() &&
-     currentsector->end_sequence_animation() == FIREWORKS_ENDSEQ_ANIM)
-    {
-    Vector epicenter = currentsector->camera->get_translation();
-    epicenter.x += screen->w * ((float)rand() / RAND_MAX);
-    epicenter.y += (screen->h/2) * ((float)rand() / RAND_MAX);
-
-    int red = rand() % 255;  // calculate firework color
-    int green = rand() % red;
-    currentsector->add_particles(epicenter, 0, 360, Vector(1.4,1.4),
-                   Vector(0,0), 45, Color(red,green,0), 3, 1300,
-                   LAYER_FOREGROUND1+1);
-
-    SoundManager::get()->play_sound(IDToSound(SND_FIREWORKS));
-    random_timer.start(rand() % 400 + 600);  // next firework
-    }
 }
 
 void 
@@ -749,94 +709,99 @@ GameSession::run()
   
   int fps_cnt = 0;
 
-  frame_rate.start();
-
   // Eat unneeded events
   SDL_Event event;
-  while (SDL_PollEvent(&event)) {}
+  while(SDL_PollEvent(&event))
+  {}
 
   draw();
 
-  while (exit_status == ES_NONE)
-    {
-      /* Calculate the movement-factor */
-      double frame_ratio = frame_rate.get();
+  Uint32 lastticks = SDL_GetTicks();
+  fps_ticks = SDL_GetTicks();
 
-      if(!frame_timer.check())
-        {
-          frame_timer.start(25);
-          ++global_frame_counter;
-        }
-
-      /* Handle events: */
-      currentsector->player->input.old_fire 
-        = currentsector->player->input.fire;
-
-      process_events();
-      process_menu();
-
-      // Update the world state and all objects in the world
-      // Do that with a constante time-delta so that the game will run
-      // determistic and not different on different machines
-      if(!game_pause && !Menu::current())
-        {
-          // Update the world
-          check_end_conditions();
-          if (end_sequence == ENDSEQUENCE_RUNNING)
-             action(frame_ratio/2);
-          else if(end_sequence == NO_ENDSEQUENCE)
-             action(frame_ratio);
-        }
-      else
-        {
-          ++pause_menu_frame;
-          SDL_Delay(50);
-        }
-
-      draw();
-
-      /* Time stops in pause mode */
-      if(game_pause || Menu::current())
-        {
-          continue;
-        }
-
-      frame_rate.update();
-
-      /* Handle time: */
-      if (!time_left.check() && currentsector->player->dying == DYING_NOT
-              && !end_sequence)
-        currentsector->player->kill(Player::KILL);
-
-      /* Handle music: */
-      if(currentsector->player->invincible_timer.check() && !end_sequence)
-        {
-          currentsector->play_music(HERRING_MUSIC);
-        }
-      /* are we low on time ? */
-      else if (time_left.get_left() < TIME_WARNING && !end_sequence)
-        {
-          currentsector->play_music(HURRYUP_MUSIC);
-        }
-      /* or just normal music? */
-      else if(currentsector->get_music_type() != LEVEL_MUSIC && !end_sequence)
-        {
-          currentsector->play_music(LEVEL_MUSIC);
-        }
-
-      /* Calculate frames per second */
-      if(show_fps)
-        {
-          ++fps_cnt;
-          fps_fps = (1000.0 / (float)fps_timer.get_gone()) * (float)fps_cnt;
-
-          if(!fps_timer.check())
-            {
-              fps_timer.start(1000);
-              fps_cnt = 0;
-            }
-        }
+  frame_timer.start(.025, true);
+  while (exit_status == ES_NONE) {
+    Uint32 ticks = SDL_GetTicks();
+    float elapsed_time = float(ticks - lastticks) / 1000.;
+    global_time += elapsed_time;
+    lastticks = ticks;
+    // 40fps is minimum
+    if(elapsed_time > .05)
+      elapsed_time = .05;
+    
+    if(frame_timer.check()) {
+      ++global_frame_counter;
     }
+
+    /* Handle events: */
+    currentsector->player->input.old_fire = currentsector->player->input.fire;
+    currentsector->player->input.old_up = currentsector->player->input.old_up;
+
+    process_events();
+    process_menu();
+
+    // Update the world state and all objects in the world
+    // Do that with a constante time-delta so that the game will run
+    // determistic and not different on different machines
+    if(!game_pause && !Menu::current())
+    {
+      // Update the world
+      check_end_conditions();
+      if (end_sequence == ENDSEQUENCE_RUNNING)
+        action(elapsed_time/2);
+      else if(end_sequence == NO_ENDSEQUENCE)
+        action(elapsed_time);
+    }
+    else
+    {
+      ++pause_menu_frame;
+      SDL_Delay(50);
+    }
+
+    draw();
+
+    /* Time stops in pause mode */
+    if(game_pause || Menu::current())
+    {
+      continue;
+    }
+
+    //frame_rate.update();
+    
+    /* Handle time: */
+    if (time_left.check() && currentsector->player->dying == DYING_NOT
+        && !end_sequence)
+      currentsector->player->kill(Player::KILL);
+    
+    /* Handle music: */
+    if(currentsector->player->invincible_timer.check() && !end_sequence)
+    {
+      currentsector->play_music(HERRING_MUSIC);
+    }
+    /* are we low on time ? */
+    else if (time_left.get_timeleft() < TIME_WARNING && !end_sequence)
+    {
+      currentsector->play_music(HURRYUP_MUSIC);
+    }
+    /* or just normal music? */
+    else if(currentsector->get_music_type() != LEVEL_MUSIC && !end_sequence)
+    {
+      currentsector->play_music(LEVEL_MUSIC);
+    }
+
+    /* Calculate frames per second */
+    if(show_fps)
+    {
+      ++fps_cnt;
+      
+      if(SDL_GetTicks() - fps_ticks >= 500)
+      {
+        fps_fps = (float) fps_cnt / .5;
+        fps_cnt = 0;
+        fps_ticks = SDL_GetTicks();
+      }
+    }
+  }
   
   return exit_status;
 }
@@ -848,13 +813,29 @@ GameSession::respawn(const std::string& sector, const std::string& spawnpoint)
   newspawnpoint = spawnpoint;
 }
 
-/* Bounce a brick: */
-void bumpbrick(float x, float y)
+void
+GameSession::start_sequence(const std::string& sequencename)
 {
-  Sector::current()->add_bouncy_brick(Vector(((int)(x + 1) / 32) * 32,
-                         (int)(y / 32) * 32));
+  if(sequencename == "endsequence") {
+    if(end_sequence)
+      return;
+    
+    end_sequence = ENDSEQUENCE_RUNNING;
+    endsequence_timer.start(7.0); // 7 seconds until we finish the map
+    last_x_pos = -1;
+    SoundManager::get()->play_music(level_end_song, 0);
+    currentsector->player->invincible_timer.start(7.0);
 
-  SoundManager::get()->play_sound(IDToSound(SND_BRICK), Vector(x, y), Sector::current()->player->get_pos());
+    // add left time to stats
+    global_stats.set_points(TIME_NEEDED_STAT,
+        int(time_left.get_period() - time_left.get_timeleft()));
+
+    if(level->get_end_sequence_type() == Level::FIREWORKS_ENDSEQ_ANIM) {
+      currentsector->add_object(new Fireworks());
+    }
+  } else {
+    std::cout << "Unknown sequence '" << sequencename << "'.\n";
+  }
 }
 
 /* (Status): */
@@ -873,11 +854,12 @@ GameSession::drawstatus(DrawingContext& context)
           LEFT_ALLIGN, LAYER_FOREGROUND1);
     }
 
-  if(!time_left.check()) {
+  if(time_left.check()) {
     context.draw_text(white_text, _("TIME's UP"), Vector(screen->w/2, 0),
         CENTER_ALLIGN, LAYER_FOREGROUND1);
-  } else if (time_left.get_left() > TIME_WARNING || (global_frame_counter % 10) < 5) {
-    sprintf(str, " %d", time_left.get_left() / 1000 );
+  } else if (time_left.get_timeleft() > TIME_WARNING
+      || (global_frame_counter % 10) < 5) {
+    sprintf(str, " %d", int(time_left.get_timeleft()));
     context.draw_text(white_text, _("TIME"),
         Vector(screen->w/2, 0), CENTER_ALLIGN, LAYER_FOREGROUND1);
     context.draw_text(gold_text, str,

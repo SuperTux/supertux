@@ -17,6 +17,8 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
+#include <config.h>
+
 #include <stdexcept>
 #include <sstream>
 #include <cmath>
@@ -68,7 +70,7 @@ Camera::read(LispReader& reader)
     if(cur == 0) {
       throw std::runtime_error("No path specified in autoscroll camera.");
     }
-    float speed = .5;
+    float speed = 50;
     while(!lisp_nil_p(cur)) {
       if(strcmp(lisp_symbol(lisp_car(lisp_car(cur))), "point") != 0) {
         std::cerr << "Warning: unknown token in camera path.\n";
@@ -134,7 +136,7 @@ Camera::reset(const Vector& tuxpos)
 }
 
 static const float EPSILON = .00001;
-static const float max_speed_y = 1.4;
+static const float max_speed_y = 140;
 
 void
 Camera::action(float elapsed_time)
@@ -181,12 +183,13 @@ Camera::scroll_normal(float elapsed_time)
   if(do_y_scrolling) {
     // target_y is the high we target our scrolling at. This is not always the
     // high of the player, but if he is jumping upwards we should use the
-    // position where he last touched the ground.
-    float target_y; 
+    // position where he last touched the ground. (this probably needs
+    // exceptions for trampolines and similar things in the future)
+    float target_y;
     if(player->fall_mode == Player::JUMPING)
-      target_y = player->last_ground_y + player->base.height;
+      target_y = player->last_ground_y + player->get_bbox().get_height();
     else
-      target_y = player->base.y + player->base.height;
+      target_y = player->get_bbox().p2.y;
 
     // delta_y is the distance we'd have to travel to directly reach target_y
     float delta_y = translation.y - (target_y - screen->h/2);
@@ -217,28 +220,29 @@ Camera::scroll_normal(float elapsed_time)
       || (player->dir == ::RIGHT && scrollchange == LEFT))
     scrollchange = NONE;
   // when in left 1/3rd of screen scroll left
-  if(player->base.x < translation.x + screen->w/3 - 16 && do_backscrolling)
+  if(player->get_bbox().get_middle().x < translation.x + screen->w/3 - 16
+      && do_backscrolling)
     scrollchange = LEFT;
   // scroll right when in right 1/3rd of screen
-  else if(player->base.x > translation.x + screen->w/3*2 + 16)
+  else if(player->get_bbox().get_middle().x > translation.x + screen->w/3*2+16)
     scrollchange = RIGHT;
 
   // calculate our scroll target depending on scroll mode
   float target_x;
   if(scrollchange == LEFT)
-    target_x = player->base.x - screen->w/3*2;
+    target_x = player->get_bbox().get_middle().x - screen->w/3*2;
   else if(scrollchange == RIGHT)
-    target_x = player->base.x - screen->w/3;
+    target_x = player->get_bbox().get_middle().x - screen->w/3;
   else
     target_x = translation.x;
 
   // that's the distance we would have to travel to reach target_x
   float delta_x = translation.x - target_x;
   // the speed we'd need to travel to reach target_x in this frame
-  float speed_x = 1.3 * delta_x / elapsed_time;
+  float speed_x = delta_x / elapsed_time;
 
   // limit our speed
-  float maxv = 1.3 * (1 + fabsf(player->physic.get_velocity_x() * 1.3));
+  float maxv = 130 + (fabsf(player->physic.get_velocity_x() * 1.3));
   if(speed_x > maxv)
     speed_x = maxv;
   else if(speed_x < -maxv)

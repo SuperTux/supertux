@@ -27,115 +27,83 @@
 #include "../utils/lispreader.h"
 #include "../video/surface.h"
 #include "../math/vector.h"
+#include "sprite_data.h"
 
 namespace SuperTux
-  {
-
+{
   class Sprite
+  {
+  public:
+    Sprite(SpriteData& data);
+    Sprite(const Sprite& other);
+    ~Sprite();
+    
+    /** Draw sprite, automatically calculates next frame */
+    void draw(DrawingContext& context, const Vector& pos, int layer,
+        Uint32 drawing_effect = NONE_EFFECT);
+
+    void draw_part(DrawingContext& context, const Vector& source,
+        const Vector& size, const Vector& pos, int layer,
+        Uint32 drawing_effect = NONE_EFFECT);
+
+    /** Set action (or state) */
+    void set_action(std::string act);
+
+    /* Start an animation
+       -1 - for infinite
+       0  - stopped
+       1,2,3  - one, two, three times... */
+    void start_animation(int loops);
+    /* Stop animation */
+    void stop_animation()
+    { start_animation(0); }
+    /** Check if animation is stopped or not */
+    bool check_animation();
+    /** Reverse the animation */
+    void reverse_animation(bool reverse);
+
+    float get_fps() const
+    { return action->fps; }
+    /** Get current action total frames */
+    int get_frames() const
+    { return action->surfaces.size(); }
+    /** Get sprite's name */
+    const std::string& get_name() const
+    { return data.name; }
+    /** Get current action name */
+    const std::string& get_action_name() const
+    { return action->name; }
+
+    int get_width() const;
+    int get_height() const;
+
+    /** Get current frame */
+    int get_frame() const
+    { return (int)frame; }
+    /** Set current frame */
+    void set_frame(int frame_)
+    { if(frame_ > get_frames()) frame = 0; else frame = frame_; }
+    Surface* get_frame(unsigned int frame)
     {
-    private:
+      if(frame < action->surfaces.size())
+        return action->surfaces[frame];
+      else
+        return action->surfaces[0];
+    }    
+  private:
+    void update();
+    void reset();
 
-      struct Action
-        {
-        std::string name;
+    SpriteData& data;
 
-        /** Position correction */
-        int x_offset;
-        int y_offset;
-        /** Drawing priority in queue */
-        int z_order;
+    float frame;
+    int animation_loops;
+    bool animation_reversed;
+    float last_tick;
 
-        /** Frames per second */
-        float fps;
-
-        /** Mirror is used to avoid duplicating left and right side
-            sprites */
-//        bool mirror;
-
-        std::vector<Surface*> surfaces;
-        };
-
-    public:
-      /** cur has to be a pointer to data in the form of ((x-offset 5)
-          (y-offset 10) ...) */
-      Sprite(lisp_object_t* cur);
-      ~Sprite();
-
-      /** Draw sprite, automatically calculates next frame */
-      void draw(DrawingContext& context, const Vector& pos, int layer,
-                Uint32 drawing_effect = NONE_EFFECT);
-
-      void draw_part(DrawingContext& context, const Vector& source,
-                    const Vector& size, const Vector& pos, int layer,
-                    Uint32 drawing_effect = NONE_EFFECT);
-
-      /** Set action (or state) */
-      void set_action(std::string act);
-
-      /* Start an animation
-          -1 - for infinite
-          0  - stopped
-          1,2,3  - one, two, three times... */
-      void start_animation(int loops);
-      /* Stop animation */
-      void stop_animation()
-        { start_animation(0); }
-      /** Check if animation is stopped or not */
-      bool check_animation();
-      /** Reverse the animation */
-      void reverse_animation(bool reverse);
-
-      float get_fps()
-        { return action->fps; }
-      /** Get current action total frames */
-      int get_frames()
-        { return action->surfaces.size(); }
-      /** Get sprite's name */
-      std::string get_name() const
-        { return name; }
-      /** Get current action name */
-      std::string get_action_name() const
-        { return action->name; }
-      int get_width();
-      int get_height();
-
-      /** Get current frame */
-      int get_frame()
-        { return (int)frame; }
-      /** Set current frame */
-      void set_frame(int frame_)
-        { if(frame_ > get_frames()) frame = 0; else frame = frame_; }
-      Surface* get_frame(unsigned int frame)
-      {
-        if(frame < action->surfaces.size())
-          return action->surfaces[frame];
-        else
-          return action->surfaces[0];
-      }    
-    private:
-      void init_defaults(Action* act);
-      void parse_action(LispReader& lispreader);
-
-      /** Get an action */
-      Action* get_action(std::string act);
-
-      void update();
-      void reset();
-
-      std::string name;
-
-      float frame;
-      int animation_loops;
-      bool animation_reversed;
-      float last_tick;
-
-      typedef std::map <std::string, Action*> Actions;
-      Actions actions;
-
-      Action* action;
-     std::string next_action;
-    };
-
+    SpriteData::Action* action;
+    std::string next_action;
+  };
 } //namespace SuperTux
 
 #endif /*SUPERTUX_SPRITE_H*/

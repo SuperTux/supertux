@@ -13,9 +13,16 @@ libsupertux_la_SOURCES =app/globals.cpp \
 			special/game_object.cpp \
 			special/moving_object.cpp \
 			special/sprite.cpp \
+                        special/sprite.h \
+                        special/sprite_data.cpp \
+                        special/sprite_data.h \
 			special/sprite_manager.cpp \
+                        special/sprite_manager.h \
 			special/timer.cpp \
 			special/frame_rate.cpp \
+                        special/collision.h \
+                        special/collision_hit.h \
+                        special/collision.cpp \
 			utils/configfile.cpp \
 			utils/lispreader.cpp \
 			utils/lispwriter.cpp \
@@ -41,8 +48,7 @@ libsupertuxgui_HEADERS =gui/button.h \
 			gui/mousecursor.h
 libsupertuxmath_HEADERS =math/physic.h \
 			math/vector.h
-libsupertuxspecial_HEADERS =special/base.h \
-			special/game_object.h \
+libsupertuxspecial_HEADERS = special/game_object.h \
 			special/moving_object.h \
 			special/sprite.h \
 			special/sprite_manager.h \

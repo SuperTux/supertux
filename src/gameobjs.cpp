@@ -18,6 +18,7 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
+#include <config.h>
 
 #include <algorithm>
 #include <iostream>
@@ -35,33 +36,46 @@
 #include "video/drawing_context.h"
 #include "camera.h"
 
-BouncyDistro::BouncyDistro(const Vector& pos)
+BouncyCoin::BouncyCoin(const Vector& pos)
   : position(pos)
 {
-  ym = -2;
+  timer.start(.3);
+  sprite = sprite_manager->create("coin");
+  sprite->set_action("still");
+}
+
+BouncyCoin::~BouncyCoin()
+{
+  delete sprite;
 }
 
 void
-BouncyDistro::action(float elapsed_time)
+BouncyCoin::action(float elapsed_time)
 {
-  position.y += ym * elapsed_time;
+  position.y += -200 * elapsed_time;
 
-  ym += 0.1 * elapsed_time; // not framerate independent... but who really cares
-  if(ym >= 0)
+  if(timer.check())
     remove_me();
 }
 
 void
-BouncyDistro::draw(DrawingContext& context)
+BouncyCoin::draw(DrawingContext& context)
 {
-  context.draw_surface(img_distro[0], position, LAYER_OBJECTS);
+  sprite->draw(context, position, LAYER_OBJECTS);
 }
 
+//---------------------------------------------------------------------------
 
-BrokenBrick::BrokenBrick(Tile* ntile,const Vector& pos, const Vector& nmovement)
-  : tile(ntile), position(pos), movement(nmovement)
+BrokenBrick::BrokenBrick(Sprite* nsprite,
+    const Vector& pos, const Vector& nmovement)
+  : sprite(new Sprite(*nsprite)), position(pos), movement(nmovement)
 {
-  timer.start(200);
+  timer.start(.2);
+}
+
+BrokenBrick::~BrokenBrick()
+{
+  delete sprite;
 }
 
 void
@@ -69,62 +83,31 @@ BrokenBrick::action(float elapsed_time)
 {
   position += movement * elapsed_time;
 
-  if (!timer.check())
+  if (timer.check())
     remove_me();
 }
 
 void
 BrokenBrick::draw(DrawingContext& context)
 {
-  if (tile->images.size() > 0)
-    context.draw_surface_part(tile->images[0],
-        Vector(rand() % 16, rand() % 16),
-        Vector(16, 16),
-        position, LAYER_OBJECTS + 1);
+  sprite->draw_part(context,
+      Vector(rand() % 16, rand() % 16), Vector(16, 16),
+      position, LAYER_OBJECTS + 1);
 }
 
-BouncyBrick::BouncyBrick(const Vector& pos)
-  : position(pos), offset(0), offset_m(-BOUNCY_BRICK_SPEED), 
-    shape(Sector::current()->solids->get_tile_id_at(pos))
-{ 
-  shape.hidden = true;
-}
-
-void
-BouncyBrick::action(float elapsed_time)
-{
-  offset += offset_m * elapsed_time;
-
-  /* Go back down? */
-  if (offset < -BOUNCY_BRICK_MAX_OFFSET)
-    offset_m = BOUNCY_BRICK_SPEED;
-
-  /* Stop bouncing? */
-  if (offset >= 0)
-    {
-      shape.hidden = false;
-      remove_me();
-    }
-}
-
-void
-BouncyBrick::draw(DrawingContext& context)
-{
-  TileManager::instance()->
-    draw_tile(context, shape.id, position + Vector(0, offset), LAYER_TILES+1);
-}
+//---------------------------------------------------------------------------
 
 FloatingText::FloatingText(const Vector& pos, const std::string& text_)
   : position(pos), text(text_)
 {
-  timer.start(1000);
+  timer.start(.1);
   position.x -= text.size() * 8;
 }
 
 FloatingText::FloatingText(const Vector& pos, int score)
   : position(pos)
 {
-  timer.start(1000);
+  timer.start(.1);
 
   // turn int into a string
   char str[10];
@@ -139,19 +122,19 @@ FloatingText::action(float elapsed_time)
 {
   position.y -= 1.4 * elapsed_time;
 
-  if(!timer.check())
+  if(timer.check())
     remove_me();
 }
 
-#define FADING_TIME 350
+#define FADING_TIME .350
 
 void
 FloatingText::draw(DrawingContext& context)
 {
   // make an alpha animation when disapearing
   int alpha;
-  if(timer.get_left() < FADING_TIME)
-    alpha = timer.get_left() * 255 / FADING_TIME;
+  if(timer.get_timeleft() < FADING_TIME)
+    alpha = int(timer.get_timeleft() * 255 / FADING_TIME);
   else
     alpha = 255;
 
@@ -165,6 +148,7 @@ FloatingText::draw(DrawingContext& context)
 
 /* Trampoline */
 
+#if 0
 Sprite *img_trampoline;
 
 Trampoline::Trampoline(LispReader& reader)
@@ -313,9 +297,11 @@ Trampoline::collision(void *p_c_object, int c_object, CollisionType type)
     
   }
 }
+#endif
 
 /* Flying Platform */
 
+#if 0
 Sprite *img_flying_platform;
 
 FlyingPlatform::FlyingPlatform(LispReader& reader)
@@ -441,21 +427,22 @@ FlyingPlatform::collision(void *p_c_object, int c_object, CollisionType type)
     
   }
 }
+#endif
 
-Sprite *img_smoke_cloud;
+Sprite *img_smoke_cloud = 0;
 
 SmokeCloud::SmokeCloud(const Vector& pos)
   : position(pos)
 {
-  timer.start(300);
+  timer.start(.3);
 }
 
 void
 SmokeCloud::action(float elapsed_time)
 {
-  position.y -= 1.2 * elapsed_time;
+  position.y -= 120 * elapsed_time;
 
-  if(!timer.check())
+  if(timer.check())
     remove_me();
 }
 
@@ -468,15 +455,12 @@ SmokeCloud::draw(DrawingContext& context)
 Particles::Particles(const Vector& epicenter, int min_angle, int max_angle, const Vector& initial_velocity, const Vector& acceleration, int number, Color color_, int size_, int life_time, int drawing_layer_)
   : accel(acceleration), color(color_), size(size_), drawing_layer(drawing_layer_)
 {
-  if(life_time == 0)
-    {
+  if(life_time == 0) {
     live_forever = true;
-    }
-  else
-    {
+  } else {
     live_forever = false;
     timer.start(life_time);
-    }
+  }
 
   // create particles
   for(int p = 0; p < number; p++)
@@ -511,8 +495,8 @@ Particles::action(float elapsed_time)
   Vector camera = Sector::current()->camera->get_translation();
 
   // update particles
-  for(std::vector<Particle*>::iterator i = particles.begin(); i < particles.end(); i++)
-    {
+  for(std::vector<Particle*>::iterator i = particles.begin();
+      i != particles.end(); ) {
     (*i)->pos.x += (*i)->vel.x * elapsed_time;
     (*i)->pos.y += (*i)->vel.y * elapsed_time;
 
@@ -520,14 +504,15 @@ Particles::action(float elapsed_time)
     (*i)->vel.y += accel.y * elapsed_time;
 
     if((*i)->pos.x < camera.x || (*i)->pos.x > screen->w + camera.x ||
-       (*i)->pos.y < camera.y || (*i)->pos.y > screen->h + camera.y)
-      {
+       (*i)->pos.y < camera.y || (*i)->pos.y > screen->h + camera.y) {
       delete (*i);
-      particles.erase(i);
-      }
+      i = particles.erase(i);
+    } else {
+      ++i;
     }
+  }
 
-  if((!timer.check() && !live_forever) || particles.size() == 0)
+  if((timer.check() && !live_forever) || particles.size() == 0)
     remove_me();
 }
 
@@ -535,16 +520,24 @@ void
 Particles::draw(DrawingContext& context)
 {
   // draw particles
-  for(std::vector<Particle*>::iterator i = particles.begin(); i < particles.end(); i++)
-    {
-    context.draw_filled_rect((*i)->pos, Vector(size,size), color, drawing_layer);
-    }
+  for(std::vector<Particle*>::iterator i = particles.begin();
+      i != particles.end(); i++) {
+    context.draw_filled_rect((*i)->pos, Vector(size,size), color,drawing_layer);
+  }
 }
 
 void load_object_gfx()
 {
+#if 0
   img_trampoline = sprite_manager->load("trampoline");
   img_trampoline->start_animation(0);
   img_flying_platform = sprite_manager->load("flying_platform");
-  img_smoke_cloud = sprite_manager->load("stomp");
+#endif
+  img_smoke_cloud = sprite_manager->create("stomp");
 }
+
+void free_object_gfx()
+{
+  delete img_smoke_cloud;
+}
+
