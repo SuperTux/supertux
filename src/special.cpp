@@ -193,13 +193,10 @@ Upgrade::action(double frame_ratio)
     }
   }
 
-  /* Off screen? Kill it! */
+  /* Away from the screen? Kill it! */
   if(base.x < scroll_x - OFFSCREEN_DISTANCE) {
-    // we don't remove growups for now, when off screen
-    if(kind != UPGRADE_GROWUP) {
       remove_me();
       return;
-    }
   }
   if(base.y > screen->h) {
     remove_me();
