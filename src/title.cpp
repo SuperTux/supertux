@@ -142,9 +142,9 @@ void check_contrib_menu()
       {
       WorldMapNS::WorldMap worldmap;
       worldmap.loadmap(worldmap_list.item[index - contrib_subsets.size()]);
-      // since levels state is not saved, make them all as solved, since
-      // we can't expect the user to play them all at once.
-      worldmap.set_levels_as_solved();
+//      worldmap.set_levels_as_solved();
+      worldmap.loadgame(std::string(st_save_dir) + "/bonus_island.stsg");
+
       worldmap.display();
 
       Menu::set_current(main_menu);
