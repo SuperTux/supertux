@@ -1,7 +1,7 @@
 //
 // C Interface: button
 //
-// Description: 
+// Description:
 //
 //
 // Author: Tobias Glaesser <tobi.web@gmx.de>, (C) 2004
@@ -15,25 +15,44 @@
 
 #include "texture.h"
 
+enum {
+  BN_CLICKED,
+  BN_PRESSED
+};
+
 typedef struct button_type
   {
     texture_type icon;
     char *info;
-    char *text;
+    SDLKey shortcut;
     int x;
     int y;
     int w;
     int h;
+    int show_info;
     int state;
-  } button_type;
-  
-void button_load(button_type* pbutton,char* icon_file, char* text, char* info, int x, int y);
+  }
+button_type;
+
+void button_load(button_type* pbutton,char* icon_file, char* info, SDLKey shortcut, int x, int y);
+button_type* button_create(char* icon_file, char* info, SDLKey shortcut, int x, int y);
 void button_draw(button_type* pbutton);
 void button_free(button_type* pbutton);
-int button_pressed(button_type* pbutton, int x, int y);
+void button_event(button_type* pbutton, SDL_Event* event);
+int button_get_state(button_type* pbutton);
 
-enum {
-  BN_PRESSED
-};
+typedef struct button_panel_type
+  {
+    int num_items;
+    int x,y;
+    int w,h;
+    button_type* item;
+  }
+button_panel_type;
+
+void button_panel_init(button_panel_type* pbutton_panel, int x, int y, int w, int h);
+void button_panel_free(button_panel_type* pbutton_panel);
+void button_panel_draw(button_panel_type* pbutton_panel);
+void button_panel_additem(button_panel_type* pbutton_panel, button_type* pbutton);
 
 #endif /*SUPERTUX_BUTTON_H*/

@@ -80,11 +80,11 @@ void badguy_action(bad_guy_type* pbad)
 
               if (!pbad->dying)
                 {
-                  if (issolid( pbad->base.x - 1, (int) pbad->base.y))
+                  if (issolid( pbad->base.x - 1, (int) pbad->base.y + 16))
                     {
                       pbad->dir = RIGHT;
                     }
-                  else if (issolid( pbad->base.x + pbad->base.width-1, (int) pbad->base.y))
+                  else if (issolid( pbad->base.x + pbad->base.width-1, (int) pbad->base.y + 16))
                     {
                       pbad->dir = LEFT;
                     }

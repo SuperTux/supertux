@@ -162,10 +162,10 @@ int title(void)
                   subset_load(&subset,level_subsets[0]);
                   while(!done)
                     {
-                      texture_draw(&img_choose_subset, 50, 0, NO_UPDATE);
+                      texture_draw(&img_choose_subset,(screen->w - img_choose_subset.w) / 2, 0, NO_UPDATE);
                       if(subsets_num != 0)
                         {
-                          texture_draw(&subset.image,135,78,NO_UPDATE);
+                          texture_draw(&subset.image,(screen->w - subset.image.w) / 2 + 25,78,NO_UPDATE);
                           text_drawf(&gold_text, subset.title, 0, 20, A_HMIDDLE, A_TOP, 1, NO_UPDATE);
                         }
                       updatescreen();
@@ -218,6 +218,9 @@ int title(void)
                     }
                 }
               break;
+	    case 1:
+	      update_load_save_game_menu(&load_game_menu, YES);
+	      break;
             case 3:
               done = 1;
               quit = leveleditor(1);
@@ -230,6 +233,10 @@ int title(void)
       else if(current_menu == &options_menu)
         {
           process_options_menu();
+        }
+      else if(current_menu == &load_game_menu)
+        {
+          process_save_load_game_menu(NO);
         }
 
       flipscreen();

@@ -61,8 +61,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-#ifndef BITMASK_H
-#define BITMASK_H
+#ifndef SUPERTUX_BITMASK_H
+#define SUPERTUX_BITMASK_H
 
 #include <SDL.h>
 
@@ -140,4 +140,4 @@ void bitmask_draw(bitmask *a,bitmask *b,int xoffset, int yoffset);
 /* Create a bitmask from a SDL_Surface */
 bitmask* bitmask_create_SDL(SDL_Surface* surf);
 
-#endif
+#endif /*SUPERTUX_BITMASK_H*/

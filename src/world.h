@@ -16,6 +16,11 @@
 #include <SDL.h>
 #include "type.h"
 
+/* Bounciness of distros: */
+
+#define NO_BOUNCE 0
+#define BOUNCE 1
+
 typedef struct bouncy_distro_type /*It is easier to read the sources IMHO, if we don't write something like int a,b,c; */
   {
     base_type base;

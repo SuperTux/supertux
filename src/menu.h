@@ -14,6 +14,7 @@
 #define SUPERTUX_MENU_H
 
 #include <SDL.h>
+#include "texture.h"
 
 typedef struct menu_item_type
 {
@@ -26,6 +27,7 @@ typedef struct menu_item_type
 menu_item_type;
 
 menu_item_type* menu_item_create(int kind, char *text, int init_toggle, void* target_menu);
+void menu_item_change_text(menu_item_type* pmenu_item, char *text);
 
 typedef struct menu_type
 {
@@ -69,7 +71,7 @@ extern int show_menu;
 extern int menu_change;
 extern texture_type checkbox, checkbox_checked, back;
 
-extern menu_type main_menu, game_menu, options_menu, leveleditor_menu, highscore_menu, load_game_menu, save_game_menu;;
+extern menu_type main_menu, game_menu, options_menu, leveleditor_menu, highscore_menu, load_game_menu, save_game_menu;
 extern menu_type* current_menu, * last_menu;
 
 /* input implementation variables */

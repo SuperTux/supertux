@@ -35,6 +35,7 @@
 #include "screen.h"
 #include "texture.h"
 #include "menu.h"
+#include "gameloop.h"
 
 /* Local function prototypes: */
 
@@ -107,7 +108,7 @@ char ** dsubdirs(char *rel_path, char* expected_file, int* num)
           struct stat buf;
 
           sprintf(absolute_filename, "%s/%s", path, direntp->d_name);
-          
+
           if (stat(absolute_filename, &buf) == 0 && S_ISDIR(buf.st_mode))
             {
               if(expected_file != NULL)
@@ -219,7 +220,6 @@ void st_directory_setup(void)
 /* Create and setup menus. */
 void st_menu(void)
 {
-
   menu_init(&main_menu);
   menu_additem(&main_menu,menu_item_create(MN_ACTION,"Start Game",0,0));
   menu_additem(&main_menu,menu_item_create(MN_GOTO,"Load Game",0,&load_game_menu));
@@ -251,13 +251,25 @@ void st_menu(void)
 
   menu_init(&load_game_menu);
   menu_additem(&load_game_menu,menu_item_create(MN_LABEL,"Load Game",0,0));
+  menu_additem(&load_game_menu,menu_item_create(MN_DEACTIVE,"Slot 1",0,0));
+  menu_additem(&load_game_menu,menu_item_create(MN_DEACTIVE,"Slot 2",0,0));
+  menu_additem(&load_game_menu,menu_item_create(MN_DEACTIVE,"Slot 3",0,0));
+  menu_additem(&load_game_menu,menu_item_create(MN_DEACTIVE,"Slot 4",0,0));
+  menu_additem(&load_game_menu,menu_item_create(MN_DEACTIVE,"Slot 5",0,0));
+  menu_additem(&load_game_menu,menu_item_create(MN_BACK,"Back",0,0));
 
   menu_init(&save_game_menu);
   menu_additem(&save_game_menu,menu_item_create(MN_LABEL,"Save Game",0,0));
-  
+  menu_additem(&save_game_menu,menu_item_create(MN_DEACTIVE,"Slot 1",0,0));
+  menu_additem(&save_game_menu,menu_item_create(MN_DEACTIVE,"Slot 2",0,0));
+  menu_additem(&save_game_menu,menu_item_create(MN_DEACTIVE,"Slot 3",0,0));
+  menu_additem(&save_game_menu,menu_item_create(MN_DEACTIVE,"Slot 4",0,0));
+  menu_additem(&save_game_menu,menu_item_create(MN_DEACTIVE,"Slot 5",0,0));
+  menu_additem(&save_game_menu,menu_item_create(MN_BACK,"Back",0,0));
+
   menu_init(&game_menu);
   menu_additem(&game_menu,menu_item_create(MN_ACTION,"Return To Game",0,0));
-  menu_additem(&game_menu,menu_item_create(MN_ACTION,"Save Game",0,&save_game_menu));
+  menu_additem(&game_menu,menu_item_create(MN_GOTO,"Save Game",0,&save_game_menu));
   menu_additem(&game_menu,menu_item_create(MN_GOTO,"Load Game",0,&load_game_menu));
   menu_additem(&game_menu,menu_item_create(MN_GOTO,"Options",0,&options_menu));
   menu_additem(&game_menu,menu_item_create(MN_ACTION,"Quit Game",0,0));
@@ -265,6 +277,48 @@ void st_menu(void)
   menu_init(&highscore_menu);
   menu_additem(&highscore_menu,menu_item_create(MN_TEXTFIELD,"Enter your name:",0,0));
 
+}
+
+void update_load_save_game_menu(menu_type* pmenu, int load)
+{
+  int i;
+
+  for(i = 1; i < 6; ++i)
+    {
+      char *tmp;
+      slotinfo(&tmp,i);
+      if(load && strlen(tmp) == strlen("Slot X - Free") )
+        pmenu->item[i].kind = MN_DEACTIVE;
+      else
+        pmenu->item[i].kind = MN_ACTION;
+      menu_item_change_text(&pmenu->item[i],tmp);
+      free(tmp);
+    }
+}
+
+void process_save_load_game_menu(int save)
+{
+  int slot;
+  switch (slot = menu_check(save ? &save_game_menu : &load_game_menu))
+    {
+    default:
+      if(slot != -1)
+        {
+          if(save == YES)
+            {
+              savegame(slot);
+            }
+          else
+            {
+              if(game_started == NO)
+                gameloop("whatever",slot,ST_GL_LOAD_GAME);
+              else
+                loadgame(slot);
+            }
+          st_pause_ticks_stop();
+        }
+      break;
+    }
 }
 
 /* Handle changes made to global settings in the options menu. */
@@ -331,7 +385,7 @@ void st_general_setup(void)
   texture_load(&checkbox, DATA_PREFIX "/images/status/checkbox.png", USE_ALPHA);
   texture_load(&checkbox_checked, DATA_PREFIX "/images/status/checkbox-checked.png", USE_ALPHA);
   texture_load(&back, DATA_PREFIX "/images/status/back.png", USE_ALPHA);
-  
+
   /* Set icon image: */
 
   seticon();
@@ -355,7 +409,7 @@ void st_general_free(void)
   texture_free(&checkbox);
   texture_free(&checkbox_checked);
   texture_free(&back);
-  
+
   /* Free menus */
 
   menu_free(&main_menu);

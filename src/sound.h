@@ -66,6 +66,8 @@ enum {
   NUM_SOUNDS
 };
 
+extern char* soundfilenames[NUM_SOUNDS];
+
 #ifndef NOSOUND
 
 #include <SDL_mixer.h>

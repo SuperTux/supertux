@@ -14,6 +14,8 @@
 #include "defines.h"
 #include "physic.h"
 
+float gravity;
+
 void physic_init(physic_type* pphysic)
 {
   pphysic->state = -1;
@@ -37,6 +39,17 @@ void physic_set_start_vy(physic_type* pphysic, float start_vy)
   pphysic->start_vy = start_vy;
 }
 
+void physic_set_start_vx(physic_type* pphysic, float start_vx)
+{
+  pphysic->start_vx = start_vx;
+}
+
+void physic_set_acceleration(physic_type* pphysic, float acceleration)
+{
+  pphysic->acceleration = acceleration;
+}
+
+
 int physic_is_set(physic_type* pphysic)
 {
   if(pphysic->state != -1)
@@ -48,17 +61,19 @@ int physic_is_set(physic_type* pphysic)
 float physic_get_velocity(physic_type* pphysic)
 {
   if(pphysic->state == PH_VT)
-    return - (pphysic->start_vy - 10.* ((float)(st_get_ticks() - pphysic->start_time))/1000.);
+    return - (pphysic->start_vy - gravity* ((float)(st_get_ticks() - pphysic->start_time))/1000.);
+  else if(pphysic->state == PH_HA)
+    return - (pphysic->start_vx - pphysic->acceleration * ((float)(st_get_ticks() - pphysic->start_time))/1000.);
 }
 
 float physic_get_max_distance(physic_type* pphysic)
 {
-  return (pphysic->start_vy * pphysic->start_vy / 2.*10.);
+  return (pphysic->start_vy * pphysic->start_vy / 2.*gravity);
 }
 
 unsigned int physic_get_max_time(physic_type* pphysic)
 {
-  return (unsigned int)((pphysic->start_vy / 10.) * 1000);
+  return (unsigned int)((pphysic->start_vy / gravity) * 1000);
 }
 
 unsigned int physic_get_time_gone(physic_type* pphysic)

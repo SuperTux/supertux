@@ -24,13 +24,11 @@
 #define USE_ALPHA 0
 #define IGNORE_ALPHA 1
 
-void load_and_display_image(char * file);
 void drawline(int x1, int y1, int x2, int y2, int r, int g, int b, int a);
 void clearscreen(int r, int g, int b);
 void fillrect(float x, float y, float w, float h, int r, int g, int b, int a);
 void updatescreen(void);
 void flipscreen(void);
-SDL_Surface * load_image(char * file, int use_alpha);
 void update_rect(SDL_Surface *scr, Sint32 x, Sint32 y, Sint32 w, Sint32 h);
 
 #endif /*SUPERTUX_SCREEN_H*/

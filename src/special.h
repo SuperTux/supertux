@@ -23,6 +23,14 @@
 #include "collision.h"
 #include "player.h"
 
+/* Upgrade types: */
+
+enum {
+  UPGRADE_MINTS,
+  UPGRADE_COFFEE,
+  UPGRADE_HERRING
+};
+
 typedef struct upgrade_type
   {
     int kind;

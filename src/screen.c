@@ -34,18 +34,6 @@
 #define SGN(x) ((x)>0 ? 1 : ((x)==0 ? 0:(-1)))
 #define ABS(x) ((x)>0 ? (x) : (-x))
 
-/* --- LOAD AND DISPLAY AN IMAGE --- */
-
-void load_and_display_image(char * file)
-{
-  SDL_Surface * img;
-
-  img = load_image(file, IGNORE_ALPHA);
-  SDL_BlitSurface(img, NULL, screen, NULL);
-  SDL_FreeSurface(img);
-}
-
-
 /* --- CLEAR SCREEN --- */
 
 void clearscreen(int r, int g, int b)
@@ -104,6 +92,7 @@ void putpixel(SDL_Surface *surface, int x, int y, Uint32 pixel)
     }
 }
 
+/* Draw a single pixel on the screen. */
 void drawpixel(int x, int y, Uint32 pixel)
 {
   /* Lock the screen for direct access to the pixels */
@@ -192,6 +181,17 @@ void drawline(int x1, int y1, int x2, int y2, int r, int g, int b, int a)
 
 void fillrect(float x, float y, float w, float h, int r, int g, int b, int a)
 {
+if(w < 0)
+	{
+	x += w;
+	w = -w;
+	}
+if(h < 0)
+	{
+	y += h;
+	h = -h;
+	}
+
 #ifndef NOOPENGL
   if(use_gl)
     {
@@ -266,36 +266,6 @@ void flipscreen(void)
     SDL_GL_SwapBuffers();
   else
     SDL_Flip(screen);
-}
-
-/* --- LOAD AN IMAGE --- */
-
-SDL_Surface * load_image(char * file, int use_alpha)
-{
-  /*
-  if(!faccessible(file))
-  {
-  if(!faccessible(st_dir,
-  */
-
-  SDL_Surface * temp, * surf;
-
-  temp = IMG_Load(file);
-
-  if (temp == NULL)
-    st_abort("Can't load", file);
-
-  surf = SDL_DisplayFormatAlpha(temp);
-
-  if (surf == NULL)
-    st_abort("Can't covert to display format", file);
-
-  if (use_alpha == IGNORE_ALPHA)
-    SDL_SetAlpha(surf, 0, 0);
-
-  SDL_FreeSurface(temp);
-
-  return(surf);
 }
 
 void update_rect(SDL_Surface *scr, Sint32 x, Sint32 y, Sint32 w, Sint32 h)

@@ -3,7 +3,7 @@
   
   Super Tux
   
-  by Bill Kendrick
+  by Bill Kendrick & Tobias Glaesser <tobi.web@gmx.de>
   bill@newbreedsoftware.com
   http://www.newbreedsoftware.com/supertux/
   

@@ -17,6 +17,7 @@
 #include "setup.h"
 #include "screen.h"
 #include "level.h"
+#include "physic.h"
 
 texture_type img_bkgd, img_bkgd_tile[2][4], img_solid[4], img_brick[2];
 
@@ -167,7 +168,13 @@ int level_load(st_level* plevel, char *subset, int level)
   /* (Level width) */
   fgets(str, 10, fi);
   plevel->width = atoi(str);
-
+  
+  /* (Level gravity) */
+  fgets(str, 10, fi);
+  plevel->gravity = atof(str);
+  
+  /* Set the global gravity to the latest loaded level's gravity */
+  gravity = plevel->gravity;
 
   /* Allocate some space for the line-reading! */
 
@@ -241,7 +248,9 @@ void level_save(st_level* plevel, char * subset, int level)
   fputs(str, fi);
   sprintf(str, "%d\n", plevel->width);	/* level width */
   fputs(str, fi);
-
+  sprintf(str, "%2.1f\n", plevel->gravity);	/* level gravity */
+  fputs(str, fi);
+  
   for(y = 0; y < 15; ++y)
     {
       fputs((const char*)plevel->tiles[y], fi);

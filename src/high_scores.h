@@ -5,7 +5,7 @@
 
 */
 
-# include <stdio.h>
+#include <stdio.h>
 
 extern int hs_score;
 extern char hs_name[62]; /* highscores global variables*/

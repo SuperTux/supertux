@@ -71,6 +71,16 @@ menu_item_type* menu_item_create(int kind, char *text, int init_toggle, void* ta
   return pnew_item;
 }
 
+void menu_item_change_text(menu_item_type* pmenu_item, char *text)
+{
+  if(text)
+    {
+      free(pmenu_item->text);
+      pmenu_item->text = (char*) malloc(sizeof(char )*(strlen(text)+1));
+      strcpy(pmenu_item->text,text);
+    }
+}
+
 /* Free a menu and all its items */
 void menu_free(menu_type* pmenu)
 {
@@ -100,6 +110,7 @@ void menu_additem(menu_type* pmenu, menu_item_type* pmenu_item)
   ++pmenu->num_items;
   pmenu->item = (menu_item_type*) realloc(pmenu->item, sizeof(menu_item_type) * pmenu->num_items);
   memcpy(&pmenu->item[pmenu->num_items-1],pmenu_item,sizeof(menu_item_type));
+  free(pmenu_item);
 }
 
 /* Process actions done on the menu */
@@ -199,7 +210,7 @@ int menu_check(menu_type* pmenu)
           show_menu = 0;
           return pmenu->active_item;
         }
-      else if(pmenu->item[pmenu->active_item].kind == MN_TOGGLE)
+      else if(pmenu->item[pmenu->active_item].kind == MN_TOGGLE || pmenu->item[pmenu->active_item].kind == MN_GOTO)
         {
           return pmenu->active_item;
         }
@@ -273,9 +284,9 @@ void menu_draw(menu_type* pmenu)
             texture_draw(&checkbox,screen->w / 2 + (strlen(pmenu->item[i].text) * 16)/2 + 16,(i)*24 - menu_height/2 + 10 + screen->h / 2 - 8,NO_UPDATE);
         }
       else if(pmenu->item[i].kind == MN_BACK)
-      {
-            texture_draw(&back,screen->w / 2 + (strlen(pmenu->item[i].text) * 16)/2  + 16,(i)*24 - menu_height/2 + 10 + screen->h / 2 -8,NO_UPDATE);
-      }
+        {
+          texture_draw(&back,screen->w / 2 + (strlen(pmenu->item[i].text) * 16)/2  + 16,(i)*24 - menu_height/2 + 10 + screen->h / 2 -8,NO_UPDATE);
+        }
     }
 }
 

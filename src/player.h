@@ -20,12 +20,22 @@
 #include "texture.h"
 #include "collision.h"
 #include "sound.h"
+#include "physic.h"
 
 /* Times: */
 
 #define TUX_SAFE_TIME 750
 #define TUX_INVINCIBLE_TIME 10000
 #define TIME_WARNING 20000     /* When to alert player they're low on time! */
+
+/* One-ups... */
+
+#define DISTROS_LIFEUP 100
+
+/* Scores: */
+
+#define SCORE_BRICK 5
+#define SCORE_DISTRO 25
 
 typedef struct player_keymap_type
 {
@@ -52,6 +62,8 @@ typedef struct player_type
 {
  player_input_type input;
  player_keymap_type keymap;
+ int score;
+ int distros;
  int got_coffee;
  int size;
  int duck;
@@ -63,9 +75,10 @@ typedef struct player_type
  int lives;
  base_type base;
  timer_type invincible_timer;
- timer_type jump_timer;
  timer_type skidding_timer;
  timer_type safe_timer;
+ physic_type vphysic;
+ physic_type hphysic;
 }
 player_type;
 

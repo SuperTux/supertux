@@ -205,7 +205,7 @@ int intro(void)
 	}
       
       
-      if (timer_get_gone(&timer) >= 5000 && timer_get_gone(&timer) <= 8000 && height[j] != 105)
+      if (timer_get_gone(&timer) >= 5000 && timer_get_gone(&timer) <= 8000)
 	{
 	  /* Beam gown up! */
 	  
@@ -236,8 +236,6 @@ int intro(void)
 	      height[j] = 400 + rand() % 10 - (int)(300. * ((float)(timer_get_gone(&timer) - 5000)/(float)3000.));
 	      if(height[j] < 105)
 	      height[j] = 105;
-	      
-		height_speed[j] = (float)(timer_get_gone(&timer) - 5000) / 300.;
 	    }
 
 	  update_rect(screen,

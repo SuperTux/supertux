@@ -44,6 +44,7 @@ typedef struct st_level /*It is easier to read the sources IMHO, if we don't wri
     int bkgd_green;
     int bkgd_blue;
     int width;
+    float gravity;
   } st_level;
   
 extern texture_type img_bkgd, img_bkgd_tile[2][4], img_solid[4], img_brick[2];

@@ -32,9 +32,9 @@ void bouncy_distro_action(bouncy_distro_type* pbouncy_distro)
 {
   if (pbouncy_distro->base.alive)
     {
-      pbouncy_distro->base.y = pbouncy_distro->base.y + pbouncy_distro->base.ym;
+      pbouncy_distro->base.y = pbouncy_distro->base.y + pbouncy_distro->base.ym * frame_ratio;
 
-      pbouncy_distro->base.ym++;
+      pbouncy_distro->base.ym += 1. * frame_ratio;
 
       if (pbouncy_distro->base.ym >= 0)
         pbouncy_distro->base.alive = NO;

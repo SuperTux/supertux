@@ -41,27 +41,26 @@
 
 /* extern variables */
 
-extern char* soundfilenames[NUM_SOUNDS];
 st_level current_level;
+int game_started = NO;
 
 /* Local variables: */
 
-texture_type img_waves[3], img_water, img_pole, img_poletop, img_flag[2];
-texture_type img_cloud[2][4];
-SDL_Event event;
-SDLKey key;
-char level_subset[100];
-char str[60];
-float fps_fps;
-int st_gl_mode;
-unsigned int last_update_time;
-unsigned int update_time;
-int pause_menu_frame;
+static texture_type img_waves[3], img_water, img_pole, img_poletop, img_flag[2];
+static texture_type img_cloud[2][4];
+static SDL_Event event;
+static SDLKey key;
+static char level_subset[100];
+static char str[60];
+static float fps_fps;
+static int st_gl_mode;
+static unsigned int last_update_time;
+static unsigned int update_time;
+static int pause_menu_frame;
 
 /* Local function prototypes: */
 
 void levelintro(void);
-void initgame(void);
 void loadshared(void);
 void unloadshared(void);
 void drawstatus(void);
@@ -146,12 +145,13 @@ void game_event(void)
                     quit = 1;
                   else if(show_menu)
                     {
-		      menu_set_current(&game_menu);
+                      menu_set_current(&game_menu);
                       show_menu = 0;
                       st_pause_ticks_stop();
                     }
                   else
                     {
+                      menu_set_current(&game_menu);
                       show_menu = 1;
                       st_pause_ticks_start();
                     }
@@ -186,7 +186,15 @@ void game_event(void)
               break;
             case SDLK_TAB:
               if(debug_mode == YES)
+	       {
                 tux.size = !tux.size;
+		if(tux.size == BIG)
+		{
+		tux.base.height = 64;
+		}
+		else
+		tux.base.height = 32;
+		}
               break;
             case SDLK_END:
               if(debug_mode == YES)
@@ -296,7 +304,7 @@ int game_action(void)
           /* End of a level! */
           level++;
           next_level = 0;
-          if(st_gl_mode == ST_GL_PLAY)
+          if(st_gl_mode != ST_GL_TEST)
             drawresultscreen();
           player_level_begin(&tux);
         }
@@ -308,10 +316,10 @@ int game_action(void)
 
           if (tux.lives < 0)
             {
-              if(st_gl_mode == ST_GL_PLAY)
+              if(st_gl_mode != ST_GL_TEST)
                 drawendscreen();
 
-              if(st_gl_mode == ST_GL_PLAY)
+              if(st_gl_mode != ST_GL_TEST)
                 {
                   if (score > hs_score)
                     save_hs(score);
@@ -339,7 +347,7 @@ int game_action(void)
       level_load_gfx(&current_level);
       level_free_song();
       level_load_song(&current_level);
-      if(st_gl_mode == ST_GL_PLAY)
+      if(st_gl_mode != ST_GL_TEST)
         levelintro();
       start_timers();
     }
@@ -544,40 +552,42 @@ int gameloop(char * subset, int levelnb, int mode)
   int fps_cnt, jump, done;
   timer_type fps_timer, frame_timer;
 
-  level = levelnb;
+  game_started = YES;
+
   st_gl_mode = mode;
+  level = levelnb;
   strcpy(level_subset,subset);
 
-  /* Clear screen: */
+  if(st_gl_mode != ST_GL_LOAD_GAME)
+    {
+      /* Init the game: */
+      arrays_init();
+      set_defaults();
 
-  clearscreen(0, 0, 0);
-  updatescreen();
+      if(level_load(&current_level,level_subset,level) != 0)
+        exit(1);
+      level_load_gfx(&current_level);
+      activate_bad_guys();
+      level_load_song(&current_level);
 
-
-  /* Init the game: */
-  arrays_init();
-
-  menu_reset();
-  menu_set_current(&game_menu);
-
-  initgame();
-  loadshared();
-  set_defaults();
-
-  if(level_load(&current_level,level_subset,level) != 0)
-    exit(1);
-  level_load_gfx(&current_level);
-  activate_bad_guys();
-  level_load_song(&current_level);
-  if(st_gl_mode == ST_GL_PLAY)
-    load_hs();
+    }
 
   player_init(&tux);
+
+  if(st_gl_mode != ST_GL_TEST)
+    load_hs();
+
+  loadshared();
 
   if(st_gl_mode == ST_GL_PLAY)
     levelintro();
 
+
   start_timers();
+
+  if(st_gl_mode == ST_GL_LOAD_GAME)
+    loadgame(levelnb);
+
 
   /* --- MAIN GAME LOOP!!! --- */
 
@@ -590,9 +600,14 @@ int gameloop(char * subset, int levelnb, int mode)
   timer_init(&frame_timer);
   fps_cnt = 0;
 
-    while (SDL_PollEvent(&event))
-    {}
-  
+  /* Clear screen: */
+
+  clearscreen(0, 0, 0);
+  updatescreen();
+
+  while (SDL_PollEvent(&event))
+  {}
+
   game_draw();
   do
     {
@@ -626,7 +641,10 @@ int gameloop(char * subset, int levelnb, int mode)
                   st_pause_ticks_stop();
                   break;
                 case 1:
-                  savegame();
+                  update_load_save_game_menu(&save_game_menu, NO);
+                  break;
+                case 2:
+                  update_load_save_game_menu(&load_game_menu, YES);
                   break;
                 case 4:
                   done = 1;
@@ -636,6 +654,14 @@ int gameloop(char * subset, int levelnb, int mode)
           else if(current_menu == &options_menu)
             {
               process_options_menu();
+            }
+          else if(current_menu == &save_game_menu )
+            {
+              process_save_load_game_menu(YES);
+            }
+          else if(current_menu == &load_game_menu )
+            {
+              process_save_load_game_menu(NO);
             }
         }
 
@@ -686,8 +712,8 @@ int gameloop(char * subset, int levelnb, int mode)
                 the results in SDL mode aren't perfect (thought the 100 FPS are reached), even on an AMD2500+. */
       if(last_update_time >= update_time - 12 && jump != YES )
         SDL_Delay(10);
-      //if((update_time - last_update_time) < 10)
-      //  SDL_Delay((11 - (update_time - last_update_time))/2);
+      /*if((update_time - last_update_time) < 10)
+          SDL_Delay((11 - (update_time - last_update_time))/2);*/
 
 
 
@@ -744,17 +770,11 @@ int gameloop(char * subset, int levelnb, int mode)
   unloadshared();
   arrays_free();
 
+  game_started = NO;
+
   return(quit);
 }
 
-
-/* Initialize the game stuff: */
-
-void initgame(void)
-{
-  score = 0;
-  distros = 0;
-}
 
 /* Load graphics/sounds shared between all levels: */
 
@@ -1139,7 +1159,7 @@ void loadshared(void)
 
   /* Herring song */
   herring_song_path = (char *) malloc(sizeof(char) * (strlen(DATA_PREFIX) +
-                                      strlen("SALCON.MOD") + 8)); /* FIXME: We need a real herring_song! Thats a fake.:) */
+                                      strlen("SALCON.MOD") + 8));
 
   sprintf(herring_song_path, "%s/music/%s", DATA_PREFIX, "SALCON.MOD");
 
@@ -1379,7 +1399,7 @@ int issolid(float x, float y)
     {
       return YES;
     }
-
+ 
   return NO;
 }*/
 
@@ -1494,9 +1514,9 @@ void tryemptybox(float x, float y)
     {
       if (shape(x, y) == 'A')
         {
-	
-	DEBUG_MSG("Here I am");
-	
+
+          DEBUG_MSG("Here I am");
+
           /* Box with a distro! */
 
           add_bouncy_distro(((x + 1) / 32) * 32,
@@ -1615,13 +1635,13 @@ void drawstatus(void)
   text_draw(&white_text, "SCORE", 0, 0, 1, NO_UPDATE);
   text_draw(&gold_text, str, 96, 0, 1, NO_UPDATE);
 
-  if(st_gl_mode == ST_GL_PLAY)
+  if(st_gl_mode != ST_GL_TEST)
     {
       sprintf(str, "%d", hs_score);
       text_draw(&white_text, "HIGH", 0, 20, 1, NO_UPDATE);
       text_draw(&gold_text, str, 96, 20, 1, NO_UPDATE);
     }
-  else if(st_gl_mode == ST_GL_TEST)
+  else
     {
       text_draw(&white_text,"Press ESC To Return",0,20,1, NO_UPDATE);
     }
@@ -1689,61 +1709,63 @@ void drawresultscreen(void)
   SDL_Delay(2000);
 }
 
-void savegame(void)
+void savegame(int slot)
 {
-  char savefile[300];
-  time_t current_time = time(NULL);
-  struct tm* time_struct;
+  char savefile[1024];
   FILE* fi;
+  unsigned int ui;
 
-  time_struct = localtime(&current_time);
-  sprintf(savefile,"%s/%d-%d-%d-%d.save",st_save_dir,time_struct->tm_year+1900,time_struct->tm_mon,time_struct->tm_mday,time_struct->tm_hour);
-  printf("%s",savefile);
-
+  sprintf(savefile,"%s/slot%d.save",st_save_dir,slot);
 
   fi = fopen(savefile, "wb");
 
   if (fi == NULL)
     {
-      fprintf(stderr, "Warning: I could not open the high score file ");
+      fprintf(stderr, "Warning: I could not open the slot file ");
 
     }
   else
     {
-      fwrite(&level,4,1,fi);
-      fwrite(&score,4,1,fi);
-      fwrite(&distros,4,1,fi);
-      fwrite(&tux.base.x,4,1,fi);
-      fwrite(&tux.base.y,4,1,fi);
-      fwrite(&scroll_x,4,1,fi);
-      fwrite(&current_level.time_left,4,1,fi);
+      fputs(level_subset, fi);
+      fputs("\n", fi);
+      fwrite(&level,sizeof(int),1,fi);
+      fwrite(&score,sizeof(int),1,fi);
+      fwrite(&distros,sizeof(int),1,fi);
+      fwrite(&tux,sizeof(player_type),1,fi);
+      fwrite(&scroll_x,sizeof(float),1,fi);
+      fwrite(&time_left,sizeof(float),1,fi);
+      ui = st_get_ticks();
+      fwrite(&ui,sizeof(int),1,fi);
     }
   fclose(fi);
 
 }
 
-void loadgame(char* filename)
+void loadgame(int slot)
 {
-  char savefile[300];
+  char savefile[1024];
+  char str[100];
   FILE* fi;
-  time_t current_time = time(NULL);
-  struct tm* time_struct;
+  unsigned int ui;
 
-  time_struct = localtime(&current_time);
-  sprintf(savefile,"%s/%d-%d-%d-%d.save",st_save_dir,time_struct->tm_year+1900,time_struct->tm_mon,time_struct->tm_mday,time_struct->tm_hour);
-  printf("%s",savefile);
-
+  sprintf(savefile,"%s/slot%d.save",st_save_dir,slot);
 
   fi = fopen(savefile, "rb");
 
   if (fi == NULL)
     {
-      fprintf(stderr, "Warning: I could not open the high score file ");
+      fprintf(stderr, "Warning: I could not open the slot file ");
 
     }
   else
     {
-      player_level_begin(&tux);
+
+
+      fgets(str, 100, fi);
+      strcpy(level_subset, str);
+      level_subset[strlen(level_subset)-1] = '\0';
+      fread(&level,sizeof(int),1,fi);
+
       set_defaults();
       level_free(&current_level);
       if(level_load(&current_level,level_subset,level) != 0)
@@ -1756,16 +1778,58 @@ void loadgame(char* filename)
       level_free_song();
       level_load_song(&current_level);
       levelintro();
-      start_timers();
+      timer_start(&time_left,current_level.time_left*1000);
+      update_time = st_get_ticks();
 
-      fread(&level,4,1,fi);
-      fread(&score,4,1,fi);
-      fread(&distros,4,1,fi);
-      fread(&tux.base.x,4,1,fi);
-      fread(&tux.base.y,4,1,fi);
-      fread(&scroll_x,4,1,fi);
-      fread(&current_level.time_left,4,1,fi);
+      fread(&score,sizeof(int),1,fi);
+      fread(&distros,sizeof(int),1,fi);
+      fread(&tux,sizeof(player_type),1,fi);
+      fread(&scroll_x,sizeof(float),1,fi);
+      fread(&time_left,sizeof(float),1,fi);
+      fread(&ui,sizeof(int),1,fi);
+      time_left.time += st_get_ticks() - ui;
+      tux.invincible_timer.time += st_get_ticks() - ui;
+      tux.skidding_timer.time += st_get_ticks() - ui;
+      tux.safe_timer.time += st_get_ticks() - ui;
+      tux.vphysic.start_time += st_get_ticks() - ui;
+      tux.hphysic.start_time += st_get_ticks() - ui;
+      tux.vphysic.start_time += st_get_ticks() - ui;
       fclose(fi);
     }
 
 }
+
+void slotinfo(char **pinfo, int slot)
+{
+  FILE* fi;
+  char slotfile[1024];
+  char tmp[200];
+  char str[5];
+  int slot_level;
+  sprintf(slotfile,"%s/slot%d.save",st_save_dir,slot);
+
+  fi = fopen(slotfile, "rb");
+
+  sprintf(tmp,"Slot %d - ",slot);
+
+  if (fi == NULL)
+    {
+      strcat(tmp,"Free");
+    }
+  else
+    {
+      fgets(str, 100, fi);
+      str[strlen(str)-1] = '\0';
+      strcat(tmp, str);
+      strcat(tmp, " / Level:");
+      fread(&slot_level,sizeof(int),1,fi);
+      sprintf(str,"%d",slot_level);
+      strcat(tmp,str);
+      fclose(fi);
+    }
+
+  *pinfo = (char*) malloc(sizeof(char) * (strlen(tmp)+1));
+  strcpy(*pinfo,tmp);
+
+}
+
