@@ -29,24 +29,23 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <algorithm>
+
 #include "leveleditor.h"
 
 #include "screen/screen.h"
 #include "defines.h"
 #include "globals.h"
 #include "setup.h"
-#include "menu.h"
-#include "level.h"
 #include "sector.h"
 #include "tilemap.h"
 #include "gameloop.h"
 #include "badguy.h"
 #include "player.h"
 #include "scene.h"
-#include "button.h"
 #include "tile.h"
 #include "resources.h"
 #include "background.h"
+#include "camera.h"
 
 /* definitions to aid development */
 
@@ -70,104 +69,123 @@
 
 enum { TM_IA, TM_BG, TM_FG };
 
-/* own declerations */
-/* crutial ones (main loop) */
-int le_init();
-void le_quit();
-int le_load_level_subset(char *filename);
-void le_drawlevel(DrawingContext& context);
-void le_drawinterface(DrawingContext& context);
-void le_checkevents();
-void le_change(float x, float y, int tm, unsigned int c);
-void le_testlevel();
-void le_showhelp();
-void le_set_defaults(void);
-void le_activate_bad_guys(void);
-void le_goto_level(int levelnb);
-void le_highlight_selection();
-
-void apply_level_settings_menu();
-void update_subset_settings_menu();
-void save_subset_settings_menu();
-
-struct TileOrObject
+LevelEditor::LevelEditor()
 {
-  TileOrObject() : tile(0), obj(NULL) { is_tile = true; };
+  level_subsets = dsubdirs("/levels", "level1.stl");
+  le_level_subset = new LevelSubset;
 
-  void Tile(unsigned int set_to) { tile = set_to; is_tile = true; }
-  void Object(GameObject* pobj) { obj = pobj; is_tile = false; }
-  //Returns true for a tile
-  bool IsTile() { return is_tile; };
-  //Returns true for a GameObject
-  bool IsObject() { return !is_tile; };
+  le_level = NULL;
+  le_levelnb = 1;
+  selected_game_object = NULL;
 
+  active_tm = TM_IA;
+  le_show_grid = true;
+  show_selections = true;
 
-  void Init() { tile = 0; obj = NULL; is_tile = true; };
+  done = 0;
+  le_frame = 0;	/* support for frames in some tiles, like waves and bad guys */
+  le_level_changed = false;
+  le_help_shown = false;
 
-  bool is_tile; //true for tile (false for object)
-  unsigned int tile;
-  GameObject* obj;
-};
+  le_mouse_pressed[LEFT] = false;
+  le_mouse_pressed[RIGHT] = false;
 
-/* leveleditor internals */
-static string_list_type level_subsets;
-static bool le_level_changed;  /* if changes, ask for saving, when quiting*/
-static bool show_minimap;
-static bool show_selections;
-static bool le_help_shown;
-static int pos_x, pos_y, cursor_x, cursor_y;
-static int le_levelnb;
-static Level* le_level;
-static LevelSubset* le_level_subset;
-static int le_show_grid;
-static int le_frame;
-static Surface* le_selection;
-static int done;
-static TileOrObject le_current;
-static bool le_mouse_pressed[2];
-static bool le_mouse_clicked[2];
-static Button* le_save_level_bt;
-static Button* le_exit_bt;
-static Button* le_test_level_bt;
-static Button* le_next_level_bt;
-static Button* le_previous_level_bt;
-static Button* le_move_right_bt;
-static Button* le_move_left_bt;
-static Button* le_move_up_bt;
-static Button* le_move_down_bt;
-static Button* le_rubber_bt;
-static Button* le_select_mode_one_bt;
-static Button* le_select_mode_two_bt;
-static Button* le_settings_bt;
-static Button* le_tilegroup_bt;
-static Button* le_objects_bt;
-static Button* le_object_select_bt;
-static Button* le_object_properties_bt;
-static ButtonPanel* le_tilemap_panel;
-static int active_tm;
-static Menu* leveleditor_menu;
-static Menu* subset_load_menu;
-static Menu* subset_new_menu;
-static Menu* subset_settings_menu;
-static Menu* level_settings_menu;
-static Menu* select_tilegroup_menu;
-static Menu* select_objects_menu;
-static Timer select_tilegroup_menu_effect;
-static Timer select_objects_menu_effect;
-static Timer display_level_info;
-typedef std::map<std::string, ButtonPanel*> ButtonPanelMap;
-static ButtonPanelMap tilegroups_map;
-static ButtonPanelMap objects_map;
-static std::string cur_tilegroup;
-static std::string cur_objects;
-static MouseCursor* mouse_select_object;
-static MovingObject* selected_game_object;
+  le_mouse_clicked[LEFT] = false;
+  le_mouse_clicked[RIGHT] = false;
 
-static square selection;
-static SelectionMode le_selection_mode;
-static SDL_Event event;
+  le_selection = new Surface(datadir + "/images/leveleditor/select.png", USE_ALPHA);
 
-int leveleditor(char* filename)
+  select_tilegroup_menu_effect.init(false);
+  select_objects_menu_effect.init(false);
+  display_level_info.init(false);
+
+  /* Load buttons */
+  le_save_level_bt = new Button("/images/icons/save.png","Save level", SDLK_F6,screen->w-64,32);
+  le_exit_bt = new Button("/images/icons/exit.png","Exit", SDLK_F10,screen->w-32,32);
+  le_next_level_bt = new Button("/images/icons/next.png","Next level", SDLK_PAGEUP,screen->w-64,0);
+  le_previous_level_bt = new Button("/images/icons/previous.png","Previous level",SDLK_PAGEDOWN,screen->w-32,0);
+  le_rubber_bt = new Button("/images/icons/rubber.png","Rubber",SDLK_DELETE,screen->w-32,48);
+  le_select_mode_one_bt = new Button ("/images/icons/select-mode1.png","Select single tile",SDLK_F3,screen->w-64,48);
+  le_select_mode_two_bt = new Button("/images/icons/select-mode2.png","Select multiple tiles",SDLK_F3,screen->w-64,48);
+  le_test_level_bt = new Button("/images/icons/test-level.png","Test level",SDLK_F4,screen->w-64,screen->h - 64);
+  le_settings_bt = new Button("/images/icons/settings.png","Level settings",SDLK_F5,screen->w-32,screen->h - 64);
+  le_move_left_bt = new Button("/images/icons/left.png","Move left",SDLK_LEFT,screen->w-80-16,0);
+  le_move_right_bt = new Button("/images/icons/right.png","Move right",SDLK_RIGHT,screen->w-80,0);
+  le_move_up_bt = new Button("/images/icons/up.png","Move up",SDLK_UP,screen->w-80,16);
+  le_move_down_bt = new Button("/images/icons/down.png","Move down",SDLK_DOWN,screen->w-80,32);
+  le_tilegroup_bt = new Button("/images/icons/tilegroup.png","Select Tilegroup", SDLK_F7,screen->w-64,64);
+  le_objects_bt = new Button("/images/icons/objects.png","Select Objects", SDLK_F8,screen->w-64,80);
+  le_object_select_bt = new Button("/images/icons/select-one.png","Select an Object", SDLK_s, screen->w - 64, screen->h-98);
+  le_object_properties_bt = new Button("/images/icons/properties.png","Edit object properties", SDLK_p, screen->w - 32, screen->h-98);
+  le_object_properties_bt->set_active(false);
+
+  mouse_select_object = new MouseCursor(datadir + "/images/status/select-cursor.png",1);
+  mouse_select_object->set_mid(16,16);
+
+  le_tilemap_panel = new ButtonPanel(screen->w-64,screen->h-32,32,32);
+  le_tilemap_panel->set_button_size(32,10);
+  le_tilemap_panel->additem(new Button("/images/icons/bkgrd.png","Background",SDLK_b,0,0),TM_BG);
+  le_tilemap_panel->additem(new Button("/images/icons/intact.png","Interactive",SDLK_i,0,0), TM_IA);
+  le_tilemap_panel->additem(new Button("/images/icons/frgrd.png","Foreground",SDLK_f,0,0),TM_FG);
+  le_tilemap_panel->highlight_last(true);
+  le_tilemap_panel->set_last_clicked(TM_IA);
+
+  le_current.Init();
+
+  init_menus();
+
+  SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
+}
+
+LevelEditor::~LevelEditor()
+{
+  SDL_EnableKeyRepeat(0, 0);    // disables key repeating
+
+  unload_level();
+  delete le_selection;
+  delete leveleditor_menu;
+  delete subset_load_menu;
+  delete subset_new_menu;
+  delete subset_settings_menu;
+  delete level_settings_menu;
+  delete select_tilegroup_menu;
+  delete select_objects_menu;
+  delete le_save_level_bt;
+  delete le_exit_bt;
+  delete le_test_level_bt;
+  delete le_next_level_bt;
+  delete le_previous_level_bt;
+  delete le_move_right_bt;
+  delete le_move_left_bt;
+  delete le_move_up_bt;
+  delete le_move_down_bt;
+  delete le_rubber_bt;
+  delete le_select_mode_one_bt;
+  delete le_select_mode_two_bt;
+  delete le_settings_bt;
+  delete le_tilegroup_bt;
+  delete le_objects_bt;
+  delete le_tilemap_panel;
+  delete le_object_select_bt;
+  delete le_object_properties_bt;
+  delete mouse_select_object;
+
+  delete le_level_subset;
+  le_level_subset = 0;
+
+  for(ButtonPanelMap::iterator i = tilegroups_map.begin();
+      i != tilegroups_map.end(); ++i)
+  {
+    delete i->second;
+  }
+  for(ButtonPanelMap::iterator i = objects_map.begin();
+      i != objects_map.end(); ++i)
+  {
+    delete i->second;
+  }
+}
+
+int LevelEditor::run(char* filename)
 {
   int last_time, now_time, i;
   DrawingContext context;
@@ -175,16 +193,13 @@ int leveleditor(char* filename)
   le_level = NULL;
   le_levelnb = 1;
 
-  if(le_init() != 0)
-    return 1;
-
   sound_manager->halt_music();
 
   while (SDL_PollEvent(&event))
   {}
 
   if(filename != NULL)
-    if(le_load_level_subset(filename))
+    if(load_level_subset(filename))
       return 1;
 
   while(true)
@@ -192,7 +207,7 @@ int leveleditor(char* filename)
     last_time = SDL_GetTicks();
     le_frame++;
 
-    le_checkevents();
+    checkevents();
 
     if(Menu::current() == select_tilegroup_menu)
     {
@@ -219,13 +234,13 @@ int leveleditor(char* filename)
       /* making events results to be in order */
 
       /* draw the level */
-      le_drawlevel(context);
+      drawlevel(context);
     }
     else
       fillrect(0, 0, screen->w, screen->h, 0, 0, 0);
 
     /* draw editor interface */
-    le_drawinterface(context);
+    drawinterface(context);
 
     Menu* menu = Menu::current();
     if(menu)
@@ -305,7 +320,7 @@ int leveleditor(char* filename)
         default:
           if(i >= 1)
           {
-            if(le_load_level_subset(level_subsets.item[i-1]))
+            if(load_level_subset(level_subsets.item[i-1]))
               return 1;
           }
           break;
@@ -325,7 +340,7 @@ int leveleditor(char* filename)
             LevelSubset::create(subset_new_menu->get_item_by_id(MNID_SUBSETNAME).input);
             le_level_subset->load(subset_new_menu->get_item_by_id(MNID_SUBSETNAME).input);
             leveleditor_menu->get_item_by_id(MNID_SUBSETSETTINGS).kind = MN_GOTO;
-            le_goto_level(1);
+            goto_level(1);
             subset_new_menu->get_item_by_id(MNID_SUBSETNAME).change_input("");
 
             Menu::set_current(subset_settings_menu);
@@ -354,7 +369,6 @@ int leveleditor(char* filename)
 
     if(done)
     {
-      le_quit();
       return 0;
     }
 
@@ -371,12 +385,12 @@ int leveleditor(char* filename)
   return done;
 }
 
-int le_load_level_subset(char *filename)
+int LevelEditor::load_level_subset(char *filename)
 {
   le_level_subset->load(filename);
   leveleditor_menu->get_item_by_id(MNID_SUBSETSETTINGS).kind = MN_GOTO;
   le_levelnb = 1;
-  le_goto_level(le_levelnb);
+  goto_level(le_levelnb);
 
   //GameSession* session = new GameSession(datadir + "/levels/" + le_level_subset->name + "/level1.stl", 0, ST_GL_DEMO_GAME);
 
@@ -385,7 +399,7 @@ int le_load_level_subset(char *filename)
   return 0;
 }
 
-void le_init_menus()
+void LevelEditor::init_menus()
 {
   int i;
 
@@ -512,78 +526,7 @@ void le_init_menus()
 
 }
 
-int le_init()
-{
-  level_subsets = dsubdirs("/levels", "level1.stl");
-  le_level_subset = new LevelSubset;
-
-  le_level = NULL;
-  le_levelnb = 1;
-  selected_game_object = NULL;
-
-  active_tm = TM_IA;
-  le_show_grid = true;
-  show_selections = true;
-
-  done = 0;
-  le_frame = 0;	/* support for frames in some tiles, like waves and bad guys */
-  le_level_changed = false;
-  le_help_shown = false;
-
-  le_mouse_pressed[LEFT] = false;
-  le_mouse_pressed[RIGHT] = false;
-
-  le_mouse_clicked[LEFT] = false;
-  le_mouse_clicked[RIGHT] = false;
-
-  le_selection = new Surface(datadir + "/images/leveleditor/select.png", USE_ALPHA);
-
-  select_tilegroup_menu_effect.init(false);
-  select_objects_menu_effect.init(false);
-  display_level_info.init(false);
-
-  /* Load buttons */
-  le_save_level_bt = new Button("/images/icons/save.png","Save level", SDLK_F6,screen->w-64,32);
-  le_exit_bt = new Button("/images/icons/exit.png","Exit", SDLK_F10,screen->w-32,32);
-  le_next_level_bt = new Button("/images/icons/next.png","Next level", SDLK_PAGEUP,screen->w-64,0);
-  le_previous_level_bt = new Button("/images/icons/previous.png","Previous level",SDLK_PAGEDOWN,screen->w-32,0);
-  le_rubber_bt = new Button("/images/icons/rubber.png","Rubber",SDLK_DELETE,screen->w-32,48);
-  le_select_mode_one_bt = new Button ("/images/icons/select-mode1.png","Select single tile",SDLK_F3,screen->w-64,48);
-  le_select_mode_two_bt = new Button("/images/icons/select-mode2.png","Select multiple tiles",SDLK_F3,screen->w-64,48);
-  le_test_level_bt = new Button("/images/icons/test-level.png","Test level",SDLK_F4,screen->w-64,screen->h - 64);
-  le_settings_bt = new Button("/images/icons/settings.png","Level settings",SDLK_F5,screen->w-32,screen->h - 64);
-  le_move_left_bt = new Button("/images/icons/left.png","Move left",SDLK_LEFT,screen->w-80-16,0);
-  le_move_right_bt = new Button("/images/icons/right.png","Move right",SDLK_RIGHT,screen->w-80,0);
-  le_move_up_bt = new Button("/images/icons/up.png","Move up",SDLK_UP,screen->w-80,16);
-  le_move_down_bt = new Button("/images/icons/down.png","Move down",SDLK_DOWN,screen->w-80,32);
-  le_tilegroup_bt = new Button("/images/icons/tilegroup.png","Select Tilegroup", SDLK_F7,screen->w-64,64);
-  le_objects_bt = new Button("/images/icons/objects.png","Select Objects", SDLK_F8,screen->w-64,80);
-  le_object_select_bt = new Button("/images/icons/select-one.png","Select an Object", SDLK_s, screen->w - 64, screen->h-98);
-  le_object_properties_bt = new Button("/images/icons/properties.png","Edit object properties", SDLK_p, screen->w - 32, screen->h-98);
-  le_object_properties_bt->set_active(false);
-
-  mouse_select_object = new MouseCursor(datadir + "/images/status/select-cursor.png",1);
-  mouse_select_object->set_mid(16,16);
-
-  le_tilemap_panel = new ButtonPanel(screen->w-64,screen->h-32,32,32);
-  le_tilemap_panel->set_button_size(32,10);
-  le_tilemap_panel->additem(new Button("/images/icons/bkgrd.png","Background",SDLK_b,0,0),TM_BG);
-  le_tilemap_panel->additem(new Button("/images/icons/intact.png","Interactive",SDLK_i,0,0), TM_IA);
-  le_tilemap_panel->additem(new Button("/images/icons/frgrd.png","Foreground",SDLK_f,0,0),TM_FG);
-  le_tilemap_panel->highlight_last(true);
-  le_tilemap_panel->set_last_clicked(TM_IA);
-
-  le_current.Init();
-
-  le_init_menus();
-
-  SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
-
-
-  return 0;
-}
-
-void update_level_settings_menu()
+void LevelEditor::update_level_settings_menu()
 {
   char str[80];
   int i;
@@ -629,13 +572,13 @@ void update_level_settings_menu()
   level_settings_menu->get_item_by_id(MNID_BottomBlue).change_input(str);
 }
 
-void update_subset_settings_menu()
+void LevelEditor::update_subset_settings_menu()
 {
   subset_settings_menu->item[2].change_input(le_level_subset->title.c_str());
   subset_settings_menu->item[3].change_input(le_level_subset->description.c_str());
 }
 
-void apply_level_settings_menu()
+void LevelEditor::apply_level_settings_menu()
 {
   int i;
   i = false;
@@ -676,7 +619,7 @@ void apply_level_settings_menu()
       atoi(level_settings_menu->get_item_by_id(MNID_BottomBlue).input)));
 }
 
-void save_subset_settings_menu()
+void LevelEditor::save_subset_settings_menu()
 {
   le_level_subset->title = subset_settings_menu->item[2].input;
   le_level_subset->description = subset_settings_menu->item[3].input;
@@ -684,7 +627,7 @@ void save_subset_settings_menu()
   le_level_changed = false;
 }
 
-void le_unload_level()
+void LevelEditor::unload_level()
 {
   if(le_level_changed)
   {
@@ -704,64 +647,16 @@ void le_unload_level()
   le_level_changed = false;
 }
 
-void le_goto_level(int levelnb)
+void LevelEditor::goto_level(int levelnb)
 {
-  le_unload_level();
+  unload_level();
   le_level = new Level();
   le_level->load(le_level_subset->get_level_filename(levelnb));
   display_level_info.start(2500);
   le_levelnb = levelnb;
 }
 
-void le_quit(void)
-{
-  SDL_EnableKeyRepeat(0, 0);    // disables key repeating
-
-  le_unload_level();
-  delete le_selection;
-  delete leveleditor_menu;
-  delete subset_load_menu;
-  delete subset_new_menu;
-  delete subset_settings_menu;
-  delete level_settings_menu;
-  delete select_tilegroup_menu;
-  delete select_objects_menu;
-  delete le_save_level_bt;
-  delete le_exit_bt;
-  delete le_test_level_bt;
-  delete le_next_level_bt;
-  delete le_previous_level_bt;
-  delete le_move_right_bt;
-  delete le_move_left_bt;
-  delete le_move_up_bt;
-  delete le_move_down_bt;
-  delete le_rubber_bt;
-  delete le_select_mode_one_bt;
-  delete le_select_mode_two_bt;
-  delete le_settings_bt;
-  delete le_tilegroup_bt;
-  delete le_objects_bt;
-  delete le_tilemap_panel;
-  delete le_object_select_bt;
-  delete le_object_properties_bt;
-  delete mouse_select_object;
-
-  delete le_level_subset;
-  le_level_subset = 0;
-
-  for(ButtonPanelMap::iterator i = tilegroups_map.begin();
-      i != tilegroups_map.end(); ++i)
-  {
-    delete i->second;
-  }
-  for(ButtonPanelMap::iterator i = objects_map.begin();
-      i != objects_map.end(); ++i)
-  {
-    delete i->second;
-  }
-}
-
-void le_drawminimap()
+void LevelEditor::drawminimap()
 {
 #if 0
 //  if(le_level == NULL)
@@ -818,7 +713,7 @@ void le_drawminimap()
 #endif
 }
 
-void le_drawinterface(DrawingContext &context)
+void LevelEditor::drawinterface(DrawingContext &context)
 {
   int x,y;
   char str[80];
@@ -836,7 +731,7 @@ void le_drawinterface(DrawingContext &context)
   }
 
   if(show_minimap) // use_gl because the minimap isn't shown correctly in software mode. Any idea? FIXME Possible reasons: SDL_SoftStretch is a hack itsself || an alpha blitting issue SDL can't handle in software mode
-    le_drawminimap();
+    drawminimap();
 
   if(show_selections && MouseCursor::current() != mouse_select_object)
   {
@@ -848,7 +743,7 @@ void le_drawinterface(DrawingContext &context)
     else if(le_selection_mode == SQUARE)
     {
       int w, h;
-      le_highlight_selection();
+      highlight_selection();
       /* draw current selection */
       w = selection.x2 - selection.x1;
       h = selection.y2 - selection.y1;
@@ -940,7 +835,7 @@ void le_drawinterface(DrawingContext &context)
 
 }
 
-void le_drawlevel(DrawingContext& context)
+void LevelEditor::drawlevel(DrawingContext& context)
 {
 //  unsigned int y,x;
 //  Uint8 a;
@@ -1029,7 +924,7 @@ le_level->get_sector("main")->solids->draw(context);
   largetux.walk_right->draw(context, Vector(100 - pos_x, 240 - pos_y), LAYER_OBJECTS-1);
 }
 
-void le_change_object_properties(GameObject *pobj)
+void LevelEditor::change_object_properties(GameObject *pobj)
 {
   DrawingContext context;
     
@@ -1104,7 +999,7 @@ void le_change_object_properties(GameObject *pobj)
 }
 
 
-void le_checkevents()
+void LevelEditor::checkevents()
 {
   SDLKey key;
   SDLMod keymod;
@@ -1143,7 +1038,7 @@ void le_checkevents()
             break;
           case SDLK_F1:
             if(le_level != NULL)
-              le_showhelp();
+              showhelp();
             break;
           case SDLK_HOME:
             cursor_x = 0;
@@ -1241,7 +1136,7 @@ void le_checkevents()
           /* Check for button events */
           le_test_level_bt->event(event);
           if(le_test_level_bt->get_state() == BUTTON_CLICKED)
-            le_testlevel();
+            testlevel();
           le_save_level_bt->event(event);
           if(le_save_level_bt->get_state() == BUTTON_CLICKED)
             le_level->save(le_level_subset->name.c_str());
@@ -1255,7 +1150,7 @@ void le_checkevents()
           {
             if(le_levelnb < le_level_subset->levels)
             {
-              le_goto_level(le_levelnb+1);
+              goto_level(le_levelnb+1);
             }
             else
             {
@@ -1267,7 +1162,7 @@ void le_checkevents()
               {
                 new_lev.save(le_level_subset->name.c_str());
                 le_level_subset->levels = le_levelnb;
-                le_goto_level(le_levelnb);
+                goto_level(le_levelnb);
               }
              if(surf != NULL)
               delete surf;
@@ -1277,7 +1172,7 @@ void le_checkevents()
           if(le_previous_level_bt->get_state() == BUTTON_CLICKED)
           {
             if(le_levelnb > 1)
-              le_goto_level(le_levelnb -1);
+              goto_level(le_levelnb -1);
           }
           le_rubber_bt->event(event);
           if(le_rubber_bt->get_state() == BUTTON_CLICKED)
@@ -1294,7 +1189,7 @@ void le_checkevents()
             le_object_properties_bt->event(event);
             if(le_object_properties_bt->get_state() == BUTTON_CLICKED)
             {
-              le_change_object_properties(selected_game_object);
+              change_object_properties(selected_game_object);
             }
           }
 
@@ -1466,7 +1361,7 @@ void le_checkevents()
           if(MouseCursor::current() != mouse_select_object)
           {
             if(le_current.IsTile())
-              le_change(cursor_x, cursor_y, active_tm, le_current.tile);
+              change(cursor_x, cursor_y, active_tm, le_current.tile);
           }
         }
         else if(le_mouse_clicked[LEFT])
@@ -1634,10 +1529,12 @@ void le_checkevents()
       pos_y = (le_level->get_sector("main")->solids->get_height() * 32) - screen->h;
     if(pos_y < 0)
       pos_y = 0;
+
+    le_level->get_sector("main")->camera->set_scrolling(pos_x, pos_y);
   }
 }
 
-void le_highlight_selection()
+void LevelEditor::highlight_selection()
 {
   int x1, x2, y1, y2;
 
@@ -1670,7 +1567,7 @@ void le_highlight_selection()
   fillrect(x1*32-pos_x, y1*32-pos_y,32* (x2 - x1 + 1),32 * (y2 - y1 + 1),173,234,177,103);
 }
 
-void le_change(float x, float y, int tm, unsigned int c)
+void LevelEditor::change(float x, float y, int tm, unsigned int c)
 {
   if(le_level != NULL)
   {
@@ -1682,7 +1579,7 @@ void le_change(float x, float y, int tm, unsigned int c)
     switch(le_selection_mode)
     {
     case CURSOR:
-      le_change(x,y,tm,c);
+      change(x,y,tm,c);
 
       base_type cursor_base;
       cursor_base.x = x;
@@ -1761,7 +1658,7 @@ void le_change(float x, float y, int tm, unsigned int c)
       for(xx = x1; xx <= x2; xx++)
         for(yy = y1; yy <= y2; yy++)
         {
-          le_change(xx*32, yy*32, tm, c);
+          change(xx*32, yy*32, tm, c);
 
         }
       break;
@@ -1771,7 +1668,7 @@ void le_change(float x, float y, int tm, unsigned int c)
   }
 }
 
-void le_testlevel()
+void LevelEditor::testlevel()
 {
   //Make sure a time value is set when testing the level
   if(le_level->time_left == 0)
@@ -1788,7 +1685,7 @@ void le_testlevel()
   Menu::set_current(NULL);
 }
 
-void le_showhelp()
+void LevelEditor::showhelp()
 {
   DrawingContext context;
 
@@ -1876,7 +1773,7 @@ void le_showhelp()
   for(int i = 0; i < 3; i++)
     {
     context.draw_gradient(Color(0,0,0), Color(255,255,255), LAYER_BACKGROUND0);
-    le_drawinterface(context);
+    drawinterface(context);
 
     context.draw_text_center(blue_text, "- Help -", Vector(0, 30), LAYER_GUI);
 

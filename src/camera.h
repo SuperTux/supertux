@@ -52,6 +52,12 @@ public:
     (void) context;
   }
 
+  void set_scrolling(int scroll_x, int scroll_y)
+  {
+    translation.x = scroll_x;
+    translation.y = scroll_y;
+  }
+
   enum CameraMode
   {
     NORMAL, AUTOSCROLL, MANUAL

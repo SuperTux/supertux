@@ -23,6 +23,7 @@
 
 #include <vector>
 #include "screen/texture.h"
+#include "timer.h"
 
 enum ButtonState {
   BUTTON_NONE = -1,

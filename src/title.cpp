@@ -69,6 +69,8 @@ static GameSession* titlesession;
 static std::vector<LevelSubset*> contrib_subsets;
 static LevelSubset* current_contrib_subset = 0;
 
+static LevelEditor* leveleditor;
+
 void free_contrib_menu()
 {
   for(std::vector<LevelSubset*>::iterator i = contrib_subsets.begin();
@@ -297,7 +299,9 @@ void title(void)
                   generate_contrib_menu();
                   break;
                 case MNID_LEVELEDITOR:
-                  leveleditor();
+                  leveleditor = new LevelEditor();
+                  leveleditor->run();
+                  delete leveleditor;
                   Menu::set_current(main_menu);
                   break;
                 case MNID_CREDITS:
