@@ -257,7 +257,11 @@ void title(void)
   contrib_worldmap_menu->additem(MN_LABEL, _("Contrib Worlds"), 0,0);
   contrib_worldmap_menu->additem(MN_HL, "", 0,0);
   for(int i = 0; i < worldmap_list.num_items; i++)
-    contrib_worldmap_menu->additem(MN_ACTION, worldmap_list.item[i],0,0,i);
+    {
+    WorldMapNS::WorldMap worldmap;
+    worldmap.loadmap(worldmap_list.item[i]);
+    contrib_worldmap_menu->additem(MN_ACTION, worldmap.get_world_title(),0,0,i);
+    }
   contrib_worldmap_menu->additem(MN_HL,"",0,0);
   contrib_worldmap_menu->additem(MN_BACK,"Back",0,0);
 

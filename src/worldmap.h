@@ -199,6 +199,9 @@ public:
   /* Load map directly from file */
   void loadmap(const std::string& filename);
 
+  const std::string& get_world_title() const
+    { return name; }
+
 private:
   void on_escape_press();
 };
