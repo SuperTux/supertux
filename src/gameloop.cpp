@@ -750,9 +750,12 @@ std::string slotinfo(int slot)
   sprintf(slotfile,"%s/slot%d.stsg",st_save_dir,slot);
 
   lisp_object_t* savegame = lisp_read_from_file(slotfile);
-  LispReader reader(lisp_cdr(savegame));
-  reader.read_string("title", &title);
-  lisp_free(savegame);
+  if (savegame)
+    {
+      LispReader reader(lisp_cdr(savegame));
+      reader.read_string("title", &title);
+      lisp_free(savegame);
+    }
 
   if (access(slotfile, F_OK) == 0)
     {

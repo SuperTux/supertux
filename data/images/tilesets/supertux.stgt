@@ -456,6 +456,7 @@
                "goal2-1.png"
                "goal2-1.png"))
 
-
+ (tile (id 131)
+       (images "black.png"))
  )
 

@@ -38,6 +38,12 @@ void
 SpriteManager::load_resfile(const std::string& filename)
 {
   lisp_object_t* root_obj = lisp_read_from_file(filename);
+  if (!root_obj)
+    {
+      std::cout << "SpriteManager: Couldn't load: " << filename << std::endl;
+      return;
+    }
+
   lisp_object_t* cur = root_obj;
 
   if (strcmp(lisp_symbol(lisp_car(cur)), "supertux-resources") != 0)

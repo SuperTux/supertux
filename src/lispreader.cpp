@@ -1317,18 +1317,6 @@ lisp_object_t* lisp_read_from_file(const std::string& filename)
   if (has_suffix(filename.c_str(), ".gz"))
     {
       return lisp_read_from_gzfile(filename.c_str());
-#if 0
-      lisp_object_t* obj = 0;
-      gzFile in = gzopen(filename, "r");
-
-      if (in)
-        {
-          lisp_stream_init_gzfile(&stream, in);
-          obj = lisp_read(&stream);
-          gzclose(in);
-        }
-        return obj;
-#endif
     }
   else
     {
@@ -1341,12 +1329,6 @@ lisp_object_t* lisp_read_from_file(const std::string& filename)
           obj = lisp_read(&stream);
           fclose(in);
         }
-      else {
-        std::cerr << "LispReader: File not found: " << filename << endl;
-        st_abort("aborting", "");
-      }
-      
-
 
       return obj;
     }

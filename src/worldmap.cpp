@@ -921,6 +921,12 @@ WorldMap::loadgame(const std::string& filename)
     return;
   
   lisp_object_t* savegame = lisp_read_from_file(filename);
+  if (savegame)
+    {
+      std::cout << "WorldMap:loadgame: File not found: " << filename << std::endl;
+      return;
+    }
+
   lisp_object_t* cur = savegame;
 
   if (strcmp(lisp_symbol(lisp_car(cur)), "supertux-savegame") != 0)
