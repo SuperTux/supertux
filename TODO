@@ -22,15 +22,13 @@ L: low priority
 
 [H] Make sure there are no invalid tile numbers in the level files
      - Tile 6 occurs in world1/level5.stl as well as other levels
-[H] Adding objects should be done by adding them into a queue and then
-    physically added at the end of Sector::action()
-     - may cause crashes otherwise (due to iterators)
-     - see world1/level7.stl, killing the bombs
 [H] Worldmap needs to allow multiple maps
      - or just one big map with multiple worlds?
 [H] Change resolution to 800x600
      - Levels need to be updated to resolution
-         (half of the levels have been already updated)
+        - half of the levels have been already updated
+        - some fixed levels still have "glitches". See the menu level where
+          some of the tiles are "wrong" and don't fit
 [H] Buttjump related things
      ? Right now only breaks bricks beneath tux - what else should it break
      - Should kill enemies with a certain range
@@ -50,6 +48,7 @@ L: low priority
 [H] Backgrounds should be square tiles instead of just tiling one image
      - Useful for vertical scrolling when we only want a sky background on the
        top of the level
+     - Support for this is already available using a paralax tilemap layer
 
 [M] Save score on per-level basis to make high-score
 [M] Save time on per-level basis to make low-time-score
@@ -61,8 +60,6 @@ L: low priority
 [M] tux get killed if he kicks a iceblock while at the same time bouncing on
 [M] You shouldn't be able to stand on invisible blocks, before you bumped them
     the roof
-[M] bombs should explode directly when hit by another bomb or a mr.iceblock
-     - right now they transform into a "squished mrbomb"
 
 [L] Allow any object to be inside of a [?] box, ie. trampoline or badguy
 [L] in the "Welcome to Antarctica" level, the blocks next to the first growup
