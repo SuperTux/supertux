@@ -104,7 +104,7 @@ void SnowParticleSystem::simulate(float elapsed_time)
         SnowParticle* particle = (SnowParticle*) *i;
         particle->y += particle->speed * elapsed_time;
         if(particle->y > screen->h) {
-            particle->y = 0;
+            particle->y = fmodf(particle->y , virtual_height);
             particle->x = rand() % int(virtual_width);
         }
     }
