@@ -52,6 +52,8 @@ World::World(const std::string& filename)
   activate_bad_guys();
   activate_particle_systems();
   get_level()->load_song();
+
+  apply_bonuses();
 }
 
 World::World(const std::string& subset, int level_nr)
@@ -69,6 +71,32 @@ World::World(const std::string& subset, int level_nr)
   activate_bad_guys();
   activate_particle_systems();
   get_level()->load_song();
+
+  apply_bonuses();
+}
+
+void
+World::apply_bonuses()
+{
+  std::cout << "Bonus: " << player_status.bonus << std::endl;
+
+  // Apply bonuses from former levels
+  switch (player_status.bonus)
+    {
+    case PlayerStatus::NO_BONUS:
+      break;
+
+    case PlayerStatus::FLOWER_BONUS:
+      tux.got_coffee = true;
+      // fall through
+
+    case PlayerStatus::GROWUP_BONUS:
+      // FIXME: Move this to Player class
+      tux.size = BIG;
+      tux.base.height = 64;
+      tux.base.y -= 32;
+      break;
+    }
 }
 
 World::~World()

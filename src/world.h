@@ -111,6 +111,10 @@ public:
   /** Try to bumb a badguy that might we walking above Tux, thus shaking
       the tile which the badguy is walking on an killing him this way */
   void trybumpbadguy(float x, float y);
+
+  /** Apply bonuses active in the player status, used to reactivate
+      bonuses from former levels */
+  void apply_bonuses();
 };
 
 /** FIMXE: Workaround for the leveleditor mainly */

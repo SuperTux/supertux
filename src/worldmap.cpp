@@ -615,6 +615,7 @@ WorldMap::update()
                   break;
                 case GameSession::GAME_OVER:
                   quit = true;
+                  player_status.bonus = PlayerStatus::NO_BONUS;
                   break;
                 case GameSession::NONE:
                   // Should never be reached 
@@ -863,12 +864,15 @@ WorldMap::loadgame(const std::string& filename)
     {
       Point p;
       std::string back_str = "none";
+      std::string bonus_str = "none";
 
       LispReader tux_reader(tux_cur);
       tux_reader.read_int("x", &p.x);
       tux_reader.read_int("y", &p.y);
       tux_reader.read_string("back", &back_str);
+      tux_reader.read_string("bonus", &bonus_str);
       
+      player_status.bonus = string_to_bonus(bonus_str);
       tux->back_direction = string_to_direction(back_str);      
       tux->set_tile_pos(p);
     }
