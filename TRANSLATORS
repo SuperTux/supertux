@@ -37,6 +37,8 @@ worths when lookins at the results ;-)
 
  KBabel      - a long dated KDE program that has been maturing over the years, and it's
                really handy by now.
+ poEdit      - a multi-platform po editor (runs under Windows and Unix).
+               URL: http://poedit.sourceforge.net/
  (X)Emacs    - a commonly used program for translating with the respective plugin.
  QTranslator - made by Qt, has the advantage of running in several platforms.
  PO files are written in ASCII and are pretty intuitive, so they can be used by any text
