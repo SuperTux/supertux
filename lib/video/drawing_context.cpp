@@ -30,6 +30,7 @@ using namespace SuperTux;
 DrawingContext::DrawingContext()
 {
 transform.draw_effect = NONE_EFFECT;
+transform.zoom = 1;
 }
 
 DrawingContext::~DrawingContext()
@@ -50,6 +51,7 @@ DrawingContext::draw_surface(const Surface* surface, const Vector& position,
   request.pos = transform.apply(position);
   request.drawing_effect = drawing_effect;
   request.drawing_effect = transform.draw_effect | drawing_effect;
+  request.zoom = transform.zoom;
 
   drawingrequests.push_back(request);
 }
@@ -289,7 +291,13 @@ DrawingContext::do_drawing()
       case SURFACE:
       {
         const Surface* surface = (const Surface*) i->request_data;
-        surface->impl->draw(i->pos.x, i->pos.y, 255, i->drawing_effect);
+
+        if(i->zoom != 1.0)
+          surface->impl->draw_stretched(i->pos.x * i->zoom, i->pos.y * i->zoom,
+                         (int)(surface->w * i->zoom), (int)(surface->h * i->zoom),
+                         255, i->drawing_effect);
+        else
+          surface->impl->draw(i->pos.x, i->pos.y, 255, i->drawing_effect);
         break;
       }
       case SURFACE_PART:
@@ -335,4 +343,10 @@ void
 DrawingContext::set_drawing_effect(int effect)
 {
   transform.draw_effect = effect;
+}
+
+void
+DrawingContext::set_zooming(float zoom)
+{
+  transform.zoom = zoom;
 }

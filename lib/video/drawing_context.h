@@ -79,19 +79,20 @@ namespace SuperTux
       void do_drawing();
 
       const Vector& get_translation() const
-        {
-          return transform.translation;
-        }
+        {  return transform.translation;  }
+      Uint32 get_drawing_effect() const
+        {  return transform.draw_effect;  }
+
       void set_translation(const Vector& newtranslation)
-      {
-        transform.translation = newtranslation;
-      }
+        {  transform.translation = newtranslation;  }
 
       void push_transform();
       void pop_transform();
 
       /// Apply that effect in the next draws (effects are listed on surface.h).
       void set_drawing_effect(int effect);
+      /// apply that zoom in the next draws */
+      void set_zooming(float zoom);
 
     private:
       class Transform
@@ -104,7 +105,8 @@ namespace SuperTux
               return v - translation;
             }
 
-          int draw_effect;
+          Uint32 draw_effect;
+          float zoom;
         };
 
       /// the transform stack
@@ -147,6 +149,7 @@ namespace SuperTux
         {
           int layer;
           Uint32 drawing_effect;
+          float zoom;
 
           RequestType type;
           Vector pos;
