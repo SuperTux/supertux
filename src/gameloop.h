@@ -28,7 +28,9 @@ extern int game_started;
 extern st_level current_level;
 
 /* Function prototypes: */
+class Tile;
 
+Tile* gettile(float x, float y);
 int gameloop(const char * subset, int levelnb, int mode);
 void savegame(int slot);
 void loadgame(int slot);

@@ -15,6 +15,7 @@
 #include "player.h"
 #include "defines.h"
 #include "scene.h"
+#include "tile.h"
 #include "screen.h"
 
 texture_type tux_life;
@@ -243,8 +244,8 @@ Player::action()
           if(size == SMALL)
             {
               /* Get a distro from a brick? */
-              if (shape(base.x, base.y) == 'x' ||
-                  shape(base.x, base.y) == 'y')
+              if (gettile(base.x, base.y)->brick ||
+                  gettile(base.x, base.y)->brick)
                 {
                   add_bouncy_distro((((int)base.x)
                                      / 32) * 32,
@@ -262,8 +263,8 @@ Player::action()
                   score = score + SCORE_DISTRO;
                   distros++;
                 }
-              else if (shape(base.x+ 31, base.y) == 'x' ||
-                       shape(base.x+ 31, base.y) == 'y')
+              else if (gettile(base.x+ 31, base.y)->brick ||
+                       gettile(base.x+ 31, base.y)->brick)
                 {
                   add_bouncy_distro((((int)base.x + 31)
                                      / 32) * 32,

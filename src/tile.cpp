@@ -42,13 +42,13 @@ void TileManager::load_tileset(std::string filename)
               std::vector<std::string> filenames;
 
               Tile* tile = new Tile;             
-              tile->solid = false;
-	      tile->brick = false;
-	      tile->ice = false;	  
+              tile->solid   = false;
+	      tile->brick   = false;
+	      tile->ice     = false;	  
 	      tile->fullbox = false;	      
-              tile->alpha = 0;
-              tile->distro = 0;
-              tile->data  = 0;
+              tile->distro  = false;
+              tile->data    = 0;
+              tile->alpha   = 0;
               tile->anim_speed = 25;
   
               LispReader reader(lisp_cdr(element));

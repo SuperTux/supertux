@@ -290,7 +290,10 @@ int level_load(st_level* plevel, const char* filename)
       reader.read_string("background",  &plevel->bkgd_image);
       reader.read_string("particle_system", &plevel->particle_system);
       reader.read_int_vector("background-tm",  &bg_tm);
-      reader.read_int_vector("interactive-tm", &ia_tm);
+
+      if (!reader.read_int_vector("interactive-tm", &ia_tm))
+        reader.read_int_vector("tilemap", &ia_tm);
+
       reader.read_int_vector("dynamic-tm",     &dn_tm);
       reader.read_int_vector("foreground-tm",  &fg_tm);
 
@@ -614,8 +617,6 @@ void tilemap_change_size(unsigned int** tilemap[15], int w, int old_w)
 /* Change the size of a level (width) */
 void level_change_size (st_level* plevel, int new_width)
 {
-  int y;
-
   if(new_width < 21)
     new_width = 21;
   tilemap_change_size((unsigned int***)&plevel->ia_tiles,new_width,plevel->width);

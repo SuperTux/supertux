@@ -1318,17 +1318,19 @@ void unloadshared(void)
 
 void drawshape(float x, float y, unsigned int c)
 {
-  Tile* ptile = TileManager::instance()->get
-                (c);
-  if(ptile)
+  if (c != 0)
     {
-      if(ptile->images.size() > 1)
+      Tile* ptile = TileManager::instance()->get(c);
+      if(ptile)
         {
-          texture_draw(&ptile->images[( ((global_frame_counter*25) / ptile->anim_speed) % (ptile->images.size()))],x,y);
-        }
-      else
-        {
-          texture_draw(&ptile->images[0],x,y);
+          if(ptile->images.size() > 1)
+            {
+              texture_draw(&ptile->images[( ((global_frame_counter*25) / ptile->anim_speed) % (ptile->images.size()))],x,y);
+            }
+          else
+            {
+              texture_draw(&ptile->images[0],x,y);
+            }
         }
     }
 
