@@ -25,7 +25,12 @@ L: low priority
 
 [H] Make sure there are no invalid tile numbers in the level files
      - Tile 6 occurs in world1/level5.stl as well as other levels
+[H] Adding objects should be done by adding them into a queue and then
+    physically added at the end of Sector::action()
+     - may cause crashes otherwise (due to iterators)
+     - see world1/level7.stl, killing the bombs
 [H] Worldmap needs to allow multiple maps
+     - or just one big map with multiple worlds?
 [H] Change resolution to 800x600
      - Levels need to be updated to resolution
          (half of the levels have been already updated)
