@@ -19,7 +19,11 @@ L: low priority
 [M] When aborting a level, lives and score should remain the same as they
     were before. Solution: make more dependency between the game engine and worldmap
     or just backup those variables before starting a level.
-[L] intro doesn't seamlessly wrap around, might be due to the new
+[L] time runs while being in in-game menu, at least a bit (jump, go to
+   menu, wait a bit, leave menu, Tux will 'flip' to the ground,
+   instead of fall, pause mode doesn't seem to have this problem, only
+   menu)
+[L] titlescreen level doesn't seamlessly wrap around, might be due to the new
     scrolling code or due to the worldmap doing the drawing
 [L] Backscroll is really messed up right now :)
 [L] change lispreader to throw exceptions instead of simply assert() on
