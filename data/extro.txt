@@ -1,5 +1,7 @@
 ; Ending text
 (supertux-text
+  (background "extro.jpg")
+
   (text "-Entering Nolok's Throne Room!
 
 	Tux ran into Nolok's throne room,

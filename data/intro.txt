@@ -1,5 +1,7 @@
 ; Introduction text
 (supertux-text
+  (background "arctis.jpg")
+
   (text "-Penny gets captured!
 
 	Tux and Penny were out having a nice
