@@ -32,8 +32,8 @@ char * soundfilenames[NUM_SOUNDS] = {
                                        "/sounds/jump.wav",
                                        "/sounds/bigjump.wav",
                                        "/sounds/skid.wav",
-                                       "/sounds/distro.wav",
-                                       "/sounds/herring.wav",
+                                       "/sounds/coin.wav",
+                                       "/sounds/invincible.wav",
                                        "/sounds/brick.wav",
                                        "/sounds/hurt.wav",
                                        "/sounds/squish.wav",
@@ -41,13 +41,13 @@ char * soundfilenames[NUM_SOUNDS] = {
                                        "/sounds/ricochet.wav",
                                        "/sounds/bump-upgrade.wav",
                                        "/sounds/upgrade.wav",
-                                       "/sounds/excellent.wav",
-                                       "/sounds/coffee.wav",
+                                       "/sounds/grow.wav",
+                                       "/sounds/fire-flower.wav",
                                        "/sounds/shoot.wav",
                                        "/sounds/lifeup.wav",
                                        "/sounds/stomp.wav",
                                        "/sounds/kick.wav",
-                                       "/sounds/explode.wav"
+                                       "/sounds/explosion.wav"
                                     };
 
 
