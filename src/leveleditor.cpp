@@ -252,7 +252,7 @@ int leveleditor(int levelnb)
                         }
                       le_set_defaults();
                       le_current_level->load_gfx();
-		      activate_bad_guys(le_current_level);
+		      world.activate_bad_guys();
                       show_menu = true;
                     }
                   break;
@@ -283,7 +283,7 @@ int leveleditor(int levelnb)
                         }
                       le_set_defaults();
                       le_current_level->load_gfx();
-		      activate_bad_guys(le_current_level);
+		      world.activate_bad_guys();
                       menu_item_change_input(&subset_new_menu->item[2],"");
                       show_menu = true;
                       break;
@@ -559,7 +559,7 @@ void le_goto_level(int levelnb)
   le_current_level->free_gfx();
   le_current_level->load_gfx();
 
-  activate_bad_guys(le_current_level);
+  world.activate_bad_guys();
 }
 
 void le_quit(void)
@@ -595,8 +595,8 @@ void le_quit(void)
     {
       le_current_level->free_gfx();
       le_current_level->cleanup();
-      unloadshared();
       world.arrays_free();
+      unloadshared();
     }
 }
 
@@ -1196,7 +1196,7 @@ void le_testlevel()
   world.arrays_free();
   le_current_level->load_gfx();
   loadshared();
-  activate_bad_guys(le_current_level);
+  world.activate_bad_guys();
 }
 
 void le_showhelp()

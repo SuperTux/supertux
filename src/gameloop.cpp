@@ -119,7 +119,8 @@ GameSession::GameSession(const std::string& subset, int levelnb, int mode)
 
   world->get_level()->load_gfx();
   loadshared();
-  activate_bad_guys(world->get_level());
+  
+  world->activate_bad_guys();
   world->activate_particle_systems();
   world->get_level()->load_song();
 
@@ -167,16 +168,6 @@ GameSession::start_timers()
   timer_start(&time_left, world->get_level()->time_left*1000);
   st_pause_ticks_init();
   update_time = st_get_ticks();
-}
-
-void activate_bad_guys(Level* plevel)
-{
-  for (std::vector<BadGuyData>::iterator i = plevel->badguy_data.begin();
-       i != plevel->badguy_data.end();
-       ++i)
-    {
-      world.add_bad_guy(i->x, i->y, i->kind);
-    }
 }
 
 void
@@ -370,8 +361,9 @@ GameSession::action()
               world->get_level()->free_gfx();
               world->get_level()->cleanup();
               world->get_level()->free_song();
-              unloadshared();
               world->arrays_free();
+
+              unloadshared();
               return(0);
             }
           tux.level_begin();
@@ -392,19 +384,21 @@ GameSession::action()
                   if (score > hs_score)
                     save_hs(score);
                 }
+
               world->get_level()->free_gfx();
               world->get_level()->cleanup();
               world->get_level()->free_song();
-              unloadshared();
               world->arrays_free();
+
+              unloadshared();
               return(0);
             } /* if (lives < 0) */
         }
 
       /* Either way, (re-)load the (next) level... */
-
       tux.level_begin();
       set_defaults();
+      
       world->get_level()->cleanup();
 
       if (st_gl_mode == ST_GL_LOAD_LEVEL_FILE)
@@ -419,7 +413,7 @@ GameSession::action()
         }
 
       world->arrays_free();
-      activate_bad_guys(world->get_level());
+      world->activate_bad_guys();
       world->activate_particle_systems();
 
       world->get_level()->free_gfx();
@@ -844,10 +838,11 @@ GameSession::loadgame(int slot)
 
       set_defaults();
       world->get_level()->cleanup();
+      world->arrays_free();
+
       if(world->get_level()->load(level_subset,level) != 0)
         exit(1);
-      world->arrays_free();
-      activate_bad_guys(world->get_level());
+      world->activate_bad_guys();
       world->activate_particle_systems();
       
       world->get_level()->free_gfx();

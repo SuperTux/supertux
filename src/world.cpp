@@ -64,6 +64,16 @@ World::arrays_free(void)
   particle_systems.clear();
 }
 
+void
+World::activate_bad_guys()
+{
+  for (std::vector<BadGuyData>::iterator i = level->badguy_data.begin();
+       i != level->badguy_data.end();
+       ++i)
+    {
+      add_bad_guy(i->x, i->y, i->kind);
+    }
+}
 
 void
 World::activate_particle_systems()

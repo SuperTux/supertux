@@ -124,6 +124,7 @@ class World
   int  load(const std::string& filename);
 
   void activate_particle_systems();
+  void activate_bad_guys();
 
   void add_score(float x, float y, int s);
   void add_bouncy_distro(float x, float y);

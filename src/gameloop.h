@@ -63,8 +63,6 @@ class GameSession
   void start_timers();
 };
 
-void  activate_bad_guys(Level* plevel);
-
 std::string slotinfo(int slot);
 
 bool  rectcollision(base_type* one, base_type* two);
