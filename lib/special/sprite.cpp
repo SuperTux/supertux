@@ -104,6 +104,11 @@ if(!next_action.empty() && animation_loops > 0)
   return;
   }
 Actions::iterator i = actions.find(act);
+if(i == actions.end())
+  {
+  std::cerr << "Warning: Action '" << act << "' not found on Sprite '" << name << "'\n";
+  return;
+  }
 action = i->second;
 }
 
