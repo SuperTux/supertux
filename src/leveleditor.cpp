@@ -780,10 +780,10 @@ void le_drawminimap()
 
   fillrect(left_offset, 0, le_world->get_level()->width*mini_tile_width, 15*4, 200, 200, 200, 128);
 
-  fillrect(left_offset + (pos_x/32)*mini_tile_width, 0, 19*mini_tile_width, 2, 200, 200, 200, 200);
-  fillrect(left_offset + (pos_x/32)*mini_tile_width, 0, 2, 15*4, 200, 200, 200, 200);
-  fillrect(left_offset + (pos_x/32)*mini_tile_width + 19*mini_tile_width - 2, 0, 2, 15*4, 200, 200, 200, 200);
-  fillrect(left_offset + (pos_x/32)*mini_tile_width, 15*4-2, 19*mini_tile_width, 2, 200, 200, 200, 200);
+  fillrect(left_offset + (pos_x/32)*mini_tile_width, 0, 19*mini_tile_width, 1, 255, 255, 255, 255);
+  fillrect(left_offset + (pos_x/32)*mini_tile_width, 0, 1, 15*4, 255, 255, 255, 255);
+  fillrect(left_offset + (pos_x/32)*mini_tile_width + 19*mini_tile_width, 0, 1, 15*4, 255, 255, 255, 255);
+  fillrect(left_offset + (pos_x/32)*mini_tile_width, 15*4-2, 19*mini_tile_width, 1, 255, 255, 255, 255);
 
 }
 
@@ -804,7 +804,7 @@ void le_drawinterface()
     }
   }
 
-  if(show_minimap) // use_gl because the minimap isn't shown correctly in software mode. Any idea? FIXME Possible reasons: SDL_SoftStretch is a hack itsself || an alpha blitting issue SDL can't handle in software mode
+  if(show_minimap)
     le_drawminimap();
 
   if(show_selections && MouseCursor::current() != mouse_select_object)
@@ -1574,6 +1574,8 @@ void le_checkevents()
       break;
     }
 
+  if(le_mouse_pressed[RIGHT])
+    show_minimap = true;
   }
 
 }
