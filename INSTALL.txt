@@ -4,9 +4,9 @@ by Bill Kendrick
 bill@newbreedsoftware.com
 http://www.newbreedsoftware.com/supertux/
 
-Version 0.0.2
+Version 0.0.5
 
-August 6, 2001
+December 9, 2003
 
 
 REQUIREMENTS
@@ -14,8 +14,7 @@ REQUIREMENTS
 
   CONTROLS
   --------
-    The game is controlled using a mouse.  It can be played with either
-    a mouse or a joystick.
+    The game can be played with either a the keyboard or a joystick.
 
   SDL
   ---
