@@ -1,0 +1,119 @@
+//  $Id$
+//
+//  SuperTux -  A Jump'n Run
+//  Copyright (C) 2004 Michael George <mike@georgetech.com>
+//
+//  This program is free software; you can redistribute it and/or
+//  modify it under the terms of the GNU General Public License
+//  as published by the Free Software Foundation; either version 2
+//  of the License, or (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program; if not, write to the Free Software
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
+#include <stdlib.h>
+#include <string>
+#include "configfile.h"
+#include "setup.h"
+#include "globals.h"
+#include "lispreader.h"
+
+#ifdef WIN32
+const char * config_filename = "/st_config.dat";
+#else
+const char * config_filename = "/config";
+#endif
+
+static void defaults ()
+{
+  /* Set defaults: */
+  debug_mode = false;
+  audio_device = true;
+
+  use_fullscreen = false;
+  show_fps = false;
+  use_gl = false;
+
+  use_sound = true;
+  use_music = true;
+}
+
+void loadconfig(void)
+{
+  FILE * file = NULL;
+
+  defaults();
+
+  /* override defaults from config file */
+
+  file = opendata(config_filename, "r");
+
+  if (file == NULL)
+    return;
+
+  /* read config file */
+
+  lisp_stream_t   stream;
+  lisp_object_t * root_obj = NULL;
+
+  lisp_stream_init_file (&stream, file);
+  root_obj = lisp_read (&stream);
+
+  if (root_obj->type == LISP_TYPE_EOF || root_obj->type == LISP_TYPE_PARSE_ERROR)
+    return;
+
+  if (strcmp(lisp_symbol(lisp_car(root_obj)), "supertux-config") != 0)
+    return;
+
+  LispReader reader(lisp_cdr(root_obj));
+
+  reader.read_bool("fullscreen", &use_fullscreen);
+  reader.read_bool("sound",      &use_sound);
+  reader.read_bool("music",      &use_music);
+  reader.read_bool("show_fps",   &show_fps);
+
+  std::string video;
+  reader.read_string ("video", &video);
+  if (video == "opengl")
+    use_gl = true;
+  else
+    use_gl = false;
+
+  reader.read_int ("joystick", &joystick_num);
+  if (!(joystick_num >= 0))
+    use_joystick = false;
+  else
+    use_joystick = true;
+}
+
+void saveconfig (void)
+{
+  /* write settings to config file */
+
+  FILE * config = opendata(config_filename, "w");
+
+  if(config)
+    {
+      fprintf(config, "(supertux-config\n");
+      fprintf(config, "\t;; the following options can be set to #t or #f:\n");
+      fprintf(config, "\t(fullscreen %s)\n", use_fullscreen ? "#t" : "#f");
+      fprintf(config, "\t(sound      %s)\n", use_sound      ? "#t" : "#f");
+      fprintf(config, "\t(music      %s)\n", use_music      ? "#t" : "#f");
+      fprintf(config, "\t(show_fps   %s)\n", show_fps       ? "#t" : "#f");
+
+      fprintf(config, "\n\t;; either \"opengl\" or \"sdl\"\n");
+      fprintf(config, "\t(video      \"%s\")\n", use_gl ? "opengl" : "sdl");
+
+      fprintf(config, "\n\t;; joystick number (-1 means no joystick):\n");
+      fprintf(config, "\t(joystick   %d)\n", use_joystick ? joystick_num : -1);
+      fprintf(config, ")\n");
+    }
+}
+
+/* EOF */
