@@ -6,7 +6,7 @@
   (music "Mortimers_chipdisko.mod")
   (background "")
   (particle_system "")
-  (bkgd_speed 0.5)
+  (bkgd_speed 50)
   (bkgd_red_top 0)
   (bkgd_green_top 0)
   (bkgd_blue_top 255)
