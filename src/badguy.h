@@ -70,11 +70,12 @@ class BadGuy
   void draw();
 
   void action_bsod();
-  void action_laptop();
-  void action_money();
-
   void draw_bsod();
+
+  void action_laptop();
   void draw_laptop();
+   
+  void action_money(); 
   void draw_money();
 
   void collision(void* p_c_object, int c_object);

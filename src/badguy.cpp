@@ -64,9 +64,7 @@ void BadGuy::action_bsod()
         base.x = base.x - base.xm * frame_ratio;
     }
 
-
   /* Move vertically: */
-
   base.y = base.y + base.ym * frame_ratio;
 
   if (dying != DYING_FALLING)
@@ -89,7 +87,6 @@ void BadGuy::action_bsod()
     }
 
   /* Fall if we get off the ground: */
-
   if (dying != DYING_FALLING)
     {
       if (!issolid(base.x+16, base.y + 32))
@@ -124,16 +121,14 @@ void BadGuy::action_bsod()
       base.ym = physic_get_velocity(&physic);
     }
 
+  // BadGuy fall below the ground
   if (base.y > screen->h)
     bad_guys.erase(static_cast<std::vector<BadGuy>::iterator>(this));
 }
 
 void BadGuy::action_laptop()
 {
-  /* --- LAPTOP MONSTER: --- */
-
   /* Move left/right: */
-
   if (mode == NORMAL || mode == KICK)
     {
       if (dying == DYING_NOT ||
@@ -181,7 +176,6 @@ void BadGuy::action_laptop()
 
 
   /* Move vertically: */
-
   if(mode != HELD)
     base.y = base.y + base.ym * frame_ratio;
 
@@ -218,9 +212,7 @@ void BadGuy::action_laptop()
 
     }
 
-
   /* Fall if we get off the ground: */
-
   if (dying != DYING_FALLING)
     {
       if (!issolid(base.x+16, base.y + 32))
@@ -261,11 +253,7 @@ void BadGuy::action_laptop()
 
 void BadGuy::action_money()
 {
-  /* --- MONEY BAGS: --- */
-
-
   /* Move vertically: */
-
   base.y = base.y + base.ym * frame_ratio;
 
   if (dying != DYING_FALLING)

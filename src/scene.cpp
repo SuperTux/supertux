@@ -34,16 +34,19 @@ std::vector<floating_score_type> floating_scores;
 std::vector<upgrade_type> upgrades;
 std::vector<bullet_type> bullets;
 Player tux;
-texture_type img_box_full, img_box_empty, img_mints, img_coffee, img_super_bkgd, img_red_glow;
+texture_type img_box_full;
+texture_type img_box_empty;
+texture_type img_mints;
+texture_type img_coffee;
+texture_type img_super_bkgd;
+texture_type img_red_glow;
 timer_type time_left;
 double frame_ratio;
 
-/* Initialize all 'dynamic' arrays */
 void arrays_init(void)
 {
 }
 
-/* Free memory of 'dynamic' arrays */
 void arrays_free(void)
 {
   bad_guys.clear();
@@ -73,20 +76,14 @@ void set_defaults(void)
   set_current_music(LEVEL_MUSIC);
 }
 
-/* Add score: */
-
 void add_score(float x, float y, int s)
 {
- /* Add the score: */
-
   score += s;
 
   floating_score_type new_floating_score;
   floating_score_init(&new_floating_score,x,y,s);
   floating_scores.push_back(new_floating_score);
 }
-
-/* Add a bouncy distro: */
 
 void add_bouncy_distro(float x, float y)
 {
@@ -95,9 +92,6 @@ void add_bouncy_distro(float x, float y)
   bouncy_distro_init(&new_bouncy_distro,x,y);
   bouncy_distros.push_back(new_bouncy_distro);
 }
-
-
-/* Add broken brick pieces: */
 
 void add_broken_brick(float x, float y)
 {
@@ -108,18 +102,12 @@ void add_broken_brick(float x, float y)
   add_broken_brick_piece(x + 16, y + 16, 1.5, -3);
 }
 
-
-/* Add a broken brick piece: */
-
 void add_broken_brick_piece(float x, float y, float xm, float ym)
 {
   broken_brick_type new_broken_brick;
   broken_brick_init(&new_broken_brick,x,y,xm,ym);
   broken_bricks.push_back(new_broken_brick);
 }
-
-
-/* Add a bouncy brick piece: */
 
 void add_bouncy_brick(float x, float y)
 {
@@ -128,9 +116,6 @@ void add_bouncy_brick(float x, float y)
   bouncy_bricks.push_back(new_bouncy_brick);
 }
 
-
-/* Add a bad guy: */
-
 void add_bad_guy(float x, float y, BadGuyKind kind)
 {
   BadGuy new_bad_guy;
@@ -138,16 +123,12 @@ void add_bad_guy(float x, float y, BadGuyKind kind)
   bad_guys.push_back(new_bad_guy);
 }
 
-/* Add an upgrade: */
-
 void add_upgrade(float x, float y, int dir, int kind)
 {
   upgrade_type new_upgrade;
   upgrade_init(&new_upgrade,x,y,dir,kind);
   upgrades.push_back(new_upgrade);
 }
-
-/* Add a bullet: */
 
 void add_bullet(float x, float y, float xm, int dir)
 {
@@ -157,4 +138,6 @@ void add_bullet(float x, float y, float xm, int dir)
   
   play_sound(sounds[SND_SHOOT], SOUND_CENTER_SPEAKER);
 }
+
+// EOF //
 

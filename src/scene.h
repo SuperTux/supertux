@@ -22,6 +22,7 @@
 #include "level.h"
 
 #define FRAME_RATE 10 // 100 Frames per second (10ms)
+
 extern int score;
 extern int distros;
 extern int level; 
