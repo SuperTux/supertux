@@ -709,7 +709,7 @@ Player::collision(void* p_c_object, int c_object)
       ptramp_c = (Trampoline*) p_c_object;
       
       // Pick up trampoline
-      if (ptramp_c->mode != Trampoline::M_HELD && input.fire == DOWN && !holding_something)
+      if (ptramp_c->mode != Trampoline::M_HELD && input.fire == DOWN && !holding_something && on_ground())
       {
         holding_something = true;
         ptramp_c->mode = Trampoline::M_HELD;
@@ -796,7 +796,7 @@ Player::is_dying()
 
 bool Player::is_dead()
 {
-  if(base.y > screen->h || base.x < scroll_x - AUTOSCROLL_DEAD_INTERVAL)  // last condition can happen in auto-scrolling
+  if(base.y > World::current()->get_level()->height * /*TILE_HEIGHT*/ 32 || base.x < scroll_x - AUTOSCROLL_DEAD_INTERVAL)  // last condition can happen in auto-scrolling
     return true;
   else
     return false;
@@ -822,7 +822,7 @@ Player::check_bounds(bool back_scrolling, bool hor_autoscroll)
     }
 
   /* Keep in-bounds, vertically: */
-  if (base.y > screen->h)
+  if (base.y > sWorld::current()->get_level()->height * /*TILE_HEIGHT*/ 32)
     {
       kill(KILL);
     }

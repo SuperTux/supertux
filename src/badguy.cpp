@@ -714,7 +714,7 @@ BadGuy::action(double frame_ratio)
     }
 
   // BadGuy fall below the ground
-  if (base.y > screen->h) {
+  if (base.y > World::current()->get_level()->height * 32) {
     remove_me();
     return;
   }

@@ -220,9 +220,10 @@ Sprite *img_trampoline[TRAMPOLINE_FRAMES];
 
 void load_object_gfx()
 {
+  char sprite_name[16];
+
   for (int i = 0; i < TRAMPOLINE_FRAMES; i++)
   {
-    char sprite_name[16];
     sprintf(sprite_name, "trampoline-%i", i+1);
     img_trampoline[i] = sprite_manager->load(sprite_name);
   }
@@ -256,8 +257,6 @@ void
 Trampoline::action(double frame_ratio)
 {
   // TODO: Remove if we're too far off the screen
-
-  physic.apply(frame_ratio, base.x, base.y);
 
   // Falling
   if (mode != M_HELD)
@@ -300,6 +299,9 @@ Trampoline::action(double frame_ratio)
       base.y = tux.base.y + tux.base.height/1.5 - base.height;
     }
   }
+
+  physic.apply(frame_ratio, base.x, base.y);
+  collision_swept_object_map(&old_base, &base);
 }
 
 void
@@ -329,7 +331,7 @@ Trampoline::collision(void *p_c_object, int c_object, CollisionType type)
         else
           frame = 0;
 
-        if (squish_amount < 24)
+        if (squish_amount < 20)
           pplayer_c->physic.set_velocity_y(power);
         else if (pplayer_c->physic.get_velocity_y() < 0)
           pplayer_c->physic.set_velocity_y(-squish_amount/32);

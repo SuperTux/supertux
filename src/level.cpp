@@ -233,7 +233,7 @@ Level::init_defaults()
   song_title = "Mortimers_chipdisko.mod";
   bkgd_image = "arctis.png";
   width      = 21;
-  height     = 15;
+  height     = 19;
   start_pos_x = 100;
   start_pos_y = 170;
   time_left  = 100;
