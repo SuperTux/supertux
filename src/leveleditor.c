@@ -8,7 +8,7 @@
  *                                                                         *
  ***************************************************************************/
   
-/*  December 28, 2003 - December 29, 2003 */
+/*  December 28, 2003 - December 30, 2003 */
  
 /* leveleditor.c - A built-in level editor for SuperTux
  by Ricardo Cruz <rick2@aeiou.pt>                      */
@@ -132,6 +132,7 @@ int leveleditor()
   SDL_Event event;
   SDLKey key;
   SDLMod keymod;
+  int last_time, now_time;
   
   strcpy(level_subset,"default");
 
@@ -141,7 +142,6 @@ int leveleditor()
   menumenu = MENU_LEVELEDITOR;
   show_menu = YES;
 
-  int last_time, now_time;
   frame = 0;	/* support for frames in some tiles, like waves and bad guys */
   
   loadshared();

@@ -7,7 +7,7 @@
   tobi.web@gmx.de
   http://www.newbreedsoftware.com/supertux/
   
-  December 20, 2003 - December 29, 2003
+  December 20, 2003 - December 30, 2003
 */
 
 #ifdef LINUX
@@ -255,8 +255,9 @@ int menu_game(void)
       drawcenteredtext("Load Game", 256, letters_red, NO_UPDATE, 2);
       if(menuaction == MN_HIT) /* Don't show the menu anymore, if this item got hit */
       {
+	char *x = NULL;  /* In C, you can do this... */
+
         show_menu = 0;
-	char *x = NULL;
 	loadgame(x);
       }
     }
