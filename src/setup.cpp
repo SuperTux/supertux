@@ -496,10 +496,8 @@ bool process_load_game_menu()
 
       if (access(slotfile, F_OK) != 0)
         {
-          std::cout << "Draw intro" << std::endl;
           draw_intro();
         }
-      std::cout << "XXXDraw intro" << std::endl;
 
       WorldMapNS::WorldMap worldmap;
      

@@ -83,56 +83,22 @@ void loadshared()
   largetux.duck_left   = sprite_manager->load("largetux-duck-left");
   largetux.duck_right  = sprite_manager->load("largetux-duck-right");
 
-  duckfiretux_right = new Surface(datadir +
-               "/images/shared/duckfiretux-right.png",
-               USE_ALPHA);
-
-  duckfiretux_left = new Surface(datadir +
-               "/images/shared/duckfiretux-left.png",
-               USE_ALPHA);
-
-  firetux_right[0] = new Surface(datadir + "/images/shared/firetux-right-0.png", USE_ALPHA);
-  firetux_right[1] = new Surface(datadir + "/images/shared/firetux-right-1.png", USE_ALPHA);
-  firetux_right[2] = new Surface(datadir + "/images/shared/firetux-right-2.png", USE_ALPHA);
-
-  firetux_left[0] = new Surface(datadir + "/images/shared/firetux-left-0.png", USE_ALPHA);
-  firetux_left[1] = new Surface(datadir + "/images/shared/firetux-left-1.png", USE_ALPHA);
-  firetux_left[2] = new Surface(datadir + "/images/shared/firetux-left-2.png", USE_ALPHA);
-
-  bigfiretux_right[0] = new Surface(datadir + "/images/shared/bigfiretux-right-0.png",
-               USE_ALPHA);
-
-  bigfiretux_right[1] = new Surface(datadir + "/images/shared/bigfiretux-right-1.png",
-               USE_ALPHA);
-
-  bigfiretux_right[2] = new Surface(datadir + "/images/shared/bigfiretux-right-2.png",
-               USE_ALPHA);
-
-  bigfiretux_right_jump = new Surface(datadir + "/images/shared/bigfiretux-right-jump.png", USE_ALPHA);
-
-  bigfiretux_left[0] = new Surface(datadir + "/images/shared/bigfiretux-left-0.png",
-               USE_ALPHA);
-
-  bigfiretux_left[1] = new Surface(datadir + "/images/shared/bigfiretux-left-1.png",
-               USE_ALPHA);
-
-  bigfiretux_left[2] = new Surface(datadir + "/images/shared/bigfiretux-left-2.png",
-               USE_ALPHA);
-
-  bigfiretux_left_jump = new Surface(datadir + "/images/shared/bigfiretux-left-jump.png", USE_ALPHA);
-
-  skidfiretux_right = new Surface(datadir +
-               "/images/shared/skidfiretux-right.png",
-               USE_ALPHA);
-
-  skidfiretux_left = new Surface(datadir +
-               "/images/shared/skidfiretux-left.png",
-               USE_ALPHA);
-
+  firetux.stand_left  = sprite_manager->load("firetux-stand-left");
+  firetux.stand_right = sprite_manager->load("firetux-stand-right");
+  firetux.walk_left   = sprite_manager->load("firetux-walk-left");
+  firetux.walk_right  = sprite_manager->load("firetux-walk-right");
+  firetux.jump_left   = sprite_manager->load("firetux-jump-left");
+  firetux.jump_right  = sprite_manager->load("firetux-jump-right");
+  firetux.kick_left   = sprite_manager->load("firetux-kick-left");
+  firetux.kick_right  = sprite_manager->load("firetux-kick-right");
+  firetux.skid_right  = sprite_manager->load("firetux-skid-right");
+  firetux.skid_left   = sprite_manager->load("firetux-skid-left");
+  firetux.grab_left   = sprite_manager->load("firetux-grab-left");
+  firetux.grab_right  = sprite_manager->load("firetux-grab-right");
+  firetux.duck_left   = sprite_manager->load("firetux-duck-left");
+  firetux.duck_right  = sprite_manager->load("firetux-duck-right");
 
   /* Water: */
-
-
   img_water = new Surface(datadir + "/images/shared/water.png", IGNORE_ALPHA);
 
   img_waves[0] = new Surface(datadir + "/images/shared/waves-0.png",

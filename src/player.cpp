@@ -36,17 +36,7 @@ Sprite* largetux_star;
 
 PlayerSprite smalltux;
 PlayerSprite largetux;
-
-Surface* firetux_right[3];
-Surface* firetux_left[3];
-Surface* bigfiretux_right[3];
-Surface* bigfiretux_left[3];
-Surface* bigfiretux_right_jump;
-Surface* bigfiretux_left_jump;
-Surface* duckfiretux_right;
-Surface* duckfiretux_left;
-Surface* skidfiretux_right;
-Surface* skidfiretux_left;
+PlayerSprite firetux;
 
 PlayerKeymap keymap;
 
@@ -506,158 +496,80 @@ Player::draw()
         }
       else
         {
+          PlayerSprite* sprite;
+          
           if (size == SMALL)
+            sprite = &smalltux;
+          else if (got_coffee)
+            sprite = &firetux;
+          else
+            sprite = &largetux;
+          
+          if (skidding_timer.started())
             {
-              if (!skidding_timer.started())
-                {
-                  if (physic.get_velocity_y() != 0)
-                    {
-                      if (dir == RIGHT)
-                        smalltux.jump_right->draw(base.x - scroll_x, base.y);
-                      else
-                        smalltux.jump_left->draw(base.x - scroll_x, base.y);                   
-                    }
-                  else
-                    {
-                      if (fabsf(physic.get_velocity_x()) < 1.0f) // standing
-                        {
-                          if (dir == RIGHT)
-                            smalltux.stand_right->draw( base.x - scroll_x, base.y - 9);
-                          else
-                            smalltux.stand_left->draw( base.x - scroll_x, base.y - 9);
-                        }
-                      else // moving
-                        {
-                          if (dir == RIGHT)
-                            smalltux.walk_right->draw(base.x - scroll_x, base.y);
-                          else
-                            smalltux.walk_left->draw(base.x - scroll_x, base.y);
-                        }
-                    }
-                }
+              if (dir == RIGHT)
+                sprite->skid_right->draw(base.x - scroll_x, base.y);
               else
-                {
-                  if (dir == RIGHT)
-                    smalltux.skid_right->draw(base.x - scroll_x, base.y);
-                  else
-                    smalltux.skid_left->draw(base.x - scroll_x, base.y); 
-                }
-
-              if (holding_something && physic.get_velocity_y() == 0)
-                {
-                  if (dir == RIGHT)
-                    smalltux.grab_right->draw(base.x - scroll_x, base.y);
-                  else
-                    smalltux.grab_left->draw(base.x - scroll_x, base.y);
-                }
-
-              if (invincible_timer.started())
-                smalltux_star->draw(base.x - scroll_x, base.y);
+                sprite->skid_left->draw(base.x - scroll_x, base.y); 
             }
-          else // Large Tux
+          else
             {
-              if (!got_coffee)
+              if (duck)
                 {
-                  if (!duck)
-                    {
-                      if (!skidding_timer.started())
-                        {
-                          if (physic.get_velocity_y() == 0)
-                            {
-                              if (fabsf(physic.get_velocity_x()) < 1.0f) // standing
-                                {
-                                  if (dir == RIGHT)
-                                    largetux.stand_right->draw(base.x - scroll_x, base.y);
-                                  else
-                                    largetux.stand_left->draw(base.x - scroll_x, base.y);
-                                }
-                              else // walking
-                                {
-                                  if (dir == RIGHT)
-                                    largetux.walk_right->draw(base.x - scroll_x, base.y);
-                                  else
-                                    largetux.walk_left->draw(base.x - scroll_x, base.y);
-                                }
-                            }
-                          else
-                            {
-                              if (dir == RIGHT)
-                                largetux.jump_right->draw(base.x - scroll_x, base.y);
-                              else
-                                largetux.jump_left->draw(base.x - scroll_x, base.y);
-                            }
-                        }
-                      else
-                        {
-                          if (dir == RIGHT)
-                            largetux.skid_right->draw(base.x - scroll_x - 8, base.y);
-                          else
-                            largetux.skid_left->draw(base.x - scroll_x - 8, base.y);
-                        }
-                    }
+                  if (dir == RIGHT)
+                    sprite->duck_right->draw(base.x - scroll_x, base.y);
+                  else 
+                    sprite->duck_left->draw(base.x - scroll_x, base.y);
+                }                    
+              else if (physic.get_velocity_y() != 0)
+                {
+                  if (dir == RIGHT)
+                    sprite->jump_right->draw(base.x - scroll_x, base.y);
                   else
-                    {
-                      if (dir == RIGHT)
-                        largetux.duck_right->draw(base.x - scroll_x, base.y);
-                      else
-                        largetux.duck_left->draw(base.x - scroll_x, base.y);
-                    }
+                    sprite->jump_left->draw(base.x - scroll_x, base.y);                   
                 }
               else
                 {
-                  /* Tux has coffee! */
-                  if (!duck)
-                    {
-                      if (!skidding_timer.started())
-                        {
-                          if (!jumping || physic.get_velocity_y() > 0)
-                            {
-                              if (dir == RIGHT)
-                                bigfiretux_right[frame_]->draw(base.x- scroll_x - 8, base.y);
-                              else
-                                bigfiretux_left[frame_]->draw(base.x- scroll_x - 8, base.y);
-                            }
-                          else
-                            {
-                              if (dir == RIGHT)
-                                bigfiretux_right_jump->draw(base.x- scroll_x - 8, base.y);
-                              else
-                                bigfiretux_left_jump->draw(base.x- scroll_x - 8, base.y);
-                            }
-                        }
-                      else
-                        {
-                          if (dir == RIGHT)
-                            skidfiretux_right->draw(base.x- scroll_x - 8, base.y);
-                          else
-                            skidfiretux_left->draw(base.x- scroll_x - 8, base.y);
-                        }
-                    }
-                  else
+                  if (fabsf(physic.get_velocity_x()) < 1.0f) // standing
                     {
                       if (dir == RIGHT)
-                        duckfiretux_right->draw( base.x- scroll_x - 8, base.y - 16);
+                        sprite->stand_right->draw( base.x - scroll_x, base.y);
                       else
-                        duckfiretux_left->draw( base.x- scroll_x - 8, base.y - 16);
+                        sprite->stand_left->draw( base.x - scroll_x, base.y);
+                    }
+                  else // moving
+                    {
+                      if (dir == RIGHT)
+                        sprite->walk_right->draw(base.x - scroll_x, base.y);
+                      else
+                        sprite->walk_left->draw(base.x - scroll_x, base.y);
                     }
                 }
+            }
+          
+          // Draw arm overlay graphics when Tux is holding something
+          if (holding_something && physic.get_velocity_y() == 0)
+            {
+              if (dir == RIGHT)
+                sprite->grab_right->draw(base.x - scroll_x, base.y);
+              else
+                sprite->grab_left->draw(base.x - scroll_x, base.y);
+            }
 
-              if (holding_something && !duck && physic.get_velocity_y() == 0)
-                {
-                  if (dir == RIGHT)
-                    largetux.grab_right->draw(base.x - scroll_x, base.y);
-                  else
-                    largetux.grab_left->draw(base.x - scroll_x, base.y);
-                }
-
-              if (invincible_timer.started())
+          // Draw blinking star overlay
+          if (invincible_timer.started())
+            {
+              if (size == SMALL || duck)
+                smalltux_star->draw(base.x - scroll_x, base.y);
+              else
                 largetux_star->draw(base.x - scroll_x, base.y);
             }
-        }     
-    }
-
+        }
+    }     
+  
   if (debug_mode)
-    fillrect(base.x - scroll_x, base.y, 32, 32, 75,75,75, 150);
+    fillrect(base.x - scroll_x, base.y, 
+             base.width, base.height, 75,75,75, 150);
 }
 
 void

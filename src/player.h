@@ -100,17 +100,7 @@ struct PlayerSprite
 
 extern PlayerSprite smalltux;
 extern PlayerSprite largetux;
-
-extern Surface* firetux_right[3];
-extern Surface* firetux_left[3];
-extern Surface* bigfiretux_right[3];
-extern Surface* bigfiretux_left[3];
-extern Surface* bigfiretux_right_jump;
-extern Surface* bigfiretux_left_jump;
-extern Surface* duckfiretux_right;
-extern Surface* duckfiretux_left;
-extern Surface* skidfiretux_right;
-extern Surface* skidfiretux_left;
+extern PlayerSprite firetux;
 
 class Player
 {
