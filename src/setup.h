@@ -35,7 +35,12 @@ void st_shutdown(void);
 void st_menu(void);
 void st_abort(const std::string& reason, const std::string& details);
 void process_options_menu(void);
-void process_save_load_game_menu(int save);
+
+void process_save_game_menu();
+
+/** Return true if the gameloop() was entered, false otherwise */
+bool process_load_game_menu();
+
 void update_load_save_game_menu(Menu* pmenu, int load);
 void parseargs(int argc, char * argv[]);
 

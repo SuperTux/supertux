@@ -190,7 +190,7 @@ int title(void)
 
       while (SDL_PollEvent(&event))
         {
-	menu_event(event);
+          menu_event(event);
           if (event.type == SDL_QUIT)
             {
               /* Quit event - quit: */
@@ -231,10 +231,10 @@ int title(void)
 
       /* Draw the high score: */
       /*
-      sprintf(str, "High score: %d", hs_score);
-      text_drawf(&gold_text, str, 0, -40, A_HMIDDLE, A_BOTTOM, 1);
-      sprintf(str, "by %s", hs_name);
-      text_drawf(&gold_text, str, 0, -20, A_HMIDDLE, A_BOTTOM, 1);
+        sprintf(str, "High score: %d", hs_score);
+        text_drawf(&gold_text, str, 0, -40, A_HMIDDLE, A_BOTTOM, 1);
+        sprintf(str, "by %s", hs_name);
+        text_drawf(&gold_text, str, 0, -20, A_HMIDDLE, A_BOTTOM, 1);
       */
 
       /* Don't draw menu, if quit is true */
@@ -245,7 +245,10 @@ int title(void)
         {
           switch (main_menu->check())
             {
+#if 0
             case 0:
+              // Quick Play
+              // FIXME: obsolete
               done = 0;
               i = 0;
               if(level_subsets.num_items != 0)
@@ -278,8 +281,7 @@ int title(void)
                               quit = 1;
                               break;
                             case SDL_KEYDOWN:		// key pressed
-                              /* Keypress... */
-
+                              // Keypress...
                               key = event.key.keysym.sym;
 
                               if(key == SDLK_LEFT)
@@ -322,8 +324,13 @@ int title(void)
               titletux.level_begin();
               update_time = st_get_ticks();
               break;
-            case 1:
+#endif
+            case 0:
+              // Start Game, ie. goto the slots menu
               update_load_save_game_menu(load_game_menu, true);
+              break;
+            case 1:
+              // Contrib Menu
               break;
             case 3:
               done = 1;
@@ -343,7 +350,17 @@ int title(void)
         }
       else if(current_menu == load_game_menu)
         {
-          process_save_load_game_menu(false);
+          if (process_load_game_menu())
+            {
+              // reset tux
+              scroll_x = 0;
+              titletux.level_begin();
+              update_time = st_get_ticks();
+            }
+        }
+      else if(current_menu == contrib_menu)
+        {
+          
         }
 
       mouse_cursor->draw();

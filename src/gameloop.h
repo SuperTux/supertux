@@ -35,7 +35,7 @@ void activate_bad_guys(st_level* plevel);
 int gameloop(const char * subset, int levelnb, int mode);
 void savegame(int slot);
 void loadgame(int slot);
-void slotinfo(char **pinfo, int slot);
+std::string slotinfo(int slot);
 bool issolid(float x, float y);
 bool isbrick(float x, float y);
 bool isice(float x, float y);

@@ -43,6 +43,7 @@ Menu* options_controls_menu   = 0;
 Menu* highscore_menu = 0;
 Menu* load_game_menu = 0;
 Menu* save_game_menu = 0;
+Menu* contrib_menu   = 0;
 
 Menu* current_menu = 0;
 

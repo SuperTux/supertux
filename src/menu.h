@@ -64,7 +64,6 @@ private:
   int width();
   int height();
   
-  
 public:
   timer_type effect;
   int arrange_left;
@@ -106,6 +105,7 @@ extern bool show_menu;
 extern bool menu_change;
 extern texture_type checkbox, checkbox_checked, back, arrow_left, arrow_right;
 
+extern Menu* contrib_menu;
 extern Menu* main_menu;
 extern Menu* game_menu;
 extern Menu* options_menu;

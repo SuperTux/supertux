@@ -701,11 +701,11 @@ int gameloop(const char * subset, int levelnb, int mode)
             }
           else if(current_menu == save_game_menu )
             {
-              process_save_load_game_menu(true);
+              process_save_game_menu();
             }
           else if(current_menu == load_game_menu )
             {
-              process_save_load_game_menu(false);
+              process_load_game_menu();
             }
         }
 
@@ -1619,7 +1619,7 @@ void loadgame(int slot)
 
 }
 
-void slotinfo(char **pinfo, int slot)
+std::string slotinfo(int slot)
 {
   FILE* fi;
   char slotfile[1024];
@@ -1648,7 +1648,6 @@ void slotinfo(char **pinfo, int slot)
       fclose(fi);
     }
 
-  *pinfo = (char*) malloc(sizeof(char) * (strlen(tmp)+1));
-  strcpy(*pinfo,tmp);
+  return tmp;
 }
 

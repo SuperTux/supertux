@@ -11,6 +11,7 @@
 */
 
 #include <assert.h>
+#include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -358,14 +359,23 @@ void st_menu(void)
   save_game_menu = new Menu();
   game_menu      = new Menu();
   highscore_menu = new Menu();
+  contrib_menu   = new Menu();
 
   main_menu->set_pos(screen->w/2, 335);
-  main_menu->additem(MN_ACTION,"Start Game",0,0);
-  main_menu->additem(MN_GOTO,"Load Game",0,load_game_menu);
-  main_menu->additem(MN_GOTO,"Options",0,options_menu);
+  main_menu->additem(MN_GOTO, "Start Game",0,load_game_menu);
+  main_menu->additem(MN_GOTO, "Contrib Levels",0,contrib_menu);
+  main_menu->additem(MN_GOTO, "Options",0,options_menu);
   main_menu->additem(MN_ACTION,"Level editor",0,0);
   main_menu->additem(MN_ACTION,"Credits",0,0);
   main_menu->additem(MN_ACTION,"Quit",0,0);
+
+  contrib_menu->additem(MN_LABEL,"Contrib Levels",0,0);
+  contrib_menu->additem(MN_HL,"",0,0);
+  contrib_menu->additem(MN_ACTION, "Some Levelset", 0, 0);
+  contrib_menu->additem(MN_ACTION, "Someother Levelset", 0, 0);
+  contrib_menu->additem(MN_ACTION, "Yet another Levelset", 0, 0);
+  contrib_menu->additem(MN_HL,"",0,0);
+  contrib_menu->additem(MN_BACK,"Back",0,0);
 
   options_menu->additem(MN_LABEL,"Options",0,0);
   options_menu->additem(MN_HL,"",0,0);
@@ -391,7 +401,7 @@ void st_menu(void)
   options_controls_menu->additem(MN_HL,"",0,0);
   options_controls_menu->additem(MN_BACK,"Back",0,0);
 
-  load_game_menu->additem(MN_LABEL,"Load Game",0,0);
+  load_game_menu->additem(MN_LABEL,"Start Game",0,0);
   load_game_menu->additem(MN_HL,"",0,0);
   load_game_menu->additem(MN_DEACTIVE,"Slot 1",0,0);
   load_game_menu->additem(MN_DEACTIVE,"Slot 2",0,0);
@@ -427,43 +437,59 @@ void update_load_save_game_menu(Menu* pmenu, int load)
 {
   for(int i = 2; i < 7; ++i)
     {
-      char *tmp;
-      slotinfo(&tmp,i-1);
-      if(load && strlen(tmp) == strlen("Slot X - Free") )
-        pmenu->item[i].kind = MN_DEACTIVE;
+      // FIXME: Insert a real savegame struct/class here instead of
+      // doing string vodoo
+      std::string tmp = slotinfo(i-1);
+
+      if(load && tmp.length() == strlen("Slot X - Free"))
+        pmenu->item[i].kind = MN_ACTION;
       else
         pmenu->item[i].kind = MN_ACTION;
-      menu_item_change_text(&pmenu->item[i],tmp);
-      free(tmp);
+      menu_item_change_text(&pmenu->item[i], tmp.c_str());
     }
 }
 
-void process_save_load_game_menu(int save)
+void process_save_game_menu()
 {
-  int slot;
-  switch (slot = (save ? save_game_menu->check() : load_game_menu->check()))
+  int slot = save_game_menu->check();
+  if (slot != -1)
+    savegame(slot - 1);
+}
+
+bool process_load_game_menu()
+{
+  int slot = load_game_menu->check();
+
+  if(slot != -1)
     {
-    default:
-      if(slot != -1)
+      // FIXME: Insert a real savegame struct/class here instead of
+      // doing string vodoo
+      std::string tmp = slotinfo(slot-1);
+      if (tmp.length() == strlen("Slot X - Free"))
         {
-          if(save)
+          gameloop("default", 1, ST_GL_PLAY);
+          show_menu = true;
+          Menu::set_current(main_menu);
+        }
+      else
+        {
+          if (game_started)
             {
-              savegame(slot - 1);
+              gameloop("default",slot - 1,ST_GL_LOAD_GAME);
+              show_menu = true;
+              Menu::set_current(main_menu);
             }
           else
             {
-              if (game_started)
-                {
-                  gameloop("default",slot - 1,ST_GL_LOAD_GAME);
-                  show_menu = true;
-                  Menu::set_current(main_menu);
-                }
-              else
-                loadgame(slot - 1);
+              loadgame(slot - 1);
             }
-          st_pause_ticks_stop();
         }
-      break;
+      st_pause_ticks_stop();
+      return true;
+    }
+  else
+    {
+      return false;
     }
 }
 
@@ -608,7 +634,7 @@ void st_video_setup(void)
 
   /* Set window manager stuff: */
 
-  SDL_WM_SetCaption("Super Tux", "Super Tux");
+  SDL_WM_SetCaption("SuperTux " VERSION, "SuperTux");
 
 }
 
@@ -941,8 +967,7 @@ void parseargs(int argc, char * argv[])
       else if (strcmp(argv[i], "--version") == 0)
         {
           /* Show version: */
-
-          printf("Super Tux - version " VERSION "\n");
+          printf("SuperTux " VERSION "\n");
           exit(0);
         }
       else if (strcmp(argv[i], "--disable-sound") == 0)
