@@ -62,15 +62,14 @@ supertux_src=[
   'src/resources.cpp',
   'src/scene.cpp',
   'src/sector.cpp',
-  'src/serializable.cpp',
-  'special.cpp',
-  'statistics.cpp',
-  'supertux.cpp',
-  'tile.cpp'
-  'tile_manager.cpp',
-  'tilemap.cpp',
-  'title.cpp',
-  'worldmap.cpp'
+  'src/special.cpp',
+  'src/statistics.cpp',
+  'src/supertux.cpp',
+  'src/tile.cpp'
+  'src/tile_manager.cpp',
+  'src/tilemap.cpp',
+  'src/title.cpp',
+  'src/worldmap.cpp'
 ]
 			
 Library(
@@ -82,6 +81,6 @@ Library(
 Program(
   target="src/supertux",
   source=supertux_src,
-  CPPPATH=SDL_INCLUDE_PATH,
+  CPPPATH=[SDL_INCLUDE_PATH, 'lib', '.'],
   LIBS='lib/libsupertux'
 )
