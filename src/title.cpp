@@ -362,6 +362,7 @@ void title(void)
 
   delete bkg_title;
   delete logo;
+  delete img_choose_subset;
 }
 
 // EOF //

@@ -33,6 +33,7 @@ string_list_type dfiles(const char *rel_path, const char* glob, const char* exce
 void free_strings(char **strings, int num);
 void st_directory_setup(void);
 void st_general_setup(void);
+void st_general_free();
 void st_video_setup_sdl(void);
 void st_video_setup_gl(void);
 void st_video_setup(void);

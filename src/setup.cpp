@@ -600,7 +600,6 @@ void st_general_free(void)
 {
 
   /* Free global images: */
-
   delete black_text;
   delete gold_text;
   delete white_text;
@@ -608,6 +607,7 @@ void st_general_free(void)
   delete red_text;
   delete white_small_text;
   delete white_big_text;
+  delete yellow_nums;
 
   /* Free GUI/menu images: */
   delete checkbox;

@@ -218,12 +218,15 @@ void unloadshared(void)
   for (i = 0; i < 2; i++)
     delete img_flag[i];
 
+  delete img_red_glow;
   for (i = 0; i < 4; i++)
     {
       delete img_distro[i];
       delete img_cloud[0][i];
       delete img_cloud[1][i];
     }
+
+  delete tux_life;
 
   for (i = 0; i < NUM_SOUNDS; i++)
     free_chunk(sounds[i]);

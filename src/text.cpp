@@ -70,6 +70,12 @@ Text::Text(const std::string& file, int kind_, int w_, int h_)
   SDL_FreeSurface(conv);
 }
 
+Text::~Text()
+{
+  delete chars;
+  delete shadow_chars;
+}
+
 void
 Text::draw(const  char* text, int x, int y, int shadowsize, int update)
 {
@@ -180,14 +186,6 @@ Text::drawf(const  char* text, int x, int y,
 
       draw(text,x,y,shadowsize, update);
     }
-}
-
-Text::~Text()
-{
-  if(kind == TEXT_TEXT)
-    delete chars;
-  else if(kind == TEXT_NUM)
-    delete chars;
 }
 
 /* --- ERASE TEXT: --- */

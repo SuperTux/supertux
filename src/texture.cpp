@@ -20,6 +20,7 @@
 
 #include <assert.h>
 #include <iostream>
+#include <algorithm>
 #include "SDL.h"
 #include "SDL_image.h"
 #include "texture.h"
@@ -163,6 +164,17 @@ Surface::reload()
 
 Surface::~Surface()
 {
+#ifdef DEBUG
+  bool found = false;
+  for(std::list<Surface*>::iterator i = surfaces.begin(); i != surfaces.end();
+          ++i) {
+      if(*i == this) {
+          found = true; break;
+      }
+  }
+  if(!found)
+    printf("Error: Surface freed twice!!!\n");
+#endif
   surfaces.remove(this);
   delete impl;
 }

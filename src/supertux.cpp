@@ -65,6 +65,7 @@ int main(int argc, char * argv[])
   updatescreen();
 
   unloadshared();
+  st_general_free();
   TileManager::destroy_instance();
 #ifdef DEBUG
   Surface::debug_check();

@@ -101,6 +101,10 @@ World::~World()
 {
   for (BadGuys::iterator i = bad_guys.begin(); i != bad_guys.end(); ++i)
     delete *i;
+
+  for (ParticleSystems::iterator i = particle_systems.begin();
+          i != particle_systems.end(); ++i)
+    delete *i;
   
   delete level;
 }

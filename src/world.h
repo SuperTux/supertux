@@ -57,7 +57,8 @@ public:
 
   std::vector<Upgrade> upgrades;
   std::vector<Bullet> bullets;
-  std::vector<ParticleSystem*> particle_systems;
+  typedef std::vector<ParticleSystem*> ParticleSystems;
+  ParticleSystems particle_systems;
 
 public:
   static World* current() { return current_; }

@@ -674,7 +674,7 @@ WorldMap::update(float delta)
                         if (dir != NONE)
                           {
                             tux->set_direction(dir);
-                            tux->update(delta);
+                            //tux->update(delta);
                           }
 
                         std::cout << "Walk to dir: " << dir << std::endl;
@@ -724,8 +724,8 @@ WorldMap::update(float delta)
     }
   else
     {
-      tux->set_direction(input_direction);
       tux->update(delta);
+      tux->set_direction(input_direction);
     }
   
   Menu* menu = Menu::current();
@@ -866,6 +866,9 @@ WorldMap::display()
 
       delta *= 1.3f;
 
+      if (delta > 10.0f)
+        delta = .3f;
+      
       last_update_time = update_time;
       update_time      = st_get_ticks();
 
