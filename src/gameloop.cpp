@@ -65,6 +65,7 @@ GameSession::GameSession(const std::string& subset_, int levelnb_, int mode)
   
   global_frame_counter = 0;
   game_pause = false;
+  fps_fps = 0;
 
   fps_timer.init(true);            
   frame_timer.init(true);
@@ -669,7 +670,7 @@ GameSession::drawstatus()
 {
   char str[60];
 
-  sprintf(str, "%d", player_status.score);
+  snprintf(str, 60, "%d", player_status.score);
   white_text->draw("SCORE", 0, 0, 1);
   gold_text->draw(str, 96, 0, 1);
 

@@ -27,6 +27,8 @@
 #include "texture.h"
 #include "collision.h"
 #include "sound.h"
+#include "moving_object.h"
+#include "drawable.h"
 #include "physic.h"
 
 /* Times: */
@@ -105,7 +107,7 @@ extern PlayerSprite largetux;
 extern PlayerSprite firetux;
 extern PlayerSprite icetux;
 
-class Player : public GameObject
+class Player : public MovingObject, public Drawable
 {
 public:
   enum HurtMode { KILL, SHRINK };
@@ -136,13 +138,22 @@ public:
   Physic physic;
 
 public:
+  Player(DisplayManager& display_manager);
+  virtual ~Player();
+  
   void init();
   int  key_event(SDLKey key, int state);
   void level_begin();
-  void action(double frame_ratio);
   void handle_input();
   void grabdistros();
-  void draw();
+
+  virtual void action(float elapsed_time);
+  virtual void draw(ViewPort& viewport, int layer);
+  virtual void collision(const MovingObject& other_object,
+      int collision_type);
+  virtual std::string type() const
+  { return "Player"; }
+
   void collision(void* p_c_object, int c_object);
   void kill(HurtMode mode);
   void is_dying();
@@ -152,8 +163,6 @@ public:
   bool on_ground();
   bool under_solid();
   void grow();
-  
-  std::string type() { return "Player";};
   
 private:
   void handle_horizontal_input();

@@ -49,7 +49,9 @@ World::World(const std::string& filename)
   current_ = this;
 
   level = new Level(filename);
-  tux.init();
+
+  tux = new Player(displaymanager);
+  gameobjects.push_back(tux);
 
   set_defaults();
 
@@ -82,7 +84,7 @@ World::World(const std::string& subset, int level_nr)
   current_ = this;
 
   level = new Level(subset, level_nr);
-  tux.init();
+  tux->init();
 
   set_defaults();
 
@@ -109,6 +111,7 @@ World::World(const std::string& subset, int level_nr)
 void
 World::apply_bonuses()
 {
+#if 0
   // Apply bonuses from former levels
   switch (player_status.bonus)
     {
@@ -116,16 +119,17 @@ World::apply_bonuses()
       break;
 
     case PlayerStatus::FLOWER_BONUS:
-      tux.got_power = tux.FIRE_POWER;  // FIXME: add ice power to here
+      tux->got_power = tux.FIRE_POWER;  // FIXME: add ice power to here
       // fall through
 
     case PlayerStatus::GROWUP_BONUS:
       // FIXME: Move this to Player class
-      tux.size = BIG;
-      tux.base.height = 64;
-      tux.base.y -= 32;
+      tux->size = BIG;
+      tux->base.height = 64;
+      tux->base.y -= 32;
       break;
     }
+#endif
 }
 
 World::~World()
@@ -214,8 +218,6 @@ World::draw()
   for (Trampolines::iterator i = trampolines.begin(); i != trampolines.end(); ++i)
     (*i)->draw();
 
-  tux.draw();
-
   for (unsigned int i = 0; i < bullets.size(); ++i)
     bullets[i].draw();
 
@@ -226,8 +228,7 @@ World::draw()
 void
 World::action(double frame_ratio)
 {
-  tux.action(frame_ratio);
-  tux.check_bounds(level->back_scrolling, (bool)level->hor_autoscroll_speed);
+  tux->check_bounds(level->back_scrolling, (bool)level->hor_autoscroll_speed);
   scrolling(frame_ratio);
 
   for (unsigned int i = 0; i < bullets.size(); ++i)
@@ -242,10 +243,11 @@ World::action(double frame_ratio)
   for (Trampolines::iterator i = trampolines.begin(); i != trampolines.end(); ++i)
      (*i)->action(frame_ratio);
 
-  /* update objects */
-  for(std::vector<_GameObject*>::iterator i = gameobjects.begin();
-      i != gameobjects.end(); ++i)
-    (*i)->action(frame_ratio);
+  /* update objects (don't use iterators here, because the list might change
+   * during the iteration)
+   */
+  for(size_t i = 0; i < gameobjects.size(); ++i)
+    gameobjects[i]->action(frame_ratio);
 
   /* Handle all possible collisions. */
   collision_handler();
@@ -291,9 +293,9 @@ void World::scrolling(double frame_ratio)
 {
   /* Y-axis scrolling */
 
-  float tux_pos_y = tux.base.y + (tux.base.height/2);
+  float tux_pos_y = tux->base.y + (tux->base.height/2);
 
-  if(level->height > VISIBLE_TILES_Y-1 && !tux.dying)
+  if(level->height > VISIBLE_TILES_Y-1 && !tux->dying)
     {
     if (scroll_y < tux_pos_y - (screen->h - Y_SPACE))
       scroll_y = tux_pos_y - (screen->h - Y_SPACE);
@@ -318,20 +320,20 @@ void World::scrolling(double frame_ratio)
 
 
   /* Horizontal backscrolling */
-  float tux_pos_x = tux.base.x + (tux.base.width/2);
+  float tux_pos_x = tux->base.x + (tux->base.width/2);
 
-  if(tux.old_dir != tux.dir && level->back_scrolling)
+  if(tux->old_dir != tux->dir && level->back_scrolling)
     scrolling_timer.start(CHANGE_DIR_SCROLL_SPEED);
 
   bool right = false;
   bool left = false;
-  if (tux.physic.get_velocity_x() > 0)
+  if (tux->physic.get_velocity_x() > 0)
     right = true;
-  else if (tux.physic.get_velocity_x() < 0)
+  else if (tux->physic.get_velocity_x() < 0)
     left = true;
   else
     {
-    if (tux.dir == RIGHT)
+    if (tux->dir == RIGHT)
       right = true;
     else
       left = true;
@@ -347,7 +349,8 @@ void World::scrolling(double frame_ratio)
     else
       final_scroll_x = tux_pos_x - X_SPACE;
 
-    if((tux.physic.get_velocity_x() > 0 && tux.dir == RIGHT) || (tux.physic.get_velocity_x() < 0 && tux.dir == LEFT))
+    if((tux->physic.get_velocity_x() > 0 && tux->dir == RIGHT)
+        || (tux->physic.get_velocity_x() < 0 && tux->dir == LEFT))
     {
       constant1 = 1.0;
       constant2 = .4;
@@ -362,8 +365,8 @@ void World::scrolling(double frame_ratio)
     if(left) number *= -1.;
 
     scroll_x += number
-	    + constant1 * tux.physic.get_velocity_x() * frame_ratio
-	    + constant2 * tux.physic.get_acceleration_x() * frame_ratio * frame_ratio;
+	    + constant1 * tux->physic.get_velocity_x() * frame_ratio
+	    + constant2 * tux->physic.get_acceleration_x() * frame_ratio * frame_ratio;
 
     if ((right && final_scroll_x - scroll_x < 0) || (left && final_scroll_x - scroll_x > 0))
       scroll_x = final_scroll_x;
@@ -431,7 +434,7 @@ World::collision_handler()
         }
     }
 
-  if(tux.dying != DYING_NOT) return;
+  if(tux->dying != DYING_NOT) return;
     
   // CO_BADGUY & CO_PLAYER check 
   for (BadGuys::iterator i = bad_guys.begin(); i != bad_guys.end(); ++i)
@@ -439,21 +442,21 @@ World::collision_handler()
       if((*i)->dying != DYING_NOT)
         continue;
       
-      if(rectcollision_offset((*i)->base, tux.base, 0, 0))
+      if(rectcollision_offset((*i)->base, tux->base, 0, 0))
         {
           // We have detected a collision and now call the collision
           // functions of the collided objects.
-          if (tux.previous_base.y < tux.base.y &&
-              tux.previous_base.y + tux.previous_base.height 
+          if (tux->previous_base.y < tux->base.y &&
+              tux->previous_base.y + tux->previous_base.height 
               < (*i)->base.y + (*i)->base.height/2
-              && !tux.invincible_timer.started())
+              && !tux->invincible_timer.started())
             {
-              (*i)->collision(&tux, CO_PLAYER, COLLISION_SQUISH);
+              (*i)->collision(tux, CO_PLAYER, COLLISION_SQUISH);
             }
           else
             {
-              tux.collision(*i, CO_BADGUY);
-              (*i)->collision(&tux, CO_PLAYER, COLLISION_NORMAL);
+              tux->collision(*i, CO_BADGUY);
+              (*i)->collision(tux, CO_PLAYER, COLLISION_NORMAL);
             }
         }
     }
@@ -461,29 +464,29 @@ World::collision_handler()
   // CO_UPGRADE & CO_PLAYER check
   for(unsigned int i = 0; i < upgrades.size(); ++i)
     {
-      if(rectcollision(upgrades[i].base, tux.base))
+      if(rectcollision(upgrades[i].base, tux->base))
         {
           // We have detected a collision and now call the collision
           // functions of the collided objects.
-          upgrades[i].collision(&tux, CO_PLAYER, COLLISION_NORMAL);
+          upgrades[i].collision(tux, CO_PLAYER, COLLISION_NORMAL);
         }
     }
 
   // CO_TRAMPOLINE & (CO_PLAYER or CO_BADGUY)
   for (Trampolines::iterator i = trampolines.begin(); i != trampolines.end(); ++i)
   {
-    if (rectcollision((*i)->base, tux.base))
+    if (rectcollision((*i)->base, tux->base))
     {
-      if (tux.previous_base.y < tux.base.y &&
-          tux.previous_base.y + tux.previous_base.height 
+      if (tux->previous_base.y < tux->base.y &&
+          tux->previous_base.y + tux->previous_base.height 
           < (*i)->base.y + (*i)->base.height/2)
       {
-        (*i)->collision(&tux, CO_PLAYER, COLLISION_SQUISH);
+        (*i)->collision(tux, CO_PLAYER, COLLISION_SQUISH);
       }
-      else if (tux.previous_base.y <= tux.base.y)
+      else if (tux->previous_base.y <= tux->base.y)
       {
-        tux.collision(*i, CO_TRAMPOLINE);
-        (*i)->collision(&tux, CO_PLAYER, COLLISION_NORMAL);
+        tux->collision(*i, CO_TRAMPOLINE);
+        (*i)->collision(tux, CO_PLAYER, COLLISION_NORMAL);
       }
     }
   }
@@ -557,21 +560,21 @@ World::add_upgrade(float x, float y, Direction dir, UpgradeKind kind)
 void 
 World::add_bullet(float x, float y, float xm, Direction dir)
 {
-  if(tux.got_power == tux.FIRE_POWER)
+  if(tux->got_power == Player::FIRE_POWER)
     {
     if(bullets.size() > MAX_FIRE_BULLETS-1)
       return;
     }
-  else if(tux.got_power == tux.ICE_POWER)
+  else if(tux->got_power == Player::ICE_POWER)
     {
     if(bullets.size() > MAX_ICE_BULLETS-1)
       return;
     }
 
   Bullet new_bullet;
-  if(tux.got_power == tux.FIRE_POWER)
+  if(tux->got_power == Player::FIRE_POWER)
     new_bullet.init(x,y,xm,dir, FIRE_BULLET);
-  else if(tux.got_power == tux.ICE_POWER)
+  else if(tux->got_power == Player::ICE_POWER)
     new_bullet.init(x,y,xm,dir, ICE_BULLET);
   bullets.push_back(new_bullet);
   
@@ -688,7 +691,7 @@ World::tryemptybox(float x, float y, Direction col_side)
       break;
 
     case 2: // Add a fire flower upgrade!
-      if (tux.size == SMALL)     /* Tux is small, add mints! */
+      if (tux->size == SMALL)     /* Tux is small, add mints! */
         add_upgrade(posx, posy, col_side, UPGRADE_GROWUP);
       else     /* Tux is big, add a fireflower: */
         add_upgrade(posx, posy, col_side, UPGRADE_FIREFLOWER);
@@ -696,7 +699,7 @@ World::tryemptybox(float x, float y, Direction col_side)
       break;
     
     case 5: // Add an ice flower upgrade!
-      if (tux.size == SMALL)     /* Tux is small, add mints! */
+      if (tux->size == SMALL)     /* Tux is small, add mints! */
         add_upgrade(posx, posy, col_side, UPGRADE_GROWUP);
       else     /* Tux is big, add an iceflower: */
         add_upgrade(posx, posy, col_side, UPGRADE_ICEFLOWER);
@@ -749,7 +752,7 @@ World::trybumpbadguy(float x, float y)
       if ((*i)->base.x >= x - 32 && (*i)->base.x <= x + 32 &&
           (*i)->base.y >= y - 16 && (*i)->base.y <= y + 16)
         {
-          (*i)->collision(&tux, CO_PLAYER, COLLISION_BUMP);
+          (*i)->collision(tux, CO_PLAYER, COLLISION_BUMP);
         }
     }
 
@@ -760,7 +763,7 @@ World::trybumpbadguy(float x, float y)
           upgrades[i].base.x >= x - 32 && upgrades[i].base.x <= x + 32 &&
           upgrades[i].base.y >= y - 16 && upgrades[i].base.y <= y + 16)
         {
-          upgrades[i].collision(&tux, CO_PLAYER, COLLISION_BUMP);
+          upgrades[i].collision(tux, CO_PLAYER, COLLISION_BUMP);
         }
     }
 }

@@ -81,9 +81,12 @@ game_object.cpp \
 game_object.h \
 display_manager.h \
 display_manager.cpp \
+drawable.h \
 background.h \
 background.cpp \
 tilemap.h \
-tilemap.cpp
+tilemap.cpp \
+moving_object.h \
+moving_object.cpp
 
 # EOF #

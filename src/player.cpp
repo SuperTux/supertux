@@ -64,6 +64,16 @@ void player_input_init(player_input_type* pplayer_input)
   pplayer_input->old_up = UP;
 }
 
+Player::Player(DisplayManager& display_manager)
+{
+  display_manager.add_drawable(this, LAYER_OBJECTS);
+  init();
+}
+
+Player::~Player()
+{
+}
+
 void
 Player::init()
 {
@@ -162,7 +172,7 @@ Player::level_begin()
 }
 
 void
-Player::action(double frame_ratio)
+Player::action(float elapsed_time)
 {
   bool jumped_in_solid = false;
 
@@ -176,7 +186,7 @@ Player::action(double frame_ratio)
   if(dying == DYING_NOT)
     handle_input();
 
-  physic.apply(frame_ratio, base.x, base.y);
+  physic.apply(elapsed_time, base.x, base.y);
 
   if(dying == DYING_NOT) 
     {
@@ -203,7 +213,7 @@ Player::action(double frame_ratio)
       if(!duck && on_ground() && old_base.x == base.x && old_base.y == base.y
          && collision_object_map(base))
         {
-          base.x += frame_ratio * WALK_SPEED * (dir ? 1: -1);
+          base.x += elapsed_time * WALK_SPEED * (dir ? 1: -1);
           previous_base = old_base = base;
         }
 
@@ -566,8 +576,11 @@ Player::grabdistros()
 }
 
 void
-Player::draw()
+Player::draw(ViewPort& viewport, int )
 {
+  float scroll_x = viewport.get_translation().x;
+  float scroll_y = viewport.get_translation().y;
+
   if (!safe_timer.started() || (global_frame_counter % 2) == 0)
     {
       if (dying == DYING_SQUISHED)
@@ -657,6 +670,14 @@ Player::draw()
   if (debug_mode)
     fillrect(base.x - scroll_x, base.y - scroll_y, 
              base.width, base.height, 75,75,75, 150);
+}
+
+void
+Player::collision(const MovingObject& other, int collision_type)
+{
+  (void) other;
+  (void) collision_type;
+  // will be implemented later
 }
 
 void

@@ -44,7 +44,7 @@ private:
   typedef std::list<Trampoline*> Trampolines;
   Trampolines trampolines;
   Level* level;
-  Player tux;
+  Player* tux;
 
   Timer scrolling_timer;
 
@@ -72,7 +72,7 @@ public:
   ~World();
   
   Level*  get_level() { return level; }
-  Player* get_tux() { return &tux; }
+  Player* get_tux() { return tux; }
 
   void set_defaults();
 
