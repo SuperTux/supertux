@@ -39,7 +39,7 @@ namespace SuperTux
    * Most GameObjects will also implement the DrawableObject interface so that
    * they can actually be drawn on screen.
    */
-  class GameObject // TODO rename this once the game has been converted
+  class GameObject
     {
     public:
       GameObject();
