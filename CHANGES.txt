@@ -7,6 +7,24 @@ http://www.newbreedsoftware.com/supertux/
 
 0.0.6 - current CVS version
 ---------------------------
+  * Fixes and improvements for the leveleditor.
+    Ricardo Cruz <rick2@aeiou.pt> 
+
+  * WIN32 build fixes and memory freeing fixes.
+    Duong-Khang NGUYEN <neoneurone@users.sf.net>
+
+  * Can now hold and shoot laptops by holding fire and approaching a flat one.
+    Dan Koestler <offipso@abeminds.com>
+
+  * Fixed possible segfaults.
+    Tobias Glaesser <tobi.web@gmx.de>
+    
+  * Reorganized level-code and introced level-subset-structure.
+    Tobias Glaesser <tobi.web@gmx.de>
+
+  * Fixed Amiga/MorphOS build problem.
+    SixK <dasixk@free.fr>
+  
   * Improved menu.
     Tobias Glaesser <tobi.web@gmx.de>
 
