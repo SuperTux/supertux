@@ -98,8 +98,6 @@ int main(int argc, char * argv[])
 #endif
     Termination::shutdown();
 #ifndef DEBUG  // we want to see the backtrace in gdb when in debug mode
-  } catch (SuperTuxException &e) {
-    std::cerr << "Unhandled SuperTux exception:\n  " << e.what_file() << ":" << e.what_line() << ": " << e.what() << std::endl;
   } catch (std::exception &e) {
     std:: cerr << "Unhandled exception: " << e.what() << std::endl;
   }
