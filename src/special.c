@@ -112,6 +112,7 @@ void upgrade_init(upgrade_type *pupgrade, float x, float y, int kind)
   pupgrade->base.xm = 2;
   pupgrade->base.ym = -2;
   pupgrade->base.height = 0;
+  pupgrade->old_base = pupgrade->base;
 }
 
 void upgrade_action(upgrade_type *pupgrade)
@@ -124,8 +125,8 @@ void upgrade_action(upgrade_type *pupgrade)
           /* Rise up! */
 
           pupgrade->base.height = pupgrade->base.height + 0.7 * frame_ratio;
-	  if(pupgrade->base.height > 32)
-	  pupgrade->base.height = 32;
+          if(pupgrade->base.height > 32)
+            pupgrade->base.height = 32;
         }
       else
         {
@@ -137,8 +138,17 @@ void upgrade_action(upgrade_type *pupgrade)
               pupgrade->base.x = pupgrade->base.x + pupgrade->base.xm * frame_ratio;
               pupgrade->base.y = pupgrade->base.y + pupgrade->base.ym * frame_ratio;
 
-              if (issolid(pupgrade->base.x, pupgrade->base.y + 31.) ||
-                  issolid(pupgrade->base.x + 31., pupgrade->base.y + 31.))
+              collision_swept_object_map(&pupgrade->old_base,&pupgrade->base);
+
+              /* Off the screen?  Kill it! */
+
+              if (pupgrade->base.x < scroll_x - pupgrade->base.width)
+                pupgrade->base.alive = NO;
+              if (pupgrade->base.y > screen->h)
+                pupgrade->base.alive = NO;
+
+              if (issolid(pupgrade->base.x + 1, pupgrade->base.y + 32.) ||
+                  issolid(pupgrade->base.x + 31., pupgrade->base.y + 32.))
                 {
                   if (pupgrade->base.ym > 0)
                     {
@@ -155,25 +165,19 @@ void upgrade_action(upgrade_type *pupgrade)
                     }
                 }
               else
-                pupgrade->base.ym = pupgrade->base.ym + GRAVITY;
+                pupgrade->base.ym = pupgrade->base.ym + GRAVITY * frame_ratio;
 
-		  if (issolid(pupgrade->base.x - 1, (int) pupgrade->base.y))
-                    {
-		      if(pupgrade->base.xm < 0)
-                      pupgrade->base.xm = -pupgrade->base.xm;
-                    }
-		    else if (issolid(pupgrade->base.x + pupgrade->base.width-1, (int) pupgrade->base.y))
-		    {
-		      if(pupgrade->base.xm > 0)
-                      pupgrade->base.xm = -pupgrade->base.xm;
-		    }
+              if (issolid(pupgrade->base.x - 1, (int) pupgrade->base.y))
+                {
+                  if(pupgrade->base.xm < 0)
+                    pupgrade->base.xm = -pupgrade->base.xm;
+                }
+              else if (issolid(pupgrade->base.x + pupgrade->base.width, (int) pupgrade->base.y))
+                {
+                  if(pupgrade->base.xm > 0)
+                    pupgrade->base.xm = -pupgrade->base.xm;
+                }
             }
-
-
-          /* Off the screen?  Kill it! */
-
-          if (pupgrade->base.x < scroll_x - pupgrade->base.width)
-            pupgrade->base.alive = NO;
 
         }
     }
@@ -181,7 +185,7 @@ void upgrade_action(upgrade_type *pupgrade)
 
 void upgrade_draw(upgrade_type* pupgrade)
 {
-SDL_Rect dest;
+  SDL_Rect dest;
   if (pupgrade->base.alive)
     {
       if (pupgrade->base.height < 32)
@@ -194,11 +198,11 @@ SDL_Rect dest;
           dest.h = (int)pupgrade->base.height;
 
           if (pupgrade->kind == UPGRADE_MINTS)
-	    texture_draw_part(&img_mints,0,0,dest.x,dest.y,dest.w,dest.h,NO_UPDATE);
+            texture_draw_part(&img_mints,0,0,dest.x,dest.y,dest.w,dest.h,NO_UPDATE);
           else if (pupgrade->kind == UPGRADE_COFFEE)
-	    texture_draw_part(&img_coffee,0,0,dest.x,dest.y,dest.w,dest.h,NO_UPDATE);
+            texture_draw_part(&img_coffee,0,0,dest.x,dest.y,dest.w,dest.h,NO_UPDATE);
           else if (pupgrade->kind == UPGRADE_HERRING)
-	    texture_draw_part(&img_golden_herring,0,0,dest.x,dest.y,dest.w,dest.h,NO_UPDATE);
+            texture_draw_part(&img_golden_herring,0,0,dest.x,dest.y,dest.w,dest.h,NO_UPDATE);
         }
       else
         {
@@ -244,7 +248,14 @@ void upgrade_collision(upgrade_type* pupgrade, void* p_c_object, int c_object)
         {
           play_sound(sounds[SND_EXCELLENT], SOUND_CENTER_SPEAKER);
           pplayer->size = BIG;
-	  pplayer->base.height = 64;
+          pplayer->base.height = 64;
+	  pplayer->base.y -= 32;
+	  if(collision_object_map(&pplayer->base))
+	  {
+	  pplayer->base.height = 32;
+	  pplayer->base.y += 32;
+	  pplayer->duck = YES;
+	  }
           timer_start(&super_bkgd_timer, 350);
         }
       else if (pupgrade->kind == UPGRADE_COFFEE)
@@ -259,11 +270,10 @@ void upgrade_collision(upgrade_type* pupgrade, void* p_c_object, int c_object)
           timer_start(&pplayer->invincible_timer,TUX_INVINCIBLE_TIME);
           timer_start(&super_bkgd_timer, 250);
           /* play the herring song ^^ */
-          if (current_music != HURRYUP_MUSIC)
+          if (get_current_music() != HURRYUP_MUSIC)
             {
-              current_music = HERRING_MUSIC;
-              if (playing_music())
-                halt_music();
+              set_current_music(HERRING_MUSIC);
+              play_current_music();
             }
         }
       break;

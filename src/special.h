@@ -35,6 +35,7 @@ typedef struct upgrade_type
   {
     int kind;
     base_type base;
+    base_type old_base;
   }
 upgrade_type;
 

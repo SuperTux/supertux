@@ -207,24 +207,37 @@ void free_music(Mix_Music *music)
       music = NULL;
     }
 }
-
-void play_current_music(void)
-{
-          switch (current_music)
-            {
-            case LEVEL_MUSIC:
-              play_music(level_song, 1);
-              break;
-            case HERRING_MUSIC:
-              play_music(herring_song, 1);
-              break;
-            case HURRYUP_MUSIC: // keep the compiler happy
-              play_music(level_song_fast, 1);
-              break;
-            case NO_MUSIC:      // keep the compiler happy for the moment :-)
-            {}
-              /*default:*/
-            }
+ int get_current_music()
+  {
+ return current_music;
+ }
+ 
+ void set_current_music(int music)
+ {
+ current_music = music;
+ }
+ 
+ void play_current_music()
+ {
+ if(playing_music())
+   halt_music();
+ 
+ switch(current_music)
+   {
+   case LEVEL_MUSIC:
+     play_music(level_song, -1);  // -1 to play forever
+     break;
+   case HERRING_MUSIC:
+     play_music(herring_song, -1);
+     break;
+   case HURRYUP_MUSIC:
+     play_music(level_song_fast, -1);
+     break;
+   case NO_MUSIC:      // keep the compiler happy for the moment :-)
+     {}
+ /*default:*/
+ }
+ /* use halt_music whenever you want to stop it */
 }
 
 #else
@@ -280,6 +293,14 @@ void free_music(void *music)
 
 void free_chunk(void *chunk)
 {}
+
+int get_current_music()
+{
+}
+
+void set_current_music(int music)
+{
+}
 
 void play_current_music(void)
 {}

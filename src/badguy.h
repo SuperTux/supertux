@@ -39,6 +39,7 @@ typedef struct bad_guy_type
     int dir;
     int frame;
     base_type base;
+    base_type old_base;
     timer_type timer;
     physic_type physic;
   }

@@ -37,10 +37,10 @@
 #include "gameloop.h"
 #include "leveleditor.h"
 
-texture_type bkg_title, img_choose_subset, anim1, anim2;
-SDL_Event event;
-SDLKey key;
-int quit, frame, pict, i;
+static texture_type bkg_title, img_choose_subset, anim1, anim2;
+static SDL_Event event;
+static SDLKey key;
+static int quit, frame, pict, i;
 
 void display_credits();
 

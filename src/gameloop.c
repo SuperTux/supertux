@@ -57,6 +57,7 @@ static int st_gl_mode;
 static unsigned int last_update_time;
 static unsigned int update_time;
 static int pause_menu_frame;
+static int debug_fps;
 
 /* Local function prototypes: */
 
@@ -219,7 +220,12 @@ void game_event(void)
             case SDLK_s:
               if(debug_mode == YES)
                 score += 1000;
-              break;
+            case SDLK_f:
+              if(debug_fps == YES)
+	      debug_fps = NO;
+	      else
+	      debug_fps = YES;
+              break;	      
             default:
               break;
             }
@@ -296,8 +302,7 @@ int game_action(void)
     {
       /* Tux either died, or reached the end of a level! */
 
-      if (playing_music())
-        halt_music();
+      halt_music();
 
 
       if (next_level)
@@ -362,6 +367,8 @@ int game_action(void)
       if(st_gl_mode != ST_GL_TEST)
         levelintro();
       start_timers();
+      /* Play music: */
+      play_current_music();
     }
 
   player_action(&tux);
@@ -616,6 +623,10 @@ int gameloop(char * subset, int levelnb, int mode)
   clearscreen(0, 0, 0);
   updatescreen();
 
+  /* Play music: */
+  play_current_music();
+
+
   while (SDL_PollEvent(&event))
   {}
 
@@ -626,7 +637,7 @@ int gameloop(char * subset, int levelnb, int mode)
 
       /* Calculate the movement-factor */
       frame_ratio = ((double)(update_time-last_update_time))/((double)FRAME_RATE);
-
+      
       if(!timer_check(&frame_timer))
         {
           timer_start(&frame_timer,25);
@@ -680,12 +691,18 @@ int gameloop(char * subset, int levelnb, int mode)
 
       if(!game_pause && !show_menu)
         {
+	/*float z = frame_ratio;
+	frame_ratio = 1;
+	while(z >= 1)
+	{*/
           if (game_action() == 0)
             {
               /* == 0: no more lives */
               /* == -1: continues */
               return 0;
             }
+	  /*  --z;
+	    }*/
         }
       else
         {
@@ -693,8 +710,8 @@ int gameloop(char * subset, int levelnb, int mode)
           SDL_Delay(50);
         }
 
-      if(debug_mode && tux.input.down == DOWN)
-        SDL_Delay(45);
+      if(debug_mode && debug_fps == YES)
+        SDL_Delay(160);
 
       /*Draw the current scene to the screen */
       /*If the machine running the game is too slow
@@ -733,27 +750,16 @@ int gameloop(char * subset, int levelnb, int mode)
         {
           /* are we low on time ? */
           if ((timer_get_left(&time_left) < TIME_WARNING)
-              && (current_music != HURRYUP_MUSIC))
-            {
-              current_music = HURRYUP_MUSIC;
-              /* stop the others music, prepare to play the fast music */
-              if (playing_music())
-                {
-                  halt_music();
-                }
-            }
+              && (get_current_music() != HURRYUP_MUSIC))     /* play the fast music */
+             {
+              set_current_music(HURRYUP_MUSIC);
+              play_current_music();
+             }
 
         }
       else
         player_kill(&tux,KILL);
 
-
-      /* Keep playing the correct music: */
-
-      if (!playing_music())
-        {
-          play_current_music();
-        }
 
       /* Calculate frames per second */
       if(show_fps)
@@ -771,8 +777,7 @@ int gameloop(char * subset, int levelnb, int mode)
     }
   while (!done && !quit);
 
-  if (playing_music())
-    halt_music();
+  halt_music();
 
   level_free_gfx();
   level_free(&current_level);
@@ -1513,6 +1518,7 @@ void bumpbrick(float x, float y)
                    (int)(y / 32) * 32);
 
   play_sound(sounds[SND_BRICK], SOUND_CENTER_SPEAKER);
+
 }
 
 

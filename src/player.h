@@ -58,6 +58,8 @@ typedef struct player_input_type
 }
 player_input_type;
 
+void player_input_init(player_input_type* pplayer_input);
+
 typedef struct player_type 
 {
  player_input_type input;
@@ -74,6 +76,7 @@ typedef struct player_type
  int frame;
  int lives;
  base_type base;
+ base_type old_base;
  timer_type invincible_timer;
  timer_type skidding_timer;
  timer_type safe_timer;
@@ -110,5 +113,6 @@ void player_dying(player_type *pplayer);
 void player_remove_powerups(player_type *pplayer);
 void player_keep_in_bounds(player_type *pplayer);
 int player_on_ground(player_type *pplayer);
+int player_under_solid(player_type *pplayer);
 
 #endif /*SUPERTUX_PLAYER_H*/

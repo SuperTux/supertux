@@ -77,6 +77,7 @@ void le_highlight_selection();
 void apply_level_settings_menu();
 void update_subset_settings_menu();
 void save_subset_settings_menu();
+void le_update_buttons(char*);
 
 /* leveleditor internals */
 static string_list_type level_subsets;
@@ -355,7 +356,7 @@ void le_new_subset(char *subset_name)
   level_save(&new_lev,subset_name,1);
 }
 
-le_update_buttons(char *theme)
+void le_update_buttons(char *theme)
 {
   int i;
   char filename[1024];

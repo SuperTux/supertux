@@ -25,6 +25,8 @@ enum
 
 int rectcollision(base_type* one, base_type* two);
 int rectcollision_offset(base_type* one, base_type* two, float off_x, float off_y);
+int collision_swept_object_map(base_type* old, base_type* current);
+int collision_object_map(base_type* object);
 
 /* Checks for all possible collisions.
    And calls the collision_handlers, which the collision_objects provide for this case (or not). */

@@ -34,7 +34,6 @@ enum Music_Type {
   HERRING_MUSIC
 };
 
-extern int current_music;
 
 /* panning effects: terrible :-) ! */
 enum Sound_Speaker {
@@ -90,7 +89,9 @@ int play_music(Mix_Music*music, int loops);
 void free_music(Mix_Music*music);
 void free_chunk(Mix_Chunk*chunk);
 
-void play_current_music(void);
+int get_current_music();
+void set_current_music(int music);
+void play_current_music();
 
 #else
 
@@ -112,6 +113,8 @@ int play_music(void *music, int loops);
 void free_music(void *music);
 void free_chunk(void *chunk);
 
+int get_current_music();
+void set_current_music(int music);
 void play_current_music(void);
 
 #endif

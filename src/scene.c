@@ -82,7 +82,7 @@ void set_defaults(void)
   endpos = 0;
 
   /* set current song/music */
-  current_music = LEVEL_MUSIC;
+  set_current_music(LEVEL_MUSIC);
 }
 
 /* Add score: */
