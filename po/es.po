@@ -7,273 +7,231 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux-CVS\n"
-"POT-Creation-Date: 2004-06-10 14:53+0100\n"
+"Report-Msgid-Bugs-To: super-tux-devel@lists.sourceforge.net\n"
+"POT-Creation-Date: 2004-09-15 00:08+0100\n"
 "PO-Revision-Date: 2004-06-09 23:10+0200\n"
 "Last-Translator: Javier Beaumont <demonight@users.sourceforge.net>\n"
 "Language-Team: Spanish Team <super-tux-devel@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Report-Msgid-Bugs-To: super-tux-devel@lists.sourceforge.net\n"
 "X-Generator: KBabel 1.3.1\n"
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
 
-#: src/gameloop.cpp:163
+#: src/gameloop.cpp:186
 msgid "by "
 msgstr "por "
 
-#: src/gameloop.cpp:523
+#: src/gameloop.cpp:192
+msgid "Level Vertically Flipped!"
+msgstr ""
+
+#: src/gameloop.cpp:612
 msgid "PAUSE - Press 'P' To Play"
 msgstr "PAUSA - Pulsa 'P' para continuar"
 
-#: src/gameloop.cpp:528
+#: src/gameloop.cpp:617
 #, c-format
 msgid "Playing: "
 msgstr "Jugando: "
 
-#: src/gameloop.cpp:714 src/worldmap.cpp:849
+#: src/gameloop.cpp:792 src/worldmap.cpp:1068
 msgid "SCORE"
 msgstr "PUNTOS"
 
-#: src/gameloop.cpp:719
+#: src/gameloop.cpp:797
 msgid "Press ESC To Return"
 msgstr "Pulsa ESC para volver"
 
-#: src/gameloop.cpp:724
+#: src/gameloop.cpp:802
 msgid "TIME's UP"
 msgstr "FUERA DE TIEMPO"
 
-#: src/gameloop.cpp:728
+#: src/gameloop.cpp:806
 msgid "TIME"
 msgstr "TIEMPO"
 
-#: src/gameloop.cpp:735 src/gameloop.cpp:736 src/worldmap.cpp:853
+#: src/gameloop.cpp:813 src/gameloop.cpp:814 src/worldmap.cpp:1072
 msgid "COINS"
 msgstr "MONEDAS"
 
-#: src/gameloop.cpp:757 src/gameloop.cpp:758 src/worldmap.cpp:874
-#: src/worldmap.cpp:875
+#: src/gameloop.cpp:835 src/gameloop.cpp:836 src/worldmap.cpp:1093
+#: src/worldmap.cpp:1094
 msgid "LIVES"
 msgstr "VIDAS"
 
-#: src/gameloop.cpp:780
+#: src/gameloop.cpp:858
 msgid "Result:"
 msgstr "Resultado:"
 
-#: src/gameloop.cpp:783 src/worldmap.cpp:726
+#: src/gameloop.cpp:861 src/worldmap.cpp:911
 #, c-format
 msgid "SCORE: %d"
 msgstr "PUNTOS: %d"
 
-#: src/gameloop.cpp:786 src/worldmap.cpp:730
+#: src/gameloop.cpp:864 src/worldmap.cpp:915
 #, c-format
 msgid "COINS: %d"
 msgstr "MONEDAS: %d"
 
-#: src/gameloop.cpp:815
-#, c-format
-msgid "Slot %d - Savegame"
-msgstr "Slot %d - Juego salvado"
+#: src/gameloop.cpp:898
+msgid "Slot"
+msgstr ""
 
-#: src/gameloop.cpp:818
-#, c-format
-msgid "Slot %d - Free"
-msgstr "Slot %d - Libre"
+#: src/gameloop.cpp:898
+msgid "Free"
+msgstr ""
 
-#: src/menu.cpp:76
-msgid "Yes"
-msgstr "Si"
-
-#: src/menu.cpp:77
-msgid "No"
-msgstr "No"
-
-#: src/menu.cpp:256
-msgid "Up cursor"
-msgstr "Arriba"
-
-#: src/menu.cpp:259
-msgid "Down cursor"
-msgstr "Abajo"
-
-#: src/menu.cpp:262
-msgid "Left cursor"
-msgstr "Izquierda"
-
-#: src/menu.cpp:265
-msgid "Right cursor"
-msgstr "Derecha"
-
-#: src/menu.cpp:268
-msgid "Return"
-msgstr "Entrar"
-
-#: src/menu.cpp:271
-msgid "Space"
-msgstr "Espácio"
-
-#: src/menu.cpp:274
-msgid "Right Shift"
-msgstr "Shift derecho"
-
-#: src/menu.cpp:277
-msgid "Left Shift"
-msgstr "Shift izquierdo"
-
-#: src/menu.cpp:280
-msgid "Right Control"
-msgstr "Control derecho"
-
-#: src/menu.cpp:283
-msgid "Left Control"
-msgstr "Control izquierdo"
-
-#: src/menu.cpp:286
-msgid "Right Alt"
-msgstr "Alt derecho"
-
-#: src/menu.cpp:289
-msgid "Left Alt"
-msgstr "Alt izquierdo"
-
-#: src/setup.cpp:390 src/setup.cpp:450
+#: src/misc.cpp:94 src/misc.cpp:154
 msgid "Start Game"
 msgstr "Comenzar el juego"
 
-#: src/setup.cpp:391 src/title.cpp:91
+#: src/misc.cpp:95 src/title.cpp:111
 msgid "Contrib Levels"
 msgstr "Niveles de contribuciones"
 
-#: src/setup.cpp:392 src/setup.cpp:397 src/setup.cpp:473 src/setup.cpp:480
+#: src/misc.cpp:96 src/misc.cpp:101 src/misc.cpp:177 src/misc.cpp:184
 msgid "Options"
 msgstr "Opciones"
 
-#: src/setup.cpp:393
+#: src/misc.cpp:97
 msgid "Level Editor"
 msgstr "Editor de niveles"
 
-#: src/setup.cpp:394
+#: src/misc.cpp:98
 msgid "Credits"
 msgstr "Creditos"
 
-#: src/setup.cpp:395
+#: src/misc.cpp:99
 msgid "Quit"
 msgstr "Salir"
 
-#: src/setup.cpp:400
+#: src/misc.cpp:104
 msgid "OpenGL    "
 msgstr "OpenGL    "
 
-#: src/setup.cpp:402
+#: src/misc.cpp:106
 msgid "OpenGL (not supported)"
 msgstr "OpenGL (no soportado)"
 
-#: src/setup.cpp:404
+#: src/misc.cpp:108
 msgid "Fullscreen"
 msgstr "Pantalla completa"
 
-#: src/setup.cpp:407 src/setup.cpp:412
+#: src/misc.cpp:111 src/misc.cpp:116
 msgid "Sound     "
 msgstr "Sonido     "
 
-#: src/setup.cpp:408 src/setup.cpp:413
+#: src/misc.cpp:112 src/misc.cpp:117
 msgid "Music     "
 msgstr "Música     "
 
-#: src/setup.cpp:415
+#: src/misc.cpp:119
 msgid "Show FPS  "
 msgstr "Mostrar FPS  "
 
-#: src/setup.cpp:416
+#: src/misc.cpp:120
 msgid "Setup Keys"
 msgstr "Configurar las teclas"
 
-#: src/setup.cpp:419
+#: src/misc.cpp:123
 msgid "Setup Joystick"
 msgstr "Configurar el Joystick"
 
-#: src/setup.cpp:422 src/setup.cpp:434 src/setup.cpp:447 src/setup.cpp:458
-#: src/title.cpp:104 src/title.cpp:141
+#: src/misc.cpp:126 src/misc.cpp:138 src/misc.cpp:151 src/misc.cpp:162
+#: src/title.cpp:135 src/title.cpp:182
 msgid "Back"
 msgstr "Volver"
 
-#: src/setup.cpp:424
+#: src/misc.cpp:128
 msgid "Keyboard Setup"
 msgstr "Configurar el teclado"
 
-#: src/setup.cpp:426
+#: src/misc.cpp:130
 msgid "Left move"
 msgstr "Para la izquierda"
 
-#: src/setup.cpp:427
+#: src/misc.cpp:131
 msgid "Right move"
 msgstr "Para la derecha"
 
-#: src/setup.cpp:428
+#: src/misc.cpp:132
 msgid "Jump"
 msgstr "Saltar"
 
-#: src/setup.cpp:429
+#: src/misc.cpp:133
 msgid "Duck"
 msgstr "Agacharse"
 
-#: src/setup.cpp:430
+#: src/misc.cpp:134
 msgid "Activate"
 msgstr "Activado"
 
-#: src/setup.cpp:432
+#: src/misc.cpp:136
 msgid "Power/Run"
 msgstr "Poder/Correr"
 
-#: src/setup.cpp:438
+#: src/misc.cpp:142
 msgid "Joystick Setup"
 msgstr "Configurar el Joystick"
 
-#: src/setup.cpp:442
+#: src/misc.cpp:146
 msgid "A button"
 msgstr "Botón A"
 
-#: src/setup.cpp:443
+#: src/misc.cpp:147
 msgid "B button"
 msgstr "Botón B"
 
-#: src/setup.cpp:460
+#: src/misc.cpp:164
 msgid "Save Game"
 msgstr "Salvar el juego"
 
-#: src/setup.cpp:470 src/setup.cpp:477
+#: src/misc.cpp:174 src/misc.cpp:181
 msgid "Pause"
 msgstr "Pausa"
 
-#: src/setup.cpp:472 src/setup.cpp:479
+#: src/misc.cpp:176 src/misc.cpp:183
 msgid "Continue"
 msgstr "Continuar"
 
-#: src/setup.cpp:475
+#: src/misc.cpp:179
 msgid "Abort Level"
 msgstr "Abortar el nivel"
 
-#: src/setup.cpp:482
+#: src/misc.cpp:186
 msgid "Quit Game"
 msgstr "Salir del juego"
 
-#: src/setup.cpp:484
+#: src/misc.cpp:188
 msgid "Enter your name:"
 msgstr "Introduce tu nombre:"
 
-#: src/setup.cpp:1043
-msgid "  SuperTux  "
-msgstr "  SuperTux  "
-
-#: src/setup.cpp:1043
+#: src/title.cpp:333
 msgid ""
-"\n"
-"  Please see the file \"README.txt\" for more details.\n"
+"Copyright (c) 2003 SuperTux Devel Team\n"
+"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you\n"
+"are welcome to redistribute it under certain conditions; see the file "
+"COPYING\n"
+"for details.\n"
 msgstr ""
-"\n"
-"  Por favor mira el fichero \"README.txt\" para más detalles.\n"
+"Copyright (c) 2003 El equipo de SuperTux\n"
+"Este juego viene sin ABSOLUTAMENTE NINGUNA GARANTIA. Esto es software libre, "
+"y tu\n"
+"tienes permiso para redistribuirlo bajo ciertas condiciones; mira el archivo "
+"COPYING\n"
+"para detalles.\n"
 
-#: src/setup.cpp:1045
+#: src/title.cpp:385
+#, fuzzy
+msgid "Are you sure you want to delete slot"
+msgstr "¿Estás seguro de que quieres borrar el slot %d?"
+
+#: src/worldmap.cpp:908
+msgid "GAMEOVER"
+msgstr "FIN DEL JUEGO"
+
+#: lib/app/setup.cpp:774
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] FILENAME\n"
@@ -282,10 +240,12 @@ msgstr ""
 "Uso: %s [OPCIONES] NOMBRE_DEL_FICHERO\n"
 "\n"
 
-#: src/setup.cpp:1046
+#: lib/app/setup.cpp:775
+#, fuzzy
 msgid ""
 "Display Options:\n"
-"  --fullscreen        Run in fullscreen mode.\n"
+"  -f, --fullscreen    Run in fullscreen mode.\n"
+"  -w, --window        Run in window mode.\n"
 "  --opengl            If OpenGL support was compiled in, this will tell\n"
 "                      SuperTux to make use of it.\n"
 "  --sdl               Use the SDL software graphical renderer\n"
@@ -299,10 +259,11 @@ msgid ""
 "  -j, --joystick NUM  Use joystick NUM (default: 0)\n"
 "  --joymap XAXIS:YAXIS:A:B:START\n"
 "                      Define how joystick buttons and axis should be mapped\n"
-"  --leveleditor       Opens the leveleditor in a file. (Only works when a "
-"file is provided.)\n"
+"  --leveleditor       Opens the leveleditor in a file.\n"
+"  --worldmap          Opens the specified worldmap file.\n"
+"  --flip-levels       Flip levels upside-down.\n"
 "  -d, --datadir DIR   Load Game data from DIR (default: automatic)\n"
-"  --debug-mode        Enables the debug-mode, which is useful for "
+"  --debug             Enables the debug mode, which is useful for "
 "developers.\n"
 "  --help              Display a help message summarizing command-line\n"
 "                      options, license and game controls.\n"
@@ -343,36 +304,85 @@ msgstr ""
 "  --version           Muestra la versión de SuperTux que estás ejecutando.\n"
 "\n"
 
-#: src/setup.cpp:1102
-#, c-format
+#: lib/app/setup.cpp:834
+#, fuzzy, c-format
 msgid ""
 "Usage: %s [--fullscreen] [--opengl] [--disable-sound] [--disable-music] [--"
-"debug-mode] | [--usage | --help | --version] [--leveleditor] FILENAME\n"
+"debug] | [--usage | --help | --version] [--leveleditor] [--worldmap] [--flip-"
+"levels] FILENAME\n"
 msgstr ""
 "Uso: %s [--fullscreen] [--opengl] [--disable-sound] [--disable-music] [--"
 "debug-mode] | [--usage | --help | --version] [--leveleditor] "
 "NOMBRE_DEL_FICHERO\n"
 
-#: src/title.cpp:277
-msgid ""
-"Copyright (c) 2003 SuperTux Devel Team\n"
-"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you\n"
-"are welcome to redistribute it under certain conditions; see the file "
-"COPYING\n"
-"for details.\n"
-msgstr ""
-"Copyright (c) 2003 El equipo de SuperTux\n"
-"Este juego viene sin ABSOLUTAMENTE NINGUNA GARANTIA. Esto es software libre, "
-"y tu\n"
-"tienes permiso para redistribuirlo bajo ciertas condiciones; mira el archivo "
-"COPYING\n"
-"para detalles.\n"
+#: lib/gui/menu.cpp:67
+msgid "Yes"
+msgstr "Si"
 
-#: src/title.cpp:327
-#, c-format
-msgid "Are you sure you want to delete slot %d?"
-msgstr "¿Estás seguro de que quieres borrar el slot %d?"
+#: lib/gui/menu.cpp:68
+msgid "No"
+msgstr "No"
 
-#: src/worldmap.cpp:723
-msgid "GAMEOVER"
-msgstr "FIN DEL JUEGO"
+#: lib/gui/menu.cpp:236
+msgid "Up cursor"
+msgstr "Arriba"
+
+#: lib/gui/menu.cpp:239
+msgid "Down cursor"
+msgstr "Abajo"
+
+#: lib/gui/menu.cpp:242
+msgid "Left cursor"
+msgstr "Izquierda"
+
+#: lib/gui/menu.cpp:245
+msgid "Right cursor"
+msgstr "Derecha"
+
+#: lib/gui/menu.cpp:248
+msgid "Return"
+msgstr "Entrar"
+
+#: lib/gui/menu.cpp:251
+msgid "Space"
+msgstr "Espácio"
+
+#: lib/gui/menu.cpp:254
+msgid "Right Shift"
+msgstr "Shift derecho"
+
+#: lib/gui/menu.cpp:257
+msgid "Left Shift"
+msgstr "Shift izquierdo"
+
+#: lib/gui/menu.cpp:260
+msgid "Right Control"
+msgstr "Control derecho"
+
+#: lib/gui/menu.cpp:263
+msgid "Left Control"
+msgstr "Control izquierdo"
+
+#: lib/gui/menu.cpp:266
+msgid "Right Alt"
+msgstr "Alt derecho"
+
+#: lib/gui/menu.cpp:269
+msgid "Left Alt"
+msgstr "Alt izquierdo"
+
+#~ msgid "Slot %d - Savegame"
+#~ msgstr "Slot %d - Juego salvado"
+
+#~ msgid "Slot %d - Free"
+#~ msgstr "Slot %d - Libre"
+
+#~ msgid "  SuperTux  "
+#~ msgstr "  SuperTux  "
+
+#~ msgid ""
+#~ "\n"
+#~ "  Please see the file \"README.txt\" for more details.\n"
+#~ msgstr ""
+#~ "\n"
+#~ "  Por favor mira el fichero \"README.txt\" para más detalles.\n"
