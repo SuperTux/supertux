@@ -260,8 +260,8 @@ WorldMap::load_map()
                       Level level;
                       LispReader reader(lisp_cdr(element));
                       reader.read_string("name",  &level.name);
-                      reader.read_int("x-pos", &level.x);
-                      reader.read_int("y-pos", &level.y);
+                      reader.read_int("x", &level.x);
+                      reader.read_int("y", &level.y);
                       levels.push_back(level);
                     }
                   
@@ -420,9 +420,11 @@ WorldMap::update()
               gameloop(const_cast<char*>((datadir +  "levels/default/" + i->name).c_str()),
                        1, ST_GL_LOAD_LEVEL_FILE);
               play_music(song, 1);
-              break;
+              return;
             }
         }
+      std::cout << "Nothing to enter at: "
+                << tux->get_tile_pos().x << ", " << tux->get_tile_pos().y << std::endl;
     }
   else
     {

@@ -553,6 +553,8 @@ void level_free(st_level* plevel)
   plevel->theme.clear();
   plevel->song_title.clear();
   plevel->bkgd_image.clear();
+
+  plevel->badguy_data.clear();
 }
 
 /* Load graphics: */
