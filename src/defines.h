@@ -16,7 +16,9 @@
 #define SUPERTUX_DEFINES_H
 /* Version: */
 
-//#define VERSION "0.0.5-0.0.6-CVS"
+#ifndef VERSION
+	#define VERSION "0.0.5-0.0.6-CVS"
+#endif
 
 /* Frames per second: */
 
