@@ -29,6 +29,7 @@
 #include <cctype>
 #include <cstdlib>
 #include <cstring>
+#include <cassert>
 
 #include "../app/globals.h"
 #include "../app/setup.h"
