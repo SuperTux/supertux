@@ -14,9 +14,12 @@
 #ifndef SUPERTUX_GLOBALS_H
 #define SUPERTUX_GLOBALS_H
 
+#include <string>
 #include <SDL.h>
 #include "text.h"
 #include "menu.h"
+
+extern std::string datadir;
 
 extern SDL_Surface * screen;
 extern text_type black_text, gold_text, white_text, white_small_text, white_big_text, blue_text, red_text, yellow_nums;

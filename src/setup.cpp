@@ -10,6 +10,7 @@
   April 11, 2000 - March 15, 2004
 */
 
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -26,6 +27,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <dirent.h>
+#include <libgen.h>
 #include <ctype.h>
 #endif
 
@@ -253,7 +255,7 @@ void st_directory_setup(void)
     home = ".";
 
   st_dir = (char *) malloc(sizeof(char) * (strlen(home) +
-                           strlen("/.supertux") + 1));
+                                           strlen("/.supertux") + 1));
   strcpy(st_dir, home);
   strcat(st_dir, "/.supertux");
 
@@ -283,6 +285,31 @@ void st_directory_setup(void)
   mkdir(str);
 #endif
 
+  // User has not that a datadir, so we try some magic
+  if (datadir.empty())
+    {
+      // Detect datadir
+      char exe_file[PATH_MAX];
+      if (readlink("/proc/self/exe", exe_file, PATH_MAX) < 0)
+        {
+          puts("Couldn't read /proc/self/exe, using default path: " DATA_PREFIX);
+        }
+      else
+        {
+          std::string exedir = std::string(dirname(exe_file)) + "/";
+          
+          datadir = exedir + "../data/"; // SuperTux run from source dir
+          if (access(datadir.c_str(), F_OK) != 0)
+            {
+              datadir = exedir + "../share/supertux/"; // SuperTux run from PATH
+              if (access(datadir.c_str(), F_OK) != 0) 
+                { // If all fails, fall back to compiled path
+                  datadir = DATA_PREFIX; 
+                }
+            }
+        }
+    }
+  printf("Datadir: %s\n", datadir.c_str());
 }
 
 /* Create and setup menus. */
@@ -853,6 +880,12 @@ void parseargs(int argc, char * argv[])
         {
           launch_worldmap_mode = true;
         }
+      else if (strcmp(argv[i], "--datadir") == 0 
+               || strcmp(argv[i], "-d") == 0 )
+        {
+          assert(i+1 < argc);
+          datadir = argv[i+1];
+        }
       else if (strcmp(argv[i], "--show-fps") == 0)
         {
           /* Use full screen: */
@@ -929,6 +962,7 @@ void parseargs(int argc, char * argv[])
                "\n"
                "Misc Options:\n"
                "  --worldmap        Start in worldmap-mode (EXPERIMENTAL)\n"          
+               "  -d, --datadir DIR Load Game data from DIR (default: automatic)\n"
                "  --debug-mode      Enables the debug-mode, which is useful for developers.\n"
                "  --help            Display a help message summarizing command-line\n"
                "                    options, license and game controls.\n"

@@ -12,6 +12,9 @@
 
 #include "globals.h"
 
+/** The datadir prefix prepended when loading game data file */
+std::string datadir;
+
 SDL_Surface * screen;
 text_type black_text, gold_text, blue_text, red_text, yellow_nums, white_text, white_small_text, white_big_text;
 
