@@ -82,6 +82,9 @@ Stalactite::kill_fall()
 void
 Stalactite::draw(DrawingContext& context)
 {
+  if(get_state() != STATE_ACTIVE)
+    return;
+    
   if(state == STALACTITE_SHAKING) {
     sprite->draw(context, get_pos() + Vector((rand() % 6)-3, 0), LAYER_OBJECTS);
   } else {

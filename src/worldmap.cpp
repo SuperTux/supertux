@@ -1063,7 +1063,7 @@ WorldMap::display()
     if (offset.y < screen->h - height*32) offset.y = screen->h - height*32;
   
     context.push_transform();
-    context.set_translation(offset);
+    context.set_translation(-offset);
     draw(context);
     context.pop_transform();
     get_input();

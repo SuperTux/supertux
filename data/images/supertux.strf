@@ -1422,7 +1422,7 @@
 
   (sprite (name "hatch")
        (action
-          (name "default")
+          (name "normal")
           (x-offset 0)
           (y-offset 0)
           (images "shared/hatch-1.png"))
