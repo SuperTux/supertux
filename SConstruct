@@ -87,6 +87,7 @@ opts.Add(EnumOption('VARIANT', 'Build variant', 'optimize',
             ['optimize', 'debug', 'profile']))
 
 env = Environment(options = opts)
+Help(opts.GenerateHelpText(env))
 
 # Create build_config.py and config.h
 if not os.path.exists("build_config.py") or not os.path.exists("config.h"):
