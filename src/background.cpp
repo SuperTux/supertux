@@ -95,13 +95,17 @@ Background::set_gradient(Color top, Color bottom)
   type = GRADIENT;
   gradient_top = top;
   gradient_bottom = bottom;
+
+  delete image;
+  image = new Surface(top, bottom, screen->w, screen->h);
 }
 
 void
 Background::draw(DrawingContext& context)
 {
   if(type == GRADIENT) {
-    context.draw_gradient(gradient_top, gradient_bottom, LAYER_BACKGROUND0);
+    context.draw_surface(image, Vector(0, 0), LAYER_BACKGROUND0);
+//    context.draw_gradient(gradient_top, gradient_bottom, LAYER_BACKGROUND0);
   } else if(type == IMAGE) {
     int sx = int(-context.get_translation().x * speed)
       % image->w - image->w;

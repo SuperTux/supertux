@@ -24,6 +24,25 @@
 #ifndef NOOPENGL
 #include <SDL_opengl.h>
 #endif
+
+class Color
+{
+public:
+  Color() 
+    : red(0), green(0), blue(0), alpha(0)
+  {}
+  
+  Color(Uint8 red_, Uint8 green_, Uint8 blue_, Uint8 alpha_ = 0)
+    : red(red_), green(green_), blue(blue_), alpha(alpha_)
+  {}
+
+  Color(const Color& o)
+    : red(o.red), green(o.green), blue(o.blue), alpha(o.alpha)
+  { }
+
+  Uint8 red, green, blue, alpha;
+};
+
 #include "texture.h"
 
 class Vector;

@@ -58,6 +58,14 @@ SurfaceData::SurfaceData(const std::string& file_, int x_, int y_, int w_, int h
     x(x_), y(y_), w(w_), h(h_)
 {}
 
+SurfaceData::SurfaceData(Color top_gradient_, Color bottom_gradient_, int w_, int h_)
+    : type(GRADIENT), surface(0), use_alpha(false), w(w_), h(h_)
+{
+top_gradient = top_gradient_;
+bottom_gradient = bottom_gradient_;
+}
+
+
 SurfaceData::~SurfaceData()
 {
   SDL_FreeSurface(surface);
@@ -87,6 +95,8 @@ SurfaceData::create_SurfaceSDL()
     return new SurfaceSDL(file, x, y, w, h, use_alpha);
   case SURFACE:
     return new SurfaceSDL(surface, use_alpha);
+  case GRADIENT:
+    return new SurfaceSDL(top_gradient, bottom_gradient, w, h);
   }
   assert(0);
 }
@@ -103,6 +113,8 @@ SurfaceData::create_SurfaceOpenGL()
     return new SurfaceOpenGL(file, x, y, w, h, use_alpha);
   case SURFACE:
     return new SurfaceOpenGL(surface, use_alpha);
+  case GRADIENT:
+    return new SurfaceOpenGL(top_gradient, bottom_gradient, w, h);
   }
 #endif
   assert(0);
@@ -148,6 +160,18 @@ Surface::Surface(const std::string& file, int use_alpha)
 
 Surface::Surface(const std::string& file, int x, int y, int w, int h, int use_alpha)
     : data(file, x, y, w, h, use_alpha), w(0), h(0)
+{
+  impl = data.create();
+  if (impl)
+  {
+    w = impl->w;
+    h = impl->h;
+  }
+  surfaces.push_back(this);
+}
+
+Surface::Surface(Color top_background, Color bottom_background, int w, int h)
+    : data(top_background, bottom_background, w, h), w(0), h(0)
 {
   impl = data.create();
   if (impl)
@@ -337,6 +361,53 @@ sdl_surface_from_sdl_surface(SDL_Surface* sdl_surf, int use_alpha)
   return sdl_surface;
 }
 
+SDL_Surface*
+sdl_surface_from_gradient(Color top, Color bottom, int w, int h)
+{
+  SDL_Surface* sdl_surface;
+
+  Uint32 rmask, gmask, bmask, amask;
+
+  /* SDL interprets each pixel as a 32-bit number, so our masks must depend
+       on the endianness (byte order) of the machine */
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+    rmask = 0xff000000;
+    gmask = 0x00ff0000;
+    bmask = 0x0000ff00;
+    amask = 0x000000ff;
+#else
+    rmask = 0x000000ff;
+    gmask = 0x0000ff00;
+    bmask = 0x00ff0000;
+    amask = 0xff000000;
+#endif
+
+    sdl_surface = SDL_CreateRGBSurface(screen->flags, w, h,
+                      screen->format->BitsPerPixel, rmask, gmask, bmask, amask);
+
+    if(sdl_surface == NULL)
+        st_abort("Cannot create surface for the gradient", "SURFACE");
+
+    float redstep = (float(bottom.red)-float(top.red)) / float(h);
+    float greenstep = (float(bottom.green)-float(top.green)) / float(h);
+    float bluestep = (float(bottom.blue) - float(top.blue)) / float(h);
+
+    SDL_Rect rect;
+    rect.x = 0;
+    rect.w = w;
+    rect.h = 1;
+    for(float y = 0; y < h; y++)
+      {
+      rect.y = (int)y;
+      SDL_FillRect(sdl_surface, &rect, SDL_MapRGB(sdl_surface->format,
+          int(float(top.red) + redstep * y),
+          int(float(top.green) + greenstep * y),
+          int(float(top.blue) + bluestep * y)));
+      }
+
+  return sdl_surface;
+}
+
 //---------------------------------------------------------------------------
 
 SurfaceImpl::SurfaceImpl()
@@ -388,6 +459,15 @@ SurfaceOpenGL::SurfaceOpenGL(const std::string& file, int use_alpha)
 SurfaceOpenGL::SurfaceOpenGL(const std::string& file, int x, int y, int w, int h, int use_alpha)
 {
   sdl_surface = sdl_surface_part_from_file(file,x,y,w,h,use_alpha);
+  create_gl(sdl_surface, &gl_texture);
+
+  w = sdl_surface->w;
+  h = sdl_surface->h;
+}
+
+SurfaceOpenGL::SurfaceOpenGL(Color top_gradient, Color bottom_gradient, int w, int h)
+{
+  sdl_surface = sdl_surface_from_gradient(top_gradient, bottom_gradient, w, h);
   create_gl(sdl_surface, &gl_texture);
 
   w = sdl_surface->w;
@@ -616,6 +696,13 @@ SurfaceSDL::SurfaceSDL(const std::string& file, int use_alpha)
 SurfaceSDL::SurfaceSDL(const std::string& file, int x, int y, int w, int h,  int use_alpha)
 {
   sdl_surface = sdl_surface_part_from_file(file, x, y, w, h, use_alpha);
+  w = sdl_surface->w;
+  h = sdl_surface->h;
+}
+
+SurfaceSDL::SurfaceSDL(Color top_gradient, Color bottom_gradient, int w, int h)
+{
+  sdl_surface = sdl_surface_from_gradient(top_gradient, bottom_gradient, w, h);
   w = sdl_surface->w;
   h = sdl_surface->h;
 }

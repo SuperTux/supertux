@@ -34,6 +34,7 @@
 #include "vector.h"
 
 SDL_Surface* sdl_surface_from_sdl_surface(SDL_Surface* sdl_surf, int use_alpha);
+SDL_Surface* sdl_surface_from_nothing();
 
 class SurfaceImpl;
 class SurfaceSDL;
@@ -42,7 +43,7 @@ class DrawingContext;
 
 /// bitset for drawing effects
 enum {
-      /** Draw the Surface upside down */
+      /** Don't apply anything */
       NONE_EFFECT       = 0x0000,
       /** Draw the Surface upside down */
       VERTICAL_FLIP     = 0x0001,
@@ -54,7 +55,7 @@ enum {
 class SurfaceData 
 {
 public:
-  enum ConstructorType { LOAD, LOAD_PART, SURFACE };
+  enum ConstructorType { LOAD, LOAD_PART, SURFACE, GRADIENT };
   ConstructorType type;
   SDL_Surface* surface;
   std::string file;
@@ -63,10 +64,13 @@ public:
   int y;
   int w;
   int h;
+  Color top_gradient;
+  Color bottom_gradient;
 
   SurfaceData(SDL_Surface* surf, int use_alpha_);
   SurfaceData(const std::string& file_, int use_alpha_);
   SurfaceData(const std::string& file_, int x_, int y_, int w_, int h_, int use_alpha_);
+  SurfaceData(Color top_gradient_, Color bottom_gradient_, int w_, int h_);
   ~SurfaceData();
 
   SurfaceSDL* create_SurfaceSDL();
@@ -93,6 +97,7 @@ public:
   Surface(SDL_Surface* surf, int use_alpha);  
   Surface(const std::string& file, int use_alpha);  
   Surface(const std::string& file, int x, int y, int w, int h, int use_alpha);
+  Surface(Color top_gradient, Color bottom_gradient, int w, int h);
   ~Surface();
   
   /** Reload the surface, which is necesarry in case of a mode swich */
@@ -133,6 +138,7 @@ public:
   SurfaceSDL(SDL_Surface* surf, int use_alpha);
   SurfaceSDL(const std::string& file, int use_alpha);  
   SurfaceSDL(const std::string& file, int x, int y, int w, int h, int use_alpha);
+  SurfaceSDL(Color top_gradient, Color bottom_gradient, int w, int h);
   virtual ~SurfaceSDL();
 
   int draw(float x, float y, Uint8 alpha, Uint32 effect = NONE_EFFECT);
@@ -152,6 +158,8 @@ public:
   SurfaceOpenGL(SDL_Surface* surf, int use_alpha);
   SurfaceOpenGL(const std::string& file, int use_alpha);  
   SurfaceOpenGL(const std::string& file, int x, int y, int w, int h, int use_alpha);
+  SurfaceOpenGL(Color top_gradient, Color bottom_gradient, int w, int h);
+
   virtual ~SurfaceOpenGL();
 
   int draw(float x, float y, Uint8 alpha, Uint32 effect = NONE_EFFECT);
