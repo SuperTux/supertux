@@ -75,38 +75,39 @@ void player_input_init(player_input_type* pplayer_input);
 class Sprite;
 
 extern Surface* tux_life;
-extern std::vector<Surface*> tux_right;
-extern std::vector<Surface*> tux_left;
-extern Surface* smalltux_jump_left;
-extern Surface* smalltux_jump_right;
-extern Surface* smalltux_stand_left;
-extern Surface* smalltux_stand_right;
-extern Sprite*  smalltux_skid_left;
-extern Sprite*  smalltux_skid_right;
-extern Sprite*  smalltux_gameover;
-extern Sprite*  largetux_stand_left;
-extern Sprite*  largetux_stand_right;
 
-extern Sprite*  smalltux_kick_left;
-extern Sprite*  smalltux_kick_right;
-extern Sprite*  smalltux_grab_left;
-extern Sprite*  smalltux_grab_right;
-extern Sprite*  smalltux_star;
-extern Sprite*  largetux_star;
+extern Sprite* smalltux_gameover;
+extern Sprite* smalltux_star;
+extern Sprite* largetux_star;
 
-extern Sprite*  largetux_kick_left;
-extern Sprite*  largetux_kick_right;
-extern Sprite*  largetux_grab_left;
-extern Sprite*  largetux_grab_right;
+extern Sprite* smalltux_stand_left;
+extern Sprite* smalltux_stand_right;
+extern Sprite* smalltux_walk_right;
+extern Sprite* smalltux_walk_left;
+extern Sprite* smalltux_jump_left;
+extern Sprite* smalltux_jump_right;
+extern Sprite* smalltux_kick_left;
+extern Sprite* smalltux_kick_right;
+extern Sprite* smalltux_skid_left;
+extern Sprite* smalltux_skid_right;
+extern Sprite* smalltux_grab_left;
+extern Sprite* smalltux_grab_right;
 
-extern Sprite* bigtux_right;
-extern Sprite* bigtux_left;
-extern Sprite* bigtux_right_jump;
-extern Sprite* bigtux_left_jump;
-extern Sprite* ducktux_right;
-extern Sprite* ducktux_left;
-extern Surface* skidtux_right;
-extern Surface* skidtux_left;
+extern Sprite* largetux_stand_left;
+extern Sprite* largetux_stand_right;
+extern Sprite* largetux_walk_right;
+extern Sprite* largetux_walk_left;
+extern Sprite* largetux_jump_right;
+extern Sprite* largetux_jump_left;
+extern Sprite* largetux_kick_left;
+extern Sprite* largetux_kick_right;
+extern Sprite* largetux_skid_right;
+extern Sprite* largetux_skid_left;
+extern Sprite* largetux_grab_left;
+extern Sprite* largetux_grab_right;
+extern Sprite* largetux_duck_right;
+extern Sprite* largetux_duck_left;
+
 extern Surface* firetux_right[3];
 extern Surface* firetux_left[3];
 extern Surface* bigfiretux_right[3];
@@ -117,10 +118,6 @@ extern Surface* duckfiretux_right;
 extern Surface* duckfiretux_left;
 extern Surface* skidfiretux_right;
 extern Surface* skidfiretux_left;
-extern Surface* cape_right[2];
-extern Surface* cape_left[2];
-extern Surface* bigcape_right[2];
-extern Surface* bigcape_left[2];
 
 class Player
 {

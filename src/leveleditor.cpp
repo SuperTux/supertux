@@ -779,7 +779,7 @@ void le_drawlevel()
 
   /* Draw the player: */
   /* for now, the position is fixed at (100, 240) */
-  tux_right[(global_frame_counter / 5) % 3]->draw( 100 - pos_x, 240);
+  largetux_walk_right->draw( 100 - pos_x, 240);
 }
 
 void le_checkevents()

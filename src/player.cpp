@@ -29,41 +29,41 @@
 #include "screen.h"
 
 Surface* tux_life;
-std::vector<Surface*> tux_right;
-std::vector<Surface*> tux_left;
 
-Surface* smalltux_jump_left;
-Surface* smalltux_jump_right;
-Surface* smalltux_stand_left;
-Surface* smalltux_stand_right;
-Sprite*  smalltux_gameover;
-Sprite*  smalltux_skid_left;
-Sprite*  smalltux_skid_right;
-Sprite*  smalltux_kick_left;
-Sprite*  smalltux_kick_right;
-Sprite*  smalltux_grab_left;
-Sprite*  smalltux_grab_right;
-Sprite*  smalltux_star;
-
+Sprite* smalltux_gameover;
+Sprite* smalltux_star;
 Sprite* largetux_star;
-Sprite* largetux_kick_left;
-Sprite* largetux_kick_right;
-Sprite* largetux_grab_left;
-Sprite* largetux_grab_right;
+
+Sprite* smalltux_stand_left;
+Sprite* smalltux_stand_right;
+Sprite* smalltux_walk_right;
+Sprite* smalltux_walk_left;
+Sprite* smalltux_jump_left;
+Sprite* smalltux_jump_right;
+Sprite* smalltux_kick_left;
+Sprite* smalltux_kick_right;
+Sprite* smalltux_skid_left;
+Sprite* smalltux_skid_right;
+Sprite* smalltux_grab_left;
+Sprite* smalltux_grab_right;
+
 Sprite* largetux_stand_left;
 Sprite* largetux_stand_right;
-Sprite* bigtux_right;
-Sprite* bigtux_left;
-Sprite* bigtux_right_jump;
-Sprite* bigtux_left_jump;
-Sprite* ducktux_right;
-Sprite* ducktux_left;
+Sprite* largetux_walk_right;
+Sprite* largetux_walk_left;
+Sprite* largetux_jump_right;
+Sprite* largetux_jump_left;
+Sprite* largetux_kick_left;
+Sprite* largetux_kick_right;
+Sprite* largetux_skid_right;
+Sprite* largetux_skid_left;
+Sprite* largetux_grab_left;
+Sprite* largetux_grab_right;
+Sprite* largetux_duck_right;
+Sprite* largetux_duck_left;
 
-Surface* skidtux_right;
-Surface* skidtux_left;
 Surface* firetux_right[3];
 Surface* firetux_left[3];
-
 Surface* bigfiretux_right[3];
 Surface* bigfiretux_left[3];
 Surface* bigfiretux_right_jump;
@@ -72,9 +72,6 @@ Surface* duckfiretux_right;
 Surface* duckfiretux_left;
 Surface* skidfiretux_right;
 Surface* skidfiretux_left;
-
-Surface* cape_right[2];
-Surface* cape_left[2];
 
 PlayerKeymap keymap;
 
@@ -541,9 +538,9 @@ Player::draw()
                   if (physic.get_velocity_y() != 0)
                     {
                       if (dir == RIGHT)
-                        smalltux_jump_right->draw( base.x - scroll_x, base.y - 10);
+                        smalltux_jump_right->draw(base.x - scroll_x, base.y);
                       else
-                        smalltux_jump_left->draw( base.x - scroll_x, base.y - 10);                   
+                        smalltux_jump_left->draw(base.x - scroll_x, base.y);                   
                     }
                   else
                     {
@@ -557,9 +554,9 @@ Player::draw()
                       else // moving
                         {
                           if (dir == RIGHT)
-                            tux_right[(global_frame_counter/2) % tux_right.size()]->draw(base.x - scroll_x, base.y - 9);
+                            smalltux_walk_right->draw(base.x - scroll_x, base.y);
                           else
-                            tux_left[(global_frame_counter/2) % tux_left.size()]->draw(base.x - scroll_x, base.y - 9);
+                            smalltux_walk_left->draw(base.x - scroll_x, base.y);
                         }
                     }
                 }
@@ -602,33 +599,33 @@ Player::draw()
                               else // walking
                                 {
                                   if (dir == RIGHT)
-                                    bigtux_right->draw(base.x - scroll_x, base.y);
+                                    largetux_walk_right->draw(base.x - scroll_x, base.y);
                                   else
-                                    bigtux_left->draw(base.x - scroll_x, base.y);
+                                    largetux_walk_left->draw(base.x - scroll_x, base.y);
                                 }
                             }
                           else
                             {
                               if (dir == RIGHT)
-                                bigtux_right_jump->draw(base.x - scroll_x, base.y);
+                                largetux_jump_right->draw(base.x - scroll_x, base.y);
                               else
-                                bigtux_left_jump->draw(base.x - scroll_x, base.y);
+                                largetux_jump_left->draw(base.x - scroll_x, base.y);
                             }
                         }
                       else
                         {
                           if (dir == RIGHT)
-                            skidtux_right->draw(base.x - scroll_x - 8, base.y);
+                            largetux_skid_right->draw(base.x - scroll_x - 8, base.y);
                           else
-                            skidtux_left->draw(base.x - scroll_x - 8, base.y);
+                            largetux_skid_left->draw(base.x - scroll_x - 8, base.y);
                         }
                     }
                   else
                     {
                       if (dir == RIGHT)
-                        ducktux_right->draw(base.x - scroll_x, base.y);
+                        largetux_duck_right->draw(base.x - scroll_x, base.y);
                       else
-                        ducktux_left->draw(base.x - scroll_x, base.y);
+                        largetux_duck_left->draw(base.x - scroll_x, base.y);
                     }
                 }
               else

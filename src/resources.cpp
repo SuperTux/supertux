@@ -53,50 +53,43 @@ void loadshared()
   /* Tuxes: */
   smalltux_star = sprite_manager->load("smalltux-star");
   largetux_star = sprite_manager->load("largetux-star");
+  smalltux_gameover = sprite_manager->load("smalltux-gameover");
 
-  smalltux_kick_left  = sprite_manager->load("smalltux-kick-left");
-  smalltux_kick_right = sprite_manager->load("smalltux-kick-right");
-  smalltux_grab_left  = sprite_manager->load("smalltux-grab-left");
-  smalltux_grab_right = sprite_manager->load("smalltux-grab-right");
-
-  largetux_kick_left  = sprite_manager->load("largetux-kick-left");
-  largetux_kick_right = sprite_manager->load("largetux-kick-right");
-  largetux_grab_left  = sprite_manager->load("largetux-grab-left");
-  largetux_grab_right = sprite_manager->load("largetux-grab-right");
+  smalltux_stand_left  = sprite_manager->load("smalltux-stand-left");
+  smalltux_stand_right = sprite_manager->load("smalltux-stand-right");
+  smalltux_walk_left   = sprite_manager->load("smalltux-walk-left");
+  smalltux_walk_right  = sprite_manager->load("smalltux-walk-right");
+  smalltux_jump_left   = sprite_manager->load("smalltux-jump-left");
+  smalltux_jump_right  = sprite_manager->load("smalltux-jump-right");
+  smalltux_kick_left   = sprite_manager->load("smalltux-kick-left");
+  smalltux_kick_right  = sprite_manager->load("smalltux-kick-right");
+  smalltux_skid_left   = sprite_manager->load("smalltux-skid-left");
+  smalltux_skid_right  = sprite_manager->load("smalltux-skid-right");
+  smalltux_grab_left   = sprite_manager->load("smalltux-grab-left");
+  smalltux_grab_right  = sprite_manager->load("smalltux-grab-right");
 
   largetux_stand_left  = sprite_manager->load("largetux-stand-left");
   largetux_stand_right = sprite_manager->load("largetux-stand-right");
+  largetux_walk_left   = sprite_manager->load("largetux-walk-left");
+  largetux_walk_right  = sprite_manager->load("largetux-walk-right");
+  largetux_jump_left   = sprite_manager->load("largetux-jump-left");
+  largetux_jump_right  = sprite_manager->load("largetux-jump-right");
+  largetux_kick_left   = sprite_manager->load("largetux-kick-left");
+  largetux_kick_right  = sprite_manager->load("largetux-kick-right");
+  largetux_skid_right  = sprite_manager->load("largetux-skid-right");
+  largetux_skid_left   = sprite_manager->load("largetux-skid-left");
+  largetux_grab_left   = sprite_manager->load("largetux-grab-left");
+  largetux_grab_right  = sprite_manager->load("largetux-grab-right");
+  largetux_duck_left   = sprite_manager->load("largetux-duck-left");
+  largetux_duck_right  = sprite_manager->load("largetux-duck-right");
 
-  smalltux_gameover = sprite_manager->load("smalltux-gameover");
+  duckfiretux_right = new Surface(datadir +
+               "/images/shared/duckfiretux-right.png",
+               USE_ALPHA);
 
-  smalltux_skid_left  = sprite_manager->load("smalltux-skid-left");
-  smalltux_skid_right = sprite_manager->load("smalltux-skid-right");
-
-  smalltux_stand_left = new Surface(datadir + "/images/shared/smalltux-left-6.png", USE_ALPHA);
-  smalltux_stand_right = new Surface(datadir + "/images/shared/smalltux-right-6.png", USE_ALPHA);
-
-  smalltux_jump_left = new Surface(datadir + "/images/shared/smalltux-jump-left.png", USE_ALPHA);
-  smalltux_jump_right = new Surface(datadir + "/images/shared/smalltux-jump-right.png", USE_ALPHA);
-
-  tux_right.resize(8);
-  tux_right[0] = new Surface(datadir + "/images/shared/smalltux-right-1.png", USE_ALPHA);
-  tux_right[1] = new Surface(datadir + "/images/shared/smalltux-right-2.png", USE_ALPHA);
-  tux_right[2] = new Surface(datadir + "/images/shared/smalltux-right-3.png", USE_ALPHA);
-  tux_right[3] = new Surface(datadir + "/images/shared/smalltux-right-4.png", USE_ALPHA);
-  tux_right[4] = new Surface(datadir + "/images/shared/smalltux-right-5.png", USE_ALPHA);
-  tux_right[5] = new Surface(datadir + "/images/shared/smalltux-right-6.png", USE_ALPHA);
-  tux_right[6] = new Surface(datadir + "/images/shared/smalltux-right-7.png", USE_ALPHA);
-  tux_right[7] = new Surface(datadir + "/images/shared/smalltux-right-8.png", USE_ALPHA);
-
-  tux_left.resize(8);
-  tux_left[0] = new Surface(datadir + "/images/shared/smalltux-left-1.png", USE_ALPHA);
-  tux_left[1] = new Surface(datadir + "/images/shared/smalltux-left-2.png", USE_ALPHA);
-  tux_left[2] = new Surface(datadir + "/images/shared/smalltux-left-3.png", USE_ALPHA);
-  tux_left[3] = new Surface(datadir + "/images/shared/smalltux-left-4.png", USE_ALPHA);
-  tux_left[4] = new Surface(datadir + "/images/shared/smalltux-left-5.png", USE_ALPHA);
-  tux_left[5] = new Surface(datadir + "/images/shared/smalltux-left-6.png", USE_ALPHA);
-  tux_left[6] = new Surface(datadir + "/images/shared/smalltux-left-7.png", USE_ALPHA);
-  tux_left[7] = new Surface(datadir + "/images/shared/smalltux-left-8.png", USE_ALPHA);
+  duckfiretux_left = new Surface(datadir +
+               "/images/shared/duckfiretux-left.png",
+               USE_ALPHA);
 
   firetux_right[0] = new Surface(datadir + "/images/shared/firetux-right-0.png", USE_ALPHA);
   firetux_right[1] = new Surface(datadir + "/images/shared/firetux-right-1.png", USE_ALPHA);
@@ -105,25 +98,6 @@ void loadshared()
   firetux_left[0] = new Surface(datadir + "/images/shared/firetux-left-0.png", USE_ALPHA);
   firetux_left[1] = new Surface(datadir + "/images/shared/firetux-left-1.png", USE_ALPHA);
   firetux_left[2] = new Surface(datadir + "/images/shared/firetux-left-2.png", USE_ALPHA);
-
-
-  cape_right[0] = new Surface(datadir + "/images/shared/cape-right-0.png",
-               USE_ALPHA);
-
-  cape_right[1] = new Surface(datadir + "/images/shared/cape-right-1.png",
-               USE_ALPHA);
-
-  cape_left[0] = new Surface(datadir + "/images/shared/cape-left-0.png",
-               USE_ALPHA);
-
-  cape_left[1] = new Surface(datadir + "/images/shared/cape-left-1.png",
-               USE_ALPHA);
-
-  bigtux_right = sprite_manager->load("largetux-walk-right");
-  bigtux_left  = sprite_manager->load("largetux-walk-left");
-
-  bigtux_left_jump  = sprite_manager->load("largetux-jump-left");
-  bigtux_right_jump = sprite_manager->load("largetux-jump-right");
 
   bigfiretux_right[0] = new Surface(datadir + "/images/shared/bigfiretux-right-0.png",
                USE_ALPHA);
@@ -146,25 +120,6 @@ void loadshared()
                USE_ALPHA);
 
   bigfiretux_left_jump = new Surface(datadir + "/images/shared/bigfiretux-left-jump.png", USE_ALPHA);
-
-  ducktux_left  = sprite_manager->load("largetux-duck-left");
-  ducktux_right = sprite_manager->load("largetux-duck-right");
-
-  skidtux_right = new Surface(datadir +
-               "/images/shared/largetux-skid-right.png",
-               USE_ALPHA);
-
-  skidtux_left = new Surface(datadir +
-               "/images/shared/largetux-skid-left.png",
-               USE_ALPHA);
-
-  duckfiretux_right = new Surface(datadir +
-               "/images/shared/duckfiretux-right.png",
-               USE_ALPHA);
-
-  duckfiretux_left = new Surface(datadir +
-               "/images/shared/duckfiretux-left.png",
-               USE_ALPHA);
 
   skidfiretux_right = new Surface(datadir +
                "/images/shared/skidfiretux-right.png",
@@ -285,31 +240,9 @@ void unloadshared(void)
   int i;
 
   free_special_gfx();
+  free_badguy_gfx();
 
   delete smalltux_gameover;
-
-  for (i = 0; i < 3; i++)
-    {
-      delete tux_right[i];
-      delete tux_left[i];
-    }
-
-  delete bigtux_right_jump;
-  delete bigtux_left_jump;
-
-  for (i = 0; i < 2; i++)
-    {
-      delete cape_right[i];
-      delete cape_left[i];
-    }
-
-  delete ducktux_left;
-  delete ducktux_right;
-
-  delete skidtux_left;
-  delete skidtux_right;
-
-  free_badguy_gfx();
 
   delete img_water;
   for (i = 0; i < 3; i++)
