@@ -43,14 +43,14 @@ CFLAGS=-Wall -O2 $(SDL_CFLAGS) -DDATA_PREFIX=\"$(DATA_PREFIX)\" \
 SDL_MIXER=-lSDL_mixer
 SDL_IMAGE=-lSDL_image
 NOSOUNDFLAG=__SOUND
-SDL_LIB=$(SDL_LDFLAGS) $(SDL_MIXER) $(SDL_IMAGE)
+SDL_LIB=$(SDL_MIXER) $(SDL_IMAGE) $(SDL_LDFLAGS) 
 SDL_CFLAGS := $(shell sdl-config --cflags)
 SDL_LDFLAGS := $(shell sdl-config --libs)
 installbin = install -g $(USERNAME) -o $(USERNAME) -m 755 
 installdat = install -g $(USERNAME) -o $(USERNAME) -m 644
 
 
-OBJECTS=obj/supertux.o obj/setup.o obj/intro.o obj/title.o obj/gameloop.o \
+OBJECTS=obj/supertux.o obj/setup.o obj/intro.o obj/title.o obj/level.o obj/gameloop.o \
 	obj/screen.o obj/sound.o obj/high_scores.o obj/menu.o obj/leveleditor.o
 
 # Make commands:
@@ -110,9 +110,13 @@ obj/title.o:	src/title.c src/title.h \
 		src/defines.h src/globals.h src/screen.h
 	$(CC) $(CFLAGS) src/title.c -c -o obj/title.o
 
+obj/level.o:	src/level.c src/defines.h src/globals.h \
+			src/level.h src/gameloop.h src/screen.h src/badguy.h
+	$(CC) $(CFLAGS) src/level.c -c -o obj/level.o
+	
 obj/gameloop.o:	src/gameloop.c src/gameloop.h \
 		src/defines.h src/globals.h src/screen.h obj/sound.o \
-		src/setup.h
+		src/setup.h obj/level.o
 	$(CC) $(CFLAGS) src/gameloop.c -c -o obj/gameloop.o
 
 obj/screen.o:	src/screen.c src/defines.h src/globals.h src/screen.h
