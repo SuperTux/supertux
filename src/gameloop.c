@@ -3875,15 +3875,15 @@ void savegame(void)
 
 void loadgame(char* filename)
 {
-char savefile[300];
+  char savefile[300];
+  FILE* fi;
+  time_t current_time = time(NULL);
+  struct tm* time_struct;
+  
+  time_struct = localtime(&current_time);
+  sprintf(savefile,"%s/%d-%d-%d-%d.save",st_save_dir,time_struct->tm_year+1900,time_struct->tm_mon,time_struct->tm_mday,time_struct->tm_hour);
+  printf("%s",savefile);
 
-time_t current_time = time(NULL);
-struct tm* time_struct;
-time_struct = localtime(&current_time);
-sprintf(savefile,"%s/%d-%d-%d-%d.save",st_save_dir,time_struct->tm_year+1900,time_struct->tm_mon,time_struct->tm_mday,time_struct->tm_hour);
-printf("%s",savefile);
-
-FILE* fi;
 
   fi = fopen(savefile, "rb");
 
