@@ -42,14 +42,11 @@
 /* when pagedown/up pressed speed:*/
 #define PAGE_CURSOR_SPEED 13*32
 
-#define CURSOR_LEFT_MARGIN 96
-#define CURSOR_RIGHT_MARGIN 600
+#define MOUSE_LEFT_MARGIN 80
+#define MOUSE_RIGHT_MARGIN (560-32)
 /* right_margin should noticed that the cursor is 32 pixels,
    so it should subtract that value */
-
-#define MOUSE_LEFT_MARGIN 32
-#define MOUSE_RIGHT_MARGIN 608
-#define MOUSE_POS_SPEED 32
+#define MOUSE_POS_SPEED 20
 
 /* gameloop funcs declerations */
 
@@ -63,6 +60,7 @@ void le_quit();
 void le_drawlevel();
 void le_checkevents();
 void le_change(float x, float y, unsigned char c);
+void le_testlevel();
 void le_showhelp();
 void le_set_defaults(void);
 void le_activate_bad_guys(void);
@@ -83,6 +81,8 @@ static button_type le_test_level_bt;
 static button_type le_next_level_bt;
 static button_type le_previous_level_bt;
 static button_type le_rubber_bt;
+
+static SDL_Event event;
 
 void le_activate_bad_guys(void)
 {
@@ -130,22 +130,11 @@ int leveleditor(int levelnb)
 
       le_checkevents();
 
-      if(cursor_x < pos_x + CURSOR_LEFT_MARGIN)
-        pos_x = cursor_x - CURSOR_LEFT_MARGIN;
-
-      if(cursor_x > pos_x + CURSOR_RIGHT_MARGIN)
-        pos_x = cursor_x - CURSOR_RIGHT_MARGIN;
-
-      /* make sure we respect the borders */
-      if(cursor_x < 0)
-        cursor_x = 0;
-      if(cursor_x > (le_current_level.width*32) - 32)
-        cursor_x = (le_current_level.width*32) - 32;
-
+      /* making events results to be in order */
       if(pos_x < 0)
         pos_x = 0;
-      if(pos_x > (le_current_level.width * 32) - screen->w + 32)
-        pos_x = (le_current_level.width * 32) - screen->w + 32;
+      if(pos_x > (le_current_level.width * 32) - screen->w)
+        pos_x = (le_current_level.width * 32) - screen->w;
 
       /* draw the level */
       le_drawlevel();
@@ -195,6 +184,8 @@ int le_init()
   subset_load(&le_level_subset,"default");
   le_show_grid = YES;
 
+//  level_changed = NO;
+  fire = DOWN;
   done = 0;
   menu_reset();
   menu_set_current(&leveleditor_menu);
@@ -266,29 +257,29 @@ void le_drawlevel()
   /*       clearscreen(current_level.bkgd_red, current_level.bkgd_green, current_level.bkgd_blue); */
 
   for (y = 0; y < 15; ++y)
-    for (x = 0; x < 19; ++x)
+    for (x = 0; x < 20; ++x)
       {
-        drawshape(x * 32, y * 32, le_current_level.tiles[y][x + (pos_x / 32)]);
-      }
+        drawshape(x * 32 - ((int)pos_x % 32), y * 32, le_current_level.tiles[y][x + (int)(pos_x / 32)]);
 
   /* draw whats inside stuff when cursor is selecting those */
-  cursor_tile = le_current_level.tiles[cursor_y/32][cursor_x/32];
-  switch(cursor_tile)
-    {
+  /* (draw them all the time - is this the right behaviour?) */
+  switch(le_current_level.tiles[y][x + (int)(pos_x/32)])
+     {
     case 'B':
-      texture_draw(&img_mints, cursor_x - pos_x, cursor_y, NO_UPDATE);
+      texture_draw(&img_mints, x * 32 - ((int)pos_x % 32), y*32, NO_UPDATE);
       break;
     case '!':
-      texture_draw(&img_golden_herring, cursor_x - pos_x, cursor_y, NO_UPDATE);
+      texture_draw(&img_golden_herring, x * 32 - ((int)pos_x % 32), y*32, NO_UPDATE);
       break;
     case 'x':
     case 'y':
     case 'A':
-      texture_draw(&img_distro[(le_frame / 5) % 4], cursor_x - pos_x, cursor_y, NO_UPDATE);
+      texture_draw(&img_distro[(frame / 5) % 4], x * 32 - ((int)pos_x % 32), y*32, NO_UPDATE);
       break;
     default:
       break;
-    }
+      }
+     }
 
   /* Draw the Bad guys: */
   for (i = 0; i < num_bad_guys; ++i)
@@ -297,22 +288,29 @@ void le_drawlevel()
         continue;
       /* to support frames: img_bsod_left[(frame / 5) % 4] */
       if(bad_guys[i].kind == BAD_BSOD)
-        texture_draw(&img_bsod_left[(le_frame / 5) % 4], ((int)(bad_guys[i].base.x - pos_x)/32)*32, bad_guys[i].base.y, NO_UPDATE);
+        texture_draw(&img_bsod_left[(le_frame / 5) % 4], bad_guys[i].base.x - pos_x, bad_guys[i].base.y, NO_UPDATE);
       else if(bad_guys[i].kind == BAD_LAPTOP)
-        texture_draw(&img_laptop_left[(le_frame / 5) % 3], ((int)(bad_guys[i].base.x - pos_x)/32)*32, bad_guys[i].base.y, NO_UPDATE);
+        texture_draw(&img_laptop_left[(le_frame / 5) % 3], bad_guys[i].base.x - pos_x, bad_guys[i].base.y, NO_UPDATE);
       else if (bad_guys[i].kind == BAD_MONEY)
-        texture_draw(&img_money_left[(le_frame / 5) % 2], ((int)(bad_guys[i].base.x - pos_x)/32)*32, bad_guys[i].base.y, NO_UPDATE);
+        texture_draw(&img_money_left[(le_frame / 5) % 2], bad_guys[i].base.x - pos_x, bad_guys[i].base.y, NO_UPDATE);
     }
+
+/* Draw the player: */
+// for now, the position is fixed at (0, 240)
+texture_draw(&tux_right[(frame / 5) % 3], 0 - pos_x, 240, NO_UPDATE);
 
   /* draw a grid (if selected) */
   if(le_show_grid)
     {
-      for(x = 0; x < 19; x++)
-        fillrect(x*32, 0, 1, screen->h, 225, 225, 225,255);
+      for(x = 0; x < 20; x++)
+        fillrect(x*32 - ((int)pos_x % 32), 0, 1, screen->h, 225, 225, 225,255);
       for(y = 0; y < 15; y++)
         fillrect(0, y*32, screen->w - 32, 1, 225, 225, 225,255);
     }
 
+  texture_draw(&le_selection, cursor_x - pos_x, cursor_y, NO_UPDATE);
+
+  /* draw button bar */
   fillrect(screen->w - 32, 0, 32, screen->h, 50, 50, 50,255);
   drawshape(19 * 32, 14 * 32, le_current_tile);
 
@@ -320,8 +318,6 @@ void le_drawlevel()
   button_draw(&le_next_level_bt);
   button_draw(&le_previous_level_bt);
   button_draw(&le_rubber_bt);
-  
-  texture_draw(&le_selection, ((int)(cursor_x - pos_x)/32)*32, cursor_y, NO_UPDATE);
 
   sprintf(str, "%d", le_current_level.time_left);
   text_draw(&white_text, "TIME", 324, 0, 1, NO_UPDATE);
@@ -340,7 +336,6 @@ void le_drawlevel()
 
 void le_checkevents()
 {
-  SDL_Event event;
   SDLKey key;
   SDLMod keymod;
   int x,y;
@@ -372,12 +367,20 @@ void le_checkevents()
                 cursor_x -= KEY_CURSOR_SPEED;
               else
                 cursor_x -= KEY_CURSOR_FASTSPEED;
+
+              if(cursor_x < pos_x + MOUSE_LEFT_MARGIN)
+                pos_x = cursor_x - MOUSE_LEFT_MARGIN;
+
               break;
             case SDLK_RIGHT:
               if(fire == DOWN)
                 cursor_x += KEY_CURSOR_SPEED;
               else
                 cursor_x += KEY_CURSOR_FASTSPEED;
+
+              if(cursor_x > pos_x + MOUSE_RIGHT_MARGIN-32)
+                pos_x = cursor_x - MOUSE_RIGHT_MARGIN+32;
+
               break;
             case SDLK_UP:
               if(fire == DOWN)
@@ -414,15 +417,25 @@ void le_checkevents()
               break;
             case SDLK_HOME:
               cursor_x = 0;
+              pos_x = cursor_x;
               break;
             case SDLK_END:
               cursor_x = (le_current_level.width * 32) - 32;
+              pos_x = cursor_x;
               break;
             case SDLK_PAGEUP:
               cursor_x -= PAGE_CURSOR_SPEED;
+
+              if(cursor_x < pos_x + MOUSE_LEFT_MARGIN)
+                pos_x = cursor_x - MOUSE_LEFT_MARGIN;
+
               break;
             case SDLK_PAGEDOWN:
               cursor_x += PAGE_CURSOR_SPEED;
+
+              if(cursor_x > pos_x + MOUSE_RIGHT_MARGIN-32)
+                pos_x = cursor_x - MOUSE_RIGHT_MARGIN+32;
+
               break;
             case SDLK_F9:
               le_show_grid = !le_show_grid;
@@ -604,17 +617,16 @@ void le_checkevents()
     {
       le_change(cursor_x, cursor_y, le_current_tile);
       if(button_pressed(&le_test_level_bt,x,y))
-        {
-          level_save(&le_current_level,"test",le_level);
-          gameloop("test",le_level, ST_GL_TEST);
-          menu_set_current(&leveleditor_menu);
-          arrays_init();
-          level_load_gfx(&le_current_level);
-          loadshared();
-          le_activate_bad_guys();
-        }
+        le_testlevel();
     }
 
+if(!show_menu)  /* scroll screen when mouse is in a margin */
+ {
+ if(event.motion.x > MOUSE_RIGHT_MARGIN && event.motion.x < screen->w-32)
+  pos_x += MOUSE_POS_SPEED;
+ else if(event.motion.x > 0 && event.motion.x < MOUSE_LEFT_MARGIN)
+  pos_x -= MOUSE_POS_SPEED;
+ }
 }
 
 void le_change(float x, float y, unsigned char c)
@@ -632,6 +644,17 @@ void le_change(float x, float y, unsigned char c)
     if (bad_guys[i].base.alive)
       if(xx == bad_guys[i].base.x/32 && yy == bad_guys[i].base.y/32)
         bad_guys[i].base.alive = NO;
+}
+
+void le_testlevel()
+{
+level_save(&le_current_level,"test",le_level);
+gameloop("test",le_level, ST_GL_TEST);
+menu_set_current(&leveleditor_menu);
+arrays_init();
+level_load_gfx(&le_current_level);
+loadshared();
+le_activate_bad_guys();
 }
 
 void le_showhelp()
