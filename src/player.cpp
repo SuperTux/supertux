@@ -596,7 +596,8 @@ Player::collision(void* p_c_object, int c_object)
           !safe_timer.started() &&
           pbad_c->mode != BadGuy::HELD)
         {
-          if (pbad_c->mode == BadGuy::FLAT && input.fire == DOWN)
+          if (pbad_c->mode == BadGuy::FLAT && input.fire == DOWN
+               && !holding_something)
             {
               holding_something = true;
               pbad_c->mode = BadGuy::HELD;

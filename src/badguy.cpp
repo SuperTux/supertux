@@ -827,10 +827,11 @@ BadGuy::set_sprite(Sprite* left, Sprite* right)
 void
 BadGuy::bump()
 {
-  if(kind == BAD_BSOD || kind == BAD_LAPTOP || kind == BAD_MRBOMB
-      || kind == BAD_BOUNCINGSNOWBALL) {
-    kill_me();
-  }
+  // these can't be bumped
+  if(kind == BAD_FLAME || kind == BAD_BOMB || kind == BAD_FISH)
+    return;
+  
+  kill_me();
 }
 
 void
@@ -941,10 +942,16 @@ BadGuy::kill_me()
     return;
 
   dying = DYING_FALLING;
-  if(kind == BAD_LAPTOP)
+  if(kind == BAD_LAPTOP) {
     set_sprite(img_laptop_falling_left, img_laptop_falling_right);
-  else if(kind == BAD_BSOD)
+    if(mode == HELD) {
+      mode = NORMAL;
+      Player& tux = *World::current()->get_tux();  
+      tux.holding_something = false;
+    }
+  } else if(kind == BAD_BSOD) {
     set_sprite(img_bsod_falling_left, img_bsod_falling_right);
+  }
   
   physic.enable_gravity(true);
   physic.set_velocity_y(0);
@@ -988,10 +995,16 @@ BadGuy::collision(void *p_c_object, int c_object, CollisionType type)
       pbad_c = (BadGuy*) p_c_object;
 
       /* If we're a kicked mriceblock, kill any badguys we hit */
-      if(kind == BAD_LAPTOP && mode == KICK &&
-            pbad_c->kind != BAD_FLAME && pbad_c->kind != BAD_BOMB)
+      if(kind == BAD_LAPTOP && mode == KICK)
         {
           pbad_c->kill_me();
+        }
+
+      // a held mriceblock gets kills the enemy too but falls to ground then
+      else if(kind == BAD_LAPTOP && mode == HELD)
+        {
+          pbad_c->kill_me();
+          kill_me();
         }
 
       /* Kill badguys that run into exploding bomb */

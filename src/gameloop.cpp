@@ -415,7 +415,7 @@ GameSession::check_end_conditions()
   /* End of level? */
   int endpos = (World::current()->get_level()->width-10) * 32;
   Tile* endtile = collision_goal(tux->base);
-  printf("EndTile: %p.\n", endtile);
+  //printf("EndTile: %p.\n", endtile);
   // fallback in case the other endpositions don't trigger
   if (tux->base.x >= endpos || (endtile && endtile->data >= 1)
       || (end_sequence && !endsequence_timer.check()))
