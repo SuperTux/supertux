@@ -474,5 +474,18 @@
 (tile (id 135)
       (solid #f)
       (images "nolok2.png"))
+
+(tile (id 136)
+       (solid #f)
+       (images "run1.png"))
+(tile (id 137)
+       (solid #f)
+       (images "run2.png"))
+(tile (id 138)
+       (solid #f)
+       (images "run3.png"))
+(tile (id 139)
+       (solid #f)
+       (images "run4.png"))
  )
 
