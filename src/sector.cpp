@@ -155,6 +155,7 @@ Sector::parse_old_format(LispReader& reader)
   reader.read_string("background", backgroundimage);
   float bgspeed = .5;
   reader.read_float("bkgd_speed", bgspeed);
+  bgspeed /= 100;
 
   Color bkgd_top, bkgd_bottom;
   int r = 0, g = 0, b = 128;
