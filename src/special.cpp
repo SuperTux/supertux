@@ -190,15 +190,15 @@ Upgrade::action(float elapsed_time)
     World::current()->displaymanager.get_viewport().get_translation().x;
   float scroll_y =                                                        
     World::current()->displaymanager.get_viewport().get_translation().y;
-  if(base.x < scroll_x - OFFSCREEN_DISTANCE
-      || base.y < scroll_y - OFFSCREEN_DISTANCE) {
-      remove_me();
-      return;
-  }
-  if(base.y > scroll_y + screen->h) {
+  
+  if(base.x < scroll_x - X_OFFSCREEN_DISTANCE ||
+      base.x > scroll_x + screen->w + X_OFFSCREEN_DISTANCE ||
+      base.y < scroll_y - Y_OFFSCREEN_DISTANCE ||
+      base.y > scroll_y + screen->h + Y_OFFSCREEN_DISTANCE)
+    {
     remove_me();
     return;
-  }
+    }
 
   /* Move around? */
   physic.apply(elapsed_time, base.x, base.y);

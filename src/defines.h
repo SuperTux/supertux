@@ -92,7 +92,8 @@ enum DyingType {
 
 /* Size constraints: */
 
-#define OFFSCREEN_DISTANCE 256
+#define X_OFFSCREEN_DISTANCE 280
+#define Y_OFFSCREEN_DISTANCE 240
 
 #define LEVEL_WIDTH 375
 

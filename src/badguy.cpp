@@ -755,9 +755,11 @@ BadGuy::action(float elapsed_time)
 {
   float scroll_x = World::current()->displaymanager
     .get_viewport().get_translation().x;
+  float scroll_y = World::current()->displaymanager
+    .get_viewport().get_translation().y;
   
   // Remove if it's far off the screen:
-  if (base.x < scroll_x - OFFSCREEN_DISTANCE)
+  if (base.x < scroll_x - X_OFFSCREEN_DISTANCE)
     {
       remove_me();                                                
       return;
@@ -781,7 +783,10 @@ BadGuy::action(float elapsed_time)
       }
 
   // Once it's on screen, it's activated!
-  if (base.x <= scroll_x + screen->w + OFFSCREEN_DISTANCE)
+  if (base.x > scroll_x - X_OFFSCREEN_DISTANCE &&
+       base.x < scroll_x + screen->w + X_OFFSCREEN_DISTANCE &&
+       base.y > scroll_y - Y_OFFSCREEN_DISTANCE &&
+       base.y < scroll_y + screen->h + Y_OFFSCREEN_DISTANCE)
     seen = true;
 
   if(!seen)
