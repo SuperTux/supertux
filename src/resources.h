@@ -36,6 +36,7 @@ extern Surface* img_super_bkgd;
 extern Surface* img_red_glow;
 
 extern MusicRef herring_song;
+extern MusicRef level_end_song;
 
 extern SpriteManager* sprite_manager;
 extern MusicManager* music_manager;

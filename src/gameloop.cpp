@@ -428,6 +428,7 @@ GameSession::check_end_conditions()
       end_sequence = true;
       last_x_pos = -1;
       music_manager->halt_music();
+      music_manager->play_music(level_end_song);
       endsequence_timer.start(5000); // 5 seconds until we finish the map
     }
   else if (!end_sequence && tux->is_dead())

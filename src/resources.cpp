@@ -37,6 +37,7 @@ Surface* img_cloud[2][4];
 Surface* img_red_glow;
 
 MusicRef herring_song;
+MusicRef level_end_song;
 
 SpriteManager* sprite_manager = 0;
 MusicManager* music_manager = 0;
@@ -197,6 +198,7 @@ void loadshared()
 
   /* Herring song */
   herring_song = music_manager->load_music(datadir + "/music/SALCON.MOD");
+  level_end_song = music_manager->load_music(datadir + "/music/tux-leveldone.mod");
 }
 
 
