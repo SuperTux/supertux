@@ -66,8 +66,9 @@ GameSession::GameSession(const std::string& subset_, int levelnb_, int mode)
 void
 GameSession::restart_level()
 {
-  game_pause = false;
-  exit_status = NONE;
+  game_pause   = false;
+  exit_status  = NONE;
+  end_sequenze = false;
 
   fps_timer.init(true);
   frame_timer.init(true);
@@ -176,8 +177,6 @@ GameSession::on_escape_press()
 void
 GameSession::process_events()
 {
-  Player& tux = *world->get_tux();
-
   SDL_Event event;
   while (SDL_PollEvent(&event))
     {
@@ -187,8 +186,18 @@ GameSession::process_events()
           Menu::current()->event(event);
           st_pause_ticks_start();
         }
+      else if (end_sequenze)
+        {
+          Player& tux = *world->get_tux();
+          tux.input.left  = UP;
+          tux.input.right = DOWN; 
+          tux.input.up    = UP; 
+          tux.input.down  = UP; 
+        }
       else
         {
+          Player& tux = *world->get_tux();
+  
           st_pause_ticks_stop();
 
           switch(event.type)
@@ -340,10 +349,14 @@ GameSession::check_end_conditions()
   Player* tux = world->get_tux();
 
   /* End of level? */
-  if (tux->base.x >= World::current()->get_level()->endpos
-      && World::current()->get_level()->endpos != 0)
+  if (tux->base.x >= World::current()->get_level()->endpos + 320)
     {
       exit_status = LEVEL_FINISHED;
+    }
+  else if (tux->base.x >= World::current()->get_level()->endpos)
+    {
+      end_sequenze = true;
+      halt_music();
     }
   else
     {
@@ -405,6 +418,37 @@ GameSession::draw()
   updatescreen();
 }
 
+void
+GameSession::process_menu()
+{
+  Menu* menu = Menu::current();
+  if(menu)
+    {
+      menu->action();
+
+      if(menu == game_menu)
+        {
+          switch (game_menu->check())
+            {
+            case 2:
+              st_pause_ticks_stop();
+              break;
+            case 5:
+              st_pause_ticks_stop();
+              exit_status = LEVEL_ABORT;
+              break;
+            }
+        }
+      else if(menu == options_menu)
+        {
+          process_options_menu();
+        }
+      else if(menu == load_game_menu )
+        {
+          process_load_game_menu();
+        }
+    }
+}
 
 GameSession::ExitStatus
 GameSession::run()
@@ -453,43 +497,22 @@ GameSession::run()
       tux->input.old_fire = tux->input.fire;
 
       process_events();
-      
-      Menu* menu = Menu::current();
-      if(menu)
-        {
-          menu->action();
+      process_menu();
 
-          if(menu == game_menu)
-            {
-              switch (game_menu->check())
-                {
-                case 2:
-                  st_pause_ticks_stop();
-                  break;
-                case 5:
-                  st_pause_ticks_stop();
-                  exit_status = LEVEL_ABORT;
-                  break;
-                }
-            }
-          else if(menu == options_menu)
-            {
-              process_options_menu();
-            }
-          else if(menu == load_game_menu )
-            {
-              process_load_game_menu();
-            }
-        }
-      
-      // Handle actions:
+      // Update the world state and all objects in the world
+      // Do that with a constante time-delta so that the game will run
+      // determistic and not different on different machines
       if(!game_pause && !Menu::current())
         {
           frame_ratio *= game_speed;
           frame_ratio += overlap;
           while (frame_ratio > 0)
             {
-              action(1.0f);
+              // Update the world
+              if (end_sequenze)
+                action(.5f);
+              else
+                action(1.0f);
               frame_ratio -= 1.0f;
             }
           overlap = frame_ratio;
@@ -500,17 +523,6 @@ GameSession::run()
           SDL_Delay(50);
         }
 
-      if(debug_mode && debug_fps)
-        SDL_Delay(60);
-
-      /*Draw the current scene to the screen */
-      /*If the machine running the game is too slow
-        skip the drawing of the frame (so the calculations are more precise and
-        the FPS aren't affected).*/
-      /*if( ! fps_fps < 50.0 )
-        game_draw();
-        else
-        jump = true;*/ /*FIXME: Implement this tweak right.*/
       draw();
 
       /* Time stops in pause mode */
@@ -521,17 +533,16 @@ GameSession::run()
 
       /* Set the time of the last update and the time of the current update */
       last_update_time = update_time;
-      update_time = st_get_ticks();
+      update_time      = st_get_ticks();
 
       /* Pause till next frame, if the machine running the game is too fast: */
       /* FIXME: Works great for in OpenGl mode, where the CPU doesn't have to do that much. But
          the results in SDL mode aren't perfect (thought the 100 FPS are reached), even on an AMD2500+. */
-      if(last_update_time >= update_time - 12) {
-        SDL_Delay(10);
-        update_time = st_get_ticks();
-      }
-      /*if((update_time - last_update_time) < 10)
-        SDL_Delay((11 - (update_time - last_update_time))/2);*/
+      if(last_update_time >= update_time - 12) 
+        {
+          SDL_Delay(10);
+          update_time = st_get_ticks();
+        }
 
       /* Handle time: */
       if (time_left.check())
@@ -545,7 +556,9 @@ GameSession::run()
             }
         }
       else if(tux->dying == DYING_NOT)
-        tux->kill(KILL);
+        {
+          tux->kill(KILL);
+        }
 
       /* Calculate frames per second */
       if(show_fps)

@@ -55,6 +55,11 @@ class GameSession
   unsigned int update_time;
   int pause_menu_frame;
   int debug_fps;
+
+  /** If true the end_sequence will be played, user input will be
+      ignored while doing that */
+  bool end_sequenze;
+
   bool game_pause;
 
   // FIXME: Hack for restarting the level
@@ -97,6 +102,7 @@ class GameSession
 
  private:
   void on_escape_press();
+  void process_menu();
 };
 
 std::string slotinfo(int slot);
