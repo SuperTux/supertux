@@ -20,6 +20,7 @@
 
 #include <sstream>
 #include <stdexcept>
+#include <iostream>
 
 #include "lexer.h"
 
@@ -36,7 +37,7 @@ Lexer::Lexer(std::istream& newstream)
   try {
     // trigger a refill of the buffer
     c = 0;
-    bufend = c + 1;        
+    bufend = 0;
     nextChar();
   } catch(EOFException& e) {
   }
@@ -53,15 +54,16 @@ Lexer::nextChar()
   if(c >= bufend) {
     if(eof)
       throw EOFException();
-    std::streamsize n = stream.readsome(buffer, BUFFER_SIZE);
-
+    stream.read(buffer, BUFFER_SIZE);
+    size_t bytes_read = stream.gcount();
+    
     c = buffer;
-    bufend = buffer + n;
+    bufend = buffer + bytes_read;
 
     // the following is a hack that appends an additional ' ' at the end of
     // the file to avoid problems when parsing symbols/elements and a sudden
     // EOF. This is faster than relying on unget and IMO also nicer.
-    if(n == 0 || stream.eof()) {
+    if(bytes_read == 0 || stream.eof()) {
       eof = true;
       *bufend = ' ';
       ++bufend;
@@ -85,7 +87,7 @@ Lexer::getNextToken()
     
     switch(*c) {
       case ';': // comment
-        while(!stream.eof()) {
+        while(true) {
           nextChar();
           if(*c == '\n') {
             ++linenumber;
@@ -103,12 +105,6 @@ Lexer::getNextToken()
         int startline = linenumber;
         try {
           while(1) {
-            if(stream.eof()) {
-              std::stringstream msg;
-              msg << "Parse Error in line " << startline << ": "
-                << "Couldn't find end of string.";
-              throw std::runtime_error(msg.str());
-            }
             nextChar();
             if(*c == '"')
               break;
