@@ -26,7 +26,7 @@
 
 using namespace std;
 
-texture_type img_bkgd, img_bkgd_tile[2][4], img_solid[4], img_brick[2];
+texture_type img_bkgd;
 
 st_subset::st_subset()
 {
@@ -544,6 +544,7 @@ Level::cleanup()
 void 
 Level::load_gfx()
 {
+  /*
   level_load_image(&img_brick[0],theme,"brick0.png", IGNORE_ALPHA);
   level_load_image(&img_brick[1],theme,"brick1.png", IGNORE_ALPHA);
 
@@ -561,7 +562,7 @@ Level::load_gfx()
   level_load_image(&img_bkgd_tile[1][1],theme,"bkgd-11.png", USE_ALPHA);
   level_load_image(&img_bkgd_tile[1][2],theme,"bkgd-12.png", USE_ALPHA);
   level_load_image(&img_bkgd_tile[1][3],theme,"bkgd-13.png", USE_ALPHA);
-
+  */
   if(!bkgd_image.empty())
     {
       char fname[1024];
@@ -580,19 +581,6 @@ Level::load_gfx()
 /* Free graphics data for this level: */
 void level_free_gfx(void)
 {
-  int i;
-
-  for (i = 0; i < 2; i++)
-    {
-      texture_free(&img_brick[i]);
-    }
-  for (i = 0; i < 4; i++)
-    {
-      texture_free(&img_solid[i]);
-      texture_free(&img_bkgd_tile[0][i]);
-      texture_free(&img_bkgd_tile[1][i]);
-    }
-
   texture_free(&img_bkgd);
 }
 

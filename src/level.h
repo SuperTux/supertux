@@ -52,11 +52,6 @@ enum TileMapType {
 
 extern texture_type img_bkgd;
 
-/*
-extern texture_type img_bkgd_tile[2][4];
-extern texture_type img_solid[4];
-extern texture_type img_brick[2];
-*/
 class Level 
 {
  public:
