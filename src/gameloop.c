@@ -274,13 +274,14 @@ void game_event(void)
           if(show_menu)
             menuaction = MN_HIT;
           break;
+
+#endif
         default:
           break;
 
-        }
-#endif
+        }  /* switch */
 
-    }
+    } /* while */
 
 }
 
