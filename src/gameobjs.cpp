@@ -119,10 +119,10 @@ FloatingScore::FloatingScore(DisplayManager& displaymanager,
     const Vector& pos, int score)
   : position(pos)
 {
-  displaymanager.add_drawable(this, LAYER_OBJECTS+1);
+  displaymanager.add_drawable(this, LAYER_OBJECTS);
   timer.start(1000);
   snprintf(str, 10, "%d", score);
-  position.x += - strlen(str) * 8;
+  position.x -= strlen(str) * 8;
 }
 
 void

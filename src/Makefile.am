@@ -82,6 +82,8 @@ game_object.h \
 display_manager.h \
 display_manager.cpp \
 background.h \
-background.cpp
+background.cpp \
+tilemap.h \
+tilemap.cpp
 
 # EOF #

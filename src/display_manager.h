@@ -13,8 +13,9 @@ enum {
   LAYER_BACKGROUNDTILES = -100,
   LAYER_TILES = 0,
   LAYER_OBJECTS = 100,
-  LAYER_FOREGROUND0 = 200,
-  LAYER_FOREGROUND1 = 300
+  LAYER_FOREGROUNDTILES = 200,
+  LAYER_FOREGROUND0 = 300,
+  LAYER_FOREGROUND1 = 400
 };
 
 /** This class holds a list of all things that should be drawn to screen

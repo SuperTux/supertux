@@ -36,6 +36,7 @@
 #include "viewport.h"
 #include "display_manager.h"
 #include "background.h"
+#include "tilemap.h"
 
 Surface* img_distro[4];
 
@@ -63,6 +64,9 @@ World::World(const std::string& filename)
     bg->set_gradient(level->bkgd_top, level->bkgd_bottom);
   }
   gameobjects.push_back(bg);
+
+  // add tilemap
+  gameobjects.push_back(new TileMap(displaymanager, get_level()));
   activate_objects();
   get_level()->load_song();
 
@@ -93,6 +97,8 @@ World::World(const std::string& subset, int level_nr)
     bg->set_gradient(level->bkgd_top, level->bkgd_bottom);
   }
   gameobjects.push_back(bg);
+  // add tilemap
+  gameobjects.push_back(new TileMap(displaymanager, get_level()));  
   get_level()->load_song();
 
   apply_bonuses();
@@ -198,39 +204,10 @@ World::activate_particle_systems()
 void
 World::draw()
 {
-  int y,x;
-
-  /* Draw the real background */
-#if 0
-  drawgradient(level->bkgd_top, level->bkgd_bottom);
-  if(level->img_bkgd)
-      level->draw_bg();
-#endif
-    
-  /* Draw particle systems (background) */
+  /* Draw objects */
   displaymanager.get_viewport().set_translation(Vector(scroll_x, scroll_y));
   displaymanager.draw();
   
-  /* Draw background: */
-  for (y = 0; y < VISIBLE_TILES_Y && y < level->height; ++y)
-    {
-      for (x = 0; x < VISIBLE_TILES_X; ++x)
-        {
-          Tile::draw(32*x - fmodf(scroll_x, 32), y * 32 - fmodf(scroll_y, 32),
-                     level->bg_tiles[(int)y + (int)(scroll_y / 32)][(int)x + (int)(scroll_x / 32)]);
-        }
-    }
-
-  /* Draw interactive tiles: */
-  for (y = 0; y < VISIBLE_TILES_Y && y < level->height; ++y)
-    {
-      for (x = 0; x < VISIBLE_TILES_X; ++x)
-        {
-          Tile::draw(32*x - fmodf(scroll_x, 32), y * 32 - fmodf(scroll_y, 32),
-                     level->ia_tiles[(int)y + (int)(scroll_y / 32)][(int)x + (int)(scroll_x / 32)]);
-        }
-    }
-
   for (BadGuys::iterator i = bad_guys.begin(); i != bad_guys.end(); ++i)
     (*i)->draw();
 
@@ -244,16 +221,6 @@ World::draw()
 
   for (unsigned int i = 0; i < upgrades.size(); ++i)
     upgrades[i].draw();
-
-  /* Draw foreground: */
-  for (y = 0; y < VISIBLE_TILES_Y && y < level->height; ++y)
-    {
-      for (x = 0; x < VISIBLE_TILES_X; ++x)
-        {
-          Tile::draw(32*x - fmodf(scroll_x, 32), y * 32 - fmodf(scroll_y, 32),
-                     level->fg_tiles[(int)y + (int)(scroll_y / 32)][(int)x + (int)(scroll_x / 32)]);
-        }
-    }
 }
 
 void
@@ -275,7 +242,7 @@ World::action(double frame_ratio)
   for (Trampolines::iterator i = trampolines.begin(); i != trampolines.end(); ++i)
      (*i)->action(frame_ratio);
 
-  /* update particle systems */
+  /* update objects */
   for(std::vector<_GameObject*>::iterator i = gameobjects.begin();
       i != gameobjects.end(); ++i)
     (*i)->action(frame_ratio);
