@@ -18,9 +18,11 @@ if $(ARGV[0])
   }
 }
 
-if $(JAMVERSION) < 2.4
+# we can't use boostjam at the moment as it still has the bug from jam 2.4 where
+# settings variables on header targets doesn't work
+if $(JAMVERSION) <= 2.4
 {
-    EXIT "Error: This buildsystem requires jam version 2.4 or later." ;
+    EXIT "Error: This buildsystem requires jam version 2.5 or later." ;
 }
 # don't confuse users for now...
 #if $(JAMVERSION) = 2.4 & $(JAM_DEBUG)
