@@ -198,7 +198,7 @@ World::draw()
 
   /* (Bouncy bricks): */
   for (unsigned int i = 0; i < bouncy_bricks.size(); ++i)
-    bouncy_bricks[i].draw();
+    bouncy_bricks[i]->draw();
 
   for (BadGuys::iterator i = bad_guys.begin(); i != bad_guys.end(); ++i)
     (*i)->draw();
@@ -209,16 +209,16 @@ World::draw()
     bullets[i].draw();
 
   for (unsigned int i = 0; i < floating_scores.size(); ++i)
-    floating_scores[i].draw();
+    floating_scores[i]->draw();
 
   for (unsigned int i = 0; i < upgrades.size(); ++i)
     upgrades[i].draw();
 
   for (unsigned int i = 0; i < bouncy_distros.size(); ++i)
-    bouncy_distros[i].draw();
+    bouncy_distros[i]->draw();
 
   for (unsigned int i = 0; i < broken_bricks.size(); ++i)
-    broken_bricks[i].draw();
+    broken_bricks[i]->draw();
 
   /* Draw foreground: */
   for (y = 0; y < 15; ++y)
@@ -244,11 +244,11 @@ World::action(double frame_ratio)
 
   /* Handle bouncy distros: */
   for (unsigned int i = 0; i < bouncy_distros.size(); i++)
-    bouncy_distros[i].action(frame_ratio);
+    bouncy_distros[i]->action(frame_ratio);
 
   /* Handle broken bricks: */
   for (unsigned int i = 0; i < broken_bricks.size(); i++)
-    broken_bricks[i].action(frame_ratio);
+    broken_bricks[i]->action(frame_ratio);
 
   /* Handle distro counting: */
   if (counting_distros)
@@ -261,10 +261,10 @@ World::action(double frame_ratio)
 
   // Handle all kinds of game objects
   for (unsigned int i = 0; i < bouncy_bricks.size(); i++)
-    bouncy_bricks[i].action(frame_ratio);
+    bouncy_bricks[i]->action(frame_ratio);
   
   for (unsigned int i = 0; i < floating_scores.size(); i++)
-    floating_scores[i].action(frame_ratio);
+    floating_scores[i]->action(frame_ratio);
 
   for (unsigned int i = 0; i < bullets.size(); ++i)
     bullets[i].action(frame_ratio);
@@ -387,16 +387,16 @@ World::add_score(float x, float y, int s)
 {
   player_status.score += s;
 
-  FloatingScore new_floating_score;
-  new_floating_score.init(x,y,s);
+  FloatingScore* new_floating_score = new FloatingScore();
+  new_floating_score->init(x,y,s);
   floating_scores.push_back(new_floating_score);
 }
 
 void
 World::add_bouncy_distro(float x, float y)
 {
-  BouncyDistro new_bouncy_distro;
-  new_bouncy_distro.init(x,y);
+  BouncyDistro* new_bouncy_distro = new BouncyDistro();
+  new_bouncy_distro->init(x,y);
   bouncy_distros.push_back(new_bouncy_distro);
 }
 
@@ -413,16 +413,16 @@ World::add_broken_brick(Tile* tile, float x, float y)
 void
 World::add_broken_brick_piece(Tile* tile, float x, float y, float xm, float ym)
 {
-  BrokenBrick new_broken_brick;
-  new_broken_brick.init(tile, x, y, xm, ym);
+  BrokenBrick* new_broken_brick = new BrokenBrick();
+  new_broken_brick->init(tile, x, y, xm, ym);
   broken_bricks.push_back(new_broken_brick);
 }
 
 void
 World::add_bouncy_brick(float x, float y)
 {
-  BouncyBrick new_bouncy_brick;
-  new_bouncy_brick.init(x,y);
+  BouncyBrick* new_bouncy_brick = new BouncyBrick();
+  new_bouncy_brick->init(x,y);
   bouncy_bricks.push_back(new_bouncy_brick);
 }
 

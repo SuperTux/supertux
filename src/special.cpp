@@ -350,12 +350,6 @@ Upgrade::collision(void* p_c_object, int c_object, CollisionType type)
               pplayer->base.height = 64;
               pplayer->base.y -= 32;
             }
-	  if(collision_object_map(pplayer->base))
-            {
-              pplayer->base.height = 32;
-              pplayer->base.y += 32;
-              pplayer->duck = true;
-            }
         }
       else if (kind == UPGRADE_HERRING)
         {

@@ -50,10 +50,10 @@ private:
 
   static World* current_;
 public:
-  std::vector<BouncyDistro> bouncy_distros;
-  std::vector<BrokenBrick>  broken_bricks;
-  std::vector<BouncyBrick>  bouncy_bricks;
-  std::vector<FloatingScore> floating_scores;
+  std::vector<BouncyDistro*> bouncy_distros;
+  std::vector<BrokenBrick*>  broken_bricks;
+  std::vector<BouncyBrick*>  bouncy_bricks;
+  std::vector<FloatingScore*> floating_scores;
 
   std::vector<Upgrade> upgrades;
   std::vector<Bullet> bullets;

@@ -40,7 +40,14 @@ BouncyDistro::action(double frame_ratio)
   base.ym += 0.1 * frame_ratio;
 
   if (base.ym >= 0)
-    World::current()->bouncy_distros.erase(static_cast<std::vector<BouncyDistro>::iterator>(this));
+    {
+      std::vector<BouncyDistro*>::iterator i
+        = std::find(World::current()->bouncy_distros.begin(), 
+                    World::current()->bouncy_distros.end(), 
+                    this);
+      if (i != World::current()->bouncy_distros.end())
+        World::current()->bouncy_distros.erase(i);
+    }
 }
 
 void
@@ -71,7 +78,9 @@ BrokenBrick::action(double frame_ratio)
   base.y = base.y + base.ym * frame_ratio;
 
   if (!timer.check())
-    World::current()->broken_bricks.erase(static_cast<std::vector<BrokenBrick>::iterator>(this));
+    {
+      World::current()->broken_bricks.erase(static_cast<std::vector<BrokenBrick>::iterator>(this));
+    }
 }
 
 void
