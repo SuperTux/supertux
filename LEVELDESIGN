@@ -41,6 +41,9 @@ prefix-ed by a ';', describe what everything is about.
 ; Naming sectors is usefull to for swapping
 ; "main" sectors are the ones that the player will start in
     (name "main")
+; Setup an end sequence animation (blank for nothing).
+; Currently supported is fireworks that displays fireworks on exit.
+    (end-sequence-animation "fireworks")
 ; Level's gravity (better let it 10)
     (gravity 10)
 ; We can have one or more playerspawn that can be used by doors.
