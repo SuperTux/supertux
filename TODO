@@ -8,20 +8,27 @@ These are mostly bugs:
 
 Todo
 ----
-- change lispreader to throw exceptions instead of simply assert() on
-   syntax error
-- tux sometimes makes short jumps in the endsequence, mostly when
-  going through the goal with a small jump, might be old_up related
-- fadein/out for intro/extro would be nice
-- the can_jump flag should be based on a time instead of the 2 tiles check.
-  Since the 2 tiles flag won't help when you're jumping over a hole. Better use
-  a timer that is started when up is pressed, when you then land and the timer
-  is below a certain time, you can do the jump.
-- when bumping a special with 2 blocks at once, it won't change direction
+L: low priority
+
+[L] change lispreader to throw exceptions instead of simply assert() on
+    syntax error
+[L] tux sometimes makes short jumps in the endsequence, mostly when
+    going through the goal with a small jump, might be old_up related
+[L] fadein/out for intro/extro would be nice
+[L] when bumping a special with 2 blocks at once, it won't change direction
 
 - leveleditor lacks enemies support (will be fixed soon by Tobias)
-- sometimes you die after being in pause modus and unpausing - still true?
 
+Stuff for past milestone1:
+--------------------------
+Note that this list is far from complete, but lists some bugs that we don't want
+to touch before milestone1 at the moment.
+- You shouldn't be able to stand on invisible blocks, before you bumped them
+- bombs should explode directly when hit by another bomb or a mr.iceblock
+- we only have a global counter for multiple coin blocks. This should be handled
+  per block.
+- We should reduced the width of tux collision rectangle so that he falls easier
+  between 1 tile wide holes.
 
 Fixed
 -----
