@@ -29,6 +29,12 @@
  (sprite (name "bsod-squished-right")
          (images "shared/bsod-squished-right.png"))
 
+ (sprite (name "snowball-squished-left")
+         (images "shared/bsod-squished-left.png"))
+
+ (sprite (name "snowball-squished-right")
+         (images "shared/bsod-squished-right.png"))
+
  (sprite (name "bsod-falling-left")
          (images "shared/bsod-falling-left.png"))
 
@@ -59,11 +65,11 @@
   (sprite (name "laptop-falling-right")
           (images "shared/laptop-falling-right.png"))
 
-  (sprite (name "img-jumpy-left-up")
+  (sprite (name "jumpy-left-up")
           (images "shared/jumpy-left-up-0.png"))
-  (sprite (name "img-jumpy-left-down")
+  (sprite (name "jumpy-left-down")
           (images "shared/jumpy-left-down-0.png"))
-  (sprite (name "img-jumpy-middle-up")
+  (sprite (name "jumpy-left-middle")
           (images "shared/jumpy-left-middle-0.png"))
 
   (sprite (name "mrbomb-left")
@@ -102,7 +108,7 @@
           (images "shared/fish-left-0.png"
                   "shared/fish-left-1.png"))
 
-  (sprite (name "fish")
+  (sprite (name "fish-down")
           (images "shared/fish-down-0.png"))
 
   (sprite (name "bouncingsnowball-left")
@@ -152,11 +158,6 @@
                   "shared/snowball-right-2.png"
                   "shared/snowball-right-1.png"))
 
-  (sprite (name "bsod-squished-left")
-          (images "shared/bsod-squished-left.png"))
-
-  (sprite (name "bsod-squished-right")
-          (images "shared/bsod-squished-right.png"))
   )
 
 ;; EOF ;;
