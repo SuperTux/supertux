@@ -332,7 +332,7 @@ int title(void)
             case 6:
               display_credits();
               break;
-            case 8:
+            case 7:
               quit = 1;
               break;
             }
