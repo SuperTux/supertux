@@ -142,6 +142,7 @@ void saveconfig (void)
       fprintf(config, "\t(keyboard-left  %d)\n", keymap.left);
       fprintf(config, "\t(keyboard-right %d)\n", keymap.right);
       fprintf(config, "\t(keyboard-fire  %d)\n", keymap.fire);
+      fprintf(config, "\t(keyboard-activate  %d)\n", keymap.activate);
 
       fprintf(config, ")\n");
     }
