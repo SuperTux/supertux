@@ -19,6 +19,7 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 #include <algorithm>
+#include <iostream>
 #include "world.h"
 #include "tile.h"
 #include "gameloop.h"
@@ -232,14 +233,26 @@ Trampoline::init(float x, float y)
   base.x = x;
   base.y = y;
 
+  base.width = 32;
   base.height = 32;
 }
 
 void
 Trampoline::action(double frame_ratio)
 {
-  (void) frame_ratio;
   physic.apply(frame_ratio, base.x, base.y);
+
+
+  if (issolid(base.x + base.width/2, base.y + base.height))
+  {
+    base.y = int((base.y + base.height)/32) * 32 - base.height;
+
+    physic.enable_gravity(false);
+    physic.set_velocity_y(0.0f);
+  }
+  else
+    physic.enable_gravity(true);
+
   // TODO:
   // If HELD
   //   - move with tux
