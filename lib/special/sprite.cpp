@@ -55,7 +55,10 @@ Sprite::~Sprite()
     {
     for(std::vector<Surface*>::iterator i_sur = i_act->second->surfaces.begin();
         i_sur != i_act->second->surfaces.end(); ++i_sur)
-      delete *i_sur;
+      {
+      if(!i_act->second->mirror)
+        delete *i_sur;
+      }
     delete i_act->second;
     }
 }
@@ -106,7 +109,7 @@ Sprite::parse_action(LispReader& lispreader)
     {
     std::vector<std::string> images;
     if(!lispreader.read_string_vector("images", images))
-      Termination::abort("Sprite contains no images: ", action->name.c_str());
+      Termination::abort("Sprite contains no images: ", action->name);
 
     for(std::vector<std::string>::size_type i = 0; i < images.size(); i++)
       {
