@@ -16,4 +16,6 @@ These are mostly bugs:
 - It's not possible to duck while jumping - fixed
 - Intro/Extro textspeed is CPU dependent - fixed
 - fadein/out for intro/extro would be nice
+- when you interrupted the intro (by going to credits for example) and go back
+  to it, tux doesn't jump anymore
 
