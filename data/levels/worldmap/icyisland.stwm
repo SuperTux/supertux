@@ -46,7 +46,7 @@
 
 
   (levels
-    (level (name "")
+    (level (name "world1/level1.stl")
            (x 4)
            (y 6))
     (level (name "world1/level2.stl")
