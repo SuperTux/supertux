@@ -91,6 +91,7 @@
          (images "shared/jumpy-left-middle-0.png"))
 
  (sprite (name "mrbomb-left")
+         (fps 15.0)
          (x-hotspot 0)
          (y-hotspot 15)
          (images "shared/mrbomb-left-0.png")
@@ -99,6 +100,7 @@
          (images "shared/mrbomb-left-3.png"))
 
  (sprite (name "mrbomb-right")
+         (fps 15.0)
          (x-hotspot 0)
          (y-hotspot 15)
          (images "shared/mrbomb-right-0.png")
@@ -108,14 +110,18 @@
  
 
  (sprite (name "mrbomb-ticking-left")
+         (fps 15.0)
          (x-hotspot 0)
          (y-hotspot 10)
-         (images "shared/mrbombx-left-0.png"))
+         (images "shared/mrbombx-left-0.png"
+                 "shared/mrbombx-left-1.png"))
 
  (sprite (name "mrbomb-ticking-right")
+         (fps 15.0)
          (x-hotspot 0)
          (y-hotspot 10)
-         (images "shared/mrbombx-right-0.png"))
+         (images "shared/mrbombx-right-0.png"
+                 "shared/mrbombx-right-1.png"))
 
  (sprite (name "mrbomb-explosion")
          (x-hotspot 32)
@@ -212,6 +218,16 @@
                  "shared/snowball-right-2.png"
                  "shared/snowball-right-1.png"))
 
+
+ (sprite (name "largetux-stand-left")
+         (x-hotspot 5)
+         (y-hotspot 1)
+         (images "shared/largetux-stand-left.png"))
+
+ (sprite (name "largetux-stand-right")
+         (x-hotspot 5)
+         (y-hotspot 1)
+         (images "shared/largetux-stand-right.png"))
 
  (sprite (name "largetux-walk-left")
          (x-hotspot 6)
