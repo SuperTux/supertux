@@ -120,6 +120,7 @@ extern Menu* contrib_menu;
 extern Menu* contrib_subset_menu;
 extern Menu* main_menu;
 extern Menu* game_menu;
+extern Menu* worldmap_menu;
 extern Menu* options_menu;
 extern Menu* options_controls_menu;
 extern Menu* highscore_menu;

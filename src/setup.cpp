@@ -361,6 +361,7 @@ void st_menu(void)
   highscore_menu = new Menu();
   contrib_menu   = new Menu();
   contrib_subset_menu   = new Menu();
+  worldmap_menu  = new Menu();
 
   main_menu->set_pos(screen->w/2, 335);
   main_menu->additem(MN_GOTO, "Start Game",0,load_game_menu);
@@ -422,6 +423,13 @@ void st_menu(void)
   game_menu->additem(MN_GOTO,"Options",0,options_menu);
   game_menu->additem(MN_HL,"",0,0);
   game_menu->additem(MN_ACTION,"Quit Game",0,0);
+
+  worldmap_menu->additem(MN_LABEL,"Worldmap Menu",0,0);
+  worldmap_menu->additem(MN_HL,"",0,0);
+  worldmap_menu->additem(MN_ACTION,"Return To Game",0,0);
+  worldmap_menu->additem(MN_GOTO,"Options",0,options_menu);
+  worldmap_menu->additem(MN_HL,"",0,0);
+  worldmap_menu->additem(MN_ACTION,"Quit Game",0,0);
 
   highscore_menu->additem(MN_TEXTFIELD,"Enter your name:",0,0);
 }

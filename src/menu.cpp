@@ -38,6 +38,7 @@ texture_type checkbox, checkbox_checked, back, arrow_left, arrow_right;
 
 Menu* main_menu      = 0;
 Menu* game_menu      = 0;
+Menu* worldmap_menu  = 0;
 Menu* options_menu   = 0;
 Menu* options_controls_menu   = 0;
 Menu* highscore_menu = 0;

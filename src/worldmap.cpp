@@ -283,72 +283,82 @@ WorldMap::load_map()
 void
 WorldMap::get_input()
 {
-  SDL_Event event;
-
   enter_level = false;
   input_direction = NONE;
-
+   
+  SDL_Event event;
   while (SDL_PollEvent(&event))
     {
-      switch(event.type)
+      if(show_menu)
         {
-        case SDL_QUIT:
-          quit = true;
-          break;
-          
-        case SDL_KEYDOWN:
-          switch(event.key.keysym.sym)
+          current_menu->event(event);
+        }
+      else
+        {
+          switch(event.type)
             {
-            case SDLK_ESCAPE:
+            case SDL_QUIT:
               quit = true;
               break;
-            case SDLK_LCTRL:
-            case SDLK_RETURN:
-              enter_level = true;
+          
+            case SDL_KEYDOWN:
+              switch(event.key.keysym.sym)
+                {
+                case SDLK_ESCAPE:
+                  Menu::set_current(worldmap_menu);
+                  show_menu = !show_menu;
+                  break;
+                case SDLK_LCTRL:
+                case SDLK_RETURN:
+                  enter_level = true;
+                  break;
+                default:
+                  break;
+                }
               break;
+          
+            case SDL_JOYAXISMOTION:
+              switch(event.jaxis.axis)
+                {
+                case JOY_X:
+                  if (event.jaxis.value < -JOYSTICK_DEAD_ZONE)
+                    input_direction = WEST;
+                  else if (event.jaxis.value > JOYSTICK_DEAD_ZONE)
+                    input_direction = EAST;
+                  break;
+                case JOY_Y:
+                  if (event.jaxis.value > JOYSTICK_DEAD_ZONE)
+                    input_direction = SOUTH;
+                  else if (event.jaxis.value < -JOYSTICK_DEAD_ZONE)
+                    input_direction = NORTH;
+                  break;
+                }
+              break;
+
+            case SDL_JOYBUTTONDOWN:
+              if (event.jbutton.button == JOY_B)
+                enter_level = true;
+              break;
+
             default:
               break;
             }
-          break;
-          
-        case SDL_JOYAXISMOTION:
-          switch(event.jaxis.axis)
-            {
-            case JOY_X:
-              if (event.jaxis.value < -JOYSTICK_DEAD_ZONE)
-                input_direction = WEST;
-              else if (event.jaxis.value > JOYSTICK_DEAD_ZONE)
-                input_direction = EAST;
-              break;
-            case JOY_Y:
-              if (event.jaxis.value > JOYSTICK_DEAD_ZONE)
-                input_direction = SOUTH;
-              else if (event.jaxis.value < -JOYSTICK_DEAD_ZONE)
-                input_direction = NORTH;
-              break;
-            }
-          break;
-
-        case SDL_JOYBUTTONDOWN:
-          if (event.jbutton.button == JOY_B)
-            enter_level = true;
-          break;
-
-        default:
-          break;
         }
     }
 
-  Uint8 *keystate = SDL_GetKeyState(NULL);
+  if (!show_menu)
+    {
+      Uint8 *keystate = SDL_GetKeyState(NULL);
   
-  if (keystate[SDLK_LEFT])
-    input_direction = WEST;
-  else if (keystate[SDLK_RIGHT])
-    input_direction = EAST;
-  else if (keystate[SDLK_UP])
-    input_direction = NORTH;
-  else if (keystate[SDLK_DOWN])
-    input_direction = SOUTH;
+      if (keystate[SDLK_LEFT])
+        input_direction = WEST;
+      else if (keystate[SDLK_RIGHT])
+        input_direction = EAST;
+      else if (keystate[SDLK_UP])
+        input_direction = NORTH;
+      else if (keystate[SDLK_DOWN])
+        input_direction = SOUTH;
+    }
 }
 
 Point
@@ -434,6 +444,22 @@ WorldMap::update()
       tux->set_direction(input_direction);
       tux->update(0.33f);
     }
+  
+  if(show_menu)
+    {
+      if(current_menu == worldmap_menu)
+        {
+          switch (worldmap_menu->check())
+            {
+            case 2: // Return to game
+              menu_reset();
+              break;
+            case 5: // Quit Worldmap
+              quit = true;
+              break;
+            }
+        }
+    }
 }
 
 Tile*
@@ -462,7 +488,6 @@ WorldMap::draw()
     }
 
   tux->draw();
-  flipscreen();
 }
 
 void
@@ -477,6 +502,10 @@ WorldMap::display()
     draw();
     get_input();
     update();
+
+    menu_process_current();
+    flipscreen();
+
     SDL_Delay(20);
   }
 
