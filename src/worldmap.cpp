@@ -201,6 +201,8 @@ WorldMap::WorldMap()
   height = 15;
 
   texture_load(&level_sprite, datadir +  "/images/worldmap/levelmarker.png", USE_ALPHA);
+  texture_load(&leveldot_green, datadir +  "/images/worldmap/leveldot_green.png", USE_ALPHA);
+  texture_load(&leveldot_red, datadir +  "/images/worldmap/leveldot_red.png", USE_ALPHA);
 
   input_direction = NONE;
   enter_level = false;
@@ -456,7 +458,7 @@ WorldMap::draw()
   
   for(Levels::iterator i = levels.begin(); i != levels.end(); ++i)
     {
-      texture_draw(&level_sprite, i->x*32, i->y*32);
+      texture_draw(&leveldot_green, i->x*32, i->y*32);
     }
 
   tux->draw();

@@ -68,7 +68,7 @@
       )
 
   (objects
-    (fish  (x 509) (y 281))
+    (fish  (x 509) (y 181))
     (flyingsnowball  (x 941) (y 222))
     (spiky  (x 656) (y 306))
     (snowball  (x 259) (y 303))

@@ -114,6 +114,9 @@ private:
   Tux* tux;
 
   texture_type level_sprite;
+  texture_type leveldot_green;
+  texture_type leveldot_red;
+
   bool quit;
 
   std::string name;
