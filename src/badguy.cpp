@@ -236,7 +236,7 @@ BadGuy::activate(Direction activation_dir)
   } else if (kind == BAD_MRICEBLOCK) {
     physic.set_velocity(dirsign * BADGUY_WALK_SPEED, 0);
   } else if(kind == BAD_JUMPY) {
-    set_action("left-up", "left-up");
+    set_action("left-up", "right-up");
   } else if(kind == BAD_BOMB) {
     set_action("ticking-left", "ticking-right");
     // hack so that the bomb doesn't hurt until it expldes...           
@@ -257,7 +257,6 @@ BadGuy::activate(Direction activation_dir)
     set_action("normal", "normal");
     physic.enable_gravity(true);
   } else if(kind == BAD_FLYINGSNOWBALL) {
-    set_action("normal", "normal");
     physic.enable_gravity(false);
   } else if(kind == BAD_SPIKY) {
     physic.set_velocity(dirsign * BADGUY_WALK_SPEED, 0);
@@ -473,7 +472,7 @@ BadGuy::action_jumpy(double elapsed_time)
 {
   if(frozen_timer.check())
     {
-    set_action("left-iced", "left-iced");
+    set_action("left-iced", "right-iced");
     return;
     }
 
@@ -481,11 +480,11 @@ BadGuy::action_jumpy(double elapsed_time)
 
   // XXX: These tests *should* use location from ground, not velocity
   if (fabsf(vy) > 5.6f)
-    set_action("left-down", "left-down");
+    set_action("left-down", "right-down");
   else if (fabsf(vy) > 5.3f)
-    set_action("left-middle", "left-middle");
+    set_action("left-middle", "right-middle");
   else
-    set_action("left-up", "left-up");
+    set_action("left-up", "right-up");
 
   Player& tux = *Sector::current()->player;
 
@@ -727,6 +726,12 @@ BadGuy::action_flyingsnowball(double elapsed_time)
   physic.apply(elapsed_time, base.x, base.y, Sector::current()->gravity);
   if(dying == DYING_NOT || dying == DYING_SQUISHED)
     collision_swept_object_map(&old_base, &base);
+
+  // set direction based on tux
+  if(Sector::current()->player->base.x > base.x)
+    dir = RIGHT;
+  else
+    dir = LEFT;
 
   // Handle dying timer:
   if (dying == DYING_SQUISHED && !timer.check())
@@ -972,8 +977,6 @@ BadGuy::set_action(std::string left, std::string right)
   action_left = left;
   action_right = right;
 
-std::cerr << "set_action(" << left << ", " << right << ") of " << badguykind_to_string(kind) << std::endl;
-
 #if 0
   if (1)
     {
@@ -1112,7 +1115,7 @@ BadGuy::squish(Player* player)
     return;
   } else if(kind == BAD_FLYINGSNOWBALL) {
     squish_me(player);
-    set_action("squished", "squished");
+    set_action("squished-left", "squished-right");
     return;
   } else if(kind == BAD_SNOWBALL) {
     squish_me(player);
@@ -1186,6 +1189,7 @@ BadGuy::explode(bool right_way)
     {
     badguy->timer.start(0);
     badguy->mode = BOMB_TICKING;
+    badguy->dir = dir;
     }
 
   remove_me();

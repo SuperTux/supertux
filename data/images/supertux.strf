@@ -799,15 +799,15 @@
          (y-offset 3)
          (mirror-action "left"))
 
- (action (name "falling-right")
-         (x-offset 2)
-         (y-offset 3)
-         (images "shared/mriceblock-flat-right.png"))
-
  (action (name "falling-left")
          (x-offset 2)
          (y-offset 3)
          (images "shared/mriceblock-flat-left.png"))
+
+ (action (name "falling-right")
+         (x-offset 2)
+         (y-offset 3)
+         (mirror-action "falling-left"))
  
  (action (name "flat-left")
          (x-offset 2)
@@ -853,20 +853,40 @@
          (y-offset 8)
          (images "shared/jumpy-left-up-0.png"))
        (action
+         (name "right-up")
+         (x-offset 7)
+         (y-offset 8)
+         (mirror-action "left-up"))
+       (action
          (name "left-down")
          (x-offset 7)
          (y-offset 8)
          (images "shared/jumpy-left-down-0.png"))
+       (action
+         (name "right-down")
+         (x-offset 7)
+         (y-offset 8)
+         (mirror-action "left-down"))
        (action
          (name "left-middle")
          (x-offset 7)
          (y-offset 8)
          (images "shared/jumpy-left-middle-0.png"))
        (action
+         (name "right-middle")
+         (x-offset 7)
+         (y-offset 8)
+         (mirror-action "left-middle"))
+       (action
          (name "left-iced")
          (x-offset 7)
          (y-offset 8)
-         (images "shared/jumpy-iced-left-up-0.png")))
+         (images "shared/jumpy-iced-left-up-0.png"))
+       (action
+         (name "right-iced")
+         (x-offset 7)
+         (y-offset 8)
+         (mirror-action "left-iced")))
 
      (sprite (name "mrbomb")
        (action
@@ -1003,17 +1023,27 @@
 
  (sprite (name "flyingsnowball")
        (action
-         (name "normal")
+         (name "left")
          (x-offset 4)
          (y-offset 3)
          (images "shared/flyingsnowball-left-0.png"
                  "shared/flyingsnowball-left-1.png"))
+       (action
+         (name "right")
+         (x-offset 4)
+         (y-offset 3)
+         (mirror-action "left"))
 
        (action
-         (name "squished")
+         (name "squished-left")
          (x-offset 4)
          (y-offset -12)
-         (images "shared/flyingsnowball-squished-left.png")))
+         (images "shared/flyingsnowball-squished-left.png"))
+       (action
+         (name "squished-right")
+         (x-offset 4)
+         (y-offset -12)
+         (mirror-action "squished-left")))
 
  (sprite (name "spiky")
        (action
