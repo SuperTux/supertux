@@ -2268,6 +2268,10 @@ int gameloop(void)
   menumenu = MENU_GAME;
   initgame();
   loadshared();
+  
+  tux_size = SMALL;
+  tux_got_coffee = NO;
+
   loadlevel();
   loadlevelgfx();
   loadlevelsong();
@@ -2525,8 +2529,6 @@ void loadlevel(void)
   tux_y = 240;
   tux_ym = 0;
   tux_dir = RIGHT;
-  tux_size = SMALL;
-  tux_got_coffee = NO;
   tux_invincible_time = 0;
   tux_duck = NO;
 
