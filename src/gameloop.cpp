@@ -407,6 +407,18 @@ GameSession::process_events()
                           {
                           player_status.lives++;
                           last_keys.clear();
+                          // "lifeup" activates pause cause of the 'p'
+                          // so work around to ignore it
+                            if(game_pause)
+                              {
+                                game_pause = false;
+                                Ticks::pause_stop();
+                              }
+                            else
+                              {
+                                game_pause = true;
+                                Ticks::pause_start();
+                              }
                           }
                         if(compare_last(last_keys, "lifedown"))
                           {
