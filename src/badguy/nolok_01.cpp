@@ -12,7 +12,6 @@
 static const float WALKSPEED = 90;
 
 //TODO: Create sprite, limit max number of snowballs
-//      Stop actions when pause button is hit (probably a general problem of timers)
 Nolok_01::Nolok_01(const lisp::Lisp& reader)
 {
   reader.get("x", start_position.x);
@@ -111,6 +110,21 @@ Nolok_01::collision_solid(GameObject& , const CollisionHit& hit)
   }
 
   return CONTINUE;
+}
+
+//TODO: Hitpoint count incorrect when combining squishing and shooting
+void
+Nolok_01::kill_fall()
+{
+  if (hitpoints <= 0) {
+   SoundManager::get()->play_sound(IDToSound(SND_FALL), this,
+         Sector::current()->player->get_pos());
+   physic.set_velocity_y(0);
+   physic.enable_gravity(true);
+   set_state(STATE_FALLING);
+   Sector::current()->add_object(new Door((int)get_pos().x+32, 512, "sector1", "main2"));
+  }
+  else {hitpoints--;}
 }
 
 IMPLEMENT_FACTORY(Nolok_01, "nolok_01")
