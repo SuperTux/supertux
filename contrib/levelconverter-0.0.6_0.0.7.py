@@ -97,6 +97,19 @@ for i in content[10:]:
         sys.stdout.write(" ")
     print ""
 print "   )"
+
+print "  (objects"
+for y in range(0, 15):
+    for x in range(0, int(width)):
+        val = content[10 + y][x]
+        if val == '0':
+            print "  (bsod %d %d)" % (x*32, y*32)
+        elif val == '1':
+            print "  (laptop %d %d)" % (x*32, y*32)
+        elif val == '2':
+            print "  (money %d %d)" % (x*32, y*32)
+print "   )"
+
 print ")"
 
 # EOF #
