@@ -12,7 +12,7 @@ class SecretAreaTrigger : public TriggerBase, public Serializable
 {
 public:
   SecretAreaTrigger(const lisp::Lisp& reader);
-  SecretAreaTrigger(const Vector& pos);
+  SecretAreaTrigger(const Rectangle& area);
   ~SecretAreaTrigger();
  
   void write(lisp::Writer& writer);

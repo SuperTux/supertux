@@ -12,16 +12,18 @@ SecretAreaTrigger::SecretAreaTrigger(const lisp::Lisp& reader)
 {
   reader.get("x", bbox.p1.x);
   reader.get("y", bbox.p1.y);
-  bbox.set_size(32, 32);
+  float w = 32, h = 32;
+  reader.get("width", w);
+  reader.get("height", h);
+  bbox.set_size(w, h);
 
   reader.get("message", message);
   message_displayed = false;
 }
 
-SecretAreaTrigger::SecretAreaTrigger(const Vector& pos)
+SecretAreaTrigger::SecretAreaTrigger(const Rectangle& area)
 {
-  bbox.set_pos(pos);
-  bbox.set_size(32, 32);
+  bbox = area;
   message = "You found a secret area!";
   message_displayed = false;
 }

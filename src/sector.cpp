@@ -121,6 +121,8 @@ Sector::parse_object(const std::string& name, const lisp::Lisp& reader)
     return new Door(reader);
   } else if(name == "secretarea") {
     return new SecretAreaTrigger(reader);
+  } else if(name == "sequencetrigger") {
+    return new SequenceTrigger(reader);
   } else if(name == "platform") {
     return new Platform(reader);
   } else if(name == "jumpy" || name == "money") {
