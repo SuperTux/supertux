@@ -40,6 +40,7 @@ class BadGuy;
 #define TUX_SAFE_TIME 1250
 #define TUX_INVINCIBLE_TIME 10000
 #define TUX_INVINCIBLE_TIME_WARNING 2000
+#define TUX_FLAPPING_TIME 1000 /* How long Tux can flap his wings to gain additional jump height */
 #define TIME_WARNING 20000     /* When to alert player they're low on time! */
 
 /* One-ups... */
@@ -147,9 +148,9 @@ public:
   FallMode fall_mode;
 
   bool jumping;
-  bool double_jumping;
+  bool flapping;
   bool can_jump;
-  bool can_double_jump;
+  bool can_flap;
   bool enable_hover;
   bool butt_jump;
   int frame_;
@@ -165,6 +166,7 @@ public:
   Timer dying_timer;
   Timer growing_timer;
   Timer idle_timer;
+  Timer flapping_timer;
   Physic physic;
   
 public:

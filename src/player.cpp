@@ -158,9 +158,9 @@ Player::init()
   last_ground_y = 0;
   fall_mode = ON_GROUND;
   jumping = false;
-  double_jumping = false;
+  flapping = false;
   can_jump = true;
-  can_double_jump = false;
+  can_flap = false;
   enable_hover = false;
   butt_jump = false;
   
@@ -177,6 +177,7 @@ Player::init()
   shooting_timer.init(true);
   growing_timer.init(true);
   idle_timer.init(true);
+  flapping_timer.init(true);
 
   physic.reset();
 }
@@ -535,9 +536,9 @@ Player::handle_vertical_input()
 
       --base.y;
       jumping = true;
-      double_jumping = false;
+      flapping = false;
       can_jump = false;
-      can_double_jump = false;
+      can_flap = false;
       if (size == SMALL)
         SoundManager::get()->play_sound(IDToSound(SND_JUMP));
       else
@@ -546,22 +547,25 @@ Player::handle_vertical_input()
   // Let go of jump key
   else if(input.up == UP && jumping && physic.get_velocity_y() > 0)
     {
-      if (!double_jumping && !duck) {can_double_jump = true;}
+      if (!flapping && !duck)
+         {
+            can_flap = true;
+         }
       jumping = false;
       physic.set_velocity_y(0);
     }
    
-   // Double jump
-   if (input.up == DOWN && can_double_jump)
+   // Flapping
+   if (input.up == DOWN && can_flap)
      {
-         can_double_jump = false;
+         if (!flapping_timer.started()) {flapping_timer.start(TUX_FLAPPING_TIME);}
+         if (!flapping_timer.check()) {can_flap = false;}
          jumping = true;
-         double_jumping = true;
-         if (size == SMALL)
-            SoundManager::get()->play_sound(IDToSound(SND_JUMP));
-         else
-            SoundManager::get()->play_sound(IDToSound(SND_BIGJUMP));
-         physic.set_velocity_y(5.2);
+         flapping = true;
+         if (flapping_timer.get_gone() <= TUX_FLAPPING_TIME)
+            {
+               physic.set_velocity_y((float)flapping_timer.get_gone()/450);
+            }
      }
    
    // Hover
