@@ -468,5 +468,11 @@
        (goal #t)
        (data 0)
        (editor-images "endseq.png"))
+(tile (id 134)
+      (solid #f)
+      (images "nolok1.png"))
+(tile (id 135)
+      (solid #f)
+      (images "nolok2.png"))
  )
 
