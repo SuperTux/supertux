@@ -21,6 +21,7 @@
 #include <fstream>
 #include <vector>
 #include <assert.h>
+#include <unistd.h>
 #include "globals.h"
 #include "texture.h"
 #include "screen.h"
