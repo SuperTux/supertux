@@ -974,10 +974,10 @@ Player::check_bounds(Camera* camera)
     bbox.set_pos(Vector(camera->get_translation().x, get_pos().y));
     adjust = true;
   }
-  if(get_pos().x >= camera->get_translation().x + screen->w - bbox.get_width())
+  if(get_pos().x >= camera->get_translation().x + SCREEN_WIDTH - bbox.get_width())
   {
     bbox.set_pos(Vector(
-          camera->get_translation().x + screen->w - bbox.get_width(),
+          camera->get_translation().x + SCREEN_WIDTH - bbox.get_width(),
           get_pos().y));
     adjust = true;
   }

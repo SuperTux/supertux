@@ -72,7 +72,7 @@ namespace SuperTux
           uint32_t drawing_effect = NONE_EFFECT);
 
       /// Draws text on screen center (feed Vector.x with a 0).
-      /// This is the same as draw_text() with a screen->w/2 position and
+      /// This is the same as draw_text() with a SCREEN_WIDTH/2 position and
       /// alignment set to LEFT_ALLIGN
       void draw_center_text(const Font* font, const std::string& text,
                            const Vector& position, int layer,

@@ -298,8 +298,8 @@ Menu::Menu()
   delete_character = 0;
   mn_input_char = '\0';
 
-  pos_x        = screen->w/2;
-  pos_y        = screen->h/2;
+  pos_x        = SCREEN_WIDTH/2;
+  pos_y        = SCREEN_HEIGHT/2;
   arrange_left = 0;
   active_item  = 0;
   effect.init(false);
@@ -526,7 +526,7 @@ Menu::draw_item(DrawingContext& context,
     case MN_DEACTIVE:
       {
         context.draw_text(deactive_font, pitem.text,
-                          Vector(screen->w/2, y_pos - int(deactive_font->get_height()/2)),
+                          Vector(SCREEN_WIDTH/2, y_pos - int(deactive_font->get_height()/2)),
                           CENTER_ALLIGN, LAYER_GUI);
         break;
       }
@@ -546,7 +546,7 @@ Menu::draw_item(DrawingContext& context,
     case MN_LABEL:
       {
         context.draw_text(label_font, pitem.text,
-                          Vector(screen->w/2, y_pos - int(label_font->get_height()/2)),
+                          Vector(SCREEN_WIDTH/2, y_pos - int(label_font->get_height()/2)),
                           CENTER_ALLIGN, LAYER_GUI);
         break;
       }
@@ -556,7 +556,7 @@ Menu::draw_item(DrawingContext& context,
     case MN_CONTROLFIELD_JS:
       {
         int width = text_width + input_width + 5;
-        int text_pos = screen->w/2 - width/2;
+        int text_pos = SCREEN_WIDTH/2 - width/2;
         int input_pos = text_pos + text_width + 10;
 
         context.draw_filled_rect(
@@ -621,17 +621,17 @@ Menu::draw_item(DrawingContext& context,
           Color(0,0,0,128), LAYER_GUI - 5);
 
         context.draw_text(text_font, pitem.list[pitem.selected],
-                                 Vector(screen->w/2 + text_pos, y_pos - int(text_font->get_height()/2)),
+                                 Vector(SCREEN_WIDTH/2 + text_pos, y_pos - int(text_font->get_height()/2)),
                                  CENTER_ALLIGN, LAYER_GUI);
         context.draw_text(text_font, pitem.text,
-                                 Vector(screen->w/2  + list_pos_2/2, y_pos - int(text_font->get_height()/2)),
+                                 Vector(SCREEN_WIDTH/2  + list_pos_2/2, y_pos - int(text_font->get_height()/2)),
                                  CENTER_ALLIGN, LAYER_GUI);
         break;
       }
     case MN_BACK:
       {
         context.draw_text(text_font, pitem.text,
-                          Vector(screen->w/2, y_pos - int(text_font->get_height()/2)),
+                          Vector(SCREEN_WIDTH/2, y_pos - int(text_font->get_height()/2)),
                           CENTER_ALLIGN, LAYER_GUI);
         context.draw_surface(back,
                              Vector(x_pos + text_width/2  + 16, y_pos - 8),
@@ -642,7 +642,7 @@ Menu::draw_item(DrawingContext& context,
     case MN_TOGGLE:
       {
         context.draw_text(text_font, pitem.text,
-                          Vector(screen->w/2, y_pos - (text_font->get_height()/2)),
+                          Vector(SCREEN_WIDTH/2, y_pos - (text_font->get_height()/2)),
                           CENTER_ALLIGN, LAYER_GUI);
 
         if(pitem.toggled)
@@ -657,13 +657,13 @@ Menu::draw_item(DrawingContext& context,
       }
     case MN_ACTION:
       context.draw_text(text_font, pitem.text,
-                        Vector(screen->w/2, y_pos - int(text_font->get_height()/2)),
+                        Vector(SCREEN_WIDTH/2, y_pos - int(text_font->get_height()/2)),
                         CENTER_ALLIGN, LAYER_GUI);
       break;
 
     case MN_GOTO:
       context.draw_text(text_font, pitem.text,
-                        Vector(screen->w/2, y_pos - int(text_font->get_height()/2)),
+                        Vector(SCREEN_WIDTH/2, y_pos - int(text_font->get_height()/2)),
                         CENTER_ALLIGN, LAYER_GUI);
       break;
     }
@@ -859,8 +859,8 @@ Menu::event(SDL_Event& event)
 
     case SDL_MOUSEBUTTONDOWN:
       {
-        int x = event.motion.x;
-        int y = event.motion.y;
+        int x = int(event.motion.x * float(SCREEN_WIDTH)/screen->w);
+        int y = int(event.motion.y * float(SCREEN_HEIGHT)/screen->h);
 
         if(x > pos_x - get_width()/2 &&
             x < pos_x + get_width()/2 &&
@@ -874,8 +874,8 @@ Menu::event(SDL_Event& event)
 
     case SDL_MOUSEMOTION:
       {
-        int x = event.motion.x;
-        int y = event.motion.y;
+        int x = int(event.motion.x * float(SCREEN_WIDTH)/screen->w);
+        int y = int(event.motion.y * float(SCREEN_HEIGHT)/screen->h);
 
         if(x > pos_x - get_width()/2 &&
             x < pos_x + get_width()/2 &&

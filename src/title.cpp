@@ -181,7 +181,7 @@ void check_levels_contrib_menu()
     fadeout(256);
     DrawingContext context;
     context.draw_text(white_text, "Loading...",
-        Vector(screen->w/2, screen->h/2), CENTER_ALLIGN, LAYER_FOREGROUND1);
+        Vector(SCREEN_WIDTH/2, SCREEN_HEIGHT/2), CENTER_ALLIGN, LAYER_FOREGROUND1);
     context.do_drawing();
 
     // TODO: slots should be available for contrib maps
@@ -341,18 +341,18 @@ void title(void)
       
       
       if (Menu::current() == main_menu)
-        context.draw_surface(logo, Vector(screen->w/2 - logo->w/2, 30),
+        context.draw_surface(logo, Vector(SCREEN_WIDTH/2 - logo->w/2, 30),
             LAYER_FOREGROUND1+1);
 
       context.draw_text(white_small_text, " SuperTux " PACKAGE_VERSION "\n",
-              Vector(0, screen->h - 50), LEFT_ALLIGN, LAYER_FOREGROUND1);
+              Vector(0, SCREEN_HEIGHT - 50), LEFT_ALLIGN, LAYER_FOREGROUND1);
       context.draw_text(white_small_text,
         _(
 "Copyright (c) 2003 SuperTux Devel Team\n"
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the file COPYING for details.\n"
         ),
-        Vector(0, screen->h - 50 + white_small_text->get_height() + 5),
+        Vector(0, SCREEN_HEIGHT - 50 + white_small_text->get_height() + 5),
         LEFT_ALLIGN, LAYER_FOREGROUND1);
 
       /* Don't draw menu, if quit is true */

@@ -153,12 +153,12 @@ void display_text_file(const std::string& file)
         if(center) {
           context.draw_text(font,
               line.substr(1, line.size()-1),
-              Vector(screen->w/2, screen->h + y - scroll),
+              Vector(SCREEN_WIDTH/2, SCREEN_HEIGHT + y - scroll),
               CENTER_ALLIGN, LAYER_FOREGROUND1);
         } else {
           context.draw_text(font,
               line.substr(1, line.size()-1),
-              Vector(left_border, screen->h + y - scroll),
+              Vector(left_border, SCREEN_HEIGHT + y - scroll),
               LEFT_ALLIGN, LAYER_FOREGROUND1);
         }
           
@@ -167,7 +167,7 @@ void display_text_file(const std::string& file)
 
       context.do_drawing();
 
-      if(screen->h+y-scroll < 0 && 20+screen->h+y-scroll < 0)
+      if(SCREEN_HEIGHT+y-scroll < 0 && 20+SCREEN_HEIGHT+y-scroll < 0)
         done = 1;
 
       Uint32 ticks = SDL_GetTicks();
@@ -239,7 +239,7 @@ InfoBox::draw(DrawingContext& context)
     if(center) {
       context.draw_text(font,
           line.substr(1, line.size()-1),
-          Vector(screen->w/2, y),
+          Vector(SCREEN_WIDTH/2, y),
           CENTER_ALLIGN, LAYER_GUI);
     } else {
       context.draw_text(font,

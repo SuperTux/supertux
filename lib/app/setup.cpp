@@ -488,7 +488,8 @@ void Setup::video_gl(unsigned int screen_w, unsigned int screen_h)
   glViewport(0, 0, screen->w, screen->h);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
-  glOrtho(0, screen->w, screen->h, 0, -1.0, 1.0);
+  glOrtho(0, 800, 600, 0, -1.0, 1.0);
+  //glOrtho(0, 800SCREEN_WIDTH, SCREEN_HEIGHT, 0, -1.0, 1.0);
 
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
@@ -696,6 +697,16 @@ void Setup::parseargs(int argc, char * argv[])
         {
           use_fullscreen = false;
         }
+      else if (strcmp(argv[i], "--geometry") == 0 ||
+               strcmp(argv[i], "-g") == 0)
+        {
+          assert(i+1 < argc);
+          if (sscanf(argv[++i],
+                     "%dx%d", &screen_width, &screen_height) != 2)
+            {
+              puts("Warning: Invalid geometry spec, should be \"WIDTHxHEIGHT\"");
+            }
+        }
       else if (strcmp(argv[i], "--joystick") == 0 || strcmp(argv[i], "-j") == 0)
         {
           assert(i+1 < argc);
@@ -802,6 +813,7 @@ void Setup::parseargs(int argc, char * argv[])
                "  --opengl            If OpenGL support was compiled in, this will tell\n"
                "                      SuperTux to make use of it.\n"
                "  --sdl               Use the SDL software graphical renderer\n"
+               "  --geometry WIDTHxHEIGHT Run SuperTux in the given resolution\n"
                "\n"
                "Sound Options:\n"
                "  --disable-sound     If sound support was compiled in,  this will\n"
@@ -855,7 +867,7 @@ void usage(char * prog, int ret)
 
   /* Display the usage message: */
 
-  fprintf(fi, _("Usage: %s [--fullscreen] [--opengl] [--disable-sound] [--disable-music] [--debug] | [--usage | --help | --version] [--leveleditor] [--worldmap] [--flip-levels] FILENAME\n"),
+  fprintf(fi, _("Usage: %s [--fullscreen] [--opengl] [--geometry WIDTHxHEIGHT] [--disable-sound] [--disable-music] [--debug] | [--usage | --help | --version] [--leveleditor] [--worldmap] [--flip-levels] FILENAME\n"),
           prog);
 
 

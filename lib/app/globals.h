@@ -62,9 +62,14 @@ namespace SuperTux
 
   extern MouseCursor * mouse_cursor;
 
+#define SCREEN_WIDTH  800
+#define SCREEN_HEIGHT 600
+
   extern bool use_gl;
   extern bool use_joystick;
   extern bool use_fullscreen;
+  extern int  screen_width;
+  extern int  screen_height;
   extern bool debug_mode;
   extern bool show_fps;
   extern bool debug_grid;

@@ -52,9 +52,9 @@ Bullet::action(float elapsed_time)
   float scroll_y =
     Sector::current()->camera->get_translation().y;
   if (get_pos().x < scroll_x ||
-      get_pos().x > scroll_x + screen->w ||
+      get_pos().x > scroll_x + SCREEN_WIDTH ||
 //     get_pos().y < scroll_y ||
-      get_pos().y > scroll_y + screen->h ||
+      get_pos().y > scroll_y + SCREEN_HEIGHT ||
       life_count <= 0) {
     remove_me();
     return;

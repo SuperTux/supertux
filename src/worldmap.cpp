@@ -793,11 +793,11 @@ WorldMap::update(float delta)
                   LAYER_BACKGROUND0);
 
               context.draw_text(blue_text, _("GAMEOVER"), 
-                  Vector(screen->w/2, 200), CENTER_ALLIGN, LAYER_FOREGROUND1);
+                  Vector(SCREEN_WIDTH/2, 200), CENTER_ALLIGN, LAYER_FOREGROUND1);
 
               sprintf(str, _("COINS: %d"), player_status.distros);
               context.draw_text(gold_text, str,
-                  Vector(screen->w/2, screen->w - 32), CENTER_ALLIGN,
+                  Vector(SCREEN_WIDTH/2, SCREEN_WIDTH - 32), CENTER_ALLIGN,
                   LAYER_FOREGROUND1);
 
               total_stats.draw_message_info(context, _("Total Statistics"));
@@ -957,29 +957,29 @@ WorldMap::draw_status(DrawingContext& context)
   context.draw_text(gold_text, str, Vector(96, 0), LEFT_ALLIGN, LAYER_FOREGROUND1);
 
   sprintf(str, "%d", player_status.distros);
-  context.draw_text(white_text, _("COINS"), Vector(screen->w/2 - 16*5, 0),
+  context.draw_text(white_text, _("COINS"), Vector(SCREEN_WIDTH/2 - 16*5, 0),
       LEFT_ALLIGN, LAYER_FOREGROUND1);
-  context.draw_text(gold_text, str, Vector(screen->w/2 + (16*5)/2, 0),
+  context.draw_text(gold_text, str, Vector(SCREEN_WIDTH/2 + (16*5)/2, 0),
         LEFT_ALLIGN, LAYER_FOREGROUND1);
 
   if (player_status.lives >= 5)
     {
       sprintf(str, "%dx", player_status.lives);
       context.draw_text(gold_text, str, 
-          Vector(screen->w - gold_text->get_text_width(str) - tux_life->w, 0),
+          Vector(SCREEN_WIDTH - gold_text->get_text_width(str) - tux_life->w, 0),
           LEFT_ALLIGN, LAYER_FOREGROUND1);
-      context.draw_surface(tux_life, Vector(screen->w -
+      context.draw_surface(tux_life, Vector(SCREEN_WIDTH -
             gold_text->get_text_width("9"), 0), LEFT_ALLIGN, LAYER_FOREGROUND1);
     }
   else
     {
       for(int i= 0; i < player_status.lives; ++i)
         context.draw_surface(tux_life,
-            Vector(screen->w - tux_life->w*4 + (tux_life->w*i), 0),
+            Vector(SCREEN_WIDTH - tux_life->w*4 + (tux_life->w*i), 0),
             LAYER_FOREGROUND1);
     }
   context.draw_text(white_text, _("LIVES"),
-      Vector(screen->w - white_text->get_text_width(_("LIVES")) - white_text->get_text_width("   99"), 0),
+      Vector(SCREEN_WIDTH - white_text->get_text_width(_("LIVES")) - white_text->get_text_width("   99"), 0),
       LEFT_ALLIGN, LAYER_FOREGROUND1);
 
   if (!tux->is_moving())
@@ -992,8 +992,8 @@ WorldMap::draw_status(DrawingContext& context)
                 get_level_title(*i);
 
               context.draw_text(white_text, i->title, 
-                  Vector(screen->w/2,
-                         screen->h - white_text->get_height() - 30),
+                  Vector(SCREEN_WIDTH/2,
+                         SCREEN_HEIGHT - white_text->get_height() - 30),
                   CENTER_ALLIGN, LAYER_FOREGROUND1);
 
               i->statistics.draw_worldmap_info(context);
@@ -1007,8 +1007,8 @@ WorldMap::draw_status(DrawingContext& context)
                /* Display an in-map message in the map, if any as been selected */
               if(!i->map_message.empty() && !i->passive_message)
                 context.draw_text(gold_text, i->map_message, 
-                    Vector(screen->w/2,
-                           screen->h - white_text->get_height() - 60),
+                    Vector(SCREEN_WIDTH/2,
+                           SCREEN_HEIGHT - white_text->get_height() - 60),
                     CENTER_ALLIGN, LAYER_FOREGROUND1);
               break;
             }
@@ -1017,7 +1017,7 @@ WorldMap::draw_status(DrawingContext& context)
   /* Display a passive message in the map, if needed */
   if(passive_message_timer.check())
     context.draw_text(gold_text, passive_message, 
-            Vector(screen->w/2, screen->h - white_text->get_height() - 60),
+            Vector(SCREEN_WIDTH/2, SCREEN_HEIGHT - white_text->get_height() - 60),
             CENTER_ALLIGN, LAYER_FOREGROUND1);
 
   context.pop_transform();
@@ -1053,14 +1053,14 @@ WorldMap::display()
     
     Vector tux_pos = tux->get_pos();
     
-    offset.x = -tux_pos.x + screen->w/2;
-    offset.y = -tux_pos.y + screen->h/2;
+    offset.x = -tux_pos.x + SCREEN_WIDTH/2;
+    offset.y = -tux_pos.y + SCREEN_HEIGHT/2;
 
     if (offset.x > 0) offset.x = 0;
     if (offset.y > 0) offset.y = 0;
 
-    if (offset.x < screen->w - width*32) offset.x = screen->w - width*32;
-    if (offset.y < screen->h - height*32) offset.y = screen->h - height*32;
+    if (offset.x < SCREEN_WIDTH - width*32) offset.x = SCREEN_WIDTH - width*32;
+    if (offset.y < SCREEN_HEIGHT - height*32) offset.y = SCREEN_HEIGHT - height*32;
   
     context.push_transform();
     context.set_translation(-offset);

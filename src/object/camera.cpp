@@ -131,8 +131,8 @@ Camera::write(lisp::Writer& writer)
 void
 Camera::reset(const Vector& tuxpos)
 {
-  translation.x = tuxpos.x - screen->w/3 * 2;
-  translation.y = tuxpos.y - screen->h/2;
+  translation.x = tuxpos.x - SCREEN_WIDTH/3 * 2;
+  translation.y = tuxpos.y - SCREEN_HEIGHT/2;
   keep_in_bounds();
 }
 
@@ -155,12 +155,12 @@ Camera::keep_in_bounds()
   float height = sector->solids->get_height() * 32;
 
   // don't scroll before the start or after the level's end
-  if(translation.y > height - screen->h)
-    translation.y = height - screen->h;
+  if(translation.y > height - SCREEN_HEIGHT)
+    translation.y = height - SCREEN_HEIGHT;
   if(translation.y < 0)                                      
     translation.y = 0; 
-  if(translation.x > width - screen->w)
-    translation.x = width - screen->w;
+  if(translation.x > width - SCREEN_WIDTH)
+    translation.x = width - SCREEN_WIDTH;
   if(translation.x < 0)
     translation.x = 0;                                         
 }
@@ -193,7 +193,7 @@ Camera::scroll_normal(float elapsed_time)
       target_y = player->get_bbox().p2.y;
 
     // delta_y is the distance we'd have to travel to directly reach target_y
-    float delta_y = translation.y - (target_y - screen->h/2);
+    float delta_y = translation.y - (target_y - SCREEN_HEIGHT/2);
     // speed is the speed the camera would need to reach target_y in this frame
     float speed_y = delta_y / elapsed_time;
 
@@ -221,19 +221,19 @@ Camera::scroll_normal(float elapsed_time)
       || (player->dir == ::RIGHT && scrollchange == LEFT))
     scrollchange = NONE;
   // when in left 1/3rd of screen scroll left
-  if(player->get_bbox().get_middle().x < translation.x + screen->w/3 - 16
+  if(player->get_bbox().get_middle().x < translation.x + SCREEN_WIDTH/3 - 16
       && do_backscrolling)
     scrollchange = LEFT;
   // scroll right when in right 1/3rd of screen
-  else if(player->get_bbox().get_middle().x > translation.x + screen->w/3*2+16)
+  else if(player->get_bbox().get_middle().x > translation.x + SCREEN_WIDTH/3*2+16)
     scrollchange = RIGHT;
 
   // calculate our scroll target depending on scroll mode
   float target_x;
   if(scrollchange == LEFT)
-    target_x = player->get_bbox().get_middle().x - screen->w/3*2;
+    target_x = player->get_bbox().get_middle().x - SCREEN_WIDTH/3*2;
   else if(scrollchange == RIGHT)
-    target_x = player->get_bbox().get_middle().x - screen->w/3;
+    target_x = player->get_bbox().get_middle().x - SCREEN_WIDTH/3;
   else
     target_x = translation.x;
 

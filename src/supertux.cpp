@@ -51,7 +51,7 @@ int main(int argc, char * argv[])
     Setup::parseargs(argc, argv);
 
     Setup::audio();
-    Setup::video(800, 600);
+    Setup::video(screen_width, screen_height);
     Setup::joystick();
     Setup::general();
     st_menu();

@@ -72,7 +72,7 @@ SoundManager::play_sound(Mix_Chunk* sound, const Vector& pos, const Vector& pos2
   // TODO make sure this formula is good
   float distance 
     = pos2.x- pos.x;
-  int loud = int(255.0/float(screen->w*2) * fabsf(distance));
+  int loud = int(255.0/float(SCREEN_WIDTH*2) * fabsf(distance));
   if(loud > 255)
     return;
 

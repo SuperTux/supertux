@@ -127,7 +127,7 @@ void SuperTux::drawpixel(int x, int y, Uint32 pixel)
         }
     }
 
-  if(!(x < 0 || y < 0 || x > screen->w || y > screen->h))
+  if(!(x < 0 || y < 0 || x > SCREEN_WIDTH || y > SCREEN_HEIGHT))
     putpixel(screen, x, y, pixel);
 
   if ( SDL_MUSTLOCK(screen) )
@@ -287,7 +287,7 @@ void SuperTux::fadeout(int fade_time)
   while(alpha > 0)
     {
     alpha -= alpha_inc;
-    fillrect(0, 0, screen->w, screen->h, 0,0,0, (int)alpha_inc);  // left side
+    fillrect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0,0,0, (int)alpha_inc);  // left side
                                                    
     DrawingContext context; // ugly...
     context.do_drawing();
@@ -295,31 +295,31 @@ void SuperTux::fadeout(int fade_time)
     SDL_Delay(int(LOOP_DELAY));
     }
 
-  fillrect(0, 0, screen->w, screen->h, 0, 0, 0, 255);
+  fillrect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 0, 255);
 
 }
 
 void SuperTux::shrink_fade(const Vector& point, int fade_time)
 {
   float left_inc  = point.x / ((float)fade_time / LOOP_DELAY);
-  float right_inc = (screen->w - point.x) / ((float)fade_time / LOOP_DELAY);
+  float right_inc = (SCREEN_WIDTH - point.x) / ((float)fade_time / LOOP_DELAY);
   float up_inc    = point.y / ((float)fade_time / LOOP_DELAY);
-  float down_inc  = (screen->h - point.y) / ((float)fade_time / LOOP_DELAY);
+  float down_inc  = (SCREEN_HEIGHT - point.y) / ((float)fade_time / LOOP_DELAY);
                                                                                 
   float left_cor = 0, right_cor = 0, up_cor = 0, down_cor = 0;
                                                                                 
-  while(left_cor < point.x && right_cor < screen->w - point.x &&
-      up_cor < point.y && down_cor < screen->h - point.y)
+  while(left_cor < point.x && right_cor < SCREEN_WIDTH - point.x &&
+      up_cor < point.y && down_cor < SCREEN_HEIGHT - point.y)
   {
     left_cor  += left_inc;
     right_cor += right_inc;
     up_cor    += up_inc;
     down_cor  += down_inc;
                                                                                 
-    fillrect(0, 0, left_cor, screen->h, 0,0,0);  // left side
-    fillrect(screen->w - right_cor, 0, right_cor, screen->h, 0,0,0);  // right side
-    fillrect(0, 0, screen->w, up_cor, 0,0,0);  // up side
-    fillrect(0, screen->h - down_cor, screen->w, down_cor+1, 0,0,0);  // down side                                                                                
+    fillrect(0, 0, left_cor, SCREEN_HEIGHT, 0,0,0);  // left side
+    fillrect(SCREEN_WIDTH - right_cor, 0, right_cor, SCREEN_HEIGHT, 0,0,0);  // right side
+    fillrect(0, 0, SCREEN_WIDTH, up_cor, 0,0,0);  // up side
+    fillrect(0, SCREEN_HEIGHT - down_cor, SCREEN_WIDTH, down_cor+1, 0,0,0);  // down side                                                                                
     DrawingContext context; // ugly...
     context.do_drawing();
     

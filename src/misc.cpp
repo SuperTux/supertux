@@ -49,7 +49,7 @@ void process_options_menu(void)
       if(use_gl != options_menu->isToggled(MNID_OPENGL))
         {
           use_gl = !use_gl;
-          Setup::video(screen->w,screen->h);
+          Setup::video(SCREEN_WIDTH,SCREEN_HEIGHT);
         }
 #else
       options_menu->get_item_by_id(MNID_OPENGL).toggled = false;
@@ -59,7 +59,7 @@ void process_options_menu(void)
       if(use_fullscreen != options_menu->isToggled(MNID_FULLSCREEN))
         {
           use_fullscreen = !use_fullscreen;
-          Setup::video(screen->w,screen->h);
+          Setup::video(SCREEN_WIDTH,SCREEN_HEIGHT);
         }
       break;
     case MNID_SOUND:
@@ -93,7 +93,7 @@ void st_menu(void)
   contrib_subset_menu   = new Menu();
   worldmap_menu  = new Menu();
 
-  main_menu->set_pos(screen->w/2, 335);
+  main_menu->set_pos(SCREEN_WIDTH/2, 335);
   main_menu->additem(MN_GOTO, _("Start Game"),0,load_game_menu, MNID_STARTGAME);
   main_menu->additem(MN_GOTO, _("Contrib Levels"),0,contrib_menu, MNID_LEVELS_CONTRIB);
   main_menu->additem(MN_GOTO, _("Options"),0,options_menu, MNID_OPTIONMENU);

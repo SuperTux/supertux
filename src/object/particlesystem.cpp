@@ -32,8 +32,8 @@
 
 ParticleSystem::ParticleSystem()
 {
-    virtual_width = screen->w;
-    virtual_height = screen->h;
+    virtual_width = SCREEN_WIDTH;
+    virtual_height = SCREEN_HEIGHT;
     layer = LAYER_BACKGROUND1;
 }
 
@@ -64,8 +64,8 @@ void ParticleSystem::draw(DrawingContext& context)
         pos.y = fmodf(particle->pos.y - scrolly, virtual_height);
         if(pos.y < 0) pos.y += virtual_height;
 
-        if(pos.x > screen->w) pos.x -= virtual_width;
-        if(pos.y > screen->h) pos.y -= virtual_height;
+        if(pos.x > SCREEN_WIDTH) pos.x -= virtual_width;
+        if(pos.y > SCREEN_HEIGHT) pos.y -= virtual_height;
         context.draw_surface(particle->texture, pos, layer);
     }
 
@@ -78,14 +78,14 @@ SnowParticleSystem::SnowParticleSystem()
     snowimages[1] = new Surface(datadir+"/images/shared/snow1.png", true);
     snowimages[2] = new Surface(datadir+"/images/shared/snow2.png", true);
 
-    virtual_width = screen->w * 2;
+    virtual_width = SCREEN_WIDTH * 2;
 
     // create some random snowflakes
     size_t snowflakecount = size_t(virtual_width/10.0);
     for(size_t i=0; i<snowflakecount; ++i) {
         SnowParticle* particle = new SnowParticle;
         particle->pos.x = rand() % int(virtual_width);
-        particle->pos.y = rand() % screen->h;
+        particle->pos.y = rand() % SCREEN_HEIGHT;
         int snowsize = rand() % 3;
         particle->texture = snowimages[snowsize];
         do {
@@ -123,7 +123,7 @@ void SnowParticleSystem::action(float elapsed_time)
     for(i = particles.begin(); i != particles.end(); ++i) {
         SnowParticle* particle = (SnowParticle*) *i;
         particle->pos.y += particle->speed * elapsed_time;
-        if(particle->pos.y > screen->h) {
+        if(particle->pos.y > SCREEN_HEIGHT) {
             particle->pos.y = fmodf(particle->pos.y , virtual_height);
             particle->pos.x = rand() % int(virtual_width);
         }
@@ -135,14 +135,14 @@ RainParticleSystem::RainParticleSystem()
     rainimages[0] = new Surface(datadir+"/images/shared/rain0.png", true);
     rainimages[1] = new Surface(datadir+"/images/shared/rain1.png", true);
 
-    virtual_width = screen->w * 2;
+    virtual_width = SCREEN_WIDTH * 2;
 
     // create some random raindrops
     size_t raindropcount = size_t(virtual_width/8.0);
     for(size_t i=0; i<raindropcount; ++i) {
         RainParticle* particle = new RainParticle;
         particle->pos.x = rand() % int(virtual_width);
-        particle->pos.y = rand() % screen->h;
+        particle->pos.y = rand() % SCREEN_HEIGHT;
         int rainsize = rand() % 2;
         particle->texture = rainimages[rainsize];
         do {
@@ -181,7 +181,7 @@ void RainParticleSystem::action(float elapsed_time)
         RainParticle* particle = (RainParticle*) *i;
         particle->pos.y += particle->speed * elapsed_time;
         particle->pos.x -= particle->speed * elapsed_time;
-        if(particle->pos.y > screen->h) {
+        if(particle->pos.y > SCREEN_HEIGHT) {
             particle->pos.y = fmodf(particle->pos.y , virtual_height);
             particle->pos.x = rand() % int(virtual_width);
         }

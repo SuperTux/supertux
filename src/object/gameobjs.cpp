@@ -222,8 +222,8 @@ Particles::action(float elapsed_time)
     (*i)->vel.x += accel.x * elapsed_time;
     (*i)->vel.y += accel.y * elapsed_time;
 
-    if((*i)->pos.x < camera.x || (*i)->pos.x > screen->w + camera.x ||
-       (*i)->pos.y < camera.y || (*i)->pos.y > screen->h + camera.y) {
+    if((*i)->pos.x < camera.x || (*i)->pos.x > SCREEN_WIDTH + camera.x ||
+       (*i)->pos.y < camera.y || (*i)->pos.y > SCREEN_HEIGHT + camera.y) {
       delete (*i);
       i = particles.erase(i);
     } else {

@@ -159,20 +159,20 @@ GameSession::levelintro()
     }
   }
 
-//  context.draw_text(gold_text, level->get_name(), Vector(screen->w/2, 160),
+//  context.draw_text(gold_text, level->get_name(), Vector(SCREEN_WIDTH/2, 160),
 //      CENTER_ALLIGN, LAYER_FOREGROUND1);
   context.draw_center_text(gold_text, level->get_name(), Vector(0, 160),
       LAYER_FOREGROUND1);
 
   sprintf(str, "TUX x %d", player_status.lives);
-  context.draw_text(white_text, str, Vector(screen->w/2, 210),
+  context.draw_text(white_text, str, Vector(SCREEN_WIDTH/2, 210),
       CENTER_ALLIGN, LAYER_FOREGROUND1);
 
   if((level->get_author().size()) && (level->get_author() != "SuperTux Team"))
     //TODO make author check case/blank-insensitive
     context.draw_text(white_small_text,
       std::string(_("contributed by ")) + level->get_author(), 
-      Vector(screen->w/2, 350), CENTER_ALLIGN, LAYER_FOREGROUND1);
+      Vector(SCREEN_WIDTH/2, 350), CENTER_ALLIGN, LAYER_FOREGROUND1);
 
 
   if(best_level_statistics != NULL)
@@ -324,7 +324,7 @@ GameSession::process_events()
                           snprintf(buf, sizeof(buf), "P: %4.1f,%4.1f",
                               tux.get_pos().x, tux.get_pos().y);
                           context->draw_text(white_text, buf,
-                              Vector(0, screen->h - white_text->get_height()),
+                              Vector(0, SCREEN_HEIGHT - white_text->get_height()),
                               LEFT_ALLIGN, LAYER_FOREGROUND1);
                           context->do_drawing();
                           SDL_Delay(1000);
@@ -510,7 +510,7 @@ GameSession::handle_cheats()
   if(compare_last(last_keys, "gotoend")) {
     // goes to the end of the level
     tux.move(Vector(
-          (currentsector->solids->get_width()*32) - (screen->w*2), 0));
+          (currentsector->solids->get_width()*32) - (SCREEN_WIDTH*2), 0));
     currentsector->camera->reset(
         Vector(tux.get_pos().x, tux.get_pos().y));
     last_keys.clear();
@@ -598,29 +598,29 @@ GameSession::draw()
 void
 GameSession::draw_pause()
 {
-  int x = screen->h / 20;
+  int x = SCREEN_HEIGHT / 20;
   for(int i = 0; i < x; ++i) {
     context->draw_filled_rect(
-        Vector(i % 2 ? (pause_menu_frame * i)%screen->w :
-          -((pause_menu_frame * i)%screen->w)
-          ,(i*20+pause_menu_frame)%screen->h),
-        Vector(screen->w,10),
+        Vector(i % 2 ? (pause_menu_frame * i)%SCREEN_WIDTH :
+          -((pause_menu_frame * i)%SCREEN_WIDTH)
+          ,(i*20+pause_menu_frame)%SCREEN_HEIGHT),
+        Vector(SCREEN_WIDTH,10),
         Color(20,20,20, rand() % 20 + 1), LAYER_FOREGROUND1+1);
   }
   context->draw_filled_rect(
-      Vector(0,0), Vector(screen->w, screen->h),
+      Vector(0,0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT),
       Color(rand() % 50, rand() % 50, rand() % 50, 128), LAYER_FOREGROUND1);
   context->draw_text(blue_text, _("PAUSE - Press 'P' To Play"),
-      Vector(screen->w/2, 230), CENTER_ALLIGN, LAYER_FOREGROUND1+2);
+      Vector(SCREEN_WIDTH/2, 230), CENTER_ALLIGN, LAYER_FOREGROUND1+2);
 
   const char* str1 = _("Playing: ");
   const char* str2 = level->get_name().c_str();
 
   context->draw_text(blue_text, str1,
-      Vector((screen->w - (blue_text->get_text_width(str1) + white_text->get_text_width(str2)))/2, 340),
+      Vector((SCREEN_WIDTH - (blue_text->get_text_width(str1) + white_text->get_text_width(str2)))/2, 340),
       LEFT_ALLIGN, LAYER_FOREGROUND1+2);
   context->draw_text(white_text, str2,
-      Vector(((screen->w - (blue_text->get_text_width(str1) + white_text->get_text_width(str2)))/2)+blue_text->get_text_width(str1), 340),
+      Vector(((SCREEN_WIDTH - (blue_text->get_text_width(str1) + white_text->get_text_width(str2)))/2)+blue_text->get_text_width(str1), 340),
       LEFT_ALLIGN, LAYER_FOREGROUND1+2);
 }
   
@@ -838,52 +838,52 @@ GameSession::drawstatus(DrawingContext& context)
     }
 
   if(time_left.get_timeleft() < 0) {
-    context.draw_text(white_text, _("TIME's UP"), Vector(screen->w/2, 0),
+    context.draw_text(white_text, _("TIME's UP"), Vector(SCREEN_WIDTH/2, 0),
         CENTER_ALLIGN, LAYER_FOREGROUND1);
   } else if (time_left.get_timeleft() > TIME_WARNING
       || int(global_time * 2.5) % 2) {
     sprintf(str, " %d", int(time_left.get_timeleft()));
     context.draw_text(white_text, _("TIME"),
-        Vector(screen->w/2, 0), CENTER_ALLIGN, LAYER_FOREGROUND1);
+        Vector(SCREEN_WIDTH/2, 0), CENTER_ALLIGN, LAYER_FOREGROUND1);
     context.draw_text(gold_text, str,
-        Vector(screen->w/2 + 4*16, 0), CENTER_ALLIGN, LAYER_FOREGROUND1);
+        Vector(SCREEN_WIDTH/2 + 4*16, 0), CENTER_ALLIGN, LAYER_FOREGROUND1);
   }
 
   sprintf(str, " %d", player_status.distros);
   context.draw_text(white_text, _("COINS"),
-      Vector(screen->w - white_text->get_text_width(_("COINS"))-white_text->get_text_width("   99"), 0),
+      Vector(SCREEN_WIDTH - white_text->get_text_width(_("COINS"))-white_text->get_text_width("   99"), 0),
         LEFT_ALLIGN, LAYER_FOREGROUND1);
   context.draw_text(gold_text, str,
-      Vector(screen->w - gold_text->get_text_width(" 99"), 0),LEFT_ALLIGN, LAYER_FOREGROUND1);
+      Vector(SCREEN_WIDTH - gold_text->get_text_width(" 99"), 0),LEFT_ALLIGN, LAYER_FOREGROUND1);
 
   if (player_status.lives >= 5)
     {
       sprintf(str, "%dx", player_status.lives);
-      float x = screen->w - gold_text->get_text_width(str) - tux_life->w;
+      float x = SCREEN_WIDTH - gold_text->get_text_width(str) - tux_life->w;
       context.draw_text(gold_text, str, Vector(x, 20), LEFT_ALLIGN, LAYER_FOREGROUND1);
-      context.draw_surface(tux_life, Vector(screen->w - 16, 20),
+      context.draw_surface(tux_life, Vector(SCREEN_WIDTH - 16, 20),
           LAYER_FOREGROUND1);
     }
   else
     {
       for(int i= 0; i < player_status.lives; ++i)
         context.draw_surface(tux_life, 
-            Vector(screen->w - tux_life->w*4 +(tux_life->w*i), 20),
+            Vector(SCREEN_WIDTH - tux_life->w*4 +(tux_life->w*i), 20),
             LAYER_FOREGROUND1);
     }
 
   context.draw_text(white_text, _("LIVES"),
-      Vector(screen->w - white_text->get_text_width(_("LIVES")) - white_text->get_text_width("   99"), 20),
+      Vector(SCREEN_WIDTH - white_text->get_text_width(_("LIVES")) - white_text->get_text_width("   99"), 20),
       LEFT_ALLIGN, LAYER_FOREGROUND1);
 
   if(show_fps)
     {
       sprintf(str, "%2.1f", fps_fps);
       context.draw_text(white_text, "FPS", 
-          Vector(screen->w - white_text->get_text_width("FPS     "), 40),
+          Vector(SCREEN_WIDTH - white_text->get_text_width("FPS     "), 40),
           LEFT_ALLIGN, LAYER_FOREGROUND1);
       context.draw_text(gold_text, str,
-          Vector(screen->w-4*16, 40), LEFT_ALLIGN, LAYER_FOREGROUND1);
+          Vector(SCREEN_WIDTH-4*16, 40), LEFT_ALLIGN, LAYER_FOREGROUND1);
     }
 }
 
@@ -901,14 +901,14 @@ GameSession::drawresultscreen()
     }
   }
 
-  context.draw_text(blue_text, _("Result:"), Vector(screen->w/2, 200),
+  context.draw_text(blue_text, _("Result:"), Vector(SCREEN_WIDTH/2, 200),
       CENTER_ALLIGN, LAYER_FOREGROUND1);
 
   sprintf(str, _("SCORE: %d"), global_stats.get_points(SCORE_STAT));
-  context.draw_text(gold_text, str, Vector(screen->w/2, 224), CENTER_ALLIGN, LAYER_FOREGROUND1);
+  context.draw_text(gold_text, str, Vector(SCREEN_WIDTH/2, 224), CENTER_ALLIGN, LAYER_FOREGROUND1);
 
   sprintf(str, _("COINS: %d"), player_status.distros);
-  context.draw_text(gold_text, str, Vector(screen->w/2, 256), CENTER_ALLIGN, LAYER_FOREGROUND1);
+  context.draw_text(gold_text, str, Vector(SCREEN_WIDTH/2, 256), CENTER_ALLIGN, LAYER_FOREGROUND1);
 
   context.do_drawing();
   
@@ -955,7 +955,7 @@ bool process_load_game_menu()
       fadeout(256);
       DrawingContext context;
       context.draw_text(white_text, "Loading...",
-                        Vector(screen->w/2, screen->h/2), CENTER_ALLIGN, LAYER_FOREGROUND1);
+                        Vector(SCREEN_WIDTH/2, SCREEN_HEIGHT/2), CENTER_ALLIGN, LAYER_FOREGROUND1);
       context.do_drawing();
 
       WorldMapNS::WorldMap worldmap;

@@ -152,8 +152,8 @@ TileMap::draw(DrawingContext& context)
   if(start_x < 0) start_x = 0;
   float start_y = roundf(context.get_translation().y);
   if(start_y < 0) start_y = 0;
-  float end_x = std::min(start_x + screen->w, float(width * 32));
-  float end_y = std::min(start_y + screen->h, float(height * 32));
+  float end_x = std::min(start_x + SCREEN_WIDTH, float(width * 32));
+  float end_y = std::min(start_y + SCREEN_HEIGHT, float(height * 32));
   start_x -= int(start_x) % 32;
   start_y -= int(start_y) % 32;  
   int tsx = int(start_x / 32); // tilestartindex x

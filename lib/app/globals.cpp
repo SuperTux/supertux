@@ -33,7 +33,10 @@ std::string datadir;
 std::string package_symbol_name;
 std::string package_name;
 std::string package_version;
-  
+
+int screen_width  = SCREEN_WIDTH;
+int screen_height = SCREEN_HEIGHT;
+
 JoystickKeymap::JoystickKeymap()
 {
   a_button     = 0;

@@ -161,12 +161,12 @@ Statistics::draw_message_info(DrawingContext& context, std::string title)
   if(stats[SCORE_STAT][SPLAYER] == -1)  // not initialized yet
     return;
 
-  context.draw_text(gold_text, title, Vector(screen->w/2, 410), CENTER_ALLIGN, LAYER_GUI);
+  context.draw_text(gold_text, title, Vector(SCREEN_WIDTH/2, 410), CENTER_ALLIGN, LAYER_GUI);
 
   char str[128];
 
   sprintf(str, _(    "Max score:             %d"), stats[SCORE_STAT][SPLAYER]);
-  context.draw_text(white_text, str, Vector(screen->w/2, 450), CENTER_ALLIGN, LAYER_GUI);
+  context.draw_text(white_text, str, Vector(SCREEN_WIDTH/2, 450), CENTER_ALLIGN, LAYER_GUI);
 
   for(int i = 1; i < NUM_STATS; i++)
     {
@@ -184,7 +184,7 @@ Statistics::draw_message_info(DrawingContext& context, std::string title)
               stats[TIME_NEEDED_STAT][STOTAL]);
 
 
-    context.draw_text(white_small_text, str, Vector(screen->w/2, 462 + i*18), CENTER_ALLIGN, LAYER_GUI);
+    context.draw_text(white_small_text, str, Vector(SCREEN_WIDTH/2, 462 + i*18), CENTER_ALLIGN, LAYER_GUI);
     }
 }
 

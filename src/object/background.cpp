@@ -103,7 +103,7 @@ Background::set_gradient(Color top, Color bottom)
   gradient_bottom = bottom;
 
   delete image;
-  image = new Surface(top, bottom, screen->w, screen->h);
+  image = new Surface(top, bottom, SCREEN_WIDTH, SCREEN_HEIGHT);
 }
 
 void
@@ -122,8 +122,8 @@ Background::draw(DrawingContext& context)
     int sy = int(-context.get_translation().y * speed) % image->h - image->h;
     context.push_transform();
     context.set_translation(Vector(0, 0));
-    for(int x = sx; x < screen->w; x += image->w)
-      for(int y = sy; y < screen->h; y += image->h)
+    for(int x = sx; x < SCREEN_WIDTH; x += image->w)
+      for(int y = sy; y < SCREEN_HEIGHT; y += image->h)
         context.draw_surface(image, Vector(x, y), layer);
     context.pop_transform();
   }

@@ -55,7 +55,7 @@ Vector tanslation = -context.get_translation();
 if(state == BT_SHOW_INFO)
   {
   Vector offset;
-  if(pos.x + tanslation.x < 100 && pos.y + tanslation.y > screen->h - 20)
+  if(pos.x + tanslation.x < 100 && pos.y + tanslation.y > SCREEN_HEIGHT - 20)
     offset = Vector(size.x, - 10);
   else if(pos.x + tanslation.x < 100)
     offset = Vector(size.x, 0);
@@ -176,8 +176,8 @@ switch(event.type)
 
     if(mouse_left_button)
       {
-      pos.x += event.motion.xrel;
-      pos.y += event.motion.yrel;
+      pos.x += int(event.motion.xrel * float(SCREEN_WIDTH)/screen->w); 
+      pos.y += int(event.motion.yrel * float(SCREEN_HEIGHT)/screen->h);
       caught_event = true;
       }
     if(event.button.x > pos.x-12 && event.button.x < pos.x+16 + buttons_box.x*buttons_size.x &&

@@ -26,8 +26,8 @@ Fireworks::action(float )
     if(timer.check()) {
         Sector* sector = Sector::current();
         Vector pos = sector->camera->get_translation();
-        pos += Vector(screen->w * ((float) rand() / RAND_MAX),
-                      screen->h/2 * ((float) rand() / RAND_MAX));
+        pos += Vector(SCREEN_WIDTH * ((float) rand() / RAND_MAX),
+                      SCREEN_HEIGHT/2 * ((float) rand() / RAND_MAX));
 
         int red = rand() % 255;
         int green = rand() % red;

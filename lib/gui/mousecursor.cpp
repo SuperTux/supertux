@@ -19,6 +19,7 @@
 
 #include <config.h>
 
+#include "app/globals.h"
 #include "video/drawing_context.h"
 #include "gui/mousecursor.h"
 
@@ -70,6 +71,10 @@ void MouseCursor::draw(DrawingContext& context)
 
   int x,y,w,h;
   Uint8 ispressed = SDL_GetMouseState(&x,&y);
+
+  x = int(x * float(SCREEN_WIDTH)/screen->w);
+  y = int(y * float(SCREEN_HEIGHT)/screen->h);
+
   w = cursor->w / tot_frames;
   h = cursor->h / MC_STATES_NB;
   if(ispressed &SDL_BUTTON(1) || ispressed &SDL_BUTTON(2))

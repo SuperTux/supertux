@@ -48,7 +48,7 @@ DrawingContext::draw_surface(const Surface* surface, const Vector& position,
   request.type = SURFACE;
   request.pos = transform.apply(position);
 
-  if(request.pos.x >= screen->w || request.pos.y >= screen->h
+  if(request.pos.x >= SCREEN_WIDTH || request.pos.y >= SCREEN_HEIGHT
       || request.pos.x + surface->w < 0 || request.pos.y + surface->h < 0)
     return;
 
@@ -127,7 +127,7 @@ void
 DrawingContext::draw_center_text(const Font* font, const std::string& text,
     const Vector& position, int layer, uint32_t drawing_effect)
 {
-  draw_text(font, text, Vector(position.x + screen->w/2, position.y),
+  draw_text(font, text, Vector(position.x + SCREEN_WIDTH/2, position.y),
       CENTER_ALLIGN, layer, drawing_effect);
 }
 
@@ -202,10 +202,10 @@ DrawingContext::draw_gradient(DrawingRequest& request)
       glBegin(GL_QUADS);
       glColor3ub(top.red, top.green, top.blue);
       glVertex2f(0, 0);
-      glVertex2f(screen->w, 0);
+      glVertex2f(SCREEN_WIDTH, 0);
       glColor3ub(bottom.red, bottom.green, bottom.blue);
-      glVertex2f(screen->w, screen->h);
-      glVertex2f(0, screen->h);
+      glVertex2f(SCREEN_WIDTH, SCREEN_HEIGHT);
+      glVertex2f(0, SCREEN_HEIGHT);
       glEnd();
     }
   else
@@ -213,16 +213,16 @@ DrawingContext::draw_gradient(DrawingRequest& request)
 #endif
     if(&top == &bottom)
       {
-      fillrect(0, 0, screen->w, screen->h, top.red, top.green, top.blue);
+      fillrect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, top.red, top.green, top.blue);
       }
     else
       {
-      float redstep = (float(bottom.red)-float(top.red)) / float(screen->h);
-      float greenstep = (float(bottom.green)-float(top.green)) / float(screen->h);
-      float bluestep = (float(bottom.blue) - float(top.blue)) / float(screen->h);
+      float redstep = (float(bottom.red)-float(top.red)) / float(SCREEN_HEIGHT);
+      float greenstep = (float(bottom.green)-float(top.green)) / float(SCREEN_HEIGHT);
+      float bluestep = (float(bottom.blue) - float(top.blue)) / float(SCREEN_HEIGHT);
 
-      for(float y = 0; y < screen->h; y += 2)
-        fillrect(0, (int)y, screen->w, 2,
+      for(float y = 0; y < SCREEN_HEIGHT; y += 2)
+        fillrect(0, (int)y, SCREEN_WIDTH, 2,
             int(float(top.red) + redstep * y),
             int(float(top.green) + greenstep * y),
             int(float(top.blue) + bluestep * y), 255);

@@ -99,7 +99,7 @@ LevelEditor::LevelEditor()
   /* Creating button groups */
   load_buttons_gfx();
 
-  tiles_board = new ButtonGroup(Vector(screen->w - 140, 100),
+  tiles_board = new ButtonGroup(Vector(SCREEN_WIDTH - 140, 100),
             Vector(32,32), Vector(4,8));
 
   tiles_board->add_button(Button(img_rubber_bt, _("Eraser"), SDLKey(SDLK_DELETE)), 0);
@@ -128,7 +128,7 @@ LevelEditor::LevelEditor()
                             SDLKey(SDLK_1+id)), id++);
   }
 
-  tiles_layer = new ButtonGroup(Vector(12, screen->h-64), Vector(80,20), Vector(1,3));
+  tiles_layer = new ButtonGroup(Vector(12, SCREEN_HEIGHT-64), Vector(80,20), Vector(1,3));
   tiles_layer->add_button(Button(img_foreground_bt, _("Edtit foreground tiles"),
                          SDLK_F10), LAYER_FOREGROUNDTILES);
   tiles_layer->add_button(Button(img_interactive_bt, _("Edit interactive tiles"),
@@ -136,7 +136,7 @@ LevelEditor::LevelEditor()
   tiles_layer->add_button(Button(img_background_bt, _("Edit background tiles"),
                          SDLK_F12), LAYER_BACKGROUNDTILES);
 
-  level_options = new ButtonGroup(Vector(screen->w-164, screen->h-36), Vector(32,32), Vector(5,1));
+  level_options = new ButtonGroup(Vector(SCREEN_WIDTH-164, SCREEN_HEIGHT-36), Vector(32,32), Vector(5,1));
   level_options->add_pair_of_buttons(Button(img_next_sector_bt, _("Next sector"), SDLKey(0)), BT_NEXT_SECTOR,
                  Button(img_previous_sector_bt, _("Prevous sector"), SDLKey(0)), BT_PREVIOUS_SECTOR);
   level_options->add_pair_of_buttons(Button(img_next_level_bt, _("Next level"), SDLKey(0)), BT_NEXT_LEVEL,
@@ -469,7 +469,7 @@ void LevelEditor::events()
               scroll.x = 0;
               break;
             case SDLK_END:
-              scroll.x = sector->solids->get_height()*32 - screen->w;
+              scroll.x = sector->solids->get_height()*32 - SCREEN_WIDTH;
               break;
             case SDLK_LEFT:
               scroll.x -= 80;
@@ -532,14 +532,14 @@ void LevelEditor::action()
     float width = sector->solids->get_width() * 32;
     float height = sector->solids->get_height() * 32;
 
-    if(scroll.x < -screen->w/2)
-      scroll.x = -screen->w/2;
-    if(scroll.x > width - screen->w/2)
-      scroll.x = width - screen->w/2;
-    if(scroll.y < -screen->h/2)
-      scroll.y = -screen->h/2;
-    if(scroll.y > height - screen->h/2)
-      scroll.y = height - screen->h/2;
+    if(scroll.x < -SCREEN_WIDTH/2)
+      scroll.x = -SCREEN_WIDTH/2;
+    if(scroll.x > width - SCREEN_WIDTH/2)
+      scroll.x = width - SCREEN_WIDTH/2;
+    if(scroll.y < -SCREEN_HEIGHT/2)
+      scroll.y = -SCREEN_HEIGHT/2;
+    if(scroll.y > height - SCREEN_HEIGHT/2)
+      scroll.y = height - SCREEN_HEIGHT/2;
 
     // set camera translation, since BadGuys like it
     sector->camera->set_scrolling((int)scroll.x, (int)scroll.y);
@@ -561,7 +561,7 @@ void LevelEditor::draw(DrawingContext& context)
   mouse_cursor->draw(context);
 
   // draw a filled background
-  context.draw_filled_rect(Vector(0,0), Vector(screen->w,screen->h), Color(60,60,60), LAYER_BACKGROUND0-1);
+  context.draw_filled_rect(Vector(0,0), Vector(SCREEN_WIDTH,SCREEN_HEIGHT), Color(60,60,60), LAYER_BACKGROUND0-1);
 
   if(level_name_timer.check())
     {
@@ -569,12 +569,12 @@ void LevelEditor::draw(DrawingContext& context)
     if(level_name_timer.get_timeleft() < FADING_TIME)
       context.set_alpha(int(level_name_timer.get_timeleft() * 255 / FADING_TIME));
 
-    context.draw_text(gold_text, level->name, Vector(screen->w/2, 30), CENTER_ALLIGN, LAYER_GUI);
+    context.draw_text(gold_text, level->name, Vector(SCREEN_WIDTH/2, 30), CENTER_ALLIGN, LAYER_GUI);
     if(level_nb != -1)
       {
       char str[128];
       sprintf(str, "%i/%i", level_nb+1, level_subset->get_num_levels());
-      context.draw_text(gold_text, str, Vector(screen->w/2, 50), CENTER_ALLIGN, LAYER_GUI);
+      context.draw_text(gold_text, str, Vector(SCREEN_WIDTH/2, 50), CENTER_ALLIGN, LAYER_GUI);
       }
 
     context.pop_transform();
@@ -657,16 +657,16 @@ void LevelEditor::draw(DrawingContext& context)
 
     if(show_grid)
       {
-      for(int x = 0; x < screen->w / (32*zoom); x++)
+      for(int x = 0; x < SCREEN_WIDTH / (32*zoom); x++)
         {
         int pos = (int)(x*32*zoom) - ((int)scroll.x % 32);
-        context.draw_filled_rect(Vector (pos, 0), Vector(1, screen->h),
+        context.draw_filled_rect(Vector (pos, 0), Vector(1, SCREEN_HEIGHT),
                   Color(225, 225, 225), LAYER_GUI-50);
         }
-      for(int y = 0; y < screen->h / (32*zoom); y++)
+      for(int y = 0; y < SCREEN_HEIGHT / (32*zoom); y++)
         {
         int pos = (int)(y*32*zoom) - ((int)scroll.y % 32);
-        context.draw_filled_rect(Vector (0, pos), Vector(screen->w, 1),
+        context.draw_filled_rect(Vector (0, pos), Vector(SCREEN_WIDTH, 1),
                   Color(225, 225, 225), LAYER_GUI-50);
         }
       }
@@ -704,7 +704,7 @@ void LevelEditor::draw(DrawingContext& context)
     context.pop_transform();
     }
   else
-    context.draw_filled_rect(Vector(0,0), Vector(screen->w,screen->h),Color(0,0,0), LAYER_BACKGROUND0);
+    context.draw_filled_rect(Vector(0,0), Vector(SCREEN_WIDTH,SCREEN_HEIGHT),Color(0,0,0), LAYER_BACKGROUND0);
 
   context.do_drawing();
 }
@@ -995,12 +995,12 @@ void LevelEditor::show_help()
     {
     draw(context);
 
-    context.draw_text(blue_text, _("- Level Editor's Help -"), Vector(screen->w/2, 60), CENTER_ALLIGN, LAYER_GUI);
+    context.draw_text(blue_text, _("- Level Editor's Help -"), Vector(SCREEN_WIDTH/2, 60), CENTER_ALLIGN, LAYER_GUI);
 
     context.draw_text(white_small_text, *text[i], Vector(20, 120), LEFT_ALLIGN, LAYER_GUI);
 
     sprintf(str,_("Press any key to continue - Page %d/%d"), i+1, sizeof(text) / sizeof(text[0]));
-    context.draw_text(gold_text, str, Vector(screen->w/2, screen->h-60), CENTER_ALLIGN, LAYER_GUI);
+    context.draw_text(gold_text, str, Vector(SCREEN_WIDTH/2, SCREEN_HEIGHT-60), CENTER_ALLIGN, LAYER_GUI);
 
     context.do_drawing();
 
