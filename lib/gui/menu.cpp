@@ -325,6 +325,15 @@ void
 Menu::additem(MenuItemKind kind_, const std::string& text_, int toggle_, Menu* menu_, int id, int* int_p)
 {
   additem(MenuItem::create(kind_, text_.c_str(), toggle_, menu_, id, int_p));
+  
+    /* If a new menu is being built, the active item shouldn't be set to something
+       that isnt selectable.  Keep setting the active item to the most recently
+       added item until a selectable entry is found.
+    */
+    if (item[active_item].kind == MN_HL 
+	   || item[active_item].kind == MN_LABEL
+	   || item[active_item].kind == MN_DEACTIVE)
+	   active_item = item.size() - 1;
 }
 
 /* Add an item to a menu */
@@ -355,20 +364,33 @@ Menu::action()
   hit_item = -1;
   if(item.size() != 0)
     {
+      int last_active_item = active_item;
       switch(menuaction)
         {
         case MENU_ACTION_UP:
-          if (active_item > 0)
-            --active_item;
-          else
-            active_item = int(item.size())-1;
+          do {
+	          if (active_item > 0)
+	            --active_item;
+	          else
+	            active_item = int(item.size())-1;
+	       } while ((item[active_item].kind == MN_HL 
+	                || item[active_item].kind == MN_LABEL
+	                || item[active_item].kind == MN_DEACTIVE)
+	                && (active_item != last_active_item));
+	       
           break;
 
         case MENU_ACTION_DOWN:
-          if(active_item < int(item.size())-1)
-            ++active_item;
-          else
-            active_item = 0;
+          do {
+	          if(active_item < int(item.size())-1 )
+	            ++active_item;
+	          else
+	            active_item = 0;
+	       } while ((item[active_item].kind == MN_HL
+	                || item[active_item].kind == MN_LABEL
+	                || item[active_item].kind == MN_DEACTIVE)
+  	                && (active_item != last_active_item));
+
           break;
 
         case MENU_ACTION_LEFT:
@@ -457,23 +479,6 @@ Menu::action()
         }
     }
 
-  if(active_item > 0 && active_item < (int)item.size())
-    {
-    // FIXME: wtf?! having a hack to avoid horizontal lines...
-    // Elegant solution would be to check for horizontal lines, right
-    // when it was asked to move menu up and down
-    if(item[active_item].kind == MN_DEACTIVE ||
-       item[active_item].kind == MN_LABEL ||
-       item[active_item].kind == MN_HL)
-      {
-      // Skip the horzontal line item
-      if (menuaction != MENU_ACTION_UP && menuaction != MENU_ACTION_DOWN)
-        menuaction = MENU_ACTION_DOWN;
-
-      if (item.size() > 1)
-        action();
-      }
-    }
 
   menuaction = MENU_ACTION_NONE;
 
@@ -888,14 +893,21 @@ Menu::event(SDL_Event& event)
             y > pos_y - get_height()/2 &&
             y < pos_y + get_height()/2)
           {
-            active_item = (y - (pos_y - get_height()/2)) / 24;
-	    if(MouseCursor::current())
-            MouseCursor::current()->set_state(MC_LINK);
+            int new_active_item = (y - (pos_y - get_height()/2)) / 24;
+          
+            /* only change the mouse focus to a selectable item */
+         	if ((item[new_active_item].kind != MN_HL)
+	              && (item[new_active_item].kind != MN_LABEL)
+	              && (item[new_active_item].kind != MN_DEACTIVE))                
+              active_item = new_active_item;
+            
+	         if(MouseCursor::current())
+              MouseCursor::current()->set_state(MC_LINK);
           }
         else
           {
-	    if(MouseCursor::current())
-            MouseCursor::current()->set_state(MC_NORMAL);
+	         if(MouseCursor::current())
+              MouseCursor::current()->set_state(MC_NORMAL);
           }
       }
       break;
