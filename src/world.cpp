@@ -249,6 +249,98 @@ World::action()
 
   for (unsigned int i = 0; i < bad_guys.size(); i++)
     bad_guys[i].action();
+
+  /* update particle systems */
+  std::vector<ParticleSystem*>::iterator p;
+  for(p = particle_systems.begin(); p != particle_systems.end(); ++p)
+    {
+      (*p)->simulate(frame_ratio);
+    }
+
+  /* Handle all possible collisions. */
+  collision_handler();
+}
+
+
+void
+World::collision_handler()
+{
+  // CO_BULLET & CO_BADGUY check
+  for(unsigned int i = 0; i < bullets.size(); ++i)
+    {
+      for(unsigned int j = 0; j < bad_guys.size(); ++j)
+        {
+          if(bad_guys[j].dying != DYING_NOT)
+            continue;
+          if(rectcollision(&bullets[i].base, &bad_guys[j].base))
+            {
+              // We have detected a collision and now call the
+              // collision functions of the collided objects.
+              // collide with bad_guy first, since bullet_collision will
+              // delete the bullet
+              bad_guys[j].collision(0, CO_BULLET);
+              bullet_collision(&bullets[i], CO_BADGUY);
+              break; // bullet is invalid now, so break
+            }
+        }
+    }
+
+  /* CO_BADGUY & CO_BADGUY check */
+  for(unsigned int i = 0; i < bad_guys.size(); ++i)
+    {
+      if(bad_guys[i].dying != DYING_NOT)
+        continue;
+      
+      for(unsigned int j = i+1; j < bad_guys.size(); ++j)
+        {
+          if(j == i || bad_guys[j].dying != DYING_NOT)
+            continue;
+
+          if(rectcollision(&bad_guys[i].base, &bad_guys[j].base))
+            {
+              // We have detected a collision and now call the
+              // collision functions of the collided objects.
+              bad_guys[j].collision(&bad_guys[i], CO_BADGUY);
+              bad_guys[i].collision(&bad_guys[j], CO_BADGUY);
+            }
+        }
+    }
+
+  if(tux.dying != DYING_NOT) return;
+    
+  // CO_BADGUY & CO_PLAYER check 
+  for(unsigned int i = 0; i < bad_guys.size(); ++i)
+    {
+      if(bad_guys[i].dying != DYING_NOT)
+        continue;
+      
+      if(rectcollision_offset(&bad_guys[i].base,&tux.base,0,0))
+        {
+          // We have detected a collision and now call the collision
+          // functions of the collided objects.
+          if (tux.previous_base.y < tux.base.y &&
+              tux.previous_base.y + tux.previous_base.height 
+              < bad_guys[i].base.y + bad_guys[i].base.height/2)
+            {
+              bad_guys[i].collision(&tux, CO_PLAYER, COLLISION_SQUISH);
+            }
+          else
+            {
+              tux.collision(&bad_guys[i], CO_BADGUY);
+            }
+        }
+    }
+
+  // CO_UPGRADE & CO_PLAYER check
+  for(unsigned int i = 0; i < upgrades.size(); ++i)
+    {
+      if(rectcollision(&upgrades[i].base, &tux.base))
+        {
+          // We have detected a collision and now call the collision
+          // functions of the collided objects.
+          upgrade_collision(&upgrades[i], &tux, CO_PLAYER);
+        }
+    }
 }
 
 void

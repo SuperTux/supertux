@@ -432,16 +432,6 @@ GameSession::action()
 
   world->action();
 
-  /* update particle systems */
-  std::vector<ParticleSystem*>::iterator p;
-  for(p = world->particle_systems.begin(); p != world->particle_systems.end(); ++p)
-    {
-      (*p)->simulate(frame_ratio);
-    }
-
-  /* Handle all possible collisions. */
-  collision_handler();
-
   return -1;
 }
 

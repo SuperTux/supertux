@@ -58,6 +58,12 @@ class World
 
   void draw();
   void action();
+
+  /** Checks for all possible collisions. And calls the
+      collision_handlers, which the collision_objects provide for this
+      case (or not). */
+  void collision_handler();
+  
   void arrays_free();
 
   /** Load data for this level: 

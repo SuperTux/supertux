@@ -39,9 +39,9 @@ bool collision_object_map(base_type* pbase)
   int h = (int)pbase->width / 16;
 
   if(issolid(pbase->x + 1, pbase->y + 1) ||
-      issolid(pbase->x + pbase->width -1, pbase->y + 1) ||
-      issolid(pbase->x +1, pbase->y + pbase->height -1) ||
-      issolid(pbase->x + pbase->width -1, pbase->y + pbase->height - 1))
+     issolid(pbase->x + pbase->width -1, pbase->y + 1) ||
+     issolid(pbase->x +1, pbase->y + pbase->height -1) ||
+     issolid(pbase->x + pbase->width -1, pbase->y + pbase->height - 1))
     return true;
 
   for(int i = 1; i < h; ++i)
@@ -201,86 +201,6 @@ void collision_swept_object_map(base_type* old, base_type* current)
     }
 
   *old = *current;
-}
-
-void collision_handler()
-{
-  // CO_BULLET & CO_BADGUY check
-  for(unsigned int i = 0; i < world.bullets.size(); ++i)
-    {
-      for(unsigned int j = 0; j < world.bad_guys.size(); ++j)
-        {
-          if(world.bad_guys[j].dying != DYING_NOT)
-            continue;
-          if(rectcollision(&world.bullets[i].base, &world.bad_guys[j].base))
-            {
-              // We have detected a collision and now call the
-              // collision functions of the collided objects.
-              // collide with bad_guy first, since bullet_collision will
-              // delete the bullet
-              world.bad_guys[j].collision(0, CO_BULLET);
-              bullet_collision(&world.bullets[i], CO_BADGUY);
-              break; // bullet is invalid now, so break
-            }
-        }
-    }
-
-  /* CO_BADGUY & CO_BADGUY check */
-  for(unsigned int i = 0; i < world.bad_guys.size(); ++i)
-    {
-      if(world.bad_guys[i].dying != DYING_NOT)
-        continue;
-      
-      for(unsigned int j = i+1; j < world.bad_guys.size(); ++j)
-        {
-          if(j == i || world.bad_guys[j].dying != DYING_NOT)
-            continue;
-
-          if(rectcollision(&world.bad_guys[i].base, &world.bad_guys[j].base))
-            {
-              // We have detected a collision and now call the
-              // collision functions of the collided objects.
-              world.bad_guys[j].collision(&world.bad_guys[i], CO_BADGUY);
-              world.bad_guys[i].collision(&world.bad_guys[j], CO_BADGUY);
-            }
-        }
-    }
-
-  if(tux.dying != DYING_NOT) return;
-    
-  // CO_BADGUY & CO_PLAYER check 
-  for(unsigned int i = 0; i < world.bad_guys.size(); ++i)
-    {
-      if(world.bad_guys[i].dying != DYING_NOT)
-        continue;
-      
-      if(rectcollision_offset(&world.bad_guys[i].base,&tux.base,0,0))
-        {
-          // We have detected a collision and now call the collision
-          // functions of the collided objects.
-          if (tux.previous_base.y < tux.base.y &&
-              tux.previous_base.y + tux.previous_base.height 
-              < world.bad_guys[i].base.y + world.bad_guys[i].base.height/2)
-            {
-              world.bad_guys[i].collision(&tux, CO_PLAYER, COLLISION_SQUISH);
-            }
-          else
-            {
-              tux.collision(&world.bad_guys[i], CO_BADGUY);
-            }
-        }
-    }
-
-  // CO_UPGRADE & CO_PLAYER check
-  for(unsigned int i = 0; i < world.upgrades.size(); ++i)
-    {
-      if(rectcollision(&world.upgrades[i].base, &tux.base))
-        {
-          // We have detected a collision and now call the collision
-          // functions of the collided objects.
-          upgrade_collision(&world.upgrades[i], &tux, CO_PLAYER);
-        }
-    }
 }
 
 
