@@ -30,8 +30,7 @@ public class TileGroup {
                         break;
                     case "tiles":
                         do {
-                            if(!Tiles.Contains(parser.IntegerValue))
-                                Tiles.Add(parser.IntegerValue);
+                          Tiles.Add(parser.IntegerValue);
                         } while(parser.Parse() 
                                 && parser.Type == Parser.LispType.INTEGER);
                         break;
