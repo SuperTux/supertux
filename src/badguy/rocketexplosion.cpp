@@ -44,7 +44,7 @@ RocketExplosion::collision_badguy(BadGuy& badguy, const CollisionHit& )
 }
 
 void
-RocketExplosion::active_action(float elapsed_time)
+RocketExplosion::active_action(float )
 {
    if(timer.check()) {
       remove_me();
