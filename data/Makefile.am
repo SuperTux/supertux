@@ -8,7 +8,7 @@ EXTRA_DIST = \
   intro.txt \
   extro.txt \
   extro-bonus.txt \
-  CREDITS \
+  credits.txt \
   badguys.strf \
   images/supertux.strf \
   $(wildcard sounds/*.wav) \
