@@ -77,9 +77,6 @@ GameSession::GameSession(const std::string& levelname_, int mode, bool flip_leve
 
   context = new DrawingContext();
 
-  if(debug_mode)
-    flip_level = true;
-
   restart_level();
 }
 
