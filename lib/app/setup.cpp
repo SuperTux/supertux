@@ -303,7 +303,7 @@ void Setup::directories()
 
   // try current directory as datadir
   if(datadir.empty()) {
-      if(FileSystem::faccessible("./data/intro.txt"))
+     if(FileSystem::faccessible("./data/credits.txt"))
           datadir = "./data/";
   }
 

@@ -136,7 +136,6 @@ BadGuy::collision_player(Player& player, const CollisionHit& hit)
     //      give badguys some invincible time (prevent them from being hit multiple times)
     //      use hitpoints also when hit by fireball or invincible tux
     hitpoints--;
-    std::cout << "Hitpoints: " << hitpoints << std::endl;
     if(collision_squished(player))
       return ABORT_MOVE;
     else if (hitpoints <= 0) {
