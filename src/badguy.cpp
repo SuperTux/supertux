@@ -9,6 +9,8 @@
 // Copyright: See COPYING file that comes with this distribution
 //
 //
+
+#include <iostream>
 #include <math.h>
 
 #include "globals.h"
@@ -31,8 +33,9 @@ Surface* img_bsod_left[4];
 Surface* img_bsod_right[4];
 Surface* img_laptop_left[4];
 Surface* img_laptop_right[4];
-Surface* img_money_left[2];
-Surface* img_money_right[2];
+Surface* img_jumpy_left_up;
+Surface* img_jumpy_left_down;
+Surface* img_jumpy_left_middle;
 Surface* img_mrbomb_left[4];
 Surface* img_mrbomb_right[4];
 Surface* img_mrbomb_ticking_left[1];
@@ -161,7 +164,7 @@ BadGuy::init(float x, float y, BadGuyKind kind_)
     physic.set_velocity(-1.3, 0);
     set_texture(img_laptop_left, img_laptop_right, 4, 5);
   } else if(kind == BAD_MONEY) {
-    set_texture(img_money_left, img_money_right, 1);
+    set_texture(&img_jumpy_left_up, &img_jumpy_left_up, 1);
   } else if(kind == BAD_BOMB) {
     set_texture(img_mrbomb_ticking_left, img_mrbomb_ticking_right, 1);
     // hack so that the bomb doesn't hurt until it expldes...
@@ -391,6 +394,13 @@ BadGuy::remove_me()
 void
 BadGuy::action_money(float frame_ratio)
 {
+  if (fabsf(physic.get_velocity_y()) < 2.5f)
+    set_texture(&img_jumpy_left_middle, &img_jumpy_left_middle, 1);
+  else if (physic.get_velocity_y() < 0)
+    set_texture(&img_jumpy_left_up, &img_jumpy_left_up, 1);
+  else 
+    set_texture(&img_jumpy_left_down, &img_jumpy_left_down, 1);
+
   Player& tux = *World::current()->get_tux();
 
   static const float JUMPV = 6;
@@ -401,12 +411,11 @@ BadGuy::action_money(float frame_ratio)
     {
       physic.set_velocity(physic.get_velocity_x(), JUMPV);
       physic.enable_gravity(true);
-      set_texture(&img_money_left[1], &img_money_right[1], 1);
+
       mode = MONEY_JUMP;
     }
   else if(mode == MONEY_JUMP)
     {
-      set_texture(&img_money_left[0], &img_money_right[0], 1);
       mode = NORMAL;
     }
 
@@ -750,27 +759,38 @@ BadGuy::draw()
   texture->draw(base.x - scroll_x, base.y);
 
   if (debug_mode)
-    fillrect(base.x - scroll_x, base.y, 32, 32, 75,0,75, 150);
+    fillrect(base.x - scroll_x, base.y, base.width, base.height, 75,0,75, 150);
 }
 
 void
 BadGuy::set_texture(Surface** left, Surface** right,
     int nanimlength, float nanimspeed)
 {
-  if(left != 0) {
-    if(base.width == 0 && base.height == 0) {
-      base.width = left[0]->w;
-      base.height = left[0]->h;
-    } else if(base.width != left[0]->w || base.height != left[0]->h) {
-      base.x -= (left[0]->w - base.width) / 2;
-      base.y -= left[0]->h - base.height;
-      base.width = left[0]->w;
-      base.height = left[0]->h;
-      old_base = base;
+  if (1)
+    {
+      base.width = 32;
+      base.height = 32;
     }
-  } else {
-    base.width = base.height = 0;
-  }
+  else
+    {
+      // FIXME: Using the image size for the physics and collision is
+      // a bad idea, since images should always overlap there physical
+      // representation
+      if(left != 0) {
+        if(base.width == 0 && base.height == 0) {
+          base.width  = left[0]->w;
+          base.height = left[0]->h;
+        } else if(base.width != left[0]->w || base.height != left[0]->h) {
+          base.x -= (left[0]->w - base.width) / 2;
+          base.y -= left[0]->h - base.height;
+          base.width = left[0]->w;
+          base.height = left[0]->h;
+          old_base = base;
+        }
+      } else {
+        base.width = base.height = 0;
+      }
+    }
 
   animation_length = nanimlength;
   animation_speed = nanimspeed;
@@ -1034,22 +1054,15 @@ void load_badguy_gfx()
 
 
   /* (Money) */
-
-  img_money_left[0] = new Surface(datadir +
-               "/images/shared/bag-left-0.png",
-               USE_ALPHA);
-
-  img_money_left[1] = new Surface(datadir +
-               "/images/shared/bag-left-1.png",
-               USE_ALPHA);
-
-  img_money_right[0] = new Surface(datadir +
-               "/images/shared/bag-right-0.png",
-               USE_ALPHA);
-
-  img_money_right[1] = new Surface(datadir +
-               "/images/shared/bag-right-1.png",
-               USE_ALPHA);
+  img_jumpy_left_up   = new Surface(datadir +
+                                     "/images/shared/jumpy-left-up-0.png",
+                                     USE_ALPHA);
+  img_jumpy_left_down = new Surface(datadir +
+                                    "/images/shared/jumpy-left-down-0.png",
+                                    USE_ALPHA);
+  img_jumpy_left_middle = new Surface(datadir +
+                                    "/images/shared/jumpy-left-middle-0.png",
+                                    USE_ALPHA);
 
   /* Mr. Bomb */
   for(int i=0; i<4; ++i) {
@@ -1164,11 +1177,8 @@ void free_badguy_gfx()
   delete img_laptop_falling_left[0];
   delete img_laptop_falling_right[0];
 
-  for (int i = 0; i < 2; i++)
-    {
-      delete img_money_left[i];
-      delete img_money_right[i];
-    }
+  delete img_jumpy_left_up;
+  delete img_jumpy_left_down;
 
   for(int i = 0; i < 4; i++) {
       delete img_mrbomb_left[i];

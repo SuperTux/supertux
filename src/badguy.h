@@ -24,7 +24,9 @@
 extern Surface* img_bsod_left[4];
 extern Surface* img_bsod_right[4];
 extern Surface* img_laptop_left[4];
-extern Surface* img_money_left[2];
+extern Surface* img_jumpy_left_up;
+extern Surface* img_jumpy_left_down;
+extern Surface* img_jumpy_left_middle;
 
 /* Enemy modes: */
 enum {
