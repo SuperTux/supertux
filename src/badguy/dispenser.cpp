@@ -3,12 +3,11 @@
 #include "dispenser.h"
 #include "badguy/bouncing_snowball.h"
 
-#define DISPENSE_TIME 3
-
 Dispenser::Dispenser(LispReader& reader)
 {
   reader.read_float("x", start_position.x);
   reader.read_float("y", start_position.y);
+  reader.read_float("cycle", cycle);
   reader.read_string("badguy", badguy);
   bbox.set_size(32, 32);
   sprite = sprite_manager->create("snowball");
@@ -21,6 +20,7 @@ Dispenser::write(LispWriter& writer)
 
   writer.write_float("x", get_pos().x);
   writer.write_float("y", get_pos().y);
+  writer.write_float("cycle", cycle);
   writer.write_string("badguy", badguy);
 
   writer.end_list("dispenser");
@@ -29,7 +29,7 @@ Dispenser::write(LispWriter& writer)
 void
 Dispenser::activate()
 {
-   dispense_timer.start(DISPENSE_TIME, true);
+   dispense_timer.start(cycle, true);
 }
 
 bool

@@ -16,6 +16,7 @@ public:
 
 protected:
   bool collision_squished(Player& player);
+  float cycle;
   std::string badguy;
   Timer2 dispense_timer;
 };
