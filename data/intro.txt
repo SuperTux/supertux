@@ -1,4 +1,4 @@
-- Gwen gets captured! -
+-Gwen gets captured!
 
 	Tux and Gwen were out having a nice
 	picnic on the ice fields of Antarctica.
