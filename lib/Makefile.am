@@ -1,32 +1,63 @@
 INCLUDES = 
 METASOURCES = AUTO
 lib_LTLIBRARIES = libsupertux.la
-libsupertux_la_SOURCES =app/defines.h \
+libsupertux_la_SOURCES =app/globals.cpp \
+			app/setup.cpp \
+			audio/musicref.cpp \
+			audio/sound.cpp \
+			audio/sound_manager.cpp \
+			gui/button.cpp \
+			gui/menu.cpp \
+			gui/mousecursor.cpp \
+			math/physic.cpp \
+			math/vector.cpp \
+			special/game_object.cpp \
+			special/moving_object.cpp \
+			special/sprite.cpp \
+			special/sprite_manager.cpp \
+			special/stringlist.cpp \
+			special/timer.cpp \
+			utils/configfile.cpp \
+			utils/lispreader.cpp \
+			utils/lispwriter.cpp \
+			video/drawing_context.cpp \
+			video/font.cpp \
+			video/screen.cpp \
+			video/surface.cpp
+libsupertuxdir = $(includedir)/supertux
+libsupertuxappdir = $(libsupertuxdir)/app
+libsupertuxaudiodir = $(libsupertuxdir)/audio
+libsupertuxguidir = $(libsupertuxdir)/gui
+libsupertuxmathdir = $(libsupertuxdir)/math
+libsupertuxspecialdir = $(libsupertuxdir)/special
+libsupertuxutilsdir = $(libsupertuxdir)/utils
+libsupertuxvideodir = $(libsupertuxdir)/video
+libsupertuxapp_HEADERS =app/defines.h \
+			app/setup.h \
 			app/gettext.h \
-			app/globals.h app/globals.cpp \
-			app/setup.h app/setup.cpp \
-			audio/musicref.h audio/musicref.cpp \
-			audio/sound.h audio/sound.cpp \
-			audio/sound_manager.h audio/sound_manager.cpp \
-			gui/button.h gui/button.cpp \
-			gui/menu.h gui/menu.cpp \
-			gui/mousecursor.cpp gui/mousecursor.h \
-			math/physic.h math/physic.cpp \
-			math/vector.h math/vector.cpp \
-			special/base.h \
-			special/game_object.h special/game_object.cpp \
-			special/moving_object.h special/moving_object.cpp \
-			special/sprite.h special/sprite.cpp \
-			special/sprite_manager.h special/sprite_manager.cpp \
-			special/stringlist.h special/stringlist.cpp \
-			special/timer.h special/timer.cpp \
-			utils/configfile.h utils/configfile.cpp \
+			app/globals.h
+libsupertuxaudio_HEADERS =audio/musicref.h \
+			audio/sound.h \
+			audio/sound_manager.h
+libsupertuxgui_HEADERS =gui/button.h \
+			gui/menu.h \
+			gui/mousecursor.h
+libsupertuxmath_HEADERS =math/physic.h \
+			math/vector.h
+libsupertuxspecial_HEADERS =special/base.h \
+			special/game_object.h \
+			special/moving_object.h \
+			special/sprite.h \
+			special/sprite_manager.h \
+			special/stringlist.h \
+			special/timer.h
+libsupertuxutils_HEADERS =utils/configfile.h \
 			utils/exceptions.h \
-			utils/lispreader.h utils/lispreader.cpp \
-			utils/lispwriter.h utils/lispwriter.cpp \
-			video/drawing_context.h video/drawing_context.cpp \
-			video/font.h video/font.cpp \
-			video/screen.h video/screen.cpp \
-			video/surface.h video/surface.cpp
+			utils/lispreader.h \
+			utils/lispwriter.h
+libsupertuxvideo_HEADERS =video/drawing_context.h \
+			video/font.h \
+			video/screen.h \
+			video/surface.h 
 libsupertux_la_LDFLAGS = -module
 
