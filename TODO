@@ -33,7 +33,7 @@ L: low priority
      - Animation (need images)
      ? Should disable Tux's movement temporarily (1 second?)
 [H] Tux should fall while walking in tiles that have a space between.
-     - Possible solution: reduce Tux's width
+     - Possible solution: reduce Tux's width when checking collision with tiles
 
 [M] Save score on per-level basis to make high-score
 [M] Save time on per-level basis to make low-time-score
