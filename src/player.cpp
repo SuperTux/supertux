@@ -71,7 +71,7 @@ Player::init()
 
   // FIXME: Make the start position configurable via the levelfile
   base.x = 100;
-  base.y = 240;
+  base.y = 170;
   base.xm = 0;
   base.ym = 0;
   previous_base = old_base = base;
@@ -136,7 +136,7 @@ void
 Player::level_begin()
 {
   base.x  = 100;
-  base.y  = 240;
+  base.y  = 170;
   base.xm = 0;
   base.ym = 0;
   previous_base = old_base = base;
