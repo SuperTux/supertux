@@ -60,7 +60,6 @@ SpriteManager::load_resfile(const std::string& filename)
       if(iter.item() == "sprite") {
         SpriteData* spritedata = new SpriteData(iter.lisp());
 
-        printf("Spr: %s.\n", spritedata->get_name().c_str());
         Sprites::iterator i = sprites.find(spritedata->get_name());
         if (i == sprites.end()) {
           sprites[spritedata->get_name()] = spritedata;
