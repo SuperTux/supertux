@@ -638,7 +638,6 @@
          (x-hotspot 12)
          (fps 20)
          (images "shared/icebullet-1.png"))
-
   ; Trampoline
   (sprite (name "trampoline-1")
          (x-hotspot 0)

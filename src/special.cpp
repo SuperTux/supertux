@@ -367,8 +367,8 @@ void load_special_gfx()
   img_star      = sprite_manager->load("star");
   img_1up       = sprite_manager->load("1up");
 
-  img_firebullet    = sprite_manager->load("firebullet");
-  img_icebullet    = sprite_manager->load("icebullet");
+  img_firebullet = sprite_manager->load("firebullet");
+  img_icebullet  = sprite_manager->load("icebullet");
 }
 
 void free_special_gfx()
