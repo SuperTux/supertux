@@ -10,7 +10,19 @@
   April 11, 2000 - March 15, 2004
 */
 
-#include "supertux.h"
+
+#include <sys/types.h>
+#include <ctype.h>
+
+#include "defines.h"
+#include "globals.h"
+#include "setup.h"
+#include "intro.h"
+#include "title.h"
+#include "gameloop.h"
+#include "leveleditor.h"
+#include "screen.h"
+#include "worldmap.h"
 #include "resources.h"
 
 int main(int argc, char * argv[])
