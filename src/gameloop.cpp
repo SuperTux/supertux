@@ -463,6 +463,10 @@ GameSession::process_events()
                           tux.kill(tux.KILL);
                           last_keys.clear();
                           }
+                        if(compare_last(last_keys, "grid"))
+                          {    // toggle debug grid
+                          debug_grid = !debug_grid;
+                          }
                         if(compare_last(last_keys, "hover"))
                           {    // toggle hover ability on/off
                           tux.enable_hover = !tux.enable_hover;

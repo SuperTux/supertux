@@ -160,6 +160,21 @@ TileMap::draw(DrawingContext& context)
     }
   }
 
+  if (debug_grid)
+  {
+    for (pos.x = start_x; pos.x < end_x; pos.x += 32)
+    {
+       context.draw_filled_rect(Vector (pos.x, start_y), Vector(1, fabsf(start_y - end_y)),
+                  Color(225, 225, 225), LAYER_GUI-50);
+    }
+
+    for (pos.y = start_y; pos.y < end_y; pos.y += 32)
+    {
+       context.draw_filled_rect(Vector (start_x, pos.y), Vector(fabsf(start_x - end_x), 1),
+                  Color(225, 225, 225), LAYER_GUI-50);
+    }
+  }
+
   context.pop_transform();
 }
 

@@ -56,6 +56,7 @@ bool use_joystick;
 bool use_fullscreen;
 bool debug_mode;
 bool show_fps;
+bool debug_grid = false;
 
 int joystick_num = 0;
 char* level_startup_file = 0;
