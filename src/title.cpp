@@ -127,15 +127,14 @@ int title(void)
           else if (event.type == SDL_JOYAXISMOTION && event.jaxis.axis == JOY_Y)
             {
               if (event.jaxis.value > 1024)
-                menuaction = MN_DOWN;
+                menuaction = MENU_ACTION_DOWN;
               else if (event.jaxis.value < -1024)
-                menuaction = MN_UP;
+                menuaction = MENU_ACTION_UP;
             }
           else if (event.type == SDL_JOYBUTTONDOWN)
             {
               /* Joystick button: Continue: */
-
-              menuaction = MN_HIT;
+              menuaction = MENU_ACTION_HIT;
             }
         }
 

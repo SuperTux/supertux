@@ -256,9 +256,9 @@ void game_event(void)
               if(show_menu)
                 {
                   if(tux.input.down == DOWN)
-                    menuaction = MN_DOWN;
+                    menuaction = MENU_ACTION_DOWN;
                   else
-                    menuaction = MN_UP;
+                    menuaction = MENU_ACTION_UP;
                 }
               break;
             default:
@@ -278,7 +278,7 @@ void game_event(void)
             tux.input.fire = UP;
 
           if(show_menu)
-            menuaction = MN_HIT;
+            menuaction = MENU_ACTION_HIT;
           break;
 
         default:

@@ -31,7 +31,7 @@
 #include "high_scores.h"
 
 /* (global) menu variables */
-int menuaction;
+MenuAction menuaction;
 int show_menu;
 int menu_change;
 texture_type checkbox, checkbox_checked, back, arrow_left, arrow_right;
@@ -136,100 +136,108 @@ void menu_additem(menu_type* pmenu, menu_item_type* pmenu_item)
 /* Process actions done on the menu */
 void menu_action(menu_type* pmenu)
 {
-  int i;
+  menu_item_type& item = pmenu->item[pmenu->active_item];
 
   if(pmenu->num_items != 0 && pmenu->item != NULL)
     {
       switch(menuaction)
         {
-        case MN_UP:
+        case MENU_ACTION_UP:
           if(pmenu->active_item > 0)
             --pmenu->active_item;
           else
             pmenu->active_item = pmenu->num_items-1;
           break;
-        case MN_DOWN:
+        case MENU_ACTION_DOWN:
           if(pmenu->active_item < pmenu->num_items-1)
             ++pmenu->active_item;
           else
             pmenu->active_item = 0;
           break;
-        case MN_LEFT:
-          if(pmenu->item[pmenu->active_item].kind == MN_STRINGSELECT && pmenu->item[pmenu->active_item].list->num_items != 0)
+        case MENU_ACTION_LEFT:
+          if(item.kind == MN_STRINGSELECT
+             && item.list->num_items != 0)
             {
-              if(pmenu->item[pmenu->active_item].list->active_item > 0)
-                --pmenu->item[pmenu->active_item].list->active_item;
+              if(item.list->active_item > 0)
+                --item.list->active_item;
               else
-                pmenu->item[pmenu->active_item].list->active_item = pmenu->item[pmenu->active_item].list->num_items-1;
+                item.list->active_item = item.list->num_items-1;
             }
           break;
-        case MN_RIGHT:
-          if(pmenu->item[pmenu->active_item].kind == MN_STRINGSELECT && pmenu->item[pmenu->active_item].list->num_items != 0)
+        case MENU_ACTION_RIGHT:
+          if(item.kind == MN_STRINGSELECT 
+             && item.list->num_items != 0)
             {
-              if(pmenu->item[pmenu->active_item].list->active_item < pmenu->item[pmenu->active_item].list->num_items-1)
-                ++pmenu->item[pmenu->active_item].list->active_item;
+              if(item.list->active_item < item.list->num_items-1)
+                ++item.list->active_item;
               else
-                pmenu->item[pmenu->active_item].list->active_item = 0;
+                item.list->active_item = 0;
             }
           break;
-        case MN_HIT:
-          if(pmenu->item[pmenu->active_item].kind == MN_GOTO && pmenu->item[pmenu->active_item].target_menu != NULL)
-            menu_set_current((menu_type*)pmenu->item[pmenu->active_item].target_menu);
-          else if(pmenu->item[pmenu->active_item].kind == MN_TOGGLE)
+        case MENU_ACTION_HIT:
+          if(item.kind == MN_GOTO
+             && item.target_menu != NULL)
+            menu_set_current((menu_type*)item.target_menu);
+
+          else if(item.kind == MN_TOGGLE)
             {
-              pmenu->item[pmenu->active_item].toggled = !pmenu->item[pmenu->active_item].toggled;
+              item.toggled = !item.toggled;
               menu_change = YES;
             }
-          else if(pmenu->item[pmenu->active_item].kind == MN_ACTION || pmenu->item[pmenu->active_item].kind == MN_TEXTFIELD || pmenu->item[pmenu->active_item].kind == MN_NUMFIELD)
+          else if(item.kind == MN_ACTION || item.kind == MN_TEXTFIELD || item.kind == MN_NUMFIELD)
             {
-              pmenu->item[pmenu->active_item].toggled = YES;
+              item.toggled = YES;
             }
-          else if(pmenu->item[pmenu->active_item].kind == MN_BACK)
+          else if(item.kind == MN_BACK)
             {
               if(last_menu != NULL)
                 menu_set_current(last_menu);
             }
           break;
-        case MN_REMOVE:
-          if(pmenu->item[pmenu->active_item].kind == MN_TEXTFIELD || pmenu->item[pmenu->active_item].kind == MN_NUMFIELD)
+        case MENU_ACTION_REMOVE:
+          if(item.kind == MN_TEXTFIELD
+             || item.kind == MN_NUMFIELD)
             {
-              if(pmenu->item[pmenu->active_item].input != NULL)
+              if(item.input != NULL)
                 {
-                  i = strlen(pmenu->item[pmenu->active_item].input);
+                  int i = strlen(item.input);
 
                   while(delete_character > 0)	/* remove charactes */
                     {
-                      pmenu->item[pmenu->active_item].input[i-1] = '\0';
+                      item.input[i-1] = '\0';
                       delete_character--;
                     }
                 }
             }
           break;
-        case MN_INPUT:
-          if(pmenu->item[pmenu->active_item].kind == MN_TEXTFIELD || (pmenu->item[pmenu->active_item].kind == MN_NUMFIELD && mn_input_char >= '0' && mn_input_char <= '9'))
+        case MENU_ACTION_INPUT:
+          if(item.kind == MN_TEXTFIELD
+             || (item.kind == MN_NUMFIELD && mn_input_char >= '0' && mn_input_char <= '9'))
             {
-              if(pmenu->item[pmenu->active_item].input != NULL)
+              if(item.input != NULL)
                 {
-                  i = strlen(pmenu->item[pmenu->active_item].input);
-                  pmenu->item[pmenu->active_item].input = (char*) realloc(pmenu->item[pmenu->active_item].input,sizeof(char)*(i + 2));
-                  pmenu->item[pmenu->active_item].input[i] = mn_input_char;
-                  pmenu->item[pmenu->active_item].input[i+1] = '\0';
+                  int i = strlen(item.input);
+                  item.input = (char*) realloc(item.input,sizeof(char)*(i + 2));
+                  item.input[i] = mn_input_char;
+                  item.input[i+1] = '\0';
                 }
               else
                 {
-                  pmenu->item[pmenu->active_item].input = (char*) malloc(2*sizeof(char));
-                  pmenu->item[pmenu->active_item].input[0] = mn_input_char;
-                  pmenu->item[pmenu->active_item].input[1] = '\0';
+                  item.input = (char*) malloc(2*sizeof(char));
+                  item.input[0] = mn_input_char;
+                  item.input[1] = '\0';
                 }
             }
+          break;
+        case MENU_ACTION_NONE:
           break;
         }
     }
 
-  if(pmenu->item[pmenu->active_item].kind == MN_DEACTIVE || pmenu->item[pmenu->active_item].kind == MN_LABEL || pmenu->item[pmenu->active_item].kind == MN_HL)
+  if(item.kind == MN_DEACTIVE || item.kind == MN_LABEL || item.kind == MN_HL)
     {
-      if(menuaction != MN_UP && menuaction != MN_DOWN)
-        menuaction = MN_DOWN;
+      if(menuaction != MENU_ACTION_UP && menuaction != MENU_ACTION_DOWN)
+        menuaction = MENU_ACTION_DOWN;
 
       if(pmenu->num_items > 1)
         menu_action(pmenu);
@@ -240,15 +248,17 @@ void menu_action(menu_type* pmenu)
 /* Check, if the value of the active menu item has changed. */
 int menu_check(menu_type* pmenu)
 {
+  menu_item_type& item = pmenu->item[pmenu->active_item];
+
   if(pmenu->num_items != 0 && pmenu->item != NULL)
     {
-      if((pmenu->item[pmenu->active_item].kind == MN_ACTION || pmenu->item[pmenu->active_item].kind == MN_TEXTFIELD || pmenu->item[pmenu->active_item].kind == MN_NUMFIELD) && pmenu->item[pmenu->active_item].toggled == YES)
+      if((item.kind == MN_ACTION || item.kind == MN_TEXTFIELD || item.kind == MN_NUMFIELD) && item.toggled == YES)
         {
-          pmenu->item[pmenu->active_item].toggled = NO;
+          item.toggled = NO;
           show_menu = 0;
           return pmenu->active_item;
         }
-      else if(pmenu->item[pmenu->active_item].kind == MN_TOGGLE || pmenu->item[pmenu->active_item].kind == MN_GOTO)
+      else if(item.kind == MN_TOGGLE || item.kind == MN_GOTO)
         {
           return pmenu->active_item;
         }
@@ -299,8 +309,8 @@ void menu_draw_item(menu_type* pmenu,
     case MN_DEACTIVE:
       {
         text_draw_align(&black_text, pitem.text, 
-                   x_pos, y_pos,
-                   A_HMIDDLE, A_VMIDDLE, 2);
+                        x_pos, y_pos,
+                        A_HMIDDLE, A_VMIDDLE, 2);
         break;
       }
 
@@ -365,8 +375,8 @@ void menu_draw_item(menu_type* pmenu,
                  0,0,0,128);
 
         text_draw_align(&gold_text, string_list_active(pitem.list), 
-                   x_pos + text_pos, y_pos,
-                   A_HMIDDLE, A_VMIDDLE,2);
+                        x_pos + text_pos, y_pos,
+                        A_HMIDDLE, A_VMIDDLE,2);
 
         text_draw_align(text_font, pitem.text,
                         x_pos - list_pos_2/2, y_pos,
@@ -375,12 +385,15 @@ void menu_draw_item(menu_type* pmenu,
       }
     case MN_BACK:
       {
+        text_draw_align(text_font, pitem.text, x_pos, y_pos, A_HMIDDLE, A_VMIDDLE, shadow_size);
         texture_draw(&back, x_pos + text_width/2  + font_width, y_pos - 8);
         break;
       }
 
     case MN_TOGGLE:
       {
+        text_draw_align(text_font, pitem.text, x_pos, y_pos, A_HMIDDLE, A_VMIDDLE, shadow_size);
+        
         if(pitem.toggled == YES)
           texture_draw(&checkbox_checked, 
                        x_pos + (text_width+font_width)/2,
@@ -392,26 +405,11 @@ void menu_draw_item(menu_type* pmenu,
         break;
       }
     case MN_ACTION:
-      break;
-
-    case MN_GOTO:
-      break;
-    }
-
-  switch (pitem.kind)
-    {
-    case MN_ACTION:
-    case MN_GOTO:
-    case MN_TOGGLE:
-    case MN_BACK:
       text_draw_align(text_font, pitem.text, x_pos, y_pos, A_HMIDDLE, A_VMIDDLE, shadow_size);
       break;
-    case MN_DEACTIVE:
-    case MN_TEXTFIELD:
-    case MN_NUMFIELD:
-    case MN_STRINGSELECT:
-    case MN_LABEL:
-    case MN_HL:
+
+    case MN_GOTO:
+      text_draw_align(text_font, pitem.text, x_pos, y_pos, A_HMIDDLE, A_VMIDDLE, shadow_size);
       break;
     }
 }
@@ -452,14 +450,14 @@ void menu_draw(menu_type* pmenu)
 /* Reset/Set global defaults */
 void menu_reset(void)
 {
-  menu_change = NO;
-  show_menu = NO;
-  menuaction = -1;
+  menu_change  = NO;
+  show_menu    = NO;
+  menuaction   = MENU_ACTION_NONE;
   current_menu = NULL;
-  last_menu = NULL;
+  last_menu    = NULL;
 
   delete_character = 0;
-  mn_input_char = '\0';
+  mn_input_char    = '\0';
 }
 
 /* --- MENU --- */
@@ -474,7 +472,7 @@ void menu_process_current(void)
       menu_draw(current_menu);
     }
 
-  menuaction = -1;
+  menuaction = MENU_ACTION_NONE;
 }
 
 /* Check for menu event */
@@ -500,43 +498,43 @@ void menu_event(SDL_keysym* keysym)
   switch(key)
     {
     case SDLK_UP:		/* Menu Up */
-      menuaction = MN_UP;
+      menuaction = MENU_ACTION_UP;
       menu_change = YES;
       break;
     case SDLK_DOWN:		/* Menu Down */
-      menuaction = MN_DOWN;
+      menuaction = MENU_ACTION_DOWN;
       menu_change = YES;
       break;
     case SDLK_LEFT:		/* Menu Up */
-      menuaction = MN_LEFT;
+      menuaction = MENU_ACTION_LEFT;
       menu_change = YES;
       break;
     case SDLK_RIGHT:		/* Menu Down */
-      menuaction = MN_RIGHT;
+      menuaction = MENU_ACTION_RIGHT;
       menu_change = YES;
       break;
     case SDLK_SPACE:
       if(current_menu->item[current_menu->active_item].kind == MN_TEXTFIELD)
       {
-      menuaction = MN_INPUT;
+      menuaction = MENU_ACTION_INPUT;
       menu_change = YES;
       mn_input_char = ' ';
       break;
       }
     case SDLK_RETURN: /* Menu Hit */
-      menuaction = MN_HIT;
+      menuaction = MENU_ACTION_HIT;
       menu_change = YES;
       break;
     case SDLK_DELETE:
     case SDLK_BACKSPACE:
-      menuaction = MN_REMOVE;
+      menuaction = MENU_ACTION_REMOVE;
       menu_change = YES;
       delete_character++;
       break;
     default:
       if( (key >= SDLK_0 && key <= SDLK_9) || (key >= SDLK_a && key <= SDLK_z) || (key >= SDLK_SPACE && key <= SDLK_SLASH))
         {
-          menuaction = MN_INPUT;
+          menuaction = MENU_ACTION_INPUT;
           menu_change = YES;
           mn_input_char = *ch;
         }

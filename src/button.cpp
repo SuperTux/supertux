@@ -50,7 +50,7 @@ void button_load(button_type* pbutton,char* icon_file, char* info, SDLKey shortc
   pbutton->w = pbutton->icon.w;
   pbutton->h = pbutton->icon.h;
   pbutton->tag = -1;
-  pbutton->state = -1;
+  pbutton->state = BUTTON_NONE;
   pbutton->show_info = NO;
   pbutton->bkgd = NULL;
 }
@@ -152,7 +152,7 @@ void button_event(button_type* pbutton, SDL_Event *event)
     }
   else if(event->type != SDL_KEYDOWN && event->type != SDL_KEYUP)
     {
-      pbutton->state = -1;
+      pbutton->state = BUTTON_NONE;
       if(pbutton->show_info)
         {
           pbutton->show_info = NO;
@@ -185,7 +185,7 @@ int button_get_state(button_type* pbutton)
   if(pbutton->state == BUTTON_CLICKED)
     {
       state = pbutton->state;
-      pbutton->state = -1;
+      pbutton->state = BUTTON_NONE;
       return state;
     }
   else

@@ -15,7 +15,8 @@
 
 #include "texture.h"
 
-enum {
+enum ButtonState {
+  BUTTON_NONE = -1,
   BUTTON_CLICKED,
   BUTTON_PRESSED,
   BUTTON_HOVER
@@ -32,7 +33,7 @@ typedef struct button_type
     int w;
     int h;
     int show_info;
-    int state;
+    ButtonState state;
     int tag;
   }
 button_type;
@@ -43,7 +44,7 @@ void button_change_icon(button_type* pbutton,char* icon_file);
 void button_draw(button_type* pbutton);
 void button_free(button_type* pbutton);
 void button_event(button_type* pbutton, SDL_Event* event);
-int button_get_state(button_type* pbutton);
+int  button_get_state(button_type* pbutton);
 
 typedef struct button_panel_type
   {

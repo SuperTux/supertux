@@ -44,7 +44,7 @@ typedef struct menu_item_type
 menu_item_type;
 
 menu_item_type* menu_item_create(MenuItemKind kind, char *text, int init_toggle, void* target_menu);
-void menu_item_change_text(menu_item_type* pmenu_item, const char *text);
+void menu_item_change_text (menu_item_type* pmenu_item, const char *text);
 void menu_item_change_input(menu_item_type* pmenu_item, const char *text);
 
 typedef struct menu_type
@@ -57,27 +57,28 @@ typedef struct menu_type
   }
 menu_type;
 
-void menu_init(menu_type* pmenu);
-void menu_free(menu_type* pmenu);
+void menu_init   (menu_type* pmenu);
+void menu_free   (menu_type* pmenu);
 void menu_additem(menu_type* pmenu, menu_item_type* pmenu_item);
-void menu_action(menu_type* pmenu);
-int menu_check(menu_type* pmenu);
-void menu_draw(menu_type* pmenu);
+void menu_action (menu_type* pmenu);
+int  menu_check  (menu_type* pmenu);
+void menu_draw   (menu_type* pmenu);
 void menu_set_current(menu_type* pmenu);
 
 /* Action done on the menu */
-enum {
-  MN_UP,
-  MN_DOWN,
-  MN_LEFT,
-  MN_RIGHT,
-  MN_HIT,
-  MN_INPUT,
-  MN_REMOVE
+enum MenuAction {
+  MENU_ACTION_NONE = -1,
+  MENU_ACTION_UP,
+  MENU_ACTION_DOWN,
+  MENU_ACTION_LEFT,
+  MENU_ACTION_RIGHT,
+  MENU_ACTION_HIT,
+  MENU_ACTION_INPUT,
+  MENU_ACTION_REMOVE
 };
 
 /* (global) menu variables */
-extern int menuaction;
+extern MenuAction menuaction;
 extern int show_menu;
 extern int menu_change;
 extern texture_type checkbox, checkbox_checked, back, arrow_left, arrow_right;
