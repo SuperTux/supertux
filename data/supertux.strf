@@ -565,7 +565,9 @@
                  "shared/fireflower-2.png"
                  "shared/fireflower-1.png"))
  (sprite (name "iceflower")
-         (images "shared/iceflower.png"))
+         (images "shared/iceflower-1.png"
+                 "shared/iceflower-2.png"
+                 "shared/iceflower-3.png"))
 
  (sprite (name "firebullet")
          (x-hotspot 12)
