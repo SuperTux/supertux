@@ -24,8 +24,8 @@
 #include <string>
 #include "texture.h"
 
-void display_text_file(const std::string& file, const std::string& surface);
-void display_text_file(const std::string& file, Surface* surface);
+void display_text_file(const std::string& file, const std::string& surface, float scroll_speed);
+void display_text_file(const std::string& file, Surface* surface, float scroll_speed);
 
 /* Kinds of texts. */
 enum {

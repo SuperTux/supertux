@@ -33,6 +33,6 @@
 
 void draw_intro()
 {
-display_text_file("intro.txt", "/images/background/arctis2.jpg");
+display_text_file("intro.txt", "/images/background/arctis2.jpg", SCROLL_SPEED_MESSAGE);
 }
 

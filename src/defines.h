@@ -89,6 +89,11 @@ enum DyingType {
 
 #define KICKING_TIME 200
 
+/* Scrolling text speed */
+
+#define SCROLL_SPEED_CREDITS 2.0
+#define SCROLL_SPEED_MESSAGE 1.0
+
 /* Debugging */
 
 #ifdef DEBUG

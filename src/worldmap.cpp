@@ -683,9 +683,9 @@ WorldMap::update(float delta)
                     if (!level->extro_filename.empty())
                       { // Display final credits and go back to the main menu
                         display_text_file(level->extro_filename,
-                                          "/images/background/extro.jpg");
+                                          "/images/background/extro.jpg", SCROLL_SPEED_MESSAGE);
                         display_text_file("CREDITS",
-                                          "/images/background/oiltux.jpg");
+                                          "/images/background/oiltux.jpg", SCROLL_SPEED_CREDITS);
                         quit = true;
                       }
                   }

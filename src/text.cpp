@@ -221,22 +221,23 @@ Text::erasecenteredtext(const  char * text, int y, Surface * ptexture, int updat
 
 /* --- SCROLL TEXT FUNCTION --- */
 
-#define MAX_VEL 10
-#define SPEED   1
-#define SCROLL  60
+#define MAX_VEL     10
+#define SPEED_INC   1.0
+#define SCROLL      60
 #define ITEMS_SPACE 4
 
-void display_text_file(const std::string& file, const std::string& surface)
+void display_text_file(const std::string& file, const std::string& surface, float scroll_speed)
 {
   Surface* sur = new Surface(datadir + surface, IGNORE_ALPHA);
-  display_text_file(file, sur);
+  display_text_file(file, sur, scroll_speed);
   delete sur;
 }
 
-void display_text_file(const std::string& file, Surface* surface)
+void display_text_file(const std::string& file, Surface* surface, float scroll_speed)
 {
   int done;
-  int scroll, speed;
+  int scroll;
+  float speed;
   int y;
   int length;
   FILE* fi;
@@ -265,7 +266,7 @@ void display_text_file(const std::string& file, Surface* surface)
 
 
   scroll = 0;
-  speed = 2;
+  speed = scroll_speed;
   done = 0;
 
   length = names.num_items;
@@ -283,10 +284,10 @@ void display_text_file(const std::string& file, Surface* surface)
             switch(event.key.keysym.sym)
               {
               case SDLK_UP:
-                speed -= SPEED;
+                speed -= SPEED_INC;
                 break;
               case SDLK_DOWN:
-                speed += SPEED;
+                speed += SPEED_INC;
                 break;
               case SDLK_SPACE:
               case SDLK_RETURN:
@@ -321,19 +322,19 @@ void display_text_file(const std::string& file, Surface* surface)
         switch(names.item[i][0])
           {
           case ' ':
-            white_small_text->drawf(names.item[i]+1, 0, 60+screen->h+y-scroll, A_HMIDDLE, A_TOP, 1);
+            white_small_text->drawf(names.item[i]+1, 0, screen->h+y-scroll, A_HMIDDLE, A_TOP, 1);
             y += white_small_text->h+ITEMS_SPACE;
             break;
           case '	':
-            white_text->drawf(names.item[i]+1, 0, 60+screen->h+y-scroll, A_HMIDDLE, A_TOP, 1);
+            white_text->drawf(names.item[i]+1, 0, screen->h+y-scroll, A_HMIDDLE, A_TOP, 1);
             y += white_text->h+ITEMS_SPACE;
             break;
           case '-':
-            white_big_text->drawf(names.item[i]+1, 0, 60+screen->h+y-scroll, A_HMIDDLE, A_TOP, 3);
+            white_big_text->drawf(names.item[i]+1, 0, screen->h+y-scroll, A_HMIDDLE, A_TOP, 3);
             y += white_big_text->h+ITEMS_SPACE;
             break;
           default:
-            blue_text->drawf(names.item[i], 0, 60+screen->h+y-scroll, A_HMIDDLE, A_TOP, 1);
+            blue_text->drawf(names.item[i], 0, screen->h+y-scroll, A_HMIDDLE, A_TOP, 1);
             y += blue_text->h+ITEMS_SPACE;
             break;
           }
@@ -341,10 +342,10 @@ void display_text_file(const std::string& file, Surface* surface)
 
       flipscreen();
 
-      if(60+screen->h+y-scroll < 0 && 20+60+screen->h+y-scroll < 0)
+      if(screen->h+y-scroll < 0 && 20+screen->h+y-scroll < 0)
         done = 1;
 
-      scroll += speed;
+      scroll += (int)speed;
       if(scroll < 0)
         scroll = 0;
 
