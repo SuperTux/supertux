@@ -20,6 +20,7 @@ text_type black_text, gold_text, blue_text, red_text, yellow_nums, white_text, w
 
 int use_gl, use_joystick, use_fullscreen, debug_mode, show_fps;
 
+int joystick_num = 0; 
 char* level_startup_file = 0;
 bool launch_worldmap_mode = false;
 

@@ -686,13 +686,13 @@ void st_joystick_setup(void)
         }
       else
         {
-          js = SDL_JoystickOpen(0);
+          js = SDL_JoystickOpen(joystick_num);
 
           if (js == NULL)
             {
-              fprintf(stderr, "Warning: Could not open joystick 1.\n"
+              fprintf(stderr, "Warning: Could not open joystick %d.\n"
                       "The Simple DirectMedia error that occured was:\n"
-                      "%s\n\n", SDL_GetError());
+                      "%s\n\n", joystick_num, SDL_GetError());
 
               use_joystick = NO;
             }
@@ -868,6 +868,11 @@ void parseargs(int argc, char * argv[])
 
           use_fullscreen = YES;
         }
+      else if (strcmp(argv[i], "--joystick") == 0 || strcmp(argv[i], "-j") == 0)
+        {
+          assert(i+1 < argc);
+          joystick_num = atoi(argv[++i]);
+        }
       else if (strcmp(argv[i], "--worldmap") == 0)
         {
           launch_worldmap_mode = true;
@@ -876,7 +881,7 @@ void parseargs(int argc, char * argv[])
                || strcmp(argv[i], "-d") == 0 )
         {
           assert(i+1 < argc);
-          datadir = argv[i+1];
+          datadir = argv[++i];
         }
       else if (strcmp(argv[i], "--show-fps") == 0)
         {
@@ -931,23 +936,24 @@ void parseargs(int argc, char * argv[])
                "  Please see the file \"README.txt\" for more details.\n");
           printf("Usage: %s [OPTIONS] FILENAME\n\n", argv[0]);
           puts("Display Options:\n"
-               "  --fullscreen      Run in fullscreen mode.\n"
-               "  --opengl          If opengl support was compiled in, this will enable\n"
-               "                    the EXPERIMENTAL OpenGL mode.\n"
+               "  --fullscreen        Run in fullscreen mode.\n"
+               "  --opengl            If opengl support was compiled in, this will enable\n"
+               "                      the EXPERIMENTAL OpenGL mode.\n"
                "\n"
                "Sound Options:\n"
-               "  --disable-sound   If sound support was compiled in,  this will\n"
-               "                    disable sound for this session of the game.\n"
-               "  --disable-music   Like above, but this will disable music.\n"
+               "  --disable-sound     If sound support was compiled in,  this will\n"
+               "                      disable sound for this session of the game.\n"
+               "  --disable-music     Like above, but this will disable music.\n"
                "\n"
                "Misc Options:\n"
-               "  --worldmap        Start in worldmap-mode (EXPERIMENTAL)\n"          
-               "  -d, --datadir DIR Load Game data from DIR (default: automatic)\n"
-               "  --debug-mode      Enables the debug-mode, which is useful for developers.\n"
-               "  --help            Display a help message summarizing command-line\n"
-               "                    options, license and game controls.\n"
-               "  --usage           Display a brief message summarizing command-line options.\n"
-               "  --version         Display the version of SuperTux you're running.\n\n"
+               "  -j, --joystick NUM  Use joystick NUM (default: 0)\n" 
+               "  --worldmap          Start in worldmap-mode (EXPERIMENTAL)\n"          
+               "  -d, --datadir DIR   Load Game data from DIR (default: automatic)\n"
+               "  --debug-mode        Enables the debug-mode, which is useful for developers.\n"
+               "  --help              Display a help message summarizing command-line\n"
+               "                      options, license and game controls.\n"
+               "  --usage             Display a brief message summarizing command-line options.\n"
+               "  --version           Display the version of SuperTux you're running.\n\n"
                );
           exit(0);
         }

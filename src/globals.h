@@ -26,6 +26,8 @@ extern text_type black_text, gold_text, white_text, white_small_text, white_big_
 
 extern int use_gl, use_joystick, use_fullscreen, debug_mode, show_fps;
 
+/** The number of the joystick that will be use in the game */
+extern int joystick_num;
 extern char* level_startup_file;
 extern bool launch_worldmap_mode;
 
