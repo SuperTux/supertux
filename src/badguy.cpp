@@ -75,6 +75,8 @@ Sprite* img_snowball_right;
 Sprite* img_snowball_squished_left;
 Sprite* img_snowball_squished_right;
 Sprite* img_wingling_left;
+Sprite* img_walkingtree_left;
+Sprite* img_walkingtree_left_small;
 
 #define BADGUY_WALK_SPEED .8f
 #define WINGLING_FLY_SPEED 1.6f
@@ -103,6 +105,8 @@ BadGuyKind  badguykind_from_string(const std::string& str)
     return BAD_SNOWBALL;
   else if (str == "wingling")
     return BAD_WINGLING;
+  else if (str == "walkingtree")
+    return BAD_WALKINGTREE;
   else
     {
       printf("Couldn't convert badguy: '%s'\n", str.c_str());
@@ -147,6 +151,8 @@ std::string badguykind_to_string(BadGuyKind kind)
     case BAD_WINGLING:
       return "wingling";
       break;
+    case BAD_WALKINGTREE:
+      return "walkingtree";
     default:
       return "snowball";
     }
@@ -291,6 +297,13 @@ BadGuy::activate(Direction activation_dir)
     physic.set_velocity(dirsign * WINGLING_FLY_SPEED, 0);
     physic.enable_gravity(false);
     set_sprite(img_wingling_left, img_wingling_left);
+  } else if (kind == BAD_WALKINGTREE) {
+    // TODO: why isn't the height/width being set properly in set_sprite?
+    physic.set_velocity(dirsign * BADGUY_WALK_SPEED, 0);
+    mode = BGM_BIG;
+    set_sprite(img_walkingtree_left, img_walkingtree_left);
+    base.width = 66;
+    base.height = 66;
   }
 
   base.x = start_position.x;
@@ -818,6 +831,23 @@ BadGuy::action_wingling(double elapsed_time)
   // TODO: Winglings should be removed after flying off the screen
 }
 
+void
+BadGuy::action_walkingtree(double elapsed_time)
+{
+  if (dying == DYING_NOT)
+    check_horizontal_bump();
+
+  fall();
+
+  physic.apply(elapsed_time, base.x, base.y);
+  if (dying != DYING_FALLING)
+    collision_swept_object_map(&old_base,&base);
+
+  // Handle dying timer:
+  if (dying == DYING_SQUISHED && !timer.check())
+    remove_me();
+}
+
 
 void
 BadGuy::action(float elapsed_time)
@@ -921,6 +951,10 @@ BadGuy::action(float elapsed_time)
 
     case BAD_WINGLING:
       action_wingling(elapsed_time);
+      break;
+
+    case BAD_WALKINGTREE:
+      action_walkingtree(elapsed_time);
       break;
 
     default:
@@ -1102,6 +1136,25 @@ BadGuy::squish(Player* player)
   } else if(kind == BAD_WINGLING) {
     squish_me(player);
     set_sprite(img_wingling_left, img_wingling_left);
+  } else if(kind == BAD_WALKINGTREE) {
+    if (mode == BGM_BIG)
+    {
+      set_sprite(img_walkingtree_left_small, img_walkingtree_left_small);
+      physic.set_velocity_x(physic.get_velocity_x() * 1.1);
+      // XXX magic number: 66 is BGM_BIG height
+      base.y += 66 - base.height;
+
+      player->base.y = base.y - player->base.height - 2;
+      make_player_jump(player);
+	      
+      World::current()->add_score(Vector(base.x, base.y),
+                                25 * player_status.score_multiplier);
+      player_status.score_multiplier++;
+
+      mode = BGM_SMALL;
+    }
+    else
+      squish_me(player);
   }
     
   
@@ -1353,6 +1406,8 @@ void load_badguy_gfx()
   img_snowball_squished_left = sprite_manager->load("snowball-squished-left");
   img_snowball_squished_right = sprite_manager->load("snowball-squished-right");
   img_wingling_left = sprite_manager->load("wingling-left");
+  img_walkingtree_left = sprite_manager->load("walkingtree-left");
+  img_walkingtree_left_small = sprite_manager->load("walkingtree-left-small");
 }
 
 void free_badguy_gfx()

@@ -644,6 +644,15 @@
           (y-hotspot 0)
           (images "shared/wingling-1.png"))
 
+  ; Walkingtree
+  (sprite (name "walkingtree-left")
+          (x-hotspot 0)
+          (y-hotspot 0)
+          (images "shared/walkingtree-left-1.png"))
+  (sprite (name "walkingtree-left-small")
+          (x-hotspot 0)
+          (y-hotspot 0)
+          (images "shared/walkingtree-left-small-1.png"))
  )
 
 ;; EOF ;;

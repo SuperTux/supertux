@@ -50,6 +50,7 @@ enum BadGuyKind {
   BAD_SPIKY,
   BAD_SNOWBALL,
   BAD_WINGLING,
+  BAD_WALKINGTREE,
   NUM_BadGuyKinds
 };
 
@@ -82,7 +83,10 @@ public:
     FISH_WAIT,
 
     FLY_UP,
-    FLY_DOWN
+    FLY_DOWN,
+
+    BGM_BIG,
+    BGM_SMALL
   };
 public:
   DyingType  dying;
@@ -147,6 +151,7 @@ private:
   void action_spiky(double frame_ratio);
   void action_snowball(double frame_ratio);
   void action_wingling(double frame_ratio);
+  void action_walkingtree(double frame_ratio);
 
   /** initializes the badguy (when he appears on screen) */
   void activate(Direction direction);
