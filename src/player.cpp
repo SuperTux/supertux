@@ -748,24 +748,55 @@ Player::draw(DrawingContext& context)
 
   /* Set Tux sprite action */
   if (duck && size != SMALL)
-    tux_body->set_action("duck");
+    {
+    if(dir == LEFT)
+      tux_body->set_action("duck-left");
+    else // dir == RIGHT
+      tux_body->set_action("duck-right");
+    }
   else if (skidding_timer.started())
-    tux_body->set_action("skid");
+    {
+    if(dir == LEFT)
+      tux_body->set_action("skid-left");
+    else // dir == RIGHT
+      tux_body->set_action("skid-right");
+    }
   else if (kick_timer.started())
-    tux_body->set_action("kick");
+    {
+    if(dir == LEFT)
+      tux_body->set_action("kick-left");
+    else // dir == RIGHT
+      tux_body->set_action("kick-right");
+    }
   else if (butt_jump)
-    tux_body->set_action("buttjump");
+    {
+    if(dir == LEFT)
+      tux_body->set_action("buttjump-left");
+    else // dir == RIGHT
+      tux_body->set_action("buttjump-right");
+    }
   else if (physic.get_velocity_y() != 0)
-    tux_body->set_action("jump");
+    {
+    if(dir == LEFT)
+      tux_body->set_action("jump-left");
+    else // dir == RIGHT
+      tux_body->set_action("jump-right");
+    }
   else
     {
     if (fabsf(physic.get_velocity_x()) < 1.0f) // standing
       {
-      tux_body->set_action("stand");
+      if(dir == LEFT)
+        tux_body->set_action("stand-left");
+      else // dir == RIGHT
+        tux_body->set_action("stand-right");
       }
     else // moving
       {
-      tux_body->set_action("walk");
+      if(dir == LEFT)
+        tux_body->set_action("walk-left");
+      else // dir == RIGHT
+        tux_body->set_action("walk-right");
       }
     }
 
@@ -773,7 +804,11 @@ Player::draw(DrawingContext& context)
     {
     if(size == BIG)
       {
-      tux_body->head->set_action("idle");
+      if(dir == LEFT)
+        tux_body->head->set_action("idle-left");
+      else // dir == RIGHT
+        tux_body->set_action("idle-right");
+
       tux_body->head->start_animation(1);
       }
 
@@ -785,9 +820,19 @@ Player::draw(DrawingContext& context)
       shooting_timer.check())
     {
     if (duck)
-      tux_body->arms->set_action("duck+grab");
+      {
+      if(dir == LEFT)
+        tux_body->arms->set_action("duck+grab");
+      else // dir == RIGHT
+        tux_body->set_action("duck-right");
+      }
     else
-      tux_body->arms->set_action("grab");
+      {
+      if(dir == LEFT)
+        tux_body->arms->set_action("grab");
+      else // dir == RIGHT
+        tux_body->set_action("duck-right");
+      }
     }
 
   /* Draw Tux */

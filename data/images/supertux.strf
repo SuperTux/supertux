@@ -6,7 +6,7 @@
 ;; Small Tux arms
        (name "small-tux-arms")
        (action
-         (name "walk")
+         (name "walk-right")
          (fps 15.0)
          (x-offset 5)
          (y-offset 14)
@@ -20,43 +20,83 @@
                  "shared/smalltux/arms-walk-7.png"))
 
        (action
-         (name "stand")
+         (name "walk-left")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 14)
+         (mirror-action "walk-right"))
+
+       (action
+         (name "stand-right")
          (fps 15.0)
          (x-offset 5)
          (y-offset 14)
          (images "shared/smalltux/arms-walk-5.png"))
 
        (action
-         (name "jump")
+         (name "stand-left")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 14)
+         (mirror-action "stand-right"))
+
+       (action
+         (name "jump-right")
          (fps 15.0)
          (x-offset 5)
          (y-offset 14)
          (images "shared/smalltux/arms-jump-0.png"))
 
        (action
-         (name "skid")
+         (name "jump-left")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 14)
+         (mirror-action "jump-right"))
+
+       (action
+         (name "skid-right")
          (x-offset 6)
          (y-offset 15)
          (images "shared/smalltux/arms-skid-0.png"))
 
        (action
-         (name "kick")
+         (name "skid-left")
+         (fps 15.0)
+         (x-offset 6)
+         (y-offset 15)
+         (mirror-action "skid-right"))
+
+       (action
+         (name "kick-right")
          (x-offset 5)
          (y-offset 14)
          (images "shared/smalltux/arms-kick-0.png"))
 
+       (action
+         (name "kick-left")
+         (x-offset 5)
+         (y-offset 14)
+         (mirror-action "kick-right"))
+
 ; Grabbing is arms specific!
        (action 
-         (name "grab")
+         (name "grab-right")
          (x-offset 5)
          (y-offset 14)
          (images "shared/bigtux/arms-grab-0.png")))
+
+       (action
+         (name "grab-left")
+         (x-offset 5)
+         (y-offset 14)
+         (mirror-action "grab-right"))
 
 ;; Small Tux Body
  (sprite
        (name "small-tux-body")
        (action
-         (name "walk")
+         (name "walk-right")
          (fps 15.0)
          (x-offset 5)
          (y-offset 14)
@@ -70,30 +110,63 @@
                  "shared/smalltux/body-walk-7.png"))
 
        (action
-         (name "stand")
+         (name "walk-left")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 14)
+         (mirror-action "walk-right"))
+
+       (action
+         (name "stand-right")
          (fps 15.0)
          (x-offset 5)
          (y-offset 14)
          (images "shared/smalltux/body-walk-5.png"))
 
        (action
-         (name "jump")
+         (name "stand-left")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 14)
+         (mirror-action "stand-right"))
+
+       (action
+         (name "jump-right")
          (fps 15.0)
          (x-offset 5)
          (y-offset 14)
          (images "shared/smalltux/body-jump-0.png"))
 
        (action
-         (name "skid")
+         (name "jump-left")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 14)
+         (mirror-action "jump-right"))
+
+       (action
+         (name "skid-right")
          (x-offset 6)
          (y-offset 15)
          (images "shared/smalltux/body-skid-0.png"))
 
        (action
-         (name "kick")
+         (name "skid-left")
+         (x-offset 6)
+         (y-offset 15)
+         (mirror-action "skid-right"))
+
+       (action
+         (name "kick-right")
          (x-offset 5)
          (y-offset 14)
          (images "shared/smalltux/body-kick-0.png")))
+
+       (action
+         (name "kick-left")
+         (x-offset 5)
+         (y-offset 14)
+         (mirror-action "kick-right"))
 
 ; End of Small Tux sprite
 
@@ -103,7 +176,7 @@
        (name "big-tux-arms")
 
        (action
-         (name "walk")
+         (name "walk-right")
          (fps 15.0)
          (x-offset 5)
          (y-offset 32)
@@ -115,101 +188,201 @@
                  "shared/bigtux/arms-walk-5.png"))
 
        (action
-         (name "stand")
+         (name "walk-left")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 14)
+         (mirror-action "walk-right"))
+
+       (action
+         (name "stand-right")
          (fps 15.0)
          (x-offset 5)
          (y-offset 32)
          (images "shared/bigtux/arms-stand-0.png"))
 
        (action
-         (name "jump")
+         (name "stand-left")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 32)
+         (mirror-action "stand-right"))
+
+       (action
+         (name "jump-right")
          (fps 15.0)
          (x-offset 5)
          (y-offset 30)
          (images "shared/bigtux/arms-jump-0.png"))
 
        (action
-         (name "skid")
+         (name "jump-left")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 30)
+         (mirror-action "jump-right"))
+
+       (action
+         (name "skid-right")
          (x-offset 6)
          (y-offset 31)
          (images "shared/bigtux/arms-skid-0.png"))
 
        (action
-         (name "kick")
+         (name "skid-left")
+         (fps 15.0)
+         (x-offset 6)
+         (y-offset 31)
+         (mirror-action "skid-right"))
+
+       (action
+         (name "kick-right")
          (x-offset 5)
          (y-offset 32)
          (images "shared/bigtux/arms-stand-0.png"))
 
        (action
-         (name "buttjump")
+         (name "kick-left")
+         (x-offset 5)
+         (y-offset 32)
+         (mirror-action "kick-right"))
+
+       (action
+         (name "buttjump-right")
          (x-offset 5)
          (y-offset 32)
          (images "shared/bigtux/arms-stand-0.png"))
 
+       (action
+         (name "buttjump-left")
+         (x-offset 5)
+         (y-offset 32)
+         (mirror-action "buttjump-right"))
+
 ; Grabbing is arms specific!
        (action 
-         (name "grab")
+         (name "grab-right")
          (x-offset 5)
          (y-offset 32)
          (images "shared/bigtux/arms-grab-0.png"))
 
        (action
-         (name "duck+grab")
+         (name "grab-left")
+         (x-offset 5)
+         (y-offset 32)
+         (mirror-action "grab-right"))
+
+       (action
+         (name "duck+grab-right")
          (x-offset 5)
          (y-offset 32)
          (images "shared/bigtux/arms-duck+grab-0.png")))
+
+       (action
+         (name "duck+grab-left")
+         (x-offset 5)
+         (y-offset 32)
+         (mirror-action "grab-right"))
 
 ;; Big Tux Head
  (sprite
        (name "big-tux-head")
        (action
-         (name "walk")
+         (name "walk-right")
          (fps 15.0)
          (x-offset 5)
          (y-offset 32)
          (images "shared/bigtux/head-stand-0.png"))
 
        (action
-         (name "stand")
+         (name "walk-left")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 32)
+         (mirror-action "walk-right"))
+
+       (action
+         (name "stand-right")
          (fps 15.0)
          (x-offset 5)
          (y-offset 32)
          (images "shared/bigtux/head-stand-0.png"))
 
        (action
-         (name "jump")
+         (name "stand-left")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 32)
+         (mirror-action "stand-right"))
+
+       (action
+         (name "jump-right")
          (fps 15.0)
          (x-offset 5)
          (y-offset 30)
          (images "shared/bigtux/head-stand-0.png"))
 
        (action
-         (name "duck")
+         (name "jump-left")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 30)
+         (mirror-action "jump-right"))
+
+       (action
+         (name "duck-right")
          (fps 15.0)
          (x-offset 5)
          (y-offset 30)
          (images "shared/bigtux/head-duck-0.png"))
 
        (action
-         (name "skid")
+         (name "duck-left")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 30)
+         (mirror-action "duck-right"))
+
+       (action
+         (name "skid-right")
          (x-offset 6)
          (y-offset 31)
          (images "shared/bigtux/head-skid-0.png"))
 
        (action
-         (name "kick")
+         (name "skid-left")
+         (fps 15.0)
+         (x-offset 6)
+         (y-offset 31)
+         (mirror-action "skid-right"))
+
+       (action
+         (name "kick-right")
          (x-offset 5)
          (y-offset 32)
          (images "shared/bigtux/head-stand-0.png"))
 
        (action
-         (name "buttjump")
+         (name "kick-left")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 32)
+         (mirror-action "kick-right"))
+
+       (action
+         (name "buttjump-right")
          (x-offset 5)
          (y-offset 32)
          (images "shared/bigtux/head-stand-0.png"))
 
        (action
-         (name "idle")
+         (name "buttjump-left")
+         (x-offset 5)
+         (y-offset 32)
+         (mirror-action "buttjump-right"))
+
+       (action
+         (name "idle-right")
          (fps 1.0)
          (x-offset 6)
          (y-offset 31)
@@ -217,60 +390,116 @@
                  "shared/bigtux/head-idle-blink-1.png")))
 
 
+       (action
+         (name "idle-left")
+         (fps 1.0)
+         (x-offset 6)
+         (y-offset 31)
+         (mirror-action "idle-right"))
+
 ;; Big Tux Body
  (sprite
        (name "big-tux-body")
        (action
-         (name "walk")
+         (name "walk-right")
          (fps 15.0)
          (x-offset 5)
          (y-offset 32)
          (images "shared/bigtux/body-stand-0.png"))
 
        (action
-         (name "stand")
+         (name "walk-left")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 32)
+         (mirror-action "walk-right"))
+
+       (action
+         (name "stand-right")
          (fps 15.0)
          (x-offset 5)
          (y-offset 32)
          (images "shared/bigtux/body-stand-0.png"))
 
        (action
-         (name "jump")
+         (name "stand-left")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 32)
+         (mirror-action "stand-right"))
+
+       (action
+         (name "jump-right")
          (fps 15.0)
          (x-offset 5)
          (y-offset 30)
          (images "shared/bigtux/body-stand-0.png"))
 
        (action
-         (name "duck")
+         (name "jump-left")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 30)
+         (mirror-action "jump-right"))
+
+       (action
+         (name "duck-right")
          (fps 15.0)
          (x-offset 5)
          (y-offset 30)
          (images "shared/bigtux/body-duck-0.png"))
 
        (action
-         (name "skid")
+         (name "duck-left")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 30)
+         (mirror-action "duck-right"))
+
+       (action
+         (name "skid-right")
          (x-offset 6)
          (y-offset 31)
          (images "shared/bigtux/body-skid-0.png"))
 
        (action
-         (name "kick")
+         (name "skid-left")
+         (fps 15.0)
+         (x-offset 6)
+         (y-offset 31)
+         (mirror-action "skid-right"))
+
+       (action
+         (name "kick-right")
          (x-offset 5)
          (y-offset 32)
          (images "shared/bigtux/body-stand-0.png"))
 
        (action
-         (name "buttjump")
+         (name "kick-left")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 32)
+         (mirror-action "kick-right"))
+
+       (action
+         (name "buttjump-right")
          (x-offset 5)
          (y-offset 32)
          (images "shared/bigtux/body-stand-0.png")))
+
+       (action
+         (name "buttjump-left")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 32)
+         (mirror-action "buttjump-right"))
 
 ;; Big Tux Feet
  (sprite
        (name "big-tux-feet")
        (action
-         (name "walk")
+         (name "walk-right")
          (fps 15.0)
          (x-offset 5)
          (y-offset 32)
@@ -282,43 +511,89 @@
                  "shared/bigtux/feet-walk-5.png"))
 
        (action
-         (name "stand")
+         (name "walk-left")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 32)
+         (mirror-action "walk-right"))
+
+       (action
+         (name "stand-right")
          (fps 15.0)
          (x-offset 5)
          (y-offset 32)
          (images "shared/bigtux/feet-stand-0.png"))
 
        (action
-         (name "jump")
+         (name "stand-left")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 32)
+         (mirror-action "stand-right"))
+
+       (action
+         (name "jump-right")
          (fps 15.0)
          (x-offset 5)
          (y-offset 30)
          (images "shared/bigtux/feet-jump-0.png"))
 
        (action
-         (name "duck")
+         (name "jump-left")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 30)
+         (mirror-action "jump-right"))
+
+       (action
+         (name "duck-right")
          (fps 15.0)
          (x-offset 5)
          (y-offset 30)
          (images "shared/bigtux/feet-duck-0.png"))
 
        (action
-         (name "skid")
+         (name "duck-left")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 30)
+         (mirror-action "duck-right"))
+
+       (action
+         (name "skid-right")
          (x-offset 6)
          (y-offset 31)
          (images "shared/bigtux/feet-skid-0.png"))
 
        (action
-         (name "kick")
+         (name "skid-left")
+         (x-offset 6)
+         (y-offset 31)
+         (mirror-action "skid-right"))
+
+       (action
+         (name "kick-right")
          (x-offset 5)
          (y-offset 32)
          (images "shared/bigtux/feet-kick-0.png"))
 
        (action
-         (name "buttjump")
+         (name "kick-left")
+         (x-offset 5)
+         (y-offset 32)
+         (mirror-action "kick-right"))
+
+       (action
+         (name "buttjump-right")
          (x-offset 5)
          (y-offset 32)
          (images "shared/bigtux/feet-buttjump-0.png")))
+
+       (action
+         (name "buttjump-left")
+         (x-offset 5)
+         (y-offset 32)
+         (mirror-action "buttjump-right"))
 
 ; End of Big Tux (no power) sprite
 
@@ -327,58 +602,111 @@
  (sprite
        (name "big-fire-tux-head")
        (action
-         (name "walk")
+         (name "walk-right")
          (fps 15.0)
          (x-offset 5)
          (y-offset 32)
          (images "shared/bigtux/head-fire-stand-0.png"))
 
        (action
-         (name "stand")
+         (name "walk-left")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 32)
+         (mirror-action "walk-right"))
+
+       (action
+         (name "stand-right")
          (fps 15.0)
          (x-offset 5)
          (y-offset 32)
          (images "shared/bigtux/head-fire-stand-0.png"))
 
        (action
-         (name "jump")
+         (name "stand-left")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 32)
+         (mirror-action "stand-right"))
+
+       (action
+         (name "jump-right")
          (fps 15.0)
          (x-offset 5)
          (y-offset 30)
          (images "shared/bigtux/head-fire-stand-0.png"))
 
        (action
-         (name "duck")
+         (name "jump-left")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 30)
+         (mirror-action "jump-right"))
+
+       (action
+         (name "duck-right")
          (fps 15.0)
          (x-offset 5)
          (y-offset 30)
          (images "shared/bigtux/head-fire-stand-0.png"))
 
        (action
-         (name "skid")
+         (name "duck-left")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 30)
+         (mirror-action "duck-right"))
+
+       (action
+         (name "skid-right")
          (x-offset 6)
          (y-offset 31)
          (images "shared/bigtux/head-skid-0.png"))
 
        (action
-         (name "kick")
+         (name "skid-left")
+         (x-offset 6)
+         (y-offset 31)
+         (mirror-action "skid-right"))
+
+       (action
+         (name "kick-right")
          (x-offset 5)
          (y-offset 32)
          (images "shared/bigtux/head-fire-stand-0.png"))
 
        (action
-         (name "buttjump")
+         (name "kick-left")
+         (x-offset 5)
+         (y-offset 32)
+         (mirror-action "kick-right"))
+
+       (action
+         (name "buttjump-right")
          (x-offset 5)
          (y-offset 32)
          (images "shared/bigtux/head-fire-stand-0.png"))
 
        (action
-         (name "idle")
+         (name "buttjump-left")
+         (x-offset 5)
+         (y-offset 32)
+         (mirror-action "buttjump-right"))
+
+       (action
+         (name "idle-right")
          (fps 1.0)
          (x-offset 6)
          (y-offset 31)
          (images "shared/bigtux/head-idle-blink-0.png"
                  "shared/bigtux/head-idle-blink-1.png")))
+
+       (action
+         (name "idle-left")
+         (fps 1.0)
+         (x-offset 6)
+         (y-offset 31)
+         (mirror-action "idle-right"))
 
 ; End of Big Fire Tux sprite
 

@@ -75,17 +75,7 @@ Sprite::parse_action(LispReader& lispreader)
   lispreader.read_int("z-order", action->z_order);
   lispreader.read_float("fps",     action->fps);
 
-  std::vector<std::string> images;
-  if(!lispreader.read_string_vector("images", images))
-    Termination::abort("Sprite contains no images: ", action->name.c_str());
-
-  for(std::vector<std::string>::size_type i = 0; i < images.size(); i++)
-    {
-      action->surfaces.push_back(
-          new Surface(datadir + "/images/" + images[i], true));
-    }
-
-  // TODO: add a top filter entry
+  /* TODO: add a top filter entry */
   std::vector <int> mask_color;
   lispreader.read_int_vector("apply-mask", mask_color);
   if(mask_color.size() == 4)
@@ -97,6 +87,33 @@ Sprite::parse_action(LispReader& lispreader)
       }
     }
 
+  action->mirror = false;
+  std::string mirror_action;
+  lispreader.read_string("mirror-action", mirror_action);
+  if(!mirror_action.empty())
+    {
+    action->mirror = true;
+    Action* act_tmp = get_action(mirror_action);
+    if(act_tmp == NULL)
+      std::cerr << "Warning: Could not mirror action. Action not found\n"
+                   "Mirror actions must be defined after the real one!\n";
+    else
+      action->surfaces = act_tmp->surfaces;
+    }
+
+  // Load images
+  if(!action->mirror)
+    {
+    std::vector<std::string> images;
+    if(!lispreader.read_string_vector("images", images))
+      Termination::abort("Sprite contains no images: ", action->name.c_str());
+
+    for(std::vector<std::string>::size_type i = 0; i < images.size(); i++)
+      {
+      action->surfaces.push_back(
+          new Surface(datadir + "/images/" + images[i], true));
+      }
+    }
   actions[action->name] = action;
 }
 
@@ -131,6 +148,18 @@ if(i == actions.end())
   return;
   }
 action = i->second;
+}
+
+Sprite::Action*
+Sprite::get_action(std::string act)
+{
+Actions::iterator i = actions.find(act);
+if(i == actions.end())
+  {
+  std::cerr << "Warning: Action '" << act << "' not found on Sprite '" << name << "'\n";
+  return NULL;
+  }
+return i->second;
 }
 
 void

@@ -48,6 +48,10 @@ namespace SuperTux
         /** Frames per second */
         float fps;
 
+        /** Mirror is used to avoid duplicating left and right side
+            sprites */
+        bool mirror;
+
         std::vector<Surface*> surfaces;
         };
 
@@ -111,6 +115,9 @@ namespace SuperTux
     private:
       void init_defaults(Action* act);
       void parse_action(LispReader& lispreader);
+
+      /** Get an action */
+      Action* get_action(std::string act);
 
       void update();
       void reset();
