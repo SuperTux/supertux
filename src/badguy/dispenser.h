@@ -1,20 +1,23 @@
-#ifndef __BOUNCING_SNOWBALL_H__
-#define __BOUNCING_SNOWBALL_H__
+#ifndef __DISPENSER_H__
+#define __DISPENSER_H__
 
 #include "badguy.h"
+#include "timer.h"
 
-class BouncingSnowball : public BadGuy
+class Dispenser : public BadGuy
 {
 public:
-  BouncingSnowball(LispReader& reader);
-  BouncingSnowball(float pos_x, float pos_y);
+  Dispenser(LispReader& reader);
 
   void activate();
   void write(LispWriter& writer);
   HitResponse collision_solid(GameObject& other, const CollisionHit& hit);
+  void active_action(float elapsed_time);
 
 protected:
   bool collision_squished(Player& player);
+  std::string badguy;
+  Timer2 dispense_timer;
 };
 
 #endif

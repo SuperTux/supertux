@@ -4,6 +4,8 @@
 #include "utils/lispwriter.h"
 #include "gameloop.h"
 
+#define MESSAGE_TIME 3
+
 SecretAreaTrigger::SecretAreaTrigger(LispReader& reader)
 {
   reader.read_float("x", bbox.p1.x);

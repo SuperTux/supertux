@@ -8,8 +8,6 @@
 #include "app/globals.h"
 #include "timer.h"
 
-#define MESSAGE_TIME 3
-
 class SecretAreaTrigger : public TriggerBase, public Serializable
 {
 public:

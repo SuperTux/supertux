@@ -13,6 +13,14 @@ BouncingSnowball::BouncingSnowball(LispReader& reader)
   sprite = sprite_manager->create("bouncingsnowball");
 }
 
+BouncingSnowball::BouncingSnowball(float pos_x, float pos_y)
+{
+   start_position.x = pos_x;
+   start_position.y = pos_y;
+   bbox.set_size(32, 32);
+   sprite = sprite_manager->create("bouncingsnowball");
+}
+
 void
 BouncingSnowball::write(LispWriter& writer)
 {

@@ -16,12 +16,12 @@ MrBomb::MrBomb(LispReader& reader)
 void
 MrBomb::write(LispWriter& writer)
 {
-  writer.start_list("snowball");
+  writer.start_list("mrbomb");
 
   writer.write_float("x", get_pos().x);
   writer.write_float("y", get_pos().y);
 
-  writer.end_list("snowball");
+  writer.end_list("mrbomb");
 }
 
 void

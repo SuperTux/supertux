@@ -54,6 +54,7 @@
 #include "badguy/flame.h"
 #include "badguy/mriceblock.h"
 #include "badguy/mrbomb.h"
+#include "badguy/dispenser.h"
 #include "trigger/sequence_trigger.h"
 #include "trigger/secretarea_trigger.h"
 
@@ -152,6 +153,8 @@ Sector::parseObject(const std::string& name, LispReader& reader)
     return new MrIceBlock(reader);
   } else if(name == "mrbomb") {
     return new MrBomb(reader);
+  } else if(name == "dispenser") {
+    return new Dispenser(reader);
   }
 #if 0
     else if(badguykind_from_string(name) != BAD_INVALID) {
