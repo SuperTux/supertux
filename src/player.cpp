@@ -631,7 +631,7 @@ Player::collision(void* p_c_object, int c_object)
                 }
               else
                 {
-                  pbad_c->kill_me();
+                  pbad_c->kill_me(25);
                 }
             }
           player_status.score_multiplier++;
