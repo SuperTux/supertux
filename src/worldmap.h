@@ -97,12 +97,13 @@ private:
 public: 
   Tux(WorldMap* worldmap_);
   
-  void draw();
+  void draw(const Point& offset);
   void update(float delta);
 
   void set_direction(Direction d) { input_direction = d; }
 
   bool is_moving() const { return moving; }
+  Point get_pos();
   Point get_tile_pos() const { return tile_pos; } 
   void  set_tile_pos(Point p) { tile_pos = p; } 
 };
@@ -141,6 +142,7 @@ private:
   Direction input_direction;
   bool enter_level;
 
+  Point offset;
 public:
   WorldMap();
   ~WorldMap();
@@ -156,7 +158,7 @@ public:
   void update();
 
   /** Draw one frame */
-  void draw();
+  void draw(const Point& offset);
 
   Point get_next_tile(Point pos, Direction direction);
   Tile* at(Point pos);

@@ -112,7 +112,16 @@ Tux::Tux(WorldMap* worldmap_)
 }
 
 void
-Tux::draw()
+Tux::draw(const Point& offset)
+{
+  Point pos = get_pos();
+  sprite->draw(pos.x + offset.x, 
+               pos.y + offset.y);
+}
+
+
+Point
+Tux::get_pos()
 {
   float x = tile_pos.x * 32;
   float y = tile_pos.y * 32;
@@ -134,8 +143,8 @@ Tux::draw()
     case NONE:
       break;
     }
-
-  sprite->draw((int)x, (int)y);
+  
+  return Point((int)x, (int)y); 
 }
 
 void
@@ -473,21 +482,23 @@ WorldMap::at(Point p)
 }
 
 void
-WorldMap::draw()
+WorldMap::draw(const Point& offset)
 {
   for(int y = 0; y < height; ++y)
     for(int x = 0; x < width; ++x)
       {
         Tile* tile = at(Point(x, y));
-        tile->sprite->draw(x*32, y*32);
+        tile->sprite->draw(x*32 + offset.x,
+                           y*32 + offset.y);
       }
   
   for(Levels::iterator i = levels.begin(); i != levels.end(); ++i)
     {
-      leveldot_green->draw(i->x*32, i->y*32);
+      leveldot_green->draw(i->x*32 + offset.x, 
+                           i->y*32 + offset.y);
     }
 
-  tux->draw();
+  tux->draw(offset);
 }
 
 void
@@ -499,7 +510,20 @@ WorldMap::display()
   play_music(song, 1);
 
   while(!quit) {
-    draw();
+    Point tux_pos = tux->get_pos();
+    if (1)
+      {
+        offset.x = -tux_pos.x + screen->w/2;
+        offset.y = -tux_pos.y + screen->h/2;
+
+        if (offset.x > 0) offset.x = 0;
+        if (offset.y > 0) offset.y = 0;
+
+        if (offset.x < screen->w - width*32) offset.x = screen->w - width*32;
+        if (offset.y < screen->h - height*32) offset.y = screen->h - height*32;
+      } 
+
+    draw(offset);
     get_input();
     update();
 
