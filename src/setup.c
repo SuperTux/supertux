@@ -454,7 +454,7 @@ void parseargs(int argc, char * argv[])
 
           use_fullscreen = YES;
         }
-      if (strcmp(argv[i], "--opengl") == 0 ||
+      else if (strcmp(argv[i], "--opengl") == 0 ||
           strcmp(argv[i], "-g") == 0)
         {
           /* Use full screen: */
