@@ -448,6 +448,8 @@ WorldMap::WorldMap()
 
   name = "<no title>";
   music = "SALCON.MOD";
+
+  total_stats.reset();
 }
 
 WorldMap::~WorldMap()
