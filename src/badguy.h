@@ -179,6 +179,36 @@ struct BadGuyData
     : kind(BAD_SNOWBALL), x(0), y(0), stay_on_platform(false) {}
 };
 
+class BadGuyManager
+{
+ private:
+  BadGuyManager();
+  ~BadGuyManager();
+  
+  std::vector<BadGuy*> badguys;
+  static BadGuyManager* instance_ ;
+
+  void load_badguys(std::string filename);
+
+ public:
+  static BadGuyManager* instance() { return instance_ ? instance_ : instance_ = new BadGuyManager(); }
+  static void destroy_instance() { delete instance_; instance_ = 0; }
+  
+  BadGuy* get(unsigned int id) {
+    if(id < badguys.size())
+      {
+        return badguys[id]; 
+      }
+    else
+      {
+        // Never return 0, but return the 0th tile instead so that
+        // user code doesn't have to check for NULL pointers all over
+        // the place
+        return badguys[0]; 
+      } 
+  }
+};
+
 #endif /*SUPERTUX_BADGUY_H*/
 
 /* Local Variables: */
