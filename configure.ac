@@ -63,7 +63,7 @@ AC_CHECK_LIB(SDL_image, IMG_Load, ,AC_MSG_ERROR(SDL_image library required))
 AC_CHECK_LIB(GL, glBegin, ,AC_MSG_ERROR(GL library required))
 
 # FIXME: Evil
-CFLAGS="-DDATA_PREFIX=\\\"$PWD/data\\\" -DLINUX"
+CFLAGS="$CFLAGS -DDATA_PREFIX=\\\"$PWD/data\\\" -DLINUX"
 
 dnl Checks for library functions.
 AC_CHECK_FUNCS(mkdir strdup strstr)
