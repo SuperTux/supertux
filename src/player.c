@@ -170,7 +170,7 @@ void player_action(player_type* pplayer)
   if (!pplayer->dying)
     {
       /* FIXME: this code is COMPLETLY broken!!! */
-        if (issolid(pplayer->base.x, pplayer->base.y + 31) &&
+       /* if (issolid(pplayer->base.x, pplayer->base.y + 31) &&
             !issolid(pplayer->base.x- pplayer->base.xm, pplayer->base.y + 31))
           {
             while (issolid(pplayer->base.x, pplayer->base.y + 31))
@@ -182,9 +182,9 @@ void player_action(player_type* pplayer)
               }
 
             pplayer->base.xm = 0;
-          }
+          }*/
 
-        if (issolid(pplayer->base.x, pplayer->base.y) &&
+        /*if (issolid(pplayer->base.x, pplayer->base.y) &&
             !issolid(pplayer->base.x- pplayer->base.xm, pplayer->base.y))
           {
             while (issolid(pplayer->base.x, (pplayer->base.y)))
@@ -196,7 +196,7 @@ void player_action(player_type* pplayer)
               }
 
             pplayer->base.xm = 0;
-          }
+          }*/
 
         if (issolid(pplayer->base.x, pplayer->base.y + 31))
           {
@@ -251,14 +251,12 @@ void player_action(player_type* pplayer)
           pplayer->base.ym = 0;
         }
 	   
-      if ((!issolid(pplayer->base.x - pplayer->base.xm * frame_ratio, pplayer->base.y) && (issolid(pplayer->base.x, pplayer->base.y) || issolid(pplayer->base.x+32, pplayer->base.y))
+      if (((issolid(pplayer->base.x, pplayer->base.y) || issolid(pplayer->base.x+32, pplayer->base.y)) &&  (!issolid(pplayer->base.x - pplayer->base.xm * frame_ratio, pplayer->base.y))
           /*(pplayer->size == SMALL || pplayer->duck ||
-           !issolid(pplayer->base.x- pplayer->base.xm, pplayer->base.y - 32))*/) || ( pplayer->size == BIG && (
-	   (!issolid(pplayer->base.x - pplayer->base.xm * frame_ratio, pplayer->base.y+32) && (issolid(pplayer->base.x, pplayer->base.y+32) || issolid(pplayer->base.x+32, pplayer->base.y+32))
-          /*(pplayer->size == SMALL || pplayer->duck ||
-           !issolid(pplayer->base.x- pplayer->base.xm, pplayer->base.y - 32))*/))))
+           !issolid(pplayer->base.x- pplayer->base.xm, pplayer->base.y - 32))*/) || 
+	   (!issolid(pplayer->base.x - pplayer->base.xm * frame_ratio, pplayer->base.y+pplayer->base.height) && (issolid(pplayer->base.x, pplayer->base.y+pplayer->base.height) || issolid(pplayer->base.x +32, pplayer->base.y+pplayer->base.height))))
         {
-          pplayer->base.x = pplayer->base.x- pplayer->base.xm * frame_ratio;
+	  pplayer->base.x = pplayer->base.x- pplayer->base.xm * frame_ratio;
           pplayer->base.xm = 0;
         }
 	

@@ -16,7 +16,7 @@
 #include "timer.h"
 
 enum {
-  PH_VT, /* Vertical throw.*/
+  PH_VT /* Vertical throw.*/
 };
 
 /* Physic type: */

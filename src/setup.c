@@ -168,9 +168,9 @@ char ** dsubdirs(char *rel_path, char* expected_file, int* num)
 
 void free_strings(char **strings, int num)
 {
-int i;
-for(i=0; i < num; ++i)
-free(strings[i]);
+  int i;
+  for(i=0; i < num; ++i)
+    free(strings[i]);
 }
 
 /* --- SETUP --- */
@@ -222,7 +222,7 @@ void st_menu(void)
 
   menu_init(&main_menu);
   menu_additem(&main_menu,menu_item_create(MN_ACTION,"Start Game",0,0));
-  menu_additem(&main_menu,menu_item_create(MN_ACTION,"Load Game",0,0));
+  menu_additem(&main_menu,menu_item_create(MN_GOTO,"Load Game",0,&load_game_menu));
   menu_additem(&main_menu,menu_item_create(MN_GOTO,"Options",0,&options_menu));
   menu_additem(&main_menu,menu_item_create(MN_ACTION,"Level editor",0,0));
   menu_additem(&main_menu,menu_item_create(MN_ACTION,"Quit",0,0));
@@ -249,10 +249,13 @@ void st_menu(void)
   menu_additem(&leveleditor_menu,menu_item_create(MN_ACTION,"Save Level",0,0));
   menu_additem(&leveleditor_menu,menu_item_create(MN_ACTION,"Quit Level Editor",0,0));
 
+  menu_init(&load_game_menu);
+  menu_additem(&load_game_menu,menu_item_create(MN_LABEL,"Load Game",0,0));
+
   menu_init(&game_menu);
   menu_additem(&game_menu,menu_item_create(MN_ACTION,"Return To Game",0,0));
   menu_additem(&game_menu,menu_item_create(MN_ACTION,"Save Game",0,0));
-  menu_additem(&game_menu,menu_item_create(MN_ACTION,"Load Game",0,0));
+  menu_additem(&game_menu,menu_item_create(MN_GOTO,"Load Game",0,&load_game_menu));
   menu_additem(&game_menu,menu_item_create(MN_GOTO,"Options",0,&options_menu));
   menu_additem(&game_menu,menu_item_create(MN_ACTION,"Quit Game",0,0));
 
@@ -324,7 +327,8 @@ void st_general_setup(void)
   /* Load GUI/menu images: */
   texture_load(&checkbox, DATA_PREFIX "/images/status/checkbox.png", USE_ALPHA);
   texture_load(&checkbox_checked, DATA_PREFIX "/images/status/checkbox-checked.png", USE_ALPHA);
-
+  texture_load(&back, DATA_PREFIX "/images/status/back.png", USE_ALPHA);
+  
   /* Set icon image: */
 
   seticon();
@@ -342,12 +346,13 @@ void st_general_free(void)
   text_free(&white_text);
   text_free(&blue_text);
   text_free(&red_text);
-  text_free(&white_small_text); 
-  
+  text_free(&white_small_text);
+
   /* Free GUI/menu images: */
   texture_free(&checkbox);
   texture_free(&checkbox_checked);
-
+  texture_free(&back);
+  
   /* Free menus */
 
   menu_free(&main_menu);

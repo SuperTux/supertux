@@ -31,8 +31,6 @@ void fillrect(float x, float y, float w, float h, int r, int g, int b, int a);
 void updatescreen(void);
 void flipscreen(void);
 SDL_Surface * load_image(char * file, int use_alpha);
-void erasetext(char * text, int x, int y, texture_type * surf, int update, int shadowsize);
-void erasecenteredtext(char * text, int y, texture_type * surf, int update, int shadowsize);
 void update_rect(SDL_Surface *scr, Sint32 x, Sint32 y, Sint32 w, Sint32 h);
 
 #endif /*SUPERTUX_SCREEN_H*/

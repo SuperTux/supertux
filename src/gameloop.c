@@ -624,9 +624,6 @@ int gameloop(char * subset, int levelnb, int mode)
                 case 1:
                   savegame();
                   break;
-                case 2:
-                  loadgame(NULL);
-                  break;
                 case 4:
                   done = 1;
                   break;

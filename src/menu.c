@@ -35,9 +35,9 @@
 int menuaction;
 int show_menu;
 int menu_change;
-texture_type checkbox, checkbox_checked;
+texture_type checkbox, checkbox_checked, back;
 
-menu_type main_menu, game_menu, options_menu, leveleditor_menu, highscore_menu;
+menu_type main_menu, game_menu, options_menu, leveleditor_menu, highscore_menu, load_game_menu;
 menu_type* current_menu, * last_menu;
 
 /* input implementation variables */
@@ -160,7 +160,7 @@ void menu_action(menu_type* pmenu)
           if(pmenu->item[pmenu->active_item].kind == MN_TEXTFIELD)
             {
               if(pmenu->item[pmenu->active_item].input != NULL)
-                {	
+                {
                   i = strlen(pmenu->item[pmenu->active_item].input);
                   pmenu->item[pmenu->active_item].input = (char*) realloc(pmenu->item[pmenu->active_item].input,sizeof(char)*(i + 2));
                   pmenu->item[pmenu->active_item].input[i] = mn_input_char;
@@ -176,11 +176,16 @@ void menu_action(menu_type* pmenu)
           break;
         }
     }
-    
-    menuaction = -1;
 
-  if(pmenu->item[pmenu->active_item].kind == MN_DEACTIVE)
-    menu_action(pmenu);
+  if(pmenu->item[pmenu->active_item].kind == MN_DEACTIVE || pmenu->item[pmenu->active_item].kind == MN_LABEL)
+    {
+      if(menuaction != MN_UP && menuaction != MN_DOWN)
+        menuaction = MN_DOWN;
+
+      if(pmenu->num_items > 1)
+        menu_action(pmenu);
+    }
+
 }
 
 /* Check, if the value of the active menu item has changed. */
@@ -214,7 +219,7 @@ void menu_draw(menu_type* pmenu)
   menu_width = 0;
   for(i = 0; i < pmenu->num_items; ++i)
     {
-    y = strlen(pmenu->item[i].text) + (pmenu->item[i].input ? strlen(pmenu->item[i].input) : 0);
+      y = strlen(pmenu->item[i].text) + (pmenu->item[i].input ? strlen(pmenu->item[i].input) : 0);
       if( y > menu_width )
         {
           menu_width = y;
@@ -224,7 +229,7 @@ void menu_draw(menu_type* pmenu)
     }
   menu_width = menu_width * 16 + 48;
   menu_height = (pmenu->num_items) * 24;
-  
+
   /* Draw a transparent background */
   fillrect(screen->w/2 - menu_width/2,screen->h/2-(((pmenu->num_items)*24)/2),menu_width,menu_height,150,150,150,100);
 
@@ -233,6 +238,11 @@ void menu_draw(menu_type* pmenu)
       if(pmenu->item[i].kind == MN_DEACTIVE)
         {
           text_drawf(&black_text,pmenu->item[i].text,0,(i)*24 - menu_height/2 + 10,A_HMIDDLE, A_VMIDDLE,2,NO_UPDATE);
+        }
+      else if(pmenu->item[i].kind == MN_LABEL)
+        {
+          text_drawf(&gold_text,pmenu->item[i].text,0,(i)*24 - menu_height/2 + 10,A_HMIDDLE, A_VMIDDLE,2,NO_UPDATE);
+          fillrect(screen->w/2 - menu_width/2,(i)*24 - menu_height/2 + 28,menu_width,2,150,150,150,100);
         }
       else if(pmenu->item[i].kind == MN_TEXTFIELD)
         {
@@ -262,6 +272,10 @@ void menu_draw(menu_type* pmenu)
           else
             texture_draw(&checkbox,screen->w / 2 + (strlen(pmenu->item[i].text) * 16)/2 + 16,(i)*24 - menu_height/2 + 10 + screen->h / 2 - 8,NO_UPDATE);
         }
+      else if(pmenu->item[i].kind == MN_BACK)
+      {
+            texture_draw(&back,screen->w / 2 + (strlen(pmenu->item[i].text) * 16)/2  + 16,(i)*24 - menu_height/2 + 10 + screen->h / 2 -8,NO_UPDATE);
+      }
     }
 }
 
@@ -349,8 +363,8 @@ void menu_event(SDL_keysym* keysym)
         }
       else
         {
-        mn_input_char = '\0';
-	}
+          mn_input_char = '\0';
+        }
       break;
     }
 

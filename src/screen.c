@@ -304,32 +304,3 @@ void update_rect(SDL_Surface *scr, Sint32 x, Sint32 y, Sint32 w, Sint32 h)
     SDL_UpdateRect(scr, x, y, w, h);
 }
 
-
-/* --- ERASE TEXT: --- */
-
-void erasetext(char * text, int x, int y, texture_type * ptexture, int update, int shadowsize)
-{
-  SDL_Rect dest;
-
-
-  dest.x = x;
-  dest.y = y;
-  dest.w = strlen(text) * 16 + shadowsize;
-  dest.h = 17;
-
-  if (dest.w > screen->w)
-    dest.w = screen->w;
-
-  texture_draw_part(ptexture,dest.x,dest.y,dest.x,dest.y,dest.w,dest.h,update);
-
-  if (update == UPDATE)
-    update_rect(screen, dest.x, dest.y, dest.w, dest.h);
-}
-
-
-/* --- ERASE CENTERED TEXT: --- */
-
-void erasecenteredtext(char * text, int y, texture_type * ptexture, int update, int shadowsize)
-{
-  erasetext(text, screen->w / 2 - (strlen(text) * 8), y, ptexture, update, shadowsize);
-}

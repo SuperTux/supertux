@@ -135,6 +135,17 @@ int title(void)
       sprintf(str, "by %s", hs_name);
       text_drawf(&gold_text, str, 0, -20, A_HMIDDLE, A_BOTTOM, 1, NO_UPDATE);
 
+      /* Animate title screen: */
+
+      pict = (frame / 5) % 3;
+
+      if (pict == 0)
+        texture_draw_part(&title, 560, 270, 560, 270, 80, 75, NO_UPDATE);
+      else if (pict == 1)
+        texture_draw(&anim1, 560, 270, NO_UPDATE);
+      else if (pict == 2)
+        texture_draw(&anim2, 560, 270, NO_UPDATE);
+	
       /* Don't draw menu, if quit is true */
       if(show_menu && !quit)
         menu_process_current();
@@ -220,16 +231,6 @@ int title(void)
         {
           process_options_menu();
         }
-      /* Animate title screen: */
-
-      pict = (frame / 5) % 3;
-
-      if (pict == 0)
-        texture_draw_part(&title, 560, 270, 560, 270, 80, 75, NO_UPDATE);
-      else if (pict == 1)
-        texture_draw(&anim1, 560, 270, NO_UPDATE);
-      else if (pict == 2)
-        texture_draw(&anim2, 560, 270, NO_UPDATE);
 
       flipscreen();
 
