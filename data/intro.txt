@@ -1,4 +1,6 @@
--Penny gets captured!
+; Introduction text
+(supertux-text
+  (text "-Penny gets captured!
 
 	Tux and Penny were out having a nice
 	picnic on the ice fields of Antarctica.
@@ -8,14 +10,38 @@
 
 	When Tux wakes up, he finds that Penny
 	is missing. Where she lay before now
-	lies a letter. "Tux, my arch enemy!"
-	says the letter. "I have captured
+	lies a letter. \"Tux, my arch enemy!\"
+	says the letter. \"I have captured
 	your beautiful Penny and have taken her
 	to my fortress. The path to my fortress
 	is littered with my minions. Give up on
 	the thought of trying to reclaim her,
-	you haven't a chance! -Nolok"
+	you haven't a chance! -Nolok\"
 
 	Tux looks and see Nolok's fortress in
 	the distance. Determined to save his
-	beloved Penny, he begins his journey.
+	beloved Penny, he begins his journey.")
+
+; Portuguese (European) by Ricardo Cruz
+  (text-pt_PT "-A Penny foi capturada!
+
+	O Tux e a Penny foram fazer um piquenique
+	nos campos de gelo da Antártida.
+	De repente, uma criatura surge de
+	trás de um arbusto gelado, dá-se um clarão,
+	e o Tux perde os sentidos!
+
+	Ao acordar, o Tux verifica que a sua
+	Penny desapareceu. No seu lugar
+	está uma carta. \"Tux, meu arqui-inimigo!\"
+	diz a carta. \"Eu capturei a tua
+	preciosa Penny e levei-a para
+	a minha fortaleza. O caminho para esta
+	está atolhado com os meus guerreiros. Desiste
+	sequer de pensares em resgatá-la,
+	porque não tens hipótese! -Nolok\"
+
+	O Tux olha e vê a fortaleza de Nolok
+	ao longe. Determinado em salvar a sua
+	amada Penny, ele inicia a sua viagem.")
+  )

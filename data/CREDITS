@@ -1,4 +1,6 @@
--- SuperTux -
+; Credits text
+(supertux-text
+  (text "-- SuperTux -
 	 Milestone 1
 
 
@@ -101,4 +103,111 @@
 
 
 
-	See you soon in Milestone2!
+	See you soon in Milestone2!")
+
+; Portuguese (European) by Ricardo Cruz
+  (text-pt_PT "-- SuperTux -
+	 Milestone 1
+
+
+-Responsável pela manutenção
+
+	Tobias (tobgle) Glaesser
+
+
+-Originalmente desenvolvido por
+
+	Bill Kendrick
+
+
+-Programadores
+
+	Tobias (tobgle) Glaesser
+
+	Ricardo (blacksheep) Cruz
+ 
+	Ingo (grumbel) Ruhnke
+ 
+	Matthias (MatzeB) Braun
+
+
+-Programadores que colaboraram
+
+	Ryan (sik0fewl) Flegel
+ 
+	Duong-Khang (neoneurone) NGUYEN
+
+
+-Gráficos
+
+	Ingo (grumbel) Ruhnke
+ 
+	Christopher A. (paroneayea) Webber
+
+	Benjamin P. (litespeed) Jung
+
+
+-Design dos Níveis
+
+	Marek (Wansti) Moeckel
+ 
+	Ingo (grumbel) Ruhnke
+
+
+-História
+
+	Christopher A. (paroneayea) Webber
+
+
+-Música
+
+	Marek (Wansti) Moeckel
+
+	Mystical
+
+	Mortimer Twang
+
+
+-Sons
+
+	Efeitos sonoros livres de custo
+	de CDROMs e sites FTP
+
+
+-Agradecimentos a
+
+	Larry Ewing
+ Criador do Tux, o pinguim do Linux
+
+	SDL e OpenGL
+ Por ter possibilitado esta excelente
+ experiência de jogo em Linux
+
+
+-Contactos
+
+	Visita a nossa página em
+*http://super-tux.sf.net
+
+	Ou visita-nos directamente no IRC:
+*#supertux em irc.freenode.net
+
+	Comentários, ideias e sugestões
+	devem ir para a nossa lista de correio
+*super-tux-devel@lists.sourceforge.net
+
+
+
+
+
+
+
+	Obrigado por teres
+	jogado ao
+
+-SuperTux
+
+
+
+	Ver-nos-emos em breve na Milestone2!")
+  )

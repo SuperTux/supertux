@@ -1,11 +1,13 @@
--Entering Nolok's Throne Room!
+; Ending text
+(supertux-text
+  (text "-Entering Nolok's Throne Room!
 
 	Tux ran into Nolok's throne room,
 	frantically searching for his beloved.
 	Alas, he found neither Penny nor Nolok
 	there, but instead, another note.
 
-	"Well done, Tux, well done. If you are
+	\"Well done, Tux, well done. If you are
 	reading this, you have removed my
 	control over this icy fortress. But as
 	you can see, your beloved Penny is not
@@ -13,12 +15,12 @@
 	this is just one of my many fortresses,
 	spread far across the lands!
 
-	"Tux, your ambition is most honorable,
+	\"Tux, your ambition is most honorable,
 	but futile nonetheless. With every
 	fortress you conquer of mine, I will
 	escape to another, and take Penny with
 	me. Do not be silly... it is best that
-	you give up now."
+	you give up now.\"
 
 	Tux was sadly leaving the room, when he
 	felt something beneath his foot... an
@@ -30,4 +32,40 @@
 
 	Tux ran out of the fortress, map in
 	hand. No, he decided, he would not give
-	up. Penny was counting on him.
+	up. Penny was counting on him.")
+
+; Portuguese (European) by Ricardo Cruz
+  (text-pt_PT "-Entrando na Sala do Trono de Nolok!
+
+	O Tux entra a correr na sala do trono de Nolok,
+	procurando freneticamente a sua amada.
+	Todavia, nem Penny, nem Nolok lá
+	estavam; em vez deles, outra carta.
+
+	\"Muito bem, Tux, muito bem. Se estiveres a
+	ler isto é porque acabaste de remover
+	todo o meu poder sobre esta região gelada. Mas
+	como vês, a tua bela Penny não está
+	aqui. O que não te apercebeste é que
+	esta é apenas uma das várias fortalezas
+	que tenho espalhadas pelo reino!
+
+	\"Tux, a tua intenção é honrosa...
+	mas fútil. Por cada fortaleza
+	que me conquistes, Escaparei
+	para outra, e levarei a Penny comigo.
+	Não sejas tonto... o melhor é mesmo
+	desistires agora.\"
+
+	Tux abandona a sala tristemente, quando
+	sente algo debaixo do seu pé... um
+	envelope, endereçado a ele! Dentro estava
+	um esboço de um mapa com várias fortalezas
+	localizadas em vários pontos. No canto
+	do mapa estava a assinatura da Penny, o
+	desenho de uma flor de gelo.
+
+	O Tux corre para fora da fortaleza, com o
+	mapa na mão. Não, ele decide, não vou
+	desistir. A Penny está a contar com ele.")
+  )
