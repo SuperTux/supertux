@@ -35,12 +35,6 @@ public:
    * Remember to delete the objects later
    */
   virtual GameObject* create_object(const lisp::Lisp& reader) = 0;
-
-  // hack for now will be removed later
-  virtual GameObject* create_object(const Vector& )
-  {
-    return 0;
-  }
 };
 
 typedef std::map<std::string, Factory*> Factories;

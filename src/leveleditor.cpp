@@ -861,7 +861,7 @@ void LevelEditor::change(int x, int y, int newtile, int layer)
     for(Factories::iterator i = object_factories->begin(); i !=
         object_factories->end(); ++i) {
       if(id == newtile - gameobjs_first_id) {
-        object = i->second->create_object(Vector(x, y));
+        object = create_object(i->first, Vector(x, y));
         break;
       }
       id++;

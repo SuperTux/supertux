@@ -21,6 +21,8 @@
 #include <sstream>
 #include <stdexcept>
 
+#include "lisp/lisp.h"
+#include "lisp/parser.h"
 #include "object_factory.h"
 
 Factories* object_factories = 0;
@@ -37,3 +39,14 @@ GameObject* create_object(const std::string& name, const lisp::Lisp& reader)
   return i->second->create_object(reader);
 }
 
+GameObject* create_object(const std::string& name, const Vector& pos)
+{
+  std::stringstream lisptext;
+  lisptext << "(" << name
+           << " (x " << pos.x << ")"
+           << " (y " << pos.y << "))";
+  
+  lisp::Parser parser;
+  std::auto_ptr<lisp::Lisp> lisp (parser.parse(lisptext));
+  return create_object(name, *lisp);
+}
