@@ -101,9 +101,11 @@
                  "shared/mrbombx-right-1.png"))
 
  (sprite (name "mrbomb-explosion")
+        (fps 15.0)
          (x-hotspot 32)
          (y-hotspot 32)
-         (images "shared/mrbomb-explosion.png"))
+         (images "shared/mrbomb-explosion.png"
+                 "shared/mrbomb-explosion-1.png"))
 
  (sprite (name "stalactite")
          (x-hotspot 0)
