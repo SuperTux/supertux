@@ -66,7 +66,6 @@ struct player_input_type
   int right;
   int left;
   int up;
-  int old_up;
   int down;
   int fire;
   int old_fire;
@@ -119,6 +118,7 @@ public:
   Direction dir;
 
   bool jumping;
+  bool can_jump;
   int frame_;
   int frame_main;
 

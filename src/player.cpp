@@ -82,6 +82,7 @@ Player::init()
 
   dying   = DYING_NOT;
   jumping = false;
+  can_jump = true;
 
   frame_main = 0;
   frame_ = 0;
@@ -371,7 +372,8 @@ Player::handle_horizontal_input()
 void
 Player::handle_vertical_input()
 {
-  if(input.up == DOWN && input.old_up == UP)
+  // Press jump key
+  if(input.up == DOWN && can_jump)
     {
       if (on_ground())
         {
@@ -383,15 +385,18 @@ Player::handle_vertical_input()
 
           --base.y;
           jumping = true;
+          can_jump = false;
           if (size == SMALL)
             play_sound(sounds[SND_JUMP], SOUND_CENTER_SPEAKER);
           else
             play_sound(sounds[SND_BIGJUMP], SOUND_CENTER_SPEAKER);
         }
     }
+  // Let go of jump key
   else if(input.up == UP && jumping)
     {
       jumping = false;
+      can_jump = true;
       if(physic.get_velocity_y() > 0) {
         physic.set_velocity_y(0);
       }
@@ -406,11 +411,12 @@ Player::handle_input()
 
   /* Jump/jumping? */
 
-  if ( input.up == DOWN || (input.up == UP && jumping))
+  if (on_ground() && input.up == UP)
+    can_jump = true;
+  if (input.up == DOWN || (input.up == UP && jumping))
     {
       handle_vertical_input();
     }
-  input.old_up = input.up;
 
   /* Shoot! */
 
