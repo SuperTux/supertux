@@ -29,6 +29,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <algorithm>
+#include <iostream>
 
 #include "leveleditor.h"
 
@@ -81,6 +82,8 @@ LevelEditor::LevelEditor()
   active_tm = TM_IA;
   le_show_grid = true;
   show_selections = true;
+
+  pos_x = pos_y = 0;
 
   done = 0;
   le_frame = 0;	/* support for frames in some tiles, like waves and bad guys */
@@ -234,12 +237,14 @@ int LevelEditor::run(char* filename)
       /* making events results to be in order */
 
       /* draw the level */
+      context.set_translation(Vector(pos_x, pos_y));
       drawlevel(context);
     }
     else
       fillrect(0, 0, screen->w, screen->h, 0, 0, 0);
 
     /* draw editor interface */
+    context.set_translation(Vector(0, 0));
     drawinterface(context);
 
     Menu* menu = Menu::current();
@@ -845,7 +850,7 @@ void LevelEditor::drawlevel(DrawingContext& context)
 
   if(le_current.IsTile())
   {
-le_level->get_sector("main")->solids->draw(context);
+//le_level->get_sector("main")->solids->draw(context);
 /*
     Tile::draw(cursor_x-pos_x, cursor_y-pos_y,le_current.tile,128);
     if(!TileManager::instance()->get(le_current.tile)->images.empty())
@@ -859,7 +864,6 @@ le_level->get_sector("main")->solids->draw(context);
 #endif
 
   /*       clearscreen(current_level.bkgd_red, current_level.bkgd_green, current_level.bkgd_blue); */
-
 
 le_level->get_sector("main")->solids->draw(context);
 
@@ -1529,8 +1533,6 @@ void LevelEditor::checkevents()
       pos_y = (le_level->get_sector("main")->solids->get_height() * 32) - screen->h;
     if(pos_y < 0)
       pos_y = 0;
-
-    le_level->get_sector("main")->camera->set_scrolling(pos_x, pos_y);
   }
 }
 
