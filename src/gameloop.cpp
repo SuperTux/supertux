@@ -1405,7 +1405,7 @@ unsigned int shape(float x, float y)
       c = current_level.ia_tiles[yy][xx];
     }
   else
-    c = '.';
+    c = 0;
 
   return(c);
 }
@@ -1559,7 +1559,6 @@ void bumpbrick(float x, float y)
 
 
 /* Empty a box: */
-
 void tryemptybox(float x, float y, int col_side)
 {
   Tile* tile = gettile(x,y);
@@ -1567,13 +1566,11 @@ void tryemptybox(float x, float y, int col_side)
     return;
 
   // according to the collision side, set the upgrade direction
-
   if(col_side == LEFT)
     col_side = RIGHT;
   else
     col_side = LEFT;
 
-  // FIXME: Content of boxes must be handled otherwise
   switch(tile->data)
     {
     case 1: //'A':      /* Box with a distro! */
@@ -1582,6 +1579,7 @@ void tryemptybox(float x, float y, int col_side)
       score = score + SCORE_DISTRO;
       distros++;
       break;
+
     case 2: // 'B':      /* Add an upgrade! */
       if (tux.size == SMALL)     /* Tux is small, add mints! */
         add_upgrade((int)((x + 1) / 32) * 32, (int)(y / 32) * 32 - 32, col_side, UPGRADE_MINTS);
@@ -1589,6 +1587,7 @@ void tryemptybox(float x, float y, int col_side)
         add_upgrade((int)((x + 1) / 32) * 32, (int)(y / 32) * 32 - 32, col_side, UPGRADE_COFFEE);
       play_sound(sounds[SND_UPGRADE], SOUND_CENTER_SPEAKER);
       break;
+
     case 3:// '!':     /* Add a golden herring */
       add_upgrade((int)((x + 1) / 32) * 32, (int)(y / 32) * 32 - 32, col_side, UPGRADE_HERRING);
       break;
@@ -1600,9 +1599,7 @@ void tryemptybox(float x, float y, int col_side)
   level_change(&current_level,x, y, TM_IA, tile->next_tile);
 }
 
-
 /* Try to grab a distro: */
-
 void trygrabdistro(float x, float y, int bounciness)
 {
   Tile* tile = gettile(x, y);
@@ -1623,13 +1620,10 @@ void trygrabdistro(float x, float y, int bounciness)
 }
 
 /* Try to bump a bad guy from below: */
-
 void trybumpbadguy(float x, float y)
 {
-  unsigned int i;
-
   /* Bad guys: */
-  for (i = 0; i < bad_guys.size(); i++)
+  for (unsigned int i; i = 0; i < bad_guys.size(); i++)
     {
       if (bad_guys[i].base.x >= x - 32 && bad_guys[i].base.x <= x + 32 &&
           bad_guys[i].base.y >= y - 16 && bad_guys[i].base.y <= y + 16)
@@ -1646,7 +1640,7 @@ void trybumpbadguy(float x, float y)
 
 
   /* Upgrades: */
-  for (i = 0; i < upgrades.size(); i++)
+  for (unsigned int i = 0; i < upgrades.size(); i++)
     {
       if (upgrades[i].base.height == 32 &&
           upgrades[i].base.x >= x - 32 && upgrades[i].base.x <= x + 32 &&
@@ -1755,7 +1749,6 @@ void savegame(int slot)
   if (fi == NULL)
     {
       fprintf(stderr, "Warning: I could not open the slot file ");
-
     }
   else
     {
