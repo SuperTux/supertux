@@ -822,7 +822,7 @@ Player::check_bounds(bool back_scrolling, bool hor_autoscroll)
     }
 
   /* Keep in-bounds, vertically: */
-  if (base.y > sWorld::current()->get_level()->height * /*TILE_HEIGHT*/ 32)
+  if (base.y > World::current()->get_level()->height * /*TILE_HEIGHT*/ 32)
     {
       kill(KILL);
     }
