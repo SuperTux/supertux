@@ -252,12 +252,10 @@ int level_load(st_level* plevel, const char* filename)
 
   vector<int> vi;
 
-DEBUG_MSG("LLALAL");
   if (strcmp(lisp_symbol(lisp_car(root_obj)), "level") == 0)
     {
       LispReader reader(lisp_cdr(root_obj));
       
-      DEBUG_MSG("TAGAF");
       reader.read_int("width",  &plevel->width);
       reader.read_int("time",  &plevel->time_left);
       reader.read_int("bkgd_red",  &plevel->bkgd_red);
@@ -271,7 +269,6 @@ DEBUG_MSG("LLALAL");
       reader.read_int_vector("tilemap",  &vi);
     }
     
-    DEBUG_MSG("LOLOL");
     
   int i;
   for( i = 0; i < 15; ++i)
@@ -283,11 +280,10 @@ DEBUG_MSG("LLALAL");
     {
 
       plevel->tiles[j][i] = (*it);
-      if(i == plevel->width)
+      if(i == plevel->width - 1)
         {
-          i = 0;
+          i = -1;
           ++j;
-	  DEBUG_MSG("joa");
         }
     }
 
