@@ -76,7 +76,7 @@ char * soundfilenames[NUM_SOUNDS] = {
 
 /* Local variables: */
 
-int score, highscore, distros, level, lives, scroll_x, next_level,
+int score, highscore, distros, level, lives, scroll_x, next_level, game_pause, done, quit,
   tux_dir, tux_size, tux_duck, tux_x, tux_xm, tux_y, tux_ym,
   tux_dying, tux_safe, jumping, jump_counter, frame, score_multiplier,
   tux_frame_main, tux_frame, tux_got_coffee, tux_skidding,
@@ -105,6 +105,9 @@ SDL_Surface * tux_right[3], * tux_left[3],
   * bigcape_right[2], * bigcape_left[2],
   * ducktux_right, * ducktux_left,
   * skidtux_right, * skidtux_left;
+SDL_Event event;
+SDL_Rect src, dest;
+SDLKey key;
 unsigned char * tiles[15];
 bouncy_distro_type bouncy_distros[NUM_BOUNCY_DISTROS];
 broken_brick_type broken_bricks[NUM_BROKEN_BRICKS];
@@ -116,6 +119,7 @@ bullet_type bullets[NUM_BULLETS];
 char song_title[20];
 char levelname[20];
 char leveltheme[20];
+char str[10];
 
 /* Local function prototypes: */
 
@@ -151,55 +155,14 @@ void add_bullet(int x, int y, int dir, int xm);
 void drawendscreen(void);
 void drawresultscreen(void);
 
+/* --- GAME EVENT! --- */
 
-/* --- GAME LOOP! --- */
-
-int gameloop(void)
+void game_event(void)
 {
-  int done, quit, x, y, i, j;
-  SDL_Event event;
-  SDL_Rect src, dest;
-  SDLKey key;
-  Uint32 last_time, now_time;
-  char str[10];
-  
-  
-  /* Clear screen: */
-  
-  clearscreen(0, 0, 0);
-  updatescreen();
-  
-  
-  /* Init the game: */
 
-  initgame();
-  loadshared();
-  loadlevel();
-  loadlevelgfx();
-  loadlevelsong();
-  highscore = load_hs();
-  
-  
-  /* --- MAIN GAME LOOP!!! --- */
-  
-  done = 0;
-  quit = 0;
-  frame = 0;
-  tux_frame_main = 0;
-  tux_frame = 0;
-  
-  do
-    {
-      last_time = SDL_GetTicks();
-      frame++;
-      
-      
-      /* Handle events: */
-
-      old_fire = fire;
-      
       while (SDL_PollEvent(&event))
 	{
+	
 	  if (event.type == SDL_QUIT)
 	    {
 	      /* Quit event - quit: */
@@ -265,6 +228,13 @@ int gameloop(void)
 		{
 		  fire = UP;
 		}
+	      else if (key == SDLK_p)
+		{
+		if(game_pause)
+		game_pause = 0;
+		else
+		game_pause = 1;
+		}
 	      else if (key == SDLK_TAB)
 		{
 		  tux_size = !tux_size;
@@ -317,8 +287,15 @@ int gameloop(void)
 	    }
 #endif
 	}
-      
-      
+
+}
+
+/* --- GAME ACTION! --- */
+
+int game_action(void)
+{
+int i,j;
+
       /* --- HANDLE TUX! --- */
       
       /* Handle key and joystick state: */
@@ -437,7 +414,6 @@ int gameloop(void)
 
 	  if (tux_x >= endpos && endpos != 0)
 	  {
-            /* FIXME: No need to kill Tux to end the level! ;^) */
 	    next_level = 1;
 	  }
 	  
@@ -1597,9 +1573,17 @@ int gameloop(void)
 	{
 	  tux_skidding--;
 	}
-      
-      
-      /* Draw screen: */
+	
+return -1;
+}
+
+/* --- GAME DRAW! --- */
+
+void game_draw()
+{
+int  x, y, i;
+
+     /* Draw screen: */
       
       if (tux_dying && (frame % 4) == 0)
 	clearscreen(255, 255, 255);
@@ -2117,12 +2101,69 @@ int gameloop(void)
       drawtext("DISTROS", 480, 0, letters_blue, NO_UPDATE);
       drawtext(str, 608, 0, letters_gold, NO_UPDATE);
       
+      if(game_pause)
+	drawcenteredtext("PAUSE",230,letters_red, NO_UPDATE);
       
       /* (Update it all!) */
       
       updatescreen();
       
+}
+
+/* --- GAME LOOP! --- */
+
+int gameloop(void)
+{
+
+  Uint32 last_time, now_time;
+    
+  /* Clear screen: */
+  
+  clearscreen(0, 0, 0);
+  updatescreen();
+  
+  
+  /* Init the game: */
+
+  initgame();
+  loadshared();
+  loadlevel();
+  loadlevelgfx();
+  loadlevelsong();
+  highscore = load_hs();
+  
+  
+  /* --- MAIN GAME LOOP!!! --- */
+  
+  done = 0;
+  quit = 0;
+  frame = 0;
+  tux_frame_main = 0;
+  tux_frame = 0;
+  
+  do
+    {
+      last_time = SDL_GetTicks();
+      frame++;
       
+      
+      /* Handle events: */
+
+      old_fire = fire;
+      
+      game_event();
+      
+      /* Handle actions: */
+      
+	if(game_pause != 1)
+	{
+	int ret;
+	if((ret = game_action()) != -1) { return ret; }
+	}
+  
+	/*Draw the current scene to the screen */
+	game_draw();
+	
       /* Keep playing music: */
     
       if (use_sound)
@@ -2133,6 +2174,8 @@ int gameloop(void)
 	    }
         }
       
+	/* Time stops in pause mode */
+      if(game_pause) { continue; }
       
       /* Pause til next frame: */
       
@@ -2176,6 +2219,7 @@ void initgame(void)
   distros = 0;
   lives = 3;
 }
+
 
 
 /* Load data for this level: */
