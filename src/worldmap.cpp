@@ -261,7 +261,7 @@ Tux::action(float delta)
 
           // We got a new direction, so lets start walking when possible
           Vector next_tile;
-          if ((!special_tile || special_tile->solved)
+          if ((!special_tile || special_tile->solved || special_tile->level_name.empty())
               && worldmap->path_ok(input_direction, tile_pos, &next_tile))
             {
               tile_pos = next_tile;
