@@ -1,0 +1,122 @@
+INSTALL.txt for Super Tux
+
+by Bill Kendrick
+bill@newbreedsoftware.com
+http://www.newbreedsoftware.com/supertux/
+
+Version 0.0.2
+
+August 6, 2001
+
+
+REQUIREMENTS
+------------
+
+  CONTROLS
+  --------
+    The game is controlled using a mouse.  It can be played with either
+    a mouse or a joystick.
+
+  SDL
+  ---
+    "Super Tux" was programed using the "Simple Direct Media" layer
+    libraries by Sam Lantinga.  This means that the game can
+    theoretically run under any environment that the SDL libraries support.
+
+    (As of this program's release, this includes: Linux X11/DGA,
+    Win32 WinDIB/DirectX, BeOS BWindow, and Solaris X11, as well
+    as unofficually supported: Linux SVGAlib, IRIX 6.x X11,
+    FreeBSD 3.x X11, and MacOS.)
+
+    The Simple DirectMedia Layer is required to compile this game.
+
+    You can download the SDL libraries from:
+      http://www.libsdl.org/
+
+  SDL_image
+  ---------
+    SDL_image is also required.  (It is used to load the PNG format images
+    that come with Super Tux!)
+
+  SDL_mixer
+  ---------
+    Sound and music are available, but are not required (see below).
+    You will need the "SDL_mixer" library compiled and installed if
+    you want sound.
+
+
+INSTALLING UNDER LINUX/UNIX
+---------------------------
+  -----------------------------------------------------------------
+  Note: Read this entire section before you start issuing commands!
+  -----------------------------------------------------------------
+
+  First make sure SDL, SDL_image and, optionally, SDL_mixer, are
+  installed on your system.
+
+  The "Makefile" that comes with "Super Tux" assumes a number
+  of defaults about your system.  You can edit their values in
+  the "Makefile" itself, or specify their values when you run
+  the "make" command (ie, "make VARIABLE=value").
+
+  The things you will wish to edit are:
+
+    SDL_PREFIX=/usr/local
+
+      This defines the base location where the "include/SDL/"
+      and "lib/SDL/" directories will be found.  (They contain
+      the C header files and compiled object files for SDL,
+      respectively.)
+
+
+    DATA_PREFIX=$(PWD)/data/
+
+      This defines where "Super Tux"'s "data/" directory is
+      to be found.  The default assumes that you wish to leave
+      it where it is right now ("$(PWD)" expands to become the
+      current direcotry.
+
+      This variable is useful if you plan on moving the "data/"
+      directory elsewhere, say a globally-accessible
+      "/usr/local/games/supertux-data/".
+
+    JOY=YES
+
+      This causes "Super Tux" to be compiled with joystick
+      support.  If you don't have a version of SDL that supports
+      joystick, or just don't want joystick support, set this to "NO".
+
+
+  To compile the game, type the command:
+
+    make           [ with whatever variable changes you want, if any ]
+
+  If you decided that you wanted the data somewhere else, make sure
+  to move it there.  If you wanted it to be accessible to others
+  (ie, you're an administrator installing a new game for your users),
+  make sure to set the permissions for the files!  (You'll also want
+  to move the "supertux" binary to somewhere globally accessible,
+  and set its permissions, as well, of course!)
+
+  Note: If you do not have the SDL_mixer library, or wish to not
+  compile sound support into the game, you can compile it like this:
+
+    make nosound   [ with whatever variable changes you want, if any ]
+
+  If you wish to return the directory to its distribution state,
+  (remove the ".o" object files, and the "supertux" executable program
+  file), you can run:
+
+    make clean
+
+
+ICON FILE
+---------
+  A 32x32, XPM-format icon file (using the standard 23-color "cmap.xpm"
+  color palette) is available if you wish to use an icon for this game.
+
+  The file is "supertux-icon.xpm", and installed in Super Tux's
+  "data/images/" directory.
+
+
+The End!

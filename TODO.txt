@@ -1,0 +1,21 @@
+TODO.txt for Super Tux
+
+by Bill Kendrick
+bill@newbreedsoftware.com
+http://www.newbreedsoftware.com/supertux/
+
+Version 0.0.3
+
+November 25, 2001
+
+
+TO DO
+-----
+  Different, better and more music
+  One-ups
+  More enemies
+  Redo laptop enemy graphics
+  More levels
+  Play as Gown, resucing Tux
+  Game over
+  High score

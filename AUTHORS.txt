@@ -1,0 +1,50 @@
+AUTHORS.txt for Super Tux
+
+by Bill Kendrick
+bill@newbreedsoftware.com
+http://www.newbreedsoftware.com/supertux/
+
+Version 0.0.2
+
+August 6, 2001
+
+
+CREDITS
+-------
+  Game Software:      Bill Kendrick, <bill@newbreedsoftware.com>
+                      http://www.newbreedsoftware.com/bill/
+
+  Graphics:           Bill Kendrick, using The GIMP
+                      http://www.gimp.org/
+
+                      Original Tux created by Larry Ewing <lewing@isc.tamu.edu>
+                      http://www.isc.tamu.edu/~lewing/linux/
+
+                      Most Tux images for Super Tux
+                      created by Wesley Poole <kokido@postmark.net>
+                      http://members.xoom.com/kokido
+
+                      Titlescreen Composed by Eric Windisch <raptor@bwbohh.net>
+
+  Concept:            Gown (Tux's Girlfriend) from
+                      "Tux: A Quest For Herring"
+                      by Steve Baker <sjbaker1@airmail.net>
+                      http://tuxaqfh.sourceforge.net/
+
+                      Originally from "xTux"
+                      by Dave Lawrence & James Andrews
+                      http://xtux.sourceforge.net/
+
+                      Idea to play as Gown also from Steve Baker.
+
+                      "Mints" upgrade based on Penguin Mints.
+                      http://powermint.safeshopper.com/1/3.htm?63
+
+  Sound Effects:      Royalty free sound effects CDROMs and FTP sites.
+
+  Miscellaneous:      See CHANGES.txt for bug fixers, etc.
+                      Also, comments, suggestions and praise from:
+
+                      James Harr <jharr@mad.scientist.com>
+      	              Robert S Dubinski <dubinski@mscs.mu.edu>
+                      Brian Stentzel <brian.stentzel@operamail.com>
