@@ -5,6 +5,7 @@
 #include "badguy/snowball.h"
 #include "badguy/mrbomb.h"
 #include "badguy/mriceblock.h"
+#include "badguy/mrrocket.h"
 
 Dispenser::Dispenser(const lisp::Lisp& reader)
 {
@@ -40,10 +41,11 @@ Dispenser::activate()
 bool
 Dispenser::collision_squished(Player& player)
 {
-  //FIXME: Should act like a normal tile when killed
+  //TODO: Should it act like a normal tile when killed?
   sprite->set_action("broken");
   dispense_timer.start(0);
   player.bounce(*this);
+  kill_squished(player);
   return true;
 }
 
@@ -55,38 +57,23 @@ Dispenser::active_action(float )
   }
 }
 
-HitResponse
-Dispenser::collision_solid(GameObject& , const CollisionHit& hit)
-{
-  if(fabsf(hit.normal.y) > .5) { // hit floor or roof?
-    physic.set_velocity_y(0);
-  } else { // hit right or left
-    dir = dir == LEFT ? RIGHT : LEFT;
-    sprite->set_action(dir == LEFT ? "left" : "right");
-    physic.set_velocity_x(-physic.get_velocity_x());
-  }
-
-  return CONTINUE;
-}
-
-//TODO: Add launching velocity to badguys
-//      Add randomizer
-//      Clean up stuff I copied without understanding what it does :)
-//      Stop dispensing when game is paused (timer related problem)
-//      Lots-O-Stuff (tm)
+//TODO: Add launching velocity to certain badguys
+//      Add randomizer (themed to match tileset)
 void
 Dispenser::launch_badguy()
 {
   //FIXME: Does is_offscreen() work right here?
   if (!is_offscreen()) {
     if (badguy == "snowball")
-      Sector::current()->add_object(new SnowBall(get_pos().x, get_pos().y, dir));
+      Sector::current()->add_object(new SnowBall(get_pos().x, get_pos().y+32, dir));
     else if (badguy == "bouncingsnowball")
-      Sector::current()->add_object(new BouncingSnowball(get_pos().x, get_pos().y, dir));
+      Sector::current()->add_object(new BouncingSnowball(get_pos().x, get_pos().y+32, dir));
     else if (badguy == "mrbomb")
-      Sector::current()->add_object(new MrBomb(get_pos().x, get_pos().y, dir));
+      Sector::current()->add_object(new MrBomb(get_pos().x, get_pos().y+32, dir));
     else if (badguy == "mriceblock")
-      Sector::current()->add_object(new MrIceBlock(get_pos().x, get_pos().y, dir));
+      Sector::current()->add_object(new MrIceBlock(get_pos().x, get_pos().y+32, dir));
+    else if (badguy == "mrrocket")
+      Sector::current()->add_object(new MrRocket(get_pos().x, get_pos().y+32, dir));
     else if (badguy == "random")
     {}
   }
