@@ -160,6 +160,8 @@
 
 
   (sprite (name "largetux-walk-left")
+          (x-hotspot 6)
+          (y-hotspot 2)
           (images "shared/largetux-walk-left-0.png"
                   "shared/largetux-walk-left-1.png"
                   "shared/largetux-walk-left-2.png"
@@ -168,6 +170,8 @@
                   "shared/largetux-walk-left-5.png"))
 
   (sprite (name "largetux-walk-right")
+          (x-hotspot 6)
+          (y-hotspot 2)
           (images "shared/largetux-walk-right-0.png"
                   "shared/largetux-walk-right-1.png"
                   "shared/largetux-walk-right-2.png"
@@ -176,11 +180,23 @@
                   "shared/largetux-walk-right-5.png"))
 
   (sprite (name "largetux-jump-left")
+          (x-hotspot 9)
+          (y-hotspot 2)
           (images "shared/largetux-jump-left-0.png"))
-
   (sprite (name "largetux-jump-right")
+          (x-hotspot 9)
+          (y-hotspot 2)
           (images "shared/largetux-jump-right-0.png"))
 
+
+  (sprite (name "largetux-duck-left")
+          (x-hotspot 6)
+          (y-hotspot 2)
+          (images "shared/tux-duck-left.png"))
+  (sprite (name "largetux-duck-right")
+          (x-hotspot 6)
+          (y-hotspot 6)
+          (images "shared/tux-duck-right.png"))
 )
 
 ;; EOF ;;

@@ -289,12 +289,15 @@ Level::load(const std::string& filename)
       reader.read_int("version",  &version);
       reader.read_int("width",  &width);
       reader.read_int("time",  &time_left);
+
       reader.read_int("bkgd_top_red",  &bkgd_top.red);
       reader.read_int("bkgd_top_green",  &bkgd_top.green);
       reader.read_int("bkgd_top_blue",  &bkgd_top.blue);
+
       reader.read_int("bkgd_bottom_red",  &bkgd_bottom.red);
       reader.read_int("bkgd_bottom_green",  &bkgd_bottom.green);
       reader.read_int("bkgd_bottom_blue",  &bkgd_bottom.blue);
+
       reader.read_float("gravity",  &gravity);
       reader.read_string("name",  &name);
       reader.read_string("author", &author);
@@ -597,19 +600,6 @@ Level::load_image(Surface** ptexture, string theme,const  char * file, int use_a
   *ptexture = new Surface(fname, use_alpha);
 }
 
-void tilemap_change_size(unsigned int** tilemap[15], int w, int old_w)
-{
-  int j,y;
-  for(y = 0; y < 15; ++y)
-    {
-      *tilemap[y] = (unsigned int*) realloc(*tilemap[y],(w+1)*sizeof(unsigned int));
-      if(w > old_w)
-        for(j = 0; j < w - old_w; ++j)
-          *tilemap[y][old_w+j] = 0;
-      *tilemap[y][w] = 0;
-    }
-}
-
 /* Change the size of a level (width) */
 void 
 Level::change_size (int new_width)
@@ -617,9 +607,12 @@ Level::change_size (int new_width)
   if(new_width < 21)
     new_width = 21;
 
-  tilemap_change_size((unsigned int***)&ia_tiles, new_width, width);
-  tilemap_change_size((unsigned int***)&bg_tiles, new_width, width);
-  tilemap_change_size((unsigned int***)&fg_tiles, new_width, width);
+  for(int y = 0; y < 15; ++y)
+    {
+      ia_tiles[y].resize(new_width, 0);
+      bg_tiles[y].resize(new_width, 0);
+      fg_tiles[y].resize(new_width, 0);
+    }
 
   width = new_width;
 }

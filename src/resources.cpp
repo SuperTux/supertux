@@ -128,13 +128,8 @@ void loadshared()
                USE_ALPHA);
 
 
-  ducktux_right = new Surface(datadir +
-               "/images/shared/tux-duck-right.png",
-               USE_ALPHA);
-
-  ducktux_left = new Surface(datadir +
-               "/images/shared/tux-duck-left.png",
-               USE_ALPHA);
+  ducktux_left  = sprite_manager->load("largetux-duck-left");
+  ducktux_right = sprite_manager->load("largetux-duck-right");
 
   skidtux_right = new Surface(datadir +
                "/images/shared/skidtux-right.png",
