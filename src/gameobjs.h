@@ -31,14 +31,14 @@
 #define NO_BOUNCE 0
 #define BOUNCE 1
 
-class BouncyDistro
+class BouncyDistro : public GameObject
 {
  public:
-  base_type base;
   
   void init(float x, float y);
   void action(double frame_ratio);
   void draw(); 
+  std::string type() { return "BouncyDistro"; };
 };
 
 extern Surface* img_distro[4];
@@ -48,41 +48,41 @@ extern Surface* img_distro[4];
 
 class Tile;
 
-class BrokenBrick
+class BrokenBrick : public GameObject
 {
  public:
-  base_type base;
   Timer timer;
   Tile* tile;
 
   void init(Tile* tile, float x, float y, float xm, float ym);
   void action(double frame_ratio);
   void draw();
+  std::string type() { return "BrokenBrick"; };
 };
 
-class BouncyBrick
+class BouncyBrick : public GameObject
 {
  public:
   float offset;
   float offset_m;
   int shape;
-  base_type base;
 
   void init(float x, float y);
   void action(double frame_ratio);
   void draw();
+  std::string type() { return "BouncyBrick"; };
 };
 
-class FloatingScore
+class FloatingScore : public GameObject
 {
  public:
   int value;
   Timer timer;
-  base_type base;
   
   void init(float x, float y, int s);
   void action(double frame_ratio);
   void draw();
+  std::string type() { return "FloatingScore"; };
 };
 
 #endif 

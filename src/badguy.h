@@ -45,7 +45,8 @@ enum BadGuyKind {
   BAD_BOUNCINGSNOWBALL,
   BAD_FLYINGSNOWBALL,
   BAD_SPIKY,
-  BAD_SNOWBALL
+  BAD_SNOWBALL,
+  NUM_BadGuyKinds
 };
 
 BadGuyKind  badguykind_from_string(const std::string& str);
@@ -53,24 +54,10 @@ std::string badguykind_to_string(BadGuyKind kind);
 void load_badguy_gfx();
 void free_badguy_gfx();
 
-struct BadGuyData
-{
-  BadGuyKind kind;
-  int x;
-  int y;
-  bool stay_on_platform;
-
-  BadGuyData(BadGuyKind kind_, int x_, int y_, bool stay_on_platform_) 
-    : kind(kind_), x(x_), y(y_), stay_on_platform(stay_on_platform_) {}
-
-  BadGuyData()
-    : kind(BAD_SNOWBALL), x(0), y(0), stay_on_platform(false) {}
-};
-
 class Player;
 
 /* Badguy type: */
-class BadGuy
+class BadGuy : public GameObject
 {
 public:
   /* Enemy modes: */
@@ -95,7 +82,6 @@ public:
   };
 public:
   DyingType  dying;
-  base_type  base;
   BadGuyKind kind;
   BadGuyMode mode;
 
@@ -110,7 +96,6 @@ private:
   bool removable;
   bool seen;
   int squishcount; /// number of times this enemy was squiched
-  base_type old_base;
   Timer timer;
   Physic physic;
 
@@ -122,8 +107,9 @@ private:
 public:
   BadGuy(float x, float y, BadGuyKind kind, bool stay_on_platform);
 
-  void action(float frame_ratio);
+  void action(double frame_ratio);
   void draw();
+  std::string type() { return "BadGuy"; };
 
   void collision(void* p_c_object, int c_object,
                  CollisionType type = COLLISION_NORMAL);
@@ -141,17 +127,17 @@ public:
   bool is_removable() const { return removable; }
  
 private:
-  void action_mriceblock(float frame_ratio);
-  void action_jumpy(float frame_ratio); 
-  void action_bomb(float frame_ratio);
-  void action_mrbomb(float frame_ratio);
-  void action_stalactite(float frame_ratio);
-  void action_flame(float frame_ratio);
-  void action_fish(float frame_ratio);
-  void action_bouncingsnowball(float frame_ratio);
-  void action_flyingsnowball(float frame_ratio);
-  void action_spiky(float frame_ratio);
-  void action_snowball(float frame_ratio);
+  void action_mriceblock(double frame_ratio);
+  void action_jumpy(double frame_ratio); 
+  void action_bomb(double frame_ratio);
+  void action_mrbomb(double frame_ratio);
+  void action_stalactite(double frame_ratio);
+  void action_flame(double frame_ratio);
+  void action_fish(double frame_ratio);
+  void action_bouncingsnowball(double frame_ratio);
+  void action_flyingsnowball(double frame_ratio);
+  void action_spiky(double frame_ratio);
+  void action_snowball(double frame_ratio);
 
   /** handles falling down. disables gravity calculation when we're back on
    * ground */
@@ -172,6 +158,21 @@ private:
   void squish_me(Player* player);
   /** set image of the badguy */
   void set_sprite(Sprite* left, Sprite* right);
+};
+
+struct BadGuyData
+{
+  BadGuyKind kind;
+  int x;
+  int y;
+  bool stay_on_platform;
+
+  BadGuyData(BadGuy* pbadguy) : kind(pbadguy->kind), x((int)pbadguy->base.x), y((int)pbadguy->base.y), stay_on_platform(pbadguy->stay_on_platform)  {};
+  BadGuyData(BadGuyKind kind_, int x_, int y_, bool stay_on_platform_) 
+    : kind(kind_), x(x_), y(y_), stay_on_platform(stay_on_platform_) {}
+
+  BadGuyData()
+    : kind(BAD_SNOWBALL), x(0), y(0), stay_on_platform(false) {}
 };
 
 #endif /*SUPERTUX_BADGUY_H*/

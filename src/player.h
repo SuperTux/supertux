@@ -104,7 +104,7 @@ extern PlayerSprite smalltux;
 extern PlayerSprite largetux;
 extern PlayerSprite firetux;
 
-class Player
+class Player : public GameObject
 {
 public:
   enum HurtMode { KILL, SHRINK };
@@ -123,8 +123,6 @@ public:
   int frame_;
   int frame_main;
 
-  base_type  base;
-  base_type  old_base;
   base_type  previous_base;
   Timer invincible_timer;
   Timer skidding_timer;
@@ -150,6 +148,8 @@ public:
   bool on_ground();
   bool under_solid();
   void grow();
+  
+  std::string type() { return "Player";};
   
 private:
   void handle_horizontal_input();

@@ -203,7 +203,7 @@ BadGuy::BadGuy(float x, float y, BadGuyKind kind_, bool stay_on_platform_)
 }
 
 void
-BadGuy::action_mriceblock(float frame_ratio)
+BadGuy::action_mriceblock(double frame_ratio)
 {
   Player& tux = *World::current()->get_tux();
 
@@ -374,7 +374,7 @@ BadGuy::remove_me()
 }
 
 void
-BadGuy::action_jumpy(float frame_ratio)
+BadGuy::action_jumpy(double frame_ratio)
 {
   if (fabsf(physic.get_velocity_y()) < 2.5f)
     set_sprite(img_jumpy_left_middle, img_jumpy_left_middle);
@@ -414,7 +414,7 @@ BadGuy::action_jumpy(float frame_ratio)
 }
 
 void
-BadGuy::action_mrbomb(float frame_ratio)
+BadGuy::action_mrbomb(double frame_ratio)
 {
   if (dying == DYING_NOT)
     check_horizontal_bump(true);
@@ -427,7 +427,7 @@ BadGuy::action_mrbomb(float frame_ratio)
 }
 
 void
-BadGuy::action_bomb(float frame_ratio)
+BadGuy::action_bomb(double frame_ratio)
 {
   static const int TICKINGTIME = 1000;
   static const int EXPLODETIME = 1000;
@@ -464,7 +464,7 @@ BadGuy::action_bomb(float frame_ratio)
 }
 
 void
-BadGuy::action_stalactite(float frame_ratio)
+BadGuy::action_stalactite(double frame_ratio)
 {
   Player& tux = *World::current()->get_tux();
 
@@ -506,7 +506,7 @@ BadGuy::action_stalactite(float frame_ratio)
 }
 
 void
-BadGuy::action_flame(float frame_ratio)
+BadGuy::action_flame(double frame_ratio)
 {
     static const float radius = 100;
     static const float speed = 0.02;
@@ -517,7 +517,7 @@ BadGuy::action_flame(float frame_ratio)
 }
 
 void
-BadGuy::action_fish(float frame_ratio)
+BadGuy::action_fish(double frame_ratio)
 {
   static const float JUMPV = 6;
   static const int WAITTIME = 1000;
@@ -550,7 +550,7 @@ BadGuy::action_fish(float frame_ratio)
 }
 
 void
-BadGuy::action_bouncingsnowball(float frame_ratio)
+BadGuy::action_bouncingsnowball(double frame_ratio)
 {
   static const float JUMPV = 4.5;
     
@@ -584,7 +584,7 @@ BadGuy::action_bouncingsnowball(float frame_ratio)
 }
 
 void
-BadGuy::action_flyingsnowball(float frame_ratio)
+BadGuy::action_flyingsnowball(double frame_ratio)
 {
   static const float FLYINGSPEED = 1;
   static const int DIRCHANGETIME = 1000;
@@ -624,7 +624,7 @@ BadGuy::action_flyingsnowball(float frame_ratio)
 }
 
 void
-BadGuy::action_spiky(float frame_ratio)
+BadGuy::action_spiky(double frame_ratio)
 {
   if (dying == DYING_NOT)
     check_horizontal_bump();
@@ -645,7 +645,7 @@ BadGuy::action_spiky(float frame_ratio)
 }
 
 void
-BadGuy::action_snowball(float frame_ratio)
+BadGuy::action_snowball(double frame_ratio)
 {
   if (dying == DYING_NOT)
     check_horizontal_bump();
@@ -658,7 +658,7 @@ BadGuy::action_snowball(float frame_ratio)
 }
 
 void
-BadGuy::action(float frame_ratio)
+BadGuy::action(double frame_ratio)
 {
   // Remove if it's far off the screen:
   if (base.x < scroll_x - OFFSCREEN_DISTANCE)
@@ -724,6 +724,8 @@ BadGuy::action(float frame_ratio)
 
     case BAD_SNOWBALL:
       action_snowball(frame_ratio);
+      break;
+    default:
       break;
     }
 }

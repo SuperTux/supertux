@@ -75,6 +75,7 @@ Button::Button(std::string icon_file, std::string ninfo, SDLKey nshortcut, int x
   state = BUTTON_NONE;
   show_info = false;
   bkgd = NULL;
+  game_object = NULL;
 }
 
 void Button::change_icon(std::string icon_file, int /*mw*/, int /*mh*/)
@@ -109,6 +110,11 @@ void Button::draw()
       bkgd->draw(rect.x,rect.y);
     }
   icon->draw(rect.x,rect.y);
+  if(game_object != NULL)
+  {
+  game_object->draw();
+  }
+  
   if(show_info)
     {
       char str[80];
@@ -131,6 +137,7 @@ void Button::draw()
 Button::~Button()
 {
   delete icon;
+  delete game_object;
 }
 
 void Button::event(SDL_Event &event)

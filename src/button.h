@@ -1,5 +1,5 @@
 //  $Id$
-// 
+//
 //  SuperTux
 //  Copyright (C) 2004 Tobias Glaesser <tobi.web@gmx.de>
 //
@@ -12,7 +12,7 @@
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
-// 
+//
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
@@ -34,49 +34,51 @@ enum ButtonState {
 class ButtonPanel;
 
 class Button
-  {
-    friend class ButtonPanel;
+{
+  friend class ButtonPanel;
 
-  public:
-    Button(std::string icon_file, std::string info, SDLKey shortcut, int x, int y, int mw = -1, int h = -1);
-    ~Button();
-    void event(SDL_Event& event);
-    void draw();
-    int get_state();
-    void change_icon(std::string icon_file, int mw, int mh);
-    int get_tag()
-    {
-      return tag;
-    }
+public:
+  Button(std::string icon_file, std::string info, SDLKey shortcut, int x, int y, int mw = -1, int h = -1);
+  ~Button();
+  void event(SDL_Event& event);
+  void draw();
+  int get_state();
+  void change_icon(std::string icon_file, int mw, int mh);
+  SDL_Rect get_pos() { return rect; }
+  int get_tag(){return tag; }
+  void set_game_object(GameObject* game_object_) { game_object = game_object_; }
+  GameObject* get_game_object() { return game_object; };
 
-  private:
-    static Timer popup_timer;
-    Surface* icon;
-    Surface* bkgd;
-    std::string info;
-    SDLKey shortcut;
-    SDL_Rect rect;
-    bool show_info;
-    ButtonState state;
-    int tag;
-  };
+private:
+  static Timer popup_timer;
+  GameObject* game_object;
+  Surface* icon;
+  Surface* bkgd;
+  std::string info;
+  SDLKey shortcut;
+  SDL_Rect rect;
+  bool show_info;
+  ButtonState state;
+  int tag;
+};
 
 class ButtonPanel
-  {
-  public:
-    ButtonPanel(int x, int y, int w, int h);
-    ~ButtonPanel();
-    void draw();
-    Button* event(SDL_Event &event);
-    void additem(Button* pbutton, int tag);
-    Button* button_panel_event(SDL_Event& event);
-    void set_button_size(int w, int h) { bw = w; bh = h; }
+{
+public:
+  ButtonPanel(int x, int y, int w, int h);
+  ~ButtonPanel();
+  void draw();
+  Button* event(SDL_Event &event);
+  void additem(Button* pbutton, int tag);
+  Button* button_panel_event(SDL_Event& event);
+  void set_button_size(int w, int h) { bw = w; bh = h; }
+  Button* manipulate_button(int i) { if(item.size()-1 < i) { return item[item.size()-1]; } else { return item[i]; } };
 
-  private:
-    int bw, bh;
-    bool hidden;
-    SDL_Rect rect;
-    std::vector<Button*> item;
-  };
+private:
+  int bw, bh;
+  bool hidden;
+  SDL_Rect rect;
+  std::vector<Button*> item;
+};
 
 #endif /*SUPERTUX_BUTTON_H*/

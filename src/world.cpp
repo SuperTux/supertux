@@ -297,7 +297,7 @@ World::action(double frame_ratio)
       /* ++i handled at end of the loop */) {
     if ((*i)->is_removable()) {
       delete *i;
-      i = bad_guys.erase(i);
+      i =  bad_guys.erase(i);
     } else {
       ++i;
     }

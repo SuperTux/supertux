@@ -40,19 +40,20 @@ enum UpgradeKind {
 void load_special_gfx();
 void free_special_gfx();
 
-class Upgrade
+class Upgrade : public GameObject
 {
 public:
   UpgradeKind kind;
   Direction  dir;
-  base_type base;
-  base_type old_base;
   Physic physic;
 
   void init(float x, float y, Direction dir, UpgradeKind kind);
   void action(double frame_ratio);
   void draw();
   void collision(void* p_c_object, int c_object, CollisionType type);
+  std::string type() { return "Upgrade"; };
+  
+  ~Upgrade() {};
 
 private:
   /** removes the Upgrade from the global upgrade list. Note that after this
@@ -64,7 +65,7 @@ private:
   void bump(Player* player);
 };
 
-class Bullet
+class Bullet : public GameObject
 {
  public:
   int life_count;
@@ -75,6 +76,7 @@ class Bullet
   void action(double frame_ratio);
   void draw();
   void collision(int c_object);
+  std::string type() { return "Bullet"; };
 
 private:
   /** removes the Upgrade from the global upgrade list. Note that after this

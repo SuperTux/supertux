@@ -21,6 +21,7 @@
 #ifndef SUPERTUX_TYPE_H
 #define SUPERTUX_TYPE_H
 
+#include <string>
 #include "SDL.h"
 
 /* 'Base' type for game objects */
@@ -35,6 +36,41 @@ struct base_type
   float height;
 };
 
+
+/* Base class for all dynamic game object. */
+class GameObject
+{
+
+friend bool operator<(const GameObject& lhs, const GameObject& rhs)
+{
+ if( lhs.base.x < rhs.base.x )
+ return true;
+ else if( lhs.base.x == rhs.base.x && lhs.base.y < rhs.base.y)
+ return true;
+ else
+ return false;
+}
+
+friend bool operator>(const GameObject& lhs, const GameObject& rhs)
+{
+ if( lhs.base.x > rhs.base.x )
+ return true;
+ else if( lhs.base.x == rhs.base.x && lhs.base.y > rhs.base.y)
+ return true;
+ else
+ return false;
+}
+
+public:
+GameObject() {};
+virtual ~GameObject() {};
+virtual void action(double frame_ratio) = 0;
+virtual void draw() = 0;
+virtual std::string type() = 0;
+
+base_type base;
+base_type old_base;
+};
 
 struct string_list_type
 {
