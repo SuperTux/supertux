@@ -734,91 +734,58 @@ Player::draw(DrawingContext& context)
   int layer = LAYER_OBJECTS - 1;
   Vector pos = Vector(base.x, base.y);
 
-  if ((!safe_timer.started() || growing_timer.started()) && (global_frame_counter % 2))
+  /* Set Tux sprite action */
+  if (duck && size != SMALL)
     {
-      if (dying == DYING_SQUISHED)
-        {
-          smalltux_gameover->draw(context, pos, LAYER_FOREGROUNDTILES+1);
-        }
+    if (dir == RIGHT)
+      tux_body->set_action("duck-right");
+    else 
+      tux_body->set_action("duck-left");
+    }
+  else if (skidding_timer.started())
+    {
+    if (dir == RIGHT)
+      tux_body->set_action("skid-right");
+    else
+    tux_body->set_action("skid-left");
+    }
+  else if (kick_timer.started())
+    {
+    if (dir == RIGHT)
+      tux_body->set_action("kick-right");
+    else
+      tux_body->set_action("kick-left");
+    }
+  else if (butt_jump)
+    {
+    if (dir == RIGHT)
+      tux_body->set_action("buttjump-right");
+    else
+      tux_body->set_action("buttjump-left");
+    }
+  else if (physic.get_velocity_y() != 0)
+    {
+    if (dir == RIGHT)
+      tux_body->set_action("jump-right");
+    else
+      tux_body->set_action("jump-left");
+    }
+  else
+    {
+    if (fabsf(physic.get_velocity_x()) < 1.0f) // standing
+      {
+      if (dir == RIGHT)
+        tux_body->set_action("stand-right");
       else
-        {
-          if(growing_timer.check())
-            {
-              if(size == SMALL)
-                {
-                if (dir == RIGHT)
-                  context.draw_surface(growingtux_right[GROWING_FRAMES-1 - 
-                          ((growing_timer.get_gone() *
-                          GROWING_FRAMES) / GROWING_TIME)], pos, layer);
-                else
-                  context.draw_surface(growingtux_left[GROWING_FRAMES-1 - 
-                          ((growing_timer.get_gone() *
-                          GROWING_FRAMES) / GROWING_TIME)], pos, layer);
-                }
-              else
-                {
-                if (dir == RIGHT)
-                  context.draw_surface(growingtux_right[(growing_timer.get_gone() *
-                          GROWING_FRAMES) / GROWING_TIME], pos, layer);
-                else
-                  context.draw_surface(growingtux_left[(growing_timer.get_gone() *
-                                       GROWING_FRAMES) / GROWING_TIME], pos, layer);
-                }
-            }
-          else if (duck && size != SMALL)
-            {
-              if (dir == RIGHT)
-                tux_body->set_action("duck-right");
-              else 
-                tux_body->set_action("duck-left");
-            }
-
-          else if (skidding_timer.started())
-            {
-              if (dir == RIGHT)
-                tux_body->set_action("skid-right");
-              else
-                tux_body->set_action("skid-left");
-            }
-          else if (kick_timer.started())
-            {
-              if (dir == RIGHT)
-                tux_body->set_action("kick-right");
-              else
-                tux_body->set_action("kick-left");
-            }
-          else if (butt_jump)
-            {
-              if (dir == RIGHT)
-                tux_body->set_action("buttjump-right");
-              else
-                tux_body->set_action("buttjump-left");
-            }
-          else if (physic.get_velocity_y() != 0)
-            {
-              if (dir == RIGHT)
-                tux_body->set_action("jump-right");
-              else
-                tux_body->set_action("jump-left");
-            }
-          else
-            {
-              if (fabsf(physic.get_velocity_x()) < 1.0f) // standing
-                {
-                  if (dir == RIGHT)
-                    tux_body->set_action("stand-right");
-                  else
-                    tux_body->set_action("stand-left");
-                }
-              else // moving
-                {
-                  if (dir == RIGHT)
-                    tux_body->set_action("walk-right");
-                  else
-                    tux_body->set_action("walk-left");
-                }
-            }
-        }
+        tux_body->set_action("stand-left");
+      }
+    else // moving
+      {
+      if (dir == RIGHT)
+        tux_body->set_action("walk-right");
+      else
+        tux_body->set_action("walk-left");
+      }
     }
 
   if(idle_timer.get_left() < 0)
@@ -846,12 +813,42 @@ Player::draw(DrawingContext& context)
       tux_body->arms->set_action("grab-left");
     }
 
-  if(dying != DYING_SQUISHED && !growing_timer.check())
+  /* Draw Tux */
+  if (dying == DYING_SQUISHED)
+    {
+    smalltux_gameover->draw(context, pos, LAYER_FOREGROUNDTILES+1);
+    }
+  else if(growing_timer.check())
+    {
+    if(size == SMALL)
+      {
+      if (dir == RIGHT)
+        context.draw_surface(growingtux_right[GROWING_FRAMES-1 - 
+                 ((growing_timer.get_gone() *
+                 GROWING_FRAMES) / GROWING_TIME)], pos, layer);
+      else
+        context.draw_surface(growingtux_left[GROWING_FRAMES-1 - 
+                ((growing_timer.get_gone() *
+                GROWING_FRAMES) / GROWING_TIME)], pos, layer);
+      }
+    else
+      {
+      if (dir == RIGHT)
+        context.draw_surface(growingtux_right[(growing_timer.get_gone() *
+                GROWING_FRAMES) / GROWING_TIME], pos, layer);
+      else
+        context.draw_surface(growingtux_left[(growing_timer.get_gone() *
+                             GROWING_FRAMES) / GROWING_TIME], pos, layer);
+      }
+    }
+  else if (safe_timer.started() && global_frame_counter%2)
+    ;  // don't draw Tux
+  else
     tux_body->draw(context, pos, layer);
 
   // Draw blinking star overlay
   if (invincible_timer.started() &&
-      (invincible_timer.get_left() > TUX_INVINCIBLE_TIME_WARNING || global_frame_counter % 3))
+     (invincible_timer.get_left() > TUX_INVINCIBLE_TIME_WARNING || global_frame_counter % 3))
   {
     if (size == SMALL || duck)
       smalltux_star->draw(context, pos, LAYER_OBJECTS + 2);
