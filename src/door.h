@@ -26,11 +26,15 @@
 #include "serializable.h"
 #include "timer.h"
 
-#define ANIM_TIME 1500
-
 class Sprite;
 
 class LispReader;
+
+/** data images */
+#define DOOR_OPENING_TIME 1500
+#define DOOR_OPENING_FRAMES 8
+extern Sprite* door;
+extern Surface* door_opening[DOOR_OPENING_FRAMES];
 
 class Door : public InteractiveObject, public Serializable
 {
@@ -45,7 +49,6 @@ public:
   virtual void interaction(InteractionType type);
 
 private:
-  Sprite* sprite;
   std::string target_sector;
   std::string target_spawnpoint;
   Timer animation_timer; //Used for door animation

@@ -27,6 +27,7 @@
 #include "sprite_manager.h"
 #include "sound_manager.h"
 #include "setup.h"
+#include "door.h"
 
 Surface* img_waves[3]; 
 Surface* img_water;
@@ -194,6 +195,14 @@ void loadshared()
   /* Objects */
   load_object_gfx();
 
+  // load the door object graphics:
+  door = sprite_manager->load("door");
+  for (int i = 0; i < DOOR_OPENING_FRAMES; i++)
+    {
+    sprintf(img_name, "%s/images/shared/door-%i.png", datadir.c_str(), i+1);
+    door_opening[i] = new Surface(img_name, false);
+    }
+
   /* Distros: */
   img_distro[0] = new Surface(datadir + "/images/tilesets/coin1.png",
                USE_ALPHA);
@@ -263,6 +272,11 @@ void unloadshared(void)
     delete growingtux_left[i];
     delete growingtux_right[i];
   }
+
+  // door game object:
+
+  for (int i = 0; i < DOOR_OPENING_FRAMES; i++)
+    delete door_opening[i];
 
   for (i = 0; i < NUM_SOUNDS; i++)
     free_chunk(sounds[i]);

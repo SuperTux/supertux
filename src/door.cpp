@@ -25,6 +25,11 @@
 #include "sprite.h"
 #include "sprite_manager.h"
 #include "screen/drawing_context.h"
+#include "globals.h"
+
+/** data images */
+Sprite* door;
+Surface* door_opening[DOOR_OPENING_FRAMES];
 
 Door::Door(LispReader& reader)
 {
@@ -36,9 +41,10 @@ Door::Door(LispReader& reader)
   reader.read_string("sector", target_sector);
   reader.read_string("spawnpoint", target_spawnpoint);
 
-  sprite = sprite_manager->load("door");
   animation_timer.init(true);
   door_activated = false;
+
+  animation_timer.init(true);
 }
 
 void
@@ -69,13 +75,16 @@ Door::action(float )
 void
 Door::draw(DrawingContext& context)
 {
-  sprite->draw(context, Vector(area.x, area.y), LAYER_TILES);
+  if(animation_timer.check())
+    context.draw_surface(door_opening[(animation_timer.get_gone() * DOOR_OPENING_FRAMES) /
+          DOOR_OPENING_TIME], Vector(area.x, area.y - (door_opening[0]->h/2)), LAYER_TILES);
+  else
+    door->draw(context, Vector(area.x, area.y), LAYER_TILES);
   
   //Check if door animation is complete
   //TODO: Move this out of the "draw" method as this is extremely dirty :)  
   if ((!animation_timer.check()) && (door_activated)) {    
     door_activated = false;
-    sprite = sprite_manager->load("door");
     GameSession::current()->respawn(target_sector, target_spawnpoint);
   }
 }
@@ -87,9 +96,7 @@ Door::interaction(InteractionType type)
   //TODO: Resetting the animation doesn't work correctly
   //      Tux and badguys should stop moving while the door is opening
   if(type == INTERACTION_ACTIVATE) {
-    sprite = sprite_manager->load("openingdoor");
-    sprite->reset();
-    animation_timer.start(ANIM_TIME);
+    animation_timer.start(DOOR_OPENING_TIME);
     door_activated = true;
   }
 }
