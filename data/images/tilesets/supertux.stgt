@@ -4,26 +4,12 @@
  (properties 
   (id 0))
  ;; Zero tile
- (tile (id 0))
+ (tile (id 0)
+       (images "notile.png"))
 
  (tile (id 1)
-       (images "background1.png")
-       (solid #f))
- (tile (id 2)
-       (images "background2.png")
-       (solid #f))
- (tile (id 3)
-       (images "background3.png")
-       (solid #f))
- (tile (id 4)
-       (images "background4.png")
-       (solid #f))
- (tile (id 5)
-       (images "background5.png")
-       (solid #f))
- (tile (id 6)
-       (images "background6.png")
-       (solid #f))
+       (solid #t)
+       (images "notile.png"))
 
  (tile (id 7)
        (images "snow1.png")
@@ -82,18 +68,8 @@
        (solid #f))
 
  (tile (id 26)
-       (images "bonus2-1.png" 
-               "bonus2-2.png"
-               "bonus2-3.png"
-               "bonus2-4.png" 
-               "bonus2-5.png"
-               "bonus2-4.png"
-               "bonus2-3.png"
-               "bonus2-2.png"
-               "bonus2-1.png" 
-               "bonus2-1.png" 
-               "bonus2-1.png" 
-               )
+       (images "bonus2-1.png" "bonus2-2.png" "bonus2-3.png" "bonus2-4.png" "bonus2-5.png" "bonus2-4.png"
+               "bonus2-3.png" "bonus2-2.png" "bonus2-1.png" "bonus2-1.png" "bonus2-1.png")
        (anim-speed 50)
        (solid #t)
        (fullbox #t)
@@ -286,7 +262,8 @@
         (distro #t))
 
   (tile (id 83)
-        (images "box-full.png")
+        (images  "bonus2-1.png" "bonus2-2.png" "bonus2-3.png" "bonus2-4.png" "bonus2-5.png" "bonus2-4.png"
+                "bonus2-3.png" "bonus2-2.png" "bonus2-1.png" "bonus2-1.png" "bonus2-1.png")
         (fullbox #t)
         (solid #t) 
         (next-tile 84)
@@ -317,13 +294,17 @@
   (tile (id 101) (images "bkgd-00.png"))
 
   (tile (id 102)
-        (images "box-full.png")
+        (images "bonus2-1.png" "bonus2-2.png" "bonus2-3.png" "bonus2-4.png" "bonus2-5.png" "bonus2-4.png"
+                "bonus2-3.png" "bonus2-2.png" "bonus2-1.png" "bonus2-1.png" "bonus2-1.png")
+        (editor-images "bonus-flower.png")
         (solid #t)
         (fullbox #t)
         (data 2)
         (next-tile 84))
   (tile (id 103)
-        (images "box-full.png")
+        (images "bonus2-1.png" "bonus2-2.png" "bonus2-3.png" "bonus2-4.png" "bonus2-5.png" "bonus2-4.png"
+                "bonus2-3.png" "bonus2-2.png" "bonus2-1.png" "bonus2-1.png" "bonus2-1.png")
+        (editor-images "bonus-herring.png")
         (solid #t)
         (fullbox #t)
         (data 3)
@@ -345,4 +326,30 @@
         (next-tile 84)
         (solid #t))
 
+ (tile (id 106)
+       (images "background1.png")
+       (solid #f))
+ (tile (id 107)
+       (images "background2.png")
+       (solid #f))
+ (tile (id 108)
+       (images "background3.png")
+       (solid #f))
+ (tile (id 109)
+       (images "background4.png")
+       (solid #f))
+ (tile (id 110)
+       (images "background5.png")
+       (solid #f))
+ (tile (id 111)
+       (images "background6.png")
+       (solid #f))
+
+ (tile (id 112)
+       (editor-images "bonus-invisible.png")
+       (anim-speed 50)
+       (solid #t)
+       (fullbox #t)
+       (next-tile 84)
+       (data 0))
  )
