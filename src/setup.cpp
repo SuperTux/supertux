@@ -1038,7 +1038,7 @@ void parseargs(int argc, char * argv[])
           printf("Music disabled \n");
           use_music = false;
         }
-      else if (strcmp(argv[i], "--debug-mode") == 0)
+      else if (strcmp(argv[i], "--debug") == 0)
         {
           /* Enable the debug-mode */
           debug_mode = true;
@@ -1067,7 +1067,7 @@ void parseargs(int argc, char * argv[])
                "                      Define how joystick buttons and axis should be mapped\n"
                "  --leveleditor       Opens the leveleditor in a file. (Only works when a file is provided.)\n"
                "  -d, --datadir DIR   Load Game data from DIR (default: automatic)\n"
-               "  --debug-mode        Enables the debug-mode, which is useful for developers.\n"
+               "  --debug             Enables the debug mode, which is useful for developers.\n"
                "  --help              Display a help message summarizing command-line\n"
                "                      options, license and game controls.\n"
                "  --usage             Display a brief message summarizing command-line options.\n"
@@ -1106,7 +1106,7 @@ void usage(char * prog, int ret)
 
   /* Display the usage message: */
 
-  fprintf(fi, _("Usage: %s [--fullscreen] [--opengl] [--disable-sound] [--disable-music] [--debug-mode] | [--usage | --help | --version] [--leveleditor] FILENAME\n"),
+  fprintf(fi, _("Usage: %s [--fullscreen] [--opengl] [--disable-sound] [--disable-music] [--debug] | [--usage | --help | --version] [--leveleditor] FILENAME\n"),
           prog);
 
 
