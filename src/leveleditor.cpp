@@ -812,10 +812,10 @@ void le_drawinterface()
     /* draw a grid (if selected) */
     if(le_show_grid)
     {
-      for(x = 0; x < 19; x++)
+      for(x = 0; x < VISIBLE_TILES_X; x++)
         fillrect(x*32 - ((int)pos_x % 32), 0, 1, screen->h, 225, 225, 225,255);
-      for(y = 0; y < 16; y++)
-        fillrect(0, y*32 - ((int)pos_y % 32), screen->w - 32, 1, 225, 225, 225,255);
+      for(y = 0; y < VISIBLE_TILES_Y; y++)
+        fillrect(0, y*32 - ((int)pos_y % 32), screen->w, 1, 225, 225, 225,255);
     }
   }
 
@@ -849,13 +849,13 @@ void le_drawinterface()
 
   if(le_current.IsTile())
   {
-    Tile::draw(19 * 32, 14 * 32, le_current.tile);
+    Tile::draw(screen->w - 32, screen->h - 32, le_current.tile);
     if(TileManager::instance()->get(le_current.tile)->editor_images.size() > 0)
-      TileManager::instance()->get(le_current.tile)->editor_images[0]->draw( 19 * 32, 14 * 32);
+      TileManager::instance()->get(le_current.tile)->editor_images[0]->draw( screen->w - 32, screen->h - 32);
   }
   if(le_current.IsObject() && MouseCursor::current() != mouse_select_object)
   {
-    le_current.obj->draw_on_screen(19 * 32, 14 * 32);
+    le_current.obj->draw_on_screen(screen->w - 32, screen->h - 32);
     le_current.obj->draw_on_screen(cursor_x,cursor_y);
   }
 
@@ -953,7 +953,7 @@ void le_drawlevel()
   /*       clearscreen(current_level.bkgd_red, current_level.bkgd_green, current_level.bkgd_blue); */
 
   for (y = 0; y < VISIBLE_TILES_Y && y < (unsigned)le_world->get_level()->height; ++y)
-    for (x = 0; x < (unsigned)VISIBLE_TILES_X-80; ++x)
+    for (x = 0; x < (unsigned)VISIBLE_TILES_X - 2; ++x)
     {
 
       if(active_tm == TM_BG)
@@ -1579,8 +1579,8 @@ void le_checkevents()
     }
 
       /* checking if pos_x and pos_y is within the limits... */
-      if(pos_x > (le_world->get_level()->width * 32) - screen->w)
-        pos_x = (le_world->get_level()->width * 32) - screen->w;
+      if(pos_x > (le_world->get_level()->width * 32 + 32*2) - screen->w)
+        pos_x = (le_world->get_level()->width * 32 + 32*2) - screen->w;
       if(pos_x < 0)
         pos_x = 0;
 
