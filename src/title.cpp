@@ -172,31 +172,6 @@ void draw_demo(GameSession* session, double frame_ratio)
 
   world->play_music(LEVEL_MUSIC);
   
-  /* FIXME:
-  // update particle systems
-  std::vector<ParticleSystem*>::iterator p;
-  for(p = particle_systems.begin(); p != particle_systems.end(); ++p)
-    {
-      (*p)->simulate(frame_ratio);
-    }
-
-  // Draw particle systems (background)
-  for(p = particle_systems.begin(); p != particle_systems.end(); ++p)
-    {
-      (*p)->draw(scroll_x, 0, 0);
-    }
-  */
-
-  // Draw interactive tiles:
-/*  for (int y = 0; y < 15; ++y)
-    {
-      for (int x = 0; x < 21; ++x)
-        {
-          Tile::draw(32*x - fmodf(scroll_x, 32), y * 32,
-                     plevel->ia_tiles[(int)y][(int)x + (int)(scroll_x / 32)]);
-        }
-    }*/
-
   global_frame_counter++;
   tux->key_event((SDLKey) keymap.right,DOWN);
   
@@ -291,7 +266,6 @@ void title(void)
         }
 
       /* Draw the background: */
-      draw_background();
       draw_demo(&session, frame_ratio);
       
       if (Menu::current() == main_menu)
