@@ -106,6 +106,7 @@ void loadconfig(void)
   reader.read_int ("keyboard-fire", &keymap.fire);
 
   lisp_free(root_obj);
+  fclose(file);
 }
 
 void saveconfig (void)
@@ -143,7 +144,10 @@ void saveconfig (void)
       fprintf(config, "\t(keyboard-fire  %d)\n", keymap.fire);
 
       fprintf(config, ")\n");
+
+      fclose(config);
     }
+
 }
 
 /* EOF */
