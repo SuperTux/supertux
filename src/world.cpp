@@ -197,7 +197,7 @@ World::draw()
     }
 
   /* Draw background: */
-  for (y = 0; y < 15; ++y)
+  for (y = 0; y < 16 && y < level->height; ++y)
     {
       for (x = 0; x < 21; ++x)
         {
@@ -207,7 +207,7 @@ World::draw()
     }
 
   /* Draw interactive tiles: */
-  for (y = 0; y < 15; ++y)
+  for (y = 0; y < 16 && y < level->height; ++y)
     {
       for (x = 0; x < 21; ++x)
         {
@@ -241,7 +241,7 @@ World::draw()
     broken_bricks[i]->draw();
 
   /* Draw foreground: */
-  for (y = 0; y < 15; ++y)
+  for (y = 0; y < 16 && y < level->height; ++y)
     {
       for (x = 0; x < 21; ++x)
         {
