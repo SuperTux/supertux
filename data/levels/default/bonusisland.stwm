@@ -135,7 +135,8 @@
 			  
 			(level (map-message "Hint: Use igloos to get back here.")
            (x 35)
-           (y 5) (passive-message #f))
+           (y 5) 
+			  (apply-action-left #f) (apply-action-right #f) (apply-action-down #f))
 
 			(level 
 	        (x 33)
