@@ -599,7 +599,8 @@ Player::draw()
             }
 
           // Draw blinking star overlay
-          if (invincible_timer.started() && (invincible_timer.get_left() > TUX_INVINCIBLE_TIME_WARNING || global_frame_counter % 2))
+          if (invincible_timer.started() &&
+             (invincible_timer.get_left() > TUX_INVINCIBLE_TIME_WARNING || global_frame_counter % 3))
             {
               if (size == SMALL || duck)
                 smalltux_star->draw(base.x - scroll_x, base.y);
