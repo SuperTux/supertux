@@ -820,7 +820,7 @@ WorldMap::loadgame(const std::string& filename)
       reader.read_int("distros", &player_status.distros);
 
       if (player_status.lives < 0)
-        player_status.lives = 3;
+        player_status.lives = START_LIVES;
 
       lisp_object_t* tux_cur = 0;
       if (reader.read_lisp("tux", &tux_cur))

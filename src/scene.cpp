@@ -19,13 +19,14 @@
 
 #include <stdlib.h>
 #include "scene.h"
+#include "defines.h"
 
 PlayerStatus player_status;
 
 PlayerStatus::PlayerStatus()
   : score(0),
     distros(0),
-    lives(3),
+    lives(START_LIVES),
     score_multiplier(1)
 {
 }

@@ -65,6 +65,10 @@ enum DyingType {
 #define RUN_SPEED 1.5
 #define JUMP_SPEED 1.2
 
+/* gameplay related defines */
+
+#define START_LIVES 4
+
 #define MAX_BULLETS 1
 
 #define GRAVITY 1.0
