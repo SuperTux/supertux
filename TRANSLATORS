@@ -4,7 +4,8 @@
 * Install gettext
 * get a cvs snapshot of supertux and do the usual autogen.sh, configure.
   Make sure configure can find the xgettext application.
-    (ie. "checking for xgettext... xgettext")
+    (ie. "checking for xgettext... xgettext"
+     and "checking if xgettext supports Lisp... yes")
 * Run 'jam' and let it compile supertux and create all the messages.po files
 * Go into data/locale and data/levels/*/ and in each dir do:
      - In case you want to create a new translation do

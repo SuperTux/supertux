@@ -28,6 +28,16 @@ AC_PROG_CXX
 AC_PROG_INSTALL
 
 AC_CHECK_PROGS(XGETTEXT, xgettext)
+if test -n "$XGETTEXT" ; then
+    AC_MSG_CHECKING([if xgettext supports lisp])
+    if echo '(gettext "test")' | xgettext -o - -L Lisp - >& /dev/null; then
+        AC_MSG_RESULT(yes)
+    else
+        AC_MSG_RESULT(no)
+        AC_MSG_WARN([It seems your gettext installation is too old, try updating it])
+        XGETTEXT=""
+    fi
+fi
 
 dnl Checks for header files.
 AC_HEADER_DIRENT
