@@ -325,7 +325,7 @@ void World::scrolling(double frame_ratio)
     return;
     }
 
-  int tux_pos_x = (int)(tux.base.x + (tux.base.width/2));
+  float tux_pos_x = tux.base.x + (tux.base.width/2);
 
   if (level->back_scrolling || debug_mode)
   {
@@ -393,7 +393,7 @@ void World::scrolling(double frame_ratio)
 
   /* Y-axis scrolling */
 
-  int tux_pos_y = (int)(tux.base.y + (tux.base.height/2));
+  float tux_pos_y = tux.base.y + (tux.base.height/2);
 
   scroll_y = tux_pos_y - (screen->h / 2);
 
@@ -496,7 +496,7 @@ World::add_score(float x, float y, int s)
   player_status.score += s;
 
   FloatingScore* new_floating_score = new FloatingScore();
-  new_floating_score->init(x,y,s);
+  new_floating_score->init(x-scroll_x, y-scroll_y, s);
   floating_scores.push_back(new_floating_score);
 }
 
@@ -504,7 +504,7 @@ void
 World::add_bouncy_distro(float x, float y)
 {
   BouncyDistro* new_bouncy_distro = new BouncyDistro();
-  new_bouncy_distro->init(x,y);
+  new_bouncy_distro->init(x, y);
   bouncy_distros.push_back(new_bouncy_distro);
 }
 

@@ -746,10 +746,10 @@ BadGuy::draw()
     }
 
   Sprite* sprite = (dir == LEFT) ? sprite_left : sprite_right;
-  sprite->draw(base.x - scroll_x, base.y);
+  sprite->draw(base.x, base.y);
 
   if (debug_mode)
-    fillrect(base.x - scroll_x, base.y, base.width, base.height, 75,0,75, 150);
+    fillrect(base.x, base.y, base.width, base.height, 75,0,75, 150);
 }
 
 void
@@ -810,7 +810,7 @@ BadGuy::squish_me(Player* player)
 {
   make_player_jump(player);
     
-  World::current()->add_score(base.x - scroll_x,
+  World::current()->add_score(base.x,
                               base.y, 50 * player_status.score_multiplier);
   play_sound(sounds[SND_SQUISH], SOUND_CENTER_SPEAKER);
   player_status.score_multiplier++;
@@ -830,7 +830,7 @@ BadGuy::squish(Player* player)
     World::current()->add_bad_guy(base.x, base.y, BAD_BOMB);
     
     make_player_jump(player);
-    World::current()->add_score(base.x - scroll_x, base.y, 50 * player_status.score_multiplier);
+    World::current()->add_score(base.x, base.y, 50 * player_status.score_multiplier);
     play_sound(sounds[SND_SQUISH], SOUND_CENTER_SPEAKER);
     player_status.score_multiplier++;
     remove_me();
@@ -882,7 +882,7 @@ BadGuy::squish(Player* player)
       
     make_player_jump(player);
 	      
-    World::current()->add_score(base.x - scroll_x, base.y, 25 * player_status.score_multiplier);
+    World::current()->add_score(base.x, base.y, 25 * player_status.score_multiplier);
     player_status.score_multiplier++;
      
     // simply remove the fish...
@@ -922,7 +922,7 @@ BadGuy::kill_me(int score)
   physic.enable_gravity(true);
 
   /* Gain some points: */
-    World::current()->add_score(base.x - scroll_x, base.y,
+    World::current()->add_score(base.x, base.y,
                     score * player_status.score_multiplier);
 
   /* Play death sound: */

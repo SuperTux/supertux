@@ -79,7 +79,7 @@ Sprite::draw(float x, float y)
   unsigned int frame = get_current_frame();
 
   if (frame < surfaces.size())
-    surfaces[frame]->draw(x - x_hotspot, y - y_hotspot - scroll_y);
+    surfaces[frame]->draw(x - x_hotspot - scroll_x, y - y_hotspot - scroll_y);
 }
 
 void

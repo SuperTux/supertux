@@ -123,7 +123,7 @@ Bullet::draw()
   if (base.x >= scroll_x - base.width &&
       base.x <= scroll_x + screen->w)
     {
-      img_bullet->draw(base.x - scroll_x, base.y);
+      img_bullet->draw(base.x, base.y);
     }
 }
 
@@ -252,7 +252,7 @@ Upgrade::draw()
     {
       /* Rising up... */
 
-      dest.x = (int)(base.x - scroll_x);
+      dest.x = (int)(base.x);
       dest.y = (int)(base.y + 32 - base.height);
       dest.w = 32;
       dest.h = (int)base.height;
@@ -271,21 +271,21 @@ Upgrade::draw()
       if (kind == UPGRADE_GROWUP)
         {
           img_growup->draw(
-                       base.x - scroll_x, base.y);
+                       base.x, base.y);
         }
       else if (kind == UPGRADE_ICEFLOWER)
         {
           img_iceflower->draw(
-                       base.x - scroll_x, base.y);
+                       base.x, base.y);
         }
       else if (kind == UPGRADE_HERRING)
         {
           img_star->draw(
-                       base.x - scroll_x, base.y);
+                       base.x, base.y);
         }
       else if (kind == UPGRADE_1UP)
         {
-          img_1up->draw( base.x - scroll_x, base.y);
+          img_1up->draw( base.x, base.y);
         }
     }
 }

@@ -551,7 +551,7 @@ Player::draw()
     {
       if (dying == DYING_SQUISHED)
         {
-          smalltux_gameover->draw(base.x - scroll_x, base.y);
+          smalltux_gameover->draw(base.x, base.y);
         }
       else
         {
@@ -567,46 +567,46 @@ Player::draw()
           if (duck && size != SMALL)
             {
               if (dir == RIGHT)
-                sprite->duck_right->draw(base.x - scroll_x, base.y);
+                sprite->duck_right->draw(base.x, base.y);
               else 
-                sprite->duck_left->draw(base.x - scroll_x, base.y);
+                sprite->duck_left->draw(base.x, base.y);
             }
           else if (skidding_timer.started())
             {
               if (dir == RIGHT)
-                sprite->skid_right->draw(base.x - scroll_x, base.y);
+                sprite->skid_right->draw(base.x, base.y);
               else
-                sprite->skid_left->draw(base.x - scroll_x, base.y); 
+                sprite->skid_left->draw(base.x, base.y); 
             }
           else if (kick_timer.started())
             {
               if (dir == RIGHT)
-                sprite->kick_right->draw(base.x - scroll_x, base.y);
+                sprite->kick_right->draw(base.x, base.y);
               else
-                sprite->kick_left->draw(base.x - scroll_x, base.y); 
+                sprite->kick_left->draw(base.x, base.y); 
             }
           else if (physic.get_velocity_y() != 0)
             {
               if (dir == RIGHT)
-                sprite->jump_right->draw(base.x - scroll_x, base.y);
+                sprite->jump_right->draw(base.x, base.y);
               else
-                sprite->jump_left->draw(base.x - scroll_x, base.y);                   
+                sprite->jump_left->draw(base.x, base.y);                   
             }
           else
             {
               if (fabsf(physic.get_velocity_x()) < 1.0f) // standing
                 {
                   if (dir == RIGHT)
-                    sprite->stand_right->draw( base.x - scroll_x, base.y);
+                    sprite->stand_right->draw( base.x, base.y);
                   else
-                    sprite->stand_left->draw( base.x - scroll_x, base.y);
+                    sprite->stand_left->draw( base.x, base.y);
                 }
               else // moving
                 {
                   if (dir == RIGHT)
-                    sprite->walk_right->draw(base.x - scroll_x, base.y);
+                    sprite->walk_right->draw(base.x, base.y);
                   else
-                    sprite->walk_left->draw(base.x - scroll_x, base.y);
+                    sprite->walk_left->draw(base.x, base.y);
                 }
             }
                       
@@ -614,9 +614,9 @@ Player::draw()
           if (holding_something && physic.get_velocity_y() == 0)
             {
               if (dir == RIGHT)
-                sprite->grab_right->draw(base.x - scroll_x, base.y);
+                sprite->grab_right->draw(base.x, base.y);
               else
-                sprite->grab_left->draw(base.x - scroll_x, base.y);
+                sprite->grab_left->draw(base.x, base.y);
             }
 
           // Draw blinking star overlay
@@ -624,15 +624,15 @@ Player::draw()
              (invincible_timer.get_left() > TUX_INVINCIBLE_TIME_WARNING || global_frame_counter % 3))
             {
               if (size == SMALL || duck)
-                smalltux_star->draw(base.x - scroll_x, base.y);
+                smalltux_star->draw(base.x, base.y);
               else
-                largetux_star->draw(base.x - scroll_x, base.y);
+                largetux_star->draw(base.x, base.y);
             }
         }
     }     
   
   if (debug_mode)
-    fillrect(base.x - scroll_x, base.y, 
+    fillrect(base.x, base.y, 
              base.width, base.height, 75,75,75, 150);
 }
 
@@ -673,7 +673,7 @@ Player::collision(void* p_c_object, int c_object)
                 {
                    pbad_c->dying = DYING_FALLING;
                    play_sound(sounds[SND_FALL], SOUND_CENTER_SPEAKER);
-                   World::current()->add_score(pbad_c->base.x - scroll_x,
+                   World::current()->add_score(pbad_c->base.x,
                                                pbad_c->base.y,
                                                25 * player_status.score_multiplier);
                 }
