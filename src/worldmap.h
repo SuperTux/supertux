@@ -166,6 +166,7 @@ public:
 
   Point get_next_tile(Point pos, Direction direction);
   Tile* at(Point pos);
+  bool at_level();
 
   /** Check if it is possible to walk from \a pos into \a direction,
       if possible, write the new position to \a new_pos */

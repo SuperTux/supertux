@@ -181,7 +181,7 @@ Tux::update(float delta)
         { // We reached the next tile, so we check what to do now
           offset -= 32;
 
-          if (worldmap->at(tile_pos)->stop)
+          if (worldmap->at(tile_pos)->stop || worldmap->at_level())
             {
               stop();
             }
@@ -489,6 +489,20 @@ WorldMap::at(Point p)
          && p.y < height);
   return TileManager::instance()->get(tilemap[width * p.y + p.x]);
 }
+
+bool
+WorldMap::at_level()
+{
+  for(Levels::iterator i = levels.begin(); i != levels.end(); ++i)
+    {
+      if (i->x == tux->get_tile_pos().x && 
+          i->y == tux->get_tile_pos().y)
+           return true; 
+    }
+
+  return false;
+}
+
 
 void
 WorldMap::draw(const Point& offset)
