@@ -20,10 +20,36 @@
 #ifndef SUPERTUX_RESOURCES_H
 #define SUPERTUX_RESOURCES_H
 
-#include "musicref.h"
+#include "audio/musicref.h"
 
 class SpriteManager;
 class SoundManager;
+
+/* Sound files: */
+enum {
+  SND_JUMP,
+  SND_BIGJUMP,
+  SND_SKID,
+  SND_DISTRO,
+  SND_HERRING,
+  SND_BRICK,
+  SND_HURT,
+  SND_SQUISH,
+  SND_FALL,
+  SND_RICOCHET,
+  SND_BUMP_UPGRADE,
+  SND_UPGRADE,
+  SND_EXCELLENT,
+  SND_COFFEE,
+  SND_SHOOT,
+  SND_LIFEUP,
+  SND_STOMP,
+  SND_KICK,
+  SND_EXPLODE,
+  NUM_SOUNDS
+};
+
+extern char* soundfilenames[NUM_SOUNDS];
 
 extern Surface* img_waves[3]; 
 extern Surface* img_water;

@@ -26,19 +26,19 @@
 #include <fstream>
 #include <stdexcept>
 
-#include "globals.h"
-#include "setup.h"
+#include "app/globals.h"
+#include "app/setup.h"
 #include "camera.h"
-#include "screen/screen.h"
+#include "video/screen.h"
 #include "level.h"
-#include "physic.h"
+#include "math/physic.h"
 #include "scene.h"
 #include "sector.h"
 #include "tile.h"
-#include "lispreader.h"
+#include "utils/lispreader.h"
 #include "resources.h"
 #include "gameobjs.h"
-#include "lispwriter.h"
+#include "utils/lispwriter.h"
 
 using namespace std;
 

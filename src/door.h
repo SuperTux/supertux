@@ -22,9 +22,10 @@
 
 #include <string>
 
+#include "video/surface.h"
 #include "interactive_object.h"
 #include "serializable.h"
-#include "timer.h"
+#include "special/timer.h"
 
 class Sprite;
 

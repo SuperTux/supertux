@@ -20,8 +20,8 @@
 #ifndef SUPERTUX_INTERACTIVE_OBJECT_H
 #define SUPERTUX_INTERACTIVE_OBJECT_H
 
-#include "game_object.h"
-#include "type.h"
+#include "special/game_object.h"
+#include "special/base.h"
 
 enum InteractionType
 {

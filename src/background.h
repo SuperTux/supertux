@@ -20,10 +20,10 @@
 #ifndef SUPERTUX_BACKGROUND_H
 #define SUPERTUX_BACKGROUND_H
 
-#include "screen/surface.h"
-#include "screen/drawing_context.h"
-#include "game_object.h"
-#include "lispreader.h"
+#include "video/surface.h"
+#include "video/drawing_context.h"
+#include "special/game_object.h"
+#include "utils/lispreader.h"
 #include "serializable.h"
 
 class DisplayManager;

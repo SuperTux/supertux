@@ -23,18 +23,21 @@
 #include <cassert>
 #include <unistd.h>
 
-#include "globals.h"
-#include "screen/surface.h"
-#include "screen/screen.h"
-#include "screen/drawing_context.h"
-#include "lispreader.h"
+#include "app/globals.h"
+#include "video/surface.h"
+#include "video/screen.h"
+#include "video/drawing_context.h"
+#include "utils/lispreader.h"
 #include "gameloop.h"
-#include "setup.h"
+#include "app/setup.h"
 #include "sector.h"
 #include "worldmap.h"
-#include "sound_manager.h"
+#include "audio/sound_manager.h"
 #include "resources.h"
-#include "gettext.h"
+#include "app/gettext.h"
+#include "misc.h"
+
+Menu* worldmap_menu  = 0;
 
 namespace WorldMapNS {
 

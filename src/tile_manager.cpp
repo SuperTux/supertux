@@ -19,12 +19,13 @@
 //  02111-1307, USA.
 
 #include <assert.h>
-#include "screen/drawing_context.h"
-#include "setup.h"
-#include "globals.h"
-#include "lispreader.h"
+#include "video/drawing_context.h"
+#include "app/setup.h"
+#include "app/globals.h"
+#include "utils/lispreader.h"
 #include "tile.h"
 #include "tile_manager.h"
+#include "scene.h"
 
 TileManager* TileManager::instance_  = 0;
 std::set<TileGroup>* TileManager::tilegroups_  = 0;

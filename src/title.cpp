@@ -34,15 +34,15 @@
 #include <ctype.h>
 #endif
 
-#include "defines.h"
-#include "globals.h"
+#include "app/defines.h"
+#include "app/globals.h"
 #include "title.h"
-#include "screen/screen.h"
-#include "screen/surface.h"
+#include "video/screen.h"
+#include "video/surface.h"
 #include "high_scores.h"
-#include "menu.h"
-#include "timer.h"
-#include "setup.h"
+#include "gui/menu.h"
+#include "special/timer.h"
+#include "app/setup.h"
 #include "level.h"
 #include "level_subset.h"
 #include "gameloop.h"
@@ -54,8 +54,9 @@
 #include "sector.h"
 #include "tilemap.h"
 #include "resources.h"
-#include "type.h"
-#include "gettext.h"
+#include "special/base.h"
+#include "app/gettext.h"
+#include "misc.h"
 
 static Surface* bkg_title;
 static Surface* logo;
@@ -76,6 +77,18 @@ static LevelSubset* current_contrib_subset = 0;
 static string_list_type worldmap_list;
 
 static LevelEditor* leveleditor;
+
+void update_load_save_game_menu(Menu* pmenu)
+{
+  for(int i = 2; i < 7; ++i)
+    {
+      // FIXME: Insert a real savegame struct/class here instead of
+      // doing string vodoo
+      std::string tmp = slotinfo(i - 1);
+      pmenu->item[i].kind = MN_ACTION;
+      pmenu->item[i].change_text(tmp.c_str());
+    }
+}
 
 void free_contrib_menu()
 {

@@ -19,7 +19,7 @@
 //  02111-1307, USA.
 
 #include <cmath>
-#include "defines.h"
+#include "app/defines.h"
 #include "collision.h"
 #include "bitmask.h"
 #include "scene.h"

@@ -22,19 +22,19 @@
 #include <cassert>
 
 #include "gameloop.h"
-#include "globals.h"
+#include "app/globals.h"
 #include "player.h"
-#include "defines.h"
+#include "app/defines.h"
 #include "scene.h"
 #include "tile.h"
-#include "sprite.h"
+#include "special/sprite.h"
 #include "sector.h"
 #include "tilemap.h"
 #include "camera.h"
 #include "gameobjs.h"
 #include "resources.h"
 #include "interactive_object.h"
-#include "screen/screen.h"
+#include "video/screen.h"
 
 // behavior definitions:
 #define TILES_FOR_BUTTJUMP 3
@@ -227,7 +227,7 @@ Player::action(float elapsed_time)
   if(dying == DYING_NOT)
     handle_input();
 
-  physic.apply(elapsed_time, base.x, base.y);
+  physic.apply(elapsed_time, base.x, base.y, Sector::current()->gravity);
 
   if(dying == DYING_NOT) 
     {

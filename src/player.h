@@ -23,13 +23,14 @@
 #include "SDL.h"
 
 #include "bitmask.h"
-#include "type.h"
-#include "timer.h"
-#include "screen/surface.h"
+#include "special/timer.h"
+#include "special/base.h"
+#include "video/surface.h"
 #include "collision.h"
-#include "sound.h"
-#include "moving_object.h"
-#include "physic.h"
+#include "audio/sound.h"
+#include "special/moving_object.h"
+#include "math/physic.h"
+#include "app/defines.h"
 
 class BadGuy;
 
@@ -48,6 +49,11 @@ class BadGuy;
 
 #define SCORE_BRICK 5
 #define SCORE_DISTRO 25
+
+/* Sizes: */
+
+#define SMALL 0
+#define BIG 1
 
 #include <vector>
 

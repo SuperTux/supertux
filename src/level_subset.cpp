@@ -19,10 +19,10 @@
 //  02111-1307, USA.
 
 #include <assert.h>
-#include "setup.h"
+#include "app/setup.h"
 #include "level.h"
-#include "globals.h"
-#include "screen/surface.h"
+#include "app/globals.h"
+#include "video/surface.h"
 #include "level_subset.h"
 
 static bool has_suffix(const std::string& data, const std::string& suffix)

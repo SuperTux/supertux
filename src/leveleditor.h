@@ -23,15 +23,53 @@
 #ifndef SUPERTUX_LEVELEDITOR_H
 #define SUPERTUX_LEVELEDITOR_H
 
-#include "screen/drawing_context.h"
-#include "game_object.h"
-#include "screen/surface.h"
+#include "video/drawing_context.h"
+#include "special/game_object.h"
+#include "video/surface.h"
 #include "level.h"
 #include "level_subset.h"
-#include "moving_object.h"
-#include "button.h"
-#include "menu.h"
+#include "special/moving_object.h"
+#include "gui/button.h"
+#include "gui/menu.h"
 
+enum LevelEditorMainMenuIDs {
+  MNID_RETURNLEVELEDITOR,
+  MNID_SUBSETSETTINGS,
+  MNID_QUITLEVELEDITOR
+  };
+  
+enum LevelEditorSubsetSettingsIDs {
+  MNID_SUBSETTITLE,
+  MNID_SUBSETDESCRIPTION,
+  MNID_SUBSETSAVECHANGES
+  };
+  
+enum LevelEditorSubsetNewIDs {
+ MNID_SUBSETNAME,
+ MNID_CREATESUBSET
+};
+
+enum LevelEditorSettingsMenuIDs {
+  MNID_NAME,
+  MNID_AUTHOR,
+  MNID_SONG,
+  MNID_BGIMG,
+  MNID_PARTICLE,
+  MNID_LENGTH,
+  MNID_HEIGHT,
+  MNID_TIME,
+  MNID_GRAVITY,
+  MNID_BGSPEED,
+  MNID_TopRed,
+  MNID_TopGreen,
+  MNID_TopBlue,
+  MNID_BottomRed,
+  MNID_BottomGreen,
+  MNID_BottomBlue,
+  MNID_APPLY
+  };
+
+  
 class LevelEditor
 {
 public:

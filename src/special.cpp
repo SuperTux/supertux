@@ -26,13 +26,13 @@
 #include "special.h"
 #include "camera.h"
 #include "gameloop.h"
-#include "screen/screen.h"
-#include "sound.h"
+#include "video/screen.h"
+#include "audio/sound.h"
 #include "scene.h"
-#include "globals.h"
+#include "app/globals.h"
 #include "player.h"
 #include "sector.h"
-#include "sprite_manager.h"
+#include "special/sprite_manager.h"
 #include "resources.h"
 
 Sprite* img_firebullet;
@@ -81,7 +81,7 @@ Bullet::action(float elapsed_time)
 
   float old_y = base.y;
 
-  physic.apply(elapsed_time, base.x, base.y);
+  physic.apply(elapsed_time, base.x, base.y,  Sector::current()->gravity);
   collision_swept_object_map(&old_base,&base);
       
   if (issolid(base.x+2, base.y + 4) || issolid(base.x+2, base.y))
@@ -210,7 +210,7 @@ Upgrade::action(float elapsed_time)
     }
 
   /* Move around? */
-  physic.apply(elapsed_time, base.x, base.y);
+  physic.apply(elapsed_time, base.x, base.y, Sector::current()->gravity);
   if(kind == UPGRADE_GROWUP) {
     collision_swept_object_map(&old_base, &base);
   }
@@ -280,7 +280,7 @@ Upgrade::bump(Player* player)
   if(kind != UPGRADE_GROWUP)
     return;
 
-  sound_manager->play_sound(sounds[SND_BUMP_UPGRADE], Vector(base.x, base.y));
+  sound_manager->play_sound(sounds[SND_BUMP_UPGRADE], Vector(base.x, base.y), Sector::current()->player->get_pos());
   
   // determine new direction
   Direction old_dir = dir;

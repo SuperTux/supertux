@@ -22,11 +22,11 @@
 #include <cmath>
 
 #include "camera.h"
-#include "lispwriter.h"
+#include "utils/lispwriter.h"
 #include "player.h"
 #include "tilemap.h"
 #include "gameloop.h"
-#include "globals.h"
+#include "app/globals.h"
 #include "sector.h"
 
 Camera::Camera(Sector* newsector)

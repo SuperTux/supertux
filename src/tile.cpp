@@ -22,12 +22,12 @@
 #include <cassert>
 #include <iostream>
 
-#include "globals.h"
+#include "app/globals.h"
 #include "tile.h"
 #include "scene.h"
-#include "lispreader.h"
-#include "vector.h"
-#include "screen/drawing_context.h"
+#include "utils/lispreader.h"
+#include "math/vector.h"
+#include "video/drawing_context.h"
 
 /** Dirty little helper to create a surface from a snipped of lisp:
  *

@@ -23,11 +23,11 @@
 #include "SDL.h"
 
 #include "bitmask.h"
-#include "type.h"
-#include "screen/surface.h"
+#include "special/base.h"
+#include "video/surface.h"
 #include "collision.h"
 #include "player.h"
-#include "physic.h"
+#include "math/physic.h"
 
 /* Upgrade types: */
 

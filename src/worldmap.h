@@ -23,11 +23,18 @@
 #include <vector>
 #include <string>
 
-#include "vector.h"
-#include "musicref.h"
-#include "screen/screen.h"
+#include "math/vector.h"
+#include "audio/musicref.h"
+#include "video/screen.h"
+
+extern Menu* worldmap_menu;
 
 namespace WorldMapNS {
+
+enum WorldMapMenuIDs {
+  MNID_RETURNWORLDMAP,
+  MNID_QUITWORLDMAP
+  };
 
 class Tile
 {

@@ -22,8 +22,9 @@
 #ifndef SUPERTUX_GAMELOOP_H
 #define SUPERTUX_GAMELOOP_H
 
-#include "sound.h"
-#include "type.h"
+#include "special/timer.h"
+#include "audio/sound.h"
+#include "special/base.h"
 
 /* GameLoop modes */
 
@@ -32,6 +33,12 @@
 #define ST_GL_LOAD_GAME 2
 #define ST_GL_LOAD_LEVEL_FILE  3
 #define ST_GL_DEMO_GAME  4
+
+
+enum GameMenuIDs {
+  MNID_CONTINUE,
+  MNID_ABORTLEVEL
+  };
 
 extern int game_started;
 
@@ -126,6 +133,9 @@ std::string slotinfo(int slot);
 
 bool rectcollision(base_type* one, base_type* two);
 void bumpbrick(float x, float y);
+
+/** Return true if the gameloop() was entered, false otherwise */
+bool process_load_game_menu();
 
 #endif /*SUPERTUX_GAMELOOP_H*/
 

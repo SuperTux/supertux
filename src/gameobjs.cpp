@@ -23,12 +23,12 @@
 #include <iostream>
 #include <cmath>
 
-#include "globals.h"
+#include "app/globals.h"
 #include "tile.h"
 #include "tile_manager.h"
 #include "gameloop.h"
 #include "gameobjs.h"
-#include "sprite_manager.h"
+#include "special/sprite_manager.h"
 #include "resources.h"
 #include "sector.h"
 #include "tilemap.h"
@@ -232,7 +232,7 @@ Trampoline::action(float frame_ratio)
     }
   }
 
-  physic.apply(frame_ratio, base.x, base.y);
+  physic.apply(frame_ratio, base.x, base.y, Sector::current()->gravity);
   collision_swept_object_map(&old_base, &base);
 }
 

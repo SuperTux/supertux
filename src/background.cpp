@@ -18,10 +18,10 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "background.h"
-#include "globals.h"
+#include "app/globals.h"
 #include "camera.h"
-#include "screen/drawing_context.h"
-#include "lispwriter.h"
+#include "video/drawing_context.h"
+#include "utils/lispwriter.h"
 
 Background::Background()
   : type(INVALID), image(0)

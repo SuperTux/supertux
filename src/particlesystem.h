@@ -22,8 +22,8 @@
 
 #include <vector>
 
-#include "screen/surface.h"
-#include "game_object.h"
+#include "video/surface.h"
+#include "special/game_object.h"
 #include "serializable.h"
 
 class LispReader;

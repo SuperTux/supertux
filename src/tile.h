@@ -23,7 +23,7 @@
 
 #include <vector>
 #include "SDL.h"
-#include "screen/surface.h"
+#include "video/surface.h"
 
 class Vector;
 class LispReader;

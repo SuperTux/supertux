@@ -25,14 +25,19 @@
 
 #include "SDL.h"
 
-#include "timer.h"
-#include "screen/surface.h"
-#include "physic.h"
-#include "sprite.h"
-#include "defines.h"
-#include "moving_object.h"
+#include "special/timer.h"
+#include "video/surface.h"
+#include "math/physic.h"
+#include "special/sprite.h"
+#include "app/defines.h"
+#include "special/moving_object.h"
 #include "collision.h"
 #include "serializable.h"
+#include "scene.h"
+
+/* Timing constants (in ms): */
+
+#define KICKING_TIME 200
 
 /* Bad guy kinds: */
 enum BadGuyKind {

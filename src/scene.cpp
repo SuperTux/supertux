@@ -20,7 +20,7 @@
 #include <cstdlib>
 
 #include "scene.h"
-#include "defines.h"
+#include "app/defines.h"
 
 PlayerStatus player_status;
 

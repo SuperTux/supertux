@@ -23,9 +23,9 @@
 #include <vector>
 #include <cassert>
 
-#include "defines.h"
-#include "vector.h"
-#include "game_object.h"
+#include "app/defines.h"
+#include "math/vector.h"
+#include "special/game_object.h"
 #include "serializable.h"
 
 class LispReader;

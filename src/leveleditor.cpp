@@ -33,10 +33,10 @@
 #include "SDL_image.h"
 
 #include "leveleditor.h"
-#include "screen/screen.h"
-#include "defines.h"
-#include "globals.h"
-#include "setup.h"
+#include "video/screen.h"
+#include "app/defines.h"
+#include "app/globals.h"
+#include "app/setup.h"
 #include "sector.h"
 #include "tilemap.h"
 #include "gameloop.h"
@@ -68,6 +68,10 @@
 /* look */
 #define SELECT_W 2 // size of the selections lines
 #define SELECT_CLR 0, 255, 0, 255  // lines color (R, G, B, A)
+
+/* Frames per second: */
+
+#define FPS (1000 / 25)
 
 enum { TM_IA, TM_BG, TM_FG };
 

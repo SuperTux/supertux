@@ -23,26 +23,30 @@
 #include <iostream>
 #include <exception>
 
-#include "exceptions.h"
-#include "defines.h"
-#include "globals.h"
-#include "setup.h"
+#include "utils/exceptions.h"
+#include "app/defines.h"
+#include "app/globals.h"
+#include "app/setup.h"
 #include "intro.h"
 #include "title.h"
 #include "gameloop.h"
 #include "leveleditor.h"
-#include "screen/screen.h"
+#include "video/screen.h"
 #include "worldmap.h"
 #include "resources.h"
-#include "screen/surface.h"
+#include "video/surface.h"
 #include "tile_manager.h"
-#include "gettext.h"
+#include "app/gettext.h"
+#include "player.h"
+#include "misc.h"
+#include "utils/configfile.h"
 
 int main(int argc, char * argv[])
 {
 #ifndef DEBUG
   try {
 #endif
+    config = new MyConfig;
     setlocale(LC_ALL, "");
     bindtextdomain(PACKAGE, LOCALEDIR);
     textdomain(PACKAGE);
@@ -94,6 +98,7 @@ int main(int argc, char * argv[])
 
     unloadshared();
     st_general_free();
+    st_menu_free();
     TileManager::destroy_instance();
     #ifdef DEBUG
     Surface::debug_check();

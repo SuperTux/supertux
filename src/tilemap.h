@@ -22,9 +22,9 @@
 
 #include <vector>
 
-#include "game_object.h"
+#include "special/game_object.h"
 #include "serializable.h"
-#include "vector.h"
+#include "math/vector.h"
 
 class Level;
 class TileManager;

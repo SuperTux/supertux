@@ -17,16 +17,16 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-#include "globals.h"
+#include "app/globals.h"
 #include "scene.h"
 #include "player.h"
 #include "badguy.h"
 #include "gameobjs.h"
 #include "special.h"
 #include "resources.h"
-#include "sprite_manager.h"
-#include "sound_manager.h"
-#include "setup.h"
+#include "special/sprite_manager.h"
+#include "audio/sound_manager.h"
+#include "app/setup.h"
 #include "door.h"
 
 Surface* img_waves[3]; 
@@ -42,6 +42,28 @@ MusicRef level_end_song;
 
 SpriteManager* sprite_manager = 0;
 SoundManager* sound_manager = 0;
+
+char * soundfilenames[NUM_SOUNDS] = {
+                                       "/sounds/jump.wav",
+                                       "/sounds/bigjump.wav",
+                                       "/sounds/skid.wav",
+                                       "/sounds/coin.wav",
+                                       "/sounds/invincible.wav",
+                                       "/sounds/brick.wav",
+                                       "/sounds/hurt.wav",
+                                       "/sounds/squish.wav",
+                                       "/sounds/fall.wav",
+                                       "/sounds/ricochet.wav",
+                                       "/sounds/bump-upgrade.wav",
+                                       "/sounds/upgrade.wav",
+                                       "/sounds/grow.wav",
+                                       "/sounds/fire-flower.wav",
+                                       "/sounds/shoot.wav",
+                                       "/sounds/lifeup.wav",
+                                       "/sounds/stomp.wav",
+                                       "/sounds/kick.wav",
+                                       "/sounds/explosion.wav"
+                                    };
 
 /* Load graphics/sounds shared between all levels: */
 void loadshared()
@@ -232,7 +254,7 @@ void loadshared()
                     Send a mail to me: neoneurone@users.sf.net, if you have another opinion. :)
   */
   for (i = 0; i < NUM_SOUNDS; i++)
-    sounds[i] = load_sound(datadir + soundfilenames[i]);
+    sounds.push_back(load_sound(datadir + soundfilenames[i]));
 
   /* Herring song */
   herring_song = sound_manager->load_music(datadir + "/music/SALCON.MOD");

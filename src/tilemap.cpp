@@ -24,13 +24,13 @@
 #include <cmath>
 
 #include "tilemap.h"
-#include "screen/drawing_context.h"
+#include "video/drawing_context.h"
 #include "level.h"
 #include "tile.h"
 #include "tile_manager.h"
-#include "globals.h"
-#include "lispreader.h"
-#include "lispwriter.h"
+#include "app/globals.h"
+#include "utils/lispreader.h"
+#include "utils/lispwriter.h"
 
 TileMap::TileMap()
   : solid(false), speed(1), width(0), height(0), layer(LAYER_TILES), vertical_flip(false)

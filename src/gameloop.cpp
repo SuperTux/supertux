@@ -36,13 +36,13 @@
 #include <ctype.h>
 #endif
 
-#include "defines.h"
-#include "globals.h"
+#include "app/defines.h"
+#include "app/globals.h"
 #include "gameloop.h"
-#include "screen/screen.h"
-#include "setup.h"
+#include "video/screen.h"
+#include "app/setup.h"
 #include "high_scores.h"
-#include "menu.h"
+#include "gui/menu.h"
 #include "badguy.h"
 #include "sector.h"
 #include "special.h"
@@ -55,7 +55,10 @@
 #include "resources.h"
 #include "background.h"
 #include "tilemap.h"
-#include "gettext.h"
+#include "app/gettext.h"
+#include "worldmap.h"
+#include "intro.h"
+#include "misc.h"
 
 GameSession* GameSession::current_ = 0;
 
@@ -713,7 +716,7 @@ void bumpbrick(float x, float y)
   Sector::current()->add_bouncy_brick(Vector(((int)(x + 1) / 32) * 32,
                          (int)(y / 32) * 32));
 
-  sound_manager->play_sound(sounds[SND_BRICK], Vector(x, y));
+  sound_manager->play_sound(sounds[SND_BRICK], Vector(x, y), Sector::current()->player->get_pos());
 }
 
 /* (Status): */
@@ -832,4 +835,36 @@ std::string slotinfo(int slot)
   return tmp;
 }
 
+bool process_load_game_menu()
+{
+  int slot = load_game_menu->check();
 
+  if(slot != -1 && load_game_menu->get_item_by_id(slot).kind == MN_ACTION)
+    {
+      char slotfile[1024];
+      snprintf(slotfile, 1024, "%s/slot%d.stsg", st_save_dir, slot);
+
+      if (access(slotfile, F_OK) != 0)
+        {
+          draw_intro();
+        }
+
+      // shrink_fade(Point((screen->w/2),(screen->h/2)), 1000);
+      fadeout(256);
+      WorldMapNS::WorldMap worldmap;
+     
+      // Load the game or at least set the savegame_file variable
+      worldmap.loadgame(slotfile);
+
+      worldmap.display();
+      
+      Menu::set_current(main_menu);
+
+      st_pause_ticks_stop();
+      return true;
+    }
+  else
+    {
+      return false;
+    }
+}

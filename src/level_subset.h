@@ -23,7 +23,7 @@
 
 #include <vector>
 #include <string>
-#include "lispreader.h"
+#include "utils/lispreader.h"
 
 class Surface;
 

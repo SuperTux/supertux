@@ -24,9 +24,9 @@
 #include <fstream>
 #include <stdexcept>
 
-#include "globals.h"
+#include "app/globals.h"
 #include "sector.h"
-#include "lispreader.h"
+#include "utils/lispreader.h"
 #include "badguy.h"
 #include "special.h"
 #include "gameobjs.h"
@@ -35,7 +35,7 @@
 #include "particlesystem.h"
 #include "tile.h"
 #include "tilemap.h"
-#include "sound_manager.h"
+#include "audio/sound_manager.h"
 #include "gameloop.h"
 #include "resources.h"
 #include "interactive_object.h"

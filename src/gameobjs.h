@@ -22,16 +22,16 @@
 #ifndef SUPERTUX_GAMEOBJS_H
 #define SUPERTUX_GAMEOBJS_H
 
-#include "type.h"
-#include "screen/surface.h"
-#include "timer.h"
+#include "special/base.h"
+#include "video/surface.h"
+#include "special/timer.h"
 #include "scene.h"
-#include "physic.h"
+#include "math/physic.h"
 #include "collision.h"
-#include "game_object.h"
-#include "moving_object.h"
+#include "special/game_object.h"
+#include "special/moving_object.h"
 #include "serializable.h"
-#include "lispwriter.h"
+#include "utils/lispwriter.h"
 
 /* Bounciness of distros: */
 #define NO_BOUNCE 0

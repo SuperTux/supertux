@@ -23,11 +23,11 @@
 #include <string>
 #include <vector>
 
-#include "vector.h"
+#include "math/vector.h"
 #include "badguy.h"
 #include "special.h"
-#include "musicref.h"
-#include "screen/drawing_context.h"
+#include "audio/musicref.h"
+#include "video/drawing_context.h"
 
 class GameObject;
 class InteractiveObject;

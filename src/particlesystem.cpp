@@ -22,10 +22,10 @@
 #include <cmath>
 
 #include "particlesystem.h"
-#include "globals.h"
-#include "lispreader.h"
-#include "lispwriter.h"
-#include "screen/drawing_context.h"
+#include "app/globals.h"
+#include "utils/lispreader.h"
+#include "utils/lispwriter.h"
+#include "video/drawing_context.h"
 
 ParticleSystem::ParticleSystem()
 {

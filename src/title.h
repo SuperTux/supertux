@@ -19,7 +19,26 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 
+#ifndef SUPERTUX_TITLE_H
+#define SUPERTUX_TITLE_H
+
+enum MainMenuIDs {
+  MNID_STARTGAME,
+  MNID_LEVELS_CONTRIB,
+  MNID_OPTIONMENU,
+  MNID_LEVELEDITOR,
+  MNID_CREDITS,
+  MNID_QUITMAINMENU
+  };
+  
+/* Scrolling text speed */
+
+#define SCROLL_SPEED_CREDITS 2.0
+#define SCROLL_SPEED_MESSAGE 1.0
+
 void title(void);
+
+#endif //SUPERTUX_TITLE_H
 
 // EOF //
 

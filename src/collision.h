@@ -21,7 +21,7 @@
 #ifndef SUPERTUX_COLLISION_H
 #define SUPERTUX_COLLISION_H
 
-#include "type.h"
+#include "special/base.h"
 
 class Tile;
 

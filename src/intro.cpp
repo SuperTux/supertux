@@ -18,13 +18,13 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "intro.h"
-#include "globals.h"
-#include "defines.h"
-#include "screen/font.h"
-#include "screen/screen.h"
+#include "app/globals.h"
+#include "app/defines.h"
+#include "video/font.h"
+#include "video/screen.h"
 
 void draw_intro()
 {
-  display_text_file("intro.txt", SCROLL_SPEED_MESSAGE);
+  display_text_file("intro.txt", 1);
 }
 

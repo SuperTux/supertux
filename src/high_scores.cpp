@@ -23,14 +23,14 @@
 #include <cstring>
 #include <cstdlib>
 
-#include "globals.h"
+#include "app/globals.h"
 #include "high_scores.h"
-#include "menu.h"
-#include "screen/drawing_context.h"
-#include "screen/screen.h"
-#include "screen/surface.h"
-#include "setup.h"
-#include "lispreader.h"
+#include "gui/menu.h"
+#include "video/drawing_context.h"
+#include "video/screen.h"
+#include "video/surface.h"
+#include "app/setup.h"
+#include "utils/lispreader.h"
 
 #ifdef WIN32
 const char * highscore_filename = "/st_highscore.dat";

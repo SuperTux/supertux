@@ -18,14 +18,14 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "door.h"
-#include "lispreader.h"
-#include "lispwriter.h"
+#include "utils/lispreader.h"
+#include "utils/lispwriter.h"
 #include "gameloop.h"
 #include "resources.h"
-#include "sprite.h"
-#include "sprite_manager.h"
-#include "screen/drawing_context.h"
-#include "globals.h"
+#include "special/sprite.h"
+#include "special/sprite_manager.h"
+#include "video/drawing_context.h"
+#include "app/globals.h"
 
 /** data images */
 Sprite* door;
