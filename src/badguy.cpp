@@ -365,9 +365,9 @@ BadGuy::action_mriceblock(double elapsed_time)
       if(tux.input.fire != DOWN) /* SHOOT! */
         {
           if(dir == LEFT)
-            base.x -= 24;
+            base.x = tux.base.x;
           else
-            base.x += 24;
+            base.x = tux.base.x + tux.base.width;
           old_base = base;
 
           mode=KICK;
