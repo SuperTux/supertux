@@ -614,7 +614,7 @@ GameSession::run()
             }
 
         }
-      else
+      else if(tux.dying == DYING_NOT)
         tux.kill(KILL);
 
       /* Calculate frames per second */

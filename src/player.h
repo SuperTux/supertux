@@ -135,7 +135,7 @@ class Player
   bool under_solid();
   
  private:
-  void handle_horizontal_input(int dir);
+  void handle_horizontal_input();
   void handle_vertical_input();
   void remove_powerups();
 };

@@ -269,6 +269,7 @@ BadGuy::action_laptop(float frame_ratio)
             base.x -= 24;
           else
             base.x += 24;
+          old_base = base;
 
           mode=KICK;
           set_texture(img_laptop_flat_left, img_laptop_flat_right, 1);

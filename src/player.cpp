@@ -74,7 +74,7 @@ Player::init()
   base.y = 240;
   base.xm = 0;
   base.ym = 0;
-  old_base = base;
+  previous_base = old_base = base;
   dir = RIGHT;
   duck = false;
 
@@ -142,8 +142,8 @@ Player::level_begin()
   base.y  = 240;
   base.xm = 0;
   base.ym = 0;
-  old_base = base;
-  previous_base = base;
+  previous_base = old_base = base;
+  duck = false;
 
   dying = DYING_NOT;
 
@@ -164,20 +164,28 @@ Player::action(double frame_ratio)
 
   /* --- HANDLE TUX! --- */
 
-  if(!dying)
+  if(dying == DYING_NOT)
     handle_input();
 
   /* Move tux: */
   previous_base = base;
+  duck = false;
 
   physic.apply(frame_ratio, base.x, base.y);
-
-  if (!dying)
-    {
-
-      collision_swept_object_map(&old_base,&base);
+  if(dying == DYING_NOT) {
+      collision_swept_object_map(&old_base, &base);
+      // special exception for cases where we're stuck under tiles after
+      // being ducked. In this case we drift out
+      if(!duck && on_ground() && old_base.x == base.x && old_base.y == base.y
+              && collision_object_map(&base)) {
+          base.x += frame_ratio * WALK_SPEED * (dir ? 1 : -1);
+          previous_base = old_base = base;
+      }
       keep_in_bounds();
+  }
 
+  if (dying == DYING_NOT)
+    {
       /* Land: */
 
 
@@ -245,10 +253,7 @@ Player::action(double frame_ratio)
               jumping = false;
             }
         }
-
     }
-
-  safe_timer.check();
 
 
   /* ---- DONE HANDLING TUX! --- */
@@ -280,10 +285,6 @@ Player::action(double frame_ratio)
       play_current_music();
     }
 
-  /* Handle skidding: */
-
-  // timer_check(&skidding_timer); // disabled
-
   /* End of level? */
   if (base.x >= World::current()->get_level()->endpos
       && World::current()->get_level()->endpos != 0)
@@ -291,6 +292,27 @@ Player::action(double frame_ratio)
       player_status.next_level = 1;
     }
 
+  /* Duck! */
+  if (input.down == DOWN && size == BIG && !duck)
+    {
+      duck = true;
+      base.height = 32;                             
+      base.y += 32;
+      // changing base size confuses collision otherwise
+      old_base = previous_base = base;
+    }
+  else if(input.down == UP && size == BIG && duck)
+    {
+      duck = false;
+      base.y -= 32;
+      base.height = 64;
+      old_base = previous_base = base;
+    }
+
+  // check some timers
+  skidding_timer.check();
+  invincible_timer.check();
+  safe_timer.check();
 }
 
 bool
@@ -310,107 +332,74 @@ Player::under_solid()
 }
 
 void
-Player::handle_horizontal_input(int newdir)
+Player::handle_horizontal_input()
 {
-  if(duck)
-    return;
-
   float vx = physic.get_velocity_x();
   float vy = physic.get_velocity_y();
-  dir = newdir;
+  float ax = physic.get_acceleration_x();
+  float ay = physic.get_acceleration_y();
 
-  // skid if we're too fast
-  if(dir != newdir && on_ground() && fabs(physic.get_velocity_x()) > SKID_XM 
-     && !skidding_timer.started())
-    {
-      skidding_timer.start(SKID_TIME);
-      play_sound(sounds[SND_SKID], SOUND_CENTER_SPEAKER);
-      return;
-    }
+  float dirsign = 0;
+  if(!duck && input.left == DOWN && input.right == UP) {
+      dir = LEFT;
+      dirsign = -1;
+  } else if(!duck && input.left == UP && input.right == DOWN) {
+      dir = RIGHT;
+      dirsign = 1;
+  }
 
-  if ((newdir ? (vx < 0) : (vx > 0)) && !isice(base.x, base.y + base.height) &&
-      !skidding_timer.started())
-    {
-      //vx = 0;
-    }
-
-  /* Facing the direction we're jumping?  Go full-speed: */
-  if (input.fire == UP)
-    {
-      if(vx >= MAX_WALK_XM) {
+  if (input.fire == UP) {
+      ax = dirsign * WALK_ACCELERATION_X;
+      // limit speed
+      if(vx >= MAX_WALK_XM && dirsign > 0) {
         vx = MAX_WALK_XM;
-        physic.set_acceleration(0, 0); // enough speedup
-      } else if(vx <= -MAX_WALK_XM) {
+        ax = 0;
+      } else if(vx <= -MAX_WALK_XM && dirsign < 0) {
         vx = -MAX_WALK_XM;
-        physic.set_acceleration(0, 0);
+        ax = 0;
       }
-      physic.set_acceleration(newdir ? 0.02 : -0.02, 0);
-      if(fabs(vx) < 1) // set some basic run speed
-        vx = newdir ? 1 : -1;
-#if 0
-      vx += ( newdir ? WALK_SPEED : -WALK_SPEED) * frame_ratio;
-
-      if(newdir)
-        {
-          if (vx > MAX_WALK_XM)
-            vx = MAX_WALK_XM;
-        }
-      else
-        {
-          if (vx < -MAX_WALK_XM)
-            vx = -MAX_WALK_XM;
-        }
-#endif
-    }
-  else if ( input.fire == DOWN)
-    {
-      if(vx >= MAX_RUN_XM) {
+  } else {
+      ax = dirsign * RUN_ACCELERATION_X;
+      // limit speed
+      if(vx >= MAX_RUN_XM && dirsign > 0) {
         vx = MAX_RUN_XM;
-        physic.set_acceleration(0, 0); // enough speedup      
-      } else if(vx <= -MAX_RUN_XM) {
+        ax = 0;
+      } else if(vx <= -MAX_RUN_XM && dirsign < 0) {
         vx = -MAX_RUN_XM;
-        physic.set_acceleration(0, 0);
+        ax = 0;
       }
-      physic.set_acceleration(newdir ? 0.03 : -0.03, 0);
-      if(fabs(vx) < 1) // set some basic run speed
-        vx = newdir ? 1 : -1;
+  }
 
-#if 0
-      vx = vx + ( newdir ? RUN_SPEED : -RUN_SPEED) * frame_ratio;
+  // we can reach WALK_SPEED without any acceleration
+  if(dirsign != 0 && fabs(vx) < WALK_SPEED) {
+    vx = dirsign * WALK_SPEED;
+  }
 
-      if(newdir)
-        {
-          if (vx > MAX_RUN_XM)
-            vx = MAX_RUN_XM;
-        }
-      else
-        {
-          if (vx < -MAX_RUN_XM)
-            vx = -MAX_RUN_XM;
-        }
-#endif
-    }
-  else
-    {
-#if 0
-      /* Not facing the direction we're jumping?
-         Go half-speed: */
-      vx = vx + ( newdir ? (WALK_SPEED / 2) : -(WALK_SPEED / 2)) * frame_ratio;
+  // changing directions?
+  if(on_ground() && ((vx < 0 && dirsign >0) || (vx>0 && dirsign<0))) {
+      if(fabs(vx)>SKID_XM && !skidding_timer.check()) {
+          skidding_timer.start(SKID_TIME);
+          play_sound(sounds[SND_SKID], SOUND_CENTER_SPEAKER);
+          ax *= 2.5;
+      } else {
+          ax *= 2;
+      }
+  }
 
-      if(newdir)
-        {
-          if (vx > MAX_WALK_XM / 2)
-            vx = MAX_WALK_XM / 2;
-        }
-      else
-        {
-          if (vx < -MAX_WALK_XM / 2)
-            vx = -MAX_WALK_XM / 2;
-        }
-#endif
-    }
-  
+  // we get slower when not pressing any keys
+  if(dirsign == 0) {
+      if(fabs(vx) < WALK_SPEED) {
+          vx = 0;
+          ax = 0;
+      } else if(vx < 0) {
+          ax = WALK_ACCELERATION_X * 1.5;
+      } else {
+          ax = WALK_ACCELERATION_X * -1.5;
+      }
+  }
+ 
   physic.set_velocity(vx, vy);
+  physic.set_acceleration(ax, ay);
 }
 
 void
@@ -418,7 +407,7 @@ Player::handle_vertical_input()
 {
   if(input.up == DOWN)
     {
-      if (on_ground())
+      if (on_ground() && !duck)
         {
           // jump
           physic.set_velocity(physic.get_velocity_x(), 5.5);
@@ -442,30 +431,8 @@ Player::handle_vertical_input()
 void
 Player::handle_input()
 {
-  /* Handle key and joystick state: */
-  if(duck == false)
-    {
-      if (input.right == DOWN && input.left == UP)
-        {
-          handle_horizontal_input(RIGHT);
-        }
-      else if (input.left == DOWN && input.right == UP)
-        {
-          handle_horizontal_input(LEFT);
-        }
-      else
-        {
-          float vx = physic.get_velocity_x();
-          if(fabs(vx) < 0.01) {
-            physic.set_velocity(0, physic.get_velocity_y());
-            physic.set_acceleration(0, 0);
-          } else if(vx < 0) {
-            physic.set_acceleration(0.1, 0);
-          } else {
-            physic.set_acceleration(-0.1, 0);
-          }
-        }
-    }
+  /* Handle horizontal movement: */
+    handle_horizontal_input();
 
   /* Jump/jumping? */
 
@@ -481,47 +448,7 @@ Player::handle_input()
       World::current()->add_bullet(base.x, base.y, physic.get_velocity_x(), dir);
     }
 
-
-  /* Duck! */
-
-  if (input.down == DOWN)
-    {
-      if (size == BIG && duck != true)
-        {
-          duck = true;
-          base.height = 32;
-          base.y += 32;
-        }
-    }
-  else
-    {
-      if (size == BIG && duck)
-        {
-          /* Make sure we're not standing back up into a solid! */
-          base.height = 64;
-          base.y -= 32;
-
-          if (!collision_object_map(&base) /*issolid(base.x + 16, base.y - 16)*/)
-            {
-              duck = false;
-              base.height = 64;
-              old_base.y -= 32;
-              old_base.height = 64;
-            }
-          else
-            {
-              base.height = 32;
-              base.y += 32;
-            }
-        }
-      else
-        {
-          duck = false;
-        }
-    }
-
-  /* (Tux): */
-
+  /* tux animations: */
   if(!frame_timer.check())
     {
       frame_timer.start(25);
@@ -543,6 +470,22 @@ Player::handle_input()
         }
     }
 
+  /* Duck! */
+  if (input.down == DOWN && size == BIG && !duck)
+    {
+      duck = true;
+      base.height = 32;                             
+      base.y += 32;
+      // changing base size confuses collision otherwise
+      old_base = previous_base = base;
+    }
+  else if(input.down == UP && size == BIG && duck)
+    {
+      duck = false;
+      base.y -= 32;
+      base.height = 64;
+      old_base = previous_base = base;
+    }
 }
 
 void
@@ -647,16 +590,20 @@ Player::draw()
         {
           if (invincible_timer.started())
             {
-              /* Draw cape: */
+              float capex = base.x + (base.width - bigcape_right[0].w) / 2;
+              capex -= scroll_x;
+              float capey = base.y + (base.height - bigcape_right[0].h) / 2;
+                
+              /* Draw cape (just not in ducked mode since that looks silly): */
               if (dir == RIGHT)
                 {
                   texture_draw(&bigcape_right[global_frame_counter % 2],
-                               base.x- scroll_x - 8, base.y);
+                          capex, capey);
                 }
               else
                 {
                   texture_draw(&bigcape_left[global_frame_counter % 2],
-                               base.x-scroll_x - 8, base.y);
+                          capex, capey);
                 }
             }
 
@@ -871,14 +818,12 @@ Player::kill(int mode)
 
       size = SMALL;
       base.height = 32;
+      duck = false;
 
       safe_timer.start(TUX_SAFE_TIME);
     }
   else
     {
-      if(size == BIG)
-        duck = true;
-
       physic.enable_gravity(true);
       physic.set_acceleration(0, 0);
       physic.set_velocity(0, 7);
