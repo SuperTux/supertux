@@ -107,6 +107,28 @@
        (image "wood8.png"))
  (tile (id 32)
        (image "wood9.png"))
+ (tile (id 33)
+       (image "wood10.png"))
+ (tile (id 34)
+       (image "wood11.png"))
+ (tile (id 35)
+       (image "wood12.png"))
+ (tile (id 36)
+       (image "wood13.png"))
+
+ (tile (id 37) (image "road_ne.png"))
+ (tile (id 38) (image "road_nsw.png"))
+ (tile (id 39) (image "road_sw.png"))
+ (tile (id 40) (image "road_we.png"))
+ (tile (id 41) (image "road_nes.png"))
+ (tile (id 42) (image "road_nw.png"))
+ (tile (id 43) (image "road_swe.png"))
+ (tile (id 44) (image "road_new.png"))
+ (tile (id 45) (image "road_nesw.png"))
+ (tile (id 46) (image "road_nws.png"))
+ (tile (id 47) (image "road_ns.png"))
+ (tile (id 48) (image "road_se.png"))
+
 )
 
 ;; EOF ;;
