@@ -27,9 +27,10 @@ Sprite::Sprite(lisp_object_t* cur)
 
   LispReader reader(cur);
 
+  reader.read_string("name",   &name);
   reader.read_int("x-hotspot", &x_hotspot);
   reader.read_int("y-hotspot", &y_hotspot);
-  reader.read_float("fps", &fps);
+  reader.read_float("fps",     &fps);
   std::vector<std::string> images;
   reader.read_string_vector("images", &images);
   surfaces.resize(images.size());
@@ -38,6 +39,8 @@ Sprite::Sprite(lisp_object_t* cur)
     {
       surfaces[i] = new Surface(datadir + "/images/" + images[i], USE_ALPHA);
     }        
+
+  frame_delay = 1000.0f/fps;
 }
 
 void
@@ -45,32 +48,51 @@ Sprite::init_defaults()
 {
   x_hotspot = 0;
   y_hotspot = 0;
-  fps = 15;
+  fps = 10;
   time = 0;
   frame_delay = 1000.0f/fps;
 }
 
 void
-Sprite::update(float delta)
+Sprite::update(float /*delta*/)
 {
-  time += 10*delta;
+  //time += 10*delta;
   //std::cout << "Delta: " << delta << std::endl;
 }
 
 void
-Sprite::draw(int x, int y)
+Sprite::draw(float x, float y)
 {
-  unsigned int frame = static_cast<int>(fmodf(time, surfaces.size()*frame_delay)/frame_delay);
-  
-  /*
-  std::cout << "Frame: "
-            << frame << " "
-            << time << " "
-            << surfaces.size() << " "
-            << frame_delay << " "
-            << static_cast<int>(fmodf(time, surfaces.size()*frame_delay)/frame_delay) << std::endl;*/
+  time = SDL_GetTicks();
+  unsigned int frame = get_current_frame();
+
   if (frame < surfaces.size())
     surfaces[frame]->draw(x - x_hotspot, y - y_hotspot);
+}
+
+void
+Sprite::reset()
+{
+  time = 0;
+}
+
+int
+Sprite::get_current_frame() const
+{
+  unsigned int frame = static_cast<int>(fmodf(time, surfaces.size()*frame_delay)/frame_delay);
+  return frame % surfaces.size();
+}
+
+int
+Sprite::get_width() const
+{
+  return surfaces[get_current_frame()]->w;
+}
+
+int
+Sprite::get_height() const
+{
+  return surfaces[get_current_frame()]->h;
 }
 
 /* EOF */

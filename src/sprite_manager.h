@@ -17,50 +17,22 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-#ifndef HEADER_SPRITE_HXX
-#define HEADER_SPRITE_HXX
+#ifndef HEADER_SPRITE_MANAGER_HXX
+#define HEADER_SPRITE_MANAGER_HXX
 
-#include <string>
-#include <vector>
-#include "lispreader.h"
-#include "texture.h"
+#include <map>
+#include "sprite.h"
 
-class Sprite
+class SpriteManager
 {
  private:
-  std::string name;
-
-  int x_hotspot;
-  int y_hotspot;
-
-  /** Frames per second */
-  float fps;
-
-  /** Number of seconds that a frame is displayed until it is switched
-      to the next frame */
-  float frame_delay;
-
-  float time;
-
-  std::vector<Surface*> surfaces;
-
-  void init_defaults();
+  typedef std::map<std::string, Sprite*> Sprites;
+  Sprites sprites;
  public:
-  /** cur has to be a pointer to data in the form of ((x-hotspot 5)
-      (y-hotspot 10) ...) */
-  Sprite(lisp_object_t* cur);
+  SpriteManager(const std::string& filename);
   
-  void reset();
-
-  /** Update the sprite and process to the next frame */
-  void update(float delta);
-  void draw(float x, float y);
-
-  int get_current_frame() const;
-
-  std::string get_name() const { return name; } 
-  int get_width() const;
-  int get_height() const;
+  void    load_resfile(const std::string& filename);
+  Sprite* load(const std::string& name);
 };
 
 #endif

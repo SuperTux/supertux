@@ -5,6 +5,7 @@
 #include "gameobjs.h"
 #include "special.h"
 #include "resources.h"
+#include "sprite_manager.h"
 
 Surface* img_waves[3]; 
 Surface* img_water;
@@ -17,10 +18,14 @@ Surface* img_box_full;
 Surface* img_box_empty;
 Surface* img_red_glow;
 
+SpriteManager* sprite_manager = 0;
+
 /* Load graphics/sounds shared between all levels: */
 void loadshared()
 {
   int i;
+
+  sprite_manager = new SpriteManager(datadir + "/supertux.strf");
 
   /* Tuxes: */
   smalltux_stand_left = new Surface(datadir + "/images/shared/smalltux-left-6.png", USE_ALPHA);
@@ -287,6 +292,8 @@ void loadshared()
 /* Free shared data: */
 void unloadshared(void)
 {
+  delete sprite_manager;
+
   int i;
 
   free_special_gfx();

@@ -20,43 +20,45 @@
 #include "screen.h"
 #include "world.h"
 #include "tile.h"
+#include "resources.h"
+#include "sprite_manager.h"
 
-Surface* img_bsod_squished_left[1];
-Surface* img_bsod_squished_right[1];
-Surface* img_bsod_falling_left[1];
-Surface* img_bsod_falling_right[1];
-Surface* img_laptop_flat_left[1];
-Surface* img_laptop_flat_right[1];
-Surface* img_laptop_falling_left[1];
-Surface* img_laptop_falling_right[1];
-Surface* img_bsod_left[4];
-Surface* img_bsod_right[4];
-Surface* img_laptop_left[4];
-Surface* img_laptop_right[4];
-Surface* img_jumpy_left_up;
-Surface* img_jumpy_left_down;
-Surface* img_jumpy_left_middle;
-Surface* img_mrbomb_left[4];
-Surface* img_mrbomb_right[4];
-Surface* img_mrbomb_ticking_left[1];
-Surface* img_mrbomb_ticking_right[1];
-Surface* img_mrbomb_explosion[1];
-Surface* img_stalactite[1];
-Surface* img_stalactite_broken[1];
-Surface* img_flame[2];
-Surface* img_fish[2];
-Surface* img_fish_down[1];
-Surface* img_bouncingsnowball_left[6];
-Surface* img_bouncingsnowball_right[6];
-Surface* img_bouncingsnowball_squished[1];
-Surface* img_flyingsnowball[2];
-Surface* img_flyingsnowball_squished[1];
-Surface* img_spiky_left[3];
-Surface* img_spiky_right[3];
-Surface* img_snowball_left[4];
-Surface* img_snowball_right[4];
-Surface* img_snowball_squished_left[1];
-Surface* img_snowball_squished_right[1];
+Sprite* img_bsod_squished_left;
+Sprite* img_bsod_squished_right;
+Sprite* img_bsod_falling_left;
+Sprite* img_bsod_falling_right;
+Sprite* img_laptop_flat_left;
+Sprite* img_laptop_flat_right;
+Sprite* img_laptop_falling_left;
+Sprite* img_laptop_falling_right;
+Sprite* img_bsod_left;
+Sprite* img_bsod_right;
+Sprite* img_laptop_left;
+Sprite* img_laptop_right;
+Sprite* img_jumpy_left_up;
+Sprite* img_jumpy_left_down;
+Sprite* img_jumpy_left_middle;
+Sprite* img_mrbomb_left;
+Sprite* img_mrbomb_right;
+Sprite* img_mrbomb_ticking_left;
+Sprite* img_mrbomb_ticking_right;
+Sprite* img_mrbomb_explosion;
+Sprite* img_stalactite;
+Sprite* img_stalactite_broken;
+Sprite* img_flame;
+Sprite* img_fish;
+Sprite* img_fish_down;
+Sprite* img_bouncingsnowball_left;
+Sprite* img_bouncingsnowball_right;
+Sprite* img_bouncingsnowball_squished;
+Sprite* img_flyingsnowball;
+Sprite* img_flyingsnowball_squished;
+Sprite* img_spiky_left;
+Sprite* img_spiky_right;
+Sprite* img_snowball_left;
+Sprite* img_snowball_right;
+Sprite* img_snowball_squished_left;
+Sprite* img_snowball_squished_right;
 
 BadGuyKind  badguykind_from_string(const std::string& str)
 {
@@ -150,47 +152,47 @@ BadGuy::init(float x, float y, BadGuyKind kind_)
   animation_speed = 1;
   animation_length = 1;
   animation_offset = 0;
-  texture_left = texture_right = 0;
+  sprite_left = sprite_right = 0;
   physic.reset();
   timer.init(true);
 
   if(kind == BAD_BSOD) {
     physic.set_velocity(-1.3, 0);
-    set_texture(img_bsod_left, img_bsod_right, 4);
+    set_sprite(img_bsod_left, img_bsod_right, 4);
   } else if(kind == BAD_MRBOMB) {
     physic.set_velocity(-1.3, 0);
-    set_texture(img_mrbomb_left, img_mrbomb_right, 4);
+    set_sprite(img_mrbomb_left, img_mrbomb_right, 4);
   } else if (kind == BAD_LAPTOP) {
     physic.set_velocity(-1.3, 0);
-    set_texture(img_laptop_left, img_laptop_right, 4, 5);
+    set_sprite(img_laptop_left, img_laptop_right, 4, 5);
   } else if(kind == BAD_MONEY) {
-    set_texture(&img_jumpy_left_up, &img_jumpy_left_up, 1);
+    set_sprite(img_jumpy_left_up, img_jumpy_left_up, 1);
   } else if(kind == BAD_BOMB) {
-    set_texture(img_mrbomb_ticking_left, img_mrbomb_ticking_right, 1);
+    set_sprite(img_mrbomb_ticking_left, img_mrbomb_ticking_right, 1);
     // hack so that the bomb doesn't hurt until it expldes...
     dying = DYING_SQUISHED;
   } else if(kind == BAD_FLAME) {
     base.ym = 0; // we misuse base.ym as angle for the flame
     physic.enable_gravity(false);
-    set_texture(img_flame, img_flame, 2, 0.5);
+    set_sprite(img_flame, img_flame, 2, 0.5);
   } else if(kind == BAD_BOUNCINGSNOWBALL) {
     physic.set_velocity(-1.3, 0);
-    set_texture(img_bouncingsnowball_left, img_bouncingsnowball_right, 6);
+    set_sprite(img_bouncingsnowball_left, img_bouncingsnowball_right, 6);
   } else if(kind == BAD_STALACTITE) {
     physic.enable_gravity(false);
-    set_texture(img_stalactite, img_stalactite, 1);
+    set_sprite(img_stalactite, img_stalactite, 1);
   } else if(kind == BAD_FISH) {
-    set_texture(img_fish, img_fish, 2, 1);
+    set_sprite(img_fish, img_fish, 2, 1);
     physic.enable_gravity(true);
   } else if(kind == BAD_FLYINGSNOWBALL) {
-    set_texture(img_flyingsnowball, img_flyingsnowball, 2, 5);
+    set_sprite(img_flyingsnowball, img_flyingsnowball, 2, 5);
     physic.enable_gravity(false);
   } else if(kind == BAD_SPIKY) {
     physic.set_velocity(-1.3, 0);
-    set_texture(img_spiky_left, img_spiky_right, 3);
+    set_sprite(img_spiky_left, img_spiky_right, 3);
   } else if(kind == BAD_SNOWBALL) {
     physic.set_velocity(-1.3, 0);
-    set_texture(img_snowball_left, img_snowball_right, 4, 5);
+    set_sprite(img_snowball_left, img_snowball_right, 4, 5);
   }
 
   // if we're in a solid tile at start correct that now
@@ -277,7 +279,7 @@ BadGuy::action_laptop(float frame_ratio)
           old_base = base;
 
           mode=KICK;
-          set_texture(img_laptop_flat_left, img_laptop_flat_right, 1);
+          set_sprite(img_laptop_flat_left, img_laptop_flat_right, 1);
           physic.set_velocity((dir == LEFT) ? -8 : 8, -8);
           play_sound(sounds[SND_KICK],SOUND_CENTER_SPEAKER);
         }
@@ -305,7 +307,7 @@ BadGuy::action_laptop(float frame_ratio)
       if(!timer.check())
         {
           mode = NORMAL;
-          set_texture(img_laptop_left, img_laptop_right, 4, 5);
+          set_sprite(img_laptop_left, img_laptop_right, 4, 5);
           physic.set_velocity( (dir == LEFT) ? -1.3 : 1.3, 0);
         }
     }
@@ -395,11 +397,11 @@ void
 BadGuy::action_money(float frame_ratio)
 {
   if (fabsf(physic.get_velocity_y()) < 2.5f)
-    set_texture(&img_jumpy_left_middle, &img_jumpy_left_middle, 1);
+    set_sprite(img_jumpy_left_middle, img_jumpy_left_middle, 1);
   else if (physic.get_velocity_y() < 0)
-    set_texture(&img_jumpy_left_up, &img_jumpy_left_up, 1);
+    set_sprite(img_jumpy_left_up, img_jumpy_left_up, 1);
   else 
-    set_texture(&img_jumpy_left_down, &img_jumpy_left_down, 1);
+    set_sprite(img_jumpy_left_down, img_jumpy_left_down, 1);
 
   Player& tux = *World::current()->get_tux();
 
@@ -458,7 +460,7 @@ BadGuy::action_bomb(float frame_ratio)
   } else if(!timer.check()) {
     if(mode == BOMB_TICKING) {
       mode = BOMB_EXPLODE;
-      set_texture(img_mrbomb_explosion, img_mrbomb_explosion, 1);
+      set_sprite(img_mrbomb_explosion, img_mrbomb_explosion, 1);
       dying = DYING_NOT; // now the bomb hurts
       timer.start(EXPLODETIME);
     } else if(mode == BOMB_EXPLODE) {
@@ -501,7 +503,7 @@ BadGuy::action_stalactite(float frame_ratio)
       timer.start(2000);
       dying = DYING_SQUISHED;
       mode = FLAT;
-      set_texture(img_stalactite_broken, img_stalactite_broken, 1);
+      set_sprite(img_stalactite_broken, img_stalactite_broken, 1);
     }
   } else if(mode == FLAT) {
     fall();
@@ -536,7 +538,7 @@ BadGuy::action_fish(float frame_ratio)
         && physic.get_velocity_y() <= 0 && mode == NORMAL)
     {
       mode = FISH_WAIT;
-      set_texture(0, 0);
+      set_sprite(0, 0);
       physic.set_velocity(0, 0);
       physic.enable_gravity(false);
       timer.start(WAITTIME);
@@ -544,7 +546,7 @@ BadGuy::action_fish(float frame_ratio)
   else if(mode == FISH_WAIT && !timer.check())
     {
       // jump again
-      set_texture(img_fish, img_fish, 2, 2);
+      set_sprite(img_fish, img_fish, 2, 2);
       animation_offset = global_frame_counter; // restart animation
       mode = NORMAL;
       physic.set_velocity(0, JUMPV);
@@ -556,7 +558,7 @@ BadGuy::action_fish(float frame_ratio)
     collision_swept_object_map(&old_base, &base);
 
   if(physic.get_velocity_y() < 0)
-    set_texture(img_fish_down, img_fish_down);
+    set_sprite(img_fish_down, img_fish_down);
 }
 
 void
@@ -748,23 +750,26 @@ BadGuy::draw()
   // Don't try to draw stuff that is outside of the screen
   if(base.x <= scroll_x - base.width || base.x >= scroll_x + screen->w)
     return;
-  if(texture_left == 0 || texture_right == 0)
-    return;
+  
+  if(sprite_left == 0 || sprite_right == 0)
+    {
+      std::cout << "BadGuy: Error no sprite loaded" << std::endl;
+      return;
+    }
 
   float global_frame = (float(global_frame_counter - animation_offset) / 10);
   global_frame *= animation_speed;
-  size_t frame = size_t(global_frame) % animation_length;
-  Surface* texture = 
-      (dir == LEFT) ? texture_left[frame] : texture_right[frame];
-  texture->draw(base.x - scroll_x, base.y);
+  //size_t frame = size_t(global_frame) % animation_length;
+  Sprite* sprite = (dir == LEFT) ? sprite_left : sprite_right;
+  sprite->draw(base.x - scroll_x, base.y);
 
   if (debug_mode)
     fillrect(base.x - scroll_x, base.y, base.width, base.height, 75,0,75, 150);
 }
 
 void
-BadGuy::set_texture(Surface** left, Surface** right,
-    int nanimlength, float nanimspeed)
+BadGuy::set_sprite(Sprite* left, Sprite* right,
+                   int nanimlength, float nanimspeed)
 {
   if (1)
     {
@@ -778,13 +783,13 @@ BadGuy::set_texture(Surface** left, Surface** right,
       // representation
       if(left != 0) {
         if(base.width == 0 && base.height == 0) {
-          base.width  = left[0]->w;
-          base.height = left[0]->h;
-        } else if(base.width != left[0]->w || base.height != left[0]->h) {
-          base.x -= (left[0]->w - base.width) / 2;
-          base.y -= left[0]->h - base.height;
-          base.width = left[0]->w;
-          base.height = left[0]->h;
+          base.width  = left->get_width();
+          base.height = left->get_height();
+        } else if(base.width != left->get_width() || base.height != left->get_height()) {
+          base.x -= (left->get_width() - base.width) / 2;
+          base.y -= left->get_height() - base.height;
+          base.width = left->get_width();
+          base.height = left->get_height();
           old_base = base;
         }
       } else {
@@ -795,8 +800,8 @@ BadGuy::set_texture(Surface** left, Surface** right,
   animation_length = nanimlength;
   animation_speed = nanimspeed;
   animation_offset = 0;
-  texture_left = left;
-  texture_right = right;
+  sprite_left  = left;
+  sprite_right = right;
 }
 
 void
@@ -847,7 +852,7 @@ BadGuy::squish(Player* player)
 
   } else if(kind == BAD_BSOD) {
     squish_me(player);
-    set_texture(img_bsod_squished_left, img_bsod_squished_right, 1);
+    set_sprite(img_bsod_squished_left, img_bsod_squished_right, 1);
     physic.set_velocity(0, physic.get_velocity_y());
     return;
       
@@ -857,7 +862,7 @@ BadGuy::squish(Player* player)
         /* Flatten! */
         play_sound(sounds[SND_STOMP], SOUND_CENTER_SPEAKER);
         mode = FLAT;
-        set_texture(img_laptop_flat_left, img_laptop_flat_right, 1);
+        set_sprite(img_laptop_flat_left, img_laptop_flat_right, 1);
         physic.set_velocity(0, physic.get_velocity_y());
 
         timer.start(4000);
@@ -874,7 +879,7 @@ BadGuy::squish(Player* player)
         }
 
         mode = KICK;
-        set_texture(img_laptop_flat_left, img_laptop_flat_right, 1);
+        set_sprite(img_laptop_flat_left, img_laptop_flat_right, 1);
       }
 
     make_player_jump(player);
@@ -897,15 +902,15 @@ BadGuy::squish(Player* player)
     return;
   } else if(kind == BAD_BOUNCINGSNOWBALL) {
     squish_me(player);
-    set_texture(img_bouncingsnowball_squished,img_bouncingsnowball_squished,1);
+    set_sprite(img_bouncingsnowball_squished,img_bouncingsnowball_squished,1);
     return;
   } else if(kind == BAD_FLYINGSNOWBALL) {
     squish_me(player);
-    set_texture(img_flyingsnowball_squished,img_flyingsnowball_squished,1);
+    set_sprite(img_flyingsnowball_squished,img_flyingsnowball_squished,1);
     return;
   } else if(kind == BAD_SNOWBALL) {
     squish_me(player);
-    set_texture(img_snowball_squished_left, img_snowball_squished_right, 1);
+    set_sprite(img_snowball_squished_left, img_snowball_squished_right, 1);
     return;
   }
 }
@@ -918,9 +923,9 @@ BadGuy::kill_me()
 
   dying = DYING_FALLING;
   if(kind == BAD_LAPTOP)
-    set_texture(img_laptop_falling_left, img_laptop_falling_right, 1);
+    set_sprite(img_laptop_falling_left, img_laptop_falling_right, 1);
   else if(kind == BAD_BSOD)
-    set_texture(img_bsod_falling_left, img_bsod_falling_right, 1);
+    set_sprite(img_bsod_falling_left, img_bsod_falling_right, 1);
   
   physic.enable_gravity(true);
   physic.set_velocity(physic.get_velocity_x(), 0);
@@ -976,52 +981,89 @@ BadGuy::collision(void *p_c_object, int c_object, CollisionType type)
 
 void load_badguy_gfx()
 {
+  img_bsod_squished_left = sprite_manager->load("bsod-squished-left");
+  img_bsod_squished_right = sprite_manager->load("bsod-squished-right");
+  img_bsod_falling_left = sprite_manager->load("bsod-falling-left");
+  img_bsod_falling_right = sprite_manager->load("bsod-falling-right");
+  img_laptop_flat_left = sprite_manager->load("laptop-flat-left");
+  img_laptop_flat_right = sprite_manager->load("laptop-flat-right");
+  img_laptop_falling_left = sprite_manager->load("laptop-falling-left");
+  img_laptop_falling_right = sprite_manager->load("laptop-falling-right");
+  img_bsod_left = sprite_manager->load("bsod-left");
+  img_bsod_right = sprite_manager->load("bsod-right");
+  img_laptop_left = sprite_manager->load("laptop-left");
+  img_laptop_right = sprite_manager->load("laptop-right");
+  img_jumpy_left_up = sprite_manager->load("jumpy-left-up");
+  img_jumpy_left_down = sprite_manager->load("jumpy-left-down");
+  img_jumpy_left_middle = sprite_manager->load("jumpy-left-middle");
+  img_mrbomb_left = sprite_manager->load("mrbomb-left");
+  img_mrbomb_right = sprite_manager->load("mrbomb-right");
+  img_mrbomb_ticking_left = sprite_manager->load("mrbomb-ticking-left");
+  img_mrbomb_ticking_right = sprite_manager->load("mrbomb-ticking-right");
+  img_mrbomb_explosion = sprite_manager->load("mrbomb-explosion");
+  img_stalactite = sprite_manager->load("stalactite");
+  img_stalactite_broken = sprite_manager->load("stalactite-broken");
+  img_flame = sprite_manager->load("flame");
+  img_fish = sprite_manager->load("fish");
+  img_fish_down = sprite_manager->load("fish-down");
+  img_bouncingsnowball_left = sprite_manager->load("bouncingsnowball-left");
+  img_bouncingsnowball_right = sprite_manager->load("bouncingsnowball-right");
+  img_bouncingsnowball_squished = sprite_manager->load("bouncingsnowball-squished");
+  img_flyingsnowball = sprite_manager->load("flyingsnowball");
+  img_flyingsnowball_squished = sprite_manager->load("flyingsnowball-squished");
+  img_spiky_left = sprite_manager->load("spiky-left");
+  img_spiky_right = sprite_manager->load("spiky-right");
+  img_snowball_left = sprite_manager->load("snowball-left");
+  img_snowball_right = sprite_manager->load("snowball-right");
+  img_snowball_squished_left = sprite_manager->load("snowball-squished-left");
+  img_snowball_squished_right = sprite_manager->load("snowball-squished-right");
+#if 0
   /* (BSOD) */
   img_bsod_left[0] = new Surface(datadir + "/images/shared/bsod-left-0.png", USE_ALPHA);
 
   img_bsod_left[1] = new Surface(datadir +
-               "/images/shared/bsod-left-1.png",
-               USE_ALPHA);
+                                 "/images/shared/bsod-left-1.png",
+                                 USE_ALPHA);
 
   img_bsod_left[2] = new Surface(datadir +
-               "/images/shared/bsod-left-2.png",
-               USE_ALPHA);
+                                 "/images/shared/bsod-left-2.png",
+                                 USE_ALPHA);
 
   img_bsod_left[3] = new Surface(datadir +
-               "/images/shared/bsod-left-3.png",
-               USE_ALPHA);
+                                 "/images/shared/bsod-left-3.png",
+                                 USE_ALPHA);
 
   img_bsod_right[0] = new Surface(datadir +
-               "/images/shared/bsod-right-0.png",
-               USE_ALPHA);
+                                  "/images/shared/bsod-right-0.png",
+                                  USE_ALPHA);
 
   img_bsod_right[1] = new Surface(datadir +
-               "/images/shared/bsod-right-1.png",
-               USE_ALPHA);
+                                  "/images/shared/bsod-right-1.png",
+                                  USE_ALPHA);
 
   img_bsod_right[2] = new Surface(datadir +
-               "/images/shared/bsod-right-2.png",
-               USE_ALPHA);
+                                  "/images/shared/bsod-right-2.png",
+                                  USE_ALPHA);
 
   img_bsod_right[3] = new Surface(datadir +
-               "/images/shared/bsod-right-3.png",
-               USE_ALPHA);
+                                  "/images/shared/bsod-right-3.png",
+                                  USE_ALPHA);
 
   img_bsod_squished_left[0] = new Surface(datadir +
-               "/images/shared/bsod-squished-left.png",
-               USE_ALPHA);
+                                          "/images/shared/bsod-squished-left.png",
+                                          USE_ALPHA);
 
   img_bsod_squished_right[0] = new Surface(datadir +
-               "/images/shared/bsod-squished-right.png",
-               USE_ALPHA);
+                                           "/images/shared/bsod-squished-right.png",
+                                           USE_ALPHA);
 
   img_bsod_falling_left[0] = new Surface(datadir +
-               "/images/shared/bsod-falling-left.png",
-               USE_ALPHA);
+                                         "/images/shared/bsod-falling-left.png",
+                                         USE_ALPHA);
 
   img_bsod_falling_right[0] = new Surface(datadir +
-               "/images/shared/bsod-falling-right.png",
-               USE_ALPHA);
+                                          "/images/shared/bsod-falling-right.png",
+                                          USE_ALPHA);
 
 
   /* (Laptop) */
@@ -1037,101 +1079,101 @@ void load_badguy_gfx()
   img_laptop_right[3] = new Surface(datadir + "/images/shared/mriceblock-right-1.png", USE_ALPHA);
   
   img_laptop_flat_left[0] = new Surface(
-               datadir + "/images/shared/laptop-flat-left.png",
-               USE_ALPHA);
+                                        datadir + "/images/shared/laptop-flat-left.png",
+                                        USE_ALPHA);
 
   img_laptop_flat_right[0] = new Surface(datadir +
-               "/images/shared/laptop-flat-right.png",
-               USE_ALPHA);
+                                         "/images/shared/laptop-flat-right.png",
+                                         USE_ALPHA);
 
   img_laptop_falling_left[0] = new Surface(datadir +
-               "/images/shared/laptop-falling-left.png",
-               USE_ALPHA);
+                                           "/images/shared/laptop-falling-left.png",
+                                           USE_ALPHA);
 
   img_laptop_falling_right[0] = new Surface(datadir +
-               "/images/shared/laptop-falling-right.png",
-               USE_ALPHA);
+                                            "/images/shared/laptop-falling-right.png",
+                                            USE_ALPHA);
 
 
   /* (Money) */
   img_jumpy_left_up   = new Surface(datadir +
-                                     "/images/shared/jumpy-left-up-0.png",
-                                     USE_ALPHA);
+                                    "/images/shared/jumpy-left-up-0.png",
+                                    USE_ALPHA);
   img_jumpy_left_down = new Surface(datadir +
                                     "/images/shared/jumpy-left-down-0.png",
                                     USE_ALPHA);
   img_jumpy_left_middle = new Surface(datadir +
-                                    "/images/shared/jumpy-left-middle-0.png",
-                                    USE_ALPHA);
+                                      "/images/shared/jumpy-left-middle-0.png",
+                                      USE_ALPHA);
 
   /* Mr. Bomb */
   for(int i=0; i<4; ++i) {
-      char num[4];
-      snprintf(num, 4, "%d", i);
-      img_mrbomb_left[i] = new Surface(
-              datadir + "/images/shared/mrbomb-left-" + num + ".png", USE_ALPHA);
-      img_mrbomb_right[i] = new Surface(
-              datadir + "/images/shared/mrbomb-right-" + num + ".png", USE_ALPHA);
+    char num[4];
+    snprintf(num, 4, "%d", i);
+    img_mrbomb_left[i] = new Surface(
+                                     datadir + "/images/shared/mrbomb-left-" + num + ".png", USE_ALPHA);
+    img_mrbomb_right[i] = new Surface(
+                                      datadir + "/images/shared/mrbomb-right-" + num + ".png", USE_ALPHA);
   }
   img_mrbomb_ticking_left[0] = new Surface(
-          datadir + "/images/shared/mrbombx-left-0.png", USE_ALPHA);
+                                           datadir + "/images/shared/mrbombx-left-0.png", USE_ALPHA);
   img_mrbomb_ticking_right[0] = new Surface(
-          datadir + "/images/shared/mrbombx-right-0.png", USE_ALPHA);
+                                            datadir + "/images/shared/mrbombx-right-0.png", USE_ALPHA);
   img_mrbomb_explosion[0] = new Surface(
-          datadir + "/images/shared/mrbomb-explosion.png", USE_ALPHA);
+                                        datadir + "/images/shared/mrbomb-explosion.png", USE_ALPHA);
 
   /* stalactite */
   img_stalactite[0] = new Surface(
-          datadir + "/images/shared/stalactite.png", USE_ALPHA);
+                                  datadir + "/images/shared/stalactite.png", USE_ALPHA);
   img_stalactite_broken[0] = new Surface(
-          datadir + "/images/shared/stalactite-broken.png", USE_ALPHA);
+                                         datadir + "/images/shared/stalactite-broken.png", USE_ALPHA);
 
   /* flame */
   img_flame[0] = new Surface(
-          datadir + "/images/shared/flame-0.png", USE_ALPHA);
+                             datadir + "/images/shared/flame-0.png", USE_ALPHA);
   img_flame[1] = new Surface(
-          datadir + "/images/shared/flame-1.png", USE_ALPHA);  
+                             datadir + "/images/shared/flame-1.png", USE_ALPHA);  
 
   /* fish */
   img_fish[0] = new Surface(
-          datadir + "/images/shared/fish-left-0.png", USE_ALPHA);
+                            datadir + "/images/shared/fish-left-0.png", USE_ALPHA);
   img_fish[1] = new Surface(
-          datadir + "/images/shared/fish-left-1.png", USE_ALPHA);
+                            datadir + "/images/shared/fish-left-1.png", USE_ALPHA);
   img_fish_down[0] = new Surface(
-          datadir + "/images/shared/fish-down-0.png", USE_ALPHA);
+                                 datadir + "/images/shared/fish-down-0.png", USE_ALPHA);
 
   /* bouncing snowball */
   for(int i=0; i<6; ++i) {
-      char num[4];
-      snprintf(num, 4, "%d", i);
-      img_bouncingsnowball_left[i] = new Surface(
-              datadir + "/images/shared/bouncingsnowball-left-" + num + ".png",
-              USE_ALPHA);
-      img_bouncingsnowball_right[i] = new Surface(
-              datadir + "/images/shared/bouncingsnowball-right-" + num + ".png",
-              USE_ALPHA);
+    char num[4];
+    snprintf(num, 4, "%d", i);
+    img_bouncingsnowball_left[i] = new Surface(
+                                               datadir + "/images/shared/bouncingsnowball-left-" + num + ".png",
+                                               USE_ALPHA);
+    img_bouncingsnowball_right[i] = new Surface(
+                                                datadir + "/images/shared/bouncingsnowball-right-" + num + ".png",
+                                                USE_ALPHA);
   } 
   img_bouncingsnowball_squished[0] = new Surface(
-          datadir + "/images/shared/bsod-squished-left.png", USE_ALPHA);
+                                                 datadir + "/images/shared/bsod-squished-left.png", USE_ALPHA);
 
   /* flying snowball */
   img_flyingsnowball[0] = new Surface(
-          datadir + "/images/shared/flyingsnowball-left-0.png", USE_ALPHA);
+                                      datadir + "/images/shared/flyingsnowball-left-0.png", USE_ALPHA);
   img_flyingsnowball[1] = new Surface(
-          datadir + "/images/shared/flyingsnowball-left-1.png", USE_ALPHA);  
+                                      datadir + "/images/shared/flyingsnowball-left-1.png", USE_ALPHA);  
   img_flyingsnowball_squished[0] = new Surface(
-          datadir + "/images/shared/bsod-squished-left.png", USE_ALPHA);
+                                               datadir + "/images/shared/bsod-squished-left.png", USE_ALPHA);
 
   /* spiky */
   for(int i = 0; i < 3; ++i) {
-        char num[4];
-        snprintf(num, 4, "%d", i);
-        img_spiky_left[i] = new Surface(                                
-                datadir + "/images/shared/spiky-left-" + num + ".png",   
-                USE_ALPHA);
-        img_spiky_right[i] = new Surface(
-                datadir + "/images/shared/spiky-right-" + num + ".png",
-                USE_ALPHA);
+    char num[4];
+    snprintf(num, 4, "%d", i);
+    img_spiky_left[i] = new Surface(                                
+                                    datadir + "/images/shared/spiky-left-" + num + ".png",   
+                                    USE_ALPHA);
+    img_spiky_right[i] = new Surface(
+                                     datadir + "/images/shared/spiky-right-" + num + ".png",
+                                     USE_ALPHA);
   }
 
   /** snowball */
@@ -1146,79 +1188,14 @@ void load_badguy_gfx()
   img_snowball_right[3] = new Surface(datadir + "/images/shared/snowball-right-1.png", USE_ALPHA);
 
   img_snowball_squished_left[0] = new Surface(
-          datadir + "/images/shared/bsod-squished-left.png", USE_ALPHA);
+                                              datadir + "/images/shared/bsod-squished-left.png", USE_ALPHA);
   img_snowball_squished_right[0] = new Surface(
-          datadir + "/images/shared/bsod-squished-right.png", USE_ALPHA);  
+                                               datadir + "/images/shared/bsod-squished-right.png", USE_ALPHA);  
+#endif
 }
 
 void free_badguy_gfx()
 {
-  for (int i = 0; i < 4; i++)
-    {
-      delete img_bsod_left[i];
-      delete img_bsod_right[i];
-    }
-
-  delete img_bsod_squished_left[0];
-  delete img_bsod_squished_right[0];
-
-  delete img_bsod_falling_left[0];
-  delete img_bsod_falling_right[0];
-
-  for (int i = 0; i < 4; i++)
-    {
-      delete img_laptop_left[i];
-      delete img_laptop_right[i];
-    }
-
-  delete img_laptop_flat_left[0];
-  delete img_laptop_flat_right[0];
-
-  delete img_laptop_falling_left[0];
-  delete img_laptop_falling_right[0];
-
-  delete img_jumpy_left_up;
-  delete img_jumpy_left_down;
-
-  for(int i = 0; i < 4; i++) {
-      delete img_mrbomb_left[i];
-      delete img_mrbomb_right[i];
-  }
-
-  delete img_mrbomb_ticking_left[0];
-  delete img_mrbomb_ticking_right[0];
-  delete img_mrbomb_explosion[0];
-
-  delete img_stalactite[0];
-  delete img_stalactite_broken[0];
-
-  delete img_flame[0];
-  delete img_flame[1];
-
-  delete img_fish[0];
-  delete img_fish[1];
-  delete img_fish_down[0];
-
-  for(int i=0; i<6; ++i) {
-    delete img_bouncingsnowball_left[i];
-    delete img_bouncingsnowball_right[i];
-  }
-  delete img_bouncingsnowball_squished[0];
-
-  delete img_flyingsnowball[0];
-  delete img_flyingsnowball[1];
-  delete img_flyingsnowball_squished[0];
-
-  for(int i = 0; i<3; ++i) {
-    delete img_spiky_left[i];
-    delete img_spiky_right[i];
-  }
-  for(int i = 0; i<4; ++i) {
-    delete img_snowball_left[i];
-    delete img_snowball_right[i];
-  }
-  delete img_snowball_squished_left[0];
-  delete img_snowball_squished_right[0]; 
 }
 
 // EOF //

@@ -20,13 +20,11 @@
 #include "texture.h"
 #include "physic.h"
 #include "collision.h"
+#include "sprite.h"
 
-extern Surface* img_bsod_left[4];
-extern Surface* img_bsod_right[4];
-extern Surface* img_laptop_left[4];
-extern Surface* img_jumpy_left_up;
-extern Surface* img_jumpy_left_down;
-extern Surface* img_jumpy_left_middle;
+extern Sprite* img_bsod_left;
+extern Sprite* img_bsod_right;
+extern Sprite* img_laptop_left;
 
 /* Enemy modes: */
 enum {
@@ -101,8 +99,9 @@ private:
   Timer timer;
   Physic physic;
 
-  Surface** texture_left;
-  Surface** texture_right;
+  Sprite*   sprite_left;
+  Sprite*   sprite_right;
+
   int animation_offset;
   size_t animation_length;
   float animation_speed;
@@ -156,7 +155,7 @@ private:
   /** squish ourself, give player score and set dying to DYING_SQICHED */
   void squish_me(Player* player);
   /** set image of the badguy */
-  void set_texture(Surface** left, Surface** right,
+  void set_sprite(Sprite* left, Sprite* right,
         int animlength = 1, float animspeed = 1);
 };
 

@@ -1,0 +1,162 @@
+(supertux-resources
+ (sprite (name "smalltux")
+         (fps 15.0)
+         (x-hotspot 5)
+         (y-hotspot 9)
+         (images "shared/smalltux-right-1.png"
+                 "shared/smalltux-right-2.png"
+                 "shared/smalltux-right-3.png"
+                 "shared/smalltux-right-4.png"
+                 "shared/smalltux-right-5.png"
+                 "shared/smalltux-right-6.png"
+                 "shared/smalltux-right-7.png"
+                 "shared/smalltux-right-8.png"))
+ (sprite (name "bsod-left")
+         (images "shared/bsod-left-0.png"
+                 "shared/bsod-left-1.png"
+                 "shared/bsod-left-2.png"
+                 "shared/bsod-left-3.png"))
+ 
+ (sprite (name "bsod-right")
+         (images "shared/bsod-right-0.png"
+                 "shared/bsod-right-1.png"
+                 "shared/bsod-right-2.png"
+                 "shared/bsod-right-3.png"))
+
+ (sprite (name "bsod-squished-left")
+         (images "shared/bsod-squished-left.png"))
+
+ (sprite (name "bsod-squished-right")
+         (images "shared/bsod-squished-right.png"))
+
+ (sprite (name "bsod-falling-left")
+         (images "shared/bsod-falling-left.png"))
+
+ (sprite (name "bsod-falling-right")
+         (images "shared/bsod-falling-right.png"))
+
+ (sprite (name "laptop-left")
+         (images "shared/mriceblock-left-0.png"
+                 "shared/mriceblock-left-1.png"
+                 "shared/mriceblock-left-2.png"
+                 "shared/mriceblock-left-1.png"))
+
+ (sprite (name "laptop-right")
+         (images "shared/mriceblock-right-0.png"
+                 "shared/mriceblock-right-1.png"
+                 "shared/mriceblock-right-2.png"
+                 "shared/mriceblock-right-1.png"))
+  
+  (sprite (name "laptop-flat-left")
+          (images "shared/laptop-flat-left.png"))
+
+  (sprite (name "laptop-flat-right")
+          (images "shared/laptop-flat-right.png"))
+
+  (sprite (name "laptop-falling-left")
+          (images "shared/laptop-falling-left.png"))
+
+  (sprite (name "laptop-falling-right")
+          (images "shared/laptop-falling-right.png"))
+
+  (sprite (name "img-jumpy-left-up")
+          (images "shared/jumpy-left-up-0.png"))
+  (sprite (name "img-jumpy-left-down")
+          (images "shared/jumpy-left-down-0.png"))
+  (sprite (name "img-jumpy-middle-up")
+          (images "shared/jumpy-left-middle-0.png"))
+
+  (sprite (name "mrbomb-left")
+          (images "shared/mrbomb-left-0.png")
+          (images "shared/mrbomb-left-1.png")
+          (images "shared/mrbomb-left-2.png")
+          (images "shared/mrbomb-left-3.png"))
+
+  (sprite (name "mrbomb-right")
+          (images "shared/mrbomb-right-0.png")
+          (images "shared/mrbomb-right-1.png")
+          (images "shared/mrbomb-right-2.png")
+          (images "shared/mrbomb-right-3.png"))
+          
+
+  (sprite (name "mrbomb-ticking-left")
+          (images "shared/mrbombx-left-0.png"))
+
+  (sprite (name "mrbomb-ticking-right")
+          (images "shared/mrbombx-right-0.png"))
+
+  (sprite (name "mrbomb-explosion")
+          (images "shared/mrbomb-explosion.png"))
+
+  (sprite (name "stalactite")
+          (images "shared/stalactite.png"))
+
+  (sprite (name "stalactite-broken")
+          (images "shared/stalactite-broken.png"))
+
+  (sprite (name "flame")
+          (images "shared/flame-0.png"
+                  "shared/flame-1.png"))
+
+  (sprite (name "fish")
+          (images "shared/fish-left-0.png"
+                  "shared/fish-left-1.png"))
+
+  (sprite (name "fish")
+          (images "shared/fish-down-0.png"))
+
+  (sprite (name "bouncingsnowball-left")
+          (images "shared/bouncingsnowball-left-0.png"
+                  "shared/bouncingsnowball-left-1.png"
+                  "shared/bouncingsnowball-left-2.png"
+                  "shared/bouncingsnowball-left-3.png"
+                  "shared/bouncingsnowball-left-4.png"
+                  "shared/bouncingsnowball-left-5.png"))
+
+  (sprite (name "bouncingsnowball-right")
+          (images "shared/bouncingsnowball-right-0.png"
+                  "shared/bouncingsnowball-right-1.png"
+                  "shared/bouncingsnowball-right-2.png"
+                  "shared/bouncingsnowball-right-3.png"
+                  "shared/bouncingsnowball-right-4.png"
+                  "shared/bouncingsnowball-right-5.png"))
+
+  (sprite (name "bouncingsnowball-squished")
+          (images "shared/bsod-squished-left.png"))
+
+  (sprite (name "flyingsnowball")
+          (images "shared/flyingsnowball-left-0.png"
+                  "shared/flyingsnowball-left-1.png"))
+
+  (sprite (name "flyingsnowball-squished")
+          (images "shared/bsod-squished-left.png"))
+
+  (sprite (name "spiky-left")
+          (images "shared/spiky-left-0.png"
+                  "shared/spiky-left-1.png"
+                  "shared/spiky-left-2.png"))
+  (sprite (name "spiky-right")
+          (images "shared/spiky-right-0.png"
+                  "shared/spiky-right-1.png"
+                  "shared/spiky-right-2.png"))
+
+  (sprite (name "snowball-left")
+          (images "shared/snowball-left-0.png"
+                  "shared/snowball-left-1.png"
+                  "shared/snowball-left-2.png"
+                  "shared/snowball-left-1.png"))
+
+  (sprite (name "snowball-right")
+          (images "shared/snowball-right-0.png"
+                  "shared/snowball-right-1.png"
+                  "shared/snowball-right-2.png"
+                  "shared/snowball-right-1.png"))
+
+  (sprite (name "bsod-squished-left")
+          (images "shared/bsod-squished-left.png"))
+
+  (sprite (name "bsod-squished-right")
+          (images "shared/bsod-squished-right.png"))
+  )
+
+;; EOF ;;

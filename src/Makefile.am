@@ -67,6 +67,8 @@ resources.cpp \
 gameobjs.h \
 gameobjs.cpp \
 sprite.h \
-sprite.cpp
+sprite.cpp \
+sprite_manager.cpp \
+sprite_manager.h
 
 # EOF #
