@@ -48,6 +48,11 @@ namespace SuperTux
           return x == other.x && y == other.y;
         }
 
+      bool operator !=(const Vector& other) const
+        {
+          return !(x == other.x && y == other.y);
+        }
+
       const Vector& operator=(const Vector& other)
       {
         x = other.x;
