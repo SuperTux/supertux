@@ -59,8 +59,8 @@ BrokenBrick::init(Tile* tile_, float x, float y, float xm, float ym)
   base.xm = xm;
   base.ym = ym;
 
-  timer_init(&timer, true);
-  timer_start(&timer,200);
+  timer.init(true);
+  timer.start(200);
 }
 
 void
@@ -69,7 +69,7 @@ BrokenBrick::action(double frame_ratio)
   base.x = base.x + base.xm * frame_ratio;
   base.y = base.y + base.ym * frame_ratio;
 
-  if (!timer_check(&timer))
+  if (!timer.check())
     World::current()->broken_bricks.erase(static_cast<std::vector<BrokenBrick>::iterator>(this));
 }
 
@@ -159,8 +159,8 @@ FloatingScore::init(float x, float y, int s)
 {
   base.x = x;
   base.y = y - 16;
-  timer_init(&timer,true);
-  timer_start(&timer,1000);
+  timer.init(true);
+  timer.start(1000);
   value = s;
 }
 
@@ -169,7 +169,7 @@ FloatingScore::action(double frame_ratio)
 {
   base.y = base.y - 2 * frame_ratio;
 
-  if(!timer_check(&timer))
+  if(!timer.check())
     World::current()->floating_scores.erase(static_cast<std::vector<FloatingScore>::iterator>(this));
 }
 

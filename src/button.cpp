@@ -21,7 +21,7 @@ timer_type Button::popup_timer;
 
 Button::Button(std::string icon_file, std::string ninfo, SDLKey nshortcut, int x, int y, int mw, int mh)
 {
-  timer_init(&popup_timer,false);
+  popup_timer.init(false);
 
   char filename[1024];
 
@@ -90,7 +90,7 @@ void Button::change_icon(std::string icon_file, int mw, int mh)
 void Button::draw()
 {
   if(state == BUTTON_HOVER)
-    if(!timer_check(&popup_timer))
+    if(!popup_timer.check())
      show_info = true;
 
   fillrect(rect.x,rect.y,rect.w,rect.h,75,75,75,200);
@@ -181,7 +181,7 @@ void Button::event(SDL_Event &event)
     }
   else if(event.type == SDL_MOUSEMOTION)
     {
-      timer_start(&popup_timer, 1500);
+      popup_timer.start(1500);
     
       if(show_info)
         {

@@ -89,10 +89,10 @@ int intro(void)
   scene = 0;
   i = 0;
 
-  timer_init(&timer, false);
-  timer_start(&timer,10000);
+  timer.init(false);
+  timer.start(10000);
 
-  while (timer_check(&timer) && !done && !quit)
+  while (timer.check() && !done && !quit)
     {
 
 

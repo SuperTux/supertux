@@ -148,7 +148,7 @@ BadGuy::init(float x, float y, BadGuyKind kind_)
   animation_offset = 0;
   texture_left = texture_right = 0;
   physic.reset();
-  timer_init(&timer, true);
+  timer.init(true);
 
   if(kind == BAD_BSOD) {
     physic.set_velocity(-1.3, 0);
@@ -215,7 +215,7 @@ BadGuy::action_bsod(float frame_ratio)
   }
 
   // Handle dying timer:
-  if (dying == DYING_SQUISHED && !timer_check(&timer))       
+  if (dying == DYING_SQUISHED && !timer.check())
     {
       /* Remove it if time's up: */
       remove_me();
@@ -296,7 +296,7 @@ BadGuy::action_laptop(float frame_ratio)
   /* Handle mode timer: */
   if (mode == FLAT)
     {
-      if(!timer_check(&timer))
+      if(!timer.check())
         {
           mode = NORMAL;
           set_texture(img_laptop_left, img_laptop_right, 4, 5);
@@ -442,13 +442,13 @@ BadGuy::action_bomb(float frame_ratio)
 
   if(mode == NORMAL) {
     mode = BOMB_TICKING;
-    timer_start(&timer, TICKINGTIME);
-  } else if(!timer_check(&timer)) {
+    timer.start(TICKINGTIME);
+  } else if(!timer.check()) {
     if(mode == BOMB_TICKING) {
       mode = BOMB_EXPLODE;
       set_texture(img_mrbomb_explosion, img_mrbomb_explosion, 1);
       dying = DYING_NOT; // now the bomb hurts
-      timer_start(&timer, EXPLODETIME);
+      timer.start(EXPLODETIME);
     } else if(mode == BOMB_EXPLODE) {
       remove_me();
       return;
@@ -473,12 +473,12 @@ BadGuy::action_stalactite(float frame_ratio)
     // near
     if(tux.base.x + 32 > base.x - RANGE && tux.base.x < base.x + 32 + RANGE
             && tux.base.y + tux.base.height > base.y) {
-      timer_start(&timer, SHAKETIME);
+      timer.start(SHAKETIME);
       mode = STALACTITE_SHAKING;
     }
   } if(mode == STALACTITE_SHAKING) {
     base.x = old_base.x + (rand() % 6) - 3; // TODO this could be done nicer...
-    if(!timer_check(&timer)) {
+    if(!timer.check()) {
       mode = STALACTITE_FALL;
     }
   } else if(mode == STALACTITE_FALL) {
@@ -486,7 +486,7 @@ BadGuy::action_stalactite(float frame_ratio)
     /* Destroy if we collides with land */
     if(issolid(base.x+base.width/2, base.y+base.height))
     {
-      timer_start(&timer, 2000);
+      timer.start(2000);
       dying = DYING_SQUISHED;
       mode = FLAT;
       set_texture(img_stalactite_broken, img_stalactite_broken, 1);
@@ -498,7 +498,7 @@ BadGuy::action_stalactite(float frame_ratio)
   // move
   physic.apply(frame_ratio, base.x, base.y);
 
-  if(dying == DYING_SQUISHED && !timer_check(&timer))
+  if(dying == DYING_SQUISHED && !timer.check())
     remove_me();
 }
 
@@ -527,9 +527,9 @@ BadGuy::action_fish(float frame_ratio)
       set_texture(0, 0);
       physic.set_velocity(0, 0);
       physic.enable_gravity(false);
-      timer_start(&timer, WAITTIME);
+      timer.start(WAITTIME);
     }
-  else if(mode == FISH_WAIT && !timer_check(&timer))
+  else if(mode == FISH_WAIT && !timer.check())
     {
       // jump again
       set_texture(img_fish, img_fish, 2, 1.5);
@@ -570,7 +570,7 @@ BadGuy::action_bouncingsnowball(float frame_ratio)
     collision_swept_object_map(&old_base, &base);
 
   // Handle dying timer:
-  if (dying == DYING_SQUISHED && !timer_check(&timer))       
+  if (dying == DYING_SQUISHED && !timer.check())
     {
       /* Remove it if time's up: */
       remove_me();
@@ -588,10 +588,10 @@ BadGuy::action_flyingsnowball(float frame_ratio)
   if(dying == DYING_NOT && mode == NORMAL) {
     mode = FLY_UP;
     physic.set_velocity(physic.get_velocity_x(), FLYINGSPEED);
-    timer_start(&timer, DIRCHANGETIME/2);
+    timer.start(DIRCHANGETIME/2);
   }
 
-  if(dying == DYING_NOT && !timer_check(&timer)) {
+  if(dying == DYING_NOT && !timer.check()) {
     if(mode == FLY_UP) {
       mode = FLY_DOWN;
       physic.set_velocity(physic.get_velocity_x(), -FLYINGSPEED);
@@ -599,7 +599,7 @@ BadGuy::action_flyingsnowball(float frame_ratio)
       mode = FLY_UP;
       physic.set_velocity(physic.get_velocity_x(), FLYINGSPEED);
     }
-    timer_start(&timer, DIRCHANGETIME);
+    timer.start(DIRCHANGETIME);
   }
 
   if(dying != DYING_NOT)
@@ -610,7 +610,7 @@ BadGuy::action_flyingsnowball(float frame_ratio)
     collision_swept_object_map(&old_base, &base);
 
   // Handle dying timer:
-  if (dying == DYING_SQUISHED && !timer_check(&timer))       
+  if (dying == DYING_SQUISHED && !timer.check())
     {
       /* Remove it if time's up: */
       remove_me();
@@ -797,7 +797,7 @@ BadGuy::squish_me(Player* player)
   player_status.score_multiplier++;
 
   dying = DYING_SQUISHED;
-  timer_start(&timer, 2000);
+  timer.start(2000);
   physic.set_velocity(0, 0);
 }
 
@@ -831,7 +831,7 @@ BadGuy::squish(Player* player)
         set_texture(img_laptop_flat_left, img_laptop_flat_right, 1);
         physic.set_velocity(0, physic.get_velocity_y());
 
-        timer_start(&timer, 4000);
+        timer.start(4000);
       } else if (mode == FLAT) {
         /* Kick! */
         play_sound(sounds[SND_KICK], SOUND_CENTER_SPEAKER);

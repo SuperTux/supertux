@@ -13,40 +13,43 @@
 #ifndef SUPERTUX_TIMER_H
 #define SUPERTUX_TIMER_H
 
-/* Timer type */
-struct timer_type
-{
-  unsigned int period;
-  unsigned int time;
-  unsigned int (*get_ticks) (void);  
-};
-
 extern unsigned int st_pause_ticks, st_pause_count;
 
 unsigned int st_get_ticks(void);
 void st_pause_ticks_init(void);
 void st_pause_ticks_start(void);
 void st_pause_ticks_stop(void);
-void timer_init(timer_type* ptimer, bool st_ticks);
-void timer_start(timer_type* ptimer, unsigned int period);
-void timer_stop(timer_type* ptimer);
-/*======================================================================
-     int timer_check(timer_type* ptimer);
-    
-     param : pointer to a timer which needs to be checked
-     return: NO  = the timer is not started
-                   or it is over
-             YES = otherwise
-======================================================================*/
-int timer_check(timer_type* ptimer);
-int timer_started(timer_type* ptimer);
-/*======================================================================
-     int timer_get_left(timer_type* ptimer);
 
-     param : pointer to a timer that you want to get the time left
-     return: the time left (in millisecond)
-     note  : the returned value can be negative
-======================================================================*/
+class timer_type
+{
+ public:
+  unsigned int period;
+  unsigned int time;
+  unsigned int (*get_ticks) (void);  
+
+ public:
+  void init(bool st_ticks);
+  void start(unsigned int period);
+  void stop();
+
+  /*======================================================================
+    int timer_check(timer_type* ptimer);
+    
+    param : pointer to a timer which needs to be checked
+    return: NO  = the timer is not started
+    or it is over
+    YES = otherwise
+    ======================================================================*/
+  int check();
+  int started();
+};
+/*======================================================================
+  int timer_get_left(timer_type* ptimer);
+
+  param : pointer to a timer that you want to get the time left
+  return: the time left (in millisecond)
+  note  : the returned value can be negative
+  ======================================================================*/
 int timer_get_left(timer_type* ptimer);
 int timer_get_gone(timer_type* ptimer);
 void timer_fwrite(timer_type* ptimer, FILE* fi);
@@ -54,3 +57,6 @@ void timer_fread(timer_type* ptimer, FILE* fi);
 
 #endif /*SUPERTUX_TIMER_H*/
 
+/* Local Variables: */
+/* mode:c++ */
+/* End */

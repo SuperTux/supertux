@@ -270,7 +270,7 @@ Upgrade::collision(void* p_c_object, int c_object)
       else if (kind == UPGRADE_HERRING)
         {
           play_sound(sounds[SND_HERRING], SOUND_CENTER_SPEAKER);
-          timer_start(&pplayer->invincible_timer,TUX_INVINCIBLE_TIME);
+          pplayer->invincible_timer.start(TUX_INVINCIBLE_TIME);
           /* play the herring song ^^ */
           if (get_current_music() != HURRYUP_MUSIC)
             {

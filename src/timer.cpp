@@ -44,41 +44,46 @@ return;
   st_pause_count = 0;
 }
 
-void timer_init(timer_type* ptimer, bool st_ticks)
+void
+timer_type::init(bool st_ticks)
 {
-  ptimer->period    = 0;
-  ptimer->time      = 0;
-  ptimer->get_ticks = st_ticks ? st_get_ticks : SDL_GetTicks;
+  period    = 0;
+  time      = 0;
+  get_ticks = st_ticks ? st_get_ticks : SDL_GetTicks;
 }
 
-void timer_start(timer_type* ptimer, unsigned int period)
+void
+timer_type::start(unsigned int period_)
 {
-  ptimer->time = ptimer->get_ticks();
-  ptimer->period = period;
+  time   = get_ticks();
+  period = period_;
 }
 
-void timer_stop(timer_type* ptimer)
+void
+timer_type::stop()
 {
-  if(ptimer->get_ticks == st_get_ticks)
-    timer_init(ptimer,true);
+  if(get_ticks == st_get_ticks)
+    init(true);
   else
-    timer_init(ptimer,false);
+    init(false);
 }
 
-int timer_check(timer_type* ptimer)
+int
+timer_type::check()
 {
-  if((ptimer->time != 0) && (ptimer->time + ptimer->period > ptimer->get_ticks()))
+  if((time != 0) && (time + period > get_ticks()))
     return true;
   else
     {
-      ptimer->time = 0;
+      time = 0;
       return false;
     }
 }
 
-int timer_started(timer_type* ptimer)
+int
+timer_type::started()
 {
-  if(ptimer->time != 0)
+  if(time != 0)
     return true;
   else
     return false;

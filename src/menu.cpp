@@ -64,7 +64,7 @@ Menu::set_current(Menu* pmenu)
         if(tmp->last_menu != pmenu)
           current_menu->last_menu = tmp;
 
-      timer_start(&pmenu->effect, 500);
+      pmenu->effect.start(500);
     }
 }
 
@@ -136,13 +136,13 @@ Menu::Menu()
   active_item  = 0;
   last_menu    = 0;
   item         = NULL;
-  timer_init(&effect,false);
+  effect.init(false);
 }
 
 void Menu::set_pos(int x, int y, float rw, float rh)
 {
- pos_x = x + (int)((float)width() * rw);
- pos_y = y + (int)((float)height() * rh);
+  pos_x = x + (int)((float)width() * rw);
+  pos_y = y + (int)((float)height() * rh);
 }
 
 void
@@ -331,7 +331,7 @@ Menu::draw_item(int index, // Position of the current item in the menu
   int effect_offset = 0;
   {
     int effect_time = 0;
-    if(timer_check(&effect))
+    if(effect.check())
       effect_time = timer_get_left(&effect) / 4;
 
     effect_offset = (index % 2) ? effect_time : -effect_time;

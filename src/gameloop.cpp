@@ -67,8 +67,8 @@ GameSession::GameSession(const std::string& filename)
 
   world = new World; // &::global_world;
 
-  timer_init(&fps_timer, true);
-  timer_init(&frame_timer, true);
+  fps_timer.init(true);
+  frame_timer.init(true);
 
   world->load(filename);
 }
@@ -83,8 +83,8 @@ GameSession::GameSession(const std::string& subset_, int levelnb_, int mode)
 
   world = new World; // &::global_world;
 
-  timer_init(&fps_timer, true);
-  timer_init(&frame_timer, true);
+  fps_timer.init(true);
+  frame_timer.init(true);
 
   st_gl_mode = mode;
   
@@ -116,7 +116,7 @@ GameSession::GameSession(const std::string& subset_, int levelnb_, int mode)
   if(st_gl_mode == ST_GL_PLAY || st_gl_mode == ST_GL_LOAD_LEVEL_FILE)
     levelintro();
 
-  timer_init(&time_left,true);
+  time_left.init(true);
   start_timers();
 
   if(st_gl_mode == ST_GL_LOAD_GAME)
@@ -156,7 +156,7 @@ GameSession::levelintro(void)
 void
 GameSession::start_timers()
 {
-  timer_start(&time_left, world->get_level()->time_left*1000);
+  time_left.start(world->get_level()->time_left*1000);
   st_pause_ticks_init();
   update_time = st_get_ticks();
 }
@@ -261,7 +261,7 @@ GameSession::process_events()
                 break;
               case SDLK_INSERT:
                 if(debug_mode)
-                  timer_start(&tux.invincible_timer,TUX_INVINCIBLE_TIME);
+                  tux.invincible_timer.start(TUX_INVINCIBLE_TIME);
                 break;
               case SDLK_l:
                 if(debug_mode)
@@ -473,8 +473,10 @@ GameSession::run()
 
   global_frame_counter = 0;
   game_pause = false;
-  timer_init(&fps_timer,true);
-  timer_init(&frame_timer,true);
+
+  fps_timer.init(true);
+  frame_timer.init(true);
+
   last_update_time = st_get_ticks();
   fps_cnt = 0;
 
@@ -500,9 +502,9 @@ GameSession::run()
       if(frame_ratio > 1.5) /* Quick hack to correct the unprecise CPU clocks a little bit. */
         frame_ratio = 1.5 + (frame_ratio - 1.5) * 0.85;
 
-      if(!timer_check(&frame_timer))
+      if(!frame_timer.check())
         {
-          timer_start(&frame_timer,25);
+          frame_timer.start(25);
           ++global_frame_counter;
         }
 
@@ -604,7 +606,7 @@ GameSession::run()
         SDL_Delay((11 - (update_time - last_update_time))/2);*/
 
       /* Handle time: */
-      if (timer_check(&time_left))
+      if (time_left.check())
         {
           /* are we low on time ? */
           if ((timer_get_left(&time_left) < TIME_WARNING)
@@ -624,9 +626,9 @@ GameSession::run()
           ++fps_cnt;
           fps_fps = (1000.0 / (float)timer_get_gone(&fps_timer)) * (float)fps_cnt;
 
-          if(!timer_check(&fps_timer))
+          if(!fps_timer.check())
             {
-              timer_start(&fps_timer,1000);
+              fps_timer.start(1000);
               fps_cnt = 0;
             }
         }

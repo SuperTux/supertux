@@ -95,10 +95,10 @@ Player::init()
   keymap.right = SDLK_RIGHT;
   keymap.fire  = SDLK_LCTRL;
 
-  timer_init(&invincible_timer,true);
-  timer_init(&skidding_timer,true);
-  timer_init(&safe_timer,true);
-  timer_init(&frame_timer,true);
+  invincible_timer.init(true);
+  skidding_timer.init(true);
+  safe_timer.init(true);
+  frame_timer.init(true);
 
   physic.reset();
 }
@@ -149,10 +149,11 @@ Player::level_begin()
 
   player_input_init(&input);
 
-  timer_init(&invincible_timer,true);
-  timer_init(&skidding_timer,true);
-  timer_init(&safe_timer,true);
-  timer_init(&frame_timer,true);
+  invincible_timer.init(true);
+  skidding_timer.init(true);
+  safe_timer.init(true);
+  frame_timer.init(true);
+
   physic.reset();
 }
 
@@ -247,13 +248,13 @@ Player::action(double frame_ratio)
 
     }
 
-  timer_check(&safe_timer);
+  safe_timer.check();
 
 
   /* ---- DONE HANDLING TUX! --- */
 
   /* Handle invincibility timer: */
-  if (get_current_music() == HERRING_MUSIC && !timer_check(&invincible_timer))
+  if (get_current_music() == HERRING_MUSIC && !invincible_timer.check())
     {
       /*
          no, we are no more invincible
@@ -320,15 +321,15 @@ Player::handle_horizontal_input(int newdir)
 
   // skid if we're too fast
   if(dir != newdir && on_ground() && fabs(physic.get_velocity_x()) > SKID_XM 
-          && !timer_started(&skidding_timer))
+     && !skidding_timer.started())
     {
-      timer_start(&skidding_timer, SKID_TIME);
+      skidding_timer.start(SKID_TIME);
       play_sound(sounds[SND_SKID], SOUND_CENTER_SPEAKER);
       return;
     }
 
   if ((newdir ? (vx < 0) : (vx > 0)) && !isice(base.x, base.y + base.height) &&
-      !timer_started(&skidding_timer))
+      !skidding_timer.started())
     {
       //vx = 0;
     }
@@ -521,9 +522,9 @@ Player::handle_input()
 
   /* (Tux): */
 
-  if(!timer_check(&frame_timer))
+  if(!frame_timer.check())
     {
-      timer_start(&frame_timer,25);
+      frame_timer.start(25);
       if (input.right == UP && input.left == UP)
         {
           frame_main = 1;
@@ -578,11 +579,11 @@ Player::grabdistros()
 void
 Player::draw()
 {
-  if (!timer_started(&safe_timer) || (global_frame_counter % 2) == 0)
+  if (!safe_timer.started() || (global_frame_counter % 2) == 0)
     {
       if (size == SMALL)
         {
-          if (timer_started(&invincible_timer))
+          if (invincible_timer.started())
             {
               /* Draw cape: */
 
@@ -644,7 +645,7 @@ Player::draw()
         }
       else
         {
-          if (timer_started(&invincible_timer))
+          if (invincible_timer.started())
             {
               /* Draw cape: */
               if (dir == RIGHT)
@@ -663,7 +664,7 @@ Player::draw()
             {
               if (!duck)
                 {
-                  if (!timer_started(&skidding_timer))
+                  if (!skidding_timer.started())
                     {
                       if (!jumping || physic.get_velocity_y() > 0)
                         {
@@ -724,7 +725,7 @@ Player::draw()
 
               if (!duck)
                 {
-                  if (!timer_started(&skidding_timer))
+                  if (!skidding_timer.started())
                     {
                       if (!jumping || physic.get_velocity_y() > 0)
                         {
@@ -798,7 +799,7 @@ Player::collision(void* p_c_object, int c_object)
       /* Hurt the player if he just touched it: */
 
       if (!pbad_c->dying && !dying &&
-          !timer_started(&safe_timer) &&
+          !safe_timer.started() &&
           pbad_c->mode != HELD)
         {
           if (pbad_c->mode == FLAT && input.fire == DOWN)
@@ -818,7 +819,7 @@ Player::collision(void* p_c_object, int c_object)
               else
                 {
                   /* Hurt if you get hit by kicked laptop: */
-                  if (!timer_started(&invincible_timer))
+                  if (!invincible_timer.started())
                     {
                       kill(SHRINK);
                     }
@@ -834,7 +835,7 @@ Player::collision(void* p_c_object, int c_object)
             }
           else
             {
-              if (!timer_started(&invincible_timer ))
+              if (!invincible_timer.started())
                 {
                   kill(SHRINK);
                 }
@@ -869,7 +870,7 @@ Player::kill(int mode)
       size = SMALL;
       base.height = 32;
 
-      timer_start(&safe_timer,TUX_SAFE_TIME);
+      safe_timer.start(TUX_SAFE_TIME);
     }
   else
     {

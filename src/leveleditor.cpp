@@ -156,7 +156,7 @@ int leveleditor(int levelnb)
 
       if(current_menu == select_tilegroup_menu)
         {
-          if(timer_check(&select_tilegroup_menu_effect))
+          if(select_tilegroup_menu_effect.check())
             {
               select_tilegroup_menu->set_pos(screen->w - 64 + timer_get_left(&select_tilegroup_menu_effect),82,-0.5,0.5);
             }
@@ -354,7 +354,7 @@ int le_init()
 
   texture_load(&le_selection, datadir + "/images/leveleditor/select.png", USE_ALPHA);
 
-  timer_init(&select_tilegroup_menu_effect,false);
+  select_tilegroup_menu_effect.init(false);
 
   /* Load buttons */
   le_save_level_bt = new Button("/images/icons/save.png","Save level", SDLK_F6,screen->w-64,32);
@@ -988,7 +988,7 @@ void le_checkevents()
                   if(le_tilegroup_bt->get_state() == BUTTON_CLICKED)
                     {
                       Menu::set_current(select_tilegroup_menu);
-                      timer_start(&select_tilegroup_menu_effect,200);
+                      select_tilegroup_menu_effect.start(200);
                       select_tilegroup_menu->set_pos(screen->w - 64,100,-0.5,0.5);
                       show_menu = true;
                     }

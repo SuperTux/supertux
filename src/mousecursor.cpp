@@ -21,8 +21,8 @@ MouseCursor::MouseCursor(std::string cursor_file, int frames)
   cur_frame = 0;
   tot_frames = frames;
 
-  timer_init(&timer, false);
-  timer_start(&timer,MC_FRAME_PERIOD);
+  timer.init(false);
+  timer.start(MC_FRAME_PERIOD);
 
   SDL_ShowCursor(SDL_DISABLE);
 }
@@ -70,7 +70,7 @@ void MouseCursor::draw()
       if(cur_frame++ >= tot_frames)
         cur_frame = 0;
 
-      timer_start(&timer,MC_FRAME_PERIOD);
+      timer.start(MC_FRAME_PERIOD);
     }
 
   texture_draw_part(&cursor, w*cur_frame, h*cur_state , x, y, w, h);

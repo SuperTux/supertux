@@ -41,14 +41,15 @@ int wait_for_event(SDL_Event& event,unsigned int min_delay, unsigned int max_del
   int i;
   timer_type maxdelay;
   timer_type mindelay;
-  timer_init(&maxdelay,false);
-  timer_init(&mindelay,false);
+  
+  maxdelay.init(false);
+  mindelay.init(false);
 
   if(max_delay < min_delay)
     max_delay = min_delay;
 
-  timer_start(&maxdelay,max_delay);
-  timer_start(&mindelay,min_delay);
+  maxdelay.start(max_delay);
+  mindelay.start(min_delay);
 
   if(empty_events)
     while (SDL_PollEvent(&event))
@@ -56,11 +57,11 @@ int wait_for_event(SDL_Event& event,unsigned int min_delay, unsigned int max_del
 
   /* Handle events: */
 
-  for(i = 0; timer_check(&maxdelay) || !i; ++i)
+  for(i = 0; maxdelay.check() || !i; ++i)
     {
       while (SDL_PollEvent(&event))
         {
-          if(!timer_check(&mindelay))
+          if(!mindelay.check())
             {
               if (event.type == SDL_QUIT)
                 {

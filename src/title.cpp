@@ -98,7 +98,7 @@ void draw_demo(GameSession* session, double frame_ratio)
   global_frame_counter++;
   tux->key_event(SDLK_RIGHT,DOWN);
   
-  if(timer_check(&random_timer))
+  if(random_timer.check())
     {
       if(walking)
         tux->key_event(SDLK_UP,UP);
@@ -107,7 +107,7 @@ void draw_demo(GameSession* session, double frame_ratio)
     }
   else
     {
-      timer_start(&random_timer, rand() % 3000 + 3000);
+      random_timer.start(rand() % 3000 + 3000);
       walking = !walking;
     }
   
@@ -139,7 +139,7 @@ bool title(void)
   string_list_type level_subsets;
   st_subset subset;
   level_subsets = dsubdirs("/levels", "info");
-  timer_init(&random_timer, true);
+  random_timer.init(true);
 
   walking = true;
 
@@ -173,7 +173,7 @@ bool title(void)
   load_hs();
 
   update_time = st_get_ticks();
-  timer_start(&random_timer, rand() % 2000 + 2000);
+  random_timer.start(rand() % 2000 + 2000);
 
   while (!done)
     {
@@ -416,8 +416,8 @@ void display_credits()
     }
 
 
-  timer_init(&timer, SDL_GetTicks());
-  timer_start(&timer, 50);
+  timer.init(SDL_GetTicks());
+  timer.start(50);
 
   scroll = 0;
   speed = 2;
@@ -505,7 +505,7 @@ void display_credits()
       if(timer_get_left(&timer) < 0)
         {
           frame++;
-          timer_start(&timer, 50);
+          timer.start(50);
         }
     }
   string_list_free(&names);
