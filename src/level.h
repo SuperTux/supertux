@@ -115,7 +115,6 @@ class Level
   int  load(const std::string& filename);
 
   void load_gfx();
-  void free_gfx();
   
   void load_song();
   void free_song();

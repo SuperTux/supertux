@@ -367,7 +367,6 @@ int leveleditor(int levelnb)
       flipscreen();
     }
 
-  le_quit();
   return done;
 }
 
@@ -578,7 +577,6 @@ void apply_level_settings_menu()
 
   if(i)
     {
-      le_current_level->free_gfx();
       le_current_level->load_gfx();
     }
 
@@ -618,7 +616,6 @@ void le_goto_level(int levelnb)
 
   le_set_defaults();
 
-  le_current_level->free_gfx();
   le_current_level->load_gfx();
 
   le_world.activate_bad_guys();
@@ -655,6 +652,8 @@ void le_quit(void)
 
   delete le_current_level;
   le_current_level = 0;
+  delete le_level_subset;
+  le_level_subset = 0;
 
   for(TileGroupsMap::iterator i = tilegroups_map.begin();
       i != tilegroups_map.end(); ++i)

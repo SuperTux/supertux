@@ -43,7 +43,7 @@ LevelSubset::LevelSubset()
 
 LevelSubset::~LevelSubset()
 {
-    delete image;
+  delete image;
 }
 
 void LevelSubset::create(const std::string& subset_name)
@@ -221,7 +221,7 @@ Level::Level(const std::string& filename)
 
 Level::~Level()
 {
-  free_gfx();
+  delete img_bkgd;
 }
 
 void
@@ -634,18 +634,14 @@ Level::load_gfx()
       snprintf(fname, 1024, "%s/background/%s", st_dir, bkgd_image.c_str());
       if(!faccessible(fname))
         snprintf(fname, 1024, "%s/images/background/%s", datadir.c_str(), bkgd_image.c_str());
+      delete img_bkgd;
       img_bkgd = new Surface(fname, IGNORE_ALPHA);
     }
   else
     {
+      delete img_bkgd;
       img_bkgd = 0;
     }
-}
-
-void
-Level::free_gfx()
-{
-  delete img_bkgd;
 }
 
 /* Load a level-specific graphic... */
