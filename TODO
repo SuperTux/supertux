@@ -18,4 +18,5 @@ These are mostly bugs:
 - fadein/out for intro/extro would be nice
 - when you interrupted the intro (by going to credits for example) and go back
   to it, tux doesn't jump anymore
-
+- when jupming against the 2nd multiple coin block in a level only 1 coin will
+  come out.
