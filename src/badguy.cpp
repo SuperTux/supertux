@@ -1211,9 +1211,9 @@ BadGuy::collision(void *p_c_object, int c_object, CollisionType type)
         }
       else if(pbullet_c->kind == ICE_BULLET)
         {
-        //if(kind == BAD_FLAME)
-        //  kill_me(10);
-        //else
+        if(kind == BAD_FLAME)
+          kill_me(10);
+        else
           frozen_timer.start(FROZEN_TIME);
         }
       break;
