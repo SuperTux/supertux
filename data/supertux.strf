@@ -325,6 +325,22 @@
          (y-hotspot 1)
          (images "shared/largetux-grab-right-0.png"))
 
+ (sprite (name "largetux-star")
+         (x-hotspot 8)
+         (y-hotspot 8)
+         (images "shared/largetux-star-0.png"
+                 "shared/largetux-star-1.png"
+                 "shared/largetux-star-2.png"
+                 ))
+
+ (sprite (name "smalltux-star")
+         (x-hotspot 5)
+         (y-hotspot 15)
+         (images "shared/smalltux-star-0.png"
+                 "shared/smalltux-star-1.png"
+                 "shared/smalltux-star-2.png"
+                 ))
+
  )
 
 ;; EOF ;;

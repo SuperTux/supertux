@@ -91,6 +91,8 @@ extern Sprite*  smalltux_kick_left;
 extern Sprite*  smalltux_kick_right;
 extern Sprite*  smalltux_grab_left;
 extern Sprite*  smalltux_grab_right;
+extern Sprite*  smalltux_star;
+extern Sprite*  largetux_star;
 
 extern Sprite*  largetux_kick_left;
 extern Sprite*  largetux_kick_right;

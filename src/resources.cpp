@@ -46,6 +46,9 @@ void loadshared()
   sprite_manager = new SpriteManager(datadir + "/supertux.strf");
 
   /* Tuxes: */
+  smalltux_star = sprite_manager->load("smalltux-star");
+  largetux_star = sprite_manager->load("largetux-star");
+
   smalltux_kick_left  = sprite_manager->load("smalltux-kick-left");
   smalltux_kick_right = sprite_manager->load("smalltux-kick-right");
   smalltux_grab_left  = sprite_manager->load("smalltux-grab-left");
@@ -117,18 +120,6 @@ void loadshared()
   bigtux_left_jump  = sprite_manager->load("largetux-jump-left");
   bigtux_right_jump = sprite_manager->load("largetux-jump-right");
 
-  bigcape_right[0] = new Surface(datadir + "/images/shared/bigcape-right-0.png",
-               USE_ALPHA);
-
-  bigcape_right[1] = new Surface(datadir + "/images/shared/bigcape-right-1.png",
-               USE_ALPHA);
-
-  bigcape_left[0] = new Surface(datadir + "/images/shared/bigcape-left-0.png",
-               USE_ALPHA);
-
-  bigcape_left[1] = new Surface(datadir + "/images/shared/bigcape-left-1.png",
-               USE_ALPHA);
-
   bigfiretux_right[0] = new Surface(datadir + "/images/shared/bigfiretux-right-0.png",
                USE_ALPHA);
 
@@ -150,19 +141,6 @@ void loadshared()
                USE_ALPHA);
 
   bigfiretux_left_jump = new Surface(datadir + "/images/shared/bigfiretux-left-jump.png", USE_ALPHA);
-
-  bigcape_right[0] = new Surface(datadir + "/images/shared/bigcape-right-0.png",
-               USE_ALPHA);
-
-  bigcape_right[1] = new Surface(datadir + "/images/shared/bigcape-right-1.png",
-               USE_ALPHA);
-
-  bigcape_left[0] = new Surface(datadir + "/images/shared/bigcape-left-0.png",
-               USE_ALPHA);
-
-  bigcape_left[1] = new Surface(datadir + "/images/shared/bigcape-left-1.png",
-               USE_ALPHA);
-
 
   ducktux_left  = sprite_manager->load("largetux-duck-left");
   ducktux_right = sprite_manager->load("largetux-duck-right");
@@ -322,8 +300,6 @@ void unloadshared(void)
     {
       delete cape_right[i];
       delete cape_left[i];
-      delete bigcape_right[i];
-      delete bigcape_left[i];
     }
 
   delete ducktux_left;

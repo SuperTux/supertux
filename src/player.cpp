@@ -44,6 +44,9 @@ Sprite*  smalltux_kick_right;
 Sprite*  smalltux_grab_left;
 Sprite*  smalltux_grab_right;
 
+Sprite*  smalltux_star;
+Sprite*  largetux_star;
+
 Sprite*  largetux_kick_left;
 Sprite*  largetux_kick_right;
 Sprite*  largetux_grab_left;
@@ -72,8 +75,6 @@ Surface* skidfiretux_right;
 Surface* skidfiretux_left;
 Surface* cape_right[2];
 Surface* cape_left[2];
-Surface* bigcape_right[2];
-Surface* bigcape_left[2];
 
 PlayerKeymap keymap;
 
@@ -535,14 +536,6 @@ Player::draw()
         {
           if (size == SMALL)
             {
-              if (invincible_timer.started())
-                {
-                  if (dir == RIGHT)
-                    cape_right[global_frame_counter % 2]->draw(base.x- scroll_x, base.y);
-                  else
-                    cape_left[global_frame_counter % 2]->draw(base.x- scroll_x, base.y);
-                }
-
               if (!skidding_timer.started())
                 {
                   if (physic.get_velocity_y() != 0)
@@ -585,22 +578,12 @@ Player::draw()
                   else
                     smalltux_grab_left->draw(base.x - scroll_x, base.y);
                 }
+
+              if (invincible_timer.started())
+                smalltux_star->draw(base.x - scroll_x, base.y);
             }
           else // Large Tux
             {
-              if (invincible_timer.started())
-                {
-                  float capex = base.x + (base.width - bigcape_right[0]->w) / 2;
-                  capex -= scroll_x;
-                  float capey = base.y + (base.height - bigcape_right[0]->h) / 2;
-                
-                  /* Draw cape (just not in ducked mode since that looks silly): */
-                  if (dir == RIGHT)
-                    bigcape_right[global_frame_counter % 2]->draw(capex, capey);
-                  else
-                    bigcape_left[global_frame_counter % 2]->draw(capex, capey);
-                }
-
               if (!got_coffee)
                 {
                   if (!duck)
@@ -694,6 +677,9 @@ Player::draw()
                   else
                     largetux_grab_left->draw(base.x - scroll_x, base.y);
                 }
+
+              if (invincible_timer.started())
+                largetux_star->draw(base.x - scroll_x, base.y);
             }
         }     
     }
