@@ -857,7 +857,7 @@ void player_collision(player_type* pplayer, void* p_c_object, int c_object)
               pbad_c->mode = KICK;
               play_sound(sounds[SND_KICK], SOUND_CENTER_SPEAKER);
 
-              if (pplayer->base.x<= pbad_c->base.x)
+              if (pplayer->base.x < pbad_c->base.x + (pbad_c->base.width/2))
                 {
                   pbad_c->dir = RIGHT;
                   pbad_c->base.x = pbad_c->base.x + 16;
