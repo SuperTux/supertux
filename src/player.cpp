@@ -101,6 +101,8 @@ Player::init()
 {
   Level* plevel = World::current()->get_level();
 
+  holding_something = false;
+
   base.width = 32;
   base.height = 32;
 
@@ -189,6 +191,9 @@ void
 Player::action(double frame_ratio)
 {
   bool jumped_in_solid = false;
+
+  if (input.fire == UP)
+    holding_something = false;
 
   /* Move tux: */
   previous_base = base;
@@ -572,6 +577,14 @@ Player::draw()
                   else
                     smalltux_skid_left->draw(base.x - scroll_x, base.y); 
                 }
+
+              if (holding_something && physic.get_velocity_y() == 0)
+                {
+                  if (dir == RIGHT)
+                    smalltux_grab_right->draw(base.x - scroll_x, base.y);
+                  else
+                    smalltux_grab_left->draw(base.x - scroll_x, base.y);
+                }
             }
           else // Large Tux
             {
@@ -673,8 +686,16 @@ Player::draw()
                         duckfiretux_left->draw( base.x- scroll_x - 8, base.y - 16);
                     }
                 }
+
+              if (holding_something && !duck && physic.get_velocity_y() == 0)
+                {
+                  if (dir == RIGHT)
+                    largetux_grab_right->draw(base.x - scroll_x, base.y);
+                  else
+                    largetux_grab_left->draw(base.x - scroll_x, base.y);
+                }
             }
-        }
+        }     
     }
 
   if (debug_mode)
@@ -698,6 +719,7 @@ Player::collision(void* p_c_object, int c_object)
         {
           if (pbad_c->mode == BadGuy::FLAT && input.fire == DOWN)
             {
+              holding_something = true;
               pbad_c->mode = BadGuy::HELD;
               pbad_c->base.y-=8;
             }

@@ -129,6 +129,7 @@ public:
   bool got_coffee;
   int size;
   bool duck;
+  bool holding_something;
   DyingType dying;
 
   Direction dir;
