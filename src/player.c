@@ -1014,9 +1014,7 @@ void player_keep_in_bounds(player_type* pplayer)
 
   /* Keep in-bounds, vertically: */
 
-  if (pplayer->base.y < 0)
-    pplayer->base.y = 0;
-  else if (pplayer->base.y > screen->h)
+  if (pplayer->base.y > screen->h)
     {
       player_kill(&tux,KILL);
     }
