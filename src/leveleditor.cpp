@@ -170,11 +170,6 @@ static int le_selection_mode;
 static SDL_Event event;
 TileMapType active_tm;
 
-// menu items for subset creation menu
-enum {
-  MNID_CREATESUBSET
-};
-
 void le_set_defaults()
 {
   if(le_current_level != NULL)
@@ -326,7 +321,7 @@ int leveleditor(int levelnb)
           if(i >= 1)
           {
             le_level_subset->load(level_subsets.item[i-1]);
-            leveleditor_menu->item[3].kind = MN_GOTO;
+            leveleditor_menu->get_item_by_id(MNID_SUBSETSETTINGS).kind = MN_GOTO;
             le_level = 1;
             le_world.arrays_free();
             delete le_current_level;
@@ -340,8 +335,7 @@ int leveleditor(int levelnb)
             le_current_level->load_gfx();
             le_world.activate_bad_guys();
 
-            // FIXME:?
-            Menu::set_current(leveleditor_menu);
+            Menu::set_current(NULL);
           }
           break;
         }
@@ -357,9 +351,9 @@ int leveleditor(int levelnb)
           switch (i = subset_new_menu->check())
           {
           case MNID_CREATESUBSET:
-            LevelSubset::create(subset_new_menu->item[2].input);
-            le_level_subset->load(subset_new_menu->item[2].input);
-            leveleditor_menu->item[3].kind = MN_GOTO;
+            LevelSubset::create(subset_new_menu->get_item_by_id(MNID_SUBSETNAME).input);
+            le_level_subset->load(subset_new_menu->get_item_by_id(MNID_SUBSETNAME).input);
+            leveleditor_menu->get_item_by_id(MNID_SUBSETSETTINGS).kind = MN_GOTO;
             le_level = 1;
             le_world.arrays_free();
             delete le_current_level;
@@ -372,23 +366,23 @@ int leveleditor(int levelnb)
             le_set_defaults();
             le_current_level->load_gfx();
             le_world.activate_bad_guys();
-            subset_new_menu->item[2].change_input("");
-            // FIXME:? show_menu = true;
-            Menu::set_current(leveleditor_menu);
+            subset_new_menu->get_item_by_id(MNID_SUBSETNAME).change_input("");
+	    
+            Menu::set_current(subset_settings_menu);
             break;
           }
         }
       }
       else if(menu == subset_settings_menu)
       {
-        if(le_level_subset->title.compare(subset_settings_menu->item[2].input) == 0 && le_level_subset->description.compare(subset_settings_menu->item[3].input) == 0  )
-          subset_settings_menu->item[5].kind = MN_DEACTIVE;
+        if(le_level_subset->title.compare(subset_settings_menu->get_item_by_id(MNID_TITLE).input) == 0 && le_level_subset->description.compare(subset_settings_menu->get_item_by_id(MNID_DESCRIPTION).input) == 0  )
+          subset_settings_menu->get_item_by_id(MNID_SAVE_CHANGES).kind = MN_DEACTIVE;
         else
-          subset_settings_menu->item[5].kind = MN_ACTION;
+          subset_settings_menu->get_item_by_id(MNID_SAVE_CHANGES).kind = MN_ACTION;
 
         switch (i = subset_settings_menu->check())
         {
-        case 5:
+        case MNID_SAVE_CHANGES:
           save_subset_settings_menu();
           //FIXME:show_menu = true;
           Menu::set_current(leveleditor_menu);

@@ -62,6 +62,17 @@ enum LevelEditorMainMenuIDs {
   MNID_SUBSETSETTINGS,
   MNID_QUITLEVELEDITOR
   };
+  
+enum LevelEditorSubsetSettingsIDs {
+  MNID_TITLE,
+  MNID_DESCRIPTION,
+  MNID_SAVE_CHANGES
+  };
+  
+enum LevelEditorSubsetNewIDs {
+ MNID_SUBSETNAME,
+ MNID_CREATESUBSET
+};
 
 enum LevelEditorSettingsMenuIDs {
   MNID_NAME,
