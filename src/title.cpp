@@ -191,8 +191,8 @@ void draw_demo(GameSession* session, double frame_ratio)
   // Wrap around at the end of the level back to the beginnig
   if(plevel->width * 32 - 320 < tux->base.x)
     {
-      tux->base.x = tux->base.x - (plevel->width * 32 - 640);
-      scroll_x = tux->base.x - 320;
+      tux->level_begin()
+      scroll_x = 0;
     }
 
   tux->can_jump = true;
