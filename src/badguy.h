@@ -22,19 +22,24 @@
 #include "collision.h"
 
 /* Enemy modes: */
-
 #define NORMAL 0
 #define FLAT 1
 #define KICK 2
 #define HELD 3
 
-/* Badguy type: */
+/* Bad guy kinds: */
+enum BadGuyKind {
+  BAD_BSOD,
+  BAD_LAPTOP,
+  BAD_MONEY
+};
 
+/* Badguy type: */
 struct bad_guy_type
 {
   int mode;
   DyingType dying;
-  int kind;
+  BadGuyKind kind;
   bool seen;
   int dir;
   int frame;
@@ -42,14 +47,6 @@ struct bad_guy_type
   base_type old_base;
   timer_type timer;
   physic_type physic;
-};
-
-/* Bad guy kinds: */
-
-enum {
-  BAD_BSOD,
-  BAD_LAPTOP,
-  BAD_MONEY
 };
 
 extern texture_type img_bsod_squished_left;
@@ -71,7 +68,7 @@ extern bitmask *bm_bsod;
 
 void badguy_create_bitmasks();
 
-void badguy_init(bad_guy_type* pbad, float x, float y, int kind);
+void badguy_init(bad_guy_type* pbad, float x, float y, BadGuyKind kind);
 
 void badguy_action(bad_guy_type* pbad);
 void badguy_draw(bad_guy_type* pbad);

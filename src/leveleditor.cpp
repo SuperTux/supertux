@@ -130,7 +130,7 @@ void le_activate_bad_guys(void)
   for (y = 0; y < 15; ++y)
     for (x = 0; x < le_current_level->width; ++x)
       if (le_current_level->tiles[y][x] >= '0' && le_current_level->tiles[y][x] <= '9')
-        add_bad_guy(x * 32, y * 32, le_current_level->tiles[y][x] - '0');
+        add_bad_guy(x * 32, y * 32, static_cast<BadGuyKind>(le_current_level->tiles[y][x] - '0'));
 }
 
 void le_set_defaults()

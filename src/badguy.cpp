@@ -38,20 +38,20 @@ void badguy_create_bitmasks()
   /*bm_bsod = img_bsod_left[0];*/
 }
 
-void badguy_init(bad_guy_type* pbad, float x, float y, int kind)
+void badguy_init(bad_guy_type* pbad, float x, float y, BadGuyKind kind)
 {
-  pbad->base.width = 32;
+  pbad->base.width  = 32;
   pbad->base.height = 32;
-  pbad->mode = NORMAL;
-  pbad->dying = DYING_NOT;
-  pbad->kind = kind;
-  pbad->base.x = x;
-  pbad->base.y = y;
-  pbad->base.xm = 1.3;
-  pbad->base.ym = 4.8;
+  pbad->mode     = NORMAL;
+  pbad->dying    = DYING_NOT;
+  pbad->kind     = kind;
+  pbad->base.x   = x;
+  pbad->base.y   = y;
+  pbad->base.xm  = 1.3;
+  pbad->base.ym  = 4.8;
   pbad->old_base = pbad->base;
-  pbad->dir = LEFT;
-  pbad->seen = false;
+  pbad->dir      = LEFT;
+  pbad->seen     = false;
   timer_init(&pbad->timer, true);
   physic_init(&pbad->physic);
 }

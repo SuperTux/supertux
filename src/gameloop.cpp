@@ -108,7 +108,7 @@ void activate_bad_guys(void)
         {
           if (current_level.tiles[y][x] >= '0' && current_level.tiles[y][x] <= '9')
             {
-              add_bad_guy(x * 32, y * 32, current_level.tiles[y][x] - '0');
+              add_bad_guy(x * 32, y * 32, static_cast<BadGuyKind>(current_level.tiles[y][x] - '0'));
               current_level.tiles[y][x] = '.';
             }
         }

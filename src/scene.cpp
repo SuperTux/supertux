@@ -131,7 +131,7 @@ void add_bouncy_brick(float x, float y)
 
 /* Add a bad guy: */
 
-void add_bad_guy(float x, float y, int kind)
+void add_bad_guy(float x, float y, BadGuyKind kind)
 {
   bad_guy_type new_bad_guy;
   badguy_init(&new_bad_guy,x,y,kind);
