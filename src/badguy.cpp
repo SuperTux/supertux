@@ -210,6 +210,8 @@ BadGuy::activate(Direction activation_dir)
   frozen_timer.init(true);
   timer.init(true);
 
+  seen = true;
+
   dir = activation_dir;
   float dirsign = activation_dir == LEFT ? -1 : 1;
 
@@ -257,11 +259,6 @@ BadGuy::activate(Direction activation_dir)
     base.width = 66;
     base.height = 66;
   }
-
-  base.x = start_position.x;
-  base.y = start_position.y;  
-  old_base = base;
-  seen = true;
 }
 
 Surface*
@@ -873,6 +870,18 @@ BadGuy::action(float elapsed_time)
         start_position.y > scroll_y - Y_OFFSCREEN_DISTANCE &&
         start_position.y < scroll_y + screen->h + Y_OFFSCREEN_DISTANCE)
       activate(LEFT);
+    else if (start_position.x > scroll_x - X_OFFSCREEN_DISTANCE &&
+        start_position.x < scroll_x + screen->w + X_OFFSCREEN_DISTANCE &&
+        ((start_position.y > scroll_y + screen->h &&
+        start_position.y < scroll_y + screen->h + Y_OFFSCREEN_DISTANCE) ||
+        (start_position.y > scroll_y - Y_OFFSCREEN_DISTANCE &&
+        start_position.y < scroll_y)))
+        {
+        if(start_position.x < scroll_x - screen->w/2)
+          activate(RIGHT);
+        else
+          activate(LEFT);
+        }
     /* Special case for badguys on start of the level.
      * If in the future, it's possible to set Tux start pos, this case
      * should contemplate that. */
