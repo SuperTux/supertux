@@ -1,7 +1,7 @@
 ;; Generated with Flexlay Editor
 (supertux-worldmap
   (properties 
-    (name  "Bonus Island")
+    (name  "Bonus Island I")
     (start_pos_x 35)
     (start_pos_y 2))
   (tilemap 
@@ -190,7 +190,7 @@
     	   (level 
 	        (x 60)
 			  (y 43)
-			  (teleport-message "Leave Thompson's Territory")
+			  (teleport-message "Leave Torfi's Territory")
 			  (dest_x 35)
 			  (dest_y 2))
     	   
@@ -198,7 +198,7 @@
 			(level 
 	        (x 27)
 			  (y 39)
-			  (teleport-message "Home")
+			  (teleport-message "Warp home")
 			  (dest_x 35)
 			  (dest_y 2))
 			  
