@@ -26,6 +26,8 @@
 #include <errno.h>
 #include "tinygettext.h"
 
+//#define TRANSLATION_DEBUG
+
 namespace TinyGetText {
 
 /** Convert \a which is in \a from_charset to \a to_charset and return it */
@@ -390,10 +392,12 @@ Dictionary::translate(const std::string& msgid, const std::string& msgid2, int n
     }
   else
     {
+#ifdef TRANSLATION_DEBUG
       std::cerr << "Warning: Couldn't translate: " << msgid << std::endl;
       std::cerr << "Candidates: " << std::endl;
       for (PluralEntries::iterator i = plural_entries.begin(); i != plural_entries.end(); ++i)
         std::cout << "'" << i->first << "'" << std::endl;
+#endif
 
       if (plural2_1(num)) // default to english rules
         return msgid2;
@@ -412,7 +416,9 @@ Dictionary::translate(const std::string& msgid)
     }
   else
     {
+#ifdef TRANSLATION_DBEUG
       std::cout << "Error: Couldn't translate: " << msgid << std::endl;
+#endif
       return msgid;
     }
 }
