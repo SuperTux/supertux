@@ -18,6 +18,8 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <math.h>
+#include <iostream>
+#include <iostream>
 #include <cassert>
 #include "gameloop.h"
 #include "globals.h"
@@ -699,19 +701,43 @@ Player::collision(void* p_c_object, int c_object)
     case CO_TRAMPOLINE:
       ptramp_c = (Trampoline*) p_c_object;
       
-      if (physic.get_velocity_x() > 0) // RIGHT
+      // Pick up trampoline
+      if (ptramp_c->mode != Trampoline::M_HELD && input.fire == DOWN && !holding_something)
       {
-        physic.set_velocity_x(0);
-        base.x = ptramp_c->base.x - base.width;
+        holding_something = true;
+        ptramp_c->mode = Trampoline::M_HELD;
+        ptramp_c->base.y -= 8;
       }
-      else if (physic.get_velocity_x() < 0) // LEFT
+      // Set down trampoline
+      else if (ptramp_c->mode == Trampoline::M_HELD && input.fire != DOWN)
       {
-        physic.set_velocity_x(0);
-        base.x = ptramp_c->base.x + ptramp_c->base.width;
+        holding_something = false;
+        ptramp_c->mode = Trampoline::M_NORMAL;
+        ptramp_c->base.y += 8;
+        ptramp_c->physic.set_velocity(physic.get_velocity_x(), physic.get_velocity_y());
+
+        //if (dir == RIGHT)
+        //  ptramp_c->base.x = base.x + base.width+1;
+        //else /* LEFT */
+        //  ptramp_c->base.x = base.x - base.width-1;
       }
-      else
+/*
+      // Don't let tux walk through trampoline
+      else if (ptramp_c->mode != Trampoline::M_HELD && on_ground())
       {
+        if (physic.get_velocity_x() > 0) // RIGHT
+        {
+          physic.set_velocity_x(0);
+          base.x = ptramp_c->base.x - base.width;
+        }
+        else if (physic.get_velocity_x() < 0) // LEFT
+        {
+          physic.set_velocity_x(0);
+          base.x = ptramp_c->base.x + ptramp_c->base.width;
+        }
       }
+*/
+
       break;
 
     default:

@@ -131,6 +131,7 @@ class Trampoline : public GameObject
   void collision(void *p_c_object, int c_object, CollisionType type);
 
   Physic physic;
+  enum { M_NORMAL, M_HELD } mode;
 
  private:
   float power;

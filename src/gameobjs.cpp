@@ -26,6 +26,7 @@
 #include "gameobjs.h"
 #include "sprite_manager.h"
 #include "resources.h"
+#include "level.h"
 
 void
 BouncyDistro::init(float x, float y)
@@ -232,11 +233,12 @@ Trampoline::init(float x, float y)
 {
   base.x = x;
   base.y = y;
-
   base.width = 32;
   base.height = 32;
 
   frame = 0;
+  mode = M_NORMAL;
+  physic.reset();
 }
 
 void
@@ -256,23 +258,47 @@ Trampoline::action(double frame_ratio)
   physic.apply(frame_ratio, base.x, base.y);
 
   // Falling
-  if (issolid(base.x + base.width/2, base.y + base.height))
+  if (mode != M_HELD)
   {
-    base.y = int((base.y + base.height)/32) * 32 - base.height;
+    if (issolid(base.x + base.width/2, base.y + base.height))
+    {
+      base.y = int((base.y + base.height)/32) * 32 - base.height;
 
-    physic.enable_gravity(false);
-    physic.set_velocity_y(0.0f);
+      physic.enable_gravity(false);
+      physic.set_velocity_y(0.0f);
+
+      physic.set_velocity_x(0);
+    }
+    else
+    {
+      physic.enable_gravity(true);
+    }
   }
-  else
-    physic.enable_gravity(true);
+  else // Player is carrying us around
+  {
+    /* FIXME: The trampoline object shouldn't know about pplayer objects. */
+    /* If we're holding the iceblock */
+    Player& tux = *World::current()->get_tux();
+    Direction dir = tux.dir;
 
+    if(dir == RIGHT)
+    {
+      base.x = tux.base.x + 16;
+      base.y = tux.base.y + tux.base.height/1.5 - base.height;
+    }
+    else /* facing left */
+    {
+      base.x = tux.base.x - 16;
+      base.y = tux.base.y + tux.base.height/1.5 - base.height;
+    }
+
+    if(collision_object_map(base))
+    {
+      base.x = tux.base.x;
+      base.y = tux.base.y + tux.base.height/1.5 - base.height;
+    }
+  }
 }
-
-// TODO:
-// If HELD
-//   - move with tux
-// If jumped on
-//   - compress springs (reduce height)
 
 void
 Trampoline::collision(void *p_c_object, int c_object, CollisionType type)
@@ -285,14 +311,11 @@ Trampoline::collision(void *p_c_object, int c_object, CollisionType type)
 
       if (type == COLLISION_NORMAL)
       {
-        // TODO: Pick up if HELD
+        // Pick up if HELD (done in Player)
       }
 
       else if (type == COLLISION_SQUISH)
       {
-        // TODO: compress springs
-        // TODO: launch tux, if necessary
-
         int squish_amount = (32 - (int)pplayer_c->base.y % 32);
 
         if (squish_amount < 24)
