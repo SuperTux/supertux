@@ -2377,7 +2377,7 @@ void loadlevel(void)
   
   clearscreen(0, 0, 0);
   
-  sprintf(str, "LEVEL %d", level + 1);
+  sprintf(str, "LEVEL %d", level);
   drawcenteredtext(str, 200, letters_red, NO_UPDATE);
   
   sprintf(str, "%s", levelname);
@@ -2392,41 +2392,39 @@ void loadlevel(void)
 }
 
 
+/* Load a level-specific graphic... */
+
+SDL_Surface * load_level_image(char * file, int use_alpha)
+{
+  char fname[1024];
+
+  snprintf(fname, 1024, "%s/images/level%d/%s", DATA_PREFIX, level, file);
+
+  return(load_image(fname, use_alpha));
+}
+
+
 /* Load graphics: */
 
 void loadlevelgfx(void)
 {
-  img_brick[0] = load_image(DATA_PREFIX "/images/level1/brick0.png",
-			    IGNORE_ALPHA);
-  img_brick[1] = load_image(DATA_PREFIX "/images/level1/brick1.png",
-			    IGNORE_ALPHA);
+  img_brick[0] = load_level_image("brick0.png", IGNORE_ALPHA);
+  img_brick[1] = load_level_image("brick1.png", IGNORE_ALPHA);
   
-  img_solid[0] = load_image(DATA_PREFIX "/images/level1/solid0.png",
-			    USE_ALPHA);
-  img_solid[1] = load_image(DATA_PREFIX "/images/level1/solid1.png",
-			    USE_ALPHA);
-  img_solid[2] = load_image(DATA_PREFIX "/images/level1/solid2.png",
-			    USE_ALPHA);
-  img_solid[3] = load_image(DATA_PREFIX "/images/level1/solid3.png",
-			    USE_ALPHA);
+  img_solid[0] = load_level_image("solid0.png", USE_ALPHA);
+  img_solid[1] = load_level_image("solid1.png", USE_ALPHA);
+  img_solid[2] = load_level_image("solid2.png", USE_ALPHA);
+  img_solid[3] = load_level_image("solid3.png", USE_ALPHA);
 
-  img_bkgd[0][0] = load_image(DATA_PREFIX "/images/level1/bkgd-00.png",
-                              USE_ALPHA);
-  img_bkgd[0][1] = load_image(DATA_PREFIX "/images/level1/bkgd-01.png",
-                              USE_ALPHA);
-  img_bkgd[0][2] = load_image(DATA_PREFIX "/images/level1/bkgd-02.png",
-                              USE_ALPHA);
-  img_bkgd[0][3] = load_image(DATA_PREFIX "/images/level1/bkgd-03.png",
-                              USE_ALPHA);
+  img_bkgd[0][0] = load_level_image("bkgd-00.png", USE_ALPHA);
+  img_bkgd[0][1] = load_level_image("bkgd-01.png", USE_ALPHA);
+  img_bkgd[0][2] = load_level_image("bkgd-02.png", USE_ALPHA);
+  img_bkgd[0][3] = load_level_image("bkgd-03.png", USE_ALPHA);
 
-  img_bkgd[1][0] = load_image(DATA_PREFIX "/images/level1/bkgd-10.png",
-                              USE_ALPHA);
-  img_bkgd[1][1] = load_image(DATA_PREFIX "/images/level1/bkgd-11.png",
-                              USE_ALPHA);
-  img_bkgd[1][2] = load_image(DATA_PREFIX "/images/level1/bkgd-12.png",
-                              USE_ALPHA);
-  img_bkgd[1][3] = load_image(DATA_PREFIX "/images/level1/bkgd-13.png",
-                              USE_ALPHA);
+  img_bkgd[1][0] = load_level_image("bkgd-10.png", USE_ALPHA);
+  img_bkgd[1][1] = load_level_image("bkgd-11.png", USE_ALPHA);
+  img_bkgd[1][2] = load_level_image("bkgd-12.png", USE_ALPHA);
+  img_bkgd[1][3] = load_level_image("bkgd-13.png", USE_ALPHA);
 }
 
 
