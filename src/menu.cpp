@@ -132,7 +132,7 @@ Menu::Menu()
   timer_init(&effect,false);
 }
 
-menu_item_type*
+void
 Menu::additem(MenuItemKind kind, char *text, int toggle, Menu* menu)
 {
   additem(menu_item_create(kind, text, toggle, menu));
