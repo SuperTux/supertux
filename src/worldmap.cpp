@@ -71,7 +71,7 @@ TileManager::TileManager()
                            const_cast<char*>((std::string(DATA_PREFIX "/images/worldmap/") + filename).c_str()), 
                            USE_ALPHA);
 
-              if (id >= tiles.size())
+              if (id >= int(tiles.size()))
                 tiles.resize(id+1);
 
               tiles[id] = tile;
@@ -93,7 +93,7 @@ TileManager::TileManager()
 Tile*
 TileManager::get(int i)
 {
-  assert(i >=0 && i < tiles.size());
+  assert(i >=0 && i < int(tiles.size()));
   return tiles[i];
 }
 
@@ -102,18 +102,17 @@ WorldMap::WorldMap()
   quit = false;
   width  = 20;
   height = 15;
-  tux_moving = false;
 
   texture_load(&tux_sprite, DATA_PREFIX "/images/worldmap/tux.png", USE_ALPHA);
   texture_load(&level_sprite, DATA_PREFIX "/images/worldmap/levelmarker.png", USE_ALPHA);
 
   tux_offset = 0;
-
+  tux_moving = false;
   tux_tile_pos.x = 0;
   tux_tile_pos.y = 0;
+  tux_direction = NONE;
 
   input_direction = NONE;
-  tux_direction = NONE;
   enter_level = false;
 
   name = "<no name>";
@@ -214,6 +213,8 @@ WorldMap::get_input()
               if (!tux_moving)
                 enter_level = true;
               break;
+            default:
+              break;
             }
           break;
         }
@@ -236,8 +237,7 @@ WorldMap::get_input()
 Point
 WorldMap::get_next_tile(Point pos, Direction direction)
 {
-  // FIXME: Cleanup, seperate tux
-  switch(input_direction)
+  switch(direction)
     {
     case WEST:
       pos.x -= 1;
@@ -255,6 +255,39 @@ WorldMap::get_next_tile(Point pos, Direction direction)
       break;
     }
   return pos;
+}
+
+bool
+WorldMap::path_ok(Direction direction, Point old_pos, Point* new_pos)
+{
+  *new_pos = get_next_tile(old_pos, direction);
+
+  if (!(new_pos->x >= 0 && new_pos->x < width
+        && new_pos->y >= 0 && new_pos->y < height))
+    { // New position is outsite the tilemap
+      return false;
+    }
+  else
+    { // Check if we the tile allows us to go to new_pos
+      switch(direction)
+        {
+        case WEST:
+          return (at(old_pos)->west && at(*new_pos)->east);
+
+        case EAST:
+          return (at(old_pos)->east && at(*new_pos)->west);
+
+        case NORTH:
+          return (at(old_pos)->north && at(*new_pos)->south);
+
+        case SOUTH:
+          return (at(old_pos)->south && at(*new_pos)->north);
+
+        case NONE:
+          assert(!"path_ok() can't work if direction is NONE");
+        }
+      return false;
+    }
 }
 
 void
@@ -282,57 +315,25 @@ WorldMap::update()
     {
       if (!tux_moving)
         {
-          Point next_tile = get_next_tile(tux_tile_pos, input_direction);
-          if (next_tile.x >= 0 && next_tile.x < width
-              && next_tile.y >= 0 && next_tile.y < height)
+          if (input_direction == NONE)
             {
-              // FIXME: Cleanup, seperate tux
-              switch(input_direction)
-                {
-                case WEST:
-                  if (at(tux_tile_pos)->west && at(next_tile)->east)
-                    {
-                      tux_tile_pos.x -= 1;
-                      tux_moving = true;
-                      tux_direction = input_direction;
-                    }
-                  break;
-                case EAST:
-                  if (at(tux_tile_pos)->east && at(next_tile)->west)
-                    {
-                      tux_tile_pos.x += 1;
-                      tux_moving = true;
-                      tux_direction = input_direction;
-                    }
-                  break;
-                case NORTH:
-                  if (at(tux_tile_pos)->north && at(next_tile)->south)
-                    {
-                      tux_tile_pos.y -= 1;
-                      tux_moving = true;
-                      tux_direction = input_direction;
-                    }
-                  break;
-                case SOUTH:
-                  if (at(tux_tile_pos)->south && at(next_tile)->north)
-                    {
-                      tux_tile_pos.y += 1;
-                      tux_moving = true;
-                      tux_direction = input_direction;
-                    }
-                  break;
-                case NONE:
-                  tux_moving = false;
-                  tux_offset = 0;
-                  tux_direction = input_direction;
-                  break;
-                }
+              tux_offset = 0;
+              tux_direction = NONE;
             }
           else
             {
-              tux_moving = false;
-              tux_offset = 0;
-              tux_direction = NONE;
+              Point next_tile;
+              if (path_ok(input_direction, tux_tile_pos, &next_tile))
+                {
+                  tux_tile_pos = next_tile;
+                  tux_moving = true;
+                  tux_direction = input_direction;
+                }
+              else
+                { // Stop
+                  tux_offset = 0;
+                  tux_direction = NONE;
+                }
             }
         }
       else
@@ -350,26 +351,18 @@ WorldMap::update()
                 }
               else
                 {
-                  // FIXME: Cleanup, seperate tux
-                  switch(tux_direction)
+                  Point next_tile;
+                  if (path_ok(tux_direction, tux_tile_pos, &next_tile))
                     {
-                    case WEST:
-                      if (at(tux_tile_pos)->west)
-                        tux_tile_pos.x -= 1;
-                      break;
-                    case EAST:
-                      if (at(tux_tile_pos)->east)
-                        tux_tile_pos.x += 1;
-                      break;
-                    case NORTH:
-                      if (at(tux_tile_pos)->north)
-                        tux_tile_pos.y -= 1;
-                      break;
-                    case SOUTH:
-                      if (at(tux_tile_pos)->south)
-                        tux_tile_pos.y += 1;
-                      break;
-                    }                      
+                      tux_tile_pos = next_tile;
+                    }
+                  else
+                    {
+                      puts("Tilemap data is buggy");
+                      tux_direction = NONE;
+                      tux_moving = false;
+                      tux_offset = 0;
+                    }
                 }
             }
         }
@@ -395,7 +388,6 @@ WorldMap::draw()
         Tile* tile = at(Point(x, y));
         texture_draw(&tile->sprite, x*32, y*32, NO_UPDATE);
       }
-
   
   float x = tux_tile_pos.x * 32;
   float y = tux_tile_pos.y * 32;
@@ -413,6 +405,8 @@ WorldMap::draw()
       break;
     case SOUTH:
       y += tux_offset - 32;
+      break;
+    case NONE:
       break;
     }
 

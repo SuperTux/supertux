@@ -29,17 +29,19 @@ struct Point
 {
   Point() : x(0), y(0) {}
 
+  Point(const Point& pos)
+    : x(pos.x), y(pos.y) {}
+
+  Point& operator=(const Point& pos)
+  { x = pos.x;
+    y = pos.y; 
+    return *this; }
+
   Point(int x_, int y_)
     : x(x_), y(y_) {}
 
   int x;
   int y;
-};
-
-struct Pointf
-{
-  float x;
-  float y;
 };
 
 struct Level
@@ -111,6 +113,7 @@ private:
 
   Tile* at(Point pos);
   Point get_next_tile(Point pos, Direction direction);
+  bool path_ok(Direction direction, Point old_pos, Point* new_pos);
 public:
   WorldMap();
   ~WorldMap();
