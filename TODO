@@ -76,7 +76,6 @@ L: low priority
      - Tux's buttjump animation
 [H] Background code have the following bugs:
  - Gradient in software rendering doesn't currently work (at least here).
- - Images tiling code sucks resulting in glitches and unecessary drawings.
     Matze: can you give more details? The code looks perfectly fine to me
 
 [M] There are some weird graphical glitches when Tux bumps more than one block
@@ -90,9 +89,6 @@ L: low priority
     the roof
 [M] Implement Unisolid type for tiles (where collisions from below are ignored).
     - done
-[M] Menu doesn't jump titles, and doesn't seem to like having menu entries
-    created after initialization.
-     Matze: what does "menu doesn't jump titles" mean?
 
 [L] Allow any object to be inside of a [?] box, ie. trampoline or badguy
     - Not sure if this would be gameplay wise.
