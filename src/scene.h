@@ -23,8 +23,8 @@
 
 #define FRAME_RATE 10 // 100 Frames per second (10ms)
 int score, highscore, distros, level, next_level, game_pause,
-done, quit, score_multiplier, super_bkgd_time, endpos,
-counting_distros, distro_counter;
+done, quit, score_multiplier, endpos, counting_distros, distro_counter;
+timer_type  super_bkgd_timer;
 float scroll_x;
 int frame;
 bouncy_distro_type *bouncy_distros;

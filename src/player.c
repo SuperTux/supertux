@@ -441,17 +441,17 @@ void player_input(player_type *pplayer)
 
               if (pplayer->input.fire == UP)
                 {
-                  pplayer->base.xm = pplayer->base.xm + RUN_SPEED;
-
-                  if (pplayer->base.xm > MAX_RUN_XM)
-                    pplayer->base.xm = MAX_RUN_XM;
-                }
-              else if ( pplayer->input.fire == DOWN)
-                {
                   pplayer->base.xm = pplayer->base.xm + WALK_SPEED;
 
                   if (pplayer->base.xm > MAX_WALK_XM)
                     pplayer->base.xm = MAX_WALK_XM;
+                }
+              else if ( pplayer->input.fire == DOWN)
+                {
+                  pplayer->base.xm = pplayer->base.xm + RUN_SPEED;
+
+                  if (pplayer->base.xm > MAX_RUN_XM)
+                    pplayer->base.xm = MAX_RUN_XM;
                 }
             }
           else
@@ -493,17 +493,17 @@ void player_input(player_type *pplayer)
 
               if (pplayer->input.fire == UP)
                 {
-                  pplayer->base.xm = pplayer->base.xm - RUN_SPEED;
-
-                  if (pplayer->base.xm < -MAX_RUN_XM)
-                    pplayer->base.xm = -MAX_RUN_XM;
-                }
-              else if (pplayer->input.fire == DOWN)
-                {
                   pplayer->base.xm = pplayer->base.xm - WALK_SPEED;
 
                   if (pplayer->base.xm < -MAX_WALK_XM)
                     pplayer->base.xm = -MAX_WALK_XM;
+                }
+              else if (pplayer->input.fire == DOWN)
+                {
+                  pplayer->base.xm = pplayer->base.xm - RUN_SPEED;
+
+                  if (pplayer->base.xm < -MAX_RUN_XM)
+                    pplayer->base.xm = -MAX_RUN_XM;
                 }
             }
           else

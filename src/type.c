@@ -23,5 +23,5 @@ double get_frame_ratio(base_type* pbase)
   unsigned int cur_time = SDL_GetTicks();
   double frame_ratio = (float)(cur_time-pbase->updated)/(float)(FRAME_RATE);
   pbase->updated = cur_time;
-  return frame_ratio;
+  return (frame_ratio == 0 ? 1 : frame_ratio);
 }

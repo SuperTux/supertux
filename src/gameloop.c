@@ -384,13 +384,6 @@ int i;
       bullet_action(&bullets[i]);
     }
 
-
-  /* Handle background timer: */
-
-  if (super_bkgd_time)
-    super_bkgd_time--;
-
-
   /* Handle upgrades: */
 
   for (i = 0; i < num_upgrades; i++)
@@ -424,10 +417,10 @@ void game_draw()
     clearscreen(255, 255, 255);
   else
     {
-      if (super_bkgd_time == 0)
-        clearscreen(current_level.bkgd_red, current_level.bkgd_green, current_level.bkgd_blue);
-      else
+      if (timer_check(&super_bkgd_timer))
         texture_draw(&img_super_bkgd, 0, 0, NO_UPDATE);
+      else
+	clearscreen(current_level.bkgd_red, current_level.bkgd_green, current_level.bkgd_blue);
     }
 
   /* Draw background: */

@@ -65,8 +65,8 @@
 
 /* Speed constraints: */
 
-#define MAX_WALK_XM 8
-#define MAX_RUN_XM 3
+#define MAX_WALK_XM 2.3
+#define MAX_RUN_XM 3.2
 #define MAX_YM 10
 #define MAX_JUMP_TIME 1000
 #define MAX_LIVES 4
@@ -79,8 +79,8 @@
 #define YM_FOR_JUMP 50
 #define KILL_BOUNCE_YM 8
 
-#define SKID_XM 4
-#define SKID_TIME 8
+#define SKID_XM 2
+#define SKID_TIME 4
 
 /* Size constraints: */
 

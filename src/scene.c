@@ -46,47 +46,12 @@ free(bullets);
 
 void set_defaults(void)
 {
-  int i;
-
-  /* Reset arrays: */
-
-  for (i = 0; i < num_bouncy_distros; i++)
-    bouncy_distros[i].base.alive = NO;
-
-  for (i = 0; i < num_broken_bricks; i++)
-    broken_bricks[i].base.alive = NO;
-
-  for (i = 0; i < num_bouncy_bricks; i++)
-    bouncy_bricks[i].base.alive = NO;
-    	
-  for (i = 0; i < num_bad_guys; i++)
-  {
-    /*bad_guys[i].alive = NO;*/
-    badguy_init(&bad_guys[i]);
-    }
- 
-  for (i = 0; i < num_floating_scores; i++)
-    floating_scores[i].base.alive = NO;
-
-  for (i = 0; i < num_upgrades; i++)
-  {
-    /*upgrades[i].alive = NO;*/
-    upgrade_init(&upgrades[i]);
-    }
-
-  for (i = 0; i < num_bullets; i++)
-  {
-    /*bullets[i].alive = NO;*/
-    bullet_init(&bullets[i]);
-    }
-
-
   /* Set defaults: */
   
   scroll_x = 0;
 
   score_multiplier = 1;
-  super_bkgd_time = 0;
+  timer_init(&super_bkgd_timer);
 
   counting_distros = NO;
   distro_counter = 0;
@@ -156,10 +121,7 @@ void add_bouncy_distro(float x, float y)
     
   if (found != -1)
     {
-      bouncy_distros[found].base.alive = YES;
-      bouncy_distros[found].base.x = x;
-      bouncy_distros[found].base.y = y;
-      bouncy_distros[found].base.ym = -6;
+	bouncy_distro_init(&bouncy_distros[found],x,y);
     }
 }
 
@@ -168,11 +130,11 @@ void add_bouncy_distro(float x, float y)
 
 void add_broken_brick(float x, float y)
 {
-  add_broken_brick_piece(x, y, -4, -16);
-  add_broken_brick_piece(x, y + 16, -6, -12);
+  add_broken_brick_piece(x, y, -1, -4);
+  add_broken_brick_piece(x, y + 16, -1.5, -3);
 
-  add_broken_brick_piece(x + 16, y, 4, -16);
-  add_broken_brick_piece(x + 16, y + 16, 6, -12);
+  add_broken_brick_piece(x + 16, y, 1, -4);
+  add_broken_brick_piece(x + 16, y + 16, 1.5, -3);
 }
 
 
@@ -199,11 +161,7 @@ void add_broken_brick_piece(float x, float y, float xm, float ym)
 
   if (found != -1)
     {
-      broken_bricks[found].base.alive = YES;
-      broken_bricks[found].base.x = x;
-      broken_bricks[found].base.y = y;
-      broken_bricks[found].base.xm = xm;
-      broken_bricks[found].base.ym = ym;
+       broken_brick_init(&broken_bricks[found], x, y, xm, ym);
     }
 }
 
@@ -231,12 +189,7 @@ void add_bouncy_brick(float x, float y)
 
   if (found != -1)
     {
-      bouncy_bricks[found].base.alive = YES;
-      bouncy_bricks[found].base.x = x;
-      bouncy_bricks[found].base.y = y;
-      bouncy_bricks[found].offset = 0;
-      bouncy_bricks[found].offset_m = -BOUNCY_BRICK_SPEED;
-      bouncy_bricks[found].shape = shape(x, y);
+      bouncy_brick_init(&bouncy_bricks[found],x,y);
     }
 }
 
@@ -259,23 +212,12 @@ void add_bad_guy(float x, float y, int kind)
   {
   ++num_bad_guys;
   bad_guys = realloc(bad_guys,num_bad_guys*sizeof(bad_guy_type));
-  badguy_init(&bad_guys[num_bad_guys-1]);
   found = num_bad_guys - 1;
   }
 
   if (found != -1)
     {
-      bad_guys[found].base.alive = YES;
-      bad_guys[found].mode = NORMAL;
-      bad_guys[found].dying = NO;
-      bad_guys[found].kind = kind;
-      bad_guys[found].base.x = x;
-      bad_guys[found].base.y = y;
-      bad_guys[found].base.xm = 1.3;
-      bad_guys[found].base.ym = 1.5;
-      bad_guys[found].dir = LEFT;
-      bad_guys[found].seen = NO;
-      timer_init(&bad_guys[found].timer);
+       badguy_init(&bad_guys[found], x, y, kind);
     }
 }
 
@@ -283,12 +225,9 @@ void add_bad_guy(float x, float y, int kind)
 
 void add_upgrade(float x, float y, int kind)
 {
-  int i, r, found;
-  /* we use this pointer to check, if realloc() returned a new memory address */
-  upgrade_type * pointee = upgrades;
+  int i, found;
 
   found = -1;
-  r = 0;
 
   for (i = 0; i < num_upgrades && found == -1; i++)
     {
@@ -300,29 +239,12 @@ void add_upgrade(float x, float y, int kind)
   {
   ++num_upgrades;
   upgrades = realloc(upgrades,num_upgrades*sizeof(upgrade_type));
-  if(upgrades != pointee)
-  r = 1;
-  upgrade_init(&upgrades[num_upgrades-1]);
   found = num_upgrades - 1;
   }
 
   if (found != -1)
     {
-      if(r == 1)
-      {
-        for (i = 0; i < num_upgrades && found == -1; i++)
-    {
-       upgrade_init(&upgrades[i]);
-    }
-      }
-      upgrade_init(&upgrades[found]);
-      upgrades[found].base.alive = YES;
-      upgrades[found].kind = kind;
-      upgrades[found].base.x = x;
-      upgrades[found].base.y = y;
-      upgrades[found].base.xm = 2;
-      upgrades[found].base.ym = -2;
-      upgrades[found].base.height = 0;
+      upgrade_init(&upgrades[found], x, y, kind);
     }
 }
 
@@ -344,28 +266,12 @@ void add_bullet(float x, float y, float xm, int dir)
   {
   ++num_bullets;
   bullets = realloc(bullets,num_bullets*sizeof(bullet_type));
-  bullet_init(&bullets[num_bullets-1]);
   found = num_bullets - 1;
   }
 
   if (found != -1)
     {
-      bullet_init(&bullets[found]);
-      bullets[found].base.alive = YES;
-
-      if (dir == RIGHT)
-        {
-          bullets[found].base.x = x + 32;
-          bullets[found].base.xm = BULLET_XM + xm;
-        }
-      else
-        {
-          bullets[found].base.x = x;
-          bullets[found].base.xm = -BULLET_XM + xm;
-        }
-
-      bullets[found].base.y = y;
-      bullets[found].base.ym = BULLET_STARTING_YM;
+      bullet_init(&bullets[found], x, y, xm, dir);
 
       play_sound(sounds[SND_SHOOT], SOUND_CENTER_SPEAKER);
     }

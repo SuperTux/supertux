@@ -62,7 +62,7 @@ bitmask *bm_bsod;
 
 void badguy_create_bitmasks();
 
-void badguy_init(bad_guy_type* pbad);
+void badguy_init(bad_guy_type* pbad, float x, float y, int kind);
 void badguy_action(bad_guy_type* pbad);
 void badguy_draw(bad_guy_type* pbad);
 void badguy_collision(bad_guy_type* pbad, void* p_c_object, int c_object);

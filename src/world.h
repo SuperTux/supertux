@@ -24,20 +24,22 @@ bouncy_distro_type;
 
 texture_type img_distro[4];
 
-void bouncy_distro_init(bouncy_distro_type* pbouncy_distro);
+void bouncy_distro_init(bouncy_distro_type* pbouncy_distro, float x, float y);
 void bouncy_distro_action(bouncy_distro_type* pbouncy_distro);
 void bouncy_distro_draw(bouncy_distro_type* pbouncy_distro);
 void bouncy_distro_collision(bouncy_distro_type* pbouncy_distro, int c_object);
 
 #define BOUNCY_BRICK_MAX_OFFSET 8
-#define BOUNCY_BRICK_SPEED 4
+#define BOUNCY_BRICK_SPEED 0.9
 
 typedef struct broken_brick_type
   {
     base_type base;
+    timer_type timer;
   }
 broken_brick_type;
 
+void broken_brick_init(broken_brick_type* pbroken_brick, float x, float y, float xm, float ym);
 void broken_brick_action(broken_brick_type* pbroken_brick);
 void broken_brick_draw(broken_brick_type* pbroken_brick);
 
@@ -50,6 +52,7 @@ typedef struct bouncy_brick_type
   }
 bouncy_brick_type;
 
+void bouncy_brick_init(bouncy_brick_type* pbouncy_brick, float x, float y);
 void bouncy_brick_action(bouncy_brick_type* pbouncy_brick);
 void bouncy_brick_draw(bouncy_brick_type* pbouncy_brick);
 
@@ -61,7 +64,7 @@ typedef struct floating_score_type
   }
 floating_score_type;
 
-void floating_score_init(floating_score_type* pfloating_score, int x, int y, int s);
+void floating_score_init(floating_score_type* pfloating_score, float x, float y, int s);
 void floating_score_action(floating_score_type* pfloating_score);
 void floating_score_draw(floating_score_type* pfloating_score);
 

@@ -42,12 +42,12 @@ void create_special_bitmasks();
 
 texture_type img_golden_herring;
 
-void upgrade_init(upgrade_type *pupgrade);
+void upgrade_init(upgrade_type *pupgrade, float x, float y, int kind);
 void upgrade_action(upgrade_type *pupgrade);
 void upgrade_draw(upgrade_type *pupgrade);
 void upgrade_collision(upgrade_type *pupgrade, void* p_c_object, int c_object);
 
-void bullet_init(bullet_type *pbullet);
+void bullet_init(bullet_type* pbullet, float x, float y, float xm, int dir);
 void bullet_action(bullet_type *pbullet);
 void bullet_draw(bullet_type *pbullet);
 void bullet_collision(bullet_type *pbullet, int c_object);

@@ -21,13 +21,22 @@ void badguy_create_bitmasks()
   /*bm_bsod = img_bsod_left[0];*/
 }
 
-void badguy_init(bad_guy_type* pbad)
+void badguy_init(bad_guy_type* pbad, float x, float y, int kind)
 {
   pbad->base.updated = SDL_GetTicks();
-  pbad->base.alive = NO;
   pbad->base.width = 32;
   pbad->base.height = 32;
-
+  pbad->base.alive = YES;
+  pbad->mode = NORMAL;
+  pbad->dying = NO;
+  pbad->kind = kind;
+  pbad->base.x = x;
+  pbad->base.y = y;
+  pbad->base.xm = 1.3;
+  pbad->base.ym = 1.5;
+  pbad->dir = LEFT;
+  pbad->seen = NO;
+  timer_init(&pbad->timer);
 }
 
 void badguy_action(bad_guy_type* pbad)
@@ -113,11 +122,11 @@ void badguy_action(bad_guy_type* pbad)
                 }
               else if (pbad->mode == KICK)
                 {
-		/* Obsolete
-                  if (pbad->dir == RIGHT)
-                    pbad->base.x = pbad->base.x + 16;
-                  else if (pbad->dir == LEFT)
-                    pbad->base.x = pbad->base.x - 16;*/
+                  /* Obsolete
+                                  if (pbad->dir == RIGHT)
+                                    pbad->base.x = pbad->base.x + 16;
+                                  else if (pbad->dir == LEFT)
+                                    pbad->base.x = pbad->base.x - 16;*/
                 }
               else if (pbad->mode == HELD)
                 { /* FIXME: The pbad object shouldn't know about pplayer objects. */
@@ -522,7 +531,7 @@ void badguy_collision(bad_guy_type* pbad, void *p_c_object, int c_object)
 
               play_sound(sounds[SND_STOMP], SOUND_CENTER_SPEAKER);
               pbad->mode = FLAT;
-	      pbad->base.xm = 4;
+              pbad->base.xm = 4;
 
               timer_start(&pbad->timer,10000);
 

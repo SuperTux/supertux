@@ -25,12 +25,26 @@ void create_special_bitmasks()
   bm_bullet = bitmask_create_SDL(img_bullet.sdl_surface);
 }
 
-void bullet_init(bullet_type* pbullet)
+void bullet_init(bullet_type* pbullet, float x, float y, float xm, int dir)
 {
   pbullet->base.width = 4;
   pbullet->base.height = 4;
   pbullet->base.updated = SDL_GetTicks();
-  pbullet->base.alive = NO;
+  pbullet->base.alive = YES;
+
+  if (dir == RIGHT)
+    {
+      pbullet->base.x = x + 32;
+      pbullet->base.xm = BULLET_XM + xm;
+    }
+  else
+    {
+      pbullet->base.x = x;
+      pbullet->base.xm = -BULLET_XM + xm;
+    }
+
+  pbullet->base.y = y;
+  pbullet->base.ym = BULLET_STARTING_YM;
 }
 
 void bullet_action(bullet_type* pbullet)
@@ -87,12 +101,18 @@ void bullet_collision(bullet_type* pbullet, int c_object)
 
 }
 
-void upgrade_init(upgrade_type *pupgrade)
+void upgrade_init(upgrade_type *pupgrade, float x, float y, int kind)
 {
   pupgrade->base.width = 32;
   pupgrade->base.height = 0;
+  pupgrade->base.alive = YES;
+  pupgrade->kind = kind;
+  pupgrade->base.x = x;
+  pupgrade->base.y = y;
+  pupgrade->base.xm = 2;
+  pupgrade->base.ym = -2;
+  pupgrade->base.height = 0;
   pupgrade->base.updated = SDL_GetTicks();
-  pupgrade->base.alive = NO;
 }
 
 void upgrade_action(upgrade_type *pupgrade)
@@ -148,8 +168,8 @@ void upgrade_action(upgrade_type *pupgrade)
 
           if (pupgrade->base.x < scroll_x)
             pupgrade->base.alive = NO;
-        
-	}
+
+        }
     }
 }
 
@@ -204,7 +224,7 @@ void upgrade_draw(upgrade_type* pupgrade)
 
 void upgrade_collision(upgrade_type* pupgrade, void* p_c_object, int c_object)
 {
-player_type* pplayer = NULL;
+  player_type* pplayer = NULL;
 
   switch (c_object)
     {
@@ -213,7 +233,7 @@ player_type* pplayer = NULL;
 
       /* p_c_object is CO_PLAYER, so assign it to pplayer */
       pplayer = p_c_object;
-      
+
       pupgrade->base.alive = NO;
 
       /* Affect the player: */
@@ -222,19 +242,19 @@ player_type* pplayer = NULL;
         {
           play_sound(sounds[SND_EXCELLENT], SOUND_CENTER_SPEAKER);
           pplayer->size = BIG;
-          super_bkgd_time = 8;
+          timer_start(&super_bkgd_timer, 350);
         }
       else if (pupgrade->kind == UPGRADE_COFFEE)
         {
           play_sound(sounds[SND_COFFEE], SOUND_CENTER_SPEAKER);
           pplayer->got_coffee = YES;
-          super_bkgd_time = 4;
+          timer_start(&super_bkgd_timer, 250);
         }
       else if (pupgrade->kind == UPGRADE_HERRING)
         {
           play_sound(sounds[SND_HERRING], SOUND_CENTER_SPEAKER);
           timer_start(&tux.invincible_timer,TUX_INVINCIBLE_TIME);
-          super_bkgd_time = 4;
+          timer_start(&super_bkgd_timer, 250);
           /* play the herring song ^^ */
           if (current_music != HURRYUP_MUSIC)
             {
