@@ -561,7 +561,7 @@ int le_init()
   le_tilegroup_bt = new Button("/images/icons/tilegroup.png","Select Tilegroup", SDLK_F7,screen->w-64,64);
   le_objects_bt = new Button("/images/icons/objects.png","Select Objects", SDLK_F8,screen->w-64,80);
   le_object_select_bt = new Button("/images/icons/select-one.png","Select an Object", SDLK_s, screen->w - 64, screen->h-98);
-  le_object_properties_bt = new Button("/images/icons/properties.png","Select an Object", SDLK_p, screen->w - 32, screen->h-98);
+  le_object_properties_bt = new Button("/images/icons/properties.png","Edit object properties", SDLK_p, screen->w - 32, screen->h-98);
   le_object_properties_bt->set_active(false);
 
   mouse_select_object = new MouseCursor(datadir + "/images/status/select-cursor.png",1);

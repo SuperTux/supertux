@@ -69,7 +69,7 @@ void Button::add_icon(std::string icon_file, int mw, int mh)
   }
   else
     icon.push_back(new Surface(filename,USE_ALPHA));
-    
+
 }
 
 void Button::draw()
@@ -82,8 +82,8 @@ void Button::draw()
   fillrect(rect.x+1,rect.y+1,rect.w-2,rect.h-2,175,175,175,200);
 
   for(std::vector<Surface*>::iterator it = icon.begin(); it != icon.end(); ++it)
-  (*it)->draw(rect.x,rect.y);
-  
+    (*it)->draw(rect.x,rect.y);
+
   if(game_object != NULL)
   {
     game_object->draw_on_screen(rect.x,rect.y);
@@ -111,15 +111,15 @@ void Button::draw()
 Button::~Button()
 {
   for(std::vector<Surface*>::iterator it = icon.begin(); it != icon.end(); ++it)
-  delete (*it);
+    delete (*it);
   icon.clear();
   delete game_object;
 }
 
 void Button::event(SDL_Event &event)
 {
-if(state == BUTTON_DEACTIVE)
-return;
+  if(state == BUTTON_DEACTIVE)
+    return;
 
   SDLKey key = event.key.keysym.sym;
 
@@ -146,20 +146,24 @@ return;
     }
 
     if(event.button.button == SDL_BUTTON_LEFT)
-    if(event.type == SDL_MOUSEBUTTONDOWN)
-      state = BUTTON_PRESSED;
-    else
-      state = BUTTON_CLICKED;
+      if(event.type == SDL_MOUSEBUTTONDOWN)
+        state = BUTTON_PRESSED;
+      else
+        state = BUTTON_CLICKED;
   }
   else if(event.type == SDL_MOUSEMOTION)
   {
     if(event.motion.x < rect.x || event.motion.x >= rect.x + rect.w ||
         event.motion.y < rect.y || event.motion.y >= rect.y + rect.h)
+    {
       state = BUTTON_NONE;
+    }
     else
+    {
       state = BUTTON_HOVER;
+      popup_timer.start(1500);
+    }
 
-    popup_timer.start(1500);
     if(show_info)
     {
       show_info = false;
@@ -209,17 +213,18 @@ Button* ButtonPanel::event(SDL_Event& event)
 {
   if(!hidden)
   {
+  Button* ret = NULL;
     for(std::vector<Button*>::iterator it = item.begin(); it != item.end(); ++it)
     {
       (*it)->event(event);
       if((*it)->state != BUTTON_NONE)
       {
         if(hlast && (*it)->state == BUTTON_CLICKED)
-	last_clicked = it;
-        return (*it);
-	}
+          last_clicked = it;
+	ret = (*it);
+      }
     }
-    return NULL;
+    return ret;
   }
   else
   {
@@ -247,7 +252,7 @@ void ButtonPanel::draw()
       (*it)->draw();
       if(hlast && it == last_clicked)
       {
-      fillrect((*it)->get_pos().x,(*it)->get_pos().y,(*it)->get_pos().w,(*it)->get_pos().h,100,100,100,128);
+        fillrect((*it)->get_pos().x,(*it)->get_pos().y,(*it)->get_pos().w,(*it)->get_pos().h,100,100,100,128);
       }
     }
   }
@@ -288,7 +293,7 @@ Button* ButtonPanel::manipulate_button(int i)
 
 void ButtonPanel::highlight_last(bool b)
 {
-hlast = b;
+  hlast = b;
 }
 
 
