@@ -224,7 +224,7 @@ int le_init()
   button_load(&le_next_level_bt,"/images/icons/up.png","Test Level","Press this button to test the level that is currently being edited.",screen->w-32,0);
   button_load(&le_previous_level_bt,"/images/icons/down.png","Test Level","Press this button to test the level that is currently being edited.",screen->w-32,16);
   button_load(&le_rubber_bt,"/images/icons/rubber.png","Test Level","Press this button to test the level that is currently being edited.",screen->w-32,32);
-  
+
   SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
 
   return 0;
@@ -236,6 +236,7 @@ void le_quit(void)
     if(askforsaving() == CANCEL)
       return;*/ //FIXME
 
+  SDL_EnableKeyRepeat(0, 0);    // disables key repeating
 
   button_free(&le_test_level_bt);
   level_free_gfx();
