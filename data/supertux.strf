@@ -12,6 +12,38 @@
                  "shared/smalltux-right-7.png"
                  "shared/smalltux-right-8.png"))
 
+ (sprite (name "laptop-left")
+         (x-hotspot 2)
+         (y-hotspot 3)
+         (images "shared/mriceblock-left-0.png"
+                 "shared/mriceblock-left-1.png"
+                 "shared/mriceblock-left-2.png"
+                 "shared/mriceblock-left-1.png"))
+
+ (sprite (name "laptop-right")
+         (x-hotspot 2)
+         (y-hotspot 3)
+         (images "shared/mriceblock-right-0.png"
+                 "shared/mriceblock-right-1.png"
+                 "shared/mriceblock-right-2.png"
+                 "shared/mriceblock-right-1.png"))
+ 
+ (sprite (name "laptop-flat-left")
+         (x-hotspot 2)
+         (y-hotspot 3)
+         (images "shared/mriceblock-flat-left.png"))
+
+ (sprite (name "laptop-flat-right")
+         (x-hotspot 2)
+         (y-hotspot 3)
+         (images "shared/mriceblock-flat-right.png"))
+
+; (sprite (name "laptop-falling-left")
+;         (images "shared/laptop-falling-left.png"))
+
+; (sprite (name "laptop-falling-right")
+;         (images "shared/laptop-falling-right.png"))
+
  (sprite (name "snowball-squished-left")
          (x-hotspot 1)
          (y-hotspot -19)
