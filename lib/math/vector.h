@@ -20,6 +20,8 @@
 #ifndef SUPERTUX_VECTOR_H
 #define SUPERTUX_VECTOR_H
 
+/// 2D Vector.
+/** Simple two dimensional vector. */
 class Vector
 {
 public:
@@ -77,7 +79,7 @@ public:
     return *this;
   }
 
-  // scalar product of 2 vectors
+  /// Scalar product of 2 vectors
   float operator*(const Vector& other) const
   {
     return x*other.x + y*other.y;
