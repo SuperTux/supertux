@@ -557,3 +557,12 @@ void menu_event(SDL_keysym* keysym)
   #endif*/
 }
 
+menu_item_type*
+menu_additem(menu_type* pmenu, MenuItemKind kind, char *text, int init_toggle, void* target_menu)
+{
+  menu_item_type* item = menu_item_create(kind, text, init_toggle, target_menu);
+  menu_additem(pmenu, item);
+  return item;
+}
+
+// EOF //

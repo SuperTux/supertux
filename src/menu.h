@@ -60,6 +60,7 @@ menu_type;
 void menu_init   (menu_type* pmenu);
 void menu_free   (menu_type* pmenu);
 void menu_additem(menu_type* pmenu, menu_item_type* pmenu_item);
+menu_item_type* menu_additem(menu_type* pmenu, MenuItemKind kind, char *text, int init_toggle, void* target_menu);
 void menu_action (menu_type* pmenu);
 int  menu_check  (menu_type* pmenu);
 void menu_draw   (menu_type* pmenu);

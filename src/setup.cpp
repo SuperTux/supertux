@@ -320,68 +320,68 @@ void st_directory_setup(void)
 void st_menu(void)
 {
   menu_init(&main_menu);
-  menu_additem(&main_menu,menu_item_create(MN_LABEL,"Main Menu",0,0));
-  menu_additem(&main_menu,menu_item_create(MN_HL,"",0,0));
-  menu_additem(&main_menu,menu_item_create(MN_ACTION,"Start Game",0,0));
-  menu_additem(&main_menu,menu_item_create(MN_GOTO,"Load Game",0,&load_game_menu));
-  menu_additem(&main_menu,menu_item_create(MN_GOTO,"Options",0,&options_menu));
-  menu_additem(&main_menu,menu_item_create(MN_ACTION,"Level editor",0,0));
-  menu_additem(&main_menu,menu_item_create(MN_ACTION,"Credits",0,0));
-  menu_additem(&main_menu,menu_item_create(MN_HL,"",0,0));
-  menu_additem(&main_menu,menu_item_create(MN_ACTION,"Quit",0,0));
+  menu_additem(&main_menu, MN_LABEL,"Main Menu",0,0);
+  menu_additem(&main_menu, MN_HL,"",0,0);
+  menu_additem(&main_menu, MN_ACTION,"Start Game",0,0);
+  menu_additem(&main_menu, MN_GOTO,"Load Game",0,&load_game_menu);
+  menu_additem(&main_menu, MN_GOTO,"Options",0,&options_menu);
+  menu_additem(&main_menu, MN_ACTION,"Level editor",0,0);
+  menu_additem(&main_menu, MN_ACTION,"Credits",0,0);
+  menu_additem(&main_menu, MN_HL,"",0,0);
+  menu_additem(&main_menu, MN_ACTION,"Quit",0,0);
 
   menu_init(&options_menu);
-  menu_additem(&options_menu,menu_item_create(MN_LABEL,"Options",0,0));
-  menu_additem(&options_menu,menu_item_create(MN_HL,"",0,0));
-  menu_additem(&options_menu,menu_item_create(MN_TOGGLE,"Fullscreen",use_fullscreen,0));
+  menu_additem(&options_menu, MN_LABEL,"Options",0,0);
+  menu_additem(&options_menu, MN_HL,"",0,0);
+  menu_additem(&options_menu, MN_TOGGLE,"Fullscreen",use_fullscreen,0);
   if(audio_device == YES)
     {
-      menu_additem(&options_menu,menu_item_create(MN_TOGGLE,"Sound     ",use_sound,0));
-      menu_additem(&options_menu,menu_item_create(MN_TOGGLE,"Music     ",use_music,0));
+      menu_additem(&options_menu, MN_TOGGLE,"Sound     ",use_sound,0);
+      menu_additem(&options_menu, MN_TOGGLE,"Music     ",use_music,0);
     }
   else
     {
-      menu_additem(&options_menu,menu_item_create(MN_DEACTIVE,"Sound     ",use_sound,0));
-      menu_additem(&options_menu,menu_item_create(MN_DEACTIVE,"Music     ",use_music,0));
+      menu_additem(&options_menu, MN_DEACTIVE,"Sound     ",use_sound,0);
+      menu_additem(&options_menu, MN_DEACTIVE,"Music     ",use_music,0);
     }
-  menu_additem(&options_menu,menu_item_create(MN_TOGGLE,"Show FPS  ",show_fps,0));
-  menu_additem(&options_menu,menu_item_create(MN_HL,"",0,0));
-  menu_additem(&options_menu,menu_item_create(MN_BACK,"Back",0,0));
+  menu_additem(&options_menu, MN_TOGGLE,"Show FPS  ",show_fps,0);
+  menu_additem(&options_menu, MN_HL,"",0,0);
+  menu_additem(&options_menu, MN_BACK,"Back",0,0);
 
   menu_init(&load_game_menu);
-  menu_additem(&load_game_menu,menu_item_create(MN_LABEL,"Load Game",0,0));
-  menu_additem(&load_game_menu,menu_item_create(MN_HL,"",0,0));
-  menu_additem(&load_game_menu,menu_item_create(MN_DEACTIVE,"Slot 1",0,0));
-  menu_additem(&load_game_menu,menu_item_create(MN_DEACTIVE,"Slot 2",0,0));
-  menu_additem(&load_game_menu,menu_item_create(MN_DEACTIVE,"Slot 3",0,0));
-  menu_additem(&load_game_menu,menu_item_create(MN_DEACTIVE,"Slot 4",0,0));
-  menu_additem(&load_game_menu,menu_item_create(MN_DEACTIVE,"Slot 5",0,0));
-  menu_additem(&load_game_menu,menu_item_create(MN_HL,"",0,0));
-  menu_additem(&load_game_menu,menu_item_create(MN_BACK,"Back",0,0));
+  menu_additem(&load_game_menu, MN_LABEL,"Load Game",0,0);
+  menu_additem(&load_game_menu, MN_HL,"",0,0);
+  menu_additem(&load_game_menu, MN_DEACTIVE,"Slot 1",0,0);
+  menu_additem(&load_game_menu, MN_DEACTIVE,"Slot 2",0,0);
+  menu_additem(&load_game_menu, MN_DEACTIVE,"Slot 3",0,0);
+  menu_additem(&load_game_menu, MN_DEACTIVE,"Slot 4",0,0);
+  menu_additem(&load_game_menu, MN_DEACTIVE,"Slot 5",0,0);
+  menu_additem(&load_game_menu, MN_HL,"",0,0);
+  menu_additem(&load_game_menu, MN_BACK,"Back",0,0);
 
   menu_init(&save_game_menu);
-  menu_additem(&save_game_menu,menu_item_create(MN_LABEL,"Save Game",0,0));
-  menu_additem(&save_game_menu,menu_item_create(MN_HL,"",0,0));
-  menu_additem(&save_game_menu,menu_item_create(MN_DEACTIVE,"Slot 1",0,0));
-  menu_additem(&save_game_menu,menu_item_create(MN_DEACTIVE,"Slot 2",0,0));
-  menu_additem(&save_game_menu,menu_item_create(MN_DEACTIVE,"Slot 3",0,0));
-  menu_additem(&save_game_menu,menu_item_create(MN_DEACTIVE,"Slot 4",0,0));
-  menu_additem(&save_game_menu,menu_item_create(MN_DEACTIVE,"Slot 5",0,0));
-  menu_additem(&save_game_menu,menu_item_create(MN_HL,"",0,0));
-  menu_additem(&save_game_menu,menu_item_create(MN_BACK,"Back",0,0));
+  menu_additem(&save_game_menu, MN_LABEL,"Save Game",0,0);
+  menu_additem(&save_game_menu, MN_HL,"",0,0);
+  menu_additem(&save_game_menu, MN_DEACTIVE,"Slot 1",0,0);
+  menu_additem(&save_game_menu, MN_DEACTIVE,"Slot 2",0,0);
+  menu_additem(&save_game_menu, MN_DEACTIVE,"Slot 3",0,0);
+  menu_additem(&save_game_menu, MN_DEACTIVE,"Slot 4",0,0);
+  menu_additem(&save_game_menu, MN_DEACTIVE,"Slot 5",0,0);
+  menu_additem(&save_game_menu, MN_HL,"",0,0);
+  menu_additem(&save_game_menu, MN_BACK,"Back",0,0);
 
   menu_init(&game_menu);
-  menu_additem(&game_menu,menu_item_create(MN_LABEL,"InGame Menu",0,0));
-  menu_additem(&game_menu,menu_item_create(MN_HL,"",0,0));
-  menu_additem(&game_menu,menu_item_create(MN_ACTION,"Return To Game",0,0));
-  menu_additem(&game_menu,menu_item_create(MN_GOTO,"Save Game",0,&save_game_menu));
-  menu_additem(&game_menu,menu_item_create(MN_GOTO,"Load Game",0,&load_game_menu));
-  menu_additem(&game_menu,menu_item_create(MN_GOTO,"Options",0,&options_menu));
-  menu_additem(&game_menu,menu_item_create(MN_HL,"",0,0));
-  menu_additem(&game_menu,menu_item_create(MN_ACTION,"Quit Game",0,0));
+  menu_additem(&game_menu, MN_LABEL,"InGame Menu",0,0);
+  menu_additem(&game_menu, MN_HL,"",0,0);
+  menu_additem(&game_menu, MN_ACTION,"Return To Game",0,0);
+  menu_additem(&game_menu, MN_GOTO,"Save Game",0,&save_game_menu);
+  menu_additem(&game_menu, MN_GOTO,"Load Game",0,&load_game_menu);
+  menu_additem(&game_menu, MN_GOTO,"Options",0,&options_menu);
+  menu_additem(&game_menu, MN_HL,"",0,0);
+  menu_additem(&game_menu, MN_ACTION,"Quit Game",0,0);
 
   menu_init(&highscore_menu);
-  menu_additem(&highscore_menu,menu_item_create(MN_TEXTFIELD,"Enter your name:",0,0));
+  menu_additem(&highscore_menu, MN_TEXTFIELD,"Enter your name:",0,0);
 
 }
 

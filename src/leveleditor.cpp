@@ -489,63 +489,63 @@ int le_init()
     }
 
   menu_init(&leveleditor_menu);
-  menu_additem(&leveleditor_menu, menu_item_create(MN_LABEL,"Level Editor Menu",0,0));
-  menu_additem(&leveleditor_menu, menu_item_create(MN_HL,"",0,0));
-  menu_additem(&leveleditor_menu, menu_item_create(MN_ACTION,"Return To Level Editor",0,0));
-  menu_additem(&leveleditor_menu, menu_item_create(MN_DEACTIVE,"Level Subset Settings",0,&subset_settings_menu));
-  menu_additem(&leveleditor_menu, menu_item_create(MN_GOTO,"Load Level Subset",0,&subset_load_menu));
-  menu_additem(&leveleditor_menu, menu_item_create(MN_GOTO,"New Level Subset",0,&subset_new_menu));
-  menu_additem(&leveleditor_menu, menu_item_create(MN_HL,"",0,0));
-  menu_additem(&leveleditor_menu, menu_item_create(MN_ACTION,"Quit Level Editor",0,0));
+  menu_additem(&leveleditor_menu, MN_LABEL,"Level Editor Menu",0,0);
+  menu_additem(&leveleditor_menu, MN_HL,"",0,0);
+  menu_additem(&leveleditor_menu, MN_ACTION,"Return To Level Editor",0,0);
+  menu_additem(&leveleditor_menu, MN_DEACTIVE,"Level Subset Settings",0,&subset_settings_menu);
+  menu_additem(&leveleditor_menu, MN_GOTO,"Load Level Subset",0,&subset_load_menu);
+  menu_additem(&leveleditor_menu, MN_GOTO,"New Level Subset",0,&subset_new_menu);
+  menu_additem(&leveleditor_menu, MN_HL,"",0,0);
+  menu_additem(&leveleditor_menu, MN_ACTION,"Quit Level Editor",0,0);
 
   menu_reset();
   menu_set_current(&leveleditor_menu);
   show_menu = YES;
 
   menu_init(&subset_load_menu);
-  menu_additem(&subset_load_menu,menu_item_create(MN_LABEL,"Load Level Subset",0,0));
-  menu_additem(&subset_load_menu,menu_item_create(MN_HL,"",0,0));
+  menu_additem(&subset_load_menu,MN_LABEL,"Load Level Subset",0,0);
+  menu_additem(&subset_load_menu,MN_HL,"",0,0);
   for(i = 0; i < level_subsets.num_items; ++i)
     {
-      menu_additem(&subset_load_menu,menu_item_create(MN_ACTION,level_subsets.item[i],0,0));
+      menu_additem(&subset_load_menu,MN_ACTION,level_subsets.item[i],0,0);
     }
-  menu_additem(&subset_load_menu,menu_item_create(MN_HL,"",0,0));
-  menu_additem(&subset_load_menu,menu_item_create(MN_BACK,"Back",0,0));
+  menu_additem(&subset_load_menu,MN_HL,"",0,0);
+  menu_additem(&subset_load_menu,MN_BACK,"Back",0,0);
 
   menu_init(&subset_new_menu);
-  menu_additem(&subset_new_menu,menu_item_create(MN_LABEL,"New Level Subset",0,0));
-  menu_additem(&subset_new_menu,menu_item_create(MN_HL,"",0,0));
-  menu_additem(&subset_new_menu,menu_item_create(MN_TEXTFIELD,"Enter Name",0,0));
-  menu_additem(&subset_new_menu,menu_item_create(MN_ACTION,"Create",0,0));
-  menu_additem(&subset_new_menu,menu_item_create(MN_HL,"",0,0));
-  menu_additem(&subset_new_menu,menu_item_create(MN_BACK,"Back",0,0));
+  menu_additem(&subset_new_menu,MN_LABEL,"New Level Subset",0,0);
+  menu_additem(&subset_new_menu,MN_HL,"",0,0);
+  menu_additem(&subset_new_menu,MN_TEXTFIELD,"Enter Name",0,0);
+  menu_additem(&subset_new_menu,MN_ACTION,"Create",0,0);
+  menu_additem(&subset_new_menu,MN_HL,"",0,0);
+  menu_additem(&subset_new_menu,MN_BACK,"Back",0,0);
 
   menu_init(&subset_settings_menu);
-  menu_additem(&subset_settings_menu,menu_item_create(MN_LABEL,"Level Subset Settings",0,0));
-  menu_additem(&subset_settings_menu,menu_item_create(MN_HL,"",0,0));
-  menu_additem(&subset_settings_menu,menu_item_create(MN_TEXTFIELD,"Title",0,0));
-  menu_additem(&subset_settings_menu,menu_item_create(MN_TEXTFIELD,"Description",0,0));
-  menu_additem(&subset_settings_menu,menu_item_create(MN_HL,"",0,0));
-  menu_additem(&subset_settings_menu,menu_item_create(MN_ACTION,"Save Changes",0,0));
-  menu_additem(&subset_settings_menu,menu_item_create(MN_HL,"",0,0));
-  menu_additem(&subset_settings_menu,menu_item_create(MN_BACK,"Back",0,0));
+  menu_additem(&subset_settings_menu,MN_LABEL,"Level Subset Settings",0,0);
+  menu_additem(&subset_settings_menu,MN_HL,"",0,0);
+  menu_additem(&subset_settings_menu,MN_TEXTFIELD,"Title",0,0);
+  menu_additem(&subset_settings_menu,MN_TEXTFIELD,"Description",0,0);
+  menu_additem(&subset_settings_menu,MN_HL,"",0,0);
+  menu_additem(&subset_settings_menu,MN_ACTION,"Save Changes",0,0);
+  menu_additem(&subset_settings_menu,MN_HL,"",0,0);
+  menu_additem(&subset_settings_menu,MN_BACK,"Back",0,0);
 
   menu_init(&level_settings_menu);
   level_settings_menu.arrange_left = YES;
-  menu_additem(&level_settings_menu,menu_item_create(MN_LABEL,"Level Settings",0,0));
-  menu_additem(&level_settings_menu,menu_item_create(MN_HL,"",0,0));
-  menu_additem(&level_settings_menu,menu_item_create(MN_TEXTFIELD,"Name    ",0,0));
-  menu_additem(&level_settings_menu,menu_item_create(MN_STRINGSELECT,"Theme   ",0,0));
-  menu_additem(&level_settings_menu,menu_item_create(MN_STRINGSELECT,"Song    ",0,0));
-  menu_additem(&level_settings_menu,menu_item_create(MN_STRINGSELECT,"Bg-Image",0,0));
-  menu_additem(&level_settings_menu,menu_item_create(MN_NUMFIELD,"Length ",0,0));
-  menu_additem(&level_settings_menu,menu_item_create(MN_NUMFIELD,"Time   ",0,0));
-  menu_additem(&level_settings_menu,menu_item_create(MN_NUMFIELD,"Gravity",0,0));
-  menu_additem(&level_settings_menu,menu_item_create(MN_NUMFIELD,"Red    ",0,0));
-  menu_additem(&level_settings_menu,menu_item_create(MN_NUMFIELD,"Green  ",0,0));
-  menu_additem(&level_settings_menu,menu_item_create(MN_NUMFIELD,"Blue   ",0,0));
-  menu_additem(&level_settings_menu,menu_item_create(MN_HL,"",0,0));
-  menu_additem(&level_settings_menu,menu_item_create(MN_ACTION,"Apply Changes",0,0));
+  menu_additem(&level_settings_menu,MN_LABEL,"Level Settings",0,0);
+  menu_additem(&level_settings_menu,MN_HL,"",0,0);
+  menu_additem(&level_settings_menu,MN_TEXTFIELD,"Name    ",0,0);
+  menu_additem(&level_settings_menu,MN_STRINGSELECT,"Theme   ",0,0);
+  menu_additem(&level_settings_menu,MN_STRINGSELECT,"Song    ",0,0);
+  menu_additem(&level_settings_menu,MN_STRINGSELECT,"Bg-Image",0,0);
+  menu_additem(&level_settings_menu,MN_NUMFIELD,"Length ",0,0);
+  menu_additem(&level_settings_menu,MN_NUMFIELD,"Time   ",0,0);
+  menu_additem(&level_settings_menu,MN_NUMFIELD,"Gravity",0,0);
+  menu_additem(&level_settings_menu,MN_NUMFIELD,"Red    ",0,0);
+  menu_additem(&level_settings_menu,MN_NUMFIELD,"Green  ",0,0);
+  menu_additem(&level_settings_menu,MN_NUMFIELD,"Blue   ",0,0);
+  menu_additem(&level_settings_menu,MN_HL,"",0,0);
+  menu_additem(&level_settings_menu,MN_ACTION,"Apply Changes",0,0);
 
   SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
 
