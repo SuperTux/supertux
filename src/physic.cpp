@@ -46,7 +46,7 @@ Physic::reset()
 void
 Physic::set_velocity_x(float nvx)
 {
-  vx = -nvx;
+  vx = nvx;
 }
 
 void
@@ -58,8 +58,8 @@ Physic::set_velocity_y(float nvy)
 void
 Physic::set_velocity(float nvx, float nvy)
 {
-    vx = nvx;
-    vy = -nvy;
+  vx = nvx;
+  vy = -nvy;
 }
 
 void Physic::inverse_velocity_x()

@@ -101,6 +101,7 @@ public:
   base_type base;
   BadGuyKind kind;
   int mode;
+  bool stay_on_platform;
   int dir;
 
 private:

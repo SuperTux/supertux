@@ -153,6 +153,7 @@ BadGuy::init(float x, float y, BadGuyKind kind_)
   base.xm  = 0;
   base.ym  = 0;
 
+  stay_on_platform = false;
   mode     = NORMAL;
   dying    = DYING_NOT;
   kind     = kind_;
@@ -173,7 +174,7 @@ BadGuy::init(float x, float y, BadGuyKind kind_)
     physic.set_velocity(-1.3, 0);
     set_sprite(img_mrbomb_left, img_mrbomb_right, 4);
   } else if (kind == BAD_LAPTOP) {
-    physic.set_velocity(-1.3, 0);
+    physic.set_velocity(-.8, 0);
     set_sprite(img_laptop_left, img_laptop_right, 4, 5);
   } else if(kind == BAD_MONEY) {
     set_sprite(img_jumpy_left_up, img_jumpy_left_up, 1);
@@ -225,10 +226,11 @@ BadGuy::action_bsod(float frame_ratio)
 
   // jump when we're about to fall
   if (physic.get_velocity_y() == 0 && 
-          !issolid(base.x+base.width/2, base.y + base.height)) {
-    physic.enable_gravity(true);
-    physic.set_velocity(physic.get_velocity_x(), BSODJUMP);
-  }
+      !issolid(base.x+base.width/2, base.y + base.height)) 
+    {
+      physic.enable_gravity(true);
+      physic.set_velocity(physic.get_velocity_x(), BSODJUMP);
+    }
 
   // Handle dying timer:
   if (dying == DYING_SQUISHED && !timer.check())
@@ -290,7 +292,7 @@ BadGuy::action_laptop(float frame_ratio)
 
           mode=KICK;
           set_sprite(img_laptop_flat_left, img_laptop_flat_right, 1);
-          physic.set_velocity((dir == LEFT) ? -8 : 8, -8);
+          physic.set_velocity_x((dir == LEFT) ? -3.5 : 3.5);
           play_sound(sounds[SND_KICK],SOUND_CENTER_SPEAKER);
         }
     }
@@ -318,7 +320,7 @@ BadGuy::action_laptop(float frame_ratio)
         {
           mode = NORMAL;
           set_sprite(img_laptop_left, img_laptop_right, 4, 5);
-          physic.set_velocity( (dir == LEFT) ? -1.3 : 1.3, 0);
+          physic.set_velocity( (dir == LEFT) ? -.8 : .8, 0);
         }
     }
 }
@@ -378,10 +380,23 @@ BadGuy::fall()
           if (physic.get_velocity_y() < 0)
             {
               base.y = int((base.y + base.height)/32) * 32 - base.height;
-              physic.set_velocity(physic.get_velocity_x(), 0);
+              physic.set_velocity_y(0);
             }
           // no gravity anymore please
           physic.enable_gravity(false);
+
+          if (stay_on_platform && mode == NORMAL)
+            {
+              if (!issolid(base.x + ((dir == LEFT) ? 0 : base.width),
+                           base.y + base.height))
+                {
+                  physic.set_velocity_x(-physic.get_velocity_x());
+                  if (dir == LEFT)
+                    dir = RIGHT;
+                  else
+                    dir = LEFT;
+                }
+            }
         }
     }
   else
@@ -421,7 +436,7 @@ BadGuy::action_money(float frame_ratio)
   // jump when on ground
   if(dying == DYING_NOT && issolid(base.x, base.y+32))
     {
-      physic.set_velocity(physic.get_velocity_x(), JUMPV);
+      physic.set_velocity_y(JUMPV);
       physic.enable_gravity(true);
 
       mode = MONEY_JUMP;
@@ -581,7 +596,7 @@ BadGuy::action_bouncingsnowball(float frame_ratio)
   // jump when on ground
   if(dying == DYING_NOT && issolid(base.x, base.y+32))
     {
-      physic.set_velocity(physic.get_velocity_x(), JUMPV);
+      physic.set_velocity_y(JUMPV);
       physic.enable_gravity(true);
     }                                                     
   else
@@ -614,17 +629,17 @@ BadGuy::action_flyingsnowball(float frame_ratio)
   // go into flyup mode if none specified yet
   if(dying == DYING_NOT && mode == NORMAL) {
     mode = FLY_UP;
-    physic.set_velocity(physic.get_velocity_x(), FLYINGSPEED);
+    physic.set_velocity_y(FLYINGSPEED);
     timer.start(DIRCHANGETIME/2);
   }
 
   if(dying == DYING_NOT && !timer.check()) {
     if(mode == FLY_UP) {
       mode = FLY_DOWN;
-      physic.set_velocity(physic.get_velocity_x(), -FLYINGSPEED);
+      physic.set_velocity_y(-FLYINGSPEED);
     } else if(mode == FLY_DOWN) {
       mode = FLY_UP;
-      physic.set_velocity(physic.get_velocity_x(), FLYINGSPEED);
+      physic.set_velocity_y(FLYINGSPEED);
     }
     timer.start(DIRCHANGETIME);
   }
@@ -657,7 +672,7 @@ BadGuy::action_spiky(float frame_ratio)
   if (physic.get_velocity_y() == 0 && 
           !issolid(base.x+base.width/2, base.y + base.height)) {
     physic.enable_gravity(true);
-    physic.set_velocity(physic.get_velocity_x(), 2);
+    physic.set_velocity_y(2);
   }
 #endif
 
@@ -826,7 +841,7 @@ BadGuy::bump()
 void
 BadGuy::make_player_jump(Player* player)
 {
-  player->physic.set_velocity(player->physic.get_velocity_x(), 2);
+  player->physic.set_velocity_y(2);
   player->base.y = base.y - player->base.height - 2;
 }
 
@@ -863,7 +878,7 @@ BadGuy::squish(Player* player)
   } else if(kind == BAD_BSOD) {
     squish_me(player);
     set_sprite(img_bsod_squished_left, img_bsod_squished_right, 1);
-    physic.set_velocity(0, physic.get_velocity_y());
+    physic.set_velocity_x(0);
     return;
       
   } else if (kind == BAD_LAPTOP) {
@@ -873,7 +888,7 @@ BadGuy::squish(Player* player)
         play_sound(sounds[SND_STOMP], SOUND_CENTER_SPEAKER);
         mode = FLAT;
         set_sprite(img_laptop_flat_left, img_laptop_flat_right, 1);
-        physic.set_velocity(0, physic.get_velocity_y());
+        physic.set_velocity_x(0);
 
         timer.start(4000);
       } else if (mode == FLAT) {
@@ -881,10 +896,10 @@ BadGuy::squish(Player* player)
         play_sound(sounds[SND_KICK], SOUND_CENTER_SPEAKER);
 
         if (player->base.x < base.x + (base.width/2)) {
-          physic.set_velocity(5, physic.get_velocity_y());
+          physic.set_velocity_x(5);
           dir = RIGHT;
         } else {
-          physic.set_velocity(-5, physic.get_velocity_y());
+          physic.set_velocity_x(-5);
           dir = LEFT;
         }
 
@@ -938,7 +953,7 @@ BadGuy::kill_me()
     set_sprite(img_bsod_falling_left, img_bsod_falling_right, 1);
   
   physic.enable_gravity(true);
-  physic.set_velocity(physic.get_velocity_x(), 0);
+  physic.set_velocity_y(0);
 
   /* Gain some points: */
   if (kind == BAD_BSOD)
@@ -1029,12 +1044,12 @@ BadGuy::collision(void *p_c_object, int c_object, CollisionType type)
 
         // Hit from left side
         if (player->base.x < base.x) {
-          physic.set_velocity(5, physic.get_velocity_y());
+          physic.set_velocity_x(5);
           dir = RIGHT;
         }
         // Hit from right side
         else {
-          physic.set_velocity(-5, physic.get_velocity_y());
+          physic.set_velocity_x(-5);
           dir = LEFT;
         }
 
