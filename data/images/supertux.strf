@@ -93,18 +93,6 @@
          (y-hotspot 9)
          (images "shared/bigtux/arms-stand-right-0.png"))
 
-       (action
-         (name "idle-left")
-         (x-hotspot 6)
-         (y-hotspot 8)
-         (images "shared/bigtux/arms-stand-left-0.png"))
-
-       (action
-         (name "idle-right")
-         (x-hotspot 6)
-         (y-hotspot 8)
-         (images "shared/bigtux/arms-stand-right-0.png"))
-
 ; Grabbing is arms specific!
        (action
          (name "grab-left")
@@ -295,18 +283,6 @@
          (name "buttjump-right")
          (x-hotspot 5)
          (y-hotspot 9)
-         (images "shared/bigtux/body-stand-right-0.png"))
-
-       (action
-         (name "idle-left")
-         (x-hotspot 6)
-         (y-hotspot 8)
-         (images "shared/bigtux/body-stand-left-0.png"))
-
-       (action
-         (name "idle-right")
-         (x-hotspot 6)
-         (y-hotspot 8)
          (images "shared/bigtux/body-stand-right-0.png")))
 
 ;; Big Tux Feet
@@ -398,20 +374,7 @@
          (name "buttjump-right")
          (x-hotspot 5)
          (y-hotspot 9)
-         (images "shared/bigtux/feet-buttjump-right-0.png"))
-
-
-       (action
-         (name "idle-left")
-         (x-hotspot 6)
-         (y-hotspot 8)
-         (images "shared/bigtux/feet-stand-left-0.png"))
-
-       (action
-         (name "idle-right")
-         (x-hotspot 6)
-         (y-hotspot 8)
-         (images "shared/bigtux/feet-stand-right-0.png")))
+         (images "shared/bigtux/feet-buttjump-right-0.png")))
 
 ; End of Big Tux (no power) sprite
 
@@ -499,6 +462,7 @@
 
        (action
          (name "idle-left")
+         (fps 1.0)
          (x-hotspot 6)
          (y-hotspot 8)
          (images "shared/bigtux/head-idle-blink-left-0.png"
@@ -506,6 +470,7 @@
 
        (action
          (name "idle-right")
+         (fps 1.0)
          (x-hotspot 6)
          (y-hotspot 8)
          (images "shared/bigtux/head-idle-blink-right-0.png"

@@ -820,22 +820,22 @@ Player::draw(DrawingContext& context)
             }
         }
     }
-/*
+
   if(idle_timer.get_left() < 0)
     {
     if (dir == RIGHT)
       {
-      tux_body->set_action("idle-right");
-      tux_body->one_time_animation();
+      tux_body->head->set_action("idle-right");
+      tux_body->head->start_animation(1);
       }
     else
       {
-      tux_body->set_action("idle-left");
-      tux_body->one_time_animation();
+      tux_body->head->set_action("idle-right");
+      tux_body->head->start_animation(1);
       }
     idle_timer.start(IDLE_TIME);
     }
-*/
+
   // Tux is holding something
   if ((holding_something && physic.get_velocity_y() == 0) ||
       shooting_timer.check() && !duck)
