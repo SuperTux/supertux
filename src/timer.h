@@ -27,6 +27,7 @@ unsigned int st_get_ticks(void);
 void st_pause_ticks_init(void);
 void st_pause_ticks_start(void);
 void st_pause_ticks_stop(void);
+bool st_pause_ticks_started(void);
 
 class Timer
 {
