@@ -36,22 +36,5 @@ texture_type img_red_glow;
 timer_type time_left;
 double frame_ratio;
 
-void set_defaults(void)
-{
-  // Set defaults: 
-  scroll_x = 0;
-
-  score_multiplier = 1;
-  timer_init(&super_bkgd_timer, true);
-
-  counting_distros = false;
-  distro_counter = 0;
-
-  endpos = 0;
-
-  /* set current song/music */
-  set_current_music(LEVEL_MUSIC);
-}
-
 // EOF //
 

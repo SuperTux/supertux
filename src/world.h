@@ -19,61 +19,7 @@
 #include "scene.h"
 #include "special.h"
 #include "particlesystem.h"
-
-/* Bounciness of distros: */
-
-#define NO_BOUNCE 0
-#define BOUNCE 1
-
-struct bouncy_distro_type
-{
-  base_type base;
-};
-
-extern texture_type img_distro[4];
-
-void bouncy_distro_init(bouncy_distro_type* pbouncy_distro, float x, float y);
-void bouncy_distro_action(bouncy_distro_type* pbouncy_distro);
-void bouncy_distro_draw(bouncy_distro_type* pbouncy_distro);
-void bouncy_distro_collision(bouncy_distro_type* pbouncy_distro, int c_object);
-
-#define BOUNCY_BRICK_MAX_OFFSET 8
-#define BOUNCY_BRICK_SPEED 0.9
-
-struct broken_brick_type
-{
-  base_type base;
-  timer_type timer;
-  Tile* tile;
-};
-
-void broken_brick_init(broken_brick_type* pbroken_brick, Tile* tile,
-                       float x, float y, float xm, float ym);
-void broken_brick_action(broken_brick_type* pbroken_brick);
-void broken_brick_draw(broken_brick_type* pbroken_brick);
-
-struct bouncy_brick_type
-{
-  float offset;
-  float offset_m;
-  int shape;
-  base_type base;
-};
-
-void bouncy_brick_init(bouncy_brick_type* pbouncy_brick, float x, float y);
-void bouncy_brick_action(bouncy_brick_type* pbouncy_brick);
-void bouncy_brick_draw(bouncy_brick_type* pbouncy_brick);
-
-struct floating_score_type
-{
-  int value;
-  timer_type timer;
-  base_type base;
-};
-
-void floating_score_init(floating_score_type* pfloating_score, float x, float y, int s);
-void floating_score_action(floating_score_type* pfloating_score);
-void floating_score_draw(floating_score_type* pfloating_score);
+#include "gameobjs.h"
 
 /** Try to grab the coin at the given coordinates */
 void trygrabdistro(float x, float y, int bounciness);
@@ -97,19 +43,25 @@ class World
   Level* level;
   
   std::vector<bouncy_distro_type> bouncy_distros;
-  std::vector<broken_brick_type> broken_bricks;
-  std::vector<bouncy_brick_type> bouncy_bricks;
-  std::vector<BadGuy> bad_guys;
+  std::vector<broken_brick_type>  broken_bricks;
+  std::vector<bouncy_brick_type>  bouncy_bricks;
   std::vector<floating_score_type> floating_scores;
+
+  std::vector<BadGuy> bad_guys;
   std::vector<upgrade_type> upgrades;
   std::vector<bullet_type> bullets;
   std::vector<ParticleSystem*> particle_systems;
 
+  static World* current_;
  public:
+  static World* current() { return current_; }
+
   World();
   ~World();
   
   Level* get_level() { return level; }
+
+  void set_defaults();
 
   void draw();
   void action();

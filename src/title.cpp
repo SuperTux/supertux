@@ -38,6 +38,7 @@
 #include "scene.h"
 #include "player.h"
 #include "math.h"
+#include "tile.h"
 
 void loadshared(void);
 
@@ -86,8 +87,8 @@ void draw_demo(Level* plevel)
     {
       for (int x = 0; x < 21; ++x)
         {
-          drawshape(32*x - fmodf(scroll_x, 32), y * 32,
-                    plevel->ia_tiles[(int)y][(int)x + (int)(scroll_x / 32)]);
+          Tile::draw(32*x - fmodf(scroll_x, 32), y * 32,
+                     plevel->ia_tiles[(int)y][(int)x + (int)(scroll_x / 32)]);
         }
     }
 

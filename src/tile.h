@@ -57,6 +57,9 @@ struct Tile
   int next_tile;
 
   int anim_speed;
+  
+  /** Draw a tile on the screen: */
+  static void draw(float x, float y, unsigned int c, Uint8 alpha = 255);
 };
 
 struct TileGroup
@@ -91,7 +94,5 @@ class TileManager
       } 
   }
 };
-
-
 
 #endif

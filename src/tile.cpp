@@ -10,6 +10,7 @@
 //
 //
 #include "tile.h"
+#include "scene.h"
 #include "assert.h"
 
 TileManager* TileManager::instance_  = 0;
@@ -131,6 +132,30 @@ void TileManager::load_tileset(std::string filename)
   else
     {
       assert(0);
+    }
+}
+
+void
+Tile::draw(float x, float y, unsigned int c, Uint8 alpha)
+{
+  if (c != 0)
+    {
+      Tile* ptile = TileManager::instance()->get(c);
+      if(ptile)
+        {
+          if(ptile->images.size() > 1)
+            {
+              texture_draw(&ptile->images[( ((global_frame_counter*25) / ptile->anim_speed) % (ptile->images.size()))],x,y, alpha);
+            }
+          else if (ptile->images.size() == 1)
+            {
+              texture_draw(&ptile->images[0],x,y, alpha);
+            }
+          else
+            {
+              //printf("Tile not dravable %u\n", c);
+            }
+        }
     }
 }
 

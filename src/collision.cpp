@@ -14,6 +14,7 @@
 #include "collision.h"
 #include "bitmask.h"
 #include "scene.h"
+#include "world.h"
 #include "tile.h"
 
 bool rectcollision(base_type* one, base_type* two)
@@ -285,7 +286,7 @@ void collision_handler()
 
 Tile* gettile(float x, float y)
 {
-  return TileManager::instance()->get(GameSession::current()->get_level()->gettileid(x, y));
+  return TileManager::instance()->get(World::current()->get_level()->gettileid(x, y));
 }
 
 bool issolid(float x, float y)

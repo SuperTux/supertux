@@ -2,6 +2,7 @@
 #include "scene.h"
 #include "player.h"
 #include "badguy.h"
+#include "gameobjs.h"
 #include "resources.h"
 
 texture_type img_waves[3]; 
@@ -251,7 +252,6 @@ void loadshared()
 
 
   /* Distros: */
-
   texture_load(&img_distro[0], datadir + "/images/shared/distro-0.png",
                USE_ALPHA);
 

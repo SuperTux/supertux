@@ -16,6 +16,7 @@
 #include "badguy.h"
 #include "scene.h"
 #include "screen.h"
+#include "world.h"
 #include "tile.h"
 
 texture_type img_bsod_squished_left[1];

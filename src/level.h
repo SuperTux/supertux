@@ -107,5 +107,4 @@ class Level
   void load_image(texture_type* ptexture, std::string theme, const char * file, int use_alpha);
 };
 
-
 #endif /*SUPERTUX_LEVEL_H*/

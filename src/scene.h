@@ -14,10 +14,8 @@
 #define SUPERTUX_SCENE_H
 
 #include "defines.h"
-#include "gameloop.h"
 #include "player.h"
 #include "badguy.h"
-#include "world.h"
 #include "special.h"
 #include "level.h"
 #include "particlesystem.h"
@@ -42,7 +40,5 @@ extern Player tux;
 extern texture_type img_box_full, img_box_empty, img_mints, img_coffee, img_super_bkgd, img_red_glow;
 extern timer_type time_left;
 extern double frame_ratio;
-
-void set_defaults(void);
 
 #endif /*SUPERTUX_SCENE_H*/

@@ -102,7 +102,7 @@ GameSession::GameSession(const std::string& subset, int levelnb, int mode)
 
   /* Init the game: */
   world->arrays_free();
-  set_defaults();
+  world->set_defaults();
 
   strcpy(level_subset, subset.c_str());
 
@@ -397,7 +397,7 @@ GameSession::action()
 
       /* Either way, (re-)load the (next) level... */
       tux.level_begin();
-      set_defaults();
+      world->set_defaults();
       
       world->get_level()->cleanup();
 
@@ -655,31 +655,6 @@ GameSession::run()
   return(quit);
 }
 
-/* Draw a tile on the screen: */
-
-void drawshape(float x, float y, unsigned int c, Uint8 alpha)
-{
-  if (c != 0)
-    {
-      Tile* ptile = TileManager::instance()->get(c);
-      if(ptile)
-        {
-          if(ptile->images.size() > 1)
-            {
-              texture_draw(&ptile->images[( ((global_frame_counter*25) / ptile->anim_speed) % (ptile->images.size()))],x,y, alpha);
-            }
-          else if (ptile->images.size() == 1)
-            {
-              texture_draw(&ptile->images[0],x,y, alpha);
-            }
-          else
-            {
-              //printf("Tile not dravable %u\n", c);
-            }
-        }
-    }
-}
-
 /* Bounce a brick: */
 void bumpbrick(float x, float y)
 {
@@ -836,18 +811,18 @@ GameSession::loadgame(int slot)
       level_subset[strlen(level_subset)-1] = '\0';
       fread(&level,sizeof(int),1,fi);
 
-      set_defaults();
+      world->set_defaults();
       world->get_level()->cleanup();
       world->arrays_free();
+      world->get_level()->free_gfx();
+      world->get_level()->free_song();
 
       if(world->get_level()->load(level_subset,level) != 0)
         exit(1);
+
       world->activate_bad_guys();
       world->activate_particle_systems();
-      
-      world->get_level()->free_gfx();
       world->get_level()->load_gfx();
-      world->get_level()->free_song();
       world->get_level()->load_song();
 
       levelintro();

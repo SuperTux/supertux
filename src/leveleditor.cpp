@@ -24,12 +24,14 @@
 #include <SDL_image.h>
 #include "leveleditor.h"
 
+#include "world.h"
 #include "screen.h"
 #include "defines.h"
 #include "globals.h"
 #include "setup.h"
 #include "menu.h"
 #include "level.h"
+#include "gameloop.h"
 #include "badguy.h"
 #include "scene.h"
 #include "button.h"
@@ -635,7 +637,7 @@ void le_drawinterface()
 
   /* draw button bar */
   fillrect(screen->w - 64, 0, 64, screen->h, 50, 50, 50,255);
-  drawshape(19 * 32, 14 * 32, le_current_tile);
+  Tile::draw(19 * 32, 14 * 32, le_current_tile);
   
   	if(TileManager::instance()->get(le_current_tile)->editor_images.size() > 0)
 	texture_draw(&TileManager::instance()->get(le_current_tile)->editor_images[0], 19 * 32, 14 * 32);
@@ -703,21 +705,21 @@ void le_drawlevel()
 	else
 	a = 128;
       
-	drawshape(32*x - fmodf(pos_x, 32), y * 32, le_current_level->bg_tiles[y][x + (int)(pos_x / 32)],a);
+	Tile::draw(32*x - fmodf(pos_x, 32), y * 32, le_current_level->bg_tiles[y][x + (int)(pos_x / 32)],a);
 	
 	if(active_tm == TM_IA)
 	a = 255;
 	else
 	a = 128;
 	
-        drawshape(32*x - fmodf(pos_x, 32), y * 32, le_current_level->ia_tiles[y][x + (int)(pos_x / 32)],a);
+        Tile::draw(32*x - fmodf(pos_x, 32), y * 32, le_current_level->ia_tiles[y][x + (int)(pos_x / 32)],a);
 
 	if(active_tm == TM_FG)
 	a = 255;
 	else
 	a = 128;
 	
-	drawshape(32*x - fmodf(pos_x, 32), y * 32, le_current_level->fg_tiles[y][x + (int)(pos_x / 32)],a);
+	Tile::draw(32*x - fmodf(pos_x, 32), y * 32, le_current_level->fg_tiles[y][x + (int)(pos_x / 32)],a);
 	
         /* draw whats inside stuff when cursor is selecting those */
         /* (draw them all the time - is this the right behaviour?) */
