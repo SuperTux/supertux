@@ -58,7 +58,7 @@
 GameSession* GameSession::current_ = 0;
 
 GameSession::GameSession(const std::string& subset_, int levelnb_, int mode)
-  : world(0), st_gl_mode(mode), levelnb(levelnb_), end_sequence(false),
+  : world(0), st_gl_mode(mode), levelnb(levelnb_), end_sequence(NO_ENDSEQUENCE),
     subset(subset_)
 {
   current_ = this;
@@ -77,7 +77,7 @@ GameSession::restart_level()
 {
   game_pause   = false;
   exit_status  = NONE;
-  end_sequence = false;
+  end_sequence = NO_ENDSEQUENCE;
 
   fps_timer.init(true);
   frame_timer.init(true);
@@ -194,12 +194,13 @@ GameSession::on_escape_press()
 void
 GameSession::process_events()
 {
-  if (end_sequence)
+  if (end_sequence != NO_ENDSEQUENCE)
     {
       Player& tux = *world->get_tux();
-          
+         
+      tux.input.fire  = UP;
       tux.input.left  = UP;
-      tux.input.right = DOWN; 
+      tux.input.right = DOWN;
       tux.input.down  = UP; 
 
       if (int(last_x_pos) == int(tux.base.x))
@@ -246,7 +247,7 @@ GameSession::process_events()
             }
         }
     }
-  else
+  else // normal mode
     {
       if(!Menu::current() && !game_pause)
         st_pause_ticks_stop();
@@ -417,19 +418,28 @@ GameSession::check_end_conditions()
   Tile* endtile = collision_goal(tux->base);
 
   // fallback in case the other endpositions don't trigger
-  if (tux->base.x >= endpos || (endtile && endtile->data >= 1)
-      || (end_sequence && !endsequence_timer.check()))
+  if (!end_sequence && tux->base.x >= endpos)
+    {
+      end_sequence = ENDSEQUENCE_WAITING;
+      last_x_pos = -1;
+      music_manager->play_music(level_end_song, 0);
+      endsequence_timer.start(7000);
+    }
+  else if(end_sequence && !endsequence_timer.check())
     {
       exit_status = LEVEL_FINISHED;
       return;
     }
+  else if(end_sequence == ENDSEQUENCE_RUNNING && endtile && endtile->data >= 1)
+    {
+      end_sequence = ENDSEQUENCE_WAITING;
+    }
   else if(!end_sequence && endtile && endtile->data == 0)
     {
-      end_sequence = true;
+      end_sequence = ENDSEQUENCE_RUNNING;
       last_x_pos = -1;
-      music_manager->halt_music();
-      music_manager->play_music(level_end_song);
-      endsequence_timer.start(5000); // 5 seconds until we finish the map
+      music_manager->play_music(level_end_song, 0);
+      endsequence_timer.start(7000); // 5 seconds until we finish the map
     }
   else if (!end_sequence && tux->is_dead())
     {
@@ -455,8 +465,6 @@ GameSession::check_end_conditions()
 void
 GameSession::action(double frame_ratio)
 {
-  check_end_conditions();
-  
   if (exit_status == NONE)
     {
       // Update Tux and the World
@@ -570,9 +578,10 @@ GameSession::run()
           while (frame_ratio > 0)
             {
               // Update the world
-              if (end_sequence)
+              check_end_conditions();
+              if (end_sequence == ENDSEQUENCE_RUNNING)
                 action(.5f);
-              else
+              else if(end_sequence == NO_ENDSEQUENCE)
                 action(1.0f);
               frame_ratio -= 1.0f;
             }

@@ -146,6 +146,7 @@ public:
   void keep_in_bounds();
   bool on_ground();
   bool under_solid();
+  void grow();
   
 private:
   void handle_horizontal_input();

@@ -82,7 +82,7 @@ MusicManager::free_music(MusicResource* )
 }
 
 void
-MusicManager::play_music(const MusicRef& musicref)
+MusicManager::play_music(const MusicRef& musicref, int loops)
 {
   if(!audio_device)
     return;
@@ -97,7 +97,7 @@ MusicManager::play_music(const MusicRef& musicref)
   current_music->refcount++;
   
   if(music_enabled)
-    Mix_PlayMusic(current_music->music, -1);
+    Mix_PlayMusic(current_music->music, loops);
 }
 
 void

@@ -205,11 +205,11 @@ BadGuy::action_mriceblock(float frame_ratio)
 {
   Player& tux = *World::current()->get_tux();
 
-  if(dying == DYING_NOT)
+  if(mode != HELD)
     fall();
   
   /* Move left/right: */
-  if (mode == NORMAL || mode == KICK)
+  if (mode != HELD)
     {
       // move
       physic.apply(frame_ratio, base.x, base.y);

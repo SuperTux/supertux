@@ -455,8 +455,27 @@ Player::handle_input()
       duck = false;
       base.y -= 32;
       base.height = 64;
-      old_base = previous_base = base;
     }
+}
+
+void
+Player::grow()
+{
+  if(size == BIG)
+    return;
+  
+  size = BIG;
+  base.height = 64;
+  base.y -= 32;
+  // eventually go in duck mode if there's no space
+  if(collision_object_map(base))
+    {
+      base.height = 32;
+      base.y += 32;
+      duck = true;
+    }
+
+  old_base = previous_base = base;
 }
 
 void

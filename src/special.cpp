@@ -330,20 +330,13 @@ Upgrade::collision(void* p_c_object, int c_object, CollisionType type)
       if (kind == UPGRADE_GROWUP)
         {
           play_sound(sounds[SND_EXCELLENT], SOUND_CENTER_SPEAKER);
-          pplayer->size = BIG;
-          pplayer->base.height = 64;
-	  pplayer->base.y -= 32;
+          pplayer->grow();
         }
       else if (kind == UPGRADE_ICEFLOWER)
         {
           play_sound(sounds[SND_COFFEE], SOUND_CENTER_SPEAKER);
+          pplayer->grow();
           pplayer->got_coffee = true;
-          if (pplayer->size == SMALL)
-            {
-              pplayer->size = BIG;
-              pplayer->base.height = 64;
-              pplayer->base.y -= 32;
-            }
         }
       else if (kind == UPGRADE_HERRING)
         {

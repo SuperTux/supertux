@@ -6,12 +6,14 @@ Last update: April 26, 2004
 
 These are mostly bugs:
 
-- supertux crashs from time to time
+- supertux crashs from time to time - fixed
 - leveleditor lacks enemies support (will be fixed soon by Tobias)
-- sometimes you die after being in pause modus and unpausing
-- sometimes the level restarts/you die after collecing a growup
+- sometimes you die after being in pause modus and unpausing - still true?
+- sometimes the level restarts/you die after collecing a growup - fixed
 - mriceblock doesn't disapear after being kicked my another iceblock,
-  not sure when exactly it happens, might depend on direction or so
+  not sure when exactly it happens, might depend on direction or so - fixed
+- mriceblock doesn't fall down when being squished in the air - fixed
+- It's not possible to duck while jumping - fixed
+- Intro/Extro textspeed is CPU dependent - fixed
 - fadein/out for intro/extro would be nice
-
 

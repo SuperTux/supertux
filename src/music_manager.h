@@ -38,7 +38,7 @@ public:
   MusicRef load_music(const std::string& file);
   bool exists_music(const std::string& filename);
   
-  void play_music(const MusicRef& music);
+  void play_music(const MusicRef& music, int loops = -1);
   void halt_music();
 
   void enable_music(bool enable);

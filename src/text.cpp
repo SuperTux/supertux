@@ -222,7 +222,7 @@ Text::erasecenteredtext(const  char * text, int y, Surface * ptexture, int updat
 /* --- SCROLL TEXT FUNCTION --- */
 
 #define MAX_VEL     10
-#define SPEED_INC   1.0
+#define SPEED_INC   0.01
 #define SCROLL      60
 #define ITEMS_SPACE 4
 
@@ -236,7 +236,7 @@ void display_text_file(const std::string& file, const std::string& surface, floa
 void display_text_file(const std::string& file, Surface* surface, float scroll_speed)
 {
   int done;
-  int scroll;
+  float scroll;
   float speed;
   int y;
   int length;
@@ -266,13 +266,14 @@ void display_text_file(const std::string& file, Surface* surface, float scroll_s
 
 
   scroll = 0;
-  speed = scroll_speed;
+  speed = scroll_speed / 50;
   done = 0;
 
   length = names.num_items;
 
   SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
 
+  Uint32 lastticks = SDL_GetTicks();
   while(done == 0)
     {
       /* in case of input, exit */
@@ -322,19 +323,23 @@ void display_text_file(const std::string& file, Surface* surface, float scroll_s
         switch(names.item[i][0])
           {
           case ' ':
-            white_small_text->drawf(names.item[i]+1, 0, screen->h+y-scroll, A_HMIDDLE, A_TOP, 1);
+            white_small_text->drawf(names.item[i]+1, 0, screen->h+y-int(scroll),
+                A_HMIDDLE, A_TOP, 1);
             y += white_small_text->h+ITEMS_SPACE;
             break;
           case '	':
-            white_text->drawf(names.item[i]+1, 0, screen->h+y-scroll, A_HMIDDLE, A_TOP, 1);
+            white_text->drawf(names.item[i]+1, 0, screen->h+y-int(scroll),
+                A_HMIDDLE, A_TOP, 1);
             y += white_text->h+ITEMS_SPACE;
             break;
           case '-':
-            white_big_text->drawf(names.item[i]+1, 0, screen->h+y-scroll, A_HMIDDLE, A_TOP, 3);
+            white_big_text->drawf(names.item[i]+1, 0, screen->h+y-int(scroll),
+                A_HMIDDLE, A_TOP, 3);
             y += white_big_text->h+ITEMS_SPACE;
             break;
           default:
-            blue_text->drawf(names.item[i], 0, screen->h+y-scroll, A_HMIDDLE, A_TOP, 1);
+            blue_text->drawf(names.item[i], 0, screen->h+y-int(scroll),
+                A_HMIDDLE, A_TOP, 1);
             y += blue_text->h+ITEMS_SPACE;
             break;
           }
@@ -345,11 +350,13 @@ void display_text_file(const std::string& file, Surface* surface, float scroll_s
       if(screen->h+y-scroll < 0 && 20+screen->h+y-scroll < 0)
         done = 1;
 
-      scroll += (int)speed;
+      Uint32 ticks = SDL_GetTicks();
+      scroll += speed * (ticks - lastticks);
+      lastticks = ticks;
       if(scroll < 0)
         scroll = 0;
 
-      SDL_Delay(35);
+      SDL_Delay(10);
     }
   string_list_free(&names);
 

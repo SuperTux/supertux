@@ -681,7 +681,11 @@ WorldMap::update(float delta)
                       }
 
                     if (!level->extro_filename.empty())
-                      { // Display final credits and go back to the main menu
+                      { 
+                        MusicRef theme =
+                          music_manager->load_music(datadir + "/music/theme.mod");
+                        music_manager->play_music(theme);
+                        // Display final credits and go back to the main menu
                         display_text_file(level->extro_filename,
                                           "/images/background/extro.jpg", SCROLL_SPEED_MESSAGE);
                         display_text_file("CREDITS",
