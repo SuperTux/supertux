@@ -232,7 +232,7 @@ Statistics::operator+=(const Statistics& stats_)
 {
   for(int i = 0; i < NUM_STATS; i++)
     {
-    if(stats_.stats[i][STOTAL] == -1)
+    if(stats_.stats[i][SPLAYER] == -1)
       continue;
     stats[i][SPLAYER] += stats_.stats[i][SPLAYER];
     if(stats_.stats[i][STOTAL] != -1)
