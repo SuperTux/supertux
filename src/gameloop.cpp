@@ -721,7 +721,7 @@ GameSession::drawstatus(DrawingContext& context)
 
   sprintf(str, " %d", player_status.distros);
   context.draw_text(white_text, _("COINS"),
-      Vector(screen->w - white_text->get_text_width(_("COINS"))-white_text->get_text_width(str), 0),
+      Vector(screen->w - white_text->get_text_width(_("COINS"))-white_text->get_text_width("   99"), 0),
         LAYER_FOREGROUND1);
   context.draw_text(gold_text, str,
       Vector(screen->w - gold_text->get_text_width(" 99"), 0),LAYER_FOREGROUND1);
