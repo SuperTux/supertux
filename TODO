@@ -12,30 +12,41 @@ H: high priority
 L: low priority
 
 [H] AX_CHECK_GL produces an error during configure
+[H] Change resolution to 800x600
+     - Levels need to be updated to resolution
+     - Might still be some other bugs to iron out
+[H] Buttjump related things
+     - Right now only breaks bricks beneath tux
+     - Should only work when Tux is bug
+     - Should kill enemies with a certain range
+     - Should disable Tux Temporarily
+     - Animation (need images)
+     - 
+[H] Camera movement shouldn't be so fast at the beggining, it takes the focus from
+    the game (backscrolling)
+[H] Tux should fall while walking in tiles that have a space between.
+
 [M] When aborting a level, lives and score should remain the same as they
     were before. Solution: make more dependency between the game engine and worldmap
-    or just backup those variables before starting a level.
-[M] When jumping into a brick and there is a powerup, it should change direction or not,
+    or just backup those variables before starting a level. - fixed?
+[H] in the "Welcome to Antarctica" level, the blocks next to the first growup
+    look like there are 2 blocks above each other when bumping against them as
+    small tux...
+[H] Enemies should turn upside down after being hit by an kicked
+   iceblock, fireball or bomb
+[H] When jumping into a brick and there is a powerup, it should change direction or not,
     depending where the collision was. It currently sucks.
-[M] Tux should fall while walking in tiles that have a space between.
-[M] Camera movement shouldn't be so fast at the beggining, it takes the focus from
-    the game.
-[M] Change resolution to 800x600, increasing visible game area.
-[M] Moving platforms
+
+[M] when bumping a special with 2 blocks at once, it won't change direction
+[M] tux get killed if he kicks a iceblock while at the same time
+   bouncing on the roof
+
 [L] time runs while being in in-game menu, at least a bit (jump, go to
    menu, wait a bit, leave menu, Tux will 'flip' to the ground,
    instead of fall, pause mode doesn't seem to have this problem, only
    menu)
 [L] catch exceptions thrown by lispreader
 [L] fadein/out for intro/extro would be nice
-[L] when bumping a special with 2 blocks at once, it won't change direction
-[L] tux get killed if he kicks a iceblock while at the same time
-   bouncing on the roof
-[L] in the "Welcome to Antarctica" level, the blocks next to the first growup
-    look like there are 2 blocks above each other when bumping against them as
-    small tux...
-[L] Enemies should turn upside down after being hit by an kicked
-   iceblock, fireball or bomb
 
 
 Stuff for past milestone1:
