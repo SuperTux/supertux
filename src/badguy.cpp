@@ -584,7 +584,8 @@ BadGuy::action_stalactite(double elapsed_time)
     // start shaking when tux is below the stalactite and at least 40 pixels
     // near
     if(tux.base.x + 32 > base.x - RANGE && tux.base.x < base.x + 32 + RANGE
-            && tux.base.y + tux.base.height > base.y) {
+            && tux.base.y + tux.base.height > base.y
+            && tux.dying == DYING_NOT) {
       timer.start(SHAKETIME);
       mode = STALACTITE_SHAKING;
     }
@@ -823,7 +824,7 @@ BadGuy::action_walkingtree(double elapsed_time)
 
   fall();
 
-  if (mode == BGM_BIG)
+  if (mode == BGM_BIG && tux.dying == DYING_NOT)
   {
     if ((tux.base.x + tux.base.width/2 > base.x + base.width/2) && v_dir == LEFT)
     {
