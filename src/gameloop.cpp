@@ -548,14 +548,15 @@ GameSession::check_end_conditions()
   else if(!end_sequence && endtile && endtile->data == 0)
     {
       end_sequence = ENDSEQUENCE_RUNNING;
-      random_timer.start(200);  // start 1st firework
+      endsequence_timer.start(7000); // 5 seconds until we finish the map
       last_x_pos = -1;
       SoundManager::get()->play_music(level_end_song, 0);
-      endsequence_timer.start(7000); // 5 seconds until we finish the map
       tux->invincible_timer.start(7000); //FIXME: Implement a winning timer for the end sequence (with special winning animation etc.)
 
       // add left time to stats
       global_stats.set_points(TIME_NEEDED_STAT, time_left.get_gone() / 1000);
+
+      random_timer.start(200);  // start 1st firework
     }
   else if (!end_sequence && tux->is_dead())
     {
@@ -593,7 +594,8 @@ GameSession::action(double frame_ratio)
   }
 
   // on end sequence make a few fireworks
-  if(end_sequence == ENDSEQUENCE_RUNNING && !random_timer.check())
+  if(end_sequence == ENDSEQUENCE_RUNNING && !random_timer.check() &&
+     currentsector->end_sequence_animation() == FIREWORKS_ENDSEQ_ANIM)
     {
     Vector epicenter = currentsector->camera->get_translation();
     epicenter.x += screen->w * ((float)rand() / RAND_MAX);

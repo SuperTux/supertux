@@ -46,7 +46,7 @@ Sector* Sector::_current = 0;
 
 Sector::Sector()
   : gravity(10), player(0), solids(0), background(0), camera(0),
-    currentmusic(LEVEL_MUSIC)
+    currentmusic(LEVEL_MUSIC), end_sequence_animation_type(NONE_ENDSEQ_ANIM)
 {
   song_title = "Mortimers_chipdisko.mod";
   player = new Player();
@@ -86,6 +86,10 @@ Sector::parse(LispReader& lispreader)
     } else if(token == "music") {
       song_title = lisp_string(data);
       load_music();
+    } else if(token == "end-sequence-animation") {
+      std::string end_seq_anim = lisp_string(data);
+      if(end_seq_anim == "fireworks")
+        end_sequence_animation_type = FIREWORKS_ENDSEQ_ANIM;
     } else if(token == "camera") {
       if(camera) {
         std::cerr << "Warning: More than 1 camera defined in sector.\n";
@@ -183,6 +187,13 @@ Sector::parse_old_format(LispReader& reader)
     background->set_gradient(bkgd_top, bkgd_bottom);
     add_object(background);
   }
+
+  std::string end_seq_anim;
+  reader.read_string("end-sequence-animation", end_seq_anim);
+  if(end_seq_anim == "fireworks")
+    end_sequence_animation_type = FIREWORKS_ENDSEQ_ANIM;
+//  else
+//    end_sequence_animation = NONE_ENDSEQ_ANIM;
 
   std::string particlesystem;
   reader.read_string("particle_system", particlesystem);

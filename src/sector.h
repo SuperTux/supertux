@@ -56,6 +56,11 @@ struct SpawnPoint
   Vector pos;
 };
 
+enum {
+  NONE_ENDSEQ_ANIM,
+  FIREWORKS_ENDSEQ_ANIM
+  };
+
 /** This class holds a sector (a part of a level) and all the game objects
  * (badguys, player, background, tilemap, ...)
  */
@@ -126,6 +131,10 @@ public:
       player to play the same level in a different way :) */
   void do_vertical_flip();
 
+  /** Get end sequence animation */
+  int end_sequence_animation()
+    { return end_sequence_animation_type; }
+
   /** @evil@ */
   static Sector* current()
   { return _current; }
@@ -139,6 +148,8 @@ private:
 
   MusicRef level_song;
   MusicRef level_song_fast;
+
+  int end_sequence_animation_type;
 
 public:
   std::string song_title;
