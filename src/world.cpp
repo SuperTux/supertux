@@ -261,7 +261,7 @@ void
 World::action(double frame_ratio)
 {
   tux.action(frame_ratio);
-  scrolling();
+  scrolling(frame_ratio);
 
   /* Handle bouncy distros: */
   for (unsigned int i = 0; i < bouncy_distros.size(); i++)
@@ -316,7 +316,7 @@ World::action(double frame_ratio)
 #define CHANGE_DIR_SCROLL_SPEED 2000
 
 /* This functions takes cares of the scrolling */
-void World::scrolling()
+void World::scrolling(double frame_ratio)
 {
   int tux_pos_x = (int)(tux.base.x + (tux.base.width/2));
 
@@ -330,17 +330,12 @@ void World::scrolling()
       final_scroll_x = tux_pos_x - (screen->w - X_SPACE);
     else// if (tux.dir == LEFT)// && )
       final_scroll_x = tux_pos_x - X_SPACE;
-
-    if(moved_scroll_x == 0)
-      moved_scroll_x = scroll_x;
-
-    scroll_x += (final_scroll_x - scroll_x) / (CHANGE_DIR_SCROLL_SPEED);
+printf("%f\n", frame_ratio);
+    scroll_x += ((final_scroll_x - scroll_x) / (CHANGE_DIR_SCROLL_SPEED)) * frame_ratio;
     }
 
   else
     {
-    moved_scroll_x = 0;
-
     if (tux.dir == RIGHT && scroll_x < tux_pos_x - (screen->w - X_SPACE))
       scroll_x = tux_pos_x - (screen->w - X_SPACE);
     else if (tux.dir == LEFT && scroll_x > tux_pos_x - X_SPACE && (level->back_scrolling || debug_mode))
