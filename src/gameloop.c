@@ -35,47 +35,6 @@
 #include "world.h"
 #include "player.h"
 
-/* Sound files: */
-
-enum {
-  SND_JUMP,
-  SND_BIGJUMP,
-  SND_SKID,
-  SND_DISTRO,
-  SND_HERRING,
-  SND_BRICK,
-  SND_HURT,
-  SND_SQUISH,
-  SND_FALL,
-  SND_RICOCHET,
-  SND_BUMP_UPGRADE,
-  SND_UPGRADE,
-  SND_EXCELLENT,
-  SND_COFFEE,
-  SND_SHOOT,
-  SND_LIFEUP
-};
-
-
-char * soundfilenames[NUM_SOUNDS] = {
-                                      DATA_PREFIX "/sounds/jump.wav",
-                                      DATA_PREFIX "/sounds/bigjump.wav",
-                                      DATA_PREFIX "/sounds/skid.wav",
-                                      DATA_PREFIX "/sounds/distro.wav",
-                                      DATA_PREFIX "/sounds/herring.wav",
-                                      DATA_PREFIX "/sounds/brick.wav",
-                                      DATA_PREFIX "/sounds/hurt.wav",
-                                      DATA_PREFIX "/sounds/squish.wav",
-                                      DATA_PREFIX "/sounds/fall.wav",
-                                      DATA_PREFIX "/sounds/ricochet.wav",
-                                      DATA_PREFIX "/sounds/bump-upgrade.wav",
-                                      DATA_PREFIX "/sounds/upgrade.wav",
-                                      DATA_PREFIX "/sounds/excellent.wav",
-                                      DATA_PREFIX "/sounds/coffee.wav",
-                                      DATA_PREFIX "/sounds/shoot.wav",
-                                      DATA_PREFIX "/sounds/lifeup.wav"
-                                    };
-
 
 /* Local variables: */
 
@@ -1488,6 +1447,7 @@ int game_action(void)
                         {
                           /* Flatten! */
 
+                          play_sound(sounds[SND_STOMP]);
                           bad_guys[i].mode = FLAT;
 
                           bad_guys[i].timer = 64;
@@ -1499,6 +1459,7 @@ int game_action(void)
                           /* Kick! */
 
                           bad_guys[i].mode = KICK;
+                          play_sound(sounds[SND_KICK]);
 
                           if (tux_x + scroll_x <= bad_guys[i].x)
                             bad_guys[i].dir = RIGHT;
@@ -1559,6 +1520,7 @@ int game_action(void)
                           /* Step on (stop being kicked) */
 
                           bad_guys[i].mode = FLAT;
+                          play_sound(sounds[SND_STOMP]);
                           bad_guys[i].timer = 64;
                         }
                       else

@@ -18,9 +18,6 @@
 
 #include "defines.h"     /* get YES/NO defines */
 
-/*all the sounds we have*/
-#define NUM_SOUNDS 16
-
 /*global variable*/
 int use_sound;
 int use_music;
@@ -33,6 +30,52 @@ enum Music_Type {
   HURRYUP_MUSIC,
   HERRING_MUSIC
 } current_music;
+
+/* Sound files: */
+
+enum {
+  SND_JUMP,
+  SND_BIGJUMP,
+  SND_SKID,
+  SND_DISTRO,
+  SND_HERRING,
+  SND_BRICK,
+  SND_HURT,
+  SND_SQUISH,
+  SND_FALL,
+  SND_RICOCHET,
+  SND_BUMP_UPGRADE,
+  SND_UPGRADE,
+  SND_EXCELLENT,
+  SND_COFFEE,
+  SND_SHOOT,
+  SND_LIFEUP,
+  SND_STOMP,
+  SND_KICK,
+  NUM_SOUNDS
+};
+
+
+static char * soundfilenames[NUM_SOUNDS] = {
+                                      DATA_PREFIX "/sounds/jump.wav",
+                                      DATA_PREFIX "/sounds/bigjump.wav",
+                                      DATA_PREFIX "/sounds/skid.wav",
+                                      DATA_PREFIX "/sounds/distro.wav",
+                                      DATA_PREFIX "/sounds/herring.wav",
+                                      DATA_PREFIX "/sounds/brick.wav",
+                                      DATA_PREFIX "/sounds/hurt.wav",
+                                      DATA_PREFIX "/sounds/squish.wav",
+                                      DATA_PREFIX "/sounds/fall.wav",
+                                      DATA_PREFIX "/sounds/ricochet.wav",
+                                      DATA_PREFIX "/sounds/bump-upgrade.wav",
+                                      DATA_PREFIX "/sounds/upgrade.wav",
+                                      DATA_PREFIX "/sounds/excellent.wav",
+                                      DATA_PREFIX "/sounds/coffee.wav",
+                                      DATA_PREFIX "/sounds/shoot.wav",
+                                      DATA_PREFIX "/sounds/lifeup.wav",
+                                      DATA_PREFIX "/sounds/stomp.wav",
+                                      DATA_PREFIX "/sounds/kick.wav"
+                                    };
 
 
 #ifndef NOSOUND

@@ -17,6 +17,9 @@ http://www.newbreedsoftware.com/supertux/
     time is running out.
     Bill Kendrick <bill@newbreedsoftware.com>
 
+  * New laptop enemy graphics.  Sounds when you stomp and kick them.
+    Bill Kendrick <bill@newbreedsoftware.com>
+
 
 0.0.5 - December 24th, 2003
 ---------------------------
