@@ -72,4 +72,39 @@
 	O Tux corre para fora da fortaleza, com o
 	mapa na mão. Não, ele decide, não vou
 	desistir. A Penny está a contar com ele.")
+	
+; Italian (European) by Federico Asara  
+  (text "-Entrando nella sala del trono di Nolok!
+
+	Tux entro' correndo nella sala del trono di Nolok
+	cercando disperatamente la sua amata.
+	Ma lì non trovo' ne' lei ne' Nolok,
+	trovando invece un'altra nota.
+
+	\"Ben fatto, Tux, ben fatto. Se starai
+	leggendo questa nota, avrai rimosso il
+	mio controllo da questa fortezza ghiacciata.
+	Ma come puoi vedere, la tua cara Penny 
+	non e' qui. Non sei arrivato a pensare 
+	che questa e' una delle mie tante fortezze,
+	sparse per tutte le terre!
+
+	\"Tux, la tua ambizione e' onorabile, ma
+	anche futile. Per ogni mia fortezza
+	che conquisterai, io scappero' in un'altra,
+	e portero' Penny con me. Dai, non fare
+	lo stupido... e' meglio se ti arrendi
+	gia' da ora.\"
+
+	Tux stava tristemente uscendo dalla sala,
+	quando egli senti' qualcosa sotto il suo 
+	piede... una busta, indirizzata a lui! 
+	Dentro c'era un abbozzo di mappa con 
+	fortezze in varie terre. Nell'angolo della
+	mappa c'era la firma di Penny, un disegno
+	del suo fiore ghiacciato.
+	
+	Tux usci' correndo dalla fortezza, portando
+	con se la mappa. No, ormai ha deciso, lui 
+	non si arrendera'. Penny si fida di lui!")
   )

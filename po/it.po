@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: super-tux-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2004-10-20 21:58+0200\n"
+"POT-Creation-Date: 2004-10-20 14:06-0600\n"
 "PO-Revision-Date: 2004-10-20 22:42+0200\n"
 "Last-Translator: Iknos <ze4lot@email.it>\n"
 "Language-Team:  <it@li.org>\n"
@@ -539,7 +539,7 @@ msgstr "- Statistiche migliori del livello -"
 
 #: src/statistics.cpp:117
 msgid "Max score:"
-msgstr "Punteggio max:"
+msgstr "Punti max:"
 
 #: src/statistics.cpp:137
 msgid "Max coins collected:"
@@ -556,7 +556,7 @@ msgstr "Tempo minimo impiegato:"
 #: src/statistics.cpp:170
 #, c-format
 msgid "Max score:             %d"
-msgstr "Max punteggio:         %d"
+msgstr "Max punti:            %d"
 
 #: src/statistics.cpp:176
 #, c-format
@@ -731,4 +731,3 @@ msgstr "Alt destro"
 #: lib/gui/menu.cpp:269
 msgid "Left Alt"
 msgstr "Alt sinistro"
-

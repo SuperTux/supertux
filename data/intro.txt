@@ -46,4 +46,28 @@
 	O Tux olha e vê a fortaleza de Nolok
 	ao longe. Determinado em salvar a sua
 	amada Penny, ele inicia a sua viagem.")
+
+; Italian (European) by Federico Asara
+    (text-it_IT "-Penny viene catturata!
+
+	Tux e Penny stavano facendo un bel picnic
+	 nelle distese ghiacciate dell'Antarctico.
+	All'improvviso, una creatura salto fuori
+	da un cespuglio ghiacciato, ci fu un lampo 
+	di luce, e Tux svenne!
+
+	Quando Tux si risveglia, nota che Penny
+	e' scomparsa. Al suo posto giace una
+	lettera. \"Tux, mio arci-nemico!\" - c'e' 
+	scritto nella lettera. \"Ho catturato
+	la tua cara Penny e l'ho portata nella mia
+	fortezza. La strada e' piena di miei 
+	servitori. Percio' arrenditi e non pensare
+	neanche di riuscire a salvarla, non
+	hai alcuna possibilita'! -Nolok\"
+
+	Tux vede la fortezza di Nolok in 
+	lontananza. Determinato a salvare la sua
+	amata Penny, comincia il suo viaggio.")
+	
   )
