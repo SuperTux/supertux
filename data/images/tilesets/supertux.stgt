@@ -5,16 +5,17 @@
   (id 0))
  ;; Zero tile
  (tilegroup (name "Snow") (tiles 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 30 31))
- (tilegroup (name "More-Snow") (tiles 122 123 124 125 113 114 115 116 117 118))
+ (tilegroup (name "Snow (More)") (tiles 122 123 124 125 113 114 115 116 117 118))
  (tilegroup (name "Darksnow") (tiles 32 33 34 35 36 37 38 39 40 41 42 43))
  (tilegroup (name "Block") (tiles 27 28 29 47 48 49 50 51 52 61 62 77 78))
  (tilegroup (name "Background") (tiles 24 25 63 70 71 72 73 74 106 107 108 109 110 111))
  (tilegroup (name "Classic-Bg") (tiles 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101))
  (tilegroup (name "Points") (tiles 132 133))
  (tilegroup (name "Bonus") (tiles 44 83 84 102 140 103 104 105 112 128))
- (tilegroup (name "Misc") (tiles 75 76 79 80 126 127 129 130 134 135 136 137 138 139 81))
+ (tilegroup (name "Misc") (tiles 75 76 79 80 126 127 129 130 134 135 81))
  (tilegroup (name "Pipe") (tiles 53 54 55 56 57 58 59 60))
  (tilegroup (name "Grey") (tiles 64 65 66 67 68 69))
+ (tilegroup (name "Signs") (tiles 136 137 138 139 140 141 142 143))
  (tile (id 0)
        (images "notile.png"))
 
@@ -491,6 +492,7 @@
       (solid #f)
       (images "nolok2.png"))
 
+; Signs
 (tile (id 136)
        (solid #f)
        (images "run1.png"))
@@ -503,5 +505,18 @@
 (tile (id 139)
        (solid #f)
        (images "run4.png"))
+(tile (id 140)
+      (solid #f)
+      (images "sign_right1.png"))
+(tile (id 141)
+      (solid #f)
+      (images "sign_right2.png"))
+(tile (id 142)
+      (solid #f)
+      (images "sign_right3.png"))
+(tile (id 143)
+      (solid #f)
+      (images "sign_right4.png"))
+
  )
 
