@@ -101,13 +101,19 @@ SDL_Surface * img_bsod_squished_left, * img_bsod_squished_right,
 SDL_Surface * img_box_full, * img_box_empty, * img_mints, * img_coffee,
 * img_super_bkgd, * img_bullet, * img_red_glow;
 SDL_Surface * img_cloud[2][4];
-SDL_Surface * tux_right[3], * tux_left[3],
-* bigtux_right[3], * bigtux_left[3],
-* bigtux_right_jump, * bigtux_left_jump,
-* cape_right[2], * cape_left[2],
-* bigcape_right[2], * bigcape_left[2],
-* ducktux_right, * ducktux_left,
-* skidtux_right, * skidtux_left, * tux_life;
+SDL_Surface * tux_life,
+  * tux_right[3], * tux_left[3],
+  * bigtux_right[3], * bigtux_left[3],
+  * bigtux_right_jump, * bigtux_left_jump,
+  * ducktux_right, * ducktux_left,
+  * skidtux_right, * skidtux_left,
+  * firetux_right[3], * firetux_left[3],
+  * bigfiretux_right[3], * bigfiretux_left[3],
+  * bigfiretux_right_jump, * bigfiretux_left_jump,
+  * duckfiretux_right, * duckfiretux_left,
+  * skidfiretux_right, * skidfiretux_left,
+  * cape_right[2], * cape_left[2],
+  * bigcape_right[2], * bigcape_left[2];
 SDL_Event event;
 SDL_Rect src, dest;
 SDLKey key;
@@ -1904,14 +1910,6 @@ void game_draw()
     }
 
 
-  if (tux_got_coffee && (frame % 2) == 1)
-    {
-      /* Coffee glow: */
-
-      drawimage(img_red_glow, tux_x - 8, tux_y - 32, NO_UPDATE);
-    }
-
-
   if (tux_safe == 0 || (frame % 2) == 0)
     {
       if (tux_size == SMALL)
@@ -1935,14 +1933,30 @@ void game_draw()
             }
 
 
-          if (tux_dir == RIGHT)
-            {
-              drawimage(tux_right[tux_frame], tux_x, tux_y, NO_UPDATE);
-            }
-          else
-            {
-              drawimage(tux_left[tux_frame], tux_x, tux_y, NO_UPDATE);
-            }
+	  if (!tux_got_coffee)
+	    {
+	      if (tux_dir == RIGHT)
+		{
+		  drawimage(tux_right[tux_frame], tux_x, tux_y, NO_UPDATE);
+		}
+	      else
+		{
+		  drawimage(tux_left[tux_frame], tux_x, tux_y, NO_UPDATE);
+		}
+	    }
+	  else
+	    {
+	      /* Tux got coffee! */
+	      
+	      if (tux_dir == RIGHT)
+		{
+		  drawimage(firetux_right[tux_frame], tux_x, tux_y, NO_UPDATE);
+		}
+	      else
+		{
+		  drawimage(firetux_left[tux_frame], tux_x, tux_y, NO_UPDATE);
+		}
+	    }
         }
       else
         {
@@ -1964,71 +1978,143 @@ void game_draw()
                 }
             }
 
-          if (!tux_duck)
-            {
-              if (!tux_skidding)
-                {
-                  if (!jumping || tux_ym > 0)
-                    {
-                      if (tux_dir == RIGHT)
-                        {
-                          drawimage(bigtux_right[tux_frame],
-                                    tux_x - 8, tux_y - 32,
-                                    NO_UPDATE);
-                        }
-                      else
-                        {
-                          drawimage(bigtux_left[tux_frame],
-                                    tux_x - 8, tux_y - 32,
-                                    NO_UPDATE);
-                        }
-                    }
-                  else
-                    {
-                      if (tux_dir == RIGHT)
-                        {
-                          drawimage(bigtux_right_jump,
-                                    tux_x - 8, tux_y - 32,
-                                    NO_UPDATE);
-                        }
-                      else
-                        {
-                          drawimage(bigtux_left_jump,
-                                    tux_x - 8, tux_y - 32,
-                                    NO_UPDATE);
-                        }
-                    }
-                }
-              else
-                {
-                  if (tux_dir == RIGHT)
-                    {
-                      drawimage(skidtux_right,
-                                tux_x - 8, tux_y - 32,
-                                NO_UPDATE);
-                    }
-                  else
-                    {
-                      drawimage(skidtux_left,
-                                tux_x - 8, tux_y - 32,
-                                NO_UPDATE);
-                    }
-                }
-            }
-          else
-            {
-              if (tux_dir == RIGHT)
-                {
-                  drawimage(ducktux_right, tux_x - 8, tux_y - 16,
-                            NO_UPDATE);
-                }
-              else
-                {
-                  drawimage(ducktux_left, tux_x - 8, tux_y - 16,
-                            NO_UPDATE);
-                }
-            }
-        }
+	  if (!tux_got_coffee)
+	    {
+	      if (!tux_duck)
+		{
+		  if (!tux_skidding)
+		    {
+		      if (!jumping || tux_ym > 0)
+			{
+			  if (tux_dir == RIGHT)
+			    {
+			      drawimage(bigtux_right[tux_frame],
+					tux_x - 8, tux_y - 32,
+					NO_UPDATE);
+			    }
+			  else
+			    {
+			      drawimage(bigtux_left[tux_frame],
+					tux_x - 8, tux_y - 32,
+					NO_UPDATE);
+			    }
+			}
+		      else
+			{
+			  if (tux_dir == RIGHT)
+			    {
+			      drawimage(bigtux_right_jump,
+					tux_x - 8, tux_y - 32,
+					NO_UPDATE);
+			    }
+			  else
+			    {
+			      drawimage(bigtux_left_jump,
+					tux_x - 8, tux_y - 32,
+					NO_UPDATE);
+			    }
+			}
+		    }
+		  else
+		    {
+		      if (tux_dir == RIGHT)
+			{
+			  drawimage(skidtux_right,
+				    tux_x - 8, tux_y - 32,
+				    NO_UPDATE);
+			}
+		      else
+			{
+			  drawimage(skidtux_left,
+				    tux_x - 8, tux_y - 32,
+				    NO_UPDATE);
+			}
+		    }
+		}
+	      else
+		{
+		  if (tux_dir == RIGHT)
+		    {
+		      drawimage(ducktux_right, tux_x - 8, tux_y - 16,
+				NO_UPDATE);
+		    }
+		  else
+		    {
+		      drawimage(ducktux_left, tux_x - 8, tux_y - 16,
+				NO_UPDATE);
+		    }
+		}
+	    }
+	  else
+	    {
+	      /* Tux has coffee! */
+	      
+	      if (!tux_duck)
+		{
+		  if (!tux_skidding)
+		    {
+		      if (!jumping || tux_ym > 0)
+			{
+			  if (tux_dir == RIGHT)
+			    {
+			      drawimage(bigfiretux_right[tux_frame],
+					tux_x - 8, tux_y - 32,
+					NO_UPDATE);
+			    }
+			  else
+			    {
+			      drawimage(bigfiretux_left[tux_frame],
+					tux_x - 8, tux_y - 32,
+					NO_UPDATE);
+			    }
+			}
+		      else
+			{
+			  if (tux_dir == RIGHT)
+			    {
+			      drawimage(bigfiretux_right_jump,
+					tux_x - 8, tux_y - 32,
+					NO_UPDATE);
+			    }
+			  else
+			    {
+			      drawimage(bigfiretux_left_jump,
+					tux_x - 8, tux_y - 32,
+					NO_UPDATE);
+			    }
+			}
+		    }
+		  else
+		    {
+		      if (tux_dir == RIGHT)
+			{
+			  drawimage(skidfiretux_right,
+				    tux_x - 8, tux_y - 32,
+				    NO_UPDATE);
+			}
+		      else
+			{
+			  drawimage(skidfiretux_left,
+				    tux_x - 8, tux_y - 32,
+				    NO_UPDATE);
+			}
+		    }
+		}
+	      else
+		{
+		  if (tux_dir == RIGHT)
+		    {
+		      drawimage(duckfiretux_right, tux_x - 8, tux_y - 16,
+				NO_UPDATE);
+		    }
+		  else
+		    {
+		      drawimage(duckfiretux_left, tux_x - 8, tux_y - 16,
+				NO_UPDATE);
+		    }
+		}
+	    }
+	}
     }
 
 
@@ -2634,6 +2720,24 @@ void loadshared(void)
   tux_left[2] = load_image(DATA_PREFIX "/images/shared/tux-left-2.png",
                            USE_ALPHA);
 
+  firetux_right[0] = load_image(DATA_PREFIX "/images/shared/firetux-right-0.png",
+                            USE_ALPHA);
+
+  firetux_right[1] = load_image(DATA_PREFIX "/images/shared/firetux-right-1.png",
+                            USE_ALPHA);
+
+  firetux_right[2] = load_image(DATA_PREFIX "/images/shared/firetux-right-2.png",
+                            USE_ALPHA);
+
+  firetux_left[0] = load_image(DATA_PREFIX "/images/shared/firetux-left-0.png",
+                           USE_ALPHA);
+
+  firetux_left[1] = load_image(DATA_PREFIX "/images/shared/firetux-left-1.png",
+                           USE_ALPHA);
+
+  firetux_left[2] = load_image(DATA_PREFIX "/images/shared/firetux-left-2.png",
+                           USE_ALPHA);
+
   cape_right[0] = load_image(DATA_PREFIX "/images/shared/cape-right-0.png",
                              USE_ALPHA);
 
@@ -2686,6 +2790,47 @@ void loadshared(void)
     load_image(DATA_PREFIX "/images/shared/bigcape-left-1.png",
                USE_ALPHA);
 
+  bigfiretux_right[0] = load_image(DATA_PREFIX "/images/shared/bigfiretux-right-0.png",
+                               USE_ALPHA);
+
+  bigfiretux_right[1] = load_image(DATA_PREFIX "/images/shared/bigfiretux-right-1.png",
+                               USE_ALPHA);
+
+  bigfiretux_right[2] = load_image(DATA_PREFIX "/images/shared/bigfiretux-right-2.png",
+                               USE_ALPHA);
+
+  bigfiretux_right_jump =
+    load_image(DATA_PREFIX "/images/shared/bigfiretux-right-jump.png", USE_ALPHA);
+
+  bigfiretux_left[0] = load_image(DATA_PREFIX "/images/shared/bigfiretux-left-0.png",
+                              USE_ALPHA);
+
+  bigfiretux_left[1] = load_image(DATA_PREFIX "/images/shared/bigfiretux-left-1.png",
+                              USE_ALPHA);
+
+  bigfiretux_left[2] = load_image(DATA_PREFIX "/images/shared/bigfiretux-left-2.png",
+                              USE_ALPHA);
+
+  bigfiretux_left_jump =
+    load_image(DATA_PREFIX "/images/shared/bigfiretux-left-jump.png", USE_ALPHA);
+
+  bigcape_right[0] =
+    load_image(DATA_PREFIX "/images/shared/bigcape-right-0.png",
+               USE_ALPHA);
+
+  bigcape_right[1] =
+    load_image(DATA_PREFIX "/images/shared/bigcape-right-1.png",
+               USE_ALPHA);
+
+  bigcape_left[0] =
+    load_image(DATA_PREFIX "/images/shared/bigcape-left-0.png",
+               USE_ALPHA);
+
+  bigcape_left[1] =
+    load_image(DATA_PREFIX "/images/shared/bigcape-left-1.png",
+               USE_ALPHA);
+
+
   ducktux_right = load_image(DATA_PREFIX
                              "/images/shared/ducktux-right.png",
                              USE_ALPHA);
@@ -2700,6 +2845,22 @@ void loadshared(void)
 
   skidtux_left = load_image(DATA_PREFIX
                             "/images/shared/skidtux-left.png",
+                            USE_ALPHA);
+
+  duckfiretux_right = load_image(DATA_PREFIX
+                             "/images/shared/duckfiretux-right.png",
+                             USE_ALPHA);
+
+  duckfiretux_left = load_image(DATA_PREFIX
+                            "/images/shared/duckfiretux-left.png",
+                            USE_ALPHA);
+
+  skidfiretux_right = load_image(DATA_PREFIX
+                             "/images/shared/skidfiretux-right.png",
+                             USE_ALPHA);
+
+  skidfiretux_left = load_image(DATA_PREFIX
+                            "/images/shared/skidfiretux-left.png",
                             USE_ALPHA);
 
 
@@ -2899,7 +3060,8 @@ void loadshared(void)
 
   img_red_glow = load_image(DATA_PREFIX "/images/shared/red-glow.png",
                             USE_ALPHA);
-
+  
+  
 
   /* Distros: */
 
@@ -2915,6 +3077,7 @@ void loadshared(void)
   img_distro[3] = load_image(DATA_PREFIX "/images/shared/distro-3.png",
                              USE_ALPHA);
 
+  
   /* Tux life: */
 
   tux_life = load_image(DATA_PREFIX "/images/shared/tux-life.png",
