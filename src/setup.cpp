@@ -1112,3 +1112,24 @@ void usage(char * prog, int ret)
   exit(ret);
 }
 
+std::vector<std::string> read_directory(const std::string& pathname)
+{
+  std::vector<std::string> dirnames;
+  
+  DIR* dir = opendir(pathname.c_str());
+  if (dir)
+    {
+      struct dirent *direntp;
+      
+      while((direntp = readdir(dir)))
+        {
+          dirnames.push_back(direntp->d_name);
+        }
+      
+      closedir(dir);
+    }
+
+  return dirnames;
+}
+
+/* EOF */

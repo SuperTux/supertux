@@ -18,20 +18,28 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 
+#include <assert.h>
 #include "setup.h"
 #include "level.h"
 #include "globals.h"
 #include "screen/surface.h"
 #include "level_subset.h"
 
+static bool has_suffix(const std::string& data, const std::string& suffix)
+{
+  if (data.length() >= suffix.length())
+    return data.compare(data.length() - suffix.length(), suffix.length(), suffix) == 0;
+  else
+    return false;
+}
+
 LevelSubset::LevelSubset()
-    : image(0), levels(0)
+  : levels(0)
 {
 }
 
 LevelSubset::~LevelSubset()
 {
-  delete image;
 }
 
 void LevelSubset::create(const std::string& subset_name)
@@ -42,112 +50,74 @@ void LevelSubset::create(const std::string& subset_name)
   new_subset.title = "Unknown Title";
   new_subset.description = "No description so far.";
   new_subset.save();
-  //new_lev.save(subset_name, 1, 0);
 }
 
-void LevelSubset::parse (lisp_object_t* cursor)
+void LevelSubset::read_info_file(const std::string& info_file)
 {
-  while(!lisp_nil_p(cursor))
-    {
-      lisp_object_t* cur = lisp_car(cursor);
-      char *s;
+  lisp_object_t* root_obj = lisp_read_from_file(info_file);
+  lisp_object_t* cur = lisp_car(root_obj);
 
-      if (!lisp_cons_p(cur) || !lisp_symbol_p (lisp_car(cur)))
-        {
-          printf("Not good");
-        }
-      else
-        {
-          if (strcmp(lisp_symbol(lisp_car(cur)), "title") == 0)
-            {
-              if(( s = lisp_string(lisp_car(lisp_cdr(cur)))) != NULL)
-                {
-                  title = s;
-                }
-            }
-          else if (strcmp(lisp_symbol(lisp_car(cur)), "description") == 0)
-            {
-              if(( s = lisp_string(lisp_car(lisp_cdr(cur)))) != NULL)
-                {
-                  description = s;
-                }
-            }
-        }
-      cursor = lisp_cdr (cursor);
+  if (lisp_symbol_p(cur) && strcmp(lisp_symbol(cur), "supertux-level-subset") == 0)
+    {
+      LispReader reader(lisp_cdr(root_obj));
+
+      reader.read_string("title", title);
+      reader.read_string("description", description);
+      reader.read_string_vector("levels", levels);
     }
+  else
+    {
+      std::cout << "LevelSubset: parse error in info file: " << info_file << std::endl;
+    }
+
+  lisp_free(root_obj);
 }
 
 void LevelSubset::load(const char* subset)
 {
-  FILE* fi;
-  char filename[1024];
-  char str[1024];
-  int i;
-  lisp_object_t* root_obj = 0;
-
   name = subset;
-
-  snprintf(filename, 1024, "%s/levels/%s/info", st_dir, subset);
-  if(!faccessible(filename))
-    snprintf(filename, 1024, "%s/levels/%s/info", datadir.c_str(), subset);
-  if(faccessible(filename))
+  
+  // Check in which directory our subset is located (ie. ~/.supertux/
+  // or SUPERTUX_DATADIR)
+  char filename[1024];
+  snprintf(filename, 1024, "%s/levels/%s/", st_dir, subset);
+  if (access(filename, R_OK) == 0)
     {
-      fi = fopen(filename, "r");
-      if (fi == NULL)
+      directory = filename;
+    }
+  else
+    {
+      snprintf(filename, 1024, "%s/levels/%s/", datadir.c_str(), subset);
+      if (access(filename, R_OK) == 0)
+        directory = filename;
+      else
+        std::cout << "Error: LevelSubset: couldn't find subset: " << subset << std::endl;
+    }
+  
+  read_info_file(directory + "info");
+
+  if (levels.empty())
+    { // Level info file doesn't define any levels, so read the
+      // directory to see what we can find
+      std::vector<std::string> files;
+  
+      snprintf(filename, 1024, "%s/levels/%s/", st_dir, subset);
+      if(access(filename, R_OK) == 0)
         {
-          perror(filename);
-        }
-      lisp_stream_t stream;
-      lisp_stream_init_file (&stream, fi);
-      root_obj = lisp_read (&stream);
-
-      if (root_obj->type == LISP_TYPE_EOF || root_obj->type == LISP_TYPE_PARSE_ERROR)
-        {
-          printf("World: Parse Error in file %s", filename);
-        }
-
-      lisp_object_t* cur = lisp_car(root_obj);
-
-      if (!lisp_symbol_p (cur))
-        {
-          printf("World: Read error in %s",filename);
-        }
-
-      if (strcmp(lisp_symbol(cur), "supertux-level-subset") == 0)
-        {
-          parse(lisp_cdr(root_obj));
-
-        }
-
-      lisp_free(root_obj);
-      fclose(fi);
-
-      snprintf(str, 1024, "%s.png", filename);
-      if(faccessible(str))
-        {
-          delete image;
-          image = new Surface(str,IGNORE_ALPHA);
+          files = read_directory(filename);
         }
       else
         {
-          snprintf(filename, 1024, "%s/images/status/level-subset-info.png", datadir.c_str());
-          delete image;
-          image = new Surface(filename,IGNORE_ALPHA);
+          snprintf(filename, 1024, "%s/levels/%s/", datadir.c_str(), subset);
+          files = read_directory(filename);
         }
-    }
-
-  for(i=1; i != -1; ++i)
-    {
-      /* Get the number of levels in this subset */
-      snprintf(filename, 1024, "%s/levels/%s/level%d.stl", st_dir, subset,i);
-      if(!faccessible(filename))
+  
+      for(std::vector<std::string>::iterator i = files.begin(); i != files.end(); ++i)
         {
-          snprintf(filename, 1024, "%s/levels/%s/level%d.stl", datadir.c_str(), subset,i);
-          if(!faccessible(filename))
-            break;
+          if (has_suffix(*i, ".stl"))
+            levels.push_back(*i);
         }
     }
-  levels = --i;
 }
 
 void
@@ -172,7 +142,7 @@ LevelSubset::save()
         }
 
       /* Write header: */
-      fprintf(fi,";SuperTux-Level-Subset\n");
+      fprintf(fi,";; SuperTux-Level-Subset\n");
       fprintf(fi,"(supertux-level-subset\n");
 
       /* Save title info: */
@@ -186,20 +156,24 @@ LevelSubset::save()
     }
 }
 
+void
+LevelSubset::add_level(const std::string& name)
+{
+  levels.push_back(name);
+}
+
 std::string
 LevelSubset::get_level_filename(unsigned int num)
 {
-  char filename[1024];
-                                                                                
-  // Load data file:
-  snprintf(filename, 1024, "%s/levels/%s/level%d.stl", st_dir,
-      name.c_str(), num);
-  if(!faccessible(filename))
-    snprintf(filename, 1024, "%s/levels/%s/level%d.stl", datadir.c_str(),
-        name.c_str(), num);
+  assert(num < levels.size());
 
-  return std::string(filename);
+  return directory + levels[num];
+}
+
+int
+LevelSubset::get_num_levels() const
+{
+  return levels.size();
 }
 
 /* EOF */
-

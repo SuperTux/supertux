@@ -21,6 +21,7 @@
 #ifndef SUPERTUX_LEVEL_SUBSET_H
 #define SUPERTUX_LEVEL_SUBSET_H
 
+#include <vector>
 #include <string>
 #include "lispreader.h"
 
@@ -30,6 +31,14 @@ class Surface;
     It could be extended to handle manipulation of subsets. */
 class LevelSubset
 {
+private:
+  /** Directory in which the level subset is stored */
+  std::string directory;
+
+  /** Level filenames without the leading path ("level1.stl",
+      "level3.stl", ...) */
+  std::vector<std::string> levels;
+
 public:
   LevelSubset();
   ~LevelSubset();
@@ -38,16 +47,18 @@ public:
   void load(const char* subset);
   void save();
 
+  void add_level(const std::string& name);
+
   std::string get_level_filename(unsigned int i);
+  int get_num_levels() const;
 
   std::string name;
   std::string title;
   std::string description;
   Surface* image;
-  int levels;
- 
+
 private:
-  void parse(lisp_object_t* cursor);
+  void read_info_file(const std::string& info_file);
 };
 
 #endif

@@ -27,6 +27,8 @@
 #include "game_object.h"
 #include "screen/surface.h"
 #include "level.h"
+#include "level_subset.h"
+#include "moving_object.h"
 #include "button.h"
 #include "menu.h"
 

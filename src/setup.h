@@ -20,6 +20,8 @@
 #ifndef SUPERTUX_SETUP_H
 #define SUPERTUX_SETUP_H
 
+#include <vector>
+#include <string>
 #include "menu.h"
 #include "sound.h"
 #include "type.h"
@@ -27,6 +29,8 @@
 int faccessible(const char *filename);
 int fcreatedir(const char* relative_dir);
 int fwriteable(const char *filename);
+std::vector<std::string> read_directory(const std::string& pathname);
+
 FILE * opendata(const char * filename, const char * mode);
 string_list_type dsubdirs(const char *rel_path, const char* expected_file);
 string_list_type dfiles(const char *rel_path, const char* glob, const char* exception_str);

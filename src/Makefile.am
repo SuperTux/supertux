@@ -44,6 +44,8 @@ interactive_object.cpp \
 interactive_object.h \
 level.cpp \
 level.h \
+level_subset.cpp \
+level_subset.h \
 leveleditor.cpp \
 leveleditor.h \
 lispreader.cpp \

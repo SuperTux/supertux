@@ -822,8 +822,8 @@ void LevelEditor::drawinterface(DrawingContext &context)
       le_object_properties_bt->draw(context);
     }
 
-    sprintf(str, "%d/%d", le_levelnb,le_level_subset->levels);
-    context.draw_text(white_text, str, Vector((le_level_subset->levels < 10) ? -10 : 0, 16), LAYER_GUI);
+    sprintf(str, "%d/%d", le_levelnb, le_level_subset->get_num_levels());
+    context.draw_text(white_text, str, Vector((le_level_subset->get_num_levels() < 10) ? -10 : 0, 16), LAYER_GUI);
 
     if(!le_help_shown)
       context.draw_text(white_small_text, "F1 for Help", Vector(10, 430), LAYER_GUI);
@@ -1153,7 +1153,7 @@ void LevelEditor::checkevents()
           le_next_level_bt->event(event);
           if(le_next_level_bt->get_state() == BUTTON_CLICKED)
           {
-            if(le_levelnb < le_level_subset->levels)
+            if(le_levelnb < le_level_subset->get_num_levels())
             {
               goto_level(le_levelnb+1);
             }
@@ -1165,8 +1165,8 @@ void LevelEditor::checkevents()
               Surface* surf = new Surface(le_level->get_sector("main")->background->get_image(), false);
               if(confirm_dialog(surf, str))
               {
-                new_lev.save(le_level_subset->name.c_str());
-                le_level_subset->levels = le_levelnb;
+                le_level_subset->add_level("newlevel.stl");
+                new_lev.save(le_level_subset->get_level_filename(le_levelnb+1));
                 goto_level(le_levelnb);
               }
              if(surf != NULL)

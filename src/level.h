@@ -24,37 +24,8 @@
 #include <map>
 #include <string>
 
-#include "screen/surface.h"
-#include "lispreader.h"
-#include "musicref.h"
-
-class Tile;
-
-/** This type holds meta-information about a level-subset. 
-    It could be extended to handle manipulation of subsets. */
-class LevelSubset
-{
-public:
-  LevelSubset();
-  ~LevelSubset();
-
-  static void create(const std::string& subset_name);
-  void load(const char* subset);
-  void save();
-
-  std::string get_level_filename(unsigned int i);
-
-  std::string name;
-  std::string title;
-  std::string description;
-  Surface* image;
-  int levels;
- 
-private:
-  void parse(lisp_object_t* cursor);
-};
-
 class Sector;
+class LispReader;
 
 class Level
 {

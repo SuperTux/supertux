@@ -129,7 +129,7 @@ void check_contrib_menu()
               contrib_subset_menu->additem(MN_LABEL, subset.title, 0,0);
               contrib_subset_menu->additem(MN_HL,"",0,0);
               
-              for (int i = 1; i <= subset.levels; ++i)
+              for (int i = 0; i < subset.get_num_levels(); ++i)
                 {
                   Level* level = new Level;
                   level->load(subset.get_level_filename(i));
