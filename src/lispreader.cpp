@@ -21,6 +21,7 @@
  * Boston, MA 02111-1307, USA.
  */
 
+#include <string>
 #include <assert.h>
 #include <ctype.h>
 #include <stdlib.h>
@@ -1055,6 +1056,34 @@ LispReader::read_float (const char* name, float* f)
       return true;
     }
   return false;
+}
+
+bool
+LispReader::read_int_vector (const char* name, std::vector<int>* vec)
+{
+  lisp_object_t* obj = search_for (name);
+  if (obj)
+    {
+      while(!lisp_nil_p(obj))
+        {
+          vec->push_back(lisp_integer(lisp_car(obj)));
+          obj = lisp_cdr(obj);
+        }
+      return true;
+    }
+  return false;    
+}
+
+bool
+LispReader::read_string (const char* name, std::string* str)
+{
+  lisp_object_t* obj = search_for (name);
+  if (obj)
+    {
+      *str = lisp_string(lisp_car(obj));
+      return true;
+    }
+  return false;  
 }
 
 bool
