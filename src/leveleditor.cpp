@@ -282,7 +282,7 @@ int leveleditor(int levelnb)
                       le_set_defaults();
                       le_current_level->load_gfx();
 		      le_world.activate_bad_guys();
-                      menu_item_change_input(&subset_new_menu->item[2],"");
+                      subset_new_menu->item[2].change_input("");
                       show_menu = true;
                       break;
                     }
@@ -463,7 +463,7 @@ void update_level_settings_menu()
   char str[80];
   int i;
 
-  menu_item_change_input(&level_settings_menu->item[2], le_current_level->name.c_str());
+  level_settings_menu->item[2].change_input(le_current_level->name.c_str());
   sprintf(str,"%d",le_current_level->width);
 
   string_list_copy(level_settings_menu->item[3].list, dsubdirs("images/themes", "solid0.png"));
@@ -477,23 +477,23 @@ void update_level_settings_menu()
   if((i = string_list_find(level_settings_menu->item[5].list,le_current_level->bkgd_image.c_str())) != -1)
     level_settings_menu->item[5].list->active_item = i;
 
-  menu_item_change_input(&level_settings_menu->item[6], str);
+  level_settings_menu->item[6].change_input(str);
   sprintf(str,"%d",le_current_level->time_left);
-  menu_item_change_input(&level_settings_menu->item[7], str);
+  level_settings_menu->item[7].change_input(str);
   sprintf(str,"%2.0f",le_current_level->gravity);
-  menu_item_change_input(&level_settings_menu->item[8], str);
+  level_settings_menu->item[8].change_input(str);
   sprintf(str,"%d",le_current_level->bkgd_red);
-  menu_item_change_input(&level_settings_menu->item[9], str);
+  level_settings_menu->item[9].change_input(str);
   sprintf(str,"%d",le_current_level->bkgd_green);
-  menu_item_change_input(&level_settings_menu->item[10], str);
+                         level_settings_menu->item[10].change_input(str);
   sprintf(str,"%d",le_current_level->bkgd_blue);
-  menu_item_change_input(&level_settings_menu->item[11], str);
+                         level_settings_menu->item[11].change_input(str);
 }
 
 void update_subset_settings_menu()
 {
-  menu_item_change_input(&subset_settings_menu->item[2], le_level_subset.title.c_str());
-  menu_item_change_input(&subset_settings_menu->item[3], le_level_subset.description.c_str());
+  subset_settings_menu->item[2].change_input(le_level_subset.title.c_str());
+  subset_settings_menu->item[3].change_input(le_level_subset.description.c_str());
 }
 
 void apply_level_settings_menu()
@@ -750,7 +750,7 @@ void le_checkevents()
   while(SDL_PollEvent(&event))
     {
       if(show_menu)
-        menu_event(event);
+        current_menu->event(event);
       else
         mouse_cursor->set_state(MC_NORMAL);
 

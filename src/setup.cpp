@@ -445,7 +445,7 @@ void update_load_save_game_menu(Menu* pmenu, int load)
         pmenu->item[i].kind = MN_ACTION;
       else
         pmenu->item[i].kind = MN_ACTION;
-      menu_item_change_text(&pmenu->item[i], tmp.c_str());
+      pmenu->item[i].change_text(tmp.c_str());
     }
 }
 

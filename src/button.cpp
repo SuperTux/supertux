@@ -68,7 +68,7 @@ Button::Button(std::string icon_file, std::string ninfo, SDLKey nshortcut, int x
   bkgd = NULL;
 }
 
-void Button::change_icon(std::string icon_file, int mw, int mh)
+void Button::change_icon(std::string icon_file, int /*mw*/, int /*mh*/)
 {
   char filename[1024];
 

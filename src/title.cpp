@@ -187,7 +187,7 @@ bool title(void)
 
       while (SDL_PollEvent(&event))
         {
-          menu_event(event);
+          current_menu->event(event);
           if (event.type == SDL_QUIT)
             {
               done = true;

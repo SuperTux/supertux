@@ -115,7 +115,7 @@ void save_hs(int score)
 
       while(SDL_PollEvent(&event))
         if(event.type == SDL_KEYDOWN)
-          menu_event(event);
+          current_menu->event(event);
 
       switch (highscore_menu->check())
         {

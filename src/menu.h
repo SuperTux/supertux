@@ -36,24 +36,24 @@ enum MenuItemKind {
 
 class Menu;
 
-struct menu_item_type
-  {
-    MenuItemKind kind;
-    int toggled;
-    char *text;
-    char *input;
-    string_list_type* list;
-    Menu* target_menu;
-};
+class MenuItem
+{
+public:
+  MenuItemKind kind;
+  int toggled;
+  char *text;
+  char *input;
+  string_list_type* list;
+  Menu* target_menu;
 
-menu_item_type* menu_item_create(MenuItemKind kind, char *text, int init_toggle, Menu* target_menu);
-void menu_item_change_text (menu_item_type* pmenu_item, const char *text);
-void menu_item_change_input(menu_item_type* pmenu_item, const char *text);
+  void change_text (const char *text);
+  void change_input(const char *text);
+
+  static MenuItem* create(MenuItemKind kind, char *text, int init_toggle, Menu* target_menu);
+};
 
 class Menu
 {
-friend void menu_event(SDL_Event& event);
-
 private:
   // position of the menu (ie. center of the menu, not top/left)
   int pos_x;
@@ -68,14 +68,14 @@ public:
   Timer effect;
   int arrange_left;
   int active_item;
-  menu_item_type *item;
+  MenuItem* item;
 
   static void set_current(Menu* pmenu);
 
   Menu();
   ~Menu();
 
-  void additem(menu_item_type* pmenu_item);
+  void additem(MenuItem* pmenu_item);
   void additem(MenuItemKind kind, char *text, int init_toggle, Menu* target_menu);
   void action ();
 
@@ -84,6 +84,9 @@ public:
   void draw   ();
   void draw_item(int index, int menu_width, int menu_height);
   void set_pos(int x, int y, float rw = 0, float rh = 0);
+
+  /* Check for a menu event */
+  void event(SDL_Event& event);
 };
 
 
@@ -103,7 +106,12 @@ enum MenuAction {
 extern MenuAction menuaction;
 extern bool show_menu;
 extern bool menu_change;
-extern texture_type checkbox, checkbox_checked, back, arrow_left, arrow_right;
+
+extern texture_type checkbox;
+extern texture_type checkbox_checked;
+extern texture_type back;
+extern texture_type arrow_left;
+extern texture_type arrow_right;
 
 extern Menu* contrib_menu;
 extern Menu* main_menu;
@@ -124,9 +132,6 @@ void menu_reset(void);
 
 /* "Calculate" and draw the menu */
 void menu_process_current(void);
-
-/* Check for a menu event */
-void menu_event(SDL_Event& event);
 
 #endif /*SUPERTUX_MENU_H*/
 

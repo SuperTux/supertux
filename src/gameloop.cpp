@@ -170,7 +170,7 @@ GameSession::process_events()
     {
       /* Check for menu-events, if the menu is shown */
       if(show_menu)
-        menu_event(event);
+        current_menu->event(event);
 
       switch(event.type)
         {

@@ -69,20 +69,25 @@ Menu::set_current(Menu* pmenu)
 }
 
 /* Return a pointer to a new menu item */
-menu_item_type* menu_item_create(MenuItemKind kind, char *text, int init_toggle, Menu* target_menu)
+MenuItem*
+MenuItem::create(MenuItemKind kind_, char *text_, int init_toggle_, Menu* target_menu_)
 {
-  menu_item_type *pnew_item = (menu_item_type*) malloc(sizeof(menu_item_type));
-  pnew_item->kind = kind;
-  pnew_item->text = (char*) malloc(sizeof(char) * (strlen(text) + 1));
-  strcpy(pnew_item->text,text);
-  if(kind == MN_TOGGLE)
-    pnew_item->toggled = init_toggle;
+  MenuItem *pnew_item = new MenuItem;
+  
+  pnew_item->kind = kind_;
+  pnew_item->text = (char*) malloc(sizeof(char) * (strlen(text_) + 1));
+  strcpy(pnew_item->text, text_);
+
+  if(kind_ == MN_TOGGLE)
+    pnew_item->toggled = init_toggle_;
   else
     pnew_item->toggled = false;
-  pnew_item->target_menu = target_menu;
+
+  pnew_item->target_menu = target_menu_;
   pnew_item->input = (char*) malloc(sizeof(char));
   pnew_item->input[0] = '\0';
-  if(kind == MN_STRINGSELECT)
+
+  if(kind_ == MN_STRINGSELECT)
     {
       pnew_item->list = (string_list_type*) malloc(sizeof(string_list_type));
       string_list_init(pnew_item->list);
@@ -92,22 +97,25 @@ menu_item_type* menu_item_create(MenuItemKind kind, char *text, int init_toggle,
   return pnew_item;
 }
 
-void menu_item_change_text(menu_item_type* pmenu_item,const  char *text)
+void
+MenuItem::change_text(const  char *text_)
 {
-  if(text)
+  if (text_)
     {
-      free(pmenu_item->text);
-      pmenu_item->text = (char*) malloc(sizeof(char )*(strlen(text)+1));
-      strcpy(pmenu_item->text,text);
+      free(text);
+      text = (char*) malloc(sizeof(char )*(strlen(text_)+1));
+      strcpy(text, text_);
     }
 }
-void menu_item_change_input(menu_item_type* pmenu_item,const  char *text)
+
+void
+MenuItem::change_input(const  char *text_)
 {
   if(text)
     {
-      free(pmenu_item->input);
-      pmenu_item->input = (char*) malloc(sizeof(char )*(strlen(text)+1));
-      strcpy(pmenu_item->input,text);
+      free(input);
+      input = (char*) malloc(sizeof(char )*(strlen(text_)+1));
+      strcpy(input, text_);
     }
 }
 
@@ -146,18 +154,18 @@ void Menu::set_pos(int x, int y, float rw, float rh)
 }
 
 void
-Menu::additem(MenuItemKind kind, char *text, int toggle, Menu* menu)
+Menu::additem(MenuItemKind kind_, char *text_, int toggle_, Menu* menu_)
 {
-  additem(menu_item_create(kind, text, toggle, menu));
+  additem(MenuItem::create(kind_, text_, toggle_, menu_));
 }
 
 /* Add an item to a menu */
 void
-Menu::additem(menu_item_type* pmenu_item)
+Menu::additem(MenuItem* pmenu_item)
 {
   ++num_items;
-  item = (menu_item_type*)realloc(item, sizeof(menu_item_type) * num_items);
-  memcpy(&item[num_items-1],pmenu_item,sizeof(menu_item_type));
+  item = (MenuItem*)realloc(item, sizeof(MenuItem) * num_items);
+  memcpy(&item[num_items-1], pmenu_item, sizeof(MenuItem));
   free(pmenu_item);
 }
 
@@ -280,7 +288,7 @@ Menu::action()
         }
     }
 
-  menu_item_type& new_item = item[active_item];
+  MenuItem& new_item = item[active_item];
   if(new_item.kind == MN_DEACTIVE
       || new_item.kind == MN_LABEL
       || new_item.kind == MN_HL)
@@ -324,10 +332,9 @@ Menu::draw_item(int index, // Position of the current item in the menu
                 int menu_width,
                 int menu_height)
 {
+  const MenuItem& pitem = item[index];
+
   int font_width  = 16;
-
-  const menu_item_type& pitem =  item[index];
-
   int effect_offset = 0;
   {
     int effect_time = 0;
@@ -536,7 +543,8 @@ void menu_process_current(void)
 }
 
 /* Check for menu event */
-void menu_event(SDL_Event& event)
+void
+Menu::event(SDL_Event& event)
 {
   SDLKey key;
   switch(event.type)
@@ -579,7 +587,7 @@ void menu_event(SDL_Event& event)
           menu_change = true;
           break;
         case SDLK_SPACE:
-          if(current_menu->item[current_menu->active_item].kind == MN_TEXTFIELD)
+          if(item[active_item].kind == MN_TEXTFIELD)
             {
               menuaction = MENU_ACTION_INPUT;
               menu_change = true;
@@ -625,10 +633,10 @@ void menu_event(SDL_Event& event)
     case SDL_MOUSEBUTTONDOWN:
       x = event.motion.x;
       y = event.motion.y;
-      if(x > current_menu->pos_x - current_menu->width()/2 &&
-          x < current_menu->pos_x + current_menu->width()/2 &&
-          y > current_menu->pos_y - current_menu->height()/2 &&
-          y < current_menu->pos_y + current_menu->height()/2)
+      if(x > pos_x - width()/2 &&
+          x < pos_x + width()/2 &&
+          y > pos_y - height()/2 &&
+          y < pos_y + height()/2)
         {
           menuaction = MENU_ACTION_HIT;
         }
@@ -636,12 +644,12 @@ void menu_event(SDL_Event& event)
     case SDL_MOUSEMOTION:
       x = event.motion.x;
       y = event.motion.y;
-      if(x > current_menu->pos_x - current_menu->width()/2 &&
-          x < current_menu->pos_x + current_menu->width()/2 &&
-          y > current_menu->pos_y - current_menu->height()/2 &&
-          y < current_menu->pos_y + current_menu->height()/2)
+      if(x > pos_x - width()/2 &&
+          x < pos_x + width()/2 &&
+          y > pos_y - height()/2 &&
+          y < pos_y + height()/2)
         {
-          current_menu->active_item = (y - (current_menu->pos_y - current_menu->height()/2)) / 24;
+          active_item = (y - (pos_y - height()/2)) / 24;
           menu_change = true;
 	  mouse_cursor->set_state(MC_LINK);
         }
