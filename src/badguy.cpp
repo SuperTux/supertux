@@ -289,7 +289,7 @@ BadGuy::check_horizontal_bump(bool checkcliff)
     if (dir == LEFT && issolid( base.x, (int) base.y + halfheight))
     {
         if (kind == BAD_MRICEBLOCK && mode == KICK)
-            World::current()->trybreakbrick(base.x, base.y + halfheight, false);
+            World::current()->trybreakbrick(base.x, base.y + halfheight, false, dir);
 
         dir = RIGHT;
         physic.set_velocity(-physic.get_velocity_x(), physic.get_velocity_y());
@@ -298,8 +298,8 @@ BadGuy::check_horizontal_bump(bool checkcliff)
     if (dir == RIGHT && issolid( base.x + base.width, (int)base.y + halfheight))
     {
         if (kind == BAD_MRICEBLOCK && mode == KICK)
-            World::current()->trybreakbrick(base.x + base.width, (int) base.y + halfheight, false);
-
+            World::current()->trybreakbrick(base.x + base.width, (int) base.y + halfheight, false, dir);
+         
         dir = LEFT;
         physic.set_velocity(-physic.get_velocity_x(), physic.get_velocity_y());
         return;
