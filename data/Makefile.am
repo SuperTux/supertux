@@ -1,5 +1,5 @@
 iconsdir=$(datadir)/pixmaps
-icons_DATA = images/supertux.xpm
+icons_DATA = images/supertux.png
 
 desktopdir = $(datadir)/applications
 desktop_DATA = supertux.desktop
