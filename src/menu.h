@@ -67,6 +67,8 @@ enum LevelEditorSettingsMenuIDs {
   MNID_APPLY
   };
 
+bool confirm_dialog(char *text);
+
 /* Kinds of menu items */
 enum MenuItemKind {
   MN_ACTION,

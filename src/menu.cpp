@@ -60,6 +60,44 @@ Menu* contrib_subset_menu   = 0;
 std::vector<Menu*> Menu::last_menus;
 Menu* Menu::current_ = 0;
 
+/* just displays a Yes/No text that can be used to confirm stuff */
+bool confirm_dialog(char *text)
+{
+white_text->drawf(text,0,0,A_HMIDDLE,A_VMIDDLE,2);
+red_text->drawf("(Y)es/(N)o",0,20,A_HMIDDLE,A_VMIDDLE,2);
+flipscreen();
+SDL_Event event;
+int done = 0;
+bool confirm = false;
+while(done == 0)
+  {
+  while(SDL_PollEvent(&event))
+    switch(event.type)
+      {
+      case SDL_KEYDOWN:		// key pressed
+        switch(event.key.keysym.sym)
+          {
+          case SDLK_y:
+            done = 1;
+            confirm = true;
+            break;
+          case SDLK_n:
+            done = 1;
+            break;
+          default:
+            break;
+          }
+        break;
+      case SDL_QUIT:		// quit signal
+        done = 1;
+      default:
+        break;
+      }
+  SDL_Delay(50);
+  }
+return confirm;
+}
+
 void
 Menu::push_current(Menu* pmenu)
 {

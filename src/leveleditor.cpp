@@ -970,38 +970,13 @@ void le_checkevents()
                         {
                           Level new_lev;
                           char str[1024];
-                          int d = 0;
-                          sprintf(str,"Level %d doesn't exist.",le_level+1);
-                          white_text->drawf(str,0,-18,A_HMIDDLE,A_VMIDDLE,2);
-                          white_text->drawf("Do you want to create it?",0,0,A_HMIDDLE,A_VMIDDLE,2);
-                          red_text->drawf("(Y)es/(N)o",0,20,A_HMIDDLE,A_VMIDDLE,2);
-                          flipscreen();
-                          while(d == 0)
+                          sprintf(str,"Level %d doesn't exist. Create it?",le_level+1);
+                          if(confirm_dialog(str))
                             {
-                              while(SDL_PollEvent(&event))
-                                switch(event.type)
-                                  {
-                                  case SDL_KEYDOWN:		// key pressed
-                                    switch(event.key.keysym.sym)
-                                      {
-                                      case SDLK_y:
-                                        new_lev.init_defaults();
-                                        new_lev.save(le_level_subset.name.c_str(),++le_level);
-                                        le_level_subset.levels = le_level;
-                                        le_goto_level(le_level);
-                                        d = 1;
-                                        break;
-                                      case SDLK_n:
-                                        d = 1;
-                                        break;
-                                      default:
-                                        break;
-                                      }
-                                    break;
-                                  default:
-                                    break;
-                                  }
-                              SDL_Delay(50);
+                            new_lev.init_defaults();
+                            new_lev.save(le_level_subset.name.c_str(),++le_level);
+                            le_level_subset.levels = le_level;
+                            le_goto_level(le_level);
                             }
                         }
                     }
