@@ -43,7 +43,7 @@ void seticon(void);
 void usage(char * prog, int ret);
 
 /* Does the given file exist and is it accessible? */
-int faccessible(char *filename)
+int faccessible(const char *filename)
 {
   struct stat filestat;
   if (stat(filename, &filestat) == -1)
@@ -60,7 +60,7 @@ int faccessible(char *filename)
 }
 
 /* Can we write to this location? */
-int fwriteable(char *filename)
+int fwriteable(const char *filename)
 {
   FILE* fi;
   fi = fopen(filename, "wa");
@@ -72,7 +72,7 @@ int fwriteable(char *filename)
 }
 
 /* Makes sure a directory is created in either the SuperTux base directory or the SuperTux base directory.*/
-int fcreatedir(char* relative_dir)
+int fcreatedir(const char* relative_dir)
 {
   char path[1024];
   snprintf(path, 1024, "%s/%s/", st_dir, relative_dir);
@@ -97,11 +97,10 @@ int fcreatedir(char* relative_dir)
 /* Get all names of sub-directories in a certain directory. */
 /* Returns the number of sub-directories found. */
 /* Note: The user has to free the allocated space. */
-string_list_type dsubdirs(char *rel_path, char* expected_file)
+string_list_type dsubdirs(const char *rel_path,const  char* expected_file)
 {
   DIR *dirStructP;
   struct dirent *direntp;
-  int i = 0;
   string_list_type sdirs;
   char filename[1024];
   char path[1024];
@@ -168,13 +167,11 @@ string_list_type dsubdirs(char *rel_path, char* expected_file)
   return sdirs;
 }
 
-string_list_type dfiles(char *rel_path, char* glob, char* exception_str)
+string_list_type dfiles(const char *rel_path, const  char* glob, const  char* exception_str)
 {
   DIR *dirStructP;
   struct dirent *direntp;
-  int i = 0;
   string_list_type sdirs;
-  char filename[1024];
   char path[1024];
 
   string_list_init(&sdirs);
@@ -766,7 +763,7 @@ void st_shutdown(void)
 
 /* --- ABORT! --- */
 
-void st_abort(char * reason, char * details)
+void st_abort(const char * reason,const  char * details)
 {
   fprintf(stderr, "\nError: %s\n%s\n\n", reason, details);
   st_shutdown();

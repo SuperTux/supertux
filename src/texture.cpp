@@ -17,8 +17,8 @@
 #include "setup.h"
 #include "texture.h"
 
-void (*texture_load) (texture_type* ptexture, char * file, int use_alpha);
-void (*texture_load_part) (texture_type* ptexture, char * file, int x, int y, int w, int h, int use_alpha);
+void (*texture_load) (texture_type* ptexture,const  char * file, int use_alpha);
+void (*texture_load_part) (texture_type* ptexture,const  char * file, int x, int y, int w, int h, int use_alpha);
 void (*texture_free) (texture_type* ptexture);  
 void (*texture_draw) (texture_type* ptexture, float x, float y, int update);  
 void (*texture_draw_bg) (texture_type* ptexture, int update);  
@@ -58,13 +58,13 @@ void texture_setup(void)
 }
 
 #ifndef NOOPENGL
-void texture_load_gl(texture_type* ptexture, char * file, int use_alpha)
+void texture_load_gl(texture_type* ptexture,const  char * file, int use_alpha)
 {
   texture_load_sdl(ptexture,file,use_alpha);
   texture_create_gl(ptexture->sdl_surface,&ptexture->gl_texture);
 }
 
-void texture_load_part_gl(texture_type* ptexture, char * file, int x, int y, int w, int h, int use_alpha)
+void texture_load_part_gl(texture_type* ptexture,const  char * file, int x, int y, int w, int h, int use_alpha)
 {
   texture_load_part_sdl(ptexture,file,x,y,w,h,use_alpha);
   texture_create_gl(ptexture->sdl_surface,&ptexture->gl_texture);
@@ -218,7 +218,7 @@ float ph = power_of_two(ptexture->h);
 }
 #endif
 
-void texture_load_sdl(texture_type* ptexture, char * file, int use_alpha)
+void texture_load_sdl(texture_type* ptexture,const  char * file, int use_alpha)
 {
   SDL_Surface * temp;
   
@@ -245,7 +245,7 @@ void texture_load_sdl(texture_type* ptexture, char * file, int use_alpha)
   
 }
 
-void texture_load_part_sdl(texture_type* ptexture, char * file, int x, int y, int w, int h,  int use_alpha)
+void texture_load_part_sdl(texture_type* ptexture,const  char * file, int x, int y, int w, int h,  int use_alpha)
 {
 
   SDL_Rect src;

@@ -79,7 +79,7 @@ void levelintro(void)
   sprintf(str, "LEVEL %d", level);
   text_drawf(&blue_text, str, 0, 200, A_HMIDDLE, A_TOP, 1, NO_UPDATE);
 
-  sprintf(str, "%s", current_level.name);
+  sprintf(str, "%s", current_level.name.c_str());
   text_drawf(&gold_text, str, 0, 224, A_HMIDDLE, A_TOP, 1, NO_UPDATE);
 
   sprintf(str, "TUX x %d", tux.lives);
@@ -578,7 +578,7 @@ void game_draw(void)
 
 /* --- GAME LOOP! --- */
 
-int gameloop(char * subset, int levelnb, int mode)
+int gameloop(const char * subset, int levelnb, int mode)
 {
   int fps_cnt, jump, done;
   timer_type fps_timer, frame_timer;

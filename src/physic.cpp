@@ -64,6 +64,8 @@ float physic_get_velocity(physic_type* pphysic)
     return - (pphysic->start_vy - gravity* ((float)(st_get_ticks() - pphysic->start_time))/1000.);
   else if(pphysic->state == PH_HA)
     return - (pphysic->start_vx - pphysic->acceleration * ((float)(st_get_ticks() - pphysic->start_time))/1000.);
+  else
+    return 0;
 }
 
 float physic_get_max_distance(physic_type* pphysic)

@@ -568,7 +568,8 @@ _compile_pattern (lisp_object_t **obj, int *index)
         int type;
         int i;
         lisp_object_t *pattern;
-
+        type = -1;
+	
         if (lisp_type(lisp_car(*obj)) != LISP_TYPE_SYMBOL)
           return 0;
 
@@ -1075,12 +1076,29 @@ LispReader::read_int_vector (const char* name, std::vector<int>* vec)
 }
 
 bool
+LispReader::read_char_vector (const char* name, std::vector<char>* vec)
+{
+  lisp_object_t* obj = search_for (name);
+  if (obj)
+    {
+      while(!lisp_nil_p(obj))
+        {
+          vec->push_back(*lisp_string(lisp_car(obj)));
+          obj = lisp_cdr(obj);
+        }
+      return true;
+    }
+  return false;    
+}
+
+bool
 LispReader::read_string (const char* name, std::string* str)
 {
   lisp_object_t* obj = search_for (name);
   if (obj)
     {
-      *str = lisp_string(lisp_car(obj));
+
+     *str = lisp_string(lisp_car(obj));
       return true;
     }
   return false;  

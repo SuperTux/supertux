@@ -13,6 +13,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <iostream>
 #include "globals.h"
 #include "setup.h"
 #include "screen.h"
@@ -21,17 +22,28 @@
 #include "scene.h"
 #include "lispreader.h"
 
+using namespace std;
+
 texture_type img_bkgd, img_bkgd_tile[2][4], img_solid[4], img_brick[2];
 
-void subset_init(st_subset* st_subset)
+st_subset::st_subset()
 {
-  st_subset->title = NULL;
-  st_subset->description = NULL;
-  st_subset->name = NULL;
-  st_subset->levels = 0;
+  levels = 0;
 }
 
-void subset_parse (st_subset* st_subset, lisp_object_t* cursor)
+void st_subset::create(const std::string& subset_name)
+{
+  st_level new_lev;
+  st_subset new_subset;
+  new_subset.name = subset_name;
+  new_subset.title = "Unknown Title";
+  new_subset.description = "No description so far.";
+  new_subset.save();
+  level_default(&new_lev);
+  level_save(&new_lev,subset_name.c_str(),1);
+}
+
+void st_subset::parse (lisp_object_t* cursor)
 {
   while(!lisp_nil_p(cursor))
     {
@@ -48,16 +60,14 @@ void subset_parse (st_subset* st_subset, lisp_object_t* cursor)
             {
               if(( s = lisp_string(lisp_car(lisp_cdr(cur)))) != NULL)
                 {
-                  st_subset->title = (char*) malloc(sizeof(char)*(strlen(s)+1));
-                  strcpy(st_subset->title,s);
+                  title = s;
                 }
             }
           else if (strcmp(lisp_symbol(lisp_car(cur)), "description") == 0)
             {
               if(( s = lisp_string(lisp_car(lisp_cdr(cur)))) != NULL)
                 {
-                  st_subset->description = (char*) malloc(sizeof(char)*(strlen(s)+1));
-                  strcpy(st_subset->description,s);
+                  description = s;
                 }
             }
         }
@@ -65,16 +75,15 @@ void subset_parse (st_subset* st_subset, lisp_object_t* cursor)
     }
 }
 
-void subset_load(st_subset* st_subset, char *subset)
+void st_subset::load(char *subset)
 {
   FILE* fi;
   char filename[1024];
   char str[1024];
-  int len,i;
+  int i;
   lisp_object_t* root_obj = 0;
 
-  st_subset->name = (char*) malloc(sizeof(char)*(strlen(subset)+1));
-  strcpy(st_subset->name,subset);
+  name = subset;
 
   snprintf(filename, 1024, "%s/levels/%s/info", st_dir, subset);
   if(!faccessible(filename))
@@ -104,7 +113,7 @@ void subset_load(st_subset* st_subset, char *subset)
 
       if (strcmp(lisp_symbol(cur), "level-subset") == 0)
         {
-          subset_parse(st_subset,lisp_cdr(root_obj));
+          parse(lisp_cdr(root_obj));
 
         }
 
@@ -113,12 +122,12 @@ void subset_load(st_subset* st_subset, char *subset)
       snprintf(str, 1024, "%s.png", filename);
       if(faccessible(str))
         {
-          texture_load(&st_subset->image,str,IGNORE_ALPHA);
+          texture_load(&image,str,IGNORE_ALPHA);
         }
       else
         {
           snprintf(filename, 1024, "%s/images/status/level-subset-info.png", DATA_PREFIX);
-          texture_load(&st_subset->image,filename,IGNORE_ALPHA);
+          texture_load(&image,filename,IGNORE_ALPHA);
         }
     }
 
@@ -133,57 +142,81 @@ void subset_load(st_subset* st_subset, char *subset)
             break;
         }
     }
-  st_subset->levels = --i;
+  levels = --i;
 }
 
-void subset_save(st_subset* st_subset)
+void st_subset::save()
 {
   FILE* fi;
-  char filename[1024];
+  string filename;
 
   /* Save data file: */
-  sprintf(filename, "/levels/%s/", st_subset->name);
+  filename = "/levels/" + name + "/";
 
-  fcreatedir(filename);
-  snprintf(filename, 1024, "%s/levels/%s/info", st_dir, st_subset->name);
-  if(!fwriteable(filename))
-    snprintf(filename, 1024, "%s/levels/%s/info", DATA_PREFIX, st_subset->name);
-  if(fwriteable(filename))
+  fcreatedir(filename.c_str());
+  filename = string(st_dir) + "/levels/" + name + "/info";
+  if(!fwriteable(filename.c_str()))
+    filename = string(DATA_PREFIX) + "/levels/" + name + "/info";
+  if(fwriteable(filename.c_str()))
     {
-      fi = fopen(filename, "w");
+      fi = fopen(filename.c_str(), "w");
       if (fi == NULL)
         {
-          perror(filename);
+          perror(filename.c_str());
         }
-	
+
       /* Write header: */
       fprintf(fi,";SuperTux-Level-Subset\n");
       fprintf(fi,"(level-subset\n");
-            
+
       /* Save title info: */
-      fprintf(fi,"  (title \"%s\")\n",st_subset->title);
+      fprintf(fi,"  (title \"%s\")\n", title.c_str());
 
       /* Save the description: */
-      fprintf(fi,"  (description \"%s\")\n",st_subset->description);
-      
+      fprintf(fi,"  (description \"%s\")\n", description.c_str());
+
       fprintf( fi,")");
       fclose(fi);
 
     }
 }
 
-void subset_free(st_subset* st_subset)
+void st_subset::free()
 {
-  free(st_subset->title);
-  free(st_subset->description);
-  free(st_subset->name);
-  texture_free(&st_subset->image);
-  st_subset->levels = 0;
+  title.clear();
+  description.clear();
+  name.clear();
+  texture_free(&image);
+  levels = 0;
+}
+
+void level_default(st_level* plevel)
+{
+  int i,y;
+  plevel->name = "UnNamed";
+  plevel->theme = "antarctica";
+  plevel->song_title = "Mortimers_chipdisko.mod";
+  plevel->bkgd_image = "arctis.png";
+  plevel->width = 21;
+  plevel->time_left = 100;
+  plevel->gravity = 10.;
+  plevel->bkgd_red = 0;
+  plevel->bkgd_green = 0;
+  plevel->bkgd_blue = 0;
+
+  for(i = 0; i < 15; ++i)
+    {
+      plevel->tiles[i] = (unsigned int*) malloc((plevel->width+1)*sizeof(unsigned int));
+      plevel->tiles[i][plevel->width] = (unsigned int) '\0';
+      for(y = 0; y < plevel->width; ++y)
+        plevel->tiles[i][y] = (unsigned int) '.';
+      plevel->tiles[i][plevel->width] = (unsigned int) '\0';
+    }
 }
 
 /* Load data for this level: */
 /* Returns -1, if the loading of the level failed. */
-int level_load(st_level* plevel, char *subset, int level)
+int level_load(st_level* plevel,const  char *subset, int level)
 {
   char filename[1024];
 
@@ -198,10 +231,9 @@ int level_load(st_level* plevel, char *subset, int level)
 
 int level_load(st_level* plevel, const char* filename)
 {
-  char str[80];
   int x, y;
-  char * line;
   FILE * fi;
+  lisp_object_t* root_obj = 0;
   fi = fopen(filename, "r");
   if (fi == NULL)
     {
@@ -209,79 +241,58 @@ int level_load(st_level* plevel, const char* filename)
       return -1;
     }
 
-  /* Load header info: */
+  lisp_stream_t stream;
+  lisp_stream_init_file (&stream, fi);
+  root_obj = lisp_read (&stream);
 
+  if (root_obj->type == LISP_TYPE_EOF || root_obj->type == LISP_TYPE_PARSE_ERROR)
+    {
+      printf("World: Parse Error in file %s", filename);
+    }
 
-  /* (Level title) */
-  fgets(str, 20, fi);
-  strcpy(plevel->name, str);
-  plevel->name[strlen(plevel->name)-1] = '\0';
+  vector<int> vi;
 
-  /* (Level theme) */
-  fgets(str, 20, fi);
-  strcpy(plevel->theme, str);
-  plevel->theme[strlen(plevel->theme)-1] = '\0';
+DEBUG_MSG("LLALAL");
+  if (strcmp(lisp_symbol(lisp_car(root_obj)), "level") == 0)
+    {
+      LispReader reader(lisp_cdr(root_obj));
+      
+      DEBUG_MSG("TAGAF");
+      reader.read_int("width",  &plevel->width);
+      reader.read_int("time",  &plevel->time_left);
+      reader.read_int("bkgd_red",  &plevel->bkgd_red);
+      reader.read_int("bkgd_green",  &plevel->bkgd_green);
+      reader.read_int("bkgd_blue",  &plevel->bkgd_blue);
+      reader.read_float("gravity",  &plevel->gravity);
+      reader.read_string("name",  &plevel->name);
+      reader.read_string("theme",  &plevel->theme);
+      reader.read_string("music",  &plevel->song_title);
+      reader.read_string("background",  &plevel->bkgd_image);
+      reader.read_int_vector("tilemap",  &vi);
+    }
+    
+    DEBUG_MSG("LOLOL");
+    
+  int i;
+  for( i = 0; i < 15; ++i)
+    plevel->tiles[i] = (unsigned int*) calloc((plevel->width +1) , sizeof(unsigned int) );
 
+  i = 0;
+  int j = 0;
+  for(vector<int>::iterator it = vi.begin(); it != vi.end(); ++it, ++i)
+    {
 
-
-  /* (Time to beat level) */
-  fgets(str, 10, fi);
-  plevel->time_left = atoi(str);
-
-  /* (Song file for this level) */
-  fgets(str, sizeof(plevel->song_title), fi);
-  strcpy(plevel->song_title, str);
-  plevel->song_title[strlen(plevel->song_title)-1] = '\0';
-
-  /* (Level background image) */
-  fgets(str, sizeof(plevel->bkgd_image), fi);
-  strcpy(plevel->bkgd_image, str);
-  plevel->bkgd_image[strlen(plevel->bkgd_image)-1] = '\0';
-
-  /* (Level background color) */
-  fgets(str, 10, fi);
-  plevel->bkgd_red = atoi(str);
-  fgets(str, 10, fi);
-  plevel->bkgd_green= atoi(str);
-  fgets(str, 10, fi);
-  plevel->bkgd_blue = atoi(str);
-
-  /* (Level width) */
-  fgets(str, 10, fi);
-  plevel->width = atoi(str);
-
-  /* (Level gravity) */
-  fgets(str, 10, fi);
-  plevel->gravity = atof(str);
+      plevel->tiles[j][i] = (*it);
+      if(i == plevel->width)
+        {
+          i = 0;
+          ++j;
+	  DEBUG_MSG("joa");
+        }
+    }
 
   /* Set the global gravity to the latest loaded level's gravity */
   gravity = plevel->gravity;
-
-  /* Allocate some space for the line-reading! */
-
-  line = (char *) malloc(sizeof(char) * (plevel->width + 5));
-  if (line == NULL)
-    {
-      fprintf(stderr, "Couldn't allocate space to load level data!");
-      fclose(fi);
-      return -1;
-    }
-
-
-  /* Load the level lines: */
-
-  for (y = 0; y < 15; y++)
-    {
-      if(fgets(line, plevel->width + 5, fi) == NULL)
-        {
-          fprintf(stderr, "Level %s isn't complete!\n",plevel->name);
-          free(line);
-          fclose(fi);
-          return -1;
-        }
-      line[strlen(line) - 1] = '\0';
-      plevel->tiles[y] = (unsigned char*) strdup(line);
-    }
 
   /*  Mark the end position of this level! - Is a bit wrong here thought */
 
@@ -297,18 +308,17 @@ int level_load(st_level* plevel, const char* filename)
         }
     }
 
-  free(line);
   fclose(fi);
   return 0;
 }
 
 /* Save data for level: */
 
-void level_save(st_level* plevel, char * subset, int level)
+void level_save(st_level* plevel,const  char * subset, int level)
 {
   FILE * fi;
   char filename[1024];
-  int y;
+  int y,i;
   char str[80];
 
   /* Save data file: */
@@ -326,31 +336,31 @@ void level_save(st_level* plevel, char * subset, int level)
       exit(-1);
     }
 
-  fputs(plevel->name, fi);
-  fputs("\n", fi);
-  fputs(plevel->theme, fi);
-  fputs("\n", fi);
-  sprintf(str, "%d\n", plevel->time_left);	/* time */
-  fputs(str, fi);
-  fputs(plevel->song_title, fi);	/* song filename */
-  fputs("\n",fi);
-  fputs(plevel->bkgd_image, fi);	/* background image */
-  sprintf(str, "\n%d\n", plevel->bkgd_red);	/* red background color */
-  fputs(str, fi);
-  sprintf(str, "%d\n", plevel->bkgd_green);	/* green background color */
-  fputs(str, fi);
-  sprintf(str, "%d\n", plevel->bkgd_blue);	/* blue background color */
-  fputs(str, fi);
-  sprintf(str, "%d\n", plevel->width);	/* level width */
-  fputs(str, fi);
-  sprintf(str, "%2.1f\n", plevel->gravity);	/* level gravity */
-  fputs(str, fi);
 
+        /* Write header: */
+      fprintf(fi,";SuperTux-Level\n");
+      fprintf(fi,"(level\n");
+
+      fprintf(fi,"  (name \"%s\")\n", plevel->name.c_str());
+      fprintf(fi,"  (theme \"%s\")\n", plevel->theme.c_str());
+      fprintf(fi,"  (music \"%s\")\n", plevel->song_title.c_str());
+      fprintf(fi,"  (background \"%s\")\n", plevel->bkgd_image.c_str());
+      fprintf(fi,"  (bkgd_red %d)\n", plevel->bkgd_red);
+      fprintf(fi,"  (bkgd_green %d)\n", plevel->bkgd_green);
+      fprintf(fi,"  (bkgd_blue %d)\n", plevel->bkgd_blue);
+      fprintf(fi,"  (time %d)\n", plevel->time_left);
+      fprintf(fi,"  (width %d)\n", plevel->width);
+      fprintf(fi,"  (gravity %2.1f)\n", plevel->gravity);
+      fprintf(fi,"  (tilemap ");     
+       
   for(y = 0; y < 15; ++y)
     {
-      fputs((const char*)plevel->tiles[y], fi);
-      fputs("\n", fi);
+    for(i = 0; i < plevel->width; ++i)
+    fprintf(fi," %d ", plevel->tiles[y][i]); 
     }
+    
+      fprintf( fi,")");    
+      fprintf( fi,")\n");
 
   fclose(fi);
 }
@@ -364,10 +374,10 @@ void level_free(st_level* plevel)
   for(i=0; i < 15; ++i)
     free(plevel->tiles[i]);
 
-  plevel->name[0] = '\0';
-  plevel->theme[0] = '\0';
-  plevel->song_title[0] = '\0';
-  plevel->bkgd_image[0] = '\0';
+  plevel->name.clear();
+  plevel->theme.clear();
+  plevel->song_title.clear();
+  plevel->bkgd_image.clear();
 }
 
 /* Load graphics: */
@@ -392,12 +402,12 @@ void level_load_gfx(st_level *plevel)
   level_load_image(&img_bkgd_tile[1][2],plevel->theme,"bkgd-12.png", USE_ALPHA);
   level_load_image(&img_bkgd_tile[1][3],plevel->theme,"bkgd-13.png", USE_ALPHA);
 
-  if(strcmp(plevel->bkgd_image,"") != 0)
+  if(!plevel->bkgd_image.empty())
     {
       char fname[1024];
-      snprintf(fname, 1024, "%s/background/%s", st_dir, plevel->bkgd_image);
+      snprintf(fname, 1024, "%s/background/%s", st_dir, plevel->bkgd_image.c_str());
       if(!faccessible(fname))
-        snprintf(fname, 1024, "%s/images/background/%s", DATA_PREFIX, plevel->bkgd_image);
+        snprintf(fname, 1024, "%s/images/background/%s", DATA_PREFIX, plevel->bkgd_image.c_str());
       texture_load(&img_bkgd, fname, IGNORE_ALPHA);
     }
   else
@@ -429,13 +439,13 @@ void level_free_gfx(void)
 
 /* Load a level-specific graphic... */
 
-void level_load_image(texture_type* ptexture, char* theme, char * file, int use_alpha)
+void level_load_image(texture_type* ptexture, string theme,const  char * file, int use_alpha)
 {
   char fname[1024];
 
-  snprintf(fname, 1024, "%s/themes/%s/%s", st_dir, theme, file);
+  snprintf(fname, 1024, "%s/themes/%s/%s", st_dir, theme.c_str(), file);
   if(!faccessible(fname))
-    snprintf(fname, 1024, "%s/images/themes/%s/%s", DATA_PREFIX, theme, file);
+    snprintf(fname, 1024, "%s/images/themes/%s/%s", DATA_PREFIX, theme.c_str(), file);
 
   texture_load(ptexture, fname, use_alpha);
 }
@@ -470,17 +480,17 @@ void level_load_song(st_level* plevel)
   char * song_subtitle;
 
   song_path = (char *) malloc(sizeof(char) * (strlen(DATA_PREFIX) +
-                              strlen(plevel->song_title) + 8));
-  sprintf(song_path, "%s/music/%s", DATA_PREFIX, plevel->song_title);
+                              strlen(plevel->song_title.c_str()) + 8));
+  sprintf(song_path, "%s/music/%s", DATA_PREFIX, plevel->song_title.c_str());
   level_song = load_song(song_path);
   free(song_path);
 
 
   song_path = (char *) malloc(sizeof(char) * (strlen(DATA_PREFIX) +
-                              strlen(plevel->song_title) + 8 + 5));
-  song_subtitle = strdup(plevel->song_title);
+                              strlen(plevel->song_title.c_str()) + 8 + 5));
+  song_subtitle = strdup(plevel->song_title.c_str());
   strcpy(strstr(song_subtitle, "."), "\0");
-  sprintf(song_path, "%s/music/%s-fast%s", DATA_PREFIX, song_subtitle, strstr(plevel->song_title, "."));
+  sprintf(song_path, "%s/music/%s-fast%s", DATA_PREFIX, song_subtitle, strstr(plevel->song_title.c_str(), "."));
   level_song_fast = load_song(song_path);
   free(song_subtitle);
   free(song_path);

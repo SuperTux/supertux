@@ -63,7 +63,8 @@ void load_hs(void)
 {
   FILE * fi;
   char temp[128];
-  int c, i, strl;
+  int strl;
+  unsigned int i, c;
 
   hs_score = 100;
   strcpy(hs_name, "Grandma\0");

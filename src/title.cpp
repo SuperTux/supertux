@@ -72,8 +72,6 @@ int title(void)
   st_subset subset;
   level_subsets = dsubdirs("/levels", "info");
 
-  subset_init(&subset);
-
   /* Reset menu variables */
   menu_reset();
   menu_set_current(&main_menu);
@@ -167,7 +165,7 @@ int title(void)
               i = 0;
               if(level_subsets.num_items != 0)
                 {
-                  subset_load(&subset,level_subsets.item[0]);
+                  subset.load(level_subsets.item[0]);
                   while(!done)
                     {
                       texture_draw(&img_choose_subset,(screen->w - img_choose_subset.w) / 2, 0, NO_UPDATE);
@@ -177,12 +175,12 @@ int title(void)
                           if(level_subsets.num_items > 1)
                             {
                               if(i > 0)
-                                texture_draw(&arrow_left,(screen->w / 2) - ((strlen(subset.title)+2)*16)/2,20,NO_UPDATE);
+                                texture_draw(&arrow_left,(screen->w / 2) - ((subset.title.length()+2)*16)/2,20,NO_UPDATE);
                               if(i < level_subsets.num_items-1)
-                                texture_draw(&arrow_right,(screen->w / 2) + ((strlen(subset.title))*16)/2,20,NO_UPDATE);
+                                texture_draw(&arrow_right,(screen->w / 2) + ((subset.description.length())*16)/2,20,NO_UPDATE);
                             }
-                          text_drawf(&gold_text, subset.title, 0, 20, A_HMIDDLE, A_TOP, 1, NO_UPDATE);
-                          text_drawf(&gold_text, subset.description, 20, -20, A_HMIDDLE, A_BOTTOM, 1, NO_UPDATE);
+                          text_drawf(&gold_text, subset.title.c_str(), 0, 20, A_HMIDDLE, A_TOP, 1, NO_UPDATE);
+                          text_drawf(&gold_text, subset.description.c_str(), 20, -20, A_HMIDDLE, A_BOTTOM, 1, NO_UPDATE);
                         }
                       updatescreen();
                       SDL_Delay(50);
@@ -204,8 +202,8 @@ int title(void)
                                   if(i > 0)
                                     {
                                       --i;
-                                      subset_free(&subset);
-                                      subset_load(&subset,level_subsets.item[i]);
+                                      subset.free();
+                                      subset.load(level_subsets.item[i]);
                                     }
                                 }
                               else if(key == SDLK_RIGHT)
@@ -213,15 +211,15 @@ int title(void)
                                   if(i < level_subsets.num_items -1)
                                     {
                                       ++i;
-                                      subset_free(&subset);
-                                      subset_load(&subset,level_subsets.item[i]);
+                                      subset.free();
+                                      subset.load(level_subsets.item[i]);
                                     }
                                 }
                               else if(key == SDLK_SPACE || key == SDLK_RETURN)
                                 {
                                   done = YES;
-                                  quit = gameloop(subset.name,1,ST_GL_PLAY);
-                                  subset_free(&subset);
+                                  quit = gameloop(subset.name.c_str(),1,ST_GL_PLAY);
+                                  subset.free();
                                 }
                               else if(key == SDLK_ESCAPE)
                                 {
@@ -304,12 +302,12 @@ void display_credits()
         }
       fclose(fi);
     }
-    else
+  else
     {
-    string_list_add_item(&names,"Credits were not found!");
-    string_list_add_item(&names,"Shame on the guy, who");
-    string_list_add_item(&names,"forgot to include them");
-    string_list_add_item(&names,"in your SuperTux distribution.");
+      string_list_add_item(&names,"Credits were not found!");
+      string_list_add_item(&names,"Shame on the guy, who");
+      string_list_add_item(&names,"forgot to include them");
+      string_list_add_item(&names,"in your SuperTux distribution.");
     }
 
 
@@ -387,8 +385,8 @@ void display_credits()
                 text_drawf(&blue_text, names.item[i], 0, 60+screen->h+(n*18)+(d*18)-scroll, A_HMIDDLE, A_TOP, 1, NO_UPDATE);
             }
         }
-    
-      
+
+
       texture_draw_part(&bkg_title, 0, 0, 0, 0, 640, 130, NO_UPDATE);
 
       flipscreen();

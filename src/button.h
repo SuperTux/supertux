@@ -39,7 +39,7 @@ button_type;
 
 void button_load(button_type* pbutton,char* icon_file, char* info, SDLKey shortcut, int x, int y);
 button_type* button_create(char* icon_file, char* info, SDLKey shortcut, int x, int y);
-button_type* button_change_icon(button_type* pbutton,char* icon_file);
+void button_change_icon(button_type* pbutton,char* icon_file);
 void button_draw(button_type* pbutton);
 void button_free(button_type* pbutton);
 void button_event(button_type* pbutton, SDL_Event* event);

@@ -55,7 +55,7 @@ void button_load(button_type* pbutton,char* icon_file, char* info, SDLKey shortc
   pbutton->bkgd = NULL;
 }
 
-button_type* button_change_icon(button_type* pbutton,char* icon_file)
+void button_change_icon(button_type* pbutton,char* icon_file)
 {
   char filename[1024];
 

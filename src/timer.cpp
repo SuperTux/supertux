@@ -96,7 +96,7 @@ int timer_get_gone(timer_type* ptimer)
   return (ptimer->get_ticks() - ptimer->time);
 }
 
-int timer_fwrite(timer_type* ptimer, FILE* fi)
+void timer_fwrite(timer_type* ptimer, FILE* fi)
 {
   unsigned int diff_ticks;
   int tick_mode;
@@ -114,7 +114,7 @@ int timer_fwrite(timer_type* ptimer, FILE* fi)
   fwrite(&tick_mode,sizeof(unsigned int),1,fi);
 }
 
-int timer_fread(timer_type* ptimer, FILE* fi)
+void timer_fread(timer_type* ptimer, FILE* fi)
 {
   unsigned int diff_ticks;
   int tick_mode;

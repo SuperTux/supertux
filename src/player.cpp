@@ -133,7 +133,7 @@ void player_level_begin(player_type* pplayer)
 
 void player_action(player_type* pplayer)
 {
-  int i, jumped_in_solid;
+  int jumped_in_solid;
   jumped_in_solid = NO;
 
   /* --- HANDLE TUX! --- */
@@ -461,7 +461,7 @@ void player_handle_vertical_input(player_type *pplayer)
       if (player_on_ground(pplayer))
         {
           physic_init(&pplayer->vphysic);
-          pplayer->jumping == NO;
+          pplayer->jumping = NO;
         }
       else
         {

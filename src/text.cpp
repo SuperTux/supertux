@@ -17,9 +17,8 @@
 #include "screen.h"
 #include "text.h"
 
-void text_load(text_type* ptext, char* file, int kind, int w, int h)
+void text_load(text_type* ptext,const  char* file, int kind, int w, int h)
 {
-  int x, y;
   int mx, my;
   SDL_Surface *conv;
   int pixels;
@@ -62,7 +61,7 @@ void text_load(text_type* ptext, char* file, int kind, int w, int h)
   SDL_FreeSurface(conv);
 }
 
-void text_draw(text_type* ptext, char* text, int x, int y, int shadowsize, int update)
+void text_draw(text_type* ptext,const  char* text, int x, int y, int shadowsize, int update)
 {
   if(text != NULL)
     {
@@ -73,7 +72,7 @@ void text_draw(text_type* ptext, char* text, int x, int y, int shadowsize, int u
     }
 }
 
-void text_draw_chars(text_type* ptext, texture_type* pchars, char* text, int x, int y, int update)
+void text_draw_chars(text_type* ptext, texture_type* pchars,const  char* text, int x, int y, int update)
 {
   int i,j,len;
   int w, h;
@@ -116,7 +115,7 @@ void text_draw_chars(text_type* ptext, texture_type* pchars, char* text, int x, 
     }
 }
 
-void text_drawf(text_type* ptext, char* text, int x, int y, int halign, int valign, int shadowsize, int update)
+void text_drawf(text_type* ptext,const  char* text, int x, int y, int halign, int valign, int shadowsize, int update)
 {
   if(text != NULL)
     {
@@ -136,7 +135,6 @@ void text_drawf(text_type* ptext, char* text, int x, int y, int halign, int vali
 
 void text_free(text_type* ptext)
 {
-  int c;
   if(ptext->kind == TEXT_TEXT)
     texture_free(&ptext->chars);
   else if(ptext->kind == TEXT_NUM)
@@ -145,7 +143,7 @@ void text_free(text_type* ptext)
 
 /* --- ERASE TEXT: --- */
 
-void erasetext(text_type* ptext, char * text, int x, int y, texture_type * ptexture, int update, int shadowsize)
+void erasetext(text_type* ptext,const  char * text, int x, int y, texture_type * ptexture, int update, int shadowsize)
 {
   SDL_Rect dest;
 
@@ -167,7 +165,7 @@ void erasetext(text_type* ptext, char * text, int x, int y, texture_type * ptext
 
 /* --- ERASE CENTERED TEXT: --- */
 
-void erasecenteredtext(text_type* ptext, char * text, int y, texture_type * ptexture, int update, int shadowsize)
+void erasecenteredtext(text_type* ptext,const  char * text, int y, texture_type * ptexture, int update, int shadowsize)
 {
   erasetext(ptext, text, screen->w / 2 - (strlen(text) * 8), y, ptexture, update, shadowsize);
 }

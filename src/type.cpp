@@ -38,7 +38,7 @@ char* string_list_active(string_list_type* pstring_list)
     return "";
 }
 
-void string_list_add_item(string_list_type* pstring_list, char* str)
+void string_list_add_item(string_list_type* pstring_list,const  char* str)
 {
   char *pnew_string;
   pnew_string = (char*) malloc(sizeof(char)*(strlen(str)+1));
@@ -58,7 +58,7 @@ void string_list_copy(string_list_type* pstring_list, string_list_type pstring_l
     string_list_add_item(pstring_list,pstring_list_orig.item[i]);
 }
 
-int string_list_find(string_list_type* pstring_list, char* str)
+int string_list_find(string_list_type* pstring_list,const  char* str)
 {
   int i;
   for(i = 0; i < pstring_list->num_items; ++i)
@@ -74,7 +74,6 @@ int string_list_find(string_list_type* pstring_list, char* str)
 void string_list_sort(string_list_type* pstring_list)
 {
   int i,j,y;
-  short int sorter[pstring_list->num_items];
 
   for(j = 0; j < pstring_list->num_items; ++j)
     for(i = 0; i < pstring_list->num_items-1; ++i)

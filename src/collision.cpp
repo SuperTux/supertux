@@ -218,7 +218,7 @@ int collision_swept_object_map(base_type* old, base_type* current)
     }
 
   *old = *current;
-
+return 0;
 }
 
 void collision_handler()

@@ -29,7 +29,7 @@ extern st_level current_level;
 
 /* Function prototypes: */
 
-int gameloop(char * subset, int levelnb, int mode);
+int gameloop(const char * subset, int levelnb, int mode);
 void savegame(int slot);
 void loadgame(int slot);
 void slotinfo(char **pinfo, int slot);

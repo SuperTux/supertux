@@ -80,7 +80,7 @@ menu_item_type* menu_item_create(int kind, char *text, int init_toggle, void* ta
   return pnew_item;
 }
 
-void menu_item_change_text(menu_item_type* pmenu_item, char *text)
+void menu_item_change_text(menu_item_type* pmenu_item,const  char *text)
 {
   if(text)
     {
@@ -89,7 +89,7 @@ void menu_item_change_text(menu_item_type* pmenu_item, char *text)
       strcpy(pmenu_item->text,text);
     }
 }
-void menu_item_change_input(menu_item_type* pmenu_item, char *text)
+void menu_item_change_input(menu_item_type* pmenu_item,const  char *text)
 {
   if(text)
     {
