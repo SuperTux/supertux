@@ -560,6 +560,8 @@ void le_init_menus()
 
 int le_init()
 {
+  
+
   level_subsets = dsubdirs("/levels", "info");
   le_level_subset = new LevelSubset;
 
@@ -798,7 +800,10 @@ void le_drawinterface()
   }
 
   if(le_selection_mode == CURSOR)
-    le_selection->draw( cursor_x - scroll_x, cursor_y);
+    if(le_current.IsTile())
+    le_selection->draw( cursor_x - pos_x, cursor_y);
+    else
+    le_selection->draw( cursor_x, cursor_y);
   else if(le_selection_mode == SQUARE)
   {
     int w, h;
@@ -825,10 +830,8 @@ void le_drawinterface()
   if(le_current.IsObject())
   {
     le_current.obj->draw_on_screen(19 * 32, 14 * 32);
+    le_current.obj->draw_on_screen(cursor_x,cursor_y);
   }
-
-  //if(le_current.IsObject())
-  //printf("");
 
   if(le_current_level != NULL)
   {
@@ -892,9 +895,9 @@ void le_drawlevel()
 
   if(le_current.IsTile())
   {
-    Tile::draw(cursor_x, cursor_y,le_current.tile,128);
+    Tile::draw(cursor_x-pos_x, cursor_y,le_current.tile,128);
     if(!TileManager::instance()->get(le_current.tile)->images.empty())
-      fillrect(cursor_x,cursor_y,TileManager::instance()->get(le_current.tile)->images[0]->w,TileManager::instance()->get(le_current.tile)->images[0]->h,50,50,50,50);
+      fillrect(cursor_x-pos_x,cursor_y,TileManager::instance()->get(le_current.tile)->images[0]->w,TileManager::instance()->get(le_current.tile)->images[0]->h,50,50,50,50);
   }
   if(le_current.IsObject())
   {
@@ -1282,8 +1285,6 @@ void le_checkevents()
             {
               if(pbutton->get_state() == BUTTON_CLICKED)
               {
-                if(le_current.IsObject())
-                  le_current.obj->move_to(pbutton->get_pos().x,pbutton->get_pos().y);
                 le_current.Tile(pbutton->get_tag());
               }
             }
@@ -1294,8 +1295,6 @@ void le_checkevents()
             {
               if(pbutton->get_state() == BUTTON_CLICKED)
               {
-                if(le_current.IsObject())
-                  le_current.obj->move_to(pbutton->get_pos().x,pbutton->get_pos().y);
                 le_current.Object(pbutton->get_game_object());
               }
             }

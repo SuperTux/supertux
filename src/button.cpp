@@ -86,7 +86,7 @@ void Button::draw()
   
   if(game_object != NULL)
   {
-    game_object->draw_on_screen();
+    game_object->draw_on_screen(rect.x,rect.y);
   }
 
   if(show_info)
