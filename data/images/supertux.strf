@@ -7,7 +7,7 @@
        (name "big-tux-arms")
 
        (action
-         (name "walk")
+         (name "walk") (apply-mask 0 0 255 60)
          (fps 15.0)
          (x-offset 5)
          (y-offset 9)
@@ -61,7 +61,7 @@
  (sprite
        (name "big-tux-head")
        (action
-         (name "walk")
+         (name "walk") (apply-mask 0 0 255 60)
          (fps 15.0)
          (x-offset 5)
          (y-offset 9)
@@ -112,7 +112,7 @@
  (sprite
        (name "big-tux-body")
        (action
-         (name "walk")
+         (name "walk") (apply-mask 0 0 255 60)
          (fps 15.0)
          (x-offset 5)
          (y-offset 9)
@@ -154,7 +154,7 @@
  (sprite
        (name "big-tux-feet")
        (action
-         (name "walk")
+         (name "walk") (apply-mask 0 0 255 60)
          (fps 15.0)
          (x-offset 5)
          (y-offset 9)
@@ -204,7 +204,7 @@
  (sprite
        (name "big-fire-tux-head")
        (action
-         (name "walk")
+         (name "walk") (apply-mask 0 0 255 60)
          (fps 15.0)
          (x-offset 5)
          (y-offset 9)
@@ -430,7 +430,7 @@
  (sprite (name "mrbomb-ticking-right")
        (action
          (fps 15.0)
-         (x-offset 10)
+         (x-offset 255)
          (y-offset 8)
          (images "shared/mrbombx-right-0.png"
                  "shared/mrbombx-right-1.png")))
@@ -485,6 +485,19 @@
          (y-offset 11)
          (images "shared/fish-iced-down-0.png")))
 
+ (sprite (name "flamefish")
+       (action
+         (x-offset 2)
+         (y-offset 3)
+         (images "shared/flamefish-left-0.png"
+                 "shared/flamefish-left-1.png")))
+
+ (sprite (name "flamefish-down")
+       (action
+         (x-offset 2)
+         (y-offset 11)
+         (images "shared/flamefish-down-0.png")))
+
  (sprite (name "bouncingsnowball-left")
        (action
          (x-offset 1)
@@ -529,26 +542,26 @@
  (sprite (name "spiky-left")
        (action
          (x-offset 6)
-         (y-offset 10)
+         (y-offset 255)
          (images "shared/spiky-left-0.png"
                  "shared/spiky-left-1.png"
                  "shared/spiky-left-2.png")))
  (sprite (name "spiky-right")
        (action
          (x-offset 6)
-         (y-offset 10)
+         (y-offset 255)
          (images "shared/spiky-right-0.png"
                  "shared/spiky-right-1.png"
                  "shared/spiky-right-2.png")))
  (sprite (name "spiky-iced-left")
        (action
          (x-offset 6)
-         (y-offset 10)
+         (y-offset 255)
          (images "shared/spiky-iced-left-0.png")))
  (sprite (name "spiky-iced-right")
        (action
          (x-offset 6)
-         (y-offset 10)
+         (y-offset 255)
          (images "shared/spiky-iced-right-0.png")))
 
  (sprite (name "snowball-left")
@@ -603,7 +616,7 @@
        (action
          (x-offset 12)
          (x-offset 12)
-         (fps 20)
+         (fps 255)
          (images "shared/firebullet-1.png"
                  "shared/firebullet-2.png"
                  "shared/firebullet-3.png"
@@ -612,7 +625,7 @@
        (action
          (x-offset 12)
          (x-offset 12)
-         (fps 20)
+         (fps 255)
          (images "shared/icebullet-1.png")))
   ; Trampoline
   (sprite (name "trampoline")
