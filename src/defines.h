@@ -70,7 +70,7 @@ enum DyingType {
 #define RUN_SPEED 1.5
 #define JUMP_SPEED 1.2
 
-#define MAX_BULLETS 2
+#define MAX_BULLETS 1
 
 #define GRAVITY 1.0
 #define YM_FOR_JUMP 6.0
