@@ -2,15 +2,14 @@
 # SConstruct build file. See http://www.scons.org for details.
 import os
 
-# based on a script from chenlee@ustc.edu
 def Glob(dirs, pattern = '*' ):
-    import os, fnmatch 
+    import os, fnmatch
     files = []
     for dir in dirs:
-        for file in os.listdir( Dir(dir).srcnode().abspath ): 
-            if fnmatch.fnmatch(file, pattern) : 
-                files.append( os.path.join( dir, file ) ) 
-    return files 
+        for file in os.listdir( Dir(dir).srcnode().abspath ):
+            if fnmatch.fnmatch(file, pattern) :
+                files.append( os.path.join( dir, file ) )
+    return files
 
 # thanks to Michael P Jung
 def CheckSDLConfig(context, minVersion):
@@ -36,11 +35,13 @@ def CheckSDLConfig(context, minVersion):
     context.Result(ret)
     return ret
 
+
 opts = Options('build_config.py')
 opts.Add('CXX', 'The C++ compiler', 'g++')
 opts.Add('CXXFLAGS', 'Additional C++ compiler flags', '')
 opts.Add('CPPPATH', 'Additional preprocessor paths', '')
 opts.Add('CPPFLAGS', 'Additional preprocessor flags', '')
+opts.Add('CPPDEFINES', 'defined constants', '')
 opts.Add('LIBPATH', 'Additional library paths', '')
 opts.Add('LIBS', 'Additional libraries', '')
 opts.Add('DESTDIR', \
@@ -50,7 +51,6 @@ opts.Add(EnumOption('VARIANT', 'Build variant', 'optimize',
             ['optimize', 'debug', 'profile']))
 
 env = Environment(options = opts)
-env.SourceSignatures('timestamp')
 
 if not os.path.exists("build_config.py"):
     print "build_config.py doesn't exist - Generating new build config..."
