@@ -158,7 +158,7 @@ Tux::Tux(WorldMap* worldmap_)
   sprite = new Surface(datadir +  "/images/worldmap/tux.png", USE_ALPHA);
   offset = 0;
   moving = false;
-  tile_pos.x = 5;
+  tile_pos.x = 4;
   tile_pos.y = 5;
   direction = NONE;
   input_direction = NONE;
