@@ -465,10 +465,12 @@ World::tryemptybox(float x, float y, int col_side)
   else
     col_side = LEFT;
 
+  int posx = ((int)(x+1) / 32) * 32;
+  int posy = (int)(y/32) * 32 - 32;
   switch(tile->data)
     {
     case 1: // Box with a distro!
-      add_bouncy_distro(((int)(x + 1) / 32) * 32, (int)(y / 32) * 32 - 32);
+      add_bouncy_distro(posx, posy);
       play_sound(sounds[SND_DISTRO], SOUND_CENTER_SPEAKER);
       player_status.score = player_status.score + SCORE_DISTRO;
       player_status.distros++;
@@ -476,14 +478,18 @@ World::tryemptybox(float x, float y, int col_side)
 
     case 2: // Add an upgrade!
       if (tux.size == SMALL)     /* Tux is small, add mints! */
-        add_upgrade((int)((x + 1) / 32) * 32, (int)(y / 32) * 32 - 32, col_side, UPGRADE_MINTS);
-      else     /* Tux is big, add coffee: */
-        add_upgrade((int)((x + 1) / 32) * 32, (int)(y / 32) * 32 - 32, col_side, UPGRADE_COFFEE);
+        add_upgrade(posx, posy, col_side, UPGRADE_GROWUP);
+      else     /* Tux is big, add an iceflower: */
+        add_upgrade(posx, posy, col_side, UPGRADE_ICEFLOWER);
       play_sound(sounds[SND_UPGRADE], SOUND_CENTER_SPEAKER);
       break;
 
     case 3: // Add a golden herring
-      add_upgrade((int)((x + 1) / 32) * 32, (int)(y / 32) * 32 - 32, col_side, UPGRADE_HERRING);
+      add_upgrade(posx, posy, col_side, UPGRADE_HERRING);
+      break;
+
+    case 4: // Add a 1up extra
+      add_upgrade(posx, posy, col_side, UPGRADE_1UP);
       break;
     default:
       break;

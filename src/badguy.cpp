@@ -233,7 +233,8 @@ BadGuy::action_laptop(float frame_ratio)
 {
   Player& tux = *World::current()->get_tux();
 
-  fall();
+  if(dying == DYING_NOT)
+    fall();
   
   /* Move left/right: */
   if (mode == NORMAL || mode == KICK)

@@ -10,8 +10,6 @@ extern texture_type img_cloud[2][4];
 
 extern texture_type img_box_full;
 extern texture_type img_box_empty;
-extern texture_type img_mints;
-extern texture_type img_coffee;
 extern texture_type img_super_bkgd;
 extern texture_type img_red_glow;
 

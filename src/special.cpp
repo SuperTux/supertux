@@ -10,6 +10,7 @@
 //
 //
 
+#include <assert.h>
 #include "SDL.h"
 #include "defines.h"
 #include "special.h"
@@ -23,12 +24,9 @@
 
 texture_type img_bullet;
 texture_type img_golden_herring;
-bitmask* bm_bullet;
-
-void create_special_bitmasks()
-{
-  bm_bullet = bitmask_create_SDL(img_bullet.sdl_surface);
-}
+texture_type img_growup;
+texture_type img_iceflower;
+texture_type img_1up;
 
 void
 Bullet::init(float x, float y, float xm, int dir)
@@ -50,6 +48,21 @@ Bullet::init(float x, float y, float xm, int dir)
   base.y = y;
   base.ym = BULLET_STARTING_YM;
   old_base = base;
+}
+
+void
+Bullet::remove_me()
+{
+  std::vector<Bullet>& bullets = World::current()->bullets;
+  for(std::vector<Bullet>::iterator i = bullets.begin();
+         i != bullets.end(); ++i) {
+    if( & (*i) == this) {
+      bullets.erase(i);
+      return;
+    }
+  }
+
+  assert(false);
 }
 
 void
@@ -75,7 +88,7 @@ Bullet::action(double frame_ratio)
       issolid(base.x + 4, base.y + 2) ||
       issolid(base.x, base.y + 2))
     {
-      World::current()->bullets.erase(static_cast<std::vector<Bullet>::iterator>(this));
+      remove_me();
     }
 
 }
@@ -95,101 +108,112 @@ void
 Bullet::collision(int c_object)
 {
   if(c_object == CO_BADGUY) {
-    std::vector<Bullet>::iterator i;
-    
-    for(i = World::current()->bullets.begin(); i != World::current()->bullets.end(); ++i) 
-      {
-        if(&(*i) == this) 
-          {
-            World::current()->bullets.erase(i);
-            return;
-          }
-      }
+    remove_me();
   }
 }
 
 void
 Upgrade::init(float x_, float y_, int dir_, int kind_)
 {
+  kind = kind_;
+  dir = dir_;
+
   base.width = 32;
   base.height = 0;
-  kind = kind_;
   base.x = x_;
   base.y = y_;
-
-  if(dir_ == LEFT)
-    base.xm = -2;
-  else
-    base.xm = 2;
-
-  base.ym = -2;
-  base.height = 0;
   old_base = base;
+
+  physic.reset();
+  physic.enable_gravity(false);
+
+  if(kind == UPGRADE_1UP || kind == UPGRADE_HERRING) {
+    physic.set_velocity(dir == LEFT ? -1 : 1, 4);
+    physic.enable_gravity(true);
+    base.height = 32;
+  } else if (kind == UPGRADE_ICEFLOWER) {
+    // nothing
+  } else {
+    physic.set_velocity(dir == LEFT ? -2 : 2, 0);
+  }
+}
+
+void
+Upgrade::remove_me()
+{
+  std::vector<Upgrade>& upgrades = World::current()->upgrades;
+  for(std::vector<Upgrade>::iterator i = upgrades.begin();
+         i != upgrades.end(); ++i) {
+    if( & (*i) == this) {
+      upgrades.erase(i);
+      return;
+    }
+  }
+
+  assert(false);
 }
 
 void
 Upgrade::action(double frame_ratio)
 {
-  if (base.height < 32)
-    {
+  if (kind == UPGRADE_ICEFLOWER || kind == UPGRADE_GROWUP) {
+    if (base.height < 32) {
       /* Rise up! */
-
       base.height = base.height + 0.7 * frame_ratio;
       if(base.height > 32)
         base.height = 32;
+
+      return;
     }
-  else
-    {
-      /* Move around? */
+  }
 
-      if (kind == UPGRADE_MINTS ||
-          kind == UPGRADE_HERRING)
-        {
-          base.x = base.x + base.xm * frame_ratio;
-          base.y = base.y + base.ym * frame_ratio;
+  /* Off screen? Kill it! */
+  if(base.x < scroll_x - base.width || base.y > screen->h) {
+    remove_me();
+    return;
+  }
 
-          collision_swept_object_map(&old_base,&base);
+  /* Move around? */
+  physic.apply(frame_ratio, base.x, base.y);
+  if(kind == UPGRADE_GROWUP) {
+    collision_swept_object_map(&old_base, &base);
+  }
 
-          /* Off the screen?  Kill it! */
-
-          if (base.x < scroll_x - base.width)
-            World::current()->upgrades.erase(static_cast<std::vector<Upgrade>::iterator>(this));
-          if (base.y > screen->h)
-            World::current()->upgrades.erase(static_cast<std::vector<Upgrade>::iterator>(this));
-
-          if (issolid(base.x + 1, base.y + 32.) ||
-              issolid(base.x + 31., base.y + 32.))
-            {
-              if (base.ym > 0)
-                {
-                  if (kind == UPGRADE_MINTS)
-                    {
-                      base.ym = 0;
-                    }
-                  else if (kind == UPGRADE_HERRING)
-                    {
-                      base.ym = -8;
-                    }
-
-                  base.y = (int)(base.y / 32) * 32;
-                }
-            }
-          else
-            base.ym = base.ym + GRAVITY * frame_ratio;
-
-          if (issolid(base.x - 1, (int) base.y))
-            {
-              if(base.xm < 0)
-                base.xm = -base.xm;
-            }
-          else if (issolid(base.x + base.width, (int) base.y))
-            {
-              if(base.xm > 0)
-                base.xm = -base.xm;
-            }
+  // fall down?
+  if(kind == UPGRADE_GROWUP || kind == UPGRADE_HERRING) {
+    // falling?
+    if(physic.get_velocity_y() != 0) {
+      if(issolid(base.x, base.y + base.height)) {
+        base.y = int(base.y / 32) * 32;
+        old_base = base;                         
+        if(kind == UPGRADE_GROWUP) {
+          physic.enable_gravity(false);
+          physic.set_velocity(dir == LEFT ? -2 : 2, 0);
+        } else if(kind == UPGRADE_HERRING) {
+          physic.set_velocity(dir == LEFT ? -2 : 2, 3);
         }
-
+      }
+    } else {
+      if((physic.get_velocity_x() < 0
+            && !issolid(base.x+base.width, base.y + base.height))
+        || (physic.get_velocity_x() > 0
+            && !issolid(base.x, base.y + base.height))) {
+        physic.enable_gravity(true);
+        physic.set_velocity(0, physic.get_velocity_y());
+      }
     }
+  }
+
+  // horizontal bounce?
+  if(kind == UPGRADE_GROWUP || kind == UPGRADE_HERRING) {
+    if (  (physic.get_velocity_x() < 0
+          && issolid(base.x, (int) base.y + base.height/2)) 
+        ||  (physic.get_velocity_x() > 0
+          && issolid(base.x + base.width, (int) base.y + base.height/2))) {
+        physic.set_velocity(-physic.get_velocity_x(),physic.get_velocity_y());
+        dir = dir == LEFT ? RIGHT : LEFT;
+    }
+  }
 }
 
 void
@@ -205,29 +229,35 @@ Upgrade::draw()
       dest.w = 32;
       dest.h = (int)base.height;
 
-      if (kind == UPGRADE_MINTS)
-        texture_draw_part(&img_mints,0,0,dest.x,dest.y,dest.w,dest.h);
-      else if (kind == UPGRADE_COFFEE)
-        texture_draw_part(&img_coffee,0,0,dest.x,dest.y,dest.w,dest.h);
+      if (kind == UPGRADE_GROWUP)
+        texture_draw_part(&img_growup,0,0,dest.x,dest.y,dest.w,dest.h);
+      else if (kind == UPGRADE_ICEFLOWER)
+        texture_draw_part(&img_iceflower,0,0,dest.x,dest.y,dest.w,dest.h);
       else if (kind == UPGRADE_HERRING)
         texture_draw_part(&img_golden_herring,0,0,dest.x,dest.y,dest.w,dest.h);
+      else if (kind == UPGRADE_1UP)
+        texture_draw_part(&img_1up, 0, 0, dest.x, dest.y, dest.w, dest.h);
     }
   else
     {
-      if (kind == UPGRADE_MINTS)
+      if (kind == UPGRADE_GROWUP)
         {
-          texture_draw(&img_mints,
+          texture_draw(&img_growup,
                        base.x - scroll_x, base.y);
         }
-      else if (kind == UPGRADE_COFFEE)
+      else if (kind == UPGRADE_ICEFLOWER)
         {
-          texture_draw(&img_coffee,
+          texture_draw(&img_iceflower,
                        base.x - scroll_x, base.y);
         }
       else if (kind == UPGRADE_HERRING)
         {
           texture_draw(&img_golden_herring,
                        base.x - scroll_x, base.y);
+        }
+      else if (kind == UPGRADE_1UP)
+        {
+          texture_draw(&img_1up, base.x - scroll_x, base.y);
         }
     }
 }
@@ -245,11 +275,9 @@ Upgrade::collision(void* p_c_object, int c_object)
       /* p_c_object is CO_PLAYER, so assign it to pplayer */
       pplayer = (Player*) p_c_object;
 
-      World::current()->upgrades.erase(static_cast<std::vector<Upgrade>::iterator>(this));
-
       /* Affect the player: */
 
-      if (kind == UPGRADE_MINTS)
+      if (kind == UPGRADE_GROWUP)
         {
           play_sound(sounds[SND_EXCELLENT], SOUND_CENTER_SPEAKER);
           pplayer->size = BIG;
@@ -262,7 +290,7 @@ Upgrade::collision(void* p_c_object, int c_object)
               pplayer->duck = true;
             }
         }
-      else if (kind == UPGRADE_COFFEE)
+      else if (kind == UPGRADE_ICEFLOWER)
         {
           play_sound(sounds[SND_COFFEE], SOUND_CENTER_SPEAKER);
           pplayer->got_coffee = true;
@@ -278,7 +306,39 @@ Upgrade::collision(void* p_c_object, int c_object)
               play_current_music();
             }
         }
-      break;
+      else if (kind == UPGRADE_1UP)
+        {
+          if(pplayer->lives < MAX_LIVES) {
+            pplayer->lives++;
+            play_sound(sounds[SND_LIFEUP], SOUND_CENTER_SPEAKER);
+          }
+        }
+
+      remove_me();
+      return;
     }
+}
+
+void load_special_gfx()
+{
+    texture_load(&img_growup, datadir + "/images/shared/egg.png", USE_ALPHA);
+    texture_load(&img_iceflower, datadir + "/images/shared/iceflower.png",
+            USE_ALPHA);
+    texture_load(&img_golden_herring, datadir +
+            "/images/shared/star.png", USE_ALPHA);
+    texture_load(&img_1up, datadir + "/images/shared/1up.png",
+            USE_ALPHA);
+
+    texture_load(&img_bullet, datadir + "/images/shared/bullet.png",
+            USE_ALPHA);
+}
+
+void free_special_gfx()
+{
+    texture_free(&img_growup);
+    texture_free(&img_iceflower);
+    texture_free(&img_1up);
+    texture_free(&img_golden_herring);
+    texture_free(&img_bullet);
 }
 

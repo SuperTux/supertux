@@ -15,8 +15,6 @@ texture_type img_cloud[2][4];
 
 texture_type img_box_full;
 texture_type img_box_empty;
-texture_type img_mints;
-texture_type img_coffee;
 texture_type img_red_glow;
 
 /* Load graphics/sounds shared between all levels: */
@@ -244,19 +242,11 @@ void loadshared()
   load_badguy_gfx();
 
   /* Upgrades: */
-
-  texture_load(&img_mints, datadir + "/images/shared/mints.png", USE_ALPHA);
-  texture_load(&img_coffee, datadir + "/images/shared/coffee.png", USE_ALPHA);
-
+  load_special_gfx();
 
   /* Weapons: */
-
-  texture_load(&img_bullet, datadir + "/images/shared/bullet.png", USE_ALPHA);
-
   texture_load(&img_red_glow, datadir + "/images/shared/red-glow.png",
                USE_ALPHA);
-
-
 
   /* Distros: */
   texture_load(&img_distro[0], datadir + "/images/shared/distro-0.png",
@@ -276,12 +266,6 @@ void loadshared()
 
   texture_load(&tux_life, datadir + "/images/shared/tux-life.png",
                USE_ALPHA);
-
-  /* Herring: */
-
-  texture_load(&img_golden_herring, datadir + "/images/shared/golden-herring.png",
-               USE_ALPHA);
-
 
   /* Sound effects: */
 
@@ -304,6 +288,8 @@ void loadshared()
 void unloadshared(void)
 {
   int i;
+
+  free_special_gfx();
 
   for (i = 0; i < 3; i++)
     {
@@ -345,17 +331,12 @@ void unloadshared(void)
   for (i = 0; i < 2; i++)
     texture_free(&img_flag[i]);
 
-  texture_free(&img_mints);
-  texture_free(&img_coffee);
-
   for (i = 0; i < 4; i++)
     {
       texture_free(&img_distro[i]);
       texture_free(&img_cloud[0][i]);
       texture_free(&img_cloud[1][i]);
     }
-
-  texture_free(&img_golden_herring);
 
   for (i = 0; i < NUM_SOUNDS; i++)
     free_chunk(sounds[i]);
