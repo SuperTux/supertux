@@ -610,14 +610,14 @@ WorldMap::update()
         {
           switch (worldmap_menu->check())
             {
-            case 2: // Return to game
+            case MNID_RETURNWORLDMAP: // Return to game
               break;
-            case 3:
+            case MNID_SAVEGAME:
               if (!savegame_file.empty())
                 savegame(savegame_file);
               break;
                 
-            case 6: // Quit Worldmap
+            case MNID_QUITWORLDMAP: // Quit Worldmap
               quit = true;
               break;
             }

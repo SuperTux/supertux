@@ -98,7 +98,7 @@ Menu::set_current(Menu* menu)
 
 /* Return a pointer to a new menu item */
 MenuItem*
-MenuItem::create(MenuItemKind kind_, const char *text_, int init_toggle_, Menu* target_menu_, int* int_p_)
+MenuItem::create(MenuItemKind kind_, const char *text_, int init_toggle_, Menu* target_menu_, int id, int* int_p_)
 {
   MenuItem *pnew_item = new MenuItem;
   
@@ -123,6 +123,7 @@ MenuItem::create(MenuItemKind kind_, const char *text_, int init_toggle_, Menu* 
   else
     pnew_item->list = NULL;
 
+  pnew_item->id = id;
   pnew_item->int_p = int_p_;
 
   return pnew_item;
@@ -222,6 +223,7 @@ Menu::Menu()
   pos_x        = screen->w/2;
   pos_y        = screen->h/2;
   has_backitem = false;
+  last_id = 0;
   arrange_left = 0;
   active_item  = 0;
   effect.init(false);
@@ -234,12 +236,18 @@ void Menu::set_pos(int x, int y, float rw, float rh)
 }
 
 void
-Menu::additem(MenuItemKind kind_, const std::string& text_, int toggle_, Menu* menu_, int* int_p)
+Menu::additem(MenuItemKind kind_, const std::string& text_, int toggle_, Menu* menu_, int id, int* int_p)
 {
   if(kind_ == MN_BACK)
     has_backitem = true;
 
-  additem(MenuItem::create(kind_, text_.c_str(), toggle_, menu_, int_p));
+  if(id == -1 && item.size() == (unsigned)last_id)
+    {
+    id = last_id;
+    last_id++;
+    }
+
+  additem(MenuItem::create(kind_, text_.c_str(), toggle_, menu_, id, int_p));
 }
 
 /* Add an item to a menu */
@@ -396,7 +404,7 @@ Menu::action()
 int
 Menu::check()
 {
-  return hit_item;
+  return item[hit_item].id;
   /*
   if (item.size() != 0)
     {

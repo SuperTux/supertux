@@ -27,6 +27,45 @@
 #include "type.h"
 #include "mousecursor.h"
 
+/* IDs for menus */
+
+enum MainMenuIDs {
+  MNID_STARTGAME,
+  MNID_CONTRIB,
+  MNID_LEVELEDITOR,
+  MNID_CREDITS,
+  MNID_QUITMAINMENU
+  };
+
+enum OptionsMenuIDs {
+  MNID_OPENGL,
+  MNID_FULLSCREEN,
+  MNID_SOUND,
+  MNID_MUSIC,
+  MNID_SHOWFPS
+  };
+
+enum GameMenuIDs {
+  MNID_CONTINUE,
+  MNID_ABORTLEVEL
+  };
+
+enum WorldMapMenuIDs {
+  MNID_RETURNWORLDMAP,
+  MNID_SAVEGAME,
+  MNID_QUITWORLDMAP
+  };
+
+enum LevelEditorMainMenuIDs {
+  MNID_RETURNLEVELEDITOR,
+  MNID_SUBSETSETTINGS,
+  MNID_QUITLEVELEDITOR
+  };
+
+enum LevelEditorSettingsMenuIDs {
+  MNID_APPLY
+  };
+
 /* Kinds of menu items */
 enum MenuItemKind {
   MN_ACTION,
@@ -52,13 +91,14 @@ public:
   char *text;
   char *input;
   int *int_p;   // used for setting keys (can be used for more stuff...)
+  int id;   // item id
   string_list_type* list;
   Menu* target_menu;
 
   void change_text (const char *text);
   void change_input(const char *text);
 
-  static MenuItem* create(MenuItemKind kind, const char *text, int init_toggle, Menu* target_menu, int* int_p);
+  static MenuItem* create(MenuItemKind kind, const char *text, int init_toggle, Menu* target_menu, int id, int* int_p);
 };
 
 class Menu
@@ -98,6 +138,7 @@ private:
   int pos_x;
   int pos_y;
   bool has_backitem;
+  int last_id;
 
   /** input event for the menu (up, down, left, right, etc.) */
   MenuAction menuaction;
@@ -117,7 +158,7 @@ public:
   ~Menu();
 
   void additem(MenuItem* pmenu_item);
-  void additem(MenuItemKind kind, const std::string& text, int init_toggle, Menu* target_menu, int *int_p = NULL);
+  void additem(MenuItemKind kind, const std::string& text, int init_toggle, Menu* target_menu, int id = -1, int *int_p = NULL);
   
   void  action ();
   

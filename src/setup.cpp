@@ -376,32 +376,32 @@ void st_menu(void)
   worldmap_menu  = new Menu();
 
   main_menu->set_pos(screen->w/2, 335);
-  main_menu->additem(MN_GOTO, "Start Game",0,load_game_menu);
-  main_menu->additem(MN_GOTO, "Contrib Levels",0,contrib_menu);
+  main_menu->additem(MN_GOTO, "Start Game",0,load_game_menu, MNID_STARTGAME);
+  main_menu->additem(MN_GOTO, "Contrib Levels",0,contrib_menu, MNID_CONTRIB);
   main_menu->additem(MN_GOTO, "Options",0,options_menu);
-  main_menu->additem(MN_ACTION,"Level editor",0,0);
-  main_menu->additem(MN_ACTION,"Credits",0,0);
-  main_menu->additem(MN_ACTION,"Quit",0,0);
+  main_menu->additem(MN_ACTION,"Level editor",0,0, MNID_LEVELEDITOR);
+  main_menu->additem(MN_ACTION,"Credits",0,0, MNID_CREDITS);
+  main_menu->additem(MN_ACTION,"Quit",0,0, MNID_QUITMAINMENU);
 
   options_menu->additem(MN_LABEL,"Options",0,0);
   options_menu->additem(MN_HL,"",0,0);
 #ifndef NOOPENGL
-  options_menu->additem(MN_TOGGLE,"OpenGL",use_gl,0);
+  options_menu->additem(MN_TOGGLE,"OpenGL",use_gl,0, MNID_OPENGL);
 #else
-  options_menu->additem(MN_DEACTIVE,"OpenGL (not supported)",use_gl,0);
+  options_menu->additem(MN_DEACTIVE,"OpenGL (not supported)",use_gl,MNID_OPENGL);
 #endif
-  options_menu->additem(MN_TOGGLE,"Fullscreen",use_fullscreen,0);
+  options_menu->additem(MN_TOGGLE,"Fullscreen",use_fullscreen,0, MNID_FULLSCREEN);
   if(audio_device)
     {
-      options_menu->additem(MN_TOGGLE,"Sound     ",use_sound,0);
-      options_menu->additem(MN_TOGGLE,"Music     ",use_music,0);
+      options_menu->additem(MN_TOGGLE,"Sound     ",use_sound,0, MNID_SOUND);
+      options_menu->additem(MN_TOGGLE,"Music     ",use_music,0, MNID_MUSIC);
     }
   else
     {
-      options_menu->additem(MN_DEACTIVE,"Sound     ",use_sound,0);
-      options_menu->additem(MN_DEACTIVE,"Music     ",use_music,0);
+      options_menu->additem(MN_DEACTIVE,"Sound     ",use_sound,0, MNID_SOUND);
+      options_menu->additem(MN_DEACTIVE,"Music     ",use_music,0, MNID_MUSIC);
     }
-  options_menu->additem(MN_TOGGLE,"Show FPS  ",show_fps,0);
+  options_menu->additem(MN_TOGGLE,"Show FPS  ",show_fps,0, MNID_SHOWFPS);
   options_menu->additem(MN_GOTO,"Key Setup",0,options_keys_menu);
   if(use_joystick)
     options_menu->additem(MN_GOTO,"Joystick Setup",0,options_joystick_menu);
@@ -410,11 +410,11 @@ void st_menu(void)
   
   options_keys_menu->additem(MN_LABEL,"Key Setup",0,0);
   options_keys_menu->additem(MN_HL,"",0,0);
-  options_keys_menu->additem(MN_CONTROLFIELD,"Left move", 0,0, &keymap.left);
-  options_keys_menu->additem(MN_CONTROLFIELD,"Right move", 0,0, &keymap.right);
-  options_keys_menu->additem(MN_CONTROLFIELD,"Jump", 0,0, &keymap.jump);
-  options_keys_menu->additem(MN_CONTROLFIELD,"Duck", 0,0, &keymap.duck);
-  options_keys_menu->additem(MN_CONTROLFIELD,"Power", 0,0, &keymap.fire);
+  options_keys_menu->additem(MN_CONTROLFIELD,"Left move", 0,0, 0,&keymap.left);
+  options_keys_menu->additem(MN_CONTROLFIELD,"Right move", 0,0, 0,&keymap.right);
+  options_keys_menu->additem(MN_CONTROLFIELD,"Jump", 0,0, 0,&keymap.jump);
+  options_keys_menu->additem(MN_CONTROLFIELD,"Duck", 0,0, 0,&keymap.duck);
+  options_keys_menu->additem(MN_CONTROLFIELD,"Power", 0,0, 0,&keymap.fire);
   options_keys_menu->additem(MN_HL,"",0,0);
   options_keys_menu->additem(MN_BACK,"Back",0,0);
 
@@ -422,12 +422,12 @@ void st_menu(void)
     {
     options_joystick_menu->additem(MN_LABEL,"Joystick Setup",0,0);
     options_joystick_menu->additem(MN_HL,"",0,0);
-    options_joystick_menu->additem(MN_CONTROLFIELD,"X axis", 0,0, &joystick_keymap.x_axis);
-    options_joystick_menu->additem(MN_CONTROLFIELD,"Y axis", 0,0, &joystick_keymap.y_axis);
-    options_joystick_menu->additem(MN_CONTROLFIELD,"A button", 0,0, &joystick_keymap.a_button);
-    options_joystick_menu->additem(MN_CONTROLFIELD,"B button", 0,0, &joystick_keymap.b_button);
-    options_joystick_menu->additem(MN_CONTROLFIELD,"Start", 0,0, &joystick_keymap.start_button);
-    options_joystick_menu->additem(MN_CONTROLFIELD,"DeadZone", 0,0, &joystick_keymap.dead_zone);
+    options_joystick_menu->additem(MN_CONTROLFIELD,"X axis", 0,0, 0,&joystick_keymap.x_axis);
+    options_joystick_menu->additem(MN_CONTROLFIELD,"Y axis", 0,0, 0,&joystick_keymap.y_axis);
+    options_joystick_menu->additem(MN_CONTROLFIELD,"A button", 0,0, 0,&joystick_keymap.a_button);
+    options_joystick_menu->additem(MN_CONTROLFIELD,"B button", 0,0, 0,&joystick_keymap.b_button);
+    options_joystick_menu->additem(MN_CONTROLFIELD,"Start", 0,0, 0,&joystick_keymap.start_button);
+    options_joystick_menu->additem(MN_CONTROLFIELD,"DeadZone", 0,0, 0,&joystick_keymap.dead_zone);
     options_joystick_menu->additem(MN_HL,"",0,0);
     options_joystick_menu->additem(MN_BACK,"Back",0,0);
     }
@@ -454,18 +454,18 @@ void st_menu(void)
 
   game_menu->additem(MN_LABEL,"Pause",0,0);
   game_menu->additem(MN_HL,"",0,0);
-  game_menu->additem(MN_ACTION,"Continue",0,0);
+  game_menu->additem(MN_ACTION,"Continue",0,0,MNID_CONTINUE);
   game_menu->additem(MN_GOTO,"Options",0,options_menu);
   game_menu->additem(MN_HL,"",0,0);
-  game_menu->additem(MN_ACTION,"Abort Level",0,0);
+  game_menu->additem(MN_ACTION,"Abort Level",0,0,MNID_ABORTLEVEL);
 
   worldmap_menu->additem(MN_LABEL,"Pause",0,0);
   worldmap_menu->additem(MN_HL,"",0,0);
-  worldmap_menu->additem(MN_ACTION,"Continue",0,0);
-  worldmap_menu->additem(MN_ACTION,"Save",0,0);
+  worldmap_menu->additem(MN_ACTION,"Continue",0,0,MNID_RETURNWORLDMAP);
+  worldmap_menu->additem(MN_ACTION,"Save",0,0,MNID_SAVEGAME);
   worldmap_menu->additem(MN_GOTO,"Options",0,options_menu);
   worldmap_menu->additem(MN_HL,"",0,0);
-  worldmap_menu->additem(MN_ACTION,"Quit Game",0,0);
+  worldmap_menu->additem(MN_ACTION,"Quit Game",0,0,MNID_QUITWORLDMAP);
 
   highscore_menu->additem(MN_TEXTFIELD,"Enter your name:",0,0);
 }
@@ -514,34 +514,36 @@ void process_options_menu(void)
 {
   switch (options_menu->check())
     {
-    case 2:
+    case MNID_OPENGL:
 #ifndef NOOPENGL
-      if(use_gl != options_menu->item[2].toggled)
+      if(use_gl != options_menu->item[MNID_OPENGL].toggled)
         {
           use_gl = !use_gl;
           st_video_setup();
         }
+#else
+      options_menu->item[MNID_OPENGL].toggled = false;
 #endif
       break;
-    case 3:
-      if(use_fullscreen != options_menu->item[3].toggled)
+    case MNID_FULLSCREEN:
+      if(use_fullscreen != options_menu->item[MNID_FULLSCREEN].toggled)
         {
           use_fullscreen = !use_fullscreen;
           st_video_setup();
         }
       break;
-    case 4:
-      if(use_sound != options_menu->item[4].toggled)
+    case MNID_SOUND:
+      if(use_sound != options_menu->item[MNID_SOUND].toggled)
         use_sound = !use_sound;
       break;
-    case 5:
-      if(use_music != options_menu->item[5].toggled)
+    case MNID_MUSIC:
+      if(use_music != options_menu->item[MNID_MUSIC].toggled)
         {
-          enable_music(options_menu->item[5].toggled);
+          enable_music(options_menu->item[MNID_MUSIC].toggled);
         }
       break;
-    case 6:
-      if(show_fps != options_menu->item[6].toggled)
+    case MNID_SHOWFPS:
+      if(show_fps != options_menu->item[MNID_SHOWFPS].toggled)
         show_fps = !show_fps;
       break;
     }

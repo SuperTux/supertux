@@ -219,13 +219,13 @@ int leveleditor(int levelnb)
             {
               switch (leveleditor_menu->check())
                 {
-                case 2:
+                case MNID_RETURNLEVELEDITOR:
                   Menu::set_current(0);
                   break;
-                case 3:
+                case MNID_SUBSETSETTINGS:
                   update_subset_settings_menu();
                   break;
-                case 7:
+                case MNID_QUITLEVELEDITOR:
                   done = 1;
                   break;
                 }
@@ -234,7 +234,7 @@ int leveleditor(int levelnb)
             {
               switch (level_settings_menu->check())
                 {
-                case 17:
+                case MNID_SUBSETSETTINGS:
                   apply_level_settings_menu();
                   Menu::set_current(leveleditor_menu);
                   break;
@@ -413,12 +413,12 @@ int le_init()
 
   leveleditor_menu->additem(MN_LABEL,"Level Editor Menu",0,0);
   leveleditor_menu->additem(MN_HL,"",0,0);
-  leveleditor_menu->additem(MN_ACTION,"Return To Level Editor",0,0);
-  leveleditor_menu->additem(MN_DEACTIVE,"Level Subset Settings",0,subset_settings_menu);
+  leveleditor_menu->additem(MN_ACTION,"Return To Level Editor",0,0,MNID_RETURNLEVELEDITOR);
+  leveleditor_menu->additem(MN_DEACTIVE,"Level Subset Settings",0,subset_settings_menu,MNID_SUBSETSETTINGS);
   leveleditor_menu->additem(MN_GOTO,"Load Level Subset",0,subset_load_menu);
   leveleditor_menu->additem(MN_GOTO,"New Level Subset",0,subset_new_menu);
   leveleditor_menu->additem(MN_HL,"",0,0);
-  leveleditor_menu->additem(MN_ACTION,"Quit Level Editor",0,0);
+  leveleditor_menu->additem(MN_ACTION,"Quit Level Editor",0,0,MNID_QUITLEVELEDITOR);
 
   Menu::set_current(leveleditor_menu);
   
@@ -466,7 +466,7 @@ int le_init()
   level_settings_menu->additem(MN_NUMFIELD,"Bottom Green",0,0);
   level_settings_menu->additem(MN_NUMFIELD,"Bottom Blue",0,0);
   level_settings_menu->additem(MN_HL,"",0,0);
-  level_settings_menu->additem(MN_ACTION,"Apply Changes",0,0);
+  level_settings_menu->additem(MN_ACTION,"Apply Changes",0,0,MNID_APPLY);
 
   select_tilegroup_menu->arrange_left = true;
   select_tilegroup_menu->additem(MN_LABEL,"Select Tilegroup",0,0);

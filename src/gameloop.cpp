@@ -454,10 +454,10 @@ GameSession::process_menu()
         {
           switch (game_menu->check())
             {
-            case 2:
+            case MNID_CONTINUE:
               st_pause_ticks_stop();
               break;
-            case 5:
+            case MNID_ABORTLEVEL:
               st_pause_ticks_stop();
               exit_status = LEVEL_ABORT;
               break;

@@ -298,25 +298,25 @@ void title(void)
             {
               switch (main_menu->check())
                 {
-                case 0:
+                case MNID_STARTGAME:
                   // Start Game, ie. goto the slots menu
                   update_load_save_game_menu(load_game_menu);
                   break;
-                case 1:
+                case MNID_CONTRIB:
                   // Contrib Menu
                   puts("Entering contrib menu");
                   generate_contrib_menu();
                   break;
-                case 3:
+                case MNID_LEVELEDITOR:
                   halt_music();
                   leveleditor(1);
                   Menu::set_current(main_menu);
                   break;
-                case 4:
+                case MNID_CREDITS:
                   display_credits();
                   Menu::set_current(main_menu);
                   break;
-                case 6:
+                case MNID_QUITMAINMENU:
                   Menu::set_current(0);
                   break;
                 }
