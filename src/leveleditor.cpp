@@ -43,7 +43,6 @@
 #include "button.h"
 #include "tile.h"
 #include "resources.h"
-#include "music_manager.h"
 #include "background.h"
 
 // TODO

@@ -122,7 +122,7 @@ Physic::enable_gravity(bool enable_gravity)
 }
 
 void
-Physic::apply(float frame_ratio, float &x, float &y)
+Physic::apply(float elapsed_time, float &x, float &y)
 {
   float gravity = Sector::current()->gravity;
   float grav;
@@ -131,8 +131,15 @@ Physic::apply(float frame_ratio, float &x, float &y)
   else
     grav = 0;
 
-  x += vx * frame_ratio + ax * frame_ratio * frame_ratio;
-  y += vy * frame_ratio + (ay + grav) * frame_ratio * frame_ratio;
-  vx += ax * frame_ratio;
-  vy += (ay + grav) * frame_ratio;
+  x += vx * elapsed_time + ax * elapsed_time * elapsed_time;
+  y += vy * elapsed_time + (ay + grav) * elapsed_time * elapsed_time;
+  vx += ax * elapsed_time;
+  vy += (ay + grav) * elapsed_time;
 }
+
+void
+Physic::apply(Vector& vector, float elapsed_time)
+{
+  apply(elapsed_time, vector.x, vector.y);
+}
+

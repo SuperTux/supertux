@@ -39,6 +39,9 @@ public:
   virtual void collision(const MovingObject& other_object, 
           int collision_type) = 0;
 
+  Vector get_pos() const
+  { return Vector(base.x, base.y); }
+
   base_type base;
   base_type old_base;
 

@@ -31,6 +31,7 @@
 #include "setup.h"
 #include "sector.h"
 #include "worldmap.h"
+#include "sound_manager.h"
 #include "resources.h"
 
 namespace WorldMapNS {
@@ -690,8 +691,8 @@ WorldMap::update(float delta)
                     if (!level->extro_filename.empty())
                       { 
                         MusicRef theme =
-                          music_manager->load_music(datadir + "/music/theme.mod");
-                        music_manager->play_music(theme);
+                          sound_manager->load_music(datadir + "/music/theme.mod");
+                        sound_manager->play_music(theme);
                         // Display final credits and go back to the main menu
                         display_text_file(level->extro_filename,
                                           "/images/background/extro.jpg", SCROLL_SPEED_MESSAGE);
@@ -745,7 +746,7 @@ WorldMap::update(float delta)
                   break;
                 }
 
-              music_manager->play_music(song);
+              sound_manager->play_music(song);
               Menu::set_current(0);
               if (!savegame_file.empty())
                 savegame(savegame_file);
@@ -901,8 +902,8 @@ WorldMap::display()
 
   quit = false;
 
-  song = music_manager->load_music(datadir +  "/music/" + music);
-  music_manager->play_music(song);
+  song = sound_manager->load_music(datadir +  "/music/" + music);
+  sound_manager->play_music(song);
 
   unsigned int last_update_time;
   unsigned int update_time;

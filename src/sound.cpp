@@ -17,7 +17,6 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
 #include "defines.h"
 #include "globals.h"
 #include "sound.h"
@@ -66,13 +65,6 @@ int open_audio (int frequency, Uint16 format, int channels, int chunksize)
   if (Mix_AllocateChannels(8)  != 8)
     return -2;
   
-  /* reserve some channels and register panning effects */
-  if (Mix_ReserveChannels(SOUND_RESERVED_CHANNELS) != SOUND_RESERVED_CHANNELS)
-    return -3;
-
-  /* prepare the spanning effects */
-  Mix_SetPanning( SOUND_LEFT_SPEAKER, 230, 24 );
-  Mix_SetPanning( SOUND_RIGHT_SPEAKER, 24, 230 );
   return 0;
 }
 
@@ -82,8 +74,6 @@ int open_audio (int frequency, Uint16 format, int channels, int chunksize)
 void close_audio( void )
 {
   if (audio_device) {
-    Mix_UnregisterAllEffects( SOUND_LEFT_SPEAKER );
-    Mix_UnregisterAllEffects( SOUND_RIGHT_SPEAKER );
     Mix_CloseAudio();
   }
 }
@@ -102,31 +92,6 @@ Mix_Chunk* load_sound(const std::string& file)
     st_abort("Can't load", file);
 
   return(snd);
-}
-
-/* --- PLAY A SOUND ON LEFT OR RIGHT OR CENTER SPEAKER --- */
-
-void play_sound(Mix_Chunk * snd, enum Sound_Speaker whichSpeaker)
-{
-  /* this won't call the function if the user has disabled sound
-   * either via menu or via command-line option
-   */
-  if(!audio_device || !use_sound)
-    return;
-
-  Mix_PlayChannel( whichSpeaker, snd, 0);
-
-  /* prepare for panning effects for next call */
-  switch (whichSpeaker) {
-    case SOUND_LEFT_SPEAKER:
-      Mix_SetPanning( SOUND_LEFT_SPEAKER, 230, 24 );
-      break;
-    case SOUND_RIGHT_SPEAKER:
-      Mix_SetPanning( SOUND_RIGHT_SPEAKER, 24, 230 );
-      break;
-    default:  // keep the compiler happy
-      break;
-  }
 }
 
 void free_chunk(Mix_Chunk *chunk)

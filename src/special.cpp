@@ -265,7 +265,7 @@ Upgrade::bump(Player* player)
   if(kind != UPGRADE_GROWUP)
     return;
 
-  play_sound(sounds[SND_BUMP_UPGRADE], SOUND_CENTER_SPEAKER);
+  sound_manager->play_sound(sounds[SND_BUMP_UPGRADE], Vector(base.x, base.y));
   
   // determine new direction
   if (player->base.x + player->base.width/2 > base.x + base.width/2)
@@ -308,30 +308,30 @@ Upgrade::collision(void* p_c_object, int c_object, CollisionType type)
 
       if (kind == UPGRADE_GROWUP)
         {
-          play_sound(sounds[SND_EXCELLENT], SOUND_CENTER_SPEAKER);
+          sound_manager->play_sound(sounds[SND_EXCELLENT]);
           pplayer->grow(true);
         }
       else if (kind == UPGRADE_FIREFLOWER)
         {
-          play_sound(sounds[SND_COFFEE], SOUND_CENTER_SPEAKER);
+          sound_manager->play_sound(sounds[SND_COFFEE]);
           pplayer->grow(true);
           pplayer->got_power = pplayer->FIRE_POWER;
         }
       else if (kind == UPGRADE_ICEFLOWER)
         {
-          play_sound(sounds[SND_COFFEE], SOUND_CENTER_SPEAKER);
+          sound_manager->play_sound(sounds[SND_COFFEE]);
           pplayer->grow(true);
           pplayer->got_power = pplayer->ICE_POWER;
         }
       else if (kind == UPGRADE_FIREFLOWER)
         {
-          play_sound(sounds[SND_COFFEE], SOUND_CENTER_SPEAKER);
+          sound_manager->play_sound(sounds[SND_COFFEE]);
           pplayer->grow(true);
           pplayer->got_power = pplayer->FIRE_POWER;
         }
       else if (kind == UPGRADE_HERRING)
         {
-          play_sound(sounds[SND_HERRING], SOUND_CENTER_SPEAKER);
+          sound_manager->play_sound(sounds[SND_HERRING]);
           pplayer->invincible_timer.start(TUX_INVINCIBLE_TIME);
           Sector::current()->play_music(HERRING_MUSIC);
         }
@@ -339,7 +339,7 @@ Upgrade::collision(void* p_c_object, int c_object, CollisionType type)
         {
           if(player_status.lives < MAX_LIVES) {
             player_status.lives++;
-            play_sound(sounds[SND_LIFEUP], SOUND_CENTER_SPEAKER);
+            sound_manager->play_sound(sounds[SND_LIFEUP]);
           }
         }
 

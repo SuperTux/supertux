@@ -23,7 +23,7 @@
 #include "musicref.h"
 
 class SpriteManager;
-class MusicManager;
+class SoundManager;
 
 extern Surface* img_waves[3]; 
 extern Surface* img_water;
@@ -38,7 +38,7 @@ extern MusicRef herring_song;
 extern MusicRef level_end_song;
 
 extern SpriteManager* sprite_manager;
-extern MusicManager* music_manager;
+extern SoundManager* sound_manager;
 
 void loadshared();
 void unloadshared();

@@ -1,8 +1,7 @@
 //  $Id$
 //
 //  SuperTux -  A Jump'n Run
-//  Copyright (C) 2000 Bill Kendrick <bill@newbreedsoftware.com>
-//  Copyright (C) 2004 Duong-Khang NGUYEN <neoneurone@users.sf.net>
+//  Copyright (C) 2004 Matthias Braun <matze@braunis.de
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -17,24 +16,29 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-#ifndef HEADER_MUSIC_MANAGER_H
-#define HEADER_MUSIC_MANAGER_H
+#ifndef __SOUND_MANAGER_H__
+#define __SOUND_MANAGER_H__
 
+#include "vector.h"
 #include <SDL_mixer.h>
 #include <string>
 #include <map>
 
 class MusicRef;
+class MovingObject;
 
-/** This class manages a list of music resources and is responsible for playing
- * the music.
+/** This class handles all sounds that are played
  */
-class MusicManager
+class SoundManager
 {
 public:
-  MusicManager();
-  ~MusicManager();
-    
+  SoundManager();
+  ~SoundManager();
+
+  void play_sound(Mix_Chunk* sound);
+  void play_sound(Mix_Chunk* sound, const Vector& pos);
+  void play_sound(Mix_Chunk* sound, const MovingObject* object);
+
   MusicRef load_music(const std::string& file);
   bool exists_music(const std::string& filename);
   
@@ -44,13 +48,14 @@ public:
   void enable_music(bool enable);
 
 private:
+  // music part
   friend class MusicRef;
   class MusicResource
   {
   public:
     ~MusicResource();
 
-    MusicManager* manager;
+    SoundManager* manager;
     Mix_Music* music;
     int refcount;
   };

@@ -46,8 +46,6 @@ menu.cpp \
 menu.h \
 mousecursor.cpp \
 mousecursor.h \
-music_manager.cpp \
-music_manager.h \
 musicref.cpp \
 musicref.h \
 particlesystem.cpp \
@@ -62,6 +60,8 @@ setup.cpp \
 setup.h \
 sound.cpp \
 sound.h \
+sound_manager.h \
+sound_manager.cpp \
 special.cpp \
 special.h \
 sprite.h \

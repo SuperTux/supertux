@@ -36,14 +36,6 @@ enum Music_Type {
   HERRING_MUSIC
 };
 
-/* panning effects: terrible :-) ! */
-enum Sound_Speaker {
-  SOUND_LEFT_SPEAKER = 0,
-  SOUND_RIGHT_SPEAKER = 1,
-  SOUND_RESERVED_CHANNELS = 2, // 2 channels reserved for left/right speaker
-  SOUND_CENTER_SPEAKER = -1
-};
-
 /* Sound files: */
 enum {
   SND_JUMP,
@@ -82,6 +74,5 @@ void close_audio( void );
 
 Mix_Chunk * load_sound(const std::string& file);
 void free_chunk(Mix_Chunk*chunk);
-void play_sound(Mix_Chunk * snd, enum Sound_Speaker whichSpeaker);
 
 #endif /*SUPERTUX_SOUND_H*/

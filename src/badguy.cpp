@@ -356,7 +356,7 @@ BadGuy::action_mriceblock(double elapsed_time)
           tux.kick_timer.start(KICKING_TIME);
           set_sprite(img_mriceblock_flat_left, img_mriceblock_flat_right);
           physic.set_velocity_x((dir == LEFT) ? -3.5 : 3.5);
-          play_sound(sounds[SND_KICK],SOUND_CENTER_SPEAKER);
+          sound_manager->play_sound(sounds[SND_KICK], this);
         }
     }
 
@@ -366,15 +366,7 @@ BadGuy::action_mriceblock(double elapsed_time)
       check_horizontal_bump();
       if(mode == KICK && changed != dir)
         {
-          float scroll_x = Sector::current()->camera->get_translation().x;
-          
-          /* handle stereo sound (number 10 should be tweaked...)*/
-          if (base.x < scroll_x + screen->w/2 - 10)
-            play_sound(sounds[SND_RICOCHET], SOUND_LEFT_SPEAKER);
-          else if (base.x > scroll_x + screen->w/2 + 10)
-            play_sound(sounds[SND_RICOCHET], SOUND_RIGHT_SPEAKER);
-          else
-            play_sound(sounds[SND_RICOCHET], SOUND_CENTER_SPEAKER);
+          sound_manager->play_sound(sounds[SND_RICOCHET], get_pos());
         }
     }
 
@@ -568,16 +560,7 @@ BadGuy::action_bomb(double elapsed_time)
       dying = DYING_NOT; // now the bomb hurts
       timer.start(EXPLODETIME);
 
-      float scroll_x = Sector::current()->camera->get_translation().x;
-
-      /* play explosion sound */  // FIXME: is the stereo all right? maybe we should use player cordinates...
-      if (base.x < scroll_x + screen->w/2 - 10)
-        play_sound(sounds[SND_EXPLODE], SOUND_LEFT_SPEAKER);
-      else if (base.x > scroll_x + screen->w/2 + 10)
-        play_sound(sounds[SND_EXPLODE], SOUND_RIGHT_SPEAKER);
-      else
-        play_sound(sounds[SND_EXPLODE], SOUND_CENTER_SPEAKER);
-
+      sound_manager->play_sound(sounds[SND_EXPLODE], this);
     } else if(mode == BOMB_EXPLODE) {
       remove_me();
       return;
@@ -1054,7 +1037,8 @@ BadGuy::squish_me(Player* player)
     
   Sector::current()->add_score(Vector(base.x, base.y),
                               50 * player_status.score_multiplier);
-  play_sound(sounds[SND_SQUISH], SOUND_CENTER_SPEAKER);
+
+  sound_manager->play_sound(sounds[SND_SQUISH], get_pos());
   player_status.score_multiplier++;
 
   dying = DYING_SQUISHED;
@@ -1074,7 +1058,7 @@ BadGuy::squish(Player* player)
     make_player_jump(player);
     Sector::current()->add_score(Vector(base.x, base.y),
                                 50 * player_status.score_multiplier);
-    play_sound(sounds[SND_SQUISH], SOUND_CENTER_SPEAKER);
+    sound_manager->play_sound(sounds[SND_SQUISH], get_pos());
     player_status.score_multiplier++;
     return;
 
@@ -1082,7 +1066,7 @@ BadGuy::squish(Player* player)
     if (mode == NORMAL || mode == KICK)
       {
         /* Flatten! */
-        play_sound(sounds[SND_STOMP], SOUND_CENTER_SPEAKER);
+        sound_manager->play_sound(sounds[SND_STOMP], get_pos());
         mode = FLAT;
         set_sprite(img_mriceblock_flat_left, img_mriceblock_flat_right);
         physic.set_velocity_x(0);
@@ -1090,7 +1074,7 @@ BadGuy::squish(Player* player)
         timer.start(4000);
       } else if (mode == FLAT) {
         /* Kick! */
-        play_sound(sounds[SND_KICK], SOUND_CENTER_SPEAKER);
+        sound_manager->play_sound(sounds[SND_KICK], this);
 
         if (player->base.x < base.x + (base.width/2)) {
           physic.set_velocity_x(5);
@@ -1191,7 +1175,7 @@ BadGuy::kill_me(int score)
                                 score * player_status.score_multiplier);
 
   /* Play death sound: */
-  play_sound(sounds[SND_FALL], SOUND_CENTER_SPEAKER);
+  sound_manager->play_sound(sounds[SND_FALL], this);
 }
 
 void
@@ -1354,7 +1338,7 @@ BadGuy::collision(void *p_c_object, int c_object, CollisionType type)
       /* Get kicked if were flat */
       if (mode == FLAT && !dying)
       {
-        play_sound(sounds[SND_KICK], SOUND_CENTER_SPEAKER);
+        sound_manager->play_sound(sounds[SND_KICK], this);
 
         // Hit from left side
         if (player->base.x < base.x) {

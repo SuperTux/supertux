@@ -51,7 +51,7 @@
 #include "worldmap.h"
 #include "resources.h"
 #include "intro.h"
-#include "music_manager.h"
+#include "sound_manager.h"
 
 #include "player.h"
 
@@ -558,7 +558,7 @@ void process_options_menu(void)
       if(use_music != options_menu->isToggled(MNID_MUSIC))
         {
           use_music = !use_music;
-          music_manager->enable_music(use_music);
+          sound_manager->enable_music(use_music);
         }
       break;
     case MNID_SHOWFPS:

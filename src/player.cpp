@@ -31,6 +31,7 @@
 #include "tilemap.h"
 #include "camera.h"
 #include "gameobjs.h"
+#include "resources.h"
 #include "interactive_object.h"
 #include "screen/screen.h"
 
@@ -413,7 +414,7 @@ Player::handle_horizontal_input()
   if(on_ground() && ((vx < 0 && dirsign >0) || (vx>0 && dirsign<0))) {
       if(fabs(vx)>SKID_XM && !skidding_timer.check()) {
           skidding_timer.start(SKID_TIME);
-          play_sound(sounds[SND_SKID], SOUND_CENTER_SPEAKER);
+          sound_manager->play_sound(sounds[SND_SKID]);
           ax *= 2.5;
       } else {
           ax *= 2;
@@ -480,9 +481,9 @@ Player::handle_vertical_input()
       jumping = true;
       can_jump = false;
       if (size == SMALL)
-        play_sound(sounds[SND_JUMP], SOUND_CENTER_SPEAKER);
+        sound_manager->play_sound(sounds[SND_JUMP]);
       else
-        play_sound(sounds[SND_BIGJUMP], SOUND_CENTER_SPEAKER);
+        sound_manager->play_sound(sounds[SND_BIGJUMP]);
     }
   // Let go of jump key
   else if(input.up == UP && jumping && physic.get_velocity_y() > 0)
@@ -668,7 +669,7 @@ Player::grabdistros()
       if(player_status.lives < MAX_LIVES)
         ++player_status.lives;
       /*We want to hear the sound even, if MAX_LIVES is reached*/
-      play_sound(sounds[SND_LIFEUP], SOUND_CENTER_SPEAKER);
+      sound_manager->play_sound(sounds[SND_LIFEUP]);
     }
 }
 
@@ -906,7 +907,7 @@ Player::kill(HurtMode mode)
   if(dying)
     return;
   
-  play_sound(sounds[SND_HURT], SOUND_CENTER_SPEAKER);
+  sound_manager->play_sound(sounds[SND_HURT]);
 
   physic.set_velocity_x(0);
 

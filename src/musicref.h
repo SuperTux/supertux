@@ -19,7 +19,7 @@
 #ifndef HEADER_MUSIC_RESOURCE_H
 #define HEADER_MUSIC_RESOURCE_H
 
-#include "music_manager.h"
+#include "sound_manager.h"
 
 /** This class holds a reference to a music file and maintains a correct
  * refcount for that file.
@@ -34,10 +34,10 @@ public:
   MusicRef& operator= (const MusicRef& other);
 
 private:
-  friend class MusicManager;
-  MusicRef(MusicManager::MusicResource* music);
+  friend class SoundManager;
+  MusicRef(SoundManager::MusicResource* music);
   
-  MusicManager::MusicResource* music;
+  SoundManager::MusicResource* music;
 };
 
 #endif

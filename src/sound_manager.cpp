@@ -1,7 +1,7 @@
 //  $Id$
 //
-//  SuperTux
-//  Copyright (C) 2004 Ingo Ruhnke <grumbel@gmx.de>
+//  SuperTux -  A Jump'n Run
+//  Copyright (C) 2004 Matthias Braun <matze@braunis.de
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -16,25 +16,73 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+#include "sound_manager.h"
 
+#include <math.h>
 #include <assert.h>
-#include "music_manager.h"
 #include "musicref.h"
-#include "sound.h"
 #include "setup.h"
+#include "sector.h"
+#include "camera.h"
+#include "sound.h"
+#include "globals.h"
+#include "moving_object.h"
 
-MusicManager::MusicManager()
+SoundManager::SoundManager()
   : current_music(0), music_enabled(true)
-{ }
+{
+}
 
-MusicManager::~MusicManager()
+SoundManager::~SoundManager()
 {
   if(audio_device)
     Mix_HaltMusic();
 }
 
+void
+SoundManager::play_sound(Mix_Chunk* sound)
+{
+  if(!audio_device || !use_sound)
+    return;
+
+  Mix_PlayChannel(-1, sound, 0);  
+}
+
+void
+SoundManager::play_sound(Mix_Chunk* sound, const MovingObject* object)
+{
+  // TODO keep track of the object later and move the sound along with the
+  // object.
+  play_sound(sound, object->get_pos());
+}
+
+void
+SoundManager::play_sound(Mix_Chunk* sound, const Vector& pos)
+{
+  if(!audio_device || !use_sound)
+    return;
+
+  // TODO make sure this formula is good
+  float distance 
+    = Sector::current()->player->get_pos().x - pos.x;
+  int loud = int(255.0/float(screen->w*2) * fabsf(distance));
+  if(loud > 255)
+    return;
+
+  int chan = Mix_PlayChannel(-1, sound, 0);
+  if(chan < 0)
+    return;                                  
+  Mix_SetDistance(chan, loud);
+
+  // very bad way to do this...
+  if(distance > 100)
+    Mix_SetPanning(chan, 230, 24);
+  else if(distance < -100)
+    Mix_SetPanning(chan, 24, 230);
+}
+
 MusicRef
-MusicManager::load_music(const std::string& file)
+SoundManager::load_music(const std::string& file)
 {
   if(!audio_device)
     return MusicRef(0);
@@ -48,7 +96,7 @@ MusicManager::load_music(const std::string& file)
 }
 
 bool
-MusicManager::exists_music(const std::string& file)
+SoundManager::exists_music(const std::string& file)
 {
   if(!audio_device)
     return true;
@@ -75,14 +123,14 @@ MusicManager::exists_music(const std::string& file)
 }
 
 void
-MusicManager::free_music(MusicResource* )
+SoundManager::free_music(MusicResource* )
 {
   // TODO free music, currently we can't do this since SDL_mixer seems to have
   // some bugs if you load/free alot of mod files.  
 }
 
 void
-MusicManager::play_music(const MusicRef& musicref, int loops)
+SoundManager::play_music(const MusicRef& musicref, int loops)
 {
   if(!audio_device)
     return;
@@ -101,7 +149,7 @@ MusicManager::play_music(const MusicRef& musicref, int loops)
 }
 
 void
-MusicManager::halt_music()
+SoundManager::halt_music()
 {
   if(!audio_device)
     return;
@@ -117,7 +165,7 @@ MusicManager::halt_music()
 }
 
 void
-MusicManager::enable_music(bool enable)
+SoundManager::enable_music(bool enable)
 {
   if(!audio_device)
     return;
@@ -133,9 +181,9 @@ MusicManager::enable_music(bool enable)
   }
 }
 
-MusicManager::MusicResource::~MusicResource()
+SoundManager::MusicResource::~MusicResource()
 {
-  // buggy SDL_mixer :-/
+  // don't free music buggy SDL_Mixer crashs for some mod files
   // Mix_FreeMusic(music);
 }
 

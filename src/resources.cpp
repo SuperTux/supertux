@@ -25,6 +25,7 @@
 #include "special.h"
 #include "resources.h"
 #include "sprite_manager.h"
+#include "sound_manager.h"
 #include "setup.h"
 
 Surface* img_waves[3]; 
@@ -39,7 +40,7 @@ MusicRef herring_song;
 MusicRef level_end_song;
 
 SpriteManager* sprite_manager = 0;
-MusicManager* music_manager = 0;
+SoundManager* sound_manager = 0;
 
 /* Load graphics/sounds shared between all levels: */
 void loadshared()
@@ -47,8 +48,8 @@ void loadshared()
   int i;
 
   sprite_manager = new SpriteManager(datadir + "/supertux.strf");
-  music_manager = new MusicManager();
-  music_manager->enable_music(use_music);
+  sound_manager = new SoundManager();
+  sound_manager->enable_music(use_music);
 
   /* Tuxes: */
   smalltux_star = sprite_manager->load("smalltux-star");
@@ -214,8 +215,8 @@ void loadshared()
     sounds[i] = load_sound(datadir + soundfilenames[i]);
 
   /* Herring song */
-  herring_song = music_manager->load_music(datadir + "/music/SALCON.MOD");
-  level_end_song = music_manager->load_music(datadir + "/music/tux-leveldone.mod");
+  herring_song = sound_manager->load_music(datadir + "/music/SALCON.MOD");
+  level_end_song = sound_manager->load_music(datadir + "/music/tux-leveldone.mod");
 }
 
 
@@ -251,8 +252,8 @@ void unloadshared(void)
 
   delete sprite_manager;
   sprite_manager = 0;
-  delete music_manager;
-  music_manager = 0;
+  delete sound_manager;
+  sound_manager = 0;
 }
 
 /* EOF */

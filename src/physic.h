@@ -63,6 +63,9 @@ public:
     /** applies the physical simulation to given x and y coordinates */
     void apply(float frame_ratio, float &x, float &y); 
 
+    /** applies the physical simulation to given x and y coordinates */
+    void apply(Vector& vector, float frame_ratio);
+
 private:
     /// horizontal and vertical acceleration
     float ax, ay;
