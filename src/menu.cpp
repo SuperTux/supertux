@@ -24,10 +24,10 @@
 
 #include <iostream>
 #include <sstream>
-#include <stdlib.h>
-#include <stdio.h>
+#include <cstdlib>
+#include <cstdio>
 #include <string>
-#include <assert.h>
+#include <cassert>
 
 #include "defines.h"
 #include "globals.h"

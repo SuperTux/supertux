@@ -20,8 +20,8 @@
 
 /* Open the highscore file: */
 
-#include <string.h>
-#include <stdlib.h>
+#include <cstring>
+#include <cstdlib>
 
 #include "globals.h"
 #include "high_scores.h"

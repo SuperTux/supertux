@@ -16,8 +16,9 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-#ifndef __BACKGROUND_H__
-#define __BACKGROUND_H__
+
+#ifndef SUPERTUX_BACKGROUND_H
+#define SUPERTUX_BACKGROUND_H
 
 #include "screen/texture.h"
 #include "screen/drawing_context.h"
@@ -65,5 +66,5 @@ private:
   Color gradient_top, gradient_bottom;
 };
 
-#endif
+#endif /*SUPERTUX_BACKGROUND_H*/
 

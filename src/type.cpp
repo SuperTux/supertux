@@ -19,6 +19,7 @@
 //  02111-1307, USA.
 
 #include "SDL_image.h"
+
 #include "string.h"
 #include "stdlib.h"
 #include "setup.h"

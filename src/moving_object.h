@@ -16,8 +16,9 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-#ifndef __MOVING_OBJECT_H__
-#define __MOVING_OBJECT_H__
+
+#ifndef SUPERTUX_MOVING_OBJECT_H
+#define SUPERTUX_MOVING_OBJECT_H
 
 #include "type.h"
 #include "game_object.h"
@@ -56,5 +57,5 @@ protected:
 #endif
 };
 
-#endif
+#endif /*SUPERTUX_MOVING_OBJECT_H*/
 

@@ -19,12 +19,11 @@
 //  02111-1307, USA.
 
 #include <sys/types.h>
-#include <ctype.h>
+#include <cctype>
 #include <iostream>
-
 #include <exception>
-#include "exceptions.h"
 
+#include "exceptions.h"
 #include "defines.h"
 #include "globals.h"
 #include "setup.h"

@@ -21,14 +21,16 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#ifndef __LISPREADER_H__
-#define __LISPREADER_H__
+#ifndef SUPERTUX_LISPREADER_H
+#define SUPERTUX_LISPREADER_H
 
-#include <stdio.h>
-#include <zlib.h>
+#include <cstdio>
 #include <string>
 #include <vector>
 #include <exception>
+
+#include <zlib.h>
+
 #include "exceptions.h"
 
 #define LISP_STREAM_FILE       1
@@ -198,5 +200,5 @@ public:
   lisp_object_t* get_lisp();
 };
 
-#endif
+#endif /*SUPERTUX_LISPREADER_H*/
 

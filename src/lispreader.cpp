@@ -23,9 +23,10 @@
 
 #include <iostream>
 #include <string>
-#include <ctype.h>
-#include <stdlib.h>
-#include <string.h>
+#include <cctype>
+#include <cstdlib>
+#include <cstring>
+
 #include "setup.h"
 #include "lispreader.h"
 

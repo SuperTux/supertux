@@ -17,10 +17,11 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-#ifndef HEADER_SPRITE_MANAGER_HXX
-#define HEADER_SPRITE_MANAGER_HXX
+#ifndef SUPERTUX_SPRITE_MANAGER_H
+#define SUPERTUX_SPRITE_MANAGER_H
 
 #include <map>
+
 #include "sprite.h"
 
 class SpriteManager
@@ -39,7 +40,7 @@ class SpriteManager
   Sprite* load(const std::string& name);
 };
 
-#endif
+#endif /*SUPERTUX_SPRITE_MANAGER_H*/
 
 /* Local Variables: */
 /* mode:c++ */

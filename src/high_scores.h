@@ -21,7 +21,7 @@
 #ifndef SUPERTUX_HIGH_SCORES_H
 #define SUPERTUX_HIGH_SCORES_H
 
-#include <stdio.h>
+#include <cstdio>
 
 extern int hs_score;
 extern std::string hs_name; /* highscores global variables*/

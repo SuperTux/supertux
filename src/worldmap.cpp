@@ -20,8 +20,9 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include <assert.h>
+#include <cassert>
 #include <unistd.h>
+
 #include "globals.h"
 #include "screen/texture.h"
 #include "screen/screen.h"

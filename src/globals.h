@@ -23,7 +23,9 @@
 #define SUPERTUX_GLOBALS_H
 
 #include <string>
-#include <SDL.h>
+
+#include "SDL.h"
+
 #include "screen/font.h"
 #include "menu.h"
 #include "mousecursor.h"

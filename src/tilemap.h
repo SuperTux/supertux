@@ -16,10 +16,12 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-#ifndef __TILEMAP_H__
-#define __TILEMAP_H__
+
+#ifndef SUPERTUX_TILEMAP_H
+#define SUPERTUX_TILEMAP_H
 
 #include <vector>
+
 #include "game_object.h"
 #include "serializable.h"
 #include "vector.h"
@@ -83,5 +85,5 @@ private:
   int layer;
 };
 
-#endif
+#endif /*SUPERTUX_TILEMAP_H*/
 

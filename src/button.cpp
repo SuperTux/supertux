@@ -18,8 +18,9 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 
-#include <string.h>
-#include <stdlib.h>
+#include <cstring>
+#include <cstdlib>
+
 #include "setup.h"
 #include "screen/screen.h"
 #include "screen/drawing_context.h"

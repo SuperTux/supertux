@@ -19,9 +19,9 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 
-#if !defined( SUPERTUX_DEFINES_H )
-
+#ifndef SUPERTUX_DEFINES_H
 #define SUPERTUX_DEFINES_H
+
 /* Version: */
 
 #ifndef VERSION
@@ -116,5 +116,5 @@ enum DyingType {
        #define DEBUG_MSG( msg ) {}
 #endif
 
-#endif
+#endif /*SUPERTUX_DEFINES_H*/
 

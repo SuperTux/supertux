@@ -18,10 +18,11 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 
+#include <cassert>
+#include <iostream>
+
 #include "tile.h"
 #include "scene.h"
-#include <assert.h>
-#include <iostream>
 #include "screen/drawing_context.h"
 
 TileManager* TileManager::instance_  = 0;

@@ -16,8 +16,9 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-#ifndef __GAMEOBJECT_HPP__
-#define __GAMEOBJECT_HPP__
+
+#ifndef SUPERTUX_GAMEOBJECT_H
+#define SUPERTUX_GAMEOBJECT_H
 
 #include <string>
 
@@ -66,5 +67,5 @@ private:
   bool wants_to_die;
 };
 
-#endif
+#endif /*SUPERTUX_GAMEOBJECT_H*/
 

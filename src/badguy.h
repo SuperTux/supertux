@@ -24,6 +24,7 @@
 #define SUPERTUX_BADGUY_H
 
 #include "SDL.h"
+
 #include "timer.h"
 #include "screen/texture.h"
 #include "physic.h"

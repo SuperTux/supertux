@@ -17,11 +17,12 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-#ifndef HEADER_SPRITE_HXX
-#define HEADER_SPRITE_HXX
+#ifndef SUPERTUX_SPRITE_H
+#define SUPERTUX_SPRITE_H
 
 #include <string>
 #include <vector>
+
 #include "lispreader.h"
 #include "screen/texture.h"
 #include "vector.h"
@@ -68,7 +69,7 @@ class Sprite
   int get_height() const;
 };
 
-#endif
+#endif /*SUPERTUX_SPRITE_H*/
 
 /* Local Variables: */
 /* mode:c++ */

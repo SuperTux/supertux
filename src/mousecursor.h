@@ -21,6 +21,7 @@
 #define SUPERTUX_MOUSECURSOR_H
 
 #include <string>
+
 #include "timer.h"
 #include "screen/texture.h"
 

@@ -16,8 +16,9 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-#ifndef __VECTOR_HPP__
-#define __VECTOR_HPP__
+
+#ifndef SUPERTUX_VECTOR_H
+#define SUPERTUX_VECTOR_H
 
 class Vector
 {
@@ -91,5 +92,5 @@ public:
               // for such simple stuff :)
 };
 
-#endif
+#endif /*SUPERTUX_VECTOR_H*/
 

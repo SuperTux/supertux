@@ -17,18 +17,19 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-#include <assert.h>
-#include <stdio.h>
+#include <cassert>
+#include <cstdio>
 #include <iostream>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <errno.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <cerrno>
 #include <unistd.h>
-#include <SDL.h>
-#include <SDL_image.h>
+
+#include "SDL.h"
+#include "SDL_image.h"
 #ifndef NOOPENGL
-#include <SDL_opengl.h>
+#include "SDL_opengl.h"
 #endif
 
 #include <sys/stat.h>
@@ -37,7 +38,8 @@
 #ifndef WIN32
 #include <libgen.h>
 #endif
-#include <ctype.h>
+
+#include <cctype>
 
 #include "defines.h"
 #include "globals.h"

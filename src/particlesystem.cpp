@@ -17,10 +17,11 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-#include "particlesystem.h"
 
 #include <iostream>
-#include <math.h>
+#include <cmath>
+
+#include "particlesystem.h"
 #include "globals.h"
 #include "lispreader.h"
 #include "lispwriter.h"

@@ -20,19 +20,19 @@
 
 #include <map>
 #include <typeinfo>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <math.h>
-#include <errno.h>
-#include <unistd.h>
-#include <SDL.h>
-#include <SDL_image.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <cmath>
+#include <cerrno>
 #include <algorithm>
 #include <iostream>
+#include <unistd.h>
+
+#include "SDL.h"
+#include "SDL_image.h"
 
 #include "leveleditor.h"
-
 #include "screen/screen.h"
 #include "defines.h"
 #include "globals.h"

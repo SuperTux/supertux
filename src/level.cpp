@@ -19,12 +19,13 @@
 //  02111-1307, USA.
 
 #include <map>
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
+#include <cstdlib>
+#include <cstdio>
+#include <cstring>
 #include <iostream>
 #include <fstream>
 #include <stdexcept>
+
 #include "globals.h"
 #include "setup.h"
 #include "camera.h"

@@ -21,6 +21,7 @@
 #define SUPERTUX_PARTICLESYSTEM_H
 
 #include <vector>
+
 #include "screen/texture.h"
 #include "game_object.h"
 #include "serializable.h"

@@ -22,6 +22,7 @@
 #define SUPERTUX_BUTTON_H
 
 #include <vector>
+
 #include "screen/texture.h"
 #include "timer.h"
 

@@ -20,16 +20,16 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <iostream>
-#include <assert.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
-#include <string.h>
-#include <errno.h>
+#include <cassert>
+#include <cstdio>
+#include <cstdlib>
+#include <cmath>
+#include <cstring>
+#include <cerrno>
 #include <unistd.h>
-#include <math.h>
-#include <time.h>
-#include <SDL.h>
+#include <ctime>
+
+#include "SDL.h"
 
 #ifndef WIN32
 #include <sys/types.h>

@@ -16,13 +16,16 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-#ifndef __SOUND_MANAGER_H__
-#define __SOUND_MANAGER_H__
 
-#include "vector.h"
-#include <SDL_mixer.h>
+#ifndef SUPERTUX_SOUND_MANAGER_H
+#define SUPERTUX_SOUND_MANAGER_H
+
 #include <string>
 #include <map>
+
+#include "SDL_mixer.h"
+
+#include "vector.h"
 
 class MusicRef;
 class MovingObject;
@@ -67,5 +70,5 @@ private:
   bool music_enabled;
 };
 
-#endif
+#endif /*SUPERTUX_SOUND_MANAGER_H*/
 
