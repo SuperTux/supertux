@@ -30,9 +30,9 @@ struct square
 
 /* selection modes */
 enum {
-  CURSOR,
-  SQUARE,
-  NONE
+  SM_CURSOR,
+  SM_SQUARE,
+  SM_NONE
 };
 
 int leveleditor(char* filename = NULL);

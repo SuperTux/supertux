@@ -73,7 +73,7 @@ class GameSession
   std::string subset;
 
  public:
-  enum ExitStatus { NONE, LEVEL_FINISHED, GAME_OVER, LEVEL_ABORT };
+  enum ExitStatus { ES_NONE, ES_LEVEL_FINISHED, ES_GAME_OVER, ES_LEVEL_ABORT };
  private:
   ExitStatus exit_status;
  public:

@@ -212,8 +212,8 @@ int leveleditor(char* filename)
       /* making events results to be in order */
       if(pos_x < 0)
         pos_x = 0;
-      if(pos_x > (le_world->get_level()->width * 32) - screen->w)
-        pos_x = (le_world->get_level()->width * 32) - screen->w;
+      if(pos_x > (le_world->get_level()->width * 32 + 2*32) - screen->w)
+        pos_x = (le_world->get_level()->width * 32 +2*32) - screen->w;
 
       /* draw the level */
       le_drawlevel();
@@ -809,12 +809,12 @@ void le_drawinterface()
 
   if(show_selections && MouseCursor::current() != mouse_select_object)
   {
-    if(le_selection_mode == CURSOR)
+    if(le_selection_mode == SM_CURSOR)
     {
       if(le_current.IsTile())
         le_selection->draw( cursor_x - pos_x, cursor_y);
     }
-    else if(le_selection_mode == SQUARE)
+    else if(le_selection_mode == SM_SQUARE)
     {
       int w, h;
       le_highlight_selection();
@@ -860,9 +860,9 @@ void le_drawinterface()
     le_next_level_bt->draw();
     le_previous_level_bt->draw();
     le_rubber_bt->draw();
-    if(le_selection_mode == SQUARE)
+    if(le_selection_mode == SM_SQUARE)
       le_select_mode_one_bt->draw();
-    else if(le_selection_mode == CURSOR)
+    else if(le_selection_mode == SM_CURSOR)
       le_select_mode_two_bt->draw();
     le_settings_bt->draw();
     le_move_right_bt->draw();
@@ -1305,17 +1305,17 @@ void le_checkevents()
           }
 
 
-          if(le_selection_mode == SQUARE)
+          if(le_selection_mode == SM_SQUARE)
           {
             le_select_mode_one_bt->event(event);
             if(le_select_mode_one_bt->get_state() == BUTTON_CLICKED)
-              le_selection_mode = CURSOR;
+              le_selection_mode = SM_CURSOR;
           }
           else
           {
             le_select_mode_two_bt->event(event);
             if(le_select_mode_two_bt->get_state() == BUTTON_CLICKED)
-              le_selection_mode = SQUARE;
+              le_selection_mode = SM_SQUARE;
           }
           ButtonPanelMap::iterator it;
           le_tilegroup_bt->event(event);
@@ -1623,7 +1623,7 @@ void le_change(float x, float y, int tm, unsigned int c)
 
     switch(le_selection_mode)
     {
-    case CURSOR:
+    case SM_CURSOR:
       le_world->get_level()->change(x,y,tm,c);
 
       base_type cursor_base;
@@ -1643,7 +1643,7 @@ void le_change(float x, float y, int tm, unsigned int c)
         }
 
       break;
-    case SQUARE:
+    case SM_SQUARE:
       if(selection.x1 < selection.x2)
       {
         x1 = selection.x1;
@@ -1724,7 +1724,7 @@ void le_showhelp()
 {
   bool tmp_show_grid = le_show_grid;
   int temp_le_selection_mode = le_selection_mode;
-  le_selection_mode = NONE;
+  le_selection_mode = SM_NONE;
   show_selections = true;
   le_show_grid = false;
   le_help_shown = true;

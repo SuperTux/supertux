@@ -81,7 +81,7 @@ public:
   Tile* get(int i);
 };
 
-enum Direction { NONE, WEST, EAST, NORTH, SOUTH };
+enum Direction { D_NONE, D_WEST, D_EAST, D_NORTH, D_SOUTH };
 
 std::string direction_to_string(Direction d);
 Direction   string_to_direction(const std::string& d);
