@@ -556,9 +556,9 @@ Level::save(const std::string& subset, int level)
   fprintf(fi,"  (time %d)\n", time_left);
   fprintf(fi,"  (width %d)\n", width);
   if(back_scrolling)
-    fprintf(fi,"  (back_scrolling 1)\n"); 
+    fprintf(fi,"  (back_scrolling t)\n"); 
   else
-    fprintf(fi,"  (back_scrolling 0)\n");
+    fprintf(fi,"  (back_scrolling f)\n");
   fprintf(fi,"  (gravity %2.1f)\n", gravity);
   fprintf(fi,"  (background-tm ");
 
