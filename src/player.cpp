@@ -535,9 +535,9 @@ Player::handle_vertical_input()
 
       --base.y;
       jumping = true;
-		double_jumping = false;
+      double_jumping = false;
       can_jump = false;
-		can_double_jump = false;
+      can_double_jump = false;
       if (size == SMALL)
         SoundManager::get()->play_sound(IDToSound(SND_JUMP));
       else
@@ -547,30 +547,30 @@ Player::handle_vertical_input()
   else if(input.up == UP && jumping && physic.get_velocity_y() > 0)
     {
       if (!double_jumping && !duck) {can_double_jump = true;}
-		jumping = false;
+      jumping = false;
       physic.set_velocity_y(0);
     }
-	
-	// Double jump
-	if (input.up == DOWN && can_double_jump)
-	  {
-			can_double_jump = false;
-			jumping = true;
-			double_jumping = true;
-			if (size == SMALL)
+   
+   // Double jump
+   if (input.up == DOWN && can_double_jump)
+     {
+         can_double_jump = false;
+         jumping = true;
+         double_jumping = true;
+         if (size == SMALL)
             SoundManager::get()->play_sound(IDToSound(SND_JUMP));
          else
             SoundManager::get()->play_sound(IDToSound(SND_BIGJUMP));
-			physic.set_velocity_y(5.2);
-	  }
-	
-	// Hover
+         physic.set_velocity_y(5.2);
+     }
+   
+   // Hover
    //(disabled by default, use cheat code "hover" to toggle on/off)
-	//TODO: needs some tweaking, especially when used together with double jump and jumping off badguys
-	if (enable_hover && input.up == DOWN && !jumping && !butt_jump && physic.get_velocity_y() <= 0)
-	  {
-			physic.set_velocity_y(-1);
-	  }
+   //TODO: needs some tweaking, especially when used together with double jump and jumping off badguys
+   if (enable_hover && input.up == DOWN && !jumping && !butt_jump && physic.get_velocity_y() <= 0)
+      {
+         physic.set_velocity_y(-1);
+      }
 
    /* In case the player has pressed Down while in a certain range of air,
       enable butt jump action */
