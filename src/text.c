@@ -34,12 +34,14 @@ void text_load(text_type* ptext, char* file)
 
 void text_draw(text_type* ptext, char* text, int x, int y, int shadowsize, int update)
 {
+  int len;
+  int i;
 
 if(shadowsize != 0)
 text_draw(&black_text,text,x+shadowsize,y+shadowsize, 0, update);
 
-  int len = strlen(text);
-  int i;
+  len = strlen(text);
+
   for( i = 0; i < len; ++i)
     {
       if( text[i] >= 'A' && text[i] <= 'Z')
