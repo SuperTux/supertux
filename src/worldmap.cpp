@@ -281,7 +281,7 @@ WorldMap::WorldMap()
   input_direction = NONE;
   enter_level = false;
 
-  name = "<no name>";
+  name = "<no file>";
   music = "SALCON.MOD";
   song = 0;
 
@@ -345,6 +345,9 @@ WorldMap::load_map()
                       reader.read_string("name",  &level.name);
                       reader.read_int("x", &level.x);
                       reader.read_int("y", &level.y);
+
+                      get_level_title(&level);   // get level's title
+
                       levels.push_back(level);
                     }
                   
@@ -359,6 +362,38 @@ WorldMap::load_map()
           cur = lisp_cdr(cur);
         }
     }
+}
+
+void WorldMap::get_level_title(Levels::pointer level)
+{
+/** get level's title */
+level->title = "<no title>";
+
+FILE * fi;
+lisp_object_t* root_obj = 0;
+fi = fopen((datadir +  "levels/" + level->name).c_str(), "r");
+if (fi == NULL)
+  {
+  perror((datadir +  "levels/" + level->name).c_str());
+  return;
+  }
+
+lisp_stream_t stream;
+lisp_stream_init_file (&stream, fi);
+root_obj = lisp_read (&stream);
+
+if (root_obj->type == LISP_TYPE_EOF || root_obj->type == LISP_TYPE_PARSE_ERROR)
+  {
+  printf("World: Parse Error in file %s", level->name.c_str());
+  }
+
+if (strcmp(lisp_symbol(lisp_car(root_obj)), "supertux-level") == 0)
+  {
+  LispReader reader(lisp_cdr(root_obj));
+  reader.read_string("name",  &level->title);
+  }
+
+fclose(fi);
 }
 
 void
@@ -676,7 +711,7 @@ WorldMap::draw_status()
           if (i->x == tux->get_tile_pos().x && 
               i->y == tux->get_tile_pos().y)
             {
-              white_text->draw_align(i->name.c_str(), screen->w/2, screen->h,  A_HMIDDLE, A_BOTTOM);
+              white_text->draw_align(i->title.c_str(), screen->w/2, screen->h,  A_HMIDDLE, A_BOTTOM);
               break;
             }
         }

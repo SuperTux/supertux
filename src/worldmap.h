@@ -139,6 +139,7 @@ public:
     int x;
     int y;
     std::string name;
+    std::string title;
     bool solved;
 
     // Directions which are walkable from this level
@@ -159,6 +160,8 @@ private:
 
   Point offset;
   std::string savegame_file;
+
+  void get_level_title(Levels::pointer level);
 
   void draw_status();
 public:
