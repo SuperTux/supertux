@@ -39,62 +39,29 @@ L: low priority
        g++ -Wall .... -o build/linux/src/error.o src/error.cpp
 
 --Collision Detection Rewrite (all [H])--
- * make blocks bounce again - ok
- * bonusblocks don't always bounce back to their original position (but stay a
-    few pixels higher) - hopefully ok
- * it's impossible to go into passages that have exactly the size of tux,
-   either reduce collision rectangle by DELTA or round collision coordinates to
-   integers... - ok for tux and most badguys
- ** implement 1up - ok
- ** implement star - ok
- * bring back the enemies
-    - add activation again - ok
-    - make api simpler - ok
-    - implement jumpy - ok
-    -* implement spiky - ok
-    - implement snowball - ok
+ * enemies:
     - implement fish
-    - implement bouncingsnowball - ok
-    -* implement mriceblock - ~ok
-    - implement flame - ok
-    -* implement mrbomb - ok
     - implement flyingsnowball
     - implement wingling
     - implement tree (really?)
     - bring back stay on platform flag
     - make enemies bounce of upon each other again
     - make enemies fall again - ok
-    -* activate/deactive enemies when on screen/away again - ok
  ** implement ability to cary mriceblock (and other objects) around - delayed
     for  after big commit...
  * smoke clouds are too fast
- * some shots disappear in the ground with a "max collision depth reached"
-   message - ok
- * rework collision detection to take movement into account - this should fix
-    the egg suddenly turning directions and the somtimes strange behaviour
-    when hitting a block from the side when falling.
-      - done for rectangles, fixes the issues with blocks and enemies hitting
-        when they should get squished, still it's not optimal as when hitting 2
-        blocks now only 1 gets cleared... - ok
  * rethink slopes collision feedback... tux becomes too slow when walking up
     and starts jumping when walking down
  * think about an attachement mechanism for moving platforms
  * implement paths for the moving platform, implement simple moving platforms
- ** activate level end sequence again - ok
- ** make bullets kill enemies - ok
  * fix bullet speed/behaviour
- ** fix ducking - ok
  * check if unducking is actually possible or if something is in the way
  * fix flapping
- ** having a star doesn't kill enemies - ok
- * tux always jumps to full height at the moment - ok
- * invisble blocks are visible and make the game crash when bumped - ok
- * reimplement spikes as objects - ok
  * what to do when stuck under tiles (after using duck-sliding)
  * do we want multi hit scores again?
  * tux doesn't stop at igloo anymore
- * background particle systems are too slow - ok
  * buttjump is deactivated
+ * implement quadtree or grid to speedup collision detection
 
 --Code Refactoring/Cleanup/Optimisation--
 [H] make the title using GameSession instead of reimplementing all the stuff
@@ -108,7 +75,6 @@ L: low priority
     ingame mode and eventually leveleditor mode
 [H] introduce a special mode in DrawingContext for objects that want to draw
     themselfes. This could speed up rendering of tilemaps.
-[H] implement quadtree to speed up collision detection
 [?] remove badguyspecs and bitmask files
 [M] Make the gamelogic run in a fixed logical framerate
 
