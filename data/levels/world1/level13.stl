@@ -17,6 +17,7 @@
   (bkgd_blue_bottom   255)
   (time  200)
   (gravity  10.0)
+  (back_scrolling #t)
   (particle_system "clouds")
   (theme "antarctica")
   (interactive-tm
