@@ -1,5 +1,8 @@
 EXTRA_DIST = \
   supertux.strf \
+  intro.txt \
+  extro.txt \
+  CREDITS \
   $(wildcard sounds/*.wav) \
   images/icon.png \
   images/icon.xpm \
@@ -27,8 +30,7 @@ EXTRA_DIST = \
   $(wildcard levels/*/info) \
   $(wildcard music/*.mod) \
   $(wildcard music/*.MOD) \
-  $(wildcard sounds/*.wav) \
-  CREDITS
+  $(wildcard sounds/*.wav)
 
 nobase_dist_pkgdata_DATA = $(EXTRA_DIST)
 
