@@ -389,10 +389,13 @@ Menu::action()
                 break;
 
               case MN_ACTION:
-              case MN_TEXTFIELD:
-              case MN_NUMFIELD:
                 Menu::set_current(0); 
                 item[active_item].toggled = true;
+                break;
+              case MN_TEXTFIELD:
+              case MN_NUMFIELD:
+                menuaction = MENU_ACTION_DOWN;
+                action();
                 break;
 
               case MN_BACK:
