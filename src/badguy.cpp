@@ -187,7 +187,7 @@ BadGuy::BadGuy(float x, float y, BadGuyKind kind_, bool stay_on_platform_)
     physic.enable_gravity(false);
     set_sprite(img_flame, img_flame);
   } else if(kind == BAD_BOUNCINGSNOWBALL) {
-    physic.set_velocity(-BADGUY_WALK_SPEED, 0);
+    physic.set_velocity(-1.3, 0);
     set_sprite(img_bouncingsnowball_left, img_bouncingsnowball_right);
   } else if(kind == BAD_STALACTITE) {
     physic.enable_gravity(false);
