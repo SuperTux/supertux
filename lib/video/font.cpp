@@ -74,12 +74,12 @@ float
 Font::get_text_width(const std::string& text) const
 {
   /** Let's calculate the size of the biggest paragraph */
-  int l, hl;
+  std::string::size_type l, hl;
   hl = 0; l = -1;
   while(true)
     {
     l = text.find("\n", l+1);
-    if(l == (int)std::string::npos)
+    if(l == std::string::npos)
       break;
     if(hl < l)
       hl = l;
@@ -94,7 +94,7 @@ float
 Font::get_text_height(const std::string& text) const
 {
   /** Let's calculate height of the text */
-  int l, hh;
+  std::string::size_type l, hh;
   hh = h; l = -1;
   while(true)
     {
@@ -128,7 +128,8 @@ Font::draw(const std::string& text, const Vector& pos_, int allignment, Uint32 d
      Feel free to replace this hack with a more elegant solution
   */
   char temp[1024];
-  unsigned int i, l, y;
+  std::string::size_type l;
+  unsigned int i, y;
   i = y = 0;
 
   while(true)
