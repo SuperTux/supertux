@@ -1221,9 +1221,18 @@ LispReader::read_string (const char* name, std::string& str, bool translatable)
     char* lang = getenv("LANG");
 
     char str_[1024];  // check, for instance, for (title-fr_FR "Bonjour")
-    sprintf(str_, "%s-%s", name, lang);
 
-    obj = search_for (str_);
+    if(lang != NULL && strlen(lang) >= 5)
+      {
+      char lang_[6];
+      strncpy(lang_, lang, 5);
+      lang_[5] = '\0';
+      sprintf(str_, "%s-%s", name, lang_);
+
+      obj = search_for (str_);
+      }
+    else
+      obj = 0;
 
     if(!obj)  // check, for instance, for (title-fr "Bonjour")
       {
