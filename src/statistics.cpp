@@ -108,14 +108,6 @@ Statistics::draw_worldmap_info(DrawingContext& context)
       display_stat = 1;
     }
 
-  int alpha;
-  if(timer.get_gone() < FADING_TIME)
-    alpha = timer.get_gone() * 255 / FADING_TIME;
-  else if(timer.get_left() < FADING_TIME)
-    alpha = timer.get_left() * 255 / FADING_TIME;
-  else
-    alpha = 255;
-
   char str[128];
 
   context.draw_text(white_small_text, _("- Best Level Statistics -"),
@@ -130,6 +122,17 @@ Statistics::draw_worldmap_info(DrawingContext& context)
 
   // draw other small info
 
+  int alpha;
+  if(timer.get_gone() < FADING_TIME)
+    alpha = timer.get_gone() * 255 / FADING_TIME;
+  else if(timer.get_left() < FADING_TIME)
+    alpha = timer.get_left() * 255 / FADING_TIME;
+  else
+    alpha = 255;
+
+  context.push_transform();
+  context.set_alpha(alpha);
+
   if(display_stat == COINS_COLLECTED_STAT)
     sprintf(str, _("Max coins collected:"));
   else if(display_stat == BADGUYS_KILLED_STAT)
@@ -137,7 +140,7 @@ Statistics::draw_worldmap_info(DrawingContext& context)
   else// if(display_stat == TIME_NEEDED_STAT)
     sprintf(str, _("Min time needed:"));
 
-  context.draw_text(white_small_text, str, Vector(WMAP_INFO_LEFT_X, 508), LEFT_ALLIGN, LAYER_GUI, NONE_EFFECT, alpha);
+  context.draw_text(white_small_text, str, Vector(WMAP_INFO_LEFT_X, 508), LEFT_ALLIGN, LAYER_GUI);
 
   if(display_stat == COINS_COLLECTED_STAT)
     sprintf(str, "%d/%d", stats[COINS_COLLECTED_STAT][SPLAYER],
@@ -149,7 +152,9 @@ Statistics::draw_worldmap_info(DrawingContext& context)
     sprintf(str, "%d/%d", stats[TIME_NEEDED_STAT][SPLAYER],
                           stats[TIME_NEEDED_STAT][STOTAL]);
 
-  context.draw_text(white_small_text, str, Vector(WMAP_INFO_RIGHT_X, 508), RIGHT_ALLIGN, LAYER_GUI, NONE_EFFECT, alpha);
+  context.draw_text(white_small_text, str, Vector(WMAP_INFO_RIGHT_X, 508), RIGHT_ALLIGN, LAYER_GUI);
+
+  context.pop_transform();
 }
 
 void

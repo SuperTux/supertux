@@ -155,7 +155,12 @@ FloatingText::draw(DrawingContext& context)
   else
     alpha = 255;
 
-  context.draw_text(gold_text, text, position, LEFT_ALLIGN, LAYER_OBJECTS, NONE_EFFECT, alpha);
+  context.push_transform();
+  context.set_alpha(alpha);
+
+  context.draw_text(gold_text, text, position, LEFT_ALLIGN, LAYER_OBJECTS+1);
+
+  context.pop_transform();
 }
 
 /* Trampoline */
