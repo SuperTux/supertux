@@ -125,6 +125,21 @@ TileManager::TileManager()
               reader.read_bool("auto-walk",  &tile->auto_walk);
               reader.read_string("image",  &filename);
 
+              std::string temp;
+              reader.read_string("one-way",  &temp);
+              tile->one_way = BOTH_WAYS;
+              if(!temp.empty())
+                {
+                if(temp == "north-south")
+                  tile->one_way = NORTH_SOUTH_WAY;
+                else if(temp == "south-north")
+                  tile->one_way = SOUTH_NORTH_WAY;
+                else if(temp == "east-west")
+                  tile->one_way = EAST_WEST_WAY;
+                else if(temp == "west-east")
+                  tile->one_way = WEST_EAST_WAY;
+                }
+
               tile->sprite = new Surface(
                            datadir +  "/images/worldmap/" + filename, 
                            USE_ALPHA);
@@ -265,7 +280,6 @@ Tux::update(float delta)
             }
           else if (input_direction == back_direction)
             {
-              std::cout << "Back triggered" << std::endl;
               moving = true;
               direction = input_direction;
               tile_pos = worldmap->get_next_tile(tile_pos, direction);
@@ -296,7 +310,12 @@ Tux::update(float delta)
               }
             }
 
-          if (worldmap->at(tile_pos)->stop || (level && !level->name.empty()))
+          Tile* cur_tile = worldmap->at(tile_pos);
+          if (cur_tile->stop || (level && !level->name.empty()) ||
+             (cur_tile->one_way == NORTH_SOUTH_WAY && direction != D_SOUTH) ||
+             (cur_tile->one_way == SOUTH_NORTH_WAY && direction != D_NORTH) ||
+             (cur_tile->one_way == EAST_WEST_WAY && direction != D_WEST) ||
+             (cur_tile->one_way == WEST_EAST_WAY && direction != D_EAST))
             {
               stop();
             }
@@ -641,6 +660,15 @@ WorldMap::path_ok(Direction direction, Point old_pos, Point* new_pos)
         && new_pos->y >= 0 && new_pos->y < height))
     { // New position is outsite the tilemap
       return false;
+    }
+  else if(at(*new_pos)->one_way != BOTH_WAYS)
+    {
+      if((at(*new_pos)->one_way == NORTH_SOUTH_WAY && direction != D_SOUTH) ||
+         (at(*new_pos)->one_way == SOUTH_NORTH_WAY && direction != D_NORTH) ||
+         (at(*new_pos)->one_way == EAST_WEST_WAY && direction != D_WEST) ||
+         (at(*new_pos)->one_way == WEST_EAST_WAY && direction != D_EAST))
+        return false;
+      return true;
     }
   else
     { // Check if we the tile allows us to go to new_pos
