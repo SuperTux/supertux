@@ -30,6 +30,10 @@
       (y 272)
       (stay-on-platform #f)
     )
+    (wingling
+      (x 1200)
+      (y 150)
+    )
     (trampoline
       (x 1900)
       (y 1500)
