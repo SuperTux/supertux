@@ -332,7 +332,8 @@ Sector::fix_old_tiles()
         add_object(new Brick(pos, tile->getData()));
         solids->change(x, y, 0);
       } else if(tile->getAttributes() & Tile::GOAL) {
-        add_object(new SequenceTrigger(pos, "endsequence"));
+        std::string sequence = tile->getData() == 0 ? "endsequence" : "stoptux";
+        add_object(new SequenceTrigger(pos, sequence));
         solids->change(x, y, 0);
       }
     }                                                   

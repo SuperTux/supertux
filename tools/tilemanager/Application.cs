@@ -151,7 +151,7 @@ public class Application {
                 tile.ID = startid + i;
                 ImageRegion region = new ImageRegion();
                 region.ImageFile = currentimage;
-                region.Region = new Rectangle(x*32, y*32, 32, 32);
+                region.Region = new System.Drawing.Rectangle(x*32, y*32, 32, 32);
                 tile.Images.Add(region);
                 if(Tiles[i] != null) {
                     Console.WriteLine(

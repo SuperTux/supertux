@@ -8,7 +8,6 @@
     (name  "main")
     (width  30)
     (height  20)
-    (music  "supertux-1.ogg")
     (gravity 10.000000)
     (background (image "arctis.jpg")
                 (speed 0.5))

@@ -814,6 +814,8 @@ GameSession::start_sequence(const std::string& sequencename)
     if(sequencename == "fireworks") {
       currentsector->add_object(new Fireworks());
     }
+  } else if(sequencename == "stoptux") {
+    end_sequence =  ENDSEQUENCE_WAITING;
   } else {
     std::cout << "Unknown sequence '" << sequencename << "'.\n";
   }
