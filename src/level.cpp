@@ -158,18 +158,6 @@ Level::get_sector(const std::string& name)
   return i->second;
 }
 
-const std::string&
-Level::get_sector_name(const Sector* sector)
-{
-  for(Sectors::iterator i = sectors.begin(); i != sectors.end(); ++i)
-    {
-    if(i->second == sector)
-      return i->first;
-    }
-  std::cerr << "Warning: Sector not found on level\n";
-  return "";
-}
-
 Sector*
 Level::get_next_sector(const Sector* sector)
 {
