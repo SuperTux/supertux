@@ -25,6 +25,7 @@ int main(int argc, char * argv[])
   st_joystick_setup();
   st_general_setup();
   st_menu();
+  loadshared();
 
   if (launch_worldmap_mode)
     {
@@ -40,15 +41,14 @@ int main(int argc, char * argv[])
       done = false;
       while (!done)
         {
-          loadshared();
           done = title();
-          unloadshared();
         }
     }
   
   clearscreen(0, 0, 0);
   updatescreen();
 
+  unloadshared();
   st_shutdown();
   
   return 0;
