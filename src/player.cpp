@@ -314,10 +314,10 @@ Player::handle_horizontal_input()
   float ay = physic.get_acceleration_y();
 
   float dirsign = 0;
-  if(!duck && input.left == DOWN && input.right == UP) {
+  if(input.left == DOWN && input.right == UP && (!duck || physic.get_velocity_y() != 0)) {
       dir = LEFT;
       dirsign = -1;
-  } else if(!duck && input.left == UP && input.right == DOWN) {
+  } else if(input.left == UP && input.right == DOWN && (!duck || physic.get_velocity_y() != 0)) {
       dir = RIGHT;
       dirsign = 1;
   }
@@ -394,7 +394,7 @@ Player::handle_vertical_input()
 {
   if(input.up == DOWN)
     {
-      if (on_ground() && !duck)
+      if (on_ground())
         {
           // jump
           physic.set_velocity(physic.get_velocity_x(), 5.5);
@@ -458,7 +458,7 @@ Player::handle_input()
     }
 
   /* Duck! */
-  if (input.down == DOWN && size == BIG && !duck)
+  if (input.down == DOWN && size == BIG && !duck && physic.get_velocity_y() == 0)
     {
       duck = true;
       base.height = 32;                             
@@ -466,7 +466,7 @@ Player::handle_input()
       // changing base size confuses collision otherwise
       old_base = previous_base = base;
     }
-  else if(input.down == UP && size == BIG && duck)
+  else if(input.down == UP && size == BIG && duck && physic.get_velocity_y() == 0)
     {
       duck = false;
       base.y -= 32;
