@@ -436,7 +436,8 @@ GameSession::process_events()
                           last_keys.clear();
                           }
                         if(compare_last(last_keys, "kill"))
-                          {    // kill Tux
+                          {    // kill Tux, but without losing a life
+                          player_status.lives++;
                           tux.kill(tux.KILL);
                           last_keys.clear();
                           }
