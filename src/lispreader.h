@@ -28,6 +28,8 @@
 #include <zlib.h>
 #include <string>
 #include <vector>
+#include <exception>
+#include "exceptions.h"
 
 #define LISP_STREAM_FILE       1
 #define LISP_STREAM_STRING     2
@@ -54,6 +56,14 @@
 #define LISP_PATTERN_BOOLEAN    6
 #define LISP_PATTERN_LIST       7
 #define LISP_PATTERN_OR         8
+
+// Exception
+class LispReaderException : public SuperTuxException
+{
+  public:
+    LispReaderException(const char* _message = "lispreader error", const char* _file = "", const unsigned int _line = 0)
+      : SuperTuxException(_message, _file, _line) { };
+};
 
 typedef struct
   {

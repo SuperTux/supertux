@@ -20,6 +20,10 @@
 
 #include <sys/types.h>
 #include <ctype.h>
+#include <iostream>
+
+#include <exception>
+#include "exceptions.h"
 
 #include "defines.h"
 #include "globals.h"
@@ -36,40 +40,50 @@
 
 int main(int argc, char * argv[])
 {
-  st_directory_setup();
-  parseargs(argc, argv);
-  
-  st_audio_setup();
-  st_video_setup();
-  st_joystick_setup();
-  st_general_setup();
-  st_menu();
-  loadshared();
+  try {
+    st_directory_setup();
+    parseargs(argc, argv);
 
-  if (launch_leveleditor_mode && level_startup_file)
+    st_audio_setup();
+    st_video_setup();
+    st_joystick_setup();
+    st_general_setup();
+    st_menu();
+    loadshared();
+
+    if (launch_leveleditor_mode && level_startup_file)
     {
     leveleditor(level_startup_file);
     }
-  else if (level_startup_file)
+    else if (level_startup_file)
     {
       GameSession session(level_startup_file, 1, ST_GL_LOAD_LEVEL_FILE);
       session.run();
     }
-  else
+    else
     {  
       title();
     }
-  
-  clearscreen(0, 0, 0);
-  updatescreen();
 
-  unloadshared();
-  st_general_free();
-  TileManager::destroy_instance();
-#ifdef DEBUG
-  Surface::debug_check();
-#endif
-  st_shutdown();
-  
+    clearscreen(0, 0, 0);
+    updatescreen();
+
+    unloadshared();
+    st_general_free();
+    TileManager::destroy_instance();
+    #ifdef DEBUG
+    Surface::debug_check();
+    #endif
+    st_shutdown();
+  }
+  catch (SuperTuxException &e)
+  {
+    std::cerr << "Unhandled SuperTux exception:\n  " << e.what_file() << ":" << e.what_line() << ": " << e.what() << std::endl;
+  }
+  catch (std::exception &e)
+  {
+    std:: cerr << "Unhandled exception: " << e.what() << std::endl;
+  }
+
   return 0;
 }

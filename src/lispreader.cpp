@@ -23,7 +23,6 @@
 
 #include <iostream>
 #include <string>
-#include <assert.h>
 #include <ctype.h>
 #include <stdlib.h>
 #include <string.h>
@@ -64,7 +63,8 @@ _token_clear (void)
 static void
 _token_append (char c)
 {
-  assert(token_length < MAX_TOKEN_LENGTH);
+  if (token_length >= MAX_TOKEN_LENGTH)
+    throw LispReaderException("_token_append()", __FILE__, __LINE__);
 
   token_string[token_length++] = c;
   token_string[token_length] = '\0';
@@ -93,7 +93,8 @@ _next_char (lisp_stream_t *stream)
     case LISP_STREAM_ANY:
       return stream->v.any.next_char(stream->v.any.data);
     }
-  assert(0);
+
+  throw LispReaderException("_next_char()", __FILE__, __LINE__);
   return EOF;
 }
 
@@ -115,7 +116,7 @@ _unget_char (char c, lisp_stream_t *stream)
       break;
 
     default :
-      assert(0);
+      throw LispReaderException("_unget_char()", __FILE__, __LINE__);
     }
 }
 
@@ -267,7 +268,7 @@ _scan (lisp_stream_t *stream)
         }
     }
 
-  assert(0);
+  throw LispReaderException("_scan()", __FILE__, __LINE__);
   return TOKEN_ERROR;
 }
 
@@ -305,7 +306,8 @@ lisp_stream_init_any (lisp_stream_t *stream, void *data,
                       int (*next_char) (void *data),
                       void (*unget_char) (char c, void *data))
 {
-  assert(next_char != 0 && unget_char != 0);
+  if (next_char == 0 || unget_char == 0)
+    throw LispReaderException("lisp_stream_init_any()", __FILE__, __LINE__);
 
   stream->type = LISP_STREAM_ANY;
   stream->v.any.data = data;
@@ -493,7 +495,7 @@ lisp_read (lisp_stream_t *in)
       return lisp_make_boolean(0);
     }
 
-  assert(0);
+  throw LispReaderException("lisp_read()", __FILE__, __LINE__);
   return &error_object;
 }
 
@@ -643,7 +645,8 @@ static int _match_pattern (lisp_object_t *pattern, lisp_object_t *obj, lisp_obje
 static int
 _match_pattern_var (lisp_object_t *pattern, lisp_object_t *obj, lisp_object_t **vars)
 {
-  assert(lisp_type(pattern) == LISP_TYPE_PATTERN_VAR);
+  if (lisp_type(pattern) != LISP_TYPE_PATTERN_VAR)
+    throw LispReaderException("_match_pattern_var", __FILE__, __LINE__);
 
   switch (pattern->v.pattern.type)
     {
@@ -687,7 +690,8 @@ _match_pattern_var (lisp_object_t *pattern, lisp_object_t *obj, lisp_object_t **
 
         for (sub = pattern->v.pattern.sub; sub != 0; sub = lisp_cdr(sub))
           {
-            assert(lisp_type(sub) == LISP_TYPE_CONS);
+            if (lisp_type(sub) != LISP_TYPE_CONS)
+              throw LispReaderException("_match_pattern_var()", __FILE__, __LINE__);
 
             if (_match_pattern(lisp_car(sub), obj, vars))
               matched = 1;
@@ -699,7 +703,7 @@ _match_pattern_var (lisp_object_t *pattern, lisp_object_t *obj, lisp_object_t **
       break;
 
     default :
-      assert(0);
+      throw LispReaderException("_match_pattern_var()", __FILE__, __LINE__);
     }
 
   if (vars != 0)
@@ -749,7 +753,7 @@ _match_pattern (lisp_object_t *pattern, lisp_object_t *obj, lisp_object_t **vars
       break;
 
     default :
-      assert(0);
+      throw LispReaderException("_match_pattern()", __FILE__, __LINE__);
     }
 
   return 0;
@@ -804,7 +808,8 @@ lisp_type (lisp_object_t *obj)
 int
 lisp_integer (lisp_object_t *obj)
 {
-  assert(obj->type == LISP_TYPE_INTEGER);
+  if (obj->type != LISP_TYPE_INTEGER)
+    throw LispReaderException("lisp_integer()", __FILE__, __LINE__);
 
   return obj->v.integer;
 }
@@ -812,7 +817,8 @@ lisp_integer (lisp_object_t *obj)
 char*
 lisp_symbol (lisp_object_t *obj)
 {
-  assert(obj->type == LISP_TYPE_SYMBOL);
+  if (obj->type != LISP_TYPE_SYMBOL)
+    throw LispReaderException("lisp_symbol()", __FILE__, __LINE__);
 
   return obj->v.string;
 }
@@ -820,7 +826,8 @@ lisp_symbol (lisp_object_t *obj)
 char*
 lisp_string (lisp_object_t *obj)
 {
-  assert(obj->type == LISP_TYPE_STRING);
+  if (obj->type != LISP_TYPE_STRING)
+    throw LispReaderException("lisp_string()", __FILE__, __LINE__);
 
   return obj->v.string;
 }
@@ -828,7 +835,8 @@ lisp_string (lisp_object_t *obj)
 int
 lisp_boolean (lisp_object_t *obj)
 {
-  assert(obj->type == LISP_TYPE_BOOLEAN);
+  if (obj->type != LISP_TYPE_BOOLEAN)
+    throw LispReaderException("lisp_boolean()", __FILE__, __LINE__);
 
   return obj->v.integer;
 }
@@ -836,7 +844,8 @@ lisp_boolean (lisp_object_t *obj)
 float
 lisp_real (lisp_object_t *obj)
 {
-  assert(obj->type == LISP_TYPE_REAL || obj->type == LISP_TYPE_INTEGER);
+  if (obj->type != LISP_TYPE_REAL && obj->type != LISP_TYPE_INTEGER)
+    throw LispReaderException("lisp_real()", __FILE__, __LINE__);
 
   if (obj->type == LISP_TYPE_INTEGER)
     return obj->v.integer;
@@ -846,7 +855,8 @@ lisp_real (lisp_object_t *obj)
 lisp_object_t*
 lisp_car (lisp_object_t *obj)
 {
-  assert(obj->type == LISP_TYPE_CONS || obj->type == LISP_TYPE_PATTERN_CONS);
+  if (obj->type != LISP_TYPE_CONS && obj->type != LISP_TYPE_PATTERN_CONS)
+    throw LispReaderException("lisp_car()", __FILE__, __LINE__);
 
   return obj->v.cons.car;
 }
@@ -854,7 +864,8 @@ lisp_car (lisp_object_t *obj)
 lisp_object_t*
 lisp_cdr (lisp_object_t *obj)
 {
-  assert(obj->type == LISP_TYPE_CONS || obj->type == LISP_TYPE_PATTERN_CONS);
+  if (obj->type != LISP_TYPE_CONS && obj->type != LISP_TYPE_PATTERN_CONS)
+    throw LispReaderException("lisp_cdr()", __FILE__, __LINE__);
 
   return obj->v.cons.cdr;
 }
@@ -870,7 +881,7 @@ lisp_cxr (lisp_object_t *obj, const char *x)
     else if (x[i] == 'd')
       obj = lisp_cdr(obj);
     else
-      assert(0);
+      throw LispReaderException("lisp_cxr()", __FILE__, __LINE__);
 
   return obj;
 }
@@ -882,7 +893,8 @@ lisp_list_length (lisp_object_t *obj)
 
   while (obj != 0)
     {
-      assert(obj->type == LISP_TYPE_CONS || obj->type == LISP_TYPE_PATTERN_CONS);
+      if (obj->type != LISP_TYPE_CONS && obj->type != LISP_TYPE_PATTERN_CONS)
+        throw LispReaderException("lisp_list_length()", __FILE__, __LINE__);
 
       ++length;
       obj = obj->v.cons.cdr;
@@ -896,8 +908,10 @@ lisp_list_nth_cdr (lisp_object_t *obj, int index)
 {
   while (index > 0)
     {
-      assert(obj != 0);
-      assert(obj->type == LISP_TYPE_CONS || obj->type == LISP_TYPE_PATTERN_CONS);
+      if (obj == 0)
+        throw LispReaderException("lisp_list_nth_cdr()", __FILE__, __LINE__);
+      if (obj->type != LISP_TYPE_CONS && obj->type != LISP_TYPE_PATTERN_CONS)
+        throw LispReaderException("lisp_list_nth_cdr()", __FILE__, __LINE__);
 
       --index;
       obj = obj->v.cons.cdr;
@@ -911,7 +925,8 @@ lisp_list_nth (lisp_object_t *obj, int index)
 {
   obj = lisp_list_nth_cdr(obj, index);
 
-  assert(obj != 0);
+  if (obj == 0)
+    throw LispReaderException("lisp_list_nth()", __FILE__, __LINE__);
 
   return obj->v.cons.car;
 }
@@ -993,7 +1008,7 @@ lisp_dump (lisp_object_t *obj, FILE *out)
       break;
 
     default :
-      assert(0);
+      throw LispReaderException("lisp_dump()", __FILE__, __LINE__);
     }
 }
 
@@ -1260,7 +1275,8 @@ lisp_object_t* lisp_read_from_gzfile(const char* filename)
   int buf_pos = 0;
   int try_number = 1;
   char* buf = static_cast<char*>(malloc(chunk_size));
-  assert(buf);
+  if (!buf)
+    throw LispReaderException("lisp_read_from_gzfile()", __FILE__, __LINE__);
 
   gzFile in = gzopen(filename, "r");
 
@@ -1270,14 +1286,16 @@ lisp_object_t* lisp_read_from_gzfile(const char* filename)
       if (ret == -1)
         {
           free (buf);
-          assert(!"Error while reading from file");
+          throw LispReaderException("Error while reading from file", __FILE__, __LINE__);
         }
       else if (ret == chunk_size) // buffer got full, eof not yet there so resize
         {
           buf_pos = chunk_size * try_number;
           try_number += 1;
           buf = static_cast<char*>(realloc(buf, chunk_size * try_number));
-          assert(buf);
+
+          if (!buf)
+            throw LispReaderException("lisp_read_from_gzfile()", __FILE__, __LINE__);
         }
       else 
         {
