@@ -361,7 +361,7 @@ int game_action(void)
 
       if (st_gl_mode == ST_GL_LOAD_LEVEL_FILE)
         {
-          if(level_load(&current_level, level_subset) != 0)
+          if(current_level.load(level_subset) != 0)
             return 0;
         }
       else
@@ -599,7 +599,7 @@ int gameloop(const char * subset, int levelnb, int mode)
 
   if (st_gl_mode == ST_GL_LOAD_LEVEL_FILE)
     {
-      if (level_load(&current_level, level_subset))
+      if (current_level.load(level_subset))
         exit(1);
     }
   else

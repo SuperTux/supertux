@@ -142,7 +142,7 @@ int title(void)
 
   st_pause_ticks_init();
 
-  level_load(&current_level, (datadir + "/levels/misc/menu.stl").c_str());
+  current_level.load((datadir + "/levels/misc/menu.stl").c_str());
   loadshared();
   activate_particle_systems();
   /* Lower the gravity that tux doesn't jump to hectically through the demo */

@@ -241,10 +241,11 @@ st_level::load(const  char *subset, int level)
   if(!faccessible(filename))
     snprintf(filename, 1024, "%s/levels/%s/level%d.stl", datadir.c_str(), subset, level);
 
-  return level_load(this, filename);
+  return load(filename);
 }
 
-int level_load(st_level* plevel, const char* filename)
+int 
+st_level::load(const char* filename)
 {
   FILE * fi;
   lisp_object_t* root_obj = 0;
@@ -274,17 +275,17 @@ int level_load(st_level* plevel, const char* filename)
       LispReader reader(lisp_cdr(root_obj));
 
       reader.read_int("version",  &version);
-      reader.read_int("width",  &plevel->width);
-      reader.read_int("time",  &plevel->time_left);
-      reader.read_int("bkgd_red",  &plevel->bkgd_red);
-      reader.read_int("bkgd_green",  &plevel->bkgd_green);
-      reader.read_int("bkgd_blue",  &plevel->bkgd_blue);
-      reader.read_float("gravity",  &plevel->gravity);
-      reader.read_string("name",  &plevel->name);
-      reader.read_string("theme",  &plevel->theme);
-      reader.read_string("music",  &plevel->song_title);
-      reader.read_string("background",  &plevel->bkgd_image);
-      reader.read_string("particle_system", &plevel->particle_system);
+      reader.read_int("width",  &width);
+      reader.read_int("time",  &time_left);
+      reader.read_int("bkgd_red",  &bkgd_red);
+      reader.read_int("bkgd_green",  &bkgd_green);
+      reader.read_int("bkgd_blue",  &bkgd_blue);
+      reader.read_float("gravity",  &gravity);
+      reader.read_string("name",  &name);
+      reader.read_string("theme",  &theme);
+      reader.read_string("music",  &song_title);
+      reader.read_string("background",  &bkgd_image);
+      reader.read_string("particle_system", &particle_system);
       reader.read_int_vector("background-tm",  &bg_tm);
 
       if (!reader.read_int_vector("interactive-tm", &ia_tm))
@@ -306,7 +307,7 @@ int level_load(st_level* plevel, const char* filename)
                 reader.read_int("x", &bg_data.x);
                 reader.read_int("y", &bg_data.y);
 
-                plevel->badguy_data.push_back(bg_data);
+                badguy_data.push_back(bg_data);
 
                 cur = lisp_cdr(cur);
               }
@@ -362,7 +363,7 @@ int level_load(st_level* plevel, const char* filename)
             {
               if (*i == '0' || *i == '1' || *i == '2')
                 {
-                  plevel->badguy_data.push_back(BadGuyData(static_cast<BadGuyKind>(*i-'0'),
+                  badguy_data.push_back(BadGuyData(static_cast<BadGuyKind>(*i-'0'),
                                                 x*32, y*32));
                   *i = 0;
                 }
@@ -375,7 +376,7 @@ int level_load(st_level* plevel, const char* filename)
                     printf("Error: conversion will fail, unsupported char: '%c' (%d)\n", *i, *i);
                 }
               ++x;
-              if (x >= plevel->width)
+              if (x >= width)
                 {
                   x = 0;
                   ++y;
@@ -386,17 +387,17 @@ int level_load(st_level* plevel, const char* filename)
 
   for(int i = 0; i < 15; ++i)
     {
-      plevel->ia_tiles[i] = (unsigned int*) calloc((plevel->width +1) , sizeof(unsigned int) );
-      plevel->bg_tiles[i] = (unsigned int*) calloc((plevel->width +1) , sizeof(unsigned int) );
-      plevel->fg_tiles[i] = (unsigned int*) calloc((plevel->width +1) , sizeof(unsigned int) );
+      ia_tiles[i] = (unsigned int*) calloc((width +1) , sizeof(unsigned int) );
+      bg_tiles[i] = (unsigned int*) calloc((width +1) , sizeof(unsigned int) );
+      fg_tiles[i] = (unsigned int*) calloc((width +1) , sizeof(unsigned int) );
     }
 
   int i = 0;
   int j = 0;
   for(vector<int>::iterator it = ia_tm.begin(); it != ia_tm.end(); ++it, ++i)
     {
-      plevel->ia_tiles[j][i] = (*it);
-      if(i == plevel->width - 1)
+      ia_tiles[j][i] = (*it);
+      if(i == width - 1)
         {
           i = -1;
           ++j;
@@ -407,8 +408,8 @@ int level_load(st_level* plevel, const char* filename)
   for(vector<int>::iterator it = bg_tm.begin(); it != bg_tm.end(); ++it, ++i)
     {
 
-      plevel->bg_tiles[j][i] = (*it);
-      if(i == plevel->width - 1)
+      bg_tiles[j][i] = (*it);
+      if(i == width - 1)
         {
           i = -1;
           ++j;
@@ -419,21 +420,21 @@ int level_load(st_level* plevel, const char* filename)
   for(vector<int>::iterator it = fg_tm.begin(); it != fg_tm.end(); ++it, ++i)
     {
 
-      plevel->fg_tiles[j][i] = (*it);
-      if(i == plevel->width - 1)
+      fg_tiles[j][i] = (*it);
+      if(i == width - 1)
         {
           i = -1;
           ++j;
         }
     }
 
-  /* Set the global gravity to the latest loaded level's gravity */
-  gravity = plevel->gravity;
+  // FIXME: Set the global gravity to the latest loaded level's gravity
+  ::gravity = gravity;
 
   //  Mark the end position of this level!
   // FIXME: -10 is a rather random value, we still need some kind of
   // real levelend gola
-  endpos = 32*(plevel->width-10);
+  endpos = 32*(width-10);
 
   fclose(fi);
   return 0;

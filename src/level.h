@@ -82,9 +82,10 @@ class st_level
   void cleanup();
 
   int  load(const char * subset, int level);
+  int  load(const char* filename);
+ 
 };
 
-int  level_load     (st_level* plevel, const char* filename);
 void level_save     (st_level* plevel, const char * subset, int level);
 void level_load_gfx (st_level* plevel);
 void level_change   (st_level* plevel, float x, float y, int tm, unsigned int c);
