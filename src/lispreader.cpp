@@ -22,7 +22,6 @@
  */
 
 #include <iostream>
-#include <vector>
 #include <string>
 #include <assert.h>
 #include <ctype.h>
@@ -501,44 +500,82 @@ lisp_read (lisp_stream_t *in)
 void
 lisp_free (lisp_object_t *obj)
 {
+  /** This goto solution has to be done cause using a recursion
+      may cause a stack overflaw (for instance, in MacOS 10.2). */
+
+ restart:
+
   if (obj == 0)
     return;
 
-  /** We have to use this iterative code because the recursion function
-   * produces a stack overflow and crashes on OSX 10.2
-   */
-  std::vector<lisp_object_t*> objs;
-  objs.push_back(obj);
-
-  while(!objs.empty())
-  {
-    lisp_object_t* obj = objs.back();
-    objs.pop_back();
-
-    switch (obj->type)
+  switch (obj->type)
     {
-      case LISP_TYPE_INTERNAL :
-      case LISP_TYPE_PARSE_ERROR :
-      case LISP_TYPE_EOF :
-        return;
-      case LISP_TYPE_SYMBOL :
-      case LISP_TYPE_STRING :
-        free(obj->v.string);
-        break;
-       case LISP_TYPE_CONS :
-      case LISP_TYPE_PATTERN_CONS :
-        if(obj->v.cons.car)
-          objs.push_back(obj->v.cons.car);
-        if(obj->v.cons.cdr)
-          objs.push_back(obj->v.cons.cdr);
-        break;
+    case LISP_TYPE_INTERNAL :
+    case LISP_TYPE_PARSE_ERROR :
+    case LISP_TYPE_EOF :
+      return;
 
-      case LISP_TYPE_PATTERN_VAR :
-        if(obj->v.pattern.sub)
-          objs.push_back(obj->v.pattern.sub);
-        break;
+    case LISP_TYPE_SYMBOL :
+    case LISP_TYPE_STRING :
+      free(obj->v.string);
+      break;
+
+    case LISP_TYPE_CONS :
+    case LISP_TYPE_PATTERN_CONS :
+      /* If we just recursively free car and cdr we risk a stack
+         overflow because lists may be nested arbitrarily deep.
+
+         We can get rid of one recursive call with a tail call,
+         but there's still one remaining.
+
+         The solution is to flatten a recursive list until we
+         can free the car without recursion.  Then we free the
+         cdr with a tail call.
+
+         The transformation we perform on the list is this:
+
+           ((a . b) . c) -> (a . (b . c))
+      */
+      if (!lisp_nil_p(obj->v.cons.car)
+        && (lisp_type(obj->v.cons.car) == LISP_TYPE_CONS
+        || lisp_type(obj->v.cons.car) == LISP_TYPE_PATTERN_CONS))
+        {
+        /* this is the transformation */
+
+        lisp_object_t *car, *cdar;
+
+        car = obj->v.cons.car;
+        cdar = car->v.cons.cdr;
+
+        car->v.cons.cdr = obj;
+
+        obj->v.cons.car = cdar;
+
+        obj = car;
+
+        goto restart;
+        }
+      else
+        {
+        /* here we just free the car (which is not recursive),
+           the cons itself and the cdr via a tail call.  */
+
+        lisp_object_t *tmp;
+
+        lisp_free(obj->v.cons.car);
+
+        tmp = obj;
+        obj = obj->v.cons.cdr;
+
+        free(tmp);
+
+        goto restart;
+        }
+
+    case LISP_TYPE_PATTERN_VAR :
+      lisp_free(obj->v.pattern.sub);
+      break;
     }
-  }
 
   free(obj);
 }
