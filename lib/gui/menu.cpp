@@ -770,7 +770,7 @@ Menu::event(SDL_Event& event)
             /* An International Character. */
           }
 
-        if(item[active_item].kind == MN_CONTROLFIELD_KB)
+        if(item.size() > 0 && item[active_item].kind == MN_CONTROLFIELD_KB)
           {
             if(key == SDLK_ESCAPE)
               {
@@ -798,7 +798,7 @@ Menu::event(SDL_Event& event)
             menuaction = MENU_ACTION_RIGHT;
             break;
           case SDLK_SPACE:
-            if(item[active_item].kind == MN_TEXTFIELD)
+            if(item.size() > 0 && item[active_item].kind == MN_TEXTFIELD)
               {
                 menuaction = MENU_ACTION_INPUT;
                 mn_input_char = ' ';
@@ -848,7 +848,7 @@ Menu::event(SDL_Event& event)
         }
       break;
     case  SDL_JOYBUTTONDOWN:
-      if (item[active_item].kind == MN_CONTROLFIELD_JS)
+      if (item.size() > 0 && item[active_item].kind == MN_CONTROLFIELD_JS)
         {
           // FIXME: This next line does nothing useable, right?
           // *item[active_item].int_p = key;
