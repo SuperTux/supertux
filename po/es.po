@@ -27,9 +27,8 @@ msgid "PAUSE - Press 'P' To Play"
 msgstr "PAUSA - Pulsa 'P' para continuar"
 
 #: src/gameloop.cpp:528
-#, fuzzy, c-format
 msgid "Playing: "
-msgstr "Jugando: %s"
+msgstr "Jugando: "
 
 #: src/gameloop.cpp:714 src/worldmap.cpp:849
 msgid "SCORE"
