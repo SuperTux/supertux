@@ -28,7 +28,7 @@
 using namespace SuperTux;
 
 #ifdef WIN32
-const char * config_filename = "/st_config.dat";
+const char * config_filename = ("/"+ package_symbol_name + "_config.dat").c_str();
 #else
 const char * config_filename = "/config";
 #endif
@@ -138,6 +138,7 @@ void Config::load()
   customload(reader);
 
   lisp_free(root_obj);
+  fclose(file);
 }
 
 void Config::save ()
@@ -173,6 +174,7 @@ void Config::save ()
 	customsave(config);
 
       fprintf(config, ")\n");
+      fclose(config);
     }
 }
 

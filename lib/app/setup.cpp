@@ -604,9 +604,9 @@ void Setup::audio(void)
 
 void Termination::shutdown(void)
 {
+  config->save();
   SoundManager::get()->close_audio();
   SDL_Quit();
-  config->save();
 }
 
 /* --- ABORT! --- */
