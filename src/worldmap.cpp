@@ -177,8 +177,8 @@ Tux::Tux(WorldMap* worldmap_)
 
   offset = 0;
   moving = false;
-  tile_pos.x = 4;
-  tile_pos.y = 5;
+  tile_pos.x = worldmap->get_start_x();
+  tile_pos.y = worldmap->get_start_y();
   direction = D_NONE;
   input_direction = D_NONE;
 }
@@ -349,11 +349,14 @@ Tile::~Tile()
 WorldMap::WorldMap()
 {
   tile_manager = new TileManager();
-  tux = new Tux(this);
-
+  //tux = new Tux(this);
+  
   width  = 20;
   height = 15;
-
+  
+  start_x = 4;
+  start_y = 5;
+  
   level_sprite = new Surface(datadir +  "/images/worldmap/levelmarker.png", USE_ALPHA);
   leveldot_green = new Surface(datadir +  "/images/worldmap/leveldot_green.png", USE_ALPHA);
   leveldot_red = new Surface(datadir +  "/images/worldmap/leveldot_red.png", USE_ALPHA);
@@ -404,6 +407,8 @@ WorldMap::load_map()
               LispReader reader(lisp_cdr(element));
               reader.read_string("name", name, true);
               reader.read_string("music", music);
+	      reader.read_int("start_pos_x", start_x);
+	      reader.read_int("start_pos_y", start_y);
             }
           else if (strcmp(lisp_symbol(lisp_car(element)), "levels") == 0)
             {
@@ -447,6 +452,7 @@ WorldMap::load_map()
     }
 
     lisp_free(root_obj);
+    tux = new Tux(this);
 }
 
 void WorldMap::get_level_title(Level& level)

@@ -4,7 +4,7 @@
   (name "Too easy")
   (author "Torfi")
   (music "Mortimers_chipdisko.mod")
-  (background "arctis.png")
+  (background "arctis2.jpg")
   (particle_system "")
   (bkgd_speed 50)
   (bkgd_red_top 0)

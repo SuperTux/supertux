@@ -124,6 +124,9 @@ private:
   std::vector<int> tilemap;
   int width;
   int height;
+  
+  int start_x;
+  int start_y;
 
   TileManager* tile_manager;
 
@@ -201,6 +204,12 @@ public:
 
   const std::string& get_world_title() const
     { return name; }
+    
+  const int& get_start_x() const
+    { return start_x; }
+  
+  const int& get_start_y() const
+    { return start_y; }
 
 private:
   void on_escape_press();
