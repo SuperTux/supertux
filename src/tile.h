@@ -51,7 +51,6 @@ struct Tile
   int next_tile;
 
   int anim_speed;
-  unsigned char alpha;
 };
 
 

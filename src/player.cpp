@@ -216,8 +216,7 @@ Player::action()
               trygrabdistro(base.x, base.y - 32,BOUNCE);
               trybumpbadguy(base.x, base.y - 64);
 
-              if(size == BIG)
-                trybreakbrick(base.x, base.y);
+              trybreakbrick(base.x, base.y, size == SMALL);
 
               bumpbrick(base.x, base.y);
               tryemptybox(base.x, base.y, RIGHT);
@@ -230,58 +229,10 @@ Player::action()
               trybumpbadguy(base.x+ 31, base.y - 64);
 
               if(size == BIG)
-                trybreakbrick(base.x+ 31, base.y);
+                trybreakbrick(base.x+ 31, base.y, size == SMALL);
 
               bumpbrick(base.x+ 31, base.y);
               tryemptybox(base.x+ 31, base.y, LEFT);
-            }
-
-
-          if(size == SMALL)
-            {
-              Tile* tile  = gettile(base.x, base.y);
-              /* Get a distro from a brick? */
-              if (tile->brick)
-                {
-                  add_bouncy_distro((((int)base.x)
-                                     / 32) * 32,
-                                    ((int)base.y / 32) * 32);
-                  
-                  if (counting_distros == false)
-                    {
-                      counting_distros = true;
-                      distro_counter = 100;
-                    }
-
-                  if (distro_counter <= 0)
-                    level_change(&current_level,base.x,base.y - 1, TM_IA, tile->next_tile);
-		    
-                  play_sound(sounds[SND_DISTRO], SOUND_CENTER_SPEAKER);
-                  score = score + SCORE_DISTRO;
-                  distros++;
-                }
-            }
-          else 
-            {
-              Tile* tile2 = gettile(base.x + 31, base.y);
-              if (tile2->brick)
-              {
-                  add_bouncy_distro((((int)base.x + 31)
-                                     / 32) * 32,
-                                    ((int)base.y / 32) * 32);
-                  if (counting_distros == false)
-                    {
-                      counting_distros = true;
-                      distro_counter = 100;
-                    }
-
-                  if (distro_counter <= 0)
-                    level_change(&current_level,base.x+ 31, base.y, TM_IA, tile2->next_tile);
-
-                  play_sound(sounds[SND_DISTRO], SOUND_CENTER_SPEAKER);
-                  score = score + SCORE_DISTRO;
-                  distros++;
-                }
             }
         }
 

@@ -46,7 +46,6 @@ void TileManager::load_tileset(std::string filename)
 	      tile->fullbox = false;	      
               tile->distro  = false;
               tile->data    = 0;
-              tile->alpha   = 0;
               tile->next_tile  = 0;
               tile->anim_speed = 25;
   
@@ -57,8 +56,7 @@ void TileManager::load_tileset(std::string filename)
               reader.read_bool("ice",       &tile->ice);	   
               reader.read_bool("fullbox",   &tile->fullbox);
               reader.read_bool("distro",    &tile->distro);
-              reader.read_int("data",       (int*)&tile->data);
-              reader.read_int("alpha",      (int*)&tile->alpha);
+              reader.read_int("data",       &tile->data);
               reader.read_int("anim-speed", &tile->anim_speed);
               reader.read_int("next-tile",  &tile->next_tile);
               reader.read_string_vector("images",  &tile->filenames);

@@ -1344,8 +1344,7 @@ bool isdistro(float x, float y)
 }
 
 /* Break a brick: */
-
-void trybreakbrick(float x, float y)
+void trybreakbrick(float x, float y, bool small)
 {
   Tile* tile = gettile(x, y);
   if (tile->brick)
@@ -1369,23 +1368,19 @@ void trybreakbrick(float x, float y)
           score = score + SCORE_DISTRO;
           distros++;
         }
-      else
+      else if (!small)
         {
           /* Get rid of it: */
           level_change(&current_level,x, y, TM_IA, tile->next_tile);
+          
+          /* Replace it with broken bits: */
+          add_broken_brick(((int)(x + 1) / 32) * 32,
+                           (int)(y / 32) * 32);
+          
+          /* Get some score: */
+          play_sound(sounds[SND_BRICK], SOUND_CENTER_SPEAKER);
+          score = score + SCORE_BRICK;
         }
-
-
-      /* Replace it with broken bits: */
-
-      add_broken_brick(((int)(x + 1) / 32) * 32,
-                       (int)(y / 32) * 32);
-
-
-      /* Get some score: */
-
-      play_sound(sounds[SND_BRICK], SOUND_CENTER_SPEAKER);
-      score = score + SCORE_BRICK;
     }
 }
 

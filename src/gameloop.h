@@ -43,9 +43,18 @@ bool rectcollision(base_type* one, base_type* two);
 void drawshape(float x, float y, unsigned int c);
 unsigned int shape(float x, float y);
 void bumpbrick(float x, float y);
+
+/** Try to grab the coin at the given coordinates */
 void trygrabdistro(float x, float y, int bounciness);
-void trybreakbrick(float x, float y);
+
+/** Try to break the brick at the given coordinates */
+void trybreakbrick(float x, float y, bool small);
+
+/** Try to get the content out of a bonus box, thus emptying it */
 void tryemptybox(float x, float y, int col_side);
+
+/** Try to bumb a badguy that might we walking above Tux, thus shaking
+    the tile which the badguy is walking on an killing him this way */
 void trybumpbadguy(float x, float y);
 
 #endif /*SUPERTUX_GAMELOOP_H*/
