@@ -261,6 +261,7 @@ void
 World::action(double frame_ratio)
 {
   tux.action(frame_ratio);
+  tux.check_bounds(level->back_scrolling, (bool)level->hor_autoscroll_speed);
   scrolling(frame_ratio);
 
   /* Handle bouncy distros: */

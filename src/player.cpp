@@ -194,7 +194,6 @@ Player::action(double frame_ratio)
           base.x += frame_ratio * WALK_SPEED * (dir ? 1 : -1);
           previous_base = old_base = base;
         }
-      check_bounds();
 
       // Land:
       if (!on_ground())
@@ -739,7 +738,7 @@ Player::remove_powerups()
 }
 
 void
-Player::check_bounds()
+Player::check_bounds(bool back_scrolling, bool hor_autoscroll)
 {
   /* Keep tux in bounds: */
   if (base.x < 0)
@@ -754,14 +753,14 @@ Player::check_bounds()
       kill(KILL);
     }
 
-  if(base.x < scroll_x)  // can happen if back scrolling is disabled
+  if(base.x < scroll_x && (!back_scrolling || hor_autoscroll))  // can happen if back scrolling is disabled
     base.x = scroll_x;
 
-  if(base.x == scroll_x)
-    if(issolid(base.x, base.y) || (size != SMALL && issolid(base.x, base.y+32)))
+  if(base.x == scroll_x && hor_autoscroll)
+    if(issolid(base.x+32, base.y) || (size != SMALL && issolid(base.x+32, base.y+32)))
       kill(KILL);
 
-  if(base.x + base.width > scroll_x + screen->w)
+  if(base.x + base.width > scroll_x + screen->w && hor_autoscroll)
     base.x = scroll_x + screen->w - base.width;
 
     
