@@ -212,7 +212,7 @@ void draw_demo(GameSession* session, double frame_ratio)
       random_timer.start(rand() % 3000 + 3000);
       walking = !walking;
     }
-  
+
   // Wrap around at the end of the level back to the beginnig
   if(plevel->width * 32 - 320 < tux->base.x)
     {
@@ -220,15 +220,17 @@ void draw_demo(GameSession* session, double frame_ratio)
       scroll_x = tux->base.x - 320;
     }
 
+  tux->can_jump = true;
   float last_tux_x_pos = tux->base.x;
   tux->action(frame_ratio);
 
-#if 0 // disabled for now, since with the new jump code we easily get deadlocks
+  // disabled for now, since with the new jump code we easily get deadlocks
   // Jump if tux stays in the same position for one loop, ie. if he is
   // stuck behind a wall
   if (last_tux_x_pos == tux->base.x)
-    walking = false;
-#endif
+    {
+      walking = false;
+    }
 
   tux->draw();
 }
@@ -293,6 +295,13 @@ void title(void)
       
       if (Menu::current() == main_menu)
         logo->draw( 160, 30);
+
+      white_small_text->draw(" SuperTux " VERSION "\n"
+                             "Copyright (c) 2003 SuperTux Devel Team\n"
+                             "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you\n"
+                             "are welcome to redistribute it under certain conditions; see the file COPYING\n"
+                             "for details.\n",
+                             0, 420, 0);
 
       /* Don't draw menu, if quit is true */
       Menu* menu = Menu::current();
