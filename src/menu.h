@@ -53,7 +53,6 @@ enum GameMenuIDs {
 
 enum WorldMapMenuIDs {
   MNID_RETURNWORLDMAP,
-  MNID_SAVEGAME,
   MNID_QUITWORLDMAP
   };
 

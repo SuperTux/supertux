@@ -467,7 +467,6 @@ void st_menu(void)
   worldmap_menu->additem(MN_LABEL,"Pause",0,0);
   worldmap_menu->additem(MN_HL,"",0,0);
   worldmap_menu->additem(MN_ACTION,"Continue",0,0,MNID_RETURNWORLDMAP);
-  worldmap_menu->additem(MN_ACTION,"Save",0,0,MNID_SAVEGAME);
   worldmap_menu->additem(MN_GOTO,"Options",0,options_menu);
   worldmap_menu->additem(MN_HL,"",0,0);
   worldmap_menu->additem(MN_ACTION,"Quit Game",0,0,MNID_QUITWORLDMAP);
