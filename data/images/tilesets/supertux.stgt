@@ -575,12 +575,12 @@
         (images "jungle12-1.png")
         (images "jungle12-2.png")
         (images "jungle12-3.png")
-        (images "jungle12-4.png"))
-        (images "jungle12-4.png"))
-        (images "jungle12-4.png"))
-        (images "jungle12-4.png"))
+        (images "jungle12-4.png")
+        (images "jungle12-4.png")
+        (images "jungle12-4.png")
+        (images "jungle12-4.png")
         (images "jungle12-3.png")
-        (images "jungle12-2.png")
+        (images "jungle12-2.png"))
 
 ; Spike
   (tile (id 200)
