@@ -58,9 +58,9 @@ class Vector;
 #define USE_ALPHA 0
 #define IGNORE_ALPHA 1
 
-void drawline(int x1, int y1, int x2, int y2, int r, int g, int b, int a);
-void fillrect(float x, float y, float w, float h, int r, int g, int b,
-    int a = 255);
+void putpixel(SDL_Surface *surface, int x, int y, Uint32 pixel);
+void drawpixel(int x, int y, Uint32 pixel);
+void fillrect(float x, float y, float w, float h, int r, int g, int b, int a = 255);
 
 void fadeout(int fade_time);
 void shrink_fade(const Vector& point, int fade_time);

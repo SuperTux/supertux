@@ -40,54 +40,6 @@
 #include "drawing_context.h"
 #include "type.h"
 
-/* Needed for line calculations */
-#define SGN(x) ((x)>0 ? 1 : ((x)==0 ? 0:(-1)))
-#define ABS(x) ((x)>0 ? (x) : (-x))
-
-/* --- FADE IN --- */
-
-/** Fades the given surface into a black one. If fade_out is true, it will fade out, else
-it will fade in */
-
-#if 0
-void fade(Surface *surface, int seconds, bool fade_out);
-
-void fade(const std::string& surface, int seconds, bool fade_out)
-{
-Surface* sur = new Surface(datadir + surface, IGNORE_ALPHA);
-fade(sur, seconds, fade_out);
-delete sur;
-}
-
-void fade(Surface *surface, int seconds, bool fade_out)
-{
-float alpha;
-if (fade_out)
-  alpha = 0;
-else
-  alpha = 255;
-
-  int cur_time, old_time;
-  cur_time = SDL_GetTicks();
-
-  while(alpha >= 0 && alpha < 256)
-    {
-    surface->draw(0,0,(int)alpha);
-    flipscreen();
-
-    old_time = cur_time;
-    cur_time = SDL_GetTicks();
-
-    /* Calculate the next alpha value */
-    float calc = (float) ((cur_time - old_time) / seconds);
-    if(fade_out)
-      alpha += 255 * calc;
-    else
-      alpha -= 255 * calc;
-    }
-}
-#endif
-
 /* 'Stolen' from the SDL documentation.
  * Set the pixel at (x, y) to the given value
  * NOTE: The surface must be locked before calling this!
@@ -151,70 +103,6 @@ void drawpixel(int x, int y, Uint32 pixel)
     }
   /* Update just the part of the display that we've changed */
   SDL_UpdateRect(screen, x, y, 1, 1);
-}
-
-void drawline(int x1, int y1, int x2, int y2, int r, int g, int b, int a)
-{
-#ifndef NOOPENGL
-  if(use_gl)
-    {
-      glEnable(GL_BLEND);
-      glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-      glColor4ub(r, g, b,a);
-
-      glBegin(GL_LINES);
-      glVertex2f(x1, y1);
-      glVertex2f(x2, y2);
-      glEnd();
-      glDisable(GL_BLEND);
-    }
-  else
-    {
-#endif
-
-      /* Basic unantialiased Bresenham line algorithm */
-      int lg_delta, sh_delta, cycle, lg_step, sh_step;
-      Uint32 color = SDL_MapRGBA(screen->format, r, g, b, a);
-
-      lg_delta = x2 - x1;
-      sh_delta = y2 - y1;
-      lg_step = SGN(lg_delta);
-      lg_delta = ABS(lg_delta);
-      sh_step = SGN(sh_delta);
-      sh_delta = ABS(sh_delta);
-      if (sh_delta < lg_delta)
-        {
-          cycle = lg_delta >> 1;
-          while (x1 != x2)
-            {
-              drawpixel(x1, y1, color);
-              cycle += sh_delta;
-              if (cycle > lg_delta)
-                {
-                  cycle -= lg_delta;
-                  y1 += sh_step;
-                }
-              x1 += lg_step;
-            }
-          drawpixel(x1, y1, color);
-        }
-      cycle = sh_delta >> 1;
-      while (y1 != y2)
-        {
-          drawpixel(x1, y1, color);
-          cycle += lg_delta;
-          if (cycle > sh_delta)
-            {
-              cycle -= sh_delta;
-              x1 += lg_step;
-            }
-          y1 += sh_step;
-        }
-      drawpixel(x1, y1, color);
-#ifndef NOOPENGL
-
-    }
-#endif
 }
 
 /* --- FILL A RECT --- */
@@ -288,7 +176,6 @@ if(h < 0)
     }
 #endif
 }
-
 
 #define LOOP_DELAY 20.0
 
