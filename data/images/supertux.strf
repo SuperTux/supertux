@@ -1060,7 +1060,8 @@
           (y-offset 0)
           (images "shared/walkingtree-left-small-1.png")))
 
-
+;; Game elements follow
+          
  (sprite (name "egg")
        (action
          (images "shared/egg.png")))
@@ -1106,6 +1107,9 @@
          (x-offset 12)
          (fps 20)
          (images "shared/icebullet-1.png")))
+
+;; Game Objects follow
+
   ; Trampoline
   (sprite (name "trampoline")
        (action
