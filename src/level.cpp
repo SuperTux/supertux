@@ -141,7 +141,7 @@ Level::save(const std::string& filename)
   int version = 2;
   writer->write_int("version", version);
 
-  writer->write_string("name", name);
+  writer->write_string("name", name, true);
   writer->write_string("author", author);
   writer->write_int("time", timelimit);
   writer->write_string("end-sequence-animation",

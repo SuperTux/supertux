@@ -39,7 +39,8 @@ namespace lisp
 
       void write_int(const std::string& name, int value);
       void write_float(const std::string& name, float value);
-      void write_string(const std::string& name, const std::string& value);
+      void write_string(const std::string& name, const std::string& value,
+          bool translatable = false);
       void write_bool(const std::string& name, bool value);
       void write_int_vector(const std::string& name, const std::vector<int>& value);
       void write_int_vector(const std::string& name, const std::vector<unsigned int>& value);

@@ -89,10 +89,16 @@ Writer::write_float(const std::string& name, float value)
 }
 
 void
-Writer::write_string(const std::string& name, const std::string& value)
+Writer::write_string(const std::string& name, const std::string& value,
+    bool translatable)
 {
   indent();
-  out << '(' << name << " \"" << value << "\")\n";
+  out << '(' << name;
+  if(translatable) {
+    out << " (_ \"" << value << "\"))\n";
+  } else {
+    out << " \"" << value << "\")\n";
+  }
 }
 
 void
