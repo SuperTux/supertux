@@ -101,14 +101,18 @@ Text::draw_chars(Surface* pchars,const  char* text, int x, int y, int update)
     {
       for( i = 0, j = 0; i < len; ++i,++j)
         {
-          if( text[i] >= 'A' && text[i] <= 'Z')
-            pchars->draw_part((int)(text[i] - 'A')*w, 0, x+(j*w), y, w, h, 255,  update);
-          else if( text[i] >= 'a' && text[i] <= 'z')
-            pchars->draw_part((int)(text[i] - 'a')*w, h, x+(j*w), y, w, h, 255,  update);
-          else if ( text[i] >= '!' && text[i] <= '9')
-            pchars->draw_part((int)(text[i] - '!')*w, h*2, x+(j*w), y, w, h, 255,  update);
-          else if ( text[i] == '?')
-            pchars->draw_part(25*w, h*2, x+(j*w), y, w, h, 255,  update);
+          if( text[i] >= ' ' && text[i] <= '/')
+            pchars->draw_part((int)(text[i] - ' ')*w,  0 , x+(j*w), y, w, h, 255,  update);
+          else if( text[i] >= '0' && text[i] <= '?')
+            pchars->draw_part((int)(text[i] - '0')*w, h*1, x+(j*w), y, w, h, 255,  update);
+          else if ( text[i] >= '@' && text[i] <= 'O')
+            pchars->draw_part((int)(text[i] - '@')*w, h*2, x+(j*w), y, w, h, 255,  update);
+          else if ( text[i] >= 'P' && text[i] <= '_')
+            pchars->draw_part((int)(text[i] - 'P')*w, h*3, x+(j*w), y, w, h, 255,  update);
+          else if ( text[i] >= '`' && text[i] <= 'o')
+            pchars->draw_part((int)(text[i] - '`')*w, h*4, x+(j*w), y, w, h, 255,  update);
+          else if ( text[i] >= 'p' && text[i] <= '~')
+            pchars->draw_part((int)(text[i] - 'p')*w, h*5, x+(j*w), y, w, h, 255,  update);
           else if ( text[i] == '\n')
             {
               y += h + 2;
