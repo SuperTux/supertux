@@ -18,11 +18,12 @@ L: low priority
 [M] When jumping into a brick and there is a powerup, it should change direction or not,
     depending where the collision was. It currently sucks.
 [M] Tux should fall while walking in tiles that have a space between.
+[M] Camera movement shouldn't be so fast at the beggining, it takes the focus from
+    the game.
 [L] time runs while being in in-game menu, at least a bit (jump, go to
    menu, wait a bit, leave menu, Tux will 'flip' to the ground,
    instead of fall, pause mode doesn't seem to have this problem, only
    menu)
-[L] Backscroll is really messed up right now :)
 [L] change lispreader to throw exceptions instead of simply assert() on
     syntax error
 [L] fadein/out for intro/extro would be nice
