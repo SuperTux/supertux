@@ -344,7 +344,6 @@ void texture_from_sdl_surface(texture_type* ptexture, SDL_Surface* sdl_surf, int
 
 void texture_draw_sdl(texture_type* ptexture, float x, float y, bool update)
 {
-
   SDL_Rect dest;
 
   dest.x = (int)x;

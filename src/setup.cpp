@@ -80,7 +80,7 @@ int fwriteable(const char *filename)
   return true;
 }
 
-/* Makes sure a directory is created in either the SuperTux base directory or the SuperTux base directory.*/
+/* Makes sure a directory is created in either the SuperTux home directory or the SuperTux base directory.*/
 int fcreatedir(const char* relative_dir)
 {
   char path[1024];

@@ -66,7 +66,7 @@ void le_quit();
 void le_drawlevel();
 void le_drawinterface();
 void le_checkevents();
-void le_change(float x, float y, unsigned char c);
+void le_change(float x, float y, int tm, unsigned int c);
 void le_testlevel();
 void le_showhelp();
 void le_set_defaults(void);
@@ -129,8 +129,11 @@ void le_activate_bad_guys(void)
 
   for (y = 0; y < 15; ++y)
     for (x = 0; x < le_current_level->width; ++x)
-      if (le_current_level->tiles[y][x] >= '0' && le_current_level->tiles[y][x] <= '9')
-        add_bad_guy(x * 32, y * 32, static_cast<BadGuyKind>(le_current_level->tiles[y][x] - '0'));
+      if (le_current_level->dn_tiles[y][x] >= '0' && le_current_level->dn_tiles[y][x] <= '9')
+        add_bad_guy(x * 32, y * 32, static_cast<BadGuyKind>(le_current_level->dn_tiles[y][x] - '0'));
+
+
+
 }
 
 void le_set_defaults()
@@ -620,28 +623,7 @@ void apply_level_settings_menu()
 
   le_current_level->song_title = string_list_active(level_settings_menu->item[4].list);
 
-  i = le_current_level->width;
-  le_current_level->width = atoi(level_settings_menu->item[6].input);
-  if(le_current_level->width < i)
-    {
-      if(le_current_level->width < 21)
-        le_current_level->width = 21;
-      for(y = 0; y < 15; ++y)
-        {
-          le_current_level->tiles[y] = (unsigned int*) realloc(le_current_level->tiles[y],(le_current_level->width+1)*sizeof(unsigned int));
-          le_current_level->tiles[y][le_current_level->width] = (unsigned int) '\0';
-        }
-    }
-  else if(le_current_level->width > i)
-    {
-      for(y = 0; y < 15; ++y)
-        {
-          le_current_level->tiles[y] = (unsigned int*) realloc(le_current_level->tiles[y],(le_current_level->width+1)*sizeof(unsigned int));
-          for(j = 0; j < le_current_level->width - i; ++j)
-            le_current_level->tiles[y][i+j] = (unsigned int) '.';
-          le_current_level->tiles[y][le_current_level->width] = (unsigned int) '\0';
-        }
-    }
+  level_change_size(le_current_level, atoi(level_settings_menu->item[6].input));
   le_current_level->time_left = atoi(level_settings_menu->item[7].input);
   le_current_level->gravity = atof(level_settings_menu->item[8].input);
   le_current_level->bkgd_red = atoi(level_settings_menu->item[9].input);
@@ -838,12 +820,11 @@ void le_drawlevel()
   for (y = 0; y < 15; ++y)
     for (x = 0; x < 20; ++x)
       {
-        drawshape(x * 32 - ((int)pos_x % 32), y * 32,
-                  le_current_level->tiles[y][x + (int)(pos_x / 32)]);
+        drawshape(x * 32 - ((int)pos_x % 32), y * 32, le_current_level->ia_tiles[y][x + (int)(pos_x / 32)]);
 
         /* draw whats inside stuff when cursor is selecting those */
         /* (draw them all the time - is this the right behaviour?) */
-        switch(le_current_level->tiles[y][x + (int)(pos_x/32)])
+        switch(le_current_level->ia_tiles[y][x + (int)(pos_x/32)])
           {
           case 'B':
             texture_draw(&img_mints, x * 32 - ((int)pos_x % 32), y*32);
@@ -1250,7 +1231,7 @@ void le_checkevents()
 
               if(le_mouse_pressed[LEFT])
                 {
-                  le_change(cursor_x, cursor_y, le_current_tile);
+                  le_change(cursor_x, cursor_y, TM_IA, le_current_tile);
                 }
             }
         }
@@ -1311,7 +1292,7 @@ void le_highlight_selection()
   fillrect(x1*32-pos_x, y1*32,32* (x2 - x1 + 1),32 * (y2 - y1 + 1),173,234,177,103);
 }
 
-void le_change(float x, float y, unsigned char c)
+void le_change(float x, float y, int tm, unsigned int c)
 {
   if(le_current_level != NULL)
     {
@@ -1324,7 +1305,7 @@ void le_change(float x, float y, unsigned char c)
       switch(le_selection_mode)
         {
         case CURSOR:
-          level_change(le_current_level,x,y,c);
+          level_change(le_current_level,x,y,tm,c);
 
           yy = ((int)y / 32);
           xx = ((int)x / 32);
@@ -1378,7 +1359,7 @@ void le_change(float x, float y, unsigned char c)
           for(xx = x1; xx <= x2; xx++)
             for(yy = y1; yy <= y2; yy++)
               {
-                level_change(le_current_level, xx*32, yy*32, c);
+                level_change(le_current_level, xx*32, yy*32, tm, c);
 
                 if(c == '0')  // if it's a bad guy
                   add_bad_guy(xx*32, yy*32, BAD_BSOD);

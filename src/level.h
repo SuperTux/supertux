@@ -46,7 +46,11 @@ struct st_level
   std::string theme;
   std::string song_title;
   std::string bkgd_image;
-  unsigned int* tiles[15];
+  std::string particle_system;
+  unsigned int* bg_tiles[15]; /* Tiles in the background */
+  unsigned int* ia_tiles[15]; /* Tiles which can interact in the game (solids for example)*/
+  unsigned int* dn_tiles[15]; /* Dynamic tiles (bad guys and moving platforms for example)*/
+  unsigned int* fg_tiles[15]; /* Tiles in the foreground */
   int time_left;
   int bkgd_red;
   int bkgd_green;
@@ -54,6 +58,13 @@ struct st_level
   int width;
   float gravity;
 };
+
+enum {
+ TM_BG,
+ TM_IA,
+ TM_DN,
+ TM_FG
+ };
 
 extern texture_type img_bkgd, img_bkgd_tile[2][4], img_solid[4], img_brick[2];
 
@@ -64,7 +75,8 @@ int  level_load     (st_level* plevel, const char* filename);
 void level_save     (st_level* plevel, const char * subset, int level);
 void level_free     (st_level* plevel);
 void level_load_gfx (st_level* plevel);
-void level_change   (st_level* plevel, float x, float y, unsigned char c);
+void level_change   (st_level* plevel, float x, float y, int tm, unsigned int c);
+void level_change_size (st_level* plevel, int new_width);
 void level_load_song(st_level* plevel);
 void level_free_gfx();
 void level_load_image(texture_type* ptexture, std::string theme, const char * file, int use_alpha);

@@ -16,6 +16,7 @@
 #include <string.h>
 #include <errno.h>
 #include <unistd.h>
+#include <math.h>
 #include <time.h>
 #include <SDL.h>
 
@@ -38,6 +39,8 @@
 #include "level.h"
 #include "scene.h"
 #include "collision.h"
+#include "tile.h"
+#include "particlesystem.h"
 
 /* extern variables */
 
@@ -105,14 +108,30 @@ void activate_bad_guys(void)
     {
       for (x = 0; x < current_level.width; x++)
         {
-          if (current_level.tiles[y][x] >= '0' && current_level.tiles[y][x] <= '9')
+          if (current_level.dn_tiles[y][x] >= '0' && current_level.dn_tiles[y][x] <= '9')
             {
-              add_bad_guy(x * 32, y * 32, static_cast<BadGuyKind>(current_level.tiles[y][x] - '0'));
-              current_level.tiles[y][x] = '.';
+              add_bad_guy(x * 32, y * 32,  static_cast<BadGuyKind>(current_level.dn_tiles[y][x] - '0'));
+              current_level.dn_tiles[y][x] = 0;
             }
         }
     }
+}
 
+void activate_particle_systems(void)
+{
+  printf("PSys: %s\n", current_level.particle_system.c_str());
+  if(current_level.particle_system == "clouds")
+    {
+      particle_systems.push_back(new CloudParticleSystem);
+    }
+  else if(current_level.particle_system == "snow")
+    {
+      particle_systems.push_back(new SnowParticleSystem);
+    }
+  else if(current_level.particle_system != "")
+    {
+      st_abort("unknown particle system specified in level", "");
+    }
 }
 
 /* --- GAME EVENT! --- */
@@ -222,9 +241,9 @@ void game_event(void)
             case SDLK_f:
               if(debug_fps)
                 debug_fps = false;
-	      else
+              else
                 debug_fps = true;
-              break;	      
+              break;
             default:
               break;
             }
@@ -374,6 +393,7 @@ int game_action(void)
       arrays_free();
       arrays_init();
       activate_bad_guys();
+      activate_particle_systems();
       level_free_gfx();
       level_load_gfx(&current_level);
       level_free_song();
@@ -450,6 +470,13 @@ int game_action(void)
       bad_guys[i].action();
     }
 
+  /* update particle systems */
+  std::vector<ParticleSystem*>::iterator p;
+  for(p = particle_systems.begin(); p != particle_systems.end(); ++p)
+    {
+      (*p)->simulate(frame_ratio);
+    }
+
   /* Handle all possible collisions. */
   collision_handler();
 
@@ -460,6 +487,8 @@ int game_action(void)
 
 void game_draw(void)
 {
+int y,x;
+
   /* Draw screen: */
   if (tux.dying && (global_frame_counter % 4) == 0)
     clearscreen(255, 255, 255);
@@ -480,11 +509,36 @@ void game_draw(void)
         }
     }
 
-  // Draw background:
-  for (int y = 0; y < 15; ++y)
-    for (int x = 0; x < 21; ++x)
-      drawshape(32*x - fmodf(scroll_x, 32), y * 32,
-                current_level.tiles[y][x + (int)(scroll_x / 32)]);
+  /* Draw particle systems (background) */
+  std::vector<ParticleSystem*>::iterator p;
+  for(p = particle_systems.begin(); p != particle_systems.end(); ++p)
+    {
+      (*p)->draw(scroll_x, 0, 0);
+    }
+
+  /* Draw background: */
+
+  for (y = 0; y < 15; ++y)
+    {
+      for (x = 0; x < 21; ++x)
+        {
+          drawshape(32*x - fmodf(scroll_x, 32), y * 32,
+                    current_level.bg_tiles[(int)y][(int)x + (int)(scroll_x / 32)]);
+        }
+    }
+
+  /* Draw interactive tiles: */
+
+  for (y = 0; y < 15; ++y)
+    {
+      for (x = 0; x < 21; ++x)
+        {
+          drawshape(32*x - fmodf(scroll_x, 32), y * 32,
+                    current_level.ia_tiles[(int)y][(int)x + (int)(scroll_x / 32)]);
+        }
+    }
+
+  /* (Bouncy bricks): */
 
   for (unsigned int i = 0; i < bouncy_bricks.size(); ++i)
     bouncy_brick_draw(&bouncy_bricks[i]);
@@ -509,6 +563,23 @@ void game_draw(void)
   for (unsigned int i = 0; i < broken_bricks.size(); ++i)
     broken_brick_draw(&broken_bricks[i]);
 
+  /* Draw foreground: */
+
+  for (y = 0; y < 15; ++y)
+    {
+      for (x = 0; x < 21; ++x)
+        {
+          drawshape(32*x - fmodf(scroll_x, 32), y * 32,
+                    current_level.fg_tiles[(int)y][(int)x + (int)(scroll_x / 32)]);
+        }
+    }
+
+  /* Draw particle systems (foreground) */
+  for(p = particle_systems.begin(); p != particle_systems.end(); ++p)
+    {
+      (*p)->draw(scroll_x, 0, 1);
+    }
+
   drawstatus();
 
   if(game_pause)
@@ -526,10 +597,7 @@ void game_draw(void)
     menu_process_current();
 
   /* (Update it all!) */
-
   updatescreen();
-
-
 }
 
 /* --- GAME LOOP! --- */
@@ -565,6 +633,7 @@ int gameloop(const char * subset, int levelnb, int mode)
 
   level_load_gfx(&current_level);
   activate_bad_guys();
+  activate_particle_systems();
   level_load_song(&current_level);
 
   tux.init();
@@ -582,7 +651,6 @@ int gameloop(const char * subset, int levelnb, int mode)
 
   if(st_gl_mode == ST_GL_LOAD_GAME)
     loadgame(levelnb);
-
 
   /* --- MAIN GAME LOOP!!! --- */
 
@@ -605,7 +673,7 @@ int gameloop(const char * subset, int levelnb, int mode)
 
 
   while (SDL_PollEvent(&event))
-    {}
+  {}
 
   game_draw();
   do
@@ -616,7 +684,7 @@ int gameloop(const char * subset, int levelnb, int mode)
       frame_ratio = ((double)(update_time-last_update_time))/((double)FRAME_RATE);
       if(frame_ratio > 1.5) /* Quick hack to correct the unprecise CPU clocks a little bit. */
         frame_ratio = 1.5 + (frame_ratio - 1.5) * 0.85;
-      
+
       if(!timer_check(&frame_timer))
         {
           timer_start(&frame_timer,25);
@@ -679,8 +747,8 @@ int gameloop(const char * subset, int levelnb, int mode)
               /* == -1: continues */
               return 0;
             }
-	  /*  --z;
-              }*/
+          /*  --z;
+                     }*/
         }
       else
         {
@@ -710,7 +778,6 @@ int gameloop(const char * subset, int levelnb, int mode)
       /* Set the time of the last update and the time of the current update */
       last_update_time = update_time;
       update_time = st_get_ticks();
-
 
       /* Pause till next frame, if the machine running the game is too fast: */
       /* FIXME: Works great for in OpenGl mode, where the CPU doesn't have to do that much. But
@@ -1249,10 +1316,25 @@ void unloadshared(void)
 
 /* Draw a tile on the screen: */
 
-void drawshape(float x, float y, unsigned char c)
+void drawshape(float x, float y, unsigned int c)
 {
   int z;
 
+  Tile* ptile = TileManager::instance()->get
+                (c);
+  if(ptile)
+    {
+      if(ptile->images.size() > 1)
+        {
+          texture_draw(&ptile->images[( ((global_frame_counter*25) / ptile->anim_speed) % (ptile->images.size()))],x,y);
+        }
+      else
+        {
+          texture_draw(&ptile->images[0],x,y);
+        }
+    }
+
+  /*
   if (c == 'X' || c == 'x')
     texture_draw(&img_brick[0], x, y);
   else if (c == 'Y' || c == 'y')
@@ -1308,24 +1390,25 @@ void drawshape(float x, float y, unsigned char c)
       texture_draw(&img_flag[z], x + 16, y);
     }
   else if (c == '&')
-    texture_draw(&img_water, x, y);
+    texture_draw(&img_water, x, y);*/
+
 }
 
 
 /* What shape is at some position? */
 
-unsigned char shape(float x, float y)
+unsigned int shape(float x, float y)
 {
 
   int xx, yy;
-  unsigned char c;
+  unsigned int c;
 
   yy = ((int)y / 32);
   xx = ((int)x / 32);
 
   if (yy >= 0 && yy < 15 && xx >= 0 && xx <= current_level.width)
     {
-      c = current_level.tiles[yy][xx];
+      c = current_level.ia_tiles[yy][xx];
     }
   else
     c = '.';
@@ -1338,25 +1421,38 @@ unsigned char shape(float x, float y)
 
 bool issolid(float x, float y)
 {
-  return (isbrick(x, y) ||
-          isice(x, y) ||
-          (shape(x, y) == '[') ||
-          (shape(x, y) == '=') ||
-          (shape(x, y) == ']') ||
-          (shape(x, y) == 'A') ||
-          (shape(x, y) == 'B') ||
-          (shape(x, y) == '!') ||
-          (shape(x, y) == 'a'));
+  Tile* tile = TileManager::instance()->get
+               (shape(x,y));
+  if(tile)
+    {
+      if(tile->solid == true)
+        return true;
+      else
+        return false;
+    }
+  else
+    {
+      return false;
+    }
 }
 
 /* Is it a brick? */
 
 bool isbrick(float x, float y)
 {
-  return (shape(x, y) == 'X' ||
-          shape(x, y) == 'x' ||
-          shape(x, y) == 'Y' ||
-          shape(x, y) == 'y');
+  Tile* tile = TileManager::instance()->get
+               (shape(x,y));
+  if(tile)
+    {
+      if(tile->brick == true)
+        return true;
+      else
+        return false;
+    }
+  else
+    {
+      return false;
+    }
 }
 
 
@@ -1364,16 +1460,38 @@ bool isbrick(float x, float y)
 
 bool isice(float x, float y)
 {
-  return (shape(x, y) == '#');
+  Tile* tile = TileManager::instance()->get
+               (shape(x,y));
+  if(tile)
+    {
+      if(tile->ice == true)
+        return true;
+      else
+        return false;
+    }
+  else
+    {
+      return false;
+    }
 }
 
 /* Is it a full box? */
 
 bool isfullbox(float x, float y)
 {
-  return (shape(x, y) == 'A' ||
-          shape(x, y) == 'B' ||
-          shape(x, y) == '!');
+  Tile* tile = TileManager::instance()->get
+               (shape(x,y));
+  if(tile)
+    {
+      if(tile->fullbox == true)
+        return true;
+      else
+        return false;
+    }
+  else
+    {
+      return false;
+    }
 }
 
 /* Break a brick: */
@@ -1396,7 +1514,7 @@ void trybreakbrick(float x, float y)
             }
 
           if (distro_counter <= 0)
-            level_change(&current_level,x, y, 'a');
+            level_change(&current_level,x, y, TM_IA, 'a');
 
           play_sound(sounds[SND_DISTRO], SOUND_CENTER_SPEAKER);
           score = score + SCORE_DISTRO;
@@ -1406,7 +1524,7 @@ void trybreakbrick(float x, float y)
         {
           /* Get rid of it: */
 
-          level_change(&current_level,x, y,'.');
+          level_change(&current_level,x, y, TM_IA, '.');
         }
 
 
@@ -1473,7 +1591,7 @@ void tryemptybox(float x, float y, int col_side)
     }
 
   /* Empty the box: */
-  level_change(&current_level,x, y, 'a');
+  level_change(&current_level,x, y, TM_IA, 'a');
 }
 
 
@@ -1483,7 +1601,7 @@ void trygrabdistro(float x, float y, int bounciness)
 {
   if (shape(x, y) == '$')
     {
-      level_change(&current_level,x, y, '.');
+      level_change(&current_level,x, y, TM_IA, '.');
       play_sound(sounds[SND_DISTRO], SOUND_CENTER_SPEAKER);
 
       if (bounciness == BOUNCE)
@@ -1683,6 +1801,7 @@ void loadgame(int slot)
       arrays_free();
       arrays_init();
       activate_bad_guys();
+      activate_particle_systems();
       level_free_gfx();
       level_load_gfx(&current_level);
       level_free_song();

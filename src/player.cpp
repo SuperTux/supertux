@@ -255,8 +255,8 @@ Player::action()
                     }
 
                   if (distro_counter <= 0)
-                    level_change(&current_level,base.x,base.y - 1, 'a');
-
+                    level_change(&current_level,base.x,base.y - 1, TM_IA, 'a');
+		    
                   play_sound(sounds[SND_DISTRO], SOUND_CENTER_SPEAKER);
                   score = score + SCORE_DISTRO;
                   distros++;
@@ -274,7 +274,7 @@ Player::action()
                     }
 
                   if (distro_counter <= 0)
-                    level_change(&current_level,base.x+ 31, base.y, 'a');
+                    level_change(&current_level,base.x+ 31, base.y, TM_IA, 'a');
 
                   play_sound(sounds[SND_DISTRO], SOUND_CENTER_SPEAKER);
                   score = score + SCORE_DISTRO;

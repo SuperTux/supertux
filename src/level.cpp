@@ -206,11 +206,29 @@ void level_default(st_level* plevel)
 
   for(i = 0; i < 15; ++i)
     {
-      plevel->tiles[i] = (unsigned int*) malloc((plevel->width+1)*sizeof(unsigned int));
-      plevel->tiles[i][plevel->width] = (unsigned int) '\0';
+      plevel->ia_tiles[i] = (unsigned int*) malloc((plevel->width+1)*sizeof(unsigned int));
+      plevel->ia_tiles[i][plevel->width] = (unsigned int) '\0';
       for(y = 0; y < plevel->width; ++y)
-        plevel->tiles[i][y] = (unsigned int) '.';
-      plevel->tiles[i][plevel->width] = (unsigned int) '\0';
+        plevel->ia_tiles[i][y] = (unsigned int) '.';
+      plevel->ia_tiles[i][plevel->width] = (unsigned int) '\0';
+
+      plevel->bg_tiles[i] = (unsigned int*) malloc((plevel->width+1)*sizeof(unsigned int));
+      plevel->bg_tiles[i][plevel->width] = (unsigned int) '\0';
+      for(y = 0; y < plevel->width; ++y)
+        plevel->bg_tiles[i][y] = (unsigned int) '.';
+      plevel->bg_tiles[i][plevel->width] = (unsigned int) '\0';
+
+      plevel->fg_tiles[i] = (unsigned int*) malloc((plevel->width+1)*sizeof(unsigned int));
+      plevel->fg_tiles[i][plevel->width] = (unsigned int) '\0';
+      for(y = 0; y < plevel->width; ++y)
+        plevel->fg_tiles[i][y] = (unsigned int) '.';
+      plevel->fg_tiles[i][plevel->width] = (unsigned int) '\0';
+
+      plevel->dn_tiles[i] = (unsigned int*) malloc((plevel->width+1)*sizeof(unsigned int));
+      plevel->dn_tiles[i][plevel->width] = (unsigned int) '\0';
+      for(y = 0; y < plevel->width; ++y)
+        plevel->dn_tiles[i][y] = (unsigned int) '.';
+      plevel->dn_tiles[i][plevel->width] = (unsigned int) '\0';
     }
 }
 
@@ -231,7 +249,7 @@ int level_load(st_level* plevel, const  char *subset, int level)
 
 int level_load(st_level* plevel, const char* filename)
 {
-  int x, y;
+  int x, y, j;
   FILE * fi;
   lisp_object_t* root_obj = 0;
   fi = fopen(filename, "r");
@@ -250,12 +268,15 @@ int level_load(st_level* plevel, const char* filename)
       printf("World: Parse Error in file %s", filename);
     }
 
-  vector<int> vi;
+  vector<int> ia_tm;
+  vector<int> dn_tm;
+  vector<int> bg_tm;
+  vector<int> fg_tm;
 
   if (strcmp(lisp_symbol(lisp_car(root_obj)), "supertux-level") == 0)
     {
       LispReader reader(lisp_cdr(root_obj));
-      
+
       reader.read_int("width",  &plevel->width);
       reader.read_int("time",  &plevel->time_left);
       reader.read_int("bkgd_red",  &plevel->bkgd_red);
@@ -266,20 +287,64 @@ int level_load(st_level* plevel, const char* filename)
       reader.read_string("theme",  &plevel->theme);
       reader.read_string("music",  &plevel->song_title);
       reader.read_string("background",  &plevel->bkgd_image);
-      reader.read_int_vector("tilemap",  &vi);
+      reader.read_string("particle_system", &plevel->particle_system);
+      reader.read_int_vector("background-tm",  &bg_tm);
+      reader.read_int_vector("interactive-tm",  &ia_tm);
+      reader.read_int_vector("dynamic-tm",  &dn_tm);
+      reader.read_int_vector("foreground-tm",  &fg_tm);
     }
-    
-    
+
+
   int i;
   for( i = 0; i < 15; ++i)
-    plevel->tiles[i] = (unsigned int*) calloc((plevel->width +1) , sizeof(unsigned int) );
+    {
+      plevel->dn_tiles[i] = (unsigned int*) calloc((plevel->width +1) , sizeof(unsigned int) );
+      plevel->ia_tiles[i] = (unsigned int*) calloc((plevel->width +1) , sizeof(unsigned int) );
+      plevel->bg_tiles[i] = (unsigned int*) calloc((plevel->width +1) , sizeof(unsigned int) );
+      plevel->fg_tiles[i] = (unsigned int*) calloc((plevel->width +1) , sizeof(unsigned int) );
+    }
 
-  i = 0;
-  int j = 0;
-  for(vector<int>::iterator it = vi.begin(); it != vi.end(); ++it, ++i)
+  i = j = 0;
+  for(vector<int>::iterator it = ia_tm.begin(); it != ia_tm.end(); ++it, ++i)
     {
 
-      plevel->tiles[j][i] = (*it);
+      plevel->ia_tiles[j][i] = (*it);
+      if(i == plevel->width - 1)
+        {
+          i = -1;
+          ++j;
+        }
+    }
+
+  i = j = 0;
+  for(vector<int>::iterator it = dn_tm.begin(); it != dn_tm.end(); ++it, ++i)
+    {
+
+      plevel->dn_tiles[j][i] = (*it);
+      if(i == plevel->width - 1)
+        {
+          i = -1;
+          ++j;
+        }
+    }
+
+  i = j = 0;
+  for(vector<int>::iterator it = bg_tm.begin(); it != bg_tm.end(); ++it, ++i)
+    {
+
+      plevel->bg_tiles[j][i] = (*it);
+      if(i == plevel->width - 1)
+        {
+          i = -1;
+          ++j;
+        }
+    }
+
+  i = j = 0;
+  for(vector<int>::iterator it = fg_tm.begin(); it != fg_tm.end(); ++it, ++i)
+    {
+
+      plevel->fg_tiles[j][i] = (*it);
       if(i == plevel->width - 1)
         {
           i = -1;
@@ -290,7 +355,7 @@ int level_load(st_level* plevel, const char* filename)
   /* Set the global gravity to the latest loaded level's gravity */
   gravity = plevel->gravity;
 
-  /*  Mark the end position of this level! - Is a bit wrong here thought */
+  /*  Mark the end position of this level! - Is a bit wrong here thought * /
 
   for (y = 0; y < 15; ++y)
     {
@@ -302,7 +367,7 @@ int level_load(st_level* plevel, const char* filename)
                 endpos = x*32;
             }
         }
-    }
+    }*/
 
   fclose(fi);
   return 0;
@@ -333,30 +398,58 @@ void level_save(st_level* plevel,const  char * subset, int level)
     }
 
 
-        /* Write header: */
-      fprintf(fi,";SuperTux-Level\n");
-      fprintf(fi,"(supertux-level\n");
+  /* Write header: */
+  fprintf(fi,";SuperTux-Level\n");
+  fprintf(fi,"(supertux-level\n");
 
-      fprintf(fi,"  (name \"%s\")\n", plevel->name.c_str());
-      fprintf(fi,"  (theme \"%s\")\n", plevel->theme.c_str());
-      fprintf(fi,"  (music \"%s\")\n", plevel->song_title.c_str());
-      fprintf(fi,"  (background \"%s\")\n", plevel->bkgd_image.c_str());
-      fprintf(fi,"  (bkgd_red %d)\n", plevel->bkgd_red);
-      fprintf(fi,"  (bkgd_green %d)\n", plevel->bkgd_green);
-      fprintf(fi,"  (bkgd_blue %d)\n", plevel->bkgd_blue);
-      fprintf(fi,"  (time %d)\n", plevel->time_left);
-      fprintf(fi,"  (width %d)\n", plevel->width);
-      fprintf(fi,"  (gravity %2.1f)\n", plevel->gravity);
-      fprintf(fi,"  (tilemap ");     
-       
+  fprintf(fi,"  (name \"%s\")\n", plevel->name.c_str());
+  fprintf(fi,"  (theme \"%s\")\n", plevel->theme.c_str());
+  fprintf(fi,"  (music \"%s\")\n", plevel->song_title.c_str());
+  fprintf(fi,"  (background \"%s\")\n", plevel->bkgd_image.c_str());
+  fprintf(fi,"  (particle_system \"%s\")\n", plevel->particle_system.c_str());
+  fprintf(fi,"  (bkgd_red %d)\n", plevel->bkgd_red);
+  fprintf(fi,"  (bkgd_green %d)\n", plevel->bkgd_green);
+  fprintf(fi,"  (bkgd_blue %d)\n", plevel->bkgd_blue);
+  fprintf(fi,"  (time %d)\n", plevel->time_left);
+  fprintf(fi,"  (width %d)\n", plevel->width);
+  fprintf(fi,"  (gravity %2.1f)\n", plevel->gravity);
+  fprintf(fi,"  (background-tm ");
+
   for(y = 0; y < 15; ++y)
     {
-    for(i = 0; i < plevel->width; ++i)
-    fprintf(fi," %d ", plevel->tiles[y][i]); 
+      for(i = 0; i < plevel->width; ++i)
+        fprintf(fi," %d ", plevel->bg_tiles[y][i]);
     }
-    
-      fprintf( fi,")");    
-      fprintf( fi,")\n");
+
+  fprintf( fi,")\n");
+  fprintf(fi,"  (interactive-tm ");
+
+  for(y = 0; y < 15; ++y)
+    {
+      for(i = 0; i < plevel->width; ++i)
+        fprintf(fi," %d ", plevel->ia_tiles[y][i]);
+    }
+
+  fprintf( fi,")\n");
+  fprintf(fi,"  (dynamic-tm ");
+
+  for(y = 0; y < 15; ++y)
+    {
+      for(i = 0; i < plevel->width; ++i)
+        fprintf(fi," %d ", plevel->dn_tiles[y][i]);
+    }
+
+  fprintf( fi,")\n");
+  fprintf(fi,"  (foreground-tm ");
+
+  for(y = 0; y < 15; ++y)
+    {
+      for(i = 0; i < plevel->width; ++i)
+        fprintf(fi," %d ", plevel->fg_tiles[y][i]);
+    }
+
+  fprintf( fi,")");
+  fprintf( fi,")\n");
 
   fclose(fi);
 }
@@ -368,7 +461,13 @@ void level_free(st_level* plevel)
 {
   int i;
   for(i=0; i < 15; ++i)
-    free(plevel->tiles[i]);
+    free(plevel->bg_tiles[i]);
+  for(i=0; i < 15; ++i)
+    free(plevel->ia_tiles[i]);
+  for(i=0; i < 15; ++i)
+    free(plevel->dn_tiles[i]);
+  for(i=0; i < 15; ++i)
+    free(plevel->fg_tiles[i]);
 
   plevel->name.clear();
   plevel->theme.clear();
@@ -446,9 +545,37 @@ void level_load_image(texture_type* ptexture, string theme,const  char * file, i
   texture_load(ptexture, fname, use_alpha);
 }
 
+void tilemap_change_size(unsigned int** tilemap[15], int w, int old_w)
+{
+  int j,y;
+  for(y = 0; y < 15; ++y)
+    {
+      *tilemap[y] = (unsigned int*) realloc(*tilemap[y],(w+1)*sizeof(unsigned int));
+      if(w > old_w)
+        for(j = 0; j < w - old_w; ++j)
+          *tilemap[y][old_w+j] = 0;
+      *tilemap[y][w] = 0;
+    }
+}
+
+/* Change the size of a level (width) */
+void level_change_size (st_level* plevel, int new_width)
+{
+  int y;
+
+  if(new_width < 21)
+    new_width = 21;
+  tilemap_change_size((unsigned int***)&plevel->ia_tiles,new_width,plevel->width);
+  tilemap_change_size((unsigned int***)&plevel->dn_tiles,new_width,plevel->width);
+  tilemap_change_size((unsigned int***)&plevel->bg_tiles,new_width,plevel->width);
+  tilemap_change_size((unsigned int***)&plevel->fg_tiles,new_width,plevel->width);
+  plevel->width = new_width;
+
+}
+
 /* Edit a piece of the map! */
 
-void level_change(st_level* plevel, float x, float y, unsigned char c)
+void level_change(st_level* plevel, float x, float y, int tm, unsigned int c)
 {
   int xx, yy;
 
@@ -456,7 +583,19 @@ void level_change(st_level* plevel, float x, float y, unsigned char c)
   xx = ((int)x / 32);
 
   if (yy >= 0 && yy < 15 && xx >= 0 && xx <= plevel->width)
-    plevel->tiles[yy][xx] = c;
+    {
+      switch(tm)
+        {
+        case 0:
+          plevel->bg_tiles[yy][xx] = c;
+        case 1:
+          plevel->ia_tiles[yy][xx] = c;
+        case 2:
+          plevel->dn_tiles[yy][xx] = c;
+        case 4:
+          plevel->fg_tiles[yy][xx] = c;
+        }
+    }
 }
 
 /* Free music data for this level: */
