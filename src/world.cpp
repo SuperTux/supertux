@@ -41,6 +41,7 @@ World::World()
   current_ = this;
 
   level = new Level;
+  tux.init();
 }
 
 World::~World()
@@ -60,14 +61,12 @@ World::set_defaults()
   counting_distros = false;
   distro_counter = 0;
 
-  endpos = 0;
-
   /* set current song/music */
   set_current_music(LEVEL_MUSIC);
 }
 
 int
-World::load(const char* subset, int level_nr)
+World::load(const std::string& subset, int level_nr)
 {
   return level->load(subset, level_nr);
 }

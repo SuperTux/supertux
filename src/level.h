@@ -68,6 +68,7 @@ class Level
   int bkgd_green;
   int bkgd_blue;
   int width;
+  int  endpos;
   float gravity;
 
   std::vector<BadGuyData> badguy_data;
@@ -80,7 +81,7 @@ class Level
 
   /** Load data for this level: 
       Returns -1, if the loading of the level failed. */
-  int  load(const char* subset, int level);
+  int  load(const std::string& subset, int level);
 
   /** Load data for this level: 
       Returns -1, if the loading of the level failed. */

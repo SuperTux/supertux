@@ -21,6 +21,8 @@
 #include <iostream>
 #include <math.h>
 #include "globals.h"
+#include "world.h"
+#include "level.h"
 #include "scene.h"
 
 ParticleSystem::ParticleSystem()
@@ -85,7 +87,7 @@ SnowParticleSystem::SnowParticleSystem()
         do {
             particle->speed = snowsize/60.0 + (float(rand()%10)/300.0);
         } while(particle->speed < 0.01);
-        particle->speed *= gravity;
+        particle->speed *= World::current()->get_level()->gravity;
 
         particles.push_back(particle);
     }

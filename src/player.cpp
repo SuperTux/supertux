@@ -99,6 +99,7 @@ Player::init()
   timer_init(&skidding_timer,true);
   timer_init(&safe_timer,true);
   timer_init(&frame_timer,true);
+
   physic.reset();
 }
 
@@ -285,8 +286,8 @@ Player::action()
   // timer_check(&skidding_timer); // disabled
 
   /* End of level? */
-
-  if (base.x >= endpos && endpos != 0)
+  if (base.x >= World::current()->get_level()->endpos
+      && World::current()->get_level()->endpos != 0)
     {
       next_level = 1;
     }
@@ -914,7 +915,7 @@ Player::remove_powerups()
 void
 Player::keep_in_bounds()
 {
-  Level* plevel = GameSession::current()->get_level();
+  Level* plevel = World::current()->get_level();
 
   /* Keep tux in bounds: */
   if (base.x< 0)
@@ -931,7 +932,7 @@ Player::keep_in_bounds()
 
     }
   else if (base.x > screen->w / 2 + scroll_x
-           && scroll_x < ((GameSession::current()->get_level()->width * 32) - screen->w))
+           && scroll_x < ((World::current()->get_level()->width * 32) - screen->w))
     {
       // FIXME: Scrolling needs to be handled by a seperate View
       // class, doing it as a player huck is ugly

@@ -36,6 +36,7 @@
 #include "scene.h"
 #include "button.h"
 #include "tile.h"
+#include "resources.h"
 
 /* definitions to aid development */
 #define DONE_LEVELEDITOR 1
@@ -58,11 +59,6 @@
 /* look */
 #define SELECT_W 2 // size of the selections lines
 #define SELECT_CLR 0, 255, 0, 255  // lines color (R, G, B, A)
-
-/* gameloop funcs declerations */
-
-void loadshared(void);
-void unloadshared(void);
 
 /* own declerations */
 /* crutial ones (main loop) */

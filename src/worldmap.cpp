@@ -419,7 +419,7 @@ WorldMap::update()
             {
               std::cout << "Enter the current level: " << i->name << std::endl;;
               halt_music();
-              GameSession session(const_cast<char*>((datadir +  "levels/default/" + i->name).c_str()),
+              GameSession session(datadir +  "levels/default/" + i->name,
                                   1, ST_GL_LOAD_LEVEL_FILE);
               session.run();
               play_music(song, 1);

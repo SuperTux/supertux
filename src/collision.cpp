@@ -15,6 +15,7 @@
 #include "bitmask.h"
 #include "scene.h"
 #include "world.h"
+#include "level.h"
 #include "tile.h"
 
 bool rectcollision(base_type* one, base_type* two)

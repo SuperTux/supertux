@@ -203,6 +203,7 @@ Level::init_defaults()
   bkgd_red   = 0;
   bkgd_green = 0;
   bkgd_blue  = 0;
+  endpos     = 0;
 
   for(int i = 0; i < 15; ++i)
     {
@@ -227,14 +228,14 @@ Level::init_defaults()
 }
 
 int
-Level::load(const  char *subset, int level)
+Level::load(const std::string& subset, int level)
 {
   char filename[1024];
 
   // Load data file:
-  snprintf(filename, 1024, "%s/levels/%s/level%d.stl", st_dir, subset, level);
+  snprintf(filename, 1024, "%s/levels/%s/level%d.stl", st_dir, subset.c_str(), level);
   if(!faccessible(filename))
-    snprintf(filename, 1024, "%s/levels/%s/level%d.stl", datadir.c_str(), subset, level);
+    snprintf(filename, 1024, "%s/levels/%s/level%d.stl", datadir.c_str(), subset.c_str(), level);
 
   return load(filename);
 }
@@ -422,9 +423,6 @@ Level::load(const std::string& filename)
           ++j;
         }
     }
-
-  // FIXME: Set the global gravity to the latest loaded level's gravity
-  ::gravity = gravity;
 
   //  Mark the end position of this level!
   // FIXME: -10 is a rather random value, we still need some kind of

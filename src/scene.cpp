@@ -17,16 +17,16 @@ int score;
 int distros;
 int level;
 int next_level;
-int game_pause;
 int score_multiplier;
-int endpos;
 bool counting_distros;
 int distro_counter;
 timer_type  super_bkgd_timer;
+
+// FIXME: Move this into a view class
 float scroll_x;
+
 unsigned int global_frame_counter;
 
-Player tux;
 texture_type img_box_full;
 texture_type img_box_empty;
 texture_type img_mints;

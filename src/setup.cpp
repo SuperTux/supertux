@@ -397,7 +397,7 @@ void st_menu(void)
   
   options_controls_menu->additem(MN_LABEL,"Controls",0,0);
   options_controls_menu->additem(MN_HL,"",0,0);
-  options_controls_menu->additem(MN_CONTROLFIELD,"Move Right",tux.keymap.right,0);
+  //FIXME:options_controls_menu->additem(MN_CONTROLFIELD,"Move Right", tux.keymap.right,0);
   options_controls_menu->additem(MN_HL,"",0,0);
   options_controls_menu->additem(MN_BACK,"Back",0,0);
 
@@ -475,7 +475,10 @@ bool process_load_game_menu()
           Menu::set_current(main_menu);
         }
       else
-        { // Slot contains a level, so load it
+        { 
+          puts("Warning: Loading games isn't supported at the moment");
+#if 0
+          // Slot contains a level, so load it
           if (game_started)
             {
               GameSession session("default",slot - 1,ST_GL_LOAD_GAME);
@@ -487,8 +490,8 @@ bool process_load_game_menu()
           else
             {
               //loadgame(slot - 1);
-              puts("Warning: Loading games isn't supported at the moment");
             }
+#endif
         }
       st_pause_ticks_stop();
       return true;

@@ -231,6 +231,8 @@ BadGuy::action_bsod()
 void
 BadGuy::action_laptop()
 {
+  Player& tux = *World::current()->get_tux();
+
   fall();
   
   /* Move left/right: */
@@ -244,7 +246,7 @@ BadGuy::action_laptop()
   else if (mode == HELD)
     { /* FIXME: The pbad object shouldn't know about pplayer objects. */
       /* If we're holding the laptop */
-      dir=tux.dir;
+      dir = tux.dir;
       if(dir==RIGHT)
         {
           base.x = tux.base.x + 16;
@@ -386,6 +388,8 @@ BadGuy::remove_me()
 void
 BadGuy::action_money()
 {
+  Player& tux = *World::current()->get_tux();
+
   static const float JUMPV = 6;
     
   fall();
@@ -459,6 +463,8 @@ BadGuy::action_bomb()
 void
 BadGuy::action_stalactite()
 {
+  Player& tux = *World::current()->get_tux();
+
   static const int SHAKETIME = 800;
   static const int RANGE = 40;
     

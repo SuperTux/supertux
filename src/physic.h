@@ -54,7 +54,4 @@ private:
     bool gravity_enabled;
 };
 
-/* global variables. */
-extern float gravity;
-
 #endif /*SUPERTUX_PHYSIC_H*/

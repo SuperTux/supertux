@@ -3,6 +3,7 @@
 #include "player.h"
 #include "badguy.h"
 #include "gameobjs.h"
+#include "special.h"
 #include "resources.h"
 
 texture_type img_waves[3]; 

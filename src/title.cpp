@@ -39,15 +39,13 @@
 #include "player.h"
 #include "math.h"
 #include "tile.h"
-
-void loadshared(void);
+#include "resources.h"
 
 static texture_type bkg_title;
 static texture_type logo;
 static texture_type img_choose_subset;
 
 static bool walking;
-static Player titletux;
 static timer_type random_timer;
 
 static SDL_Event event;
@@ -65,8 +63,13 @@ void draw_background()
   texture_draw_bg(&bkg_title);
 }
 
-void draw_demo(Level* plevel)
+void draw_demo(GameSession* session)
 {
+  World::set_current(session->get_world());
+  //World* world  = session->get_world();
+  Level* plevel = session->get_level();
+  Player* tux = session->get_world()->get_tux();
+  
   /* FIXME:
   // update particle systems
   std::vector<ParticleSystem*>::iterator p;
@@ -93,14 +96,14 @@ void draw_demo(Level* plevel)
     }
 
   global_frame_counter++;
-  titletux.key_event(SDLK_RIGHT,DOWN);
+  tux->key_event(SDLK_RIGHT,DOWN);
   
   if(timer_check(&random_timer))
     {
       if(walking)
-        titletux.key_event(SDLK_UP,UP);
+        tux->key_event(SDLK_UP,UP);
       else
-        titletux.key_event(SDLK_UP,DOWN);
+        tux->key_event(SDLK_UP,DOWN);
     }
   else
     {
@@ -109,27 +112,26 @@ void draw_demo(Level* plevel)
     }
   
   // Wrap around at the end of the level back to the beginnig
-  if(plevel->width * 32 - 320 < titletux.base.x)
+  if(plevel->width * 32 - 320 < tux->base.x)
     {
-      titletux.base.x = titletux.base.x - (plevel->width * 32 - 640);
-      scroll_x = titletux.base.x - 320;
+      tux->base.x = tux->base.x - (plevel->width * 32 - 640);
+      scroll_x = tux->base.x - 320;
     }
 
-  float last_tux_x_pos = titletux.base.x;
-  titletux.action();
+  float last_tux_x_pos = tux->base.x;
+  tux->action();
 
   // Jump if tux stays in the same position for one loop, ie. if he is
   // stuck behind a wall
-  if (last_tux_x_pos == titletux.base.x)
+  if (last_tux_x_pos == tux->base.x)
     walking = false;
 
-  titletux.draw();
+  tux->draw();
 
   /* DEMO end */
 }
 
 /* --- TITLE SCREEN --- */
-
 bool title(void)
 {
   string_list_type level_subsets;
@@ -138,15 +140,13 @@ bool title(void)
   timer_init(&random_timer, true);
 
   walking = true;
-  titletux.init();
 
   st_pause_ticks_init();
 
   GameSession session(datadir + "/levels/misc/menu.stl");
   loadshared();
+
   //FIXME:activate_particle_systems();
-  /* Lower the gravity that tux doesn't jump to hectically through the demo */
-  //gravity = 5;
 
   /* Reset menu variables */
   menu_reset();
@@ -209,7 +209,7 @@ bool title(void)
 
       /* Draw the background: */
       draw_background();
-      draw_demo(session.get_level());
+      draw_demo(&session);
       
       if (current_menu == main_menu)
         texture_draw(&logo, 160, 30);
@@ -344,9 +344,10 @@ bool title(void)
         {
           if (process_load_game_menu())
             {
+              // FIXME: shouldn't be needed if GameSession doesn't relay on global variables
               // reset tux
               scroll_x = 0;
-              titletux.level_begin();
+              //titletux.level_begin();
               update_time = st_get_ticks();
             }
         }

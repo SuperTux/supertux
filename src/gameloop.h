@@ -36,18 +36,32 @@ class GameSession
 {
  private:
   bool quit;
-  timer_type fps_timer, frame_timer;
+  timer_type fps_timer;
+  timer_type frame_timer;
   World* world;
+  int st_gl_mode;
+
+  float fps_fps;
+  unsigned int last_update_time;
+  unsigned int update_time;
+  int pause_menu_frame;
+  int debug_fps;
+  bool game_pause;
+
+  // FIXME: Hack for restarting the level
+  std::string subset;
 
  public:
   GameSession();
   GameSession(const std::string& filename);
   GameSession(const std::string& subset, int levelnb, int mode);
-  
+  ~GameSession();
+
+  /** Enter the busy loop */
   int  run();
+
   void draw();
   int  action();
-  void process_events();
 
   Level* get_level() { return world->get_level(); }
   World* get_world() { return world; }
@@ -59,8 +73,15 @@ class GameSession
  private:
   static GameSession* current_;
 
-  void levelintro();
+  void init();
+
   void start_timers();
+  void process_events();
+
+  void levelintro();
+  void drawstatus();
+  void drawendscreen();
+  void drawresultscreen(void);
 };
 
 std::string slotinfo(int slot);

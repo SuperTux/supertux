@@ -93,10 +93,12 @@ extern texture_type bigcape_left[2];
 class Player
 {
  public:
-  player_input_type  input;
   player_keymap_type keymap;
+  int lives;
   int score;
   int distros;
+
+  player_input_type  input;
   bool got_coffee;
   int size;
   bool duck;
@@ -105,10 +107,10 @@ class Player
   bool jumping;
   int frame_;
   int frame_main;
-  int lives;
-  base_type base;
-  base_type old_base;
-  base_type previous_base;
+
+  base_type  base;
+  base_type  old_base;
+  base_type  previous_base;
   timer_type invincible_timer;
   timer_type skidding_timer;
   timer_type safe_timer;
@@ -131,6 +133,7 @@ class Player
   void keep_in_bounds();
   bool on_ground();
   bool under_solid();
+  
  private:
   void handle_horizontal_input(int dir);
   void handle_vertical_input();

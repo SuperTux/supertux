@@ -25,8 +25,11 @@
 #include "type.h"
 #include "scene.h"
 #include "special.h"
+#include "badguy.h"
 #include "particlesystem.h"
 #include "gameobjs.h"
+
+class Level;
 
 /** The World class holds a level and all the game objects (badguys,
     bouncy distros, etc) that are needed to run a game. */
@@ -34,6 +37,8 @@ class World
 {
  public:
   Level* level;
+
+  Player tux;
   
   std::vector<BouncyDistro> bouncy_distros;
   std::vector<BrokenBrick>  broken_bricks;
@@ -46,13 +51,16 @@ class World
   std::vector<ParticleSystem*> particle_systems;
 
   static World* current_;
+
  public:
   static World* current() { return current_; }
+  static void set_current(World* w) { current_ = w; }
 
   World();
   ~World();
   
-  Level* get_level() { return level; }
+  Level*  get_level() { return level; }
+  Player* get_tux() { return &tux; }
 
   void set_defaults();
 
@@ -68,7 +76,7 @@ class World
 
   /** Load data for this level: 
       Returns -1, if the loading of the level failed. */
-  int  load(const char* subset, int level);
+  int  load(const std::string& subset, int level);
 
   /** Load data for this level: 
       Returns -1, if the loading of the level failed. */

@@ -15,8 +15,8 @@
 #include "defines.h"
 #include "physic.h"
 #include "timer.h"
-
-float gravity;
+#include "world.h"
+#include "level.h"
 
 Physic::Physic()
     : ax(0), ay(0), vx(0), vy(0), gravity_enabled(true)
@@ -81,14 +81,15 @@ Physic::enable_gravity(bool enable_gravity)
 void
 Physic::apply(float &x, float &y)
 {
-    float grav;
-    if(gravity_enabled)
-        grav = gravity / 100.0;
-    else
-        grav = 0;
+  float gravity = World::current()->get_level()->gravity;
+  float grav;
+  if(gravity_enabled)
+    grav = gravity / 100.0;
+  else
+    grav = 0;
 
-    x += vx * frame_ratio + ax * frame_ratio * frame_ratio;
-    y += vy * frame_ratio + (ay + grav) * frame_ratio * frame_ratio;
-    vx += ax * frame_ratio;
-    vy += (ay + grav) * frame_ratio;
+  x += vx * frame_ratio + ax * frame_ratio * frame_ratio;
+  y += vy * frame_ratio + (ay + grav) * frame_ratio * frame_ratio;
+  vx += ax * frame_ratio;
+  vy += (ay + grav) * frame_ratio;
 }

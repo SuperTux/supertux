@@ -42,31 +42,15 @@
 #include "collision.h"
 #include "tile.h"
 #include "particlesystem.h"
-
-/* extern variables */
-
-int game_started = false;
-
-/* Local variables: */
-static SDL_Event event;
-static SDLKey key;
-static char level_subset[100];
-static float fps_fps;
-static int st_gl_mode;
-static unsigned int last_update_time;
-static unsigned int update_time;
-static int pause_menu_frame;
-static int debug_fps;
+#include "resources.h"
 
 GameSession* GameSession::current_ = 0;
 
-/* Local function prototypes: */
-void levelintro(void);
-void loadshared(void);
-void unloadshared(void);
-void drawstatus(void);
-void drawendscreen(void);
-void drawresultscreen(void);
+void
+GameSession::init()
+{
+  game_pause = false;
+}
 
 GameSession::GameSession()
 {
@@ -76,9 +60,12 @@ GameSession::GameSession()
 
 GameSession::GameSession(const std::string& filename)
 {
+  init();
+
+  //assert(!"Don't call me");
   current_ = this;
 
-  world = &::global_world;
+  world = new World; // &::global_world;
 
   timer_init(&fps_timer, true);
   timer_init(&frame_timer, true);
@@ -86,34 +73,33 @@ GameSession::GameSession(const std::string& filename)
   world->load(filename);
 }
 
-GameSession::GameSession(const std::string& subset, int levelnb, int mode)
+GameSession::GameSession(const std::string& subset_, int levelnb, int mode)
+  : subset(subset_)
 {
+  init();
+
   current_ = this;
 
-  world = &::global_world;
+  world = new World; // &::global_world;
 
   timer_init(&fps_timer, true);
   timer_init(&frame_timer, true);
 
-  game_started = true;
-
   st_gl_mode = mode;
-  level = levelnb;
+  level      = levelnb;
 
   /* Init the game: */
   world->arrays_free();
   world->set_defaults();
 
-  strcpy(level_subset, subset.c_str());
-
   if (st_gl_mode == ST_GL_LOAD_LEVEL_FILE)
     {
-      if (world->load(level_subset))
+      if (world->load(subset))
         exit(1);
     }
   else
     {
-      if(world->load(level_subset, level) != 0)
+      if(world->load(subset, level) != 0)
         exit(1);
     }
 
@@ -123,8 +109,6 @@ GameSession::GameSession(const std::string& subset, int levelnb, int mode)
   world->activate_bad_guys();
   world->activate_particle_systems();
   world->get_level()->load_song();
-
-  tux.init();
 
   if(st_gl_mode != ST_GL_TEST)
     load_hs();
@@ -139,9 +123,16 @@ GameSession::GameSession(const std::string& subset, int levelnb, int mode)
     loadgame(levelnb);
 }
 
+GameSession::~GameSession()
+{
+  delete world;
+}
+
 void
 GameSession::levelintro(void)
 {
+  Player& tux = *world->get_tux();
+
   char str[60];
   /* Level Intro: */
   clearscreen(0, 0, 0);
@@ -173,6 +164,9 @@ GameSession::start_timers()
 void
 GameSession::process_events()
 {
+  Player& tux = *world->get_tux();
+
+  SDL_Event event;
   while (SDL_PollEvent(&event))
     {
       /* Check for menu-events, if the menu is shown */
@@ -185,103 +179,107 @@ GameSession::process_events()
           quit = true;
           break;
         case SDL_KEYDOWN:     /* A keypress! */
-          key = event.key.keysym.sym;
-
-          if(tux.key_event(key,DOWN))
-            break;
-
-          switch(key)
-            {
-            case SDLK_ESCAPE:    /* Escape: Open/Close the menu: */
-              if(!game_pause)
-                {
-                  if(st_gl_mode == ST_GL_TEST)
-                    quit = true;
-                  else if(show_menu)
-                    {
-                      Menu::set_current(game_menu);
-                      show_menu = 0;
-                      st_pause_ticks_stop();
-                    }
-                  else
-                    {
-                      Menu::set_current(game_menu);
-                      show_menu = 1;
-                      st_pause_ticks_start();
-                    }
-                }
+          {
+            SDLKey key = event.key.keysym.sym;
+            
+            if(tux.key_event(key,DOWN))
               break;
-            default:
-              break;
-            }
+
+            switch(key)
+              {
+              case SDLK_ESCAPE:    /* Escape: Open/Close the menu: */
+                if(!game_pause)
+                  {
+                    if(st_gl_mode == ST_GL_TEST)
+                      quit = true;
+                    else if(show_menu)
+                      {
+                        Menu::set_current(game_menu);
+                        show_menu = 0;
+                        st_pause_ticks_stop();
+                      }
+                    else
+                      {
+                        Menu::set_current(game_menu);
+                        show_menu = 1;
+                        st_pause_ticks_start();
+                      }
+                  }
+                break;
+              default:
+                break;
+              }
+          }
           break;
         case SDL_KEYUP:      /* A keyrelease! */
-          key = event.key.keysym.sym;
+          {
+            SDLKey key = event.key.keysym.sym;
 
-          if(tux.key_event(key, UP))
-            break;
+            if(tux.key_event(key, UP))
+              break;
 
-          switch(key)
-            {
-            case SDLK_p:
-              if(!show_menu)
-                {
-                  if(game_pause)
-                    {
-                      game_pause = 0;
-                      st_pause_ticks_stop();
-                    }
-                  else
-                    {
-                      game_pause = 1;
-                      st_pause_ticks_start();
-                    }
-                }
-              break;
-            case SDLK_TAB:
-              if(debug_mode)
-                {
-                  tux.size = !tux.size;
-                  if(tux.size == BIG)
-                    {
-                      tux.base.height = 64;
-                    }
-                  else
-                    tux.base.height = 32;
-                }
-              break;
-            case SDLK_END:
-              if(debug_mode)
-                distros += 50;
-              break;
-            case SDLK_SPACE:
-              if(debug_mode)
-                next_level = 1;
-              break;
-            case SDLK_DELETE:
-              if(debug_mode)
-                tux.got_coffee = 1;
-              break;
-            case SDLK_INSERT:
-              if(debug_mode)
-                timer_start(&tux.invincible_timer,TUX_INVINCIBLE_TIME);
-              break;
-            case SDLK_l:
-              if(debug_mode)
-                --tux.lives;
-              break;
-            case SDLK_s:
-              if(debug_mode)
-                score += 1000;
-            case SDLK_f:
-              if(debug_fps)
-                debug_fps = false;
-              else
-                debug_fps = true;
-              break;
-            default:
-              break;
-            }
+            switch(key)
+              {
+              case SDLK_p:
+                if(!show_menu)
+                  {
+                    if(game_pause)
+                      {
+                        game_pause = false;
+                        st_pause_ticks_stop();
+                      }
+                    else
+                      {
+                        game_pause = true;
+                        st_pause_ticks_start();
+                      }
+                  }
+                break;
+              case SDLK_TAB:
+                if(debug_mode)
+                  {
+                    tux.size = !tux.size;
+                    if(tux.size == BIG)
+                      {
+                        tux.base.height = 64;
+                      }
+                    else
+                      tux.base.height = 32;
+                  }
+                break;
+              case SDLK_END:
+                if(debug_mode)
+                  distros += 50;
+                break;
+              case SDLK_SPACE:
+                if(debug_mode)
+                  next_level = 1;
+                break;
+              case SDLK_DELETE:
+                if(debug_mode)
+                  tux.got_coffee = 1;
+                break;
+              case SDLK_INSERT:
+                if(debug_mode)
+                  timer_start(&tux.invincible_timer,TUX_INVINCIBLE_TIME);
+                break;
+              case SDLK_l:
+                if(debug_mode)
+                  --tux.lives;
+                break;
+              case SDLK_s:
+                if(debug_mode)
+                  score += 1000;
+              case SDLK_f:
+                if(debug_fps)
+                  debug_fps = false;
+                else
+                  debug_fps = true;
+                break;
+              default:
+                break;
+              }
+          }
           break;
 
         case SDL_JOYAXISMOTION:
@@ -342,6 +340,8 @@ GameSession::process_events()
 int
 GameSession::action()
 {
+  Player& tux = *world->get_tux();
+
   if (tux.is_dead() || next_level)
     {
       /* Tux either died, or reached the end of a level! */
@@ -403,12 +403,12 @@ GameSession::action()
 
       if (st_gl_mode == ST_GL_LOAD_LEVEL_FILE)
         {
-          if(world->get_level()->load(level_subset) != 0)
+          if(world->get_level()->load(subset) != 0)
             return 0;
         }
       else
         {
-          if(world->get_level()->load(level_subset,level) != 0)
+          if(world->get_level()->load(subset, level) != 0)
             return 0;
         }
 
@@ -465,13 +465,14 @@ GameSession::draw()
 int
 GameSession::run()
 {
+  Player& tux = *world->get_tux();
   current_ = this;
   
   int  fps_cnt;
   bool done;
 
   global_frame_counter = 0;
-  game_pause = 0;
+  game_pause = false;
   timer_init(&fps_timer,true);
   timer_init(&frame_timer,true);
   last_update_time = st_get_ticks();
@@ -484,8 +485,9 @@ GameSession::run()
   /* Play music: */
   play_current_music();
 
-  while (SDL_PollEvent(&event))
-  {}
+  // Eat unneeded events
+  SDL_Event event;
+  while (SDL_PollEvent(&event)) {}
 
   draw();
 
@@ -505,7 +507,6 @@ GameSession::run()
         }
 
       /* Handle events: */
-
       tux.input.old_fire = tux.input.fire;
 
       process_events();
@@ -640,9 +641,7 @@ GameSession::run()
   unloadshared();
   world->arrays_free();
 
-  game_started = false;
-
-  return(quit);
+  return quit;
 }
 
 /* Bounce a brick: */
@@ -655,8 +654,10 @@ void bumpbrick(float x, float y)
 }
 
 /* (Status): */
-void drawstatus(void)
+void
+GameSession::drawstatus()
 {
+  Player& tux = *world->get_tux();
   char str[60];
 
   sprintf(str, "%d", score);
@@ -694,14 +695,14 @@ void drawstatus(void)
       text_draw(&gold_text, str, screen->h + 60, 40, 1);
     }
 
-  for(int i=0; i < tux.lives; ++i)
+  for(int i= 0; i < tux.lives; ++i)
     {
       texture_draw(&tux_life,565+(18*i),20);
     }
 }
 
-
-void drawendscreen(void)
+void
+GameSession::drawendscreen()
 {
   char str[80];
 
@@ -721,7 +722,8 @@ void drawendscreen(void)
   wait_for_event(event,2000,5000,true);
 }
 
-void drawresultscreen(void)
+void
+GameSession::drawresultscreen(void)
 {
   char str[80];
 
@@ -742,8 +744,9 @@ void drawresultscreen(void)
 }
 
 void
-GameSession::savegame(int slot)
+GameSession::savegame(int)
 {
+#if 0
   char savefile[1024];
   FILE* fi;
   unsigned int ui;
@@ -764,22 +767,23 @@ GameSession::savegame(int slot)
       fwrite(&score,sizeof(int),1,fi);
       fwrite(&distros,sizeof(int),1,fi);
       fwrite(&scroll_x,sizeof(float),1,fi);
-      fwrite(&tux,sizeof(Player),1,fi);
-      timer_fwrite(&tux.invincible_timer,fi);
-      timer_fwrite(&tux.skidding_timer,fi);
-      timer_fwrite(&tux.safe_timer,fi);
-      timer_fwrite(&tux.frame_timer,fi);
+      //FIXME:fwrite(&tux,sizeof(Player),1,fi);
+      //FIXME:timer_fwrite(&tux.invincible_timer,fi);
+      //FIXME:timer_fwrite(&tux.skidding_timer,fi);
+      //FIXME:timer_fwrite(&tux.safe_timer,fi);
+      //FIXME:timer_fwrite(&tux.frame_timer,fi);
       timer_fwrite(&time_left,fi);
       ui = st_get_ticks();
       fwrite(&ui,sizeof(int),1,fi);
     }
   fclose(fi);
-
+#endif 
 }
 
 void
-GameSession::loadgame(int slot)
+GameSession::loadgame(int)
 {
+#if 0
   char savefile[1024];
   char str[100];
   FILE* fi;
@@ -821,16 +825,16 @@ GameSession::loadgame(int slot)
       fread(&score,   sizeof(int),1,fi);
       fread(&distros, sizeof(int),1,fi);
       fread(&scroll_x,sizeof(float),1,fi);
-      fread(&tux,     sizeof(Player), 1, fi);
-      timer_fread(&tux.invincible_timer,fi);
-      timer_fread(&tux.skidding_timer,fi);
-      timer_fread(&tux.safe_timer,fi);
-      timer_fread(&tux.frame_timer,fi);
+      //FIXME:fread(&tux,     sizeof(Player), 1, fi);
+      //FIXME:timer_fread(&tux.invincible_timer,fi);
+      //FIXME:timer_fread(&tux.skidding_timer,fi);
+      //FIXME:timer_fread(&tux.safe_timer,fi);
+      //FIXME:timer_fread(&tux.frame_timer,fi);
       timer_fread(&time_left,fi);
       fread(&ui,sizeof(int),1,fi);
       fclose(fi);
     }
-
+#endif 
 }
 
 std::string slotinfo(int slot)
