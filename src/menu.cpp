@@ -443,6 +443,7 @@ Menu::draw_item(int index, // Position of the current item in the menu
       }
     case MN_TEXTFIELD:
     case MN_NUMFIELD:
+    case MN_CONTROLFIELD:
       {
         int input_pos = input_width/2;
         int text_pos  = (text_width + font_width)/2;
@@ -463,10 +464,10 @@ Menu::draw_item(int index, // Position of the current item in the menu
                               A_HMIDDLE, A_VMIDDLE, shadow_size);
         break;
       }
-    case MN_CONTROLFIELD:
-      {
+//    case MN_CONTROLFIELD:
+//      {
         /* display key */  // FIXME: the key number is not that obvious to the user :P
-        char str[12];
+/*        char str[12];
         sprintf(str, "%i", *pitem.int_p);
         input_width = strlen(str) * font_width;
 
@@ -488,7 +489,7 @@ Menu::draw_item(int index, // Position of the current item in the menu
                               x_pos - (input_width + font_width)/2, y_pos,
                               A_HMIDDLE, A_VMIDDLE, shadow_size);
         break;
-      }
+      }*/
     case MN_STRINGSELECT:
       {
         int list_pos_2 = list_width + font_width;
@@ -619,6 +620,52 @@ Menu::event(SDL_Event& event)
       if(item[active_item].kind == MN_CONTROLFIELD)
         {
         *item[active_item].int_p = event.key.keysym.unicode;
+        if(ch[0] != '\0')
+          strcpy(item[active_item].input, ch);
+        else
+          switch(key)
+           {
+           case SDLK_UP:
+             strcpy(item[active_item].input, "Up cursor");
+             break;
+           case SDLK_DOWN:
+             strcpy(item[active_item].input, "Down cursor");
+             break;
+           case SDLK_LEFT:
+             strcpy(item[active_item].input, "Left cursor");
+             break;
+           case SDLK_RIGHT:
+             strcpy(item[active_item].input, "Right cursor");
+             break;
+           case SDLK_RETURN:
+             strcpy(item[active_item].input, "Return");
+             break;
+           case SDLK_SPACE:
+             strcpy(item[active_item].input, "Space");
+             break;
+           case SDLK_RSHIFT:
+             strcpy(item[active_item].input, "Right Shift");
+             break;
+           case SDLK_LSHIFT:
+             strcpy(item[active_item].input, "Left Shift");
+             break;
+           case SDLK_RCTRL:
+             strcpy(item[active_item].input, "Right Control");
+             break;
+           case SDLK_LCTRL:
+             strcpy(item[active_item].input, "Left Control");
+             break;
+           case SDLK_RALT:
+             strcpy(item[active_item].input, "Right Alt");
+             break;
+           case SDLK_LALT:
+             strcpy(item[active_item].input, "Left Alt");
+             break;
+           default:
+             strcpy(item[active_item].input, "?");
+             break;
+           }
+        
         menuaction = MENU_ACTION_DOWN;
         return;
         }

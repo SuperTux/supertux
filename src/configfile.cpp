@@ -23,6 +23,7 @@
 #include "setup.h"
 #include "globals.h"
 #include "lispreader.h"
+#include "player.h"
 
 #ifdef WIN32
 const char * config_filename = "/st_config.dat";
@@ -97,6 +98,12 @@ void loadconfig(void)
   reader.read_int ("joystick-b", &joystick_keymap.b_button);
   reader.read_int ("joystick-start", &joystick_keymap.start_button);
   reader.read_int ("joystick-deadzone", &joystick_keymap.dead_zone);
+
+  reader.read_int ("keyboard-jump", &keymap.jump);
+  reader.read_int ("keyboard-duck", &keymap.duck);
+  reader.read_int ("keyboard-left", &keymap.left);
+  reader.read_int ("keyboard-right", &keymap.right);
+  reader.read_int ("keyboard-fire", &keymap.fire);
 }
 
 void saveconfig (void)
@@ -126,6 +133,12 @@ void saveconfig (void)
       fprintf(config, "\t(joystick-b   %d)\n", joystick_keymap.b_button);
       fprintf(config, "\t(joystick-start  %d)\n", joystick_keymap.start_button);
       fprintf(config, "\t(joystick-deadzone  %d)\n", joystick_keymap.dead_zone);
+
+      fprintf(config, "\t(keyboard-jump  %d)\n", keymap.jump);
+      fprintf(config, "\t(keyboard-duck  %d)\n", keymap.duck);
+      fprintf(config, "\t(keyboard-left  %d)\n", keymap.left);
+      fprintf(config, "\t(keyboard-right %d)\n", keymap.right);
+      fprintf(config, "\t(keyboard-fire  %d)\n", keymap.fire);
 
       fprintf(config, ")\n");
     }
