@@ -162,6 +162,7 @@ public:
   void check_bounds(ViewPort& viewport, bool back_scrolling, bool hor_autoscroll);
   bool on_ground();
   bool under_solid();
+  bool tiles_on_air(int tiles);
   void grow();
   
 private:

@@ -29,9 +29,12 @@
 #include "sprite.h"
 #include "screen.h"
 
-#define AUTOSCROLL_DEAD_INTERVAL 300
+// behavior definitions:
+#define TILES_FOR_BUTTJUMP 3
 // animation times (in ms):
 #define SHOOTING_TIME 320
+// others stuff:
+#define AUTOSCROLL_DEAD_INTERVAL 300
 
 Surface* tux_life;
 
@@ -310,6 +313,19 @@ Player::under_solid()
            issolid(base.x + base.width - 1, base.y)  );
 }
 
+bool
+Player::tiles_on_air(int tiles)
+{
+  for(int t = 0; t != tiles; t++)
+     {
+     if(issolid(base.x + base.width / 2, base.y + base.height + (tiles*32)) ||
+         issolid(base.x + 1, base.y + base.height + (tiles*32)) ||
+         issolid(base.x + base.width - 1, base.y + base.height + (tiles*32)))
+       return false;
+     }
+  return true;
+}
+
 void
 Player::handle_horizontal_input()
 {
@@ -415,7 +431,6 @@ Player::handle_vertical_input()
       --base.y;
       jumping = true;
       can_jump = false;
-      butt_jump = true;  // player started jumping, enable butt jump
       if (size == SMALL)
         play_sound(sounds[SND_JUMP], SOUND_CENTER_SPEAKER);
       else
@@ -426,15 +441,19 @@ Player::handle_vertical_input()
     {
       jumping = false;
       physic.set_velocity_y(0);
-      butt_jump = false;  // jump was not full, disable butt jump
     }
 
-   /* Do butt jump, in case the player has done the combination
-        (full jump and hold DOWN) */
-  if (input.down == UP && physic.get_velocity_y() == World::current()->get_level()->gravity && butt_jump)
-    butt_jump = false;  // in case DOWN is not hold after the full jump, disable it
-  
-  if (input.down == DOWN && butt_jump && on_ground() && size == BIG)
+   /* In case the player has pressed Down while in a certain range of air,
+      enable butt jump action */
+  if (input.down == DOWN && !butt_jump)
+    if(tiles_on_air(TILES_FOR_BUTTJUMP))
+      butt_jump = true;
+
+   /* When Down is not held anymore, disable butt jump */
+  if(butt_jump && input.down == UP)
+    butt_jump = false;
+
+  if (butt_jump && on_ground() && size == BIG)
   {
     if(World::current()->trybreakbrick(base.x, base.y + base.height, false)
       || World::current()->trybreakbrick(
@@ -442,7 +461,7 @@ Player::handle_vertical_input()
         // make tux jumping a little bit again after breaking the bricks
         physic.set_velocity_y(2);
     }
-//    butt_jump = false;
+//    butt_jump = false;   // comment this, in case you won't to disable the continued use of buttjump
   }
 
   if ( (issolid(base.x + base.width / 2, base.y + base.height + 64) ||
