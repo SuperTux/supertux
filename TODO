@@ -29,7 +29,14 @@ L: low priority
  * [M] Create a dist target
  * [M] Add instructions to the README
  * [L] If all of the [H] and [M] issues are fixed, remove autoconf/automake
- * [L] Take a look if it is possible to make it a bit more quiet.
+ * [L] Take a look if it is possible to make it a bit more quiet. (Similar to
+     linux kernel, samba or jam output would be optimum, ie.
+       C++ build/linux/src/bla.o
+       C++ build/linux/src/blup.o
+       C++ build/linux/src/error.o
+          Error on line xx in error.o: This source contained an error
+
+       g++ -Wall .... -o build/linux/src/error.o src/error.cpp
 
 --Miscelaneous--
 [?] Default keyboard setup should change. Up will be needed for other features
