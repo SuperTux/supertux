@@ -82,7 +82,9 @@ LDFLAGS="$LDFLAGS $SDL_LIBS"
 
 dnl Checks for additional libraries.
 if test "x${enable_sound}" != "xno"; then
-  AC_CHECK_LIB(SDL_mixer, SDL_OpenAudio, ,AC_MSG_ERROR(SDL_mixer library required))
+  AC_CHECK_LIB(SDL_mixer, SDL_OpenAudio,, 
+  [CFLAGS="$CFLAGS -DNOSOUND"
+   enable_sound="no"])
 fi
 
 AC_CHECK_LIB(SDL_image, IMG_Load, ,AC_MSG_ERROR(SDL_image library required))
@@ -95,7 +97,9 @@ if test "x${enable_opengl}" != "xno"; then
   CFLAGS="$CFLAGS $X_CFLAGS"
   LDFLAGS="$LDFLAGS $X_LIBS"
 
-  AC_CHECK_LIB(GL, glBegin, ,AC_MSG_ERROR(GL library required))
+  AC_CHECK_LIB(GL, glBegin,, 
+  [CFLAGS="$CFLAGS -DNOOPENGL"
+   enable_opengl="no"])
 fi
 
 # FIXME: Evil
