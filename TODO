@@ -17,9 +17,6 @@ L: low priority
 ?: bug or feature?
     - needs discussion
 
-[?] When jumping into a brick and there is a powerup, it should change
-    direction or not, depending where the collision was. It currently sucks.
-     - Discuss this, is that really what we want?
 [?] Default keyboard setup should change. Up will be needed for other features
     like going through doors and looking up, etc.
 
@@ -49,6 +46,10 @@ L: low priority
      - New forest tileset
      - Badguy sprites
      - Tux's buttjump animation
+[H] When bumping powerups, they should bounce away from the centre of Tux
+[H] Backgrounds should be square tiles instead of just tiling one image
+     - Useful for vertical scrolling when we only want a sky background on the
+       top of the level
 
 [M] Save score on per-level basis to make high-score
 [M] Save time on per-level basis to make low-time-score
