@@ -322,7 +322,7 @@ void title(void)
                 char str[1024];
                 sprintf(str,"Are you sure you want to delete slot %d?", slot);
                 
-                if(confirm_dialog(str))
+                if(confirm_dialog(bkg_title, str))
                   {
                   sprintf(str,"%s/slot%d.stsg", st_save_dir, slot);
                   printf("Removing: %s\n",str);

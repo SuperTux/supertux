@@ -65,10 +65,8 @@ std::vector<Menu*> Menu::last_menus;
 Menu* Menu::current_ = 0;
 
 /* just displays a Yes/No text that can be used to confirm stuff */
-bool confirm_dialog(std::string text)
+bool confirm_dialog(Surface *background, std::string text)
 {
-  // TODO
-#if 0
   //Surface* cap_screen = Surface::CaptureScreen();
   
   Menu* dialog = new Menu;
@@ -80,6 +78,8 @@ bool confirm_dialog(std::string text)
 
   Menu::set_current(dialog);
 
+  DrawingContext context;
+
   while(true)
   {
     SDL_Event event;
@@ -89,9 +89,9 @@ bool confirm_dialog(std::string text)
       dialog->event(event);
     }
 
-    //cap_screen->draw(0,0);
+    context.draw_surface(background, Vector(0,0), LAYER_BACKGROUND0);
 
-    dialog->draw();
+    dialog->draw(context);
     dialog->action();
 
     switch (dialog->check())
@@ -112,11 +112,11 @@ bool confirm_dialog(std::string text)
       break;
     }
 
-    mouse_cursor->draw();
-    flipscreen();
+    mouse_cursor->draw(context);
+    context.do_drawing();
     SDL_Delay(25);
   }
-#endif
+
   return false;
 }
 
