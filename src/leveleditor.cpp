@@ -205,7 +205,7 @@ int leveleditor(int levelnb)
             {
               switch (level_settings_menu->check())
                 {
-                case 16:
+                case 17:
                   apply_level_settings_menu();
                   Menu::set_current(leveleditor_menu);
                   break;
@@ -426,6 +426,7 @@ int le_init()
   level_settings_menu->additem(MN_LABEL,"Level Settings",0,0);
   level_settings_menu->additem(MN_HL,"",0,0);
   level_settings_menu->additem(MN_TEXTFIELD,"Name    ",0,0);
+  level_settings_menu->additem(MN_TEXTFIELD,"Author  ",0,0);
   level_settings_menu->additem(MN_STRINGSELECT,"Theme   ",0,0);
   level_settings_menu->additem(MN_STRINGSELECT,"Song    ",0,0);
   level_settings_menu->additem(MN_STRINGSELECT,"Bg-Image",0,0);
@@ -467,36 +468,37 @@ void update_level_settings_menu()
   int i;
 
   level_settings_menu->item[2].change_input(le_current_level->name.c_str());
+  level_settings_menu->item[3].change_input(le_current_level->author.c_str());
   sprintf(str,"%d",le_current_level->width);
 
-  string_list_copy(level_settings_menu->item[3].list, dsubdirs("images/themes", "solid0.png"));
-  string_list_copy(level_settings_menu->item[4].list, dfiles("music/",NULL, "-fast"));
-  string_list_copy(level_settings_menu->item[5].list, dfiles("images/background",NULL, NULL));
-  string_list_add_item(level_settings_menu->item[5].list,"");
-  if((i = string_list_find(level_settings_menu->item[3].list,le_current_level->theme.c_str())) != -1)
+  string_list_copy(level_settings_menu->item[4].list, dsubdirs("images/themes", "solid0.png"));
+  string_list_copy(level_settings_menu->item[5].list, dfiles("music/",NULL, "-fast"));
+  string_list_copy(level_settings_menu->item[6].list, dfiles("images/background",NULL, NULL));
+  string_list_add_item(level_settings_menu->item[6].list,"");
+  if((i = string_list_find(level_settings_menu->item[4].list,le_current_level->theme.c_str())) != -1)
     level_settings_menu->item[3].list->active_item = i;
-  if((i = string_list_find(level_settings_menu->item[4].list,le_current_level->song_title.c_str())) != -1)
+  if((i = string_list_find(level_settings_menu->item[5].list,le_current_level->song_title.c_str())) != -1)
     level_settings_menu->item[4].list->active_item = i;
-  if((i = string_list_find(level_settings_menu->item[5].list,le_current_level->bkgd_image.c_str())) != -1)
+  if((i = string_list_find(level_settings_menu->item[6].list,le_current_level->bkgd_image.c_str())) != -1)
     level_settings_menu->item[5].list->active_item = i;
 
-  level_settings_menu->item[6].change_input(str);
-  sprintf(str,"%d",le_current_level->time_left);
   level_settings_menu->item[7].change_input(str);
-  sprintf(str,"%2.0f",le_current_level->gravity);
+  sprintf(str,"%d",le_current_level->time_left);
   level_settings_menu->item[8].change_input(str);
-  sprintf(str,"%d",le_current_level->bkgd_top_red);
+  sprintf(str,"%2.0f",le_current_level->gravity);
   level_settings_menu->item[9].change_input(str);
-  sprintf(str,"%d",le_current_level->bkgd_top_green);
+  sprintf(str,"%d",le_current_level->bkgd_top_red);
   level_settings_menu->item[10].change_input(str);
-  sprintf(str,"%d",le_current_level->bkgd_top_blue);
+  sprintf(str,"%d",le_current_level->bkgd_top_green);
   level_settings_menu->item[11].change_input(str);
-  sprintf(str,"%d",le_current_level->bkgd_bottom_red);
+  sprintf(str,"%d",le_current_level->bkgd_top_blue);
   level_settings_menu->item[12].change_input(str);
-  sprintf(str,"%d",le_current_level->bkgd_bottom_green);
+  sprintf(str,"%d",le_current_level->bkgd_bottom_red);
   level_settings_menu->item[13].change_input(str);
-  sprintf(str,"%d",le_current_level->bkgd_bottom_blue);
+  sprintf(str,"%d",le_current_level->bkgd_bottom_green);
   level_settings_menu->item[14].change_input(str);
+  sprintf(str,"%d",le_current_level->bkgd_bottom_blue);
+  level_settings_menu->item[15].change_input(str);
 }
 
 void update_subset_settings_menu()
@@ -511,16 +513,17 @@ void apply_level_settings_menu()
   i = false;
 
   le_current_level->name = level_settings_menu->item[2].input;
+  le_current_level->author = level_settings_menu->item[3].input;
 
-  if(le_current_level->bkgd_image.compare(string_list_active(level_settings_menu->item[5].list)) != 0)
+  if(le_current_level->bkgd_image.compare(string_list_active(level_settings_menu->item[6].list)) != 0)
     {
-      le_current_level->bkgd_image = string_list_active(level_settings_menu->item[5].list);
+      le_current_level->bkgd_image = string_list_active(level_settings_menu->item[6].list);
       i = true;
     }
 
-  if(le_current_level->theme.compare(string_list_active(level_settings_menu->item[3].list)) != 0)
+  if(le_current_level->theme.compare(string_list_active(level_settings_menu->item[4].list)) != 0)
     {
-      le_current_level->theme = string_list_active(level_settings_menu->item[3].list);
+      le_current_level->theme = string_list_active(level_settings_menu->item[4].list);
       i = true;
     }
 
@@ -530,17 +533,17 @@ void apply_level_settings_menu()
       le_current_level->load_gfx();
     }
 
-  le_current_level->song_title = string_list_active(level_settings_menu->item[4].list);
+  le_current_level->song_title = string_list_active(level_settings_menu->item[5].list);
 
-  le_current_level->change_size(atoi(level_settings_menu->item[6].input));
-  le_current_level->time_left = atoi(level_settings_menu->item[7].input);
-  le_current_level->gravity = atof(level_settings_menu->item[8].input);
-  le_current_level->bkgd_top_red = atoi(level_settings_menu->item[9].input);
-  le_current_level->bkgd_top_green = atoi(level_settings_menu->item[10].input);
-  le_current_level->bkgd_top_blue = atoi(level_settings_menu->item[11].input);
-  le_current_level->bkgd_bottom_red = atoi(level_settings_menu->item[12].input);
-  le_current_level->bkgd_bottom_green = atoi(level_settings_menu->item[13].input);
-  le_current_level->bkgd_bottom_blue = atoi(level_settings_menu->item[14].input);
+  le_current_level->change_size(atoi(level_settings_menu->item[7].input));
+  le_current_level->time_left = atoi(level_settings_menu->item[8].input);
+  le_current_level->gravity = atof(level_settings_menu->item[9].input);
+  le_current_level->bkgd_top_red = atoi(level_settings_menu->item[10].input);
+  le_current_level->bkgd_top_green = atoi(level_settings_menu->item[11].input);
+  le_current_level->bkgd_top_blue = atoi(level_settings_menu->item[12].input);
+  le_current_level->bkgd_bottom_red = atoi(level_settings_menu->item[13].input);
+  le_current_level->bkgd_bottom_green = atoi(level_settings_menu->item[14].input);
+  le_current_level->bkgd_bottom_blue = atoi(level_settings_menu->item[15].input);
 }
 
 void save_subset_settings_menu()

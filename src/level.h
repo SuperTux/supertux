@@ -56,6 +56,7 @@ class Level
   texture_type img_bkgd;
 
   std::string name;
+  std::string author;
   std::string theme;
   std::string song_title;
   std::string bkgd_image;

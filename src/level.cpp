@@ -194,6 +194,7 @@ void
 Level::init_defaults()
 {
   name       = "UnNamed";
+  author     = "UnNamed";
   theme      = "antarctica";
   song_title = "Mortimers_chipdisko.mod";
   bkgd_image = "arctis.png";
@@ -284,6 +285,7 @@ Level::load(const std::string& filename)
       reader.read_int("bkgd_bottom_blue",  &bkgd_bottom_blue);
       reader.read_float("gravity",  &gravity);
       reader.read_string("name",  &name);
+      reader.read_string("author", &author);
       reader.read_string("theme",  &theme);
       reader.read_string("music",  &song_title);
       reader.read_string("background",  &bkgd_image);
@@ -469,6 +471,7 @@ Level::save(const  char * subset, int level)
 
   fprintf(fi,"  (version %d)\n", 1);
   fprintf(fi,"  (name \"%s\")\n", name.c_str());
+  fprintf(fi,"  (author \"%s\")\n", author.c_str());
   fprintf(fi,"  (theme \"%s\")\n", theme.c_str());
   fprintf(fi,"  (music \"%s\")\n", song_title.c_str());
   fprintf(fi,"  (background \"%s\")\n", bkgd_image.c_str());
@@ -537,6 +540,7 @@ Level::cleanup()
     free(fg_tiles[i]);
 
   name.clear();
+  author.clear();
   theme.clear();
   song_title.clear();
   bkgd_image.clear();
