@@ -135,7 +135,7 @@ int leveleditor()
   char str[LEVEL_NAME_MAX];
   int done;
   int x, y, i;	/* for cicles */
-  int pos_x, cursor_x, cursor_y, fire;
+  int pos_x, cursor_x, cursor_y, cursor_tile, fire;
   SDL_Event event;
   SDLKey key;
   SDLMod keymod;
@@ -458,7 +458,7 @@ int leveleditor()
           drawshape(x * 32, y * 32, current_level.tiles[y][x + (pos_x / 32)]);
 
 /* draw whats inside stuff when cursor is selecting those */
-int cursor_tile = current_level.tiles[cursor_y/32][cursor_x/32];
+cursor_tile = current_level.tiles[cursor_y/32][cursor_x/32];
 switch(cursor_tile)
 	{
 	case 'B':
@@ -586,6 +586,8 @@ void savelevel(void)
   sprintf(str, "%d\n", current_level.time_left);	/* time */
   fputs(str, fi);
   fputs(current_level.song_title, fi);	/* song filename */
+  fputs("\n",fi);
+  fputs(current_level.bkgd_image, fi);	/* background image */  
   sprintf(str, "\n%d\n", current_level.bkgd_red);	/* red background color */
   fputs(str, fi);
   sprintf(str, "%d\n", current_level.bkgd_green);	/* green background color */
@@ -611,7 +613,7 @@ void savelevel(void)
 void showhelp()
 {
   SDL_Event event;
-  int done;
+  int i, done;
   char *text[] = {
                    "X/x - Brick0",
                    "Y/y - Brick1",
@@ -639,8 +641,7 @@ void showhelp()
 
   text_drawf(&red_text, "- Help -", 0, 30, A_HMIDDLE, A_TOP, 2, NO_UPDATE);
   text_draw(&gold_text, "Keys:", 80, 60, 1, NO_UPDATE);
-
-  int i;
+  
   for(i = 0; i < sizeof(text)/sizeof(char *); i++)
     text_draw(&blue_text, text[i], 40, 90+(i*16), 1, NO_UPDATE);
 
