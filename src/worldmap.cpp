@@ -429,7 +429,7 @@ WorldMap::load_map()
 
                       reader.read_string("extro-filename", level.extro_filename);
                       reader.read_string("map-message", level.display_map_message);
-                      reader.read_string("goto-world", level.goto_worldmap);
+                      reader.read_string("next-world", level.next_worldmap);
                       reader.read_string("level", level.name, true);
                       reader.read_int("x", level.x);
                       reader.read_int("y", level.y);
@@ -788,10 +788,10 @@ WorldMap::update(float delta)
           // TODO: add an effect, like a camera scrolling, or at least, a fading
           tux->set_tile_pos(Vector(level->swap_x, level->swap_y));
           }
-        if (!level->goto_worldmap.empty())
+        if (!level->next_worldmap.empty())
           {
           // Load given worldmap
-          loadmap(level->goto_worldmap);
+          loadmap(level->next_worldmap);
           }
         if (level->quit_worldmap)
           quit = true;

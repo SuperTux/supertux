@@ -155,7 +155,7 @@ public:
     std::string display_map_message;
 
     /** Go to this world */
-    std::string goto_worldmap;
+    std::string next_worldmap;
 
     /** Quit the worldmap */
     bool quit_worldmap;
