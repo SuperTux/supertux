@@ -36,18 +36,18 @@ Direction reverse_dir(Direction direction)
 {
   switch(direction)
     {
-    case WEST:
-      return EAST;
-    case EAST:
-      return WEST;
-    case NORTH:
-      return SOUTH;
-    case SOUTH:
-      return NORTH;
-    case NONE:
-      return NONE;
+    case D_WEST:
+      return D_EAST;
+    case D_EAST:
+      return D_WEST;
+    case D_NORTH:
+      return D_SOUTH;
+    case D_SOUTH:
+      return D_NORTH;
+    case D_NONE:
+      return D_NONE;
     }
-  return NONE;
+  return D_NONE;
 }
 
 std::string
@@ -55,13 +55,13 @@ direction_to_string(Direction direction)
 {
   switch(direction)
     {
-    case WEST:
+    case D_WEST:
       return "west";
-    case EAST:
+    case D_EAST:
       return "east";
-    case NORTH:
+    case D_NORTH:
       return "north";
-    case SOUTH:
+    case D_SOUTH:
       return "south";
     default:
       return "none";
@@ -72,15 +72,15 @@ Direction
 string_to_direction(const std::string& directory)
 {
   if (directory == "west")
-    return WEST;
+    return D_WEST;
   else if (directory == "east")
-    return EAST;
+    return D_EAST;
   else if (directory == "north")
-    return NORTH;
+    return D_NORTH;
   else if (directory == "south")
-    return SOUTH;
+    return D_SOUTH;
   else
-    return NONE;
+    return D_NONE;
 }
 
 TileManager::TileManager()
@@ -173,8 +173,8 @@ Tux::Tux(WorldMap* worldmap_)
   moving = false;
   tile_pos.x = 4;
   tile_pos.y = 5;
-  direction = NONE;
-  input_direction = NONE;
+  direction = D_NONE;
+  input_direction = D_NONE;
 }
 
 Tux::~Tux()
@@ -214,19 +214,19 @@ Tux::get_pos()
 
   switch(direction)
     {
-    case WEST:
+    case D_WEST:
       x -= offset - 32;
       break;
-    case EAST:
+    case D_EAST:
       x += offset - 32;
       break;
-    case NORTH:
+    case D_NORTH:
       y -= offset - 32;
       break;
-    case SOUTH:
+    case D_SOUTH:
       y += offset - 32;
       break;
-    case NONE:
+    case D_NONE:
       break;
     }
   
@@ -237,7 +237,7 @@ void
 Tux::stop()
 {
   offset = 0;
-  direction = NONE;
+  direction = D_NONE;
   moving = false;
 }
 
@@ -246,7 +246,7 @@ Tux::update(float delta)
 {
   if (!moving)
     {
-      if (input_direction != NONE)
+      if (input_direction != D_NONE)
         { 
           WorldMap::Level* level = worldmap->at_level();
 
@@ -288,18 +288,18 @@ Tux::update(float delta)
               if (worldmap->at(tile_pos)->auto_walk)
                 { // Turn to a new direction
                   Tile* tile = worldmap->at(tile_pos);
-                  Direction dir = NONE;
+                  Direction dir = D_NONE;
                   
-                  if (tile->north && back_direction != NORTH)
-                    dir = NORTH;
-                  else if (tile->south && back_direction != SOUTH)
-                    dir = SOUTH;
-                  else if (tile->east && back_direction != EAST)
-                    dir = EAST;
-                  else if (tile->west && back_direction != WEST)
-                    dir = WEST;
+                  if (tile->north && back_direction != D_NORTH)
+                    dir = D_NORTH;
+                  else if (tile->south && back_direction != D_SOUTH)
+                    dir = D_SOUTH;
+                  else if (tile->east && back_direction != D_EAST)
+                    dir = D_EAST;
+                  else if (tile->west && back_direction != D_WEST)
+                    dir = D_WEST;
 
-                  if (dir != NONE)
+                  if (dir != D_NONE)
                     {
                       direction = dir;
                       back_direction = reverse_dir(direction);
@@ -352,7 +352,7 @@ WorldMap::WorldMap()
   leveldot_green = new Surface(datadir +  "/images/worldmap/leveldot_green.png", USE_ALPHA);
   leveldot_red = new Surface(datadir +  "/images/worldmap/leveldot_red.png", USE_ALPHA);
 
-  input_direction = NONE;
+  input_direction = D_NONE;
   enter_level = false;
 
   name = "<no file>";
@@ -493,7 +493,7 @@ void
 WorldMap::get_input()
 {
   enter_level = false;
-  input_direction = NONE;
+  input_direction = D_NONE;
    
   SDL_Event event;
   while (SDL_PollEvent(&event))
@@ -529,16 +529,16 @@ WorldMap::get_input()
               if (event.jaxis.axis == joystick_keymap.x_axis)
                 {
                   if (event.jaxis.value < -joystick_keymap.dead_zone)
-                    input_direction = WEST;
+                    input_direction = D_WEST;
                   else if (event.jaxis.value > joystick_keymap.dead_zone)
-                    input_direction = EAST;
+                    input_direction = D_EAST;
                 }
               else if (event.jaxis.axis == joystick_keymap.y_axis)
                 {
                   if (event.jaxis.value > joystick_keymap.dead_zone)
-                    input_direction = SOUTH;
+                    input_direction = D_SOUTH;
                   else if (event.jaxis.value < -joystick_keymap.dead_zone)
-                    input_direction = NORTH;
+                    input_direction = D_NORTH;
                 }
               break;
 
@@ -560,13 +560,13 @@ WorldMap::get_input()
       Uint8 *keystate = SDL_GetKeyState(NULL);
   
       if (keystate[SDLK_LEFT])
-        input_direction = WEST;
+        input_direction = D_WEST;
       else if (keystate[SDLK_RIGHT])
-        input_direction = EAST;
+        input_direction = D_EAST;
       else if (keystate[SDLK_UP])
-        input_direction = NORTH;
+        input_direction = D_NORTH;
       else if (keystate[SDLK_DOWN])
-        input_direction = SOUTH;
+        input_direction = D_SOUTH;
     }
 }
 
@@ -575,19 +575,19 @@ WorldMap::get_next_tile(Point pos, Direction direction)
 {
   switch(direction)
     {
-    case WEST:
+    case D_WEST:
       pos.x -= 1;
       break;
-    case EAST:
+    case D_EAST:
       pos.x += 1;
       break;
-    case NORTH:
+    case D_NORTH:
       pos.y -= 1;
       break;
-    case SOUTH:
+    case D_SOUTH:
       pos.y += 1;
       break;
-    case NONE:
+    case D_NONE:
       break;
     }
   return pos;
@@ -607,19 +607,19 @@ WorldMap::path_ok(Direction direction, Point old_pos, Point* new_pos)
     { // Check if we the tile allows us to go to new_pos
       switch(direction)
         {
-        case WEST:
+        case D_WEST:
           return (at(old_pos)->west && at(*new_pos)->east);
 
-        case EAST:
+        case D_EAST:
           return (at(old_pos)->east && at(*new_pos)->west);
 
-        case NORTH:
+        case D_NORTH:
           return (at(old_pos)->north && at(*new_pos)->south);
 
-        case SOUTH:
+        case D_SOUTH:
           return (at(old_pos)->south && at(*new_pos)->north);
 
-        case NONE:
+        case D_NONE:
           assert(!"path_ok() can't work if direction is NONE");
         }
       return false;
@@ -643,7 +643,7 @@ WorldMap::update(float delta)
 
               switch (session.run())
                 {
-                case GameSession::LEVEL_FINISHED:
+                case GameSession::ES_LEVEL_FINISHED:
                   {
                     bool old_level_state = level->solved;
                     level->solved = true;
@@ -658,20 +658,20 @@ WorldMap::update(float delta)
                     if (old_level_state != level->solved)
                       { // Try to detect the next direction to which we should walk
                         // FIXME: Mostly a hack
-                        Direction dir = NONE;
+                        Direction dir = D_NONE;
                     
                         Tile* tile = at(tux->get_tile_pos());
 
-                        if (tile->north && tux->back_direction != NORTH)
-                          dir = NORTH;
-                        else if (tile->south && tux->back_direction != SOUTH)
-                          dir = SOUTH;
-                        else if (tile->east && tux->back_direction != EAST)
-                          dir = EAST;
-                        else if (tile->west && tux->back_direction != WEST)
-                          dir = WEST;
+                        if (tile->north && tux->back_direction != D_NORTH)
+                          dir = D_NORTH;
+                        else if (tile->south && tux->back_direction != D_SOUTH)
+                          dir = D_SOUTH;
+                        else if (tile->east && tux->back_direction != D_EAST)
+                          dir = D_EAST;
+                        else if (tile->west && tux->back_direction != D_WEST)
+                          dir = D_WEST;
 
-                        if (dir != NONE)
+                        if (dir != D_NONE)
                           {
                             tux->set_direction(dir);
                             //tux->update(delta);
@@ -695,7 +695,7 @@ WorldMap::update(float delta)
                   }
 
                   break;
-                case GameSession::LEVEL_ABORT:
+                case GameSession::ES_LEVEL_ABORT:
                   // Reseting the player_status might be a worthy
                   // consideration, but I don't think we need it
                   // 'cause only the bad players will use it to
@@ -704,11 +704,11 @@ WorldMap::update(float delta)
                   // then stop playing the game all together since it
                   // is to hard)
                   break;
-                case GameSession::GAME_OVER:
+                case GameSession::ES_GAME_OVER:
                   quit = true;
                   player_status.reset();
                   break;
-                case GameSession::NONE:
+                case GameSession::ES_NONE:
                   // Should never be reached 
                   break;
                 }
