@@ -7,7 +7,7 @@
   bill@newbreedsoftware.com
   http://www.newbreedsoftware.com/supertux/
  
-  April 22, 2000 - December 27, 2003
+  April 22, 2000 - December 28, 2003
 */
 
 /*
@@ -135,19 +135,6 @@ int play_music(Mix_Music *music, int loops)
       return -1;
     }
 }
-
-
-void set_music_position(int pos)
-{
-  if ((use_music == YES) && (audio_device == YES))
-  {
-    if (Mix_PlayingMusic())
-    {
-      Mix_SetMusicPosition(pos);
-    }
-  }
-}
-
 
 
 void free_music(Mix_Music *music)

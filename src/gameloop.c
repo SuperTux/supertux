@@ -7,7 +7,7 @@
   bill@newbreedsoftware.com
   http://www.newbreedsoftware.com/supertux/
   
-  April 11, 2000 - December 9, 2003
+  April 11, 2000 - December 28, 2003
 */
 
 #include <stdio.h>
@@ -123,7 +123,6 @@ char song_title[20];
 char levelname[20];
 char leveltheme[20];
 char str[10];
-int sound_pos;
 
 
 /* Local function prototypes: */
@@ -1127,24 +1126,10 @@ int game_action(void)
       if (!playing_music())
       {
         play_music( level_song, 1 );
-	sound_pos = 0;
       }
       
       if (tux_invincible_time > 0)
         tux_invincible_time--;
-
-      if (current_music == LEVEL_MUSIC && time_left < 250)
-      {
-	if ((frame % 10) == 0)
-	{
-	  set_music_position(sound_pos);
-	  sound_pos++;
-	}
-      }
-      else
-      {
-	sound_pos = 0;
-      }
     }
 
 
