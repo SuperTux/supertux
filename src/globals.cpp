@@ -27,7 +27,7 @@ JoystickKeymap::JoystickKeymap()
 {
   a_button     = 0;
   b_button     = 1;
-  start_button = 9;
+  start_button = 2;
   
   x_axis = 0;
   y_axis = 1;

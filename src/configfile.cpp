@@ -90,6 +90,13 @@ void loadconfig(void)
     use_joystick = false;
   else
     use_joystick = true;
+
+  reader.read_int ("joystick-x", &joystick_keymap.x_axis);
+  reader.read_int ("joystick-y", &joystick_keymap.y_axis);
+  reader.read_int ("joystick-a", &joystick_keymap.a_button);
+  reader.read_int ("joystick-b", &joystick_keymap.b_button);
+  reader.read_int ("joystick-start", &joystick_keymap.start_button);
+  reader.read_int ("joystick-deadzone", &joystick_keymap.dead_zone);
 }
 
 void saveconfig (void)
@@ -112,6 +119,14 @@ void saveconfig (void)
 
       fprintf(config, "\n\t;; joystick number (-1 means no joystick):\n");
       fprintf(config, "\t(joystick   %d)\n", use_joystick ? joystick_num : -1);
+
+      fprintf(config, "\t(joystick-x   %d)\n", joystick_keymap.x_axis);
+      fprintf(config, "\t(joystick-y   %d)\n", joystick_keymap.y_axis);
+      fprintf(config, "\t(joystick-a   %d)\n", joystick_keymap.a_button);
+      fprintf(config, "\t(joystick-b   %d)\n", joystick_keymap.b_button);
+      fprintf(config, "\t(joystick-start  %d)\n", joystick_keymap.start_button);
+      fprintf(config, "\t(joystick-deadzone  %d)\n", joystick_keymap.dead_zone);
+
       fprintf(config, ")\n");
     }
 }

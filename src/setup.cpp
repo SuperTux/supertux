@@ -762,8 +762,6 @@ void st_joystick_setup(void)
             }
           else
             {
-              /* Check for proper joystick configuration: */
-
               if (SDL_JoystickNumAxes(js) < 2)
                 {
                   fprintf(stderr,
@@ -927,6 +925,29 @@ void parseargs(int argc, char * argv[])
           assert(i+1 < argc);
           joystick_num = atoi(argv[++i]);
         }
+      else if (strcmp(argv[i], "--joymap") == 0)
+        {
+          assert(i+1 < argc);
+          if (sscanf(argv[++i],
+                     "%d:%d:%d:%d:%d", 
+                     &joystick_keymap.x_axis, 
+                     &joystick_keymap.y_axis, 
+                     &joystick_keymap.a_button, 
+                     &joystick_keymap.b_button, 
+                     &joystick_keymap.start_button) != 5)
+            {
+              puts("Warning: Invalid or incomplete joymap, should be: 'XAXIS:YAXIS:A:B:START'");
+            }
+          else
+            {
+              std::cout << "Using new joymap:\n"
+                        << "  X-Axis:       " << joystick_keymap.x_axis << "\n"
+                        << "  Y-Axis:       " << joystick_keymap.y_axis << "\n"
+                        << "  A-Button:     " << joystick_keymap.a_button << "\n"
+                        << "  B-Button:     " << joystick_keymap.b_button << "\n"
+                        << "  Start-Button: " << joystick_keymap.start_button << std::endl;
+            }
+        }
       else if (strcmp(argv[i], "--worldmap") == 0)
         {
           launch_worldmap_mode = true;
@@ -1004,6 +1025,8 @@ void parseargs(int argc, char * argv[])
                "\n"
                "Misc Options:\n"
                "  -j, --joystick NUM  Use joystick NUM (default: 0)\n" 
+               "  --joymap XAXIS:YAXIS:A:B:START\n"
+               "                      Define how joystick buttons and axis should be mapped\n"
                "  --worldmap          Start in worldmap-mode (EXPERIMENTAL)\n"          
                "  -d, --datadir DIR   Load Game data from DIR (default: automatic)\n"
                "  --debug-mode        Enables the debug-mode, which is useful for developers.\n"
