@@ -1,58 +1,58 @@
 bin_PROGRAMS = supertux
 
 supertux_SOURCES = \
-  badguy.c \
+  badguy.cpp \
   badguy.h \
-  bitmask.c \
+  bitmask.cpp \
   bitmask.h \
-  button.c \
+  button.cpp \
   button.h \
-  collision.c \
+  collision.cpp \
   collision.h \
   defines.h \
-  gameloop.c \
+  gameloop.cpp \
   gameloop.h \
-  globals.c \
+  globals.cpp \
   globals.h \
-  high_scores.c \
+  high_scores.cpp \
   high_scores.h \
-  intro.c \
+  intro.cpp \
   intro.h \
-  level.c \
+  level.cpp \
   level.h \
-  leveleditor.c \
+  leveleditor.cpp \
   leveleditor.h \
-  lispreader.c \
+  lispreader.cpp \
   lispreader.h \
-  menu.c \
+  menu.cpp \
   menu.h \
-  physic.c \
+  physic.cpp \
   physic.h \
-  player.c \
+  player.cpp \
   player.h \
-  scene.c \
+  scene.cpp \
   scene.h \
-  screen.c \
+  screen.cpp \
   screen.h \
-  setup.c \
+  setup.cpp \
   setup.h \
-  sound.c \
+  sound.cpp \
   sound.h \
-  special.c \
+  special.cpp \
   special.h \
-  supertux.c \
+  supertux.cpp \
   supertux.h \
-  text.c \
+  text.cpp \
   text.h \
-  texture.c \
+  texture.cpp \
   texture.h \
-  timer.c \
+  timer.cpp \
   timer.h \
-  title.c \
+  title.cpp \
   title.h \
-  type.c \
+  type.cpp \
   type.h \
-  world.c \
+  world.cpp \
   world.h
 
 # EOF #
