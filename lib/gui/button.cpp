@@ -1,343 +1,253 @@
-//  $Id$
-//
-//  SuperTux
-//  Copyright (C) 2004 Tobias Glaesser <tobi.web@gmx.de>
-//
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
-//  02111-1307, USA.
+/***************************************************************************
+                          button.cpp  -  graphical buttons
+                             -------------------
+    begin                : June, 23 2004
+    copyright            : (C) 2004 by Ricardo Cruz
+    email                : rick2@aeiou.pt
+ ***************************************************************************/
 
-#include <cstring>
-#include <cstdlib>
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
 
-#include "../app/setup.h"
-#include "../video/screen.h"
-#include "../video/drawing_context.h"
-#include "../app/globals.h"
+#include "SDL.h"
+#include <iostream>
+
 #include "../gui/button.h"
+#include "../gui/mousecursor.h"
+#include "../app/globals.h"
+#include "../video/font.h"
 
 using namespace SuperTux;
 
-Timer Button::popup_timer;
 Font* Button::info_font = 0;
 
-Button::Button(Surface* button_image, const std::string& ninfo,
-               SDLKey nshortcut, int x, int y, int mw, int mh)
+/* Buttons */
+
+Button::Button(Surface* image_, std::string info_, SDLKey binding_)
+  : binding(binding_)
 {
-  popup_timer.init(false);
-
-  if(button_image)
-    icon.push_back(button_image);
-
-  info = ninfo;
-
-  shortcut = nshortcut;
-
-  rect.x = x;
-  rect.y = y;
-  rect.w = icon[0]->w;
-  rect.h = icon[0]->h;
-  tag = -1;
-  state = BUTTON_NONE;
-  show_info = false;
-}
-
-Button::Button(const std::string& imagefilename, const std::string& ninfo,
-               SDLKey nshortcut, int x, int y, int mw, int mh)
-{
-  popup_timer.init(false);
-
-  add_icon(imagefilename, mw, mh);
-
-  info = ninfo;
-
-  shortcut = nshortcut;
-
-  rect.x = x;
-  rect.y = y;
-  rect.w = icon[0]->w;
-  rect.h = icon[0]->h;
-  tag = -1;
-  state = BUTTON_NONE;
-  show_info = false;
-}
-
-void Button::add_icon(const std::string& icon_file, int mw, int mh)
-{
-  char filename[1024];
-
-  if(!icon_file.empty())
-    {
-      snprintf(filename, 1024, "%s/%s", datadir.c_str(), icon_file.c_str());
-      if(!FileSystem::faccessible(filename))
-        snprintf(filename, 1024, "%s/images/icons/default-icon.png", datadir.c_str());
-    }
-  else
-    {
-      snprintf(filename, 1024, "%s/images/icons/default-icon.png", datadir.c_str());
-    }
-
-  if(mw != -1 || mh != -1)
-    {
-      icon.push_back(new Surface(filename,true));
-      icon.back()->resize(mw,mh);
-    }
-  else
-    icon.push_back(new Surface(filename,true));
-
-}
-
-void Button::draw(DrawingContext& context)
-{
-  if(state == BUTTON_HOVER)
-    if(!popup_timer.check())
-      show_info = true;
-
-  fillrect(rect.x,rect.y,rect.w,rect.h,75,75,75,200);
-  fillrect(rect.x+1,rect.y+1,rect.w-2,rect.h-2,175,175,175,200);
-
-  for(std::vector<Surface*>::iterator it = icon.begin(); it != icon.end(); ++it)
-    context.draw_surface(*it, Vector(rect.x,rect.y), LAYER_GUI);
-
-  /*  if(drawable)
-    {
-      Camera viewport;
-      viewport.set_translation(Vector(rect.x, rect.y));
-      drawable->draw(viewport, 0);
-    }*/
-
-  if(show_info)
-    {
-      char str[80];
-      int i = -32;
-
-      if(0 > rect.x - info_font->get_text_width(info))
-        i = rect.w + (int)info_font->get_text_width(info);
-
-      if(!info.empty())
-        context.draw_text(info_font, info, Vector(i + rect.x - info_font->get_text_width(info), rect.y), LEFT_ALLIGN, LAYER_GUI);
-      sprintf(str,"(%s)", SDL_GetKeyName(shortcut));
-      context.draw_text(info_font, str, Vector(i + rect.x -  info_font->get_text_width(str), rect.y + info_font->get_height()+2), LEFT_ALLIGN, LAYER_GUI);
-    }
-  if(state == BUTTON_PRESSED || state == BUTTON_DEACTIVE)
-    fillrect(rect.x,rect.y,rect.w,rect.h,75,75,75,200);
-  else if(state == BUTTON_HOVER)
-    fillrect(rect.x,rect.y,rect.w,rect.h,150,150,150,128);
+image = image_;
+size = Vector(image->w, image->h);
+id = 0;
+info = info_;
 }
 
 Button::~Button()
 {
-  for(std::vector<Surface*>::iterator it = icon.begin(); it != icon.end(); ++it)
-    delete (*it);
-  icon.clear();
-  // FIXME TODO XXX: commenting this out fixes the leveleditor quit crash
-  //   probably should be deleted somehow, though
-  //delete drawable;
 }
 
-void Button::event(SDL_Event &event)
+void Button::draw(DrawingContext &context, bool selected)
 {
-  if(state == BUTTON_DEACTIVE)
-    return;
+if(selected)
+  context.draw_filled_rect(pos, size, Color (200,240,220), LAYER_GUI);
+else
+  context.draw_filled_rect(pos, size, Color (200,200,220), LAYER_GUI);
 
-  SDLKey key = event.key.keysym.sym;
+Vector tanslation = -context.get_translation();
+if(state == BT_SHOW_INFO)
+  {
+  Vector offset;
+  if(pos.x + tanslation.x < 100 && pos.y + tanslation.y > screen->h - 20)
+    offset = Vector(size.x, - 10);
+  else if(pos.x + tanslation.x < 100)
+    offset = Vector(size.x, 0);
+  else 
+    offset = Vector(-30, -size.y/2);
+  context.draw_text(info_font, info, pos + offset, LEFT_ALLIGN, LAYER_GUI+2);
+  if(binding != 0)
+    context.draw_text(info_font, "(" + std::string(SDL_GetKeyName(binding)) +
+                                 ")", pos + offset + Vector(0,12),
+                                 LEFT_ALLIGN,  LAYER_GUI+2);
+  }
 
-  if(event.type == SDL_MOUSEBUTTONDOWN || event.type == SDL_MOUSEBUTTONUP)
-    {
-      if(event.button.x < rect.x || event.button.x >= rect.x + rect.w ||
-          event.button.y < rect.y || event.button.y >= rect.y + rect.h)
-        return;
+context.draw_surface_part(image, Vector(0,0), size, pos, LAYER_GUI+1);
+}
 
+int Button::event(SDL_Event &event, int x_offset, int y_offset)
+{
+state = BT_NONE;
+switch(event.type)
+  {
+  case SDL_MOUSEBUTTONDOWN:
+    if(event.button.x > pos.x + x_offset && event.button.x < pos.x + x_offset + size.x &&
+       event.button.y > pos.y + y_offset && event.button.y < pos.y + y_offset + size.y)
+      {
       if(event.button.button == SDL_BUTTON_RIGHT)
-        {
-          show_info = true;
-          return;
-        }
-      else if(event.type == SDL_MOUSEBUTTONUP && event.button.button == 4) /* Mouse wheel up. */
-        {
-          state = BUTTON_WHEELUP;
-          return;
-        }
-      else if(event.type == SDL_MOUSEBUTTONUP && event.button.button == 5) /* Mouse wheel down. */
-        {
-          state = BUTTON_WHEELDOWN;
-          return;
-        }
-
+        state = BT_SHOW_INFO;
+      }
+    break;
+  case SDL_MOUSEBUTTONUP:
+    if(event.button.x > pos.x + x_offset && event.button.x < pos.x + x_offset + size.x &&
+       event.button.y > pos.y + y_offset && event.button.y < pos.y + y_offset + size.y)
+      {
       if(event.button.button == SDL_BUTTON_LEFT)
-        if(event.type == SDL_MOUSEBUTTONDOWN)
-          state = BUTTON_PRESSED;
-        else
-          state = BUTTON_CLICKED;
-    }
-  else if(event.type == SDL_MOUSEMOTION)
+        state = BT_SELECTED;
+      }
+    break;
+  case SDL_KEYDOWN:	// key pressed
+    if(event.key.keysym.sym == binding)
+      state = BT_SELECTED;
+    break;
+  default:
+    break;
+  }
+return state;
+}
+
+/* Group of buttons */
+
+ButtonGroup::ButtonGroup(Vector pos_, Vector buttons_size_, Vector buttons_box_)
+  : pos(pos_), buttons_size(buttons_size_), buttons_box(buttons_box_)
+{
+buttons.clear();
+row = 0;
+button_selected = -1;
+mouse_hover = false;
+mouse_left_button = false;
+buttons_pair_nb = 0;
+}
+
+ButtonGroup::~ButtonGroup()
+{
+}
+
+void ButtonGroup::add_button(Button button, int id, bool select)
+{
+button.pos.x = ((buttons.size()-buttons_pair_nb) % (int)buttons_box.x) * buttons_size.x;
+button.pos.y = ((int)((buttons.size()-buttons_pair_nb) / buttons_box.x)) * buttons_size.y;
+button.size = buttons_size;
+button.id = id;
+if(select)
+  button_selected = id;
+
+buttons.push_back(button);
+}
+
+void ButtonGroup::add_pair_of_buttons(Button button1, int id1, Button button2, int id2)
+{
+button1.pos.x = button2.pos.x = ((buttons.size()-buttons_pair_nb) % (int)buttons_box.x) * buttons_size.x;
+button1.pos.y = button2.pos.y = ((int)((buttons.size()-buttons_pair_nb) / buttons_box.x)) * buttons_size.y;
+button1.size.x = button2.size.x = buttons_size.x;
+button1.size.y = button2.size.y = buttons_size.y / 2;
+button2.pos.y += buttons_size.y / 2;
+button1.id = id1;
+button2.id = id2;
+
+buttons_pair_nb++;
+buttons.push_back(button1);
+buttons.push_back(button2);
+}
+
+void ButtonGroup::draw(DrawingContext &context)
+{
+context.draw_filled_rect(pos - Vector(12,4),
+        Vector(buttons_size.x*buttons_box.x + 16, buttons_size.y*buttons_box.y + 8),
+        Color (0,0,0, 128), LAYER_GUI-1);
+
+context.push_transform();
+context.set_translation(Vector(-pos.x, -pos.y + buttons_size.y*row));
+for(Buttons::iterator i = buttons.begin(); i != buttons.end(); ++i)
+  {
+  if(i->pos.y < row*buttons_size.y ||
+      i->pos.y + i->size.y > (row + buttons_box.y) * buttons_size.y)
+    continue;
+
+  i->draw(context, i->id == button_selected ? true : false);
+  }
+context.pop_transform();
+}
+
+bool ButtonGroup::event(SDL_Event &event)
+{
+bool caught_event = false;
+
+switch(event.type)
+  {
+  case SDL_MOUSEMOTION:
+    mouse_hover = false;
+
+    if(mouse_left_button)
+      {
+      pos.x += event.motion.xrel;
+      pos.y += event.motion.yrel;
+      caught_event = true;
+      }
+    if(event.button.x > pos.x-12 && event.button.x < pos.x+16 + buttons_box.x*buttons_size.x &&
+       event.button.y > pos.y-4 && event.button.y < pos.y+8 + buttons_box.y*buttons_size.y)
+      mouse_hover = true;
+    break;
+  case SDL_MOUSEBUTTONDOWN:
+    if(event.button.x < pos.x-12 || event.button.x > pos.x+16 +
+        buttons_box.x*buttons_size.x || event.button.y < pos.y-4 ||
+        event.button.y > pos.y+8 + buttons_box.y*buttons_size.y)
+      break;
+
+    caught_event = true;
+
+    if(event.button.button == SDL_BUTTON_WHEELUP)
+      {
+      row--;
+      if(row < 0)
+        row = 0;
+      }
+    else if(event.button.button == SDL_BUTTON_WHEELDOWN)
+      {
+      row++;
+      if(row > (int)((buttons.size()-buttons_pair_nb)/buttons_box.x) - (int)buttons_box.y +
+               ((int)(buttons.size()-buttons_pair_nb)%(int)buttons_box.x != 0 ? 1 : 0))
+        row = (int)((buttons.size()-buttons_pair_nb)/buttons_box.x) - (int)buttons_box.y +
+              ((int)(buttons.size()-buttons_pair_nb)%(int)buttons_box.x != 0 ? 1 : 0);
+      }
+    else if(event.button.button == SDL_BUTTON_LEFT)
+      mouse_left_button = true;
+    else
+      caught_event = false;
+    break;
+  case SDL_MOUSEBUTTONUP:
+    mouse_left_button = false;
+    break;
+  default:
+    break;
+  }
+
+if(caught_event)
+  return true;
+
+for(Buttons::iterator i = buttons.begin(); i != buttons.end(); ++i)
+  {
+  if(i->pos.y < row*buttons_size.y ||
+      i->pos.y + i->size.y > (row + buttons_box.y) * buttons_size.y)
+    continue;
+
+  if(i->event(event, (int)pos.x,
+                     (int)pos.y - row*(int)buttons_size.y) == BT_SELECTED)
     {
-      if(event.motion.x < rect.x || event.motion.x >= rect.x + rect.w ||
-          event.motion.y < rect.y || event.motion.y >= rect.y + rect.h)
-        {
-          state = BUTTON_NONE;
-        }
-      else
-        {
-          state = BUTTON_HOVER;
-          popup_timer.start(1500);
-        }
-
-      if(show_info)
-        {
-          show_info = false;
-        }
+    button_selected = i->id;
+    caught_event = true;
+    break;
     }
-  else if(event.type == SDL_KEYDOWN)
-    {
-      if(key == shortcut)
-        state = BUTTON_PRESSED;
-    }
-  else if(event.type == SDL_KEYUP)
-    {
-      if(state == BUTTON_PRESSED && key == shortcut)
-        state = BUTTON_CLICKED;
-    }
+  }
+
+return caught_event;
 }
 
-int Button::get_state()
+int ButtonGroup::selected_id()
 {
-  int rstate;
-  switch(state)
-    {
-    case BUTTON_CLICKED:
-    case BUTTON_WHEELUP:
-    case BUTTON_WHEELDOWN:
-      rstate = state;
-      state = BUTTON_NONE;
-      return rstate;
-    default:
-      return state;
-    }
+return button_selected;
 }
 
-ButtonPanel::ButtonPanel(const SDL_Rect& rect)
+void ButtonGroup::set_unselected()
 {
-  ButtonPanel(rect.x, rect.y, rect.w, rect.h);
+button_selected = -1;
 }
 
-ButtonPanel::ButtonPanel(int x, int y, int w, int h)
+bool ButtonGroup::is_hover()
 {
-  bw = 32;
-  bh = 32;
-  rect.x = x;
-  rect.y = y;
-  rect.w = w;
-  rect.h = h;
-  hidden = false;
-  hlast = false;
-}
-
-Button* ButtonPanel::event(SDL_Event& event)
-{
-  if(!hidden)
-    {
-      Button* ret = NULL;
-      for(std::vector<Button*>::iterator it = item.begin(); it != item.end(); ++it)
-        {
-          (*it)->event(event);
-          if((*it)->state != BUTTON_NONE)
-            {
-              if(hlast && (*it)->state == BUTTON_CLICKED)
-                last_clicked = it;
-              ret = (*it);
-            }
-        }
-      return ret;
-    }
-  else
-    {
-      return NULL;
-    }
-}
-
-ButtonPanel::~ButtonPanel()
-{
-  for(std::vector<Button*>::iterator it = item.begin(); it != item.end(); ++it)
-    {
-      delete (*it);
-    }
-  item.clear();
-}
-
-void ButtonPanel::draw(DrawingContext& context)
-{
-
-  if(hidden == false)
-    {
-      fillrect(rect.x,rect.y,rect.w,rect.h,100,100,100,200);
-      for(std::vector<Button*>::iterator it = item.begin(); it != item.end(); ++it)
-        {
-          (*it)->draw(context);
-          if(hlast && it == last_clicked)
-            {
-              fillrect((*it)->get_pos().x,(*it)->get_pos().y,(*it)->get_pos().w,(*it)->get_pos().h,100,100,100,128);
-            }
-        }
-    }
-}
-
-void ButtonPanel::additem(Button* pbutton, int tag)
-{
-  int max_cols, row, col;
-
-  item.push_back(pbutton);
-
-  /* A button_panel takes control of the buttons it contains and arranges them */
-
-  max_cols = rect.w / bw;
-
-  row = (item.size()-1) / max_cols;
-  col = (item.size()-1) % max_cols;
-
-  item[item.size()-1]->rect.x = rect.x + col * bw;
-  item[item.size()-1]->rect.y = rect.y + row * bh;
-  item[item.size()-1]->tag = tag;
-
-}
-
-void ButtonPanel::set_button_size(int w, int h)
-{
-  bw = w;
-  bh = h;
-}
-
-Button* ButtonPanel::manipulate_button(int i)
-{
-  if(int(item.size())-1 < i)
-    return item[item.size()-1];
-  else
-    return item[i];
-}
-
-void ButtonPanel::highlight_last(bool b)
-{
-  hlast = b;
-}
-
-void ButtonPanel::set_last_clicked(unsigned int last)
-{
-  if(hlast)
-    {
-      if(item.size() >= last)
-        {
-          last_clicked = item.begin() + last;
-        }
-    }
+return mouse_hover;
 }
