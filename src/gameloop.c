@@ -7,7 +7,7 @@
   bill@newbreedsoftware.com
   http://www.newbreedsoftware.com/supertux/
   
-  April 11, 2000 - July 15, 2002
+  April 11, 2000 - December 9, 2003
 */
 
 #include <stdio.h>
@@ -76,30 +76,15 @@ char * soundfilenames[NUM_SOUNDS] = {
 };
 
 
-/* Level names: */
-
-char * levelnames[] = {
-  "Antarctica",
-  "Australia",
-  "India",
-  "Egypt",
-  "Greece",
-  "Spain",
-  "Brazil",
-  "America",
-  "Redmond"
-};
-
-
 /* Local variables: */
 
-int score, distros, level, lives, scroll_x,
+int score, distros, level, lives, scroll_x, next_level,
   tux_dir, tux_size, tux_duck, tux_x, tux_xm, tux_y, tux_ym,
   tux_dying, tux_safe, jumping, jump_counter, frame, score_multiplier,
   tux_frame_main, tux_frame, tux_got_coffee, tux_skidding,
-  super_bkgd_time, time_left, tux_invincible_time,
+  super_bkgd_time, time_left, tux_invincible_time, endpos,
   counting_distros, distro_counter;
-int bkgd_red, bkgd_green, bkgd_blue;
+int bkgd_red, bkgd_green, bkgd_blue, level_width;
 int left, right, up, down, fire, old_fire;
 SDL_Surface * img_brick[2], * img_solid[4], * img_distro[4],
   * img_waves[3], * img_water, * img_pole, * img_poletop, * img_flag[2];
@@ -126,7 +111,7 @@ SDL_Surface * tux_right[3], * tux_left[3],
 Mix_Chunk * sounds[NUM_SOUNDS];
 Mix_Music * song;
 #endif
-unsigned char tiles[15][LEVEL_WIDTH + 5];
+unsigned char * tiles[15];
 bouncy_distro_type bouncy_distros[NUM_BOUNCY_DISTROS];
 broken_brick_type broken_bricks[NUM_BROKEN_BRICKS];
 bouncy_brick_type bouncy_bricks[NUM_BOUNCY_BRICKS];
@@ -134,6 +119,8 @@ bad_guy_type bad_guys[NUM_BAD_GUYS];
 floating_score_type floating_scores[NUM_FLOATING_SCORES];
 upgrade_type upgrades[NUM_UPGRADES];
 bullet_type bullets[NUM_BULLETS];
+char song_title[20];
+char levelname[20];
 
 
 /* Local function prototypes: */
@@ -331,7 +318,7 @@ int gameloop(void)
       
       /* Handle key and joystick state: */
       
-      if (!tux_dying)
+      if (!tux_dying && !next_level)
 	{
 	  if (right == DOWN && left == UP)
 	    {
@@ -441,6 +428,16 @@ int gameloop(void)
 		    }
 		}
 	    }
+
+
+	  /* End of level? */
+
+	  if (tux_x >= endpos && endpos != 0)
+	  {
+            /* FIXME: No need to kill Tux to end the level! ;^) */
+	    next_level = 1;
+	    tux_dying = 1;
+	  }
 	  
 	  
 	  /* Jump/jumping? */
@@ -518,9 +515,11 @@ int gameloop(void)
 	      else
 		tux_duck = NO;
 	    }
-	} /* !tux_dying */
+	} /* !tux_dying && !next_level */
       else
 	{
+          /* Tux either died, or reached the end of a level! */
+		
 	  tux_ym = tux_ym + GRAVITY;
 	  
 	  if (tux_y >= 480)
@@ -532,13 +531,64 @@ int gameloop(void)
 		    Mix_HaltMusic();
 		}
 #endif
+	     
+	      if (next_level)
+	      {
+		/* End of a level! */
+
+		level++;
+		next_level = 0;
+	      }
+	      else
+	      {
+		/* He died :^( */
+		      
+	        lives--;
+	      }
+
 	      
-	      lives--;
+	      /* No more lives!? */
+
+	      if (lives <= 0)
+	      {
+
+
+		/* Display end-of-level stuff */
+		/* (FIXME: This should go in its own event loop function!) */
+		
+		clearscreen(0, 0, 0);
+
+		drawcenteredtext("GAMEOVER", 200, letters_red, NO_UPDATE);
+
+		sprintf(str, "SCORE: %d", score);
+		drawcenteredtext(str, 224, letters_gold, NO_UPDATE);
+
+		sprintf(str, "DISTROS: %d", distros);
+		drawcenteredtext(str, 256, letters_blue, NO_UPDATE);
+
+		SDL_Flip(screen);
+		SDL_Delay(5000);
+
+
+		/* FIXME: Should return to title screen, not restart game... */
+		
+		level = 0;
+		lives = 3;
+		
+		score=0;
+		distros=0;
+	      }
+	      
+	      
+	      /* Either way, (re-)load the (next) level... */
+	      
 	      loadlevel();
+
+	      unloadlevelgfx();
+	      loadlevelgfx();
 	    }
 	}
-      
-      
+
       /* Move tux: */
       
       tux_x = tux_x + tux_xm;
@@ -549,15 +599,15 @@ int gameloop(void)
       
       if (tux_x < 0)
 	tux_x = 0;
-      else if (tux_x > 320 && scroll_x < ((LEVEL_WIDTH * 32) - 640))
+      else if (tux_x > 320 && scroll_x < ((level_width * 32) - 640))
 	{
 	  /* Scroll the screen in past center: */
 	  
 	  scroll_x = scroll_x + (tux_x - 320);
 	  tux_x = 320;
 	  
-	  if (scroll_x > ((LEVEL_WIDTH * 32) - 640))
-	    scroll_x = ((LEVEL_WIDTH * 32) - 640);
+	  if (scroll_x > ((level_width * 32) - 640))
+	    scroll_x = ((level_width * 32) - 640);
 	}
       else if (tux_x > 608)
 	{
@@ -834,6 +884,17 @@ int gameloop(void)
 	      trygrabdistro(tux_x + 31, tux_y - 32, scroll_x, NO_BOUNCE);
 	    }
 	}
+
+
+      /* Enough distros for a One-up? */
+
+      if (distros >= DISTROS_LIFEUP)
+      {
+	/* FIXME: Play a special sound or flash or both! */
+
+	distros = distros - DISTROS_LIFEUP;
+	lives++;
+      }
      
 
       /* Keep in-bounds, vertically: */
@@ -1016,9 +1077,28 @@ int gameloop(void)
 			  bullets[i].y >= bad_guys[j].y - 4 &&
 			  bullets[i].y <= bad_guys[j].y + 32 + 4)
 			{
+			  /* Kill the bad guy! */
+				
 			  bullets[i].alive = 0;
 			  bad_guys[j].dying = FALLING;
 			  bad_guys[j].ym = -8;
+
+
+			  /* Gain some points: */
+
+			  if (bad_guys[j].kind == BAD_BSOD)
+                          {
+                            add_score(bad_guys[j].x - scroll_x, bad_guys[j].y,
+	                                50 * score_multiplier);
+                          }
+                          else if (bad_guys[j].kind == BAD_LAPTOP)
+                          {
+                            add_score(bad_guys[j].x - scroll_x, bad_guys[j].y,
+		                          25 * score_multiplier);
+			  }
+
+
+			  /* Play death sound: */
 #ifndef NOSOUND
 			  playsound(sounds[SND_FALL]);
 #endif
@@ -2136,7 +2216,7 @@ int gameloop(void)
 
 void initgame(void)
 {
-  level = 0;
+  level = 1;
   score = 0;
   distros = 0;
   lives = 3;
@@ -2151,7 +2231,7 @@ void loadlevel(void)
   FILE * fi;
   char * filename;
   char str[80];
-  char line[LEVEL_WIDTH + 5];
+  char * line;
   
   
   /* Reset arrays: */
@@ -2179,8 +2259,9 @@ void loadlevel(void)
 
 
   /* Load data file: */
-  
-  filename = strdup(DATA_PREFIX "/levels/level1.dat");
+ 
+  filename = (char *) malloc(sizeof(char) * (strlen(DATA_PREFIX) + 20));
+  sprintf(filename, "%s/levels/level%d.dat", DATA_PREFIX, level);
   fi = fopen(filename, "r");
   if (fi == NULL)
     {
@@ -2189,18 +2270,51 @@ void loadlevel(void)
     }
   free(filename);
   
-  fgets(line, 10, fi);
-  bkgd_red = atoi(line);
-  fgets(line, 10, fi);
-  bkgd_green= atoi(line);
-  fgets(line, 10, fi);
-  bkgd_blue = atoi(line);
+
+  /* Load header info: */
+
+  /* (Level title) */
+  fgets(str, 20, fi);
+  strcpy(levelname, str);
+
+  /* (Time to beat level) */
+  fgets(str, 10, fi);
+  time_left = atoi(str);
+
+  /* (Song file for this level) */
+  fgets(str, 20, fi);
+  strcpy(song_title, str);
+  
+  /* (Level background color) */
+  fgets(str, 10, fi);
+  bkgd_red = atoi(str);
+  fgets(str, 10, fi);
+  bkgd_green= atoi(str);
+  fgets(str, 10, fi);
+  bkgd_blue = atoi(str);
+
+  /* (Level width) */
+  fgets(str, 10, fi);
+  level_width = atoi(str);
+  
+
+  /* Allocate some space for the line-reading! */
+  
+  line = (char *) malloc(sizeof(char) * (level_width + 5));
+  if (line == NULL)
+  {
+    fprintf(stderr, "Couldn't allocate space to load level data!");
+    exit(1);
+  }
+  
+  
+  /* Load the level lines: */
   
   for (y = 0; y < 15; y++)
     {
-      fgets(line, LEVEL_WIDTH + 5, fi);
+      fgets(line, level_width + 5, fi);
       line[strlen(line) - 1] = '\0';
-      strcpy(tiles[y], line);
+      tiles[y] = strdup(line);
     }
   
   fclose(fi);
@@ -2210,7 +2324,7 @@ void loadlevel(void)
   
   for (y = 0; y < 15; y++)
     {
-      for (x = 0; x < LEVEL_WIDTH; x++)
+      for (x = 0; x < level_width; x++)
 	{
 	  if (tiles[y][x] >= '0' && tiles[y][x] <= '9')
 	    {
@@ -2266,7 +2380,7 @@ void loadlevel(void)
   sprintf(str, "LEVEL %d", level + 1);
   drawcenteredtext(str, 200, letters_red, NO_UPDATE);
   
-  sprintf(str, "%s", levelnames[level]);
+  sprintf(str, "%s", levelname);
   drawcenteredtext(str, 224, letters_gold, NO_UPDATE);
   
   sprintf(str, "TUX x %d", lives);
@@ -2320,8 +2434,17 @@ void loadlevelgfx(void)
 
 void loadlevelsong(void)
 {
+  char * song_path;
+
 #ifndef NOSOUND
+  song_path = (char *) malloc(sizeof(char) * (strlen(DATA_PREFIX) +
+		                              strlen(song_title) + 8));
+
+  sprintf(song_path, "%s/music/%s", DATA_PREFIX, song_title);
+  
   song = load_song(DATA_PREFIX "/music/ji_turn.it");
+
+  free(song_path);
 #endif
 }
 
@@ -2840,7 +2963,13 @@ void drawshape(int x, int y, unsigned char c)
   else if (c == '*')
     drawimage(img_poletop, x, y, NO_UPDATE);
   else if (c == '|')
+  {
     drawimage(img_pole, x, y, NO_UPDATE);
+
+    /* Mark this as the end position of the level! */
+
+    endpos = x;
+  }
   else if (c == '\\')
     {
       z = (frame / 3) % 2;
@@ -2862,7 +2991,7 @@ unsigned char shape(int x, int y, int sx)
   yy = (y / 32);
   xx = ((x + sx) / 32);
   
-  if (yy >= 0 && yy <= 15 && xx >= 0 && xx <= LEVEL_WIDTH)
+  if (yy >= 0 && yy <= 15 && xx >= 0 && xx <= level_width)
     c = tiles[yy][xx];
   else
     c = '.';
@@ -2970,7 +3099,7 @@ void change(int x, int y, int sx, unsigned char c)
   yy = (y / 32);
   xx = ((x + sx) / 32);
   
-  if (yy >= 0 && yy <= 15 && xx >= 0 && xx <= LEVEL_WIDTH)
+  if (yy >= 0 && yy <= 15 && xx >= 0 && xx <= level_width)
     tiles[yy][xx] = c;
 }
 

@@ -4,15 +4,17 @@ by Bill Kendrick
 bill@newbreedsoftware.com
 http://www.newbreedsoftware.com/supertux/
 
-Version 0.0.2
+Version 0.0.5
 
-August 6, 2001
+December 9, 2003
 
 
 CREDITS
 -------
   Game Software:      Bill Kendrick, <bill@newbreedsoftware.com>
                       http://www.newbreedsoftware.com/bill/
+
+		      Tobias Glaesser <tobi.web@gmx.de>
 
   Graphics:           Bill Kendrick, using The GIMP
                       http://www.gimp.org/

@@ -4,14 +4,15 @@
 # bill@newbreedsoftware.com
 # http://www.newbreedsoftware.com/
 
-# Version 0.0.0
+# Version 0.0.5
 
-# April 11, 2000 - December 26, 2000
+# April 11, 2000 - December 9, 2003
 
 
 # User-definable stuff:
 
-DATA_PREFIX=$(PWD)/data
+PREFIX=/usr/local/
+DATA_PREFIX=$(PREFIX)supertux/
 JOY=YES
 
 
@@ -44,9 +45,14 @@ OBJECTS=obj/supertux.o obj/setup.o obj/intro.o obj/title.o obj/gameloop.o \
 
 all:	$(TARGET)
 
-#install: $(TARGET)
-#	-$(installdat) data $(DESTDIR)/usr/share/games/$(TARGET)/data
-#	-$(installbin) $(TARGET) $(DESTDIR)/usr/games/
+install: $(TARGET)
+	-mkdir -p $(DATA_PREFIX)
+	cp -R data/* $(DATA_PREFIX)
+	chown -R root.root $(DATA_PREFIX)
+	chmod -R a+rX $(DATA_PREFIX)
+	cp $(TARGET) $(PREFIX)bin/
+	chown root.root $(PREFIX)bin/$(TARGET)
+	chmod a+rx $(PREFIX)bin/$(TARGET)
 
 
 nosound:

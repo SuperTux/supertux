@@ -4,9 +4,9 @@ by Bill Kendrick
 bill@newbreedsoftware.com
 http://www.newbreedsoftware.com/supertux/
 
-Version 0.0.3
+Version 0.0.5
 
-November 14, 2001
+December 9, 2003
 
 
 NOTICE!  THIS GAME IS UNDER CONSTRUCTION!
@@ -14,7 +14,7 @@ Things you'll notice:
 
   Bugs
   Documentation is quite incomplete
-  Only one level
+  Only two levels
 
 
 DESCRIPTION

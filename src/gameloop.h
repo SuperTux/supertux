@@ -35,6 +35,11 @@
 #define BOUNCE 1
 
 
+/* One-ups... */
+
+#define DISTROS_LIFEUP 100
+
+
 /* Dying types: */
 
 /* ---- NO 0 */

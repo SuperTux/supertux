@@ -14,6 +14,29 @@ http://www.newbreedsoftware.com/supertux/
 
   * Sped up FPS (throttle)
 
+  * Adding a new level (level,images,music) should be very easy now!
+    Tobias Glaesser <tobi.web@gmx.de>
+
+  * Shooting enemies increases score
+    Tobias Glaesser <tobi.web@gmx.de>
+
+  * Game over sequence.
+    Tobias Glaesser <tobi.web@gmx.de>
+
+  * Added 'make install PREFIX=/usr' and 'make uninstall PREFIX=/usr'
+    Tobias Glaesser <tobi.web@gmx.de>
+
+  * Initial support for additional levels.
+    Tobias Glaesser <tobi.web@gmx.de>
+
+  * Added small "Level 2"
+    Tobias Glaesser <tobi.web@gmx.de>
+
+  * One-ups ever 100 distros
+    Tobias Glaesser <tobi.web@gmx.de>
+
+  * Fixed up Makefile
+
 
 0.0.4 - July 15, 2002
 ---------------------

@@ -4,9 +4,9 @@ by Bill Kendrick
 bill@newbreedsoftware.com
 http://www.newbreedsoftware.com/supertux/
 
-Version 0.0.3
+Version 0.0.5
 
-November 25, 2001
+December 9, 2003
 
 
 TO DO
@@ -16,6 +16,6 @@ TO DO
   More enemies
   Redo laptop enemy graphics
   More levels
-  Play as Gown, resucing Tux
-  Game over
+  Play as Gown, rescuing Tux
+  End game on game over
   High score
