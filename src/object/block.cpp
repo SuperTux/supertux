@@ -47,7 +47,6 @@ Block::collision(GameObject& other, const CollisionHit& hitdata)
   // collided from below?
   if(hitdata.normal.x == 0 && hitdata.normal.y < 0
       && player->get_movement().y < 0) {
-    printf("hit.\n");
     hit(*player);
   }
 

@@ -60,6 +60,7 @@ private:
   };
   
   Type type;
+  int layer;
   std::string imagefile;
   float speed;
   Surface* image;

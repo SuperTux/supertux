@@ -26,12 +26,12 @@
 #include "utils/lispwriter.h"
 
 Background::Background()
-  : type(INVALID), image(0)
+  : type(INVALID), layer(LAYER_BACKGROUND0), image(0)
 {
 }
 
 Background::Background(LispReader& reader)
-  : type(INVALID), image(0)
+  : type(INVALID), layer(LAYER_BACKGROUND0), image(0)
 {
   if(reader.read_string("image", imagefile) 
       && reader.read_float("speed", speed)) {
@@ -71,6 +71,7 @@ Background::write(LispWriter& writer)
     writer.write_int_vector("top_color", bkgd_top_color);
     writer.write_int_vector("bottom_color", bkgd_bottom_color);
   }
+  writer.write_int("layer", layer);
   
   writer.end_list("background");
 }
@@ -109,12 +110,12 @@ Background::draw(DrawingContext& context)
     /* In case we are using OpenGL just draw the gradient, else (software mode)
         use the cache. */
     if(use_gl)
-      context.draw_gradient(gradient_top, gradient_bottom, LAYER_BACKGROUND0);
+      context.draw_gradient(gradient_top, gradient_bottom, layer);
     else
       {
       context.push_transform();
       context.set_translation(Vector(0, 0));
-      context.draw_surface(image, Vector(0, 0), LAYER_BACKGROUND0);
+      context.draw_surface(image, Vector(0, 0), layer);
       context.pop_transform();
       }
   } else if(type == IMAGE) {
@@ -127,7 +128,7 @@ Background::draw(DrawingContext& context)
     context.set_translation(Vector(0, 0));
     for(int x = sx; x < screen->w; x += image->w)
       for(int y = sy; y < screen->h; y += image->h)
-        context.draw_surface(image, Vector(x, y), LAYER_BACKGROUND0);
+        context.draw_surface(image, Vector(x, y), layer);
     context.pop_transform();
   }
 }
