@@ -589,7 +589,7 @@ void st_general_setup(void)
   green_text  = new Text(datadir + "/images/status/letters-green.png", TEXT_TEXT, 16,18);
   white_text  = new Text(datadir + "/images/status/letters-white.png", TEXT_TEXT, 16,18);
   white_small_text = new Text(datadir + "/images/status/letters-white-small.png", TEXT_TEXT, 8,9);
-  white_big_text   = new Text(datadir + "/images/status/letters-white-big.png", TEXT_TEXT, 20,23);
+  white_big_text   = new Text(datadir + "/images/status/letters-white-big.png", TEXT_TEXT, 20,22);
   yellow_nums = new Text(datadir + "/images/status/numbers.png", TEXT_NUM, 32,32);
 
   /* Load GUI/menu images: */
