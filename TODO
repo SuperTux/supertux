@@ -12,3 +12,4 @@ These are mostly bugs:
 - supertux lifting its feet for kicking is not drawn
 - it looks like that Tux doesn't jump and duck at the same time
 as it used to
+- worldmap movement isn't CPU independet

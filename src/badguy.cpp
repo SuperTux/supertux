@@ -37,14 +37,14 @@ Sprite* img_bsod_squished_left;
 Sprite* img_bsod_squished_right;
 Sprite* img_bsod_falling_left;
 Sprite* img_bsod_falling_right;
-Sprite* img_laptop_flat_left;
-Sprite* img_laptop_flat_right;
-Sprite* img_laptop_falling_left;
-Sprite* img_laptop_falling_right;
+Sprite* img_mriceblock_flat_left;
+Sprite* img_mriceblock_flat_right;
+Sprite* img_mriceblock_falling_left;
+Sprite* img_mriceblock_falling_right;
 Sprite* img_bsod_left;
 Sprite* img_bsod_right;
-Sprite* img_laptop_left;
-Sprite* img_laptop_right;
+Sprite* img_mriceblock_left;
+Sprite* img_mriceblock_right;
 Sprite* img_jumpy_left_up;
 Sprite* img_jumpy_left_down;
 Sprite* img_jumpy_left_middle;
@@ -74,10 +74,10 @@ Sprite* img_snowball_squished_right;
 
 BadGuyKind  badguykind_from_string(const std::string& str)
 {
-  if (str == "money")
-    return BAD_MONEY;
-  else if (str == "laptop" || str == "mriceblock")
-    return BAD_LAPTOP;
+  if (str == "money" || str == "jumpy") // was money in old maps
+    return BAD_JUMPY;
+  else if (str == "laptop" || str == "mriceblock") // was laptop in old maps
+    return BAD_MRICEBLOCK;
   else if (str == "bsod")
     return BAD_BSOD;
   else if (str == "mrbomb")
@@ -107,11 +107,11 @@ std::string badguykind_to_string(BadGuyKind kind)
 {
   switch(kind)
     {
-    case BAD_MONEY:
-      return "money";
+    case BAD_JUMPY:
+      return "jumpy";
       break;
-    case BAD_LAPTOP:
-      return "laptop";
+    case BAD_MRICEBLOCK:
+      return "mriceblock";
       break;
     case BAD_BSOD:
       return "bsod";
@@ -146,7 +146,7 @@ std::string badguykind_to_string(BadGuyKind kind)
 }
 
 BadGuy::BadGuy(float x, float y, BadGuyKind kind_, bool stay_on_platform_)
-  : removable(false)
+  : removable(false), squishcount(0)
 {
   base.x   = x;
   base.y   = y;    
@@ -173,10 +173,10 @@ BadGuy::BadGuy(float x, float y, BadGuyKind kind_, bool stay_on_platform_)
   } else if(kind == BAD_MRBOMB) {
     physic.set_velocity(-BADGUY_WALK_SPEED, 0);
     set_sprite(img_mrbomb_left, img_mrbomb_right);
-  } else if (kind == BAD_LAPTOP) {
+  } else if (kind == BAD_MRICEBLOCK) {
     physic.set_velocity(-BADGUY_WALK_SPEED, 0);
-    set_sprite(img_laptop_left, img_laptop_right);
-  } else if(kind == BAD_MONEY) {
+    set_sprite(img_mriceblock_left, img_mriceblock_right);
+  } else if(kind == BAD_JUMPY) {
     set_sprite(img_jumpy_left_up, img_jumpy_left_up);
   } else if(kind == BAD_BOMB) {
     set_sprite(img_mrbomb_ticking_left, img_mrbomb_ticking_right);
@@ -247,7 +247,7 @@ BadGuy::action_bsod(float frame_ratio)
 }
 
 void
-BadGuy::action_laptop(float frame_ratio)
+BadGuy::action_mriceblock(float frame_ratio)
 {
   Player& tux = *World::current()->get_tux();
 
@@ -264,7 +264,7 @@ BadGuy::action_laptop(float frame_ratio)
     }
   else if (mode == HELD)
     { /* FIXME: The pbad object shouldn't know about pplayer objects. */
-      /* If we're holding the laptop */
+      /* If we're holding the iceblock */
       dir = tux.dir;
       if(dir==RIGHT)
         {
@@ -292,7 +292,7 @@ BadGuy::action_laptop(float frame_ratio)
 
           mode=KICK;
           tux.kick_timer.start(KICKING_TIME);
-          set_sprite(img_laptop_flat_left, img_laptop_flat_right);
+          set_sprite(img_mriceblock_flat_left, img_mriceblock_flat_right);
           physic.set_velocity_x((dir == LEFT) ? -3.5 : 3.5);
           play_sound(sounds[SND_KICK],SOUND_CENTER_SPEAKER);
         }
@@ -320,7 +320,7 @@ BadGuy::action_laptop(float frame_ratio)
       if(!timer.check())
         {
           mode = NORMAL;
-          set_sprite(img_laptop_left, img_laptop_right);
+          set_sprite(img_mriceblock_left, img_mriceblock_right);
           physic.set_velocity( (dir == LEFT) ? -.8 : .8, 0);
         }
     }
@@ -413,7 +413,7 @@ BadGuy::remove_me()
 }
 
 void
-BadGuy::action_money(float frame_ratio)
+BadGuy::action_jumpy(float frame_ratio)
 {
   if (fabsf(physic.get_velocity_y()) < 2.5f)
     set_sprite(img_jumpy_left_middle, img_jumpy_left_middle);
@@ -433,9 +433,9 @@ BadGuy::action_money(float frame_ratio)
       physic.set_velocity_y(JUMPV);
       physic.enable_gravity(true);
 
-      mode = MONEY_JUMP;
+      mode = JUMPY_JUMP;
     }
-  else if(mode == MONEY_JUMP)
+  else if(mode == JUMPY_JUMP)
     {
       mode = NORMAL;
     }
@@ -725,12 +725,12 @@ BadGuy::action(float frame_ratio)
       action_bsod(frame_ratio);
       break;
 
-    case BAD_LAPTOP:
-      action_laptop(frame_ratio);
+    case BAD_MRICEBLOCK:
+      action_mriceblock(frame_ratio);
       break;
   
-    case BAD_MONEY:
-      action_money(frame_ratio);
+    case BAD_JUMPY:
+      action_jumpy(frame_ratio);
       break;
 
     case BAD_MRBOMB:
@@ -859,6 +859,8 @@ BadGuy::squish_me(Player* player)
 void
 BadGuy::squish(Player* player)
 {
+  static const int MAX_ICEBLOCK_SQUICHES = 10;
+    
   if(kind == BAD_MRBOMB) {
     // mrbomb transforms into a bomb now
     World::current()->add_bad_guy(base.x, base.y, BAD_BOMB);
@@ -876,13 +878,13 @@ BadGuy::squish(Player* player)
     physic.set_velocity_x(0);
     return;
       
-  } else if (kind == BAD_LAPTOP) {
+  } else if (kind == BAD_MRICEBLOCK) {
     if (mode == NORMAL || mode == KICK)
       {
         /* Flatten! */
         play_sound(sounds[SND_STOMP], SOUND_CENTER_SPEAKER);
         mode = FLAT;
-        set_sprite(img_laptop_flat_left, img_laptop_flat_right);
+        set_sprite(img_mriceblock_flat_left, img_mriceblock_flat_right);
         physic.set_velocity_x(0);
 
         timer.start(4000);
@@ -899,13 +901,21 @@ BadGuy::squish(Player* player)
         }
 
         mode = KICK;
-        set_sprite(img_laptop_flat_left, img_laptop_flat_right);
+        set_sprite(img_mriceblock_flat_left, img_mriceblock_flat_right);
       }
 
     make_player_jump(player);
 	      
     World::current()->add_score(base.x - scroll_x, base.y, 25 * player_status.score_multiplier);
     player_status.score_multiplier++;
+
+    // check for maximum number of squiches
+    squishcount++;
+    if(squishcount >= MAX_ICEBLOCK_SQUICHES) {
+      kill_me();
+      return;
+    }
+    
     return;
   } else if(kind == BAD_FISH) {
     // fish can only be killed when falling down
@@ -942,8 +952,8 @@ BadGuy::kill_me()
     return;
 
   dying = DYING_FALLING;
-  if(kind == BAD_LAPTOP) {
-    set_sprite(img_laptop_falling_left, img_laptop_falling_right);
+  if(kind == BAD_MRICEBLOCK) {
+    set_sprite(img_mriceblock_falling_left, img_mriceblock_falling_right);
     if(mode == HELD) {
       mode = NORMAL;
       Player& tux = *World::current()->get_tux();  
@@ -995,13 +1005,13 @@ BadGuy::collision(void *p_c_object, int c_object, CollisionType type)
       pbad_c = (BadGuy*) p_c_object;
 
       /* If we're a kicked mriceblock, kill any badguys we hit */
-      if(kind == BAD_LAPTOP && mode == KICK)
+      if(kind == BAD_MRICEBLOCK && mode == KICK)
         {
           pbad_c->kill_me();
         }
 
       // a held mriceblock gets kills the enemy too but falls to ground then
-      else if(kind == BAD_LAPTOP && mode == HELD)
+      else if(kind == BAD_MRICEBLOCK && mode == HELD)
         {
           pbad_c->kill_me();
           kill_me();
@@ -1013,7 +1023,8 @@ BadGuy::collision(void *p_c_object, int c_object, CollisionType type)
         if (pbad_c->kind == BAD_MRBOMB)
         {
           // mrbomb transforms into a bomb now
-          World::current()->add_bad_guy(base.x, base.y, BAD_BOMB);
+          World::current()->add_bad_guy(pbad_c->base.x, pbad_c->base.y,
+                                        BAD_BOMB);
           pbad_c->remove_me();
           return;
         }
@@ -1032,8 +1043,9 @@ BadGuy::collision(void *p_c_object, int c_object, CollisionType type)
       /* When enemies run into eachother, make them change directions */
       else
       {
-        // Jumpy is an exception
-        if (pbad_c->kind == BAD_MONEY)
+        // Jumpy, fish, flame, stalactites are exceptions
+        if (pbad_c->kind == BAD_JUMPY || pbad_c->kind == BAD_FLAME
+            || pbad_c->kind == BAD_STALACTITE || pbad_c->kind == BAD_FISH)
           break;
 
         // Bounce off of other badguy if we land on top of him
@@ -1087,7 +1099,7 @@ BadGuy::collision(void *p_c_object, int c_object, CollisionType type)
         }
 
         mode = KICK;
-        set_sprite(img_laptop_flat_left, img_laptop_flat_right);
+        set_sprite(img_mriceblock_flat_left, img_mriceblock_flat_right);
       }
       break;
 
@@ -1102,14 +1114,14 @@ void load_badguy_gfx()
   img_bsod_squished_right = sprite_manager->load("bsod-squished-right");
   img_bsod_falling_left = sprite_manager->load("bsod-falling-left");
   img_bsod_falling_right = sprite_manager->load("bsod-falling-right");
-  img_laptop_flat_left = sprite_manager->load("laptop-flat-left");
-  img_laptop_flat_right = sprite_manager->load("laptop-flat-right");
-  img_laptop_falling_left = sprite_manager->load("laptop-falling-left");
-  img_laptop_falling_right = sprite_manager->load("laptop-falling-right");
+  img_mriceblock_flat_left = sprite_manager->load("mriceblock-flat-left");
+  img_mriceblock_flat_right = sprite_manager->load("mriceblock-flat-right");
+  img_mriceblock_falling_left = sprite_manager->load("mriceblock-falling-left");
+  img_mriceblock_falling_right = sprite_manager->load("mriceblock-falling-right");
   img_bsod_left = sprite_manager->load("bsod-left");
   img_bsod_right = sprite_manager->load("bsod-right");
-  img_laptop_left = sprite_manager->load("laptop-left");
-  img_laptop_right = sprite_manager->load("laptop-right");
+  img_mriceblock_left = sprite_manager->load("mriceblock-left");
+  img_mriceblock_right = sprite_manager->load("mriceblock-right");
   img_jumpy_left_up = sprite_manager->load("jumpy-left-up");
   img_jumpy_left_down = sprite_manager->load("jumpy-left-down");
   img_jumpy_left_middle = sprite_manager->load("jumpy-left-middle");

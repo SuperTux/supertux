@@ -1160,9 +1160,9 @@ void le_change(float x, float y, int tm, unsigned int c)
           if(c == '0')  /* if it's a bad guy */
             le_world.add_bad_guy(xx*32, yy*32, BAD_BSOD);
           else if(c == '1')
-            le_world.add_bad_guy(xx*32, yy*32, BAD_LAPTOP);
+            le_world.add_bad_guy(xx*32, yy*32, BAD_MRICEBLOCK);
           else if(c == '2')
-            le_world.add_bad_guy(xx*32, yy*32, BAD_MONEY);
+            le_world.add_bad_guy(xx*32, yy*32, BAD_JUMPY);
 
           break;
         case SQUARE:
@@ -1206,9 +1206,9 @@ void le_change(float x, float y, int tm, unsigned int c)
                 if(c == '0')  // if it's a bad guy
                   le_world.add_bad_guy(xx*32, yy*32, BAD_BSOD);
                 else if(c == '1')
-                  le_world.add_bad_guy(xx*32, yy*32, BAD_LAPTOP);
+                  le_world.add_bad_guy(xx*32, yy*32, BAD_MRICEBLOCK);
                 else if(c == '2')
-                  le_world.add_bad_guy(xx*32, yy*32, BAD_MONEY);
+                  le_world.add_bad_guy(xx*32, yy*32, BAD_JUMPY);
               }
           break;
         default:

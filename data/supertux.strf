@@ -269,7 +269,7 @@
          (images "shared/firetux-grab-right-0.png"))
 
  ;; Laptop
- (sprite (name "laptop-left")
+ (sprite (name "mriceblock-left")
          (x-hotspot 2)
          (y-hotspot 3)
          (images "shared/mriceblock-left-0.png"
@@ -277,7 +277,7 @@
                  "shared/mriceblock-left-2.png"
                  "shared/mriceblock-left-1.png"))
 
- (sprite (name "laptop-right")
+ (sprite (name "mriceblock-right")
          (x-hotspot 2)
          (y-hotspot 3)
          (images "shared/mriceblock-right-0.png"
@@ -285,21 +285,21 @@
                  "shared/mriceblock-right-2.png"
                  "shared/mriceblock-right-1.png"))
  
- (sprite (name "laptop-flat-left")
+ (sprite (name "mriceblock-flat-left")
          (x-hotspot 2)
          (y-hotspot 3)
          (images "shared/mriceblock-flat-left.png"))
 
- (sprite (name "laptop-flat-right")
+ (sprite (name "mriceblock-flat-right")
          (x-hotspot 2)
          (y-hotspot 3)
          (images "shared/mriceblock-flat-right.png"))
 
-                                        ; (sprite (name "laptop-falling-left")
-                                        ;         (images "shared/laptop-falling-left.png"))
+                                        ; (sprite (name "mriceblock-falling-left")
+                                        ;         (images "shared/mriceblock-falling-left.png"))
 
-                                        ; (sprite (name "laptop-falling-right")
-                                        ;         (images "shared/laptop-falling-right.png"))
+                                        ; (sprite (name "mriceblock-falling-right")
+                                        ;         (images "shared/mriceblock-falling-right.png"))
 
  (sprite (name "snowball-squished-left")
          (x-hotspot 1)

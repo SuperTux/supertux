@@ -33,15 +33,11 @@
 #include "collision.h"
 #include "sprite.h"
 
-extern Sprite* img_bsod_left;
-extern Sprite* img_bsod_right;
-extern Sprite* img_laptop_left;
-
 /* Bad guy kinds: */
 enum BadGuyKind {
   BAD_BSOD,
-  BAD_LAPTOP,
-  BAD_MONEY,
+  BAD_MRICEBLOCK,
+  BAD_JUMPY,
   BAD_MRBOMB,
   BAD_BOMB,
   BAD_STALACTITE,
@@ -85,7 +81,7 @@ public:
     KICK,
     HELD,
 
-    MONEY_JUMP,
+    JUMPY_JUMP,
 
     BOMB_TICKING,
     BOMB_EXPLODE,
@@ -114,6 +110,7 @@ public:
 private:
   bool removable;
   bool seen;
+  int squishcount; /// number of times this enemy was squiched
   base_type old_base;
   Timer timer;
   Physic physic;
@@ -146,8 +143,8 @@ public:
  
 private:
   void action_bsod(float frame_ratio);
-  void action_laptop(float frame_ratio);
-  void action_money(float frame_ratio); 
+  void action_mriceblock(float frame_ratio);
+  void action_jumpy(float frame_ratio); 
   void action_bomb(float frame_ratio);
   void action_mrbomb(float frame_ratio);
   void action_stalactite(float frame_ratio);
