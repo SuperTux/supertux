@@ -16,13 +16,21 @@
 #include "scene.h"
 #include "screen.h"
 
-texture_type img_bsod_squished_left, img_bsod_squished_right,
-img_bsod_falling_left, img_bsod_falling_right,
-img_laptop_flat_left, img_laptop_flat_right,
-img_laptop_falling_left, img_laptop_falling_right;
-texture_type img_bsod_left[4], img_bsod_right[4],
-img_laptop_left[3], img_laptop_right[3],
-img_money_left[2], img_money_right[2];
+texture_type img_bsod_squished_left;
+texture_type img_bsod_squished_right;
+texture_type img_bsod_falling_left;
+texture_type img_bsod_falling_right;
+texture_type img_laptop_flat_left;
+texture_type img_laptop_flat_right;
+texture_type img_laptop_falling_left;
+texture_type img_laptop_falling_right;
+texture_type img_bsod_left[4];
+texture_type img_bsod_right[4];
+texture_type img_laptop_left[3];
+texture_type img_laptop_right[3];
+texture_type img_money_left[2];
+texture_type img_money_right[2];
+
 bitmask *bm_bsod;
 
 void badguy_create_bitmasks()
@@ -360,163 +368,181 @@ void badguy_action(bad_guy_type* pbad)
   /*}*/
 }
 
-void badguy_draw(bad_guy_type* pbad)
+void badguy_draw_bsod(bad_guy_type* pbad)
 {
-  if (pbad->base.x > scroll_x - 32 &&
-      pbad->base.x < scroll_x + screen->w)
+  /* --- BLUE SCREEN OF DEATH MONSTER: --- */
+  if (pbad->dying == DYING_NOT)
     {
-      if (pbad->kind == BAD_BSOD)
+      /* Alive: */
+
+      if (pbad->dir == LEFT)
         {
-          /* --- BLUE SCREEN OF DEATH MONSTER: --- */
-
-          if (pbad->dying == DYING_NOT)
-            {
-              /* Alive: */
-
-              if (pbad->dir == LEFT)
-                {
-                  texture_draw(&img_bsod_left[(frame / 5) % 4],
-                               pbad->base.x - scroll_x,
-                               pbad->base.y);
-                }
-              else
-                {
-                  texture_draw(&img_bsod_right[(frame / 5) % 4],
-                               pbad->base.x - scroll_x,
-                               pbad->base.y);
-                }
-            }
-          else if (pbad->dying == DYING_FALLING)
-            {
-              /* Falling: */
-
-              if (pbad->dir == LEFT)
-                {
-                  texture_draw(&img_bsod_falling_left,
-                               pbad->base.x - scroll_x,
-                               pbad->base.y);
-                }
-              else
-                {
-                  texture_draw(&img_bsod_falling_right,
-                               pbad->base.x - scroll_x,
-                               pbad->base.y);
-                }
-            }
-          else if (pbad->dying == DYING_SQUISHED)
-            {
-              /* Dying - Squished: */
-
-              if (pbad->dir == LEFT)
-                {
-                  texture_draw(&img_bsod_squished_left,
-                               pbad->base.x - scroll_x,
-                               pbad->base.y + 24);
-                }
-              else
-                {
-                  texture_draw(&img_bsod_squished_right,
-                               pbad->base.x - scroll_x,
-                               pbad->base.y + 24);
-                }
-            }
+          texture_draw(&img_bsod_left[(frame / 5) % 4],
+                       pbad->base.x - scroll_x,
+                       pbad->base.y);
         }
-      else if (pbad->kind == BAD_LAPTOP)
+      else
         {
-          /* --- LAPTOP MONSTER: --- */
-
-          if (pbad->dying == DYING_NOT)
-            {
-              /* Alive: */
-
-              if (pbad->mode == NORMAL)
-                {
-                  /* Not flat: */
-
-                  if (pbad->dir == LEFT)
-                    {
-                      texture_draw(&img_laptop_left[(frame / 5) % 3],
-                                   pbad->base.x - scroll_x,
-                                   pbad->base.y);
-                    }
-                  else
-                    {
-                      texture_draw(&img_laptop_right[(frame / 5) % 3],
-                                   pbad->base.x - scroll_x,
-                                   pbad->base.y);
-                    }
-                }
-              else
-                {
-                  /* Flat: */
-
-                  if (pbad->dir == LEFT)
-                    {
-                      texture_draw(&img_laptop_flat_left,
-                                   pbad->base.x - scroll_x,
-                                   pbad->base.y);
-                    }
-                  else
-                    {
-                      texture_draw(&img_laptop_flat_right,
-                                   pbad->base.x - scroll_x,
-                                   pbad->base.y);
-                    }
-                }
-            }
-          else if (pbad->dying == DYING_FALLING)
-            {
-              /* Falling: */
-
-              if (pbad->dir == LEFT)
-                {
-                  texture_draw(&img_laptop_falling_left,
-                               pbad->base.x - scroll_x,
-                               pbad->base.y);
-                }
-              else
-                {
-                  texture_draw(&img_laptop_falling_right,
-                               pbad->base.x - scroll_x,
-                               pbad->base.y);
-                }
-            }
+          texture_draw(&img_bsod_right[(frame / 5) % 4],
+                       pbad->base.x - scroll_x,
+                       pbad->base.y);
         }
-      else if (pbad->kind == BAD_MONEY)
+    }
+  else if (pbad->dying == DYING_FALLING)
+    {
+      /* Falling: */
+
+      if (pbad->dir == LEFT)
         {
-          if (pbad->base.ym != 300 /* > -16*/)
+          texture_draw(&img_bsod_falling_left,
+                       pbad->base.x - scroll_x,
+                       pbad->base.y);
+        }
+      else
+        {
+          texture_draw(&img_bsod_falling_right,
+                       pbad->base.x - scroll_x,
+                       pbad->base.y);
+        }
+    }
+  else if (pbad->dying == DYING_SQUISHED)
+    {
+      /* Dying - Squished: */
+
+      if (pbad->dir == LEFT)
+        {
+          texture_draw(&img_bsod_squished_left,
+                       pbad->base.x - scroll_x,
+                       pbad->base.y + 24);
+        }
+      else
+        {
+          texture_draw(&img_bsod_squished_right,
+                       pbad->base.x - scroll_x,
+                       pbad->base.y + 24);
+        }
+    }
+}
+
+void badguy_draw_laptop(bad_guy_type* pbad)
+{
+  /* --- LAPTOP MONSTER: --- */
+  if (pbad->dying == DYING_NOT)
+    {
+      /* Alive: */
+
+      if (pbad->mode == NORMAL)
+        {
+          /* Not flat: */
+
+          if (pbad->dir == LEFT)
             {
-              if (pbad->dir == LEFT)
-                {
-                  texture_draw(&img_money_left[0],
-                               pbad->base.x - scroll_x,
-                               pbad->base.y);
-                }
-              else
-                {
-                  texture_draw(&img_money_right[0],
-                               pbad->base.x - scroll_x,
-                               pbad->base.y);
-                }
+              texture_draw(&img_laptop_left[(frame / 5) % 3],
+                           pbad->base.x - scroll_x,
+                           pbad->base.y);
             }
           else
             {
-              if (pbad->dir == LEFT)
-                {
-                  texture_draw(&img_money_left[1],
-                               pbad->base.x - scroll_x,
-                               pbad->base.y);
-                }
-              else
-                {
-                  texture_draw(&img_money_right[1],
-                               pbad->base.x - scroll_x,
-                               pbad->base.y);
-                }
+              texture_draw(&img_laptop_right[(frame / 5) % 3],
+                           pbad->base.x - scroll_x,
+                           pbad->base.y);
             }
         }
-      else if (pbad->kind == -1)
-      {}
+      else
+        {
+          /* Flat: */
+
+          if (pbad->dir == LEFT)
+            {
+              texture_draw(&img_laptop_flat_left,
+                           pbad->base.x - scroll_x,
+                           pbad->base.y);
+            }
+          else
+            {
+              texture_draw(&img_laptop_flat_right,
+                           pbad->base.x - scroll_x,
+                           pbad->base.y);
+            }
+        }
+    }
+  else if (pbad->dying == DYING_FALLING)
+    {
+      /* Falling: */
+
+      if (pbad->dir == LEFT)
+        {
+          texture_draw(&img_laptop_falling_left,
+                       pbad->base.x - scroll_x,
+                       pbad->base.y);
+        }
+      else
+        {
+          texture_draw(&img_laptop_falling_right,
+                       pbad->base.x - scroll_x,
+                       pbad->base.y);
+        }
+    }
+}
+
+void badguy_draw_money(bad_guy_type* pbad)
+{
+  if (pbad->base.ym != 300 /* > -16*/)
+    {
+      if (pbad->dir == LEFT)
+        {
+          texture_draw(&img_money_left[0],
+                       pbad->base.x - scroll_x,
+                       pbad->base.y);
+        }
+      else
+        {
+          texture_draw(&img_money_right[0],
+                       pbad->base.x - scroll_x,
+                       pbad->base.y);
+        }
+    }
+  else
+    {
+      if (pbad->dir == LEFT)
+        {
+          texture_draw(&img_money_left[1],
+                       pbad->base.x - scroll_x,
+                       pbad->base.y);
+        }
+      else
+        {
+          texture_draw(&img_money_right[1],
+                       pbad->base.x - scroll_x,
+                       pbad->base.y);
+        }
+    }
+}
+
+void badguy_draw(bad_guy_type* pbad)
+{
+  // Don't try to draw stuff that is outside of the screen
+  if (pbad->base.x > scroll_x - 32 &&
+      pbad->base.x < scroll_x + screen->w)
+    {
+      switch (pbad->kind)
+        {
+        case BAD_BSOD:
+          badguy_draw_bsod(pbad);
+          break;
+    
+        case BAD_LAPTOP:
+          badguy_draw_laptop(pbad);
+          break;
+    
+        case BAD_MONEY:
+          badguy_draw_money(pbad);
+          break;
+
+        default:
+          puts("Unknown badguy type");
+          break;
+        }
     }
 }
 
@@ -546,6 +572,7 @@ void badguy_collision(bad_guy_type* pbad, void *p_c_object, int c_object)
       /* Play death sound: */
       play_sound(sounds[SND_FALL], SOUND_CENTER_SPEAKER);
       break;
+
     case CO_BADGUY:
       pbad_c = (bad_guy_type*) p_c_object;
       if (pbad->mode == NORMAL)
@@ -572,6 +599,7 @@ void badguy_collision(bad_guy_type* pbad, void *p_c_object, int c_object)
                     pbad_c->base.y, 100);
         }
       break;
+
     case CO_PLAYER:
       pplayer_c = (player_type*) p_c_object;
       if(pbad->kind != BAD_MONEY)

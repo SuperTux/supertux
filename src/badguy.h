@@ -52,13 +52,20 @@ enum {
   BAD_MONEY
 };
 
-extern texture_type img_bsod_squished_left, img_bsod_squished_right,
-img_bsod_falling_left, img_bsod_falling_right,
-img_laptop_flat_left, img_laptop_flat_right,
-img_laptop_falling_left, img_laptop_falling_right;
-extern texture_type img_bsod_left[4], img_bsod_right[4],
-img_laptop_left[3], img_laptop_right[3],
-img_money_left[2], img_money_right[2];
+extern texture_type img_bsod_squished_left;
+extern texture_type img_bsod_squished_right;
+extern texture_type img_bsod_falling_left;
+extern texture_type img_bsod_falling_right;
+extern texture_type img_laptop_flat_left;
+extern texture_type img_laptop_flat_right;
+extern texture_type img_laptop_falling_left;
+extern texture_type img_laptop_falling_right;
+extern texture_type img_bsod_left[4];
+extern texture_type img_bsod_right[4];
+extern texture_type img_laptop_left[3];
+extern texture_type img_laptop_right[3];
+extern texture_type img_money_left[2];
+extern texture_type img_money_right[2];
 
 extern bitmask *bm_bsod;
 
@@ -67,6 +74,9 @@ void badguy_create_bitmasks();
 void badguy_init(bad_guy_type* pbad, float x, float y, int kind);
 void badguy_action(bad_guy_type* pbad);
 void badguy_draw(bad_guy_type* pbad);
+void badguy_draw_bsod(bad_guy_type* pbad);
+void badguy_draw_laptop(bad_guy_type* pbad);
+void badguy_draw_money(bad_guy_type* pbad);
 void badguy_collision(bad_guy_type* pbad, void* p_c_object, int c_object);
 
 #endif /*SUPERTUX_BADGUY_H*/
