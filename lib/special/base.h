@@ -18,25 +18,29 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 
-#ifndef SUPERTUX_TYPE_H
-#define SUPERTUX_TYPE_H
+#ifndef SUPERTUX_BASE_H
+#define SUPERTUX_BASE_H
 
 #include <string>
 
 #include "SDL.h"
 
-/// 'Base' type for game objects.
-/** Mainly for layered use in game objects.
-    Containts upper left X and Y coordinates of an
-    object along with its width and height. */
-struct base_type
-{
-  float x;
-  float y;
-  float width;
-  float height;
-};
+namespace SuperTux
+  {
 
+  /// 'Base' type for game objects.
+  /** Mainly for layered use in game objects.
+      Containts upper left X and Y coordinates of an
+      object along with its width and height. */
+  struct base_type
+    {
+      float x;
+      float y;
+      float width;
+      float height;
+    };
 
-#endif /*SUPERTUX_TYPE_H*/
+}
+
+#endif /*SUPERTUX_BASE_H*/
 

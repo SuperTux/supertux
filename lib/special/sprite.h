@@ -27,51 +27,69 @@
 #include "video/surface.h"
 #include "math/vector.h"
 
-class Sprite
-{
- private:
-  std::string name;
+namespace SuperTux
+  {
 
-  int x_hotspot;
-  int y_hotspot;
+  class Sprite
+    {
+    private:
+      std::string name;
 
-  /** Frames per second */
-  float fps;
+      int x_hotspot;
+      int y_hotspot;
 
-  /** Number of seconds that a frame is displayed until it is switched
-      to the next frame */
-  float frame_delay;
+      /** Frames per second */
+      float fps;
 
-  float time;
+      /** Number of seconds that a frame is displayed until it is switched
+          to the next frame */
+      float frame_delay;
 
-  std::vector<Surface*> surfaces;
+      float time;
 
-  void init_defaults();
- public:
-  /** cur has to be a pointer to data in the form of ((x-hotspot 5)
-      (y-hotspot 10) ...) */
-  Sprite(lisp_object_t* cur);
-  ~Sprite();
-  
-  void reset();
+      std::vector<Surface*> surfaces;
 
-  /** Update the sprite and process to the next frame */
-  void update(float delta);
-  void draw(DrawingContext& context, const Vector& pos, int layer,
-      Uint32 drawing_effect = NONE_EFFECT);
-  int get_current_frame() const;
+      void init_defaults();
+    public:
+      /** cur has to be a pointer to data in the form of ((x-hotspot 5)
+          (y-hotspot 10) ...) */
+      Sprite(lisp_object_t* cur);
+      ~Sprite();
 
-  float get_fps() { return fps; } ;
-  int get_frames() { return surfaces.size(); } ;
+      void reset();
 
-  std::string get_name() const { return name; } 
-  int get_width() const;
-  int get_height() const;
+      /** Update the sprite and process to the next frame */
+      void update(float delta);
+      void draw(DrawingContext& context, const Vector& pos, int layer,
+                Uint32 drawing_effect = NONE_EFFECT);
+      int get_current_frame() const;
 
-  Surface* get_frame(unsigned int frame)
-    {  if(frame < surfaces.size()) return surfaces[frame];
-       else return surfaces[0];  }
-};
+      float get_fps()
+      {
+        return fps;
+      } ;
+      int get_frames()
+      {
+        return surfaces.size();
+      } ;
+
+      std::string get_name() const
+        {
+          return name;
+        }
+      int get_width() const;
+      int get_height() const;
+
+      Surface* get_frame(unsigned int frame)
+      {
+        if(frame < surfaces.size())
+          return surfaces[frame];
+        else
+          return surfaces[0];
+      }
+    };
+
+} //namespace SuperTux
 
 #endif /*SUPERTUX_SPRITE_H*/
 

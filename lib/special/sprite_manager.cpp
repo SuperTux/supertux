@@ -22,6 +22,8 @@
 #include "utils/lispreader.h"
 #include "special/sprite_manager.h"
 
+using namespace SuperTux;
+
 SpriteManager::SpriteManager(const std::string& filename)
 {
   load_resfile(filename);

@@ -22,6 +22,8 @@
 
 #include "utils/lispreader.h"
 
+namespace SuperTux {
+
 class Config {
   public:
   void load ();
@@ -32,6 +34,7 @@ class Config {
 
 extern Config* config;
 
+} //namespace SuperTux
 
 #endif
 

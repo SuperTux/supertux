@@ -27,6 +27,8 @@
 #include "app/setup.h"
 #include "special/moving_object.h"
 
+using namespace SuperTux;
+
 SoundManager::SoundManager()
   : current_music(0), music_enabled(true)
 {

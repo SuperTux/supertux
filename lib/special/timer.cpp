@@ -21,9 +21,11 @@
 #include "SDL.h"
 #include "special/timer.h"
 
-unsigned int st_pause_ticks, st_pause_count;
+using namespace SuperTux;
 
-unsigned int st_get_ticks(void)
+unsigned int SuperTux::st_pause_ticks, SuperTux::st_pause_count;
+
+unsigned int SuperTux::st_get_ticks(void)
 {
   if(st_pause_count != 0)
     return /*SDL_GetTicks()*/ - st_pause_ticks /*- SDL_GetTicks()*/ + st_pause_count;
@@ -31,19 +33,19 @@ unsigned int st_get_ticks(void)
     return SDL_GetTicks() - st_pause_ticks;
 }
 
-void st_pause_ticks_init(void)
+void SuperTux::st_pause_ticks_init(void)
 {
   st_pause_ticks = 0;
   st_pause_count = 0;
 }
 
-void st_pause_ticks_start(void)
+void SuperTux::st_pause_ticks_start(void)
 {
   if(st_pause_count == 0)
     st_pause_count = SDL_GetTicks();
 }
 
-void st_pause_ticks_stop(void)
+void SuperTux::st_pause_ticks_stop(void)
 {
 if(st_pause_count == 0)
 return;
@@ -52,7 +54,7 @@ return;
   st_pause_count = 0;
 }
 
-bool st_pause_ticks_started(void)
+bool SuperTux::st_pause_ticks_started(void)
 {
 if(st_pause_count == 0)
 return false;

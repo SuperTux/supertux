@@ -35,6 +35,8 @@
 #include "serializable.h"
 #include "scene.h"
 
+using namespace SuperTux;
+
 /* Timing constants (in ms): */
 
 #define KICKING_TIME 200

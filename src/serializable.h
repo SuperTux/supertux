@@ -20,7 +20,11 @@
 #ifndef SUPERTUX_SERIALIZABLE_H
 #define SUPERTUX_SERIALIZABLE_H
 
+using namespace SuperTux;
+
+namespace SuperTux {
 class LispWriter;
+}
 
 class Serializable
 {

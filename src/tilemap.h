@@ -26,9 +26,14 @@
 #include "serializable.h"
 #include "math/vector.h"
 
+using namespace SuperTux;
+
+namespace SuperTux {
+class LispReader;
+}
+
 class Level;
 class TileManager;
-class LispReader;
 class Tile;
 
 struct TileId

@@ -26,51 +26,56 @@
 #include "video/surface.h"
 #include "math/vector.h"
 
-/** Reads a text file (using LispReader, so it as to be in its formatting)
-    and displays it in a StarTrek fashion */
-void display_text_file(const std::string& file, float scroll_speed);
+namespace SuperTux
+  {
 
-/* Text type */
-class Font
-{
-public:
-  /* Kinds of texts. */
-  enum FontType {
-    TEXT, // images for all characters
-    NUM   // only images for numbers
-  };
-  
-  Font(const std::string& file, FontType type, int w, int h, int shadowsize=2);
-  ~Font();
+  /** Reads a text file (using LispReader, so it as to be in its formatting)
+      and displays it in a StarTrek fashion */
+  void display_text_file(const std::string& file, float scroll_speed);
 
-  /** returns the height of the font */
-  float get_height() const;
-  /** returns the width of a given text. (Note that I won't add a normal
-   * get_width function here, as we might switch to variable width fonts in the
-   * future.
-   */
-  float get_text_width(const std::string& text) const;
+  /* Text type */
+  class Font
+    {
+    public:
+      /* Kinds of texts. */
+      enum FontType {
+        TEXT, // images for all characters
+        NUM   // only images for numbers
+      };
 
-private:
-  friend class DrawingContext;
-  
-  void draw(const std::string& text, const Vector& pos,
-            Uint32 drawing_effect = NONE_EFFECT);
-  void draw_chars(Surface* pchars, const std::string& text, 
-      const Vector& position, Uint32 drawing_effect);
+      Font(const std::string& file, FontType type, int w, int h, int shadowsize=2);
+      ~Font();
 
-  Surface* chars;
-  Surface* shadow_chars;
-  FontType type;
-  int w;
-  int h;
-  int shadowsize;
+      /** returns the height of the font */
+      float get_height() const;
+      /** returns the width of a given text. (Note that I won't add a normal
+       * get_width function here, as we might switch to variable width fonts in the
+       * future.
+       */
+      float get_text_width(const std::string& text) const;
 
-  /// the number of the first character that is represented in the font
-  int first_char;
-  /// the number of the last character that is represented in the font
-  int last_char;
-};
+    private:
+      friend class DrawingContext;
+
+      void draw(const std::string& text, const Vector& pos,
+                Uint32 drawing_effect = NONE_EFFECT);
+      void draw_chars(Surface* pchars, const std::string& text,
+                      const Vector& position, Uint32 drawing_effect);
+
+      Surface* chars;
+      Surface* shadow_chars;
+      FontType type;
+      int w;
+      int h;
+      int shadowsize;
+
+      /// the number of the first character that is represented in the font
+      int first_char;
+      /// the number of the last character that is represented in the font
+      int last_char;
+    };
+
+} //namespace SuperTux
 
 #endif /*SUPERTUX_FONT_H*/
 

@@ -37,6 +37,17 @@ Surface* img_flag[2];
 Surface* img_cloud[2][4];
 Surface* img_distro[4];
 
+Menu* main_menu      = 0;
+Menu* game_menu      = 0;
+Menu* options_menu   = 0;
+Menu* options_keys_menu     = 0;
+Menu* options_joystick_menu = 0;
+Menu* highscore_menu = 0;
+Menu* load_game_menu = 0;
+Menu* save_game_menu = 0;
+Menu* contrib_menu   = 0;
+Menu* contrib_subset_menu   = 0;
+
 MusicRef herring_song;
 MusicRef level_end_song;
 

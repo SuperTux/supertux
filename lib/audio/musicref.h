@@ -22,24 +22,29 @@
 
 #include "audio/sound_manager.h"
 
-/** This class holds a reference to a music file and maintains a correct
- * refcount for that file.
- */
-class MusicRef
-{
-public:
-  MusicRef();
-  MusicRef(const MusicRef& other);
-  ~MusicRef();
+namespace SuperTux
+  {
 
-  MusicRef& operator= (const MusicRef& other);
+  /** This class holds a reference to a music file and maintains a correct
+   * refcount for that file.
+   */
+  class MusicRef
+    {
+    public:
+      MusicRef();
+      MusicRef(const MusicRef& other);
+      ~MusicRef();
 
-private:
-  friend class SoundManager;
-  MusicRef(SoundManager::MusicResource* music);
-  
-  SoundManager::MusicResource* music;
-};
+      MusicRef& operator= (const MusicRef& other);
+
+    private:
+      friend class SoundManager;
+      MusicRef(SoundManager::MusicResource* music);
+
+      SoundManager::MusicResource* music;
+    };
+
+} //namespace SuperTux
 
 #endif /*SUPERTUX_MUSICREF_H*/
 

@@ -21,9 +21,14 @@
 #define SUPERTUX_RESOURCES_H
 
 #include "audio/musicref.h"
+#include "gui/menu.h"
 
+using namespace SuperTux;
+
+namespace SuperTux {
 class SpriteManager;
 class SoundManager;
+}
 
 /* Sound files: */
 enum {
@@ -65,6 +70,17 @@ extern MusicRef level_end_song;
 
 extern SpriteManager* sprite_manager;
 extern SoundManager* sound_manager;
+
+extern Menu* contrib_menu;
+extern Menu* contrib_subset_menu;
+extern Menu* main_menu;
+extern Menu* game_menu;
+extern Menu* options_menu;
+extern Menu* options_keys_menu;
+extern Menu* options_joystick_menu;
+extern Menu* highscore_menu;
+extern Menu* load_game_menu;
+extern Menu* save_game_menu;
 
 void loadshared();
 void unloadshared();

@@ -19,6 +19,8 @@
 
 #include "special/game_object.h"
 
+using namespace SuperTux;
+
 GameObject::GameObject()
   : wants_to_die(false)
 {

@@ -30,148 +30,159 @@
 
 #include "SDL.h"
 
-#include "video/screen.h"
 #include "math/vector.h"
+#include "video/screen.h"
 
-SDL_Surface* sdl_surface_from_sdl_surface(SDL_Surface* sdl_surf, bool use_alpha);
-SDL_Surface* sdl_surface_from_nothing();
+namespace SuperTux
+  {
+  
+  SDL_Surface* sdl_surface_from_sdl_surface(SDL_Surface* sdl_surf, bool use_alpha);
+  SDL_Surface* sdl_surface_from_nothing();
 
-class SurfaceImpl;
-class SurfaceSDL;
-class SurfaceOpenGL;
-class DrawingContext;
-
-/// bitset for drawing effects
-enum {
-      /** Don't apply anything */
-      NONE_EFFECT       = 0x0000,
-      /** Draw the Surface upside down */
-      VERTICAL_FLIP     = 0x0001,
-      /** Draw the Surface with alpha equal to 128 */
-      SEMI_TRANSPARENT  = 0x0002
+  class SurfaceImpl;
+  class SurfaceSDL;
+  class SurfaceOpenGL;
+  class DrawingContext;
+  
+  /// bitset for drawing effects
+  enum {
+    /** Don't apply anything */
+    NONE_EFFECT       = 0x0000,
+    /** Draw the Surface upside down */
+    VERTICAL_FLIP     = 0x0001,
+    /** Draw the Surface with alpha equal to 128 */
+    SEMI_TRANSPARENT  = 0x0002
   };
 
-/** This class holds all the data necessary to construct a surface */
-class SurfaceData 
-{
-public:
-  enum ConstructorType { LOAD, LOAD_PART, SURFACE, GRADIENT };
-  ConstructorType type;
-  SDL_Surface* surface;
-  std::string file;
-  bool use_alpha;
-  int x;
-  int y;
-  int w;
-  int h;
-  Color top_gradient;
-  Color bottom_gradient;
+  /** This class holds all the data necessary to construct a surface */
+  class SurfaceData
+    {
+    public:
+      enum ConstructorType { LOAD, LOAD_PART, SURFACE, GRADIENT };
+      ConstructorType type;
+      SDL_Surface* surface;
+      std::string file;
+      bool use_alpha;
+      int x;
+      int y;
+      int w;
+      int h;
+      Color top_gradient;
+      Color bottom_gradient;
 
-  SurfaceData(SDL_Surface* surf, bool use_alpha_);
-  SurfaceData(const std::string& file_, bool use_alpha_);
-  SurfaceData(const std::string& file_, int x_, int y_, int w_, int h_, bool use_alpha_);
-  SurfaceData(Color top_gradient_, Color bottom_gradient_, int w_, int h_);
-  ~SurfaceData();
+      SurfaceData(SDL_Surface* surf, bool use_alpha_);
+      SurfaceData(const std::string& file_, bool use_alpha_);
+      SurfaceData(const std::string& file_, int x_, int y_, int w_, int h_, bool use_alpha_);
+      SurfaceData(Color top_gradient_, Color bottom_gradient_, int w_, int h_);
+      ~SurfaceData();
 
-  SurfaceSDL* create_SurfaceSDL();
-  SurfaceOpenGL* create_SurfaceOpenGL();
-  SurfaceImpl* create();
-};
+      SurfaceSDL* create_SurfaceSDL();
+      SurfaceOpenGL* create_SurfaceOpenGL();
+      SurfaceImpl* create();
+    };
 
-/** Container class that holds a surface, necessary so that we can
-    switch Surface implementations (OpenGL, SDL) on the fly */
-class Surface
-{
-public:
-  SurfaceData data;
-  SurfaceImpl* impl;
-  int w; 
-  int h;
-  
-  typedef std::list<Surface*> Surfaces;
-  static Surfaces surfaces;
-public:
-  static void reload_all();
-  static void debug_check();
 
-  Surface(SDL_Surface* surf, bool use_alpha);  
-  Surface(const std::string& file, bool use_alpha);  
-  Surface(const std::string& file, int x, int y, int w, int h, bool use_alpha);
-  Surface(Color top_gradient, Color bottom_gradient, int w_, int h_);
-  ~Surface();
-  
-  /** Reload the surface, which is necesarry in case of a mode swich */
-  void reload();
+  /// Surface
+  /** Container class that holds a surface, necessary so that we can
+      switch Surface implementations (OpenGL, SDL) on the fly */
+  class Surface
+    {
+    public:
+      SurfaceData data;
+      SurfaceImpl* impl;
+      int w;
+      int h;
 
-  void resize(int widht, int height);
-};
+      typedef std::list<Surface*> Surfaces;
+      static Surfaces surfaces;
+    public:
+      static void reload_all();
+      static void debug_check();
 
-/** Surface implementation, all implementation have to inherit from
-    this class */
-class SurfaceImpl
-{
-protected:
-  SDL_Surface* sdl_surface;
+      Surface(SDL_Surface* surf, bool use_alpha);
+      Surface(const std::string& file, bool use_alpha);
+      Surface(const std::string& file, int x, int y, int w, int h, bool use_alpha);
+      Surface(Color top_gradient, Color bottom_gradient, int w_, int h_);
+      ~Surface();
 
-public:
-  int w;
-  int h;
+      /** Reload the surface, which is necesarry in case of a mode swich */
+      void reload();
 
-public:
-  SurfaceImpl();
-  virtual ~SurfaceImpl();
-  
-  /** Return 0 on success, -2 if surface needs to be reloaded */
-  virtual int draw(float x, float y, Uint8 alpha, Uint32 effect = NONE_EFFECT) = 0;
-  virtual int draw_part(float sx, float sy, float x, float y, float w, float h,  Uint8 alpha, Uint32 effect = NONE_EFFECT) = 0;
+      void resize(int widht, int height);
+    };
+
+  /** Surface implementation, all implementation have to inherit from
+      this class */
+  class SurfaceImpl
+    {
+    protected:
+      SDL_Surface* sdl_surface;
+
+    public:
+      int w;
+      int h;
+
+    public:
+      SurfaceImpl();
+      virtual ~SurfaceImpl();
+
+      /** Return 0 on success, -2 if surface needs to be reloaded */
+      virtual int draw(float x, float y, Uint8 alpha, Uint32 effect = NONE_EFFECT) = 0;
+      virtual int draw_part(float sx, float sy, float x, float y, float w, float h,  Uint8 alpha, Uint32 effect = NONE_EFFECT) = 0;
 #if 0
-  virtual int draw_stretched(float x, float y, int w, int h, Uint8 alpha, bool update) = 0;
+
+      virtual int draw_stretched(float x, float y, int w, int h, Uint8 alpha, bool update) = 0;
 #endif
-  int resize(int w_, int h_);
 
-  SDL_Surface* get_sdl_surface() const; // @evil@ try to avoid this function
-};
+      int resize(int w_, int h_);
 
-class SurfaceSDL : public SurfaceImpl
-{
-public:
-  SurfaceSDL(SDL_Surface* surf, bool use_alpha);
-  SurfaceSDL(const std::string& file, bool use_alpha);  
-  SurfaceSDL(const std::string& file, int x, int y, int w, int h, bool use_alpha);
-  SurfaceSDL(Color top_gradient, Color bottom_gradient, int w, int h);
-  virtual ~SurfaceSDL();
+      SDL_Surface* get_sdl_surface() const; // @evil@ try to avoid this function
+    };
 
-  int draw(float x, float y, Uint8 alpha, Uint32 effect = NONE_EFFECT);
-  int draw_part(float sx, float sy, float x, float y, float w, float h,  Uint8 alpha, Uint32 effect = NONE_EFFECT);
+  class SurfaceSDL : public SurfaceImpl
+    {
+    public:
+      SurfaceSDL(SDL_Surface* surf, bool use_alpha);
+      SurfaceSDL(const std::string& file, bool use_alpha);
+      SurfaceSDL(const std::string& file, int x, int y, int w, int h, bool use_alpha);
+      SurfaceSDL(Color top_gradient, Color bottom_gradient, int w, int h);
+      virtual ~SurfaceSDL();
+
+      int draw(float x, float y, Uint8 alpha, Uint32 effect = NONE_EFFECT);
+      int draw_part(float sx, float sy, float x, float y, float w, float h,  Uint8 alpha, Uint32 effect = NONE_EFFECT);
 #if 0
-  int draw_stretched(float x, float y, int w, int h, Uint8 alpha);
+
+      int draw_stretched(float x, float y, int w, int h, Uint8 alpha);
 #endif
-};
+    };
 
 #ifndef NOOPENGL
-class SurfaceOpenGL : public SurfaceImpl
-{
-public:
-  GLuint gl_texture;
+  class SurfaceOpenGL : public SurfaceImpl
+    {
+    public:
+      GLuint gl_texture;
 
-public:
-  SurfaceOpenGL(SDL_Surface* surf, bool use_alpha);
-  SurfaceOpenGL(const std::string& file, bool use_alpha);  
-  SurfaceOpenGL(const std::string& file, int x, int y, int w, int h, bool use_alpha);
-  SurfaceOpenGL(Color top_gradient, Color bottom_gradient, int w, int h);
+    public:
+      SurfaceOpenGL(SDL_Surface* surf, bool use_alpha);
+      SurfaceOpenGL(const std::string& file, bool use_alpha);
+      SurfaceOpenGL(const std::string& file, int x, int y, int w, int h, bool use_alpha);
+      SurfaceOpenGL(Color top_gradient, Color bottom_gradient, int w, int h);
 
-  virtual ~SurfaceOpenGL();
+      virtual ~SurfaceOpenGL();
 
-  int draw(float x, float y, Uint8 alpha, Uint32 effect = NONE_EFFECT);
-  int draw_part(float sx, float sy, float x, float y, float w, float h,  Uint8 alpha, Uint32 effect = NONE_EFFECT);
+      int draw(float x, float y, Uint8 alpha, Uint32 effect = NONE_EFFECT);
+      int draw_part(float sx, float sy, float x, float y, float w, float h,  Uint8 alpha, Uint32 effect = NONE_EFFECT);
 #if 0
-  int draw_stretched(float x, float y, int w, int h, Uint8 alpha);
+
+      int draw_stretched(float x, float y, int w, int h, Uint8 alpha);
 #endif
 
-private:
-  void create_gl(SDL_Surface * surf, GLuint * tex);
-};
-#endif 
+    private:
+      void create_gl(SDL_Surface * surf, GLuint * tex);
+    };
+#endif
+
+} //namespace SuperTux
 
 #endif /*SUPERTUX_TEXTURE_H*/
 

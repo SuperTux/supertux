@@ -51,6 +51,7 @@
 #include "audio/sound_manager.h"
 #include "app/gettext.h"
 
+using namespace SuperTux;
 
 #ifdef WIN32
 #define mkdir(dir, mode)    mkdir(dir)
@@ -70,7 +71,7 @@ void seticon(void);
 void usage(char * prog, int ret);
 
 /* Does the given file exist and is it accessible? */
-int faccessible(const char *filename)
+int SuperTux::faccessible(const char *filename)
 {
   struct stat filestat;
   if (stat(filename, &filestat) == -1)
@@ -87,7 +88,7 @@ int faccessible(const char *filename)
 }
 
 /* Can we write to this location? */
-int fwriteable(const char *filename)
+int SuperTux::fwriteable(const char *filename)
 {
   FILE* fi;
   fi = fopen(filename, "wa");
@@ -99,7 +100,7 @@ int fwriteable(const char *filename)
 }
 
 /* Makes sure a directory is created in either the SuperTux home directory or the SuperTux base directory.*/
-int fcreatedir(const char* relative_dir)
+int SuperTux::fcreatedir(const char* relative_dir)
 {
   char path[1024];
   snprintf(path, 1024, "%s/%s/", st_dir, relative_dir);
@@ -121,7 +122,7 @@ int fcreatedir(const char* relative_dir)
     }
 }
 
-FILE * opendata(const char * rel_filename, const char * mode)
+FILE * SuperTux::opendata(const char * rel_filename, const char * mode)
 {
   char * filename = NULL;
   FILE * fi;
@@ -154,7 +155,7 @@ FILE * opendata(const char * rel_filename, const char * mode)
 /* Get all names of sub-directories in a certain directory. */
 /* Returns the number of sub-directories found. */
 /* Note: The user has to free the allocated space. */
-string_list_type dsubdirs(const char *rel_path,const  char* expected_file)
+string_list_type SuperTux::dsubdirs(const char *rel_path,const  char* expected_file)
 {
   DIR *dirStructP;
   struct dirent *direntp;
@@ -224,7 +225,7 @@ string_list_type dsubdirs(const char *rel_path,const  char* expected_file)
   return sdirs;
 }
 
-string_list_type dfiles(const char *rel_path, const  char* glob, const  char* exception_str)
+string_list_type SuperTux::dfiles(const char *rel_path, const  char* glob, const  char* exception_str)
 {
   DIR *dirStructP;
   struct dirent *direntp;
@@ -289,7 +290,7 @@ string_list_type dfiles(const char *rel_path, const  char* glob, const  char* ex
   return sdirs;
 }
 
-void free_strings(char **strings, int num)
+void SuperTux::free_strings(char **strings, int num)
 {
   int i;
   for(i=0; i < num; ++i)
@@ -298,7 +299,7 @@ void free_strings(char **strings, int num)
 
 /* --- SETUP --- */
 /* Set SuperTux configuration and save directories */
-void st_directory_setup(void)
+void SuperTux::st_directory_setup(void)
 {
   char *home;
   char str[1024];
@@ -365,7 +366,7 @@ void st_directory_setup(void)
   printf("Datadir: %s\n", datadir.c_str());
 }
 
-void st_general_setup(void)
+void SuperTux::st_general_setup(void)
 {
   /* Seed random number generator: */
 
@@ -406,7 +407,7 @@ void st_general_setup(void)
   
 }
 
-void st_general_free(void)
+void SuperTux::st_general_free(void)
 {
 
   /* Free global images: */
@@ -428,20 +429,9 @@ void st_general_free(void)
   /* Free mouse-cursor */
   delete mouse_cursor;
   
-  /* Free menus */
-  delete main_menu;
-  delete game_menu;
-  delete options_menu;
-  delete options_keys_menu;
-  delete options_joystick_menu;
-  delete highscore_menu;
-  delete contrib_menu;
-  delete contrib_subset_menu;
-  delete save_game_menu;
-  delete load_game_menu;
 }
 
-void st_video_setup(void)
+void SuperTux::st_video_setup(void)
 {
   /* Init SDL Video: */
   if (SDL_Init(SDL_INIT_VIDEO) < 0)
@@ -465,7 +455,7 @@ void st_video_setup(void)
   SDL_WM_SetCaption("SuperTux " VERSION, "SuperTux");
 }
 
-void st_video_setup_sdl(void)
+void SuperTux::st_video_setup_sdl(void)
 {
   if (use_fullscreen)
     {
@@ -495,7 +485,7 @@ void st_video_setup_sdl(void)
     }
 }
 
-void st_video_setup_gl(void)
+void SuperTux::st_video_setup_gl(void)
 {
 #ifndef NOOPENGL
 
@@ -551,7 +541,7 @@ void st_video_setup_gl(void)
 
 }
 
-void st_joystick_setup(void)
+void SuperTux::st_joystick_setup(void)
 {
 
   /* Init Joystick: */
@@ -612,7 +602,7 @@ void st_joystick_setup(void)
     }
 }
 
-void st_audio_setup(void)
+void SuperTux::st_audio_setup(void)
 {
 
   /* Init SDL Audio silently even if --disable-sound : */
@@ -670,7 +660,7 @@ void st_audio_setup(void)
 
 /* --- SHUTDOWN --- */
 
-void st_shutdown(void)
+void SuperTux::st_shutdown(void)
 {
   close_audio();
   SDL_Quit();
@@ -679,7 +669,7 @@ void st_shutdown(void)
 
 /* --- ABORT! --- */
 
-void st_abort(const std::string& reason, const std::string& details)
+void SuperTux::st_abort(const std::string& reason, const std::string& details)
 {
   fprintf(stderr, "\nError: %s\n%s\n\n", reason.c_str(), details.c_str());
   st_shutdown();
@@ -729,7 +719,7 @@ void seticon(void)
 
 /* Parse command-line arguments: */
 
-void parseargs(int argc, char * argv[])
+void SuperTux::parseargs(int argc, char * argv[])
 {
   int i;
 
@@ -913,7 +903,7 @@ void usage(char * prog, int ret)
   exit(ret);
 }
 
-std::vector<std::string> read_directory(const std::string& pathname)
+std::vector<std::string> SuperTux::read_directory(const std::string& pathname)
 {
   std::vector<std::string> dirnames;
   

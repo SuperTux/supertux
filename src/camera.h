@@ -26,9 +26,15 @@
 #include "app/defines.h"
 #include "math/vector.h"
 #include "special/game_object.h"
+#include "video/drawing_context.h"
 #include "serializable.h"
 
+using namespace SuperTux;
+
+namespace SuperTux {
 class LispReader;
+}
+
 class Sector;
 
 class Camera : public GameObject, public Serializable

@@ -25,6 +25,8 @@
 #include "app/globals.h"
 #include "video/font.h"
 
+using namespace SuperTux;
+
 DrawingContext::DrawingContext()
 {
 transform.draw_effect = NONE_EFFECT;

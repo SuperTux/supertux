@@ -33,16 +33,19 @@
 #include <ctype.h>
 #endif
 
-#include "app/globals.h"
 #include "video/screen.h"
+#include "app/globals.h"
 #include "video/drawing_context.h"
 #include "special/base.h"
+#include "math/vector.h"
+
+using namespace SuperTux;
 
 /* 'Stolen' from the SDL documentation.
  * Set the pixel at (x, y) to the given value
  * NOTE: The surface must be locked before calling this!
  */
-void putpixel(SDL_Surface *surface, int x, int y, Uint32 pixel)
+void SuperTux::putpixel(SDL_Surface *surface, int x, int y, Uint32 pixel)
 {
   int bpp = surface->format->BytesPerPixel;
   /* Here p is the address to the pixel we want to set */
@@ -80,7 +83,7 @@ void putpixel(SDL_Surface *surface, int x, int y, Uint32 pixel)
 }
 
 /* Draw a single pixel on the screen. */
-void drawpixel(int x, int y, Uint32 pixel)
+void SuperTux::drawpixel(int x, int y, Uint32 pixel)
 {
   /* Lock the screen for direct access to the pixels */
   if ( SDL_MUSTLOCK(screen) )
@@ -105,7 +108,7 @@ void drawpixel(int x, int y, Uint32 pixel)
 
 /* --- FILL A RECT --- */
 
-void fillrect(float x, float y, float w, float h, int r, int g, int b, int a)
+void SuperTux::fillrect(float x, float y, float w, float h, int r, int g, int b, int a)
 {
 if(w < 0)
 	{
@@ -179,8 +182,7 @@ if(h < 0)
 #define SGN(x) ((x)>0 ? 1 : ((x)==0 ? 0:(-1)))
 #define ABS(x) ((x)>0 ? (x) : (-x))
 
-void
-draw_line(float x1, float y1, float x2, float y2, int r, int g, int b, int a)
+void SuperTux::draw_line(float x1, float y1, float x2, float y2, int r, int g, int b, int a)
 {
 #ifndef NOOPENGL
   if(use_gl)
@@ -245,7 +247,7 @@ draw_line(float x1, float y1, float x2, float y2, int r, int g, int b, int a)
 
 #define LOOP_DELAY 20.0
 
-void fadeout(int fade_time)
+void SuperTux::fadeout(int fade_time)
 {
   float alpha_inc  = 256 / (fade_time / LOOP_DELAY);
   float alpha = 256;
@@ -269,7 +271,7 @@ void fadeout(int fade_time)
   context.do_drawing();
 }
 
-void shrink_fade(const Vector& point, int fade_time)
+void SuperTux::shrink_fade(const Vector& point, int fade_time)
 {
   float left_inc  = point.x / ((float)fade_time / LOOP_DELAY);
   float right_inc = (screen->w - point.x) / ((float)fade_time / LOOP_DELAY);

@@ -26,138 +26,148 @@
 
 #include "math/vector.h"
 #include "video/screen.h"
+#include "video/surface.h"
 
-class Surface;
-class Font;
-
-// some constants for predefined layer values
-enum {
-  LAYER_BACKGROUND0 = -300,
-  LAYER_BACKGROUND1 = -200,
-  LAYER_BACKGROUNDTILES = -100,
-  LAYER_TILES = 0,
-  LAYER_OBJECTS = 100,
-  LAYER_FOREGROUNDTILES = 200,
-  LAYER_FOREGROUND0 = 300,
-  LAYER_FOREGROUND1 = 400,
-  LAYER_GUI         = 500
-};
-
-/**
- * This class provides functions for drawing things on screen. It also
- * maintains a stack of transforms that are applied to graphics.
- */
-class DrawingContext
-{
-public:
-  DrawingContext();
-  ~DrawingContext();
-
-  /** Adds a drawing request for a surface into the request list */
-  void draw_surface(const Surface* surface, const Vector& position, int layer,
-      Uint32 drawing_effect = NONE_EFFECT);
-  /** Adds a drawing request for part of a surface */
-  void draw_surface_part(const Surface* surface, const Vector& source,
-      const Vector& size, const Vector& dest, int layer,
-      Uint32 drawing_effect = NONE_EFFECT);
-  /** draws a text */
-  void draw_text(Font* font, const std::string& text, const Vector& position,
-      int layer, Uint32 drawing_effect = NONE_EFFECT);
-  /** draws aligned text */
-  void draw_text_center(Font* font, const std::string& text,
-      const Vector& position, int layer, Uint32 drawing_effect = NONE_EFFECT);
-  /** draws a color gradient onto the whole screen */  
-  void draw_gradient(Color from, Color to, int layer);
-  /** fills a rectangle */
-  void draw_filled_rect(const Vector& topleft, const Vector& size,
-          Color color, int layer);
-  
-  /** Processes all pending drawing requests and flushes the list */
-  void do_drawing();
-
-  const Vector& get_translation() const
-  { return transform.translation; }
-  void set_translation(const Vector& newtranslation)
-  { transform.translation = newtranslation; }
-
-  void push_transform();
-  void pop_transform();
-
-  /** apply that effect in the next draws (effects are listed on surface.h) */
-  void set_drawing_effect(int effect);
-
-private:
-  class Transform
+namespace SuperTux
   {
-  public:
-    Vector translation; // only translation for now...
 
-    Vector apply(const Vector& v) const
+  class Surface;
+  class Font;
+
+  // some constants for predefined layer values
+  enum {
+    LAYER_BACKGROUND0 = -300,
+    LAYER_BACKGROUND1 = -200,
+    LAYER_BACKGROUNDTILES = -100,
+    LAYER_TILES = 0,
+    LAYER_OBJECTS = 100,
+    LAYER_FOREGROUNDTILES = 200,
+    LAYER_FOREGROUND0 = 300,
+    LAYER_FOREGROUND1 = 400,
+    LAYER_GUI         = 500
+  };
+
+  /**
+   * This class provides functions for drawing things on screen. It also
+   * maintains a stack of transforms that are applied to graphics.
+   */
+  class DrawingContext
     {
-      return v - translation;
-    }
+    public:
+      DrawingContext();
+      ~DrawingContext();
 
-    int draw_effect;
-  };
+      /** Adds a drawing request for a surface into the request list */
+      void draw_surface(const Surface* surface, const Vector& position, int layer,
+                        Uint32 drawing_effect = NONE_EFFECT);
+      /** Adds a drawing request for part of a surface */
+      void draw_surface_part(const Surface* surface, const Vector& source,
+                             const Vector& size, const Vector& dest, int layer,
+                             Uint32 drawing_effect = NONE_EFFECT);
+      /** draws a text */
+      void draw_text(Font* font, const std::string& text, const Vector& position,
+                     int layer, Uint32 drawing_effect = NONE_EFFECT);
+      /** draws aligned text */
+      void draw_text_center(Font* font, const std::string& text,
+                            const Vector& position, int layer, Uint32 drawing_effect = NONE_EFFECT);
+      /** draws a color gradient onto the whole screen */
+      void draw_gradient(Color from, Color to, int layer);
+      /** fills a rectangle */
+      void draw_filled_rect(const Vector& topleft, const Vector& size,
+                            Color color, int layer);
 
-  /// the transform stack
-  std::vector<Transform> transformstack;
-  /// the currently active transform
-  Transform transform;
+      /** Processes all pending drawing requests and flushes the list */
+      void do_drawing();
 
-  enum RequestType
-  {
-    SURFACE, SURFACE_PART, TEXT, GRADIENT, FILLRECT
-  };
+      const Vector& get_translation() const
+        {
+          return transform.translation;
+        }
+      void set_translation(const Vector& newtranslation)
+      {
+        transform.translation = newtranslation;
+      }
 
-  struct SurfacePartRequest
-  {
-    const Surface* surface;
-    Vector source, size;
-  };
+      void push_transform();
+      void pop_transform();
 
-  struct TextRequest
-  {
-    Font* font;
-    std::string text;
-  };
+      /** apply that effect in the next draws (effects are listed on surface.h) */
+      void set_drawing_effect(int effect);
 
-  struct GradientRequest
-  {
-    Color top, bottom;
-    Vector size;
-  };
+    private:
+      class Transform
+        {
+        public:
+          Vector translation; // only translation for now...
 
-  struct FillRectRequest
-  {
-    Color color;
-    Vector size;
-  };
+          Vector apply(const Vector& v) const
+            {
+              return v - translation;
+            }
 
-  struct DrawingRequest
-  {
-    int layer;
-    Uint32 drawing_effect;
+          int draw_effect;
+        };
 
-    RequestType type;
-    Vector pos;
+      /// the transform stack
+      std::vector<Transform> transformstack;
+      /// the currently active transform
+      Transform transform;
 
-    void* request_data;
+      enum RequestType
+      {
+        SURFACE, SURFACE_PART, TEXT, GRADIENT, FILLRECT
+      };
 
-    bool operator<(const DrawingRequest& other) const
-    {
-      return layer < other.layer;
-    }
-  };
+      struct SurfacePartRequest
+        {
+          const Surface* surface;
+          Vector source, size;
+        };
 
-  void draw_surface_part(DrawingRequest& request);
-  void draw_text(DrawingRequest& request);
-  void draw_gradient(DrawingRequest& request);
-  void draw_filled_rect(DrawingRequest& request);
-  
-  typedef std::vector<DrawingRequest> DrawingRequests;
-  DrawingRequests drawingrequests;
-};
+      struct TextRequest
+        {
+          Font* font;
+          std::string text;
+        };
+
+      struct GradientRequest
+        {
+          Color top, bottom;
+          Vector size;
+        };
+
+      struct FillRectRequest
+        {
+          Color color;
+          Vector size;
+        };
+
+      struct DrawingRequest
+        {
+          int layer;
+          Uint32 drawing_effect;
+
+          RequestType type;
+          Vector pos;
+
+          void* request_data;
+
+          bool operator<(const DrawingRequest& other) const
+            {
+              return layer < other.layer;
+            }
+        };
+
+      void draw_surface_part(DrawingRequest& request);
+      void draw_text(DrawingRequest& request);
+      void draw_gradient(DrawingRequest& request);
+      void draw_filled_rect(DrawingRequest& request);
+
+      typedef std::vector<DrawingRequest> DrawingRequests;
+      DrawingRequests drawingrequests;
+    };
+
+} //namespace SuperTux
 
 #endif /*SUPERTUX_DRAWINGCONTEXT_H*/
 

@@ -25,40 +25,49 @@
 #include <SDL_opengl.h>
 #endif
 #include <iostream>
-class Color
-{
-public:
-  Color() 
-    : red(0), green(0), blue(0), alpha(255)
-  {}
-  
-  Color(Uint8 red_, Uint8 green_, Uint8 blue_, Uint8 alpha_ = 255)
-    : red(red_), green(green_), blue(blue_), alpha(alpha_)
-  {}
 
-  Color(const Color& o)
-    : red(o.red), green(o.green), blue(o.blue), alpha(o.alpha)
-  { }
+namespace SuperTux
+  {
+    
+  /// Color RGBA
+  /** Stores 8bit RGBA values. */
+  class Color
+    {
+    public:
+      Color()
+          : red(0), green(0), blue(0), alpha(255)
+      {}
 
-  bool operator==(const Color& o)
-    {  if(red == o.red && green == o.green &&
-          blue == o.blue && alpha == o.alpha)
-         return true;
-       return false;  }
+      Color(Uint8 red_, Uint8 green_, Uint8 blue_, Uint8 alpha_ = 255)
+          : red(red_), green(green_), blue(blue_), alpha(alpha_)
+      {}
 
-  Uint8 red, green, blue, alpha;
-};
+      Color(const Color& o)
+          : red(o.red), green(o.green), blue(o.blue), alpha(o.alpha)
+      { }
 
-#include "video/surface.h"
+      bool operator==(const Color& o)
+      {
+        if(red == o.red && green == o.green &&
+            blue == o.blue && alpha == o.alpha)
+          return true;
+        return false;
+      }
 
-class Vector;
+      Uint8 red, green, blue, alpha;
+    };
 
-void putpixel(SDL_Surface *surface, int x, int y, Uint32 pixel);
-void drawpixel(int x, int y, Uint32 pixel);
-void fillrect(float x, float y, float w, float h, int r, int g, int b, int a = 255);
-void draw_line(float x1, float y1, float x2, int r, int g, int b, int a = 255);
 
-void fadeout(int fade_time);
-void shrink_fade(const Vector& point, int fade_time);
+  class Vector;
+
+  void putpixel(SDL_Surface *surface, int x, int y, Uint32 pixel);
+  void drawpixel(int x, int y, Uint32 pixel);
+  void fillrect(float x, float y, float w, float h, int r, int g, int b, int a = 255);
+  void draw_line(float x1, float y1, float x2, float y2, int r, int g, int b, int a = 255);
+
+  void fadeout(int fade_time);
+  void shrink_fade(const Vector& point, int fade_time);
+
+} //namespace SuperTux
 
 #endif /*SUPERTUX_SCREEN_H*/

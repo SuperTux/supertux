@@ -22,14 +22,16 @@
 #include "stdlib.h"
 #include "special/stringlist.h"
 
-void string_list_init(string_list_type* pstring_list)
+using namespace SuperTux;
+
+void SuperTux::string_list_init(string_list_type* pstring_list)
 {
   pstring_list->num_items = 0;
   pstring_list->active_item = -1;
   pstring_list->item = NULL;
 }
 
-char* string_list_active(string_list_type* pstring_list)
+char* SuperTux::string_list_active(string_list_type* pstring_list)
 {
   if(pstring_list == NULL)
     return "";
@@ -40,7 +42,7 @@ char* string_list_active(string_list_type* pstring_list)
     return "";
 }
 
-void string_list_add_item(string_list_type* pstring_list,const  char* str)
+void SuperTux::string_list_add_item(string_list_type* pstring_list,const  char* str)
 {
   char *pnew_string;
   pnew_string = (char*) malloc(sizeof(char)*(strlen(str)+1));
@@ -52,7 +54,7 @@ void string_list_add_item(string_list_type* pstring_list,const  char* str)
     pstring_list->active_item = 0;
 }
 
-void string_list_copy(string_list_type* pstring_list, string_list_type pstring_list_orig)
+void SuperTux::string_list_copy(string_list_type* pstring_list, string_list_type pstring_list_orig)
 {
   int i;
   string_list_free(pstring_list);
@@ -60,7 +62,7 @@ void string_list_copy(string_list_type* pstring_list, string_list_type pstring_l
     string_list_add_item(pstring_list,pstring_list_orig.item[i]);
 }
 
-int string_list_find(string_list_type* pstring_list,const  char* str)
+int SuperTux::string_list_find(string_list_type* pstring_list,const  char* str)
 {
   int i;
   for(i = 0; i < pstring_list->num_items; ++i)
@@ -73,7 +75,7 @@ int string_list_find(string_list_type* pstring_list,const  char* str)
   return -1;
 }
 
-void string_list_sort(string_list_type* pstring_list)
+void SuperTux::string_list_sort(string_list_type* pstring_list)
 {
   int i,j,y;
 
@@ -103,7 +105,7 @@ void string_list_sort(string_list_type* pstring_list)
 
 }
 
-void string_list_free(string_list_type* pstring_list)
+void SuperTux::string_list_free(string_list_type* pstring_list)
 {
   if(pstring_list != NULL)
     {

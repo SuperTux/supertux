@@ -30,54 +30,59 @@
 #include "gui/menu.h"
 #include "gui/mousecursor.h"
 
-extern std::string datadir;
+namespace SuperTux
+  {
 
-struct JoystickKeymap
-{
-  int a_button;
-  int b_button;
-  int start_button;
+  extern std::string datadir;
 
-  int x_axis;
-  int y_axis;
-  
-  int dead_zone;
+  struct JoystickKeymap
+    {
+      int a_button;
+      int b_button;
+      int start_button;
 
-  JoystickKeymap();
-};
+      int x_axis;
+      int y_axis;
 
-extern JoystickKeymap joystick_keymap;
+      int dead_zone;
 
-extern SDL_Surface* screen;
-extern Font* gold_text;
-extern Font* white_text;
-extern Font* blue_text;
-extern Font* gray_text;
-extern Font* white_small_text;
-extern Font* white_big_text;
-extern Font* yellow_nums;
+      JoystickKeymap();
+    };
 
-extern MouseCursor * mouse_cursor;
+  extern JoystickKeymap joystick_keymap;
 
-extern bool use_gl;
-extern bool use_joystick;
-extern bool use_fullscreen;
-extern bool debug_mode;
-extern bool show_fps;
+  extern SDL_Surface* screen;
+  extern Font* gold_text;
+  extern Font* white_text;
+  extern Font* blue_text;
+  extern Font* gray_text;
+  extern Font* white_small_text;
+  extern Font* white_big_text;
+  extern Font* yellow_nums;
 
-/** The number of the joystick that will be use in the game */
-extern int joystick_num;
-extern char* level_startup_file;
-extern bool launch_leveleditor_mode;
-extern bool launch_worldmap_mode;
+  extern MouseCursor * mouse_cursor;
 
-/* SuperTux directory ($HOME/.supertux) and save directory($HOME/.supertux/save) */
-extern char* st_dir;
-extern char* st_save_dir;
+  extern bool use_gl;
+  extern bool use_joystick;
+  extern bool use_fullscreen;
+  extern bool debug_mode;
+  extern bool show_fps;
 
-extern float game_speed;
-extern SDL_Joystick * js;
+  /** The number of the joystick that will be use in the game */
+  extern int joystick_num;
+  extern char* level_startup_file;
+  extern bool launch_leveleditor_mode;
+  extern bool launch_worldmap_mode;
 
-int wait_for_event(SDL_Event& event,unsigned int min_delay = 0, unsigned int max_delay = 0, bool empty_events = false);
+  /* SuperTux directory ($HOME/.supertux) and save directory($HOME/.supertux/save) */
+  extern char* st_dir;
+  extern char* st_save_dir;
+
+  extern float game_speed;
+  extern SDL_Joystick * js;
+
+  int wait_for_event(SDL_Event& event,unsigned int min_delay = 0, unsigned int max_delay = 0, bool empty_events = false);
+
+} //namespace SuperTux
 
 #endif /* SUPERTUX_GLOBALS_H */

@@ -19,6 +19,8 @@
 
 #include "special/moving_object.h"
 
+using namespace SuperTux;
+
 MovingObject::MovingObject()
 {
   base.x = base.y = base.width = base.height = 0;

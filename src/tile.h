@@ -25,8 +25,11 @@
 #include "SDL.h"
 #include "video/surface.h"
 
-class Vector;
+using namespace SuperTux;
+
+namespace SuperTux {
 class LispReader;
+}
 
 /**
 Tile Class

@@ -21,6 +21,8 @@
 
 #include "math/vector.h"
 
+using namespace SuperTux;
+
 Vector Vector::unit() const
 {
   return *this / norm();

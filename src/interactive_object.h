@@ -23,6 +23,8 @@
 #include "special/game_object.h"
 #include "special/base.h"
 
+using namespace SuperTux;
+
 enum InteractionType
 {
   INTERACTION_TOUCH, INTERACTION_ACTIVATE // more to come

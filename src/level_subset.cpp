@@ -25,6 +25,8 @@
 #include "video/surface.h"
 #include "level_subset.h"
 
+using namespace SuperTux;
+
 static bool has_suffix(const std::string& data, const std::string& suffix)
 {
   if (data.length() >= suffix.length())

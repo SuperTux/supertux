@@ -20,6 +20,8 @@
 #include "video/drawing_context.h"
 #include "gui/mousecursor.h"
 
+using namespace SuperTux;
+
 MouseCursor* MouseCursor::current_ = 0;
 
 MouseCursor::MouseCursor(std::string cursor_file, int frames) : mid_x(0), mid_y(0)

@@ -23,60 +23,65 @@
 
 #include "math/vector.h"
 
-/// Physics engine.
-/** This is a very simplistic physics engine handling accelerated and constant
-  * movement along with gravity.
-  */
-class Physic
-{
-public:
-    Physic();
-    ~Physic();
+namespace SuperTux
+  {
 
-    /// Resets all velocities and accelerations to 0.
-    void reset();
+  /// Physics engine.
+  /** This is a very simplistic physics engine handling accelerated and constant
+    * movement along with gravity.
+    */
+  class Physic
+    {
+    public:
+      Physic();
+      ~Physic();
 
-    /// Sets velocity to a fixed value.
-    void set_velocity(float vx, float vy);
+      /// Resets all velocities and accelerations to 0.
+      void reset();
 
-    void set_velocity_x(float vx);
-    void set_velocity_y(float vy);
+      /// Sets velocity to a fixed value.
+      void set_velocity(float vx, float vy);
 
-    /// Velocities invertion.
-    void inverse_velocity_x();
-    void inverse_velocity_y();
+      void set_velocity_x(float vx);
+      void set_velocity_y(float vy);
 
-    float get_velocity_x();
-    float get_velocity_y();
-    
-    /// Set acceleration.
-    /** Sets acceleration applied to the object. (Note that gravity is
-     * eventually added to the vertical acceleration)
-     */
-    void set_acceleration(float ax, float ay);
+      /// Velocities invertion.
+      void inverse_velocity_x();
+      void inverse_velocity_y();
 
-    void set_acceleration_x(float ax);
-    void set_acceleration_y(float ay);
+      float get_velocity_x();
+      float get_velocity_y();
 
-    float get_acceleration_x();
-    float get_acceleration_y();
+      /// Set acceleration.
+      /** Sets acceleration applied to the object. (Note that gravity is
+       * eventually added to the vertical acceleration)
+       */
+      void set_acceleration(float ax, float ay);
 
-    /// Enables or disables handling of gravity.
-    void enable_gravity(bool gravity_enabled);
+      void set_acceleration_x(float ax);
+      void set_acceleration_y(float ay);
 
-    /// Applies the physical simulation to given x and y coordinates.
-    void apply(float frame_ratio, float &x, float &y, float gravity = 10.0f); 
+      float get_acceleration_x();
+      float get_acceleration_y();
 
-    /// applies the physical simulation to given x and y coordinates.
-    void apply(Vector& vector, float frame_ratio, float gravity = 10.0f);
+      /// Enables or disables handling of gravity.
+      void enable_gravity(bool gravity_enabled);
 
-private:
-    /// horizontal and vertical acceleration
-    float ax, ay;
-    /// horizontal and vertical velocity
-    float vx, vy;
-    /// should we respect gravity in out calculations?
-    bool gravity_enabled;
-};
+      /// Applies the physical simulation to given x and y coordinates.
+      void apply(float frame_ratio, float &x, float &y, float gravity = 10.0f);
+
+      /// applies the physical simulation to given x and y coordinates.
+      void apply(Vector& vector, float frame_ratio, float gravity = 10.0f);
+
+    private:
+      /// horizontal and vertical acceleration
+      float ax, ay;
+      /// horizontal and vertical velocity
+      float vx, vy;
+      /// should we respect gravity in out calculations?
+      bool gravity_enabled;
+    };
+
+} //namespace SuperTux
 
 #endif /*SUPERTUX_PHYSIC_H*/

@@ -31,6 +31,9 @@
 #include "video/surface.h"
 #include "app/setup.h"
 #include "utils/lispreader.h"
+#include "resources.h"
+
+using namespace SuperTux;
 
 #ifdef WIN32
 const char * highscore_filename = "/st_highscore.dat";

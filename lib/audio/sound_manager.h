@@ -26,65 +26,70 @@
 #include "SDL_mixer.h"
 #include "math/vector.h"
 
-class MusicRef;
-class MovingObject;
-
-/// Sound manager
-/** This class handles all sounds that are played
- */
-class SoundManager
-{
-public:
-  SoundManager();
-  ~SoundManager();
-
-  /// Play sound.
-  void play_sound(Mix_Chunk* sound);
-  /// Play sound relative to two Vectors.
-  void play_sound(Mix_Chunk* sound, const Vector& pos, const Vector& pos2);
-  /// Play sound relative to a MovingObject and a Vector.
-  void play_sound(Mix_Chunk* sound, const MovingObject* object, const Vector& pos);
-
-  /// Load music.
-  /** Is used to load the music for a MusicRef. */
-  MusicRef load_music(const std::string& file);
-  /// Test if a certain music file exists.
-  bool exists_music(const std::string& filename);
-  
-  /// Play music.
-  /** @Param loops: Defaults to -1, which means endless loops. */
-  void play_music(const MusicRef& music, int loops = -1);
-  
-  /// Halt music.
-  void halt_music();
-
-  /// Enable/Disable music.
-  void enable_music(bool enable);
-
-private:
-  // music part
-  friend class MusicRef;
-  
-  /// Resource for music.
-  /** Contains the raw music data and
-      information for music reference
-      counting. */
-  class MusicResource
+namespace SuperTux
   {
-  public:
-    ~MusicResource();
 
-    SoundManager* manager;
-    Mix_Music* music;
-    int refcount;
-  };
+  class MusicRef;
+  class MovingObject;
 
-  void free_music(MusicResource* music);
+  /// Sound manager
+  /** This class handles all sounds that are played
+   */
+  class SoundManager
+    {
+    public:
+      SoundManager();
+      ~SoundManager();
 
-  std::map<std::string, MusicResource> musics;
-  MusicResource* current_music;
-  bool music_enabled;
-};
+      /// Play sound.
+      void play_sound(Mix_Chunk* sound);
+      /// Play sound relative to two Vectors.
+      void play_sound(Mix_Chunk* sound, const Vector& pos, const Vector& pos2);
+      /// Play sound relative to a MovingObject and a Vector.
+      void play_sound(Mix_Chunk* sound, const MovingObject* object, const Vector& pos);
+
+      /// Load music.
+      /** Is used to load the music for a MusicRef. */
+      MusicRef load_music(const std::string& file);
+      /// Test if a certain music file exists.
+      bool exists_music(const std::string& filename);
+
+      /// Play music.
+      /** @param loops: Defaults to -1, which means endless loops. */
+      void play_music(const MusicRef& music, int loops = -1);
+
+      /// Halt music.
+      void halt_music();
+
+      /// Enable/Disable music.
+      void enable_music(bool enable);
+
+    private:
+      // music part
+      friend class MusicRef;
+
+      /// Resource for music.
+      /** Contains the raw music data and
+          information for music reference
+          counting. */
+      class MusicResource
+        {
+        public:
+          ~MusicResource();
+
+          SoundManager* manager;
+          Mix_Music* music;
+          int refcount;
+        };
+
+      void free_music(MusicResource* music);
+
+      std::map<std::string, MusicResource> musics;
+      MusicResource* current_music;
+      bool music_enabled;
+    };
+
+} // namespace SuperTux
 
 #endif /*SUPERTUX_SOUND_MANAGER_H*/
 

@@ -27,9 +27,10 @@
 #include "serializable.h"
 #include "special/timer.h"
 
+namespace SuperTux {
 class Sprite;
-
 class LispReader;
+}
 
 /** data images */
 #define DOOR_OPENING_TIME 1500

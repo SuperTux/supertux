@@ -24,21 +24,26 @@
 
 #include "special/sprite.h"
 
-class SpriteManager
-{
- private:
-  typedef std::map<std::string, Sprite*> Sprites;
-  Sprites sprites;
- public:
-  SpriteManager(const std::string& filename);
-  ~SpriteManager();
-  
-  void    load_resfile(const std::string& filename);
-  /** loads a sprite.
-   * WARNING: You must not delete the returned object.
-   */
-  Sprite* load(const std::string& name);
-};
+namespace SuperTux
+  {
+
+  class SpriteManager
+    {
+    private:
+      typedef std::map<std::string, Sprite*> Sprites;
+      Sprites sprites;
+    public:
+      SpriteManager(const std::string& filename);
+      ~SpriteManager();
+
+      void    load_resfile(const std::string& filename);
+      /** loads a sprite.
+       * WARNING: You must not delete the returned object.
+       */
+      Sprite* load(const std::string& name);
+    };
+
+} //namespace SuperTux
 
 #endif /*SUPERTUX_SPRITE_MANAGER_H*/
 

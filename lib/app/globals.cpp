@@ -20,6 +20,8 @@
 
 #include "app/globals.h"
 
+namespace SuperTux {
+
 /** The datadir prefix prepended when loading game data file */
 std::string datadir;
 
@@ -122,3 +124,5 @@ int wait_for_event(SDL_Event& event,unsigned int min_delay, unsigned int max_del
 
   return 0;
 }
+
+} //namespace SuperTux

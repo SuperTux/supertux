@@ -21,22 +21,25 @@
 #ifndef SUPERTUX_STRINGLIST_H
 #define SUPERTUX_STRINGLIST_H
 
-struct string_list_type
-{
-  int num_items;
-  int active_item;
-  char **item;
-};
+namespace SuperTux
+  {
 
-void  string_list_init(string_list_type* pstring_list);
-char* string_list_active(string_list_type* pstring_list);
-void  string_list_copy(string_list_type* pstring_list, string_list_type pstring_list_orig);
-int   string_list_find(string_list_type* pstring_list, const char* str);
-void  string_list_sort(string_list_type* pstring_list);
-void  string_list_add_item(string_list_type* pstring_list, const char* str);
-void  string_list_free(string_list_type* pstring_list);
+  struct string_list_type
+    {
+      int num_items;
+      int active_item;
+      char **item;
+    };
 
+  void  string_list_init(string_list_type* pstring_list);
+  char* string_list_active(string_list_type* pstring_list);
+  void  string_list_copy(string_list_type* pstring_list, string_list_type pstring_list_orig);
+  int   string_list_find(string_list_type* pstring_list, const char* str);
+  void  string_list_sort(string_list_type* pstring_list);
+  void  string_list_add_item(string_list_type* pstring_list, const char* str);
+  void  string_list_free(string_list_type* pstring_list);
 
+} //namespace SuperTux
 
 #endif /*SUPERTUX_STRINGLIST_H*/
 

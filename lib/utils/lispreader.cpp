@@ -31,6 +31,8 @@
 #include "app/setup.h"
 #include "utils/lispreader.h"
 
+using namespace SuperTux;
+
 #define TOKEN_ERROR                   -1
 #define TOKEN_EOF                     0
 #define TOKEN_OPEN_PAREN              1
@@ -285,7 +287,7 @@ lisp_object_alloc (int type)
 }
 
 lisp_stream_t*
-lisp_stream_init_file (lisp_stream_t *stream, FILE *file)
+SuperTux::lisp_stream_init_file (lisp_stream_t *stream, FILE *file)
 {
   stream->type = LISP_STREAM_FILE;
   stream->v.file = file;
@@ -294,7 +296,7 @@ lisp_stream_init_file (lisp_stream_t *stream, FILE *file)
 }
 
 lisp_stream_t*
-lisp_stream_init_string (lisp_stream_t *stream, char *buf)
+SuperTux::lisp_stream_init_string (lisp_stream_t *stream, char *buf)
 {
   stream->type = LISP_STREAM_STRING;
   stream->v.string.buf = buf;
@@ -304,7 +306,7 @@ lisp_stream_init_string (lisp_stream_t *stream, char *buf)
 }
 
 lisp_stream_t*
-lisp_stream_init_any (lisp_stream_t *stream, void *data,
+SuperTux::lisp_stream_init_any (lisp_stream_t *stream, void *data,
                       int (*next_char) (void *data),
                       void (*unget_char) (char c, void *data))
 {
@@ -320,7 +322,7 @@ lisp_stream_init_any (lisp_stream_t *stream, void *data,
 }
 
 lisp_object_t*
-lisp_make_integer (int value)
+SuperTux::lisp_make_integer (int value)
 {
   lisp_object_t *obj = lisp_object_alloc(LISP_TYPE_INTEGER);
 
@@ -330,7 +332,7 @@ lisp_make_integer (int value)
 }
 
 lisp_object_t*
-lisp_make_real (float value)
+SuperTux::lisp_make_real (float value)
 {
   lisp_object_t *obj = lisp_object_alloc(LISP_TYPE_REAL);
 
@@ -340,7 +342,7 @@ lisp_make_real (float value)
 }
 
 lisp_object_t*
-lisp_make_symbol (const char *value)
+SuperTux::lisp_make_symbol (const char *value)
 {
   lisp_object_t *obj = lisp_object_alloc(LISP_TYPE_SYMBOL);
 
@@ -350,7 +352,7 @@ lisp_make_symbol (const char *value)
 }
 
 lisp_object_t*
-lisp_make_string (const char *value)
+SuperTux::lisp_make_string (const char *value)
 {
   lisp_object_t *obj = lisp_object_alloc(LISP_TYPE_STRING);
 
@@ -360,7 +362,7 @@ lisp_make_string (const char *value)
 }
 
 lisp_object_t*
-lisp_make_cons (lisp_object_t *car, lisp_object_t *cdr)
+SuperTux::lisp_make_cons (lisp_object_t *car, lisp_object_t *cdr)
 {
   lisp_object_t *obj = lisp_object_alloc(LISP_TYPE_CONS);
 
@@ -371,7 +373,7 @@ lisp_make_cons (lisp_object_t *car, lisp_object_t *cdr)
 }
 
 lisp_object_t*
-lisp_make_boolean (int value)
+SuperTux::lisp_make_boolean (int value)
 {
   lisp_object_t *obj = lisp_object_alloc(LISP_TYPE_BOOLEAN);
 
@@ -404,7 +406,7 @@ lisp_make_pattern_var (int type, int index, lisp_object_t *sub)
 }
 
 lisp_object_t*
-lisp_read (lisp_stream_t *in)
+SuperTux::lisp_read (lisp_stream_t *in)
 {
   int token = _scan(in);
   lisp_object_t *obj = lisp_nil();
@@ -502,7 +504,7 @@ lisp_read (lisp_stream_t *in)
 }
 
 void
-lisp_free (lisp_object_t *obj)
+SuperTux::lisp_free (lisp_object_t *obj)
 {
   if (obj == 0)
     return;
@@ -547,7 +549,7 @@ lisp_free (lisp_object_t *obj)
 }
 
 lisp_object_t*
-lisp_read_from_string (const char *buf)
+SuperTux::lisp_read_from_string (const char *buf)
 {
   lisp_stream_t stream;
 
@@ -642,7 +644,7 @@ _compile_pattern (lisp_object_t **obj, int *index)
 }
 
 int
-lisp_compile_pattern (lisp_object_t **obj, int *num_subs)
+SuperTux::lisp_compile_pattern (lisp_object_t **obj, int *num_subs)
 {
   int index = 0;
   int result;
@@ -775,7 +777,7 @@ _match_pattern (lisp_object_t *pattern, lisp_object_t *obj, lisp_object_t **vars
 }
 
 int
-lisp_match_pattern (lisp_object_t *pattern, lisp_object_t *obj, lisp_object_t **vars, int num_subs)
+SuperTux::lisp_match_pattern (lisp_object_t *pattern, lisp_object_t *obj, lisp_object_t **vars, int num_subs)
 {
   int i;
 
@@ -787,7 +789,7 @@ lisp_match_pattern (lisp_object_t *pattern, lisp_object_t *obj, lisp_object_t **
 }
 
 int
-lisp_match_string (const char *pattern_string, lisp_object_t *obj, lisp_object_t **vars)
+SuperTux::lisp_match_string (const char *pattern_string, lisp_object_t *obj, lisp_object_t **vars)
 {
   lisp_object_t *pattern;
   int result;
@@ -813,7 +815,7 @@ lisp_match_string (const char *pattern_string, lisp_object_t *obj, lisp_object_t
 }
 
 int
-lisp_type (lisp_object_t *obj)
+SuperTux::lisp_type (lisp_object_t *obj)
 {
   if (obj == 0)
     return LISP_TYPE_NIL;
@@ -821,7 +823,7 @@ lisp_type (lisp_object_t *obj)
 }
 
 int
-lisp_integer (lisp_object_t *obj)
+SuperTux::lisp_integer (lisp_object_t *obj)
 {
   if (obj->type != LISP_TYPE_INTEGER)
     throw LispReaderException("lisp_integer()", __FILE__, __LINE__);
@@ -830,7 +832,7 @@ lisp_integer (lisp_object_t *obj)
 }
 
 char*
-lisp_symbol (lisp_object_t *obj)
+SuperTux::lisp_symbol (lisp_object_t *obj)
 {
   if (obj->type != LISP_TYPE_SYMBOL)
     throw LispReaderException("lisp_symbol()", __FILE__, __LINE__);
@@ -839,7 +841,7 @@ lisp_symbol (lisp_object_t *obj)
 }
 
 char*
-lisp_string (lisp_object_t *obj)
+SuperTux::lisp_string (lisp_object_t *obj)
 {
   if (obj->type != LISP_TYPE_STRING)
     throw LispReaderException("lisp_string()", __FILE__, __LINE__);
@@ -848,7 +850,7 @@ lisp_string (lisp_object_t *obj)
 }
 
 int
-lisp_boolean (lisp_object_t *obj)
+SuperTux::lisp_boolean (lisp_object_t *obj)
 {
   if (obj->type != LISP_TYPE_BOOLEAN)
     throw LispReaderException("lisp_boolean()", __FILE__, __LINE__);
@@ -857,7 +859,7 @@ lisp_boolean (lisp_object_t *obj)
 }
 
 float
-lisp_real (lisp_object_t *obj)
+SuperTux::lisp_real (lisp_object_t *obj)
 {
   if (obj->type != LISP_TYPE_REAL && obj->type != LISP_TYPE_INTEGER)
     throw LispReaderException("lisp_real()", __FILE__, __LINE__);
@@ -868,7 +870,7 @@ lisp_real (lisp_object_t *obj)
 }
 
 lisp_object_t*
-lisp_car (lisp_object_t *obj)
+SuperTux::lisp_car (lisp_object_t *obj)
 {
   if (obj->type != LISP_TYPE_CONS && obj->type != LISP_TYPE_PATTERN_CONS)
     throw LispReaderException("lisp_car()", __FILE__, __LINE__);
@@ -877,7 +879,7 @@ lisp_car (lisp_object_t *obj)
 }
 
 lisp_object_t*
-lisp_cdr (lisp_object_t *obj)
+SuperTux::lisp_cdr (lisp_object_t *obj)
 {
   if (obj->type != LISP_TYPE_CONS && obj->type != LISP_TYPE_PATTERN_CONS)
     throw LispReaderException("lisp_cdr()", __FILE__, __LINE__);
@@ -886,7 +888,7 @@ lisp_cdr (lisp_object_t *obj)
 }
 
 lisp_object_t*
-lisp_cxr (lisp_object_t *obj, const char *x)
+SuperTux::lisp_cxr (lisp_object_t *obj, const char *x)
 {
   int i;
 
@@ -902,7 +904,7 @@ lisp_cxr (lisp_object_t *obj, const char *x)
 }
 
 int
-lisp_list_length (lisp_object_t *obj)
+SuperTux::lisp_list_length (lisp_object_t *obj)
 {
   int length = 0;
 
@@ -919,7 +921,7 @@ lisp_list_length (lisp_object_t *obj)
 }
 
 lisp_object_t*
-lisp_list_nth_cdr (lisp_object_t *obj, int index)
+SuperTux::lisp_list_nth_cdr (lisp_object_t *obj, int index)
 {
   while (index > 0)
     {
@@ -936,7 +938,7 @@ lisp_list_nth_cdr (lisp_object_t *obj, int index)
 }
 
 lisp_object_t*
-lisp_list_nth (lisp_object_t *obj, int index)
+SuperTux::lisp_list_nth (lisp_object_t *obj, int index)
 {
   obj = lisp_list_nth_cdr(obj, index);
 
@@ -947,7 +949,7 @@ lisp_list_nth (lisp_object_t *obj, int index)
 }
 
 void
-lisp_dump (lisp_object_t *obj, FILE *out)
+SuperTux::lisp_dump (lisp_object_t *obj, FILE *out)
 {
   if (obj == 0)
     {
@@ -1275,7 +1277,7 @@ LispReader::get_lisp()
   return lst;
 }
 
-lisp_object_t* lisp_read_from_file(const std::string& filename)
+lisp_object_t* SuperTux::lisp_read_from_file(const std::string& filename)
 {
   FILE* in = fopen(filename.c_str(), "r");
 

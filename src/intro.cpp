@@ -23,6 +23,8 @@
 #include "video/font.h"
 #include "video/screen.h"
 
+using namespace SuperTux;
+
 void draw_intro()
 {
   display_text_file("intro.txt", 1);

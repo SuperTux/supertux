@@ -26,6 +26,8 @@
 #include "audio/sound.h"
 #include "special/base.h"
 
+namespace SuperTux {
+
 int faccessible(const char *filename);
 int fcreatedir(const char* relative_dir);
 int fwriteable(const char *filename);
@@ -47,6 +49,8 @@ void st_shutdown(void);
 void st_abort(const std::string& reason, const std::string& details);
 
 void parseargs(int argc, char * argv[]);
+
+}
 
 #endif /*SUPERTUX_SETUP_H*/
 

@@ -20,6 +20,8 @@
 
 #include "audio/musicref.h"
 
+using namespace SuperTux;
+
 MusicRef::MusicRef()
   : music(0)
 {

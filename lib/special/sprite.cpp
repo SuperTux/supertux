@@ -25,6 +25,8 @@
 #include "special/sprite.h"
 #include "video/drawing_context.h"
 
+using namespace SuperTux;
+
 Sprite::Sprite(lisp_object_t* cur)
 {
   init_defaults();

@@ -29,6 +29,8 @@
 #include "app/globals.h"
 #include "app/setup.h"
 
+using namespace SuperTux;
+
 Surface::Surfaces Surface::surfaces;
 
 SurfaceData::SurfaceData(SDL_Surface* temp, bool use_alpha_)
@@ -328,7 +330,7 @@ sdl_surface_from_file(const std::string& file, bool use_alpha)
 }
 
 SDL_Surface*
-sdl_surface_from_sdl_surface(SDL_Surface* sdl_surf, bool use_alpha)
+SuperTux::sdl_surface_from_sdl_surface(SDL_Surface* sdl_surf, bool use_alpha)
 {
   SDL_Surface* sdl_surface;
   Uint32 saved_flags;

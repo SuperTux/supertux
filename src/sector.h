@@ -29,7 +29,13 @@
 #include "audio/musicref.h"
 #include "video/drawing_context.h"
 
+using namespace SuperTux;
+
+namespace SuperTux {
 class GameObject;
+class LispReader;
+}
+
 class InteractiveObject;
 class Background;
 class Player;
@@ -40,8 +46,6 @@ class TileMap;
 class Upgrade;
 class Bullet;
 class BadGuy;
-class Vector;
-class LispReader;
 class Tile;
 
 struct SpawnPoint

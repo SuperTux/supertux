@@ -24,13 +24,15 @@
 #include "app/setup.h"
 #include "app/globals.h"
 
+using namespace SuperTux;
+
 #ifdef WIN32
 const char * config_filename = "/st_config.dat";
 #else
 const char * config_filename = "/config";
 #endif
 
-Config* config = 0;
+Config* SuperTux::config = 0;
 
 static void defaults ()
 {

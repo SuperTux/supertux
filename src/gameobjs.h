@@ -37,7 +37,9 @@
 #define NO_BOUNCE 0
 #define BOUNCE 1
 
+namespace SuperTux {
 class Sprite;
+}
 
 struct TileId;
 

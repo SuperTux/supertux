@@ -27,6 +27,8 @@
 #include "video/drawing_context.h"
 #include "app/globals.h"
 
+using namespace SuperTux;
+
 /** data images */
 Sprite* door;
 Surface* door_opening[DOOR_OPENING_FRAMES];

@@ -23,6 +23,8 @@
 
 #include "special/base.h"
 
+using namespace SuperTux;
+
 class Tile;
 
 /* Collision objects */

@@ -21,6 +21,8 @@
 
 #include "utils/lispwriter.h"
 
+using namespace SuperTux;
+
 LispWriter::LispWriter(std::ostream& newout)
   : out(newout), indent_depth(0)
 {

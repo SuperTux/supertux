@@ -32,6 +32,8 @@
 #include "math/physic.h"
 #include "app/defines.h"
 
+using namespace SuperTux;
+
 class BadGuy;
 
 /* Times: */
@@ -86,7 +88,9 @@ struct player_input_type
 
 void player_input_init(player_input_type* pplayer_input);
 
+namespace SuperTux {
 class Sprite;
+}
 class Camera;
 
 extern Surface* tux_life;

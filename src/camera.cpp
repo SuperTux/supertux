@@ -29,6 +29,8 @@
 #include "app/globals.h"
 #include "sector.h"
 
+using namespace SuperTux;
+
 Camera::Camera(Sector* newsector)
   : sector(newsector), do_backscrolling(true), scrollchange(NONE),
     auto_idx(0), auto_t(0)

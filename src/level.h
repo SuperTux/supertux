@@ -24,8 +24,13 @@
 #include <map>
 #include <string>
 
+using namespace SuperTux;
+
 class Sector;
+
+namespace SuperTux {
 class LispReader;
+}
 
 class Level
 {

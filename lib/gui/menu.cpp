@@ -37,31 +37,23 @@
 #include "audio/sound.h"
 #include "special/timer.h"
 #include "app/gettext.h"
+#include "math/vector.h"
+
+using namespace SuperTux;
 
 #define FLICK_CURSOR_TIME 500
 
-Surface* checkbox;
-Surface* checkbox_checked;
-Surface* back;
-Surface* arrow_left;
-Surface* arrow_right;
-
-Menu* main_menu      = 0;
-Menu* game_menu      = 0;
-Menu* options_menu   = 0;
-Menu* options_keys_menu     = 0;
-Menu* options_joystick_menu = 0;
-Menu* highscore_menu = 0;
-Menu* load_game_menu = 0;
-Menu* save_game_menu = 0;
-Menu* contrib_menu   = 0;
-Menu* contrib_subset_menu   = 0;
+Surface* SuperTux::checkbox;
+Surface* SuperTux::checkbox_checked;
+Surface* SuperTux::back;
+Surface* SuperTux::arrow_left;
+Surface* SuperTux::arrow_right;
 
 std::vector<Menu*> Menu::last_menus;
 Menu* Menu::current_ = 0;
 
 /* just displays a Yes/No text that can be used to confirm stuff */
-bool confirm_dialog(Surface *background, std::string text)
+bool SuperTux::confirm_dialog(Surface *background, std::string text)
 {
   //Surface* cap_screen = Surface::CaptureScreen();
   

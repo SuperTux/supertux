@@ -25,7 +25,11 @@
 #include <string>
 #include "utils/lispreader.h"
 
+using namespace SuperTux;
+
+namespace SuperTux {
 class Surface;
+};
 
 /** This type holds meta-information about a level-subset. 
     It could be extended to handle manipulation of subsets. */

@@ -189,7 +189,18 @@ void st_menu(void)
   highscore_menu->additem(MN_TEXTFIELD,_("Enter your name:"),0,0);
 }
 
+/* Free menus */
 void st_menu_free()
 {
   delete worldmap_menu;
+  delete main_menu;
+  delete game_menu;
+  delete options_menu;
+  delete options_keys_menu;
+  delete options_joystick_menu;
+  delete highscore_menu;
+  delete contrib_menu;
+  delete contrib_subset_menu;
+  delete save_game_menu;
+  delete load_game_menu;
 }

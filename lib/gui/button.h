@@ -114,7 +114,7 @@ namespace SuperTux
       /// Dispatch button events.
       Button* event(SDL_Event &event);
       /// Add a button to the panel.
-      /** @Param tag: Can be used to identify a button. */
+      /** @param tag: Can be used to identify a button. */
       void additem(Button* pbutton, int tag);
       /// Set the default size of contained buttons.
       void set_button_size(int w, int h);

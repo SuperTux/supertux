@@ -27,6 +27,8 @@
 #include "video/drawing_context.h"
 #include "utils/lispreader.h"
 
+using namespace SuperTux;
+
 Font::Font(const std::string& file, FontType ntype, int nw, int nh,
         int nshadowsize)
     : chars(0), shadow_chars(0), type(ntype), w(nw), h(nh),
@@ -129,7 +131,7 @@ Font::draw_chars(Surface* pchars, const std::string& text, const Vector& pos,
 #define SCROLL      60
 #define ITEMS_SPACE 4
 
-void display_text_file(const std::string& file, float scroll_speed)
+void SuperTux::display_text_file(const std::string& file, float scroll_speed)
 {
   std::string text;
   std::vector<std::string> names;

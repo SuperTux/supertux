@@ -23,6 +23,8 @@
 #include "math/physic.h"
 #include "special/timer.h"
 
+using namespace SuperTux;
+
 Physic::Physic()
     : ax(0), ay(0), vx(0), vy(0), gravity_enabled(true)
 {

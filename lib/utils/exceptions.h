@@ -24,21 +24,26 @@
 #include <exception>
 #include <string>
 
-class SuperTuxException : public std::exception
-{
-  public:
-    SuperTuxException(const char* _message, const char* _file = "", const unsigned int _line = 0)
-      : message(_message), file(_file), line(_line) { };
-    virtual ~SuperTuxException() throw() { };
+namespace SuperTux
+  {
 
-    const char* what() const throw() { return message; };
-    const char* what_file() const throw() { return file; };
-    const unsigned int what_line() const throw() { return line; };
-    
-  private:
-    const char* message;
-    const char* file;
-    const unsigned int line;
-};
+  class SuperTuxException : public std::exception
+    {
+    public:
+      SuperTuxException(const char* _message, const char* _file = "", const unsigned int _line = 0)
+          : message(_message), file(_file), line(_line)  { };
+      virtual ~SuperTuxException() throw() { };
+
+      const char* what() const throw() { return message; };
+      const char* what_file() const throw() { return file; };
+      const unsigned int what_line() const throw() { return line; };
+
+    private:
+      const char* message;
+      const char* file;
+      const unsigned int line;
+    };
+
+}
 
 #endif /*SUPERTUX_EXCEPTIONS_H*/

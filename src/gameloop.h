@@ -26,6 +26,8 @@
 #include "audio/sound.h"
 #include "special/base.h"
 
+using namespace SuperTux;
+
 /* GameLoop modes */
 
 #define ST_GL_PLAY 0
@@ -33,7 +35,6 @@
 #define ST_GL_LOAD_GAME 2
 #define ST_GL_LOAD_LEVEL_FILE  3
 #define ST_GL_DEMO_GAME  4
-
 
 enum GameMenuIDs {
   MNID_CONTINUE,
@@ -44,7 +45,10 @@ extern int game_started;
 
 class Level;
 class Sector;
+
+namespace SuperTux {
 class DrawingContext;
+}
 
 /** The GameSession class controlls the controll flow of a World, ie.
     present the menu on specifc keypresses, render and update it while

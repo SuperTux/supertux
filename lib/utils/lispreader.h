@@ -33,6 +33,8 @@
 
 #include "utils/exceptions.h"
 
+namespace SuperTux {
+
 #define LISP_STREAM_FILE       1
 #define LISP_STREAM_STRING     2
 #define LISP_STREAM_ANY        3
@@ -199,6 +201,8 @@ public:
 
   lisp_object_t* get_lisp();
 };
+
+} //namespace SuperTux
 
 #endif /*SUPERTUX_LISPREADER_H*/
 
