@@ -141,17 +141,18 @@ class TileManager
       const Vector& pos, int layer);
   
   static std::set<TileGroup>* tilegroups() { if(!instance_) { instance_ = new TileManager(); } return tilegroups_ ? tilegroups_ : tilegroups_ = new std::set<TileGroup>; }
-  Tile* get(unsigned int id) {
+  Tile& get(unsigned int id) {
+
     if(id < tiles.size())
       {
-        return tiles[id]; 
+        return *tiles[id]; 
       }
     else
       {
         // Never return 0, but return the 0th tile instead so that
         // user code doesn't have to check for NULL pointers all over
         // the place
-        return tiles[0]; 
+        return *tiles[0]; 
       } 
   }
 };

@@ -65,9 +65,19 @@ TileMap::TileMap(LispReader& reader)
   if(!reader.read_int("width", width) ||
      !reader.read_int("height", height))
     throw std::runtime_error("No width or height specified in tilemap.");
+
+  std::vector<unsigned int> tmp_tiles;
   
-  if(!reader.read_int_vector("tiles", tiles))
+  if(!reader.read_int_vector("tiles", tmp_tiles))
     throw std::runtime_error("No tiles in tilemap.");
+
+  tiles.resize(tmp_tiles.size());
+  for(unsigned int i = 0; i < tmp_tiles.size(); ++i)
+    {
+      tiles[i].hidden = false;
+      tiles[i].id = tmp_tiles[i];
+    }
+
   if(int(tiles.size()) != width*height)
     throw std::runtime_error("wrong number of tiles in tilemap.");
 }
@@ -95,7 +105,14 @@ TileMap::write(LispWriter& writer)
   writer.write_float("speed", speed);
   writer.write_int("width", width);
   writer.write_int("height", height);
-  writer.write_int_vector("tiles", tiles);
+
+  std::vector<unsigned int> tmp_tiles;
+  tmp_tiles.resize(tiles.size());
+  for(unsigned int i = 0; i < tmp_tiles.size(); ++i)
+    {
+      tmp_tiles[i] = tiles[i].id;
+    }
+  writer.write_int_vector("tiles", tmp_tiles);
   
   writer.end_list("tilemap");
 }
@@ -123,7 +140,8 @@ TileMap::draw(DrawingContext& context)
   int tx, ty;
   for(pos.x = start_x, tx = tsx; pos.x < end_x; pos.x += 32, ++tx) {
     for(pos.y = start_y, ty = tsy; pos.y < end_y; pos.y += 32, ++ty) {
-      tilemanager->draw_tile(context, tiles[ty*width + tx], pos, layer);
+      if (!tiles[ty*width + tx].hidden)
+        tilemanager->draw_tile(context, tiles[ty*width + tx].id, pos, layer);
     }
   }
 }
@@ -134,11 +152,18 @@ TileMap::set(int newwidth, int newheight, const std::vector<unsigned int>&newt,
 {
   assert(int(newt.size()) == newwidth * newheight);
 
-  width = newwidth;
+  width  = newwidth;
   height = newheight;
-  tiles = newt;
-  layer = newlayer;
-  solid = newsolid;
+
+  tiles.resize(newt.size());
+  for(unsigned int i = 0; i < newt.size(); ++i)
+    {
+      tiles[i].hidden = false;
+      tiles[i].id = newt[i];
+    }
+
+  layer  = newlayer;
+  solid  = newsolid;
 }
 
 void
@@ -160,7 +185,7 @@ TileMap::resize(int new_width, int new_height)
     for(int y = std::min(height, new_height)-1; y >= 0; --y) {
       for(int x = new_width-1; x >= 0; --x) {
         if(x >= width) {
-          tiles[y * new_width + x] = 0;
+          tiles[y * new_width + x] = TileId();
         } else {
           tiles[y * new_width + x] = tiles[y * width + x];
         }
@@ -176,9 +201,9 @@ Tile*
 TileMap::get_tile(int x, int y) const
 {
   if(x < 0 || x >= width || y < 0 || y >= height)
-    return tilemanager->get(0);
+    return &tilemanager->get(0);
 
-  return tilemanager->get(tiles[y*width + x]);
+  return &tilemanager->get(tiles[y*width + x].id);
 }
 
 Tile*
@@ -187,11 +212,12 @@ TileMap::get_tile_at(const Vector& pos) const
   return get_tile(int(pos.x)/32, int(pos.y)/32);
 }
 
-unsigned int
-TileMap::get_tile_id_at(const Vector& pos) const
+TileId&
+TileMap::get_tile_id_at(const Vector& pos)
 {
   int x = int(pos.x)/32;
   int y = int(pos.y)/32;
+  
   return tiles[y*width + x];
 }
 
@@ -199,7 +225,7 @@ void
 TileMap::change(int x, int y, unsigned int newtile)
 {
   assert(x >= 0 && x < width && y >= 0 && y < height);
-  tiles[y*width + x] = newtile;
+  tiles[y*width + x].id = newtile;
 }
 
 void

@@ -37,6 +37,8 @@
 #define NO_BOUNCE 0
 #define BOUNCE 1
 
+struct TileId;
+
 class BouncyDistro : public GameObject
 {
 public:
@@ -82,7 +84,7 @@ private:
   Vector position;
   float offset;   
   float offset_m;
-  int shape;      
+  TileId& shape;      
 };
 
 class FloatingScore : public GameObject

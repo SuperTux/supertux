@@ -31,6 +31,15 @@ class TileManager;
 class LispReader;
 class Tile;
 
+struct TileId
+{
+  TileId() : id(0), hidden(0) {}
+  explicit TileId(unsigned int i, bool hidden_ = false) : id(i), hidden(hidden_) {}
+
+  unsigned id     :31;
+  unsigned hidden :1;
+};
+
 /**
  * This class is reponsible for drawing the level tiles
  */
@@ -63,7 +72,7 @@ public:
   bool is_solid() const
   { return solid; }
 
-  unsigned int get_tile_id_at(const Vector& pos) const;
+  TileId& get_tile_id_at(const Vector& pos);
 
   /// returns tile in row y and column y (of the tilemap)
   Tile* get_tile(int x, int y) const;
@@ -74,8 +83,8 @@ public:
 
   void change_at(const Vector& pos, unsigned int newtile);
 
-public:
-  std::vector<unsigned int> tiles;
+private:
+  std::vector<TileId> tiles;
   
 private:
   TileManager* tilemanager;

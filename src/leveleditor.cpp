@@ -491,7 +491,7 @@ void LevelEditor::init_menus()
       for(std::vector<int>::const_iterator sit = (*it).tiles.begin();
           sit != (*it).tiles.end(); ++sit, ++i)
       {
-        Tile& tile = *(TileManager::instance()->get(*sit));
+        Tile& tile = TileManager::instance()->get(*sit);
         Surface* image;
         if(tile.editor_images.size() > 0)
           image = tile.editor_images[0];

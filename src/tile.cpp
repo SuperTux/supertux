@@ -84,13 +84,27 @@ Tile::read(LispReader& reader)
   std::vector<std::string> editor_filenames;
   reader.read_string_vector("editor-images", editor_filenames);
 
+  std::vector<int> grid;
+  reader.read_int_vector("grid", grid);
+
   // read images
   for(std::vector<std::string>::iterator i = filenames.begin();
-      i != filenames.end(); ++i) {
-    Surface* surface 
-      = new Surface(datadir + "/images/tilesets/" + *i, USE_ALPHA);
-    images.push_back(surface);
-  }
+      i != filenames.end(); ++i) 
+    {
+      if (grid.size() == 4)
+        {
+          Surface* surface = new Surface(datadir + "/images/tilesets/" + *i,
+                                         grid[0], grid[1], grid[2], grid[3],
+                                         USE_ALPHA);
+          images.push_back(surface);
+        }
+      else
+        {
+          Surface* surface = new Surface(datadir + "/images/tilesets/" + *i, USE_ALPHA);
+          images.push_back(surface);
+        }
+    }
+
   for(std::vector<std::string>::iterator i = editor_filenames.begin();
       i != editor_filenames.end(); ++i) {
     Surface* surface 
@@ -210,22 +224,20 @@ TileManager::draw_tile(DrawingContext& context, unsigned int c,
   if(c == 0)
     return;
 
-  Tile* tile = get(c);
-  if(!tile)
+  Tile& tile = get(c);
+
+  if(!tile.images.size())
     return;
 
-  if(!tile->images.size())
-    return;
-
-  if(tile->images.size() > 1)
+  if(tile.images.size() > 1)
   {
     size_t frame 
-      = ((global_frame_counter*25) / tile->anim_speed) % tile->images.size();
-    context.draw_surface(tile->images[frame], pos, layer);
+      = ((global_frame_counter*25) / tile.anim_speed) % tile.images.size();
+    context.draw_surface(tile.images[frame], pos, layer);
   }
-  else if (tile->images.size() == 1)
+  else if (tile.images.size() == 1)
   {
-    context.draw_surface(tile->images[0], pos, layer);
+    context.draw_surface(tile.images[0], pos, layer);
   }
 }
 

@@ -118,5 +118,7 @@ enum DyingType {
        #define DEBUG_MSG( msg ) {}
 #endif
 
+#define UNUSED_ARG(a) do {/* null */} while (&a == 0)
+
 #endif /*SUPERTUX_DEFINES_H*/
 

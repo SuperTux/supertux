@@ -23,6 +23,7 @@
 #include <vector>
 #include <cassert>
 
+#include "defines.h"
 #include "vector.h"
 #include "game_object.h"
 #include "serializable.h"
@@ -51,7 +52,7 @@ public:
 
   virtual void draw(DrawingContext& context)
   {
-    (void) context;
+    UNUSED_ARG(context);
   }
 
   void set_scrolling(int scroll_x, int scroll_y)

@@ -18,6 +18,7 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <memory>
+#include <algorithm>
 #include <stdexcept>
 #include <iostream>
 #include <fstream>
@@ -761,7 +762,7 @@ Sector::trygrabdistro(const Vector& pos, int bounciness)
     throw SuperTuxException(errmsg, __FILE__, __LINE__); */
     
     //Bad tiles (i.e. tiles that are not defined in supertux.stgt but appear in the map) are changed to ID 0 (blank tile)
-    std::cout << "Warning: Undefined tile at " <<(int)pos.x/32 << "/" << (int)pos.y/32 << " (ID: " << (int)solids->get_tile_id_at(pos) << ")" << std::endl;
+    std::cout << "Warning: Undefined tile at " <<(int)pos.x/32 << "/" << (int)pos.y/32 << " (ID: " << (int)solids->get_tile_id_at(pos).id << ")" << std::endl;
     solids->change_at(pos,0);
     tile = solids->get_tile_at(pos);
   }

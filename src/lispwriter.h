@@ -21,6 +21,7 @@
 #define SUPERTUX_LISPWRITER_H
 
 #include <iostream>
+#include <string>
 #include <vector>
 
 class LispWriter

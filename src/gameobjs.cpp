@@ -80,9 +80,10 @@ BrokenBrick::draw(DrawingContext& context)
 }
 
 BouncyBrick::BouncyBrick(const Vector& pos)
-  : position(pos), offset(0), offset_m(-BOUNCY_BRICK_SPEED)
-{
-  shape = Sector::current()->solids->get_tile_id_at(pos);
+  : position(pos), offset(0), offset_m(-BOUNCY_BRICK_SPEED), 
+    shape(Sector::current()->solids->get_tile_id_at(pos))
+{ 
+  shape.hidden = true;
 }
 
 void
@@ -96,14 +97,17 @@ BouncyBrick::action(float elapsed_time)
 
   /* Stop bouncing? */
   if (offset >= 0)
-    remove_me();
+    {
+      shape.hidden = false;
+      remove_me();
+    }
 }
 
 void
 BouncyBrick::draw(DrawingContext& context)
 {
   TileManager::instance()->
-    draw_tile(context, shape, position + Vector(0, offset), LAYER_TILES+1);
+    draw_tile(context, shape.id, position + Vector(0, offset), LAYER_TILES+1);
 }
 
 FloatingScore::FloatingScore(const Vector& pos, int score)
