@@ -133,37 +133,6 @@ enum {
 #define SCORE_DISTRO 25
 
 
-/* Types: */
-
-typedef struct bouncy_distro_type {
-  int alive, x, y, ym;
-} bouncy_distro_type;
-
-typedef struct broken_brick_type {
-  int alive, x, y, xm, ym;
-} broken_brick_type;
-
-typedef struct bouncy_brick_type {
-  int alive, x, y, offset, offset_m, shape;
-} bouncy_brick_type;
-
-typedef struct bad_guy_type {
-  int alive, mode, dying, timer, kind, seen, dir, x, y, xm, ym;
-} bad_guy_type;
-
-typedef struct floating_score_type {
-  int alive, timer, x, y, value;
-} floating_score_type;
-
-typedef struct upgrade_type {
-  int alive, kind, height, x, y, xm, ym;
-} upgrade_type;
-
-typedef struct bullet_type {
-  int alive, x, y, xm, ym;
-} bullet_type;
-
-
 /* Function prototypes: */
 
 int gameloop(void);

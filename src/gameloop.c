@@ -31,7 +31,9 @@
 #include "setup.h"
 #include "high_scores.h"
 #include "menu.h"
-
+#include "enemy.h"
+#include "world.h"
+#include "player.h"
 
 /* Sound files: */
 
@@ -2157,8 +2159,7 @@ void game_draw()
     {
       drawimage(tux_life,565+(18*i),20,NO_UPDATE);
     }
-  /*drawtext(str, 608, 0, letters_gold, NO_UPDATE);*/
-
+    
   if(game_pause)
     drawcenteredtext("PAUSE",230,letters_red, NO_UPDATE);
 
@@ -2265,7 +2266,7 @@ int gameloop(void)
 
       now_time = SDL_GetTicks();
       if (now_time < last_time + FPS)
-        SDL_Delay(last_time + FPS - now_time);
+       SDL_Delay(last_time + FPS - now_time);
 
 
       /* Handle time: */
@@ -2903,10 +2904,13 @@ void loadshared(void)
 
   /* Sound effects: */
 
-  /*  if (use_sound) // this can help speeding up a little, but
-     we shouldn't take care about "use_sound" here, it's load_sound's job
-     / Send a mail to neoneurone@users.sf.net, if you have another opinion. :)
-     */
+  /* if (use_sound) // this will introduce SERIOUS bugs here ! because "load_sound"
+                    // initialize sounds[i] with the correct pointer's value:
+                    // NULL or something else. And it will be dangerous to
+                    // play with not-initialized pointers.
+                    // This is also true with if (use_music)
+     Send a mail to me: neoneurone@users.sf.net, if you have another opinion. :)
+  */
   for (i = 0; i < NUM_SOUNDS; i++)
     sounds[i] = load_sound(soundfilenames[i]);
 

@@ -39,7 +39,7 @@ int title(void)
   SDL_Surface * title, * anim1, * anim2;
   SDL_Event event;
   SDLKey key;
-  int done, quit, frame, pict;
+  int done, quit, frame, pict, last_highscore;
   char str[80];
 
   game_started = 0;
@@ -73,7 +73,8 @@ int title(void)
 
 
   /* Draw the high score: */
-  sprintf(str, "High score: %d", load_hs());
+  last_highscore = load_hs();
+  sprintf(str, "High score: %d", last_highscore);
   drawcenteredtext(str, 460, letters_red, UPDATE);
 
   while (!done && !quit)
@@ -133,7 +134,7 @@ int title(void)
           drawimage(title, 0, 0, UPDATE);
 
           /* Draw the high score: */
-          sprintf(str, "High score: %d", load_hs());
+          sprintf(str, "High score: %d", last_highscore);
           drawcenteredtext(str, 460, letters_red, UPDATE);
         }
 

@@ -34,6 +34,104 @@ void initmenu(void)
   menuaction = -1;
 }
 
+/* ---- Menu Options - Item Sound On/off ----*/
+void menu_option_sound()
+{
+  if (audio_device == YES) {
+    if(menuitem == 1) {
+       if(use_sound == YES) {
+         drawcenteredtext("Sound ON", 224, letters_red, NO_UPDATE);
+       }
+       else {
+         drawcenteredtext("Sound OFF", 224, letters_red, NO_UPDATE);
+       }
+
+       if(menuaction == MN_HIT) { /* Disable/Enable sound */
+         if(use_sound == YES) {
+           use_sound = NO;
+         }
+         else {
+           use_sound = YES;
+         }
+         menu_change = YES;
+       }
+    }
+    else {
+      if(use_sound == YES)
+        drawcenteredtext("Sound ON", 224, letters_blue, NO_UPDATE);
+      else
+        drawcenteredtext("Sound OFF", 224, letters_blue, NO_UPDATE);
+    }
+  }
+  else { /* if audio_device != YES */
+    /* let the user move over the deactivated option */
+    if (menuitem == 1) {
+      drawcenteredtext("Sound OFF", 224, letters_red, NO_UPDATE);
+    }
+    else {
+      drawcenteredtext("Sound OFF", 224, letters_black, NO_UPDATE);
+    }
+  }
+}
+
+
+/* ---- Menu Options - Item Music On/off ----*/
+void menu_option_music()
+{
+  if (audio_device == YES) {
+    if(menuitem == 2) {
+      if(use_music == YES) {
+        drawcenteredtext("Music ON", 256, letters_red, NO_UPDATE);
+      }
+     else {
+        drawcenteredtext("Music OFF", 256, letters_red, NO_UPDATE);
+      }
+      if(menuaction == MN_HIT) { /* Disable/Enable music */
+        if(use_music == YES) {  /* In the menu no music is played, so we have to check only use_music */
+	     if(playing_music()) 
+              halt_music();
+             use_music = NO;
+        }
+        else {
+          use_music = YES;
+          if (!playing_music()) {
+            switch (current_music) {
+              case LEVEL_MUSIC:
+                play_music(level_song, 1);
+                break;
+              case HERRING_MUSIC:
+                play_music(herring_song, 1);
+                break;
+              case HURRYUP_MUSIC: // keep the compiler happy
+              case NO_MUSIC:      // keep the compiler happy for the moment :-)
+              {}
+               /*default:*/
+            }
+          }
+        }
+        menu_change = YES;
+      }
+    } /* if menuitem != 2 : print normal blue font */
+    else {
+      if(use_music == YES) {
+        drawcenteredtext("Music ON", 256, letters_blue, NO_UPDATE);
+      }
+      else {
+        drawcenteredtext("Music OFF", 256, letters_blue, NO_UPDATE);
+      }
+    }
+  }
+  else { /* if audio_device != YES */
+   /* let the user move over the deactivated option */
+    if (menuitem == 2) {
+      drawcenteredtext("Music OFF", 256, letters_red, NO_UPDATE);
+    }
+    else {
+      drawcenteredtext("Music OFF", 256, letters_black, NO_UPDATE);
+    }
+  }
+}
+
 /* --- MENU --- */
 /* Draw the menu and execute the (menu)events */
 int drawmenu(void)
@@ -56,8 +154,8 @@ int drawmenu(void)
   if(menumenu == MENU_MAIN)
     {
       /* Does the menu item exist? If not, we reset to the most down item */
-      if(menuitem > 2)
-        menuitem = 2;
+      if(menuitem >= MENU_MAIN_ITEM_MAX)
+        menuitem = MENU_MAIN_ITEM_MAX - 1;
 
       /*The menu looks different, when the game is started */
       if(game_started)
@@ -120,8 +218,8 @@ int drawmenu(void)
     }
   else if(menumenu == MENU_OPTIONS)
     {
-      if(menuitem > 2)
-        menuitem = 2;
+      if(menuitem >= MENU_OPTIONS_ITEM_MAX )
+        menuitem = MENU_OPTIONS_ITEM_MAX - 1;
 
       if(menuitem == 0)
         {
@@ -147,66 +245,15 @@ int drawmenu(void)
             drawcenteredtext("Fullscreen OFF", 192, letters_blue, NO_UPDATE);
         }
 
-      if (audio_device == YES)
-        {
-          if(menuitem == 1)
-            {
-              if(use_sound)
-                drawcenteredtext("Sound ON", 224, letters_red, NO_UPDATE);
-              else
-                drawcenteredtext("Sound OFF", 224, letters_red, NO_UPDATE);
-              if(menuaction == MN_HIT) /* Disable/Enable sound */
-                {
-                  if(use_sound)
-                    {
-                      if(playing_music())
-                        halt_music();
-                      use_sound = 0;
-                    }
-                  else
-                    {
-                      use_sound = 1;
-                      if (playing_music())
-                        {
-                          switch (current_music)
-                            {
-                            case LEVEL_MUSIC:
-                              play_music(level_song, 1);
-                              break;
-                            case HERRING_MUSIC:
-                              play_music(herring_song, 1);
-                              break;
-                            case HURRYUP_MUSIC: // keep the compiler happy
-                            case NO_MUSIC:      // keep the compiler happy for the moment :-)
-                            {}
+      /* handle menu sound on/off option */
+      menu_option_sound();     
 
-                              /*default:*/
-                            }
-                        }
-                    }
-                  menu_change = YES;
-                }
-            }
-          else
-            {
-              if(use_sound)
-                drawcenteredtext("Sound ON", 224, letters_blue, NO_UPDATE);
-              else
-                drawcenteredtext("Sound OFF", 224, letters_blue, NO_UPDATE);
-            }
-        }
-      else  /* if audio_device != YES */
+      /* handle menu music on/off option */
+      menu_option_music();
+   
+      if(menuitem == 3)
         {
-          /* let the user move over the deactivated option */
-          if (menuitem == 1)
-            drawcenteredtext("Sound OFF", 224, letters_red, NO_UPDATE);
-          else
-            drawcenteredtext("Sound OFF", 224, letters_black, NO_UPDATE);
-        }
-
-      if(menuitem == 2)
-        {
-          drawcenteredtext("Back", 256, letters_red, NO_UPDATE);
+          drawcenteredtext("Back", 288, letters_red, NO_UPDATE);
           if(menuaction == MN_HIT) /* Go back to main menu. */
             {
               menumenu = MENU_MAIN;
@@ -214,7 +261,7 @@ int drawmenu(void)
             }
         }
       else
-        drawcenteredtext("Back", 256, letters_blue, NO_UPDATE);
+        drawcenteredtext("Back", 288, letters_blue, NO_UPDATE);
 
     }
 

@@ -8,6 +8,9 @@
   http://www.newbreedsoftware.com/supertux/
  
   April 22, 2000 - July 15, 2002
+
+  Current maintainer:
+        Duong-Khang NGUYEN <neoneurone@users.sf.net>
 */
 
 #ifndef SUPERTUX_SOUND_H
@@ -20,6 +23,7 @@
 
 /*global variable*/
 int use_sound;
+int use_music;
 int audio_device;        /* != 0: available and initialized */
 
 /* enum of different internal music types */

@@ -42,7 +42,7 @@ void usage(char * prog, int ret);
 void st_setup(void)
 {
 
-  /* Set SuperTux configuration and save directories
+  /* Set SuperTux configuration and save directories */
 
   /* Get home directory (from $HOME variable)... if we can't determine it,
      use the current directory ("."): */
@@ -60,7 +60,7 @@ void st_setup(void)
   st_save_dir = (char *) malloc(sizeof(char) * (strlen(st_dir) + strlen("/save") + 1));
 
   strcpy(st_save_dir,st_dir);
-  strcpy(st_save_dir,"/save");
+  strcat(st_save_dir,"/save");
 
   /* Create them. In the case they exist it won't destroy anything. */
   mkdir(st_dir, 0755);
@@ -154,15 +154,22 @@ void st_setup(void)
     {
       if (SDL_Init(SDL_INIT_AUDIO) < 0)
         {
-          /* only print out message if sound was not disabled at command-line */
-          if (use_sound == YES)
+          /* only print out message if sound or music
+             was not disabled at command-line
+           */
+          if (use_sound == YES || use_music == YES)
             {
               fprintf(stderr,
                       "\nWarning: I could not initialize audio!\n"
                       "The Simple DirectMedia error that occured was:\n"
                       "%s\n\n", SDL_GetError());
-              use_sound = NO;
             }
+          /* keep the programming logic the same :-)
+             because in this case, use_sound & use_music' values are ignored
+             when there's no available audio device
+          */
+          use_sound = NO;
+          use_music = NO;
           audio_device = NO;
         }
     }
@@ -174,16 +181,19 @@ void st_setup(void)
     {
       if (open_audio(44100, AUDIO_S16, 2, 512) < 0)
         {
-          /* only print out message if sound was not disabled at command-line */
-          if (use_sound == YES)
+          /* only print out message if sound or music
+             was not disabled at command-line
+           */
+          if ((use_sound == YES) || (use_music == YES))
             {
               fprintf(stderr,
                       "\nWarning: I could not set up audio for 44100 Hz "
                       "16-bit stereo.\n"
                       "The Simple DirectMedia error that occured was:\n"
                       "%s\n\n", SDL_GetError());
-              use_sound = NO;
             }
+          use_sound = NO;
+          use_music = NO;
           audio_device = NO;
         }
     }
@@ -193,7 +203,7 @@ void st_setup(void)
 
   if (use_fullscreen == YES)
     {
-      screen = SDL_SetVideoMode(640, 480, 16, SDL_FULLSCREEN) ; /* | SDL_HWSURFACE); */
+      screen = SDL_SetVideoMode(640, 480, 16, SDL_FULLSCREEN ) ; /* | SDL_HWSURFACE); */
       if (screen == NULL)
         {
           fprintf(stderr,
@@ -318,10 +328,12 @@ void parseargs(int argc, char * argv[])
 #ifndef NOSOUND
 
   use_sound = YES;
+  use_music = YES;
   audio_device = YES;
 #else
 
   use_sound = NO;
+  use_music = NO;
   audio_device = NO;
 #endif
 
@@ -351,13 +363,24 @@ void parseargs(int argc, char * argv[])
         }
       else if (strcmp(argv[i], "--disable-sound") == 0)
         {
-          /* Disable the compiled in sound & music feature */
+          /* Disable the compiled in sound feature */
 #ifndef NOSOUND
-          printf("Sounds and music disabled \n");
+          printf("Sounds disabled \n");
           use_sound = NO;
 #else
 
-          printf("Sounds and music feature is not compiled in \n");
+          printf("Warning: Sounds feature is not compiled in \n");
+          printf("Warning: Sounds feature is not compiled in \n");
+#endif
+        }
+      else if (strcmp(argv[i], "--disable-music") == 0)
+        {
+          /* Disable the compiled in sound feature */
+#ifndef NOSOUND
+          printf("Music disabled \n");
+          use_music = NO;
+#else
+          printf("Warning: Music feature is not compiled in \n");
 #endif
 
         }
@@ -368,7 +391,9 @@ void parseargs(int argc, char * argv[])
 
           printf("----------  Command-line options  ----------\n\n");
 
-          printf("  --disable-sound     - If sound support was compiled in,  this will\n                        disable it for this session of the game.\n\n");
+          printf("  --disable-sound     - If sound support was compiled in,  this will\n                        disable sound for this session of the game.\n\n");
+
+          printf("  --disable-music     - Like above, but this will disable music.\n\n");
 
           printf("  --fullscreen        - Run in fullscreen mode.\n\n");
 
@@ -417,8 +442,8 @@ void usage(char * prog, int ret)
 
   /* Display the usage message: */
 
-  fprintf(fi, "Usage: %s [--fullscreen] | [--disable-sound] |  [--usage | --help | --version]\n",
-          prog);
+  fprintf(fi, "Usage: %s [--fullscreen] [--disable-sound] [--disable-music] | [--usage | --help | --version]\n",
+           prog);
 
 
   /* Quit! */

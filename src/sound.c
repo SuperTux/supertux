@@ -10,13 +10,12 @@
   April 22, 2000 - July 15, 2002
 */
 
-#include <stdio.h>
+/*
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
 #include <unistd.h>
-#include <SDL.h>
-#include <SDL_image.h>
+*/
 
 #ifdef LINUX
 #include <pwd.h>
@@ -96,13 +95,13 @@ void free_chunk(Mix_Chunk *chunk)
 
 int playing_music(void)
 {
-  if (use_sound)
+  if (use_music == YES)
     {
       return Mix_PlayingMusic();
     }
   else
     {
-      /* we are in --disable-sound we can't be playing music */
+      /* we are in --disable-music we can't be playing music */
       return 0;
     }
 }
@@ -110,7 +109,7 @@ int playing_music(void)
 
 int halt_music(void)
 {
-  if ((use_sound == YES) && (audio_device == YES))
+  if ((use_music == YES) && (audio_device == YES))
     {
       return Mix_HaltMusic();
     }
@@ -123,7 +122,7 @@ int halt_music(void)
 
 int play_music(Mix_Music *music, int loops)
 {
-  if ((use_sound == YES) && (audio_device == YES))
+  if ((use_music == YES) && (audio_device == YES))
     {
       DEBUG_MSG(__PRETTY_FUNCTION__);
       return Mix_PlayMusic(music, loops);
