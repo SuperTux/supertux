@@ -179,6 +179,7 @@ private:
   /* input implementation variables */
   int delete_character;
   char mn_input_char;
+  Timer joystick_timer;
   
 public:
   Timer effect;

@@ -326,6 +326,8 @@ Menu::Menu()
   arrange_left = 0;
   active_item  = 0;
   effect.init(false);
+
+  joystick_timer.init(true);
 }
 
 void Menu::set_pos(int x, int y, float rw, float rh)
@@ -818,10 +820,18 @@ Menu::event(SDL_Event& event)
   case  SDL_JOYAXISMOTION:
     if(event.jaxis.axis == joystick_keymap.y_axis)
     {
-      if (event.jaxis.value > 1024)
+      if (event.jaxis.value > joystick_keymap.dead_zone && !joystick_timer.started())
+      {
         menuaction = MENU_ACTION_DOWN;
-      else if (event.jaxis.value < -1024)
+        joystick_timer.start(JOYSTICK_MENU_DELAY);
+      }
+      else if (event.jaxis.value < -joystick_keymap.dead_zone && !joystick_timer.started())
+      {
         menuaction = MENU_ACTION_UP;
+        joystick_timer.start(JOYSTICK_MENU_DELAY);
+      }
+      else
+        joystick_timer.stop();
     }
     break;
   case  SDL_JOYBUTTONDOWN:

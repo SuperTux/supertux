@@ -39,6 +39,9 @@ enum Direction { LEFT = 0, RIGHT = 1 };
 #define UP 0
 #define DOWN 1
 
+/* Joystick menu delay */
+#define JOYSTICK_MENU_DELAY 500
+
 /* Dying types: */
 
 /* ---- NO 0 */
