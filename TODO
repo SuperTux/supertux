@@ -24,6 +24,8 @@ L: low priority
 [L] in the "Welcome to Antarctica" level, the blocks next to the first growup
     look like there are 2 blocks above each other when bumping against them as
     small tux...
+[L] Life counter should be decreased once the die-animation starts,
+   not when it ends
 - leveleditor crashs when pressing the button with the levelsettings
 
 
