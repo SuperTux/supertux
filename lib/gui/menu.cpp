@@ -509,7 +509,8 @@ Menu::draw_item(DrawingContext& context,
   int text_width  = int(text_font->get_text_width(pitem.text));
   int input_width = int(text_font->get_text_width(pitem.input) + 10);
   int list_width = 0;
-  if(pitem.list.second != 0)
+  std::set<std::string>::iterator tmp = 0;
+  if(pitem.list.second != tmp)
   list_width = int(text_font->get_text_width((*pitem.list.second)));
   
   if (arrange_left)
