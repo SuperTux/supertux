@@ -354,20 +354,27 @@ void World::scrolling(double frame_ratio)
   if(tux.old_dir != tux.dir && level->back_scrolling)
     scrolling_timer.start(CHANGE_DIR_SCROLL_SPEED);
 
+  bool right = false;
+  bool left = false;
+  if (tux.physic.get_velocity_x() > 0)
+    right = true;
+  else if (tux.physic.get_velocity_x() < 0)
+    left = true;
+  else
+    {
+    if (tux.dir == RIGHT)
+      right = true;
+    else
+      left = true;
+    }
+
   if(scrolling_timer.check())
   {
     float final_scroll_x;
-    if (tux.physic.get_velocity_x() > 0)
+    if (right)
       final_scroll_x = tux_pos_x - (screen->w - X_SPACE);
-    else if (tux.physic.get_velocity_x() < 0)
-      final_scroll_x = tux_pos_x - X_SPACE;
     else
-    {
-      if (tux.dir == RIGHT)
-        final_scroll_x = tux_pos_x - (screen->w - X_SPACE);
-      else if (tux.dir == LEFT && level->back_scrolling)
-        final_scroll_x = tux_pos_x - X_SPACE;
-    }
+      final_scroll_x = tux_pos_x - X_SPACE;
 
     scroll_x +=   (final_scroll_x - scroll_x)
                 / (frame_ratio * (CHANGE_DIR_SCROLL_SPEED / 100))
@@ -377,17 +384,10 @@ void World::scrolling(double frame_ratio)
   }
   else
   {
-    if (tux.physic.get_velocity_x() > 0 && scroll_x < tux_pos_x - (screen->w - X_SPACE))
+    if (right && scroll_x < tux_pos_x - (screen->w - X_SPACE))
       scroll_x = tux_pos_x - (screen->w - X_SPACE);
-    else if (tux.physic.get_velocity_x() < 0 && scroll_x > tux_pos_x - X_SPACE && level->back_scrolling)
+    else if (left && scroll_x > tux_pos_x - X_SPACE && level->back_scrolling)
       scroll_x = tux_pos_x - X_SPACE;
-    else
-    {
-      if (tux.dir == RIGHT && scroll_x < tux_pos_x - (screen->w - X_SPACE))
-          scroll_x = tux_pos_x - (screen->w - X_SPACE);
-      else if (tux.dir == LEFT && scroll_x > tux_pos_x - X_SPACE && level->back_scrolling)
-          scroll_x = tux_pos_x - X_SPACE;
-    }
   }
 
   // this code prevent the screen to scroll before the start or after the level's end
