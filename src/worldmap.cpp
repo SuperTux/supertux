@@ -816,7 +816,7 @@ WorldMap::draw_status()
 
   sprintf(str, "%d", player_status.distros);
   white_text->draw_align("COINS", screen->w/2 - white_text->w*5, 0,  A_LEFT, A_TOP);
-  gold_text->draw_align(str, screen->w/2, 0, A_RIGHT, A_TOP);
+  gold_text->draw_align(str, screen->w/2 + (white_text->w*5)/2, 0, A_RIGHT, A_TOP);
 
   white_text->draw("LIVES", screen->w - white_text->w*9, 0);
   if (player_status.lives >= 5)
