@@ -169,7 +169,13 @@ Player::init()
   butt_jump = false;
   
   flapping_velocity = 0;
-  
+
+  // temporary to help player's choosing a flapping
+  int flapping_mode = MAREK_FLAP;
+
+  // Ricardo's flapping
+  flaps_nb = 0;
+
   frame_main = 0;
   frame_ = 0;
 
@@ -571,6 +577,7 @@ Player::handle_vertical_input()
       flapping = false;
       can_jump = false;
       can_flap = false;
+      flaps_nb = 0; // Ricardo's flapping
       if (size == SMALL)
         SoundManager::get()->play_sound(IDToSound(SND_JUMP));
       else
@@ -590,7 +597,21 @@ Player::handle_vertical_input()
          }
     }
 
-   
+ // temporary to help player's choosing a flapping
+ if(flapping_mode == RICARDO_FLAP)
+   {
+   // Flapping, Ricardo's version
+   // similar to SM3 Fox
+   if(input.jump == DOWN && input.old_jump == UP && can_flap &&
+     flaps_nb < 3)
+     {
+       physic.set_velocity_y(3.5);
+       physic.set_velocity_x(physic.get_velocity_x() * 0.35);
+       flaps_nb++;
+     }
+   }
+  else if(flapping_mode == MAREK_FLAP)
+   {
    // Flapping, Marek's version
    if (input.jump == DOWN && can_flap)
      {
@@ -617,8 +638,10 @@ Player::handle_vertical_input()
                physic.set_velocity_y((float)flapping_timer.get_gone()/850);
             }
      }
-     
-   /* // Flapping, Ryan's version
+   }
+  else if(flapping_mode == RYAN_FLAP)
+   {
+   // Flapping, Ryan's version
    if (input.jump == DOWN && can_flap)
      {
          if (!flapping_timer.started())
@@ -658,7 +681,8 @@ Player::handle_vertical_input()
      {
         physic.set_acceleration_y(0);
      }
-   */
+   }
+
 
    // Hover
    //(disabled by default, use cheat code "hover" to toggle on/off)

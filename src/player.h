@@ -160,6 +160,13 @@ public:
   
   float flapping_velocity;
 
+  // Ricardo's flapping
+  int flaps_nb;
+
+  // temporary to help player's choosing a flapping
+  enum { MAREK_FLAP, RICARDO_FLAP, RYAN_FLAP, NONE_FLAP };
+  int flapping_mode;
+
   base_type  previous_base;
   Timer invincible_timer;
   Timer skidding_timer;

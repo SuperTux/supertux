@@ -477,6 +477,22 @@ GameSession::process_events()
                           currentsector->camera->reset(Vector(tux.base.x, tux.base.y));
                           last_keys.clear();
                           }
+                        // temporary to help player's choosing a flapping
+                        if(compare_last(last_keys, "marek"))
+                          {
+                          tux.flapping_mode = Player::MAREK_FLAP;
+                          last_keys.clear();
+                          }
+                        if(compare_last(last_keys, "ricardo"))
+                          {
+                          tux.flapping_mode = Player::RICARDO_FLAP;
+                          last_keys.clear();
+                          }
+                        if(compare_last(last_keys, "ryan"))
+                          {
+                          tux.flapping_mode = Player::RYAN_FLAP;
+                          last_keys.clear();
+                          }
                   break;
 
                 case SDL_JOYAXISMOTION:
