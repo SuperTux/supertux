@@ -155,13 +155,13 @@
     (level (map-message "- Something is blocking the way.")
            (x 34)
            (y 4) (apply-action-left #f) (passive-message #f))
-    (level (teleporter #t)
+    (level
 	        (x 35)
 			  (y 3)
 			  (teleport-message "Warp to Castle")
 			  (dest_x 35)
 			  (dest_y 36))
-	 (level (teleporter #t)
+	 (level
 	        (x 18)
 			  (y 31)
 			  (teleport-message "Warp home")
