@@ -344,7 +344,7 @@ void World::scrolling(double frame_ratio)
 
   float tux_pos_y = tux.base.y + (tux.base.height/2);
 
-  if(level->height > VISIBLE_TILES_Y-1)
+  if(level->height > VISIBLE_TILES_Y-1 && !tux.dying)
     {
     if (scroll_y < tux_pos_y - (screen->h - Y_SPACE))
       scroll_y = tux_pos_y - (screen->h - Y_SPACE);
