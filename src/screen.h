@@ -25,6 +25,7 @@
 #define IGNORE_ALPHA 1
 
 void load_and_display_image(char * file);
+void drawline(int x1, int y1, int x2, int y2, int r, int g, int b, int a);
 void clearscreen(int r, int g, int b);
 void fillrect(float x, float y, float w, float h, int r, int g, int b, int a);
 void updatescreen(void);

@@ -30,6 +30,10 @@
 #include "setup.h"
 #include "type.h"
 
+/* Needed for line calculations */
+#define SGN(x) ((x)>0 ? 1 : ((x)==0 ? 0:(-1)))
+#define ABS(x) ((x)>0 ? (x) : (-x))
+
 /* --- LOAD AND DISPLAY AN IMAGE --- */
 
 void load_and_display_image(char * file)
@@ -59,6 +63,131 @@ void clearscreen(int r, int g, int b)
 
 }
 
+/* 'Stolen' from the SDL documentation.
+ * Set the pixel at (x, y) to the given value
+ * NOTE: The surface must be locked before calling this!
+ */
+void putpixel(SDL_Surface *surface, int x, int y, Uint32 pixel)
+{
+  int bpp = surface->format->BytesPerPixel;
+  /* Here p is the address to the pixel we want to set */
+  Uint8 *p = (Uint8 *)surface->pixels + y * surface->pitch + x * bpp;
+
+  switch(bpp)
+    {
+    case 1:
+      *p = pixel;
+      break;
+
+    case 2:
+      *(Uint16 *)p = pixel;
+      break;
+
+    case 3:
+      if(SDL_BYTEORDER == SDL_BIG_ENDIAN)
+        {
+          p[0] = (pixel >> 16) & 0xff;
+          p[1] = (pixel >> 8) & 0xff;
+          p[2] = pixel & 0xff;
+        }
+      else
+        {
+          p[0] = pixel & 0xff;
+          p[1] = (pixel >> 8) & 0xff;
+          p[2] = (pixel >> 16) & 0xff;
+        }
+      break;
+
+    case 4:
+      *(Uint32 *)p = pixel;
+      break;
+    }
+}
+
+void drawpixel(int x, int y, Uint32 pixel)
+{
+  /* Lock the screen for direct access to the pixels */
+  if ( SDL_MUSTLOCK(screen) )
+    {
+      if ( SDL_LockSurface(screen) < 0 )
+        {
+          fprintf(stderr, "Can't lock screen: %s\n", SDL_GetError());
+          return;
+        }
+    }
+
+  if(!(x < 0 || y < 0 || x > screen->w || y > screen->h))
+    putpixel(screen, x, y, pixel);
+
+  if ( SDL_MUSTLOCK(screen) )
+    {
+      SDL_UnlockSurface(screen);
+    }
+  /* Update just the part of the display that we've changed */
+  SDL_UpdateRect(screen, x, y, 1, 1);
+}
+
+void drawline(int x1, int y1, int x2, int y2, int r, int g, int b, int a)
+{
+#ifndef NOOPENGL
+  if(use_gl)
+    {
+      glEnable(GL_BLEND);
+      glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+      glColor4ub(r, g, b,a);
+
+      glBegin(GL_LINES);
+      glVertex2f(x1, y1);
+      glVertex2f(x2, y2);
+      glEnd();
+      glDisable(GL_BLEND);
+    }
+  else
+    {
+#endif
+
+      /* Basic unantialiased Bresenham line algorithm */
+      int lg_delta, sh_delta, cycle, lg_step, sh_step;
+      Uint32 color = SDL_MapRGBA(screen->format, r, g, b, a);
+
+      lg_delta = x2 - x1;
+      sh_delta = y2 - y1;
+      lg_step = SGN(lg_delta);
+      lg_delta = ABS(lg_delta);
+      sh_step = SGN(sh_delta);
+      sh_delta = ABS(sh_delta);
+      if (sh_delta < lg_delta)
+        {
+          cycle = lg_delta >> 1;
+          while (x1 != x2)
+            {
+              drawpixel(x1, y1, color);
+              cycle += sh_delta;
+              if (cycle > lg_delta)
+                {
+                  cycle -= lg_delta;
+                  y1 += sh_step;
+                }
+              x1 += lg_step;
+            }
+          drawpixel(x1, y1, color);
+        }
+      cycle = sh_delta >> 1;
+      while (y1 != y2)
+        {
+          drawpixel(x1, y1, color);
+          cycle += lg_delta;
+          if (cycle > sh_delta)
+            {
+              cycle -= sh_delta;
+              x1 += lg_step;
+            }
+          y1 += sh_step;
+        }
+      drawpixel(x1, y1, color);
+    }
+}
+
 /* --- FILL A RECT --- */
 
 void fillrect(float x, float y, float w, float h, int r, int g, int b, int a)
@@ -69,7 +198,7 @@ void fillrect(float x, float y, float w, float h, int r, int g, int b, int a)
       glEnable(GL_BLEND);
       glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
       glColor4ub(r, g, b,a);
-      
+
       glBegin(GL_POLYGON);
       glVertex2f(x, y);
       glVertex2f(x+w, y);
@@ -83,37 +212,37 @@ void fillrect(float x, float y, float w, float h, int r, int g, int b, int a)
 #endif
       SDL_Rect src, rect;
       SDL_Surface *temp = NULL;
-      
+
       rect.x = (int)x;
       rect.y = (int)y;
       rect.w = (int)w;
       rect.h = (int)h;
-      
+
       if(a != 255)
-      {
-      temp = SDL_CreateRGBSurface(screen->flags, rect.w, rect.h, screen->format->BitsPerPixel,
-                                  screen->format->Rmask,
-                              screen->format->Gmask,
-                              screen->format->Bmask,
-                              screen->format->Amask);
+        {
+          temp = SDL_CreateRGBSurface(screen->flags, rect.w, rect.h, screen->format->BitsPerPixel,
+                                      screen->format->Rmask,
+                                      screen->format->Gmask,
+                                      screen->format->Bmask,
+                                      screen->format->Amask);
 
 
-      src.x = 0;
-      src.y = 0;
-      src.w = rect.w;
-      src.h = rect.h;
+          src.x = 0;
+          src.y = 0;
+          src.w = rect.w;
+          src.h = rect.h;
 
-      SDL_FillRect(temp, &src, SDL_MapRGB(screen->format, r, g, b));
-      
-      SDL_SetAlpha(temp, SDL_SRCALPHA, a);
-      
-      SDL_BlitSurface(temp,0,screen,&rect);
-      
-      SDL_FreeSurface(temp);
-      }
+          SDL_FillRect(temp, &src, SDL_MapRGB(screen->format, r, g, b));
+
+          SDL_SetAlpha(temp, SDL_SRCALPHA, a);
+
+          SDL_BlitSurface(temp,0,screen,&rect);
+
+          SDL_FreeSurface(temp);
+        }
       else
-      SDL_FillRect(screen, &rect, SDL_MapRGB(screen->format, r, g, b));
-      
+        SDL_FillRect(screen, &rect, SDL_MapRGB(screen->format, r, g, b));
+
 #ifndef NOOPENGL
 
     }
