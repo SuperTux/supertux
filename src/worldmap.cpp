@@ -1109,6 +1109,8 @@ WorldMap::draw_status(DrawingContext& context)
                 context.draw_text_center(white_text, i->title, 
                     Vector(0, screen->h - white_text->get_height() - 30),
                     LAYER_FOREGROUND1);
+
+                i->statistics.draw_worldmap_info(context);
                 }
 
               /* Display an in-map message in the map, if any as been selected */

@@ -34,6 +34,7 @@
 #include "level.h"
 #include "sector.h"
 #include "tilemap.h"
+#include "statistics.h"
 
 Sprite* img_mriceblock_flat_left;
 Sprite* img_mriceblock_flat_right;
@@ -1070,6 +1071,8 @@ BadGuy::squish(Player* player)
     Sector::current()->add_score(Vector(base.x, base.y),
                                 25 * player_status.score_multiplier);
     SoundManager::get()->play_sound(IDToSound(SND_SQUISH), get_pos(), Sector::current()->player->get_pos());
+
+    global_stats.add_points(BADGUYS_SQUISHED_STAT, 1);
     player_status.score_multiplier++;
     return;
 
@@ -1121,6 +1124,8 @@ BadGuy::squish(Player* player)
 	      
     Sector::current()->add_score(Vector(base.x, base.y),
                                 25 * player_status.score_multiplier);
+
+    global_stats.add_points(BADGUYS_SQUISHED_STAT, 1);
     player_status.score_multiplier++;
      
     // simply remove the fish...
@@ -1156,7 +1161,8 @@ BadGuy::squish(Player* player)
 
       player->bounce(this);
       base.y += 66 - base.height;
-	      
+
+      global_stats.add_points(BADGUYS_SQUISHED_STAT, 1);
       Sector::current()->add_score(Vector(base.x, base.y),
                                 25 * player_status.score_multiplier);
       player_status.score_multiplier++;

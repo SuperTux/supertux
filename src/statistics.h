@@ -1,5 +1,6 @@
-//  SuperTux
-//  Copyright (C) 2004 SuperTux Development Team, see AUTHORS for details
+//
+//  SuperTux -  A Jump'n Run
+//  Copyright (C) 2004 Ricardo Cruz <rick2@aeiou.pt>
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -24,11 +25,16 @@ using namespace SuperTux;
 namespace SuperTux {
 class LispReader;
 class LispWriter;
+class DrawingContext;
 }
 
 enum {
   SCORE_STAT,
-  MAX_STATS
+  BADGUYS_SQUISHED_STAT,
+  SHOTS_STAT,
+  TIME_NEEDED_STAT,
+  JUMPS_STAT,
+  NUM_STATS
 };
 
 /** This class is a layer between level and worldmap to keep
@@ -46,10 +52,15 @@ public:
   /// write statistics to lisp file
   void write(LispWriter& writer);
 
-  // TODO: add drawing functions to draw stats on WorldMap
+  /* Draw to the worldmap or a game message */
+  // TODO: make this functions working
+  void draw_worldmap_info(DrawingContext& context);
+  void draw_message_info(DrawingContext& context);
 
   void add_points(int stat, int points);
   int get_points(int stat);
+
+  void set_points(int stat, int points);
 
   void reset();
 
@@ -60,7 +71,7 @@ public:
   void operator+=(const Statistics& o);
 
 private:
-  int stats[MAX_STATS];
+  int stats[NUM_STATS];
 };
 
 extern Statistics global_stats;

@@ -724,7 +724,8 @@ Sector::add_bullet(const Vector& pos, float xm, Direction dir)
   else
     throw std::runtime_error("wrong bullet type.");
   add_object(new_bullet);
-                                                                                
+
+  global_stats.add_points(SHOTS_STAT, 1);
   SoundManager::get()->play_sound(IDToSound(SND_SHOOT));
                                                                                 
   return true;

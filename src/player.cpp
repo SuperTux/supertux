@@ -35,6 +35,7 @@
 #include "resources.h"
 #include "interactive_object.h"
 #include "video/screen.h"
+#include "statistics.h"
 
 // behavior definitions:
 #define TILES_FOR_BUTTJUMP 3
@@ -517,6 +518,8 @@ Player::handle_vertical_input()
   // Press jump key
   if(input.up == DOWN && can_jump && on_ground())
     {
+      global_stats.add_points(JUMPS_STAT, 1);
+
       if(duck) { // only jump a little bit when in duck mode {
         physic.set_velocity_y(3);
       } else {

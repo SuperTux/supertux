@@ -535,6 +535,9 @@ GameSession::check_end_conditions()
       SoundManager::get()->play_music(level_end_song, 0);
       endsequence_timer.start(7000); // 5 seconds until we finish the map
       tux->invincible_timer.start(7000); //FIXME: Implement a winning timer for the end sequence (with special winning animation etc.)
+
+      // add left time to stats
+      global_stats.set_points(TIME_NEEDED_STAT, time_left.get_gone());
     }
   else if (!end_sequence && tux->is_dead())
     {
