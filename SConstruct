@@ -44,10 +44,12 @@ opts.Add('LIBS', 'Additional libraries', '')
 opts.Add('DESTDIR', \
         'destination directory for installation. It is prepended to PREFIX', '')
 opts.Add('PREFIX', 'Installation prefix', '/usr/local')
+opts.Add(ListOption('VARIANT', 'Build variant', 'optimize',
+            ['optimize', 'debug', 'profile']))
 
 env = Environment(options = opts)
 conf = Configure(env, custom_tests = {
-    'CheckSDLConfig' : CheckSDLConfig        
+    'CheckSDLConfig' : CheckSDLConfig
 })
 
 # TODO check -config apps in the Configure context
@@ -67,13 +69,21 @@ if not conf.CheckLib('GL'):
 
 env = conf.Finish()
 
+if str(env['VARIANT']) == "optimize":
+    env.Append(CXXFLAGS = "-O2 -g")
+elif str(env['VARIANT']) == "debug":
+    env.Append(CXXFLAGS = "-O0 -g3")
+    env.Append(CPPDEFINES = "DEBUG")
+elif str(env['VARIANT']) == "profile":
+    env.Append(CXXFLAGS = "-pg -O2")
+
 env.ParseConfig('sdl-config --cflags --libs')
 env.Append(CPPPATH = ["#", "#/src", "#/lib"])
 env.Append(CPPDEFINES = \
         {'DATA_PREFIX':"'\"" + env['PREFIX'] + "/share/supertux\"'" ,
          'LOCALEDIR'  :"'\"" + env['PREFIX'] + "/locales\"'"})
 
-build_dir="build/" + env['PLATFORM']
+build_dir="build/" + env['PLATFORM'] + "/" + str(env['VARIANT'])
 
 env.Append(LIBS = ["supertux"])
 env.Append(LIBPATH=["#" + build_dir + "/lib"])
@@ -81,8 +91,3 @@ env.Append(LIBPATH=["#" + build_dir + "/lib"])
 env.Export(["env", "Glob"])
 env.SConscript("lib/SConscript", build_dir=build_dir + "/lib", duplicate=0)
 env.SConscript("src/SConscript", build_dir=build_dir + "/src", duplicate=0)
-
-#for i in env.items():
-#    print str(i)
-
-# link all program targets to top builddir as a convenience
