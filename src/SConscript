@@ -10,4 +10,4 @@ app = env.Program(
 )
 
 # hacky way for now...
-AddPostAction(app, "ln -s $TARGET .")
+AddPostAction(app, "ln -sf $TARGET .")

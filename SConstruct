@@ -73,7 +73,7 @@ if str(env['VARIANT']) == "optimize":
     env.Append(CXXFLAGS = "-O2 -g")
 elif str(env['VARIANT']) == "debug":
     env.Append(CXXFLAGS = "-O0 -g3")
-    env.Append(CPPDEFINES = "DEBUG")
+    env.Append(CPPDEFINES = { "DEBUG":"1" })
 elif str(env['VARIANT']) == "profile":
     env.Append(CXXFLAGS = "-pg -O2")
 
