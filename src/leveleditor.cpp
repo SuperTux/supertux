@@ -66,7 +66,7 @@
 /* crutial ones (main loop) */
 int le_init();
 void le_quit();
-int le_load_level(char *filename);
+int le_load_level_subset(char *filename);
 void le_drawlevel();
 void le_drawinterface();
 void le_checkevents();
@@ -75,7 +75,7 @@ void le_testlevel();
 void le_showhelp();
 void le_set_defaults(void);
 void le_activate_bad_guys(void);
-
+void le_goto_level(int levelnb);
 void le_highlight_selection();
 
 void apply_level_settings_menu();
@@ -169,7 +169,7 @@ int leveleditor(char* filename)
   {}
 
   if(filename != NULL)
-    if(le_load_level(filename))
+    if(le_load_level_subset(filename))
       return 1;
 
   while(true)
@@ -294,7 +294,7 @@ int leveleditor(char* filename)
         default:
           if(i >= 1)
           {
-            if(le_load_level(level_subsets.item[i-1]))
+            if(le_load_level_subset(level_subsets.item[i-1]))
               return 1;
           }
           break;
@@ -314,8 +314,7 @@ int leveleditor(char* filename)
             LevelSubset::create(subset_new_menu->get_item_by_id(MNID_SUBSETNAME).input);
             le_level_subset->load(subset_new_menu->get_item_by_id(MNID_SUBSETNAME).input);
             leveleditor_menu->get_item_by_id(MNID_SUBSETSETTINGS).kind = MN_GOTO;
-            delete le_world;
-            le_world = new World(le_level_subset->name,1);
+            le_goto_level(1);
             subset_new_menu->get_item_by_id(MNID_SUBSETNAME).change_input("");
 
             Menu::set_current(subset_settings_menu);
@@ -361,13 +360,12 @@ int leveleditor(char* filename)
   return done;
 }
 
-int le_load_level(char *filename)
+int le_load_level_subset(char *filename)
 {
   le_level_subset->load(filename);
   leveleditor_menu->get_item_by_id(MNID_SUBSETSETTINGS).kind = MN_GOTO;
   le_level = 1;
-  delete le_world;
-  le_world = new World(filename,le_level);
+  le_goto_level(1);
 
   //GameSession* session = new GameSession(datadir + "/levels/" + le_level_subset->name + "/level1.stl", 0, ST_GL_DEMO_GAME);
 
@@ -666,20 +664,35 @@ void save_subset_settings_menu()
   le_level_subset->save();
 }
 
+void le_unload_level()
+{
+  if(le_level_changed)
+  {
+    le_drawlevel();
+    le_drawinterface();
+    char str[1024];
+    sprintf(str,"Save changes to level %d of %s?",le_level,le_level_subset->name.c_str());
+    if(confirm_dialog(str))
+    {
+      le_world->get_level()->save(le_level_subset->name.c_str(),le_level);
+    }
+  }
+
+  delete le_world;
+  le_level_changed = false;  
+}
+
 void le_goto_level(int levelnb)
 {
-  delete le_world;
+  le_unload_level();
   le_world = new World(le_level_subset->name, levelnb);
 }
 
 void le_quit(void)
 {
-  /*if(level_changed == true)
-    if(askforsaving() == CANCEL)
-      return;*/ //FIXME
-
   SDL_EnableKeyRepeat(0, 0);    // disables key repeating
 
+  le_unload_level();
   delete le_selection;
   delete leveleditor_menu;
   delete subset_load_menu;
@@ -777,19 +790,19 @@ void le_drawinterface()
   {
     if(le_current.IsTile())
       le_selection->draw( cursor_x - pos_x, cursor_y);
-      }
-    else if(le_selection_mode == SQUARE)
-    {
-      int w, h;
-      le_highlight_selection();
-      /* draw current selection */
-      w = selection.x2 - selection.x1;
-      h = selection.y2 - selection.y1;
-      fillrect(selection.x1 - pos_x, selection.y1, w, SELECT_W, SELECT_CLR);
-      fillrect(selection.x1 - pos_x + w, selection.y1, SELECT_W, h, SELECT_CLR);
-      fillrect(selection.x1 - pos_x, selection.y1 + h, w, SELECT_W, SELECT_CLR);
-      fillrect(selection.x1 - pos_x, selection.y1, SELECT_W, h, SELECT_CLR);
-    }
+  }
+  else if(le_selection_mode == SQUARE)
+  {
+    int w, h;
+    le_highlight_selection();
+    /* draw current selection */
+    w = selection.x2 - selection.x1;
+    h = selection.y2 - selection.y1;
+    fillrect(selection.x1 - pos_x, selection.y1, w, SELECT_W, SELECT_CLR);
+    fillrect(selection.x1 - pos_x + w, selection.y1, SELECT_W, h, SELECT_CLR);
+    fillrect(selection.x1 - pos_x, selection.y1 + h, w, SELECT_W, SELECT_CLR);
+    fillrect(selection.x1 - pos_x, selection.y1, SELECT_W, h, SELECT_CLR);
+  }
 
 
   /* draw button bar */
@@ -961,7 +974,7 @@ void le_checkevents()
     {
       Menu::current()->event(event);
       if(!le_world && !Menu::current())
-      Menu::set_current(leveleditor_menu);
+        Menu::set_current(leveleditor_menu);
     }
     else
     {
@@ -982,7 +995,7 @@ void le_checkevents()
           {
           case SDLK_ESCAPE:
             Menu::set_current(leveleditor_menu);
-	    break;
+            break;
           case SDLK_LEFT:
             if(fire == DOWN)
               cursor_x -= KEY_CURSOR_SPEED;
@@ -1341,6 +1354,7 @@ void le_checkevents()
         {
           if(le_current.IsObject())
           {
+	    le_level_changed  = true;
             std::string type = le_current.obj->type();
             if(type == "BadGuy")
             {
@@ -1440,8 +1454,8 @@ void le_change(float x, float y, int tm, unsigned int c)
     int x1, x2, y1, y2;
     unsigned int i = 0;
 
-    /*  level_changed = true; */
-
+    le_level_changed = true;
+    
     switch(le_selection_mode)
     {
     case CURSOR:

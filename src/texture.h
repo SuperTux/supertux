@@ -30,6 +30,8 @@
 #include <list>
 #include "screen.h"
 
+SDL_Surface* sdl_surface_from_sdl_surface(SDL_Surface* sdl_surf, int use_alpha);
+
 class SurfaceImpl;
 class SurfaceSDL;
 class SurfaceOpenGL;
@@ -78,6 +80,9 @@ public:
   Surface(const std::string& file, int use_alpha);  
   Surface(const std::string& file, int x, int y, int w, int h, int use_alpha);
   ~Surface();
+  
+  /** Captures the screen and returns it as Surface*, the user is expected to call the destructor. */
+  static Surface* CaptureScreen();
   
   /** Reload the surface, which is necesarry in case of a mode swich */
   void reload();

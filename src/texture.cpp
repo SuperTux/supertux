@@ -251,11 +251,58 @@ Surface::resize(int w_, int h_)
 {
   if (impl)
   {
-  w = w_;
-  h = h_;
+    w = w_;
+    h = h_;
     if (impl->resize(w_,h_) == -2)
       reload();
   }
+}
+
+Surface* Surface::CaptureScreen()
+{
+  Surface *cap_screen;
+
+  if (!(screen->flags & SDL_OPENGL))
+  {
+    cap_screen = new Surface(SDL_GetVideoSurface(),false);
+  }
+
+#ifndef NOOPENGL
+  if (use_gl)
+  {
+    SDL_Surface *temp;
+    unsigned char *pixels;
+    int i;
+    temp = SDL_CreateRGBSurface(SDL_SWSURFACE, screen->w, screen->h, 24,
+#if SDL_BYTEORDER == SDL_LIL_ENDIAN
+                                0x000000FF, 0x0000FF00, 0x00FF0000, 0
+#else
+                                0x00FF0000, 0x0000FF00, 0x000000FF, 0
+#endif
+                               );
+    if (temp == NULL)
+      st_abort("Error while trying to capture the screen in OpenGL mode","");
+
+    pixels = (unsigned char*) malloc(3 * screen->w * screen->h);
+    if (pixels == NULL)
+    {
+      SDL_FreeSurface(temp);
+      st_abort("Error while trying to capture the screen in OpenGL mode","");
+    }
+
+    glReadPixels(0, 0, screen->w, screen->h, GL_RGB, GL_UNSIGNED_BYTE, pixels);
+
+    for (i=0; i<screen->h; i++)
+      memcpy(((char *) temp->pixels) + temp->pitch * i, pixels + 3*screen->w * (screen->h-i-1), screen->w*3);
+    free(pixels);
+
+    cap_screen = new Surface(temp,false);
+    SDL_FreeSurface(temp);
+
+  }
+#endif
+  
+return cap_screen;
 }
 
 SDL_Surface*
@@ -400,7 +447,7 @@ int SurfaceImpl::resize(int w_, int h_)
   dest.w = w;
   dest.h = h;
   int ret = SDL_SoftStretch(sdl_surface, NULL,
-                  sdl_surface, &dest);
+                            sdl_surface, &dest);
   return ret;
 }
 
@@ -789,7 +836,7 @@ int
 SurfaceSDL::draw_stretched(float x, float y, int sw, int sh, Uint8 alpha, bool update)
 {
   SDL_Rect dest;
-  
+
   dest.x = (int)x;
   dest.y = (int)y;
   dest.w = (int)sw;
@@ -797,15 +844,15 @@ SurfaceSDL::draw_stretched(float x, float y, int sw, int sh, Uint8 alpha, bool u
 
   if(alpha != 255)
     SDL_SetAlpha(sdl_surface ,SDL_SRCALPHA,alpha);
-    
-    
-    SDL_Surface* sdl_surface_copy = SDL_CreateRGBSurface (sdl_surface->flags,
-                                    sw, sh, sdl_surface->format->BitsPerPixel,
-                                    sdl_surface->format->Rmask, sdl_surface->format->Gmask,
-                                    sdl_surface->format->Bmask,
-                                    0);
 
-  SDL_BlitSurface(sdl_surface, NULL, sdl_surface_copy, NULL);				    
+
+  SDL_Surface* sdl_surface_copy = SDL_CreateRGBSurface (sdl_surface->flags,
+                                  sw, sh, sdl_surface->format->BitsPerPixel,
+                                  sdl_surface->format->Rmask, sdl_surface->format->Gmask,
+                                  sdl_surface->format->Bmask,
+                                  0);
+
+  SDL_BlitSurface(sdl_surface, NULL, sdl_surface_copy, NULL);
   SDL_SoftStretch(sdl_surface_copy, NULL, sdl_surface_copy, &dest);
 
   int ret = SDL_BlitSurface(sdl_surface_copy,NULL,screen,&dest);

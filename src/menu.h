@@ -92,7 +92,7 @@ enum LevelEditorSettingsMenuIDs {
   MNID_APPLY
   };
 
-bool confirm_dialog(char *text);
+bool confirm_dialog(std::string text);
 
 /* Kinds of menu items */
 enum MenuItemKind {
