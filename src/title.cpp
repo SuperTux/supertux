@@ -286,6 +286,7 @@ void title(void)
 {
   walking = true;
   LevelEditor* leveleditor;
+  MusicRef credits_music;
 
   Ticks::pause_init();
 
@@ -385,10 +386,10 @@ void title(void)
                   break;
                 case MNID_CREDITS:
                   fadeout(500);
-                   titlesession->get_current_sector()->play_music(CREDITS_MUSIC);
+                  credits_music = SoundManager::get()->load_music(datadir + "/music/credits.ogg");
+                  SoundManager::get()->play_music(credits_music);
                   display_text_file("credits.txt", SCROLL_SPEED_CREDITS, white_big_text , white_text, white_small_text, blue_text );
                   fadeout(500);
-                  //titlesession->get_current_sector()->play_music(LEVEL_MUSIC); //not needed
                   Menu::set_current(main_menu);
                   break;
                 case MNID_QUITMAINMENU:

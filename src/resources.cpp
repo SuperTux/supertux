@@ -164,8 +164,6 @@ void loadshared()
                    ()->load_music(datadir + "/music/salcon.mod");
   level_end_song = SoundManager::get
                      ()->load_music(datadir + "/music/leveldone.mod");
-  credits_song = SoundManager::get
-                   ()->load_music(datadir + "/music/credits.ogg");
 }
 
 /* Free shared data: */
