@@ -115,9 +115,6 @@ GameSession::restart_level()
     
   if (st_gl_mode != ST_GL_DEMO_GAME)
     {
-      if(st_gl_mode != ST_GL_TEST)
-        load_hs();
-
       if(st_gl_mode == ST_GL_PLAY || st_gl_mode == ST_GL_LOAD_LEVEL_FILE)
         levelintro();
     }

@@ -463,7 +463,7 @@ bool process_load_game_menu()
 {
   int slot = load_game_menu->check();
 
-  if(slot != -1)
+  if(slot != -1 && load_game_menu->get_item(slot).kind == MN_ACTION)
     {
       WorldMapNS::WorldMap worldmap;
 
