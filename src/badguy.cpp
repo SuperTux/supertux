@@ -778,7 +778,8 @@ void
 BadGuy::bump()
 {
   // these can't be bumped
-  if(kind == BAD_FLAME || kind == BAD_BOMB || kind == BAD_FISH)
+  if(kind == BAD_FLAME || kind == BAD_BOMB || kind == BAD_FISH
+      || kind == BAD_FLYINGSNOWBALL)
     return;
   
   kill_me(25);
