@@ -17,6 +17,7 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
+#include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -312,6 +313,13 @@ void flipscreen(void)
     SDL_GL_SwapBuffers();
   else
     SDL_Flip(screen);
+}
+
+void fadeout()
+{
+  clearscreen(0, 0, 0);
+  white_text->draw_align("Loading...", screen->w/2, screen->h/2, A_HMIDDLE, A_TOP);
+  flipscreen();
 }
 
 void update_rect(SDL_Surface *scr, Sint32 x, Sint32 y, Sint32 w, Sint32 h)

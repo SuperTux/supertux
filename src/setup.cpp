@@ -499,6 +499,7 @@ bool process_load_game_menu()
           draw_intro();
         }
 
+      fadeout();
       WorldMapNS::WorldMap worldmap;
      
       // Load the game or at least set the savegame_file variable

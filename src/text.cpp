@@ -315,12 +315,7 @@ void display_text_file(char *file, Surface* surface)
         speed = -MAX_VEL;
 
       /* draw the credits */
-
       surface->draw_bg();
-
-      if (strcmp(file, "CREDITS") == 0)
-        white_big_text->drawf("- SuperTux " VERSION " -", 
-                              0, screen->h-scroll, A_HMIDDLE, A_TOP, 2);
 
       y = 0;
       for(int i = 0; i < length; i++)
@@ -336,7 +331,7 @@ void display_text_file(char *file, Surface* surface)
             y += white_text->h+ITEMS_SPACE;
             break;
           case '-':
-            white_big_text->drawf(names.item[i], 0, 60+screen->h+y-scroll, A_HMIDDLE, A_TOP, 3);
+            white_big_text->drawf(names.item[i]+1, 0, 60+screen->h+y-scroll, A_HMIDDLE, A_TOP, 3);
             y += white_big_text->h+ITEMS_SPACE;
             break;
           default:
