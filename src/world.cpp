@@ -361,12 +361,20 @@ void World::scrolling(double frame_ratio)
   }
 
   else /*no debug*/
-    {
+  {
     if (tux.physic.get_velocity_x() > 0 && scroll_x < tux_pos_x - (screen->w - X_SPACE))
       scroll_x = tux_pos_x - (screen->w - X_SPACE);
     else if (tux.physic.get_velocity_x() < 0 && scroll_x > tux_pos_x - X_SPACE && level->back_scrolling)
       scroll_x = tux_pos_x - X_SPACE;
+    else
+    {
+      if (tux.dir == RIGHT && scroll_x < tux_pos_x - (screen->w - X_SPACE))
+          scroll_x = tux_pos_x - (screen->w - X_SPACE);
+      else if (tux.dir == LEFT && scroll_x > tux_pos_x - X_SPACE && level->back_scrolling)
+          scroll_x = tux_pos_x - X_SPACE;
     }
+
+  }
 
   // this code prevent the screen to scroll before the start or after the level's end
   if(scroll_x < 0)
