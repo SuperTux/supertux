@@ -167,7 +167,7 @@ void st_subset::save()
 
       /* Write header: */
       fprintf(fi,";SuperTux-Level-Subset\n");
-      fprintf(fi,"(level-subset\n");
+      fprintf(fi,"(supertux-level-subset\n");
 
       /* Save title info: */
       fprintf(fi,"  (title \"%s\")\n", title.c_str());
