@@ -306,24 +306,24 @@ World::action(double frame_ratio)
 }
 
 // the space that it takes for the screen to start scrolling
-#define X_SPACE 80
+#define X_SPACE 40
 
 /* This functions takes cares of the scrolling */
 void World::keep_in_bounds()
 {
-int tux_pos_x = (int)(tux.base.x - (tux.base.width/2));
+  int tux_pos_x = (int)(tux.base.x + (tux.base.width/2));
 
-scroll_x += screen->w/2;
+  scroll_x += screen->w/2;
 
-if (scroll_x < tux_pos_x - X_SPACE)
-  scroll_x = tux_pos_x - X_SPACE;
-else if (scroll_x > tux_pos_x + X_SPACE && level->back_scrolling)
-  scroll_x = tux_pos_x + X_SPACE;
+  if (scroll_x < tux_pos_x - X_SPACE)
+    scroll_x = tux_pos_x - X_SPACE;
+  else if (scroll_x > tux_pos_x + X_SPACE && level->back_scrolling)
+    scroll_x = tux_pos_x + X_SPACE;
 
-scroll_x -= screen->w/2;
+  scroll_x -= screen->w/2;
 
-if(scroll_x < 0)
-  scroll_x = 0;
+  if(scroll_x < 0)
+    scroll_x = 0;
 }
 
 
