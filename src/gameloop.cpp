@@ -57,10 +57,17 @@
 GameSession* GameSession::current_ = 0;
 
 GameSession::GameSession(const std::string& subset_, int levelnb_, int mode)
-  : world(0), st_gl_mode(mode), levelnb(levelnb_), subset(subset_)
+  : world(0), st_gl_mode(mode), levelnb(levelnb_), end_sequenze(false),
+    subset(subset_)
 {
   current_ = this;
-  end_sequenze = false;
+  
+  global_frame_counter = 0;
+  game_pause = false;
+
+  fps_timer.init(true);            
+  frame_timer.init(true);
+
   restart_level();
 }
 
@@ -470,16 +477,9 @@ GameSession::run()
   Player* tux = world->get_tux();
   current_ = this;
   
-  int  fps_cnt;
+  int fps_cnt = 0;
 
-  global_frame_counter = 0;
-  game_pause = false;
-
-  fps_timer.init(true);
-  frame_timer.init(true);
-
-  last_update_time = st_get_ticks();
-  fps_cnt = 0;
+  update_time = last_update_time = st_get_ticks();
 
   /* Clear screen: */
   clearscreen(0, 0, 0);
