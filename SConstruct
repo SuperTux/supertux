@@ -11,6 +11,29 @@ def Glob(dirs, pattern = '*' ):
                 files.append( os.path.join( dir, file ) ) 
     return files 
 
+def CheckSDLConfig(context, minVersion):
+    context.Message('Checking for sdl-config >= %s... ' % minVersion)
+    from popen2 import Popen3
+    p = Popen3(['sdl-config', '--version'])
+    ret = p.wait()
+    out = p.fromchild.readlines()
+    if ret != 0:
+        context.Result(False)
+        return False
+    if len(out) != 1:
+        # unable to parse output!
+        context.Result(False)
+        return False
+    # TODO validate output and catch exceptions
+    version = map(int, out[0].strip().split('.'))
+    minVersion = map(int, minVersion.split('.'))
+    # TODO comparing versions that way only works for pure numeric version
+    # numbers and fails for custom extensions. I don't care about this at
+    # the moment as sdl-config never used such version numbers afaik.
+    ret = (version >= minVersion)
+    context.Result(ret)
+    return ret
+
 opts = Options('custom.py')
 opts.Add('CXX', 'The C++ compiler', 'g++')
 opts.Add('CXXFLAGS', 'Additional C++ compiler flags', '')
@@ -23,10 +46,15 @@ opts.Add('DESTDIR', \
 opts.Add('PREFIX', 'Installation prefix', '/usr/local')
 
 env = Environment(options = opts)
-conf = Configure(env)
+conf = Configure(env, custom_tests = {
+    'CheckSDLConfig' : CheckSDLConfig        
+})
 
 # TODO check -config apps in the Configure context
-    
+   
+if not conf.CheckSDLConfig('1.2.4'):
+    print "Couldn't find libSDL >= 1.2.4"
+    Exit(1)
 if not conf.CheckLib('SDL_mixer'):
     print "Couldn't find SDL_mixer library!"
     Exit(1)
@@ -45,11 +73,16 @@ env.Append(CPPDEFINES = \
         {'DATA_PREFIX':"'\"" + env['PREFIX'] + "/share/supertux\"'" ,
          'LOCALEDIR'  :"'\"" + env['PREFIX'] + "/locales\"'"})
 
-env.Append(LIBS = ["supertux"])
-env.Append(LIBPATH=["#"])
+build_dir="build/" + env['PLATFORM']
 
-build_dir="build/linux"
+env.Append(LIBS = ["supertux"])
+env.Append(LIBPATH=["#" + build_dir + "/lib"])
 
 env.Export(["env", "Glob"])
 env.SConscript("lib/SConscript", build_dir=build_dir + "/lib", duplicate=0)
 env.SConscript("src/SConscript", build_dir=build_dir + "/src", duplicate=0)
+
+#for i in env.items():
+#    print str(i)
+
+# link all program targets to top builddir as a convenience
