@@ -103,11 +103,11 @@ for y in range(0, 15):
     for x in range(0, int(width)):
         val = content[10 + y][x]
         if val == '0':
-            print "  (bsod %d %d)" % (x*32, y*32)
+            print "  (bsod (x %d) (y %d))" % (x*32, y*32)
         elif val == '1':
-            print "  (laptop %d %d)" % (x*32, y*32)
+            print "  (laptop (x %d) (y %d))" % (x*32, y*32)
         elif val == '2':
-            print "  (money %d %d)" % (x*32, y*32)
+            print "  (money (x %d) (y %d))" % (x*32, y*32)
 print "   )"
 
 print ")"
