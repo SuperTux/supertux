@@ -4,7 +4,9 @@ EXTRA_DIST = \
   images/icon.png \
   images/icon.xpm \
   $(wildcard images/*.png) \
+  $(wildcard images/*.xpm) \
   $(wildcard images/background/*.png) \
+  $(wildcard images/background/*.jpg) \
   $(wildcard images/highscore/*.png) \
   $(wildcard images/icons/*.png) \
   $(wildcard images/icons/*.xpm) \
