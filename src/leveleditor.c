@@ -77,8 +77,7 @@ void le_highlight_selection();
 void apply_level_settings_menu();
 
 /* leveleditor internals */
-static char **level_subsets;
-static int subsets_num;
+static string_list_type level_subsets;
 static int le_level_changed;  /* if changes, ask for saving, when quiting*/
 static int pos_x, cursor_x, cursor_y, cursor_tile, fire;
 static int le_level;
@@ -226,7 +225,7 @@ int leveleditor(int levelnb)
                 default:
                   if(i != -1)
                     {
-                      subset_load(&le_level_subset,level_subsets[i-2]);
+                      subset_load(&le_level_subset,level_subsets.item[i-2]);
                       leveleditor_menu.item[3].kind = MN_GOTO;
                       menu_item_change_input(&subset_settings_menu.item[2],le_level_subset.title);
                       menu_item_change_input(&subset_settings_menu.item[3],le_level_subset.description);
@@ -331,8 +330,7 @@ int le_init()
 {
   int i;
   char str[80];
-  level_subsets = NULL;
-  level_subsets = dsubdirs("/levels", "info", &subsets_num);
+  level_subsets = dsubdirs("/levels", "info");
 
   le_show_grid = YES;
 
@@ -397,9 +395,9 @@ int le_init()
   menu_init(&subset_load_menu);
   menu_additem(&subset_load_menu,menu_item_create(MN_LABEL,"Load Level Subset",0,0));
   menu_additem(&subset_load_menu,menu_item_create(MN_HL,"",0,0));
-  for(i = 0; i < subsets_num; ++i)
+  for(i = 0; i < level_subsets.num_items; ++i)
     {
-      menu_additem(&subset_load_menu,menu_item_create(MN_ACTION,level_subsets[i],0,0));
+      menu_additem(&subset_load_menu,menu_item_create(MN_ACTION,level_subsets.item[i],0,0));
     }
   menu_additem(&subset_load_menu,menu_item_create(MN_HL,"",0,0));
   menu_additem(&subset_load_menu,menu_item_create(MN_BACK,"Back",0,0));
@@ -454,6 +452,11 @@ void update_level_settings_menu()
 
   menu_item_change_input(&level_settings_menu.item[2], le_current_level->name);
   sprintf(str,"%d",le_current_level->width);
+
+  string_list_copy(level_settings_menu.item[3].list, dsubdirs("images/themes", "solid0.png"));
+  string_list_copy(level_settings_menu.item[4].list, dfiles("music/", NULL));
+  string_list_copy(level_settings_menu.item[5].list, dfiles("images/background", NULL));
+  
   menu_item_change_input(&level_settings_menu.item[6], str);
   sprintf(str,"%d",le_current_level->time_left);
   menu_item_change_input(&level_settings_menu.item[7], str);
@@ -471,7 +474,18 @@ void apply_level_settings_menu()
 {
   int i,y,j;
   strcpy(le_current_level->name,level_settings_menu.item[2].input);
-
+  
+  strcpy(le_current_level->bkgd_image,string_list_active(level_settings_menu.item[5].list));
+  
+  if(strcmp(le_current_level->theme,string_list_active(level_settings_menu.item[3].list)) != 0)
+  {
+  strcpy(le_current_level->theme,string_list_active(level_settings_menu.item[3].list));
+  level_free_gfx();
+  level_load_gfx(le_current_level);
+  }
+  
+  strcpy(le_current_level->song_title,string_list_active(level_settings_menu.item[4].list));
+  
   i = le_current_level->width;
   le_current_level->width = atoi(level_settings_menu.item[6].input);
   if(le_current_level->width < i)
@@ -963,83 +977,108 @@ void le_checkevents()
 
     }
 
+
   if(le_current_level != NULL)
     {
       if(event.type == SDL_KEYDOWN || event.type == SDL_KEYUP || ((event.type == SDL_MOUSEBUTTONDOWN || SDL_MOUSEMOTION) && (event.motion.x > screen->w-64 && event.motion.x < screen->w &&
           event.motion.y > 0 && event.motion.y < screen->h)))
         {
-          /* Check for button events */
-          button_event(&le_test_level_bt,&event);
-          if(button_get_state(&le_test_level_bt) == BN_CLICKED)
-            le_testlevel();
-          button_event(&le_save_level_bt,&event);
-          if(button_get_state(&le_save_level_bt) == BN_CLICKED)
-            level_save(le_current_level,le_level_subset.name,le_level);
-          button_event(&le_next_level_bt,&event);
-          if(button_get_state(&le_next_level_bt) == BN_CLICKED)
+          if(show_menu == NO)
             {
-              if(le_level < le_level_subset.levels)
-                le_goto_level(++le_level);
-            }
-          button_event(&le_previous_level_bt,&event);
-          if(button_get_state(&le_previous_level_bt) == BN_CLICKED)
-            {
-              if(le_level > 1)
-                le_goto_level(--le_level);
-            }
-          button_event(&le_rubber_bt,&event);
-          if(button_get_state(&le_rubber_bt) == BN_CLICKED)
-            le_current_tile = '.';
-          button_event(&le_select_mode_one_bt,&event);
-          if(button_get_state(&le_select_mode_one_bt) == BN_CLICKED)
-            le_selection_mode = CURSOR;
-          button_event(&le_select_mode_two_bt,&event);
-          if(button_get_state(&le_select_mode_two_bt) == BN_CLICKED)
-            le_selection_mode = SQUARE;
-          button_event(&le_bad_bsod_bt,&event);
-          if(button_get_state(&le_bad_bsod_bt) == BN_CLICKED)
-            le_current_tile = '0';
-          button_event(&le_settings_bt,&event);
-          if(button_get_state(&le_settings_bt) == BN_CLICKED)
-            {
-              if(show_menu == NO)
+              /* Check for button events */
+              button_event(&le_test_level_bt,&event);
+              if(button_get_state(&le_test_level_bt) == BN_CLICKED)
+                le_testlevel();
+              button_event(&le_save_level_bt,&event);
+              if(button_get_state(&le_save_level_bt) == BN_CLICKED)
+                level_save(le_current_level,le_level_subset.name,le_level);
+              button_event(&le_next_level_bt,&event);
+              if(button_get_state(&le_next_level_bt) == BN_CLICKED)
                 {
-                  update_level_settings_menu();
-                  menu_set_current(&level_settings_menu);
-                  show_menu = YES;
+                  if(le_level < le_level_subset.levels)
+                    le_goto_level(++le_level);
                 }
-              else
+              button_event(&le_previous_level_bt,&event);
+              if(button_get_state(&le_previous_level_bt) == BN_CLICKED)
                 {
-                  menu_set_current(&leveleditor_menu);
-                  show_menu = NO;
+                  if(le_level > 1)
+                    le_goto_level(--le_level);
                 }
+              button_event(&le_rubber_bt,&event);
+              if(button_get_state(&le_rubber_bt) == BN_CLICKED)
+                le_current_tile = '.';
+              button_event(&le_select_mode_one_bt,&event);
+              if(button_get_state(&le_select_mode_one_bt) == BN_CLICKED)
+                le_selection_mode = CURSOR;
+              button_event(&le_select_mode_two_bt,&event);
+              if(button_get_state(&le_select_mode_two_bt) == BN_CLICKED)
+                le_selection_mode = SQUARE;
+              button_event(&le_bad_bsod_bt,&event);
+              if(button_get_state(&le_bad_bsod_bt) == BN_CLICKED)
+                le_current_tile = '0';
+              button_event(&le_settings_bt,&event);
+              if(button_get_state(&le_settings_bt) == BN_CLICKED)
+                {
+                  if(show_menu == NO)
+                    {
+                      update_level_settings_menu();
+                      menu_set_current(&level_settings_menu);
+                      show_menu = YES;
+                    }
+                  else
+                    {
+                      menu_set_current(&leveleditor_menu);
+                      show_menu = NO;
+                    }
+                }
+            }
+          else
+            {
+              button_event(&le_settings_bt,&event);
+              if(button_get_state(&le_settings_bt) == BN_CLICKED)
+                {
+                  if(show_menu == NO)
+                    {
+                      update_level_settings_menu();
+                      menu_set_current(&level_settings_menu);
+                      show_menu = YES;
+                    }
+                  else
+                    {
+                      menu_set_current(&leveleditor_menu);
+                      show_menu = NO;
+                    }
+                }
+            }
+        }
+      if(show_menu == NO)
+        {
+          button_event(&le_move_left_bt,&event);
+          if(button_get_state(&le_move_left_bt) == BN_PRESSED)
+            {
+              pos_x -= 192;
+            }
+          else if(button_get_state(&le_move_left_bt) == BN_HOVER)
+            {
+              pos_x -= 96;
+            }
+          button_event(&le_move_right_bt,&event);
+          if(button_get_state(&le_move_right_bt) == BN_PRESSED)
+            {
+              pos_x += 192;
+            }
+          else if(button_get_state(&le_move_right_bt) == BN_HOVER)
+            {
+              pos_x += 96;
+            }
+
+          if(le_mouse_pressed)
+            {
+              le_change(cursor_x, cursor_y, le_current_tile);
             }
         }
     }
 
-  button_event(&le_move_left_bt,&event);
-  if(button_get_state(&le_move_left_bt) == BN_PRESSED)
-    {
-      pos_x -= 192;
-    }
-  else if(button_get_state(&le_move_left_bt) == BN_HOVER)
-    {
-      pos_x -= 96;
-    }
-  button_event(&le_move_right_bt,&event);
-  if(button_get_state(&le_move_right_bt) == BN_PRESSED)
-    {
-      pos_x += 192;
-    }
-  else if(button_get_state(&le_move_right_bt) == BN_HOVER)
-    {
-      pos_x += 96;
-    }
-
-  if(le_mouse_pressed)
-    {
-      le_change(cursor_x, cursor_y, le_current_tile);
-    }
 
 }
 

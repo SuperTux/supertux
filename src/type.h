@@ -29,5 +29,20 @@ typedef struct base_type
   }
 base_type;
 
+
+typedef struct string_list_type
+{
+ int num_items;
+ int active_item;
+ char **item;
+ }
+string_list_type;
+
+void string_list_init(string_list_type* pstring_list);
+char* string_list_active(string_list_type* pstring_list);
+void string_list_copy(string_list_type* pstring_list, string_list_type pstring_list_orig);
+void string_list_add_item(string_list_type* pstring_list, char* str);
+void string_list_free(string_list_type* pstring_list);
+
 #endif /*SUPERTUX_TYPE_H*/
 

@@ -16,13 +16,15 @@
 #include <SDL.h>
 #include "texture.h"
 #include "timer.h"
+#include "type.h"
 
 typedef struct menu_item_type
   {
     int kind;
+    int toggled;
     char *text;
     char *input;
-    int toggled;
+    string_list_type* list;
     void* target_menu;
   }
 menu_item_type;

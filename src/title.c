@@ -46,10 +46,8 @@ int title(void)
   SDLKey key;
   int done, quit, frame, pict, i;
   char str[80];
-  char **level_subsets;
-  int subsets_num;
-  level_subsets = NULL;
-  level_subsets = dsubdirs("/levels", "info", &subsets_num);
+  string_list_type level_subsets;
+  level_subsets = dsubdirs("/levels", "info");
   st_subset subset;
   subset_init(&subset);
 
@@ -157,20 +155,20 @@ int title(void)
             case 2:
               done = 0;
               i = 0;
-              if(level_subsets != NULL)
+              if(level_subsets.num_items != 0)
                 {
-                  subset_load(&subset,level_subsets[0]);
+                  subset_load(&subset,level_subsets.item[0]);
                   while(!done)
                     {
                       texture_draw(&img_choose_subset,(screen->w - img_choose_subset.w) / 2, 0, NO_UPDATE);
-                      if(subsets_num != 0)
+                      if(level_subsets.num_items != 0)
                         {
                           texture_draw(&subset.image,(screen->w - subset.image.w) / 2 + 25,78,NO_UPDATE);
-			  if(subsets_num > 1)
+			  if(level_subsets.num_items > 1)
 			  {
 			  if(i > 0)
 			  texture_draw(&arrow_left,(screen->w / 2) - ((strlen(subset.title)+2)*16)/2,20,NO_UPDATE);
-			  if(i < subsets_num-1)
+			  if(i < level_subsets.num_items-1)
 			  texture_draw(&arrow_right,(screen->w / 2) + ((strlen(subset.title))*16)/2,20,NO_UPDATE);
 			  }
                           text_drawf(&gold_text, subset.title, 0, 20, A_HMIDDLE, A_TOP, 1, NO_UPDATE);
@@ -196,16 +194,16 @@ int title(void)
                                     {
                                       --i;
                                       subset_free(&subset);
-                                      subset_load(&subset,level_subsets[i]);
+                                      subset_load(&subset,level_subsets.item[i]);
                                     }
                                 }
                               else if(key == SDLK_RIGHT)
                                 {
-                                  if(i < subsets_num -1)
+                                  if(i < level_subsets.num_items -1)
                                     {
                                       ++i;
                                       subset_free(&subset);
-                                      subset_load(&subset,level_subsets[i]);
+                                      subset_load(&subset,level_subsets.item[i]);
                                     }
                                 }
                               else if(key == SDLK_SPACE || key == SDLK_RETURN)
@@ -259,7 +257,7 @@ int title(void)
   texture_free(&title);
   texture_free(&anim1);
   texture_free(&anim2);
-  free_strings(level_subsets,subsets_num);
+  string_list_free(&level_subsets);
 
   /* Return to main! */
 

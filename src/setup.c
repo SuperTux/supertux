@@ -90,15 +90,16 @@ int fcreatedir(char* relative_dir)
 /* Get all names of sub-directories in a certain directory. */
 /* Returns the number of sub-directories found. */
 /* Note: The user has to free the allocated space. */
-char ** dsubdirs(char *rel_path, char* expected_file, int* num)
+string_list_type dsubdirs(char *rel_path, char* expected_file)
 {
   DIR *dirStructP;
   struct dirent *direntp;
   int i = 0;
-  char ** sdirs= NULL;
+  string_list_type sdirs;
   char filename[1024];
   char path[1024];
 
+  string_list_init(&sdirs);
   sprintf(path,"%s/%s",st_dir,rel_path);
   if((dirStructP = opendir(path)) != NULL)
     {
@@ -118,10 +119,7 @@ char ** dsubdirs(char *rel_path, char* expected_file, int* num)
                     continue;
                 }
 
-              sdirs = (char**) realloc(sdirs, sizeof(char*) * (i+1));
-              sdirs[i] = (char*) malloc(sizeof(char) * strlen(direntp->d_name) + 1 );
-              strcpy(sdirs[i],direntp->d_name);
-              ++i;
+		string_list_add_item(&sdirs,direntp->d_name);
             }
         }
       closedir(dirStructP);
@@ -154,16 +152,83 @@ char ** dsubdirs(char *rel_path, char* expected_file, int* num)
                     }
                 }
 
-              sdirs = (char**) realloc(sdirs, sizeof(char*) * (i+1));
-              sdirs[i] = (char*) malloc(sizeof(char) * strlen(direntp->d_name) + 1 );
-              strcpy(sdirs[i],direntp->d_name);
-              ++i;
+		string_list_add_item(&sdirs,direntp->d_name);
             }
         }
       closedir(dirStructP);
     }
 
-  *num = i;
+  return sdirs;
+}
+
+string_list_type dfiles(char *rel_path, char* expected_file)
+{
+  DIR *dirStructP;
+  struct dirent *direntp;
+  int i = 0;
+  string_list_type sdirs;
+  char filename[1024];
+  char path[1024];
+
+  string_list_init(&sdirs);
+  sprintf(path,"%s/%s",st_dir,rel_path);
+  if((dirStructP = opendir(path)) != NULL)
+    {
+      while((direntp = readdir(dirStructP)) != NULL)
+        {
+          char absolute_filename[1024];
+          struct stat buf;
+
+          sprintf(absolute_filename, "%s/%s", path, direntp->d_name);
+
+          if (stat(absolute_filename, &buf) == 0 && S_ISREG(buf.st_mode))
+            {
+              if(expected_file != NULL)
+                {
+                  sprintf(filename,"%s/%s/%s",path,direntp->d_name,expected_file);
+                  if(!faccessible(filename))
+                    continue;
+                }
+
+		string_list_add_item(&sdirs,direntp->d_name);
+            }
+        }
+      closedir(dirStructP);
+    }
+
+  sprintf(path,"%s/%s",DATA_PREFIX,rel_path);
+  if((dirStructP = opendir(path)) != NULL)
+    {
+      while((direntp = readdir(dirStructP)) != NULL)
+        {
+          char absolute_filename[1024];
+          struct stat buf;
+
+          sprintf(absolute_filename, "%s/%s", path, direntp->d_name);
+
+          if (stat(absolute_filename, &buf) == 0 && S_ISREG(buf.st_mode))
+            {
+              if(expected_file != NULL)
+                {
+                  sprintf(filename,"%s/%s/%s",path,direntp->d_name,expected_file);
+                  if(!faccessible(filename))
+                    {
+                      continue;
+                    }
+                  else
+                    {
+                      sprintf(filename,"%s/%s/%s/%s",st_dir,rel_path,direntp->d_name,expected_file);
+                      if(faccessible(filename))
+                        continue;
+                    }
+                }
+
+		string_list_add_item(&sdirs,direntp->d_name);
+            }
+        }
+      closedir(dirStructP);
+    }
+
   return sdirs;
 }
 

@@ -36,7 +36,6 @@ int menuaction;
 int show_menu;
 int menu_change;
 texture_type checkbox, checkbox_checked, back, arrow_left, arrow_right;
-;
 
 menu_type main_menu, game_menu, options_menu, highscore_menu, load_game_menu, save_game_menu;
 menu_type* current_menu, * last_menu;
@@ -71,6 +70,13 @@ menu_item_type* menu_item_create(int kind, char *text, int init_toggle, void* ta
   pnew_item->target_menu = target_menu;
   pnew_item->input = (char*) malloc(sizeof(char));
   pnew_item->input[0] = '\0';
+  if(kind == MN_STRINGSELECT)
+    {
+      pnew_item->list = (string_list_type*) malloc(sizeof(string_list_type));
+      string_list_init(pnew_item->list);
+    }
+  else
+    pnew_item->list = NULL;
   return pnew_item;
 }
 
@@ -103,6 +109,7 @@ void menu_free(menu_type* pmenu)
         {
           free(pmenu->item[i].text);
           free(pmenu->item[i].input);
+          string_list_free(pmenu->item[i].list);
         }
       free(pmenu->item);
     }
@@ -149,11 +156,23 @@ void menu_action(menu_type* pmenu)
             pmenu->active_item = 0;
           break;
         case MN_LEFT:
-          if(pmenu->item[pmenu->active_item].kind == MN_STRINGSELECT)
-          {}
+          if(pmenu->item[pmenu->active_item].kind == MN_STRINGSELECT && pmenu->item[pmenu->active_item].list->num_items != 0)
+            {
+              if(pmenu->item[pmenu->active_item].list->active_item > 0)
+                --pmenu->item[pmenu->active_item].list->active_item;
+              else
+                pmenu->item[pmenu->active_item].list->active_item = pmenu->item[pmenu->active_item].list->num_items-1;
+            }
+          break;
         case MN_RIGHT:
-          if(pmenu->item[pmenu->active_item].kind == MN_STRINGSELECT)
-          {}
+          if(pmenu->item[pmenu->active_item].kind == MN_STRINGSELECT && pmenu->item[pmenu->active_item].list->num_items != 0)
+            {
+              if(pmenu->item[pmenu->active_item].list->active_item < pmenu->item[pmenu->active_item].list->num_items-1)
+                ++pmenu->item[pmenu->active_item].list->active_item;
+              else
+                pmenu->item[pmenu->active_item].list->active_item = 0;
+            }
+          break;
         case MN_HIT:
           if(pmenu->item[pmenu->active_item].kind == MN_GOTO && pmenu->item[pmenu->active_item].target_menu != NULL)
             menu_set_current((menu_type*)pmenu->item[pmenu->active_item].target_menu);
@@ -250,7 +269,7 @@ void menu_draw(menu_type* pmenu)
   menu_width = 0;
   for(i = 0; i < pmenu->num_items; ++i)
     {
-      y = strlen(pmenu->item[i].text) + (pmenu->item[i].input ? strlen(pmenu->item[i].input) + 1 : 0);
+      y = strlen(pmenu->item[i].text) + (pmenu->item[i].input ? strlen(pmenu->item[i].input) + 1 : 0) + strlen(string_list_active(pmenu->item[i].list));
       if( y > menu_width )
         {
           menu_width = y;
@@ -281,7 +300,7 @@ void menu_draw(menu_type* pmenu)
   for(i = 0; i < pmenu->num_items; ++i)
     {
       if(pmenu->arrange_left == YES)
-        b = (a - ((strlen(pmenu->item[i].text)+strlen(pmenu->item[i].input)) * 16)) / 2;
+        b = (a - ((strlen(pmenu->item[i].text)+strlen(pmenu->item[i].input)+ strlen(string_list_active(pmenu->item[i].list))) * 16)) / 2;
       else
         b = 0;
 
@@ -325,21 +344,21 @@ void menu_draw(menu_type* pmenu)
         }
       else if(pmenu->item[i].kind == MN_STRINGSELECT)
         {
-	  /* Draw arrows */
-          texture_draw(&arrow_left,-b +screen->w/2 - ((strlen(pmenu->item[i].input)*16)/2) + ((strlen(pmenu->item[i].text) + 1)*16)/2 - 17,(i)*24 - menu_height/2 + 10 + screen->h / 2 -8 + f,NO_UPDATE);
-          texture_draw(&arrow_right,-b +screen->w/2 - ((strlen(pmenu->item[i].input)*16)/2) + ((strlen(pmenu->item[i].text) + 1)*16)/2 - 1 + (strlen(pmenu->item[i].input)+1)*16,(i)*24 - menu_height/2 + 10 + screen->h / 2 -8 + f,NO_UPDATE);
-	  /* Draw input background */
-          fillrect(-b +screen->w/2 - ((strlen(pmenu->item[i].input)*16)/2) + ((strlen(pmenu->item[i].text) + 1)*16)/2 - 1,(i)*24 - menu_height/2 + 10 + screen->h /2 - 10 + f,(strlen(pmenu->item[i].input)+1)*16 + 2,20,255,255,255,255);
-          fillrect(- b +screen->w/2 - ((strlen(pmenu->item[i].input)*16)/2) + ((strlen(pmenu->item[i].text) + 1)*16)/2,(i)*24 - menu_height/2 + 10 + screen->h /2 - 9 + f,(strlen(pmenu->item[i].input)+1)*16,18,0,0,0,128);
-	  
-          text_drawf(&gold_text,pmenu->item[i].input, - b + ((strlen(pmenu->item[i].text)+1) * 16)/2,(i)*24 - menu_height/2 + 10 + f,A_HMIDDLE, A_VMIDDLE,2,NO_UPDATE);
+          /* Draw arrows */
+          texture_draw(&arrow_left,-b +screen->w/2 - ((strlen(string_list_active(pmenu->item[i].list))*16)/2) + ((strlen(pmenu->item[i].text) + 1)*16)/2 - 17,(i)*24 - menu_height/2 + 10 + screen->h / 2 -8 + f,NO_UPDATE);
+          texture_draw(&arrow_right,-b +screen->w/2 - ((strlen(string_list_active(pmenu->item[i].list))*16)/2) + ((strlen(pmenu->item[i].text) + 1)*16)/2 - 1 + (strlen(string_list_active(pmenu->item[i].list))+1)*16,(i)*24 - menu_height/2 + 10 + screen->h / 2 -8 + f,NO_UPDATE);
+          /* Draw input background */
+          fillrect(-b +screen->w/2 - ((strlen(string_list_active(pmenu->item[i].list))*16)/2) + ((strlen(pmenu->item[i].text) + 1)*16)/2 - 1,(i)*24 - menu_height/2 + 10 + screen->h /2 - 10 + f,(strlen(string_list_active(pmenu->item[i].list))+1)*16 + 2,20,255,255,255,255);
+          fillrect(- b +screen->w/2 - ((strlen(string_list_active(pmenu->item[i].list))*16)/2) + ((strlen(pmenu->item[i].text) + 1)*16)/2,(i)*24 - menu_height/2 + 10 + screen->h /2 - 9 + f,(strlen(string_list_active(pmenu->item[i].list))+1)*16,18,0,0,0,128);
+
+          text_drawf(&gold_text,string_list_active(pmenu->item[i].list), - b + ((strlen(pmenu->item[i].text)+1) * 16)/2,(i)*24 - menu_height/2 + 10 + f,A_HMIDDLE, A_VMIDDLE,2,NO_UPDATE);
           if(i == pmenu->active_item)
             {
-              text_drawf(&blue_text,pmenu->item[i].text, - b  -(((strlen(pmenu->item[i].input)+1) * 16)/2),(i)*24 - menu_height/2 + 10 + f,A_HMIDDLE, A_VMIDDLE,3,NO_UPDATE);
+              text_drawf(&blue_text,pmenu->item[i].text, - b  -(((strlen(string_list_active(pmenu->item[i].list))+1) * 16)/2),(i)*24 - menu_height/2 + 10 + f,A_HMIDDLE, A_VMIDDLE,3,NO_UPDATE);
             }
           else
             {
-              text_drawf(&white_text,pmenu->item[i].text, - b  -(((strlen(pmenu->item[i].input)+1) * 16)/2),(i)*24 - menu_height/2 +10 + f,A_HMIDDLE, A_VMIDDLE,2,NO_UPDATE);
+              text_drawf(&white_text,pmenu->item[i].text, - b  -(((strlen(string_list_active(pmenu->item[i].list))+1) * 16)/2),(i)*24 - menu_height/2 +10 + f,A_HMIDDLE, A_VMIDDLE,2,NO_UPDATE);
             }
         }
       else if(i == pmenu->active_item)

@@ -15,11 +15,13 @@
 
 #include "menu.h"
 #include "sound.h"
+#include "type.h"
 
 int faccessible(char *filename);
 int fcreatedir(char* relative_dir);
 int fwriteable(char *filename);
-char ** dsubdirs(char *rel_path, char* expected_file, int* num);
+string_list_type dsubdirs(char *rel_path, char* expected_file);
+string_list_type dfiles(char *rel_path, char* expected_file);
 void free_strings(char **strings, int num);
 void st_directory_setup(void);
 void st_general_setup(void);
