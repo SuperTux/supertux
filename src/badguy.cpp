@@ -42,6 +42,7 @@ Surface* img_stalactite[1];
 Surface* img_stalactite_broken[1];
 Surface* img_flame[2];
 Surface* img_fish[2];
+Surface* img_fish_down[1];
 Surface* img_bouncingsnowball_left[6];
 Surface* img_bouncingsnowball_right[6];
 Surface* img_bouncingsnowball_squished[1];
@@ -534,7 +535,7 @@ BadGuy::action_fish(float frame_ratio)
   else if(mode == FISH_WAIT && !timer.check())
     {
       // jump again
-      set_texture(img_fish, img_fish, 2, 1.5);
+      set_texture(img_fish, img_fish, 2, 2);
       animation_offset = global_frame_counter; // restart animation
       mode = NORMAL;
       physic.set_velocity(0, JUMPV);
@@ -544,6 +545,9 @@ BadGuy::action_fish(float frame_ratio)
   physic.apply(frame_ratio, base.x, base.y);
   if(dying == DYING_NOT)
     collision_swept_object_map(&old_base, &base);
+
+  if(physic.get_velocity_y() < 0)
+    set_texture(img_fish_down, img_fish_down);
 }
 
 void
@@ -859,6 +863,10 @@ BadGuy::squish(Player* player)
     player_status.score_multiplier++;
     return;
   } else if(kind == BAD_FISH) {
+    // fish can only be killed when falling down
+    if(physic.get_velocity_y() >= 0)
+      return;
+      
     make_player_jump(player);
 	      
     World::current()->add_score(base.x - scroll_x, base.y, 25 * player_status.score_multiplier);
@@ -1076,6 +1084,8 @@ void load_badguy_gfx()
           datadir + "/images/shared/fish-left-0.png", USE_ALPHA);
   img_fish[1] = new Surface(
           datadir + "/images/shared/fish-left-1.png", USE_ALPHA);
+  img_fish_down[0] = new Surface(
+          datadir + "/images/shared/fish-down-0.png", USE_ALPHA);
 
   /* bouncing snowball */
   for(int i=0; i<6; ++i) {
@@ -1177,6 +1187,7 @@ void free_badguy_gfx()
 
   delete img_fish[0];
   delete img_fish[1];
+  delete img_fish_down[0];
 
   for(int i=0; i<6; ++i) {
     delete img_bouncingsnowball_left[i];
