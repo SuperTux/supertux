@@ -48,7 +48,6 @@ void TileManager::load_tileset(std::string filename)
               tile->data    = 0;
               tile->alpha   = 0;
               tile->next_tile  = 0;
-              tile->next_tile2 = 0;
               tile->anim_speed = 25;
   
               LispReader reader(lisp_cdr(element));
@@ -62,7 +61,6 @@ void TileManager::load_tileset(std::string filename)
               reader.read_int("alpha",      (int*)&tile->alpha);
               reader.read_int("anim-speed", &tile->anim_speed);
               reader.read_int("next-tile",  &tile->next_tile);
-              reader.read_int("next-tile2", &tile->next_tile2);
               reader.read_string_vector("images",  &tile->filenames);
 
 	      for(std::vector<std::string>::iterator it = tile->filenames.begin();

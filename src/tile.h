@@ -49,7 +49,6 @@ struct Tile
   /** Id of the tile that is going to replace this tile once it has
       been collected or jumped at */
   int next_tile;
-  int next_tile2;
 
   int anim_speed;
   unsigned char alpha;

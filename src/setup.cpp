@@ -929,8 +929,11 @@ void parseargs(int argc, char * argv[])
 
           use_gl = true;
 #endif
-
         }
+      else if (strcmp(argv[i], "--sdl") == 0)
+          {
+            use_gl = false;
+          }
       else if (strcmp(argv[i], "--usage") == 0)
         {
           /* Show usage: */
@@ -971,6 +974,7 @@ void parseargs(int argc, char * argv[])
                "  --fullscreen        Run in fullscreen mode.\n"
                "  --opengl            If opengl support was compiled in, this will enable\n"
                "                      the EXPERIMENTAL OpenGL mode.\n"
+               "  --sdl               Use non-opengl renderer\n"
                "\n"
                "Sound Options:\n"
                "  --disable-sound     If sound support was compiled in,  this will\n"

@@ -1171,7 +1171,7 @@ void drawshape(float x, float y, unsigned int c)
             }
           else
             {
-              printf("Tile not dravable %u\n", c);
+              //printf("Tile not dravable %u\n", c);
             }
         }
     }
@@ -1363,7 +1363,7 @@ void trybreakbrick(float x, float y)
             }
 
           if (distro_counter <= 0)
-            level_change(&current_level,x, y, TM_IA, tile->next_tile2);
+            level_change(&current_level,x, y, TM_IA, tile->next_tile);
 
           play_sound(sounds[SND_DISTRO], SOUND_CENTER_SPEAKER);
           score = score + SCORE_DISTRO;
