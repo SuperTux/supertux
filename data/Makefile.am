@@ -22,9 +22,9 @@ EXTRA_DIST = \
   $(wildcard images/title/*.jpg) \
   $(wildcard images/tilesets/*.png) \
   $(wildcard images/tilesets/*.stgt) \
-  levels/default/worldmap.stwm \
-  $(wildcard levels/misc/*.stl) \
   $(wildcard levels/*/*.stl) \
+  $(wildcard levels/*/*.stwm) \
+  $(wildcard levels/*/info) \
   $(wildcard music/*.mod) \
   $(wildcard music/*.MOD) \
   $(wildcard sounds/*.wav) \
