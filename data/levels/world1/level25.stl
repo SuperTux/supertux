@@ -4,7 +4,7 @@
   (author "Marek Moeckel")
   (name "Arctic Ruins")
   (name-pt_PT "Ruínas da Antártida")
-  (name-de_DE "Arktische Ruinen")
+  (name-de "Arktische Ruinen")
   (width  500)
   (height 15)
   (start_pos_x    100)

@@ -4,7 +4,7 @@
   (author "Ingo Ruhnke")
   (name "End of the Tunnel")
   (name-pt_PT "Fim do Túnel")
-  (name-de_DE "Ende des Tunnels")
+  (name-de "Ende des Tunnels")
   (width  510)
   (height 15)
   (start_pos_x    100)
