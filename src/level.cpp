@@ -229,7 +229,6 @@ Level::init_defaults()
 {
   name       = "UnNamed";
   author     = "UnNamed";
-  theme      = "antarctica";
   song_title = "Mortimers_chipdisko.mod";
   bkgd_image = "arctis.png";
   width      = 21;
@@ -332,8 +331,6 @@ Level::load(const std::string& filename)
       reader.read_string("name",  &name);
       author = "unknown author";
       reader.read_string("author", &author);
-      if(!reader.read_string("theme",  &theme))
-        st_abort("No theme specified in level file", "");
       song_title = "";
       reader.read_string("music",  &song_title);
       bkgd_image = "";
@@ -543,7 +540,6 @@ Level::save(const std::string& subset, int level)
   fprintf(fi,"  (version %d)\n", 1);
   fprintf(fi,"  (name \"%s\")\n", name.c_str());
   fprintf(fi,"  (author \"%s\")\n", author.c_str());
-  fprintf(fi,"  (theme \"%s\")\n", theme.c_str());
   fprintf(fi,"  (music \"%s\")\n", song_title.c_str());
   fprintf(fi,"  (background \"%s\")\n", bkgd_image.c_str());
   fprintf(fi,"  (particle_system \"%s\")\n", particle_system.c_str());
@@ -626,7 +622,6 @@ Level::cleanup()
   reset_points.clear();
   name.clear();
   author.clear();
-  theme.clear();
   song_title.clear();
   bkgd_image.clear();
 
@@ -653,8 +648,7 @@ Level::load_gfx()
 }
 
 /* Load a level-specific graphic... */
-void
-Level::load_image(Surface** ptexture, string theme,const  char * file, int use_alpha)
+void Level::load_image(Surface** ptexture, string theme,const  char * file, int use_alpha)
 {
   char fname[1024];
 

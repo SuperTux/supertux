@@ -64,6 +64,19 @@ enum LevelEditorMainMenuIDs {
   };
 
 enum LevelEditorSettingsMenuIDs {
+  MNID_NAME,
+  MNID_AUTHOR,
+  MNID_SONG,
+  MNID_BGIMG,
+  MNID_LENGTH,
+  MNID_TIME,
+  MNID_GRAVITY,
+  MNID_TopRed,
+  MNID_TopGreen,
+  MNID_TopBlue,
+  MNID_BottomRed,
+  MNID_BottomGreen,
+  MNID_BottomBlue,
   MNID_APPLY
   };
 

@@ -273,9 +273,9 @@ int leveleditor(int levelnb)
       {
         switch (level_settings_menu->check())
         {
-        case MNID_SUBSETSETTINGS:
+        case MNID_APPLY:
           apply_level_settings_menu();
-          Menu::set_current(leveleditor_menu);
+          Menu::set_current(NULL);
           break;
 
         default:
@@ -471,20 +471,19 @@ void le_init_menus()
   level_settings_menu->arrange_left = true;
   level_settings_menu->additem(MN_LABEL,"Level Settings",0,0);
   level_settings_menu->additem(MN_HL,"",0,0);
-  level_settings_menu->additem(MN_TEXTFIELD,"Name    ",0,0);
-  level_settings_menu->additem(MN_TEXTFIELD,"Author  ",0,0);
-  level_settings_menu->additem(MN_STRINGSELECT,"Theme   ",0,0);
-  level_settings_menu->additem(MN_STRINGSELECT,"Song    ",0,0);
-  level_settings_menu->additem(MN_STRINGSELECT,"Bg-Image",0,0);
-  level_settings_menu->additem(MN_NUMFIELD,"Length ",0,0);
-  level_settings_menu->additem(MN_NUMFIELD,"Time   ",0,0);
-  level_settings_menu->additem(MN_NUMFIELD,"Gravity",0,0);
-  level_settings_menu->additem(MN_NUMFIELD,"Top Red    ",0,0);
-  level_settings_menu->additem(MN_NUMFIELD,"Top Green  ",0,0);
-  level_settings_menu->additem(MN_NUMFIELD,"Top Blue   ",0,0);
-  level_settings_menu->additem(MN_NUMFIELD,"Bottom Red ",0,0);
-  level_settings_menu->additem(MN_NUMFIELD,"Bottom Green",0,0);
-  level_settings_menu->additem(MN_NUMFIELD,"Bottom Blue",0,0);
+  level_settings_menu->additem(MN_TEXTFIELD,"Name    ",0,0,MNID_NAME);
+  level_settings_menu->additem(MN_TEXTFIELD,"Author  ",0,0,MNID_AUTHOR);
+  level_settings_menu->additem(MN_STRINGSELECT,"Song    ",0,0,MNID_SONG);
+  level_settings_menu->additem(MN_STRINGSELECT,"Bg-Image",0,0,MNID_BGIMG);
+  level_settings_menu->additem(MN_NUMFIELD,"Length ",0,0,MNID_LENGTH);
+  level_settings_menu->additem(MN_NUMFIELD,"Time   ",0,0,MNID_TIME);
+  level_settings_menu->additem(MN_NUMFIELD,"Gravity",0,0,MNID_GRAVITY);
+  level_settings_menu->additem(MN_NUMFIELD,"Top Red    ",0,0,MNID_TopRed);
+  level_settings_menu->additem(MN_NUMFIELD,"Top Green  ",0,0,MNID_TopGreen);
+  level_settings_menu->additem(MN_NUMFIELD,"Top Blue   ",0,0,MNID_TopBlue);
+  level_settings_menu->additem(MN_NUMFIELD,"Bottom Red ",0,0,MNID_BottomRed);
+  level_settings_menu->additem(MN_NUMFIELD,"Bottom Green",0,0,MNID_BottomGreen);
+  level_settings_menu->additem(MN_NUMFIELD,"Bottom Blue",0,0,MNID_BottomBlue);
   level_settings_menu->additem(MN_HL,"",0,0);
   level_settings_menu->additem(MN_ACTION,"Apply Changes",0,0,MNID_APPLY);
 
@@ -587,39 +586,37 @@ void update_level_settings_menu()
 {
   char str[80];
   int i;
-
-  level_settings_menu->item[2].change_input(le_current_level->name.c_str());
-  level_settings_menu->item[3].change_input(le_current_level->author.c_str());
-  sprintf(str,"%d",le_current_level->width);
-
-  string_list_copy(level_settings_menu->item[4].list, dsubdirs("images/themes", "solid0.png"));
-  string_list_copy(level_settings_menu->item[5].list, dfiles("music/",NULL, "-fast"));
-  string_list_copy(level_settings_menu->item[6].list, dfiles("images/background",NULL, NULL));
-  string_list_add_item(level_settings_menu->item[6].list,"");
-  if((i = string_list_find(level_settings_menu->item[4].list,le_current_level->theme.c_str())) != -1)
-    level_settings_menu->item[3].list->active_item = i;
-  if((i = string_list_find(level_settings_menu->item[5].list,le_current_level->song_title.c_str())) != -1)
-    level_settings_menu->item[4].list->active_item = i;
-  if((i = string_list_find(level_settings_menu->item[6].list,le_current_level->bkgd_image.c_str())) != -1)
-    level_settings_menu->item[5].list->active_item = i;
-
-  level_settings_menu->item[7].change_input(str);
+  
+  level_settings_menu->get_item_by_id(MNID_NAME).change_input(le_current_level->name.c_str());
+  level_settings_menu->get_item_by_id(MNID_AUTHOR).change_input(le_current_level->author.c_str());
+  
+  string_list_copy(level_settings_menu->get_item_by_id(MNID_SONG).list, dfiles("music/",NULL, "-fast"));
+  string_list_copy(level_settings_menu->get_item_by_id(MNID_BGIMG).list, dfiles("images/background",NULL, NULL));
+  string_list_add_item(level_settings_menu->get_item_by_id(MNID_BGIMG).list,"");
+  
+  if((i = string_list_find(level_settings_menu->get_item_by_id(MNID_SONG).list,le_current_level->song_title.c_str())) != -1)
+    level_settings_menu->get_item_by_id(MNID_SONG).list->active_item = i;
+  if((i = string_list_find(level_settings_menu->get_item_by_id(MNID_BGIMG).list,le_current_level->bkgd_image.c_str())) != -1)
+    level_settings_menu->get_item_by_id(MNID_BGIMG).list->active_item = i;
+  
+  sprintf(str,"%d",le_current_level->width);  
+  level_settings_menu->get_item_by_id(MNID_LENGTH).change_input(str);
   sprintf(str,"%d",le_current_level->time_left);
-  level_settings_menu->item[8].change_input(str);
+  level_settings_menu->get_item_by_id(MNID_TIME).change_input(str);
   sprintf(str,"%2.0f",le_current_level->gravity);
-  level_settings_menu->item[9].change_input(str);
+  level_settings_menu->get_item_by_id(MNID_GRAVITY).change_input(str);
   sprintf(str,"%d",le_current_level->bkgd_top.red);
-  level_settings_menu->item[10].change_input(str);
+  level_settings_menu->get_item_by_id(MNID_TopRed).change_input(str);
   sprintf(str,"%d",le_current_level->bkgd_top.green);
-  level_settings_menu->item[11].change_input(str);
+  level_settings_menu->get_item_by_id(MNID_TopGreen).change_input(str);
   sprintf(str,"%d",le_current_level->bkgd_top.blue);
-  level_settings_menu->item[12].change_input(str);
+  level_settings_menu->get_item_by_id(MNID_TopBlue).change_input(str);
   sprintf(str,"%d",le_current_level->bkgd_bottom.red);
-  level_settings_menu->item[13].change_input(str);
+  level_settings_menu->get_item_by_id(MNID_BottomRed).change_input(str);
   sprintf(str,"%d",le_current_level->bkgd_bottom.green);
-  level_settings_menu->item[14].change_input(str);
+  level_settings_menu->get_item_by_id(MNID_BottomGreen).change_input(str);
   sprintf(str,"%d",le_current_level->bkgd_bottom.blue);
-  level_settings_menu->item[15].change_input(str);
+  level_settings_menu->get_item_by_id(MNID_BottomBlue).change_input(str);
 }
 
 void update_subset_settings_menu()
@@ -633,18 +630,12 @@ void apply_level_settings_menu()
   int i;
   i = false;
 
-  le_current_level->name = level_settings_menu->item[2].input;
-  le_current_level->author = level_settings_menu->item[3].input;
+  le_current_level->name = level_settings_menu->get_item_by_id(MNID_NAME).input;
+  le_current_level->author = level_settings_menu->get_item_by_id(MNID_AUTHOR).input;
 
-  if(le_current_level->bkgd_image.compare(string_list_active(level_settings_menu->item[6].list)) != 0)
+  if(le_current_level->bkgd_image.compare(string_list_active(level_settings_menu->get_item_by_id(MNID_BGIMG).list)) != 0)
   {
-    le_current_level->bkgd_image = string_list_active(level_settings_menu->item[6].list);
-    i = true;
-  }
-
-  if(le_current_level->theme.compare(string_list_active(level_settings_menu->item[4].list)) != 0)
-  {
-    le_current_level->theme = string_list_active(level_settings_menu->item[4].list);
+    le_current_level->bkgd_image = string_list_active(level_settings_menu->get_item_by_id(MNID_BGIMG).list);
     i = true;
   }
 
@@ -653,17 +644,17 @@ void apply_level_settings_menu()
     le_current_level->load_gfx();
   }
 
-  le_current_level->song_title = string_list_active(level_settings_menu->item[5].list);
+  le_current_level->song_title = string_list_active(level_settings_menu->get_item_by_id(MNID_SONG).list);
 
-  le_current_level->change_size(atoi(level_settings_menu->item[7].input));
-  le_current_level->time_left = atoi(level_settings_menu->item[8].input);
-  le_current_level->gravity = atof(level_settings_menu->item[9].input);
-  le_current_level->bkgd_top.red = atoi(level_settings_menu->item[10].input);
-  le_current_level->bkgd_top.green = atoi(level_settings_menu->item[11].input);
-  le_current_level->bkgd_top.blue = atoi(level_settings_menu->item[12].input);
-  le_current_level->bkgd_bottom.red = atoi(level_settings_menu->item[13].input);
-  le_current_level->bkgd_bottom.green = atoi(level_settings_menu->item[14].input);
-  le_current_level->bkgd_bottom.blue = atoi(level_settings_menu->item[15].input);
+  le_current_level->change_size(atoi(level_settings_menu->get_item_by_id(MNID_LENGTH).input));
+  le_current_level->time_left = atoi(level_settings_menu->get_item_by_id(MNID_BGIMG).input);
+  le_current_level->gravity = atof(level_settings_menu->get_item_by_id(MNID_GRAVITY).input);
+  le_current_level->bkgd_top.red = atoi(level_settings_menu->get_item_by_id(MNID_TopRed).input);
+  le_current_level->bkgd_top.green = atoi(level_settings_menu->get_item_by_id(MNID_TopGreen).input);
+  le_current_level->bkgd_top.blue = atoi(level_settings_menu->get_item_by_id(MNID_TopBlue).input);
+  le_current_level->bkgd_bottom.red = atoi(level_settings_menu->get_item_by_id(MNID_BottomRed).input);
+  le_current_level->bkgd_bottom.green = atoi(level_settings_menu->get_item_by_id(MNID_BottomGreen).input);
+  le_current_level->bkgd_bottom.blue = atoi(level_settings_menu->get_item_by_id(MNID_BottomBlue).input);
 }
 
 void save_subset_settings_menu()

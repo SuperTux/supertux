@@ -75,7 +75,6 @@ class Level
 
   std::string name;
   std::string author;
-  std::string theme;
   std::string song_title;
   std::string bkgd_image;
   std::string particle_system;
