@@ -803,12 +803,12 @@ void player_draw(player_type* pplayer)
 
 void player_collision(player_type* pplayer, void* p_c_object, int c_object)
 {
-  bad_guy_type* pbad_c = NULL;
+  BadGuy* pbad_c = NULL;
 
   switch (c_object)
     {
     case CO_BADGUY:
-      pbad_c = (bad_guy_type*) p_c_object;
+      pbad_c = (BadGuy*) p_c_object;
       /* Hurt the player if he just touched it: */
 
       if (!pbad_c->dying && !pplayer->dying &&

@@ -27,28 +27,6 @@
 #define KICK 2
 #define HELD 3
 
-/* Bad guy kinds: */
-enum BadGuyKind {
-  BAD_BSOD,
-  BAD_LAPTOP,
-  BAD_MONEY
-};
-
-/* Badguy type: */
-struct bad_guy_type
-{
-  int mode;
-  DyingType dying;
-  BadGuyKind kind;
-  bool seen;
-  int dir;
-  int frame;
-  base_type base;
-  base_type old_base;
-  timer_type timer;
-  physic_type physic;
-};
-
 extern texture_type img_bsod_squished_left;
 extern texture_type img_bsod_squished_right;
 extern texture_type img_bsod_falling_left;
@@ -64,24 +42,43 @@ extern texture_type img_laptop_right[3];
 extern texture_type img_money_left[2];
 extern texture_type img_money_right[2];
 
-extern bitmask *bm_bsod;
+/* Bad guy kinds: */
+enum BadGuyKind {
+  BAD_BSOD,
+  BAD_LAPTOP,
+  BAD_MONEY
+};
 
-void badguy_create_bitmasks();
+/* Badguy type: */
+class BadGuy
+{
+ public:
+  int mode;
+  DyingType dying;
+  BadGuyKind kind;
+  bool seen;
+  int dir;
+  base_type base;
+  base_type old_base;
+  timer_type timer;
+  physic_type physic;
 
-void badguy_init(bad_guy_type* pbad, float x, float y, BadGuyKind kind);
+ public:
+  void init(float x, float y, BadGuyKind kind);
 
-void badguy_action(bad_guy_type* pbad);
-void badguy_draw(bad_guy_type* pbad);
+  void action();
+  void draw();
 
-void badguy_action_bsod(bad_guy_type* pbad);
-void badguy_action_laptop(bad_guy_type* pbad);
-void badguy_action_money(bad_guy_type* pbad);
+  void action_bsod();
+  void action_laptop();
+  void action_money();
 
-void badguy_draw_bsod(bad_guy_type* pbad);
-void badguy_draw_laptop(bad_guy_type* pbad);
-void badguy_draw_money(bad_guy_type* pbad);
+  void draw_bsod();
+  void draw_laptop();
+  void draw_money();
 
-void badguy_collision(bad_guy_type* pbad, void* p_c_object, int c_object);
+  void collision(void* p_c_object, int c_object);
+};
 
 #endif /*SUPERTUX_BADGUY_H*/
 

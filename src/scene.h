@@ -39,7 +39,7 @@ extern int frame;
 extern std::vector<bouncy_distro_type> bouncy_distros;
 extern std::vector<broken_brick_type> broken_bricks;
 extern std::vector<bouncy_brick_type> bouncy_bricks;
-extern std::vector<bad_guy_type> bad_guys;
+extern std::vector<BadGuy> bad_guys;
 extern std::vector<floating_score_type> floating_scores;
 extern std::vector<upgrade_type> upgrades;
 extern std::vector<bullet_type> bullets;

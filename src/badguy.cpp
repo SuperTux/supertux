@@ -31,156 +31,150 @@ texture_type img_laptop_right[3];
 texture_type img_money_left[2];
 texture_type img_money_right[2];
 
-bitmask *bm_bsod;
-
-void badguy_create_bitmasks()
+void
+BadGuy::init(float x, float y, BadGuyKind kind_)
 {
-  /*bm_bsod = img_bsod_left[0];*/
+  base.width  = 32;
+  base.height = 32;
+  mode     = NORMAL;
+  dying    = DYING_NOT;
+  kind     = kind_;
+  base.x   = x;
+  base.y   = y;
+  base.xm  = 1.3;
+  base.ym  = 4.8;
+  old_base = base;
+  dir      = LEFT;
+  seen     = false;
+  timer_init(&timer, true);
+  physic_init(&physic);
 }
 
-void badguy_init(bad_guy_type* pbad, float x, float y, BadGuyKind kind)
-{
-  pbad->base.width  = 32;
-  pbad->base.height = 32;
-  pbad->mode     = NORMAL;
-  pbad->dying    = DYING_NOT;
-  pbad->kind     = kind;
-  pbad->base.x   = x;
-  pbad->base.y   = y;
-  pbad->base.xm  = 1.3;
-  pbad->base.ym  = 4.8;
-  pbad->old_base = pbad->base;
-  pbad->dir      = LEFT;
-  pbad->seen     = false;
-  timer_init(&pbad->timer, true);
-  physic_init(&pbad->physic);
-}
-
-void badguy_action_bsod(bad_guy_type* pbad)
+void BadGuy::action_bsod()
 {
   /* --- BLUE SCREEN OF DEATH MONSTER: --- */
 
   /* Move left/right: */
-  if (pbad->dying == DYING_NOT ||
-      pbad->dying == DYING_FALLING)
+  if (dying == DYING_NOT ||
+      dying == DYING_FALLING)
     {
-      if (pbad->dir == RIGHT)
-        pbad->base.x = pbad->base.x + pbad->base.xm * frame_ratio;
-      else if (pbad->dir == LEFT)
-        pbad->base.x = pbad->base.x - pbad->base.xm * frame_ratio;
+      if (dir == RIGHT)
+        base.x = base.x + base.xm * frame_ratio;
+      else if (dir == LEFT)
+        base.x = base.x - base.xm * frame_ratio;
     }
 
 
   /* Move vertically: */
 
-  pbad->base.y = pbad->base.y + pbad->base.ym * frame_ratio;
+  base.y = base.y + base.ym * frame_ratio;
 
-  if (pbad->dying != DYING_FALLING)
-    collision_swept_object_map(&pbad->old_base,&pbad->base);
-  if (pbad->base.y > screen->h)
-    bad_guys.erase(static_cast<std::vector<bad_guy_type>::iterator>(pbad));
+  if (dying != DYING_FALLING)
+    collision_swept_object_map(&old_base,&base);
+  if (base.y > screen->h)
+    bad_guys.erase(static_cast<std::vector<BadGuy>::iterator>(this));
 		
   /* Bump into things horizontally: */
 
-  if (!pbad->dying)
+  if (!dying)
     {
-      if (issolid( pbad->base.x, (int) pbad->base.y + 16))
+      if (issolid( base.x, (int) base.y + 16))
         {
-          pbad->dir = RIGHT;
+          dir = RIGHT;
         }
-      else if (issolid( pbad->base.x + pbad->base.width, (int) pbad->base.y + 16))
+      else if (issolid( base.x + base.width, (int) base.y + 16))
         {
-          pbad->dir = LEFT;
+          dir = LEFT;
         }
     }
 
   /* Fall if we get off the ground: */
 
-  if (pbad->dying != DYING_FALLING)
+  if (dying != DYING_FALLING)
     {
-      if (!issolid(pbad->base.x+16, pbad->base.y + 32))
+      if (!issolid(base.x+16, base.y + 32))
         {
-          if(!physic_is_set(&pbad->physic))
+          if(!physic_is_set(&physic))
             {
-              physic_set_state(&pbad->physic,PH_VT);
-              physic_set_start_vy(&pbad->physic,2.);
+              physic_set_state(&physic,PH_VT);
+              physic_set_start_vy(&physic,2.);
             }
 
-          pbad->base.ym = physic_get_velocity(&pbad->physic);
+          base.ym = physic_get_velocity(&physic);
         }
       else
         {
           /* Land: */
 
-          if (pbad->base.ym > 0)
+          if (base.ym > 0)
             {
-              pbad->base.y = (int)(pbad->base.y / 32) * 32;
-              pbad->base.ym = 0;
+              base.y = (int)(base.y / 32) * 32;
+              base.ym = 0;
             }
-          physic_init(&pbad->physic);
+          physic_init(&physic);
         }
     }
   else
     {
-      if(!physic_is_set(&pbad->physic))
+      if(!physic_is_set(&physic))
         {
-          physic_set_state(&pbad->physic,PH_VT);
-          physic_set_start_vy(&pbad->physic,2.);
+          physic_set_state(&physic,PH_VT);
+          physic_set_start_vy(&physic,2.);
         }
-      pbad->base.ym = physic_get_velocity(&pbad->physic);
+      base.ym = physic_get_velocity(&physic);
     }
 
-  if (pbad->base.y > screen->h)
-    bad_guys.erase(static_cast<std::vector<bad_guy_type>::iterator>(pbad));
+  if (base.y > screen->h)
+    bad_guys.erase(static_cast<std::vector<BadGuy>::iterator>(this));
 }
 
-void badguy_action_laptop(bad_guy_type* pbad)
+void BadGuy::action_laptop()
 {
   /* --- LAPTOP MONSTER: --- */
 
   /* Move left/right: */
 
-  if (pbad->mode == NORMAL || pbad->mode == KICK)
+  if (mode == NORMAL || mode == KICK)
     {
-      if (pbad->dying == DYING_NOT ||
-          pbad->dying == DYING_FALLING)
+      if (dying == DYING_NOT ||
+          dying == DYING_FALLING)
         {
-          if (pbad->dir == RIGHT)
-            pbad->base.x = pbad->base.x + pbad->base.xm * frame_ratio;
-          else if (pbad->dir == LEFT)
-            pbad->base.x = pbad->base.x - pbad->base.xm * frame_ratio;
+          if (dir == RIGHT)
+            base.x = base.x + base.xm * frame_ratio;
+          else if (dir == LEFT)
+            base.x = base.x - base.xm * frame_ratio;
         }
     }
-  else if (pbad->mode == HELD)
+  else if (mode == HELD)
     { /* FIXME: The pbad object shouldn't know about pplayer objects. */
       /* If we're holding the laptop */
-      pbad->dir=tux.dir;
-      if(pbad->dir==RIGHT)
+      dir=tux.dir;
+      if(dir==RIGHT)
         {
-          pbad->base.x = tux.base.x + 16;
-          pbad->base.y = tux.base.y + tux.base.height/1.5 - pbad->base.height;
+          base.x = tux.base.x + 16;
+          base.y = tux.base.y + tux.base.height/1.5 - base.height;
         }
       else /* facing left */
         {
-          pbad->base.x = tux.base.x - 16;
-          pbad->base.y = tux.base.y + tux.base.height/1.5 - pbad->base.height;
+          base.x = tux.base.x - 16;
+          base.y = tux.base.y + tux.base.height/1.5 - base.height;
         }
-      if(collision_object_map(&pbad->base))
+      if(collision_object_map(&base))
         {
-          pbad->base.x = tux.base.x;
-          pbad->base.y = tux.base.y + tux.base.height/1.5 - pbad->base.height;
+          base.x = tux.base.x;
+          base.y = tux.base.y + tux.base.height/1.5 - base.height;
         }
 
       if(tux.input.fire != DOWN) /* SHOOT! */
         {
-          if(pbad->dir == LEFT)
-            pbad->base.x -= 24;
+          if(dir == LEFT)
+            base.x -= 24;
           else
-            pbad->base.x += 24;
+            base.x += 24;
 
-          pbad->mode=KICK;
-          pbad->base.xm = 8;
-          pbad->base.ym = 8;
+          mode=KICK;
+          base.xm = 8;
+          base.ym = 8;
           play_sound(sounds[SND_KICK],SOUND_CENTER_SPEAKER);
         }
     }
@@ -188,35 +182,35 @@ void badguy_action_laptop(bad_guy_type* pbad)
 
   /* Move vertically: */
 
-  if(pbad->mode != HELD)
-    pbad->base.y = pbad->base.y + pbad->base.ym * frame_ratio;
+  if(mode != HELD)
+    base.y = base.y + base.ym * frame_ratio;
 
-  if (pbad->dying != DYING_FALLING)
-    collision_swept_object_map(&pbad->old_base,&pbad->base);
-  if (pbad->base.y > screen->h)
-    bad_guys.erase(static_cast<std::vector<bad_guy_type>::iterator>(pbad));
+  if (dying != DYING_FALLING)
+    collision_swept_object_map(&old_base,&base);
+  if (base.y > screen->h)
+    bad_guys.erase(static_cast<std::vector<BadGuy>::iterator>(this));
   /* Bump into things horizontally: */
 
   /* Bump into things horizontally: */
 
-  if (!pbad->dying)
+  if (!dying)
     {
-      int changed = pbad->dir;
-      if (issolid( pbad->base.x, (int) pbad->base.y + 16))
+      int changed = dir;
+      if (issolid( base.x, (int) base.y + 16))
         {
-          pbad->dir = RIGHT;
+          dir = RIGHT;
         }
-      else if (issolid( pbad->base.x + pbad->base.width, (int) pbad->base.y + 16))
+      else if (issolid( base.x + base.width, (int) base.y + 16))
         {
-          pbad->dir = LEFT;
+          dir = LEFT;
         }
-      if(pbad->mode == KICK && changed != pbad->dir)
+      if(mode == KICK && changed != dir)
         {
           /* handle stereo sound */
           /* FIXME: In theory a badguy object doesn't know anything about player objects */
-          if (tux.base.x  > pbad->base.x)
+          if (tux.base.x  > base.x)
             play_sound(sounds[SND_RICOCHET], SOUND_LEFT_SPEAKER);
-          else if (tux.base.x  < pbad->base.x)
+          else if (tux.base.x  < base.x)
             play_sound(sounds[SND_RICOCHET], SOUND_RIGHT_SPEAKER);
           else
             play_sound(sounds[SND_RICOCHET], SOUND_CENTER_SPEAKER);
@@ -227,321 +221,321 @@ void badguy_action_laptop(bad_guy_type* pbad)
 
   /* Fall if we get off the ground: */
 
-  if (pbad->dying != DYING_FALLING)
+  if (dying != DYING_FALLING)
     {
-      if (!issolid(pbad->base.x+16, pbad->base.y + 32))
+      if (!issolid(base.x+16, base.y + 32))
         {
-          if(!physic_is_set(&pbad->physic))
+          if(!physic_is_set(&physic))
             {
-              physic_set_state(&pbad->physic,PH_VT);
-              physic_set_start_vy(&pbad->physic,0.);
+              physic_set_state(&physic,PH_VT);
+              physic_set_start_vy(&physic,0.);
             }
 
-          if(pbad->mode != HELD)
+          if(mode != HELD)
             {
-              pbad->base.ym = physic_get_velocity(&pbad->physic);
+              base.ym = physic_get_velocity(&physic);
             }
         }
       else
         {
           /* Land: */
 
-          if (pbad->base.ym > 0)
+          if (base.ym > 0)
             {
-              pbad->base.y = (int)(pbad->base.y / 32) * 32;
-              pbad->base.ym = 0;
+              base.y = (int)(base.y / 32) * 32;
+              base.ym = 0;
             }
-          physic_init(&pbad->physic);
+          physic_init(&physic);
         }
     }
   else
     {
-      if(!physic_is_set(&pbad->physic))
+      if(!physic_is_set(&physic))
         {
-          physic_set_state(&pbad->physic,PH_VT);
-          physic_set_start_vy(&pbad->physic,0.);
+          physic_set_state(&physic,PH_VT);
+          physic_set_start_vy(&physic,0.);
         }
-      pbad->base.ym = physic_get_velocity(&pbad->physic);
+      base.ym = physic_get_velocity(&physic);
     }
 }
 
-void badguy_action_money(bad_guy_type* pbad)
+void BadGuy::action_money()
 {
   /* --- MONEY BAGS: --- */
 
 
   /* Move vertically: */
 
-  pbad->base.y = pbad->base.y + pbad->base.ym * frame_ratio;
+  base.y = base.y + base.ym * frame_ratio;
 
-  if (pbad->dying != DYING_FALLING)
-    collision_swept_object_map(&pbad->old_base,&pbad->base);
+  if (dying != DYING_FALLING)
+    collision_swept_object_map(&old_base,&base);
 
-  if (pbad->base.y > screen->h)
-    bad_guys.erase(static_cast<std::vector<bad_guy_type>::iterator>(pbad));
+  if (base.y > screen->h)
+    bad_guys.erase(static_cast<std::vector<BadGuy>::iterator>(this));
 
-  if(physic_get_state(&pbad->physic) == -1)
+  if(physic_get_state(&physic) == -1)
     {
-      physic_set_state(&pbad->physic,PH_VT);
-      physic_set_start_vy(&pbad->physic,0.);
+      physic_set_state(&physic,PH_VT);
+      physic_set_start_vy(&physic,0.);
     }
 
-  if (pbad->dying != DYING_FALLING)
+  if (dying != DYING_FALLING)
     {
-      if(issolid(pbad->base.x, pbad->base.y + 32))
+      if(issolid(base.x, base.y + 32))
         {
-          physic_set_state(&pbad->physic,PH_VT);
-          physic_set_start_vy(&pbad->physic,6.);
-          pbad->base.ym = physic_get_velocity(&pbad->physic);
+          physic_set_state(&physic,PH_VT);
+          physic_set_start_vy(&physic,6.);
+          base.ym = physic_get_velocity(&physic);
         }
-      else if(issolid(pbad->base.x, pbad->base.y))
+      else if(issolid(base.x, base.y))
         { /* This works, but isn't the best solution imagineable */
-          physic_set_state(&pbad->physic,PH_VT);
-          physic_set_start_vy(&pbad->physic,0.);
-          pbad->base.ym = physic_get_velocity(&pbad->physic);
-          ++pbad->base.y;
+          physic_set_state(&physic,PH_VT);
+          physic_set_start_vy(&physic,0.);
+          base.ym = physic_get_velocity(&physic);
+          ++base.y;
         }
       else
         {
-          pbad->base.ym = physic_get_velocity(&pbad->physic);
+          base.ym = physic_get_velocity(&physic);
         }
     }
   else
     {
-      if(!physic_is_set(&pbad->physic))
+      if(!physic_is_set(&physic))
         {
-          physic_set_state(&pbad->physic,PH_VT);
-          physic_set_start_vy(&pbad->physic,0.);
+          physic_set_state(&physic,PH_VT);
+          physic_set_start_vy(&physic,0.);
         }
-      pbad->base.ym = physic_get_velocity(&pbad->physic);
+      base.ym = physic_get_velocity(&physic);
     } 
 }
 
-void badguy_action(bad_guy_type* pbad)
+void
+BadGuy::action()
 { 
-  if (pbad->seen)
+  if (seen)
     {
-      switch (pbad->kind)
+      switch (kind)
         {
         case BAD_BSOD:
-          badguy_action_bsod(pbad);
+          action_bsod();
           break;
     
         case BAD_LAPTOP:
-          badguy_action_bsod(pbad);
+          action_bsod();
           break;
       
         case BAD_MONEY:
-          badguy_action_money(pbad);
+          action_money();
           break;
         }
     }
 
   /* Handle mode timer: */
-  if (pbad->mode == FLAT && pbad->mode != HELD)
+  if (mode == FLAT && mode != HELD)
     {
-      if(!timer_check(&pbad->timer))
+      if(!timer_check(&timer))
         {
-          pbad->mode = NORMAL;
-          pbad->base.xm = 4;
+          mode = NORMAL;
+          base.xm = 4;
         }
     }
-  else if (pbad->mode == KICK)
+  else if (mode == KICK)
     {
-      timer_check(&pbad->timer);
+      timer_check(&timer);
     }
 
   // Handle dying timer:
-  if (pbad->dying == DYING_SQUISHED)
+  if (dying == DYING_SQUISHED)
     {
       /* Remove it if time's up: */
-      if(!timer_check(&pbad->timer))
-        bad_guys.erase(static_cast<std::vector<bad_guy_type>::iterator>(pbad));
+      if(!timer_check(&timer))
+        bad_guys.erase(static_cast<std::vector<BadGuy>::iterator>(this));
     }
 
   // Remove if it's far off the screen:
-  if (pbad->base.x < scroll_x - OFFSCREEN_DISTANCE)
+  if (base.x < scroll_x - OFFSCREEN_DISTANCE)
     {
-      bad_guys.erase(static_cast<std::vector<bad_guy_type>::iterator>(pbad));
+      bad_guys.erase(static_cast<std::vector<BadGuy>::iterator>(this));
       return;
     }
   else /* !seen */
     {
       // Once it's on screen, it's activated!
-      if (pbad->base.x <= scroll_x + screen->w + OFFSCREEN_DISTANCE)
-        pbad->seen = true;
+      if (base.x <= scroll_x + screen->w + OFFSCREEN_DISTANCE)
+        seen = true;
     }
 }
 
-void badguy_draw_bsod(bad_guy_type* pbad)
+void
+BadGuy::draw_bsod()
 {
   /* --- BLUE SCREEN OF DEATH MONSTER: --- */
-  if (pbad->dying == DYING_NOT)
+  if (dying == DYING_NOT)
     {
       /* Alive: */
-
-      if (pbad->dir == LEFT)
+      if (dir == LEFT)
         {
           texture_draw(&img_bsod_left[(frame / 5) % 4],
-                       pbad->base.x - scroll_x,
-                       pbad->base.y);
+                       base.x - scroll_x,
+                       base.y);
         }
       else
         {
           texture_draw(&img_bsod_right[(frame / 5) % 4],
-                       pbad->base.x - scroll_x,
-                       pbad->base.y);
+                       base.x - scroll_x,
+                       base.y);
         }
     }
-  else if (pbad->dying == DYING_FALLING)
+  else if (dying == DYING_FALLING)
     {
       /* Falling: */
 
-      if (pbad->dir == LEFT)
+      if (dir == LEFT)
         {
           texture_draw(&img_bsod_falling_left,
-                       pbad->base.x - scroll_x,
-                       pbad->base.y);
+                       base.x - scroll_x,
+                       base.y);
         }
       else
         {
           texture_draw(&img_bsod_falling_right,
-                       pbad->base.x - scroll_x,
-                       pbad->base.y);
+                       base.x - scroll_x,
+                       base.y);
         }
     }
-  else if (pbad->dying == DYING_SQUISHED)
+  else if (dying == DYING_SQUISHED)
     {
       /* Dying - Squished: */
 
-      if (pbad->dir == LEFT)
+      if (dir == LEFT)
         {
           texture_draw(&img_bsod_squished_left,
-                       pbad->base.x - scroll_x,
-                       pbad->base.y + 24);
+                       base.x - scroll_x,
+                       base.y + 24);
         }
       else
         {
           texture_draw(&img_bsod_squished_right,
-                       pbad->base.x - scroll_x,
-                       pbad->base.y + 24);
+                       base.x - scroll_x,
+                       base.y + 24);
         }
     }
 }
 
-void badguy_draw_laptop(bad_guy_type* pbad)
+void BadGuy::draw_laptop()
 {
   /* --- LAPTOP MONSTER: --- */
-  if (pbad->dying == DYING_NOT)
+  if (dying == DYING_NOT)
     {
       /* Alive: */
 
-      if (pbad->mode == NORMAL)
+      if (mode == NORMAL)
         {
           /* Not flat: */
-
-          if (pbad->dir == LEFT)
+          if (dir == LEFT)
             {
               texture_draw(&img_laptop_left[(frame / 5) % 3],
-                           pbad->base.x - scroll_x,
-                           pbad->base.y);
+                           base.x - scroll_x,
+                           base.y);
             }
           else
             {
               texture_draw(&img_laptop_right[(frame / 5) % 3],
-                           pbad->base.x - scroll_x,
-                           pbad->base.y);
+                           base.x - scroll_x,
+                           base.y);
             }
         }
       else
         {
           /* Flat: */
 
-          if (pbad->dir == LEFT)
+          if (dir == LEFT)
             {
               texture_draw(&img_laptop_flat_left,
-                           pbad->base.x - scroll_x,
-                           pbad->base.y);
+                           base.x - scroll_x,
+                           base.y);
             }
           else
             {
               texture_draw(&img_laptop_flat_right,
-                           pbad->base.x - scroll_x,
-                           pbad->base.y);
+                           base.x - scroll_x,
+                           base.y);
             }
         }
     }
-  else if (pbad->dying == DYING_FALLING)
+  else if (dying == DYING_FALLING)
     {
       /* Falling: */
 
-      if (pbad->dir == LEFT)
+      if (dir == LEFT)
         {
           texture_draw(&img_laptop_falling_left,
-                       pbad->base.x - scroll_x,
-                       pbad->base.y);
+                       base.x - scroll_x,
+                       base.y);
         }
       else
         {
           texture_draw(&img_laptop_falling_right,
-                       pbad->base.x - scroll_x,
-                       pbad->base.y);
+                       base.x - scroll_x,
+                       base.y);
         }
     }
 }
 
-void badguy_draw_money(bad_guy_type* pbad)
+void BadGuy::draw_money()
 {
-  if (pbad->base.ym != 300 /* > -16*/)
+  if (base.ym != 300 /* > -16*/)
     {
-      if (pbad->dir == LEFT)
+      if (dir == LEFT)
         {
           texture_draw(&img_money_left[0],
-                       pbad->base.x - scroll_x,
-                       pbad->base.y);
+                       base.x - scroll_x,
+                       base.y);
         }
       else
         {
           texture_draw(&img_money_right[0],
-                       pbad->base.x - scroll_x,
-                       pbad->base.y);
+                       base.x - scroll_x,
+                       base.y);
         }
     }
   else
     {
-      if (pbad->dir == LEFT)
+      if (dir == LEFT)
         {
           texture_draw(&img_money_left[1],
-                       pbad->base.x - scroll_x,
-                       pbad->base.y);
+                       base.x - scroll_x,
+                       base.y);
         }
       else
         {
           texture_draw(&img_money_right[1],
-                       pbad->base.x - scroll_x,
-                       pbad->base.y);
+                       base.x - scroll_x,
+                       base.y);
         }
     }
 }
 
-void badguy_draw(bad_guy_type* pbad)
+void BadGuy::draw()
 {
   // Don't try to draw stuff that is outside of the screen
-  if (pbad->base.x > scroll_x - 32 &&
-      pbad->base.x < scroll_x + screen->w)
+  if (base.x > scroll_x - 32 &&
+      base.x < scroll_x + screen->w)
     {
-      switch (pbad->kind)
+      switch (kind)
         {
         case BAD_BSOD:
-          badguy_draw_bsod(pbad);
+          draw_bsod();
           break;
     
         case BAD_LAPTOP:
-          badguy_draw_laptop(pbad);
+          draw_laptop();
           break;
     
         case BAD_MONEY:
-          badguy_draw_money(pbad);
+          draw_money();
           break;
 
         default:
@@ -551,27 +545,27 @@ void badguy_draw(bad_guy_type* pbad)
     }
 }
 
-void badguy_collision(bad_guy_type* pbad, void *p_c_object, int c_object)
+void
+BadGuy::collision(void *p_c_object, int c_object)
 {
-  bad_guy_type* pbad_c = NULL;
-  player_type* pplayer_c = NULL;
+  BadGuy* pbad_c    = NULL;
+  player_type*  pplayer_c = NULL;
 
   switch (c_object)
     {
     case CO_BULLET:
-      pbad->dying = DYING_FALLING;
-      pbad->base.ym = -8;
+      dying = DYING_FALLING;
+      base.ym = -8;
 
       /* Gain some points: */
-
-      if (pbad->kind == BAD_BSOD)
-        add_score(pbad->base.x - scroll_x, pbad->base.y,
+      if (kind == BAD_BSOD)
+        add_score(base.x - scroll_x, base.y,
                   50 * score_multiplier);
-      else if (pbad->kind == BAD_LAPTOP)
-        add_score(pbad->base.x - scroll_x, pbad->base.y,
+      else if (kind == BAD_LAPTOP)
+        add_score(base.x - scroll_x, base.y,
                   25 * score_multiplier);
-      else if (pbad->kind == BAD_MONEY)
-        add_score(pbad->base.x - scroll_x, pbad->base.y,
+      else if (kind == BAD_MONEY)
+        add_score(base.x - scroll_x, base.y,
                   50 * score_multiplier);
 
       /* Play death sound: */
@@ -579,12 +573,12 @@ void badguy_collision(bad_guy_type* pbad, void *p_c_object, int c_object)
       break;
 
     case CO_BADGUY:
-      pbad_c = (bad_guy_type*) p_c_object;
-      if (pbad->mode == NORMAL)
+      pbad_c = (BadGuy*) p_c_object;
+      if (mode == NORMAL)
       {
       /* do nothing */
       }
-      else if(pbad->mode == KICK)
+      else if(mode == KICK)
         {
           /* We're in kick mode, kill the other guy
 	     and yourself(wuahaha) : */
@@ -593,12 +587,12 @@ void badguy_collision(bad_guy_type* pbad, void *p_c_object, int c_object)
           pbad_c->base.ym = -8;
           play_sound(sounds[SND_FALL], SOUND_CENTER_SPEAKER);
 
-          add_score(pbad->base.x - scroll_x,
-                    pbad->base.y, 100);
+          add_score(base.x - scroll_x,
+                    base.y, 100);
 	          pbad_c->dying = DYING_FALLING;
 		  
-          pbad->dying = DYING_FALLING;
-          pbad->base.ym = -8;
+          dying = DYING_FALLING;
+          base.ym = -8;
 
           add_score(pbad_c->base.x - scroll_x,
                     pbad_c->base.y, 100);
@@ -607,60 +601,60 @@ void badguy_collision(bad_guy_type* pbad, void *p_c_object, int c_object)
 
     case CO_PLAYER:
       pplayer_c = (player_type*) p_c_object;
-      if(pbad->kind != BAD_MONEY)
+      if(kind != BAD_MONEY)
         {
-          if (pbad->kind == BAD_BSOD)
+          if (kind == BAD_BSOD)
             {
-              pbad->dying = DYING_SQUISHED;
-              timer_start(&pbad->timer,4000);
+              dying = DYING_SQUISHED;
+              timer_start(&timer,4000);
               physic_set_state(&pplayer_c->vphysic,PH_VT);
               physic_set_start_vy(&pplayer_c->vphysic,2.);
-	      pplayer_c->base.y = pbad->base.y - pplayer_c->base.height - 1;
+	      pplayer_c->base.y = base.y - pplayer_c->base.height - 1;
 
-              add_score(pbad->base.x - scroll_x, pbad->base.y,
+              add_score(base.x - scroll_x, base.y,
                         50 * score_multiplier);
 
               play_sound(sounds[SND_SQUISH], SOUND_CENTER_SPEAKER);
             }
-          else if (pbad->kind == BAD_LAPTOP)
+          else if (kind == BAD_LAPTOP)
             {
 
-              if (pbad->mode == NORMAL || pbad->mode == KICK)
+              if (mode == NORMAL || mode == KICK)
                 {
                   /* Flatten! */
 
                   play_sound(sounds[SND_STOMP], SOUND_CENTER_SPEAKER);
-                  pbad->mode = FLAT;
-                  pbad->base.xm = 4;
+                  mode = FLAT;
+                  base.xm = 4;
 
-                  timer_start(&pbad->timer,10000);
+                  timer_start(&timer,10000);
 
                   physic_set_state(&pplayer_c->vphysic,PH_VT);
                   physic_set_start_vy(&pplayer_c->vphysic,2.);
-		  pplayer_c->base.y = pbad->base.y - pplayer_c->base.height - 1;
+		  pplayer_c->base.y = base.y - pplayer_c->base.height - 1;
                 }
-              else if (pbad->mode == FLAT)
+              else if (mode == FLAT)
                 {
                   /* Kick! */
                   play_sound(sounds[SND_KICK], SOUND_CENTER_SPEAKER);
 
-                  if (pplayer_c->base.x < pbad->base.x + (pbad->base.width/2))
-                    pbad->dir = RIGHT;
+                  if (pplayer_c->base.x < base.x + (base.width/2))
+                    dir = RIGHT;
                   else
-                    pbad->dir = LEFT;
+                    dir = LEFT;
 
-                  pbad->base.xm = 5;
-		  pbad->mode = KICK;
+                  base.xm = 5;
+		  mode = KICK;
 
-                  timer_start(&pbad->timer,5000);
+                  timer_start(&timer,5000);
                 }
 		
               physic_set_state(&pplayer_c->vphysic,PH_VT);
               physic_set_start_vy(&pplayer_c->vphysic,2.);
-	      pplayer_c->base.y = pbad->base.y - pplayer_c->base.height - 1;
+	      pplayer_c->base.y = base.y - pplayer_c->base.height - 1;
 	      
-              add_score(pbad->base.x - scroll_x,
-                        pbad->base.y,
+              add_score(base.x - scroll_x,
+                        base.y,
                         25 * score_multiplier);
 
               /* play_sound(sounds[SND_SQUISH]); */
@@ -671,3 +665,5 @@ void badguy_collision(bad_guy_type* pbad, void *p_c_object, int c_object)
     }
 
 }
+
+// EOF //

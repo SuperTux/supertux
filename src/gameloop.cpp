@@ -51,7 +51,6 @@ static texture_type img_cloud[2][4];
 static SDL_Event event;
 static SDLKey key;
 static char level_subset[100];
-static char str[60];
 static float fps_fps;
 static int st_gl_mode;
 static unsigned int last_update_time;
@@ -70,8 +69,8 @@ void drawresultscreen(void);
 
 void levelintro(void)
 {
+  char str[60];
   /* Level Intro: */
-
   clearscreen(0, 0, 0);
 
   sprintf(str, "LEVEL %d", level);
@@ -450,7 +449,7 @@ int game_action(void)
 
   for (i = 0; i < bad_guys.size(); i++)
     {
-      badguy_action(&bad_guys[i]);
+      bad_guys[i].action();
     }
 
   /* Handle all possible collisions. */
@@ -511,7 +510,7 @@ void game_draw(void)
 
   for (i = 0; i < bad_guys.size(); ++i)
     {
-      badguy_draw(&bad_guys[i]);
+      bad_guys[i].draw();
     }
 
   /* (Tux): */
@@ -1585,7 +1584,7 @@ void trybumpbadguy(float x, float y)
 /* (Status): */
 void drawstatus(void)
 {
-  int i;
+  char str[60];
 
   sprintf(str, "%d", score);
   text_draw(&white_text, "SCORE", 0, 0, 1);
@@ -1622,7 +1621,7 @@ void drawstatus(void)
       text_draw(&gold_text, str, screen->h + 60, 40, 1);
     }
 
-  for(i=0; i < tux.lives; ++i)
+  for(int i=0; i < tux.lives; ++i)
     {
       texture_draw(&tux_life,565+(18*i),20);
     }

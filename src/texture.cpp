@@ -73,13 +73,12 @@ void texture_load_part_gl(texture_type* ptexture, const std::string& file, int x
 /* Quick utility function for texture creation */
 static int power_of_two(int input)
 {
-	int value = 1;
-        int a;
+  int value = 1;
 
-	while ( value < input ) {
-		value <<= 1;
-	}
-	return value;
+  while ( value < input ) {
+    value <<= 1;
+  }
+  return value;
 }
 
 void texture_create_gl(SDL_Surface * surf, GLuint * tex)

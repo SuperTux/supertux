@@ -216,7 +216,7 @@ void level_default(st_level* plevel)
 
 /* Load data for this level: */
 /* Returns -1, if the loading of the level failed. */
-int level_load(st_level* plevel,const  char *subset, int level)
+int level_load(st_level* plevel, const  char *subset, int level)
 {
   char filename[1024];
 

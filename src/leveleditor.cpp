@@ -1332,7 +1332,7 @@ void le_change(float x, float y, unsigned char c)
           /* if there is a bad guy over there, remove it */
           for(i = 0; i < bad_guys.size(); ++i)
               if(xx == bad_guys[i].base.x/32 && yy == bad_guys[i].base.y/32)
-                  bad_guys.erase(static_cast<std::vector<bad_guy_type>::iterator>(&bad_guys[i]));
+                  bad_guys.erase(static_cast<std::vector<BadGuy>::iterator>(&bad_guys[i]));
 
           if(c == '0')  /* if it's a bad guy */
             add_bad_guy(xx*32, yy*32, BAD_BSOD);
@@ -1373,7 +1373,7 @@ void le_change(float x, float y, unsigned char c)
           for(i = 0; i < bad_guys.size(); ++i)
               if(bad_guys[i].base.x/32 >= x1 && bad_guys[i].base.x/32 <= x2
                   && bad_guys[i].base.y/32 >= y1 && bad_guys[i].base.y/32 <= y2)
-                  bad_guys.erase(static_cast<std::vector<bad_guy_type>::iterator>(&bad_guys[i]));
+                  bad_guys.erase(static_cast<std::vector<BadGuy>::iterator>(&bad_guys[i]));
 
           for(xx = x1; xx <= x2; xx++)
             for(yy = y1; yy <= y2; yy++)

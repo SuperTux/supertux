@@ -29,7 +29,7 @@ int frame;
 std::vector<bouncy_distro_type> bouncy_distros;
 std::vector<broken_brick_type> broken_bricks;
 std::vector<bouncy_brick_type> bouncy_bricks;
-std::vector<bad_guy_type> bad_guys;
+std::vector<BadGuy> bad_guys;
 std::vector<floating_score_type> floating_scores;
 std::vector<upgrade_type> upgrades;
 std::vector<bullet_type> bullets;
@@ -133,8 +133,8 @@ void add_bouncy_brick(float x, float y)
 
 void add_bad_guy(float x, float y, BadGuyKind kind)
 {
-  bad_guy_type new_bad_guy;
-  badguy_init(&new_bad_guy,x,y,kind);
+  BadGuy new_bad_guy;
+  new_bad_guy.init(x,y,kind);
   bad_guys.push_back(new_bad_guy);
 }
 

@@ -34,11 +34,11 @@ TileManager* TileManager::instance_  = 0;
 
 TileManager::TileManager()
 {
-  std::string filename = datadir +  "images/worldmap/antarctica.scm";
-  lisp_object_t* root_obj = lisp_read_from_file(filename);
+  std::string stwt_filename = datadir +  "images/worldmap/antarctica.scm";
+  lisp_object_t* root_obj = lisp_read_from_file(stwt_filename);
  
   if (!root_obj)
-    st_abort("Couldn't load file", filename);
+    st_abort("Couldn't load file", stwt_filename);
 
   if (strcmp(lisp_symbol(lisp_car(root_obj)), "supertux-worldmap-tiles") == 0)
     {

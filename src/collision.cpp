@@ -219,7 +219,7 @@ void collision_handler()
                 {
                   /* We have detected a collision and now call the collision functions of the collided objects. */
                   bullet_collision(&bullets[i], CO_BADGUY);
-                  badguy_collision(&bad_guys[j], &bullets[i], CO_BULLET);
+                  bad_guys[j].collision(&bullets[i], CO_BULLET);
                 }
             }
         }
@@ -237,8 +237,8 @@ void collision_handler()
                   if(rectcollision(&bad_guys[i].base, &bad_guys[j].base))
                     {
                       /* We have detected a collision and now call the collision functions of the collided objects. */
-                      badguy_collision(&bad_guys[j], &bad_guys[i], CO_BADGUY);
-                      badguy_collision(&bad_guys[i], &bad_guys[j], CO_BADGUY);
+                      bad_guys[j].collision(&bad_guys[i], CO_BADGUY);
+                      bad_guys[i].collision(&bad_guys[j], CO_BADGUY);
                     }
                 }
             }
@@ -257,7 +257,7 @@ void collision_handler()
               tux.previous_base.y + tux.previous_base.height < bad_guys[i].base.y + bad_guys[i].base.height/2 &&
               bad_guys[i].kind != BAD_MONEY && bad_guys[i].mode != HELD)
             {
-              badguy_collision(&bad_guys[i], &tux, CO_PLAYER);
+              bad_guys[i].collision(&tux, CO_PLAYER);
             }
           else
             {
