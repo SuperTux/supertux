@@ -405,6 +405,7 @@ Player::handle_vertical_input()
       --base.y;
       jumping = true;
       can_jump = false;
+      butt_jump = true;  // player started jumping, enable butt jump
       if (size == SMALL)
         play_sound(sounds[SND_JUMP], SOUND_CENTER_SPEAKER);
       else
@@ -415,13 +416,15 @@ Player::handle_vertical_input()
     {
       jumping = false;
       physic.set_velocity_y(0);
+      butt_jump = false;  // jump was not full, disable butt jump
     }
 
-  if (input.down == DOWN && !on_ground() && !duck && size == BIG)
-    butt_jump = true;
-  else if (input.down == UP)
-    butt_jump = false;
-  if (input.down == DOWN && butt_jump && on_ground())
+   /* Do butt jump, in case the player has done the combination
+        (full jump and hold DOWN) */
+  if (input.down == UP && physic.get_velocity_y() < 0 && butt_jump)
+    butt_jump = false;  // in case DOWN is not hold after the full jump, disable it
+  
+  if (butt_jump && on_ground() && size == BIG)
   {
     if(World::current()->trybreakbrick(base.x, base.y + base.height, false)
       || World::current()->trybreakbrick(
@@ -429,7 +432,7 @@ Player::handle_vertical_input()
         // make tux jumping a little bit again after breaking the bricks
         physic.set_velocity_y(2);
     }
-    butt_jump = false;
+//    butt_jump = false;
   }
 
   if ( (issolid(base.x + base.width / 2, base.y + base.height + 64) ||
@@ -442,6 +445,9 @@ Player::handle_vertical_input()
     {
       can_jump = true;
     }
+
+  if(on_ground())   /* Make sure jumping is off. */
+    jumping = false;
 
   input.old_up = input.up;
 }
