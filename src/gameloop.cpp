@@ -198,9 +198,10 @@ GameSession::levelintro(void)
   context.draw_text(white_text, str, Vector(screen->w/2, 210),
       CENTER_ALLIGN, LAYER_FOREGROUND1);
 
-  if(level->get_author().size())
+  if((level->get_author().size()) && (level->get_author() != "SuperTux Team"))
+    //TODO make author check case/blank-insensitive
     context.draw_text(white_small_text,
-      std::string(_("by ")) + level->get_author(), 
+      std::string(_("contributed by ")) + level->get_author(), 
       Vector(screen->w/2, 350), CENTER_ALLIGN, LAYER_FOREGROUND1);
 
 

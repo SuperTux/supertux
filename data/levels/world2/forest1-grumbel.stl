@@ -2,7 +2,7 @@
 (supertux-level
   (version 2)
   (name   "Forest Level 1")
-  (author "Ingo Ruhnke")
+  (author "SuperTux Team")
   (time   999)
   (sector
     (name  "main")
