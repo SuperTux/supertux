@@ -66,7 +66,7 @@ public class Application {
     }
 
     public Application() {
-        Glade.XML gxml = new Glade.XML("tiler.glade", null, null);
+        Glade.XML gxml = new Glade.XML(null, "tiler.glade", null, null);
         gxml.Autoconnect(this);
 
         if(MainWindow == null || DrawingArea == null || AppBar == null)
