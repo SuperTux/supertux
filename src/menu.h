@@ -23,7 +23,9 @@ int show_menu;
 int menu_change;
 
 #define MENU_MAIN_ITEM_MAX 3
-#define MENU_OPTIONS_ITEM_MAX 4
+#define MENU_GAME_ITEM_MAX 2
+#define MENU_OPTIONS_ITEM_MAX 3
+#define MENU_LEVELEDITOR_ITEM_MAX 4
 
 /* Action done on the menu */
 enum {
@@ -35,7 +37,9 @@ enum {
 /* Menus */
 enum {
   MENU_MAIN,
-  MENU_OPTIONS
+  MENU_GAME,
+  MENU_OPTIONS,
+  MENU_LEVELEDITOR
 };
 
 /* Initialize the menu variables */

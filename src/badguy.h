@@ -1,5 +1,5 @@
 //
-// C++ Interface: enemy
+// Interface: enemy
 //
 // Description:
 //

@@ -29,7 +29,7 @@
 #include "globals.h"
 #include "setup.h"
 #include "screen.h"
-#include "sound.h"
+
 
 /* Local function prototypes: */
 
@@ -273,6 +273,7 @@ void st_audio_setup(void)
 
 void st_shutdown(void)
 {
+  close_audio();
   SDL_Quit();
 }
 
@@ -382,8 +383,6 @@ void parseargs(int argc, char * argv[])
           printf("Sounds disabled \n");
           use_sound = NO;
 #else
-
-          printf("Warning: Sounds feature is not compiled in \n");
           printf("Warning: Sounds feature is not compiled in \n");
 #endif
         }
@@ -396,7 +395,6 @@ void parseargs(int argc, char * argv[])
 #else
           printf("Warning: Music feature is not compiled in \n");
 #endif
-
         }
       else if (strcmp(argv[i], "--debug-mode") == 0)
         {

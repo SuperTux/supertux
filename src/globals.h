@@ -21,7 +21,7 @@ SDL_Surface * letters_black, * letters_gold, * letters_blue, * letters_red;
 
 int use_joystick, use_fullscreen, debug_mode;
 
-int game_started;
+int game_started, level_editor_started;
 
 /* SuperTux directory ($HOME/.supertux) and save directory($HOME/.supertux/save) */
 char *st_dir, *st_save_dir;

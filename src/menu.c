@@ -22,7 +22,7 @@
 #include "screen.h"
 #include "setup.h"
 #include "sound.h"
-
+#include "leveleditor.h"
 
 /* Set defaults */
 void initmenu(void)
@@ -40,10 +40,10 @@ void menu_option_sound()
   if (audio_device == YES) {
     if(menuitem == 1) {
        if(use_sound == YES) {
-         drawcenteredtext("Sound ON", 224, letters_red, NO_UPDATE);
+         drawshadedcenteredtext("Sound ON", 224, letters_red, NO_UPDATE);
        }
        else {
-         drawcenteredtext("Sound OFF", 224, letters_red, NO_UPDATE);
+         drawshadedcenteredtext("Sound OFF", 224, letters_red, NO_UPDATE);
        }
 
        if(menuaction == MN_HIT) { /* Disable/Enable sound */
@@ -58,18 +58,18 @@ void menu_option_sound()
     }
     else {
       if(use_sound == YES)
-        drawcenteredtext("Sound ON", 224, letters_blue, NO_UPDATE);
+        drawshadedcenteredtext("Sound ON", 224, letters_blue, NO_UPDATE);
       else
-        drawcenteredtext("Sound OFF", 224, letters_blue, NO_UPDATE);
+        drawshadedcenteredtext("Sound OFF", 224, letters_blue, NO_UPDATE);
     }
   }
   else { /* if audio_device != YES */
     /* let the user move over the deactivated option */
     if (menuitem == 1) {
-      drawcenteredtext("Sound OFF", 224, letters_red, NO_UPDATE);
+      drawshadedcenteredtext("Sound OFF", 224, letters_red, NO_UPDATE);
     }
     else {
-      drawcenteredtext("Sound OFF", 224, letters_black, NO_UPDATE);
+      drawshadedcenteredtext("Sound OFF", 224, letters_black, NO_UPDATE);
     }
   }
 }
@@ -81,10 +81,10 @@ void menu_option_music()
   if (audio_device == YES) {
     if(menuitem == 2) {
       if(use_music == YES) {
-        drawcenteredtext("Music ON", 256, letters_red, NO_UPDATE);
+        drawshadedcenteredtext("Music ON", 256, letters_red, NO_UPDATE);
       }
      else {
-        drawcenteredtext("Music OFF", 256, letters_red, NO_UPDATE);
+        drawshadedcenteredtext("Music OFF", 256, letters_red, NO_UPDATE);
       }
       if(menuaction == MN_HIT) { /* Disable/Enable music */
         if(use_music == YES) {  /* In the menu no music is played, so we have to check only use_music */
@@ -114,66 +114,36 @@ void menu_option_music()
     } /* if menuitem != 2 : print normal blue font */
     else {
       if(use_music == YES) {
-        drawcenteredtext("Music ON", 256, letters_blue, NO_UPDATE);
+        drawshadedcenteredtext("Music ON", 256, letters_blue, NO_UPDATE);
       }
       else {
-        drawcenteredtext("Music OFF", 256, letters_blue, NO_UPDATE);
+        drawshadedcenteredtext("Music OFF", 256, letters_blue, NO_UPDATE);
       }
     }
   }
   else { /* if audio_device != YES */
    /* let the user move over the deactivated option */
     if (menuitem == 2) {
-      drawcenteredtext("Music OFF", 256, letters_red, NO_UPDATE);
+      drawshadedcenteredtext("Music OFF", 256, letters_red, NO_UPDATE);
     }
     else {
-      drawcenteredtext("Music OFF", 256, letters_black, NO_UPDATE);
+      drawshadedcenteredtext("Music OFF", 256, letters_black, NO_UPDATE);
     }
   }
 }
 
-/* --- MENU --- */
-/* Draw the menu and execute the (menu)events */
-int drawmenu(void)
+int menu_main(void)
 {
-  int quit = 0;
-
-  menu_change = NO;
-
-
-  if(menuaction == MN_UP)
-    {
-      /* Go one menu-item up, if possible */
-      if(menuitem > 0)
-        --menuitem;
-    }
-  else if(menuaction == MN_DOWN)
-    ++menuitem; /* Go one menu-item down */
-
-
-  if(menumenu == MENU_MAIN)
-    {
-      /* Does the menu item exist? If not, we reset to the most down item */
-      if(menuitem >= MENU_MAIN_ITEM_MAX)
-        menuitem = MENU_MAIN_ITEM_MAX - 1;
-
+    /* Does the menu item exist? If not, we reset to the most down item */
+      if(menuitem > MENU_MAIN_ITEM_MAX)
+        menuitem =0;
+     else if(menuitem < 0)
+       menuitem = MENU_MAIN_ITEM_MAX;
+       
       /*The menu looks different, when the game is started */
-      if(game_started)
-        {
           if(menuitem == 0)
             {
-              drawcenteredtext("Return To Game", 192, letters_red, NO_UPDATE);
-              if(menuaction == MN_HIT) /* Don't show the menu anymore, if this item got hit */
-                show_menu = 0;
-            }
-          else
-            drawcenteredtext("Return To Game", 192, letters_blue, NO_UPDATE);
-        }
-      else
-        {
-          if(menuitem == 0)
-            {
-              drawcenteredtext("Start Game", 192, letters_red, NO_UPDATE);
+              drawshadedcenteredtext("Start Game", 192, letters_red, NO_UPDATE);
               if(menuaction == MN_HIT) /* we are ready to start the game, if this item got hit */
                 {
                   game_started = 1;
@@ -181,12 +151,11 @@ int drawmenu(void)
                 }
             }
           else
-            drawcenteredtext("Start Game", 192, letters_blue, NO_UPDATE);
-        }
+            drawshadedcenteredtext("Start Game", 192, letters_blue, NO_UPDATE);
 
       if(menuitem == 1)
         {
-          drawcenteredtext("Options", 224, letters_red, NO_UPDATE);
+          drawshadedcenteredtext("Options", 224, letters_red, NO_UPDATE);
           if(menuaction == MN_HIT) /* Switch to the 'Options' menu */
             {
               menumenu = MENU_OPTIONS;
@@ -194,39 +163,93 @@ int drawmenu(void)
             }
         }
       else
-        drawcenteredtext("Options", 224, letters_blue, NO_UPDATE);
+        drawshadedcenteredtext("Options", 224, letters_blue, NO_UPDATE);
 
       if(menuitem == 2)
         {
-          if(game_started)
-            drawcenteredtext("Quit Game", 256, letters_red, NO_UPDATE);
-          else
-            drawcenteredtext("Quit", 256, letters_red, NO_UPDATE);
+          drawshadedcenteredtext("Level editor", 256, letters_red, NO_UPDATE);
+          if(menuaction == MN_HIT) /* Set variables, so that the level editor is executed */
+            {
+               level_editor_started = YES;
+	       show_menu = 0;
+            }
+        }
+      else
+        drawshadedcenteredtext("Level editor", 256, letters_blue, NO_UPDATE);
+	
+      if(menuitem == 3)
+        {
+            drawshadedcenteredtext("Quit", 288, letters_red, NO_UPDATE);
           if(menuaction == MN_HIT) /* Quit a running game or the application */
             {
-              quit = 1;
+		return 1;
             }
         }
       else
         {
-          if(game_started)
-            drawcenteredtext("Quit Game", 256, letters_blue, NO_UPDATE);
-          else
-            drawcenteredtext("Quit", 256, letters_blue, NO_UPDATE);
+            drawshadedcenteredtext("Quit", 288, letters_blue, NO_UPDATE);
         }
 
-    }
-  else if(menumenu == MENU_OPTIONS)
-    {
-      if(menuitem >= MENU_OPTIONS_ITEM_MAX )
-        menuitem = MENU_OPTIONS_ITEM_MAX - 1;
+return 0;
+}
 
+int menu_game(void)
+{
+    /* Does the menu item exist? If not, we reset to the most down item */
+      if(menuitem > MENU_GAME_ITEM_MAX)
+        menuitem = 0;
+     else if(menuitem < 0)
+       menuitem = MENU_GAME_ITEM_MAX;
+
+      /*The menu looks different, when the game is started */
+          if(menuitem == 0)
+            {
+              drawshadedcenteredtext("Return To Game", 192, letters_red, NO_UPDATE);
+              if(menuaction == MN_HIT) /* Don't show the menu anymore, if this item got hit */
+                show_menu = 0;
+            }
+          else
+            drawshadedcenteredtext("Return To Game", 192, letters_blue, NO_UPDATE);
+
+      if(menuitem == 1)
+        {
+          drawshadedcenteredtext("Options", 224, letters_red, NO_UPDATE);
+          if(menuaction == MN_HIT) /* Switch to the 'Options' menu */
+            {
+              menumenu = MENU_OPTIONS;
+              menu_change = YES;
+            }
+        }
+      else
+        drawshadedcenteredtext("Options", 224, letters_blue, NO_UPDATE);
+
+      if(menuitem == 2)
+        {
+            drawshadedcenteredtext("Quit Game", 256, letters_red, NO_UPDATE);
+          if(menuaction == MN_HIT) /* Quit a running game */
+		return 1;
+        }
+      else
+        {
+            drawshadedcenteredtext("Quit Game", 256, letters_blue, NO_UPDATE);
+        }
+
+return 0;
+}
+
+int menu_options(void)
+{
+      if(menuitem > MENU_OPTIONS_ITEM_MAX )
+        menuitem = 0;
+     else if(menuitem < 0)
+       menuitem = MENU_OPTIONS_ITEM_MAX;
+       
       if(menuitem == 0)
         {
           if(use_fullscreen)
-            drawcenteredtext("Fullscreen ON", 192, letters_red, NO_UPDATE);
+            drawshadedcenteredtext("Fullscreen ON", 192, letters_red, NO_UPDATE);
           else
-            drawcenteredtext("Fullscreen OFF", 192, letters_red, NO_UPDATE);
+            drawshadedcenteredtext("Fullscreen OFF", 192, letters_red, NO_UPDATE);
           if(menuaction == MN_HIT) /* Disable/Enable fullscreen */
             {
               if(use_fullscreen)
@@ -240,10 +263,10 @@ int drawmenu(void)
       else
         {
           if(use_fullscreen)
-            drawcenteredtext("Fullscreen ON", 192, letters_blue, NO_UPDATE);
+            drawshadedcenteredtext("Fullscreen ON", 192, letters_blue, NO_UPDATE);
           else
-            drawcenteredtext("Fullscreen OFF", 192, letters_blue, NO_UPDATE);
-        }
+            drawshadedcenteredtext("Fullscreen OFF", 192, letters_blue, NO_UPDATE);
+       }
 
       /* handle menu sound on/off option */
       menu_option_sound();     
@@ -253,21 +276,123 @@ int drawmenu(void)
    
       if(menuitem == 3)
         {
-          drawcenteredtext("Back", 288, letters_red, NO_UPDATE);
+          drawshadedcenteredtext("Back", 288, letters_red, NO_UPDATE);
           if(menuaction == MN_HIT) /* Go back to main menu. */
             {
+	      if(game_started)
+	      menumenu = MENU_GAME;
+	      else
               menumenu = MENU_MAIN;
               menu_change = YES;
             }
         }
       else
-        drawcenteredtext("Back", 288, letters_blue, NO_UPDATE);
+        drawshadedcenteredtext("Back", 288, letters_blue, NO_UPDATE);
+	
+return 0;
+}
 
+/* Menu LevelEditor */
+int menu_leveleditor(void)
+{
+        if(menuitem > MENU_LEVELEDITOR_ITEM_MAX )
+        menuitem = 0;
+     else if(menuitem < 0)
+       menuitem = MENU_LEVELEDITOR_ITEM_MAX;
+       
+          if(menuitem == 0)
+            {
+              drawshadedcenteredtext("Return To Level Editor", 192, letters_red, NO_UPDATE);
+              if(menuaction == MN_HIT) /* Don't show the menu anymore, if this item got hit */
+                show_menu = 0;
+            }
+          else
+            drawshadedcenteredtext("Return To Level Editor", 192, letters_blue, NO_UPDATE);
+	
+          if(menuitem == 1)
+            {
+              drawshadedcenteredtext("New Level", 224, letters_red, NO_UPDATE);
+              if(menuaction == MN_HIT) /* Don't show the menu anymore, if this item got hit */
+                {
+		show_menu = 0;
+		newlevel();
+		}
+            }
+          else
+            drawshadedcenteredtext("New Level", 224, letters_blue, NO_UPDATE);
+      if(menuitem == 2)
+        {
+            drawshadedcenteredtext("Load Level", 256, letters_red, NO_UPDATE);
+          if(menuaction == MN_HIT) /* Quit a running game or the application */
+	    {
+            show_menu = 0;
+            selectlevel();
+            }
+        }
+	else
+	drawshadedcenteredtext("Load Level", 256, letters_blue, NO_UPDATE);
+      if(menuitem == 3)
+        {
+            drawshadedcenteredtext("Save Level", 288, letters_red, NO_UPDATE);
+          if(menuaction == MN_HIT) /* Quit a running game or the application */
+	    {
+            show_menu = 0;
+            savelevel();
+            }
+        }
+	else
+	drawshadedcenteredtext("Save Level", 288, letters_blue, NO_UPDATE);
+
+      if(menuitem == 4)
+        {
+            drawshadedcenteredtext("Quit Level Editor", 320, letters_red, NO_UPDATE);
+          if(menuaction == MN_HIT) /* Quit a running game or the application */
+            {
+              return 1;
+            }
+        }
+	else
+	drawshadedcenteredtext("Quit Level Editor", 320, letters_blue, NO_UPDATE);
+
+return 0;
+}
+
+/* --- MENU --- */
+/* Draw the menu and execute the (menu)events */
+int drawmenu(void)
+{
+  int quit = 0;
+
+  menu_change = NO;
+
+
+  if(menuaction == MN_UP)
+    {
+      /* Go one menu-item up */
+        --menuitem;
+    }
+  else if(menuaction == MN_DOWN)
+    ++menuitem; /* Go one menu-item down */
+
+
+  if(menumenu == MENU_MAIN)
+    {
+      quit = menu_main();
+    }
+  else if(menumenu == MENU_GAME)
+    {
+      quit = menu_game();
+    }
+  else if(menumenu == MENU_OPTIONS)
+    {
+      quit = menu_options();
+    }
+    else if(menumenu == MENU_LEVELEDITOR)
+    {
+	quit = menu_leveleditor();
     }
 
   menuaction = -1;
-
-  SDL_Flip(screen);
 
   return quit;
 }

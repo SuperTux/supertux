@@ -1,5 +1,5 @@
 //
-// C++ Interface: tux
+// Interface: tux
 //
 // Description: 
 //

@@ -10,23 +10,40 @@
   April 22, 2000 - December 28, 2003
 */
 
-/*
-#include <stdlib.h>
-#include <string.h>
-#include <errno.h>
-#include <unistd.h>
-*/
-
+/* why do we need this ?
 #ifdef LINUX
 #include <pwd.h>
 #include <sys/types.h>
 #include <ctype.h>
 #endif
+*/
 
 #include "defines.h"
 #include "globals.h"
 #include "sound.h"
 #include "setup.h"
+
+char * soundfilenames[NUM_SOUNDS] = {
+                                      DATA_PREFIX "/sounds/jump.wav",
+                                      DATA_PREFIX "/sounds/bigjump.wav",
+                                      DATA_PREFIX "/sounds/skid.wav",
+                                      DATA_PREFIX "/sounds/distro.wav",
+                                      DATA_PREFIX "/sounds/herring.wav",
+                                      DATA_PREFIX "/sounds/brick.wav",
+                                      DATA_PREFIX "/sounds/hurt.wav",
+                                      DATA_PREFIX "/sounds/squish.wav",
+                                      DATA_PREFIX "/sounds/fall.wav",
+                                      DATA_PREFIX "/sounds/ricochet.wav",
+                                      DATA_PREFIX "/sounds/bump-upgrade.wav",
+                                      DATA_PREFIX "/sounds/upgrade.wav",
+                                      DATA_PREFIX "/sounds/excellent.wav",
+                                      DATA_PREFIX "/sounds/coffee.wav",
+                                      DATA_PREFIX "/sounds/shoot.wav",
+                                      DATA_PREFIX "/sounds/lifeup.wav",
+                                      DATA_PREFIX "/sounds/stomp.wav",
+                                      DATA_PREFIX "/sounds/kick.wav"
+                                    };
+
 
 #ifndef NOSOUND
 
@@ -36,7 +53,36 @@
 
 int open_audio (int frequency, Uint16 format, int channels, int chunksize)
 {
-  return Mix_OpenAudio( frequency, format, channels, chunksize );
+  /* if success we reserved some channels and register panning effects */
+  if (Mix_OpenAudio( frequency, format, channels, chunksize ) == 0)
+    {
+      if (Mix_ReserveChannels( SOUND_RESERVED_CHANNELS )
+                            != SOUND_RESERVED_CHANNELS )
+        {
+          DEBUG_MSG( "Warning: open_audio could'nt reserve channels" );
+        }
+
+      /* prepare the spanning effects, no error checking */
+      Mix_SetPanning( SOUND_LEFT_SPEAKER, 230, 24 );
+      Mix_SetPanning( SOUND_RIGHT_SPEAKER, 24, 230 );
+      return 0;
+    }
+  else
+    {
+      return -1;
+    }
+}
+
+
+/* --- CLOSE THE AUDIO DEVICE --- */
+
+void close_audio( void )
+{
+  if (audio_device == YES) {
+    Mix_UnregisterAllEffects( SOUND_LEFT_SPEAKER );
+    Mix_UnregisterAllEffects( SOUND_RIGHT_SPEAKER );
+    Mix_CloseAudio();
+  }
 }
 
 
@@ -71,16 +117,29 @@ Mix_Music * load_song(char * file)
 }
 
 
-/* --- PLAY A SOUND --- */
+/* --- PLAY A SOUND ON LEFT OR RIGHT OR CENTER SPEAKER --- */
 
-void play_sound(Mix_Chunk * snd)
+void play_sound(Mix_Chunk * snd, enum Sound_Speaker whichSpeaker)
 {
   /* this won't call the function if the user has disabled sound
    * either via menu or via command-line option
    */
   if ((use_sound == YES) && (audio_device == YES))
     {
-      Mix_PlayChannel(-1, snd, 0);
+      Mix_PlayChannel( whichSpeaker, snd, 0);
+
+      /* prepare for panning effects for next call */
+      /* warning: currently, I do not check for errors here */
+      switch (whichSpeaker) {
+        case SOUND_LEFT_SPEAKER:
+          Mix_SetPanning( SOUND_LEFT_SPEAKER, 230, 24 );
+          break;
+        case SOUND_RIGHT_SPEAKER:
+          Mix_SetPanning( SOUND_RIGHT_SPEAKER, 24, 230 );
+          break;
+        default:  // keep the compiler happy
+          break;
+      }
     }
 }
 
@@ -94,6 +153,7 @@ void free_chunk(Mix_Chunk *chunk)
       chunk = NULL;
     }
 }
+
 
 int playing_music(void)
 {
@@ -154,29 +214,47 @@ int open_audio (int frequency, int format, int channels, int chunksize)
   return -1;
 }
 
+
+void close_audio(void)
+{}
+
+
 void* load_sound(void* file)
 {
   return NULL;
 }
-void play_sound(void * snd)
+
+
+void play_sound(void * snd, enum Sound_Speaker whichSpeaker)
 {}
+
+
 void* load_song(void* file)
 {
   return NULL;
 }
 
+
 int playing_music()
 {
   return 0;
 }
+
+
 void halt_music()
 {}
+
+
 int play_music(void *music, int loops)
 {
   return 0;
 }
+
+
 void free_music(void *music)
 {}
+
+
 void free_chunk(void *chunk)
 {}
 

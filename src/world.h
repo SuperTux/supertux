@@ -1,5 +1,5 @@
 //
-// C++ Interface: world
+// Interface: world
 //
 // Description: 
 //

@@ -27,7 +27,6 @@
 #include "globals.h"
 #include "gameloop.h"
 #include "screen.h"
-#include "sound.h"
 #include "setup.h"
 #include "high_scores.h"
 #include "menu.h"
@@ -35,6 +34,9 @@
 #include "world.h"
 #include "player.h"
 
+/* extern variables */
+
+extern char* soundfilenames[NUM_SOUNDS];
 
 /* Local variables: */
 
@@ -307,7 +309,7 @@ int game_action(void)
                 {
                   tux_skidding = SKID_TIME;
 
-                  play_sound(sounds[SND_SKID]);
+                  play_sound(sounds[SND_SKID], SOUND_CENTER_SPEAKER);
 
                 }
               tux_dir = RIGHT;
@@ -360,7 +362,7 @@ int game_action(void)
                   tux_dir == RIGHT)
                 {
                   tux_skidding = SKID_TIME;
-                  play_sound(sounds[SND_SKID]);
+                  play_sound(sounds[SND_SKID], SOUND_CENTER_SPEAKER);
                 }
               tux_dir = LEFT;
             }
@@ -440,9 +442,9 @@ int game_action(void)
                       jumping = YES;
 
                       if (tux_size == SMALL)
-                        play_sound(sounds[SND_JUMP]);
+                        play_sound(sounds[SND_JUMP], SOUND_CENTER_SPEAKER);
                       else
-                        play_sound(sounds[SND_BIGJUMP]);
+                        play_sound(sounds[SND_BIGJUMP], SOUND_CENTER_SPEAKER);
                     }
                 }
             }
@@ -780,7 +782,7 @@ int game_action(void)
                           if (distro_counter <= 0)
                             change(tux_x, tux_y, scroll_x, 'a');
 
-                          play_sound(sounds[SND_DISTRO]);
+                          play_sound(sounds[SND_DISTRO], SOUND_CENTER_SPEAKER);
                           score = score + SCORE_DISTRO;
                           distros++;
                         }
@@ -800,7 +802,7 @@ int game_action(void)
                           if (distro_counter <= 0)
                             change(tux_x + 31, tux_y, scroll_x, 'a');
 
-                          play_sound(sounds[SND_DISTRO]);
+                          play_sound(sounds[SND_DISTRO], SOUND_CENTER_SPEAKER);
                           score = score + SCORE_DISTRO;
                           distros++;
                         }
@@ -848,7 +850,8 @@ int game_action(void)
       distros = distros - DISTROS_LIFEUP;
       if(lives < MAX_LIVES)
         lives++;
-      play_sound(sounds[SND_LIFEUP]); /*We want to hear the sound even, if MAX_LIVES is reached*/
+      /*We want to hear the sound even, if MAX_LIVES is reached*/
+      play_sound(sounds[SND_LIFEUP], SOUND_CENTER_SPEAKER);
     }
 
 
@@ -1054,7 +1057,7 @@ int game_action(void)
 
 
                       /* Play death sound: */
-                      play_sound(sounds[SND_FALL]);
+                      play_sound(sounds[SND_FALL], SOUND_CENTER_SPEAKER);
                     }
                 }
             }
@@ -1172,19 +1175,19 @@ int game_action(void)
 
                   if (upgrades[i].kind == UPGRADE_MINTS)
                     {
-                      play_sound(sounds[SND_EXCELLENT]);
+                      play_sound(sounds[SND_EXCELLENT], SOUND_CENTER_SPEAKER);
                       tux_size = BIG;
                       super_bkgd_time = 8;
                     }
                   else if (upgrades[i].kind == UPGRADE_COFFEE)
                     {
-                      play_sound(sounds[SND_COFFEE]);
+                      play_sound(sounds[SND_COFFEE], SOUND_CENTER_SPEAKER);
                       tux_got_coffee = YES;
                       super_bkgd_time = 4;
                     }
                   else if (upgrades[i].kind == UPGRADE_HERRING)
                     {
-                      play_sound(sounds[SND_HERRING]);
+                      play_sound(sounds[SND_HERRING], SOUND_CENTER_SPEAKER);
                       tux_invincible_time = TUX_INVINCIBLE_TIME;
                       super_bkgd_time = 4;
                       /* play the herring song ^^ */
@@ -1319,7 +1322,15 @@ int game_action(void)
                           bad_guys[i].dir = !bad_guys[i].dir;
 
                           if (bad_guys[i].mode == KICK)
-                            play_sound(sounds[SND_RICOCHET]);
+                            {
+                              /* handle stereo sound */
+                              if (tux_x + scroll_x > bad_guys[i].x)
+                                play_sound(sounds[SND_RICOCHET], SOUND_LEFT_SPEAKER);
+                              else if (tux_x + scroll_x < bad_guys[i].x)
+                                play_sound(sounds[SND_RICOCHET], SOUND_RIGHT_SPEAKER);
+                              else
+                                play_sound(sounds[SND_RICOCHET], SOUND_CENTER_SPEAKER);
+                            }
                         }
                     }
 
@@ -1343,7 +1354,7 @@ int game_action(void)
 
                               bad_guys[j].dying = FALLING;
                               bad_guys[j].ym = -8;
-                              play_sound(sounds[SND_FALL]);
+                              play_sound(sounds[SND_FALL], SOUND_CENTER_SPEAKER);
 
                               add_score(bad_guys[i].x - scroll_x,
                                         bad_guys[i].y, 100);
@@ -1439,7 +1450,7 @@ int game_action(void)
                       add_score(bad_guys[i].x - scroll_x, bad_guys[i].y,
                                 50 * score_multiplier);
 
-                      play_sound(sounds[SND_SQUISH]);
+                      play_sound(sounds[SND_SQUISH], SOUND_CENTER_SPEAKER);
                     }
                   else if (bad_guys[i].kind == BAD_LAPTOP)
                     {
@@ -1447,7 +1458,7 @@ int game_action(void)
                         {
                           /* Flatten! */
 
-                          play_sound(sounds[SND_STOMP]);
+                          play_sound(sounds[SND_STOMP], SOUND_CENTER_SPEAKER);
                           bad_guys[i].mode = FLAT;
 
                           bad_guys[i].timer = 64;
@@ -1459,7 +1470,7 @@ int game_action(void)
                           /* Kick! */
 
                           bad_guys[i].mode = KICK;
-                          play_sound(sounds[SND_KICK]);
+                          play_sound(sounds[SND_KICK], SOUND_CENTER_SPEAKER);
 
                           if (tux_x + scroll_x <= bad_guys[i].x)
                             bad_guys[i].dir = RIGHT;
@@ -1498,7 +1509,7 @@ int game_action(void)
                       /* Kick: */
 
                       bad_guys[i].mode = KICK;
-                      play_sound(sounds[SND_KICK]);
+                      play_sound(sounds[SND_KICK], SOUND_CENTER_SPEAKER);
 
                       if (tux_x + scroll_x <= bad_guys[i].x)
                         {
@@ -1521,7 +1532,7 @@ int game_action(void)
                           /* Step on (stop being kicked) */
 
                           bad_guys[i].mode = FLAT;
-                          play_sound(sounds[SND_STOMP]);
+                          play_sound(sounds[SND_STOMP], SOUND_CENTER_SPEAKER);
                           bad_guys[i].timer = 64;
                         }
                       else
@@ -1538,7 +1549,7 @@ int game_action(void)
                                 {
                                   bad_guys[i].dying = FALLING;
                                   bad_guys[i].ym = -8;
-                                  play_sound(sounds[SND_FALL]);
+                                  play_sound(sounds[SND_FALL], SOUND_CENTER_SPEAKER);
                                 }
                             }
                         }
@@ -1553,7 +1564,7 @@ int game_action(void)
                         {
                           bad_guys[i].dying = FALLING;
                           bad_guys[i].ym = -8;
-                          play_sound(sounds[SND_FALL]);
+                          play_sound(sounds[SND_FALL], SOUND_CENTER_SPEAKER);
                         }
                     }
                 }
@@ -2254,6 +2265,7 @@ int gameloop(void)
   /* Init the game: */
 
   initmenu();
+  menumenu = MENU_GAME;
   initgame();
   loadshared();
   loadlevel();
@@ -3391,7 +3403,7 @@ void trybreakbrick(int x, int y, int sx)
           if (distro_counter <= 0)
             change(x, y, sx, 'a');
 
-          play_sound(sounds[SND_DISTRO]);
+          play_sound(sounds[SND_DISTRO], SOUND_CENTER_SPEAKER);
           score = score + SCORE_DISTRO;
           distros++;
         }
@@ -3411,7 +3423,7 @@ void trybreakbrick(int x, int y, int sx)
 
       /* Get some score: */
 
-      play_sound(sounds[SND_BRICK]);
+      play_sound(sounds[SND_BRICK], SOUND_CENTER_SPEAKER);
       score = score + SCORE_BRICK;
     }
 }
@@ -3424,7 +3436,7 @@ void bumpbrick(int x, int y, int sx)
   add_bouncy_brick(((x + sx + 1) / 32) * 32,
                    (y / 32) * 32);
 
-  play_sound(sounds[SND_BRICK]);
+  play_sound(sounds[SND_BRICK], SOUND_CENTER_SPEAKER);
 }
 
 
@@ -3441,7 +3453,7 @@ void tryemptybox(int x, int y, int sx)
           add_bouncy_distro(((x + sx + 1) / 32) * 32,
                             (y / 32) * 32 - 32);
 
-          play_sound(sounds[SND_DISTRO]);
+          play_sound(sounds[SND_DISTRO], SOUND_CENTER_SPEAKER);
           score = score + SCORE_DISTRO;
           distros++;
         }
@@ -3466,7 +3478,7 @@ void tryemptybox(int x, int y, int sx)
                           UPGRADE_COFFEE);
             }
 
-          play_sound(sounds[SND_UPGRADE]);
+          play_sound(sounds[SND_UPGRADE], SOUND_CENTER_SPEAKER);
         }
       else if (shape(x, y, sx) == '!')
         {
@@ -3491,7 +3503,7 @@ void trygrabdistro(int x, int y, int sx, int bounciness)
   if (shape(x, y, sx) == '$')
     {
       change(x, y, sx, '.');
-      play_sound(sounds[SND_DISTRO]);
+      play_sound(sounds[SND_DISTRO], SOUND_CENTER_SPEAKER);
 
       if (bounciness == BOUNCE)
         {
@@ -3677,7 +3689,7 @@ void trybumpbadguy(int x, int y, int sx)
             {
               bad_guys[i].dying = FALLING;
               bad_guys[i].ym = -8;
-              play_sound(sounds[SND_FALL]);
+              play_sound(sounds[SND_FALL], SOUND_CENTER_SPEAKER);
             }
         }
     }
@@ -3693,7 +3705,7 @@ void trybumpbadguy(int x, int y, int sx)
         {
           upgrades[i].xm = -upgrades[i].xm;
           upgrades[i].ym = -8;
-          play_sound(sounds[SND_BUMP_UPGRADE]);
+          play_sound(sounds[SND_BUMP_UPGRADE], SOUND_CENTER_SPEAKER);
         }
     }
 }
@@ -3732,7 +3744,7 @@ void killtux(int mode)
 {
   tux_ym = -16;
 
-  play_sound(sounds[SND_HURT]);
+  play_sound(sounds[SND_HURT], SOUND_CENTER_SPEAKER);
 
   if (tux_dir == RIGHT)
     tux_xm = -8;
@@ -3787,7 +3799,7 @@ void add_bullet(int x, int y, int dir, int xm)
       bullets[found].y = y;
       bullets[found].ym = BULLET_STARTING_YM;
 
-      play_sound(sounds[SND_SHOOT]);
+      play_sound(sounds[SND_SHOOT], SOUND_CENTER_SPEAKER);
     }
 }
 

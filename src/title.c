@@ -43,6 +43,7 @@ int title(void)
   char str[80];
 
   game_started = 0;
+  level_editor_started = 0;
 
   /* Init menu variables */
   initmenu();
@@ -69,13 +70,13 @@ int title(void)
 
 
   /* Draw the title background: */
-  drawimage(title, 0, 0, UPDATE);
+  drawimage(title, 0, 0, NO_UPDATE);
 
 
   /* Draw the high score: */
   last_highscore = load_hs();
   sprintf(str, "High score: %d", last_highscore);
-  drawcenteredtext(str, 460, letters_red, UPDATE);
+  drawcenteredtext(str, 460, letters_red, NO_UPDATE);
 
   while (!done && !quit)
     {
@@ -131,18 +132,18 @@ int title(void)
         {
           /* Draw the title background: */
 
-          drawimage(title, 0, 0, UPDATE);
+          drawimage(title, 0, 0, NO_UPDATE);
 
           /* Draw the high score: */
           sprintf(str, "High score: %d", last_highscore);
-          drawcenteredtext(str, 460, letters_red, UPDATE);
+          drawcenteredtext(str, 460, letters_red, NO_UPDATE);
         }
 
       /* Don't draw menu, if quit is true */
       if(show_menu && !quit)
         quit = drawmenu();
 
-      if(game_started)
+      if(game_started || level_editor_started)
         done = 1;
 
       /* Animate title screen: */
@@ -150,13 +151,14 @@ int title(void)
       pict = (frame / 5) % 3;
 
       if (pict == 0)
-        drawpart(title, 560, 270, 80, 75, UPDATE);
+        drawpart(title, 560, 270, 80, 75, NO_UPDATE);
       else if (pict == 1)
-        drawimage(anim1, 560, 270, UPDATE);
+        drawimage(anim1, 560, 270, NO_UPDATE);
       else if (pict == 2)
-        drawimage(anim2, 560, 270, UPDATE);
+        drawimage(anim2, 560, 270, NO_UPDATE);
 
 
+     SDL_Flip(screen);
 
       /* Pause: */
 

@@ -122,6 +122,19 @@ void drawpart(SDL_Surface * surf, int x, int y, int w, int h, int update)
     SDL_UpdateRect(screen, dest.x, dest.y, dest.w, dest.h);
 }
 
+/* --- DRAW SHADED TEXT ONTO THE SCREEN --- */
+
+void drawshadedtext(char * text, int x, int y, SDL_Surface * surf, int update)
+{
+ if(surf != letters_black)
+ {
+ drawtext(text, x+1, y+1, letters_black, update);
+ drawtext(text, x, y, surf, update);
+ }
+ else
+ drawtext(text, x, y, surf, update);
+ 
+}
 
 /* --- DRAW TEXT ONTO THE SCREEN --- */
 
@@ -130,7 +143,6 @@ void drawtext(char * text, int x, int y, SDL_Surface * surf, int update)
   int i;
   char c;
   SDL_Rect src, dest;
-  
   
   /* For each letter in the string... */
   
@@ -218,6 +230,7 @@ void drawtext(char * text, int x, int y, SDL_Surface * surf, int update)
       
       SDL_UpdateRect(screen, x, y, dest.w, 17);
     }
+    
 }
 
 
@@ -228,6 +241,12 @@ void drawcenteredtext(char * text, int y, SDL_Surface * surf, int update)
   drawtext(text, 320 - (strlen(text) * 8), y, surf, update);
 }
 
+/* --- DRAW SHADED HORIZONTALLY-CENTERED TEXT: --- */
+
+void drawshadedcenteredtext(char * text, int y, SDL_Surface * surf, int update)
+{
+  drawshadedtext(text, 320 - (strlen(text) * 8), y, surf, update);
+}
 
 /* --- ERASE TEXT: --- */
 

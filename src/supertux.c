@@ -11,19 +11,7 @@
 */
 
 
-#ifdef LINUX
-#include <pwd.h>
-#include <sys/types.h>
-#include <ctype.h>
-#endif
-
-#include "defines.h"
-#include "globals.h"
-#include "setup.h"
-#include "intro.h"
-#include "title.h"
-#include "gameloop.h"
-#include "screen.h"
+#include "supertux.h"
 
 
 /* --- MAIN --- */
@@ -52,7 +40,12 @@ int main(int argc, char * argv[])
     {
       done = title();
       if (!done)
+      {
+      if(game_started)
 	done = gameloop();
+      else if(level_editor_started)
+        done = leveleditor(1);
+      }
     }
   
   clearscreen(0, 0, 0);
