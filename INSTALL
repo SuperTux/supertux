@@ -1,13 +1,8 @@
-INSTALL.txt for Super Tux
 
-by Bill Kendrick
-bill@newbreedsoftware.com
-http://www.newbreedsoftware.com/supertux/
+- Install instructions for SuperTux -
+http://super-tux.sf.net/
 
-Version 0.0.6
-
-December 15, 2004
-
+Last update: April 26, 2004
 
 REQUIREMENTS
 ------------
@@ -43,6 +38,17 @@ REQUIREMENTS
     You will need the "SDL_mixer" library compiled and installed if
     you want sound.
 
+  OpenGL implementation (optional)
+  ---------------------
+    Mesa should be installed in order to compile, but it is painly
+    slow when running, so we advise you to install your videocard
+    drivers (of course, it has to be an accelerated videocard).
+    For linux, nvidia vendor is the only one that makes decent drivers.
+    But the ATI drivers should run with the same performance, since
+    it only uses accelerated 2d, not 3d.
+    Anyway, you can use the SDL frontend and you most likely won't
+    notice any difference.
+
 
 INSTALLING UNDER LINUX/UNIX
 ---------------------------
@@ -50,79 +56,36 @@ INSTALLING UNDER LINUX/UNIX
   Note: Read this entire section before you start issuing commands!
   -----------------------------------------------------------------
 
-  First make sure SDL, SDL_image and, optionally, SDL_mixer, are
-  installed on your system.
+  SuperTux uses a script that checks for dependency and disables
+  features, in case they are not found.
+  The script is the configure and you can specify a few stuff
+  like the directory to which you want to install SuperTux,
+  by giving the argument --prefix=/usr/local (ie). For more
+  informations, type './configure --help'.
+  (Note: SuperTux does not need to be installed in the system,
+  you can run it from its own directory.)
 
-  The "Makefile" that comes with "Super Tux" assumes a number
-  of defaults about your system.  You can edit their values in
-  the "Makefile" itself, or specify their values when you run
-  the "make" command (ie, "make VARIABLE=value").
+  If there isn't any configure script (ie. in case, you got it
+  via cvs), just run the autogen.sh script.
 
-  The things you will wish to edit are:
+  To compile it, a 'make' is enough.
+  Type 'make install' (as root) to copy it into the system.
+  (default directory is /usr/local, see above how to change
+  this.)
 
-    SDL_PREFIX=/usr/local
+  So, in short, just type:
+  sh autogen.sh (in case there isn't any configure file already)
+  sh configure
+  make
 
-      This defines the base location where the "include/SDL/"
-      and "lib/SDL/" directories will be found.  (They contain
-      the C header files and compiled object files for SDL,
-      respectively.)
-
-
-    DATA_PREFIX=$(PWD)/data/
-
-      This defines where "Super Tux"'s "data/" directory is
-      to be found.  The default assumes that you wish to leave
-      it where it is right now ("$(PWD)" expands to become the
-      current direcotry.
-
-      This variable is useful if you plan on moving the "data/"
-      directory elsewhere, say a globally-accessible
-      "/usr/local/games/supertux-data/".
-
-    JOY=YES
-
-      This causes "Super Tux" to be compiled with joystick
-      support.  If you don't have a version of SDL that supports
-      joystick, or just don't want joystick support, set this to "NO".
-
-    DEBUG_FLAG=-DDEBUG
-
-      This tells the compiler to generate an executable file with
-      internal debugging messages. If you don't want to see those
-      annoying texts, just edit it as below:
-
-    DEBUG_FLAG=
-
-  To compile the game, type the command:
-
-    make           [ with whatever variable changes you want, if any ]
-
-  If you decided that you wanted the data somewhere else, make sure
-  to move it there.  If you wanted it to be accessible to others
-  (ie, you're an administrator installing a new game for your users),
-  make sure to set the permissions for the files!  (You'll also want
-  to move the "supertux" binary to somewhere globally accessible,
-  and set its permissions, as well, of course!)
-
-  Note: If you do not have the SDL_mixer library, or wish to not
-  compile sound support into the game, you can compile it like this:
-
-    make nosound   [ with whatever variable changes you want, if any ]
-
-  If you wish to return the directory to its distribution state,
-  (remove the ".o" object files, and the "supertux" executable program
-  file), you can run:
-
-    make clean
+  And in case you want to copy SuperTux to the system:
+  make install (as root)
 
 
 ICON FILE
 ---------
-  A 32x32, XPM-format icon file (using the standard 23-color "cmap.xpm"
-  color palette) is available if you wish to use an icon for this game.
+  A 32x32, XPM-format icon file is available if you wish to use
+  an icon for a menu entry for this game.
 
-  The file is "supertux-icon.xpm", and installed in Super Tux's
-  "data/images/" directory.
-
-
-The End!
+  The file is "icon.xpm", and can be found at  the data/images/
+  directory.

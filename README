@@ -1,147 +1,103 @@
-README.txt for Super Tux
 
-by Bill Kendrick
-bill@newbreedsoftware.com
-http://www.newbreedsoftware.com/supertux/
+- An introduction for SuperTux -
+http://super-tux.sf.net/
 
-Version 0.0.6
-
-March 15, 2004
+Last update: April 26, 2004
  
-
-NOTICE!  THIS GAME IS UNDER CONSTRUCTION!
-Things you'll notice:
-
-  Bugs
-  Documentation is quite incomplete
-  Only two levels
-
-
 DESCRIPTION
 -----------
-  "Super Tux" is a game similar to Nintendo's "Super Mario Bros."(tm)
+  SuperTux is a jump'n run like game, with a strongly inspiration on
+  Nintendo's Super Mario Bros games.
   Run and jump through multiple worlds, fighting off enemies by jumping
-  on them or bumping them from below.  Grab power-ups and Linux distributions
+  on them or bumping them from below.  Grabbing power-ups and other stuff
   on the way.
 
 
 STORY
 -----
-  Tux and Gown are having a picnic in Antarctica, when suddenly Gown is
-  abducted!  Tux must follow the path of clues across the globe to find
-  his girlfriend and save her!
+
+- Gwen gets captured! -
+
+  Tux and Gwen were out having a nice
+  picnic on the ice fields of Antarctica.
+  Suddenly, a creature jumped from
+  behind an ice bush, there was a flash,
+  and Tux fell asleep!
+
+  When Tux wakes up, he finds that Gwen
+  is missing. Where she lay before now
+  lies a letter. "Tux, my arch enemy!"
+  says the letter. "I have captured
+  your beautiful Gwen and have taken her
+  to my fortress. The path to my fortress
+  is littered with my minions. Give up on
+  the thought of trying to reclaim her,
+  you haven't a chance! -Nolok"
+
+  Tux looks and see Nolok's fortress in
+  the distance. Determined to save his
+  beloved Gwen, he begins his journey.
 
 
 DOCUMENTATION
 -------------
-  Important documentation for "Super Tux" is contained in multiple files.
+  Important documentation for SuperTux is contained in multiple files.
   Please see them:
 
-    AUTHORS.txt    - Credits for who made this game.
-    CHANGES.txt    - Changes since the previous versions of "Super Tux"
-    COPYING.txt    - The GNU Public License, which "Super Tux" is under.
-    INSTALL.txt    - Instructions on requirements, compiling and installing.
-    README.txt     - (This file.)  Game story, usage, rules and controls.
-    TODO.txt       - A wish-list for this version of "Super Tux"
+    AUTHORS    - Credits for who made this game.
+    CHANGES    - Changes since the previous versions of "Super Tux"
+    COPYING    - The GNU Public License, which "Super Tux" is under.
+    INSTALL    - Instructions on requirements, compiling and installing.
+    README     - (This file.)  Game story, usage, rules and controls.
+    TODO       - A wish-list for this version of "Super Tux"
 
 
 RUNNING THE GAME
 ----------------
-  Just type "./supertux" to get started.
+  SuperTux makes use of proc to see where it is. In other words, it does not
+  have any need to be installed and can be run from anywhere. This makes
+  it possible to click in the executable in your filemanager (ie. Konqueror,
+  Nautilus) as oposited to most of Linux games.
 
-  The program accepts some options:
+  Options can be reached from the menu, so you don't need to specify arguments,
+  but if you want, type 'supertux --help' to check the ones that are avaible.
+  Also, notice that SuperTux saves the options, so you don't need to be allways
+  specifying them.
 
-    --disable-sound     - If sound support was compiled in, this will
-                          disable it. You can also turn on/off sound
-                          during the game.
-
-    --disable-music     - This option disables music. However, you can
-                          still turn it on/off later in the game.
-
-    --fullscreen        - Run in fullscreen mode.
-
-    --help              - Display a help message summarizing command-line
-                          options, copyright, and game controls.
-
-    --usage             - Display a brief message summarizing command-line
-                          options.
-
-    --version           - Display the version of Super Tux you're running.
-
-
-TITLE SCREEN
-------------
-  Press [RETURN] or a joystick firebutton to begin a game.
-
-  Press [ESCAPE] or choose [Quit] to quit.
-
-  Use arrow keys to move between menu's items. Press [RETURN] or [SPACE] to validate
-  your choice.
-
-  Note: If you're playing Super Tux in a window, you can also use
-  your window manager's close option (usually an "X" button on the window's
-  title bar) to quit.  This works at ANY time.
-
-
-SCREEN LAYOUT
--------------
-  UNDER CONSTRUCTION
-
-    +-------------------------------------------------+
-    |SCORE 1230        TIME 128            DISTROS 93 |
-    |HIGH  100                                        |
-    |                                                 |
-    |                                                 |
-    |                                                 |
-    |                                                 |
-    |                                                 |
-    |                                                 |
-    |                                                 |
-    |                                                 |
-    |                                                 |
-    +-------------------------------------------------+
-
-
-  Status
-  ------
-    Your score is displayed at the upper left.
-    Under your current score is the last highscore.
-
-    The amount of time you have left to complete this level is displayed in
-    the center at the top of the screen.  (Note: Time is NOT in seconds!)
-
-    The number of distros (CDs) you have collected is displayed at the upper
-    right.
+  The game has two frontends: SDL and OpenGL. Currently, there isn't any
+  noticiable difference between them.
+  Basically, SDL uses software to draw the game and OpenGL makes use of
+  the videocards cpu (in case the videocard has one and the drivers support
+  it). Under linux, nvidia is recommendaded (with the closed drivers), but
+  an ATI should work just fine.
 
 
 PLAYING THE GAME
 ----------------
   Controls
   --------
-    Joystick        Keyboard     Purpose
-    --------        --------     -------
-      Left            Left         Face/Move Left
-      Right           Right        Face/Move Right
-      Button-A        Up           Jump
-      Button-B        Control      Run/Fire
-      Down            Down         Duck
+  Both keyboards and joysticks/gamepads are supported. You can change the
+  controls via the Options menu.
+  Basically, the only keys you will have to use is for the following actions:
+  jump, duck, right and left. Also press Esc to go to the menu and use the
+  key cursors and Enter under it. Oh, press P to pause the game.
+  In the worldmap, the arrow keys and Enter are enough.
 
-  Pausing
-  -------
-    
-    To pause the game, you can press the [P] key.
-    To unpause, press [P] again.
+  The leveleditor is controled via the mouse, but there are shortcuts that
+  may make your life easier. To see the shortcuts for the buttons, just
+  do a Right-click on them.
+  In any case, we advise you to read LEVELDESIGN to have the best productivity
+  with the leveleditor.
 
-  Quitting
-  --------
-    To quit the current game, you can press [ESCAPE] to open the game's menu
-    then choose [Quit game]. This forfeits your game (as though you ran
-    out of lives).
- 
 
-    To quit Super Tux altogether, you can use your window manager's
-    close command.  See the note in the "Title Screen" section, above.
+SCREEN LAYOUT
+-------------
+  Status
+  ------
+    The amount of time you have left to complete this level is displayed in
+    the center at the top of the screen.  (Note: Time is NOT in seconds!)
 
+    The number of coins you have collected is displayed at the upper right.
 
 SCORING
 -------
@@ -153,12 +109,8 @@ SCORING
     the first and onto the second, it's worth 100 points.  If you also get
     the third, it's worth 150 points.
 
-    You can also score by shooting at the ennemies. Don't forget to drink
-    the coffee in order to get the ability to fire.
-
-GAME OVER SCREEN
-----------------
-  NOT IMPLEMENTED
+    You can also score by shooting at the ennemies. Don't forget to get
+    the flower in order to get the ability to fire.
 
 
 OPTIONS FILE
@@ -170,17 +122,9 @@ OPTIONS FILE
   ($HOME/.supertux/).
   Under Windows, this file is "supertux.dat" in the Super Tux folder.
   
-  This file records program's settings.
+  This file records program's settings. It uses the LISP syntax, anyway
+  there shouldn't be any reasons for you to hand edit it.
 
-HIGHSCORE FILE
---------------
-
-  When Super Tux starts up, it looks for an highscore file.
-  
-  Under Linux, this file is "highscore" in your directory
-  ($HOME/.supertux/).
-  Under Windows, this file is "st_highscore.dat" in the Super Tux folder.
-  
 THE END
 -------
   Thanks for trying out Super Tux.
@@ -195,4 +139,4 @@ THE END
 
   Thanks!
 
-  Bill Kendrick  <bill@newbreedsoftware.com>
+  The SuperTux development team

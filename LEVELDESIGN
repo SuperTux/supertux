@@ -1,64 +1,79 @@
 
+- Level editing for SuperTux -
+http://super-tux.sf.net/
+
+Last update: April 26, 2004
+
 This document describes both the level format and
 the level editor.
 
 = LEVEL FORMAT =
 
+The level format used to be pretty easy to understand, but it
+is now more complex.
+Anyway, should be pretty usefull to know a bit of it, when you
+want to do stuff just as to just change the author's name or
+something small.
 
-HEAD:
---------
+It uses the Lisp syntax and is pretty intuitive. Here have a
+look at a quotation:
+(Comments can be made using ';')
 
-1. Name of the level.
-2. The theme of the level. The game will look in "supertuxdir/data/images/theme"
-3. The time you have to finish the level.
-4. Defines the music file, which should be played.
-5,6,7. RGB values for the background of the level.
-8. Defines the level's length.
+; This is a comment!
+(supertux-level
+; a few level's info: version, author and level's name
+  (version 1)
+  (author "Ingo Ruhnke")
+  (name "Night Chill")
+; number of tiles used (currently the height has to be 15)
+  (width  515)
+  (height 15)
+; Tux starts position
+  (start_pos_x    100)
+  (start_pos_y    170)
+; Background image, if any is specified, the color below will be used
+  (background "")
+; Music file
+  (music "Mortimers_chipdisko.mod")
+; Colors, as you can see you can have different colors in the top
+; and in the bottom, thus creating a gradient
+  (bkgd_red_top    0)
+  (bkgd_green_top  0)
+  (bkgd_blue_top   0)
+  (bkgd_red_bottom    120)
+  (bkgd_green_bottom  120)
+  (bkgd_blue_bottom   0)
+; Time (it is not in seconds!)
+  (time  300)
+; Gravity to be used (you should let it stay in 10 for ordinary levels)
+  (gravity  10)
+; The particle system allows that images can be displaying simulating weather
+; In the writing of this text, both "snow" and "clouds" are supported
+  (particle_system "snow")
+; Theme is the tiles look that are used
+  (theme "antarctica")
+  (interactive-tm
+; here goes a lot of numbers that are the tiles places
+  )
+; Reset points, there can be more than one
+; Reset points are positions where the player passes through and
+; if he dies, he will be back to there. They are invisible
+  (reset-points
+    (point (x 6988) (y 222))
+   )
+; Objects include enemies, may include more stuff in the future
+; just as moving plataforms...
+  (objects
+    (mriceblock  (x 13919) (y 384))
+    (mriceblock  (x 14258) (y 366))
+    (mriceblock  (x 12996) (y 248))
+    (mriceblock  (x 13058) (y 250))
+    (mriceblock  (x 12933) (y 245))
+  )
+   )
 
-Example:
-----------
-Antarctica
-antarctica
-240
-ji_turn.it
-128
-192
-255
-375
 
-MAIN:
--------
- 
-Levels are created with the following characters:
-(15 lines and as many columns as defined in the seventh line of the levelfile)
-
-X/x <- Brick0
-Y/y <- Brick1
-A/B/! <- Box full
-a <- Box empty
-C-F <- Cloud0
-c-f <- Cloud1
-G-J <- Bkgd0
-g-j <- Bkgd1
-# <- Solid0
-[ <- Solid1
-= <- Solid2
-] <- Solid3
-$ <- Distro
-^ <- Waves
-* <- Poletop
-| <- Pole
-\ <- Flag
-& <- Water
-
-Bad guys:
-
-0 <- BluescreenOfDeath
-1 <- Laptop
-2 <- Money
-
-= BUILT-IN LEVEL EDITOR =
-
+= LEVEL EDITORS =
 
 USING THE BUILT-IN LEVEL EDITOR:
 --------------------------------
@@ -90,10 +105,39 @@ There is a small help that can be reached by pressing F1.
 
 To go back to the menu, just press Esc.
 
-Now, do lots of levels and HAVE FUN!!
+The levels are saved under a .supertux/levels directory in
+your home directory.
+
+FIXME: this description of the built-in level editor are
+out dated. Anyway, it is yet being developed.
+
+USING FLEXLAY:
+--------------
+
+FlexLay is an external project (it even uses different libraries)
+that is developed by Ingo Ruhnke and supports a lot of different
+games, including SuperTux (or else we wouldn't mention it :) ).
+
+Anyway, it is pretty easy to use and a lot more advanced than
+the internal one. So, if you are considering in doing a few levels
+for us, it may be a good idea to check this out.
+
+There isn't currently any webpage for it, just go to our webpage and
+you should find a download of this program.
+
+The only cons it has is that you have to have an accelerated
+videocard (with the drivers working, obviously). Anyway shouldn't
+be a problem nowadays.
+For linux, we advise nvidia videocards with the use of nvidia's closed
+drivers. ATI drivers should be enough to run this game though.
+
+
+= CONCLUSION =
+
+To sum up, go and do lots of levels and HAVE FUN!!
 
 Please, send your levels or any art you created to the SuperTux's
-mailinglist or to the maintainer (look at AUTHORS.txt).
+mailinglist or to the maintainer (look at AUTHORS).
 
 
-SuperTux developers
+- SuperTux developers
