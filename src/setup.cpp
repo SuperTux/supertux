@@ -496,7 +496,7 @@ bool process_load_game_menu()
 
       if (access(slotfile, F_OK) != 0)
         {
-          display_text_file("intro.txt", "images/background/arctis2.jpg");
+          draw_intro();
         }
 
       WorldMapNS::WorldMap worldmap;
