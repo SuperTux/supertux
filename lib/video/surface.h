@@ -72,6 +72,10 @@ namespace SuperTux
       ConstructorType type;
       SDL_Surface* surface;
       std::string file;
+
+      struct Filter { int type; Color color; };
+      std::vector<Filter> applied_filters;
+
       bool use_alpha;
       int x;
       int y;

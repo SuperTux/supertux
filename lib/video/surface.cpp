@@ -194,12 +194,21 @@ Surface::reload()
   {
     w = impl->w;
     h = impl->h;
+    for(std::vector<SurfaceData::Filter>::iterator i =
+        data.applied_filters.begin(); i != data.applied_filters.end();
+        i++)
+      impl->apply_filter(i->type, i->color);
   }
 }
 
 void Surface::apply_filter(int filter, Color color)
 {
 impl->apply_filter(filter, color);
+
+SurfaceData::Filter apply_filter;
+apply_filter.type = filter;
+apply_filter.color = color;
+data.applied_filters.push_back(apply_filter);
 }
 
 Surface::~Surface()
