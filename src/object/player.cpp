@@ -27,9 +27,8 @@
 #include "app/gettext.h"
 #include "special/sprite_manager.h"
 #include "player.h"
-#include "defines.h"
-#include "scene.h"
 #include "tile.h"
+#include "player_status.h"
 #include "special/sprite.h"
 #include "sector.h"
 #include "resources.h"
@@ -79,18 +78,24 @@ PlayerKeymap::PlayerKeymap()
   keymap.jump  = SDLK_SPACE;
 }
 
-void player_input_init(player_input_type* pplayer_input)
+PlayerInputType::PlayerInputType()
 {
-  pplayer_input->up = UP;
-  pplayer_input->old_up = UP;
-  pplayer_input->down = UP;
-  pplayer_input->fire = UP;
-  pplayer_input->left = UP;
-  pplayer_input->old_fire = UP;
-  pplayer_input->right = UP;
-  pplayer_input->jump = UP;
-  pplayer_input->old_jump = UP;
-  pplayer_input->activate = UP;
+  reset();
+}
+
+void
+PlayerInputType::reset()
+{
+  up = false;
+  old_up = false;
+  down = false;
+  fire = false;
+  old_fire = false;
+  left = false;
+  right = false;
+  jump = false;
+  old_jump = false;
+  activate = false;
 }
 
 void
@@ -149,7 +154,7 @@ Player::init()
   duck = false;
   dead = false;
 
-  dying   = DYING_NOT;
+  dying = false;
   last_ground_y = 0;
   fall_mode = ON_GROUND;
   jumping = false;
@@ -171,13 +176,12 @@ Player::init()
   on_ground_flag = false;
   grabbed_object = 0;
 
-  player_input_init(&input);
-
+  input.reset();
   physic.reset();
 }
 
-int
-Player::key_event(SDLKey key, int state)
+bool
+Player::key_event(SDLKey key, bool state)
 {
   idle_timer.start(IDLE_TIME, true);
 
@@ -193,8 +197,8 @@ Player::key_event(SDLKey key, int state)
     }
   else if(key == keymap.up)
     {
-      if(state == UP)
-        input.old_up = UP;
+      if(state == false)
+        input.old_up = false;
       input.up = state;
       /* Up key also opens activates stuff */
       input.activate = state;
@@ -207,16 +211,16 @@ Player::key_event(SDLKey key, int state)
     }
   else if(key == keymap.power)
     {
-      if (state == UP)
-        input.old_fire = UP;
+      if(state == false)
+        input.old_fire = false;
       input.fire = state;
 
       return true;
     }
   else if(key == keymap.jump)
     {
-      if (state == UP)
-        input.old_jump = UP;
+      if(state == false)
+        input.old_jump = false;
       input.jump = state;
       return true;
     }
@@ -230,9 +234,9 @@ Player::level_begin()
   move(Vector(100, 170));
   duck = false;
 
-  dying = DYING_NOT;
+  dying = false;
 
-  player_input_init(&input);
+  input.reset();
 
   on_ground_flag = false;
 
@@ -253,11 +257,11 @@ Player::action(float elapsed_time)
     return;
   }
 
-  if(input.fire == UP)
+  if(input.fire == false)
     grabbed_object = 0;
 
 
-  if(dying == DYING_NOT)
+  if(!dying)
     handle_input();
 
   movement = physic.get_movement(elapsed_time);
@@ -296,36 +300,38 @@ Player::handle_horizontal_input()
   float ay = physic.get_acceleration_y();
 
   float dirsign = 0;
-  if(input.left == DOWN && input.right == UP && (!duck || physic.get_velocity_y() != 0)) {
+  if(!duck || physic.get_velocity_y() != 0) {
+    if(input.left && !input.right) {
       old_dir = dir;
       dir = LEFT;
       dirsign = -1;
-  } else if(input.left == UP && input.right == DOWN && (!duck || physic.get_velocity_y() != 0)) {
+    } else if(!input.left && input.right) {
       old_dir = dir;
       dir = RIGHT;
       dirsign = 1;
+    }
   }
 
-  if (input.fire == UP) {
-      ax = dirsign * WALK_ACCELERATION_X;
-      // limit speed
-      if(vx >= MAX_WALK_XM && dirsign > 0) {
-        vx = MAX_WALK_XM;
-        ax = 0;
-      } else if(vx <= -MAX_WALK_XM && dirsign < 0) {
-        vx = -MAX_WALK_XM;
-        ax = 0;
-      }
+  if (!input.fire) {
+    ax = dirsign * WALK_ACCELERATION_X;
+    // limit speed
+    if(vx >= MAX_WALK_XM && dirsign > 0) {
+      vx = MAX_WALK_XM;
+      ax = 0;
+    } else if(vx <= -MAX_WALK_XM && dirsign < 0) {
+      vx = -MAX_WALK_XM;
+      ax = 0;
+    }
   } else {
-      ax = dirsign * RUN_ACCELERATION_X;
-      // limit speed
-      if(vx >= MAX_RUN_XM && dirsign > 0) {
-        vx = MAX_RUN_XM;
-        ax = 0;
-      } else if(vx <= -MAX_RUN_XM && dirsign < 0) {
-        vx = -MAX_RUN_XM;
-        ax = 0;
-      }
+    ax = dirsign * RUN_ACCELERATION_X;
+    // limit speed
+    if(vx >= MAX_RUN_XM && dirsign > 0) {
+      vx = MAX_RUN_XM;
+      ax = 0;
+    } else if(vx <= -MAX_RUN_XM && dirsign < 0) {
+      vx = -MAX_RUN_XM;
+      ax = 0;
+    }
   }
 
   // we can reach WALK_SPEED without any acceleration
@@ -419,7 +425,7 @@ Player::handle_vertical_input()
   }
 
   // Press jump key
-  if(input.jump == DOWN && can_jump && on_ground())
+  if(input.jump && can_jump && on_ground())
     {
       if(duck) { // only jump a little bit when in duck mode {
         physic.set_velocity_y(300);
@@ -443,7 +449,7 @@ Player::handle_vertical_input()
         SoundManager::get()->play_sound(IDToSound(SND_BIGJUMP));
     }
   // Let go of jump key
-  else if(input.jump == UP)
+  else if(!input.jump)
     {
       if (!flapping && !duck && !falling_from_flap && !on_ground())
          {
@@ -461,8 +467,7 @@ Player::handle_vertical_input()
    {
    // Flapping, Ricardo's version
    // similar to SM3 Fox
-   if(input.jump == DOWN && input.old_jump == UP && can_flap &&
-     flaps_nb < 3)
+   if(input.jump && !input.old_jump && can_flap && flaps_nb < 3)
      {
        physic.set_velocity_y(350);
        physic.set_velocity_x(physic.get_velocity_x() * 35);
@@ -472,7 +477,7 @@ Player::handle_vertical_input()
   else if(flapping_mode == MAREK_FLAP)
    {
    // Flapping, Marek's version
-   if (input.jump == DOWN && can_flap)
+   if (input.jump && can_flap)
      {
          if (!flapping_timer.started())
             {
@@ -504,7 +509,7 @@ Player::handle_vertical_input()
   else if(flapping_mode == RYAN_FLAP)
    {
    // Flapping, Ryan's version
-   if (input.jump == DOWN && can_flap)
+   if (input.jump && can_flap)
      {
          if (!flapping_timer.started())
             {
@@ -549,13 +554,13 @@ Player::handle_vertical_input()
 #if 0
    /* In case the player has pressed Down while in a certain range of air,
       enable butt jump action */
-  if (input.down == DOWN && !butt_jump && !duck)
+  if (input.down && !butt_jump && !duck)
     if(tiles_on_air(TILES_FOR_BUTTJUMP) && jumping)
       butt_jump = true;
 #endif
 
    /* When Down is not held anymore, disable butt jump */
-  if(butt_jump && input.down == UP)
+  if(butt_jump && !input.down)
     butt_jump = false;
 
   // Do butt jump
@@ -617,13 +622,14 @@ Player::handle_vertical_input()
           get_pos().y + bbox.get_height() + 64))
        && jumping  == false
        && can_jump == false
-       && input.jump == DOWN
-       && input.old_jump == UP)
+       && input.jump && !input.old_jump)
     {
       can_jump = true;
     }
 #endif
 
+  // FIXME: why the heck is this here and not somewhere where the keys are
+  // checked?!?
   input.old_jump = input.jump;
 }
 
@@ -634,30 +640,31 @@ Player::handle_input()
   handle_horizontal_input();
 
   /* Jump/jumping? */
-  if (on_ground() && input.jump == UP)
+  if (on_ground() && !input.jump)
     can_jump = true;
   handle_vertical_input();
 
   /* Shoot! */
-  if (input.fire == DOWN && input.old_fire == UP && got_power != NONE_POWER) {
+  if (input.fire && !input.old_fire && got_power != NONE_POWER) {
     if(Sector::current()->add_bullet(
 //           get_pos() + Vector(0, bbox.get_height()/2),
 	   get_pos() + ((dir == LEFT)? Vector(0, bbox.get_height()/2) 
 	   : Vector(32, bbox.get_height()/2)),
           physic.get_velocity_x(), dir))
       shooting_timer.start(SHOOTING_TIME);
-    input.old_fire = DOWN;
+    // FIXME: why the heck is this here
+    input.old_fire = false;
   }
 
   /* Duck! */
-  if (input.down == DOWN && size == BIG && !duck 
+  if (input.down && size == BIG && !duck 
       && physic.get_velocity_y() == 0 && on_ground())
     {
       duck = true;
       bbox.move(Vector(0, 32));
       bbox.set_height(31.8);
     }
-  else if(input.down == UP && size == BIG && duck)
+  else if(!input.down && size == BIG && duck)
     {
       // try if we can really unduck
       bbox.move(Vector(0, -32));
@@ -794,8 +801,8 @@ Player::draw(DrawingContext& context)
     }
 
   /* Draw Tux */
-  if (dying == DYING_SQUISHED) {
-    smalltux_gameover->draw(context, get_pos(), LAYER_FOREGROUNDTILES+1);
+  if(dying) {
+    smalltux_gameover->draw(context, get_pos(), layer);
   } else if(growing_timer.get_timeleft() > 0) {
     if(size == SMALL)
       {
@@ -848,7 +855,7 @@ HitResponse
 Player::collision(GameObject& other, const CollisionHit& hit)
 {
   Portable* portable = dynamic_cast<Portable*> (&other);
-  if(portable && grabbed_object == 0 && input.fire == DOWN
+  if(portable && grabbed_object == 0 && input.fire
         && fabsf(hit.normal.x) > .9) {
     grabbed_object = portable;
     return CONTINUE;
@@ -872,7 +879,7 @@ Player::collision(GameObject& other, const CollisionHit& hit)
 
   TriggerBase* trigger = dynamic_cast<TriggerBase*> (&other);
   if(trigger) {
-    if(input.up == DOWN && input.old_up == UP)
+    if(input.up && !input.old_up)
       trigger->event(*this, TriggerBase::EVENT_ACTIVATE);
   }
 
@@ -923,7 +930,7 @@ Player::kill(HurtMode mode)
       physic.set_acceleration(0, 0);
       physic.set_velocity(0, 700);
       --player_status.lives;
-      dying = DYING_SQUISHED;
+      dying = true;
       dying_timer.start(3.0);
       flags |= FLAG_NO_COLLDET;
     }

@@ -25,6 +25,8 @@
 #include "special/game_object.h"
 #include "serializable.h"
 
+using namespace SuperTux;
+
 class DisplayManager;
 
 namespace lisp {

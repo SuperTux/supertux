@@ -18,8 +18,6 @@
 #ifndef SUPERTUX_LEVELEDITOR_H
 #define SUPERTUX_LEVELEDITOR_H
 
-#include "SDL.h"
-
 #include <set>
 #include <string>
 
@@ -91,8 +89,7 @@ private:
   void load_level_subset(std::string filename);
   void load_level(std::string filename);
   void load_level(int nb);
-  void load_sector(std::string name);
-  void load_sector(Sector* sector);
+  void load_sector(size_t num);
 
   void save_level();
   void test_level();
@@ -108,6 +105,7 @@ private:
   Level* level;
   std::string level_filename;
 
+  size_t sectornum; // number of current sector
   Sector* sector;  // current sector
   TileMap *solids, *foregrounds, *backgrounds;
   std::string sector_name;
@@ -122,13 +120,13 @@ private:
   Menu* settings_menu;
 
   bool left_button, middle_button, mouse_moved;
+  int mouse_x, mouse_y;
   bool done;
   bool show_grid;
 
   Vector scroll;
   float zoom;
 
-  SDL_Event event;
   Timer2 level_name_timer;
 
   Surface *img_background_bt, *img_foreground_bt, *img_interactive_bt;

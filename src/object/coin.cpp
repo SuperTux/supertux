@@ -6,7 +6,7 @@
 #include "special/sprite_manager.h"
 #include "player.h"
 #include "sector.h"
-#include "scene.h"
+#include "player_status.h"
 #include "gameobjs.h"
 #include "statistics.h"
 #include "object_factory.h"

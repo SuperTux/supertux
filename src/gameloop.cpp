@@ -32,14 +32,13 @@
 #include <ctime>
 #include <stdexcept>
 
-#include "SDL.h"
+#include <SDL.h>
 
 #ifndef WIN32
 #include <sys/types.h>
 #include <ctype.h>
 #endif
 
-#include "defines.h"
 #include "app/globals.h"
 #include "gameloop.h"
 #include "video/screen.h"
@@ -47,8 +46,8 @@
 #include "gui/menu.h"
 #include "sector.h"
 #include "level.h"
-#include "scene.h"
 #include "tile.h"
+#include "player_status.h"
 #include "object/particlesystem.h"
 #include "object/background.h"
 #include "object/tilemap.h"
@@ -59,7 +58,6 @@
 #include "resources.h"
 #include "app/gettext.h"
 #include "worldmap.h"
-#include "intro.h"
 #include "misc.h"
 #include "statistics.h"
 #include "timer.h"
@@ -225,32 +223,18 @@ GameSession::start_timers()
 void
 GameSession::on_escape_press()
 {
-  if(currentsector->player->dying || end_sequence != NO_ENDSEQUENCE)
+  if(currentsector->player->is_dying() || end_sequence != NO_ENDSEQUENCE)
     return;   // don't let the player open the menu, when he is dying
   
   if(game_pause)
     return;
 
-  if(st_gl_mode == ST_GL_TEST)
-    {
-      exit_status = ES_LEVEL_ABORT;
-    }
-  else if (!Menu::current())
-    {
-      /* Tell Tux that the keys are all down, otherwise
-        it could have nasty bugs, like going allways to the right
-        or whatever that key does */
-      Player& tux = *(currentsector->player);
-      tux.key_event((SDLKey)keymap.up, UP);
-      tux.key_event((SDLKey)keymap.down, UP);
-      tux.key_event((SDLKey)keymap.left, UP);
-      tux.key_event((SDLKey)keymap.right, UP);
-      tux.key_event((SDLKey)keymap.jump, UP);
-      tux.key_event((SDLKey)keymap.power, UP);
-
-      Menu::set_current(game_menu);
-      Ticks::pause_start();
-    }
+  if(st_gl_mode == ST_GL_TEST) {
+    exit_status = ES_LEVEL_ABORT;
+  } else if (!Menu::current()) {
+    Menu::set_current(game_menu);
+    Ticks::pause_start();
+  }
 }
 
 void
@@ -260,15 +244,15 @@ GameSession::process_events()
     {
       Player& tux = *currentsector->player;
          
-      tux.input.fire  = UP;
-      tux.input.left  = UP;
-      tux.input.right = DOWN;
-      tux.input.down  = UP; 
+      tux.input.fire  = false;
+      tux.input.left  = false;
+      tux.input.right = true;
+      tux.input.down  = false; 
 
       if (int(last_x_pos) == int(tux.get_pos().x))
-        tux.input.up    = DOWN; 
+        tux.input.up    = true; 
       else
-        tux.input.up    = UP; 
+        tux.input.up    = false;
 
       last_x_pos = tux.get_pos().x;
 
@@ -339,7 +323,7 @@ GameSession::process_events()
                   {
                     SDLKey key = event.key.keysym.sym;
             
-                    if(tux.key_event(key,DOWN))
+                    if(tux.key_event(key, true))
                       break;
 
                     switch(key)
@@ -356,7 +340,7 @@ GameSession::process_events()
                   {
                     SDLKey key = event.key.keysym.sym;
 
-                    if(tux.key_event(key, UP))
+                    if(tux.key_event(key, false))
                       break;
 
                     switch(key)
@@ -407,93 +391,7 @@ GameSession::process_events()
                           ch[1] = '\0';
                           }
                         last_keys.append(ch);  // add to cheat keys
-
-                        // Cheating words (the goal of this is really for debugging,
-                        // but could be used for some cheating, nothing wrong with that)
-                        if(compare_last(last_keys, "grow"))
-                          {
-                          tux.grow(false);
-                          last_keys.clear();
-                          }
-                        if(compare_last(last_keys, "fire"))
-                          {
-                          tux.grow(false);
-                          tux.got_power = tux.FIRE_POWER;
-                          last_keys.clear();
-                          }
-                        if(compare_last(last_keys, "ice"))
-                          {
-                          tux.grow(false);
-                          tux.got_power = tux.ICE_POWER;
-                          last_keys.clear();
-                          }
-                        if(compare_last(last_keys, "lifeup"))
-                          {
-                          player_status.lives++;
-                          last_keys.clear();
-                          }
-                        if(compare_last(last_keys, "lifedown"))
-                          {
-                          player_status.lives--;
-                          last_keys.clear();
-                          }
-                        if(compare_last(last_keys, "grease"))
-                          {
-                          tux.physic.set_velocity_x(tux.physic.get_velocity_x()*3);
-                          last_keys.clear();
-                          }
-                        if(compare_last(last_keys, "invincible"))
-                          {    // be invincle for the rest of the level
-                          tux.invincible_timer.start(10000);
-                          last_keys.clear();
-                          }
-                        if(compare_last(last_keys, "shrink"))
-                          {    // remove powerups
-                          tux.kill(tux.SHRINK);
-                          last_keys.clear();
-                          }
-                        if(compare_last(last_keys, "kill"))
-                          {    // kill Tux, but without losing a life
-                          player_status.lives++;
-                          tux.kill(tux.KILL);
-                          last_keys.clear();
-                          }
-                        if(compare_last(last_keys, "grid"))
-                          {    // toggle debug grid
-                          debug_grid = !debug_grid;
-                          last_keys.clear();
-                          }
-                        if(compare_last(last_keys, "hover"))
-                          {    // toggle hover ability on/off
-                          tux.enable_hover = !tux.enable_hover;
-                          last_keys.clear();
-                          }
-                        if(compare_last(last_keys, "gotoend"))
-                          {    // goes to the end of the level
-                          tux.move(Vector(
-                              (currentsector->solids->get_width()*32) 
-                                - (screen->w*2),
-                                0));
-                          currentsector->camera->reset(
-                              Vector(tux.get_pos().x, tux.get_pos().y));
-                          last_keys.clear();
-                          }
-                        // temporary to help player's choosing a flapping
-                        if(compare_last(last_keys, "marek"))
-                          {
-                          tux.flapping_mode = Player::MAREK_FLAP;
-                          last_keys.clear();
-                          }
-                        if(compare_last(last_keys, "ricardo"))
-                          {
-                          tux.flapping_mode = Player::RICARDO_FLAP;
-                          last_keys.clear();
-                          }
-                        if(compare_last(last_keys, "ryan"))
-                          {
-                          tux.flapping_mode = Player::RYAN_FLAP;
-                          last_keys.clear();
-                          }
+                        handle_cheats();
                   break;
 
                 case SDL_JOYAXISMOTION:
@@ -501,74 +399,75 @@ GameSession::process_events()
                     {
                       if (event.jaxis.value < -joystick_keymap.dead_zone)
                         {
-                          tux.input.left  = DOWN;
-                          tux.input.right = UP;
+                          tux.input.left  = true;
+                          tux.input.right = false;
                         }
                       else if (event.jaxis.value > joystick_keymap.dead_zone)
                         {
-                          tux.input.left  = UP;
-                          tux.input.right = DOWN;
+                          tux.input.left  = false;
+                          tux.input.right = true;
                         }
                       else
                         {
-                          tux.input.left  = DOWN;
-                          tux.input.right = DOWN;
+                          tux.input.left  = false;
+                          tux.input.right = false;
                         }
                     }
                   else if (event.jaxis.axis == joystick_keymap.y_axis)
                     {
                       if (event.jaxis.value > joystick_keymap.dead_zone)
                         {
-                        tux.input.up = DOWN;
-                        tux.input.down = UP;
+                        tux.input.up = true;
+                        tux.input.down = false;
                         }
                       else if (event.jaxis.value < -joystick_keymap.dead_zone)
                         {
-                        tux.input.up = UP;
-                        tux.input.down = DOWN;
+                        tux.input.up = false;
+                        tux.input.down = true;
                         }
                       else
                         {
-                        tux.input.up = DOWN;
-                        tux.input.down = DOWN;
+                        tux.input.up = false;
+                        tux.input.down = false;
                         }
                     }
                   break;
 
                 case SDL_JOYHATMOTION:
                   if(event.jhat.value & SDL_HAT_UP) {
-                    tux.input.up = DOWN;
-                    tux.input.down = UP;
+                    tux.input.up = true;
+                    tux.input.down = false;
                   } else if(event.jhat.value & SDL_HAT_DOWN) {
-                    tux.input.up = UP;
-                    tux.input.down = DOWN;
+                    tux.input.up = false;
+                    tux.input.down = true;
                   } else if(event.jhat.value & SDL_HAT_LEFT) {
-                    tux.input.left = DOWN;
-                    tux.input.right = UP;
+                    tux.input.left = true;
+                    tux.input.right = false;
                   } else if(event.jhat.value & SDL_HAT_RIGHT) {
-                    tux.input.left = UP;
-                    tux.input.right = DOWN;
+                    tux.input.left = false;
+                    tux.input.right = true;
                   } else if(event.jhat.value == SDL_HAT_CENTERED) {
-                    tux.input.left = UP;
-                    tux.input.right = UP;
-                    tux.input.up = UP;
-                    tux.input.down = UP;
+                    tux.input.left = false;
+                    tux.input.right = false;
+                    tux.input.up = false;
+                    tux.input.down = false;
                   }
                   break;
             
                 case SDL_JOYBUTTONDOWN:
+                  // FIXME: I assume we have to set old_jump and stuff here?!?
                   if (event.jbutton.button == joystick_keymap.a_button)
-                    tux.input.jump = DOWN;
+                    tux.input.jump = true;
                   else if (event.jbutton.button == joystick_keymap.b_button)
-                    tux.input.fire = DOWN;
+                    tux.input.fire = true;
                   else if (event.jbutton.button == joystick_keymap.start_button)
                     on_escape_press();
                   break;
                 case SDL_JOYBUTTONUP:
                   if (event.jbutton.button == joystick_keymap.a_button)
-                    tux.input.jump = UP;
+                    tux.input.jump = false;
                   else if (event.jbutton.button == joystick_keymap.b_button)
-                    tux.input.fire = UP;
+                    tux.input.fire = false;
                   break;
 
                 default:
@@ -577,6 +476,93 @@ GameSession::process_events()
             }
         } /* while */
     }
+}
+
+void
+GameSession::handle_cheats()
+{
+  Player& tux = *currentsector->player;
+  
+  // Cheating words (the goal of this is really for debugging,
+  // but could be used for some cheating, nothing wrong with that)
+  if(compare_last(last_keys, "grow")) {
+    tux.grow(false);
+    last_keys.clear();
+  }
+  if(compare_last(last_keys, "fire")) {
+    tux.grow(false);
+    tux.got_power = tux.FIRE_POWER;
+    last_keys.clear();
+  }
+  if(compare_last(last_keys, "ice")) {
+    tux.grow(false);
+    tux.got_power = tux.ICE_POWER;
+    last_keys.clear();
+  }
+  if(compare_last(last_keys, "lifeup")) {
+    player_status.lives++;
+    last_keys.clear();
+  }
+  if(compare_last(last_keys, "lifedown")) {
+    player_status.lives--;
+    last_keys.clear();
+  }
+  if(compare_last(last_keys, "grease")) {
+    tux.physic.set_velocity_x(tux.physic.get_velocity_x()*3);
+    last_keys.clear();
+  }
+  if(compare_last(last_keys, "invincible")) {
+    // be invincle for the rest of the level
+    tux.invincible_timer.start(10000);
+    last_keys.clear();
+  }
+  if(compare_last(last_keys, "shrink")) {
+    // remove powerups
+    tux.kill(tux.SHRINK);
+    last_keys.clear();
+  }
+  if(compare_last(last_keys, "kill")) {
+    // kill Tux, but without losing a life
+    player_status.lives++;
+    tux.kill(tux.KILL);
+    last_keys.clear();
+  }
+  if(compare_last(last_keys, "grid")) {
+    // toggle debug grid
+    debug_grid = !debug_grid;
+    last_keys.clear();
+  }
+  if(compare_last(last_keys, "hover")) {
+    // toggle hover ability on/off
+    tux.enable_hover = !tux.enable_hover;
+    last_keys.clear();
+  }
+  if(compare_last(last_keys, "gotoend")) {
+    // goes to the end of the level
+    tux.move(Vector(
+          (currentsector->solids->get_width()*32) - (screen->w*2), 0));
+    currentsector->camera->reset(
+        Vector(tux.get_pos().x, tux.get_pos().y));
+    last_keys.clear();
+  }
+  if(compare_last(last_keys, "finish")) {
+    // finish current sector
+    exit_status = ES_LEVEL_FINISHED;
+    // don't add points to stats though...
+  }
+  // temporary to help player's choosing a flapping
+  if(compare_last(last_keys, "marek")) {
+    tux.flapping_mode = Player::MAREK_FLAP;
+    last_keys.clear();
+  }
+  if(compare_last(last_keys, "ricardo")) {
+    tux.flapping_mode = Player::RICARDO_FLAP;
+    last_keys.clear();
+  }
+  if(compare_last(last_keys, "ryan")) {
+    tux.flapping_mode = Player::RYAN_FLAP;
+    last_keys.clear();
+  }
 }
 
 void
@@ -811,7 +797,7 @@ GameSession::respawn(const std::string& sector, const std::string& spawnpoint)
 void
 GameSession::start_sequence(const std::string& sequencename)
 {
-  if(sequencename == "endsequence") {
+  if(sequencename == "endsequence" || sequencename == "fireworks") {
     if(end_sequence)
       return;
     
@@ -825,7 +811,7 @@ GameSession::start_sequence(const std::string& sequencename)
     global_stats.set_points(TIME_NEEDED_STAT,
         int(time_left.get_period() - time_left.get_timeleft()));
 
-    if(level->get_end_sequence_type() == Level::FIREWORKS_ENDSEQ_ANIM) {
+    if(sequencename == "fireworks") {
       currentsector->add_object(new Fireworks());
     }
   } else {

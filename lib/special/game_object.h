@@ -80,8 +80,7 @@ namespace SuperTux
 
         remove_listeners = entry;
       }
-        
-
+      
       // flags
       enum {
         /// the tile so you can stand on it

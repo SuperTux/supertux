@@ -23,10 +23,10 @@
 #include <string>
 #include <vector>
 
+#include "direction.h"
 #include "math/vector.h"
 #include "audio/musicref.h"
 #include "video/drawing_context.h"
-#include "defines.h"
 
 using namespace SuperTux;
 
@@ -46,8 +46,9 @@ class TileMap;
 class Bullet;
 class CollisionGrid;
 
-struct SpawnPoint
+class SpawnPoint
 {
+public:
   std::string name;
   Vector pos;
 };
@@ -100,7 +101,7 @@ public:
   bool add_smoke_cloud(const Vector& pos);
   void add_floating_text(const Vector& pos, const std::string& text);
                                                                                 
-  /** @evil@ but can#t always be avoided in current design... */
+  /** @evil@ but can't always be avoided in current design... */
   static Sector* current()
   { return _current; }
 
@@ -138,6 +139,8 @@ private:
 public: // TODO make this private again
   typedef std::vector<GameObject*> GameObjects;
   GameObjects gameobjects;
+  typedef std::vector<SpawnPoint*> SpawnPoints;
+  SpawnPoints spawnpoints;                       
 
   Rectangle get_active_region();
 
@@ -147,9 +150,6 @@ private:
   /// container for newly created objects, they'll be added in Sector::action
   GameObjects gameobjects_new;
   
-  typedef std::vector<SpawnPoint*> SpawnPoints;
-  SpawnPoints spawnpoints;
-
   int currentmusic;
 
   CollisionGrid* grid;

@@ -129,6 +129,7 @@ private:
   void check_end_conditions();
   void start_timers();
   void process_events();
+  void handle_cheats();
 
   void levelintro();
   void drawstatus(DrawingContext& context);

@@ -25,10 +25,8 @@
 #include <exception>
 #include <locale.h>
 
-#include "defines.h"
 #include "app/globals.h"
 #include "app/setup.h"
-#include "intro.h"
 #include "title.h"
 #include "gameloop.h"
 #include "leveleditor.h"

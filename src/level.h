@@ -21,10 +21,8 @@
 #ifndef SUPERTUX_LEVEL_H
 #define SUPERTUX_LEVEL_H
 
-#include <map>
+#include <vector>
 #include <string>
-
-using namespace SuperTux;
 
 class Sector;
 
@@ -35,17 +33,11 @@ class Lisp;
 class Level
 {
 public:
-  enum EndSequenceType{
-    NONE_ENDSEQ_ANIM,
-    FIREWORKS_ENDSEQ_ANIM
-  };
-
   std::string name;
   std::string author;
   int timelimit;
-  typedef std::map<std::string, Sector*> Sectors;
+  typedef std::vector<Sector*> Sectors;
   Sectors sectors;
-  EndSequenceType end_sequence_type;
 
 public:
   Level();
@@ -54,9 +46,6 @@ public:
   // loads a levelfile
   void load(const std::string& filename);
   void save(const std::string& filename);
-
-  EndSequenceType get_end_sequence_type() const
-  { return end_sequence_type; }
 
   const std::string& get_name() const
   { return name; }
@@ -68,10 +57,8 @@ public:
 
   Sector* get_sector(const std::string& name);
 
-  Sector* get_next_sector(const Sector* sector);
-  Sector* get_previous_sector(const Sector* sector);
-
-  int get_total_sectors();
+  size_t get_sector_count();
+  Sector* get_sector(size_t num);
 
   int get_total_badguys();
   int get_total_coins();

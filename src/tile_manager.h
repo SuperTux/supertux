@@ -81,6 +81,16 @@ public:
   {
     return tiles.size();
   }
+
+  int get_default_width() const
+  {
+    return 32;
+  }
+
+  int get_default_height() const
+  {
+    return 32;
+  }
 };
 
 #endif

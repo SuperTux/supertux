@@ -36,7 +36,6 @@
 #include <ctype.h>
 #endif
 
-#include "defines.h"
 #include "app/globals.h"
 #include "title.h"
 #include "video/screen.h"
@@ -52,7 +51,7 @@
 #include "gameloop.h"
 #include "worldmap.h"
 #include "leveleditor.h"
-#include "scene.h"
+#include "player_status.h"
 #include "tile.h"
 #include "sector.h"
 #include "object/tilemap.h"
@@ -246,16 +245,16 @@ void draw_demo(float elapsed_time)
 
   world->play_music(LEVEL_MUSIC);
   
-  tux->key_event((SDLKey) keymap.right,DOWN);
+  tux->key_event((SDLKey) keymap.right, true);
   
   if(random_timer.check()) {
     random_timer.start(float(rand() % 3000 + 3000) / 1000.);
     walking = !walking;
   } else {
       if(walking)
-        tux->key_event((SDLKey) keymap.jump,UP);
+        tux->key_event((SDLKey) keymap.jump, false);
       else
-        tux->key_event((SDLKey) keymap.jump,DOWN);
+        tux->key_event((SDLKey) keymap.jump, true);
   }
 
   // Wrap around at the end of the level back to the beginnig

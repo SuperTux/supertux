@@ -9,7 +9,7 @@
     (gravity 10.000000)
     (background (image "arctis.jpg")
                 (speed 0.5))
-    (music "supertux-2.ogg")
+    (music "theme.mod")
     (spawnpoint
       (name "main")
       (x 100)

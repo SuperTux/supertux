@@ -28,6 +28,7 @@
 
 #include "app/globals.h"
 #include "sector.h"
+#include "player_status.h"
 #include "object/gameobjs.h"
 #include "object/camera.h"
 #include "object/background.h"
@@ -55,6 +56,8 @@
 #include "badguy/jumpy.h"
 #include "badguy/spike.h"
 #include "trigger/sequence_trigger.h"
+
+//#define USE_GRID
 
 Sector* Sector::_current = 0;
 
@@ -694,7 +697,7 @@ Sector::collision_object(MovingObject* object1, MovingObject* object2)
 void
 Sector::collision_handler()
 {
-#if 0
+#ifdef USE_GRID
   grid->check_collisions();
 #else
   for(std::vector<GameObject*>::iterator i = gameobjects.begin();
@@ -738,6 +741,10 @@ Sector::collision_handler()
 bool
 Sector::add_bullet(const Vector& pos, float xm, Direction dir)
 {
+  // TODO remove this function and move these checks elsewhere...
+  static const size_t MAX_FIRE_BULLETS = 2;
+  static const size_t MAX_ICE_BULLETS = 1;
+    
   if(player->got_power == Player::FIRE_POWER) {
     if(bullets.size() > MAX_FIRE_BULLETS-1)
       return false;
@@ -826,14 +833,13 @@ int
 Sector::get_total_badguys()
 {
   int total_badguys = 0;
-#if 0
-  for(GameObjects::iterator i = gameobjects_new.begin(); i != gameobjects_new.end(); ++i)
-    {
+  for(GameObjects::iterator i = gameobjects.begin();
+      i != gameobjects.end(); ++i) {
     BadGuy* badguy = dynamic_cast<BadGuy*> (*i);
     if(badguy)
       total_badguys++;
-    }
-#endif
+  }
+
   return total_badguys;
 }
 

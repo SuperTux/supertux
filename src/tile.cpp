@@ -27,8 +27,8 @@
 #include "app/globals.h"
 #include "lisp/lisp.h"
 #include "tile.h"
-#include "scene.h"
 #include "resources.h"
+#include "timer.h"
 #include "math/vector.h"
 #include "video/drawing_context.h"
 

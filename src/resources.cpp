@@ -24,7 +24,6 @@
 #include "app/setup.h"
 #include "gui/menu.h"
 #include "gui/button.h"
-#include "scene.h"
 #include "resources.h"
 #include "tile_manager.h"
 #include "object/gameobjs.h"

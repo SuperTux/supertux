@@ -31,6 +31,9 @@ using namespace SuperTux;
 class Factory
 {
 public:
+  virtual ~Factory()
+  { }
+    
   /** Creates a new gameobject from a lisp node.
    * Remember to delete the objects later
    */

@@ -178,7 +178,7 @@ Camera::scroll_normal(float elapsed_time)
   /****** Vertical Scrolling part ******/
   bool do_y_scrolling = true;
 
-  if(player->dying || sector->solids->get_height() == 19)
+  if(player->is_dying() || sector->solids->get_height() == 19)
     do_y_scrolling = false;
 
   if(do_y_scrolling) {
@@ -260,7 +260,7 @@ Camera::scroll_autoscroll(float elapsed_time)
 {
   Player* player = sector->player;
   
-  if(player->dying)
+  if(player->is_dying())
     return;
 
   if(auto_t - elapsed_time >= 0) {

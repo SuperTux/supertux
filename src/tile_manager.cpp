@@ -31,7 +31,6 @@
 #include "tile.h"
 #include "tile_manager.h"
 #include "resources.h"
-#include "scene.h"
 
 TileManager::TileManager(const std::string& filename)
 {

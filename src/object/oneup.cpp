@@ -3,7 +3,7 @@
 #include "oneup.h"
 #include "resources.h"
 #include "player.h"
-#include "scene.h"
+#include "player_status.h"
 #include "sector.h"
 #include "special/sprite_manager.h"
 #include "video/drawing_context.h"

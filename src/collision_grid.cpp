@@ -78,7 +78,14 @@ CollisionGrid::remove_object(MovingObject* object)
       break;
     }
   }
+#ifdef DEBUG
   assert(wrapper != 0);
+#else
+  if(wrapper == 0) {
+	std::cerr << "Tried to remove nonexistant object!\n";
+	return;
+  }
+#endif
   
   const Rectangle& bbox = wrapper->dest;
   for(float y = bbox.p1.y; y < bbox.p2.y; y += cell_height) {
@@ -90,7 +97,7 @@ CollisionGrid::remove_object(MovingObject* object)
         std::cerr << "Object out of range: " << gridx << ", " << gridy << "\n";
         continue;
       }
-      remove_object_from_gridcell(gridy*cells_x + gridx, object);
+      remove_object_from_gridcell(gridy*cells_x + gridx, wrapper);
     }
   }
 
@@ -98,11 +105,13 @@ CollisionGrid::remove_object(MovingObject* object)
 }
 
 void
-CollisionGrid::move_object(MovingObject* object)
+CollisionGrid::move_object(ObjectWrapper* wrapper)
 {
-  const Rectangle& bbox = object->bbox;
-  for(float y = bbox.p1.y; y < bbox.p2.y; y += cell_height) {
-    for(float x = bbox.p1.x; x < bbox.p2.x; x += cell_width) {
+  // FIXME not optimal yet... should leave the gridcells untouched that don't
+  // need to be changed.
+  const Rectangle& obbox = wrapper->dest;
+  for(float y = obbox.p1.y; y < obbox.p2.y; y += cell_height) {
+    for(float x = obbox.p1.x; x < obbox.p2.x; x += cell_width) {
       int gridx = int(x / cell_width);
       int gridy = int(y / cell_height);
       if(gridx < 0 || gridy < 0 
@@ -110,14 +119,36 @@ CollisionGrid::move_object(MovingObject* object)
         std::cerr << "Object out of range: " << gridx << ", " << gridy << "\n";
         continue;
       }
-      // TODO
+      remove_object_from_gridcell(gridy*cells_x + gridx, wrapper);
     }
   }
+
+  const Rectangle& nbbox = wrapper->object->bbox;
+  for(float y = nbbox.p1.y; y < nbbox.p2.y; y += cell_height) {
+    for(float x = nbbox.p1.x; x < nbbox.p2.x; x += cell_width) {
+      int gridx = int(x / cell_width);
+      int gridy = int(y / cell_height);
+      if(gridx < 0 || gridy < 0 
+          || gridx >= int(cells_x) || gridy >= int(cells_y)) {
+        std::cerr << "Object out of range: " << gridx << ", " << gridy << "\n";
+        continue;
+      }
+
+      GridEntry* entry = new GridEntry;
+      entry->object_wrapper = wrapper;
+      entry->next = grid[gridy*cells_x + gridx];
+      grid[gridy*cells_x + gridx] = entry;
+    }
+  }
+
+  wrapper->dest = nbbox;
 }
 
 void
 CollisionGrid::check_collisions()
 {
+  std::vector<ObjectWrapper*> moved_objects;
+  
   CollisionGridIterator iter(*this, Sector::current()->get_active_region());
   while(ObjectWrapper* wrapper = iter.next_wrapper()) {
     MovingObject* object = wrapper->object;
@@ -126,6 +157,7 @@ CollisionGrid::check_collisions()
     if(object->get_flags() & GameObject::FLAG_NO_COLLDET) {
       object->bbox.move(object->movement);
       object->movement = Vector(0, 0);
+      moved_objects.push_back(wrapper);
       continue;
     }
 
@@ -134,8 +166,16 @@ CollisionGrid::check_collisions()
     
     collide_object(wrapper);
 
-    object->bbox.move(object->get_movement());
-    object->movement = Vector(0, 0);
+    if(object->movement != Vector(0, 0)) {
+      object->bbox.move(object->movement);
+      object->movement = Vector(0, 0);
+      moved_objects.push_back(wrapper);
+    }
+  }
+
+  for(std::vector<ObjectWrapper*>::iterator i = moved_objects.begin();
+      i != moved_objects.end(); ++i) {
+    move_object(*i);
   }
 }
 
@@ -145,13 +185,13 @@ CollisionGrid::collide_object(ObjectWrapper* wrapper)
   iterator_timestamp++;
 
   const Rectangle& bbox = wrapper->object->bbox;
-  for(float y = bbox.p1.y; y < bbox.p2.y; y += cell_height) {
-    for(float x = bbox.p1.x; x < bbox.p2.x; x += cell_width) {
+  for(float y = bbox.p1.y - cell_height; y < bbox.p2.y + cell_height; y += cell_height) {
+    for(float x = bbox.p1.x - cell_width; x < bbox.p2.x + cell_width; x += cell_width) {
       int gridx = int(x / cell_width);
       int gridy = int(y / cell_height);
       if(gridx < 0 || gridy < 0 
           || gridx >= int(cells_x) || gridy >= int(cells_y)) {
-        std::cerr << "Object out of range: " << gridx << ", " << gridy << "\n";
+        //std::cerr << "Object out of range: " << gridx << ", " << gridy << "\n";
         continue;
       }
   
@@ -209,13 +249,13 @@ CollisionGrid::collide_object_object(ObjectWrapper* wrapper,
 }
 
 void
-CollisionGrid::remove_object_from_gridcell(int gridcell, MovingObject* object)
+CollisionGrid::remove_object_from_gridcell(int gridcell, ObjectWrapper* wrapper)
 {
   GridEntry* lastentry = 0;
   GridEntry* entry = grid[gridcell];
 
   while(entry) {
-    if(entry->object_wrapper->object == object) {
+    if(entry->object_wrapper == wrapper) {
       if(lastentry == 0) {
         grid[gridcell] = entry->next;
       } else {

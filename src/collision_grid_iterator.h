@@ -13,20 +13,20 @@ public:
   CollisionGridIterator(CollisionGrid& newgrid, const Rectangle& bbox)
     : grid(newgrid)
   {
-    start_x = int(bbox.p1.x / grid.cell_width);
+    start_x = int(bbox.p1.x / grid.cell_width) - 2;
     if(start_x < 0)
       start_x = 0;
     x = start_x;
         
-    y = int(bbox.p1.y / grid.cell_height);
+    y = int(bbox.p1.y / grid.cell_height) - 2;
     if(y < 0)
       y = 0;
     
-    end_x = int(bbox.p2.x / grid.cell_width) + 1;
+    end_x = int(bbox.p2.x / grid.cell_width) + 2;
     if(end_x > (int) grid.cells_x)
       end_x = grid.cells_x;
     
-    end_y = int(bbox.p2.y / grid.cell_height) + 1;
+    end_y = int(bbox.p2.y / grid.cell_height) + 2;
     if(end_y > (int) grid.cells_y)
       end_y = grid.cells_y;
 

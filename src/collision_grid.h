@@ -20,7 +20,6 @@ public:
 
   void add_object(MovingObject* object);
   void remove_object(MovingObject* object);
-  void move_object(MovingObject* object);
 
   void check_collisions();
 
@@ -47,9 +46,10 @@ private:
     ObjectWrapper* object_wrapper;
   };
 
-  void remove_object_from_gridcell(int gridcell, MovingObject* object);
+  void remove_object_from_gridcell(int gridcell, ObjectWrapper* wrapper);
   void collide_object(ObjectWrapper* wrapper);
   void collide_object_object(ObjectWrapper* wrapper, ObjectWrapper* wrapper2);
+  void move_object(ObjectWrapper* wrapper);
   
   typedef std::vector<GridEntry*> GridEntries;
   GridEntries grid;

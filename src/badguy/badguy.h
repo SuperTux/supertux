@@ -11,6 +11,7 @@
 #include "serializable.h"
 #include "resources.h"
 #include "sector.h"
+#include "direction.h"
 #include "object_factory.h"
 #include "lisp/parser.h"
 #include "lisp/lisp.h"
@@ -34,6 +35,15 @@ public:
       const CollisionHit& hit);
 
   virtual void kill_fall();
+
+  Vector get_start_position() const
+  {
+    return start_position;
+  }
+  void set_start_position(const Vector& vec)
+  {
+    start_position = vec;
+  }
 
 protected:
   enum State {

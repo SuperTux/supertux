@@ -3,6 +3,7 @@
 #include "mrtree.h"
 
 static const float WALKSPEED = 50;
+static const float WALKSPEED_SMALL = 30;
 
 MrTree::MrTree(const lisp::Lisp& reader)
   : mystate(STATE_BIG)
@@ -27,11 +28,13 @@ MrTree::write(lisp::Writer& writer)
 void
 MrTree::activate()
 {
-  physic.set_velocity_x(dir == LEFT ? -WALKSPEED : WALKSPEED);
-  if(mystate == STATE_BIG)
+  if(mystate == STATE_BIG) {
+    physic.set_velocity_x(dir == LEFT ? -WALKSPEED : WALKSPEED);
     sprite->set_action(dir == LEFT ? "left" : "right");
-  else
+  } else {
+    physic.set_velocity_x(dir == LEFT ? -WALKSPEED_SMALL : WALKSPEED_SMALL);
     sprite->set_action(dir == LEFT ? "small-left" : "small-right");
+  }
 }
 
 bool

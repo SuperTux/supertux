@@ -2,7 +2,6 @@
 
 #include <math.h>
 #include "bullet.h"
-#include "defines.h"
 #include "resources.h"
 #include "camera.h"
 #include "sector.h"

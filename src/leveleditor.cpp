@@ -201,622 +201,625 @@ delete img_next_sector_bt;
 
 void LevelEditor::run(const std::string filename)
 {
-SoundManager::get()->halt_music();
-Menu::set_current(0);
+  SoundManager::get()->halt_music();
+  Menu::set_current(0);
 
-DrawingContext context;
+  DrawingContext context;
 
-if(!filename.empty())
-  {
-  level_nb = -1;
-  load_level(filename);
-  }
-else
-  Menu::set_current(main_menu);
+  if(!filename.empty())
+    {
+    level_nb = -1;
+    load_level(filename);
+    }
+  else
+    Menu::set_current(main_menu);
 
-mouse_cursor->set_state(MC_NORMAL);
+  mouse_cursor->set_state(MC_NORMAL);
 
-done = false;
-while(!done)
-  {
-  events();
-  action();
-  draw(context);
-  }
+  done = false;
+  while(!done)
+    {
+    events();
+    action();
+    draw(context);
+    }
 
-if(level_changed)
-  if(confirm_dialog(NULL, _("Level not saved. Wanna to?")))
-    save_level();
+  if(level_changed)
+    if(confirm_dialog(NULL, _("Level not saved. Wanna to?")))
+      save_level();
 }
 
 void LevelEditor::events()
 {
-mouse_moved = false;
+  mouse_moved = false;
 
-while(SDL_PollEvent(&event))
-  {
-  Menu* menu = Menu::current();
-  if(menu)
+  SDL_Event event;
+  while(SDL_PollEvent(&event))
     {
-    menu->event(event);
-    menu->action();
-    if(menu == main_menu)
+    Menu* menu = Menu::current();
+    if(menu)
       {
-      switch (main_menu->check())
+      menu->event(event);
+      menu->action();
+      if(menu == main_menu)
         {
-        case MN_ID_RETURN:
+        switch (main_menu->check())
+          {
+          case MN_ID_RETURN:
+            Menu::set_current(0);
+            break;
+          case MN_ID_QUIT:
+            done = true;
+            break;
+          }
+        }
+      else if(menu == create_subset_menu)
+        {
+        // activate or deactivate Create button if any filename as been specified
+        if(create_subset_menu->get_item_by_id(MN_ID_FILENAME_SUBSET).input[0] == '\0')
+          create_subset_menu->get_item_by_id(MN_ID_CREATE_SUBSET).kind = MN_DEACTIVE;
+        else
+          create_subset_menu->get_item_by_id(MN_ID_CREATE_SUBSET).kind = MN_ACTION;
+
+        if(create_subset_menu->check() == MN_ID_CREATE_SUBSET)
+          {   // applying settings:
+          std::string subset_name = create_subset_menu->get_item_by_id(MN_ID_FILENAME_SUBSET).input;
+          LevelSubset::create(subset_name);
+
+          delete level_subset;
+          level_subset = new LevelSubset();
+          level_subset->load(create_subset_menu->get_item_by_id(MN_ID_FILENAME_SUBSET).input);
+
+          level_subset->title = create_subset_menu->get_item_by_id(MN_ID_TITLE_SUBSET).input;
+          level_subset->description = create_subset_menu->get_item_by_id(MN_ID_DESCRIPTION_SUBSET).input;
+          //FIXME: generate better level filenames
+          level_subset->add_level(subset_name+'/'+"new_level.stl");
+          Level* newlevel = new Level();
+          newlevel->add_sector(create_sector("main", 25, 19));
+          newlevel->save(level_subset->get_level_filename(0));
+          level_subset->save();
+          
+          load_level(0);
+
+          create_subset_menu->get_item_by_id(MN_ID_FILENAME_SUBSET).change_input("");
+          create_subset_menu->get_item_by_id(MN_ID_TITLE_SUBSET).change_input("");
+          create_subset_menu->get_item_by_id(MN_ID_DESCRIPTION_SUBSET).change_input("");
+          }
+        }
+      else if(menu == subset_menu)
+        {
+        int i = subset_menu->check();
+        if(i >= 0)
+          {
+          std::set<std::string>::iterator it = level_subsets.begin();
+          for(int t = 0; t < i; t++)
+            it++;
+          load_level_subset(*it);
           Menu::set_current(0);
+          }
+        }
+      else if(menu == settings_menu)
+        {
+        if(settings_menu->check() == MN_ID_APPLY_SETTINGS)
+          {   // applying settings:
+          level_changed = true;
+
+          level->name = settings_menu->get_item_by_id(MN_ID_NAME).input;
+          level->author = settings_menu->get_item_by_id(MN_ID_AUTHOR).input;
+
+          solids->resize(atoi(settings_menu->get_item_by_id(MN_ID_WIDTH).input.c_str()),
+                atoi(settings_menu->get_item_by_id(MN_ID_HEIGHT).input.c_str()));
+          foregrounds->resize(atoi(settings_menu->get_item_by_id(MN_ID_WIDTH).input.c_str()),
+                atoi(settings_menu->get_item_by_id(MN_ID_HEIGHT).input.c_str()));
+          backgrounds->resize(atoi(settings_menu->get_item_by_id(MN_ID_WIDTH).input.c_str()),
+                atoi(settings_menu->get_item_by_id(MN_ID_HEIGHT).input.c_str()));
+
+          Menu::set_current(0);
+          }
+        }
+      }
+    // check for events in buttons
+    else if(tiles_board->event(event))
+      {
+      std::vector <int> vector;
+      vector.push_back(tiles_board->selected_id());
+
+      selection.clear();
+      selection.push_back(vector);
+      continue;
+      }
+    else if(tiles_layer->event(event))
+      {
+      cur_layer = tiles_layer->selected_id();
+      continue;
+      }
+    else if(level_options->event(event))
+      {
+      switch(level_options->selected_id())
+        {
+        case BT_LEVEL_SAVE:
+          save_level();
           break;
-        case MN_ID_QUIT:
+        case BT_LEVEL_TEST:
+          test_level();
+          break;
+        case BT_LEVEL_SETUP:
+          Menu::set_current(settings_menu);
+          break;
+        case BT_NEXT_LEVEL:
+          if(level_nb + 1 < level_subset->get_num_levels())
+            load_level(level_nb + 1);
+          else
+            {
+            char str[1024];
+            sprintf(str,_("Level %d doesn't exist. Create it?"), level_nb + 2);
+            if(confirm_dialog(NULL, str))
+              {
+              level_subset->add_level("new_level.stl");
+              Level* newlevel = new Level();
+              newlevel->add_sector(create_sector("main", 25, 19));
+              newlevel->save(level_subset->get_level_filename(level_nb + 1));
+              level_subset->save();
+              load_level(level_nb + 1);
+              }
+            }
+          break;
+        case BT_PREVIOUS_LEVEL:
+          if(level_nb - 1 >= 0)
+            load_level(level_nb - 1);
+          break;
+        case BT_NEXT_SECTOR:
+          std::cerr << "next sector.\n";
+          load_sector(sectornum+1);
+          break;
+        case BT_PREVIOUS_SECTOR:
+          std::cerr << "previous sector.\n";
+          if(sectornum > 0)
+            load_sector(sectornum-1);
+          break;
+        }
+      level_options->set_unselected();
+      continue;
+      }
+    else
+      {
+      switch(event.type)
+        {
+        case SDL_MOUSEMOTION:
+          mouse_moved = true;
+          mouse_x = event.motion.x;
+          mouse_y = event.motion.y;
+          if(SDL_GetMouseState(NULL, NULL)&SDL_BUTTON(SDL_BUTTON_RIGHT))
+            {  // movement like in strategy games
+            scroll.x += -1 * event.motion.xrel;
+            scroll.y += -1 * event.motion.yrel;
+            }
+          break;
+
+        case SDL_MOUSEBUTTONDOWN:
+          mouse_moved = true;
+          mouse_x = event.motion.x;
+          mouse_y = event.motion.y;          
+          if(event.button.button == SDL_BUTTON_LEFT)
+            left_button = true;
+          else if(event.button.button == SDL_BUTTON_MIDDLE)
+            {
+            middle_button = true;
+            selection_ini = Vector(event.button.x, event.button.y);
+            }
+          break;
+
+        case SDL_MOUSEBUTTONUP:
+          mouse_moved = true;
+          mouse_x = event.motion.x;
+          mouse_y = event.motion.y;                    
+          if(event.button.button == SDL_BUTTON_LEFT)
+            left_button = false;
+          else if(event.button.button == SDL_BUTTON_MIDDLE)
+            {
+            middle_button = false;
+            selection_end = Vector(event.button.x, event.button.y);
+
+            if(selection_end.x < selection_ini.x)
+              {
+              float t = selection_ini.x;
+              selection_ini.x = selection_end.x;
+              selection_end.x = t;
+              }
+            if(selection_end.y < selection_ini.y)
+              {
+              float t = selection_ini.y;
+              selection_ini.y = selection_end.y;
+              selection_end.y = t;
+              }
+
+            selection.clear();
+            std::vector <int> vector;
+
+            TileMap* tilemap = 0;
+            if(cur_layer == LAYER_FOREGROUNDTILES)
+              tilemap = foregrounds;
+            else if(cur_layer == LAYER_TILES)
+              tilemap = solids;
+            else if(cur_layer == LAYER_BACKGROUNDTILES)
+              tilemap = backgrounds;
+
+            for(int x = 0; x < (int)((selection_end.x - selection_ini.x)*zoom / 32) + 1; x++)
+              {
+              vector.clear();
+              for(int y = 0; y < (int)((selection_end.y - selection_ini.y)*zoom / 32) + 1; y++)
+                {
+                vector.push_back(tilemap->get_tile(x +
+                 (int)(((selection_ini.x+scroll.x)*zoom)/32),
+                 y + (int)(((selection_ini.y+scroll.y)*zoom)/32))->getID());
+                }
+              selection.push_back(vector);
+              }
+            }
+          break;
+
+        case SDL_KEYDOWN:   // key pressed
+          switch(event.key.keysym.sym)
+            {
+            case SDLK_ESCAPE:
+              Menu::set_current(main_menu);
+              break;
+            /* scrolling related events: */
+            case SDLK_HOME:
+              scroll.x = 0;
+              break;
+            case SDLK_END:
+              scroll.x = sector->solids->get_height()*32 - screen->w;
+              break;
+            case SDLK_LEFT:
+              scroll.x -= 80;
+              break;
+            case SDLK_RIGHT:
+              scroll.x += 80;
+              break;
+            case SDLK_UP:
+              scroll.y -= 80;
+              break;
+            case SDLK_DOWN:
+              scroll.y += 80;
+              break;
+            case SDLK_PAGEUP:
+              scroll.x -= 450;
+              break;
+            case SDLK_PAGEDOWN:
+              scroll.x += 450;
+              break;
+            case SDLK_PLUS:
+            case SDLK_KP_PLUS:
+              zoom += 0.10;
+              break;
+            case SDLK_MINUS:
+            case SDLK_KP_MINUS:
+              zoom -= 0.10;
+              break;
+
+            case SDLK_F1:
+              show_help();
+              break;
+            case SDLK_F2:
+              show_grid = !show_grid;
+              break;
+            default:
+              break;
+            }
+          break;
+
+        case SDL_QUIT:   // window closed
           done = true;
           break;
-        }
-      }
-    else if(menu == create_subset_menu)
-      {
-      // activate or deactivate Create button if any filename as been specified
-      if(create_subset_menu->get_item_by_id(MN_ID_FILENAME_SUBSET).input[0] == '\0')
-        create_subset_menu->get_item_by_id(MN_ID_CREATE_SUBSET).kind = MN_DEACTIVE;
-      else
-        create_subset_menu->get_item_by_id(MN_ID_CREATE_SUBSET).kind = MN_ACTION;
 
-      if(create_subset_menu->check() == MN_ID_CREATE_SUBSET)
-        {   // applying settings:
-        std::string subset_name = create_subset_menu->get_item_by_id(MN_ID_FILENAME_SUBSET).input;
-        LevelSubset::create(subset_name);
-
-        delete level_subset;
-        level_subset = new LevelSubset();
-        level_subset->load(create_subset_menu->get_item_by_id(MN_ID_FILENAME_SUBSET).input);
-
-        level_subset->title = create_subset_menu->get_item_by_id(MN_ID_TITLE_SUBSET).input;
-        level_subset->description = create_subset_menu->get_item_by_id(MN_ID_DESCRIPTION_SUBSET).input;
-        //FIXME: generate better level filenames
-        level_subset->add_level(subset_name+'/'+"new_level.stl");
-        Level* newlevel = new Level();
-        newlevel->add_sector(create_sector("main", 25, 19));
-        newlevel->save(level_subset->get_level_filename(0));
-        level_subset->save();
-        
-        load_level(0);
-
-        create_subset_menu->get_item_by_id(MN_ID_FILENAME_SUBSET).change_input("");
-        create_subset_menu->get_item_by_id(MN_ID_TITLE_SUBSET).change_input("");
-        create_subset_menu->get_item_by_id(MN_ID_DESCRIPTION_SUBSET).change_input("");
-        }
-      }
-    else if(menu == subset_menu)
-      {
-      int i = subset_menu->check();
-      if(i >= 0)
-        {
-        std::set<std::string>::iterator it = level_subsets.begin();
-        for(int t = 0; t < i; t++)
-          it++;
-        load_level_subset(*it);
-        Menu::set_current(0);
-        }
-      }
-    else if(menu == settings_menu)
-      {
-      if(settings_menu->check() == MN_ID_APPLY_SETTINGS)
-        {   // applying settings:
-        level_changed = true;
-
-        level->name = settings_menu->get_item_by_id(MN_ID_NAME).input;
-        level->author = settings_menu->get_item_by_id(MN_ID_AUTHOR).input;
-
-        solids->resize(atoi(settings_menu->get_item_by_id(MN_ID_WIDTH).input.c_str()),
-              atoi(settings_menu->get_item_by_id(MN_ID_HEIGHT).input.c_str()));
-        foregrounds->resize(atoi(settings_menu->get_item_by_id(MN_ID_WIDTH).input.c_str()),
-              atoi(settings_menu->get_item_by_id(MN_ID_HEIGHT).input.c_str()));
-        backgrounds->resize(atoi(settings_menu->get_item_by_id(MN_ID_WIDTH).input.c_str()),
-              atoi(settings_menu->get_item_by_id(MN_ID_HEIGHT).input.c_str()));
-
-        Menu::set_current(0);
-        }
-      }
-    }
-  // check for events in buttons
-  else if(tiles_board->event(event))
-    {
-    std::vector <int> vector;
-    vector.push_back(tiles_board->selected_id());
-
-    selection.clear();
-    selection.push_back(vector);
-    continue;
-    }
-  else if(tiles_layer->event(event))
-    {
-    cur_layer = tiles_layer->selected_id();
-    continue;
-    }
-  else if(level_options->event(event))
-    {
-    switch(level_options->selected_id())
-      {
-      case BT_LEVEL_SAVE:
-        save_level();
-        break;
-      case BT_LEVEL_TEST:
-        test_level();
-        break;
-      case BT_LEVEL_SETUP:
-        Menu::set_current(settings_menu);
-        break;
-      case BT_NEXT_LEVEL:
-        if(level_nb + 1 < level_subset->get_num_levels())
-          load_level(level_nb + 1);
-        else
-          {
-          char str[1024];
-          sprintf(str,_("Level %d doesn't exist. Create it?"), level_nb + 2);
-          if(confirm_dialog(NULL, str))
-            {
-            level_subset->add_level("new_level.stl");
-            Level* newlevel = new Level();
-            newlevel->add_sector(create_sector("main", 25, 19));
-            newlevel->save(level_subset->get_level_filename(level_nb + 1));
-            level_subset->save();
-            load_level(level_nb + 1);
-            }
-          }
-        break;
-      case BT_PREVIOUS_LEVEL:
-        if(level_nb - 1 >= 0)
-          load_level(level_nb - 1);
-        break;
-      case BT_NEXT_SECTOR:
-std::cerr << "next sector.\n";
-std::cerr << "total sectors: " << level->get_total_sectors() << std::endl;
-        load_sector(level->get_next_sector(sector));
-        break;
-      case BT_PREVIOUS_SECTOR:
-std::cerr << "previous sector.\n";
-        load_sector(level->get_previous_sector(sector));
-        break;
-      }
-    level_options->set_unselected();
-    continue;
-    }
-  else
-    {
-    switch(event.type)
-      {
-      case SDL_MOUSEMOTION:
-        mouse_moved = true;
-        if(SDL_GetMouseState(NULL, NULL)&SDL_BUTTON(SDL_BUTTON_RIGHT))
-          {  // movement like in strategy games
-          scroll.x += -1 * event.motion.xrel;
-          scroll.y += -1 * event.motion.yrel;
-          }
-        break;
-
-      case SDL_MOUSEBUTTONDOWN:
-        mouse_moved = true;
-        if(event.button.button == SDL_BUTTON_LEFT)
-          left_button = true;
-        else if(event.button.button == SDL_BUTTON_MIDDLE)
-          {
-          middle_button = true;
-          selection_ini = Vector(event.button.x, event.button.y);
-          }
-        break;
-
-      case SDL_MOUSEBUTTONUP:
-        mouse_moved = true;
-        if(event.button.button == SDL_BUTTON_LEFT)
-          left_button = false;
-        else if(event.button.button == SDL_BUTTON_MIDDLE)
-          {
-          middle_button = false;
-          selection_end = Vector(event.button.x, event.button.y);
-
-          if(selection_end.x < selection_ini.x)
-            {
-            float t = selection_ini.x;
-            selection_ini.x = selection_end.x;
-            selection_end.x = t;
-            }
-          if(selection_end.y < selection_ini.y)
-            {
-            float t = selection_ini.y;
-            selection_ini.y = selection_end.y;
-            selection_end.y = t;
-            }
-
-          selection.clear();
-          std::vector <int> vector;
-
-          TileMap* tilemap = 0;
-          if(cur_layer == LAYER_FOREGROUNDTILES)
-            tilemap = foregrounds;
-          else if(cur_layer == LAYER_TILES)
-            tilemap = solids;
-          else if(cur_layer == LAYER_BACKGROUNDTILES)
-            tilemap = backgrounds;
-
-          for(int x = 0; x < (int)((selection_end.x - selection_ini.x)*zoom / 32) + 1; x++)
-            {
-            vector.clear();
-            for(int y = 0; y < (int)((selection_end.y - selection_ini.y)*zoom / 32) + 1; y++)
-              {
-              vector.push_back(tilemap->get_tile(x +
-               (int)(((selection_ini.x+scroll.x)*zoom)/32),
-               y + (int)(((selection_ini.y+scroll.y)*zoom)/32))->getID());
-              }
-            selection.push_back(vector);
-            }
-          }
-        break;
-
-      case SDL_KEYDOWN:   // key pressed
-        switch(event.key.keysym.sym)
-          {
-          case SDLK_ESCAPE:
-            Menu::set_current(main_menu);
-            break;
-          /* scrolling related events: */
-          case SDLK_HOME:
-            scroll.x = 0;
-            break;
-          case SDLK_END:
-            scroll.x = sector->solids->get_height()*32 - screen->w;
-            break;
-          case SDLK_LEFT:
-            scroll.x -= 80;
-            break;
-          case SDLK_RIGHT:
-            scroll.x += 80;
-            break;
-          case SDLK_UP:
-            scroll.y -= 80;
-            break;
-          case SDLK_DOWN:
-            scroll.y += 80;
-            break;
-          case SDLK_PAGEUP:
-            scroll.x -= 450;
-            break;
-          case SDLK_PAGEDOWN:
-            scroll.x += 450;
-            break;
-          case SDLK_PLUS:
-          case SDLK_KP_PLUS:
-            zoom += 0.10;
-            break;
-          case SDLK_MINUS:
-          case SDLK_KP_MINUS:
-            zoom -= 0.10;
-            break;
-
-          case SDLK_F1:
-            show_help();
-            break;
-          case SDLK_F2:
-            show_grid = !show_grid;
-            break;
           default:
             break;
-          }
-        break;
-
-      case SDL_QUIT:   // window closed
-        done = true;
-        break;
-
-        default:
-          break;
+        }
       }
     }
-  }
 }
 
 void LevelEditor::action()
 {
-mouse_cursor->set_state(MC_NORMAL);
-if(tiles_board->is_hover() || tiles_layer->is_hover() || level_options->is_hover())
-  mouse_cursor->set_state(MC_LINK);
+  mouse_cursor->set_state(MC_NORMAL);
+  if(tiles_board->is_hover() || tiles_layer->is_hover() || level_options->is_hover())
+    mouse_cursor->set_state(MC_LINK);
 
-if(sector)
-  {
-  // don't scroll before the start or after the level's end
-  float width = sector->solids->get_width() * 32;
-  float height = sector->solids->get_height() * 32;
+  if(sector)
+    {
+    // don't scroll before the start or after the level's end
+    float width = sector->solids->get_width() * 32;
+    float height = sector->solids->get_height() * 32;
 
-  if(scroll.x < -screen->w/2)
-    scroll.x = -screen->w/2;
-  if(scroll.x > width - screen->w/2)
-    scroll.x = width - screen->w/2;
-  if(scroll.y < -screen->h/2)
-    scroll.y = -screen->h/2;
-  if(scroll.y > height - screen->h/2)
-    scroll.y = height - screen->h/2;
+    if(scroll.x < -screen->w/2)
+      scroll.x = -screen->w/2;
+    if(scroll.x > width - screen->w/2)
+      scroll.x = width - screen->w/2;
+    if(scroll.y < -screen->h/2)
+      scroll.y = -screen->h/2;
+    if(scroll.y > height - screen->h/2)
+      scroll.y = height - screen->h/2;
 
-  // set camera translation, since BadGuys like it
-  sector->camera->set_scrolling((int)scroll.x, (int)scroll.y);
+    // set camera translation, since BadGuys like it
+    sector->camera->set_scrolling((int)scroll.x, (int)scroll.y);
 
-  if(left_button && mouse_moved)
-    for(unsigned int x = 0; x < selection.size(); x++)
-      for(unsigned int y = 0; y < selection[x].size(); y++)
-        change((int)(scroll.x + event.button.x) + (x*32),
-             (int)(scroll.y + event.button.y) + (y*32), selection[x][y], 
-             cur_layer);
-  }
+    if(left_button && mouse_moved)
+      for(unsigned int x = 0; x < selection.size(); x++)
+        for(unsigned int y = 0; y < selection[x].size(); y++)
+          change((int)(scroll.x + mouse_x) + (x*32),
+               (int)(scroll.y + mouse_y) + (y*32), selection[x][y], 
+               cur_layer);
+    }
 }
 
 #define FADING_TIME .6
 
 void LevelEditor::draw(DrawingContext& context)
 {
-context.draw_text(white_text, _("Level Editor"), Vector(10, 5), LEFT_ALLIGN, LAYER_GUI);
-mouse_cursor->draw(context);
+  context.draw_text(white_text, _("Level Editor"), Vector(10, 5), LEFT_ALLIGN, LAYER_GUI);
+  mouse_cursor->draw(context);
 
-// draw a filled background
-context.draw_filled_rect(Vector(0,0), Vector(screen->w,screen->h), Color(60,60,60), LAYER_BACKGROUND0-1);
+  // draw a filled background
+  context.draw_filled_rect(Vector(0,0), Vector(screen->w,screen->h), Color(60,60,60), LAYER_BACKGROUND0-1);
 
-if(level_name_timer.check())
-  {
-  context.push_transform();
-  if(level_name_timer.get_timeleft() < FADING_TIME)
-    context.set_alpha(int(level_name_timer.get_timeleft() * 255 / FADING_TIME));
-
-  context.draw_text(gold_text, level->name, Vector(screen->w/2, 30), CENTER_ALLIGN, LAYER_GUI);
-  if(level_nb != -1)
+  if(level_name_timer.check())
     {
-    char str[128];
-    sprintf(str, "%i/%i", level_nb+1, level_subset->get_num_levels());
-    context.draw_text(gold_text, str, Vector(screen->w/2, 50), CENTER_ALLIGN, LAYER_GUI);
+    context.push_transform();
+    if(level_name_timer.get_timeleft() < FADING_TIME)
+      context.set_alpha(int(level_name_timer.get_timeleft() * 255 / FADING_TIME));
+
+    context.draw_text(gold_text, level->name, Vector(screen->w/2, 30), CENTER_ALLIGN, LAYER_GUI);
+    if(level_nb != -1)
+      {
+      char str[128];
+      sprintf(str, "%i/%i", level_nb+1, level_subset->get_num_levels());
+      context.draw_text(gold_text, str, Vector(screen->w/2, 50), CENTER_ALLIGN, LAYER_GUI);
+      }
+
+    context.pop_transform();
+    }
+  if(sector)
+    context.draw_text(white_small_text, _("F1 for help"), Vector(5, 510), LEFT_ALLIGN, LAYER_GUI-10);
+  else
+    context.draw_text(white_small_text, _("Choose a level subset"), Vector(5, 510), LEFT_ALLIGN, LAYER_GUI-10);
+
+  Menu* menu = Menu::current();
+  if(menu)
+    menu->draw(context);
+  else
+    {
+    tiles_board->draw(context);
+    tiles_layer->draw(context);
+    level_options->draw(context);
     }
 
-  context.pop_transform();
-  }
-if(sector)
-  context.draw_text(white_small_text, _("F1 for help"), Vector(5, 510), LEFT_ALLIGN, LAYER_GUI-10);
-else
-  context.draw_text(white_small_text, _("Choose a level subset"), Vector(5, 510), LEFT_ALLIGN, LAYER_GUI-10);
-
-Menu* menu = Menu::current();
-if(menu)
-  menu->draw(context);
-else
-  {
-  tiles_board->draw(context);
-  tiles_layer->draw(context);
-  level_options->draw(context);
-  }
-
-// draw selection
-if(sector)
-  {
-  if(!middle_button)
+  // draw selection
+  if(sector)
     {
-    context.set_drawing_effect(SEMI_TRANSPARENT);
-
-    if(selection.size())
+    if(!middle_button)
       {
-      if(selection[0][0] == 0 && selection.size() == 1)
-          context.draw_surface(img_rubber_bt, Vector(event.button.x - 8,
-          event.button.y - 8), LAYER_GUI-2);
-      else if(selection[0][0] >= gameobjs_first_id || selection[0][0] < 0)
-        {
-// FIXME: this should draw an object image near cursor
-#if 0
-        int id = selection[0][0];
+      context.set_drawing_effect(SEMI_TRANSPARENT);
 
-        if(id == OBJ_TRAMPOLINE)
-          context.draw_surface(img_trampoline[0].get_frame(0), Vector(event.button.x - 8,
-          event.button.y - 8), LAYER_GUI-2);
-        else if(id == OBJ_FLYING_PLATFORM)
-          context.draw_surface(img_flying_platform->get_frame(0), Vector(event.button.x - 8,
-          event.button.y - 8), LAYER_GUI-2);
-        else
-        if(id == OBJ_DOOR)
-          /*context.draw_surface(door->get_frame(0), Vector(event.button.x - 8,
-          event.button.y - 8), LAYER_GUI-2);*/
-          ;
+      if(selection.size())
+        {
+        if(selection[0][0] == 0 && selection.size() == 1)
+            context.draw_surface(img_rubber_bt, Vector(mouse_x - 8,
+            mouse_y - 8), LAYER_GUI-2);
+        else if(selection[0][0] >= gameobjs_first_id || selection[0][0] < 0)
+          {
+  // FIXME: this should draw an object image near cursor
+  #if 0
+          int id = selection[0][0];
+
+          if(id == OBJ_TRAMPOLINE)
+            context.draw_surface(img_trampoline[0].get_frame(0), Vector(mouse_x - 8,
+            mouse_y - 8), LAYER_GUI-2);
+          else if(id == OBJ_FLYING_PLATFORM)
+            context.draw_surface(img_flying_platform->get_frame(0), Vector(mouse_x - 8,
+            mouse_y - 8), LAYER_GUI-2);
+          else
+          if(id == OBJ_DOOR)
+            /*context.draw_surface(door->get_frame(0), Vector(mouse_x - 8,
+            mouse_y - 8), LAYER_GUI-2);*/
+            ;
+          else
+            {
+            BadGuyKind kind = BadGuyKind((-id)-1);
+            BadGuy badguy(kind, 0,0);
+            badguy.activate(LEFT);
+            Surface *img = badguy.get_image();
+
+            context.draw_surface(img, Vector(mouse_x - 8,
+            mouse_y - 8), LAYER_GUI-2);
+            }
+  #endif
+          }
         else
           {
-          BadGuyKind kind = BadGuyKind((-id)-1);
-          BadGuy badguy(kind, 0,0);
-          badguy.activate(LEFT);
-          Surface *img = badguy.get_image();
-
-          context.draw_surface(img, Vector(event.button.x - 8,
-          event.button.y - 8), LAYER_GUI-2);
-          }
-#endif
-        }
-      else
-        {
-        for(unsigned int x = 0; x < selection.size(); x++)
-          for(unsigned int y = 0; y < selection[x].size(); y++) {
-            const Tile* tile = tile_manager->get(selection[x][y]);
-            tile->draw(context,
-                Vector(event.button.x + x*32 - 8, event.button.y + y*32 - 8),
-                LAYER_GUI-2);
+          for(unsigned int x = 0; x < selection.size(); x++)
+            for(unsigned int y = 0; y < selection[x].size(); y++) {
+              const Tile* tile = tile_manager->get(selection[x][y]);
+              tile->draw(context,
+                  Vector(mouse_x + x*32 - 8, mouse_y + y*32 - 8),
+                  LAYER_GUI-2);
+            }
           }
         }
-      }
-    context.set_drawing_effect(NONE_EFFECT);
-    }
-  else
-    context.draw_filled_rect(Vector(std::min((int)selection_ini.x, (int)event.button.x)*zoom,
-                   std::min((int)selection_ini.y, (int)event.button.y))*zoom,
-                   Vector(abs(event.button.x - (int)selection_ini.x)*zoom,
-                   abs(event.button.y - (int)selection_ini.y)*zoom),
-                   Color(170,255,170,128), LAYER_GUI-2);
-
-  if(show_grid)
-    {
-    for(int x = 0; x < screen->w / (32*zoom); x++)
-      {
-      int pos = (int)(x*32*zoom) - ((int)scroll.x % 32);
-      context.draw_filled_rect(Vector (pos, 0), Vector(1, screen->h),
-                Color(225, 225, 225), LAYER_GUI-50);
-      }
-    for(int y = 0; y < screen->h / (32*zoom); y++)
-      {
-      int pos = (int)(y*32*zoom) - ((int)scroll.y % 32);
-      context.draw_filled_rect(Vector (0, pos), Vector(screen->w, 1),
-                Color(225, 225, 225), LAYER_GUI-50);
-      }
-    }
-
-  context.push_transform();
-  context.set_translation(scroll);
-  context.set_zooming(zoom);
-
-  for(Sector::GameObjects::iterator i = sector->gameobjects.begin(); i != sector->gameobjects.end(); ++i)
-    {
-    TileMap* tilemap = dynamic_cast<TileMap*> (*i);
-    if(tilemap)
-      {  // draw the non-selected tiles semi-transparently
-      context.push_transform();
-
-      if(tilemap->get_layer() != cur_layer)
-        context.set_drawing_effect(SEMI_TRANSPARENT);
-      (*i)->draw(context);
-
-      context.pop_transform();
-      continue;
-      }
-    Background* background = dynamic_cast<Background*> (*i);
-    if(background)
-      {  // don't resize background
-      context.push_transform();
-      context.set_zooming(1.0);
-      (*i)->draw(context);
-      context.pop_transform();
+      context.set_drawing_effect(NONE_EFFECT);
       }
     else
-      (*i)->draw(context);
+      context.draw_filled_rect(Vector(std::min((int)selection_ini.x, mouse_x)*zoom,
+                     std::min((int)selection_ini.y, mouse_y))*zoom,
+                     Vector(abs(mouse_x - (int)selection_ini.x)*zoom,
+                     abs(mouse_y - (int)selection_ini.y)*zoom),
+                     Color(170,255,170,128), LAYER_GUI-2);
+
+    if(show_grid)
+      {
+      for(int x = 0; x < screen->w / (32*zoom); x++)
+        {
+        int pos = (int)(x*32*zoom) - ((int)scroll.x % 32);
+        context.draw_filled_rect(Vector (pos, 0), Vector(1, screen->h),
+                  Color(225, 225, 225), LAYER_GUI-50);
+        }
+      for(int y = 0; y < screen->h / (32*zoom); y++)
+        {
+        int pos = (int)(y*32*zoom) - ((int)scroll.y % 32);
+        context.draw_filled_rect(Vector (0, pos), Vector(screen->w, 1),
+                  Color(225, 225, 225), LAYER_GUI-50);
+        }
+      }
+
+    context.push_transform();
+    context.set_translation(scroll);
+    context.set_zooming(zoom);
+
+    for(Sector::GameObjects::iterator i = sector->gameobjects.begin(); i != sector->gameobjects.end(); ++i)
+      {
+      TileMap* tilemap = dynamic_cast<TileMap*> (*i);
+      if(tilemap)
+        {  // draw the non-selected tiles semi-transparently
+        context.push_transform();
+
+        if(tilemap->get_layer() != cur_layer)
+          context.set_drawing_effect(SEMI_TRANSPARENT);
+        (*i)->draw(context);
+
+        context.pop_transform();
+        continue;
+        }
+      Background* background = dynamic_cast<Background*> (*i);
+      if(background)
+        {  // don't resize background
+        context.push_transform();
+        context.set_zooming(1.0);
+        (*i)->draw(context);
+        context.pop_transform();
+        }
+      else
+        (*i)->draw(context);
+      }
+
+    context.pop_transform();
     }
+  else
+    context.draw_filled_rect(Vector(0,0), Vector(screen->w,screen->h),Color(0,0,0), LAYER_BACKGROUND0);
 
-  context.pop_transform();
-  }
-else
-  context.draw_filled_rect(Vector(0,0), Vector(screen->w,screen->h),Color(0,0,0), LAYER_BACKGROUND0);
-
-context.do_drawing();
+  context.do_drawing();
 }
 
 void LevelEditor::load_level_subset(std::string filename)
 {
-delete level_subset;
-level_subset = new LevelSubset();
-level_subset->load(filename.c_str());
-load_level(0);
+  delete level_subset;
+  level_subset = new LevelSubset();
+  level_subset->load(filename.c_str());
+  load_level(0);
 }
 
 void LevelEditor::load_level(std::string filename)
 {
-if(level_changed)
-  {
-  if(confirm_dialog(NULL, _("Level not saved. Wanna to?")))
-    save_level();
-  else
-    return;
-  }
+  if(level_changed)
+    {
+    if(confirm_dialog(NULL, _("Level not saved. Wanna to?")))
+      save_level();
+    else
+      return;
+    }
 
-level_filename = filename;
+  level_filename = filename;
 
-delete level;
-level = new Level();
-level->load(filename);
+  delete level;
+  level = new Level();
+  level->load(filename);
+  
+  sectornum = 0;
+  load_sector(0);
+  level_name_timer.start(3000);
+  scroll.x = scroll.y = 0;
+  level_changed = false;
 
-load_sector("main");
-level_name_timer.start(3000);
-scroll.x = scroll.y = 0;
-level_changed = false;
-
-settings_menu->get_item_by_id(MN_ID_NAME).change_input(level->name.c_str());
-settings_menu->get_item_by_id(MN_ID_AUTHOR).change_input(level->author.c_str());
+  settings_menu->get_item_by_id(MN_ID_NAME).change_input(level->name.c_str());
+  settings_menu->get_item_by_id(MN_ID_AUTHOR).change_input(level->author.c_str());
 }
 
 void LevelEditor::load_level(int nb)
 {
-if(level_changed)
-  {
-  if(confirm_dialog(NULL, _("Level not saved. Wanna to?")))
-    save_level();
-  else
-    return;
-  }
-
-level_nb = nb;
-level_filename = level_subset->get_level_filename(level_nb);
-
-load_level(level_filename);
-}
-
-void LevelEditor::load_sector(std::string name)
-{
-sector_name = name;
-sector = level->get_sector(sector_name);
-if(!sector)
-  Termination::abort("Level has no " + sector_name + " sector.", "");
-
-load_sector(sector);
-}
-
-void LevelEditor::load_sector(Sector* sector_)
-{
-if(sector_ == NULL)
-  {
-  if(!confirm_dialog(NULL, _("No more sectors exist. Create another?")))
-    return;
-  sector_ = create_sector("new_sector",25,19);
-  level->add_sector(sector_);
-  }
-
-sector = sector_;
-
-/* Load sector stuff */
-
-sector->update_game_objects();
-
-foregrounds = solids = backgrounds = 0;
-/* Point foregrounds, backgrounds, solids to its layer */
-for(Sector::GameObjects::iterator i = sector->gameobjects.begin(); i != sector->gameobjects.end(); i++)
-  {
-  TileMap* tilemap = dynamic_cast<TileMap*> (*i);
-  if(tilemap)
+  if(level_changed)
     {
-    if(tilemap->get_layer() == LAYER_FOREGROUNDTILES)
-      foregrounds = tilemap;
-    else if(tilemap->get_layer() == LAYER_TILES)
-      solids = tilemap;
-    else if(tilemap->get_layer() == LAYER_BACKGROUNDTILES)
-      backgrounds = tilemap;
+    if(confirm_dialog(NULL, _("Level not saved. Wanna to?")))
+      save_level();
+    else
+      return;
     }
+
+  level_nb = nb;
+  level_filename = level_subset->get_level_filename(level_nb);
+
+  load_level(level_filename);
+}
+
+void LevelEditor::load_sector(size_t num)
+{
+  assert(num <= level->get_sector_count());
+  
+  if(num >= level->get_sector_count())
+  {
+    if(!confirm_dialog(NULL, _("No more sectors exist. Create another?")))
+      return;
+    Sector* sector_ = create_sector("new_sector",25,19);
+    level->add_sector(sector_);
+    num = level->get_sector_count()-1;
   }
 
-if(!foregrounds)
-  {
-  TileMap* tilemap = new TileMap(LAYER_FOREGROUNDTILES, false, solids->get_width(), solids->get_height());
-  sector->add_object(tilemap);
-  sector->update_game_objects();
-  }
-if(!backgrounds)
-  {
-  TileMap* tilemap = new TileMap(LAYER_BACKGROUNDTILES, false, solids->get_width(), solids->get_height());
-  sector->add_object(tilemap);
-  sector->update_game_objects();
-  }
+  sector = level->get_sector(num);
 
-char str[64];
-sprintf(str, "%i", solids->get_width());
-settings_menu->get_item_by_id(MN_ID_WIDTH).change_input(str);
-sprintf(str, "%i", solids->get_height());
-settings_menu->get_item_by_id(MN_ID_HEIGHT).change_input(str);
+  /* Load sector stuff */
+
+  sector->update_game_objects();
+
+  foregrounds = solids = backgrounds = 0;
+  /* Point foregrounds, backgrounds, solids to its layer */
+  for(Sector::GameObjects::iterator i = sector->gameobjects.begin(); i != sector->gameobjects.end(); i++)
+    {
+    TileMap* tilemap = dynamic_cast<TileMap*> (*i);
+    if(tilemap)
+      {
+      if(tilemap->get_layer() == LAYER_FOREGROUNDTILES)
+        foregrounds = tilemap;
+      else if(tilemap->get_layer() == LAYER_TILES)
+        solids = tilemap;
+      else if(tilemap->get_layer() == LAYER_BACKGROUNDTILES)
+        backgrounds = tilemap;
+      }
+    }
+
+  if(!foregrounds)
+    {
+    TileMap* tilemap = new TileMap(LAYER_FOREGROUNDTILES, false, solids->get_width(), solids->get_height());
+    sector->add_object(tilemap);
+    sector->update_game_objects();
+    }
+  if(!backgrounds)
+    {
+    TileMap* tilemap = new TileMap(LAYER_BACKGROUNDTILES, false, solids->get_width(), solids->get_height());
+    sector->add_object(tilemap);
+    sector->update_game_objects();
+    }
+
+  char str[64];
+  sprintf(str, "%i", solids->get_width());
+  settings_menu->get_item_by_id(MN_ID_WIDTH).change_input(str);
+  sprintf(str, "%i", solids->get_height());
+  settings_menu->get_item_by_id(MN_ID_HEIGHT).change_input(str);
+
+  sectornum = num;
 }
 
 void LevelEditor::save_level()
 {
-level->save(level_filename);
-level_changed = false;
+  level->save(level_filename);
+  level_changed = false;
 }
 
 void LevelEditor::test_level()
@@ -907,111 +910,111 @@ void LevelEditor::change(int x, int y, int newtile, int layer)
 
 void LevelEditor::show_help()
 {
-DrawingContext context;
+  DrawingContext context;
 
-bool show_grid_t = show_grid;
-show_grid = false;
-mouse_cursor->set_state(MC_HIDE);
-
-
-char str[1024];
-const char *text1[] = {
-         _("This is the built-in level editor. Its aim is to be intuitive\n"
-         "and simple to use, so it should be pretty straightforward.\n"
-         "\n"
-         "To open a level, first you'll have to select a level subset from\n"
-         "the menu (or create your own).\n"
-         "A level subset is basically a collection of levels.\n"
-         "They can then be played from the Contrib menu.\n"
-         "\n"
-         "To access the menu from the level editor, just press Esc.\n"
-         "\n"
-         "You are currently looking at the level. To scroll it, just\n"
-         "press the right mouse button and drag the mouse. It will move like\n"
-         "a strategy game.\n"
-         "You can also use the arrow keys and Page Up/Down.\n"
-         "\n"
-         "'+' and '-' keys can be used to zoom the level in/out.\n"
-         "\n"
-         "You probably already noticed those floating groups of buttons.\n"
-         "Each one serves a different purpose. To select a certain button\n"
-         "just press the Left mouse button on it. A few buttons have key\n"
-         "shortcuts. You can find them by pressing the Right mouse button on\n"
-         "a button. That will also show what that button does.\n"
-         "Groups of buttons can also be moved around by just dragging them,\n"
-         "while pressing the Left mouse button.\n"
-         "\n"
-         "Let's learn a bit of what each group of buttons does, shall we?\n"
-         "\n"
-         "To starting putting tiles and objects around use the bigger group\n"
-         "of buttons. Each button is a different tile. To put it on the level,\n"
-         "just press it and then left click in the level.\n"
-         "You can also copy tiles from the level by using the middle mouse button.\n"
-         "Use the mouse wheel to scroll that group of buttons. You will find\n"
-         "enemies and game objects in the bottom.\n")
-                };
-
-const char *text2[] = {
-         _("The Foreground/Interactive/Background buttons may be used to\n"
-         "see and edit the respective layer. Levels have three tiles layers:\n"
-         "Foreground - tiles are drawn on top of everything and have no contact\n"
-         "with the player.\n"
-         "Interactive - these are the tiles that have contact with the player.\n"
-         "Background - tiles are drawn underneath everything and have no contact\n"
-         "with the player.\n"
-         "The unselected layers will be drawn semi-transparently.\n"
-         "\n"
-         "Last, but not least, the group of buttons that's left serves\n"
-         "to do related actions with the level.\n"
-         "From left to right:\n"
-         "Mini arrows - can be used to choose other sectors.\n"
-         "Sectors are mini-levels, so to speak, that can be accessed using a door.\n"
-         "Big arrows - choose other level in the same level subset.\n"
-         "Diskette - save the level\n"
-         "Tux - test the level\n"
-         "Tools - set a few settings for the level, including resizing it.\n"
-         "\n"
-         "We have reached the end of this Howto.\n"
-         "\n"
-         "Don't forget to send us a few cool levels. :)\n"
-         "\n"
-         "Enjoy,\n"
-         "  SuperTux development team\n"
-         "\n"
-         "PS: If you are looking for something more powerful, you might like to\n"
-         "try FlexLay. FlexLay is a level editor that supports several games,\n"
-         "including SuperTux. It is an independent project.\n"
-         "Webpage: http://pingus.seul.org/~grumbel/flexlay/")
-                };
-
-const char **text[] = { text1, text2 };
+  bool show_grid_t = show_grid;
+  show_grid = false;
+  mouse_cursor->set_state(MC_HIDE);
 
 
-bool done;
-for(unsigned int i = 0; i < sizeof(text) / sizeof(text[0]); i++)
-  {
-  draw(context);
+  char str[1024];
+  const char *text1[] = {
+           _("This is the built-in level editor. Its aim is to be intuitive\n"
+           "and simple to use, so it should be pretty straightforward.\n"
+           "\n"
+           "To open a level, first you'll have to select a level subset from\n"
+           "the menu (or create your own).\n"
+           "A level subset is basically a collection of levels.\n"
+           "They can then be played from the Contrib menu.\n"
+           "\n"
+           "To access the menu from the level editor, just press Esc.\n"
+           "\n"
+           "You are currently looking at the level. To scroll it, just\n"
+           "press the right mouse button and drag the mouse. It will move like\n"
+           "a strategy game.\n"
+           "You can also use the arrow keys and Page Up/Down.\n"
+           "\n"
+           "'+' and '-' keys can be used to zoom the level in/out.\n"
+           "\n"
+           "You probably already noticed those floating groups of buttons.\n"
+           "Each one serves a different purpose. To select a certain button\n"
+           "just press the Left mouse button on it. A few buttons have key\n"
+           "shortcuts. You can find them by pressing the Right mouse button on\n"
+           "a button. That will also show what that button does.\n"
+           "Groups of buttons can also be moved around by just dragging them,\n"
+           "while pressing the Left mouse button.\n"
+           "\n"
+           "Let's learn a bit of what each group of buttons does, shall we?\n"
+           "\n"
+           "To starting putting tiles and objects around use the bigger group\n"
+           "of buttons. Each button is a different tile. To put it on the level,\n"
+           "just press it and then left click in the level.\n"
+           "You can also copy tiles from the level by using the middle mouse button.\n"
+           "Use the mouse wheel to scroll that group of buttons. You will find\n"
+           "enemies and game objects in the bottom.\n")
+                  };
 
-  context.draw_text(blue_text, _("- Level Editor's Help -"), Vector(screen->w/2, 60), CENTER_ALLIGN, LAYER_GUI);
+  const char *text2[] = {
+           _("The Foreground/Interactive/Background buttons may be used to\n"
+           "see and edit the respective layer. Levels have three tiles layers:\n"
+           "Foreground - tiles are drawn on top of everything and have no contact\n"
+           "with the player.\n"
+           "Interactive - these are the tiles that have contact with the player.\n"
+           "Background - tiles are drawn underneath everything and have no contact\n"
+           "with the player.\n"
+           "The unselected layers will be drawn semi-transparently.\n"
+           "\n"
+           "Last, but not least, the group of buttons that's left serves\n"
+           "to do related actions with the level.\n"
+           "From left to right:\n"
+           "Mini arrows - can be used to choose other sectors.\n"
+           "Sectors are mini-levels, so to speak, that can be accessed using a door.\n"
+           "Big arrows - choose other level in the same level subset.\n"
+           "Diskette - save the level\n"
+           "Tux - test the level\n"
+           "Tools - set a few settings for the level, including resizing it.\n"
+           "\n"
+           "We have reached the end of this Howto.\n"
+           "\n"
+           "Don't forget to send us a few cool levels. :)\n"
+           "\n"
+           "Enjoy,\n"
+           "  SuperTux development team\n"
+           "\n"
+           "PS: If you are looking for something more powerful, you might like to\n"
+           "try FlexLay. FlexLay is a level editor that supports several games,\n"
+           "including SuperTux. It is an independent project.\n"
+           "Webpage: http://pingus.seul.org/~grumbel/flexlay/")
+                  };
 
-  context.draw_text(white_small_text, *text[i], Vector(20, 120), LEFT_ALLIGN, LAYER_GUI);
+  const char **text[] = { text1, text2 };
 
-  sprintf(str,_("Press any key to continue - Page %d/%d"), i+1, sizeof(text) / sizeof(text[0]));
-  context.draw_text(gold_text, str, Vector(screen->w/2, screen->h-60), CENTER_ALLIGN, LAYER_GUI);
 
-  context.do_drawing();
-
-  done = false;
-
-  while(!done)
+  bool done;
+  for(unsigned int i = 0; i < sizeof(text) / sizeof(text[0]); i++)
     {
-    done = wait_for_event(event);
-    SDL_Delay(50);
+    draw(context);
+
+    context.draw_text(blue_text, _("- Level Editor's Help -"), Vector(screen->w/2, 60), CENTER_ALLIGN, LAYER_GUI);
+
+    context.draw_text(white_small_text, *text[i], Vector(20, 120), LEFT_ALLIGN, LAYER_GUI);
+
+    sprintf(str,_("Press any key to continue - Page %d/%d"), i+1, sizeof(text) / sizeof(text[0]));
+    context.draw_text(gold_text, str, Vector(screen->w/2, screen->h-60), CENTER_ALLIGN, LAYER_GUI);
+
+    context.do_drawing();
+
+    done = false;
+
+    while(!done) {
+      SDL_Event event;
+      done = wait_for_event(event);
+      SDL_Delay(50);
     }
   }
 
-show_grid = show_grid_t;
-mouse_cursor->set_state(MC_NORMAL);
+  show_grid = show_grid_t;
+  mouse_cursor->set_state(MC_NORMAL);
 }
 
 Sector*

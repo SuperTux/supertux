@@ -25,6 +25,7 @@
 #include "math/vector.h"
 #include "math/rectangle.h"
 
+class FlipLevelTransformer;
 class Sector;
 class CollisionGrid;
 
@@ -65,6 +66,7 @@ namespace SuperTux
     protected:
       friend class Sector;
       friend class CollisionGrid;
+      friend class FlipLevelTransformer;
       
       /** The bounding box of the object (as used for collision detection, this
        * isn't necessarily the bounding box for graphics)

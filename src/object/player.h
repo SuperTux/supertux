@@ -20,14 +20,14 @@
 #define SUPERTUX_PLAYER_H
 
 #include <vector>
-#include "SDL.h"
+#include <SDL.h>
 
 #include "timer.h"
+#include "direction.h"
 #include "video/surface.h"
 #include "special/moving_object.h"
 #include "special/sprite.h"
 #include "math/physic.h"
-#include "defines.h"
 
 using namespace SuperTux;
 
@@ -61,27 +61,32 @@ public:
 
 extern PlayerKeymap keymap;
 
-struct player_input_type
+/** Contains a field of booleans that indicate wheter a button is pressed or
+ * released. The old_ fields contain the state of the button at the previous
+ * frame.
+ */
+struct PlayerInputType
 {
-  int right;
-  int left;
-  int up;
-  int old_up;
-  int down;
-  int fire;
-  int old_fire;
-  int activate;
-  int jump;
-  int old_jump;
-};
+public:
+  PlayerInputType();
+  void reset();
 
-void player_input_init(player_input_type* pplayer_input);
+  bool left;
+  bool right;
+  bool up;
+  bool old_up;
+  bool down;
+  bool fire;
+  bool old_fire;
+  bool activate;
+  bool jump;
+  bool old_jump;
+};
 
 class Camera;
 class PlayerStatus;
 
 extern Surface* tux_life;
-
 
 #define GROWING_TIME 1.0
 #define GROWING_FRAMES 7
@@ -124,12 +129,15 @@ public:
   enum Power { NONE_POWER, FIRE_POWER, ICE_POWER };
   enum FallMode { ON_GROUND, JUMPING, TRAMPOLINE_JUMP, FALLING };
 
-  player_input_type  input;
+  PlayerInputType input;
   int got_power;
   int size;
   bool duck;
   bool dead;
-  DyingType dying;
+
+private:
+  bool dying;
+public:
 
   Direction dir;
   Direction old_dir;
@@ -170,7 +178,7 @@ public:
   Player();
   virtual ~Player();
   
-  int  key_event(SDLKey key, int state);
+  bool key_event(SDLKey key, bool state);
   void level_begin();
   void handle_input();
 
@@ -183,7 +191,11 @@ public:
   void make_invincible();
   bool is_invincible() const
   {
-      return invincible_timer.started();
+    return invincible_timer.started();
+  }
+  bool is_dying() const
+  {
+    return dying;
   }
   
   void kill(HurtMode mode);

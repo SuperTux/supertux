@@ -61,10 +61,6 @@ public:
    */
   void resize(int newwidth, int newheight);
 
-  /** Flip the all tile map vertically. The purpose of this is to let
-      player to play the same level in a different way :) */
-  void do_vertical_flip();
-
   size_t get_width() const
   { return width; }
 
@@ -86,6 +82,16 @@ public:
 
   void change_at(const Vector& pos, uint32_t newtile);
 
+  TileManager* get_tilemanager() const
+  {
+    return tilemanager;
+  }
+
+  void set_drawing_effect(int effect)
+  {
+    drawing_effect = effect;
+  }
+
 private:
   std::vector<uint32_t> tiles;
   
@@ -96,7 +102,7 @@ private:
   int width, height;
   int layer;
 
-  bool vertical_flip;
+  int drawing_effect;
 };
 
 #endif /*SUPERTUX_TILEMAP_H*/

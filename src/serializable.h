@@ -19,8 +19,6 @@
 #ifndef SUPERTUX_SERIALIZABLE_H
 #define SUPERTUX_SERIALIZABLE_H
 
-using namespace SuperTux;
-
 namespace lisp {
 class Writer;
 }
@@ -28,6 +26,9 @@ class Writer;
 class Serializable
 {
 public:
+  virtual ~Serializable()
+  { }
+    
   virtual void write(lisp::Writer& writer) = 0;
 };
 

@@ -43,7 +43,7 @@
 #include "worldmap.h"
 #include "resources.h"
 #include "misc.h"
-#include "scene.h"
+#include "player_status.h"
 
 #define map_message_TIME 2.8
 
@@ -1087,8 +1087,6 @@ WorldMap::savegame(const std::string& filename)
   if(filename == "")
     return;
 
-  std::cout << "savegame: " << filename << std::endl;
-
   std::ofstream file(filename.c_str(), std::ios::out);
   lisp::Writer writer(file);
 
@@ -1111,16 +1109,14 @@ WorldMap::savegame(const std::string& filename)
       std::string(name + " - " + nb_solved_levels_str+"/"+total_levels_str));
   writer.write_string("map", map_filename);
   writer.write_bool("intro-displayed", intro_displayed);
-  writer.write_int("lives", player_status.lives);
-  writer.write_int("distros", player_status.lives);
-  writer.write_int("max-score-multiplier", player_status.max_score_multiplier);
 
   writer.start_list("tux");
 
   writer.write_float("x", tux->get_tile_pos().x);
   writer.write_float("y", tux->get_tile_pos().y);
   writer.write_string("back", direction_to_string(tux->back_direction));
-  writer.write_string("bonus", bonus_to_string(player_status.bonus));
+  player_status.write(writer);
+  writer.write_string("back", direction_to_string(tux->back_direction));
 
   writer.end_list("tux");
 
@@ -1169,21 +1165,19 @@ WorldMap::loadgame(const std::string& filename)
     savegame->get("distros", player_status.distros);
     savegame->get("max-score-multiplier", player_status.max_score_multiplier);
     if (player_status.lives < 0)
-      player_status.lives = START_LIVES;
+      player_status.reset();
 
     const lisp::Lisp* tux_lisp = savegame->get_lisp("tux");
     if(tux)
     {
       Vector p;
       std::string back_str = "none";
-      std::string bonus_str = "none";
 
       tux_lisp->get("x", p.x);
       tux_lisp->get("y", p.y);
       tux_lisp->get("back", back_str);
-      tux_lisp->get("bonus", bonus_str);
+      player_status.read(*tux_lisp);
       
-      player_status.bonus = string_to_bonus(bonus_str);
       tux->back_direction = string_to_direction(back_str);      
       tux->set_tile_pos(p);
     }

@@ -27,7 +27,9 @@ namespace SuperTux {
 FILE * opendata(const std::string& filename, const char * mode);
 
 class Config {
-  public:
+public:
+  virtual ~Config()
+  { }
   void load ();
   void save ();
   virtual void customload(const lisp::Lisp* )

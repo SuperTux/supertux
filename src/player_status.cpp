@@ -16,14 +16,15 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
 #include <config.h>
 
-#include <cstdlib>
-
-#include "scene.h"
-#include "defines.h"
+#include "lisp/writer.h"
+#include "lisp/lisp.h"
+#include "player_status.h"
 #include "resources.h"
+
+static const int START_LIVES = 4;
+static const int MAX_LIVES = 99;
 
 PlayerStatus player_status;
 
@@ -64,34 +65,50 @@ PlayerStatus::incCoins()
   SoundManager::get()->play_sound(IDToSound(SND_DISTRO));
 }
 
-std::string bonus_to_string(PlayerStatus::BonusType b)
+void
+PlayerStatus::write(lisp::Writer& writer)
 {
-  switch (b)
-    {
+  switch(bonus) {
     case PlayerStatus::NO_BONUS:
-      return "none";
+      writer.write_string("bonus", "none");
+      break;
     case PlayerStatus::GROWUP_BONUS:
-      return "growup";
+      writer.write_string("bonus", "growup");
+      break;
     case PlayerStatus::FLOWER_BONUS:
-      return "iceflower";
+      writer.write_string("bonus", "fireflower");
+      break;
     default:
-      return "none";
-    }
+      std::cerr << "Unknown bonus type.\n";
+      writer.write_string("bonus", "none");
+  }
+
+  writer.write_int("lives", lives);
+  writer.write_int("distros", distros);
+  writer.write_int("max-score-multiplier", max_score_multiplier);
 }
 
-PlayerStatus::BonusType string_to_bonus(const std::string& str)
+void
+PlayerStatus::read(const lisp::Lisp& lisp)
 {
-  if (str == "none")
-    return PlayerStatus::NO_BONUS;
-  else if (str == "growup")
-    return PlayerStatus::GROWUP_BONUS;
-  else if (str == "iceflower")
-    return PlayerStatus::FLOWER_BONUS;
-  else
-    return PlayerStatus::NO_BONUS;
+  reset();
+  
+  std::string bonusname;
+  if(lisp.get("bonus", bonusname)) {
+    if(bonusname == "none") {
+      bonus = NO_BONUS;
+    } else if(bonusname == "growup") {
+      bonus = GROWUP_BONUS;
+    } else if(bonusname == "fireflower") {
+      bonus = FLOWER_BONUS;
+    } else {
+      std::cerr << "Unknown bonus '" << bonusname << "' in savefile.\n";
+      bonus = NO_BONUS;
+    }
+  }
+
+  lisp.get("lives", lives);
+  lisp.get("distros", distros);
+  lisp.get("max-score-multiplier", max_score_multiplier);
 }
-
-unsigned int global_frame_counter;
-
-// EOF //
 

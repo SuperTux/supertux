@@ -13,6 +13,7 @@
 #include "flower.h"
 #include "oneup.h"
 #include "star.h"
+#include "player_status.h"
 #include "badguy/badguy.h"
 #include "coin.h"
 #include "object_factory.h"
@@ -25,7 +26,7 @@ Block::Block(const Vector& pos, Sprite* newsprite)
   : sprite(newsprite), bouncing(false), bounce_dir(0), bounce_offset(0)
 {
   bbox.set_pos(pos);
-  bbox.set_size(32, 32);
+  bbox.set_size(32, 32.1);
   flags |= FLAG_SOLID;
   original_y = pos.y;
 }
@@ -88,6 +89,7 @@ Block::draw(DrawingContext& context)
 void
 Block::start_bounce()
 {
+  original_y = bbox.p1.y;
   bouncing = true;
   bounce_dir = -BOUNCY_BRICK_SPEED;
   bounce_offset = 0;

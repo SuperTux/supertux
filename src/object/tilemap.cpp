@@ -37,7 +37,7 @@
 
 TileMap::TileMap()
   : solid(false), speed(1), width(0), height(0), layer(LAYER_TILES),
-    vertical_flip(false)
+    drawing_effect(0)
 {
   tilemanager = tile_manager;
 
@@ -47,7 +47,7 @@ TileMap::TileMap()
 
 TileMap::TileMap(const lisp::Lisp& reader)
   : solid(false), speed(1), width(0), height(0), layer(LAYER_TILES),
-    vertical_flip(false)
+    drawing_effect(0)
 {
   tilemanager = tile_manager;
 
@@ -87,7 +87,7 @@ TileMap::TileMap(const lisp::Lisp& reader)
 
 TileMap::TileMap(int layer_, bool solid_, size_t width_, size_t height_)
   : solid(solid_), speed(1), width(0), height(0), layer(layer_),
-    vertical_flip(false)
+    drawing_effect(0)
 {
   tilemanager = tile_manager;
   
@@ -136,8 +136,8 @@ TileMap::draw(DrawingContext& context)
 {
   context.push_transform();
 
-  if(vertical_flip)
-    context.set_drawing_effect(VERTICAL_FLIP); 
+  if(drawing_effect != 0)
+    context.set_drawing_effect(drawing_effect); 
   float trans_x = roundf(context.get_translation().x);
   float trans_y = roundf(context.get_translation().y);
   context.set_translation(Vector(trans_x * speed, trans_y * speed));
@@ -232,19 +232,6 @@ TileMap::resize(int new_width, int new_height)
 
   height = new_height;
   width = new_width;
-}
-
-void
-TileMap::do_vertical_flip()
-{
-  // remap tiles vertically flipped
-  for(int y = 0; y < height / 2; ++y) {
-    for(int x = 0; x < width; ++x) {
-      std::swap(tiles[y*width + x], tiles[(((height-1)*width) - (y*width)) + x]);
-    }
-  }
-
-  vertical_flip = true;
 }
 
 const Tile*

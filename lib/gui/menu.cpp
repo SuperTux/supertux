@@ -746,7 +746,7 @@ Menu::event(SDL_Event& event)
     {
     case SDL_KEYDOWN:
       {
-        SDLKey key = key = event.key.keysym.sym;
+        SDLKey key = event.key.keysym.sym;
         SDLMod keymod;
         char ch[2];
         keymod = SDL_GetModState();

@@ -38,7 +38,6 @@
 #include "lisp/writer.h"
 #include "level.h"
 #include "math/physic.h"
-#include "scene.h"
 #include "sector.h"
 #include "tile.h"
 #include "resources.h"
@@ -47,11 +46,13 @@
 #include "object/tilemap.h"
 #include "object/coin.h"
 
+// test
+#include "flip_level_transformer.h"
+
 using namespace std;
 
 Level::Level()
-  : name("noname"), author("mr. x"), timelimit(500),
-    end_sequence_type(NONE_ENDSEQ_ANIM) 
+  : name("noname"), author("Mr. X"), timelimit(500)
 {
 }
 
@@ -70,6 +71,13 @@ Level::load(const std::string& filepath)
     level->get("version", version);
     if(version == 1) {
       load_old_format(*level);
+
+#if 0
+      // test for now
+      FlipLevelTransformer* transformer = new FlipLevelTransformer();  
+      transformer->transform(this);
+#endif
+     
       return;
     }
 
@@ -91,20 +99,12 @@ Level::load(const std::string& filepath)
         Sector* sector = new Sector;
         sector->parse(*(iter.lisp()));
         add_sector(sector);
-      } else if(token == "end-sequence-animation") {
-        std::string endsequencename;
-        iter.value()->get(endsequencename);
-        if(endsequencename == "fireworks") {
-          end_sequence_type = FIREWORKS_ENDSEQ_ANIM;
-        } else {
-          std::cout << "Unknown endsequence type: '" << endsequencename <<
-            "'.\n";
-        }
       } else {
         std::cerr << "Unknown token '" << token << "' in level file.\n";
         continue;
       }
     }
+    
   } catch(std::exception& e) {
     std::stringstream msg;
     msg << "Problem when reading level '" << filepath << "': " << e.what();
@@ -144,12 +144,11 @@ Level::save(const std::string& filename)
   writer->write_string("name", name, true);
   writer->write_string("author", author);
   writer->write_int("time", timelimit);
-  writer->write_string("end-sequence-animation",
-      end_sequence_type == FIREWORKS_ENDSEQ_ANIM ? "fireworks" : "none");
 
   for(Sectors::iterator i = sectors.begin(); i != sectors.end(); ++i) {
+    Sector* sector = *i;
     writer->start_list("sector");
-    i->second->write(*writer);
+    sector->write(*writer);
     writer->end_list("sector");
   }
 
@@ -162,63 +161,41 @@ Level::save(const std::string& filename)
 Level::~Level()
 {
   for(Sectors::iterator i = sectors.begin(); i != sectors.end(); ++i)
-    delete i->second;
+    delete *i;
 }
 
 void
 Level::add_sector(Sector* sector)
 {
-  sectors.insert(std::make_pair(sector->get_name(), sector));       
+  Sector* test = get_sector(sector->get_name());
+  if(test != 0) {
+    throw std::runtime_error("Trying to add 2 sectors with same name");
+  }
+  sectors.push_back(sector);
 }
 
 Sector*
 Level::get_sector(const std::string& name)
 {
-  Sectors::iterator i = sectors.find(name);
-  if(i == sectors.end())
-    return 0;
+  for(Sectors::iterator i = sectors.begin(); i != sectors.end(); ++i) {
+    Sector* sector = *i;
+    if(sector->get_name() == name)
+      return sector;
+  }
 
-  return i->second;
+  return 0;
+}
+
+size_t
+Level::get_sector_count()
+{
+  return sectors.size();
 }
 
 Sector*
-Level::get_next_sector(const Sector* sector)
+Level::get_sector(size_t num)
 {
-  for(Sectors::iterator i = sectors.begin(); i != sectors.end(); ++i)
-    {
-    if(i->second == sector)
-      {
-      i++;
-      if(i == sectors.end())
-        return NULL;
-      return i->second;
-      }
-    }
-  std::cerr << "Warning: Sector not found on level\n";
-  return NULL;
-}
-
-Sector*
-Level::get_previous_sector(const Sector* sector)
-{
-  for(Sectors::iterator i = sectors.begin(); i != sectors.end(); ++i)
-    {
-    if(i->second == sector)
-      {
-      if(i == sectors.begin())
-        return NULL;
-      i--;
-      return i->second;
-      }
-    }
-  std::cerr << "Warning: Sector not found on level\n";
-  return NULL;
-}
-
-int
-Level::get_total_sectors()
-{
-return sectors.size();
+  return sectors.at(num);
 }
 
 int
@@ -226,16 +203,17 @@ Level::get_total_badguys()
 {
   int total_badguys = 0;
   for(Sectors::iterator i = sectors.begin(); i != sectors.end(); ++i)
-    total_badguys += i->second->get_total_badguys();
+    total_badguys += (*i)->get_total_badguys();
   return total_badguys;
 }
 
 int
 Level::get_total_coins()
 {
+  // FIXME not really correct as coins can also be inside blocks...
   int total_coins = 0;
   for(Sectors::iterator i = sectors.begin(); i != sectors.end(); ++i) {
-    Sector* sector = i->second;
+    Sector* sector = *i;
     for(Sector::GameObjects::iterator o = sector->gameobjects.begin();
         o != sector->gameobjects.end(); ++o) {
       Coin* coin = dynamic_cast<Coin*> (*o);
@@ -245,3 +223,4 @@ Level::get_total_coins()
   }
   return total_coins;
 }
+

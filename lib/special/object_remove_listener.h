@@ -9,6 +9,9 @@ class GameObject;
 class ObjectRemoveListener
 {
 public:
+  virtual ~ObjectRemoveListener()
+  { }
+
   virtual void object_removed(GameObject* object) = 0;
 };
 

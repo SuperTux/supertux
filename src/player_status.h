@@ -16,18 +16,28 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+#ifndef SUPERTUX_PLAYERSTATUS_H
+#define SUPERTUX_PLAYERSTATUS_H
 
-#ifndef SUPERTUX_SCENE_H
-#define SUPERTUX_SCENE_H
-
-#include "video/surface.h"
+#include "lisp/lisp.h"
 #include "timer.h"
+#include "serializable.h"
 
-#define FRAME_RATE 10 // 100 Frames per second (10ms)
-
-// Player stats
-struct PlayerStatus
+/** 
+ * This class memorizes player status between different game sessions (for
+ * example when switching maps in the worldmap)
+ */
+class PlayerStatus : public Serializable
 {
+public:
+  PlayerStatus();
+  void reset();     
+  void incLives();
+  void incCoins();
+
+  void write(lisp::Writer& writer);
+  void read(const lisp::Lisp& lisp);
+
   int  distros;
   int  lives;
   enum BonusType { NO_BONUS, GROWUP_BONUS, FLOWER_BONUS };
@@ -35,16 +45,9 @@ struct PlayerStatus
 
   int  score_multiplier;
   int max_score_multiplier;
-
-  PlayerStatus();
-  void reset();
-  void incLives();
-  void incCoins();
 };
 
-std::string bonus_to_string(PlayerStatus::BonusType b);
-PlayerStatus::BonusType string_to_bonus(const std::string& str);
-
+// global player state
 extern PlayerStatus player_status;
 
-#endif /*SUPERTUX_SCENE_H*/
+#endif
