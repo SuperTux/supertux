@@ -6,6 +6,9 @@ http://www.newbreedsoftware.com/supertux/
 
 0.0.5 - December 19th, 2003 - ???
 ---------------------------
+  * Levels have to specify a theme now.
+    Tobias Glaesser <tobi.web@gmx.de>
+
   * Fixed FIXME (tux doesn't die anymore, when he reaches the end of a level).
     And added a result-screen. (Nothing spectacular ;) )
     Tobias Glaesser <tobi.web@gmx.de>
