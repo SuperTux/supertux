@@ -43,6 +43,9 @@
 // others stuff:
 #define AUTOSCROLL_DEAD_INTERVAL 300
 
+// time before idle animation starts
+#define IDLE_TIME 2500
+
 // growing animation
 Surface* growingtux_left[GROWING_FRAMES];
 Surface* growingtux_right[GROWING_FRAMES];
@@ -89,6 +92,15 @@ head->set_action(action);
 body->set_action(action);
 arms->set_action(action);
 feet->set_action(action);
+}
+
+void
+TuxBodyParts::start_animation(int loops, std::string next_action)
+{
+head->start_animation(loops, next_action);
+body->start_animation(loops, next_action);
+arms->start_animation(loops, next_action);
+feet->start_animation(loops, next_action);
 }
 
 void
@@ -148,6 +160,7 @@ Player::init()
   kick_timer.init(true);
   shooting_timer.init(true);
   growing_timer.init(true);
+  idle_timer.init(true);
 
   physic.reset();
 }
@@ -155,6 +168,8 @@ Player::init()
 int
 Player::key_event(SDLKey key, int state)
 {
+  idle_timer.start(IDLE_TIME);
+
   if(key == keymap.right)
     {
       input.right = state;
@@ -220,6 +235,7 @@ Player::level_begin()
   safe_timer.init(true);
   frame_timer.init(true);
   growing_timer.init(true);
+  idle_timer.init(true);
 
   physic.reset();
 }
@@ -718,7 +734,7 @@ Player::draw(DrawingContext& context)
   int layer = LAYER_OBJECTS - 1;
   Vector pos = Vector(base.x, base.y);
 
-  if ((!safe_timer.started() || growing_timer.started()) || (global_frame_counter % 2) == 0)
+  if ((!safe_timer.started() || growing_timer.started()) && (global_frame_counter % 2))
     {
       if (dying == DYING_SQUISHED)
         {
@@ -771,6 +787,13 @@ Player::draw(DrawingContext& context)
               else
                 tux_body->set_action("kick-left");
             }
+          else if (butt_jump)
+            {
+              if (dir == RIGHT)
+                tux_body->set_action("buttjump-right");
+              else
+                tux_body->set_action("buttjump-left");
+            }
           else if (physic.get_velocity_y() != 0)
             {
               if (dir == RIGHT)
@@ -797,7 +820,22 @@ Player::draw(DrawingContext& context)
             }
         }
     }
-
+/*
+  if(idle_timer.get_left() < 0)
+    {
+    if (dir == RIGHT)
+      {
+      tux_body->set_action("idle-right");
+      tux_body->start_animation(1, "stand-right");
+      }
+    else
+      {
+      tux_body->set_action("idle-left");
+      tux_body->start_animation(1, "stand-left");
+      }
+    idle_timer.start(IDLE_TIME);
+    }
+*/
   // Tux is holding something
   if ((holding_something && physic.get_velocity_y() == 0) ||
       shooting_timer.check() && !duck)

@@ -110,6 +110,7 @@ public:
   ~TuxBodyParts() { };
 
   void set_action(std::string action);
+  void start_animation(int loops, std::string next_action = "");
   void draw(DrawingContext& context, const Vector& pos, int layer,
                 Uint32 drawing_effect = NONE_EFFECT);
 
@@ -160,6 +161,7 @@ public:
   Timer shooting_timer;   // used to show the arm when Tux is shooting
   Timer dying_timer;
   Timer growing_timer;
+  Timer idle_timer;
   Physic physic;
   
 public:
