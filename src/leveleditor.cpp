@@ -54,9 +54,10 @@
 
 #define MOUSE_LEFT_MARGIN 80
 #define MOUSE_RIGHT_MARGIN (560-32)
-/* right_margin should noticed that the cursor is 32 pixels,
-   so it should subtract that value */
-#define MOUSE_POS_SPEED 20
+
+/* scolling speed */
+#define KEYBOARD_SPEED 140
+#define MOUSE_SPEED    40
 
 /* look */
 #define SELECT_W 2 // size of the selections lines
@@ -1512,11 +1513,11 @@ void le_checkevents()
     switch(le_move_left_bt->get_state())
     {
     case BUTTON_PRESSED:
-      pos_x -= 192;
+      pos_x -= KEYBOARD_SPEED;
       show_minimap = true;
       break;
     case BUTTON_HOVER:
-      pos_x -= 32;
+      pos_x -= MOUSE_SPEED;
       show_minimap = true;
       break;
     case BUTTON_CLICKED:
@@ -1529,11 +1530,11 @@ void le_checkevents()
     switch(le_move_right_bt->get_state())
     {
     case BUTTON_PRESSED:
-      pos_x += 192;
+      pos_x += KEYBOARD_SPEED;
       show_minimap = true;
       break;
     case BUTTON_HOVER:
-      pos_x += 32;
+      pos_x += MOUSE_SPEED;
       show_minimap = true;
       break;
     case BUTTON_CLICKED:
@@ -1546,11 +1547,11 @@ void le_checkevents()
     switch(le_move_up_bt->get_state())
     {
     case BUTTON_PRESSED:
-      pos_y -= 192;
+      pos_y -= KEYBOARD_SPEED;
       show_minimap = true;
       break;
     case BUTTON_HOVER:
-      pos_y -= 32;
+      pos_y -= MOUSE_SPEED;
       show_minimap = true;
       break;
     case BUTTON_CLICKED:
@@ -1563,11 +1564,11 @@ void le_checkevents()
     switch(le_move_down_bt->get_state())
     {
     case BUTTON_PRESSED:
-      pos_y += 192;
+      pos_y += KEYBOARD_SPEED;
       show_minimap = true;
       break;
     case BUTTON_HOVER:
-      pos_y += 32;
+      pos_y += MOUSE_SPEED;
       show_minimap = true;
       break;
     case BUTTON_CLICKED:
