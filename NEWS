@@ -1,3 +1,11 @@
+Super Tux 0.1.1 (...)
+=====================
+  * new handwritten font
+  * endseq bug squished
+  * build in leveledior
+  * support for g++-2.95  
+  
+
 Super Tux 0.1.0 (3 May 04)
 ==========================
   * completly new graphics
@@ -15,6 +23,7 @@ Super Tux 0.1.0 (3 May 04)
   * Win32 port
   * config file support
 
+
 Super Tux 0.0.6 (16 Mar 04)
 ===========================
   * Game Save/Load.
@@ -23,5 +32,6 @@ Super Tux 0.0.6 (16 Mar 04)
   * OpenGL mode.
   * Bugfixes (Timer related and many others).
   * 2 new levels (Tux in Sky and Mondo). 
+
 
 # EOF #
