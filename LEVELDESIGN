@@ -65,8 +65,8 @@ USING THE BUILT-IN LEVEL EDITOR:
 
 When opening the leveleditor, a menu will appear. This
 menu can be used to select or add level subsets.
-A subsite is like a theme, it is just a bunch of tiles and
-enemies.
+A level subset is a collection of levels. Subsets can be chose
+during gameplay when starting a game.
 
 After selecting the subset, have a look at the level editor.
 The button bar in the right is the place where you can control
