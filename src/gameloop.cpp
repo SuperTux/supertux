@@ -851,13 +851,19 @@ bool process_load_game_menu()
 
       // shrink_fade(Point((screen->w/2),(screen->h/2)), 1000);
       fadeout(256);
+
+      DrawingContext context;
+      context.draw_text_center(white_text, "Loading...",
+                               Vector(0, screen->h/2), LAYER_FOREGROUND1);
+      context.do_drawing();
+
       WorldMapNS::WorldMap worldmap;
-     
+
       // Load the game or at least set the savegame_file variable
       worldmap.loadgame(slotfile);
 
       worldmap.display();
-      
+
       Menu::set_current(main_menu);
 
       st_pause_ticks_stop();

@@ -24,6 +24,7 @@
 #include <vector>
 
 #include "../video/surface.h"
+#include "../video/font.h"
 #include "../special/timer.h"
 
 namespace SuperTux
@@ -81,6 +82,8 @@ namespace SuperTux
       //  void set_drawable(Drawable* newdrawable)
       //  { drawable = newdrawable; }
 
+      static Font* info_font;
+      
     private:
       static Timer popup_timer;
       //  Drawable* drawable;

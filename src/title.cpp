@@ -352,7 +352,7 @@ void title(void)
                   update_time = st_get_ticks();
                   break;
                 case MNID_CREDITS:
-                  display_text_file("CREDITS", SCROLL_SPEED_CREDITS);
+                  display_text_file("CREDITS", SCROLL_SPEED_CREDITS, white_big_text , white_text, white_small_text, blue_text );
                   Menu::set_current(main_menu);
                   break;
                 case MNID_QUITMAINMENU:

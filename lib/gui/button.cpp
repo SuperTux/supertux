@@ -30,6 +30,7 @@
 using namespace SuperTux;
 
 Timer Button::popup_timer;
+Font* Button::info_font = 0;
 
 Button::Button(Surface* button_image, const std::string& ninfo,
                SDLKey nshortcut, int x, int y, int mw, int mh)
@@ -121,13 +122,13 @@ void Button::draw(DrawingContext& context)
       char str[80];
       int i = -32;
 
-      if(0 > rect.x - white_small_text->get_text_width(info))
-        i = rect.w + (int)white_small_text->get_text_width(info);
+      if(0 > rect.x - info_font->get_text_width(info))
+        i = rect.w + (int)info_font->get_text_width(info);
 
       if(!info.empty())
-        context.draw_text(white_small_text, info, Vector(i + rect.x - white_small_text->get_text_width(info), rect.y), LAYER_GUI);
+        context.draw_text(info_font, info, Vector(i + rect.x - info_font->get_text_width(info), rect.y), LAYER_GUI);
       sprintf(str,"(%s)", SDL_GetKeyName(shortcut));
-      context.draw_text(white_small_text, str, Vector(i + rect.x -  white_small_text->get_text_width(str), rect.y + white_small_text->get_height()+2), LAYER_GUI);
+      context.draw_text(info_font, str, Vector(i + rect.x -  info_font->get_text_width(str), rect.y + info_font->get_height()+2), LAYER_GUI);
     }
   if(state == BUTTON_PRESSED || state == BUTTON_DEACTIVE)
     fillrect(rect.x,rect.y,rect.w,rect.h,75,75,75,200);

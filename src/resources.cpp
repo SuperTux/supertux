@@ -28,6 +28,7 @@
 #include "audio/sound_manager.h"
 #include "app/setup.h"
 #include "door.h"
+#include "gui/button.h"
 
 Surface* img_waves[3]; 
 Surface* img_water;
@@ -76,9 +77,41 @@ char * soundfilenames[NUM_SOUNDS] = {
                                        "/sounds/explosion.wav"
                                     };
 
+
+Font* gold_text;
+Font* blue_text;
+Font* gray_text;
+Font* yellow_nums;
+Font* white_text;
+Font* white_small_text;
+Font* white_big_text;				    
+				    
 /* Load graphics/sounds shared between all levels: */
 void loadshared()
 {
+
+  /* Load global images: */
+  gold_text = new Font(datadir + "/images/fonts/gold.png", Font::TEXT, 16,18);
+  blue_text = new Font(datadir + "/images/fonts/blue.png", Font::TEXT, 16,18,3);
+  white_text  = new Font(datadir + "/images/fonts/white.png",
+                         Font::TEXT, 16,18);
+  gray_text  = new Font(datadir + "/images/fonts/gray.png",
+                        Font::TEXT, 16,18);
+  white_small_text = new Font(datadir + "/images/fonts/white-small.png",
+                              Font::TEXT, 8,9, 1);
+  white_big_text   = new Font(datadir + "/images/fonts/white-big.png",
+                              Font::TEXT, 20,22, 3);
+  yellow_nums = new Font(datadir + "/images/fonts/numbers.png",
+                         Font::NUM, 32,32);
+
+  Menu::default_font = white_text;
+  Menu::active_font = blue_text;
+  Menu::deactive_font = gray_text;
+  Menu::label_font = white_big_text;
+  Menu::field_font = gold_text;
+  
+  Button::info_font = white_small_text;
+
   int i;
 
   sprite_manager = new SpriteManager(datadir + "/supertux.strf");
@@ -90,13 +123,13 @@ void loadshared()
 
   char img_name[1024];
   for (int i = 0; i < GROWING_FRAMES; i++)
-  {
-    sprintf(img_name, "%s/images/shared/tux-grow-left-%i.png", datadir.c_str(), i+1);
-    growingtux_left[i] = new Surface(img_name, false);
+    {
+      sprintf(img_name, "%s/images/shared/tux-grow-left-%i.png", datadir.c_str(), i+1);
+      growingtux_left[i] = new Surface(img_name, false);
 
-    sprintf(img_name, "%s/images/shared/tux-grow-right-%i.png", datadir.c_str(), i+1);
-    growingtux_right[i] = new Surface(img_name, false);
-  }
+      sprintf(img_name, "%s/images/shared/tux-grow-right-%i.png", datadir.c_str(), i+1);
+      growingtux_right[i] = new Surface(img_name, false);
+    }
 
   smalltux.stand_left  = sprite_manager->load("smalltux-stand-left");
   smalltux.stand_right = sprite_manager->load("smalltux-stand-right");
@@ -165,56 +198,56 @@ void loadshared()
   img_water = new Surface(datadir + "/images/shared/water.png", false);
 
   img_waves[0] = new Surface(datadir + "/images/shared/waves-0.png",
-               true);
+                             true);
 
   img_waves[1] = new Surface(datadir + "/images/shared/waves-1.png",
-               true);
+                             true);
 
   img_waves[2] = new Surface(datadir + "/images/shared/waves-2.png",
-               true);
+                             true);
 
 
   /* Pole: */
 
   img_pole = new Surface(datadir + "/images/shared/pole.png", true);
   img_poletop = new Surface(datadir + "/images/shared/poletop.png",
-               true);
+                            true);
 
 
   /* Flag: */
 
   img_flag[0] = new Surface(datadir + "/images/shared/flag-0.png",
-               true);
+                            true);
   img_flag[1] = new Surface(datadir + "/images/shared/flag-1.png",
-               true);
+                            true);
 
 
   /* Cloud: */
 
   img_cloud[0][0] = new Surface(datadir + "/images/shared/cloud-00.png",
-               true);
+                                true);
 
   img_cloud[0][1] = new Surface(datadir + "/images/shared/cloud-01.png",
-               true);
+                                true);
 
   img_cloud[0][2] = new Surface(datadir + "/images/shared/cloud-02.png",
-               true);
+                                true);
 
   img_cloud[0][3] = new Surface(datadir + "/images/shared/cloud-03.png",
-               true);
+                                true);
 
 
   img_cloud[1][0] = new Surface(datadir + "/images/shared/cloud-10.png",
-               true);
+                                true);
 
   img_cloud[1][1] = new Surface(datadir + "/images/shared/cloud-11.png",
-               true);
+                                true);
 
   img_cloud[1][2] = new Surface(datadir + "/images/shared/cloud-12.png",
-               true);
+                                true);
 
   img_cloud[1][3] = new Surface(datadir + "/images/shared/cloud-13.png",
-               true);
+                                true);
 
 
   /* Bad guys: */
@@ -230,22 +263,22 @@ void loadshared()
   door = sprite_manager->load("door");
   for (int i = 0; i < DOOR_OPENING_FRAMES; i++)
     {
-    sprintf(img_name, "%s/images/shared/door-%i.png", datadir.c_str(), i+1);
-    door_opening[i] = new Surface(img_name, false);
+      sprintf(img_name, "%s/images/shared/door-%i.png", datadir.c_str(), i+1);
+      door_opening[i] = new Surface(img_name, false);
     }
 
   /* Distros: */
   img_distro[0] = new Surface(datadir + "/images/tilesets/coin1.png",
-               true);
+                              true);
 
   img_distro[1] = new Surface(datadir + "/images/tilesets/coin2.png",
-               true);
+                              true);
 
   img_distro[2] = new Surface(datadir + "/images/tilesets/coin3.png",
-               true);
+                              true);
 
   img_distro[3] = new Surface(datadir + "/images/tilesets/coin2.png",
-               true);
+                              true);
 
 
   /* Tux life: */
@@ -263,17 +296,29 @@ void loadshared()
                     Send a mail to me: neoneurone@users.sf.net, if you have another opinion. :)
   */
   for (i = 0; i < NUM_SOUNDS; i++)
-    SoundManager::get()->add_sound(SoundManager::get()->load_sound(datadir + soundfilenames[i]),i);
+    SoundManager::get
+      ()->add_sound(SoundManager::get
+                      ()->load_sound(datadir + soundfilenames[i]),i);
 
   /* Herring song */
-  herring_song = SoundManager::get()->load_music(datadir + "/music/SALCON.MOD");
-  level_end_song = SoundManager::get()->load_music(datadir + "/music/leveldone.mod");
+  herring_song = SoundManager::get
+                   ()->load_music(datadir + "/music/SALCON.MOD");
+  level_end_song = SoundManager::get
+                     ()->load_music(datadir + "/music/leveldone.mod");
 }
-
 
 /* Free shared data: */
 void unloadshared(void)
 {
+  /* Free global images: */
+  delete gold_text;
+  delete white_text;
+  delete blue_text;
+  delete gray_text;
+  delete white_small_text;
+  delete white_big_text;
+  delete yellow_nums;
+  
   int i;
 
   free_special_gfx();

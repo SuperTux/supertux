@@ -22,11 +22,12 @@
 #include "app/defines.h"
 #include "video/font.h"
 #include "video/screen.h"
+#include "resources.h"
 
 using namespace SuperTux;
 
 void draw_intro()
 {
-  display_text_file("intro.txt", 1);
+  display_text_file("intro.txt", 1, white_big_text , white_text, white_small_text, blue_text );
 }
 

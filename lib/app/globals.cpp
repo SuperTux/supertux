@@ -43,14 +43,6 @@ JoystickKeymap::JoystickKeymap()
 JoystickKeymap joystick_keymap;
 
 SDL_Surface * screen;
-Font* gold_text;
-Font* blue_text;
-Font* gray_text;
-Font* yellow_nums;
-Font* white_text;
-Font* white_small_text;
-Font* white_big_text;
-
 MouseCursor * mouse_cursor;
 
 bool use_gl;

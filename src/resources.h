@@ -82,6 +82,14 @@ extern Menu* highscore_menu;
 extern Menu* load_game_menu;
 extern Menu* save_game_menu;
 
+extern Font* gold_text;
+extern Font* white_text;
+extern Font* blue_text;
+extern Font* gray_text;
+extern Font* white_small_text;
+extern Font* white_big_text;
+extern Font* yellow_nums;
+
 void loadshared();
 void unloadshared();
 

@@ -45,12 +45,14 @@ struct Setup
     static void directories(void);
     static void general(void);
     static void general_free();
-    static void video_sdl(unsigned int screen_w, unsigned int screen_h);
-    static void video_gl(unsigned int screen_w, unsigned int screen_h);
     static void video(unsigned int screen_w, unsigned int screen_h);
     static void audio(void);
     static void joystick(void);
     static void parseargs(int argc, char * argv[]);
+
+    private:
+    static void video_sdl(unsigned int screen_w, unsigned int screen_h);
+    static void video_gl(unsigned int screen_w, unsigned int screen_h);
   };
 
 /// Termination handling

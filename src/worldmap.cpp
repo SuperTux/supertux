@@ -784,7 +784,7 @@ WorldMap::update(float delta)
         if (!level->extro_filename.empty())
           {
           // Display a text file
-          display_text_file(level->extro_filename, SCROLL_SPEED_MESSAGE);
+          display_text_file(level->extro_filename, SCROLL_SPEED_MESSAGE, white_big_text , white_text, white_small_text, blue_text );
           }
         if (level->swap_x != -1 && level->swap_y != -1)
           {

@@ -264,11 +264,7 @@ void SuperTux::fadeout(int fade_time)
     }
 
   fillrect(0, 0, screen->w, screen->h, 0, 0, 0, 255);
-  
-  DrawingContext context;
-  context.draw_text_center(white_text, "Loading...",
-      Vector(0, screen->h/2), LAYER_FOREGROUND1);
-  context.do_drawing();
+
 }
 
 void SuperTux::shrink_fade(const Vector& point, int fade_time)

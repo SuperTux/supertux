@@ -346,20 +346,6 @@ void Setup::general(void)
 
   SDL_EnableUNICODE(1);
 
-  /* Load global images: */
-  gold_text = new Font(datadir + "/images/fonts/gold.png", Font::TEXT, 16,18);
-  blue_text = new Font(datadir + "/images/fonts/blue.png", Font::TEXT, 16,18,3);
-  white_text  = new Font(datadir + "/images/fonts/white.png",
-      Font::TEXT, 16,18);
-  gray_text  = new Font(datadir + "/images/fonts/gray.png",
-      Font::TEXT, 16,18);
-  white_small_text = new Font(datadir + "/images/fonts/white-small.png",
-          Font::TEXT, 8,9, 1);
-  white_big_text   = new Font(datadir + "/images/fonts/white-big.png",
-      Font::TEXT, 20,22, 3);
-  yellow_nums = new Font(datadir + "/images/fonts/numbers.png",
-      Font::NUM, 32,32);
-
   /* Load GUI/menu images: */
   checkbox = new Surface(datadir + "/images/status/checkbox.png", true);
   checkbox_checked = new Surface(datadir + "/images/status/checkbox-checked.png", true);
@@ -375,15 +361,6 @@ void Setup::general(void)
 
 void Setup::general_free(void)
 {
-
-  /* Free global images: */
-  delete gold_text;
-  delete white_text;
-  delete blue_text;
-  delete gray_text;
-  delete white_small_text;
-  delete white_big_text;
-  delete yellow_nums;
 
   /* Free GUI/menu images: */
   delete checkbox;

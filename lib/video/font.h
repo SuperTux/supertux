@@ -29,10 +29,6 @@
 namespace SuperTux
   {
 
-  /** Reads a text file (using LispReader, so it as to be in its formatting)
-      and displays it in a StarTrek fashion */
-  void display_text_file(const std::string& file, float scroll_speed);
-
   /// Font
   class Font
     {
@@ -74,6 +70,11 @@ namespace SuperTux
       /// the number of the last character that is represented in the font
       int last_char;
     };
+
+
+  /** Reads a text file (using LispReader, so it as to be in its formatting)
+      and displays it in a StarTrek fashion */
+  void display_text_file(const std::string& file, float scroll_speed, Font* heading_font, Font* normal_font, Font* small_font, Font* reference_font );
 
 } //namespace SuperTux
 

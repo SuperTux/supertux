@@ -55,13 +55,6 @@ namespace SuperTux
   extern JoystickKeymap joystick_keymap;
 
   extern SDL_Surface* screen;
-  extern Font* gold_text;
-  extern Font* white_text;
-  extern Font* blue_text;
-  extern Font* gray_text;
-  extern Font* white_small_text;
-  extern Font* white_big_text;
-  extern Font* yellow_nums;
 
   extern MouseCursor * mouse_cursor;
 

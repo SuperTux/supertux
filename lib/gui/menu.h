@@ -25,6 +25,7 @@
 #include "SDL.h"
 
 #include "../video/surface.h"
+#include "../video/font.h"
 #include "../special/timer.h"
 #include "../special/base.h"
 #include "../special/stringlist.h"
@@ -130,6 +131,12 @@ namespace SuperTux
       Timer joystick_timer;
 
     public:
+      static Font* default_font;
+      static Font* active_font;
+      static Font* deactive_font;
+      static Font* label_font;
+      static Font* field_font;
+    
       Timer effect;
       int arrange_left;
       int active_item;

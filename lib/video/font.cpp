@@ -131,7 +131,7 @@ Font::draw_chars(Surface* pchars, const std::string& text, const Vector& pos,
 #define SCROLL      60
 #define ITEMS_SPACE 4
 
-void SuperTux::display_text_file(const std::string& file, float scroll_speed)
+void SuperTux::display_text_file(const std::string& file, float scroll_speed, Font* heading_font, Font* normal_font, Font* small_font, Font* reference_font )
 {
   std::string text;
   std::vector<std::string> names;
@@ -229,18 +229,18 @@ void SuperTux::display_text_file(const std::string& file, float scroll_speed)
       float y = 0;
       for(size_t i = 0; i < names.size(); i++) {
         if(names[i].size() == 0) {
-          y += white_text->get_height() + ITEMS_SPACE;
+          y += normal_font->get_height() + ITEMS_SPACE;
           continue;
         }
 
         Font* font = 0;
         switch(names[i][0])
         {
-          case ' ': font = white_small_text; break;
-          case '\t': font = white_text; break;
-          case '-': font = white_big_text; break;
-          case '*': font = blue_text; break;
-          default: font = blue_text; break;
+          case ' ': font = small_font; break;
+          case '\t': font = normal_font; break;
+          case '-': font = heading_font; break;
+          case '*': font = reference_font; break;
+          default: font = reference_font; break;
         }
 
         context.draw_text_center(font,
