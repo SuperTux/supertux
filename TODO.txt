@@ -1,26 +1,19 @@
-TODO.txt for Super Tux
+ToDo for Milestone1
+===================
 
-by Bill Kendrick & Tobias Glaesser
-bill@newbreedsoftware.com
-http://www.newbreedsoftware.com/supertux/
+- you can pick up more than 1 mr iceblock
+- not all levels have a correctly placed igloo yet
+- supertux crashs from time to time
+- some enemies can't be bumped anymore
+- there's no effect if you bump specials
+- leveleditor is incomplete (maybe we shoudl deactivate it?)
+- sometimes you die after being and pause modus and unpausing
+- enemies start running backwards, when they collide with a flame
+- fast music restart again and again
+- time is displayed negatively when tux dies because of timeout
+- supertux lifting its feet for kicking is not drawn
+- egg gets removed when leaving the screen, while badguys don't or at
+  least much later, thus its not possible to wait for an egg that
+  would bounce back
 
-Version 0.0.6
-
-March 15, 2004
-
-
-TO DO
------
-  Different, better and more music
-  More enemies
-  Redo laptop enemy graphics
-  More levels
-  Play as Gown, rescuing Tux
- 
-  Note: Use our mailing-list to find out what is really to do.
-  
-DONE
------
-  One-ups, End game on game over (by Tobias Glaesser <tobi.web@gmx.de>)
-  High score (by Adam Czachorowski <gislan@o2.pl>)
-  
+# EOF #
