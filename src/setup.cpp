@@ -678,7 +678,7 @@ void st_video_setup_sdl(void)
         {
           fprintf(stderr,
                   "\nWarning: I could not set up fullscreen video for "
-                  "640x480 mode.\n"
+                  "800x600 mode.\n"
                   "The Simple DirectMedia error that occured was:\n"
                   "%s\n\n", SDL_GetError());
           use_fullscreen = false;
@@ -691,7 +691,7 @@ void st_video_setup_sdl(void)
       if (screen == NULL)
         {
           fprintf(stderr,
-                  "\nError: I could not set up video for 640x480 mode.\n"
+                  "\nError: I could not set up video for 800x600 mode.\n"
                   "The Simple DirectMedia error that occured was:\n"
                   "%s\n\n", SDL_GetError());
           exit(1);
