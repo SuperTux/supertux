@@ -110,7 +110,9 @@ public:
   int size;
   bool duck;
   DyingType dying;
-  int dir;
+
+  Direction dir;
+
   bool jumping;
   int frame_;
   int frame_main;

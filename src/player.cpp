@@ -702,18 +702,18 @@ Player::collision(void* p_c_object, int c_object)
      /* Hurt player if he touches a badguy */
       if (!pbad_c->dying && !dying &&
           !safe_timer.started() &&
-          pbad_c->mode != HELD)
+          pbad_c->mode != BadGuy::HELD)
         {
-          if (pbad_c->mode == FLAT && input.fire == DOWN)
+          if (pbad_c->mode == BadGuy::FLAT && input.fire == DOWN)
             {
-              pbad_c->mode = HELD;
+              pbad_c->mode = BadGuy::HELD;
               pbad_c->base.y-=8;
             }
-          else if (pbad_c->mode == FLAT)
+          else if (pbad_c->mode == BadGuy::FLAT)
             {
               // Don't get hurt if we're kicking a flat badguy!
             }
-          else if (pbad_c->mode == KICK)
+          else if (pbad_c->mode == BadGuy::KICK)
             {
               /* Hurt if you get hit by kicked laptop: */
               if (!invincible_timer.started())

@@ -87,8 +87,8 @@ class World
   void add_broken_brick_piece(Tile* tile, float x, float y, float xm, float ym);
   void add_bouncy_brick(float x, float y);
   void add_bad_guy(float x, float y, BadGuyKind kind);
-  void add_upgrade(float x, float y, int dir, UpgradeKind kind);
-  void add_bullet(float x, float y, float xm, int dir);
+  void add_upgrade(float x, float y, Direction dir, UpgradeKind kind);
+  void add_bullet(float x, float y, float xm, Direction dir);
 
   /** Try to grab the coin at the given coordinates */
   void trygrabdistro(float x, float y, int bounciness);
@@ -97,7 +97,7 @@ class World
   void trybreakbrick(float x, float y, bool small);
 
   /** Try to get the content out of a bonus box, thus emptying it */
-  void tryemptybox(float x, float y, int col_side);
+  void tryemptybox(float x, float y, Direction col_side);
 
   /** Try to bumb a badguy that might we walking above Tux, thus shaking
       the tile which the badguy is walking on an killing him this way */

@@ -36,27 +36,6 @@ extern Sprite* img_bsod_left;
 extern Sprite* img_bsod_right;
 extern Sprite* img_laptop_left;
 
-/* Enemy modes: */
-enum {
-    NORMAL=0,
-    FLAT,
-    KICK,
-    HELD,
-
-    MONEY_JUMP,
-
-    BOMB_TICKING,
-    BOMB_EXPLODE,
-
-    STALACTITE_SHAKING,
-    STALACTITE_FALL,
-
-    FISH_WAIT,
-
-    FLY_UP,
-    FLY_DOWN
-};
-
 /* Bad guy kinds: */
 enum BadGuyKind {
   BAD_BSOD,
@@ -83,12 +62,13 @@ struct BadGuyData
   BadGuyKind kind;
   int x;
   int y;
+  bool stay_on_platform;
 
-  BadGuyData(BadGuyKind kind_, int x_, int y_) 
-    : kind(kind_), x(x_), y(y_) {}
+  BadGuyData(BadGuyKind kind_, int x_, int y_, bool stay_on_platform_) 
+    : kind(kind_), x(x_), y(y_), stay_on_platform(stay_on_platform_) {}
 
   BadGuyData()
-    : kind(BAD_BSOD), x(0), y(0) {}
+    : kind(BAD_BSOD), x(0), y(0), stay_on_platform(false) {}
 };
 
 class Player;
@@ -97,12 +77,38 @@ class Player;
 class BadGuy
 {
 public:
-  DyingType dying;
-  base_type base;
+  /* Enemy modes: */
+  enum BadGuyMode {
+    NORMAL=0,
+    FLAT,
+    KICK,
+    HELD,
+
+    MONEY_JUMP,
+
+    BOMB_TICKING,
+    BOMB_EXPLODE,
+
+    STALACTITE_SHAKING,
+    STALACTITE_FALL,
+
+    FISH_WAIT,
+
+    FLY_UP,
+    FLY_DOWN
+  };
+public:
+  DyingType  dying;
+  base_type  base;
   BadGuyKind kind;
-  int mode;
+  BadGuyMode mode;
+
+  /** If true the enemy will stay on its current platform, ie. if he
+      reaches the edge he will turn around and walk into the other
+      direction, if false the enemy will jump or walk of the edge */
   bool stay_on_platform;
-  int dir;
+
+  Direction dir;
 
 private:
   bool seen;
@@ -124,7 +130,7 @@ public:
   void draw();
 
   void collision(void* p_c_object, int c_object,
-          CollisionType type = COLLISION_NORMAL);
+                 CollisionType type = COLLISION_NORMAL);
 
   /** this functions tries to kill the badguy and lets him fall off the
    * screen. Some badguys like the flame might ignore this.
@@ -167,7 +173,7 @@ private:
   void squish_me(Player* player);
   /** set image of the badguy */
   void set_sprite(Sprite* left, Sprite* right,
-        int animlength = 1, float animspeed = 1);
+                  int animlength = 1, float animspeed = 1);
 };
 
 #endif /*SUPERTUX_BADGUY_H*/

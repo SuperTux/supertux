@@ -389,7 +389,7 @@ World::add_bad_guy(float x, float y, BadGuyKind kind)
 }
 
 void
-World::add_upgrade(float x, float y, int dir, UpgradeKind kind)
+World::add_upgrade(float x, float y, Direction dir, UpgradeKind kind)
 {
   Upgrade new_upgrade;
   new_upgrade.init(x,y,dir,kind);
@@ -397,7 +397,7 @@ World::add_upgrade(float x, float y, int dir, UpgradeKind kind)
 }
 
 void 
-World::add_bullet(float x, float y, float xm, int dir)
+World::add_bullet(float x, float y, float xm, Direction dir)
 {
   Bullet new_bullet;
   new_bullet.init(x,y,xm,dir);
@@ -453,7 +453,7 @@ World::trybreakbrick(float x, float y, bool small)
 
 /* Empty a box: */
 void
-World::tryemptybox(float x, float y, int col_side)
+World::tryemptybox(float x, float y, Direction col_side)
 {
   Tile* tile = gettile(x,y);
   if (!tile->fullbox)

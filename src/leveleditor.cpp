@@ -44,7 +44,6 @@
 
 /* definitions to aid development */
 
-
 /* definitions that affect gameplay */
 #define KEY_CURSOR_SPEED 32
 #define KEY_CURSOR_FASTSPEED 64

@@ -47,12 +47,12 @@ class Upgrade
 {
 public:
   UpgradeKind kind;
-  int dir;
+  Direction  dir;
   base_type base;
   base_type old_base;
   Physic physic;
 
-  void init(float x, float y, int dir, UpgradeKind kind);
+  void init(float x, float y, Direction dir, UpgradeKind kind);
   void action(double frame_ratio);
   void draw();
   void collision(void* p_c_object, int c_object);
@@ -71,7 +71,7 @@ class Bullet
   base_type base;
   base_type old_base;
   
-  void init(float x, float y, float xm, int dir);
+  void init(float x, float y, float xm, Direction dir);
   void action(double frame_ratio);
   void draw();
   void collision(int c_object);

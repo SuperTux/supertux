@@ -32,6 +32,8 @@
 
 #define FPS (1000 / 25)
 
+enum Direction { LEFT = 0, RIGHT = 1 };
+
 /* Direction (keyboard/joystick) states: */
 
 #define UP 0
@@ -50,11 +52,6 @@ enum DyingType {
 
 #define KILL 0
 #define SHRINK 1
-
-/* Directions: */
-
-#define LEFT 0
-#define RIGHT 1
 
 /* Sizes: */
 

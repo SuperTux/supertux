@@ -416,7 +416,7 @@ Level::load(const std::string& filename)
               if (*i == '0' || *i == '1' || *i == '2')
                 {
                   badguy_data.push_back(BadGuyData(static_cast<BadGuyKind>(*i-'0'),
-                                                x*32, y*32));
+                                                   x*32, y*32, false));
                   *i = 0;
                 }
               else

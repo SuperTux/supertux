@@ -40,7 +40,7 @@ Sprite* img_1up;
 #define GROWUP_SPEED 1.0f
 
 void
-Bullet::init(float x, float y, float xm, int dir)
+Bullet::init(float x, float y, float xm, Direction dir)
 {
   base.width = 4;
   base.height = 4;
@@ -124,7 +124,7 @@ Bullet::collision(int c_object)
 }
 
 void
-Upgrade::init(float x_, float y_, int dir_, UpgradeKind kind_)
+Upgrade::init(float x_, float y_, Direction dir_, UpgradeKind kind_)
 {
   kind = kind_;
   dir = dir_;
