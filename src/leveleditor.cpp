@@ -36,7 +36,6 @@
 #include "sector.h"
 #include "background.h"
 #include "gameloop.h"
-#include "badguy.h"
 #include "gameobjs.h"
 #include "camera.h"
 

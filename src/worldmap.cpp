@@ -40,6 +40,7 @@
 #include "resources.h"
 #include "app/gettext.h"
 #include "misc.h"
+#include "scene.h"
 
 #define map_message_TIME 2.8
 

@@ -21,7 +21,6 @@
 
 #include "SDL.h"
 
-#include "bitmask.h"
 #include "timer.h"
 #include "video/surface.h"
 #include "collision.h"

@@ -26,10 +26,8 @@
 #include "gui/button.h"
 #include "scene.h"
 #include "player.h"
-#include "badguy.h"
 #include "gameobjs.h"
 #include "resources.h"
-#include "badguy_specs.h"
 
 Surface* img_waves[3]; 
 Surface* img_water;
@@ -156,9 +154,6 @@ void loadshared()
   ice_tux->body = sprite_manager->create("big-tux-body");
   ice_tux->arms = sprite_manager->create("big-tux-arms");
   ice_tux->feet = sprite_manager->create("big-tux-feet");
-
-  /* Load Bad Guys resources */
-  badguyspecs_manager = new BadGuySpecsManager(datadir + "/badguys.strf");
 
   /* Water: */
   img_water = new Surface(datadir + "/images/shared/water.png", false);

@@ -46,7 +46,6 @@
 #include "app/setup.h"
 #include "high_scores.h"
 #include "gui/menu.h"
-#include "badguy.h"
 #include "sector.h"
 #include "player.h"
 #include "level.h"

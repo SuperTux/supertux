@@ -29,7 +29,6 @@
 #include "app/globals.h"
 #include "sector.h"
 #include "utils/lispreader.h"
-#include "badguy.h"
 #include "gameobjs.h"
 #include "camera.h"
 #include "background.h"

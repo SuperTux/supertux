@@ -24,16 +24,18 @@
 #include <vector>
 
 #include "math/vector.h"
-#include "badguy.h"
 #include "audio/musicref.h"
 #include "video/drawing_context.h"
+#include "defines.h"
 
 using namespace SuperTux;
 
 namespace SuperTux {
 class GameObject;
 class LispReader;
+class LispWriter;
 class Sprite;
+class Rectangle;
 }
 
 class InteractiveObject;

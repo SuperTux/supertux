@@ -23,7 +23,6 @@
 #include <cmath>
 #include "defines.h"
 #include "collision.h"
-#include "bitmask.h"
 #include "scene.h"
 #include "sector.h"
 #include "tilemap.h"
