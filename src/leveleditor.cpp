@@ -545,6 +545,8 @@ if(sector)
   }
 }
 
+#define FADING_TIME 600
+
 void LevelEditor::draw(DrawingContext& context)
 {
 context.draw_text(white_text, _("Level Editor"), Vector(10, 5), LEFT_ALLIGN, LAYER_GUI);
@@ -555,6 +557,12 @@ context.draw_filled_rect(Vector(0,0), Vector(screen->w,screen->h), Color(60,60,6
 
 if(level_name_timer.check())
   {
+  if(level_name_timer.get_left() < FADING_TIME)
+    {
+    context.push_transform();
+    context.set_alpha(level_name_timer.get_left() * 255 / FADING_TIME);
+    }
+
   context.draw_text(gold_text, level.name, Vector(screen->w/2, 30), CENTER_ALLIGN, LAYER_GUI);
   if(level_nb != -1)
     {
@@ -562,6 +570,9 @@ if(level_name_timer.check())
     sprintf(str, "%i/%i", level_nb+1, level_subset.get_num_levels());
     context.draw_text(gold_text, str, Vector(screen->w/2, 50), CENTER_ALLIGN, LAYER_GUI);
     }
+
+  if(level_name_timer.get_left() < FADING_TIME)
+    context.pop_transform();
   }
 if(sector)
   context.draw_text(white_small_text, _("F1 for help"), Vector(5, 510), LEFT_ALLIGN, LAYER_GUI-10);
