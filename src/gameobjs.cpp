@@ -479,5 +479,69 @@ void ObjectManager::load_badguys(std::string filename)
 */
 }
 
+void ObjectManager::draw_bg()
+{
+/*
+  for (unsigned int i = 0; i < bouncy_bricks.size(); ++i)
+    bouncy_bricks[i]->draw();
+
+  for (BadGuys::iterator i = bad_guys.begin(); i != bad_guys.end(); ++i)
+    (*i)->draw();
+
+  for (Trampolines::iterator i = trampolines.begin(); i != trampolines.end(); ++i)
+    (*i)->draw();
+*/
+}
+
+void ObjectManager::draw_fg()
+{
+/*
+  for (unsigned int i = 0; i < bullets.size(); ++i)
+    bullets[i].draw();
+
+  for (unsigned int i = 0; i < floating_scores.size(); ++i)
+    floating_scores[i]->draw();
+
+  for (unsigned int i = 0; i < upgrades.size(); ++i)
+    upgrades[i].draw();
+
+  for (unsigned int i = 0; i < bouncy_distros.size(); ++i)
+    bouncy_distros[i]->draw();
+
+  for (unsigned int i = 0; i < broken_bricks.size(); ++i)
+    broken_bricks[i]->draw();
+*/
+}
+
+void ObjectManager::actions()
+{
+/*
+  for (unsigned int i = 0; i < bouncy_distros.size(); i++)
+    bouncy_distros[i]->action(frame_ratio);
+
+  for (unsigned int i = 0; i < broken_bricks.size(); i++)
+    broken_bricks[i]->action(frame_ratio);
+
+  // Handle all kinds of game objects
+  for (unsigned int i = 0; i < bouncy_bricks.size(); i++)
+    bouncy_bricks[i]->action(frame_ratio);
+  
+  for (unsigned int i = 0; i < floating_scores.size(); i++)
+    floating_scores[i]->action(frame_ratio);
+
+  for (unsigned int i = 0; i < bullets.size(); ++i)
+    bullets[i].action(frame_ratio);
+  
+  for (unsigned int i = 0; i < upgrades.size(); i++)
+    upgrades[i].action(frame_ratio);
+
+  for (BadGuys::iterator i = bad_guys.begin(); i != bad_guys.end(); ++i)
+    (*i)->action(frame_ratio);
+
+  for (Trampolines::iterator i = trampolines.begin(); i != trampolines.end(); ++i)
+     (*i)->action(frame_ratio);
+*/
+}
+
 /* EOF */
 

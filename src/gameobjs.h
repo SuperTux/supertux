@@ -152,10 +152,10 @@ class ObjectManager
   // XXX Objects will have to be split up into two categories:
   //  - Drawn before tux
   //  - Drawn after tux
+  // Eventually Player should be a part of ObjectManager
 
   std::vector<BadGuy*> badguys;
   std::vector<Trampoline> trampolines;
-  //std::vector<ParticleSystem> particle_systems;
   std::vector<BouncyDistro> bouncy_distros;
   std::vector<BrokenBrick> broken_bricks;
   std::vector<BouncyBrick> bouncy_bricks;
@@ -167,6 +167,10 @@ class ObjectManager
  public:
   static ObjectManager* instance() { return instance_ ? instance_ : instance_ = new ObjectManager(); }
   static void destroy_instance() { delete instance_; instance_ = 0; }
+
+  void draw_bg();
+  void draw_fg();
+  void actions();
   
 /*  Object* get(unsigned int id) {
     if(id < badguys.size())
