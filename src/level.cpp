@@ -764,10 +764,12 @@ void Level::draw_bg()
 {
   // Tile background horizontally
   int sx = (int)((float)scroll_x * ((float)bkgd_speed/100.0f)) % img_bkgd->w;
-  for (int i = 0; (i-1)*img_bkgd->w <= screen->w; i++)
-    img_bkgd->draw_part(i == 0 ? sx : 0, 0,
-                        i == 0 ? 0 : (img_bkgd->w * i) - sx, 0,
-                        i == 0 ? img_bkgd->w - sx : img_bkgd->w, img_bkgd->h);
+  int sy = (int)((float)scroll_y * ((float)bkgd_speed/100.0f)) % img_bkgd->h;
+  for (int x = 0; (x-1)*img_bkgd->w <= screen->w; x++)
+    for (int y = 0; (y-1)*img_bkgd->h <= screen->h; y++)
+      img_bkgd->draw_part(x == 0 ? sx : 0, y == 0 ? sy : 0,
+                        x == 0 ? 0 : (img_bkgd->w * x) - sx, y == 0 ? 0 : (img_bkgd->h * y) - sy + (height*32 - screen->h),
+                        x == 0 ? img_bkgd->w - sx : img_bkgd->w, y == 0 ? img_bkgd->h - sy : img_bkgd->h);
 }
 
 void
