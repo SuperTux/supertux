@@ -497,8 +497,8 @@ Player::handle_horizontal_input()
           SoundManager::get()->play_sound(IDToSound(SND_SKID));
           // dust some partcles
           Sector::current()->add_particles(
-              Vector(base.x + (dir == LEFT ? base.width : 0), base.y+base.height),
-              dir == LEFT ? 270+20 : 90-40, dir == LEFT ? 270+40 : 90-20,
+              Vector(base.x + (dir == RIGHT ? base.width : 0), base.y+base.height),
+              dir == RIGHT ? 270+20 : 90-40, dir == RIGHT ? 270+40 : 90-20,
               Vector(2.8,-2.6), Vector(0,0.030), 3, Color(100,100,100), 3, 800);
 
           ax *= 2.5;
