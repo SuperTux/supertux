@@ -2,7 +2,7 @@
 (supertux-level
   (version 1)
   (author "Ingo Ruhnke")
-  (name "The Cave 3")
+  (name "'...or is it just me?'")
   (width  500)
   (height 15)
   (start_pos_x    100)

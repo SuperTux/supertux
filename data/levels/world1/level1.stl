@@ -2,7 +2,7 @@
 (supertux-level
   (version 1)
   (author "Marek Moeckel")
-  (name "Welcome to Antarctica 1")
+  (name "Welcome to Antarctica")
   (width  300)
   (height 15)
   (start_pos_x    100)

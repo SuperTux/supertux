@@ -2,7 +2,7 @@
 (supertux-level
   (version 1)
   (author "Ingo Ruhnke")
-  (name "Antarctica 4")
+  (name "The Frosted Fields")
   (width  500)
   (height 15)
   (start_pos_x    100)

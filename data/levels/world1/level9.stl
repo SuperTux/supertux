@@ -2,7 +2,7 @@
 (supertux-level
   (version 1)
   (author "Ingo Ruhnke")
-  (name "Antarctica 7")
+  (name "Grumbel's Sense of Snow")
   (width  505)
   (height 15)
   (start_pos_x    100)

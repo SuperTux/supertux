@@ -2,7 +2,7 @@
 (supertux-level
   (version 1)
   (author "Ingo Ruhnke")
-  (name "The Cave 1")
+  (name "Under the Ice")
   (width  500)
   (height 15)
   (start_pos_x    100)
