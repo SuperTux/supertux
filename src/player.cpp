@@ -39,6 +39,7 @@
 #define TILES_FOR_BUTTJUMP 3
 // animation times (in ms):
 #define SHOOTING_TIME 320
+#define STOMP_TIME 250
 // others stuff:
 #define AUTOSCROLL_DEAD_INTERVAL 300
 
@@ -507,6 +508,7 @@ Player::handle_vertical_input()
   // Do butt jump
   if (butt_jump && on_ground() && size == BIG)
   {
+    stomp_timer.start(STOMP_TIME);
     butt_jump = false;
 
     // Break bricks beneath Tux
@@ -764,6 +766,13 @@ Player::draw(DrawingContext& context)
     else
       sprite->grab_left->draw(context, pos, LAYER_OBJECTS + 1);
   }
+  
+  // Draw stomp clouds when doing a butt jump
+  if (stomp_timer.check())
+    if (duck) 
+      sprite->stomp->draw(context, Vector(base.x - 32, base.y), LAYER_OBJECTS + 1);
+    else 
+      sprite->stomp->draw(context, Vector(base.x - 32, base.y + 32), LAYER_OBJECTS + 1);
 
   // Draw blinking star overlay
   if (invincible_timer.started() &&

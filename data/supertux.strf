@@ -684,9 +684,16 @@
 
   ; Door
   (sprite (name "door")
-          (y-hotspot 0)
+          (x-hotspot 0)
           (y-hotspot 0)
           (images "shared/door.png")
+  )
+  
+  ; Stomp
+  (sprite (name "stomp")
+          (x-hotspot 0)
+          (y-hotspot 0)
+          (images "shared/stomp.png")
   )
 )
 

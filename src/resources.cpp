@@ -78,6 +78,7 @@ void loadshared()
   smalltux.skid_right  = sprite_manager->load("smalltux-skid-right");
   smalltux.grab_left   = sprite_manager->load("smalltux-grab-left");
   smalltux.grab_right  = sprite_manager->load("smalltux-grab-right");
+  smalltux.stomp       = sprite_manager->load("stomp");
 
   largetux.stand_left  = sprite_manager->load("largetux-stand-left");
   largetux.stand_right = sprite_manager->load("largetux-stand-right");
@@ -93,6 +94,7 @@ void loadshared()
   largetux.grab_right  = sprite_manager->load("largetux-grab-right");
   largetux.duck_left   = sprite_manager->load("largetux-duck-left");
   largetux.duck_right  = sprite_manager->load("largetux-duck-right");
+  largetux.stomp       = sprite_manager->load("stomp");
 
   firetux.stand_left  = sprite_manager->load("firetux-stand-left");
   firetux.stand_right = sprite_manager->load("firetux-stand-right");
@@ -108,6 +110,7 @@ void loadshared()
   firetux.grab_right  = sprite_manager->load("firetux-grab-right");
   firetux.duck_left   = sprite_manager->load("firetux-duck-left");
   firetux.duck_right  = sprite_manager->load("firetux-duck-right");
+  firetux.stomp       = sprite_manager->load("stomp");
 
   icetux.stand_left  = sprite_manager->load("icetux-stand-left");
   icetux.stand_right = sprite_manager->load("icetux-stand-right");
@@ -123,6 +126,7 @@ void loadshared()
   icetux.grab_right  = sprite_manager->load("icetux-grab-right");
   icetux.duck_left   = sprite_manager->load("icetux-duck-left");
   icetux.duck_right  = sprite_manager->load("icetux-duck-right");
+  icetux.stomp       = sprite_manager->load("stomp");
 
 
   /* Water: */
