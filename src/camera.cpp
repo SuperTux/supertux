@@ -202,10 +202,10 @@ Camera::scroll_normal(float elapsed_time)
       || (player->dir == ::RIGHT && scrollchange == LEFT))
     scrollchange = NONE;
   // when in left 1/3rd of screen scroll left
-  if(player->base.x < translation.x + screen->w/3 && do_backscrolling)
+  if(player->base.x < translation.x + screen->w/3 - 16 && do_backscrolling)
     scrollchange = LEFT;
   // scroll right when in right 1/3rd of screen
-  else if(player->base.x > translation.x + screen->w/3*2)
+  else if(player->base.x > translation.x + screen->w/3*2 + 16)
     scrollchange = RIGHT;
 
   // calculate our scroll target depending on scroll mode
