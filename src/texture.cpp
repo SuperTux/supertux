@@ -207,11 +207,15 @@ Surface::debug_check()
 }
 
 void
-Surface::draw(float x, float y, Uint8 alpha, bool update)
+Surface::draw(float x, float y, Uint8 alpha, bool upside_down, bool update)
 {
   if (impl)
   {
-    if (impl->draw(x, y, alpha, update) == -2)
+    if(upside_down)   // FIXME: this should be done by the SDL and OpenGL draw()
+      for(float sy = 0; sy < h; sy++)
+        impl->draw_part(0, sy, x, y+(h-sy), w, 1, alpha, update);
+
+    else if (impl->draw(x, y, alpha, update) == -2)
       reload();
   }
 }

@@ -88,7 +88,7 @@ public:
   /** Reload the surface, which is necesarry in case of a mode swich */
   void reload();
 
-  void draw(float x, float y, Uint8 alpha = 255, bool update = false);
+  void draw(float x, float y, Uint8 alpha = 255, bool upside_down = false, bool update = false);
   void draw_bg(Uint8 alpha = 255, bool update = false);
   void draw_part(float sx, float sy, float x, float y, float w, float h,  Uint8 alpha = 255, bool update = false);
   void draw_stretched(float x, float y, int w, int h, Uint8 alpha, bool update = false);

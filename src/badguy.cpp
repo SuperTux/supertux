@@ -978,7 +978,10 @@ BadGuy::draw(Camera& viewport, int)
     }
 
   Sprite* sprite = (dir == LEFT) ? sprite_left : sprite_right;
-  sprite->draw(viewport.world2screen(Vector(base.x, base.y)));
+  if(dying == DYING_FALLING)
+    sprite->draw(viewport.world2screen(Vector(base.x, base.y)), SD_VERTICAL_FLIP);
+  else
+    sprite->draw(viewport.world2screen(Vector(base.x, base.y)));
 
   if (debug_mode)
     fillrect(base.x - scroll_x, base.y - scroll_y, base.width, base.height, 75,0,75, 150);

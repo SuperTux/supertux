@@ -73,13 +73,20 @@ Sprite::update(float /*delta*/)
 }
 
 void
-Sprite::draw(float x, float y)
+Sprite::draw(float x, float y, int special_drawing)
 {
   time = SDL_GetTicks();
   unsigned int frame = get_current_frame();
 
   if (frame < surfaces.size())
-    surfaces[frame]->draw(x - x_hotspot, y - y_hotspot);
+    {
+    if(special_drawing == SD_SEMI_TRANSPARENT)
+      surfaces[frame]->draw(x - x_hotspot, y - y_hotspot, 128);
+    if(special_drawing == SD_VERTICAL_FLIP)
+      surfaces[frame]->draw(x - x_hotspot, y - y_hotspot, 255, true);
+    else
+      surfaces[frame]->draw(x - x_hotspot, y - y_hotspot);
+    }
 }
 
 void
