@@ -63,7 +63,7 @@ Bullet::Bullet(const Vector& pos, float xm, int dir, int kind_)
       physic.set_velocity_x(-BULLET_XM + xm);
     }
 
-  base.y = pos.y + base.height/2;
+  base.y = pos.y;
   physic.set_velocity_y(-BULLET_STARTING_YM);
   old_base = base;
   kind = kind_;
