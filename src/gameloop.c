@@ -251,15 +251,15 @@ void game_event(void)
                     game_pause = 1;
                 }
             }
-          else if (key == SDLK_TAB)
+          else if (key == SDLK_TAB && debug_mode == YES)
             {
               tux_size = !tux_size;
             }
-          else if (key == SDLK_END)
+          else if (key == SDLK_END && debug_mode == YES)
             {
               distros += 50;
             }
-          else if (key == SDLK_SPACE)
+          else if (key == SDLK_SPACE && debug_mode == YES)
             {
               next_level = 1;
             }
