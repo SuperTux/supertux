@@ -1546,11 +1546,11 @@ void le_checkevents()
     switch(le_move_up_bt->get_state())
     {
     case BUTTON_PRESSED:
-      pos_y += 192;
+      pos_y -= 192;
       show_minimap = true;
       break;
     case BUTTON_HOVER:
-      pos_y += 32;
+      pos_y -= 32;
       show_minimap = true;
       break;
     case BUTTON_CLICKED:
@@ -1563,11 +1563,11 @@ void le_checkevents()
     switch(le_move_down_bt->get_state())
     {
     case BUTTON_PRESSED:
-      pos_y -= 192;
+      pos_y += 192;
       show_minimap = true;
       break;
     case BUTTON_HOVER:
-      pos_y -= 32;
+      pos_y += 32;
       show_minimap = true;
       break;
     case BUTTON_CLICKED:
