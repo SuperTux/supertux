@@ -91,20 +91,22 @@
          (images "shared/jumpy-left-middle-0.png"))
 
  (sprite (name "mrbomb-left")
+         (fps 10.0)
          (x-hotspot 3)
          (y-hotspot 12)
-         (images "shared/mrbomb-left-0.png")
-         (images "shared/mrbomb-left-1.png")
-         (images "shared/mrbomb-left-2.png")
-         (images "shared/mrbomb-left-3.png"))
+         (images "shared/mrbomb-left-0.png"
+                 "shared/mrbomb-left-1.png"
+                 "shared/mrbomb-left-2.png"
+                 "shared/mrbomb-left-3.png"))
 
  (sprite (name "mrbomb-right")
+         (fps 10.0)
          (x-hotspot 7)
          (y-hotspot 12)
-         (images "shared/mrbomb-right-0.png")
-         (images "shared/mrbomb-right-1.png")
-         (images "shared/mrbomb-right-2.png")
-         (images "shared/mrbomb-right-3.png"))
+         (images "shared/mrbomb-right-0.png"
+                 "shared/mrbomb-right-1.png"
+                 "shared/mrbomb-right-2.png"
+                 "shared/mrbomb-right-3.png"))
  
 
  (sprite (name "mrbomb-ticking-left")
