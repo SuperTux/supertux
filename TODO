@@ -75,7 +75,6 @@ L: low priority
     ingame mode and eventually leveleditor mode
 [H] introduce a special mode in DrawingContext for objects that want to draw
     themselfes. This could speed up rendering of tilemaps.
-[?] remove badguyspecs and bitmask files
 [M] Make the gamelogic run in a fixed logical framerate
 
 --Miscellaneous--
@@ -121,7 +120,6 @@ L: low priority
      - New forest tileset
      - Badguy sprites
      - Tux's buttjump animation
-[H] Tiles constructed with image-region are not drawn coordinates < 0
 
 [M] Save score on per-level basis to make high-score
 [M] Save time on per-level basis to make low-time-score
@@ -135,3 +133,5 @@ L: low priority
 Beyond Milestone2
 -----------------
 - More things than just levels on the worldmap (similar to SMB3)
+- if we have a logical framerate we could record/play demos by simply storing
+  the pressed keys in each frame...
