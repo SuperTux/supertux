@@ -70,8 +70,8 @@ Sprite::parse_action(LispReader& lispreader)
   if(!lispreader.read_string("name", action->name))
     if(!actions.empty())
       Termination::abort("Error: If there are more than one action, they need names!", "");
-  lispreader.read_int("x-offset", action->x_hotspot);
-  lispreader.read_int("y-offset", action->y_hotspot);
+  lispreader.read_int("x-offset", action->x_offset);
+  lispreader.read_int("y-offset", action->y_offset);
   lispreader.read_float("fps",     action->fps);
 
   std::vector<std::string> images;
@@ -90,8 +90,8 @@ Sprite::parse_action(LispReader& lispreader)
 void
 Sprite::init_defaults(Action* act)
 {
-  act->x_hotspot = 0;
-  act->y_hotspot = 0;
+  act->x_offset = 0;
+  act->y_offset = 0;
   act->fps = 10;
 
   start_animation(-1);
@@ -215,7 +215,7 @@ Sprite::draw(DrawingContext& context, const Vector& pos, int layer,
               << "/" << get_action_name() << std::endl;
   else
     context.draw_surface(action->surfaces[(int)frame],
-            pos - Vector(action->x_hotspot, action->y_hotspot), layer, drawing_effect);
+            pos - Vector(action->x_offset, action->y_offset), layer, drawing_effect);
 }
 
 #if 0
@@ -226,7 +226,7 @@ Sprite::draw_part(float sx, float sy, float x, float y, float w, float h)
   unsigned int frame = get_current_frame();
 
   if (frame < surfaces.size())
-    surfaces[frame]->draw_part(sx, sy, x - x_hotspot, y - y_hotspot, w, h);
+    surfaces[frame]->draw_part(sx, sy, x - x_offset, y - y_offset, w, h);
 }
 #endif
 

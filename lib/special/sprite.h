@@ -39,8 +39,8 @@ namespace SuperTux
         {
         std::string name;
 
-        int x_hotspot;
-        int y_hotspot;
+        int x_offset;
+        int y_offset;
 
         /** Frames per second */
         float fps;
@@ -49,8 +49,8 @@ namespace SuperTux
         };
 
     public:
-      /** cur has to be a pointer to data in the form of ((x-hotspot 5)
-          (y-hotspot 10) ...) */
+      /** cur has to be a pointer to data in the form of ((x-offset 5)
+          (y-offset 10) ...) */
       Sprite(lisp_object_t* cur);
       ~Sprite();
 
