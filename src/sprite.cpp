@@ -75,7 +75,7 @@ Sprite::update(float /*delta*/)
 
 void
 Sprite::draw(DrawingContext& context, const Vector& pos, int layer,
-    int special_drawing)
+    uint32_t drawing_effect)
 {
   time = SDL_GetTicks();
   unsigned int frame = get_current_frame();
@@ -84,15 +84,7 @@ Sprite::draw(DrawingContext& context, const Vector& pos, int layer,
   {
     Surface* surface = surfaces[frame];
     
-#if 0 // TODO
-    if(special_drawing == SD_SEMI_TRANSPARENT)
-      surfaces[frame]->draw(x - x_hotspot, y - y_hotspot, 128);
-    if(special_drawing == SD_VERTICAL_FLIP)
-      surfaces[frame]->draw(x - x_hotspot, y - y_hotspot, 255, true);
-    else
-      surfaces[frame]->draw(x - x_hotspot, y - y_hotspot);
-#endif
-    context.draw_surface(surface, pos - Vector(x_hotspot, y_hotspot), layer);
+    context.draw_surface(surface, pos - Vector(x_hotspot, y_hotspot), layer, drawing_effect);
   }
 }
 

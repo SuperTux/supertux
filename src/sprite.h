@@ -26,8 +26,6 @@
 #include "screen/texture.h"
 #include "vector.h"
 
-enum SpecialDrawing { SD_NONE, SD_VERTICAL_FLIP, SD_SEMI_TRANSPARENT };
-
 class Sprite
 {
  private:
@@ -59,7 +57,7 @@ class Sprite
   /** Update the sprite and process to the next frame */
   void update(float delta);
   void draw(DrawingContext& context, const Vector& pos, int layer,
-      int special_drawing = SD_NONE);
+      uint32_t drawing_effect = NONE_EFFECT);
   int get_current_frame() const;
 
   float get_fps() { return fps; } ;

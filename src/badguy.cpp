@@ -984,19 +984,17 @@ BadGuy::draw(DrawingContext& context)
   if(sprite == 0)
     return;
 
-  sprite->draw(context, Vector(base.x, base.y), LAYER_OBJECTS);
-#if 0
-  Sprite* sprite = (dir == LEFT) ? sprite_left : sprite_right;
   if(dying == DYING_FALLING && physic.get_velocity_y() < 0)
-    sprite->draw(viewport.world2screen(Vector(base.x, base.y)), SD_VERTICAL_FLIP);
+    sprite->draw(context, Vector(base.x, base.y), LAYER_OBJECTS, VERTICAL_FLIP);
   else
-    sprite->draw(viewport.world2screen(Vector(base.x, base.y)));
-#endif
+    sprite->draw(context, Vector(base.x, base.y), LAYER_OBJECTS);
 
-  float scroll_x = context.get_translation().x;
-  float scroll_y = context.get_translation().y;
-  if(debug_mode)
+  if(debug_mode)   // draw hotpoint
+    {
+    float scroll_x = context.get_translation().x;
+    float scroll_y = context.get_translation().y;
     fillrect(base.x - scroll_x, base.y - scroll_y, base.width, base.height, 75,0,75, 150);
+    }
 }
 
 void

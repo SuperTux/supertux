@@ -448,10 +448,13 @@ SurfaceOpenGL::create_gl(SDL_Surface * surf, GLuint * tex)
 }
 
 int
-SurfaceOpenGL::draw(float x, float y, Uint8 alpha)
+SurfaceOpenGL::draw(float x, float y, Uint8 alpha, uint32_t effect)
 {
   float pw = power_of_two(w);
   float ph = power_of_two(h);
+
+  if(effect & SEMI_TRANSPARENT)
+    alpha = 128;
 
   glEnable(GL_TEXTURE_2D);
   glEnable(GL_BLEND);
@@ -462,13 +465,35 @@ SurfaceOpenGL::draw(float x, float y, Uint8 alpha)
   glBindTexture(GL_TEXTURE_2D, gl_texture);
 
   glBegin(GL_QUADS);
-  glTexCoord2f(0, 0);
-  glVertex2f(x, y);
-  glTexCoord2f((float)w / pw, 0);
-  glVertex2f((float)w+x, y);
-  glTexCoord2f((float)w / pw, (float)h / ph);  glVertex2f((float)w+x, (float)h+y);
-  glTexCoord2f(0, (float)h / ph);
-  glVertex2f(x, (float)h+y);
+
+  if(effect & VERTICAL_FLIP)
+    {
+    glTexCoord2f(0, 0);
+    glVertex2f(x, (float)h+y);
+
+    glTexCoord2f((float)w / pw, 0);
+    glVertex2f((float)w+x, (float)h+y);
+
+    glTexCoord2f((float)w / pw, (float)h / ph);
+    glVertex2f((float)w+x, y);
+    
+    glTexCoord2f(0, (float)h / ph);
+    glVertex2f(x, y);
+    }
+  else
+    {
+    glTexCoord2f(0, 0);
+    glVertex2f(x, y);
+
+    glTexCoord2f((float)w / pw, 0);
+    glVertex2f((float)w+x, y);
+
+    glTexCoord2f((float)w / pw, (float)h / ph);
+    glVertex2f((float)w+x, (float)h+y);
+
+    glTexCoord2f(0, (float)h / ph);
+    glVertex2f(x, (float)h+y);
+    }
   glEnd();
 
   glDisable(GL_TEXTURE_2D);
@@ -478,10 +503,13 @@ SurfaceOpenGL::draw(float x, float y, Uint8 alpha)
 }
 
 int
-SurfaceOpenGL::draw_part(float sx, float sy, float x, float y, float w, float h, Uint8 alpha)
+SurfaceOpenGL::draw_part(float sx, float sy, float x, float y, float w, float h, Uint8 alpha, uint32_t effect)
 {
   float pw = power_of_two(int(this->w));
   float ph = power_of_two(int(this->h));
+
+  if(effect & SEMI_TRANSPARENT)
+    alpha = 128;
 
   glBindTexture(GL_TEXTURE_2D, gl_texture);
 
@@ -494,14 +522,36 @@ SurfaceOpenGL::draw_part(float sx, float sy, float x, float y, float w, float h,
 
 
   glBegin(GL_QUADS);
-  glTexCoord2f(sx / pw, sy / ph);
-  glVertex2f(x, y);
-  glTexCoord2f((float)(sx + w) / pw, sy / ph);
-  glVertex2f(w+x, y);
-  glTexCoord2f((sx+w) / pw, (sy+h) / ph);
-  glVertex2f(w +x, h+y);
-  glTexCoord2f(sx / pw, (float)(sy+h) / ph);
-  glVertex2f(x, h+y);
+
+  if(effect & VERTICAL_FLIP)
+    {
+    glTexCoord2f(sx / pw, sy / ph);
+    glVertex2f(x, y);
+
+    glTexCoord2f((float)(sx + w) / pw, sy / ph);
+    glVertex2f(w+x, y);
+
+    glTexCoord2f((sx+w) / pw, (sy+h) / ph);
+    glVertex2f(w +x, h+y);
+
+    glTexCoord2f(sx / pw, (float)(sy+h) / ph);
+    glVertex2f(x, h+y);
+    }
+  else
+    {
+    glTexCoord2f(sx / pw, (float)(sy+h) / ph);
+    glVertex2f(x, h+y);
+
+    glTexCoord2f((sx+w) / pw, (sy+h) / ph);
+    glVertex2f(w +x, h+y);
+
+    glTexCoord2f((float)(sx + w) / pw, sy / ph);
+    glVertex2f(w+x, y);
+
+    glTexCoord2f(sx / pw, sy / ph);
+    glVertex2f(x, y);
+    }
+
   glEnd();
 
   glDisable(GL_TEXTURE_2D);
@@ -569,7 +619,7 @@ SurfaceSDL::SurfaceSDL(const std::string& file, int x, int y, int w, int h,  int
 }
 
 int
-SurfaceSDL::draw(float x, float y, Uint8 alpha)
+SurfaceSDL::draw(float x, float y, Uint8 alpha, uint32_t effect)
 {
   SDL_Rect dest;
 
@@ -577,6 +627,17 @@ SurfaceSDL::draw(float x, float y, Uint8 alpha)
   dest.y = (int)y;
   dest.w = w;
   dest.h = h;
+
+  if(effect & SEMI_TRANSPARENT)
+    alpha = 128;
+
+  if(effect & VERTICAL_FLIP)    // FIXME: feel free to replace this hack
+    {
+    for(float sy = 0; sy < h; sy++)
+      if(draw_part(0, sy, x, y+(h-sy), w, 1, alpha, NONE_EFFECT) == -2)
+        return -2;
+    return 0;
+    }
 
   if(alpha != 255)
     {
@@ -610,7 +671,7 @@ SurfaceSDL::draw(float x, float y, Uint8 alpha)
 }
 
 int
-SurfaceSDL::draw_part(float sx, float sy, float x, float y, float w, float h, Uint8 alpha)
+SurfaceSDL::draw_part(float sx, float sy, float x, float y, float w, float h, Uint8 alpha, uint32_t effect)
 {
   SDL_Rect src, dest;
 
@@ -623,6 +684,17 @@ SurfaceSDL::draw_part(float sx, float sy, float x, float y, float w, float h, Ui
   dest.y = (int)y;
   dest.w = (int)w;
   dest.h = (int)h;
+
+  if(effect & SEMI_TRANSPARENT)
+    alpha = 128;
+
+  if(effect & VERTICAL_FLIP)    // FIXME: feel free to replace this hack
+    {
+    for(float sy_ = sy; sy_ < h; sy_++)
+      if(draw_part(sx, sy_, x, y+(h-sy_), w, 1, alpha, NONE_EFFECT) == -2)
+        return -2;
+    return 0;
+    }
 
   if(alpha != 255)
     {

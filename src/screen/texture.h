@@ -27,6 +27,7 @@
 #include <SDL_opengl.h>
 #endif
 
+#include <stdint.h>
 #include <list>
 #include "screen.h"
 #include "vector.h"
@@ -37,6 +38,16 @@ class SurfaceImpl;
 class SurfaceSDL;
 class SurfaceOpenGL;
 class DrawingContext;
+
+/// bitset for drawing effects
+enum {
+      /** Draw the Surface upside down */
+      NONE_EFFECT       = 0x0000,
+      /** Draw the Surface upside down */
+      VERTICAL_FLIP     = 0x0001,
+      /** Draw the Surface with alpha equal to 128 */
+      SEMI_TRANSPARENT  = 0x0002
+  };
 
 /** This class holds all the data necessary to construct a surface */
 class SurfaceData 
@@ -105,8 +116,8 @@ public:
   virtual ~SurfaceImpl();
   
   /** Return 0 on success, -2 if surface needs to be reloaded */
-  virtual int draw(float x, float y, Uint8 alpha) = 0;
-  virtual int draw_part(float sx, float sy, float x, float y, float w, float h,  Uint8 alpha) = 0;
+  virtual int draw(float x, float y, Uint8 alpha, uint32_t effect = NONE_EFFECT) = 0;
+  virtual int draw_part(float sx, float sy, float x, float y, float w, float h,  Uint8 alpha, uint32_t effect = NONE_EFFECT) = 0;
 #if 0
   virtual int draw_stretched(float x, float y, int w, int h, Uint8 alpha, bool update) = 0;
 #endif
@@ -123,8 +134,8 @@ public:
   SurfaceSDL(const std::string& file, int x, int y, int w, int h, int use_alpha);
   virtual ~SurfaceSDL();
 
-  int draw(float x, float y, Uint8 alpha);
-  int draw_part(float sx, float sy, float x, float y, float w, float h,  Uint8 alpha);
+  int draw(float x, float y, Uint8 alpha, uint32_t effect = NONE_EFFECT);
+  int draw_part(float sx, float sy, float x, float y, float w, float h,  Uint8 alpha, uint32_t effect = NONE_EFFECT);
 #if 0
   int draw_stretched(float x, float y, int w, int h, Uint8 alpha);
 #endif
@@ -142,8 +153,8 @@ public:
   SurfaceOpenGL(const std::string& file, int x, int y, int w, int h, int use_alpha);
   virtual ~SurfaceOpenGL();
 
-  int draw(float x, float y, Uint8 alpha);
-  int draw_part(float sx, float sy, float x, float y, float w, float h,  Uint8 alpha);
+  int draw(float x, float y, Uint8 alpha, uint32_t effect = NONE_EFFECT);
+  int draw_part(float sx, float sy, float x, float y, float w, float h,  Uint8 alpha, uint32_t effect = NONE_EFFECT);
 #if 0
   int draw_stretched(float x, float y, int w, int h, Uint8 alpha);
 #endif

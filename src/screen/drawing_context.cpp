@@ -17,7 +17,7 @@ DrawingContext::~DrawingContext()
 
 void
 DrawingContext::draw_surface(const Surface* surface, const Vector& position,
-    int layer)
+    int layer, uint32_t drawing_effect)
 {
   assert(surface != 0);
   
@@ -27,13 +27,14 @@ DrawingContext::draw_surface(const Surface* surface, const Vector& position,
   request.layer = layer;
   request.request_data = const_cast<Surface*> (surface);
   request.pos = transform.apply(position);
+  request.drawing_effect = drawing_effect;
 
   drawingrequests.push_back(request);
 }
 
 void
 DrawingContext::draw_surface_part(const Surface* surface, const Vector& source,
-    const Vector& size, const Vector& dest, int layer)
+    const Vector& size, const Vector& dest, int layer, uint32_t drawing_effect)
 {
   assert(surface != 0);
 
@@ -42,6 +43,7 @@ DrawingContext::draw_surface_part(const Surface* surface, const Vector& source,
   request.type = SURFACE_PART;
   request.layer = layer;
   request.pos = transform.apply(dest);
+  request.drawing_effect = drawing_effect;
   
   SurfacePartRequest* surfacepartrequest = new SurfacePartRequest();
   surfacepartrequest->size = size;
@@ -133,7 +135,8 @@ DrawingContext::draw_surface_part(DrawingRequest& request)
   surfacepartrequest->surface->impl->draw_part(
       surfacepartrequest->source.x, surfacepartrequest->source.y,
       request.pos.x, request.pos.y,
-      surfacepartrequest->size.x, surfacepartrequest->size.y, 255);
+      surfacepartrequest->size.x, surfacepartrequest->size.y, 255,
+      request.drawing_effect);
 
   delete surfacepartrequest;
 }
@@ -271,7 +274,7 @@ DrawingContext::do_drawing()
       case SURFACE:
       {
         const Surface* surface = (const Surface*) i->request_data;
-        surface->impl->draw(i->pos.x, i->pos.y, 255);
+        surface->impl->draw(i->pos.x, i->pos.y, 255, i->drawing_effect);
         break;
       }
       case SURFACE_PART:
