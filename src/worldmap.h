@@ -160,7 +160,6 @@ public:
 
     /** Message to show in the Map */
     std::string display_map_message;
-    Timer display_map_message_timer;
     bool passive_message;
 
     /** Go to this world */
@@ -178,6 +177,10 @@ public:
     bool south;
     bool west;
   };
+
+  /** Variables to deal with the passive map messages */
+  Timer passive_message_timer;
+  std::string passive_message;
 
 private:
   std::string map_filename;

@@ -37,7 +37,7 @@
 #include "app/gettext.h"
 #include "misc.h"
 
-#define DISPLAY_MAP_MESSAGE_TIME 2600
+#define DISPLAY_MAP_MESSAGE_TIME 2800
 
 Menu* worldmap_menu  = 0;
 
@@ -298,7 +298,10 @@ Tux::action(float delta)
 
           WorldMap::SpecialTile* special_tile = worldmap->at_special_tile();
           if(special_tile && special_tile->passive_message)
-            special_tile->display_map_message_timer.start(DISPLAY_MAP_MESSAGE_TIME);
+            {
+            worldmap->passive_message = special_tile->display_map_message;
+            worldmap->passive_message_timer.start(DISPLAY_MAP_MESSAGE_TIME);
+            }
 
           if (worldmap->at(tile_pos)->stop || (special_tile && 
               !special_tile->passive_message))
@@ -470,7 +473,6 @@ WorldMap::load_map()
                       special_tile.passive_message = false;
                       if(!special_tile.display_map_message.empty())
                         special_tile.passive_message = true;
-                      special_tile.display_map_message_timer.init(true);
                       reader.read_string("map-message", special_tile.display_map_message);
                       reader.read_string("next-world", special_tile.next_worldmap);
                       reader.read_string("level", special_tile.level_name, true);
@@ -537,7 +539,7 @@ void WorldMap::get_level_title(SpecialTile& special_tile)
   LispReader* reader = LispReader::load(datadir + "/levels/" + special_tile.level_name, "supertux-level");
   if(!reader)
     {
-    std::cerr << "Error: Could not open special_tile file. Ignoring...\n";
+    std::cerr << "Error: Could not open level file. Ignoring...\n";
     return;
     }
 
@@ -995,18 +997,11 @@ WorldMap::draw_status(DrawingContext& context)
             }
         }
     }
-  for(SpecialTiles::iterator i = special_tiles.begin(); i != special_tiles.end(); ++i)
-    {
-    /* Display a passive message in the map, if any as been selected */
-    if(i->display_map_message_timer.check())
-      {
-      if(!i->display_map_message.empty())
-        context.draw_text_center(gold_text, i->display_map_message, 
-                Vector(0, screen->h - white_text->get_height() - 60),
-                LAYER_FOREGROUND1);
-      break;
-      }
-    }
+  /* Display a passive message in the map, if needed */
+  if(passive_message_timer.check())
+    context.draw_text_center(gold_text, passive_message, 
+            Vector(0, screen->h - white_text->get_height() - 60),
+            LAYER_FOREGROUND1);
 }
 
 void
