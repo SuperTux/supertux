@@ -325,7 +325,7 @@ void Setup::directories()
           datadir = exedir + "./data/"; // SuperTux run from source dir
           if (access(datadir.c_str(), F_OK) != 0)
             {
-	      datadir = exedir + "../../data/";  //SuperTux run from source dir (with libtool script)
+	      datadir = exedir + "../../../../data/";  //SuperTux run from source dir (with libtool script)
 	      
 	      if (access(datadir.c_str(), F_OK) != 0)
 	      {
