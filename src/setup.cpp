@@ -505,7 +505,7 @@ bool process_load_game_menu()
           draw_intro();
         }
 
-      shrink_fade(Point((screen->w/2),(screen->h/2)), 2000);
+      shrink_fade(Point((screen->w/2),(screen->h/2)), 1000);
       fadeout();
       WorldMapNS::WorldMap worldmap;
      
