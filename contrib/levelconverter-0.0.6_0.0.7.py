@@ -2,6 +2,10 @@
 
 import sys
 
+if len(sys.argv) != 2:
+    print "Usage: %s FILENAME" % sys.argv[0]
+    sys.exit()
+
 print ";; Converting:", sys.argv[1]
 
 f = open(sys.argv[1], 'r')
