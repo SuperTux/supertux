@@ -27,6 +27,7 @@
 #include <unistd.h>
 #include <SDL.h>
 #include <SDL_image.h>
+#include <algorithm>
 #include "leveleditor.h"
 
 #include "screen.h"
@@ -502,22 +503,21 @@ void le_init_menus()
   select_objects_menu->additem(MN_LABEL,"Objects",0,0);
   select_objects_menu->additem(MN_HL,"",0,0);
   // TODO fix this
-#if 0
   select_objects_menu->additem(MN_ACTION,"BadGuys",0,0,1);
   objects_map["BadGuys"] = new ButtonPanel(screen->w - 64,96, 64, 318);
 
   DisplayManager dummy;
   for(int i = 0; i < NUM_BadGuyKinds; ++i)
   {
-    BadGuy bad_tmp(dummy, 0,0,BadGuyKind(i),false);
+    BadGuy bad_tmp(dummy, BadGuyKind(i), 0, 0);
     objects_map["BadGuys"]->additem(new Button("", "BadGuy",(SDLKey)(i+'a'),0,0,32,32),1000000+i);
     objects_map["BadGuys"]->manipulate_button(i)->set_drawable(new
         BadGuy(dummy,
+          BadGuyKind(i),
           objects_map["BadGuys"]->manipulate_button(i)->get_pos().x,
-          objects_map["BadGuys"]->manipulate_button(i)->get_pos().y,
-          BadGuyKind(i), false));
+          objects_map["BadGuys"]->manipulate_button(i)->get_pos().y
+          ));
   }
-#endif
 
   select_objects_menu->additem(MN_HL,"",0,0);
 
@@ -867,7 +867,7 @@ void le_drawinterface()
     if(TileManager::instance()->get(le_current.tile)->editor_images.size() > 0)
       TileManager::instance()->get(le_current.tile)->editor_images[0]->draw( screen->w - 32, screen->h - 32);
   }
-#if 0 // XXX FIXME TODO
+#if 0 // XXX FIXME TODO: Do we have a new solution for draw_on_screen()?
   if(le_current.IsObject() && MouseCursor::current() != mouse_select_object)
   {
     le_current.obj->draw_on_screen(screen->w - 32, screen->h - 32);
@@ -951,7 +951,7 @@ void le_drawlevel()
     if(!TileManager::instance()->get(le_current.tile)->images.empty())
       fillrect(cursor_x-pos_x,cursor_y-pos_y,TileManager::instance()->get(le_current.tile)->images[0]->w,TileManager::instance()->get(le_current.tile)->images[0]->h,50,50,50,50);
   }
-#if 0 // XXX FIXME TODO
+#if 0 // XXX FIXME TODO: Do we have a new solution for move_to()?
   if(le_current.IsObject())
   {
     le_current.obj->move_to(cursor_x, cursor_y);
@@ -1414,7 +1414,7 @@ void le_checkevents()
             {
               if(pbutton->get_state() == BUTTON_CLICKED)
               {
-#if 0   // TODO fixme!!
+#if 0   // TODO FIXME XXX: New solution for this?
                 le_current.Object(pbutton->get_drawable());
 #endif
               }
@@ -1506,20 +1506,23 @@ void le_checkevents()
           }
           else
           {
-#if 0 // FIXME TODO
+            // FIXME TODO
             if(le_current.IsObject())
             {
               le_level_changed  = true;
               std::string type = le_current.obj->type();
+
               if(type == "BadGuy")
               {
+                ViewPort viewport(le_world->displaymanager.get_viewport());
+                DisplayManager dummy;
                 BadGuy* pbadguy = dynamic_cast<BadGuy*>(le_current.obj);
 
-                le_world->bad_guys.push_back(new BadGuy(cursor_x+scroll_x, cursor_y,pbadguy->kind,false));
-                le_world->get_level()->badguy_data.push_back(le_world->bad_guys.back());
+                le_world->bad_guys.push_back(new BadGuy(dummy, pbadguy->kind, cursor_x + viewport.get_translation().x, cursor_y + viewport.get_translation().y));
+                le_world->gameobjects.push_back(le_world->bad_guys.back());
               }
             }
-#endif
+
           }
 	  
           le_mouse_clicked[LEFT] = false;
@@ -1674,16 +1677,19 @@ void le_change(float x, float y, int tm, unsigned int c)
 
       /* if there is a bad guy over there, remove it */
       // XXX TODO
-#if 0
-      for(std::list<BadGuy*>::iterator it = le_world->bad_guys.begin(); it != le_world->bad_guys.end(); ++it, ++i)
-        if(rectcollision(cursor_base,(*it)->base))
+      for(std::vector<GameObject*>::iterator it = le_world->gameobjects.begin();
+            it != le_world->gameobjects.end(); ++it)
+        if ((*it)->type() == "BadGuy")
         {
-          delete (*it);
-          le_world->bad_guys.erase(it);
-          le_world->get_level()->badguy_data.erase(le_world->get_level()->badguy_data.begin() + i);
-          break;
+          BadGuy* pbadguy = dynamic_cast<BadGuy*>((*it));
+          if(rectcollision(cursor_base, pbadguy->base))
+          {
+            delete (*it);
+            //le_world->bad_guys.erase(it);
+            le_world->gameobjects.erase(std::remove(le_world->gameobjects.begin(), le_world->gameobjects.end(), *it), le_world->gameobjects.end());
+            break;
+          }
         }
-#endif
 
       break;
     case SQUARE:
@@ -1715,25 +1721,26 @@ void le_change(float x, float y, int tm, unsigned int c)
 
       /* if there is a bad guy over there, remove it */
       // TODO FIXME
-#if 0
-      for(std::list<BadGuy*>::iterator it = le_world->bad_guys.begin();
-          it != le_world->bad_guys.end(); /* will be at end of loop */)
+      for(std::vector<GameObject*>::iterator it = le_world->gameobjects.begin();
+          it != le_world->gameobjects.end(); ++it /* will be at end of loop */)
       {
-        if((*it)->base.x/32 >= x1 && (*it)->base.x/32 <= x2
-            && (*it)->base.y/32 >= y1 && (*it)->base.y/32 <= y2)
+        if ((*it)->type() == "BadGuy")
         {
-          delete (*it);
-          it = le_world->bad_guys.erase(it);
-          le_world->get_level()->badguy_data.erase(le_world->get_level()->badguy_data.begin() + i);
-          continue;
-        }
-        else
-        {
-          ++i;
-          ++it;
+          MovingObject* pmobject = dynamic_cast<MovingObject*> (*it);
+          if(pmobject->base.x/32 >= x1 && pmobject->base.x/32 <= x2
+              && pmobject->base.y/32 >= y1 && pmobject->base.y/32 <= y2)
+          {
+            delete (*it);
+            //it = le_world->gameobjects.erase(it);
+            le_world->gameobjects.erase(std::remove(le_world->gameobjects.begin(), le_world->gameobjects.end(), *it), le_world->gameobjects.end());
+            continue;
+          }
+          else
+          {
+            ++it;
+          }
         }
       }
-#endif
 
       for(xx = x1; xx <= x2; xx++)
         for(yy = y1; yy <= y2; yy++)
