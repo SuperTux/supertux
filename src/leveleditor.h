@@ -32,6 +32,8 @@
 #include "gui/button.h"
 #include "gui/menu.h"
 
+using namespace SuperTux;
+
 enum LevelEditorMainMenuIDs {
   MNID_RETURNLEVELEDITOR,
   MNID_SUBSETSETTINGS,

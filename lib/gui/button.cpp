@@ -27,10 +27,12 @@
 #include "app/globals.h"
 #include "gui/button.h"
 
+using namespace SuperTux;
+
 Timer Button::popup_timer;
 
 Button::Button(Surface* button_image, const std::string& ninfo,
-    SDLKey nshortcut, int x, int y, int mw, int mh)
+               SDLKey nshortcut, int x, int y, int mw, int mh)
 {
   popup_timer.init(false);
 
@@ -51,12 +53,12 @@ Button::Button(Surface* button_image, const std::string& ninfo,
 }
 
 Button::Button(const std::string& imagefilename, const std::string& ninfo,
-    SDLKey nshortcut, int x, int y, int mw, int mh)
+               SDLKey nshortcut, int x, int y, int mw, int mh)
 {
   popup_timer.init(false);
 
   add_icon(imagefilename, mw, mh);
-  
+
   info = ninfo;
 
   shortcut = nshortcut;
@@ -75,21 +77,21 @@ void Button::add_icon(const std::string& icon_file, int mw, int mh)
   char filename[1024];
 
   if(!icon_file.empty())
-  {
-    snprintf(filename, 1024, "%s/%s", datadir.c_str(), icon_file.c_str());
-    if(!faccessible(filename))
-      snprintf(filename, 1024, "%s/images/icons/default-icon.png", datadir.c_str());
-  }
+    {
+      snprintf(filename, 1024, "%s/%s", datadir.c_str(), icon_file.c_str());
+      if(!faccessible(filename))
+        snprintf(filename, 1024, "%s/images/icons/default-icon.png", datadir.c_str());
+    }
   else
-  {
-    snprintf(filename, 1024, "%s/images/icons/default-icon.png", datadir.c_str());
-  }
+    {
+      snprintf(filename, 1024, "%s/images/icons/default-icon.png", datadir.c_str());
+    }
 
   if(mw != -1 || mh != -1)
-  {
-    icon.push_back(new Surface(filename,true));
-    icon.back()->resize(mw,mh);
-  }
+    {
+      icon.push_back(new Surface(filename,true));
+      icon.back()->resize(mw,mh);
+    }
   else
     icon.push_back(new Surface(filename,true));
 
@@ -107,26 +109,26 @@ void Button::draw(DrawingContext& context)
   for(std::vector<Surface*>::iterator it = icon.begin(); it != icon.end(); ++it)
     context.draw_surface(*it, Vector(rect.x,rect.y), LAYER_GUI);
 
-/*  if(drawable)
-  {
-    Camera viewport;
-    viewport.set_translation(Vector(rect.x, rect.y));
-    drawable->draw(viewport, 0);
-  }*/
+  /*  if(drawable)
+    {
+      Camera viewport;
+      viewport.set_translation(Vector(rect.x, rect.y));
+      drawable->draw(viewport, 0);
+    }*/
 
   if(show_info)
-  {
-    char str[80];
-    int i = -32;
+    {
+      char str[80];
+      int i = -32;
 
-    if(0 > rect.x - white_small_text->get_text_width(info))
-      i = rect.w + (int)white_small_text->get_text_width(info);
+      if(0 > rect.x - white_small_text->get_text_width(info))
+        i = rect.w + (int)white_small_text->get_text_width(info);
 
-    if(!info.empty())
-      context.draw_text(white_small_text, info, Vector(i + rect.x - white_small_text->get_text_width(info), rect.y), LAYER_GUI);
-    sprintf(str,"(%s)", SDL_GetKeyName(shortcut));
-    context.draw_text(white_small_text, str, Vector(i + rect.x -  white_small_text->get_text_width(str), rect.y + white_small_text->get_height()+2), LAYER_GUI);
-  }
+      if(!info.empty())
+        context.draw_text(white_small_text, info, Vector(i + rect.x - white_small_text->get_text_width(info), rect.y), LAYER_GUI);
+      sprintf(str,"(%s)", SDL_GetKeyName(shortcut));
+      context.draw_text(white_small_text, str, Vector(i + rect.x -  white_small_text->get_text_width(str), rect.y + white_small_text->get_height()+2), LAYER_GUI);
+    }
   if(state == BUTTON_PRESSED || state == BUTTON_DEACTIVE)
     fillrect(rect.x,rect.y,rect.w,rect.h,75,75,75,200);
   else if(state == BUTTON_HOVER)
@@ -151,77 +153,82 @@ void Button::event(SDL_Event &event)
   SDLKey key = event.key.keysym.sym;
 
   if(event.type == SDL_MOUSEBUTTONDOWN || event.type == SDL_MOUSEBUTTONUP)
-  {
-    if(event.button.x < rect.x || event.button.x >= rect.x + rect.w ||
-        event.button.y < rect.y || event.button.y >= rect.y + rect.h)
-      return;
+    {
+      if(event.button.x < rect.x || event.button.x >= rect.x + rect.w ||
+          event.button.y < rect.y || event.button.y >= rect.y + rect.h)
+        return;
 
-    if(event.button.button == SDL_BUTTON_RIGHT)
-    {
-      show_info = true;
-      return;
-    }
-    else if(event.type == SDL_MOUSEBUTTONUP && event.button.button == 4) /* Mouse wheel up. */
-    {
-      state = BUTTON_WHEELUP;
-      return;
-    }
-    else if(event.type == SDL_MOUSEBUTTONUP && event.button.button == 5) /* Mouse wheel down. */
-    {
-      state = BUTTON_WHEELDOWN;
-      return;
-    }
+      if(event.button.button == SDL_BUTTON_RIGHT)
+        {
+          show_info = true;
+          return;
+        }
+      else if(event.type == SDL_MOUSEBUTTONUP && event.button.button == 4) /* Mouse wheel up. */
+        {
+          state = BUTTON_WHEELUP;
+          return;
+        }
+      else if(event.type == SDL_MOUSEBUTTONUP && event.button.button == 5) /* Mouse wheel down. */
+        {
+          state = BUTTON_WHEELDOWN;
+          return;
+        }
 
-    if(event.button.button == SDL_BUTTON_LEFT)
-      if(event.type == SDL_MOUSEBUTTONDOWN)
-        state = BUTTON_PRESSED;
-      else
-        state = BUTTON_CLICKED;
-  }
+      if(event.button.button == SDL_BUTTON_LEFT)
+        if(event.type == SDL_MOUSEBUTTONDOWN)
+          state = BUTTON_PRESSED;
+        else
+          state = BUTTON_CLICKED;
+    }
   else if(event.type == SDL_MOUSEMOTION)
-  {
-    if(event.motion.x < rect.x || event.motion.x >= rect.x + rect.w ||
-        event.motion.y < rect.y || event.motion.y >= rect.y + rect.h)
     {
-      state = BUTTON_NONE;
-    }
-    else
-    {
-      state = BUTTON_HOVER;
-      popup_timer.start(1500);
-    }
+      if(event.motion.x < rect.x || event.motion.x >= rect.x + rect.w ||
+          event.motion.y < rect.y || event.motion.y >= rect.y + rect.h)
+        {
+          state = BUTTON_NONE;
+        }
+      else
+        {
+          state = BUTTON_HOVER;
+          popup_timer.start(1500);
+        }
 
-    if(show_info)
-    {
-      show_info = false;
+      if(show_info)
+        {
+          show_info = false;
+        }
     }
-  }
   else if(event.type == SDL_KEYDOWN)
-  {
-    if(key == shortcut)
-      state = BUTTON_PRESSED;
-  }
+    {
+      if(key == shortcut)
+        state = BUTTON_PRESSED;
+    }
   else if(event.type == SDL_KEYUP)
-  {
-    if(state == BUTTON_PRESSED && key == shortcut)
-      state = BUTTON_CLICKED;
-  }
+    {
+      if(state == BUTTON_PRESSED && key == shortcut)
+        state = BUTTON_CLICKED;
+    }
 }
 
 int Button::get_state()
 {
   int rstate;
   switch(state)
-  {
-  case BUTTON_CLICKED:
-  case BUTTON_WHEELUP:
-  case BUTTON_WHEELDOWN:
-    rstate = state;
-    state = BUTTON_NONE;
-    return rstate;
-  default:
-    return state;
-  }
+    {
+    case BUTTON_CLICKED:
+    case BUTTON_WHEELUP:
+    case BUTTON_WHEELDOWN:
+      rstate = state;
+      state = BUTTON_NONE;
+      return rstate;
+    default:
+      return state;
+    }
+}
+
+ButtonPanel::ButtonPanel(const SDL_Rect& rect)
+{
+  ButtonPanel(rect.x, rect.y, rect.w, rect.h);
 }
 
 ButtonPanel::ButtonPanel(int x, int y, int w, int h)
@@ -239,32 +246,32 @@ ButtonPanel::ButtonPanel(int x, int y, int w, int h)
 Button* ButtonPanel::event(SDL_Event& event)
 {
   if(!hidden)
-  {
-  Button* ret = NULL;
-    for(std::vector<Button*>::iterator it = item.begin(); it != item.end(); ++it)
     {
-      (*it)->event(event);
-      if((*it)->state != BUTTON_NONE)
-      {
-        if(hlast && (*it)->state == BUTTON_CLICKED)
-          last_clicked = it;
-	ret = (*it);
-      }
+      Button* ret = NULL;
+      for(std::vector<Button*>::iterator it = item.begin(); it != item.end(); ++it)
+        {
+          (*it)->event(event);
+          if((*it)->state != BUTTON_NONE)
+            {
+              if(hlast && (*it)->state == BUTTON_CLICKED)
+                last_clicked = it;
+              ret = (*it);
+            }
+        }
+      return ret;
     }
-    return ret;
-  }
   else
-  {
-    return NULL;
-  }
+    {
+      return NULL;
+    }
 }
 
 ButtonPanel::~ButtonPanel()
 {
   for(std::vector<Button*>::iterator it = item.begin(); it != item.end(); ++it)
-  {
-    delete (*it);
-  }
+    {
+      delete (*it);
+    }
   item.clear();
 }
 
@@ -272,17 +279,17 @@ void ButtonPanel::draw(DrawingContext& context)
 {
 
   if(hidden == false)
-  {
-    fillrect(rect.x,rect.y,rect.w,rect.h,100,100,100,200);
-    for(std::vector<Button*>::iterator it = item.begin(); it != item.end(); ++it)
     {
-      (*it)->draw(context);
-      if(hlast && it == last_clicked)
-      {
-        fillrect((*it)->get_pos().x,(*it)->get_pos().y,(*it)->get_pos().w,(*it)->get_pos().h,100,100,100,128);
-      }
+      fillrect(rect.x,rect.y,rect.w,rect.h,100,100,100,200);
+      for(std::vector<Button*>::iterator it = item.begin(); it != item.end(); ++it)
+        {
+          (*it)->draw(context);
+          if(hlast && it == last_clicked)
+            {
+              fillrect((*it)->get_pos().x,(*it)->get_pos().y,(*it)->get_pos().w,(*it)->get_pos().h,100,100,100,128);
+            }
+        }
     }
-  }
 }
 
 void ButtonPanel::additem(Button* pbutton, int tag)
@@ -321,4 +328,15 @@ Button* ButtonPanel::manipulate_button(int i)
 void ButtonPanel::highlight_last(bool b)
 {
   hlast = b;
+}
+
+void ButtonPanel::set_last_clicked(unsigned int last)
+{
+  if(hlast)
+    {
+      if(item.size() >= last)
+        {
+          last_clicked = item.begin() + last;
+        }
+    }
 }
