@@ -11,6 +11,7 @@ Todo
 H: high priority
 L: low priority
 
+[H] AX_CHECK_GL produces an error during configure
 [M] Enemies can get stuck when colliding.
 [M] When aborting a level, lives and score should remain the same as they
     were before. Solution: make more dependency between the game engine and worldmap

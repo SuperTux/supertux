@@ -65,7 +65,8 @@ public:
     scroll_x = tmp;
     base = btmp;
   };
-void move_to(float x, float y) { base.x = x; base.y = y; };
+
+  void move_to(float x, float y) { base.x = x; base.y = y; };
 
   base_type base;
   base_type old_base;

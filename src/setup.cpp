@@ -895,13 +895,13 @@ void seticon(void)
 
   /* Load icon into a surface: */
 
-  icon = IMG_Load((datadir + "/images/icon.xpm").c_str());
+  icon = IMG_Load((datadir + "/images/supertux.xpm").c_str());
   if (icon == NULL)
     {
       fprintf(stderr,
               "\nError: I could not load the icon image: %s%s\n"
               "The Simple DirectMedia error that occured was:\n"
-              "%s\n\n", datadir.c_str(), "/images/icon.xpm", SDL_GetError());
+              "%s\n\n", datadir.c_str(), "/images/supertux.xpm", SDL_GetError());
       exit(1);
     }
 

@@ -1,0 +1,10 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=SuperTux Platform Game
+Comment=A Super Mario inspired penguin platform game
+Exec=supertux
+Terminal=false
+Type=Application
+Categories=Application;Game;ArcadeGame
+Icon=supertux.png
+

@@ -1,12 +1,16 @@
+iconsdir=$(datadir)/pixmaps
+icons_DATA = images/supertux.xpm
+
+desktopdir = $(datadir)/applications
+desktop_DATA = supertux.desktop
+
 EXTRA_DIST = \
   supertux.strf \
   intro.txt \
   extro.txt \
   CREDITS \
   $(wildcard sounds/*.wav) \
-  images/icon.xpm \
   $(wildcard images/*.png) \
-  $(wildcard images/*.xpm) \
   $(wildcard images/background/*.png) \
   $(wildcard images/background/*.jpg) \
   $(wildcard images/highscore/*.png) \
