@@ -391,14 +391,34 @@ void World::scrolling(double frame_ratio)
   if(scrolling_timer.check())
   {
     float final_scroll_x;
+    float constant1;
+    float constant2;
     if (right)
       final_scroll_x = tux_pos_x - (screen->w - X_SPACE);
     else
       final_scroll_x = tux_pos_x - X_SPACE;
 
-    scroll_x +=   (final_scroll_x - scroll_x)
-                / (frame_ratio * (CHANGE_DIR_SCROLL_SPEED / 100))
-                + (tux.physic.get_velocity_x() * frame_ratio + tux.physic.get_acceleration_x() * frame_ratio * frame_ratio);
+    if((tux.physic.get_velocity_x() > 0 && tux.dir == RIGHT) || (tux.physic.get_velocity_x() < 0 && tux.dir == LEFT))
+    {
+      constant1 = 1.0;
+      constant2 = .4;
+    }
+    else
+    {
+      constant1 = 0.;
+      constant2 = 0.;
+    }
+    
+    float number = 2.5/(frame_ratio * CHANGE_DIR_SCROLL_SPEED/1000)*exp((CHANGE_DIR_SCROLL_SPEED-scrolling_timer.get_left())/1400.);
+    if(left) number *= -1.;
+
+    scroll_x += number
+	    + constant1 * tux.physic.get_velocity_x() * frame_ratio
+	    + constant2 * tux.physic.get_acceleration_x() * frame_ratio * frame_ratio;
+
+    if ((right && final_scroll_x - scroll_x < 0) || (left && final_scroll_x - scroll_x > 0))
+      scroll_x = final_scroll_x;
+    
   }
   else
   {
