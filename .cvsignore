@@ -5,6 +5,8 @@ config.status
 config.guess
 config.rpath
 config.sub
+config.h
+gmon.out
 configure
 depcomp
 install-sh
