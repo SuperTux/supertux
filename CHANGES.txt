@@ -7,6 +7,46 @@ http://www.newbreedsoftware.com/supertux/
 
 0.0.6 - current CVS version
 ---------------------------
+  * Added optional backgrounds for levels.
+    Tobias Glaesser <tobi.web@gmx.de>
+    
+  * First code to optimize the FPS. The maximum are 100 FPS.
+    Tobias Glaesser <tobi.web@gmx.de>    
+
+  * Introduced command line option --show-fps. It's self-describing. :)
+    Tobias Glaesser <tobi.web@gmx.de>
+
+  * Text is displayed correctly in OpenGL mode now.
+    Tobias Glaesser <tobi.web@gmx.de>
+  
+  * Alpha works in OpenGL mode now.
+    Tobias Glaesser <tobi.web@gmx.de>
+        
+  * Rewrite of text/font related code, which should bring huge performance increases to you.
+    Tobias Glaesser <tobi.web@gmx.de>    
+
+  * Added a highscore background and improved the name input code.
+    Tobias Glaesser <tobi.web@gmx.de>
+        
+  * Added feature to enter your name for a new highscore. 
+    Ricardo Cruz <rick2@aeiou.pt>
+        
+  * Grid support for the leveleditor and you can look
+    what's inside a brick now.
+    Ricardo Cruz <rick2@aeiou.pt>    
+
+  * Initial infrastructure for mapping keys.
+    Tobias Glaesser <tobi.web@gmx.de> & Ricardo Cruz <rick2@aeiou.pt>
+
+  * Fixed a little displaying bug of upgrades.
+    Ricardo Cruz <rick2@aeiou.pt> 
+    
+  * Improved and fixed the sound support another time.
+    Duong-Khang NGUYEN <neoneurone@users.sf.net>    
+    
+  * Fixed uncorrect use of TIME_WARNING.
+    Duong-Khang NGUYEN <neoneurone@users.sf.net>    
+
   * Provided hint for fixing memory leak when fullscreen is toggled.
     Ricardo Cruz <rick2@aeiou.pt> 
     

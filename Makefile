@@ -27,7 +27,7 @@ JOY=YES
 
 #undefine this for non debugging compilation
 
-DEBUG_FLAG=-DDEBUG
+DEBUG_FLAG=-DDEBUG -pg
 
 # Defaults for Linux:
 
@@ -53,7 +53,7 @@ installdat = install -g $(USERNAME) -o $(USERNAME) -m 644
 
 
 OBJECTS=obj/supertux.o obj/setup.o obj/intro.o obj/title.o obj/scene.o obj/collision.o obj/bitmask.o obj/type.o \
-	obj/timer.o obj/texture.o obj/badguy.o obj/special.o  obj/world.o obj/player.o obj/level.o obj/gameloop.o \
+	obj/timer.o obj/text.o obj/texture.o obj/badguy.o obj/special.o  obj/world.o obj/player.o obj/level.o obj/gameloop.o \
 	obj/screen.o obj/sound.o obj/high_scores.o obj/menu.o obj/leveleditor.o
 
 # Make commands:
@@ -153,6 +153,11 @@ obj/texture.o:	src/texture.c src/texture.h \
 		src/setup.h obj/level.o
 	$(CC) $(CFLAGS) src/texture.c -c -o obj/texture.o
 
+obj/text.o:	src/text.c src/text.h \
+		src/defines.h src/globals.h src/screen.h src/scene.h src/gameloop.h obj/sound.o \
+		src/setup.h obj/level.o
+	$(CC) $(CFLAGS) src/text.c -c -o obj/text.o
+	
 obj/badguy.o:	src/badguy.c src/badguy.h \
 		src/defines.h src/globals.h src/screen.h src/gameloop.h obj/sound.o \
 		src/setup.h obj/level.o
