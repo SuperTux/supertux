@@ -131,7 +131,7 @@ Player::init()
 {
   holding_something = false;
 
-  bbox.set_size(32, 32);
+  bbox.set_size(31.8, 31.8);
 
   size = SMALL;
   got_power = NONE_POWER;
@@ -387,6 +387,14 @@ Player::handle_horizontal_input()
     if (ax != 0) ax *= 1 / fabs(vx);
   }
 #endif
+
+  // extend/shrink tux collision rectangle so that we fall through/walk over 1
+  // tile holes
+  if(vx > MAX_WALK_XM) {
+    bbox.set_width(33);
+  } else {
+    bbox.set_width(31.8);
+  }
 
   physic.set_velocity(vx, vy);
   physic.set_acceleration(ax, ay);
@@ -660,13 +668,13 @@ Player::handle_input()
     {
       duck = true;
       bbox.move(Vector(0, 32));
-      bbox.set_height(32);
+      bbox.set_height(31.8);
     }
   else if(input.down == UP && size == BIG && duck)
     {
       // try if we can really unduck
       bbox.move(Vector(0, -32));
-      bbox.set_height(64);
+      bbox.set_height(63.8);
       duck = false;
       // FIXME
 #if 0
@@ -676,7 +684,7 @@ Player::handle_input()
       } else {
         // undo the ducking changes
         bbox.move(Vector(0, 32));
-        bbox.set_height(32);
+        bbox.set_height(31.8);
       }
 #endif
     }
@@ -689,7 +697,7 @@ Player::grow(bool animate)
     return;
   
   size = BIG;
-  bbox.set_height(64);
+  bbox.set_height(63.8);
   bbox.move(Vector(0, -32));
 
   if(animate)
@@ -916,7 +924,7 @@ Player::kill(HurtMode mode)
           growing_timer.start(GROWING_TIME);
           safe_timer.start(TUX_SAFE_TIME + GROWING_TIME);
           size = SMALL;
-          bbox.set_height(32);
+          bbox.set_height(31.8);
           duck = false;
         }
     }
@@ -938,7 +946,7 @@ Player::remove_powerups()
 {
   got_power = NONE_POWER;
   size = SMALL;
-  bbox.set_height(32);
+  bbox.set_height(31.8);
 }
 
 void
