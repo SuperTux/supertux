@@ -90,7 +90,7 @@ static int le_frame;
 static texture_type le_selection;
 static int done;
 static char le_current_tile;
-static int le_mouse_pressed;
+static int le_mouse_pressed[2];
 static button_type le_save_level_bt;
 static button_type le_test_level_bt;
 static button_type le_next_level_bt;
@@ -100,7 +100,6 @@ static button_type le_move_left_bt;
 static button_type le_rubber_bt;
 static button_type le_select_mode_one_bt;
 static button_type le_select_mode_two_bt;
-static button_type le_bad_bsod_bt;
 static button_type le_settings_bt;
 static button_type le_bad_bt;
 static button_type le_bkgd_bt;
@@ -358,6 +357,8 @@ int le_init()
 {
   int i,j;
   char str[80];
+  char filename[1024];
+  SDLKey key;
   level_subsets = dsubdirs("/levels", "info");
 
   le_show_grid = YES;
@@ -373,7 +374,8 @@ int le_init()
   le_current_level = NULL;
 
   le_current_tile = '.';
-  le_mouse_pressed = NO;
+  le_mouse_pressed[LEFT] = NO;
+  le_mouse_pressed[RIGHT] = NO;
 
   texture_load(&le_selection,DATA_PREFIX "/images/leveleditor/select.png", USE_ALPHA);
 
@@ -397,11 +399,11 @@ int le_init()
 
   button_panel_init(&le_bkgd_panel, screen->w - 64,98, 64, 318);
   le_bkgd_panel.hidden = YES;
+  key = SDLK_a;
   for(i = 0; i < bkgd_files.num_items; ++i)
     {
-      char filename[1024];
       sprintf(filename,"images/themes/antarctica/%s",bkgd_files.item[i]);
-      button_panel_additem(&le_bkgd_panel,button_create(filename, "My dear",SDLK_a,0,0),i);
+      button_panel_additem(&le_bkgd_panel,button_create(filename, "Background Tile",(SDLKey)((int)key+i),0,0),i);
     }
 
   string_list_free(&bkgd_files);
@@ -410,21 +412,18 @@ int le_init()
 
   for(i = 0; i < bkgd_files.num_items; ++i)
     {
-      char filename[1024];
       sprintf(filename,"images/shared/%s",bkgd_files.item[i]);
-      button_panel_additem(&le_bkgd_panel,button_create(filename, "My Doooooo",SDLK_a,0,0),i+8);
+      button_panel_additem(&le_bkgd_panel,button_create(filename, "Background Tile",(SDLKey)((int)key+i+8),0,0),i+8);
     }
 
   string_list_type fgd_files =  dfiles("images/themes/antarctica","solid", NULL);
   string_list_sort(&fgd_files);
-
+  key = SDLK_a;
   button_panel_init(&le_fgd_panel, screen->w - 64,98, 64, 318);
   for(i = 0; i < fgd_files.num_items; ++i)
     {
-      char filename[1024];
       sprintf(filename,"images/themes/antarctica/%s",fgd_files.item[i]);
-      printf("%s",filename);
-      button_panel_additem(&le_fgd_panel,button_create(filename, "My dear",SDLK_a,0,0),i);
+      button_panel_additem(&le_fgd_panel,button_create(filename, "Foreground Tile",(SDLKey)((int)key+i),0,0),i);
     }
 
   string_list_free(&fgd_files);
@@ -441,9 +440,8 @@ int le_init()
 
   for(i = 0; i < fgd_files.num_items; ++i)
     {
-      char filename[1024];
       sprintf(filename,"images/shared/%s",fgd_files.item[i]);
-      button_panel_additem(&le_fgd_panel,button_create(filename, "My dear",SDLK_a,0,0),i+4);
+      button_panel_additem(&le_fgd_panel,button_create(filename, "Foreground Tile",(SDLKey)((int)key+i+4),0,0),i+4);
     }
 
   string_list_free(&fgd_files);
@@ -452,9 +450,8 @@ int le_init()
   
   for(i = 0; i < fgd_files.num_items; ++i)
     {
-      char filename[1024];
       sprintf(filename,"images/themes/antarctica/%s",fgd_files.item[i]);
-      button_panel_additem(&le_fgd_panel,button_create(filename, "My dear",SDLK_a,0,0),i+14);
+      button_panel_additem(&le_fgd_panel,button_create(filename, "Foreground Tile",(SDLKey)((int)key+i+14),0,0),i+14);
     }
     
   string_list_free(&fgd_files);
@@ -462,11 +459,10 @@ int le_init()
   string_list_add_item(&fgd_files,"distro-0.png");
   for(i = 0; i < fgd_files.num_items; ++i)
     {
-      char filename[1024];
       sprintf(filename,"images/shared/%s",fgd_files.item[i]);
-      button_panel_additem(&le_fgd_panel,button_create(filename, "My dear",SDLK_a,0,0),i+16);
+      button_panel_additem(&le_fgd_panel,button_create(filename, "Foreground Tile",(SDLKey)((int)key+i+16),0,0),i+16);
     }
-  
+
   le_fgd_panel.item[10].bkgd = &le_fgd_panel.item[9].icon;
   le_fgd_panel.item[11].bkgd = &le_fgd_panel.item[9].icon;
   le_fgd_panel.item[12].bkgd = &le_fgd_panel.item[9].icon;
@@ -480,11 +476,11 @@ int le_init()
   string_list_add_item(&bad_files,"bag-left-0.png");
   button_panel_init(&le_bad_panel, screen->w - 64,98, 64, 318);
   le_bad_panel.hidden = YES;
+  key = SDLK_a;
   for(i = 0; i < bad_files.num_items; ++i)
     {
-      char filename[1024];
       sprintf(filename,"images/shared/%s",bad_files.item[i]);
-      button_panel_additem(&le_bad_panel,button_create(filename, "My Doooooo",SDLK_a,0,0),i);
+      button_panel_additem(&le_bad_panel,button_create(filename, "Bad Guy",(SDLKey)((int)key+i),0,0),i);
     }
 
   menu_init(&leveleditor_menu);
@@ -686,9 +682,28 @@ void le_quit(void)
 
   SDL_EnableKeyRepeat(0, 0);    // disables key repeating
 
-  button_free(&le_test_level_bt);
   texture_free(&le_selection);
   menu_free(&leveleditor_menu);
+  menu_free(&subset_load_menu);
+  menu_free(&subset_new_menu);
+  menu_free(&subset_settings_menu);
+  menu_free(&level_settings_menu);
+  button_panel_free(&le_bkgd_panel);
+  button_panel_free(&le_fgd_panel);
+  button_panel_free(&le_bad_panel);
+  button_free(&le_save_level_bt);
+  button_free(&le_test_level_bt);
+  button_free(&le_next_level_bt);
+  button_free(&le_previous_level_bt);
+  button_free(&le_move_right_bt);
+  button_free(&le_move_left_bt);
+  button_free(&le_rubber_bt);
+  button_free(&le_select_mode_one_bt);
+  button_free(&le_select_mode_two_bt);
+  button_free(&le_settings_bt);
+  button_free(&le_bad_bt);
+  button_free(&le_bkgd_bt);
+  button_free(&le_fgd_bt);
 
   if(le_current_level != NULL)
     {
@@ -770,7 +785,6 @@ void le_drawinterface()
       button_draw(&le_rubber_bt);
       button_draw(&le_select_mode_one_bt);
       button_draw(&le_select_mode_two_bt);
-      button_draw(&le_bad_bsod_bt);
       button_draw(&le_settings_bt);
       button_draw(&le_move_right_bt);
       button_draw(&le_move_left_bt);
@@ -950,145 +964,8 @@ void le_checkevents()
                   cursor_x = (le_current_level->width * 32) - 32;
                   pos_x = cursor_x;
                   break;
-                case SDLK_PAGEUP:
-                  cursor_x -= PAGE_CURSOR_SPEED;
-
-                  if(cursor_x < pos_x + MOUSE_LEFT_MARGIN)
-                    pos_x = cursor_x - MOUSE_LEFT_MARGIN;
-
-                  break;
-                case SDLK_PAGEDOWN:
-                  cursor_x += PAGE_CURSOR_SPEED;
-
-                  if(cursor_x > pos_x + MOUSE_RIGHT_MARGIN-32)
-                    pos_x = cursor_x - MOUSE_RIGHT_MARGIN+32;
-
-                  break;
                 case SDLK_F9:
                   le_show_grid = !le_show_grid;
-                  break;
-                case SDLK_PERIOD:
-                  le_change(cursor_x, cursor_y, '.');
-                  break;
-                case SDLK_a:
-                  if(keymod == KMOD_LSHIFT || keymod == KMOD_RSHIFT || keymod == KMOD_CAPS)
-                    le_current_tile = 'A';
-                  else
-                    le_current_tile = 'a';
-                  break;
-                case SDLK_b:
-                  if(keymod == KMOD_LSHIFT || keymod == KMOD_RSHIFT || keymod == KMOD_CAPS)
-                    le_change(cursor_x, cursor_y, 'B');
-                  break;
-                case SDLK_c:
-                  if(keymod == KMOD_LSHIFT || keymod == KMOD_RSHIFT || keymod == KMOD_CAPS)
-                    le_change(cursor_x, cursor_y, 'C');
-                  else
-                    le_change(cursor_x, cursor_y, 'c');
-                  break;
-                case SDLK_d:
-                  if(keymod == KMOD_LSHIFT || keymod == KMOD_RSHIFT || keymod == KMOD_CAPS)
-                    le_change(cursor_x, cursor_y, 'D');
-                  else
-                    le_change(cursor_x, cursor_y, 'd');
-                  break;
-                case SDLK_e:
-                  if(keymod == KMOD_LSHIFT || keymod == KMOD_RSHIFT || keymod == KMOD_CAPS)
-                    le_change(cursor_x, cursor_y, 'E');
-                  else
-                    le_change(cursor_x, cursor_y, 'e');
-                  break;
-                case SDLK_f:
-                  if(keymod == KMOD_LSHIFT || keymod == KMOD_RSHIFT || keymod == KMOD_CAPS)
-                    le_change(cursor_x, cursor_y, 'F');
-                  else
-                    le_change(cursor_x, cursor_y, 'f');
-                  break;
-                case SDLK_g:
-                  if(keymod == KMOD_LSHIFT || keymod == KMOD_RSHIFT || keymod == KMOD_CAPS)
-                    le_change(cursor_x, cursor_y, 'G');
-                  else
-                    le_change(cursor_x, cursor_y, 'g');
-                  break;
-                case SDLK_h:
-                  if(keymod == KMOD_LSHIFT || keymod == KMOD_RSHIFT || keymod == KMOD_CAPS)
-                    le_change(cursor_x, cursor_y, 'H');
-                  else
-                    le_change(cursor_x, cursor_y, 'h');
-                  break;
-                case SDLK_i:
-                  if(keymod == KMOD_LSHIFT || keymod == KMOD_RSHIFT || keymod == KMOD_CAPS)
-                    le_change(cursor_x, cursor_y, 'I');
-                  else
-                    le_change(cursor_x, cursor_y, 'i');
-                  break;
-                case SDLK_j:
-                  if(keymod == KMOD_LSHIFT || keymod == KMOD_RSHIFT || keymod == KMOD_CAPS)
-                    le_change(cursor_x, cursor_y, 'J');
-                  else
-                    le_change(cursor_x, cursor_y, 'j');
-                  break;
-                case SDLK_x:
-                  if(keymod == KMOD_LSHIFT || keymod == KMOD_RSHIFT || keymod == KMOD_CAPS)
-                    le_change(cursor_x, cursor_y, 'X');
-                  else
-                    le_change(cursor_x, cursor_y, 'x');
-                  break;
-                case SDLK_y:
-                  if(keymod == KMOD_LSHIFT || keymod == KMOD_RSHIFT || keymod == KMOD_CAPS)
-                    le_change(cursor_x, cursor_y, 'Y');
-                  else
-                    le_change(cursor_x, cursor_y, 'y');
-                  break;
-                case SDLK_LEFTBRACKET:
-                  le_change(cursor_x, cursor_y, '[');
-                  break;
-                case SDLK_RIGHTBRACKET:
-                  le_change(cursor_x, cursor_y, ']');
-                  break;
-                case SDLK_HASH:
-                case SDLK_3:
-                  if(keymod == KMOD_LSHIFT || keymod == KMOD_RSHIFT || keymod == KMOD_CAPS)
-                    le_change(cursor_x, cursor_y, '#');
-                  break;
-                case SDLK_DOLLAR:
-                case SDLK_4:
-                  if(keymod == KMOD_LSHIFT || keymod == KMOD_RSHIFT || keymod == KMOD_CAPS)
-                    le_change(cursor_x, cursor_y, '$');
-                  break;
-                case SDLK_BACKSLASH:
-                  if(keymod == KMOD_LSHIFT || keymod == KMOD_RSHIFT || keymod == KMOD_CAPS)
-                    le_change(cursor_x, cursor_y, '|');
-                  else
-                    le_change(cursor_x, cursor_y, '\\');
-                  break;
-                case SDLK_CARET:
-                  le_change(cursor_x, cursor_y, '^');
-                  break;
-                case SDLK_AMPERSAND:
-                case SDLK_6:
-                  if(keymod == KMOD_LSHIFT || keymod == KMOD_RSHIFT || keymod == KMOD_CAPS)
-                    le_change(cursor_x, cursor_y, '&');
-                  break;
-                case SDLK_EQUALS:
-                case SDLK_0:
-                  if(keymod == KMOD_LSHIFT || keymod == KMOD_RSHIFT || keymod == KMOD_CAPS)
-                    le_change(cursor_x, cursor_y, '=');
-                  else		/* let's add a bad guy */
-                    le_change(cursor_x, cursor_y, '0');
-                  break;
-                case SDLK_1:
-                  if(keymod == KMOD_LSHIFT || keymod == KMOD_RSHIFT || keymod == KMOD_CAPS)
-                    le_change(cursor_x, cursor_y, '!');
-                  else		/* let's add a bad guy */
-                    le_change(cursor_x, cursor_y, '1');
-                  break;
-                case SDLK_2:
-                  le_change(cursor_x, cursor_y, '2');
-                  break;
-                case SDLK_PLUS:
-                  if(keymod == KMOD_LSHIFT || keymod == KMOD_RSHIFT || keymod == KMOD_CAPS)
-                    le_change(cursor_x, cursor_y, '*');
                   break;
                 default:
                   break;
@@ -1107,19 +984,21 @@ void le_checkevents()
             case SDL_MOUSEBUTTONDOWN:
               if(event.button.button == SDL_BUTTON_LEFT)
                 {
-                  le_mouse_pressed = YES;
+                  le_mouse_pressed[LEFT] = YES;
 
                   selection.x1 = event.motion.x + pos_x;
                   selection.y1 = event.motion.y;
                   selection.x2 = event.motion.x + pos_x;
                   selection.y2 = event.motion.y;
                 }
+              else if(event.button.button == SDL_BUTTON_RIGHT)
+                  le_mouse_pressed[RIGHT] = YES;
               break;
             case SDL_MOUSEBUTTONUP:
               if(event.button.button == SDL_BUTTON_LEFT)
-                {
-                  le_mouse_pressed = NO;
-                }
+                  le_mouse_pressed[LEFT] = NO;
+              else if(event.button.button == SDL_BUTTON_RIGHT)
+                  le_mouse_pressed[RIGHT] = NO;
               break;
             case SDL_MOUSEMOTION:
               if(!show_menu)
@@ -1130,11 +1009,17 @@ void le_checkevents()
                   cursor_x = ((int)(pos_x + x) / 32) * 32;
                   cursor_y = ((int) y / 32) * 32;
 
-                  if(le_mouse_pressed == YES)
+                  if(le_mouse_pressed[LEFT] == YES)
                     {
                       selection.x2 = x + pos_x;
                       selection.y2 = y;
                     }
+
+                  if(le_mouse_pressed[RIGHT] == YES)
+                    {
+fprintf(stderr, "mouse scrolling\n");
+                    pos_x += 1 * event.motion.xrel;
+										}
                 }
               break;
             case SDL_QUIT:	// window closed
@@ -1354,7 +1239,7 @@ void le_checkevents()
               button_event(&le_move_left_bt,&event);
               button_event(&le_move_right_bt,&event);
 
-              if(le_mouse_pressed)
+              if(le_mouse_pressed[LEFT])
                 {
                   le_change(cursor_x, cursor_y, le_current_tile);
                 }
@@ -1544,7 +1429,6 @@ void le_showhelp()
 
 
   text_drawf(&blue_text, "- Help -", 0, 30, A_HMIDDLE, A_TOP, 2, NO_UPDATE);
-  text_draw(&gold_text, "Keys:", 80, 60, 1, NO_UPDATE);
 
   for(i = 0; i < sizeof(text)/sizeof(char *); i++)
     text_draw(&white_text, text[i], 40, 90+(i*16), 1, NO_UPDATE);
