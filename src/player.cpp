@@ -390,7 +390,7 @@ Player::handle_horizontal_input()
 
   // extend/shrink tux collision rectangle so that we fall through/walk over 1
   // tile holes
-  if(vx > MAX_WALK_XM) {
+  if(fabsf(vx) > MAX_WALK_XM) {
     bbox.set_width(33);
   } else {
     bbox.set_width(31.8);
