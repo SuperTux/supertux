@@ -362,8 +362,6 @@ WorldMap::WorldMap()
 
   name = "<no file>";
   music = "SALCON.MOD";
-
-  load_map();
 }
 
 WorldMap::~WorldMap()
@@ -379,12 +377,12 @@ WorldMap::~WorldMap()
 void
 WorldMap::load_map()
 {
-  std::string filename = datadir +  "/levels/default/worldmap.stwm";
-  
-  lisp_object_t* root_obj = lisp_read_from_file(filename);
+  lisp_object_t* root_obj = lisp_read_from_file(datadir + "/levels/worldmap/" + map_filename);
   if (!root_obj)
-    st_abort("Couldn't load file", filename);
-  
+    st_abort("Couldn't load file", datadir + "/levels/worldmap/" + map_filename);
+
+  std::cout << "Loading map: " << datadir + "/levels/worldmap/" + map_filename << std::endl;
+
   if (strcmp(lisp_symbol(lisp_car(root_obj)), "supertux-worldmap") == 0)
     {
       lisp_object_t* cur = lisp_cdr(root_obj);
@@ -905,7 +903,7 @@ WorldMap::display()
 
   song = sound_manager->load_music(datadir +  "/music/" + music);
   sound_manager->play_music(song);
-
+  
   unsigned int last_update_time;
   unsigned int update_time;
 
@@ -968,7 +966,8 @@ WorldMap::savegame(const std::string& filename)
 
   out << "(supertux-savegame\n"
       << "  (version 1)\n"
-      << "  (title  \"Icyisland - " << nb_solved_levels << "/" << levels.size() << "\")\n"
+      << "  (title  \"" << name << " - " << nb_solved_levels << "/" << levels.size() << "\")\n"
+      << "  (map    \"" << map_filename << "\")\n"
       << "  (lives   " << player_status.lives << ")\n"
       << "  (score   " << player_status.score << ")\n"
       << "  (distros " << player_status.distros << ")\n"
@@ -995,24 +994,36 @@ WorldMap::loadgame(const std::string& filename)
 {
   std::cout << "loadgame: " << filename << std::endl;
   savegame_file = filename;
+  map_filename = "icyisland.stwm";
 
   if (access(filename.c_str(), F_OK) != 0)
+    {
+    load_map();
     return;
+    }
   
   lisp_object_t* savegame = lisp_read_from_file(filename);
   if (!savegame)
     {
       std::cout << "WorldMap:loadgame: File not found: " << filename << std::endl;
+      load_map();
       return;
     }
 
   lisp_object_t* cur = savegame;
 
   if (strcmp(lisp_symbol(lisp_car(cur)), "supertux-savegame") != 0)
+    {
+    load_map();
     return;
+    }
 
   cur = lisp_cdr(cur);
   LispReader reader(cur);
+
+  /* Get the Map filename and then load it before setting level settings */
+  reader.read_string("map", map_filename);
+  load_map(); 
 
   reader.read_int("lives", player_status.lives);
   reader.read_int("score", player_status.score);

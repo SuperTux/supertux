@@ -148,6 +148,8 @@ public:
   };
 
 private:
+  std::string map_filename;
+
   typedef std::vector<Level> Levels;
   Levels levels;
 
