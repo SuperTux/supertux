@@ -25,14 +25,17 @@ endif
 JOY=YES
 
 
+#undefine this for non debugging compilation
+
+DEBUG_FLAG=-DDEBUG
+
 # Defaults for Linux:
 
 TARGET=supertux
 TARGET_DEF=LINUX
 
-
 CFLAGS=-Wall -O2 $(SDL_CFLAGS) -DDATA_PREFIX=\"$(DATA_PREFIX)\" \
-	-D$(NOSOUNDFLAG) -D$(TARGET_DEF) -DJOY_$(JOY)
+	-D$(NOSOUNDFLAG) -D$(TARGET_DEF) -DJOY_$(JOY) $(DEBUG_FLAG)
 
 
 # Other definitions:

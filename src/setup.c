@@ -140,7 +140,7 @@ void st_setup(void)
   
   if (use_sound == YES)
     {
-      if (Mix_OpenAudio(44100, AUDIO_S16, 2, 512) < 0)
+      if (open_audio(44100, AUDIO_S16, 2, 512) < 0)
         {
           fprintf(stderr,
                   "\nWarning: I could not set up audio for 44100 Hz "

@@ -311,7 +311,7 @@ int i,j;
 		    {
 		      tux_skidding = SKID_TIME;
 
-		      playsound(sounds[SND_SKID]);
+		      play_sound(sounds[SND_SKID]);
 
 		    }
 		  tux_dir = RIGHT;
@@ -364,7 +364,7 @@ int i,j;
 		      tux_dir == RIGHT)
 		    {
 		      tux_skidding = SKID_TIME;
-		      playsound(sounds[SND_SKID]);
+		      play_sound(sounds[SND_SKID]);
 		    }
 		  tux_dir = LEFT;
 		}
@@ -444,9 +444,9 @@ int i,j;
 			  jumping = YES;
 			 
 			  if (tux_size == SMALL)
-			    playsound(sounds[SND_JUMP]);
+			    play_sound(sounds[SND_JUMP]);
 			  else
-			    playsound(sounds[SND_BIGJUMP]);
+			    play_sound(sounds[SND_BIGJUMP]);
 			}
 		    }
 		}
@@ -499,8 +499,8 @@ int i,j;
 			
 	  if (use_sound)
 	  {
-	    if (Mix_PlayingMusic())
-	     Mix_HaltMusic();
+	    if (playing_music())
+	     halt_music();
 	  }
     
 		
@@ -776,7 +776,7 @@ int i,j;
 			      if (distro_counter <= 0)
 			        change(tux_x, tux_y, scroll_x, 'a');
 			      
-			      playsound(sounds[SND_DISTRO]);
+			      play_sound(sounds[SND_DISTRO]);
 			      score = score + SCORE_DISTRO;
 			      distros++;
 			    }
@@ -796,7 +796,7 @@ int i,j;
 			      if (distro_counter <= 0)
 			        change(tux_x + 31, tux_y, scroll_x, 'a');
 			      
-			      playsound(sounds[SND_DISTRO]);
+			      play_sound(sounds[SND_DISTRO]);
 			      score = score + SCORE_DISTRO;
 			      distros++;
 			    }
@@ -844,7 +844,7 @@ int i,j;
 	distros = distros - DISTROS_LIFEUP;
 	if(lives < MAX_LIVES)
 	 lives++;
-        playsound(sounds[SND_LIFEUP]); /*We want to hear the sound even, if MAX_LIVES is reached*/
+        play_sound(sounds[SND_LIFEUP]); /*We want to hear the sound even, if MAX_LIVES is reached*/
       }
      
 
@@ -1050,7 +1050,7 @@ int i,j;
 
 
 			  /* Play death sound: */
-			  playsound(sounds[SND_FALL]);
+			  play_sound(sounds[SND_FALL]);
 			}
 		    }
 		}
@@ -1141,19 +1141,19 @@ int i,j;
 		      
 		      if (upgrades[i].kind == UPGRADE_MINTS)
 			{
-                          playsound(sounds[SND_EXCELLENT]);
+                          play_sound(sounds[SND_EXCELLENT]);
 			  tux_size = BIG;
 			  super_bkgd_time = 8;
 			}
 		      else if (upgrades[i].kind == UPGRADE_COFFEE)
 			{
-			  playsound(sounds[SND_COFFEE]);
+			  play_sound(sounds[SND_COFFEE]);
 			  tux_got_coffee = YES;
 			  super_bkgd_time = 4;
 			}
 		      else if (upgrades[i].kind == UPGRADE_HERRING)
 			{
-			  playsound(sounds[SND_HERRING]);
+			  play_sound(sounds[SND_HERRING]);
 			  tux_invincible_time = 200;
 			  super_bkgd_time = 4;
 			}
@@ -1283,7 +1283,7 @@ int i,j;
 			      bad_guys[i].dir = !bad_guys[i].dir;
 			     
 			      if (bad_guys[i].mode == KICK)
-				playsound(sounds[SND_RICOCHET]);
+				play_sound(sounds[SND_RICOCHET]);
 			    }
 			}
 		      
@@ -1307,7 +1307,7 @@ int i,j;
 				  
 				  bad_guys[j].dying = FALLING;
 				  bad_guys[j].ym = -8;
-				  playsound(sounds[SND_FALL]);
+				  play_sound(sounds[SND_FALL]);
 
 				  add_score(bad_guys[i].x - scroll_x,
 					    bad_guys[i].y, 100);
@@ -1404,7 +1404,7 @@ int i,j;
 			  add_score(bad_guys[i].x - scroll_x, bad_guys[i].y,
 				    50 * score_multiplier);
 			  
-			  playsound(sounds[SND_SQUISH]);
+			  play_sound(sounds[SND_SQUISH]);
 			}
 		      else if (bad_guys[i].kind == BAD_LAPTOP)
 			{
@@ -1438,7 +1438,7 @@ int i,j;
 				    bad_guys[i].y,
 				    25 * score_multiplier);
 			 
-			  /* playsound(sounds[SND_SQUISH]); */
+			  /* play_sound(sounds[SND_SQUISH]); */
 			}
 		      else if (bad_guys[i].kind == -1)
 			{
@@ -1500,7 +1500,7 @@ int i,j;
 				    {
 				      bad_guys[i].dying = FALLING;
 				      bad_guys[i].ym = -8;
-				      playsound(sounds[SND_FALL]);
+				      play_sound(sounds[SND_FALL]);
 				    }
 				}
 			    }
@@ -1515,7 +1515,7 @@ int i,j;
 			    {
 			      bad_guys[i].dying = FALLING;
 			      bad_guys[i].ym = -8;
-			      playsound(sounds[SND_FALL]);
+			      play_sound(sounds[SND_FALL]);
 			    }
 			}
 		    }
@@ -2134,7 +2134,7 @@ int gameloop(void)
   
   
   /* --- MAIN GAME LOOP!!! --- */
-  
+
   done = 0;
   quit = 0;
   frame = 0;
@@ -2168,9 +2168,9 @@ int gameloop(void)
     
       if (use_sound)
         {
-          if (!Mix_PlayingMusic())
+          if (!playing_music())
 	    {
-	      Mix_PlayMusic(song, 1);
+	      play_music(song, 1);
 	    }
         }
       
@@ -2198,8 +2198,8 @@ int gameloop(void)
  
   if (use_sound)
     {
-      if (Mix_PlayingMusic())
-        Mix_HaltMusic();
+      if (playing_music())
+        halt_music();
     }
   
   unloadlevelgfx();
@@ -2231,8 +2231,8 @@ void loadlevel(void)
   char * filename;
   char str[80];
   char * line;
-  
-  
+
+
   /* Reset arrays: */
 
   for (i = 0; i < NUM_BOUNCY_DISTROS; i++)
@@ -2249,7 +2249,7 @@ void loadlevel(void)
 
   for (i = 0; i < NUM_FLOATING_SCORES; i++)
     floating_scores[i].alive = NO;
-  
+
   for (i = 0; i < NUM_UPGRADES; i++)
     upgrades[i].alive = NO;
 
@@ -2258,28 +2258,35 @@ void loadlevel(void)
 
 
   /* Load data file: */
- 
+
   filename = (char *) malloc(sizeof(char) * (strlen(DATA_PREFIX) + 20));
+  DEBUG_MSG("Fatal: FIXME QUICKLY : SEGMENTATION FAULT POSSIBLE !");
   sprintf(filename, "%s/levels/level%d.dat", DATA_PREFIX, level);
   fi = fopen(filename, "r");
   if (fi == NULL)
     {
       perror(filename);
       st_shutdown();
+      free(filename);
+      exit(-1);
     }
   free(filename);
-  
+
 
   /* Load header info: */
 
+  
   /* (Level title) */
   fgets(str, 20, fi);
   strcpy(levelname, str);
-
+  levelname[strlen(levelname)-1] = '\0';
+  
   /* (Level theme) */
   fgets(str, 20, fi);
   strcpy(leveltheme, str);
   leveltheme[strlen(leveltheme)-1] = '\0';
+
+  
 
   /* (Time to beat level) */
   fgets(str, 10, fi);
@@ -2289,6 +2296,8 @@ void loadlevel(void)
   fgets(str, 20, fi);
   strcpy(song_title, str);
   song_title[strlen(song_title)-1] = '\0';
+
+  
   
   /* (Level background color) */
   fgets(str, 10, fi);
@@ -2301,23 +2310,27 @@ void loadlevel(void)
   /* (Level width) */
   fgets(str, 10, fi);
   level_width = atoi(str);
-  
+
 
   /* Allocate some space for the line-reading! */
-  
+
   line = (char *) malloc(sizeof(char) * (level_width + 5));
   if (line == NULL)
   {
     fprintf(stderr, "Couldn't allocate space to load level data!");
     exit(1);
   }
-  
-  
+
+
   /* Load the level lines: */
-  
+
   for (y = 0; y < 15; y++)
     {
-      fgets(line, level_width + 5, fi);
+      if(fgets(line, level_width + 5, fi) == NULL)
+      {
+       fprintf(stderr, "Level %s isn't complete!\n",levelname);
+       exit(1);
+      }
       line[strlen(line) - 1] = '\0';
       tiles[y] = strdup(line);
     }
@@ -2394,6 +2407,8 @@ void loadlevel(void)
   SDL_Flip(screen);
   
   SDL_Delay(1000);
+
+  
 }
 
 
@@ -2415,7 +2430,7 @@ void loadlevelgfx(void)
 {
   img_brick[0] = load_level_image("brick0.png", IGNORE_ALPHA);
   img_brick[1] = load_level_image("brick1.png", IGNORE_ALPHA);
-  
+
   img_solid[0] = load_level_image("solid0.png", USE_ALPHA);
   img_solid[1] = load_level_image("solid1.png", USE_ALPHA);
   img_solid[2] = load_level_image("solid2.png", USE_ALPHA);
@@ -2444,7 +2459,7 @@ void loadlevelsong(void)
 		                              strlen(song_title) + 8));
 
   sprintf(song_path, "%s/music/%s", DATA_PREFIX, song_title);
-  
+
   song = load_song(song_path);
 
   free(song_path);
@@ -2474,10 +2489,7 @@ void unloadlevelgfx(void)
 
 void unloadlevelsong(void)
 {
-  if (use_sound)
-    {
-      Mix_FreeMusic(song);
-    }
+  free_music(song);
 }
 
 
@@ -2543,7 +2555,7 @@ void loadshared(void)
   
   bigtux_left_jump =
     load_image(DATA_PREFIX "/images/shared/bigtux-left-jump.png", USE_ALPHA);
-  
+
   bigcape_right[0] =
     load_image(DATA_PREFIX "/images/shared/bigcape-right-0.png",
 	       USE_ALPHA);
@@ -2567,7 +2579,7 @@ void loadshared(void)
   ducktux_left = load_image(DATA_PREFIX
 			    "/images/shared/ducktux-left.png",
 			    USE_ALPHA);
-  
+
   skidtux_right = load_image(DATA_PREFIX
 			     "/images/shared/skidtux-right.png",
 			     USE_ALPHA);
@@ -2592,44 +2604,44 @@ void loadshared(void)
 
   img_waves[0] = load_image(DATA_PREFIX "/images/shared/waves-0.png",
 			    USE_ALPHA);
-  
+
   img_waves[1] = load_image(DATA_PREFIX "/images/shared/waves-1.png",
 			    USE_ALPHA);
-  
+
   img_waves[2] = load_image(DATA_PREFIX "/images/shared/waves-2.png",
 			    USE_ALPHA);
-  
-  
+
+
   /* Pole: */
-  
+
   img_pole = load_image(DATA_PREFIX "/images/shared/pole.png", USE_ALPHA);
   img_poletop = load_image(DATA_PREFIX "/images/shared/poletop.png",
 			   USE_ALPHA);
-  
-  
+
+
   /* Flag: */
-  
+
   img_flag[0] = load_image(DATA_PREFIX "/images/shared/flag-0.png",
 			   USE_ALPHA);
   img_flag[1] = load_image(DATA_PREFIX "/images/shared/flag-1.png",
 			   USE_ALPHA);
 
-  
+
   /* Cloud: */
-  
+
   img_cloud[0][0] = load_image(DATA_PREFIX "/images/shared/cloud-00.png",
 			       USE_ALPHA);
-  
+
   img_cloud[0][1] = load_image(DATA_PREFIX "/images/shared/cloud-01.png",
 			       USE_ALPHA);
-  
+
   img_cloud[0][2] = load_image(DATA_PREFIX "/images/shared/cloud-02.png",
 			       USE_ALPHA);
-  
+
   img_cloud[0][3] = load_image(DATA_PREFIX "/images/shared/cloud-03.png",
 			       USE_ALPHA);
-  
-  
+
+
   img_cloud[1][0] = load_image(DATA_PREFIX "/images/shared/cloud-10.png",
 			       USE_ALPHA);
   
@@ -2654,23 +2666,23 @@ void loadshared(void)
   img_bsod_left[1] = load_image(DATA_PREFIX
 				"/images/shared/bsod-left-1.png",
 				USE_ALPHA);
-  
+
   img_bsod_left[2] = load_image(DATA_PREFIX
 				"/images/shared/bsod-left-2.png",
 				USE_ALPHA);
-  
+
   img_bsod_left[3] = load_image(DATA_PREFIX
 				"/images/shared/bsod-left-3.png",
 				USE_ALPHA);
-  
+
   img_bsod_right[0] = load_image(DATA_PREFIX
 				 "/images/shared/bsod-right-0.png",
 				 USE_ALPHA);
-  
+
   img_bsod_right[1] = load_image(DATA_PREFIX
 				 "/images/shared/bsod-right-1.png",
 				 USE_ALPHA);
-  
+
   img_bsod_right[2] = load_image(DATA_PREFIX
 				 "/images/shared/bsod-right-2.png",
 				 USE_ALPHA);
@@ -2678,46 +2690,46 @@ void loadshared(void)
   img_bsod_right[3] = load_image(DATA_PREFIX
 				 "/images/shared/bsod-right-3.png",
 				 USE_ALPHA);
-  
+
   img_bsod_squished_left = load_image(DATA_PREFIX
 				  "/images/shared/bsod-squished-left.png",
 				  USE_ALPHA);
-  
+
   img_bsod_squished_right = load_image(DATA_PREFIX
 				   "/images/shared/bsod-squished-right.png",
 				   USE_ALPHA);
-  
+
   img_bsod_falling_left = load_image(DATA_PREFIX
 				  "/images/shared/bsod-falling-left.png",
 				  USE_ALPHA);
-  
+
   img_bsod_falling_right = load_image(DATA_PREFIX
 				   "/images/shared/bsod-falling-right.png",
 				   USE_ALPHA);
-  
-  
+
+
   /* (Laptop) */
-  
+
   img_laptop_left[0] = load_image(DATA_PREFIX
 				  "/images/shared/laptop-left-0.png",
 				  USE_ALPHA);
-  
+
   img_laptop_left[1] = load_image(DATA_PREFIX
 				  "/images/shared/laptop-left-1.png",
 				  USE_ALPHA);
-  
+
   img_laptop_left[2] = load_image(DATA_PREFIX
 				  "/images/shared/laptop-left-2.png",
 				  USE_ALPHA);
-  
+
   img_laptop_right[0] = load_image(DATA_PREFIX
 				  "/images/shared/laptop-right-0.png",
 				  USE_ALPHA);
-  
+
   img_laptop_right[1] = load_image(DATA_PREFIX
 				  "/images/shared/laptop-right-1.png",
 				  USE_ALPHA);
-  
+
   img_laptop_right[2] = load_image(DATA_PREFIX
 				  "/images/shared/laptop-right-2.png",
 				  USE_ALPHA);
@@ -2725,16 +2737,16 @@ void loadshared(void)
   img_laptop_flat_left = load_image(DATA_PREFIX
 				    "/images/shared/laptop-flat-left.png",
 				    USE_ALPHA);
-  
+
   img_laptop_flat_right = load_image(DATA_PREFIX
 				     "/images/shared/laptop-flat-right.png",
 				     USE_ALPHA);
-  
-  img_laptop_falling_left = 
+
+  img_laptop_falling_left =
     load_image(DATA_PREFIX
 	       "/images/shared/laptop-falling-left.png",
 	       USE_ALPHA);
-  
+
   img_laptop_falling_right =
     load_image(DATA_PREFIX
 	       "/images/shared/laptop-falling-right.png",
@@ -2742,69 +2754,69 @@ void loadshared(void)
 
 
   /* (Money) */
-  
+
   img_money_left[0] = load_image(DATA_PREFIX
 				 "/images/shared/bag-left-0.png",
 				 USE_ALPHA);
-  
+
   img_money_left[1] = load_image(DATA_PREFIX
 				 "/images/shared/bag-left-1.png",
 				 USE_ALPHA);
-  
+
   img_money_right[0] = load_image(DATA_PREFIX
 				  "/images/shared/bag-right-0.png",
 				  USE_ALPHA);
-  
+
   img_money_right[1] = load_image(DATA_PREFIX
 				  "/images/shared/bag-right-1.png",
 				  USE_ALPHA);
-  
-  
-  
+
+
+
   /* Upgrades: */
-  
+
   img_mints = load_image(DATA_PREFIX "/images/shared/mints.png", USE_ALPHA);
   img_coffee = load_image(DATA_PREFIX "/images/shared/coffee.png", USE_ALPHA);
 
-  
+
   /* Weapons: */
-  
+
   img_bullet = load_image(DATA_PREFIX "/images/shared/bullet.png", USE_ALPHA);
 
   img_red_glow = load_image(DATA_PREFIX "/images/shared/red-glow.png",
 			    USE_ALPHA);
-  
-  
+
+
   /* Distros: */
-  
+
   img_distro[0] = load_image(DATA_PREFIX "/images/shared/distro-0.png",
 			     USE_ALPHA);
-  
+
   img_distro[1] = load_image(DATA_PREFIX "/images/shared/distro-1.png",
 			     USE_ALPHA);
-  
+
   img_distro[2] = load_image(DATA_PREFIX "/images/shared/distro-2.png",
 			     USE_ALPHA);
-  
+
   img_distro[3] = load_image(DATA_PREFIX "/images/shared/distro-3.png",
 			     USE_ALPHA);
-  
-  
+
+
   /* Herring: */
-  
+
   img_golden_herring =
     load_image(DATA_PREFIX "/images/shared/golden-herring.png",
 	       USE_ALPHA);
 
-  
+
   /* Super background: */
-  
+
   img_super_bkgd = load_image(DATA_PREFIX "/images/shared/super-bkgd.png",
 			      IGNORE_ALPHA);
-  
-  
+
+
   /* Sound effects: */
-  
+
   if (use_sound)
     {
       for (i = 0; i < NUM_SOUNDS; i++)
@@ -2900,11 +2912,8 @@ void unloadshared(void)
   
   SDL_FreeSurface(img_golden_herring);
 
-  if (use_sound)
-    {
-      for (i = 0; i < NUM_SOUNDS; i++)
-        Mix_FreeChunk(sounds[i]);
-    }
+  for (i = 0; i < NUM_SOUNDS; i++)
+    free_chunk(sounds[i]);
 }
 
 
@@ -3121,7 +3130,7 @@ void trybreakbrick(int x, int y, int sx)
 	  if (distro_counter <= 0)
 	   change(x, y, sx, 'a');
 	 
-	  playsound(sounds[SND_DISTRO]);
+	  play_sound(sounds[SND_DISTRO]);
 	  score = score + SCORE_DISTRO;
 	  distros++;
 	}
@@ -3141,7 +3150,7 @@ void trybreakbrick(int x, int y, int sx)
       
       /* Get some score: */
       
-      playsound(sounds[SND_BRICK]);
+      play_sound(sounds[SND_BRICK]);
       score = score + SCORE_BRICK;
     }
 }
@@ -3154,7 +3163,7 @@ void bumpbrick(int x, int y, int sx)
   add_bouncy_brick(((x + sx + 1) / 32) * 32,
 		   (y / 32) * 32);
   
-  playsound(sounds[SND_BRICK]);
+  play_sound(sounds[SND_BRICK]);
 }
 
 
@@ -3171,7 +3180,7 @@ void tryemptybox(int x, int y, int sx)
 	  add_bouncy_distro(((x + sx + 1) / 32) * 32,
 			    (y / 32) * 32 - 32);
 	  
-	  playsound(sounds[SND_DISTRO]);
+	  play_sound(sounds[SND_DISTRO]);
 	  score = score + SCORE_DISTRO;
 	  distros++;
 	}
@@ -3196,7 +3205,7 @@ void tryemptybox(int x, int y, int sx)
 			  UPGRADE_COFFEE);
 	    }
 	  
-	  playsound(sounds[SND_UPGRADE]);
+	  play_sound(sounds[SND_UPGRADE]);
 	}
       else if (shape(x, y, sx) == '!')
 	{
@@ -3221,7 +3230,7 @@ void trygrabdistro(int x, int y, int sx, int bounciness)
   if (shape(x, y, sx) == '$')
     {
       change(x, y, sx, '.');
-      playsound(sounds[SND_DISTRO]);
+      play_sound(sounds[SND_DISTRO]);
       
       if (bounciness == BOUNCE)
 	{
@@ -3407,7 +3416,7 @@ void trybumpbadguy(int x, int y, int sx)
 	    {
 	      bad_guys[i].dying = FALLING;
 	      bad_guys[i].ym = -8;
-	      playsound(sounds[SND_FALL]);
+	      play_sound(sounds[SND_FALL]);
 	    }
 	}
     }
@@ -3423,7 +3432,7 @@ void trybumpbadguy(int x, int y, int sx)
 	{
 	  upgrades[i].xm = -upgrades[i].xm;
 	  upgrades[i].ym = -8;
-	  playsound(sounds[SND_BUMP_UPGRADE]);
+	  play_sound(sounds[SND_BUMP_UPGRADE]);
 	}
     }
 }
@@ -3462,7 +3471,7 @@ void killtux(int mode)
 {
   tux_ym = -16;
  
-  playsound(sounds[SND_HURT]);
+  play_sound(sounds[SND_HURT]);
  
   if (tux_dir == RIGHT)
     tux_xm = -8;
@@ -3502,7 +3511,7 @@ void add_bullet(int x, int y, int dir, int xm)
   if (found != -1)
     {
       bullets[found].alive = YES;
-      
+
       if (dir == RIGHT)
 	{
 	  bullets[found].x = x + 32;
@@ -3517,7 +3526,7 @@ void add_bullet(int x, int y, int dir, int xm)
       bullets[found].y = y;
       bullets[found].ym = BULLET_STARTING_YM;
       
-      playsound(sounds[SND_SHOOT]);
+      play_sound(sounds[SND_SHOOT]);
     }
 }
 

@@ -6,7 +6,7 @@
   by Bill Kendrick
   bill@newbreedsoftware.com
   http://www.newbreedsoftware.com/supertux/
-  
+
   April 22, 2000 - July 15, 2002
 */
 
@@ -25,8 +25,10 @@ Mix_Chunk* sounds[NUM_SOUNDS];
 Mix_Music* song;
 
 // functions handling the sound and music
+int open_audio(int frequency, Uint16 format, int channels, int chunksize);
+
 Mix_Chunk * load_sound(char * file);
-void playsound(Mix_Chunk * snd);
+void play_sound(Mix_Chunk * snd);
 Mix_Music * load_song(char * file);
 
 int playing_music(void);
@@ -42,15 +44,11 @@ void* sounds[NUM_SOUNDS];
 void* song;
 
 // fake sound handlers
+int open_audio (int frequency, int format, int channels, int chunksize);
+
 void* load_sound(void* file);
-void playsound(void * snd);
+void play_sound(void * snd);
 void* load_song(void* file);
-int Mix_PlayingMusic();
-void Mix_HaltMusic();
-int Mix_PlayMusic();
-void Mix_FreeMusic();
-void Mix_FreeChunk();
-int Mix_OpenAudio(int a, int b, int c, int d);
 
 int playing_music();
 void halt_music();

@@ -31,16 +31,31 @@
 
 #ifndef NOSOUND
 
+/* --- OPEN THE AUDIO DEVICE --- */
+
+int open_audio (int frequency, Uint16 format, int channels, int chunksize)
+{
+  if (use_sound) {
+    return Mix_OpenAudio( frequency, format, channels, chunksize );
+  }
+  else {
+    // let the user think that the audio device was correctly opened
+    // and keep the compiler happy :-D
+    return 0;
+  }
+}
+
+
 /* --- LOAD A SOUND --- */
 
 Mix_Chunk * load_sound(char * file)
 {
   Mix_Chunk * snd;
-  
+
   if (use_sound)
   {
     snd = Mix_LoadWAV(file);
-  
+
     if (snd == NULL)
       st_abort("Can't load", file);
   }
@@ -72,25 +87,27 @@ Mix_Music * load_song(char * file)
 
 
 /* --- PLAY A SOUND --- */
-  
- void playsound(Mix_Chunk * snd)
+
+ void play_sound(Mix_Chunk * snd)
  {
   // this won't call the function if the user has disabled sound
   if (use_sound) {
     Mix_PlayChannel(-1, snd, 0);
   }
 }
- 
- 
+
+
 void free_chunk(Mix_Chunk *chunk)
 {
-  if (use_sound)
+  if (use_sound) {
+    DEBUG_MSG( __PRETTY_FUNCTION__ );
     Mix_FreeChunk( chunk );
+  }
 }
-    
+
 int playing_music(void)
 {
- if (use_sound) {
+  if (use_sound) {
     return Mix_PlayingMusic();
   }
   else {
@@ -99,7 +116,7 @@ int playing_music(void)
   }
 }
 
- 
+
 int halt_music(void)
 {
   if (use_sound) {
@@ -109,11 +126,12 @@ int halt_music(void)
     return 0;
   }
 }
- 
- 
+
+
 int play_music(Mix_Music *music, int loops)
 {
   if (use_sound) {
+    DEBUG_MSG(__PRETTY_FUNCTION__);
     return Mix_PlayMusic(music, loops);
   }
   else {
@@ -121,25 +139,26 @@ int play_music(Mix_Music *music, int loops)
     return -1;
   }
 }
- 
+
 
 void free_music(Mix_Music *music)
 {
-  if (use_sound)
+  if (use_sound) {
+    DEBUG_MSG(__PRETTY_FUNCTION__);
     Mix_FreeMusic( music );
+  }
 }
 
 #else
 
+int open_audio (int frequency, int format, int channels, int chunksize)
+{
+  return -1;
+}
+
 void* load_sound(void* file) { return NULL; }
-void playsound(void * snd) {}
+void play_sound(void * snd) {}
 void* load_song(void* file) { return NULL; }
-int Mix_PlayingMusic() { return 0; }
-void Mix_HaltMusic() {}
-int Mix_PlayMusic() { return -1; }
-void Mix_FreeMusic() {}
-void Mix_FreeChunk() {}
-int Mix_OpenAudio(int a, int b, int c, int d) { return -1; }
 
 int playing_music() { return 0; }
 void halt_music() {}

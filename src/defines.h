@@ -6,33 +6,47 @@
   by Bill Kendrick
   bill@newbreedsoftware.com
   http://www.newbreedsoftware.com/supertux/
-  
+
   April 11, 2000 - August 29, 2002
 */
 
 
-/* Version: */
+#if !defined( SUPERTUX_DEFINES_H )
 
-#define VERSION "0.0.5"
+        #define SUPERTUX_DEFINES_H
+        /* Version: */
 
-
-/* Frames per second: */
-
-#define FPS (1000 / 25)
+        #define VERSION "0.0.5"
 
 
-/* Joystick buttons and axes: */
+        /* Frames per second: */
 
-#define JOY_A 0
-#define JOY_B 1
-
-#define JOY_X 0
-#define JOY_Y 1
+        #define FPS (1000 / 25)
 
 
-/* Booleans: */
+        /* Joystick buttons and axes: */
 
-#define NO 0
-#define YES 1
+        #define JOY_A 0
+        #define JOY_B 1
 
+        #define JOY_X 0
+        #define JOY_Y 1
+
+
+        /* Booleans: */
+
+        #define NO 0
+        #define YES 1
+
+        /* Debugging */
+
+        #ifdef DEBUG
+        	#define DEBUG_MSG( msg ) { \
+                	printf( msg ); printf("\n"); \
+                }
+        #else
+        	#define DEBUG_MSG( msg ) {}
+        #endif
+
+#endif
 
