@@ -3529,6 +3529,7 @@ void add_bullet(int x, int y, int dir, int xm)
       playsound(sounds[SND_SHOOT]);
 #endif
     }
+}
 
 
 void drawendscreen(void)
