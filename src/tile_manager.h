@@ -70,7 +70,16 @@ class TileManager
   const Tile* get(uint32_t id) const
   {
     assert(id < tiles.size());
-    return tiles[id];
+    Tile* t = tiles[id];
+    if (t) 
+      {
+        return t;
+      }
+    else
+      {
+        std::cout << "TileManager: Invalid tile: " << id << std::endl;
+        return tiles[0];
+      }
   }
 
   uint32_t get_max_tileid() const
