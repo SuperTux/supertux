@@ -42,48 +42,41 @@ bool rectcollision_offset(const base_type& one, const base_type& two, float off_
           one.y <= two.y + two.height + off_y - 1);
 }
 
-bool collision_object_map(const base_type& pbase)
+bool collision_object_map(const base_type& base)
 {
-  int v = (int)pbase.height / 16;
-  int h = (int)pbase.width / 16;
+  const Level& level = *World::current()->get_level();
+  TileManager& tilemanager = *TileManager::instance();
 
-  if(issolid(pbase.x + 1, pbase.y + 1) ||
-     issolid(pbase.x + pbase.width -1, pbase.y + 1) ||
-     issolid(pbase.x +1, pbase.y + pbase.height -1) ||
-     issolid(pbase.x + pbase.width -1, pbase.y + pbase.height - 1))
-    return true;
+  // we make the collision rectangle 1 pixel smaller
+  int starttilex = int(base.x+1) / 32;
+  int starttiley = int(base.y+1) / 32;
+  int max_x = int(base.x + base.width);
+  int max_y = int(base.y + base.height);
 
-  for(int i = 1; i < h; ++i)
-    {
-      if(issolid(pbase.x + i*16,pbase.y + 1))
+  for(int x = starttilex; x*32 < max_x; ++x) {
+    for(int y = starttiley; y*32 < max_y; ++y) {
+      Tile* tile = tilemanager.get(level.get_tile_at(x, y));
+      if(tile->solid)
         return true;
     }
-
-  for(int i = 1; i < h; ++i)
-    {
-      if(  issolid(pbase.x + i*16,pbase.y + pbase.height - 1))
-        return true;
-    }
-
-  for(int i = 1; i < v; ++i)
-    {
-      if(  issolid(pbase.x + 1, pbase.y + i*16))
-        return true;
-    }
-  for(int i = 1; i < v; ++i)
-    {
-      if(  issolid(pbase.x + pbase.width - 1, pbase.y + i*16))
-        return true;
-    }
+  }
 
   return false;
 }
 
 void* collision_func(const base_type& base, tiletestfunction function)
 {
-  for(float x = base.x; x < base.x + base.width; x += 32) {
-    for(float y = base.y; y < base.y + base.height; y += 32) {
-      Tile* tile = gettile(x, y);
+  const Level& level = *World::current()->get_level();
+  TileManager& tilemanager = *TileManager::instance();
+  
+  int starttilex = int(base.x) / 32;
+  int starttiley = int(base.y) / 32;
+  int max_x = int(base.x + base.width);
+  int max_y = int(base.y + base.height);
+
+  for(int x = starttilex; x*32 < max_x; ++x) {
+    for(int y = starttiley; y*32 < max_y; ++y) {
+      Tile* tile = tilemanager.get(level.get_tile_at(x, y));
       void* result = function(tile);
       if(result != 0)
         return result;
@@ -168,6 +161,8 @@ void collision_swept_object_map(base_type* old, base_type* current)
 
   steps = (int)(lpath / (float)16);
 
+  float orig_x = old->x;
+  float orig_y = old->y;
   old->x += xd;
   old->y += yd;
 
@@ -234,9 +229,13 @@ void collision_swept_object_map(base_type* old, base_type* current)
         }
     }
 
+  if((xd > 0 && current->x < orig_x) || (xd < 0 && current->x > orig_x))
+    current->x = orig_x;
+  if((yd > 0 && current->y < orig_y) || (yd < 0 && current->y > orig_y))
+    current->y = orig_y;
+
   *old = *current;
 }
-
 
 Tile* gettile(float x, float y)
 {

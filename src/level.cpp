@@ -733,7 +733,7 @@ Level::get_level_music_fast()
 }
 
 unsigned int 
-Level::gettileid(float x, float y)
+Level::gettileid(float x, float y) const
 {
   int xx, yy;
   unsigned int c;
@@ -747,6 +747,15 @@ Level::gettileid(float x, float y)
     c = 0;
 
   return c;
+}
+
+unsigned int
+Level::get_tile_at(int x, int y) const
+{
+  if(x < 0 || x > width || y < 0 || y > 14)
+    return 0;
+  
+  return ia_tiles[y][x];
 }
 
 /* EOF */

@@ -131,7 +131,11 @@ class Level
   void change_size (int new_width);
 
   /** Return the id of the tile at position x/y */
-  unsigned int gettileid(float x, float y);
+  unsigned int gettileid(float x, float y) const;
+  /** returns the id of the tile at position x,y
+   * (these are logical and not pixel coordinates)
+   */
+  unsigned int get_tile_at(int x, int y) const;
 
   void load_image(Surface** ptexture, std::string theme, const char * file, int use_alpha);
 };
