@@ -134,7 +134,6 @@ public:
   // some special objects, where we need direct access
   Player* player;
   TileMap* solids;
-  Background* background;
   Camera* camera;
   
 private:

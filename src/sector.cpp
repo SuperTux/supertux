@@ -63,7 +63,7 @@
 Sector* Sector::_current = 0;
 
 Sector::Sector()
-  : gravity(10), player(0), solids(0), background(0), camera(0),
+  : gravity(10), player(0), solids(0), camera(0),
     currentmusic(LEVEL_MUSIC)
 {
   song_title = "Mortimers_chipdisko.mod";
@@ -93,8 +93,7 @@ GameObject*
 Sector::parse_object(const std::string& name, LispReader& reader)
 {
   if(name == "background") {
-    background = new Background(reader);
-    return background;
+    return new Background(reader);
   } else if(name == "camera") {
     Camera* camera = new Camera(this);
     camera->parse(reader);

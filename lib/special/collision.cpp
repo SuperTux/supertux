@@ -146,7 +146,6 @@ Collision::rectangle_aatriangle(CollisionHit& hit, const Rectangle& rect,
     return false;
   float time = depth / -(normal * movement);
   if(time < hit.time) {
-    printf("Time: %f.\n", time);
     hit.depth = depth;
     hit.time = time;
     hit.normal = normal;

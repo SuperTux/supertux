@@ -185,8 +185,13 @@ GameSession::levelintro(void)
   char str[60];
 
   DrawingContext context;
-  if(currentsector->background)
-    currentsector->background->draw(context);
+  for(Sector::GameObjects::iterator i = currentsector->gameobjects.begin();
+      i != currentsector->gameobjects.end(); ++i) {
+    Background* background = dynamic_cast<Background*> (*i);
+    if(background) {
+      background->draw(context);
+    }
+  }
 
 //  context.draw_text(gold_text, level->get_name(), Vector(screen->w/2, 160),
 //      CENTER_ALLIGN, LAYER_FOREGROUND1);
@@ -905,12 +910,18 @@ GameSession::drawstatus(DrawingContext& context)
 }
 
 void
-GameSession::drawresultscreen(void)
+GameSession::drawresultscreen()
 {
   char str[80];
 
   DrawingContext context;
-  currentsector->background->draw(context);  
+  for(Sector::GameObjects::iterator i = currentsector->gameobjects.begin();
+      i != currentsector->gameobjects.end(); ++i) {
+    Background* background = dynamic_cast<Background*> (*i);
+    if(background) {
+      background->draw(context);
+    }
+  }
 
   context.draw_text(blue_text, _("Result:"), Vector(screen->w/2, 200),
       CENTER_ALLIGN, LAYER_FOREGROUND1);
