@@ -280,9 +280,8 @@ GameSession::process_events()
               break;
 
             case SDL_JOYAXISMOTION:
-              switch(event.jaxis.axis)
+              if (event.jaxis.axis == JOY_X)
                 {
-                case JOY_X:
                   if (event.jaxis.value < -JOYSTICK_DEAD_ZONE)
                     {
                       tux.input.left  = DOWN;
@@ -298,20 +297,18 @@ GameSession::process_events()
                       tux.input.left  = DOWN;
                       tux.input.right = DOWN;
                     }
-                  break;
-                case JOY_Y:
+                }
+              else if (event.jaxis.axis == JOY_Y)
+                {
                   if (event.jaxis.value > JOYSTICK_DEAD_ZONE)
                     tux.input.down = DOWN;
                   else if (event.jaxis.value < -JOYSTICK_DEAD_ZONE)
                     tux.input.down = UP;
                   else
                     tux.input.down = UP;
-              
-                  break;
-                default:
-                  break;
                 }
               break;
+            
             case SDL_JOYBUTTONDOWN:
               if (event.jbutton.button == JOY_A)
                 tux.input.up = DOWN;

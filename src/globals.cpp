@@ -23,6 +23,13 @@
 /** The datadir prefix prepended when loading game data file */
 std::string datadir;
 
+int JOY_A = 0;
+int JOY_B = 1;
+int JOY_START = 9;
+
+int JOY_X = 0;
+int JOY_Y = 1;
+
 SDL_Surface * screen;
 Text* black_text;
 Text* gold_text;

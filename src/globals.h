@@ -30,6 +30,14 @@
 
 extern std::string datadir;
 
+/* Joystick buttons and axes: */
+extern int JOY_A;
+extern int JOY_B;
+extern int JOY_START;
+
+extern int JOY_X;
+extern int JOY_Y;
+
 extern SDL_Surface * screen;
 extern Text* black_text;
 extern Text* gold_text;

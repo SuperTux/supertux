@@ -32,16 +32,6 @@
 
 #define FPS (1000 / 25)
 
-
-/* Joystick buttons and axes: */
-
-#define JOY_A 0
-#define JOY_B 1
-#define JOY_START 9
-
-#define JOY_X 0
-#define JOY_Y 1
-
 /* Direction (keyboard/joystick) states: */
 
 #define UP 0

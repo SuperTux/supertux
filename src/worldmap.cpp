@@ -408,20 +408,19 @@ WorldMap::get_input()
               break;
           
             case SDL_JOYAXISMOTION:
-              switch(event.jaxis.axis)
+              if (event.jaxis.axis == JOY_X)
                 {
-                case JOY_X:
                   if (event.jaxis.value < -JOYSTICK_DEAD_ZONE)
                     input_direction = WEST;
                   else if (event.jaxis.value > JOYSTICK_DEAD_ZONE)
                     input_direction = EAST;
-                  break;
-                case JOY_Y:
+                }
+              else if (event.jaxis.axis == JOY_Y)
+                {
                   if (event.jaxis.value > JOYSTICK_DEAD_ZONE)
                     input_direction = SOUTH;
                   else if (event.jaxis.value < -JOYSTICK_DEAD_ZONE)
                     input_direction = NORTH;
-                  break;
                 }
               break;
 
