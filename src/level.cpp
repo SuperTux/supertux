@@ -61,8 +61,6 @@ Level::load(const std::string& filename)
     return;
   }
 
-  vertical_flip = false;
-
   for(lisp_object_t* cur = level->get_lisp(); !lisp_nil_p(cur);
       cur = lisp_cdr(cur)) {
     std::string token = lisp_symbol(lisp_car(lisp_car(cur)));
@@ -75,8 +73,6 @@ Level::load(const std::string& filename)
       author = lisp_string(data);
     } else if(token == "time") {
       time_left = lisp_integer(data);
-    } else if(token == "flip") {
-      vertical_flip = lisp_boolean(data);
     } else if(token == "sector") {
       Sector* sector = new Sector;
       sector->parse(reader);
@@ -88,12 +84,6 @@ Level::load(const std::string& filename)
   }
   
   delete level;
-
-  if(vertical_flip)
-    {
-    for(Sectors::iterator i = sectors.begin(); i != sectors.end(); ++i)
-      i->second->do_vertical_flip();
-    }
 }
 
 void
@@ -102,18 +92,10 @@ Level::load_old_format(LispReader& reader)
   reader.read_string("name", name);
   reader.read_string("author", author);
   reader.read_int("time", time_left);
-  vertical_flip = false;
-  reader.read_bool("flip", vertical_flip);
 
   Sector* sector = new Sector;
   sector->parse_old_format(reader);
   add_sector(sector);
-
-  if(vertical_flip)
-    {
-    for(Sectors::iterator i = sectors.begin(); i != sectors.end(); ++i)
-      i->second->do_vertical_flip();
-    }
 }
 
 void
@@ -135,9 +117,6 @@ Level::save(const std::string& filename)
 
  for(Sectors::iterator i = sectors.begin(); i != sectors.end(); ++i)
    {
-   if(vertical_flip)
-     i->second->do_vertical_flip();
-
    writer->start_list("sector");
    i->second->write(*writer);
    writer->end_list("sector");
@@ -153,6 +132,13 @@ Level::~Level()
 {
   for(Sectors::iterator i = sectors.begin(); i != sectors.end(); ++i)
     delete i->second;
+}
+
+void
+Level::do_vertical_flip()
+{
+  for(Sectors::iterator i = sectors.begin(); i != sectors.end(); ++i)
+    i->second->do_vertical_flip();
 }
 
 void

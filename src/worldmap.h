@@ -136,6 +136,9 @@ public:
     std::string title;
     bool solved;
 
+    /** Check if this level should be vertically flipped */
+    bool vertical_flip;
+
     /** Filename of the extro text to show once the level is
         successfully completed */
     std::string extro_filename;

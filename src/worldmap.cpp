@@ -428,6 +428,8 @@ WorldMap::load_map()
                       reader.read_string("name", level.name);
                       reader.read_int("x", level.x);
                       reader.read_int("y", level.y);
+                      level.vertical_flip = false;
+                      reader.read_bool("flip", level.vertical_flip);
 
                       levels.push_back(level);
                     }
@@ -646,7 +648,7 @@ WorldMap::update(float delta)
               shrink_fade(Vector((level->x*32 + 16 + offset.x),(level->y*32 + 16
                       + offset.y)), 500);
               GameSession session(datadir +  "/levels/" + level->name,
-                                  ST_GL_LOAD_LEVEL_FILE);
+                                  ST_GL_LOAD_LEVEL_FILE, level->vertical_flip);
 
               switch (session.run())
                 {

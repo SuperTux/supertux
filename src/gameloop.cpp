@@ -59,9 +59,9 @@
 
 GameSession* GameSession::current_ = 0;
 
-GameSession::GameSession(const std::string& levelname_, int mode)
+GameSession::GameSession(const std::string& levelname_, int mode, bool flip_level_)
   : level(0), currentsector(0), st_gl_mode(mode),
-    end_sequence(NO_ENDSEQUENCE), levelname(levelname_)
+    end_sequence(NO_ENDSEQUENCE), levelname(levelname_), flip_level(flip_level_)
 {
   current_ = this;
   
@@ -73,6 +73,9 @@ GameSession::GameSession(const std::string& levelname_, int mode)
   frame_timer.init(true);
 
   context = new DrawingContext();
+
+  if(debug_mode)
+    flip_level = true;
 
   restart_level();
 }
@@ -100,6 +103,8 @@ GameSession::restart_level()
 
   level = new Level;
   level->load(levelname);
+  if(flip_level)
+    level->do_vertical_flip();
   currentsector = level->get_sector("main");
   if(!currentsector)
     st_abort("Level has no main sector.", "");
@@ -165,7 +170,7 @@ GameSession::levelintro(void)
       Vector(0, 400), LAYER_FOREGROUND1);
 
 
-  if(level->is_level_flipped())
+  if(flip_level)
     context.draw_text_center(white_text,
       _("Level Vertically Flipped!"),
       Vector(0, 310), LAYER_FOREGROUND1);

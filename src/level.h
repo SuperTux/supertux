@@ -49,8 +49,8 @@ public:
   const std::string& get_author() const
   { return author; }
 
-  bool is_level_flipped()
-  { return vertical_flip; }
+  /** Flips the level vertically */
+  void do_vertical_flip();
 
   void add_sector(Sector* sector);
 
@@ -58,10 +58,6 @@ public:
 
 private:
   void load_old_format(LispReader& reader);
-
-  /** If true, it will flip the level vertically, during the
-      parsing process */
-  bool vertical_flip;
 };
 
 #endif /*SUPERTUX_LEVEL_H*/
