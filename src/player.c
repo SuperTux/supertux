@@ -191,7 +191,7 @@ void player_action(player_type* pplayer)
 
           score_multiplier = 1;
         }
-	
+
       if(jumped_in_solid == YES)
         {
 
@@ -358,18 +358,17 @@ int player_under_solid(player_type *pplayer)
 
 void player_handle_horizontal_input(player_type *pplayer, int dir)
 {
-  if (pplayer->jumping == NO)
+
+  if ((dir ? (pplayer->base.xm < -SKID_XM) : (pplayer->base.xm > SKID_XM)) && !timer_started(&pplayer->skidding_timer) &&
+      pplayer->dir == !dir)
     {
-      if ((dir ? (pplayer->base.xm < -SKID_XM) : (pplayer->base.xm > SKID_XM)) && !timer_started(&pplayer->skidding_timer) &&
-          pplayer->dir == !dir)
-        {
-          timer_start(&pplayer->skidding_timer, SKID_TIME);
+      timer_start(&pplayer->skidding_timer, SKID_TIME);
 
-          play_sound(sounds[SND_SKID], SOUND_CENTER_SPEAKER);
+      play_sound(sounds[SND_SKID], SOUND_CENTER_SPEAKER);
 
-        }
-      pplayer->dir = dir;
     }
+  pplayer->dir = dir;
+
 
   if ((dir ? (pplayer->base.xm < 0) : (pplayer->base.xm > 0)) && !isice(pplayer->base.x, pplayer->base.y + pplayer->base.height) &&
       !timer_started(&pplayer->skidding_timer))
