@@ -135,17 +135,17 @@
        (solid #t))
 
  (tile (id 44)
-       (images "coin1.png" "coin2.png" "coin3.png")
+       (images "coin1.png" "coin2.png" "coin3.png" "coin2.png")
        (distro #t)
-       (anim-speed 25))
+       (anim-speed 45))
  (tile (id 45)
-       (images "coin1.png" "coin2.png" "coin3.png")
+       (images "coin1.png" "coin2.png" "coin3.png" "coin2.png")
        (distro #t)
-       (anim-speed 25))
+       (anim-speed 45))
  (tile (id 46)
-       (images "coin1.png" "coin2.png" "coin3.png")
+       (images "coin1.png" "coin2.png" "coin3.png" "coin2.png")
        (distro #t)
-       (anim-speed 25))
+       (anim-speed 45))
 
  (tile (id 47)
        (images "block4.png")
@@ -240,7 +240,7 @@
  (tile (id 76)
        (images "waves-0.png" "waves-1.png" "waves-2.png")
        (water #t)
-       (anim-speed 25))
+       (anim-speed 50))
 
  ;; Normal brick
  (tile (id 77)
@@ -265,7 +265,9 @@
        (solid #f))
 
  (tile (id 82)
-       (images "distro-0.png" "distro-1.png" "distro-2.png" "distro-3.png")
+;;       (images "distro-0.png" "distro-1.png" "distro-2.png" "distro-3.png")
+       (images "coin1.png" "coin2.png" "coin3.png" "coin2.png" )
+       (anim-speed 45)
        (solid #f)
        (distro #t))
 
