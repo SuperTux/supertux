@@ -378,7 +378,7 @@ Player::handle_vertical_input()
       if (on_ground())
         {
           // jump higher if we are running
-          if (physic.get_velocity_x() > MAX_WALK_XM)
+          if (fabs(physic.get_velocity_x()) > MAX_WALK_XM)
             physic.set_velocity_y(5.8);
           else
             physic.set_velocity_y(5.2);

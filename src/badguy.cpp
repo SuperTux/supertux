@@ -193,11 +193,13 @@ BadGuy::BadGuy(float x, float y, BadGuyKind kind_, bool stay_on_platform_)
   }
 
   // if we're in a solid tile at start correct that now
-  if(kind != BAD_FLAME && kind != BAD_FISH && collision_object_map(base)) {
-    printf("Warning: badguy started in wall!.\n");
-    while(collision_object_map(base))
-      --base.y;
-  }
+  if(kind != BAD_FLAME && kind != BAD_FISH && collision_object_map(base)) 
+    {
+      std::cout << "Warning: badguy started in wall: kind: " << badguykind_to_string(kind) 
+                << " pos: (" << base.x << ", " << base.y << ")" << std::endl;
+      while(collision_object_map(base))
+        --base.y;
+    }
 }
 
 void
