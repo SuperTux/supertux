@@ -26,6 +26,8 @@
 #endif
 #include <iostream>
 
+#include <vector>
+
 namespace SuperTux
   {
     
@@ -41,6 +43,11 @@ namespace SuperTux
       Color(Uint8 red_, Uint8 green_, Uint8 blue_, Uint8 alpha_ = 255)
           : red(red_), green(green_), blue(blue_), alpha(alpha_)
       {}
+
+      Color(std::vector <unsigned int> color)
+          : red(0), green(0), blue(0), alpha(255)
+      { if(color.size() >= 3) { red = color[0]; green = color[1]; blue = color[2]; }
+        if(color.size() == 4) alpha = color[3]; }
 
       Color(const Color& o)
           : red(o.red), green(o.green), blue(o.blue), alpha(o.alpha)
