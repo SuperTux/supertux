@@ -92,6 +92,7 @@ Player::init()
   skidding_timer.init(true);
   safe_timer.init(true);
   frame_timer.init(true);
+  kick_timer.init(true);
 
   physic.reset();
 }
@@ -264,6 +265,7 @@ Player::action(double frame_ratio)
   skidding_timer.check();
   invincible_timer.check();
   safe_timer.check();
+  kick_timer.check();
 }
 
 bool
@@ -521,6 +523,13 @@ Player::draw()
                 sprite->skid_right->draw(base.x - scroll_x, base.y);
               else
                 sprite->skid_left->draw(base.x - scroll_x, base.y); 
+            }
+          else if (kick_timer.started())
+            {
+              if (dir == RIGHT)
+                sprite->kick_right->draw(base.x - scroll_x, base.y);
+              else
+                sprite->kick_left->draw(base.x - scroll_x, base.y); 
             }
           else if (physic.get_velocity_y() != 0)
             {

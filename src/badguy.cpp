@@ -291,6 +291,7 @@ BadGuy::action_laptop(float frame_ratio)
           old_base = base;
 
           mode=KICK;
+          tux.kick_timer.start(KICKING_TIME);
           set_sprite(img_laptop_flat_left, img_laptop_flat_right);
           physic.set_velocity_x((dir == LEFT) ? -3.5 : 3.5);
           play_sound(sounds[SND_KICK],SOUND_CENTER_SPEAKER);

@@ -127,6 +127,7 @@ public:
   Timer skidding_timer;
   Timer safe_timer;
   Timer frame_timer;
+  Timer kick_timer;
   Physic physic;
 
 public:

@@ -85,6 +85,10 @@ enum DyingType {
 
 #define LEVEL_WIDTH 375
 
+/* Timing constants (in ms): */
+
+#define KICKING_TIME 3000
+
 
 /* Debugging */
 
