@@ -6,6 +6,9 @@ http://www.newbreedsoftware.com/supertux/
 
 0.0.5 - December 19th, 2003 - ???
 ---------------------------
+  * Added 'PAUSE' feature.
+    Tobias Glaesser <tobi.web@gmx.de>
+
   * Levels have to specify a theme now.
     Tobias Glaesser <tobi.web@gmx.de>
 
