@@ -45,8 +45,6 @@ namespace SuperTux
         /** Frames per second */
         float fps;
 
-        int animation_loops;
-
         std::vector<Surface*> surfaces;
         };
 
@@ -63,21 +61,36 @@ namespace SuperTux
       /** Set action (or state) */
       void set_action(std::string act);
 
-      /* Handling animations */
+      /* Start an animation
+          -1 - for infinite
+          0  - stopped
+          1,2,3  - one, two, three times... */
       void start_animation(int loops);
+      /** Check if animation is stopped or not */
       bool check_animation();
+      /** Reverse the animation */
+      void reverse_animation();
 
       float get_fps()
         { return action->fps; }
+      /** Get current action total frames */
       int get_frames()
         { return action->surfaces.size(); }
+      /** Get sprite's name */
       std::string get_name() const
         { return name; }
+      /** Get current action name */
+      std::string get_action_name() const
+        { return action->name; }
       int get_width();
       int get_height();
 
-      int get_current_frame()
+      /** Get current frame */
+      int get_frame()
         { return (int)frame; }
+      /** Set current frame */
+      void set_frame(int frame_)
+        { frame = frame_; }
       Surface* get_frame(unsigned int frame)
       {
         if(frame < action->surfaces.size())
@@ -95,6 +108,8 @@ namespace SuperTux
       std::string name;
 
       float frame;
+      int animation_loops;
+      bool animation_reversed;
       float last_tick;
 
       typedef std::map <std::string, Action*> Actions;

@@ -92,7 +92,7 @@ Sprite::init_defaults(Action* act)
   act->y_hotspot = 0;
   act->fps = 10;
 
-  act->animation_loops = 0;
+  animation_loops = -1;
   last_tick = 0;
 }
 
@@ -106,7 +106,7 @@ action = i->second;
 void
 Sprite::start_animation(int loops)
 {
-action->animation_loops = loops;
+animation_loops = loops;
 reset();
 }
 
@@ -115,25 +115,58 @@ Sprite::reset()
 {
 frame = 0;
 last_tick = SDL_GetTicks();
+animation_reversed = false;
 }
 
 bool
 Sprite::check_animation()
 {
-return action->animation_loops;
+return animation_loops;
+}
+
+void
+Sprite::reverse_animation()
+{
+animation_reversed = !animation_reversed;
+
+if(animation_reversed)
+  frame = get_frames()-1;
+else
+  frame = 0;
 }
 
 void
 Sprite::update()
 {
-frame += (action->fps/1000) * (SDL_GetTicks() - last_tick);
+if(animation_loops == 0)
+  return;
+
+float inc_frame = (action->fps/1000) * (SDL_GetTicks() - last_tick);
+
+if(animation_reversed)
+  frame -= inc_frame;
+else
+  frame += inc_frame;
+
 last_tick = SDL_GetTicks();
 
-if((unsigned int)frame >= action->surfaces.size())
+if(!animation_reversed)
   {
-  frame = 0;
-  if(action->animation_loops > 0)
-    action->animation_loops--;
+  if((unsigned int)frame >= action->surfaces.size())
+    {
+    frame = 0;
+    if(animation_loops > 0)
+      animation_loops--;
+    }
+  }
+else
+  {
+  if((unsigned int)frame < 0)
+    {
+    frame = get_frames()-1;
+    if(animation_loops > 0)
+      animation_loops--;
+    }
   }
 }
 
@@ -143,8 +176,11 @@ Sprite::draw(DrawingContext& context, const Vector& pos, int layer,
 {
   update();
 
-  context.draw_surface(action->surfaces[(int)frame],
-          pos - Vector(action->x_hotspot, action->y_hotspot), layer, drawing_effect);
+  if((int)frame >= get_frames())
+    std::cerr << "Warning: frame higher than total frames!\n";
+  else
+    context.draw_surface(action->surfaces[(int)frame],
+            pos - Vector(action->x_hotspot, action->y_hotspot), layer, drawing_effect);
 }
 
 #if 0
@@ -162,13 +198,13 @@ Sprite::draw_part(float sx, float sy, float x, float y, float w, float h)
 int
 Sprite::get_width()
 {
-  return action->surfaces[get_current_frame()]->w;
+  return action->surfaces[get_frame()]->w;
 }
 
 int
 Sprite::get_height()
 {
-  return action->surfaces[get_current_frame()]->h;
+  return action->surfaces[get_frame()]->h;
 }
 
 /* EOF */
