@@ -681,12 +681,12 @@ if(sector)
       (*i)->draw(context);
 
       context.pop_transform();
+      continue;
       }
     Background* background = dynamic_cast<Background*> (*i);
     if(background)
       {  // don't resize background
       context.push_transform();
-      context.set_translation(scroll);
       context.set_zooming(1.0);
       (*i)->draw(context);
       context.pop_transform();
