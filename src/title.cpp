@@ -59,6 +59,7 @@
 #include "special/base.h"
 #include "app/gettext.h"
 #include "misc.h"
+#include "camera.h"
 
 static Surface* bkg_title;
 static Surface* logo;
@@ -102,7 +103,6 @@ void free_contrib_menu()
 
 void generate_contrib_menu()
 {
-  
   /** Generating contrib levels list by making use of Level Subset */
   std::set<std::string> level_subsets = FileSystem::dsubdirs("/levels", "info");
 
@@ -110,24 +110,22 @@ void generate_contrib_menu()
 
   contrib_menu->additem(MN_LABEL,_("Contrib Levels"),0,0);
   contrib_menu->additem(MN_HL,"",0,0);
-  
   int i = 0;
   for (std::set<std::string>::iterator it = level_subsets.begin(); it != level_subsets.end(); ++it)
     {
       LevelSubset* subset = new LevelSubset();
       subset->load((*it).c_str());
-      contrib_menu->additem(MN_GOTO, subset->title.c_str(), i,
-          contrib_subset_menu);
+      contrib_menu->additem(MN_GOTO, subset->title, 0, contrib_subset_menu, i);
       contrib_subsets.push_back(subset);
       ++i;
     }
 
-  i = 0;
+  i = level_subsets.size();
   for(std::set<std::string>::iterator it = worldmap_list.begin(); it != worldmap_list.end(); ++it)
     {
     WorldMapNS::WorldMap worldmap;
     worldmap.loadmap((*it).c_str());
-    contrib_menu->additem(MN_ACTION, worldmap.get_world_title(),0,0, i + level_subsets.size());
+    contrib_menu->additem(MN_ACTION, worldmap.get_world_title(),0,0, i);
     ++i;
     }
 
@@ -152,14 +150,14 @@ void check_levels_contrib_menu()
       current_subset = index;
       // FIXME: This shouln't be busy looping
       LevelSubset& subset = * (contrib_subsets[index]);
-          
+
       current_contrib_subset = &subset;
 
       contrib_subset_menu->clear();
 
       contrib_subset_menu->additem(MN_LABEL, subset.title, 0,0);
       contrib_subset_menu->additem(MN_HL,"",0,0);
-              
+
       for (int i = 0; i < subset.get_num_levels(); ++i)
         {
         /** get level's title */
@@ -245,6 +243,7 @@ void draw_demo(double frame_ratio)
   if(world->solids->get_width() * 32 - 320 < tux->base.x)
     {
       tux->level_begin();
+      world->camera->reset(Vector(tux->base.x, tux->base.y));
     }
 
   tux->can_jump = true;
