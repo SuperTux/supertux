@@ -23,7 +23,7 @@
 #define SUPERTUX_GAMEOBJS_H
 
 #include "type.h"
-#include "screen/texture.h"
+#include "screen/surface.h"
 #include "timer.h"
 #include "scene.h"
 #include "physic.h"

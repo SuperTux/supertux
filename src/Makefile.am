@@ -11,8 +11,8 @@ screen/font.h \
 screen/font.cpp \
 screen/screen.h \
 screen/screen.cpp \
-screen/texture.cpp \
-screen/texture.h \
+screen/surface.cpp \
+screen/surface.h \
 lispwriter.h \
 lispwriter.cpp \
 badguy.cpp \
@@ -85,6 +85,8 @@ worldmap.cpp \
 worldmap.h \
 tile.h \
 tile.cpp \
+tile_manager.h \
+tile_manager.cpp \
 resources.h \
 resources.cpp \
 gameobjs.h \

@@ -24,6 +24,7 @@
 #include <fstream>
 #include <stdexcept>
 
+#include "globals.h"
 #include "sector.h"
 #include "lispreader.h"
 #include "badguy.h"

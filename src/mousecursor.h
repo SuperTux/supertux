@@ -23,7 +23,7 @@
 #include <string>
 
 #include "timer.h"
-#include "screen/texture.h"
+#include "screen/surface.h"
 
 #define MC_FRAME_PERIOD 800  // in ms
 

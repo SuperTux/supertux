@@ -22,7 +22,7 @@
 
 #include <vector>
 
-#include "screen/texture.h"
+#include "screen/surface.h"
 #include "game_object.h"
 #include "serializable.h"
 

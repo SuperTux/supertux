@@ -44,6 +44,7 @@
 #include "player.h"
 #include "scene.h"
 #include "tile.h"
+#include "tile_manager.h"
 #include "resources.h"
 #include "background.h"
 #include "camera.h"

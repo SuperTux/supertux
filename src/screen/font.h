@@ -23,7 +23,7 @@
 
 #include <string>
 
-#include "texture.h"
+#include "surface.h"
 #include "vector.h"
 
 void display_text_file(const std::string& file, const std::string& surface, float scroll_speed);

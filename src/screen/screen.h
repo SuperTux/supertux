@@ -49,7 +49,7 @@ public:
   Uint8 red, green, blue, alpha;
 };
 
-#include "texture.h"
+#include "surface.h"
 
 class Vector;
 

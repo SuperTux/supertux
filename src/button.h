@@ -23,7 +23,7 @@
 
 #include <vector>
 
-#include "screen/texture.h"
+#include "screen/surface.h"
 #include "timer.h"
 
 enum ButtonState {

@@ -27,6 +27,7 @@
 #include "screen/drawing_context.h"
 #include "level.h"
 #include "tile.h"
+#include "tile_manager.h"
 #include "globals.h"
 #include "lispreader.h"
 #include "lispwriter.h"

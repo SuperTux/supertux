@@ -24,7 +24,7 @@
 #include <map>
 #include <string>
 
-#include "screen/texture.h"
+#include "screen/surface.h"
 #include "lispreader.h"
 #include "musicref.h"
 

@@ -24,7 +24,7 @@
 
 #include "SDL.h"
 
-#include "screen/texture.h"
+#include "screen/surface.h"
 #include "timer.h"
 #include "type.h"
 #include "mousecursor.h"

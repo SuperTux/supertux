@@ -45,7 +45,7 @@
 #include "globals.h"
 #include "setup.h"
 #include "screen/screen.h"
-#include "screen/texture.h"
+#include "screen/surface.h"
 #include "menu.h"
 #include "gameloop.h"
 #include "configfile.h"

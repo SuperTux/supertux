@@ -20,7 +20,7 @@
 #ifndef SUPERTUX_BACKGROUND_H
 #define SUPERTUX_BACKGROUND_H
 
-#include "screen/texture.h"
+#include "screen/surface.h"
 #include "screen/drawing_context.h"
 #include "game_object.h"
 #include "lispreader.h"

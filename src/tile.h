@@ -21,16 +21,11 @@
 #ifndef TILE_H
 #define TILE_H
 
-#include <set>
-#include <map>
 #include <vector>
+#include "SDL.h"
+#include "screen/surface.h"
 
-#include "screen/texture.h"
-#include "globals.h"
-#include "lispreader.h"
-#include "setup.h"
-#include "vector.h"
-
+class Vector;
 class LispReader;
 
 /**
@@ -107,54 +102,6 @@ public:
   }
 };
 
-struct TileGroup
-{
-  friend bool operator<(const TileGroup& lhs, const TileGroup& rhs)
-  { return lhs.name < rhs.name; };
-  friend bool operator>(const TileGroup& lhs, const TileGroup& rhs)
-  { return lhs.name > rhs.name; };
-
-  std::string name;
-  std::vector<int> tiles;
-};
-
-class TileManager
-{
- private:
-  TileManager();
-  ~TileManager();
-  
-  std::vector<Tile*> tiles;
-  static TileManager* instance_ ;
-  static std::set<TileGroup>* tilegroups_;
-  void load_tileset(std::string filename);
-
-  std::string current_tileset;
-  
- public:
-  static TileManager* instance()
-  { return instance_ ? instance_ : instance_ = new TileManager(); }
-  static void destroy_instance()
-  { delete instance_; instance_ = 0; }
-
-  void draw_tile(DrawingContext& context, unsigned int id,
-      const Vector& pos, int layer);
-  
-  static std::set<TileGroup>* tilegroups() { if(!instance_) { instance_ = new TileManager(); } return tilegroups_ ? tilegroups_ : tilegroups_ = new std::set<TileGroup>; }
-  Tile& get(unsigned int id) {
-
-    if(id < tiles.size())
-      {
-        return *tiles[id]; 
-      }
-    else
-      {
-        // Never return 0, but return the 0th tile instead so that
-        // user code doesn't have to check for NULL pointers all over
-        // the place
-        return *tiles[0]; 
-      } 
-  }
-};
-
 #endif
+
+/* EOF */

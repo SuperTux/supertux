@@ -21,7 +21,7 @@
 #include <iostream>
 
 #include "drawing_context.h"
-#include "texture.h"
+#include "surface.h"
 #include "globals.h"
 #include "font.h"
 

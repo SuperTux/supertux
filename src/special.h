@@ -24,7 +24,7 @@
 
 #include "bitmask.h"
 #include "type.h"
-#include "screen/texture.h"
+#include "screen/surface.h"
 #include "collision.h"
 #include "player.h"
 #include "physic.h"

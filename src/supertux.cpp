@@ -34,8 +34,8 @@
 #include "screen/screen.h"
 #include "worldmap.h"
 #include "resources.h"
-#include "screen/texture.h"
-#include "tile.h"
+#include "screen/surface.h"
+#include "tile_manager.h"
 #include "gettext.h"
 
 int main(int argc, char * argv[])

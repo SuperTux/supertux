@@ -24,7 +24,7 @@
 #include <vector>
 
 #include "lispreader.h"
-#include "screen/texture.h"
+#include "screen/surface.h"
 #include "vector.h"
 
 class Sprite

@@ -26,7 +26,7 @@
 #include "SDL.h"
 
 #include "timer.h"
-#include "screen/texture.h"
+#include "screen/surface.h"
 #include "physic.h"
 #include "sprite.h"
 #include "defines.h"

@@ -25,7 +25,7 @@
 
 #include "screen/drawing_context.h"
 #include "game_object.h"
-#include "screen/texture.h"
+#include "screen/surface.h"
 #include "level.h"
 #include "button.h"
 #include "menu.h"

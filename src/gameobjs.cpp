@@ -23,7 +23,9 @@
 #include <iostream>
 #include <cmath>
 
+#include "globals.h"
 #include "tile.h"
+#include "tile_manager.h"
 #include "gameloop.h"
 #include "gameobjs.h"
 #include "sprite_manager.h"

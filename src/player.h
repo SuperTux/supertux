@@ -25,7 +25,7 @@
 #include "bitmask.h"
 #include "type.h"
 #include "timer.h"
-#include "screen/texture.h"
+#include "screen/surface.h"
 #include "collision.h"
 #include "sound.h"
 #include "moving_object.h"

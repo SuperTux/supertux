@@ -37,7 +37,7 @@
 #include "globals.h"
 #include "title.h"
 #include "screen/screen.h"
-#include "screen/texture.h"
+#include "screen/surface.h"
 #include "high_scores.h"
 #include "menu.h"
 #include "timer.h"

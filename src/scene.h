@@ -20,7 +20,7 @@
 #ifndef SUPERTUX_SCENE_H
 #define SUPERTUX_SCENE_H
 
-#include "screen/texture.h"
+#include "screen/surface.h"
 #include "timer.h"
 
 #define FRAME_RATE 10 // 100 Frames per second (10ms)

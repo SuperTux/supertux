@@ -24,7 +24,7 @@
 #include <unistd.h>
 
 #include "globals.h"
-#include "screen/texture.h"
+#include "screen/surface.h"
 #include "screen/screen.h"
 #include "screen/drawing_context.h"
 #include "lispreader.h"
