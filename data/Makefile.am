@@ -11,6 +11,7 @@ EXTRA_DIST = \
   CREDITS \
   $(wildcard sounds/*.wav) \
   $(wildcard images/*.png) \
+  $(wildcard images/*.xpm) \
   $(wildcard images/background/*.png) \
   $(wildcard images/background/*.jpg) \
   $(wildcard images/highscore/*.png) \
