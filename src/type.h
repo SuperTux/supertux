@@ -13,7 +13,7 @@
 #ifndef SUPERTUX_TYPE_H
 #define SUPERTUX_TYPE_H
 
-#include <SDL/SDL.h>
+#include "SDL.h"
 
 /* 'Base' type for game objects */
 
