@@ -31,7 +31,7 @@ dnl Give advanced users some options to play with
 
 AC_MSG_CHECKING(for gprof mode)
 AC_ARG_ENABLE(gprof,
-              AC_HELP_STRING([--enable-gprof], [enable GNU profiling support],, enable_gprof="no"))
+              AC_HELP_STRING([--enable-gprof], [enable GNU profiling support]),, enable_gprof="no")
 if test "x${enable_gprof}" != "xno"; then
     CFLAGS="$CFLAGS -pg"
     AC_MSG_RESULT([enabled])
@@ -41,12 +41,34 @@ fi
 
 AC_MSG_CHECKING(for debug mode)
 AC_ARG_ENABLE(debug,
-              AC_HELP_STRING([--enable-debug], [enable debugging mode],, enable_debug="no"))
+              AC_HELP_STRING([--enable-debug], [enable debugging mode]),, enable_debug="no")
 if test "x${enable_debug}" != "xno"; then
     CFLAGS="$CFLAGS -DDEBUG"
     AC_MSG_RESULT([enabled])
 else
     AC_MSG_RESULT([disabled])
+fi
+
+AC_MSG_CHECKING(weather OpenGL should be used)
+AC_ARG_ENABLE(opengl,
+              AC_HELP_STRING([--enable-opengl], [enable OpenGL support]),, enable_opengl="yes")
+if test "x${enable_opengl}" != "xno"; then
+    CFLAGS="$CFLAGS -D__OPENGL"
+    AC_MSG_RESULT([yes])
+else
+    CFLAGS="$CFLAGS -DNOOPENGL"
+    AC_MSG_RESULT([no])
+fi
+
+AC_MSG_CHECKING(weather Sound should be supported)
+AC_ARG_ENABLE(sound,
+              AC_HELP_STRING([--enable-sound], [enable sound support]),, enable_sound="yes")
+if test "x${enable_sound}" != "xno"; then
+    CFLAGS="$CFLAGS -D__SOUND"
+    AC_MSG_RESULT([yes])
+else
+    CFLAGS="$CFLAGS -DNOSOUND"
+    AC_MSG_RESULT([no])
 fi
 
 dnl ===========================================================================
@@ -59,9 +81,15 @@ CFLAGS="$CFLAGS $SDL_CFLAGS"
 LDFLAGS="$LDFLAGS $SDL_LIBS"
 
 dnl Checks for additional libraries.
-AC_CHECK_LIB(SDL_mixer, SDL_OpenAudio, ,AC_MSG_ERROR(SDL_mixer library required))
+if test "x${enable_sound}" != "xno"; then
+  AC_CHECK_LIB(SDL_mixer, SDL_OpenAudio, ,AC_MSG_ERROR(SDL_mixer library required))
+fi
+
 AC_CHECK_LIB(SDL_image, IMG_Load, ,AC_MSG_ERROR(SDL_image library required))
-AC_CHECK_LIB(GL, glBegin, ,AC_MSG_ERROR(GL library required))
+
+if test "x${enable_opengl}" != "xno"; then
+  AC_CHECK_LIB(GL, glBegin, ,AC_MSG_ERROR(GL library required))
+fi
 
 # FIXME: Evil
 CFLAGS="$CFLAGS -DDATA_PREFIX=\\\"$PWD/data\\\" -DLINUX"
@@ -70,5 +98,14 @@ dnl Checks for library functions.
 AC_CHECK_FUNCS(mkdir strdup strstr)
 
 AC_OUTPUT(Makefile src/Makefile data/Makefile)
+
+echo ""
+echo "Features:"
+echo "========="
+echo " Profile Mode:   $enable_gprof"
+echo " Debug Mode:     $enable_debug"
+echo " OpenGL Support: $enable_opengl"
+echo " Sound Support:  $enable_sound"
+echo ""
 
 # EOF #
