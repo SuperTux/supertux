@@ -467,22 +467,43 @@ Player::handle_vertical_input()
    /* In case the player has pressed Down while in a certain range of air,
       enable butt jump action */
   if (input.down == DOWN && !butt_jump)
-    if(tiles_on_air(TILES_FOR_BUTTJUMP))
+    if(tiles_on_air(TILES_FOR_BUTTJUMP) && jumping)
       butt_jump = true;
 
    /* When Down is not held anymore, disable butt jump */
   if(butt_jump && input.down == UP)
     butt_jump = false;
 
+  // Do butt jump
   if (butt_jump && on_ground() && size == BIG)
   {
-    if(World::current()->trybreakbrick(base.x, base.y + base.height, false)
-      || World::current()->trybreakbrick(
-          base.x + base.width, base.y + base.height, false)) {
-        // make tux jumping a little bit again after breaking the bricks
-        physic.set_velocity_y(2);
+    butt_jump = false;
+
+    // Break bricks beneath Tux
+    if(World::current()->trybreakbrick(base.x + 1, base.y + base.height, false)
+        || World::current()->trybreakbrick(
+           base.x + base.width - 1, base.y + base.height, false))
+    {
+      physic.set_velocity_y(2);
+      butt_jump = true;
     }
-//    butt_jump = false;   // comment this, in case you won't to disable the continued use of buttjump
+
+    // Kill nearby badguys
+    std::vector<GameObject*> gameobjects = World::current()->gameobjects;
+    for (std::vector<GameObject*>::iterator i = gameobjects.begin();
+         i != gameobjects.end();
+         i++)
+    {
+      BadGuy* badguy = dynamic_cast<BadGuy*> (*i);
+      if(badguy)
+      {
+        if (fabsf(base.x - badguy->base.x) < 300 &&
+            fabsf(base.y - badguy->base.y) < 300 &&
+            (issolid(badguy->base.x + 1, badguy->base.y + badguy->base.height) ||
+              issolid(badguy->base.x + badguy->base.width - 1, badguy->base.y + badguy->base.height)))
+          badguy->kill_me(25);
+      }
+    }
   }
 
   if ( (issolid(base.x + base.width / 2, base.y + base.height + 64) ||
