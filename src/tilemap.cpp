@@ -20,6 +20,7 @@
 
 #include <assert.h>
 #include <algorithm>
+#include <math.h>
 #include "screen/drawing_context.h"
 #include "level.h"
 #include "tile.h"
@@ -44,8 +45,10 @@ void
 TileMap::draw(const std::vector<unsigned int>& tiles, DrawingContext& context,
     int layer)
 {
-  float start_x = context.get_translation().x;
-  float start_y = context.get_translation().y;
+  /** if we don't round here, we'll have a 1 pixel gap on screen sometimes.
+   * I have no idea why */
+  float start_x = roundf(context.get_translation().x);
+  float start_y = roundf(context.get_translation().y);
   float end_x = std::min(start_x + screen->w, float(level->width * 32));
   float end_y = std::min(start_y + screen->h, float(level->height * 32));
   start_x -= int(start_x) % 32;
