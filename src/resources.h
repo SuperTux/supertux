@@ -66,6 +66,7 @@ extern Surface* img_super_bkgd;
 
 extern MusicRef herring_song;
 extern MusicRef level_end_song;
+extern MusicRef credits_song;
 
 extern SpriteManager* sprite_manager;
 extern TileManager* tile_manager;

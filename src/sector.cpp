@@ -804,6 +804,9 @@ Sector::play_music(int type)
     case HERRING_MUSIC:
       SoundManager::get()->play_music(herring_song);
       break;
+    case CREDITS_MUSIC:
+      SoundManager::get()->play_music(credits_song);
+      break;
     default:
       SoundManager::get()->halt_music();
       break;

@@ -43,6 +43,7 @@ Menu* contrib_subset_menu   = 0;
 
 MusicRef herring_song;
 MusicRef level_end_song;
+MusicRef credits_song;
 
 SpriteManager* sprite_manager = 0;
 TileManager* tile_manager = 0;
@@ -163,6 +164,8 @@ void loadshared()
                    ()->load_music(datadir + "/music/salcon.mod");
   level_end_song = SoundManager::get
                      ()->load_music(datadir + "/music/leveldone.mod");
+  credits_song = SoundManager::get
+                   ()->load_music(datadir + "/music/credits.ogg");
 }
 
 /* Free shared data: */

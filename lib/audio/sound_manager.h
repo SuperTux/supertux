@@ -38,7 +38,8 @@ namespace SuperTux
     NO_MUSIC,
     LEVEL_MUSIC,
     HURRYUP_MUSIC,
-    HERRING_MUSIC
+    HERRING_MUSIC,
+    CREDITS_MUSIC
   };
 
   /// Sound manager
