@@ -256,12 +256,12 @@ void Setup::init(const std::string& _package_name,
         const std::string& _package_symbol_name,
         const std::string& _package_version)
 {
+  package_name = _package_name;
+  package_symbol_name = _package_symbol_name;    
+  package_version = _package_version;
+    
   directories();
   dictionary_manager.add_directory(datadir + "/locale");
-  
-  package_name = _package_name;
-  package_symbol_name = _package_symbol_name;
-  package_version = _package_version;
 }
 
 /* --- SETUP --- */
