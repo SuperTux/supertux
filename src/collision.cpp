@@ -56,7 +56,7 @@ bool collision_object_map(const base_type& base)
   for(int x = starttilex; x*32 < max_x; ++x) {
     for(int y = starttiley; y*32 < max_y; ++y) {
       Tile* tile = tilemanager.get(level.get_tile_at(x, y));
-      if(tile->solid)
+      if(tile && tile->solid)
         return true;
     }
   }
