@@ -17,8 +17,8 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-#ifndef HEADER_WORLDMAP_HXX
-#define HEADER_WORLDMAP_HXX
+#ifndef SUPERTUX_WORLDMAP_H
+#define SUPERTUX_WORLDMAP_H
 
 #include <vector>
 #include <string>
