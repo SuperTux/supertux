@@ -131,17 +131,18 @@ void Button::event(SDL_Event &event)
       show_info = true;
       return;
     }
-    else if(event.button.button == 4) /* Mouse wheel up. */
+    else if(event.type == SDL_MOUSEBUTTONUP && event.button.button == 4) /* Mouse wheel up. */
     {
       state = BUTTON_WHEELUP;
       return;
     }
-    else if(event.button.button == 5) /* Mouse wheel down. */
+    else if(event.type == SDL_MOUSEBUTTONUP && event.button.button == 5) /* Mouse wheel down. */
     {
       state = BUTTON_WHEELDOWN;
       return;
     }
 
+    if(event.button.button == SDL_BUTTON_LEFT)
     if(event.type == SDL_MOUSEBUTTONDOWN)
       state = BUTTON_PRESSED;
     else
@@ -176,14 +177,15 @@ void Button::event(SDL_Event &event)
 int Button::get_state()
 {
   int rstate;
-  if(state == BUTTON_CLICKED)
+  switch(state)
   {
+  case BUTTON_CLICKED:
+  case BUTTON_WHEELUP:
+  case BUTTON_WHEELDOWN:
     rstate = state;
     state = BUTTON_NONE;
     return rstate;
-  }
-  else
-  {
+  default:
     return state;
   }
 }

@@ -23,7 +23,7 @@
 #include "assert.h"
 
 TileManager* TileManager::instance_  = 0;
-std::vector<TileGroup>* TileManager::tilegroups_  = 0;
+std::set<TileGroup>* TileManager::tilegroups_  = 0;
 
 Tile::Tile()
 {
@@ -152,13 +152,12 @@ void TileManager::load_tileset(std::string filename)
           else if (strcmp(lisp_symbol(lisp_car(element)), "tilegroup") == 0)
             {
               TileGroup new_;
-              if(!tilegroups_)
-                tilegroups_ = new std::vector<TileGroup>;
-              tilegroups_->push_back(new_);
               LispReader reader(lisp_cdr(element));
-              tilegroups_->back().name;
-              reader.read_string("name",  &tilegroups_->back().name);
-              reader.read_int_vector("tiles", &tilegroups_->back().tiles);
+              reader.read_string("name",  &new_.name);
+              reader.read_int_vector("tiles", &new_.tiles);	      
+              if(!tilegroups_)
+                tilegroups_ = new std::set<TileGroup>;
+              tilegroups_->insert(new_).first;
             }
           else if (strcmp(lisp_symbol(lisp_car(element)), "properties") == 0)
             {

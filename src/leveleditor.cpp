@@ -190,7 +190,7 @@ int leveleditor(char* filename)
   int last_time, now_time, i;
 
   le_level = 1;
-  
+
   if(le_init() != 0)
     return 1;
 
@@ -330,7 +330,7 @@ int leveleditor(char* filename)
           if(i >= 1)
           {
             if(le_load_level(level_subsets.item[i-1]))
-             return 1;
+              return 1;
           }
           break;
         }
@@ -408,24 +408,24 @@ int leveleditor(char* filename)
 
 int le_load_level(char *filename)
 {
-le_level_subset->load(filename);
-leveleditor_menu->get_item_by_id(MNID_SUBSETSETTINGS).kind = MN_GOTO;
-le_level = 1;
-le_world.arrays_free();
-delete le_current_level;
-le_current_level = new Level;
-if(le_current_level->load(le_level_subset->name, le_level) != 0)
+  le_level_subset->load(filename);
+  leveleditor_menu->get_item_by_id(MNID_SUBSETSETTINGS).kind = MN_GOTO;
+  le_level = 1;
+  le_world.arrays_free();
+  delete le_current_level;
+  le_current_level = new Level;
+  if(le_current_level->load(le_level_subset->name, le_level) != 0)
   {
     le_quit();
     return 1;
   }
-le_set_defaults();
-le_current_level->load_gfx();
-le_world.activate_bad_guys();
+  le_set_defaults();
+  le_current_level->load_gfx();
+  le_world.activate_bad_guys();
 
-Menu::set_current(NULL);
+  Menu::set_current(NULL);
 
-return 0;
+  return 0;
 }
 
 void le_init_menus()
@@ -501,17 +501,17 @@ void le_init_menus()
   select_tilegroup_menu->arrange_left = true;
   select_tilegroup_menu->additem(MN_LABEL,"Tilegroup",0,0);
   select_tilegroup_menu->additem(MN_HL,"",0,0);
-  std::vector<TileGroup>* tilegroups = TileManager::tilegroups();
+  std::set<TileGroup>* tilegroups = TileManager::tilegroups();
   int tileid = 1;
-  for(std::vector<TileGroup>::iterator it = tilegroups->begin();
+  for(std::set<TileGroup>::iterator it = tilegroups->begin();
       it != tilegroups->end(); ++it )
   {
     select_tilegroup_menu->additem(MN_ACTION, it->name, 0, 0, tileid);
     tileid++;
     tilegroups_map[(*it).name] = new ButtonPanel(screen->w - 64,96, 64, 318);
     i = 0;
-
-    for(std::vector<int>::iterator sit = (*it).tiles.begin();
+    
+    for(std::vector<int>::const_iterator sit = (*it).tiles.begin();
         sit != (*it).tiles.end(); ++sit, ++i)
     {
       std::string imagefile = "/images/tilesets/" ;
@@ -561,7 +561,7 @@ void le_init_menus()
 
 int le_init()
 {
-  
+
 
   level_subsets = dsubdirs("/levels", "info");
   le_level_subset = new LevelSubset;
@@ -785,17 +785,17 @@ void le_quit(void)
 
 void le_drawminimap()
 {
-if(le_current_level == NULL)
-return;
+  if(le_current_level == NULL)
+    return;
 
-int mini_tile_width;
-if(screen->w - 64 > le_current_level->width * 4)
-mini_tile_width = 4;
-else if(screen->w - 64 > le_current_level->width * 2)
-mini_tile_width = 2;
-else
-mini_tile_width = 1;
-int left_offset = (screen->w - 64 - le_current_level->width*mini_tile_width) / 2;
+  int mini_tile_width;
+  if(screen->w - 64 > le_current_level->width * 4)
+    mini_tile_width = 4;
+  else if(screen->w - 64 > le_current_level->width * 2)
+    mini_tile_width = 2;
+  else
+    mini_tile_width = 1;
+  int left_offset = (screen->w - 64 - le_current_level->width*mini_tile_width) / 2;
 
   for (int y = 0; y < 15; ++y)
     for (int x = 0; x < le_current_level->width; ++x)
@@ -808,13 +808,13 @@ int left_offset = (screen->w - 64 - le_current_level->width*mini_tile_width) / 2
       Tile::draw_stretched(left_offset + mini_tile_width*x, y * 4, mini_tile_width , 4, le_current_level->fg_tiles[y][x]);
 
     }
-    
-fillrect(left_offset, 0, le_current_level->width*mini_tile_width, 15*4, 200, 200, 200, 128);
 
-fillrect(left_offset + (pos_x/32)*mini_tile_width, 0, 19*mini_tile_width, 2, 200, 200, 200, 200);
-fillrect(left_offset + (pos_x/32)*mini_tile_width, 0, 2, 15*4, 200, 200, 200, 200);
-fillrect(left_offset + (pos_x/32)*mini_tile_width + 19*mini_tile_width - 2, 0, 2, 15*4, 200, 200, 200, 200);
-fillrect(left_offset + (pos_x/32)*mini_tile_width, 15*4-2, 19*mini_tile_width, 2, 200, 200, 200, 200);
+  fillrect(left_offset, 0, le_current_level->width*mini_tile_width, 15*4, 200, 200, 200, 128);
+
+  fillrect(left_offset + (pos_x/32)*mini_tile_width, 0, 19*mini_tile_width, 2, 200, 200, 200, 200);
+  fillrect(left_offset + (pos_x/32)*mini_tile_width, 0, 2, 15*4, 200, 200, 200, 200);
+  fillrect(left_offset + (pos_x/32)*mini_tile_width + 19*mini_tile_width - 2, 0, 2, 15*4, 200, 200, 200, 200);
+  fillrect(left_offset + (pos_x/32)*mini_tile_width, 15*4-2, 19*mini_tile_width, 2, 200, 200, 200, 200);
 
 }
 
@@ -834,15 +834,15 @@ void le_drawinterface()
         fillrect(0, y*32, screen->w - 32, 1, 225, 225, 225,255);
     }
   }
-  
+
   if(show_minimap && use_gl) // use_gl because the minimap isn't shown correctly in software mode. Any idea? FIXME Possible reasons: SDL_SoftStretch is a hack itsself || an alpha blitting issue SDL can't handle in software mode
-  le_drawminimap();
+    le_drawminimap();
 
   if(le_selection_mode == CURSOR)
     if(le_current.IsTile())
-    le_selection->draw( cursor_x - pos_x, cursor_y);
+      le_selection->draw( cursor_x - pos_x, cursor_y);
     else
-    le_selection->draw( cursor_x, cursor_y);
+      le_selection->draw( cursor_x, cursor_y);
   else if(le_selection_mode == SQUARE)
   {
     int w, h;
@@ -1228,41 +1228,46 @@ void le_checkevents()
           }
           ButtonPanelMap::iterator it;
           le_tilegroup_bt->event(event);
-	  switch (le_tilegroup_bt->get_state())
+          switch (le_tilegroup_bt->get_state())
           {
           case BUTTON_CLICKED:
             Menu::set_current(select_tilegroup_menu);
             select_tilegroup_menu_effect.start(200);
             select_tilegroup_menu->set_pos(screen->w - 64,100,-0.5,0.5);
-	    break;
+            break;
           case BUTTON_WHEELUP:
-	    it = tilegroups_map.find(cur_tilegroup);
-	    if(it == tilegroups_map.end())
-	    {
-	    cur_tilegroup = tilegroups_map.begin()->first;
-            cur_objects.clear();	    
-	    break;
-	    }
-	    if(++it != tilegroups_map.end())
-	    cur_tilegroup = (*it).first;
-	    else
-	    cur_tilegroup = tilegroups_map.begin()->first;
-	    
+            if(cur_tilegroup.empty())
+            {
+              cur_tilegroup = tilegroups_map.begin()->first;
+            }
+            else
+            {
+              it = tilegroups_map.find(cur_tilegroup);
+              if((++it) == tilegroups_map.end())
+              {
+                cur_tilegroup = tilegroups_map.begin()->first;
+              }
+              else
+              {
+                cur_tilegroup = (*it).first;
+              }
+            }
+
             cur_objects.clear();
             break;
           case BUTTON_WHEELDOWN:
-	    it = tilegroups_map.find(cur_tilegroup);
-	    if(it == tilegroups_map.begin())
-	    {
-	    cur_tilegroup = tilegroups_map.rbegin()->first;
-            cur_objects.clear();	    
-	    break;
-	    }
-	    if(--it != --tilegroups_map.begin())
-	    cur_tilegroup = (*it).first;
-	    else
-	    cur_tilegroup = tilegroups_map.rbegin()->first;
-	    
+            it = tilegroups_map.find(cur_tilegroup);
+            if(it == tilegroups_map.begin())
+            {
+              cur_tilegroup = tilegroups_map.rbegin()->first;
+              cur_objects.clear();
+              break;
+            }
+            if(--it != --tilegroups_map.begin())
+              cur_tilegroup = (*it).first;
+            else
+              cur_tilegroup = tilegroups_map.rbegin()->first;
+
             cur_objects.clear();
             break;
           default:
@@ -1278,35 +1283,35 @@ void le_checkevents()
             select_objects_menu->set_pos(screen->w - 64,100,-0.5,0.5);
             break;
           case BUTTON_WHEELUP:
-	    it = objects_map.find(cur_objects);
-	    if(it == objects_map.end())
-	    {
-	    cur_objects = objects_map.begin()->first;
-            cur_tilegroup.clear();	    
-	    break;
-	    }	    
-	    if(++it != objects_map.end())
-	    cur_objects = (*it).first;
-	    else
-	    cur_objects = objects_map.begin()->first;
-	    
+            it = objects_map.find(cur_objects);
+            if(it == objects_map.end())
+            {
+              cur_objects = objects_map.begin()->first;
+              cur_tilegroup.clear();
+              break;
+            }
+            if(++it != objects_map.end())
+              cur_objects = (*it).first;
+            else
+              cur_objects = objects_map.begin()->first;
+
             cur_tilegroup.clear();
             break;
           case BUTTON_WHEELDOWN:
-	    it = objects_map.find(cur_objects);
-	    if(it == objects_map.begin())
-	    {
-	    cur_objects = objects_map.rbegin()->first;
-            cur_tilegroup.clear();	    
-	    break;
-	    }
-	    if(--it != --objects_map.begin())
-	    cur_objects = (*it).first;
-	    else
-	    cur_objects = objects_map.rbegin()->first;
-	    
+            it = objects_map.find(cur_objects);
+            if(it == objects_map.begin())
+            {
+              cur_objects = objects_map.rbegin()->first;
+              cur_tilegroup.clear();
+              break;
+            }
+            if(--it != --objects_map.begin())
+              cur_objects = (*it).first;
+            else
+              cur_objects = objects_map.rbegin()->first;
+
             cur_tilegroup.clear();
-            break;	  
+            break;
             break;
           default:
             break;
@@ -1390,7 +1395,7 @@ void le_checkevents()
   if(!Menu::current())
   {
     show_minimap = false;
-   
+
     le_move_left_bt->event(event);
     le_move_right_bt->event(event);
     switch(le_move_left_bt->get_state())
@@ -1404,7 +1409,7 @@ void le_checkevents()
       show_minimap = true;
       break;
     case BUTTON_CLICKED:
-      show_minimap = true;    
+      show_minimap = true;
       break;
     default:
       break;
@@ -1421,12 +1426,12 @@ void le_checkevents()
       show_minimap = true;
       break;
     case BUTTON_CLICKED:
-      show_minimap = true;    
+      show_minimap = true;
       break;
     default:
       break;
     }
-    
+
   }
 
 }
