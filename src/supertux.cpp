@@ -37,12 +37,18 @@
 #include "resources.h"
 #include "screen/texture.h"
 #include "tile.h"
+#include "gettext.h"
 
 int main(int argc, char * argv[])
 {
 #ifndef DEBUG
   try {
 #endif
+    setlocale(LC_ALL, "");
+    bindtextdomain(PACKAGE, LOCALEDIR);
+    textdomain(PACKAGE);
+    bind_textdomain_codeset(PACKAGE, "ISO-8859-1");
+      
     st_directory_setup();
     parseargs(argc, argv);
 

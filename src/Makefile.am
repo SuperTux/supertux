@@ -1,4 +1,7 @@
+localedir = $(datadir)/locale
+
 bin_PROGRAMS = supertux
+supertux_CXXFLAGS = -DLOCALEDIR=\"$(localedir)\"
 
 supertux_SOURCES = \
 screen/drawing_context.h \

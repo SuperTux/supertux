@@ -52,6 +52,7 @@
 #include "resources.h"
 #include "intro.h"
 #include "sound_manager.h"
+#include "gettext.h"
 
 #include "player.h"
 
@@ -384,12 +385,12 @@ void st_menu(void)
   worldmap_menu  = new Menu();
 
   main_menu->set_pos(screen->w/2, 335);
-  main_menu->additem(MN_GOTO, "Start Game",0,load_game_menu, MNID_STARTGAME);
-  main_menu->additem(MN_GOTO, "Contrib Levels",0,contrib_menu, MNID_CONTRIB);
-  main_menu->additem(MN_GOTO, "Options",0,options_menu, MNID_OPTIONMENU);
-  main_menu->additem(MN_ACTION,"Level Editor",0,0, MNID_LEVELEDITOR);
-  main_menu->additem(MN_ACTION,"Credits",0,0, MNID_CREDITS);
-  main_menu->additem(MN_ACTION,"Quit",0,0, MNID_QUITMAINMENU);
+  main_menu->additem(MN_GOTO, _("Start Game"),0,load_game_menu, MNID_STARTGAME);
+  main_menu->additem(MN_GOTO, _("Contrib Levels"),0,contrib_menu, MNID_CONTRIB);
+  main_menu->additem(MN_GOTO, _("Options"),0,options_menu, MNID_OPTIONMENU);
+  main_menu->additem(MN_ACTION, _("Level Editor"),0,0, MNID_LEVELEDITOR);
+  main_menu->additem(MN_ACTION, _("Credits"),0,0, MNID_CREDITS);
+  main_menu->additem(MN_ACTION, _("Quit"),0,0, MNID_QUITMAINMENU);
 
   options_menu->additem(MN_LABEL,"Options",0,0);
   options_menu->additem(MN_HL,"",0,0);

@@ -10,7 +10,6 @@ dnl          neoneurone@users.sf.net
 dnl ===========================================================================
 
 dnl Process this file with autoconf to produce a configure script.
-
 AC_PREREQ([2.54])
 AC_INIT(SuperTux, 0.1.1)
 AC_CONFIG_SRCDIR([src/supertux.cpp])
@@ -63,6 +62,8 @@ else
     AC_MSG_RESULT([no])
 fi
 
+AM_GNU_GETTEXT
+
 dnl ===========================================================================
 dnl Check for SDL
 AM_PATH_SDL($SDL_VERSION,
@@ -99,7 +100,10 @@ CXXFLAGS="$CXXFLAGS -DDATA_PREFIX='\"$datadir/supertux\"'"
 dnl Checks for library functions.
 AC_CHECK_FUNCS(mkdir strdup strstr)
 
-AC_OUTPUT(Makefile src/Makefile data/Makefile)
+AC_OUTPUT(Makefile m4/Makefile intl/Makefile
+          src/Makefile
+          data/Makefile
+          po/Makefile.in)
 
 echo ""
 echo "Features:"
