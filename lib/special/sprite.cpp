@@ -119,7 +119,7 @@ Sprite::reset()
 {
 frame = 0;
 last_tick = SDL_GetTicks();
-animation_reversed = true;
+animation_reversed = false;
 next_action.clear();
 }
 
@@ -157,7 +157,7 @@ else
 if(animation_reversed)
   {
   float excedent = frame - 0;
-  if(excedent < 0 || excedent >= get_frames())
+  if((int)excedent < 0 || excedent >= get_frames())
     {  // last case can happen when not used reverse_animation()
     frame = get_frames() - 1;
     if(animation_loops > 0)
@@ -177,7 +177,7 @@ if(animation_reversed)
 else
   {
   float excedent = frame - action->surfaces.size();
-  if(excedent >= 0)
+  if((int)excedent >= 0)
     {
     frame = 0;
     if(animation_loops > 0)
