@@ -758,7 +758,7 @@ Player::check_bounds()
     base.x = scroll_x;
 
   if(base.x == scroll_x)
-    if(issolid(base.x, base.y) || issolid(base.x, base.y+32))
+    if(issolid(base.x, base.y) || (size != SMALL && issolid(base.x, base.y+32)))
       kill(KILL);
 
   if(base.x + base.width > scroll_x + screen->w)
