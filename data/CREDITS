@@ -13,8 +13,18 @@ Tobias Glaesser
 Bill Kendrick
  Original author
 
-Duong-Khang NGUYEN
 Ricardo Cruz
+ Main developer
+ Made the very first leveleditor and
+ now works a bit everywhere.
+
+Ingo Ruhnke
+ Main developer
+ Made a lot of C++ ports, introduced
+ the worldmap and the lispreader.
+
+Ryan
+Duong-Khang NGUYEN
  Contributors
 
 
