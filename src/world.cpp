@@ -371,8 +371,8 @@ void World::scrolling(double frame_ratio)
   // this code prevent the screen to scroll before the start or after the level's end
   if(scroll_x < 0)
     scroll_x = 0;
-  if(scroll_x > (level->width-1) * 32)
-    scroll_x = (level->width-1) * 32;
+  if(scroll_x > level->width * 32 - screen->w)
+    scroll_x = level->width * 32 - screen->w;
 }
 
 void
