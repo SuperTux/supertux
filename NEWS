@@ -1,9 +1,10 @@
-Super Tux 0.1.1 (...)
+Super Tux 0.1.1 (11 May 04)
 =====================
   * new handwritten font
-  * endseq bug squished
-  * build in leveledior
+  * endseq bugs squished
+  * build in leveleditor
   * support for g++-2.95  
+  * various bug fixes
   
 
 Super Tux 0.1.0 (3 May 04)
