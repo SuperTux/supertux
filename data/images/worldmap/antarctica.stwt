@@ -33,7 +33,7 @@
        (east  #t)
        (stop #t))
  (tile (id 5)
-       (image "road_e.png")
+       (image "road_end.png")
        (north #f)
        (south #f)
        (west  #f)
@@ -283,37 +283,37 @@
        (west  #f)
        (east  #f))
  
- ;; SECRET PATHS, derived from tiles 44,18,9,16,19
+ ;; Secret paths
  (tile (id 61)
-       (image "road_new.png")
+       (image "road_nws.png")
        (north #t)
        (south #t)
        (west  #t)
        (east  #t))
   
   (tile (id 62)
-       (image "snow8.png")
+       (image "snow5.png")
        (stop  #f)
-       (north #t)
-       (south #t)
-       (west  #f)
-       (east  #f))
+       (north #f)
+       (south #f)
+       (west  #t)
+       (east  #t))
   
   (tile (id 63)
        (image "water.png")
        (stop  #f)
-       (north #t)
-       (south #t)
-       (west  #f)
-       (east  #f))
+       (north #f)
+       (south #f)
+       (west  #t)
+       (east  #t))
   
   (tile (id 64)
-       (image "snow6.png")
+       (image "snow7.png")
        (stop  #f)
-       (north #t)
-       (south #t)
-       (west  #f)
-       (east  #f))
+       (north #f)
+       (south #f)
+       (west  #t)
+       (east  #t))
 
   ;;one-way vertical road
   (tile (id 65)
@@ -335,15 +335,47 @@
     (stop #f)
     (one-way "west-east"))
   
+  ;; Another invisible road
   (tile (id 67)
      (image "snow9.png")
-     (stop  #f)
+     (stop  #t)
+     (north #f)
+     (south #f)
+     (west  #t)
+     (east  #f))
+	  
+  ;; End of the line
+  (tile (id 68)
+     (image "road_n.png")
+	  (stop #t)
      (north #t)
      (south #f)
      (west  #f)
      (east  #f))
-
-
+  
+  (tile (id 69)
+     (image "road_e.png")
+	  (stop #t)
+     (north #f)
+     (south #f)
+     (west  #f)
+     (east  #t))
+  
+  (tile (id 70)
+     (image "road_s.png")
+	  (stop #t)
+     (north #f)
+     (south #t)
+     (west  #f)
+     (east  #f))
+	  
+  (tile (id 71)
+     (image "road_w.png")
+	  (stop #t)
+     (north #f)
+     (south #f)
+     (west  #t)
+     (east  #f))
 
 
 )
