@@ -641,6 +641,11 @@ Menu::event(SDL_Event& event)
 
       if(item[active_item].kind == MN_CONTROLFIELD)
         {
+        if(key == SDLK_ESCAPE)
+          {
+          Menu::pop_current();
+          return;
+          }
         *item[active_item].int_p = key;
         menuaction = MENU_ACTION_DOWN;
         return;
