@@ -64,7 +64,7 @@ supertux_src=[
   'src/special.cpp',
   'src/statistics.cpp',
   'src/supertux.cpp',
-  'src/tile.cpp'
+  'src/tile.cpp',
   'src/tile_manager.cpp',
   'src/tilemap.cpp',
   'src/title.cpp',
@@ -77,9 +77,16 @@ SharedLibrary(
   CPPPATH=SDL_INCLUDE_PATH
 )
 
+StaticLibrary(
+  target="lib/supertux",
+  source=libsupertux_src,
+  CPPPATH=SDL_INCLUDE_PATH
+)
+
 Program(
   target="src/supertux",
   source=supertux_src,
-  CPPPATH=[SDL_INCLUDE_PATH, 'lib', '.'],
-  LIBS='lib/libsupertux'
+  CPPPATH=[SDL_INCLUDE_PATH, 'lib', 'intl', '.'],
+  LIBPATH='lib',
+  LIBS='supertux'
 )
