@@ -278,12 +278,14 @@
          (name "grab-right")
          (x-offset 5)
          (y-offset 32)
+         (z-order 2)
          (images "shared/bigtux/arms-grab-0.png"))
 
        (action
          (name "grab-left")
          (x-offset 5)
          (y-offset 32)
+         (z-order 2)
          (mirror-action "grab-right"))
 
        (action
