@@ -248,12 +248,13 @@ void
 Upgrade::draw()
 {
   SDL_Rect dest;
+
   if (base.height < 32)
     {
       /* Rising up... */
 
-      dest.x = (int)(base.x - scroll_x);
-      dest.y = (int)(base.y - scroll_y + 32 - base.height);
+      dest.x = (int)(base.x);
+      dest.y = (int)(base.y + 32 - base.height);
       dest.w = 32;
       dest.h = (int)base.height;
 
