@@ -37,14 +37,36 @@
 #include "gameloop.h"
 #include "leveleditor.h"
 
+texture_type bkg_title, img_choose_subset, anim1, anim2;
+SDL_Event event;
+SDLKey key;
+int quit, frame, pict, i;
+
+void display_credits();
+
+void draw_background()
+{
+  /* Draw the title background: */
+
+  texture_draw_bg(&bkg_title, NO_UPDATE);
+
+  /* Animate title screen: */
+
+  pict = (frame / 5) % 3;
+
+  if (pict == 0)
+    texture_draw_part(&bkg_title, 560, 270, 560, 270, 80, 75, NO_UPDATE);
+  else if (pict == 1)
+    texture_draw(&anim1, 560, 270, NO_UPDATE);
+  else if (pict == 2)
+    texture_draw(&anim2, 560, 270, NO_UPDATE);
+}
+
 /* --- TITLE SCREEN --- */
 
 int title(void)
 {
-  texture_type title, img_choose_subset, anim1, anim2;
-  SDL_Event event;
-  SDLKey key;
-  int done, quit, frame, pict, i;
+  int done;
   char str[80];
   string_list_type level_subsets;
   level_subsets = dsubdirs("/levels", "info");
@@ -60,11 +82,11 @@ int title(void)
 
   /* Load images: */
 
-  texture_load(&title,DATA_PREFIX "/images/title/title.png", IGNORE_ALPHA);
+  texture_load(&bkg_title,DATA_PREFIX "/images/title/title.png", IGNORE_ALPHA);
   texture_load(&anim1,DATA_PREFIX "/images/title/title-anim2.png", IGNORE_ALPHA);
   texture_load(&anim2,DATA_PREFIX "/images/title/title-anim1.png", IGNORE_ALPHA);
   texture_load(&img_choose_subset,DATA_PREFIX "/images/status/choose-level-subset.png", USE_ALPHA);
-  
+
   /* --- Main title loop: --- */
 
   done = 0;
@@ -73,13 +95,12 @@ int title(void)
   frame = 0;
 
   /* Draw the title background: */
-  texture_draw_bg(&title, NO_UPDATE);
+  texture_draw_bg(&bkg_title, NO_UPDATE);
 
   load_hs();
-  
+
   while (!done && !quit)
     {
-      frame++;
       /* Handle events: */
 
       while (SDL_PollEvent(&event))
@@ -123,9 +144,8 @@ int title(void)
 
         }
 
-      /* Draw the title background: */
-
-      texture_draw_bg(&title, NO_UPDATE);
+      /* Draw the background: */
+      draw_background();
 
       /* Draw the high score: */
       sprintf(str, "High score: %d", hs_score);
@@ -133,17 +153,6 @@ int title(void)
       sprintf(str, "by %s", hs_name);
       text_drawf(&gold_text, str, 0, -20, A_HMIDDLE, A_BOTTOM, 1, NO_UPDATE);
 
-      /* Animate title screen: */
-
-      pict = (frame / 5) % 3;
-
-      if (pict == 0)
-        texture_draw_part(&title, 560, 270, 560, 270, 80, 75, NO_UPDATE);
-      else if (pict == 1)
-        texture_draw(&anim1, 560, 270, NO_UPDATE);
-      else if (pict == 2)
-        texture_draw(&anim2, 560, 270, NO_UPDATE);
-	
       /* Don't draw menu, if quit is true */
       if(show_menu && !quit)
         menu_process_current();
@@ -164,13 +173,13 @@ int title(void)
                       if(level_subsets.num_items != 0)
                         {
                           texture_draw(&subset.image,(screen->w - subset.image.w) / 2 + 25,78,NO_UPDATE);
-			  if(level_subsets.num_items > 1)
-			  {
-			  if(i > 0)
-			  texture_draw(&arrow_left,(screen->w / 2) - ((strlen(subset.title)+2)*16)/2,20,NO_UPDATE);
-			  if(i < level_subsets.num_items-1)
-			  texture_draw(&arrow_right,(screen->w / 2) + ((strlen(subset.title))*16)/2,20,NO_UPDATE);
-			  }
+                          if(level_subsets.num_items > 1)
+                            {
+                              if(i > 0)
+                                texture_draw(&arrow_left,(screen->w / 2) - ((strlen(subset.title)+2)*16)/2,20,NO_UPDATE);
+                              if(i < level_subsets.num_items-1)
+                                texture_draw(&arrow_right,(screen->w / 2) + ((strlen(subset.title))*16)/2,20,NO_UPDATE);
+                            }
                           text_drawf(&gold_text, subset.title, 0, 20, A_HMIDDLE, A_TOP, 1, NO_UPDATE);
                           text_drawf(&gold_text, subset.description, 20, -20, A_HMIDDLE, A_BOTTOM, 1, NO_UPDATE);
                         }
@@ -183,6 +192,7 @@ int title(void)
                             case SDL_QUIT:
                               done = 1;
                               quit = 1;
+                              break;
                             case SDL_KEYDOWN:		// key pressed
                               /* Keypress... */
 
@@ -224,14 +234,17 @@ int title(void)
                     }
                 }
               break;
-	    case 3:
-	      update_load_save_game_menu(&load_game_menu, YES);
-	      break;
+            case 3:
+              update_load_save_game_menu(&load_game_menu, YES);
+              break;
             case 5:
               done = 1;
               quit = leveleditor(1);
               break;
-            case 7:
+            case 6:
+              display_credits();
+              break;
+            case 8:
               quit = 1;
               break;
             }
@@ -248,13 +261,13 @@ int title(void)
       flipscreen();
 
       /* Pause: */
-
+      frame++;
       SDL_Delay(50);
 
     }
   /* Free surfaces: */
 
-  texture_free(&title);
+  texture_free(&bkg_title);
   texture_free(&anim1);
   texture_free(&anim2);
   string_list_free(&level_subsets);
@@ -262,4 +275,131 @@ int title(void)
   /* Return to main! */
 
   return(quit);
+}
+
+void display_credits()
+{
+  int done;
+  int scroll, speed;
+  timer_type timer;
+  int n,d;
+  int length;
+  FILE* fi;
+  char temp[1024];
+  string_list_type names;
+  string_list_init(&names);
+  char filename[1024];
+  sprintf(filename,"%s/CREDITS",DATA_PREFIX);
+  if((fi = fopen(filename,"r")) != NULL)
+    {
+      while(fgets(temp, sizeof(temp), fi) != NULL)
+        {
+          temp[strlen(temp)-1]='\0';
+          string_list_add_item(&names,temp);
+        }
+      fclose(fi);
+    }
+    else
+    {
+    string_list_add_item(&names,"Credits were not found!");
+    string_list_add_item(&names,"Shame on the guy, who");
+    string_list_add_item(&names,"forgot to include them");
+    string_list_add_item(&names,"in your SuperTux distribution.");
+    }
+
+
+  timer_init(&timer, SDL_GetTicks());
+  timer_start(&timer, 50);
+
+  scroll = 0;
+  speed = 1;
+  done = 0;
+
+  n = d = 0;
+
+  length = names.num_items;
+
+  SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
+
+  while(done == 0)
+    {
+      /* in case of input, exit */
+      while(SDL_PollEvent(&event))
+        switch(event.type)
+          {
+          case SDL_KEYDOWN:
+            switch(event.key.keysym.sym)
+              {
+              case SDLK_DOWN:
+                speed -= 1;
+                break;
+              case SDLK_UP:
+                speed += 1;
+                break;
+              case SDLK_SPACE:
+              case SDLK_RETURN:
+                if(speed >= 0)
+                  scroll += 60;
+                break;
+              case SDLK_ESCAPE:
+                done = 1;
+                break;
+              default:
+                break;
+              }
+            break;
+          case SDL_QUIT:
+            done = 1;
+            break;
+          default:
+            break;
+          }
+
+      /* draw the credits */
+
+      draw_background();
+
+      text_drawf(&white_big_text, "- Credits -", 0, screen->h-scroll, A_HMIDDLE, A_TOP, 2, NO_UPDATE);
+
+      for(i = 0, n = 0, d = 0; i < length; i++,n++,d++)
+        {
+          if(names.item[i] == "")
+            n--;
+          else
+            {
+              if(names.item[i][0] == ' ')
+                text_drawf(&white_small_text, names.item[i], 0, 60+screen->h+(n*18)+(d*18)-scroll-10, A_HMIDDLE, A_TOP, 1, NO_UPDATE);
+              else if(names.item[i][0] == '	')
+                text_drawf(&white_text, names.item[i], 0, 60+screen->h+(n*18)+(d*18)-scroll, A_HMIDDLE, A_TOP, 1, NO_UPDATE);
+              else if(names.item[i+1][0] == '-' || names.item[i][0] == '-')
+                text_drawf(&white_big_text, names.item[i], 0, 60+screen->h+(n*18)+(d*18)-scroll, A_HMIDDLE, A_TOP, 1, NO_UPDATE);
+              else
+                text_drawf(&blue_text, names.item[i], 0, 60+screen->h+(n*18)+(d*18)-scroll, A_HMIDDLE, A_TOP, 1, NO_UPDATE);
+            }
+        }
+
+      texture_draw_part(&bkg_title, 0, 0, 0, 0, 640, 130, NO_UPDATE);
+
+      flipscreen();
+
+      if(60+screen->h+(n*18)+(d*18)-scroll < 0 && 20+60+screen->h+(n*18)+(d*18)-scroll < 0)
+        done = 1;
+
+      scroll += speed;
+      if(scroll < 0)
+        scroll = 0;
+
+      SDL_Delay(20);
+
+      if(timer_get_left(&timer) < 0)
+        {
+          frame++;
+          timer_start(&timer, 50);
+        }
+    }
+  string_list_free(&names);
+
+  SDL_EnableKeyRepeat(0, 0);    // disables key repeating
+  show_menu = 1;
+  menu_set_current(&main_menu);
 }

@@ -47,9 +47,16 @@ int faccessible(char *filename)
 {
   struct stat filestat;
   if (stat(filename, &filestat) == -1)
+  {
     return NO;
+  }
   else
+  {
+  if(S_ISREG(filestat.st_mode))
     return YES;
+  else
+    return NO;
+  }
 }
 
 /* Can we write to this location? */
@@ -252,6 +259,12 @@ void st_directory_setup(void)
                            strlen("/.supertux") + 1));
   strcpy(st_dir, home);
   strcat(st_dir, "/.supertux");
+  
+  /* Remove .supertux config-file from old SuperTux versions */
+  if(faccessible(st_dir))
+  {
+  remove(st_dir);
+  }
 
   st_save_dir = (char *) malloc(sizeof(char) * (strlen(st_dir) + strlen("/save") + 1));
 
@@ -288,6 +301,7 @@ void st_menu(void)
   menu_additem(&main_menu,menu_item_create(MN_GOTO,"Load Game",0,&load_game_menu));
   menu_additem(&main_menu,menu_item_create(MN_GOTO,"Options",0,&options_menu));
   menu_additem(&main_menu,menu_item_create(MN_ACTION,"Level editor",0,0));
+  menu_additem(&main_menu,menu_item_create(MN_ACTION,"Credits",0,0));
   menu_additem(&main_menu,menu_item_create(MN_HL,"",0,0));
   menu_additem(&main_menu,menu_item_create(MN_ACTION,"Quit",0,0));
 

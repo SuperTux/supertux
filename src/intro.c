@@ -213,7 +213,7 @@ int intro(void)
 		   310, 32 + (copter[0].h), 310,
 		   32 + (copter[0].h),
 		   (gown_upset.w) + 20,
-		   378 + (gown_upset.h) - (copter[0].h), NO_UPDATE);
+		   376 + (gown_upset.h) - (copter[0].h), NO_UPDATE);
 	  
 	  
 	  for (j = 0; j < (gown_upset.sdl_surface -> w); j++)

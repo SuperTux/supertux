@@ -373,7 +373,6 @@ le_update_buttons(char *theme)
   for(i = 0; i < bkgd_files.num_items; ++i)
     {
       sprintf(filename,"%s/%s",pathname,bkgd_files.item[i]);
-      printf("%s\n",filename);
       button_change_icon(&le_bkgd_panel.item[i],filename);
     }
 
