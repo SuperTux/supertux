@@ -932,6 +932,7 @@ Player::kill(HurtMode mode)
       --player_status.lives;
       dying = DYING_SQUISHED;
       dying_timer.start(3.0);
+      flags |= FLAG_NO_COLLDET;
     }
 }
 
