@@ -50,6 +50,7 @@ World::World(const std::string& filename)
 
   get_level()->load_gfx();
   activate_bad_guys();
+  activate_objects();
   activate_particle_systems();
   get_level()->load_song();
 
@@ -71,6 +72,7 @@ World::World(const std::string& subset, int level_nr)
 
   get_level()->load_gfx();
   activate_bad_guys();
+  activate_objects();
   activate_particle_systems();
   get_level()->load_song();
 
@@ -104,6 +106,9 @@ World::apply_bonuses()
 World::~World()
 {
   for (BadGuys::iterator i = bad_guys.begin(); i != bad_guys.end(); ++i)
+    delete *i;
+
+  for (Trampolines::iterator i = trampolines.begin(); i != trampolines.end(); ++i)
     delete *i;
 
   for (ParticleSystems::iterator i = particle_systems.begin();
@@ -161,7 +166,7 @@ World::activate_objects()
   for (std::vector< ObjectData<TrampolineData> >::iterator i = level->trampoline_data.begin();
        i != level->trampoline_data.end();
        ++i)
-  {
+  {puts("fo");
     add_object<Trampoline, ObjectData<TrampolineData> >(*i);
   }
 }
@@ -226,6 +231,9 @@ World::draw()
     bouncy_bricks[i]->draw();
 
   for (BadGuys::iterator i = bad_guys.begin(); i != bad_guys.end(); ++i)
+    (*i)->draw();
+
+  for (Trampolines::iterator i = trampolines.begin(); i != trampolines.end(); ++i)
     (*i)->draw();
 
   tux.draw();

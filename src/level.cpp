@@ -409,7 +409,7 @@ Level::load(const std::string& filename)
                 }
                 else
                 {
-                    if (lisp_symbol(lisp_car(data)) == "trampoline")
+                    if (strcmp(lisp_symbol(lisp_car(data)),"trampoline") == 0)
                     {
                       ObjectData<TrampolineData> _trampoline_data;
 
