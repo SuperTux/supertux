@@ -92,8 +92,7 @@ Sprite::init_defaults(Action* act)
   act->y_hotspot = 0;
   act->fps = 10;
 
-  animation_loops = -1;
-  last_tick = 0;
+  start_animation(-1);
 }
 
 void
@@ -115,7 +114,7 @@ Sprite::reset()
 {
 frame = 0;
 last_tick = SDL_GetTicks();
-animation_reversed = false;
+animation_reversed = true;
 }
 
 bool
@@ -152,28 +151,28 @@ last_tick = SDL_GetTicks();
 
 if(animation_reversed)
   {
-  float expedient = frame - 0;
-  if(expedient < 0)
-    {
-    frame = get_frames()-1;
+  float excedent = frame - 0;
+  if(excedent < 0 || excedent >= get_frames())
+    {  // last case can happen when not used reverse_animation()
+    frame = get_frames() - 1;
     if(animation_loops > 0)
       animation_loops--;
 
-    if(expedient > -get_frames())
-      frame -= expedient;
+    if(fabsf(excedent) < get_frames())
+      frame += excedent;
     }
   }
 else
   {
-  float expedient = frame - action->surfaces.size();
-  if(expedient >= 0)
+  float excedent = frame - action->surfaces.size();
+  if(excedent >= 0)
     {
     frame = 0;
     if(animation_loops > 0)
       animation_loops--;
 
-    if(expedient < get_frames())
-      frame += expedient;
+    if(excedent < get_frames())
+      frame += excedent;
     }
   }
 }
@@ -185,7 +184,8 @@ Sprite::draw(DrawingContext& context, const Vector& pos, int layer,
   update();
 
   if((int)frame >= get_frames() || (int)frame < 0)
-    std::cerr << "Warning: frame higher than total frames or lower than 0!\n";
+    std::cerr << "Warning: frame out of range: " << (int)frame
+              << "/" << get_frames() << std::endl;
   else
     context.draw_surface(action->surfaces[(int)frame],
             pos - Vector(action->x_hotspot, action->y_hotspot), layer, drawing_effect);
