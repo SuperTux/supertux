@@ -24,7 +24,6 @@
 #include <SDL_image.h>
 #include "leveleditor.h"
 
-#include "world.h"
 #include "screen.h"
 #include "defines.h"
 #include "globals.h"
@@ -79,13 +78,41 @@ void apply_level_settings_menu();
 void update_subset_settings_menu();
 void save_subset_settings_menu();
 
+static Level* le_current_level;
+
+struct LevelEditorWorld
+{
+  std::vector<BadGuy> bad_guys;
+  void arrays_free(void)
+  {
+    bad_guys.clear();
+  }
+
+  void add_bad_guy(float x, float y, BadGuyKind kind)
+  {
+    bad_guys.push_back(BadGuy());
+    BadGuy& new_bad_guy = bad_guys.back();
+  
+    new_bad_guy.init(x,y,kind);
+  }
+
+  void activate_bad_guys()
+  {
+    for (std::vector<BadGuyData>::iterator i = le_current_level->badguy_data.begin();
+         i != le_current_level->badguy_data.end();
+         ++i)
+      {
+        add_bad_guy(i->x, i->y, i->kind);
+      }
+  }
+};
+
 /* leveleditor internals */
 static string_list_type level_subsets;
 static bool le_level_changed;  /* if changes, ask for saving, when quiting*/
 static int pos_x, cursor_x, cursor_y, fire;
 static int le_level;
-static Level* le_current_level;
-static World le_world;
+static LevelEditorWorld le_world;
 static st_subset le_level_subset;
 static int le_show_grid;
 static int le_frame;
