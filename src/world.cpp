@@ -323,6 +323,22 @@ World::action(double frame_ratio)
 /* This functions takes cares of the scrolling */
 void World::scrolling(double frame_ratio)
 {
+  /* Y-axis scrolling */
+
+  float tux_pos_y = tux.base.y + (tux.base.height/2);
+
+  if (scroll_y < tux_pos_y - (screen->h - Y_SPACE))
+    scroll_y = tux_pos_y - (screen->h - Y_SPACE);
+  else if (scroll_y > tux_pos_y - Y_SPACE)
+    scroll_y = tux_pos_y - Y_SPACE;
+
+  // this code prevent the screen to scroll before the start or after the level's end
+  if(scroll_y < 0)
+    scroll_y = 0;
+  if(scroll_y > level->height * 32 - screen->h)
+    scroll_y = level->height * 32 - screen->h;
+
+  /* X-axis scrolling */
 
   /* Auto scrolling */
   if(level->hor_autoscroll_speed)
@@ -379,21 +395,6 @@ void World::scrolling(double frame_ratio)
     scroll_x = 0;
   if(scroll_x > level->width * 32 - screen->w)
     scroll_x = level->width * 32 - screen->w;
-
-  /* Y-axis scrolling */
-
-  float tux_pos_y = tux.base.y + (tux.base.height/2);
-
-  if (scroll_y < tux_pos_y - (screen->h - Y_SPACE))
-    scroll_y = tux_pos_y - (screen->h - Y_SPACE);
-  else if (scroll_y > tux_pos_y - Y_SPACE)
-    scroll_y = tux_pos_y - Y_SPACE;
-
-  // this code prevent the screen to scroll before the start or after the level's end
-  if(scroll_y < 0)
-    scroll_y = 0;
-  if(scroll_y > level->height * 32 - screen->h)
-    scroll_y = level->height * 32 - screen->h;
 }
 
 void
