@@ -160,6 +160,12 @@ public:
         successfully completed */
     std::string extro_filename;
 
+    /** Message to show in the Map */
+    std::string display_map_message;
+
+    /** If false, disables the auto walking after finishing a level */
+    bool auto_path;
+
     // Directions which are walkable from this level
     bool north;
     bool east;

@@ -434,8 +434,12 @@ WorldMap::load_map()
                       reader.read_string("name",  &level.name);
                       reader.read_int("x", &level.x);
                       reader.read_int("y", &level.y);
+                      reader.read_string("map-message", &level.display_map_message);
+                      level.auto_path = true;
+                      reader.read_bool("auto-path", &level.auto_path);
 
-                      get_level_title(&level);   // get level's title
+                      if(!level.name.empty())
+                        get_level_title(&level);   // get level's title
 
                       levels.push_back(level);
                     }
@@ -666,7 +670,7 @@ WorldMap::update(float delta)
                     else
                       player_status.bonus = PlayerStatus::NO_BONUS;
 
-                    if (old_level_state != level->solved)
+                    if (old_level_state != level->solved && level->auto_path)
                       { // Try to detect the next direction to which we should walk
                         // FIXME: Mostly a hack
                         Direction dir = D_NONE;
@@ -804,6 +808,9 @@ WorldMap::draw(const Point& offset)
   
   for(Levels::iterator i = levels.begin(); i != levels.end(); ++i)
     {
+      if(i->name.empty())
+        continue;
+
       if (i->solved)
         leveldot_green->draw(i->x*32 + offset.x, 
                              i->y*32 + offset.y);
@@ -848,7 +855,15 @@ WorldMap::draw_status()
           if (i->x == tux->get_tile_pos().x && 
               i->y == tux->get_tile_pos().y)
             {
+              if(!i->name.empty())
+                {
               white_text->draw_align(i->title.c_str(), screen->w/2, screen->h,  A_HMIDDLE, A_BOTTOM);
+                }
+
+              /* Display a message in the map, if any as been selected */
+              if(!i->display_map_message.empty())
+                gold_text->draw_align(i->display_map_message.c_str(),
+                     screen->w/2, screen->h - 30,A_HMIDDLE, A_BOTTOM);
               break;
             }
         }
