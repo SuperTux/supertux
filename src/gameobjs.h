@@ -132,6 +132,9 @@ public:
   virtual void collision(const MovingObject& other, int);
   void collision(void *p_c_object, int c_object, CollisionType type);
 
+  float get_vel_x() { return vel_x; }
+  float get_vel_y() { return vel_y; }
+
   Physic physic;
   enum { M_NORMAL, M_HELD } mode;
 
@@ -139,6 +142,8 @@ public:
   std::vector<int> pos_x;
   std::vector<int> pos_y;
   float velocity;
+
+  float vel_x, vel_y;  // calculated based in the velocity
 
   int point;
   bool move;

@@ -822,7 +822,11 @@ Player::collision(void* p_c_object, int c_object)
       pplatform_c = (FlyingPlatform*) p_c_object;
       
       base.y = pplatform_c->base.y - base.height;
+      physic.set_velocity_x(pplatform_c->get_vel_x());
+      
       physic.enable_gravity(false);
+      can_jump = true;
+      fall_mode = ON_GROUND;
       break;
 
     default:

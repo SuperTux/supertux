@@ -302,6 +302,11 @@ FlyingPlatform::FlyingPlatform(DisplayManager& displaymanager, LispReader& reade
   point = 0;
   move = false;
 
+  float x = pos_x[point+1] - pos_x[point];
+  float y = pos_y[point+1] - pos_y[point];
+  vel_x = x*velocity / sqrt(x*x + y*y);
+  vel_y = -(velocity - vel_x);
+
   frame = 0;
 }
 
@@ -341,6 +346,11 @@ if((unsigned)point+1 != pos_x.size())
       pos_y[point] == pos_y[point+1]))
     {
     point++;
+
+    float x = pos_x[point+1] - pos_x[point];
+    float y = pos_y[point+1] - pos_y[point];
+    vel_x = x*velocity / sqrt(x*x + y*y);
+    vel_y = -(velocity - vel_x);
     }
   }
 else   // last point
@@ -349,7 +359,7 @@ else   // last point
   // reverse vector
   return;
   }
-
+/*
 if(pos_x[point+1] > base.x)
   base.x += velocity * frame_ratio;
 else if(pos_x[point+1] < base.x)
@@ -359,15 +369,10 @@ if(pos_y[point+1] > base.y)
   base.y += velocity * frame_ratio;
 else if(pos_y[point+1] < base.y)
   base.y -= velocity * frame_ratio;
-/*
-float x = pos_x[point+1] - pos_x[point];
-float y = pos_y[point+1] - pos_y[point];
-float vel_x = x*velocity / sqrt(x*x + y*y);
-float vel_y = velocity - vel_x;
+*/
 
 base.x += vel_x * frame_ratio;
 base.y += vel_y * frame_ratio;
-*/
 }
 
 void
