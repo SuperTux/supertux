@@ -140,7 +140,7 @@ void badguy_action(bad_guy_type* pbad)
 
               /* Move left/right: */
 
-              if (pbad->mode != HELD)
+              if (pbad->mode == NORMAL || pbad->mode == KICK)
                 {
                   if (pbad->dying == NO ||
                       pbad->dying == FALLING)
@@ -568,7 +568,7 @@ void badguy_collision(bad_guy_type* pbad, void *p_c_object, int c_object)
       break;
     case CO_BADGUY:
       pbad_c = (bad_guy_type*) p_c_object;
-      if (pbad->mode != FLAT)
+      if (pbad->mode == NORMAL)
         pbad->dir = !pbad->dir;
       else
         {
@@ -581,7 +581,6 @@ void badguy_collision(bad_guy_type* pbad, void *p_c_object, int c_object)
           add_score(pbad->base.x - scroll_x,
                     pbad->base.y, 100);
         }
-      pbad->dir = !pbad->dir;
       break;
     case CO_PLAYER:
       pplayer_c = (player_type*) p_c_object;
@@ -602,7 +601,7 @@ void badguy_collision(bad_guy_type* pbad, void *p_c_object, int c_object)
           else if (pbad->kind == BAD_LAPTOP)
             {
 
-              if (pbad->mode != KICK)
+              if (pbad->mode == NORMAL || pbad->mode == KICK)
                 {
                   /* Flatten! */
 
@@ -615,7 +614,7 @@ void badguy_collision(bad_guy_type* pbad, void *p_c_object, int c_object)
                   physic_set_state(&pplayer_c->vphysic,PH_VT);
                   physic_set_start_vy(&pplayer_c->vphysic,2.);
                 }
-              else
+              else if (pbad->mode == FLAT)
                 {
                   /* Kick! */
 
