@@ -402,9 +402,9 @@ void st_menu(void)
       options_menu->additem(MN_DEACTIVE,"Music     ",use_music,0);
     }
   options_menu->additem(MN_TOGGLE,"Show FPS  ",show_fps,0);
-  options_menu->additem(MN_GOTO,"Key Setup  ",0,options_keys_menu);
+  options_menu->additem(MN_GOTO,"Key Setup",0,options_keys_menu);
   if(use_joystick)
-    options_menu->additem(MN_GOTO,"Joystick Setup  ",0,options_joystick_menu);
+    options_menu->additem(MN_GOTO,"Joystick Setup",0,options_joystick_menu);
   options_menu->additem(MN_HL,"",0,0);
   options_menu->additem(MN_BACK,"Back",0,0);
   
