@@ -239,6 +239,7 @@ Player::action(float elapsed_time)
               // fall down
               physic.set_velocity_y(0);
               jumped_in_solid = true;
+              jumping = false;
             }
         }
       else

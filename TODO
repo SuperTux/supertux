@@ -34,8 +34,6 @@ L: low priority
      ? Should disable Tux's movement temporarily (1 second?)
 [H] Tux should fall while walking in tiles that have a space between.
      - Possible solution: reduce Tux's width
-[H] When you jump into the roof or a bonus and fall back down you collide with
-    the badguys twice. Noticable with iceblocks. (level 15)
 
 [M] Save score on per-level basis to make high-score
 [M] Save time on per-level basis to make low-time-score
