@@ -19,6 +19,7 @@
 //  02111-1307, USA.
 
 #include <assert.h>
+#include <unistd.h>
 #include "app/setup.h"
 #include "level.h"
 #include "app/globals.h"
