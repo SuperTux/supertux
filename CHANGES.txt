@@ -7,6 +7,10 @@ http://www.newbreedsoftware.com/supertux/
 
 0.0.6 - current CVS version
 ---------------------------
+  * Got rid of the TEXTURE_RECTANGLE NVIDIA extension. It should be possible
+    to play the game in OpenGl mode with the most graphic cards now.
+    Tobias Glaesser <tobi.web@gmx.de>   
+  
   * Added optional backgrounds for levels.
     Tobias Glaesser <tobi.web@gmx.de>
     
