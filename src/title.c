@@ -278,6 +278,10 @@ int title(void)
   return(quit);
 }
 
+#define MAX_VEL 10
+#define SPEED   1
+#define SCROLL  60
+
 void display_credits()
 {
   int done;
@@ -313,7 +317,7 @@ void display_credits()
   timer_start(&timer, 50);
 
   scroll = 0;
-  speed = 1;
+  speed = 2;
   done = 0;
 
   n = d = 0;
@@ -331,16 +335,16 @@ void display_credits()
           case SDL_KEYDOWN:
             switch(event.key.keysym.sym)
               {
-              case SDLK_DOWN:
-                speed -= 1;
-                break;
               case SDLK_UP:
-                speed += 1;
+                speed -= SPEED;
+                break;
+              case SDLK_DOWN:
+                speed += SPEED;
                 break;
               case SDLK_SPACE:
               case SDLK_RETURN:
                 if(speed >= 0)
-                  scroll += 60;
+                  scroll += SCROLL;
                 break;
               case SDLK_ESCAPE:
                 done = 1;
@@ -355,6 +359,11 @@ void display_credits()
           default:
             break;
           }
+
+      if(speed > MAX_VEL)
+        speed = MAX_VEL;
+      else if(speed < -MAX_VEL)
+        speed = -MAX_VEL;
 
       /* draw the credits */
 
