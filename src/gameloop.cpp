@@ -493,9 +493,6 @@ GameSession::run()
               frame_ratio -= 1.0f;
             }
           overlap = frame_ratio;
-
-          if (exit_status != NONE)
-            return exit_status;
         }
       else
         {
@@ -563,7 +560,7 @@ GameSession::run()
             }
         }
     }
-
+  
   halt_music();
 
   world->get_level()->free_gfx();
