@@ -413,6 +413,10 @@
          (x-hotspot 7)
          (y-hotspot 8)
          (images "shared/jumpy-left-middle-0.png"))
+ (sprite (name "jumpy-left-iced")
+         (x-hotspot 7)
+         (y-hotspot 8)
+         (images "shared/jumpy-iced-left-up-0.png"))
 
  (sprite (name "mrbomb-left")
          (fps 10.0)
@@ -431,6 +435,15 @@
                  "shared/mrbomb-right-1.png"
                  "shared/mrbomb-right-2.png"
                  "shared/mrbomb-right-3.png"))
+ (sprite (name "mrbomb-iced-left")
+         (x-hotspot 3)
+         (y-hotspot 12)
+         (images "shared/mrbomb-iced-left-0.png"))
+
+ (sprite (name "mrbomb-iced-right")
+         (x-hotspot 7)
+         (y-hotspot 12)
+         (images "shared/mrbomb-iced-right-0.png"))
  
 
  (sprite (name "mrbomb-ticking-left")
@@ -478,6 +491,16 @@
          (x-hotspot 2)
          (y-hotspot 11)
          (images "shared/fish-down-0.png"))
+
+ (sprite (name "fish-iced")
+         (x-hotspot 2)
+         (y-hotspot 3)
+         (images "shared/fish-iced-left-0.png"))
+
+ (sprite (name "fish-iced-down")
+         (x-hotspot 2)
+         (y-hotspot 11)
+         (images "shared/fish-iced-down-0.png"))
 
  (sprite (name "bouncingsnowball-left")
          (x-hotspot 1)
@@ -527,6 +550,14 @@
          (images "shared/spiky-right-0.png"
                  "shared/spiky-right-1.png"
                  "shared/spiky-right-2.png"))
+ (sprite (name "spiky-iced-left")
+         (x-hotspot 6)
+         (y-hotspot 10)
+         (images "shared/spiky-iced-left-0.png"))
+ (sprite (name "spiky-iced-right")
+         (x-hotspot 6)
+         (y-hotspot 10)
+         (images "shared/spiky-iced-right-0.png"))
 
  (sprite (name "snowball-left")
          (x-hotspot 2)
