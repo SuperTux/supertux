@@ -358,8 +358,7 @@ void title(void)
       frame++;
       SDL_Delay(25);
 
-      if(!playing_music)
-       play_music(music);
+      play_music(music);
     }
   /* Free surfaces: */
 

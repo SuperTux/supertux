@@ -218,6 +218,20 @@
           "shared/iceflower-3.png"
           "shared/iceflower-2.png"
           "shared/iceflower-1.png"))
+
+ (sprite (name "smalltux-gameover")
+         (images "shared/smalltux-gameover-0.png"
+                 "shared/smalltux-gameover-1.png"))
+
+ (sprite (name "smalltux-skid-left")
+         (x-hotspot 6)
+         (y-hotspot 8)
+         (images "shared/smalltux-skid-left.png"))
+
+ (sprite (name "smalltux-skid-right")
+         (x-hotspot 6)
+         (y-hotspot 8)
+         (images "shared/smalltux-skid-right.png"))
  )
 
 ;; EOF ;;

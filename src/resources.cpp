@@ -47,6 +47,11 @@ void loadshared()
   sprite_manager = new SpriteManager(datadir + "/supertux.strf");
 
   /* Tuxes: */
+  smalltux_gameover = sprite_manager->load("smalltux-gameover");
+
+  smalltux_skid_left  = sprite_manager->load("smalltux-skid-left");
+  smalltux_skid_right = sprite_manager->load("smalltux-skid-right");
+
   smalltux_stand_left = new Surface(datadir + "/images/shared/smalltux-left-6.png", USE_ALPHA);
   smalltux_stand_right = new Surface(datadir + "/images/shared/smalltux-right-6.png", USE_ALPHA);
 
@@ -295,6 +300,8 @@ void unloadshared(void)
   int i;
 
   free_special_gfx();
+
+  delete smalltux_gameover;
 
   for (i = 0; i < 3; i++)
     {

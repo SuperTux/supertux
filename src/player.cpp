@@ -35,6 +35,9 @@ Surface* smalltux_jump_left;
 Surface* smalltux_jump_right;
 Surface* smalltux_stand_left;
 Surface* smalltux_stand_right;
+Sprite*  smalltux_gameover;
+Sprite*  smalltux_skid_left;
+Sprite*  smalltux_skid_right;
 
 Sprite* bigtux_right;
 Sprite* bigtux_left;
@@ -525,29 +528,39 @@ Player::draw()
 
           if (!got_coffee)
             {
-              if (physic.get_velocity_y() != 0)
+              if (!skidding_timer.started())
                 {
-                  if (dir == RIGHT)
-                    smalltux_jump_right->draw( base.x - scroll_x, base.y - 10);
+                  if (physic.get_velocity_y() != 0)
+                    {
+                      if (dir == RIGHT)
+                        smalltux_jump_right->draw( base.x - scroll_x, base.y - 10);
+                      else
+                        smalltux_jump_left->draw( base.x - scroll_x, base.y - 10);                   
+                    }
                   else
-                    smalltux_jump_left->draw( base.x - scroll_x, base.y - 10);                   
+                    {
+                      if (fabsf(physic.get_velocity_x()) < 1.0f) // standing
+                        {
+                          if (dir == RIGHT)
+                            smalltux_stand_right->draw( base.x - scroll_x, base.y - 9);
+                          else
+                            smalltux_stand_left->draw( base.x - scroll_x, base.y - 9);
+                        }
+                      else // moving
+                        {
+                          if (dir == RIGHT)
+                            tux_right[(global_frame_counter/2) % tux_right.size()]->draw(base.x - scroll_x, base.y - 9);
+                          else
+                            tux_left[(global_frame_counter/2) % tux_left.size()]->draw(base.x - scroll_x, base.y - 9);
+                        }
+                    }
                 }
               else
                 {
-                  if (fabsf(physic.get_velocity_x()) < 1.0f) // standing
-                    {
-                      if (dir == RIGHT)
-                        smalltux_stand_right->draw( base.x - scroll_x, base.y - 9);
-                      else
-                        smalltux_stand_left->draw( base.x - scroll_x, base.y - 9);
-                    }
-                  else // moving
-                    {
-                      if (dir == RIGHT)
-                        tux_right[(global_frame_counter/2) % tux_right.size()]->draw(base.x - scroll_x, base.y - 9);
-                      else
-                        tux_left[(global_frame_counter/2) % tux_left.size()]->draw(base.x - scroll_x, base.y - 9);
-                    }
+                  if (dir == RIGHT)
+                    smalltux_skid_right->draw(base.x - scroll_x, base.y);
+                  else
+                    smalltux_skid_left->draw(base.x - scroll_x, base.y); 
                 }
             }
           else
@@ -564,7 +577,7 @@ Player::draw()
                 }
             }
         }
-      else
+      else // Large Tux
         {
           if (invincible_timer.started())
             {
