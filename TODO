@@ -118,6 +118,9 @@ Programming
 [M] Add bonus score for extra time left when finishing a level
 [M] when bumping a special with 2 blocks at once, it won't change direction
 [M] tux get killed if he kicks a iceblock while at the same time bouncing on
+[L] The camera does some nasty little jumps if you jumped up on a higher place
+    where the camera didn't completely follow yet and you fall down directly
+    again. This will suddenly raise the camera up.
 [L] Allow any object to be inside of a [?] box, ie. trampoline or badguy
     - Not sure if this would be gameplay wise.
 
