@@ -129,17 +129,10 @@ World::apply_bonuses()
 
 World::~World()
 {
-  for (Trampolines::iterator i = trampolines.begin(); i != trampolines.end(); ++i)
-    delete *i;
-
   for (std::vector<GameObject*>::iterator i = gameobjects.begin();
           i != gameobjects.end(); ++i) {
-    Drawable* drawable = dynamic_cast<Drawable*> (*i);
-    if(drawable)
-      displaymanager.remove_drawable(drawable);
     delete *i;
   }
-  bad_guys.clear();
 
   delete level;
 }
