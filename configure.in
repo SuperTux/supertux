@@ -9,21 +9,55 @@ dnl Process this file with autoconf to produce a configure script.
 
 AC_INIT(src/supertux.c)
 
+dnl Setup for automake
+SDL_VERSION=1.2.5
 AM_INIT_AUTOMAKE(SuperTux, "0.0.6 cvs")
 
 CC=gcc
 AC_SUBST(CC)
 
-LDFLAGS=-L/usr/X11R6/lib
-
 dnl Checks for programs.
 
+dnl ===========================================================================
+dnl Give advanced users some options to play with
+
+AC_ARG_ENABLE(gprof,
+              [  --enable-gprof          enable GNU profiling support],)
+if test "x${enable_gprof}" = "xyes"; then
+        enable_gprof="-pg"
+else
+        unset enable_gprof
+fi
+
+AC_ARG_ENABLE(debug,
+              [  --enable-debug          enable debugging mode],)
+if test "x${enable_debug}" = "xyes"; then
+        enable_debug="-DDEBUG"
+else
+        unset enable_debug
+fi
+
+dnl ===========================================================================
+dnl Check for SDL
+AM_PATH_SDL($SDL_VERSION,
+            :,
+	    AC_MSG_ERROR([*** SDL version $SDL_VERSION not found!])
+)
+
+dnl ===========================================================================
+dnl Define the necessary FLAGS
+LDFLAGS="-L/usr/X11R6/lib"
 
 dnl Checks for libraries.
-AC_CHECK_LIB(SDL, SDL_Init, ,AC_MSG_ERROR(SDL library required))
 AC_CHECK_LIB(SDL_mixer, SDL_OpenAudio, ,AC_MSG_ERROR(SDL_mixer library required))
 AC_CHECK_LIB(SDL_image, IMG_Load, ,AC_MSG_ERROR(SDL_image library required))
 AC_CHECK_LIB(GL, glBegin, ,AC_MSG_ERROR(GL library required))
+
+CFLAGS="-DDATA_PREFIX=\\\"$PWD/data\\\" -DLINUX ${enable_debug} ${enable_gprof}"
+CFLAGS="$CFLAGS $SDL_CFLAGS"
+LDFLAGS="$LDFLAGS $SDL_LIBS"
+dnl AC_SUBST(CFLAGS)
+dnl AC_SUBST(LDFLAGS)
 
 dnl Checks for header files.
 AC_HEADER_DIRENT

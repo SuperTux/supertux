@@ -794,7 +794,7 @@ void seticon(void)
       fprintf(stderr,
               "\nError: I could not load the icon image: %s\n"
               "The Simple DirectMedia error that occured was:\n"
-              "%s\n\n", DATA_PREFIX "images/icon.png", SDL_GetError());
+              "%s\n\n", DATA_PREFIX "/images/icon.png", SDL_GetError());
       exit(1);
     }
 

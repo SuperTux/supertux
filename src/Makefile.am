@@ -26,7 +26,7 @@ special.c \
 texture.c \
 type.c
 
-INCLUDES = $(shell sdl-config --cflags)
-CFLAGS = -DDATA_PREFIX=\"$(PWD)/../../data\" -DLINUX
+#INCLUDES = $(shell sdl-config --cflags)
+#CFLAGS = $(SDL_CFLAGS) -DDATA_PREFIX=\"$(PWD)/../../data\" -DLINUX
 
 
