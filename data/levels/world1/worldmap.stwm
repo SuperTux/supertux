@@ -1,10 +1,11 @@
 ;; Generated with Flexlay Editor
 (supertux-worldmap
   (properties 
-    (name  "Icyisland")
+    (name (_ "Icyisland"))
     (name-pt_PT  "Ilha Gelada")
     (name-de "Eisige Insel")
     (name-es "Isla de hielo")
+    (intro-filename "intro.txt")
     (music "salcon.mod")
     (start_pos_x 4)
     (start_pos_y 5))

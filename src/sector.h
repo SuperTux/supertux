@@ -139,6 +139,8 @@ public: // TODO make this private again
   typedef std::vector<GameObject*> GameObjects;
   GameObjects gameobjects;
 
+  Rectangle get_active_region();
+
 private:
   void fix_old_tiles();
   

@@ -71,7 +71,7 @@
            (x 30)
 	        (y 39))
 	 (level (name "/bonus-level4.stl")
-			  (extro-filelevel "extro-bonus.txt")
+			  (extro-filelevel "extro.txt")
            (x 32)
 	        (y 46))
 	 (level (name "bonus-level5.stl")

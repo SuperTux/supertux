@@ -49,6 +49,8 @@
 
 Menu* worldmap_menu  = 0;
 
+static const float TUXSPEED = 200;
+
 namespace WorldMapNS {
 
 Direction reverse_dir(Direction direction)
@@ -220,8 +222,8 @@ Tux::action(float delta)
     }
   else
     {
-      // Let tux walk a few pixels (20 pixel/sec)
-      offset += 20.0f * delta;
+      // Let tux walk
+      offset += TUXSPEED * delta;
 
       if (offset > 32)
         { // We reached the next tile, so we check what to do now
@@ -349,6 +351,7 @@ WorldMap::WorldMap()
 
   name = "<no title>";
   music = "salcon.mod";
+  intro_displayed = false;
 
   total_stats.reset();
 }
@@ -393,6 +396,7 @@ WorldMap::load_map()
         const lisp::Lisp* props = iter.lisp();
         props->get("name", name);
         props->get("music", music);
+        props->get("intro-filename", intro_filename);
         props->get("start_pos_x", start_x);
         props->get("start_pos_y", start_y);
       } else if(iter.item() == "special-tiles") {
@@ -827,14 +831,13 @@ WorldMap::update(float delta)
         }
       /* The porpose of the next checking is that if the player lost
          the level (in case there is one), don't show anything */
-      if(level_finished)
-        {
-        if (!level->extro_filename.empty())
-          {
+      if(level_finished) {
+        if (!level->extro_filename.empty()) {
           // Display a text file
-          display_text_file(level->extro_filename, SCROLL_SPEED_MESSAGE,
-              white_big_text , white_text, white_small_text, blue_text );
-          }
+          std::string filename = levels_path + level->extro_filename;
+          display_text_file(filename, SCROLL_SPEED_MESSAGE,
+                            white_big_text , white_text, white_small_text, blue_text );
+        }
 
         if (!level->next_worldmap.empty())
           {
@@ -1035,50 +1038,47 @@ WorldMap::display()
   song = SoundManager::get()->load_music(datadir +  "/music/" + music);
   SoundManager::get()->play_music(song);
 
-  FrameRate frame_rate(10);
-  frame_rate.set_frame_limit(false);
+  if(!intro_displayed && intro_filename != "") {
+    std::string filename = levels_path + intro_filename;
+    display_text_file(filename, SCROLL_SPEED_MESSAGE,
+                      white_big_text, white_text, white_small_text, blue_text);
+    intro_displayed = true;
+  }
 
-  frame_rate.start();
-
+  Uint32 lastticks = SDL_GetTicks();
   DrawingContext context;
-  while(!quit)
-    {
-      float delta = frame_rate.get();
+  while(!quit) {
+    Uint32 ticks = SDL_GetTicks();
+    float elapsed_time = float(ticks - lastticks) / 1000;
+    global_time += elapsed_time;
+    lastticks = ticks;
+    
+    // 40 fps minimum
+    if(elapsed_time > .025)
+      elapsed_time = .025;
+    
+    Vector tux_pos = tux->get_pos();
+    
+    offset.x = -tux_pos.x + screen->w/2;
+    offset.y = -tux_pos.y + screen->h/2;
 
-      delta *= 1.3f;
+    if (offset.x > 0) offset.x = 0;
+    if (offset.y > 0) offset.y = 0;
 
-      if (delta > 10.0f)
-        delta = .3f;
-	
-      frame_rate.update();
-
-      Vector tux_pos = tux->get_pos();
-      if (1)
-        {
-          offset.x = -tux_pos.x + screen->w/2;
-          offset.y = -tux_pos.y + screen->h/2;
-
-          if (offset.x > 0) offset.x = 0;
-          if (offset.y > 0) offset.y = 0;
-
-          if (offset.x < screen->w - width*32) offset.x = screen->w - width*32;
-          if (offset.y < screen->h - height*32) offset.y = screen->h - height*32;
-        } 
-
-      draw(context, offset);
-      get_input();
-      update(delta);
+    if (offset.x < screen->w - width*32) offset.x = screen->w - width*32;
+    if (offset.y < screen->h - height*32) offset.y = screen->h - height*32;
+    
+    draw(context, offset);
+    get_input();
+    update(elapsed_time);
       
-      if(Menu::current())
-        {
-          Menu::current()->draw(context);
-          mouse_cursor->draw(context);
-        }
-
-      context.do_drawing();
-
-      SDL_Delay(20);
+    if(Menu::current()) {
+      Menu::current()->draw(context);
+      mouse_cursor->draw(context);
     }
+
+    context.do_drawing();
+  }
 }
 
 void
@@ -1110,6 +1110,7 @@ WorldMap::savegame(const std::string& filename)
   writer.write_string("title",
       std::string(name + " - " + nb_solved_levels_str+"/"+total_levels_str));
   writer.write_string("map", map_filename);
+  writer.write_bool("intro-displayed", intro_displayed);
   writer.write_int("lives", player_status.lives);
   writer.write_int("distros", player_status.lives);
   writer.write_int("max-score-multiplier", player_status.max_score_multiplier);
@@ -1163,6 +1164,7 @@ WorldMap::loadgame(const std::string& filename)
     savegame->get("map", map_filename);
     load_map(); 
 
+    savegame->get("intro-displayed", intro_displayed);
     savegame->get("lives", player_status.lives);
     savegame->get("distros", player_status.distros);
     savegame->get("max-score-multiplier", player_status.max_score_multiplier);
@@ -1232,8 +1234,3 @@ WorldMap::loadmap(const std::string& filename)
 }
 
 } // namespace WorldMapNS
-
-/* Local Variables: */
-/* mode:c++ */
-/* End: */
-

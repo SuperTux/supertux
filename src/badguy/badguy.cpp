@@ -155,6 +155,7 @@ BadGuy::kill_squished(Player& player)
 {
   SoundManager::get()->play_sound(IDToSound(SND_SQUISH), get_pos(),
       player.get_pos());
+  physic.enable_gravity(true);
   physic.set_velocity_x(0);
   physic.set_velocity_y(0);
   set_state(STATE_SQUISHED);

@@ -35,9 +35,9 @@ LEVELPATHS =
 ;
 
 for p in $(LEVELPATHS) {
-  InstallData [ Wildcard $(p) : info *.stl *.stwm ] : $(p) ;
+  InstallData [ Wildcard $(p) : info *.stl *.stwm *.txt ] : $(p) ;
 
-  local translatable_lisp = [ Wildcard $(p) : info *.stl *.stwm ] ;
+  local translatable_lisp = [ Wildcard $(p) : info *.stl *.stwm *.txt ] ;
   SEARCH on $(translatable_lisp) = $(SEARCH_SOURCE) ;
   MakePot $(SUBDIR)/$(p)/messages.pot : $(translatable_lisp) ;
   XGETTEXT_FLAGS on $(SUBDIR)/$(p)/messages.pot += --language=Lisp ;

@@ -199,6 +199,9 @@ private:
 
   Vector offset;
   std::string savegame_file;
+  
+  std::string intro_filename;
+  bool intro_displayed;
 
   void get_level_title(Level& level);
 

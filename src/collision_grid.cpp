@@ -4,11 +4,13 @@
 #include "collision_grid.h"
 #include "special/collision.h"
 #include "sector.h"
+#include "collision_grid_iterator.h"
 
 static const float DELTA = .001;
 
 CollisionGrid::CollisionGrid(float newwidth, float newheight)
-  : width(newwidth), height(newheight), cell_width(128), cell_height(128)
+  : width(newwidth), height(newheight), cell_width(128), cell_height(128),
+    iterator_timestamp(0)
 {
   cells_x = size_t(width / cell_width) + 1;
   cells_y = size_t(height / cell_height) + 1;
@@ -116,8 +118,8 @@ CollisionGrid::move_object(MovingObject* object)
 void
 CollisionGrid::check_collisions()
 {
-  for(Objects::iterator i = objects.begin(); i != objects.end(); ++i) {
-    ObjectWrapper* wrapper = *i;
+  CollisionGridIterator iter(*this, Sector::current()->get_active_region());
+  while(ObjectWrapper* wrapper = iter.next_wrapper()) {
     MovingObject* object = wrapper->object;
     if(!object->is_valid())
       continue;
@@ -140,8 +142,7 @@ CollisionGrid::check_collisions()
 void
 CollisionGrid::collide_object(ObjectWrapper* wrapper)
 {
-  static int timestamp = 0;
-  timestamp++;
+  iterator_timestamp++;
 
   const Rectangle& bbox = wrapper->object->bbox;
   for(float y = bbox.p1.y; y < bbox.p2.y; y += cell_height) {
@@ -158,13 +159,13 @@ CollisionGrid::collide_object(ObjectWrapper* wrapper)
           entry = entry->next) {
         ObjectWrapper* wrapper2 = entry->object_wrapper;
         // only check each object once (even if it is in multiple cells)
-        if(wrapper2->timestamp == timestamp)
+        if(wrapper2->timestamp == iterator_timestamp)
           continue;
         // don't collide with objects we already collided with
         if(wrapper2->id <= wrapper->id)
           continue;
 
-        wrapper->timestamp = timestamp;
+        wrapper->timestamp = iterator_timestamp;
         collide_object_object(wrapper, wrapper2);
       }
     }

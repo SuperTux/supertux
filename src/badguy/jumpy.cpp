@@ -47,3 +47,14 @@ Jumpy::hit(const CollisionHit& chit)
 
   return CONTINUE;
 }
+
+void
+Jumpy::active_action(float elapsed_time)
+{
+  BadGuy::active_action(elapsed_time);
+  
+  dir = Sector::current()->player->get_pos().x > get_pos().x
+    ? RIGHT : LEFT;
+    //FIXME: add middle and up here
+  sprite->set_action(dir == LEFT ? "left-down" : "right-down");
+}

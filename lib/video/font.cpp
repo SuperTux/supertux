@@ -260,6 +260,7 @@ void SuperTux::display_text_file(const std::string& file, float scroll_speed,
   int done = 0;
   float scroll = 0;
   float speed = scroll_speed / 50;
+  float left_border = 50;
 
   DrawingContext context;
   SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
@@ -316,18 +317,32 @@ void SuperTux::display_text_file(const std::string& file, float scroll_speed,
         }
 
         Font* font = 0;
+        bool center = true;
         switch(names[i][0])
         {
           case ' ': font = small_font; break;
           case '\t': font = normal_font; break;
           case '-': font = heading_font; break;
           case '*': font = reference_font; break;
-          default: font = reference_font; break;
+          case '#': font = normal_font; center = false; break;
+          default: 
+            break;
         }
-
-        context.draw_text(font,
-            names[i].substr(1, names[i].size()-1),
-            Vector(screen->w/2, screen->h + y - scroll), CENTER_ALLIGN, LAYER_FOREGROUND1);
+        
+        if(font) {
+          if(center) {
+            context.draw_text(font,
+                              names[i].substr(1, names[i].size()-1),
+                              Vector(screen->w/2, screen->h + y - scroll),
+                              CENTER_ALLIGN, LAYER_FOREGROUND1);
+          } else {
+            context.draw_text(font,
+                              names[i].substr(1, names[i].size()-1),
+                              Vector(left_border, screen->h + y - scroll),
+                              LEFT_ALLIGN, LAYER_FOREGROUND1);
+          }
+        }                   
+          
         y += font->get_height() + ITEMS_SPACE;
       }
 

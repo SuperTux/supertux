@@ -43,6 +43,7 @@
 #include "resources.h"
 #include "statistics.h"
 #include "collision_grid.h"
+#include "collision_grid_iterator.h"
 #include "special/collision.h"
 #include "math/rectangle.h"
 #include "math/aatriangle.h"
@@ -55,6 +56,7 @@
 #include "badguy/snowball.h"
 #include "badguy/bouncing_snowball.h"
 #include "badguy/flame.h"
+#include "badguy/flyingsnowball.h"
 #include "badguy/mriceblock.h"
 #include "badguy/mrbomb.h"
 #include "badguy/dispenser.h"
@@ -133,6 +135,8 @@ Sector::parse_object(const std::string& name, const lisp::Lisp& reader)
     return new BouncingSnowball(reader);
   } else if(name == "flame") {
     return new Flame(reader);
+  } else if(name == "flyingsnowball") {
+    return new FlyingSnowBall(reader);
   } else if(name == "mriceblock") {
     return new MrIceBlock(reader);
   } else if(name == "mrbomb") {
@@ -466,11 +470,28 @@ Sector::get_best_spawn_point(Vector pos)
   return best_reset_point;
 }
 
+Rectangle
+Sector::get_active_region()
+{
+  return Rectangle(
+    camera->get_translation() - Vector(1600, 1200),
+    camera->get_translation() + Vector(1600, 1200));
+}
+
 void
 Sector::action(float elapsed_time)
 {
   player->check_bounds(camera);
-                                                                                
+
+#if 0
+  CollisionGridIterator iter(*grid, get_active_region());
+  while(MovingObject* object = iter.next()) {
+    if(!object->is_valid())
+      continue;
+
+    object->action(elapsed_time);
+  }
+#else
   /* update objects */
   for(GameObjects::iterator i = gameobjects.begin();
           i != gameobjects.end(); ++i) {
@@ -480,7 +501,8 @@ Sector::action(float elapsed_time)
     
     object->action(elapsed_time);
   }
-                                                                                
+#endif
+  
   /* Handle all possible collisions. */
   collision_handler();                                                                              
   update_game_objects();
@@ -555,7 +577,16 @@ Sector::draw(DrawingContext& context)
 {
   context.push_transform();
   context.set_translation(camera->get_translation());
-  
+
+#if 0
+  CollisionGridIterator iter(*grid, get_active_region());
+  while(MovingObject* object = iter.next()) {
+    if(!object->is_valid())
+      continue;
+
+    object->draw(context);
+  }
+#else
   for(GameObjects::iterator i = gameobjects.begin();
       i != gameobjects.end(); ++i) {
     GameObject* object = *i; 
@@ -564,6 +595,7 @@ Sector::draw(DrawingContext& context)
     
     object->draw(context);
   }
+#endif
 
   context.pop_transform();
 }

@@ -25,6 +25,8 @@ public:
   void check_collisions();
 
 private:
+  friend class CollisionGridIterator;
+  
   struct ObjectWrapper
   {
     MovingObject* object;
@@ -58,6 +60,7 @@ private:
   float height;
   float cell_width;
   float cell_height;
+  int iterator_timestamp;
 };
 
 extern CollisionGrid* bla;

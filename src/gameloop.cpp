@@ -964,12 +964,6 @@ bool process_load_game_menu()
       stream << slot;
       std::string slotfile = st_save_dir + "/slot" + stream.str() + ".stsg";
 
-      if (access(slotfile.c_str(), F_OK) != 0)
-        {
-          shrink_fade(Vector(screen->w/2,screen->h/2), 600);
-          draw_intro();
-        }
-
       fadeout(256);
       DrawingContext context;
       context.draw_text(white_text, "Loading...",

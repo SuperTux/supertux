@@ -3,7 +3,7 @@
   (background "oiltux.jpg")
 
   (text "-- SuperTux -
-	 Milestone 1
+	Milestone 1
 
 
 -Maintainer
