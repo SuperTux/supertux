@@ -769,9 +769,9 @@ Sector::add_smoke_cloud(const Vector& pos)
 }
 
 bool
-Sector::add_particles(const Vector& epicenter, const Vector& velocity, const Vector& acceleration, int number, Color color, int size, int life_time)
+Sector::add_particles(const Vector& epicenter, int min_angle, int max_angle, const Vector& initial_velocity, const Vector& acceleration, int number, Color color, int size, int life_time)
 {
-  add_object(new Particles(epicenter, velocity, acceleration, number, color, size, life_time));
+  add_object(new Particles(epicenter, min_angle, max_angle, initial_velocity, acceleration, number, color, size, life_time));
   return true;
 }
 

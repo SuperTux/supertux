@@ -638,8 +638,8 @@ GameSession::action(double frame_ratio)
 
     int red = rand() % 255;  // calculate firework color
     int green = rand() % red;
-    currentsector->add_particles(epicenter, Vector(1.4,1.4), Vector(0,0),
-                                 45, Color(red,green,0), 3, 1300);
+    currentsector->add_particles(epicenter, 0, 360, Vector(1.4,1.4),
+                   Vector(0,0), 45, Color(red,green,0), 3, 1300);
 
     SoundManager::get()->play_sound(IDToSound(SND_FIREWORKS));
     random_timer.start(rand() % 400 + 600);  // next firework

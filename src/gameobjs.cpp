@@ -465,8 +465,8 @@ SmokeCloud::draw(DrawingContext& context)
   img_smoke_cloud->draw(context, position, LAYER_OBJECTS+1);
 }
 
-Particles::Particles(const Vector& epicenter, const Vector& velocity, const Vector& acceleration, int number, Color color_, int size_, int life_time)
-  : color(color_), size(size_), vel(velocity), accel(acceleration)
+Particles::Particles(const Vector& epicenter, int min_angle, int max_angle, const Vector& initial_velocity, const Vector& acceleration, int number, Color color_, int size_, int life_time)
+  : color(color_), size(size_), accel(acceleration)
 {
   if(life_time == 0)
     {
@@ -483,7 +483,15 @@ Particles::Particles(const Vector& epicenter, const Vector& velocity, const Vect
     {
     Particle* particle = new Particle;
     particle->pos = epicenter;
-    particle->angle = (rand() % 360) * (M_PI / 180);  // in radius
+
+    float angle = ((rand() % (max_angle-min_angle))+min_angle)
+                      * (M_PI / 180);  // convert to radius
+    particle->vel.x = /*fabs*/(sin(angle)) * initial_velocity.x;
+//    if(angle >= M_PI && angle < M_PI*2)
+//      particle->vel.x *= -1;  // work around to fix signal
+    particle->vel.y = /*fabs*/(cos(angle)) * initial_velocity.y;
+//    if(angle >= M_PI_2 && angle < 3*M_PI_2)
+//      particle->vel.y *= -1;
 
     particles.push_back(particle);
     }
@@ -492,27 +500,27 @@ Particles::Particles(const Vector& epicenter, const Vector& velocity, const Vect
 Particles::~Particles()
 {
   // free particles
-  for(std::vector<Particle*>::iterator i = particles.begin(); i < particles.end(); i++)
+  for(std::vector<Particle*>::iterator i = particles.begin();
+      i < particles.end(); i++)
     delete (*i);
 }
 
 void
 Particles::action(float elapsed_time)
 {
-  vel.x += accel.x * elapsed_time;
-  vel.y += accel.y * elapsed_time;
-
-  int camera_x = (int)Sector::current()->camera->get_translation().x;
-  int camera_y = (int)Sector::current()->camera->get_translation().y;
+  Vector camera = Sector::current()->camera->get_translation();
 
   // update particles
   for(std::vector<Particle*>::iterator i = particles.begin(); i < particles.end(); i++)
     {
-    (*i)->pos.x += sin((*i)->angle) * vel.x * elapsed_time;
-    (*i)->pos.y += cos((*i)->angle) * vel.y * elapsed_time;
+    (*i)->pos.x += (*i)->vel.x * elapsed_time;
+    (*i)->pos.y += (*i)->vel.y * elapsed_time;
 
-    if((*i)->pos.x < camera_x || (*i)->pos.x > screen->w + camera_x ||
-       (*i)->pos.y < camera_y || (*i)->pos.y > screen->h + camera_y)
+    (*i)->vel.x += accel.x * elapsed_time;
+    (*i)->vel.y += accel.y * elapsed_time;
+
+    if((*i)->pos.x < camera.x || (*i)->pos.x > screen->w + camera.x ||
+       (*i)->pos.y < camera.y || (*i)->pos.y > screen->h + camera.y)
       {
       delete (*i);
       particles.erase(i);

@@ -180,7 +180,9 @@ private:
 class Particles : public GameObject
 {
 public:
-  Particles(const Vector& epicenter, const Vector& velocity, const Vector& acceleration, int number, Color color, int size, int life_time);
+  Particles(const Vector& epicenter, int min_angle, int max_angle,
+            const Vector& initial_velocity, const Vector& acceleration,
+            int number, Color color, int size, int life_time);
   ~Particles();
   
   virtual void action(float elapsed_time);
@@ -189,13 +191,13 @@ public:
 private:
   Color color;
   float size;
-  Vector vel, accel;
+  Vector accel;
   Timer timer;
   bool live_forever;
 
   struct Particle {
-    Vector pos;
-    float angle;
+    Vector pos, vel;
+//     float angle;
     };
   std::vector <Particle*> particles;
 };
