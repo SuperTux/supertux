@@ -13,7 +13,8 @@ aclocal -I mk/autoconf
 autoconf --trace=AC_SUBST \
   | sed -e 's/configure.ac:[0-9]*:AC_SUBST:\([^:]*\).*/\1 ?= "@\1@" ;/g' \
   > Jamconfig.in
-sed -e 's/.*BACKSLASH.*//' -i Jamconfig.in
+sed -e 's/.*BACKSLASH.*//' -i~ Jamconfig.in
+rm Jamconfig.in~
 echo 'INSTALL ?= "@INSTALL@" ;' >> Jamconfig.in
 echo 'JAMCONFIG_READ = yes ;' >> Jamconfig.in
 
