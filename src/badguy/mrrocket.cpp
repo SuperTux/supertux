@@ -48,7 +48,7 @@ MrRocket::active_action(float elapsed_time)
 {
   if (collision_timer.check()) {
     Sector::current()->add_object(new RocketExplosion(get_pos(), dir));
-    kill_fall();
+    remove_me();
   }
   else if (!collision_timer.started()) {
      movement=physic.get_movement(elapsed_time);
