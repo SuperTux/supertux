@@ -68,6 +68,8 @@ void drawstatus(void);
 void drawendscreen(void);
 void drawresultscreen(void);
 
+#define JOYSTICK_DEAD_ZONE 4096
+
 void levelintro(void)
 {
   /* Level Intro: */
@@ -236,20 +238,20 @@ void game_event(void)
           switch(event.jaxis.axis)
             {
             case JOY_X:
-              if (event.jaxis.value < -1024)
+              if (event.jaxis.value < -JOYSTICK_DEAD_ZONE)
                 tux.input.left = DOWN;
-              else if (event.jaxis.value > 1024)
+              else if (event.jaxis.value > JOYSTICK_DEAD_ZONE)
                 tux.input.left = UP;
 
-              if (event.jaxis.value > 1024)
+              if (event.jaxis.value > JOYSTICK_DEAD_ZONE)
                 tux.input.right = DOWN;
-              else if (event.jaxis.value < -1024)
+              else if (event.jaxis.value < -JOYSTICK_DEAD_ZONE)
                 tux.input.right = UP;
               break;
             case JOY_Y:
-              if (event.jaxis.value > 1024)
+              if (event.jaxis.value > JOYSTICK_DEAD_ZONE)
                 tux.input.down = DOWN;
-              else if (event.jaxis.value < -1024)
+              else if (event.jaxis.value < -JOYSTICK_DEAD_ZONE)
                 tux.input.down = UP;
 
               /* Handle joystick for the menu */
