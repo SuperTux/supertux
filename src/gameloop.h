@@ -117,6 +117,8 @@ private:
 
   // for cheating
   std::string last_keys;
+  // for fire works
+  Timer random_timer;
 
   void restart_level();
 
