@@ -33,6 +33,7 @@ Background::Background()
 Background::Background(LispReader& reader)
   : type(INVALID), layer(LAYER_BACKGROUND0), image(0)
 {
+  reader.read_int("layer", layer);
   if(reader.read_string("image", imagefile) 
       && reader.read_float("speed", speed)) {
     set_image(imagefile, speed);
