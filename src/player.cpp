@@ -203,10 +203,11 @@ Player::action(double frame_ratio)
       // special exception for cases where we're stuck under tiles after
       // being ducked. In this case we drift out
       if(!duck && on_ground() && old_base.x == base.x && old_base.y == base.y
-         && collision_object_map(&base)) {
-        base.x += frame_ratio * WALK_SPEED * (dir ? 1 : -1);
-        previous_base = old_base = base;
-      }
+         && collision_object_map(base))
+        {
+          base.x += frame_ratio * WALK_SPEED * (dir ? 1 : -1);
+          previous_base = old_base = base;
+        }
       keep_in_bounds();
 
       // Land:

@@ -20,6 +20,7 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 
+#include <iostream>
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
@@ -72,11 +73,9 @@ World::World(const std::string& subset, int level_nr)
 
 World::~World()
 {
-  for (unsigned int i = 0; i < bad_guys.size(); ++i)
-    {
-      delete bad_guys[i];
-    }
-
+  for (BadGuys::iterator i = bad_guys.begin(); i != bad_guys.end(); ++i)
+    delete *i;
+  
   halt_music(); // just to be sure (because levelmusic is freed now)
   delete level;
 }
@@ -172,8 +171,8 @@ World::draw()
   for (unsigned int i = 0; i < bouncy_bricks.size(); ++i)
     bouncy_bricks[i].draw();
 
-  for (unsigned int i = 0; i < bad_guys.size(); ++i)
-    bad_guys[i]->draw();
+  for (BadGuys::iterator i = bad_guys.begin(); i != bad_guys.end(); ++i)
+    (*i)->draw();
 
   tux.draw();
 
@@ -244,8 +243,8 @@ World::action(double frame_ratio)
   for (unsigned int i = 0; i < upgrades.size(); i++)
     upgrades[i].action(frame_ratio);
 
-  for (unsigned int i = 0; i < bad_guys.size(); i++)
-    bad_guys[i]->action(frame_ratio);
+  for (BadGuys::iterator i = bad_guys.begin(); i != bad_guys.end(); ++i)
+    (*i)->action(frame_ratio);
 
   /* update particle systems */
   std::vector<ParticleSystem*>::iterator p;
@@ -256,8 +255,14 @@ World::action(double frame_ratio)
 
   /* Handle all possible collisions. */
   collision_handler();
+  
+  { // Cleanup marked badguys
+    for (BadGuys::iterator i = bad_guys.begin(); i != bad_guys.end(); ++i)
+      if ((*i)->is_removable())
+        delete *i;
+    bad_guys.remove_if(std::mem_fun(&BadGuy::is_removable));
+  }
 }
-
 
 void
 World::collision_handler()
@@ -265,17 +270,18 @@ World::collision_handler()
   // CO_BULLET & CO_BADGUY check
   for(unsigned int i = 0; i < bullets.size(); ++i)
     {
-      for(unsigned int j = 0; j < bad_guys.size(); ++j)
+      for (BadGuys::iterator j = bad_guys.begin(); j != bad_guys.end(); ++j)
         {
-          if(bad_guys[j]->dying != DYING_NOT)
+          if((*j)->dying != DYING_NOT)
             continue;
-          if(rectcollision(&bullets[i].base, &bad_guys[j]->base))
+          
+          if(rectcollision(bullets[i].base, (*j)->base))
             {
               // We have detected a collision and now call the
               // collision functions of the collided objects.
               // collide with bad_guy first, since bullet_collision will
               // delete the bullet
-              bad_guys[j]->collision(0, CO_BULLET);
+              (*j)->collision(0, CO_BULLET);
               bullets[i].collision(CO_BADGUY);
               break; // bullet is invalid now, so break
             }
@@ -283,22 +289,24 @@ World::collision_handler()
     }
 
   /* CO_BADGUY & CO_BADGUY check */
-  for(unsigned int i = 0; i < bad_guys.size(); ++i)
+  for (BadGuys::iterator i = bad_guys.begin(); i != bad_guys.end(); ++i)
     {
-      if(bad_guys[i]->dying != DYING_NOT)
+      if((*i)->dying != DYING_NOT)
         continue;
       
-      for(unsigned int j = i+1; j < bad_guys.size(); ++j)
+      BadGuys::iterator j = i;
+      ++j;
+      for (; j != bad_guys.end(); ++j)
         {
-          if(j == i || bad_guys[j]->dying != DYING_NOT)
+          if(j == i || (*j)->dying != DYING_NOT)
             continue;
 
-          if(rectcollision(&bad_guys[i]->base, &bad_guys[j]->base))
+          if(rectcollision((*i)->base, (*j)->base))
             {
               // We have detected a collision and now call the
               // collision functions of the collided objects.
-              bad_guys[j]->collision(&bad_guys[i], CO_BADGUY);
-              bad_guys[i]->collision(&bad_guys[j], CO_BADGUY);
+              (*j)->collision(*i, CO_BADGUY);
+              (*i)->collision(*j, CO_BADGUY);
             }
         }
     }
@@ -306,25 +314,25 @@ World::collision_handler()
   if(tux.dying != DYING_NOT) return;
     
   // CO_BADGUY & CO_PLAYER check 
-  for(unsigned int i = 0; i < bad_guys.size(); ++i)
+  for (BadGuys::iterator i = bad_guys.begin(); i != bad_guys.end(); ++i)
     {
-      if(bad_guys[i]->dying != DYING_NOT)
+      if((*i)->dying != DYING_NOT)
         continue;
       
-      if(rectcollision_offset(&bad_guys[i]->base,&tux.base,0,0))
+      if(rectcollision_offset((*i)->base, tux.base, 0, 0))
         {
           // We have detected a collision and now call the collision
           // functions of the collided objects.
           if (tux.previous_base.y < tux.base.y &&
               tux.previous_base.y + tux.previous_base.height 
-              < bad_guys[i]->base.y + bad_guys[i]->base.height/2)
+              < (*i)->base.y + (*i)->base.height/2)
             {
-              bad_guys[i]->collision(&tux, CO_PLAYER, COLLISION_SQUISH);
+              (*i)->collision(&tux, CO_PLAYER, COLLISION_SQUISH);
             }
           else
             {
-              tux.collision(&bad_guys[i], CO_BADGUY);
-              bad_guys[i]->collision(&tux, CO_PLAYER, COLLISION_NORMAL);
+              tux.collision(*i, CO_BADGUY);
+              (*i)->collision(&tux, CO_PLAYER, COLLISION_NORMAL);
             }
         }
     }
@@ -332,7 +340,7 @@ World::collision_handler()
   // CO_UPGRADE & CO_PLAYER check
   for(unsigned int i = 0; i < upgrades.size(); ++i)
     {
-      if(rectcollision(&upgrades[i].base, &tux.base))
+      if(rectcollision(upgrades[i].base, tux.base))
         {
           // We have detected a collision and now call the collision
           // functions of the collided objects.
@@ -388,26 +396,9 @@ World::add_bouncy_brick(float x, float y)
 BadGuy*
 World::add_bad_guy(float x, float y, BadGuyKind kind, bool stay_on_platform)
 {
-  bad_guys.push_back(new BadGuy());
-  BadGuy* new_bad_guy = bad_guys.back();
-  
-  new_bad_guy->init(x,y,kind, stay_on_platform);
-  return new_bad_guy;
-}
-
-void
-World::remove_bad_guy(BadGuy* badguy)
-{
-  for(std::vector<BadGuy*>::iterator i = bad_guys.begin(); 
-      i != bad_guys.end(); ++i) 
-    {
-      if(*i == badguy)
-        {
-          World::current()->bad_guys.erase(i);
-          delete badguy;
-          return;
-        }
-    }
+  BadGuy* badguy = new BadGuy(x,y,kind, stay_on_platform);
+  bad_guys.push_back(badguy);
+  return badguy;
 }
 
 void
@@ -576,12 +567,12 @@ void
 World::trybumpbadguy(float x, float y)
 {
   // Bad guys: 
-  for (unsigned int i = 0; i < bad_guys.size(); i++)
+  for (BadGuys::iterator i = bad_guys.begin(); i != bad_guys.end(); ++i)
     {
-      if (bad_guys[i]->base.x >= x - 32 && bad_guys[i]->base.x <= x + 32 &&
-          bad_guys[i]->base.y >= y - 16 && bad_guys[i]->base.y <= y + 16)
+      if ((*i)->base.x >= x - 32 && (*i)->base.x <= x + 32 &&
+          (*i)->base.y >= y - 16 && (*i)->base.y <= y + 16)
         {
-          bad_guys[i]->collision(&tux, CO_PLAYER, COLLISION_BUMP);
+          (*i)->collision(&tux, CO_PLAYER, COLLISION_BUMP);
         }
     }
 

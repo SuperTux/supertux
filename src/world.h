@@ -38,7 +38,9 @@ class Level;
 class World
 {
 private:
-  std::vector<BadGuy*> bad_guys;
+  typedef std::list<BadGuy*> BadGuys;
+  BadGuys bad_guys;
+  BadGuys bad_guys_to_add;
   Level* level;
   Player tux;
 
@@ -93,7 +95,6 @@ public:
   void add_bouncy_brick(float x, float y);
 
   BadGuy* add_bad_guy(float x, float y, BadGuyKind kind, bool stay_on_platform = false);
-  void    remove_bad_guy(BadGuy* badguy);
 
   void add_upgrade(float x, float y, Direction dir, UpgradeKind kind);
   void add_bullet(float x, float y, float xm, Direction dir);

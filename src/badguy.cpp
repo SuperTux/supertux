@@ -145,8 +145,8 @@ std::string badguykind_to_string(BadGuyKind kind)
     }
 }
 
-void
-BadGuy::init(float x, float y, BadGuyKind kind_, bool stay_on_platform_)
+BadGuy::BadGuy(float x, float y, BadGuyKind kind_, bool stay_on_platform_)
+  : removable(false)
 {
   base.x   = x;
   base.y   = y;    
@@ -207,9 +207,9 @@ BadGuy::init(float x, float y, BadGuyKind kind_, bool stay_on_platform_)
   }
 
   // if we're in a solid tile at start correct that now
-  if(kind != BAD_FLAME && kind != BAD_FISH && collision_object_map(&base)) {
+  if(kind != BAD_FLAME && kind != BAD_FISH && collision_object_map(base)) {
     printf("Warning: badguy started in wall!.\n");
-    while(collision_object_map(&base))
+    while(collision_object_map(base))
       --base.y;
   }
 }
@@ -276,7 +276,7 @@ BadGuy::action_laptop(float frame_ratio)
           base.x = tux.base.x - 16;
           base.y = tux.base.y + tux.base.height/1.5 - base.height;
         }
-      if(collision_object_map(&base))
+      if(collision_object_map(base))
         {
           base.x = tux.base.x;
           base.y = tux.base.y + tux.base.height/1.5 - base.height;
@@ -408,7 +408,7 @@ BadGuy::fall()
 void
 BadGuy::remove_me()
 {
-  World::current()->remove_bad_guy(this);
+  removable = true;
 }
 
 void
@@ -856,7 +856,7 @@ BadGuy::squish(Player* player)
     World::current()->add_score(base.x - scroll_x, base.y, 50 * player_status.score_multiplier);
     play_sound(sounds[SND_SQUISH], SOUND_CENTER_SPEAKER);
     player_status.score_multiplier++;
-    remove_me();     
+    remove_me();
     return;
 
   } else if(kind == BAD_BSOD) {
@@ -960,6 +960,7 @@ BadGuy::collision(void *p_c_object, int c_object, CollisionType type)
     bump();
     return;
   }
+
   if(type == COLLISION_SQUISH) {
     Player* player = static_cast<Player*>(p_c_object);
     squish(player);

@@ -40,11 +40,11 @@ enum CollisionType {
     COLLISION_SQUISH
 };
 
-bool rectcollision(base_type* one, base_type* two);
-bool rectcollision_offset(base_type* one, base_type* two, float off_x, float off_y);
+bool rectcollision(const base_type& one, const base_type& two);
+bool rectcollision_offset(const base_type& one, const base_type& two, float off_x, float off_y);
 
 void collision_swept_object_map(base_type* old, base_type* current);
-bool collision_object_map(base_type* object);
+bool collision_object_map(const base_type& object);
 
 /** Return a pointer to the tile at the given x/y coordinates */
 Tile* gettile(float x, float y);

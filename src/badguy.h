@@ -112,6 +112,7 @@ public:
   Direction dir;
 
 private:
+  bool removable;
   bool seen;
   base_type old_base;
   Timer timer;
@@ -123,7 +124,7 @@ private:
   int animation_offset;
 
 public:
-  void init(float x, float y, BadGuyKind kind, bool stay_on_platform);
+  BadGuy(float x, float y, BadGuyKind kind, bool stay_on_platform);
 
   void action(float frame_ratio);
   void draw();
@@ -135,7 +136,14 @@ public:
    * screen. Some badguys like the flame might ignore this.
    */
   void kill_me();
-  
+
+  /** remove ourself from the list of badguys. WARNING! This function will
+   * invalidate all members. So don't do anything else with member after calling
+   * this.
+   */
+  void remove_me();  
+  bool is_removable() const { return removable; }
+ 
 private:
   void action_bsod(float frame_ratio);
   void action_laptop(float frame_ratio);
@@ -153,13 +161,10 @@ private:
   /** handles falling down. disables gravity calculation when we're back on
    * ground */
   void fall();
-  /** remove ourself from the list of badguys. WARNING! This function will
-   * invalidate all members. So don't do anything else with member after calling
-   * this.
-   */
-  void remove_me();  
+
   /** let the player jump a bit (used when you hit a badguy) */
   void make_player_jump(Player* player);
+
   /** check if we're running left or right in a wall and eventually change
    * direction
    */

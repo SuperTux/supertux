@@ -92,10 +92,7 @@ struct LevelEditorWorld
 
   void add_bad_guy(float x, float y, BadGuyKind kind)
   {
-    bad_guys.push_back(BadGuy());
-    BadGuy& new_bad_guy = bad_guys.back();
-  
-    new_bad_guy.init(x,y,kind, false /* stay_on_platform */);
+    bad_guys.push_back(BadGuy(x,y,kind, false /* stay_on_platform */));
   }
 
   void activate_bad_guys()

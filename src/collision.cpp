@@ -26,53 +26,53 @@
 #include "level.h"
 #include "tile.h"
 
-bool rectcollision(base_type* one, base_type* two)
+bool rectcollision(const base_type& one, const base_type& two)
 {
-  return (one->x >= two->x - one->width + 1  &&
-          one->x <= two->x + two->width - 1  &&
-          one->y >= two->y - one->height + 1 &&
-          one->y <= two->y + two->height - 1);
+  return (one.x >= two.x - one.width + 1  &&
+          one.x <= two.x + two.width - 1  &&
+          one.y >= two.y - one.height + 1 &&
+          one.y <= two.y + two.height - 1);
 }
 
-bool rectcollision_offset(base_type* one, base_type* two, float off_x, float off_y)
+bool rectcollision_offset(const base_type& one, const base_type& two, float off_x, float off_y)
 {
-  return (one->x >= two->x - one->width +off_x + 1 &&
-          one->x <= two->x + two->width + off_x - 1 &&
-          one->y >= two->y - one->height + off_y + 1 &&
-          one->y <= two->y + two->height + off_y - 1);
+  return (one.x >= two.x - one.width  + off_x + 1 &&
+          one.x <= two.x + two.width  + off_x - 1 &&
+          one.y >= two.y - one.height + off_y + 1 &&
+          one.y <= two.y + two.height + off_y - 1);
 }
 
-bool collision_object_map(base_type* pbase)
+bool collision_object_map(const base_type& pbase)
 {
-  int v = (int)pbase->height / 16;
-  int h = (int)pbase->width / 16;
+  int v = (int)pbase.height / 16;
+  int h = (int)pbase.width / 16;
 
-  if(issolid(pbase->x + 1, pbase->y + 1) ||
-     issolid(pbase->x + pbase->width -1, pbase->y + 1) ||
-     issolid(pbase->x +1, pbase->y + pbase->height -1) ||
-     issolid(pbase->x + pbase->width -1, pbase->y + pbase->height - 1))
+  if(issolid(pbase.x + 1, pbase.y + 1) ||
+     issolid(pbase.x + pbase.width -1, pbase.y + 1) ||
+     issolid(pbase.x +1, pbase.y + pbase.height -1) ||
+     issolid(pbase.x + pbase.width -1, pbase.y + pbase.height - 1))
     return true;
 
   for(int i = 1; i < h; ++i)
     {
-      if(issolid(pbase->x + i*16,pbase->y + 1))
+      if(issolid(pbase.x + i*16,pbase.y + 1))
         return true;
     }
 
   for(int i = 1; i < h; ++i)
     {
-      if(  issolid(pbase->x + i*16,pbase->y + pbase->height - 1))
+      if(  issolid(pbase.x + i*16,pbase.y + pbase.height - 1))
         return true;
     }
 
   for(int i = 1; i < v; ++i)
     {
-      if(  issolid(pbase->x + 1, pbase->y + i*16))
+      if(  issolid(pbase.x + 1, pbase.y + i*16))
         return true;
     }
   for(int i = 1; i < v; ++i)
     {
-      if(  issolid(pbase->x + pbase->width - 1, pbase->y + i*16))
+      if(  issolid(pbase.x + pbase.width - 1, pbase.y + i*16))
         return true;
     }
 
@@ -155,18 +155,18 @@ void collision_swept_object_map(base_type* old, base_type* current)
           steps--;
         }
 
-      if(collision_object_map(old))
+      if(collision_object_map(*old))
         {
           switch(h)
             {
             case 1:
               current->y = old->y - yd;
-              while(collision_object_map(current))
+              while(collision_object_map(*current))
                 current->y -= yd;
               break;
             case 2:
               current->x = old->x - xd;
-              while(collision_object_map(current))
+              while(collision_object_map(*current))
                 current->x -= xd;
               break;
             case 3:
@@ -174,7 +174,7 @@ void collision_swept_object_map(base_type* old, base_type* current)
               yt = current->y;
               current->x = old->x - xd;
               current->y = old->y - yd;
-              while(collision_object_map(current))
+              while(collision_object_map(*current))
                 {
                   current->x -= xd;
                   current->y -= yd;
@@ -182,20 +182,20 @@ void collision_swept_object_map(base_type* old, base_type* current)
 
               temp = current->x;
               current->x = xt;
-              if(!collision_object_map(current))
+              if(!collision_object_map(*current))
                 break;
               current->x = temp;
               temp = current->y;
               current->y = yt;
 
-              if(!collision_object_map(current))
+              if(!collision_object_map(*current))
                 {
                   break;
                 }
               else
                 {
                   current->y = temp;
-                  while(!collision_object_map(current))
+                  while(!collision_object_map(*current))
                     current->y += yd;
 		  current->y -= yd;
                   break;
