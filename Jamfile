@@ -29,5 +29,5 @@ UseAutoconf ;
 # add some additional files to package
 Package INSTALL NEWS README COPYING AUTHORS ChangeLog ;
 
-MakePot data/locale/supertux.pot : $(TRANSLATABLE_SOURCES) ;
-XGETTEXT_FLAGS on data/locale/supertux.pot += --language=C++ ;
+MakePot data/locale/messages.pot : $(TRANSLATABLE_SOURCES) ;
+XGETTEXT_FLAGS on data/locale/messages.pot += --language=C++ ;
