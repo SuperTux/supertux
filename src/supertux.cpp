@@ -40,7 +40,9 @@
 
 int main(int argc, char * argv[])
 {
+#ifndef DEBUG
   try {
+#endif
     st_directory_setup();
     parseargs(argc, argv);
 
@@ -58,7 +60,7 @@ int main(int argc, char * argv[])
     }
     else if (level_startup_file)
     {
-      GameSession session(level_startup_file, 1, ST_GL_LOAD_LEVEL_FILE);
+      GameSession session(level_startup_file, ST_GL_LOAD_LEVEL_FILE);
       session.run();
     }
     else
@@ -76,6 +78,7 @@ int main(int argc, char * argv[])
     Surface::debug_check();
     #endif
     st_shutdown();
+#ifndef DEBUG  // we want to see the backtrace in gdb when in debug mode
   }
   catch (SuperTuxException &e)
   {
@@ -85,6 +88,7 @@ int main(int argc, char * argv[])
   {
     std:: cerr << "Unhandled exception: " << e.what() << std::endl;
   }
+#endif
 
   return 0;
 }

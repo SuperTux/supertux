@@ -27,6 +27,9 @@
 #include "scene.h"
 #include "tile.h"
 #include "sprite.h"
+#include "sector.h"
+#include "tilemap.h"
+#include "camera.h"
 #include "gameobjs.h"
 #include "screen/screen.h"
 
@@ -261,26 +264,30 @@ Player::action(float elapsed_time)
           if (isbrick(base.x, base.y) ||
               isfullbox(base.x, base.y))
             {
-              World::current()->trygrabdistro(base.x, base.y - 32, BOUNCE);
-              World::current()->trybumpbadguy(base.x, base.y - 64);
+              Sector::current()->trygrabdistro(
+                  Vector(base.x, base.y - 32), BOUNCE);
+              Sector::current()->trybumpbadguy(Vector(base.x, base.y - 64));
 
-              World::current()->trybreakbrick(base.x, base.y, size == SMALL);
+              Sector::current()->trybreakbrick(
+                  Vector(base.x, base.y), size == SMALL);
 
               bumpbrick(base.x, base.y);
-              World::current()->tryemptybox(base.x, base.y, RIGHT);
+              Sector::current()->tryemptybox(Vector(base.x, base.y), RIGHT);
             }
 
           if (isbrick(base.x+ 31, base.y) ||
               isfullbox(base.x+ 31, base.y))
             {
-              World::current()->trygrabdistro(base.x+ 31, base.y - 32,BOUNCE);
-              World::current()->trybumpbadguy(base.x+ 31, base.y - 64);
+              Sector::current()->trygrabdistro(
+                  Vector(base.x+ 31, base.y - 32), BOUNCE);
+              Sector::current()->trybumpbadguy(Vector(base.x+ 31, base.y - 64));
 
               if(size == BIG)
-                World::current()->trybreakbrick(base.x+ 31, base.y, size == SMALL);
+                Sector::current()->trybreakbrick(
+                    Vector(base.x+ 31, base.y), size == SMALL);
 
               bumpbrick(base.x+ 31, base.y);
-              World::current()->tryemptybox(base.x+ 31, base.y, LEFT);
+              Sector::current()->tryemptybox(Vector(base.x+ 31, base.y), LEFT);
             }
         }
 
@@ -480,16 +487,17 @@ Player::handle_vertical_input()
     butt_jump = false;
 
     // Break bricks beneath Tux
-    if(World::current()->trybreakbrick(base.x + 1, base.y + base.height, false)
-        || World::current()->trybreakbrick(
-           base.x + base.width - 1, base.y + base.height, false))
+    if(Sector::current()->trybreakbrick(
+          Vector(base.x + 1, base.y + base.height), false)
+        || Sector::current()->trybreakbrick(
+           Vector(base.x + base.width - 1, base.y + base.height), false))
     {
       physic.set_velocity_y(2);
       butt_jump = true;
     }
 
     // Kill nearby badguys
-    std::vector<GameObject*> gameobjects = World::current()->gameobjects;
+    std::vector<GameObject*> gameobjects = Sector::current()->gameobjects;
     for (std::vector<GameObject*>::iterator i = gameobjects.begin();
          i != gameobjects.end();
          i++)
@@ -538,7 +546,7 @@ Player::handle_input()
   /* Shoot! */
   if (input.fire == DOWN && input.old_fire == UP && got_power != NONE_POWER)
     {
-      if(World::current()->add_bullet(Vector(base.x, base.y + (base.height/2)),
+      if(Sector::current()->add_bullet(Vector(base.x, base.y + (base.height/2)),
           physic.get_velocity_x(), dir))
         shooting_timer.start(SHOOTING_TIME);
       input.old_fire = DOWN;
@@ -615,16 +623,20 @@ Player::grabdistros()
   /* Grab distros: */
   if (!dying)
     {
-      World::current()->trygrabdistro(base.x, base.y, NO_BOUNCE);
-      World::current()->trygrabdistro(base.x+ 31, base.y, NO_BOUNCE);
+      Sector::current()->trygrabdistro(Vector(base.x, base.y), NO_BOUNCE);
+      Sector::current()->trygrabdistro(Vector(base.x+ 31, base.y), NO_BOUNCE);
 
-      World::current()->trygrabdistro(base.x, base.y + base.height, NO_BOUNCE);
-      World::current()->trygrabdistro(base.x+ 31, base.y + base.height, NO_BOUNCE);
+      Sector::current()->trygrabdistro(
+          Vector(base.x, base.y + base.height), NO_BOUNCE);
+      Sector::current()->trygrabdistro(
+          Vector(base.x+ 31, base.y + base.height), NO_BOUNCE);
 
       if(size == BIG)
         {
-          World::current()->trygrabdistro(base.x, base.y + base.height / 2, NO_BOUNCE);
-          World::current()->trygrabdistro(base.x+ 31, base.y + base.height / 2, NO_BOUNCE);
+          Sector::current()->trygrabdistro(
+              Vector(base.x, base.y + base.height / 2), NO_BOUNCE);
+          Sector::current()->trygrabdistro(
+              Vector(base.x+ 31, base.y + base.height / 2), NO_BOUNCE);
         }
 
     }
@@ -924,7 +936,7 @@ Player::move(const Vector& vector)
 }
 
 void
-Player::check_bounds(DrawingContext& viewport)
+Player::check_bounds(Camera* camera)
 {
   /* Keep tux in bounds: */
   if (base.x < 0)
@@ -934,7 +946,7 @@ Player::check_bounds(DrawingContext& viewport)
     }
 
   /* Keep in-bounds, vertically: */
-  if (base.y > World::current()->get_level()->height * /*TILE_HEIGHT*/ 32)
+  if (base.y > Sector::current()->solids->get_height() * 32)
     {
       kill(KILL);
       return;
@@ -942,12 +954,12 @@ Player::check_bounds(DrawingContext& viewport)
 
   bool adjust = false;
   // can happen if back scrolling is disabled
-  if(base.x < viewport.get_translation().x) {
-    base.x = viewport.get_translation().x;
+  if(base.x < camera->get_translation().x) {
+    base.x = camera->get_translation().x;
     adjust = true;
   }
-  if(base.x >= viewport.get_translation().x + screen->w - base.width) {
-    base.x = viewport.get_translation().x + screen->w - base.width;
+  if(base.x >= camera->get_translation().x + screen->w - base.width) {
+    base.x = camera->get_translation().x + screen->w - base.width;
     adjust = true;
   }
 
@@ -959,6 +971,4 @@ Player::check_bounds(DrawingContext& viewport)
     }
   }
 }
-
-// EOF //
 

@@ -29,10 +29,11 @@
 #include "tile.h"
 #include "resources.h"
 #include "sprite_manager.h"
-#include "world.h"
 #include "camera.h"
 #include "lispwriter.h"
 #include "level.h"
+#include "sector.h"
+#include "tilemap.h"
 
 Sprite* img_mriceblock_flat_left;
 Sprite* img_mriceblock_flat_right;
@@ -106,8 +107,7 @@ BadGuyKind  badguykind_from_string(const std::string& str)
     return BAD_WALKINGTREE;
   else
     {
-      printf("Couldn't convert badguy: '%s'\n", str.c_str());
-      return BAD_SNOWBALL;
+      return BAD_INVALID;
     }
 }
 
@@ -158,13 +158,13 @@ std::string badguykind_to_string(BadGuyKind kind)
 BadGuy::BadGuy(BadGuyKind kind_, LispReader& lispreader)
   : removable(false), squishcount(0)
 {
-  lispreader.read_float("x", &start_position.x);
-  lispreader.read_float("y", &start_position.y);
+  lispreader.read_float("x", start_position.x);
+  lispreader.read_float("y", start_position.y);
 
   kind     = kind_;
 
   stay_on_platform = false;
-  lispreader.read_bool("stay-on-platform", &stay_on_platform);  
+  lispreader.read_bool("stay-on-platform", stay_on_platform);
 
   init();
 }
@@ -214,8 +214,8 @@ BadGuy::init()
         --base.y;
     }
 
-  if(World::current()->camera) {
-    Vector scroll = World::current()->camera->get_translation();
+  if(Sector::current() && Sector::current()->camera) {
+    Vector scroll = Sector::current()->camera->get_translation();
 
     if(start_position.x > scroll.x - X_OFFSCREEN_DISTANCE &&
         start_position.x < scroll.x + screen->w + X_OFFSCREEN_DISTANCE &&
@@ -223,6 +223,10 @@ BadGuy::init()
         start_position.y < scroll.y + screen->h + Y_OFFSCREEN_DISTANCE) {
       activate(LEFT);
     }
+  } else {
+    if(start_position.x > 0 && start_position.x <= screen->w
+        && start_position.y > 0 && start_position.y <= screen->h)
+      activate(LEFT);
   }
 }
 
@@ -307,7 +311,7 @@ BadGuy::activate(Direction activation_dir)
 void
 BadGuy::action_mriceblock(double elapsed_time)
 {
-  Player& tux = *World::current()->get_tux();
+  Player& tux = *Sector::current()->player;
 
   if(mode != HELD)
     fall();
@@ -362,7 +366,7 @@ BadGuy::action_mriceblock(double elapsed_time)
       check_horizontal_bump();
       if(mode == KICK && changed != dir)
         {
-          float scroll_x = World::current()->camera->get_translation().x;
+          float scroll_x = Sector::current()->camera->get_translation().x;
           
           /* handle stereo sound (number 10 should be tweaked...)*/
           if (base.x < scroll_x + screen->w/2 - 10)
@@ -393,7 +397,7 @@ BadGuy::check_horizontal_bump(bool checkcliff)
     if (dir == LEFT && issolid( base.x, (int) base.y + halfheight))
     {
         if (kind == BAD_MRICEBLOCK && mode == KICK)
-            World::current()->trybreakbrick(base.x, (int) base.y + halfheight, false);
+            Sector::current()->trybreakbrick(Vector(base.x, base.y + halfheight), false);
             
         dir = RIGHT;
         physic.set_velocity(-physic.get_velocity_x(), physic.get_velocity_y());
@@ -402,7 +406,8 @@ BadGuy::check_horizontal_bump(bool checkcliff)
     if (dir == RIGHT && issolid( base.x + base.width, (int)base.y + halfheight))
     {
         if (kind == BAD_MRICEBLOCK && mode == KICK)
-            World::current()->trybreakbrick(base.x + base.width, (int) base.y + halfheight, false);
+            Sector::current()->trybreakbrick(
+                Vector(base.x + base.width, (int) base.y + halfheight), false);
             
         dir = LEFT;
         physic.set_velocity(-physic.get_velocity_x(), physic.get_velocity_y());
@@ -496,7 +501,7 @@ BadGuy::action_jumpy(double elapsed_time)
   else
     set_sprite(img_jumpy_left_up, img_jumpy_left_up);
 
-  Player& tux = *World::current()->get_tux();
+  Player& tux = *Sector::current()->player;
 
   static const float JUMPV = 6;
     
@@ -563,7 +568,7 @@ BadGuy::action_bomb(double elapsed_time)
       dying = DYING_NOT; // now the bomb hurts
       timer.start(EXPLODETIME);
 
-      float scroll_x = World::current()->camera->get_translation().x;                 
+      float scroll_x = Sector::current()->camera->get_translation().x;
 
       /* play explosion sound */  // FIXME: is the stereo all right? maybe we should use player cordinates...
       if (base.x < scroll_x + screen->w/2 - 10)
@@ -587,7 +592,7 @@ BadGuy::action_bomb(double elapsed_time)
 void
 BadGuy::action_stalactite(double elapsed_time)
 {
-  Player& tux = *World::current()->get_tux();
+  Player& tux = *Sector::current()->player;
 
   static const int SHAKETIME = 800;
   static const int RANGE = 40;
@@ -798,7 +803,7 @@ BadGuy::action_wingling(double elapsed_time)
     physic.enable_gravity(true);
   else
   {
-    Player& tux = *World::current()->get_tux();
+    Player& tux = *Sector::current()->player;
     int dirsign = physic.get_velocity_x() < 0 ? -1 : 1;
 
     if (fabsf(tux.base.x - base.x) < 150 && base.y < tux.base.y && tux.dying == DYING_NOT)
@@ -827,7 +832,7 @@ BadGuy::action_wingling(double elapsed_time)
 void
 BadGuy::action_walkingtree(double elapsed_time)
 {
-  Player& tux = *World::current()->get_tux();
+  Player& tux = *Sector::current()->player;
   Direction v_dir = physic.get_velocity_x() < 0 ? LEFT : RIGHT;
 
   if (dying == DYING_NOT)
@@ -862,11 +867,11 @@ BadGuy::action_walkingtree(double elapsed_time)
 void
 BadGuy::action(float elapsed_time)
 {
-  float scroll_x = World::current()->camera->get_translation().x;
-  float scroll_y = World::current()->camera->get_translation().y;
+  float scroll_x = Sector::current()->camera->get_translation().x;
+  float scroll_y = Sector::current()->camera->get_translation().y;
   
   // BadGuy fall below the ground
-  if (base.y > World::current()->get_level()->height * 32) {
+  if (base.y > Sector::current()->solids->get_height() * 32) {
     remove_me();
     return;
   }
@@ -1052,7 +1057,7 @@ BadGuy::squish_me(Player* player)
 {
   make_player_jump(player);
     
-  World::current()->add_score(Vector(base.x, base.y),
+  Sector::current()->add_score(Vector(base.x, base.y),
                               50 * player_status.score_multiplier);
   play_sound(sounds[SND_SQUISH], SOUND_CENTER_SPEAKER);
   player_status.score_multiplier++;
@@ -1072,7 +1077,7 @@ BadGuy::squish(Player* player)
     explode(false);
     
     make_player_jump(player);
-    World::current()->add_score(Vector(base.x, base.y),
+    Sector::current()->add_score(Vector(base.x, base.y),
                                 50 * player_status.score_multiplier);
     play_sound(sounds[SND_SQUISH], SOUND_CENTER_SPEAKER);
     player_status.score_multiplier++;
@@ -1124,7 +1129,7 @@ BadGuy::squish(Player* player)
       
     make_player_jump(player);
 	      
-    World::current()->add_score(Vector(base.x, base.y),
+    Sector::current()->add_score(Vector(base.x, base.y),
                                 25 * player_status.score_multiplier);
     player_status.score_multiplier++;
      
@@ -1156,7 +1161,7 @@ BadGuy::squish(Player* player)
       make_player_jump(player);
       base.y += 66 - base.height;
 	      
-      World::current()->add_score(Vector(base.x, base.y),
+      Sector::current()->add_score(Vector(base.x, base.y),
                                 25 * player_status.score_multiplier);
       player_status.score_multiplier++;
 
@@ -1178,7 +1183,7 @@ BadGuy::kill_me(int score)
     set_sprite(img_mriceblock_falling_left, img_mriceblock_falling_right);
     if(mode == HELD) {
       mode = NORMAL;
-      Player& tux = *World::current()->get_tux();  
+      Player& tux = *Sector::current()->player;
       tux.holding_something = false;
     }
   }
@@ -1187,7 +1192,7 @@ BadGuy::kill_me(int score)
 
   /* Gain some points: */
   if (score != 0)
-    World::current()->add_score(Vector(base.x, base.y),
+    Sector::current()->add_score(Vector(base.x, base.y),
                                 score * player_status.score_multiplier);
 
   /* Play death sound: */
@@ -1197,7 +1202,7 @@ BadGuy::kill_me(int score)
 void
 BadGuy::explode(bool right_way)
 {
-  BadGuy *badguy = World::current()->add_bad_guy(base.x, base.y, BAD_BOMB);
+  BadGuy *badguy = Sector::current()->add_bad_guy(base.x, base.y, BAD_BOMB);
   if(right_way)
     {
     badguy->timer.start(0);

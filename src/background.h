@@ -22,14 +22,19 @@
 #include "screen/texture.h"
 #include "screen/drawing_context.h"
 #include "game_object.h"
+#include "lispreader.h"
+#include "serializable.h"
 
 class DisplayManager;
 
-class Background : public GameObject
+class Background : public GameObject, public Serializable
 {
 public:
   Background();
+  Background(LispReader& reader);
   virtual ~Background();
+
+  virtual void write(LispWriter& writer);
 
   void set_image(const std::string& name, float bkgd_speed);
 
@@ -45,6 +50,7 @@ private:
   };
   
   Type type;
+  std::string imagefile;
   float speed;
   Surface* image;
   Color gradient_top, gradient_bottom;

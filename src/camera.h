@@ -26,19 +26,21 @@
 #include <cassert>
 
 class LispReader;
-class Player;
-class Level;
+class Sector;
 
 class Camera : public GameObject, public Serializable
 {
 public:
-  Camera(Player* player = 0, Level* level = 0);
+  Camera(Sector* sector);
   virtual ~Camera();
 
   /// parse camera mode from lisp file
   void read(LispReader& reader);
   /// write camera mode to a lisp file
   virtual void write(LispWriter& writer);
+
+  /// reset camera postion
+  virtual void reset(const Vector& tuxpos);
 
   /** @deprecated@ */
   const Vector& get_translation() const;
@@ -68,8 +70,7 @@ private:
     
   Vector translation;
 
-  Player* player;
-  Level* level;
+  Sector* sector;
 
   // normal mode
   bool do_backscrolling;

@@ -29,6 +29,7 @@
 #include "scene.h"
 #include "globals.h"
 #include "player.h"
+#include "sector.h"
 #include "sprite_manager.h"
 #include "resources.h"
 
@@ -94,9 +95,9 @@ Bullet::action(float elapsed_time)
     physic.set_velocity_y(-9);
 
   float scroll_x =
-    World::current()->camera->get_translation().x;
+    Sector::current()->camera->get_translation().x;
   float scroll_y =
-    World::current()->camera->get_translation().y;
+    Sector::current()->camera->get_translation().y;
   if (base.x < scroll_x ||
       base.x > scroll_x + screen->w ||
       base.y < scroll_y ||
@@ -181,9 +182,9 @@ Upgrade::action(float elapsed_time)
 
   /* Away from the screen? Kill it! */
   float scroll_x =
-    World::current()->camera->get_translation().x;
+    Sector::current()->camera->get_translation().x;
   float scroll_y =                                                        
-    World::current()->camera->get_translation().y;
+    Sector::current()->camera->get_translation().y;
   
   if(base.x < scroll_x - X_OFFSCREEN_DISTANCE ||
       base.x > scroll_x + screen->w + X_OFFSCREEN_DISTANCE ||
@@ -332,7 +333,7 @@ Upgrade::collision(void* p_c_object, int c_object, CollisionType type)
         {
           play_sound(sounds[SND_HERRING], SOUND_CENTER_SPEAKER);
           pplayer->invincible_timer.start(TUX_INVINCIBLE_TIME);
-          World::current()->play_music(HERRING_MUSIC);
+          Sector::current()->play_music(HERRING_MUSIC);
         }
       else if (kind == UPGRADE_1UP)
         {

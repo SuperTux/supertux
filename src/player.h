@@ -76,6 +76,7 @@ struct player_input_type
 void player_input_init(player_input_type* pplayer_input);
 
 class Sprite;
+class Camera;
 
 extern Surface* tux_life;
 
@@ -163,7 +164,7 @@ public:
   void collision(void* p_c_object, int c_object);
   void kill(HurtMode mode);
   void player_remove_powerups();
-  void check_bounds(DrawingContext& context);
+  void check_bounds(Camera* camera);
   bool on_ground();
   bool under_solid();
   bool tiles_on_air(int tiles);

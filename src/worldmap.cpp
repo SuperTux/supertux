@@ -29,6 +29,7 @@
 #include "lispreader.h"
 #include "gameloop.h"
 #include "setup.h"
+#include "sector.h"
 #include "worldmap.h"
 #include "resources.h"
 
@@ -115,14 +116,14 @@ TileManager::TileManager()
               tile->auto_walk = false;
   
               LispReader reader(lisp_cdr(element));
-              reader.read_int("id",  &id);
-              reader.read_bool("north", &tile->north);
-              reader.read_bool("south", &tile->south);
-              reader.read_bool("west",  &tile->west);
-              reader.read_bool("east",  &tile->east);
-              reader.read_bool("stop",  &tile->stop);
-              reader.read_bool("auto-walk",  &tile->auto_walk);
-              reader.read_string("image",  &filename);
+              reader.read_int("id", id);
+              reader.read_bool("north", tile->north);
+              reader.read_bool("south", tile->south);
+              reader.read_bool("west",  tile->west);
+              reader.read_bool("east",  tile->east);
+              reader.read_bool("stop",  tile->stop);
+              reader.read_bool("auto-walk",  tile->auto_walk);
+              reader.read_string("image", filename);
 
               tile->sprite = new Surface(
                            datadir +  "/images/worldmap/" + filename, 
@@ -393,15 +394,15 @@ WorldMap::load_map()
           if (strcmp(lisp_symbol(lisp_car(element)), "tilemap") == 0)
             {
               LispReader reader(lisp_cdr(element));
-              reader.read_int("width",  &width);
-              reader.read_int("height", &height);
-              reader.read_int_vector("data", &tilemap);
+              reader.read_int("width",  width);
+              reader.read_int("height", height);
+              reader.read_int_vector("data", tilemap);
             }
           else if (strcmp(lisp_symbol(lisp_car(element)), "properties") == 0)
             {
               LispReader reader(lisp_cdr(element));
-              reader.read_string("name",  &name);
-              reader.read_string("music", &music);
+              reader.read_string("name", name);
+              reader.read_string("music", music);
             }
           else if (strcmp(lisp_symbol(lisp_car(element)), "levels") == 0)
             {
@@ -422,10 +423,10 @@ WorldMap::load_map()
                       level.south = true;
                       level.west  = true;
 
-                      reader.read_string("extro-filename",  &level.extro_filename);
-                      reader.read_string("name",  &level.name);
-                      reader.read_int("x", &level.x);
-                      reader.read_int("y", &level.y);
+                      reader.read_string("extro-filename", level.extro_filename);
+                      reader.read_string("name", level.name);
+                      reader.read_int("x", level.x);
+                      reader.read_int("y", level.y);
 
                       levels.push_back(level);
                     }
@@ -471,7 +472,7 @@ void WorldMap::get_level_title(Level& level)
   if (strcmp(lisp_symbol(lisp_car(root_obj)), "supertux-level") == 0)
   {
     LispReader reader(lisp_cdr(root_obj));
-    reader.read_string("name",  &level.title);
+    reader.read_string("name", level.title);
   }
 
   lisp_free(root_obj);
@@ -644,7 +645,7 @@ WorldMap::update(float delta)
               shrink_fade(Vector((level->x*32 + 16 + offset.x),(level->y*32 + 16
                       + offset.y)), 500);
               GameSession session(datadir +  "/levels/" + level->name,
-                                  1, ST_GL_LOAD_LEVEL_FILE);
+                                  ST_GL_LOAD_LEVEL_FILE);
 
               switch (session.run())
                 {
@@ -653,10 +654,10 @@ WorldMap::update(float delta)
                     bool old_level_state = level->solved;
                     level->solved = true;
 
-                    if (session.get_world()->get_tux()->got_power !=
-                          session.get_world()->get_tux()->NONE_POWER)
+                    if (session.get_current_sector()->player->got_power !=
+                          session.get_current_sector()->player->NONE_POWER)
                       player_status.bonus = PlayerStatus::FLOWER_BONUS;
-                    else if (session.get_world()->get_tux()->size == BIG)
+                    else if (session.get_current_sector()->player->size == BIG)
                       player_status.bonus = PlayerStatus::GROWUP_BONUS;
                     else
                       player_status.bonus = PlayerStatus::NO_BONUS;
@@ -841,9 +842,6 @@ WorldMap::draw(DrawingContext& context, const Vector& offset)
 void
 WorldMap::draw_status(DrawingContext& context)
 {
-  context.push_transform();
-  context.set_translation(Vector(0, 0));
-  
   char str[80];
   sprintf(str, "%d", player_status.score);
 
@@ -1014,25 +1012,25 @@ WorldMap::loadgame(const std::string& filename)
   cur = lisp_cdr(cur);
   LispReader reader(cur);
 
-  reader.read_int("lives",  &player_status.lives);
-  reader.read_int("score",  &player_status.score);
-  reader.read_int("distros", &player_status.distros);
+  reader.read_int("lives", player_status.lives);
+  reader.read_int("score", player_status.score);
+  reader.read_int("distros", player_status.distros);
 
   if (player_status.lives < 0)
     player_status.lives = START_LIVES;
 
   lisp_object_t* tux_cur = 0;
-  if (reader.read_lisp("tux", &tux_cur))
+  if (reader.read_lisp("tux", tux_cur))
     {
       Vector p;
       std::string back_str = "none";
       std::string bonus_str = "none";
 
       LispReader tux_reader(tux_cur);
-      tux_reader.read_float("x", &p.x);
-      tux_reader.read_float("y", &p.y);
-      tux_reader.read_string("back", &back_str);
-      tux_reader.read_string("bonus", &bonus_str);
+      tux_reader.read_float("x", p.x);
+      tux_reader.read_float("y", p.y);
+      tux_reader.read_string("back", back_str);
+      tux_reader.read_string("bonus", bonus_str);
       
       player_status.bonus = string_to_bonus(bonus_str);
       tux->back_direction = string_to_direction(back_str);      
@@ -1040,7 +1038,7 @@ WorldMap::loadgame(const std::string& filename)
     }
 
   lisp_object_t* level_cur = 0;
-  if (reader.read_lisp("levels", &level_cur))
+  if (reader.read_lisp("levels", level_cur))
     {
       while(level_cur)
         {
@@ -1053,8 +1051,8 @@ WorldMap::loadgame(const std::string& filename)
               bool solved = false;
 
               LispReader level_reader(data);
-              level_reader.read_string("name",   &name);
-              level_reader.read_bool("solved", &solved);
+              level_reader.read_string("name", name);
+              level_reader.read_bool("solved", solved);
 
               for(Levels::iterator i = levels.begin(); i != levels.end(); ++i)
                 {

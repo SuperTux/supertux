@@ -23,18 +23,16 @@
 #include <math.h>
 #include "lispwriter.h"
 #include "player.h"
-#include "level.h"
+#include "tilemap.h"
+#include "gameloop.h"
 #include "globals.h"
-#include "world.h"
+#include "sector.h"
 
-Camera::Camera(Player* newplayer, Level* newlevel)
-  : player(newplayer), level(newlevel), do_backscrolling(true),
-    scrollchange(NONE), auto_idx(0), auto_t(0)
+Camera::Camera(Sector* newsector)
+  : sector(newsector), do_backscrolling(true), scrollchange(NONE),
+    auto_idx(0), auto_t(0)
 {
-  if(!player || !level)
-    mode = MANUAL;
-  else
-    mode = NORMAL;
+  mode = NORMAL;
 }
 
 Camera::~Camera()
@@ -44,7 +42,7 @@ Camera::~Camera()
 const Vector&
 Camera::get_translation() const
 {
-  return World::current()->context.get_translation();
+  return translation;
 }
 
 void
@@ -52,17 +50,17 @@ Camera::read(LispReader& reader)
 {
   std::string modename;
   
-  reader.read_string("mode", &modename);
+  reader.read_string("mode", modename);
   if(modename == "normal") {
     mode = NORMAL;
 
     do_backscrolling = true;
-    reader.read_bool("backscrolling", &do_backscrolling);
+    reader.read_bool("backscrolling", do_backscrolling);
   } else if(modename == "autoscroll") {
     mode = AUTOSCROLL;
     
     lisp_object_t* cur = 0;
-    reader.read_lisp("path", &cur);
+    reader.read_lisp("path", cur);
     if(cur == 0) {
       throw std::runtime_error("No path specified in autoscroll camera.");
     }
@@ -76,11 +74,11 @@ Camera::read(LispReader& reader)
       LispReader reader(lisp_cdr(lisp_car(cur)));
 
       ScrollPoint point;
-      if(!reader.read_float("x", &point.position.x) ||
-         !reader.read_float("y", &point.position.y)) {
+      if(!reader.read_float("x", point.position.x) ||
+         !reader.read_float("y", point.position.y)) {
         throw std::runtime_error("x and y missing in point of camerapath");
       }
-      reader.read_float("speed", &speed);
+      reader.read_float("speed", speed);
       point.speed = speed;
       scrollpoints.push_back(point);
 
@@ -123,30 +121,39 @@ Camera::write(LispWriter& writer)
   writer.end_list("camera");
 }
 
+void
+Camera::reset(const Vector& tuxpos)
+{
+  translation.x = tuxpos.x - screen->w/3 * 2;
+  translation.y = tuxpos.y - screen->h/2;
+  keep_in_bounds();
+}
+
 static const float EPSILON = .00001;
 static const float max_speed_y = 1.4;
 
 void
 Camera::action(float elapsed_time)
 {
-  translation = World::current()->context.get_translation();
   if(mode == NORMAL)
     scroll_normal(elapsed_time);
   else if(mode == AUTOSCROLL)
     scroll_autoscroll(elapsed_time);
-  World::current()->context.set_translation(translation);
 }
 
 void
 Camera::keep_in_bounds()
 {
+  float width = sector->solids->get_width() * 32;
+  float height = sector->solids->get_height() * 32;
+
   // don't scroll before the start or after the level's end
-  if(translation.y > level->height * 32 - screen->h)
-    translation.y = level->height * 32 - screen->h;
+  if(translation.y > height - screen->h)
+    translation.y = height - screen->h;
   if(translation.y < 0)                                      
     translation.y = 0; 
-  if(translation.x > level->width * 32 - screen->w)
-    translation.x = level->width * 32 - screen->w;
+  if(translation.x > width - screen->w)
+    translation.x = width - screen->w;
   if(translation.x < 0)
     translation.x = 0;                                         
 }
@@ -154,7 +161,8 @@ Camera::keep_in_bounds()
 void
 Camera::scroll_normal(float elapsed_time)
 {
-  assert(level != 0 && player != 0);
+  assert(sector != 0);
+  Player* player = sector->player;
   
   // check that we don't have division by zero later
   if(elapsed_time < EPSILON)
@@ -163,7 +171,7 @@ Camera::scroll_normal(float elapsed_time)
   /****** Vertical Scrolling part ******/
   bool do_y_scrolling = true;
 
-  if(player->dying || level->height == 19)
+  if(player->dying || sector->solids->get_height() == 19)
     do_y_scrolling = false;
 
   if(do_y_scrolling) {
@@ -241,6 +249,8 @@ Camera::scroll_normal(float elapsed_time)
 void
 Camera::scroll_autoscroll(float elapsed_time)
 {
+  Player* player = sector->player;
+  
   if(player->dying)
     return;
 

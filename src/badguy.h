@@ -28,6 +28,7 @@
 #include "screen/texture.h"
 #include "physic.h"
 #include "sprite.h"
+#include "defines.h"
 #include "moving_object.h"
 #include "collision.h"
 #include "serializable.h"
@@ -47,7 +48,9 @@ enum BadGuyKind {
   BAD_SNOWBALL,
   BAD_WINGLING,
   BAD_WALKINGTREE,
-  NUM_BadGuyKinds
+  NUM_BadGuyKinds,
+
+  BAD_INVALID
 };
 
 BadGuyKind  badguykind_from_string(const std::string& str);

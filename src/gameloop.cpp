@@ -44,7 +44,7 @@
 #include "high_scores.h"
 #include "menu.h"
 #include "badguy.h"
-#include "world.h"
+#include "sector.h"
 #include "special.h"
 #include "player.h"
 #include "level.h"
@@ -54,13 +54,14 @@
 #include "particlesystem.h"
 #include "resources.h"
 #include "background.h"
+#include "tilemap.h"
 #include "music_manager.h"
 
 GameSession* GameSession::current_ = 0;
 
-GameSession::GameSession(const std::string& subset_, int levelnb_, int mode)
-  : world(0), st_gl_mode(mode), levelnb(levelnb_), end_sequence(NO_ENDSEQUENCE),
-    subset(subset_)
+GameSession::GameSession(const std::string& levelname_, int mode)
+  : level(0), currentsector(0), st_gl_mode(mode),
+    end_sequence(NO_ENDSEQUENCE), levelname(levelname_)
 {
   current_ = this;
   
@@ -70,6 +71,8 @@ GameSession::GameSession(const std::string& subset_, int levelnb_, int mode)
 
   fps_timer.init(true);            
   frame_timer.init(true);
+
+  context = new DrawingContext();
 
   restart_level();
 }
@@ -84,28 +87,25 @@ GameSession::restart_level()
   fps_timer.init(true);
   frame_timer.init(true);
 
+#if 0
   float old_x_pos = -1;
-
   if (world)
     { // Tux has lost a life, so we try to respawn him at the nearest reset point
       old_x_pos = world->get_tux()->base.x;
     }
+#endif
   
-  delete world;
+  delete level;
+  currentsector = 0;
 
-  if (st_gl_mode == ST_GL_LOAD_LEVEL_FILE)
-    {
-      world = new World(subset);
-    }
-  else if (st_gl_mode == ST_GL_DEMO_GAME)
-    {
-      world = new World(subset);
-    }
-  else
-    {
-      world = new World(subset, levelnb);
-    }
+  level = new Level;
+  level->load(levelname);
+  currentsector = level->get_sector("main");
+  if(!currentsector)
+    st_abort("Level has no main sector.", "");
+  currentsector->activate("main");
 
+#if 0 // TODO
   // Set Tux to the nearest reset point
   if (old_x_pos != -1)
     {
@@ -123,6 +123,7 @@ GameSession::restart_level()
           world->get_tux()->base.y = best_reset_point.y;
         }
     }
+#endif
     
   if (st_gl_mode != ST_GL_DEMO_GAME)
     {
@@ -132,12 +133,13 @@ GameSession::restart_level()
 
   time_left.init(true);
   start_timers();
-  world->play_music(LEVEL_MUSIC);
+  currentsector->play_music(LEVEL_MUSIC);
 }
 
 GameSession::~GameSession()
 {
-  delete world;
+  delete level;
+  delete context;
 }
 
 void
@@ -148,16 +150,18 @@ GameSession::levelintro(void)
   char str[60];
 
   DrawingContext context;
-  world->background->draw(context);
+  currentsector->background->draw(context);
 
-  sprintf(str, "%s", world->get_level()->name.c_str());
-  context.draw_text_center(gold_text, str, Vector(0, 220), 0);
+  context.draw_text_center(gold_text, level->get_name(), Vector(0, 220),
+      LAYER_FOREGROUND1);
 
   sprintf(str, "TUX x %d", player_status.lives);
-  context.draw_text_center(white_text, str, Vector(0, 240), 0);
+  context.draw_text_center(white_text, str, Vector(0, 240),
+      LAYER_FOREGROUND1);
   
-  sprintf(str, "by %s", world->get_level()->author.c_str());
-  context.draw_text_center(white_small_text, str, Vector(0, 400), 0);
+  context.draw_text_center(white_small_text,
+      std::string("by ") + level->get_author(), 
+      Vector(0, 400), LAYER_FOREGROUND1);
 
   context.do_drawing();
 
@@ -169,7 +173,7 @@ GameSession::levelintro(void)
 void
 GameSession::start_timers()
 {
-  time_left.start(world->get_level()->time_left*1000);
+  time_left.start(level->time_left*1000);
   st_pause_ticks_init();
   update_time = st_get_ticks();
 }
@@ -177,8 +181,9 @@ GameSession::start_timers()
 void
 GameSession::on_escape_press()
 {
-  if(world->get_tux()->dying || end_sequence != NO_ENDSEQUENCE)
+  if(currentsector->player->dying || end_sequence != NO_ENDSEQUENCE)
     return;   // don't let the player open the menu, when he is dying
+  
   if(game_pause)
     return;
 
@@ -191,7 +196,7 @@ GameSession::on_escape_press()
       /* Tell Tux that the keys are all down, otherwise
         it could have nasty bugs, like going allways to the right
         or whatever that key does */
-      Player& tux = *world->get_tux();
+      Player& tux = *(currentsector->player);
       tux.key_event((SDLKey)keymap.jump, UP);
       tux.key_event((SDLKey)keymap.duck, UP);
       tux.key_event((SDLKey)keymap.left, UP);
@@ -208,7 +213,7 @@ GameSession::process_events()
 {
   if (end_sequence != NO_ENDSEQUENCE)
     {
-      Player& tux = *world->get_tux();
+      Player& tux = *currentsector->player;
          
       tux.input.fire  = UP;
       tux.input.left  = UP;
@@ -277,7 +282,7 @@ GameSession::process_events()
             }
           else
             {
-              Player& tux = *world->get_tux();
+              Player& tux = *currentsector->player;
   
               switch(event.type)
                 {
@@ -429,10 +434,10 @@ GameSession::process_events()
 void
 GameSession::check_end_conditions()
 {
-  Player* tux = world->get_tux();
+  Player* tux = currentsector->player;
 
   /* End of level? */
-  int endpos = (World::current()->get_level()->width-5) * 32;
+  int endpos = (currentsector->solids->get_width() - 5) * 32;
   Tile* endtile = collision_goal(tux->base);
 
   // fallback in case the other endpositions don't trigger
@@ -481,52 +486,45 @@ GameSession::check_end_conditions()
 void
 GameSession::action(double frame_ratio)
 {
-  if (exit_status == ES_NONE && !world->get_tux()->growing_timer.check())
+  if (exit_status == ES_NONE && !currentsector->player->growing_timer.check())
     {
       // Update Tux and the World
-      world->action(frame_ratio);
+      currentsector->action(frame_ratio);
     }
 }
 
 void 
 GameSession::draw()
 {
-  DrawingContext& context = world->context;
-  
-  world->draw();
-  drawstatus(context);
+  currentsector->draw(*context);
+  drawstatus(*context);
 
   if(game_pause)
     {
-      context.push_transform();
-      context.set_translation(Vector(0, 0));
-        
       int x = screen->h / 20;
       for(int i = 0; i < x; ++i)
         {
-          context.draw_filled_rect(
+          context->draw_filled_rect(
               Vector(i % 2 ? (pause_menu_frame * i)%screen->w :
                 -((pause_menu_frame * i)%screen->w)
                 ,(i*20+pause_menu_frame)%screen->h),
               Vector(screen->w,10),
               Color(20,20,20, rand() % 20 + 1), LAYER_FOREGROUND1+1);
         }
-      context.draw_filled_rect(
+      context->draw_filled_rect(
           Vector(0,0), Vector(screen->w, screen->h),
           Color(rand() % 50, rand() % 50, rand() % 50, 128), LAYER_FOREGROUND1);
-      world->context.draw_text_center(blue_text, "PAUSE - Press 'P' To Play",
+      context->draw_text_center(blue_text, "PAUSE - Press 'P' To Play",
           Vector(0, 230), LAYER_FOREGROUND1+2);
-
-      context.pop_transform();
     }
 
   if(Menu::current())
     {
-      Menu::current()->draw(context);
-      mouse_cursor->draw(context);
+      Menu::current()->draw(*context);
+      mouse_cursor->draw(*context);
     }
 
-  context.do_drawing();
+  context->do_drawing();
 }
 
 void
@@ -589,7 +587,8 @@ GameSession::run()
         }
 
       /* Handle events: */
-      world->get_tux()->input.old_fire = world->get_tux()->input.fire;
+      currentsector->player->input.old_fire 
+        = currentsector->player->input.fire;
 
       process_events();
       process_menu();
@@ -634,24 +633,24 @@ GameSession::run()
         }
 
       /* Handle time: */
-      if (!time_left.check() && world->get_tux()->dying == DYING_NOT
+      if (!time_left.check() && currentsector->player->dying == DYING_NOT
               && !end_sequence)
-        world->get_tux()->kill(Player::KILL);
+        currentsector->player->kill(Player::KILL);
 
       /* Handle music: */
-      if(world->get_tux()->invincible_timer.check() && !end_sequence)
+      if(currentsector->player->invincible_timer.check() && !end_sequence)
         {
-          world->play_music(HERRING_MUSIC);
+          currentsector->play_music(HERRING_MUSIC);
         }
       /* are we low on time ? */
       else if (time_left.get_left() < TIME_WARNING && !end_sequence)
         {
-          world->play_music(HURRYUP_MUSIC);
+          currentsector->play_music(HURRYUP_MUSIC);
         }
       /* or just normal music? */
-      else if(world->get_music_type() != LEVEL_MUSIC && !end_sequence)
+      else if(currentsector->get_music_type() != LEVEL_MUSIC && !end_sequence)
         {
-          world->play_music(LEVEL_MUSIC);
+          currentsector->play_music(LEVEL_MUSIC);
         }
 
       /* Calculate frames per second */
@@ -674,7 +673,7 @@ GameSession::run()
 /* Bounce a brick: */
 void bumpbrick(float x, float y)
 {
-  World::current()->add_bouncy_brick(Vector(((int)(x + 1) / 32) * 32,
+  Sector::current()->add_bouncy_brick(Vector(((int)(x + 1) / 32) * 32,
                          (int)(y / 32) * 32));
 
   play_sound(sounds[SND_BRICK], SOUND_CENTER_SPEAKER);
@@ -684,9 +683,6 @@ void bumpbrick(float x, float y)
 void
 GameSession::drawstatus(DrawingContext& context)
 {
-  context.push_transform();
-  context.set_translation(Vector(0, 0));
-  
   char str[60];
   
   snprintf(str, 60, "%d", player_status.score);
@@ -742,8 +738,6 @@ GameSession::drawstatus(DrawingContext& context)
       context.draw_text(gold_text, str,
           Vector(screen->w-4*16, 40), LAYER_FOREGROUND1);
     }
-
-  context.pop_transform();
 }
 
 void
@@ -752,7 +746,7 @@ GameSession::drawresultscreen(void)
   char str[80];
 
   DrawingContext context;
-  world->background->draw(context);  
+  currentsector->background->draw(context);  
 
   context.draw_text_center(blue_text, "Result:", Vector(0, 200),
       LAYER_FOREGROUND1);
@@ -780,7 +774,7 @@ std::string slotinfo(int slot)
   if (savegame)
     {
       LispReader reader(lisp_cdr(savegame));
-      reader.read_string("title", &title);
+      reader.read_string("title", title);
       lisp_free(savegame);
     }
 

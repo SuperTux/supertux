@@ -24,8 +24,6 @@
 
 #include "sound.h"
 #include "type.h"
-#include "level.h"
-#include "world.h"
 
 /* GameLoop modes */
 
@@ -37,18 +35,22 @@
 
 extern int game_started;
 
-class World;
+class Level;
+class Sector;
+class DrawingContext;
 
 /** The GameSession class controlls the controll flow of a World, ie.
     present the menu on specifc keypresses, render and update it while
     keeping the speed and framerate sane, etc. */
 class GameSession
 {
- private:
+private:
   Timer fps_timer;
   Timer frame_timer;
   Timer endsequence_timer;
-  World* world;
+  Level* level;
+  Sector* currentsector;
+
   int st_gl_mode;
   int levelnb;
   float fps_fps;
@@ -69,18 +71,16 @@ class GameSession
 
   bool game_pause;
 
-  // FIXME: Hack for restarting the level
-  std::string subset;
-
- public:
+  std::string levelname;
+public:
   enum ExitStatus { ES_NONE, ES_LEVEL_FINISHED, ES_GAME_OVER, ES_LEVEL_ABORT };
- private:
+private:
   ExitStatus exit_status;
- public:
-
+public:
+  DrawingContext* context;
   Timer time_left;
 
-  GameSession(const std::string& subset, int levelnb, int mode);
+  GameSession(const std::string& level, int mode);
   ~GameSession();
 
   /** Enter the busy loop */
@@ -89,11 +89,14 @@ class GameSession
   void draw();
   void action(double frame_ratio);
 
-  Level* get_level() { return world->get_level(); }
-  World* get_world() { return world; }
-
+  void set_current()
+  { current_ = this; }
   static GameSession* current() { return current_; }
- private:
+
+  Sector* get_current_sector()
+  { return currentsector; }
+  
+private:
   static GameSession* current_;
 
   void restart_level();
@@ -107,7 +110,7 @@ class GameSession
   void drawendscreen();
   void drawresultscreen(void);
 
- private:
+private:
   void on_escape_press();
   void process_menu();
 };

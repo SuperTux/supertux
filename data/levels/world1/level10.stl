@@ -89,7 +89,10 @@
     (point (x 7889) (y 327))
    )
   (objects
-    (mriceblock  (x 613) (y 367))
+    (mriceblock 
+     (x 613)
+     (y 367)
+    )
     (mrbomb  (x 5833) (y 353))
     (mrbomb  (x 6091) (y 334))
     (money  (x 6640) (y 288))

@@ -30,6 +30,7 @@
 #include "collision.h"
 #include "game_object.h"
 #include "moving_object.h"
+#include "serializable.h"
 #include "lispwriter.h"
 
 /* Bounciness of distros: */

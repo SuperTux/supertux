@@ -22,15 +22,15 @@
 #include <iostream>
 #include <math.h>
 #include "globals.h"
-#include "world.h"
-#include "level.h"
-#include "scene.h"
-#include "camera.h"
+#include "lispreader.h"
+#include "lispwriter.h"
+#include "screen/drawing_context.h"
 
 ParticleSystem::ParticleSystem()
 {
     virtual_width = screen->w;
     virtual_height = screen->h;
+    layer = LAYER_BACKGROUND1;
 }
 
 ParticleSystem::~ParticleSystem()
@@ -62,7 +62,7 @@ void ParticleSystem::draw(DrawingContext& context)
 
         if(pos.x > screen->w) pos.x -= virtual_width;
         if(pos.y > screen->h) pos.y -= virtual_height;
-        context.draw_surface(particle->texture, pos, LAYER_BACKGROUND1);
+        context.draw_surface(particle->texture, pos, layer);
     }
 
     context.pop_transform();
@@ -87,10 +87,23 @@ SnowParticleSystem::SnowParticleSystem()
         do {
             particle->speed = snowsize/60.0 + (float(rand()%10)/300.0);
         } while(particle->speed < 0.01);
-        particle->speed *= World::current()->get_level()->gravity;
 
         particles.push_back(particle);
     }
+}
+
+void
+SnowParticleSystem::parse(LispReader& reader)
+{
+  reader.read_int("layer", layer);
+}
+
+void
+SnowParticleSystem::write(LispWriter& writer)
+{
+  writer.start_list("particles-snow");
+  writer.write_int("layer", layer);
+  writer.end_list("particles-snow");
 }
 
 SnowParticleSystem::~SnowParticleSystem()
@@ -128,6 +141,20 @@ CloudParticleSystem::CloudParticleSystem()
 
         particles.push_back(particle);
     }
+}
+
+void
+CloudParticleSystem::parse(LispReader& reader)
+{
+  reader.read_int("layer", layer);
+}
+
+void
+CloudParticleSystem::write(LispWriter& writer)
+{
+  writer.start_list("particles-clouds");
+  writer.write_int("layer", layer);
+  writer.end_list("particles-clouds");
 }
 
 CloudParticleSystem::~CloudParticleSystem()

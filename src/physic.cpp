@@ -24,7 +24,7 @@
 #include "defines.h"
 #include "physic.h"
 #include "timer.h"
-#include "world.h"
+#include "sector.h"
 #include "level.h"
 
 Physic::Physic()
@@ -124,7 +124,7 @@ Physic::enable_gravity(bool enable_gravity)
 void
 Physic::apply(float frame_ratio, float &x, float &y)
 {
-  float gravity = World::current()->get_level()->gravity;
+  float gravity = Sector::current()->gravity;
   float grav;
   if(gravity_enabled)
     grav = gravity / 100.0;

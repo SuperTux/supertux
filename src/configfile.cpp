@@ -74,36 +74,36 @@ void loadconfig(void)
 
   LispReader reader(lisp_cdr(root_obj));
 
-  reader.read_bool("fullscreen", &use_fullscreen);
-  reader.read_bool("sound",      &use_sound);
-  reader.read_bool("music",      &use_music);
-  reader.read_bool("show_fps",   &show_fps);
+  reader.read_bool("fullscreen", use_fullscreen);
+  reader.read_bool("sound",      use_sound);
+  reader.read_bool("music",      use_music);
+  reader.read_bool("show_fps",   show_fps);
 
   std::string video;
-  reader.read_string ("video", &video);
+  reader.read_string ("video", video);
   if (video == "opengl")
     use_gl = true;
   else
     use_gl = false;
 
-  reader.read_int ("joystick", &joystick_num);
+  reader.read_int ("joystick", joystick_num);
   if (!(joystick_num >= 0))
     use_joystick = false;
   else
     use_joystick = true;
 
-  reader.read_int ("joystick-x", &joystick_keymap.x_axis);
-  reader.read_int ("joystick-y", &joystick_keymap.y_axis);
-  reader.read_int ("joystick-a", &joystick_keymap.a_button);
-  reader.read_int ("joystick-b", &joystick_keymap.b_button);
-  reader.read_int ("joystick-start", &joystick_keymap.start_button);
-  reader.read_int ("joystick-deadzone", &joystick_keymap.dead_zone);
+  reader.read_int ("joystick-x", joystick_keymap.x_axis);
+  reader.read_int ("joystick-y", joystick_keymap.y_axis);
+  reader.read_int ("joystick-a", joystick_keymap.a_button);
+  reader.read_int ("joystick-b", joystick_keymap.b_button);
+  reader.read_int ("joystick-start", joystick_keymap.start_button);
+  reader.read_int ("joystick-deadzone", joystick_keymap.dead_zone);
 
-  reader.read_int ("keyboard-jump", &keymap.jump);
-  reader.read_int ("keyboard-duck", &keymap.duck);
-  reader.read_int ("keyboard-left", &keymap.left);
-  reader.read_int ("keyboard-right", &keymap.right);
-  reader.read_int ("keyboard-fire", &keymap.fire);
+  reader.read_int ("keyboard-jump", keymap.jump);
+  reader.read_int ("keyboard-duck", keymap.duck);
+  reader.read_int ("keyboard-left", keymap.left);
+  reader.read_int ("keyboard-right", keymap.right);
+  reader.read_int ("keyboard-fire", keymap.fire);
 
   lisp_free(root_obj);
 }
@@ -111,7 +111,6 @@ void loadconfig(void)
 void saveconfig (void)
 {
   /* write settings to config file */
-
   FILE * config = opendata(config_filename, "w");
 
   if(config)

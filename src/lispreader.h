@@ -117,7 +117,6 @@ struct _lisp_object_t
       } v;
   };
 
-lisp_stream_t* lisp_stream_init_gzfile (lisp_stream_t *stream, gzFile file);
 lisp_stream_t* lisp_stream_init_file (lisp_stream_t *stream, FILE *file);
 lisp_stream_t* lisp_stream_init_string (lisp_stream_t *stream, char *buf);
 lisp_stream_t* lisp_stream_init_any (lisp_stream_t *stream, void *data,
@@ -172,22 +171,29 @@ void lisp_dump (lisp_object_t *obj, FILE *out);
 class LispReader
 {
 private:
+  lisp_object_t* owner;
   lisp_object_t* lst;
 
   lisp_object_t* search_for(const char* name);
+  
 public:
   /** cur == ((pos 1 2 3) (id 12 3 4)...) */
-  LispReader (lisp_object_t* l);
+  LispReader(lisp_object_t* l);
+  ~LispReader();
 
-  bool read_int_vector (const char* name, std::vector<int>* vec);
-  bool read_int_vector (const char* name, std::vector<unsigned int>* vec);
-  bool read_char_vector (const char* name, std::vector<char>* vec);
-  bool read_string_vector (const char* name, std::vector<std::string>* vec);
-  bool read_string (const char* name, std::string* str);
-  bool read_int (const char* name, int* i);
-  bool read_float (const char* name, float* f);
-  bool read_bool (const char* name, bool* b);
-  bool read_lisp (const char* name, lisp_object_t** b);
+  bool read_int_vector(const char* name, std::vector<int>& vec);
+  bool read_int_vector(const char* name, std::vector<unsigned int>& vec);
+  bool read_char_vector(const char* name, std::vector<char>& vec);
+  bool read_string_vector(const char* name, std::vector<std::string>& vec);
+  bool read_string(const char* name, std::string& str);
+  bool read_int(const char* name, int& i);
+  bool read_float(const char* name, float& f);
+  bool read_bool(const char* name, bool& b);
+  bool read_lisp(const char* name, lisp_object_t*& b);
+  LispReader* read_lisp(const char* name);
+
+  static LispReader* load(const std::string& filename,
+      const std::string& toplevellist);
 
   lisp_object_t* get_lisp();
 };

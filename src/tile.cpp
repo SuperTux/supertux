@@ -47,41 +47,41 @@ Tile::~Tile()
 int
 Tile::read(LispReader& reader)
 {
-  if(!reader.read_int("id", &id)) {
+  if(!reader.read_int("id", id)) {
     std::cerr << "Missing tile-id.\n";
     return -1;
   }
   
   bool value;
-  if(reader.read_bool("solid", &value) && value)
+  if(reader.read_bool("solid", value) && value)
     attributes |= SOLID;
-  if(reader.read_bool("unisolid", &value) && value)
+  if(reader.read_bool("unisolid", value) && value)
     attributes |= GOAL;                            
-  if(reader.read_bool("brick", &value) && value)
+  if(reader.read_bool("brick", value) && value)
     attributes |= BRICK;
-  if(reader.read_bool("ice", &value) && value)
+  if(reader.read_bool("ice", value) && value)
     attributes |= ICE;
-  if(reader.read_bool("water", &value) && value)
+  if(reader.read_bool("water", value) && value)
     attributes |= WATER;
-  if(reader.read_bool("spike", &value) && value)
+  if(reader.read_bool("spike", value) && value)
     attributes |= SPIKE;
-  if(reader.read_bool("fullbox", &value) && value)
+  if(reader.read_bool("fullbox", value) && value)
     attributes |= FULLBOX;
-  if(reader.read_bool("distro", &value) && value)
+  if(reader.read_bool("distro", value) && value)
     attributes |= COIN;
-  if(reader.read_bool("coin", &value) && value)
+  if(reader.read_bool("coin", value) && value)
     attributes |= COIN;
-  if(reader.read_bool("goal", &value) && value)
+  if(reader.read_bool("goal", value) && value)
     attributes |= GOAL;
 
-  reader.read_int("data", &data);
-  reader.read_int("anim-speed", &anim_speed);
-  reader.read_int("next-tile", &next_tile);
+  reader.read_int("data", data);
+  reader.read_int("anim-speed", anim_speed);
+  reader.read_int("next-tile", next_tile);
 
   std::vector<std::string> filenames;
-  reader.read_string_vector("images", &filenames);
+  reader.read_string_vector("images", filenames);
   std::vector<std::string> editor_filenames;
-  reader.read_string_vector("editor-images", &editor_filenames);
+  reader.read_string_vector("editor-images", editor_filenames);
 
   // read images
   for(std::vector<std::string>::iterator i = filenames.begin();
@@ -162,7 +162,7 @@ void TileManager::load_tileset(std::string filename)
             {
               LispReader reader(lisp_cdr(element));
               std::string filename;
-              reader.read_string("file",  &filename);
+              reader.read_string("file", filename);
               filename = datadir + "/images/tilesets/" + filename;
               load_tileset(filename);
             }
@@ -170,8 +170,8 @@ void TileManager::load_tileset(std::string filename)
             {
               TileGroup new_;
               LispReader reader(lisp_cdr(element));
-              reader.read_string("name",  &new_.name);
-              reader.read_int_vector("tiles", &new_.tiles);	      
+              reader.read_string("name", new_.name);
+              reader.read_int_vector("tiles", new_.tiles);	      
               if(!tilegroups_)
                 tilegroups_ = new std::set<TileGroup>;
               tilegroups_->insert(new_).first;
@@ -179,7 +179,7 @@ void TileManager::load_tileset(std::string filename)
           else if (strcmp(lisp_symbol(lisp_car(element)), "properties") == 0)
             {
               LispReader reader(lisp_cdr(element));
-              reader.read_int("id",  &tileset_id);
+              reader.read_int("id", tileset_id);
               tileset_id *= 1000;
             }
           else

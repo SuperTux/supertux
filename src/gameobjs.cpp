@@ -21,13 +21,13 @@
 #include <algorithm>
 #include <iostream>
 #include <math.h>
-#include "world.h"
 #include "tile.h"
 #include "gameloop.h"
 #include "gameobjs.h"
 #include "sprite_manager.h"
 #include "resources.h"
-#include "level.h"
+#include "sector.h"
+#include "tilemap.h"
 
 BouncyDistro::BouncyDistro(const Vector& pos)
   : position(pos)
@@ -80,7 +80,7 @@ BrokenBrick::draw(DrawingContext& context)
 BouncyBrick::BouncyBrick(const Vector& pos)
   : position(pos), offset(0), offset_m(-BOUNCY_BRICK_SPEED)
 {
-  shape    = World::current()->get_level()->gettileid(pos.x, pos.y);
+  shape = Sector::current()->solids->get_tile_id_at(pos);
 }
 
 void
@@ -134,12 +134,12 @@ Sprite *img_trampoline[TRAMPOLINE_FRAMES];
 
 Trampoline::Trampoline(LispReader& reader)
 {
-  reader.read_float("x", &base.x);
-  reader.read_float("y", &base.y); 
+  reader.read_float("x", base.x);
+  reader.read_float("y", base.y); 
   base.width = 32;
   base.height = 32;
   power = 7.5;
-  reader.read_float("power", &power);
+  reader.read_float("power", power);
 
   frame = 0;
   mode = M_NORMAL;
@@ -191,7 +191,7 @@ Trampoline::action(float frame_ratio)
   {
     /* FIXME: The trampoline object shouldn't know about pplayer objects. */
     /* If we're holding the iceblock */
-    Player& tux = *World::current()->get_tux();
+    Player& tux = *Sector::current()->player;
     Direction dir = tux.dir;
 
     if(dir == RIGHT)
@@ -271,11 +271,11 @@ Sprite *img_flying_platform;
 
 FlyingPlatform::FlyingPlatform(LispReader& reader)
 {
-  reader.read_int_vector("x",  &pos_x);
-  reader.read_int_vector("y",  &pos_y);
+  reader.read_int_vector("x", pos_x);
+  reader.read_int_vector("y", pos_y);
 
   velocity = 2.0;
-  reader.read_float("velocity", &velocity);
+  reader.read_float("velocity", velocity);
 
   base.x = pos_x[0];
   base.y = pos_y[0];

@@ -22,8 +22,8 @@
 #include "collision.h"
 #include "bitmask.h"
 #include "scene.h"
-#include "world.h"
-#include "level.h"
+#include "sector.h"
+#include "tilemap.h"
 #include "tile.h"
 
 bool rectcollision(const base_type& one, const base_type& two)
@@ -44,11 +44,7 @@ bool rectcollision_offset(const base_type& one, const base_type& two, float off_
 
 bool collision_object_map(const base_type& base)
 {
-  if(!World::current())
-  return false;
-  
-  const Level& level = *World::current()->get_level();
-  TileManager& tilemanager = *TileManager::instance();
+  const TileMap& tilemap = *Sector::current()->solids;
 
   // we make the collision rectangle 1 pixel smaller
   int starttilex = int(base.x+1) / 32;
@@ -58,8 +54,8 @@ bool collision_object_map(const base_type& base)
 
   for(int x = starttilex; x*32 < max_x; ++x) {
     for(int y = starttiley; y*32 < max_y; ++y) {
-      Tile* tile = tilemanager.get(level.get_tile_at(x, y));
-      if(tile && (tile->attributes & Tile::SOLID))
+      Tile* tile = tilemap.get_tile(x, y);
+      if(tile->attributes & Tile::SOLID)
         return true;
     }
   }
@@ -69,8 +65,7 @@ bool collision_object_map(const base_type& base)
 
 void* collision_func(const base_type& base, tiletestfunction function)
 {
-  const Level& level = *World::current()->get_level();
-  TileManager& tilemanager = *TileManager::instance();
+  const TileMap& tilemap = *Sector::current()->solids;
   
   int starttilex = int(base.x) / 32;
   int starttiley = int(base.y) / 32;
@@ -79,7 +74,7 @@ void* collision_func(const base_type& base, tiletestfunction function)
 
   for(int x = starttilex; x*32 < max_x; ++x) {
     for(int y = starttiley; y*32 < max_y; ++y) {
-      Tile* tile = tilemanager.get(level.get_tile_at(x, y));
+      Tile* tile = tilemap.get_tile(x, y);
       void* result = function(tile);
       if(result != 0)
         return result;
@@ -242,7 +237,8 @@ void collision_swept_object_map(base_type* old, base_type* current)
 
 Tile* gettile(float x, float y)
 {
-  return TileManager::instance()->get(World::current()->get_level()->gettileid(x, y));
+  const TileMap& tilemap = *Sector::current()->solids;
+  return tilemap.get_tile_at(Vector(x, y));
 }
 
 bool issolid(float x, float y)

@@ -33,6 +33,7 @@ Surface* img_pole;
 Surface* img_poletop;
 Surface* img_flag[2];
 Surface* img_cloud[2][4];
+Surface* img_distro[4];
 
 MusicRef herring_song;
 MusicRef level_end_song;

@@ -87,9 +87,6 @@ void MouseCursor::draw(DrawingContext& context)
       timer.start(MC_FRAME_PERIOD);
     }
 
-  context.push_transform();
-  context.set_translation(Vector(0, 0));
   context.draw_surface_part(cursor, Vector(w*cur_frame, h*cur_state), Vector(w,
         h), Vector(x-mid_x, y-mid_y), LAYER_FOREGROUND1+100);
-  context.pop_transform();
 }

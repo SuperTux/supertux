@@ -21,13 +21,13 @@
 #ifndef SUPERTUX_LEVEL_H
 #define SUPERTUX_LEVEL_H
 
+#include <map>
 #include <string>
 #include "screen/texture.h"
 #include "lispreader.h"
 #include "musicref.h"
 
 class Tile;
-class World;
 
 /** This type holds meta-information about a level-subset. 
     It could be extended to handle manipulation of subsets. */
@@ -38,8 +38,10 @@ public:
   ~LevelSubset();
 
   static void create(const std::string& subset_name);
-  void load(char *subset);
+  void load(const char* subset);
   void save();
+
+  std::string get_level_filename(unsigned int i);
 
   std::string name;
   std::string title;
@@ -51,89 +53,36 @@ private:
   void parse(lisp_object_t* cursor);
 };
 
-#define LEVEL_NAME_MAX 20
+class Sector;
 
-enum TileMapType {
- TM_BG,
- TM_IA,
- TM_FG
-};
-
-struct ResetPoint
-{
-  int x;
-  int y;
-};
-
-class Level 
+class Level
 {
 public:
-  Surface* img_bkgd;
-  MusicRef level_song;
-  MusicRef level_song_fast;
-
   std::string name;
   std::string author;
-  std::string song_title;
-  std::string bkgd_image;
-  std::string particle_system;
-  std::vector<unsigned int> bg_tiles; /* Tiles in the background */
-  std::vector<unsigned int> ia_tiles; /* solid Tiles in the game */
-  std::vector<unsigned int> fg_tiles; /* Tiles in the foreground */
   int time_left;
-  int width;
-  int height;
-  Vector start_pos;
-  float gravity;
+  typedef std::map<std::string, Sector*> Sectors;
+  Sectors sectors;
 
-  /** A collection of points to which Tux can be reset after a lost live */
-  std::vector<ResetPoint> reset_points;
- public:
+public:
   Level();
-  Level(const std::string& subset, int level, World* world);
-  Level(const std::string& filename, World* world);
   ~Level();
 
-  /** Will the Level structure with default values */
-  void init_defaults();
-  
-  /** Cleanup the level struct from allocated tile data and such */
-  void cleanup();
+  void load(const std::string& filename);
+  void save(const std::string& filename);
 
-  /** Load data for this level: 
-      Returns -1, if the loading of the level failed. 
-      XXX the world parameter is a temporary hack   
-  */
-  int  load(const std::string& subset, int level, World* world);
+  const std::string& get_name() const
+  { return name; }
 
-  /** Load data for this level: 
-      Returns -1, if the loading of the level failed. 
-      XXX the world parameter is a temporary hack
-   */
-  int  load(const std::string& filename, World* world);
+  const std::string& get_author() const
+  { return author; }
 
-  void load_song();
-  void free_song();
-  MusicRef get_level_music();
-  MusicRef get_level_music_fast();
+  void add_sector(Sector* sector);
 
-  // XXX the world parameter is a temporary hack
-  void save(const std::string& subset, int level, World* world);
+  Sector* get_sector(const std::string& name);
 
-  /** Edit a piece of the map! */
-  void change(float x, float y, int tm, unsigned int c);
-
-  /** Resize the level to a new width/height */
-  void resize(int new_width, int new_height);
-
-  /** Return the id of the tile at position x/y */
-  unsigned int gettileid(float x, float y) const;
-  /** returns the id of the tile at position x,y
-   * (these are logical and not pixel coordinates)
-   */
-  unsigned int get_tile_at(int x, int y) const;
-
-  void load_image(Surface** ptexture, std::string theme, const char * file, int use_alpha);
+private:
+  void load_old_format(LispReader& reader);
 };
 
 #endif /*SUPERTUX_LEVEL_H*/

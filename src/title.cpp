@@ -49,6 +49,8 @@
 #include "player.h"
 #include "math.h"
 #include "tile.h"
+#include "sector.h"
+#include "tilemap.h"
 #include "resources.h"
 
 static Surface* bkg_title;
@@ -62,8 +64,10 @@ static int frame;
 static unsigned int last_update_time;
 static unsigned int update_time;
 
-std::vector<LevelSubset*> contrib_subsets;
-std::string current_contrib_subset;
+static GameSession* titlesession;
+
+static std::vector<LevelSubset*> contrib_subsets;
+static LevelSubset* current_contrib_subset = 0;
 
 void free_contrib_menu()
 {
@@ -115,20 +119,26 @@ void check_contrib_menu()
               // FIXME: This shouln't be busy looping
               LevelSubset& subset = * (contrib_subsets[index]);
           
-              current_contrib_subset = subset.name;
+              current_contrib_subset = &subset;
 
               contrib_subset_menu->clear();
 
               contrib_subset_menu->additem(MN_LABEL, subset.title, 0,0);
               contrib_subset_menu->additem(MN_HL,"",0,0);
+              
               for (int i = 1; i <= subset.levels; ++i)
                 {
-                  Level level;
-                  level.load(subset.name, i, 0);
-                  contrib_subset_menu->additem(MN_ACTION, level.name, 0, 0, i);
+                  Level* level = new Level;
+                  level->load(subset.get_level_filename(i));
+                  contrib_subset_menu->additem(MN_ACTION, level->get_name(), 0, 0, i);
+                  delete level;
                 }
+              
               contrib_subset_menu->additem(MN_HL,"",0,0);      
               contrib_subset_menu->additem(MN_BACK, "Back", 0, 0);
+
+              titlesession->get_current_sector()->activate();
+              titlesession->set_current();
             }
         }
       else
@@ -146,20 +156,22 @@ void check_contrib_subset_menu()
       if (contrib_subset_menu->get_item_by_id(index).kind == MN_ACTION)
         {
           std::cout << "Starting level: " << index << std::endl;
-          GameSession session(current_contrib_subset, index, ST_GL_PLAY);
+          
+          GameSession session(
+              current_contrib_subset->get_level_filename(index), ST_GL_PLAY);
           session.run();
           player_status.reset();
           Menu::set_current(main_menu);
+          titlesession->get_current_sector()->activate();
+          titlesession->set_current();
         }
     }  
 }
 
-void draw_demo(GameSession* session, double frame_ratio)
+void draw_demo(double frame_ratio)
 {
-  World* world  = session->get_world();
-  World::set_current(world);
-  Level* plevel = session->get_level();
-  Player* tux = world->get_tux();
+  Sector* world  = titlesession->get_current_sector();
+  Player* tux = world->player;
 
   world->play_music(LEVEL_MUSIC);
   
@@ -180,7 +192,7 @@ void draw_demo(GameSession* session, double frame_ratio)
     }
 
   // Wrap around at the end of the level back to the beginnig
-  if(plevel->width * 32 - 320 < tux->base.x)
+  if(world->solids->get_width() * 32 - 320 < tux->base.x)
     {
       tux->level_begin();
     }
@@ -198,7 +210,7 @@ void draw_demo(GameSession* session, double frame_ratio)
       walking = false;
     }
 
-  world->draw();
+  world->draw(*titlesession->context);
 }
 
 /* --- TITLE SCREEN --- */
@@ -210,7 +222,7 @@ void title(void)
 
   st_pause_ticks_init();
 
-  GameSession session(datadir + "/levels/misc/menu.stl", 0, ST_GL_DEMO_GAME);
+  titlesession = new GameSession(datadir + "/levels/misc/menu.stl", ST_GL_DEMO_GAME);
 
   /* Load images: */
   bkg_title = new Surface(datadir + "/images/background/arctis.jpg", IGNORE_ALPHA);
@@ -224,7 +236,7 @@ void title(void)
   random_timer.start(rand() % 2000 + 2000);
 
   Menu::set_current(main_menu);
-  DrawingContext& context = World::current()->context;
+  DrawingContext& context = *titlesession->context;
   while (Menu::current())
     {
       // if we spent to much time on a menu entry
@@ -251,10 +263,8 @@ void title(void)
         }
 
       /* Draw the background: */
-      draw_demo(&session, frame_ratio);
+      draw_demo(frame_ratio);
      
-      context.push_transform();
-      context.set_translation(Vector(0, 0));
       if (Menu::current() == main_menu)
         context.draw_surface(logo, Vector(screen->w/2 - logo->w/2, 30),
             LAYER_FOREGROUND1+1);
@@ -265,7 +275,6 @@ void title(void)
           "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you\n"
           "are welcome to redistribute it under certain conditions; see the file COPYING\n"
           "for details.\n", Vector(0, screen->h - 70), LAYER_FOREGROUND1);
-      context.pop_transform();
 
       /* Don't draw menu, if quit is true */
       Menu* menu = Menu::current();
@@ -327,6 +336,8 @@ void title(void)
               else if (process_load_game_menu())
                 {
                   // FIXME: shouldn't be needed if GameSession doesn't relay on global variables
+                  titlesession->get_current_sector()->activate();
+                  titlesession->set_current();
                   //titletux.level_begin();
                   update_time = st_get_ticks();
                 }
@@ -356,6 +367,7 @@ void title(void)
   /* Free surfaces: */
 
   free_contrib_menu();
+  delete titlesession;
   delete bkg_title;
   delete logo;
   delete img_choose_subset;

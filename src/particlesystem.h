@@ -23,7 +23,9 @@
 #include <vector>
 #include "screen/texture.h"
 #include "game_object.h"
+#include "serializable.h"
 
+class LispReader;
 class DisplayManager;
 
 /**
@@ -50,6 +52,8 @@ public:
     virtual void draw(DrawingContext& context);
 
 protected:
+    int layer;
+
     class Particle
     {
     public:
@@ -64,11 +68,14 @@ protected:
     float virtual_width, virtual_height;
 };
 
-class SnowParticleSystem : public ParticleSystem
+class SnowParticleSystem : public ParticleSystem, public Serializable
 {
 public:
     SnowParticleSystem();
     virtual ~SnowParticleSystem();
+
+    void parse(LispReader& reader);
+    void write(LispWriter& writer);
 
     virtual void action(float elapsed_time);
 
@@ -85,11 +92,14 @@ private:
     Surface* snowimages[3];
 };
 
-class CloudParticleSystem : public ParticleSystem
+class CloudParticleSystem : public ParticleSystem, public Serializable
 {
 public:
     CloudParticleSystem();
     virtual ~CloudParticleSystem();
+
+    void parse(LispReader& reader);
+    void write(LispWriter& writer);
 
     virtual void action(float elapsed_time);
 

@@ -1015,11 +1015,36 @@ lisp_dump (lisp_object_t *obj, FILE *out)
 using namespace std;
 
 LispReader::LispReader (lisp_object_t* l)
-    : lst (l)
+    : owner(0), lst (l)
 {
-  //std::cout << "LispReader: " << std::flush;
-  //lisp_dump(lst, stdout);
-  //std::cout << std::endl;
+}
+
+LispReader::~LispReader()
+{
+  if(owner)
+    lisp_free(owner);
+}
+
+LispReader*
+LispReader::load(const std::string& filename, const std::string& toplevellist)
+{
+  lisp_object_t* obj = lisp_read_from_file(filename);
+
+  if(obj->type == LISP_TYPE_EOF || obj->type == LISP_TYPE_PARSE_ERROR) {
+    lisp_free(obj);
+    throw LispReaderException("LispReader::load", __FILE__, __LINE__);
+  }
+
+  if(toplevellist != lisp_symbol(lisp_car(obj))) {
+    lisp_car(obj);
+    throw LispReaderException("LispReader::load wrong toplevel symbol",
+        __FILE__, __LINE__);
+  }
+  
+  LispReader* reader = new LispReader(lisp_cdr(obj));  
+  reader->owner = obj;
+
+  return reader;
 }
 
 lisp_object_t*
@@ -1052,147 +1077,148 @@ LispReader::search_for(const char* name)
 }
 
 bool
-LispReader::read_int (const char* name, int* i)
+LispReader::read_int (const char* name, int& i)
 {
   lisp_object_t* obj = search_for (name);
-  if (obj)
-    {
-      if (!lisp_integer_p(lisp_car(obj)))
-      {
-        //st_abort("LispReader expected type integer at token: ", name); /* Instead of giving up, we return with false now. */
-	return false;
-	}
-      *i = lisp_integer(lisp_car(obj));
-      return true;
-    }
-  return false;
-}
-
-bool
-LispReader::read_lisp(const char* name, lisp_object_t** b)
-{
-  lisp_object_t* obj = search_for (name);
-  if (obj)
-    {
-      *b = obj;
-      return true;
-    }
-  else
+  if(!obj)
     return false;
+      
+  if (!lisp_integer_p(lisp_car(obj)))
+    return false;
+  
+  i = lisp_integer(lisp_car(obj));
+  return true;
 }
 
 bool
-LispReader::read_float (const char* name, float* f)
+LispReader::read_lisp(const char* name, lisp_object_t*& b)
 {
   lisp_object_t* obj = search_for (name);
-  if (obj)
-    {
-      if (!lisp_real_p(lisp_car(obj)) && !lisp_integer_p(lisp_car(obj)))
-        st_abort("LispReader expected type real at token: ", name);
-      *f = lisp_real(lisp_car(obj));
-      return true;
-    }
-  return false;
+  if (!obj)
+    return false;
+  
+  b = obj;
+  return true;
+}
+
+LispReader*
+LispReader::read_lisp(const char* name)
+{
+  lisp_object_t* obj = search_for(name);
+  if(!obj)
+    return 0;
+
+  return new LispReader(obj);
 }
 
 bool
-LispReader::read_string_vector (const char* name, std::vector<std::string>* vec)
+LispReader::read_float (const char* name, float& f)
 {
   lisp_object_t* obj = search_for (name);
-  if (obj)
-    {
-      while(!lisp_nil_p(obj))
-        {
-          if (!lisp_string_p(lisp_car(obj)))
-            st_abort("LispReader expected type string at token: ", name);
-          vec->push_back(lisp_string(lisp_car(obj)));
-          obj = lisp_cdr(obj);
-        }
-      return true;
-    }
-  return false;    
+  if (!obj)
+    return false;
+  
+  if (!lisp_real_p(lisp_car(obj)) && !lisp_integer_p(lisp_car(obj)))
+    st_abort("LispReader expected type real at token: ", name);
+  
+  f = lisp_real(lisp_car(obj));
+  return true;
 }
 
 bool
-LispReader::read_int_vector (const char* name, std::vector<int>* vec)
+LispReader::read_string_vector (const char* name, std::vector<std::string>& vec)
 {
-  vec->clear();
   lisp_object_t* obj = search_for (name);
-  if (obj)
-    {
-      while(!lisp_nil_p(obj))
-        {
-          if (!lisp_integer_p(lisp_car(obj)))
-            st_abort("LispReader expected type integer at token: ", name);
-          vec->push_back(lisp_integer(lisp_car(obj)));
-          obj = lisp_cdr(obj);
-        }
-      return true;
-    }
-  return false;    
+  if (!obj)
+    return false;
+
+  vec.clear();
+  while(!lisp_nil_p(obj))
+  {
+    if (!lisp_string_p(lisp_car(obj)))
+      st_abort("LispReader expected type string at token: ", name);
+    vec.push_back(lisp_string(lisp_car(obj)));
+    obj = lisp_cdr(obj);
+  }
+  return true;
 }
 
 bool
-LispReader::read_int_vector (const char* name, std::vector<unsigned int>* vec)
+LispReader::read_int_vector (const char* name, std::vector<int>& vec)
 {
-  vec->clear();
   lisp_object_t* obj = search_for (name);
-  if (obj)
-    {
-      while(!lisp_nil_p(obj))
-        {
-          if (!lisp_integer_p(lisp_car(obj)))
-            st_abort("LispReader expected type integer at token: ", name);
-          vec->push_back(lisp_integer(lisp_car(obj)));
-          obj = lisp_cdr(obj);
-        }
-      return true;
-    }
-  return false;    
+  if (!obj)
+    return false;
+
+  vec.clear();
+  while(!lisp_nil_p(obj))
+  {
+    if (!lisp_integer_p(lisp_car(obj)))
+      st_abort("LispReader expected type integer at token: ", name);
+    vec.push_back(lisp_integer(lisp_car(obj)));
+    obj = lisp_cdr(obj);
+  }
+  return true;
 }
 
 bool
-LispReader::read_char_vector (const char* name, std::vector<char>* vec)
+LispReader::read_int_vector (const char* name, std::vector<unsigned int>& vec)
 {
   lisp_object_t* obj = search_for (name);
-  if (obj)
-    {
-      while(!lisp_nil_p(obj))
-        {
-          vec->push_back(*lisp_string(lisp_car(obj)));
-          obj = lisp_cdr(obj);
-        }
-      return true;
-    }
-  return false;    
+  if (!obj)
+    return false;
+
+  vec.clear();
+  while(!lisp_nil_p(obj))
+  {
+    if (!lisp_integer_p(lisp_car(obj)))
+      st_abort("LispReader expected type integer at token: ", name);
+    vec.push_back(lisp_integer(lisp_car(obj)));
+    obj = lisp_cdr(obj);
+  }
+  return true;
 }
 
 bool
-LispReader::read_string (const char* name, std::string* str)
+LispReader::read_char_vector (const char* name, std::vector<char>& vec)
 {
   lisp_object_t* obj = search_for (name);
-  if (obj)
-    {
-      if (!lisp_string_p(lisp_car(obj)))
-        st_abort("LispReader expected type string at token: ", name);
-     *str = lisp_string(lisp_car(obj));
-      return true;
-    }
-  return false;  
+  if (!obj)
+    return false;
+ 
+  vec.clear();
+  while(!lisp_nil_p(obj))
+  {
+    vec.push_back(*lisp_string(lisp_car(obj)));
+    obj = lisp_cdr(obj);
+  }
+  return true;
 }
 
 bool
-LispReader::read_bool (const char* name, bool* b)
+LispReader::read_string (const char* name, std::string& str)
 {
   lisp_object_t* obj = search_for (name);
-  if (obj)
-    {
-      if (!lisp_boolean_p(lisp_car(obj)))
-        st_abort("LispReader expected type bool at token: ", name);
-      *b = lisp_boolean(lisp_car(obj));
-      return true;
-    }
-  return false;
+  if (!obj)
+    return false;
+
+  if (!lisp_string_p(lisp_car(obj)))
+    st_abort("LispReader expected type string at token: ", name);
+  str = lisp_string(lisp_car(obj));
+  return true;
+}
+
+bool
+LispReader::read_bool (const char* name, bool& b)
+{
+  lisp_object_t* obj = search_for (name);
+  if (!obj)
+    return false;
+  
+  if (!lisp_boolean_p(lisp_car(obj)))
+    st_abort("LispReader expected type bool at token: ", name);
+  b = lisp_boolean(lisp_car(obj));
+  return true;
 }
 
 lisp_object_t*
@@ -1201,92 +1227,19 @@ LispReader::get_lisp()
   return lst;
 }
 
-lisp_object_t* lisp_read_from_gzfile(const char* filename)
-{
-  bool done = false;
-  lisp_object_t* root_obj = 0;
-  int chunk_size = 128 * 1024;
-  int buf_pos = 0;
-  int try_number = 1;
-  char* buf = static_cast<char*>(malloc(chunk_size));
-  if (!buf)
-    throw LispReaderException("lisp_read_from_gzfile()", __FILE__, __LINE__);
-
-  gzFile in = gzopen(filename, "r");
-
-  while (!done)
-    {
-      int ret = gzread(in, buf + buf_pos, chunk_size);
-      if (ret == -1)
-        {
-          free (buf);
-          throw LispReaderException("Error while reading from file", __FILE__, __LINE__);
-        }
-      else if (ret == chunk_size) // buffer got full, eof not yet there so resize
-        {
-          buf_pos = chunk_size * try_number;
-          try_number += 1;
-          buf = static_cast<char*>(realloc(buf, chunk_size * try_number));
-
-          if (!buf)
-            throw LispReaderException("lisp_read_from_gzfile()", __FILE__, __LINE__);
-        }
-      else 
-        {
-          // everything fine, encountered EOF 
-          done = true;
-        }
-    }
-      
-  lisp_stream_t stream;
-  lisp_stream_init_string (&stream, buf);
-  root_obj = lisp_read (&stream);
-      
-  free(buf);
-  gzclose(in);
-
-  return root_obj;
-}
-
-bool has_suffix(const char* data, const char* suffix)
-{
-  int suffix_len = strlen(suffix);
-  int data_len   = strlen(data);
-  
-  const char* data_suffix = (data + data_len - suffix_len);
-
-  if (data_suffix >= data)
-    {
-      return (strcmp(data_suffix, suffix) == 0);
-    }
-  else
-    {
-      return false;
-    }
-}
-
 lisp_object_t* lisp_read_from_file(const std::string& filename)
 {
+  FILE* in = fopen(filename.c_str(), "r");
+
+  if(!in)
+    return 0;
+
   lisp_stream_t stream;
+  lisp_stream_init_file(&stream, in);
+  lisp_object_t* obj = lisp_read(&stream);
+  fclose(in);
 
-  if (has_suffix(filename.c_str(), ".gz"))
-    {
-      return lisp_read_from_gzfile(filename.c_str());
-    }
-  else
-    {
-      lisp_object_t* obj = 0;
-      FILE* in = fopen(filename.c_str(), "r");
-
-      if (in)
-        {
-          lisp_stream_init_file(&stream, in);
-          obj = lisp_read(&stream);
-          fclose(in);
-        }
-
-      return obj;
-    }
+  return obj;
 }
 
 // EOF //

@@ -24,7 +24,6 @@
 #include "type.h"
 
 class Tile;
-class World;
 
 /* Collision objects */
 enum

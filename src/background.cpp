@@ -21,15 +21,56 @@
 #include "globals.h"
 #include "camera.h"
 #include "screen/drawing_context.h"
+#include "lispwriter.h"
 
 Background::Background()
   : type(INVALID), image(0)
 {
 }
 
+Background::Background(LispReader& reader)
+  : type(INVALID), image(0)
+{
+  if(reader.read_string("image", imagefile) 
+      && reader.read_float("speed", speed)) {
+    set_image(imagefile, speed);
+  }
+
+  int tr, tg, tb, br, bg, bb;
+  if(reader.read_int("top_red", tr) && reader.read_int("top_green", tg)
+      && reader.read_int("top_blue", tb) && reader.read_int("bottom_red", br)
+      && reader.read_int("bottom_green", br)
+      && reader.read_int("bottom_blue", bb)) {
+    set_gradient(Color(tr, tg, tb), Color(br, bg, bb));
+  }
+}
+
 Background::~Background()
 {
   delete image;
+}
+
+void
+Background::write(LispWriter& writer)
+{
+  if(type == INVALID)
+    return;
+    
+  writer.start_list("background");
+
+  if(type == IMAGE) {
+    writer.write_string("image", imagefile);
+    writer.write_float("speed", speed);
+  } else if(type == GRADIENT) {
+    writer.write_int("top_red", gradient_top.red);
+    writer.write_int("top_green", gradient_top.green);
+    writer.write_int("top_blue", gradient_top.blue);
+    writer.write_int("bottom_red", gradient_bottom.red);
+    writer.write_int("bottom_green", gradient_bottom.green);
+    writer.write_int("bottom_blue", gradient_bottom.blue);
+  }
+  
+  writer.end_list("background");
 }
 
 void
@@ -40,7 +81,8 @@ Background::action(float)
 void
 Background::set_image(const std::string& name, float speed)
 {
-  type = IMAGE;
+  this->type = IMAGE;
+  this->imagefile = name;
   this->speed = speed;
 
   delete image;
@@ -61,9 +103,9 @@ Background::draw(DrawingContext& context)
   if(type == GRADIENT) {
     context.draw_gradient(gradient_top, gradient_bottom, LAYER_BACKGROUND0);
   } else if(type == IMAGE) {
-    int sx = int(-context.get_translation().x * float(speed/100.))
+    int sx = int(-context.get_translation().x * speed)
       % image->w - image->w;
-    int sy = int(-context.get_translation().y * float(speed/100.))
+    int sy = int(-context.get_translation().y * speed)
       % image->h - image->h;
     context.push_transform();
     context.set_translation(Vector(0, 0));

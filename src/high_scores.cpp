@@ -70,8 +70,8 @@ void load_hs(void)
   if (strcmp(lisp_symbol(lisp_car(root_obj)), "supertux-highscore") == 0)
     {
       LispReader reader(lisp_cdr(root_obj));
-      reader.read_int("score",  &hs_score);
-      reader.read_string("name", &hs_name);
+      reader.read_int("score",  hs_score);
+      reader.read_string("name", hs_name);
     }
  
   fclose(fi);

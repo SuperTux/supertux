@@ -59,8 +59,6 @@ title.cpp \
 title.h \
 type.cpp \
 type.h \
-world.cpp \
-world.h \
 worldmap.cpp \
 worldmap.h \
 tile.h \
@@ -92,6 +90,8 @@ moving_object.h \
 moving_object.cpp \
 serializable.h \
 vector.cpp \
-vector.h
+vector.h \
+sector.cpp \
+sector.h 
 
 # EOF #

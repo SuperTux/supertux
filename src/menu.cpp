@@ -722,9 +722,6 @@ Menu::draw(DrawingContext& context)
   int menu_height = get_height();
   int menu_width  = get_width();
 
-  context.push_transform();
-  context.set_translation(Vector(0, 0));  
-
   /* Draw a transparent background */
   context.draw_filled_rect(
       Vector(pos_x - menu_width/2, pos_y - 24*item.size()/2 - 10),
@@ -735,7 +732,6 @@ Menu::draw(DrawingContext& context)
   {
     draw_item(context, i, menu_width, menu_height);
   }
-  context.pop_transform();
 }
 
 MenuItem&
