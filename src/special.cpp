@@ -107,7 +107,6 @@ Bullet::action(double frame_ratio)
 
   if (base.x < scroll_x ||
       base.x > scroll_x + screen->w ||
-      base.y < 0 ||
       base.y > screen->h ||
       issolid(base.x + 4, base.y + 2) ||
       issolid(base.x, base.y + 2) ||
