@@ -59,6 +59,8 @@ public:
   void change_input(const char *text);
 
   static MenuItem* create(MenuItemKind kind, const char *text, int init_toggle, Menu* target_menu, int* int_p);
+
+  void set_controlfield_key(SDLKey key, char ch[]);
 };
 
 class Menu
@@ -69,6 +71,7 @@ private:
 
   static void push_current(Menu* pmenu);
   static void pop_current();
+
 public:
   /** Set the current menu, if pmenu is NULL, hide the current menu */
   static void set_current(Menu* pmenu);
