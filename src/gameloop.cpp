@@ -119,6 +119,9 @@ GameSession::restart_level()
         {
           world->get_tux()->base.x = best_reset_point.x;
           world->get_tux()->base.y = best_reset_point.y;
+
+          if((bool)world->get_level()->hor_autoscroll_speed)
+            scroll_x = best_reset_point.x;
         }
     }
     
