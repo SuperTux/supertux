@@ -85,6 +85,9 @@ Statistics::write(LispWriter& writer)
 #define TOTAL_DISPLAY_TIME 3400
 #define FADING_TIME         600
 
+#define WMAP_INFO_LEFT_X  555
+#define WMAP_INFO_RIGHT_X 705
+
 void
 Statistics::draw_worldmap_info(DrawingContext& context)
 {
@@ -109,21 +112,39 @@ Statistics::draw_worldmap_info(DrawingContext& context)
 
   char str[128];
 
-  context.draw_text(white_small_text, _("Level Statistics"), Vector(550, 490), LEFT_ALLIGN, LAYER_GUI);
+  context.draw_text(white_small_text, _("Level Statistics"),
+                    Vector((WMAP_INFO_LEFT_X + WMAP_INFO_RIGHT_X) / 2, 490),
+                    CENTER_ALLIGN, LAYER_GUI);
 
-  sprintf(str, _("Max score: %d"), stats[SCORE_STAT]);
-  context.draw_text(white_small_text, str, Vector(560, 506), LEFT_ALLIGN, LAYER_GUI);
+  sprintf(str, _("Max score:"));
+  context.draw_text(white_small_text, str, Vector(WMAP_INFO_LEFT_X, 506), LEFT_ALLIGN, LAYER_GUI);
+
+  sprintf(str, "%d", stats[SCORE_STAT]);
+  context.draw_text(white_small_text, str, Vector(WMAP_INFO_RIGHT_X, 506), RIGHT_ALLIGN, LAYER_GUI);
+
+  // draw other small info
 
   if(display_stat == BADGUYS_SQUISHED_STAT)
-    sprintf(str, _("Max fragging: %d"), stats[BADGUYS_SQUISHED_STAT]);
+    sprintf(str, _("Max fragging:"));
   else if(display_stat == SHOTS_STAT)
-    sprintf(str, _("Min shots: %d"), stats[SHOTS_STAT]);
+    sprintf(str, _("Min shots:"));
   else if(display_stat == TIME_NEEDED_STAT)
-    sprintf(str, _("Min time needed: %d"), stats[TIME_NEEDED_STAT]);
+    sprintf(str, _("Min time needed:"));
   else// if(display_stat == JUMPS_STAT)
-    sprintf(str, _("Min jumps: %d"), stats[JUMPS_STAT]);
+    sprintf(str, _("Min jumps:"));
 
-  context.draw_text(white_small_text, str, Vector(560, 522), LAYER_GUI, LEFT_ALLIGN, NONE_EFFECT, alpha);
+  context.draw_text(white_small_text, str, Vector(WMAP_INFO_LEFT_X, 522), LEFT_ALLIGN, LAYER_GUI, NONE_EFFECT, alpha);
+
+  if(display_stat == BADGUYS_SQUISHED_STAT)
+    sprintf(str, "%d", stats[BADGUYS_SQUISHED_STAT]);
+  else if(display_stat == SHOTS_STAT)
+    sprintf(str, "%d", stats[SHOTS_STAT]);
+  else if(display_stat == TIME_NEEDED_STAT)
+    sprintf(str, "%d", stats[TIME_NEEDED_STAT]);
+  else// if(display_stat == JUMPS_STAT)
+    sprintf(str, "%d", stats[JUMPS_STAT]);
+
+  context.draw_text(white_small_text, str, Vector(WMAP_INFO_RIGHT_X, 522), RIGHT_ALLIGN, LAYER_GUI, NONE_EFFECT, alpha);
 }
 
 void
@@ -132,23 +153,25 @@ Statistics::draw_message_info(DrawingContext& context, std::string title)
   if(stats[SCORE_STAT] == -1)  // not initialized yet
     return;
 
-  context.draw_text(gold_text, title, Vector(screen->w/2, 400), CENTER_ALLIGN, LAYER_GUI);
+  context.draw_text(gold_text, title, Vector(screen->w/2, 410), CENTER_ALLIGN, LAYER_GUI);
 
   char str[128];
-  for(int i = 0; i < NUM_STATS; i++)
+
+  sprintf(str, _(    "Max score:       %d"), stats[SCORE_STAT]);
+  context.draw_text(white_text, str, Vector(screen->w/2, 450), CENTER_ALLIGN, LAYER_GUI);
+
+  for(int i = 1; i < NUM_STATS; i++)
     {
-    if(i == SCORE_STAT)
-      sprintf(str, _("Max score: %d"), stats[SCORE_STAT]);
-    else if(i == BADGUYS_SQUISHED_STAT)
-      sprintf(str, _("Max fragging: %d"), stats[BADGUYS_SQUISHED_STAT]);
+    if(i == BADGUYS_SQUISHED_STAT)
+      sprintf(str, _("Max fragging:    %d"), stats[BADGUYS_SQUISHED_STAT]);
     else if(i == SHOTS_STAT)
-      sprintf(str, _("Min shots: %d"), stats[SHOTS_STAT]);
+      sprintf(str, _("Min shots:       %d"), stats[SHOTS_STAT]);
     else if(i == TIME_NEEDED_STAT)
       sprintf(str, _("Min time needed: %d"), stats[TIME_NEEDED_STAT]);
     else// if(i == JUMPS_STAT)
-      sprintf(str, _("Min jumps: %d"), stats[JUMPS_STAT]);
+      sprintf(str, _("Min jumps:       %d"), stats[JUMPS_STAT]);
 
-    context.draw_text(white_text, str, Vector(screen->w/2, 430 + i*22), CENTER_ALLIGN, LAYER_GUI);
+    context.draw_text(white_small_text, str, Vector(screen->w/2, 462 + i*18), CENTER_ALLIGN, LAYER_GUI);
     }
 }
 
