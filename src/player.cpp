@@ -116,13 +116,13 @@ TuxBodyParts::draw(DrawingContext& context, const Vector& pos, int layer,
                   Uint32 drawing_effect)
 {
   if(head != NULL)
-    head->draw(context, pos, layer, drawing_effect);
+    head->draw(context, pos, layer+2, drawing_effect);
   if(body != NULL)
-    body->draw(context, pos, layer, drawing_effect);
+    body->draw(context, pos, layer,   drawing_effect);
   if(arms != NULL)
-    arms->draw(context, pos, layer, drawing_effect);
+    arms->draw(context, pos, layer+3, drawing_effect);
   if(feet != NULL)
-    feet->draw(context, pos, layer, drawing_effect);
+    feet->draw(context, pos, layer+1, drawing_effect);
 }
 
 Player::Player()
