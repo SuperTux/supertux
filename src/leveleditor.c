@@ -1,4 +1,3 @@
-
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -449,6 +448,7 @@ int le_init()
 void update_level_settings_menu()
 {
   char str[80];
+  int i;
 
   menu_item_change_input(&level_settings_menu.item[2], le_current_level->name);
   sprintf(str,"%d",le_current_level->width);
@@ -456,7 +456,13 @@ void update_level_settings_menu()
   string_list_copy(level_settings_menu.item[3].list, dsubdirs("images/themes", "solid0.png"));
   string_list_copy(level_settings_menu.item[4].list, dfiles("music/", NULL));
   string_list_copy(level_settings_menu.item[5].list, dfiles("images/background", NULL));
-  
+  if((i = string_list_find(level_settings_menu.item[3].list,le_current_level->theme)) != -1)
+    level_settings_menu.item[3].list->active_item = i;
+  if((i = string_list_find(level_settings_menu.item[4].list,le_current_level->song_title)) != -1)
+    level_settings_menu.item[4].list->active_item = i;
+  if((i = string_list_find(level_settings_menu.item[5].list,le_current_level->bkgd_image)) != -1)
+    level_settings_menu.item[5].list->active_item = i;
+
   menu_item_change_input(&level_settings_menu.item[6], str);
   sprintf(str,"%d",le_current_level->time_left);
   menu_item_change_input(&level_settings_menu.item[7], str);
@@ -473,19 +479,30 @@ void update_level_settings_menu()
 void apply_level_settings_menu()
 {
   int i,y,j;
+  i = NO;
+
   strcpy(le_current_level->name,level_settings_menu.item[2].input);
-  
-  strcpy(le_current_level->bkgd_image,string_list_active(level_settings_menu.item[5].list));
-  
+
+  if(strcmp(le_current_level->theme,string_list_active(level_settings_menu.item[5].list)) != 0)
+    {
+      strcpy(le_current_level->bkgd_image,string_list_active(level_settings_menu.item[5].list));
+      i = YES;
+    }
+
   if(strcmp(le_current_level->theme,string_list_active(level_settings_menu.item[3].list)) != 0)
-  {
-  strcpy(le_current_level->theme,string_list_active(level_settings_menu.item[3].list));
-  level_free_gfx();
-  level_load_gfx(le_current_level);
-  }
-  
+    {
+      strcpy(le_current_level->theme,string_list_active(level_settings_menu.item[3].list));
+      i = YES;
+    }
+
+  if(i == YES)
+    {
+      level_free_gfx();
+      level_load_gfx(le_current_level);
+    }
+
   strcpy(le_current_level->song_title,string_list_active(level_settings_menu.item[4].list));
-  
+
   i = le_current_level->width;
   le_current_level->width = atoi(level_settings_menu.item[6].input);
   if(le_current_level->width < i)
