@@ -3,6 +3,8 @@
 #include "dispenser.h"
 #include "badguy/bouncing_snowball.h"
 #include "badguy/snowball.h"
+#include "badguy/mrbomb.h"
+#include "badguy/mriceblock.h"
 
 
 Dispenser::Dispenser(LispReader& reader)
@@ -69,9 +71,9 @@ Dispenser::collision_solid(GameObject& , const CollisionHit& hit)
 }
 
 //TODO: Add launching velocity to badguys
-//      Add more badguys and randomizer
+//      Add randomizer
 //      Clean up stuff I copied without understanding what it does :)
-//      Stop dispensing when game is paused
+//      Stop dispensing when game is paused (timer related problem)
 //      Lots-O-Stuff (tm)
 void
 Dispenser::launch_badguy()
@@ -79,9 +81,13 @@ Dispenser::launch_badguy()
    //FIXME: Does is_offscreen() work right here?
    if (!is_offscreen()) {
     if (badguy == "snowball")
-      Sector::current()->add_object(new SnowBall(get_pos().x-2, get_pos().y));
+      Sector::current()->add_object(new SnowBall(get_pos().x, get_pos().y, dir));
     else if (badguy == "bouncingsnowball")
-      Sector::current()->add_object(new BouncingSnowball(get_pos().x-2, get_pos().y, dir));
+      Sector::current()->add_object(new BouncingSnowball(get_pos().x, get_pos().y, dir));
+    else if (badguy == "mrbomb")
+      Sector::current()->add_object(new MrBomb(get_pos().x, get_pos().y, dir));
+    else if (badguy == "mriceblock")
+      Sector::current()->add_object(new MrIceBlock(get_pos().x, get_pos().y, dir));
     else if (badguy == "random")
       {}
    }

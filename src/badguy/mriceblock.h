@@ -7,6 +7,7 @@ class MrIceBlock : public BadGuy
 {
 public:
   MrIceBlock(LispReader& reader);
+  MrIceBlock(float pos_x, float pos_y, Direction d);
 
   void activate();
   void write(LispWriter& writer);
@@ -26,6 +27,8 @@ private:
   IceState ice_state;
   Timer2 flat_timer;
   int squishcount;
+  bool set_direction;
+  Direction initial_direction;  
 };
 
 #endif

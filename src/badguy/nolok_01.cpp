@@ -11,7 +11,6 @@
 static const float WALKSPEED = 90;
 
 //TODO: Create sprite, give multiple hitpoints, limit max number of snowballs
-//      Can only be killed when jumping, no idea why
 //      Stop actions when pause button is hit (probably a general problem of timers)
 Nolok_01::Nolok_01(LispReader& reader)
 {
@@ -52,27 +51,35 @@ Nolok_01::activate()
 void
 Nolok_01::active_action(float elapsed_time)
 {
-   movement = physic.get_movement(elapsed_time);
    if (action_timer.check()) {
-     if (action == WALKING) {
-        physic.set_velocity_y(700);
-        action = JUMPING;
-        action_timer.start(JUMP_TIME);
-     }
-     else if (action == JUMPING) {
+     switch (action) {       
+       case WALKING:
+        {
+         physic.set_velocity_y(700);
+         action = JUMPING;
+         action_timer.start(JUMP_TIME);
+         break;
+        }
+       case JUMPING:
+       {
         sprite->set_action("throw");
         action = SHOOTING;
         action_timer.start(SHOOT_TIME);
-     }
-     else if (action == SHOOTING) {
+        break;
+       }
+       case SHOOTING:
+       {
         Sector::current()->add_object(new BouncingSnowball(get_pos().x - 64, get_pos().y, LEFT));
         Sector::current()->add_object(new BouncingSnowball(get_pos().x + 64, get_pos().y, RIGHT));
         physic.set_velocity_x(dir == LEFT ? -WALKSPEED : WALKSPEED);
         sprite->set_action(dir == LEFT ? "left" : "right");
         action = WALKING;
         action_timer.start(WALK_TIME);
+        break;
+       }
      }
    }
+   movement = physic.get_movement(elapsed_time);
 }
 
 bool

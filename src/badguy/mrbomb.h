@@ -7,7 +7,7 @@ class MrBomb : public BadGuy
 {
 public:
   MrBomb(LispReader& reader);
-  MrBomb(float pos_x, float pos_y);
+  MrBomb(float pos_x, float pos_y, Direction d);
 
   void activate();
   void write(LispWriter& writer);
@@ -15,6 +15,8 @@ public:
 
 protected:
   bool collision_squished(Player& player);
+  bool set_direction;
+  Direction initial_direction;  
 };
 
 #endif

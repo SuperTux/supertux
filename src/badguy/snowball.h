@@ -7,7 +7,7 @@ class SnowBall : public BadGuy
 {
 public:
   SnowBall(LispReader& reader);
-  SnowBall(float pos_x, float pos_y);
+  SnowBall(float pos_x, float pos_y, Direction d);
 
   void activate();
   void write(LispWriter& writer);
@@ -15,6 +15,8 @@ public:
   
 protected:
   bool collision_squished(Player& player);
+  bool set_direction;
+  Direction initial_direction;  
 };
 
 #endif

@@ -4,8 +4,9 @@
 #include "utils/lispwriter.h"
 #include "gameloop.h"
 
-#define MESSAGE_TIME 3
+#define MESSAGE_TIME 3.5
 
+//TODO: Count numbers of triggered/total secret areas
 SecretAreaTrigger::SecretAreaTrigger(LispReader& reader)
 {
   reader.read_float("x", bbox.p1.x);
@@ -13,6 +14,7 @@ SecretAreaTrigger::SecretAreaTrigger(LispReader& reader)
   bbox.set_size(32, 32);
 
   reader.read_string("message", message);
+  message_displayed = false;
 }
 
 SecretAreaTrigger::SecretAreaTrigger(const Vector& pos)
@@ -20,6 +22,7 @@ SecretAreaTrigger::SecretAreaTrigger(const Vector& pos)
   bbox.set_pos(pos);
   bbox.set_size(32, 32);
   message = "You found a secret area!";
+  message_displayed = false;
 }
 
 SecretAreaTrigger::~SecretAreaTrigger()
@@ -44,9 +47,11 @@ void
 SecretAreaTrigger::draw(DrawingContext& context)
 {
    if (message_timer.started()) {
+      context.push_transform();
+      context.set_translation(Vector(0, 0));
       Vector pos = Vector(0, screen->h/2 - gold_text->get_height()/2);
       context.draw_center_text(gold_text, message, pos, LAYER_GUI);
-      //TODO: Prevent text from scrolling with the rest of the level
+      context.pop_transform();
    }
    if (message_timer.check()) {
       remove_me();
@@ -57,6 +62,9 @@ void
 SecretAreaTrigger::event(Player& , EventType type)
 {
   if(type == EVENT_TOUCH) {
-    message_timer.start(MESSAGE_TIME);
+    if (!message_displayed) {
+      message_timer.start(MESSAGE_TIME);
+      message_displayed = true;
+    }
   }
 }

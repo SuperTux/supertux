@@ -13,6 +13,18 @@ MrIceBlock::MrIceBlock(LispReader& reader)
   reader.read_float("y", start_position.y);
   bbox.set_size(31.8, 31.8);
   sprite = sprite_manager->create("mriceblock");
+  set_direction = false;
+}
+
+MrIceBlock::MrIceBlock(float pos_x, float pos_y, Direction d)
+  : ice_state(ICESTATE_NORMAL), squishcount(0)
+{
+  start_position.x = pos_x;
+  start_position.y = pos_y;
+  bbox.set_size(31.8, 31.8);
+  sprite = sprite_manager->create("mriceblock");
+  set_direction = true;
+  initial_direction = d;
 }
 
 void
@@ -29,6 +41,7 @@ MrIceBlock::write(LispWriter& writer)
 void
 MrIceBlock::activate()
 {
+  if (set_direction) {dir = initial_direction;}
   physic.set_velocity_x(dir == LEFT ? -WALKSPEED : WALKSPEED);
   sprite->set_action(dir == LEFT ? "left" : "right");
 }
