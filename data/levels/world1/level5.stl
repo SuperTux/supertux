@@ -99,7 +99,7 @@
     (mrbomb  (x 9547) (y 305))
     (bouncingsnowball  (x 3123) (y 26))
     (snowball  (x 1281) (y 340))
-    (snowball  (x 4255) (y 279))
+    (mriceblock  (x 4255) (y 279))
     (mrbomb  (x 5975) (y 299))
     (snowball  (x 9022) (y 313))
   )
