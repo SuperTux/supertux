@@ -111,7 +111,7 @@ public:
   void trygrabdistro(float x, float y, int bounciness);
 
   /** Try to break the brick at the given coordinates */
-  void trybreakbrick(float x, float y, bool small);
+  bool trybreakbrick(float x, float y, bool small);
 
   /** Try to get the content out of a bonus box, thus emptying it */
   void tryemptybox(float x, float y, Direction col_side);

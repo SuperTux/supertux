@@ -390,32 +390,27 @@ void
 Player::handle_vertical_input()
 {
   // Press jump key
-  if(input.up == DOWN && can_jump)
+  if(input.up == DOWN && can_jump && on_ground())
     {
-      if (on_ground())
-        {
-          // jump higher if we are running
-          if (fabs(physic.get_velocity_x()) > MAX_WALK_XM)
-            physic.set_velocity_y(5.8);
-          else
-            physic.set_velocity_y(5.2);
+      // jump higher if we are running
+      if (fabs(physic.get_velocity_x()) > MAX_WALK_XM)
+        physic.set_velocity_y(5.8);
+      else
+        physic.set_velocity_y(5.2);
 
-          --base.y;
-          jumping = true;
-          can_jump = false;
-          if (size == SMALL)
-            play_sound(sounds[SND_JUMP], SOUND_CENTER_SPEAKER);
-          else
-            play_sound(sounds[SND_BIGJUMP], SOUND_CENTER_SPEAKER);
-        }
+      --base.y;
+      jumping = true;
+      can_jump = false;
+      if (size == SMALL)
+        play_sound(sounds[SND_JUMP], SOUND_CENTER_SPEAKER);
+      else
+        play_sound(sounds[SND_BIGJUMP], SOUND_CENTER_SPEAKER);
     }
   // Let go of jump key
-  else if(input.up == UP && jumping)
+  else if(input.up == UP && jumping && physic.get_velocity_y() > 0)
     {
       jumping = false;
-      if(physic.get_velocity_y() > 0) {
-        physic.set_velocity_y(0);
-      }
+      physic.set_velocity_y(0);
     }
 
   if (input.down == DOWN && !on_ground() && !duck)
@@ -424,14 +419,14 @@ Player::handle_vertical_input()
     butt_jump = false;
   if (input.down == DOWN && butt_jump && on_ground())
   {
-    if (isbrick(base.x, base.y + base.height))
-      World::current()->trybreakbrick(base.x, base.y + base.height, false);
-    if (isbrick(base.x + base.width, base.y + base.height))
-      World::current()->trybreakbrick(base.x + base.width, base.y + base.height, false);
-
+    if(World::current()->trybreakbrick(base.x, base.y + base.height, false)
+      || World::current()->trybreakbrick(
+          base.x + base.width, base.y + base.height, false)) {
+        // make tux jumping a little bit again after breaking the bricks
+        physic.set_velocity_y(2);
+    }
     butt_jump = false;
   }
-
 
   if ( (issolid(base.x + base.width / 2, base.y + base.height + 64) ||
         issolid(base.x + 1, base.y + base.height + 64) ||
@@ -457,13 +452,9 @@ Player::handle_input()
 
   if (on_ground() && input.up == UP)
     can_jump = true;
-  if (input.up == DOWN || (input.up == UP && jumping))
-    {
-      handle_vertical_input();
-    }
+  handle_vertical_input();
 
   /* Shoot! */
-
   if (input.fire == DOWN && input.old_fire == UP && got_power != NONE_POWER)
     {
       World::current()->add_bullet(base.x, base.y, physic.get_velocity_x(), dir);

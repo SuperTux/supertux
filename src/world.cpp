@@ -643,7 +643,7 @@ World::get_music_type()
 }
 
 /* Break a brick: */
-void
+bool
 World::trybreakbrick(float x, float y, bool small)
 {
   Level* plevel = get_level();
@@ -677,6 +677,7 @@ World::trybreakbrick(float x, float y, bool small)
           play_sound(sounds[SND_DISTRO], SOUND_CENTER_SPEAKER);
           player_status.score = player_status.score + SCORE_DISTRO;
           player_status.distros++;
+          return true;
         }
       else if (!small)
         {
@@ -691,8 +692,12 @@ World::trybreakbrick(float x, float y, bool small)
           /* Get some score: */
           play_sound(sounds[SND_BRICK], SOUND_CENTER_SPEAKER);
           player_status.score = player_status.score + SCORE_BRICK;
+          
+          return true;
         }
     }
+
+  return false;
 }
 
 /* Empty a box: */
