@@ -110,6 +110,7 @@ L: low priority
     themselfes. This could speed up rendering of tilemaps.
 [H] implement quadtree to speed up collision detection
 [?] remove badguyspecs and bitmask files
+[M] Make the gamelogic run in a fixed logical framerate
 
 --Miscellaneous--
 [?] think about how to implement scripting, and how to make a simple and easy to

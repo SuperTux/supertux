@@ -19,6 +19,8 @@ public:
   virtual void action(float elapsed_time);
   virtual void draw(DrawingContext& context);
 
+  void collect();
+
 private:
   Sprite* sprite;
 };

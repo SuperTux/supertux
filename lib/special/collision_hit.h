@@ -30,10 +30,15 @@ namespace SuperTux
  */
 enum HitResponse
 {
-  ABORT_MOVE,   // don't move the object
-  FORCE_MOVE,   // do the move ignoring the collision
-  CONTINUE      // move object out of collision and check for collisions again
-                // if this happens to often then the move will just be aborted
+  // note: keep the elements in this order
+
+  /// don't move the object
+  ABORT_MOVE = 0,
+  /// move object out of collision and check for collisions again
+  /// if this happens to often then the move will just be aborted    
+  CONTINUE,
+  /// do the move ignoring the collision
+  FORCE_MOVE
 };
 
 /**

@@ -5,7 +5,9 @@
 #include "video/drawing_context.h"
 #include "special/sprite_manager.h"
 #include "player.h"
+#include "sector.h"
 #include "scene.h"
+#include "gameobjs.h"
 
 Coin::Coin(const Vector& pos)
 {
@@ -30,6 +32,14 @@ Coin::draw(DrawingContext& context)
   sprite->draw(context, get_pos(), LAYER_TILES);
 }
 
+void
+Coin::collect()
+{
+  Sector::current()->player->get_status().incCoins();
+  Sector::current()->add_object(new BouncyCoin(get_pos()));
+  remove_me();
+}
+
 HitResponse
 Coin::collision(GameObject& other, const CollisionHit& )
 {
@@ -37,8 +47,7 @@ Coin::collision(GameObject& other, const CollisionHit& )
   if(player == 0)
     return ABORT_MOVE;
 
-  player->get_status().incCoins();
-  remove_me();
+  collect();
   return ABORT_MOVE;
 }
 

@@ -237,6 +237,8 @@ DictionaryManager::get_dictionary(const std::string& spec)
       Dictionary& dict = dictionaries[lang];
 
       dict.set_language(get_language_def(lang));
+      if(charset != "")
+        dict.set_charset(charset);
 
       for (SearchPath::iterator p = search_path.begin(); p != search_path.end(); ++p)
         {
@@ -309,6 +311,14 @@ DictionaryManager::set_language(const std::string& lang)
 }
 
 void
+DictionaryManager::set_charset(const std::string& charset)
+{
+  dictionaries.clear(); // changing charset invalidates cache
+  this->charset = charset;
+  set_language(language);
+}
+
+void
 DictionaryManager::set_language_alias(const std::string& alias,
     const std::string& language)
 {
@@ -334,9 +344,8 @@ DictionaryManager::get_language_from_spec(const std::string& spec)
 void
 DictionaryManager::add_directory(const std::string& pathname)
 {
+  dictionaries.clear(); // adding directories invalidates cache
   search_path.push_back(pathname);
-  // cache is outdated now
-  dictionaries.clear();
   set_language(language);
 }
 

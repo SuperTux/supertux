@@ -13,6 +13,8 @@
 #include "flower.h"
 #include "oneup.h"
 #include "star.h"
+#include "badguy/badguy.h"
+#include "coin.h"
 
 static const float BOUNCY_BRICK_MAX_OFFSET=8;
 static const float BOUNCY_BRICK_SPEED=90;
@@ -35,13 +37,22 @@ Block::~Block()
 HitResponse
 Block::collision(GameObject& other, const CollisionHit& hitdata)
 {
-  // TODO kill badguys when bumping them...
-  
   Player* player = dynamic_cast<Player*> (&other);
   if(player) {
     // collided from below?
     if(hitdata.normal.x == 0 && hitdata.normal.y < 0) {
       hit(*player);
+    }
+  }
+
+  if(bouncing) {
+    BadGuy* badguy = dynamic_cast<BadGuy*> (&other);
+    if(badguy) {
+      badguy->kill_fall();
+    }
+    Coin* coin = dynamic_cast<Coin*> (&other);
+    if(coin) {
+      coin->collect();
     }
   }
 

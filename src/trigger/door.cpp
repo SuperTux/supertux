@@ -90,8 +90,7 @@ void
 Door::event(Player& , EventType type)
 {
   if(type == EVENT_ACTIVATE) {
-    sprite->set_action("open");
-    sprite->start_animation(1);
+    sprite->set_action("open", 1);
   }
 }
 

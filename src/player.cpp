@@ -91,29 +91,16 @@ void player_input_init(player_input_type* pplayer_input)
 }
 
 void
-TuxBodyParts::set_action(std::string action)
+TuxBodyParts::set_action(std::string action, int loops)
 {
   if(head != NULL)
-    head->set_action(action);
+    head->set_action(action, loops);
   if(body != NULL)
-    body->set_action(action);
+    body->set_action(action, loops);
   if(arms != NULL)
-    arms->set_action(action);
+    arms->set_action(action, loops);
   if(feet != NULL)
-    feet->set_action(action);
-}
-
-void
-TuxBodyParts::one_time_animation()
-{
-  if(head != NULL)
-    head->start_animation(1);
-  if(body != NULL)
-    body->start_animation(1);
-  if(arms != NULL)
-    arms->start_animation(1);
-  if(feet != NULL)
-    feet->start_animation(1);
+    feet->set_action(action, loops);
 }
 
 void
@@ -789,11 +776,9 @@ Player::draw(DrawingContext& context)
     if(size == BIG)
       {
       if(dir == LEFT)
-        tux_body->head->set_action("idle-left");
+        tux_body->head->set_action("idle-left", 1);
       else // dir == RIGHT
-        tux_body->head->set_action("idle-right");
-
-      tux_body->head->start_animation(1);
+        tux_body->head->set_action("idle-right", 1);
       }
 
     }

@@ -45,7 +45,7 @@ Dispenser::collision_squished(Player& player)
 }
 
 void
-Dispenser::active_action(float elapsed_time)
+Dispenser::active_action(float )
 {
    if (dispense_timer.check()) {
       launch_badguy();

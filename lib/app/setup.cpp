@@ -262,6 +262,7 @@ void Setup::init(const std::string& _package_name,
     
   directories();
   dictionary_manager.add_directory(datadir + "/locale");
+  dictionary_manager.set_charset("iso8859-1");
 }
 
 /* --- SETUP --- */

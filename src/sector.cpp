@@ -600,6 +600,8 @@ Sector::draw(DrawingContext& context)
   context.pop_transform();
 }
 
+static const float DELTA = .001;
+
 void
 Sector::collision_tilemap(MovingObject* object, int depth)
 {
@@ -701,7 +703,7 @@ Sector::collision_tilemap(MovingObject* object, int depth)
       return;
   }
   // move out of collision and try again
-  object->movement += hit.normal * (hit.depth + .05);
+  object->movement += hit.normal * (hit.depth + DELTA);
   collision_tilemap(object, depth+1);
 }
 
@@ -724,15 +726,15 @@ Sector::collision_object(MovingObject* object1, MovingObject* object2)
       if(response1 == ABORT_MOVE)
         object1->movement = Vector(0, 0);
       if(response2 == CONTINUE)
-        object2->movement += hit.normal * (hit.depth + .05);
+        object2->movement += hit.normal * (hit.depth + DELTA);
     } else if(response2 != CONTINUE) {
       if(response2 == ABORT_MOVE)
         object2->movement = Vector(0, 0);
       if(response1 == CONTINUE)
-        object1->movement += -hit.normal * (hit.depth + .05);
+        object1->movement += -hit.normal * (hit.depth + DELTA);
     } else {
-      object1->movement += -hit.normal * (hit.depth/2 + .05);
-      object2->movement += hit.normal * (hit.depth/2 + .05);
+      object1->movement += -hit.normal * (hit.depth/2 + DELTA);
+      object2->movement += hit.normal * (hit.depth/2 + DELTA);
     }
   }
 }
@@ -743,12 +745,16 @@ Sector::collision_handler()
   for(std::vector<GameObject*>::iterator i = gameobjects.begin();
       i != gameobjects.end(); ++i) {
     GameObject* gameobject = *i;
-    if(!gameobject->is_valid() 
-        || gameobject->get_flags() & GameObject::FLAG_NO_COLLDET)
+    if(!gameobject->is_valid())
       continue;
     MovingObject* movingobject = dynamic_cast<MovingObject*> (gameobject);
     if(!movingobject)
       continue;
+    if(movingobject->get_flags() & GameObject::FLAG_NO_COLLDET) {
+      movingobject->bbox.move(movingobject->movement);
+      movingobject->movement = Vector(0, 0);
+      continue;
+    }
 
     // collision with tilemap
     if(! (movingobject->movement == Vector(0, 0)))

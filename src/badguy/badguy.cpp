@@ -194,6 +194,9 @@ BadGuy::set_state(State state)
       }
       flags |= FLAG_NO_COLLDET;
       break;
+    case STATE_FALLING:
+      flags |= FLAG_NO_COLLDET;
+      break;
     default:
       break;
   }

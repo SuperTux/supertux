@@ -22,6 +22,7 @@
 
 #include <string>
 #include <vector>
+#include <cassert>
 #include <map>
 
 #include "utils/lispreader.h"
@@ -47,20 +48,13 @@ namespace SuperTux
         Uint32 drawing_effect = NONE_EFFECT);
 
     /** Set action (or state) */
-    void set_action(std::string act);
+    void set_action(std::string act, int loops = -1);
 
-    /* Start an animation
-       -1 - for infinite
-       0  - stopped
-       1,2,3  - one, two, three times... */
-    void start_animation(int loops);
     /* Stop animation */
     void stop_animation()
-    { start_animation(0); }
+    { animation_loops = 0; }
     /** Check if animation is stopped or not */
     bool check_animation();
-    /** Reverse the animation */
-    void reverse_animation(bool reverse);
 
     float get_fps() const
     { return action->fps; }
@@ -85,24 +79,20 @@ namespace SuperTux
     { if(frame_ > get_frames()) frame = 0; else frame = frame_; }
     Surface* get_frame(unsigned int frame)
     {
-      if(frame < action->surfaces.size())
-        return action->surfaces[frame];
-      else
-        return action->surfaces[0];
+      assert(frame < action->surfaces.size());
+      return action->surfaces[frame];
     }    
+
   private:
     void update();
-    void reset();
 
     SpriteData& data;
 
     float frame;
     int animation_loops;
-    bool animation_reversed;
-    float last_tick;
+    Uint32 last_ticks;
 
     SpriteData::Action* action;
-    std::string next_action;
   };
 } //namespace SuperTux
 

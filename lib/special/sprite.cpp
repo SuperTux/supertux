@@ -32,17 +32,18 @@ namespace SuperTux
 {
 
 Sprite::Sprite(SpriteData& newdata)
-  : data(newdata)
+  : data(newdata), frame(0), animation_loops(-1)
 {
   action = data.actions.begin()->second;
-  reset();
+  last_ticks = SDL_GetTicks();
 }
 
 Sprite::Sprite(const Sprite& other)
   : data(other.data), frame(other.frame),
-    animation_loops(other.animation_loops), last_tick(other.last_tick),
-    action(other.action), next_action(other.next_action)
+    animation_loops(other.animation_loops),
+    action(other.action)
 {
+  last_ticks = SDL_GetTicks();
 }
 
 Sprite::~Sprite()
@@ -50,34 +51,22 @@ Sprite::~Sprite()
 }
 
 void
-Sprite::set_action(std::string name)
+Sprite::set_action(std::string name, int loops)
 {
-  if(!next_action.empty() && animation_loops > 0) {
-    next_action = name;
+  if(action && action->name == name)
+    return;
+
+  SpriteData::Action* newaction = data.get_action(name);
+  if(!action) {
+#ifdef DEBUG
+    std::cerr << "Action '" << name << "' not found.\n";
+#endif
     return;
   }
-  SpriteData::Action* newaction = data.get_action(name);
-  if(!action)
-    return;
 
   action = newaction;
-}
-
-void
-Sprite::start_animation(int loops)
-{
-  reset();
   animation_loops = loops;
-}
-
-void
-Sprite::reset()
-{
   frame = 0;
-  last_tick = SDL_GetTicks();
-  animation_reversed = false;
-  animation_loops = -1;
-  next_action.clear();
 }
 
 bool
@@ -87,71 +76,24 @@ Sprite::check_animation()
 }
 
 void
-Sprite::reverse_animation(bool reverse)
-{
-  animation_reversed = reverse;
-
-  if(animation_reversed)
-    frame = get_frames()-1;
-  else
-    frame = 0;
-}
-
-void
 Sprite::update()
 {
   if(animation_loops == 0)
-  {
-    if(frame >= get_frames() || frame < 0)
-      frame = 0;
     return;
-  }
 
-  float frame_inc = (action->fps/1000.0) * (SDL_GetTicks() - last_tick);
-  last_tick = SDL_GetTicks();
+  Uint32 ticks = SDL_GetTicks();
+  float frame_inc = action->fps * float(ticks - last_ticks)/1000.0;
+  last_ticks = ticks;
 
-  if(animation_reversed)
-    frame -= frame_inc;
-  else
-    frame += frame_inc;
+  frame += frame_inc;
 
-  if(animation_reversed) {
-    if(frame < 0 || frame >= (float)get_frames()) {
-      // last case can happen when not used reverse_animation()
-      float excedent = frame - 0;
-      frame = get_frames() - 1;
-      if(animation_loops > 0)
-      {
-        animation_loops--;
-        if(animation_loops == 0 && !next_action.empty())
-        {
-          set_action(next_action);
-          start_animation(-1);
-        }
-      }
-
-      if(fabsf(excedent) < get_frames())
-        frame += excedent;
-    }
-  }
-  else
-  {
-    if(frame >= (float)get_frames())
-    {
-      float excedent = frame - get_frames();
-      frame = 0;
-      if(animation_loops > 0)
-      {
-        animation_loops--;
-        if(animation_loops == 0 && !next_action.empty())
-        {
-          set_action(next_action);
-          start_animation(-1);
-        }
-      }
-
-      if(excedent < get_frames())
-        frame += excedent;
+  float lastframe = frame;
+  frame = fmodf(frame+get_frames(), get_frames());
+  if(frame != lastframe) {
+    if(animation_loops > 0) {
+      animation_loops--;
+      if(animation_loops == 0)
+        frame = 0;
     }
   }
 }
