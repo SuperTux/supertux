@@ -96,37 +96,33 @@ extern Surface* tux_life;
 
 extern Sprite* smalltux_gameover;
 extern Sprite* smalltux_star;
-extern Sprite* largetux_star;
+extern Sprite* bigtux_star;
 
 #define GROWING_TIME 1000
 #define GROWING_FRAMES 7
 extern Surface* growingtux_left[GROWING_FRAMES];
 extern Surface* growingtux_right[GROWING_FRAMES];
 
-/*struct PlayerSprite
+class TuxBodyParts
 {
-  Sprite* stand_left;
-  Sprite* stand_right;
-  Sprite* walk_right;
-  Sprite* walk_left;
-  Sprite* jump_right;
-  Sprite* jump_left;
-  Sprite* kick_left;
-  Sprite* kick_right;
-  Sprite* skid_right;
-  Sprite* skid_left;
-  Sprite* grab_left;
-  Sprite* grab_right;
-  Sprite* duck_right;
-  Sprite* duck_left;
-};*/
+public:
+  TuxBodyParts() { };
+  ~TuxBodyParts() { };
 
-extern Sprite* small_tux;
-extern Sprite* big_tux;
-extern Sprite* fire_tux;
-extern Sprite* ice_tux;
+  void set_action(std::string action);
+  void draw(DrawingContext& context, const Vector& pos, int layer,
+                Uint32 drawing_effect = NONE_EFFECT);
 
-extern Sprite* tux_arm;
+  Sprite* head;
+  Sprite* body;
+  Sprite* arms;
+  Sprite* feet;
+};
+
+extern TuxBodyParts* small_tux;
+extern TuxBodyParts* big_tux;
+extern TuxBodyParts* fire_tux;
+extern TuxBodyParts* ice_tux;
 
 class Player : public MovingObject
 {

@@ -51,14 +51,12 @@ Surface* tux_life;
 
 Sprite* smalltux_gameover;
 Sprite* smalltux_star;
-Sprite* largetux_star;
+Sprite* bigtux_star;
 
-Sprite* small_tux;
-Sprite* big_tux;
-Sprite* ice_tux;
-Sprite* fire_tux;
-
-Sprite* tux_arm;
+TuxBodyParts* small_tux;
+TuxBodyParts* big_tux;
+TuxBodyParts* fire_tux;
+TuxBodyParts* ice_tux;
 
 PlayerKeymap keymap;
 
@@ -82,6 +80,25 @@ void player_input_init(player_input_type* pplayer_input)
   pplayer_input->up = UP;
   pplayer_input->old_up = UP;
   pplayer_input->activate = UP;
+}
+
+void
+TuxBodyParts::set_action(std::string action)
+{
+head->set_action(action);
+body->set_action(action);
+arms->set_action(action);
+feet->set_action(action);
+}
+
+void
+TuxBodyParts::draw(DrawingContext& context, const Vector& pos, int layer,
+                  Uint32 drawing_effect)
+{
+head->draw(context, pos, layer, drawing_effect);
+body->draw(context, pos, layer, drawing_effect);
+arms->draw(context, pos, layer, drawing_effect);
+feet->draw(context, pos, layer, drawing_effect);
 }
 
 Player::Player()
@@ -687,16 +704,16 @@ Player::grabdistros()
 void
 Player::draw(DrawingContext& context)
 {
-  Sprite* sprite;
+  TuxBodyParts* tux_body;
           
   if (size == SMALL)
-    sprite = small_tux;
+    tux_body = small_tux;
   else if (got_power == FIRE_POWER)
-    sprite = fire_tux;
+    tux_body = fire_tux;
   else if (got_power == ICE_POWER)
-    sprite = ice_tux;
+    tux_body = ice_tux;
   else
-    sprite = big_tux;
+    tux_body = big_tux;
 
   int layer = LAYER_OBJECTS - 1;
   Vector pos = Vector(base.x, base.y);
@@ -735,64 +752,65 @@ Player::draw(DrawingContext& context)
           else if (duck && size != SMALL)
             {
               if (dir == RIGHT)
-                sprite->set_action("duck-right");
+                tux_body->set_action("duck-right");
               else 
-                sprite->set_action("duck-left");
+                tux_body->set_action("duck-left");
             }
+
           else if (skidding_timer.started())
             {
               if (dir == RIGHT)
-                sprite->set_action("skid-right");
+                tux_body->set_action("skid-right");
               else
-                sprite->set_action("skid-left");
+                tux_body->set_action("skid-left");
             }
           else if (kick_timer.started())
             {
               if (dir == RIGHT)
-                sprite->set_action("kick-right");
+                tux_body->set_action("kick-right");
               else
-                sprite->set_action("kick-left");
+                tux_body->set_action("kick-left");
             }
           else if (physic.get_velocity_y() != 0)
             {
               if (dir == RIGHT)
-                sprite->set_action("jump-right");
+                tux_body->set_action("jump-right");
               else
-                sprite->set_action("jump-left");
+                tux_body->set_action("jump-left");
             }
           else
             {
               if (fabsf(physic.get_velocity_x()) < 1.0f) // standing
                 {
                   if (dir == RIGHT)
-                    sprite->set_action("stand-right");
+                    tux_body->set_action("stand-right");
                   else
-                    sprite->set_action("stand-left");
+                    tux_body->set_action("stand-left");
                 }
               else // moving
                 {
                   if (dir == RIGHT)
-                    sprite->set_action("walk-right");
+                    tux_body->set_action("walk-right");
                   else
-                    sprite->set_action("walk-left");
+                    tux_body->set_action("walk-left");
                 }
             }
         }
     }
 
-  if(dying != DYING_SQUISHED && !growing_timer.check())
-    sprite->draw(context, pos, layer);
-
-  // Draw arm overlay graphics when Tux is holding something
-  if ((holding_something && physic.get_velocity_y() == 0) || shooting_timer.check() && !duck)
-  {
+  // Tux is holding something
+  if ((holding_something && physic.get_velocity_y() == 0) ||
+      shooting_timer.check() && !duck)
+    {
     if (dir == RIGHT)
-      tux_arm->set_action("grab-right");
+      tux_body->arms->set_action("grab-right");
     else
-      tux_arm->set_action("grab-left");
-    tux_arm->draw(context, pos, LAYER_OBJECTS + 1);
-  }
-  
+      tux_body->arms->set_action("grab-left");
+    }
+
+  if(dying != DYING_SQUISHED && !growing_timer.check())
+    tux_body->draw(context, pos, layer);
+
   // Draw blinking star overlay
   if (invincible_timer.started() &&
       (invincible_timer.get_left() > TUX_INVINCIBLE_TIME_WARNING || global_frame_counter % 3))
@@ -800,7 +818,7 @@ Player::draw(DrawingContext& context)
     if (size == SMALL || duck)
       smalltux_star->draw(context, pos, LAYER_OBJECTS + 2);
     else
-      largetux_star->draw(context, pos, LAYER_OBJECTS + 2);
+      bigtux_star->draw(context, pos, LAYER_OBJECTS + 2);
   }
  
   if (debug_mode)

@@ -114,11 +114,11 @@ void loadshared()
 
   int i;
 
-  sprite_manager = new SpriteManager(datadir + "/supertux.strf");
+  sprite_manager = new SpriteManager(datadir + "/images/supertux.strf");
 
   /* Tuxes: */
   smalltux_star = sprite_manager->load("smalltux-star");
-  largetux_star = sprite_manager->load("bigtux-star");
+  bigtux_star = sprite_manager->load("bigtux-star");
   smalltux_gameover = sprite_manager->load("smalltux-gameover");
 
   char img_name[1024];
@@ -131,12 +131,29 @@ void loadshared()
       growingtux_right[i] = new Surface(img_name, true);
     }
 
-  small_tux = sprite_manager->load("small-tux");
-  big_tux   = sprite_manager->load("big-tux");
-  ice_tux   = sprite_manager->load("ice-tux");
-  fire_tux  = sprite_manager->load("fire-tux");
+  small_tux = new TuxBodyParts();
+  small_tux->head = sprite_manager->load("big-tux-head");
+  small_tux->body = sprite_manager->load("big-tux-body");
+  small_tux->arms = sprite_manager->load("big-tux-arms");
+  small_tux->feet = sprite_manager->load("big-tux-feet");
 
-  tux_arm = sprite_manager->load("tux-arm");
+  big_tux = new TuxBodyParts();
+  big_tux->head = sprite_manager->load("big-tux-head");
+  big_tux->body = sprite_manager->load("big-tux-body");
+  big_tux->arms = sprite_manager->load("big-tux-arms");
+  big_tux->feet = sprite_manager->load("big-tux-feet");
+
+  fire_tux = new TuxBodyParts();
+  fire_tux->head = sprite_manager->load("big-fire-tux-head");
+  fire_tux->body = sprite_manager->load("big-tux-body");
+  fire_tux->arms = sprite_manager->load("big-tux-arms");
+  fire_tux->feet = sprite_manager->load("big-tux-feet");
+
+  ice_tux = new TuxBodyParts();
+  ice_tux->head = sprite_manager->load("big-tux-head");
+  ice_tux->body = sprite_manager->load("big-tux-body");
+  ice_tux->arms = sprite_manager->load("big-tux-arms");
+  ice_tux->feet = sprite_manager->load("big-tux-feet");
 
   /* Water: */
   img_water = new Surface(datadir + "/images/shared/water.png", false);
@@ -287,6 +304,11 @@ void unloadshared(void)
     }
 
   delete tux_life;
+
+  delete small_tux;
+  delete big_tux;
+  delete fire_tux;
+  delete ice_tux;
 
   for (int i = 0; i < GROWING_FRAMES; i++)
   {
