@@ -194,7 +194,7 @@ Upgrade::action(double frame_ratio)
   }
 
   /* Off screen? Kill it! */
-  if(base.x < scroll_x - base.width || base.y > screen->h) {
+  if((base.x < scroll_x - OFFSCREEN_DISTANCE) || base.y > screen->h) {
     remove_me();
     return;
   }

@@ -614,8 +614,7 @@ GameSession::run()
             world->play_music(HERRING_MUSIC);
         }
       /* are we low on time ? */
-      else if (time_left.get_left() < TIME_WARNING
-         && (world->get_music_type() == LEVEL_MUSIC))
+      else if (time_left.get_left() < TIME_WARNING)
         {
           world->play_music(HURRYUP_MUSIC);
         }
@@ -666,12 +665,13 @@ GameSession::drawstatus()
       white_text->draw("Press ESC To Return",0,20,1);
     }
 
-  if (time_left.get_left() > TIME_WARNING || (global_frame_counter % 10) < 5)
-    {
-      sprintf(str, "%d", time_left.get_left() / 1000 );
-      white_text->draw("TIME", 224, 0, 1);
-      gold_text->draw(str, 304, 0, 1);
-    }
+  if(!time_left.check()) {
+    white_text->draw("TIME'S UP", 224, 0, 1);
+  } else if (time_left.get_left() > TIME_WARNING || (global_frame_counter % 10) < 5) {
+    sprintf(str, "%d", time_left.get_left() / 1000 );
+    white_text->draw("TIME", 224, 0, 1);
+    gold_text->draw(str, 304, 0, 1);
+  }
 
   sprintf(str, "%d", player_status.distros);
   white_text->draw("COINS", screen->h, 0, 1);

@@ -1012,10 +1012,12 @@ BadGuy::collision(void *p_c_object, int c_object, CollisionType type)
       {
         if (pbad_c->kind == BAD_MRBOMB)
         {
-          // FIXME: this is where other MrBombs *should* explode istead of dying
-          pbad_c->kill_me(); 
+          // mrbomb transforms into a bomb now
+          World::current()->add_bad_guy(base.x, base.y, BAD_BOMB);
+          pbad_c->remove_me();
+          return;
         }
-        else if (pbad_c->kind != BAD_BOMB)
+        else if (pbad_c->kind != BAD_MRBOMB)
         {
           pbad_c->kill_me();
         }
@@ -1053,12 +1055,15 @@ BadGuy::collision(void *p_c_object, int c_object, CollisionType type)
         else if (base.y + base.height > pbad_c->base.y + pbad_c->base.height)
           break;
 
-        if (dir == LEFT)
-          dir = RIGHT;
-        else if (dir == RIGHT)
-          dir = LEFT;
-
-        physic.inverse_velocity_x();
+        if (pbad_c->kind != BAD_FLAME)
+          {
+          if (dir == LEFT)
+            dir = RIGHT;
+          else if (dir == RIGHT)
+            dir = LEFT;
+        
+          physic.inverse_velocity_x();
+          }
       }
       
       break;
