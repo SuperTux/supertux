@@ -82,11 +82,11 @@ void drawgradient(Color top_clr, Color bot_clr)
   {
 #endif
 
-    for(float y = 0; y < 480; y += 2)
-      fillrect(0, (int)y, 640, 2,
-                     (int)(((float)(top_clr.red-bot_clr.red)/(0-480)) * y + top_clr.red),
-                     (int)(((float)(top_clr.green-bot_clr.green)/(0-480)) * y + top_clr.green),
-                     (int)(((float)(top_clr.blue-bot_clr.blue)/(0-480)) * y + top_clr.blue), 255);
+    for(float y = 0; y < screen->h; y += 2)
+      fillrect(0, (int)y, screen->w, 2,
+                     (int)(((float)(top_clr.red-bot_clr.red)/(0-screen->h)) * y + top_clr.red),
+                     (int)(((float)(top_clr.green-bot_clr.green)/(0-screen->w)) * y + top_clr.green),
+                     (int)(((float)(top_clr.blue-bot_clr.blue)/(0-screen->w)) * y + top_clr.blue), 255);
 /* calculates the color for each line, based in the generic equation for functions: y = mx + b */
 
 #ifndef NOOPENGL
