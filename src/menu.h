@@ -56,6 +56,7 @@ private:
   int pos_y;
   
   int num_items;
+  Menu* last_menu;
 
 public:
   timer_type effect;
@@ -98,11 +99,11 @@ extern texture_type checkbox, checkbox_checked, back, arrow_left, arrow_right;
 extern Menu* main_menu;
 extern Menu* game_menu;
 extern Menu* options_menu;
+extern Menu* options_controls_menu;
 extern Menu* highscore_menu;
 extern Menu* load_game_menu;
 extern Menu* save_game_menu;
 extern Menu* current_menu;
-extern Menu* last_menu;
 
 /* input implementation variables */
 extern int delete_character;

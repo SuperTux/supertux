@@ -39,12 +39,12 @@ texture_type checkbox, checkbox_checked, back, arrow_left, arrow_right;
 Menu* main_menu      = 0;
 Menu* game_menu      = 0;
 Menu* options_menu   = 0;
+Menu* options_controls_menu   = 0;
 Menu* highscore_menu = 0;
 Menu* load_game_menu = 0;
 Menu* save_game_menu = 0;
 
 Menu* current_menu = 0;
-Menu* last_menu = 0;
 
 /* input implementation variables */
 int delete_character;
@@ -57,8 +57,12 @@ Menu::set_current(Menu* pmenu)
   if(pmenu != current_menu)
     {
       menu_change  = true;
-      last_menu    = current_menu;
+      Menu* tmp = current_menu;
       current_menu = pmenu;
+      if(tmp)
+        if(tmp->last_menu != pmenu)
+          current_menu->last_menu = tmp;
+
       timer_start(&pmenu->effect, 500);
     }
 }
@@ -139,7 +143,7 @@ Menu::additem(MenuItemKind kind, char *text, int toggle, Menu* menu)
 }
 
 /* Add an item to a menu */
-void 
+void
 Menu::additem(menu_item_type* pmenu_item)
 {
   ++num_items;
@@ -172,7 +176,7 @@ Menu::action()
 
         case MENU_ACTION_LEFT:
           if(item[active_item].kind == MN_STRINGSELECT
-             && item[active_item].list->num_items != 0)
+              && item[active_item].list->num_items != 0)
             {
               if(item[active_item].list->active_item > 0)
                 --item[active_item].list->active_item;
@@ -181,8 +185,8 @@ Menu::action()
             }
           break;
         case MENU_ACTION_RIGHT:
-          if(item[active_item].kind == MN_STRINGSELECT 
-             && item[active_item].list->num_items != 0)
+          if(item[active_item].kind == MN_STRINGSELECT
+              && item[active_item].list->num_items != 0)
             {
               if(item[active_item].list->active_item < item[active_item].list->num_items-1)
                 ++item[active_item].list->active_item;
@@ -195,18 +199,18 @@ Menu::action()
           {
             switch (item[active_item].kind)
               {
-              case MN_GOTO: 
+              case MN_GOTO:
                 if (item[active_item].target_menu != NULL)
                   Menu::set_current(item[active_item].target_menu);
                 else
                   puts("NULLL");
                 break;
-                
+
               case MN_TOGGLE:
                 item[active_item].toggled = !item[active_item].toggled;
                 menu_change = true;
                 break;
-                
+
               case MN_ACTION:
               case MN_TEXTFIELD:
               case MN_NUMFIELD:
@@ -225,7 +229,7 @@ Menu::action()
 
         case MENU_ACTION_REMOVE:
           if(item[active_item].kind == MN_TEXTFIELD
-             || item[active_item].kind == MN_NUMFIELD)
+              || item[active_item].kind == MN_NUMFIELD)
             {
               if(item[active_item].input != NULL)
                 {
@@ -242,7 +246,7 @@ Menu::action()
 
         case MENU_ACTION_INPUT:
           if(item[active_item].kind == MN_TEXTFIELD
-             || (item[active_item].kind == MN_NUMFIELD && mn_input_char >= '0' && mn_input_char <= '9'))
+              || (item[active_item].kind == MN_NUMFIELD && mn_input_char >= '0' && mn_input_char <= '9'))
             {
               if(item[active_item].input != NULL)
                 {
@@ -267,8 +271,8 @@ Menu::action()
 
   menu_item_type& new_item = item[active_item];
   if(new_item.kind == MN_DEACTIVE
-     || new_item.kind == MN_LABEL 
-     || new_item.kind == MN_HL)
+      || new_item.kind == MN_LABEL
+      || new_item.kind == MN_HL)
     {
       // Skip the horzontal line item
       if(menuaction != MENU_ACTION_UP && menuaction != MENU_ACTION_DOWN)
@@ -285,10 +289,10 @@ Menu::check()
 {
   if(num_items != 0 && item != NULL)
     {
-      if((item[active_item].kind == MN_ACTION 
+      if((item[active_item].kind == MN_ACTION
           || item[active_item].kind == MN_TEXTFIELD
           || item[active_item].kind == MN_NUMFIELD)
-         && item[active_item].toggled)
+          && item[active_item].toggled)
         {
           item[active_item].toggled = false;
           show_menu = 0;
@@ -307,7 +311,7 @@ Menu::check()
 
 void
 Menu::draw_item(int index, // Position of the current item in the menu
-                int menu_width, 
+                int menu_width,
                 int menu_height)
 {
   int font_width  = 16;
@@ -333,7 +337,7 @@ Menu::draw_item(int index, // Position of the current item in the menu
 
   if (arrange_left)
     x_pos += 24 - menu_width/2 + (text_width + input_width + list_width)/2;
-  
+
   if(index == active_item)
     {
       shadow_size = 3;
@@ -344,7 +348,7 @@ Menu::draw_item(int index, // Position of the current item in the menu
     {
     case MN_DEACTIVE:
       {
-        text_draw_align(&black_text, pitem.text, 
+        text_draw_align(&black_text, pitem.text,
                         x_pos, y_pos,
                         A_HMIDDLE, A_VMIDDLE, 2);
         break;
@@ -352,20 +356,20 @@ Menu::draw_item(int index, // Position of the current item in the menu
 
     case MN_HL:
       {
-        int x = pos_x - menu_width/2; 
+        int x = pos_x - menu_width/2;
         int y = y_pos - 12 - effect_offset;
         /* Draw a horizontal line with a little 3d effect */
         fillrect(x, y + 6,
                  menu_width, 4,
                  210,50,50,225);
-        fillrect(x, y + 6, 
+        fillrect(x, y + 6,
                  menu_width, 2,
                  0,0,0,255);
         break;
       }
     case MN_LABEL:
       {
-        text_draw_align(&white_big_text, pitem.text, 
+        text_draw_align(&white_big_text, pitem.text,
                         x_pos, y_pos,
                         A_HMIDDLE, A_VMIDDLE, 2);
         break;
@@ -384,10 +388,10 @@ Menu::draw_item(int index, // Position of the current item in the menu
                  0,0,0,128);
 
         text_draw_align(&gold_text, pitem.input,
-                        x_pos + text_pos, y_pos, 
+                        x_pos + text_pos, y_pos,
                         A_HMIDDLE, A_VMIDDLE, 2);
 
-        text_draw_align(text_font, pitem.text, 
+        text_draw_align(text_font, pitem.text,
                         x_pos - (input_width + font_width)/2, y_pos,
                         A_HMIDDLE, A_VMIDDLE, shadow_size);
         break;
@@ -410,7 +414,7 @@ Menu::draw_item(int index, // Position of the current item in the menu
                  list_pos_2, 18,
                  0,0,0,128);
 
-        text_draw_align(&gold_text, string_list_active(pitem.list), 
+        text_draw_align(&gold_text, string_list_active(pitem.list),
                         x_pos + text_pos, y_pos,
                         A_HMIDDLE, A_VMIDDLE,2);
 
@@ -429,13 +433,13 @@ Menu::draw_item(int index, // Position of the current item in the menu
     case MN_TOGGLE:
       {
         text_draw_align(text_font, pitem.text, x_pos, y_pos, A_HMIDDLE, A_VMIDDLE, shadow_size);
-        
+
         if(pitem.toggled)
-          texture_draw(&checkbox_checked, 
+          texture_draw(&checkbox_checked,
                        x_pos + (text_width+font_width)/2,
                        y_pos - 8);
         else
-          texture_draw(&checkbox, 
+          texture_draw(&checkbox,
                        x_pos + (text_width+font_width)/2,
                        y_pos - 8);
         break;
@@ -456,7 +460,7 @@ Menu::draw()
 {
   int menu_height;
   int menu_width;
-  
+
   /* The width of the menu has to be more than the width of the text
      with the most characters */
   menu_width = 0;
@@ -492,7 +496,6 @@ void menu_reset(void)
   show_menu    = false;
   menuaction   = MENU_ACTION_NONE;
   current_menu = NULL;
-  last_menu    = NULL;
 
   delete_character = 0;
   mn_input_char    = '\0';
