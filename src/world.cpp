@@ -56,7 +56,6 @@ World::World(const std::string& filename)
   apply_bonuses();
 
   scrolling_timer.init(true);
-  bullets_timer.init(true);
 }
 
 World::World(const std::string& subset, int level_nr)
@@ -78,7 +77,6 @@ World::World(const std::string& subset, int level_nr)
   apply_bonuses();
 
   scrolling_timer.init(true);
-  bullets_timer.init(true);
 }
 
 void
@@ -543,10 +541,8 @@ World::add_upgrade(float x, float y, Direction dir, UpgradeKind kind)
 void 
 World::add_bullet(float x, float y, float xm, Direction dir)
 {
-  if(bullets_timer.check())
+  if(bullets.size() > MAX_BULLETS-1)
     return;
-
-  bullets_timer.start(BULLETS_TIMEOUT);
 
   Bullet new_bullet;
   new_bullet.init(x,y,xm,dir);
