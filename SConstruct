@@ -8,13 +8,25 @@
 #                                              - Benjamin P. 'litespeed' Jung -
 #
 
-
-# TODO: such a static entry is obviously not what we want.
-#       Using 'sdl-config --prefix' to obtain parameters would be muuuuuch
+# TODO: such static entries are obviously not what we want.
+#       Using e.g. 'sdl-config' to obtain parameters would be muuuuuch
 #       better.
-SDL_INCLUDE_PATH='/usr/include/SDL'
 
-libsupertux_src=[
+
+DATA_PREFIX = '\\\"/usr/local/share/supertux\\\"'
+LOCALEDIR = '\\\"/usr/local/share/locale\\\"'
+
+SDL_DYNAMIC_CCFLAGS = ['-D_REENTRANT', '-lSDL -lpthread']
+SDL_STATIC_CCFLAGS = ['-lSDL -lpthread -lm -ldl -lasound -L/usr/X11R6/lib -lX11 -lXext -lvga -laa']
+
+CCFLAGS = ['-DHAVE_CONFIG_H', '-O2', '-DDATA_PREFIX=' + DATA_PREFIX, '-DLOCALEDIR=' + LOCALEDIR]
+
+LIBSUPERTUX_DYNAMIC_CCFLAGS = SDL_DYNAMIC_CCFLAGS + CCFLAGS
+LIBSUPERTUX_STATIC_CCFLAGS = SDL_STATIC_CCFLAGS + CCFLAGS
+
+CPPPATH = ['/usr/include/SDL', 'src', 'lib', 'intl', '.']
+
+libsupertux_src = [
   'lib/app/globals.cpp',
   'lib/app/setup.cpp',
   'lib/audio/musicref.cpp',
@@ -39,7 +51,7 @@ libsupertux_src=[
   'lib/video/surface.cpp'
 ]
 
-supertux_src=[
+supertux_src = [
   'src/background.cpp',
   'src/badguy.cpp',
   'src/badguy_specs.cpp',
@@ -71,22 +83,40 @@ supertux_src=[
   'src/worldmap.cpp'
 ]
 			
-SharedLibrary(
-  target="lib/supertux",
-  source=libsupertux_src,
-  CPPPATH=SDL_INCLUDE_PATH
-)
+
 
 StaticLibrary(
-  target="lib/supertux",
+  target='lib/supertux',
   source=libsupertux_src,
-  CPPPATH=SDL_INCLUDE_PATH
+  CPPPATH=CPPPATH,
+  CCFLAGS=LIBSUPERTUX_STATIC_CCFLAGS
 )
 
 Program(
-  target="src/supertux",
+  target='src/supertux',
   source=supertux_src,
-  CPPPATH=[SDL_INCLUDE_PATH, 'lib', 'intl', '.'],
+  CPPPATH=CPPPATH,
+  CCFLAGS=LIBSUPERTUX_STATIC_CCFLAGS,
   LIBPATH='lib',
   LIBS='supertux'
 )
+
+
+
+#
+# The following lines _should_ (hehe!) build a shared SuperTux library (hey! At
+# least that part works pretty fine...) and then create a supertux exceutable
+# which links dynamically against that lib.
+#
+#SharedLibrary(
+#  target='lib/supertux',
+#  source=libsupertux_src,
+#  CPPPATH=CPPPATH,
+#  CCFLAGS=CCFLAGS
+#)
+#Program(
+#  target='src/supertux',
+#  source=supertux_src,
+#  CPPPATH=CPPPATH,
+#  CCFLAGS=LIBSUPERTUX_DYNAMIC_CCFLAGS
+#)
