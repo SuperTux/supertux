@@ -71,6 +71,16 @@ Sprite::draw(float x, float y)
 }
 
 void
+Sprite::draw_part(float sx, float sy, float x, float y, float w, float h)
+{
+  time = SDL_GetTicks();
+  unsigned int frame = get_current_frame();
+
+  if (frame < surfaces.size())
+    surfaces[frame]->draw_part(sx, sy, x - x_hotspot, y - y_hotspot, w, h);
+}
+
+void
 Sprite::reset()
 {
   time = 0;

@@ -55,7 +55,7 @@ class Sprite
   /** Update the sprite and process to the next frame */
   void update(float delta);
   void draw(float x, float y);
-
+  void draw_part(float sx, float sy, float x, float y, float w, float h);
   int get_current_frame() const;
 
   std::string get_name() const { return name; } 
