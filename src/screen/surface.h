@@ -97,7 +97,7 @@ public:
   Surface(SDL_Surface* surf, int use_alpha);  
   Surface(const std::string& file, int use_alpha);  
   Surface(const std::string& file, int x, int y, int w, int h, int use_alpha);
-  Surface(Color top_gradient, Color bottom_gradient, int w, int h);
+  Surface(Color top_gradient, Color bottom_gradient, int w_, int h_);
   ~Surface();
   
   /** Reload the surface, which is necesarry in case of a mode swich */
