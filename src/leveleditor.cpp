@@ -246,7 +246,6 @@ int leveleditor(char* filename)
           break;
 
         default:
-          //show_menu = true;
           break;
         }
       }
@@ -1311,6 +1310,11 @@ void le_checkevents()
           {
             Menu::set_current(0);
           }
+          le_objects_bt->event(event);
+          if(le_objects_bt->get_state() == BUTTON_CLICKED)
+          {
+            Menu::set_current(0);
+          }	  
         }
       }
 
@@ -1422,7 +1426,7 @@ void le_change(float x, float y, int tm, unsigned int c)
   {
     int xx,yy;
     int x1, x2, y1, y2;
-    unsigned int i;
+    unsigned int i = 0;
 
     /*  level_changed = true; */
 
@@ -1438,11 +1442,13 @@ void le_change(float x, float y, int tm, unsigned int c)
       cursor_base.height = 32;
 
       /* if there is a bad guy over there, remove it */
-      for(std::list<BadGuy*>::iterator it = le_world->bad_guys.begin(); it != le_world->bad_guys.end(); ++it)
+      for(std::list<BadGuy*>::iterator it = le_world->bad_guys.begin(); it != le_world->bad_guys.end(); ++it, ++i)
         if(rectcollision(cursor_base,(*it)->base))
         {
-          le_world->bad_guys.erase(le_world->bad_guys.begin(),it);
+	  delete (*it);
+          le_world->bad_guys.erase(it);
           le_world->get_level()->badguy_data.erase(le_world->get_level()->badguy_data.begin() + i);
+	  break;
         }
 
       break;
@@ -1480,11 +1486,14 @@ void le_change(float x, float y, int tm, unsigned int c)
         if((*it)->base.x/32 >= x1 && (*it)->base.x/32 <= x2
             && (*it)->base.y/32 >= y1 && (*it)->base.y/32 <= y2)
         {
+	  delete (*it);
           it = le_world->bad_guys.erase(it);
+	  le_world->get_level()->badguy_data.erase(le_world->get_level()->badguy_data.begin() + i);
           continue;
         }
         else
         {
+	  ++i;
           ++it;
         }
       }
