@@ -48,11 +48,6 @@ enum DyingType {
   DYING_FALLING = 2
 };
 
-/* Hurt modes: */
-
-#define KILL 0
-#define SHRINK 1
-
 /* Sizes: */
 
 #define SMALL 0

@@ -112,6 +112,8 @@ extern Surface* bigcape_left[2];
 class Player
 {
 public:
+  enum HurtMode { KILL, SHRINK };
+
   player_input_type  input;
   bool got_coffee;
   int size;
@@ -142,7 +144,7 @@ public:
   void grabdistros();
   void draw();
   void collision(void* p_c_object, int c_object);
-  void kill(int mode);
+  void kill(HurtMode mode);
   void is_dying();
   bool is_dead();
   void player_remove_powerups();

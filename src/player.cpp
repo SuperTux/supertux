@@ -527,55 +527,39 @@ Player::draw()
                     cape_left[global_frame_counter % 2]->draw(base.x- scroll_x, base.y);
                 }
 
-              if (!got_coffee)
+              if (!skidding_timer.started())
                 {
-                  if (!skidding_timer.started())
+                  if (physic.get_velocity_y() != 0)
                     {
-                      if (physic.get_velocity_y() != 0)
-                        {
-                          if (dir == RIGHT)
-                            smalltux_jump_right->draw( base.x - scroll_x, base.y - 10);
-                          else
-                            smalltux_jump_left->draw( base.x - scroll_x, base.y - 10);                   
-                        }
+                      if (dir == RIGHT)
+                        smalltux_jump_right->draw( base.x - scroll_x, base.y - 10);
                       else
-                        {
-                          if (fabsf(physic.get_velocity_x()) < 1.0f) // standing
-                            {
-                              if (dir == RIGHT)
-                                smalltux_stand_right->draw( base.x - scroll_x, base.y - 9);
-                              else
-                                smalltux_stand_left->draw( base.x - scroll_x, base.y - 9);
-                            }
-                          else // moving
-                            {
-                              if (dir == RIGHT)
-                                tux_right[(global_frame_counter/2) % tux_right.size()]->draw(base.x - scroll_x, base.y - 9);
-                              else
-                                tux_left[(global_frame_counter/2) % tux_left.size()]->draw(base.x - scroll_x, base.y - 9);
-                            }
-                        }
+                        smalltux_jump_left->draw( base.x - scroll_x, base.y - 10);                   
                     }
                   else
                     {
-                      if (dir == RIGHT)
-                        smalltux_skid_right->draw(base.x - scroll_x, base.y);
-                      else
-                        smalltux_skid_left->draw(base.x - scroll_x, base.y); 
+                      if (fabsf(physic.get_velocity_x()) < 1.0f) // standing
+                        {
+                          if (dir == RIGHT)
+                            smalltux_stand_right->draw( base.x - scroll_x, base.y - 9);
+                          else
+                            smalltux_stand_left->draw( base.x - scroll_x, base.y - 9);
+                        }
+                      else // moving
+                        {
+                          if (dir == RIGHT)
+                            tux_right[(global_frame_counter/2) % tux_right.size()]->draw(base.x - scroll_x, base.y - 9);
+                          else
+                            tux_left[(global_frame_counter/2) % tux_left.size()]->draw(base.x - scroll_x, base.y - 9);
+                        }
                     }
                 }
               else
                 {
-                  /* Tux got coffee! */
-
                   if (dir == RIGHT)
-                    {
-                      firetux_right[frame_]->draw( base.x- scroll_x, base.y);
-                    }
+                    smalltux_skid_right->draw(base.x - scroll_x, base.y);
                   else
-                    {
-                      firetux_left[frame_]->draw( base.x- scroll_x, base.y);
-                    }
+                    smalltux_skid_left->draw(base.x - scroll_x, base.y); 
                 }
             }
           else // Large Tux
@@ -749,7 +733,7 @@ Player::collision(void* p_c_object, int c_object)
 /* Kill Player! */
 
 void
-Player::kill(int mode)
+Player::kill(HurtMode mode)
 {
   play_sound(sounds[SND_HURT], SOUND_CENTER_SPEAKER);
 
@@ -758,12 +742,15 @@ Player::kill(int mode)
   if (mode == SHRINK && size == BIG)
     {
       if (got_coffee)
-        got_coffee = false;
-
-      size = SMALL;
-      base.height = 32;
-      duck = false;
-
+        {
+          got_coffee = false;
+        }
+      else
+        {
+          size = SMALL;
+          base.height = 32;
+          duck = false;
+        }
       safe_timer.start(TUX_SAFE_TIME);
     }
   else

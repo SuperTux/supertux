@@ -555,7 +555,7 @@ GameSession::run()
 
       /* Handle time: */
       if (!time_left.check() && world->get_tux()->dying == DYING_NOT)
-        world->get_tux()->kill(KILL);
+        world->get_tux()->kill(Player::KILL);
 
       /* Handle music: */
       if(world->get_tux()->invincible_timer.check())
