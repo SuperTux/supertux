@@ -199,18 +199,18 @@ void st_subset::free()
 }
 
 Level::Level()
-  : level_song(0), level_song_fast(0)
+  : img_bkgd(0), level_song(0), level_song_fast(0)
 {
 }
 
 Level::Level(const std::string& subset, int level)
-  : level_song(0), level_song_fast(0)
+  : img_bkgd(0), level_song(0), level_song_fast(0)
 {
   load(subset, level);
 }
 
 Level::Level(const std::string& filename)
-  : level_song(0), level_song_fast(0)
+  : img_bkgd(0), level_song(0), level_song_fast(0)
 {
   load(filename);
 }
@@ -696,10 +696,13 @@ Level::change(float x, float y, int tm, unsigned int c)
 void 
 Level::free_song(void)
 {
+  if(level_song_fast != level_song) {
+    free_music(level_song_fast);
+    level_song_fast = 0;
+  }
+    
   free_music(level_song);
   level_song = 0;
-  free_music(level_song_fast);
-  level_song_fast = 0;
 }
 
 void
@@ -711,6 +714,8 @@ Level::load_song()
   char* song_subtitle;
 
   level_song = ::load_song(datadir + "/music/" + song_title);
+  if(!level_song)
+    st_abort("Couldn't load song: " , song_title.c_str());
 
   song_path = (char *) malloc(sizeof(char) * datadir.length() +
                               strlen(song_title.c_str()) + 8 + 5);
@@ -719,6 +724,9 @@ Level::load_song()
   sprintf(song_path, "%s/music/%s-fast%s", datadir.c_str(), 
           song_subtitle, strstr(song_title.c_str(), "."));
   level_song_fast = ::load_song(song_path);
+  if(!level_song_fast) {
+    level_song_fast = level_song;
+  }
   free(song_subtitle);
   free(song_path);
 }

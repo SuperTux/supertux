@@ -102,7 +102,6 @@ Mix_Chunk * load_sound(const std::string& file)
 
   snd = Mix_LoadWAV(file.c_str());
 
-  /* printf message and abort if there is an initialized audio device */
   if ((snd == NULL) && audio_device)
     st_abort("Can't load", file);
 
@@ -115,17 +114,10 @@ Mix_Chunk * load_sound(const std::string& file)
 Mix_Music * load_song(const std::string& file)
 {
   if(!audio_device)
-    return 0;
+    return (Mix_Music*) ~0;
   
-  Mix_Music * sng;
-
-  sng = Mix_LoadMUS(file.c_str());
-
-  /* printf message and abort if there is an initialized audio device */
-  if (sng == NULL)
-    st_abort("Can't load", file);
- 
-  return (sng);
+  Mix_Music* song = Mix_LoadMUS(file.c_str());
+  return song;
 }
 
 
@@ -160,7 +152,6 @@ void free_chunk(Mix_Chunk *chunk)
 {
   if (chunk != NULL)
     {
-      DEBUG_MSG( __PRETTY_FUNCTION__ );
       Mix_FreeChunk( chunk );
       chunk = NULL;
     }
@@ -180,6 +171,8 @@ void play_music(Mix_Music *music)
 {
   if (!audio_device)
     return;
+  if(music == current_song)
+    return;
 
   if (use_music && Mix_PlayMusic(music, -1) < 0)
     st_abort("Couldn't play music: ", Mix_GetError());
@@ -190,6 +183,9 @@ void play_music(Mix_Music *music)
 
 void free_music(Mix_Music *music)
 {
+  if(!audio_device)
+    return;
+
   Mix_FreeMusic( music );
 }
 

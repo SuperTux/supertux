@@ -68,8 +68,6 @@ World::World(const std::string& subset, int level_nr)
   activate_bad_guys();
   activate_particle_systems();
   get_level()->load_song();
-
-  play_music(LEVEL_MUSIC);
 }
 
 World::~World()

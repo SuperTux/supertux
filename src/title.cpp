@@ -139,6 +139,7 @@ void check_contrib_subset_menu()
         {
           index -= 1; // FIXME: Hack
           std::cout << "Sarting level: " << index << std::endl;
+          halt_music();
           GameSession session(current_contrib_subset, index, ST_GL_PLAY);
           session.run();
           Menu::set_current(main_menu);
@@ -159,6 +160,8 @@ void draw_demo(GameSession* session, double frame_ratio)
   //World* world  = session->get_world();
   Level* plevel = session->get_level();
   Player* tux = session->get_world()->get_tux();
+
+  session->get_world()->play_music(LEVEL_MUSIC);
   
   /* FIXME:
   // update particle systems
@@ -247,9 +250,6 @@ void title(void)
 
   update_time = st_get_ticks();
   random_timer.start(rand() % 2000 + 2000);
-
-  Mix_Music* music = load_song(datadir + "/music/theme.mod");
-  play_music(music);
 
   Menu::set_current(main_menu);
   while (Menu::current())
@@ -357,14 +357,11 @@ void title(void)
       /* Pause: */
       frame++;
       SDL_Delay(25);
-
-      play_music(music);
     }
   /* Free surfaces: */
 
   delete bkg_title;
   delete logo;
-  free_music(music);
 }
 
 #define MAX_VEL 10

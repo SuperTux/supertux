@@ -474,7 +474,6 @@ GameSession::ExitStatus
 GameSession::run()
 {
   Menu::set_current(0);
-  Player* tux = world->get_tux();
   current_ = this;
   
   int fps_cnt = 0;
@@ -504,7 +503,7 @@ GameSession::run()
         }
 
       /* Handle events: */
-      tux->input.old_fire = tux->input.fire;
+      world->get_tux()->input.old_fire = world->get_tux()->input.fire;
 
       process_events();
       process_menu();
@@ -555,11 +554,11 @@ GameSession::run()
         }
 
       /* Handle time: */
-      if (!time_left.check() && tux->dying == DYING_NOT)
-        tux->kill(KILL);
+      if (!time_left.check() && world->get_tux()->dying == DYING_NOT)
+        world->get_tux()->kill(KILL);
 
       /* Handle music: */
-      if(tux->invincible_timer.check())
+      if(world->get_tux()->invincible_timer.check())
         {
           if(world->get_music_type() != HERRING_MUSIC)
             world->play_music(HERRING_MUSIC);

@@ -25,6 +25,7 @@
 #include "special.h"
 #include "resources.h"
 #include "sprite_manager.h"
+#include "setup.h"
 
 Surface* img_waves[3]; 
 Surface* img_water;
@@ -289,6 +290,8 @@ void loadshared()
 
   /* Herring song */
   herring_song = load_song(datadir + "/music/SALCON.MOD");
+  if(!herring_song)
+    st_abort("Couldn't load song ", "/music/SALCON.MOD");
 }
 
 

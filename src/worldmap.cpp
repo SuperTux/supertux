@@ -726,6 +726,9 @@ WorldMap::display()
   quit = false;
 
   song = load_song(datadir +  "/music/" + music);
+  if(!song)
+    st_abort("Couldn't load song ", music.c_str());
+
   play_music(song);
 
   while(!quit) {
