@@ -20,8 +20,6 @@ L: low priority
 [?] Default keyboard setup should change. Up will be needed for other features
     like going through doors and looking up, etc.
 
-[H] Make sure there are no invalid tile numbers in the level files
-     - Tile 6 occurs in world1/level5.stl as well as other levels
 [H] Worldmap needs to allow multiple maps
      - or just one big map with multiple worlds?
 [H] Change resolution to 800x600
