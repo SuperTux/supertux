@@ -684,8 +684,20 @@
   ; Door
   (sprite (name "door")
           (x-hotspot 0)
-          (y-hotspot 0)
-          (images "shared/door.png")
+          (y-hotspot 64)
+          (images "shared/door-1.png")
+  )
+  (sprite (name "openingdoor")
+          (x-hotspot 0)
+          (y-hotspot 64)
+          (images "shared/door-1.png"
+	   "shared/door-2.png"
+	   "shared/door-3.png"
+	   "shared/door-4.png"
+	   "shared/door-5.png"
+	   "shared/door-6.png"
+	   "shared/door-7.png"
+	   "shared/door-8.png")
   )
   
   ; Stomp

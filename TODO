@@ -75,6 +75,7 @@ L: low priority
 [L] fadein/out for intro/extro would be nice
 [L] we only have a global counter for multiple coin blocks. This should be handled
     per block.
+[L] Show level number on top of the screen when playing the level
 
 Beyond Milestone2
 -----------------

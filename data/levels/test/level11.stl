@@ -44,8 +44,8 @@
       (speed 0.5)
     )
     (door  
-     (x 800)
-     (y 256)
+     (x 832)
+     (y 320)
      (sector "another_world")
      (spawnpoint "main")
     )
@@ -85,7 +85,7 @@
       (spawnpoint "main")
     )
     (door
-      (x 2550)
+      (x 2582)
       (y 1280)
       (sector "main")
       (spawnpoint "main")
