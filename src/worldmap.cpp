@@ -1254,7 +1254,6 @@ WorldMap::loadgame(const std::string& filename)
 {
   std::cout << "loadgame: " << filename << std::endl;
   savegame_file = filename;
-  map_filename = "icyisland.stwm";
 
   if (access(filename.c_str(), F_OK) != 0)
     {
@@ -1282,8 +1281,10 @@ WorldMap::loadgame(const std::string& filename)
   LispReader reader(cur);
 
   /* Get the Map filename and then load it before setting special_tile settings */
+  std::string cur_map_filename = map_filename;
   reader.read_string("map", map_filename);
-  load_map(); 
+  if(cur_map_filename != map_filename)
+    load_map(); 
 
   reader.read_int("lives", player_status.lives);
   reader.read_int("distros", player_status.distros);

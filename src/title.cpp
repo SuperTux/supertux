@@ -189,8 +189,20 @@ void check_levels_contrib_menu()
     std::set<std::string>::iterator it = worldmap_list.begin();
     for(int i = index - contrib_subsets.size(); i > 0; --i)
     ++it;
-    worldmap.loadmap((*it));
-    worldmap.display();
+
+    std::string map_filename = *it;
+
+    worldmap.loadmap(map_filename);
+
+    // hack to erase the extension
+    unsigned int ext_pos = it->find_last_of(".");
+    if(ext_pos != std::string::npos)
+      map_filename.erase(ext_pos, map_filename.size() - ext_pos);
+
+    // TODO: slots should be available for contrib maps
+    worldmap.loadgame(st_save_dir + "/" + map_filename + "-slot1.stsg");
+
+    worldmap.display();  // run the map
 
     Menu::set_current(main_menu);
     }
