@@ -83,7 +83,7 @@ public class Tile {
         if(Data != 0)
             writer.Write("data", Data);
         if(AnimSpeed != 25)
-            writer.Write("animspeed", AnimSpeed);
+            writer.Write("anim-speed", AnimSpeed);
         writer.EndList("tile");
     }
 
