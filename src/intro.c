@@ -141,7 +141,7 @@ int intro(void)
 	  drawimage(tux_sit, 270, 400, UPDATE);
 	  drawimage(gown_sit, 320, 400, UPDATE);
 	  
-	  drawcenteredtext(intro_text[0], 456, letters_blue, UPDATE);
+	  drawcenteredtext(intro_text[0], 456, letters_blue, UPDATE, 1);
 	}
       
       
@@ -149,8 +149,8 @@ int intro(void)
 	{
 	  /* Helicopter begins to fly in: */
 	  
-	  erasecenteredtext(intro_text[0], 456, bkgd, UPDATE);
-	  drawcenteredtext(intro_text[1], 456, letters_red, UPDATE);
+	  erasecenteredtext(intro_text[0], 456, bkgd, UPDATE, 1);
+	  drawcenteredtext(intro_text[1], 456, letters_red, UPDATE, 1);
 	}
 
       
@@ -203,8 +203,8 @@ int intro(void)
 	  drawimage(tux_upset, 270, 400, UPDATE);
 	  
 	  
-	  erasecenteredtext(intro_text[1], 456, bkgd, UPDATE);
-	  drawcenteredtext(intro_text[2], 456, letters_red, UPDATE);
+	  erasecenteredtext(intro_text[1], 456, bkgd, UPDATE, 1);
+	  drawcenteredtext(intro_text[2], 456, letters_red, UPDATE, 1);
 	}
       
       
@@ -256,8 +256,8 @@ int intro(void)
 	  
 	  drawimage(tux_mad, 270, 400, UPDATE);
 	  
-	  erasecenteredtext(intro_text[2], 456, bkgd, UPDATE);
-	  drawcenteredtext(intro_text[3], 456, letters_gold, UPDATE);
+	  erasecenteredtext(intro_text[2], 456, bkgd, UPDATE, 1);
+	  drawcenteredtext(intro_text[3], 456, letters_gold, UPDATE, 1);
 	}
       
       

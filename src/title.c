@@ -7,7 +7,7 @@
   bill@newbreedsoftware.com
   http://www.newbreedsoftware.com/supertux/
   
-  April 11, 2000 - December 9, 2003
+  April 11, 2000 - December 29, 2003
 */
 
 #include <stdio.h>
@@ -76,7 +76,7 @@ int title(void)
   /* Draw the high score: */
   last_highscore = load_hs();
   sprintf(str, "High score: %d", last_highscore);
-  drawcenteredtext(str, 460, letters_red, NO_UPDATE);
+  drawcenteredtext(str, 460, letters_red, NO_UPDATE, 1);
 
   while (!done && !quit)
     {
@@ -99,9 +99,9 @@ int title(void)
 
               key = event.key.keysym.sym;
 
-	      /* Check for menu events */
+              /* Check for menu events */
               menu_event(key);
-	      
+
               if (key == SDLK_ESCAPE)
                 {
                   /* Escape: Quit: */
@@ -136,7 +136,7 @@ int title(void)
 
           /* Draw the high score: */
           sprintf(str, "High score: %d", last_highscore);
-          drawcenteredtext(str, 460, letters_red, NO_UPDATE);
+          drawcenteredtext(str, 460, letters_red, NO_UPDATE, 1);
         }
 
       /* Don't draw menu, if quit is true */
@@ -158,7 +158,7 @@ int title(void)
         drawimage(anim2, 560, 270, NO_UPDATE);
 
 
-     SDL_Flip(screen);
+      SDL_Flip(screen);
 
       /* Pause: */
 

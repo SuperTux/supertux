@@ -7,7 +7,7 @@
   bill@newbreedsoftware.com
   http://www.newbreedsoftware.com/supertux/
   
-  April 11, 2000 - December 28, 2003
+  April 11, 2000 - December 29, 2003
 */
 
 #include <stdio.h>
@@ -63,18 +63,18 @@ SDL_Surface * img_box_full, * img_box_empty, * img_mints, * img_coffee,
 * img_super_bkgd, * img_bullet, * img_red_glow;
 SDL_Surface * img_cloud[2][4];
 SDL_Surface * tux_life,
-  * tux_right[3], * tux_left[3],
-  * bigtux_right[3], * bigtux_left[3],
-  * bigtux_right_jump, * bigtux_left_jump,
-  * ducktux_right, * ducktux_left,
-  * skidtux_right, * skidtux_left,
-  * firetux_right[3], * firetux_left[3],
-  * bigfiretux_right[3], * bigfiretux_left[3],
-  * bigfiretux_right_jump, * bigfiretux_left_jump,
-  * duckfiretux_right, * duckfiretux_left,
-  * skidfiretux_right, * skidfiretux_left,
-  * cape_right[2], * cape_left[2],
-  * bigcape_right[2], * bigcape_left[2];
+* tux_right[3], * tux_left[3],
+* bigtux_right[3], * bigtux_left[3],
+* bigtux_right_jump, * bigtux_left_jump,
+* ducktux_right, * ducktux_left,
+* skidtux_right, * skidtux_left,
+* firetux_right[3], * firetux_left[3],
+* bigfiretux_right[3], * bigfiretux_left[3],
+* bigfiretux_right_jump, * bigfiretux_left_jump,
+* duckfiretux_right, * duckfiretux_left,
+* skidfiretux_right, * skidfiretux_left,
+* cape_right[2], * cape_left[2],
+* bigcape_right[2], * bigcape_left[2];
 SDL_Event event;
 SDL_Rect src, dest;
 SDLKey key;
@@ -551,16 +551,16 @@ int game_action(void)
   /* Keep tux in bounds: */
   if (tux_x < 0)
     tux_x = 0;
-    else if (tux_x < 160 && scroll_x > 0 && debug_mode == YES)
+  else if (tux_x < 160 && scroll_x > 0 && debug_mode == YES)
     {
-    scroll_x = scroll_x - ( 160 - tux_x);
-    tux_x = 160;
-    
-    if(scroll_x < 0)
-     scroll_x = 0;
-   
+      scroll_x = scroll_x - ( 160 - tux_x);
+      tux_x = 160;
+
+      if(scroll_x < 0)
+        scroll_x = 0;
+
     }
-    else if (tux_x > 320 && scroll_x < ((level_width * 32) - 640))
+  else if (tux_x > 320 && scroll_x < ((level_width * 32) - 640))
     {
       /* Scroll the screen in past center: */
 
@@ -1092,13 +1092,13 @@ int game_action(void)
         }
 
       if (!playing_music())
-      {
-	if (time_left <= TIME_WARNING)
-          play_music( level_song_fast, 1 );
-	else
-          play_music( level_song, 1 );
-      }
-      
+        {
+          if (time_left <= TIME_WARNING)
+            play_music( level_song_fast, 1 );
+          else
+            play_music( level_song, 1 );
+        }
+
       if (tux_invincible_time > 0)
         tux_invincible_time--;
     }
@@ -1907,30 +1907,30 @@ void game_draw()
             }
 
 
-	  if (!tux_got_coffee)
-	    {
-	      if (tux_dir == RIGHT)
-		{
-		  drawimage(tux_right[tux_frame], tux_x, tux_y, NO_UPDATE);
-		}
-	      else
-		{
-		  drawimage(tux_left[tux_frame], tux_x, tux_y, NO_UPDATE);
-		}
-	    }
-	  else
-	    {
-	      /* Tux got coffee! */
-	      
-	      if (tux_dir == RIGHT)
-		{
-		  drawimage(firetux_right[tux_frame], tux_x, tux_y, NO_UPDATE);
-		}
-	      else
-		{
-		  drawimage(firetux_left[tux_frame], tux_x, tux_y, NO_UPDATE);
-		}
-	    }
+          if (!tux_got_coffee)
+            {
+              if (tux_dir == RIGHT)
+                {
+                  drawimage(tux_right[tux_frame], tux_x, tux_y, NO_UPDATE);
+                }
+              else
+                {
+                  drawimage(tux_left[tux_frame], tux_x, tux_y, NO_UPDATE);
+                }
+            }
+          else
+            {
+              /* Tux got coffee! */
+
+              if (tux_dir == RIGHT)
+                {
+                  drawimage(firetux_right[tux_frame], tux_x, tux_y, NO_UPDATE);
+                }
+              else
+                {
+                  drawimage(firetux_left[tux_frame], tux_x, tux_y, NO_UPDATE);
+                }
+            }
         }
       else
         {
@@ -1952,143 +1952,143 @@ void game_draw()
                 }
             }
 
-	  if (!tux_got_coffee)
-	    {
-	      if (!tux_duck)
-		{
-		  if (!tux_skidding)
-		    {
-		      if (!jumping || tux_ym > 0)
-			{
-			  if (tux_dir == RIGHT)
-			    {
-			      drawimage(bigtux_right[tux_frame],
-					tux_x - 8, tux_y - 32,
-					NO_UPDATE);
-			    }
-			  else
-			    {
-			      drawimage(bigtux_left[tux_frame],
-					tux_x - 8, tux_y - 32,
-					NO_UPDATE);
-			    }
-			}
-		      else
-			{
-			  if (tux_dir == RIGHT)
-			    {
-			      drawimage(bigtux_right_jump,
-					tux_x - 8, tux_y - 32,
-					NO_UPDATE);
-			    }
-			  else
-			    {
-			      drawimage(bigtux_left_jump,
-					tux_x - 8, tux_y - 32,
-					NO_UPDATE);
-			    }
-			}
-		    }
-		  else
-		    {
-		      if (tux_dir == RIGHT)
-			{
-			  drawimage(skidtux_right,
-				    tux_x - 8, tux_y - 32,
-				    NO_UPDATE);
-			}
-		      else
-			{
-			  drawimage(skidtux_left,
-				    tux_x - 8, tux_y - 32,
-				    NO_UPDATE);
-			}
-		    }
-		}
-	      else
-		{
-		  if (tux_dir == RIGHT)
-		    {
-		      drawimage(ducktux_right, tux_x - 8, tux_y - 16,
-				NO_UPDATE);
-		    }
-		  else
-		    {
-		      drawimage(ducktux_left, tux_x - 8, tux_y - 16,
-				NO_UPDATE);
-		    }
-		}
-	    }
-	  else
-	    {
-	      /* Tux has coffee! */
-	      
-	      if (!tux_duck)
-		{
-		  if (!tux_skidding)
-		    {
-		      if (!jumping || tux_ym > 0)
-			{
-			  if (tux_dir == RIGHT)
-			    {
-			      drawimage(bigfiretux_right[tux_frame],
-					tux_x - 8, tux_y - 32,
-					NO_UPDATE);
-			    }
-			  else
-			    {
-			      drawimage(bigfiretux_left[tux_frame],
-					tux_x - 8, tux_y - 32,
-					NO_UPDATE);
-			    }
-			}
-		      else
-			{
-			  if (tux_dir == RIGHT)
-			    {
-			      drawimage(bigfiretux_right_jump,
-					tux_x - 8, tux_y - 32,
-					NO_UPDATE);
-			    }
-			  else
-			    {
-			      drawimage(bigfiretux_left_jump,
-					tux_x - 8, tux_y - 32,
-					NO_UPDATE);
-			    }
-			}
-		    }
-		  else
-		    {
-		      if (tux_dir == RIGHT)
-			{
-			  drawimage(skidfiretux_right,
-				    tux_x - 8, tux_y - 32,
-				    NO_UPDATE);
-			}
-		      else
-			{
-			  drawimage(skidfiretux_left,
-				    tux_x - 8, tux_y - 32,
-				    NO_UPDATE);
-			}
-		    }
-		}
-	      else
-		{
-		  if (tux_dir == RIGHT)
-		    {
-		      drawimage(duckfiretux_right, tux_x - 8, tux_y - 16,
-				NO_UPDATE);
-		    }
-		  else
-		    {
-		      drawimage(duckfiretux_left, tux_x - 8, tux_y - 16,
-				NO_UPDATE);
-		    }
-		}
-	    }
-	}
+          if (!tux_got_coffee)
+            {
+              if (!tux_duck)
+                {
+                  if (!tux_skidding)
+                    {
+                      if (!jumping || tux_ym > 0)
+                        {
+                          if (tux_dir == RIGHT)
+                            {
+                              drawimage(bigtux_right[tux_frame],
+                                        tux_x - 8, tux_y - 32,
+                                        NO_UPDATE);
+                            }
+                          else
+                            {
+                              drawimage(bigtux_left[tux_frame],
+                                        tux_x - 8, tux_y - 32,
+                                        NO_UPDATE);
+                            }
+                        }
+                      else
+                        {
+                          if (tux_dir == RIGHT)
+                            {
+                              drawimage(bigtux_right_jump,
+                                        tux_x - 8, tux_y - 32,
+                                        NO_UPDATE);
+                            }
+                          else
+                            {
+                              drawimage(bigtux_left_jump,
+                                        tux_x - 8, tux_y - 32,
+                                        NO_UPDATE);
+                            }
+                        }
+                    }
+                  else
+                    {
+                      if (tux_dir == RIGHT)
+                        {
+                          drawimage(skidtux_right,
+                                    tux_x - 8, tux_y - 32,
+                                    NO_UPDATE);
+                        }
+                      else
+                        {
+                          drawimage(skidtux_left,
+                                    tux_x - 8, tux_y - 32,
+                                    NO_UPDATE);
+                        }
+                    }
+                }
+              else
+                {
+                  if (tux_dir == RIGHT)
+                    {
+                      drawimage(ducktux_right, tux_x - 8, tux_y - 16,
+                                NO_UPDATE);
+                    }
+                  else
+                    {
+                      drawimage(ducktux_left, tux_x - 8, tux_y - 16,
+                                NO_UPDATE);
+                    }
+                }
+            }
+          else
+            {
+              /* Tux has coffee! */
+
+              if (!tux_duck)
+                {
+                  if (!tux_skidding)
+                    {
+                      if (!jumping || tux_ym > 0)
+                        {
+                          if (tux_dir == RIGHT)
+                            {
+                              drawimage(bigfiretux_right[tux_frame],
+                                        tux_x - 8, tux_y - 32,
+                                        NO_UPDATE);
+                            }
+                          else
+                            {
+                              drawimage(bigfiretux_left[tux_frame],
+                                        tux_x - 8, tux_y - 32,
+                                        NO_UPDATE);
+                            }
+                        }
+                      else
+                        {
+                          if (tux_dir == RIGHT)
+                            {
+                              drawimage(bigfiretux_right_jump,
+                                        tux_x - 8, tux_y - 32,
+                                        NO_UPDATE);
+                            }
+                          else
+                            {
+                              drawimage(bigfiretux_left_jump,
+                                        tux_x - 8, tux_y - 32,
+                                        NO_UPDATE);
+                            }
+                        }
+                    }
+                  else
+                    {
+                      if (tux_dir == RIGHT)
+                        {
+                          drawimage(skidfiretux_right,
+                                    tux_x - 8, tux_y - 32,
+                                    NO_UPDATE);
+                        }
+                      else
+                        {
+                          drawimage(skidfiretux_left,
+                                    tux_x - 8, tux_y - 32,
+                                    NO_UPDATE);
+                        }
+                    }
+                }
+              else
+                {
+                  if (tux_dir == RIGHT)
+                    {
+                      drawimage(duckfiretux_right, tux_x - 8, tux_y - 16,
+                                NO_UPDATE);
+                    }
+                  else
+                    {
+                      drawimage(duckfiretux_left, tux_x - 8, tux_y - 16,
+                                NO_UPDATE);
+                    }
+                }
+            }
+        }
     }
 
 
@@ -2116,7 +2116,7 @@ void game_draw()
           drawtext(str,
                    floating_scores[i].x + 16 - strlen(str) * 8,
                    floating_scores[i].y,
-                   letters_gold, NO_UPDATE);
+                   letters_gold, NO_UPDATE, 1);
         }
     }
 
@@ -2211,33 +2211,33 @@ void game_draw()
   /* (Status): */
 
   sprintf(str, "%d", score);
-  drawtext("SCORE", 0, 0, letters_blue, NO_UPDATE);
-  drawtext(str, 96, 0, letters_gold, NO_UPDATE);
+  drawtext("SCORE", 0, 0, letters_blue, NO_UPDATE, 1);
+  drawtext(str, 96, 0, letters_gold, NO_UPDATE, 1);
 
   sprintf(str, "%d", highscore);
-  drawtext("HIGH", 0, 20, letters_blue, NO_UPDATE);
-  drawtext(str, 96, 20, letters_gold, NO_UPDATE);
+  drawtext("HIGH", 0, 20, letters_blue, NO_UPDATE, 1);
+  drawtext(str, 96, 20, letters_gold, NO_UPDATE, 1);
 
   if (time_left >= TIME_WARNING || (frame % 10) < 5)
     {
       sprintf(str, "%d", time_left);
-      drawtext("TIME", 224, 0, letters_blue, NO_UPDATE);
-      drawtext(str, 304, 0, letters_gold, NO_UPDATE);
+      drawtext("TIME", 224, 0, letters_blue, NO_UPDATE, 1);
+      drawtext(str, 304, 0, letters_gold, NO_UPDATE, 1);
     }
 
   sprintf(str, "%d", distros);
-  drawtext("DISTROS", 480, 0, letters_blue, NO_UPDATE);
-  drawtext(str, 608, 0, letters_gold, NO_UPDATE);
+  drawtext("DISTROS", 480, 0, letters_blue, NO_UPDATE, 1);
+  drawtext(str, 608, 0, letters_gold, NO_UPDATE, 1);
 
-  drawtext("LIVES", 480, 20, letters_blue, NO_UPDATE);
+  drawtext("LIVES", 480, 20, letters_blue, NO_UPDATE, 1);
 
   for(i=0; i < lives; ++i)
     {
       drawimage(tux_life,565+(18*i),20,NO_UPDATE);
     }
-    
+
   if(game_pause)
-    drawcenteredtext("PAUSE",230,letters_red, NO_UPDATE);
+    drawcenteredtext("PAUSE",230,letters_red, NO_UPDATE, 1);
 
   if(show_menu)
     done = drawmenu();
@@ -2321,9 +2321,9 @@ int gameloop(void)
           switch (current_music)
             {
             case LEVEL_MUSIC:
-	      if (time_left <= TIME_WARNING)
+              if (time_left <= TIME_WARNING)
                 play_music(level_song_fast, 1);
-	      else
+              else
                 play_music(level_song, 1);
               break;
             case HERRING_MUSIC:
@@ -2346,7 +2346,7 @@ int gameloop(void)
 
       now_time = SDL_GetTicks();
       if (now_time < last_time + FPS)
-       SDL_Delay(last_time + FPS - now_time);
+        SDL_Delay(last_time + FPS - now_time);
 
 
       /* Handle time: */
@@ -2355,9 +2355,9 @@ int gameloop(void)
         {
           time_left--;
 
-	  /* Stop the music; it will start again, faster! */
-	  if (time_left == TIME_WARNING)
-	    halt_music();
+          /* Stop the music; it will start again, faster! */
+          if (time_left == TIME_WARNING)
+            halt_music();
 
           if (time_left <= 0)
             killtux(KILL);
@@ -2563,13 +2563,13 @@ void loadlevel(void)
   clearscreen(0, 0, 0);
 
   sprintf(str, "LEVEL %d", level);
-  drawcenteredtext(str, 200, letters_red, NO_UPDATE);
+  drawcenteredtext(str, 200, letters_red, NO_UPDATE, 1);
 
   sprintf(str, "%s", levelname);
-  drawcenteredtext(str, 224, letters_gold, NO_UPDATE);
+  drawcenteredtext(str, 224, letters_gold, NO_UPDATE, 1);
 
   sprintf(str, "TUX x %d", lives);
-  drawcenteredtext(str, 256, letters_blue, NO_UPDATE);
+  drawcenteredtext(str, 256, letters_blue, NO_UPDATE, 1);
 
   SDL_Flip(screen);
 
@@ -2629,7 +2629,7 @@ void loadlevelsong(void)
   level_song = load_song(song_path);
   free(song_path);
 
-  
+
   song_path = (char *) malloc(sizeof(char) * (strlen(DATA_PREFIX) +
                               strlen(song_title) + 8 + 5));
   song_subtitle = strdup(song_title);
@@ -2696,22 +2696,22 @@ void loadshared(void)
                            USE_ALPHA);
 
   firetux_right[0] = load_image(DATA_PREFIX "/images/shared/firetux-right-0.png",
-                            USE_ALPHA);
+                                USE_ALPHA);
 
   firetux_right[1] = load_image(DATA_PREFIX "/images/shared/firetux-right-1.png",
-                            USE_ALPHA);
+                                USE_ALPHA);
 
   firetux_right[2] = load_image(DATA_PREFIX "/images/shared/firetux-right-2.png",
-                            USE_ALPHA);
+                                USE_ALPHA);
 
   firetux_left[0] = load_image(DATA_PREFIX "/images/shared/firetux-left-0.png",
-                           USE_ALPHA);
+                               USE_ALPHA);
 
   firetux_left[1] = load_image(DATA_PREFIX "/images/shared/firetux-left-1.png",
-                           USE_ALPHA);
+                               USE_ALPHA);
 
   firetux_left[2] = load_image(DATA_PREFIX "/images/shared/firetux-left-2.png",
-                           USE_ALPHA);
+                               USE_ALPHA);
 
   cape_right[0] = load_image(DATA_PREFIX "/images/shared/cape-right-0.png",
                              USE_ALPHA);
@@ -2766,25 +2766,25 @@ void loadshared(void)
                USE_ALPHA);
 
   bigfiretux_right[0] = load_image(DATA_PREFIX "/images/shared/bigfiretux-right-0.png",
-                               USE_ALPHA);
+                                   USE_ALPHA);
 
   bigfiretux_right[1] = load_image(DATA_PREFIX "/images/shared/bigfiretux-right-1.png",
-                               USE_ALPHA);
+                                   USE_ALPHA);
 
   bigfiretux_right[2] = load_image(DATA_PREFIX "/images/shared/bigfiretux-right-2.png",
-                               USE_ALPHA);
+                                   USE_ALPHA);
 
   bigfiretux_right_jump =
     load_image(DATA_PREFIX "/images/shared/bigfiretux-right-jump.png", USE_ALPHA);
 
   bigfiretux_left[0] = load_image(DATA_PREFIX "/images/shared/bigfiretux-left-0.png",
-                              USE_ALPHA);
+                                  USE_ALPHA);
 
   bigfiretux_left[1] = load_image(DATA_PREFIX "/images/shared/bigfiretux-left-1.png",
-                              USE_ALPHA);
+                                  USE_ALPHA);
 
   bigfiretux_left[2] = load_image(DATA_PREFIX "/images/shared/bigfiretux-left-2.png",
-                              USE_ALPHA);
+                                  USE_ALPHA);
 
   bigfiretux_left_jump =
     load_image(DATA_PREFIX "/images/shared/bigfiretux-left-jump.png", USE_ALPHA);
@@ -2823,20 +2823,20 @@ void loadshared(void)
                             USE_ALPHA);
 
   duckfiretux_right = load_image(DATA_PREFIX
-                             "/images/shared/duckfiretux-right.png",
-                             USE_ALPHA);
+                                 "/images/shared/duckfiretux-right.png",
+                                 USE_ALPHA);
 
   duckfiretux_left = load_image(DATA_PREFIX
-                            "/images/shared/duckfiretux-left.png",
-                            USE_ALPHA);
+                                "/images/shared/duckfiretux-left.png",
+                                USE_ALPHA);
 
   skidfiretux_right = load_image(DATA_PREFIX
-                             "/images/shared/skidfiretux-right.png",
-                             USE_ALPHA);
+                                 "/images/shared/skidfiretux-right.png",
+                                 USE_ALPHA);
 
   skidfiretux_left = load_image(DATA_PREFIX
-                            "/images/shared/skidfiretux-left.png",
-                            USE_ALPHA);
+                                "/images/shared/skidfiretux-left.png",
+                                USE_ALPHA);
 
 
   /* Boxes: */
@@ -3035,8 +3035,8 @@ void loadshared(void)
 
   img_red_glow = load_image(DATA_PREFIX "/images/shared/red-glow.png",
                             USE_ALPHA);
-  
-  
+
+
 
   /* Distros: */
 
@@ -3052,7 +3052,7 @@ void loadshared(void)
   img_distro[3] = load_image(DATA_PREFIX "/images/shared/distro-3.png",
                              USE_ALPHA);
 
-  
+
   /* Tux life: */
 
   tux_life = load_image(DATA_PREFIX "/images/shared/tux-life.png",
@@ -3810,13 +3810,13 @@ void drawendscreen(void)
 
   clearscreen(0, 0, 0);
 
-  drawcenteredtext("GAMEOVER", 200, letters_red, NO_UPDATE);
+  drawcenteredtext("GAMEOVER", 200, letters_red, NO_UPDATE, 1);
 
   sprintf(str, "SCORE: %d", score);
-  drawcenteredtext(str, 224, letters_gold, NO_UPDATE);
+  drawcenteredtext(str, 224, letters_gold, NO_UPDATE, 1);
 
   sprintf(str, "DISTROS: %d", distros);
-  drawcenteredtext(str, 256, letters_blue, NO_UPDATE);
+  drawcenteredtext(str, 256, letters_blue, NO_UPDATE, 1);
 
   SDL_Flip(screen);
   SDL_Delay(2000);
@@ -3828,13 +3828,13 @@ void drawresultscreen(void)
 
   clearscreen(0, 0, 0);
 
-  drawcenteredtext("Result:", 200, letters_red, NO_UPDATE);
+  drawcenteredtext("Result:", 200, letters_red, NO_UPDATE, 1);
 
   sprintf(str, "SCORE: %d", score);
-  drawcenteredtext(str, 224, letters_gold, NO_UPDATE);
+  drawcenteredtext(str, 224, letters_gold, NO_UPDATE, 1);
 
   sprintf(str, "DISTROS: %d", distros);
-  drawcenteredtext(str, 256, letters_blue, NO_UPDATE);
+  drawcenteredtext(str, 256, letters_blue, NO_UPDATE, 1);
 
   SDL_Flip(screen);
   /*SDL_Delay(2000);*/

@@ -122,23 +122,9 @@ void drawpart(SDL_Surface * surf, int x, int y, int w, int h, int update)
     SDL_UpdateRect(screen, dest.x, dest.y, dest.w, dest.h);
 }
 
-/* --- DRAW SHADED TEXT ONTO THE SCREEN --- */
-
-void drawshadedtext(char * text, int x, int y, SDL_Surface * surf, int update)
-{
- if(surf != letters_black)
- {
- drawtext(text, x+1, y+1, letters_black, update);
- drawtext(text, x, y, surf, update);
- }
- else
- drawtext(text, x, y, surf, update);
- 
-}
-
 /* --- DRAW TEXT ONTO THE SCREEN --- */
 
-void drawtext(char * text, int x, int y, SDL_Surface * surf, int update)
+void drawtext(char * text, int x, int y, SDL_Surface * surf, int update, int shadowsize)
 {
   int i;
   char c;
@@ -193,8 +179,8 @@ void drawtext(char * text, int x, int y, SDL_Surface * surf, int update)
 	{
 	  /* Set destination rectangle for shadow: */
 	  
-	  dest.x = x + (i * 16) + 1;
-	  dest.y = y + 1;
+	  dest.x = x + (i * 16) + shadowsize;
+	  dest.y = y + shadowsize;
 	  dest.w = src.w;
 	  dest.h = src.h;
 	  
@@ -236,28 +222,21 @@ void drawtext(char * text, int x, int y, SDL_Surface * surf, int update)
 
 /* --- DRAW HORIZONTALLY-CENTERED TEXT: --- */
 
-void drawcenteredtext(char * text, int y, SDL_Surface * surf, int update)
+void drawcenteredtext(char * text, int y, SDL_Surface * surf, int update, int shadowsize)
 {
-  drawtext(text, 320 - (strlen(text) * 8), y, surf, update);
-}
-
-/* --- DRAW SHADED HORIZONTALLY-CENTERED TEXT: --- */
-
-void drawshadedcenteredtext(char * text, int y, SDL_Surface * surf, int update)
-{
-  drawshadedtext(text, 320 - (strlen(text) * 8), y, surf, update);
+  drawtext(text, 320 - (strlen(text) * 8), y, surf, update, shadowsize);
 }
 
 /* --- ERASE TEXT: --- */
 
-void erasetext(char * text, int x, int y, SDL_Surface * surf, int update)
+void erasetext(char * text, int x, int y, SDL_Surface * surf, int update, int shadowsize)
 {
   SDL_Rect dest;
   
   
   dest.x = x;
   dest.y = y;
-  dest.w = strlen(text) * 16 + 1;
+  dest.w = strlen(text) * 16 + shadowsize;
   dest.h = 17;
   
   if (dest.w > 640)
@@ -272,7 +251,7 @@ void erasetext(char * text, int x, int y, SDL_Surface * surf, int update)
 
 /* --- ERASE CENTERED TEXT: --- */
 
-void erasecenteredtext(char * text, int y, SDL_Surface * surf, int update)
+void erasecenteredtext(char * text, int y, SDL_Surface * surf, int update, int shadowsize)
 {
-  erasetext(text, 320 - (strlen(text) * 8), y, surf, update);
+  erasetext(text, 320 - (strlen(text) * 8), y, surf, update, shadowsize);
 }
