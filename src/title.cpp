@@ -253,6 +253,10 @@ void title(void)
   Menu::set_current(main_menu);
   while (Menu::current())
     {
+      // if we spent to much time on a menu entry
+      if( (update_time - last_update_time) > 1000)
+        update_time = last_update_time = st_get_ticks();
+
       // Calculate the movement-factor
       double frame_ratio = ((double)(update_time-last_update_time))/((double)FRAME_RATE);
       if(frame_ratio > 1.5) /* Quick hack to correct the unprecise CPU clocks a little bit. */
