@@ -67,7 +67,7 @@ private:
   
   /// Resource for music.
   /** Contains the raw music data and
-      informations for music reference
+      information for music reference
       counting. */
   class MusicResource
   {
