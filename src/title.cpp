@@ -131,8 +131,8 @@ void check_contrib_menu()
         {
         /** get level's title */
         Level level;
-        level.load(subset.name, i);
-        contrib_subset_menu->additem(MN_ACTION, level.name, 0,0,i);
+        level.load(subset.name, i+1);
+        contrib_subset_menu->additem(MN_ACTION, level.name, 0,0,i+1);
         }
 
       contrib_subset_menu->additem(MN_HL,"",0,0);      
