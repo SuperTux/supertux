@@ -167,7 +167,7 @@ rule ConcatDirs
 ##    Copy source file to target.
 actions Copy
 {
-  $(CP) $(>) $(<)
+  $(CP) "$(>)" "$(<)"
 }
 
 actions ignore Move

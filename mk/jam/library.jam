@@ -59,7 +59,7 @@ rule Library
     # Generate install rules
     if ! [ IsElem noinstall : $(3) ]
     {
-        install_targets = [ DoInstall $(target) : $(libdir) ] ;
+        install_targets = [ DoInstall $(target) : $(libdir) : $(INSTALL) : nopackage ] ;
         Depends install_lib : $(install_targets) ;
     }
 
@@ -117,6 +117,12 @@ rule Library
     CFlags $(<) : $(CFLAGS) $(LIBRARY_CFLAGS) ;
     C++Flags $(<) : $(C++FLAGS) $(LIBRARY_C++FLAGS) ;
     LFlags $(<) : $(LFLAGS) $(LIBRARY_LFLAGS) ;
+
+    # Sources are part of the package
+    if ! [ IsElem nopackage : $(3) ]
+    {
+      Package $(sources) ;
+    }
 }
 
 ##  LibraryVersion

@@ -3,9 +3,9 @@
 #	(until jampeople accept my patches :-/ )
 #============================================================================
 
-LOCATE_OBJECTS ?= $(top_builddir)/out/$(target) ;
+LOCATE_OBJECTS ?= $(top_builddir)/build/$(target) ;
 LOCATE_TARGETS ?= $(top_builddir) ;
-LOCATE_DOCS ?= $(top_builddir)/out ;
+LOCATE_DOCS ?= $(top_builddir)/build ;
 
 SUBDIRRULES += FixSubDirPath ;
 
@@ -16,6 +16,9 @@ rule FixSubDirPath
 {
     LOCATE_SOURCE = [ ConcatDirs $(LOCATE_OBJECTS) $(SUBDIR_TOKENS) ] ;
     LOCATE_TARGET = [ ConcatDirs $(LOCATE_OBJECTS) $(SUBDIR_TOKENS) ] ;
+
+    # We need to package the Jamfile (a bit hacky here...)
+    Package Jamfile ;
 }
 
 # fix bug in Jambase where SubInclude in the middle of a jam file made it break

@@ -127,7 +127,7 @@ AC_CHECK_FUNCS(mkdir strdup strstr)
 AC_INIT_JAM
 AC_CONFIG_FILES([Jamconfig])
 
-AC_OUTPUT(Makefile m4/Makefile intl/Makefile
+AC_OUTPUT(Makefile intl/Makefile
           src/Makefile
           data/Makefile
           po/Makefile.in

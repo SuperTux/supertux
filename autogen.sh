@@ -6,6 +6,10 @@ if test ! -f configure.ac ; then
   exit 1
 fi
 
+autoheader
+libtoolize --force
+aclocal -I mk/autoconf
+
 # generate Jamconfig.in
 autoconf --trace=AC_SUBST \
   | sed -e 's/configure.ac:[0-9]*:AC_SUBST:\([^:]*\).*/\1 ?= "@\1@" ;/g' \
@@ -19,9 +23,6 @@ echo 'JAMCONFIG_READ = yes ;' >> Jamconfig.in
 # see AUTOMAKE_OPTIONS in Makefile.am
 export WANT_AUTOMAKE=1.6
 
-autoheader
-libtoolize --force
-aclocal -I mk/autoconf
 automake --copy --add-missing
 autoconf
 

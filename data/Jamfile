@@ -9,6 +9,7 @@ IMAGEPATHS =
   images/intro
   images/leveleditor
   images/map
+  images/shared
   images/shared/smalltux
   images/shared/bigtux
   images/status

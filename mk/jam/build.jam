@@ -11,6 +11,8 @@ include $(jamrulesdir)/jamcompatibility.jam ;
 include $(jamrulesdir)/helper.jam ;
 include $(jamrulesdir)/subdir.jam ;
 
+include $(jamrulesdir)/package.jam ;
+
 include $(jamrulesdir)/variant.jam ;
 include $(jamrulesdir)/resource.jam ;
 

@@ -85,7 +85,7 @@ rule InstallMan
     }
 }
 
-##  DoInstall sourcename : directories [ : installapp ]
+##  DoInstall sourcename : directories [ : installapp ] [ : options ]
 ##    Creates a new installtarget for the given sources. The target(s) are
 ##    returned as function result.
 rule DoInstall
@@ -96,7 +96,7 @@ rule DoInstall
     gdir = $(dir:G=dir) ;
     MkDir $(gdir) ;
   
-    for i in $(1) {
+    for i in $(<) {
         target = $(i:BSR=$(dir):G=install) ;
         targets += $(target) ;
         Depends $(target) : $(gdir) $(i) ;
@@ -107,6 +107,11 @@ rule DoInstall
         } else {
             INSTALL on $(target) = $(INSTALL_DATA) ;
         }
+    }
+
+    # We want to package all files we install
+    if ! [ IsElem nopackage : $(4) ] {
+        Package $(<) ;
     }
 
     Always $(targets) ;

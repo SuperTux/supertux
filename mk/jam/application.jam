@@ -24,55 +24,63 @@
 ##		     all target.
 rule Application
 {
-  # check options
-  CheckOptions noinstall console independent : $(3) : $(<) ;
+    # check options
+    CheckOptions noinstall console independent : $(3) : $(<) ;
 
-  local target = [ ConstructApplicationTarget $(<) : $(3) ] ;
-  local sources = [ DoSourceGrist $(>) ] ;
-  local objects = [ CompileObjects $(sources) ] ;
+    local target = [ ConstructApplicationTarget $(<) : $(3) ] ;
+    local sources = [ DoSourceGrist $(>) ] ;
+    local objects = [ CompileObjects $(sources) ] ;
 
-  $(<)_TYPE = application ;
-  $(<)_OBJECTS = $(objects) ;
-  $(<)_SOURCES = $(sources) ;
-  $(<)_TARGET = $(target) ;
-  $(<)_OPTIONS = $(3) ;
-  $(<)_INSTALLTARGET = ;
+    $(<)_TYPE = application ;
+    $(<)_OBJECTS = $(objects) ;
+    $(<)_SOURCES = $(sources) ;
+    $(<)_TARGET = $(target) ;
+    $(<)_OPTIONS = $(3) ;
+    $(<)_INSTALLTARGET = ;
 
-  # create target clean rule
-  Always $(<)clean ;
-  NotFile $(<)clean ;
-  Clean $(<)clean : $(objects) ; # create target clean rule 
-  Depends clean : $(<)clean ;
+    # create target clean rule
+    Always $(<)clean ;
+    NotFile $(<)clean ;
+    Clean $(<)clean : $(objects) ; # create target clean rule 
+        Depends clean : $(<)clean ;
 
-  # so 'jam foo' works when it's really foo.exe (Windows) or foo.app (MacOS/X)
-  if $(target) != $(<)
-  {
-    Depends $(<) : $(target) ;
-    NotFile $(<) ;
-  }
+    # so 'jam foo' works when it's really foo.exe (Windows) or foo.app (MacOS/X)
+    if $(target) != $(<)
+    {
+        Depends $(<) : $(target) ;
+        NotFile $(<) ;
+    }
 
-  # make dependency on apps target
-  if ! [ IsElem independent : $(3) ]
-  {
-    Depends apps : $(<) ;
-  }
+    # make dependency on apps target
+    if ! [ IsElem independent : $(3) ]
+    {
+        Depends apps : $(<) ;
+    }
 
-  # construct Install target
-  if ! [ IsElem noinstall : $(3) ]
-  {
-    $(<)_INSTALLTARGET = [ DoInstall $(target) : $(bindir) : $(INSTALL_PROGRAM) ] ;
-    Depends install_bin : $($(<)_INSTALLTARGET) ;
-  }
+    # construct Install target
+    if ! [ IsElem noinstall : $(3) ]
+    {
+        $(<)_INSTALLTARGET = [ 
+            DoInstall $(target) : $(bindir) : $(INSTALL_PROGRAM) : nopackage
+        ] ;
+        Depends install_bin : $($(<)_INSTALLTARGET) ;
+    }
 
-  # Link
-  MakeLocate $(target) : $(LOCATE_TARGETS) ;
-  SystemLinkApplication $(<) : $(objects) : $(3) ;
+    # Link
+    MakeLocate $(target) : $(LOCATE_TARGETS) ;
+    SystemLinkApplication $(<) : $(objects) : $(3) ;
 
-  # Import default flags
-  CppFlags $(<) : $(CPPFLAGS) $(APPLICTION_CPPFLAGS) ;
-  CFlags $(<) : $(CFLAGS) $(APPLICATION_CFLAGS) ;
-  C++Flags $(<) : $(C++FLAGS) $(APPLICATION_C++FLAGS) ;
-  LFlags $(<) : $(LFLAGS) $(APPLICATION_LFLAGS) ;
+    # Import default flags
+    CppFlags $(<) : $(CPPFLAGS) $(APPLICTION_CPPFLAGS) ;
+    CFlags $(<) : $(CFLAGS) $(APPLICATION_CFLAGS) ;
+    C++Flags $(<) : $(C++FLAGS) $(APPLICATION_C++FLAGS) ;
+    LFlags $(<) : $(LFLAGS) $(APPLICATION_LFLAGS) ;
+
+    # Sources are part of the package
+    if ! [ IsElem nopackage : $(3) ]
+    {
+        Package $(sources) ;
+    }
 }
 
 #----------------------------------------------------------------------------
