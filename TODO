@@ -12,7 +12,6 @@ These are mostly bugs:
 - sometimes the level restarts/you die after collecing a growup
 - mriceblock doesn't disapear after being kicked my another iceblock,
   not sure when exactly it happens, might depend on direction or so
-- supertux lifting its feet for kicking is not drawn
 - fadein/out for intro/extro would be nice
 
 
