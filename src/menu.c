@@ -35,7 +35,8 @@
 int menuaction;
 int show_menu;
 int menu_change;
-texture_type checkbox, checkbox_checked, back;
+texture_type checkbox, checkbox_checked, back, arrow_left, arrow_right;
+;
 
 menu_type main_menu, game_menu, options_menu, highscore_menu, load_game_menu, save_game_menu;
 menu_type* current_menu, * last_menu;
@@ -147,6 +148,12 @@ void menu_action(menu_type* pmenu)
           else
             pmenu->active_item = 0;
           break;
+        case MN_LEFT:
+          if(pmenu->item[pmenu->active_item].kind == MN_STRINGSELECT)
+          {}
+        case MN_RIGHT:
+          if(pmenu->item[pmenu->active_item].kind == MN_STRINGSELECT)
+          {}
         case MN_HIT:
           if(pmenu->item[pmenu->active_item].kind == MN_GOTO && pmenu->item[pmenu->active_item].target_menu != NULL)
             menu_set_current((menu_type*)pmenu->item[pmenu->active_item].target_menu);
@@ -263,31 +270,31 @@ void menu_draw(menu_type* pmenu)
   fillrect(screen->w/2 - menu_width/2,screen->h/2-(((pmenu->num_items)*24)/2),menu_width,menu_height,150,150,150,100);
 
   if(timer_check(&pmenu->effect))
-  {
-  e = timer_get_left(&pmenu->effect) / 4;
-  }
+    {
+      e = timer_get_left(&pmenu->effect) / 4;
+    }
   else
-  {
-  e = 0;
-  }
-  
+    {
+      e = 0;
+    }
+
   for(i = 0; i < pmenu->num_items; ++i)
     {
       if(pmenu->arrange_left == YES)
         b = (a - ((strlen(pmenu->item[i].text)+strlen(pmenu->item[i].input)) * 16)) / 2;
       else
         b = 0;
-	
-	if(e != 0)
-	{
-	if(i % 2)
-	f = e;
-	else
-	f = -e;
-	}
-	else
-	f = 0;
-	
+
+      if(e != 0)
+        {
+          if(i % 2)
+            f = e;
+          else
+            f = -e;
+        }
+      else
+        f = 0;
+
       if(pmenu->item[i].kind == MN_DEACTIVE)
         {
           text_drawf(&black_text,pmenu->item[i].text, - b,(i)*24 - menu_height/2 + 10 + f,A_HMIDDLE, A_VMIDDLE,2,NO_UPDATE);
@@ -300,10 +307,31 @@ void menu_draw(menu_type* pmenu)
         }
       else if(pmenu->item[i].kind == MN_LABEL)
         {
-          text_drawf(&gold_text,pmenu->item[i].text, - b,(i)*24 - menu_height/2 + 10,A_HMIDDLE, A_VMIDDLE,2,NO_UPDATE);
+          text_drawf(&white_big_text,pmenu->item[i].text, - b,(i)*24 - menu_height/2 + 10,A_HMIDDLE, A_VMIDDLE,2,NO_UPDATE);
         }
       else if(pmenu->item[i].kind == MN_TEXTFIELD || pmenu->item[i].kind == MN_NUMFIELD)
         {
+          fillrect(-b +screen->w/2 - ((strlen(pmenu->item[i].input)*16)/2) + ((strlen(pmenu->item[i].text) + 1)*16)/2 - 1,(i)*24 - menu_height/2 + 10 + screen->h /2 - 10 + f,(strlen(pmenu->item[i].input)+1)*16 + 2,20,255,255,255,255);
+          fillrect(- b +screen->w/2 - ((strlen(pmenu->item[i].input)*16)/2) + ((strlen(pmenu->item[i].text) + 1)*16)/2,(i)*24 - menu_height/2 + 10 + screen->h /2 - 9 + f,(strlen(pmenu->item[i].input)+1)*16,18,0,0,0,128);
+          text_drawf(&gold_text,pmenu->item[i].input, - b + ((strlen(pmenu->item[i].text)+1) * 16)/2,(i)*24 - menu_height/2 + 10 + f,A_HMIDDLE, A_VMIDDLE,2,NO_UPDATE);
+          if(i == pmenu->active_item)
+            {
+              text_drawf(&blue_text,pmenu->item[i].text, - b  -(((strlen(pmenu->item[i].input)+1) * 16)/2),(i)*24 - menu_height/2 + 10 + f,A_HMIDDLE, A_VMIDDLE,3,NO_UPDATE);
+            }
+          else
+            {
+              text_drawf(&white_text,pmenu->item[i].text, - b  -(((strlen(pmenu->item[i].input)+1) * 16)/2),(i)*24 - menu_height/2 +10 + f,A_HMIDDLE, A_VMIDDLE,2,NO_UPDATE);
+            }
+        }
+      else if(pmenu->item[i].kind == MN_STRINGSELECT)
+        {
+	  /* Draw arrows */
+          texture_draw(&arrow_left,-b +screen->w/2 - ((strlen(pmenu->item[i].input)*16)/2) + ((strlen(pmenu->item[i].text) + 1)*16)/2 - 17,(i)*24 - menu_height/2 + 10 + screen->h / 2 -8 + f,NO_UPDATE);
+          texture_draw(&arrow_right,-b +screen->w/2 - ((strlen(pmenu->item[i].input)*16)/2) + ((strlen(pmenu->item[i].text) + 1)*16)/2 - 1 + (strlen(pmenu->item[i].input)+1)*16,(i)*24 - menu_height/2 + 10 + screen->h / 2 -8 + f,NO_UPDATE);
+	  /* Draw input background */
+          fillrect(-b +screen->w/2 - ((strlen(pmenu->item[i].input)*16)/2) + ((strlen(pmenu->item[i].text) + 1)*16)/2 - 1,(i)*24 - menu_height/2 + 10 + screen->h /2 - 10 + f,(strlen(pmenu->item[i].input)+1)*16 + 2,20,255,255,255,255);
+          fillrect(- b +screen->w/2 - ((strlen(pmenu->item[i].input)*16)/2) + ((strlen(pmenu->item[i].text) + 1)*16)/2,(i)*24 - menu_height/2 + 10 + screen->h /2 - 9 + f,(strlen(pmenu->item[i].input)+1)*16,18,0,0,0,128);
+	  
           text_drawf(&gold_text,pmenu->item[i].input, - b + ((strlen(pmenu->item[i].text)+1) * 16)/2,(i)*24 - menu_height/2 + 10 + f,A_HMIDDLE, A_VMIDDLE,2,NO_UPDATE);
           if(i == pmenu->active_item)
             {
@@ -393,6 +421,14 @@ void menu_event(SDL_keysym* keysym)
       break;
     case SDLK_DOWN:		/* Menu Down */
       menuaction = MN_DOWN;
+      menu_change = YES;
+      break;
+    case SDLK_LEFT:		/* Menu Up */
+      menuaction = MN_LEFT;
+      menu_change = YES;
+      break;
+    case SDLK_RIGHT:		/* Menu Down */
+      menuaction = MN_RIGHT;
       menu_change = YES;
       break;
     case SDLK_RETURN: /* Menu Hit */

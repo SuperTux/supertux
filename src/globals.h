@@ -19,7 +19,7 @@
 #include "menu.h"
 
 extern SDL_Surface * screen;
-extern text_type black_text, gold_text, white_text, white_small_text, blue_text, red_text, yellow_nums;
+extern text_type black_text, gold_text, white_text, white_small_text, white_big_text, blue_text, red_text, yellow_nums;
 
 extern int use_gl, use_joystick, use_fullscreen, debug_mode, show_fps;
 

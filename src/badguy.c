@@ -314,16 +314,15 @@ void badguy_action(bad_guy_type* pbad)
 
   /* Handle mode timer: */
 
-  if (pbad->mode == FLAT /* && bad_guys[1].mode != HELD*/)
+  if (pbad->mode == FLAT && pbad->mode != HELD)
     {
       if(!timer_check(&pbad->timer))
         pbad->mode = NORMAL;
     }
-  /* else if (pbad->mode == KICK)
-     {
-       if (pbad->timer > 0)
-         pbad->timer--;
-     }*/
+  else if (pbad->mode == KICK)
+    {
+      timer_check(&pbad->timer);
+    }
 
 
   /* Handle dying timer: */
@@ -576,7 +575,8 @@ void badguy_collision(bad_guy_type* pbad, void *p_c_object, int c_object)
         {
           pbad->dying = SQUISHED;
           timer_start(&pbad->timer,4000);
-          pplayer_c->base.ym = -KILL_BOUNCE_YM;
+          physic_set_state(&pplayer_c->vphysic,PH_VT);
+          physic_set_start_vy(&pplayer_c->vphysic,2.);
 
           add_score(pbad->base.x - scroll_x, pbad->base.y,
                     50 * score_multiplier);
@@ -595,7 +595,8 @@ void badguy_collision(bad_guy_type* pbad, void *p_c_object, int c_object)
 
               timer_start(&pbad->timer,10000);
 
-              pplayer_c->base.y = pplayer_c->base.y - 32;
+              physic_set_state(&pplayer_c->vphysic,PH_VT);
+              physic_set_start_vy(&pplayer_c->vphysic,2.);
             }
           else
             {
@@ -609,10 +610,13 @@ void badguy_collision(bad_guy_type* pbad, void *p_c_object, int c_object)
               else
                 pbad->dir = LEFT;
 
+              pbad->base.xm = 8;
+
               timer_start(&pbad->timer,5000);
             }
 
-          pplayer_c->base.ym = -KILL_BOUNCE_YM;
+          physic_set_state(&pplayer_c->vphysic,PH_VT);
+          physic_set_start_vy(&pplayer_c->vphysic,2.);
 
           add_score(pbad->base.x - scroll_x,
                     pbad->base.y,

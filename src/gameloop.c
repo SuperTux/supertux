@@ -629,9 +629,7 @@ int gameloop(char * subset, int levelnb, int mode)
       /* Handle events: */
 
       tux.input.old_fire = tux.input.fire;
-
-      /*printf("%lf\n",frame_ratio);*/
-
+      
       game_event();
 
       if(show_menu)

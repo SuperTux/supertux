@@ -13,7 +13,7 @@
 #include "globals.h"
 
 SDL_Surface * screen;
-text_type black_text, gold_text, blue_text, red_text, yellow_nums, white_text, white_small_text;
+text_type black_text, gold_text, blue_text, red_text, yellow_nums, white_text, white_small_text, white_big_text;
 
 int use_gl, use_joystick, use_fullscreen, debug_mode, show_fps;
 

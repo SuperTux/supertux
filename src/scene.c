@@ -125,10 +125,6 @@ void add_score(float x, float y, int s)
 
 void add_bouncy_distro(float x, float y)
 {
-
-
-printf("X _--- %f Y-- isdojf %f\n",x,y);
-
   int i, found;
 
   found = -1;

@@ -18,13 +18,13 @@
 #include "timer.h"
 
 typedef struct menu_item_type
-{
- int kind;
- char *text;
- char *input;
- int toggled;
- void* target_menu;
-}
+  {
+    int kind;
+    char *text;
+    char *input;
+    int toggled;
+    void* target_menu;
+  }
 menu_item_type;
 
 menu_item_type* menu_item_create(int kind, char *text, int init_toggle, void* target_menu);
@@ -32,13 +32,13 @@ void menu_item_change_text(menu_item_type* pmenu_item, char *text);
 void menu_item_change_input(menu_item_type* pmenu_item, char *text);
 
 typedef struct menu_type
-{
- int num_items;
- int active_item;
- int arrange_left;
- menu_item_type *item;
- timer_type effect;
-}
+  {
+    int num_items;
+    int active_item;
+    int arrange_left;
+    menu_item_type *item;
+    timer_type effect;
+  }
 menu_type;
 
 void menu_init(menu_type* pmenu);
@@ -58,6 +58,7 @@ enum {
   MN_DEACTIVE,
   MN_TEXTFIELD,
   MN_NUMFIELD,
+  MN_STRINGSELECT,
   MN_LABEL,
   MN_HL /* horizontal line */
 };
@@ -66,6 +67,8 @@ enum {
 enum {
   MN_UP,
   MN_DOWN,
+  MN_LEFT,
+  MN_RIGHT,
   MN_HIT,
   MN_INPUT,
   MN_REMOVE
@@ -75,7 +78,7 @@ enum {
 extern int menuaction;
 extern int show_menu;
 extern int menu_change;
-extern texture_type checkbox, checkbox_checked, back;
+extern texture_type checkbox, checkbox_checked, back, arrow_left, arrow_right;
 
 extern menu_type main_menu, game_menu, options_menu, highscore_menu, load_game_menu, save_game_menu;
 extern menu_type* current_menu, * last_menu;

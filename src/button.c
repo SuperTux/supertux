@@ -73,6 +73,8 @@ void button_draw(button_type* pbutton)
       sprintf(str,"(%s)", SDL_GetKeyName(pbutton->shortcut));
       text_draw(&white_small_text, str, pbutton->x - strlen(str) * white_small_text.w, pbutton->y + white_small_text.h+2, 1, NO_UPDATE);
     }
+  if(pbutton->state == BN_PRESSED)
+    fillrect(pbutton->x,pbutton->y,pbutton->w,pbutton->h,75,75,75,200);
 }
 
 void button_free(button_type* pbutton)
@@ -89,8 +91,17 @@ void button_event(button_type* pbutton, SDL_Event *event)
       if(key == pbutton->shortcut)
         pbutton->state = BN_CLICKED;
     }
-  else if(event->motion.x > pbutton->x && event->motion.x < pbutton->x + pbutton->w &&
-          event->motion.y > pbutton->y && event->motion.y < pbutton->y + pbutton->h)
+  else if(event->type == SDL_MOUSEMOTION)
+    {
+
+      if(pbutton->show_info)
+        {
+          pbutton->show_info = NO;
+        }
+    }
+
+  if(event->motion.x > pbutton->x && event->motion.x < pbutton->x + pbutton->w &&
+      event->motion.y > pbutton->y && event->motion.y < pbutton->y + pbutton->h)
     {
       if(event->type == SDL_MOUSEBUTTONDOWN)
         {
@@ -115,9 +126,9 @@ void button_event(button_type* pbutton, SDL_Event *event)
             }
         }
     }
-  else if(event->type == SDL_MOUSEMOTION)
+  else
     {
-
+      pbutton->state = -1;
       if(pbutton->show_info)
         {
           pbutton->show_info = NO;
@@ -170,22 +181,22 @@ void button_panel_draw(button_panel_type* pbutton_panel)
 
 void button_panel_additem(button_panel_type* pbutton_panel, button_type* pbutton)
 {
-int max_cols, row, col;
+  int max_cols, row, col;
 
   ++pbutton_panel->num_items;
   pbutton_panel->item = (button_type*) realloc(pbutton_panel->item, sizeof(button_type) * pbutton_panel->num_items);
   memcpy(&pbutton_panel->item[pbutton_panel->num_items-1],pbutton,sizeof(button_type));
   free(pbutton);
-  
+
   /* A button_panel takes control of the buttons it contains and arranges them */
-  
+
   max_cols = pbutton_panel->w / 32;
-  
+
   row = pbutton_panel->num_items / max_cols;
   col = pbutton_panel->num_items % max_cols;
-  
+
   pbutton_panel->item[pbutton_panel->num_items-1].x = pbutton_panel->x + col * 32;
   pbutton_panel->item[pbutton_panel->num_items-1].y = pbutton_panel->y + row * 32;
-  
+
 }
 

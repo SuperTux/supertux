@@ -385,12 +385,15 @@ void st_general_setup(void)
   text_load(&red_text,DATA_PREFIX "/images/status/letters-red.png", TEXT_TEXT, 16,18);
   text_load(&white_text,DATA_PREFIX "/images/status/letters-white.png", TEXT_TEXT, 16,18);
   text_load(&white_small_text,DATA_PREFIX "/images/status/letters-white-small.png", TEXT_TEXT, 8,9);
+  text_load(&white_big_text,DATA_PREFIX "/images/status/letters-white-big.png", TEXT_TEXT, 24,27);
   text_load(&yellow_nums,DATA_PREFIX "/images/status/numbers.png", TEXT_NUM, 32,32);
 
   /* Load GUI/menu images: */
   texture_load(&checkbox, DATA_PREFIX "/images/status/checkbox.png", USE_ALPHA);
   texture_load(&checkbox_checked, DATA_PREFIX "/images/status/checkbox-checked.png", USE_ALPHA);
   texture_load(&back, DATA_PREFIX "/images/status/back.png", USE_ALPHA);
+  texture_load(&arrow_left, DATA_PREFIX "/images/icons/left.png", USE_ALPHA);
+  texture_load(&arrow_right, DATA_PREFIX "/images/icons/right.png", USE_ALPHA);
 
   /* Set icon image: */
 

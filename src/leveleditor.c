@@ -72,6 +72,7 @@ void le_set_defaults(void);
 void le_activate_bad_guys(void);
 
 void le_highlight_selection();
+void apply_level_settings_menu();
 
 /* leveleditor internals */
 static char **level_subsets;
@@ -90,6 +91,8 @@ static int le_mouse_pressed;
 static button_type le_test_level_bt;
 static button_type le_next_level_bt;
 static button_type le_previous_level_bt;
+static button_type le_move_right_bt;
+static button_type le_move_left_bt;
 static button_type le_rubber_bt;
 static button_type le_select_mode_one_bt;
 static button_type le_select_mode_two_bt;
@@ -206,8 +209,8 @@ int leveleditor(int levelnb)
                   break;
                 case 4:
                   break;
-                case 11:
-                  strcpy(le_current_level->name,level_settings_menu.item[1].input);
+                case 13:
+                  apply_level_settings_menu();
                   break;
                 }
             }
@@ -225,7 +228,7 @@ int leveleditor(int levelnb)
                       le_level = 1;
                       arrays_init();
                       loadshared();
-		      le_current_level = (st_level*) malloc(sizeof(st_level));
+                      le_current_level = (st_level*) malloc(sizeof(st_level));
                       if(level_load(le_current_level, le_level_subset.name, le_level) != 0)
                         {
                           le_quit();
@@ -238,6 +241,39 @@ int leveleditor(int levelnb)
                     }
                   break;
                 }
+            }
+          else if(current_menu == &subset_new_menu)
+            {
+              if(subset_new_menu.item[2].input[0] == '\0')
+                subset_new_menu.item[3].kind = MN_DEACTIVE;
+              else
+                subset_new_menu.item[3].kind = MN_ACTION;
+
+              /*switch (i = menu_check(&subset_load_menu))
+                {
+                case 0:
+                  break;
+                default:
+                  if(i != -1)
+                    {
+                      subset_load(&le_level_subset,level_subsets[i-2]);
+                      leveleditor_menu.item[3].kind = MN_GOTO;
+                      le_level = 1;
+                      arrays_init();
+                      loadshared();
+              le_current_level = (st_level*) malloc(sizeof(st_level));
+                      if(level_load(le_current_level, le_level_subset.name, le_level) != 0)
+                        {
+                          le_quit();
+                          return 1;
+                        }
+                      le_set_defaults();
+                      level_load_gfx(le_current_level);
+                      le_activate_bad_guys();
+                      show_menu = YES;
+                    }
+                  break;
+                }*/
             }
         }
 
@@ -272,13 +308,13 @@ int le_init()
   level_subsets = dsubdirs("/levels", "info", &subsets_num);
 
   le_show_grid = YES;
-  
+
   /*  level_changed = NO;*/
   fire = DOWN;
   done = 0;
   le_frame = 0;	/* support for frames in some tiles, like waves and bad guys */
   le_level_changed = NO;
-  
+
   /*
     subset_load(&le_level_subset,"default");
     arrays_init();
@@ -312,6 +348,8 @@ int le_init()
   button_load(&le_select_mode_two_bt,"/images/icons/select-mode2.png","Select Tiles",SDLK_F3,screen->w-32,16);
   button_load(&le_test_level_bt,"/images/icons/test-level.png","Test Level",SDLK_F4,screen->w-64,screen->h - 64);
   button_load(&le_settings_bt,"/images/icons/settings.png","Level settings",SDLK_0,screen->w-32,screen->h - 64);
+  button_load(&le_move_left_bt,"/images/icons/left.png","Test Level",SDLK_F4,screen->w-64,screen->h - 32);
+  button_load(&le_move_right_bt,"/images/icons/right.png","Level settings",SDLK_0,screen->w-48,screen->h - 32);
   button_panel_init(&le_bt_panel, screen->w - 64,64, 64, 380);
 
   menu_init(&leveleditor_menu);
@@ -327,7 +365,7 @@ int le_init()
   menu_reset();
   menu_set_current(&leveleditor_menu);
   show_menu = YES;
-    
+
   menu_init(&subset_load_menu);
   menu_additem(&subset_load_menu,menu_item_create(MN_LABEL,"Load Level Subset",0,0));
   menu_additem(&subset_load_menu,menu_item_create(MN_HL,"",0,0));
@@ -356,9 +394,9 @@ int le_init()
   menu_additem(&level_settings_menu,menu_item_create(MN_LABEL,"Level Settings",0,0));
   menu_additem(&level_settings_menu,menu_item_create(MN_HL,"",0,0));
   menu_additem(&level_settings_menu,menu_item_create(MN_TEXTFIELD,"Name:",0,0));
-  menu_additem(&level_settings_menu,menu_item_create(MN_TEXTFIELD,"Theme:",0,0));
-  menu_additem(&level_settings_menu,menu_item_create(MN_TEXTFIELD,"Song:",0,0));
-  menu_additem(&level_settings_menu,menu_item_create(MN_TEXTFIELD,"Background:",0,0));
+  menu_additem(&level_settings_menu,menu_item_create(MN_STRINGSELECT,"Theme:",0,0));
+  menu_additem(&level_settings_menu,menu_item_create(MN_STRINGSELECT,"Song:",0,0));
+  menu_additem(&level_settings_menu,menu_item_create(MN_STRINGSELECT,"Background:",0,0));
   menu_additem(&level_settings_menu,menu_item_create(MN_NUMFIELD,"Length: ",0,0));
   menu_additem(&level_settings_menu,menu_item_create(MN_NUMFIELD,"Time:   ",0,0));
   menu_additem(&level_settings_menu,menu_item_create(MN_NUMFIELD,"Gravity:",0,0));
@@ -377,27 +415,63 @@ int le_init()
   return 0;
 }
 
-void update_level_settings()
+void update_level_settings_menu()
 {
   char str[80];
 
-  menu_item_change_input(&level_settings_menu.item[1], le_current_level->name);
+  menu_item_change_input(&level_settings_menu.item[2], le_current_level->name);
   sprintf(str,"%d",le_current_level->width);
-  menu_item_change_input(&level_settings_menu.item[5], str);
-  sprintf(str,"%d",le_current_level->time_left);
   menu_item_change_input(&level_settings_menu.item[6], str);
-  sprintf(str,"%2.0f",le_current_level->gravity);
+  sprintf(str,"%d",le_current_level->time_left);
   menu_item_change_input(&level_settings_menu.item[7], str);
-  sprintf(str,"%d",le_current_level->bkgd_red);
+  sprintf(str,"%2.0f",le_current_level->gravity);
   menu_item_change_input(&level_settings_menu.item[8], str);
-  sprintf(str,"%d",le_current_level->bkgd_green);
+  sprintf(str,"%d",le_current_level->bkgd_red);
   menu_item_change_input(&level_settings_menu.item[9], str);
-  sprintf(str,"%d",le_current_level->bkgd_blue);
+  sprintf(str,"%d",le_current_level->bkgd_green);
   menu_item_change_input(&level_settings_menu.item[10], str);
+  sprintf(str,"%d",le_current_level->bkgd_blue);
+  menu_item_change_input(&level_settings_menu.item[11], str);
+}
+
+void apply_level_settings_menu()
+{
+  int i,y,j;
+  strcpy(le_current_level->name,level_settings_menu.item[2].input);
+
+  i = le_current_level->width;
+  le_current_level->width = atoi(level_settings_menu.item[6].input);
+  if(le_current_level->width < i)
+    {
+      if(le_current_level->width < 21)
+        le_current_level->width = 21;
+      for(y = 0; y < 15; ++y)
+        {
+          le_current_level->tiles[y] = (unsigned char*) realloc(le_current_level->tiles[y],(le_current_level->width+1)*sizeof(unsigned char));
+          le_current_level->tiles[y][le_current_level->width] = (unsigned char) '\0';
+        }
+    }
+  else if(le_current_level->width > i)
+    {
+      for(y = 0; y < 15; ++y)
+        {
+          le_current_level->tiles[y] = (unsigned char*) realloc(le_current_level->tiles[y],(le_current_level->width+1)*sizeof(unsigned char));
+          for(j = 0; j < le_current_level->width - i; ++j)
+            le_current_level->tiles[y][i+j] = (unsigned char) '.';
+          le_current_level->tiles[y][le_current_level->width] = (unsigned char) '\0';
+        }
+    }
+  le_current_level->time_left = atoi(level_settings_menu.item[7].input);
+  le_current_level->gravity = atof(level_settings_menu.item[8].input);
+  le_current_level->bkgd_red = atoi(level_settings_menu.item[9].input);
+  le_current_level->bkgd_green = atoi(level_settings_menu.item[10].input);
+  le_current_level->bkgd_blue = atoi(level_settings_menu.item[11].input);
 }
 
 void le_goto_level(int levelnb)
 {
+  arrays_free();
+  arrays_init();
 
   level_free(le_current_level);
   if(level_load(le_current_level, le_level_subset.name, levelnb) != 0)
@@ -485,6 +559,8 @@ void le_drawinterface()
       button_draw(&le_select_mode_two_bt);
       button_draw(&le_bad_bsod_bt);
       button_draw(&le_settings_bt);
+      button_draw(&le_move_right_bt);
+      button_draw(&le_move_left_bt);
       button_panel_draw(&le_bt_panel);
 
       sprintf(str, "%d/%d", le_level,le_level_subset.levels);
@@ -870,6 +946,12 @@ void le_checkevents()
               if(le_level > 1)
                 le_goto_level(--le_level);
             }
+          button_event(&le_move_left_bt,&event);
+          if(button_get_state(&le_move_left_bt) == BN_PRESSED)
+            pos_x -= 180;
+          button_event(&le_move_right_bt,&event);
+          if(button_get_state(&le_move_right_bt) == BN_PRESSED)
+            pos_x += 180;
           button_event(&le_rubber_bt,&event);
           if(button_get_state(&le_rubber_bt) == BN_CLICKED)
             le_current_tile = '.';
@@ -887,6 +969,7 @@ void le_checkevents()
             {
               if(show_menu == NO)
                 {
+                  update_level_settings_menu();
                   menu_set_current(&level_settings_menu);
                   show_menu = YES;
                 }

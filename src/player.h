@@ -77,6 +77,7 @@ typedef struct player_type
  timer_type invincible_timer;
  timer_type skidding_timer;
  timer_type safe_timer;
+ timer_type frame_timer;
  physic_type vphysic;
  physic_type hphysic;
 }
