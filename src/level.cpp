@@ -482,8 +482,9 @@ Level::load(const std::string& filename)
     {
       if(j >= 15)
         {
-        std::cerr << "Warning: Level higher than 15 tiles. Ignoring by cutting tiles.\n";
-	std::cerr << "The level might not be finishable anymore!\n";
+        std::cerr << "Warning: Level higher than 15 interactive tiles."
+                     "Ignoring by cutting tiles.\n"
+                     "The level might not be finishable anymore!\n";
         break;
         }
 
@@ -500,8 +501,8 @@ Level::load(const std::string& filename)
     {
       if(j >= 15)
         {
-        std::cerr << "Warning: Level higher than 15 tiles. Ignoring by cutting tiles.\n";
-	std::cerr << "The level might not be finishable anymore!\n";
+        std::cerr << "Warning: Level higher than 15 background tiles."
+                     "Ignoring by cutting tiles.\n";
         break;
         }
 
@@ -518,8 +519,8 @@ Level::load(const std::string& filename)
     {
       if(j >= 15)
         {
-        std::cerr << "Warning: Level higher than 15 tiles. Ignoring by cutting tiles.\n";
-	std::cerr << "The level might not be finishable anymore!\n";
+        std::cerr << "Warning: Level higher than 15 foreground tiles."
+                     "Ignoring by cutting tiles.\n";
         break;
         }
 
