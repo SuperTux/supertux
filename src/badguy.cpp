@@ -404,20 +404,27 @@ void
 BadGuy::check_horizontal_bump(bool checkcliff)
 {
     float halfheight = base.height / 2;
-    if (dir == LEFT && issolid( base.x, (int) base.y + halfheight))
+    if (dir == LEFT && issolid( base.x, base.y + halfheight))
     {
         if (kind == BAD_MRICEBLOCK && mode == KICK)
+            {
             Sector::current()->trybreakbrick(Vector(base.x, base.y + halfheight), false);
+            Sector::current()->tryemptybox(Vector(base.x, base.y + halfheight), dir);
+            }
             
         dir = RIGHT;
         physic.set_velocity(-physic.get_velocity_x(), physic.get_velocity_y());
         return;
     }
-    if (dir == RIGHT && issolid( base.x + base.width, (int)base.y + halfheight))
+    if (dir == RIGHT && issolid( base.x + base.width, base.y + halfheight))
     {
         if (kind == BAD_MRICEBLOCK && mode == KICK)
+            {
             Sector::current()->trybreakbrick(
-                Vector(base.x + base.width, (int) base.y + halfheight), false);
+                Vector(base.x + base.width, base.y + halfheight), false);
+            Sector::current()->tryemptybox(
+                Vector(base.x + base.width, base.y + halfheight), dir);
+            }
             
         dir = LEFT;
         physic.set_velocity(-physic.get_velocity_x(), physic.get_velocity_y());
