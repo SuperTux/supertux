@@ -32,6 +32,9 @@ to touch before milestone1 at the moment.
   per block.
 - We should reduced the width of tux collision rectangle so that he falls easier
   between 1 tile wide holes.
+- The enabled/disabled icon in the options shouldn't be a cross. Some people
+  think the options are disabled because they're crossed. Better use a green
+  check mark.
 
 Fixed
 -----
