@@ -141,31 +141,39 @@ Sprite::update()
 if(animation_loops == 0)
   return;
 
-float inc_frame = (action->fps/1000) * (SDL_GetTicks() - last_tick);
+float frame_inc = (action->fps/1000.0) * (SDL_GetTicks() - last_tick);
 
 if(animation_reversed)
-  frame -= inc_frame;
+  frame -= frame_inc;
 else
-  frame += inc_frame;
+  frame += frame_inc;
 
 last_tick = SDL_GetTicks();
 
 if(animation_reversed)
   {
-  if((unsigned int)frame < 0)
+  float expedient = frame - 0;
+  if(expedient < 0)
     {
     frame = get_frames()-1;
     if(animation_loops > 0)
       animation_loops--;
+
+    if(expedient > -get_frames())
+      frame -= expedient;
     }
   }
 else
   {
-  if((unsigned int)frame >= action->surfaces.size())
+  float expedient = frame - action->surfaces.size();
+  if(expedient >= 0)
     {
     frame = 0;
     if(animation_loops > 0)
       animation_loops--;
+
+    if(expedient < get_frames())
+      frame += expedient;
     }
   }
 }
