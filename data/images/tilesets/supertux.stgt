@@ -399,4 +399,12 @@
  (tile (id 125)
        (images "snowbg4.png")
        (solid #t))
+
+ (tile (id 126)
+       (images "exitbg.png")
+       (solid #f))
+ (tile (id 127)
+       (images "exitfg.png")
+       (solid #f))
  )
+
