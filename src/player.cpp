@@ -161,6 +161,7 @@ Player::init()
   double_jumping = false;
   can_jump = true;
   can_double_jump = false;
+  enable_hover = false;
   butt_jump = false;
   
   frame_main = 0;
@@ -560,7 +561,9 @@ Player::handle_vertical_input()
 	  }
 	
 	// Hover
-	if (input.up == DOWN && !jumping && !butt_jump && physic.get_velocity_y() <= 0)
+   //(disabled by default, use cheat code "hover" to toggle on/off)
+	//TODO: needs some tweaking, especially when used together with double jump and jumping off badguys
+	if (enable_hover && input.up == DOWN && !jumping && !butt_jump && physic.get_velocity_y() <= 0)
 	  {
 			physic.set_velocity_y(-1);
 	  }

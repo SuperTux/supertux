@@ -150,6 +150,7 @@ public:
   bool double_jumping;
   bool can_jump;
   bool can_double_jump;
+  bool enable_hover;
   bool butt_jump;
   int frame_;
   int frame_main;
