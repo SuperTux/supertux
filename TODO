@@ -6,15 +6,9 @@ Last update: April 26, 2004
 
 These are mostly bugs:
 
-- supertux crashs from time to time - fixed
-- leveleditor lacks enemies support (will be fixed soon by Tobias)
-- sometimes you die after being in pause modus and unpausing - still true?
-- sometimes the level restarts/you die after collecing a growup - fixed
-- mriceblock doesn't disapear after being kicked my another iceblock,
-  not sure when exactly it happens, might depend on direction or so - fixed
-- mriceblock doesn't fall down when being squished in the air - fixed
-- It's not possible to duck while jumping - fixed
-- Intro/Extro textspeed is CPU dependent - fixed
+Todo
+----
+
 - fadein/out for intro/extro would be nice
 - when you interrupted the intro (by going to credits for example) and go back
   to it, tux doesn't jump anymore
@@ -30,3 +24,19 @@ These are mostly bugs:
   is below a certain time, you can do the jump.
 - when bumping a special with 2 blocks at once, it won't change direction
 - points aren't reset when gameover
+
+- leveleditor lacks enemies support (will be fixed soon by Tobias)
+- sometimes you die after being in pause modus and unpausing - still true?
+
+
+Fixed
+-----
+
+- supertux crashs from time to time - fixed
+- mriceblock doesn't fall down when being squished in the air - fixed
+- It's not possible to duck while jumping - fixed
+- Intro/Extro textspeed is CPU dependent - fixed
+- sometimes the level restarts/you die after collecing a growup - fixed
+- mriceblock doesn't disapear after being kicked my another iceblock,
+  not sure when exactly it happens, might depend on direction or so - fixed
+
