@@ -48,6 +48,7 @@ void loadshared()
 
   sprite_manager = new SpriteManager(datadir + "/supertux.strf");
   music_manager = new MusicManager();
+  music_manager->enable_music(use_music);
 
   /* Tuxes: */
   smalltux_star = sprite_manager->load("smalltux-star");

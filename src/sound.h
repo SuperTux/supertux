@@ -28,7 +28,7 @@
 
 /*global variable*/
 extern bool use_sound;           /* handle sound on/off menu and command-line option */
-extern bool use_music;           /* handle music on/off menu and command-line option */
+extern bool use_music;           /* handle music on/off menu and command-line */
 extern bool audio_device;        /* != 0: available and initialized */
 
 /* enum of different internal music types */

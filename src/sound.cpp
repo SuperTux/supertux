@@ -27,7 +27,6 @@
 bool use_sound = true;    /* handle sound on/off menu and command-line option */
 bool use_music = true;    /* handle music on/off menu and command-line option */
 bool audio_device = true; /* != 0: available and initialized */
-int current_music;
 
 char * soundfilenames[NUM_SOUNDS] = {
                                        "/sounds/jump.wav",

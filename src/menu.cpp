@@ -154,7 +154,7 @@ MenuItem::change_input(const  char *text_)
 /* Set ControlField a key */
 void Menu::get_controlfield_key_into_input(MenuItem *item)
 {
-switch(*item->int_p)
+  switch(*item->int_p)
   {
   case SDLK_UP:
     strcpy(item->input, "Up cursor");
@@ -600,6 +600,25 @@ Menu::draw()
     {
       draw_item(i, menu_width, menu_height);
     }
+}
+
+MenuItem&
+Menu::get_item_by_id(int id)
+{
+  for(std::vector<MenuItem>::iterator i = item.begin(); i != item.end(); ++i) {
+    if(i->id == id)
+      return *i;
+  }
+
+  assert(false);
+  static MenuItem dummyitem;
+  return dummyitem;
+}
+
+bool
+Menu::isToggled(int id)
+{
+  return get_item_by_id(id).toggled;
 }
 
 /* Check for menu event */

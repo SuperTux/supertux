@@ -41,6 +41,7 @@
 #include "button.h"
 #include "tile.h"
 #include "resources.h"
+#include "music_manager.h"
 
 /* definitions to aid development */
 
@@ -170,6 +171,8 @@ int leveleditor(int levelnb)
 
   clearscreen(0, 0, 0);
   updatescreen();
+  
+  music_manager->halt_music();
 
   while (SDL_PollEvent(&event))
     {}
@@ -1220,6 +1223,8 @@ void le_testlevel()
   
   GameSession session("test",le_level, ST_GL_TEST);
   session.run();
+
+  music_manager->halt_music();
 
   Menu::set_current(leveleditor_menu);
   le_world.arrays_free();

@@ -171,6 +171,9 @@ public:
   int  check  ();
 
   MenuItem& get_item(int index) { return item[index]; }
+  MenuItem& get_item_by_id(int id);
+
+  bool isToggled(int id);
 
   void Menu::get_controlfield_key_into_input(MenuItem *item);
 
@@ -183,6 +186,8 @@ public:
 
   int get_width() const;
   int get_height() const;
+
+  bool is_toggled(int id) const;
 };
 
 extern Surface* checkbox;
