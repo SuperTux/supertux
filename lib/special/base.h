@@ -30,7 +30,7 @@ namespace SuperTux
 
   /// 'Base' type for game objects.
   /** Mainly for layered use in game objects.
-      Containts upper left X and Y coordinates of an
+      Contains upper left X and Y coordinates of an
       object along with its width and height. */
   struct base_type
     {
