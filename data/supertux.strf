@@ -617,26 +617,32 @@
   ; Trampoline
   (sprite (name "trampoline-1")
          (x-hotspot 0)
-         (x-hotspot 0)
+         (y-hotspot 0)
          (images "shared/trampoline-1.png"))
  (sprite (name "trampoline-2")
          (x-hotspot 0)
-         (x-hotspot 0)
+         (y-hotspot 0)
          (images "shared/trampoline-2.png"))
  (sprite (name "trampoline-3")
          (x-hotspot 0)
-         (x-hotspot 0)
+         (y-hotspot 0)
          (images "shared/trampoline-3.png"))
  (sprite (name "trampoline-4")
          (x-hotspot 0)
-         (x-hotspot 0)
+         (y-hotspot 0)
          (images "shared/trampoline-4.png"))
 
   ; Flying platforms
   (sprite (name "flying_platform")
          (x-hotspot 0)
-         (x-hotspot 0)
+         (y-hotspot 0)
          (images "shared/flying_platform-1.png"))
+
+  ; Wingling
+  (sprite (name "wingling-left")
+          (x-hotspot 0)
+          (y-hotspot 0)
+          (images "shared/wingling-1.png"))
 
  )
 

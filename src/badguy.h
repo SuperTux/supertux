@@ -49,6 +49,7 @@ enum BadGuyKind {
   BAD_FLYINGSNOWBALL,
   BAD_SPIKY,
   BAD_SNOWBALL,
+  BAD_WINGLING,
   NUM_BadGuyKinds
 };
 
@@ -144,6 +145,7 @@ private:
   void action_flyingsnowball(double frame_ratio);
   void action_spiky(double frame_ratio);
   void action_snowball(double frame_ratio);
+  void action_wingling(double frame_ratio);
 
   /** initializes the badguy (when he appears on screen) */
   void activate(Direction direction);

@@ -74,8 +74,10 @@ Sprite* img_snowball_left;
 Sprite* img_snowball_right;
 Sprite* img_snowball_squished_left;
 Sprite* img_snowball_squished_right;
+Sprite* img_wingling_left;
 
 #define BADGUY_WALK_SPEED .8f
+#define WINGLING_FLY_SPEED 1.6f
 
 BadGuyKind  badguykind_from_string(const std::string& str)
 {
@@ -99,6 +101,8 @@ BadGuyKind  badguykind_from_string(const std::string& str)
     return BAD_SPIKY;
   else if (str == "snowball" || str == "bsod") // was bsod in old maps
     return BAD_SNOWBALL;
+  else if (str == "wingling")
+    return BAD_WINGLING;
   else
     {
       printf("Couldn't convert badguy: '%s'\n", str.c_str());
@@ -139,6 +143,9 @@ std::string badguykind_to_string(BadGuyKind kind)
       break;
     case BAD_SNOWBALL:
       return "snowball";
+      break;
+    case BAD_WINGLING:
+      return "wingling";
       break;
     default:
       return "snowball";
@@ -271,6 +278,10 @@ BadGuy::activate(Direction activation_dir)
   } else if(kind == BAD_SNOWBALL) {
     physic.set_velocity(dirsign * BADGUY_WALK_SPEED, 0);
     set_sprite(img_snowball_left, img_snowball_right);
+  } else if(kind == BAD_WINGLING) {
+    physic.set_velocity(dirsign * WINGLING_FLY_SPEED, 0);
+    physic.enable_gravity(false);
+    set_sprite(img_wingling_left, img_wingling_left);
   }
 
   base.x = start_position.x;
@@ -766,6 +777,30 @@ BadGuy::action_snowball(double elapsed_time)
 }
 
 void
+BadGuy::action_wingling(double elapsed_time)
+{
+  if (dying != DYING_NOT)
+    physic.enable_gravity(true);
+  else
+  {
+    Player& tux = *World::current()->get_tux();
+
+    if (fabsf(tux.base.x - base.x) < 200 && base.y < tux.base.y && tux.dying == DYING_NOT)
+      physic.set_velocity(-2.0f, -2.0f);
+    else
+      physic.set_velocity(-WINGLING_FLY_SPEED, 0);
+  }
+
+  physic.apply(elapsed_time, base.x, base.y);
+
+
+  // Handle dying timer:
+  if (dying == DYING_SQUISHED && !timer.check())
+    remove_me();                                  
+}
+
+
+void
 BadGuy::action(float elapsed_time)
 {
   float scroll_x = World::current()->camera->get_translation().x;
@@ -864,6 +899,11 @@ BadGuy::action(float elapsed_time)
     case BAD_SNOWBALL:
       action_snowball(elapsed_time);
       break;
+
+    case BAD_WINGLING:
+      action_wingling(elapsed_time);
+      break;
+
     default:
       break;
     }
@@ -1040,7 +1080,12 @@ BadGuy::squish(Player* player)
     squish_me(player);
     set_sprite(img_snowball_squished_left, img_snowball_squished_right);
     return;
+  } else if(kind == BAD_WINGLING) {
+    squish_me(player);
+    set_sprite(img_wingling_left, img_wingling_left);
   }
+    
+  
 }
 
 void
@@ -1123,6 +1168,7 @@ BadGuy::collision(void *p_c_object, int c_object, CollisionType type)
     case CO_BADGUY:
       pbad_c = (BadGuy*) p_c_object;
 
+
       /* If we're a kicked mriceblock, kill [almost] any badguys we hit */
       if(kind == BAD_MRICEBLOCK && mode == KICK &&
          kind != BAD_FLAME && kind != BAD_BOMB && kind != BAD_STALACTITE)
@@ -1168,7 +1214,11 @@ BadGuy::collision(void *p_c_object, int c_object, CollisionType type)
       /* When enemies run into eachother, make them change directions */
       else
       {
-        // Jumpy, fish, flame, stalactites are exceptions
+        // Wingling doesn't interact with other badguys
+        if (pbad_c->kind == BAD_WINGLING || kind == BAD_WINGLING)
+          break;
+
+        // Jumpy, fish, flame, stalactites, wingling are exceptions
         if (pbad_c->kind == BAD_JUMPY || pbad_c->kind == BAD_FLAME
             || pbad_c->kind == BAD_STALACTITE || pbad_c->kind == BAD_FISH)
           break;
@@ -1283,6 +1333,7 @@ void load_badguy_gfx()
   img_snowball_right = sprite_manager->load("snowball-right");
   img_snowball_squished_left = sprite_manager->load("snowball-squished-left");
   img_snowball_squished_right = sprite_manager->load("snowball-squished-right");
+  img_wingling_left = sprite_manager->load("wingling-left");
 }
 
 void free_badguy_gfx()
