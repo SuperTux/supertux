@@ -726,9 +726,6 @@ GameSession::drawstatus(DrawingContext& context)
   context.draw_text(gold_text, str,
       Vector(screen->w - gold_text->get_text_width(" 99"), 0),LAYER_FOREGROUND1);
 
-  context.draw_text(white_text, _("LIVES"),
-      Vector(screen->w - white_text->get_text_width(_("LIVES"))-white_text->get_text_width(str), 20),
-      LAYER_FOREGROUND1);
   if (player_status.lives >= 5)
     {
       sprintf(str, "%dx", player_status.lives);
@@ -744,6 +741,10 @@ GameSession::drawstatus(DrawingContext& context)
             Vector(screen->w - tux_life->w*4 +(tux_life->w*i), 20),
             LAYER_FOREGROUND1);
     }
+
+  context.draw_text(white_text, _("LIVES"),
+      Vector(screen->w - white_text->get_text_width(_("LIVES")) - white_text->get_text_width("   99"), 20),
+      LAYER_FOREGROUND1);
 
   if(show_fps)
     {
