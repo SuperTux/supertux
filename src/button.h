@@ -75,6 +75,8 @@ public:
   void set_button_size(int w, int h);
   Button* manipulate_button(int i);
   void highlight_last(bool b);
+  void set_last_clicked(unsigned int last)
+  { if(hlast) { if(item.size() >= last) { last_clicked = item.begin() + last; } } };
 
 private:
   int bw, bh;

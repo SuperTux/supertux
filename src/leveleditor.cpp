@@ -103,6 +103,7 @@ struct TileOrObject
 static string_list_type level_subsets;
 static bool le_level_changed;  /* if changes, ask for saving, when quiting*/
 static bool show_minimap;
+static bool le_help_shown;
 static int pos_x, cursor_x, cursor_y, fire;
 static int le_level;
 static World* le_world;
@@ -226,10 +227,10 @@ int leveleditor(char* filename)
         switch (leveleditor_menu->check())
         {
         case MNID_RETURNLEVELEDITOR:
-	  if(le_world != NULL)
-          Menu::set_current(0);
-	  else
-	  Menu::set_current(leveleditor_menu);
+          if(le_world != NULL)
+            Menu::set_current(0);
+          else
+            Menu::set_current(leveleditor_menu);
           break;
         case MNID_SUBSETSETTINGS:
           update_subset_settings_menu();
@@ -313,7 +314,7 @@ int leveleditor(char* filename)
             LevelSubset::create(subset_new_menu->get_item_by_id(MNID_SUBSETNAME).input);
             le_level_subset->load(subset_new_menu->get_item_by_id(MNID_SUBSETNAME).input);
             leveleditor_menu->get_item_by_id(MNID_SUBSETSETTINGS).kind = MN_GOTO;
-	    delete le_world;
+            delete le_world;
             le_world = new World(le_level_subset->name,1);
             subset_new_menu->get_item_by_id(MNID_SUBSETNAME).change_input("");
 
@@ -367,7 +368,7 @@ int le_load_level(char *filename)
   le_level = 1;
   delete le_world;
   le_world = new World(filename,le_level);
-  
+
   //GameSession* session = new GameSession(datadir + "/levels/" + le_level_subset->name + "/level1.stl", 0, ST_GL_DEMO_GAME);
 
   Menu::set_current(NULL);
@@ -378,7 +379,7 @@ int le_load_level(char *filename)
 void le_init_menus()
 {
   int i;
-  
+
   leveleditor_menu = new Menu();
   subset_load_menu = new Menu();
   subset_new_menu  = new Menu();
@@ -452,42 +453,42 @@ void le_init_menus()
   std::set<TileGroup>* tilegroups = TileManager::tilegroups();
   int tileid = 1;
   for(std::set<TileGroup>::iterator it = tilegroups->begin();
-      it != tilegroups->end(); ++it )
-  {
-    select_tilegroup_menu->additem(MN_ACTION, it->name, 0, 0, tileid);
-    tileid++;
-    tilegroups_map[(*it).name] = new ButtonPanel(screen->w - 64,96, 64, 318);
-    i = 0;
-    
-    for(std::vector<int>::const_iterator sit = (*it).tiles.begin();
-        sit != (*it).tiles.end(); ++sit, ++i)
+        it != tilegroups->end(); ++it )
     {
-      std::string imagefile = "/images/tilesets/" ;
-      bool only_editor_image = false;
-      if(!TileManager::instance()->get(*sit)->filenames.empty())
+      select_tilegroup_menu->additem(MN_ACTION, it->name, 0, 0, tileid);
+      tileid++;
+      tilegroups_map[(*it).name] = new ButtonPanel(screen->w - 64,96, 64, 318);
+      i = 0;
+
+      for(std::vector<int>::const_iterator sit = (*it).tiles.begin();
+          sit != (*it).tiles.end(); ++sit, ++i)
       {
-        imagefile += TileManager::instance()->get(*sit)->filenames[0];
-      }
-      else if(!TileManager::instance()->get(*sit)->editor_filenames.empty())
-      {
-        imagefile += TileManager::instance()->get(*sit)->editor_filenames[0];
-        only_editor_image = true;
-      }
-      else
-      {
-        imagefile += "notile.png";
-      }
-      Button* button = new Button(imagefile, it->name, SDLKey(SDLK_a + i),
-                                  0, 0, 32, 32);
-      if(!only_editor_image)
-        if(!TileManager::instance()->get(*sit)->editor_filenames.empty())
+        std::string imagefile = "/images/tilesets/" ;
+        bool only_editor_image = false;
+        if(!TileManager::instance()->get(*sit)->filenames.empty())
         {
-          imagefile = "/images/tilesets/" + TileManager::instance()->get(*sit)->editor_filenames[0];
-          button->add_icon(imagefile,32,32);
+          imagefile += TileManager::instance()->get(*sit)->filenames[0];
         }
-      tilegroups_map[it->name]->additem(button, *sit);
+        else if(!TileManager::instance()->get(*sit)->editor_filenames.empty())
+        {
+          imagefile += TileManager::instance()->get(*sit)->editor_filenames[0];
+          only_editor_image = true;
+        }
+        else
+        {
+          imagefile += "notile.png";
+        }
+        Button* button = new Button(imagefile, it->name, SDLKey(SDLK_a + i),
+                                    0, 0, 32, 32);
+        if(!only_editor_image)
+          if(!TileManager::instance()->get(*sit)->editor_filenames.empty())
+          {
+            imagefile = "/images/tilesets/" + TileManager::instance()->get(*sit)->editor_filenames[0];
+            button->add_icon(imagefile,32,32);
+          }
+        tilegroups_map[it->name]->additem(button, *sit);
+      }
     }
-  }
   select_tilegroup_menu->additem(MN_HL,"",0,0);
 
   select_objects_menu->arrange_left = true;
@@ -511,11 +512,11 @@ int le_init()
 {
 
 
-  level_subsets = dsubdirs("/levels", "info");
+  level_subsets = dsubdirs("/levels", "level1.stl");
   le_level_subset = new LevelSubset;
 
   le_world = NULL;
-  
+
   active_tm = TM_IA;
   le_show_grid = true;
   scroll_x = 0;
@@ -524,6 +525,7 @@ int le_init()
   done = 0;
   le_frame = 0;	/* support for frames in some tiles, like waves and bad guys */
   le_level_changed = false;
+  le_help_shown = false;
 
   le_mouse_pressed[LEFT] = false;
   le_mouse_pressed[RIGHT] = false;
@@ -557,6 +559,7 @@ int le_init()
   le_tilemap_panel->additem(new Button("/images/icons/intact.png","Interactive",SDLK_i,0,0),TM_IA);
   le_tilemap_panel->additem(new Button("/images/icons/frgrd.png","Foreground",SDLK_f,0,0),TM_FG);
   le_tilemap_panel->highlight_last(true);
+  le_tilemap_panel->set_last_clicked(TM_IA);
 
   le_current.Init();
 
@@ -767,26 +770,26 @@ void le_drawinterface()
     }
   }
 
-  if(show_minimap && use_gl) // use_gl because the minimap isn't shown correctly in software mode. Any idea? FIXME Possible reasons: SDL_SoftStretch is a hack itsself || an alpha blitting issue SDL can't handle in software mode
+  if(show_minimap) // use_gl because the minimap isn't shown correctly in software mode. Any idea? FIXME Possible reasons: SDL_SoftStretch is a hack itsself || an alpha blitting issue SDL can't handle in software mode
     le_drawminimap();
 
   if(le_selection_mode == CURSOR)
+  {
     if(le_current.IsTile())
       le_selection->draw( cursor_x - pos_x, cursor_y);
-    else
-      le_selection->draw( cursor_x, cursor_y);
-  else if(le_selection_mode == SQUARE)
-  {
-    int w, h;
-    le_highlight_selection();
-    /* draw current selection */
-    w = selection.x2 - selection.x1;
-    h = selection.y2 - selection.y1;
-    fillrect(selection.x1 - pos_x, selection.y1, w, SELECT_W, SELECT_CLR);
-    fillrect(selection.x1 - pos_x + w, selection.y1, SELECT_W, h, SELECT_CLR);
-    fillrect(selection.x1 - pos_x, selection.y1 + h, w, SELECT_W, SELECT_CLR);
-    fillrect(selection.x1 - pos_x, selection.y1, SELECT_W, h, SELECT_CLR);
-  }
+      }
+    else if(le_selection_mode == SQUARE)
+    {
+      int w, h;
+      le_highlight_selection();
+      /* draw current selection */
+      w = selection.x2 - selection.x1;
+      h = selection.y2 - selection.y1;
+      fillrect(selection.x1 - pos_x, selection.y1, w, SELECT_W, SELECT_CLR);
+      fillrect(selection.x1 - pos_x + w, selection.y1, SELECT_W, h, SELECT_CLR);
+      fillrect(selection.x1 - pos_x, selection.y1 + h, w, SELECT_W, SELECT_CLR);
+      fillrect(selection.x1 - pos_x, selection.y1, SELECT_W, h, SELECT_CLR);
+    }
 
 
   /* draw button bar */
@@ -831,9 +834,10 @@ void le_drawinterface()
     le_tilemap_panel->draw();
 
     sprintf(str, "%d/%d", le_level,le_level_subset->levels);
-    white_text->drawf(str, -10, 16, A_RIGHT, A_TOP, 0);
+    white_text->drawf(str, (le_level_subset->levels < 10) ? -10 : 0, 16, A_RIGHT, A_TOP, 0);
 
-    white_small_text->draw("F1 for Help", 10, 430, 1);
+    if(!le_help_shown)
+      white_small_text->draw("F1 for Help", 10, 430, 1);
   }
   else
   {
@@ -855,9 +859,9 @@ void le_drawlevel()
   {
     s = (int)((float)pos_x * ((float)le_world->get_level()->bkgd_speed/60.)) % screen->w;
     le_world->get_level()->img_bkgd->draw_part(s,0,0,0,
-                                          le_world->get_level()->img_bkgd->w - s - 32, le_world->get_level()->img_bkgd->h);
+        le_world->get_level()->img_bkgd->w - s - 32, le_world->get_level()->img_bkgd->h);
     le_world->get_level()->img_bkgd->draw_part(0,0,screen->w - s - 32 ,0,s,
-                                          le_world->get_level()->img_bkgd->h);
+        le_world->get_level()->img_bkgd->h);
   }
   else
   {
@@ -904,8 +908,9 @@ void le_drawlevel()
 
       /* draw whats inside stuff when cursor is selecting those */
       /* (draw them all the time - is this the right behaviour?) */
-      if(!TileManager::instance()->get(le_world->get_level()->ia_tiles[y][x + (int)(pos_x / 32)])->editor_images.empty())
-        TileManager::instance()->get(le_world->get_level()->ia_tiles[y][x + (int)(pos_x / 32)])->editor_images[0]->draw( x * 32 - ((int)pos_x % 32), y*32);
+      Tile* edit_image = TileManager::instance()->get(le_world->get_level()->ia_tiles[y][x + (int)(pos_x / 32)]);
+      if(edit_image && !edit_image->editor_images.empty())
+        edit_image->editor_images[0]->draw( x * 32 - ((int)pos_x % 32), y*32);
 
     }
 
@@ -926,7 +931,7 @@ void le_drawlevel()
 
 void le_change_object_properties(GameObject *pobj)
 {
-Menu* object_properties_menu = new Menu();
+  Menu* object_properties_menu = new Menu();
 
   object_properties_menu->additem(MN_LABEL,pobj->type() + " Properties",0,0);
   object_properties_menu->additem(MN_HL,"",0,0);
@@ -937,7 +942,7 @@ Menu* object_properties_menu = new Menu();
   object_properties_menu->additem(MN_HL,"",0,0);
   object_properties_menu->additem(MN_BACK,"Apply",0,0);
 
-delete object_properties_menu;
+  delete object_properties_menu;
 }
 
 
@@ -955,6 +960,8 @@ void le_checkevents()
     if (Menu::current())
     {
       Menu::current()->event(event);
+      if(!le_world && !Menu::current())
+      Menu::set_current(leveleditor_menu);
     }
     else
     {
@@ -975,6 +982,7 @@ void le_checkevents()
           {
           case SDLK_ESCAPE:
             Menu::set_current(leveleditor_menu);
+	    break;
           case SDLK_LEFT:
             if(fire == DOWN)
               cursor_x -= KEY_CURSOR_SPEED;
@@ -1017,8 +1025,8 @@ void le_checkevents()
             fire =UP;
             break;
           case SDLK_F1:
-	    if(le_world != NULL)
-            le_showhelp();
+            if(le_world != NULL)
+              le_showhelp();
             break;
           case SDLK_HOME:
             cursor_x = 0;
@@ -1318,7 +1326,7 @@ void le_checkevents()
           if(le_objects_bt->get_state() == BUTTON_CLICKED)
           {
             Menu::set_current(0);
-          }	  
+          }
         }
       }
 
@@ -1449,10 +1457,10 @@ void le_change(float x, float y, int tm, unsigned int c)
       for(std::list<BadGuy*>::iterator it = le_world->bad_guys.begin(); it != le_world->bad_guys.end(); ++it, ++i)
         if(rectcollision(cursor_base,(*it)->base))
         {
-	  delete (*it);
+          delete (*it);
           le_world->bad_guys.erase(it);
           le_world->get_level()->badguy_data.erase(le_world->get_level()->badguy_data.begin() + i);
-	  break;
+          break;
         }
 
       break;
@@ -1490,14 +1498,14 @@ void le_change(float x, float y, int tm, unsigned int c)
         if((*it)->base.x/32 >= x1 && (*it)->base.x/32 <= x2
             && (*it)->base.y/32 >= y1 && (*it)->base.y/32 <= y2)
         {
-	  delete (*it);
+          delete (*it);
           it = le_world->bad_guys.erase(it);
-	  le_world->get_level()->badguy_data.erase(le_world->get_level()->badguy_data.begin() + i);
+          le_world->get_level()->badguy_data.erase(le_world->get_level()->badguy_data.begin() + i);
           continue;
         }
         else
         {
-	  ++i;
+          ++i;
           ++it;
         }
       }
@@ -1519,8 +1527,8 @@ void le_testlevel()
 {
   //Make sure a time value is set when testing the level
   if(le_world->get_level()->time_left == 0)
-  le_world->get_level()->time_left = 250;
-  
+    le_world->get_level()->time_left = 250;
+
   le_world->get_level()->save("test", le_level);
 
   GameSession session("test",le_level, ST_GL_TEST);
@@ -1535,63 +1543,69 @@ void le_testlevel()
 
 void le_showhelp()
 {
+  bool tmp_show_grid = le_show_grid;
+  le_show_grid = false;
+  le_help_shown = true;
+
+  drawgradient(Color(0,0,0), Color(255,255,255));
+  le_drawinterface();
+
   SDL_Event event;
   unsigned int i, done_;
   char *text[] = {
 
                    " - Supertux level editor tutorial - ",
-		   "",
-                   "To make your map, click the tilegroup button and choose a tilegroup."
-                   "Pick a tile and simply hold down the left mouse button over the map",
-		   "to \"paint\" your selection over the screen.",
-		   "There are three layers for painting tiles upon, Background layer,",
-                   "the Interactive layer, and the Foreground layer, which can be toggled",
-                   "by the BkGrd, IntAct and FrGrd buttons. The Foreground and Background",
-                   "layers do not effect Tux in the gameplay, but lie in front of him or",
-                   "lie behind him in his adventures. The tiles placed on the Interactive",
-		   "layer are those which actually effect Tux in the game.",  
-		   "Click the objects menu to put bad guys and other objects in the game.",
-		   "Unlike placing tiles, you cannot \"paint\" enemies. Click them onto",
-		   "the screen one at a time.",
-		   "To change the settings of your level, click the button with the",
-		   "screwdriver and wrench. From here you can change the background,",
-		   "music, length of the level, and more.",
-		   "You may have more than one levelset. Pressing the up and down buttons",
-		   "above the button bar lets you choose which one you are working on.",
-		   "If you would like to speed up your level editing, a useful trick is",
-		   "to learn the keyboard shortcuts. They are easy to learn, just right-",
-                   "Have fun making levels! If you make some good ones, send them to us on",
-                   "the SuperTux mailing list!",
-                   "- SuperTux team"
+                   "",
+                   "To make your map, click the       ",
+                   "tilegroup button and choose a     ",
+                   "tilegroup.",
+                   "Pick a tile and simply hold down  ",
+                   "the left mouse button over the map",
+                   "to \"paint\" your selection over",
+                   "the screen.",
+                   "There are three layers for painting",
+                   "tiles upon, Background layer,",
+                   "the Interactive layer, and the",
+                   "Foreground layer, which can be",
+                   "toggled by the BkGrd, IntAct and",
+                   "FrGrd buttons. The Foreground and",
+                   "Background layers do not effect",
+                   "Tux in the gameplay, but lie in",
+                   "front of him or lie behind him in",
+                   "his adventures.",
                  };
 
   char *text2[] = {
 
-                   " - Supertux level editor tutorial - ",
-		   "",
-                   "To make your map, click the tilegroup button and choose a tilegroup."
-                   "APick a tile and simply hold down the left mouse button over the map",
-		   "Ato \"paint\" your selection over the screen.",
-		   "AThere are three layers for painting tiles upon, Background layer,",
-                   "the Interactive layer, and the Foreground layer, which can be toggled",
-                   "by the BkGrd, IntAct and FrGrd buttons. The Foreground and Background",
-                   "layers do not effect Tux in the gameplay, but lie in front of him or",
-                   "lie behind him in his adventures. The tiles placed on the Interactive",
-		   "layer are those which actually effect Tux in the game.",  
-		   "Click the objects menu to put bad guys and other objects in the game.",
-		   "Unlike placing tiles, you cannot \"paint\" enemies. Click them onto",
-		   "the screen one at a time.",
-		   "To change the settings of your level, click the button with the",
-		   "screwdriver and wrench. From here you can change the background,",
-		   "music, length of the level, and more.",
-		   "You may have more than one levelset. Pressing the up and down buttons",
-		   "above the button bar lets you choose which one you are working on.",
-		   "If you would like to speed up your level editing, a useful trick is",
-		   "to learn the keyboard shortcuts. They are easy to learn, just right-",
-                   "Have fun making levels! If you make some good ones, send them to us on",
-                   "the SuperTux mailing list!",
-                   "- SuperTux team"
-                 };		 
+                    " - Supertux level editor tutorial - ",
+                    "",
+                    "The tiles placed on",
+                    "the Interactive layer are those",
+                    "which actually effect Tux in the",
+                    "game.",
+                    "Click the objects menu to put ",
+                    "bad guys and other objects in the",
+                    "game. Unlike placing tiles, you",
+                    "cannot \"paint\" enemies. Click",
+                    "them onto the screen one at a time.",
+                    "To change the settings of your",
+                    "level, click the button with the",
+                    "screwdriver and wrench. From here",
+                    "you can change the background,",
+                    "music, length of the level, and more.",
+                    "You may have more than one levelset.",
+                    "Pressing the up and down buttons",
+                    "above the button bar lets you choose",
+                    "which one you are working on.",
+                    "If you would like to speed up your",
+                    "level editing, a useful trick is",
+                    "to learn the keyboard shortcuts. They",
+                    "are easy to learn, just right-",
+                    "Have fun making levels! If you make",
+                    "some good ones, send them to us on",
+                    "the SuperTux mailing list!",
+                    "- SuperTux team"
+                  };
 
 
   blue_text->drawf("- Help -", 0, 30, A_HMIDDLE, A_TOP, 2);
@@ -1599,7 +1613,7 @@ void le_showhelp()
   for(i = 0; i < sizeof(text)/sizeof(char *); i++)
     white_text->draw(text[i], 5, 80+(i*white_text->h), 1);
 
-  gold_text->drawf("Press Any Key to Continue - Page 1/2", 0, 440, A_HMIDDLE, A_TOP, 1);
+  gold_text->drawf("Press Any Key to Continue - Page 1/2", 0, 0, A_LEFT, A_BOTTOM, 1);
 
   flipscreen();
 
@@ -1610,16 +1624,17 @@ void le_showhelp()
     done_ = wait_for_event(event);
     SDL_Delay(50);
   }
-  
-  le_drawlevel();
+
+  drawgradient(Color(0,0,0), Color(255,255,255));
   le_drawinterface();
-  
+
+
   blue_text->drawf("- Help -", 0, 30, A_HMIDDLE, A_TOP, 2);
 
   for(i = 0; i < sizeof(text2)/sizeof(char *); i++)
     white_text->draw(text2[i], 5, 80+(i*white_text->h), 1);
 
-  gold_text->drawf("Press Any Key to Continue - Page 2/2", 0, 440, A_HMIDDLE, A_TOP, 1);
+  gold_text->drawf("Press Any Key to Continue - Page 2/2", 0, 0, A_LEFT, A_BOTTOM, 1);
 
   flipscreen();
 
@@ -1630,4 +1645,7 @@ void le_showhelp()
     done_ = wait_for_event(event);
     SDL_Delay(50);
   }
+
+  le_show_grid = tmp_show_grid;
+  le_help_shown = false;
 }

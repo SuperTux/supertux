@@ -751,7 +751,7 @@ int
 SurfaceSDL::draw_stretched(float x, float y, int sw, int sh, Uint8 alpha, bool update)
 {
   SDL_Rect dest;
-
+  
   dest.x = (int)x;
   dest.y = (int)y;
   dest.w = (int)sw;
@@ -759,8 +759,19 @@ SurfaceSDL::draw_stretched(float x, float y, int sw, int sh, Uint8 alpha, bool u
 
   if(alpha != 255)
     SDL_SetAlpha(sdl_surface ,SDL_SRCALPHA,alpha);
+    
+    
+    SDL_Surface* sdl_surface_copy = SDL_CreateRGBSurface (sdl_surface->flags,
+                                    sw, sh, sdl_surface->format->BitsPerPixel,
+                                    sdl_surface->format->Rmask, sdl_surface->format->Gmask,
+                                    sdl_surface->format->Bmask,
+                                    0);
 
-  int ret = SDL_SoftStretch(sdl_surface, NULL, screen, &dest);
+  SDL_BlitSurface(sdl_surface, NULL, sdl_surface_copy, NULL);				    
+  SDL_SoftStretch(sdl_surface_copy, NULL, sdl_surface_copy, &dest);
+
+  int ret = SDL_BlitSurface(sdl_surface_copy,NULL,screen,&dest);
+  SDL_FreeSurface(sdl_surface_copy);
 
   if (update == UPDATE)
     update_rect(screen, dest.x, dest.y, dest.w, dest.h);
