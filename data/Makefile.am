@@ -13,7 +13,10 @@ EXTRA_DIST = \
   $(wildcard images/title/*.png) \
   levels/default/info.png \
   levels/default/info \
+  levels/default/worldmap.stwm \
   $(wildcard levels/default/*.dat) \
+  $(wildcard levels/default/*.stl) \
+  $(wildcard levels/default/*.stlv) \
   $(wildcard music/*.mod) \
   $(wildcard music/*.MOD) \
   $(wildcard sounds/*.wav) \
