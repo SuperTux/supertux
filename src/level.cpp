@@ -480,6 +480,12 @@ Level::load(const std::string& filename)
   int j = 0;
   for(vector<int>::iterator it = ia_tm.begin(); it != ia_tm.end(); ++it, ++i)
     {
+      if(i > 15)
+        {
+        std::cerr << "Error: Level higher than 15 tiles. Ignoring by cutting tiles.\n";
+        break;
+        }
+
       ia_tiles[j][i] = (*it);
       if(i == width - 1)
         {
@@ -491,6 +497,11 @@ Level::load(const std::string& filename)
   i = j = 0;
   for(vector<int>::iterator it = bg_tm.begin(); it != bg_tm.end(); ++it, ++i)
     {
+      if(i > 15)
+        {
+        std::cerr << "Error: Level higher than 15 tiles. Ignoring by cutting tiles.\n";
+        break;
+        }
 
       bg_tiles[j][i] = (*it);
       if(i == width - 1)
@@ -503,6 +514,11 @@ Level::load(const std::string& filename)
   i = j = 0;
   for(vector<int>::iterator it = fg_tm.begin(); it != fg_tm.end(); ++it, ++i)
     {
+      if(i > 15)
+        {
+        std::cerr << "Error: Level higher than 15 tiles. Ignoring by cutting tiles.\n";
+        break;
+        }
 
       fg_tiles[j][i] = (*it);
       if(i == width - 1)
