@@ -82,8 +82,6 @@ Sprite::parse_action(LispReader& lispreader)
           new Surface(datadir + "/images/" + images[i], true));
     }        
 
-  action->frame_delay = 1000.0f/action->fps;
-
   actions[action->name] = action;
 }
 
@@ -93,8 +91,9 @@ Sprite::init_defaults(Action* act)
   act->x_hotspot = 0;
   act->y_hotspot = 0;
   act->fps = 10;
-  act->frame_delay = 1000.0f/act->fps;
-  time = 0;
+
+  act->animation_loops = 0;
+  last_tick = 0;
 }
 
 void
@@ -105,25 +104,47 @@ action = i->second;
 }
 
 void
-Sprite::update(float /*delta*/)
+Sprite::start_animation(int loops)
 {
-  //time += 10*delta;
-  //std::cout << "Delta: " << delta << std::endl;
+action->animation_loops = loops;
+reset();
+}
+
+void
+Sprite::reset()
+{
+frame = 0;
+last_tick = SDL_GetTicks();
+}
+
+bool
+Sprite::check_animation()
+{
+return action->animation_loops;
+}
+
+void
+Sprite::update()
+{
+frame += (action->fps/1000) * (SDL_GetTicks() - last_tick);
+last_tick = SDL_GetTicks();
+
+if((unsigned int)frame >= action->surfaces.size())
+  {
+  frame = 0;
+  if(action->animation_loops > 0)
+    action->animation_loops--;
+  }
 }
 
 void
 Sprite::draw(DrawingContext& context, const Vector& pos, int layer,
     Uint32 drawing_effect)
 {
-  time = SDL_GetTicks();
-  unsigned int frame = get_current_frame();
+  update();
 
-  if (frame < action->surfaces.size())
-  {
-    Surface* surface = action->surfaces[frame];
-    
-    context.draw_surface(surface, pos - Vector(action->x_hotspot, action->y_hotspot), layer, drawing_effect);
-  }
+  context.draw_surface(action->surfaces[(int)frame],
+          pos - Vector(action->x_hotspot, action->y_hotspot), layer, drawing_effect);
 }
 
 #if 0
@@ -138,27 +159,14 @@ Sprite::draw_part(float sx, float sy, float x, float y, float w, float h)
 }
 #endif
 
-void
-Sprite::reset()
-{
-  time = 0;
-}
-
 int
-Sprite::get_current_frame() const
-{
-  unsigned int frame = static_cast<int>(fmodf(time, action->surfaces.size()*action->frame_delay)/action->frame_delay);
-  return frame % action->surfaces.size();
-}
-
-int
-Sprite::get_width() const
+Sprite::get_width()
 {
   return action->surfaces[get_current_frame()]->w;
 }
 
 int
-Sprite::get_height() const
+Sprite::get_height()
 {
   return action->surfaces[get_current_frame()]->h;
 }

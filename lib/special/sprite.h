@@ -45,9 +45,7 @@ namespace SuperTux
         /** Frames per second */
         float fps;
 
-        /** Number of seconds that a frame is displayed until it is switched
-            to the next frame */
-        float frame_delay;
+        int animation_loops;
 
         std::vector<Surface*> surfaces;
         };
@@ -58,33 +56,28 @@ namespace SuperTux
       Sprite(lisp_object_t* cur);
       ~Sprite();
 
-      void reset();
-
-      /** Update the sprite and process to the next frame */
-      void update(float delta);
+      /** Draw sprite, automatically calculates next frame */
       void draw(DrawingContext& context, const Vector& pos, int layer,
                 Uint32 drawing_effect = NONE_EFFECT);
-      int get_current_frame() const;
 
       /** Set action (or state) */
       void set_action(std::string act);
 
+      /* Handling animations */
+      void start_animation(int loops);
+      bool check_animation();
+
       float get_fps()
-      {
-        return action->fps;
-      } ;
+        { return action->fps; }
       int get_frames()
-      {
-        return action->surfaces.size();
-      } ;
-
+        { return action->surfaces.size(); }
       std::string get_name() const
-        {
-          return name;
-        }
-      int get_width() const;
-      int get_height() const;
+        { return name; }
+      int get_width();
+      int get_height();
 
+      int get_current_frame()
+        { return (int)frame; }
       Surface* get_frame(unsigned int frame)
       {
         if(frame < action->surfaces.size())
@@ -96,9 +89,13 @@ namespace SuperTux
       void init_defaults(Action* act);
       void parse_action(LispReader& lispreader);
 
+      void update();
+      void reset();
+
       std::string name;
 
-      float time;
+      float frame;
+      float last_tick;
 
       typedef std::map <std::string, Action*> Actions;
       Actions actions;
