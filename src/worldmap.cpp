@@ -856,9 +856,6 @@ WorldMap::draw_status(DrawingContext& context)
   context.draw_text(gold_text, str, Vector(screen->w/2 + (16*5)/2, 0),
         LAYER_FOREGROUND1);
 
-  context.draw_text(white_text, _("LIVES"),
-      Vector(screen->w - white_text->get_text_width(_("LIVES"))*2, 0),
-      LAYER_FOREGROUND1);
   if (player_status.lives >= 5)
     {
       sprintf(str, "%dx", player_status.lives);
@@ -875,6 +872,9 @@ WorldMap::draw_status(DrawingContext& context)
             Vector(screen->w - tux_life->w*4 + (tux_life->w*i), 0),
             LAYER_FOREGROUND1);
     }
+  context.draw_text(white_text, _("LIVES"),
+      Vector(screen->w - white_text->get_text_width(_("LIVES")) - white_text->get_text_width("   99"), 0),
+      LAYER_FOREGROUND1);
 
   if (!tux->is_moving())
     {
@@ -888,7 +888,7 @@ WorldMap::draw_status(DrawingContext& context)
 
               context.draw_text(white_text, i->title, 
                   Vector(screen->w/2 - white_text->get_text_width(i->title)/2,
-                         screen->h - white_text->get_height() - 50),
+                         screen->h - white_text->get_height() - 30),
                   LAYER_FOREGROUND1);
               break;
             }

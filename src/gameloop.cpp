@@ -698,7 +698,7 @@ GameSession::drawstatus(DrawingContext& context)
 {
   char str[60];
   
-  snprintf(str, 60, "%d", player_status.score);
+  snprintf(str, 60, " %d", player_status.score);
   context.draw_text(white_text, _("SCORE"), Vector(0, 0), LAYER_FOREGROUND1);
   context.draw_text(gold_text, str, Vector(96, 0), LAYER_FOREGROUND1);
 

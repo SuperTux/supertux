@@ -395,7 +395,7 @@ void st_menu(void)
   options_menu->additem(MN_LABEL,_("Options"),0,0);
   options_menu->additem(MN_HL,"",0,0);
 #ifndef NOOPENGL
-  options_menu->additem(MN_TOGGLE,"OpenGL",use_gl,0, MNID_OPENGL);
+  options_menu->additem(MN_TOGGLE,_("OpenGL    "),use_gl,0, MNID_OPENGL);
 #else
   options_menu->additem(MN_DEACTIVE,_("OpenGL (not supported)"),use_gl, 0, MNID_OPENGL);
 #endif
@@ -411,15 +411,15 @@ void st_menu(void)
       options_menu->additem(MN_DEACTIVE,_("Music     "), false,0, MNID_MUSIC);
     }
   options_menu->additem(MN_TOGGLE,_("Show FPS  "),show_fps,0, MNID_SHOWFPS);
-  options_menu->additem(MN_GOTO,_("Keyboard Setup"),0,options_keys_menu);
+  options_menu->additem(MN_GOTO,_("Setup Keys"),0,options_keys_menu);
 
   if(use_joystick)
-    options_menu->additem(MN_GOTO,_("Joystick Setup"),0,options_joystick_menu);
+    options_menu->additem(MN_GOTO,_("Setup Joystick"),0,options_joystick_menu);
 
   options_menu->additem(MN_HL,"",0,0);
   options_menu->additem(MN_BACK,_("Back"),0,0);
   
-  options_keys_menu->additem(MN_LABEL,_("Key Setup"),0,0);
+  options_keys_menu->additem(MN_LABEL,_("Keyboard Setup"),0,0);
   options_keys_menu->additem(MN_HL,"",0,0);
   options_keys_menu->additem(MN_CONTROLFIELD_KB,_("Left move"), 0,0, 0,&keymap.left);
   options_keys_menu->additem(MN_CONTROLFIELD_KB,_("Right move"), 0,0, 0,&keymap.right);
@@ -1033,14 +1033,14 @@ void parseargs(int argc, char * argv[])
         }
       else if (strcmp(argv[i], "--help") == 0)
         {     /* Show help: */
-          puts("Super Tux " VERSION "\n"
-               "  Please see the file \"README.txt\" for more details.\n");
-          printf("Usage: %s [OPTIONS] FILENAME\n\n", argv[0]);
-          puts("Display Options:\n"
+          puts(_("  SuperTux  " VERSION "\n"
+               "  Please see the file \"README.txt\" for more details.\n"));
+          printf(_("Usage: %s [OPTIONS] FILENAME\n\n"), argv[0]);
+          puts(_("Display Options:\n"
                "  --fullscreen        Run in fullscreen mode.\n"
-               "  --opengl            If opengl support was compiled in, this will enable\n"
-               "                      the EXPERIMENTAL OpenGL mode.\n"
-               "  --sdl               Use non-opengl renderer\n"
+               "  --opengl            If OpenGL support was compiled in, this will tell\n"
+               "                      SuperTux to make use of it.\n"
+               "  --sdl               Use the SDL software graphical renderer\n"
                "\n"
                "Sound Options:\n"
                "  --disable-sound     If sound support was compiled in,  this will\n"
@@ -1058,7 +1058,7 @@ void parseargs(int argc, char * argv[])
                "                      options, license and game controls.\n"
                "  --usage             Display a brief message summarizing command-line options.\n"
                "  --version           Display the version of SuperTux you're running.\n\n"
-               );
+               ));
           exit(0);
         }
       else if (argv[i][0] != '-')
@@ -1092,7 +1092,7 @@ void usage(char * prog, int ret)
 
   /* Display the usage message: */
 
-  fprintf(fi, "Usage: %s [--fullscreen] [--opengl] [--disable-sound] [--disable-music] [--debug-mode] | [--usage | --help | --version] [--leveleditor] FILENAME\n",
+  fprintf(fi, _("Usage: %s [--fullscreen] [--opengl] [--disable-sound] [--disable-music] [--debug-mode] | [--usage | --help | --version] [--leveleditor] FILENAME\n"),
           prog);
 
 
