@@ -1126,38 +1126,38 @@
        (action
          (name "left")
          (x-offset 0)
-         (y-offset 32)
+         (y-offset 0)
          (images "shared/dummyguy-walk-1.png"
                  "shared/dummyguy-walk-2.png"))
 
        (action
          (name "right")
          (x-offset 0)
-         (y-offset 32)
+         (y-offset 0)
          (mirror-action "left"))
          
        (action
          (name "stand")
          (x-offset 0)
-         (y-offset 32)
+         (y-offset 0)
          (images "shared/dummyguy-stand.png"))
          
        (action
          (name "throw")
          (x-offset 0)
-         (y-offset 32)
+         (y-offset 0)
          (images "shared/dummyguy-throw.png"))
 
        (action
          (name "jump")
          (x-offset 0)
-         (y-offset 32)
+         (y-offset 0)
          (images "shared/dummyguy-jump.png"))
          
        (action
          (name "dead")
          (x-offset 0)
-         (y-offset 32)
+         (y-offset 0)
          (images "shared/dummyguy-dead.png")))
 
 

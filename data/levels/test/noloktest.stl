@@ -11,7 +11,7 @@
     (background (image "forest1.jpg")
                 (speed 0.5))
     (music "Mortimers_chipdisko.mod")
-    (spawn-points (name "main") (x 100) (y 512))
+    (spawn-points (name "main") (x 100) (y 100))
     (nolok_01 (x 650) (y 512))
     (tilemap
       (layer "background")

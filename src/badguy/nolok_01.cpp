@@ -4,19 +4,20 @@
 #include "badguy/bouncing_snowball.h"
 #include "trigger/door.h"
 
-#define SHOOT_TIME 2.5
-#define IDLE_TIME 0.4
+#define WALK_TIME 2.5
+#define SHOOT_TIME 0.4
 #define JUMP_TIME 0.3
 
-static const float WALKSPEED = 80;
+static const float WALKSPEED = 90;
 
 //TODO: Create sprite, give multiple hitpoints, limit max number of snowballs
 //      Can only be killed when jumping, no idea why
+//      Stop actions when pause button is hit (probably a general problem of timers)
 Nolok_01::Nolok_01(LispReader& reader)
 {
   reader.read_float("x", start_position.x);
   reader.read_float("y", start_position.y);
-  bbox.set_size(31.8, 31.8);
+  bbox.set_size(31.8, 63.8);
   sprite = sprite_manager->create("dummyguy");
 }
 
@@ -24,7 +25,7 @@ Nolok_01::Nolok_01(float pos_x, float pos_y)
 {
   start_position.x = pos_x;
   start_position.y = pos_y;
-  bbox.set_size(31.8, 31.8);
+  bbox.set_size(31.8, 63.8);
   sprite = sprite_manager->create("dummyguy");
 }
 
@@ -45,7 +46,7 @@ Nolok_01::activate()
   physic.set_velocity_x(dir == LEFT ? -WALKSPEED : WALKSPEED);
   sprite->set_action(dir == LEFT ? "left" : "right");
   action = WALKING;
-  action_timer.start(SHOOT_TIME);
+  action_timer.start(WALK_TIME);
 }
 
 void
@@ -60,16 +61,16 @@ Nolok_01::active_action(float elapsed_time)
      }
      else if (action == JUMPING) {
         sprite->set_action("throw");
-        action = IDLE;
-        action_timer.start(IDLE_TIME);
+        action = SHOOTING;
+        action_timer.start(SHOOT_TIME);
      }
-     else if (action == IDLE) {
-        Sector::current()->add_object(new BouncingSnowball(get_pos().x-32, get_pos().y, LEFT));
-        Sector::current()->add_object(new BouncingSnowball(get_pos().x, get_pos().y, RIGHT));
+     else if (action == SHOOTING) {
+        Sector::current()->add_object(new BouncingSnowball(get_pos().x - 64, get_pos().y, LEFT));
+        Sector::current()->add_object(new BouncingSnowball(get_pos().x + 64, get_pos().y, RIGHT));
         physic.set_velocity_x(dir == LEFT ? -WALKSPEED : WALKSPEED);
         sprite->set_action(dir == LEFT ? "left" : "right");
         action = WALKING;
-        action_timer.start(SHOOT_TIME);
+        action_timer.start(WALK_TIME);
      }
    }
 }
