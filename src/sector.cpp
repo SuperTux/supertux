@@ -55,6 +55,7 @@
 #include "badguy/mriceblock.h"
 #include "badguy/mrbomb.h"
 #include "trigger/sequence_trigger.h"
+#include "trigger/secretarea_trigger.h"
 
 Sector* Sector::_current = 0;
 
@@ -135,6 +136,8 @@ Sector::parseObject(const std::string& name, LispReader& reader)
     return partsys;
   } else if(name == "door") {
     return new Door(reader);
+  } else if(name == "secretarea") {
+    return new SecretAreaTrigger(reader);
   } else if(name == "platform") {
     return new Platform(reader);
   } else if(name == "jumpy" || name == "money") {
