@@ -715,6 +715,10 @@ void Setup::parseargs(int argc, char * argv[])
         {
           launch_worldmap_mode = true;
         }
+      else if (strcmp(argv[i], "--flip-levels") == 0)
+        {
+          flip_levels_mode = true;
+        }
       else if (strcmp(argv[i], "--datadir") == 0 
                || strcmp(argv[i], "-d") == 0 )
         {
@@ -793,6 +797,7 @@ void Setup::parseargs(int argc, char * argv[])
                "                      Define how joystick buttons and axis should be mapped\n"
                "  --leveleditor       Opens the leveleditor in a file.\n"
                "  --worldmap          Opens the specified worldmap file.\n"
+               "  --flip-levels       Flip levels upside-down.\n"
                "  -d, --datadir DIR   Load Game data from DIR (default: automatic)\n"
                "  --debug             Enables the debug mode, which is useful for developers.\n"
                "  --help              Display a help message summarizing command-line\n"
@@ -833,7 +838,7 @@ void usage(char * prog, int ret)
 
   /* Display the usage message: */
 
-  fprintf(fi, _("Usage: %s [--fullscreen] [--opengl] [--disable-sound] [--disable-music] [--debug] | [--usage | --help | --version] [--leveleditor] [--worldmap] FILENAME\n"),
+  fprintf(fi, _("Usage: %s [--fullscreen] [--opengl] [--disable-sound] [--disable-music] [--debug] | [--usage | --help | --version] [--leveleditor] [--worldmap] [--flip-levels] FILENAME\n"),
           prog);
 
 
