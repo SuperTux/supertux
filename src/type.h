@@ -1,5 +1,5 @@
 //  $Id$
-// 
+//
 //  SuperTux
 //  Copyright (C) 2004 Tobias Glaesser <tobi.web@gmx.de>
 //
@@ -12,7 +12,7 @@
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
-// 
+//
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
@@ -43,32 +43,32 @@ class GameObject
 {
 
 public:
-GameObject() {};
-virtual ~GameObject() {};
-virtual void action(double frame_ratio) = 0;
-virtual void draw() = 0;
-virtual std::string type() = 0;
-/* Draw ignoring the scroll_x value. FIXME: Hack? Should be discussed. @tobgle*/
-void draw_on_screen(float x = -1, float y = -1)
-{
- base_type btmp = base;
- if(x != -1 || y != -1)
- {
- btmp = base;
- if(x != -1)
- base.x = x;
- if(y != -1)
- base.y = y;
- }
- float tmp = scroll_x;
- scroll_x = 0; draw();
- scroll_x = tmp; 
- base = btmp;
-};
+  GameObject() {};
+  virtual ~GameObject() {};
+  virtual void action(double frame_ratio) = 0;
+  virtual void draw() = 0;
+  virtual std::string type() = 0;
+  /* Draw ignoring the scroll_x value. FIXME: Hack? Should be discussed. @tobgle*/
+  void draw_on_screen(float x = -1, float y = -1)
+  {
+    base_type btmp = base;
+    if(x != -1 || y != -1)
+    {
+      btmp = base;
+      if(x != -1)
+        base.x = x;
+      if(y != -1)
+        base.y = y;
+    }
+    float tmp = scroll_x;
+    scroll_x = 0; draw();
+    scroll_x = tmp;
+    base = btmp;
+  };
 void move_to(float x, float y) { base.x = x; base.y = y; };
 
-base_type base;
-base_type old_base;
+  base_type base;
+  base_type old_base;
 };
 
 struct string_list_type

@@ -82,9 +82,9 @@ void apply_level_settings_menu();
 void update_subset_settings_menu();
 void save_subset_settings_menu();
 
-static Level* le_current_level;
+/*static Level* le_current_level;*/
 
-struct LevelEditorWorld
+/*struct LevelEditorWorld
 {
   std::vector<BadGuy> bad_guys;
   void arrays_free(void)
@@ -94,7 +94,7 @@ struct LevelEditorWorld
 
   void add_bad_guy(float x, float y, BadGuyKind kind)
   {
-    bad_guys.push_back(BadGuy(x,y,kind, false /* stay_on_platform */));
+    bad_guys.push_back(BadGuy(x,y,kind, false /* stay_on_platform * /));
   }
 
   void activate_bad_guys()
@@ -106,7 +106,7 @@ struct LevelEditorWorld
       add_bad_guy(i->x, i->y, i->kind);
     }
   }
-};
+};*/
 
 struct TileOrObject
 {
@@ -131,7 +131,7 @@ static bool le_level_changed;  /* if changes, ask for saving, when quiting*/
 static bool show_minimap;
 static int pos_x, cursor_x, cursor_y, fire;
 static int le_level;
-static LevelEditorWorld le_world;
+static World* le_world;
 static LevelSubset* le_level_subset;
 static int le_show_grid;
 static int le_frame;
@@ -173,17 +173,6 @@ static square selection;
 static int le_selection_mode;
 static SDL_Event event;
 TileMapType active_tm;
-
-void le_set_defaults()
-{
-  if(le_current_level != NULL)
-  {
-    /* Set defaults: */
-
-    if(le_current_level->time_left == 0)
-      le_current_level->time_left = 255;
-  }
-}
 
 int leveleditor(char* filename)
 {
@@ -235,13 +224,13 @@ int leveleditor(char* filename)
         select_objects_menu->set_pos(screen->w - 64,82,-0.5,0.5);
     }
 
-    if(le_current_level != NULL)
+    if(le_world != NULL)
     {
       /* making events results to be in order */
       if(pos_x < 0)
         pos_x = 0;
-      if(pos_x > (le_current_level->width * 32) - screen->w)
-        pos_x = (le_current_level->width * 32) - screen->w;
+      if(pos_x > (le_world->get_level()->width * 32) - screen->w)
+        pos_x = (le_world->get_level()->width * 32) - screen->w;
 
       /* draw the level */
       le_drawlevel();
@@ -350,17 +339,8 @@ int leveleditor(char* filename)
             le_level_subset->load(subset_new_menu->get_item_by_id(MNID_SUBSETNAME).input);
             leveleditor_menu->get_item_by_id(MNID_SUBSETSETTINGS).kind = MN_GOTO;
             le_level = 1;
-            le_world.arrays_free();
-            delete le_current_level;
-            le_current_level = new Level;
-            if(le_current_level->load(le_level_subset->name, le_level) != 0)
-            {
-              le_quit();
-              return 1;
-            }
-            le_set_defaults();
-            le_current_level->load_gfx();
-            le_world.activate_bad_guys();
+	    delete le_world;
+            le_world = new World;
             subset_new_menu->get_item_by_id(MNID_SUBSETNAME).change_input("");
 
             Menu::set_current(subset_settings_menu);
@@ -411,17 +391,10 @@ int le_load_level(char *filename)
   le_level_subset->load(filename);
   leveleditor_menu->get_item_by_id(MNID_SUBSETSETTINGS).kind = MN_GOTO;
   le_level = 1;
-  le_world.arrays_free();
-  delete le_current_level;
-  le_current_level = new Level;
-  if(le_current_level->load(le_level_subset->name, le_level) != 0)
-  {
-    le_quit();
-    return 1;
-  }
-  le_set_defaults();
-  le_current_level->load_gfx();
-  le_world.activate_bad_guys();
+  delete le_world;
+  le_world = new World(filename,le_level);
+  
+  //GameSession* session = new GameSession(datadir + "/levels/" + le_level_subset->name + "/level1.stl", 0, ST_GL_DEMO_GAME);
 
   Menu::set_current(NULL);
 
@@ -431,7 +404,7 @@ int le_load_level(char *filename)
 void le_init_menus()
 {
   int i;
-
+  
   leveleditor_menu = new Menu();
   subset_load_menu = new Menu();
   subset_new_menu  = new Menu();
@@ -566,6 +539,8 @@ int le_init()
   level_subsets = dsubdirs("/levels", "info");
   le_level_subset = new LevelSubset;
 
+  le_world = NULL;
+  
   active_tm = TM_IA;
   le_show_grid = true;
   scroll_x = 0;
@@ -574,7 +549,6 @@ int le_init()
   done = 0;
   le_frame = 0;	/* support for frames in some tiles, like waves and bad guys */
   le_level_changed = false;
-  le_current_level = NULL;
 
   le_mouse_pressed[LEFT] = false;
   le_mouse_pressed[RIGHT] = false;
@@ -624,8 +598,8 @@ void update_level_settings_menu()
   char str[80];
   int i;
 
-  level_settings_menu->get_item_by_id(MNID_NAME).change_input(le_current_level->name.c_str());
-  level_settings_menu->get_item_by_id(MNID_AUTHOR).change_input(le_current_level->author.c_str());
+  level_settings_menu->get_item_by_id(MNID_NAME).change_input(le_world->get_level()->name.c_str());
+  level_settings_menu->get_item_by_id(MNID_AUTHOR).change_input(le_world->get_level()->author.c_str());
 
   string_list_copy(level_settings_menu->get_item_by_id(MNID_SONG).list, dfiles("music/",NULL, "-fast"));
   string_list_copy(level_settings_menu->get_item_by_id(MNID_BGIMG).list, dfiles("images/background",NULL, NULL));
@@ -634,32 +608,32 @@ void update_level_settings_menu()
   string_list_add_item(level_settings_menu->get_item_by_id(MNID_PARTICLE).list,"snow");
   string_list_add_item(level_settings_menu->get_item_by_id(MNID_PARTICLE).list,"clouds");
 
-  if((i = string_list_find(level_settings_menu->get_item_by_id(MNID_SONG).list,le_current_level->song_title.c_str())) != -1)
+  if((i = string_list_find(level_settings_menu->get_item_by_id(MNID_SONG).list,le_world->get_level()->song_title.c_str())) != -1)
     level_settings_menu->get_item_by_id(MNID_SONG).list->active_item = i;
-  if((i = string_list_find(level_settings_menu->get_item_by_id(MNID_BGIMG).list,le_current_level->bkgd_image.c_str())) != -1)
+  if((i = string_list_find(level_settings_menu->get_item_by_id(MNID_BGIMG).list,le_world->get_level()->bkgd_image.c_str())) != -1)
     level_settings_menu->get_item_by_id(MNID_BGIMG).list->active_item = i;
-  if((i = string_list_find(level_settings_menu->get_item_by_id(MNID_PARTICLE).list,le_current_level->particle_system.c_str())) != -1)
+  if((i = string_list_find(level_settings_menu->get_item_by_id(MNID_PARTICLE).list,le_world->get_level()->particle_system.c_str())) != -1)
     level_settings_menu->get_item_by_id(MNID_PARTICLE).list->active_item = i;
 
-  sprintf(str,"%d",le_current_level->width);
+  sprintf(str,"%d",le_world->get_level()->width);
   level_settings_menu->get_item_by_id(MNID_LENGTH).change_input(str);
-  sprintf(str,"%d",le_current_level->time_left);
+  sprintf(str,"%d",le_world->get_level()->time_left);
   level_settings_menu->get_item_by_id(MNID_TIME).change_input(str);
-  sprintf(str,"%2.0f",le_current_level->gravity);
+  sprintf(str,"%2.0f",le_world->get_level()->gravity);
   level_settings_menu->get_item_by_id(MNID_GRAVITY).change_input(str);
-  sprintf(str,"%d",le_current_level->bkgd_speed);
+  sprintf(str,"%d",le_world->get_level()->bkgd_speed);
   level_settings_menu->get_item_by_id(MNID_BGSPEED).change_input(str);
-  sprintf(str,"%d",le_current_level->bkgd_top.red);
+  sprintf(str,"%d",le_world->get_level()->bkgd_top.red);
   level_settings_menu->get_item_by_id(MNID_TopRed).change_input(str);
-  sprintf(str,"%d",le_current_level->bkgd_top.green);
+  sprintf(str,"%d",le_world->get_level()->bkgd_top.green);
   level_settings_menu->get_item_by_id(MNID_TopGreen).change_input(str);
-  sprintf(str,"%d",le_current_level->bkgd_top.blue);
+  sprintf(str,"%d",le_world->get_level()->bkgd_top.blue);
   level_settings_menu->get_item_by_id(MNID_TopBlue).change_input(str);
-  sprintf(str,"%d",le_current_level->bkgd_bottom.red);
+  sprintf(str,"%d",le_world->get_level()->bkgd_bottom.red);
   level_settings_menu->get_item_by_id(MNID_BottomRed).change_input(str);
-  sprintf(str,"%d",le_current_level->bkgd_bottom.green);
+  sprintf(str,"%d",le_world->get_level()->bkgd_bottom.green);
   level_settings_menu->get_item_by_id(MNID_BottomGreen).change_input(str);
-  sprintf(str,"%d",le_current_level->bkgd_bottom.blue);
+  sprintf(str,"%d",le_world->get_level()->bkgd_bottom.blue);
   level_settings_menu->get_item_by_id(MNID_BottomBlue).change_input(str);
 }
 
@@ -674,37 +648,37 @@ void apply_level_settings_menu()
   int i;
   i = false;
 
-  le_current_level->name = level_settings_menu->get_item_by_id(MNID_NAME).input;
-  le_current_level->author = level_settings_menu->get_item_by_id(MNID_AUTHOR).input;
+  le_world->get_level()->name = level_settings_menu->get_item_by_id(MNID_NAME).input;
+  le_world->get_level()->author = level_settings_menu->get_item_by_id(MNID_AUTHOR).input;
 
-  if(le_current_level->bkgd_image.compare(string_list_active(level_settings_menu->get_item_by_id(MNID_BGIMG).list)) != 0)
+  if(le_world->get_level()->bkgd_image.compare(string_list_active(level_settings_menu->get_item_by_id(MNID_BGIMG).list)) != 0)
   {
-    le_current_level->bkgd_image = string_list_active(level_settings_menu->get_item_by_id(MNID_BGIMG).list);
+    le_world->get_level()->bkgd_image = string_list_active(level_settings_menu->get_item_by_id(MNID_BGIMG).list);
     i = true;
   }
 
-  if(le_current_level->particle_system.compare(string_list_active(level_settings_menu->get_item_by_id(MNID_PARTICLE).list)) != 0)
+  if(le_world->get_level()->particle_system.compare(string_list_active(level_settings_menu->get_item_by_id(MNID_PARTICLE).list)) != 0)
   {
-    le_current_level->particle_system = string_list_active(level_settings_menu->get_item_by_id(MNID_PARTICLE).list);
+    le_world->get_level()->particle_system = string_list_active(level_settings_menu->get_item_by_id(MNID_PARTICLE).list);
   }
 
   if(i)
   {
-    le_current_level->load_gfx();
+    le_world->get_level()->load_gfx();
   }
 
-  le_current_level->song_title = string_list_active(level_settings_menu->get_item_by_id(MNID_SONG).list);
+  le_world->get_level()->song_title = string_list_active(level_settings_menu->get_item_by_id(MNID_SONG).list);
 
-  le_current_level->change_size(atoi(level_settings_menu->get_item_by_id(MNID_LENGTH).input));
-  le_current_level->time_left = atoi(level_settings_menu->get_item_by_id(MNID_BGIMG).input);
-  le_current_level->gravity = atof(level_settings_menu->get_item_by_id(MNID_GRAVITY).input);
-  le_current_level->bkgd_speed = atoi(level_settings_menu->get_item_by_id(MNID_BGSPEED).input);
-  le_current_level->bkgd_top.red = atoi(level_settings_menu->get_item_by_id(MNID_TopRed).input);
-  le_current_level->bkgd_top.green = atoi(level_settings_menu->get_item_by_id(MNID_TopGreen).input);
-  le_current_level->bkgd_top.blue = atoi(level_settings_menu->get_item_by_id(MNID_TopBlue).input);
-  le_current_level->bkgd_bottom.red = atoi(level_settings_menu->get_item_by_id(MNID_BottomRed).input);
-  le_current_level->bkgd_bottom.green = atoi(level_settings_menu->get_item_by_id(MNID_BottomGreen).input);
-  le_current_level->bkgd_bottom.blue = atoi(level_settings_menu->get_item_by_id(MNID_BottomBlue).input);
+  le_world->get_level()->change_size(atoi(level_settings_menu->get_item_by_id(MNID_LENGTH).input));
+  le_world->get_level()->time_left = atoi(level_settings_menu->get_item_by_id(MNID_BGIMG).input);
+  le_world->get_level()->gravity = atof(level_settings_menu->get_item_by_id(MNID_GRAVITY).input);
+  le_world->get_level()->bkgd_speed = atoi(level_settings_menu->get_item_by_id(MNID_BGSPEED).input);
+  le_world->get_level()->bkgd_top.red = atoi(level_settings_menu->get_item_by_id(MNID_TopRed).input);
+  le_world->get_level()->bkgd_top.green = atoi(level_settings_menu->get_item_by_id(MNID_TopGreen).input);
+  le_world->get_level()->bkgd_top.blue = atoi(level_settings_menu->get_item_by_id(MNID_TopBlue).input);
+  le_world->get_level()->bkgd_bottom.red = atoi(level_settings_menu->get_item_by_id(MNID_BottomRed).input);
+  le_world->get_level()->bkgd_bottom.green = atoi(level_settings_menu->get_item_by_id(MNID_BottomGreen).input);
+  le_world->get_level()->bkgd_bottom.blue = atoi(level_settings_menu->get_item_by_id(MNID_BottomBlue).input);
 }
 
 void save_subset_settings_menu()
@@ -716,23 +690,8 @@ void save_subset_settings_menu()
 
 void le_goto_level(int levelnb)
 {
-  le_world.arrays_free();
-
-  le_current_level->cleanup();
-  if(le_current_level->load(le_level_subset->name.c_str(), levelnb) != 0)
-  {
-    le_current_level->load(le_level_subset->name.c_str(), le_level);
-  }
-  else
-  {
-    le_level = levelnb;
-  }
-
-  le_set_defaults();
-
-  le_current_level->load_gfx();
-
-  le_world.activate_bad_guys();
+  delete le_world;
+  le_world = new World(le_level_subset->name, levelnb);
 }
 
 void le_quit(void)
@@ -766,8 +725,6 @@ void le_quit(void)
   delete le_objects_bt;
   delete le_tilemap_panel;
 
-  delete le_current_level;
-  le_current_level = 0;
   delete le_level_subset;
   le_level_subset = 0;
 
@@ -785,31 +742,31 @@ void le_quit(void)
 
 void le_drawminimap()
 {
-  if(le_current_level == NULL)
+  if(le_world == NULL)
     return;
 
   int mini_tile_width;
-  if(screen->w - 64 > le_current_level->width * 4)
+  if(screen->w - 64 > le_world->get_level()->width * 4)
     mini_tile_width = 4;
-  else if(screen->w - 64 > le_current_level->width * 2)
+  else if(screen->w - 64 > le_world->get_level()->width * 2)
     mini_tile_width = 2;
   else
     mini_tile_width = 1;
-  int left_offset = (screen->w - 64 - le_current_level->width*mini_tile_width) / 2;
+  int left_offset = (screen->w - 64 - le_world->get_level()->width*mini_tile_width) / 2;
 
   for (int y = 0; y < 15; ++y)
-    for (int x = 0; x < le_current_level->width; ++x)
+    for (int x = 0; x < le_world->get_level()->width; ++x)
     {
 
-      Tile::draw_stretched(left_offset + mini_tile_width*x, y * 4, mini_tile_width , 4, le_current_level->bg_tiles[y][x]);
+      Tile::draw_stretched(left_offset + mini_tile_width*x, y * 4, mini_tile_width , 4, le_world->get_level()->bg_tiles[y][x]);
 
-      Tile::draw_stretched(left_offset + mini_tile_width*x, y * 4, mini_tile_width , 4, le_current_level->ia_tiles[y][x]);
+      Tile::draw_stretched(left_offset + mini_tile_width*x, y * 4, mini_tile_width , 4, le_world->get_level()->ia_tiles[y][x]);
 
-      Tile::draw_stretched(left_offset + mini_tile_width*x, y * 4, mini_tile_width , 4, le_current_level->fg_tiles[y][x]);
+      Tile::draw_stretched(left_offset + mini_tile_width*x, y * 4, mini_tile_width , 4, le_world->get_level()->fg_tiles[y][x]);
 
     }
 
-  fillrect(left_offset, 0, le_current_level->width*mini_tile_width, 15*4, 200, 200, 200, 128);
+  fillrect(left_offset, 0, le_world->get_level()->width*mini_tile_width, 15*4, 200, 200, 200, 128);
 
   fillrect(left_offset + (pos_x/32)*mini_tile_width, 0, 19*mini_tile_width, 2, 200, 200, 200, 200);
   fillrect(left_offset + (pos_x/32)*mini_tile_width, 0, 2, 15*4, 200, 200, 200, 200);
@@ -823,7 +780,7 @@ void le_drawinterface()
   int x,y;
   char str[80];
 
-  if(le_current_level != NULL)
+  if(le_world != NULL)
   {
     /* draw a grid (if selected) */
     if(le_show_grid)
@@ -872,7 +829,7 @@ void le_drawinterface()
     le_current.obj->draw_on_screen(cursor_x,cursor_y);
   }
 
-  if(le_current_level != NULL)
+  if(le_world != NULL)
   {
     le_save_level_bt->draw();
     le_exit_bt->draw();
@@ -915,21 +872,21 @@ void le_drawinterface()
 
 void le_drawlevel()
 {
-  unsigned int y,x,i,s;
+  unsigned int y,x,s;
   Uint8 a;
 
   /* Draw the real background */
-  if(le_current_level->bkgd_image[0] != '\0')
+  if(le_world->get_level()->bkgd_image[0] != '\0')
   {
-    s = (int)((float)pos_x * ((float)le_current_level->bkgd_speed/60.)) % screen->w;
-    le_current_level->img_bkgd->draw_part(s,0,0,0,
-                                          le_current_level->img_bkgd->w - s - 32, le_current_level->img_bkgd->h);
-    le_current_level->img_bkgd->draw_part(0,0,screen->w - s - 32 ,0,s,
-                                          le_current_level->img_bkgd->h);
+    s = (int)((float)pos_x * ((float)le_world->get_level()->bkgd_speed/60.)) % screen->w;
+    le_world->get_level()->img_bkgd->draw_part(s,0,0,0,
+                                          le_world->get_level()->img_bkgd->w - s - 32, le_world->get_level()->img_bkgd->h);
+    le_world->get_level()->img_bkgd->draw_part(0,0,screen->w - s - 32 ,0,s,
+                                          le_world->get_level()->img_bkgd->h);
   }
   else
   {
-    drawgradient(le_current_level->bkgd_top, le_current_level->bkgd_bottom);
+    drawgradient(le_world->get_level()->bkgd_top, le_world->get_level()->bkgd_bottom);
   }
 
   if(le_current.IsTile())
@@ -954,36 +911,36 @@ void le_drawlevel()
       else
         a = 128;
 
-      Tile::draw(32*x - fmodf(pos_x, 32), y * 32, le_current_level->bg_tiles[y][x + (int)(pos_x / 32)],a);
+      Tile::draw(32*x - fmodf(pos_x, 32), y * 32, le_world->get_level()->bg_tiles[y][x + (int)(pos_x / 32)],a);
 
       if(active_tm == TM_IA)
         a = 255;
       else
         a = 128;
 
-      Tile::draw(32*x - fmodf(pos_x, 32), y * 32, le_current_level->ia_tiles[y][x + (int)(pos_x / 32)],a);
+      Tile::draw(32*x - fmodf(pos_x, 32), y * 32, le_world->get_level()->ia_tiles[y][x + (int)(pos_x / 32)],a);
 
       if(active_tm == TM_FG)
         a = 255;
       else
         a = 128;
 
-      Tile::draw(32*x - fmodf(pos_x, 32), y * 32, le_current_level->fg_tiles[y][x + (int)(pos_x / 32)],a);
+      Tile::draw(32*x - fmodf(pos_x, 32), y * 32, le_world->get_level()->fg_tiles[y][x + (int)(pos_x / 32)],a);
 
       /* draw whats inside stuff when cursor is selecting those */
       /* (draw them all the time - is this the right behaviour?) */
-      if(TileManager::instance()->get(le_current_level->ia_tiles[y][x + (int)(pos_x / 32)])->editor_images.size() > 0)
-        TileManager::instance()->get(le_current_level->ia_tiles[y][x + (int)(pos_x / 32)])->editor_images[0]->draw( x * 32 - ((int)pos_x % 32), y*32);
+      if(TileManager::instance()->get(le_world->get_level()->ia_tiles[y][x + (int)(pos_x / 32)])->editor_images.size() > 0)
+        TileManager::instance()->get(le_world->get_level()->ia_tiles[y][x + (int)(pos_x / 32)])->editor_images[0]->draw( x * 32 - ((int)pos_x % 32), y*32);
 
     }
 
   /* Draw the Bad guys: */
-  for (i = 0; i < le_world.bad_guys.size(); ++i)
+  for (std::list<BadGuy*>::iterator it = le_world->bad_guys.begin(); it != le_world->bad_guys.end(); ++it)
   {
     /* to support frames: img_bsod_left[(frame / 5) % 4] */
 
     scroll_x = pos_x;
-    le_world.bad_guys[i].draw();
+    (*it)->draw();
   }
 
 
@@ -991,6 +948,23 @@ void le_drawlevel()
   /* for now, the position is fixed at (100, 240) */
   largetux.walk_right->draw( 100 - pos_x, 240);
 }
+
+void le_change_object_properties(GameObject *pobj)
+{
+Menu* object_properties_menu = new Menu();
+
+  object_properties_menu->additem(MN_LABEL,pobj->type() + " Properties",0,0);
+  object_properties_menu->additem(MN_HL,"",0,0);
+  /*object_properties_menu->additem(MN_TEXTFIELD,"Title",0,0,MNID_SUBSETTITLE);
+  object_properties_menu->additem(MN_TEXTFIELD,"Description",0,0,MNID_SUBSETDESCRIPTION);
+  object_properties_menu->additem(MN_HL,"",0,0);
+  object_properties_menu->additem(MN_ACTION,"Save Changes",0,0,MNID_SUBSETSAVECHANGES);*/
+  object_properties_menu->additem(MN_HL,"",0,0);
+  object_properties_menu->additem(MN_BACK,"Apply",0,0);
+
+delete object_properties_menu;
+}
+
 
 void le_checkevents()
 {
@@ -1075,7 +1049,7 @@ void le_checkevents()
             pos_x = cursor_x;
             break;
           case SDLK_END:
-            cursor_x = (le_current_level->width * 32) - 32;
+            cursor_x = (le_world->get_level()->width * 32) - 32;
             pos_x = cursor_x;
             break;
           case SDLK_F9:
@@ -1161,7 +1135,7 @@ void le_checkevents()
       }
     }
 
-    if(le_current_level != NULL)
+    if(le_world != NULL)
     {
       if(event.type == SDL_KEYDOWN || event.type == SDL_KEYUP || ((event.type == SDL_MOUSEBUTTONDOWN || SDL_MOUSEMOTION) && (event.motion.x > screen->w-64 && event.motion.x < screen->w &&
           event.motion.y > 0 && event.motion.y < screen->h)))
@@ -1177,7 +1151,7 @@ void le_checkevents()
             le_testlevel();
           le_save_level_bt->event(event);
           if(le_save_level_bt->get_state() == BUTTON_CLICKED)
-            le_current_level->save(le_level_subset->name.c_str(),le_level);
+            le_world->get_level()->save(le_level_subset->name.c_str(),le_level);
           le_exit_bt->event(event);
           if(le_exit_bt->get_state() == BUTTON_CLICKED)
           {
@@ -1383,8 +1357,8 @@ void le_checkevents()
             {
               BadGuy* pbadguy = dynamic_cast<BadGuy*>(le_current.obj);
 
-              le_world.bad_guys.push_back(BadGuy(cursor_x+scroll_x, cursor_y,pbadguy->kind,false));
-              le_current_level->badguy_data.push_back(&le_world.bad_guys.back());
+              le_world->bad_guys.push_back(new BadGuy(cursor_x+scroll_x, cursor_y,pbadguy->kind,false));
+              le_world->get_level()->badguy_data.push_back(le_world->bad_guys.back());
             }
           }
           le_mouse_clicked[LEFT] = false;
@@ -1471,7 +1445,7 @@ void le_highlight_selection()
 
 void le_change(float x, float y, int tm, unsigned int c)
 {
-  if(le_current_level != NULL)
+  if(le_world != NULL)
   {
     int xx,yy;
     int x1, x2, y1, y2;
@@ -1482,7 +1456,7 @@ void le_change(float x, float y, int tm, unsigned int c)
     switch(le_selection_mode)
     {
     case CURSOR:
-      le_current_level->change(x,y,tm,c);
+      le_world->get_level()->change(x,y,tm,c);
 
       base_type cursor_base;
       cursor_base.x = x;
@@ -1491,11 +1465,11 @@ void le_change(float x, float y, int tm, unsigned int c)
       cursor_base.height = 32;
 
       /* if there is a bad guy over there, remove it */
-      for(i = 0; i < le_world.bad_guys.size(); ++i)
-        if(rectcollision(cursor_base,le_world.bad_guys[i].base))
+      for(std::list<BadGuy*>::iterator it = le_world->bad_guys.begin(); it != le_world->bad_guys.end(); ++it)
+        if(rectcollision(cursor_base,(*it)->base))
         {
-          le_world.bad_guys.erase(le_world.bad_guys.begin() + i);
-          le_current_level->badguy_data.erase(le_current_level->badguy_data.begin() + i);
+          le_world->bad_guys.erase(le_world->bad_guys.begin(),it);
+          le_world->get_level()->badguy_data.erase(le_world->get_level()->badguy_data.begin() + i);
         }
 
       break;
@@ -1527,25 +1501,25 @@ void le_change(float x, float y, int tm, unsigned int c)
       y2 /= 32;
 
       /* if there is a bad guy over there, remove it */
-      for(std::vector<BadGuy>::iterator i = le_world.bad_guys.begin();
-          i != le_world.bad_guys.end(); /* will be at end of loop */)
+      for(std::list<BadGuy*>::iterator it = le_world->bad_guys.begin();
+          it != le_world->bad_guys.end(); /* will be at end of loop */)
       {
-        if(i->base.x/32 >= x1 && i->base.x/32 <= x2
-            && i->base.y/32 >= y1 && i->base.y/32 <= y2)
+        if((*it)->base.x/32 >= x1 && (*it)->base.x/32 <= x2
+            && (*it)->base.y/32 >= y1 && (*it)->base.y/32 <= y2)
         {
-          i = le_world.bad_guys.erase(i);
+          it = le_world->bad_guys.erase(it);
           continue;
         }
         else
         {
-          ++i;
+          ++it;
         }
       }
 
       for(xx = x1; xx <= x2; xx++)
         for(yy = y1; yy <= y2; yy++)
         {
-          le_current_level->change(xx*32, yy*32, tm, c);
+          le_world->get_level()->change(xx*32, yy*32, tm, c);
 
         }
       break;
@@ -1557,7 +1531,7 @@ void le_change(float x, float y, int tm, unsigned int c)
 
 void le_testlevel()
 {
-  le_current_level->save("test", le_level);
+  le_world->get_level()->save("test", le_level);
 
   GameSession session("test",le_level, ST_GL_TEST);
   session.run();
@@ -1566,9 +1540,9 @@ void le_testlevel()
   music_manager->halt_music();
 
   Menu::set_current(NULL);
-  le_world.arrays_free();
+  /*delete le_world.arrays_free();
   le_current_level->load_gfx();
-  le_world.activate_bad_guys();
+  le_world.activate_bad_guys();*/
 }
 
 void le_showhelp()

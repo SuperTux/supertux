@@ -44,6 +44,9 @@ bool rectcollision_offset(const base_type& one, const base_type& two, float off_
 
 bool collision_object_map(const base_type& base)
 {
+  if(!World::current())
+  return false;
+  
   const Level& level = *World::current()->get_level();
   TileManager& tilemanager = *TileManager::instance();
 

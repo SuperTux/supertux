@@ -39,7 +39,6 @@ class World
 {
 private:
   typedef std::list<BadGuy*> BadGuys;
-  BadGuys bad_guys;
   BadGuys bad_guys_to_add;
   Level* level;
   Player tux;
@@ -52,6 +51,7 @@ private:
 
   static World* current_;
 public:
+  BadGuys bad_guys;
   std::vector<BouncyDistro*> bouncy_distros;
   std::vector<BrokenBrick*>  broken_bricks;
   std::vector<BouncyBrick*>  bouncy_bricks;
@@ -68,7 +68,7 @@ public:
 
   World(const std::string& filename);
   World(const std::string& subset, int level_nr);
-  World();
+  World() {};
   ~World();
   
   Level*  get_level() { return level; }
