@@ -133,10 +133,10 @@ void loadshared()
     }
 
   small_tux = new TuxBodyParts();
-  small_tux->head = sprite_manager->load("big-tux-head");
-  small_tux->body = sprite_manager->load("big-tux-body");
-  small_tux->arms = sprite_manager->load("big-tux-arms");
-  small_tux->feet = sprite_manager->load("big-tux-feet");
+  small_tux->head = NULL;
+  small_tux->body = sprite_manager->load("small-tux-body");
+  small_tux->arms = sprite_manager->load("small-tux-arms");
+  small_tux->feet = NULL;
 
   big_tux = new TuxBodyParts();
   big_tux->head = sprite_manager->load("big-tux-head");
