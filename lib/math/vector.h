@@ -20,6 +20,8 @@
 #ifndef SUPERTUX_VECTOR_H
 #define SUPERTUX_VECTOR_H
 
+#include "special/base.h"
+
 namespace SuperTux
   {
 
@@ -33,6 +35,9 @@ namespace SuperTux
       { }
       Vector(const Vector& other)
           : x(other.x), y(other.y)
+      { }
+      Vector(const base_type& base)
+          : x(base.x), y(base.y)
       { }
       Vector()
           : x(0), y(0)
