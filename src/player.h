@@ -151,6 +151,7 @@ public:
   bool flapping;
   bool can_jump;
   bool can_flap;
+  bool falling_from_flap;
   bool enable_hover;
   bool butt_jump;
   int frame_;

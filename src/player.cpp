@@ -161,6 +161,7 @@ Player::init()
   flapping = false;
   can_jump = true;
   can_flap = false;
+  falling_from_flap = false;
   enable_hover = false;
   butt_jump = false;
   
@@ -318,6 +319,7 @@ Player::action(float elapsed_time)
               physic.set_velocity_y(0);
               jumped_in_solid = true;
               jumping = false;
+              flapping = false;
             }
         }
       else
@@ -377,6 +379,7 @@ Player::action(float elapsed_time)
             {
               /* Make sure jumping is off. */
               jumping = false;
+              flapping = false;
             }
         }
     }
@@ -508,6 +511,7 @@ Player::handle_horizontal_input()
 void
 Player::handle_vertical_input()
 {
+  
   // set fall mode...
   if(on_ground()) {
     fall_mode = ON_GROUND;
@@ -543,21 +547,28 @@ Player::handle_vertical_input()
         SoundManager::get()->play_sound(IDToSound(SND_BIGJUMP));
     }
   // Let go of jump key
-  else if(input.up == UP && jumping && physic.get_velocity_y() > 0)
+  else if(input.up == UP)
     {
-      if (!flapping && !duck)
+      if (!flapping && !duck && !falling_from_flap && !on_ground())
          {
             can_flap = true;
          }
-      jumping = false;
-      physic.set_velocity_y(0);
+      if (jumping && physic.get_velocity_y() > 0)
+         {
+            jumping = false;
+            physic.set_velocity_y(0);
+         }
     }
-   
+
    // Flapping
    if (input.up == DOWN && can_flap)
      {
          if (!flapping_timer.started()) {flapping_timer.start(TUX_FLAPPING_TIME);}
-         if (!flapping_timer.check()) {can_flap = false;}
+         if (!flapping_timer.check()) 
+            {
+               can_flap = false;
+               falling_from_flap = true;
+            }
          jumping = true;
          flapping = true;
          if (flapping_timer.get_gone() <= TUX_FLAPPING_TIME)
@@ -636,7 +647,11 @@ Player::handle_vertical_input()
     }
 
   if(on_ground())   /* Make sure jumping is off. */
-    jumping = false;
+    {
+      jumping = false;
+      flapping = false;
+      falling_from_flap = false;
+    }
 
   input.old_up = input.up;
 }
