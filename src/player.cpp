@@ -66,7 +66,7 @@ Player::init()
   // FIXME: Make the start position configurable via the levelfile
   base.x = 100;
   base.y = 240;
-  
+
   base.xm = 0;
   base.ym = 0;
   old_base = base;
@@ -156,7 +156,8 @@ Player::action()
 
   /* --- HANDLE TUX! --- */
 
-  handle_input();
+  if(!dying)
+    handle_input();
 
   /* Move tux: */
 
@@ -164,15 +165,17 @@ Player::action()
 
   base.x += base.xm * frame_ratio;
   base.y += base.ym * frame_ratio;
-  
-  collision_swept_object_map(&old_base,&base);
 
-  keep_in_bounds();
-
-  /* Land: */
 
   if (!dying)
     {
+
+      collision_swept_object_map(&old_base,&base);
+      keep_in_bounds();
+
+      /* Land: */
+
+
       if( !on_ground())
         {
           if(under_solid())
@@ -250,6 +253,8 @@ Player::action()
         }
 
     }
+  else
+    base.ym = physic_get_velocity(&vphysic);
 
   timer_check(&safe_timer);
 
@@ -770,6 +775,8 @@ Player::draw()
             }
         }
     }
+  if(dying)
+    text_drawf(&gold_text,"Penguins can fly !:",0,0,A_HMIDDLE,A_VMIDDLE,1);
 }
 
 void
@@ -873,14 +880,10 @@ Player::collision(void* p_c_object, int c_object)
 void
 Player::kill(int mode)
 {
-  base.ym = -5;
 
   play_sound(sounds[SND_HURT], SOUND_CENTER_SPEAKER);
 
-  if (dir == RIGHT)
-    base.xm = -8;
-  else if (dir == LEFT)
-    base.xm = 8;
+  base.xm = 0;
 
   if (mode == SHRINK && size == BIG)
     {
@@ -894,6 +897,10 @@ Player::kill(int mode)
     }
   else
     {
+      if(size == BIG)
+        duck = true;
+      physic_set_state(&vphysic,PH_VT);
+      physic_set_start_vy(&vphysic,7);
       dying = DYING_SQUISHED;
     }
 }
@@ -908,9 +915,14 @@ Player::is_dying()
   --lives;
   remove_powerups();
   dying = DYING_NOT;
-  
-  level_begin();
+}
 
+bool Player::is_dead()
+{
+  if(base.y > screen->h)
+    return true;
+  else
+    return false;
 }
 
 /* Remove Tux's power ups */

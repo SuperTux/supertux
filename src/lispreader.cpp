@@ -48,10 +48,10 @@
 static char token_string[MAX_TOKEN_LENGTH + 1] = "";
 static int token_length = 0;
 
-static lisp_object_t end_marker = { LISP_TYPE_EOF };
-static lisp_object_t error_object = { LISP_TYPE_PARSE_ERROR };
-static lisp_object_t close_paren_marker = { LISP_TYPE_PARSE_ERROR };
-static lisp_object_t dot_marker = { LISP_TYPE_PARSE_ERROR };
+static lisp_object_t end_marker = { LISP_TYPE_EOF , {0,0}  };
+static lisp_object_t error_object = { LISP_TYPE_PARSE_ERROR , {0,0}  };
+static lisp_object_t close_paren_marker = { LISP_TYPE_PARSE_ERROR , {0,0}  };
+static lisp_object_t dot_marker = { LISP_TYPE_PARSE_ERROR , {0,0} };
 
 static void
 _token_clear (void)

@@ -99,10 +99,10 @@ void start_timers(void)
   update_time = st_get_ticks();
 }
 
-void activate_bad_guys(void)
+void activate_bad_guys(st_level* plevel)
 {
-  for (std::vector<BadGuyData>::iterator i = current_level.badguy_data.begin();
-       i != current_level.badguy_data.end();
+  for (std::vector<BadGuyData>::iterator i = plevel->badguy_data.begin();
+       i != plevel->badguy_data.end();
        ++i)
     {
       add_bad_guy(i->x, i->y, i->kind);
@@ -300,8 +300,8 @@ int game_action(void)
 {
   unsigned int i;
 
-  /* (tux_dying || next_level) */
-  if (tux.dying || next_level)
+  /* (tux.is_dead() || next_level) */
+  if (tux.is_dead() || next_level)
     {
       /* Tux either died, or reached the end of a level! */
 
@@ -371,7 +371,7 @@ int game_action(void)
         }
 
       arrays_free();
-      activate_bad_guys();
+      activate_bad_guys(&current_level);
       activate_particle_systems();
       level_free_gfx();
       level_load_gfx(&current_level);
@@ -611,7 +611,7 @@ int gameloop(const char * subset, int levelnb, int mode)
     }
 
   level_load_gfx(&current_level);
-  activate_bad_guys();
+  activate_bad_guys(&current_level);
   activate_particle_systems();
   level_load_song(&current_level);
 
@@ -1156,7 +1156,7 @@ void unloadshared(void)
 
 /* Draw a tile on the screen: */
 
-void drawshape(float x, float y, unsigned int c)
+void drawshape(float x, float y, unsigned int c, Uint8 alpha)
 {
   if (c != 0)
     {
@@ -1165,11 +1165,11 @@ void drawshape(float x, float y, unsigned int c)
         {
           if(ptile->images.size() > 1)
             {
-              texture_draw(&ptile->images[( ((global_frame_counter*25) / ptile->anim_speed) % (ptile->images.size()))],x,y);
+              texture_draw(&ptile->images[( ((global_frame_counter*25) / ptile->anim_speed) % (ptile->images.size()))],x,y, alpha);
             }
           else if (ptile->images.size() == 1)
             {
-              texture_draw(&ptile->images[0],x,y);
+              texture_draw(&ptile->images[0],x,y, alpha);
             }
           else
             {
@@ -1638,7 +1638,7 @@ void loadgame(int slot)
       if(level_load(&current_level,level_subset,level) != 0)
         exit(1);
       arrays_free();
-      activate_bad_guys();
+      activate_bad_guys(&current_level);
       activate_particle_systems();
       level_free_gfx();
       level_load_gfx(&current_level);

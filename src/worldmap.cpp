@@ -135,7 +135,7 @@ Tux::draw()
       break;
     }
 
-  texture_draw(&sprite, (int)x, (int)y, NO_UPDATE);
+  texture_draw(&sprite, (int)x, (int)y);
 }
 
 void
@@ -450,12 +450,12 @@ WorldMap::draw()
     for(int x = 0; x < width; ++x)
       {
         Tile* tile = at(Point(x, y));
-        texture_draw(&tile->sprite, x*32, y*32, NO_UPDATE);
+        texture_draw(&tile->sprite, x*32, y*32);
       }
   
   for(Levels::iterator i = levels.begin(); i != levels.end(); ++i)
     {
-      texture_draw(&level_sprite, i->x*32, i->y*32, NO_UPDATE);
+      texture_draw(&level_sprite, i->x*32, i->y*32);
     }
 
   tux->draw();

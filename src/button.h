@@ -13,6 +13,7 @@
 #ifndef SUPERTUX_BUTTON_H
 #define SUPERTUX_BUTTON_H
 
+#include <vector>
 #include "texture.h"
 
 enum ButtonState {
@@ -22,42 +23,51 @@ enum ButtonState {
   BUTTON_HOVER
 };
 
-struct button_type
-{
-  texture_type icon;
-  texture_type* bkgd;
-  char *info;
-  SDLKey shortcut;
-  int  x;
-  int  y;
-  int  w;
-  int  h;
-  bool show_info;
-  ButtonState state;
-  int tag;
-};
+class ButtonPanel;
 
-void button_load(button_type* pbutton,char* icon_file, char* info, SDLKey shortcut, int x, int y);
-button_type* button_create(char* icon_file, char* info, SDLKey shortcut, int x, int y);
-void button_change_icon(button_type* pbutton,char* icon_file);
-void button_draw(button_type* pbutton);
-void button_free(button_type* pbutton);
-void button_event(button_type* pbutton, SDL_Event* event);
-int  button_get_state(button_type* pbutton);
+class Button
+  {
+    friend class ButtonPanel;
 
-struct button_panel_type
-{
-  int num_items;
-  int hidden;
-  int x,y;
-  int w,h;
-  button_type* item;
-};
+  public:
+    Button(std::string icon_file, std::string info, SDLKey shortcut, int x, int y, int mw = -1, int h = -1);
+    ~Button();
+    void event(SDL_Event& event);
+    void draw();
+    int get_state();
+    void change_icon(std::string icon_file, int mw, int mh);
+    int get_tag()
+    {
+      return tag;
+    }
 
-void button_panel_init(button_panel_type* pbutton_panel, int x, int y, int w, int h);
-void button_panel_free(button_panel_type* pbutton_panel);
-void button_panel_draw(button_panel_type* pbutton_panel);
-void button_panel_additem(button_panel_type* pbutton_panel, button_type* pbutton, int tag);
-button_type* button_panel_event(button_panel_type* pbutton_panel, SDL_Event* event);
+  private:
+    texture_type icon;
+    texture_type* bkgd;
+    std::string info;
+    SDLKey shortcut;
+    SDL_Rect rect;
+    bool show_info;
+    ButtonState state;
+    int tag;
+  };
+
+class ButtonPanel
+  {
+  public:
+    ButtonPanel(int x, int y, int w, int h);
+    ~ButtonPanel();
+    void draw();
+    Button* event(SDL_Event &event);
+    void additem(Button* pbutton, int tag);
+    Button* button_panel_event(SDL_Event& event);
+    void set_button_size(int w, int h) { bw = w; bh = h; }
+
+  private:
+    int bw, bh;
+    bool hidden;
+    SDL_Rect rect;
+    std::vector<Button*> item;
+  };
 
 #endif /*SUPERTUX_BUTTON_H*/

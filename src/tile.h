@@ -12,6 +12,7 @@
 #ifndef TILE_H
 #define TILE_H
 
+#include <map>
 #include <vector>
 #include "texture.h"
 #include "globals.h"
@@ -26,6 +27,8 @@ struct Tile
   int id;
 
   std::vector<texture_type> images;
+  std::vector<texture_type> editor_images;
+  
   std::vector<std::string>  filenames;
 
   /** solid tile that is indestructable by Tux */

@@ -80,7 +80,7 @@ int intro(void)
 
   /* Display background: */
 
-  texture_draw_bg(&bkgd, UPDATE);
+  texture_draw_bg(&bkgd, 255, UPDATE);
 
   /* Animation: */
 
@@ -113,8 +113,8 @@ int intro(void)
           ++scene;
           /* Gown and tux sitting: */
 
-          texture_draw(&tux_sit, 270, 400, UPDATE);
-          texture_draw(&gown_sit, 320, 400, UPDATE);
+          texture_draw(&tux_sit, 270, 400, 255, UPDATE);
+          texture_draw(&gown_sit, 320, 400, 255, UPDATE);
 
           text_drawf(&white_text, intro_text[0], 0, -8, A_HMIDDLE, A_BOTTOM, 0);
         }
@@ -136,8 +136,7 @@ int intro(void)
           texture_draw_part(&bkgd,0,32, 0, 32, screen->w, (copter[0].h));
 
           texture_draw(&copter[i % 2],
-                       (float)(timer_get_gone(&timer) - 2000) / 5  - (copter[0].w), 32,
-                       NO_UPDATE);
+                       (float)(timer_get_gone(&timer) - 2000) / 5  - (copter[0].w), 32);
 
           update_rect(screen, 0, 32, screen->w, (copter[0].h));
         }
@@ -148,7 +147,7 @@ int intro(void)
           ++scene;
           /* Gown notices something... */
 
-          texture_draw(&gown_lookup, 320, 400, UPDATE);
+          texture_draw(&gown_lookup, 320, 400, 255, UPDATE);
         }
 
 
@@ -156,8 +155,8 @@ int intro(void)
         {
           ++scene;
           /* Gown realizes it's bad! */
-
-          texture_draw(&gown_upset, 320, 400, UPDATE);
+	  
+          texture_draw(&gown_upset, 320, 400, 255, UPDATE);
         }
 
 
@@ -176,7 +175,7 @@ int intro(void)
           ++scene;
           /* Tux realizes something's happening: */
 
-          texture_draw(&tux_upset, 270, 400, UPDATE);
+          texture_draw(&tux_upset, 270, 400, 255, UPDATE);
 
 
           erasecenteredtext(&white_text, intro_text[1], 454, &bkgd, UPDATE, 1);
@@ -197,8 +196,7 @@ int intro(void)
 
           for (j = 0; j < (gown_upset.sdl_surface -> w); j++)
             {
-              texture_draw(&beam, 320 + j - ((beam.w) / 2), height[j],
-                           NO_UPDATE);
+              texture_draw(&beam, 320 + j - ((beam.w) / 2), height[j]);
 
               src.x = j;
               src.y = 0;
@@ -250,8 +248,7 @@ int intro(void)
           texture_draw_part(&bkgd, 0, 32, 0, 32, screen->w, (copter_squish.h));
 
           texture_draw(&copter_squish,
-                       400 - (copter[0].w), 32,
-                       NO_UPDATE);
+                       400 - (copter[0].w), 32);
 
           update_rect(screen, 0, 32, screen->w, (copter_squish.h));
         }
@@ -265,8 +262,7 @@ int intro(void)
 
           texture_draw(&copter_stretch,
                        (timer_get_gone(&timer) - 8250) /*(i - (8250 / FPS)) * 30*/ + 400 - (copter[0].w),
-                       32,
-                       NO_UPDATE);
+                       32);
 
           update_rect(screen, 0, 32, screen->w, (copter_stretch.h));
         }

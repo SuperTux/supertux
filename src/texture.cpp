@@ -20,9 +20,9 @@
 void (*texture_load)     (texture_type* ptexture, const std::string& file, int use_alpha);
 void (*texture_load_part)(texture_type* ptexture, const std::string& file, int x, int y, int w, int h, int use_alpha);
 void (*texture_free)     (texture_type* ptexture);  
-void (*texture_draw)     (texture_type* ptexture, float x, float y, bool update);  
-void (*texture_draw_bg)  (texture_type* ptexture, bool update);  
-void (*texture_draw_part)(texture_type* ptexture, float sx, float sy, float x, float y, float w, float h, bool update);
+void (*texture_draw)     (texture_type* ptexture, float x, float y, Uint8 alpha, bool update);  
+void (*texture_draw_bg)  (texture_type* ptexture, Uint8 alpha,  bool update);  
+void (*texture_draw_part)(texture_type* ptexture, float sx, float sy, float x, float y, float w, float h, Uint8 alpha, bool update);
 
 
 void texture_setup(void)
@@ -135,7 +135,7 @@ void texture_free_gl(texture_type* ptexture)
   glDeleteTextures(1, &ptexture->gl_texture);
 }
 
-void texture_draw_gl(texture_type* ptexture, float x, float y, bool update)
+void texture_draw_gl(texture_type* ptexture, float x, float y, Uint8 alpha, bool update)
 {
 float pw = power_of_two(ptexture->w);
 float ph = power_of_two(ptexture->h);
@@ -144,7 +144,7 @@ float ph = power_of_two(ptexture->h);
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-  glColor4ub(255, 255, 255,255);
+  glColor4ub(alpha, alpha, alpha, alpha);
 
   glBindTexture(GL_TEXTURE_2D, ptexture->gl_texture);
 
@@ -160,14 +160,18 @@ float ph = power_of_two(ptexture->h);
   
   glDisable(GL_TEXTURE_2D);
   glDisable(GL_BLEND);
+  
+/* Avoid compiler warnings */
+if(update)
+{}
 }
 
-void texture_draw_bg_gl(texture_type* ptexture, bool update)
+void texture_draw_bg_gl(texture_type* ptexture, Uint8 alpha, bool update)
 {
 float pw = power_of_two(ptexture->w);
 float ph = power_of_two(ptexture->h);
 
-  glColor3ub(255, 255, 255);
+  glColor3ub(alpha, alpha, alpha);
 
   glEnable(GL_TEXTURE_2D);
   glBindTexture(GL_TEXTURE_2D, ptexture->gl_texture);
@@ -184,9 +188,13 @@ float ph = power_of_two(ptexture->h);
   glEnd();
   
   glDisable(GL_TEXTURE_2D);
+
+/* Avoid compiler warnings */
+if(update)
+{}
 }
 
-void texture_draw_part_gl(texture_type* ptexture,float sx, float sy, float x, float y, float w, float h, bool update)
+void texture_draw_part_gl(texture_type* ptexture,float sx, float sy, float x, float y, float w, float h, Uint8 alpha, bool update)
 {
 float pw = power_of_two(ptexture->w);
 float ph = power_of_two(ptexture->h);
@@ -196,7 +204,7 @@ float ph = power_of_two(ptexture->h);
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-  glColor4ub(255, 255, 255,255);
+  glColor4ub(alpha, alpha, alpha, alpha);
 
   glEnable(GL_TEXTURE_2D);
 
@@ -215,6 +223,9 @@ float ph = power_of_two(ptexture->h);
   glDisable(GL_TEXTURE_2D);
   glDisable(GL_BLEND);
 
+/* Avoid compiler warnings */
+if(update)
+{}
 }
 #endif
 
@@ -342,7 +353,7 @@ void texture_from_sdl_surface(texture_type* ptexture, SDL_Surface* sdl_surf, int
 #endif
 }
 
-void texture_draw_sdl(texture_type* ptexture, float x, float y, bool update)
+void texture_draw_sdl(texture_type* ptexture, float x, float y, Uint8 alpha, bool update)
 {
   SDL_Rect dest;
 
@@ -350,6 +361,11 @@ void texture_draw_sdl(texture_type* ptexture, float x, float y, bool update)
   dest.y = (int)y;
   dest.w = ptexture->w;
   dest.h = ptexture->h;
+  
+  if(alpha != 255) /* SDL isn't capable of this kind of alpha :( therefore we'll leave now. */
+  return;
+  
+  SDL_SetAlpha(ptexture->sdl_surface ,SDL_SRCALPHA,alpha);
   SDL_BlitSurface(ptexture->sdl_surface, NULL, screen, &dest);
   
   if (update == UPDATE)
@@ -357,7 +373,7 @@ void texture_draw_sdl(texture_type* ptexture, float x, float y, bool update)
 }
 
 
-void texture_draw_bg_sdl(texture_type* ptexture, bool update)
+void texture_draw_bg_sdl(texture_type* ptexture, Uint8 alpha, bool update)
 {
   SDL_Rect dest;
   
@@ -365,14 +381,16 @@ void texture_draw_bg_sdl(texture_type* ptexture, bool update)
   dest.y = 0;
   dest.w = screen->w;
   dest.h = screen->h;
-  
+
+  if(alpha != 255)
+  SDL_SetAlpha(ptexture->sdl_surface ,SDL_SRCALPHA,alpha);
   SDL_SoftStretch(ptexture->sdl_surface, NULL, screen, &dest);
   
   if (update == UPDATE)
     SDL_UpdateRect(screen, dest.x, dest.y, dest.w, dest.h);
 }
 
-void texture_draw_part_sdl(texture_type* ptexture, float sx, float sy, float x, float y, float w, float h, bool update)
+void texture_draw_part_sdl(texture_type* ptexture, float sx, float sy, float x, float y, float w, float h, Uint8 alpha, bool update)
 {
   SDL_Rect src, dest;
 
@@ -386,7 +404,9 @@ void texture_draw_part_sdl(texture_type* ptexture, float sx, float sy, float x, 
   dest.w = (int)w;
   dest.h = (int)h;
 
-
+  if(alpha != 255)
+  SDL_SetAlpha(ptexture->sdl_surface ,SDL_SRCALPHA,alpha);
+  
   SDL_BlitSurface(ptexture->sdl_surface, &src, screen, &dest);
 
   if (update == UPDATE)

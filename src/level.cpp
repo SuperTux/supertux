@@ -210,19 +210,19 @@ void level_default(st_level* plevel)
       plevel->ia_tiles[i] = (unsigned int*) malloc((plevel->width+1)*sizeof(unsigned int));
       plevel->ia_tiles[i][plevel->width] = (unsigned int) '\0';
       for(y = 0; y < plevel->width; ++y)
-        plevel->ia_tiles[i][y] = (unsigned int) '.';
+        plevel->ia_tiles[i][y] = 0;
       plevel->ia_tiles[i][plevel->width] = (unsigned int) '\0';
 
       plevel->bg_tiles[i] = (unsigned int*) malloc((plevel->width+1)*sizeof(unsigned int));
       plevel->bg_tiles[i][plevel->width] = (unsigned int) '\0';
       for(y = 0; y < plevel->width; ++y)
-        plevel->bg_tiles[i][y] = (unsigned int) '.';
+        plevel->bg_tiles[i][y] = 0;
       plevel->bg_tiles[i][plevel->width] = (unsigned int) '\0';
 
       plevel->fg_tiles[i] = (unsigned int*) malloc((plevel->width+1)*sizeof(unsigned int));
       plevel->fg_tiles[i][plevel->width] = (unsigned int) '\0';
       for(y = 0; y < plevel->width; ++y)
-        plevel->fg_tiles[i][y] = (unsigned int) '.';
+        plevel->fg_tiles[i][y] = 0;
       plevel->fg_tiles[i][plevel->width] = (unsigned int) '\0';
     }
 }
@@ -305,10 +305,10 @@ int level_load(st_level* plevel, const char* filename)
                 reader.read_int("y", &bg_data.y);
 
                 plevel->badguy_data.push_back(bg_data);
- 
+
                 cur = lisp_cdr(cur);
               }
-          }        
+          }
       }
 
       // Convert old levels to the new tile numbers
@@ -342,9 +342,9 @@ int level_load(st_level* plevel, const char* filename)
           transtable['h'] = 98;
           transtable['i'] = 99;
           transtable['j'] = 100
-            ;
+                            ;
           transtable['#'] = 11;
-          transtable['['] = 13; 
+          transtable['['] = 13;
           transtable['='] = 14;
           transtable[']'] = 15;
           transtable['$'] = 82;
@@ -361,7 +361,7 @@ int level_load(st_level* plevel, const char* filename)
               if (*i == '0' || *i == '1' || *i == '2')
                 {
                   plevel->badguy_data.push_back(BadGuyData(static_cast<BadGuyKind>(*i-'0'),
-                                                           x*32, y*32));
+                                                x*32, y*32));
                   *i = 0;
                 }
               else
@@ -373,10 +373,11 @@ int level_load(st_level* plevel, const char* filename)
                     printf("Error: conversion will fail, unsupported char: '%c' (%d)\n", *i, *i);
                 }
               ++x;
-              if (x >= plevel->width) {
-                x = 0;
-                ++y;
-              }
+              if (x >= plevel->width)
+                {
+                  x = 0;
+                  ++y;
+                }
             }
         }
     }
@@ -503,7 +504,17 @@ void level_save(st_level* plevel,const  char * subset, int level)
         fprintf(fi," %d ", plevel->fg_tiles[y][i]);
     }
 
-  fprintf( fi,")");
+  fprintf( fi,")\n");
+  fprintf( fi,"(objects\n");
+
+  for(std::vector<BadGuyData>::iterator it = plevel->
+      badguy_data.begin();
+      it != plevel->badguy_data.end();
+      ++it)
+    fprintf( fi,"(%s (x %d) (y %d))\n",badguykind_to_string((*it).kind).c_str(),(*it).x,(*it).y);
+
+  fprintf( fi,")\n");
+
   fprintf( fi,")\n");
 
   fclose(fi);

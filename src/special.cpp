@@ -82,7 +82,7 @@ void bullet_draw(bullet_type* pbullet)
   if (pbullet->base.x >= scroll_x - pbullet->base.width &&
       pbullet->base.x <= scroll_x + screen->w)
     {
-      texture_draw(&img_bullet, pbullet->base.x - scroll_x, pbullet->base.y,
+      texture_draw(&img_bullet, pbullet->base.x - scroll_x, pbullet->base.y, 255,
                    NO_UPDATE);
     }
 }
@@ -195,31 +195,28 @@ void upgrade_draw(upgrade_type* pupgrade)
           dest.h = (int)pupgrade->base.height;
 
           if (pupgrade->kind == UPGRADE_MINTS)
-            texture_draw_part(&img_mints,0,0,dest.x,dest.y,dest.w,dest.h,NO_UPDATE);
+            texture_draw_part(&img_mints,0,0,dest.x,dest.y,dest.w,dest.h);
           else if (pupgrade->kind == UPGRADE_COFFEE)
-            texture_draw_part(&img_coffee,0,0,dest.x,dest.y,dest.w,dest.h,NO_UPDATE);
+            texture_draw_part(&img_coffee,0,0,dest.x,dest.y,dest.w,dest.h);
           else if (pupgrade->kind == UPGRADE_HERRING)
-            texture_draw_part(&img_golden_herring,0,0,dest.x,dest.y,dest.w,dest.h,NO_UPDATE);
+            texture_draw_part(&img_golden_herring,0,0,dest.x,dest.y,dest.w,dest.h);
         }
       else
         {
           if (pupgrade->kind == UPGRADE_MINTS)
             {
               texture_draw(&img_mints,
-                           pupgrade->base.x - scroll_x, pupgrade->base.y,
-                           NO_UPDATE);
+                           pupgrade->base.x - scroll_x, pupgrade->base.y);
             }
           else if (pupgrade->kind == UPGRADE_COFFEE)
             {
               texture_draw(&img_coffee,
-                           pupgrade->base.x - scroll_x, pupgrade->base.y,
-                           NO_UPDATE);
+                           pupgrade->base.x - scroll_x, pupgrade->base.y);
             }
           else if (pupgrade->kind == UPGRADE_HERRING)
             {
               texture_draw(&img_golden_herring,
-                           pupgrade->base.x - scroll_x, pupgrade->base.y,
-                           NO_UPDATE);
+                           pupgrade->base.x - scroll_x, pupgrade->base.y);
             }
         }
 }

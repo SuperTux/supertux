@@ -86,13 +86,13 @@ void text_draw_chars(text_type* ptext, texture_type* pchars,const  char* text, i
       for( i = 0, j = 0; i < len; ++i,++j)
         {
           if( text[i] >= 'A' && text[i] <= 'Z')
-            texture_draw_part(pchars, (int)(text[i] - 'A')*w, 0, x+(j*w), y, ptext->w, ptext->h, update);
+            texture_draw_part(pchars, (int)(text[i] - 'A')*w, 0, x+(j*w), y, ptext->w, ptext->h, 255,  update);
           else if( text[i] >= 'a' && text[i] <= 'z')
-            texture_draw_part(pchars, (int)(text[i] - 'a')*w, h, x+(j*w), y, ptext->w, ptext->h, update);
+            texture_draw_part(pchars, (int)(text[i] - 'a')*w, h, x+(j*w), y, ptext->w, ptext->h, 255,  update);
           else if ( text[i] >= '!' && text[i] <= '9')
-            texture_draw_part(pchars, (int)(text[i] - '!')*w, h*2, x+(j*w), y, ptext->w, ptext->h, update);
+            texture_draw_part(pchars, (int)(text[i] - '!')*w, h*2, x+(j*w), y, ptext->w, ptext->h, 255,  update);
           else if ( text[i] == '?')
-            texture_draw_part(pchars, 25*w, h*2, x+(j*w), y, ptext->w, ptext->h, update);
+            texture_draw_part(pchars, 25*w, h*2, x+(j*w), y, ptext->w, ptext->h, 255,  update);
           else if ( text[i] == '\n')
             {
               y += ptext->h + 2;
@@ -105,7 +105,7 @@ void text_draw_chars(text_type* ptext, texture_type* pchars,const  char* text, i
       for( i = 0, j = 0; i < len; ++i, ++j)
         {
           if ( text[i] >= '0' && text[i] <= '9')
-            texture_draw_part(pchars, (int)(text[i] - '0')*w, 0, x+(j*w), y, w, h, update);
+            texture_draw_part(pchars, (int)(text[i] - '0')*w, 0, x+(j*w), y, w, h, 255, update);
           else if ( text[i] == '\n')
             {
               y += ptext->h + 2;
@@ -165,7 +165,7 @@ void text_drawf(text_type* ptext,const  char* text, int x, int y, TextHAlign hal
       else if(valign == A_VMIDDLE)
         y += screen->h/2 - ptext->h/2;
 
-      text_draw(ptext,text,x,y,shadowsize,update);
+      text_draw(ptext,text,x,y,shadowsize, update);
     }
 }
 
@@ -192,7 +192,7 @@ void erasetext(text_type* ptext,const  char * text, int x, int y, texture_type *
   if (dest.w > screen->w)
     dest.w = screen->w;
 
-  texture_draw_part(ptexture,dest.x,dest.y,dest.x,dest.y,dest.w,dest.h,update);
+  texture_draw_part(ptexture,dest.x,dest.y,dest.x,dest.y,dest.w,dest.h, 255, update);
 
   if (update == UPDATE)
     update_rect(screen, dest.x, dest.y, dest.w, dest.h);

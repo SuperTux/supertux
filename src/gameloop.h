@@ -31,6 +31,7 @@ extern st_level current_level;
 class Tile;
 
 Tile* gettile(float x, float y);
+void activate_bad_guys(st_level* plevel);
 int gameloop(const char * subset, int levelnb, int mode);
 void savegame(int slot);
 void loadgame(int slot);
@@ -40,7 +41,7 @@ bool isbrick(float x, float y);
 bool isice(float x, float y);
 bool isfullbox(float x, float y);
 bool rectcollision(base_type* one, base_type* two);
-void drawshape(float x, float y, unsigned int c);
+void drawshape(float x, float y, unsigned int c, Uint8 alpha = 255);
 unsigned int shape(float x, float y);
 void bumpbrick(float x, float y);
 

@@ -39,6 +39,8 @@ void TileManager::load_tileset(std::string filename)
 
           if (strcmp(lisp_symbol(lisp_car(element)), "tile") == 0)
             {
+	      std::vector<std::string> editor_filenames;
+	     
               Tile* tile = new Tile;
               tile->id      = -1;
               tile->solid   = false;
@@ -61,6 +63,7 @@ void TileManager::load_tileset(std::string filename)
               reader.read_int("anim-speed", &tile->anim_speed);
               reader.read_int("next-tile",  &tile->next_tile);
               reader.read_string_vector("images",  &tile->filenames);
+	      reader.read_string_vector("editor-images", &editor_filenames);
 
               for(std::vector<std::string>::iterator it = tile->
                   filenames.begin();
@@ -73,7 +76,17 @@ void TileManager::load_tileset(std::string filename)
                                datadir +  "images/tilesets/" + (*it),
                                USE_ALPHA);
                 }
-
+              for(std::vector<std::string>::iterator it = editor_filenames.begin();
+                  it != editor_filenames.end();
+                  ++it)
+                {
+                  texture_type cur_image;
+                  tile->editor_images.push_back(cur_image);
+                  texture_load(&tile->editor_images[tile->editor_images.size()-1],
+                               datadir +  "images/tilesets/" + (*it),
+                               USE_ALPHA);
+                }
+		
               if (tile->id + tileset_id >= int(tiles.size())
                  )
                 tiles.resize(tile->id + tileset_id+1);

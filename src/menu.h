@@ -63,7 +63,8 @@ private:
   Menu* last_menu;
   int width();
   int height();
-
+  
+  
 public:
   timer_type effect;
   int arrange_left;

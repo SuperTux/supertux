@@ -121,6 +121,7 @@ class Player
   void collision(void* p_c_object, int c_object);
   void kill(int mode);
   void is_dying();
+  bool is_dead();
   void player_remove_powerups();
   void keep_in_bounds();
   bool on_ground();

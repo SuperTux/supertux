@@ -103,7 +103,7 @@ void save_hs(int score)
   show_menu = 1;
   while(show_menu)
     {
-      texture_draw_bg(&bkgd, NO_UPDATE);
+      texture_draw_bg(&bkgd);
 
       text_drawf(&blue_text, "Congratulations", 0, 130, A_HMIDDLE, A_TOP, 2, NO_UPDATE);
       text_draw(&blue_text, "Your score:", 150, 180, 1, NO_UPDATE);
