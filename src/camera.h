@@ -22,6 +22,7 @@
 #include "vector.h"
 #include "game_object.h"
 #include "serializable.h"
+#include <cassert>
 
 class LispReader;
 class Player;
