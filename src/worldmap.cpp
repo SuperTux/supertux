@@ -402,7 +402,7 @@ WorldMap::load_map()
           else if (strcmp(lisp_symbol(lisp_car(element)), "properties") == 0)
             {
               LispReader reader(lisp_cdr(element));
-              reader.read_string("name", name);
+              reader.read_string("name", name, true);
               reader.read_string("music", music);
             }
           else if (strcmp(lisp_symbol(lisp_car(element)), "levels") == 0)
@@ -425,7 +425,7 @@ WorldMap::load_map()
                       level.west  = true;
 
                       reader.read_string("extro-filename", level.extro_filename);
-                      reader.read_string("name", level.name);
+                      reader.read_string("name", level.name, true);
                       reader.read_int("x", level.x);
                       reader.read_int("y", level.y);
                       level.vertical_flip = false;
@@ -475,7 +475,7 @@ void WorldMap::get_level_title(Level& level)
   if (strcmp(lisp_symbol(lisp_car(root_obj)), "supertux-level") == 0)
   {
     LispReader reader(lisp_cdr(root_obj));
-    reader.read_string("name", level.title);
+    reader.read_string("name", level.title, true);
   }
 
   lisp_free(root_obj);
@@ -1067,7 +1067,7 @@ WorldMap::loadgame(const std::string& filename)
               bool solved = false;
 
               LispReader level_reader(data);
-              level_reader.read_string("name", name);
+              level_reader.read_string("name", name, true);
               level_reader.read_bool("solved", solved);
 
               for(Levels::iterator i = levels.begin(); i != levels.end(); ++i)

@@ -89,7 +89,7 @@ Level::load(const std::string& filename)
 void
 Level::load_old_format(LispReader& reader)
 {
-  reader.read_string("name", name);
+  reader.read_string("name", name, true);
   reader.read_string("author", author);
   reader.read_int("time", time_left);
 

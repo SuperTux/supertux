@@ -151,7 +151,7 @@ void display_text_file(const std::string& file, Surface* surface, float scroll_s
     }
 
 
-  reader->read_string("text", text);
+  reader->read_string("text", text, true);
   delete reader;
 
   names.clear();

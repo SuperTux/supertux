@@ -1206,13 +1206,37 @@ LispReader::read_char_vector (const char* name, std::vector<char>& vec)
 }
 
 bool
-LispReader::read_string (const char* name, std::string& str)
+LispReader::read_string (const char* name, std::string& str, bool translatable)
 {
-  char str_[1024];
-  sprintf(str_, "%s-%s", name, getenv("LANG"));
-  lisp_object_t* obj = search_for (str_);
+  lisp_object_t* obj;
+  if(translatable)
+    {
+  /* Internationalization support: check for the suffix: str + "-" + $LANG variable.
+     If not found, use the regular string.
+     So, translating a string in a Lisp file would result in something like:
+     (text "Hello World!")
+     (text-fr "Bonjour Monde!")
+     being fr the value of LANG (echo $LANG) for the language we want to translate to */
 
-  if(!obj)
+    char str_[1024];  // check, for instance, for (title-fr_FR "Bonjour")
+    sprintf(str_, "%s-%s", name, getenv("LANG"));
+
+    obj = search_for (str_);
+
+    if(!obj)  // check, for instance, for (title-fr "Bonjour")
+      {
+      char lang[3];
+      strncpy(lang, getenv("LANG"), 2);
+      lang[2] = '\0';
+      sprintf(str_, "%s-%s", name, lang);
+
+      obj = search_for (str_);
+      }
+
+    if(!obj)  // check, for instance, for (title "Hello")
+      obj = search_for (name);
+    }
+  else
     obj = search_for (name);
 
   if (!obj)
