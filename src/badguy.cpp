@@ -159,13 +159,12 @@ BadGuy::~BadGuy()
 void
 BadGuy::init()
 {
-  base.x = 0;
-  base.y = 0;
+  base.x = start_position.x;
+  base.y = start_position.y;
   base.width  = 32;
   base.height = 32;
   
   mode     = NORMAL;
-  dying    = DYING_NOT;
   old_base = base;
   dir      = LEFT;
   seen     = false;
@@ -176,8 +175,6 @@ BadGuy::init()
   timer.init(true);
 
   specs = badguyspecs_manager->load(badguykind_to_string(kind));
-
-  set_action("hide", "hide");
 
   // if we're in a solid tile at start correct that now
   if(Sector::current()) {
@@ -869,12 +866,12 @@ BadGuy::action(float elapsed_time)
     if (start_position.x > scroll_x - X_OFFSCREEN_DISTANCE &&
         start_position.x < scroll_x - base.width &&
         start_position.y > scroll_y - Y_OFFSCREEN_DISTANCE &&
-        start_position.y < scroll_y + Y_OFFSCREEN_DISTANCE)
+        start_position.y < scroll_y + screen->h + Y_OFFSCREEN_DISTANCE)
       activate(RIGHT);
     else if (start_position.x > scroll_x + screen->w &&
         start_position.x < scroll_x + screen->w + X_OFFSCREEN_DISTANCE &&
         start_position.y > scroll_y - Y_OFFSCREEN_DISTANCE &&
-        start_position.y < scroll_y + Y_OFFSCREEN_DISTANCE)
+        start_position.y < scroll_y + screen->h + Y_OFFSCREEN_DISTANCE)
       activate(LEFT);
     /* Special case for badguys on start of the level.
      * If in the future, it's possible to set Tux start pos, this case
@@ -962,6 +959,9 @@ BadGuy::action(float elapsed_time)
 void
 BadGuy::draw(DrawingContext& context)
 {
+  if(!seen)
+    return;
+
   if((dir == LEFT && action_left == "hide") ||
      (dir == RIGHT && action_right == "hide"))
     return;
@@ -1217,6 +1217,9 @@ BadGuy::collision(const MovingObject&, int)
 void
 BadGuy::collision(void *p_c_object, int c_object, CollisionType type)
 {
+  if(!seen)
+    return;
+
   BadGuy* pbad_c    = NULL;
   Bullet* pbullet_c = NULL;
 
