@@ -104,7 +104,7 @@ Bullet::action(float elapsed_time)
     Sector::current()->camera->get_translation().y;
   if (base.x < scroll_x ||
       base.x > scroll_x + screen->w ||
-      base.y < scroll_y ||
+//      base.y < scroll_y ||
       base.y > scroll_y + screen->h ||
       life_count <= 0)
     {
