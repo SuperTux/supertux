@@ -758,13 +758,6 @@ BadGuy::action(float elapsed_time)
   float scroll_y = World::current()->displaymanager
     .get_viewport().get_translation().y;
   
-  // Remove if it's far off the screen:
-  if (base.x < scroll_x - X_OFFSCREEN_DISTANCE)
-    {
-      remove_me();                                                
-      return;
-    }
-
   // BadGuy fall below the ground
   if (base.y > World::current()->get_level()->height * 32) {
     remove_me();
