@@ -432,6 +432,7 @@ GameSession::check_end_conditions()
     }
   else if (!end_sequence && tux->is_dead())
     {
+      player_status.bonus = PlayerStatus::NO_BONUS;
       player_status.lives -= 1;             
 
       if (player_status.lives < 0)
