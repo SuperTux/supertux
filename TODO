@@ -19,9 +19,17 @@ L: low priority
 
 [?] Default keyboard setup should change. Up will be needed for other features
     like going through doors and looking up, etc.
+ Ricardo: IMO, there should be the following keys for the following actions:
+  Up arrow    - Look up
+  Down arrow  - Look down / duck
+  Left arrow  - Left move
+  Right arrow - Right move
+  Ctrl        - Run / Power
+  Alt         - Jump
+  Not sure if Open doors action would be attributed to Up or Ctrl...
 
-[H] Worldmap needs to allow multiple maps
-     - or just one big map with multiple worlds?
+[H] Worldmap should have a flag to allow to go to another map after finishing
+    a level from that one.
 [H] Change resolution to 800x600
      - Levels need to be updated to resolution
         - half of the levels have been already updated
@@ -31,7 +39,7 @@ L: low priority
      - Should kill enemies with a certain range
         - Done--now needs to be tweaked
      - Animation (need images)
-     - Should be a powerup item
+     - Should be a powerup item (still to be discussed)
      - Should break bricks if Tux is on top of bricks, otherwise it should
        kill enemies within a close range.
         - After enemy-kill is used, powerup should be removed from Tux
@@ -39,8 +47,6 @@ L: low priority
      - we should decide on specifics
 [H] Tux should fall while walking in tiles that have a space between.
      - Possible solution: reduce Tux's width when checking collision with tiles
-[H] stdint.h isn't a part of FreeBSD. We should probably use SDL integer
-    types instead.
 [H] Graphics
      - New forest tileset
      - Badguy sprites
@@ -49,21 +55,23 @@ L: low priority
      - Useful for vertical scrolling when we only want a sky background on the
        top of the level
      - Support for this is already available using a paralax tilemap layer
+[H] Background code have the following bugs:
+ - Gradient in software rendering doesn't currently work (at least here).
+ - Images tiling code sucks resulting in glitches and unecessary drawings.
 
 [M] There are some weird graphical glitches when Tux bumps more than one block
     at the same time
 [M] Save score on per-level basis to make high-score
 [M] Save time on per-level basis to make low-time-score
 [M] Add bonus score for extra time left when finishing a level
-[M] When aborting a level, lives and score should remain the same as they
-    were before. Solution: make more dependency between the game engine and
-    worldmap or just backup those variables before starting a level. - fixed?
 [M] when bumping a special with 2 blocks at once, it won't change direction
 [M] tux get killed if he kicks a iceblock while at the same time bouncing on
 [M] You shouldn't be able to stand on invisible blocks, before you bumped them
     the roof
+[M] Implement Unisolid type for tiles (where collisions from below are ignored).
 
 [L] Allow any object to be inside of a [?] box, ie. trampoline or badguy
+    - Not sure if this would be gameplay wise.
 [L] in the "Welcome to Antarctica" level, the blocks next to the first growup
     look like there are 2 blocks above each other when bumping against them as
     small tux...
@@ -72,12 +80,8 @@ L: low priority
     instead of fall, pause mode doesn't seem to have this problem, only
     menu)
 [L] catch exceptions thrown by lispreader
-[L] fadein/out for intro/extro would be nice
 [L] we only have a global counter for multiple coin blocks. This should be handled
-    per block.
-[L] Show level number on top of the screen when playing the level
-[L] Fix the door animation
-[L] Prevent Tux from being able to jump over ending sequence triggers
+    per block. - Why is this a bad thing? It avoids unnecessary cpu and memory use.
 
 Beyond Milestone2
 -----------------
