@@ -761,7 +761,7 @@ Player::check_bounds(bool back_scrolling, bool hor_autoscroll)
   if(hor_autoscroll)
     {
     if(base.x == scroll_x)
-      if(issolid(base.x+32, base.y) || (size != SMALL && issolid(base.x+32, base.y+32)))
+      if((issolid(base.x+32, base.y) || (size != SMALL && !duck && issolid(base.x+32, base.y+32))) && (dying == DYING_NOT))
         kill(KILL);
 
     if(base.x + base.width > scroll_x + screen->w)

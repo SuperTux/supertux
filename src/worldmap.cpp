@@ -172,8 +172,8 @@ Tux::Tux(WorldMap* worldmap_)
 
   offset = 0;
   moving = false;
-  tile_pos.x = 4;
-  tile_pos.y = 5;
+  tile_pos.x = worldmap->get_start_x();
+  tile_pos.y = worldmap->get_start_y();
   direction = D_NONE;
   input_direction = D_NONE;
 }
@@ -344,22 +344,25 @@ Tile::~Tile()
 WorldMap::WorldMap()
 {
   tile_manager = new TileManager();
-  tux = new Tux(this);
 
   width  = 20;
   height = 15;
+  
+  start_x = 4;
+  start_y = 5;
 
   level_sprite = new Surface(datadir +  "/images/worldmap/levelmarker.png", USE_ALPHA);
   leveldot_green = new Surface(datadir +  "/images/worldmap/leveldot_green.png", USE_ALPHA);
   leveldot_red = new Surface(datadir +  "/images/worldmap/leveldot_red.png", USE_ALPHA);
-
+  
+  map_file = datadir + "/levels/default/worldmap.stwm";
+  
   input_direction = D_NONE;
   enter_level = false;
 
   name = "<no file>";
   music = "SALCON.MOD";
 
-  load_map();
 }
 
 WorldMap::~WorldMap()
@@ -373,13 +376,18 @@ WorldMap::~WorldMap()
 }
 
 void
+WorldMap::set_map_file(std::string mapfile)
+{
+  map_file = datadir + "/levels/default/" + mapfile;
+}
+
+void
 WorldMap::load_map()
 {
-  std::string filename = datadir +  "/levels/default/worldmap.stwm";
   
-  lisp_object_t* root_obj = lisp_read_from_file(filename);
+  lisp_object_t* root_obj = lisp_read_from_file(map_file);
   if (!root_obj)
-    st_abort("Couldn't load file", filename);
+    st_abort("Couldn't load file", map_file);
   
   if (strcmp(lisp_symbol(lisp_car(root_obj)), "supertux-worldmap") == 0)
     {
@@ -401,6 +409,8 @@ WorldMap::load_map()
               LispReader reader(lisp_cdr(element));
               reader.read_string("name",  &name);
               reader.read_string("music", &music);
+   	      reader.read_int("start_pos_x", &start_x);
+	      reader.read_int("start_pos_y", &start_y);
             }
           else if (strcmp(lisp_symbol(lisp_car(element)), "levels") == 0)
             {
@@ -443,7 +453,8 @@ WorldMap::load_map()
         }
     }
 
-    lisp_free(root_obj);
+    lisp_free(root_obj);   
+    tux = new Tux(this);
 }
 
 void WorldMap::get_level_title(Levels::pointer level)

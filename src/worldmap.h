@@ -141,6 +141,9 @@ private:
   std::vector<int> tilemap;
   int width;
   int height;
+  
+  int start_x;
+  int start_y;
 
   TileManager* tile_manager;
 
@@ -175,6 +178,7 @@ private:
 
   Point offset;
   std::string savegame_file;
+  std::string map_file;
 
   void get_level_title(Levels::pointer level);
 
@@ -183,6 +187,8 @@ public:
   WorldMap();
   ~WorldMap();
 
+  void set_map_file(std::string mapfile);
+  
   /** Busy loop */
   void display();
 
@@ -206,6 +212,13 @@ public:
 
   void savegame(const std::string& filename);
   void loadgame(const std::string& filename);
+  
+  const int& get_start_x() const
+    { return start_x; }
+  
+  const int& get_start_y() const
+    { return start_y; }
+
 private:
   void on_escape_press();
 };
