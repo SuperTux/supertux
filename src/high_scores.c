@@ -64,8 +64,9 @@ void load_hs(void)
 {
   FILE * fi;
   char temp[128];
-  hs_score = 100;
   int c, strl;
+  
+  hs_score = 100;
   strcpy(hs_name, "Grandma\0");
   c = 0;
   
@@ -111,6 +112,10 @@ void load_hs(void)
 void save_hs(int score)
 {
   texture_type bkgd;
+  SDL_Event event;
+  FILE * fi;
+
+  
   texture_load(&bkgd, DATA_PREFIX "/images/highscore/highscore.png", IGNORE_ALPHA);
 
   hs_score = score;
@@ -118,7 +123,6 @@ void save_hs(int score)
   /* ask for player's name */
   menumenu = MENU_HIGHSCORE;
   show_menu = 1;
-  SDL_Event event;
   while(show_menu)
     {
       texture_draw_bg(&bkgd, NO_UPDATE);
@@ -130,8 +134,6 @@ void save_hs(int score)
           menu_event(&event.key.keysym);
     }
 
-
-  FILE * fi;
 
   /* Try to open file: */
 
