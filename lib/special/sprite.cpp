@@ -170,7 +170,11 @@ void
 Sprite::update()
 {
 if(animation_loops == 0)
+  {
+  if(frame >= get_frames() || frame < 0)
+    frame = 0;
   return;
+  }
 
 float frame_inc = (action->fps/1000.0) * (SDL_GetTicks() - last_tick);
 last_tick = SDL_GetTicks();
@@ -182,9 +186,9 @@ else
 
 if(animation_reversed)
   {
-  float excedent = frame - 0;
-  if((int)excedent < 0 || excedent >= get_frames())
+  if(frame < 0 || frame >= (float)get_frames())
     {  // last case can happen when not used reverse_animation()
+    float excedent = frame - 0;
     frame = get_frames() - 1;
     if(animation_loops > 0)
       {
@@ -202,9 +206,9 @@ if(animation_reversed)
   }
 else
   {
-  float excedent = frame - (get_frames()+1);
-  if((int)excedent >= 0)
+  if(frame >= (float)get_frames())
     {
+    float excedent = frame - get_frames();
     frame = 0;
     if(animation_loops > 0)
       {
