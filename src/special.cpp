@@ -45,6 +45,7 @@ Sprite* img_1up;
 void
 Bullet::init(float x, float y, float xm, Direction dir)
 {
+  life_count = 3;
   base.width = 4;
   base.height = 4;
 
@@ -99,6 +100,7 @@ Bullet::action(double frame_ratio)
         base.ym = 9;
       else if (base.ym < -9)
         base.ym = -9;
+      life_count -= 1;
     }
 
   base.ym = base.ym + 0.5 * frame_ratio;
@@ -108,7 +110,8 @@ Bullet::action(double frame_ratio)
       base.y < 0 ||
       base.y > screen->h ||
       issolid(base.x + 4, base.y + 2) ||
-      issolid(base.x, base.y + 2))
+      issolid(base.x, base.y + 2) ||
+      life_count <= 0)
     {
       remove_me();
     }

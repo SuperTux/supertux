@@ -58,7 +58,7 @@ class GameSession
 
   /** If true the end_sequence will be played, user input will be
       ignored while doing that */
-  bool end_sequenze;
+  bool end_sequence;
   float last_x_pos;
 
   bool game_pause;

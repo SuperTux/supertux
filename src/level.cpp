@@ -499,7 +499,7 @@ Level::load(const std::string& filename)
   // FIXME: -10 is a rather random value, we still need some kind of
   // real levelend gola
   if (use_endsequence)
-    endpos = 32*(width-20);
+    endpos = 32*(width-30);
   else
     endpos = 32*(width-15);
 

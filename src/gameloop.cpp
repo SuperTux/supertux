@@ -58,7 +58,7 @@
 GameSession* GameSession::current_ = 0;
 
 GameSession::GameSession(const std::string& subset_, int levelnb_, int mode)
-  : world(0), st_gl_mode(mode), levelnb(levelnb_), end_sequenze(false),
+  : world(0), st_gl_mode(mode), levelnb(levelnb_), end_sequence(false),
     subset(subset_)
 {
   current_ = this;
@@ -77,7 +77,7 @@ GameSession::restart_level()
 {
   game_pause   = false;
   exit_status  = NONE;
-  end_sequenze = false;
+  end_sequence = false;
 
   fps_timer.init(true);
   frame_timer.init(true);
@@ -195,7 +195,7 @@ GameSession::on_escape_press()
 void
 GameSession::process_events()
 {
-  if (end_sequenze)
+  if (end_sequence)
     {
       Player& tux = *world->get_tux();
           
@@ -378,13 +378,13 @@ GameSession::check_end_conditions()
   Player* tux = world->get_tux();
 
   /* End of level? */
-  if (tux->base.x >= World::current()->get_level()->endpos + 320)
+  if (tux->base.x >= World::current()->get_level()->endpos + 32 * (get_level()->use_endsequence ? 22 : 10))
     {
       exit_status = LEVEL_FINISHED;
     }
-  else if (tux->base.x >= World::current()->get_level()->endpos && !end_sequenze)
+  else if (tux->base.x >= World::current()->get_level()->endpos && !end_sequence)
     {
-      end_sequenze = true;
+      end_sequence = true;
       last_x_pos = -1;
       music_manager->halt_music();
     }
@@ -528,7 +528,7 @@ GameSession::run()
           while (frame_ratio > 0)
             {
               // Update the world
-              if (end_sequenze)
+              if (end_sequence)
                 action(.5f);
               else
                 action(1.0f);
