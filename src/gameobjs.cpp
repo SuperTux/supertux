@@ -466,7 +466,7 @@ SmokeCloud::draw(DrawingContext& context)
 }
 
 Particles::Particles(const Vector& epicenter, int min_angle, int max_angle, const Vector& initial_velocity, const Vector& acceleration, int number, Color color_, int size_, int life_time, int drawing_layer_)
-  : color(color_), size(size_), accel(acceleration), drawing_layer(drawing_layer_)
+  : accel(acceleration), color(color_), size(size_), drawing_layer(drawing_layer_)
 {
   if(life_time == 0)
     {

@@ -171,7 +171,7 @@ Player::init()
   flapping_velocity = 0;
 
   // temporary to help player's choosing a flapping
-  int flapping_mode = MAREK_FLAP;
+  flapping_mode = MAREK_FLAP;
 
   // Ricardo's flapping
   flaps_nb = 0;
@@ -663,6 +663,7 @@ Player::handle_vertical_input()
                 && physic.get_velocity_y() < 0)
             {
                float gravity = Sector::current()->gravity;
+               (void)gravity;
                float xr = (fabsf(physic.get_velocity_x()) / MAX_RUN_XM);
 
                // XXX: magic numbers. should be a percent of gravity
