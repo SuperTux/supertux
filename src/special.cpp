@@ -72,7 +72,7 @@ void bullet_action(bullet_type* pbullet)
       issolid(pbullet->base.x + 4, pbullet->base.y + 2) ||
       issolid(pbullet->base.x, pbullet->base.y + 2))
     {
-      bullets.erase(static_cast<std::vector<bullet_type>::iterator>(pbullet));
+      world.bullets.erase(static_cast<std::vector<bullet_type>::iterator>(pbullet));
     }
 
 }
@@ -91,9 +91,10 @@ void bullet_collision(bullet_type* pbullet, int c_object)
 {
   if(c_object == CO_BADGUY) {
     std::vector<bullet_type>::iterator i;
-    for(i = bullets.begin(); i != bullets.end(); ++i) {
+    
+    for(i = world.bullets.begin(); i != world.bullets.end(); ++i) {
       if(& (*i) == pbullet) {
-        bullets.erase(i);
+        world.bullets.erase(i);
         return;
       }
     }
@@ -143,9 +144,9 @@ void upgrade_action(upgrade_type *pupgrade)
           /* Off the screen?  Kill it! */
 
           if (pupgrade->base.x < scroll_x - pupgrade->base.width)
-            upgrades.erase(static_cast<std::vector<upgrade_type>::iterator>(pupgrade));
+            world.upgrades.erase(static_cast<std::vector<upgrade_type>::iterator>(pupgrade));
           if (pupgrade->base.y > screen->h)
-            upgrades.erase(static_cast<std::vector<upgrade_type>::iterator>(pupgrade));
+            world.upgrades.erase(static_cast<std::vector<upgrade_type>::iterator>(pupgrade));
 
           if (issolid(pupgrade->base.x + 1, pupgrade->base.y + 32.) ||
               issolid(pupgrade->base.x + 31., pupgrade->base.y + 32.))
@@ -233,7 +234,7 @@ void upgrade_collision(upgrade_type* pupgrade, void* p_c_object, int c_object)
       /* p_c_object is CO_PLAYER, so assign it to pplayer */
       pplayer = (Player*) p_c_object;
 
-      upgrades.erase(static_cast<std::vector<upgrade_type>::iterator>(pupgrade));
+      world.upgrades.erase(static_cast<std::vector<upgrade_type>::iterator>(pupgrade));
 
       /* Affect the player: */
 

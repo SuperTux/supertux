@@ -13,8 +13,12 @@
 #ifndef SUPERTUX_WORLD_H
 #define SUPERTUX_WORLD_H
 
+#include <vector>
 #include <SDL.h>
 #include "type.h"
+#include "scene.h"
+#include "special.h"
+#include "particlesystem.h"
 
 /* Bounciness of distros: */
 
@@ -69,7 +73,6 @@ void floating_score_init(floating_score_type* pfloating_score, float x, float y,
 void floating_score_action(floating_score_type* pfloating_score);
 void floating_score_draw(floating_score_type* pfloating_score);
 
-
 /** Try to grab the coin at the given coordinates */
 void trygrabdistro(float x, float y, int bounciness);
 
@@ -82,6 +85,40 @@ void tryemptybox(float x, float y, int col_side);
 /** Try to bumb a badguy that might we walking above Tux, thus shaking
     the tile which the badguy is walking on an killing him this way */
 void trybumpbadguy(float x, float y);
+
+
+/** The World class holds a level and all the game objects (badguys,
+    bouncy distros, etc) that are needed to run a game. */
+class World
+{
+ public:
+  Level* level;
+  std::vector<bouncy_distro_type> bouncy_distros;
+  std::vector<broken_brick_type> broken_bricks;
+  std::vector<bouncy_brick_type> bouncy_bricks;
+  std::vector<BadGuy> bad_guys;
+  std::vector<floating_score_type> floating_scores;
+  std::vector<upgrade_type> upgrades;
+  std::vector<bullet_type> bullets;
+  std::vector<ParticleSystem*> particle_systems;
+
+ public:
+  World();
+  void draw();
+  void action();
+  void arrays_free();
+
+  void add_score(float x, float y, int s);
+  void add_bouncy_distro(float x, float y);
+  void add_broken_brick(float x, float y);
+  void add_broken_brick_piece(float x, float y, float xm, float ym);
+  void add_bouncy_brick(float x, float y);
+  void add_bad_guy(float x, float y, BadGuyKind kind);
+  void add_upgrade(float x, float y, int dir, int kind);
+  void add_bullet(float x, float y, float xm, int dir);
+};
+
+extern World world;
 
 #endif /*SUPERTUX_WORLD_H*/
 

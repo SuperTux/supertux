@@ -372,13 +372,14 @@ BadGuy::fall()
 void
 BadGuy::remove_me()
 {
-  std::vector<BadGuy>::iterator i;
-  for(i = bad_guys.begin(); i != bad_guys.end(); ++i) {
-    if( & (*i) == this) {
-      bad_guys.erase(i);
-      return;
+  for(std::vector<BadGuy>::iterator i = world.bad_guys.begin(); 
+      i != world.bad_guys.end(); ++i) 
+    {
+      if( & (*i) == this) {
+        world.bad_guys.erase(i);
+        return;
+      }
     }
-  }
 }
 
 void
@@ -783,7 +784,7 @@ BadGuy::squish_me(Player* player)
 {
   make_player_jump(player);
     
-  add_score(base.x - scroll_x, base.y, 50 * score_multiplier);
+  world.add_score(base.x - scroll_x, base.y, 50 * score_multiplier);
   play_sound(sounds[SND_SQUISH], SOUND_CENTER_SPEAKER);
   score_multiplier++;
 
@@ -796,58 +797,58 @@ void
 BadGuy::squish(Player* player)
 {
   if(kind == BAD_MRBOMB) {
-      // mrbomb transforms into a bomb now
-      add_bad_guy(base.x, base.y, BAD_BOMB);
+    // mrbomb transforms into a bomb now
+    world.add_bad_guy(base.x, base.y, BAD_BOMB);
+    
+    make_player_jump(player);
+    world.add_score(base.x - scroll_x, base.y, 50 * score_multiplier);
+    play_sound(sounds[SND_SQUISH], SOUND_CENTER_SPEAKER);
+    score_multiplier++;
       
-      make_player_jump(player);
-      add_score(base.x - scroll_x, base.y, 50 * score_multiplier);
-      play_sound(sounds[SND_SQUISH], SOUND_CENTER_SPEAKER);
-      score_multiplier++;
-      
-      remove_me();
-      return;
+    remove_me();
+    return;
 
   } else if(kind == BAD_BSOD) {
-      squish_me(player);
-      set_texture(img_bsod_squished_left, img_bsod_squished_right, 1);
-      physic.set_velocity(0, physic.get_velocity_y());
-      return;
+    squish_me(player);
+    set_texture(img_bsod_squished_left, img_bsod_squished_right, 1);
+    physic.set_velocity(0, physic.get_velocity_y());
+    return;
       
   } else if (kind == BAD_LAPTOP) {
-      if (mode == NORMAL || mode == KICK)
+    if (mode == NORMAL || mode == KICK)
       {
-          /* Flatten! */
-          play_sound(sounds[SND_STOMP], SOUND_CENTER_SPEAKER);
-          mode = FLAT;
-          set_texture(img_laptop_flat_left, img_laptop_flat_right, 1);
-          physic.set_velocity(0, physic.get_velocity_y());
+        /* Flatten! */
+        play_sound(sounds[SND_STOMP], SOUND_CENTER_SPEAKER);
+        mode = FLAT;
+        set_texture(img_laptop_flat_left, img_laptop_flat_right, 1);
+        physic.set_velocity(0, physic.get_velocity_y());
 
-          timer_start(&timer, 4000);
+        timer_start(&timer, 4000);
       } else if (mode == FLAT) {
-          /* Kick! */
-          play_sound(sounds[SND_KICK], SOUND_CENTER_SPEAKER);
+        /* Kick! */
+        play_sound(sounds[SND_KICK], SOUND_CENTER_SPEAKER);
 
-          if (player->base.x < base.x + (base.width/2)) {
-              physic.set_velocity(5, physic.get_velocity_y());
-              dir = RIGHT;
-          } else {
-              physic.set_velocity(-5, physic.get_velocity_y());
-              dir = LEFT;
-          }
+        if (player->base.x < base.x + (base.width/2)) {
+          physic.set_velocity(5, physic.get_velocity_y());
+          dir = RIGHT;
+        } else {
+          physic.set_velocity(-5, physic.get_velocity_y());
+          dir = LEFT;
+        }
 
-          mode = KICK;
-          set_texture(img_laptop_flat_left, img_laptop_flat_right, 1);
+        mode = KICK;
+        set_texture(img_laptop_flat_left, img_laptop_flat_right, 1);
       }
 
-      make_player_jump(player);
+    make_player_jump(player);
 	      
-      add_score(base.x - scroll_x, base.y, 25 * score_multiplier);
-      score_multiplier++;
-      return;
+    world.add_score(base.x - scroll_x, base.y, 25 * score_multiplier);
+    score_multiplier++;
+    return;
   } else if(kind == BAD_FISH) {
     make_player_jump(player);
 	      
-    add_score(base.x - scroll_x, base.y, 25 * score_multiplier);
+    world.add_score(base.x - scroll_x, base.y, 25 * score_multiplier);
     score_multiplier++;
      
     // simply remove the fish...
@@ -885,11 +886,11 @@ BadGuy::kill_me()
 
   /* Gain some points: */
   if (kind == BAD_BSOD)
-    add_score(base.x - scroll_x, base.y,
-              50 * score_multiplier);
+    world.add_score(base.x - scroll_x, base.y,
+                    50 * score_multiplier);
   else 
-    add_score(base.x - scroll_x, base.y,                                 
-              25 * score_multiplier);
+    world.add_score(base.x - scroll_x, base.y,                                 
+                    25 * score_multiplier);
 
   /* Play death sound: */
   play_sound(sounds[SND_FALL], SOUND_CENTER_SPEAKER);

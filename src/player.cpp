@@ -478,7 +478,7 @@ Player::handle_input()
 
   if (input.fire == DOWN && input.old_fire == UP && got_coffee)
     {
-      add_bullet(base.x, base.y, physic.get_velocity_x(), dir);
+      world.add_bullet(base.x, base.y, physic.get_velocity_x(), dir);
     }
 
 
@@ -827,9 +827,9 @@ Player::collision(void* p_c_object, int c_object)
                     {
                       pbad_c->dying = DYING_FALLING;
                       play_sound(sounds[SND_FALL], SOUND_CENTER_SPEAKER);
-                      add_score(pbad_c->base.x - scroll_x,
-                                pbad_c->base.y,
-                                25 * score_multiplier);
+                      world.add_score(pbad_c->base.x - scroll_x,
+                                      pbad_c->base.y,
+                                      25 * score_multiplier);
                     }
                 }
             }

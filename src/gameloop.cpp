@@ -100,7 +100,7 @@ GameSession::GameSession(const std::string& subset, int levelnb, int mode)
   level = levelnb;
 
   /* Init the game: */
-  arrays_free();
+  world.arrays_free();
   set_defaults();
 
   strcpy(level_subset, subset.c_str());
@@ -174,7 +174,7 @@ void activate_bad_guys(Level* plevel)
        i != plevel->badguy_data.end();
        ++i)
     {
-      add_bad_guy(i->x, i->y, i->kind);
+      world.add_bad_guy(i->x, i->y, i->kind);
     }
 }
 
@@ -183,11 +183,11 @@ GameSession::activate_particle_systems()
 {
   if(current_level.particle_system == "clouds")
     {
-      particle_systems.push_back(new CloudParticleSystem);
+      world.particle_systems.push_back(new CloudParticleSystem);
     }
   else if(current_level.particle_system == "snow")
     {
-      particle_systems.push_back(new SnowParticleSystem);
+      world.particle_systems.push_back(new SnowParticleSystem);
     }
   else if(current_level.particle_system != "")
     {
@@ -388,7 +388,7 @@ GameSession::action()
               current_level.cleanup();
               level_free_song();
               unloadshared();
-              arrays_free();
+              world.arrays_free();
               return(0);
             }
           tux.level_begin();
@@ -413,7 +413,7 @@ GameSession::action()
               current_level.cleanup();
               level_free_song();
               unloadshared();
-              arrays_free();
+              world.arrays_free();
               return(0);
             } /* if (lives < 0) */
         }
@@ -435,7 +435,7 @@ GameSession::action()
             return 0;
         }
 
-      arrays_free();
+      world.arrays_free();
       activate_bad_guys(&current_level);
       activate_particle_systems();
       level_free_gfx();
@@ -451,42 +451,11 @@ GameSession::action()
 
   tux.action();
 
-  /* Handle bouncy distros: */
-  for (unsigned int i = 0; i < bouncy_distros.size(); i++)
-    bouncy_distro_action(&bouncy_distros[i]);
-
-  /* Handle broken bricks: */
-  for (unsigned int i = 0; i < broken_bricks.size(); i++)
-      broken_brick_action(&broken_bricks[i]);
-
-  /* Handle distro counting: */
-  if (counting_distros)
-    {
-      distro_counter--;
-
-      if (distro_counter <= 0)
-        counting_distros = -1;
-    }
-
-  // Handle all kinds of game objects
-  for (unsigned int i = 0; i < bouncy_bricks.size(); i++)
-    bouncy_brick_action(&bouncy_bricks[i]);
-  
-  for (unsigned int i = 0; i < floating_scores.size(); i++)
-    floating_score_action(&floating_scores[i]);
-
-  for (unsigned int i = 0; i < bullets.size(); ++i)
-    bullet_action(&bullets[i]);
-  
-  for (unsigned int i = 0; i < upgrades.size(); i++)
-    upgrade_action(&upgrades[i]);
-
-  for (unsigned int i = 0; i < bad_guys.size(); i++)
-    bad_guys[i].action();
+  world.action();
 
   /* update particle systems */
   std::vector<ParticleSystem*>::iterator p;
-  for(p = particle_systems.begin(); p != particle_systems.end(); ++p)
+  for(p = world.particle_systems.begin(); p != world.particle_systems.end(); ++p)
     {
       (*p)->simulate(frame_ratio);
     }
@@ -496,8 +465,6 @@ GameSession::action()
 
   return -1;
 }
-
-/* --- GAME DRAW! --- */
 
 void 
 GameSession::draw()
@@ -524,13 +491,12 @@ GameSession::draw()
 
   /* Draw particle systems (background) */
   std::vector<ParticleSystem*>::iterator p;
-  for(p = particle_systems.begin(); p != particle_systems.end(); ++p)
+  for(p = world.particle_systems.begin(); p != world.particle_systems.end(); ++p)
     {
       (*p)->draw(scroll_x, 0, 0);
     }
 
   /* Draw background: */
-
   for (y = 0; y < 15; ++y)
     {
       for (x = 0; x < 21; ++x)
@@ -549,30 +515,11 @@ GameSession::draw()
                     current_level.ia_tiles[(int)y][(int)x + (int)(scroll_x / 32)]);
         }
     }
+  
+  world.draw();
 
-  /* (Bouncy bricks): */
-  for (unsigned int i = 0; i < bouncy_bricks.size(); ++i)
-    bouncy_brick_draw(&bouncy_bricks[i]);
-
-  for (unsigned int i = 0; i < bad_guys.size(); ++i)
-    bad_guys[i].draw();
-
-  tux.draw();
-
-  for (unsigned int i = 0; i < bullets.size(); ++i)
-    bullet_draw(&bullets[i]);
-
-  for (unsigned int i = 0; i < floating_scores.size(); ++i)
-    floating_score_draw(&floating_scores[i]);
-
-  for (unsigned int i = 0; i < upgrades.size(); ++i)
-    upgrade_draw(&upgrades[i]);
-
-  for (unsigned int i = 0; i < bouncy_distros.size(); ++i)
-    bouncy_distro_draw(&bouncy_distros[i]);
-
-  for (unsigned int i = 0; i < broken_bricks.size(); ++i)
-    broken_brick_draw(&broken_bricks[i]);
+  for (unsigned int i = 0; i < world.broken_bricks.size(); ++i)
+    broken_brick_draw(&world.broken_bricks[i]);
 
   /* Draw foreground: */
   for (y = 0; y < 15; ++y)
@@ -585,7 +532,7 @@ GameSession::draw()
     }
 
   /* Draw particle systems (foreground) */
-  for(p = particle_systems.begin(); p != particle_systems.end(); ++p)
+  for(p = world.particle_systems.begin(); p != world.particle_systems.end(); ++p)
     {
       (*p)->draw(scroll_x, 0, 1);
     }
@@ -799,7 +746,7 @@ GameSession::run()
   current_level.cleanup();
   level_free_song();
   unloadshared();
-  arrays_free();
+  world.arrays_free();
 
   game_started = false;
 
@@ -1188,8 +1135,8 @@ void drawshape(float x, float y, unsigned int c, Uint8 alpha)
 /* Bounce a brick: */
 void bumpbrick(float x, float y)
 {
-  add_bouncy_brick(((int)(x + 1) / 32) * 32,
-                   (int)(y / 32) * 32);
+  world.add_bouncy_brick(((int)(x + 1) / 32) * 32,
+                         (int)(y / 32) * 32);
 
   play_sound(sounds[SND_BRICK], SOUND_CENTER_SPEAKER);
 }
@@ -1345,7 +1292,7 @@ GameSession::loadgame(int slot)
       current_level.cleanup();
       if(current_level.load(level_subset,level) != 0)
         exit(1);
-      arrays_free();
+      world.arrays_free();
       activate_bad_guys(&current_level);
       activate_particle_systems();
       level_free_gfx();

@@ -26,6 +26,9 @@
 
 extern int game_started;
 
+/** The GameSession class controlls the controll flow of a World, ie.
+    present the menu on specifc keypresses, render and update it while
+    keeping the speed and framerate sane, etc. */
 class GameSession
 {
  private:

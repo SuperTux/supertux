@@ -21,6 +21,165 @@
 
 texture_type img_distro[4];
 
+World world;
+
+World::World()
+{
+  
+}
+
+void
+World::arrays_free(void)
+{
+  bad_guys.clear();
+  bouncy_distros.clear();
+  broken_bricks.clear();
+  bouncy_bricks.clear();
+  floating_scores.clear();
+  upgrades.clear();
+  bullets.clear();
+  std::vector<ParticleSystem*>::iterator i;
+  for(i = particle_systems.begin(); i != particle_systems.end(); ++i) {
+    delete *i;
+  }
+  particle_systems.clear();
+}
+
+void
+World::draw()
+{
+  /* (Bouncy bricks): */
+  for (unsigned int i = 0; i < bouncy_bricks.size(); ++i)
+    bouncy_brick_draw(&bouncy_bricks[i]);
+
+  for (unsigned int i = 0; i < bad_guys.size(); ++i)
+    bad_guys[i].draw();
+
+  tux.draw();
+
+  for (unsigned int i = 0; i < bullets.size(); ++i)
+    bullet_draw(&bullets[i]);
+
+  for (unsigned int i = 0; i < floating_scores.size(); ++i)
+    floating_score_draw(&floating_scores[i]);
+
+  for (unsigned int i = 0; i < upgrades.size(); ++i)
+    upgrade_draw(&upgrades[i]);
+
+  for (unsigned int i = 0; i < bouncy_distros.size(); ++i)
+    bouncy_distro_draw(&bouncy_distros[i]);
+}
+
+void
+World::action()
+{
+  /* Handle bouncy distros: */
+  for (unsigned int i = 0; i < bouncy_distros.size(); i++)
+    bouncy_distro_action(&bouncy_distros[i]);
+
+  /* Handle broken bricks: */
+  for (unsigned int i = 0; i < broken_bricks.size(); i++)
+    broken_brick_action(&broken_bricks[i]);
+
+  /* Handle distro counting: */
+  if (counting_distros)
+    {
+      distro_counter--;
+
+      if (distro_counter <= 0)
+        counting_distros = -1;
+    }
+
+  // Handle all kinds of game objects
+  for (unsigned int i = 0; i < bouncy_bricks.size(); i++)
+    bouncy_brick_action(&bouncy_bricks[i]);
+  
+  for (unsigned int i = 0; i < floating_scores.size(); i++)
+    floating_score_action(&floating_scores[i]);
+
+  for (unsigned int i = 0; i < bullets.size(); ++i)
+    bullet_action(&bullets[i]);
+  
+  for (unsigned int i = 0; i < upgrades.size(); i++)
+    upgrade_action(&upgrades[i]);
+
+  for (unsigned int i = 0; i < bad_guys.size(); i++)
+    bad_guys[i].action();
+}
+
+void
+World::add_score(float x, float y, int s)
+{
+  score += s;
+
+  floating_score_type new_floating_score;
+  floating_score_init(&new_floating_score,x,y,s);
+  floating_scores.push_back(new_floating_score);
+}
+
+void
+World::add_bouncy_distro(float x, float y)
+{
+  bouncy_distro_type new_bouncy_distro;
+  bouncy_distro_init(&new_bouncy_distro,x,y);
+  bouncy_distros.push_back(new_bouncy_distro);
+}
+
+void
+World::add_broken_brick(float x, float y)
+{
+  add_broken_brick_piece(x, y, -1, -4);
+  add_broken_brick_piece(x, y + 16, -1.5, -3);
+
+  add_broken_brick_piece(x + 16, y, 1, -4);
+  add_broken_brick_piece(x + 16, y + 16, 1.5, -3);
+}
+
+void
+World::add_broken_brick_piece(float x, float y, float xm, float ym)
+{
+  broken_brick_type new_broken_brick;
+  broken_brick_init(&new_broken_brick,x,y,xm,ym);
+  broken_bricks.push_back(new_broken_brick);
+}
+
+void
+World::add_bouncy_brick(float x, float y)
+{
+  bouncy_brick_type new_bouncy_brick;
+  bouncy_brick_init(&new_bouncy_brick,x,y);
+  bouncy_bricks.push_back(new_bouncy_brick);
+}
+
+void
+World::add_bad_guy(float x, float y, BadGuyKind kind)
+{
+  bad_guys.push_back(BadGuy());
+  BadGuy& new_bad_guy = bad_guys.back();
+  
+  new_bad_guy.init(x,y,kind);
+}
+
+void
+World::add_upgrade(float x, float y, int dir, int kind)
+{
+  upgrade_type new_upgrade;
+  upgrade_init(&new_upgrade,x,y,dir,kind);
+  upgrades.push_back(new_upgrade);
+}
+
+void 
+World::add_bullet(float x, float y, float xm, int dir)
+{
+  bullet_type new_bullet;
+  bullet_init(&new_bullet,x,y,xm,dir);
+  bullets.push_back(new_bullet);
+  
+  play_sound(sounds[SND_SHOOT], SOUND_CENTER_SPEAKER);
+}
+
+
+
 void bouncy_distro_init(bouncy_distro_type* pbouncy_distro, float x, float y)
 {
   pbouncy_distro->base.x = x;
@@ -35,7 +194,7 @@ void bouncy_distro_action(bouncy_distro_type* pbouncy_distro)
   pbouncy_distro->base.ym += 0.1 * frame_ratio;
 
   if (pbouncy_distro->base.ym >= 0)
-    bouncy_distros.erase(static_cast<std::vector<bouncy_distro_type>::iterator>(pbouncy_distro));
+    world.bouncy_distros.erase(static_cast<std::vector<bouncy_distro_type>::iterator>(pbouncy_distro));
 }
 
 void bouncy_distro_draw(bouncy_distro_type* pbouncy_distro)
@@ -61,7 +220,7 @@ void broken_brick_action(broken_brick_type* pbroken_brick)
   pbroken_brick->base.y = pbroken_brick->base.y + pbroken_brick->base.ym * frame_ratio;
 
   if (!timer_check(&pbroken_brick->timer))
-    broken_bricks.erase(static_cast<std::vector<broken_brick_type>::iterator>(pbroken_brick));
+    world.broken_bricks.erase(static_cast<std::vector<broken_brick_type>::iterator>(pbroken_brick));
 }
 
 void broken_brick_draw(broken_brick_type* pbroken_brick)
@@ -104,7 +263,7 @@ void bouncy_brick_action(bouncy_brick_type* pbouncy_brick)
   /* Stop bouncing? */
 
   if (pbouncy_brick->offset >= 0)
-    bouncy_bricks.erase(static_cast<std::vector<bouncy_brick_type>::iterator>(pbouncy_brick));
+    world.bouncy_bricks.erase(static_cast<std::vector<bouncy_brick_type>::iterator>(pbouncy_brick));
 }
 
 void bouncy_brick_draw(bouncy_brick_type* pbouncy_brick)
@@ -156,7 +315,7 @@ void floating_score_action(floating_score_type* pfloating_score)
   pfloating_score->base.y = pfloating_score->base.y - 2 * frame_ratio;
 
   if(!timer_check(&pfloating_score->timer))
-    floating_scores.erase(static_cast<std::vector<floating_score_type>::iterator>(pfloating_score));
+    world.floating_scores.erase(static_cast<std::vector<floating_score_type>::iterator>(pfloating_score));
 }
 
 void floating_score_draw(floating_score_type* pfloating_score)
@@ -177,8 +336,8 @@ void trybreakbrick(float x, float y, bool small)
       if (tile->data > 0)
         {
           /* Get a distro from it: */
-          add_bouncy_distro(((int)(x + 1) / 32) * 32,
-                            (int)(y / 32) * 32);
+          world.add_bouncy_distro(((int)(x + 1) / 32) * 32,
+                                  (int)(y / 32) * 32);
 
           if (!counting_distros)
             {
@@ -199,7 +358,7 @@ void trybreakbrick(float x, float y, bool small)
           plevel->change(x, y, TM_IA, tile->next_tile);
           
           /* Replace it with broken bits: */
-          add_broken_brick(((int)(x + 1) / 32) * 32,
+          world.add_broken_brick(((int)(x + 1) / 32) * 32,
                            (int)(y / 32) * 32);
           
           /* Get some score: */
@@ -227,7 +386,7 @@ void tryemptybox(float x, float y, int col_side)
   switch(tile->data)
     {
     case 1: //'A':      /* Box with a distro! */
-      add_bouncy_distro(((int)(x + 1) / 32) * 32, (int)(y / 32) * 32 - 32);
+      world.add_bouncy_distro(((int)(x + 1) / 32) * 32, (int)(y / 32) * 32 - 32);
       play_sound(sounds[SND_DISTRO], SOUND_CENTER_SPEAKER);
       score = score + SCORE_DISTRO;
       distros++;
@@ -235,14 +394,14 @@ void tryemptybox(float x, float y, int col_side)
 
     case 2: // 'B':      /* Add an upgrade! */
       if (tux.size == SMALL)     /* Tux is small, add mints! */
-        add_upgrade((int)((x + 1) / 32) * 32, (int)(y / 32) * 32 - 32, col_side, UPGRADE_MINTS);
+        world.add_upgrade((int)((x + 1) / 32) * 32, (int)(y / 32) * 32 - 32, col_side, UPGRADE_MINTS);
       else     /* Tux is big, add coffee: */
-        add_upgrade((int)((x + 1) / 32) * 32, (int)(y / 32) * 32 - 32, col_side, UPGRADE_COFFEE);
+        world.add_upgrade((int)((x + 1) / 32) * 32, (int)(y / 32) * 32 - 32, col_side, UPGRADE_COFFEE);
       play_sound(sounds[SND_UPGRADE], SOUND_CENTER_SPEAKER);
       break;
 
     case 3:// '!':     /* Add a golden herring */
-      add_upgrade((int)((x + 1) / 32) * 32, (int)(y / 32) * 32 - 32, col_side, UPGRADE_HERRING);
+      world.add_upgrade((int)((x + 1) / 32) * 32, (int)(y / 32) * 32 - 32, col_side, UPGRADE_HERRING);
       break;
     default:
       break;
@@ -264,8 +423,8 @@ void trygrabdistro(float x, float y, int bounciness)
 
       if (bounciness == BOUNCE)
         {
-          add_bouncy_distro(((int)(x + 1) / 32) * 32,
-                            (int)(y / 32) * 32);
+          world.add_bouncy_distro(((int)(x + 1) / 32) * 32,
+                                  (int)(y / 32) * 32);
         }
 
       score = score + SCORE_DISTRO;
@@ -277,25 +436,25 @@ void trygrabdistro(float x, float y, int bounciness)
 void trybumpbadguy(float x, float y)
 {
   /* Bad guys: */
-  for (unsigned int i = 0; i < bad_guys.size(); i++)
+  for (unsigned int i = 0; i < world.bad_guys.size(); i++)
     {
-      if (bad_guys[i].base.x >= x - 32 && bad_guys[i].base.x <= x + 32 &&
-          bad_guys[i].base.y >= y - 16 && bad_guys[i].base.y <= y + 16)
+      if (world.bad_guys[i].base.x >= x - 32 && world.bad_guys[i].base.x <= x + 32 &&
+          world.bad_guys[i].base.y >= y - 16 && world.bad_guys[i].base.y <= y + 16)
         {
-          bad_guys[i].collision(&tux, CO_PLAYER, COLLISION_BUMP);
+          world.bad_guys[i].collision(&tux, CO_PLAYER, COLLISION_BUMP);
         }
     }
 
 
   /* Upgrades: */
-  for (unsigned int i = 0; i < upgrades.size(); i++)
+  for (unsigned int i = 0; i < world.upgrades.size(); i++)
     {
-      if (upgrades[i].base.height == 32 &&
-          upgrades[i].base.x >= x - 32 && upgrades[i].base.x <= x + 32 &&
-          upgrades[i].base.y >= y - 16 && upgrades[i].base.y <= y + 16)
+      if (world.upgrades[i].base.height == 32 &&
+          world.upgrades[i].base.x >= x - 32 && world.upgrades[i].base.x <= x + 32 &&
+          world.upgrades[i].base.y >= y - 16 && world.upgrades[i].base.y <= y + 16)
         {
-          upgrades[i].base.xm = -upgrades[i].base.xm;
-          upgrades[i].base.ym = -8;
+          world.upgrades[i].base.xm = -world.upgrades[i].base.xm;
+          world.upgrades[i].base.ym = -8;
           play_sound(sounds[SND_BUMP_UPGRADE], SOUND_CENTER_SPEAKER);
         }
     }
