@@ -10,6 +10,7 @@
 //
 //
 
+#include <math.h>
 #include <stdlib.h>
 #include <string.h>
 #include "globals.h"
@@ -25,7 +26,24 @@ World world;
 
 World::World()
 {
-  
+  level = new Level;
+}
+
+World::~World()
+{
+  delete level;
+}
+
+int
+World::load(const char* subset, int level_nr)
+{
+  return level->load(subset, level_nr);
+}
+
+int
+World::load(const std::string& filename)
+{
+  return level->load(filename);
 }
 
 void
@@ -45,9 +63,74 @@ World::arrays_free(void)
   particle_systems.clear();
 }
 
+
+void
+World::activate_particle_systems()
+{
+  if (level->particle_system == "clouds")
+    {
+      particle_systems.push_back(new CloudParticleSystem);
+    }
+  else if (level->particle_system == "snow")
+    {
+      particle_systems.push_back(new SnowParticleSystem);
+    }
+  else if (level->particle_system != "")
+    {
+      st_abort("unknown particle system specified in level", "");
+    }
+}
+
 void
 World::draw()
 {
+  int y,x;
+
+  /* Draw screen: */
+  if(timer_check(&super_bkgd_timer))
+    texture_draw(&img_super_bkgd, 0, 0);
+  else
+    {
+      /* Draw the real background */
+      if(get_level()->bkgd_image[0] != '\0')
+        {
+          int s = (int)scroll_x / 30;
+          texture_draw_part(&img_bkgd,s,0,0,0,img_bkgd.w - s, img_bkgd.h);
+          texture_draw_part(&img_bkgd,0,0,screen->w - s ,0,s,img_bkgd.h);
+        }
+      else
+        {
+          clearscreen(level->bkgd_red, level->bkgd_green, level->bkgd_blue);
+        }
+    }
+
+  /* Draw particle systems (background) */
+  std::vector<ParticleSystem*>::iterator p;
+  for(p = particle_systems.begin(); p != particle_systems.end(); ++p)
+    {
+      (*p)->draw(scroll_x, 0, 0);
+    }
+
+  /* Draw background: */
+  for (y = 0; y < 15; ++y)
+    {
+      for (x = 0; x < 21; ++x)
+        {
+          drawshape(32*x - fmodf(scroll_x, 32), y * 32,
+                    level->bg_tiles[(int)y][(int)x + (int)(scroll_x / 32)]);
+        }
+    }
+
+  /* Draw interactive tiles: */
+  for (y = 0; y < 15; ++y)
+    {
+      for (x = 0; x < 21; ++x)
+        {
+          drawshape(32*x - fmodf(scroll_x, 32), y * 32,
+                    level->ia_tiles[(int)y][(int)x + (int)(scroll_x / 32)]);
+        }
+    }
+
   /* (Bouncy bricks): */
   for (unsigned int i = 0; i < bouncy_bricks.size(); ++i)
     bouncy_brick_draw(&bouncy_bricks[i]);
@@ -68,6 +151,25 @@ World::draw()
 
   for (unsigned int i = 0; i < bouncy_distros.size(); ++i)
     bouncy_distro_draw(&bouncy_distros[i]);
+
+  for (unsigned int i = 0; i < broken_bricks.size(); ++i)
+    broken_brick_draw(&broken_bricks[i]);
+
+  /* Draw foreground: */
+  for (y = 0; y < 15; ++y)
+    {
+      for (x = 0; x < 21; ++x)
+        {
+          drawshape(32*x - fmodf(scroll_x, 32), y * 32,
+                    level->fg_tiles[(int)y][(int)x + (int)(scroll_x / 32)]);
+        }
+    }
+
+  /* Draw particle systems (foreground) */
+  for(p = particle_systems.begin(); p != particle_systems.end(); ++p)
+    {
+      (*p)->draw(scroll_x, 0, 1);
+    }
 }
 
 void
@@ -126,20 +228,20 @@ World::add_bouncy_distro(float x, float y)
 }
 
 void
-World::add_broken_brick(float x, float y)
+World::add_broken_brick(Tile* tile, float x, float y)
 {
-  add_broken_brick_piece(x, y, -1, -4);
-  add_broken_brick_piece(x, y + 16, -1.5, -3);
+  add_broken_brick_piece(tile, x, y, -1, -4);
+  add_broken_brick_piece(tile, x, y + 16, -1.5, -3);
 
-  add_broken_brick_piece(x + 16, y, 1, -4);
-  add_broken_brick_piece(x + 16, y + 16, 1.5, -3);
+  add_broken_brick_piece(tile, x + 16, y, 1, -4);
+  add_broken_brick_piece(tile, x + 16, y + 16, 1.5, -3);
 }
 
 void
-World::add_broken_brick_piece(float x, float y, float xm, float ym)
+World::add_broken_brick_piece(Tile* tile, float x, float y, float xm, float ym)
 {
   broken_brick_type new_broken_brick;
-  broken_brick_init(&new_broken_brick,x,y,xm,ym);
+  broken_brick_init(&new_broken_brick, tile, x, y, xm, ym);
   broken_bricks.push_back(new_broken_brick);
 }
 
@@ -204,12 +306,15 @@ void bouncy_distro_draw(bouncy_distro_type* pbouncy_distro)
                pbouncy_distro->base.y);
 }
 
-void broken_brick_init(broken_brick_type* pbroken_brick, float x, float y, float xm, float ym)
+void broken_brick_init(broken_brick_type* pbroken_brick, Tile* tile, 
+                       float x, float y, float xm, float ym)
 {
+  pbroken_brick->tile   = tile;
   pbroken_brick->base.x = x;
   pbroken_brick->base.y = y;
   pbroken_brick->base.xm = xm;
   pbroken_brick->base.ym = ym;
+
   timer_init(&pbroken_brick->timer, true);
   timer_start(&pbroken_brick->timer,200);
 }
@@ -235,8 +340,10 @@ void broken_brick_draw(broken_brick_type* pbroken_brick)
   dest.y = (int)pbroken_brick->base.y;
   dest.w = 16;
   dest.h = 16;
-
-  texture_draw_part(&img_brick[0],src.x,src.y,dest.x,dest.y,dest.w,dest.h);
+  
+  if (pbroken_brick->tile->images.size() > 0)
+    texture_draw_part(&pbroken_brick->tile->images[0],
+                      src.x,src.y,dest.x,dest.y,dest.w,dest.h);
 }
 
 void bouncy_brick_init(bouncy_brick_type* pbouncy_brick, float x, float y)
@@ -358,8 +465,9 @@ void trybreakbrick(float x, float y, bool small)
           plevel->change(x, y, TM_IA, tile->next_tile);
           
           /* Replace it with broken bits: */
-          world.add_broken_brick(((int)(x + 1) / 32) * 32,
-                           (int)(y / 32) * 32);
+          world.add_broken_brick(tile, 
+                                 ((int)(x + 1) / 32) * 32,
+                                 (int)(y / 32) * 32);
           
           /* Get some score: */
           play_sound(sounds[SND_BRICK], SOUND_CENTER_SPEAKER);

@@ -44,9 +44,11 @@ struct broken_brick_type
 {
   base_type base;
   timer_type timer;
+  Tile* tile;
 };
 
-void broken_brick_init(broken_brick_type* pbroken_brick, float x, float y, float xm, float ym);
+void broken_brick_init(broken_brick_type* pbroken_brick, Tile* tile,
+                       float x, float y, float xm, float ym);
 void broken_brick_action(broken_brick_type* pbroken_brick);
 void broken_brick_draw(broken_brick_type* pbroken_brick);
 
@@ -93,6 +95,7 @@ class World
 {
  public:
   Level* level;
+  
   std::vector<bouncy_distro_type> bouncy_distros;
   std::vector<broken_brick_type> broken_bricks;
   std::vector<bouncy_brick_type> bouncy_bricks;
@@ -104,14 +107,28 @@ class World
 
  public:
   World();
+  ~World();
+  
+  Level* get_level() { return level; }
+
   void draw();
   void action();
   void arrays_free();
 
+  /** Load data for this level: 
+      Returns -1, if the loading of the level failed. */
+  int  load(const char* subset, int level);
+
+  /** Load data for this level: 
+      Returns -1, if the loading of the level failed. */
+  int  load(const std::string& filename);
+
+  void activate_particle_systems();
+
   void add_score(float x, float y, int s);
   void add_bouncy_distro(float x, float y);
-  void add_broken_brick(float x, float y);
-  void add_broken_brick_piece(float x, float y, float xm, float ym);
+  void add_broken_brick(Tile* tile, float x, float y);
+  void add_broken_brick_piece(Tile* tile, float x, float y, float xm, float ym);
   void add_bouncy_brick(float x, float y);
   void add_bad_guy(float x, float y, BadGuyKind kind);
   void add_upgrade(float x, float y, int dir, int kind);

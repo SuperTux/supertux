@@ -14,6 +14,7 @@
 #include "collision.h"
 #include "bitmask.h"
 #include "scene.h"
+#include "tile.h"
 
 bool rectcollision(base_type* one, base_type* two)
 {
@@ -279,7 +280,44 @@ void collision_handler()
           upgrade_collision(&world.upgrades[i], &tux, CO_PLAYER);
         }
     }
-
 }
+
+
+Tile* gettile(float x, float y)
+{
+  return TileManager::instance()->get(GameSession::current()->get_level()->gettileid(x, y));
+}
+
+bool issolid(float x, float y)
+{
+  Tile* tile = gettile(x,y);
+  return tile && tile->solid;
+}
+
+bool isbrick(float x, float y)
+{
+  Tile* tile = gettile(x,y);
+  return tile && tile->brick;
+}
+
+bool isice(float x, float y)
+{
+  Tile* tile = gettile(x,y);
+  return tile && tile->ice;
+}
+
+bool isfullbox(float x, float y)
+{
+  Tile* tile = gettile(x,y);
+  return tile && tile->fullbox;
+}
+
+bool isdistro(float x, float y)
+{
+  Tile* tile = gettile(x,y);
+  return tile && tile->distro;
+}
+
+/* EOF */
 
 

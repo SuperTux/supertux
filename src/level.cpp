@@ -228,15 +228,12 @@ Level::init_defaults()
     }
 }
 
-/* Load data for this level: */
-/* Returns -1, if the loading of the level failed. */
 int
 Level::load(const  char *subset, int level)
 {
   char filename[1024];
 
-  /* Load data file: */
-
+  // Load data file:
   snprintf(filename, 1024, "%s/levels/%s/level%d.stl", st_dir, subset, level);
   if(!faccessible(filename))
     snprintf(filename, 1024, "%s/levels/%s/level%d.stl", datadir.c_str(), subset, level);
@@ -706,41 +703,6 @@ Level::gettileid(float x, float y)
     c = 0;
 
   return c;
-}
-
-Tile* gettile(float x, float y)
-{
-  return TileManager::instance()->get(GameSession::current()->get_level()->gettileid(x, y));
-}
-
-bool issolid(float x, float y)
-{
-  Tile* tile = gettile(x,y);
-  return tile && tile->solid;
-}
-
-bool isbrick(float x, float y)
-{
-  Tile* tile = gettile(x,y);
-  return tile && tile->brick;
-}
-
-bool isice(float x, float y)
-{
-  Tile* tile = gettile(x,y);
-  return tile && tile->ice;
-}
-
-bool isfullbox(float x, float y)
-{
-  Tile* tile = gettile(x,y);
-  return tile && tile->fullbox;
-}
-
-bool isdistro(float x, float y)
-{
-  Tile* tile = gettile(x,y);
-  return tile && tile->distro;
 }
 
 /* EOF */

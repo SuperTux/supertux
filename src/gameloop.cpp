@@ -48,9 +48,6 @@
 int game_started = false;
 
 /* Local variables: */
-
-static texture_type img_waves[3], img_water, img_pole, img_poletop, img_flag[2];
-static texture_type img_cloud[2][4];
 static SDL_Event event;
 static SDLKey key;
 static char level_subset[100];
@@ -81,15 +78,19 @@ GameSession::GameSession(const std::string& filename)
 {
   current_ = this;
 
+  world = &::world;
+
   timer_init(&fps_timer, true);
   timer_init(&frame_timer, true);
 
-  current_level.load(filename);
+  world->load(filename);
 }
 
 GameSession::GameSession(const std::string& subset, int levelnb, int mode)
 {
   current_ = this;
+
+  world = &::world;
 
   timer_init(&fps_timer, true);
   timer_init(&frame_timer, true);
@@ -100,27 +101,27 @@ GameSession::GameSession(const std::string& subset, int levelnb, int mode)
   level = levelnb;
 
   /* Init the game: */
-  world.arrays_free();
+  world->arrays_free();
   set_defaults();
 
   strcpy(level_subset, subset.c_str());
 
   if (st_gl_mode == ST_GL_LOAD_LEVEL_FILE)
     {
-      if (current_level.load(level_subset))
+      if (world->load(level_subset))
         exit(1);
     }
   else
     {
-      if(current_level.load(level_subset, level) != 0)
+      if(world->load(level_subset, level) != 0)
         exit(1);
     }
 
-  current_level.load_gfx();
+  world->get_level()->load_gfx();
   loadshared();
-  activate_bad_guys(&current_level);
-  activate_particle_systems();
-  current_level.load_song();
+  activate_bad_guys(world->get_level());
+  world->activate_particle_systems();
+  world->get_level()->load_song();
 
   tux.init();
 
@@ -147,7 +148,7 @@ GameSession::levelintro(void)
   sprintf(str, "LEVEL %d", level);
   text_drawf(&blue_text, str, 0, 200, A_HMIDDLE, A_TOP, 1);
 
-  sprintf(str, "%s", current_level.name.c_str());
+  sprintf(str, "%s", world->get_level()->name.c_str());
   text_drawf(&gold_text, str, 0, 224, A_HMIDDLE, A_TOP, 1);
 
   sprintf(str, "TUX x %d", tux.lives);
@@ -163,7 +164,7 @@ GameSession::levelintro(void)
 void
 GameSession::start_timers()
 {
-  timer_start(&time_left,current_level.time_left*1000);
+  timer_start(&time_left, world->get_level()->time_left*1000);
   st_pause_ticks_init();
   update_time = st_get_ticks();
 }
@@ -179,30 +180,14 @@ void activate_bad_guys(Level* plevel)
 }
 
 void
-GameSession::activate_particle_systems()
-{
-  if(current_level.particle_system == "clouds")
-    {
-      world.particle_systems.push_back(new CloudParticleSystem);
-    }
-  else if(current_level.particle_system == "snow")
-    {
-      world.particle_systems.push_back(new SnowParticleSystem);
-    }
-  else if(current_level.particle_system != "")
-    {
-      st_abort("unknown particle system specified in level", "");
-    }
-}
-
-void
 GameSession::process_events()
 {
   while (SDL_PollEvent(&event))
     {
-          /* Check for menu-events, if the menu is shown */
-          if(show_menu)
-            menu_event(event);
+      /* Check for menu-events, if the menu is shown */
+      if(show_menu)
+        menu_event(event);
+
       switch(event.type)
         {
         case SDL_QUIT:        /* Quit event - quit: */
@@ -369,10 +354,8 @@ GameSession::action()
   if (tux.is_dead() || next_level)
     {
       /* Tux either died, or reached the end of a level! */
-
       halt_music();
-
-
+      
       if (next_level)
         {
           /* End of a level! */
@@ -385,10 +368,10 @@ GameSession::action()
           else
             {
               level_free_gfx();
-              current_level.cleanup();
+              world->get_level()->cleanup();
               level_free_song();
               unloadshared();
-              world.arrays_free();
+              world->arrays_free();
               return(0);
             }
           tux.level_begin();
@@ -410,10 +393,10 @@ GameSession::action()
                     save_hs(score);
                 }
               level_free_gfx();
-              current_level.cleanup();
+              world->get_level()->cleanup();
               level_free_song();
               unloadshared();
-              world.arrays_free();
+              world->arrays_free();
               return(0);
             } /* if (lives < 0) */
         }
@@ -422,26 +405,26 @@ GameSession::action()
 
       tux.level_begin();
       set_defaults();
-      current_level.cleanup();
+      world->get_level()->cleanup();
 
       if (st_gl_mode == ST_GL_LOAD_LEVEL_FILE)
         {
-          if(current_level.load(level_subset) != 0)
+          if(world->get_level()->load(level_subset) != 0)
             return 0;
         }
       else
         {
-          if(current_level.load(level_subset,level) != 0)
+          if(world->get_level()->load(level_subset,level) != 0)
             return 0;
         }
 
-      world.arrays_free();
-      activate_bad_guys(&current_level);
-      activate_particle_systems();
+      world->arrays_free();
+      activate_bad_guys(world->get_level());
+      world->activate_particle_systems();
       level_free_gfx();
-      current_level.load_gfx();
+      world->get_level()->load_gfx();
       level_free_song();
-      current_level.load_song();
+      world->get_level()->load_song();
       if(st_gl_mode != ST_GL_TEST)
         levelintro();
       start_timers();
@@ -451,11 +434,11 @@ GameSession::action()
 
   tux.action();
 
-  world.action();
+  world->action();
 
   /* update particle systems */
   std::vector<ParticleSystem*>::iterator p;
-  for(p = world.particle_systems.begin(); p != world.particle_systems.end(); ++p)
+  for(p = world->particle_systems.begin(); p != world->particle_systems.end(); ++p)
     {
       (*p)->simulate(frame_ratio);
     }
@@ -469,73 +452,9 @@ GameSession::action()
 void 
 GameSession::draw()
 {
-  int y,x;
 
-  /* Draw screen: */
-  if(timer_check(&super_bkgd_timer))
-    texture_draw(&img_super_bkgd, 0, 0);
-  else
-    {
-      /* Draw the real background */
-      if(current_level.bkgd_image[0] != '\0')
-        {
-          int s = (int)scroll_x / 30;
-          texture_draw_part(&img_bkgd,s,0,0,0,img_bkgd.w - s, img_bkgd.h);
-          texture_draw_part(&img_bkgd,0,0,screen->w - s ,0,s,img_bkgd.h);
-        }
-      else
-        {
-          clearscreen(current_level.bkgd_red, current_level.bkgd_green, current_level.bkgd_blue);
-        }
-    }
-
-  /* Draw particle systems (background) */
-  std::vector<ParticleSystem*>::iterator p;
-  for(p = world.particle_systems.begin(); p != world.particle_systems.end(); ++p)
-    {
-      (*p)->draw(scroll_x, 0, 0);
-    }
-
-  /* Draw background: */
-  for (y = 0; y < 15; ++y)
-    {
-      for (x = 0; x < 21; ++x)
-        {
-          drawshape(32*x - fmodf(scroll_x, 32), y * 32,
-                    current_level.bg_tiles[(int)y][(int)x + (int)(scroll_x / 32)]);
-        }
-    }
-
-  /* Draw interactive tiles: */
-  for (y = 0; y < 15; ++y)
-    {
-      for (x = 0; x < 21; ++x)
-        {
-          drawshape(32*x - fmodf(scroll_x, 32), y * 32,
-                    current_level.ia_tiles[(int)y][(int)x + (int)(scroll_x / 32)]);
-        }
-    }
   
-  world.draw();
-
-  for (unsigned int i = 0; i < world.broken_bricks.size(); ++i)
-    broken_brick_draw(&world.broken_bricks[i]);
-
-  /* Draw foreground: */
-  for (y = 0; y < 15; ++y)
-    {
-      for (x = 0; x < 21; ++x)
-        {
-          drawshape(32*x - fmodf(scroll_x, 32), y * 32,
-                    current_level.fg_tiles[(int)y][(int)x + (int)(scroll_x / 32)]);
-        }
-    }
-
-  /* Draw particle systems (foreground) */
-  for(p = world.particle_systems.begin(); p != world.particle_systems.end(); ++p)
-    {
-      (*p)->draw(scroll_x, 0, 1);
-    }
+  world->draw();
 
   drawstatus();
 
@@ -743,369 +662,15 @@ GameSession::run()
   halt_music();
 
   level_free_gfx();
-  current_level.cleanup();
+  world->get_level()->cleanup();
   level_free_song();
   unloadshared();
-  world.arrays_free();
+  world->arrays_free();
 
   game_started = false;
 
   return(quit);
 }
-
-/* Load graphics/sounds shared between all levels: */
-void loadshared()
-{
-  int i;
-
-  /* Tuxes: */
-  texture_load(&smalltux_stand_left, datadir + "/images/shared/smalltux-left-6.png", USE_ALPHA);
-  texture_load(&smalltux_stand_right, datadir + "/images/shared/smalltux-right-6.png", USE_ALPHA);
-
-  texture_load(&smalltux_jump_left, datadir + "/images/shared/smalltux-jump-left.png", USE_ALPHA);
-  texture_load(&smalltux_jump_right, datadir + "/images/shared/smalltux-jump-right.png", USE_ALPHA);
-
-  tux_right.resize(8);
-  texture_load(&tux_right[0], datadir + "/images/shared/smalltux-right-1.png", USE_ALPHA);
-  texture_load(&tux_right[1], datadir + "/images/shared/smalltux-right-2.png", USE_ALPHA);
-  texture_load(&tux_right[2], datadir + "/images/shared/smalltux-right-3.png", USE_ALPHA);
-  texture_load(&tux_right[3], datadir + "/images/shared/smalltux-right-4.png", USE_ALPHA);
-  texture_load(&tux_right[4], datadir + "/images/shared/smalltux-right-5.png", USE_ALPHA);
-  texture_load(&tux_right[5], datadir + "/images/shared/smalltux-right-6.png", USE_ALPHA);
-  texture_load(&tux_right[6], datadir + "/images/shared/smalltux-right-7.png", USE_ALPHA);
-  texture_load(&tux_right[7], datadir + "/images/shared/smalltux-right-8.png", USE_ALPHA);
-
-  tux_left.resize(8);
-  texture_load(&tux_left[0], datadir + "/images/shared/smalltux-left-1.png", USE_ALPHA);
-  texture_load(&tux_left[1], datadir + "/images/shared/smalltux-left-2.png", USE_ALPHA);
-  texture_load(&tux_left[2], datadir + "/images/shared/smalltux-left-3.png", USE_ALPHA);
-  texture_load(&tux_left[3], datadir + "/images/shared/smalltux-left-4.png", USE_ALPHA);
-  texture_load(&tux_left[4], datadir + "/images/shared/smalltux-left-5.png", USE_ALPHA);
-  texture_load(&tux_left[5], datadir + "/images/shared/smalltux-left-6.png", USE_ALPHA);
-  texture_load(&tux_left[6], datadir + "/images/shared/smalltux-left-7.png", USE_ALPHA);
-  texture_load(&tux_left[7], datadir + "/images/shared/smalltux-left-8.png", USE_ALPHA);
-
-  texture_load(&firetux_right[0], datadir + "/images/shared/firetux-right-0.png", USE_ALPHA);
-  texture_load(&firetux_right[1], datadir + "/images/shared/firetux-right-1.png", USE_ALPHA);
-  texture_load(&firetux_right[2], datadir + "/images/shared/firetux-right-2.png", USE_ALPHA);
-
-  texture_load(&firetux_left[0], datadir + "/images/shared/firetux-left-0.png", USE_ALPHA);
-  texture_load(&firetux_left[1], datadir + "/images/shared/firetux-left-1.png", USE_ALPHA);
-  texture_load(&firetux_left[2], datadir + "/images/shared/firetux-left-2.png", USE_ALPHA);
-
-
-  texture_load(&cape_right[0], datadir + "/images/shared/cape-right-0.png",
-               USE_ALPHA);
-
-  texture_load(&cape_right[1], datadir + "/images/shared/cape-right-1.png",
-               USE_ALPHA);
-
-  texture_load(&cape_left[0], datadir + "/images/shared/cape-left-0.png",
-               USE_ALPHA);
-
-  texture_load(&cape_left[1], datadir + "/images/shared/cape-left-1.png",
-               USE_ALPHA);
-
-  texture_load(&bigtux_right[0], datadir + "/images/shared/bigtux-right-0.png",
-               USE_ALPHA);
-
-  texture_load(&bigtux_right[1], datadir + "/images/shared/bigtux-right-1.png",
-               USE_ALPHA);
-
-  texture_load(&bigtux_right[2], datadir + "/images/shared/bigtux-right-2.png",
-               USE_ALPHA);
-
-  texture_load(&bigtux_right_jump, datadir + "/images/shared/bigtux-right-jump.png", USE_ALPHA);
-
-  texture_load(&bigtux_left[0], datadir + "/images/shared/bigtux-left-0.png",
-               USE_ALPHA);
-
-  texture_load(&bigtux_left[1], datadir + "/images/shared/bigtux-left-1.png",
-               USE_ALPHA);
-
-  texture_load(&bigtux_left[2], datadir + "/images/shared/bigtux-left-2.png",
-               USE_ALPHA);
-
-  texture_load(&bigtux_left_jump, datadir + "/images/shared/bigtux-left-jump.png", USE_ALPHA);
-
-  texture_load(&bigcape_right[0], datadir + "/images/shared/bigcape-right-0.png",
-               USE_ALPHA);
-
-  texture_load(&bigcape_right[1], datadir + "/images/shared/bigcape-right-1.png",
-               USE_ALPHA);
-
-  texture_load(&bigcape_left[0], datadir + "/images/shared/bigcape-left-0.png",
-               USE_ALPHA);
-
-  texture_load(&bigcape_left[1], datadir + "/images/shared/bigcape-left-1.png",
-               USE_ALPHA);
-
-  texture_load(&bigfiretux_right[0], datadir + "/images/shared/bigfiretux-right-0.png",
-               USE_ALPHA);
-
-  texture_load(&bigfiretux_right[1], datadir + "/images/shared/bigfiretux-right-1.png",
-               USE_ALPHA);
-
-  texture_load(&bigfiretux_right[2], datadir + "/images/shared/bigfiretux-right-2.png",
-               USE_ALPHA);
-
-  texture_load(&bigfiretux_right_jump, datadir + "/images/shared/bigfiretux-right-jump.png", USE_ALPHA);
-
-  texture_load(&bigfiretux_left[0], datadir + "/images/shared/bigfiretux-left-0.png",
-               USE_ALPHA);
-
-  texture_load(&bigfiretux_left[1], datadir + "/images/shared/bigfiretux-left-1.png",
-               USE_ALPHA);
-
-  texture_load(&bigfiretux_left[2], datadir + "/images/shared/bigfiretux-left-2.png",
-               USE_ALPHA);
-
-  texture_load(&bigfiretux_left_jump, datadir + "/images/shared/bigfiretux-left-jump.png", USE_ALPHA);
-
-  texture_load(&bigcape_right[0], datadir + "/images/shared/bigcape-right-0.png",
-               USE_ALPHA);
-
-  texture_load(&bigcape_right[1], datadir + "/images/shared/bigcape-right-1.png",
-               USE_ALPHA);
-
-  texture_load(&bigcape_left[0], datadir + "/images/shared/bigcape-left-0.png",
-               USE_ALPHA);
-
-  texture_load(&bigcape_left[1], datadir + "/images/shared/bigcape-left-1.png",
-               USE_ALPHA);
-
-
-  texture_load(&ducktux_right, datadir +
-               "/images/shared/ducktux-right.png",
-               USE_ALPHA);
-
-  texture_load(&ducktux_left, datadir +
-               "/images/shared/ducktux-left.png",
-               USE_ALPHA);
-
-  texture_load(&skidtux_right, datadir +
-               "/images/shared/skidtux-right.png",
-               USE_ALPHA);
-
-  texture_load(&skidtux_left, datadir +
-               "/images/shared/skidtux-left.png",
-               USE_ALPHA);
-
-  texture_load(&duckfiretux_right, datadir +
-               "/images/shared/duckfiretux-right.png",
-               USE_ALPHA);
-
-  texture_load(&duckfiretux_left, datadir +
-               "/images/shared/duckfiretux-left.png",
-               USE_ALPHA);
-
-  texture_load(&skidfiretux_right, datadir +
-               "/images/shared/skidfiretux-right.png",
-               USE_ALPHA);
-
-  texture_load(&skidfiretux_left, datadir +
-               "/images/shared/skidfiretux-left.png",
-               USE_ALPHA);
-
-
-  /* Boxes: */
-
-  texture_load(&img_box_full, datadir + "/images/shared/box-full.png",
-               IGNORE_ALPHA);
-  texture_load(&img_box_empty, datadir + "/images/shared/box-empty.png",
-               IGNORE_ALPHA);
-
-
-  /* Water: */
-
-
-  texture_load(&img_water, datadir + "/images/shared/water.png", IGNORE_ALPHA);
-
-  texture_load(&img_waves[0], datadir + "/images/shared/waves-0.png",
-               USE_ALPHA);
-
-  texture_load(&img_waves[1], datadir + "/images/shared/waves-1.png",
-               USE_ALPHA);
-
-  texture_load(&img_waves[2], datadir + "/images/shared/waves-2.png",
-               USE_ALPHA);
-
-
-  /* Pole: */
-
-  texture_load(&img_pole, datadir + "/images/shared/pole.png", USE_ALPHA);
-  texture_load(&img_poletop, datadir + "/images/shared/poletop.png",
-               USE_ALPHA);
-
-
-  /* Flag: */
-
-  texture_load(&img_flag[0], datadir + "/images/shared/flag-0.png",
-               USE_ALPHA);
-  texture_load(&img_flag[1], datadir + "/images/shared/flag-1.png",
-               USE_ALPHA);
-
-
-  /* Cloud: */
-
-  texture_load(&img_cloud[0][0], datadir + "/images/shared/cloud-00.png",
-               USE_ALPHA);
-
-  texture_load(&img_cloud[0][1], datadir + "/images/shared/cloud-01.png",
-               USE_ALPHA);
-
-  texture_load(&img_cloud[0][2], datadir + "/images/shared/cloud-02.png",
-               USE_ALPHA);
-
-  texture_load(&img_cloud[0][3], datadir + "/images/shared/cloud-03.png",
-               USE_ALPHA);
-
-
-  texture_load(&img_cloud[1][0], datadir + "/images/shared/cloud-10.png",
-               USE_ALPHA);
-
-  texture_load(&img_cloud[1][1], datadir + "/images/shared/cloud-11.png",
-               USE_ALPHA);
-
-  texture_load(&img_cloud[1][2], datadir + "/images/shared/cloud-12.png",
-               USE_ALPHA);
-
-  texture_load(&img_cloud[1][3], datadir + "/images/shared/cloud-13.png",
-               USE_ALPHA);
-
-
-  /* Bad guys: */
-  load_badguy_gfx();
-
-  /* Upgrades: */
-
-  texture_load(&img_mints, datadir + "/images/shared/mints.png", USE_ALPHA);
-  texture_load(&img_coffee, datadir + "/images/shared/coffee.png", USE_ALPHA);
-
-
-  /* Weapons: */
-
-  texture_load(&img_bullet, datadir + "/images/shared/bullet.png", USE_ALPHA);
-
-  texture_load(&img_red_glow, datadir + "/images/shared/red-glow.png",
-               USE_ALPHA);
-
-
-
-  /* Distros: */
-
-  texture_load(&img_distro[0], datadir + "/images/shared/distro-0.png",
-               USE_ALPHA);
-
-  texture_load(&img_distro[1], datadir + "/images/shared/distro-1.png",
-               USE_ALPHA);
-
-  texture_load(&img_distro[2], datadir + "/images/shared/distro-2.png",
-               USE_ALPHA);
-
-  texture_load(&img_distro[3], datadir + "/images/shared/distro-3.png",
-               USE_ALPHA);
-
-
-  /* Tux life: */
-
-  texture_load(&tux_life, datadir + "/images/shared/tux-life.png",
-               USE_ALPHA);
-
-  /* Herring: */
-
-  texture_load(&img_golden_herring, datadir + "/images/shared/golden-herring.png",
-               USE_ALPHA);
-
-
-  /* Super background: */
-
-  texture_load(&img_super_bkgd, datadir + "/images/shared/super-bkgd.png",
-               IGNORE_ALPHA);
-
-
-  /* Sound effects: */
-
-  /* if (use_sound) // this will introduce SERIOUS bugs here ! because "load_sound"
-                    // initialize sounds[i] with the correct pointer's value:
-                    // NULL or something else. And it will be dangerous to
-                    // play with not-initialized pointers.
-                    // This is also true with if (use_music)
-                    Send a mail to me: neoneurone@users.sf.net, if you have another opinion. :)
-  */
-  for (i = 0; i < NUM_SOUNDS; i++)
-    sounds[i] = load_sound(datadir + soundfilenames[i]);
-
-  /* Herring song */
-  herring_song = load_song(datadir + "/music/SALCON.MOD");
-}
-
-
-/* Free shared data: */
-
-void unloadshared(void)
-{
-  int i;
-
-  for (i = 0; i < 3; i++)
-    {
-      texture_free(&tux_right[i]);
-      texture_free(&tux_left[i]);
-      texture_free(&bigtux_right[i]);
-      texture_free(&bigtux_left[i]);
-    }
-
-  texture_free(&bigtux_right_jump);
-  texture_free(&bigtux_left_jump);
-
-  for (i = 0; i < 2; i++)
-    {
-      texture_free(&cape_right[i]);
-      texture_free(&cape_left[i]);
-      texture_free(&bigcape_right[i]);
-      texture_free(&bigcape_left[i]);
-    }
-
-  texture_free(&ducktux_left);
-  texture_free(&ducktux_right);
-
-  texture_free(&skidtux_left);
-  texture_free(&skidtux_right);
-
-  free_badguy_gfx();
-
-  texture_free(&img_box_full);
-  texture_free(&img_box_empty);
-
-  texture_free(&img_water);
-  for (i = 0; i < 3; i++)
-    texture_free(&img_waves[i]);
-
-  texture_free(&img_pole);
-  texture_free(&img_poletop);
-
-  for (i = 0; i < 2; i++)
-    texture_free(&img_flag[i]);
-
-  texture_free(&img_mints);
-  texture_free(&img_coffee);
-
-  for (i = 0; i < 4; i++)
-    {
-      texture_free(&img_distro[i]);
-      texture_free(&img_cloud[0][i]);
-      texture_free(&img_cloud[1][i]);
-    }
-
-  texture_free(&img_golden_herring);
-
-  for (i = 0; i < NUM_SOUNDS; i++)
-    free_chunk(sounds[i]);
-
-  /* free the herring song */
-  free_music( herring_song );
-}
-
 
 /* Draw a tile on the screen: */
 
@@ -1289,16 +854,16 @@ GameSession::loadgame(int slot)
       fread(&level,sizeof(int),1,fi);
 
       set_defaults();
-      current_level.cleanup();
-      if(current_level.load(level_subset,level) != 0)
+      world->get_level()->cleanup();
+      if(world->get_level()->load(level_subset,level) != 0)
         exit(1);
-      world.arrays_free();
-      activate_bad_guys(&current_level);
-      activate_particle_systems();
+      world->arrays_free();
+      activate_bad_guys(world->get_level());
+      world->activate_particle_systems();
       level_free_gfx();
-      current_level.load_gfx();
+      world->get_level()->load_gfx();
       level_free_song();
-      current_level.load_song();
+      world->get_level()->load_song();
       levelintro();
       update_time = st_get_ticks();
 

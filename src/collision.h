@@ -14,6 +14,8 @@
 
 #include "type.h"
 
+class Tile;
+
 /* Collision objects */
 enum
 {
@@ -36,6 +38,15 @@ bool collision_object_map(base_type* object);
 /* Checks for all possible collisions.
    And calls the collision_handlers, which the collision_objects provide for this case (or not). */
 void collision_handler();
+
+/** Return a pointer to the tile at the given x/y coordinates */
+Tile* gettile(float x, float y);
+
+// Some little helper function to check for tile properties
+bool  issolid(float x, float y);
+bool  isbrick(float x, float y);
+bool  isice(float x, float y);
+bool  isfullbox(float x, float y);
 
 #endif /*SUPERTUX_COLLISION_H*/
 

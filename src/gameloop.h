@@ -16,6 +16,7 @@
 #include "sound.h"
 #include "type.h"
 #include "level.h"
+#include "world.h"
 
 /* GameLoop modes */
 
@@ -26,6 +27,8 @@
 
 extern int game_started;
 
+class World;
+
 /** The GameSession class controlls the controll flow of a World, ie.
     present the menu on specifc keypresses, render and update it while
     keeping the speed and framerate sane, etc. */
@@ -33,18 +36,20 @@ class GameSession
 {
  private:
   timer_type fps_timer, frame_timer;
-  Level current_level;
+  World* world;
 
  public:
   GameSession();
   GameSession(const std::string& filename);
   GameSession(const std::string& subset, int levelnb, int mode);
+  
   int  run();
   void draw();
   int  action();
   void process_events();
 
-  Level* get_level() { return &current_level; }
+  Level* get_level() { return world->get_level(); }
+  World* get_world() { return world; }
 
   void  savegame(int slot);
   void  loadgame(int slot);
@@ -55,7 +60,6 @@ class GameSession
 
   void levelintro();
   void start_timers();
-  void activate_particle_systems();
 };
 
 void  activate_bad_guys(Level* plevel);

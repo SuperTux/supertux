@@ -51,10 +51,12 @@ enum TileMapType {
  };
 
 extern texture_type img_bkgd;
+
+/*
 extern texture_type img_bkgd_tile[2][4];
 extern texture_type img_solid[4];
 extern texture_type img_brick[2];
-
+*/
 class Level 
 {
  public:
@@ -81,7 +83,12 @@ class Level
   /** Cleanup the level struct from allocated tile data and such */
   void cleanup();
 
+  /** Load data for this level: 
+      Returns -1, if the loading of the level failed. */
   int  load(const char* subset, int level);
+
+  /** Load data for this level: 
+      Returns -1, if the loading of the level failed. */
   int  load(const std::string& filename);
 
   void load_gfx();
@@ -102,14 +109,5 @@ class Level
 void level_load_image(texture_type* ptexture, std::string theme, const char * file, int use_alpha);
 void level_free_song();
 void level_free_gfx();
-
-/** Return a pointer to the tile at the given x/y coordinates */
-Tile* gettile(float x, float y);
-
-// Some little helper function to check for tile properties
-bool  issolid(float x, float y);
-bool  isbrick(float x, float y);
-bool  isice(float x, float y);
-bool  isfullbox(float x, float y);
 
 #endif /*SUPERTUX_LEVEL_H*/
