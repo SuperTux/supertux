@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux-CVS\n"
 "Report-Msgid-Bugs-To: super-tux-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2004-06-09 18:34+0100\n"
+"POT-Creation-Date: 2004-06-10 14:53+0100\n"
 "PO-Revision-Date: 2004-06-09 23:10+0200\n"
 "Last-Translator: Javier Beaumont <demonight@users.sourceforge.net>\n"
 "Language-Team: Spanish Team <super-tux-devel@lists.sourceforge.net>\n"
@@ -26,56 +26,56 @@ msgstr "por "
 msgid "PAUSE - Press 'P' To Play"
 msgstr "PAUSA - Pulsa 'P' para continuar"
 
-#: src/gameloop.cpp:702 src/worldmap.cpp:849
+#: src/gameloop.cpp:528
+#, fuzzy, c-format
+msgid "Playing: "
+msgstr "Jugando: %s"
+
+#: src/gameloop.cpp:714 src/worldmap.cpp:849
 msgid "SCORE"
 msgstr "PUNTOS"
 
-#: src/gameloop.cpp:707
+#: src/gameloop.cpp:719
 msgid "Press ESC To Return"
 msgstr "Pulsa ESC para volver"
 
-#: src/gameloop.cpp:712
+#: src/gameloop.cpp:724
 msgid "TIME's UP"
 msgstr "FUERA DE TIEMPO"
 
-#: src/gameloop.cpp:716
+#: src/gameloop.cpp:728
 msgid "TIME"
 msgstr "TIEMPO"
 
-#: src/gameloop.cpp:723 src/gameloop.cpp:724 src/worldmap.cpp:853
+#: src/gameloop.cpp:735 src/gameloop.cpp:736 src/worldmap.cpp:853
 msgid "COINS"
 msgstr "MONEDAS"
 
-#: src/gameloop.cpp:745 src/gameloop.cpp:746 src/worldmap.cpp:874
+#: src/gameloop.cpp:757 src/gameloop.cpp:758 src/worldmap.cpp:874
 #: src/worldmap.cpp:875
 msgid "LIVES"
 msgstr "VIDAS"
 
-#: src/gameloop.cpp:751
-#, c-format
-msgid "Playing: %s"
-msgstr "Jugando: %s"
-
-#: src/gameloop.cpp:776
+#: src/gameloop.cpp:780
 msgid "Result:"
 msgstr "Resultado:"
 
-#: src/gameloop.cpp:779 src/worldmap.cpp:726
+#: src/gameloop.cpp:783 src/worldmap.cpp:726
 #, c-format
 msgid "SCORE: %d"
 msgstr "PUNTOS: %d"
 
-#: src/gameloop.cpp:782 src/worldmap.cpp:730
+#: src/gameloop.cpp:786 src/worldmap.cpp:730
 #, c-format
 msgid "COINS: %d"
 msgstr "MONEDAS: %d"
 
-#: src/gameloop.cpp:811
+#: src/gameloop.cpp:815
 #, c-format
 msgid "Slot %d - Savegame"
 msgstr "Slot %d - Juego salvado"
 
-#: src/gameloop.cpp:814
+#: src/gameloop.cpp:818
 #, c-format
 msgid "Slot %d - Free"
 msgstr "Slot %d - Libre"
@@ -376,4 +376,3 @@ msgstr "¿Estás seguro de que quieres borrar el slot %d?"
 #: src/worldmap.cpp:723
 msgid "GAMEOVER"
 msgstr "FIN DEL JUEGO"
-

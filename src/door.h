@@ -24,6 +24,9 @@
 
 #include "interactive_object.h"
 #include "serializable.h"
+#include "timer.h"
+
+#define ANIM_TIME 1500
 
 class Sprite;
 
@@ -45,6 +48,8 @@ private:
   Sprite* sprite;
   std::string target_sector;
   std::string target_spawnpoint;
+  Timer animation_timer; //Used for door animation
+  bool door_activated;
 };
 
 #endif /*SUPERTUX_DOOR_H*/

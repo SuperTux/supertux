@@ -37,6 +37,8 @@ Door::Door(LispReader& reader)
   reader.read_string("spawnpoint", target_spawnpoint);
 
   sprite = sprite_manager->load("door");
+  animation_timer.init(true);
+  door_activated = false;
 }
 
 void
@@ -68,13 +70,27 @@ void
 Door::draw(DrawingContext& context)
 {
   sprite->draw(context, Vector(area.x, area.y), LAYER_TILES);
+  
+  //Check if door animation is complete
+  //TODO: Move this out of the "draw" method as this is extremely dirty :)  
+  if ((!animation_timer.check()) && (door_activated)) {    
+    door_activated = false;
+    sprite = sprite_manager->load("door");
+    GameSession::current()->respawn(target_sector, target_spawnpoint);
+  }
 }
 
 void
 Door::interaction(InteractionType type)
 {
+  //Animate the door on activation
+  //TODO: Resetting the animation doesn't work correctly
+  //      Tux and badguys should stop moving while the door is opening
   if(type == INTERACTION_ACTIVATE) {
-    GameSession::current()->respawn(target_sector, target_spawnpoint);
+    sprite = sprite_manager->load("openingdoor");
+    sprite->reset();
+    animation_timer.start(ANIM_TIME);
+    door_activated = true;
   }
 }
 

@@ -76,6 +76,7 @@ L: low priority
 [L] we only have a global counter for multiple coin blocks. This should be handled
     per block.
 [L] Show level number on top of the screen when playing the level
+[L] fix the door animation
 
 Beyond Milestone2
 -----------------
