@@ -1,11 +1,830 @@
-
 - SuperTux changes -
 http://super-tux.sf.net/
 
 Last update: May 3, 2004
 
+Milestone 0.1.1 - May 11, 2004
+-----------------------------
+
+2004-05-11 00:23  tobgle
+
+  * NEWS, configure.ac: make em ready for something some strange
+    people would actually call an official release. What are those
+    people talking about?
+
+2004-05-11 00:21  tobgle
+
+  * AUTHORS: [no log message]
+
+2004-05-10 23:59  tobgle
+
+  * src/leveleditor.cpp: Leveleditor closes on SDL_QUIT events now.
+
+2004-05-10 23:54  rmcruz
+
+  * src/gameloop.cpp: When pressing a player's key and then press
+    Esc, the player will still be going in that direction, after
+    unpressing the key and exiting the menu
+
+2004-05-10 23:47  tobgle
+
+  * data/images/tilesets/supertux.stgt: more snow , yeah, who can
+    have enough of snow? You?
+
+2004-05-10 23:39  tobgle
+
+  * data/images/tilesets/supertux.stgt: visual fix
+
+2004-05-10 23:24  tobgle
+
+  * data/images/tilesets/supertux.stgt: update
+
+2004-05-10 23:10  rmcruz
+
+  * src/leveleditor.cpp: Don't display cursor on help.  Tobias, its
+    the 2nd time you overwrite this code. Don't make me to twist your
+    neck :D
+
+2004-05-10 22:39  tobgle
+
+  * src/defines.h: [no log message]
+
+2004-05-10 22:37  tobgle
+
+  * src/title.cpp: fixed missing semicolon
+
+2004-05-10 22:24  sik0fewl
+
+  * data/CREDITS: - s/(at)/@/
+
+2004-05-10 22:21  sik0fewl
+
+  * data/CREDITS: - fixed Benjamin's name
+
+2004-05-10 22:17  tobgle
+
+  * TODO: update
+
+2004-05-10 22:13  tobgle
+
+  * src/title.cpp: fixed end of level to begin wrap around in the
+    title demo.
+
+2004-05-10 22:00  tobgle
+
+  * src/: gameloop.cpp, timer.cpp, timer.h: minor updates
+
+2004-05-10 21:09  tobgle
+
+  * TODO: update
+
+2004-05-10 21:06  tobgle
+
+  * src/: gameloop.cpp, level.cpp, leveleditor.cpp, player.cpp,
+    world.cpp: Fixed some TODO-list bugs.
+
+2004-05-10 19:04  tobgle
+
+  * src/leveleditor.cpp: fixed selection of a game_object in IsObject
+    mode
+
+2004-05-10 18:44  tobgle
+
+  * src/: button.cpp, leveleditor.cpp: fixed visual button bugs.
+
+2004-05-10 18:09  tobgle
+
+  * src/: button.cpp, button.h, level.cpp, leveleditor.cpp,
+    mousecursor.cpp, mousecursor.h, setup.cpp: Fixed bkgd_speed.
+    Objects properties can be edited now.  Fixed level saving issue.
+
+2004-05-10 17:02  matzebraun
+
+  * src/setup.cpp: never free the screen surface, SDL doesn't allow
+    that
+
+2004-05-10 16:44  tobgle
+
+  * data/images/status/: select-cursor.png, select-cursor.xcf:
+    initial (icon created by tarzeau and modified to a cursor by me)
+
+2004-05-10 16:43  tobgle
+
+  * data/images/icons/: properties.png, select-one.png: initial
+    (created by tarzeau)
+
+2004-05-10 16:38  rmcruz
+
+  * src/world.cpp: Bug fixed. That test was just reading some random
+    memory, don't forget we are talking about a string object here,
+    not a char array pointer.  Congrats go to Ingo.
+
+2004-05-10 16:01  rmcruz
+
+  * AUTHORS, data/CREDITS: Added Benjamin to credits.  Still need to
+    update the webpage ones.
+
+2004-05-10 15:58  rmcruz
+
+  * data/images/status/old/: checkbox-checked.png,
+    checkbox-checked.xcf, checkbox.png, checkbox.xcf: Added old
+    checkboxes to the old dir.
+
+2004-05-10 15:57  rmcruz
+
+  * data/images/status/: checkbox-checked.xcf, checkbox.xcf: Removed
+    .xcf files. These files are regarding the old checkboxes version
+    and are already in the old dir.
+
+2004-05-10 15:56  rmcruz
+
+  * data/images/status/: checkbox-checked.png, checkbox.png: Changed
+    the checked boxes to Benjamin ones! This is a blue-ish version of
+    his checkboxes that I asked him to do.
+
+2004-05-10 15:53  rmcruz
+
+  * data/images/status/back.png: Improved back icon by Benjamin!
+
+2004-05-10 15:22  rmcruz
+
+  * src/defines.h: Ups, name mistake.
+
+2004-05-10 15:21  rmcruz
+
+  * src/: defines.h, world.cpp, world.h: Well, Ingo and Tobias prefer
+    the old shooting behavior, so here it goes.
+
+2004-05-10 14:45  grumbel
+
+  * TODO: added issue
+
+2004-05-10 13:48  rmcruz
+
+  * src/leveleditor.cpp: Take cursor out of the help screen.  Tobias,
+    you overwrote this commit :)
+
+2004-05-10 07:18  sik0fewl
+
+  * data/CREDITS: - Added a couple handles and changed case on some
+
+2004-05-10 00:15  tobgle
+
+  * src/leveleditor.cpp: removed double shortcuts in leveleditor.
+    updated level-editor turorial.
+
+2004-05-09 23:44  rmcruz
+
+  * src/setup.cpp: Removed the screen free. It was already been freed
+    before, this could be the cause of Win32 crashes related by
+    Ryan...
+
+2004-05-09 23:15  rmcruz
+
+  * src/: defines.h, world.cpp, world.h: Instead of limitating the
+    number of bullets, according to the ones in screen, do it in a
+    time bases.  This was asked in a comment on The Linux Game Tome
+    and I already wanted to do this, since the day I made that hack,
+    so here it goes.  You can tune that time on the defines.h file,
+    it is the BULLETS_TIMEOUT definition (in ms). There is a fire
+    test level.
+
+2004-05-09 22:24  rmcruz
+
+  * data/levels/world1/: level12.stl, level17.stl, level18.stl,
+    level21.stl, level22.stl, level4.stl: A new round of levels
+    updating by Marek! He has now get cvs access, so I guess I'll no
+    longer be his sponser :( :D
+
+2004-05-09 22:10  tobgle
+
+  * data/images/icons/select-mode2.png: changed to look a bit better
+    in the editor
+
+2004-05-09 21:56  tobgle
+
+  * src/setup.cpp: big white font correction
+
+2004-05-09 21:55  tobgle
+
+  * data/images/status/: letters-white-big.png,
+    letters-white-small.png: update
+
+2004-05-09 21:34  sik0fewl
+
+  * src/player.h: - increased Tux's safe time to 1250ms
+
+2004-05-09 20:08  tobgle
+
+  * src/: leveleditor.cpp, menu.cpp, menu.h, texture.cpp, texture.h:
+    Added a static member function to the Surface class for screen
+    capturing. Redesigned the confirm dialog using it.  Minor
+    leveleditor improvements. (Asks if you want to save a changed
+    level etc.)
+
+2004-05-09 15:55  rmcruz
+
+  * src/: leveleditor.cpp, leveleditor.h: Don't show selection cursor
+    when help is being displayed.
+
+2004-05-09 15:49  rmcruz
+
+  * src/texture.cpp: Cleanuped code and applied it to draw_bg() and
+    draw_part() as well.
+
+2004-05-09 13:14  tobgle
+
+  * src/: button.h, leveleditor.cpp, texture.cpp: Minimap works in
+    SDL now and one more crash is fixed.  Changed the Help a bit, but
+    it's still in the works.
+
+2004-05-09 03:13  rmcruz
+
+  * src/texture.cpp: SDL draw() now supports alpha blitting.
+
+2004-05-09 01:46  rmcruz
+
+  * src/: badguy.cpp, badguy.h: Added explode(). Avoid duplicated
+    code, futhermore, allows any badguy to explode.
+
+2004-05-09 01:21  rmcruz
+
+  * src/badguy.cpp: if a stalactite hits a Mr. Bomb, explode, instead
+    of falling.  Do you agree with this behavior?
+
+2004-05-08 22:03  rmcruz
+
+  * data/levels/world1/level10.stl: Just add a couple of different
+    background tiles, so that it everything doesn't look equal.
+
+2004-05-08 16:57  rmcruz
+
+  * src/player.cpp: Small clean-up.
+
+2004-05-08 14:39  tobgle
+
+  * src/leveleditor.cpp: Prevent "Return to Level Editor" from
+    working, if no levelsubset is loaded. This solves a few possible
+    crashes.
+
+2004-05-08 14:16  tobgle
+
+  * src/leveleditor.cpp: minor fix, that makes sure a time_left value
+    is set, if you want to test a level.
+
+2004-05-08 14:01  tobgle
+
+  * src/leveleditor.cpp: change back to to le_world as current world,
+    when we are done testing our level.
+
+2004-05-08 13:35  tobgle
+
+  * src/: leveleditor.cpp, tile.h: Make sure that tiles are loaded
+    before tilegroups are requested. This fixed a bug when loading
+    leveleditor from command-line.
+
+2004-05-08 12:45  rmcruz
+
+  * src/worldmap.cpp: There is no need in saving on exit, since it
+    already saves in level exit.
+
+2004-05-08 12:41  rmcruz
+
+  * src/: player.cpp, player.h, world.cpp: Fixes death in modes
+    different than the autoscrolling.
+
+2004-05-08 02:28  tobgle
+
+  * src/leveleditor.cpp: Fixed some leveleditor-object/badguy issues.
+
+2004-05-08 02:06  rmcruz
+
+  * data/levels/misc/menu.stl: Removed goodies from the intro (demo)
+    level.
+
+2004-05-08 02:04  rmcruz
+
+  * src/player.cpp: Fixed bug that was causing player's dead.  Don't
+    think it is totally solved
+
+2004-05-08 01:45  tobgle
+
+  * src/leveleditor.cpp: Fixed creating level-subset again.
+
+2004-05-08 01:21  grumbel
+
+  * data/images/title/logo.png: fixed logo, old one was missing a row
+    of pixels on the top and on the right
+
+2004-05-08 01:10  rmcruz
+
+  * data/levels/test/level9.stl: Test level for auto-scrolling.
+
+2004-05-08 01:09  rmcruz
+
+  * src/: level.cpp, level.h, player.cpp, world.cpp: Added horizontal
+    auto scrolling! Hope you like it ;)
+
+2004-05-08 01:09  rmcruz
+
+  * TODO: This is working fine now, right?
+
+2004-05-08 01:05  grumbel
+
+  * data/music/supertux-2.ogg: - another piece from ZhayTee
+
+2004-05-07 23:43  grumbel
+
+  * data/music/supertux-1.ogg: - piece of music from ZhayTee
+
+2004-05-07 23:24  grumbel
+
+  * TODO: new issue
+
+2004-05-07 23:14  grumbel
+
+  * TODO: added new issue
+
+2004-05-07 22:48  tobgle
+
+  * src/: collision.cpp, leveleditor.cpp, title.cpp, type.h, world.h:
+    major changes to the leveleditor internals, there are a few bugs
+    expected to appear, but this had to be made!
+
+2004-05-07 15:46  rmcruz
+
+  * src/: globals.cpp, globals.h, setup.cpp: Added support for
+    silver's Benjamin font.
+
+2004-05-07 15:45  rmcruz
+
+  * data/images/status/: letters-black.png, letters-blue.png,
+    letters-gold.png, letters-green.png, letters-red.png,
+    letters-silver.png, letters-white-big.png,
+    letters-white-small.png, letters-white.png: Replaced letters by
+    Benjamin's hand-written ones.
+
+2004-05-07 15:44  rmcruz
+
+  * data/images/status/back.png: Replaced current back icon with
+    Benjamin's one. It's so much better.
+
+2004-05-07 15:43  rmcruz
+
+  * data/images/status/back.xcf: File moved.
+
+2004-05-07 15:42  rmcruz
+
+  * data/images/status/old/: back.png, back.xcf: Moved back button to
+    an old dir.
+
+2004-05-07 12:56  tobgle
+
+  * data/images/icons/: objects.png, objects.xcf: added (I forgot to
+    add them, shame on me)
+
+2004-05-07 12:09  grumbel
+
+  * NEWS: added news
+
+2004-05-07 02:30  rmcruz
+
+  * src/: globals.cpp, globals.h, setup.cpp: Added support for
+    Benjamin's green fonts.
+
+2004-05-07 02:22  rmcruz
+
+  * src/menu.cpp: Replaced - by _ for the flickering input cursor.
+    This is now possible thankfull to Benjamin's fonts.
+
+2004-05-07 02:20  rmcruz
+
+  * src/text.cpp: Support for Benjamin's fonts.
+
+2004-05-07 02:19  rmcruz
+
+  * data/images/status/: letters-black.png, letters-blue.png,
+    letters-gold.png, letters-green.png, letters-red.png,
+    letters-white-big.png, letters-white-small.png,
+    letters-white.png: Replaced fonts by Atari Benjamin's ones.  This
+    are very similiar, but they make possible to use more characters!
+
+2004-05-06 23:39  rmcruz
+
+  * src/: defines.h, setup.cpp: Moved SCREEN_W and SCREEN_H to
+    setup.cpp to avoid ppl using them.
+
+2004-05-06 22:32  grumbel
+
+  * data/images/background/ocean.png: - improved background by
+    Christopher A. Webber
+
+2004-05-06 22:02  grumbel
+
+  * src/: level.cpp, leveleditor.cpp: - made supertux g++295 friendly
+
+2004-05-06 21:55  tobgle
+
+  * src/: button.cpp, leveleditor.cpp, tile.cpp, tile.h: TileGroups
+    are placed in a set now. BUTTON_WHEELUP and  BUTTON_WHEELDOWN
+    fixes.
+
+2004-05-06 20:49  sik0fewl
+
+  * src/world.cpp: - undid Ricardo's changes
+
+2004-05-06 20:49  sik0fewl
+
+  * data/levels/test/level8.stl: - added backscroll test level
+
+2004-05-06 18:50  tobgle
+
+  * src/leveleditor.cpp: Fixed bug where tiles/objects could be drawn
+    while scrolling.
+
+2004-05-06 17:09  rmcruz
+
+  * src/: menu.h, setup.cpp, worldmap.cpp: Made worldmap to save game
+    on exit.  And removed Save menu item, it's useless, since the
+    game automatically saves the game, and only confuses the player.
+
+2004-05-06 17:03  rmcruz
+
+  * src/world.cpp: This should work, i guess...
+
+2004-05-06 14:51  rmcruz
+
+  * src/setup.cpp: Just added leveleditor argument to help info.
+
+2004-05-06 14:47  rmcruz
+
+  * src/world.cpp: Made the back scrolling to work in debug mode (and
+    also only).  If you want to test it, just run supertux as
+    'supertux --debug-mode'.
+
+2004-05-06 04:12  sik0fewl
+
+  * src/badguy.cpp: - replaced some fabs() where fabsf() should be
+    used - made jumpy's animation follow the laws of physics more
+    closely (springs)
+
+2004-05-06 01:58  sik0fewl
+
+  * src/world.cpp: - made some backscroll changes.  It's now a little
+    better, but still needs some work.
+
+2004-05-06 00:24  sik0fewl
+
+  * src/world.cpp: - fixed scrolling problem when starting from a
+    reset point
+
+2004-05-06 00:04  tobgle
+
+  * src/: leveleditor.cpp, texture.cpp, texture.h, tile.cpp, tile.h:
+    added draw_stretched capability to surface* and tile* classes and
+    moreover built a minimap upon it for the leveleditor.
+    Unfortunately it only works correctly in OpenGL mode, therefore
+    it is disabled in software mode.
+
+2004-05-05 22:05  tobgle
+
+  * src/: button.cpp, leveleditor.cpp: Fixed Objects drag+drop bug.
+    LevelEditor cursor tuning.
+
+2004-05-05 18:59  tobgle
+
+  * src/: button.cpp, button.h, leveleditor.cpp: LevelEditor
+    tilegroup/object select by wheelup/wheeldown on buttons. Support
+    for WheelUp and WheelDown in Buttons.
+
+2004-05-05 18:07  rmcruz
+
+  * src/: globals.cpp, globals.h, leveleditor.cpp, leveleditor.h,
+    setup.cpp, supertux.cpp, title.cpp: Made leveleditor to start in
+    a specific file when ran as: supertux --leveleditor levelname.stl
+    Unfortanely, it crashes when creating the Objects menu. I don't
+    think it is related with my code, so here is the commit.
+
+2004-05-05 16:38  tobgle
+
+  * src/: button.cpp, leveleditor.cpp: Adding Objects works through
+    clicking instead pressing now.
+
+2004-05-05 15:15  tobgle
+
+  * data/levels/world1/level4.stl: well, actually I created this ...
+    not that wonderful level for 0.0.5 ;)
+
+2004-05-05 14:59  tobgle
+
+  * src/: button.cpp, button.h, leveleditor.cpp: a ButtonPanel is
+    able to highlight the last clicked/activated item now. A
+    double/tripple shortcut was replaced in the leveleditor.
+
+2004-05-05 14:27  tobgle
+
+  * src/leveleditor.cpp: fixed a crash when creating a new
+    levelsubset in the editor
+
+2004-05-05 14:03  rmcruz
+
+  * src/world.cpp: Just tuned the X_SPACE, so that Tux position in
+    screen is exactly the same as before.  Check and remove the TODO
+    point, in case you agree.
+
+2004-05-05 13:08  neoneurone
+
+  * data/Makefile.am: images/icon.png in Makefile.am removed as
+    requested by Ricardo Cruz
+
+2004-05-05 06:04  sik0fewl
+
+  * src/world.cpp: - fixed scrolling past level bug
+
+2004-05-05 04:59  sik0fewl
+
+  * src/world.cpp: - fixed the part of backscrolling that a broke.
+    Backscrolling still needs some work.
+
+2004-05-05 01:39  sik0fewl
+
+  * TODO, src/world.cpp: - fixed small scrolling bug - added screwed
+    up backscroll to TODO
+
+2004-05-05 00:49  rmcruz
+
+  * data/levels/misc/menu.stl: Made intro demo to use the ordinary
+    background (arctis2.jpg).  Anyway, shouldn't a PNG file be
+    preferible...
+
+2004-05-05 00:34  tobgle
+
+  * data/images/tilesets/supertux.stgt: [no log message]
+
+2004-05-05 00:16  tobgle
+
+  * src/: button.cpp, button.h, leveleditor.cpp, menu.h: LevelEditor
+    bug-fixes, improvements and fine-tuning.
+
+2004-05-04 23:54  matzebraun
+
+  * TODO: scrolling is broken
+
+2004-05-04 22:57  tobgle
+
+  * src/defines.h: corrected typo
+
+2004-05-04 21:49  tobgle
+
+  * src/defines.h: Added a comment.
+
+2004-05-04 21:13  rmcruz
+
+  * TODO: Added another point.
+
+2004-05-04 21:12  rmcruz
+
+  * data/levels/misc/menu.stl, TODO, data/levels/world1/level13.stl,
+    src/world.cpp: Removed scrolling printf, back scrolling from
+    level 13 and snow from menu.  So, two points are gone now.
+    Notice that the back scrolling is still in development, so please
+    calm down, and don't add it to the TODO as a bug. Besides no
+    level use it. I told Ryan to give a look at that code now.
+
+2004-05-04 20:58  rmcruz
+
+  * src/title.cpp: The background was being drawn twice, as reported
+    by Ingo.  Ingo, could you replace all powerup boxes with money
+    ones. Thx And why was the background changed? This one sucks when
+    scrolling (it has a column of pixels on the right that give a bad
+    look).
+
+2004-05-04 19:42  grumbel
+
+  * TODO: more issues
+
+2004-05-04 19:31  grumbel
+
+  * TODO: [no log message]
+
+2004-05-04 19:14  tobgle
+
+  * data/images/icons/rubber.png: update
+
+2004-05-04 19:00  rmcruz
+
+  * TODO: Removed scrolling bug, added an Abort level one.
+
+2004-05-04 18:03  rmcruz
+
+  * src/gameloop.cpp: Fixed frame_ratio() workaround.
+
+2004-05-04 17:38  rmcruz
+
+  * src/: world.cpp, world.h: Fixed srolling camera move. Silly me, I
+    forgot about the frame rates.  It still doesn't work, since the
+    frame_ratio variable is not calculated... It has allways the same
+    value. Is this some workaround? «  action(1.0f);  »
+
+2004-05-04 16:41  rmcruz
+
+  * src/world.cpp: Added a test for a end of level scrolling test...
+    There seems to be an end sequence issue regarding this, doesn't
+    it make use of the scrolling()?
+
+2004-05-04 16:26  rmcruz
+
+  * data/images/: shared/old/icon.png, icon.png: Moved this image to
+    the old shared dir, in order to prevent it from being included in
+    the next version.
+
+2004-05-04 16:02  grumbel
+
+  * data/images/icon.png: - icon is not useless, the .xpm version is
+    scaled down, the .png has the original size
+
+2004-05-04 15:58  rmcruz
+
+  * src/: player.cpp, player.h, world.cpp, world.h: Made it possible
+    for Tux to be in a position before the half of the screen.
+    Started implementing a moving camera, but it isn't working very
+    well, i'll have a look at it later.
+
+2004-05-04 15:57  rmcruz
+
+  * data/images/icon.png: Useless icon, the XPM works fine under
+    windows.
+
+2004-05-04 13:27  rmcruz
+
+  * src/: defines.h, setup.cpp: Just put screen's width and height as
+    definitions.
+
+2004-05-04 02:32  rmcruz
+
+  * README: Just added the Power/Run key to the README, as our John
+    Spray player indicated.
+
+2004-05-04 01:44  rmcruz
+
+  * src/world.cpp: Changed the way the scrolling was calculated.
+    Instead of calculating it relatively to the middle of the screen,
+    calculte it relatively to the borders.  This solution is more
+    clear (IMO) and elegant because; there isn't that ugly code
+    anymore: scroll_x -= screen.w / 2; (...) scroll_x += screen.w /
+    2;
+
+    Besides from that, in case we change the resolution, this makes
+    the playbility to be not affected.
+
+    Note: if you think the scrolling is made when Tux is too much in
+    the right or in the left, you can easily change this, by changine
+    the SPACE_X value in world.cpp.
+
+2004-05-04 01:27  rmcruz
+
+  * src/title.cpp: Improved the intro demo, in order to make it more
+    elegant.  I haven't testedt powerups and tux collision yet,
+    though.
+
+2004-05-04 01:06  tobgle
+
+  * src/: button.cpp, level.cpp, level.h, leveleditor.cpp,
+    lispreader.cpp, menu.h, type.h, world.cpp: leveleditor related
+    improvements. Added bkgd_speed.
+
+2004-05-03 22:35  tobgle
+
+  * src/: button.cpp, leveleditor.cpp, texture.cpp, texture.h,
+    tile.cpp, tile.h: more leveleditor related improvements
+
+2004-05-03 22:35  tobgle
+
+  * data/images/tilesets/supertux.stgt: more tilegroups
+
+2004-05-03 22:23  grumbel
+
+  * TODO: added scrolling issue
+
+2004-05-03 21:46  sik0fewl
+
+  * src/world.cpp: - fixed scrolling bug
+
+2004-05-03 21:43  grumbel
+
+  * TODO: added another issue
+
+2004-05-03 21:36  grumbel
+
+  * TODO: added item
+
+2004-05-03 19:56  tobgle
+
+  * src/: leveleditor.cpp, menu.h: leveleditor menu IDisation and
+    little improvements
+
+2004-05-03 19:29  tobgle
+
+  * src/: level.cpp, level.h, leveleditor.cpp, menu.h: leveleditor
+    improvements
+
+2004-05-03 19:18  grumbel
+
+  * TODO: - added issues
+
+2004-05-03 15:57  rmcruz
+
+  * src/title.cpp: Ooops, looks like screen wasn't scrolling in the
+    main menu.
+
+2004-05-03 15:36  rmcruz
+
+  * data/levels/world1/level13.stl: Enabled back scrolling on this
+    level.  It is mostly for people give it a try.
+
+2004-05-03 15:32  rmcruz
+
+  * src/level.cpp: Fixed the back_scrolling flag as suggested by
+    Michael George over the mailing list.
+
+2004-05-03 15:02  matzebraun
+
+  * TODO: TODO update
+
+2004-05-03 15:00  matzebraun
+
+  * src/gameloop.cpp: hiding the time while end_sequence wasn't nice
+
+2004-05-03 14:56  matzebraun
+
+  * TODO: TODO update
+
+2004-05-03 14:45  rmcruz
+
+  * src/level.cpp: Just changed back_scrolling save syntax.
+
+2004-05-03 14:39  matzebraun
+
+  * src/gameloop.cpp: fix timeup issues when endsequence triggered
+
+2004-05-03 14:34  rmcruz
+
+  * src/: level.cpp, level.h, player.cpp, player.h, world.cpp,
+    world.h: Added back scrolling! It is only enabled if the level
+    explicity asks for.
+
+2004-05-03 14:02  rmcruz
+
+  * src/setup.cpp: Just added Level Editor back to the menu.  I know
+    it isn't working very well, but this is the cvs, so we need it,
+    in order to test it! If you want to make a release snapshot, just
+    comment this line.
+
+2004-05-03 13:35  grumbel
+
+  * data/images/icon.xpm: - changed size to 32x32 to make windows
+    happy
+
+2004-05-03 13:18  matzebraun
+
+  * contrib/innosetup/: supertux.ico, supertux.iss: added files for
+    windows installer
+
+2004-05-03 01:22  grumbel
+
+  * Makefile.am: - makefile fixes
+
+2004-05-03 00:44  grumbel
+
+  * src/: leveleditor.cpp, setup.cpp: - -Wall fixing - removed level
+    editor from menu, since it crashes on settings and is thus not
+    useable in release
+
+2004-05-03 00:40  grumbel
+
+  * Makefile.am, NEWS, README, TODO: - small bugfixes in README and
+    Co
+
+2004-05-03 00:31  grumbel
+
+  * data/levels/test/: level5.stl, level6.stl, level7.stl: - some
+    test levels
+
+2004-05-03 00:29  matzebraun
+
+  * TODO: TODO update
+
+2004-05-03 00:27  grumbel
+
+  * ChangeLog: - added changelog entries
+
+2004-05-03 00:26  matzebraun
+
+  * src/: button.cpp, button.h: fixed potential bug in Button class
+    event handler
+	
 Milestone 0.1.0 - May 3, 2004
-------------------------
+-----------------------------
   2004-05-03 00:21  grumbel
 
   * contrib/levelconvert.py: - removed old convert script, the
