@@ -39,6 +39,9 @@
 #include "player.h"
 #include "math.h"
 
+void loadshared(void);
+void activate_particle_systems(void);
+
 static texture_type bkg_title, img_choose_subset, anim1, anim2;
 static SDL_Event event;
 static SDLKey key;
@@ -66,8 +69,6 @@ void draw_background()
     texture_draw(&anim2, 560, 270);
 }
 
-void loadshared(void);
-void activate_particle_systems(void);
 /* --- TITLE SCREEN --- */
 
 int title(void)
@@ -332,7 +333,6 @@ int title(void)
     }
   /* Free surfaces: */
 
-  level_free(&current_level);
   texture_free(&bkg_title);
   texture_free(&anim1);
   texture_free(&anim2);
