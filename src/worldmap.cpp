@@ -815,20 +815,20 @@ WorldMap::draw_status()
   gold_text->draw(str, 96, 0);
 
   sprintf(str, "%d", player_status.distros);
-  white_text->draw_align("COINS", 320-64, 0,  A_LEFT, A_TOP);
-  gold_text->draw_align(str, 320+64, 0, A_RIGHT, A_TOP);
+  white_text->draw_align("COINS", screen->w/2 - white_text->w*5, 0,  A_LEFT, A_TOP);
+  gold_text->draw_align(str, screen->w/2, 0, A_RIGHT, A_TOP);
 
-  white_text->draw("LIVES", 480, 0);
+  white_text->draw("LIVES", screen->w - white_text->w*9, 0);
   if (player_status.lives >= 5)
     {
       sprintf(str, "%dx", player_status.lives);
-      gold_text->draw_align(str, 617, 0, A_RIGHT, A_TOP);
-      tux_life->draw(565+(18*3), 0);
+      gold_text->draw_align(str, screen->w - gold_text->w, 0, A_RIGHT, A_TOP);
+      tux_life->draw(screen->w - gold_text->w, 0);
     }
   else
     {
       for(int i= 0; i < player_status.lives; ++i)
-        tux_life->draw(565+(18*i),0);
+        tux_life->draw(screen->w - tux_life->w*4 +(tux_life->w*i),0);
     }
 
   if (!tux->is_moving())

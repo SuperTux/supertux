@@ -683,35 +683,35 @@ GameSession::drawstatus()
     }
 
   if(!time_left.check()) {
-    white_text->draw("TIME'S UP", 224, 0, 1);
+    white_text->draw("TIME'S UP", screen->w/2 - white_text->w*8, 0, 1);
   } else if (time_left.get_left() > TIME_WARNING || (global_frame_counter % 10) < 5) {
     sprintf(str, "%d", time_left.get_left() / 1000 );
-    white_text->draw("TIME", 224, 0, 1);
-    gold_text->draw(str, 304, 0, 1);
+    white_text->draw("TIME", screen->w/2 - white_text->w*4, 0, 1);
+    gold_text->draw(str, screen->w/2 + gold_text->w, 0, 1);
   }
 
   sprintf(str, "%d", player_status.distros);
-  white_text->draw("COINS", screen->h, 0, 1);
-  gold_text->draw(str, 608, 0, 1);
+  white_text->draw("COINS", screen->w - white_text->w*9, 0, 1);
+  gold_text->draw(str, screen->w - gold_text->w*2, 0, 1);
 
-  white_text->draw("LIVES", 480, 20);
+  white_text->draw("LIVES", screen->w - white_text->w*9, 20);
   if (player_status.lives >= 5)
     {
       sprintf(str, "%dx", player_status.lives);
-      gold_text->draw_align(str, 617, 20, A_RIGHT, A_TOP);
-      tux_life->draw(565+(18*3), 20);
+      gold_text->draw_align(str, screen->w - gold_text->w, 20, A_RIGHT, A_TOP);
+      tux_life->draw(screen->w - gold_text->w, 20);
     }
   else
     {
       for(int i= 0; i < player_status.lives; ++i)
-        tux_life->draw(565+(18*i),20);
+        tux_life->draw(screen->w - tux_life->w*4 +(tux_life->w*i), 20);
     }
 
   if(show_fps)
     {
       sprintf(str, "%2.1f", fps_fps);
-      white_text->draw("FPS", screen->h, 40, 1);
-      gold_text->draw(str, screen->h + 60, 40, 1);
+      white_text->draw("FPS", screen->w - white_text->w*9, 40, 1);
+      gold_text->draw_align(str, screen->w, 40, A_RIGHT, A_TOP);
     }
 }
 
@@ -731,7 +731,7 @@ GameSession::drawendscreen()
   gold_text->drawf(str, 0, 224, A_HMIDDLE, A_TOP, 1);
 
   sprintf(str, "COINS: %d", player_status.distros);
-  gold_text->drawf(str, 0, 256, A_HMIDDLE, A_TOP, 1);
+  gold_text->drawf(str, 0, screen->w - gold_text->w*2, A_HMIDDLE, A_TOP, 1);
 
   flipscreen();
   
