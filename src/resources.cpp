@@ -18,17 +18,18 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "app/globals.h"
+#include "special/sprite_manager.h"
+#include "audio/sound_manager.h"
+#include "app/setup.h"
+#include "gui/button.h"
 #include "scene.h"
 #include "player.h"
 #include "badguy.h"
 #include "gameobjs.h"
 #include "special.h"
 #include "resources.h"
-#include "special/sprite_manager.h"
-#include "audio/sound_manager.h"
-#include "app/setup.h"
 #include "door.h"
-#include "gui/button.h"
+#include "badguy_specs.h"
 
 Surface* img_waves[3]; 
 Surface* img_water;
@@ -157,6 +158,9 @@ void loadshared()
   ice_tux->arms = sprite_manager->load("big-tux-arms");
   ice_tux->feet = sprite_manager->load("big-tux-feet");
 
+  /* Load Bad Guys resources */
+  badguyspecs_manager = new BadGuySpecsManager(datadir + "/badguys.strf");
+
   /* Water: */
   img_water = new Surface(datadir + "/images/shared/water.png", false);
 
@@ -212,10 +216,6 @@ void loadshared()
 
   img_cloud[1][3] = new Surface(datadir + "/images/shared/cloud-13.png",
                                 true);
-
-
-  /* Bad guys: */
-  load_badguy_gfx();
 
   /* Upgrades: */
   load_special_gfx();
@@ -286,7 +286,6 @@ void unloadshared(void)
   int i;
 
   free_special_gfx();
-  free_badguy_gfx();
 
   delete img_water;
   for (i = 0; i < 3; i++)

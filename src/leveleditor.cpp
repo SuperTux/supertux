@@ -992,7 +992,7 @@ for(unsigned int i = 0; i < sizeof(text) / sizeof(text[0]); i++)
 
   context.draw_text(blue_text, _("- Level Editor's Help -"), Vector(screen->w/2, 60), CENTER_ALLIGN, LAYER_GUI);
 
-  context.draw_text(white_small_text, *text[i], Vector(20, 120), LEFT_ALLIGN, LAYER_GUI);
+  context.draw_text(white_small_text, *text[i], Vector(/*20*/screen->w/2, 120), CENTER_ALLIGN, LAYER_GUI);
 
   sprintf(str,_("Press any key to continue - Page %d/%d"), i+1, sizeof(text) / sizeof(text[0]));
   context.draw_text(gold_text, str, Vector(screen->w/2, screen->h-60), CENTER_ALLIGN, LAYER_GUI);

@@ -25,10 +25,9 @@
 
 #include "SDL.h"
 
+#include "utils/lispreader.h"
 #include "special/timer.h"
-#include "video/surface.h"
 #include "math/physic.h"
-#include "special/sprite.h"
 #include "defines.h"
 #include "special/moving_object.h"
 #include "collision.h"
@@ -64,10 +63,9 @@ enum BadGuyKind {
 
 BadGuyKind  badguykind_from_string(const std::string& str);
 std::string badguykind_to_string(BadGuyKind kind);
-void load_badguy_gfx();
-void free_badguy_gfx();
 
 class Player;
+class BadGuySpecs;
 
 /* Badguy type: */
 class BadGuy : public MovingObject, public Serializable
@@ -120,8 +118,9 @@ private:
   Physic physic;
   float angle;
 
-  Sprite*   sprite_left;
-  Sprite*   sprite_right;
+  std::string action_left, action_right;
+
+  BadGuySpecs* specs;
 
   int animation_offset;
 
@@ -147,8 +146,7 @@ public:
   /** initializes the badguy (when he appears on screen) */
   void activate(Direction direction);  // should only be used by BadGuy's objects
 
-  Surface* get_image()
-    { return sprite_left->get_frame(0); }
+  Surface* get_image();
 
 private:
   void init();
@@ -184,8 +182,8 @@ private:
   void squish(Player* player);
   /** squish ourself, give player score and set dying to DYING_SQICHED */
   void squish_me(Player* player);
-  /** set image of the badguy */
-  void set_sprite(Sprite* left, Sprite* right);
+  /** set sprite's action of the badguy */
+  void set_action(std::string action_left, std::string action_right);
 };
 
 #endif /*SUPERTUX_BADGUY_H*/

@@ -22,6 +22,7 @@
 #include <cmath>
 
 #include "camera.h"
+#include "utils/lispreader.h"
 #include "utils/lispwriter.h"
 #include "player.h"
 #include "tilemap.h"
