@@ -58,6 +58,7 @@ public:
   std::vector<FloatingScore*> floating_scores;
 
   std::vector<Upgrade> upgrades;
+  Timer bullets_timer;
   std::vector<Bullet> bullets;
   typedef std::vector<ParticleSystem*> ParticleSystems;
   ParticleSystems particle_systems;
