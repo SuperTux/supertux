@@ -458,17 +458,15 @@ GameSession::handle_cheats()
   // Cheating words (the goal of this is really for debugging,
   // but could be used for some cheating, nothing wrong with that)
   if(compare_last(last_keys, "grow")) {
-    tux.grow(false);
+    tux.set_bonus(GROWUP_BONUS, false);
     last_keys.clear();
   }
   if(compare_last(last_keys, "fire")) {
-    tux.grow(false);
-    tux.got_power = tux.FIRE_POWER;
+    tux.set_bonus(FIRE_BONUS, false);
     last_keys.clear();
   }
   if(compare_last(last_keys, "ice")) {
-    tux.grow(false);
-    tux.got_power = tux.ICE_POWER;
+    tux.set_bonus(ICE_BONUS, false);
     last_keys.clear();
   }
   if(compare_last(last_keys, "lifeup")) {
@@ -547,8 +545,6 @@ GameSession::check_end_conditions()
     exit_status = ES_LEVEL_FINISHED;
     return;
   } else if (!end_sequence && tux->is_dead()) {
-    player_status.bonus = PlayerStatus::NO_BONUS;
-
     if (player_status.lives < 0) { // No more lives!?
       exit_status = ES_GAME_OVER;
     } else { // Still has lives, so reset Tux to the levelstart
@@ -571,10 +567,14 @@ GameSession::action(float elapsed_time)
   // respawning in new sector?
   if(newsector != "" && newspawnpoint != "") {
     Sector* sector = level->get_sector(newsector);
+    if(sector == 0) {
+      std::cerr << "Sector '" << newsector << "' not found.\n";
+    }
+    sector->activate(newspawnpoint);
+    sector->play_music(LEVEL_MUSIC);
     currentsector = sector;
-    currentsector->activate(newspawnpoint);
-    currentsector->play_music(LEVEL_MUSIC);
-    newsector = newspawnpoint = "";
+    newsector = "";
+    newspawnpoint = "";
   }
 }
 

@@ -964,7 +964,7 @@
          (y-offset 0)
          (images "shared/stalactite.png"))
        (action
-         (name "broken")
+         (name "squished")
          (x-offset 0)
          (y-offset 16)
          (images "shared/stalactite-broken.png")))
@@ -1280,7 +1280,7 @@
   ; Door
   (sprite (name "door")
        (action
-          (name "default")
+          (name "normal")
           (x-offset 0)
           (y-offset 0)
           (images "shared/door-1.png"))
@@ -1308,7 +1308,7 @@
   ; coin
   (sprite (name "coin")
       (action 
-          (name "default")
+          (name "normal")
           (images "tilesets/coin-1.png"
                   "tilesets/coin-2.png"
                   "tilesets/coin-3.png"
@@ -1325,7 +1325,7 @@
   (sprite (name "bonusblock")
       (action
          (fps 15)
-         (name "default")
+         (name "normal")
          (images "tilesets/bonus2-1.png"
                  "tilesets/bonus2-2.png"
                  "tilesets/bonus2-3.png"
@@ -1347,7 +1347,7 @@
         (name "empty")
         (images "tilesets/bonus2-d.png"))
       (action 
-        (name "default")
+        (name "normal")
         (images "tilesets/brick0.png"))
   )
 
@@ -1356,13 +1356,13 @@
         (name "empty")
         (images "tilesets/bonus2-d.png"))
       (action 
-        (name "default")
+        (name "normal")
         (images "tilesets/brick1.png"))
   )
 
   (sprite (name "rock")
       (action
-        (name "default")
+        (name "normal")
         (images "tilesets/block11.png"))
   )
 
@@ -1382,7 +1382,7 @@
 
   (sprite (name "bell")
        (action
-          (name "default")
+          (name "normal")
           (x-offset 0)
           (y-offset 0)
           (images "shared/bell/bell-m.png")
@@ -1402,7 +1402,24 @@
       (images "shared/unstable_tile.png"))
   )
 
-; Hatch
+  (sprite (name "worldmaptux")
+    (action
+      (name "small")
+      (y-offset 10) 
+      (images "worldmap/smalltux.png")
+    )
+    (action
+      (name "large")
+      (y-offset 10) 
+      (images "worldmap/tux.png")
+    )
+    (action
+      (name "fire")
+      (y-offset 10) 
+      (images "worldmap/firetux.png")
+    )
+  )
+
   (sprite (name "hatch")
        (action
           (name "default")
@@ -1421,4 +1438,3 @@
                   "shared/hatch-6.png"))
   )
 )
-;; EOF ;;

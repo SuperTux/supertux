@@ -28,6 +28,7 @@
 #include "special/moving_object.h"
 #include "special/sprite.h"
 #include "math/physic.h"
+#include "player_status.h"
 
 using namespace SuperTux;
 
@@ -41,10 +42,6 @@ class Portable;
 #define TUX_INVINCIBLE_TIME_WARNING 2.0
 #define TUX_FLAPPING_TIME 1 /* How long Tux can flap his wings to gain additional jump height */
 #define TIME_WARNING 20     /* When to alert player they're low on time! */
-
-/* Sizes: */
-#define SMALL 0
-#define BIG 1
 
 struct PlayerKeymap
 {
@@ -126,12 +123,10 @@ class Player : public MovingObject
 {
 public:
   enum HurtMode { KILL, SHRINK };
-  enum Power { NONE_POWER, FIRE_POWER, ICE_POWER };
   enum FallMode { ON_GROUND, JUMPING, TRAMPOLINE_JUMP, FALLING };
 
   PlayerInputType input;
-  int got_power;
-  int size;
+  PlayerStatus* player_status;
   bool duck;
   bool dead;
 
@@ -160,7 +155,7 @@ public:
   int flaps_nb;
 
   // temporary to help player's choosing a flapping
-  enum { MAREK_FLAP, RICARDO_FLAP, RYAN_FLAP, NONE_FLAP };
+  enum { MAREK_FLAP, RICARDO_FLAP, RYAN_FLAP, NO_FLAP };
   int flapping_mode;
 
   Timer2 invincible_timer;
@@ -175,14 +170,11 @@ public:
   Physic physic;
   
 public:
-  Player();
+  Player(PlayerStatus* player_status);
   virtual ~Player();
   
   bool key_event(SDLKey key, bool state);
-  void level_begin();
   void handle_input();
-
-  PlayerStatus& get_status();
 
   virtual void action(float elapsed_time);
   virtual void draw(DrawingContext& context);
@@ -201,13 +193,18 @@ public:
   void kill(HurtMode mode);
   void player_remove_powerups();
   void check_bounds(Camera* camera);
-  void grow(bool animate = false);
   void move(const Vector& vector);
+  void set_bonus(BonusType type, bool animate = false);
+  PlayerStatus* get_status()
+  {
+    return player_status;
+  }
 
   void bounce(BadGuy& badguy);
 
   bool is_dead() const
   { return dead; }
+  bool is_big();
   
 private:
   bool on_ground();
@@ -216,7 +213,6 @@ private:
   
   void handle_horizontal_input();
   void handle_vertical_input();
-  void remove_powerups();
 
   Portable* grabbed_object;
 

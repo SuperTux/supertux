@@ -23,6 +23,10 @@
 #include "timer.h"
 #include "serializable.h"
 
+enum BonusType {
+  NO_BONUS, GROWUP_BONUS, FIRE_BONUS, ICE_BONUS
+};
+
 /** 
  * This class memorizes player status between different game sessions (for
  * example when switching maps in the worldmap)
@@ -40,10 +44,9 @@ public:
 
   int  distros;
   int  lives;
-  enum BonusType { NO_BONUS, GROWUP_BONUS, FLOWER_BONUS };
   BonusType bonus;
 
-  int  score_multiplier;
+  int score_multiplier;
   int max_score_multiplier;
 };
 

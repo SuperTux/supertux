@@ -84,8 +84,7 @@ static FrameRate frame_rate(100);
  */
 void resume_demo()
 {
-  // FIXME: shouldn't be needed if GameSession
-  // didn't relay on global variables
+  player_status.reset();
   titlesession->get_current_sector()->activate("main");
   titlesession->set_current();
 
@@ -261,7 +260,7 @@ void draw_demo(float elapsed_time)
   // Wrap around at the end of the level back to the beginnig
   if(world->solids->get_width() * 32 - 320 < tux->get_pos().x)
     {
-      tux->level_begin();
+      world->activate("main");
       world->camera->reset(tux->get_pos());
     }
 

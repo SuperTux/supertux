@@ -69,14 +69,17 @@ void
 PlayerStatus::write(lisp::Writer& writer)
 {
   switch(bonus) {
-    case PlayerStatus::NO_BONUS:
+    case NO_BONUS:
       writer.write_string("bonus", "none");
       break;
-    case PlayerStatus::GROWUP_BONUS:
+    case GROWUP_BONUS:
       writer.write_string("bonus", "growup");
       break;
-    case PlayerStatus::FLOWER_BONUS:
+    case FIRE_BONUS:
       writer.write_string("bonus", "fireflower");
+      break;
+    case ICE_BONUS:
+      writer.write_string("bonus", "iceflower");
       break;
     default:
       std::cerr << "Unknown bonus type.\n";
@@ -100,7 +103,9 @@ PlayerStatus::read(const lisp::Lisp& lisp)
     } else if(bonusname == "growup") {
       bonus = GROWUP_BONUS;
     } else if(bonusname == "fireflower") {
-      bonus = FLOWER_BONUS;
+      bonus = FIRE_BONUS;
+    } else if(bonusname == "iceflower") {
+      bonus = ICE_BONUS;
     } else {
       std::cerr << "Unknown bonus '" << bonusname << "' in savefile.\n";
       bonus = NO_BONUS;

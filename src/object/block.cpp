@@ -100,7 +100,7 @@ BonusBlock::BonusBlock(const Vector& pos, int data)
   : Block(sprite_manager->create("bonusblock"))
 {
   bbox.set_pos(pos);
-  sprite->set_action("default");
+  sprite->set_action("normal");
   switch(data) {
     case 1: contents = CONTENT_COIN; break;
     case 2: contents = CONTENT_FIREGROW; break;
@@ -160,11 +160,11 @@ BonusBlock::try_open()
   switch(contents) {
     case CONTENT_COIN:
       Sector::current()->add_object(new BouncyCoin(get_pos()));
-      player.get_status().incCoins();
+      player.get_status()->incCoins();
       break;
 
     case CONTENT_FIREGROW:
-      if(player.size == SMALL) {
+      if(player.get_status()->bonus == NO_BONUS) {
         SpecialRiser* riser = new SpecialRiser(
             new GrowUp(get_pos() + Vector(0, -32)));
         sector->add_object(riser);
@@ -177,7 +177,7 @@ BonusBlock::try_open()
       break;
 
     case CONTENT_ICEGROW:
-      if(player.size == SMALL) {
+      if(player.get_status()->bonus == NO_BONUS) {
         SpecialRiser* riser = new SpecialRiser(
             new GrowUp(get_pos() + Vector(0, -32)));
         sector->add_object(riser);                                            
@@ -241,12 +241,12 @@ Brick::try_break(bool playerhit)
   if(coin_counter > 0) {
     sector->add_object(new BouncyCoin(get_pos()));
     coin_counter--;
-    player.get_status().incCoins();
+    player.get_status()->incCoins();
     if(coin_counter == 0)
       sprite->set_action("empty");
     start_bounce();
   } else if(breakable) {
-    if(playerhit && player.size == SMALL) {
+    if(playerhit && !player.is_big()) {
       start_bounce();
       return;
     }

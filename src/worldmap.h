@@ -32,6 +32,7 @@
 
 namespace SuperTux {
   class Menu;
+  class Sprite;
 }
 
 extern Menu* worldmap_menu;
@@ -66,9 +67,7 @@ public:
   Direction back_direction;
 private:
   WorldMap* worldmap;
-  Surface* largetux_sprite;
-  Surface* firetux_sprite;
-  Surface* smalltux_sprite;
+  Sprite* tux_sprite;
 
   Direction input_direction;
   Direction direction;
@@ -83,7 +82,7 @@ public:
   Tux(WorldMap* worldmap_);
   ~Tux();
   
-  void draw(DrawingContext& context, const Vector& offset);
+  void draw(DrawingContext& context);
   void action(float elapsed_time);
 
   void set_direction(Direction dir);
@@ -227,7 +226,7 @@ public:
   void update(float delta);
 
   /** Draw one frame */
-  void draw(DrawingContext& context, const Vector& offset);
+  void draw(DrawingContext& context);
 
   Vector get_next_tile(Vector pos, Direction direction);
   const Tile* at(Vector pos);

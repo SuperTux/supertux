@@ -21,12 +21,6 @@ Low priority [L]:    things that should be fixed sometime
 Programming
 ~~~~~~~~~~~
 --Collision Detection Rewrite (all [H])--
- * enemies:
-    - implement fish
-    - implement wingling
-    - implement stalactite
-    - implement tree (really?)
-    - bring back stay on platform flag
  ** implement ability to cary mriceblock (and other objects) around
  * smoke clouds are too fast
  * rethink slopes collision feedback... tux becomes too slow when walking up
@@ -57,6 +51,13 @@ Programming
 [L] introduce a special mode in DrawingContext for objects that want to draw
     themselfes. This could speed up rendering of tilemaps.
 [M] Make the gamelogic run in a fixed logical framerate
+
+--BadGuys--
+[H] Bring back stay on platform flag
+[H] Reimplement fish
+[H] Reimplement stalactite
+[H] Do something with the wingling
+[?] Do something with the tree?
 
 --Objects--
 [H] Create a "sound object" that is an object or area, that can be placed on the
@@ -99,10 +100,6 @@ Programming
         - After enemy-kill is used, powerup should be removed from Tux
 [H] Icebullet related things
      - we should decide on specifics
-[H] Graphics
-     - New forest tileset
-     - Badguy sprites
-     - Tux's buttjump animation
 [M] Save score on per-level basis to make high-score
 [M] Save time on per-level basis to make low-time-score
 [M] Add bonus score for extra time left when finishing a level
@@ -126,6 +123,7 @@ Graphics
 [H] Create a graphics to visually present reset points. (Maybe a bell that
     starts swinging once tux touched it?)
 [M] Add graphics for ropes
+[H] Animation for the buttjump
 [L] Create graphics for bubbles and soap (not necessary for milestone2)
 
 -new enemies need to be designed and added

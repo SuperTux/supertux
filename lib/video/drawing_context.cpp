@@ -323,6 +323,11 @@ DrawingContext::draw_filled_rect(DrawingRequest& request)
 void
 DrawingContext::do_drawing()
 {
+#ifdef DEBUG
+  assert(transformstack.empty());
+#endif
+  transformstack.clear();
+    
   std::stable_sort(drawingrequests.begin(), drawingrequests.end());
 
   for(DrawingRequests::iterator i = drawingrequests.begin();

@@ -45,9 +45,10 @@ Flower::collision(GameObject& other, const CollisionHit& )
     return ABORT_MOVE;
 
   if(type == FIREFLOWER)
-    player->got_power = Player::FIRE_POWER;
+    player->set_bonus(FIRE_BONUS, true);
   else
-    player->got_power = Player::ICE_POWER;
+    player->set_bonus(ICE_BONUS, true);
+  
   SoundManager::get()->play_sound(IDToSound(SND_COFFEE));
   remove_me();
   return ABORT_MOVE;

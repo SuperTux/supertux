@@ -45,7 +45,7 @@ Coin::draw(DrawingContext& context)
 void
 Coin::collect()
 {
-  Sector::current()->player->get_status().incCoins();
+  Sector::current()->player->get_status()->incCoins();
   Sector::current()->add_object(new BouncyCoin(get_pos()));
   global_stats.add_points(COINS_COLLECTED_STAT, 1);
   remove_me();

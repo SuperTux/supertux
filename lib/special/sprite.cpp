@@ -34,7 +34,9 @@ namespace SuperTux
 Sprite::Sprite(SpriteData& newdata)
   : data(newdata), frame(0), animation_loops(-1)
 {
-  action = data.actions.begin()->second;
+  action = data.get_action("normal");
+  if(!action)
+    action = data.actions.begin()->second;
   last_ticks = SDL_GetTicks();
 }
 

@@ -79,6 +79,7 @@ Door::action(float )
 {
   //Check if door animation is complete
   if(sprite->check_animation()) {
+    sprite->set_action("normal");
     GameSession::current()->respawn(target_sector, target_spawnpoint);
   }
 }

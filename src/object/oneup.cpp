@@ -41,7 +41,7 @@ OneUp::collision(GameObject& other, const CollisionHit& )
 {
   Player* player = dynamic_cast<Player*> (&other);
   if(player) {
-    player->get_status().incLives();
+    player->get_status()->incLives();
     remove_me();
     return ABORT_MOVE;
   }

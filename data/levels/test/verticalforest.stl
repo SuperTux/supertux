@@ -2,7 +2,7 @@
 (supertux-level
   (version 1)
   (author "Marek Moeckel")
-  (name "Inside The Tree")
+  (name (_ "Inside The Tree"))
   (width  30)
   (height 300)
   (start_pos_x    100)

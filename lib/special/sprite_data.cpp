@@ -86,18 +86,6 @@ SpriteData::parse_action(const lisp::Lisp* lisp)
   lisp->get("z-order", action->z_order);
   lisp->get("fps", action->fps);
 
-  // this doesn't seem to be used and implemented
-#if 0
-  std::vector <int> mask_color;
-  lispreader.read_int_vector("apply-mask", mask_color);
-  if(mask_color.size() == 4) {
-    for(std::vector<Surface*>::iterator i = action->surfaces.begin();
-        i < action->surfaces.end(); i++) {
-      (*i)->apply_filter(MASK_FILTER, Color(mask_color));
-    }
-  }
-#endif
-
   std::string mirror_action;
   lisp->get("mirror-action", mirror_action);
   if(!mirror_action.empty()) {
@@ -136,8 +124,6 @@ SpriteData::get_action(std::string act)
 {
   Actions::iterator i = actions.find(act);
   if(i == actions.end()) {
-    std::cerr << "Warning: Action '" << act <<
-      "' not found on Sprite '" << name << "'\n";
     return 0;
   }
   return i->second;

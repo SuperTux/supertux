@@ -33,6 +33,7 @@
 #include "video/screen.h"
 #include "video/drawing_context.h"
 #include "special/frame_rate.h"
+#include "special/sprite_manager.h"
 #include "audio/sound_manager.h"
 #include "lisp/parser.h"
 #include "lisp/lisp.h"
@@ -110,10 +111,8 @@ string_to_direction(const std::string& directory)
 Tux::Tux(WorldMap* worldmap_)
   : worldmap(worldmap_)
 {
-  largetux_sprite = new Surface(datadir +  "/images/worldmap/tux.png", true);
-  firetux_sprite = new Surface(datadir +  "/images/worldmap/firetux.png", true);
-  smalltux_sprite = new Surface(datadir +  "/images/worldmap/smalltux.png", true);
-
+  tux_sprite = sprite_manager->create("worldmaptux");
+  
   offset = 0;
   moving = false;
   tile_pos.x = worldmap->get_start_x();
@@ -124,30 +123,31 @@ Tux::Tux(WorldMap* worldmap_)
 
 Tux::~Tux()
 {
-  delete smalltux_sprite;
-  delete firetux_sprite;
-  delete largetux_sprite;
+  delete tux_sprite;
 }
 
 void
-Tux::draw(DrawingContext& context, const Vector& offset)
+Tux::draw(DrawingContext& context)
 {
-  Vector pos = get_pos();
-  switch (player_status.bonus)
-    {
-    case PlayerStatus::GROWUP_BONUS:
-      context.draw_surface(largetux_sprite,
-          Vector(pos.x + offset.x, pos.y + offset.y - 10), LAYER_OBJECTS);
+  switch (player_status.bonus) {
+    case GROWUP_BONUS:
+      tux_sprite->set_action("large");
       break;
-    case PlayerStatus::FLOWER_BONUS:
-      context.draw_surface(firetux_sprite,
-          Vector(pos.x + offset.x, pos.y + offset.y - 10), LAYER_OBJECTS);
+    case FIRE_BONUS:
+      tux_sprite->set_action("fire");
       break;
-    case PlayerStatus::NO_BONUS:
-      context.draw_surface(smalltux_sprite,
-          Vector(pos.x + offset.x, pos.y + offset.y - 10), LAYER_OBJECTS);
+    case NO_BONUS:
+      tux_sprite->set_action("small");
       break;
-    }
+    default:
+#ifdef DBEUG
+      std::cerr << "Bonus type not handled in worldmap.\n";
+#endif
+      tux_sprite->set_action("large");
+      break;
+  }
+
+  tux_sprite->draw(context, get_pos(), LAYER_OBJECTS);
 }
 
 
@@ -739,14 +739,6 @@ WorldMap::update(float delta)
                 level->statistics.merge(global_stats);
                 calculate_total_stats();
 
-                if (session.get_current_sector()->player->got_power !=
-                      session.get_current_sector()->player->NONE_POWER)
-                  player_status.bonus = PlayerStatus::FLOWER_BONUS;
-                else if (session.get_current_sector()->player->size == BIG)
-                  player_status.bonus = PlayerStatus::GROWUP_BONUS;
-                else
-                  player_status.bonus = PlayerStatus::NO_BONUS;
-
                 if (old_level_state != level->solved && level->auto_path)
                   { // Try to detect the next direction to which we should walk
                     // FIXME: Mostly a hack
@@ -784,7 +776,7 @@ WorldMap::update(float delta)
                   status. But the minimum lives and no bonus. */
               player_status.distros = old_player_status.distros;
               player_status.lives = std::min(old_player_status.lives, player_status.lives);
-              player_status.bonus = player_status.NO_BONUS;
+              player_status.bonus = NO_BONUS;
 
               break;
             case GameSession::ES_GAME_OVER:
@@ -914,26 +906,24 @@ WorldMap::at_special_tile()
   return 0;
 }
 
-
 void
-WorldMap::draw(DrawingContext& context, const Vector& offset)
+WorldMap::draw(DrawingContext& context)
 {
   for(int y = 0; y < height; ++y)
     for(int x = 0; x < width; ++x)
       {
         const Tile* tile = at(Vector(x, y));
-        tile->draw(context, Vector(x*32 + offset.x, y*32 + offset.y),
-            LAYER_TILES);
+        tile->draw(context, Vector(x*32, y*32), LAYER_TILES);
       }
 
   for(Levels::iterator i = levels.begin(); i != levels.end(); ++i)
     {
       if (i->solved)
         context.draw_surface(leveldot_green,
-            Vector(i->pos.x*32 + offset.x, i->pos.y*32 + offset.y), LAYER_TILES+1);
+            Vector(i->pos.x*32, i->pos.y*32), LAYER_TILES+1);
       else
         context.draw_surface(leveldot_red,
-            Vector(i->pos.x*32 + offset.x, i->pos.y*32 + offset.y), LAYER_TILES+1);
+            Vector(i->pos.x*32, i->pos.y*32), LAYER_TILES+1);
     }
 
   for(SpecialTiles::iterator i = special_tiles.begin(); i != special_tiles.end(); ++i)
@@ -943,20 +933,23 @@ WorldMap::draw(DrawingContext& context, const Vector& offset)
 
       if (i->teleport_dest != Vector(-1, -1))
         context.draw_surface(teleporterdot,
-                Vector(i->pos.x*32 + offset.x, i->pos.y*32 + offset.y), LAYER_TILES+1);
+                Vector(i->pos.x*32, i->pos.y*32), LAYER_TILES+1);
 
       else if (!i->map_message.empty() && !i->passive_message)
         context.draw_surface(messagedot,
-                Vector(i->pos.x*32 + offset.x, i->pos.y*32 + offset.y), LAYER_TILES+1);
+                Vector(i->pos.x*32, i->pos.y*32), LAYER_TILES+1);
     }
 
-  tux->draw(context, offset);
+  tux->draw(context);
   draw_status(context);
 }
 
 void
 WorldMap::draw_status(DrawingContext& context)
 {
+  context.push_transform();
+  context.set_translation(Vector(0, 0));
+  
   char str[80];
   sprintf(str, " %d", total_stats.get_points(SCORE_STAT));
 
@@ -1026,6 +1019,8 @@ WorldMap::draw_status(DrawingContext& context)
     context.draw_text(gold_text, passive_message, 
             Vector(screen->w/2, screen->h - white_text->get_height() - 60),
             CENTER_ALLIGN, LAYER_FOREGROUND1);
+
+  context.pop_transform();
 }
 
 void
@@ -1066,8 +1061,11 @@ WorldMap::display()
 
     if (offset.x < screen->w - width*32) offset.x = screen->w - width*32;
     if (offset.y < screen->h - height*32) offset.y = screen->h - height*32;
-    
-    draw(context, offset);
+  
+    context.push_transform();
+    context.set_translation(offset);
+    draw(context);
+    context.pop_transform();
     get_input();
     update(elapsed_time);
       

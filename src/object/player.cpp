@@ -28,7 +28,6 @@
 #include "special/sprite_manager.h"
 #include "player.h"
 #include "tile.h"
-#include "player_status.h"
 #include "special/sprite.h"
 #include "sector.h"
 #include "resources.h"
@@ -125,8 +124,8 @@ TuxBodyParts::draw(DrawingContext& context, const Vector& pos, int layer,
     feet->draw(context, pos, layer-2, drawing_effect);
 }
 
-Player::Player()
-  : grabbed_object(0)
+Player::Player(PlayerStatus* _player_status)
+  : player_status(_player_status), grabbed_object(0)
 {
   smalltux_gameover = sprite_manager->create("smalltux-gameover");
   smalltux_star = sprite_manager->create("smalltux-star");
@@ -144,10 +143,10 @@ Player::~Player()
 void
 Player::init()
 {
-  bbox.set_size(31.8, 31.8);
-
-  size = SMALL;
-  got_power = NONE_POWER;
+  if(is_big())
+    bbox.set_size(31.8, 63.8);
+  else
+    bbox.set_size(31.8, 31.8);
 
   dir = RIGHT;
   old_dir = dir;
@@ -168,7 +167,7 @@ Player::init()
   flapping_velocity = 0;
 
   // temporary to help player's choosing a flapping
-  flapping_mode = MAREK_FLAP;
+  flapping_mode = NO_FLAP;
 
   // Ricardo's flapping
   flaps_nb = 0;
@@ -229,27 +228,6 @@ Player::key_event(SDLKey key, bool state)
 }
 
 void
-Player::level_begin()
-{
-  move(Vector(100, 170));
-  duck = false;
-
-  dying = false;
-
-  input.reset();
-
-  on_ground_flag = false;
-
-  physic.reset();
-}
-
-PlayerStatus&
-Player::get_status()
-{
-  return player_status;
-}
-
-void
 Player::action(float elapsed_time)
 {
   if(dying && dying_timer.check()) {
@@ -301,6 +279,15 @@ bool
 Player::on_ground()
 {
   return on_ground_flag;
+}
+
+bool
+Player::is_big()
+{
+  if(player_status->bonus == NO_BONUS)
+    return false;
+
+  return true;
 }
 
 void
@@ -455,10 +442,10 @@ Player::handle_vertical_input()
       can_jump = false;
       can_flap = false;
       flaps_nb = 0; // Ricardo's flapping
-      if (size == SMALL)
-        SoundManager::get()->play_sound(IDToSound(SND_JUMP));
-      else
+      if (is_big())
         SoundManager::get()->play_sound(IDToSound(SND_BIGJUMP));
+      else
+        SoundManager::get()->play_sound(IDToSound(SND_JUMP));
     }
   // Let go of jump key
   else if(!input.jump)
@@ -576,7 +563,7 @@ Player::handle_vertical_input()
     butt_jump = false;
 
   // Do butt jump
-  if (butt_jump && on_ground() && size == BIG)
+  if (butt_jump && on_ground() && is_big())
   {
     // Add a smoke cloud
     if (duck) 
@@ -657,7 +644,7 @@ Player::handle_input()
   handle_vertical_input();
 
   /* Shoot! */
-  if (input.fire && !input.old_fire && got_power != NONE_POWER) {
+  if (input.fire && !input.old_fire && player_status->bonus == FIRE_BONUS) {
     if(Sector::current()->add_bullet(
 //           get_pos() + Vector(0, bbox.get_height()/2),
 	   get_pos() + ((dir == LEFT)? Vector(0, bbox.get_height()/2) 
@@ -669,14 +656,14 @@ Player::handle_input()
   }
 
   /* Duck! */
-  if (input.down && size == BIG && !duck 
+  if (input.down && is_big() && !duck 
       && physic.get_velocity_y() == 0 && on_ground())
     {
       duck = true;
       bbox.move(Vector(0, 32));
       bbox.set_height(31.8);
     }
-  else if(!input.down && size == BIG && duck)
+  else if(!input.down && is_big() && duck)
     {
       // try if we can really unduck
       bbox.move(Vector(0, -32));
@@ -697,17 +684,19 @@ Player::handle_input()
 }
 
 void
-Player::grow(bool animate)
+Player::set_bonus(BonusType type, bool animate)
 {
-  if(size == BIG)
+  if(player_status->bonus == type)
     return;
   
-  size = BIG;
-  bbox.set_height(63.8);
-  bbox.move(Vector(0, -32));
-
-  if(animate)
-    growing_timer.start(GROWING_TIME);
+  if(player_status->bonus == NO_BONUS) {
+      bbox.set_height(63.8);
+      bbox.move(Vector(0, -32));
+      if(animate)
+        growing_timer.start(GROWING_TIME);
+  }
+      
+  player_status->bonus = type;
 }
 
 void
@@ -715,19 +704,19 @@ Player::draw(DrawingContext& context)
 {
   TuxBodyParts* tux_body;
           
-  if (size == SMALL)
-    tux_body = small_tux;
-  else if (got_power == FIRE_POWER)
+  if (player_status->bonus == GROWUP_BONUS)
+    tux_body = big_tux;
+  else if (player_status->bonus == FIRE_BONUS)
     tux_body = fire_tux;
-  else if (got_power == ICE_POWER)
+  else if (player_status->bonus == ICE_BONUS)
     tux_body = ice_tux;
   else
-    tux_body = big_tux;
+    tux_body = small_tux;
 
   int layer = LAYER_OBJECTS + 10;
 
   /* Set Tux sprite action */
-  if (duck && size == BIG)
+  if (duck && is_big())
     {
     if(dir == LEFT)
       tux_body->set_action("duck-left");
@@ -748,7 +737,7 @@ Player::draw(DrawingContext& context)
     else // dir == RIGHT
       tux_body->set_action("kick-right");
     }
-  else if (butt_jump && size == BIG)
+  else if (butt_jump && is_big())
     {
     if(dir == LEFT)
       tux_body->set_action("buttjump-left");
@@ -782,7 +771,7 @@ Player::draw(DrawingContext& context)
 
   if(idle_timer.check())
     {
-    if(size == BIG)
+    if(is_big())
       {
       if(dir == LEFT)
         tux_body->head->set_action("idle-left", 1);
@@ -816,7 +805,7 @@ Player::draw(DrawingContext& context)
   if(dying) {
     smalltux_gameover->draw(context, get_pos(), layer);
   } else if(growing_timer.get_timeleft() > 0) {
-    if(size == SMALL)
+    if(!is_big())
       {
       if (dir == RIGHT)
         context.draw_surface(growingtux_right[GROWING_FRAMES-1 - 
@@ -851,7 +840,7 @@ Player::draw(DrawingContext& context)
       || size_t(global_time*20)%2)
      && !dying)
   {
-    if (size == SMALL || duck)
+    if (!is_big() || duck)
       smalltux_star->draw(context, get_pos(), layer + 5);
     else
       bigtux_star->draw(context, get_pos(), layer + 5);
@@ -920,20 +909,21 @@ Player::kill(HurtMode mode)
 
   physic.set_velocity_x(0);
 
-  if (mode == SHRINK && size == BIG)
+  if (mode == SHRINK && is_big())
     {
-      if (got_power != NONE_POWER)
+      if (player_status->bonus == FIRE_BONUS
+          || player_status->bonus == ICE_BONUS)
         {
           safe_timer.start(TUX_SAFE_TIME);
-          got_power = NONE_POWER;
+          player_status->bonus = GROWUP_BONUS;
         }
-      else
+      else 
         {
           growing_timer.start(GROWING_TIME);
           safe_timer.start(TUX_SAFE_TIME + GROWING_TIME);
-          size = SMALL;
           bbox.set_height(31.8);
           duck = false;
+          player_status->bonus = NO_BONUS;
         }
     }
   else
@@ -941,26 +931,26 @@ Player::kill(HurtMode mode)
       physic.enable_gravity(true);
       physic.set_acceleration(0, 0);
       physic.set_velocity(0, 700);
-      --player_status.lives;
+      player_status->lives -= 1;
       dying = true;
       dying_timer.start(3.0);
       flags |= FLAG_NO_COLLDET;
     }
 }
 
-/* Remove Tux's power ups */
-void
-Player::remove_powerups()
-{
-  got_power = NONE_POWER;
-  size = SMALL;
-  bbox.set_height(31.8);
-}
-
 void
 Player::move(const Vector& vector)
 {
   bbox.set_pos(vector);
+  if(is_big())
+    bbox.set_size(31.8, 63.8);
+  else
+    bbox.set_size(31.8, 31.8);
+  on_ground_flag = false;
+  duck = false;
+
+  input.reset();
+  physic.reset();
 }
 
 void

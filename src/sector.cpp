@@ -56,6 +56,7 @@
 #include "badguy/jumpy.h"
 #include "badguy/spike.h"
 #include "trigger/sequence_trigger.h"
+#include "player_status.h"
 
 //#define USE_GRID
 
@@ -66,7 +67,7 @@ Sector::Sector()
     currentmusic(LEVEL_MUSIC)
 {
   song_title = "Mortimers_chipdisko.mod";
-  player = new Player();
+  player = new Player(&player_status);
   add_object(player);
 
   grid = new CollisionGrid(32000, 32000);
@@ -157,14 +158,15 @@ Sector::parse(const lisp::Lisp& sector)
 
   update_game_objects();
   fix_old_tiles();
-  update_game_objects();
   if(!camera) {
     std::cerr << "sector '" << name << "' does not contain a camera.\n";
-    camera = new Camera(this);
-    add_object(camera);
+    update_game_objects();
+    add_object(new Camera(this));
   }
   if(!solids)
     throw std::runtime_error("sector does not contain a solid tile layer.");
+
+  update_game_objects();
 }
 
 void
@@ -416,24 +418,6 @@ void
 Sector::activate(const Vector& player_pos)
 {
   _current = this;
-
-  // Apply bonuses from former levels
-  switch (player_status.bonus) {
-    case PlayerStatus::NO_BONUS:
-      break;
-                                                                                
-    case PlayerStatus::FLOWER_BONUS:
-      player->got_power = Player::FIRE_POWER;  // FIXME: add ice power to here
-      // fall through
-                                                                                
-    case PlayerStatus::GROWUP_BONUS:
-      player->grow(false);
-      break;
-
-    default:
-      std::cerr << "Unknown bonus in PlayerStatus?!?\n";
-      break;
-  }
 
   player->move(player_pos);
   camera->reset(player->get_pos());
@@ -742,22 +726,19 @@ Sector::add_bullet(const Vector& pos, float xm, Direction dir)
   // TODO remove this function and move these checks elsewhere...
   static const size_t MAX_FIRE_BULLETS = 2;
   static const size_t MAX_ICE_BULLETS = 1;
-    
-  if(player->got_power == Player::FIRE_POWER) {
+
+  Bullet* new_bullet = 0;
+  if(player_status.bonus == FIRE_BONUS) {
     if(bullets.size() > MAX_FIRE_BULLETS-1)
       return false;
-  } else if(player->got_power == Player::ICE_POWER) {
+    new_bullet = new Bullet(pos, xm, dir, FIRE_BULLET);
+  } else if(player_status.bonus == ICE_BONUS) {
     if(bullets.size() > MAX_ICE_BULLETS-1)
       return false;
-  }
-                                                                                
-  Bullet* new_bullet = 0;
-  if(player->got_power == Player::FIRE_POWER)
-    new_bullet = new Bullet(pos, xm, dir, FIRE_BULLET);
-  else if(player->got_power == Player::ICE_POWER)
     new_bullet = new Bullet(pos, xm, dir, ICE_BULLET);
-  else
-    throw std::runtime_error("wrong bullet type.");
+  } else {
+    return false;
+  }
   add_object(new_bullet);
 
   SoundManager::get()->play_sound(IDToSound(SND_SHOOT));
