@@ -35,14 +35,7 @@
 
 int open_audio (int frequency, Uint16 format, int channels, int chunksize)
 {
-  if (use_sound) {
-    return Mix_OpenAudio( frequency, format, channels, chunksize );
-  }
-  else {
-    // let the user think that the audio device was correctly opened
-    // and keep the compiler happy :-D
-    return 0;
-  }
+  return Mix_OpenAudio( frequency, format, channels, chunksize );
 }
 
 
@@ -54,9 +47,10 @@ Mix_Chunk * load_sound(char * file)
 
   snd = Mix_LoadWAV(file);
 
-  if (snd == NULL)
+  /* printf message and abort if there is an initialized audio device */
+  if ((snd == NULL) && (audio_device == YES))
     st_abort("Can't load", file);
-   
+
   return(snd);
 }
 
@@ -69,76 +63,87 @@ Mix_Music * load_song(char * file)
 
   sng = Mix_LoadMUS(file);
 
-  if (sng == NULL)
+  /* printf message and abort if there is an initialized audio device */
+  if ((sng == NULL) && (audio_device == YES))
     st_abort("Can't load", file);
-  
   return (sng);
 }
 
 
 /* --- PLAY A SOUND --- */
 
- void play_sound(Mix_Chunk * snd)
- {
-  /* this won't call the function if the user has disabled sound */
-  if (use_sound) {
-    Mix_PlayChannel(-1, snd, 0);
-  }
+void play_sound(Mix_Chunk * snd)
+{
+  /* this won't call the function if the user has disabled sound
+   * either via menu or via command-line option
+   */
+  if ((use_sound == YES) && (audio_device == YES))
+    {
+      Mix_PlayChannel(-1, snd, 0);
+    }
 }
 
 
 void free_chunk(Mix_Chunk *chunk)
 {
-  if (chunk != NULL) {
-   DEBUG_MSG( __PRETTY_FUNCTION__ );
-   Mix_FreeChunk( chunk );
-   chunk = NULL;
-  }
+  if (chunk != NULL)
+    {
+      DEBUG_MSG( __PRETTY_FUNCTION__ );
+      Mix_FreeChunk( chunk );
+      chunk = NULL;
+    }
 }
 
 int playing_music(void)
 {
-  if (use_sound) {
-    return Mix_PlayingMusic();
-  }
-  else {
-    /* we are in --disable-sound we can't be playing music */
-    return 0;
-  }
+  if (use_sound)
+    {
+      return Mix_PlayingMusic();
+    }
+  else
+    {
+      /* we are in --disable-sound we can't be playing music */
+      return 0;
+    }
 }
 
 
 int halt_music(void)
 {
-  if (use_sound) {
-    return Mix_HaltMusic();
-  }
-  else {
-    return 0;
-  }
+  if ((use_sound == YES) && (audio_device == YES))
+    {
+      return Mix_HaltMusic();
+    }
+  else
+    {
+      return 0;
+    }
 }
 
 
 int play_music(Mix_Music *music, int loops)
 {
-  if (use_sound) {
-    DEBUG_MSG(__PRETTY_FUNCTION__);
-    return Mix_PlayMusic(music, loops);
-  }
-  else {
-    /* return error since you're trying to play music in --disable-sound mode */
-    return -1;
-  }
+  if ((use_sound == YES) && (audio_device == YES))
+    {
+      DEBUG_MSG(__PRETTY_FUNCTION__);
+      return Mix_PlayMusic(music, loops);
+    }
+  else
+    {
+      /* return error since you're trying to play music in --disable-sound mode */
+      return -1;
+    }
 }
 
 
 void free_music(Mix_Music *music)
 {
-  if ( music != NULL ) {
-    DEBUG_MSG(__PRETTY_FUNCTION__);
-    Mix_FreeMusic( music );
-    music = NULL;
-  }
+  if ( music != NULL )
+    {
+      DEBUG_MSG(__PRETTY_FUNCTION__);
+      Mix_FreeMusic( music );
+      music = NULL;
+    }
 }
 
 #else
@@ -148,14 +153,30 @@ int open_audio (int frequency, int format, int channels, int chunksize)
   return -1;
 }
 
-void* load_sound(void* file) { return NULL; }
-void play_sound(void * snd) {}
-void* load_song(void* file) { return NULL; }
+void* load_sound(void* file)
+{
+  return NULL;
+}
+void play_sound(void * snd)
+{}
+void* load_song(void* file)
+{
+  return NULL;
+}
 
-int playing_music() { return 0; }
-void halt_music() {}
-int play_music(void *music, int loops) { return 0;}
-void free_music(void *music) {}
-void free_chunk(void *chunk) {}
+int playing_music()
+{
+  return 0;
+}
+void halt_music()
+{}
+int play_music(void *music, int loops)
+{
+  return 0;
+}
+void free_music(void *music)
+{}
+void free_chunk(void *chunk)
+{}
 
 #endif

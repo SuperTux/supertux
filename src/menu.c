@@ -147,50 +147,61 @@ int drawmenu(void)
             drawcenteredtext("Fullscreen OFF", 192, letters_blue, NO_UPDATE);
         }
 
-	
-      if(menuitem == 1)
+      if (audio_device == YES)
         {
-          if(use_sound)
-            drawcenteredtext("Sound ON", 224, letters_red, NO_UPDATE);
-          else
-            drawcenteredtext("Sound OFF", 224, letters_red, NO_UPDATE);
-          if(menuaction == MN_HIT) /* Disable/Enable sound */
+          if(menuitem == 1)
             {
               if(use_sound)
-                {
-                  if(playing_music())
-                    halt_music();
-                  use_sound = 0;
-                }
+                drawcenteredtext("Sound ON", 224, letters_red, NO_UPDATE);
               else
+                drawcenteredtext("Sound OFF", 224, letters_red, NO_UPDATE);
+              if(menuaction == MN_HIT) /* Disable/Enable sound */
                 {
-                  use_sound = 1;
-                  if (playing_music())
+                  if(use_sound)
                     {
-                      switch (current_music)
+                      if(playing_music())
+                        halt_music();
+                      use_sound = 0;
+                    }
+                  else
+                    {
+                      use_sound = 1;
+                      if (playing_music())
                         {
-                        case LEVEL_MUSIC:
-                          play_music(level_song, 1);
-                          break;
-                        case HERRING_MUSIC:
-                          play_music(herring_song, 1);
-                          break;
-                        case HURRYUP_MUSIC: // keep the compiler happy
-                        case NO_MUSIC:      // keep the compiler happy for the moment :-)
-                        {}
-                          /*default:*/
+                          switch (current_music)
+                            {
+                            case LEVEL_MUSIC:
+                              play_music(level_song, 1);
+                              break;
+                            case HERRING_MUSIC:
+                              play_music(herring_song, 1);
+                              break;
+                            case HURRYUP_MUSIC: // keep the compiler happy
+                            case NO_MUSIC:      // keep the compiler happy for the moment :-)
+                            {}
+
+                              /*default:*/
+                            }
                         }
                     }
+                  menu_change = YES;
                 }
-		menu_change = YES;
+            }
+          else
+            {
+              if(use_sound)
+                drawcenteredtext("Sound ON", 224, letters_blue, NO_UPDATE);
+              else
+                drawcenteredtext("Sound OFF", 224, letters_blue, NO_UPDATE);
             }
         }
-      else
+      else  /* if audio_device != YES */
         {
-          if(use_sound)
-            drawcenteredtext("Sound ON", 224, letters_blue, NO_UPDATE);
+          /* let the user move over the deactivated option */
+          if (menuitem == 1)
+            drawcenteredtext("Sound OFF", 224, letters_red, NO_UPDATE);
           else
-            drawcenteredtext("Sound OFF", 224, letters_blue, NO_UPDATE);
+            drawcenteredtext("Sound OFF", 224, letters_black, NO_UPDATE);
         }
 
       if(menuitem == 2)
@@ -240,7 +251,7 @@ void menu_event(SDLKey key)
       menuaction = MN_HIT;
       menu_change = YES;
     }
-    
+
   /* FIXME: NO JOYSTICK SUPPORT */
   /*#ifdef JOY_YES
   else if (event.type == SDL_JOYBUTTONDOWN)

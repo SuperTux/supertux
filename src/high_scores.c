@@ -1,64 +1,58 @@
 /*
-
+ 
   by Adam Czachorowski
   gislan@o2.pl
-
+ 
 */
 
 /* Open the highscore file: */
 
-# include <string.h>
-# include <stdlib.h>
+#include <string.h>
+#include <stdlib.h>
 
-# include "high_scores.h"
+#include "globals.h"
+#include "high_scores.h"
 
 FILE * opendata(char * mode)
 {
-  char * filename, * home;
+  char * filename;
   FILE * fi;
 
 
 #ifdef LINUX
-  /* Get home directory (from $HOME variable)... if we can't determine it,
-     use the current directory ("."): */
-
-  if (getenv("HOME") != NULL)
-    home = getenv("HOME");
-  else
-    home = ".";
-
 
   /* Create the buffer for the filename: */
 
-  filename = (char *) malloc(sizeof(char) * (strlen(home) +
-                                             strlen("/.supertux") + 1));
+  filename = (char *) malloc(sizeof(char) * (strlen(st_dir) +
+                             strlen("/highscore") + 1));
 
-  strcpy(filename, home);
+  strcpy(filename, st_dir);
   /* Open the high score file: */
 
-      strcat(filename, "/.supertux");
+  strcat(filename, "/highscore");
 #else
-      filename = "supertux.dat";
+
+  filename = "st_highscore.dat";
 #endif
 
 
-      /* Try opening the file: */
+  /* Try opening the file: */
 
-      fi = fopen(filename, mode);
+  fi = fopen(filename, mode);
 
-      if (fi == NULL)
-       {
-         fprintf(stderr, "Warning: I could not open the high score file ");
+  if (fi == NULL)
+    {
+      fprintf(stderr, "Warning: I could not open the high score file ");
 
-         if (strcmp(mode, "r") == 0)
-           fprintf(stderr, "for read!!!\n");
-         else if (strcmp(mode, "w") == 0)
-           fprintf(stderr, "for write!!!\n");
+      if (strcmp(mode, "r") == 0)
+        fprintf(stderr, "for read!!!\n");
+      else if (strcmp(mode, "w") == 0)
+        fprintf(stderr, "for write!!!\n");
 
-       }
-
-      return(fi);
     }
+
+  return(fi);
+}
 
 /* Load data from high score file: */
 
@@ -90,7 +84,7 @@ int load_hs(void)
 
                   if (score == 0)
                     score = 100;
-               }
+                }
             }
         }
       while (!feof(fi));
@@ -110,7 +104,7 @@ void save_hs(int score)
   fi = opendata("w");
   if (fi != NULL)
     {
-      fprintf(fi, "# Supertux data file\n\n");
+      fprintf(fi, "# Supertux highscore file\n\n");
 
       fprintf(fi, "highscore=%d\n", score);
 

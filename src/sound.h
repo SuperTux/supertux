@@ -6,25 +6,28 @@
   by Bill Kendrick
   bill@newbreedsoftware.com
   http://www.newbreedsoftware.com/supertux/
-
+ 
   April 22, 2000 - July 15, 2002
 */
 
 #ifndef SUPERTUX_SOUND_H
 #define SUPERTUX_SOUND_H
 
- /*all the sounds we have*/
+#include "defines.h"     /* get YES/NO defines */
+
+/*all the sounds we have*/
 #define NUM_SOUNDS 16
 
 /*global variable*/
 int use_sound;
+int audio_device;        /* != 0: available and initialized */
 
 /* enum of different internal music types */
 enum Music_Type {
-        NO_MUSIC,
-        LEVEL_MUSIC,
-        HURRYUP_MUSIC,
-        HERRING_MUSIC
+  NO_MUSIC,
+  LEVEL_MUSIC,
+  HURRYUP_MUSIC,
+  HERRING_MUSIC
 } current_music;
 
 
@@ -65,7 +68,8 @@ void* load_song(void* file);
 int playing_music();
 void halt_music();
 int play_music(void *music, int loops);
-void free_music(void *music);;
+void free_music(void *music);
+;
 void free_chunk(void *chunk);
 
 #endif

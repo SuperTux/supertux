@@ -23,6 +23,9 @@ int use_joystick, use_fullscreen;
 
 int game_started;
 
+/* SuperTux directory ($HOME/.supertux) and save directory($HOME/.supertux/save) */
+char *st_dir, *st_save_dir;
+
 #ifdef JOY_YES
 SDL_Joystick * js;
 #endif

@@ -105,7 +105,7 @@ SDL_Surface * tux_right[3], * tux_left[3],
 * cape_right[2], * cape_left[2],
 * bigcape_right[2], * bigcape_left[2],
 * ducktux_right, * ducktux_left,
-* skidtux_right, * skidtux_left;
+* skidtux_right, * skidtux_left, * tux_life;
 SDL_Event event;
 SDL_Rect src, dest;
 SDLKey key;
@@ -133,6 +133,7 @@ void unloadlevelsong(void);
 void loadshared(void);
 void unloadshared(void);
 void drawshape(int x, int y, unsigned char c);
+void savegame(void);
 unsigned char shape(int x, int y, int sx);
 int issolid(int x, int y, int sx);
 int isbrick(int x, int y, int sx);
@@ -176,10 +177,10 @@ void game_event(void)
 
           key = event.key.keysym.sym;
 
-	  /* Check for menu-events, if the menu is shown */
+          /* Check for menu-events, if the menu is shown */
           if(show_menu)
             menu_event(key);
-	  
+
           if (key == SDLK_ESCAPE)
             {
               /* Escape: Open/Close the menu: */
@@ -555,9 +556,9 @@ int game_action(void)
               if (score > highscore)
                 save_hs(score);
 
-	      unloadlevelgfx();
+              unloadlevelgfx();
               unloadlevelsong();
-              unloadshared();	      
+              unloadshared();
               return(0);
             } /* if (lives < 0) */
         }
@@ -2150,6 +2151,14 @@ void game_draw()
   drawtext("DISTROS", 480, 0, letters_blue, NO_UPDATE);
   drawtext(str, 608, 0, letters_gold, NO_UPDATE);
 
+  drawtext("LIVES", 480, 20, letters_blue, NO_UPDATE);
+
+  for(i=0; i < lives; ++i)
+    {
+      drawimage(tux_life,565+(18*i),20,NO_UPDATE);
+    }
+  /*drawtext(str, 608, 0, letters_gold, NO_UPDATE);*/
+
   if(game_pause)
     drawcenteredtext("PAUSE",230,letters_red, NO_UPDATE);
 
@@ -2874,6 +2883,10 @@ void loadshared(void)
   img_distro[3] = load_image(DATA_PREFIX "/images/shared/distro-3.png",
                              USE_ALPHA);
 
+  /* Tux life: */
+
+  tux_life = load_image(DATA_PREFIX "/images/shared/tux-life.png",
+                        USE_ALPHA);
 
   /* Herring: */
 
@@ -3655,4 +3668,5 @@ void drawresultscreen(void)
   sleep(2);
 }
 
-
+void savegame(void)
+{}
