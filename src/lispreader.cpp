@@ -26,7 +26,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <lispreader.h>
+#include "lispreader.h"
 
 #define TOKEN_ERROR                   -1
 #define TOKEN_EOF                     0
