@@ -131,6 +131,9 @@ if(i == actions.end())
   return;
   }
 action = i->second;
+
+if((int)frame >= get_frames())
+  frame = 0;
 }
 
 void
@@ -202,7 +205,7 @@ if(animation_reversed)
   }
 else
   {
-  float excedent = frame - action->surfaces.size();
+  float excedent = frame - (get_frames()+1);
   if((int)excedent >= 0)
     {
     frame = 0;
@@ -230,7 +233,7 @@ Sprite::draw(DrawingContext& context, const Vector& pos, int layer,
 
   if((int)frame >= get_frames() || (int)frame < 0)
     std::cerr << "Warning: frame out of range: " << (int)frame
-              << "/" << get_frames() << " at sprite: " << get_name()
+              << "/" << get_frames() << " at " << get_name()
               << "/" << get_action_name() << std::endl;
   else
     context.draw_surface(action->surfaces[(int)frame],
