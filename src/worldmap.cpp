@@ -1258,6 +1258,9 @@ WorldMap::loadgame(const std::string& filename)
   if (access(filename.c_str(), F_OK) != 0)
     {
     load_map();
+
+    player_status.reset();
+
     return;
     }
   
