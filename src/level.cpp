@@ -434,19 +434,10 @@ int level_load(st_level* plevel, const char* filename)
   /* Set the global gravity to the latest loaded level's gravity */
   gravity = plevel->gravity;
 
-  /*  Mark the end position of this level! - Is a bit wrong here thought * /
-
-  for (y = 0; y < 15; ++y)
-  {
-  for (x = 0; x < plevel->width; ++x)
-  {
-  if(plevel->tiles[y][x] == '|')
-  {
-  if(x*32 > endpos)
-  endpos = x*32;
-  }
-  }
-  }*/
+  //  Mark the end position of this level!
+  // FIXME: -10 is a rather random value, we still need some kind of
+  // real levelend gola
+  endpos = 32*(plevel->width-10);
 
   fclose(fi);
   return 0;
