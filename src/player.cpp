@@ -581,14 +581,26 @@ Player::handle_vertical_input()
                can_flap = false;
                falling_from_flap = true;
             }
-         if (physic.get_velocity_x() > 0) {physic.set_velocity_x(WALK_SPEED);}
-         else if (physic.get_velocity_x() < 0) {physic.set_velocity_x(WALK_SPEED * (-1));}
+         //if (physic.get_velocity_x() > 0) {physic.set_velocity_x(WALK_SPEED);}
+         //else if (physic.get_velocity_x() < 0) {physic.set_velocity_x(WALK_SPEED * (-1));}
          jumping = true;
          flapping = true;
-         if (flapping_timer.get_gone() <= TUX_FLAPPING_TIME)
+         if (flapping && flapping_timer.get_gone() <= TUX_FLAPPING_TIME
+                && physic.get_velocity_y() < 0)
             {
-               physic.set_velocity_y((float)flapping_timer.get_gone()/700);
+               float gravity = Sector::current()->gravity;
+               float xr = (fabsf(physic.get_velocity_x()) / MAX_RUN_XM);
+
+               //physic.set_velocity_y((float)flapping_timer.get_gone()/700);
+
+               // XXX: magic numbers. should be a percent of gravity
+               //      gravity is (by default) -0.1f
+               physic.set_acceleration_y(.05 + .06f*xr);
             }
+     }
+    else
+     {
+        physic.set_acceleration_y(0);
      }
    
    // Hover
@@ -670,6 +682,8 @@ Player::handle_vertical_input()
       flapping = false;
       falling_from_flap = false;
       if (flapping_timer.started()) {flapping_timer.stop();}
+
+      physic.set_acceleration_y(0); //for flapping
     }
 
   input.old_up = input.up;
