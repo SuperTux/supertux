@@ -43,16 +43,16 @@ TileMap::TileMap(LispReader& reader)
 {
   tilemanager = TileManager::instance();
 
-  std::string layer;
-  if(reader.read_string("layer", layer)) {
-    if(layer == "background")
+  std::string layer_str;
+  if(reader.read_string("layer", layer_str)) {
+    if(layer_str == "background")
       layer = LAYER_BACKGROUNDTILES;
-    else if(layer == "interactive")
+    else if(layer_str == "interactive")
       layer = LAYER_TILES;
-    else if(layer == "foreground")
+    else if(layer_str == "foreground")
       layer = LAYER_FOREGROUNDTILES;
     else
-      std::cerr << "Unknown layer '" << layer << "' in tilemap.\n";
+      std::cerr << "Unknown layer '" << layer_str << "' in tilemap.\n";
   }
 
   reader.read_bool("solid", solid);
