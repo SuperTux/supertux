@@ -315,7 +315,29 @@ Level::load(const std::string& filename)
 
       reader.read_int_vector("foreground-tm",  &fg_tm);
 
-      {
+      { // Read ResetPoints
+        lisp_object_t* cur = 0;
+        if (reader.read_lisp("reset-points",  &cur))
+          {
+            while (!lisp_nil_p(cur))
+              {
+                lisp_object_t* data = lisp_car(cur);
+
+                ResetPoint pos;
+
+                LispReader reader(lisp_cdr(data));
+                if (reader.read_int("x", &pos.x)
+                    && reader.read_int("y", &pos.y))
+                  {
+                    reset_points.push_back(pos);
+                  }
+
+                cur = lisp_cdr(cur);
+              }
+          }
+      }
+
+      { // Read BadGuys
         lisp_object_t* cur = 0;
         if (reader.read_lisp("objects",  &cur))
           {
@@ -557,6 +579,7 @@ Level::cleanup()
       fg_tiles[i].clear();
     }
 
+  reset_points.clear();
   name.clear();
   author.clear();
   theme.clear();

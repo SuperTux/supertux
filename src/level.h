@@ -50,6 +50,12 @@ enum TileMapType {
  TM_FG
  };
 
+struct ResetPoint
+{
+  int x;
+  int y;
+};
+
 class Level 
 {
  public:
@@ -74,6 +80,9 @@ class Level
   float gravity;
 
   std::vector<BadGuyData> badguy_data;
+
+  /** A collection of points to which Tux can be reset after a lost live */
+  std::vector<ResetPoint> reset_points;
  public:
   Level();
   Level(const std::string& subset, int level);

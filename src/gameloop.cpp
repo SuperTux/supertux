@@ -63,6 +63,13 @@ GameSession::restart_level()
   fps_timer.init(true);
   frame_timer.init(true);
 
+  float old_x_pos = -1;
+
+  if (world)
+    { // Tux has lost a life, so we try to respawn him at the nearest reset point
+      old_x_pos = world->get_tux()->base.x;
+    }
+  
   delete world;
 
   if (st_gl_mode == ST_GL_LOAD_LEVEL_FILE)
@@ -77,6 +84,25 @@ GameSession::restart_level()
     {
       world = new World(subset, levelnb);
     }
+
+  // Set Tux to the nearest reset point
+  if (old_x_pos != -1)
+    {
+      ResetPoint best_reset_point = { -1, -1 };
+      for(std::vector<ResetPoint>::iterator i = get_level()->reset_points.begin();
+          i != get_level()->reset_points.end(); ++i)
+        {
+          if (i->x < old_x_pos && best_reset_point.x < i->x)
+            best_reset_point = *i;
+        }
+      
+      if (best_reset_point.x != -1)
+        {
+          world->get_tux()->base.x = best_reset_point.x;
+          world->get_tux()->base.y = best_reset_point.y;
+        }
+    }
+
     
   if (st_gl_mode != ST_GL_DEMO_GAME)
     {
