@@ -41,6 +41,7 @@ stat_name_to_string(int stat_enum)
     case TIME_NEEDED_STAT:
       return "time-needed";;
     }
+  return "";
 }
 
 int
