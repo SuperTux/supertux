@@ -10,6 +10,7 @@
 //
 //
 
+#include <map>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -300,54 +301,57 @@ int level_load(st_level* plevel, const char* filename)
       // Convert old levels to the new tile numbers
       if (version == 0)
         {
-          int transtable[256];
-          transtable[(int)'.'] = 0;
-          transtable[(int)'0'] = 0;
-          transtable[(int)'1'] = 1;
-          transtable[(int)'2'] = 2;
-          transtable[(int)'x'] = 77;
-          transtable[(int)'X'] = 77;
-          transtable[(int)'y'] = 78;
-          transtable[(int)'Y'] = 78;
-          transtable[(int)'A'] = 83;
-          transtable[(int)'B'] = 102;
-          transtable[(int)'!'] = 103;
-          transtable[(int)'a'] = 84;
-          transtable[(int)'C'] = 85;
-          transtable[(int)'D'] = 86;
-          transtable[(int)'E'] = 87;
-          transtable[(int)'F'] = 88;
-          transtable[(int)'c'] = 89;
-          transtable[(int)'d'] = 90;
-          transtable[(int)'e'] = 91;
-          transtable[(int)'f'] = 92;
+          std::map<char, int> transtable;
+          transtable['.'] = 0;
+          transtable['0'] = 0;
+          transtable['1'] = 1;
+          transtable['2'] = 2;
+          transtable['x'] = 77;
+          transtable['X'] = 77;
+          transtable['y'] = 78;
+          transtable['Y'] = 78;
+          transtable['A'] = 83;
+          transtable['B'] = 102;
+          transtable['!'] = 103;
+          transtable['a'] = 84;
+          transtable['C'] = 85;
+          transtable['D'] = 86;
+          transtable['E'] = 87;
+          transtable['F'] = 88;
+          transtable['c'] = 89;
+          transtable['d'] = 90;
+          transtable['e'] = 91;
+          transtable['f'] = 92;
 
-          transtable[(int)'G'] = 93;
-          transtable[(int)'H'] = 94;
-          transtable[(int)'I'] = 95;
-          transtable[(int)'J'] = 96;
+          transtable['G'] = 93;
+          transtable['H'] = 94;
+          transtable['I'] = 95;
+          transtable['J'] = 96;
 
-          transtable[(int)'g'] = 97;
-          transtable[(int)'h'] = 98;
-          transtable[(int)'i'] = 99;
-          transtable[(int)'j'] = 100
-;
-          transtable[(int)'#'] = 11;
-          transtable[(int)'['] = 13; 
-          transtable[(int)'='] = 14;
-          transtable[(int)']'] = 15;
-          transtable[(int)'$'] = 82;
-          transtable[(int)'^'] = 76;
-          transtable[(int)'*'] = 80;
-          transtable[(int)'|'] = 79;
-          transtable[(int)'\\'] = 81;
-          transtable[(int)'&'] = 75;
+          transtable['g'] = 97;
+          transtable['h'] = 98;
+          transtable['i'] = 99;
+          transtable['j'] = 100
+            ;
+          transtable['#'] = 11;
+          transtable['['] = 13; 
+          transtable['='] = 14;
+          transtable[']'] = 15;
+          transtable['$'] = 82;
+          transtable['^'] = 76;
+          transtable['*'] = 80;
+          transtable['|'] = 79;
+          transtable['\\'] = 81;
+          transtable['&'] = 75;
 
           for(std::vector<int>::iterator i = ia_tm.begin(); i != ia_tm.end(); ++i)
-            if (*i < 256)
-              *i = transtable[*i];
-            else
-              puts("Error: Value to high, conversion will fail");
+            {
+              std::map<char, int>::iterator j = transtable.find(*i);
+              if (j != transtable.end())
+                *i = j->second;
+              else
+                printf("Error: conversion will fail, unsupported char: '%c' (%d)\n", *i, *i);
+            }
         }
     }
 

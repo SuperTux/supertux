@@ -38,10 +38,8 @@ void TileManager::load_tileset(std::string filename)
 
           if (strcmp(lisp_symbol(lisp_car(element)), "tile") == 0)
             {
-              int id = 0;
-              std::vector<std::string> filenames;
-
-              Tile* tile = new Tile;             
+              Tile* tile = new Tile;
+              tile->id      = -1;
               tile->solid   = false;
 	      tile->brick   = false;
 	      tile->ice     = false;	  
@@ -49,10 +47,12 @@ void TileManager::load_tileset(std::string filename)
               tile->distro  = false;
               tile->data    = 0;
               tile->alpha   = 0;
+              tile->next_tile  = 0;
+              tile->next_tile2 = 0;
               tile->anim_speed = 25;
   
               LispReader reader(lisp_cdr(element));
-              reader.read_int("id",  &id);
+              assert(reader.read_int("id",  &tile->id));
               reader.read_bool("solid", &tile->solid);
               reader.read_bool("brick", &tile->brick);
               reader.read_bool("ice", &tile->ice);	   
@@ -61,9 +61,13 @@ void TileManager::load_tileset(std::string filename)
               reader.read_int("data",  (int*)&tile->data);
               reader.read_int("alpha",  (int*)&tile->alpha);
               reader.read_int("anim-speed",  &tile->anim_speed);
-              reader.read_string_vector("images",  &filenames);
+              reader.read_int("next-tile",  &tile->next_tile);
+              reader.read_int("next-tile2",  &tile->next_tile2);
+              reader.read_string_vector("images",  &tile->filenames);
 
-	      for(std::vector<std::string>::iterator it = filenames.begin(); it != filenames.end(); ++it)
+	      for(std::vector<std::string>::iterator it = tile->filenames.begin();
+                  it != tile->filenames.end();
+                  ++it)
                 {
                   texture_type cur_image;
                   tile->images.push_back(cur_image);
@@ -72,10 +76,10 @@ void TileManager::load_tileset(std::string filename)
                                USE_ALPHA);
                 }
 
-              if (id+tileset_id >= int(tiles.size()))
-                tiles.resize(id+tileset_id+1);
+              if (tile->id + tileset_id >= int(tiles.size()))
+                tiles.resize(tile->id + tileset_id+1);
 
-              tiles[id+tileset_id] = tile;
+              tiles[tile->id + tileset_id] = tile;
             }
 	  else if (strcmp(lisp_symbol(lisp_car(element)), "tileset") == 0)
             {

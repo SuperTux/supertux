@@ -1,3 +1,5 @@
+;; -*- mode: scheme -*-
+
 (supertux-tiles
  (properties 
   (id 0))
@@ -86,6 +88,7 @@
        (images "bonus1.png")
        (solid #t)
        (fullbox #t)
+       (next-tile 84)
        (data 1))
  (tile (id 27)
        (images "block1.png")
@@ -248,11 +251,15 @@
 
   (tile (id 77)
         (images "brick0.png")
-	(brick #t)      
+	(brick #t)    
+        (data 1)
+        (next-tile 0)
         (solid #t))
   (tile (id 78)
         (images "brick1.png")
         (brick #t)
+        (data 1)
+        (next-tile 0)
         (solid #t))
 
   (tile (id 79)
@@ -274,6 +281,7 @@
         (images "box-full.png")
         (fullbox #t)
         (solid #t) 
+        (next-tile 84)
         (data 1))
 
   (tile (id 84)
@@ -304,10 +312,12 @@
         (images "box-full.png")
         (solid #t)
         (fullbox #t)
-        (data 2))
+        (data 2)
+        (next-tile 84))
   (tile (id 103)
         (images "box-full.png")
         (solid #t)
         (fullbox #t)
-        (data 3))
+        (data 3)
+        (next-tile 84))
  )

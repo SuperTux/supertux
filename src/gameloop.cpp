@@ -1327,9 +1327,13 @@ void drawshape(float x, float y, unsigned int c)
             {
               texture_draw(&ptile->images[( ((global_frame_counter*25) / ptile->anim_speed) % (ptile->images.size()))],x,y);
             }
-          else
+          else if (ptile->images.size() == 1)
             {
               texture_draw(&ptile->images[0],x,y);
+            }
+          else
+            {
+              printf("Tile not dravable %u\n", c);
             }
         }
     }
@@ -1508,12 +1512,12 @@ bool isdistro(float x, float y)
 
 void trybreakbrick(float x, float y)
 {
-  if (isbrick(x, y))
+  Tile* tile = gettile(x, y);
+  if (tile->brick)
     {
-      if (shape(x, y) == 'x' || shape(x, y) == 'y')
+      if (tile->data > 0)
         {
           /* Get a distro from it: */
-
           add_bouncy_distro(((int)(x + 1) / 32) * 32,
                             (int)(y / 32) * 32);
 
@@ -1524,7 +1528,7 @@ void trybreakbrick(float x, float y)
             }
 
           if (distro_counter <= 0)
-            level_change(&current_level,x, y, TM_IA, 'a');
+            level_change(&current_level,x, y, TM_IA, tile->next_tile2);
 
           play_sound(sounds[SND_DISTRO], SOUND_CENTER_SPEAKER);
           score = score + SCORE_DISTRO;
@@ -1533,8 +1537,7 @@ void trybreakbrick(float x, float y)
       else
         {
           /* Get rid of it: */
-
-          level_change(&current_level,x, y, TM_IA, '.');
+          level_change(&current_level,x, y, TM_IA, tile->next_tile);
         }
 
 
@@ -1568,7 +1571,8 @@ void bumpbrick(float x, float y)
 
 void tryemptybox(float x, float y, int col_side)
 {
-  if (!isfullbox(x, y))
+  Tile* tile = gettile(x,y);
+  if (!tile->fullbox)
     return;
 
   // according to the collision side, set the upgrade direction
@@ -1579,7 +1583,7 @@ void tryemptybox(float x, float y, int col_side)
     col_side = LEFT;
 
   // FIXME: Content of boxes must be handled otherwise
-  switch(gettile(x,y)->data)
+  switch(tile->data)
     {
     case 1: //'A':      /* Box with a distro! */
       add_bouncy_distro(((int)(x + 1) / 32) * 32, (int)(y / 32) * 32 - 32);
@@ -1602,7 +1606,7 @@ void tryemptybox(float x, float y, int col_side)
     }
 
   /* Empty the box: */
-  level_change(&current_level,x, y, TM_IA, 'a');
+  level_change(&current_level,x, y, TM_IA, tile->next_tile);
 }
 
 
@@ -1613,7 +1617,7 @@ void trygrabdistro(float x, float y, int bounciness)
   Tile* tile = gettile(x, y);
   if (tile && tile->distro)
     {
-      level_change(&current_level,x, y, TM_IA, '.');
+      level_change(&current_level,x, y, TM_IA, tile->next_tile);
       play_sound(sounds[SND_DISTRO], SOUND_CENTER_SPEAKER);
 
       if (bounciness == BOUNCE)

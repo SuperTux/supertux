@@ -23,7 +23,10 @@ Tile Class
 */
 struct Tile
 {
+  int id;
+
   std::vector<texture_type> images;
+  std::vector<std::string>  filenames;
 
   /** solid tile that is indestructable by Tux */
   bool solid;
@@ -43,6 +46,11 @@ struct Tile
   /** General purpose data attached to a tile (content of a box, type of coin) */
   int data;
 
+  /** Id of the tile that is going to replace this tile once it has
+      been collected or jumped at */
+  int next_tile;
+  int next_tile2;
+
   int anim_speed;
   unsigned char alpha;
 };
@@ -57,7 +65,19 @@ class TileManager
   
  public:
   static TileManager* instance() { return instance_ ? instance_ : instance_ = new TileManager(); }
-  Tile* get(unsigned int id) { if( id < tiles.size()) { return tiles[id]; } else { return NULL; } }
+  Tile* get(unsigned int id) {
+    if(id < tiles.size())
+      {
+        return tiles[id]; 
+      }
+    else
+      {
+        // Never return 0, but return the 0th tile instead so that
+        // user code doesn't have to check for NULL pointers all over
+        // the place
+        return tiles[0]; 
+      } 
+  }
 };
 
 #endif
