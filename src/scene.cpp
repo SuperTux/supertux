@@ -20,7 +20,5 @@ float scroll_x;
 
 unsigned int global_frame_counter;
 
-timer_type time_left;
-
 // EOF //
 

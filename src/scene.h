@@ -32,6 +32,4 @@ extern PlayerStatus player_status;
 extern float scroll_x;
 extern unsigned int global_frame_counter;
 
-extern timer_type time_left;
-
 #endif /*SUPERTUX_SCENE_H*/

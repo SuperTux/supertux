@@ -253,8 +253,6 @@ Player::action(double frame_ratio)
   /* ---- DONE HANDLING TUX! --- */
 
   /* Handle invincibility timer: */
-
-
   if (get_current_music() == HERRING_MUSIC && !timer_check(&invincible_timer))
     {
       /*
@@ -263,8 +261,8 @@ Player::action(double frame_ratio)
          but are we in hurry ?
        */
 
-
-      if (timer_get_left(&time_left) < TIME_WARNING)
+      // FIXME: Move this to gamesession
+      if (timer_get_left(&GameSession::current()->time_left) < TIME_WARNING)
         {
           /* yes, we are in hurry
              stop the herring_song, prepare to play the correct

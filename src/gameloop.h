@@ -53,6 +53,8 @@ class GameSession
   int levelnb;
 
  public:
+  timer_type time_left;
+
   GameSession();
   GameSession(const std::string& filename);
   GameSession(const std::string& subset, int levelnb, int mode);
