@@ -1,18 +1,27 @@
 # Makefile for supertux
 
-# by Bill Kendrick
+# by Bill Kendrick & Tobias Glaesser
 # bill@newbreedsoftware.com
+# tobi.web@gmx.de
 # http://www.newbreedsoftware.com/
 
 # Version 0.0.5
 
-# April 11, 2000 - December 10, 2003
+# April 11, 2000 - December 26, 2000
 
 
 # User-definable stuff:
 
-PREFIX=/usr/local/
-DATA_PREFIX=$(PREFIX)supertux/
+ifeq ($(PREFIX),)
+ifeq ($(USERNAME),root)
+PREFIX=/usr/local
+else
+PREFIX=$(PWD)
+endif
+DATA_PREFIX=$(PWD)/data/
+else
+DATA_PREFIX=$(PREFIX)/share/games/supertux/data/
+endif
 JOY=YES
 
 
@@ -34,8 +43,8 @@ NOSOUNDFLAG=__SOUND
 SDL_LIB=$(SDL_LDFLAGS) $(SDL_MIXER) $(SDL_IMAGE)
 SDL_CFLAGS := $(shell sdl-config --cflags)
 SDL_LDFLAGS := $(shell sdl-config --libs)
-installbin = install -g root -o root -m 755 
-installdat = install -g root -o root -m 644
+installbin = install -g $(USERNAME) -o $(USERNAME) -m 755 
+installdat = install -g $(USERNAME) -o $(USERNAME) -m 644
 
 
 OBJECTS=obj/supertux.o obj/setup.o obj/intro.o obj/title.o obj/gameloop.o \
@@ -46,21 +55,25 @@ OBJECTS=obj/supertux.o obj/setup.o obj/intro.o obj/title.o obj/gameloop.o \
 all:	$(TARGET)
 
 install: $(TARGET)
-	-mkdir -p $(DATA_PREFIX)
-	cp -R data/* $(DATA_PREFIX)
-	chown -R root.root $(DATA_PREFIX)
-	chmod -R a+rX $(DATA_PREFIX)
-	cp $(TARGET) $(PREFIX)bin/
-	chown root.root $(PREFIX)bin/$(TARGET)
-	chmod a+rx $(PREFIX)bin/$(TARGET)
+	mkdir -p $(PREFIX)/games/$(TARGET)
+	mkdir -p $(PREFIX)/share/games/$(TARGET)
+	mkdir -p $(PREFIX)/bin/
+	cp -r data $(PREFIX)/share/games/$(TARGET)/
+	chmod -R 0755 $(PREFIX)/share/games/$(TARGET)/data/
+	-$(installbin) $(TARGET) $(PREFIX)/games/$(TARGET)/$(TARGET)
+	ln -sf $(PREFIX)/games/$(TARGET)/$(TARGET) $(PREFIX)/bin/$(TARGET)
 
+uninstall:
+	rm -r $(PREFIX)/games/$(TARGET)
+	rm -r $(PREFIX)/share/games/$(TARGET)
+	rm $(PREFIX)/bin/$(TARGET)
 
 nosound:
 	make supertux SDL_MIXER= NOSOUNDFLAG=NOSOUND
 
 win32:
 	make TARGET_DEF=WIN32 TARGET=supertux.exe \
-		DATA_PREFIX=data
+		DATA_PREFIX=data/
 	cp /usr/local/cross-tools/i386-mingw32/lib/SDL*.dll .
 	chmod 644 SDL*.dll
 
@@ -74,7 +87,6 @@ clean:
 
 $(TARGET):	$(OBJECTS)
 	$(CC) $(CFLAGS) $(OBJECTS) -o $(TARGET) $(SDL_LIB)
-
 
 # Objects:
 
