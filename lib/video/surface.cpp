@@ -568,7 +568,21 @@ SurfaceOpenGL::draw(float x, float y, Uint8 alpha, Uint32 effect)
 
   glBegin(GL_QUADS);
 
-  if(effect & VERTICAL_FLIP)
+  if(effect & VERTICAL_FLIP & HORIZONTAL_FLIP)
+    {
+    glTexCoord2f(0, 0);
+    glVertex2f((float)w+x, (float)h+y);
+
+    glTexCoord2f((float)w / pw, 0);
+    glVertex2f(x, (float)h+y);
+
+    glTexCoord2f((float)w / pw, (float)h / ph);
+    glVertex2f(x, y);
+
+    glTexCoord2f(0, (float)h / ph);
+    glVertex2f((float)w+x, y);
+    }
+  else if(effect & VERTICAL_FLIP)
     {
     glTexCoord2f(0, 0);
     glVertex2f(x, (float)h+y);
@@ -581,6 +595,20 @@ SurfaceOpenGL::draw(float x, float y, Uint8 alpha, Uint32 effect)
     
     glTexCoord2f(0, (float)h / ph);
     glVertex2f(x, y);
+    }
+  else if(effect & HORIZONTAL_FLIP)
+    {
+    glTexCoord2f(0, 0);
+    glVertex2f((float)w+x, y);
+
+    glTexCoord2f((float)w / pw, 0);
+    glVertex2f(x, y);
+
+    glTexCoord2f((float)w / pw, (float)h / ph);
+    glVertex2f(x, (float)h+y);
+
+    glTexCoord2f(0, (float)h / ph);
+    glVertex2f((float)w+x, (float)h+y);
     }
   else
     {
@@ -625,7 +653,21 @@ SurfaceOpenGL::draw_part(float sx, float sy, float x, float y, float w, float h,
 
   glBegin(GL_QUADS);
 
-  if(effect & VERTICAL_FLIP)
+  if(effect & VERTICAL_FLIP & HORIZONTAL_FLIP)
+    {
+    glTexCoord2f(sx / pw, (float)(sy+h) / ph);
+    glVertex2f((float)w+x, (float)h+y);
+
+    glTexCoord2f((sx+w) / pw, (sy+h) / ph);
+    glVertex2f(x, (float)h+y);
+
+    glTexCoord2f((float)(sx + w) / pw, sy / ph);
+    glVertex2f(x, y);
+
+    glTexCoord2f(sx / pw, sy / ph);
+    glVertex2f((float)w+x, y);
+    }
+  else if(effect & VERTICAL_FLIP)
     {
     glTexCoord2f(sx / pw, sy / ph);
     glVertex2f(x, y);
@@ -638,6 +680,20 @@ SurfaceOpenGL::draw_part(float sx, float sy, float x, float y, float w, float h,
 
     glTexCoord2f(sx / pw, (float)(sy+h) / ph);
     glVertex2f(x, h+y);
+    }
+  else if(effect & HORIZONTAL_FLIP)
+    {
+    glTexCoord2f(sx / pw, sy / ph);
+    glVertex2f((float)w+x, y);
+
+    glTexCoord2f((float)(sx + w) / pw, sy / ph);
+    glVertex2f(x, y);
+
+    glTexCoord2f((sx+w) / pw, (sy+h) / ph);
+    glVertex2f(x, (float)h+y);
+
+    glTexCoord2f(sx / pw, (float)(sy+h) / ph);
+    glVertex2f((float)w+x, (float)h+y);
     }
   else
     {
@@ -684,7 +740,21 @@ SurfaceOpenGL::draw_stretched(float x, float y, int sw, int sh, Uint8 alpha, Uin
 
   glBegin(GL_QUADS);
 
-  if(effect & VERTICAL_FLIP)
+  if(effect & VERTICAL_FLIP & HORIZONTAL_FLIP)
+    {
+    glTexCoord2f(0, 0);
+    glVertex2f((float)sw+x, (float)sh+y);
+
+    glTexCoord2f((float)w / pw, 0);
+    glVertex2f(x, (float)sh+y);
+
+    glTexCoord2f((float)w / pw, (float)h / ph);
+    glVertex2f(x, y);
+
+    glTexCoord2f(0, (float)h / ph);
+    glVertex2f((float)sw+x, y);
+    }
+  else if(effect & VERTICAL_FLIP)
     {
     glTexCoord2f(0, 0);
     glVertex2f(x, (float)sh+y);
@@ -697,6 +767,20 @@ SurfaceOpenGL::draw_stretched(float x, float y, int sw, int sh, Uint8 alpha, Uin
     
     glTexCoord2f(0, (float)h / ph);
     glVertex2f(x, y);
+    }
+  else if(effect & HORIZONTAL_FLIP)
+    {
+    glTexCoord2f(0, 0);
+    glVertex2f((float)sw+x, y);
+
+    glTexCoord2f((float)w / pw, 0);
+    glVertex2f(x, y);
+
+    glTexCoord2f((float)w / pw, (float)h / ph);
+    glVertex2f(x, (float)sh+y);
+
+    glTexCoord2f(0, (float)h / ph);
+    glVertex2f((float)sw+x, (float)sh+y);
     }
   else
     {
@@ -763,10 +847,26 @@ SurfaceSDL::draw(float x, float y, Uint8 alpha, Uint32 effect)
   if(effect & SEMI_TRANSPARENT)
     alpha = 128;
 
-  if(effect & VERTICAL_FLIP)    // FIXME: feel free to replace this hack
+  if(effect & VERTICAL_FLIP & HORIZONTAL_FLIP)
+    {
+    // FIXME: this hack is damn slow. Just keep it cause it isn't that used.
+    for(float sx = 0; sx < w; sx++)
+      for(float sy = 0; sy < h; sy++)
+        if(draw_part(sx, sy, x+(w-sx), y+(h-sy), 1, 1, alpha, NONE_EFFECT) == -2)
+          return -2;
+    return 0;
+    }
+  else if(effect & VERTICAL_FLIP)    // FIXME: feel free to replace this hack
     {
     for(float sy = 0; sy < h; sy++)
       if(draw_part(0, sy, x, y+(h-sy), w, 1, alpha, NONE_EFFECT) == -2)
+        return -2;
+    return 0;
+    }
+  else if(effect & HORIZONTAL_FLIP)    // FIXME: feel free to replace this hack
+    {
+    for(float sx = 0; sx < w; sx++)
+      if(draw_part(sx, 0, x+(w-sx), y, 1, h, alpha, NONE_EFFECT) == -2)
         return -2;
     return 0;
     }
@@ -820,10 +920,26 @@ SurfaceSDL::draw_part(float sx, float sy, float x, float y, float w, float h, Ui
   if(effect & SEMI_TRANSPARENT)
     alpha = 128;
 
-  if(effect & VERTICAL_FLIP)    // FIXME: feel free to replace this hack
+  if(effect & VERTICAL_FLIP & HORIZONTAL_FLIP)
+    {
+    // FIXME: this hack is damn slow. Just keep it cause it isn't that used.
+    for(float sx_ = 0; sx_ < w; sx++)
+      for(float sy_ = 0; sy_ < h; sy++)
+        if(draw_part(sx_, sy_, sx+(w-sx_), sy+(h-sy_), 1, 1, alpha, NONE_EFFECT) == -2)
+          return -2;
+    return 0;
+    }
+  else if(effect & VERTICAL_FLIP)    // FIXME: feel free to replace this hack
     {
     for(float sy_ = sy; sy_ < h; sy_++)
       if(draw_part(sx, sy_, x, y+(h-sy_), w, 1, alpha, NONE_EFFECT) == -2)
+        return -2;
+    return 0;
+    }
+  else if(effect & HORIZONTAL_FLIP)    // FIXME: feel free to replace this hack
+    {
+    for(float sx_ = 0; sx_ < w; sx_++)
+      if(draw_part(sx_, 0, sx+(w-sx_), sy, 1, h, alpha, NONE_EFFECT) == -2)
         return -2;
     return 0;
     }

@@ -50,8 +50,10 @@ namespace SuperTux
     NONE_EFFECT       = 0x0000,
     /** Draw the Surface upside down */
     VERTICAL_FLIP     = 0x0001,
+    /** Draw the Surface from left to down */
+    HORIZONTAL_FLIP   = 0x0002,
     /** Draw the Surface with alpha equal to 128 */
-    SEMI_TRANSPARENT  = 0x0002
+    SEMI_TRANSPARENT  = 0x0004
   };
 
   /** This class holds all the data necessary to construct a surface */
