@@ -1,6 +1,6 @@
 (supertux-level
   (version 2)
-  (name (_ "Sector Test 2"))
+  (name (_ "Sector Test"))
   (author "Matthias Braun")
   (time 500)
   (sector
@@ -42,7 +42,7 @@
       (image "arctis.jpg")
       (speed 0.5)
     )
-    (hatch 
+    (door 
      (x 832)
      (y 320)
      (sector "another_world")
