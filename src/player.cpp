@@ -726,8 +726,8 @@ Player::collision(void* p_c_object, int c_object)
     {
     case CO_BADGUY:
       pbad_c = (BadGuy*) p_c_object;
-      /* Hurt the player if he just touched it: */
 
+     /* Hurt player if he touches a badguy */
       if (!pbad_c->dying && !dying &&
           !safe_timer.started() &&
           pbad_c->mode != HELD)
@@ -737,30 +737,24 @@ Player::collision(void* p_c_object, int c_object)
               pbad_c->mode = HELD;
               pbad_c->base.y-=8;
             }
+          else if (pbad_c->mode == FLAT)
+            {
+              // Don't get hurt if we're kicking a flat badguy!
+            }
           else if (pbad_c->mode == KICK)
             {
-              if (base.y < pbad_c->base.y - 16)
+              /* Hurt if you get hit by kicked laptop: */
+              if (!invincible_timer.started())
                 {
-                  /* Step on (stop being kicked) */
-
-                  pbad_c->mode = FLAT;
-                  play_sound(sounds[SND_STOMP], SOUND_CENTER_SPEAKER);
+                  kill(SHRINK);
                 }
               else
                 {
-                  /* Hurt if you get hit by kicked laptop: */
-                  if (!invincible_timer.started())
-                    {
-                      kill(SHRINK);
-                    }
-                  else
-                    {
-                      pbad_c->dying = DYING_FALLING;
-                      play_sound(sounds[SND_FALL], SOUND_CENTER_SPEAKER);
-                      World::current()->add_score(pbad_c->base.x - scroll_x,
-                                                  pbad_c->base.y,
-                                                  25 * player_status.score_multiplier);
-                    }
+                   pbad_c->dying = DYING_FALLING;
+                   play_sound(sounds[SND_FALL], SOUND_CENTER_SPEAKER);
+                   World::current()->add_score(pbad_c->base.x - scroll_x,
+                                               pbad_c->base.y,
+                                               25 * player_status.score_multiplier);
                 }
             }
           else

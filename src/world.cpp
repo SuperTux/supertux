@@ -315,6 +315,7 @@ World::collision_handler()
           else
             {
               tux.collision(&bad_guys[i], CO_BADGUY);
+              bad_guys[i].collision(&tux, CO_PLAYER, COLLISION_NORMAL);
             }
         }
     }

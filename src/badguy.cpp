@@ -957,6 +957,7 @@ BadGuy::collision(void *p_c_object, int c_object, CollisionType type)
     return;
   }
 
+  /* COLLISION_NORMAL */
   switch (c_object)
     {
     case CO_BULLET:
@@ -965,13 +966,12 @@ BadGuy::collision(void *p_c_object, int c_object, CollisionType type)
 
     case CO_BADGUY:
       pbad_c = (BadGuy*) p_c_object;
+
+      /* If we're a kicked mriceblock, kill any badguys we hit */
       if(kind == BAD_LAPTOP && mode == KICK &&
             pbad_c->kind != BAD_FLAME && pbad_c->kind != BAD_BOMB)
         {
-          /* We're in kick mode, kill the other guy
-	     and yourself(wuahaha) : */
           pbad_c->kill_me();
-          kill_me();
         }
 
       /* Kill badguys that run into exploding bomb */
@@ -993,8 +993,46 @@ BadGuy::collision(void *p_c_object, int c_object, CollisionType type)
       {
         pbad_c->kill_me();
       }
+
+      /* When enemies run into eachother, make them change directions */
+      else
+      {
+        // Jumpy is an exception
+        if (pbad_c->kind == BAD_MONEY)
+          break;
+        if (dir == LEFT)
+          dir = RIGHT;
+        else if (dir == RIGHT)
+          dir = LEFT;
+
+        physic.inverse_velocity_x();
+      }
       
       break;
+
+    case CO_PLAYER:
+      Player* player = static_cast<Player*>(p_c_object);
+      /* Get kicked if were flat */
+      if (mode == FLAT && !dying)
+      {
+        play_sound(sounds[SND_KICK], SOUND_CENTER_SPEAKER);
+
+        // Hit from left side
+        if (player->base.x < base.x) {
+          physic.set_velocity(5, physic.get_velocity_y());
+          dir = RIGHT;
+        }
+        // Hit from right side
+        else {
+          physic.set_velocity(-5, physic.get_velocity_y());
+          dir = LEFT;
+        }
+
+        mode = KICK;
+        set_sprite(img_laptop_flat_left, img_laptop_flat_right, 1);
+      }
+      break;
+
     }
 }
 
