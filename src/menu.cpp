@@ -553,7 +553,7 @@ Menu::draw_item(DrawingContext& context,
     {
       context.draw_text_center(gray_text, pitem.text,
           Vector(0, y_pos - int(blue_text->get_height()/2)),
-          LAYER_FOREGROUND1);
+          LAYER_GUI);
       break;
     }
 
@@ -564,16 +564,16 @@ Menu::draw_item(DrawingContext& context,
       int y = y_pos - 12 - effect_offset;
       /* Draw a horizontal line with a little 3d effect */
       context.draw_filled_rect(Vector(x, y + 6),
-          Vector(menu_width, 4), Color(150,200,255,225), LAYER_FOREGROUND1);
+          Vector(menu_width, 4), Color(150,200,255,225), LAYER_GUI);
       context.draw_filled_rect(Vector(x, y + 6),
-          Vector(menu_width, 2), Color(255,255,255,255), LAYER_FOREGROUND1);
+          Vector(menu_width, 2), Color(255,255,255,255), LAYER_GUI);
       break;
     }
   case MN_LABEL:
     {
       context.draw_text_center(white_big_text,
           pitem.text, Vector(0, y_pos - int(white_big_text->get_height()/2)),
-          LAYER_FOREGROUND1);
+          LAYER_GUI);
       break;
     }
   case MN_TEXTFIELD:
@@ -588,11 +588,11 @@ Menu::draw_item(DrawingContext& context,
       context.draw_filled_rect(
           Vector(input_pos - 5, y_pos - 10),
           Vector(input_width + 10, 20),
-          Color(255,255,255,255), LAYER_FOREGROUND1-5);
+          Color(255,255,255,255), LAYER_GUI-5);
       context.draw_filled_rect(
           Vector(input_pos - 4, y_pos - 9),
           Vector(input_width + 8, 18),
-          Color(0,0,0,128), LAYER_FOREGROUND1-4);
+          Color(0,0,0,128), LAYER_GUI-4);
 
       if(pitem.kind == MN_CONTROLFIELD_KB)
         get_controlfield_key_into_input(&pitem);
@@ -605,21 +605,21 @@ Menu::draw_item(DrawingContext& context,
           context.draw_text(gold_text,
               pitem.get_input_with_symbol(true),
               Vector(input_pos, y_pos - int(gold_text->get_height()/2)),
-              LAYER_FOREGROUND1);
+              LAYER_GUI);
         else
           context.draw_text(gold_text,
               pitem.get_input_with_symbol(false),
               Vector(input_pos, y_pos - int(gold_text->get_height()/2)),
-              LAYER_FOREGROUND1);
+              LAYER_GUI);
       }
       else
         context.draw_text(gold_text, pitem.input,
             Vector(input_pos, y_pos - int(gold_text->get_height()/2)),
-            LAYER_FOREGROUND1);
+            LAYER_GUI);
 
       context.draw_text(text_font, pitem.text,
           Vector(text_pos, y_pos - int(text_font->get_height()/2)),
-          LAYER_FOREGROUND1);
+          LAYER_GUI);
       break;
     }
   case MN_STRINGSELECT:
@@ -631,37 +631,37 @@ Menu::draw_item(DrawingContext& context,
       /* Draw arrows */
       context.draw_surface(arrow_left,
           Vector(x_pos - list_pos + text_pos - 17, y_pos - 8),
-          LAYER_FOREGROUND1);
+          LAYER_GUI);
       context.draw_surface(arrow_right,
           Vector(x_pos - list_pos + text_pos - 1 + list_pos_2, y_pos - 8),
-          LAYER_FOREGROUND1);
+          LAYER_GUI);
 
       /* Draw input background */
       context.draw_filled_rect(
           Vector(x_pos - list_pos + text_pos - 1, y_pos - 10),
           Vector(list_pos_2 + 2, 20),
-          Color(255,255,255,255), LAYER_FOREGROUND1 - 4);
+          Color(255,255,255,255), LAYER_GUI - 4);
       context.draw_filled_rect(
           Vector(x_pos - list_pos + text_pos, y_pos - 9),
           Vector(list_pos_2, 18),
-          Color(0,0,0,128), LAYER_FOREGROUND1 - 5);
+          Color(0,0,0,128), LAYER_GUI - 5);
 
       context.draw_text_center(text_font, string_list_active(pitem.list),
           Vector(text_pos, y_pos - int(text_font->get_height()/2)),
-          LAYER_FOREGROUND1);
+          LAYER_GUI);
       context.draw_text_center(text_font, pitem.text,
           Vector(list_pos_2/2, y_pos - int(text_font->get_height()/2)),
-          LAYER_FOREGROUND1);
+          LAYER_GUI);
       break;
     }
   case MN_BACK:
     {
       context.draw_text_center(text_font, pitem.text,
           Vector(0, y_pos - int(text_font->get_height()/2)),
-          LAYER_FOREGROUND1);
+          LAYER_GUI);
       context.draw_surface(back,
           Vector(x_pos + text_width/2  + 16, y_pos - 8),
-          LAYER_FOREGROUND1);
+          LAYER_GUI);
       break;
     }
 
@@ -669,28 +669,28 @@ Menu::draw_item(DrawingContext& context,
     {
       context.draw_text_center(text_font, pitem.text,
           Vector(0, y_pos - (text_font->get_height()/2)),
-          LAYER_FOREGROUND1);
+          LAYER_GUI);
 
       if(pitem.toggled)
         context.draw_surface(checkbox_checked,
             Vector(x_pos + (text_width+16)/2, y_pos - 8),
-            LAYER_FOREGROUND1 + 1);
+            LAYER_GUI + 1);
       else
         context.draw_surface(checkbox,
             Vector(x_pos + (text_width+16)/2, y_pos - 8),
-            LAYER_FOREGROUND1 + 1);                                      
+            LAYER_GUI + 1);                                      
       break;
     }
   case MN_ACTION:
     context.draw_text_center(text_font, pitem.text,
         Vector(0, y_pos - int(text_font->get_height()/2)),
-        LAYER_FOREGROUND1);
+        LAYER_GUI);
     break;
 
   case MN_GOTO:
     context.draw_text_center(text_font, pitem.text,
         Vector(0, y_pos - int(text_font->get_height()/2)),
-        LAYER_FOREGROUND1);
+        LAYER_GUI);
     break;
   }
 }
@@ -730,7 +730,7 @@ Menu::draw(DrawingContext& context)
   context.draw_filled_rect(
       Vector(pos_x - menu_width/2, pos_y - 24*item.size()/2 - 10),
       Vector(menu_width,menu_height + 20),
-      Color(150,180,200,125), LAYER_FOREGROUND1-10);
+      Color(150,180,200,125), LAYER_GUI-10);
 
   for(unsigned int i = 0; i < item.size(); ++i)
   {

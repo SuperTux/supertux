@@ -37,6 +37,8 @@
 #define NO_BOUNCE 0
 #define BOUNCE 1
 
+class Sprite;
+
 struct TileId;
 
 class BouncyDistro : public GameObject
@@ -101,10 +103,14 @@ private:
   Timer timer;  
 };
 
+#define TRAMPOLINE_FRAMES 4
+extern Sprite *img_trampoline[TRAMPOLINE_FRAMES];
+
 class Trampoline : public MovingObject, public Serializable
 {
 public:
   Trampoline(LispReader& reader);
+  Trampoline(float x, float y);
  
   virtual void write(LispWriter& writer);
   virtual void action(float frame_ratio);
@@ -121,10 +127,13 @@ public:
   unsigned int frame;
 };
 
+extern Sprite *img_flying_platform;
+
 class FlyingPlatform : public MovingObject, public Serializable
 {
 public:
   FlyingPlatform(LispReader& reader);
+  FlyingPlatform(int x, int y);
  
   virtual void write(LispWriter& writer);
   virtual void action(float frame_ratio);

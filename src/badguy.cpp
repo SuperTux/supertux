@@ -206,6 +206,7 @@ BadGuy::init()
   timer.init(true);
 
   // if we're in a solid tile at start correct that now
+  if(Sector::current()) {
   if(kind != BAD_FLAME && kind != BAD_FISH && collision_object_map(base)) 
     {
       std::cout << "Warning: badguy started in wall: kind: " << badguykind_to_string(kind) 
@@ -214,7 +215,7 @@ BadGuy::init()
         --base.y;
     }
 
-  if(Sector::current() && Sector::current()->camera) {
+  if(Sector::current()->camera) {
     Vector scroll = Sector::current()->camera->get_translation();
 
     if(start_position.x > scroll.x - X_OFFSCREEN_DISTANCE &&
@@ -223,7 +224,7 @@ BadGuy::init()
         start_position.y < scroll.y + screen->h + Y_OFFSCREEN_DISTANCE) {
       activate(LEFT);
     }
-  } else {
+  } } else {
     if(start_position.x > 0 && start_position.x <= screen->w
         && start_position.y > 0 && start_position.y <= screen->h)
       activate(LEFT);

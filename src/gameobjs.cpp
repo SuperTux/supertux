@@ -137,7 +137,6 @@ FloatingScore::draw(DrawingContext& context)
 
 /* Trampoline */
 
-#define TRAMPOLINE_FRAMES 4
 Sprite *img_trampoline[TRAMPOLINE_FRAMES];
 
 Trampoline::Trampoline(LispReader& reader)
@@ -148,6 +147,19 @@ Trampoline::Trampoline(LispReader& reader)
   base.height = 32;
   power = 7.5;
   reader.read_float("power", power);
+
+  frame = 0;
+  mode = M_NORMAL;
+  physic.reset();
+}
+
+Trampoline::Trampoline(float x, float y)
+{
+  base.x = x;
+  base.y = y;
+  base.width = 32;
+  base.height = 32;
+  power = 7.5;
 
   frame = 0;
   mode = M_NORMAL;
@@ -299,6 +311,14 @@ FlyingPlatform::FlyingPlatform(LispReader& reader)
   vel_y = -(velocity - vel_x);
 
   frame = 0;
+}
+
+FlyingPlatform::FlyingPlatform(int x, int y)
+{
+base.x = x;
+base.y = y;
+point = 0;
+move = false;
 }
 
 void

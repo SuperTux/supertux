@@ -67,6 +67,10 @@ class Sprite
   std::string get_name() const { return name; } 
   int get_width() const;
   int get_height() const;
+
+  Surface* get_frame(unsigned int frame)
+    {  if(frame < surfaces.size()) return surfaces[frame];
+       else return surfaces[0];  }
 };
 
 #endif /*SUPERTUX_SPRITE_H*/

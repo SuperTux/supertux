@@ -139,6 +139,9 @@ public:
   /** initializes the badguy (when he appears on screen) */
   void activate(Direction direction);  // should only be used by BadGuy's objects
 
+  Surface* get_image()
+    { return sprite_left->get_frame(0); }
+
 private:
   void init();
   
