@@ -28,21 +28,8 @@
 #include "globals.h"
 #include "setup.h"
 #include "menu.h"
-
+#include "level.h"
 #include "badguy.h"
-
-char levelname[60];
-char leveltheme[60];
-bad_guy_type bad_guys[NUM_BAD_GUYS];
-SDL_Surface *img_bsod_left[4], *img_laptop_left[3], *img_money_left[2];
-char song_title[60];
-char levelfilename[100];
-
-int time_left;
-unsigned char* tiles[15];
-int bkgd_red, bkgd_green, bkgd_blue, level_width;
-
-SDL_Surface *selection;
 
 /* definitions to aid development */
 #define DONE_LEVELEDITOR    1
@@ -59,6 +46,32 @@ SDL_Surface *selection;
 #define MOUSE_RIGHT_MARGIN 608
 #define MOUSE_POS_SPEED 32
 
+  /* Level Intro: */
+/*
+  clearscreen(0, 0, 0);
+
+  sprintf(str, "Editing Level %s", levelfilename);
+  drawcenteredtext(str, 200, letters_red, NO_UPDATE, 1);
+
+  sprintf(str, "%s", levelname);
+  drawcenteredtext(str, 224, letters_gold, NO_UPDATE, 1);
+
+  SDL_Flip(screen);
+
+  SDL_Delay(1000);
+*/
+
+/* global variables (based on the gameloop ones) */
+
+bad_guy_type bad_guys[NUM_BAD_GUYS];
+SDL_Surface *img_bsod_left[4], *img_laptop_left[3], *img_money_left[2];
+int level;
+st_level current_level;
+char level_subset[100];
+
+int frame;
+SDL_Surface *selection;
+
 /* gameloop funcs declerations */
 
 void loadlevelgfx(void);
@@ -74,6 +87,31 @@ void savelevel();
 void le_loadlevel(void);
 void le_change(int x, int y, int sx, unsigned char c);
 void showhelp();
+void le_set_defaults(void);
+void le_activate_bad_guys(void);
+
+void le_activate_bad_guys(void)
+{
+int x,y;
+
+  /* Activate bad guys: */
+
+  /* as oposed to the gameloop.c func, this one doesn't remove
+  the badguys from tiles                                    */
+
+  for (y = 0; y < 15; ++y)
+    for (x = 0; x < current_level.width; ++x)
+      if (current_level.tiles[y][x] >= '0' && current_level.tiles[y][x] <= '9')
+        add_bad_guy(x * 32, y * 32, current_level.tiles[y][x] - '0');
+}
+
+void le_set_defaults()
+{
+  /* Set defaults: */
+
+  if(current_level.time_left == 0)
+    current_level.time_left = 255;
+}
 
 /* FIXME: Needs to be implemented. It should ask the user for the level(file)name and then let him create a new level based on this. */
 void newlevel()
@@ -94,18 +132,25 @@ int leveleditor()
   SDL_Event event;
   SDLKey key;
   SDLMod keymod;
+  
+  strcpy(level_subset,"default");
 
-
-  strcpy(levelfilename,"level1");
+  level = 1;
 
   initmenu();
   menumenu = MENU_LEVELEDITOR;
   show_menu = YES;
 
+  int last_time, now_time;
+  frame = 0;	/* support for frames in some tiles, like waves and bad guys */
+  
   loadshared();
-  le_loadlevel();
+  loadlevel(&current_level,"default",level);
   loadlevelgfx();
 
+  le_activate_bad_guys();
+  le_set_defaults();
+  
   selection = load_image(DATA_PREFIX "/images/leveleditor/select.png", USE_ALPHA);
 
   done = 0;
@@ -119,8 +164,11 @@ int leveleditor()
 
   while(1)
     {
-      SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, bkgd_red, bkgd_green, bkgd_blue));
+      SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, current_level.bkgd_red, current_level.bkgd_green, current_level.bkgd_blue));
 
+      last_time = SDL_GetTicks();
+      frame++;
+      
       keymod = SDL_GetModState();
 
       while(SDL_PollEvent(&event))
@@ -152,8 +200,8 @@ int leveleditor()
                   else
                     cursor_x += KEY_CURSOR_FASTSPEED;
 
-                  if(cursor_x > (level_width*32) - 1)
-                    cursor_x = (level_width*32) - 1;
+                  if(cursor_x > (current_level.width*32) - 1)
+                    cursor_x = (current_level.width*32) - 1;
                   break;
                 case SDLK_UP:
                   if(fire == DOWN)
@@ -183,7 +231,7 @@ int leveleditor()
                   cursor_x = 0;
                   break;
                 case SDLK_END:
-                  cursor_x = (level_width * 32) - 32;
+                  cursor_x = (current_level.width * 32) - 32;
                   break;
                 case SDLK_PERIOD:
                   le_change(cursor_x, cursor_y, 0, '.');
@@ -401,14 +449,14 @@ int leveleditor()
 
       if(pos_x < 0)
         pos_x = 0;
-      if(pos_x > (level_width * 32) - 640)
-        pos_x = (level_width * 32) - 640;
+      if(pos_x > (current_level.width * 32) - 640)
+        pos_x = (current_level.width * 32) - 640;
 
       old_cursor_x = cursor_x;
 
       for (y = 0; y < 15; ++y)
         for (x = 0; x < 21; ++x)
-          drawshape(x * 32, y * 32, tiles[y][x + (pos_x / 32)]);
+          drawshape(x * 32, y * 32, current_level.tiles[y][x + (pos_x / 32)]);
 
       /* Draw the Bad guys: */
       for (i = 0; i < NUM_BAD_GUYS; ++i)
@@ -418,21 +466,21 @@ int leveleditor()
             continue;
           /* to support frames: img_bsod_left[(frame / 5) % 4] */
           if(bad_guys[i].kind == BAD_BSOD)
-            drawimage(img_bsod_left[0], ((int)(bad_guys[i].x - pos_x)/32)*32, bad_guys[i].y, NO_UPDATE);
+            drawimage(img_bsod_left[(frame / 5) % 4], ((int)(bad_guys[i].x - pos_x)/32)*32, bad_guys[i].y, NO_UPDATE);
           else if(bad_guys[i].kind == BAD_LAPTOP)
-            drawimage(img_laptop_left[0], ((int)(bad_guys[i].x - pos_x)/32)*32, bad_guys[i].y, NO_UPDATE);
+            drawimage(img_laptop_left[(frame / 5) % 3], ((int)(bad_guys[i].x - pos_x)/32)*32, bad_guys[i].y, NO_UPDATE);
           else if (bad_guys[i].kind == BAD_MONEY)
-            drawimage(img_money_left[0], ((int)(bad_guys[i].x - pos_x)/32)*32, bad_guys[i].y, NO_UPDATE);
+            drawimage(img_money_left[(frame / 5) % 2], ((int)(bad_guys[i].x - pos_x)/32)*32, bad_guys[i].y, NO_UPDATE);
         }
 
 
       drawimage(selection, ((int)(cursor_x - pos_x)/32)*32, cursor_y, NO_UPDATE);
 
-      sprintf(str, "%d", time_left);
+      sprintf(str, "%d", current_level.time_left);
       drawtext("TIME", 324, 0, letters_blue, NO_UPDATE, 1);
       drawtext(str, 404, 0, letters_gold, NO_UPDATE, 1);
 
-      sprintf(str, "%s", levelname);
+      sprintf(str, "%s", current_level.name);
       drawtext("NAME", 0, 0, letters_blue, NO_UPDATE, 1);
       drawtext(str, 80, 0, letters_gold, NO_UPDATE, 1);
 
@@ -448,6 +496,10 @@ int leveleditor()
         return 1;
 
       SDL_Delay(50);
+	now_time = SDL_GetTicks();
+	if (now_time < last_time + FPS)
+		SDL_Delay(last_time + FPS - now_time);	/* delay some time */
+
       SDL_Flip(screen);
     }
 
@@ -456,12 +508,6 @@ int leveleditor()
 
   SDL_FreeSurface(selection);
 
-  /*if(done == DONE_SAVE)*/	/* let's save the changes	*/
-  /*	savelevel();*/
-  /*
-  if(done == DONE_CHANGELEVEL)		 change level 
-  	return leveleditor(level);
-  */
   return done;
 }
 
@@ -480,8 +526,8 @@ void le_change(int x, int y, int sx, unsigned char c)
         bad_guys[i].alive = NO;
 
 
-  if (yy >= 0 && yy <= 15 && xx >= 0 && xx <= level_width)
-    tiles[yy][xx] = c;
+  if (yy >= 0 && yy < 15 && xx >= 0 && xx <= current_level.width)
+    current_level.tiles[yy][xx] = c;
 }
 
 /* Save data for this level: */
@@ -494,8 +540,8 @@ void savelevel(void)
 
   /* Save data file: */
 
-  filename = (char *) malloc(sizeof(char) * (strlen(DATA_PREFIX) + 20));
-  sprintf(filename, "%s/levels/%s.dat", DATA_PREFIX, levelfilename);
+  filename = (char *) malloc(sizeof(char) * (strlen(DATA_PREFIX) + 20) + strlen(level_subset));
+  sprintf(filename, "%s/levels/%s/level%d.dat", DATA_PREFIX, level_subset, level);
   fi = fopen(filename, "w");
   if (fi == NULL)
     {
@@ -509,25 +555,25 @@ void savelevel(void)
 
   /* sptrinf("# Level created by SuperTux built-in editor", fi); */
 
-  fputs(levelname, fi);
+  fputs(current_level.name, fi);
   fputs("\n", fi);
-  fputs(leveltheme, fi);
+  fputs(current_level.theme, fi);
   fputs("\n", fi);
-  sprintf(str, "%d\n", time_left);	/* time */
+  sprintf(str, "%d\n", current_level.time_left);	/* time */
   fputs(str, fi);
-  fputs(song_title, fi);	/* song filename */
-  sprintf(str, "%d\n", bkgd_red);	/* red background color */
+  fputs(current_level.song_title, fi);	/* song filename */
+  sprintf(str, "\n%d\n", current_level.bkgd_red);	/* red background color */
   fputs(str, fi);
-  sprintf(str, "%d\n", bkgd_green);	/* green background color */
+  sprintf(str, "%d\n", current_level.bkgd_green);	/* green background color */
   fputs(str, fi);
-  sprintf(str, "%d\n", bkgd_blue);	/* blue background color */
+  sprintf(str, "%d\n", current_level.bkgd_blue);	/* blue background color */
   fputs(str, fi);
-  sprintf(str, "%d\n", level_width);	/* level width */
+  sprintf(str, "%d\n", current_level.width);	/* level width */
   fputs(str, fi);
 
   for(y = 0; y < 15; ++y)
     {
-      fputs(tiles[y], fi);
+      fputs(current_level.tiles[y], fi);
       fputs("\n", fi);
     }
 
@@ -535,105 +581,6 @@ void savelevel(void)
 
   drawcenteredtext("SAVED!", 240, letters_gold, NO_UPDATE, 1);
   SDL_Flip(screen);
-  SDL_Delay(1000);
-}
-
-
-/* I had to copy loadlevel, because loadlevel changes the tiles.
- For intance, badguys are removed from the tiles and we have to
- keep them there.                                             */
-
-/* Load data for this level: */
-
-void le_loadlevel(void)
-{
-  FILE * fi;
-  char * filename;
-  int x, y;
-  char str[80];
-  char* line = malloc(sizeof(char)*10);/*[LEVEL_WIDTH + 5];*/
-
-  /* Load data file: */
-
-  filename = (char *) malloc(sizeof(char) * (strlen(DATA_PREFIX) + 20));
-  sprintf(filename, "%s/levels/%s.dat", DATA_PREFIX, levelfilename);
-  fi = fopen(filename, "r");
-  if (fi == NULL)
-    {
-      perror(filename);
-      st_shutdown();
-      free(filename);
-      exit(-1);
-    }
-  free(filename);
-
-  /* (Level title) */
-  fgets(str, 20, fi);
-  strcpy(levelname, str);
-  levelname[strlen(levelname)-1] = '\0';
-
-  /* (Level theme) */
-  fgets(str, 20, fi);
-  strcpy(leveltheme, str);
-  leveltheme[strlen(leveltheme)-1] = '\0';
-
-  fgets(line, 10, fi);
-  time_left = atoi(line);
-  fgets(str, 60, fi);
-  song_title[0]='\0';
-  strcpy(song_title,str);
-  fgets(line, 10, fi);
-  bkgd_red = atoi(line);
-  fgets(line, 10, fi);
-  bkgd_green= atoi(line);
-  fgets(line, 10, fi);
-  bkgd_blue = atoi(line);
-  fgets(line, 10, fi);
-  level_width = atoi(line);
-
-  free(line);
-  line = malloc(level_width*sizeof(char)+5);
-
-  for (y = 0; y < 15; ++y)
-    {
-      fgets(line, level_width + 5, fi);
-      line[strlen(line) - 1] = '\0';
-      free(tiles[y]);
-      tiles[y] = malloc((strlen(line)+5)*sizeof(char));
-      strcpy(tiles[y], line);
-    }
-
-  fclose(fi);
-
-  /* Activate bad guys: */
-
-  /* as oposed to the gameloop.c func, this one doesn't remove
-  the badguys from tiles                                    */
-
-  for (y = 0; y < 15; ++y)
-    for (x = 0; x < level_width; ++x)
-      if (tiles[y][x] >= '0' && tiles[y][x] <= '9')
-        add_bad_guy(x * 32, y * 32, tiles[y][x] - '0');
-
-
-  /* Set defaults: */
-
-  if(time_left == 0)
-    time_left = 255;
-
-
-  /* Level Intro: */
-
-  clearscreen(0, 0, 0);
-
-  sprintf(str, "Editing Level %s", levelfilename);
-  drawcenteredtext(str, 200, letters_red, NO_UPDATE, 1);
-
-  sprintf(str, "%s", levelname);
-  drawcenteredtext(str, 224, letters_gold, NO_UPDATE, 1);
-
-  SDL_Flip(screen);
-
   SDL_Delay(1000);
 }
 

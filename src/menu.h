@@ -23,7 +23,7 @@ int show_menu;
 int menu_change;
 
 #define MENU_MAIN_ITEM_MAX 3
-#define MENU_GAME_ITEM_MAX 2
+#define MENU_GAME_ITEM_MAX 4
 #define MENU_OPTIONS_ITEM_MAX 3
 #define MENU_LEVELEDITOR_ITEM_MAX 4
 

@@ -62,17 +62,19 @@ void updatescreen(void)
 
 SDL_Surface * load_image(char * file, int use_alpha)
 {
+
   SDL_Surface * temp, * surf;
   
   temp = IMG_Load(file);
+
   if (temp == NULL)
     st_abort("Can't load", file);
-  
+    
   surf = SDL_DisplayFormatAlpha(temp);
 
   if (surf == NULL)
     st_abort("Can't covert to display format", file);
-
+    
   if (use_alpha == IGNORE_ALPHA)
     SDL_SetAlpha(surf, 0, 0);
   
@@ -126,7 +128,9 @@ void drawpart(SDL_Surface * surf, int x, int y, int w, int h, int update)
 
 void drawtext(char * text, int x, int y, SDL_Surface * surf, int update, int shadowsize)
 {
-  int i;
+	/* i - helps to keep tracking of the all string length
+		j - helps to keep track of the length of the current line */
+  int i, j;
   char c;
   SDL_Rect src, dest;
   
@@ -165,6 +169,12 @@ void drawtext(char * text, int x, int y, SDL_Surface * surf, int update, int sha
 	  
 	  src.x = 400;
 	  src.y = 24;
+	}
+	else if (c == '\n')		/* support for multi-lines */
+	{
+	j = i + 1;
+	y += 18;
+	continue;
 	}
       else
 	src.x = -1;

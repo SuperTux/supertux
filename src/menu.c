@@ -23,6 +23,7 @@
 #include "setup.h"
 #include "sound.h"
 #include "leveleditor.h"
+#include "gameloop.h"
 
 /* Set defaults */
 void initmenu(void)
@@ -236,10 +237,35 @@ int menu_game(void)
     }
   else
     drawcenteredtext("Return To Game", 192, letters_blue, NO_UPDATE, 2);
-
+    
   if(menuitem == 1)
     {
-      drawcenteredtext("Options", 224, letters_red, NO_UPDATE, 2);
+      drawcenteredtext("Save Game", 224, letters_red, NO_UPDATE, 2);
+      if(menuaction == MN_HIT) /* Don't show the menu anymore, if this item got hit */
+      {
+        show_menu = 0;
+	savegame();
+      }
+    }
+  else
+    drawcenteredtext("Save Game", 224, letters_blue, NO_UPDATE, 2);
+    
+  if(menuitem == 2)
+    {
+      drawcenteredtext("Load Game", 256, letters_red, NO_UPDATE, 2);
+      if(menuaction == MN_HIT) /* Don't show the menu anymore, if this item got hit */
+      {
+        show_menu = 0;
+	char *x = NULL;
+	loadgame(x);
+      }
+    }
+  else
+    drawcenteredtext("Load Game", 256, letters_blue, NO_UPDATE, 2);
+    
+  if(menuitem == 3)
+    {
+      drawcenteredtext("Options", 288, letters_red, NO_UPDATE, 2);
       if(menuaction == MN_HIT) /* Switch to the 'Options' menu */
         {
           menumenu = MENU_OPTIONS;
@@ -247,17 +273,17 @@ int menu_game(void)
         }
     }
   else
-    drawcenteredtext("Options", 224, letters_blue, NO_UPDATE, 2);
+    drawcenteredtext("Options", 288, letters_blue, NO_UPDATE, 2);
 
-  if(menuitem == 2)
+  if(menuitem == 4)
     {
-      drawcenteredtext("Quit Game", 256, letters_red, NO_UPDATE, 2);
+      drawcenteredtext("Quit Game", 320, letters_red, NO_UPDATE, 2);
       if(menuaction == MN_HIT) /* Quit a running game */
         return 1;
     }
   else
     {
-      drawcenteredtext("Quit Game", 256, letters_blue, NO_UPDATE, 2);
+      drawcenteredtext("Quit Game", 320, letters_blue, NO_UPDATE, 2);
     }
 
   return 0;

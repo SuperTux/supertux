@@ -34,6 +34,7 @@
 #include "badguy.h"
 #include "world.h"
 #include "player.h"
+#include "level.h"
 
 /* extern variables */
 
@@ -45,9 +46,8 @@ int score, highscore, distros, level, lives, scroll_x, next_level, game_pause,
 done, quit, tux_dir, tux_size, tux_duck, tux_x, tux_xm, tux_y, tux_ym,
 tux_dying, tux_safe, jumping, jump_counter, frame, score_multiplier,
 tux_frame_main, tux_frame, tux_got_coffee, tux_skidding,
-super_bkgd_time, time_left, tux_invincible_time, endpos,
+super_bkgd_time, tux_invincible_time, endpos,
 counting_distros, distro_counter;
-int bkgd_red, bkgd_green, bkgd_blue, level_width;
 int left, right, up, down, fire, old_fire;
 SDL_Surface * img_brick[2], * img_solid[4], * img_distro[4],
 * img_waves[3], * img_water, * img_pole, * img_poletop, * img_flag[2];
@@ -79,7 +79,6 @@ SDL_Surface * tux_life,
 SDL_Event event;
 SDL_Rect src, dest;
 SDLKey key;
-unsigned char * tiles[15];
 bouncy_distro_type bouncy_distros[NUM_BOUNCY_DISTROS];
 broken_brick_type broken_bricks[NUM_BROKEN_BRICKS];
 bouncy_brick_type bouncy_bricks[NUM_BOUNCY_BRICKS];
@@ -87,16 +86,16 @@ bad_guy_type bad_guys[NUM_BAD_GUYS];
 floating_score_type floating_scores[NUM_FLOATING_SCORES];
 upgrade_type upgrades[NUM_UPGRADES];
 bullet_type bullets[NUM_BULLETS];
-char song_title[60];
-char levelname[60];
-char leveltheme[60];
+st_level current_level;
+char level_subset[100];
 char str[60];
 
 
 /* Local function prototypes: */
 
+void levelintro(void);
+void set_default(void);
 void initgame(void);
-void loadlevel(void);
 void loadlevelgfx(void);
 void loadlevelsong(void);
 void unloadlevelgfx(void);
@@ -123,9 +122,117 @@ void add_score(int x, int y, int s);
 void trybumpbadguy(int x, int y, int sx);
 void add_upgrade(int x, int y, int kind);
 void killtux(int mode);
+void remove_powerups(void);
 void add_bullet(int x, int y, int dir, int xm);
 void drawendscreen(void);
 void drawresultscreen(void);
+
+void levelintro(void)
+{
+  /* Level Intro: */
+
+  clearscreen(0, 0, 0);
+
+  sprintf(str, "LEVEL %d", level);
+  drawcenteredtext(str, 200, letters_red, NO_UPDATE, 1);
+
+  sprintf(str, "%s", current_level.name);
+  drawcenteredtext(str, 224, letters_gold, NO_UPDATE, 1);
+
+  sprintf(str, "TUX x %d", lives);
+  drawcenteredtext(str, 256, letters_blue, NO_UPDATE, 1);
+
+  SDL_Flip(screen);
+
+  SDL_Delay(1000);
+}
+
+void set_defaults(void)
+{
+  int i;
+  
+  /* Reset arrays: */
+
+  for (i = 0; i < NUM_BOUNCY_DISTROS; i++)
+    bouncy_distros[i].alive = NO;
+
+  for (i = 0; i < NUM_BROKEN_BRICKS; i++)
+    broken_bricks[i].alive = NO;
+
+  for (i = 0; i < NUM_BOUNCY_BRICKS; i++)
+    bouncy_bricks[i].alive = NO;
+
+  for (i = 0; i < NUM_BAD_GUYS; i++)
+    bad_guys[i].alive = NO;
+
+  for (i = 0; i < NUM_FLOATING_SCORES; i++)
+    floating_scores[i].alive = NO;
+
+  for (i = 0; i < NUM_UPGRADES; i++)
+    upgrades[i].alive = NO;
+
+  for (i = 0; i < NUM_BULLETS; i++)
+    bullets[i].alive = NO;
+
+
+  /* Set defaults: */
+
+  tux_x = 0;
+  tux_xm = 0;
+  tux_y = 240;
+  tux_ym = 0;
+  tux_dir = RIGHT;
+  tux_invincible_time = 0;
+  tux_duck = NO;
+
+  tux_dying = NO;
+  tux_safe = TUX_SAFE_TIME;
+
+  jumping = NO;
+  jump_counter = 0;
+
+  tux_skidding = 0;
+
+  scroll_x = 0;
+
+  right = UP;
+  left = UP;
+  up = UP;
+  down = UP;
+  fire = UP;
+  old_fire = UP;
+
+  score_multiplier = 1;
+  super_bkgd_time = 0;
+
+  counting_distros = NO;
+  distro_counter = 0;
+
+  endpos = 0;
+
+  /* set current song/music */
+  current_music = LEVEL_MUSIC;
+}
+
+void activate_bad_guys(void)
+{
+int x,y;
+
+  /* Activate bad guys: */
+
+  for (y = 0; y < 15; y++)
+    {
+      for (x = 0; x < current_level.width; x++)
+        {
+          if (current_level.tiles[y][x] >= '0' && current_level.tiles[y][x] <= '9')
+            {
+              add_bad_guy(x * 32, y * 32, current_level.tiles[y][x] - '0');
+              current_level.tiles[y][x] = '.';
+            }
+        }
+    }
+    
+}
 
 /* --- GAME EVENT! --- */
 
@@ -515,7 +622,8 @@ int game_action(void)
 
           /* He died :^( */
 
-          lives--;
+          --lives;
+	  remove_powerups();
 
           /* No more lives!? */
 
@@ -535,11 +643,14 @@ int game_action(void)
 
       /* Either way, (re-)load the (next) level... */
 
-      loadlevel();
+      set_defaults();
+      loadlevel(&current_level,"default",level);
+      activate_bad_guys();
       unloadlevelgfx();
       loadlevelgfx();
       unloadlevelsong();
       loadlevelsong();
+      levelintro();
     }
 
   /* Move tux: */
@@ -560,15 +671,15 @@ int game_action(void)
         scroll_x = 0;
 
     }
-  else if (tux_x > 320 && scroll_x < ((level_width * 32) - 640))
+  else if (tux_x > 320 && scroll_x < ((current_level.width * 32) - 640))
     {
       /* Scroll the screen in past center: */
 
       scroll_x = scroll_x + (tux_x - 320);
       tux_x = 320;
 
-      if (scroll_x > ((level_width * 32) - 640))
-        scroll_x = ((level_width * 32) - 640);
+      if (scroll_x > ((current_level.width * 32) - 640))
+        scroll_x = ((current_level.width * 32) - 640);
     }
   else if (tux_x > 608)
     {
@@ -1093,7 +1204,7 @@ int game_action(void)
 
       if (!playing_music())
         {
-          if (time_left <= TIME_WARNING)
+          if (current_level.time_left <= TIME_WARNING)
             play_music( level_song_fast, 1 );
           else
             play_music( level_song, 1 );
@@ -1639,7 +1750,7 @@ void game_draw()
   else
     {
       if (super_bkgd_time == 0)
-        clearscreen(bkgd_red, bkgd_green, bkgd_blue);
+        clearscreen(current_level.bkgd_red, current_level.bkgd_green, current_level.bkgd_blue);
       else
         drawimage(img_super_bkgd, 0, 0, NO_UPDATE);
     }
@@ -1652,7 +1763,7 @@ void game_draw()
       for (x = 0; x < 21; x++)
         {
           drawshape(x * 32 - (scroll_x % 32), y * 32,
-                    tiles[y][x + (scroll_x / 32)]);
+                    current_level.tiles[y][x + (scroll_x / 32)]);
         }
     }
 
@@ -1672,9 +1783,9 @@ void game_draw()
               dest.h = 32;
 
               SDL_FillRect(screen, &dest, SDL_MapRGB(screen->format,
-                                                     bkgd_red,
-                                                     bkgd_green,
-                                                     bkgd_blue));
+                                                     current_level.bkgd_red,
+                                                     current_level.bkgd_green,
+                                                     current_level.bkgd_blue));
 
               drawshape(bouncy_bricks[i].x - scroll_x,
                         bouncy_bricks[i].y + bouncy_bricks[i].offset,
@@ -2218,9 +2329,9 @@ void game_draw()
   drawtext("HIGH", 0, 20, letters_blue, NO_UPDATE, 1);
   drawtext(str, 96, 20, letters_gold, NO_UPDATE, 1);
 
-  if (time_left >= TIME_WARNING || (frame % 10) < 5)
+  if (current_level.time_left >= TIME_WARNING || (frame % 10) < 5)
     {
-      sprintf(str, "%d", time_left);
+      sprintf(str, "%d", current_level.time_left);
       drawtext("TIME", 224, 0, letters_blue, NO_UPDATE, 1);
       drawtext(str, 304, 0, letters_gold, NO_UPDATE, 1);
     }
@@ -2272,12 +2383,15 @@ int gameloop(void)
   tux_size = SMALL;
   tux_got_coffee = NO;
 
-  loadlevel();
+  set_defaults();
+  loadlevel(&current_level,"default",level);
   loadlevelgfx();
+  activate_bad_guys();
   loadlevelsong();
   highscore = load_hs();
 
-
+  levelintro();
+  
   /* --- MAIN GAME LOOP!!! --- */
 
   done = 0;
@@ -2325,7 +2439,7 @@ int gameloop(void)
           switch (current_music)
             {
             case LEVEL_MUSIC:
-              if (time_left <= TIME_WARNING)
+              if (current_level.time_left <= TIME_WARNING)
                 play_music(level_song_fast, 1);
               else
                 play_music(level_song, 1);
@@ -2355,15 +2469,15 @@ int gameloop(void)
 
       /* Handle time: */
 
-      if ((frame % 10) == 0 && time_left > 0)
+      if ((frame % 10) == 0 && current_level.time_left > 0)
         {
-          time_left--;
+          current_level.time_left--;
 
           /* Stop the music; it will start again, faster! */
-          if (time_left == TIME_WARNING)
+          if (current_level.time_left == TIME_WARNING)
             halt_music();
 
-          if (time_left <= 0)
+          if (current_level.time_left <= 0)
             killtux(KILL);
         }
     }
@@ -2390,230 +2504,28 @@ void initgame(void)
   lives = 3;
 }
 
-
-
-/* Load data for this level: */
-
-void loadlevel(void)
-{
-  int i, x, y;
-  FILE * fi;
-  char * filename;
-  char str[80];
-  char * line;
-
-
-  /* Reset arrays: */
-
-  for (i = 0; i < NUM_BOUNCY_DISTROS; i++)
-    bouncy_distros[i].alive = NO;
-
-  for (i = 0; i < NUM_BROKEN_BRICKS; i++)
-    broken_bricks[i].alive = NO;
-
-  for (i = 0; i < NUM_BOUNCY_BRICKS; i++)
-    bouncy_bricks[i].alive = NO;
-
-  for (i = 0; i < NUM_BAD_GUYS; i++)
-    bad_guys[i].alive = NO;
-
-  for (i = 0; i < NUM_FLOATING_SCORES; i++)
-    floating_scores[i].alive = NO;
-
-  for (i = 0; i < NUM_UPGRADES; i++)
-    upgrades[i].alive = NO;
-
-  for (i = 0; i < NUM_BULLETS; i++)
-    bullets[i].alive = NO;
-
-
-  /* Load data file: */
-
-  filename = (char *) malloc(sizeof(char) * (strlen(DATA_PREFIX) + 20));
-  sprintf(filename, "%s/levels/level%d.dat", DATA_PREFIX, level);
-  fi = fopen(filename, "r");
-  if (fi == NULL)
-    {
-      perror(filename);
-      st_shutdown();
-      free(filename);
-      exit(-1);
-    }
-  free(filename);
-
-
-  /* Load header info: */
-
-
-  /* (Level title) */
-  fgets(str, 20, fi);
-  strcpy(levelname, str);
-  levelname[strlen(levelname)-1] = '\0';
-
-  /* (Level theme) */
-  fgets(str, 20, fi);
-  strcpy(leveltheme, str);
-  leveltheme[strlen(leveltheme)-1] = '\0';
-
-
-
-  /* (Time to beat level) */
-  fgets(str, 10, fi);
-  time_left = atoi(str);
-
-  /* (Song file for this level) */
-  fgets(str, sizeof(song_title), fi);
-  strcpy(song_title, str);
-  song_title[strlen(song_title)-1] = '\0';
-
-
-
-  /* (Level background color) */
-  fgets(str, 10, fi);
-  bkgd_red = atoi(str);
-  fgets(str, 10, fi);
-  bkgd_green= atoi(str);
-  fgets(str, 10, fi);
-  bkgd_blue = atoi(str);
-
-  /* (Level width) */
-  fgets(str, 10, fi);
-  level_width = atoi(str);
-
-
-  /* Allocate some space for the line-reading! */
-
-  line = (char *) malloc(sizeof(char) * (level_width + 5));
-  if (line == NULL)
-    {
-      fprintf(stderr, "Couldn't allocate space to load level data!");
-      exit(1);
-    }
-
-
-  /* Load the level lines: */
-
-  for (y = 0; y < 15; y++)
-    {
-      if(fgets(line, level_width + 5, fi) == NULL)
-        {
-          fprintf(stderr, "Level %s isn't complete!\n",levelname);
-          exit(1);
-        }
-      line[strlen(line) - 1] = '\0';
-      tiles[y] = strdup(line);
-    }
-
-  fclose(fi);
-
-
-  /* Activate bad guys: */
-
-  for (y = 0; y < 15; y++)
-    {
-      for (x = 0; x < level_width; x++)
-        {
-          if (tiles[y][x] >= '0' && tiles[y][x] <= '9')
-            {
-              add_bad_guy(x * 32, y * 32, tiles[y][x] - '0');
-              tiles[y][x] = '.';
-            }
-        }
-    }
-
-
-  /* Set defaults: */
-
-  tux_x = 0;
-  tux_xm = 0;
-  tux_y = 240;
-  tux_ym = 0;
-  tux_dir = RIGHT;
-  tux_invincible_time = 0;
-  tux_duck = NO;
-
-  tux_dying = NO;
-  tux_safe = TUX_SAFE_TIME;
-
-  jumping = NO;
-  jump_counter = 0;
-
-  tux_skidding = 0;
-
-  scroll_x = 0;
-
-  right = UP;
-  left = UP;
-  up = UP;
-  down = UP;
-  fire = UP;
-  old_fire = UP;
-
-  score_multiplier = 1;
-  super_bkgd_time = 0;
-
-  counting_distros = NO;
-  distro_counter = 0;
-
-  endpos = 0;
-
-  /* set current song/music */
-  current_music = LEVEL_MUSIC;
-
-  /* Level Intro: */
-
-  clearscreen(0, 0, 0);
-
-  sprintf(str, "LEVEL %d", level);
-  drawcenteredtext(str, 200, letters_red, NO_UPDATE, 1);
-
-  sprintf(str, "%s", levelname);
-  drawcenteredtext(str, 224, letters_gold, NO_UPDATE, 1);
-
-  sprintf(str, "TUX x %d", lives);
-  drawcenteredtext(str, 256, letters_blue, NO_UPDATE, 1);
-
-  SDL_Flip(screen);
-
-  SDL_Delay(1000);
-
-
-}
-
-
-/* Load a level-specific graphic... */
-
-SDL_Surface * load_level_image(char * file, int use_alpha)
-{
-  char fname[1024];
-
-  snprintf(fname, 1024, "%s/images/themes/%s/%s", DATA_PREFIX, leveltheme, file);
-
-  return(load_image(fname, use_alpha));
-}
-
-
 /* Load graphics: */
 
 void loadlevelgfx(void)
 {
-  img_brick[0] = load_level_image("brick0.png", IGNORE_ALPHA);
-  img_brick[1] = load_level_image("brick1.png", IGNORE_ALPHA);
 
-  img_solid[0] = load_level_image("solid0.png", USE_ALPHA);
-  img_solid[1] = load_level_image("solid1.png", USE_ALPHA);
-  img_solid[2] = load_level_image("solid2.png", USE_ALPHA);
-  img_solid[3] = load_level_image("solid3.png", USE_ALPHA);
+  img_brick[0] = load_level_image(current_level.theme,"brick0.png", IGNORE_ALPHA);
+  img_brick[1] = load_level_image(current_level.theme,"brick1.png", IGNORE_ALPHA);
 
-  img_bkgd[0][0] = load_level_image("bkgd-00.png", USE_ALPHA);
-  img_bkgd[0][1] = load_level_image("bkgd-01.png", USE_ALPHA);
-  img_bkgd[0][2] = load_level_image("bkgd-02.png", USE_ALPHA);
-  img_bkgd[0][3] = load_level_image("bkgd-03.png", USE_ALPHA);
+  img_solid[0] = load_level_image(current_level.theme,"solid0.png", USE_ALPHA);
+  img_solid[1] = load_level_image(current_level.theme,"solid1.png", USE_ALPHA);
+  img_solid[2] = load_level_image(current_level.theme,"solid2.png", USE_ALPHA);
+  img_solid[3] = load_level_image(current_level.theme,"solid3.png", USE_ALPHA);
 
-  img_bkgd[1][0] = load_level_image("bkgd-10.png", USE_ALPHA);
-  img_bkgd[1][1] = load_level_image("bkgd-11.png", USE_ALPHA);
-  img_bkgd[1][2] = load_level_image("bkgd-12.png", USE_ALPHA);
-  img_bkgd[1][3] = load_level_image("bkgd-13.png", USE_ALPHA);
+  img_bkgd[0][0] = load_level_image(current_level.theme,"bkgd-00.png", USE_ALPHA);
+  img_bkgd[0][1] = load_level_image(current_level.theme,"bkgd-01.png", USE_ALPHA);
+  img_bkgd[0][2] = load_level_image(current_level.theme,"bkgd-02.png", USE_ALPHA);
+  img_bkgd[0][3] = load_level_image(current_level.theme,"bkgd-03.png", USE_ALPHA);
+
+  img_bkgd[1][0] = load_level_image(current_level.theme,"bkgd-10.png", USE_ALPHA);
+  img_bkgd[1][1] = load_level_image(current_level.theme,"bkgd-11.png", USE_ALPHA);
+  img_bkgd[1][2] = load_level_image(current_level.theme,"bkgd-12.png", USE_ALPHA);
+  img_bkgd[1][3] = load_level_image(current_level.theme,"bkgd-13.png", USE_ALPHA);
 }
 
 
@@ -2626,17 +2538,17 @@ void loadlevelsong(void)
   char * song_subtitle;
 
   song_path = (char *) malloc(sizeof(char) * (strlen(DATA_PREFIX) +
-                              strlen(song_title) + 8));
-  sprintf(song_path, "%s/music/%s", DATA_PREFIX, song_title);
+                              strlen(current_level.song_title) + 8));
+  sprintf(song_path, "%s/music/%s", DATA_PREFIX, current_level.song_title);
   level_song = load_song(song_path);
   free(song_path);
 
 
   song_path = (char *) malloc(sizeof(char) * (strlen(DATA_PREFIX) +
-                              strlen(song_title) + 8 + 5));
-  song_subtitle = strdup(song_title);
+                              strlen(current_level.song_title) + 8 + 5));
+  song_subtitle = strdup(current_level.song_title);
   strcpy(strstr(song_subtitle, "."), "\0");
-  sprintf(song_path, "%s/music/%s-fast%s", DATA_PREFIX, song_subtitle, strstr(song_title, "."));
+  sprintf(song_path, "%s/music/%s-fast%s", DATA_PREFIX, song_subtitle, strstr(current_level.song_title, "."));
   level_song_fast = load_song(song_path);
   free(song_subtitle);
   free(song_path);
@@ -3264,17 +3176,19 @@ void drawshape(int x, int y, unsigned char c)
 
 unsigned char shape(int x, int y, int sx)
 {
+
   int xx, yy;
   unsigned char c;
-
+  
   yy = (y / 32);
   xx = ((x + sx) / 32);
+ 
 
-  if (yy >= 0 && yy <= 15 && xx >= 0 && xx <= level_width)
-    c = tiles[yy][xx];
+  if (yy >= 0 && yy < 15 && xx >= 0 && xx <= current_level.width)
+    c = current_level.tiles[yy][xx];
   else
     c = '.';
-
+    
   return(c);
 }
 
@@ -3378,8 +3292,8 @@ void change(int x, int y, int sx, unsigned char c)
   yy = (y / 32);
   xx = ((x + sx) / 32);
 
-  if (yy >= 0 && yy <= 15 && xx >= 0 && xx <= level_width)
-    tiles[yy][xx] = c;
+  if (yy >= 0 && yy < 15 && xx >= 0 && xx <= current_level.width)
+    current_level.tiles[yy][xx] = c;
 }
 
 
@@ -3739,6 +3653,13 @@ void add_upgrade(int x, int y, int kind)
     }
 }
 
+/* Remove Tux's power ups */
+void remove_powerups(void)
+{
+	tux_got_coffee = NO;
+	tux_size = SMALL;
+}
+
 
 /* Kill tux! */
 
@@ -3839,8 +3760,7 @@ void drawresultscreen(void)
   drawcenteredtext(str, 256, letters_blue, NO_UPDATE, 1);
 
   SDL_Flip(screen);
-  /*SDL_Delay(2000);*/
-  sleep(2);
+  SDL_Delay(2000);
 }
 
 void savegame(void)
@@ -3870,6 +3790,7 @@ void savegame(void)
    fwrite(&tux_x,4,1,fi);
    fwrite(&tux_y,4,1,fi);
    fwrite(&scroll_x,4,1,fi);
+   fwrite(&current_level.time_left,4,1,fi);
   }
   fclose(fi);
 
@@ -3895,13 +3816,23 @@ void loadgame(char* filename)
 
     }
   else
-  {
+  { 
+  set_defaults();
+         loadlevel(&current_level,"default",level);
+	 activate_bad_guys();
+      unloadlevelgfx();
+      loadlevelgfx();
+      unloadlevelsong();
+      loadlevelsong();
+      levelintro();
+      
    fread(&level,4,1,fi);
    fread(&score,4,1,fi);
    fread(&distros,4,1,fi);
    fread(&tux_x,4,1,fi);
    fread(&tux_y,4,1,fi);
    fread(&scroll_x,4,1,fi);
+   fread(&current_level.time_left,4,1,fi);
    fclose(fi);
   }
 
