@@ -768,7 +768,7 @@ void Level::draw_bg()
   for (int x = 0; (x-1)*img_bkgd->w <= screen->w; x++)
     for (int y = 0; (y-1)*img_bkgd->h <= screen->h; y++)
       img_bkgd->draw_part(x == 0 ? sx : 0, y == 0 ? sy : 0,
-                        x == 0 ? 0 : (img_bkgd->w * x) - sx, y == 0 ? 0 : (img_bkgd->h * y) - sy + (height*32 - screen->h),
+                        x == 0 ? 0 : (img_bkgd->w * x) - sx, y == 0 ? 0 : (img_bkgd->h * y) - sy,
                         x == 0 ? img_bkgd->w - sx : img_bkgd->w, y == 0 ? img_bkgd->h - sy : img_bkgd->h);
 }
 
