@@ -61,8 +61,8 @@ void LevelSubset::read_info_file(const std::string& info_file)
     {
       LispReader reader(lisp_cdr(root_obj));
 
-      reader.read_string("title", title);
-      reader.read_string("description", description);
+      reader.read_string("title", title, true);
+      reader.read_string("description", description, true);
       reader.read_string_vector("levels", levels);
     }
   else
