@@ -508,7 +508,7 @@ bool process_load_game_menu()
         }
 
       // shrink_fade(Point((screen->w/2),(screen->h/2)), 1000);
-      fadeout();
+      fadeout(200);
       WorldMapNS::WorldMap worldmap;
      
       // Load the game or at least set the savegame_file variable

@@ -36,10 +36,8 @@ class Vector;
 void drawline(int x1, int y1, int x2, int y2, int r, int g, int b, int a);
 void fillrect(float x, float y, float w, float h, int r, int g, int b,
     int a = 255);
-void shrink_fade(const Vector& point, float fade_time);
-//void black_fade(Surface* surface, int seconds, bool fade_out);
-void fade(const std::string& surface, int seconds, bool fade_out);
-void update_rect(SDL_Surface *scr, Sint32 x, Sint32 y, Sint32 w, Sint32 h);
-void fadeout();
+
+void fadeout(int fade_time);
+void shrink_fade(const Vector& point, int fade_time);
 
 #endif /*SUPERTUX_SCREEN_H*/

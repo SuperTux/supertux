@@ -288,8 +288,24 @@ if(h < 0)
 }
 
 
-void fadeout()
+#define LOOP_DELAY 20.0
+
+void fadeout(int fade_time)
 {
+  float alpha_inc  = 256 / (fade_time / LOOP_DELAY);
+  float alpha = 256;
+
+  while(alpha > 0)
+    {
+    alpha -= alpha_inc;
+    fillrect(0, 0, screen->w, screen->h, 0,0,0, (int)alpha_inc);  // left side
+                                                   
+    DrawingContext context; // ugly...
+    context.do_drawing();
+
+    SDL_Delay(int(LOOP_DELAY));
+    }
+
   fillrect(0, 0, screen->w, screen->h, 0, 0, 0, 255);
   
   DrawingContext context;
@@ -298,13 +314,12 @@ void fadeout()
   context.do_drawing();
 }
 
-#define LOOP_DELAY 20.0
-void shrink_fade(const Vector& point, float fade_time)
+void shrink_fade(const Vector& point, int fade_time)
 {
-  float left_inc  = point.x / (fade_time / LOOP_DELAY);
-  float right_inc = (screen->w - point.x) / (fade_time / LOOP_DELAY);
-  float up_inc    = point.y / (fade_time / LOOP_DELAY);
-  float down_inc  = (screen->h - point.y) / (fade_time / LOOP_DELAY);
+  float left_inc  = point.x / ((float)fade_time / LOOP_DELAY);
+  float right_inc = (screen->w - point.x) / ((float)fade_time / LOOP_DELAY);
+  float up_inc    = point.y / ((float)fade_time / LOOP_DELAY);
+  float down_inc  = (screen->h - point.y) / ((float)fade_time / LOOP_DELAY);
                                                                                 
   float left_cor = 0, right_cor = 0, up_cor = 0, down_cor = 0;
                                                                                 
