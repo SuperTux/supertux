@@ -553,9 +553,9 @@ void LevelEditor::update_level_settings_menu()
 /*  if((i = string_list_find(level_settings_menu->get_item_by_id(MNID_PARTICLE).list,le_level->get_sector("main")->particlesystem.c_str())) != -1)
     level_settings_menu->get_item_by_id(MNID_PARTICLE).list->active_item = i;*/
 
-  sprintf(str,"%d",le_level->get_sector("main")->solids->get_width());
+  sprintf(str,"%d",static_cast<int>(le_level->get_sector("main")->solids->get_width()));
   level_settings_menu->get_item_by_id(MNID_LENGTH).change_input(str);
-  sprintf(str,"%d",le_level->get_sector("main")->solids->get_height());
+  sprintf(str,"%d", static_cast<int>(le_level->get_sector("main")->solids->get_height()));
   level_settings_menu->get_item_by_id(MNID_HEIGHT).change_input(str);
   sprintf(str,"%d",le_level->time_left);
   level_settings_menu->get_item_by_id(MNID_TIME).change_input(str);
