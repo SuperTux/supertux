@@ -43,7 +43,7 @@
 #define mkdir(dir, mode)    mkdir(dir)
 // on win32 we typically don't want LFS paths
 #undef DATA_PREFIX
-#define DATA_PREFIX "./data"
+#define DATA_PREFIX "./data/"
 #endif
 
 /* Local function prototypes: */
