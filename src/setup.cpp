@@ -49,6 +49,7 @@
 #include "configfile.h"
 #include "scene.h"
 #include "worldmap.h"
+#include "resources.h"
 
 #include "player.h"
 
@@ -537,10 +538,7 @@ void process_options_menu(void)
         use_sound = !use_sound;
       break;
     case MNID_MUSIC:
-      if(use_music != options_menu->item[MNID_MUSIC].toggled)
-        {
-          enable_music(options_menu->item[MNID_MUSIC].toggled);
-        }
+      music_manager->enable_music(options_menu->item[MNID_MUSIC].toggled);
       break;
     case MNID_SHOWFPS:
       if(show_fps != options_menu->item[MNID_SHOWFPS].toggled)

@@ -76,7 +76,6 @@ World::~World()
   for (BadGuys::iterator i = bad_guys.begin(); i != bad_guys.end(); ++i)
     delete *i;
   
-  halt_music(); // just to be sure (because levelmusic is freed now)
   delete level;
 }
 
@@ -428,16 +427,16 @@ World::play_music(int musictype)
   currentmusic = musictype;
   switch(currentmusic) {
     case HURRYUP_MUSIC:
-      ::play_music(get_level()->get_level_music_fast());
+      music_manager->play_music(get_level()->get_level_music_fast());
       break;
     case LEVEL_MUSIC:
-      ::play_music(get_level()->get_level_music());
+      music_manager->play_music(get_level()->get_level_music());
       break;
     case HERRING_MUSIC:
-      ::play_music(herring_song);
+      music_manager->play_music(herring_song);
       break;
     default:
-      ::halt_music();
+      music_manager->halt_music();
       break;
   }
 }

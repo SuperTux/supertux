@@ -53,6 +53,7 @@
 #include "tile.h"
 #include "particlesystem.h"
 #include "resources.h"
+#include "music_manager.h"
 
 GameSession* GameSession::current_ = 0;
 
@@ -141,6 +142,8 @@ GameSession::~GameSession()
 void
 GameSession::levelintro(void)
 {
+  music_manager->halt_music();
+  
   char str[60];
   /* Level Intro: */
   clearscreen(0, 0, 0);
@@ -380,7 +383,7 @@ GameSession::check_end_conditions()
     {
       end_sequenze = true;
       last_x_pos = -1;
-      halt_music();
+      music_manager->halt_music();
     }
   else
     {

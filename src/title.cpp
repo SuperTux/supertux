@@ -139,7 +139,6 @@ void check_contrib_subset_menu()
         {
           index -= 1; // FIXME: Hack
           std::cout << "Sarting level: " << index << std::endl;
-          halt_music();
           GameSession session(current_contrib_subset, index, ST_GL_PLAY);
           session.run();
           Menu::set_current(main_menu);
@@ -308,7 +307,6 @@ void title(void)
                   generate_contrib_menu();
                   break;
                 case MNID_LEVELEDITOR:
-                  halt_music();
                   leveleditor(1);
                   Menu::set_current(main_menu);
                   break;

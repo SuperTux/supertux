@@ -28,6 +28,7 @@
 #include "gameloop.h"
 #include "setup.h"
 #include "worldmap.h"
+#include "resources.h"
 
 namespace WorldMapNS {
 
@@ -283,7 +284,6 @@ WorldMap::WorldMap()
 
   name = "<no file>";
   music = "SALCON.MOD";
-  song = 0;
 
   load_map();
 }
@@ -555,8 +555,6 @@ WorldMap::update()
               level->y == tux->get_tile_pos().y)
             {
               std::cout << "Enter the current level: " << level->name << std::endl;;
-              halt_music();
-              
               GameSession session(datadir +  "levels/" + level->name,
                                   1, ST_GL_LOAD_LEVEL_FILE);
 
@@ -582,7 +580,7 @@ WorldMap::update()
                   break;
                 }
 
-              play_music(song);
+              music_manager->play_music(song);
               Menu::set_current(0);
               if (!savegame_file.empty())
                 savegame(savegame_file);
@@ -725,11 +723,8 @@ WorldMap::display()
 
   quit = false;
 
-  song = load_song(datadir +  "/music/" + music);
-  if(!song)
-    st_abort("Couldn't load song ", music.c_str());
-
-  play_music(song);
+  song = music_manager->load_music(datadir +  "/music/" + music);
+  music_manager->play_music(song);
 
   while(!quit) {
     Point tux_pos = tux->get_pos();
@@ -758,9 +753,6 @@ WorldMap::display()
 
     SDL_Delay(20);
   }
-
-  halt_music();
-  free_music(song);
 }
 
 void

@@ -36,7 +36,10 @@ Surface* img_cloud[2][4];
 
 Surface* img_red_glow;
 
+MusicRef herring_song;
+
 SpriteManager* sprite_manager = 0;
+MusicManager* music_manager = 0;
 
 /* Load graphics/sounds shared between all levels: */
 void loadshared()
@@ -44,6 +47,7 @@ void loadshared()
   int i;
 
   sprite_manager = new SpriteManager(datadir + "/supertux.strf");
+  music_manager = new MusicManager();
 
   /* Tuxes: */
   smalltux_star = sprite_manager->load("smalltux-star");
@@ -270,17 +274,13 @@ void loadshared()
     sounds[i] = load_sound(datadir + soundfilenames[i]);
 
   /* Herring song */
-  herring_song = load_song(datadir + "/music/SALCON.MOD");
-  if(!herring_song)
-    st_abort("Couldn't load song ", "/music/SALCON.MOD");
+  herring_song = music_manager->load_music(datadir + "/music/SALCON.MOD");
 }
 
 
 /* Free shared data: */
 void unloadshared(void)
 {
-  delete sprite_manager;
-
   int i;
 
   free_special_gfx();
@@ -330,8 +330,10 @@ void unloadshared(void)
   for (i = 0; i < NUM_SOUNDS; i++)
     free_chunk(sounds[i]);
 
-  /* free the herring song */
-  free_music( herring_song );
+  delete sprite_manager;
+  sprite_manager = 0;
+  delete music_manager;
+  music_manager = 0;
 }
 
 /* EOF */

@@ -25,6 +25,7 @@
 #include "texture.h"
 #include "badguy.h"
 #include "lispreader.h"
+#include "musicref.h"
 
 class Tile;
 
@@ -68,8 +69,8 @@ class Level
 {
  public:
   Surface* img_bkgd;
-  Mix_Music* level_song;
-  Mix_Music* level_song_fast;
+  MusicRef level_song;
+  MusicRef level_song_fast;
 
   std::string name;
   std::string author;
@@ -119,8 +120,8 @@ class Level
   
   void load_song();
   void free_song();
-  Mix_Music* get_level_music();
-  Mix_Music* get_level_music_fast();
+  MusicRef get_level_music();
+  MusicRef get_level_music_fast();
 
   void save(const char* subset, int level);
 

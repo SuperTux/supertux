@@ -31,6 +31,8 @@
 #include "scene.h"
 #include "tile.h"
 #include "lispreader.h"
+#include "resources.h"
+#include "music_manager.h"
 
 using namespace std;
 
@@ -199,18 +201,18 @@ void st_subset::free()
 }
 
 Level::Level()
-  : img_bkgd(0), level_song(0), level_song_fast(0)
+  : img_bkgd(0)
 {
 }
 
 Level::Level(const std::string& subset, int level)
-  : img_bkgd(0), level_song(0), level_song_fast(0)
+  : img_bkgd(0)
 {
   load(subset, level);
 }
 
 Level::Level(const std::string& filename)
-  : img_bkgd(0), level_song(0), level_song_fast(0)
+  : img_bkgd(0)
 {
   load(filename);
 }
@@ -218,7 +220,6 @@ Level::Level(const std::string& filename)
 Level::~Level()
 {
   free_gfx();
-  free_song();
 }
 
 void
@@ -698,29 +699,13 @@ Level::change(float x, float y, int tm, unsigned int c)
     }
 }
 
-void 
-Level::free_song(void)
-{
-  if(level_song_fast != level_song) {
-    free_music(level_song_fast);
-    level_song_fast = 0;
-  }
-    
-  free_music(level_song);
-  level_song = 0;
-}
-
 void
 Level::load_song()
 {
-  free_song();
-  
   char* song_path;
   char* song_subtitle;
 
-  level_song = ::load_song(datadir + "/music/" + song_title);
-  if(!level_song)
-    st_abort("Couldn't load song: " , song_title.c_str());
+  level_song = music_manager->load_music(datadir + "/music/" + song_title);
 
   song_path = (char *) malloc(sizeof(char) * datadir.length() +
                               strlen(song_title.c_str()) + 8 + 5);
@@ -728,21 +713,22 @@ Level::load_song()
   strcpy(strstr(song_subtitle, "."), "\0");
   sprintf(song_path, "%s/music/%s-fast%s", datadir.c_str(), 
           song_subtitle, strstr(song_title.c_str(), "."));
-  level_song_fast = ::load_song(song_path);
-  if(!level_song_fast) {
+  if(!music_manager->exists_music(song_path)) {
     level_song_fast = level_song;
+  } else {
+    level_song_fast = music_manager->load_music(song_path);
   }
   free(song_subtitle);
   free(song_path);
 }
 
-Mix_Music*
+MusicRef
 Level::get_level_music()
 {
   return level_song;
 }
 
-Mix_Music*
+MusicRef
 Level::get_level_music_fast()
 {
   return level_song_fast;

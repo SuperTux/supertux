@@ -69,6 +69,10 @@ gameobjs.cpp \
 sprite.h \
 sprite.cpp \
 sprite_manager.cpp \
-sprite_manager.h
+sprite_manager.h \
+music_manager.cpp \
+music_manager.h \
+musicref.cpp \
+musicref.h
 
 # EOF #

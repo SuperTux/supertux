@@ -78,7 +78,6 @@ extern char* soundfilenames[NUM_SOUNDS];
 
 /* variables for stocking the sound and music */
 extern Mix_Chunk* sounds[NUM_SOUNDS];
-extern Mix_Music* herring_song;
 
 /* functions handling the sound and music */
 int open_audio(int frequency, Uint16 format, int channels, int chunksize);
@@ -87,11 +86,5 @@ void close_audio( void );
 Mix_Chunk * load_sound(const std::string& file);
 void free_chunk(Mix_Chunk*chunk);
 void play_sound(Mix_Chunk * snd, enum Sound_Speaker whichSpeaker);
-
-Mix_Music* load_song(const std::string& file);
-void free_music(Mix_Music* music);
-void halt_music(void);
-void enable_music(bool enable);
-void play_music(Mix_Music* music);
 
 #endif /*SUPERTUX_SOUND_H*/

@@ -1,7 +1,7 @@
 //  $Id$
 //
 //  SuperTux -  A Jump'n Run
-//  Copyright (C) 2003 Tobias Glaesser <tobi.web@gmx.de>
+//  Copyright (C) 2004 Matthias Braun <matze@braunis.de>
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -16,34 +16,29 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+#ifndef HEADER_MUSIC_RESOURCE_H
+#define HEADER_MUSIC_RESOURCE_H
 
-#ifndef SUPERTUX_RESOURCES_H
-#define SUPERTUX_RESOURCES_H
+#include "music_manager.h"
 
-#include "musicref.h"
+/** This class holds a reference to a music file and maintains a correct
+ * refcount for that file.
+ */
+class MusicRef
+{
+public:
+  MusicRef();
+  MusicRef(const MusicRef& other);
+  ~MusicRef();
 
-class SpriteManager;
-class MusicManager;
+  MusicRef& operator= (const MusicRef& other);
 
-extern Surface* img_waves[3]; 
-extern Surface* img_water;
-extern Surface* img_pole;
-extern Surface* img_poletop;
-extern Surface* img_flag[2];
-extern Surface* img_cloud[2][4];
-
-extern Surface* img_super_bkgd;
-extern Surface* img_red_glow;
-
-extern MusicRef herring_song;
-
-extern SpriteManager* sprite_manager;
-extern MusicManager* music_manager;
-
-void loadshared();
-void unloadshared();
+private:
+  friend class MusicManager;
+  MusicRef(MusicManager::MusicResource* music);
+  
+  MusicManager::MusicResource* music;
+};
 
 #endif
-
-/* EOF */
 

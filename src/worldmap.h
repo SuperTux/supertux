@@ -23,7 +23,7 @@
 #include <vector>
 #include <string>
 
-#include <SDL_mixer.h>
+#include "musicref.h"
 
 namespace WorldMapNS {
 
@@ -153,7 +153,7 @@ private:
   typedef std::vector<Level> Levels;
   Levels levels;
 
-  Mix_Music* song;
+  MusicRef song;
 
   Direction input_direction;
   bool enter_level;

@@ -24,9 +24,9 @@
 #include "setup.h"
 
 /*global variable*/
-bool use_sound;           /* handle sound on/off menu and command-line option */
-bool use_music;           /* handle music on/off menu and command-line option */
-bool audio_device;        /* != 0: available and initialized */
+bool use_sound = true;    /* handle sound on/off menu and command-line option */
+bool use_music = true;    /* handle music on/off menu and command-line option */
+bool audio_device = true; /* != 0: available and initialized */
 int current_music;
 
 char * soundfilenames[NUM_SOUNDS] = {
@@ -55,8 +55,6 @@ char * soundfilenames[NUM_SOUNDS] = {
 #include <SDL_mixer.h>
 
 Mix_Chunk * sounds[NUM_SOUNDS];
-Mix_Music * herring_song = 0;
-Mix_Music * current_song = 0;
 
 /* --- OPEN THE AUDIO DEVICE --- */
 
@@ -156,49 +154,5 @@ void free_chunk(Mix_Chunk *chunk)
       Mix_FreeChunk( chunk );
       chunk = NULL;
     }
-}
-
-void halt_music(void)
-{
-  if (!use_music || !audio_device)
-    return;
-
-  Mix_HaltMusic();
-  current_song = 0;
-}
-
-
-void play_music(Mix_Music *music)
-{
-  if (!audio_device)
-    return;
-  if(music == current_song)
-    return;
-
-  if (use_music && Mix_PlayMusic(music, -1) < 0)
-    st_abort("Couldn't play music: ", Mix_GetError());
-
-  current_song = music;
-}
-
-
-void free_music(Mix_Music *music)
-{
-  if(!audio_device)
-    return;
-
-  Mix_FreeMusic( music );
-}
-
-void enable_music(bool enable)
-{
-  if(!audio_device)
-    return;
-  
-  use_music = enable;
-  if(!use_music)
-    Mix_HaltMusic();
-  else
-    Mix_PlayMusic(current_song, -1);
 }
 
