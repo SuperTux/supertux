@@ -640,11 +640,7 @@ void st_general_free(void)
 
 void st_video_setup(void)
 {
-  if(screen != NULL)
-    SDL_FreeSurface(screen);
-
   /* Init SDL Video: */
-
   if (SDL_Init(SDL_INIT_VIDEO) < 0)
     {
       fprintf(stderr,
