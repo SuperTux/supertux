@@ -28,7 +28,7 @@ width      = content[8]
 height     = "15"
 gravity    = content[9]
 
-print "(level"
+print "(supertux-level"
 print "  (name \"%s\")" % name
 print "  (theme \"%s\")" % theme
 print "  (music \"%s\")" % music
