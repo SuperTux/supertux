@@ -35,7 +35,7 @@ TARGET=supertux
 TARGET_DEF=LINUX
 
 CFLAGS=-Wall -O2 $(SDL_CFLAGS) -DDATA_PREFIX=\"$(DATA_PREFIX)\" \
-	-D$(NOSOUNDFLAG) -D$(TARGET_DEF) -DJOY_$(JOY) $(DEBUG_FLAG)
+	-D$(NOSOUNDFLAG) -D$(NOOPENGLFLAG) -D$(TARGET_DEF) -DJOY_$(JOY) $(DEBUG_FLAG)
 
 
 # Other definitions:
@@ -43,6 +43,7 @@ CFLAGS=-Wall -O2 $(SDL_CFLAGS) -DDATA_PREFIX=\"$(DATA_PREFIX)\" \
 SDL_MIXER=-lSDL_mixer
 SDL_IMAGE=-lSDL_image
 NOSOUNDFLAG=__SOUND
+NOOPENGLFLAG=__OPENGL
 SDL_LIB=$(SDL_MIXER) $(SDL_IMAGE) $(SDL_LDFLAGS) 
 SDL_CFLAGS := $(shell sdl-config --cflags)
 SDL_LDFLAGS := $(shell sdl-config --libs)
@@ -76,6 +77,12 @@ uninstall:
 nosound:
 	make supertux SDL_MIXER= NOSOUNDFLAG=NOSOUND
 
+noopengl:
+	make supertux GL_LIB= NOOPENGLFLAG=NOOPENGL
+	
+nosoundopengl:
+	make supertux GL_LIB= SDL_MIXER= NOSOUNDFLAG=NOSOUND NOOPENGLFLAG=NOOPENGL
+	
 win32:
 	make TARGET_DEF=WIN32 TARGET=supertux.exe \
 		DATA_PREFIX=data/
