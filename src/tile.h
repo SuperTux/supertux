@@ -58,11 +58,15 @@ public:
   /** water */
   bool water;
 
+  /** spike - kills player on contact */
+  bool spike;
+
   /** Bonusbox, content is stored in \a data */
   bool fullbox;
 
   /** Tile is a distro/coin */
   bool distro;
+
 
   /** the level should be finished when touching a goaltile.
    * if data is 0 then the endsequence should be triggered, if data is 1

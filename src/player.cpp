@@ -184,6 +184,14 @@ Player::action(double frame_ratio)
 
       collision_swept_object_map(&old_base, &base);
 
+      if (!invincible_timer.started()
+          && (isspike(base.x, base.y) || isspike(base.x + base.width, base.y)
+          ||  isspike(base.x, base.y + base.height)
+          ||  isspike(base.x + base.width, base.y + base.height)))
+      {
+         kill(SHRINK);
+      }
+
       // Don't accelerate Tux if he is running against a wall
       if (target.x != base.x)
         {

@@ -255,6 +255,8 @@ Trampoline::draw()
 void
 Trampoline::action(double frame_ratio)
 {
+  // TODO: Remove if we're too far off the screen
+
   physic.apply(frame_ratio, base.x, base.y);
 
   // Falling

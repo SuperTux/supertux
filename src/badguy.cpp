@@ -719,6 +719,17 @@ BadGuy::action(double frame_ratio)
     return;
   }
 
+  // Kill us if we landed on spikes
+  if (dying == DYING_NOT
+      && (kind != BAD_STALACTITE && kind != BAD_FLAME && kind != BAD_BOMB)
+      && (isspike(base.x, base.y) || isspike(base.x + base.width, base.y)
+      ||  isspike(base.x, base.y + base.height)
+      ||  isspike(base.x + base.width, base.y + base.height)))
+      {
+         physic.set_velocity_y(3);
+         kill_me(0);
+      }
+
   // Once it's on screen, it's activated!
   if (base.x <= scroll_x + screen->w + OFFSCREEN_DISTANCE)
     seen = true;
@@ -965,6 +976,7 @@ BadGuy::kill_me(int score)
   physic.enable_gravity(true);
 
   /* Gain some points: */
+  if (score != 0)
     World::current()->add_score(base.x, base.y,
                     score * player_status.score_multiplier);
 

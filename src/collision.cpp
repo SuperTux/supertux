@@ -263,6 +263,12 @@ bool isice(float x, float y)
   return tile && tile->ice;
 }
 
+bool isspike(float x, float y)
+{
+  Tile* tile = gettile(x,y);
+  return tile && tile->spike;
+}
+
 bool isfullbox(float x, float y)
 {
   Tile* tile = gettile(x,y);
