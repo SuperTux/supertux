@@ -90,6 +90,7 @@ int FileSystem::fwriteable(const std::string& filename)
     {
       return false;
     }
+  fclose(fi);
   return true;
 }
 
