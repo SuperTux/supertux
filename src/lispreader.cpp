@@ -1269,13 +1269,13 @@ bool has_suffix(const char* data, const char* suffix)
     }
 }
 
-lisp_object_t* lisp_read_from_file(const char* filename)
+lisp_object_t* lisp_read_from_file(const std::string& filename)
 {
   lisp_stream_t stream;
 
-  if (has_suffix(filename, ".gz"))
+  if (has_suffix(filename.c_str(), ".gz"))
     {
-      return lisp_read_from_gzfile(filename);
+      return lisp_read_from_gzfile(filename.c_str());
 #if 0
       lisp_object_t* obj = 0;
       gzFile in = gzopen(filename, "r");
@@ -1292,7 +1292,7 @@ lisp_object_t* lisp_read_from_file(const char* filename)
   else
     {
       lisp_object_t* obj = 0;
-      FILE* in = fopen(filename, "r");
+      FILE* in = fopen(filename.c_str(), "r");
 
       if (in)
         {

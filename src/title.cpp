@@ -81,10 +81,10 @@ int title(void)
 
   /* Load images: */
 
-  texture_load(&bkg_title,DATA_PREFIX "/images/title/title.png", IGNORE_ALPHA);
-  texture_load(&anim1,DATA_PREFIX "/images/title/title-anim2.png", IGNORE_ALPHA);
-  texture_load(&anim2,DATA_PREFIX "/images/title/title-anim1.png", IGNORE_ALPHA);
-  texture_load(&img_choose_subset,DATA_PREFIX "/images/status/choose-level-subset.png", USE_ALPHA);
+  texture_load(&bkg_title,datadir + "/images/title/title.png", IGNORE_ALPHA);
+  texture_load(&anim1,datadir + "/images/title/title-anim2.png", IGNORE_ALPHA);
+  texture_load(&anim2,datadir + "/images/title/title-anim1.png", IGNORE_ALPHA);
+  texture_load(&img_choose_subset,datadir + "/images/status/choose-level-subset.png", USE_ALPHA);
 
   /* --- Main title loop: --- */
 
@@ -292,7 +292,7 @@ void display_credits()
   string_list_type names;
   char filename[1024];
   string_list_init(&names);
-  sprintf(filename,"%s/CREDITS",DATA_PREFIX);
+  sprintf(filename,"%s/CREDITS", datadir.c_str());
   if((fi = fopen(filename,"r")) != NULL)
     {
       while(fgets(temp, sizeof(temp), fi) != NULL)

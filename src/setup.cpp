@@ -80,7 +80,7 @@ int fcreatedir(const char* relative_dir)
   snprintf(path, 1024, "%s/%s/", st_dir, relative_dir);
   if(mkdir(path,0755) != 0)
     {
-      snprintf(path, 1024, "%s/%s/", DATA_PREFIX, relative_dir);
+      snprintf(path, 1024, "%s/%s/", datadir.c_str(), relative_dir);
       if(mkdir(path,0755) != 0)
         {
           return NO;
@@ -133,7 +133,7 @@ string_list_type dsubdirs(const char *rel_path,const  char* expected_file)
       closedir(dirStructP);
     }
 
-  sprintf(path,"%s/%s",DATA_PREFIX,rel_path);
+  sprintf(path,"%s/%s",datadir.c_str(),rel_path);
   if((dirStructP = opendir(path)) != NULL)
     {
       while((direntp = readdir(dirStructP)) != NULL)
@@ -204,7 +204,7 @@ string_list_type dfiles(const char *rel_path, const  char* glob, const  char* ex
       closedir(dirStructP);
     }
 
-  sprintf(path,"%s/%s",DATA_PREFIX,rel_path);
+  sprintf(path,"%s/%s",datadir.c_str(),rel_path);
   if((dirStructP = opendir(path)) != NULL)
     {
       while((direntp = readdir(dirStructP)) != NULL)
@@ -293,6 +293,7 @@ void st_directory_setup(void)
       if (readlink("/proc/self/exe", exe_file, PATH_MAX) < 0)
         {
           puts("Couldn't read /proc/self/exe, using default path: " DATA_PREFIX);
+          datadir = DATA_PREFIX;
         }
       else
         {
@@ -487,21 +488,21 @@ void st_general_setup(void)
 
   /* Load global images: */
 
-  text_load(&black_text,DATA_PREFIX "/images/status/letters-black.png", TEXT_TEXT, 16,18);
-  text_load(&gold_text,DATA_PREFIX "/images/status/letters-gold.png", TEXT_TEXT, 16,18);
-  text_load(&blue_text,DATA_PREFIX "/images/status/letters-blue.png", TEXT_TEXT, 16,18);
-  text_load(&red_text,DATA_PREFIX "/images/status/letters-red.png", TEXT_TEXT, 16,18);
-  text_load(&white_text,DATA_PREFIX "/images/status/letters-white.png", TEXT_TEXT, 16,18);
-  text_load(&white_small_text,DATA_PREFIX "/images/status/letters-white-small.png", TEXT_TEXT, 8,9);
-  text_load(&white_big_text,DATA_PREFIX "/images/status/letters-white-big.png", TEXT_TEXT, 20,23);
-  text_load(&yellow_nums,DATA_PREFIX "/images/status/numbers.png", TEXT_NUM, 32,32);
+  text_load(&black_text, datadir + "/images/status/letters-black.png", TEXT_TEXT, 16,18);
+  text_load(&gold_text,datadir + "/images/status/letters-gold.png", TEXT_TEXT, 16,18);
+  text_load(&blue_text,datadir + "/images/status/letters-blue.png", TEXT_TEXT, 16,18);
+  text_load(&red_text,datadir + "/images/status/letters-red.png", TEXT_TEXT, 16,18);
+  text_load(&white_text,datadir + "/images/status/letters-white.png", TEXT_TEXT, 16,18);
+  text_load(&white_small_text,datadir + "/images/status/letters-white-small.png", TEXT_TEXT, 8,9);
+  text_load(&white_big_text,datadir + "/images/status/letters-white-big.png", TEXT_TEXT, 20,23);
+  text_load(&yellow_nums,datadir + "/images/status/numbers.png", TEXT_NUM, 32,32);
 
   /* Load GUI/menu images: */
-  texture_load(&checkbox, DATA_PREFIX "/images/status/checkbox.png", USE_ALPHA);
-  texture_load(&checkbox_checked, DATA_PREFIX "/images/status/checkbox-checked.png", USE_ALPHA);
-  texture_load(&back, DATA_PREFIX "/images/status/back.png", USE_ALPHA);
-  texture_load(&arrow_left, DATA_PREFIX "/images/icons/left.png", USE_ALPHA);
-  texture_load(&arrow_right, DATA_PREFIX "/images/icons/right.png", USE_ALPHA);
+  texture_load(&checkbox, datadir + "/images/status/checkbox.png", USE_ALPHA);
+  texture_load(&checkbox_checked, datadir + "/images/status/checkbox-checked.png", USE_ALPHA);
+  texture_load(&back, datadir + "/images/status/back.png", USE_ALPHA);
+  texture_load(&arrow_left, datadir + "/images/icons/left.png", USE_ALPHA);
+  texture_load(&arrow_right, datadir + "/images/icons/right.png", USE_ALPHA);
 
 }
 
@@ -809,13 +810,13 @@ void seticon(void)
 
   /* Load icon into a surface: */
 
-  icon = IMG_Load(DATA_PREFIX "/images/icon.png");
+  icon = IMG_Load((datadir + "/images/icon.png").c_str());
   if (icon == NULL)
     {
       fprintf(stderr,
-              "\nError: I could not load the icon image: %s\n"
+              "\nError: I could not load the icon image: %s%s\n"
               "The Simple DirectMedia error that occured was:\n"
-              "%s\n\n", DATA_PREFIX "/images/icon.png", SDL_GetError());
+              "%s\n\n", datadir.c_str(), "/images/icon.png", SDL_GetError());
       exit(1);
     }
 

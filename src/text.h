@@ -42,7 +42,7 @@ enum {
    A_NONE
 };
 
-void text_load(text_type* ptext, const char* file, int kind, int w, int h);
+void text_load(text_type* ptext, const std::string& file, int kind, int w, int h);
 void text_draw(text_type* ptext, const char* text, int x, int y, int shadowsize, int update);
 void text_draw_chars(text_type* ptext, texture_type* pchars, const char* text, int x, int y, int update);
 void text_drawf(text_type* ptext, const char* text, int x, int y, int halign, int valign, int shadowsize, int update);

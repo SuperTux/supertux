@@ -20,6 +20,7 @@
 #include <iostream>
 #include <vector>
 #include <assert.h>
+#include "globals.h"
 #include "texture.h"
 #include "screen.h"
 #include "lispreader.h"
@@ -32,7 +33,7 @@ TileManager* TileManager::instance_  = 0;
 
 TileManager::TileManager()
 {
-  lisp_object_t* root_obj = lisp_read_from_file(DATA_PREFIX "images/worldmap/antarctica.scm");
+  lisp_object_t* root_obj = lisp_read_from_file(datadir +  "images/worldmap/antarctica.scm");
   
   assert(root_obj);
 
@@ -66,7 +67,7 @@ TileManager::TileManager()
               reader.read_string("image",  &filename);
 
               texture_load(&tile->sprite, 
-                           const_cast<char*>((std::string(DATA_PREFIX "/images/worldmap/") + filename).c_str()), 
+                           datadir +  "/images/worldmap/" + filename, 
                            USE_ALPHA);
 
               if (id >= int(tiles.size()))
@@ -98,7 +99,7 @@ TileManager::get(int i)
 Tux::Tux(WorldMap* worldmap_)
   : worldmap(worldmap_)
 {
-  texture_load(&sprite, DATA_PREFIX "/images/worldmap/tux.png", USE_ALPHA);
+  texture_load(&sprite, datadir +  "/images/worldmap/tux.png", USE_ALPHA);
   offset = 0;
   moving = false;
   tile_pos.x = 0;
@@ -196,7 +197,7 @@ WorldMap::WorldMap()
   width  = 20;
   height = 15;
 
-  texture_load(&level_sprite, DATA_PREFIX "/images/worldmap/levelmarker.png", USE_ALPHA);
+  texture_load(&level_sprite, datadir +  "/images/worldmap/levelmarker.png", USE_ALPHA);
 
   input_direction = NONE;
   enter_level = false;
@@ -216,7 +217,7 @@ WorldMap::~WorldMap()
 void
 WorldMap::load_map()
 {
-  lisp_object_t* root_obj = lisp_read_from_file(DATA_PREFIX "levels/default/worldmap.scm");
+  lisp_object_t* root_obj = lisp_read_from_file(datadir +  "levels/default/worldmap.scm");
   assert(root_obj);
   
   if (strcmp(lisp_symbol(lisp_car(root_obj)), "supertux-worldmap") == 0)
@@ -385,7 +386,7 @@ WorldMap::update()
             {
               std::cout << "Enter the current level: " << i->name << std::endl;;
               halt_music();
-              gameloop(const_cast<char*>((DATA_PREFIX "levels/default/" + i->name).c_str()),
+              gameloop(const_cast<char*>((datadir +  "levels/default/" + i->name).c_str()),
                        1, ST_GL_LOAD_LEVEL_FILE);
               play_music(song, 1);
               break;
@@ -433,7 +434,7 @@ WorldMap::display()
 {
   quit = false;
 
-  song = load_song(const_cast<char*>((DATA_PREFIX "/music/" + music).c_str()));
+  song = load_song(datadir +  "/music/" + music);
   play_music(song, 1);
 
   while(!quit) {

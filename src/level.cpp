@@ -87,7 +87,7 @@ void st_subset::load(char *subset)
 
   snprintf(filename, 1024, "%s/levels/%s/info", st_dir, subset);
   if(!faccessible(filename))
-    snprintf(filename, 1024, "%s/levels/%s/info", DATA_PREFIX, subset);
+    snprintf(filename, 1024, "%s/levels/%s/info", datadir.c_str(), subset);
   if(faccessible(filename))
     {
       fi = fopen(filename, "r");
@@ -126,7 +126,7 @@ void st_subset::load(char *subset)
         }
       else
         {
-          snprintf(filename, 1024, "%s/images/status/level-subset-info.png", DATA_PREFIX);
+          snprintf(filename, 1024, "%s/images/status/level-subset-info.png", datadir.c_str());
           texture_load(&image,filename,IGNORE_ALPHA);
         }
     }
@@ -137,7 +137,7 @@ void st_subset::load(char *subset)
       snprintf(filename, 1024, "%s/levels/%s/level%d.stl", st_dir, subset,i);
       if(!faccessible(filename))
         {
-          snprintf(filename, 1024, "%s/levels/%s/level%d.stl", DATA_PREFIX, subset,i);
+          snprintf(filename, 1024, "%s/levels/%s/level%d.stl", datadir.c_str(), subset,i);
           if(!faccessible(filename))
             break;
         }
@@ -156,7 +156,7 @@ void st_subset::save()
   fcreatedir(filename.c_str());
   filename = string(st_dir) + "/levels/" + name + "/info";
   if(!fwriteable(filename.c_str()))
-    filename = string(DATA_PREFIX) + "/levels/" + name + "/info";
+    filename = datadir + "/levels/" + name + "/info";
   if(fwriteable(filename.c_str()))
     {
       fi = fopen(filename.c_str(), "w");
@@ -224,7 +224,7 @@ int level_load(st_level* plevel,const  char *subset, int level)
 
   snprintf(filename, 1024, "%s/levels/%s/level%d.stl", st_dir, subset, level);
   if(!faccessible(filename))
-    snprintf(filename, 1024, "%s/levels/%s/level%d.stl", DATA_PREFIX, subset, level);
+    snprintf(filename, 1024, "%s/levels/%s/level%d.stl", datadir.c_str(), subset, level);
 
   return level_load(plevel, filename);
 }
@@ -322,7 +322,7 @@ void level_save(st_level* plevel,const  char * subset, int level)
   fcreatedir(str);
   snprintf(filename, 1024, "%s/levels/%s/level%d.stl", st_dir, subset, level);
   if(!fwriteable(filename))
-    snprintf(filename, 1024, "%s/levels/%s/level%d.stl", DATA_PREFIX, subset, level);
+    snprintf(filename, 1024, "%s/levels/%s/level%d.stl", datadir.c_str(), subset, level);
 
   fi = fopen(filename, "w");
   if (fi == NULL)
@@ -403,7 +403,7 @@ void level_load_gfx(st_level *plevel)
       char fname[1024];
       snprintf(fname, 1024, "%s/background/%s", st_dir, plevel->bkgd_image.c_str());
       if(!faccessible(fname))
-        snprintf(fname, 1024, "%s/images/background/%s", DATA_PREFIX, plevel->bkgd_image.c_str());
+        snprintf(fname, 1024, "%s/images/background/%s", datadir.c_str(), plevel->bkgd_image.c_str());
       texture_load(&img_bkgd, fname, IGNORE_ALPHA);
     }
   else
@@ -441,7 +441,7 @@ void level_load_image(texture_type* ptexture, string theme,const  char * file, i
 
   snprintf(fname, 1024, "%s/themes/%s/%s", st_dir, theme.c_str(), file);
   if(!faccessible(fname))
-    snprintf(fname, 1024, "%s/images/themes/%s/%s", DATA_PREFIX, theme.c_str(), file);
+    snprintf(fname, 1024, "%s/images/themes/%s/%s", datadir.c_str(), theme.c_str(), file);
 
   texture_load(ptexture, fname, use_alpha);
 }
@@ -475,18 +475,13 @@ void level_load_song(st_level* plevel)
   char * song_path;
   char * song_subtitle;
 
-  song_path = (char *) malloc(sizeof(char) * (strlen(DATA_PREFIX) +
-                              strlen(plevel->song_title.c_str()) + 8));
-  sprintf(song_path, "%s/music/%s", DATA_PREFIX, plevel->song_title.c_str());
-  level_song = load_song(song_path);
-  free(song_path);
+  level_song = load_song(datadir + "/music/" + plevel->song_title);
 
-
-  song_path = (char *) malloc(sizeof(char) * (strlen(DATA_PREFIX) +
-                              strlen(plevel->song_title.c_str()) + 8 + 5));
+  song_path = (char *) malloc(sizeof(char) * datadir.length() +
+                              strlen(plevel->song_title.c_str()) + 8 + 5);
   song_subtitle = strdup(plevel->song_title.c_str());
   strcpy(strstr(song_subtitle, "."), "\0");
-  sprintf(song_path, "%s/music/%s-fast%s", DATA_PREFIX, song_subtitle, strstr(plevel->song_title.c_str(), "."));
+  sprintf(song_path, "%s/music/%s-fast%s", datadir.c_str(), song_subtitle, strstr(plevel->song_title.c_str(), "."));
   level_song_fast = load_song(song_path);
   free(song_subtitle);
   free(song_path);

@@ -17,7 +17,7 @@
 #include "screen.h"
 #include "text.h"
 
-void text_load(text_type* ptext,const  char* file, int kind, int w, int h)
+void text_load(text_type* ptext, const std::string& file, int kind, int w, int h)
 {
   int mx, my;
   SDL_Surface *conv;

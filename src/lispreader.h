@@ -115,7 +115,7 @@ lisp_stream_t* lisp_stream_init_any (lisp_stream_t *stream, void *data,
                                      void (*unget_char) (char c, void *data));
 
 lisp_object_t* lisp_read (lisp_stream_t *in);
-lisp_object_t* lisp_read_from_file(const char* filename);
+lisp_object_t* lisp_read_from_file(const std::string& filename);
 void lisp_free (lisp_object_t *obj);
 
 lisp_object_t* lisp_read_from_string (const char *buf);

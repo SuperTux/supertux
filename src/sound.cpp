@@ -22,24 +22,24 @@ int audio_device;        /* != 0: available and initialized */
 int current_music;
 
 char * soundfilenames[NUM_SOUNDS] = {
-                                      DATA_PREFIX "/sounds/jump.wav",
-                                      DATA_PREFIX "/sounds/bigjump.wav",
-                                      DATA_PREFIX "/sounds/skid.wav",
-                                      DATA_PREFIX "/sounds/distro.wav",
-                                      DATA_PREFIX "/sounds/herring.wav",
-                                      DATA_PREFIX "/sounds/brick.wav",
-                                      DATA_PREFIX "/sounds/hurt.wav",
-                                      DATA_PREFIX "/sounds/squish.wav",
-                                      DATA_PREFIX "/sounds/fall.wav",
-                                      DATA_PREFIX "/sounds/ricochet.wav",
-                                      DATA_PREFIX "/sounds/bump-upgrade.wav",
-                                      DATA_PREFIX "/sounds/upgrade.wav",
-                                      DATA_PREFIX "/sounds/excellent.wav",
-                                      DATA_PREFIX "/sounds/coffee.wav",
-                                      DATA_PREFIX "/sounds/shoot.wav",
-                                      DATA_PREFIX "/sounds/lifeup.wav",
-                                      DATA_PREFIX "/sounds/stomp.wav",
-                                      DATA_PREFIX "/sounds/kick.wav"
+                                       "/sounds/jump.wav",
+                                       "/sounds/bigjump.wav",
+                                       "/sounds/skid.wav",
+                                       "/sounds/distro.wav",
+                                       "/sounds/herring.wav",
+                                       "/sounds/brick.wav",
+                                       "/sounds/hurt.wav",
+                                       "/sounds/squish.wav",
+                                       "/sounds/fall.wav",
+                                       "/sounds/ricochet.wav",
+                                       "/sounds/bump-upgrade.wav",
+                                       "/sounds/upgrade.wav",
+                                       "/sounds/excellent.wav",
+                                       "/sounds/coffee.wav",
+                                       "/sounds/shoot.wav",
+                                       "/sounds/lifeup.wav",
+                                       "/sounds/stomp.wav",
+                                       "/sounds/kick.wav"
                                     };
 
 

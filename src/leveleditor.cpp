@@ -383,7 +383,7 @@ int le_init()
   le_mouse_pressed[LEFT] = NO;
   le_mouse_pressed[RIGHT] = NO;
 
-  texture_load(&le_selection,DATA_PREFIX "/images/leveleditor/select.png", USE_ALPHA);
+  texture_load(&le_selection, datadir + "/images/leveleditor/select.png", USE_ALPHA);
 
   /* Load buttons */
   button_load(&le_save_level_bt,"/images/icons/save.png","Save level", SDLK_F6,screen->w-64,32);

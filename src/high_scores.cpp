@@ -118,7 +118,7 @@ void save_hs(int score)
   FILE * fi;
 
 
-  texture_load(&bkgd, DATA_PREFIX "/images/highscore/highscore.png", IGNORE_ALPHA);
+  texture_load(&bkgd, datadir + "/images/highscore/highscore.png", IGNORE_ALPHA);
 
   hs_score = score;
 

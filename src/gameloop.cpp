@@ -1190,7 +1190,7 @@ void loadshared(void)
      Send a mail to me: neoneurone@users.sf.net, if you have another opinion. :)
   */
   for (i = 0; i < NUM_SOUNDS; i++)
-    sounds[i] = load_sound(soundfilenames[i]);
+    sounds[i] = load_sound(datadir + soundfilenames[i]);
 
   /* Herring song */
   herring_song = load_song(datadir + "/music/SALCON.MOD");
