@@ -417,7 +417,7 @@ Player::handle_vertical_input()
       physic.set_velocity_y(0);
     }
 
-  if (input.down == DOWN && !on_ground() && !duck && size != SMALL)
+  if (input.down == DOWN && !on_ground() && !duck && size == BIG)
     butt_jump = true;
   else if (input.down == UP)
     butt_jump = false;
