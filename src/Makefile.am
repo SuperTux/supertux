@@ -7,6 +7,8 @@ supertux_SOURCES = \
   bitmask.h \
   button.cpp \
   button.h \
+  configfile.h \
+  configfile.cpp \
   collision.cpp \
   collision.h \
   defines.h \

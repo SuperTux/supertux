@@ -15,47 +15,16 @@
 #include "menu.h"
 #include "screen.h"
 #include "texture.h"
+#include "setup.h"
+
+#ifdef WIN32
+const char * highscore_filename = "/st_highscore.dat";
+#else
+const char * highscore_filename = "/highscore";
+#endif
 
 int hs_score;
 char hs_name[62]; /* highscores global variables*/
-
-FILE * opendata(char * mode)
-{
-  char * filename = NULL;
-  FILE * fi;
-
-
-  filename = (char *) malloc(sizeof(char) * (strlen(st_dir) +
-                             strlen("/st_highscore.dat") + 1));
-
-  strcpy(filename, st_dir);
-  /* Open the high score file: */
-
-#ifndef WIN32
-  strcat(filename, "/highscore");
-#else
-  strcat(filename, "/st_highscore.dat");
-#endif
-
-
-  /* Try opening the file: */
-
-  fi = fopen(filename, mode);
-  free( filename );
-
-  if (fi == NULL)
-    {
-      fprintf(stderr, "Warning: Unable to open the high score file ");
-
-      if (strcmp(mode, "r") == 0)
-        fprintf(stderr, "for read!!!\n");
-      else if (strcmp(mode, "w") == 0)
-        fprintf(stderr, "for write!!!\n");
-
-    }
-
-  return(fi);
-}
 
 /* Load data from high score file: */
 
@@ -72,7 +41,7 @@ void load_hs(void)
 
   /* Try to open file: */
 
-  fi = opendata("r");
+  fi = opendata(highscore_filename, "r");
   if (fi != NULL)
     {
       do
@@ -162,7 +131,7 @@ void save_hs(int score)
 
   /* Try to open file: */
 
-  fi = opendata("w");
+  fi = opendata(highscore_filename, "w");
   if (fi != NULL)
     {
       fprintf(fi, "# Supertux highscore file\n\n");

@@ -22,9 +22,9 @@
 #define SOUND_RESERVED_CHANNELS 2
 
 /*global variable*/
-extern int use_sound;           /* handle sound on/off menu and command-line option */
-extern int use_music;           /* handle music on/off menu and command-line option */
-extern int audio_device;        /* != 0: available and initialized */
+extern bool use_sound;           /* handle sound on/off menu and command-line option */
+extern bool use_music;           /* handle music on/off menu and command-line option */
+extern bool audio_device;        /* != 0: available and initialized */
 
 /* enum of different internal music types */
 enum Music_Type {

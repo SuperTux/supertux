@@ -16,9 +16,9 @@
 #include "setup.h"
 
 /*global variable*/
-int use_sound;           /* handle sound on/off menu and command-line option */
-int use_music;           /* handle music on/off menu and command-line option */
-int audio_device;        /* != 0: available and initialized */
+bool use_sound;           /* handle sound on/off menu and command-line option */
+bool use_music;           /* handle music on/off menu and command-line option */
+bool audio_device;        /* != 0: available and initialized */
 int current_music;
 
 char * soundfilenames[NUM_SOUNDS] = {

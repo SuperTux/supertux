@@ -20,6 +20,7 @@
 int faccessible(const char *filename);
 int fcreatedir(const char* relative_dir);
 int fwriteable(const char *filename);
+FILE * opendata(const char * filename, const char * mode);
 string_list_type dsubdirs(const char *rel_path, const char* expected_file);
 string_list_type dfiles(const char *rel_path, const char* glob, const char* exception_str);
 void free_strings(char **strings, int num);

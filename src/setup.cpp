@@ -37,6 +37,7 @@
 #include "texture.h"
 #include "menu.h"
 #include "gameloop.h"
+#include "configfile.h"
 
 #ifdef WIN32
 #define mkdir(dir, mode)    mkdir(dir)
@@ -100,6 +101,36 @@ int fcreatedir(const char* relative_dir)
     {
       return true;
     }
+}
+
+FILE * opendata(const char * rel_filename, const char * mode)
+{
+  char * filename = NULL;
+  FILE * fi;
+
+  filename = (char *) malloc(sizeof(char) * (strlen(st_dir) +
+                                             strlen(rel_filename) + 1));
+
+  strcpy(filename, st_dir);
+  /* Open the high score file: */
+
+  strcat(filename, rel_filename);
+
+  /* Try opening the file: */
+  fi = fopen(filename, mode);
+
+  if (fi == NULL)
+    {
+      fprintf(stderr, "Warning: Unable to open the file \"%s\" ", filename);
+
+      if (strcmp(mode, "r") == 0)
+        fprintf(stderr, "for read!!!\n");
+      else if (strcmp(mode, "w") == 0)
+        fprintf(stderr, "for write!!!\n");
+    }
+  free( filename );
+
+  return(fi);
 }
 
 /* Get all names of sub-directories in a certain directory. */
@@ -310,7 +341,7 @@ void st_directory_setup(void)
             }
         }
 #else
-	datadir = DATA_PREFIX;
+  datadir = DATA_PREFIX;
 #endif
     }
   printf("Datadir: %s\n", datadir.c_str());
@@ -781,8 +812,8 @@ void st_shutdown(void)
 {
   close_audio();
   SDL_Quit();
+  saveconfig();
 }
-
 
 /* --- ABORT! --- */
 
@@ -790,7 +821,7 @@ void st_abort(const std::string& reason, const std::string& details)
 {
   fprintf(stderr, "\nError: %s\n%s\n\n", reason.c_str(), details.c_str());
   st_shutdown();
-  exit(1);
+  abort();
 }
 
 
@@ -841,17 +872,7 @@ void parseargs(int argc, char * argv[])
 {
   int i;
 
-  /* Set defaults: */
-
-
-  debug_mode = false;
-  use_fullscreen = false;
-  show_fps = false;
-  use_gl = false;
-
-  use_sound = true;
-  use_music = true;
-  audio_device = true;
+  loadconfig();
 
   /* Parse arguments: */
 
@@ -927,7 +948,7 @@ void parseargs(int argc, char * argv[])
 
         }
       else if (strcmp(argv[i], "--help") == 0)
-        { 	  /* Show help: */
+        {     /* Show help: */
           puts("Super Tux " VERSION "\n"
                "  Please see the file \"README.txt\" for more details.\n");
           printf("Usage: %s [OPTIONS] FILENAME\n\n", argv[0]);
