@@ -56,8 +56,15 @@ void loadshared()
   largetux_star = sprite_manager->load("largetux-star");
   smalltux_gameover = sprite_manager->load("smalltux-gameover");
 
-  growingtux_left = sprite_manager->load("tux-grow-left");
-  growingtux_right = sprite_manager->load("tux-grow-right");
+  char img_name[1024];
+  for (int i = 0; i < GROWING_FRAMES; i++)
+  {
+    sprintf(img_name, "%s/images/shared/tux-grow-left-%i.png", datadir.c_str(), i+1);
+    growingtux_left[i] = new Surface(img_name, false);
+
+    sprintf(img_name, "%s/images/shared/tux-grow-right-%i.png", datadir.c_str(), i+1);
+    growingtux_right[i] = new Surface(img_name, false);
+  }
 
   smalltux.stand_left  = sprite_manager->load("smalltux-stand-left");
   smalltux.stand_right = sprite_manager->load("smalltux-stand-right");
@@ -246,6 +253,12 @@ void unloadshared(void)
     }
 
   delete tux_life;
+
+  for (int i = 0; i < GROWING_FRAMES; i++)
+  {
+    delete growingtux_left[i];
+    delete growingtux_right[i];
+  }
 
   for (i = 0; i < NUM_SOUNDS; i++)
     free_chunk(sounds[i]);

@@ -85,8 +85,11 @@ extern Surface* tux_life;
 extern Sprite* smalltux_gameover;
 extern Sprite* smalltux_star;
 extern Sprite* largetux_star;
-extern Sprite* growingtux_left;
-extern Sprite* growingtux_right;
+
+#define GROWING_TIME 1000
+#define GROWING_FRAMES 7
+extern Surface* growingtux_left[GROWING_FRAMES];
+extern Surface* growingtux_right[GROWING_FRAMES];
 
 struct PlayerSprite
 {

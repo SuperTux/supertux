@@ -42,13 +42,15 @@
 // others stuff:
 #define AUTOSCROLL_DEAD_INTERVAL 300
 
+// growing animation
+Surface* growingtux_left[GROWING_FRAMES];
+Surface* growingtux_right[GROWING_FRAMES];
+
 Surface* tux_life;
 
 Sprite* smalltux_gameover;
 Sprite* smalltux_star;
 Sprite* largetux_star;
-Sprite* growingtux_left;
-Sprite* growingtux_right;
 
 PlayerSprite smalltux;
 PlayerSprite largetux;
@@ -116,7 +118,7 @@ Player::init()
 
   frame_main = 0;
   frame_ = 0;
-  
+
   player_input_init(&input);
 
   invincible_timer.init(true);
@@ -633,7 +635,7 @@ Player::grow(bool animate)
   base.y -= 32;
 
   if(animate)
-    growing_timer.start((int)((growingtux_left->get_frames() / growingtux_left->get_fps()) * 1000));
+    growing_timer.start(GROWING_TIME);
 
   old_base = previous_base = base;
 }
@@ -701,9 +703,9 @@ Player::draw(DrawingContext& context)
           if(growing_timer.check())
             {
               if (dir == RIGHT)
-                growingtux_right->draw(context, pos, layer);
+                context.draw_surface(growingtux_right[(growing_timer.get_gone() * GROWING_FRAMES) / GROWING_TIME], pos, layer);
               else 
-                growingtux_left->draw(context, pos, layer);
+                context.draw_surface(growingtux_left[(growing_timer.get_gone() * GROWING_FRAMES) / GROWING_TIME], pos, layer);
             }
           else if (duck && size != SMALL)
             {
