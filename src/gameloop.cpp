@@ -129,6 +129,28 @@ GameSession::start_timers()
 }
 
 void
+GameSession::on_escape_press()
+{
+  if(!game_pause)
+    {
+      if(st_gl_mode == ST_GL_TEST)
+        {
+          exit_status = LEVEL_ABORT;
+        }
+      else if (!Menu::current())
+        {
+          Menu::set_current(game_menu);
+          st_pause_ticks_stop();
+        }
+      else
+        {
+          Menu::set_current(NULL);
+          st_pause_ticks_start();
+        }
+    }
+}
+
+void
 GameSession::process_events()
 {
   Player& tux = *world->get_tux();
@@ -137,7 +159,8 @@ GameSession::process_events()
   while (SDL_PollEvent(&event))
     {
       /* Check for menu-events, if the menu is shown */
-      current_menu->event(event);
+      if (Menu::current())
+        Menu::current()->event(event);
 
       switch(event.type)
         {
@@ -155,25 +178,7 @@ GameSession::process_events()
             switch(key)
               {
               case SDLK_ESCAPE:    /* Escape: Open/Close the menu: */
-                if(!game_pause)
-                  {
-                    if(st_gl_mode == ST_GL_TEST)
-                      {
-                        exit_status = LEVEL_ABORT;
-                      }
-                    else if(!show_menu)
-                      {
-                        Menu::set_current(game_menu);
-                        show_menu = 0;
-                        st_pause_ticks_stop();
-                      }
-                    else
-                      {
-                        Menu::set_current(game_menu);
-                        show_menu = 1;
-                        st_pause_ticks_start();
-                      }
-                  }
+                on_escape_press();
                 break;
               default:
                 break;
@@ -190,7 +195,7 @@ GameSession::process_events()
             switch(key)
               {
               case SDLK_p:
-                if(!show_menu)
+                if(!Menu::current())
                   {
                     if(game_pause)
                       {
@@ -285,13 +290,14 @@ GameSession::process_events()
             tux.input.up = DOWN;
           else if (event.jbutton.button == JOY_B)
             tux.input.fire = DOWN;
+          else if (event.jbutton.button == JOY_START)
+            on_escape_press();
           break;
         case SDL_JOYBUTTONUP:
           if (event.jbutton.button == JOY_A)
             tux.input.up = UP;
           else if (event.jbutton.button == JOY_B)
             tux.input.fire = UP;
-	    
           break;
 
         default:
@@ -373,7 +379,7 @@ GameSession::draw()
       blue_text->drawf("PAUSE - Press 'P' To Play", 0, 230, A_HMIDDLE, A_TOP, 1);
     }
 
-  if(show_menu)
+  if(Menu::current())
     {
       menu_process_current();
       mouse_cursor->draw();
@@ -430,9 +436,9 @@ GameSession::run()
 
       process_events();
 
-      if(show_menu)
+      if(Menu::current())
         {
-          if(current_menu == game_menu)
+          if(Menu::current() == game_menu)
             {
               switch (game_menu->check())
                 {
@@ -445,18 +451,18 @@ GameSession::run()
                   break;
                 }
             }
-          else if(current_menu == options_menu)
+          else if(Menu::current() == options_menu)
             {
               process_options_menu();
             }
-          else if(current_menu == load_game_menu )
+          else if(Menu::current() == load_game_menu )
             {
               process_load_game_menu();
             }
         }
       
       // Handle actions:
-      if(!game_pause && !show_menu)
+      if(!game_pause && !Menu::current())
         {
           frame_ratio *= game_speed;
           frame_ratio += overlap;
@@ -490,7 +496,7 @@ GameSession::run()
       draw();
 
       /* Time stops in pause mode */
-      if(game_pause || show_menu )
+      if(game_pause || Menu::current())
         {
           continue;
         }

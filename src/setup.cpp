@@ -468,7 +468,6 @@ bool process_load_game_menu()
 
       worldmap.display();
       
-      show_menu = true;
       Menu::set_current(main_menu);
 
       st_pause_ticks_stop();

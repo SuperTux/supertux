@@ -30,11 +30,6 @@
 #include "timer.h"
 #include "high_scores.h"
 
-/* (global) menu variables */
-MenuAction menuaction = MENU_ACTION_NONE;
-bool show_menu;
-bool menu_change;
-
 Surface* checkbox;
 Surface* checkbox_checked;
 Surface* back;
@@ -52,27 +47,18 @@ Menu* save_game_menu = 0;
 Menu* contrib_menu   = 0;
 Menu* contrib_subset_menu   = 0;
 
-Menu* current_menu = 0;
+Menu* Menu::current_ = 0;
 
-/* input implementation variables */
-int delete_character;
-char mn_input_char;
-
-/* Set the current menu */
 void
-Menu::set_current(Menu* pmenu)
+Menu::set_current(Menu* menu)
 {
-  if(pmenu != current_menu)
+  if (menu)
     {
-      menu_change  = true;
-      Menu* tmp = current_menu;
-      current_menu = pmenu;
-      if(tmp)
-        if(tmp->last_menu != pmenu)
-          current_menu->last_menu = tmp;
-
-      pmenu->effect.start(500);
+      menu->last_menu = current_;
+      menu->effect.start(500);
     }
+  
+  current_ = menu;
 }
 
 /* Return a pointer to a new menu item */
@@ -140,8 +126,13 @@ Menu::~Menu()
     }
 }
 
+
 Menu::Menu()
 {
+  menuaction = MENU_ACTION_NONE;
+  delete_character = 0;
+  mn_input_char = '\0';
+  
   pos_x        = screen->w/2;
   pos_y        = screen->h/2;
   has_backitem = false;
@@ -241,7 +232,6 @@ Menu::action()
 
               case MN_TOGGLE:
                 item[active_item].toggled = !item[active_item].toggled;
-                menu_change = true;
                 break;
 
               case MN_ACTION:
@@ -309,12 +299,14 @@ Menu::action()
       || new_item.kind == MN_HL)
     {
       // Skip the horzontal line item
-      if(menuaction != MENU_ACTION_UP && menuaction != MENU_ACTION_DOWN)
+      if (menuaction != MENU_ACTION_UP && menuaction != MENU_ACTION_DOWN)
         menuaction = MENU_ACTION_DOWN;
 
-      if(item.size() > 1)
+      if (item.size() > 1)
         action();
     }
+
+  menuaction = MENU_ACTION_NONE;
 }
 
 int
@@ -328,7 +320,7 @@ Menu::check()
           && item[active_item].toggled)
         {
           item[active_item].toggled = false;
-          show_menu = 0;
+          Menu::set_current(0);
           return active_item;
         }
       else if(item[active_item].kind == MN_TOGGLE || item[active_item].kind == MN_GOTO)
@@ -531,43 +523,21 @@ Menu::draw()
     }
 }
 
-/* Reset/Set global defaults */
-void menu_reset(void)
-{
-  menu_change  = false;
-  show_menu    = false;
-  menuaction   = MENU_ACTION_NONE;
-  current_menu = NULL;
-
-  delete_character = 0;
-  mn_input_char    = '\0';
-}
-
 /* --- MENU --- */
 /* Draw the current menu and execute the (menu)events */
-void menu_process_current(void)
+void menu_process_current()
 {
-  if(!show_menu)
-    return;
-
-  menu_change = false;
-
-  if(current_menu != NULL)
+  if(Menu::current())
     {
-      current_menu->action();
-      current_menu->draw();
+      Menu::current()->action();
+      Menu::current()->draw();
     }
-
-  menuaction = MENU_ACTION_NONE;
 }
 
 /* Check for menu event */
 void
 Menu::event(SDL_Event& event)
 {
-  if(show_menu == false && event.key.keysym.sym != SDLK_ESCAPE)
-    return;
-
   SDLKey key;
   switch(event.type)
     {
@@ -594,50 +564,43 @@ Menu::event(SDL_Event& event)
         {
         case SDLK_UP:		/* Menu Up */
           menuaction = MENU_ACTION_UP;
-          menu_change = true;
           break;
         case SDLK_DOWN:		/* Menu Down */
           menuaction = MENU_ACTION_DOWN;
-          menu_change = true;
           break;
         case SDLK_LEFT:		/* Menu Up */
           menuaction = MENU_ACTION_LEFT;
-          menu_change = true;
           break;
         case SDLK_RIGHT:		/* Menu Down */
           menuaction = MENU_ACTION_RIGHT;
-          menu_change = true;
           break;
         case SDLK_SPACE:
           if(item[active_item].kind == MN_TEXTFIELD)
             {
               menuaction = MENU_ACTION_INPUT;
-              menu_change = true;
               mn_input_char = ' ';
               break;
             }
         case SDLK_RETURN: /* Menu Hit */
           menuaction = MENU_ACTION_HIT;
-          menu_change = true;
           break;
         case SDLK_DELETE:
         case SDLK_BACKSPACE:
           menuaction = MENU_ACTION_REMOVE;
-          menu_change = true;
           delete_character++;
           break;
         case SDLK_ESCAPE:
-          if(show_menu && has_backitem == true && last_menu != NULL)
-            Menu::set_current(last_menu);
-          else if(show_menu)
-            show_menu = false;
-          else
-            show_menu = true;
+          if(Menu::current())
+            {
+              if (has_backitem == true && last_menu != NULL)
+                Menu::set_current(last_menu);
+              else
+                Menu::set_current(0);
+            }
         default:
           if( (key >= SDLK_0 && key <= SDLK_9) || (key >= SDLK_a && key <= SDLK_z) || (key >= SDLK_SPACE && key <= SDLK_SLASH))
             {
               menuaction = MENU_ACTION_INPUT;
-              menu_change = true;
               mn_input_char = *ch;
             }
           else
@@ -663,9 +626,9 @@ Menu::event(SDL_Event& event)
       x = event.motion.x;
       y = event.motion.y;
       if(x > pos_x - width()/2 &&
-          x < pos_x + width()/2 &&
-          y > pos_y - height()/2 &&
-          y < pos_y + height()/2)
+         x < pos_x + width()/2 &&
+         y > pos_y - height()/2 &&
+         y < pos_y + height()/2)
         {
           menuaction = MENU_ACTION_HIT;
         }
@@ -674,15 +637,14 @@ Menu::event(SDL_Event& event)
       x = event.motion.x;
       y = event.motion.y;
       if(x > pos_x - width()/2 &&
-          x < pos_x + width()/2 &&
-          y > pos_y - height()/2 &&
-          y < pos_y + height()/2)
+         x < pos_x + width()/2 &&
+         y > pos_y - height()/2 &&
+         y < pos_y + height()/2)
         {
           active_item = (y - (pos_y - height()/2)) / 24;
-          menu_change = true;
-	  mouse_cursor->set_state(MC_LINK);
+          mouse_cursor->set_state(MC_LINK);
         }
-	else
+      else
 	{
 	  mouse_cursor->set_state(MC_NORMAL);
 	}

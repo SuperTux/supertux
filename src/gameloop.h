@@ -85,6 +85,9 @@ class GameSession
   void drawstatus();
   void drawendscreen();
   void drawresultscreen(void);
+
+ private:
+  void on_escape_press();
 };
 
 std::string slotinfo(int slot);

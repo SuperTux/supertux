@@ -188,6 +188,8 @@ public:
 
   void savegame(const std::string& filename);
   void loadgame(const std::string& filename);
+private:
+  void on_escape_press();
 };
 
 } // namespace WorldMapNS

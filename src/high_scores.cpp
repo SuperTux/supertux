@@ -77,7 +77,6 @@ void save_hs(int score)
 
   hs_score = score;
 
-  menu_reset();
   Menu::set_current(highscore_menu);
 
   if(!highscore_menu->item[0].input)
@@ -86,8 +85,7 @@ void save_hs(int score)
   strcpy(highscore_menu->item[0].input,hs_name.c_str());
 
   /* ask for player's name */
-  show_menu = 1;
-  while(show_menu)
+  while(Menu::current())
     {
       bkgd->draw_bg();
 
@@ -101,7 +99,7 @@ void save_hs(int score)
 
       while(SDL_PollEvent(&event))
         if(event.type == SDL_KEYDOWN)
-          current_menu->event(event);
+          Menu::current()->event(event);
 
       switch (highscore_menu->check())
         {

@@ -362,6 +362,17 @@ WorldMap::load_map()
 }
 
 void
+WorldMap::on_escape_press()
+{
+  std::cout << "on escape press" << std::endl;
+
+  if(!Menu::current())
+    Menu::set_current(worldmap_menu); 
+  else
+    Menu::set_current(0); 
+}
+
+void
 WorldMap::get_input()
 {
   enter_level = false;
@@ -370,11 +381,11 @@ WorldMap::get_input()
   SDL_Event event;
   while (SDL_PollEvent(&event))
     {
-      if(!show_menu && event.key.keysym.sym == SDLK_ESCAPE)
-        Menu::set_current(worldmap_menu);
-
-      current_menu->event(event);
-      if(!show_menu)
+      if (Menu::current())
+        {
+          Menu::current()->event(event);
+        }
+      else
         {
           switch(event.type)
             {
@@ -385,6 +396,9 @@ WorldMap::get_input()
             case SDL_KEYDOWN:
               switch(event.key.keysym.sym)
                 {
+                case SDLK_ESCAPE:
+                  on_escape_press();
+                  break;
                 case SDLK_LCTRL:
                 case SDLK_RETURN:
                   enter_level = true;
@@ -415,6 +429,8 @@ WorldMap::get_input()
             case SDL_JOYBUTTONDOWN:
               if (event.jbutton.button == JOY_B)
                 enter_level = true;
+              else if (event.jbutton.button == JOY_START)
+                on_escape_press();
               break;
 
             default:
@@ -423,7 +439,7 @@ WorldMap::get_input()
         }
     }
 
-  if (!show_menu)
+  if (!Menu::current())
     {
       Uint8 *keystate = SDL_GetKeyState(NULL);
   
@@ -534,8 +550,7 @@ WorldMap::update()
                 }
 
               play_music(song, 1);
-              show_menu = 0;
-              menu_reset();
+              Menu::set_current(0);
               if (!savegame_file.empty())
                 savegame(savegame_file);
               return;
@@ -553,14 +568,13 @@ WorldMap::update()
       tux->update(0.33f);
     }
   
-  if(show_menu)
+  if(Menu::current())
     {
-      if(current_menu == worldmap_menu)
+      if(Menu::current() == worldmap_menu)
         {
           switch (worldmap_menu->check())
             {
             case 2: // Return to game
-              menu_reset();
               break;
             case 3:
               if (!savegame_file.empty())
@@ -667,7 +681,7 @@ WorldMap::draw_status()
 void
 WorldMap::display()
 {
-  show_menu = false;
+  Menu::set_current(0);
 
   quit = false;
 
@@ -692,7 +706,7 @@ WorldMap::display()
     get_input();
     update();
 
-  if(show_menu)
+  if(Menu::current())
     {
       menu_process_current();
       mouse_cursor->draw();

@@ -139,9 +139,7 @@ void check_contrib_subset_menu()
       std::cout << "Sarting level: " << index << std::endl;
       GameSession session(current_contrib_subset, index, ST_GL_PLAY);
       session.run();
-      menu_reset();
       Menu::set_current(main_menu);
-      show_menu = 1;
     }  
 }
 
@@ -207,8 +205,6 @@ void draw_demo(GameSession* session, double frame_ratio)
       scroll_x = tux->base.x - 320;
     }
 
-
-
   float last_tux_x_pos = tux->base.x;
   tux->action(frame_ratio);
 
@@ -232,12 +228,6 @@ bool title(void)
 
   GameSession session(datadir + "/levels/misc/menu.stl", 0, ST_GL_DEMO_GAME);
 
-  //FIXME:activate_particle_systems();
-
-  /* Reset menu variables */
-  menu_reset();
-  Menu::set_current(main_menu);
-
   clearscreen(0, 0, 0);
   updatescreen();
 
@@ -249,7 +239,6 @@ bool title(void)
 
   /* --- Main title loop: --- */
   bool done = 0;
-  show_menu = 1;
   frame = 0;
 
   /* Draw the title background: */
@@ -259,9 +248,10 @@ bool title(void)
   update_time = st_get_ticks();
   random_timer.start(rand() % 2000 + 2000);
 
+  Menu::set_current(main_menu);
   while (!done)
     {
-      /* Calculate the movement-factor */
+      // Calculate the movement-factor
       double frame_ratio = ((double)(update_time-last_update_time))/((double)FRAME_RATE);
       if(frame_ratio > 1.5) /* Quick hack to correct the unprecise CPU clocks a little bit. */
         frame_ratio = 1.5 + (frame_ratio - 1.5) * 0.85;
@@ -272,7 +262,6 @@ bool title(void)
 
       while (SDL_PollEvent(&event))
         {
-          current_menu->event(event);
           if (event.type == SDL_QUIT)
             {
               done = true;
@@ -282,10 +271,12 @@ bool title(void)
               /* Keypress... */
               key = event.key.keysym.sym;
 
-              /* Check for menu events */
-              //menu_event(event);
+              if (Menu::current())
+                {
+                  Menu::current()->event(event);
+                }
 
-              if (!show_menu)
+              if (!Menu::current())
                 {
                   /* Escape: Quit: */
                   done = true;
@@ -297,115 +288,24 @@ bool title(void)
       draw_background();
       draw_demo(&session, frame_ratio);
       
-      if (current_menu == main_menu)
+      if (Menu::current() == main_menu)
         logo->draw( 160, 30);
 
-      white_small_text->draw(
-                " SuperTux " VERSION "\n"
-                "Copyright (c) 2003 SuperTux Devel Team\n"
-                "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you\n"
-                "are welcome to redistribute it under certain conditions; see the file COPYING\n"
-                "for details.\n",
-                0, 420, 0);
-
-      /* Draw the high score: */
-      /*
-        sprintf(str, "High score: %d", hs_score);
-        text_drawf(&gold_text, str, 0, -40, A_HMIDDLE, A_BOTTOM, 1);
-        sprintf(str, "by %s", hs_name);
-        text_drawf(&gold_text, str, 0, -20, A_HMIDDLE, A_BOTTOM, 1);
-      */
+      white_small_text->draw(" SuperTux " VERSION "\n"
+                             "Copyright (c) 2003 SuperTux Devel Team\n"
+                             "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you\n"
+                             "are welcome to redistribute it under certain conditions; see the file COPYING\n"
+                             "for details.\n",
+                             0, 420, 0);
 
       /* Don't draw menu, if quit is true */
-      if(show_menu && !done)
+      if(!done)
         menu_process_current();
 
-      if(current_menu == main_menu)
+      if(Menu::current() == main_menu)
         {
           switch (main_menu->check())
             {
-#if 0
-            case 0:
-              string_list_type level_subsets;
-              level_subsets = dsubdirs("/levels", "info");
-
-              // Quick Play
-              // FIXME: obsolete
-              done = 0;
-              i = 0;
-              if(level_subsets.num_items != 0)
-                {
-                  subset.load(level_subsets.item[0]);
-                  while(!done)
-                    {
-                      img_choose_subset->draw((screen->w - img_choose_subset.w) / 2, 0);
-                      if(level_subsets.num_items != 0)
-                        {
-                          subset.image->draw((screen->w - subset.image.w) / 2 + 25,78);
-                          if(level_subsets.num_items > 1)
-                            {
-                              if(i > 0)
-                                arrow_left->draw((screen->w / 2) - ((subset.title.length()+2)*16)/2,20);
-                              if(i < level_subsets.num_items-1)
-                                arrow_right->draw((screen->w / 2) + ((subset.description.length())*16)/2,20);
-                            }
-                          text_drawf(&gold_text, subset.title.c_str(), 0, 20, A_HMIDDLE, A_TOP, 1);
-                          text_drawf(&gold_text, subset.description.c_str(), 20, -20, A_HMIDDLE, A_BOTTOM, 1);
-                        }
-                      updatescreen();
-                      SDL_Delay(50);
-                      while(SDL_PollEvent(&event) && !done)
-                        {
-                          switch(event.type)
-                            {
-                            case SDL_QUIT:
-                              done = true;
-                              break;
-                            case SDL_KEYDOWN:		// key pressed
-                              // Keypress...
-                              key = event.key.keysym.sym;
-
-                              if(key == SDLK_LEFT)
-                                {
-                                  if(i > 0)
-                                    {
-                                      --i;
-                                      subset.free();
-                                      subset.load(level_subsets.item[i]);
-                                    }
-                                }
-                              else if(key == SDLK_RIGHT)
-                                {
-                                  if(i < level_subsets.num_items -1)
-                                    {
-                                      ++i;
-                                      subset.free();
-                                      subset.load(level_subsets.item[i]);
-                                    }
-                                }
-                              else if(key == SDLK_SPACE || key == SDLK_RETURN)
-                                {
-                                  done = true;
-                                  quit = gameloop(subset.name.c_str(),1,ST_GL_PLAY);
-                                  subset.free();
-                                }
-                              else if(key == SDLK_ESCAPE)
-                                {
-                                  done = true;
-                                }
-                              break;
-                            default:
-                              break;
-                            }
-                        }
-                    }
-                }
-              // reset tux
-              scroll_x = 0;
-              titletux.level_begin();
-              update_time = st_get_ticks();
-              break;
-#endif
             case 0:
               // Start Game, ie. goto the slots menu
               update_load_save_game_menu(load_game_menu);
@@ -417,8 +317,6 @@ bool title(void)
             case 3:
               done = true;
               done = leveleditor(1);
-              menu_reset();
-              show_menu = 1;
               Menu::set_current(main_menu);
               break;
             case 4:
@@ -429,11 +327,11 @@ bool title(void)
               break;
             }
         }
-      else if(current_menu == options_menu)
+      else if(Menu::current() == options_menu)
         {
           process_options_menu();
         }
-      else if(current_menu == load_game_menu)
+      else if(Menu::current() == load_game_menu)
         {
           if (process_load_game_menu())
             {
@@ -444,11 +342,11 @@ bool title(void)
               update_time = st_get_ticks();
             }
         }
-      else if(current_menu == contrib_menu)
+      else if(Menu::current() == contrib_menu)
         {
           check_contrib_menu();
         }
-      else if (current_menu == contrib_subset_menu)
+      else if (Menu::current() == contrib_subset_menu)
         {
           check_contrib_subset_menu();
         }
@@ -605,6 +503,5 @@ void display_credits()
   string_list_free(&names);
 
   SDL_EnableKeyRepeat(0, 0);    // disables key repeating
-  show_menu = 1;
   Menu::set_current(main_menu);
 }

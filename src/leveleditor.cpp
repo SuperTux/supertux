@@ -171,7 +171,7 @@ int leveleditor(int levelnb)
   updatescreen();
 
   while (SDL_PollEvent(&event))
-  {}
+    {}
 
   while(true)
     {
@@ -180,7 +180,7 @@ int leveleditor(int levelnb)
 
       le_checkevents();
 
-      if(current_menu == select_tilegroup_menu)
+      if(Menu::current() == select_tilegroup_menu)
         {
           if(select_tilegroup_menu_effect.check())
             {
@@ -208,15 +208,15 @@ int leveleditor(int levelnb)
       /* draw editor interface */
       le_drawinterface();
 
-      if(show_menu)
+      if(Menu::current())
         {
           menu_process_current();
-          if(current_menu == leveleditor_menu)
+          if(Menu::current() == leveleditor_menu)
             {
               switch (leveleditor_menu->check())
                 {
                 case 2:
-                  show_menu = false;
+                  Menu::set_current(0);
                   break;
                 case 3:
                   update_subset_settings_menu();
@@ -226,7 +226,7 @@ int leveleditor(int levelnb)
                   break;
                 }
             }
-          else if(current_menu == level_settings_menu)
+          else if(Menu::current() == level_settings_menu)
             {
               switch (level_settings_menu->check())
                 {
@@ -234,28 +234,29 @@ int leveleditor(int levelnb)
                   apply_level_settings_menu();
                   Menu::set_current(leveleditor_menu);
                   break;
+                  
                 default:
-                  show_menu = true;
+                  //show_menu = true;
                   break;
                 }
             }
-          else if(current_menu == select_tilegroup_menu)
+          else if(Menu::current() == select_tilegroup_menu)
             {
-	    int it = -1;
+              int it = -1;
               switch (it = select_tilegroup_menu->check())
                 {
                 default:
 		  if(it != -1)
-		  {
-		  if(select_tilegroup_menu->item[it].kind == MN_ACTION)
-		  cur_tilegroup = select_tilegroup_menu->item[it].text;
+                    {
+                      if(select_tilegroup_menu->item[it].kind == MN_ACTION)
+                        cur_tilegroup = select_tilegroup_menu->item[it].text;
 		  
-                  show_menu = false;
-		  }
+                      Menu::set_current(0);
+                    }
                   break;
                 }
             }
-          else if(current_menu == subset_load_menu)
+          else if(Menu::current() == subset_load_menu)
             {
               switch (i = subset_load_menu->check())
                 {
@@ -277,12 +278,14 @@ int leveleditor(int levelnb)
                       le_set_defaults();
                       le_current_level->load_gfx();
 		      le_world.activate_bad_guys();
-                      show_menu = true;
+
+                      // FIXME:?
+                      Menu::set_current(leveleditor_menu);
                     }
                   break;
                 }
             }
-          else if(current_menu == subset_new_menu)
+          else if(Menu::current() == subset_new_menu)
             {
               if(subset_new_menu->item[2].input[0] == '\0')
                 subset_new_menu->item[3].kind = MN_DEACTIVE;
@@ -308,12 +311,13 @@ int leveleditor(int levelnb)
                       le_current_level->load_gfx();
 		      le_world.activate_bad_guys();
                       subset_new_menu->item[2].change_input("");
-                      show_menu = true;
+                      // FIXME:? show_menu = true;
+                      Menu::set_current(leveleditor_menu);
                       break;
                     }
                 }
             }
-          else if(current_menu == subset_settings_menu)
+          else if(Menu::current() == subset_settings_menu)
             {
               if(le_level_subset.title.compare(subset_settings_menu->item[2].input) == 0 && le_level_subset.description.compare(subset_settings_menu->item[3].input) == 0  )
                 subset_settings_menu->item[5].kind = MN_DEACTIVE;
@@ -324,7 +328,8 @@ int leveleditor(int levelnb)
                 {
                 case 5:
                   save_subset_settings_menu();
-                  show_menu = true;
+                  //FIXME:show_menu = true;
+                  Menu::set_current(leveleditor_menu);
                   break;
                 }
             }
@@ -414,10 +419,8 @@ int le_init()
   leveleditor_menu->additem(MN_HL,"",0,0);
   leveleditor_menu->additem(MN_ACTION,"Quit Level Editor",0,0);
 
-  menu_reset();
   Menu::set_current(leveleditor_menu);
-  show_menu = true;
-
+  
   subset_load_menu->additem(MN_LABEL, "Load Level Subset", 0, 0);
   subset_load_menu->additem(MN_HL, "", 0, 0);
 
@@ -699,7 +702,7 @@ void le_drawinterface()
     }
   else
     {
-      if(show_menu == false)
+      if(!Menu::current())
         white_small_text->draw("No Level Subset loaded - Press ESC and choose one in the menu", 10, 430, 1);
       else
         white_small_text->draw("No Level Subset loaded", 10, 430, 1);
@@ -786,149 +789,157 @@ void le_checkevents()
 
   while(SDL_PollEvent(&event))
     {
-      current_menu->event(event);
-      if(!show_menu)
-        mouse_cursor->set_state(MC_NORMAL);
-
-      /* testing SDL_KEYDOWN, SDL_KEYUP and SDL_QUIT events*/
-      if(event.type == SDL_KEYDOWN || ((event.type == SDL_MOUSEBUTTONDOWN || SDL_MOUSEMOTION) && (event.motion.x > 0 && event.motion.x < screen->w - 64 &&
-                                       event.motion.y > 0 && event.motion.y < screen->h)))
+      if (Menu::current())
         {
-          switch(event.type)
+          Menu::current()->event(event);
+        }
+      else
+        {
+          mouse_cursor->set_state(MC_NORMAL);
+
+          /* testing SDL_KEYDOWN, SDL_KEYUP and SDL_QUIT events*/
+          if(event.type == SDL_KEYDOWN 
+             || ((event.type == SDL_MOUSEBUTTONDOWN || SDL_MOUSEMOTION)
+                 && (event.motion.x > 0 
+                     && event.motion.x < screen->w - 64 &&
+                     event.motion.y > 0 && event.motion.y < screen->h)))
             {
-            case SDL_QUIT:	// window closed
-printf("window closed\n");
-              done = -1;
-              break;
-            case SDL_KEYDOWN:	// key pressed
-              key = event.key.keysym.sym;
-              switch(key)
+              switch(event.type)
                 {
-                case SDLK_LEFT:
-                  if(fire == DOWN)
-                    cursor_x -= KEY_CURSOR_SPEED;
-                  else
-                    cursor_x -= KEY_CURSOR_FASTSPEED;
+                case SDL_KEYDOWN:	// key pressed
+                  key = event.key.keysym.sym;
+                  switch(key)
+                    {
+                    case SDLK_LEFT:
+                      if(fire == DOWN)
+                        cursor_x -= KEY_CURSOR_SPEED;
+                      else
+                        cursor_x -= KEY_CURSOR_FASTSPEED;
 
-                  if(cursor_x < pos_x + MOUSE_LEFT_MARGIN)
-                    pos_x = cursor_x - MOUSE_LEFT_MARGIN;
+                      if(cursor_x < pos_x + MOUSE_LEFT_MARGIN)
+                        pos_x = cursor_x - MOUSE_LEFT_MARGIN;
 
-                  break;
-                case SDLK_RIGHT:
-                  if(fire == DOWN)
-                    cursor_x += KEY_CURSOR_SPEED;
-                  else
-                    cursor_x += KEY_CURSOR_FASTSPEED;
+                      break;
+                    case SDLK_RIGHT:
+                      if(fire == DOWN)
+                        cursor_x += KEY_CURSOR_SPEED;
+                      else
+                        cursor_x += KEY_CURSOR_FASTSPEED;
 
-                  if(cursor_x > pos_x + MOUSE_RIGHT_MARGIN-32)
-                    pos_x = cursor_x - MOUSE_RIGHT_MARGIN+32;
+                      if(cursor_x > pos_x + MOUSE_RIGHT_MARGIN-32)
+                        pos_x = cursor_x - MOUSE_RIGHT_MARGIN+32;
 
-                  break;
-                case SDLK_UP:
-                  if(fire == DOWN)
-                    cursor_y -= KEY_CURSOR_SPEED;
-                  else
-                    cursor_y -= KEY_CURSOR_FASTSPEED;
+                      break;
+                    case SDLK_UP:
+                      if(fire == DOWN)
+                        cursor_y -= KEY_CURSOR_SPEED;
+                      else
+                        cursor_y -= KEY_CURSOR_FASTSPEED;
 
-                  if(cursor_y < 0)
-                    cursor_y = 0;
-                  break;
-                case SDLK_DOWN:
-                  if(fire == DOWN)
-                    cursor_y += KEY_CURSOR_SPEED;
-                  else
-                    cursor_y += KEY_CURSOR_FASTSPEED;
+                      if(cursor_y < 0)
+                        cursor_y = 0;
+                      break;
+                    case SDLK_DOWN:
+                      if(fire == DOWN)
+                        cursor_y += KEY_CURSOR_SPEED;
+                      else
+                        cursor_y += KEY_CURSOR_FASTSPEED;
 
-                  if(cursor_y > screen->h-32)
-                    cursor_y = screen->h-32;
+                      if(cursor_y > screen->h-32)
+                        cursor_y = screen->h-32;
+                      break;
+                    case SDLK_LCTRL:
+                      fire =UP;
+                      break;
+                    case SDLK_F1:
+                      le_showhelp();
+                      break;
+                    case SDLK_HOME:
+                      cursor_x = 0;
+                      pos_x = cursor_x;
+                      break;
+                    case SDLK_END:
+                      cursor_x = (le_current_level->width * 32) - 32;
+                      pos_x = cursor_x;
+                      break;
+                    case SDLK_F9:
+                      le_show_grid = !le_show_grid;
+                      break;
+                    default:
+                      break;
+                    }
                   break;
-                case SDLK_LCTRL:
-                  fire =UP;
+                case SDL_KEYUP:	/* key released */
+                  switch(event.key.keysym.sym)
+                    {
+                    case SDLK_LCTRL:
+                      fire = DOWN;
+                      break;
+                    default:
+                      break;
+                    }
                   break;
-                case SDLK_F1:
-                  le_showhelp();
+                case SDL_MOUSEBUTTONDOWN:
+                  if(event.button.button == SDL_BUTTON_LEFT)
+                    {
+                      le_mouse_pressed[LEFT] = true;
+
+                      selection.x1 = event.motion.x + pos_x;
+                      selection.y1 = event.motion.y;
+                      selection.x2 = event.motion.x + pos_x;
+                      selection.y2 = event.motion.y;
+                    }
+                  else if(event.button.button == SDL_BUTTON_RIGHT)
+                    {
+                      le_mouse_pressed[RIGHT] = true;
+                    }
                   break;
-                case SDLK_HOME:
-                  cursor_x = 0;
-                  pos_x = cursor_x;
+                case SDL_MOUSEBUTTONUP:
+                  if(event.button.button == SDL_BUTTON_LEFT)
+                    le_mouse_pressed[LEFT] = false;
+                  else if(event.button.button == SDL_BUTTON_RIGHT)
+                    le_mouse_pressed[RIGHT] = false;
                   break;
-                case SDLK_END:
-                  cursor_x = (le_current_level->width * 32) - 32;
-                  pos_x = cursor_x;
+                case SDL_MOUSEMOTION:
+
+                  if(!Menu::current())
+                    {
+                      x = event.motion.x;
+                      y = event.motion.y;
+
+                      cursor_x = ((int)(pos_x + x) / 32) * 32;
+                      cursor_y = ((int) y / 32) * 32;
+
+                      if(le_mouse_pressed[LEFT])
+                        {
+                          selection.x2 = x + pos_x;
+                          selection.y2 = y;
+                        }
+
+                      if(le_mouse_pressed[RIGHT])
+                        {
+                          pos_x += -1 * event.motion.xrel;
+                        }
+                    }
                   break;
-                case SDLK_F9:
-                  le_show_grid = !le_show_grid;
+                case SDL_QUIT:	// window closed
+                  done = 1;
                   break;
                 default:
                   break;
                 }
-              break;
-            case SDL_KEYUP:	/* key released */
-              switch(event.key.keysym.sym)
-                {
-                case SDLK_LCTRL:
-                  fire = DOWN;
-                  break;
-                default:
-                  break;
-                }
-              break;
-            case SDL_MOUSEBUTTONDOWN:
-              if(event.button.button == SDL_BUTTON_LEFT)
-                {
-                  le_mouse_pressed[LEFT] = true;
-
-                  selection.x1 = event.motion.x + pos_x;
-                  selection.y1 = event.motion.y;
-                  selection.x2 = event.motion.x + pos_x;
-                  selection.y2 = event.motion.y;
-                }
-              else if(event.button.button == SDL_BUTTON_RIGHT)
-	        {
-                le_mouse_pressed[RIGHT] = true;
-		}
-              break;
-            case SDL_MOUSEBUTTONUP:
-              if(event.button.button == SDL_BUTTON_LEFT)
-                le_mouse_pressed[LEFT] = false;
-              else if(event.button.button == SDL_BUTTON_RIGHT)
-                le_mouse_pressed[RIGHT] = false;
-              break;
-            case SDL_MOUSEMOTION:
-              if(!show_menu)
-                {
-                  x = event.motion.x;
-                  y = event.motion.y;
-
-                  cursor_x = ((int)(pos_x + x) / 32) * 32;
-                  cursor_y = ((int) y / 32) * 32;
-
-                  if(le_mouse_pressed[LEFT])
-                    {
-                      selection.x2 = x + pos_x;
-                      selection.y2 = y;
-                    }
-
-                  if(le_mouse_pressed[RIGHT])
-                    {
-                      pos_x += -1 * event.motion.xrel;
-                    }
-                }
-              break;
-            default:
-              break;
             }
         }
 
       if(le_current_level != NULL)
         {
           if(event.type == SDL_KEYDOWN || event.type == SDL_KEYUP || ((event.type == SDL_MOUSEBUTTONDOWN || SDL_MOUSEMOTION) && (event.motion.x > screen->w-64 && event.motion.x < screen->w &&
-              event.motion.y > 0 && event.motion.y < screen->h)))
+                                                                                                                                 event.motion.y > 0 && event.motion.y < screen->h)))
             {
               le_mouse_pressed[LEFT] = false;
               le_mouse_pressed[RIGHT] = false;
 
-              if(show_menu == false)
+              if(!Menu::current())
                 {
                   /* Check for button events */
                   le_test_level_bt->event(event);
@@ -939,10 +950,9 @@ printf("window closed\n");
                     le_current_level->save(le_level_subset.name.c_str(),le_level);
                   le_exit_bt->event(event);
                   if(le_exit_bt->get_state() == BUTTON_CLICKED)
-		  {
-		    Menu::set_current(leveleditor_menu);
-		    show_menu = true;
-		    }
+                    {
+                      Menu::set_current(leveleditor_menu);
+                    }
                   le_next_level_bt->event(event);
                   if(le_next_level_bt->get_state() == BUTTON_CLICKED)
                     {
@@ -1011,7 +1021,6 @@ printf("window closed\n");
                       Menu::set_current(select_tilegroup_menu);
                       select_tilegroup_menu_effect.start(200);
                       select_tilegroup_menu->set_pos(screen->w - 64,100,-0.5,0.5);
-                      show_menu = true;
                     }
 
                   le_settings_bt->event(event);
@@ -1019,41 +1028,39 @@ printf("window closed\n");
                     {
                       update_level_settings_menu();
                       Menu::set_current(level_settings_menu);
-                      show_menu = true;
                     }
 		  if(!cur_tilegroup.empty())
-		  if((pbutton = tilegroups_map[cur_tilegroup]->event(event)) != NULL)
-		  {
-		    if(pbutton->get_state() == BUTTON_CLICKED)
-		      {
-		      le_current_tile = pbutton->get_tag();
-		      }
-		  }
+                    if((pbutton = tilegroups_map[cur_tilegroup]->event(event)) != NULL)
+                      {
+                        if(pbutton->get_state() == BUTTON_CLICKED)
+                          {
+                            le_current_tile = pbutton->get_tag();
+                          }
+                      }
 		  if((pbutton = le_tilemap_panel->event(event)) != NULL)
-		  {
-		    if(pbutton->get_state() == BUTTON_CLICKED)
-		      {
-		      active_tm = static_cast<TileMapType>(pbutton->get_tag());
-		      }
-		  }
+                    {
+                      if(pbutton->get_state() == BUTTON_CLICKED)
+                        {
+                          active_tm = static_cast<TileMapType>(pbutton->get_tag());
+                        }
+                    }
                 }
               else
                 {
                   le_settings_bt->event(event);
                   if(le_settings_bt->get_state() == BUTTON_CLICKED)
                     {
-                      Menu::set_current(leveleditor_menu);
-                      show_menu = false;
+                      Menu::set_current(0);
                     }
                   le_tilegroup_bt->event(event);
                   if(le_tilegroup_bt->get_state() == BUTTON_CLICKED)
                     {
-                      Menu::set_current(leveleditor_menu);
-                      show_menu = false;
+                      Menu::set_current(0);
                     }
                 }
             }
-          if(show_menu == false)
+          
+          if(!Menu::current())
             {
               le_move_left_bt->event(event);
               le_move_right_bt->event(event);
@@ -1065,7 +1072,7 @@ printf("window closed\n");
             }
         }
     }
-  if(show_menu == false)
+  if(!Menu::current())
     {
       if(le_move_left_bt->get_state() == BUTTON_PRESSED)
         {

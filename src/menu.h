@@ -56,22 +56,44 @@ public:
 class Menu
 {
 private:
+  /* Action done on the menu */
+  enum MenuAction {
+    MENU_ACTION_NONE = -1,
+    MENU_ACTION_UP,
+    MENU_ACTION_DOWN,
+    MENU_ACTION_LEFT,
+    MENU_ACTION_RIGHT,
+    MENU_ACTION_HIT,
+    MENU_ACTION_INPUT,
+    MENU_ACTION_REMOVE
+  };
+
   // position of the menu (ie. center of the menu, not top/left)
   int pos_x;
   int pos_y;
   bool has_backitem;
+
+  /** input event for the menu */
+  MenuAction menuaction;
+
+  /* input implementation variables */
+  int delete_character;
+  char mn_input_char;
   
   Menu* last_menu;
   int width();
   int height();
   
+  static Menu* current_;
 public:
   Timer effect;
   int arrange_left;
   int active_item;
   std::vector<MenuItem> item;
 
+  /** Set the current menu, if pmenu is NULL, hide the current menu */
   static void set_current(Menu* pmenu);
+  static Menu* current() { return current_; }
 
   Menu();
   ~Menu();
@@ -89,27 +111,9 @@ public:
   void draw_item(int index, int menu_width, int menu_height);
   void set_pos(int x, int y, float rw = 0, float rh = 0);
 
-  /* Check for a menu event */
+  /** translate a SDL_Event into a menu_action */
   void event(SDL_Event& event);
 };
-
-
-/* Action done on the menu */
-enum MenuAction {
-  MENU_ACTION_NONE = -1,
-  MENU_ACTION_UP,
-  MENU_ACTION_DOWN,
-  MENU_ACTION_LEFT,
-  MENU_ACTION_RIGHT,
-  MENU_ACTION_HIT,
-  MENU_ACTION_INPUT,
-  MENU_ACTION_REMOVE
-};
-
-/* (global) menu variables */
-extern MenuAction menuaction;
-extern bool show_menu;
-extern bool menu_change;
 
 extern Surface* checkbox;
 extern Surface* checkbox_checked;
@@ -127,14 +131,6 @@ extern Menu* options_controls_menu;
 extern Menu* highscore_menu;
 extern Menu* load_game_menu;
 extern Menu* save_game_menu;
-extern Menu* current_menu;
-
-/* input implementation variables */
-extern int delete_character;
-extern char mn_input_char;
-
-/* Reset the global menu variables */
-void menu_reset(void);
 
 /* "Calculate" and draw the menu */
 void menu_process_current(void);
