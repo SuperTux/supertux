@@ -56,7 +56,11 @@ void process_options_menu(void)
       if(use_fullscreen != options_menu->isToggled(MNID_FULLSCREEN))
         {
           use_fullscreen = !use_fullscreen;
+#ifdef WIN32
           Setup::video(screen->w,screen->h);
+#else
+          SDL_WM_ToggleFullScreen(screen);
+#endif
         }
       break;
     case MNID_SOUND:
