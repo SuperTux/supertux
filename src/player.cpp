@@ -528,8 +528,9 @@ Player::handle_vertical_input()
       BadGuy* badguy = dynamic_cast<BadGuy*> (*i);
       if(badguy)
       {
-        if (fabsf(base.x - badguy->base.x) < 300 &&
-            fabsf(base.y - badguy->base.y) < 300 &&
+        
+	if (fabsf(base.x - badguy->base.x) < 150 &&
+            fabsf(base.y - badguy->base.y) < 60 &&
             (issolid(badguy->base.x + 1, badguy->base.y + badguy->base.height) ||
               issolid(badguy->base.x + badguy->base.width - 1, badguy->base.y + badguy->base.height)))
           badguy->kill_me(25);
