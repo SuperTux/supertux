@@ -482,7 +482,7 @@ Player::handle_input()
       // changing base size confuses collision otherwise
       old_base = previous_base = base;
     }
-  else if(input.down == UP && size == BIG && duck && physic.get_velocity_y() == 0)
+  else if(input.down == UP && size == BIG && duck && physic.get_velocity_y() == 0 && on_ground())
     {
       duck = false;
       base.y -= 32;
