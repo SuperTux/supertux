@@ -78,6 +78,9 @@ int title(void)
   string_list_type level_subsets;
   st_subset subset;
   level_subsets = dsubdirs("/levels", "info");
+  timer_type random_timer;
+  timer_init(&random_timer, true);
+  bool walking = true;
   Player titletux;
   titletux.init();
   st_pause_ticks_init();
@@ -88,7 +91,7 @@ int title(void)
   activate_particle_systems();
   /* Lower the gravity that tux doesn't jump to hectically through the demo */
   gravity = 5;
-  
+
   /* Reset menu variables */
   menu_reset();
   Menu::set_current(main_menu);
@@ -115,17 +118,18 @@ int title(void)
   load_hs();
 
   update_time = st_get_ticks();
-  
+  timer_start(&random_timer, rand() % 2000 + 2000);
+
   while (!done && !quit)
     {
-    
+
       /* Calculate the movement-factor */
       frame_ratio = ((double)(update_time-last_update_time))/((double)FRAME_RATE);
       if(frame_ratio > 1.5) /* Quick hack to correct the unprecise CPU clocks a little bit. */
         frame_ratio = 1.5 + (frame_ratio - 1.5) * 0.85;
       /* Lower the frame_ratio that Tux doesn't jump to hectically throught the demo. */
       frame_ratio /= 2;
-    
+
       /* Handle events: */
 
       while (SDL_PollEvent(&event))
@@ -164,7 +168,7 @@ int title(void)
               menuaction = MENU_ACTION_HIT;
             }
         }
-	
+
       /* Draw the background: */
       draw_background();
 
@@ -195,17 +199,30 @@ int title(void)
 
       global_frame_counter++;
       titletux.key_event(SDLK_RIGHT,DOWN);
-      titletux.key_event(SDLK_UP,DOWN);
+
+      
+      if(timer_check(&random_timer))
+        {
+	  if(walking)
+          titletux.key_event(SDLK_UP,UP);
+	  else
+	  titletux.key_event(SDLK_UP,DOWN);
+        }
+      else
+        {
+          timer_start(&random_timer, rand() % 3000 + 3000);
+	  walking = !walking;
+        }
 
       if(current_level.width * 32 - 320 < titletux.base.x)
-      {
-      titletux.base.x = 160;
-      scroll_x = 0;
-      }
-      
+        {
+          titletux.base.x = 160;
+          scroll_x = 0;
+        }
+
       titletux.action();
       titletux.draw();
-      
+
       /* DEMO end */
 
       /* Draw the high score: */
@@ -319,13 +336,13 @@ int title(void)
         {
           process_save_load_game_menu(false);
         }
-	
+
       flipscreen();
 
       /* Set the time of the last update and the time of the current update */
       last_update_time = update_time;
       update_time = st_get_ticks();
-      
+
       /* Pause: */
       frame++;
       SDL_Delay(25);
