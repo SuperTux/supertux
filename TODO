@@ -30,6 +30,9 @@ L: low priority
 
 [H] Worldmap should have a flag to allow to go to another map after finishing
     a level from that one.
+    It might be cool to have a (place group in the worldmap file that would allow
+    such stuff as: levels, messages, wrapping and worldmap changing (or even
+    combinations).
 [H] Change resolution to 800x600
      - Levels need to be updated to resolution
         - half of the levels have been already updated
