@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux 0.1.1\n"
 "Report-Msgid-Bugs-To: super-tux-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2004-06-09 18:34+0100\n"
+"POT-Creation-Date: 2004-06-10 14:53+0100\n"
 "PO-Revision-Date: 2004-06-03 00:29+0200\n"
 "Last-Translator:  <matze@braunis.de>\n"
 "Language-Team: German <de@li.org>\n"
@@ -25,56 +25,56 @@ msgstr ""
 msgid "PAUSE - Press 'P' To Play"
 msgstr ""
 
-#: src/gameloop.cpp:702 src/worldmap.cpp:849
+#: src/gameloop.cpp:528
+#, c-format
+msgid "Playing: "
+msgstr ""
+
+#: src/gameloop.cpp:714 src/worldmap.cpp:849
 msgid "SCORE"
 msgstr ""
 
-#: src/gameloop.cpp:707
+#: src/gameloop.cpp:719
 msgid "Press ESC To Return"
 msgstr ""
 
-#: src/gameloop.cpp:712
+#: src/gameloop.cpp:724
 msgid "TIME's UP"
 msgstr ""
 
-#: src/gameloop.cpp:716
+#: src/gameloop.cpp:728
 msgid "TIME"
 msgstr ""
 
-#: src/gameloop.cpp:723 src/gameloop.cpp:724 src/worldmap.cpp:853
+#: src/gameloop.cpp:735 src/gameloop.cpp:736 src/worldmap.cpp:853
 msgid "COINS"
 msgstr ""
 
-#: src/gameloop.cpp:745 src/gameloop.cpp:746 src/worldmap.cpp:874
+#: src/gameloop.cpp:757 src/gameloop.cpp:758 src/worldmap.cpp:874
 #: src/worldmap.cpp:875
 msgid "LIVES"
 msgstr ""
 
-#: src/gameloop.cpp:751
-#, c-format
-msgid "Playing: %s"
-msgstr ""
-
-#: src/gameloop.cpp:776
+#: src/gameloop.cpp:780
 msgid "Result:"
 msgstr ""
 
-#: src/gameloop.cpp:779 src/worldmap.cpp:726
+#: src/gameloop.cpp:783 src/worldmap.cpp:726
 #, c-format
 msgid "SCORE: %d"
 msgstr ""
 
-#: src/gameloop.cpp:782 src/worldmap.cpp:730
+#: src/gameloop.cpp:786 src/worldmap.cpp:730
 #, c-format
 msgid "COINS: %d"
 msgstr ""
 
-#: src/gameloop.cpp:811
+#: src/gameloop.cpp:815
 #, c-format
 msgid "Slot %d - Savegame"
 msgstr ""
 
-#: src/gameloop.cpp:814
+#: src/gameloop.cpp:818
 #, c-format
 msgid "Slot %d - Free"
 msgstr ""

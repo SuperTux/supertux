@@ -522,6 +522,18 @@ GameSession::draw()
           Color(rand() % 50, rand() % 50, rand() % 50, 128), LAYER_FOREGROUND1);
       context->draw_text_center(blue_text, _("PAUSE - Press 'P' To Play"),
           Vector(0, 230), LAYER_FOREGROUND1+2);
+
+      char str1[60];
+      char str2[124];
+      sprintf(str1, _("Playing: "));
+      sprintf(str2, level->name.c_str());
+
+      context->draw_text(blue_text, str1,
+          Vector((screen->w - (blue_text->get_text_width(str1) + white_text->get_text_width(str2)))/2, 340),
+          LAYER_FOREGROUND1+2);
+      context->draw_text(white_text, str2,
+          Vector(((screen->w - (blue_text->get_text_width(str1) + white_text->get_text_width(str2)))/2)+blue_text->get_text_width(str1), 340),
+          LAYER_FOREGROUND1+2);
     }
 
   if(Menu::current())
@@ -745,14 +757,6 @@ GameSession::drawstatus(DrawingContext& context)
   context.draw_text(white_text, _("LIVES"),
       Vector(screen->w - white_text->get_text_width(_("LIVES")) - white_text->get_text_width("   99"), 20),
       LAYER_FOREGROUND1);
-
-  if(game_pause)
-    {
-      sprintf(str, _("Playing: %s"), level->name.c_str());
-
-      context.draw_text(white_text, str, Vector(0,20),
-          LAYER_FOREGROUND1);
-    }
 
   if(show_fps)
     {

@@ -1,6 +1,7 @@
 # translation of pt.po to 
 # translation of pt.po to
 # translation of pt.po to
+# translation of pt.po to
 # This file is distributed under the same license as the PACKAGE package.
 # Copyright (C) YEAR SuperTux Development Team.
 # Ricardo Cruz <rick2@aeiou.pt>, 2004.
@@ -9,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pt\n"
 "Report-Msgid-Bugs-To: super-tux-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2004-06-09 18:34+0100\n"
-"PO-Revision-Date: 2004-06-09 18:34+0100\n"
+"POT-Creation-Date: 2004-06-10 14:53+0100\n"
+"PO-Revision-Date: 2004-06-10 14:53+0100\n"
 "Last-Translator: Ricardo Cruz <rick2@aeiou.pt>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -26,56 +27,56 @@ msgstr "por "
 msgid "PAUSE - Press 'P' To Play"
 msgstr "PAUSA - Carrega no 'P' para continuar"
 
-#: src/gameloop.cpp:702 src/worldmap.cpp:849
+#: src/gameloop.cpp:528
+#, c-format
+msgid "Playing: "
+msgstr "Jogando: "
+
+#: src/gameloop.cpp:714 src/worldmap.cpp:849
 msgid "SCORE"
 msgstr "PONTOS"
 
-#: src/gameloop.cpp:707
+#: src/gameloop.cpp:719
 msgid "Press ESC To Return"
 msgstr "Carrega no ESC para sair"
 
-#: src/gameloop.cpp:712
+#: src/gameloop.cpp:724
 msgid "TIME's UP"
 msgstr "PASSOU O TEMPO"
 
-#: src/gameloop.cpp:716
+#: src/gameloop.cpp:728
 msgid "TIME"
 msgstr "TEMPO"
 
-#: src/gameloop.cpp:723 src/gameloop.cpp:724 src/worldmap.cpp:853
+#: src/gameloop.cpp:735 src/gameloop.cpp:736 src/worldmap.cpp:853
 msgid "COINS"
 msgstr "MOEDAS"
 
-#: src/gameloop.cpp:745 src/gameloop.cpp:746 src/worldmap.cpp:874
+#: src/gameloop.cpp:757 src/gameloop.cpp:758 src/worldmap.cpp:874
 #: src/worldmap.cpp:875
 msgid "LIVES"
 msgstr "VIDAS"
 
-#: src/gameloop.cpp:751
-#, c-format
-msgid "Playing: %s"
-msgstr "Jogando: %s"
-
-#: src/gameloop.cpp:776
+#: src/gameloop.cpp:780
 msgid "Result:"
 msgstr "Resultado:"
 
-#: src/gameloop.cpp:779 src/worldmap.cpp:726
+#: src/gameloop.cpp:783 src/worldmap.cpp:726
 #, c-format
 msgid "SCORE: %d"
 msgstr "PONTOS: %d"
 
-#: src/gameloop.cpp:782 src/worldmap.cpp:730
+#: src/gameloop.cpp:786 src/worldmap.cpp:730
 #, c-format
 msgid "COINS: %d"
 msgstr "MOEDAS: %d"
 
-#: src/gameloop.cpp:811
+#: src/gameloop.cpp:815
 #, c-format
 msgid "Slot %d - Savegame"
 msgstr "Slot %d - Jogo gravado"
 
-#: src/gameloop.cpp:814
+#: src/gameloop.cpp:818
 #, c-format
 msgid "Slot %d - Free"
 msgstr "Slot %d - Livre"
