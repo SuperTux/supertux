@@ -439,13 +439,13 @@ void process_save_load_game_menu(int save)
     default:
       if(slot != -1)
         {
-          if(save == true)
+          if(save)
             {
               savegame(slot - 1);
             }
           else
             {
-              if(game_started == false)
+              if (game_started)
                 {
                   gameloop("default",slot - 1,ST_GL_LOAD_GAME);
                   show_menu = true;
@@ -479,7 +479,7 @@ void process_options_menu(void)
     case 4:
       if(use_music != options_menu->item[4].toggled)
         {
-          if(use_music == true)
+          if(use_music)
             {
               if(playing_music())
                 {
@@ -603,7 +603,7 @@ void st_video_setup_sdl(void)
 {
   SDL_FreeSurface(screen);
 
-  if (use_fullscreen == true)
+  if (use_fullscreen)
     {
       screen = SDL_SetVideoMode(640, 480, 0, SDL_FULLSCREEN ) ; /* | SDL_HWSURFACE); */
       if (screen == NULL)
@@ -641,7 +641,7 @@ void st_video_setup_gl(void)
   SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
   SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
-  if (use_fullscreen == true)
+  if (use_fullscreen)
     {
       screen = SDL_SetVideoMode(640, 480, 0, SDL_FULLSCREEN | SDL_OPENGL) ; /* | SDL_HWSURFACE); */
       if (screen == NULL)
@@ -755,7 +755,7 @@ void st_audio_setup(void)
 
   /* Init SDL Audio silently even if --disable-sound : */
 
-  if (audio_device == true)
+  if (audio_device)
     {
       if (SDL_Init(SDL_INIT_AUDIO) < 0)
         {
@@ -782,14 +782,14 @@ void st_audio_setup(void)
 
   /* Open sound silently regarless the value of "use_sound": */
 
-  if (audio_device == true)
+  if (audio_device)
     {
       if (open_audio(44100, AUDIO_S16, 2, 2048) < 0)
         {
           /* only print out message if sound or music
              was not disabled at command-line
            */
-          if ((use_sound == true) || (use_music == true))
+          if (use_sound || use_music)
             {
               fprintf(stderr,
                       "\nWarning: I could not set up audio for 44100 Hz "

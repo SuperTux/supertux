@@ -116,11 +116,13 @@ void timer_fread(timer_type* ptimer, FILE* fi)
   fread(&ptimer->period,sizeof(unsigned int),1,fi);
   fread(&diff_ticks,sizeof(unsigned int),1,fi);
   fread(&tick_mode,sizeof(unsigned int),1,fi);
-  if(tick_mode == true)
+
+  if (tick_mode)
     ptimer->get_ticks = st_get_ticks;
   else
     ptimer->get_ticks = SDL_GetTicks;
-  if(diff_ticks != 0)
+
+  if (diff_ticks != 0)
     ptimer->time = ptimer->get_ticks() - diff_ticks;
   else
     ptimer->time = 0;

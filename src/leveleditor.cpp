@@ -612,7 +612,7 @@ void apply_level_settings_menu()
       i = true;
     }
 
-  if(i == true)
+  if(i)
     {
       level_free_gfx();
       level_load_gfx(le_current_level);
@@ -1014,13 +1014,13 @@ void le_checkevents()
                   cursor_x = ((int)(pos_x + x) / 32) * 32;
                   cursor_y = ((int) y / 32) * 32;
 
-                  if(le_mouse_pressed[LEFT] == true)
+                  if(le_mouse_pressed[LEFT])
                     {
                       selection.x2 = x + pos_x;
                       selection.y2 = y;
                     }
 
-                  if(le_mouse_pressed[RIGHT] == true)
+                  if(le_mouse_pressed[RIGHT])
                     {
                       pos_x += -1 * event.motion.xrel;
                     }

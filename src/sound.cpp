@@ -123,7 +123,7 @@ void play_sound(Mix_Chunk * snd, enum Sound_Speaker whichSpeaker)
   /* this won't call the function if the user has disabled sound
    * either via menu or via command-line option
    */
-  if ((use_sound == true) && (audio_device == true))
+  if (use_sound && audio_device)
     {
       Mix_PlayChannel( whichSpeaker, snd, 0);
 
@@ -156,7 +156,7 @@ void free_chunk(Mix_Chunk *chunk)
 
 int playing_music(void)
 {
-  if (use_music == true)
+  if (use_music)
     {
       return Mix_PlayingMusic();
     }
@@ -170,7 +170,7 @@ int playing_music(void)
 
 int halt_music(void)
 {
-  if ((use_music == true) && (audio_device == true))
+  if (use_music && audio_device)
     {
       return Mix_HaltMusic();
     }
@@ -183,7 +183,7 @@ int halt_music(void)
 
 int play_music(Mix_Music *music, int loops)
 {
-  if ((use_music == true) && (audio_device == true))
+  if (use_music && audio_device)
     {
       DEBUG_MSG(__PRETTY_FUNCTION__);
       return Mix_PlayMusic(music, loops);

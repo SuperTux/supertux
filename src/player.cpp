@@ -209,9 +209,8 @@ Player::action()
           score_multiplier = 1;
         }
 
-      if(jumped_in_solid == true)
+      if(jumped_in_solid)
         {
-
           if (isbrick(base.x, base.y) ||
               isfullbox(base.x, base.y))
             {
@@ -285,7 +284,8 @@ Player::action()
         }
 
       grabdistros();
-      if(jumped_in_solid == true)
+
+      if (jumped_in_solid)
         {
           ++base.y;
           ++old_base.y;
@@ -460,7 +460,7 @@ Player::handle_vertical_input()
             }
         }
     }
-  else if(input_.up == UP && jumping == true)
+  else if(input_.up == UP && jumping)
     {
       if (on_ground())
         {
@@ -523,7 +523,7 @@ Player::input()
 
   /* Jump/jumping? */
 
-  if ( input_.up == DOWN || (input_.up == UP && jumping == true))
+  if ( input_.up == DOWN || (input_.up == UP && jumping))
     {
       handle_vertical_input();
     }
@@ -549,7 +549,7 @@ Player::input()
     }
   else
     {
-      if (size == BIG && duck == true)
+      if (size == BIG && duck)
         {
           /* Make sure we're not standing back up into a solid! */
           base.height = 64;
@@ -978,7 +978,7 @@ Player::keep_in_bounds()
     base.x= 0;
   else if(base.x< scroll_x)
     base.x= scroll_x;
-  else if (base.x< 160 + scroll_x && scroll_x > 0 && debug_mode == true)
+  else if (base.x< 160 + scroll_x && scroll_x > 0 && debug_mode)
     {
       scroll_x = base.x- 160;
       /*base.x+= 160;*/

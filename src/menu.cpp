@@ -285,7 +285,10 @@ Menu::check()
 {
   if(num_items != 0 && item != NULL)
     {
-      if((item[active_item].kind == MN_ACTION || item[active_item].kind == MN_TEXTFIELD || item[active_item].kind == MN_NUMFIELD) && item[active_item].toggled == true)
+      if((item[active_item].kind == MN_ACTION 
+          || item[active_item].kind == MN_TEXTFIELD
+          || item[active_item].kind == MN_NUMFIELD)
+         && item[active_item].toggled)
         {
           item[active_item].toggled = false;
           show_menu = 0;
@@ -328,7 +331,7 @@ Menu::draw_item(int index, // Position of the current item in the menu
   int list_width  = strlen(string_list_active(pitem.list)) * font_width;
   text_type* text_font = &white_text;
 
-  if(arrange_left == true)
+  if (arrange_left)
     x_pos += 24 - menu_width/2 + (text_width + input_width + list_width)/2;
   
   if(index == active_item)
@@ -427,7 +430,7 @@ Menu::draw_item(int index, // Position of the current item in the menu
       {
         text_draw_align(text_font, pitem.text, x_pos, y_pos, A_HMIDDLE, A_VMIDDLE, shadow_size);
         
-        if(pitem.toggled == true)
+        if(pitem.toggled)
           texture_draw(&checkbox_checked, 
                        x_pos + (text_width+font_width)/2,
                        y_pos - 8);

@@ -482,13 +482,9 @@ void game_draw(void)
 
   // Draw background:
   for (int y = 0; y < 15; ++y)
-    {
-      for (int x = 0; x < 21; ++x)
-        {
-          drawshape(32*x - fmodf(scroll_x, 32), y * 32,
-                    current_level.tiles[(int)y][(int)x + (int)(scroll_x / 32)]);
-        }
-    }
+    for (int x = 0; x < 21; ++x)
+      drawshape(32*x - fmodf(scroll_x, 32), y * 32,
+                current_level.tiles[y][x + (int)(scroll_x / 32)]);
 
   for (unsigned int i = 0; i < bouncy_bricks.size(); ++i)
     bouncy_brick_draw(&bouncy_bricks[i]);
@@ -692,7 +688,7 @@ int gameloop(const char * subset, int levelnb, int mode)
           SDL_Delay(50);
         }
 
-      if(debug_mode && debug_fps == true)
+      if(debug_mode && debug_fps)
         SDL_Delay(60);
 
       /*Draw the current scene to the screen */
