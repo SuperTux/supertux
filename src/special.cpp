@@ -279,13 +279,18 @@ Upgrade::bump(Player* player)
   sound_manager->play_sound(sounds[SND_BUMP_UPGRADE], Vector(base.x, base.y));
   
   // determine new direction
+  Direction old_dir = dir;
   if (player->base.x + player->base.width/2 > base.x + base.width/2)
     dir = LEFT;
   else
     dir = RIGHT;
 
-  // do a little jump and change direction
-  physic.set_velocity(-physic.get_velocity_x(), 3);
+  // do a little jump and change direction (if necessary)
+  if (dir != old_dir)
+    physic.set_velocity(-physic.get_velocity_x(), 3);
+  else
+    physic.set_velocity_y(3);
+
   physic.enable_gravity(true);
 }
 
