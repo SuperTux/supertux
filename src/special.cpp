@@ -51,6 +51,9 @@ Bullet::Bullet(const Vector& pos, float xm, int dir, int kind_)
   life_count = 3;
   base.width = 4;
   base.height = 4;
+  
+  if (kind == ICE_BULLET)
+    life_count = 6; //ice-bullets get "extra lives" for bumping off walls
 
   if (dir == RIGHT)
     {
@@ -102,12 +105,20 @@ Bullet::action(float elapsed_time)
       base.x > scroll_x + screen->w ||
       base.y < scroll_y ||
       base.y > scroll_y + screen->h ||
-      issolid(base.x + 4, base.y + 2) ||
-      issolid(base.x, base.y + 2) ||
       life_count <= 0)
     {
       remove_me();
     }
+  if (issolid(base.x + 4, base.y + 2) || 
+      issolid(base.x, base.y + 2))
+     {
+       if (kind == FIRE_BULLET)
+         remove_me();
+       else if (kind == ICE_BULLET)
+         {
+	   physic.set_velocity_x(physic.get_velocity_x() * -1);
+	 }
+     }
 }
 
 void 

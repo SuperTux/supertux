@@ -50,7 +50,7 @@ std::string bonus_to_string(PlayerStatus::BonusType b)
     case PlayerStatus::GROWUP_BONUS:
       return "growup";
     case PlayerStatus::FLOWER_BONUS:
-      return "icflower";
+      return "iceflower";
     default:
       return "none";
     }
