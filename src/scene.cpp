@@ -25,7 +25,8 @@ bool counting_distros;
 int distro_counter;
 timer_type  super_bkgd_timer;
 float scroll_x;
-int global_frame_counter;
+unsigned int global_frame_counter;
+
 std::vector<bouncy_distro_type> bouncy_distros;
 std::vector<broken_brick_type> broken_bricks;
 std::vector<bouncy_brick_type> bouncy_bricks;
@@ -33,6 +34,7 @@ std::vector<BadGuy> bad_guys;
 std::vector<floating_score_type> floating_scores;
 std::vector<upgrade_type> upgrades;
 std::vector<bullet_type> bullets;
+std::vector<ParticleSystem*> particle_systems;
 Player tux;
 texture_type img_box_full;
 texture_type img_box_empty;
@@ -49,13 +51,18 @@ void arrays_init(void)
 
 void arrays_free(void)
 {
-  bad_guys.clear();
-  bouncy_distros.clear();
-  broken_bricks.clear();
-  bouncy_bricks.clear();
-  floating_scores.clear();
-  upgrades.clear();
-  bullets.clear();
+bad_guys.clear();
+bouncy_distros.clear();
+broken_bricks.clear();
+bouncy_bricks.clear();
+floating_scores.clear();
+upgrades.clear();
+bullets.clear();
+std::vector<ParticleSystem*>::iterator i;
+for(i = particle_systems.begin(); i != particle_systems.end(); ++i) {
+  delete *i;
+}
+particle_systems.clear();
 }
 
 void set_defaults(void)
