@@ -212,7 +212,7 @@ else
     }
   }
 
-char str[1024];
+static char str[1024];
 if(input_flickering)
   sprintf(str,"%s-",input);
 else
