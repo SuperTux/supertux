@@ -245,7 +245,7 @@ World::draw()
     {
       for (x = 0; x < 21; ++x)
         {
-          Tile::draw(32*x - fmodf(scroll_x, 32), y * 32,
+          Tile::draw(32*x - fmodf(scroll_x, 32), y * 32 - fmodf(scroll_y, 32),
                      level->fg_tiles[(int)y + (int)(scroll_y / 32)][(int)x + (int)(scroll_x / 32)]);
         }
     }
