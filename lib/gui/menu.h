@@ -30,7 +30,6 @@
 #include "../video/surface.h"
 #include "../video/font.h"
 #include "../special/timer.h"
-#include "../special/base.h"
 #include "../gui/mousecursor.h"
 
 namespace SuperTux
@@ -73,13 +72,17 @@ namespace SuperTux
       std::string text;
       std::string input;
       int *int_p;   // used for setting keys (can be used for more stuff...)
-      std::pair<std::set<std::string>, std::set<std::string>::iterator> list;
+
+      std::vector<std::string> list; // list of values for a STRINGSELECT item
+      size_t selected; // currently selected item
+      
       Menu* target_menu;
 
       void change_text (const std::string& text);
       void change_input(const std::string& text);
 
-      static MenuItem* create(MenuItemKind kind, const std::string& text, int init_toggle, Menu* target_menu, int id, int* int_p);
+      static MenuItem* create(MenuItemKind kind, const std::string& text,
+          int init_toggle, Menu* target_menu, int id, int* int_p);
 
       std::string get_input_with_symbol(bool active_item);   // returns the text with an input symbol
     private:

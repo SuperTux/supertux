@@ -18,6 +18,8 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #ifndef WIN32
+#include <config.h>
+
 #include <sys/types.h>
 #include <ctype.h>
 #endif
@@ -34,7 +36,6 @@
 #include "../video/screen.h"
 #include "../video/drawing_context.h"
 #include "../app/setup.h"
-#include "../special/timer.h"
 #include "../app/gettext.h"
 #include "../math/vector.h"
 
@@ -152,14 +153,14 @@ Menu::set_current(Menu* menu)
   current_ = menu;
 }
 
-MenuItem::MenuItem(MenuItemKind _kind, int _id) : kind(_kind) , id(_id)
+MenuItem::MenuItem(MenuItemKind _kind, int _id)
+  : kind(_kind) , id(_id)
 {
-  list.second = 0;
 }
 
-MenuItem::MenuItem(MenuItemKind _kind, int _id, const std::string& _text) : kind(_kind) , id(_id) , text(_text)
+MenuItem::MenuItem(MenuItemKind _kind, int _id, const std::string& _text) 
+  : kind(_kind) , id(_id) , text(_text)
 {
-  list.second = 0;
 }
 
 /* Return a pointer to a new menu item */
@@ -178,8 +179,8 @@ MenuItem::create(MenuItemKind kind_, const std::string& text_, int init_toggle_,
   pnew_item->target_menu = target_menu_;
 
   pnew_item->int_p = int_p_;
-  
-  pnew_item->list.second = 0;
+
+  pnew_item->selected = 0;
 
   pnew_item->input_flickering = false;
   pnew_item->input_flickering_timer.init(true);
@@ -286,18 +287,9 @@ void Menu::get_controlfield_js_into_input(MenuItem *item)
   item->change_input(oss.str().c_str());
 }
 
-/* Free a menu and all its items */
 Menu::~Menu()
 {
-  if(item.size() != 0)
-    {
-      for(unsigned int i = 0; i < item.size(); ++i)
-        {
-          item[i].list.first.clear();
-        }
-    }
 }
-
 
 Menu::Menu()
 {
@@ -394,25 +386,21 @@ Menu::action()
           break;
 
         case MENU_ACTION_LEFT:
-          if(item[active_item].kind == MN_STRINGSELECT
-              && item[active_item].list.first.size() != 0)
-            {
-              if(item[active_item].list.second != item[active_item].list.first.begin())
-                --item[active_item].list.second;
-              else
-                item[active_item].list.second = item[active_item].list.first.end();
-            }
+          if(item[active_item].kind == MN_STRINGSELECT) {
+            if(item[active_item].selected > 0)
+              item[active_item].selected--;
+            else
+              item[active_item].selected = item[active_item].list.size()-1;
+          }
           break;
 
         case MENU_ACTION_RIGHT:
-          if(item[active_item].kind == MN_STRINGSELECT
-              && item[active_item].list.first.size() != 0)
-            {
-              if(item[active_item].list.second != item[active_item].list.first.end())
-                ++item[active_item].list.second;
-              else
-                item[active_item].list.second = item[active_item].list.first.begin();
-            }
+          if(item[active_item].kind == MN_STRINGSELECT) {
+            if(item[active_item].selected+1 < item[active_item].list.size())
+              item[active_item].selected++;
+            else
+              item[active_item].selected = 0;
+          }
           break;
 
         case MENU_ACTION_HIT:
@@ -519,9 +507,9 @@ Menu::draw_item(DrawingContext& context,
   int text_width  = int(text_font->get_text_width(pitem.text));
   int input_width = int(text_font->get_text_width(pitem.input) + 10);
   int list_width = 0;
-  std::set<std::string>::iterator tmp = 0;
-  if(pitem.list.second != tmp)
-  list_width = int(text_font->get_text_width((*pitem.list.second)));
+  if(pitem.list.size() > 0) {
+    list_width = (int) text_font->get_text_width(pitem.list[pitem.selected]);
+  }
   
   if (arrange_left)
     x_pos += 24 - menu_width/2 + (text_width + input_width + list_width)/2;
@@ -631,7 +619,7 @@ Menu::draw_item(DrawingContext& context,
           Vector(list_pos_2, 18),
           Color(0,0,0,128), LAYER_GUI - 5);
 
-        context.draw_text(text_font, (*pitem.list.second),
+        context.draw_text(text_font, pitem.list[pitem.selected],
                                  Vector(screen->w/2 + text_pos, y_pos - int(text_font->get_height()/2)),
                                  CENTER_ALLIGN, LAYER_GUI);
         context.draw_text(text_font, pitem.text,
@@ -687,7 +675,7 @@ int Menu::get_width() const
     int menu_width = 0;
     for(unsigned int i = 0; i < item.size(); ++i)
       {
-        int w = item[i].text.size() + item[i].input.size() + 1; //+ ((item[i].list.second != item[i].list.first.end()) ? (strlen((*(item[i].list.second)).c_str())) : 0);
+        int w = item[i].text.size() + item[i].input.size() + 1;
         if( w > menu_width )
           {
             menu_width = w;
@@ -917,5 +905,3 @@ Menu::event(SDL_Event& event)
     }
 }
 
-
-// EOF //
