@@ -88,6 +88,12 @@ void selectlevel()
 int leveleditor()
 {
   char str[10];
+  int done;
+  int x, y, i;	/* for cicles */
+  int pos_x, cursor_x, cursor_y, old_cursor_x, fire;
+  SDL_Event event;
+  SDLKey key;
+  SDLMod keymod;
 
 
   strcpy(levelfilename,"level1");
@@ -102,12 +108,7 @@ int leveleditor()
 
   selection = load_image(DATA_PREFIX "/images/leveleditor/select.png", USE_ALPHA);
 
-  int done;
   done = 0;
-
-  int x, y, i;	/* for cicles */
-  int pos_x, cursor_x, cursor_y, old_cursor_x, fire;
-
   pos_x = 0;
   cursor_x = 3*32;
   old_cursor_x = cursor_x;
@@ -115,10 +116,6 @@ int leveleditor()
   fire = DOWN;
 
   SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
-
-  SDL_Event event;
-  SDLKey key;
-  SDLMod keymod;
 
   while(1)
     {
@@ -471,12 +468,12 @@ int leveleditor()
 void le_change(int x, int y, int sx, unsigned char c)
 {
   int xx, yy;
+  int i;
 
   yy = (y / 32);
   xx = ((x + sx) / 32);
 
   /* if there is a bad guy over there, remove it */
-  int i;
   for(i = 0; i < NUM_BAD_GUYS; ++i)
     if (bad_guys[i].alive)
       if(xx == bad_guys[i].x/32 && yy == bad_guys[i].y/32)
@@ -492,7 +489,7 @@ void savelevel(void)
 {
   FILE * fi;
   char * filename;
-
+  int y;
   char str[80];
 
   /* Save data file: */
@@ -528,7 +525,6 @@ void savelevel(void)
   sprintf(str, "%d\n", level_width);	/* level width */
   fputs(str, fi);
 
-  int y;
   for(y = 0; y < 15; ++y)
     {
       fputs(tiles[y], fi);
@@ -553,7 +549,7 @@ void le_loadlevel(void)
 {
   FILE * fi;
   char * filename;
-
+  int x, y;
   char str[80];
   char* line = malloc(sizeof(char)*10);/*[LEVEL_WIDTH + 5];*/
 
@@ -598,7 +594,6 @@ void le_loadlevel(void)
   free(line);
   line = malloc(level_width*sizeof(char)+5);
 
-  int x, y;
   for (y = 0; y < 15; ++y)
     {
       fgets(line, level_width + 5, fi);
@@ -644,9 +639,8 @@ void le_loadlevel(void)
 
 void showhelp()
 {
-  drawcenteredtext("- Help -", 30, letters_red, NO_UPDATE, 1);
-  drawtext("Keys:", 80, 60, letters_gold, NO_UPDATE, 1);
-
+  SDL_Event event;
+  int done;
   char *text[] = {
                    "X/x - Brick0",
                    "Y/y - Brick1",
@@ -669,16 +663,18 @@ void showhelp()
                    "0-2 - BadGuys",
                    "./Del - Remove tile",
                    "Esc - Menu"};
-
   int i;
+
+
+  drawcenteredtext("- Help -", 30, letters_red, NO_UPDATE, 1);
+  drawtext("Keys:", 80, 60, letters_gold, NO_UPDATE, 1);
+
   for(i = 0; i < sizeof(text)/sizeof(char *); i++)
     drawtext(text[i], 40, 90+(i*16), letters_blue, NO_UPDATE, 1);
 
   SDL_Flip(screen);
 
-  int done;
   done = 0;
-  SDL_Event event;
 
   while(done == 0)
     while(SDL_PollEvent(&event))
