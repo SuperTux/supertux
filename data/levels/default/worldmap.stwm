@@ -115,7 +115,8 @@
            (y 22))
     (level (name "world1/level26.stl")
            (x 7)
-           (y 20))
+           (y 20)
+           (extro-filename "extro.txt"))
   )
 
 
