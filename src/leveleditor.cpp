@@ -213,12 +213,13 @@ int leveleditor(int levelnb)
       /* draw editor interface */
       le_drawinterface();
 
-      if(Menu::current())
+      Menu* menu = Menu::current();
+      if(menu)
         {
-          Menu::current()->draw();
-          Menu::current()->action();
+          menu->draw();
+          menu->action();
 
-          if(Menu::current() == leveleditor_menu)
+          if(menu == leveleditor_menu)
             {
               switch (leveleditor_menu->check())
                 {
@@ -233,7 +234,7 @@ int leveleditor(int levelnb)
                   break;
                 }
             }
-          else if(Menu::current() == level_settings_menu)
+          else if(menu == level_settings_menu)
             {
               switch (level_settings_menu->check())
                 {
@@ -247,7 +248,7 @@ int leveleditor(int levelnb)
                   break;
                 }
             }
-          else if(Menu::current() == select_tilegroup_menu)
+          else if(menu == select_tilegroup_menu)
             {
               int it = -1;
               switch (it = select_tilegroup_menu->check())
@@ -263,7 +264,7 @@ int leveleditor(int levelnb)
                   break;
                 }
             }
-          else if(Menu::current() == subset_load_menu)
+          else if(menu == subset_load_menu)
             {
               switch (i = subset_load_menu->check())
                 {
@@ -292,7 +293,7 @@ int leveleditor(int levelnb)
                   break;
                 }
             }
-          else if(Menu::current() == subset_new_menu)
+          else if(menu == subset_new_menu)
             {
               if(subset_new_menu->item[2].input[0] == '\0')
                 subset_new_menu->item[3].kind = MN_DEACTIVE;
@@ -324,7 +325,7 @@ int leveleditor(int levelnb)
                     }
                 }
             }
-          else if(Menu::current() == subset_settings_menu)
+          else if(menu == subset_settings_menu)
             {
               if(le_level_subset.title.compare(subset_settings_menu->item[2].input) == 0 && le_level_subset.description.compare(subset_settings_menu->item[3].input) == 0  )
                 subset_settings_menu->item[5].kind = MN_DEACTIVE;

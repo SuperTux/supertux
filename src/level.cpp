@@ -560,6 +560,13 @@ Level::save(const  char * subset, int level)
     }
 
   fprintf( fi,")\n");
+
+  fprintf( fi,"(reset-points\n");
+  for(std::vector<ResetPoint>::iterator i = reset_points.begin();
+      i != reset_points.end(); ++i)
+    fprintf( fi,"(point (x %d) (y %d))\n",i->x, i->y);
+  fprintf( fi,")\n");
+
   fprintf( fi,"(objects\n");
 
   for(std::vector<BadGuyData>::iterator it = badguy_data.begin();
