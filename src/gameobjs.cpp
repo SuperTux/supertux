@@ -159,7 +159,7 @@ BouncyBrick::draw()
 
       // FIXME: overdrawing hack to clean the tile from the screen to
       // paint it later at on offseted position
-      if(plevel->bkgd_image[0] == '\0')
+      if(plevel->img_bkgd)
         {
           fillrect(base.x - scroll_x, base.y - scroll_y,
                    32,32, 
