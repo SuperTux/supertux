@@ -8,10 +8,13 @@ class Jumpy : public BadGuy
 public:
   Jumpy(const lisp::Lisp& reader);
 
-  virtual HitResponse collision_solid(GameObject& other,
-      const CollisionHit& hit);
+  HitResponse collision_solid(GameObject& other, const CollisionHit& hit);
+  HitResponse collision_badguy(BadGuy& other, const CollisionHit& hit);
 
-  virtual void write(lisp::Writer& writer);
+  void write(lisp::Writer& writer);
+
+private:
+  HitResponse hit(const CollisionHit& hit);
 };
 
 #endif

@@ -101,7 +101,13 @@ BonusBlock::BonusBlock(const Vector& pos, int newdata)
 }
 
 void
-BonusBlock::hit(Player& player)
+BonusBlock::hit(Player& )
+{
+  try_open();
+}
+
+void
+BonusBlock::try_open()
 {
   if(sprite->get_action_name() == "empty") {
     SoundManager::get()->play_sound(IDToSound(SND_BRICK));
@@ -109,6 +115,7 @@ BonusBlock::hit(Player& player)
   }
   
   Sector* sector = Sector::current();
+  Player& player = *(sector->player);
   switch(data) {
     case 1: // coin
       Sector::current()->add_object(new BouncyCoin(get_pos()));
@@ -170,13 +177,23 @@ Brick::Brick(const Vector& pos, int data)
 }
 
 void
-Brick::hit(Player& player)
+Brick::hit(Player& )
+{
+  if(sprite->get_action_name() == "empty")
+    return;
+  
+  try_break(true);
+}
+
+void
+Brick::try_break(bool playerhit)
 {
   if(sprite->get_action_name() == "empty")
     return;
   
   SoundManager::get()->play_sound(IDToSound(SND_BRICK));
   Sector* sector = Sector::current();
+  Player& player = *(sector->player);
   if(coin_counter > 0) {
     sector->add_object(new BouncyCoin(get_pos()));
     coin_counter--;
@@ -185,7 +202,7 @@ Brick::hit(Player& player)
       sprite->set_action("empty");
     start_bounce();
   } else if(breakable) {
-    if(player.size == SMALL) {
+    if(playerhit && player.size == SMALL) {
       start_bounce();
       return;
     }

@@ -97,7 +97,7 @@ BadGuy::collision(GameObject& other, const CollisionHit& hit)
         return collision_solid(other, hit);
 
       BadGuy* badguy = dynamic_cast<BadGuy*> (&other);
-      if(badguy)
+      if(badguy && badguy->state == STATE_ACTIVE)
         return collision_badguy(*badguy, hit);
 
       Player* player = dynamic_cast<Player*> (&other);

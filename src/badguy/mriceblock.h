@@ -11,7 +11,8 @@ public:
 
   void activate();
   void write(lisp::Writer& writer);
-  HitResponse collision_solid(GameObject& other, const CollisionHit& hit);
+  HitResponse collision_solid(GameObject& object, const CollisionHit& hit);
+  HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
 
   void active_action(float elapsed_time);
 

@@ -41,6 +41,13 @@ Bomb::collision_player(Player& player, const CollisionHit& )
   return ABORT_MOVE;
 }
 
+HitResponse
+Bomb::collision_badguy(BadGuy& badguy, const CollisionHit& )
+{
+  badguy.kill_fall();
+  return ABORT_MOVE;
+}
+
 void
 Bomb::active_action(float )
 {

@@ -24,15 +24,26 @@ Jumpy::write(lisp::Writer& writer)
 }
 
 HitResponse
-Jumpy::collision_solid(GameObject& , const CollisionHit& hit)
+Jumpy::collision_solid(GameObject& , const CollisionHit& chit)
+{
+  return hit(chit);
+}
+
+HitResponse
+Jumpy::collision_badguy(BadGuy& , const CollisionHit& chit)
+{
+  return hit(chit);
+}
+
+HitResponse
+Jumpy::hit(const CollisionHit& chit)
 {
   // hit floor?
-  if(hit.normal.y < -.5) {
+  if(chit.normal.y < -.5) {
     physic.set_velocity_y(JUMPSPEED);
-  } else if(hit.normal.y < .5) { // bumped on roof
+  } else if(chit.normal.y < .5) { // bumped on roof
     physic.set_velocity_y(0);
   }
 
   return CONTINUE;
 }
-

@@ -36,6 +36,8 @@ class BonusBlock : public Block
 public:
   BonusBlock(const Vector& pos, int data);
 
+  void try_open();
+
 protected:
   virtual void hit(Player& player);
 
@@ -47,6 +49,8 @@ class Brick : public Block
 {
 public:
   Brick(const Vector& pos, int data);
+
+  void try_break(bool playerhit = false);
 
 protected:
   virtual void hit(Player& player);

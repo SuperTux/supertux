@@ -1,6 +1,7 @@
 #include <config.h>
 
 #include "mriceblock.h"
+#include "object/block.h"
 
 static const float WALKSPEED = 80;
 static const float KICKSPEED = 500;
@@ -59,7 +60,7 @@ MrIceBlock::active_action(float elapsed_time)
 }
 
 HitResponse
-MrIceBlock::collision_solid(GameObject& , const CollisionHit& hit)
+MrIceBlock::collision_solid(GameObject& object, const CollisionHit& hit)
 {
   if(fabsf(hit.normal.y) > .5) { // floor or roof
     physic.set_velocity_y(0);
@@ -72,19 +73,52 @@ MrIceBlock::collision_solid(GameObject& , const CollisionHit& hit)
       sprite->set_action(dir == LEFT ? "left" : "right");
       physic.set_velocity_x(-physic.get_velocity_x());       
       break;
-    case ICESTATE_KICKED:
+    case ICESTATE_KICKED: {
+      BonusBlock* bonusblock = dynamic_cast<BonusBlock*> (&object);
+      if(bonusblock) {
+        bonusblock->try_open();
+      }
+      Brick* brick = dynamic_cast<Brick*> (&object);
+      if(brick) {
+        brick->try_break();
+      }
+      
       dir = dir == LEFT ? RIGHT : LEFT;
       sprite->set_action(dir == LEFT ? "flat-left" : "flat-right");
       physic.set_velocity_x(-physic.get_velocity_x());
       SoundManager::get()->play_sound(IDToSound(SND_RICOCHET), get_pos(),
           Sector::current()->player->get_pos());
       break;
+    }
     case ICESTATE_FLAT:
       physic.set_velocity_x(0);
       break;
   }
 
   return CONTINUE;
+}
+
+HitResponse
+MrIceBlock::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
+{
+  switch(ice_state) {
+    case ICESTATE_NORMAL:
+      if(fabsf(hit.normal.x) > .8) {
+        dir = dir == LEFT ? RIGHT : LEFT;
+        sprite->set_action(dir == LEFT ? "left" : "right");
+        physic.set_velocity_x(-physic.get_velocity_x());               
+      }
+      return CONTINUE;
+    case ICESTATE_FLAT:
+      return FORCE_MOVE;
+    case ICESTATE_KICKED:
+      badguy.kill_fall();
+      return FORCE_MOVE;
+    default:
+      assert(false);
+  }
+
+  return ABORT_MOVE;
 }
 
 bool

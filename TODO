@@ -45,8 +45,6 @@ L: low priority
     - implement wingling
     - implement tree (really?)
     - bring back stay on platform flag
-    - make enemies bounce of upon each other again
-    - make enemies fall again - ok
  ** implement ability to cary mriceblock (and other objects) around - delayed
     for  after big commit...
  * smoke clouds are too fast
