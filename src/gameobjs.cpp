@@ -216,7 +216,7 @@ FloatingScore::draw()
 #define TRAMPOLINE_FRAMES 4
 Sprite *img_trampoline[TRAMPOLINE_FRAMES];
 
-void load_trampoline_gfx()
+void load_object_gfx()
 {
   for (int i = 0; i < TRAMPOLINE_FRAMES; i++)
   {
@@ -231,12 +231,15 @@ Trampoline::init(float x, float y)
 {
   base.x = x;
   base.y = y;
+
+  base.height = 32;
 }
 
 void
 Trampoline::action(double frame_ratio)
 {
   (void) frame_ratio;
+  physic.apply(frame_ratio, base.x, base.y);
   // TODO:
   // If HELD
   //   - move with tux

@@ -32,6 +32,7 @@
 #include "level.h"
 #include "tile.h"
 #include "resources.h"
+#include "gameobjs.h"
 
 Surface* img_distro[4];
 
@@ -166,7 +167,7 @@ World::activate_objects()
   for (std::vector< ObjectData<TrampolineData> >::iterator i = level->trampoline_data.begin();
        i != level->trampoline_data.end();
        ++i)
-  {puts("fo");
+  {
     add_object<Trampoline, ObjectData<TrampolineData> >(*i);
   }
 }
@@ -300,6 +301,9 @@ World::action(double frame_ratio)
 
   for (BadGuys::iterator i = bad_guys.begin(); i != bad_guys.end(); ++i)
     (*i)->action(frame_ratio);
+
+  for (Trampolines::iterator i = trampolines.begin(); i != trampolines.end(); ++i)
+     (*i)->action(frame_ratio);
 
   /* update particle systems */
   std::vector<ParticleSystem*>::iterator p;
@@ -554,7 +558,9 @@ T*
 World::add_object(U data)
 {
   T* tobject = new T(data);
-  trampolines.push_back(tobject);
+
+  if (data.type == OBJ_TRAMPOLINE)
+    trampolines.push_back(tobject);
 
   return tobject;
 }

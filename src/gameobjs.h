@@ -26,6 +26,7 @@
 #include "texture.h"
 #include "timer.h"
 #include "scene.h"
+#include "physic.h"
 
 enum ObjectType { OBJ_NONE, OBJ_BADGUY, OBJ_TRAMPOLINE };
 
@@ -45,12 +46,6 @@ struct ObjectData
   ObjectData()
     : x(0), y(0), type(OBJ_NONE), type_specific() {};
 };
-
-struct TrampolineData
-{
-  int power;
-};
-
 
 /* Bounciness of distros: */
 #define NO_BOUNCE 0
@@ -110,6 +105,13 @@ class FloatingScore : public GameObject
   std::string type() { return "FloatingScore"; };
 };
 
+
+/* Trampoline */
+struct TrampolineData
+{
+  int power;
+};
+
 class Trampoline : public GameObject
 {
  public:
@@ -120,17 +122,19 @@ class Trampoline : public GameObject
 
   Trampoline(ObjectData<TrampolineData> data)
   {
-    base.x = data.x;
-    base.y = data.y;
-
     power = data.type_specific.power;
-  }
+
+    init(data.x, data.y);
+  };
+
+  Physic physic;
 
  private:
   int power;
 };
 
-void load_trampoline_gfx();
+
+void load_object_gfx();
 
 #endif 
 
