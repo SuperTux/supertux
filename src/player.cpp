@@ -577,7 +577,8 @@ Player::handle_vertical_input()
          }
     }
 
-   // Flapping
+   
+   // Flapping, Marek's version
    if (input.jump == DOWN && can_flap)
      {
          if (!flapping_timer.started())
@@ -589,8 +590,30 @@ Player::handle_vertical_input()
                can_flap = false;
                falling_from_flap = true;
             }
-         //if (physic.get_velocity_x() > 0) {physic.set_velocity_x(WALK_SPEED);}
-         //else if (physic.get_velocity_x() < 0) {physic.set_velocity_x(WALK_SPEED * (-1));}
+         //TODO: The slowing down of Tux should be handled...
+         if (physic.get_velocity_x() > 0) {physic.set_velocity_x(WALK_SPEED);}
+         else if (physic.get_velocity_x() < 0) {physic.set_velocity_x(WALK_SPEED * (-1));}
+         jumping = true;
+         flapping = true;
+         if (flapping_timer.get_gone() <= TUX_FLAPPING_TIME)
+            {
+               //TODO: ...here, using get_gone to slow him down at an increasing rate
+               physic.set_velocity_y((float)flapping_timer.get_gone()/700);
+            }
+     }
+     
+   /* // Flapping, Ryan's version
+   if (input.jump == DOWN && can_flap)
+     {
+         if (!flapping_timer.started())
+            {
+               flapping_timer.start(TUX_FLAPPING_TIME);
+            }
+         if (!flapping_timer.check()) 
+            {
+               can_flap = false;
+               falling_from_flap = true;
+            }
          jumping = true;
          flapping = true;
          if (flapping && flapping_timer.get_gone() <= TUX_FLAPPING_TIME
@@ -598,8 +621,6 @@ Player::handle_vertical_input()
             {
                float gravity = Sector::current()->gravity;
                float xr = (fabsf(physic.get_velocity_x()) / MAX_RUN_XM);
-
-               //physic.set_velocity_y((float)flapping_timer.get_gone()/700);
 
                // XXX: magic numbers. should be a percent of gravity
                //      gravity is (by default) -0.1f
@@ -621,6 +642,7 @@ Player::handle_vertical_input()
      {
         physic.set_acceleration_y(0);
      }
+   */
 
    // Hover
    //(disabled by default, use cheat code "hover" to toggle on/off)
