@@ -42,6 +42,7 @@
 #include "high_scores.h"
 #include "gui/menu.h"
 #include "special/timer.h"
+#include "special/frame_rate.h"
 #include "app/setup.h"
 #include "level.h"
 #include "level_subset.h"
@@ -66,8 +67,6 @@ static bool walking;
 static Timer random_timer;
 
 static int frame;
-static unsigned int last_update_time;
-static unsigned int update_time;
 
 static GameSession* titlesession;
 
@@ -288,7 +287,9 @@ void title(void)
   /* --- Main title loop: --- */
   frame = 0;
 
-  update_time = Ticks::get();
+  FrameRate frame_rate(100);  
+  frame_rate.set_frame_limit(false);
+  
   random_timer.start(rand() % 2000 + 2000);
 
   Menu::set_current(main_menu);
@@ -296,11 +297,11 @@ void title(void)
   while (Menu::current())
     {
       // if we spent to much time on a menu entry
-      if( (update_time - last_update_time) > 1000)
-        update_time = last_update_time = Ticks::get();
-
+      frame_rate.smooth_hanger();
+    
       // Calculate the movement-factor
-      double frame_ratio = ((double)(update_time-last_update_time))/((double)FRAME_RATE);
+      double frame_ratio = frame_rate.get();
+      
       if(frame_ratio > 1.5) /* Quick hack to correct the unprecise CPU clocks a little bit. */
         frame_ratio = 1.5 + (frame_ratio - 1.5) * 0.85;
       /* Lower the frame_ratio that Tux doesn't jump to hectically throught the demo. */
@@ -358,7 +359,7 @@ void title(void)
                   leveleditor->run();
                   delete leveleditor;
                   Menu::set_current(main_menu);
-                  update_time = Ticks::get();
+                  frame_rate.update();
                   break;
                 case MNID_CREDITS:
                   display_text_file("CREDITS", SCROLL_SPEED_CREDITS, white_big_text , white_text, white_small_text, blue_text );
@@ -390,7 +391,7 @@ void title(void)
 
                 update_load_save_game_menu(load_game_menu);
                 Menu::set_current(main_menu);
-                update_time = Ticks::get();
+                frame_rate.update();
                 }
               else if (process_load_game_menu())
                 {
@@ -398,7 +399,7 @@ void title(void)
                   titlesession->get_current_sector()->activate();
                   titlesession->set_current();
                   //titletux.level_begin();
-                  update_time = Ticks::get();
+                  frame_rate.update();
                 }
             }
           else if(menu == contrib_menu)
@@ -415,9 +416,7 @@ void title(void)
      
       context.do_drawing();
 
-      /* Set the time of the last update and the time of the current update */
-      last_update_time = update_time;
-      update_time = Ticks::get();
+      frame_rate.update();
 
       /* Pause: */
       frame++;

@@ -29,12 +29,15 @@ namespace SuperTux
       FrameRate(double fps);
       void start();
       void set_fps(double fps);
+      void set_frame_limit(bool);
       double get();
       void update();
+      void smooth_hanger();
     private:
       unsigned int last_update_time;
       unsigned int update_time;
       unsigned int frame_ms;
+      bool frame_limit;
     };
 
 } //namespace SuperTux

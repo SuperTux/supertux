@@ -26,6 +26,7 @@ using namespace SuperTux;
 FrameRate::FrameRate(double fps)
 {
   set_fps(fps);
+  set_frame_limit(true);
 }
 
 void FrameRate::start()
@@ -36,6 +37,11 @@ void FrameRate::start()
 void FrameRate::set_fps(double fps)
 {
   frame_ms = static_cast<unsigned int>(1000.f/fps);
+}
+
+void FrameRate::set_frame_limit(bool set_limit)
+{
+  frame_limit = set_limit;
 }
 
 double FrameRate::get()
@@ -52,10 +58,15 @@ void FrameRate::update()
   /* Pause till next frame, if the machine running the game is too fast: */
   /* FIXME: Works great for in OpenGl mode, where the CPU doesn't have to do that much. But
      the results in SDL mode aren't perfect (thought the 100 FPS are reached), even on an AMD2500+. */
-  if(last_update_time >= update_time - (frame_ms+2))
+  if(frame_limit && last_update_time >= update_time - (frame_ms+2))
     {
       SDL_Delay(frame_ms);
       update_time = Ticks::get();
     }
 }
 
+void FrameRate::smooth_hanger()
+{
+      if( (update_time - last_update_time) > frame_ms*100)
+        update_time = last_update_time = Ticks::get();
+}

@@ -28,6 +28,7 @@
 #include "video/screen.h"
 #include "video/drawing_context.h"
 #include "utils/lispreader.h"
+#include "special/frame_rate.h"
 #include "gameloop.h"
 #include "app/setup.h"
 #include "sector.h"
@@ -1013,24 +1014,23 @@ WorldMap::display()
 
   song = SoundManager::get()->load_music(datadir +  "/music/" + music);
   SoundManager::get()->play_music(song);
-  
-  unsigned int last_update_time;
-  unsigned int update_time;
 
-  last_update_time = update_time = Ticks::get();
+  FrameRate frame_rate(10);
+  frame_rate.set_frame_limit(false);
+
+  frame_rate.start();
 
   DrawingContext context;
   while(!quit)
     {
-      float delta = ((float)(update_time-last_update_time))/100.0;
+      float delta = frame_rate.get();
 
       delta *= 1.3f;
 
       if (delta > 10.0f)
         delta = .3f;
-      
-      last_update_time = update_time;
-      update_time      = Ticks::get();
+	
+      frame_rate.update();
 
       Vector tux_pos = tux->get_pos();
       if (1)
@@ -1048,7 +1048,7 @@ WorldMap::display()
       draw(context, offset);
       get_input();
       update(delta);
-
+      
       if(Menu::current())
         {
           Menu::current()->draw(context);
