@@ -498,6 +498,9 @@ GameSession::draw()
 
   if(game_pause)
     {
+      context.push_transform();
+      context.set_translation(Vector(0, 0));
+        
       int x = screen->h / 20;
       for(int i = 0; i < x; ++i)
         {
@@ -513,6 +516,8 @@ GameSession::draw()
           Color(rand() % 50, rand() % 50, rand() % 50, 128), LAYER_FOREGROUND1);
       world->context.draw_text_center(blue_text, "PAUSE - Press 'P' To Play",
           Vector(0, 230), LAYER_FOREGROUND1+2);
+
+      context.pop_transform();
     }
 
   if(Menu::current())
