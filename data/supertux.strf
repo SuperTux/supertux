@@ -54,10 +54,10 @@
                  "shared/mriceblock-right-1.png"))
   
   (sprite (name "laptop-flat-left")
-          (images "shared/laptop-flat-left.png"))
+          (images "shared/mriceblock-flat-left.png"))
 
   (sprite (name "laptop-flat-right")
-          (images "shared/laptop-flat-right.png"))
+          (images "shared/mriceblock-flat-right.png"))
 
   (sprite (name "laptop-falling-left")
           (images "shared/laptop-falling-left.png"))
