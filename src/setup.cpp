@@ -412,8 +412,8 @@ void st_menu(void)
   options_menu->additem(MN_TOGGLE,"Show FPS  ",show_fps,0, MNID_SHOWFPS);
   options_menu->additem(MN_GOTO,"Keyboard Setup",0,options_keys_menu);
 
-  //if(use_joystick)
-  //  options_menu->additem(MN_GOTO,"Joystick Setup",0,options_joystick_menu);
+  if(use_joystick)
+    options_menu->additem(MN_GOTO,"Joystick Setup",0,options_joystick_menu);
 
   options_menu->additem(MN_HL,"",0,0);
   options_menu->additem(MN_BACK,"Back",0,0);
@@ -432,12 +432,12 @@ void st_menu(void)
     {
     options_joystick_menu->additem(MN_LABEL,"Joystick Setup",0,0);
     options_joystick_menu->additem(MN_HL,"",0,0);
-    options_joystick_menu->additem(MN_CONTROLFIELD,"X axis", 0,0, 0,&joystick_keymap.x_axis);
-    options_joystick_menu->additem(MN_CONTROLFIELD,"Y axis", 0,0, 0,&joystick_keymap.y_axis);
+    //options_joystick_menu->additem(MN_CONTROLFIELD,"X axis", 0,0, 0,&joystick_keymap.x_axis);
+    //options_joystick_menu->additem(MN_CONTROLFIELD,"Y axis", 0,0, 0,&joystick_keymap.y_axis);
     options_joystick_menu->additem(MN_CONTROLFIELD,"A button", 0,0, 0,&joystick_keymap.a_button);
     options_joystick_menu->additem(MN_CONTROLFIELD,"B button", 0,0, 0,&joystick_keymap.b_button);
-    options_joystick_menu->additem(MN_CONTROLFIELD,"Start", 0,0, 0,&joystick_keymap.start_button);
-    options_joystick_menu->additem(MN_CONTROLFIELD,"DeadZone", 0,0, 0,&joystick_keymap.dead_zone);
+    //options_joystick_menu->additem(MN_CONTROLFIELD,"Start", 0,0, 0,&joystick_keymap.start_button);
+    //options_joystick_menu->additem(MN_CONTROLFIELD,"DeadZone", 0,0, 0,&joystick_keymap.dead_zone);
     options_joystick_menu->additem(MN_HL,"",0,0);
     options_joystick_menu->additem(MN_BACK,"Back",0,0);
     }

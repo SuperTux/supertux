@@ -23,9 +23,10 @@
 #endif
 
 #include <iostream>
+#include <sstream>
 #include <stdlib.h>
 #include <stdio.h>
-#include <string.h>
+#include <string>
 #include <assert.h>
 
 #include "defines.h"
@@ -242,51 +243,61 @@ std::string MenuItem::get_input_with_symbol(bool active_item)
 /* Set ControlField a key */
 void Menu::get_controlfield_key_into_input(MenuItem *item)
 {
-  switch(*item->int_p)
+  if (this == options_joystick_menu)
   {
-  case SDLK_UP:
-    item->change_input("Up cursor");
-    break;
-  case SDLK_DOWN:
-    item->change_input("Down cursor");
-    break;
-  case SDLK_LEFT:
-    item->change_input("Left cursor");
-    break;
-  case SDLK_RIGHT:
-    item->change_input("Right cursor");
-    break;
-  case SDLK_RETURN:
-    item->change_input("Return");
-    break;
-  case SDLK_SPACE:
-    item->change_input("Space");
-    break;
-  case SDLK_RSHIFT:
-    item->change_input("Right Shift");
-    break;
-  case SDLK_LSHIFT:
-    item->change_input("Left Shift");
-    break;
-  case SDLK_RCTRL:
-    item->change_input("Right Control");
-    break;
-  case SDLK_LCTRL:
-    item->change_input("Left Control");
-    break;
-  case SDLK_RALT:
-    item->change_input("Right Alt");
-    break;
-  case SDLK_LALT:
-    item->change_input("Left Alt");
-    break;
-  default:
+    std::ostringstream oss;
+    oss << "Button " << *item->int_p;
+    item->change_input(oss.str().c_str());
+  }
+
+  else if (this == options_keys_menu)
+  {
+    switch(*item->int_p)
     {
-      char tmp[64];
-      snprintf(tmp, 64, "%d", *item->int_p);
-      item->change_input(tmp);
+    case SDLK_UP:
+      item->change_input("Up cursor");
+      break;
+    case SDLK_DOWN:
+      item->change_input("Down cursor");
+      break;
+    case SDLK_LEFT:
+      item->change_input("Left cursor");
+      break;
+    case SDLK_RIGHT:
+      item->change_input("Right cursor");
+      break;
+    case SDLK_RETURN:
+      item->change_input("Return");
+      break;
+    case SDLK_SPACE:
+      item->change_input("Space");
+      break;
+    case SDLK_RSHIFT:
+      item->change_input("Right Shift");
+      break;
+    case SDLK_LSHIFT:
+      item->change_input("Left Shift");
+      break;
+    case SDLK_RCTRL:
+      item->change_input("Right Control");
+      break;
+    case SDLK_LCTRL:
+      item->change_input("Left Control");
+      break;
+    case SDLK_RALT:
+      item->change_input("Right Alt");
+      break;
+    case SDLK_LALT:
+      item->change_input("Left Alt");
+      break;
+    default:
+      {
+        char tmp[64];
+        snprintf(tmp, 64, "%d", *item->int_p);
+        item->change_input(tmp);
+      }
+      break;
     }
-    break;
   }
 }
 
@@ -481,8 +492,8 @@ Menu::action()
 
   menuaction = MENU_ACTION_NONE;
 
-  if (active_item >= int(item.size()))
-    active_item = int(item.size()) - 1;
+  //if (active_item >= int(item.size()))
+  //  active_item = int(item.size()) - 1;
 }
 
 int
@@ -745,7 +756,7 @@ Menu::event(SDL_Event& event)
       /* An International Character. */
     }
 
-    if(item[active_item].kind == MN_CONTROLFIELD)
+    if(item[active_item].kind == MN_CONTROLFIELD && this == options_keys_menu)
     {
       if(key == SDLK_ESCAPE)
       {
@@ -813,6 +824,11 @@ Menu::event(SDL_Event& event)
     }
     break;
   case  SDL_JOYBUTTONDOWN:
+    if (item[active_item].kind == MN_CONTROLFIELD && this == options_joystick_menu)
+    {
+      *item[active_item].int_p = key;
+      menuaction = MENU_ACTION_DOWN;
+    }
     menuaction = MENU_ACTION_HIT;
     break;
   case SDL_MOUSEBUTTONDOWN:
