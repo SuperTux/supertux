@@ -1208,7 +1208,13 @@ LispReader::read_char_vector (const char* name, std::vector<char>& vec)
 bool
 LispReader::read_string (const char* name, std::string& str)
 {
-  lisp_object_t* obj = search_for (name);
+  char str_[1204];
+  sprintf(str_, "%s-%s", name, getenv("LANG"));
+  lisp_object_t* obj = search_for (str_);
+
+  if(!obj)
+    obj = search_for (name);
+
   if (!obj)
     return false;
 

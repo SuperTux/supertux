@@ -26,6 +26,7 @@
 #include "screen.h"
 #include "font.h"
 #include "drawing_context.h"
+#include "../lispreader.h"
 
 Font::Font(const std::string& file, FontType ntype, int nw, int nh,
         int nshadowsize)
@@ -138,36 +139,40 @@ void display_text_file(const std::string& file, const std::string& surface, floa
 
 void display_text_file(const std::string& file, Surface* surface, float scroll_speed)
 {
-  int done;
-  float scroll;
-  float speed;
-  FILE* fi;
-  char temp[1024];
+  std::string text;
   std::vector<std::string> names;
-  char filename[1024];
   
-  sprintf(filename,"%s/%s", datadir.c_str(), file.c_str());
-  if((fi = fopen(filename,"r")) != NULL)
+  lisp_object_t* root_obj = lisp_read_from_file(datadir + file);
+  lisp_object_t* cur = lisp_car(root_obj);
+
+  if (lisp_symbol_p(cur) && strcmp(lisp_symbol(cur), "text") == 0)
     {
-      while(fgets(temp, sizeof(temp), fi) != NULL)
-        {
-          temp[strlen(temp)-1]='\0';
-          names.push_back(temp);
-        }
-      fclose(fi);
+      LispReader reader(lisp_cdr(root_obj));
+      reader.read_string("text", text);
     }
   else
     {
-      names.push_back("File was not found!");
-      names.push_back(filename);
-      names.push_back("Shame on the guy, who");
-      names.push_back("forgot to include it");
-      names.push_back("in your SuperTux distribution.");
+      std::cerr << "Error: Could not open text. Ignoring...\n";
+      return;
     }
 
-  scroll = 0;
-  speed = scroll_speed / 50;
-  done = 0;
+  unsigned int l, i;
+  l = 0;
+  while(true)
+    {
+    i = l;
+    l = text.find("\n", i);
+    if(l != std::string::npos)
+      break;
+
+    char* temp = 0;
+    text.copy(temp, l, i);
+    names.push_back(temp);
+    }
+
+  int done = 0;
+  float scroll = 0;
+  float speed = scroll_speed / 50;
 
   DrawingContext context;
   SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
