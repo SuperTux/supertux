@@ -26,6 +26,7 @@
 #include "badguy.h"
 #include "lispreader.h"
 #include "musicref.h"
+#include "gameobjs.h"
 
 class Tile;
 
@@ -97,6 +98,7 @@ class Level
   float hor_autoscroll_speed;
 
   std::vector<BadGuyData> badguy_data;
+  std::vector< ObjectData<TrampolineData> > trampoline_data;
 
   /** A collection of points to which Tux can be reset after a lost live */
   std::vector<ResetPoint> reset_points;

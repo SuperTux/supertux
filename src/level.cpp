@@ -33,6 +33,7 @@
 #include "lispreader.h"
 #include "resources.h"
 #include "music_manager.h"
+#include "gameobjs.h"
 
 using namespace std;
 
@@ -391,15 +392,28 @@ Level::load(const std::string& filename)
             while (!lisp_nil_p(cur))
               {
                 lisp_object_t* data = lisp_car(cur);
+                std::string object_type = "";
 
-                BadGuyData bg_data;
-                bg_data.kind = badguykind_from_string(lisp_symbol(lisp_car(data)));
                 LispReader reader(lisp_cdr(data));
-                reader.read_int("x", &bg_data.x);
-                reader.read_int("y", &bg_data.y);
-                reader.read_bool("stay-on-platform", &bg_data.stay_on_platform);
+                reader.read_string("type", &object_type);
 
-                badguy_data.push_back(bg_data);
+                if (object_type == "badguy" || object_type == "")
+                {
+                  BadGuyData bg_data;
+                  bg_data.kind = badguykind_from_string(lisp_symbol(lisp_car(data)));
+                  reader.read_int("x", &bg_data.x);
+                  reader.read_int("y", &bg_data.y);
+                  reader.read_bool("stay-on-platform", &bg_data.stay_on_platform);
+
+                  badguy_data.push_back(bg_data);
+                }
+                else
+                {
+                    if (lisp_symbol(lisp_car(data)) == "trampoline")
+                    {
+                      ObjectData<TrampolineData> _trampoline_data;
+                    }
+                }
 
                 cur = lisp_cdr(cur);
               }

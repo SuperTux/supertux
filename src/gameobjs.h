@@ -27,6 +27,28 @@
 #include "timer.h"
 #include "scene.h"
 
+template <class T>
+struct ObjectData
+{
+  int x;
+  int y;
+  T type_specific;
+
+  ObjectData(ObjectData* pobject)
+    : x((int)pobject->x), y((int)pobject->y) {};
+  ObjectData(int x_, int y_, T type_specific_) 
+    : x(x_), y(y_), type_specific(type_specific_) {};
+
+  ObjectData()
+    : x(0), y(0), type_specific() {};
+};
+
+struct TrampolineData
+{
+  unsigned int power;
+};
+
+
 /* Bounciness of distros: */
 #define NO_BOUNCE 0
 #define BOUNCE 1
@@ -84,6 +106,17 @@ class FloatingScore : public GameObject
   void draw();
   std::string type() { return "FloatingScore"; };
 };
+
+class Trampoline : public GameObject
+{
+ public:
+  void init(float x, float y);
+  void action(double frame_ratio);
+  void draw();
+  std::string type() { return "Trampoline"; };
+};
+
+void load_trampoline_gfx();
 
 #endif 
 

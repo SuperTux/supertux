@@ -175,6 +175,9 @@ void loadshared()
   /* Upgrades: */
   load_special_gfx();
 
+  /* Trampoline */
+  load_trampoline_gfx();
+
   /* Distros: */
   img_distro[0] = new Surface(datadir + "/images/tilesets/coin1.png",
                USE_ALPHA);

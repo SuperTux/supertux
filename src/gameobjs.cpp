@@ -23,6 +23,8 @@
 #include "tile.h"
 #include "gameloop.h"
 #include "gameobjs.h"
+#include "sprite_manager.h"
+#include "resources.h"
 
 void
 BouncyDistro::init(float x, float y)
@@ -208,6 +210,46 @@ FloatingScore::draw()
   sprintf(str, "%d", value);
   gold_text->draw(str, (int)base.x + 16 - strlen(str) * 8, (int)base.y, 1);
 }
+
+/* Trampoline */
+
+#define TRAMPOLINE_FRAMES 4
+Sprite *img_trampoline[TRAMPOLINE_FRAMES];
+
+void load_trampoline_gfx()
+{
+  for (int i = 0; i < TRAMPOLINE_FRAMES; i++)
+  {
+    char sprite_name[16];
+    sprintf(sprite_name, "trampoline-%i", i+1);
+    img_trampoline[0] = sprite_manager->load(sprite_name);
+  }
+}
+
+void
+Trampoline::init(float x, float y)
+{
+  base.x = x;
+  base.y = y;
+}
+
+void
+Trampoline::action(double frame_ratio)
+{
+  (void) frame_ratio;
+  // TODO:
+  // If HELD
+  //   - move with tux
+  // If jumped on
+  //   - compress springs (reduce height)
+}
+
+void
+Trampoline::draw()
+{
+  img_trampoline[0]->draw((int)base.x, (int)base.y);
+}
+
 
 /* EOF */
 
