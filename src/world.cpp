@@ -32,7 +32,7 @@ texture_type img_distro[4];
 
 World* World::current_ = 0;
 
-World world;
+World global_world;
 
 World::World()
 {

@@ -65,8 +65,7 @@ class GameSession
 
 std::string slotinfo(int slot);
 
-bool  rectcollision(base_type* one, base_type* two);
-void  drawshape(float x, float y, unsigned int c, Uint8 alpha = 255);
+bool rectcollision(base_type* one, base_type* two);
 void bumpbrick(float x, float y);
 
 #endif /*SUPERTUX_GAMELOOP_H*/

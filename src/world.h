@@ -100,7 +100,8 @@ class World
   void trybumpbadguy(float x, float y);
 };
 
-extern World world;
+/** FIMXE: Workaround for the leveleditor mainly */
+extern World global_world;
 
 #endif /*SUPERTUX_WORLD_H*/
 

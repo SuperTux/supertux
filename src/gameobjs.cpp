@@ -38,7 +38,7 @@ BouncyDistro::action()
   base.ym += 0.1 * frame_ratio;
 
   if (base.ym >= 0)
-    world.bouncy_distros.erase(static_cast<std::vector<BouncyDistro>::iterator>(this));
+    World::current()->bouncy_distros.erase(static_cast<std::vector<BouncyDistro>::iterator>(this));
 }
 
 void
@@ -70,7 +70,7 @@ BrokenBrick::action()
   base.y = base.y + base.ym * frame_ratio;
 
   if (!timer_check(&timer))
-    world.broken_bricks.erase(static_cast<std::vector<BrokenBrick>::iterator>(this));
+    World::current()->broken_bricks.erase(static_cast<std::vector<BrokenBrick>::iterator>(this));
 }
 
 void
@@ -115,7 +115,7 @@ BouncyBrick::action()
 
   /* Stop bouncing? */
   if (offset >= 0)
-    world.bouncy_bricks.erase(static_cast<std::vector<BouncyBrick>::iterator>(this));
+    World::current()->bouncy_bricks.erase(static_cast<std::vector<BouncyBrick>::iterator>(this));
 }
 
 void
@@ -171,7 +171,7 @@ FloatingScore::action()
   base.y = base.y - 2 * frame_ratio;
 
   if(!timer_check(&timer))
-    world.floating_scores.erase(static_cast<std::vector<FloatingScore>::iterator>(this));
+    World::current()->floating_scores.erase(static_cast<std::vector<FloatingScore>::iterator>(this));
 }
 
 void
