@@ -1,0 +1,5 @@
+Import('*')
+
+libsupertux_src = Glob(dirs=["app", "audio", "gui", "math",
+        "special", "utils", "video"], pattern="*.cpp")
+env.Library(target="supertux", source=libsupertux_src)

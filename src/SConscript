@@ -1,0 +1,5 @@
+Import('*')
+
+supertux_src = Glob(dirs=[".", "object"], pattern="*.cpp")
+env.Program(target="#/supertux", source = supertux_src)
+

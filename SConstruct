@@ -1,123 +1,55 @@
 #
-# A simple SConstruct file.
-# See http://www.scons.org/ for more information about what SCons is and how it
-# may help you... :-)
-# I've never done anything with SCons before. Quite obviously this script is in
-# a non-working state!! Maybe someone with more knowledge of the materia can
-# take over....
-#                                              - Benjamin P. 'litespeed' Jung -
-#
+# SConstruct build file. See http://www.scons.org for details.
 
-# TODO: such static entries are obviously not what we want.
-# Using e.g. 'sdl-config' to obtain parameters would be muuuuuch
-# better.
+# based on a script from chenlee@ustc.edu
+def Glob(dirs, pattern = '*' ):
+    import os, fnmatch 
+    files = []
+    for dir in dirs:
+        for file in os.listdir( Dir(dir).srcnode().abspath ): 
+            if fnmatch.fnmatch(file, pattern) : 
+                files.append( os.path.join( dir, file ) ) 
+    return files 
 
+opts = Options('custom.py')
+opts.Add('CXX', 'The C++ compiler', 'g++')
+opts.Add('CXXFLAGS', 'Additional C++ compiler flags', '')
+opts.Add('CPPPATH', 'Additional preprocessor paths', '')
+opts.Add('CPPFLAGS', 'Additional preprocessor flags', '')
+opts.Add('LIBPATH', 'Additional library paths', '')
+opts.Add('LIBS', 'Additional libraries', '')
+opts.Add('DESTDIR', \
+        'destination directory for installation. It is prepended to PREFIX', '')
+opts.Add('PREFIX', 'Installation prefix', '/usr/local')
 
-DATA_PREFIX = '\\\"/usr/local/share/supertux\\\"'
-LOCALEDIR = '\\\"/usr/local/share/locale\\\"'
+env = Environment(options = opts)
+conf = Configure(env)
 
-CCFLAGS = [
-  '-O2',
-  '-DDATA_PREFIX=' + DATA_PREFIX,
-  '-DLOCALEDIR=' + LOCALEDIR
-]
+# TODO check -config apps in the Configure context
+    
+if not conf.CheckLib('SDL_mixer'):
+    print "Couldn't find SDL_mixer library!"
+    Exit(1)
+if not conf.CheckLib('SDL_image'):
+    print "Couldn't find SDL_image library!"
+    Exit(1)
+if not conf.CheckLib('GL'):
+    print "Couldn't find OpenGL library!"
+    Exit(1)
 
-CPPPATH = ['/usr/include/SDL', '/usr/include/X11', 'src', 'lib', 'intl', '.']
+env = conf.Finish()
 
-LIBPATH = [
-  'lib',
-  '/lib',
-  '/usr/lib',
-  '/usr/lib/X11',
-  '/usr/local/lib'
-]
+env.ParseConfig('sdl-config --cflags --libs')
+env.Append(CPPPATH = ["#", "#/src", "#/lib"])
+env.Append(CPPDEFINES = \
+        {'DATA_PREFIX':"'\"" + env['PREFIX'] + "/share/supertux\"'" ,
+         'LOCALEDIR'  :"'\"" + env['PREFIX'] + "/locales\"'"})
 
-LIBS = [
-  'supertux',
-  'SDL',
-  'SDL_gfx',
-  'SDL_image',
-  'SDL_mixer',
-  'SDL_sound',
-  'pthread',
-  'm',
-  'dl',
-  'asound',
-  'GL',
-  'GLU'
-]
-  
+env.Append(LIBS = ["supertux"])
+env.Append(LIBPATH=["#"])
 
-libsupertux_src = [
-  'lib/app/globals.cpp',
-  'lib/app/setup.cpp',
-  'lib/audio/musicref.cpp',
-  'lib/audio/sound_manager.cpp',
-  'lib/gui/button.cpp',
-  'lib/gui/menu.cpp',
-  'lib/gui/mousecursor.cpp',
-  'lib/math/physic.cpp',
-  'lib/math/vector.cpp',
-  'lib/special/game_object.cpp',
-  'lib/special/moving_object.cpp',
-  'lib/special/sprite.cpp',
-  'lib/special/sprite_manager.cpp',
-  'lib/special/timer.cpp',
-  'lib/special/frame_rate.cpp',
-  'lib/utils/configfile.cpp',
-  'lib/utils/lispreader.cpp',
-  'lib/utils/lispwriter.cpp',
-  'lib/video/drawing_context.cpp',
-  'lib/video/font.cpp',
-  'lib/video/screen.cpp',
-  'lib/video/surface.cpp'
-]
+build_dir="build/linux"
 
-supertux_src = [
-  'src/background.cpp',
-  'src/badguy.cpp',
-  'src/badguy_specs.cpp',
-  'src/bitmask.cpp',
-  'src/camera.cpp',
-  'src/collision.cpp',
-  'src/door.cpp',
-  'src/gameloop.cpp',
-  'src/gameobjs.cpp',
-  'src/high_scores.cpp',
-  'src/interactive_object.cpp',
-  'src/intro.cpp',
-  'src/level.cpp',
-  'src/level_subset.cpp',
-  'src/leveleditor.cpp',
-  'src/misc.cpp',
-  'src/particlesystem.cpp',
-  'src/player.cpp',
-  'src/resources.cpp',
-  'src/scene.cpp',
-  'src/sector.cpp',
-  'src/special.cpp',
-  'src/statistics.cpp',
-  'src/supertux.cpp',
-  'src/tile.cpp',
-  'src/tile_manager.cpp',
-  'src/tilemap.cpp',
-  'src/title.cpp',
-  'src/worldmap.cpp'
-]
-			
-
-StaticLibrary(
-  target = 'lib/supertux',
-  source = libsupertux_src,
-  CPPPATH = CPPPATH,
-  CCFLAGS = CCFLAGS
-)
-
-Program(
-  target = 'src/supertux',
-  source = supertux_src,
-  CPPPATH = CPPPATH,
-  CCFLAGS = CCFLAGS,
-  LIBPATH = LIBPATH,
-  LIBS = LIBS
-)
+env.Export(["env", "Glob"])
+env.SConscript("lib/SConscript", build_dir=build_dir + "/lib", duplicate=0)
+env.SConscript("src/SConscript", build_dir=build_dir + "/src", duplicate=0)
