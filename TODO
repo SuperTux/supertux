@@ -11,6 +11,9 @@ Todo
 H: high priority
 L: low priority
 
+[H] Scrolling is broken, if you fastly reverse around the middle of the screen
+    the scrolling has sudden hickups. Also the scrollstart position still isn't
+    the same as before the changes.
 [H] Frame ratio code has been changed and so the animation may need tuning.
     Somebody do some testing and change the definitions regarding this.
 [M] When aborting a level, lives and score should remain the same as they
