@@ -5,9 +5,9 @@
 # tobi.web@gmx.de
 # http://www.newbreedsoftware.com/
 
-# Version 0.0.5
+# Version 0.0.6 (in development)
 
-# April 11, 2000 - December 26, 2000
+# April 11, 2000 - December 29, 2000
 
 
 # User-definable stuff:
@@ -51,7 +51,7 @@ installdat = install -g $(USERNAME) -o $(USERNAME) -m 644
 
 
 OBJECTS=obj/supertux.o obj/setup.o obj/intro.o obj/title.o obj/gameloop.o \
-	obj/screen.o obj/sound.o obj/high_scores.o obj/menu.o
+	obj/screen.o obj/sound.o obj/high_scores.o obj/menu.o obj/leveleditor.o
 
 # Make commands:
 
@@ -93,13 +93,13 @@ $(TARGET):	$(OBJECTS)
 
 # Objects:
 
-obj/supertux.o:	src/supertux.c src/defines.h src/globals.h \
-		src/setup.h src/intro.h src/title.h src/gameloop.h \
-		src/screen.h src/sound.h
+obj/supertux.o:	src/supertux.c src/supertux.h src/defines.h src/globals.h \
+		obj/setup.o obj/intro.o obj/title.o obj/gameloop.o \
+		obj/screen.o obj/sound.o obj/leveleditor.o
 	$(CC) $(CFLAGS) src/supertux.c -c -o obj/supertux.o
 
-obj/setup.o:	src/setup.c src/setup.h \
-		src/defines.h src/globals.h src/screen.h
+obj/setup.o:	src/setup.c src/setup.h obj/sound.o \
+		src/defines.h src/globals.h obj/screen.o
 	$(CC) $(CFLAGS) src/setup.c -c -o obj/setup.o
 
 obj/intro.o:	src/intro.c src/intro.h \
@@ -111,7 +111,7 @@ obj/title.o:	src/title.c src/title.h \
 	$(CC) $(CFLAGS) src/title.c -c -o obj/title.o
 
 obj/gameloop.o:	src/gameloop.c src/gameloop.h \
-		src/defines.h src/globals.h src/screen.h src/sound.h \
+		src/defines.h src/globals.h src/screen.h obj/sound.o \
 		src/setup.h
 	$(CC) $(CFLAGS) src/gameloop.c -c -o obj/gameloop.o
 
@@ -122,9 +122,13 @@ obj/sound.o:	src/sound.c src/defines.h src/globals.h src/sound.h
 	$(CC) $(CFLAGS) src/sound.c -c -o obj/sound.o
 
 obj/high_scores.o:	src/high_scores.c src/defines.h src/globals.h \
-			src/sound.h
+	 			obj/sound.o
 	$(CC) $(CFLAGS) src/high_scores.c -c -o obj/high_scores.o
 
 obj/menu.o:	src/menu.c src/defines.h src/globals.h \
-			src/sound.h
+			obj/sound.o src/menu.h src/leveleditor.h
 	$(CC) $(CFLAGS) src/menu.c -c -o obj/menu.o
+
+obj/leveleditor.o:	src/leveleditor.c src/defines.h src/globals.h \
+			src/leveleditor.h src/gameloop.h src/screen.h src/badguy.h
+	$(CC) $(CFLAGS) src/leveleditor.c -c -o obj/leveleditor.o

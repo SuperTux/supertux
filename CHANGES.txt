@@ -7,6 +7,21 @@ http://www.newbreedsoftware.com/supertux/
 
 0.0.6 - current CVS version
 ---------------------------
+  * Improved menu.
+    Tobias Glaesser <tobi.web@gmx.de>
+
+  * Fixed the menu-flickering and added a cool shadow effect.
+    Ricardo Cruz <rick2@aeiou.pt> & Tobias Glaesser <tobi.web@gmx.de>
+
+  * Fixed some issues around our new leveleditor.
+    Tobias Glaesser <tobi.web@gmx.de>
+
+  * New leveleditor! I'd like to put a second and a third exclamation mark here. :)
+    Ricardo Cruz <rick2@aeiou.pt>
+
+  * Added: stereo sounds
+    Duong-Khang NGUYEN <neoneurone@users.sf.net>
+
   * Added: displaying tux left
     Tobias Glaesser <tobi.web@gmx.de>
 

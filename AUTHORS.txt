@@ -6,7 +6,7 @@ http://www.newbreedsoftware.com/supertux/
 
 Version 0.0.6 (in development)
 
-December 26th, 2003
+December 29th, 2003
 
 
 CREDITS
@@ -16,6 +16,7 @@ CREDITS
 
 		      Tobias Glaesser <tobi.web@gmx.de>
                       Duong-Khang NGUYEN <neoneurone@users.sf.net>
+		      
   Graphics:           Bill Kendrick, using The GIMP
                       http://www.gimp.org/
 
