@@ -82,8 +82,12 @@ PLAYING THE GAME
   --------
   Both keyboards and joysticks/gamepads are supported. You can change the
   controls via the Options menu. Basically, the only keys you will need to
-  use in-game are to do the following actions: jump, duck, right left and
-  'P' to pause/unpause the game.
+  use in-game are to do the following actions: jump, duck, right, left, power
+  and 'P' to pause/unpause the game. I don't think there is anything to
+  explain about the others, but the power key, also called run, allow you
+  to run and use the power of the powerup you got. For instance, with the
+  fire flower, you can shoot bullets (note that this is the only power
+  currently implemented).
   
   Other useful keys include the Esc key, which is used to go to the menu or
   to go up a level in the menu. The menu can be navigated using the arrow
