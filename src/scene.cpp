@@ -47,24 +47,23 @@ double frame_ratio;
 
 void arrays_free(void)
 {
-bad_guys.clear();
-bouncy_distros.clear();
-broken_bricks.clear();
-bouncy_bricks.clear();
-floating_scores.clear();
-upgrades.clear();
-bullets.clear();
-std::vector<ParticleSystem*>::iterator i;
-for(i = particle_systems.begin(); i != particle_systems.end(); ++i) {
-  delete *i;
-}
-particle_systems.clear();
+  bad_guys.clear();
+  bouncy_distros.clear();
+  broken_bricks.clear();
+  bouncy_bricks.clear();
+  floating_scores.clear();
+  upgrades.clear();
+  bullets.clear();
+  std::vector<ParticleSystem*>::iterator i;
+  for(i = particle_systems.begin(); i != particle_systems.end(); ++i) {
+    delete *i;
+  }
+  particle_systems.clear();
 }
 
 void set_defaults(void)
 {
-  /* Set defaults: */
-  
+  // Set defaults: 
   scroll_x = 0;
 
   score_multiplier = 1;

@@ -75,14 +75,13 @@ void draw_demo()
       (*p)->simulate(frame_ratio);
     }
 
-  /* Draw particle systems (background) */
+  // Draw particle systems (background)
   for(p = particle_systems.begin(); p != particle_systems.end(); ++p)
     {
       (*p)->draw(scroll_x, 0, 0);
     }
 
-  /* Draw interactive tiles: */
-
+  // Draw interactive tiles:
   for (int y = 0; y < 15; ++y)
     {
       for (int x = 0; x < 21; ++x)

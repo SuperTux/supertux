@@ -29,19 +29,19 @@ void bouncy_distro_init(bouncy_distro_type* pbouncy_distro, float x, float y)
 
 void bouncy_distro_action(bouncy_distro_type* pbouncy_distro)
 {
-      pbouncy_distro->base.y = pbouncy_distro->base.y + pbouncy_distro->base.ym * frame_ratio;
+  pbouncy_distro->base.y = pbouncy_distro->base.y + pbouncy_distro->base.ym * frame_ratio;
 
-      pbouncy_distro->base.ym += 0.1 * frame_ratio;
+  pbouncy_distro->base.ym += 0.1 * frame_ratio;
 
-      if (pbouncy_distro->base.ym >= 0)
-       bouncy_distros.erase(static_cast<std::vector<bouncy_distro_type>::iterator>(pbouncy_distro));
+  if (pbouncy_distro->base.ym >= 0)
+    bouncy_distros.erase(static_cast<std::vector<bouncy_distro_type>::iterator>(pbouncy_distro));
 }
 
 void bouncy_distro_draw(bouncy_distro_type* pbouncy_distro)
 {
-      texture_draw(&img_distro[0],
-                   pbouncy_distro->base.x - scroll_x,
-                   pbouncy_distro->base.y);
+  texture_draw(&img_distro[0],
+               pbouncy_distro->base.x - scroll_x,
+               pbouncy_distro->base.y);
 }
 
 void broken_brick_init(broken_brick_type* pbroken_brick, float x, float y, float xm, float ym)
@@ -56,27 +56,27 @@ void broken_brick_init(broken_brick_type* pbroken_brick, float x, float y, float
 
 void broken_brick_action(broken_brick_type* pbroken_brick)
 {
-      pbroken_brick->base.x = pbroken_brick->base.x + pbroken_brick->base.xm * frame_ratio;
-      pbroken_brick->base.y = pbroken_brick->base.y + pbroken_brick->base.ym * frame_ratio;
+  pbroken_brick->base.x = pbroken_brick->base.x + pbroken_brick->base.xm * frame_ratio;
+  pbroken_brick->base.y = pbroken_brick->base.y + pbroken_brick->base.ym * frame_ratio;
 
-      if (!timer_check(&pbroken_brick->timer))
-        broken_bricks.erase(static_cast<std::vector<broken_brick_type>::iterator>(pbroken_brick));
+  if (!timer_check(&pbroken_brick->timer))
+    broken_bricks.erase(static_cast<std::vector<broken_brick_type>::iterator>(pbroken_brick));
 }
 
 void broken_brick_draw(broken_brick_type* pbroken_brick)
 {
-SDL_Rect src, dest;
-      src.x = rand() % 16;
-      src.y = rand() % 16;
-      src.w = 16;
-      src.h = 16;
+  SDL_Rect src, dest;
+  src.x = rand() % 16;
+  src.y = rand() % 16;
+  src.w = 16;
+  src.h = 16;
 
-      dest.x = (int)(pbroken_brick->base.x - scroll_x);
-      dest.y = (int)pbroken_brick->base.y;
-      dest.w = 16;
-      dest.h = 16;
+  dest.x = (int)(pbroken_brick->base.x - scroll_x);
+  dest.y = (int)pbroken_brick->base.y;
+  dest.w = 16;
+  dest.h = 16;
 
-      texture_draw_part(&img_brick[0],src.x,src.y,dest.x,dest.y,dest.w,dest.h);
+  texture_draw_part(&img_brick[0],src.x,src.y,dest.x,dest.y,dest.w,dest.h);
 }
 
 void bouncy_brick_init(bouncy_brick_type* pbouncy_brick, float x, float y)
@@ -85,25 +85,25 @@ void bouncy_brick_init(bouncy_brick_type* pbouncy_brick, float x, float y)
   pbouncy_brick->base.y = y;
   pbouncy_brick->offset = 0;
   pbouncy_brick->offset_m = -BOUNCY_BRICK_SPEED;
-  pbouncy_brick->shape = shape(x, y);
+  pbouncy_brick->shape = gettileid(x, y);
 }
 
 void bouncy_brick_action(bouncy_brick_type* pbouncy_brick)
 {
 
-      pbouncy_brick->offset = (pbouncy_brick->offset +
-                               pbouncy_brick->offset_m * frame_ratio);
+  pbouncy_brick->offset = (pbouncy_brick->offset +
+                           pbouncy_brick->offset_m * frame_ratio);
 
-      /* Go back down? */
+  /* Go back down? */
 
-      if (pbouncy_brick->offset < -BOUNCY_BRICK_MAX_OFFSET)
-        pbouncy_brick->offset_m = BOUNCY_BRICK_SPEED;
+  if (pbouncy_brick->offset < -BOUNCY_BRICK_MAX_OFFSET)
+    pbouncy_brick->offset_m = BOUNCY_BRICK_SPEED;
 
 
-      /* Stop bouncing? */
+  /* Stop bouncing? */
 
-      if (pbouncy_brick->offset >= 0)
-        bouncy_bricks.erase(static_cast<std::vector<bouncy_brick_type>::iterator>(pbouncy_brick));
+  if (pbouncy_brick->offset >= 0)
+    bouncy_bricks.erase(static_cast<std::vector<bouncy_brick_type>::iterator>(pbouncy_brick));
 }
 
 void bouncy_brick_draw(bouncy_brick_type* pbouncy_brick)
@@ -111,29 +111,32 @@ void bouncy_brick_draw(bouncy_brick_type* pbouncy_brick)
   int s;
   SDL_Rect dest;
   
-      if (pbouncy_brick->base.x >= scroll_x - 32 &&
-          pbouncy_brick->base.x <= scroll_x + screen->w)
+  if (pbouncy_brick->base.x >= scroll_x - 32 &&
+      pbouncy_brick->base.x <= scroll_x + screen->w)
+    {
+      dest.x = (int)(pbouncy_brick->base.x - scroll_x);
+      dest.y = (int)pbouncy_brick->base.y;
+      dest.w = 32;
+      dest.h = 32;
+
+      // FIXME: overdrawing hack to clean the tile from the screen to
+      // paint it later at on offseted position
+      if(current_level.bkgd_image[0] == '\0')
         {
-          dest.x = (int)(pbouncy_brick->base.x - scroll_x);
-          dest.y = (int)pbouncy_brick->base.y;
-          dest.w = 32;
-          dest.h = 32;
-
-          if(current_level.bkgd_image[0] == '\0')
-            {
-              fillrect(pbouncy_brick->base.x - scroll_x,pbouncy_brick->base.y,32,32,current_level.bkgd_red,current_level.bkgd_green,
-                       current_level.bkgd_blue,0);
-            }
-          else
-            {
-              s = (int)scroll_x / 30;
-              texture_draw_part(&img_bkgd,dest.x + s,dest.y,dest.x,dest.y,dest.w,dest.h);
-            }
-
-          drawshape(pbouncy_brick->base.x - scroll_x,
-                    pbouncy_brick->base.y + pbouncy_brick->offset,
-                    pbouncy_brick->shape);
+          fillrect(pbouncy_brick->base.x - scroll_x, pbouncy_brick->base.y,
+                   32,32,current_level.bkgd_red,current_level.bkgd_green,
+                   current_level.bkgd_blue,0);
         }
+      else
+        {
+          s = (int)scroll_x / 30;
+          texture_draw_part(&img_bkgd,dest.x + s,dest.y,dest.x,dest.y,dest.w,dest.h);
+        }
+
+      drawshape(pbouncy_brick->base.x - scroll_x,
+                pbouncy_brick->base.y + pbouncy_brick->offset,
+                pbouncy_brick->shape);
+    }
 }
 
 void floating_score_init(floating_score_type* pfloating_score, float x, float y, int s)
@@ -147,16 +150,18 @@ void floating_score_init(floating_score_type* pfloating_score, float x, float y,
 
 void floating_score_action(floating_score_type* pfloating_score)
 {
-      pfloating_score->base.y = pfloating_score->base.y - 2 * frame_ratio;
+  pfloating_score->base.y = pfloating_score->base.y - 2 * frame_ratio;
 
-      if(!timer_check(&pfloating_score->timer))
-        floating_scores.erase(static_cast<std::vector<floating_score_type>::iterator>(pfloating_score));
+  if(!timer_check(&pfloating_score->timer))
+    floating_scores.erase(static_cast<std::vector<floating_score_type>::iterator>(pfloating_score));
 }
 
 void floating_score_draw(floating_score_type* pfloating_score)
 {
-      char str[10];
-      sprintf(str, "%d", pfloating_score->value);
-      text_draw(&gold_text, str, (int)pfloating_score->base.x + 16 - strlen(str) * 8, (int)pfloating_score->base.y, 1);
+  char str[10];
+  sprintf(str, "%d", pfloating_score->value);
+  text_draw(&gold_text, str, (int)pfloating_score->base.x + 16 - strlen(str) * 8, (int)pfloating_score->base.y, 1);
 }
+
+/* EOF */
 

@@ -245,7 +245,7 @@ int leveleditor(int levelnb)
                       arrays_free();
                       loadshared();
                       le_current_level = new st_level;
-                      if(level_load(le_current_level, le_level_subset.name.c_str(), le_level) != 0)
+                      if(le_current_level->load(le_level_subset.name.c_str(), le_level) != 0)
                         {
                           le_quit();
                           return 1;
@@ -276,7 +276,7 @@ int leveleditor(int levelnb)
                       arrays_free();
                       loadshared();
                       le_current_level = new st_level;
-                      if(level_load(le_current_level, le_level_subset.name.c_str(), le_level) != 0)
+                      if(le_current_level->load(le_level_subset.name.c_str(), le_level) != 0)
                         {
                           le_quit();
                           return 1;
@@ -544,10 +544,10 @@ void le_goto_level(int levelnb)
 {
   arrays_free();
 
-  level_free(le_current_level);
-  if(level_load(le_current_level, le_level_subset.name.c_str(), levelnb) != 0)
+  le_current_level->cleanup();
+  if(le_current_level->load(le_level_subset.name.c_str(), levelnb) != 0)
     {
-      level_load(le_current_level, le_level_subset.name.c_str(), le_level);
+      le_current_level->load(le_level_subset.name.c_str(), le_level);
     }
   else
     {
@@ -594,7 +594,7 @@ void le_quit(void)
   if(le_current_level != NULL)
     {
       level_free_gfx();
-      level_free(le_current_level);
+      le_current_level->cleanup();
       unloadshared();
       arrays_free();
     }
@@ -948,7 +948,7 @@ void le_checkevents()
                                     switch(event.key.keysym.sym)
                                       {
                                       case SDLK_y:
-                                        level_default(&new_lev);
+                                        new_lev.init_defaults();
                                         level_save(&new_lev,le_level_subset.name.c_str(),++le_level);
                                         le_level_subset.levels = le_level;
                                         le_goto_level(le_level);

@@ -18,8 +18,10 @@
 #include "badguy.h"
 #include "lispreader.h"
 
-/* This type holds meta-information about a level-subset. */
-/* It could be extended to handle manipulation of subsets. */
+class Tile;
+
+/** This type holds meta-information about a level-subset. 
+    It could be extended to handle manipulation of subsets. */
 class st_subset
   {
   public:
@@ -73,14 +75,17 @@ class st_level
 
   std::vector<BadGuyData> badguy_data;
  public:
+  /** Will the Level structure with default values */
+  void init_defaults();
+  
+  /** Cleanup the level struct from allocated tile data and such */
+  void cleanup();
+
+  int  load(const char * subset, int level);
 };
 
-void level_default  (st_level* plevel);
-int  level_load     (st_level* plevel, const char * subset, int level);
-void level_parse    (st_level* plevel, lisp_object_t* cursor);
 int  level_load     (st_level* plevel, const char* filename);
 void level_save     (st_level* plevel, const char * subset, int level);
-void level_free     (st_level* plevel);
 void level_load_gfx (st_level* plevel);
 void level_change   (st_level* plevel, float x, float y, int tm, unsigned int c);
 void level_change_size (st_level* plevel, int new_width);
@@ -88,5 +93,17 @@ void level_load_song(st_level* plevel);
 void level_free_gfx();
 void level_load_image(texture_type* ptexture, std::string theme, const char * file, int use_alpha);
 void level_free_song(void);
+
+/** Return the id of the tile at the given x/y coordinates */
+unsigned int gettileid(float x, float y);
+
+/** Return a pointer to the tile at the given x/y coordinates */
+Tile* gettile(float x, float y);
+
+// Some little helper function to check for tile properties
+bool  issolid(float x, float y);
+bool  isbrick(float x, float y);
+bool  isice(float x, float y);
+bool  isfullbox(float x, float y);
 
 #endif /*SUPERTUX_LEVEL_H*/

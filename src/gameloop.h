@@ -24,25 +24,22 @@
 #define ST_GL_LOAD_GAME 2
 #define ST_GL_LOAD_LEVEL_FILE  3
 
-extern int game_started;
+// FIXME: Make this local to the gamesession
 extern st_level current_level;
+
+extern int game_started;
 
 /* Function prototypes: */
 class Tile;
 
-Tile* gettile(float x, float y);
-void activate_bad_guys(st_level* plevel);
-int gameloop(const char * subset, int levelnb, int mode);
-void savegame(int slot);
-void loadgame(int slot);
+void  activate_bad_guys(st_level* plevel);
+int   gameloop(const char * subset, int levelnb, int mode);
+void  savegame(int slot);
+void  loadgame(int slot);
 std::string slotinfo(int slot);
-bool issolid(float x, float y);
-bool isbrick(float x, float y);
-bool isice(float x, float y);
-bool isfullbox(float x, float y);
-bool rectcollision(base_type* one, base_type* two);
-void drawshape(float x, float y, unsigned int c, Uint8 alpha = 255);
-unsigned int shape(float x, float y);
+
+bool  rectcollision(base_type* one, base_type* two);
+void  drawshape(float x, float y, unsigned int c, Uint8 alpha = 255);
 void bumpbrick(float x, float y);
 
 /** Try to grab the coin at the given coordinates */

@@ -21,6 +21,7 @@
 #include "level.h"
 #include "physic.h"
 #include "scene.h"
+#include "tile.h"
 #include "lispreader.h"
 
 using namespace std;
@@ -40,7 +41,7 @@ void st_subset::create(const std::string& subset_name)
   new_subset.title = "Unknown Title";
   new_subset.description = "No description so far.";
   new_subset.save();
-  level_default(&new_lev);
+  new_lev.init_defaults();
   level_save(&new_lev,subset_name.c_str(),1);
 }
 
@@ -191,45 +192,46 @@ void st_subset::free()
   levels = 0;
 }
 
-void level_default(st_level* plevel)
+void
+st_level::init_defaults()
 {
-  int i,y;
-  plevel->name = "UnNamed";
-  plevel->theme = "antarctica";
-  plevel->song_title = "Mortimers_chipdisko.mod";
-  plevel->bkgd_image = "arctis.png";
-  plevel->width = 21;
-  plevel->time_left = 100;
-  plevel->gravity = 10.;
-  plevel->bkgd_red = 0;
-  plevel->bkgd_green = 0;
-  plevel->bkgd_blue = 0;
+  name       = "UnNamed";
+  theme      = "antarctica";
+  song_title = "Mortimers_chipdisko.mod";
+  bkgd_image = "arctis.png";
+  width      = 21;
+  time_left  = 100;
+  gravity    = 10.;
+  bkgd_red   = 0;
+  bkgd_green = 0;
+  bkgd_blue  = 0;
 
-  for(i = 0; i < 15; ++i)
+  for(int i = 0; i < 15; ++i)
     {
-      plevel->ia_tiles[i] = (unsigned int*) malloc((plevel->width+1)*sizeof(unsigned int));
-      plevel->ia_tiles[i][plevel->width] = (unsigned int) '\0';
-      for(y = 0; y < plevel->width; ++y)
-        plevel->ia_tiles[i][y] = 0;
-      plevel->ia_tiles[i][plevel->width] = (unsigned int) '\0';
+      ia_tiles[i] = (unsigned int*) malloc((width+1)*sizeof(unsigned int));
+      ia_tiles[i][width] = (unsigned int) '\0';
+      for(int y = 0; y < width; ++y)
+        ia_tiles[i][y] = 0;
+      ia_tiles[i][width] = (unsigned int) '\0';
 
-      plevel->bg_tiles[i] = (unsigned int*) malloc((plevel->width+1)*sizeof(unsigned int));
-      plevel->bg_tiles[i][plevel->width] = (unsigned int) '\0';
-      for(y = 0; y < plevel->width; ++y)
-        plevel->bg_tiles[i][y] = 0;
-      plevel->bg_tiles[i][plevel->width] = (unsigned int) '\0';
+      bg_tiles[i] = (unsigned int*) malloc((width+1)*sizeof(unsigned int));
+      bg_tiles[i][width] = (unsigned int) '\0';
+      for(int y = 0; y < width; ++y)
+        bg_tiles[i][y] = 0;
+      bg_tiles[i][width] = (unsigned int) '\0';
 
-      plevel->fg_tiles[i] = (unsigned int*) malloc((plevel->width+1)*sizeof(unsigned int));
-      plevel->fg_tiles[i][plevel->width] = (unsigned int) '\0';
-      for(y = 0; y < plevel->width; ++y)
-        plevel->fg_tiles[i][y] = 0;
-      plevel->fg_tiles[i][plevel->width] = (unsigned int) '\0';
+      fg_tiles[i] = (unsigned int*) malloc((width+1)*sizeof(unsigned int));
+      fg_tiles[i][width] = (unsigned int) '\0';
+      for(int y = 0; y < width; ++y)
+        fg_tiles[i][y] = 0;
+      fg_tiles[i][width] = (unsigned int) '\0';
     }
 }
 
 /* Load data for this level: */
 /* Returns -1, if the loading of the level failed. */
-int level_load(st_level* plevel, const  char *subset, int level)
+int
+st_level::load(const  char *subset, int level)
 {
   char filename[1024];
 
@@ -239,7 +241,7 @@ int level_load(st_level* plevel, const  char *subset, int level)
   if(!faccessible(filename))
     snprintf(filename, 1024, "%s/levels/%s/level%d.stl", datadir.c_str(), subset, level);
 
-  return level_load(plevel, filename);
+  return level_load(this, filename);
 }
 
 int level_load(st_level* plevel, const char* filename)
@@ -523,22 +525,22 @@ void level_save(st_level* plevel,const  char * subset, int level)
 
 /* Unload data for this level: */
 
-void level_free(st_level* plevel)
+void
+st_level::cleanup()
 {
-  int i;
-  for(i=0; i < 15; ++i)
-    free(plevel->bg_tiles[i]);
-  for(i=0; i < 15; ++i)
-    free(plevel->ia_tiles[i]);
-  for(i=0; i < 15; ++i)
-    free(plevel->fg_tiles[i]);
+  for(int i=0; i < 15; ++i)
+    free(bg_tiles[i]);
+  for(int i=0; i < 15; ++i)
+    free(ia_tiles[i]);
+  for(int i=0; i < 15; ++i)
+    free(fg_tiles[i]);
 
-  plevel->name.clear();
-  plevel->theme.clear();
-  plevel->song_title.clear();
-  plevel->bkgd_image.clear();
+  name.clear();
+  theme.clear();
+  song_title.clear();
+  bkgd_image.clear();
 
-  plevel->badguy_data.clear();
+  badguy_data.clear();
 }
 
 /* Load graphics: */
@@ -689,3 +691,57 @@ void level_load_song(st_level* plevel)
   free(song_subtitle);
   free(song_path);
 }
+
+
+unsigned int gettileid(float x, float y)
+{
+  int xx, yy;
+  unsigned int c;
+
+  yy = ((int)y / 32);
+  xx = ((int)x / 32);
+
+  if (yy >= 0 && yy < 15 && xx >= 0 && xx <= current_level.width)
+    c = current_level.ia_tiles[yy][xx];
+  else
+    c = 0;
+
+  return c;
+}
+
+Tile* gettile(float x, float y)
+{
+  return TileManager::instance()->get(gettileid(x, y));
+}
+
+bool issolid(float x, float y)
+{
+  Tile* tile = TileManager::instance()->get(gettileid(x,y));
+  return tile && tile->solid;
+}
+
+bool isbrick(float x, float y)
+{
+  Tile* tile = TileManager::instance()->get(gettileid(x,y));
+  return tile && tile->brick;
+}
+
+bool isice(float x, float y)
+{
+  Tile* tile = TileManager::instance()->get(gettileid(x,y));
+  return tile && tile->ice;
+}
+
+bool isfullbox(float x, float y)
+{
+  Tile* tile = TileManager::instance()->get(gettileid(x,y));
+  return tile && tile->fullbox;
+}
+
+bool isdistro(float x, float y)
+{
+  Tile* tile = TileManager::instance()->get(gettileid(x,y));
+  return tile && tile->distro;
+}
+
+/* EOF */

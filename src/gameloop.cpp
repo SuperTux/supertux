@@ -320,7 +320,7 @@ int game_action(void)
           else
             {
               level_free_gfx();
-              level_free(&current_level);
+              current_level.cleanup();
               level_free_song();
               unloadshared();
               arrays_free();
@@ -345,7 +345,7 @@ int game_action(void)
                     save_hs(score);
                 }
               level_free_gfx();
-              level_free(&current_level);
+              current_level.cleanup();
               level_free_song();
               unloadshared();
               arrays_free();
@@ -357,7 +357,7 @@ int game_action(void)
 
       tux.level_begin();
       set_defaults();
-      level_free(&current_level);
+      current_level.cleanup();
 
       if (st_gl_mode == ST_GL_LOAD_LEVEL_FILE)
         {
@@ -366,7 +366,7 @@ int game_action(void)
         }
       else
         {
-          if(level_load(&current_level,level_subset,level) != 0)
+          if(current_level.load(level_subset,level) != 0)
             return 0;
         }
 
@@ -604,7 +604,7 @@ int gameloop(const char * subset, int levelnb, int mode)
     }
   else
     {
-      if(level_load(&current_level, level_subset, level) != 0)
+      if(current_level.load(level_subset, level) != 0)
         exit(1);
     }
 
@@ -804,7 +804,7 @@ int gameloop(const char * subset, int levelnb, int mode)
   halt_music();
 
   level_free_gfx();
-  level_free(&current_level);
+  current_level.cleanup();
   level_free_song();
   unloadshared();
   arrays_free();
@@ -1195,113 +1195,6 @@ void drawshape(float x, float y, unsigned int c, Uint8 alpha)
     }
 }
 
-
-/* What shape is at some position? */
-unsigned int shape(float x, float y)
-{
-
-  int xx, yy;
-  unsigned int c;
-
-  yy = ((int)y / 32);
-  xx = ((int)x / 32);
-
-  if (yy >= 0 && yy < 15 && xx >= 0 && xx <= current_level.width)
-    {
-      c = current_level.ia_tiles[yy][xx];
-    }
-  else
-    c = 0;
-
-  return(c);
-}
-
-Tile* gettile(float x, float y)
-{
-  return TileManager::instance()->get(shape(x, y));
-}
-
-bool issolid(float x, float y)
-{
-  Tile* tile = TileManager::instance()->get
-               (shape(x,y));
-  if(tile)
-    {
-      if(tile->solid == true)
-        return true;
-      else
-        return false;
-    }
-  else
-    {
-      return false;
-    }
-}
-
-/* Is it a brick? */
-
-bool isbrick(float x, float y)
-{
-  Tile* tile = TileManager::instance()->get
-               (shape(x,y));
-  if(tile)
-    {
-      if(tile->brick == true)
-        return true;
-      else
-        return false;
-    }
-  else
-    {
-      return false;
-    }
-}
-
-
-/* Is it ice? */
-
-bool isice(float x, float y)
-{
-  Tile* tile = TileManager::instance()->get
-               (shape(x,y));
-  if(tile)
-    {
-      if(tile->ice == true)
-        return true;
-      else
-        return false;
-    }
-  else
-    {
-      return false;
-    }
-}
-
-/* Is it a full box? */
-
-bool isfullbox(float x, float y)
-{
-  Tile* tile = TileManager::instance()->get
-               (shape(x,y));
-  if(tile)
-    {
-      if(tile->fullbox == true)
-        return true;
-      else
-        return false;
-    }
-  else
-    {
-      return false;
-    }
-}
-
-bool isdistro(float x, float y)
-{
-  Tile* tile = TileManager::instance()->get(shape(x,y));
-  return tile && tile->distro;
-}
-
 /* Break a brick: */
 void trybreakbrick(float x, float y, bool small)
 {
@@ -1352,9 +1245,7 @@ void bumpbrick(float x, float y)
                    (int)(y / 32) * 32);
 
   play_sound(sounds[SND_BRICK], SOUND_CENTER_SPEAKER);
-
 }
-
 
 /* Empty a box: */
 void tryemptybox(float x, float y, int col_side)
@@ -1591,8 +1482,8 @@ void loadgame(int slot)
       fread(&level,sizeof(int),1,fi);
 
       set_defaults();
-      level_free(&current_level);
-      if(level_load(&current_level,level_subset,level) != 0)
+      current_level.cleanup();
+      if(current_level.load(level_subset,level) != 0)
         exit(1);
       arrays_free();
       activate_bad_guys(&current_level);

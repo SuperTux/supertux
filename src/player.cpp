@@ -930,10 +930,9 @@ Player::keep_in_bounds()
     }
   else if (base.x> screen->w / 2 + scroll_x && scroll_x < ((current_level.width * 32) - screen->w))
     {
-      /* Scroll the screen in past center: */
+      // Scroll the screen in past center:
 
-      scroll_x = base.x- screen->w / 2;
-      /*base.x= 320 + scroll_x;*/
+      scroll_x = base.x - screen->w / 2;
 
       if (scroll_x > ((current_level.width * 32) - screen->w))
         scroll_x = ((current_level.width * 32) - screen->w);

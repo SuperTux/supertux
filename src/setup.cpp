@@ -465,14 +465,15 @@ bool process_load_game_menu()
       // FIXME: Insert a real savegame struct/class here instead of
       // doing string vodoo
       std::string tmp = slotinfo(slot-1);
+
       if (tmp.length() == strlen("Slot X - Free"))
-        {
+        { // Slot is free, so start a new game
           gameloop("default", 1, ST_GL_PLAY);
           show_menu = true;
           Menu::set_current(main_menu);
         }
       else
-        {
+        { // Slot contains a level, so load it
           if (game_started)
             {
               gameloop("default",slot - 1,ST_GL_LOAD_GAME);
