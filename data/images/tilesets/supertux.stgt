@@ -4528,4 +4528,9 @@
     )
     (solid #t)
   )
+  (tile
+    (id 1311)
+    (solid #t)
+    (editor-images "bonus-invisible.png")
+  )
 )
