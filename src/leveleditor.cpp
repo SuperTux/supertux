@@ -345,11 +345,8 @@ int leveleditor(int levelnb)
 
       mouse_cursor->draw();
 
-printf("done: %i\n", done);
-
       if(done)
         {
-printf("done\n");
           le_quit();
           return 0;
         }
