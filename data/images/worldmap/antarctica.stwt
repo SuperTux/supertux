@@ -275,6 +275,13 @@
        (south #t)
        (west  #f)
        (east  #f))
+
+ (tile (id 60)
+       (image "snowman.png")
+       (north #f)
+       (south #t)
+       (west  #f)
+       (east  #f))
  )
 
 ;; EOF ;;
