@@ -169,7 +169,7 @@ Tux::draw(const Point& offset)
 {
   Point pos = get_pos();
   sprite->draw(pos.x + offset.x, 
-               pos.y + offset.y);
+               pos.y + offset.y - 10);
 }
 
 
