@@ -71,15 +71,46 @@ Font::~Font()
 }
 
 float
-Font::get_height() const
+Font::get_text_width(const std::string& text) const
 {
-  return h;
+  /** Let's calculate the size of the biggest paragraph */
+  int l, hl;
+  hl = 0; l = -1;
+  while(true)
+    {
+    l = text.find("\n", l+1);
+    if(l == (int)std::string::npos)
+      break;
+    if(hl < l)
+      hl = l;
+    }
+  if(hl == 0)
+    hl = text.size();
+
+  return hl * w;
 }
 
 float
-Font::get_text_width(const std::string& text) const
+Font::get_text_height(const std::string& text) const
 {
-  return text.size() * w;
+  /** Let's calculate height of the text */
+  int l, hh;
+  hh = h; l = -1;
+  while(true)
+    {
+    l = text.find("\n", l+1);
+    if(l == (int)std::string::npos)
+      break;
+    hh += h + 2;
+    }
+
+  return hh;
+}
+
+float
+Font::get_height() const
+{
+  return h;
 }
 
 void

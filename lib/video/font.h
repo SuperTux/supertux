@@ -42,13 +42,23 @@ namespace SuperTux
       Font(const std::string& file, FontType type, int w, int h, int shadowsize=2);
       ~Font();
 
-      /// returns the height of the font.
-      float get_height() const;
       /** returns the width of a given text. (Note that I won't add a normal
        * get_width function here, as we might switch to variable width fonts in the
-       * future.
+       * future.)
+       * Supports breaklines.
        */
       float get_text_width(const std::string& text) const;
+
+      /** returns the height of a given text. (Note that I won't add a normal
+       * get_width function here, as we might switch to variable width fonts in the
+       * future.)
+       * Supports breaklines.
+       * In case, you are positive that your text doesn't use break lines, you can
+       * just use get_height().
+       */
+      float get_text_height(const std::string& text) const;
+      /// returns the height of the font.
+      float get_height() const;
 
     private:
       friend class DrawingContext;
