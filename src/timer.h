@@ -12,12 +12,14 @@ public:
   Timer2();
   ~Timer2();
 
-  /** start the timer with the given period. If cyclic=true then the timer willl
-   * be reset after each period.
+  /** start the timer with the given period (in seconds).
+   * If cyclic=true then the timer willl be reset after each period.
    * Set period to zero if you want to disable the timer.
    */
   void start(float period, bool cyclic = false);
-  /** returns true if a period (or more) passed */
+  /** returns true if a period (or more) passed since start call or last
+   * successfull check
+   */
   bool check();
 
   /** returns the period of the timer or 0 if it isn't started */
