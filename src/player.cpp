@@ -20,8 +20,13 @@
 #include "screen.h"
 
 texture_type tux_life;
-texture_type tux_right[3];
-texture_type tux_left[3];
+std::vector<texture_type> tux_right;
+std::vector<texture_type> tux_left;
+texture_type smalltux_jump_left;
+texture_type smalltux_jump_right;
+texture_type smalltux_stand_left;
+texture_type smalltux_stand_right;
+
 texture_type bigtux_right[3];
 texture_type bigtux_left[3];
 texture_type bigtux_right_jump;
@@ -597,13 +602,31 @@ Player::draw()
 
           if (!got_coffee)
             {
-              if (dir == RIGHT)
+              if (physic.get_velocity_y() > 0)
                 {
-                  texture_draw(&tux_right[frame_], base.x- scroll_x, base.y);
+                  if (dir == RIGHT)
+                    texture_draw(&smalltux_jump_right, base.x - scroll_x, base.y - 10);
+                  else
+                    texture_draw(&smalltux_jump_left, base.x - scroll_x, base.y - 10);                   
                 }
               else
                 {
-                  texture_draw(&tux_left[frame_], base.x- scroll_x, base.y);
+                  if (fabsf(physic.get_velocity_x()) < 1.0f) // standing
+                    {
+                      if (dir == RIGHT)
+                        texture_draw(&smalltux_stand_right, base.x - scroll_x, base.y - 9);
+                      else
+                        texture_draw(&smalltux_stand_left, base.x - scroll_x, base.y - 9);
+                    }
+                  else // moving
+                    {
+                      if (dir == RIGHT)
+                        texture_draw(&tux_right[(global_frame_counter/2) % tux_right.size()], 
+                                     base.x - scroll_x, base.y - 9);
+                      else
+                        texture_draw(&tux_left[(global_frame_counter/2) % tux_left.size()], 
+                                     base.x - scroll_x, base.y - 9);
+                    }
                 }
             }
           else

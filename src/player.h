@@ -37,6 +37,8 @@
 #define SCORE_BRICK 5
 #define SCORE_DISTRO 25
 
+#include <vector>
+
 struct player_keymap_type
 {
   int jump;
@@ -59,8 +61,12 @@ struct player_input_type
 void player_input_init(player_input_type* pplayer_input);
 
 extern texture_type tux_life;
-extern texture_type tux_right[3];
-extern texture_type tux_left[3];
+extern std::vector<texture_type> tux_right;
+extern std::vector<texture_type> tux_left;
+extern texture_type smalltux_jump_left;
+extern texture_type smalltux_jump_right;
+extern texture_type smalltux_stand_left;
+extern texture_type smalltux_stand_right;
 extern texture_type bigtux_right[3];
 extern texture_type bigtux_left[3];
 extern texture_type bigtux_right_jump;

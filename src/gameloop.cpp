@@ -822,13 +822,31 @@ void loadshared(void)
   int i;
 
   /* Tuxes: */
-  texture_load(&tux_right[0], datadir + "/images/shared/tux-right-0.png", USE_ALPHA);
-  texture_load(&tux_right[1], datadir + "/images/shared/tux-right-1.png", USE_ALPHA);
-  texture_load(&tux_right[2], datadir + "/images/shared/tux-right-2.png", USE_ALPHA);
+  texture_load(&smalltux_stand_left, datadir + "/images/shared/smalltux-left-6.png", USE_ALPHA);
+  texture_load(&smalltux_stand_right, datadir + "/images/shared/smalltux-right-6.png", USE_ALPHA);
 
-  texture_load(&tux_left[0], datadir + "/images/shared/tux-left-0.png", USE_ALPHA);
-  texture_load(&tux_left[1], datadir + "/images/shared/tux-left-1.png", USE_ALPHA);
-  texture_load(&tux_left[2], datadir + "/images/shared/tux-left-2.png", USE_ALPHA);
+  texture_load(&smalltux_jump_left, datadir + "/images/shared/smalltux-jump-left.png", USE_ALPHA);
+  texture_load(&smalltux_jump_right, datadir + "/images/shared/smalltux-jump-right.png", USE_ALPHA);
+
+  tux_right.resize(8);
+  texture_load(&tux_right[0], datadir + "/images/shared/smalltux-right-1.png", USE_ALPHA);
+  texture_load(&tux_right[1], datadir + "/images/shared/smalltux-right-2.png", USE_ALPHA);
+  texture_load(&tux_right[2], datadir + "/images/shared/smalltux-right-3.png", USE_ALPHA);
+  texture_load(&tux_right[3], datadir + "/images/shared/smalltux-right-4.png", USE_ALPHA);
+  texture_load(&tux_right[4], datadir + "/images/shared/smalltux-right-5.png", USE_ALPHA);
+  texture_load(&tux_right[5], datadir + "/images/shared/smalltux-right-6.png", USE_ALPHA);
+  texture_load(&tux_right[6], datadir + "/images/shared/smalltux-right-7.png", USE_ALPHA);
+  texture_load(&tux_right[7], datadir + "/images/shared/smalltux-right-8.png", USE_ALPHA);
+
+  tux_left.resize(8);
+  texture_load(&tux_left[0], datadir + "/images/shared/smalltux-left-1.png", USE_ALPHA);
+  texture_load(&tux_left[1], datadir + "/images/shared/smalltux-left-2.png", USE_ALPHA);
+  texture_load(&tux_left[2], datadir + "/images/shared/smalltux-left-3.png", USE_ALPHA);
+  texture_load(&tux_left[3], datadir + "/images/shared/smalltux-left-4.png", USE_ALPHA);
+  texture_load(&tux_left[4], datadir + "/images/shared/smalltux-left-5.png", USE_ALPHA);
+  texture_load(&tux_left[5], datadir + "/images/shared/smalltux-left-6.png", USE_ALPHA);
+  texture_load(&tux_left[6], datadir + "/images/shared/smalltux-left-7.png", USE_ALPHA);
+  texture_load(&tux_left[7], datadir + "/images/shared/smalltux-left-8.png", USE_ALPHA);
 
   texture_load(&firetux_right[0], datadir + "/images/shared/firetux-right-0.png", USE_ALPHA);
   texture_load(&firetux_right[1], datadir + "/images/shared/firetux-right-1.png", USE_ALPHA);

@@ -31,7 +31,7 @@
 #include "high_scores.h"
 
 /* (global) menu variables */
-MenuAction menuaction;
+MenuAction menuaction = MENU_ACTION_NONE;
 bool show_menu;
 bool menu_change;
 texture_type checkbox, checkbox_checked, back, arrow_left, arrow_right;
@@ -192,6 +192,7 @@ Menu::action()
                 item[active_item].list->active_item = item[active_item].list->num_items-1;
             }
           break;
+
         case MENU_ACTION_RIGHT:
           if(item[active_item].kind == MN_STRINGSELECT
               && item[active_item].list->num_items != 0)
