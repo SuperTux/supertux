@@ -32,8 +32,10 @@ door.h \
 intro.cpp \
 intro.h \
 defines.h \
+exceptions.h \
 gameloop.cpp \
 gameloop.h \
+gettext.h \
 globals.cpp \
 globals.h \
 high_scores.cpp \
@@ -89,7 +91,6 @@ gameobjs.h \
 gameobjs.cpp \
 game_object.cpp \
 game_object.h \
-drawable.h \
 background.h \
 background.cpp \
 tilemap.h \
