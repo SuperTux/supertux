@@ -315,5 +315,15 @@
        (west  #f)
        (east  #f))
 
+  ;;one-way vertical road
+  (tile (id 65)
+  (image "road_ns.png")
+  (north #t)
+  (south #t)
+  (west  #f)
+  (east  #f)
+  (stop #f))
+					    
+
 )
 ;; EOF ;;
