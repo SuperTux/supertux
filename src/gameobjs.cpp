@@ -440,6 +440,7 @@ SmokeCloud::draw(DrawingContext& context)
 void load_object_gfx()
 {
   img_trampoline = sprite_manager->load("trampoline");
+  img_trampoline->start_animation(0);
   img_flying_platform = sprite_manager->load("flying_platform");
   img_smoke_cloud = sprite_manager->load("stomp");
 }

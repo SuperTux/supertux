@@ -750,26 +750,14 @@
          (fps 20)
          (images "shared/icebullet-1.png")))
   ; Trampoline
-  (sprite (name "trampoline-1")
+  (sprite (name "trampoline")
        (action
          (x-hotspot 0)
          (y-hotspot 0)
-         (images "shared/trampoline-1.png")))
- (sprite (name "trampoline-2")
-       (action
-         (x-hotspot 0)
-         (y-hotspot 0)
-         (images "shared/trampoline-2.png")))
- (sprite (name "trampoline-3")
-       (action
-         (x-hotspot 0)
-         (y-hotspot 0)
-         (images "shared/trampoline-3.png")))
- (sprite (name "trampoline-4")
-       (action
-         (x-hotspot 0)
-         (y-hotspot 0)
-         (images "shared/trampoline-4.png")))
+         (images "shared/trampoline-1.png"
+                 "shared/trampoline-2.png"
+                 "shared/trampoline-3.png"
+                 "shared/trampoline-4.png")))
 
   ; Flying platform
   (sprite (name "flying_platform")
