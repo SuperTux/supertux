@@ -449,7 +449,7 @@ void le_init_menus()
 
   subset_new_menu->additem(MN_LABEL,"New Level Subset",0,0);
   subset_new_menu->additem(MN_HL,"",0,0);
-  subset_new_menu->additem(MN_TEXTFIELD,"Enter Name",0,0);
+  subset_new_menu->additem(MN_TEXTFIELD,"Enter Name",0,0,MNID_SUBSETNAME);
   subset_new_menu->additem(MN_ACTION,"Create",0,0, MNID_CREATESUBSET);
   subset_new_menu->additem(MN_HL,"",0,0);
   subset_new_menu->additem(MN_BACK,"Back",0,0);
