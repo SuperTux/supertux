@@ -48,6 +48,11 @@ enum DyingType {
   DYING_FALLING = 2
 };
 
+/* Screen proprities: */
+
+#define SCREEN_W 640
+#define SCREEN_H 480
+
 /* Sizes: */
 
 #define SMALL 0
