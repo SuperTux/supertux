@@ -16,7 +16,10 @@ Dispenser::Dispenser(const lisp::Lisp& reader)
   reader.get("badguy", badguy);
   bbox.set_size(32, 32);
   sprite = sprite_manager->create("dispenser");
-  sprite->set_action("working");
+  if (badguy == "mrrocket") {
+     sprite->set_action(dir == LEFT ? "working-left" : "working-right");
+  }
+  else {sprite->set_action("dropper");}
 }
 
 void
@@ -43,7 +46,7 @@ bool
 Dispenser::collision_squished(Player& player)
 {
   //TODO: Should it act like a normal tile when killed?
-  sprite->set_action("broken");
+  sprite->set_action(dir == LEFT ? "broken-left" : "broken-right");
   dispense_timer.start(0);
   player.bounce(*this);
   kill_squished(player);
@@ -74,8 +77,9 @@ Dispenser::launch_badguy()
       Sector::current()->add_object(new MrBomb(get_pos().x, get_pos().y+32, dir));
     else if (badguy == "mriceblock")
       Sector::current()->add_object(new MrIceBlock(get_pos().x, get_pos().y+32, dir));
-    else if (badguy == "mrrocket")
-      Sector::current()->add_object(new MrRocket(get_pos().x, get_pos().y+32, dir));
+    else if (badguy == "mrrocket") {
+      int offset = (dir == LEFT ? -32 : 32);
+      Sector::current()->add_object(new MrRocket(get_pos().x+offset, get_pos().y, dir));}
     else if (badguy == "poisonivy")
       Sector::current()->add_object(new PoisonIvy(get_pos().x, get_pos().y+32, dir));
     else if (badguy == "random")
@@ -86,8 +90,7 @@ Dispenser::launch_badguy()
         case 1: Sector::current()->add_object(new BouncingSnowball(get_pos().x, get_pos().y+32, dir)); break;
         case 2: Sector::current()->add_object(new MrBomb(get_pos().x, get_pos().y+32, dir)); break;
         case 3: Sector::current()->add_object(new MrIceBlock(get_pos().x, get_pos().y+32, dir)); break;
-        case 4: Sector::current()->add_object(new MrRocket(get_pos().x, get_pos().y+32, dir)); break;
-        case 5: Sector::current()->add_object(new PoisonIvy(get_pos().x, get_pos().y+32, dir)); break;
+        case 4: Sector::current()->add_object(new PoisonIvy(get_pos().x, get_pos().y+32, dir)); break;
       }
     }
   }
