@@ -25,6 +25,7 @@
 #include "screen.h"
 #include "lispreader.h"
 #include "gameloop.h"
+#include "setup.h"
 #include "worldmap.h"
 
 namespace WorldMapNS {
@@ -33,9 +34,11 @@ TileManager* TileManager::instance_  = 0;
 
 TileManager::TileManager()
 {
-  lisp_object_t* root_obj = lisp_read_from_file(datadir +  "images/worldmap/antarctica.scm");
-  
-  assert(root_obj);
+  std::string filename = datadir +  "images/worldmap/antarctica.scm";
+  lisp_object_t* root_obj = lisp_read_from_file(filename);
+ 
+  if (!root_obj)
+    st_abort("Couldn't load file", filename);
 
   if (strcmp(lisp_symbol(lisp_car(root_obj)), "supertux-worldmap-tiles") == 0)
     {
@@ -217,8 +220,11 @@ WorldMap::~WorldMap()
 void
 WorldMap::load_map()
 {
-  lisp_object_t* root_obj = lisp_read_from_file(datadir +  "levels/default/worldmap.stwm");
-  assert(root_obj);
+  std::string filename = datadir +  "levels/default/worldmap.stwm";
+  
+  lisp_object_t* root_obj = lisp_read_from_file(filename);
+  if (!root_obj)
+    st_abort("Couldn't load file", filename);
   
   if (strcmp(lisp_symbol(lisp_car(root_obj)), "supertux-worldmap") == 0)
     {

@@ -97,7 +97,7 @@ Mix_Chunk * load_sound(const std::string& file)
 
   /* printf message and abort if there is an initialized audio device */
   if ((snd == NULL) && (audio_device == YES))
-    st_abort("Can't load", file.c_str());
+    st_abort("Can't load", file);
 
   return(snd);
 }
@@ -113,7 +113,7 @@ Mix_Music * load_song(const std::string& file)
 
   /* printf message and abort if there is an initialized audio device */
   if ((sng == NULL) && (audio_device == YES))
-    st_abort("Can't load", file.c_str());
+    st_abort("Can't load", file);
   return (sng);
 }
 

@@ -32,7 +32,7 @@ void st_audio_setup(void);
 void st_joystick_setup(void);
 void st_shutdown(void);
 void st_menu(void);
-void st_abort( const char * reason, const  char * details);
+void st_abort(const std::string& reason, const std::string& details);
 void process_options_menu(void);
 void process_save_load_game_menu(int save);
 void update_load_save_game_menu(menu_type* pmenu, int load);

@@ -155,7 +155,10 @@ public:
 
   Point get_next_tile(Point pos, Direction direction);
   Tile* at(Point pos);
-  bool path_ok(Direction direction, Point old_pos, Point* new_pos);
+
+  /** Check if it is possible to walk from \a pos into \a direction,
+      if possible, write the new position to \a new_pos */
+  bool path_ok(Direction direction, Point pos, Point* new_pos);
 };
 
 } // namespace WorldMapNS

@@ -790,9 +790,9 @@ void st_shutdown(void)
 
 /* --- ABORT! --- */
 
-void st_abort(const char * reason,const  char * details)
+void st_abort(const std::string& reason, const std::string& details)
 {
-  fprintf(stderr, "\nError: %s\n%s\n\n", reason, details);
+  fprintf(stderr, "\nError: %s\n%s\n\n", reason.c_str(), details.c_str());
   st_shutdown();
   exit(1);
 }

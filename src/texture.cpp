@@ -225,7 +225,7 @@ void texture_load_sdl(texture_type* ptexture, const std::string& file, int use_a
   temp = IMG_Load(file.c_str());
 
   if (temp == NULL)
-    st_abort("Can't load", file.c_str());
+    st_abort("Can't load", file);
 
   if(use_alpha == IGNORE_ALPHA && !use_gl)
   ptexture->sdl_surface = SDL_DisplayFormat(temp);
@@ -233,7 +233,7 @@ void texture_load_sdl(texture_type* ptexture, const std::string& file, int use_a
   ptexture->sdl_surface = SDL_DisplayFormatAlpha(temp);
   
   if (ptexture->sdl_surface == NULL)
-    st_abort("Can't covert to display format", file.c_str());
+    st_abort("Can't covert to display format", file);
 
   if (use_alpha == IGNORE_ALPHA && !use_gl)
     SDL_SetAlpha(ptexture->sdl_surface, 0, 0);
@@ -255,7 +255,7 @@ void texture_load_part_sdl(texture_type* ptexture, const std::string& file, int 
   temp = IMG_Load(file.c_str());
 
   if (temp == NULL)
-    st_abort("Can't load", file.c_str());
+    st_abort("Can't load", file);
 
   /* Set source rectangle for conv: */
 
@@ -286,7 +286,7 @@ void texture_load_part_sdl(texture_type* ptexture, const std::string& file, int 
   ptexture->sdl_surface = SDL_DisplayFormatAlpha(conv);
 
   if (ptexture->sdl_surface == NULL)
-    st_abort("Can't covert to display format", file.c_str());
+    st_abort("Can't covert to display format", file);
 
   if (use_alpha == IGNORE_ALPHA && !use_gl)
     SDL_SetAlpha(ptexture->sdl_surface, 0, 0);
