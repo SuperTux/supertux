@@ -49,108 +49,108 @@
     (level
       (x 4)
       (y 6)
-      (name "world1/level1.stl"))
+      (name "level1.stl"))
     (level
       (x 4)
       (y 8)
-      (name "world1/level2.stl"))
+      (name "level2.stl"))
     (level
       (x 5)
       (y 11)
-      (name "world1/level3.stl"))
+      (name "level3.stl"))
     (level
       (x 7)
       (y 11)
-      (name "world1/level4.stl"))
+      (name "level4.stl"))
     (level
       (x 7)
       (y 8)
-      (name "world1/level5.stl"))
+      (name "level5.stl"))
     (level
       (x 11)
       (y 9)
-      (name "world1/level6.stl"))
+      (name "level6.stl"))
     (level
       (x 14)
       (y 9)
-      (name "world1/level7.stl"))
+      (name "level7.stl"))
     (level
       (x 17)
       (y 6)
-      (name "world1/level8.stl"))
+      (name "level8.stl"))
     (level
       (x 14)
       (y 6)
-      (name "world1/level9.stl"))
+      (name "level9.stl"))
     (level
       (x 21)
       (y 8)
-      (name "world1/level10.stl"))
+      (name "level10.stl"))
     (level
       (x 26)
       (y 7)
-      (name "world1/level11.stl"))
+      (name "level11.stl"))
     (level
       (x 28)
       (y 9)
-      (name "world1/level12.stl"))
+      (name "level12.stl"))
     (level
       (x 31)
       (y 9)
-      (name "world1/level13.stl"))
+      (name "level13.stl"))
     (level
       (x 34)
       (y 11)
-      (name "world1/level14.stl"))
+      (name "level14.stl"))
     (level
       (x 29)
       (y 11)
-      (name "world1/level15.stl"))
+      (name "level15.stl"))
     (level
       (x 28)
       (y 13)
-      (name "world1/level16.stl"))
+      (name "level16.stl"))
     (level
       (x 29)
       (y 16)
-      (name "world1/level17.stl"))
+      (name "level17.stl"))
     (level
       (x 27)
       (y 19)
-      (name "world1/level18.stl"))
+      (name "level18.stl"))
     (level
       (x 23)
       (y 22)
-      (name "world1/level19.stl"))
+      (name "level19.stl"))
     (level
       (x 20)
       (y 25)
-      (name "world1/level20.stl"))
+      (name "level20.stl"))
     (level
       (x 18)
       (y 23)
-      (name "world1/level21.stl"))
+      (name "level21.stl"))
     (level
       (x 19)
       (y 20)
-      (name "world1/level22.stl"))
+      (name "level22.stl"))
     (level
       (x 14)
       (y 24)
-      (name "world1/level23.stl"))
+      (name "level23.stl"))
     (level
       (x 14)
       (y 20)
-      (name "world1/level24.stl"))
+      (name "level24.stl"))
     (level
       (x 10)
       (y 22)
-      (name "world1/level25.stl"))
+      (name "level25.stl"))
     (level
       (x 7)
       (y 20)
       (extro-filename "extro.txt")
-      (name "world1/level26.stl")
+      (name "level26.stl")
       (quit-worldmap #t))
 ; In the future, do this to go to another world:
 ; (next-worldmap "forest.stwt)

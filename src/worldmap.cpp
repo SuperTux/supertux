@@ -368,17 +368,22 @@ WorldMap::~WorldMap()
 void
 WorldMap::load_map()
 {
+  std::string::size_type p = map_filename.find_last_of('/');
+  if(p == std::string::npos)                              
+    levels_path = "";
+  else
+    levels_path = map_filename.substr(0, p+1);
+
   try {
     lisp::Parser parser;
-    std::string filename 
-      = get_resource_filename("/levels/worldmap/" + map_filename);
+    std::string filename = get_resource_filename(map_filename);
     std::auto_ptr<lisp::Lisp> root (parser.parse(filename));
 
     const lisp::Lisp* lisp = root->get_lisp("supertux-worldmap");
     if(!lisp)
       throw new std::runtime_error("file isn't a supertux-worldmap file.");
 
-    lisp::ListIterator iter(lisp->get_cdr());
+    lisp::ListIterator iter(lisp);
     while(iter.next()) {
       if(iter.item() == "tilemap") {
         if(tilemap.size() > 0)
@@ -498,7 +503,7 @@ WorldMap::get_level_title(Level& level)
   try {
     lisp::Parser parser;
     std::auto_ptr<lisp::Lisp> root (
-        parser.parse(get_resource_filename("levels/" + level.name)));
+        parser.parse(get_resource_filename(levels_path + level.name)));
 
     const lisp::Lisp* level_lisp = root->get_lisp("supertux-level");
     if(!level_lisp)
@@ -718,8 +723,7 @@ WorldMap::update(float delta)
           // do a shriking fade to the level
           shrink_fade(Vector((level->pos.x*32 + 16 + offset.x),
                              (level->pos.y*32 + 16 + offset.y)), 500);
-          GameSession session(
-              get_resource_filename(std::string("levels/" + level->name)),
+          GameSession session(get_resource_filename(levels_path + level->name),
                               ST_GL_LOAD_LEVEL_FILE, &level->statistics);
 
           switch (session.run())

@@ -46,12 +46,14 @@ public:
   void add_level(const std::string& name);
 
   std::string get_level_filename(unsigned int i);
+  std::string get_worldmap_filename();
   int get_num_levels() const;
 
   std::string name;
   std::string title;
   std::string description;
   bool hide_from_contribs;
+  bool has_worldmap;
 
 private:
   void read_info_file(const std::string& info_file);

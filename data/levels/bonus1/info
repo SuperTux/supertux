@@ -1,14 +1,5 @@
 ;SuperTux-Level-Subset
 (supertux-level-subset
-  (title "Bonus World 1 levels")
+  (title "Bonus World 1")
   (description "Levels from the Bonus World 1")
-  (levels "abednego-level1.stl" "abednego-level2.stl" "abednego-level3.stl"
-          "abednego-level4.stl" "bonus-level1.stl" "bonus-level2.stl"
-           "bonus-level3.stl" "bonus-level4.stl" "bonus-level5.stl"
-           "matr1x-level1.stl" "matr1x-level2.stl" "matr1x-level3.stl"
-           "thompson-level1.stl" "thompson-level2.stl" "torfi-level1.stl"
-           "torfi-level2.stl" "torfi-level3.stl" "wansti-level1.stl"
-           "wansti-level2.stl" "wansti-level3.stl" "wansti-level4.stl"
-           "wansti-level5.stl")
-  (hide-from-contribs #t)
-  )
+)

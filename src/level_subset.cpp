@@ -102,6 +102,14 @@ void LevelSubset::load(const std::string& subset)
     throw new std::runtime_error(msg.str());
   }
 
+  // test is a worldmap exists
+  has_worldmap = false;
+  std::string worldmap = get_resource_filename(
+      std::string("levels/") + subset + "/worldmap.stwm");
+  if(worldmap != "") {
+    has_worldmap = true;
+  }
+
   if (levels.empty())
     { // Level info file doesn't define any levels, so read the
       // directory to see what we can find
@@ -173,6 +181,12 @@ LevelSubset::get_level_filename(unsigned int num)
 {
   assert(num < levels.size());
   return levels[num];
+}
+
+std::string
+LevelSubset::get_worldmap_filename()
+{
+  return std::string("/levels/" + name + "/worldmap.stwm");
 }
 
 int

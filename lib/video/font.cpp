@@ -223,6 +223,8 @@ void SuperTux::display_text_file(const std::string& file, float scroll_speed,
     
     if(!text_lisp->get("text", text))
       throw std::runtime_error("file doesn't contain a text field");
+    if(!text_lisp->get("background", background_file))
+      throw std::runtime_error("file doesn't contain a background file");
   } catch(std::exception& e) {
     std::cerr << "Couldn't load file '" << filename << "': " << e.what() <<
       "\n";

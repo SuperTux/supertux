@@ -28,8 +28,8 @@ SnowBall::write(lisp::Writer& writer)
 {
   writer.start_list("snowball");
 
-  writer.write_float("x", get_pos().x);
-  writer.write_float("y", get_pos().y);
+  writer.write_float("x", start_position.x);
+  writer.write_float("y", start_position.y);
 
   writer.end_list("snowball");
 }

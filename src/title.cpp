@@ -75,9 +75,6 @@ static GameSession* titlesession;
 
 static std::vector<LevelSubset*> contrib_subsets;
 static LevelSubset* current_contrib_subset = 0;
-static int first_level_index;
-
-static std::set<std::string> worldmap_list;
 
 static FrameRate frame_rate(100);  
 
@@ -126,28 +123,17 @@ void generate_contrib_menu()
 
   contrib_menu->additem(MN_LABEL,_("Contrib Levels"),0,0);
   contrib_menu->additem(MN_HL,"",0,0);
+  
   int i = 0;
-
-  for(std::set<std::string>::iterator it = worldmap_list.begin();
-          it != worldmap_list.end(); ++it) {
-    WorldMapNS::WorldMap worldmap;
-    worldmap.loadmap((*it).c_str());
-    contrib_menu->additem(MN_ACTION, worldmap.get_world_title(),0,0, i);
-    ++i;
-  }
-
-  contrib_menu->additem(MN_HL,"",0,0);
-
-  first_level_index = i;
-  for (std::set<std::string>::iterator it = level_subsets.begin(); it != level_subsets.end(); ++it)
+  for (std::set<std::string>::iterator it = level_subsets.begin();
+      it != level_subsets.end(); ++it)
     {
       LevelSubset* subset = new LevelSubset();
       subset->load(*it);
-      if(subset->hide_from_contribs)
-        {
+      if(subset->hide_from_contribs) {
         delete subset;
         continue;
-        }
+      }
       contrib_menu->additem(MN_GOTO, subset->title, 0, contrib_subset_menu, i);
       contrib_subsets.push_back(subset);
       ++i;
@@ -186,68 +172,52 @@ void check_levels_contrib_menu()
   if (index == -1)
     return;
 
-  if((unsigned)index < worldmap_list.size())
-    {
+  LevelSubset& subset = * (contrib_subsets[index]);
+  
+  if(subset.has_worldmap) {
     WorldMapNS::WorldMap worldmap;
-    std::set<std::string>::iterator it = worldmap_list.begin();
-    for(int i = index; i > 0; --i)
-    ++it;
-
-    std::string map_filename = *it;
+    worldmap.set_map_filename(subset.get_worldmap_filename());
 
     // some fading
     fadeout(256);
     DrawingContext context;
-      context.draw_text(white_text, "Loading...",
-                        Vector(screen->w/2, screen->h/2), CENTER_ALLIGN, LAYER_FOREGROUND1);
-      context.do_drawing();
-
-    worldmap.set_map_filename(map_filename);
-
-    // hack to erase the extension
-    unsigned int ext_pos = it->find_last_of(".");
-    if(ext_pos != std::string::npos)
-      map_filename.erase(ext_pos, map_filename.size() - ext_pos);
+    context.draw_text(white_text, "Loading...",
+        Vector(screen->w/2, screen->h/2), CENTER_ALLIGN, LAYER_FOREGROUND1);
+    context.do_drawing();
 
     // TODO: slots should be available for contrib maps
-    worldmap.loadgame(st_save_dir + "/" + map_filename + "-slot1.stsg");
+    worldmap.loadgame(st_save_dir + "/" + subset.name + "-slot1.stsg");
 
     worldmap.display();  // run the map
 
     Menu::set_current(main_menu);
     resume_demo();
-    }
-  else if (index < (int)contrib_subsets.size() + first_level_index)
+  } else if (current_subset != index) {
+    current_subset = index;
+    // FIXME: This shouln't be busy looping
+    LevelSubset& subset = * (contrib_subsets[index]);
+
+    current_contrib_subset = &subset;
+
+    contrib_subset_menu->clear();
+
+    contrib_subset_menu->additem(MN_LABEL, subset.title, 0,0);
+    contrib_subset_menu->additem(MN_HL,"",0,0);
+
+    for (int i = 0; i < subset.get_num_levels(); ++i)
     {
-    index -= first_level_index;
-    if (current_subset != index)
-      {
-      current_subset = index;
-      // FIXME: This shouln't be busy looping
-      LevelSubset& subset = * (contrib_subsets[index]);
-
-      current_contrib_subset = &subset;
-
-      contrib_subset_menu->clear();
-
-      contrib_subset_menu->additem(MN_LABEL, subset.title, 0,0);
-      contrib_subset_menu->additem(MN_HL,"",0,0);
-
-      for (int i = 0; i < subset.get_num_levels(); ++i)
-      {
-        /** get level's title */
-        std::string filename = subset.get_level_filename(i);
-        std::string title = get_level_name(filename);
-        contrib_subset_menu->additem(MN_ACTION, title, 0, 0, i);
-      }
-
-      contrib_subset_menu->additem(MN_HL,"",0,0);      
-      contrib_subset_menu->additem(MN_BACK, _("Back"), 0, 0);
-
-      titlesession->get_current_sector()->activate();
-      titlesession->set_current();
-      }
+      /** get level's title */
+      std::string filename = subset.get_level_filename(i);
+      std::string title = get_level_name(filename);
+      contrib_subset_menu->additem(MN_ACTION, title, 0, 0, i);
     }
+
+    contrib_subset_menu->additem(MN_HL,"",0,0);      
+    contrib_subset_menu->additem(MN_BACK, _("Back"), 0, 0);
+
+    titlesession->get_current_sector()->activate();
+    titlesession->set_current();
+  }
 }
 
 void check_contrib_subset_menu()
@@ -326,9 +296,6 @@ void title(void)
   bkg_title = new Surface(datadir + "/images/background/arctis.jpg", false);
   logo = new Surface(datadir + "/images/title/logo.png", true);
   img_choose_subset = new Surface(datadir + "/images/status/choose-level-subset.png", true);
-
-  /* Generating contrib maps by only using a string_list */
-  worldmap_list = FileSystem::dfiles("levels/worldmap", "", "icyisland.stwm");
 
   titlesession->get_current_sector()->activate();
   titlesession->set_current();
@@ -474,7 +441,6 @@ void title(void)
   /* Free surfaces: */
 
   free_contrib_menu();
-  worldmap_list.clear();
   delete titlesession;
   delete bkg_title;
   delete logo;

@@ -978,7 +978,7 @@ bool process_load_game_menu()
 
       WorldMapNS::WorldMap worldmap;
 
-      worldmap.set_map_filename("icyisland.stwm");
+      worldmap.set_map_filename("/levels/world1/worldmap.stwm");
       // Load the game or at least set the savegame_file variable
       worldmap.loadgame(slotfile);
 

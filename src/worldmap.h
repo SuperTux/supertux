@@ -185,6 +185,7 @@ public:
 
 private:
   std::string map_filename;
+  std::string levels_path;
 
   typedef std::vector<SpecialTile> SpecialTiles;
   SpecialTiles special_tiles;

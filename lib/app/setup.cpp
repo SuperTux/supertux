@@ -67,7 +67,7 @@ void seticon(void);
 void usage(char * prog, int ret);
 
 /* Does the given file exist and is it accessible? */
-int FileSystem::faccessible(const std::string& filename)
+bool FileSystem::faccessible(const std::string& filename)
 {
   struct stat filestat;
   if (stat(filename.c_str(), &filestat) == -1)
@@ -84,7 +84,7 @@ int FileSystem::faccessible(const std::string& filename)
 }
 
 /* Can we write to this location? */
-int FileSystem::fwriteable(const std::string& filename)
+bool FileSystem::fwriteable(const std::string& filename)
 {
   FILE* fi;
   fi = fopen(filename.c_str(), "wa");
@@ -97,7 +97,7 @@ int FileSystem::fwriteable(const std::string& filename)
 }
 
 /* Makes sure a directory is created in either the SuperTux home directory or the SuperTux base directory.*/
-int FileSystem::fcreatedir(const std::string& relative_dir)
+bool FileSystem::fcreatedir(const std::string& relative_dir)
 {
   std::string path = st_dir + "/" + relative_dir + "/";
   if(mkdir(path.c_str(),0755) != 0)

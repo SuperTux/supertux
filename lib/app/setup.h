@@ -29,9 +29,9 @@ namespace SuperTux {
 /// File system utility functions
 struct FileSystem
   {
-    static int faccessible(const std::string& filename);
-    static int fcreatedir(const std::string& relative_dir);
-    static int fwriteable(const std::string& filename);
+    static bool faccessible(const std::string& filename);
+    static bool fcreatedir(const std::string& relative_dir);
+    static bool fwriteable(const std::string& filename);
     static std::set<std::string> read_directory(const std::string& pathname);
     static std::set<std::string> dsubdirs(const std::string& rel_path, const std::string& expected_file);
     static std::set<std::string> dfiles(const std::string& rel_path, const std::string& glob, const std::string& exception_str);
