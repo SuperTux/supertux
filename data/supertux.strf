@@ -176,7 +176,7 @@
  (sprite (name "bouncingsnowball-squished")
          (x-hotspot 1)
          (y-hotspot -19)
-         (images "shared/bsod-squished-left.png"))
+         (images "shared/snowball-squished-left.png"))
 
  (sprite (name "flyingsnowball")
          (x-hotspot 4)
