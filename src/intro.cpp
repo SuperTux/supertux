@@ -25,6 +25,6 @@
 
 void draw_intro()
 {
-  display_text_file("intro.txt", "/images/background/arctis.jpg", SCROLL_SPEED_MESSAGE);
+  display_text_file("intro.txt", SCROLL_SPEED_MESSAGE);
 }
 

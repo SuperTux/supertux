@@ -381,8 +381,6 @@ WorldMap::~WorldMap()
 void
 WorldMap::load_map()
 {
-  std::cout << "Loading map: " << datadir + "/levels/worldmap/" + map_filename << std::endl;
-
   lisp_object_t* root_obj = lisp_read_from_file(datadir + "/levels/worldmap/" + map_filename);
   if (!root_obj)
     st_abort("Couldn't load file", datadir + "/levels/worldmap/" + map_filename);
@@ -702,10 +700,8 @@ WorldMap::update(float delta)
                           sound_manager->load_music(datadir + "/music/theme.mod");
                         sound_manager->play_music(theme);
                         // Display final credits and go back to the main menu
-                        display_text_file(level->extro_filename,
-                                          "/images/background/extro.jpg", SCROLL_SPEED_MESSAGE);
-                        display_text_file("CREDITS",
-                                          "/images/background/oiltux.jpg", SCROLL_SPEED_CREDITS);
+                        display_text_file(level->extro_filename, SCROLL_SPEED_MESSAGE);
+                        display_text_file("CREDITS", SCROLL_SPEED_CREDITS);
                         quit = true;
                       }
                   }

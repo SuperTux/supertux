@@ -345,7 +345,7 @@ void title(void)
                   update_time = st_get_ticks();
                   break;
                 case MNID_CREDITS:
-                  display_text_file("CREDITS", bkg_title, SCROLL_SPEED_CREDITS);
+                  display_text_file("CREDITS", SCROLL_SPEED_CREDITS);
                   Menu::set_current(main_menu);
                   break;
                 case MNID_QUITMAINMENU:

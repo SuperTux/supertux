@@ -130,14 +130,7 @@ Font::draw_chars(Surface* pchars, const std::string& text, const Vector& pos,
 #define SCROLL      60
 #define ITEMS_SPACE 4
 
-void display_text_file(const std::string& file, const std::string& surface, float scroll_speed)
-{
-  Surface* sur = new Surface(datadir + surface, IGNORE_ALPHA);
-  display_text_file(file, sur, scroll_speed);
-  delete sur;
-}
-
-void display_text_file(const std::string& file, Surface* surface, float scroll_speed)
+void display_text_file(const std::string& file, float scroll_speed)
 {
   std::string text;
   std::vector<std::string> names;
@@ -150,10 +143,12 @@ void display_text_file(const std::string& file, Surface* surface, float scroll_s
     return;
     }
 
-
   reader->read_string("text", text, true);
+  std::string background_file;
+  reader->read_string("background", background_file, true);
   delete reader;
 
+  // Split text string lines into a vector
   names.clear();
   unsigned int i, l;
   i = 0;
@@ -175,6 +170,9 @@ void display_text_file(const std::string& file, Surface* surface, float scroll_s
 
     i = l+1;
     }
+
+  // load background image
+  Surface* background = new Surface(datadir + "/images/background/" + background_file, IGNORE_ALPHA);
 
   int done = 0;
   float scroll = 0;
@@ -225,7 +223,7 @@ void display_text_file(const std::string& file, Surface* surface, float scroll_s
         speed = -MAX_VEL;
 
       /* draw the credits */
-      context.draw_surface(surface, Vector(0,0), 0);
+      context.draw_surface(background, Vector(0,0), 0);
 
       float y = 0;
       for(size_t i = 0; i < names.size(); i++) {
@@ -265,6 +263,6 @@ void display_text_file(const std::string& file, Surface* surface, float scroll_s
     }
 
   SDL_EnableKeyRepeat(0, 0);    // disables key repeating
-  Menu::set_current(main_menu);
+  delete background;
 }
 
