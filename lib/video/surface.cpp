@@ -276,7 +276,7 @@ if(filter == HORIZONTAL_FLIP_FILTER)
   src.h = dst.h = sur_copy->h;
   for(int x = 0; x < sur_copy->w; x++)
     {
-    src.x = x; dst.x = sur_copy->w - x;
+    src.x = x; dst.x = sur_copy->w-1 - x;
     SDL_BlitSurface(sur_copy, &src, surface, &dst);
     }
 
@@ -784,9 +784,6 @@ SurfaceOpenGL::draw_part(float sx, float sy, float x, float y, float w, float h,
 int
 SurfaceOpenGL::draw_stretched(float x, float y, int sw, int sh, Uint8 alpha, Uint32 effect)
 {
-  if(effect & SEMI_TRANSPARENT)
-    alpha = 128;
-
   float pw = power_of_two(sw);
   float ph = power_of_two(sh);
 
