@@ -399,6 +399,9 @@ World::add_upgrade(float x, float y, Direction dir, UpgradeKind kind)
 void 
 World::add_bullet(float x, float y, float xm, Direction dir)
 {
+  if(bullets.size() > MAX_BULLETS-1)
+    return;
+
   Bullet new_bullet;
   new_bullet.init(x,y,xm,dir);
   bullets.push_back(new_bullet);
