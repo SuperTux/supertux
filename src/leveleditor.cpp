@@ -49,6 +49,8 @@ frame_timer.init(true);
 level_name_timer.init(true);
 selection_end = selection_ini = Vector(0,0);
 left_button = middle_button = mouse_moved =  false;
+level = 0;
+level_subset = 0;
 
 cur_layer = LAYER_TILES;
 level_changed = false;
@@ -169,6 +171,9 @@ delete subset_menu;
 delete create_subset_menu;
 delete main_menu;
 delete settings_menu;
+
+delete level;
+delete level_subset;
 }
 
 void LevelEditor::load_buttons_gfx()
@@ -267,10 +272,13 @@ while(SDL_PollEvent(&event))
       else if(create_subset_menu->check() == MN_ID_CREATE_SUBSET)
         {   // applying settings:
         LevelSubset::create(create_subset_menu->get_item_by_id(MN_ID_FILENAME_SUBSET).input);
-        level_subset.load(create_subset_menu->get_item_by_id(MN_ID_FILENAME_SUBSET).input);
 
-        level_subset.title = create_subset_menu->item[MN_ID_TITLE_SUBSET].input;
-        level_subset.description = create_subset_menu->item[MN_ID_DESCRIPTION_SUBSET].input;
+        delete level_subset;
+        level_subset = new LevelSubset();
+        level_subset->load(create_subset_menu->get_item_by_id(MN_ID_FILENAME_SUBSET).input);
+
+        level_subset->title = create_subset_menu->item[MN_ID_TITLE_SUBSET].input;
+        level_subset->description = create_subset_menu->item[MN_ID_DESCRIPTION_SUBSET].input;
 
         load_level(1);
 
@@ -298,8 +306,8 @@ std::cerr << "load subset level_subsets " << i << ": " << (*it) << std::endl;
         {   // applying settings:
         level_changed = true;
 
-        level.name = settings_menu->get_item_by_id(MN_ID_NAME).input;
-        level.author = settings_menu->get_item_by_id(MN_ID_AUTHOR).input;
+        level->name = settings_menu->get_item_by_id(MN_ID_NAME).input;
+        level->author = settings_menu->get_item_by_id(MN_ID_AUTHOR).input;
 
         solids->resize(atoi(settings_menu->get_item_by_id(MN_ID_WIDTH).input.c_str()),
               atoi(settings_menu->get_item_by_id(MN_ID_HEIGHT).input.c_str()));
@@ -341,17 +349,17 @@ std::cerr << "load subset level_subsets " << i << ": " << (*it) << std::endl;
         Menu::set_current(settings_menu);
         break;
       case BT_NEXT_LEVEL:
-        if(level_nb+1 < level_subset.get_num_levels())
+        if(level_nb+1 < level_subset->get_num_levels())
           load_level(level_nb + 1);
         else
           {
-          Level new_lev;
           char str[1024];
           sprintf(str,_("Level %d doesn't exist. Create it?"), level_nb + 1);
           if(confirm_dialog(NULL, str))
             {
-            level_subset.add_level("new_level.stl");
-            new_lev.save(level_subset.get_level_filename(level_nb + 1));
+            Level new_lev;
+            level_subset->add_level("new_level.stl");
+            new_lev.save(level_subset->get_level_filename(level_nb + 1));
             load_level(level_nb);
             }
           }
@@ -362,12 +370,12 @@ std::cerr << "load subset level_subsets " << i << ": " << (*it) << std::endl;
         break;
       case BT_NEXT_SECTOR:
 std::cerr << "next sector.\n";
-std::cerr << "total sectors: " << level.get_total_sectors() << std::endl;
-        load_sector(level.get_next_sector(sector));
+std::cerr << "total sectors: " << level->get_total_sectors() << std::endl;
+        load_sector(level->get_next_sector(sector));
         break;
       case BT_PREVIOUS_SECTOR:
 std::cerr << "previous sector.\n";
-        load_sector(level.get_previous_sector(sector));
+        load_sector(level->get_previous_sector(sector));
         break;
       }
     level_options->set_unselected();
@@ -561,11 +569,11 @@ if(level_name_timer.check())
   if(level_name_timer.get_left() < FADING_TIME)
     context.set_alpha(level_name_timer.get_left() * 255 / FADING_TIME);
 
-  context.draw_text(gold_text, level.name, Vector(screen->w/2, 30), CENTER_ALLIGN, LAYER_GUI);
+  context.draw_text(gold_text, level->name, Vector(screen->w/2, 30), CENTER_ALLIGN, LAYER_GUI);
   if(level_nb != -1)
     {
     char str[128];
-    sprintf(str, "%i/%i", level_nb+1, level_subset.get_num_levels());
+    sprintf(str, "%i/%i", level_nb+1, level_subset->get_num_levels());
     context.draw_text(gold_text, str, Vector(screen->w/2, 50), CENTER_ALLIGN, LAYER_GUI);
     }
 
@@ -699,7 +707,9 @@ void LevelEditor::load_level_subset(std::string filename)
 {
 std::cerr << "loading subset...\n";
 std::cerr << "filename: " << filename << std::endl;
-level_subset.load(filename.c_str());
+delete level_subset;
+level_subset = new LevelSubset();
+level_subset->load(filename.c_str());
 load_level(1);
 }
 
@@ -714,15 +724,18 @@ if(level_changed)
   }
 
 level_filename = filename;
-level.load(filename);
+
+delete level;
+level = new Level();
+level->load(filename);
 
 load_sector("main");
 level_name_timer.start(3000);
 scroll.x = scroll.y = 0;
 level_changed = false;
 
-settings_menu->get_item_by_id(MN_ID_NAME).change_input(level.name.c_str());
-settings_menu->get_item_by_id(MN_ID_AUTHOR).change_input(level.author.c_str());
+settings_menu->get_item_by_id(MN_ID_NAME).change_input(level->name.c_str());
+settings_menu->get_item_by_id(MN_ID_AUTHOR).change_input(level->author.c_str());
 }
 
 void LevelEditor::load_level(int nb)
@@ -737,8 +750,8 @@ if(level_changed)
 
 level_nb = nb;
 std::cerr << "level_nb: " << level_nb << std::endl;
-std::cerr << "level_subset.get_level_filename(level_nb): " << level_subset.get_level_filename(level_nb) << std::endl;
-level_filename = level_subset.get_level_filename(level_nb);
+std::cerr << "level_subset->get_level_filename(level_nb): " << level_subset->get_level_filename(level_nb) << std::endl;
+level_filename = level_subset->get_level_filename(level_nb);
 
 load_level(level_filename);
 }
@@ -746,7 +759,7 @@ load_level(level_filename);
 void LevelEditor::load_sector(std::string name)
 {
 sector_name = name;
-sector = level.get_sector(sector_name);
+sector = level->get_sector(sector_name);
 if(!sector)
   Termination::abort("Level has no " + sector_name + " sector.", "");
 
@@ -760,7 +773,7 @@ if(sector == NULL)
   if(confirm_dialog(NULL, _("No more sectors exist. Create another?")))
     {
     Sector* nsector = new Sector();
-    level.add_sector(nsector);
+    level->add_sector(nsector);
     sector = nsector;
     }
   return;
@@ -815,7 +828,7 @@ settings_menu->get_item_by_id(MN_ID_HEIGHT).change_input(str);
 void LevelEditor::save_level()
 {
 std::cerr << "saving level...\n";
-level.save(level_filename);
+level->save(level_filename);
 level_changed = false;
 }
 

@@ -105,7 +105,7 @@ private:
   void load_buttons_gfx();
   void free_buttons_gfx();
 
-  Level level;
+  Level* level;
   std::string level_filename;
 
   Sector* sector;  // current sector
@@ -113,7 +113,7 @@ private:
   std::string sector_name;
 
   std::set<std::string> level_subsets;
-  LevelSubset level_subset;
+  LevelSubset* level_subset;
   int level_nb;
 
   Menu* main_menu;
