@@ -5,8 +5,9 @@
 # see AUTOMAKE_OPTIONS in Makefile.am
 export WANT_AUTOMAKE=1.6
 
+autoheader
+libtoolize --force
 aclocal -I m4
 automake --copy --add-missing
 autoconf
 
-# EOF #
