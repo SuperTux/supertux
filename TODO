@@ -16,6 +16,11 @@ L: low priority
     going through the goal with a small jump, might be old_up related
 [L] fadein/out for intro/extro would be nice
 [L] when bumping a special with 2 blocks at once, it won't change direction
+[L] tux get killed if he kicks a iceblock while at the same time
+   bouncing on the roof
+[L] tux can be killed by back bouncing iceblocks in the exit sequence
+   (all enemies should be removed/turned to coins once the exit
+   sequence started)
 [L] in the "Welcome to Antarctica" level, the blocks next to the first growup
     look like there are 2 blocks above each other when bumping against them as
     small tux...
