@@ -27,9 +27,10 @@ enum MenuItemKind {
   MN_DEACTIVE,
   MN_TEXTFIELD,
   MN_NUMFIELD,
+  MN_CONTROLFIELD,
   MN_STRINGSELECT,
   MN_LABEL,
-  MN_HL /* horizontal line */
+  MN_HL, /* horizontal line */
 };
 
 class Menu;
@@ -116,7 +117,7 @@ void menu_reset(void);
 void menu_process_current(void);
 
 /* Check for a menu event */
-void menu_event(SDL_keysym* keysym);
+void menu_event(SDL_Event& event);
 
 #endif /*SUPERTUX_MENU_H*/
 

@@ -38,6 +38,7 @@
 #include "menu.h"
 #include "gameloop.h"
 #include "configfile.h"
+#include "scene.h"
 
 #ifdef WIN32
 #define mkdir(dir, mode)    mkdir(dir)
@@ -352,6 +353,7 @@ void st_menu(void)
 {
   main_menu      = new Menu();
   options_menu   = new Menu();
+  options_controls_menu   = new Menu();
   load_game_menu = new Menu();
   save_game_menu = new Menu();
   game_menu      = new Menu();
@@ -381,8 +383,15 @@ void st_menu(void)
       options_menu->additem(MN_DEACTIVE,"Music     ",use_music,0);
     }
   options_menu->additem(MN_TOGGLE,"Show FPS  ",show_fps,0);
+  options_menu->additem(MN_GOTO,"Controls  ",0,options_controls_menu);
   options_menu->additem(MN_HL,"",0,0);
   options_menu->additem(MN_BACK,"Back",0,0);
+  
+  options_controls_menu->additem(MN_LABEL,"Controls",0,0);
+  options_controls_menu->additem(MN_HL,"",0,0);
+  options_controls_menu->additem(MN_CONTROLFIELD,"Move Right",tux.keymap.right,0);
+  options_controls_menu->additem(MN_HL,"",0,0);
+  options_controls_menu->additem(MN_BACK,"Back",0,0);
 
   load_game_menu->additem(MN_LABEL,"Load Game",0,0);
   load_game_menu->additem(MN_HL,"",0,0);

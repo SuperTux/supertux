@@ -860,7 +860,7 @@ void le_checkevents()
               key = event.key.keysym.sym;
               if(show_menu)
                 {
-                  menu_event(&event.key.keysym);
+                  menu_event(event);
                   if(key == SDLK_ESCAPE)
                     {
                       show_menu = false;

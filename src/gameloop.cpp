@@ -130,6 +130,9 @@ void game_event(void)
 {
   while (SDL_PollEvent(&event))
     {
+          /* Check for menu-events, if the menu is shown */
+          if(show_menu)
+            menu_event(event);
       switch(event.type)
         {
         case SDL_QUIT:        /* Quit event - quit: */
@@ -137,10 +140,6 @@ void game_event(void)
           break;
         case SDL_KEYDOWN:     /* A keypress! */
           key = event.key.keysym.sym;
-
-          /* Check for menu-events, if the menu is shown */
-          if(show_menu)
-            menu_event(&event.key.keysym);
 
           if(tux.key_event(key,DOWN))
             break;
@@ -266,16 +265,8 @@ void game_event(void)
                 tux.input.down = UP;
               else
                 tux.input.down = UP;
-
-              /* Handle joystick for the menu */
-              if(show_menu)
-                {
-                  if(tux.input.down == DOWN)
-                    menuaction = MENU_ACTION_DOWN;
-                  else
-                    menuaction = MENU_ACTION_UP;
-                }
-              break;
+              
+	      break;
             default:
               break;
             }
@@ -291,9 +282,7 @@ void game_event(void)
             tux.input.up = UP;
           else if (event.jbutton.button == JOY_B)
             tux.input.fire = UP;
-
-          if(show_menu)
-            menuaction = MENU_ACTION_HIT;
+	    
           break;
 
         default:

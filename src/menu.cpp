@@ -214,6 +214,7 @@ Menu::action()
               case MN_ACTION:
               case MN_TEXTFIELD:
               case MN_NUMFIELD:
+              case MN_CONTROLFIELD:
                 item[active_item].toggled = true;
                 break;
 
@@ -376,6 +377,7 @@ Menu::draw_item(int index, // Position of the current item in the menu
       }
     case MN_TEXTFIELD:
     case MN_NUMFIELD:
+    case MN_CONTROLFIELD:
       {
         int input_pos = input_width/2;
         int text_pos  = (text_width + font_width)/2;
@@ -517,76 +519,94 @@ void menu_process_current(void)
 }
 
 /* Check for menu event */
-void menu_event(SDL_keysym* keysym)
+void menu_event(SDL_Event& event)
 {
-  SDLKey key = keysym->sym;
-  SDLMod keymod;
-  char ch[2];
-  keymod = SDL_GetModState();
+  SDLKey key;
+  switch(event.type)
+    {
+      case SDL_KEYDOWN:
+      key = event.key.keysym.sym;
+      SDLMod keymod;
+      char ch[2];
+      keymod = SDL_GetModState();
 
-  /* If the current unicode character is an ASCII character,
-     assign it to ch. */
-  if ( (keysym->unicode & 0xFF80) == 0 )
-    {
-      ch[0] = keysym->unicode & 0x7F;
-      ch[1] = '\0';
-    }
-  else
-    {
-      /* An International Character. */
-    }
-
-  switch(key)
-    {
-    case SDLK_UP:		/* Menu Up */
-      menuaction = MENU_ACTION_UP;
-      menu_change = true;
-      break;
-    case SDLK_DOWN:		/* Menu Down */
-      menuaction = MENU_ACTION_DOWN;
-      menu_change = true;
-      break;
-    case SDLK_LEFT:		/* Menu Up */
-      menuaction = MENU_ACTION_LEFT;
-      menu_change = true;
-      break;
-    case SDLK_RIGHT:		/* Menu Down */
-      menuaction = MENU_ACTION_RIGHT;
-      menu_change = true;
-      break;
-    case SDLK_SPACE:
-      if(current_menu->item[current_menu->active_item].kind == MN_TEXTFIELD)
+      /* If the current unicode character is an ASCII character,
+         assign it to ch. */
+      if ( (event.key.keysym.unicode & 0xFF80) == 0 )
         {
-          menuaction = MENU_ACTION_INPUT;
-          menu_change = true;
-          mn_input_char = ' ';
-          break;
-        }
-    case SDLK_RETURN: /* Menu Hit */
-      menuaction = MENU_ACTION_HIT;
-      menu_change = true;
-      break;
-    case SDLK_DELETE:
-    case SDLK_BACKSPACE:
-      menuaction = MENU_ACTION_REMOVE;
-      menu_change = true;
-      delete_character++;
-      break;
-    default:
-      if( (key >= SDLK_0 && key <= SDLK_9) || (key >= SDLK_a && key <= SDLK_z) || (key >= SDLK_SPACE && key <= SDLK_SLASH))
-        {
-          menuaction = MENU_ACTION_INPUT;
-          menu_change = true;
-          mn_input_char = *ch;
+          ch[0] = event.key.keysym.unicode & 0x7F;
+          ch[1] = '\0';
         }
       else
         {
-          mn_input_char = '\0';
+          /* An International Character. */
+        }
+
+      switch(key)
+        {
+        case SDLK_UP:		/* Menu Up */
+          menuaction = MENU_ACTION_UP;
+          menu_change = true;
+          break;
+        case SDLK_DOWN:		/* Menu Down */
+          menuaction = MENU_ACTION_DOWN;
+          menu_change = true;
+          break;
+        case SDLK_LEFT:		/* Menu Up */
+          menuaction = MENU_ACTION_LEFT;
+          menu_change = true;
+          break;
+        case SDLK_RIGHT:		/* Menu Down */
+          menuaction = MENU_ACTION_RIGHT;
+          menu_change = true;
+          break;
+        case SDLK_SPACE:
+          if(current_menu->item[current_menu->active_item].kind == MN_TEXTFIELD)
+            {
+              menuaction = MENU_ACTION_INPUT;
+              menu_change = true;
+              mn_input_char = ' ';
+              break;
+            }
+        case SDLK_RETURN: /* Menu Hit */
+          menuaction = MENU_ACTION_HIT;
+          menu_change = true;
+          break;
+        case SDLK_DELETE:
+        case SDLK_BACKSPACE:
+          menuaction = MENU_ACTION_REMOVE;
+          menu_change = true;
+          delete_character++;
+          break;
+        default:
+          if( (key >= SDLK_0 && key <= SDLK_9) || (key >= SDLK_a && key <= SDLK_z) || (key >= SDLK_SPACE && key <= SDLK_SLASH))
+            {
+              menuaction = MENU_ACTION_INPUT;
+              menu_change = true;
+              mn_input_char = *ch;
+            }
+          else
+            {
+              mn_input_char = '\0';
+            }
+          break;
         }
       break;
+    case  SDL_JOYAXISMOTION:
+      if(event.jaxis.axis == JOY_Y)
+        {
+          if (event.jaxis.value > 1024)
+            menuaction = MENU_ACTION_DOWN;
+          else if (event.jaxis.value < -1024)
+            menuaction = MENU_ACTION_UP;
+        }
+      break;
+    case  SDL_JOYBUTTONDOWN:
+      menuaction = MENU_ACTION_HIT;
+      break;
+    default:
+      break;
     }
-
-
   /* FIXME: NO JOYSTICK SUPPORT */
   /*#ifdef JOY_YES
     else if (event.type == SDL_JOYBUTTONDOWN)

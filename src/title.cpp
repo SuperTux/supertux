@@ -134,6 +134,7 @@ int title(void)
 
       while (SDL_PollEvent(&event))
         {
+	menu_event(event);
           if (event.type == SDL_QUIT)
             {
               /* Quit event - quit: */
@@ -146,7 +147,7 @@ int title(void)
               key = event.key.keysym.sym;
 
               /* Check for menu events */
-              menu_event(&event.key.keysym);
+              //menu_event(event);
 
               if (key == SDLK_ESCAPE)
                 {
@@ -154,18 +155,6 @@ int title(void)
 
                   quit = 1;
                 }
-            }
-          else if (event.type == SDL_JOYAXISMOTION && event.jaxis.axis == JOY_Y)
-            {
-              if (event.jaxis.value > 1024)
-                menuaction = MENU_ACTION_DOWN;
-              else if (event.jaxis.value < -1024)
-                menuaction = MENU_ACTION_UP;
-            }
-          else if (event.type == SDL_JOYBUTTONDOWN)
-            {
-              /* Joystick button: Continue: */
-              menuaction = MENU_ACTION_HIT;
             }
         }
 
