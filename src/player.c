@@ -270,7 +270,7 @@ void player_action(player_type* pplayer)
                             }
 
                           if (distro_counter <= 0)
-                            level_change(&current_level,pplayer->base.x, pplayer->base.y, 'a');
+                            level_change(&current_level,pplayer->base.x,pplayer->base.y, 'a');
 
                           play_sound(sounds[SND_DISTRO], SOUND_CENTER_SPEAKER);
                           score = score + SCORE_DISTRO;

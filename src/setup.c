@@ -17,7 +17,9 @@
 #include <unistd.h>
 #include <SDL.h>
 #include <SDL_image.h>
+#ifndef NOOPENGL
 #include <SDL_opengl.h>
+#endif
 
 #ifdef LINUX
 #include <pwd.h>
@@ -30,6 +32,7 @@
 #include "globals.h"
 #include "setup.h"
 #include "screen.h"
+#include "texture.h"
 
 /* Local function prototypes: */
 
@@ -139,6 +142,12 @@ if(screen != NULL)
   else
   st_video_setup_sdl();
 
+  DEBUG_MSG("1");
+  
+  texture_setup();
+
+  DEBUG_MSG("2");
+    
   /* Set window manager stuff: */
 
   SDL_WM_SetCaption("Super Tux", "Super Tux");
@@ -177,6 +186,7 @@ void st_video_setup_sdl(void)
 
 void st_video_setup_gl(void)
 {
+#ifndef NOOPENGL
 
 	SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 5);
 	SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 5);
@@ -235,6 +245,8 @@ void st_video_setup_gl(void)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	glTranslatef(0.0f, 0.0f, 0.0f);
+
+#endif
 }
 
 void st_joystick_setup(void)
@@ -426,11 +438,14 @@ void parseargs(int argc, char * argv[])
 {
   int i;
 
-
   /* Set defaults: */
+
 
   debug_mode = NO;
   use_fullscreen = NO;
+
+  use_gl = NO;    
+
 #ifndef NOSOUND
 
   use_sound = YES;
@@ -457,9 +472,11 @@ void parseargs(int argc, char * argv[])
       else if (strcmp(argv[i], "--opengl") == 0 ||
           strcmp(argv[i], "-g") == 0)
         {
-          /* Use full screen: */
+	#ifndef NOOPENGL
+          /* Use OpengGL: */
 
           use_gl = YES;
+	#endif
         }
       else if (strcmp(argv[i], "--usage") == 0)
         {
@@ -511,6 +528,8 @@ void parseargs(int argc, char * argv[])
 
           printf("----------  Command-line options  ----------\n\n");
 
+          printf("  --opengl            - If opengl support was compiled in, this will enable the EXPERIMENTAL OpenGL mode.\n\n");
+	  
           printf("  --disable-sound     - If sound support was compiled in,  this will\n                        disable sound for this session of the game.\n\n");
 
           printf("  --disable-music     - Like above, but this will disable music.\n\n");
@@ -564,7 +583,7 @@ void usage(char * prog, int ret)
 
   /* Display the usage message: */
 
-  fprintf(fi, "Usage: %s [--fullscreen] [--disable-sound] [--disable-music] [--debug-mode] | [--usage | --help | --version]\n",
+  fprintf(fi, "Usage: %s [--fullscreen] [--opengl] [--disable-sound] [--disable-music] [--debug-mode] | [--usage | --help | --version]\n",
           prog);
 
 

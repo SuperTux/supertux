@@ -12,13 +12,133 @@
 
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
-#include <SDL/SDL_opengl.h>
 #include "globals.h"
 #include "screen.h"
 #include "setup.h"
 #include "texture.h"
 
-void texture_load(texture_type* ptexture, char * file, int use_alpha)
+void texture_setup(void)
+{
+#ifdef NOOPENGL
+texture_load = texture_load_sdl;
+texture_free = texture_free_sdl;
+texture_draw = texture_draw_sdl;
+texture_draw_bg = texture_draw_bg_sdl;
+texture_draw_part = texture_draw_part_sdl;
+#else
+if(use_gl)
+{
+texture_load = texture_load_gl;
+texture_free = texture_free_gl;
+texture_draw = texture_draw_gl;
+texture_draw_bg = texture_draw_bg_gl;
+texture_draw_part = texture_draw_part_gl;
+}
+else
+{
+texture_load = texture_load_sdl;
+texture_free = texture_free_sdl;
+texture_draw = texture_draw_sdl;
+texture_draw_bg = texture_draw_bg_sdl;
+texture_draw_part = texture_draw_part_sdl;
+}
+#endif
+}
+
+#ifndef NOOPENGL
+void texture_load_gl(texture_type* ptexture, char * file, int use_alpha)
+{
+texture_load_sdl(ptexture,file,use_alpha);
+texture_create_gl(ptexture->sdl_surface,&ptexture->gl_texture);
+}
+
+void texture_draw_gl(texture_type* ptexture, float x, float y, int update)
+{
+      glColor4ub(255, 255, 255,255);
+      glBlendFunc (GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+      glEnable (GL_BLEND);
+      glBindTexture(GL_TEXTURE_RECTANGLE_NV, ptexture->gl_texture);
+
+      glBegin(GL_QUADS);
+      glTexCoord2f(0, 0);
+      glVertex2f(x, y);
+      glTexCoord2f((float)ptexture->w, 0);
+      glVertex2f((float)ptexture->w+x, y);
+      glTexCoord2f((float)ptexture->w, (float)ptexture->h);
+      glVertex2f((float)ptexture->w+x, (float)ptexture->h+y);
+      glTexCoord2f(0, (float)ptexture->h);
+      glVertex2f(x, (float)ptexture->h+y);
+      glEnd();
+}
+
+void texture_draw_bg_gl(texture_type* ptexture, int update)
+{
+    //glColor3ub(255, 255, 255);
+
+    glEnable(GL_TEXTURE_RECTANGLE_NV);
+    glBindTexture(GL_TEXTURE_RECTANGLE_NV, ptexture->gl_texture);
+
+    glBegin(GL_QUADS);
+        glTexCoord2f(0, 0);    glVertex2f(0, 0);
+        glTexCoord2f((float)ptexture->w, 0);    glVertex2f(screen->w, 0);
+        glTexCoord2f((float)ptexture->w, (float)ptexture->h);    glVertex2f(screen->w, screen->h);
+        glTexCoord2f(0, (float)ptexture->h); glVertex2f(0, screen->h);
+    glEnd();
+}
+
+void texture_draw_part_gl(texture_type* ptexture, float x, float y, float w, float h, int update)
+{
+      glColor3ub(255, 255, 255);
+
+      glEnable(GL_TEXTURE_RECTANGLE_NV);
+      glBindTexture(GL_TEXTURE_RECTANGLE_NV, ptexture->gl_texture);
+
+      glBegin(GL_QUADS);
+      glTexCoord2f(x, y);
+      glVertex2f(x, y);
+      glTexCoord2f(x+w, y);
+      glVertex2f(w+x, y);
+      glTexCoord2f(x+w, y+h);
+      glVertex2f(w+x, h+y);
+      glTexCoord2f(x, y+h);
+      glVertex2f(x, h+y);
+      glEnd();
+}
+
+void texture_create_gl(SDL_Surface * surf, GLint * tex)
+{
+SDL_Surface *conv;
+conv = SDL_CreateRGBSurface(SDL_SWSURFACE , surf->w, surf->h, 32,
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+            0xff000000, 0x00ff0000, 0x0000ff00, 0x000000ff);
+#else
+            0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000);
+#endif
+    SDL_BlitSurface(surf, 0, conv, 0);
+          	     glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+       glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+    
+  glGenTextures(1, &*tex);
+
+    glBindTexture(GL_TEXTURE_RECTANGLE_NV , *tex);
+             glEnable(GL_TEXTURE_RECTANGLE_NV);
+    glTexParameteri(GL_TEXTURE_RECTANGLE_NV, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_RECTANGLE_NV, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glPixelStorei(GL_UNPACK_ROW_LENGTH, conv->pitch / conv->format->BytesPerPixel);
+    glTexImage2D(GL_TEXTURE_RECTANGLE_NV, 0, 3, conv->w, conv->h, 0, GL_RGBA, GL_UNSIGNED_BYTE, conv->pixels);
+    //glCopyTexSubImage2D(GL_TEXTURE_RECTANGLE_NV, 0, 0, 0, 0, 0, conv->w, conv->h);
+    glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
+    SDL_FreeSurface(conv);
+}
+
+void texture_free_gl(texture_type* ptexture)
+{
+  SDL_FreeSurface(ptexture->sdl_surface);
+  glDeleteTextures(1, &ptexture->gl_texture);
+}
+#endif
+
+void texture_load_sdl(texture_type* ptexture, char * file, int use_alpha)
 {
   SDL_Surface * temp;
 
@@ -40,14 +160,11 @@ void texture_load(texture_type* ptexture, char * file, int use_alpha)
   ptexture->w = ptexture->sdl_surface->w;
   ptexture->h = ptexture->sdl_surface->h;
 
-  if(use_gl)
-    {
-      create_gl_texture(ptexture->sdl_surface,&ptexture->gl_texture);
-    }
 }
 
 void texture_from_sdl_surface(texture_type* ptexture, SDL_Surface* sdl_surf, int use_alpha)
 {
+
  /* SDL_Surface * temp;
 
   temp = IMG_Load(file);
@@ -66,34 +183,16 @@ void texture_from_sdl_surface(texture_type* ptexture, SDL_Surface* sdl_surf, int
   ptexture->w = ptexture->sdl_surface->w;
   ptexture->h = ptexture->sdl_surface->h;
 
+  #ifndef NOOPENGL
   if(use_gl)
     {
-      create_gl_texture(ptexture->sdl_surface,&ptexture->gl_texture);
+      texture_create_gl(ptexture->sdl_surface,&ptexture->gl_texture);
     }
+  #endif
 }
 
-void texture_draw(texture_type* ptexture, float x, float y, int update)
+void texture_draw_sdl(texture_type* ptexture, float x, float y, int update)
 {
-  if(use_gl)
-    {
-      glColor4ub(255, 255, 255,255);
-      glBlendFunc (GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-      glEnable (GL_BLEND);
-      glBindTexture(GL_TEXTURE_RECTANGLE_NV, ptexture->gl_texture);
-
-      glBegin(GL_QUADS);
-      glTexCoord2f(0, 0);
-      glVertex2f(x, y);
-      glTexCoord2f((float)ptexture->w, 0);
-      glVertex2f((float)ptexture->w+x, y);
-      glTexCoord2f((float)ptexture->w, (float)ptexture->h);
-      glVertex2f((float)ptexture->w+x, (float)ptexture->h+y);
-      glTexCoord2f(0, (float)ptexture->h);
-      glVertex2f(x, (float)ptexture->h+y);
-      glEnd();
-    }
-  else
-    {
       SDL_Rect dest;
 
       dest.x = x;
@@ -105,27 +204,10 @@ void texture_draw(texture_type* ptexture, float x, float y, int update)
 
       if (update == UPDATE)
         SDL_UpdateRect(screen, dest.x, dest.y, dest.w, dest.h);
-    }
 }
 
-void texture_draw_bg(texture_type* ptexture, int update)
-{
-if(use_gl)
-{
-    //glColor3ub(255, 255, 255);
 
-    glEnable(GL_TEXTURE_RECTANGLE_NV);
-    glBindTexture(GL_TEXTURE_RECTANGLE_NV, ptexture->gl_texture);
-
-    glBegin(GL_QUADS);
-        glTexCoord2f(0, 0);    glVertex2f(0, 0);
-        glTexCoord2f((float)ptexture->w, 0);    glVertex2f(screen->w, 0);
-        glTexCoord2f((float)ptexture->w, (float)ptexture->h);    glVertex2f(screen->w, screen->h);
-        glTexCoord2f(0, (float)ptexture->h); glVertex2f(0, screen->h);
-    glEnd();
- 
-}
-else
+void texture_draw_bg_sdl(texture_type* ptexture, int update)
 {
   SDL_Rect dest;
   
@@ -139,30 +221,9 @@ else
   if (update == UPDATE)
     SDL_UpdateRect(screen, dest.x, dest.y, dest.w, dest.h);
 }
-}
 
-void texture_draw_part(texture_type* ptexture, float x, float y, float w, float h, int update)
+void texture_draw_part_sdl(texture_type* ptexture, float x, float y, float w, float h, int update)
 {
-  if(use_gl)
-    {
-      glColor3ub(255, 255, 255);
-
-      glEnable(GL_TEXTURE_RECTANGLE_NV);
-      glBindTexture(GL_TEXTURE_RECTANGLE_NV, ptexture->gl_texture);
-
-      glBegin(GL_QUADS);
-      glTexCoord2f(x, y);
-      glVertex2f(x, y);
-      glTexCoord2f(x+w, y);
-      glVertex2f(w+x, y);
-      glTexCoord2f(x+w, y+h);
-      glVertex2f(w+x, h+y);
-      glTexCoord2f(x, y+h);
-      glVertex2f(x, h+y);
-      glEnd();
-    }
-  else
-    {
       SDL_Rect src, dest;
 
       src.x = x;
@@ -180,13 +241,10 @@ void texture_draw_part(texture_type* ptexture, float x, float y, float w, float 
 
       if (update == UPDATE)
         update_rect(screen, dest.x, dest.y, dest.w, dest.h);
-    }
 }
 
-void texture_free(texture_type* ptexture)
+void texture_free_sdl(texture_type* ptexture)
 {
   SDL_FreeSurface(ptexture->sdl_surface);
-  if(use_gl)
-    glDeleteTextures(1, &ptexture->gl_texture);
 }
 

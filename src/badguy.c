@@ -495,7 +495,7 @@ void badguy_collision(bad_guy_type* pbad, void *p_c_object, int c_object)
       break;
     case CO_BADGUY:
       pbad_c = p_c_object;
-      if (pbad->mode != KICK)
+      if (pbad->mode != FLAT)
         pbad->dir = !pbad->dir;
       else
         {
@@ -525,7 +525,7 @@ void badguy_collision(bad_guy_type* pbad, void *p_c_object, int c_object)
         }
       else if (pbad->kind == BAD_LAPTOP)
         {
-          if (pbad->mode != FLAT)
+          if (pbad->mode != KICK)
             {
               /* Flatten! */
 

@@ -55,7 +55,6 @@ int intro(void)
   
   
   /* Load sprite images: */
-
   texture_load(&bkgd, DATA_PREFIX "/images/intro/intro.png", IGNORE_ALPHA);
   texture_load(&gown_sit, DATA_PREFIX "/images/intro/gown-sit.png", USE_ALPHA);
   texture_load(&gown_lookup, DATA_PREFIX "/images/intro/gown-lookup.png", USE_ALPHA);

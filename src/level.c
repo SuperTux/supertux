@@ -174,8 +174,8 @@ void level_change(st_level* plevel, float x, float y, unsigned char c)
 {
   int xx, yy;
 
-  yy = (y / 32);
-  xx = (x / 32);
+  yy = ((int)y / 32);
+  xx = ((int)x / 32);
 
   if (yy >= 0 && yy < 15 && xx >= 0 && xx <= plevel->width)
     plevel->tiles[yy][xx] = c;

@@ -84,7 +84,8 @@ void collision_handler()
                     {
 		    /* We have detected a collision and now call the collision functions of the collided objects. */
 		      badguy_collision(&bad_guys[j], &bad_guys[i], CO_BADGUY);
-                    }
+		      badguy_collision(&bad_guys[i], &bad_guys[j], CO_BADGUY);                    
+		    }
                 }
             }
         }
