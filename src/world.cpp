@@ -326,9 +326,9 @@ void World::scrolling(double frame_ratio)
   if(scrolling_timer.check())
     {
     float final_scroll_x;
-    if (tux.dir == RIGHT)
+    if (tux.physic.get_velocity_x() > 0)
       final_scroll_x = tux_pos_x - (screen->w - X_SPACE);
-    else// if (tux.dir == LEFT)// && )
+    else if (tux.physic.get_velocity_x() < 0)
       final_scroll_x = tux_pos_x - X_SPACE;
 
     scroll_x += ((final_scroll_x - scroll_x) / (CHANGE_DIR_SCROLL_SPEED)) * frame_ratio;
@@ -336,9 +336,9 @@ void World::scrolling(double frame_ratio)
 
   else
     {
-    if (tux.dir == RIGHT && scroll_x < tux_pos_x - (screen->w - X_SPACE))
+    if (tux.physic.get_velocity_x() > 0 && scroll_x < tux_pos_x - (screen->w - X_SPACE))
       scroll_x = tux_pos_x - (screen->w - X_SPACE);
-    else if (tux.dir == LEFT && scroll_x > tux_pos_x - X_SPACE && (level->back_scrolling || debug_mode))
+    else if (tux.physic.get_velocity_x() < 0 && scroll_x > tux_pos_x - X_SPACE && (level->back_scrolling || debug_mode))
       scroll_x = tux_pos_x - X_SPACE;
     }
 
