@@ -65,10 +65,7 @@ subset_menu->additem(MN_LABEL,_("Load Subset"),0,0);
 subset_menu->additem(MN_HL,"",0,0);
 int i = 0;
 for(std::set<std::string>::iterator it = level_subsets.begin(); it != level_subsets.end(); ++it, ++i)
-{
-std::cerr << "adding entry level subset " << i << " entry: " << (*it) << std::endl;
   subset_menu->additem(MN_ACTION, (*it),0,0,i);
-}
 subset_menu->additem(MN_HL,"",0,0);
 subset_menu->additem(MN_BACK,_("Back"),0,0);
 
@@ -295,7 +292,6 @@ while(SDL_PollEvent(&event))
         std::set<std::string>::iterator it = level_subsets.begin();
         for(int t = 0; t < i; t++)
           it++;
-std::cerr << "load subset level_subsets " << i << ": " << (*it) << std::endl;
         load_level_subset(*it);
         Menu::set_current(0);
         }
@@ -705,8 +701,6 @@ context.do_drawing();
 
 void LevelEditor::load_level_subset(std::string filename)
 {
-std::cerr << "loading subset...\n";
-std::cerr << "filename: " << filename << std::endl;
 delete level_subset;
 level_subset = new LevelSubset();
 level_subset->load(filename.c_str());
@@ -749,8 +743,6 @@ if(level_changed)
   }
 
 level_nb = nb;
-std::cerr << "level_nb: " << level_nb << std::endl;
-std::cerr << "level_subset->get_level_filename(level_nb): " << level_subset->get_level_filename(level_nb) << std::endl;
 level_filename = level_subset->get_level_filename(level_nb);
 
 load_level(level_filename);
@@ -827,7 +819,6 @@ settings_menu->get_item_by_id(MN_ID_HEIGHT).change_input(str);
 
 void LevelEditor::save_level()
 {
-std::cerr << "saving level...\n";
 level->save(level_filename);
 level_changed = false;
 }
