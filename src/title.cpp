@@ -165,12 +165,12 @@ void draw_background()
 
 void draw_demo(GameSession* session, double frame_ratio)
 {
-  World::set_current(session->get_world());
-  //World* world  = session->get_world();
+  World* world  = session->get_world();
+  World::set_current(world);
   Level* plevel = session->get_level();
-  Player* tux = session->get_world()->get_tux();
+  Player* tux = world->get_tux();
 
-  session->get_world()->play_music(LEVEL_MUSIC);
+  world->play_music(LEVEL_MUSIC);
   
   /* FIXME:
   // update particle systems
@@ -188,14 +188,14 @@ void draw_demo(GameSession* session, double frame_ratio)
   */
 
   // Draw interactive tiles:
-  for (int y = 0; y < 15; ++y)
+/*  for (int y = 0; y < 15; ++y)
     {
       for (int x = 0; x < 21; ++x)
         {
           Tile::draw(32*x - fmodf(scroll_x, 32), y * 32,
                      plevel->ia_tiles[(int)y][(int)x + (int)(scroll_x / 32)]);
         }
-    }
+    }*/
 
   global_frame_counter++;
   tux->key_event((SDLKey) keymap.right,DOWN);
@@ -222,7 +222,7 @@ void draw_demo(GameSession* session, double frame_ratio)
 
   tux->can_jump = true;
   float last_tux_x_pos = tux->base.x;
-  session->get_world()->action(frame_ratio);
+  world->action(frame_ratio);
   
 
   // disabled for now, since with the new jump code we easily get deadlocks
@@ -233,7 +233,7 @@ void draw_demo(GameSession* session, double frame_ratio)
       walking = false;
     }
 
-  tux->draw();
+  world->draw();
 }
 
 /* --- TITLE SCREEN --- */
