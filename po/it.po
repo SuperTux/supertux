@@ -1,14 +1,14 @@
-# translation of supertux.po to 
-# This file is distributed under the same license as the PACKAGE package.
-# Copyright (C) YEAR SuperTux Development Team.
+# translation of supertux.pot to Italian
+# This file is distributed under the same license as the supertux package.
+# Copyright (C) 2004 SuperTux Development Team.
 # Iknos <ze4lot@email.it>, 2004.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: supertux\n"
+"Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: super-tux-devel@lists.sourceforge.net\n"
 "POT-Creation-Date: 2004-10-20 21:58+0200\n"
-"PO-Revision-Date: 2004-10-19 22:01+0200\n"
+"PO-Revision-Date: 2004-10-20 22:42+0200\n"
 "Last-Translator: Iknos <ze4lot@email.it>\n"
 "Language-Team:  <it@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -38,7 +38,7 @@ msgstr "Giocando: "
 
 #: src/gameloop.cpp:850 src/worldmap.cpp:1111
 msgid "SCORE"
-msgstr "PUNTEGGIO"
+msgstr "PUNTI"
 
 #: src/gameloop.cpp:855
 msgid "Press ESC To Return"
@@ -68,7 +68,7 @@ msgstr "Risultato:"
 #: src/gameloop.cpp:919
 #, c-format
 msgid "SCORE: %d"
-msgstr "PUNTEGGIO: %d"
+msgstr "PUNTI: %d"
 
 #: src/gameloop.cpp:922 src/worldmap.cpp:955
 #, c-format
@@ -242,7 +242,7 @@ msgstr "Non esistono altri settori. Crearne un'altro?"
 # Questo e' l'editor di livelli integrato. E' stato costruito per essere intuitivo\n
 # e semplice da usare.\n
 # \n
-# Per aprire un livello, per prima cosa 
+# Per aprire un livello, per prima cosa
 #: src/leveleditor.cpp:921
 msgid ""
 "This is the built-in level editor. It's aim is to be intuitive\n"
@@ -731,3 +731,4 @@ msgstr "Alt destro"
 #: lib/gui/menu.cpp:269
 msgid "Left Alt"
 msgstr "Alt sinistro"
+
