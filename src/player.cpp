@@ -121,6 +121,8 @@ Player::key_event(SDLKey key, int state)
     }
   else if(key == keymap.fire)
     {
+      if (state == UP)
+        input.old_fire = UP;
       input.fire = state;
       return true;
     }
@@ -412,6 +414,7 @@ Player::handle_input()
   if (input.fire == DOWN && input.old_fire == UP && got_coffee)
     {
       World::current()->add_bullet(base.x, base.y, physic.get_velocity_x(), dir);
+      input.old_fire = DOWN;
     }
 
   /* tux animations: */

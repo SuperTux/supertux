@@ -95,10 +95,10 @@ Bullet::action(double frame_ratio)
     {
       base.y  = old_y;
       base.ym = -base.ym;     
-      if (base.ym > 13)
-        base.ym = 13;
-      else if (base.ym < -13)
-        base.ym = -13;
+      if (base.ym > 9)
+        base.ym = 9;
+      else if (base.ym < -9)
+        base.ym = -9;
     }
 
   base.ym = base.ym + 0.5 * frame_ratio;
