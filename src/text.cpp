@@ -328,11 +328,11 @@ void display_text_file(char *file, Surface* surface)
         switch(names.item[i][0])
           {
           case ' ':
-            white_small_text->drawf(names.item[i], 0, 60+screen->h+y-scroll, A_HMIDDLE, A_TOP, 1);
+            white_small_text->drawf(names.item[i]+1, 0, 60+screen->h+y-scroll, A_HMIDDLE, A_TOP, 1);
             y += white_small_text->h+ITEMS_SPACE;
             break;
           case '	':
-            white_text->drawf(names.item[i], 0, 60+screen->h+y-scroll, A_HMIDDLE, A_TOP, 1);
+            white_text->drawf(names.item[i]+1, 0, 60+screen->h+y-scroll, A_HMIDDLE, A_TOP, 1);
             y += white_text->h+ITEMS_SPACE;
             break;
           case '-':
