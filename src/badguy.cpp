@@ -831,7 +831,7 @@ BadGuy::bump()
   if(kind == BAD_FLAME || kind == BAD_BOMB || kind == BAD_FISH)
     return;
   
-  kill_me();
+  kill_me(25);
 }
 
 void
@@ -906,16 +906,12 @@ BadGuy::squish(Player* player)
 
     make_player_jump(player);
 
-    if((kind != BAD_MRICEBLOCK && mode != dying))
-      {
-      World::current()->add_score(base.x - scroll_x, base.y, 25 * player_status.score_multiplier);
-      player_status.score_multiplier++;
-      }
+    player_status.score_multiplier++;
 
     // check for maximum number of squiches
     squishcount++;
     if(squishcount >= MAX_ICEBLOCK_SQUICHES) {
-      kill_me();
+      kill_me(50);
       return;
     }
     
@@ -949,7 +945,7 @@ BadGuy::squish(Player* player)
 }
 
 void
-BadGuy::kill_me()
+BadGuy::kill_me(int score)
 {
   if(kind == BAD_BOMB || kind == BAD_STALACTITE || kind == BAD_FLAME)
     return;
@@ -970,12 +966,12 @@ BadGuy::kill_me()
   physic.set_velocity_y(0);
 
   /* Gain some points: */
-  if (kind == BAD_BSOD)
+//  if (kind == BAD_BSOD)
     World::current()->add_score(base.x - scroll_x, base.y,
-                    50 * player_status.score_multiplier);
-  else 
+                    score * player_status.score_multiplier);
+/*  else 
     World::current()->add_score(base.x - scroll_x, base.y,                                 
-                    25 * player_status.score_multiplier);
+                    25 * player_status.score_multiplier);*/
 
   /* Play death sound: */
   play_sound(sounds[SND_FALL], SOUND_CENTER_SPEAKER);
@@ -1001,7 +997,7 @@ BadGuy::collision(void *p_c_object, int c_object, CollisionType type)
   switch (c_object)
     {
     case CO_BULLET:
-      kill_me();
+      kill_me(10);
       break;
 
     case CO_BADGUY:
@@ -1010,14 +1006,14 @@ BadGuy::collision(void *p_c_object, int c_object, CollisionType type)
       /* If we're a kicked mriceblock, kill any badguys we hit */
       if(kind == BAD_MRICEBLOCK && mode == KICK)
         {
-          pbad_c->kill_me();
+          pbad_c->kill_me(25);
         }
 
       // a held mriceblock gets kills the enemy too but falls to ground then
       else if(kind == BAD_MRICEBLOCK && mode == HELD)
         {
-          pbad_c->kill_me();
-          kill_me();
+          pbad_c->kill_me(25);
+          kill_me(0);
         }
 
       /* Kill badguys that run into exploding bomb */
@@ -1033,14 +1029,14 @@ BadGuy::collision(void *p_c_object, int c_object, CollisionType type)
         }
         else if (pbad_c->kind != BAD_MRBOMB)
         {
-          pbad_c->kill_me();
+          pbad_c->kill_me(50);
         }
       }
 
       /* Kill any badguys that get hit by stalactite */
       else if (kind == BAD_STALACTITE && dying == DYING_NOT)
       {
-        pbad_c->kill_me();
+        pbad_c->kill_me(50);
       }
 
       /* When enemies run into eachother, make them change directions */

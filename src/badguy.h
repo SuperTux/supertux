@@ -132,7 +132,7 @@ public:
   /** this functions tries to kill the badguy and lets him fall off the
    * screen. Some badguys like the flame might ignore this.
    */
-  void kill_me();
+  void kill_me(int score);
 
   /** remove ourself from the list of badguys. WARNING! This function will
    * invalidate all members. So don't do anything else with member after calling
