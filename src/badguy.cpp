@@ -1025,6 +1025,26 @@ BadGuy::collision(void *p_c_object, int c_object, CollisionType type)
         // Jumpy is an exception
         if (pbad_c->kind == BAD_MONEY)
           break;
+
+        // Bounce off of other badguy if we land on top of him
+        if (base.y + base.height < pbad_c->base.y + pbad_c->base.height)
+        {
+          Direction old_dir = dir;
+          if (pbad_c->dir == LEFT)
+            dir = RIGHT;
+          else if (pbad_c->dir == RIGHT)
+            dir = LEFT;
+
+          if (dir != old_dir)
+            physic.inverse_velocity_x();
+
+          physic.set_velocity(fabs(physic.get_velocity_x()), 2);
+
+          break;
+        }
+        else if (base.y + base.height > pbad_c->base.y + pbad_c->base.height)
+          break;
+
         if (dir == LEFT)
           dir = RIGHT;
         else if (dir == RIGHT)
