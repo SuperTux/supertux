@@ -554,7 +554,7 @@ World::trygrabdistro(float x, float y, int bounciness)
 void
 World::trybumpbadguy(float x, float y)
 {
-  /* Bad guys: */
+  // Bad guys: 
   for (unsigned int i = 0; i < bad_guys.size(); i++)
     {
       if (bad_guys[i].base.x >= x - 32 && bad_guys[i].base.x <= x + 32 &&
@@ -564,8 +564,7 @@ World::trybumpbadguy(float x, float y)
         }
     }
 
-
-  /* Upgrades: */
+  // Upgrades:
   for (unsigned int i = 0; i < upgrades.size(); i++)
     {
       if (upgrades[i].base.height == 32 &&

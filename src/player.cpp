@@ -177,15 +177,15 @@ Player::action(double frame_ratio)
 {
   bool jumped_in_solid = false;
 
-  /* --- HANDLE TUX! --- */
-
-  if(dying == DYING_NOT)
-    handle_input();
-
   /* Move tux: */
   previous_base = base;
 
+  /* --- HANDLE TUX! --- */
+  if(dying == DYING_NOT)
+    handle_input();
+
   physic.apply(frame_ratio, base.x, base.y);
+
   if(dying == DYING_NOT) 
     {
       base_type target = base;
@@ -206,14 +206,9 @@ Player::action(double frame_ratio)
         previous_base = old_base = base;
       }
       keep_in_bounds();
-    }
 
-  if (dying == DYING_NOT)
-    {
-      /* Land: */
-
-
-      if( !on_ground())
+      // Land:
+      if (!on_ground())
         {
           physic.enable_gravity(true);
           if(under_solid())
@@ -394,7 +389,7 @@ Player::handle_vertical_input()
     {
       if (on_ground())
         {
-          // jump
+          // jump higher if we are running
           if (physic.get_velocity_x() > MAX_WALK_XM)
             physic.set_velocity_y(5.8);
           else
@@ -513,158 +508,162 @@ Player::draw()
 {
   if (!safe_timer.started() || (global_frame_counter % 2) == 0)
     {
-      if (size == SMALL)
+      if (dying == DYING_SQUISHED)
         {
-          if (invincible_timer.started())
-            {
-              /* Draw cape: */
-
-              if (dir == RIGHT)
-                cape_right[global_frame_counter % 2]->draw(base.x- scroll_x, base.y);
-              else
-                cape_left[global_frame_counter % 2]->draw(base.x- scroll_x, base.y);
-            }
-
-
-          if (!got_coffee)
-            {
-              if (!skidding_timer.started())
-                {
-                  if (physic.get_velocity_y() != 0)
-                    {
-                      if (dir == RIGHT)
-                        smalltux_jump_right->draw( base.x - scroll_x, base.y - 10);
-                      else
-                        smalltux_jump_left->draw( base.x - scroll_x, base.y - 10);                   
-                    }
-                  else
-                    {
-                      if (fabsf(physic.get_velocity_x()) < 1.0f) // standing
-                        {
-                          if (dir == RIGHT)
-                            smalltux_stand_right->draw( base.x - scroll_x, base.y - 9);
-                          else
-                            smalltux_stand_left->draw( base.x - scroll_x, base.y - 9);
-                        }
-                      else // moving
-                        {
-                          if (dir == RIGHT)
-                            tux_right[(global_frame_counter/2) % tux_right.size()]->draw(base.x - scroll_x, base.y - 9);
-                          else
-                            tux_left[(global_frame_counter/2) % tux_left.size()]->draw(base.x - scroll_x, base.y - 9);
-                        }
-                    }
-                }
-              else
-                {
-                  if (dir == RIGHT)
-                    smalltux_skid_right->draw(base.x - scroll_x, base.y);
-                  else
-                    smalltux_skid_left->draw(base.x - scroll_x, base.y); 
-                }
-            }
-          else
-            {
-              /* Tux got coffee! */
-
-              if (dir == RIGHT)
-                {
-                  firetux_right[frame_]->draw( base.x- scroll_x, base.y);
-                }
-              else
-                {
-                  firetux_left[frame_]->draw( base.x- scroll_x, base.y);
-                }
-            }
+          smalltux_gameover->draw(base.x - scroll_x, base.y);
         }
-      else // Large Tux
+      else
         {
-          if (invincible_timer.started())
+          if (size == SMALL)
             {
-              float capex = base.x + (base.width - bigcape_right[0]->w) / 2;
-              capex -= scroll_x;
-              float capey = base.y + (base.height - bigcape_right[0]->h) / 2;
-                
-              /* Draw cape (just not in ducked mode since that looks silly): */
-              if (dir == RIGHT)
-                bigcape_right[global_frame_counter % 2]->draw(capex, capey);
-              else
-                bigcape_left[global_frame_counter % 2]->draw(capex, capey);
-            }
+              if (invincible_timer.started())
+                {
+                  if (dir == RIGHT)
+                    cape_right[global_frame_counter % 2]->draw(base.x- scroll_x, base.y);
+                  else
+                    cape_left[global_frame_counter % 2]->draw(base.x- scroll_x, base.y);
+                }
 
-          if (!got_coffee)
-            {
-              if (!duck)
+              if (!got_coffee)
                 {
                   if (!skidding_timer.started())
                     {
-                      if (physic.get_velocity_y() == 0)
+                      if (physic.get_velocity_y() != 0)
                         {
                           if (dir == RIGHT)
-                            bigtux_right->draw(base.x - scroll_x, base.y);
+                            smalltux_jump_right->draw( base.x - scroll_x, base.y - 10);
                           else
-                            bigtux_left->draw(base.x - scroll_x, base.y);
+                            smalltux_jump_left->draw( base.x - scroll_x, base.y - 10);                   
                         }
                       else
                         {
-                          if (dir == RIGHT)
-                            bigtux_right_jump->draw(base.x - scroll_x, base.y);
-                          else
-                            bigtux_left_jump->draw(base.x - scroll_x, base.y);
+                          if (fabsf(physic.get_velocity_x()) < 1.0f) // standing
+                            {
+                              if (dir == RIGHT)
+                                smalltux_stand_right->draw( base.x - scroll_x, base.y - 9);
+                              else
+                                smalltux_stand_left->draw( base.x - scroll_x, base.y - 9);
+                            }
+                          else // moving
+                            {
+                              if (dir == RIGHT)
+                                tux_right[(global_frame_counter/2) % tux_right.size()]->draw(base.x - scroll_x, base.y - 9);
+                              else
+                                tux_left[(global_frame_counter/2) % tux_left.size()]->draw(base.x - scroll_x, base.y - 9);
+                            }
                         }
                     }
                   else
                     {
                       if (dir == RIGHT)
-                        skidtux_right->draw(base.x - scroll_x - 8, base.y);
+                        smalltux_skid_right->draw(base.x - scroll_x, base.y);
                       else
-                        skidtux_left->draw(base.x - scroll_x - 8, base.y);
+                        smalltux_skid_left->draw(base.x - scroll_x, base.y); 
                     }
                 }
               else
                 {
+                  /* Tux got coffee! */
+
                   if (dir == RIGHT)
-                    ducktux_right->draw(base.x - scroll_x, base.y);
+                    {
+                      firetux_right[frame_]->draw( base.x- scroll_x, base.y);
+                    }
                   else
-                    ducktux_left->draw(base.x - scroll_x, base.y);
+                    {
+                      firetux_left[frame_]->draw( base.x- scroll_x, base.y);
+                    }
                 }
             }
-          else
+          else // Large Tux
             {
-              /* Tux has coffee! */
-              if (!duck)
+              if (invincible_timer.started())
                 {
-                  if (!skidding_timer.started())
+                  float capex = base.x + (base.width - bigcape_right[0]->w) / 2;
+                  capex -= scroll_x;
+                  float capey = base.y + (base.height - bigcape_right[0]->h) / 2;
+                
+                  /* Draw cape (just not in ducked mode since that looks silly): */
+                  if (dir == RIGHT)
+                    bigcape_right[global_frame_counter % 2]->draw(capex, capey);
+                  else
+                    bigcape_left[global_frame_counter % 2]->draw(capex, capey);
+                }
+
+              if (!got_coffee)
+                {
+                  if (!duck)
                     {
-                      if (!jumping || physic.get_velocity_y() > 0)
+                      if (!skidding_timer.started())
                         {
-                          if (dir == RIGHT)
-                            bigfiretux_right[frame_]->draw(base.x- scroll_x - 8, base.y);
+                          if (physic.get_velocity_y() == 0)
+                            {
+                              if (dir == RIGHT)
+                                bigtux_right->draw(base.x - scroll_x, base.y);
+                              else
+                                bigtux_left->draw(base.x - scroll_x, base.y);
+                            }
                           else
-                            bigfiretux_left[frame_]->draw(base.x- scroll_x - 8, base.y);
+                            {
+                              if (dir == RIGHT)
+                                bigtux_right_jump->draw(base.x - scroll_x, base.y);
+                              else
+                                bigtux_left_jump->draw(base.x - scroll_x, base.y);
+                            }
                         }
                       else
                         {
                           if (dir == RIGHT)
-                            bigfiretux_right_jump->draw(base.x- scroll_x - 8, base.y);
+                            skidtux_right->draw(base.x - scroll_x - 8, base.y);
                           else
-                            bigfiretux_left_jump->draw(base.x- scroll_x - 8, base.y);
+                            skidtux_left->draw(base.x - scroll_x - 8, base.y);
                         }
                     }
                   else
                     {
                       if (dir == RIGHT)
-                        skidfiretux_right->draw(base.x- scroll_x - 8, base.y);
+                        ducktux_right->draw(base.x - scroll_x, base.y);
                       else
-                        skidfiretux_left->draw(base.x- scroll_x - 8, base.y);
+                        ducktux_left->draw(base.x - scroll_x, base.y);
                     }
                 }
               else
                 {
-                  if (dir == RIGHT)
-                    duckfiretux_right->draw( base.x- scroll_x - 8, base.y - 16);
+                  /* Tux has coffee! */
+                  if (!duck)
+                    {
+                      if (!skidding_timer.started())
+                        {
+                          if (!jumping || physic.get_velocity_y() > 0)
+                            {
+                              if (dir == RIGHT)
+                                bigfiretux_right[frame_]->draw(base.x- scroll_x - 8, base.y);
+                              else
+                                bigfiretux_left[frame_]->draw(base.x- scroll_x - 8, base.y);
+                            }
+                          else
+                            {
+                              if (dir == RIGHT)
+                                bigfiretux_right_jump->draw(base.x- scroll_x - 8, base.y);
+                              else
+                                bigfiretux_left_jump->draw(base.x- scroll_x - 8, base.y);
+                            }
+                        }
+                      else
+                        {
+                          if (dir == RIGHT)
+                            skidfiretux_right->draw(base.x- scroll_x - 8, base.y);
+                          else
+                            skidfiretux_left->draw(base.x- scroll_x - 8, base.y);
+                        }
+                    }
                   else
-                    duckfiretux_left->draw( base.x- scroll_x - 8, base.y - 16);
+                    {
+                      if (dir == RIGHT)
+                        duckfiretux_right->draw( base.x- scroll_x - 8, base.y - 16);
+                      else
+                        duckfiretux_left->draw( base.x- scroll_x - 8, base.y - 16);
+                    }
                 }
             }
         }
@@ -741,7 +740,7 @@ Player::kill(int mode)
 {
   play_sound(sounds[SND_HURT], SOUND_CENTER_SPEAKER);
 
-  physic.set_velocity(0, physic.get_velocity_y());
+  physic.set_velocity_x(0);
 
   if (mode == SHRINK && size == BIG)
     {
