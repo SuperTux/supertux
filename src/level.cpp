@@ -252,10 +252,22 @@ int
 Level::get_total_coins()
 {
   int total_coins = 0;
-  for(Sectors::iterator it = sectors.begin(); it != sectors.end(); ++it)
-    for(int x = 0; static_cast<unsigned int>(x) < it->second->solids->get_width(); x++)
-      for(int y = 0; static_cast<unsigned int>(y) < it->second->solids->get_height(); y++)
-        if(it->second->solids->get_tile(x,y)->attributes & Tile::COIN)
+  for(Sectors::iterator i = sectors.begin(); i != sectors.end(); ++i) {
+    TileMap* solids = i->second->solids;
+    if(!solids) {
+      std::cerr << "Sector '" << i->first << "' contains no solids!?!\n";
+      continue;
+    }
+    for(size_t x = 0; x < solids->get_width(); ++x)
+      for(size_t y = 0; y < solids->get_height(); ++y) {
+        const Tile* tile = solids->get_tile(x, y);
+        if(tile == 0) {
+          std::cerr << "Invalid tile in sector '" << i->first << "'.\n";
+          continue;
+        }
+        if(tile->attributes & Tile::COIN)
           total_coins++;
+      }
+  }
   return total_coins;
 }
