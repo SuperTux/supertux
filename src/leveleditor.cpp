@@ -1184,21 +1184,90 @@ void le_checkevents()
             if(le_select_mode_two_bt->get_state() == BUTTON_CLICKED)
               le_selection_mode = SQUARE;
           }
-
+          ButtonPanelMap::iterator it;
           le_tilegroup_bt->event(event);
-          if(le_tilegroup_bt->get_state() == BUTTON_CLICKED)
+	  switch (le_tilegroup_bt->get_state())
           {
+          case BUTTON_CLICKED:
             Menu::set_current(select_tilegroup_menu);
             select_tilegroup_menu_effect.start(200);
             select_tilegroup_menu->set_pos(screen->w - 64,100,-0.5,0.5);
+	    break;
+          case BUTTON_WHEELUP:
+	    it = tilegroups_map.find(cur_tilegroup);
+	    if(it == tilegroups_map.end())
+	    {
+	    cur_tilegroup = tilegroups_map.begin()->first;
+            cur_objects.clear();	    
+	    break;
+	    }
+	    if(++it != tilegroups_map.end())
+	    cur_tilegroup = (*it).first;
+	    else
+	    cur_tilegroup = tilegroups_map.begin()->first;
+	    
+            cur_objects.clear();
+            break;
+          case BUTTON_WHEELDOWN:
+	    it = tilegroups_map.find(cur_tilegroup);
+	    if(it == tilegroups_map.begin())
+	    {
+	    cur_tilegroup = tilegroups_map.rbegin()->first;
+            cur_objects.clear();	    
+	    break;
+	    }
+	    if(--it != --tilegroups_map.begin())
+	    cur_tilegroup = (*it).first;
+	    else
+	    cur_tilegroup = tilegroups_map.rbegin()->first;
+	    
+            cur_objects.clear();
+            break;
+          default:
+            break;
           }
 
           le_objects_bt->event(event);
-          if(le_objects_bt->get_state() == BUTTON_CLICKED)
+          switch (le_objects_bt->get_state())
           {
+          case BUTTON_CLICKED:
             Menu::set_current(select_objects_menu);
             select_objects_menu_effect.start(200);
             select_objects_menu->set_pos(screen->w - 64,100,-0.5,0.5);
+            break;
+          case BUTTON_WHEELUP:
+	    it = objects_map.find(cur_objects);
+	    if(it == objects_map.end())
+	    {
+	    cur_objects = objects_map.begin()->first;
+            cur_tilegroup.clear();	    
+	    break;
+	    }	    
+	    if(++it != objects_map.end())
+	    cur_objects = (*it).first;
+	    else
+	    cur_objects = objects_map.begin()->first;
+	    
+            cur_tilegroup.clear();
+            break;
+          case BUTTON_WHEELDOWN:
+	    it = objects_map.find(cur_objects);
+	    if(it == objects_map.begin())
+	    {
+	    cur_objects = objects_map.rbegin()->first;
+            cur_tilegroup.clear();	    
+	    break;
+	    }
+	    if(--it != --objects_map.begin())
+	    cur_objects = (*it).first;
+	    else
+	    cur_objects = objects_map.rbegin()->first;
+	    
+            cur_tilegroup.clear();
+            break;	  
+            break;
+          default:
+            break;
           }
 
           le_settings_bt->event(event);
@@ -1278,7 +1347,7 @@ void le_checkevents()
               le_current_level->badguy_data.push_back(&le_world.bad_guys.back());
             }
           }
-	  le_mouse_clicked[LEFT] = false;
+          le_mouse_clicked[LEFT] = false;
         }
       }
     }

@@ -28,7 +28,9 @@ enum ButtonState {
   BUTTON_NONE = -1,
   BUTTON_CLICKED,
   BUTTON_PRESSED,
-  BUTTON_HOVER
+  BUTTON_HOVER,
+  BUTTON_WHEELUP,
+  BUTTON_WHEELDOWN
 };
 
 class ButtonPanel;

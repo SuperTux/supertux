@@ -126,9 +126,19 @@ void Button::event(SDL_Event &event)
         event.button.y < rect.y || event.button.y >= rect.y + rect.h)
       return;
 
-    if(event.button.button != SDL_BUTTON_LEFT)
+    if(event.button.button == SDL_BUTTON_RIGHT)
     {
       show_info = true;
+      return;
+    }
+    else if(event.button.button == 4) /* Mouse wheel up. */
+    {
+      state = BUTTON_WHEELUP;
+      return;
+    }
+    else if(event.button.button == 5) /* Mouse wheel down. */
+    {
+      state = BUTTON_WHEELDOWN;
       return;
     }
 
