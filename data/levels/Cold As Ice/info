@@ -1,0 +1,5 @@
+;SuperTux-Level-Subset
+(supertux-level-subset
+  (title "Cold As Ice")
+  (description "Some levels that try to do somthing different with the available icons")
+)
