@@ -22,7 +22,7 @@
 typedef struct texture_type
   {
    SDL_Surface* sdl_surface;
-   GLuint gl_texture;
+   unsigned gl_texture;
    int w;
    int h;
   } texture_type;

@@ -45,10 +45,14 @@ void clearscreen(int r, int g, int b)
       glClear(GL_COLOR_BUFFER_BIT);
     }
   else
+  {
 #endif
 
     SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, r, g, b));
+#ifndef NOOPENGL
 
+    }
+#endif
 }
 
 /* 'Stolen' from the SDL documentation.
@@ -174,7 +178,10 @@ void drawline(int x1, int y1, int x2, int y2, int r, int g, int b, int a)
           y1 += sh_step;
         }
       drawpixel(x1, y1, color);
+#ifndef NOOPENGL
+
     }
+#endif
 }
 
 /* --- FILL A RECT --- */

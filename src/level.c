@@ -339,6 +339,11 @@ void level_load_gfx(st_level *plevel)
         snprintf(fname, 1024, "%s/images/background/%s", DATA_PREFIX, plevel->bkgd_image);
       texture_load(&img_bkgd, fname, IGNORE_ALPHA);
     }
+    else
+    {
+    /* Quick hack to make sure an image is loaded, when we are freeing it afterwards. */#
+      level_load_image(&img_bkgd, plevel->theme,"solid0.png", IGNORE_ALPHA);
+    }
 }
 
 /* Free graphics data for this level: */
@@ -357,6 +362,7 @@ void level_free_gfx(void)
       texture_free(&img_bkgd_tile[0][i]);
       texture_free(&img_bkgd_tile[1][i]);
     }
+  
   texture_free(&img_bkgd);
 }
 

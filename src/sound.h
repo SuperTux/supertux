@@ -97,7 +97,7 @@ void play_current_music();
 
 /* fake variables */
 extern void* sounds[NUM_SOUNDS];
-extern void* level_song, *herring_song;
+extern void * level_song, * level_song_fast, * herring_song;
 
 /* fake sound handlers */
 int open_audio (int frequency, int format, int channels, int chunksize);

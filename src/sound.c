@@ -243,7 +243,7 @@ void free_music(Mix_Music *music)
 #else
 
 void* sounds[NUM_SOUNDS];
-void* level_song, *herring_song;
+void* level_song, * level_song_fast, * herring_song;
 
 int open_audio (int frequency, int format, int channels, int chunksize)
 {

@@ -606,6 +606,7 @@ void update_level_settings_menu()
   string_list_copy(level_settings_menu.item[3].list, dsubdirs("images/themes", "solid0.png"));
   string_list_copy(level_settings_menu.item[4].list, dfiles("music/",NULL, "-fast"));
   string_list_copy(level_settings_menu.item[5].list, dfiles("images/background",NULL, NULL));
+  string_list_add_item(level_settings_menu.item[5].list,"");
   if((i = string_list_find(level_settings_menu.item[3].list,le_current_level->theme)) != -1)
     level_settings_menu.item[3].list->active_item = i;
   if((i = string_list_find(level_settings_menu.item[4].list,le_current_level->song_title)) != -1)
