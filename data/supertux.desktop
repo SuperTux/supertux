@@ -1,10 +1,11 @@
 [Desktop Entry]
 Encoding=UTF-8
 Name=SuperTux Platform Game
+Name[de]=SuperTux Jump&Run Spiel
 Comment=A Super Mario inspired penguin platform game
+Comment[de]=Ein von Super Mario inspiriertes Pinguin Jump&Run Spiel
 Exec=supertux
 Terminal=false
 Type=Application
 Categories=Application;Game;ArcadeGame
 Icon=supertux.png
-
