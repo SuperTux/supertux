@@ -1,8 +1,12 @@
 dnl ===========================================================================
 dnl    "configure.in"
 dnl
-dnl author: Duong-Khang NGUYEN
-dnl         neoneurone@users.sf.net
+dnl current contact:
+dnl          SuperTux development team
+dnl
+dnl original author:
+dnl          Duong-Khang NGUYEN
+dnl          neoneurone@users.sf.net
 dnl ===========================================================================
 
 dnl Process this file with autoconf to produce a configure script.
