@@ -115,7 +115,11 @@ Level::save(const std::string& filename)
  writer->write_int("time", time_left);
 
  for(Sectors::iterator i = sectors.begin(); i != sectors.end(); ++i)
+   {
+   writer->start_list("sector");
    i->second->write(*writer);
+   writer->end_list("sector");
+   }
 
  writer->end_list("supertux-level");
 

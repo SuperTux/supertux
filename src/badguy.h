@@ -136,6 +136,9 @@ public:
    */
   void kill_me(int score);
 
+  /** initializes the badguy (when he appears on screen) */
+  void activate(Direction direction);  // should only be used by BadGuy's objects
+
 private:
   void init();
   
@@ -152,9 +155,6 @@ private:
   void action_snowball(double frame_ratio);
   void action_wingling(double frame_ratio);
   void action_walkingtree(double frame_ratio);
-
-  /** initializes the badguy (when he appears on screen) */
-  void activate(Direction direction);
 
   /** handles falling down. disables gravity calculation when we're back on
    * ground */

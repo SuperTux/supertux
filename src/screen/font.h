@@ -53,9 +53,10 @@ public:
 private:
   friend class DrawingContext;
   
-  void draw(const std::string& text, const Vector& pos);
+  void draw(const std::string& text, const Vector& pos,
+            Uint32 drawing_effect = NONE_EFFECT);
   void draw_chars(Surface* pchars, const std::string& text, 
-      const Vector& position);
+      const Vector& position, Uint32 drawing_effect);
 
   Surface* chars;
   Surface* shadow_chars;

@@ -62,10 +62,10 @@ public:
       Uint32 drawing_effect = NONE_EFFECT);
   /** draws a text */
   void draw_text(Font* font, const std::string& text, const Vector& position,
-      int layer);
+      int layer, Uint32 drawing_effect = NONE_EFFECT);
   /** draws aligned text */
   void draw_text_center(Font* font, const std::string& text,
-      const Vector& position, int layer);
+      const Vector& position, int layer, Uint32 drawing_effect = NONE_EFFECT);
   /** draws a color gradient onto the whole screen */  
   void draw_gradient(Color from, Color to, int layer);
   /** fills a rectangle */

@@ -81,16 +81,18 @@ Font::get_text_width(const std::string& text) const
 }
 
 void
-Font::draw(const std::string& text, const Vector& pos)
+Font::draw(const std::string& text, const Vector& pos, Uint32 drawing_effect)
 {
   if(shadowsize > 0)
-    draw_chars(shadow_chars, text, pos + Vector(shadowsize, shadowsize));
+    draw_chars(shadow_chars, text, pos + Vector(shadowsize, shadowsize),
+               drawing_effect);
 
-  draw_chars(chars, text, pos);
+  draw_chars(chars, text, pos, drawing_effect);
 }
 
 void
-Font::draw_chars(Surface* pchars, const std::string& text, const Vector& pos)
+Font::draw_chars(Surface* pchars, const std::string& text, const Vector& pos,
+                 Uint32 drawing_effect)
 {
   SurfaceImpl* impl = pchars->impl;
 
@@ -115,7 +117,7 @@ Font::draw_chars(Surface* pchars, const std::string& text, const Vector& pos)
     int source_x = (index % 16) * w;
     int source_y = (index / 16) * h;
 
-    impl->draw_part(source_x, source_y, p.x, p.y, w, h, 255);
+    impl->draw_part(source_x, source_y, p.x, p.y, w, h, 255, drawing_effect);
     p.x += w;
   }
 }

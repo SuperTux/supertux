@@ -52,7 +52,7 @@ TileMap::TileMap(LispReader& reader)
     else if(layer == "foreground")
       layer = LAYER_FOREGROUNDTILES;
     else
-      std::cout << "Unknown layer '" << layer << "' in tilemap.\n";
+      std::cerr << "Unknown layer '" << layer << "' in tilemap.\n";
   }
 
   reader.read_bool("solid", solid);
@@ -99,7 +99,8 @@ TileMap::write(LispWriter& writer)
   else if(layer == LAYER_FOREGROUNDTILES)
     writer.write_string("layer", "foreground");
   else {
-    std::cout << "Warning unknown layer in tilemap.\n";
+    writer.write_string("layer", "unknown");
+    std::cerr << "Warning unknown layer in tilemap.\n";
   }
 
   writer.write_bool("solid", solid);

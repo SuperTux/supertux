@@ -265,6 +265,7 @@ Sector::write(LispWriter& writer)
 {
   writer.write_string("name", name);
   writer.write_float("gravity", gravity);
+  writer.write_string("music", song_title);
 
   for(GameObjects::iterator i = gameobjects.begin();
       i != gameobjects.end(); ++i) {
