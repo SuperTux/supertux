@@ -683,7 +683,7 @@ WorldMap::update(float delta)
                     if (!level->extro_filename.empty())
                       { // Display final credits and go back to the main menu
                         display_text_file(level->extro_filename,
-                                          "/images/background/arctis2.jpg");
+                                          "/images/background/extro.jpg");
                         display_text_file("CREDITS",
                                           "/images/background/oiltux.jpg");
                         quit = true;
