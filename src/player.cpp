@@ -474,7 +474,6 @@ Player::handle_input()
   /* Shoot! */
   if (input.fire == DOWN && input.old_fire == UP && got_power != NONE_POWER)
     {
-      holding_something = true;
       World::current()->add_bullet(Vector(base.x, base.y + (base.height/2)),
           physic.get_velocity_x(), dir);
       input.old_fire = DOWN;
