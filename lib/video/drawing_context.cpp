@@ -31,6 +31,7 @@ DrawingContext::DrawingContext()
 {
 transform.draw_effect = NONE_EFFECT;
 transform.zoom = 1;
+transform.alpha = 255;
 }
 
 DrawingContext::~DrawingContext()
@@ -52,6 +53,7 @@ DrawingContext::draw_surface(const Surface* surface, const Vector& position,
   request.drawing_effect = drawing_effect;
   request.drawing_effect = transform.draw_effect | drawing_effect;
   request.zoom = transform.zoom;
+  request.alpha = transform.alpha;
 
   drawingrequests.push_back(request);
 }
@@ -68,6 +70,7 @@ DrawingContext::draw_surface_part(const Surface* surface, const Vector& source,
   request.layer = layer;
   request.pos = transform.apply(dest);
   request.drawing_effect = drawing_effect;
+  request.alpha = transform.alpha;
   
   SurfacePartRequest* surfacepartrequest = new SurfacePartRequest();
   surfacepartrequest->size = size;
@@ -81,7 +84,7 @@ DrawingContext::draw_surface_part(const Surface* surface, const Vector& source,
 void
 DrawingContext::draw_text(Font* font, const std::string& text,
     const Vector& position, int allignment, int layer,
-    Uint32 drawing_effect, int alpha)
+    Uint32 drawing_effect)
 {
   DrawingRequest request;
 
@@ -89,12 +92,12 @@ DrawingContext::draw_text(Font* font, const std::string& text,
   request.layer = layer;
   request.pos = transform.apply(position);
   request.drawing_effect = drawing_effect;
+  request.alpha = transform.alpha;
 
   TextRequest* textrequest = new TextRequest;
   textrequest->font = font;
   textrequest->text = text;
   textrequest->allignment = allignment;
-  textrequest->alpha = alpha;
   request.request_data = textrequest;
 
   drawingrequests.push_back(request);
@@ -144,7 +147,7 @@ DrawingContext::draw_surface_part(DrawingRequest& request)
   surfacepartrequest->surface->impl->draw_part(
       surfacepartrequest->source.x, surfacepartrequest->source.y,
       request.pos.x, request.pos.y,
-      surfacepartrequest->size.x, surfacepartrequest->size.y, 255,
+      surfacepartrequest->size.x, surfacepartrequest->size.y, request.alpha,
       request.drawing_effect);
 
   delete surfacepartrequest;
@@ -201,7 +204,7 @@ DrawingContext::draw_text(DrawingRequest& request)
 {
   TextRequest* textrequest = (TextRequest*) request.request_data;
 
-  textrequest->font->draw(textrequest->text, request.pos, textrequest->allignment, request.drawing_effect, textrequest->alpha);
+  textrequest->font->draw(textrequest->text, request.pos, textrequest->allignment, request.drawing_effect, request.alpha);
 
   delete textrequest;
 }
@@ -295,9 +298,9 @@ DrawingContext::do_drawing()
         if(i->zoom != 1.0)
           surface->impl->draw_stretched(i->pos.x * i->zoom, i->pos.y * i->zoom,
                          (int)(surface->w * i->zoom), (int)(surface->h * i->zoom),
-                         255, i->drawing_effect);
+                         i->alpha, i->drawing_effect);
         else
-          surface->impl->draw(i->pos.x, i->pos.y, 255, i->drawing_effect);
+          surface->impl->draw(i->pos.x, i->pos.y, i->alpha, i->drawing_effect);
         break;
       }
       case SURFACE_PART:
@@ -349,4 +352,10 @@ void
 DrawingContext::set_zooming(float zoom)
 {
   transform.zoom = zoom;
+}
+
+void
+DrawingContext::set_alpha(int alpha)
+{
+  transform.alpha = alpha;
 }

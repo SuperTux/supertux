@@ -68,7 +68,7 @@ namespace SuperTux
       /// Draws a text.
       void draw_text(Font* font, const std::string& text, const Vector& position,
                      int allignment, int layer,
-                     Uint32 drawing_effect = NONE_EFFECT, int alpha = 255);
+                     Uint32 drawing_effect = NONE_EFFECT);
       /// Draws a color gradient onto the whole screen */
       void draw_gradient(Color from, Color to, int layer);
       /// Fills a rectangle.
@@ -93,6 +93,8 @@ namespace SuperTux
       void set_drawing_effect(int effect);
       /// apply that zoom in the next draws */
       void set_zooming(float zoom);
+      /// apply that alpha in the next draws */
+      void set_alpha(int alpha);
 
     private:
       class Transform
@@ -107,6 +109,7 @@ namespace SuperTux
 
           Uint32 draw_effect;
           float zoom;
+          int alpha;
         };
 
       /// the transform stack
@@ -130,7 +133,6 @@ namespace SuperTux
           Font* font;
           std::string text;
           int allignment;
-          int alpha;
         };
 
       struct GradientRequest
@@ -150,6 +152,7 @@ namespace SuperTux
           int layer;
           Uint32 drawing_effect;
           float zoom;
+          int alpha;
 
           RequestType type;
           Vector pos;
