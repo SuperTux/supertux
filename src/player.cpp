@@ -709,6 +709,8 @@ Player::kill(HurtMode mode)
       physic.enable_gravity(true);
       physic.set_acceleration(0, 0);
       physic.set_velocity(0, 7);
+      if(dying != DYING_SQUISHED)
+      --player_status.lives;
       dying = DYING_SQUISHED;
     }
 }

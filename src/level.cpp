@@ -238,7 +238,7 @@ Level::init_defaults()
   gravity    = 10.;
   back_scrolling = false;
   hor_autoscroll_speed = 0;
-  bkgd_speed = 2;
+  bkgd_speed = 50;
   bkgd_top.red   = 0;
   bkgd_top.green = 0;
   bkgd_top.blue  = 0;
@@ -320,7 +320,7 @@ Level::load(const std::string& filename)
       hor_autoscroll_speed = 0;
       reader.read_float("hor_autoscroll_speed",  &hor_autoscroll_speed);
       
-      bkgd_speed = 2;
+      bkgd_speed = 50;
       reader.read_int("bkgd_speed",  &bkgd_speed);
 
       

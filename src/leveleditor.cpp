@@ -911,7 +911,7 @@ void le_drawlevel()
   /* Draw the real background */
   if(le_world->get_level()->bkgd_image[0] != '\0')
   {
-    s = (int)((float)pos_x * ((float)le_world->get_level()->bkgd_speed/60.)) % screen->w;
+    s = (int)((float)pos_x * ((float)le_world->get_level()->bkgd_speed/100.0f)) % screen->w;
     le_world->get_level()->img_bkgd->draw_part(s,0,0,0,
         le_world->get_level()->img_bkgd->w - s - 32, le_world->get_level()->img_bkgd->h);
     le_world->get_level()->img_bkgd->draw_part(0,0,screen->w - s - 32 ,0,s,

@@ -424,6 +424,7 @@ GameSession::check_end_conditions()
       last_x_pos = -1;
       music_manager->play_music(level_end_song, 0);
       endsequence_timer.start(7000);
+      tux->invincible_timer.start(7000); //FIXME: Implement a winning timer for the end sequence (with special winning animation etc.)
     }
   else if(end_sequence && !endsequence_timer.check())
     {
@@ -440,11 +441,11 @@ GameSession::check_end_conditions()
       last_x_pos = -1;
       music_manager->play_music(level_end_song, 0);
       endsequence_timer.start(7000); // 5 seconds until we finish the map
+      tux->invincible_timer.start(7000); //FIXME: Implement a winning timer for the end sequence (with special winning animation etc.)
     }
   else if (!end_sequence && tux->is_dead())
     {
       player_status.bonus = PlayerStatus::NO_BONUS;
-      player_status.lives -= 1;             
 
       if (player_status.lives < 0)
         { // No more lives!?
