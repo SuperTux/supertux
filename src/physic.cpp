@@ -44,6 +44,18 @@ Physic::reset()
 }
 
 void
+Physic::set_velocity_x(float nvx)
+{
+  vx = -nvx;
+}
+
+void
+Physic::set_velocity_y(float nvy)
+{
+  vy = -nvy;
+}
+
+void
 Physic::set_velocity(float nvx, float nvy)
 {
     vx = nvx;

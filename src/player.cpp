@@ -206,7 +206,7 @@ Player::action(double frame_ratio)
           if(under_solid())
             {
               // fall down
-              physic.set_velocity(physic.get_velocity_x(), 0);
+              physic.set_velocity_y(0);
               jumped_in_solid = true;
             }
         }
@@ -216,7 +216,7 @@ Player::action(double frame_ratio)
           if (physic.get_velocity_y() < 0)
             {
               base.y = (int)(((int)base.y / 32) * 32);
-              physic.set_velocity(physic.get_velocity_x(), 0);
+              physic.set_velocity_y(0);
             }
 
           physic.enable_gravity(false);
@@ -410,7 +410,11 @@ Player::handle_vertical_input()
       if (on_ground())
         {
           // jump
-          physic.set_velocity(physic.get_velocity_x(), 5.5);
+          if (physic.get_velocity_x() > MAX_WALK_XM)
+            physic.set_velocity_y(5.8);
+          else
+            physic.set_velocity_y(5.2);
+
           --base.y;
           jumping = true;
           if (size == SMALL)
@@ -423,7 +427,7 @@ Player::handle_vertical_input()
     {
       jumping = false;
       if(physic.get_velocity_y() > 0) {
-        physic.set_velocity(physic.get_velocity_x(), 0);
+        physic.set_velocity_y(0);
       }
     }
 }

@@ -36,6 +36,9 @@ public:
     /** sets velocity to a fixed value */
     void set_velocity(float vx, float vy);
 
+    void set_velocity_x(float vx);
+    void set_velocity_y(float vy);
+
     /** velocities invertion */
     void inverse_velocity_x();
     void inverse_velocity_y();

@@ -75,8 +75,8 @@ enum DyingType {
 
 #define GRAVITY 1.0
 #define YM_FOR_JUMP 6.0
-#define WALK_ACCELERATION_X 0.02
-#define RUN_ACCELERATION_X 0.03
+#define WALK_ACCELERATION_X 0.03
+#define RUN_ACCELERATION_X 0.04
 #define KILL_BOUNCE_YM 8.0
 
 #define SKID_XM 2.0
