@@ -970,7 +970,7 @@ BadGuy::draw(DrawingContext& context)
     return;
 
   if(dying == DYING_FALLING && physic.get_velocity_y() < 0)
-    sprite->draw(context, Vector(base.x, base.y), LAYER_OBJECTS, VERTICAL_FLIP);
+    sprite->draw(context, Vector(base.x, base.y), LAYER_FOREGROUNDTILES+1, VERTICAL_FLIP);
   else
     sprite->draw(context, Vector(base.x, base.y), LAYER_OBJECTS);
 
