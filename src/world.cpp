@@ -97,7 +97,7 @@ World::activate_bad_guys()
        i != level->badguy_data.end();
        ++i)
     {
-      add_bad_guy(i->x, i->y, i->kind);
+      add_bad_guy(i->x, i->y, i->kind, i->stay_on_platform);
     }
 }
 
@@ -380,12 +380,12 @@ World::add_bouncy_brick(float x, float y)
 }
 
 void
-World::add_bad_guy(float x, float y, BadGuyKind kind)
+World::add_bad_guy(float x, float y, BadGuyKind kind, bool stay_on_platform)
 {
   bad_guys.push_back(BadGuy());
   BadGuy& new_bad_guy = bad_guys.back();
   
-  new_bad_guy.init(x,y,kind);
+  new_bad_guy.init(x,y,kind, stay_on_platform);
 }
 
 void

@@ -144,7 +144,7 @@ std::string badguykind_to_string(BadGuyKind kind)
 }
 
 void
-BadGuy::init(float x, float y, BadGuyKind kind_)
+BadGuy::init(float x, float y, BadGuyKind kind_, bool stay_on_platform_)
 {
   base.x   = x;
   base.y   = y;    
@@ -153,7 +153,7 @@ BadGuy::init(float x, float y, BadGuyKind kind_)
   base.xm  = 0;
   base.ym  = 0;
 
-  stay_on_platform = false;
+  stay_on_platform = stay_on_platform_;
   mode     = NORMAL;
   dying    = DYING_NOT;
   kind     = kind_;

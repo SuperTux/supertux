@@ -124,7 +124,7 @@ private:
   float animation_speed;
 
 public:
-  void init(float x, float y, BadGuyKind kind);
+  void init(float x, float y, BadGuyKind kind, bool stay_on_platform);
 
   void action(float frame_ratio);
   void draw();

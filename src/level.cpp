@@ -358,6 +358,7 @@ Level::load(const std::string& filename)
                 LispReader reader(lisp_cdr(data));
                 reader.read_int("x", &bg_data.x);
                 reader.read_int("y", &bg_data.y);
+                reader.read_bool("stay-on-platform", &bg_data.stay_on_platform);
 
                 badguy_data.push_back(bg_data);
 
@@ -572,7 +573,9 @@ Level::save(const  char * subset, int level)
   for(std::vector<BadGuyData>::iterator it = badguy_data.begin();
       it != badguy_data.end();
       ++it)
-    fprintf( fi,"(%s (x %d) (y %d))\n",badguykind_to_string((*it).kind).c_str(),(*it).x,(*it).y);
+    fprintf( fi,"(%s (x %d) (y %d) (stay-on-platform %s))\n",
+             badguykind_to_string((*it).kind).c_str(),(*it).x,(*it).y,
+             it->stay_on_platform ? "#t" : "#f");
 
   fprintf( fi,")\n");
 
