@@ -264,31 +264,32 @@ void menu_draw_item(menu_type* pmenu,
                     int menu_width, 
                     int menu_height)
 {
+  int font_width  = 16;
+
   const menu_item_type& pitem =  pmenu->item[index];
 
-  int arrange = 0;
+  int x_pos = 0;
   if(pmenu->arrange_left == YES)
-    arrange = ((menu_width - 48) + (16 * (strlen(pitem.text) 
-                                          + strlen(pitem.input)
-                                          + strlen(string_list_active(pitem.list)))))/2;
-  
-  int f = 0;
+    x_pos = 24 - menu_width/2
+      + (font_width * (strlen(pitem.text) 
+               + strlen(pitem.input)
+               + strlen(string_list_active(pitem.list))))/2;
+      
+  int effect_offset = 0;
   {
     int effect_time = 0;
     if(timer_check(&pmenu->effect))
       effect_time = timer_get_left(&pmenu->effect) / 4;
 
-    f = (index % 2) ? effect_time : -effect_time;
+    effect_offset = (index % 2) ? effect_time : -effect_time;
   }
 
-  int x_pos = screen->w/2 - menu_width/2;
-  int y_pos = index * 24 - menu_height/2;
+  int raw_y_pos  = 24*index - menu_height/2; 
+  int top        = raw_y_pos + effect_offset;
+  int bottom     = top + 10; // bottom of the menu item 
 
-  int start_x    = screen->w/2 + arrange;
-  int center_y   = screen->h /2;
-
-  int cen_y      = center_y + y_pos;
-  int cen_y_10_f = 10 + f + cen_y;
+  int start_x    = screen->w/2 + x_pos;
+  int cen_y_10_f = screen->h/2 + bottom;
 
   int shadow_size = 2;
   text_type* text_font = &white_text;
@@ -303,18 +304,20 @@ void menu_draw_item(menu_type* pmenu,
     case MN_DEACTIVE:
       {
         text_drawf(&black_text, pitem.text, 
-                   arrange, y_pos + 10 + f,
+                   x_pos, bottom,
                    A_HMIDDLE, A_VMIDDLE, 2);
         break;
       }
 
     case MN_HL:
       {
+        int x = screen->w/2 - menu_width/2; 
+        int y = screen->h/2 + raw_y_pos;
         /* Draw a horizontal line with a little 3d effect */
-        fillrect(x_pos, cen_y + 6,
+        fillrect(x, y + 6,
                  menu_width, 4,
                  210,50,50,225);
-        fillrect(x_pos, 10 + cen_y + 6, 
+        fillrect(x, y + 10 + 6, 
                  menu_width, 2,
                  0,0,0,255);
         break;
@@ -322,37 +325,37 @@ void menu_draw_item(menu_type* pmenu,
     case MN_LABEL:
       {
         text_drawf(&white_big_text, pitem.text, 
-                   arrange, y_pos + 10,
+                   x_pos, bottom,
                    A_HMIDDLE, A_VMIDDLE, 2);
         break;
       }
     case MN_TEXTFIELD:
     case MN_NUMFIELD:
       {
-        int input_pos = ((strlen(pitem.input)*16)/2);
-        int text_pos  = ((strlen(pitem.text) + 1)*16)/2;
+        int input_pos = (strlen(pitem.input)*font_width)/2;
+        int text_pos  = (strlen(pitem.text)+1)*font_width/2;
 
         fillrect(start_x - input_pos + text_pos - 1, cen_y_10_f - 10,
-                 (strlen(pitem.input)+1)*16 + 2, 20,
+                 (strlen(pitem.input)+1)*font_width + 2, 20,
                  255,255,255,255);
         fillrect(start_x - input_pos + text_pos, cen_y_10_f - 9,
-                 (strlen(pitem.input)+1)*16, 18,
+                 (strlen(pitem.input)+1)*font_width, 18,
                  0,0,0,128);
 
         text_drawf(&gold_text, pitem.input,
-                   arrange + text_pos, 10 + f + y_pos, 
+                   x_pos + text_pos, bottom, 
                    A_HMIDDLE, A_VMIDDLE, 2);
 
         text_drawf(text_font, pitem.text, 
-                   arrange - (((strlen(pitem.input)+1) * 16)/2), y_pos + 10 + f,
+                   x_pos - (((strlen(pitem.input)+1) * font_width)/2), bottom,
                    A_HMIDDLE, A_VMIDDLE, shadow_size);
         break;
       }
     case MN_STRINGSELECT:
       {
-        int list_pos_2 = (strlen(string_list_active(pitem.list))+1)*16;
-        int list_pos   = (strlen(string_list_active(pitem.list))*16)/2;
-        int text_pos   = ((strlen(pitem.text) + 1)*16)/2;
+        int list_pos_2 = (strlen(string_list_active(pitem.list))+1)*font_width;
+        int list_pos   = (strlen(string_list_active(pitem.list))*font_width)/2;
+        int text_pos   = ((strlen(pitem.text) + 1)*font_width)/2;
 
         /* Draw arrows */
         texture_draw(&arrow_left,  start_x - list_pos + text_pos - 17, cen_y_10_f - 8);
@@ -367,26 +370,26 @@ void menu_draw_item(menu_type* pmenu,
                  0,0,0,128);
 
         text_drawf(&gold_text, string_list_active(pitem.list), 
-                   arrange + text_pos, 10 + f + y_pos,
+                   x_pos + text_pos, bottom,
                    A_HMIDDLE, A_VMIDDLE,2);
 
         text_drawf(text_font, pitem.text,
-                   arrange - list_pos_2/2, 10 + f + y_pos,
+                   x_pos - list_pos_2/2, bottom,
                    A_HMIDDLE, A_VMIDDLE, shadow_size);
         break;
       }
     case MN_BACK:
       {
-        texture_draw(&back, start_x + (strlen(pitem.text) * 16)/2  + 16, cen_y_10_f - 8);
+        texture_draw(&back, start_x + (strlen(pitem.text) * font_width)/2  + font_width, cen_y_10_f - 8);
         break;
       }
 
     case MN_TOGGLE:
       {
         if(pitem.toggled == YES)
-          texture_draw(&checkbox_checked, start_x + (strlen(pitem.text) * 16)/2 + 16, cen_y_10_f - 8);
+          texture_draw(&checkbox_checked, start_x + (strlen(pitem.text) * font_width)/2 + font_width, cen_y_10_f - 8);
         else
-          texture_draw(&checkbox, start_x + (strlen(pitem.text) * 16)/2 + 16, cen_y_10_f - 8);
+          texture_draw(&checkbox, start_x + (strlen(pitem.text) * font_width)/2 + font_width, cen_y_10_f - 8);
         break;
       }
     case MN_ACTION:
@@ -402,7 +405,7 @@ void menu_draw_item(menu_type* pmenu,
     case MN_GOTO:
     case MN_TOGGLE:
     case MN_BACK:
-      text_drawf(text_font, pitem.text, arrange, 10 + f + y_pos, A_HMIDDLE, A_VMIDDLE, shadow_size);
+      text_drawf(text_font, pitem.text, x_pos, bottom, A_HMIDDLE, A_VMIDDLE, shadow_size);
       break;
     case MN_DEACTIVE:
     case MN_TEXTFIELD:
@@ -434,7 +437,7 @@ void menu_draw(menu_type* pmenu)
         }
     }
 
-  menu_width = menu_width * 16 + 48;
+  menu_width  = menu_width * 16 + 48;
   menu_height = (pmenu->num_items) * 24;
 
   int center_x = screen->w/2;

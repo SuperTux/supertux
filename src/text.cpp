@@ -115,7 +115,43 @@ void text_draw_chars(text_type* ptext, texture_type* pchars,const  char* text, i
     }
 }
 
-void text_drawf(text_type* ptext,const  char* text, int x, int y, int halign, int valign, int shadowsize, int update)
+void text_draw_align(text_type* ptext, const char* text, int x, int y,
+                     TextHAlign halign, TextVAlign valign, int shadowsize, int update)
+{
+  if(text != NULL)
+    {
+      switch (halign)
+        {
+        case A_RIGHT:
+          x += -(strlen(text)*ptext->w);
+          break;
+        case A_HMIDDLE:
+          x += -((strlen(text)*ptext->w)/2);
+          break;
+        case A_LEFT:
+          // default
+          break;
+        }
+
+      switch (valign)
+        {
+        case A_BOTTOM:
+          y -= ptext->h;
+          break;
+          
+        case A_VMIDDLE:
+          y -= ptext->h/2;
+
+        case A_TOP:
+          // default
+          break;
+        }
+
+      text_draw(ptext,text,x,y,shadowsize,update);
+    }
+}
+
+void text_drawf(text_type* ptext,const  char* text, int x, int y, TextHAlign halign, TextVAlign valign, int shadowsize, int update)
 {
   if(text != NULL)
     {

@@ -801,7 +801,7 @@ void le_drawinterface()
       button_panel_draw(&le_bad_panel);
 
       sprintf(str, "%d/%d", le_level,le_level_subset.levels);
-      text_drawf(&white_text, str, -8, 16, A_RIGHT, A_NONE, 1, NO_UPDATE);
+      text_drawf(&white_text, str, -8, 16, A_RIGHT, A_TOP, 1, NO_UPDATE);
 
       text_draw(&white_small_text, "F1 for Help", 10, 430, 1, NO_UPDATE);
     }
