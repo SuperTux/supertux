@@ -196,16 +196,11 @@ World::draw()
       (*p)->draw(scroll_x, 0, 0);
     }
 
-fprintf(stderr, "level->height: %i\n", level->height);
-fprintf(stderr, "scroll_x: %i\n", scroll_x);
-fprintf(stderr, "scroll_y: %i\n", scroll_y);
   /* Draw background: */
   for (y = 0; y < VISIBLE_TILES_Y && y < level->height; ++y)
     {
-fprintf(stderr, "drawing row: %i\n", y);
       for (x = 0; x < VISIBLE_TILES_X; ++x)
         {
-fprintf(stderr, "x: %i\n", x);
           Tile::draw(32*x - fmodf(scroll_x, 32), y * 32 - fmodf(scroll_y, 32),
                      level->bg_tiles[(int)y + (int)(scroll_y / 32)][(int)x + (int)(scroll_x / 32)]);
         }
@@ -340,8 +335,14 @@ void World::scrolling(double frame_ratio)
   // this code prevent the screen to scroll before the start or after the level's end
   if(scroll_y < 0)
     scroll_y = 0;
-  if(scroll_y > level->height * 32 - screen->h)
+  else if(scroll_y > level->height * 32 - screen->h)
     scroll_y = level->height * 32 - screen->h;
+
+  if (scroll_y < 0)
+  {
+    std::cerr << "Level too short!!" << std::endl;
+    scroll_y = 0;
+  }
 
   /* X-axis scrolling */
 
@@ -384,8 +385,6 @@ void World::scrolling(double frame_ratio)
     scroll_x +=   (final_scroll_x - scroll_x)
                 / (frame_ratio * (CHANGE_DIR_SCROLL_SPEED / 100))
                 + (tux.physic.get_velocity_x() * frame_ratio + tux.physic.get_acceleration_x() * frame_ratio * frame_ratio);
-    // std::cerr << tux_pos_x << " " << final_scroll_x << " " << scroll_x << std::endl;
-
   }
   else
   {
@@ -398,7 +397,7 @@ void World::scrolling(double frame_ratio)
   // this code prevent the screen to scroll before the start or after the level's end
   if(scroll_x < 0)
     scroll_x = 0;
-  if(scroll_x > level->width * 32 - screen->w)
+  else if(scroll_x > level->width * 32 - screen->w)
     scroll_x = level->width * 32 - screen->w;
 }
 
