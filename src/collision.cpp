@@ -33,10 +33,8 @@ bool rectcollision_offset(base_type* one, base_type* two, float off_x, float off
 
 bool collision_object_map(base_type* pbase)
 {
-  int v,h,i;
-
-  v = (int)pbase->height / 16;
-  h = (int)pbase->width / 16;
+  int v = (int)pbase->height / 16;
+  int h = (int)pbase->width / 16;
 
   if(issolid(pbase->x + 1, pbase->y + 1) ||
       issolid(pbase->x + pbase->width -1, pbase->y + 1) ||
@@ -44,24 +42,24 @@ bool collision_object_map(base_type* pbase)
       issolid(pbase->x + pbase->width -1, pbase->y + pbase->height - 1))
     return true;
 
-  for(i = 1; i < h; ++i)
+  for(int i = 1; i < h; ++i)
     {
       if(issolid(pbase->x + i*16,pbase->y + 1))
         return true;
     }
 
-  for(i = 1; i < h; ++i)
+  for(int i = 1; i < h; ++i)
     {
       if(  issolid(pbase->x + i*16,pbase->y + pbase->height - 1))
         return true;
     }
 
-  for(i = 1; i < v; ++i)
+  for(int i = 1; i < v; ++i)
     {
       if(  issolid(pbase->x + 1, pbase->y + i*16))
         return true;
     }
-  for(i = 1; i < v; ++i)
+  for(int i = 1; i < v; ++i)
     {
       if(  issolid(pbase->x + pbase->width - 1, pbase->y + i*16))
         return true;
@@ -75,7 +73,6 @@ void collision_swept_object_map(base_type* old, base_type* current)
 {
   int steps; /* Used to speed up the collision tests, by stepping every 16pixels in the path. */
   int h;
-  float i;
   float lpath; /* Holds the longest path, which is either in X or Y direction. */
   float xd,yd; /* Hold the smallest steps in X and Y directions. */
   float temp, xt, yt; /* Temporary variable. */
@@ -138,7 +135,7 @@ void collision_swept_object_map(base_type* old, base_type* current)
   old->x += xd;
   old->y += yd;
 
-  for(i = 0; i <= lpath; old->x += xd, old->y += yd, ++i)
+  for(float i = 0; i <= lpath; old->x += xd, old->y += yd, ++i)
     {
       if(steps > 0)
         {
@@ -206,18 +203,17 @@ void collision_swept_object_map(base_type* old, base_type* current)
 
 void collision_handler()
 {
-  unsigned int i,j;
-
-  /* CO_BULLET & CO_BADGUY check */
-  for(i = 0; i < bullets.size(); ++i)
+  // CO_BULLET & CO_BADGUY check
+  for(unsigned int i = 0; i < bullets.size(); ++i)
     {
-      for(j = 0; j < bad_guys.size(); ++j)
+      for(unsigned int j = 0; j < bad_guys.size(); ++j)
         {
           if(bad_guys[j].dying == DYING_NOT)
             {
               if(rectcollision(&bullets[i].base,&bad_guys[j].base))
                 {
-                  /* We have detected a collision and now call the collision functions of the collided objects. */
+                  // We have detected a collision and now call the
+                  // collision functions of the collided objects.
                   bullet_collision(&bullets[i], CO_BADGUY);
                   bad_guys[j].collision(&bullets[i], CO_BULLET);
                 }
@@ -226,17 +222,18 @@ void collision_handler()
     }
 
   /* CO_BADGUY & CO_BADGUY check */
-  for(i = 0; i < bad_guys.size(); ++i)
+  for(unsigned int i = 0; i < bad_guys.size(); ++i)
     {
       if(bad_guys[i].dying == DYING_NOT)
         {
-          for(j = i+1; j < bad_guys.size(); ++j)
+          for(unsigned int j = i+1; j < bad_guys.size(); ++j)
             {
               if(j != i && !bad_guys[j].dying)
                 {
                   if(rectcollision(&bad_guys[i].base, &bad_guys[j].base))
                     {
-                      /* We have detected a collision and now call the collision functions of the collided objects. */
+                      // We have detected a collision and now call the
+                      // collision functions of the collided objects.
                       bad_guys[j].collision(&bad_guys[i], CO_BADGUY);
                       bad_guys[i].collision(&bad_guys[j], CO_BADGUY);
                     }
@@ -245,14 +242,13 @@ void collision_handler()
         }
     }
 
-
-
-  /* CO_BADGUY & CO_PLAYER check */
-  for(i = 0; i < bad_guys.size(); ++i)
+  // CO_BADGUY & CO_PLAYER check 
+  for(unsigned int i = 0; i < bad_guys.size(); ++i)
     {
       if(bad_guys[i].dying == DYING_NOT && rectcollision_offset(&bad_guys[i].base,&tux.base,0,0))
         {
-          /* We have detected a collision and now call the collision functions of the collided objects. */
+          // We have detected a collision and now call the collision
+          // functions of the collided objects.
           if (tux.previous_base.y < tux.base.y &&
               tux.previous_base.y + tux.previous_base.height < bad_guys[i].base.y + bad_guys[i].base.height/2 &&
               bad_guys[i].kind != BAD_MONEY && bad_guys[i].mode != HELD)
@@ -266,12 +262,13 @@ void collision_handler()
         }
     }
 
-  /* CO_UPGRADE & CO_PLAYER check */
-  for(i = 0; i < upgrades.size(); ++i)
+  // CO_UPGRADE & CO_PLAYER check
+  for(unsigned int i = 0; i < upgrades.size(); ++i)
     {
       if(rectcollision(&upgrades[i].base,&tux.base))
         {
-          /* We have detected a collision and now call the collision functions of the collided objects. */
+          // We have detected a collision and now call the collision
+          // functions of the collided objects.
           upgrade_collision(&upgrades[i], &tux, CO_PLAYER);
         }
     }

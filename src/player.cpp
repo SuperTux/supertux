@@ -242,13 +242,13 @@ Player::action()
           if(size == SMALL)
             {
               Tile* tile  = gettile(base.x, base.y);
-              Tile* tile2 = gettile(base.x + 31, base.y);
               /* Get a distro from a brick? */
               if (tile->brick)
                 {
                   add_bouncy_distro((((int)base.x)
                                      / 32) * 32,
                                     ((int)base.y / 32) * 32);
+                  
                   if (counting_distros == false)
                     {
                       counting_distros = true;
@@ -262,7 +262,11 @@ Player::action()
                   score = score + SCORE_DISTRO;
                   distros++;
                 }
-              else if (tile2->brick)
+            }
+          else 
+            {
+              Tile* tile2 = gettile(base.x + 31, base.y);
+              if (tile2->brick)
               {
                   add_bouncy_distro((((int)base.x + 31)
                                      / 32) * 32,
