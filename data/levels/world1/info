@@ -1,0 +1,4 @@
+;SuperTux-Level-Subset
+(supertux-level-subset
+  (title "Antarctic Island")
+  (description "World 1"))
