@@ -42,6 +42,7 @@ Text* black_text;
 Text* gold_text;
 Text* blue_text;
 Text* red_text;
+Text* green_text;
 Text* yellow_nums;
 Text* white_text;
 Text* white_small_text;

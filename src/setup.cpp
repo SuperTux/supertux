@@ -585,6 +585,7 @@ void st_general_setup(void)
   gold_text   = new Text(datadir + "/images/status/letters-gold.png", TEXT_TEXT, 16,18);
   blue_text   = new Text(datadir + "/images/status/letters-blue.png", TEXT_TEXT, 16,18);
   red_text    = new Text(datadir + "/images/status/letters-red.png", TEXT_TEXT, 16,18);
+  green_text  = new Text(datadir + "/images/status/letters-green.png", TEXT_TEXT, 16,18);
   white_text  = new Text(datadir + "/images/status/letters-white.png", TEXT_TEXT, 16,18);
   white_small_text = new Text(datadir + "/images/status/letters-white-small.png", TEXT_TEXT, 8,9);
   white_big_text   = new Text(datadir + "/images/status/letters-white-big.png", TEXT_TEXT, 20,23);
@@ -611,6 +612,7 @@ void st_general_free(void)
   delete white_text;
   delete blue_text;
   delete red_text;
+  delete green_text;
   delete white_small_text;
   delete white_big_text;
   delete yellow_nums;
