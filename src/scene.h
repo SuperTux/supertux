@@ -23,8 +23,12 @@ struct PlayerStatus
 {
   int  score;
   int  distros;
+  int  lives;
+
   int  next_level;
   int  score_multiplier;
+
+  PlayerStatus();
 };
 
 extern PlayerStatus player_status;

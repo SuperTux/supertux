@@ -94,9 +94,6 @@ class Player
 {
  public:
   player_keymap_type keymap;
-  int lives;
-  int score;
-  int distros;
 
   player_input_type  input;
   bool got_coffee;

@@ -132,6 +132,7 @@ private:
     int x;
     int y;
     std::string name;
+    bool solved;
   };
 
   typedef std::vector<Level> Levels;
@@ -143,6 +144,8 @@ private:
   bool enter_level;
 
   Point offset;
+
+  void draw_status();
 public:
   WorldMap();
   ~WorldMap();
@@ -166,6 +169,8 @@ public:
   /** Check if it is possible to walk from \a pos into \a direction,
       if possible, write the new position to \a new_pos */
   bool path_ok(Direction direction, Point pos, Point* new_pos);
+
+  void savegame(const std::string& filename);
 };
 
 } // namespace WorldMapNS

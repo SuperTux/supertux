@@ -15,6 +15,13 @@
 
 PlayerStatus player_status;
 
+PlayerStatus::PlayerStatus()
+  : score(0),
+    distros(0),
+    lives(3)
+{
+}
+
 // FIXME: Move this into a view class
 float scroll_x;
 

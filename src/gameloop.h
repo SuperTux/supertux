@@ -69,9 +69,6 @@ class GameSession
   Level* get_level() { return world->get_level(); }
   World* get_world() { return world; }
 
-  void  savegame(int slot);
-  void  loadgame(int slot);
-
   static GameSession* current() { return current_; }
  private:
   static GameSession* current_;

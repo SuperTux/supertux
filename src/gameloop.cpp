@@ -117,9 +117,6 @@ GameSession::GameSession(const std::string& subset_, int levelnb_, int mode)
 
   time_left.init(true);
   start_timers();
-
-  if(st_gl_mode == ST_GL_LOAD_GAME)
-    loadgame(levelnb);
 }
 
 GameSession::~GameSession()
@@ -130,8 +127,6 @@ GameSession::~GameSession()
 void
 GameSession::levelintro(void)
 {
-  Player& tux = *world->get_tux();
-
   char str[60];
   /* Level Intro: */
   clearscreen(0, 0, 0);
@@ -145,7 +140,7 @@ GameSession::levelintro(void)
   sprintf(str, "by %s", world->get_level()->author.c_str());
   red_text->drawf(str, 0, 256, A_HMIDDLE, A_TOP, 1);
   
-  sprintf(str, "TUX x %d", tux.lives);
+  sprintf(str, "TUX x %d", player_status.lives);
   white_text->drawf(str, 0, 288, A_HMIDDLE, A_TOP, 1);
 
   flipscreen();
@@ -267,7 +262,7 @@ GameSession::process_events()
                 break;
               case SDLK_l:
                 if(debug_mode)
-                  --tux.lives;
+                  --player_status.lives;
                 break;
               case SDLK_s:
                 if(debug_mode)
@@ -375,7 +370,7 @@ GameSession::action(double frame_ratio)
 
           /* No more lives!? */
 
-          if (tux.lives < 0)
+          if (player_status.lives < 0)
             {
               if(st_gl_mode != ST_GL_TEST)
                 drawendscreen();
@@ -538,10 +533,6 @@ GameSession::run()
             {
               process_options_menu();
             }
-          else if(current_menu == save_game_menu )
-            {
-              process_save_game_menu();
-            }
           else if(current_menu == load_game_menu )
             {
               process_load_game_menu();
@@ -658,7 +649,6 @@ void bumpbrick(float x, float y)
 void
 GameSession::drawstatus()
 {
-  Player& tux = *world->get_tux();
   char str[60];
 
   sprintf(str, "%d", player_status.score);
@@ -696,7 +686,7 @@ GameSession::drawstatus()
       gold_text->draw(str, screen->h + 60, 40, 1);
     }
 
-  for(int i= 0; i < tux.lives; ++i)
+  for(int i= 0; i < player_status.lives; ++i)
     {
       tux_life->draw(565+(18*i),20);
     }
@@ -714,7 +704,7 @@ GameSession::drawendscreen()
   sprintf(str, "SCORE: %d", player_status.score);
   gold_text->drawf(str, 0, 224, A_HMIDDLE, A_TOP, 1);
 
-  sprintf(str, "DISTROS: %d", player_status.distros);
+  sprintf(str, "COINS: %d", player_status.distros);
   gold_text->drawf(str, 0, 256, A_HMIDDLE, A_TOP, 1);
 
   flipscreen();
@@ -742,100 +732,6 @@ GameSession::drawresultscreen(void)
   
   SDL_Event event;
   wait_for_event(event,2000,5000,true);
-}
-
-void
-GameSession::savegame(int)
-{
-#if 0
-  char savefile[1024];
-  FILE* fi;
-  unsigned int ui;
-
-  sprintf(savefile,"%s/slot%d.save",st_save_dir,slot);
-
-  fi = fopen(savefile, "wb");
-
-  if (fi == NULL)
-    {
-      fprintf(stderr, "Warning: I could not open the slot file ");
-    }
-  else
-    {
-      fputs(level_subset, fi);
-      fputs("\n", fi);
-      fwrite(&level,sizeof(int),1,fi);
-      fwrite(&score,sizeof(int),1,fi);
-      fwrite(&distros,sizeof(int),1,fi);
-      fwrite(&scroll_x,sizeof(float),1,fi);
-      //FIXME:fwrite(&tux,sizeof(Player),1,fi);
-      //FIXME:timer_fwrite(&tux.invincible_timer,fi);
-      //FIXME:timer_fwrite(&tux.skidding_timer,fi);
-      //FIXME:timer_fwrite(&tux.safe_timer,fi);
-      //FIXME:timer_fwrite(&tux.frame_timer,fi);
-      timer_fwrite(&time_left,fi);
-      ui = st_get_ticks();
-      fwrite(&ui,sizeof(int),1,fi);
-    }
-  fclose(fi);
-#endif 
-}
-
-void
-GameSession::loadgame(int)
-{
-#if 0
-  char savefile[1024];
-  char str[100];
-  FILE* fi;
-  unsigned int ui;
-
-  sprintf(savefile,"%s/slot%d.save",st_save_dir,slot);
-
-  fi = fopen(savefile, "rb");
-
-  if (fi == NULL)
-    {
-      fprintf(stderr, "Warning: I could not open the slot file ");
-
-    }
-  else
-    {
-      fgets(str, 100, fi);
-      strcpy(level_subset, str);
-      level_subset[strlen(level_subset)-1] = '\0';
-      fread(&level,sizeof(int),1,fi);
-
-      world->set_defaults();
-      world->get_level()->cleanup();
-      world->arrays_free();
-      world->get_level()->free_gfx();
-      world->get_level()->free_song();
-
-      if(world->get_level()->load(level_subset,level) != 0)
-        exit(1);
-
-      world->activate_bad_guys();
-      world->activate_particle_systems();
-      world->get_level()->load_gfx();
-      world->get_level()->load_song();
-
-      levelintro();
-      update_time = st_get_ticks();
-
-      fread(&score,   sizeof(int),1,fi);
-      fread(&distros, sizeof(int),1,fi);
-      fread(&scroll_x,sizeof(float),1,fi);
-      //FIXME:fread(&tux,     sizeof(Player), 1, fi);
-      //FIXME:timer_fread(&tux.invincible_timer,fi);
-      //FIXME:timer_fread(&tux.skidding_timer,fi);
-      //FIXME:timer_fread(&tux.safe_timer,fi);
-      //FIXME:timer_fread(&tux.frame_timer,fi);
-      timer_fread(&time_left,fi);
-      fread(&ui,sizeof(int),1,fi);
-      fclose(fi);
-    }
-#endif 
 }
 
 std::string slotinfo(int slot)

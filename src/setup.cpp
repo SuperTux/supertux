@@ -40,6 +40,7 @@
 #include "gameloop.h"
 #include "configfile.h"
 #include "scene.h"
+#include "worldmap.h"
 
 #ifdef WIN32
 #define mkdir(dir, mode)    mkdir(dir)
@@ -455,13 +456,6 @@ void update_load_save_game_menu(Menu* pmenu, int load)
     }
 }
 
-void process_save_game_menu()
-{
-  int slot = save_game_menu->check();
-  if (slot != -1)
-    GameSession::current()->savegame(slot - 1);
-}
-
 bool process_load_game_menu()
 {
   int slot = load_game_menu->check();
@@ -474,30 +468,14 @@ bool process_load_game_menu()
 
       if (tmp.length() == strlen("Slot X - Free"))
         { // Slot is free, so start a new game
-          GameSession session("default", 1, ST_GL_PLAY);
-          session.run();
-
+          worldmap_run();
+          
           show_menu = true;
           Menu::set_current(main_menu);
         }
       else
         { 
           puts("Warning: Loading games isn't supported at the moment");
-#if 0
-          // Slot contains a level, so load it
-          if (game_started)
-            {
-              GameSession session("default",slot - 1,ST_GL_LOAD_GAME);
-              session.run();
-
-              show_menu = true;
-              Menu::set_current(main_menu);
-            }
-          else
-            {
-              //loadgame(slot - 1);
-            }
-#endif
         }
       st_pause_ticks_stop();
       return true;

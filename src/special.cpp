@@ -307,8 +307,8 @@ Upgrade::collision(void* p_c_object, int c_object)
         }
       else if (kind == UPGRADE_1UP)
         {
-          if(pplayer->lives < MAX_LIVES) {
-            pplayer->lives++;
+          if(player_status.lives < MAX_LIVES) {
+            player_status.lives++;
             play_sound(sounds[SND_LIFEUP], SOUND_CENTER_SPEAKER);
           }
         }

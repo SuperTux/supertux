@@ -18,6 +18,7 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <iostream>
+#include <fstream>
 #include <vector>
 #include <assert.h>
 #include "globals.h"
@@ -270,6 +271,7 @@ WorldMap::load_map()
                     {
                       Level level;
                       LispReader reader(lisp_cdr(element));
+                      level.solved = false;
                       reader.read_string("name",  &level.name);
                       reader.read_int("x", &level.x);
                       reader.read_int("y", &level.y);
@@ -438,10 +440,17 @@ WorldMap::update()
             {
               std::cout << "Enter the current level: " << i->name << std::endl;;
               halt_music();
-              GameSession session(datadir +  "levels/default/" + i->name,
+              GameSession session(datadir +  "levels/" + i->name,
                                   1, ST_GL_LOAD_LEVEL_FILE);
               session.run();
+
+              if (1) // FIXME: insert exit status checker here
+                i->solved = true;
+
               play_music(song, 1);
+              show_menu = 0;
+              menu_reset();
+              savegame(std::string(st_save_dir) + "/slot1.stsg");
               return;
             }
         }
@@ -499,11 +508,54 @@ WorldMap::draw(const Point& offset)
     }
 
   tux->draw(offset);
+  draw_status();
+}
+
+void
+WorldMap::draw_status()
+{
+  char str[80];
+  sprintf(str, "%d", player_status.score);
+  white_text->draw("SCORE", 0, 0);
+  gold_text->draw(str, 96, 0);
+
+  sprintf(str, "%d", player_status.distros);
+  white_text->draw_align("COINS", 320-64, 0,  A_LEFT, A_TOP);
+  gold_text->draw_align(str, 320+64, 0, A_RIGHT, A_TOP);
+
+  white_text->draw("LIVES", 480, 0);
+  if (player_status.lives >= 5)
+    {
+      sprintf(str, "%dx", player_status.lives);
+      gold_text->draw(str, 585, 0);
+      tux_life->draw(565+(18*3), 0);
+    }
+  else
+    {
+      for(int i= 0; i < player_status.lives; ++i)
+        tux_life->draw(565+(18*i),0);
+    }
+
+  if (!tux->is_moving())
+    {
+      for(Levels::iterator i = levels.begin(); i != levels.end(); ++i)
+        {
+          if (i->x == tux->get_tile_pos().x && 
+              i->y == tux->get_tile_pos().y)
+            {
+              white_text->draw_align(i->name.c_str(), screen->w/2, screen->h,  A_HMIDDLE, A_BOTTOM);
+              break;
+            }
+        }
+    }
 }
 
 void
 WorldMap::display()
 {
+  show_menu = 0;
+  menu_reset();
+
   quit = false;
 
   song = load_song(datadir +  "/music/" + music);
@@ -534,6 +586,32 @@ WorldMap::display()
   }
 
   free_music(song);
+}
+
+void
+WorldMap::savegame(const std::string& filename)
+{
+  std::ofstream out(filename.c_str());
+
+  out << "(supertux-savegame\n"
+      << "  (version 1)\n"
+      << "  (lives   " << player_status.lives << ")\n"
+      << "  (score   " << player_status.score << ")\n"
+      << "  (distros " << player_status.distros << ")\n"
+      << "  (tux     (x " << tux->get_tile_pos().x << ") (y " << tux->get_tile_pos().y << ")\n"
+      << "  (levels\n";
+  
+  for(Levels::iterator i = levels.begin(); i != levels.end(); ++i)
+    {
+      if (i->solved)
+        {
+          out << "     (level (name \"" << i->name << "\")\n"
+              << "            (solved #t))\n";
+        }
+    }  
+
+  out << "   )\n"
+      << " )\n\n;; EOF ;;" << std::endl;
 }
 
 } // namespace WorldMapNS

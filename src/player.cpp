@@ -83,10 +83,7 @@ Player::init()
 
   frame_main = 0;
   frame_ = 0;
-  lives = 3;
-  score = 0;
-  distros = 0;
-
+  
   player_input_init(&input);
 
   keymap.jump  = SDLK_UP;
@@ -504,11 +501,11 @@ Player::grabdistros()
     }
 
   /* Enough distros for a One-up? */
-  if (distros >= DISTROS_LIFEUP)
+  if (player_status.distros >= DISTROS_LIFEUP)
     {
-      distros = distros - DISTROS_LIFEUP;
-      if(lives < MAX_LIVES)
-        lives++;
+      player_status.distros = player_status.distros - DISTROS_LIFEUP;
+      if(player_status.lives < MAX_LIVES)
+        ++player_status.lives;
       /*We want to hear the sound even, if MAX_LIVES is reached*/
       play_sound(sounds[SND_LIFEUP], SOUND_CENTER_SPEAKER);
     }
@@ -723,9 +720,6 @@ Player::draw()
         }
     }
 
-  if(dying)
-    gold_text->drawf("Penguins can fly !:",0,0,A_HMIDDLE,A_VMIDDLE,1);
-
   if (debug_mode)
     fillrect(base.x - scroll_x, base.y, 32, 32, 75,75,75, 150);
 }
@@ -830,7 +824,7 @@ Player::is_dying()
 {
   /* He died :^( */
 
-  --lives;
+  --player_status.lives;
   remove_powerups();
   dying = DYING_NOT;
 }
