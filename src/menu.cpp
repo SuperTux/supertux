@@ -619,7 +619,7 @@ Menu::event(SDL_Event& event)
 
       if(item[active_item].kind == MN_CONTROLFIELD)
         {
-        *item[active_item].int_p = event.key.keysym.unicode;
+        *item[active_item].int_p = event.key.keysym.sym;
         if(ch[0] != '\0')
           strcpy(item[active_item].input, ch);
         else
