@@ -105,8 +105,7 @@ private:
   Timer timer;  
 };
 
-#define TRAMPOLINE_FRAMES 4
-extern Sprite *img_trampoline[TRAMPOLINE_FRAMES];
+extern Sprite *img_trampoline;
 
 class Trampoline : public MovingObject, public Serializable
 {

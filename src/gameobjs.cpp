@@ -137,7 +137,7 @@ FloatingScore::draw(DrawingContext& context)
 
 /* Trampoline */
 
-Sprite *img_trampoline[TRAMPOLINE_FRAMES];
+Sprite *img_trampoline;
 
 Trampoline::Trampoline(LispReader& reader)
 {
@@ -181,7 +181,8 @@ Trampoline::write(LispWriter& writer)
 void
 Trampoline::draw(DrawingContext& context)
 {
-  img_trampoline[frame]->draw(context, base, LAYER_OBJECTS);
+  img_trampoline->set_frame(frame);
+  img_trampoline->draw(context, base, LAYER_OBJECTS);
   frame = 0;
 }
 
@@ -438,15 +439,7 @@ SmokeCloud::draw(DrawingContext& context)
 
 void load_object_gfx()
 {
-  char sprite_name[16];
-
-  for (int i = 0; i < TRAMPOLINE_FRAMES; i++)
-  {
-    sprintf(sprite_name, "trampoline-%i", i+1);
-    img_trampoline[i] = sprite_manager->load(sprite_name);
-  }
-
+  img_trampoline = sprite_manager->load("trampoline");
   img_flying_platform = sprite_manager->load("flying_platform");
-
   img_smoke_cloud = sprite_manager->load("stomp");
 }
