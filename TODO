@@ -11,9 +11,9 @@ Todo
 H: high priority
 L: low priority
 
-[H] Scrolling is broken, should show at leats 3/4 of the screen to
-   Tuxs right, so that the player has a reasonably chance to see
-   enemies early on, currenty one can only not even a half screen ahead
+[M] When aborting a level, lives and score should remain the same as they
+    were before. Solution: make more dependency between the game engine and worldmap
+    or just backup those variables before starting a level.
 [L] change lispreader to throw exceptions instead of simply assert() on
     syntax error
 [L] tux sometimes makes short jumps in the endsequence, mostly when
