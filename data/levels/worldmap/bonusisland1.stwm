@@ -1,5 +1,7 @@
 ;; Generated with Flexlay Editor
 (supertux-worldmap
+  (properties 
+    (name  "Bonus Island"))
   (tilemap 
     (width  70)
     (height 40)
