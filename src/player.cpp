@@ -421,10 +421,10 @@ Player::handle_vertical_input()
 
    /* Do butt jump, in case the player has done the combination
         (full jump and hold DOWN) */
-  if (input.down == UP && physic.get_velocity_y() < 0 && butt_jump)
+  if (input.down == UP && physic.get_velocity_y() == World::current()->get_level()->gravity && butt_jump)
     butt_jump = false;  // in case DOWN is not hold after the full jump, disable it
   
-  if (butt_jump && on_ground() && size == BIG)
+  if (input.down == DOWN && butt_jump && on_ground() && size == BIG)
   {
     if(World::current()->trybreakbrick(base.x, base.y + base.height, false)
       || World::current()->trybreakbrick(
