@@ -365,6 +365,11 @@ GameSession::process_events()
                       case SDLK_p:
                         if(!Menu::current())
                           {
+                          // "lifeup" cheat activates pause cause of the 'p'
+                          // so work around to ignore it
+                            if(compare_last(last_keys, "lifeu"))
+                              break;
+
                             if(game_pause)
                               {
                                 game_pause = false;
@@ -414,18 +419,6 @@ GameSession::process_events()
                           {
                           player_status.lives++;
                           last_keys.clear();
-                          // "lifeup" activates pause cause of the 'p'
-                          // so work around to ignore it
-                            if(game_pause)
-                              {
-                                game_pause = false;
-                                Ticks::pause_stop();
-                              }
-                            else
-                              {
-                                game_pause = true;
-                                Ticks::pause_start();
-                              }
                           }
                         if(compare_last(last_keys, "lifedown"))
                           {
@@ -437,19 +430,26 @@ GameSession::process_events()
                           tux.invincible_timer.start(time_left.get_left());
                           last_keys.clear();
                           }
-								if(compare_last(last_keys, "shrink"))
+                        if(compare_last(last_keys, "shrink"))
                           {    // remove powerups
                           tux.kill(tux.SHRINK);
                           last_keys.clear();
                           }
-								if(compare_last(last_keys, "kill"))
+                        if(compare_last(last_keys, "kill"))
                           {    // kill Tux
                           tux.kill(tux.KILL);
                           last_keys.clear();
                           }
-								if(compare_last(last_keys, "hover"))
+                        if(compare_last(last_keys, "hover"))
                           {    // toggle hover ability on/off
                           tux.enable_hover = !tux.enable_hover;
+                          last_keys.clear();
+                          }
+                        if(compare_last(last_keys, "gotoend"))
+                          {    // goes to the end of the level
+                          tux.base.x = (currentsector->solids->get_width()*32) - (screen->w*2);
+                          tux.base.y = 0;
+                          currentsector->camera->reset(Vector(tux.base.x, tux.base.y));
                           last_keys.clear();
                           }
                   break;
