@@ -6,6 +6,13 @@ http://www.newbreedsoftware.com/supertux/
 
 0.0.5 - December 19th, 2003 - ???
 ---------------------------
+  * Fixed FIXME (sound when 100 distros are reached).
+    And set the maximum lives to 4.
+    Tobias Glaesser <tobi.web@gmx.de>
+
+  * New images for the shared folder.
+    Duong-Khang NGUYEN <neoneurone@users.sf.net>
+
   * command-line option "--disable-sound" and "--help" now work
     Duong-Khang NGUYEN <neoneurone@users.sf.net>
     
@@ -39,7 +46,7 @@ http://www.newbreedsoftware.com/supertux/
     Tobias Glaesser <tobi.web@gmx.de>
 
   * Fixed up Makefile
-
+    Tobias Glaesser <tobi.web@gmx.de>
 
 0.0.4 - July 15, 2002
 ---------------------

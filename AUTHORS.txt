@@ -28,6 +28,12 @@ CREDITS
 
                       Titlescreen Composed by Eric Windisch <raptor@bwbohh.net>
 
+		      Images for a level
+		      Tobias Glaesser <tobi.web@gmx.de>
+		      
+		      Improved images for the shared folder
+		      Duong-Khang NGUYEN <neoneurone@users.sf.net>
+		      
   Concept:            Gown (Tux's Girlfriend) from
                       "Tux: A Quest For Herring"
                       by Steve Baker <sjbaker1@airmail.net>
