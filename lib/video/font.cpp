@@ -74,15 +74,16 @@ float
 Font::get_text_width(const std::string& text) const
 {
   /** Let's calculate the size of the biggest paragraph */
-  std::string::size_type l, hl;
+  std::string::size_type l, hl, ol;
   hl = 0; l = 0;
   while(true)
     {
+    ol = l;
     l = text.find("\n", l+1);
     if(l == std::string::npos)
       break;
-    if(hl < l)
-      hl = l;
+    if(hl < l-ol)
+      hl = l-ol;
     }
   if(hl == 0)
     hl = text.size();
@@ -99,7 +100,7 @@ Font::get_text_height(const std::string& text) const
   while(true)
     {
     l = text.find("\n", l+1);
-    if(l == (int)std::string::npos)
+    if(l == std::string::npos)
       break;
     hh += h + 2;
     }
@@ -116,31 +117,33 @@ Font::get_height() const
 void
 Font::draw(const std::string& text, const Vector& pos_, int allignment, Uint32 drawing_effect, int alpha)
 {
-  // calculate X positions based on the allignment type
-  Vector pos = Vector(pos_);
-  if(allignment == CENTER_ALLIGN)
-    pos.x -= get_text_width(text) / 2;
-  else if(allignment == RIGHT_ALLIGN)
-    pos.x -= get_text_width(text);
-
   /* Cut lines changes into seperate strings, needed to support center/right text
      allignments with break lines.
      Feel free to replace this hack with a more elegant solution
   */
   char temp[1024];
   std::string::size_type l, i, y;
+  bool done = false;
   i = y = 0;
 
-  while(true)
+  while(!done)
     {
     l = text.find("\n", i);
     if(l == std::string::npos)
       {
-      temp[text.copy(temp, text.size() - i, i)] = '\0';
-      draw_text(temp, pos + Vector(0,y), drawing_effect, alpha);
-      break;
+      l = text.size();
+      done = true;
       }
+
     temp[text.copy(temp, l - i, i)] = '\0';
+
+    // calculate X positions based on the allignment type
+    Vector pos = Vector(pos_);
+    if(allignment == CENTER_ALLIGN)
+      pos.x -= get_text_width(temp) / 2;
+    else if(allignment == RIGHT_ALLIGN)
+      pos.x -= get_text_width(temp);
+
     draw_text(temp, pos + Vector(0,y), drawing_effect, alpha);
 
     i = l+1;
