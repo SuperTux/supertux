@@ -34,7 +34,7 @@ TileManager* TileManager::instance_  = 0;
 
 TileManager::TileManager()
 {
-  std::string stwt_filename = datadir +  "images/worldmap/antarctica.scm";
+  std::string stwt_filename = datadir +  "images/worldmap/antarctica.stwt";
   lisp_object_t* root_obj = lisp_read_from_file(stwt_filename);
  
   if (!root_obj)
