@@ -7,6 +7,7 @@ desktop_DATA = supertux.desktop
 EXTRA_DIST = \
   intro.txt \
   extro.txt \
+  extro-bonus.txt \
   CREDITS \
   images/supertux.strf \
   $(wildcard sounds/*.wav) \
