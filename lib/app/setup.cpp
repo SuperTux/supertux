@@ -60,11 +60,6 @@ using namespace SuperTux;
 #define DATA_PREFIX "./data/"
 #endif
 
-/* Screen proprities: */
-/* Don't use this to test for the actual screen sizes. Use screen->w/h instead! */
-#define SCREEN_W 800
-#define SCREEN_H 600
-
 /* Local function prototypes: */
 
 void seticon(void);
@@ -297,6 +292,13 @@ void SuperTux::free_strings(char **strings, int num)
     free(strings[i]);
 }
 
+void SuperTux::st_info_setup(const std::string& _package_name, const std::string& _package_symbol_name, const std::string& _package_version)
+{
+package_name = _package_name;
+package_symbol_name = _package_symbol_name;
+package_version = _package_version;
+}
+
 /* --- SETUP --- */
 /* Set SuperTux configuration and save directories */
 void SuperTux::st_directory_setup(void)
@@ -310,10 +312,11 @@ void SuperTux::st_directory_setup(void)
   else
     home = ".";
 
+  std::string st_dir_tmp = "/." + package_symbol_name;
   st_dir = (char *) malloc(sizeof(char) * (strlen(home) +
-                                           strlen("/.supertux") + 1));
+                                           strlen(st_dir_tmp.c_str()) + 1));
   strcpy(st_dir, home);
-  strcat(st_dir, "/.supertux");
+  strcat(st_dir,st_dir_tmp.c_str());
 
   /* Remove .supertux config-file from old SuperTux versions */
   if(faccessible(st_dir))
@@ -352,7 +355,7 @@ void SuperTux::st_directory_setup(void)
           datadir = exedir + "../data"; // SuperTux run from source dir
           if (access(datadir.c_str(), F_OK) != 0)
             {
-              datadir = exedir + "../share/supertux"; // SuperTux run from PATH
+              datadir = exedir + "../share/" + package_symbol_name; // SuperTux run from PATH
               if (access(datadir.c_str(), F_OK) != 0) 
                 { // If all fails, fall back to compiled path
                   datadir = DATA_PREFIX; 
@@ -431,7 +434,7 @@ void SuperTux::st_general_free(void)
   
 }
 
-void SuperTux::st_video_setup(void)
+void SuperTux::st_video_setup(unsigned int screen_w, unsigned int screen_h)
 {
   /* Init SDL Video: */
   if (SDL_Init(SDL_INIT_VIDEO) < 0)
@@ -445,21 +448,21 @@ void SuperTux::st_video_setup(void)
 
   /* Open display: */
   if(use_gl)
-    st_video_setup_gl();
+    st_video_setup_gl(screen_w, screen_h);
   else
-    st_video_setup_sdl();
+    st_video_setup_sdl(screen_w, screen_h);
 
   Surface::reload_all();
 
   /* Set window manager stuff: */
-  SDL_WM_SetCaption("SuperTux " VERSION, "SuperTux");
+  SDL_WM_SetCaption((package_name + " " + package_version).c_str(), package_name.c_str());
 }
 
-void SuperTux::st_video_setup_sdl(void)
+void SuperTux::st_video_setup_sdl(unsigned int screen_w, unsigned int screen_h)
 {
   if (use_fullscreen)
     {
-      screen = SDL_SetVideoMode(SCREEN_W, SCREEN_H, 0, SDL_FULLSCREEN ) ; /* | SDL_HWSURFACE); */
+      screen = SDL_SetVideoMode(screen_w, screen_h, 0, SDL_FULLSCREEN ) ; /* | SDL_HWSURFACE); */
       if (screen == NULL)
         {
           fprintf(stderr,
@@ -472,7 +475,7 @@ void SuperTux::st_video_setup_sdl(void)
     }
   else
     {
-      screen = SDL_SetVideoMode(SCREEN_W, SCREEN_H, 0, SDL_HWSURFACE | SDL_DOUBLEBUF );
+      screen = SDL_SetVideoMode(screen_w, screen_h, 0, SDL_HWSURFACE | SDL_DOUBLEBUF );
 
       if (screen == NULL)
         {
@@ -485,7 +488,7 @@ void SuperTux::st_video_setup_sdl(void)
     }
 }
 
-void SuperTux::st_video_setup_gl(void)
+void SuperTux::st_video_setup_gl(unsigned int screen_w, unsigned int screen_h)
 {
 #ifndef NOOPENGL
 
@@ -497,7 +500,7 @@ void SuperTux::st_video_setup_gl(void)
 
   if (use_fullscreen)
     {
-      screen = SDL_SetVideoMode(SCREEN_W, SCREEN_H, 0, SDL_FULLSCREEN | SDL_OPENGL) ; /* | SDL_HWSURFACE); */
+      screen = SDL_SetVideoMode(screen_w, screen_h, 0, SDL_FULLSCREEN | SDL_OPENGL) ; /* | SDL_HWSURFACE); */
       if (screen == NULL)
         {
           fprintf(stderr,
@@ -510,7 +513,7 @@ void SuperTux::st_video_setup_gl(void)
     }
   else
     {
-      screen = SDL_SetVideoMode(SCREEN_W, SCREEN_H, 0, SDL_OPENGL);
+      screen = SDL_SetVideoMode(screen_w, screen_h, 0, SDL_OPENGL);
 
       if (screen == NULL)
         {
@@ -687,13 +690,13 @@ void seticon(void)
 
   /* Load icon into a surface: */
 
-  icon = IMG_Load((datadir + "/images/supertux.xpm").c_str());
+  icon = IMG_Load((datadir + "/images/" + package_symbol_name + ".xpm").c_str());
   if (icon == NULL)
     {
       fprintf(stderr,
               "\nError: I could not load the icon image: %s%s\n"
               "The Simple DirectMedia error that occured was:\n"
-              "%s\n\n", datadir.c_str(), "/images/supertux.xpm", SDL_GetError());
+              "%s\n\n", datadir.c_str(), ("/images/" + package_symbol_name + ".xpm").c_str(), SDL_GetError());
       exit(1);
     }
 
@@ -809,7 +812,7 @@ void SuperTux::parseargs(int argc, char * argv[])
       else if (strcmp(argv[i], "--version") == 0)
         {
           /* Show version: */
-          printf("SuperTux " VERSION "\n");
+          printf((package_name + package_version + "\n").c_str() );
           exit(0);
         }
       else if (strcmp(argv[i], "--disable-sound") == 0)

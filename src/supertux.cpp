@@ -51,12 +51,14 @@ int main(int argc, char * argv[])
     bindtextdomain(PACKAGE, LOCALEDIR);
     textdomain(PACKAGE);
     bind_textdomain_codeset(PACKAGE, "ISO-8859-1");
-      
+    
+    st_info_setup(PACKAGE_NAME,PACKAGE,PACKAGE_VERSION);  
+    
     st_directory_setup();
     parseargs(argc, argv);
 
     st_audio_setup();
-    st_video_setup();
+    st_video_setup(SCREEN_W,SCREEN_H);
     st_joystick_setup();
     st_general_setup();
     st_menu();

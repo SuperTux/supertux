@@ -46,7 +46,7 @@ void process_options_menu(void)
       if(use_gl != options_menu->isToggled(MNID_OPENGL))
         {
           use_gl = !use_gl;
-          st_video_setup();
+          st_video_setup(screen->w,screen->h);
         }
 #else
       options_menu->get_item_by_id(MNID_OPENGL).toggled = false;
@@ -56,7 +56,7 @@ void process_options_menu(void)
       if(use_fullscreen != options_menu->isToggled(MNID_FULLSCREEN))
         {
           use_fullscreen = !use_fullscreen;
-          st_video_setup();
+          st_video_setup(screen->w,screen->h);
         }
       break;
     case MNID_SOUND:

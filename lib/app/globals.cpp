@@ -24,7 +24,10 @@ namespace SuperTux {
 
 /** The datadir prefix prepended when loading game data file */
 std::string datadir;
-
+std::string package_symbol_name;
+std::string package_name;
+std::string package_version;
+  
 JoystickKeymap::JoystickKeymap()
 {
   a_button     = 0;

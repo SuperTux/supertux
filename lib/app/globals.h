@@ -34,6 +34,9 @@ namespace SuperTux
   {
 
   extern std::string datadir;
+  extern std::string package_symbol_name;
+  extern std::string package_name;
+  extern std::string package_version;
 
   struct JoystickKeymap
     {
@@ -77,7 +80,7 @@ namespace SuperTux
   /* SuperTux directory ($HOME/.supertux) and save directory($HOME/.supertux/save) */
   extern char* st_dir;
   extern char* st_save_dir;
-
+  
   extern float game_speed;
   extern SDL_Joystick * js;
 
