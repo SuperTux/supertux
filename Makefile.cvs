@@ -51,7 +51,7 @@ SDL_LDFLAGS := $(shell sdl-config --libs)
 GL_LIB =  -L/usr/X11R6/lib -lGL
 installbin = install -g $(USERNAME) -o $(USERNAME) -m 755 
 installdat = install -g $(USERNAME) -o $(USERNAME) -m 644
-CC = gcc
+CC = g++
 
 OBJECTS=obj/supertux.o obj/setup.o obj/intro.o obj/title.o obj/scene.o obj/collision.o obj/bitmask.o obj/type.o \
 	obj/timer.o obj/text.o obj/texture.o obj/badguy.o obj/special.o  obj/world.o obj/player.o obj/level.o obj/gameloop.o \
@@ -103,80 +103,80 @@ $(TARGET):	$(OBJECTS)
 
 # Objects:
 
-obj/supertux.o:	src/supertux.c
-	$(CC) $(CFLAGS) src/supertux.c -c -o obj/supertux.o
+obj/supertux.o:	src/supertux.cpp
+	$(CC) $(CFLAGS) src/supertux.cpp -c -o obj/supertux.o
 
-obj/setup.o:	src/setup.c
-	$(CC) $(CFLAGS) src/setup.c -c -o obj/setup.o
+obj/setup.o:	src/setup.cpp
+	$(CC) $(CFLAGS) src/setup.cpp -c -o obj/setup.o
 
-obj/intro.o:	src/intro.c
-	$(CC) $(CFLAGS) src/intro.c -c -o obj/intro.o
+obj/intro.o:	src/intro.cpp
+	$(CC) $(CFLAGS) src/intro.cpp -c -o obj/intro.o
 
-obj/title.o:	src/title.c
-	$(CC) $(CFLAGS) src/title.c -c -o obj/title.o
+obj/title.o:	src/title.cpp
+	$(CC) $(CFLAGS) src/title.cpp -c -o obj/title.o
 
-obj/level.o:	src/level.c
-	$(CC) $(CFLAGS) src/level.c -c -o obj/level.o
+obj/level.o:	src/level.cpp
+	$(CC) $(CFLAGS) src/level.cpp -c -o obj/level.o
 
-obj/scene.o:	src/scene.c
-	$(CC) $(CFLAGS) src/scene.c -c -o obj/scene.o
+obj/scene.o:	src/scene.cpp
+	$(CC) $(CFLAGS) src/scene.cpp -c -o obj/scene.o
 	
-obj/collision.o:	src/collision.c
-	$(CC) $(CFLAGS) src/collision.c -c -o obj/collision.o
+obj/collision.o:	src/collision.cpp
+	$(CC) $(CFLAGS) src/collision.cpp -c -o obj/collision.o
 	
-obj/bitmask.o:	src/bitmask.c
-	$(CC) $(CFLAGS) src/bitmask.c -c -o obj/bitmask.o
+obj/bitmask.o:	src/bitmask.cpp
+	$(CC) $(CFLAGS) src/bitmask.cpp -c -o obj/bitmask.o
 		
-obj/type.o:	src/type.c
-	$(CC) $(CFLAGS) src/type.c -c -o obj/type.o
+obj/type.o:	src/type.cpp
+	$(CC) $(CFLAGS) src/type.cpp -c -o obj/type.o
 	
-obj/timer.o:	src/timer.c
-	$(CC) $(CFLAGS) src/timer.c -c -o obj/timer.o
+obj/timer.o:	src/timer.cpp
+	$(CC) $(CFLAGS) src/timer.cpp -c -o obj/timer.o
 	
-obj/texture.o:	src/texture.c
-	$(CC) $(CFLAGS) src/texture.c -c -o obj/texture.o
+obj/texture.o:	src/texture.cpp
+	$(CC) $(CFLAGS) src/texture.cpp -c -o obj/texture.o
 
-obj/text.o:	src/text.c
-	$(CC) $(CFLAGS) src/text.c -c -o obj/text.o
+obj/text.o:	src/text.cpp
+	$(CC) $(CFLAGS) src/text.cpp -c -o obj/text.o
 	
-obj/badguy.o:	src/badguy.c
-	$(CC) $(CFLAGS) src/badguy.c -c -o obj/badguy.o
+obj/badguy.o:	src/badguy.cpp
+	$(CC) $(CFLAGS) src/badguy.cpp -c -o obj/badguy.o
 
-obj/special.o:	src/special.c
-	$(CC) $(CFLAGS) src/special.c -c -o obj/special.o
+obj/special.o:	src/special.cpp
+	$(CC) $(CFLAGS) src/special.cpp -c -o obj/special.o
 
-obj/world.o:	src/world.c
-	$(CC) $(CFLAGS) src/world.c -c -o obj/world.o
+obj/world.o:	src/world.cpp
+	$(CC) $(CFLAGS) src/world.cpp -c -o obj/world.o
 		
-obj/player.o:	src/player.c
-	$(CC) $(CFLAGS) src/player.c -c -o obj/player.o
+obj/player.o:	src/player.cpp
+	$(CC) $(CFLAGS) src/player.cpp -c -o obj/player.o
 	
-obj/gameloop.o:	src/gameloop.c
-	$(CC) $(CFLAGS) src/gameloop.c -c -o obj/gameloop.o
+obj/gameloop.o:	src/gameloop.cpp
+	$(CC) $(CFLAGS) src/gameloop.cpp -c -o obj/gameloop.o
 
-obj/screen.o:	src/screen.c
-	$(CC) $(CFLAGS) src/screen.c -c -o obj/screen.o
+obj/screen.o:	src/screen.cpp
+	$(CC) $(CFLAGS) src/screen.cpp -c -o obj/screen.o
 
-obj/sound.o:	src/sound.c
-	$(CC) $(CFLAGS) src/sound.c -c -o obj/sound.o
+obj/sound.o:	src/sound.cpp
+	$(CC) $(CFLAGS) src/sound.cpp -c -o obj/sound.o
 
-obj/high_scores.o:   src/high_scores.c
-	$(CC) $(CFLAGS) src/high_scores.c -c -o obj/high_scores.o
+obj/high_scores.o:   src/high_scores.cpp
+	$(CC) $(CFLAGS) src/high_scores.cpp -c -o obj/high_scores.o
 
-obj/menu.o:	src/menu.c
-	$(CC) $(CFLAGS) src/menu.c -c -o obj/menu.o
+obj/menu.o:	src/menu.cpp
+	$(CC) $(CFLAGS) src/menu.cpp -c -o obj/menu.o
 
-obj/leveleditor.o:	src/leveleditor.c
-	$(CC) $(CFLAGS) src/leveleditor.c -c -o obj/leveleditor.o
+obj/leveleditor.o:	src/leveleditor.cpp
+	$(CC) $(CFLAGS) src/leveleditor.cpp -c -o obj/leveleditor.o
 
-obj/lispreader.o:	src/lispreader.c
-	$(CC) $(CFLAGS) src/lispreader.c -c -o obj/lispreader.o
+obj/lispreader.o:	src/lispreader.cpp
+	$(CC) $(CFLAGS) src/lispreader.cpp -c -o obj/lispreader.o
 
-obj/globals.o:	src/globals.c
-	$(CC) $(CFLAGS) src/globals.c -c -o obj/globals.o
+obj/globals.o:	src/globals.cpp
+	$(CC) $(CFLAGS) src/globals.cpp -c -o obj/globals.o
 	
-obj/button.o:	src/button.c
-	$(CC) $(CFLAGS) src/button.c -c -o obj/button.o
+obj/button.o:	src/button.cpp
+	$(CC) $(CFLAGS) src/button.cpp -c -o obj/button.o
 
-obj/physic.o:	src/physic.c
-	$(CC) $(CFLAGS) src/physic.c -c -o obj/physic.o
+obj/physic.o:	src/physic.cpp
+	$(CC) $(CFLAGS) src/physic.cpp -c -o obj/physic.o
