@@ -178,6 +178,8 @@ GameSession::start_timers()
 void
 GameSession::on_escape_press()
 {
+  if(world->get_tux()->dying)
+    return;   // don't let the player open the menu, when he is dying
   if(game_pause)
     return;
 
@@ -466,9 +468,6 @@ GameSession::check_end_conditions()
 
       if (player_status.lives < 0)
         { // No more lives!?
-          if(st_gl_mode != ST_GL_TEST)
-            drawendscreen();
-          
           exit_status = ES_GAME_OVER;
         }
       else
@@ -713,30 +712,6 @@ GameSession::drawstatus()
       white_text->draw("FPS", screen->w - white_text->w*9, 40, 1);
       gold_text->draw_align(str, screen->w, 40, A_RIGHT, A_TOP);
     }
-}
-
-void
-GameSession::drawendscreen()
-{
-  char str[80];
-
-  if (get_level()->img_bkgd)
-    get_level()->draw_bg();
-  else
-    drawgradient(get_level()->bkgd_top, get_level()->bkgd_bottom);
-
-  blue_text->drawf("GAMEOVER", 0, 200, A_HMIDDLE, A_TOP, 1);
-
-  sprintf(str, "SCORE: %d", player_status.score);
-  gold_text->drawf(str, 0, 224, A_HMIDDLE, A_TOP, 1);
-
-  sprintf(str, "COINS: %d", player_status.distros);
-  gold_text->drawf(str, 0, screen->w - gold_text->w*2, A_HMIDDLE, A_TOP, 1);
-
-  flipscreen();
-  
-  SDL_Event event;
-  wait_for_event(event,2000,5000,true);
 }
 
 void

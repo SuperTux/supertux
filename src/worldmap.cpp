@@ -706,6 +706,27 @@ WorldMap::update(float delta)
                   // is to hard)
                   break;
                 case GameSession::ES_GAME_OVER:
+                  /* draw an end screen */
+                  /* in the future, this should make a dialog a la SuperMario, asking
+                  if the player wants to restart the world map with no score and from
+                  level 1 */
+                  char str[80];
+
+                  drawgradient(Color (0, 255, 0), Color (255, 0, 255));
+
+                  blue_text->drawf("GAMEOVER", 0, 200, A_HMIDDLE, A_TOP, 1);
+
+                  sprintf(str, "SCORE: %d", player_status.score);
+                  gold_text->drawf(str, 0, 224, A_HMIDDLE, A_TOP, 1);
+
+                  sprintf(str, "COINS: %d", player_status.distros);
+                  gold_text->drawf(str, 0, screen->w - gold_text->w*2, A_HMIDDLE, A_TOP, 1);
+
+                  flipscreen();
+  
+                  SDL_Event event;
+                  wait_for_event(event,2000,5000,true);
+
                   quit = true;
                   player_status.reset();
                   break;
