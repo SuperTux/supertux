@@ -336,12 +336,12 @@ Player::action(float elapsed_time)
           /* Reset score multiplier (for multi-hits): */
           if (!invincible_timer.started())
             {
-            if(player_status.score_multiplier > 2)
+            /*if(player_status.score_multiplier > 2)
               {  // show a message
               char str[124];
               sprintf(str, _("%d bad guys in a row!"), player_status.score_multiplier-1);
               Sector::current()->add_floating_text(base, str);
-              }
+              }*/
             player_status.score_multiplier = 1;
             }
         }
@@ -1169,7 +1169,19 @@ Player::bounce(BadGuy* badguy)
   //Make sure we stopped flapping
   flapping = false;
   falling_from_flap = false;
-
+  
+  if(player_status.score_multiplier > 1)
+  {  // show a message
+    char str[124];
+      if (player_status.score_multiplier <= 4) {sprintf(str, _("Combo x%d"), player_status.score_multiplier);}
+      else if (player_status.score_multiplier == 5) {sprintf(str, _("Good! x%d"), player_status.score_multiplier);}
+      else if (player_status.score_multiplier == 6) {sprintf(str, _("Great! x%d"), player_status.score_multiplier);}
+      else if (player_status.score_multiplier == 7) {sprintf(str, _("Awesome! x%d"), player_status.score_multiplier);}
+      else if (player_status.score_multiplier == 8) {sprintf(str, _("Incredible! x%d"), player_status.score_multiplier);}
+      else if (player_status.score_multiplier == 9) {sprintf(str, _("Godlike! ;-) x%d"), player_status.score_multiplier);}
+      else {sprintf(str, _("Unbelievable!! x%d"), player_status.score_multiplier);}
+    Sector::current()->add_floating_text(base, str);
+  }
   if (input.up)
     physic.set_velocity_y(5.2);
   else
