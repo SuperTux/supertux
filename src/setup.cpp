@@ -360,6 +360,7 @@ void st_menu(void)
   game_menu      = new Menu();
   highscore_menu = new Menu();
   contrib_menu   = new Menu();
+  contrib_subset_menu   = new Menu();
 
   main_menu->set_pos(screen->w/2, 335);
   main_menu->additem(MN_GOTO, "Start Game",0,load_game_menu);
@@ -368,14 +369,6 @@ void st_menu(void)
   main_menu->additem(MN_ACTION,"Level editor",0,0);
   main_menu->additem(MN_ACTION,"Credits",0,0);
   main_menu->additem(MN_ACTION,"Quit",0,0);
-
-  contrib_menu->additem(MN_LABEL,"Contrib Levels",0,0);
-  contrib_menu->additem(MN_HL,"",0,0);
-  contrib_menu->additem(MN_ACTION, "Some Levelset", 0, 0);
-  contrib_menu->additem(MN_ACTION, "Someother Levelset", 0, 0);
-  contrib_menu->additem(MN_ACTION, "Yet another Levelset", 0, 0);
-  contrib_menu->additem(MN_HL,"",0,0);
-  contrib_menu->additem(MN_BACK,"Back",0,0);
 
   options_menu->additem(MN_LABEL,"Options",0,0);
   options_menu->additem(MN_HL,"",0,0);

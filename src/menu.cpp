@@ -44,6 +44,7 @@ Menu* highscore_menu = 0;
 Menu* load_game_menu = 0;
 Menu* save_game_menu = 0;
 Menu* contrib_menu   = 0;
+Menu* contrib_subset_menu   = 0;
 
 Menu* current_menu = 0;
 
@@ -70,7 +71,7 @@ Menu::set_current(Menu* pmenu)
 
 /* Return a pointer to a new menu item */
 MenuItem*
-MenuItem::create(MenuItemKind kind_, char *text_, int init_toggle_, Menu* target_menu_)
+MenuItem::create(MenuItemKind kind_, const char *text_, int init_toggle_, Menu* target_menu_)
 {
   MenuItem *pnew_item = new MenuItem;
   
@@ -151,9 +152,9 @@ void Menu::set_pos(int x, int y, float rw, float rh)
 }
 
 void
-Menu::additem(MenuItemKind kind_, char *text_, int toggle_, Menu* menu_)
+Menu::additem(MenuItemKind kind_, const std::string& text_, int toggle_, Menu* menu_)
 {
-  additem(MenuItem::create(kind_, text_, toggle_, menu_));
+  additem(MenuItem::create(kind_, text_.c_str(), toggle_, menu_));
 }
 
 /* Add an item to a menu */
@@ -162,6 +163,12 @@ Menu::additem(MenuItem* pmenu_item)
 {
   item.push_back(*pmenu_item);
   delete pmenu_item;
+}
+
+void
+Menu::clear()
+{
+  item.clear();
 }
 
 /* Process actions done on the menu */
@@ -333,6 +340,7 @@ Menu::draw_item(int index, // Position of the current item in the menu
   int effect_offset = 0;
   {
     int effect_time = 0;
+
     if(effect.check())
       effect_time = effect.get_left() / 4;
 

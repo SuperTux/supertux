@@ -10,6 +10,7 @@
   April 11, 2000 - March 15, 2004
 */
 
+#include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -55,6 +56,94 @@ static unsigned int last_update_time;
 static unsigned int update_time;
 
 void display_credits();
+
+std::vector<st_subset> contrib_subsets;
+std::string current_contrib_subset;
+
+void update_contrib_menu()
+{
+  // FIXME: Hack to update only once
+  static bool up_to_date = false;
+
+  if (!up_to_date)
+    {
+      string_list_type level_subsets = dsubdirs("/levels", "info");
+
+      contrib_menu->clear();
+      contrib_menu->additem(MN_LABEL,"Contrib Levels",0,0);
+      contrib_menu->additem(MN_HL,"",0,0);
+
+      for (int i = 0; i < level_subsets.num_items; ++i)
+        {
+          st_subset subset;
+          subset.load(level_subsets.item[0]);
+          contrib_menu->additem(MN_GOTO, subset.title.c_str(), 0, contrib_subset_menu);
+          contrib_subsets.push_back(subset);
+        }
+
+      contrib_menu->additem(MN_HL,"",0,0);
+      contrib_menu->additem(MN_BACK,"Back",0,0);
+
+      string_list_free(&level_subsets);
+      up_to_date = true;
+    }
+}
+
+void check_contrib_menu()
+{
+  static int current_subset = -1;
+
+  int index = contrib_menu->check();
+  if (index != -1)
+    {
+      index -= 2; // FIXME: Hack
+      if (index >= 0 && index <= int(contrib_subsets.size()))
+        {
+          if (current_subset != index)
+            {
+              current_subset = index;
+              // FIXME: This shouln't be busy looping
+              st_subset& subset = contrib_subsets[index];
+          
+              current_contrib_subset = subset.name;
+
+              std::cout << "Updating the contrib subset menu..." << subset.levels << std::endl;
+      
+              contrib_subset_menu->clear();
+
+              contrib_subset_menu->additem(MN_LABEL, subset.title, 0,0);
+              contrib_subset_menu->additem(MN_HL,"",0,0);
+              for (int i = 1; i <= subset.levels; ++i)
+                {
+                  Level level;
+                  level.load(subset.name, i);
+                  contrib_subset_menu->additem(MN_ACTION, level.name, 0, 0);
+                }
+              contrib_subset_menu->additem(MN_HL,"",0,0);      
+              contrib_subset_menu->additem(MN_BACK, "Back", 0, 0);
+            }
+        }
+      else
+        {
+          // Back button
+        }
+    }
+}
+
+void check_contrib_subset_menu()
+{
+  int index = contrib_subset_menu->check();
+  if (index != -1)
+    {
+      index -= 1; // FIXME: Hack
+      std::cout << "Sarting level: " << index << std::endl;
+      GameSession session(current_contrib_subset, index, ST_GL_PLAY);
+      session.run();
+      menu_reset();
+      Menu::set_current(main_menu);
+      show_menu = 1;
+    }  
+}
 
 void draw_background()
 {
@@ -129,16 +218,12 @@ void draw_demo(GameSession* session, double frame_ratio)
     walking = false;
 
   tux->draw();
-
-  /* DEMO end */
 }
 
 /* --- TITLE SCREEN --- */
 bool title(void)
 {
-  string_list_type level_subsets;
   st_subset subset;
-  level_subsets = dsubdirs("/levels", "info");
   random_timer.init(true);
 
   walking = true;
@@ -241,6 +326,9 @@ bool title(void)
             {
 #if 0
             case 0:
+              string_list_type level_subsets;
+              level_subsets = dsubdirs("/levels", "info");
+
               // Quick Play
               // FIXME: obsolete
               done = 0;
@@ -324,6 +412,7 @@ bool title(void)
               break;
             case 1:
               // Contrib Menu
+              update_contrib_menu();
               break;
             case 3:
               done = true;
@@ -357,7 +446,11 @@ bool title(void)
         }
       else if(current_menu == contrib_menu)
         {
-          
+          check_contrib_menu();
+        }
+      else if (current_menu == contrib_subset_menu)
+        {
+          check_contrib_subset_menu();
         }
 
       mouse_cursor->draw();
@@ -377,8 +470,7 @@ bool title(void)
 
   texture_free(&bkg_title);
   texture_free(&logo);
-  string_list_free(&level_subsets);
-
+  
   /* Return to main! */
   return done;
 }

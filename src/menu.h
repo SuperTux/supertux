@@ -50,7 +50,7 @@ public:
   void change_text (const char *text);
   void change_input(const char *text);
 
-  static MenuItem* create(MenuItemKind kind, char *text, int init_toggle, Menu* target_menu);
+  static MenuItem* create(MenuItemKind kind, const char *text, int init_toggle, Menu* target_menu);
 };
 
 class Menu
@@ -76,8 +76,11 @@ public:
   ~Menu();
 
   void additem(MenuItem* pmenu_item);
-  void additem(MenuItemKind kind, char *text, int init_toggle, Menu* target_menu);
+  void additem(MenuItemKind kind, const std::string& text, int init_toggle, Menu* target_menu);
   void action ();
+  
+  /** Remove all entries from the menu */
+  void clear();
 
   /** Check, if the value of the active menu item has changed. */
   int  check  ();
@@ -114,6 +117,7 @@ extern texture_type arrow_left;
 extern texture_type arrow_right;
 
 extern Menu* contrib_menu;
+extern Menu* contrib_subset_menu;
 extern Menu* main_menu;
 extern Menu* game_menu;
 extern Menu* options_menu;
@@ -136,5 +140,5 @@ void menu_process_current(void);
 #endif /*SUPERTUX_MENU_H*/
 
 /* Local Variables: */
-/* mode:c++ */
+/* mode: c++ */
 /* End */
