@@ -61,9 +61,9 @@ class Level
   std::string song_title;
   std::string bkgd_image;
   std::string particle_system;
-  unsigned int* bg_tiles[15]; /* Tiles in the background */
-  unsigned int* ia_tiles[15]; /* Tiles which can interact in the game (solids for example)*/
-  unsigned int* fg_tiles[15]; /* Tiles in the foreground */
+  std::vector<unsigned int> bg_tiles[15]; /* Tiles in the background */
+  std::vector<unsigned int> ia_tiles[15]; /* Tiles which can interact in the game (solids for example)*/
+  std::vector<unsigned int> fg_tiles[15]; /* Tiles in the foreground */
   int time_left;
   Color bkgd_top;
   Color bkgd_bottom;

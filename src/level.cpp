@@ -211,23 +211,21 @@ Level::init_defaults()
 
   for(int i = 0; i < 15; ++i)
     {
-      ia_tiles[i] = (unsigned int*) malloc((width+1)*sizeof(unsigned int));
-      ia_tiles[i][width] = (unsigned int) '\0';
-      for(int y = 0; y < width; ++y)
-        ia_tiles[i][y] = 0;
+      ia_tiles[i].resize(width+1, 0);
       ia_tiles[i][width] = (unsigned int) '\0';
 
-      bg_tiles[i] = (unsigned int*) malloc((width+1)*sizeof(unsigned int));
+      for(int y = 0; y < width; ++y)
+        ia_tiles[i][y] = 0;
+
+      bg_tiles[i].resize(width+1, 0);
       bg_tiles[i][width] = (unsigned int) '\0';
       for(int y = 0; y < width; ++y)
         bg_tiles[i][y] = 0;
-      bg_tiles[i][width] = (unsigned int) '\0';
 
-      fg_tiles[i] = (unsigned int*) malloc((width+1)*sizeof(unsigned int));
+      fg_tiles[i].resize(width+1, 0);
       fg_tiles[i][width] = (unsigned int) '\0';
       for(int y = 0; y < width; ++y)
         fg_tiles[i][y] = 0;
-      fg_tiles[i][width] = (unsigned int) '\0';
     }
 }
 
@@ -391,9 +389,9 @@ Level::load(const std::string& filename)
 
   for(int i = 0; i < 15; ++i)
     {
-      ia_tiles[i] = (unsigned int*) calloc((width +1) , sizeof(unsigned int) );
-      bg_tiles[i] = (unsigned int*) calloc((width +1) , sizeof(unsigned int) );
-      fg_tiles[i] = (unsigned int*) calloc((width +1) , sizeof(unsigned int) );
+      ia_tiles[i].resize(width + 1, 0);
+      bg_tiles[i].resize(width + 1, 0);
+      fg_tiles[i].resize(width + 1, 0);
     }
 
   int i = 0;
@@ -533,11 +531,11 @@ void
 Level::cleanup()
 {
   for(int i=0; i < 15; ++i)
-    free(bg_tiles[i]);
-  for(int i=0; i < 15; ++i)
-    free(ia_tiles[i]);
-  for(int i=0; i < 15; ++i)
-    free(fg_tiles[i]);
+    {
+      bg_tiles[i].clear();
+      ia_tiles[i].clear();
+      fg_tiles[i].clear();
+    }
 
   name.clear();
   author.clear();

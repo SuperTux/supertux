@@ -26,7 +26,15 @@
 
 struct Color
 {
-int red, green, blue;
+  Color() 
+    : red(0), green(0), blue(0)
+  {}
+  
+  Color(int red_, int green_, int blue_)
+    : red(red_), green(green_), blue(blue_)
+  {}
+
+  int red, green, blue;
 };
 
 void drawline(int x1, int y1, int x2, int y2, int r, int g, int b, int a);
