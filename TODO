@@ -1,0 +1,14 @@
+
+- To do for Milestone1 -
+http://super-tux.sf.net/
+
+Last update: April 26, 2004
+
+These are mostly bugs:
+
+- supertux crashs from time to time
+- leveleditor lacks enemies support (will be fixed soon by Tobias)
+- sometimes you die after being in pause modus and unpausing
+- supertux lifting its feet for kicking is not drawn
+- it looks like that Tux doesn't jump and duck at the same time
+as it used to
