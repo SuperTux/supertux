@@ -24,6 +24,7 @@ enum {
 typedef struct button_type
   {
     texture_type icon;
+    texture_type* bkgd;
     char *info;
     SDLKey shortcut;
     int x;
@@ -32,6 +33,7 @@ typedef struct button_type
     int h;
     int show_info;
     int state;
+    int tag;
   }
 button_type;
 
@@ -45,6 +47,7 @@ int button_get_state(button_type* pbutton);
 typedef struct button_panel_type
   {
     int num_items;
+    int hidden;
     int x,y;
     int w,h;
     button_type* item;
@@ -54,6 +57,7 @@ button_panel_type;
 void button_panel_init(button_panel_type* pbutton_panel, int x, int y, int w, int h);
 void button_panel_free(button_panel_type* pbutton_panel);
 void button_panel_draw(button_panel_type* pbutton_panel);
-void button_panel_additem(button_panel_type* pbutton_panel, button_type* pbutton);
+void button_panel_additem(button_panel_type* pbutton_panel, button_type* pbutton, int tag);
+button_type* button_panel_event(button_panel_type* pbutton_panel, SDL_Event* event);
 
 #endif /*SUPERTUX_BUTTON_H*/

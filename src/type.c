@@ -71,6 +71,37 @@ int string_list_find(string_list_type* pstring_list, char* str)
   return -1;
 }
 
+void string_list_sort(string_list_type* pstring_list)
+{
+  int i,j,y;
+  short int sorter[pstring_list->num_items];
+
+  for(j = 0; j < pstring_list->num_items; ++j)
+    for(i = 0; i < pstring_list->num_items-1; ++i)
+      {
+
+        y = strcmp(pstring_list->item[i],pstring_list->item[i+1]);
+        if(y == 0)
+          {
+            continue;
+          }
+        else if(y < 0)
+          {
+            continue;
+          }
+        else if(y > 0)
+          {
+            char* char_pointer;
+            char_pointer = pstring_list->item[i];
+            pstring_list->item[i] = pstring_list->item[i+1];
+            pstring_list->item[i+1] = char_pointer;
+            continue;
+          }
+
+      }
+
+}
+
 void string_list_free(string_list_type* pstring_list)
 {
   if(pstring_list != NULL)

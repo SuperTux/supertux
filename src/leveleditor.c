@@ -102,7 +102,12 @@ static button_type le_select_mode_one_bt;
 static button_type le_select_mode_two_bt;
 static button_type le_bad_bsod_bt;
 static button_type le_settings_bt;
-static button_panel_type le_bt_panel;
+static button_type le_bad_bt;
+static button_type le_bkgd_bt;
+static button_type le_fgd_bt;
+static button_panel_type le_bkgd_panel;
+static button_panel_type le_fgd_panel;
+static button_panel_type le_bad_panel;
 static menu_type leveleditor_menu;
 static menu_type subset_load_menu;
 static menu_type subset_new_menu;
@@ -138,14 +143,6 @@ void le_set_defaults()
         le_current_level->time_left = 255;
     }
 }
-
-/* FIXME: Needs to be implemented. It should ask the user for the level(file)name and then let him create a new level based on this. */
-void newlevel()
-{}
-
-/* FIXME: It should let select the user a level, which is in the leveldirectory and then load it. */
-void selectlevel()
-{}
 
 int leveleditor(int levelnb)
 {
@@ -359,7 +356,7 @@ void le_new_subset(char *subset_name)
 
 int le_init()
 {
-  int i;
+  int i,j;
   char str[80];
   level_subsets = dsubdirs("/levels", "info");
 
@@ -391,7 +388,104 @@ int le_init()
   button_load(&le_settings_bt,"/images/icons/settings.png","Level settings",SDLK_F5,screen->w-32,screen->h - 64);
   button_load(&le_move_left_bt,"/images/icons/left.png","Move left",SDLK_LEFT,0,0);
   button_load(&le_move_right_bt,"/images/icons/right.png","Move right",SDLK_RIGHT,screen->w-80,0);
-  button_panel_init(&le_bt_panel, screen->w - 64,82, 64, 334);
+  button_load(&le_fgd_bt,"/images/icons/fgd.png","Foreground tiles", SDLK_F7,screen->w-64,82);
+  button_load(&le_bkgd_bt,"/images/icons/bgd.png","Background tiles", SDLK_F8,screen->w-43,82);
+  button_load(&le_bad_bt,"/images/icons/bad.png","Bad guys", SDLK_F9,screen->w-22,82);
+
+  string_list_type bkgd_files =  dfiles("images/themes/antarctica","bkgd-", NULL);
+  string_list_sort(&bkgd_files);
+
+  button_panel_init(&le_bkgd_panel, screen->w - 64,98, 64, 318);
+  le_bkgd_panel.hidden = YES;
+  for(i = 0; i < bkgd_files.num_items; ++i)
+    {
+      char filename[1024];
+      sprintf(filename,"images/themes/antarctica/%s",bkgd_files.item[i]);
+      button_panel_additem(&le_bkgd_panel,button_create(filename, "My dear",SDLK_a,0,0),i);
+    }
+
+  string_list_free(&bkgd_files);
+  bkgd_files = dfiles("images/shared","cloud-", NULL);
+  string_list_sort(&bkgd_files);
+
+  for(i = 0; i < bkgd_files.num_items; ++i)
+    {
+      char filename[1024];
+      sprintf(filename,"images/shared/%s",bkgd_files.item[i]);
+      button_panel_additem(&le_bkgd_panel,button_create(filename, "My Doooooo",SDLK_a,0,0),i+8);
+    }
+
+  string_list_type fgd_files =  dfiles("images/themes/antarctica","solid", NULL);
+  string_list_sort(&fgd_files);
+
+  button_panel_init(&le_fgd_panel, screen->w - 64,98, 64, 318);
+  for(i = 0; i < fgd_files.num_items; ++i)
+    {
+      char filename[1024];
+      sprintf(filename,"images/themes/antarctica/%s",fgd_files.item[i]);
+      printf("%s",filename);
+      button_panel_additem(&le_fgd_panel,button_create(filename, "My dear",SDLK_a,0,0),i);
+    }
+
+  string_list_free(&fgd_files);
+  string_list_add_item(&fgd_files,"waves-0.png");
+  string_list_add_item(&fgd_files,"water.png");
+  string_list_add_item(&fgd_files,"pole.png");
+  string_list_add_item(&fgd_files,"poletop.png");
+  string_list_add_item(&fgd_files,"flag-0.png");
+  string_list_add_item(&fgd_files,"box-empty.png");
+  string_list_add_item(&fgd_files,"mints.png");
+  string_list_add_item(&fgd_files,"distro-0.png");
+  string_list_add_item(&fgd_files,"golden-herring.png");
+  string_list_add_item(&fgd_files,"distro-0.png");
+
+  for(i = 0; i < fgd_files.num_items; ++i)
+    {
+      char filename[1024];
+      sprintf(filename,"images/shared/%s",fgd_files.item[i]);
+      button_panel_additem(&le_fgd_panel,button_create(filename, "My dear",SDLK_a,0,0),i+4);
+    }
+
+  string_list_free(&fgd_files);
+  fgd_files =  dfiles("images/themes/antarctica","brick", NULL);
+  string_list_sort(&fgd_files);
+  
+  for(i = 0; i < fgd_files.num_items; ++i)
+    {
+      char filename[1024];
+      sprintf(filename,"images/themes/antarctica/%s",fgd_files.item[i]);
+      button_panel_additem(&le_fgd_panel,button_create(filename, "My dear",SDLK_a,0,0),i+14);
+    }
+    
+  string_list_free(&fgd_files);
+  string_list_add_item(&fgd_files,"distro-0.png");
+  string_list_add_item(&fgd_files,"distro-0.png");
+  for(i = 0; i < fgd_files.num_items; ++i)
+    {
+      char filename[1024];
+      sprintf(filename,"images/shared/%s",fgd_files.item[i]);
+      button_panel_additem(&le_fgd_panel,button_create(filename, "My dear",SDLK_a,0,0),i+16);
+    }
+  
+  le_fgd_panel.item[10].bkgd = &le_fgd_panel.item[9].icon;
+  le_fgd_panel.item[11].bkgd = &le_fgd_panel.item[9].icon;
+  le_fgd_panel.item[12].bkgd = &le_fgd_panel.item[9].icon;
+  le_fgd_panel.item[16].bkgd = &le_fgd_panel.item[14].icon;
+  le_fgd_panel.item[17].bkgd = &le_fgd_panel.item[15].icon;
+
+  string_list_type bad_files;
+  string_list_init(&bad_files);
+  string_list_add_item(&bad_files,"bsod-left-0.png");
+  string_list_add_item(&bad_files,"laptop-left-0.png");
+  string_list_add_item(&bad_files,"bag-left-0.png");
+  button_panel_init(&le_bad_panel, screen->w - 64,98, 64, 318);
+  le_bad_panel.hidden = YES;
+  for(i = 0; i < bad_files.num_items; ++i)
+    {
+      char filename[1024];
+      sprintf(filename,"images/shared/%s",bad_files.item[i]);
+      button_panel_additem(&le_bad_panel,button_create(filename, "My Doooooo",SDLK_a,0,0),i);
+    }
 
   menu_init(&leveleditor_menu);
   menu_additem(&leveleditor_menu,menu_item_create(MN_LABEL,"Level Editor Menu",0,0));
@@ -439,16 +533,16 @@ int le_init()
   level_settings_menu.arrange_left = YES;
   menu_additem(&level_settings_menu,menu_item_create(MN_LABEL,"Level Settings",0,0));
   menu_additem(&level_settings_menu,menu_item_create(MN_HL,"",0,0));
-  menu_additem(&level_settings_menu,menu_item_create(MN_TEXTFIELD,"Name:",0,0));
-  menu_additem(&level_settings_menu,menu_item_create(MN_STRINGSELECT,"Theme:",0,0));
-  menu_additem(&level_settings_menu,menu_item_create(MN_STRINGSELECT,"Song:",0,0));
-  menu_additem(&level_settings_menu,menu_item_create(MN_STRINGSELECT,"Background:",0,0));
-  menu_additem(&level_settings_menu,menu_item_create(MN_NUMFIELD,"Length: ",0,0));
-  menu_additem(&level_settings_menu,menu_item_create(MN_NUMFIELD,"Time:   ",0,0));
-  menu_additem(&level_settings_menu,menu_item_create(MN_NUMFIELD,"Gravity:",0,0));
-  menu_additem(&level_settings_menu,menu_item_create(MN_NUMFIELD,"Red:    ",0,0));
-  menu_additem(&level_settings_menu,menu_item_create(MN_NUMFIELD,"Green:  ",0,0));
-  menu_additem(&level_settings_menu,menu_item_create(MN_NUMFIELD,"Blue:   ",0,0));
+  menu_additem(&level_settings_menu,menu_item_create(MN_TEXTFIELD,"Name    ",0,0));
+  menu_additem(&level_settings_menu,menu_item_create(MN_STRINGSELECT,"Theme   ",0,0));
+  menu_additem(&level_settings_menu,menu_item_create(MN_STRINGSELECT,"Song    ",0,0));
+  menu_additem(&level_settings_menu,menu_item_create(MN_STRINGSELECT,"Bg-Image",0,0));
+  menu_additem(&level_settings_menu,menu_item_create(MN_NUMFIELD,"Length ",0,0));
+  menu_additem(&level_settings_menu,menu_item_create(MN_NUMFIELD,"Time   ",0,0));
+  menu_additem(&level_settings_menu,menu_item_create(MN_NUMFIELD,"Gravity",0,0));
+  menu_additem(&level_settings_menu,menu_item_create(MN_NUMFIELD,"Red    ",0,0));
+  menu_additem(&level_settings_menu,menu_item_create(MN_NUMFIELD,"Green  ",0,0));
+  menu_additem(&level_settings_menu,menu_item_create(MN_NUMFIELD,"Blue   ",0,0));
   menu_additem(&level_settings_menu,menu_item_create(MN_HL,"",0,0));
   menu_additem(&level_settings_menu,menu_item_create(MN_ACTION,"Apply Changes",0,0));
 
@@ -466,8 +560,8 @@ void update_level_settings_menu()
   sprintf(str,"%d",le_current_level->width);
 
   string_list_copy(level_settings_menu.item[3].list, dsubdirs("images/themes", "solid0.png"));
-  string_list_copy(level_settings_menu.item[4].list, dfiles("music/", "-fast"));
-  string_list_copy(level_settings_menu.item[5].list, dfiles("images/background", NULL));
+  string_list_copy(level_settings_menu.item[4].list, dfiles("music/",NULL, "-fast"));
+  string_list_copy(level_settings_menu.item[5].list, dfiles("images/background",NULL, NULL));
   if((i = string_list_find(level_settings_menu.item[3].list,le_current_level->theme)) != -1)
     level_settings_menu.item[3].list->active_item = i;
   if((i = string_list_find(level_settings_menu.item[4].list,le_current_level->song_title)) != -1)
@@ -641,6 +735,31 @@ void le_drawinterface()
   /* draw button bar */
   fillrect(screen->w - 64, 0, 64, screen->h, 50, 50, 50,255);
   drawshape(19 * 32, 14 * 32, le_current_tile);
+  switch(le_current_tile)
+    {
+    case 'B':
+      texture_draw(&img_mints, 19 * 32, 14 * 32, NO_UPDATE);
+      break;
+    case '!':
+      texture_draw(&img_golden_herring,19 * 32, 14 * 32, NO_UPDATE);
+      break;
+    case 'x':
+    case 'y':
+    case 'A':
+      texture_draw(&img_distro[(le_frame / 5) % 4], 19 * 32, 14 * 32, NO_UPDATE);
+      break;
+    case '0':
+      texture_draw(&img_bsod_left[(le_frame / 5) % 4],19 * 32, 14 * 32, NO_UPDATE);
+      break;
+    case '1':
+      texture_draw(&img_laptop_left[(le_frame / 5) % 3],19 * 32, 14 * 32, NO_UPDATE);
+      break;
+    case '2':
+      texture_draw(&img_money_left[0],19 * 32, 14 * 32, NO_UPDATE);
+      break;
+    default:
+      break;
+    }
 
   if(le_current_level != NULL)
     {
@@ -655,7 +774,12 @@ void le_drawinterface()
       button_draw(&le_settings_bt);
       button_draw(&le_move_right_bt);
       button_draw(&le_move_left_bt);
-      button_panel_draw(&le_bt_panel);
+      button_draw(&le_bad_bt);
+      button_draw(&le_bkgd_bt);
+      button_draw(&le_fgd_bt);
+      button_panel_draw(&le_bkgd_panel);
+      button_panel_draw(&le_fgd_panel);
+      button_panel_draw(&le_bad_panel);
 
       sprintf(str, "%d/%d", le_level,le_level_subset.levels);
       text_drawf(&white_text, str, -8, 16, A_RIGHT, A_NONE, 1, NO_UPDATE);
@@ -740,6 +864,7 @@ void le_checkevents()
 {
   SDLKey key;
   SDLMod keymod;
+  button_type* pbutton;
   int x,y;
 
   keymod = SDL_GetModState();
@@ -1093,9 +1218,29 @@ void le_checkevents()
                   button_event(&le_select_mode_two_bt,&event);
                   if(button_get_state(&le_select_mode_two_bt) == BN_CLICKED)
                     le_selection_mode = SQUARE;
-                  button_event(&le_bad_bsod_bt,&event);
-                  if(button_get_state(&le_bad_bsod_bt) == BN_CLICKED)
-                    le_current_tile = '0';
+
+                  button_event(&le_bad_bt,&event);
+                  if(button_get_state(&le_bad_bt) == BN_CLICKED)
+                    {
+                      le_bad_panel.hidden = NO;
+                      le_fgd_panel.hidden = YES;
+                      le_bkgd_panel.hidden = YES;
+                    }
+
+                  button_event(&le_fgd_bt,&event);
+                  if(button_get_state(&le_fgd_bt) == BN_CLICKED)
+                    {
+                      le_bad_panel.hidden = YES;
+                      le_fgd_panel.hidden = NO;
+                      le_bkgd_panel.hidden = YES;
+                    }
+                  button_event(&le_bkgd_bt,&event);
+                  if(button_get_state(&le_bkgd_bt) == BN_CLICKED)
+                    {
+                      le_bad_panel.hidden = YES;
+                      le_fgd_panel.hidden = YES;
+                      le_bkgd_panel.hidden = NO;
+                    }
                   button_event(&le_settings_bt,&event);
                   if(button_get_state(&le_settings_bt) == BN_CLICKED)
                     {
@@ -1109,6 +1254,79 @@ void le_checkevents()
                         {
                           menu_set_current(&leveleditor_menu);
                           show_menu = NO;
+                        }
+                    }
+                  if((pbutton = button_panel_event(&le_bkgd_panel,&event)) != NULL)
+                    {
+                      if(button_get_state(pbutton) == BN_CLICKED)
+                        {
+                          char c = '\0';
+                          if(pbutton->tag >= 0 && pbutton->tag <= 3)
+                            c = 'G' + pbutton->tag;
+                          else if(pbutton->tag >= 4 && pbutton->tag <= 7)
+                            c = 'g' + pbutton->tag - 4;
+                          else if(pbutton->tag >= 8 && pbutton->tag <= 11)
+                            c = 'C' + pbutton->tag - 8;
+                          else if(pbutton->tag >= 12 && pbutton->tag <= 15)
+                            c = 'c' + pbutton->tag - 12;
+                          if(c != '\0')
+                            le_current_tile = c;
+                        }
+                    }
+                  if((pbutton = button_panel_event(&le_fgd_panel,&event)) != NULL)
+                    {
+                      if(button_get_state(pbutton) == BN_CLICKED)
+                        {
+                          char c = '\0';
+                          if(pbutton->tag == 0)
+                            c = '#' ;
+                          else if(pbutton->tag == 1)
+                            c = '[';
+                          else if(pbutton->tag == 2)
+                            c = '=';
+                          else if(pbutton->tag == 3)
+                            c = ']';
+                          else if(pbutton->tag == 4)
+                            c = '^';
+                          else if(pbutton->tag == 5)
+                            c = '&';
+                          else if(pbutton->tag == 6)
+                            c = '|';
+                          else if(pbutton->tag == 7)
+                            c = '*';
+                          else if(pbutton->tag == 8)
+                            c = '\\';
+                          else if(pbutton->tag == 9)
+                            c = 'a';
+                          else if(pbutton->tag == 10)
+                            c = 'B';
+                          else if(pbutton->tag == 11)
+                            c = 'A';
+                          else if(pbutton->tag == 12)
+                            c = '!';
+                          else if(pbutton->tag == 13)
+                            c = '$';
+                          else if(pbutton->tag == 14)
+                            c = 'X';
+                          else if(pbutton->tag == 15)
+                            c = 'Y';
+                          else if(pbutton->tag == 16)
+                            c = 'x';
+                          else if(pbutton->tag == 17)
+                            c = 'y';			    
+                          if(c != '\0')
+                            le_current_tile = c;
+                        }
+                    }
+                  if((pbutton = button_panel_event(&le_bad_panel,&event)) != NULL)
+                    {
+                      if(button_get_state(pbutton) == BN_CLICKED)
+                        {
+                          char c = '\0';
+                          if(pbutton->tag >= 0 && pbutton->tag <= 2)
+                            c = '0' + pbutton->tag;
+                          if(c != '\0')
+                            le_current_tile = c;
                         }
                     }
                 }

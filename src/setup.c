@@ -119,7 +119,7 @@ string_list_type dsubdirs(char *rel_path, char* expected_file)
                     continue;
                 }
 
-		string_list_add_item(&sdirs,direntp->d_name);
+              string_list_add_item(&sdirs,direntp->d_name);
             }
         }
       closedir(dirStructP);
@@ -152,7 +152,7 @@ string_list_type dsubdirs(char *rel_path, char* expected_file)
                     }
                 }
 
-		string_list_add_item(&sdirs,direntp->d_name);
+              string_list_add_item(&sdirs,direntp->d_name);
             }
         }
       closedir(dirStructP);
@@ -161,7 +161,7 @@ string_list_type dsubdirs(char *rel_path, char* expected_file)
   return sdirs;
 }
 
-string_list_type dfiles(char *rel_path, char* exception_str)
+string_list_type dfiles(char *rel_path, char* glob, char* exception_str)
 {
   DIR *dirStructP;
   struct dirent *direntp;
@@ -188,8 +188,11 @@ string_list_type dfiles(char *rel_path, char* exception_str)
                   if(strstr(direntp->d_name,exception_str) != NULL)
                     continue;
                 }
+              if(glob != NULL)
+                if(strstr(direntp->d_name,glob) == NULL)
+                  continue;
 
-		string_list_add_item(&sdirs,direntp->d_name);
+              string_list_add_item(&sdirs,direntp->d_name);
             }
         }
       closedir(dirStructP);
@@ -212,8 +215,11 @@ string_list_type dfiles(char *rel_path, char* exception_str)
                   if(strstr(direntp->d_name,exception_str) != NULL)
                     continue;
                 }
+              if(glob != NULL)
+                if(strstr(direntp->d_name,glob) == NULL)
+                  continue;
 
-		string_list_add_item(&sdirs,direntp->d_name);
+              string_list_add_item(&sdirs,direntp->d_name);
             }
         }
       closedir(dirStructP);

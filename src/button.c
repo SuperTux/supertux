@@ -49,8 +49,10 @@ void button_load(button_type* pbutton,char* icon_file, char* info, SDLKey shortc
   pbutton->y = y;
   pbutton->w = pbutton->icon.w;
   pbutton->h = pbutton->icon.h;
+  pbutton->tag = -1;
   pbutton->state = -1;
   pbutton->show_info = NO;
+  pbutton->bkgd = NULL;
 }
 
 button_type* button_create(char* icon_file, char* info, SDLKey shortcut, int x, int y)
@@ -64,14 +66,18 @@ void button_draw(button_type* pbutton)
 {
   fillrect(pbutton->x,pbutton->y,pbutton->w,pbutton->h,75,75,75,200);
   fillrect(pbutton->x+1,pbutton->y+1,pbutton->w-2,pbutton->h-2,175,175,175,200);
+  if(pbutton->bkgd != NULL)
+  {
+  texture_draw(pbutton->bkgd,pbutton->x,pbutton->y,NO_UPDATE);
+  }
   texture_draw(&pbutton->icon,pbutton->x,pbutton->y,NO_UPDATE);
   if(pbutton->show_info == YES)
     {
       char str[80];
       int i = -32;
-      
+
       if(0 > pbutton->x - (int)strlen(pbutton->info) * white_small_text.w)
-          i = pbutton->w + strlen(pbutton->info) * white_small_text.w;
+        i = pbutton->w + strlen(pbutton->info) * white_small_text.w;
 
       if(pbutton->info)
         text_draw(&white_small_text, pbutton->info, i + pbutton->x - strlen(pbutton->info) * white_small_text.w, pbutton->y, 1, NO_UPDATE);
@@ -164,7 +170,9 @@ int button_get_state(button_type* pbutton)
       return state;
     }
   else
-    return pbutton->state;
+    {
+      return pbutton->state;
+    }
 }
 
 void button_panel_init(button_panel_type* pbutton_panel, int x, int y, int w, int h)
@@ -175,6 +183,26 @@ void button_panel_init(button_panel_type* pbutton_panel, int x, int y, int w, in
   pbutton_panel->y = y;
   pbutton_panel->w = w;
   pbutton_panel->h = h;
+  pbutton_panel->hidden = NO;
+}
+
+button_type* button_panel_event(button_panel_type* pbutton_panel, SDL_Event* event)
+{
+  if(pbutton_panel->hidden == NO)
+    {
+      int i;
+      for(i = 0; i < pbutton_panel->num_items; ++i)
+        {
+          button_event(&pbutton_panel->item[i],event);
+          if(pbutton_panel->item[i].state != -1)
+            return &pbutton_panel->item[i];
+        }
+      return NULL;
+    }
+  else
+    {
+      return NULL;
+    }
 }
 
 void button_panel_free(button_panel_type* pbutton_panel)
@@ -190,15 +218,18 @@ void button_panel_free(button_panel_type* pbutton_panel)
 
 void button_panel_draw(button_panel_type* pbutton_panel)
 {
-  int i;
-  fillrect(pbutton_panel->x,pbutton_panel->y,pbutton_panel->w,pbutton_panel->h,100,100,100,200);
-  for(i = 0; i < pbutton_panel->num_items; ++i)
+  if(pbutton_panel->hidden == NO)
     {
-      button_draw(&pbutton_panel->item[i]);
+      int i;
+      fillrect(pbutton_panel->x,pbutton_panel->y,pbutton_panel->w,pbutton_panel->h,100,100,100,200);
+      for(i = 0; i < pbutton_panel->num_items; ++i)
+        {
+          button_draw(&pbutton_panel->item[i]);
+        }
     }
 }
 
-void button_panel_additem(button_panel_type* pbutton_panel, button_type* pbutton)
+void button_panel_additem(button_panel_type* pbutton_panel, button_type* pbutton, int tag)
 {
   int max_cols, row, col;
 
@@ -211,11 +242,14 @@ void button_panel_additem(button_panel_type* pbutton_panel, button_type* pbutton
 
   max_cols = pbutton_panel->w / 32;
 
-  row = pbutton_panel->num_items / max_cols;
-  col = pbutton_panel->num_items % max_cols;
+  row = (pbutton_panel->num_items-1) / max_cols;
+  col = (pbutton_panel->num_items-1) % max_cols;
+
+  printf("R %d C %d\n",row,col);
 
   pbutton_panel->item[pbutton_panel->num_items-1].x = pbutton_panel->x + col * 32;
   pbutton_panel->item[pbutton_panel->num_items-1].y = pbutton_panel->y + row * 32;
+  pbutton_panel->item[pbutton_panel->num_items-1].tag = tag;
 
 }
 
