@@ -799,7 +799,7 @@ Player::is_dying()
 
 bool Player::is_dead()
 {
-  if(base.y > screen->h + scroll_y ||
+  if(base.y > screen->h + scroll_y || base.y > World::current()->get_level()->height*32 ||
       base.x < scroll_x - AUTOSCROLL_DEAD_INTERVAL)  // can happen in auto-scrolling
     return true;
   else
