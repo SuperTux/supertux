@@ -387,18 +387,18 @@ void process_save_load_game_menu(int save)
         {
           if(save == YES)
             {
-              savegame(slot);
+              savegame(slot - 1);
             }
           else
             {
               if(game_started == NO)
 	      {
-                gameloop("default",slot,ST_GL_LOAD_GAME);
+                gameloop("default",slot - 1,ST_GL_LOAD_GAME);
 		show_menu = YES;
 		menu_set_current(&main_menu);
 		}
               else
-                loadgame(slot);
+                loadgame(slot - 1);
             }
           st_pause_ticks_stop();
         }
