@@ -374,7 +374,8 @@ World::collision_handler()
           // functions of the collided objects.
           if (tux.previous_base.y < tux.base.y &&
               tux.previous_base.y + tux.previous_base.height 
-              < (*i)->base.y + (*i)->base.height/2)
+              < (*i)->base.y + (*i)->base.height/2
+              && !tux.invincible_timer.started())
             {
               (*i)->collision(&tux, CO_PLAYER, COLLISION_SQUISH);
             }
