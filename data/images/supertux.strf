@@ -1104,10 +1104,13 @@
    (sprite (name "mrrocket")
        (action
          (name "left")
-         (fps 10.0)
+         (fps 15.0)
          (x-offset 3)
          (y-offset 12)
-         (images "shared/mrrocket-0.png"))
+         (images "shared/mrrocket-0.png"
+	 	 "shared/mrrocket-1.png"
+		 "shared/mrrocket-2.png"
+		 "shared/mrrocket-1.png"))
 
        (action
          (name "right")

@@ -8,7 +8,7 @@
   (sector
     (name "main")
     (gravity 10)
-    (background (image "forest1.jpg")
+    (background (image "arctis_dark.jpg")
                 (speed 0.5))
     (music "bossattack.mod")
     (spawnpoint (name "main") (x 100) (y 100))

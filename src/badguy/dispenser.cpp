@@ -6,6 +6,7 @@
 #include "badguy/mrbomb.h"
 #include "badguy/mriceblock.h"
 #include "badguy/mrrocket.h"
+#include "badguy/poisonivy.h"
 
 Dispenser::Dispenser(const lisp::Lisp& reader)
 {
@@ -75,6 +76,8 @@ Dispenser::launch_badguy()
       Sector::current()->add_object(new MrIceBlock(get_pos().x, get_pos().y+32, dir));
     else if (badguy == "mrrocket")
       Sector::current()->add_object(new MrRocket(get_pos().x, get_pos().y+32, dir));
+    else if (badguy == "poisonivy")
+      Sector::current()->add_object(new PoisonIvy(get_pos().x, get_pos().y+32, dir));
     else if (badguy == "random")
     {
       switch (rand()%5)
@@ -84,6 +87,7 @@ Dispenser::launch_badguy()
         case 2: Sector::current()->add_object(new MrBomb(get_pos().x, get_pos().y+32, dir)); break;
         case 3: Sector::current()->add_object(new MrIceBlock(get_pos().x, get_pos().y+32, dir)); break;
         case 4: Sector::current()->add_object(new MrRocket(get_pos().x, get_pos().y+32, dir)); break;
+        case 5: Sector::current()->add_object(new PoisonIvy(get_pos().x, get_pos().y+32, dir)); break;
       }
     }
   }
