@@ -80,7 +80,7 @@ void TileManager::load_tileset(std::string filename)
                 continue;
               }*/
 
-              tiles.insert(std::make_pair(tile_id, tile));
+              tiles[tile_id] = tile;
             }
           else if (strcmp(lisp_symbol(lisp_car(element)), "tileset") == 0)
             {
