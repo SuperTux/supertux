@@ -191,7 +191,7 @@ Player::action(double frame_ratio)
           base.x += frame_ratio * WALK_SPEED * (dir ? 1 : -1);
           previous_base = old_base = base;
         }
-      keep_in_bounds();
+      check_bounds();
 
       // Land:
       if (!on_ground())
@@ -734,19 +734,13 @@ Player::remove_powerups()
 }
 
 void
-Player::keep_in_bounds()
+Player::check_bounds()
 {
-  Level* plevel = World::current()->get_level();
-
   /* Keep tux in bounds: */
   if (base.x < 0)
     { // Lock Tux to the size of the level, so that he doesn't fall of
       // on the left side
       base.x = 0;
-    }
-  else if (base.x < scroll_x)
-    { 
-      base.x = scroll_x;
     }
 
   /* Keep in-bounds, vertically: */
@@ -755,37 +749,8 @@ Player::keep_in_bounds()
       kill(KILL);
     }
 
-  int scroll_threshold = screen->w/2 - 80;
-  if (debug_mode)
-    {
-      scroll_x += screen->w/2;
-      // Backscrolling for debug mode
-      if (scroll_x < base.x - 80)
-        scroll_x = base.x - 80;
-      else if (scroll_x > base.x + 80)
-        scroll_x = base.x + 80;
-      scroll_x -= screen->w/2;
-
-      if(scroll_x < 0)
-        scroll_x = 0;
-    }
-  else
-    {
-      if (base.x > scroll_threshold + scroll_x
-          && scroll_x < ((World::current()->get_level()->width * 32) - screen->w))
-        {
-          // FIXME: Scrolling needs to be handled by a seperate View
-          // class, doing it as a player huck is ugly
-          
-          // Scroll the screen in past center:
-          scroll_x = base.x - scroll_threshold;
-          
-          // Lock the scrolling to the levelsize, so that we don't
-          // scroll over the right border
-          if (scroll_x > 32 * plevel->width - screen->w)
-            scroll_x = 32 * plevel->width - screen->w;
-        }
-    }
+  if(base.x < scroll_x)  // can happen if back scrolling is disabled
+    base.x = scroll_x;
 }
 
 // EOF //

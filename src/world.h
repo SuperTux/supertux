@@ -76,6 +76,7 @@ public:
 
   void draw();
   void action(double frame_ratio);
+  void keep_in_bounds();
 
   void play_music(int musictype);
   int get_music_type();

@@ -89,6 +89,7 @@ class Level
   int start_pos_x;
   int start_pos_y;
   float gravity;
+  bool back_scrolling;
 
   std::vector<BadGuyData> badguy_data;
 

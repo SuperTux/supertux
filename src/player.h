@@ -144,7 +144,7 @@ public:
   void is_dying();
   bool is_dead();
   void player_remove_powerups();
-  void keep_in_bounds();
+  void check_bounds();
   bool on_ground();
   bool under_solid();
   void grow();

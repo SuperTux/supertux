@@ -237,6 +237,7 @@ Level::init_defaults()
   start_pos_y = 170;
   time_left  = 100;
   gravity    = 10.;
+  back_scrolling = false;
   bkgd_top.red   = 0;
   bkgd_top.green = 0;
   bkgd_top.blue  = 0;
@@ -311,6 +312,9 @@ Level::load(const std::string& filename)
       if(!reader.read_int("time",  &time_left)) {
         printf("Warning no time specified for level.\n");
       }
+      
+      back_scrolling = false;
+      reader.read_bool("back_scrolling",  &back_scrolling);
 
       bkgd_top.red = bkgd_top.green = bkgd_top.blue = 0;
       reader.read_int("bkgd_red_top",  &bkgd_top.red);
@@ -551,6 +555,10 @@ Level::save(const std::string& subset, int level)
   fprintf(fi,"  (bkgd_blue_bottom %d)\n", bkgd_bottom.blue);
   fprintf(fi,"  (time %d)\n", time_left);
   fprintf(fi,"  (width %d)\n", width);
+  if(back_scrolling)
+    fprintf(fi,"  (back_scrolling 1)\n"); 
+  else
+    fprintf(fi,"  (back_scrolling 0)\n");
   fprintf(fi,"  (gravity %2.1f)\n", gravity);
   fprintf(fi,"  (background-tm ");
 
