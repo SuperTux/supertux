@@ -638,6 +638,8 @@ WorldMap::update(float delta)
           if (level->x == tux->get_tile_pos().x && 
               level->y == tux->get_tile_pos().y)
             {
+              PlayerStatus old_player_status = player_status;
+
               std::cout << "Enter the current level: " << level->name << std::endl;;
               GameSession session(datadir +  "/levels/" + level->name,
                                   1, ST_GL_LOAD_LEVEL_FILE);
@@ -698,13 +700,9 @@ WorldMap::update(float delta)
 
                   break;
                 case GameSession::ES_LEVEL_ABORT:
-                  // Reseting the player_status might be a worthy
-                  // consideration, but I don't think we need it
-                  // 'cause only the bad players will use it to
-                  // 'cheat' a few items and that isn't necesarry a
-                  // bad thing (ie. better they continue that way,
-                  // then stop playing the game all together since it
-                  // is to hard)
+                  /* In case the player's abort the level, keep it using the old
+                      status */
+                  player_status = old_player_status;
                   break;
                 case GameSession::ES_GAME_OVER:
                   /* draw an end screen */
