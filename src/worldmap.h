@@ -212,6 +212,10 @@ public:
 
   void savegame(const std::string& filename);
   void loadgame(const std::string& filename);
+  void loadmap(const std::string& filename);
+
+  const std::string& get_world_title() const
+    { return name; }
   
   const int& get_start_x() const
     { return start_x; }

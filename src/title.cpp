@@ -50,6 +50,7 @@
 #include "math.h"
 #include "tile.h"
 #include "resources.h"
+#include "worldmap.h"
 
 static Surface* bkg_title;
 static Surface* logo;
@@ -62,8 +63,10 @@ static int frame;
 static unsigned int last_update_time;
 static unsigned int update_time;
 
-std::vector<LevelSubset*> contrib_subsets;
-std::string current_contrib_subset;
+static std::vector<LevelSubset*> contrib_subsets;
+static std::string current_contrib_subset;
+
+static string_list_type worldmap_list;
 
 void free_contrib_menu()
 {
@@ -81,7 +84,7 @@ void generate_contrib_menu()
 
   free_contrib_menu();
 
-  contrib_menu->additem(MN_LABEL,"Contrib Levels",0,0);
+  contrib_menu->additem(MN_LABEL,"Bonus Levels",0,0);
   contrib_menu->additem(MN_HL,"",0,0);
 
   for (int i = 0; i < level_subsets.num_items; ++i)
@@ -89,8 +92,15 @@ void generate_contrib_menu()
       LevelSubset* subset = new LevelSubset();
       subset->load(level_subsets.item[i]);
       contrib_menu->additem(MN_GOTO, subset->title.c_str(), i,
-          contrib_subset_menu, i+1);
+          contrib_subset_menu, i);
       contrib_subsets.push_back(subset);
+    }
+
+  for(int i = 0; i < worldmap_list.num_items; i++)
+    {
+    WorldMapNS::WorldMap worldmap;
+    worldmap.loadmap(worldmap_list.item[i]);
+    contrib_menu->additem(MN_ACTION, worldmap.get_world_title(),0,0, i + level_subsets.num_items);
     }
 
   contrib_menu->additem(MN_HL,"",0,0);
@@ -101,43 +111,41 @@ void generate_contrib_menu()
 
 void check_contrib_menu()
 {
-  static int current_subset = -1;
-
   int index = contrib_menu->check();
-  if (index != -1)
+  if (index == -1)
+    return;
+
+  if (index < (int)contrib_subsets.size())
     {
-      index -= 1;
-      if (index >= 0 && index <= int(contrib_subsets.size()))
-        {
-          if (current_subset != index)
-            {
-              current_subset = index;
-              // FIXME: This shouln't be busy looping
-              LevelSubset& subset = * (contrib_subsets[index]);
-          
-              current_contrib_subset = subset.name;
+      // FIXME: This shouln't be busy looping
+      LevelSubset& subset = * (contrib_subsets[index]);
 
-              std::cout << "Updating the contrib subset menu..." << subset.levels << std::endl;
-      
-              contrib_subset_menu->clear();
+      current_contrib_subset = subset.name;
+ 
+      contrib_subset_menu->clear();
+ 
+      contrib_subset_menu->additem(MN_LABEL, subset.title, 0,0);
+      contrib_subset_menu->additem(MN_HL,"",0,0);
 
-              contrib_subset_menu->additem(MN_LABEL, subset.title, 0,0);
-              contrib_subset_menu->additem(MN_HL,"",0,0);
-              for (int i = 1; i <= subset.levels; ++i)
-                {
-                  Level level;
-                  level.load(subset.name, i);
-                  contrib_subset_menu->additem(MN_ACTION, level.name, 0, 0, i);
-                }
-              contrib_subset_menu->additem(MN_HL,"",0,0);      
-              contrib_subset_menu->additem(MN_BACK, "Back", 0, 0);
-            }
-        }
-      else
+      for (int i = 0; i < subset.levels; ++i)
         {
-          // Back button
+        /** get level's title */
+        Level level;
+        level.load(subset.name, i);
+        contrib_subset_menu->additem(MN_ACTION, level.name, 0,0,i);
         }
-    }
+
+      contrib_subset_menu->additem(MN_HL,"",0,0);      
+      contrib_subset_menu->additem(MN_BACK, "Back", 0, 0);
+      }
+    else if(index < worldmap_list.num_items + (int)contrib_subsets.size())
+      {
+      WorldMapNS::WorldMap worldmap;
+      worldmap.loadmap(worldmap_list.item[index - contrib_subsets.size()]);
+      worldmap.display();
+
+      Menu::set_current(main_menu);
+      }
 }
 
 void check_contrib_subset_menu()
@@ -229,6 +237,12 @@ void title(void)
   bkg_title = new Surface(datadir + "/images/title/background.jpg", IGNORE_ALPHA);
   logo = new Surface(datadir + "/images/title/logo.png", USE_ALPHA);
   img_choose_subset = new Surface(datadir + "/images/status/choose-level-subset.png", USE_ALPHA);
+
+  /* Generating contrib maps by only using a string_list */
+  // Since there isn't any world dir or anything, add a hardcoded entry for Bonus Island
+  string_list_init(&worldmap_list);
+  string_list_add_item(&worldmap_list, "bonusisland.stwm");
+//  worldmap_list = dfiles("levels/default", NULL, "icyisland.stwm");
 
   /* --- Main title loop: --- */
   frame = 0;
@@ -369,6 +383,7 @@ void title(void)
   /* Free surfaces: */
 
   free_contrib_menu();
+  string_list_free(&worldmap_list);
   delete bkg_title;
   delete logo;
   delete img_choose_subset;

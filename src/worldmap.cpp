@@ -384,7 +384,6 @@ WorldMap::set_map_file(std::string mapfile)
 void
 WorldMap::load_map()
 {
-  
   lisp_object_t* root_obj = lisp_read_from_file(map_file);
   if (!root_obj)
     st_abort("Couldn't load file", map_file);
@@ -1026,6 +1025,14 @@ WorldMap::loadgame(const std::string& filename)
     }
  
   lisp_free(savegame);
+}
+
+void
+WorldMap::loadmap(const std::string& filename)
+{
+  savegame_file = "";
+  set_map_file(filename);
+  load_map();
 }
 
 } // namespace WorldMapNS
