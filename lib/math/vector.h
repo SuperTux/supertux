@@ -20,7 +20,7 @@
 #ifndef SUPERTUX_VECTOR_H
 #define SUPERTUX_VECTOR_H
 
-#include "special/base.h"
+#include "../special/base.h"
 
 namespace SuperTux
   {
