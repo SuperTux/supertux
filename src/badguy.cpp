@@ -905,9 +905,12 @@ BadGuy::squish(Player* player)
       }
 
     make_player_jump(player);
-	      
-    World::current()->add_score(base.x - scroll_x, base.y, 25 * player_status.score_multiplier);
-    player_status.score_multiplier++;
+
+    if((kind != BAD_MRICEBLOCK && mode != dying))
+      {
+      World::current()->add_score(base.x - scroll_x, base.y, 25 * player_status.score_multiplier);
+      player_status.score_multiplier++;
+      }
 
     // check for maximum number of squiches
     squishcount++;
