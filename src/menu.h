@@ -32,6 +32,8 @@ enum MenuItemKind {
   MN_HL /* horizontal line */
 };
 
+class Menu;
+
 struct menu_item_type
   {
     MenuItemKind kind;
@@ -39,34 +41,41 @@ struct menu_item_type
     char *text;
     char *input;
     string_list_type* list;
-    void* target_menu;
+    Menu* target_menu;
 };
 
-menu_item_type* menu_item_create(MenuItemKind kind, char *text, int init_toggle, void* target_menu);
+menu_item_type* menu_item_create(MenuItemKind kind, char *text, int init_toggle, Menu* target_menu);
 void menu_item_change_text (menu_item_type* pmenu_item, const char *text);
 void menu_item_change_input(menu_item_type* pmenu_item, const char *text);
 
-struct menu_type
+class Menu
 {
-  // center of the menu on the screen
-  int x;
-  int y;
-
+private:
+  // position of the menu (ie. center of the menu, not top/left)
+  int pos_x;
+  int pos_y;
+  
   int num_items;
-  int active_item;
-  int arrange_left;
-  menu_item_type *item;
+
+public:
   timer_type effect;
+  int arrange_left;
+  int active_item;
+  menu_item_type *item;
+
+  static void set_current(Menu* pmenu);
+
+  Menu();
+  ~Menu();
+
+  void additem(menu_item_type* pmenu_item);
+  void additem(MenuItemKind kind, char *text, int init_toggle, Menu* target_menu);
+  void action ();
+  int  check  ();
+  void draw   ();
+  void draw_item(int index, int menu_width, int menu_height);
 };
 
-void menu_init   (menu_type* pmenu);
-void menu_free   (menu_type* pmenu);
-void menu_additem(menu_type* pmenu, menu_item_type* pmenu_item);
-menu_item_type* menu_additem(menu_type* pmenu, MenuItemKind kind, char *text, int init_toggle, void* target_menu);
-void menu_action (menu_type* pmenu);
-int  menu_check  (menu_type* pmenu);
-void menu_draw   (menu_type* pmenu);
-void menu_set_current(menu_type* pmenu);
 
 /* Action done on the menu */
 enum MenuAction {
@@ -86,8 +95,14 @@ extern bool show_menu;
 extern bool menu_change;
 extern texture_type checkbox, checkbox_checked, back, arrow_left, arrow_right;
 
-extern menu_type main_menu, game_menu, options_menu, highscore_menu, load_game_menu, save_game_menu;
-extern menu_type* current_menu, * last_menu;
+extern Menu* main_menu;
+extern Menu* game_menu;
+extern Menu* options_menu;
+extern Menu* highscore_menu;
+extern Menu* load_game_menu;
+extern Menu* save_game_menu;
+extern Menu* current_menu;
+extern Menu* last_menu;
 
 /* input implementation variables */
 extern int delete_character;
@@ -104,3 +119,6 @@ void menu_event(SDL_keysym* keysym);
 
 #endif /*SUPERTUX_MENU_H*/
 
+/* Local Variables: */
+/* mode:c++ */
+/* End */

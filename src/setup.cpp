@@ -319,77 +319,75 @@ void st_directory_setup(void)
 /* Create and setup menus. */
 void st_menu(void)
 {
-  menu_init(&main_menu);
-  menu_additem(&main_menu, MN_LABEL,"Main Menu",0,0);
-  menu_additem(&main_menu, MN_HL,"",0,0);
-  menu_additem(&main_menu, MN_ACTION,"Start Game",0,0);
-  menu_additem(&main_menu, MN_GOTO,"Load Game",0,&load_game_menu);
-  menu_additem(&main_menu, MN_GOTO,"Options",0,&options_menu);
-  menu_additem(&main_menu, MN_ACTION,"Level editor",0,0);
-  menu_additem(&main_menu, MN_ACTION,"Credits",0,0);
-  menu_additem(&main_menu, MN_HL,"",0,0);
-  menu_additem(&main_menu, MN_ACTION,"Quit",0,0);
+  main_menu      = new Menu();
+  options_menu   = new Menu();
+  load_game_menu = new Menu();
+  save_game_menu = new Menu();
+  game_menu      = new Menu();
+  highscore_menu = new Menu();
 
-  menu_init(&options_menu);
-  menu_additem(&options_menu, MN_LABEL,"Options",0,0);
-  menu_additem(&options_menu, MN_HL,"",0,0);
-  menu_additem(&options_menu, MN_TOGGLE,"Fullscreen",use_fullscreen,0);
+  main_menu->additem(MN_LABEL,"Main Menu",0,0);
+  main_menu->additem(MN_HL,"",0,0);
+  main_menu->additem(MN_ACTION,"Start Game",0,0);
+  main_menu->additem(MN_GOTO,"Load Game",0,load_game_menu);
+  main_menu->additem(MN_GOTO,"Options",0,options_menu);
+  main_menu->additem(MN_ACTION,"Level editor",0,0);
+  main_menu->additem(MN_ACTION,"Credits",0,0);
+  main_menu->additem(MN_HL,"",0,0);
+  main_menu->additem(MN_ACTION,"Quit",0,0);
+
+  options_menu->additem(MN_LABEL,"Options",0,0);
+  options_menu->additem(MN_HL,"",0,0);
+  options_menu->additem(MN_TOGGLE,"Fullscreen",use_fullscreen,0);
   if(audio_device)
     {
-      menu_additem(&options_menu, MN_TOGGLE,"Sound     ",use_sound,0);
-      menu_additem(&options_menu, MN_TOGGLE,"Music     ",use_music,0);
+      options_menu->additem(MN_TOGGLE,"Sound     ",use_sound,0);
+      options_menu->additem(MN_TOGGLE,"Music     ",use_music,0);
     }
   else
     {
-      menu_additem(&options_menu, MN_DEACTIVE,"Sound     ",use_sound,0);
-      menu_additem(&options_menu, MN_DEACTIVE,"Music     ",use_music,0);
+      options_menu->additem(MN_DEACTIVE,"Sound     ",use_sound,0);
+      options_menu->additem(MN_DEACTIVE,"Music     ",use_music,0);
     }
-  menu_additem(&options_menu, MN_TOGGLE,"Show FPS  ",show_fps,0);
-  menu_additem(&options_menu, MN_HL,"",0,0);
-  menu_additem(&options_menu, MN_BACK,"Back",0,0);
+  options_menu->additem(MN_TOGGLE,"Show FPS  ",show_fps,0);
+  options_menu->additem(MN_HL,"",0,0);
+  options_menu->additem(MN_BACK,"Back",0,0);
 
-  menu_init(&load_game_menu);
-  menu_additem(&load_game_menu, MN_LABEL,"Load Game",0,0);
-  menu_additem(&load_game_menu, MN_HL,"",0,0);
-  menu_additem(&load_game_menu, MN_DEACTIVE,"Slot 1",0,0);
-  menu_additem(&load_game_menu, MN_DEACTIVE,"Slot 2",0,0);
-  menu_additem(&load_game_menu, MN_DEACTIVE,"Slot 3",0,0);
-  menu_additem(&load_game_menu, MN_DEACTIVE,"Slot 4",0,0);
-  menu_additem(&load_game_menu, MN_DEACTIVE,"Slot 5",0,0);
-  menu_additem(&load_game_menu, MN_HL,"",0,0);
-  menu_additem(&load_game_menu, MN_BACK,"Back",0,0);
+  load_game_menu->additem(MN_LABEL,"Load Game",0,0);
+  load_game_menu->additem(MN_HL,"",0,0);
+  load_game_menu->additem(MN_DEACTIVE,"Slot 1",0,0);
+  load_game_menu->additem(MN_DEACTIVE,"Slot 2",0,0);
+  load_game_menu->additem(MN_DEACTIVE,"Slot 3",0,0);
+  load_game_menu->additem(MN_DEACTIVE,"Slot 4",0,0);
+  load_game_menu->additem(MN_DEACTIVE,"Slot 5",0,0);
+  load_game_menu->additem(MN_HL,"",0,0);
+  load_game_menu->additem(MN_BACK,"Back",0,0);
 
-  menu_init(&save_game_menu);
-  menu_additem(&save_game_menu, MN_LABEL,"Save Game",0,0);
-  menu_additem(&save_game_menu, MN_HL,"",0,0);
-  menu_additem(&save_game_menu, MN_DEACTIVE,"Slot 1",0,0);
-  menu_additem(&save_game_menu, MN_DEACTIVE,"Slot 2",0,0);
-  menu_additem(&save_game_menu, MN_DEACTIVE,"Slot 3",0,0);
-  menu_additem(&save_game_menu, MN_DEACTIVE,"Slot 4",0,0);
-  menu_additem(&save_game_menu, MN_DEACTIVE,"Slot 5",0,0);
-  menu_additem(&save_game_menu, MN_HL,"",0,0);
-  menu_additem(&save_game_menu, MN_BACK,"Back",0,0);
+  save_game_menu->additem(MN_LABEL,"Save Game",0,0);
+  save_game_menu->additem(MN_HL,"",0,0);
+  save_game_menu->additem(MN_DEACTIVE,"Slot 1",0,0);
+  save_game_menu->additem(MN_DEACTIVE,"Slot 2",0,0);
+  save_game_menu->additem(MN_DEACTIVE,"Slot 3",0,0);
+  save_game_menu->additem(MN_DEACTIVE,"Slot 4",0,0);
+  save_game_menu->additem(MN_DEACTIVE,"Slot 5",0,0);
+  save_game_menu->additem(MN_HL,"",0,0);
+  save_game_menu->additem(MN_BACK,"Back",0,0);
 
-  menu_init(&game_menu);
-  menu_additem(&game_menu, MN_LABEL,"InGame Menu",0,0);
-  menu_additem(&game_menu, MN_HL,"",0,0);
-  menu_additem(&game_menu, MN_ACTION,"Return To Game",0,0);
-  menu_additem(&game_menu, MN_GOTO,"Save Game",0,&save_game_menu);
-  menu_additem(&game_menu, MN_GOTO,"Load Game",0,&load_game_menu);
-  menu_additem(&game_menu, MN_GOTO,"Options",0,&options_menu);
-  menu_additem(&game_menu, MN_HL,"",0,0);
-  menu_additem(&game_menu, MN_ACTION,"Quit Game",0,0);
+  game_menu->additem(MN_LABEL,"InGame Menu",0,0);
+  game_menu->additem(MN_HL,"",0,0);
+  game_menu->additem(MN_ACTION,"Return To Game",0,0);
+  game_menu->additem(MN_GOTO,"Save Game",0,save_game_menu);
+  game_menu->additem(MN_GOTO,"Load Game",0,load_game_menu);
+  game_menu->additem(MN_GOTO,"Options",0,options_menu);
+  game_menu->additem(MN_HL,"",0,0);
+  game_menu->additem(MN_ACTION,"Quit Game",0,0);
 
-  menu_init(&highscore_menu);
-  menu_additem(&highscore_menu, MN_TEXTFIELD,"Enter your name:",0,0);
-
+  highscore_menu->additem(MN_TEXTFIELD,"Enter your name:",0,0);
 }
 
-void update_load_save_game_menu(menu_type* pmenu, int load)
+void update_load_save_game_menu(Menu* pmenu, int load)
 {
-  int i;
-
-  for(i = 2; i < 7; ++i)
+  for(int i = 2; i < 7; ++i)
     {
       char *tmp;
       slotinfo(&tmp,i-1);
@@ -405,7 +403,7 @@ void update_load_save_game_menu(menu_type* pmenu, int load)
 void process_save_load_game_menu(int save)
 {
   int slot;
-  switch (slot = menu_check(save ? &save_game_menu : &load_game_menu))
+  switch (slot = (save ? save_game_menu->check() : load_game_menu->check()))
     {
     default:
       if(slot != -1)
@@ -420,7 +418,7 @@ void process_save_load_game_menu(int save)
                 {
                   gameloop("default",slot - 1,ST_GL_LOAD_GAME);
                   show_menu = true;
-                  menu_set_current(&main_menu);
+                  Menu::set_current(main_menu);
                 }
               else
                 loadgame(slot - 1);
@@ -434,21 +432,21 @@ void process_save_load_game_menu(int save)
 /* Handle changes made to global settings in the options menu. */
 void process_options_menu(void)
 {
-  switch (menu_check(&options_menu))
+  switch (options_menu->check())
     {
     case 2:
-      if(use_fullscreen != options_menu.item[2].toggled)
+      if(use_fullscreen != options_menu->item[2].toggled)
         {
           use_fullscreen = !use_fullscreen;
           st_video_setup();
         }
       break;
     case 3:
-      if(use_sound != options_menu.item[3].toggled)
+      if(use_sound != options_menu->item[3].toggled)
         use_sound = !use_sound;
       break;
     case 4:
-      if(use_music != options_menu.item[4].toggled)
+      if(use_music != options_menu->item[4].toggled)
         {
           if(use_music == true)
             {
@@ -469,7 +467,7 @@ void process_options_menu(void)
         }
       break;
     case 5:
-      if(show_fps != options_menu.item[5].toggled)
+      if(show_fps != options_menu->item[5].toggled)
         show_fps = !show_fps;
       break;
     }
@@ -530,14 +528,12 @@ void st_general_free(void)
   texture_free(&arrow_right);
 
   /* Free menus */
-
-  menu_free(&main_menu);
-  menu_free(&game_menu);
-  menu_free(&options_menu);
-  menu_free(&highscore_menu);
-  menu_free(&save_game_menu);
-  menu_free(&load_game_menu);
-
+  delete main_menu;
+  delete game_menu;
+  delete options_menu;
+  delete highscore_menu;
+  delete save_game_menu;
+  delete load_game_menu;
 }
 
 void st_video_setup(void)

@@ -123,12 +123,12 @@ void save_hs(int score)
   hs_score = score;
 
   menu_reset();
-  menu_set_current(&highscore_menu);
+  Menu::set_current(highscore_menu);
 
-  if(!highscore_menu.item[0].input)
-    highscore_menu.item[0].input = (char*) malloc(strlen(hs_name) + 1);
+  if(!highscore_menu->item[0].input)
+    highscore_menu->item[0].input = (char*) malloc(strlen(hs_name) + 1);
 
-  strcpy(highscore_menu.item[0].input,hs_name);
+  strcpy(highscore_menu->item[0].input,hs_name);
 
   /* ask for player's name */
   show_menu = 1;
@@ -148,11 +148,11 @@ void save_hs(int score)
         if(event.type == SDL_KEYDOWN)
           menu_event(&event.key.keysym);
 
-      switch (menu_check(&highscore_menu))
+      switch (highscore_menu->check())
         {
         case 0:
-          if(highscore_menu.item[0].input != NULL)
-            strcpy(hs_name, highscore_menu.item[0].input);
+          if(highscore_menu->item[0].input != NULL)
+            strcpy(hs_name, highscore_menu->item[0].input);
           break;
         }
 

@@ -108,11 +108,11 @@ static button_type le_fgd_bt;
 static button_panel_type le_bkgd_panel;
 static button_panel_type le_fgd_panel;
 static button_panel_type le_bad_panel;
-static menu_type leveleditor_menu;
-static menu_type subset_load_menu;
-static menu_type subset_new_menu;
-static menu_type subset_settings_menu;
-static menu_type level_settings_menu;
+static Menu* leveleditor_menu;
+static Menu* subset_load_menu;
+static Menu* subset_new_menu;
+static Menu* subset_settings_menu;
+static Menu* level_settings_menu;
 
 static square selection;
 static int le_selection_mode;
@@ -187,9 +187,9 @@ int leveleditor(int levelnb)
       if(show_menu)
         {
           menu_process_current();
-          if(current_menu == &leveleditor_menu)
+          if(current_menu == leveleditor_menu)
             {
-              switch (menu_check(&leveleditor_menu))
+              switch (leveleditor_menu->check())
                 {
                 case 2:
                   show_menu = false;
@@ -202,22 +202,22 @@ int leveleditor(int levelnb)
                   break;
                 }
             }
-          else if(current_menu == &level_settings_menu)
+          else if(current_menu == level_settings_menu)
             {
-              switch (menu_check(&level_settings_menu))
+              switch (level_settings_menu->check())
                 {
                 case 13:
                   apply_level_settings_menu();
-                  menu_set_current(&leveleditor_menu);
+                  Menu::set_current(leveleditor_menu);
                   break;
                 default:
                   show_menu = true;
                   break;
                 }
             }
-          else if(current_menu == &subset_load_menu)
+          else if(current_menu == subset_load_menu)
             {
-              switch (i = menu_check(&subset_load_menu))
+              switch (i = subset_load_menu->check())
                 {
                 case 0:
                   break;
@@ -225,7 +225,7 @@ int leveleditor(int levelnb)
                   if(i != -1)
                     {
                       le_level_subset.load(level_subsets.item[i-2]);
-                      leveleditor_menu.item[3].kind = MN_GOTO;
+                      leveleditor_menu->item[3].kind = MN_GOTO;
                       le_level = 1;
                       arrays_init();
                       loadshared();
@@ -244,20 +244,20 @@ int leveleditor(int levelnb)
                   break;
                 }
             }
-          else if(current_menu == &subset_new_menu)
+          else if(current_menu == subset_new_menu)
             {
-              if(subset_new_menu.item[2].input[0] == '\0')
-                subset_new_menu.item[3].kind = MN_DEACTIVE;
+              if(subset_new_menu->item[2].input[0] == '\0')
+                subset_new_menu->item[3].kind = MN_DEACTIVE;
               else
                 {
-                  subset_new_menu.item[3].kind = MN_ACTION;
+                  subset_new_menu->item[3].kind = MN_ACTION;
 
-                  switch (i = menu_check(&subset_new_menu))
+                  switch (i = subset_new_menu->check())
                     {
                     case 3:
-		      st_subset::create(subset_new_menu.item[2].input);
-                      le_level_subset.load(subset_new_menu.item[2].input);
-                      leveleditor_menu.item[3].kind = MN_GOTO;
+		      st_subset::create(subset_new_menu->item[2].input);
+                      le_level_subset.load(subset_new_menu->item[2].input);
+                      leveleditor_menu->item[3].kind = MN_GOTO;
                       le_level = 1;
                       arrays_init();
                       loadshared();
@@ -271,20 +271,20 @@ int leveleditor(int levelnb)
                       le_set_defaults();
                       level_load_gfx(le_current_level);
                       le_activate_bad_guys();
-                      menu_item_change_input(&subset_new_menu.item[2],"");
+                      menu_item_change_input(&subset_new_menu->item[2],"");
                       show_menu = true;
                       break;
                     }
                 }
             }
-          else if(current_menu == &subset_settings_menu)
+          else if(current_menu == subset_settings_menu)
             {
-              if(le_level_subset.title.compare(subset_settings_menu.item[2].input) == 0 && le_level_subset.description.compare(subset_settings_menu.item[3].input) == 0  )
-                subset_settings_menu.item[5].kind = MN_DEACTIVE;
+              if(le_level_subset.title.compare(subset_settings_menu->item[2].input) == 0 && le_level_subset.description.compare(subset_settings_menu->item[3].input) == 0  )
+                subset_settings_menu->item[5].kind = MN_DEACTIVE;
               else
-                subset_settings_menu.item[5].kind = MN_ACTION;
+                subset_settings_menu->item[5].kind = MN_ACTION;
 
-              switch (i = menu_check(&subset_settings_menu))
+              switch (i = subset_settings_menu->check())
                 {
                 case 5:
                   save_subset_settings_menu();
@@ -488,64 +488,66 @@ int le_init()
       button_panel_additem(&le_bad_panel,button_create(filename, "Bad Guy",(SDLKey)((int)key+i),0,0),i);
     }
 
-  menu_init(&leveleditor_menu);
-  menu_additem(&leveleditor_menu, MN_LABEL,"Level Editor Menu",0,0);
-  menu_additem(&leveleditor_menu, MN_HL,"",0,0);
-  menu_additem(&leveleditor_menu, MN_ACTION,"Return To Level Editor",0,0);
-  menu_additem(&leveleditor_menu, MN_DEACTIVE,"Level Subset Settings",0,&subset_settings_menu);
-  menu_additem(&leveleditor_menu, MN_GOTO,"Load Level Subset",0,&subset_load_menu);
-  menu_additem(&leveleditor_menu, MN_GOTO,"New Level Subset",0,&subset_new_menu);
-  menu_additem(&leveleditor_menu, MN_HL,"",0,0);
-  menu_additem(&leveleditor_menu, MN_ACTION,"Quit Level Editor",0,0);
+  leveleditor_menu = new Menu();
+  subset_load_menu = new Menu();
+  subset_new_menu  = new Menu();
+  subset_settings_menu = new Menu();
+  level_settings_menu  = new Menu();
+
+  leveleditor_menu->additem(MN_LABEL,"Level Editor Menu",0,0);
+  leveleditor_menu->additem(MN_HL,"",0,0);
+  leveleditor_menu->additem(MN_ACTION,"Return To Level Editor",0,0);
+  leveleditor_menu->additem(MN_DEACTIVE,"Level Subset Settings",0,subset_settings_menu);
+  leveleditor_menu->additem(MN_GOTO,"Load Level Subset",0,subset_load_menu);
+  leveleditor_menu->additem(MN_GOTO,"New Level Subset",0,subset_new_menu);
+  leveleditor_menu->additem(MN_HL,"",0,0);
+  leveleditor_menu->additem(MN_ACTION,"Quit Level Editor",0,0);
 
   menu_reset();
-  menu_set_current(&leveleditor_menu);
+  Menu::set_current(leveleditor_menu);
   show_menu = true;
 
-  menu_init(&subset_load_menu);
-  menu_additem(&subset_load_menu,MN_LABEL,"Load Level Subset",0,0);
-  menu_additem(&subset_load_menu,MN_HL,"",0,0);
+  subset_load_menu->additem(MN_LABEL, "Load Level Subset", 0, 0);
+  subset_load_menu->additem(MN_HL, "", 0, 0);
+
   for(i = 0; i < level_subsets.num_items; ++i)
     {
-      menu_additem(&subset_load_menu,MN_ACTION,level_subsets.item[i],0,0);
+      subset_load_menu->additem(MN_ACTION,level_subsets.item[i],0,0);
     }
-  menu_additem(&subset_load_menu,MN_HL,"",0,0);
-  menu_additem(&subset_load_menu,MN_BACK,"Back",0,0);
+  subset_load_menu->additem(MN_HL,"",0,0);
+  subset_load_menu->additem(MN_BACK,"Back",0,0);
 
-  menu_init(&subset_new_menu);
-  menu_additem(&subset_new_menu,MN_LABEL,"New Level Subset",0,0);
-  menu_additem(&subset_new_menu,MN_HL,"",0,0);
-  menu_additem(&subset_new_menu,MN_TEXTFIELD,"Enter Name",0,0);
-  menu_additem(&subset_new_menu,MN_ACTION,"Create",0,0);
-  menu_additem(&subset_new_menu,MN_HL,"",0,0);
-  menu_additem(&subset_new_menu,MN_BACK,"Back",0,0);
+  subset_new_menu->additem(MN_LABEL,"New Level Subset",0,0);
+  subset_new_menu->additem(MN_HL,"",0,0);
+  subset_new_menu->additem(MN_TEXTFIELD,"Enter Name",0,0);
+  subset_new_menu->additem(MN_ACTION,"Create",0,0);
+  subset_new_menu->additem(MN_HL,"",0,0);
+  subset_new_menu->additem(MN_BACK,"Back",0,0);
 
-  menu_init(&subset_settings_menu);
-  menu_additem(&subset_settings_menu,MN_LABEL,"Level Subset Settings",0,0);
-  menu_additem(&subset_settings_menu,MN_HL,"",0,0);
-  menu_additem(&subset_settings_menu,MN_TEXTFIELD,"Title",0,0);
-  menu_additem(&subset_settings_menu,MN_TEXTFIELD,"Description",0,0);
-  menu_additem(&subset_settings_menu,MN_HL,"",0,0);
-  menu_additem(&subset_settings_menu,MN_ACTION,"Save Changes",0,0);
-  menu_additem(&subset_settings_menu,MN_HL,"",0,0);
-  menu_additem(&subset_settings_menu,MN_BACK,"Back",0,0);
+  subset_settings_menu->additem(MN_LABEL,"Level Subset Settings",0,0);
+  subset_settings_menu->additem(MN_HL,"",0,0);
+  subset_settings_menu->additem(MN_TEXTFIELD,"Title",0,0);
+  subset_settings_menu->additem(MN_TEXTFIELD,"Description",0,0);
+  subset_settings_menu->additem(MN_HL,"",0,0);
+  subset_settings_menu->additem(MN_ACTION,"Save Changes",0,0);
+  subset_settings_menu->additem(MN_HL,"",0,0);
+  subset_settings_menu->additem(MN_BACK,"Back",0,0);
 
-  menu_init(&level_settings_menu);
-  level_settings_menu.arrange_left = true;
-  menu_additem(&level_settings_menu,MN_LABEL,"Level Settings",0,0);
-  menu_additem(&level_settings_menu,MN_HL,"",0,0);
-  menu_additem(&level_settings_menu,MN_TEXTFIELD,"Name    ",0,0);
-  menu_additem(&level_settings_menu,MN_STRINGSELECT,"Theme   ",0,0);
-  menu_additem(&level_settings_menu,MN_STRINGSELECT,"Song    ",0,0);
-  menu_additem(&level_settings_menu,MN_STRINGSELECT,"Bg-Image",0,0);
-  menu_additem(&level_settings_menu,MN_NUMFIELD,"Length ",0,0);
-  menu_additem(&level_settings_menu,MN_NUMFIELD,"Time   ",0,0);
-  menu_additem(&level_settings_menu,MN_NUMFIELD,"Gravity",0,0);
-  menu_additem(&level_settings_menu,MN_NUMFIELD,"Red    ",0,0);
-  menu_additem(&level_settings_menu,MN_NUMFIELD,"Green  ",0,0);
-  menu_additem(&level_settings_menu,MN_NUMFIELD,"Blue   ",0,0);
-  menu_additem(&level_settings_menu,MN_HL,"",0,0);
-  menu_additem(&level_settings_menu,MN_ACTION,"Apply Changes",0,0);
+  level_settings_menu->arrange_left = true;
+  level_settings_menu->additem(MN_LABEL,"Level Settings",0,0);
+  level_settings_menu->additem(MN_HL,"",0,0);
+  level_settings_menu->additem(MN_TEXTFIELD,"Name    ",0,0);
+  level_settings_menu->additem(MN_STRINGSELECT,"Theme   ",0,0);
+  level_settings_menu->additem(MN_STRINGSELECT,"Song    ",0,0);
+  level_settings_menu->additem(MN_STRINGSELECT,"Bg-Image",0,0);
+  level_settings_menu->additem(MN_NUMFIELD,"Length ",0,0);
+  level_settings_menu->additem(MN_NUMFIELD,"Time   ",0,0);
+  level_settings_menu->additem(MN_NUMFIELD,"Gravity",0,0);
+  level_settings_menu->additem(MN_NUMFIELD,"Red    ",0,0);
+  level_settings_menu->additem(MN_NUMFIELD,"Green  ",0,0);
+  level_settings_menu->additem(MN_NUMFIELD,"Blue   ",0,0);
+  level_settings_menu->additem(MN_HL,"",0,0);
+  level_settings_menu->additem(MN_ACTION,"Apply Changes",0,0);
 
   SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
 
@@ -557,37 +559,37 @@ void update_level_settings_menu()
   char str[80];
   int i;
 
-  menu_item_change_input(&level_settings_menu.item[2], le_current_level->name.c_str());
+  menu_item_change_input(&level_settings_menu->item[2], le_current_level->name.c_str());
   sprintf(str,"%d",le_current_level->width);
 
-  string_list_copy(level_settings_menu.item[3].list, dsubdirs("images/themes", "solid0.png"));
-  string_list_copy(level_settings_menu.item[4].list, dfiles("music/",NULL, "-fast"));
-  string_list_copy(level_settings_menu.item[5].list, dfiles("images/background",NULL, NULL));
-  string_list_add_item(level_settings_menu.item[5].list,"");
-  if((i = string_list_find(level_settings_menu.item[3].list,le_current_level->theme.c_str())) != -1)
-    level_settings_menu.item[3].list->active_item = i;
-  if((i = string_list_find(level_settings_menu.item[4].list,le_current_level->song_title.c_str())) != -1)
-    level_settings_menu.item[4].list->active_item = i;
-  if((i = string_list_find(level_settings_menu.item[5].list,le_current_level->bkgd_image.c_str())) != -1)
-    level_settings_menu.item[5].list->active_item = i;
+  string_list_copy(level_settings_menu->item[3].list, dsubdirs("images/themes", "solid0.png"));
+  string_list_copy(level_settings_menu->item[4].list, dfiles("music/",NULL, "-fast"));
+  string_list_copy(level_settings_menu->item[5].list, dfiles("images/background",NULL, NULL));
+  string_list_add_item(level_settings_menu->item[5].list,"");
+  if((i = string_list_find(level_settings_menu->item[3].list,le_current_level->theme.c_str())) != -1)
+    level_settings_menu->item[3].list->active_item = i;
+  if((i = string_list_find(level_settings_menu->item[4].list,le_current_level->song_title.c_str())) != -1)
+    level_settings_menu->item[4].list->active_item = i;
+  if((i = string_list_find(level_settings_menu->item[5].list,le_current_level->bkgd_image.c_str())) != -1)
+    level_settings_menu->item[5].list->active_item = i;
 
-  menu_item_change_input(&level_settings_menu.item[6], str);
+  menu_item_change_input(&level_settings_menu->item[6], str);
   sprintf(str,"%d",le_current_level->time_left);
-  menu_item_change_input(&level_settings_menu.item[7], str);
+  menu_item_change_input(&level_settings_menu->item[7], str);
   sprintf(str,"%2.0f",le_current_level->gravity);
-  menu_item_change_input(&level_settings_menu.item[8], str);
+  menu_item_change_input(&level_settings_menu->item[8], str);
   sprintf(str,"%d",le_current_level->bkgd_red);
-  menu_item_change_input(&level_settings_menu.item[9], str);
+  menu_item_change_input(&level_settings_menu->item[9], str);
   sprintf(str,"%d",le_current_level->bkgd_green);
-  menu_item_change_input(&level_settings_menu.item[10], str);
+  menu_item_change_input(&level_settings_menu->item[10], str);
   sprintf(str,"%d",le_current_level->bkgd_blue);
-  menu_item_change_input(&level_settings_menu.item[11], str);
+  menu_item_change_input(&level_settings_menu->item[11], str);
 }
 
 void update_subset_settings_menu()
 {
-  menu_item_change_input(&subset_settings_menu.item[2], le_level_subset.title.c_str());
-  menu_item_change_input(&subset_settings_menu.item[3], le_level_subset.description.c_str());
+  menu_item_change_input(&subset_settings_menu->item[2], le_level_subset.title.c_str());
+  menu_item_change_input(&subset_settings_menu->item[3], le_level_subset.description.c_str());
 }
 
 void apply_level_settings_menu()
@@ -595,17 +597,17 @@ void apply_level_settings_menu()
   int i,y,j;
   i = false;
 
-  le_current_level->name = level_settings_menu.item[2].input;
+  le_current_level->name = level_settings_menu->item[2].input;
 
-  if(le_current_level->bkgd_image.compare(string_list_active(level_settings_menu.item[5].list)) != 0)
+  if(le_current_level->bkgd_image.compare(string_list_active(level_settings_menu->item[5].list)) != 0)
     {
-      le_current_level->bkgd_image = string_list_active(level_settings_menu.item[5].list);
+      le_current_level->bkgd_image = string_list_active(level_settings_menu->item[5].list);
       i = true;
     }
 
-  if(le_current_level->theme.compare(string_list_active(level_settings_menu.item[3].list)) != 0)
+  if(le_current_level->theme.compare(string_list_active(level_settings_menu->item[3].list)) != 0)
     {
-      le_current_level->theme = string_list_active(level_settings_menu.item[3].list);
+      le_current_level->theme = string_list_active(level_settings_menu->item[3].list);
       le_update_buttons(le_current_level->theme.c_str());
       i = true;
     }
@@ -616,10 +618,10 @@ void apply_level_settings_menu()
       level_load_gfx(le_current_level);
     }
 
-  le_current_level->song_title = string_list_active(level_settings_menu.item[4].list);
+  le_current_level->song_title = string_list_active(level_settings_menu->item[4].list);
 
   i = le_current_level->width;
-  le_current_level->width = atoi(level_settings_menu.item[6].input);
+  le_current_level->width = atoi(level_settings_menu->item[6].input);
   if(le_current_level->width < i)
     {
       if(le_current_level->width < 21)
@@ -640,17 +642,17 @@ void apply_level_settings_menu()
           le_current_level->tiles[y][le_current_level->width] = (unsigned int) '\0';
         }
     }
-  le_current_level->time_left = atoi(level_settings_menu.item[7].input);
-  le_current_level->gravity = atof(level_settings_menu.item[8].input);
-  le_current_level->bkgd_red = atoi(level_settings_menu.item[9].input);
-  le_current_level->bkgd_green = atoi(level_settings_menu.item[10].input);
-  le_current_level->bkgd_blue = atoi(level_settings_menu.item[11].input);
+  le_current_level->time_left = atoi(level_settings_menu->item[7].input);
+  le_current_level->gravity = atof(level_settings_menu->item[8].input);
+  le_current_level->bkgd_red = atoi(level_settings_menu->item[9].input);
+  le_current_level->bkgd_green = atoi(level_settings_menu->item[10].input);
+  le_current_level->bkgd_blue = atoi(level_settings_menu->item[11].input);
 }
 
 void save_subset_settings_menu()
 {
-  le_level_subset.title = subset_settings_menu.item[2].input;
-  le_level_subset.description = subset_settings_menu.item[3].input;
+  le_level_subset.title = subset_settings_menu->item[2].input;
+  le_level_subset.description = subset_settings_menu->item[3].input;
   le_level_subset.save();
 }
 
@@ -688,11 +690,11 @@ void le_quit(void)
   SDL_EnableKeyRepeat(0, 0);    // disables key repeating
 
   texture_free(&le_selection);
-  menu_free(&leveleditor_menu);
-  menu_free(&subset_load_menu);
-  menu_free(&subset_new_menu);
-  menu_free(&subset_settings_menu);
-  menu_free(&level_settings_menu);
+  delete leveleditor_menu;
+  delete subset_load_menu;
+  delete subset_new_menu;
+  delete subset_settings_menu;
+  delete level_settings_menu;
   button_panel_free(&le_bkgd_panel);
   button_panel_free(&le_fgd_panel);
   button_panel_free(&le_bad_panel);
@@ -836,7 +838,8 @@ void le_drawlevel()
   for (y = 0; y < 15; ++y)
     for (x = 0; x < 20; ++x)
       {
-        drawshape(x * 32 - ((int)pos_x % 32), y * 32, le_current_level->tiles[y][x + (int)(pos_x / 32)]);
+        drawshape(x * 32 - ((int)pos_x % 32), y * 32,
+                  le_current_level->tiles[y][x + (int)(pos_x / 32)]);
 
         /* draw whats inside stuff when cursor is selecting those */
         /* (draw them all the time - is this the right behaviour?) */
@@ -902,7 +905,7 @@ void le_checkevents()
                   if(key == SDLK_ESCAPE)
                     {
                       show_menu = false;
-                      menu_set_current(&leveleditor_menu);
+                      Menu::set_current(leveleditor_menu);
                     }
                   break;
                 }
@@ -1138,12 +1141,12 @@ void le_checkevents()
                       if(show_menu == false)
                         {
                           update_level_settings_menu();
-                          menu_set_current(&level_settings_menu);
+                          Menu::set_current(level_settings_menu);
                           show_menu = true;
                         }
                       else
                         {
-                          menu_set_current(&leveleditor_menu);
+                          Menu::set_current(leveleditor_menu);
                           show_menu = false;
                         }
                     }
@@ -1229,12 +1232,12 @@ void le_checkevents()
                       if(show_menu == false)
                         {
                           update_level_settings_menu();
-                          menu_set_current(&level_settings_menu);
+                          Menu::set_current(level_settings_menu);
                           show_menu = true;
                         }
                       else
                         {
-                          menu_set_current(&leveleditor_menu);
+                          Menu::set_current(leveleditor_menu);
                           show_menu = false;
                         }
                     }
@@ -1395,7 +1398,7 @@ void le_testlevel()
 {
   level_save(le_current_level,"test",le_level);
   gameloop("test",le_level, ST_GL_TEST);
-  menu_set_current(&leveleditor_menu);
+  Menu::set_current(leveleditor_menu);
   arrays_init();
   level_load_gfx(le_current_level);
   loadshared();

@@ -73,7 +73,7 @@ int title(void)
 
   /* Reset menu variables */
   menu_reset();
-  menu_set_current(&main_menu);
+  Menu::set_current(main_menu);
 
   clearscreen(0, 0, 0);
   updatescreen();
@@ -151,9 +151,9 @@ int title(void)
       if(show_menu && !quit)
         menu_process_current();
 
-      if(current_menu == &main_menu)
+      if(current_menu == main_menu)
         {
-          switch (menu_check(&main_menu))
+          switch (main_menu->check())
             {
             case 2:
               done = 0;
@@ -229,7 +229,7 @@ int title(void)
                 }
               break;
             case 3:
-              update_load_save_game_menu(&load_game_menu, true);
+              update_load_save_game_menu(load_game_menu, true);
               break;
             case 5:
               done = 1;
@@ -243,11 +243,11 @@ int title(void)
               break;
             }
         }
-      else if(current_menu == &options_menu)
+      else if(current_menu == options_menu)
         {
           process_options_menu();
         }
-      else if(current_menu == &load_game_menu)
+      else if(current_menu == load_game_menu)
         {
           process_save_load_game_menu(false);
         }
@@ -405,5 +405,5 @@ void display_credits()
 
   SDL_EnableKeyRepeat(0, 0);    // disables key repeating
   show_menu = 1;
-  menu_set_current(&main_menu);
+  Menu::set_current(main_menu);
 }

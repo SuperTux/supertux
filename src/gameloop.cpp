@@ -12,6 +12,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include <string.h>
 #include <errno.h>
 #include <unistd.h>
@@ -145,13 +146,13 @@ void game_event(void)
                     quit = 1;
                   else if(show_menu)
                     {
-                      menu_set_current(&game_menu);
+                      Menu::set_current(game_menu);
                       show_menu = 0;
                       st_pause_ticks_stop();
                     }
                   else
                     {
-                      menu_set_current(&game_menu);
+                      Menu::set_current(game_menu);
                       show_menu = 1;
                       st_pause_ticks_start();
                     }
@@ -492,7 +493,7 @@ void game_draw(void)
     {
       for (x = 0; x < 21; ++x)
         {
-          drawshape(x * 32 - ((int)scroll_x % 32), y * 32,
+          drawshape(32*x - fmodf(scroll_x, 32), y * 32,
                     current_level.tiles[(int)y][(int)x + (int)(scroll_x / 32)]);
         }
     }
@@ -678,18 +679,18 @@ int gameloop(const char * subset, int levelnb, int mode)
 
       if(show_menu)
         {
-          if(current_menu == &game_menu)
+          if(current_menu == game_menu)
             {
-              switch (menu_check(&game_menu))
+              switch (game_menu->check())
                 {
                 case 2:
                   st_pause_ticks_stop();
                   break;
                 case 3:
-                  update_load_save_game_menu(&save_game_menu, false);
+                  update_load_save_game_menu(save_game_menu, false);
                   break;
                 case 4:
-                  update_load_save_game_menu(&load_game_menu, true);
+                  update_load_save_game_menu(load_game_menu, true);
                   break;
                 case 7:
                   st_pause_ticks_stop();
@@ -697,15 +698,15 @@ int gameloop(const char * subset, int levelnb, int mode)
                   break;
                 }
             }
-          else if(current_menu == &options_menu)
+          else if(current_menu == options_menu)
             {
               process_options_menu();
             }
-          else if(current_menu == &save_game_menu )
+          else if(current_menu == save_game_menu )
             {
               process_save_load_game_menu(true);
             }
-          else if(current_menu == &load_game_menu )
+          else if(current_menu == load_game_menu )
             {
               process_save_load_game_menu(false);
             }
@@ -1785,6 +1786,5 @@ void slotinfo(char **pinfo, int slot)
 
   *pinfo = (char*) malloc(sizeof(char) * (strlen(tmp)+1));
   strcpy(*pinfo,tmp);
-
 }
 

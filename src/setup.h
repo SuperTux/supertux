@@ -35,7 +35,7 @@ void st_menu(void);
 void st_abort(const std::string& reason, const std::string& details);
 void process_options_menu(void);
 void process_save_load_game_menu(int save);
-void update_load_save_game_menu(menu_type* pmenu, int load);
+void update_load_save_game_menu(Menu* pmenu, int load);
 void parseargs(int argc, char * argv[]);
 
 #endif /*SUPERTUX_SETUP_H*/

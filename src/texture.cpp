@@ -74,6 +74,7 @@ void texture_load_part_gl(texture_type* ptexture, const std::string& file, int x
 static int power_of_two(int input)
 {
 	int value = 1;
+        int a;
 
 	while ( value < input ) {
 		value <<= 1;

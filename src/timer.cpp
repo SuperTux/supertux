@@ -43,14 +43,9 @@ void st_pause_ticks_stop(void)
 
 void timer_init(timer_type* ptimer, bool st_ticks)
 {
-  ptimer->period = 0;
-  ptimer->time = 0;
-
-  if(st_ticks)
-    ptimer->get_ticks = st_get_ticks;
-  else
-    ptimer->get_ticks = SDL_GetTicks;
-
+  ptimer->period    = 0;
+  ptimer->time      = 0;
+  ptimer->get_ticks = st_ticks ? st_get_ticks : SDL_GetTicks;
 }
 
 void timer_start(timer_type* ptimer, unsigned int period)
