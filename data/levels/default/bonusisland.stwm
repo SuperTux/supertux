@@ -51,8 +51,11 @@
            ))
 
 	   (levels
+    (level (map-message "Entering Abednego's Island!")
+           (x 6)
+           (y 10))
     (level (name "bonus1/abednego-level1.stl")
-           (map-message "Entering Abednego's Island")
+;           (map-message "Entering Abednego's Island")
            (x 7)
            (y 18))
     (level (name "bonus1/abednego-level2.stl")
