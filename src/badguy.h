@@ -99,6 +99,7 @@ public:
   bool stay_on_platform;
 
   Direction dir;
+  Vector start_position;
 
   Timer frozen_timer;  // gets frozen when a ice shot hits it
 
@@ -108,7 +109,6 @@ private:
   int squishcount; /// number of times this enemy was squiched
   Vector target; // Target that badguy is aiming for (wingling uses this)
   Timer timer;
-  Vector start_position;
   Physic physic;
   float angle;
 

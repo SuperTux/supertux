@@ -112,6 +112,10 @@ public:
       the tile which the badguy is walking on an killing him this way */
   void trybumpbadguy(const Vector& pos);
 
+  /** Flip the all the sector vertically. The purpose of this is to let
+      player to play the same level in a different way :) */
+  void do_vertical_flip();
+
   /** @evil@ */
   static Sector* current()
   { return _current; }

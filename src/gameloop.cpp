@@ -164,6 +164,12 @@ GameSession::levelintro(void)
       std::string(_("by ")) + level->get_author(), 
       Vector(0, 400), LAYER_FOREGROUND1);
 
+
+  if(level->is_level_flipped())
+    context.draw_text_center(white_text,
+      _("Level Vertically Flipped!"),
+      Vector(0, 310), LAYER_FOREGROUND1);
+
   context.do_drawing();
 
   SDL_Event event;
@@ -763,7 +769,7 @@ GameSession::drawstatus(DrawingContext& context)
     {
       sprintf(str, "%2.1f", fps_fps);
       context.draw_text(white_text, "FPS", 
-          Vector(screen->w - white_text->get_text_width("FPS      "), 40),
+          Vector(screen->w - white_text->get_text_width("FPS     "), 40),
           LAYER_FOREGROUND1);
       context.draw_text(gold_text, str,
           Vector(screen->w-4*16, 40), LAYER_FOREGROUND1);

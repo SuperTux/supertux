@@ -43,6 +43,9 @@ public:
   const base_type& get_area() const
   { return area; }
 
+  void set_area(float x, float y)
+  { area.x = x; area.y = y; }
+
 protected:
   base_type area;
 };

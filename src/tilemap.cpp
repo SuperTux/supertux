@@ -33,13 +33,13 @@
 #include "lispwriter.h"
 
 TileMap::TileMap()
-  : solid(false), speed(1), width(0), height(0), layer(LAYER_TILES)
+  : solid(false), speed(1), width(0), height(0), layer(LAYER_TILES), vertical_flip(false)
 {
   tilemanager = TileManager::instance();
 }
 
 TileMap::TileMap(LispReader& reader)
-  : solid(false), speed(1), width(0), height(0), layer(LAYER_TILES)
+  : solid(false), speed(1), width(0), height(0), layer(LAYER_TILES), vertical_flip(false)
 {
   tilemanager = TileManager::instance();
 
@@ -84,7 +84,7 @@ TileMap::TileMap(LispReader& reader)
 }
 
 TileMap::TileMap(int layer_, bool solid_, size_t width_, size_t height_)
-  : solid(solid_), speed(1), width(width_), height(height_), layer(layer_)
+  : solid(solid_), speed(1), width(width_), height(height_), layer(layer_), vertical_flip(false)
 {
 }
 
@@ -131,9 +131,15 @@ TileMap::action(float )
 
 void
 TileMap::draw(DrawingContext& context)
-{ 
+{
   if (speed == 1.0)
     {
+      if(vertical_flip)  // flip vertically the tiles, in case we are playing this
+        {   // level upside down
+        context.push_transform();
+        context.set_drawing_effect(VERTICAL_FLIP); 
+        }
+
       /** if we don't round here, we'll have a 1 pixel gap on screen sometimes.
        * I have no idea why */
       float start_x = roundf(context.get_translation().x);
@@ -153,6 +159,9 @@ TileMap::draw(DrawingContext& context)
             tilemanager->draw_tile(context, tiles[ty*width + tx].id, pos, layer);
         }
       }
+
+      if(vertical_flip)  // disable flipping, if applied
+        context.pop_transform();
     }
   else
     {
@@ -161,6 +170,8 @@ TileMap::draw(DrawingContext& context)
 
       context.push_transform();
       context.set_translation(Vector(trans_x * speed, trans_y * speed));
+      if(vertical_flip)
+        context.set_drawing_effect(VERTICAL_FLIP); 
 
       float start_x = roundf(context.get_translation().x);
       float start_y = roundf(context.get_translation().y);
@@ -233,6 +244,19 @@ TileMap::resize(int new_width, int new_height)
 
   height = new_height;
   width = new_width;
+}
+
+void
+TileMap::do_vertical_flip()
+{
+  // remap tiles vertically flipped
+  for(int y = 0; y < height / 2; ++y) {
+    for(int x = 0; x < width; ++x) {
+      std::swap(tiles[y*width + x], tiles[(((height-1)*width) - (y*width)) + x]);
+      }
+    }
+
+  vertical_flip = true;
 }
 
 Tile*

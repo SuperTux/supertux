@@ -288,6 +288,38 @@ Sector::write(LispWriter& writer)
 }
 
 void
+Sector::do_vertical_flip()
+{
+  for(GameObjects::iterator i = gameobjects_new.begin(); i != gameobjects_new.end(); ++i)
+    {
+    TileMap* tilemap = dynamic_cast<TileMap*> (*i);
+    if(tilemap)
+      {
+      tilemap->do_vertical_flip();
+      }
+
+    BadGuy* badguy = dynamic_cast<BadGuy*> (*i);
+    if(badguy)
+      badguy->start_position.y = solids->get_height()*32 - badguy->start_position.y - 32;
+    Trampoline* trampoline = dynamic_cast<Trampoline*> (*i);
+    if(trampoline)
+      trampoline->base.y = solids->get_height()*32 - trampoline->base.y;
+    FlyingPlatform* flying_platform = dynamic_cast<FlyingPlatform*> (*i);
+    if(flying_platform)
+      flying_platform->base.y = solids->get_height()*32 - flying_platform->base.y;
+    Door* door = dynamic_cast<Door*> (*i);
+    if(door)
+      door->set_area(door->get_area().x, solids->get_height()*32 - door->get_area().y);
+    }
+
+  for(SpawnPoints::iterator i = spawnpoints.begin(); i != spawnpoints.end();
+      ++i) {
+    SpawnPoint* spawn = *i;
+    spawn->pos.y = solids->get_height()*32 - spawn->pos.y;
+  }
+}
+
+void
 Sector::add_object(GameObject* object)
 {
   gameobjects_new.push_back(object);
