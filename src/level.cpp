@@ -626,10 +626,10 @@ Level::cleanup()
     }
 
   reset_points.clear();
-  name.clear();
-  author.clear();
-  song_title.clear();
-  bkgd_image.clear();
+  name = "";
+  author = "";
+  song_title = "";
+  bkgd_image = "";
 
   badguy_data.clear();
 }

@@ -298,7 +298,7 @@ int leveleditor(char* filename)
             cur_tilegroup
             = select_tilegroup_menu->get_item_by_id(it).text;
             Menu::set_current(0);
-            cur_objects.clear();
+            cur_objects = "";
 
           }
           break;
@@ -313,7 +313,7 @@ int leveleditor(char* filename)
           if(it >= 0)
           {
             cur_objects = select_objects_menu->get_item_by_id(it).text;
-            cur_tilegroup.clear();
+            cur_tilegroup = "";
 
             Menu::set_current(0);
           }
@@ -1253,14 +1253,14 @@ void le_checkevents()
               }
             }
 
-            cur_objects.clear();
+            cur_objects = "";
             break;
           case BUTTON_WHEELDOWN:
             it = tilegroups_map.find(cur_tilegroup);
             if(it == tilegroups_map.begin())
             {
               cur_tilegroup = tilegroups_map.rbegin()->first;
-              cur_objects.clear();
+              cur_objects = "";
               break;
             }
             if(--it != --tilegroups_map.begin())
@@ -1268,7 +1268,7 @@ void le_checkevents()
             else
               cur_tilegroup = tilegroups_map.rbegin()->first;
 
-            cur_objects.clear();
+            cur_objects = "";
             break;
           default:
             break;
@@ -1287,7 +1287,7 @@ void le_checkevents()
             if(it == objects_map.end())
             {
               cur_objects = objects_map.begin()->first;
-              cur_tilegroup.clear();
+              cur_tilegroup = "";
               break;
             }
             if(++it != objects_map.end())
@@ -1295,14 +1295,14 @@ void le_checkevents()
             else
               cur_objects = objects_map.begin()->first;
 
-            cur_tilegroup.clear();
+            cur_tilegroup = "";
             break;
           case BUTTON_WHEELDOWN:
             it = objects_map.find(cur_objects);
             if(it == objects_map.begin())
             {
               cur_objects = objects_map.rbegin()->first;
-              cur_tilegroup.clear();
+              cur_tilegroup = "";
               break;
             }
             if(--it != --objects_map.begin())
@@ -1310,7 +1310,7 @@ void le_checkevents()
             else
               cur_objects = objects_map.rbegin()->first;
 
-            cur_tilegroup.clear();
+            cur_tilegroup = "";
             break;
             break;
           default:
