@@ -18,7 +18,6 @@ public:
   void deactivate();
 
 private:
-  Physic physic;
   Timer2 timer;
 
   enum StalactiteState {

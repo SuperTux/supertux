@@ -550,18 +550,17 @@ Player::handle_vertical_input()
      }
    }
 
-#if 0
    /* In case the player has pressed Down while in a certain range of air,
       enable butt jump action */
   if (input.down && !butt_jump && !duck)
-    if(tiles_on_air(TILES_FOR_BUTTJUMP) && jumping)
+    //if(tiles_on_air(TILES_FOR_BUTTJUMP) && jumping)
       butt_jump = true;
-#endif
 
    /* When Down is not held anymore, disable butt jump */
   if(butt_jump && !input.down)
     butt_jump = false;
 
+#if 0
   // Do butt jump
   if (butt_jump && on_ground() && is_big())
   {
@@ -574,7 +573,6 @@ Player::handle_vertical_input()
     
     butt_jump = false;
 
-#if 0
     // Break bricks beneath Tux
     if(Sector::current()->trybreakbrick(
           Vector(base.x + 1, base.y + base.height), false)
@@ -584,9 +582,7 @@ Player::handle_vertical_input()
       physic.set_velocity_y(2);
       butt_jump = true;
     }
-#endif
 
-#if 0
     // Kill nearby badguys
     std::vector<GameObject*> gameobjects = Sector::current()->gameobjects;
     for (std::vector<GameObject*>::iterator i = gameobjects.begin();
@@ -606,8 +602,8 @@ Player::handle_vertical_input()
           }
       }
     }
-#endif
   }
+#endif
 
   /** jumping is only allowed if we're about to touch ground soon and if the
    * button has been up in between the last jump
@@ -932,6 +928,7 @@ Player::kill(HurtMode mode)
       physic.set_acceleration(0, 0);
       physic.set_velocity(0, 700);
       player_status->lives -= 1;
+      player_status->bonus = NO_BONUS;
       dying = true;
       dying_timer.start(3.0);
       flags |= FLAG_NO_COLLDET;
@@ -948,6 +945,7 @@ Player::move(const Vector& vector)
     bbox.set_size(31.8, 31.8);
   on_ground_flag = false;
   duck = false;
+  last_ground_y = vector.y;
 
   input.reset();
   physic.reset();

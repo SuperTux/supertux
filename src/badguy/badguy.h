@@ -27,13 +27,24 @@ public:
   BadGuy();
   ~BadGuy();
 
-  //virtual void action_activated(float elapsed_time);
-
+  /** Called when the badguy is drawn. The default implementation simply draws
+   * the badguy sprite on screen
+   */
   virtual void draw(DrawingContext& context);
+  /** Called each frame. The default implementation checks badguy state and
+   * calls active_action and inactive_action
+   */
   virtual void action(float elapsed_time);
+  /** Called when a collision with another object occured. The default
+   * implemetnation calls collision_player, collision_solid, collision_badguy
+   * and collision_squished
+   */
   virtual HitResponse collision(GameObject& other,
       const CollisionHit& hit);
 
+  /** Set the badguy to kill/falling state, which makes him falling of the
+   * screen (his sprite is turned upside-down)
+   */
   virtual void kill_fall();
 
   Vector get_start_position() const
@@ -53,17 +64,25 @@ protected:
     STATE_SQUISHED,
     STATE_FALLING
   };
-  
+ 
+  /** Called when the badguy collided with a player */
   virtual HitResponse collision_player(Player& player,
       const CollisionHit& hit);
+  /** Called when the badguy collided with solid ground */
   virtual HitResponse collision_solid(GameObject& other,
       const CollisionHit& hit);
+  /** Called when the badguy collided with another badguy */
   virtual HitResponse collision_badguy(BadGuy& other,
       const CollisionHit& hit);
-  
+ 
+  /** Called when the player hit the badguy from above. You should return true
+   * if the badguy was squished, false if squishing wasn't possible
+   */
   virtual bool collision_squished(Player& player);
 
+  /** called each frame when the badguy is activated. */
   virtual void active_action(float elapsed_time);
+  /** called each frame when the badguy is not activated. */
   virtual void inactive_action(float elapsed_time);
 
   /**

@@ -93,7 +93,8 @@ public:
   }
 
 private:
-  std::vector<uint32_t> tiles;
+  typedef std::vector<uint32_t> Tiles;
+  Tiles tiles;
   
 private:
   TileManager* tilemanager;

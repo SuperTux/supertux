@@ -7,7 +7,7 @@
   (sector
     (name "main")
     (gravity 10)
-    (music "supertux-2.ogg")
+    (music "credits.ogg")
     (background
       (image "arctis.jpg")
       (speed 0.5)
