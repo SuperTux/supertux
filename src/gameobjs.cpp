@@ -465,8 +465,8 @@ SmokeCloud::draw(DrawingContext& context)
   img_smoke_cloud->draw(context, position, LAYER_OBJECTS+1);
 }
 
-Particles::Particles(const Vector& epicenter, int min_angle, int max_angle, const Vector& initial_velocity, const Vector& acceleration, int number, Color color_, int size_, int life_time)
-  : color(color_), size(size_), accel(acceleration)
+Particles::Particles(const Vector& epicenter, int min_angle, int max_angle, const Vector& initial_velocity, const Vector& acceleration, int number, Color color_, int size_, int life_time, int drawing_layer_)
+  : color(color_), size(size_), accel(acceleration), drawing_layer(drawing_layer_)
 {
   if(life_time == 0)
     {
@@ -537,7 +537,7 @@ Particles::draw(DrawingContext& context)
   // draw particles
   for(std::vector<Particle*>::iterator i = particles.begin(); i < particles.end(); i++)
     {
-    context.draw_filled_rect((*i)->pos, Vector(size,size), color, LAYER_OBJECTS+10);
+    context.draw_filled_rect((*i)->pos, Vector(size,size), color, drawing_layer);
     }
 }
 

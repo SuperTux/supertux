@@ -505,7 +505,8 @@ Player::handle_horizontal_input()
           Sector::current()->add_particles(
               Vector(base.x + (dir == RIGHT ? base.width : 0), base.y+base.height),
               dir == RIGHT ? 270+20 : 90-40, dir == RIGHT ? 270+40 : 90-20,
-              Vector(2.8,-2.6), Vector(0,0.030), 3, Color(100,100,100), 3, 800);
+              Vector(2.8,-2.6), Vector(0,0.030), 3, Color(100,100,100), 3, 800,
+              LAYER_OBJECTS+1);
 
           ax *= 2.5;
         }
