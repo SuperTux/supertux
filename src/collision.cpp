@@ -95,7 +95,7 @@ void* collision_func(const base_type& base, tiletestfunction function)
 
 static void* test_goal_tile_function(Tile* tile)
 {
-  if(tile->goal)
+  if(tile && tile->goal)
     return tile;
   return 0;
 }
