@@ -4,7 +4,6 @@ EXTRA_DIST = \
   extro.txt \
   CREDITS \
   $(wildcard sounds/*.wav) \
-  images/icon.png \
   images/icon.xpm \
   $(wildcard images/*.png) \
   $(wildcard images/*.xpm) \
