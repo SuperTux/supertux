@@ -1196,6 +1196,7 @@ LispWriter::create_lisp ()
   return lisp_obj;
 }
 
+#if 0
 void mygzungetc(char c, void* file)
 {
   gzungetc(c, file);
@@ -1204,6 +1205,51 @@ void mygzungetc(char c, void* file)
 lisp_stream_t* lisp_stream_init_gzfile (lisp_stream_t *stream, gzFile file)
 {
   return lisp_stream_init_any (stream, file, gzgetc, mygzungetc);
+}
+#endif
+
+lisp_object_t* lisp_read_from_gzfile(const char* filename)
+{
+  bool done = false;
+  lisp_object_t* root_obj = 0;
+  int chunk_size = 128 * 1024;
+  int buf_pos = 0;
+  int try_number = 1;
+  char* buf = static_cast<char*>(malloc(chunk_size));
+  assert(buf);
+
+  gzFile in = gzopen(filename, "r");
+
+  while (!done)
+    {
+      int ret = gzread(in, buf + buf_pos, chunk_size);
+      if (ret == -1)
+        {
+          free (buf);
+          assert(!"Error while reading from file");
+        }
+      else if (ret == chunk_size) // buffer got full, eof not yet there so resize
+        {
+          buf_pos = chunk_size * try_number;
+          try_number += 1;
+          buf = static_cast<char*>(realloc(buf, chunk_size * try_number));
+          assert(buf);
+        }
+      else 
+        {
+          // everything fine, encountered EOF 
+          done = true;
+        }
+    }
+      
+  lisp_stream_t stream;
+  lisp_stream_init_string (&stream, buf);
+  root_obj = lisp_read (&stream);
+      
+  free(buf);
+  gzclose(in);
+
+  return root_obj;
 }
 
 bool has_suffix(const char* data, const char* suffix)
@@ -1229,6 +1275,8 @@ lisp_object_t* lisp_read_from_file(const char* filename)
 
   if (has_suffix(filename, ".gz"))
     {
+      return lisp_read_from_gzfile(filename);
+#if 0
       lisp_object_t* obj = 0;
       gzFile in = gzopen(filename, "r");
 
@@ -1238,8 +1286,8 @@ lisp_object_t* lisp_read_from_file(const char* filename)
           obj = lisp_read(&stream);
           gzclose(in);
         }
-
-      return obj;
+        return obj;
+#endif
     }
   else
     {
