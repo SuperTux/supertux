@@ -1782,7 +1782,7 @@ void LevelEditor::showhelp()
     for(unsigned int t = 0; t < sizeof(text[i])/sizeof(char *); t++)
       context.draw_text(white_text, text[i][t], Vector(5, 80+(t*white_text->get_height())), LAYER_GUI);
 
-    sprintf(str,"Press any key to continue - Page %d/%d?", i, sizeof(text));
+    sprintf(str,"Press any key to continue - Page %d/%d?", i, static_cast<int>(sizeof(text)));
     context.draw_text(gold_text, str, Vector(0, 0), LAYER_GUI);
 
     context.do_drawing();
