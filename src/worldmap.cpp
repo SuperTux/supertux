@@ -921,7 +921,7 @@ WorldMap::loadgame(const std::string& filename)
     return;
   
   lisp_object_t* savegame = lisp_read_from_file(filename);
-  if (savegame)
+  if (!savegame)
     {
       std::cout << "WorldMap:loadgame: File not found: " << filename << std::endl;
       return;
