@@ -385,6 +385,41 @@ GameSession::process_events()
                           ch[1] = '\0';
                           }
                         last_keys.append(ch);  // add to cheat keys
+
+                        // Cheating words (the goal of this is really for debugging,
+                        // but could be used for some cheating, nothing wrong with that)
+                        if(compare_last(last_keys, "grow"))
+                          {
+                          tux.grow(false);
+                          last_keys.clear();
+                          }
+                        if(compare_last(last_keys, "fire"))
+                          {
+                          tux.grow(false);
+                          tux.got_power = tux.FIRE_POWER;
+                          last_keys.clear();
+                          }
+                        if(compare_last(last_keys, "ice"))
+                          {
+                          tux.grow(false);
+                          tux.got_power = tux.ICE_POWER;
+                          last_keys.clear();
+                          }
+                        if(compare_last(last_keys, "lifeup"))
+                          {
+                          player_status.lives++;
+                          last_keys.clear();
+                          }
+                        if(compare_last(last_keys, "lifedown"))
+                          {
+                          player_status.lives--;
+                          last_keys.clear();
+                          }
+                        if(compare_last(last_keys, "invincible"))
+                          {    // be invincle for the rest of the level
+                          tux.invincible_timer.start(time_left.get_left());
+                          last_keys.clear();
+                          }
                         break;
                       }
                   }
@@ -462,46 +497,6 @@ GameSession::process_events()
             }
         } /* while */
     }
-
-// Cheating words (the goal of this is really for debugging, but could
-// be used for some cheating)
-// TODO: this could be implmented in a more elegant and faster way
-if(!last_keys.empty())
-  {
-  Player &tux = *currentsector->player;
-  if(compare_last(last_keys, "grow"))
-    {
-    tux.grow(false);
-    last_keys.clear();
-    }
-  if(compare_last(last_keys, "fire"))
-    {
-    tux.grow(false);
-    tux.got_power = tux.FIRE_POWER;
-    last_keys.clear();
-    }
-  if(compare_last(last_keys, "ice"))
-    {
-    tux.grow(false);
-    tux.got_power = tux.ICE_POWER;
-    last_keys.clear();
-    }
-  if(compare_last(last_keys, "lifeup"))
-    {
-    player_status.lives++;
-    last_keys.clear();
-    }
-  if(compare_last(last_keys, "lifedown"))
-    {
-    player_status.lives--;
-    last_keys.clear();
-    }
-  if(compare_last(last_keys, "invincible"))
-    {    // be invincle for the rest of the level
-    tux.invincible_timer.start(time_left.get_left());
-    last_keys.clear();
-    }
-  }
 }
 
 void
