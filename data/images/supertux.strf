@@ -904,7 +904,7 @@
  (sprite (name "mrbomb-ticking-right")
        (action
          (fps 15.0)
-         (x-offset 255)
+         (x-offset 10)
          (y-offset 8)
          (images "shared/mrbombx-right-0.png"
                  "shared/mrbombx-right-1.png")))
@@ -1016,26 +1016,26 @@
  (sprite (name "spiky-left")
        (action
          (x-offset 6)
-         (y-offset 255)
+         (y-offset 10)
          (images "shared/spiky-left-0.png"
                  "shared/spiky-left-1.png"
                  "shared/spiky-left-2.png")))
  (sprite (name "spiky-right")
        (action
          (x-offset 6)
-         (y-offset 255)
+         (y-offset 10)
          (images "shared/spiky-right-0.png"
                  "shared/spiky-right-1.png"
                  "shared/spiky-right-2.png")))
  (sprite (name "spiky-iced-left")
        (action
          (x-offset 6)
-         (y-offset 255)
+         (y-offset 10)
          (images "shared/spiky-iced-left-0.png")))
  (sprite (name "spiky-iced-right")
        (action
          (x-offset 6)
-         (y-offset 255)
+         (y-offset 10)
          (images "shared/spiky-iced-right-0.png")))
 
  (sprite (name "snowball-left")
@@ -1090,7 +1090,7 @@
        (action
          (x-offset 12)
          (x-offset 12)
-         (fps 255)
+         (fps 20)
          (images "shared/firebullet-1.png"
                  "shared/firebullet-2.png"
                  "shared/firebullet-3.png"
@@ -1099,7 +1099,7 @@
        (action
          (x-offset 12)
          (x-offset 12)
-         (fps 255)
+         (fps 20)
          (images "shared/icebullet-1.png")))
   ; Trampoline
   (sprite (name "trampoline")
