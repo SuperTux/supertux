@@ -117,12 +117,12 @@ void menu_free(menu_type* pmenu)
 /* Initialize a menu */
 void menu_init(menu_type* pmenu)
 {
-  pmenu->x = screen->w/2;
-  pmenu->y = screen->h/2;
+  pmenu->x            = screen->w/2;
+  pmenu->y            = screen->h/2;
   pmenu->arrange_left = 0;
-  pmenu->num_items = 0;
-  pmenu->active_item = 0;
-  pmenu->item = NULL;
+  pmenu->num_items    = 0;
+  pmenu->active_item  = 0;
+  pmenu->item         = NULL;
   timer_init(&pmenu->effect,NO);
 }
 
@@ -333,7 +333,7 @@ void menu_draw_item(menu_type* pmenu,
         fillrect(x, y + 6,
                  menu_width, 4,
                  210,50,50,225);
-        fillrect(x, y + 10 + 6, 
+        fillrect(x, y + 6, 
                  menu_width, 2,
                  0,0,0,255);
         break;
@@ -428,18 +428,18 @@ void menu_draw_item(menu_type* pmenu,
 /* Draw the current menu. */
 void menu_draw(menu_type* pmenu)
 {
-  int y;
   int menu_height;
   int menu_width;
   
-  /* The width of the menu has to be more than the width of the text with the most characters */
+  /* The width of the menu has to be more than the width of the text
+     with the most characters */
   menu_width = 0;
   for(int i = 0; i < pmenu->num_items; ++i)
     {
-      y = strlen(pmenu->item[i].text) + (pmenu->item[i].input ? strlen(pmenu->item[i].input) + 1 : 0) + strlen(string_list_active(pmenu->item[i].list));
-      if( y > menu_width )
+      int w = strlen(pmenu->item[i].text) + (pmenu->item[i].input ? strlen(pmenu->item[i].input) + 1 : 0) + strlen(string_list_active(pmenu->item[i].list));
+      if( w > menu_width )
         {
-          menu_width = y;
+          menu_width = w;
           if( pmenu->item[i].kind == MN_TOGGLE)
             menu_width += 2;
         }
