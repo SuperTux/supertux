@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux-CVS\n"
 "Report-Msgid-Bugs-To: super-tux-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2004-06-07 23:38+0100\n"
+"POT-Creation-Date: 2004-06-09 18:34+0100\n"
 "PO-Revision-Date: 2004-06-08 21:03+0200\n"
 "Last-Translator: Javier Beaumont <demonight@users.sourceforge.net>\n"
 "Language-Team: Spanish Team <super-tux-devel@lists.sourceforge.net>\n"
@@ -26,7 +26,7 @@ msgstr "por "
 msgid "PAUSE - Press 'P' To Play"
 msgstr "PAUSA - Pulsa 'P' para continuar"
 
-#: src/gameloop.cpp:702 src/worldmap.cpp:850
+#: src/gameloop.cpp:702 src/worldmap.cpp:849
 msgid "SCORE"
 msgstr "PUNTOS"
 
@@ -42,35 +42,40 @@ msgstr "FUERA DE TIEMPO"
 msgid "TIME"
 msgstr "TIEMPO"
 
-#: src/gameloop.cpp:723 src/gameloop.cpp:724 src/worldmap.cpp:854
+#: src/gameloop.cpp:723 src/gameloop.cpp:724 src/worldmap.cpp:853
 msgid "COINS"
 msgstr "MONEDAS"
 
-#: src/gameloop.cpp:745 src/gameloop.cpp:746 src/worldmap.cpp:875
-#: src/worldmap.cpp:876
+#: src/gameloop.cpp:745 src/gameloop.cpp:746 src/worldmap.cpp:874
+#: src/worldmap.cpp:875
 msgid "LIVES"
 msgstr "VIDAS"
 
-#: src/gameloop.cpp:768
+#: src/gameloop.cpp:751
+#, c-format
+msgid "Playing: %s"
+msgstr ""
+
+#: src/gameloop.cpp:776
 msgid "Result:"
 msgstr "Resultado:"
 
-#: src/gameloop.cpp:771 src/worldmap.cpp:727
+#: src/gameloop.cpp:779 src/worldmap.cpp:726
 #, c-format
 msgid "SCORE: %d"
 msgstr "PUNTOS: %d"
 
-#: src/gameloop.cpp:774 src/worldmap.cpp:731
+#: src/gameloop.cpp:782 src/worldmap.cpp:730
 #, c-format
 msgid "COINS: %d"
 msgstr "MONEDAS: %d"
 
-#: src/gameloop.cpp:803
+#: src/gameloop.cpp:811
 #, c-format
 msgid "Slot %d - Savegame"
 msgstr "Slot %d - Juego salvado"
 
-#: src/gameloop.cpp:806
+#: src/gameloop.cpp:814
 #, c-format
 msgid "Slot %d - Free"
 msgstr "Slot %d - Libre"
@@ -131,145 +136,144 @@ msgstr "Alt derecho"
 msgid "Left Alt"
 msgstr "Alt izquierdo"
 
-#: src/setup.cpp:388 src/setup.cpp:448
+#: src/setup.cpp:390 src/setup.cpp:450
 msgid "Start Game"
 msgstr "Comenzar el juego"
 
-#: src/setup.cpp:389 src/title.cpp:91
+#: src/setup.cpp:391 src/title.cpp:91
 msgid "Contrib Levels"
 msgstr "Niveles de contribuciones"
 
-#: src/setup.cpp:390 src/setup.cpp:395 src/setup.cpp:471 src/setup.cpp:478
+#: src/setup.cpp:392 src/setup.cpp:397 src/setup.cpp:473 src/setup.cpp:480
 msgid "Options"
 msgstr "Opciones"
 
-#: src/setup.cpp:391
+#: src/setup.cpp:393
 msgid "Level Editor"
 msgstr "Editor de niveles"
 
-#: src/setup.cpp:392
+#: src/setup.cpp:394
 msgid "Credits"
 msgstr "Creditos"
 
-#: src/setup.cpp:393
+#: src/setup.cpp:395
 msgid "Quit"
 msgstr "Salir"
 
-#: src/setup.cpp:398
+#: src/setup.cpp:400
 msgid "OpenGL    "
 msgstr "OpenGL    "
 
-#: src/setup.cpp:400
+#: src/setup.cpp:402
 msgid "OpenGL (not supported)"
 msgstr "OpenGL (no soportado)"
 
-#: src/setup.cpp:402
+#: src/setup.cpp:404
 msgid "Fullscreen"
 msgstr "Pantalla completa"
 
-#: src/setup.cpp:405 src/setup.cpp:410
+#: src/setup.cpp:407 src/setup.cpp:412
 msgid "Sound     "
 msgstr "Sonido     "
 
-#: src/setup.cpp:406 src/setup.cpp:411
+#: src/setup.cpp:408 src/setup.cpp:413
 msgid "Music     "
 msgstr "Música     "
 
-#: src/setup.cpp:413
+#: src/setup.cpp:415
 msgid "Show FPS  "
 msgstr "Mostrar FPS  "
 
-#: src/setup.cpp:414
+#: src/setup.cpp:416
 msgid "Setup Keys"
 msgstr "Configurar las teclas"
 
-#: src/setup.cpp:417
+#: src/setup.cpp:419
 msgid "Setup Joystick"
 msgstr "Configurar el Joystick"
 
-#: src/setup.cpp:420 src/setup.cpp:432 src/setup.cpp:445 src/setup.cpp:456
+#: src/setup.cpp:422 src/setup.cpp:434 src/setup.cpp:447 src/setup.cpp:458
 #: src/title.cpp:104 src/title.cpp:141
 msgid "Back"
 msgstr "Volver"
 
-#: src/setup.cpp:422
+#: src/setup.cpp:424
 msgid "Keyboard Setup"
 msgstr "Configurar el teclado"
 
-#: src/setup.cpp:424
+#: src/setup.cpp:426
 msgid "Left move"
 msgstr "Para la izquierda"
 
-#: src/setup.cpp:425
+#: src/setup.cpp:427
 msgid "Right move"
 msgstr "Para la derecha"
 
-#: src/setup.cpp:426
+#: src/setup.cpp:428
 msgid "Jump"
 msgstr "Saltar"
 
-#: src/setup.cpp:427
+#: src/setup.cpp:429
 msgid "Duck"
 msgstr "Agacharse"
 
-#: src/setup.cpp:428
+#: src/setup.cpp:430
 msgid "Activate"
 msgstr "Activado"
 
-#: src/setup.cpp:430
+#: src/setup.cpp:432
 msgid "Power/Run"
 msgstr "Poder/Correr"
 
-#: src/setup.cpp:436
+#: src/setup.cpp:438
 msgid "Joystick Setup"
 msgstr "Configurar el Joystick"
 
-#: src/setup.cpp:440
+#: src/setup.cpp:442
 msgid "A button"
 msgstr "Botón A"
 
-#: src/setup.cpp:441
+#: src/setup.cpp:443
 msgid "B button"
 msgstr "Botón B"
 
-#: src/setup.cpp:458
+#: src/setup.cpp:460
 msgid "Save Game"
 msgstr "Salvar el juego"
 
-#: src/setup.cpp:468 src/setup.cpp:475
+#: src/setup.cpp:470 src/setup.cpp:477
 msgid "Pause"
 msgstr "Pausa"
 
-#: src/setup.cpp:470 src/setup.cpp:477
+#: src/setup.cpp:472 src/setup.cpp:479
 msgid "Continue"
 msgstr "Continuar"
 
-#: src/setup.cpp:473
+#: src/setup.cpp:475
 msgid "Abort Level"
 msgstr "Abortar el nivel"
 
-#: src/setup.cpp:480
+#: src/setup.cpp:482
 msgid "Quit Game"
 msgstr "Salir del juego"
 
-#: src/setup.cpp:482
+#: src/setup.cpp:484
 msgid "Enter your name:"
 msgstr "Introduce tu nombre:"
 
-#: src/setup.cpp:1036
+#: src/setup.cpp:1043
 msgid "  SuperTux  "
 msgstr "  SuperTux  "
 
-#: src/setup.cpp:1036
+#: src/setup.cpp:1043
 msgid ""
 "\n"
 "  Please see the file \"README.txt\" for more details.\n"
 msgstr ""
 "\n"
-"  Por favor mira el fichero \"README.txt\" para más detalles."
-"\n"
+"  Por favor mira el fichero \"README.txt\" para más detalles.\n"
 
-#: src/setup.cpp:1038
+#: src/setup.cpp:1045
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] FILENAME\n"
@@ -278,7 +282,7 @@ msgstr ""
 "Uso: %s [OPCIONES] NOMBRE_DEL_FICHERO\n"
 "\n"
 
-#: src/setup.cpp:1039
+#: src/setup.cpp:1046
 msgid ""
 "Display Options:\n"
 "  --fullscreen        Run in fullscreen mode.\n"
@@ -309,36 +313,45 @@ msgid ""
 msgstr ""
 "Opciones de pantalla:\n"
 "  --fullscreen        Funciona a pantalla completa.\n"
-"  --opengl            En el caso de que se haya compilado con soporte para OpenGL, esto lo activara\n"
+"  --opengl            En el caso de que se haya compilado con soporte para "
+"OpenGL, esto lo activara\n"
 "                      y SuperTux hará uso de ello.\n"
 "  --sdl               Usar SDL como render gráfico (software)\n"
 "\n"
 "Opciones de sonido:\n"
-"  --disable-sound     En el caso de que se haya compilado con soporte para sonido, esto\n"
+"  --disable-sound     En el caso de que se haya compilado con soporte para "
+"sonido, esto\n"
 "                      desactivará el sonido para esta sesión de juego.\n"
 "  --disable-music     Igual que el anterior, pero esto desactiva la música.\n"
 "\n"
 "Opciones varias:\n"
 "  -j, --joystick NUM  Usa el joystick NUM (por defecto: 0)\n"
 "  --joymap XAXIS:YAXIS:A:B:START\n"
-"                      Define como deben estar mapeados los botones y el eje del joystick\n"
-"  --leveleditor       Abre el editor de niveles en un fichero. (Solo funciona cuando se le pasa el nombre de un fichero.)\n"
-"  -d, --datadir DIR   Carga los datos del juego desde DIR (Por defecto: automático)\n"
-"  --debug-mode        Activa el modo de depuración, que es útil para desarrolladores.\n"
-"  --help              Muestra un mensaje de ayuda con una lista de los comandos de linea\n"
+"                      Define como deben estar mapeados los botones y el eje "
+"del joystick\n"
+"  --leveleditor       Abre el editor de niveles en un fichero. (Solo "
+"funciona cuando se le pasa el nombre de un fichero.)\n"
+"  -d, --datadir DIR   Carga los datos del juego desde DIR (Por defecto: "
+"automático)\n"
+"  --debug-mode        Activa el modo de depuración, que es útil para "
+"desarrolladores.\n"
+"  --help              Muestra un mensaje de ayuda con una lista de los "
+"comandos de linea\n"
 "                      opciones, licencia y controles del juego.\n"
-"  --usage             Muestra un breve mensaje listando las opciones de los comandos de linea.\n"
+"  --usage             Muestra un breve mensaje listando las opciones de los "
+"comandos de linea.\n"
 "  --version           Muestra la versión de SuperTux que estás ejecutando.\n"
 "\n"
 
-#: src/setup.cpp:1095
+#: src/setup.cpp:1102
 #, c-format
 msgid ""
 "Usage: %s [--fullscreen] [--opengl] [--disable-sound] [--disable-music] [--"
 "debug-mode] | [--usage | --help | --version] [--leveleditor] FILENAME\n"
 msgstr ""
 "Uso: %s [--fullscreen] [--opengl] [--disable-sound] [--disable-music] [--"
-"debug-mode] | [--usage | --help | --version] [--leveleditor] NOMBRE_DEL_FICHERO\n"
+"debug-mode] | [--usage | --help | --version] [--leveleditor] "
+"NOMBRE_DEL_FICHERO\n"
 
 #: src/title.cpp:277
 msgid ""
@@ -360,7 +373,6 @@ msgstr ""
 msgid "Are you sure you want to delete slot %d?"
 msgstr "¿Estás seguro de que quieres borrar el slot %d?"
 
-#: src/worldmap.cpp:724
+#: src/worldmap.cpp:723
 msgid "GAMEOVER"
 msgstr "FIN DEL JUEGO"
-

@@ -746,6 +746,14 @@ GameSession::drawstatus(DrawingContext& context)
       Vector(screen->w - white_text->get_text_width(_("LIVES")) - white_text->get_text_width("   99"), 20),
       LAYER_FOREGROUND1);
 
+  if(game_pause)
+    {
+      sprintf(str, _("Playing: %s"), level->name.c_str());
+
+      context.draw_text(white_text, str, Vector(0,20),
+          LAYER_FOREGROUND1);
+    }
+
   if(show_fps)
     {
       sprintf(str, "%2.1f", fps_fps);

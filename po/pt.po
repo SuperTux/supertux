@@ -1,5 +1,6 @@
 # translation of pt.po to 
 # translation of pt.po to
+# translation of pt.po to
 # This file is distributed under the same license as the PACKAGE package.
 # Copyright (C) YEAR SuperTux Development Team.
 # Ricardo Cruz <rick2@aeiou.pt>, 2004.
@@ -8,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pt\n"
 "Report-Msgid-Bugs-To: super-tux-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2004-06-07 23:38+0100\n"
-"PO-Revision-Date: 2004-06-07 23:39+0100\n"
+"POT-Creation-Date: 2004-06-09 18:34+0100\n"
+"PO-Revision-Date: 2004-06-09 18:34+0100\n"
 "Last-Translator: Ricardo Cruz <rick2@aeiou.pt>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -25,7 +26,7 @@ msgstr "por "
 msgid "PAUSE - Press 'P' To Play"
 msgstr "PAUSA - Carrega no 'P' para continuar"
 
-#: src/gameloop.cpp:702 src/worldmap.cpp:850
+#: src/gameloop.cpp:702 src/worldmap.cpp:849
 msgid "SCORE"
 msgstr "PONTOS"
 
@@ -41,35 +42,40 @@ msgstr "PASSOU O TEMPO"
 msgid "TIME"
 msgstr "TEMPO"
 
-#: src/gameloop.cpp:723 src/gameloop.cpp:724 src/worldmap.cpp:854
+#: src/gameloop.cpp:723 src/gameloop.cpp:724 src/worldmap.cpp:853
 msgid "COINS"
 msgstr "MOEDAS"
 
-#: src/gameloop.cpp:745 src/gameloop.cpp:746 src/worldmap.cpp:875
-#: src/worldmap.cpp:876
+#: src/gameloop.cpp:745 src/gameloop.cpp:746 src/worldmap.cpp:874
+#: src/worldmap.cpp:875
 msgid "LIVES"
 msgstr "VIDAS"
 
-#: src/gameloop.cpp:768
+#: src/gameloop.cpp:751
+#, c-format
+msgid "Playing: %s"
+msgstr "Jogando: %s"
+
+#: src/gameloop.cpp:776
 msgid "Result:"
 msgstr "Resultado:"
 
-#: src/gameloop.cpp:771 src/worldmap.cpp:727
+#: src/gameloop.cpp:779 src/worldmap.cpp:726
 #, c-format
 msgid "SCORE: %d"
 msgstr "PONTOS: %d"
 
-#: src/gameloop.cpp:774 src/worldmap.cpp:731
+#: src/gameloop.cpp:782 src/worldmap.cpp:730
 #, c-format
 msgid "COINS: %d"
 msgstr "MOEDAS: %d"
 
-#: src/gameloop.cpp:803
+#: src/gameloop.cpp:811
 #, c-format
 msgid "Slot %d - Savegame"
 msgstr "Slot %d - Jogo gravado"
 
-#: src/gameloop.cpp:806
+#: src/gameloop.cpp:814
 #, c-format
 msgid "Slot %d - Free"
 msgstr "Slot %d - Livre"
@@ -130,136 +136,136 @@ msgstr "Alt direito"
 msgid "Left Alt"
 msgstr "Alt esquerdo"
 
-#: src/setup.cpp:388 src/setup.cpp:448
+#: src/setup.cpp:390 src/setup.cpp:450
 msgid "Start Game"
 msgstr "Começar o Jogo"
 
-#: src/setup.cpp:389 src/title.cpp:91
+#: src/setup.cpp:391 src/title.cpp:91
 msgid "Contrib Levels"
 msgstr "Contribuições"
 
-#: src/setup.cpp:390 src/setup.cpp:395 src/setup.cpp:471 src/setup.cpp:478
+#: src/setup.cpp:392 src/setup.cpp:397 src/setup.cpp:473 src/setup.cpp:480
 msgid "Options"
 msgstr "Opções"
 
-#: src/setup.cpp:391
+#: src/setup.cpp:393
 msgid "Level Editor"
 msgstr "Editor de Níveis"
 
-#: src/setup.cpp:392
+#: src/setup.cpp:394
 msgid "Credits"
 msgstr "Méritos"
 
-#: src/setup.cpp:393
+#: src/setup.cpp:395
 msgid "Quit"
 msgstr "Sair"
 
-#: src/setup.cpp:398
+#: src/setup.cpp:400
 msgid "OpenGL    "
 msgstr "OpenGL    "
 
-#: src/setup.cpp:400
+#: src/setup.cpp:402
 msgid "OpenGL (not supported)"
 msgstr "OpenGL (não suportado)"
 
-#: src/setup.cpp:402
+#: src/setup.cpp:404
 msgid "Fullscreen"
 msgstr "Fullscreen"
 
-#: src/setup.cpp:405 src/setup.cpp:410
+#: src/setup.cpp:407 src/setup.cpp:412
 msgid "Sound     "
 msgstr "Som       "
 
-#: src/setup.cpp:406 src/setup.cpp:411
+#: src/setup.cpp:408 src/setup.cpp:413
 msgid "Music     "
 msgstr "Música    "
 
-#: src/setup.cpp:413
+#: src/setup.cpp:415
 msgid "Show FPS  "
 msgstr "Mostrar FPS"
 
-#: src/setup.cpp:414
+#: src/setup.cpp:416
 msgid "Setup Keys"
 msgstr "Configurar Teclas"
 
-#: src/setup.cpp:417
+#: src/setup.cpp:419
 msgid "Setup Joystick"
 msgstr "Configurar Joystick"
 
-#: src/setup.cpp:420 src/setup.cpp:432 src/setup.cpp:445 src/setup.cpp:456
+#: src/setup.cpp:422 src/setup.cpp:434 src/setup.cpp:447 src/setup.cpp:458
 #: src/title.cpp:104 src/title.cpp:141
 msgid "Back"
 msgstr "Recuar"
 
-#: src/setup.cpp:422
+#: src/setup.cpp:424
 msgid "Keyboard Setup"
 msgstr "Configuração do Teclado"
 
-#: src/setup.cpp:424
+#: src/setup.cpp:426
 msgid "Left move"
 msgstr "Para a Esquerda"
 
-#: src/setup.cpp:425
+#: src/setup.cpp:427
 msgid "Right move"
 msgstr "Para a Direita"
 
-#: src/setup.cpp:426
+#: src/setup.cpp:428
 msgid "Jump"
 msgstr "Saltar"
 
-#: src/setup.cpp:427
+#: src/setup.cpp:429
 msgid "Duck"
 msgstr "Abaixar"
 
-#: src/setup.cpp:428
+#: src/setup.cpp:430
 msgid "Activate"
 msgstr "Activado"
 
-#: src/setup.cpp:430
+#: src/setup.cpp:432
 msgid "Power/Run"
 msgstr "Poder/Correr"
 
-#: src/setup.cpp:436
+#: src/setup.cpp:438
 msgid "Joystick Setup"
 msgstr "Configuração do Joystick"
 
-#: src/setup.cpp:440
+#: src/setup.cpp:442
 msgid "A button"
 msgstr "Butão A"
 
-#: src/setup.cpp:441
+#: src/setup.cpp:443
 msgid "B button"
 msgstr "Butão B"
 
-#: src/setup.cpp:458
+#: src/setup.cpp:460
 msgid "Save Game"
 msgstr "Gravar o Jogo"
 
-#: src/setup.cpp:468 src/setup.cpp:475
+#: src/setup.cpp:470 src/setup.cpp:477
 msgid "Pause"
 msgstr "Pausa"
 
-#: src/setup.cpp:470 src/setup.cpp:477
+#: src/setup.cpp:472 src/setup.cpp:479
 msgid "Continue"
 msgstr "Continuar"
 
-#: src/setup.cpp:473
+#: src/setup.cpp:475
 msgid "Abort Level"
 msgstr "Abortar Nível"
 
-#: src/setup.cpp:480
+#: src/setup.cpp:482
 msgid "Quit Game"
 msgstr "Sair do Jogo"
 
-#: src/setup.cpp:482
+#: src/setup.cpp:484
 msgid "Enter your name:"
 msgstr "Insira o seu nome:"
 
-#: src/setup.cpp:1036
+#: src/setup.cpp:1043
 msgid "  SuperTux  "
 msgstr "  SuperTux  "
 
-#: src/setup.cpp:1036
+#: src/setup.cpp:1043
 msgid ""
 "\n"
 "  Please see the file \"README.txt\" for more details.\n"
@@ -267,7 +273,7 @@ msgstr ""
 "\n"
 "  Dá uma olhadela no ficheiro  \"README.txt\" para mais detalhes.\n"
 
-#: src/setup.cpp:1038
+#: src/setup.cpp:1045
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] FILENAME\n"
@@ -276,7 +282,7 @@ msgstr ""
 "Uso: %s [OPÇÕES] NOME_DO_FICHEIRO\n"
 "\n"
 
-#: src/setup.cpp:1039
+#: src/setup.cpp:1046
 msgid ""
 "Display Options:\n"
 "  --fullscreen        Run in fullscreen mode.\n"
@@ -335,7 +341,7 @@ msgstr ""
 "  --version           Mostra a versão do SuperTux que está a correr.\n"
 "\n"
 
-#: src/setup.cpp:1095
+#: src/setup.cpp:1102
 #, c-format
 msgid ""
 "Usage: %s [--fullscreen] [--opengl] [--disable-sound] [--disable-music] [--"
@@ -364,7 +370,7 @@ msgstr ""
 msgid "Are you sure you want to delete slot %d?"
 msgstr "Tens a certeza que queres remover o slot %d?"
 
-#: src/worldmap.cpp:724
+#: src/worldmap.cpp:723
 msgid "GAMEOVER"
 msgstr "FIM DO JOGO"
 
