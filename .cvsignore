@@ -20,4 +20,8 @@ libtool
 .sconsign
 build_config.py
 build
+Jamconfig
+Jamconfig.in
+supertux
+*.exe
 
