@@ -66,7 +66,8 @@ void player_input_init(player_input_type* pplayer_input)
 
 Player::Player(DisplayManager& display_manager)
 {
-  display_manager.add_drawable(this, LAYER_OBJECTS);
+  display_manager.add_drawable(this, LAYER_OBJECTS-1); // for tux himself
+  display_manager.add_drawable(this, LAYER_OBJECTS+1); // for the arm
   init();
 }
 
@@ -573,10 +574,44 @@ Player::grabdistros()
 }
 
 void
-Player::draw(ViewPort& viewport, int )
+Player::draw(ViewPort& viewport, int layer)
 {
+  PlayerSprite* sprite;
+          
+  if (size == SMALL)
+    sprite = &smalltux;
+  else if (got_power == FIRE_POWER)
+    sprite = &firetux;
+  else if (got_power == ICE_POWER)
+    sprite = &icetux;
+  else
+    sprite = &largetux;
+
   Vector pos = viewport.world2screen(Vector(base.x, base.y));
 
+  if(layer == LAYER_OBJECTS + 1) {
+    // Draw arm overlay graphics when Tux is holding something
+    if (holding_something && physic.get_velocity_y() == 0)
+    {
+      if (dir == RIGHT)
+        sprite->grab_right->draw(pos);
+      else
+        sprite->grab_left->draw(pos);
+    }
+
+    // Draw blinking star overlay
+    if (invincible_timer.started() &&
+        (invincible_timer.get_left() > TUX_INVINCIBLE_TIME_WARNING || global_frame_counter % 3))
+    {
+      if (size == SMALL || duck)
+        smalltux_star->draw(pos);
+      else
+        largetux_star->draw(pos);
+    }
+    
+    return;
+  }
+  
   if (!safe_timer.started() || (global_frame_counter % 2) == 0)
     {
       if (dying == DYING_SQUISHED)
@@ -585,17 +620,6 @@ Player::draw(ViewPort& viewport, int )
         }
       else
         {
-          PlayerSprite* sprite;
-          
-          if (size == SMALL)
-            sprite = &smalltux;
-          else if (got_power == FIRE_POWER)
-            sprite = &firetux;
-          else if (got_power == ICE_POWER)
-            sprite = &icetux;
-          else
-            sprite = &largetux;
-          
           if (duck && size != SMALL)
             {
               if (dir == RIGHT)
@@ -640,25 +664,6 @@ Player::draw(ViewPort& viewport, int )
                   else
                     sprite->walk_left->draw(pos);
                 }
-            }
-                      
-          // Draw arm overlay graphics when Tux is holding something
-          if (holding_something && physic.get_velocity_y() == 0)
-            {
-              if (dir == RIGHT)
-                sprite->grab_right->draw(pos);
-              else
-                sprite->grab_left->draw(pos);
-            }
-
-          // Draw blinking star overlay
-          if (invincible_timer.started() &&
-             (invincible_timer.get_left() > TUX_INVINCIBLE_TIME_WARNING || global_frame_counter % 3))
-            {
-              if (size == SMALL || duck)
-                smalltux_star->draw(pos);
-              else
-                largetux_star->draw(pos);
             }
         }
     }     
