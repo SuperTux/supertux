@@ -217,20 +217,21 @@ void game_event(void)
         switch(event.jaxis.axis)
            {
            case JOY_X:
-              if (event.jaxis.value < -256)
+	      printf("X: %d\n", event.jaxis.value);
+              if (event.jaxis.value < -1024)
                 tux.input.left = DOWN;
-              else
+              else if (event.jaxis.value > 1024)
                 tux.input.left = UP;
 
-              if (event.jaxis.value > 256)
+              if (event.jaxis.value > 1024)
                 tux.input.right = DOWN;
-              else
+              else if (event.jaxis.value < -1024)
                 tux.input.right = UP;
             break;
           case JOY_Y:
-              if (event.jaxis.value > 256)
+              if (event.jaxis.value > 1024)
                 tux.input.down = DOWN;
-              else
+              else if (event.jaxis.value < -1024)
                 tux.input.down = UP;
 
               /* Handle joystick for the menu */

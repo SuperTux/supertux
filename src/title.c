@@ -109,11 +109,11 @@ int title(void)
                 }
             }
 #ifdef JOY_YES
-          else if (event.type == SDL_JOYAXISMOTION)
+          else if (event.type == SDL_JOYAXISMOTION && event.jaxis.axis == JOY_Y)
             {
-              if (event.jaxis.value > 256)
+              if (event.jaxis.value > 1024)
                 menuaction = MN_DOWN;
-              else
+              else if (event.jaxis.value < -1024)
                 menuaction = MN_UP;
             }
           else if (event.type == SDL_JOYBUTTONDOWN)
