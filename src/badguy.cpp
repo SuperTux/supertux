@@ -33,16 +33,10 @@
 #include "resources.h"
 #include "sprite_manager.h"
 
-Sprite* img_bsod_squished_left;
-Sprite* img_bsod_squished_right;
-Sprite* img_bsod_falling_left;
-Sprite* img_bsod_falling_right;
 Sprite* img_mriceblock_flat_left;
 Sprite* img_mriceblock_flat_right;
 Sprite* img_mriceblock_falling_left;
 Sprite* img_mriceblock_falling_right;
-Sprite* img_bsod_left;
-Sprite* img_bsod_right;
 Sprite* img_mriceblock_left;
 Sprite* img_mriceblock_right;
 Sprite* img_jumpy_left_up;
@@ -78,8 +72,6 @@ BadGuyKind  badguykind_from_string(const std::string& str)
     return BAD_JUMPY;
   else if (str == "laptop" || str == "mriceblock") // was laptop in old maps
     return BAD_MRICEBLOCK;
-  else if (str == "bsod")
-    return BAD_BSOD;
   else if (str == "mrbomb")
     return BAD_MRBOMB;
   else if (str == "stalactite")
@@ -94,12 +86,12 @@ BadGuyKind  badguykind_from_string(const std::string& str)
     return BAD_FLYINGSNOWBALL;
   else if (str == "spiky")
     return BAD_SPIKY;
-  else if (str == "snowball")
+  else if (str == "snowball" || str == "bsod") // was bsod in old maps
     return BAD_SNOWBALL;
   else
     {
       printf("Couldn't convert badguy: '%s'\n", str.c_str());
-      return BAD_BSOD;
+      return BAD_SNOWBALL;
     }
 }
 
@@ -112,9 +104,6 @@ std::string badguykind_to_string(BadGuyKind kind)
       break;
     case BAD_MRICEBLOCK:
       return "mriceblock";
-      break;
-    case BAD_BSOD:
-      return "bsod";
       break;
     case BAD_MRBOMB:
       return "mrbomb";
@@ -141,7 +130,7 @@ std::string badguykind_to_string(BadGuyKind kind)
       return "snowball";
       break;
     default:
-      return "bsod";
+      return "snowball";
     }
 }
 
@@ -167,10 +156,7 @@ BadGuy::BadGuy(float x, float y, BadGuyKind kind_, bool stay_on_platform_)
   physic.reset();
   timer.init(true);
 
-  if(kind == BAD_BSOD) {
-    physic.set_velocity(-BADGUY_WALK_SPEED, 0);
-    set_sprite(img_bsod_left, img_bsod_right);
-  } else if(kind == BAD_MRBOMB) {
+  if(kind == BAD_MRBOMB) {
     physic.set_velocity(-BADGUY_WALK_SPEED, 0);
     set_sprite(img_mrbomb_left, img_mrbomb_right);
   } else if (kind == BAD_MRICEBLOCK) {
@@ -212,38 +198,6 @@ BadGuy::BadGuy(float x, float y, BadGuyKind kind_, bool stay_on_platform_)
     while(collision_object_map(base))
       --base.y;
   }
-}
-
-void
-BadGuy::action_bsod(float frame_ratio)
-{
-  static const float BSODJUMP = 2;
-    
-  if (dying == DYING_NOT)
-    check_horizontal_bump();
-
-  fall();
-
-  // jump when we're about to fall
-  if (physic.get_velocity_y() == 0 && 
-      !issolid(base.x+base.width/2, base.y + base.height)) 
-    {
-      physic.enable_gravity(true);
-      physic.set_velocity(physic.get_velocity_x(), BSODJUMP);
-    }
-
-  // Handle dying timer:
-  if (dying == DYING_SQUISHED && !timer.check())
-    {
-      /* Remove it if time's up: */
-      remove_me();
-      return;
-    }
-
-  // move
-  physic.apply(frame_ratio, base.x, base.y);
-  if(dying != DYING_FALLING)
-    collision_swept_object_map(&old_base, &base);
 }
 
 void
@@ -721,10 +675,6 @@ BadGuy::action(float frame_ratio)
 
   switch (kind)
     {
-    case BAD_BSOD:
-      action_bsod(frame_ratio);
-      break;
-
     case BAD_MRICEBLOCK:
       action_mriceblock(frame_ratio);
       break;
@@ -872,12 +822,6 @@ BadGuy::squish(Player* player)
     remove_me();
     return;
 
-  } else if(kind == BAD_BSOD) {
-    squish_me(player);
-    set_sprite(img_bsod_squished_left, img_bsod_squished_right);
-    physic.set_velocity_x(0);
-    return;
-      
   } else if (kind == BAD_MRICEBLOCK) {
     if (mode == NORMAL || mode == KICK)
       {
@@ -958,20 +902,14 @@ BadGuy::kill_me(int score)
       Player& tux = *World::current()->get_tux();  
       tux.holding_something = false;
     }
-  } else if(kind == BAD_BSOD) {
-    set_sprite(img_bsod_falling_left, img_bsod_falling_right);
   }
   
   physic.enable_gravity(true);
   physic.set_velocity_y(0);
 
   /* Gain some points: */
-//  if (kind == BAD_BSOD)
     World::current()->add_score(base.x - scroll_x, base.y,
                     score * player_status.score_multiplier);
-/*  else 
-    World::current()->add_score(base.x - scroll_x, base.y,                                 
-                    25 * player_status.score_multiplier);*/
 
   /* Play death sound: */
   play_sound(sounds[SND_FALL], SOUND_CENTER_SPEAKER);
@@ -1109,16 +1047,10 @@ BadGuy::collision(void *p_c_object, int c_object, CollisionType type)
 
 void load_badguy_gfx()
 {
-  img_bsod_squished_left = sprite_manager->load("bsod-squished-left");
-  img_bsod_squished_right = sprite_manager->load("bsod-squished-right");
-  img_bsod_falling_left = sprite_manager->load("bsod-falling-left");
-  img_bsod_falling_right = sprite_manager->load("bsod-falling-right");
   img_mriceblock_flat_left = sprite_manager->load("mriceblock-flat-left");
   img_mriceblock_flat_right = sprite_manager->load("mriceblock-flat-right");
   img_mriceblock_falling_left = sprite_manager->load("mriceblock-falling-left");
   img_mriceblock_falling_right = sprite_manager->load("mriceblock-falling-right");
-  img_bsod_left = sprite_manager->load("bsod-left");
-  img_bsod_right = sprite_manager->load("bsod-right");
   img_mriceblock_left = sprite_manager->load("mriceblock-left");
   img_mriceblock_right = sprite_manager->load("mriceblock-right");
   img_jumpy_left_up = sprite_manager->load("jumpy-left-up");

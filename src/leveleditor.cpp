@@ -113,7 +113,7 @@ static bool le_level_changed;  /* if changes, ask for saving, when quiting*/
 static int pos_x, cursor_x, cursor_y, fire;
 static int le_level;
 static LevelEditorWorld le_world;
-static st_subset le_level_subset;
+static LevelSubset le_level_subset;
 static int le_show_grid;
 static int le_frame;
 static Surface* le_selection;
@@ -303,7 +303,7 @@ int leveleditor(int levelnb)
                   switch (i = subset_new_menu->check())
                     {
                     case 3:
-                      st_subset::create(subset_new_menu->item[2].input);
+                      LevelSubset::create(subset_new_menu->item[2].input);
                       le_level_subset.load(subset_new_menu->item[2].input);
                       leveleditor_menu->item[3].kind = MN_GOTO;
                       le_level = 1;
@@ -1158,7 +1158,7 @@ void le_change(float x, float y, int tm, unsigned int c)
               le_world.bad_guys.erase(le_world.bad_guys.begin() + i);
 
           if(c == '0')  /* if it's a bad guy */
-            le_world.add_bad_guy(xx*32, yy*32, BAD_BSOD);
+            le_world.add_bad_guy(xx*32, yy*32, BAD_SNOWBALL);
           else if(c == '1')
             le_world.add_bad_guy(xx*32, yy*32, BAD_MRICEBLOCK);
           else if(c == '2')
@@ -1204,7 +1204,7 @@ void le_change(float x, float y, int tm, unsigned int c)
                 le_current_level->change(xx*32, yy*32, tm, c);
 
                 if(c == '0')  // if it's a bad guy
-                  le_world.add_bad_guy(xx*32, yy*32, BAD_BSOD);
+                  le_world.add_bad_guy(xx*32, yy*32, BAD_SNOWBALL);
                 else if(c == '1')
                   le_world.add_bad_guy(xx*32, yy*32, BAD_MRICEBLOCK);
                 else if(c == '2')

@@ -35,7 +35,6 @@
 
 /* Bad guy kinds: */
 enum BadGuyKind {
-  BAD_BSOD,
   BAD_MRICEBLOCK,
   BAD_JUMPY,
   BAD_MRBOMB,
@@ -65,7 +64,7 @@ struct BadGuyData
     : kind(kind_), x(x_), y(y_), stay_on_platform(stay_on_platform_) {}
 
   BadGuyData()
-    : kind(BAD_BSOD), x(0), y(0), stay_on_platform(false) {}
+    : kind(BAD_SNOWBALL), x(0), y(0), stay_on_platform(false) {}
 };
 
 class Player;
@@ -142,7 +141,6 @@ public:
   bool is_removable() const { return removable; }
  
 private:
-  void action_bsod(float frame_ratio);
   void action_mriceblock(float frame_ratio);
   void action_jumpy(float frame_ratio); 
   void action_bomb(float frame_ratio);

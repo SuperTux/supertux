@@ -36,15 +36,20 @@
 
 using namespace std;
 
-st_subset::st_subset()
+LevelSubset::LevelSubset()
+    : image(0), levels(0)
 {
-  levels = 0;
 }
 
-void st_subset::create(const std::string& subset_name)
+LevelSubset::~LevelSubset()
+{
+    delete image;
+}
+
+void LevelSubset::create(const std::string& subset_name)
 {
   Level new_lev;
-  st_subset new_subset;
+  LevelSubset new_subset;
   new_subset.name = subset_name;
   new_subset.title = "Unknown Title";
   new_subset.description = "No description so far.";
@@ -53,7 +58,7 @@ void st_subset::create(const std::string& subset_name)
   new_lev.save(subset_name.c_str(),1);
 }
 
-void st_subset::parse (lisp_object_t* cursor)
+void LevelSubset::parse (lisp_object_t* cursor)
 {
   while(!lisp_nil_p(cursor))
     {
@@ -85,7 +90,7 @@ void st_subset::parse (lisp_object_t* cursor)
     }
 }
 
-void st_subset::load(char *subset)
+void LevelSubset::load(char *subset)
 {
   FILE* fi;
   char filename[1024];
@@ -156,7 +161,7 @@ void st_subset::load(char *subset)
   levels = --i;
 }
 
-void st_subset::save()
+void LevelSubset::save()
 {
   FILE* fi;
   string filename;
@@ -190,15 +195,6 @@ void st_subset::save()
       fclose(fi);
 
     }
-}
-
-void st_subset::free()
-{
-  title.clear();
-  description.clear();
-  name.clear();
-  delete image;
-  levels = 0;
 }
 
 Level::Level()

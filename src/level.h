@@ -31,14 +31,15 @@ class Tile;
 
 /** This type holds meta-information about a level-subset. 
     It could be extended to handle manipulation of subsets. */
-class st_subset
+class LevelSubset
   {
   public:
-    st_subset();
+    LevelSubset();
+    ~LevelSubset();
+
     static void create(const std::string& subset_name);
     void load(char *subset);
     void save();
-    void free();
 
     std::string name;
     std::string title;

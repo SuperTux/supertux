@@ -62,22 +62,33 @@ static int frame;
 static unsigned int last_update_time;
 static unsigned int update_time;
 
-std::vector<st_subset> contrib_subsets;
+std::vector<LevelSubset*> contrib_subsets;
 std::string current_contrib_subset;
+
+void free_contrib_menu()
+{
+  for(std::vector<LevelSubset*>::iterator i = contrib_subsets.begin();
+      i != contrib_subsets.end(); ++i)
+    delete *i;
+
+  contrib_subsets.clear();
+  contrib_menu->clear();
+}
 
 void generate_contrib_menu()
 {
   string_list_type level_subsets = dsubdirs("/levels", "info");
 
-  contrib_menu->clear();
+  free_contrib_menu();
+
   contrib_menu->additem(MN_LABEL,"Contrib Levels",0,0);
   contrib_menu->additem(MN_HL,"",0,0);
 
   for (int i = 0; i < level_subsets.num_items; ++i)
     {
-      st_subset subset;
-      subset.load(level_subsets.item[i]);
-      contrib_menu->additem(MN_GOTO, subset.title.c_str(), i,
+      LevelSubset* subset = new LevelSubset();
+      subset->load(level_subsets.item[i]);
+      contrib_menu->additem(MN_GOTO, subset->title.c_str(), i,
           contrib_subset_menu, i+1);
       contrib_subsets.push_back(subset);
     }
@@ -102,7 +113,7 @@ void check_contrib_menu()
             {
               current_subset = index;
               // FIXME: This shouln't be busy looping
-              st_subset& subset = contrib_subsets[index];
+              LevelSubset& subset = * (contrib_subsets[index]);
           
               current_contrib_subset = subset.name;
 
@@ -222,7 +233,6 @@ void draw_demo(GameSession* session, double frame_ratio)
 /* --- TITLE SCREEN --- */
 void title(void)
 {
-  st_subset subset;
   random_timer.init(true);
 
   walking = true;
@@ -360,6 +370,7 @@ void title(void)
     }
   /* Free surfaces: */
 
+  free_contrib_menu();
   delete bkg_title;
   delete logo;
   delete img_choose_subset;
