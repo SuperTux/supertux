@@ -27,49 +27,42 @@ void create_special_bitmasks()
 
 void bullet_init(bullet_type* pbullet)
 {
-  pbullet->it.alive = &pbullet->alive;
-  pbullet->it.x = &pbullet->x;
-  pbullet->it.y = &pbullet->y;
-  pbullet->it.width = &pbullet->width;
-  pbullet->it.height = &pbullet->height;
-  pbullet->it.updated = &pbullet->updated;
-
-  pbullet->width = 4;
-  pbullet->height = 4;
-  pbullet->updated = SDL_GetTicks();
-  pbullet->alive = NO;
+  pbullet->base.width = 4;
+  pbullet->base.height = 4;
+  pbullet->base.updated = SDL_GetTicks();
+  pbullet->base.alive = NO;
 }
 
 void bullet_action(bullet_type* pbullet)
 {
 
-  double frame_ratio = get_frame_ratio(&pbullet->it);
+  double frame_ratio = get_frame_ratio(&pbullet->base);
 
-  if (pbullet->alive)
+  if (pbullet->base.alive)
     {
-      pbullet->x = pbullet->x + pbullet->xm * frame_ratio;
-      pbullet->y = pbullet->y + pbullet->ym * frame_ratio;
+      pbullet->base.x = pbullet->base.x + pbullet->base.xm * frame_ratio;
+      pbullet->base.y = pbullet->base.y + pbullet->base.ym * frame_ratio;
 
-      if (issolid(pbullet->x, pbullet->y))
+      if (issolid(pbullet->base.x, pbullet->base.y))
         {
-          if (issolid(pbullet->x, pbullet->y - pbullet->ym))
-            pbullet->alive = NO;
+          if (issolid(pbullet->base.x, pbullet->base.y - pbullet->base.ym))
+            pbullet->base.alive = NO;
           else
             {
-              if (pbullet->ym >= 0)
+              if (pbullet->base.ym >= 0)
                 {
-                  pbullet->y = (int)(pbullet->y / 32) * 32 - 8;
+                  pbullet->base.y = (int)(pbullet->base.y / 32) * 32 - 8;
                 }
-              pbullet->ym = -pbullet->ym;
+              pbullet->base.ym = -pbullet->base.ym;
             }
         }
 
-      pbullet->ym = pbullet->ym + GRAVITY;
+      pbullet->base.ym = pbullet->base.ym + GRAVITY;
 
-      if (pbullet->x < scroll_x ||
-          pbullet->x > scroll_x + screen->w)
+      if (pbullet->base.x < scroll_x ||
+          pbullet->base.x > scroll_x + screen->w)
         {
-          pbullet->alive = NO;
+          pbullet->base.alive = NO;
         }
     }
 
@@ -77,11 +70,11 @@ void bullet_action(bullet_type* pbullet)
 
 void bullet_draw(bullet_type* pbullet)
 {
-  if (pbullet->alive  &&
-      pbullet->x >= scroll_x - pbullet->width &&
-      pbullet->x <= scroll_x + screen->w)
+  if (pbullet->base.alive  &&
+      pbullet->base.x >= scroll_x - pbullet->base.width &&
+      pbullet->base.x <= scroll_x + screen->w)
     {
-      texture_draw(&img_bullet, pbullet->x - scroll_x, pbullet->y,
+      texture_draw(&img_bullet, pbullet->base.x - scroll_x, pbullet->base.y,
                    NO_UPDATE);
     }
 }
@@ -90,36 +83,29 @@ void bullet_collision(bullet_type* pbullet, int c_object)
 {
 
   if(c_object == CO_BADGUY)
-    pbullet->alive = NO;
+    pbullet->base.alive = NO;
 
 }
 
 void upgrade_init(upgrade_type *pupgrade)
 {
-  pupgrade->it.alive = &pupgrade->alive;
-  pupgrade->it.x = &pupgrade->x;
-  pupgrade->it.y = &pupgrade->y;
-  pupgrade->it.width = &pupgrade->width;
-  pupgrade->it.height = &pupgrade->height;
-  pupgrade->it.updated = &pupgrade->updated;
-
-  pupgrade->width = 32;
-  pupgrade->height = 0;
-  pupgrade->updated = SDL_GetTicks();
-  pupgrade->alive = NO;
+  pupgrade->base.width = 32;
+  pupgrade->base.height = 0;
+  pupgrade->base.updated = SDL_GetTicks();
+  pupgrade->base.alive = NO;
 }
 
 void upgrade_action(upgrade_type *pupgrade)
 {
-  double frame_ratio = get_frame_ratio(&pupgrade->it);
+  double frame_ratio = get_frame_ratio(&pupgrade->base);
 
-  if (pupgrade->alive)
+  if (pupgrade->base.alive)
     {
-      if (pupgrade->height < 32)
+      if (pupgrade->base.height < 32)
         {
           /* Rise up! */
 
-          pupgrade->height++;
+          pupgrade->base.height++;
         }
       else
         {
@@ -128,40 +114,40 @@ void upgrade_action(upgrade_type *pupgrade)
           if (pupgrade->kind == UPGRADE_MINTS ||
               pupgrade->kind == UPGRADE_HERRING)
             {
-              pupgrade->x = pupgrade->x + pupgrade->xm * frame_ratio;
-              pupgrade->y = pupgrade->y + pupgrade->ym * frame_ratio;
+              pupgrade->base.x = pupgrade->base.x + pupgrade->base.xm * frame_ratio;
+              pupgrade->base.y = pupgrade->base.y + pupgrade->base.ym * frame_ratio;
 
-              if (issolid(pupgrade->x, pupgrade->y + 31) ||
-                  issolid(pupgrade->x + 31, pupgrade->y + 31))
+              if (issolid(pupgrade->base.x, pupgrade->base.y + 31) ||
+                  issolid(pupgrade->base.x + 31, pupgrade->base.y + 31))
                 {
-                  if (pupgrade->ym > 0)
+                  if (pupgrade->base.ym > 0)
                     {
                       if (pupgrade->kind == UPGRADE_MINTS)
                         {
-                          pupgrade->ym = 0;
+                          pupgrade->base.ym = 0;
                         }
                       else if (pupgrade->kind == UPGRADE_HERRING)
                         {
-                          pupgrade->ym = -24;
+                          pupgrade->base.ym = -24;
                         }
 
-                      pupgrade->y = (int)(pupgrade->y / 32) * 32;
+                      pupgrade->base.y = (int)(pupgrade->base.y / 32) * 32;
                     }
                 }
               else
-                pupgrade->ym = pupgrade->ym + GRAVITY;
+                pupgrade->base.ym = pupgrade->base.ym + GRAVITY;
 
-              if (issolid(pupgrade->x, pupgrade->y))
+              if (issolid(pupgrade->base.x, pupgrade->base.y))
                 {
-                  pupgrade->xm = -pupgrade->xm;
+                  pupgrade->base.xm = -pupgrade->base.xm;
                 }
             }
 
 
           /* Off the screen?  Kill it! */
 
-          if (pupgrade->x < scroll_x)
-            pupgrade->alive = NO;
+          if (pupgrade->base.x < scroll_x)
+            pupgrade->base.alive = NO;
         
 	}
     }
@@ -169,21 +155,21 @@ void upgrade_action(upgrade_type *pupgrade)
 
 void upgrade_draw(upgrade_type* pupgrade)
 {
-  if (pupgrade->alive)
+  if (pupgrade->base.alive)
     {
-      if (pupgrade->height < 32)
+      if (pupgrade->base.height < 32)
         {
           /* Rising up... */
 
-          dest.x = pupgrade->x - scroll_x;
-          dest.y = pupgrade->y + 32 - pupgrade->height;
+          dest.x = pupgrade->base.x - scroll_x;
+          dest.y = pupgrade->base.y + 32 - pupgrade->base.height;
           dest.w = 32;
-          dest.h = pupgrade->height;
+          dest.h = pupgrade->base.height;
 
           src.x = 0;
           src.y = 0;
           src.w = 32;
-          src.h = pupgrade->height;
+          src.h = pupgrade->base.height;
 
           if (pupgrade->kind == UPGRADE_MINTS)
             SDL_BlitSurface(img_mints.sdl_surface, &src, screen, &dest);
@@ -197,19 +183,19 @@ void upgrade_draw(upgrade_type* pupgrade)
           if (pupgrade->kind == UPGRADE_MINTS)
             {
               texture_draw(&img_mints,
-                           pupgrade->x - scroll_x, pupgrade->y,
+                           pupgrade->base.x - scroll_x, pupgrade->base.y,
                            NO_UPDATE);
             }
           else if (pupgrade->kind == UPGRADE_COFFEE)
             {
               texture_draw(&img_coffee,
-                           pupgrade->x - scroll_x, pupgrade->y,
+                           pupgrade->base.x - scroll_x, pupgrade->base.y,
                            NO_UPDATE);
             }
           else if (pupgrade->kind == UPGRADE_HERRING)
             {
               texture_draw(&img_golden_herring,
-                           pupgrade->x - scroll_x, pupgrade->y,
+                           pupgrade->base.x - scroll_x, pupgrade->base.y,
                            NO_UPDATE);
             }
         }
@@ -228,7 +214,7 @@ player_type* pplayer = NULL;
       /* p_c_object is CO_PLAYER, so assign it to pplayer */
       pplayer = p_c_object;
       
-      pupgrade->alive = NO;
+      pupgrade->base.alive = NO;
 
       /* Affect the player: */
 

@@ -13,7 +13,7 @@
 #ifndef SUPERTUX_LEVEL_H
 #define SUPERTUX_LEVEL_H
 
-#include "type.h"
+#include "texture.h"
 
 #define LEVEL_NAME_MAX 20
 

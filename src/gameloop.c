@@ -94,7 +94,7 @@ void start_timers(void)
 void activate_bad_guys(void)
 {
   int x,y;
-
+  
   /* Activate bad guys: */
 
   for (y = 0; y < 15; y++)
@@ -103,7 +103,7 @@ void activate_bad_guys(void)
         {
           if (current_level.tiles[y][x] >= '0' && current_level.tiles[y][x] <= '9')
             {
-              add_bad_guy(x * 32, y * 32, current_level.tiles[y][x] - '0');
+	      add_bad_guy(x * 32, y * 32, current_level.tiles[y][x] - '0');
               current_level.tiles[y][x] = '.';
             }
         }
@@ -311,6 +311,7 @@ int i;
               unloadlevelgfx();
               unloadlevelsong();
               unloadshared();
+	      arrays_free();
               return(0);
             } /* if (lives < 0) */
         }
@@ -320,6 +321,8 @@ int i;
       player_level_begin(&tux);
       set_defaults();
       loadlevel(&current_level,"default",level);
+      arrays_free();
+      arrays_init();
       activate_bad_guys();
       unloadlevelgfx();
       loadlevelgfx(&current_level);
@@ -333,7 +336,7 @@ int i;
 
   /* Handle bouncy distros: */
 
-  for (i = 0; i < NUM_BOUNCY_DISTROS; i++)
+  for (i = 0; i < num_bouncy_distros; i++)
     {
       bouncy_distro_action(&bouncy_distros[i]);
     }
@@ -341,7 +344,7 @@ int i;
 
   /* Handle broken bricks: */
 
-  for (i = 0; i < NUM_BROKEN_BRICKS; i++)
+  for (i = 0; i < num_broken_bricks; i++)
     {
       broken_brick_action(&broken_bricks[i]);
     }
@@ -360,7 +363,7 @@ int i;
 
   /* Handle bouncy bricks: */
 
-  for (i = 0; i < NUM_BOUNCY_BRICKS; i++)
+  for (i = 0; i < num_bouncy_bricks; i++)
     {
       bouncy_brick_action(&bouncy_bricks[i]);
     }
@@ -368,7 +371,7 @@ int i;
 
   /* Handle floating scores: */
 
-  for (i = 0; i < NUM_FLOATING_SCORES; i++)
+  for (i = 0; i < num_floating_scores; i++)
     {
       floating_score_action(&floating_scores[i]);
     }
@@ -376,7 +379,7 @@ int i;
 
   /* Handle bullets: */
 
-  for (i = 0; i < NUM_BULLETS; ++i)
+  for (i = 0; i < num_bullets; ++i)
     {
       bullet_action(&bullets[i]);
     }
@@ -390,15 +393,15 @@ int i;
 
   /* Handle upgrades: */
 
-  for (i = 0; i < NUM_UPGRADES; i++)
+  for (i = 0; i < num_upgrades; i++)
     {
 	upgrade_action(&upgrades[i]);
-    } /* for (i = 0; i < NUM_UPGRADES; i++) */
+    }
 
 
   /* Handle bad guys: */
 
-  for (i = 0; i < NUM_BAD_GUYS; i++)
+  for (i = 0; i < num_bad_guys; i++)
     {
 	badguy_action(&bad_guys[i]);
     }
@@ -441,7 +444,7 @@ void game_draw()
 
   /* (Bouncy bricks): */
 
-  for (i = 0; i < NUM_BOUNCY_BRICKS; i++)
+  for (i = 0; i < num_bouncy_bricks; i++)
     {
 	bouncy_brick_draw(&bouncy_bricks[i]);
     }
@@ -449,7 +452,7 @@ void game_draw()
 
   /* (Bad guys): */
 
-  for (i = 0; i < NUM_BAD_GUYS; i++)
+  for (i = 0; i < num_bad_guys; i++)
     {
 	badguy_draw(&bad_guys[i]);
     }
@@ -460,14 +463,14 @@ void game_draw()
 
   /* (Bullets): */
 
-  for (i = 0; i < NUM_BULLETS; i++)
+  for (i = 0; i < num_bullets; i++)
     {
        bullet_draw(&bullets[i]);
     }
 
   /* (Floating scores): */
 
-  for (i = 0; i < NUM_FLOATING_SCORES; i++)
+  for (i = 0; i < num_floating_scores; i++)
     {
 	floating_score_draw(&floating_scores[i]);
     }
@@ -475,7 +478,7 @@ void game_draw()
 
   /* (Upgrades): */
 
-  for (i = 0; i < NUM_UPGRADES; i++)
+  for (i = 0; i < num_upgrades; i++)
     {
 	upgrade_draw(&upgrades[i]);
     }
@@ -483,7 +486,7 @@ void game_draw()
 
   /* (Bouncy distros): */
 
-  for (i = 0; i < NUM_BOUNCY_DISTROS; i++)
+  for (i = 0; i < num_bouncy_distros; i++)
     {
       bouncy_distro_draw(&bouncy_distros[i]);
     }
@@ -491,7 +494,7 @@ void game_draw()
 
   /* (Broken bricks): */
 
-  for (i = 0; i < NUM_BROKEN_BRICKS; i++)
+  for (i = 0; i < num_broken_bricks; i++)
     {
 	broken_brick_draw(&broken_bricks[i]);
     }
@@ -526,7 +529,8 @@ int gameloop(void)
 
 
   /* Init the game: */
-
+  arrays_init();
+  
   initmenu();
   menumenu = MENU_GAME;
   initgame();
@@ -634,6 +638,7 @@ int gameloop(void)
   unloadlevelgfx();
   unloadlevelsong();
   unloadshared();
+  arrays_free();
 
   return(quit);
 }
@@ -1476,17 +1481,17 @@ void trybumpbadguy(float x, float y)
 
   /* Bad guys: */
 
-  for (i = 0; i < NUM_BAD_GUYS; i++)
+  for (i = 0; i < num_bad_guys; i++)
     {
-      if (bad_guys[i].alive &&
-          bad_guys[i].x >= x - 32 && bad_guys[i].x <= x + 32 &&
-          bad_guys[i].y >= y - 16 && bad_guys[i].y <= y + 16)
+      if (bad_guys[i].base.alive &&
+          bad_guys[i].base.x >= x - 32 && bad_guys[i].base.x <= x + 32 &&
+          bad_guys[i].base.y >= y - 16 && bad_guys[i].base.y <= y + 16)
         {
           if (bad_guys[i].kind == BAD_BSOD ||
               bad_guys[i].kind == BAD_LAPTOP)
             {
               bad_guys[i].dying = FALLING;
-              bad_guys[i].ym = -8;
+              bad_guys[i].base.ym = -8;
               play_sound(sounds[SND_FALL], SOUND_CENTER_SPEAKER);
             }
         }
@@ -1495,84 +1500,18 @@ void trybumpbadguy(float x, float y)
 
   /* Upgrades: */
 
-  for (i = 0; i < NUM_UPGRADES; i++)
+  for (i = 0; i < num_upgrades; i++)
     {
-      if (upgrades[i].alive && upgrades[i].height == 32 &&
-          upgrades[i].x >= x - 32 && upgrades[i].x <= x + 32 &&
-          upgrades[i].y >= y - 16 && upgrades[i].y <= y + 16)
+      if (upgrades[i].base.alive && upgrades[i].base.height == 32 &&
+          upgrades[i].base.x >= x - 32 && upgrades[i].base.x <= x + 32 &&
+          upgrades[i].base.y >= y - 16 && upgrades[i].base.y <= y + 16)
         {
-          upgrades[i].xm = -upgrades[i].xm;
-          upgrades[i].ym = -8;
+          upgrades[i].base.xm = -upgrades[i].base.xm;
+          upgrades[i].base.ym = -8;
           play_sound(sounds[SND_BUMP_UPGRADE], SOUND_CENTER_SPEAKER);
         }
     }
 }
-
-
-/* Add an upgrade: */
-
-void add_upgrade(float x, float y, int kind)
-{
-  int i, found;
-
-  found = -1;
-
-  for (i = 0; i < NUM_UPGRADES && found == -1; i++)
-    {
-      if (!upgrades[i].alive)
-        found = i;
-    }
-
-  if (found != -1)
-    {
-      upgrades[found].alive = YES;
-      upgrades[found].kind = kind;
-      upgrades[found].x = x;
-      upgrades[found].y = y;
-      upgrades[found].xm = 2;
-      upgrades[found].ym = -2;
-      upgrades[found].height = 0;
-    }
-}
-
-/* Add a bullet: */
-
-void add_bullet(float x, float y, float xm, int dir)
-{
-  int i, found;
-  
-  printf("X: %f Y: %f -- YOOYOYOYO\n",x,y);
-
-  found = -1;
-
-  for (i = 0; i < NUM_BULLETS && found == -1; i++)
-    {
-      if (!bullets[i].alive)
-        found = i;
-    }
-
-  if (found != -1)
-    {
-      bullets[found].alive = YES;
-
-      if (dir == RIGHT)
-        {
-          bullets[found].x = x + 32;
-          bullets[found].xm = BULLET_XM + xm;
-        }
-      else
-        {
-          bullets[found].x = x;
-          bullets[found].xm = -BULLET_XM + xm;
-        }
-
-      bullets[found].y = y;
-      bullets[found].ym = BULLET_STARTING_YM;
-
-      play_sound(sounds[SND_SHOOT], SOUND_CENTER_SPEAKER);
-    }
-}
-
 
 /* (Status): */
 void drawstatus(void)
@@ -1667,8 +1606,8 @@ void savegame(void)
       fwrite(&level,4,1,fi);
       fwrite(&score,4,1,fi);
       fwrite(&distros,4,1,fi);
-      fwrite(&tux.x,4,1,fi);
-      fwrite(&tux.y,4,1,fi);
+      fwrite(&tux.base.x,4,1,fi);
+      fwrite(&tux.base.y,4,1,fi);
       fwrite(&scroll_x,4,1,fi);
       fwrite(&current_level.time_left,4,1,fi);
     }
@@ -1700,6 +1639,8 @@ void loadgame(char* filename)
     player_level_begin(&tux);
       set_defaults();
       loadlevel(&current_level,"default",level);
+      arrays_free();
+      arrays_init();
       activate_bad_guys();
       unloadlevelgfx();
       loadlevelgfx(&current_level);
@@ -1711,8 +1652,8 @@ void loadgame(char* filename)
       fread(&level,4,1,fi);
       fread(&score,4,1,fi);
       fread(&distros,4,1,fi);
-      fread(&tux.x,4,1,fi);
-      fread(&tux.y,4,1,fi);
+      fread(&tux.base.x,4,1,fi);
+      fread(&tux.base.y,4,1,fi);
       fread(&scroll_x,4,1,fi);
       fread(&current_level.time_left,4,1,fi);
       fclose(fi);

@@ -23,28 +23,19 @@ void badguy_create_bitmasks()
 
 void badguy_init(bad_guy_type* pbad)
 {
-  pbad->it.alive = &pbad->alive;
-  pbad->it.x = &pbad->x;
-  pbad->it.y = &pbad->y;
-  pbad->it.width = &pbad->width;
-  pbad->it.height = &pbad->height;
-  pbad->it.updated = &pbad->updated;
-
-  pbad->updated = SDL_GetTicks();
-  pbad->alive = NO;
-
-
-  pbad->width = 32;
-  pbad->height = 32;
+  pbad->base.updated = SDL_GetTicks();
+  pbad->base.alive = NO;
+  pbad->base.width = 32;
+  pbad->base.height = 32;
 
 }
 
 void badguy_action(bad_guy_type* pbad)
 {
 
-  double frame_ratio = get_frame_ratio(&pbad->it);
+  double frame_ratio = get_frame_ratio(&pbad->base);
 
-  if (pbad->alive)
+  if (pbad->base.alive)
     {
       if (pbad->seen)
         {
@@ -58,22 +49,22 @@ void badguy_action(bad_guy_type* pbad)
                   pbad->dying == FALLING)
                 {
                   if (pbad->dir == RIGHT)
-                    pbad->x = pbad->x + pbad->xm * frame_ratio;
+                    pbad->base.x = pbad->base.x + pbad->base.xm * frame_ratio;
                   else if (pbad->dir == LEFT)
-                    pbad->x = pbad->x - pbad->xm * frame_ratio;
+                    pbad->base.x = pbad->base.x - pbad->base.xm * frame_ratio;
                 }
 
 
               /* Move vertically: */
 
-              pbad->y = pbad->y + pbad->ym * frame_ratio;
+              pbad->base.y = pbad->base.y + pbad->base.ym * frame_ratio;
 
 
               /* Bump into things horizontally: */
 
               if (!pbad->dying)
                 {
-                  if (issolid(pbad->x, pbad->y))
+                  if (issolid(pbad->base.x, pbad->base.y))
                     pbad->dir = !pbad->dir;
                 }
 
@@ -81,27 +72,27 @@ void badguy_action(bad_guy_type* pbad)
 
               if (pbad->dying != FALLING)
                 {
-                  if (!issolid(pbad->x, pbad->y + 32) &&
-                      pbad->ym < MAX_YM)
+                  if (!issolid(pbad->base.x, pbad->base.y + 32) &&
+                      pbad->base.ym < MAX_YM)
                     {
-                      pbad->ym = pbad->ym + GRAVITY;
+                      pbad->base.ym = pbad->base.ym + GRAVITY;
                     }
                   else
                     {
                       /* Land: */
 
-                      if (pbad->ym > 0)
+                      if (pbad->base.ym > 0)
                         {
-                          pbad->y = (int)(pbad->y / 32) * 32;
-                          pbad->ym = 0;
+                          pbad->base.y = (int)(pbad->base.y / 32) * 32;
+                          pbad->base.ym = 0;
                         }
                     }
                 }
               else
-                pbad->ym = pbad->ym + GRAVITY;
+                pbad->base.ym = pbad->base.ym + GRAVITY;
 
-              if (pbad->y > screen->h)
-                pbad->alive = NO;
+              if (pbad->base.y > screen->h)
+                pbad->base.alive = NO;
             }
           else if (pbad->kind == BAD_LAPTOP)
             {
@@ -115,38 +106,38 @@ void badguy_action(bad_guy_type* pbad)
                       pbad->dying == FALLING)
                     {
                       if (pbad->dir == RIGHT)
-                        pbad->x = pbad->x + pbad->xm * frame_ratio;
+                        pbad->base.x = pbad->base.x + pbad->base.xm * frame_ratio;
                       else if (pbad->dir == LEFT)
-                        pbad->x = pbad->x - pbad->xm * frame_ratio;
+                        pbad->base.x = pbad->base.x - pbad->base.xm * frame_ratio;
                     }
                 }
               else if (pbad->mode == KICK)
                 {
 		/* Obsolete
                   if (pbad->dir == RIGHT)
-                    pbad->x = pbad->x + 16;
+                    pbad->base.x = pbad->base.x + 16;
                   else if (pbad->dir == LEFT)
-                    pbad->x = pbad->x - 16;*/
+                    pbad->base.x = pbad->base.x - 16;*/
                 }
               else if (pbad->mode == HELD)
                 { /* FIXME: The pbad object shouldn't know about pplayer objects. */
                   /* If we're holding the laptop */
                   if(tux.dir==RIGHT)
                     {
-                      pbad->x = tux.x - 16;
-                      pbad->y = tux.y - 8 - (tux.size*16);
+                      pbad->base.x = tux.base.x - 16;
+                      pbad->base.y = tux.base.y - 8 - (tux.size*16);
                     }
                   else /* facing left */
                     {
-                      pbad->x = tux.x - 16;
-                      pbad->y = tux.y - 8 - (tux.size*16);
+                      pbad->base.x = tux.base.x - 16;
+                      pbad->base.y = tux.base.y - 8 - (tux.size*16);
                     }
 
                   if(tux.input.fire != DOWN) /* SHOOT! */
                     {
                       pbad->dir=tux.dir;
                       pbad->mode=KICK;
-                      pbad->ym-=8;
+                      pbad->base.ym-=8;
                       play_sound(sounds[SND_KICK],SOUND_CENTER_SPEAKER);
                     }
                 }
@@ -155,13 +146,13 @@ void badguy_action(bad_guy_type* pbad)
               /* Move vertically: */
 
               if(pbad->mode != HELD)
-                pbad->y = pbad->y + pbad->ym * frame_ratio;
+                pbad->base.y = pbad->base.y + pbad->base.ym * frame_ratio;
 
               /* Bump into things horizontally: */
 
               if (!pbad->dying)
                 {
-                  if (issolid(pbad->x, pbad->y))
+                  if (issolid(pbad->base.x, pbad->base.y))
                     {
                       pbad->dir = !pbad->dir;
 
@@ -169,9 +160,9 @@ void badguy_action(bad_guy_type* pbad)
                         {
                           /* handle stereo sound */
                           /* FIXME: In theory a badguy object doesn't know anything about player objects */
-                          if (tux.x  > pbad->x)
+                          if (tux.base.x  > pbad->base.x)
                             play_sound(sounds[SND_RICOCHET], SOUND_LEFT_SPEAKER);
-                          else if (tux.x  < pbad->x)
+                          else if (tux.base.x  < pbad->base.x)
                             play_sound(sounds[SND_RICOCHET], SOUND_RIGHT_SPEAKER);
                           else
                             play_sound(sounds[SND_RICOCHET], SOUND_CENTER_SPEAKER);
@@ -184,28 +175,28 @@ void badguy_action(bad_guy_type* pbad)
 
               if (pbad->dying != FALLING)
                 {
-                  if (!issolid(pbad->x, pbad->y + 32) &&
-                      pbad->ym < MAX_YM)
+                  if (!issolid(pbad->base.x, pbad->base.y + 32) &&
+                      pbad->base.ym < MAX_YM)
                     {
                       if(pbad->mode != HELD)
-                        pbad->ym = pbad->ym + GRAVITY;
+                        pbad->base.ym = pbad->base.ym + GRAVITY;
                     }
                   else
                     {
                       /* Land: */
 
-                      if (pbad->ym > 0)
+                      if (pbad->base.ym > 0)
                         {
-                          pbad->y = (int)(pbad->y / 32) * 32;
-                          pbad->ym = 0;
+                          pbad->base.y = (int)(pbad->base.y / 32) * 32;
+                          pbad->base.ym = 0;
                         }
                     }
                 }
               else
-                pbad->ym = pbad->ym + GRAVITY;
+                pbad->base.ym = pbad->base.ym + GRAVITY;
 
-              if (pbad->y > screen->h)
-                pbad->alive = NO;
+              if (pbad->base.y > screen->h)
+                pbad->base.alive = NO;
             }
           else if (pbad->kind == BAD_MONEY)
             {
@@ -214,36 +205,36 @@ void badguy_action(bad_guy_type* pbad)
 
               /* Move vertically: */
 
-              pbad->y = pbad->y + pbad->ym *frame_ratio;
+              pbad->base.y = pbad->base.y + pbad->base.ym *frame_ratio;
 
 
               /* Fall if we get off the ground: */
 
               if (pbad->dying != FALLING)
                 {
-                  if (!issolid(pbad->x, pbad->y + 32))
+                  if (!issolid(pbad->base.x, pbad->base.y + 32))
                     {
-                      if (pbad->ym < MAX_YM)
+                      if (pbad->base.ym < MAX_YM)
                         {
-                          pbad->ym = pbad->ym + GRAVITY;
+                          pbad->base.ym = pbad->base.ym + GRAVITY;
                         }
                     }
                   else
                     {
                       /* Land: */
 
-                      if (pbad->ym > 0)
+                      if (pbad->base.ym > 0)
                         {
-                          pbad->y = (int)(pbad->y / 32) * 32;
-                          pbad->ym = -MAX_YM;
+                          pbad->base.y = (int)(pbad->base.y / 32) * 32;
+                          pbad->base.ym = -MAX_YM;
                         }
                     }
                 }
               else
-                pbad->ym = pbad->ym + GRAVITY;
+                pbad->base.ym = pbad->base.ym + GRAVITY;
 
-              if (pbad->y > screen->h)
-                pbad->alive = NO;
+              if (pbad->base.y > screen->h)
+                pbad->base.alive = NO;
             }
           else if (pbad->kind == -1)
           {}
@@ -275,19 +266,19 @@ void badguy_action(bad_guy_type* pbad)
     {
       /* Remove it if time's up: */
       if(!timer_check(&pbad->timer))
-        pbad->alive = NO;
+        pbad->base.alive = NO;
     }
 
 
   /* Remove if it's far off the screen: */
 
-  if (pbad->x < scroll_x - OFFSCREEN_DISTANCE)
-    pbad->alive = NO;
+  if (pbad->base.x < scroll_x - OFFSCREEN_DISTANCE)
+    pbad->base.alive = NO;
   else /* !seen */
     {
       /* Once it's on screen, it's activated! */
 
-      if (pbad->x <= scroll_x + screen->w + OFFSCREEN_DISTANCE)
+      if (pbad->base.x <= scroll_x + screen->w + OFFSCREEN_DISTANCE)
         pbad->seen = YES;
     }
   /*}*/
@@ -295,9 +286,9 @@ void badguy_action(bad_guy_type* pbad)
 
 void badguy_draw(bad_guy_type* pbad)
 {
-  if (pbad->alive &&
-      pbad->x > scroll_x - 32 &&
-      pbad->x < scroll_x + screen->w)
+  if (pbad->base.alive &&
+      pbad->base.x > scroll_x - 32 &&
+      pbad->base.x < scroll_x + screen->w)
     {
       if (pbad->kind == BAD_BSOD)
         {
@@ -310,15 +301,15 @@ void badguy_draw(bad_guy_type* pbad)
               if (pbad->dir == LEFT)
                 {
                   texture_draw(&img_bsod_left[(frame / 5) % 4],
-                               pbad->x - scroll_x,
-                               pbad->y,
+                               pbad->base.x - scroll_x,
+                               pbad->base.y,
                                NO_UPDATE);
                 }
               else
                 {
                   texture_draw(&img_bsod_right[(frame / 5) % 4],
-                               pbad->x - scroll_x,
-                               pbad->y,
+                               pbad->base.x - scroll_x,
+                               pbad->base.y,
                                NO_UPDATE);
                 }
             }
@@ -329,15 +320,15 @@ void badguy_draw(bad_guy_type* pbad)
               if (pbad->dir == LEFT)
                 {
                   texture_draw(&img_bsod_falling_left,
-                               pbad->x - scroll_x,
-                               pbad->y,
+                               pbad->base.x - scroll_x,
+                               pbad->base.y,
                                NO_UPDATE);
                 }
               else
                 {
                   texture_draw(&img_bsod_falling_right,
-                               pbad->x - scroll_x,
-                               pbad->y,
+                               pbad->base.x - scroll_x,
+                               pbad->base.y,
                                NO_UPDATE);
                 }
             }
@@ -348,15 +339,15 @@ void badguy_draw(bad_guy_type* pbad)
               if (pbad->dir == LEFT)
                 {
                   texture_draw(&img_bsod_squished_left,
-                               pbad->x - scroll_x,
-                               pbad->y + 24,
+                               pbad->base.x - scroll_x,
+                               pbad->base.y + 24,
                                NO_UPDATE);
                 }
               else
                 {
                   texture_draw(&img_bsod_squished_right,
-                               pbad->x - scroll_x,
-                               pbad->y + 24,
+                               pbad->base.x - scroll_x,
+                               pbad->base.y + 24,
                                NO_UPDATE);
                 }
             }
@@ -376,15 +367,15 @@ void badguy_draw(bad_guy_type* pbad)
                   if (pbad->dir == LEFT)
                     {
                       texture_draw(&img_laptop_left[(frame / 5) % 3],
-                                   pbad->x - scroll_x,
-                                   pbad->y,
+                                   pbad->base.x - scroll_x,
+                                   pbad->base.y,
                                    NO_UPDATE);
                     }
                   else
                     {
                       texture_draw(&img_laptop_right[(frame / 5) % 3],
-                                   pbad->x - scroll_x,
-                                   pbad->y,
+                                   pbad->base.x - scroll_x,
+                                   pbad->base.y,
                                    NO_UPDATE);
                     }
                 }
@@ -395,15 +386,15 @@ void badguy_draw(bad_guy_type* pbad)
                   if (pbad->dir == LEFT)
                     {
                       texture_draw(&img_laptop_flat_left,
-                                   pbad->x - scroll_x,
-                                   pbad->y,
+                                   pbad->base.x - scroll_x,
+                                   pbad->base.y,
                                    NO_UPDATE);
                     }
                   else
                     {
                       texture_draw(&img_laptop_flat_right,
-                                   pbad->x - scroll_x,
-                                   pbad->y,
+                                   pbad->base.x - scroll_x,
+                                   pbad->base.y,
                                    NO_UPDATE);
                     }
                 }
@@ -415,35 +406,35 @@ void badguy_draw(bad_guy_type* pbad)
               if (pbad->dir == LEFT)
                 {
                   texture_draw(&img_laptop_falling_left,
-                               pbad->x - scroll_x,
-                               pbad->y,
+                               pbad->base.x - scroll_x,
+                               pbad->base.y,
                                NO_UPDATE);
                 }
               else
                 {
                   texture_draw(&img_laptop_falling_right,
-                               pbad->x - scroll_x,
-                               pbad->y,
+                               pbad->base.x - scroll_x,
+                               pbad->base.y,
                                NO_UPDATE);
                 }
             }
         }
       else if (pbad->kind == BAD_MONEY)
         {
-          if (pbad->ym > -16)
+          if (pbad->base.ym > -16)
             {
               if (pbad->dir == LEFT)
                 {
                   texture_draw(&img_money_left[0],
-                               pbad->x - scroll_x,
-                               pbad->y,
+                               pbad->base.x - scroll_x,
+                               pbad->base.y,
                                NO_UPDATE);
                 }
               else
                 {
                   texture_draw(&img_money_right[0],
-                               pbad->x - scroll_x,
-                               pbad->y,
+                               pbad->base.x - scroll_x,
+                               pbad->base.y,
                                NO_UPDATE);
                 }
             }
@@ -452,15 +443,15 @@ void badguy_draw(bad_guy_type* pbad)
               if (pbad->dir == LEFT)
                 {
                   texture_draw(&img_money_left[1],
-                               pbad->x - scroll_x,
-                               pbad->y,
+                               pbad->base.x - scroll_x,
+                               pbad->base.y,
                                NO_UPDATE);
                 }
               else
                 {
                   texture_draw(&img_money_right[1],
-                               pbad->x - scroll_x,
-                               pbad->y,
+                               pbad->base.x - scroll_x,
+                               pbad->base.y,
                                NO_UPDATE);
                 }
             }
@@ -479,15 +470,15 @@ void badguy_collision(bad_guy_type* pbad, void *p_c_object, int c_object)
     {
     case CO_BULLET:
       pbad->dying = FALLING;
-      pbad->ym = -8;
+      pbad->base.ym = -8;
 
       /* Gain some points: */
 
       if (pbad->kind == BAD_BSOD)
-        add_score(pbad->x - scroll_x, pbad->y,
+        add_score(pbad->base.x - scroll_x, pbad->base.y,
                   50 * score_multiplier);
       else if (pbad->kind == BAD_LAPTOP)
-        add_score(pbad->x - scroll_x, pbad->y,
+        add_score(pbad->base.x - scroll_x, pbad->base.y,
                   25 * score_multiplier);
 
       /* Play death sound: */
@@ -502,11 +493,11 @@ void badguy_collision(bad_guy_type* pbad, void *p_c_object, int c_object)
           /* We're in kick mode, kill the other guy: */
 
           pbad_c->dying = FALLING;
-          pbad_c->ym = -8;
+          pbad_c->base.ym = -8;
           play_sound(sounds[SND_FALL], SOUND_CENTER_SPEAKER);
 
-          add_score(pbad->x - scroll_x,
-                    pbad->y, 100);
+          add_score(pbad->base.x - scroll_x,
+                    pbad->base.y, 100);
         }
       pbad->dir = !pbad->dir;
       break;
@@ -516,9 +507,9 @@ void badguy_collision(bad_guy_type* pbad, void *p_c_object, int c_object)
         {
           pbad->dying = SQUISHED;
           timer_start(&pbad->timer,4000);
-          pplayer_c->ym = -KILL_BOUNCE_YM;
+          pplayer_c->base.ym = -KILL_BOUNCE_YM;
 
-          add_score(pbad->x - scroll_x, pbad->y,
+          add_score(pbad->base.x - scroll_x, pbad->base.y,
                     50 * score_multiplier);
 
           play_sound(sounds[SND_SQUISH], SOUND_CENTER_SPEAKER);
@@ -531,11 +522,11 @@ void badguy_collision(bad_guy_type* pbad, void *p_c_object, int c_object)
 
               play_sound(sounds[SND_STOMP], SOUND_CENTER_SPEAKER);
               pbad->mode = FLAT;
-	      pbad->xm = 4;
+	      pbad->base.xm = 4;
 
               timer_start(&pbad->timer,10000);
 
-              pplayer_c->y = pplayer_c->y - 32;
+              pplayer_c->base.y = pplayer_c->base.y - 32;
             }
           else
             {
@@ -544,7 +535,7 @@ void badguy_collision(bad_guy_type* pbad, void *p_c_object, int c_object)
               pbad->mode = KICK;
               play_sound(sounds[SND_KICK], SOUND_CENTER_SPEAKER);
 
-              if (pplayer_c->x <= pbad->x)
+              if (pplayer_c->base.x <= pbad->base.x)
                 pbad->dir = RIGHT;
               else
                 pbad->dir = LEFT;
@@ -552,10 +543,10 @@ void badguy_collision(bad_guy_type* pbad, void *p_c_object, int c_object)
               timer_start(&pbad->timer,5000);
             }
 
-          pplayer_c->ym = -KILL_BOUNCE_YM;
+          pplayer_c->base.ym = -KILL_BOUNCE_YM;
 
-          add_score(pbad->x - scroll_x,
-                    pbad->y,
+          add_score(pbad->base.x - scroll_x,
+                    pbad->base.y,
                     25 * score_multiplier);
 
           /* play_sound(sounds[SND_SQUISH]); */

@@ -18,10 +18,7 @@
 
 typedef struct bouncy_distro_type /*It is easier to read the sources IMHO, if we don't write something like int a,b,c; */
   {
-    int alive;
-    float x;
-    float y;
-    float ym;
+    base_type base;
   }
 bouncy_distro_type;
 
@@ -37,11 +34,7 @@ void bouncy_distro_collision(bouncy_distro_type* pbouncy_distro, int c_object);
 
 typedef struct broken_brick_type
   {
-    int alive;
-    float x;
-    float y;
-    float xm;
-    float ym;
+    base_type base;
   }
 broken_brick_type;
 
@@ -50,12 +43,10 @@ void broken_brick_draw(broken_brick_type* pbroken_brick);
 
 typedef struct bouncy_brick_type
   {
-    int alive;
-    float x;
-    float y;
     float offset;
     float offset_m;
     int shape;
+    base_type base;
   }
 bouncy_brick_type;
 
@@ -64,11 +55,9 @@ void bouncy_brick_draw(bouncy_brick_type* pbouncy_brick);
 
 typedef struct floating_score_type
   {
-    int alive;
-    float x;
-    float y;
     int value;
     timer_type timer;
+    base_type base;
   }
 floating_score_type;
 

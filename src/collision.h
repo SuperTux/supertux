@@ -23,8 +23,8 @@ enum
   CO_PLAYER
 };
 
-int rectcollision(itop_type* one, itop_type* two);
-int rectcollision_offset(itop_type* one, itop_type* two, float off_x, float off_y);
+int rectcollision(base_type* one, base_type* two);
+int rectcollision_offset(base_type* one, base_type* two, float off_x, float off_y);
 
 /* Checks for all possible collisions.
    And calls the collision_handlers, which the collision_objects provide for this case (or not). */

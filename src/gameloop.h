@@ -35,15 +35,6 @@ enum {
   UPGRADE_HERRING
 };
 
-/* Array sizes: */
-
-#define NUM_BOUNCY_DISTROS 8
-#define NUM_BROKEN_BRICKS 32
-#define NUM_BOUNCY_BRICKS 4
-#define NUM_FLOATING_SCORES 6
-#define NUM_UPGRADES 2
-
-
 /* Scores: */
 
 #define SCORE_BRICK 5
@@ -58,7 +49,7 @@ int issolid(float x, float y);
 int isbrick(float x, float y);
 int isice(float x, float y);
 int isfullbox(float x, float y);
-int rectcollision(itop_type* one, itop_type* two);
+int rectcollision(base_type* one, base_type* two);
 void drawshape(float x, float y, unsigned char c);
 unsigned char shape(float x, float y);
 void bumpbrick(float x, float y);

@@ -15,13 +15,13 @@
 #include "bitmask.h"
 #include "scene.h"
 
-int rectcollision(itop_type* one, itop_type* two)
+int rectcollision(base_type* one, base_type* two)
 {
 
-  if (*one->x >= *two->x - *one->width &&
-      *one->x <= *two->x + *two->width  &&
-      *one->y >= *two->y - *one->height &&
-      *one->y <= *two->y + *two->height )
+  if (one->x >= two->x - one->width &&
+      one->x <= two->x + two->width  &&
+      one->y >= two->y - one->height &&
+      one->y <= two->y + two->height )
     {
       return YES;
     }
@@ -31,44 +31,19 @@ int rectcollision(itop_type* one, itop_type* two)
     }
 }
 
-int rectcollision_offset(itop_type* one, itop_type* two, float off_x, float off_y)
+int rectcollision_offset(base_type* one, base_type* two, float off_x, float off_y)
 {
 
-  if (*one->x >= *two->x - *one->width +off_x &&
-      *one->x <= *two->x + *two->width + off_x &&
-      *one->y >= *two->y - *one->height + off_y &&
-      *one->y <= *two->y + *two->height + off_y )
+  if (one->x >= two->x - one->width +off_x &&
+      one->x <= two->x + two->width + off_x &&
+      one->y >= two->y - one->height + off_y &&
+      one->y <= two->y + two->height + off_y )
     {
       return YES;
     }
   else
     {
       return NO;
-    }
-}
-
-void collision_rect_detect(int co_one, int co_two)
-{
-  int i,j;
-
-  /* CO_BULLET & CO_BADGUY check */
-  for(i = 0; i < NUM_BULLETS; ++i)
-    {
-      if(bullets[i].alive)
-        {
-          for(j = 0; j < NUM_BAD_GUYS; ++j)
-            {
-              if(bad_guys[j].alive)
-                {
-                  if(rectcollision(&bullets[i].it,&bad_guys[j].it) == YES)
-                    {
-		    /* We have detected a collision and now call the collision functions of the collided objects. */
-		      bullet_collision(&bullets[i], CO_BADGUY);
-		      badguy_collision(&bad_guys[j], &bullets[i], CO_BULLET);
-                    }
-                }
-            }
-        }
     }
 }
 
@@ -77,15 +52,15 @@ void collision_handler()
   int i,j;
 
   /* CO_BULLET & CO_BADGUY check */
-  for(i = 0; i < NUM_BULLETS; ++i)
+  for(i = 0; i < num_bullets; ++i)
     {
-      if(bullets[i].alive)
+      if(bullets[i].base.alive)
         {
-          for(j = 0; j < NUM_BAD_GUYS; ++j)
+          for(j = 0; j < num_bad_guys; ++j)
             {
-              if(bad_guys[j].alive)
+              if(bad_guys[j].dying == NO && bad_guys[j].base.alive)
                 {
-                  if(rectcollision(&bullets[i].it,&bad_guys[j].it) == YES)
+                  if(rectcollision(&bullets[i].base,&bad_guys[j].base) == YES)
                     {
 		    /* We have detected a collision and now call the collision functions of the collided objects. */
 		      bullet_collision(&bullets[i], CO_BADGUY);
@@ -97,15 +72,15 @@ void collision_handler()
     }
     
     /* CO_BADGUY & CO_BADGUY check */
-  for(i = 0; i < NUM_BAD_GUYS; ++i)
+  for(i = 0; i < num_bad_guys; ++i)
     {
-      if(bad_guys[i].alive)
+      if(bad_guys[i].base.alive)
         {
-          for(j = i+1; j < NUM_BAD_GUYS; ++j)
+          for(j = i+1; j < num_bad_guys; ++j)
             {
-              if(j != i && bad_guys[j].alive)
+              if(j != i && bad_guys[j].base.alive)
                 {
-                  if(rectcollision(&bad_guys[i].it,&bad_guys[j].it) == YES)
+                  if(rectcollision(&bad_guys[i].base,&bad_guys[j].base) == YES)
                     {
 		    /* We have detected a collision and now call the collision functions of the collided objects. */
 		      badguy_collision(&bad_guys[j], &bad_guys[i], CO_BADGUY);
@@ -116,16 +91,16 @@ void collision_handler()
     }
 
     /* CO_BADGUY & CO_PLAYER check */
-  for(i = 0; i < NUM_BAD_GUYS; ++i)
+  for(i = 0; i < num_bad_guys; ++i)
     {
-      if(bad_guys[i].alive)
+      if(bad_guys[i].base.alive)
         {
-		  if(rectcollision_offset(&bad_guys[i].it,&tux.it,0,48) == YES && tux.ym < 0)
+		  if(bad_guys[i].dying == NO && rectcollision_offset(&bad_guys[i].base,&tux.base,0,0) == YES && tux.base.ym > 0)
                     {
 		    /* We have detected a collision and now call the collision functions of the collided objects. */
 		      badguy_collision(&bad_guys[i], &tux, CO_PLAYER);
 		      }
-		   if(rectcollision(&bad_guys[i].it,&tux.it) == YES)
+		   if(rectcollision(&bad_guys[i].base,&tux.base) == YES)
 		   {
 		      player_collision(&tux, &bad_guys[i], CO_BADGUY);
 		   }
@@ -134,11 +109,11 @@ void collision_handler()
     }
 
     /* CO_UPGRADE & CO_PLAYER check */
-  for(i = 0; i < NUM_UPGRADES; ++i)
+  for(i = 0; i < num_upgrades; ++i)
     {
-      if(upgrades[i].alive)
+      if(upgrades[i].base.alive)
         {
-		  if(rectcollision(&upgrades[i].it,&tux.it) == YES)
+		  if(rectcollision(&upgrades[i].base,&tux.base) == YES)
                     {
 		    /* We have detected a collision and now call the collision functions of the collided objects. */
 		      upgrade_collision(&upgrades[i], &tux, CO_PLAYER);

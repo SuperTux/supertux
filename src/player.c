@@ -19,24 +19,17 @@
 
 void player_init(player_type* pplayer)
 {
-  pplayer->it.alive = NULL;
-  pplayer->it.x = &pplayer->x;
-  pplayer->it.y = &pplayer->y;
-  pplayer->it.width = &pplayer->width;
-  pplayer->it.height = &pplayer->height;
-  pplayer->it.updated = &pplayer->updated;
+  pplayer->base.width = 32;
+  pplayer->base.height = 32;
 
-  pplayer->width = 32;
-  pplayer->height = 32;
-
-  pplayer->updated = SDL_GetTicks();
+  pplayer->base.updated = SDL_GetTicks();
   pplayer->size = SMALL;
   pplayer->got_coffee = NO;
 
-  pplayer->x = 0;
-  pplayer->xm = 0;
-  pplayer->y = 240;
-  pplayer->ym = 0;
+  pplayer->base.x = 0;
+  pplayer->base.y = 240;
+  pplayer->base.xm = 0;
+  pplayer->base.ym = 0;
   pplayer->dir = RIGHT;
   pplayer->duck = NO;
 
@@ -62,16 +55,16 @@ void player_init(player_type* pplayer)
 
 void player_level_begin(player_type* pplayer)
 {
-  pplayer->x = 0;
-  pplayer->xm = 0;
-  pplayer->y = 240;
-  pplayer->ym = 0;
+  pplayer->base.x = 0;
+  pplayer->base.y = 240;
+  pplayer->base.xm = 0;
+  pplayer->base.ym = 0;
 }
 
 void player_action(player_type* pplayer)
 {
 
-  double frame_ratio = get_frame_ratio(&pplayer->it);
+  double frame_ratio = get_frame_ratio(&pplayer->base);
 
   /* --- HANDLE TUX! --- */
 
@@ -79,8 +72,8 @@ void player_action(player_type* pplayer)
 
   /* Move tux: */
 
-  pplayer->x = pplayer->x + pplayer->xm * frame_ratio;
-  pplayer->y = pplayer->y + pplayer->ym * frame_ratio;
+  pplayer->base.x= pplayer->base.x+ pplayer->base.xm * frame_ratio;
+  pplayer->base.y = pplayer->base.y + pplayer->base.ym * frame_ratio;
 
   player_keep_in_bounds(pplayer);
 
@@ -88,83 +81,83 @@ void player_action(player_type* pplayer)
 
   if (!pplayer->dying)
     {
-      if (issolid(pplayer->x, pplayer->y + 31) &&
-          !issolid(pplayer->x - pplayer->xm, pplayer->y + 31))
+      if (issolid(pplayer->base.x, pplayer->base.y + 31) &&
+          !issolid(pplayer->base.x- pplayer->base.xm, pplayer->base.y + 31))
         {
-          while (issolid(pplayer->x, pplayer->y + 31))
+          while (issolid(pplayer->base.x, pplayer->base.y + 31))
             {
-              if (pplayer->xm < 0)
-                pplayer->x++;
-              else if (pplayer->xm > 0)
-                pplayer->x--;
+              if (pplayer->base.xm < 0)
+                pplayer->base.x++;
+              else if (pplayer->base.xm > 0)
+                pplayer->base.x--;
             }
 
-          pplayer->xm = 0;
+          pplayer->base.xm = 0;
         }
 
-      if (issolid(pplayer->x, pplayer->y) &&
-          !issolid(pplayer->x - pplayer->xm, pplayer->y))
+      if (issolid(pplayer->base.x, pplayer->base.y) &&
+          !issolid(pplayer->base.x- pplayer->base.xm, pplayer->base.y))
         {
-          while (issolid(pplayer->x, (pplayer->y)))
+          while (issolid(pplayer->base.x, (pplayer->base.y)))
             {
-              if (pplayer->xm < 0)
-                pplayer->x++;
-              else if (pplayer->xm > 0)
-                pplayer->x--;
+              if (pplayer->base.xm < 0)
+                pplayer->base.x++;
+              else if (pplayer->base.xm > 0)
+                pplayer->base.x--;
             }
 
-          pplayer->xm = 0;
+          pplayer->base.xm = 0;
         }
 
-      if (issolid(pplayer->x, pplayer->y + 31))
+      if (issolid(pplayer->base.x, pplayer->base.y + 31))
         {
           /* Set down properly: */
 
           int debug_int = 0;
-          while (issolid(pplayer->x, pplayer->y + 31))
+          while (issolid(pplayer->base.x, pplayer->base.y + 31))
             {
               ++debug_int;
               if(debug_int > 32)
                 DEBUG_MSG("FIXME - UNDER certain circumstances I'm hanging in a loop here!");
 		
-              if (pplayer->ym < 0)
-                pplayer->y++;
-              else if (pplayer->ym > 0)
-                pplayer->y--;
+              if (pplayer->base.ym < 0)
+                pplayer->base.y++;
+              else if (pplayer->base.ym > 0)
+                pplayer->base.y--;
             }
 
 
           /* Reset score multiplier (for multi-hits): */
 
-          if (pplayer->ym > 0)
+          if (pplayer->base.ym > 0)
             score_multiplier = 1;
 
 
           /* Stop jumping! */
 
-          pplayer->ym = 0;
+          pplayer->base.ym = 0;
           pplayer->jumping = NO;
         }
 
 
       /* Bump into things: */
 
-      if (issolid(pplayer->x, pplayer->y) ||
+      if (issolid(pplayer->base.x, pplayer->base.y) ||
           (pplayer->size == BIG && !pplayer->duck &&
-           (issolid(pplayer->x, pplayer->y - 32))))
+           (issolid(pplayer->base.x, pplayer->base.y - 32))))
         {
-          if (!issolid(pplayer->x - pplayer->xm, pplayer->y) &&
+          if (!issolid(pplayer->base.x- pplayer->base.xm, pplayer->base.y) &&
               (pplayer->size == SMALL || pplayer->duck ||
-               !issolid(pplayer->x - pplayer->xm, pplayer->y - 32)))
+               !issolid(pplayer->base.x- pplayer->base.xm, pplayer->base.y - 32)))
             {
-              pplayer->x = pplayer->x - pplayer->xm;
-              pplayer->xm = 0;
+              pplayer->base.x = pplayer->base.x- pplayer->base.xm;
+              pplayer->base.xm = 0;
             }
-          else if (!issolid(pplayer->x, pplayer->y - pplayer->ym) &&
+          else if (!issolid(pplayer->base.x, pplayer->base.y - pplayer->base.ym) &&
                    (pplayer->size == SMALL || pplayer->duck ||
-                    !issolid(pplayer->x, pplayer->y - 32 - pplayer->ym)))
+                    !issolid(pplayer->base.x, pplayer->base.y - 32 - pplayer->base.ym)))
             {
-              if (pplayer->ym <= 0)
+              if (pplayer->base.ym <= 0)
                 {
                   /* Jumping up? */
 
@@ -174,66 +167,66 @@ void player_action(player_type* pplayer)
 
                       if (!pplayer->duck)
                         {
-                          if (isbrick(pplayer->x, pplayer->y - 32) ||
-                              isfullbox(pplayer->x, pplayer->y - 32))
+                          if (isbrick(pplayer->base.x, pplayer->base.y - 32) ||
+                              isfullbox(pplayer->base.x, pplayer->base.y - 32))
                             {
-                              trygrabdistro(pplayer->x, pplayer->y - 64, BOUNCE);
-                              trybumpbadguy(pplayer->x, pplayer->y - 96);
+                              trygrabdistro(pplayer->base.x, pplayer->base.y - 64, BOUNCE);
+                              trybumpbadguy(pplayer->base.x, pplayer->base.y - 96);
 
-                              if (isfullbox(pplayer->x, pplayer->y - 32))
+                              if (isfullbox(pplayer->base.x, pplayer->base.y - 32))
                                 {
-                                  bumpbrick(pplayer->x, pplayer->y - 32);
+                                  bumpbrick(pplayer->base.x, pplayer->base.y - 32);
                                 }
 
-                              trybreakbrick(pplayer->x, pplayer->y - 32);
-                              tryemptybox(pplayer->x, pplayer->y - 32);
+                              trybreakbrick(pplayer->base.x, pplayer->base.y - 32);
+                              tryemptybox(pplayer->base.x, pplayer->base.y - 32);
                             }
 
-                          if (isbrick(pplayer->x + 31, pplayer->y - 32) ||
-                              isfullbox(pplayer->x + 31, pplayer->y - 32))
+                          if (isbrick(pplayer->base.x+ 31, pplayer->base.y - 32) ||
+                              isfullbox(pplayer->base.x+ 31, pplayer->base.y - 32))
                             {
-                              trygrabdistro(pplayer->x + 31,
-                                            pplayer->y - 64,
+                              trygrabdistro(pplayer->base.x+ 31,
+                                            pplayer->base.y - 64,
                                             BOUNCE);
-                              trybumpbadguy(pplayer->x + 31,
-                                            pplayer->y - 96);
+                              trybumpbadguy(pplayer->base.x+ 31,
+                                            pplayer->base.y - 96);
 
-                              if (isfullbox(pplayer->x + 31, pplayer->y - 32))
+                              if (isfullbox(pplayer->base.x+ 31, pplayer->base.y - 32))
                                 {
-                                  bumpbrick(pplayer->x + 31, pplayer->y - 32);
+                                  bumpbrick(pplayer->base.x+ 31, pplayer->base.y - 32);
                                 }
 
-                              trybreakbrick(pplayer->x + 31,
-                                            pplayer->y - 32);
-                              tryemptybox(pplayer->x + 31,
-                                          pplayer->y - 32);
+                              trybreakbrick(pplayer->base.x+ 31,
+                                            pplayer->base.y - 32);
+                              tryemptybox(pplayer->base.x+ 31,
+                                          pplayer->base.y - 32);
                             }
                         }
                       else /* ducking */
                         {
-                          if (isbrick(pplayer->x, pplayer->y) ||
-                              isfullbox(pplayer->x, pplayer->y))
+                          if (isbrick(pplayer->base.x, pplayer->base.y) ||
+                              isfullbox(pplayer->base.x, pplayer->base.y))
                             {
-                              trygrabdistro(pplayer->x, pplayer->y - 32,BOUNCE);
-                              trybumpbadguy(pplayer->x, pplayer->y - 64);
-                              if (isfullbox(pplayer->x, pplayer->y))
-                                bumpbrick(pplayer->x, pplayer->y);
-                              trybreakbrick(pplayer->x, pplayer->y);
-                              tryemptybox(pplayer->x, pplayer->y);
+                              trygrabdistro(pplayer->base.x, pplayer->base.y - 32,BOUNCE);
+                              trybumpbadguy(pplayer->base.x, pplayer->base.y - 64);
+                              if (isfullbox(pplayer->base.x, pplayer->base.y))
+                                bumpbrick(pplayer->base.x, pplayer->base.y);
+                              trybreakbrick(pplayer->base.x, pplayer->base.y);
+                              tryemptybox(pplayer->base.x, pplayer->base.y);
                             }
 
-                          if (isbrick(pplayer->x + 31, pplayer->y) ||
-                              isfullbox(pplayer->x + 31, pplayer->y))
+                          if (isbrick(pplayer->base.x+ 31, pplayer->base.y) ||
+                              isfullbox(pplayer->base.x+ 31, pplayer->base.y))
                             {
-                              trygrabdistro(pplayer->x + 31,
-                                            pplayer->y - 32,
+                              trygrabdistro(pplayer->base.x+ 31,
+                                            pplayer->base.y - 32,
                                             BOUNCE);
-                              trybumpbadguy(pplayer->x + 31,
-                                            pplayer->y - 64);
-                              if (isfullbox(pplayer->x + 31, pplayer->y))
-                                bumpbrick(pplayer->x + 31, pplayer->y);
-                              trybreakbrick(pplayer->x + 31, pplayer->y);
-                              tryemptybox(pplayer->x + 31, pplayer->y);
+                              trybumpbadguy(pplayer->base.x+ 31,
+                                            pplayer->base.y - 64);
+                              if (isfullbox(pplayer->base.x+ 31, pplayer->base.y))
+                                bumpbrick(pplayer->base.x+ 31, pplayer->base.y);
+                              trybreakbrick(pplayer->base.x+ 31, pplayer->base.y);
+                              tryemptybox(pplayer->base.x+ 31, pplayer->base.y);
                             }
                         }
                     }
@@ -242,33 +235,33 @@ void player_action(player_type* pplayer)
                       /* It's a brick and we're small, make the brick
                          bounce, and grab any distros above it: */
 
-                      if (isbrick(pplayer->x, pplayer->y) ||
-                          isfullbox(pplayer->x, pplayer->y))
+                      if (isbrick(pplayer->base.x, pplayer->base.y) ||
+                          isfullbox(pplayer->base.x, pplayer->base.y))
                         {
-                          trygrabdistro(pplayer->x, pplayer->y - 32,BOUNCE);
-                          trybumpbadguy(pplayer->x, pplayer->y - 64);
-                          bumpbrick(pplayer->x, pplayer->y);
-                          tryemptybox(pplayer->x, pplayer->y);
+                          trygrabdistro(pplayer->base.x, pplayer->base.y - 32,BOUNCE);
+                          trybumpbadguy(pplayer->base.x, pplayer->base.y - 64);
+                          bumpbrick(pplayer->base.x, pplayer->base.y);
+                          tryemptybox(pplayer->base.x, pplayer->base.y);
                         }
 
-                      if (isbrick(pplayer->x + 31, pplayer->y) ||
-                          isfullbox(pplayer->x + 31, pplayer->y))
+                      if (isbrick(pplayer->base.x+ 31, pplayer->base.y) ||
+                          isfullbox(pplayer->base.x+ 31, pplayer->base.y))
                         {
-                          trygrabdistro(pplayer->x + 31, pplayer->y - 32,BOUNCE);
-                          trybumpbadguy(pplayer->x + 31, pplayer->y - 64);
-                          bumpbrick(pplayer->x + 31, pplayer->y);
-                          tryemptybox(pplayer->x + 31, pplayer->y);
+                          trygrabdistro(pplayer->base.x+ 31, pplayer->base.y - 32,BOUNCE);
+                          trybumpbadguy(pplayer->base.x+ 31, pplayer->base.y - 64);
+                          bumpbrick(pplayer->base.x+ 31, pplayer->base.y);
+                          tryemptybox(pplayer->base.x+ 31, pplayer->base.y);
                         }
 
 
                       /* Get a distro from a brick? */
 
-                      if (shape(pplayer->x, pplayer->y) == 'x' ||
-                          shape(pplayer->x, pplayer->y) == 'y')
+                      if (shape(pplayer->base.x, pplayer->base.y) == 'x' ||
+                          shape(pplayer->base.x, pplayer->base.y) == 'y')
                         {
-                          add_bouncy_distro(((pplayer->x + 1)
+                          add_bouncy_distro(((pplayer->base.x+ 1)
                                              / 32) * 32,
-                                            (int)(pplayer->y / 32) * 32);
+                                            (int)(pplayer->base.y / 32) * 32);
 
                           if (counting_distros == NO)
                             {
@@ -277,18 +270,18 @@ void player_action(player_type* pplayer)
                             }
 
                           if (distro_counter <= 0)
-                            level_change(&current_level,pplayer->x, pplayer->y, 'a');
+                            level_change(&current_level,pplayer->base.x, pplayer->base.y, 'a');
 
                           play_sound(sounds[SND_DISTRO], SOUND_CENTER_SPEAKER);
                           score = score + SCORE_DISTRO;
                           distros++;
                         }
-                      else if (shape(pplayer->x + 31, pplayer->y) == 'x' ||
-                               shape(pplayer->x + 31, pplayer->y) == 'y')
+                      else if (shape(pplayer->base.x+ 31, pplayer->base.y) == 'x' ||
+                               shape(pplayer->base.x+ 31, pplayer->base.y) == 'y')
                         {
-                          add_bouncy_distro(((pplayer->x + 1 + 31)
+                          add_bouncy_distro(((pplayer->base.x+ 1 + 31)
                                              / 32) * 32,
-                                            (int)(pplayer->y / 32) * 32);
+                                            (int)(pplayer->base.y / 32) * 32);
 
                           if (counting_distros == NO)
                             {
@@ -297,7 +290,7 @@ void player_action(player_type* pplayer)
                             }
 
                           if (distro_counter <= 0)
-                            level_change(&current_level,pplayer->x + 31 + scroll_x, pplayer->y, 'a');
+                            level_change(&current_level,pplayer->base.x+ 31 + scroll_x, pplayer->base.y, 'a');
 
                           play_sound(sounds[SND_DISTRO], SOUND_CENTER_SPEAKER);
                           score = score + SCORE_DISTRO;
@@ -308,16 +301,16 @@ void player_action(player_type* pplayer)
 
                   /* Bump head: */
 
-                  pplayer->y = (int)(pplayer->y / 32) * 32 + 30;
+                  pplayer->base.y = (int)(pplayer->base.y / 32) * 32 + 30;
                 }
               else
                 {
                   /* Land on feet: */
 
-                  pplayer->y = (int)(pplayer->y / 32) * 32 - 32;
+                  pplayer->base.y = (int)(pplayer->base.y / 32) * 32 - 32;
                 }
 
-              pplayer->ym = 0;
+              pplayer->base.ym = 0;
               pplayer->jumping = NO;
               /*pplayer->jump_counter = MAX_JUMP_COUNT;*/
               /*timer_init(&pplayer->jump_timer);*/
@@ -337,33 +330,33 @@ void player_action(player_type* pplayer)
     {
       if (pplayer->input.right == UP && pplayer->input.left == UP)
         {
-          if (isice(pplayer->x, pplayer->y + 32) ||
-              !issolid(pplayer->x, pplayer->y + 32))
+          if (isice(pplayer->base.x, pplayer->base.y + 32) ||
+              !issolid(pplayer->base.x, pplayer->base.y + 32))
             {
               /* Slowly on ice or in air: */
 
-              if (pplayer->xm > 0)
-                pplayer->xm--;
-              else if (pplayer->xm < 0)
-                pplayer->xm++;
+              if (pplayer->base.xm > 0)
+                pplayer->base.xm--;
+              else if (pplayer->base.xm < 0)
+                pplayer->base.xm++;
             }
           else
             {
               /* Quickly, otherwise: */
 
-              pplayer->xm = pplayer->xm / 2;
+              pplayer->base.xm = pplayer->base.xm / 2;
             }
         }
 
 
       /* Drop vertically: */
 
-      if (!issolid(pplayer->x, pplayer->y + 32))
+      if (!issolid(pplayer->base.x, pplayer->base.y + 32))
         {
-          pplayer->ym = pplayer->ym + GRAVITY;
+          pplayer->base.ym = pplayer->base.ym + GRAVITY;
 
-          if (pplayer->ym > MAX_YM)
-            pplayer->ym = MAX_YM;
+          if (pplayer->base.ym > MAX_YM)
+            pplayer->base.ym = MAX_YM;
         }
     }
 
@@ -407,7 +400,7 @@ void player_action(player_type* pplayer)
 
   /* End of level? */
 
-  if (pplayer->x >= endpos && endpos != 0)
+  if (pplayer->base.x>= endpos && endpos != 0)
     {
       next_level = 1;
     }
@@ -423,7 +416,7 @@ void player_input(player_type *pplayer)
     {
       if (pplayer->jumping == NO)
         {
-          if (pplayer->xm < -SKID_XM && !pplayer->skidding &&
+          if (pplayer->base.xm < -SKID_XM && !pplayer->skidding &&
               pplayer->dir == LEFT)
             {
               pplayer->skidding = SKID_TIME;
@@ -434,10 +427,10 @@ void player_input(player_type *pplayer)
           pplayer->dir = RIGHT;
         }
 
-      if (pplayer->xm < 0 && !isice(pplayer->x, pplayer->y + 32) &&
+      if (pplayer->base.xm < 0 && !isice(pplayer->base.x, pplayer->base.y + 32) &&
           !pplayer->skidding)
         {
-          pplayer->xm = 0;
+          pplayer->base.xm = 0;
         }
 
       if (!pplayer->duck)
@@ -448,17 +441,17 @@ void player_input(player_type *pplayer)
 
               if (pplayer->input.fire == UP)
                 {
-                  pplayer->xm = pplayer->xm + RUN_SPEED;
+                  pplayer->base.xm = pplayer->base.xm + RUN_SPEED;
 
-                  if (pplayer->xm > MAX_RUN_XM)
-                    pplayer->xm = MAX_RUN_XM;
+                  if (pplayer->base.xm > MAX_RUN_XM)
+                    pplayer->base.xm = MAX_RUN_XM;
                 }
               else if ( pplayer->input.fire == DOWN)
                 {
-                  pplayer->xm = pplayer->xm + WALK_SPEED;
+                  pplayer->base.xm = pplayer->base.xm + WALK_SPEED;
 
-                  if (pplayer->xm > MAX_WALK_XM)
-                    pplayer->xm = MAX_WALK_XM;
+                  if (pplayer->base.xm > MAX_WALK_XM)
+                    pplayer->base.xm = MAX_WALK_XM;
                 }
             }
           else
@@ -466,10 +459,10 @@ void player_input(player_type *pplayer)
               /* Not facing the direction we're jumping?
               Go half-speed: */
 
-              pplayer->xm = pplayer->xm + WALK_SPEED / 2;
+              pplayer->base.xm = pplayer->base.xm + WALK_SPEED / 2;
 
-              if (pplayer->xm > MAX_WALK_XM / 2)
-                pplayer->xm = MAX_WALK_XM / 2;
+              if (pplayer->base.xm > MAX_WALK_XM / 2)
+                pplayer->base.xm = MAX_WALK_XM / 2;
             }
         }
     }
@@ -477,7 +470,7 @@ void player_input(player_type *pplayer)
     {
       if (pplayer->jumping == NO)
         {
-          if (pplayer->xm > SKID_XM && !pplayer->skidding &&
+          if (pplayer->base.xm > SKID_XM && !pplayer->skidding &&
               pplayer->dir == RIGHT)
             {
               pplayer->skidding = SKID_TIME;
@@ -486,10 +479,10 @@ void player_input(player_type *pplayer)
           pplayer->dir = LEFT;
         }
 
-      if (pplayer->xm > 0 && !isice(pplayer->x, pplayer->y + 32) &&
+      if (pplayer->base.xm > 0 && !isice(pplayer->base.x, pplayer->base.y + 32) &&
           !pplayer->skidding)
         {
-          pplayer->xm = 0;
+          pplayer->base.xm = 0;
         }
 
       if (!pplayer->duck)
@@ -500,17 +493,17 @@ void player_input(player_type *pplayer)
 
               if (pplayer->input.fire == UP)
                 {
-                  pplayer->xm = pplayer->xm - RUN_SPEED;
+                  pplayer->base.xm = pplayer->base.xm - RUN_SPEED;
 
-                  if (pplayer->xm < -MAX_RUN_XM)
-                    pplayer->xm = -MAX_RUN_XM;
+                  if (pplayer->base.xm < -MAX_RUN_XM)
+                    pplayer->base.xm = -MAX_RUN_XM;
                 }
               else if (pplayer->input.fire == DOWN)
                 {
-                  pplayer->xm = pplayer->xm - WALK_SPEED;
+                  pplayer->base.xm = pplayer->base.xm - WALK_SPEED;
 
-                  if (pplayer->xm < -MAX_WALK_XM)
-                    pplayer->xm = -MAX_WALK_XM;
+                  if (pplayer->base.xm < -MAX_WALK_XM)
+                    pplayer->base.xm = -MAX_WALK_XM;
                 }
             }
           else
@@ -518,10 +511,10 @@ void player_input(player_type *pplayer)
               /* Not facing the direction we're jumping?
               Go half-speed: */
 
-              pplayer->xm = pplayer->xm - WALK_SPEED / 2;
+              pplayer->base.xm = pplayer->base.xm - WALK_SPEED / 2;
 
-              if (pplayer->xm < -MAX_WALK_XM / 2)
-                pplayer->xm = -MAX_WALK_XM / 2;
+              if (pplayer->base.xm < -MAX_WALK_XM / 2)
+                pplayer->base.xm = -MAX_WALK_XM / 2;
             }
         }
     }
@@ -537,8 +530,8 @@ void player_input(player_type *pplayer)
 
           /* Taking off? */
 
-          if (!issolid(pplayer->x, pplayer->y + 32) ||
-              pplayer->ym != 0)
+          if (!issolid(pplayer->base.x, pplayer->base.y + 32) ||
+              pplayer->base.ym != 0)
             {
               /* If they're not on the ground, or are currently moving
               vertically, don't jump! */
@@ -551,7 +544,7 @@ void player_input(player_type *pplayer)
               /* Make sure we're not standing back up into a solid! */
 
               if (pplayer->size == SMALL || pplayer->duck == NO ||
-                  !issolid(pplayer->x, pplayer->y))
+                  !issolid(pplayer->base.x, pplayer->base.y))
                 {
                   pplayer->jumping = YES;
 
@@ -567,7 +560,7 @@ void player_input(player_type *pplayer)
 
       if (timer_check(&pplayer->jump_timer))
         {
-          pplayer->ym = pplayer->ym - JUMP_SPEED;
+          pplayer->base.ym = pplayer->base.ym - JUMP_SPEED;
         }
     }
   else
@@ -578,7 +571,7 @@ void player_input(player_type *pplayer)
 
   if (pplayer->input.fire == DOWN && pplayer->input.old_fire == UP && pplayer->got_coffee)
     {
-      add_bullet(pplayer->x, pplayer->y, pplayer->xm, pplayer->dir);
+      add_bullet(pplayer->base.x, pplayer->base.y, pplayer->base.xm, pplayer->dir);
     }
 
 
@@ -595,7 +588,7 @@ void player_input(player_type *pplayer)
         {
           /* Make sure we're not standing back up into a solid! */
 
-          if (!issolid(pplayer->x, pplayer->y - 32))
+          if (!issolid(pplayer->base.x, pplayer->base.y - 32))
             pplayer->duck = NO;
         }
       else
@@ -628,13 +621,13 @@ void player_grabdistros(player_type *pplayer)
   /* Grab distros: */
   if (!pplayer->dying)
     {
-      trygrabdistro(pplayer->x , pplayer->y, NO_BOUNCE);
-      trygrabdistro(pplayer->x + 31, pplayer->y, NO_BOUNCE);
+      trygrabdistro(pplayer->base.x, pplayer->base.y, NO_BOUNCE);
+      trygrabdistro(pplayer->base.x+ 31, pplayer->base.y, NO_BOUNCE);
 
       if (pplayer->size == BIG && !pplayer->duck)
         {
-          trygrabdistro(pplayer->x, pplayer->y - 32, NO_BOUNCE);
-          trygrabdistro(pplayer->x + 31, pplayer->y - 32, NO_BOUNCE);
+          trygrabdistro(pplayer->base.x, pplayer->base.y - 32, NO_BOUNCE);
+          trygrabdistro(pplayer->base.x+ 31, pplayer->base.y - 32, NO_BOUNCE);
         }
     }
 
@@ -665,13 +658,13 @@ void player_draw(player_type* pplayer)
               if (pplayer->dir == RIGHT)
                 {
                   texture_draw(&cape_right[frame % 2],
-                               pplayer->x - scroll_x, pplayer->y,
+                               pplayer->base.x- scroll_x, pplayer->base.y,
                                NO_UPDATE);
                 }
               else
                 {
                   texture_draw(&cape_left[frame % 2],
-                               pplayer->x - scroll_x, pplayer->y,
+                               pplayer->base.x- scroll_x, pplayer->base.y,
                                NO_UPDATE);
                 }
             }
@@ -681,11 +674,11 @@ void player_draw(player_type* pplayer)
             {
               if (pplayer->dir == RIGHT)
                 {
-                  texture_draw(&tux_right[pplayer->frame], pplayer->x - scroll_x, pplayer->y, NO_UPDATE);
+                  texture_draw(&tux_right[pplayer->frame], pplayer->base.x- scroll_x, pplayer->base.y, NO_UPDATE);
                 }
               else
                 {
-                  texture_draw(&tux_left[pplayer->frame], pplayer->x - scroll_x, pplayer->y, NO_UPDATE);
+                  texture_draw(&tux_left[pplayer->frame], pplayer->base.x- scroll_x, pplayer->base.y, NO_UPDATE);
                 }
             }
           else
@@ -694,11 +687,11 @@ void player_draw(player_type* pplayer)
 
               if (pplayer->dir == RIGHT)
                 {
-                  texture_draw(&firetux_right[pplayer->frame], pplayer->x - scroll_x, pplayer->y, NO_UPDATE);
+                  texture_draw(&firetux_right[pplayer->frame], pplayer->base.x- scroll_x, pplayer->base.y, NO_UPDATE);
                 }
               else
                 {
-                  texture_draw(&firetux_left[pplayer->frame], pplayer->x - scroll_x, pplayer->y, NO_UPDATE);
+                  texture_draw(&firetux_left[pplayer->frame], pplayer->base.x- scroll_x, pplayer->base.y, NO_UPDATE);
                 }
             }
         }
@@ -711,13 +704,13 @@ void player_draw(player_type* pplayer)
               if (pplayer->dir == RIGHT)
                 {
                   texture_draw(&bigcape_right[frame % 2],
-                               pplayer->x - scroll_x - 8 - 16, pplayer->y - 32,
+                               pplayer->base.x- scroll_x - 8 - 16, pplayer->base.y - 32,
                                NO_UPDATE);
                 }
               else
                 {
                   texture_draw(&bigcape_left[frame % 2],
-                               pplayer->x -scroll_x - 8, pplayer->y - 32,
+                               pplayer->base.x-scroll_x - 8, pplayer->base.y - 32,
                                NO_UPDATE);
                 }
             }
@@ -728,18 +721,18 @@ void player_draw(player_type* pplayer)
                 {
                   if (!pplayer->skidding)
                     {
-                      if (!pplayer->jumping || pplayer->ym > 0)
+                      if (!pplayer->jumping || pplayer->base.ym > 0)
                         {
                           if (pplayer->dir == RIGHT)
                             {
                               texture_draw(&bigtux_right[pplayer->frame],
-                                           pplayer->x - scroll_x - 8, pplayer->y - 32,
+                                           pplayer->base.x- scroll_x - 8, pplayer->base.y - 32,
                                            NO_UPDATE);
                             }
                           else
                             {
                               texture_draw(&bigtux_left[pplayer->frame],
-                                           pplayer->x - scroll_x - 8, pplayer->y - 32,
+                                           pplayer->base.x- scroll_x - 8, pplayer->base.y - 32,
                                            NO_UPDATE);
                             }
                         }
@@ -748,13 +741,13 @@ void player_draw(player_type* pplayer)
                           if (pplayer->dir == RIGHT)
                             {
                               texture_draw(&bigtux_right_jump,
-                                           pplayer->x - scroll_x - 8, pplayer->y - 32,
+                                           pplayer->base.x- scroll_x - 8, pplayer->base.y - 32,
                                            NO_UPDATE);
                             }
                           else
                             {
                               texture_draw(&bigtux_left_jump,
-                                           pplayer->x - scroll_x - 8, pplayer->y - 32,
+                                           pplayer->base.x- scroll_x - 8, pplayer->base.y - 32,
                                            NO_UPDATE);
                             }
                         }
@@ -764,13 +757,13 @@ void player_draw(player_type* pplayer)
                       if (pplayer->dir == RIGHT)
                         {
                           texture_draw(&skidtux_right,
-                                       pplayer->x - scroll_x - 8, pplayer->y - 32,
+                                       pplayer->base.x- scroll_x - 8, pplayer->base.y - 32,
                                        NO_UPDATE);
                         }
                       else
                         {
                           texture_draw(&skidtux_left,
-                                       pplayer->x - scroll_x - 8, pplayer->y - 32,
+                                       pplayer->base.x- scroll_x - 8, pplayer->base.y - 32,
                                        NO_UPDATE);
                         }
                     }
@@ -779,12 +772,12 @@ void player_draw(player_type* pplayer)
                 {
                   if (pplayer->dir == RIGHT)
                     {
-                      texture_draw(&ducktux_right, pplayer->x - scroll_x - 8, pplayer->y - 16,
+                      texture_draw(&ducktux_right, pplayer->base.x- scroll_x - 8, pplayer->base.y - 16,
                                    NO_UPDATE);
                     }
                   else
                     {
-                      texture_draw(&ducktux_left, pplayer->x - scroll_x - 8, pplayer->y - 16,
+                      texture_draw(&ducktux_left, pplayer->base.x- scroll_x - 8, pplayer->base.y - 16,
                                    NO_UPDATE);
                     }
                 }
@@ -797,18 +790,18 @@ void player_draw(player_type* pplayer)
                 {
                   if (!pplayer->skidding)
                     {
-                      if (!pplayer->jumping || pplayer->ym > 0)
+                      if (!pplayer->jumping || pplayer->base.ym > 0)
                         {
                           if (pplayer->dir == RIGHT)
                             {
                               texture_draw(&bigfiretux_right[pplayer->frame],
-                                           pplayer->x - scroll_x - 8, pplayer->y - 32,
+                                           pplayer->base.x- scroll_x - 8, pplayer->base.y - 32,
                                            NO_UPDATE);
                             }
                           else
                             {
                               texture_draw(&bigfiretux_left[pplayer->frame],
-                                           pplayer->x - scroll_x - 8, pplayer->y - 32,
+                                           pplayer->base.x- scroll_x - 8, pplayer->base.y - 32,
                                            NO_UPDATE);
                             }
                         }
@@ -817,13 +810,13 @@ void player_draw(player_type* pplayer)
                           if (pplayer->dir == RIGHT)
                             {
                               texture_draw(&bigfiretux_right_jump,
-                                           pplayer->x - scroll_x - 8, pplayer->y - 32,
+                                           pplayer->base.x- scroll_x - 8, pplayer->base.y - 32,
                                            NO_UPDATE);
                             }
                           else
                             {
                               texture_draw(&bigfiretux_left_jump,
-                                           pplayer->x - scroll_x - 8, pplayer->y - 32,
+                                           pplayer->base.x- scroll_x - 8, pplayer->base.y - 32,
                                            NO_UPDATE);
                             }
                         }
@@ -833,13 +826,13 @@ void player_draw(player_type* pplayer)
                       if (pplayer->dir == RIGHT)
                         {
                           texture_draw(&skidfiretux_right,
-                                       pplayer->x - scroll_x - 8, pplayer->y - 32,
+                                       pplayer->base.x- scroll_x - 8, pplayer->base.y - 32,
                                        NO_UPDATE);
                         }
                       else
                         {
                           texture_draw(&skidfiretux_left,
-                                       pplayer->x - scroll_x - 8, pplayer->y - 32,
+                                       pplayer->base.x- scroll_x - 8, pplayer->base.y - 32,
                                        NO_UPDATE);
                         }
                     }
@@ -848,12 +841,12 @@ void player_draw(player_type* pplayer)
                 {
                   if (pplayer->dir == RIGHT)
                     {
-                      texture_draw(&duckfiretux_right, pplayer->x - scroll_x - 8, pplayer->y - 16,
+                      texture_draw(&duckfiretux_right, pplayer->base.x- scroll_x - 8, pplayer->base.y - 16,
                                    NO_UPDATE);
                     }
                   else
                     {
-                      texture_draw(&duckfiretux_left, pplayer->x - scroll_x - 8, pplayer->y - 16,
+                      texture_draw(&duckfiretux_left, pplayer->base.x- scroll_x - 8, pplayer->base.y - 16,
                                    NO_UPDATE);
                     }
                 }
@@ -884,15 +877,15 @@ void player_collision(player_type* pplayer, void* p_c_object, int c_object)
               pbad_c->mode = KICK;
               play_sound(sounds[SND_KICK], SOUND_CENTER_SPEAKER);
 
-              if (pplayer->x <= pbad_c->x)
+              if (pplayer->base.x<= pbad_c->base.x)
                 {
                   pbad_c->dir = RIGHT;
-                  pbad_c->x = pbad_c->x + 16;
+                  pbad_c->base.x = pbad_c->base.x + 16;
                 }
               else
                 {
                   pbad_c->dir = LEFT;
-                  pbad_c->x = pbad_c->x - 16;
+                  pbad_c->base.x = pbad_c->base.x - 16;
                 }
 
               timer_start(&pbad_c->timer,5000);
@@ -900,11 +893,11 @@ void player_collision(player_type* pplayer, void* p_c_object, int c_object)
           else if (pbad_c->mode == FLAT && pplayer->input.fire == DOWN)
             {
               pbad_c->mode = HELD;
-              pbad_c->y-=8;
+              pbad_c->base.y-=8;
             }
           else if (pbad_c->mode == KICK)
             {
-              if (pplayer->y < pbad_c->y - 16 &&
+              if (pplayer->base.y < pbad_c->base.y - 16 &&
                   timer_started(&pbad_c->timer))
                 {
                   /* Step on (stop being kicked) */
@@ -926,7 +919,7 @@ void player_collision(player_type* pplayer, void* p_c_object, int c_object)
                       else
                         {
                           pbad_c->dying = FALLING;
-                          pbad_c->ym = -8;
+                          pbad_c->base.ym = -8;
                           play_sound(sounds[SND_FALL], SOUND_CENTER_SPEAKER);
                         }
                     }
@@ -941,7 +934,7 @@ void player_collision(player_type* pplayer, void* p_c_object, int c_object)
               else
                 {
                   pbad_c->dying = FALLING;
-                  pbad_c->ym = -8;
+                  pbad_c->base.ym = -8;
                   play_sound(sounds[SND_FALL], SOUND_CENTER_SPEAKER);
                 }
             }
@@ -956,14 +949,14 @@ void player_collision(player_type* pplayer, void* p_c_object, int c_object)
 
 void player_kill(player_type* pplayer, int mode)
 {
-  pplayer->ym = -5;
+  pplayer->base.ym = -5;
 
   play_sound(sounds[SND_HURT], SOUND_CENTER_SPEAKER);
 
   if (pplayer->dir == RIGHT)
-    pplayer->xm = -8;
+    pplayer->base.xm = -8;
   else if (tux.dir == LEFT)
-    pplayer->xm = 8;
+    pplayer->base.xm = 8;
 
   if (mode == SHRINK && pplayer->size == BIG)
     {
@@ -982,7 +975,7 @@ void player_kill(player_type* pplayer, int mode)
 
 void player_dying(player_type *pplayer)
 {
-  pplayer->ym = pplayer->ym + GRAVITY;
+  pplayer->base.ym = pplayer->base.ym + GRAVITY;
 
   /* He died :^( */
 
@@ -1002,41 +995,41 @@ void player_remove_powerups(player_type* pplayer)
 void player_keep_in_bounds(player_type* pplayer)
 {
   /* Keep tux in bounds: */
-  if (pplayer->x < 0)
-    pplayer->x = 0;
-  else if(pplayer->x < scroll_x)
-    pplayer->x = scroll_x;
-  else if (pplayer->x < 160 + scroll_x && scroll_x > 0 && debug_mode == YES)
+  if (pplayer->base.x< 0)
+    pplayer->base.x= 0;
+  else if(pplayer->base.x< scroll_x)
+    pplayer->base.x= scroll_x;
+  else if (pplayer->base.x< 160 + scroll_x && scroll_x > 0 && debug_mode == YES)
     {
-      scroll_x = pplayer->x - 160;
-      /*pplayer->x += 160;*/
+      scroll_x = pplayer->base.x- 160;
+      /*pplayer->base.x+= 160;*/
 
       if(scroll_x < 0)
         scroll_x = 0;
 
     }
-  else if (pplayer->x > screen->w / 2 + scroll_x && scroll_x < ((current_level.width * 32) - screen->w))
+  else if (pplayer->base.x> screen->w / 2 + scroll_x && scroll_x < ((current_level.width * 32) - screen->w))
     {
       /* Scroll the screen in past center: */
 
-      scroll_x = pplayer->x - screen->w / 2;
-      /*pplayer->x = 320 + scroll_x;*/
+      scroll_x = pplayer->base.x- screen->w / 2;
+      /*pplayer->base.x= 320 + scroll_x;*/
 
       if (scroll_x > ((current_level.width * 32) - screen->w))
         scroll_x = ((current_level.width * 32) - screen->w);
     }
-  else if (pplayer->x > 608 + scroll_x)
+  else if (pplayer->base.x> 608 + scroll_x)
     {
       /* ... unless there's no more to scroll! */
 
-      /*pplayer->x = 608 + scroll_x;*/
+      /*pplayer->base.x= 608 + scroll_x;*/
     }
 
   /* Keep in-bounds, vertically: */
 
-  if (pplayer->y < 0)
-    pplayer->y = 0;
-  else if (pplayer->y > screen->h)
+  if (pplayer->base.y < 0)
+    pplayer->base.y = 0;
+  else if (pplayer->base.y > screen->h)
     {
       player_kill(&tux,KILL);
     }

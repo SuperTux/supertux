@@ -16,9 +16,9 @@
 #include "SDL.h"
 #include "bitmask.h"
 #include "type.h"
+#include "timer.h"
+#include "texture.h"
 #include "collision.h"
-
-#define NUM_BAD_GUYS 128
 
 /* Enemy modes: */
 
@@ -31,21 +31,13 @@
 
 typedef struct bad_guy_type
   {
-    int alive;
     int mode;
     int dying;
     int kind;
     int seen;
     int dir;
     int frame;
-    float x;
-    float y;
-    float xm;
-    float ym;
-    float width;
-    float height;
-    unsigned int updated;
-    itop_type it;
+    base_type base;
     timer_type timer;
   }
 bad_guy_type;

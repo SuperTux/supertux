@@ -12,7 +12,6 @@
 
 #define BULLET_STARTING_YM 1
 #define BULLET_XM 5
-#define NUM_BULLETS 3
 
 #ifndef SUPERTUX_SPECIAL_H
 #define SUPERTUX_SPECIAL_H
@@ -20,34 +19,19 @@
 #include <SDL.h>
 #include "bitmask.h"
 #include "type.h"
+#include "texture.h"
 #include "collision.h"
 
 typedef struct upgrade_type
   {
-    int alive;
     int kind;
-    float x;
-    float y;
-    float xm;
-    float ym;
-    float width;
-    float height;
-    unsigned int updated;
-    itop_type it; 
+    base_type base;
   }
 upgrade_type;
 
 typedef struct bullet_type
   {
-    int alive;
-    float x;
-    float y;
-    float xm;
-    float ym;
-    float width;
-    float height;
-    unsigned int updated;
-    itop_type it; 
+    base_type base;
   }
 bullet_type;
 

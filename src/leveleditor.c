@@ -88,6 +88,14 @@ int frame;
 texture_type selection;
 int last_time, now_time;
 
+void le_quit(void)
+{
+  unloadlevelgfx();
+  unloadshared();
+  arrays_free();
+  texture_free(&selection);
+}
+
 void le_activate_bad_guys(void)
 {
   int x,y;
@@ -139,6 +147,8 @@ int leveleditor()
 
   frame = 0;	/* support for frames in some tiles, like waves and bad guys */
 
+  arrays_init();
+  
   loadshared();
   set_defaults();
 
@@ -338,16 +348,8 @@ int leveleditor()
                     le_change(cursor_x, cursor_y, '=');
                   else		/* let's add a bad guy */
                     le_change(cursor_x, cursor_y, '0');
-
-                  for(i = 0; i < NUM_BAD_GUYS; ++i)
-                    if (bad_guys[i].alive == NO)
-                      {
-                        bad_guys[i].alive = YES;
-                        bad_guys[i].kind = BAD_BSOD;
-                        bad_guys[i].x = (((int)cursor_x/32)*32);
-                        bad_guys[i].y = (((int)cursor_y/32)*32);
-                        i = NUM_BAD_GUYS;
-                      }
+		 
+		  add_bad_guy((((int)cursor_x/32)*32), (((int)cursor_y/32)*32), BAD_BSOD);
                   break;
                 case SDLK_1:
                   if(keymod == KMOD_LSHIFT || keymod == KMOD_RSHIFT || keymod == KMOD_CAPS)
@@ -355,28 +357,12 @@ int leveleditor()
                   else		/* let's add a bad guy */
                     le_change(cursor_x, cursor_y, '1');
 
-                  for(i = 0; i < NUM_BAD_GUYS; ++i)
-                    if (bad_guys[i].alive == NO)
-                      {
-                        bad_guys[i].alive = YES;
-                        bad_guys[i].kind = BAD_LAPTOP;
-                        bad_guys[i].x = (((int)cursor_x/32)*32);
-                        bad_guys[i].y = (((int)cursor_y/32)*32);
-                        i = NUM_BAD_GUYS;
-                      }
+		  add_bad_guy((((int)cursor_x/32)*32), (((int)cursor_y/32)*32), BAD_LAPTOP);
                   break;
                 case SDLK_2:
                   le_change(cursor_x, cursor_y, '2');
 
-                  for(i = 0; i < NUM_BAD_GUYS; ++i)
-                    if (bad_guys[i].alive == NO)
-                      {
-                        bad_guys[i].alive = YES;
-                        bad_guys[i].kind = BAD_MONEY;
-                        bad_guys[i].x = (((int)cursor_x/32)*32);
-                        bad_guys[i].y = (((int)cursor_y/32)*32);
-                        i = NUM_BAD_GUYS;
-                      }
+		  add_bad_guy((((int)cursor_x/32)*32), (((int)cursor_y/32)*32), BAD_MONEY);
                   break;
                 case SDLK_PLUS:
                   if(keymod == KMOD_LSHIFT || keymod == KMOD_RSHIFT || keymod == KMOD_CAPS)
@@ -450,18 +436,18 @@ int leveleditor()
           drawshape(x * 32, y * 32, current_level.tiles[y][x + (pos_x / 32)]);
 
       /* Draw the Bad guys: */
-      for (i = 0; i < NUM_BAD_GUYS; ++i)
+      for (i = 0; i < num_bad_guys; ++i)
         {
           /* printf("\nbad_guys[%i].alive = %i", i, bad_guys[i].alive); */
-          if(bad_guys[i].alive == NO)
+          if(bad_guys[i].base.alive == NO)
             continue;
           /* to support frames: img_bsod_left[(frame / 5) % 4] */
           if(bad_guys[i].kind == BAD_BSOD)
-            texture_draw(&img_bsod_left[(frame / 5) % 4], ((int)(bad_guys[i].x - pos_x)/32)*32, bad_guys[i].y, NO_UPDATE);
+            texture_draw(&img_bsod_left[(frame / 5) % 4], ((int)(bad_guys[i].base.x - pos_x)/32)*32, bad_guys[i].base.y, NO_UPDATE);
           else if(bad_guys[i].kind == BAD_LAPTOP)
-            texture_draw(&img_laptop_left[(frame / 5) % 3], ((int)(bad_guys[i].x - pos_x)/32)*32, bad_guys[i].y, NO_UPDATE);
+            texture_draw(&img_laptop_left[(frame / 5) % 3], ((int)(bad_guys[i].base.x - pos_x)/32)*32, bad_guys[i].base.y, NO_UPDATE);
           else if (bad_guys[i].kind == BAD_MONEY)
-            texture_draw(&img_money_left[(frame / 5) % 2], ((int)(bad_guys[i].x - pos_x)/32)*32, bad_guys[i].y, NO_UPDATE);
+            texture_draw(&img_money_left[(frame / 5) % 2], ((int)(bad_guys[i].base.x - pos_x)/32)*32, bad_guys[i].base.y, NO_UPDATE);
         }
 
 
@@ -481,10 +467,16 @@ int leveleditor()
         {
           done = drawmenu();
           if(done)
+	  {
+	    le_quit();
             return 0;
+	  }
         }
       if(done == DONE_QUIT)
+        {
+	le_quit();
         return 1;
+	}
 
       SDL_Delay(50);
       now_time = SDL_GetTicks();
@@ -493,11 +485,6 @@ int leveleditor()
 
       flipscreen();
     }
-
-  unloadlevelgfx();
-  unloadshared();
-
-  texture_free(&selection);
 
   return done;
 }
@@ -513,10 +500,10 @@ int xx, yy;
   xx = (x / 32);
 
   /* if there is a bad guy over there, remove it */
-  for(i = 0; i < NUM_BAD_GUYS; ++i)
-    if (bad_guys[i].alive)
-      if(xx == bad_guys[i].x/32 && yy == bad_guys[i].y/32)
-        bad_guys[i].alive = NO;
+  for(i = 0; i < num_bad_guys; ++i)
+    if (bad_guys[i].base.alive)
+      if(xx == bad_guys[i].base.x/32 && yy == bad_guys[i].base.y/32)
+        bad_guys[i].base.alive = NO;
 }
 
 /* Save data for this level: */

@@ -16,6 +16,8 @@
 #include <SDL.h>
 #include "bitmask.h"
 #include "type.h"
+#include "timer.h"
+#include "texture.h"
 #include "collision.h"
 
 /* Times: */
@@ -49,16 +51,9 @@ typedef struct player_type
  int frame_main;
  int frame;
  int lives;
- float x;
- float y;
- float xm;
- float ym;
- float width;
- float height;
+ base_type base;
  timer_type invincible_timer;
  timer_type jump_timer;
- unsigned int updated;
- itop_type it;
 }
 player_type;
 

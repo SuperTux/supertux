@@ -28,7 +28,8 @@
 #include "globals.h"
 #include "intro.h"
 #include "screen.h"
-#include "type.h"
+#include "texture.h"
+#include "timer.h"
 
 char * intro_text[] = {
   "Tux and Gown were having a nice picnic..",
