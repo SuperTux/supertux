@@ -18,6 +18,7 @@
 #include "screen.h"
 #include "level.h"
 #include "physic.h"
+#include "scene.h"
 
 texture_type img_bkgd, img_bkgd_tile[2][4], img_solid[4], img_brick[2];
 
@@ -104,7 +105,7 @@ void subset_save(st_subset* st_subset)
 
   /* Save data file: */
   sprintf(filename, "/levels/%s/", st_subset->name);
-  
+
   fcreatedir(filename);
   snprintf(filename, 1024, "%s/levels/%s/info", st_dir, st_subset->name);
   if(!fwriteable(filename))
@@ -143,7 +144,7 @@ void subset_free(st_subset* st_subset)
 /* Returns -1, if the loading of the level failed. */
 int level_load(st_level* plevel, char *subset, int level)
 {
-  int y;
+  int y,x;
   FILE * fi;
   char str[80];
   char filename[1024];
@@ -234,6 +235,20 @@ int level_load(st_level* plevel, char *subset, int level)
         }
       line[strlen(line) - 1] = '\0';
       plevel->tiles[y] = (unsigned char*) strdup(line);
+    }
+
+  /*  Mark the end position of this level! - Is a bit wrong here thought */
+
+  for (y = 0; y < 15; ++y)
+    {
+      for (x = 0; x < plevel->width; ++x)
+        {
+          if(plevel->tiles[y][x] == '|')
+	  {
+	  if(x*32 > endpos)
+	  endpos = x*32;
+	  }
+        }
     }
 
   free(line);
@@ -339,9 +354,9 @@ void level_load_gfx(st_level *plevel)
         snprintf(fname, 1024, "%s/images/background/%s", DATA_PREFIX, plevel->bkgd_image);
       texture_load(&img_bkgd, fname, IGNORE_ALPHA);
     }
-    else
+  else
     {
-    /* Quick hack to make sure an image is loaded, when we are freeing it afterwards. */#
+      /* Quick hack to make sure an image is loaded, when we are freeing it afterwards. */#
       level_load_image(&img_bkgd, plevel->theme,"solid0.png", IGNORE_ALPHA);
     }
 }
@@ -362,7 +377,7 @@ void level_free_gfx(void)
       texture_free(&img_bkgd_tile[0][i]);
       texture_free(&img_bkgd_tile[1][i]);
     }
-  
+
   texture_free(&img_bkgd);
 }
 
@@ -371,11 +386,11 @@ void level_free_gfx(void)
 void level_load_image(texture_type* ptexture, char* theme, char * file, int use_alpha)
 {
   char fname[1024];
-  
+
   snprintf(fname, 1024, "%s/themes/%s/%s", st_dir, theme, file);
   if(!faccessible(fname))
     snprintf(fname, 1024, "%s/images/themes/%s/%s", DATA_PREFIX, theme, file);
-    
+
   texture_load(ptexture, fname, use_alpha);
 }
 

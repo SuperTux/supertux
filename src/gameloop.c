@@ -644,7 +644,6 @@ int gameloop(char * subset, int levelnb, int mode)
           ++frame;
         }
 
-
       /* Handle events: */
 
       tux.input.old_fire = tux.input.fire;
@@ -1333,9 +1332,6 @@ void drawshape(float x, float y, unsigned char c)
     {
       texture_draw(&img_pole, x, y, NO_UPDATE);
 
-      /* Mark this as the end position of the level! */
-
-      endpos = (int)x;
     }
   else if (c == '\\')
     {

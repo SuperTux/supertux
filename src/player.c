@@ -321,7 +321,7 @@ void player_action(player_type* pplayer)
 
   /* End of level? */
 
-  if (pplayer->base.x - scroll_x >= endpos && endpos != 0)
+  if (pplayer->base.x >= endpos && endpos != 0)
     {
       next_level = 1;
     }
