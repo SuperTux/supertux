@@ -458,5 +458,15 @@
 
  (tile (id 131)
        (images "black.png"))
+ (tile (id 132)
+       (images)
+       (goal #t)
+       (data 1)
+       (editor-images "finalgoal.png"))
+(tile (id 133)
+       (images)
+       (goal #t)
+       (data 0)
+       (editor-images "endseq.png"))
  )
 
