@@ -109,7 +109,12 @@ Background::draw(DrawingContext& context)
     if(use_gl)
       context.draw_gradient(gradient_top, gradient_bottom, LAYER_BACKGROUND0);
     else
+      {
+      context.push_transform();
+      context.set_translation(Vector(0, 0));
       context.draw_surface(image, Vector(0, 0), LAYER_BACKGROUND0);
+      context.pop_transform();
+      }
   } else if(type == IMAGE) {
     int sx = int(-context.get_translation().x * speed)
       % image->w - image->w;
