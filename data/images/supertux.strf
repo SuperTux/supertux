@@ -1320,6 +1320,12 @@
         (images "tilesets/block11.png"))
   )
 
+  (sprite (name "invisibleblock")
+      (action
+        (name "empty")
+        (images "tilesets/bonus2-d.png"))
+  )                                        
+
   ; Stomp
   (sprite (name "stomp")
        (action
