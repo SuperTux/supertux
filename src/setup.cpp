@@ -1051,8 +1051,8 @@ void parseargs(int argc, char * argv[])
                "Misc Options:\n"
                "  -j, --joystick NUM  Use joystick NUM (default: 0)\n" 
                "  --joymap XAXIS:YAXIS:A:B:START\n"
-               "  --leveleditor       Opens the leveleditor in a file. (Only works when a file is provided.)\n"
                "                      Define how joystick buttons and axis should be mapped\n"
+               "  --leveleditor       Opens the leveleditor in a file. (Only works when a file is provided.)\n"
                "  -d, --datadir DIR   Load Game data from DIR (default: automatic)\n"
                "  --debug-mode        Enables the debug-mode, which is useful for developers.\n"
                "  --help              Display a help message summarizing command-line\n"
@@ -1093,7 +1093,7 @@ void usage(char * prog, int ret)
 
   /* Display the usage message: */
 
-  fprintf(fi, "Usage: %s [--fullscreen] [--opengl] [--disable-sound] [--disable-music] [--debug-mode] | [--usage | --help | --version] [--worldmap] FILENAME\n",
+  fprintf(fi, "Usage: %s [--fullscreen] [--opengl] [--disable-sound] [--disable-music] [--debug-mode] | [--usage | --help | --version] [--leveleditor] FILENAME\n",
           prog);
 
 
