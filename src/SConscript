@@ -1,13 +1,13 @@
 Import('*')
 
 supertux_src = Glob(
-    dirs=[".", "object"],
+    dirs=[".", "object", "badguy"],
     pattern="*.cpp"
 )
 app = env.Program(
     target="supertux",
     source = supertux_src
 )
-
-# hacky way for now...
 AddPostAction(app, "ln -sf $TARGET .")
+Default(app)
+
