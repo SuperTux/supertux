@@ -33,7 +33,6 @@ void bullet_init(bullet_type* pbullet, float x, float y, float xm, int dir)
 {
   pbullet->base.width = 4;
   pbullet->base.height = 4;
-  pbullet->base.alive = YES;
 
   if (dir == RIGHT)
     {
@@ -53,8 +52,6 @@ void bullet_init(bullet_type* pbullet, float x, float y, float xm, int dir)
 
 void bullet_action(bullet_type* pbullet)
 {
-  if (pbullet->base.alive)
-    {
       pbullet->base.x = pbullet->base.x + pbullet->base.xm * frame_ratio;
       pbullet->base.y = pbullet->base.y + pbullet->base.ym * frame_ratio;
 
@@ -75,16 +72,14 @@ void bullet_action(bullet_type* pbullet)
 	  issolid(pbullet->base.x + 4, pbullet->base.y + 2) ||
 	  issolid(pbullet->base.x, pbullet->base.y + 2))
         {
-          pbullet->base.alive = NO;
+          bullets.erase(static_cast<std::vector<bullet_type>::iterator>(pbullet));
         }
-    }
 
 }
 
 void bullet_draw(bullet_type* pbullet)
 {
-  if (pbullet->base.alive  &&
-      pbullet->base.x >= scroll_x - pbullet->base.width &&
+  if (pbullet->base.x >= scroll_x - pbullet->base.width &&
       pbullet->base.x <= scroll_x + screen->w)
     {
       texture_draw(&img_bullet, pbullet->base.x - scroll_x, pbullet->base.y,
@@ -96,7 +91,7 @@ void bullet_collision(bullet_type* pbullet, int c_object)
 {
 
   if(c_object == CO_BADGUY)
-    pbullet->base.alive = NO;
+    bullets.erase(static_cast<std::vector<bullet_type>::iterator>(pbullet));
 
 }
 
@@ -104,7 +99,6 @@ void upgrade_init(upgrade_type *pupgrade, float x, float y, int dir, int kind)
 {
   pupgrade->base.width = 32;
   pupgrade->base.height = 0;
-  pupgrade->base.alive = YES;
   pupgrade->kind = kind;
   pupgrade->base.x = x;
   pupgrade->base.y = y;
@@ -120,8 +114,7 @@ void upgrade_init(upgrade_type *pupgrade, float x, float y, int dir, int kind)
 void upgrade_action(upgrade_type *pupgrade)
 {
 
-  if (pupgrade->base.alive)
-    {
+
       if (pupgrade->base.height < 32)
         {
           /* Rise up! */
@@ -145,9 +138,9 @@ void upgrade_action(upgrade_type *pupgrade)
               /* Off the screen?  Kill it! */
 
               if (pupgrade->base.x < scroll_x - pupgrade->base.width)
-                pupgrade->base.alive = NO;
+                upgrades.erase(static_cast<std::vector<upgrade_type>::iterator>(pupgrade));
               if (pupgrade->base.y > screen->h)
-                pupgrade->base.alive = NO;
+                upgrades.erase(static_cast<std::vector<upgrade_type>::iterator>(pupgrade));
 
               if (issolid(pupgrade->base.x + 1, pupgrade->base.y + 32.) ||
                   issolid(pupgrade->base.x + 31., pupgrade->base.y + 32.))
@@ -182,14 +175,11 @@ void upgrade_action(upgrade_type *pupgrade)
             }
 
         }
-    }
 }
 
 void upgrade_draw(upgrade_type* pupgrade)
 {
   SDL_Rect dest;
-  if (pupgrade->base.alive)
-    {
       if (pupgrade->base.height < 32)
         {
           /* Rising up... */
@@ -227,7 +217,6 @@ void upgrade_draw(upgrade_type* pupgrade)
                            NO_UPDATE);
             }
         }
-    }
 }
 
 void upgrade_collision(upgrade_type* pupgrade, void* p_c_object, int c_object)
@@ -242,7 +231,7 @@ void upgrade_collision(upgrade_type* pupgrade, void* p_c_object, int c_object)
       /* p_c_object is CO_PLAYER, so assign it to pplayer */
       pplayer = (player_type*) p_c_object;
 
-      pupgrade->base.alive = NO;
+      upgrades.erase(static_cast<std::vector<upgrade_type>::iterator>(pupgrade));
 
       /* Affect the player: */
 

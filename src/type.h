@@ -19,7 +19,6 @@
 
 typedef struct base_type
   {
-    int alive;
     float x;
     float y;
     float xm;

@@ -384,7 +384,7 @@ int game_action(void)
 
   /* Handle bouncy distros: */
 
-  for (i = 0; i < num_bouncy_distros; i++)
+  for (i = 0; i < bouncy_distros.size(); i++)
     {
       bouncy_distro_action(&bouncy_distros[i]);
     }
@@ -392,7 +392,7 @@ int game_action(void)
 
   /* Handle broken bricks: */
 
-  for (i = 0; i < num_broken_bricks; i++)
+  for (i = 0; i < broken_bricks.size(); i++)
     {
       broken_brick_action(&broken_bricks[i]);
     }
@@ -411,7 +411,7 @@ int game_action(void)
 
   /* Handle bouncy bricks: */
 
-  for (i = 0; i < num_bouncy_bricks; i++)
+  for (i = 0; i < bouncy_bricks.size(); i++)
     {
       bouncy_brick_action(&bouncy_bricks[i]);
     }
@@ -419,7 +419,7 @@ int game_action(void)
 
   /* Handle floating scores: */
 
-  for (i = 0; i < num_floating_scores; i++)
+  for (i = 0; i < floating_scores.size(); i++)
     {
       floating_score_action(&floating_scores[i]);
     }
@@ -427,14 +427,14 @@ int game_action(void)
 
   /* Handle bullets: */
 
-  for (i = 0; i < num_bullets; ++i)
+  for (i = 0; i < bullets.size(); ++i)
     {
       bullet_action(&bullets[i]);
     }
 
   /* Handle upgrades: */
 
-  for (i = 0; i < num_upgrades; i++)
+  for (i = 0; i < upgrades.size(); i++)
     {
       upgrade_action(&upgrades[i]);
     }
@@ -442,7 +442,7 @@ int game_action(void)
 
   /* Handle bad guys: */
 
-  for (i = 0; i < num_bad_guys; i++)
+  for (i = 0; i < bad_guys.size(); i++)
     {
       badguy_action(&bad_guys[i]);
     }
@@ -494,7 +494,7 @@ void game_draw(void)
 
   /* (Bouncy bricks): */
 
-  for (i = 0; i < num_bouncy_bricks; ++i)
+  for (i = 0; i < bouncy_bricks.size(); ++i)
     {
       bouncy_brick_draw(&bouncy_bricks[i]);
     }
@@ -502,7 +502,7 @@ void game_draw(void)
 
   /* (Bad guys): */
 
-  for (i = 0; i < num_bad_guys; ++i)
+  for (i = 0; i < bad_guys.size(); ++i)
     {
       badguy_draw(&bad_guys[i]);
     }
@@ -513,14 +513,14 @@ void game_draw(void)
 
   /* (Bullets): */
 
-  for (i = 0; i < num_bullets; ++i)
+  for (i = 0; i < bullets.size(); ++i)
     {
       bullet_draw(&bullets[i]);
     }
 
   /* (Floating scores): */
 
-  for (i = 0; i < num_floating_scores; ++i)
+  for (i = 0; i < floating_scores.size(); ++i)
     {
       floating_score_draw(&floating_scores[i]);
     }
@@ -528,7 +528,7 @@ void game_draw(void)
 
   /* (Upgrades): */
 
-  for (i = 0; i < num_upgrades; ++i)
+  for (i = 0; i < upgrades.size(); ++i)
     {
       upgrade_draw(&upgrades[i]);
     }
@@ -536,7 +536,7 @@ void game_draw(void)
 
   /* (Bouncy distros): */
 
-  for (i = 0; i < num_bouncy_distros; ++i)
+  for (i = 0; i < bouncy_distros.size(); ++i)
     {
       bouncy_distro_draw(&bouncy_distros[i]);
     }
@@ -544,7 +544,7 @@ void game_draw(void)
 
   /* (Broken bricks): */
 
-  for (i = 0; i < num_broken_bricks; ++i)
+  for (i = 0; i < broken_bricks.size(); ++i)
     {
       broken_brick_draw(&broken_bricks[i]);
     }
@@ -1570,10 +1570,9 @@ void trybumpbadguy(float x, float y)
 
   /* Bad guys: */
 
-  for (i = 0; i < num_bad_guys; i++)
+  for (i = 0; i < bad_guys.size(); i++)
     {
-      if (bad_guys[i].base.alive &&
-          bad_guys[i].base.x >= x - 32 && bad_guys[i].base.x <= x + 32 &&
+      if (bad_guys[i].base.x >= x - 32 && bad_guys[i].base.x <= x + 32 &&
           bad_guys[i].base.y >= y - 16 && bad_guys[i].base.y <= y + 16)
         {
           if (bad_guys[i].kind == BAD_BSOD ||
@@ -1589,9 +1588,9 @@ void trybumpbadguy(float x, float y)
 
   /* Upgrades: */
 
-  for (i = 0; i < num_upgrades; i++)
+  for (i = 0; i < upgrades.size(); i++)
     {
-      if (upgrades[i].base.alive && upgrades[i].base.height == 32 &&
+      if (upgrades[i].base.height == 32 &&
           upgrades[i].base.x >= x - 32 && upgrades[i].base.x <= x + 32 &&
           upgrades[i].base.y >= y - 16 && upgrades[i].base.y <= y + 16)
         {

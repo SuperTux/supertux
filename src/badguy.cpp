@@ -34,7 +34,6 @@ void badguy_init(bad_guy_type* pbad, float x, float y, int kind)
 {
   pbad->base.width = 32;
   pbad->base.height = 32;
-  pbad->base.alive = YES;
   pbad->mode = NORMAL;
   pbad->dying = NO;
   pbad->kind = kind;
@@ -52,8 +51,6 @@ void badguy_init(bad_guy_type* pbad, float x, float y, int kind)
 void badguy_action(bad_guy_type* pbad)
 {
 
-  if (pbad->base.alive)
-    {
       if (pbad->seen)
         {
           if (pbad->kind == BAD_BSOD)
@@ -79,8 +76,8 @@ void badguy_action(bad_guy_type* pbad)
               if (pbad->dying != FALLING)
                 collision_swept_object_map(&pbad->old_base,&pbad->base);
               if (pbad->base.y > screen->h)
-                pbad->base.alive = NO;
-
+                bad_guys.erase(static_cast<std::vector<bad_guy_type>::iterator>(pbad));
+		
               /* Bump into things horizontally: */
 
               if (!pbad->dying)
@@ -132,7 +129,7 @@ void badguy_action(bad_guy_type* pbad)
                 }
 
               if (pbad->base.y > screen->h)
-                pbad->base.alive = NO;
+                  bad_guys.erase(static_cast<std::vector<bad_guy_type>::iterator>(pbad));
             }
           else if (pbad->kind == BAD_LAPTOP)
             {
@@ -194,7 +191,7 @@ void badguy_action(bad_guy_type* pbad)
               if (pbad->dying != FALLING)
                 collision_swept_object_map(&pbad->old_base,&pbad->base);
               if (pbad->base.y > screen->h)
-                pbad->base.alive = NO;
+                  bad_guys.erase(static_cast<std::vector<bad_guy_type>::iterator>(pbad));
               /* Bump into things horizontally: */
 
               /* Bump into things horizontally: */
@@ -279,7 +276,7 @@ void badguy_action(bad_guy_type* pbad)
                 collision_swept_object_map(&pbad->old_base,&pbad->base);
 
               if (pbad->base.y > screen->h)
-                pbad->base.alive = NO;
+                  bad_guys.erase(static_cast<std::vector<bad_guy_type>::iterator>(pbad));
 
               if(physic_get_state(&pbad->physic) == -1)
                 {
@@ -324,9 +321,6 @@ void badguy_action(bad_guy_type* pbad)
       else if (pbad->kind == -1)
       {}
 
-
-    }
-
   /* Handle mode timer: */
 
   if (pbad->mode == FLAT && pbad->mode != HELD)
@@ -349,14 +343,14 @@ void badguy_action(bad_guy_type* pbad)
     {
       /* Remove it if time's up: */
       if(!timer_check(&pbad->timer))
-        pbad->base.alive = NO;
+        bad_guys.erase(static_cast<std::vector<bad_guy_type>::iterator>(pbad));
     }
 
 
   /* Remove if it's far off the screen: */
 
   if (pbad->base.x < scroll_x - OFFSCREEN_DISTANCE)
-    pbad->base.alive = NO;
+      bad_guys.erase(static_cast<std::vector<bad_guy_type>::iterator>(pbad));
   else /* !seen */
     {
       /* Once it's on screen, it's activated! */
@@ -369,8 +363,7 @@ void badguy_action(bad_guy_type* pbad)
 
 void badguy_draw(bad_guy_type* pbad)
 {
-  if (pbad->base.alive &&
-      pbad->base.x > scroll_x - 32 &&
+  if (pbad->base.x > scroll_x - 32 &&
       pbad->base.x < scroll_x + screen->w)
     {
       if (pbad->kind == BAD_BSOD)

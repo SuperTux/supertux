@@ -859,10 +859,8 @@ void le_drawlevel()
       }
 
   /* Draw the Bad guys: */
-  for (i = 0; i < num_bad_guys; ++i)
+  for (i = 0; i < bad_guys.size(); ++i)
     {
-      if(bad_guys[i].base.alive == NO)
-        continue;
       /* to support frames: img_bsod_left[(frame / 5) % 4] */
       if(bad_guys[i].kind == BAD_BSOD)
         texture_draw(&img_bsod_left[(le_frame / 5) % 4], bad_guys[i].base.x - pos_x, bad_guys[i].base.y, NO_UPDATE);
@@ -1328,10 +1326,9 @@ void le_change(float x, float y, unsigned char c)
           xx = ((int)x / 32);
 
           /* if there is a bad guy over there, remove it */
-          for(i = 0; i < num_bad_guys; ++i)
-            if (bad_guys[i].base.alive)
+          for(i = 0; i < bad_guys.size(); ++i)
               if(xx == bad_guys[i].base.x/32 && yy == bad_guys[i].base.y/32)
-                bad_guys[i].base.alive = NO;
+                  bad_guys.erase(static_cast<std::vector<bad_guy_type>::iterator>(&bad_guys[i]));
 
           if(c == '0')  /* if it's a bad guy */
             add_bad_guy(xx*32, yy*32, BAD_BSOD);
@@ -1369,11 +1366,10 @@ void le_change(float x, float y, unsigned char c)
           y2 /= 32;
 
           /* if there is a bad guy over there, remove it */
-          for(i = 0; i < num_bad_guys; ++i)
-            if(bad_guys[i].base.alive)
+          for(i = 0; i < bad_guys.size(); ++i)
               if(bad_guys[i].base.x/32 >= x1 && bad_guys[i].base.x/32 <= x2
                   && bad_guys[i].base.y/32 >= y1 && bad_guys[i].base.y/32 <= y2)
-                bad_guys[i].base.alive = NO;
+                  bad_guys.erase(static_cast<std::vector<bad_guy_type>::iterator>(&bad_guys[i]));
 
           for(xx = x1; xx <= x2; xx++)
             for(yy = y1; yy <= y2; yy++)
