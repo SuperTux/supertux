@@ -124,7 +124,7 @@ void BadGuy::action_bsod()
   if (!dying)
     check_horizontal_bump();
 
-  fall();
+  fall(true);
 
   // Handle dying timer:
   if (dying == DYING_SQUISHED)       
@@ -260,7 +260,7 @@ void BadGuy::check_horizontal_bump(bool checkcliff)
     }
 }
 
-void BadGuy::fall()
+void BadGuy::fall(bool dojump)
 {
   /* Fall if we get off the ground: */
   if (dying != DYING_FALLING)
@@ -270,7 +270,7 @@ void BadGuy::fall()
           if(!physic_is_set(&physic))
             {
               physic_set_state(&physic,PH_VT);
-              physic_set_start_vy(&physic,0.);
+              physic_set_start_vy(&physic, dojump ? 2. : 0.);
             }
 
           if(mode != HELD)

@@ -106,7 +106,7 @@ class BadGuy
           CollisionType type = COLLISION_NORMAL);
   
  private:
-  void fall();
+  void fall(bool dojump=false);
   void remove_me();
 
   void action_bsod();
