@@ -906,16 +906,12 @@ WorldMap::update(float delta)
                   context.draw_gradient(Color (200,240,220), Color(200,200,220),
                       LAYER_BACKGROUND0);
 
-                  context.draw_text_center(blue_text, _("GAMEOVER"), 
-                      Vector(0, 200), LAYER_FOREGROUND1);
-
-//                  sprintf(str, _("SCORE: %d"), total_stats.get_points(SCORE_STAT));
-//                  context.draw_text_center(gold_text, str,
-//                      Vector(0, 230), LAYER_FOREGROUND1);
+                  context.draw_text(blue_text, _("GAMEOVER"), 
+                      Vector(screen->w/2, 200), CENTER_ALLIGN, LAYER_FOREGROUND1);
 
                   sprintf(str, _("COINS: %d"), player_status.distros);
-                  context.draw_text_center(gold_text, str,
-                      Vector(0, screen->w - 32), LAYER_FOREGROUND1);
+                  context.draw_text(gold_text, str,
+                      Vector(screen->w/2, screen->w - 32), CENTER_ALLIGN, LAYER_FOREGROUND1);
 
                   total_stats.draw_message_info(context, _("Total Statistics"));
 
@@ -1068,23 +1064,23 @@ WorldMap::draw_status(DrawingContext& context)
   char str[80];
   sprintf(str, " %d", total_stats.get_points(SCORE_STAT));
 
-  context.draw_text(white_text, _("SCORE"), Vector(0, 0), LAYER_FOREGROUND1);
-  context.draw_text(gold_text, str, Vector(96, 0), LAYER_FOREGROUND1);
+  context.draw_text(white_text, _("SCORE"), Vector(0, 0), LEFT_ALLIGN, LAYER_FOREGROUND1);
+  context.draw_text(gold_text, str, Vector(96, 0), LEFT_ALLIGN, LAYER_FOREGROUND1);
 
   sprintf(str, "%d", player_status.distros);
   context.draw_text(white_text, _("COINS"), Vector(screen->w/2 - 16*5, 0),
-      LAYER_FOREGROUND1);
+      LEFT_ALLIGN, LAYER_FOREGROUND1);
   context.draw_text(gold_text, str, Vector(screen->w/2 + (16*5)/2, 0),
-        LAYER_FOREGROUND1);
+        LEFT_ALLIGN, LAYER_FOREGROUND1);
 
   if (player_status.lives >= 5)
     {
       sprintf(str, "%dx", player_status.lives);
       context.draw_text(gold_text, str, 
           Vector(screen->w - gold_text->get_text_width(str) - tux_life->w, 0),
-          LAYER_FOREGROUND1);
+          LEFT_ALLIGN, LAYER_FOREGROUND1);
       context.draw_surface(tux_life, Vector(screen->w -
-            gold_text->get_text_width("9"), 0), LAYER_FOREGROUND1);
+            gold_text->get_text_width("9"), 0), LEFT_ALLIGN, LAYER_FOREGROUND1);
     }
   else
     {
@@ -1095,7 +1091,7 @@ WorldMap::draw_status(DrawingContext& context)
     }
   context.draw_text(white_text, _("LIVES"),
       Vector(screen->w - white_text->get_text_width(_("LIVES")) - white_text->get_text_width("   99"), 0),
-      LAYER_FOREGROUND1);
+      LEFT_ALLIGN, LAYER_FOREGROUND1);
 
   if (!tux->is_moving())
     {
@@ -1109,27 +1105,27 @@ WorldMap::draw_status(DrawingContext& context)
                 if(i->title == "")
                   get_level_title(*i);
 
-                context.draw_text_center(white_text, i->title, 
-                    Vector(0, screen->h - white_text->get_height() - 30),
-                    LAYER_FOREGROUND1);
+                context.draw_text(white_text, i->title, 
+                    Vector(screen->w/2, screen->h - white_text->get_height() - 30),
+                    CENTER_ALLIGN, LAYER_FOREGROUND1);
 
                 i->statistics.draw_worldmap_info(context);
                 }
 
               /* Display an in-map message in the map, if any as been selected */
               if(!i->map_message.empty() && !i->passive_message)
-                context.draw_text_center(gold_text, i->map_message, 
-                    Vector(0, screen->h - white_text->get_height() - 60),
-                    LAYER_FOREGROUND1);
+                context.draw_text(gold_text, i->map_message, 
+                    Vector(screen->w/2, screen->h - white_text->get_height() - 60),
+                    CENTER_ALLIGN, LAYER_FOREGROUND1);
               break;
             }
         }
     }
   /* Display a passive message in the map, if needed */
   if(passive_message_timer.check())
-    context.draw_text_center(gold_text, passive_message, 
-            Vector(0, screen->h - white_text->get_height() - 60),
-            LAYER_FOREGROUND1);
+    context.draw_text(gold_text, passive_message, 
+            Vector(screen->w/2, screen->h - white_text->get_height() - 60),
+            CENTER_ALLIGN, LAYER_FOREGROUND1);
 }
 
 void

@@ -827,20 +827,20 @@ void LevelEditor::drawinterface(DrawingContext &context)
     }
 
     sprintf(str, "%d/%d", le_levelnb, le_level_subset->get_num_levels());
-    context.draw_text(white_text, str, Vector((le_level_subset->get_num_levels() < 10) ? -10 : 0, 16), LAYER_GUI);
+    context.draw_text(white_text, str, Vector((le_level_subset->get_num_levels() < 10) ? -10 : 0, 16), LEFT_ALLIGN, LAYER_GUI);
 
     if(!le_help_shown)
-      context.draw_text(white_small_text, "F1 for Help", Vector(10, 430), LAYER_GUI);
+      context.draw_text(white_small_text, "F1 for Help", Vector(10, 430), LEFT_ALLIGN, LAYER_GUI);
 
     if(display_level_info.check())
-      context.draw_text_center(white_text, le_level->name.c_str(), Vector(0, 0), LAYER_GUI);
+      context.draw_text(white_text, le_level->name.c_str(), Vector(screen->w/2, 0), CENTER_ALLIGN, LAYER_GUI);
   }
   else
   {
     if(!Menu::current())
-      context.draw_text(white_small_text, "No Level Subset loaded - Press ESC and choose one in the menu", Vector(10, 430), LAYER_GUI);
+      context.draw_text(white_small_text, "No Level Subset loaded - Press ESC and choose one in the menu", Vector(10, 430), LEFT_ALLIGN, LAYER_GUI);
     else
-      context.draw_text(white_small_text, "No Level Subset loaded", Vector(10, 430), LAYER_GUI);
+      context.draw_text(white_small_text, "No Level Subset loaded", Vector(10, 430), LEFT_ALLIGN, LAYER_GUI);
   }
 
 }
@@ -1782,13 +1782,13 @@ void LevelEditor::showhelp()
     context.draw_gradient(Color(0,0,0), Color(255,255,255), LAYER_BACKGROUND0);
     drawinterface(context);
 
-    context.draw_text_center(blue_text, "- Help -", Vector(0, 30), LAYER_GUI);
+    context.draw_text(blue_text, "- Help -", Vector(screen->w/2, 30), CENTER_ALLIGN, LAYER_GUI);
 
     for(unsigned int t = 0; t < sizeof(text[i])/sizeof(char *); t++)
-      context.draw_text(white_text, text[i][t], Vector(5, 80+(t*white_text->get_height())), LAYER_GUI);
+      context.draw_text(white_text, text[i][t], Vector(5, 80+(t*white_text->get_height())), LEFT_ALLIGN, LAYER_GUI);
 
     sprintf(str,"Press any key to continue - Page %d/%d?", i, static_cast<int>(sizeof(text)));
-    context.draw_text(gold_text, str, Vector(0, 0), LAYER_GUI);
+    context.draw_text(gold_text, str, Vector(0, 0), LEFT_ALLIGN, LAYER_GUI);
 
     context.do_drawing();
 

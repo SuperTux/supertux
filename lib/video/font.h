@@ -29,6 +29,12 @@
 namespace SuperTux
   {
 
+  enum {
+    LEFT_ALLIGN,
+    CENTER_ALLIGN,
+    RIGHT_ALLIGN
+    };
+
   /// Font
   class Font
     {
@@ -60,13 +66,18 @@ namespace SuperTux
       /// returns the height of the font.
       float get_height() const;
 
+      /** Draws the given text to the screen. Also needs the position.
+       * Type of alignment, drawing effect and alpha are optional. */
+      void draw(const std::string& text, const Vector& pos,
+                int allignment = LEFT_ALLIGN,
+                Uint32 drawing_effect = NONE_EFFECT, int alpha = 255);
+
     private:
       friend class DrawingContext;
 
-      void draw(const std::string& text, const Vector& pos,
+      void draw_text(const std::string& text, const Vector& pos,
                 Uint32 drawing_effect = NONE_EFFECT, int alpha = 255);
-      void draw_center(const std::string& text, const Vector& pos,
-                Uint32 drawing_effect = NONE_EFFECT, int alpha = 255);
+
       void draw_chars(Surface* pchars, const std::string& text,
                       const Vector& position, Uint32 drawing_effect, int alpha);
 

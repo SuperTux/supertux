@@ -22,6 +22,7 @@
 #include "statistics.h"
 #include "video/drawing_context.h"
 #include "app/gettext.h"
+#include "app/globals.h"
 #include "resources.h"
 
 Statistics global_stats;
@@ -108,10 +109,10 @@ Statistics::draw_worldmap_info(DrawingContext& context)
 
   char str[128];
 
-  context.draw_text(white_small_text, _("Level Statistics"), Vector(550, 490), LAYER_GUI);
+  context.draw_text(white_small_text, _("Level Statistics"), Vector(550, 490), LEFT_ALLIGN, LAYER_GUI);
 
   sprintf(str, _("Max score: %d"), stats[SCORE_STAT]);
-  context.draw_text(white_small_text, str, Vector(560, 506), LAYER_GUI);
+  context.draw_text(white_small_text, str, Vector(560, 506), LEFT_ALLIGN, LAYER_GUI);
 
   if(display_stat == BADGUYS_SQUISHED_STAT)
     sprintf(str, _("Max fragging: %d"), stats[BADGUYS_SQUISHED_STAT]);
@@ -122,7 +123,7 @@ Statistics::draw_worldmap_info(DrawingContext& context)
   else// if(display_stat == JUMPS_STAT)
     sprintf(str, _("Min jumps: %d"), stats[JUMPS_STAT]);
 
-  context.draw_text(white_small_text, str, Vector(560, 522), LAYER_GUI, NONE_EFFECT, alpha);
+  context.draw_text(white_small_text, str, Vector(560, 522), LAYER_GUI, LEFT_ALLIGN, NONE_EFFECT, alpha);
 }
 
 void
@@ -131,7 +132,7 @@ Statistics::draw_message_info(DrawingContext& context, std::string title)
   if(stats[SCORE_STAT] == -1)  // not initialized yet
     return;
 
-  context.draw_text_center(gold_text, title, Vector(0, 400), LAYER_GUI);
+  context.draw_text(gold_text, title, Vector(screen->w/2, 400), CENTER_ALLIGN, LAYER_GUI);
 
   char str[128];
   for(int i = 0; i < NUM_STATS; i++)
@@ -147,7 +148,7 @@ Statistics::draw_message_info(DrawingContext& context, std::string title)
     else// if(i == JUMPS_STAT)
       sprintf(str, _("Min jumps: %d"), stats[JUMPS_STAT]);
 
-    context.draw_text_center(white_text, str, Vector(0, 430 + i*22), LAYER_GUI);
+    context.draw_text(white_text, str, Vector(screen->w/2, 430 + i*22), CENTER_ALLIGN, LAYER_GUI);
     }
 }
 

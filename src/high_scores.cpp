@@ -102,12 +102,12 @@ void save_hs(int score)
     {
       context.draw_surface(bkgd, Vector(0, 0), LAYER_BACKGROUND0);
 
-      context.draw_text_center(blue_text, "Congratulations", 
-          Vector(0, 130), LAYER_FOREGROUND1);
+      context.draw_text(blue_text, "Congratulations", 
+          Vector(screen->w/2, 130), CENTER_ALLIGN, LAYER_FOREGROUND1);
       context.draw_text(blue_text, "Your score:", Vector(150, 180),
-          LAYER_FOREGROUND1);
+          LEFT_ALLIGN, LAYER_FOREGROUND1);
       sprintf(str, "%d", hs_score);
-      context.draw_text(yellow_nums, str, Vector(250, 170), LAYER_FOREGROUND1);
+      context.draw_text(yellow_nums, str, Vector(250, 170), LEFT_ALLIGN, LAYER_FOREGROUND1);
 
       Menu::current()->draw(context);
       Menu::current()->action();

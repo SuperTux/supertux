@@ -133,7 +133,7 @@ FloatingScore::action(float elapsed_time)
 void
 FloatingScore::draw(DrawingContext& context)
 {
-  context.draw_text(gold_text, str, position, LAYER_OBJECTS);
+  context.draw_text(gold_text, str, position, LEFT_ALLIGN, LAYER_OBJECTS);
 }
 
 /* Trampoline */

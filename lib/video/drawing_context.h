@@ -67,10 +67,8 @@ namespace SuperTux
                              Uint32 drawing_effect = NONE_EFFECT);
       /// Draws a text.
       void draw_text(Font* font, const std::string& text, const Vector& position,
-                     int layer, Uint32 drawing_effect = NONE_EFFECT, int alpha = 255);
-      /// Draws aligned text.
-      void draw_text_center(Font* font, const std::string& text,
-                            const Vector& position, int layer, Uint32 drawing_effect = NONE_EFFECT, int alpha = 255);
+                     int allignment, int layer,
+                     Uint32 drawing_effect = NONE_EFFECT, int alpha = 255);
       /// Draws a color gradient onto the whole screen */
       void draw_gradient(Color from, Color to, int layer);
       /// Fills a rectangle.
@@ -129,7 +127,7 @@ namespace SuperTux
         {
           Font* font;
           std::string text;
-          bool center;
+          int allignment;
           int alpha;
         };
 

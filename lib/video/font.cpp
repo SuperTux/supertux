@@ -114,42 +114,48 @@ Font::get_height() const
 }
 
 void
-Font::draw(const std::string& text, const Vector& pos, Uint32 drawing_effect, int alpha)
+Font::draw(const std::string& text, const Vector& pos_, int allignment, Uint32 drawing_effect, int alpha)
 {
-  if(shadowsize > 0)
-    draw_chars(shadow_chars, text, pos + Vector(shadowsize, shadowsize),
-               drawing_effect, alpha);
+  // calculate X positions based on the allignment type
+  Vector pos = Vector(pos_);
+  if(allignment == CENTER_ALLIGN)
+    pos.x -= get_text_width(text) / 2;
+  else if(allignment == RIGHT_ALLIGN)
+    pos.x -= get_text_width(text);
 
-  draw_chars(chars, text, pos, drawing_effect, alpha);
-}
-
-void
-Font::draw_center(const std::string& text, const Vector& pos, Uint32 drawing_effect, int alpha)
-{
-  /* Cut lines changes into seperate strings, needed to support centering text
-     with break lines.
+  /* Cut lines changes into seperate strings, needed to support center/right text
+     allignments with break lines.
      Feel free to replace this hack with a more elegant solution
   */
   char temp[1024];
   unsigned int i, l, y;
   i = y = 0;
+
   while(true)
     {
     l = text.find("\n", i);
     if(l == std::string::npos)
       {
       temp[text.copy(temp, text.size() - i, i)] = '\0';
-      draw(temp, Vector(screen->w/2 - get_text_width(temp)/2 + pos.x, pos.y + y),
-           drawing_effect, alpha);
+      draw_text(temp, pos + Vector(0,y), drawing_effect, alpha);
       break;
       }
     temp[text.copy(temp, l - i, i)] = '\0';
-    draw(temp, Vector(screen->w/2 - get_text_width(temp)/2 + pos.x, pos.y + y),
-         drawing_effect, alpha);
+    draw_text(temp, pos + Vector(0,y), drawing_effect, alpha);
 
     i = l+1;
     y += h + 2;
     }
+}
+
+void
+Font::draw_text(const std::string& text, const Vector& pos, Uint32 drawing_effect, int alpha)
+{
+  if(shadowsize > 0)
+    draw_chars(shadow_chars, text, pos + Vector(shadowsize, shadowsize),
+               drawing_effect, alpha);
+
+  draw_chars(chars, text, pos, drawing_effect, alpha);
 }
 
 void
@@ -303,9 +309,9 @@ void SuperTux::display_text_file(const std::string& file, float scroll_speed, Fo
           default: font = reference_font; break;
         }
 
-        context.draw_text_center(font,
+        context.draw_text(font,
             names[i].substr(1, names[i].size()-1),
-            Vector(0, screen->h + y - scroll), LAYER_FOREGROUND1);
+            Vector(screen->w/2, screen->h + y - scroll), CENTER_ALLIGN, LAYER_FOREGROUND1);
         y += font->get_height() + ITEMS_SPACE;
       }
 
