@@ -1,9 +1,4 @@
 # translation of pt.po to 
-# translation of pt.po to
-# translation of pt.po to
-# translation of pt.po to
-# translation of pt.po to
-# translation of pt.po to
 # This file is distributed under the same license as the PACKAGE package.
 # Copyright (C) YEAR SuperTux Development Team.
 # Ricardo Cruz <rick2@aeiou.pt>, 2004.
@@ -12,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pt\n"
 "Report-Msgid-Bugs-To: super-tux-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2004-06-03 18:39+0100\n"
-"PO-Revision-Date: 2004-06-03 18:40+0100\n"
+"POT-Creation-Date: 2004-06-03 22:58+0100\n"
+"PO-Revision-Date: 2004-06-03 23:09+0100\n"
 "Last-Translator: Ricardo Cruz <rick2@aeiou.pt>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -49,8 +44,8 @@ msgstr "TEMPO"
 msgid "COINS"
 msgstr "MOEDAS"
 
-#: src/gameloop.cpp:729 src/gameloop.cpp:730 src/worldmap.cpp:859
-#: src/worldmap.cpp:860
+#: src/gameloop.cpp:729 src/gameloop.cpp:730 src/worldmap.cpp:875
+#: src/worldmap.cpp:876
 msgid "LIVES"
 msgstr "VIDAS"
 
@@ -158,6 +153,10 @@ msgstr "Méritos"
 msgid "Quit"
 msgstr "Sair"
 
+#: src/setup.cpp:398
+msgid "OpenGL    "
+msgstr "OpenGL    "
+
 #: src/setup.cpp:400
 msgid "OpenGL (not supported)"
 msgstr "OpenGL (não suportado)"
@@ -176,15 +175,15 @@ msgstr "Música    "
 
 #: src/setup.cpp:413
 msgid "Show FPS  "
-msgstr "Mostrar FPS "
+msgstr "Mostrar FPS"
 
 #: src/setup.cpp:414
-msgid "Keyboard Setup"
-msgstr "Configuração do Teclado"
+msgid "Setup Keys"
+msgstr "Configurar Teclas"
 
-#: src/setup.cpp:417 src/setup.cpp:436
-msgid "Joystick Setup"
-msgstr "Configuração do Joystick"
+#: src/setup.cpp:417
+msgid "Setup Joystick"
+msgstr "Configurar Joystick"
 
 #: src/setup.cpp:420 src/setup.cpp:432 src/setup.cpp:445 src/setup.cpp:456
 #: src/title.cpp:104 src/title.cpp:141
@@ -192,8 +191,8 @@ msgid "Back"
 msgstr "Recuar"
 
 #: src/setup.cpp:422
-msgid "Key Setup"
-msgstr "Configurar Teclas"
+msgid "Keyboard Setup"
+msgstr "Configuração do Teclado"
 
 #: src/setup.cpp:424
 msgid "Left move"
@@ -218,6 +217,10 @@ msgstr "Activado"
 #: src/setup.cpp:430
 msgid "Power/Run"
 msgstr "Poder/Correr"
+
+#: src/setup.cpp:436
+msgid "Joystick Setup"
+msgstr "Configuração do Joystick"
 
 #: src/setup.cpp:440
 msgid "A button"
@@ -251,6 +254,89 @@ msgstr "Sair do Jogo"
 msgid "Enter your name:"
 msgstr "Insira o seu nome:"
 
+#: src/setup.cpp:1036
+msgid "  SuperTux  "
+msgstr "  SuperTux  "
+
+#: src/setup.cpp:1036
+msgid ""
+"\n"
+"  Please see the file \"README.txt\" for more details.\n"
+msgstr ""
+"\n"
+"  Dá uma olhadela no ficheiro  \"README.txt\" para mais detalhes.\n"
+
+#: src/setup.cpp:1038
+#, c-format
+msgid ""
+"Usage: %s [OPTIONS] FILENAME\n"
+"\n"
+msgstr ""
+"Uso: %s [OPÇÕES] NOME_DO_FICHEIRO\n"
+"\n"
+
+#: src/setup.cpp:1039
+msgid ""
+"Display Options:\n"
+"  --fullscreen        Run in fullscreen mode.\n"
+"  --opengl            If OpenGL support was compiled in, this will tell\n"
+"                      SuperTux to make use of it.\n"
+"  --sdl               Use the SDL software graphical renderer\n"
+"\n"
+"Sound Options:\n"
+"  --disable-sound     If sound support was compiled in,  this will\n"
+"                      disable sound for this session of the game.\n"
+"  --disable-music     Like above, but this will disable music.\n"
+"\n"
+"Misc Options:\n"
+"  -j, --joystick NUM  Use joystick NUM (default: 0)\n"
+"  --joymap XAXIS:YAXIS:A:B:START\n"
+"                      Define how joystick buttons and axis should be mapped\n"
+"  --leveleditor       Opens the leveleditor in a file. (Only works when a "
+"file is provided.)\n"
+"  -d, --datadir DIR   Load Game data from DIR (default: automatic)\n"
+"  --debug-mode        Enables the debug-mode, which is useful for "
+"developers.\n"
+"  --help              Display a help message summarizing command-line\n"
+"                      options, license and game controls.\n"
+"  --usage             Display a brief message summarizing command-line "
+"options.\n"
+"  --version           Display the version of SuperTux you're running.\n"
+"\n"
+msgstr ""
+"Opções Gráficas:\n"
+"  --fullscreen        Ocupar todo o ecrã.\n"
+"  --opengl            Caso tenha sido compilado com suporte para OpenGL, isto irá fazer\n"
+"                      com que o SuperTux o use.\n"
+"  --sdl               Usar o SDL como renderer gráfico (software)\n"
+"\n"
+"Opções de Som:\n"
+"  --disable-sound     Se tiver sido compilado com suporte ao som, isto irá\n"
+"                      o desactivar.\n"
+"  --disable-music     Tal como o anterior, mas desactiva a música.\n"
+"\n"
+"Miscelâneos:\n"
+"  -j, --joystick NUM  Usar o joystick NUM (omissão: 0)\n"
+"  --joymap XAXIS:YAXIS:A:B:START\n"
+"                      Define como os botões e eixos devem ser mapeados\n"
+"  --leveleditor       Abre o editor de níveis num dado ficheiro (e apenas quando um é fornecido.)\n"
+"  -d, --datadir DIR   Carregar os dados do jogo do DIR (omissão: automático)\n"
+"  --debug-mode        Activa o modo de depuração, que é útil para programadores.\n"
+"  --help              Mostra um texto de ajuda com os sumários da linha de comando\n"
+"                      opções, licença e contolos do jogo.\n"
+"  --usage             Mostra uma breve listagem das opções via a linha de comandos.\n"
+"  --version           Mostra a versão do SuperTux que está a correr.\n"
+"\n"
+
+#: src/setup.cpp:1095
+#, c-format
+msgid ""
+"Usage: %s [--fullscreen] [--opengl] [--disable-sound] [--disable-music] [--"
+"debug-mode] | [--usage | --help | --version] [--leveleditor] FILENAME\n"
+msgstr ""
+"Uso: %s [--fullscreen] [--opengl] [--disable-sound] [--disable-music] [--"
+"debug-mode] | [--usage | --help | --version] [--leveleditor] NOME_DO_FICHEIRO\n"
+
 #: src/title.cpp:276
 msgid " SuperTux "
 msgstr " SuperTux "
@@ -279,3 +365,4 @@ msgstr "Tens a certeza que queres remover o slot %d?"
 #: src/worldmap.cpp:724
 msgid "GAMEOVER"
 msgstr "FIM DO JOGO"
+

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: super-tux-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2004-06-03 18:39+0100\n"
+"POT-Creation-Date: 2004-06-03 22:58+0100\n"
 "PO-Revision-Date: 2004-06-03 22:29+0200\n"
 "Last-Translator: Javier Beaumont <demon@ziberghetto.dhis.org>\n"
 "Language-Team: \n"
@@ -45,8 +45,8 @@ msgstr "TIEMPO"
 msgid "COINS"
 msgstr "MONEDAS"
 
-#: src/gameloop.cpp:729 src/gameloop.cpp:730 src/worldmap.cpp:859
-#: src/worldmap.cpp:860
+#: src/gameloop.cpp:729 src/gameloop.cpp:730 src/worldmap.cpp:875
+#: src/worldmap.cpp:876
 msgid "LIVES"
 msgstr "VIDAS"
 
@@ -154,6 +154,10 @@ msgstr "Creditos"
 msgid "Quit"
 msgstr "Salir"
 
+#: src/setup.cpp:398
+msgid "OpenGL    "
+msgstr ""
+
 #: src/setup.cpp:400
 msgid "OpenGL (not supported)"
 msgstr "OpenGL (no soportado)"
@@ -175,12 +179,12 @@ msgid "Show FPS  "
 msgstr "Mostrar FPS  "
 
 #: src/setup.cpp:414
-msgid "Keyboard Setup"
-msgstr "Configuración del teclado"
+msgid "Setup Keys"
+msgstr ""
 
-#: src/setup.cpp:417 src/setup.cpp:436
-msgid "Joystick Setup"
-msgstr "Configuración del Joystick"
+#: src/setup.cpp:417
+msgid "Setup Joystick"
+msgstr ""
 
 #: src/setup.cpp:420 src/setup.cpp:432 src/setup.cpp:445 src/setup.cpp:456
 #: src/title.cpp:104 src/title.cpp:141
@@ -188,8 +192,8 @@ msgid "Back"
 msgstr "Volver"
 
 #: src/setup.cpp:422
-msgid "Key Setup"
-msgstr "Configurar teclas"
+msgid "Keyboard Setup"
+msgstr "Configuración del teclado"
 
 #: src/setup.cpp:424
 msgid "Left move"
@@ -214,6 +218,10 @@ msgstr "Activado"
 #: src/setup.cpp:430
 msgid "Power/Run"
 msgstr "Poder/Correr"
+
+#: src/setup.cpp:436
+msgid "Joystick Setup"
+msgstr "Configuración del Joystick"
 
 #: src/setup.cpp:440
 msgid "A button"
@@ -247,6 +255,61 @@ msgstr "Salir del juego"
 msgid "Enter your name:"
 msgstr "Introduce tu nombre:"
 
+#: src/setup.cpp:1036
+#, fuzzy
+msgid "  SuperTux  "
+msgstr " SuperTux "
+
+#: src/setup.cpp:1036
+msgid ""
+"\n"
+"  Please see the file \"README.txt\" for more details.\n"
+msgstr ""
+
+#: src/setup.cpp:1038
+#, c-format
+msgid ""
+"Usage: %s [OPTIONS] FILENAME\n"
+"\n"
+msgstr ""
+
+#: src/setup.cpp:1039
+msgid ""
+"Display Options:\n"
+"  --fullscreen        Run in fullscreen mode.\n"
+"  --opengl            If OpenGL support was compiled in, this will tell\n"
+"                      SuperTux to make use of it.\n"
+"  --sdl               Use the SDL software graphical renderer\n"
+"\n"
+"Sound Options:\n"
+"  --disable-sound     If sound support was compiled in,  this will\n"
+"                      disable sound for this session of the game.\n"
+"  --disable-music     Like above, but this will disable music.\n"
+"\n"
+"Misc Options:\n"
+"  -j, --joystick NUM  Use joystick NUM (default: 0)\n"
+"  --joymap XAXIS:YAXIS:A:B:START\n"
+"                      Define how joystick buttons and axis should be mapped\n"
+"  --leveleditor       Opens the leveleditor in a file. (Only works when a "
+"file is provided.)\n"
+"  -d, --datadir DIR   Load Game data from DIR (default: automatic)\n"
+"  --debug-mode        Enables the debug-mode, which is useful for "
+"developers.\n"
+"  --help              Display a help message summarizing command-line\n"
+"                      options, license and game controls.\n"
+"  --usage             Display a brief message summarizing command-line "
+"options.\n"
+"  --version           Display the version of SuperTux you're running.\n"
+"\n"
+msgstr ""
+
+#: src/setup.cpp:1095
+#, c-format
+msgid ""
+"Usage: %s [--fullscreen] [--opengl] [--disable-sound] [--disable-music] [--"
+"debug-mode] | [--usage | --help | --version] [--leveleditor] FILENAME\n"
+msgstr ""
+
 #: src/title.cpp:276
 msgid " SuperTux "
 msgstr " SuperTux "
@@ -262,7 +325,8 @@ msgid ""
 msgstr ""
 "\n"
 "Copyright (c) 2003 El equipo de SuperTux\n"
-"Este juego viene sin ABSOLUTAMENTE NINGUNA GARANTIA. Esto es software libre, y tu\n"
+"Este juego viene sin ABSOLUTAMENTE NINGUNA GARANTIA. Esto es software libre, "
+"y tu\n"
 "tienes permiso para redistribuirlo bajo ciertas condiciones; mira el archivo "
 "COPYING\n"
 "para detalles.\n"
@@ -276,3 +340,5 @@ msgstr "¿Estás seguro de que quieres borrar el slot %d?"
 msgid "GAMEOVER"
 msgstr "FIN DEL JUEGO"
 
+#~ msgid "Key Setup"
+#~ msgstr "Configurar teclas"
