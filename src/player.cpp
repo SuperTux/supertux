@@ -602,7 +602,7 @@ Player::draw()
 
           if (!got_coffee)
             {
-              if (physic.get_velocity_y() > 0)
+              if (physic.get_velocity_y() != 0)
                 {
                   if (dir == RIGHT)
                     texture_draw(&smalltux_jump_right, base.x - scroll_x, base.y - 10);

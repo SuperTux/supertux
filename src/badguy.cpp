@@ -48,8 +48,8 @@ texture_type img_flyingsnowball[2];
 texture_type img_flyingsnowball_squished[1];
 texture_type img_spiky_left[3];
 texture_type img_spiky_right[3];
-texture_type img_snowball_left[3];
-texture_type img_snowball_right[3];
+texture_type img_snowball_left[4];
+texture_type img_snowball_right[4];
 texture_type img_snowball_squished_left[1];
 texture_type img_snowball_squished_right[1];
 
@@ -178,14 +178,14 @@ BadGuy::init(float x, float y, BadGuyKind kind_)
     set_texture(img_fish, img_fish, 2, 1);
     physic.enable_gravity(true);
   } else if(kind == BAD_FLYINGSNOWBALL) {
-    set_texture(img_flyingsnowball, img_flyingsnowball, 2);
+    set_texture(img_flyingsnowball, img_flyingsnowball, 2, 5);
     physic.enable_gravity(false);
   } else if(kind == BAD_SPIKY) {
     physic.set_velocity(-1.3, 0);
     set_texture(img_spiky_left, img_spiky_right, 3);
   } else if(kind == BAD_SNOWBALL) {
     physic.set_velocity(-1.3, 0);
-    set_texture(img_snowball_left, img_snowball_right, 3);
+    set_texture(img_snowball_left, img_snowball_right, 4, 5);
   }
 
   // if we're in a solid tile at start correct that now
@@ -1114,16 +1114,16 @@ void load_badguy_gfx()
   }
 
   /** snowball */
-  for(int i = 0; i < 3; ++i) {
-        char num[4];
-        snprintf(num, 4, "%d", i);
-        texture_load(&img_snowball_left[i],
-                datadir + "/images/shared/snowball-left-" + num + ".png",
-                USE_ALPHA);
-        texture_load(&img_snowball_right[i],
-                datadir + "/images/shared/snowball-right-" + num + ".png",
-                USE_ALPHA);
-  }
+  texture_load(&img_snowball_left[0], datadir + "/images/shared/snowball-left-0.png", USE_ALPHA);
+  texture_load(&img_snowball_left[1], datadir + "/images/shared/snowball-left-1.png", USE_ALPHA);
+  texture_load(&img_snowball_left[2], datadir + "/images/shared/snowball-left-2.png", USE_ALPHA);
+  texture_load(&img_snowball_left[3], datadir + "/images/shared/snowball-left-1.png", USE_ALPHA);
+
+  texture_load(&img_snowball_right[0], datadir + "/images/shared/snowball-right-0.png", USE_ALPHA);
+  texture_load(&img_snowball_right[1], datadir + "/images/shared/snowball-right-1.png", USE_ALPHA);
+  texture_load(&img_snowball_right[2], datadir + "/images/shared/snowball-right-2.png", USE_ALPHA);
+  texture_load(&img_snowball_right[3], datadir + "/images/shared/snowball-right-1.png", USE_ALPHA);
+
   texture_load(&img_snowball_squished_left[0],
           datadir + "/images/shared/bsod-squished-left.png", USE_ALPHA);
   texture_load(&img_snowball_squished_right[0],
@@ -1194,7 +1194,7 @@ void free_badguy_gfx()
     texture_free(&img_spiky_left[i]);
     texture_free(&img_spiky_right[i]);
   }
-  for(int i = 0; i<3; ++i) {
+  for(int i = 0; i<4; ++i) {
     texture_free(&img_snowball_left[i]);
     texture_free(&img_snowball_right[i]);
   }
