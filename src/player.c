@@ -882,9 +882,17 @@ void player_input(player_type *pplayer)
   else
     {
       if(pplayer->base.xm > 0)
-        pplayer->base.xm = (int)(pplayer->base.xm - frame_ratio);
+        {
+          pplayer->base.xm = (int)(pplayer->base.xm - frame_ratio);
+          if(pplayer->base.xm < 0)
+            pplayer->base.xm = 0;
+        }
       else if(pplayer->base.xm < 0)
-        pplayer->base.xm = (int)(pplayer->base.xm + frame_ratio);
+        {
+          pplayer->base.xm = (int)(pplayer->base.xm + frame_ratio);
+          if(pplayer->base.xm > 0)
+            pplayer->base.xm = 0;
+        }
     }
 
   /* Jump/jumping? */

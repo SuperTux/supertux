@@ -686,7 +686,7 @@ int gameloop(char * subset, int levelnb, int mode)
         }
 
       if(tux.input.down == DOWN)
-        SDL_Delay(30);
+        SDL_Delay(45);
 
       /*Draw the current scene to the screen */
       /*If the machine running the game is too slow
