@@ -7,6 +7,27 @@ http://www.newbreedsoftware.com/supertux/
 
 0.0.6 - current CVS version
 ---------------------------
+  * Provided hint for fixing memory leak when fullscreen is toggled.
+    Ricardo Cruz <rick2@aeiou.pt> 
+    
+  * Made the code more flexible. This means we could add support for two-player games
+    relativly easily and add tons of bad guys in the future.
+    Tobias Glaesser <tobi.web@gmx.de>
+
+  * You can achieve as many frames as your hardware allows now.
+    Tobias Glaesser <tobi.web@gmx.de>
+
+  * Timers calculate with the real time now.
+    (FIXME: Pause doesn't work properly for now)
+    Tobias Glaesser <tobi.web@gmx.de>
+
+  * Introduced highly experimental OpenGL mode.
+    Tobias Glaesser <tobi.web@gmx.de>  
+
+  * Restructured much code or even all code of SuperTux in an object orientated way.
+    Yeah, that's even possible in C and brought many new source-files to us. ;)
+    Tobias Glaesser <tobi.web@gmx.de>
+
   * Fixes and improvements for the leveleditor.
     Ricardo Cruz <rick2@aeiou.pt> 
 

@@ -46,11 +46,12 @@ NOSOUNDFLAG=__SOUND
 SDL_LIB=$(SDL_MIXER) $(SDL_IMAGE) $(SDL_LDFLAGS) 
 SDL_CFLAGS := $(shell sdl-config --cflags)
 SDL_LDFLAGS := $(shell sdl-config --libs)
+GL_LIB =  -L/usr/X11R6/lib -lGL
 installbin = install -g $(USERNAME) -o $(USERNAME) -m 755 
 installdat = install -g $(USERNAME) -o $(USERNAME) -m 644
 
 
-OBJECTS=obj/supertux.o obj/setup.o obj/intro.o obj/title.o obj/level.o obj/gameloop.o \
+OBJECTS=obj/supertux.o obj/setup.o obj/intro.o obj/title.o obj/scene.o obj/collision.o obj/bitmask.o obj/type.o obj/badguy.o obj/special.o  obj/world.o obj/player.o obj/level.o obj/gameloop.o \
 	obj/screen.o obj/sound.o obj/high_scores.o obj/menu.o obj/leveleditor.o
 
 # Make commands:
@@ -89,7 +90,7 @@ clean:
 # Main executable:
 
 $(TARGET):	$(OBJECTS)
-	$(CC) $(CFLAGS) $(OBJECTS) -o $(TARGET) $(SDL_LIB)
+	$(CC) $(CFLAGS) $(OBJECTS) -o $(TARGET) $(SDL_LIB)  $(GL_LIB)
 
 # Objects:
 
@@ -113,10 +114,50 @@ obj/title.o:	src/title.c src/title.h \
 obj/level.o:	src/level.c src/defines.h src/globals.h \
 			src/level.h src/gameloop.h src/screen.h src/badguy.h
 	$(CC) $(CFLAGS) src/level.c -c -o obj/level.o
+
+obj/scene.o:	src/scene.c src/scene.h \
+		src/defines.h src/globals.h src/screen.h src/scene.h src/gameloop.h obj/sound.o \
+		src/setup.h obj/level.o
+	$(CC) $(CFLAGS) src/scene.c -c -o obj/scene.o
+	
+obj/collision.o:	src/collision.c src/collision.h \
+		src/defines.h src/globals.h src/screen.h src/scene.h src/gameloop.h obj/sound.o \
+		src/setup.h obj/level.o
+	$(CC) $(CFLAGS) src/collision.c -c -o obj/collision.o
+	
+obj/bitmask.o:	src/bitmask.c src/bitmask.h \
+		src/defines.h src/globals.h src/screen.h src/scene.h src/gameloop.h obj/sound.o \
+		src/setup.h obj/level.o
+	$(CC) $(CFLAGS) src/bitmask.c -c -o obj/bitmask.o
+		
+obj/type.o:	src/type.c src/type.h \
+		src/defines.h src/globals.h src/screen.h src/scene.h src/gameloop.h obj/sound.o \
+		src/setup.h obj/level.o
+	$(CC) $(CFLAGS) src/type.c -c -o obj/type.o
+
+obj/badguy.o:	src/badguy.c src/badguy.h \
+		src/defines.h src/globals.h src/screen.h src/gameloop.h obj/sound.o \
+		src/setup.h obj/level.o
+	$(CC) $(CFLAGS) src/badguy.c -c -o obj/badguy.o
+
+obj/special.o:	src/special.c src/special.h \
+		src/defines.h src/globals.h src/screen.h src/gameloop.h obj/sound.o \
+		src/setup.h obj/level.o
+	$(CC) $(CFLAGS) src/special.c -c -o obj/special.o
+
+obj/world.o:	src/world.c src/world.h \
+		src/defines.h src/globals.h src/screen.h src/gameloop.h obj/sound.o \
+		src/setup.h obj/level.o
+	$(CC) $(CFLAGS) src/world.c -c -o obj/world.o
+		
+obj/player.o:	src/player.c src/player.h \
+		src/defines.h src/globals.h src/screen.h src/gameloop.h obj/sound.o \
+		src/setup.h obj/level.o
+	$(CC) $(CFLAGS) src/player.c -c -o obj/player.o
 	
 obj/gameloop.o:	src/gameloop.c src/gameloop.h \
 		src/defines.h src/globals.h src/screen.h obj/sound.o \
-		src/setup.h obj/level.o
+		src/setup.h obj/level.o obj/player.o
 	$(CC) $(CFLAGS) src/gameloop.c -c -o obj/gameloop.o
 
 obj/screen.o:	src/screen.c src/defines.h src/globals.h src/screen.h
