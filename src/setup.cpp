@@ -633,7 +633,12 @@ void st_general_free(void)
   delete main_menu;
   delete game_menu;
   delete options_menu;
+  delete options_keys_menu;
+  delete options_joystick_menu;
   delete highscore_menu;
+  delete contrib_menu;
+  delete contrib_subset_menu;
+  delete worldmap_menu;
   delete save_game_menu;
   delete load_game_menu;
 }
