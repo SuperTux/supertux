@@ -175,9 +175,6 @@ Surface::Surface(const std::string& file, int x, int y, int w, int h, bool use_a
 Surface::Surface(Color top_background, Color bottom_background, int w_, int h_)
     : data(top_background, bottom_background, w_, h_), w(0), h(0)
 {
-  // FIXME: Gradient surfaces currently don't accept width/height
-  //        If nonzero values are passed to data.create(), supertux
-  //        crashes.
   impl = data.create();
   if (impl)
   {
