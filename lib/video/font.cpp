@@ -128,8 +128,7 @@ Font::draw(const std::string& text, const Vector& pos_, int allignment, Uint32 d
      Feel free to replace this hack with a more elegant solution
   */
   char temp[1024];
-  std::string::size_type l;
-  unsigned int i, y;
+  std::string::size_type l, i, y;
   i = y = 0;
 
   while(true)
