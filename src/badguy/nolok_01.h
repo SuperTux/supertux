@@ -18,8 +18,8 @@ public:
 protected:
   bool collision_squished(Player& player);
   Timer2 action_timer;
-  Timer2 idle_timer;
-  Timer2 jump_timer;
+  enum { IDLE, WALKING, JUMPING, SHOOTING };
+  int action;
 };
 
 #endif

@@ -12,9 +12,8 @@ Dispenser::Dispenser(LispReader& reader)
   reader.read_float("cycle", cycle);
   reader.read_string("badguy", badguy);
   bbox.set_size(32, 32);
-  //FIXME: Create dispenser sprite
-  sprite = sprite_manager->create("dummyguy");
-  sprite->set_action("stand");
+  sprite = sprite_manager->create("dispenser");
+  sprite->set_action("working");
 }
 
 void
@@ -40,7 +39,9 @@ Dispenser::activate()
 bool
 Dispenser::collision_squished(Player& player)
 {
-  remove_me();
+  //FIXME: Should act like a normal tile when killed
+  sprite->set_action("broken");
+  dispense_timer.start(0);
   player.bounce(*this);
   return true;
 }

@@ -44,7 +44,8 @@ Nolok_01::activate()
 {
   physic.set_velocity_x(dir == LEFT ? -WALKSPEED : WALKSPEED);
   sprite->set_action(dir == LEFT ? "left" : "right");
-  action_timer.start(SHOOT_TIME, true);
+  action = WALKING;
+  action_timer.start(SHOOT_TIME);
 }
 
 void
@@ -52,18 +53,24 @@ Nolok_01::active_action(float elapsed_time)
 {
    movement = physic.get_movement(elapsed_time);
    if (action_timer.check()) {
-      physic.set_velocity_y(700);
-      jump_timer.start(JUMP_TIME);
-   }
-   if (jump_timer.check()) {
-      sprite->set_action("throw");
-      idle_timer.start(IDLE_TIME);
-   }
-   if (idle_timer.check()) {
-      Sector::current()->add_object(new BouncingSnowball(get_pos().x-32, get_pos().y, LEFT));
-      Sector::current()->add_object(new BouncingSnowball(get_pos().x, get_pos().y, RIGHT));
-      physic.set_velocity_x(dir == LEFT ? -WALKSPEED : WALKSPEED);
-      sprite->set_action(dir == LEFT ? "left" : "right");
+     if (action == WALKING) {
+        physic.set_velocity_y(700);
+        action = JUMPING;
+        action_timer.start(JUMP_TIME);
+     }
+     else if (action == JUMPING) {
+        sprite->set_action("throw");
+        action = IDLE;
+        action_timer.start(IDLE_TIME);
+     }
+     else if (action == IDLE) {
+        Sector::current()->add_object(new BouncingSnowball(get_pos().x-32, get_pos().y, LEFT));
+        Sector::current()->add_object(new BouncingSnowball(get_pos().x, get_pos().y, RIGHT));
+        physic.set_velocity_x(dir == LEFT ? -WALKSPEED : WALKSPEED);
+        sprite->set_action(dir == LEFT ? "left" : "right");
+        action = WALKING;
+        action_timer.start(SHOOT_TIME);
+     }
    }
 }
 

@@ -1107,7 +1107,20 @@
           (x-offset 0)
           (y-offset 0)
           (images "shared/walkingtree-left-small-1.png")))
-          
+         
+  ; Dispenser
+  (sprite (name "dispenser")
+       (action
+         (name "working")
+          (x-offset 0)
+          (y-offset 0)
+          (images "shared/dispenser-working.png"))
+       (action
+          (name "broken")
+          (x-offset 0)
+          (y-offset 0)
+          (images "shared/dispenser-broken.png")))          
+   
    ; Dummyguy
    (sprite (name "dummyguy")
        (action
