@@ -201,7 +201,7 @@ Player::action()
 
           physic.enable_gravity(false);
           /* Reset score multiplier (for multi-hits): */
-          score_multiplier = 1;
+          player_status.score_multiplier = 1;
         }
 
       if(jumped_in_solid)
@@ -289,7 +289,7 @@ Player::action()
   if (base.x >= World::current()->get_level()->endpos
       && World::current()->get_level()->endpos != 0)
     {
-      next_level = 1;
+      player_status.next_level = 1;
     }
 
 }
@@ -830,7 +830,7 @@ Player::collision(void* p_c_object, int c_object)
                       play_sound(sounds[SND_FALL], SOUND_CENTER_SPEAKER);
                       World::current()->add_score(pbad_c->base.x - scroll_x,
                                                   pbad_c->base.y,
-                                                  25 * score_multiplier);
+                                                  25 * player_status.score_multiplier);
                     }
                 }
             }
@@ -845,7 +845,7 @@ Player::collision(void* p_c_object, int c_object)
                   pbad_c->kill_me();
                 }
             }
-          score_multiplier++;
+          player_status.score_multiplier++;
         }
       break;
     default:

@@ -261,19 +261,16 @@ Upgrade::collision(void* p_c_object, int c_object)
               pplayer->base.y += 32;
               pplayer->duck = true;
             }
-          timer_start(&super_bkgd_timer, 350);
         }
       else if (kind == UPGRADE_COFFEE)
         {
           play_sound(sounds[SND_COFFEE], SOUND_CENTER_SPEAKER);
           pplayer->got_coffee = true;
-          timer_start(&super_bkgd_timer, 250);
         }
       else if (kind == UPGRADE_HERRING)
         {
           play_sound(sounds[SND_HERRING], SOUND_CENTER_SPEAKER);
           timer_start(&pplayer->invincible_timer,TUX_INVINCIBLE_TIME);
-          timer_start(&super_bkgd_timer, 250);
           /* play the herring song ^^ */
           if (get_current_music() != HURRYUP_MUSIC)
             {

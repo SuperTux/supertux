@@ -13,11 +13,7 @@
 #include <stdlib.h>
 #include "scene.h"
 
-int score;
-int distros;
-int next_level;
-int score_multiplier;
-timer_type  super_bkgd_timer;
+PlayerStatus player_status;
 
 // FIXME: Move this into a view class
 float scroll_x;

@@ -791,9 +791,10 @@ BadGuy::squish_me(Player* player)
 {
   make_player_jump(player);
     
-  World::current()->add_score(base.x - scroll_x, base.y, 50 * score_multiplier);
+  World::current()->add_score(base.x - scroll_x,
+                              base.y, 50 * player_status.score_multiplier);
   play_sound(sounds[SND_SQUISH], SOUND_CENTER_SPEAKER);
-  score_multiplier++;
+  player_status.score_multiplier++;
 
   dying = DYING_SQUISHED;
   timer_start(&timer, 2000);
@@ -808,9 +809,9 @@ BadGuy::squish(Player* player)
     World::current()->add_bad_guy(base.x, base.y, BAD_BOMB);
     
     make_player_jump(player);
-    World::current()->add_score(base.x - scroll_x, base.y, 50 * score_multiplier);
+    World::current()->add_score(base.x - scroll_x, base.y, 50 * player_status.score_multiplier);
     play_sound(sounds[SND_SQUISH], SOUND_CENTER_SPEAKER);
-    score_multiplier++;
+    player_status.score_multiplier++;
       
     remove_me();
     return;
@@ -849,14 +850,14 @@ BadGuy::squish(Player* player)
 
     make_player_jump(player);
 	      
-    World::current()->add_score(base.x - scroll_x, base.y, 25 * score_multiplier);
-    score_multiplier++;
+    World::current()->add_score(base.x - scroll_x, base.y, 25 * player_status.score_multiplier);
+    player_status.score_multiplier++;
     return;
   } else if(kind == BAD_FISH) {
     make_player_jump(player);
 	      
-    World::current()->add_score(base.x - scroll_x, base.y, 25 * score_multiplier);
-    score_multiplier++;
+    World::current()->add_score(base.x - scroll_x, base.y, 25 * player_status.score_multiplier);
+    player_status.score_multiplier++;
      
     // simply remove the fish...
     remove_me();
@@ -894,10 +895,10 @@ BadGuy::kill_me()
   /* Gain some points: */
   if (kind == BAD_BSOD)
     World::current()->add_score(base.x - scroll_x, base.y,
-                    50 * score_multiplier);
+                    50 * player_status.score_multiplier);
   else 
     World::current()->add_score(base.x - scroll_x, base.y,                                 
-                    25 * score_multiplier);
+                    25 * player_status.score_multiplier);
 
   /* Play death sound: */
   play_sound(sounds[SND_FALL], SOUND_CENTER_SPEAKER);

@@ -17,7 +17,6 @@ texture_type img_box_full;
 texture_type img_box_empty;
 texture_type img_mints;
 texture_type img_coffee;
-texture_type img_super_bkgd;
 texture_type img_red_glow;
 
 /* Load graphics/sounds shared between all levels: */
@@ -282,12 +281,6 @@ void loadshared()
 
   texture_load(&img_golden_herring, datadir + "/images/shared/golden-herring.png",
                USE_ALPHA);
-
-
-  /* Super background: */
-
-  texture_load(&img_super_bkgd, datadir + "/images/shared/super-bkgd.png",
-               IGNORE_ALPHA);
 
 
   /* Sound effects: */

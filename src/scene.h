@@ -19,10 +19,15 @@
 #define FRAME_RATE 10 // 100 Frames per second (10ms)
 
 // Player stats
-extern int  score;
-extern int  distros;
-extern int  next_level;
-extern int  score_multiplier;
+struct PlayerStatus
+{
+  int  score;
+  int  distros;
+  int  next_level;
+  int  score_multiplier;
+};
+
+extern PlayerStatus player_status;
 
 extern timer_type  super_bkgd_timer;
 extern float scroll_x;

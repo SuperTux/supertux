@@ -56,8 +56,7 @@ World::set_defaults()
   // Set defaults: 
   scroll_x = 0;
 
-  score_multiplier = 1;
-  timer_init(&super_bkgd_timer, true);
+  player_status.score_multiplier = 1;
 
   counting_distros = false;
   distro_counter = 0;
@@ -128,24 +127,18 @@ World::draw()
 {
   int y,x;
 
-  /* Draw screen: */
-  if(timer_check(&super_bkgd_timer))
-    texture_draw(&img_super_bkgd, 0, 0);
+  /* Draw the real background */
+  if(get_level()->bkgd_image[0] != '\0')
+    {
+      int s = (int)scroll_x / 30;
+      texture_draw_part(&level->img_bkgd, s, 0,0,0,level->img_bkgd.w - s, level->img_bkgd.h);
+      texture_draw_part(&level->img_bkgd, 0, 0,screen->w - s ,0,s,level->img_bkgd.h);
+    }
   else
     {
-      /* Draw the real background */
-      if(get_level()->bkgd_image[0] != '\0')
-        {
-          int s = (int)scroll_x / 30;
-          texture_draw_part(&level->img_bkgd, s, 0,0,0,level->img_bkgd.w - s, level->img_bkgd.h);
-          texture_draw_part(&level->img_bkgd, 0, 0,screen->w - s ,0,s,level->img_bkgd.h);
-        }
-      else
-        {
-          clearscreen(level->bkgd_red, level->bkgd_green, level->bkgd_blue);
-        }
+      clearscreen(level->bkgd_red, level->bkgd_green, level->bkgd_blue);
     }
-
+    
   /* Draw particle systems (background) */
   std::vector<ParticleSystem*>::iterator p;
   for(p = particle_systems.begin(); p != particle_systems.end(); ++p)
@@ -346,7 +339,7 @@ World::collision_handler()
 void
 World::add_score(float x, float y, int s)
 {
-  score += s;
+  player_status.score += s;
 
   FloatingScore new_floating_score;
   new_floating_score.init(x,y,s);
@@ -439,8 +432,8 @@ World::trybreakbrick(float x, float y, bool small)
             plevel->change(x, y, TM_IA, tile->next_tile);
 
           play_sound(sounds[SND_DISTRO], SOUND_CENTER_SPEAKER);
-          score = score + SCORE_DISTRO;
-          distros++;
+          player_status.score = player_status.score + SCORE_DISTRO;
+          player_status.distros++;
         }
       else if (!small)
         {
@@ -454,7 +447,7 @@ World::trybreakbrick(float x, float y, bool small)
           
           /* Get some score: */
           play_sound(sounds[SND_BRICK], SOUND_CENTER_SPEAKER);
-          score = score + SCORE_BRICK;
+          player_status.score = player_status.score + SCORE_BRICK;
         }
     }
 }
@@ -478,8 +471,8 @@ World::tryemptybox(float x, float y, int col_side)
     case 1: // Box with a distro!
       add_bouncy_distro(((int)(x + 1) / 32) * 32, (int)(y / 32) * 32 - 32);
       play_sound(sounds[SND_DISTRO], SOUND_CENTER_SPEAKER);
-      score = score + SCORE_DISTRO;
-      distros++;
+      player_status.score = player_status.score + SCORE_DISTRO;
+      player_status.distros++;
       break;
 
     case 2: // Add an upgrade!
@@ -517,8 +510,8 @@ World::trygrabdistro(float x, float y, int bounciness)
                                   (int)(y / 32) * 32);
         }
 
-      score = score + SCORE_DISTRO;
-      distros++;
+      player_status.score = player_status.score + SCORE_DISTRO;
+      player_status.distros++;
     }
 }
 

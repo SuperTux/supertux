@@ -249,11 +249,11 @@ GameSession::process_events()
                 break;
               case SDLK_END:
                 if(debug_mode)
-                  distros += 50;
+                  player_status.distros += 50;
                 break;
               case SDLK_SPACE:
                 if(debug_mode)
-                  next_level = 1;
+                  player_status.next_level = 1;
                 break;
               case SDLK_DELETE:
                 if(debug_mode)
@@ -269,7 +269,7 @@ GameSession::process_events()
                 break;
               case SDLK_s:
                 if(debug_mode)
-                  score += 1000;
+                  player_status.score += 1000;
               case SDLK_f:
                 if(debug_fps)
                   debug_fps = false;
@@ -342,16 +342,16 @@ GameSession::action()
 {
   Player& tux = *world->get_tux();
 
-  if (tux.is_dead() || next_level)
+  if (tux.is_dead() || player_status.next_level)
     {
       /* Tux either died, or reached the end of a level! */
       halt_music();
       
-      if (next_level)
+      if (player_status.next_level)
         {
           /* End of a level! */
           levelnb++;
-          next_level = 0;
+          player_status.next_level = 0;
           if(st_gl_mode != ST_GL_TEST)
             {
               drawresultscreen();
@@ -381,8 +381,8 @@ GameSession::action()
 
               if(st_gl_mode != ST_GL_TEST)
                 {
-                  if (score > hs_score)
-                    save_hs(score);
+                  if (player_status.score > hs_score)
+                    save_hs(player_status.score);
                 }
 
               world->get_level()->free_gfx();
@@ -660,7 +660,7 @@ GameSession::drawstatus()
   Player& tux = *world->get_tux();
   char str[60];
 
-  sprintf(str, "%d", score);
+  sprintf(str, "%d", player_status.score);
   text_draw(&white_text, "SCORE", 0, 0, 1);
   text_draw(&gold_text, str, 96, 0, 1);
 
@@ -682,7 +682,7 @@ GameSession::drawstatus()
       text_draw(&gold_text, str, 304, 0, 1);
     }
 
-  sprintf(str, "%d", distros);
+  sprintf(str, "%d", player_status.distros);
   text_draw(&white_text, "DISTROS", screen->h, 0, 1);
   text_draw(&gold_text, str, 608, 0, 1);
 
@@ -710,10 +710,10 @@ GameSession::drawendscreen()
 
   text_drawf(&blue_text, "GAMEOVER", 0, 200, A_HMIDDLE, A_TOP, 1);
 
-  sprintf(str, "SCORE: %d", score);
+  sprintf(str, "SCORE: %d", player_status.score);
   text_drawf(&gold_text, str, 0, 224, A_HMIDDLE, A_TOP, 1);
 
-  sprintf(str, "DISTROS: %d", distros);
+  sprintf(str, "DISTROS: %d", player_status.distros);
   text_drawf(&gold_text, str, 0, 256, A_HMIDDLE, A_TOP, 1);
 
   flipscreen();
@@ -731,10 +731,10 @@ GameSession::drawresultscreen(void)
 
   text_drawf(&blue_text, "Result:", 0, 200, A_HMIDDLE, A_TOP, 1);
 
-  sprintf(str, "SCORE: %d", score);
+  sprintf(str, "SCORE: %d", player_status.score);
   text_drawf(&gold_text, str, 0, 224, A_HMIDDLE, A_TOP, 1);
 
-  sprintf(str, "DISTROS: %d", distros);
+  sprintf(str, "DISTROS: %d", player_status.distros);
   text_drawf(&gold_text, str, 0, 256, A_HMIDDLE, A_TOP, 1);
 
   flipscreen();
