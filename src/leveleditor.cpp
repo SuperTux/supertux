@@ -613,7 +613,7 @@ void update_level_settings_menu()
   level_settings_menu->get_item_by_id(MNID_TIME).change_input(str);
   sprintf(str,"%2.0f",le_level->get_sector("main")->gravity);
   level_settings_menu->get_item_by_id(MNID_GRAVITY).change_input(str);
-  sprintf(str,"%d",le_level->get_sector("main")->background->get_speed());
+  sprintf(str,"%2.2f", le_level->get_sector("main")->background->get_speed());
   level_settings_menu->get_item_by_id(MNID_BGSPEED).change_input(str);
   sprintf(str,"%d",le_level->get_sector("main")->background->get_gradient_top().red);
   level_settings_menu->get_item_by_id(MNID_TopRed).change_input(str);
@@ -689,7 +689,8 @@ void le_unload_level()
   if(le_level_changed)
   {
     char str[1024];
-    sprintf(str,"Save changes to level %d of %s?",le_level,le_level_subset->name.c_str());
+    // TODO get level number
+    sprintf(str,"Save changes to level %d of %s?", 0/*le_level*/,le_level_subset->name.c_str());
     Surface* surf = new Surface(le_level->get_sector("main")->background->get_image(), false);
     if(confirm_dialog(surf, str))
     {
