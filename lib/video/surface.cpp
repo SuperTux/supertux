@@ -257,24 +257,24 @@ apply_filter_to_surface(SDL_Surface* surface, int filter, Color color)
 {
 if(filter == MASK_FILTER)
   {
+  SDL_Surface* sur_copy = sdl_surface_from_sdl_surface(surface, true);
+
   Uint8 r,g,b,a;
-  SDL_Rect rect;
-  rect.w = rect.h = 1;
-  SDL_LockSurface(surface);
-  for(int x = 0; x < surface->w; x++)
-    for(int y = 0; y < surface->h; y++)
+
+  SDL_LockSurface(sur_copy);
+  for(int x = 0; x < sur_copy->w; x++)
+    for(int y = 0; y < sur_copy->h; y++)
       {
-//    SDL_LockSurface(surface);
-      SDL_GetRGBA(getpixel(surface,x,y), surface->format, &r,&g,&b,&a);
-//    SDL_UnlockSurface(surface);
+      SDL_GetRGBA(getpixel(sur_copy,x,y), sur_copy->format, &r,&g,&b,&a);
       if(a != 0)
         {
-      putpixel(surface, x,y, color.map_rgba(surface));
-//        rect.x = x; rect.y = y;
-//        SDL_FillRect(surface, &rect, color.map_rgba(surface));
+        putpixel(sur_copy, x,y, color.map_rgba(sur_copy));
         }
       }
-  SDL_UnlockSurface(surface);
+  SDL_UnlockSurface(sur_copy);
+
+  SDL_BlitSurface(sur_copy, NULL, surface, NULL);
+  SDL_FreeSurface(sur_copy);
   }
 }
 
@@ -362,6 +362,7 @@ SDL_Surface*
 SuperTux::sdl_surface_from_sdl_surface(SDL_Surface* sdl_surf, bool use_alpha)
 {
   SDL_Surface* sdl_surface;
+#if 0
   Uint32 saved_flags;
   Uint8  saved_alpha;
 
@@ -373,18 +374,21 @@ SuperTux::sdl_surface_from_sdl_surface(SDL_Surface* sdl_surf, bool use_alpha)
   {
     SDL_SetAlpha(sdl_surf, 0, 0);
   }
+#endif
 
   if(use_alpha == false && !use_gl)
     sdl_surface = SDL_DisplayFormat(sdl_surf);
   else
     sdl_surface = SDL_DisplayFormatAlpha(sdl_surf);
 
+#if 0
   /* Restore the alpha blending attributes */
   if ( (saved_flags & SDL_SRCALPHA)
        == SDL_SRCALPHA )
   {
     SDL_SetAlpha(sdl_surface, saved_flags, saved_alpha);
   }
+#endif
 
   if (sdl_surface == NULL)
     Termination::abort("Can't covert to display format", "SURFACE");
