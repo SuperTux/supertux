@@ -3,6 +3,7 @@
   (version 1)
   (author "Marek Moeckel")
   (name "The Escape")
+  (name-pt_PT "A Fuga")
   (width  515)
   (height 15)
   (start_pos_x    100)

@@ -3,6 +3,7 @@
   (version 1)
   (author "Ingo Ruhnke")
   (name "Ice in the Hole")
+  (name-pt_PT "Gelo no Buraco")
   (width  500)
   (height 19)
   (start_pos_x    100)

@@ -3,6 +3,7 @@
   (version 1)
   (author "Marek Moeckel")
   (name "No more Mr Ice Guy")
+  (name-pt_PT "Mais nenhum Sr. Gelo")
   (width  260)
   (height 15)
   (start_pos_x    100)

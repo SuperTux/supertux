@@ -3,6 +3,7 @@
   (version 1)
   (author "Ingo Ruhnke")
   (name "Night Chill")
+  (name-pt_PT "Noite Fria")
   (width  515)
   (height 19)
   (start_pos_x    100)

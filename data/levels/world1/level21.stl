@@ -3,6 +3,7 @@
   (version 1)
   (author "Marek Moeckel")
   (name "A Path in the Clouds")
+  (name-pt_PT "Um Caminho pelas Nuvens")
   (width  525)
   (height 15)
   (start_pos_x    100)

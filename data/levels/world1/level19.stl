@@ -3,6 +3,7 @@
   (version 1)
   (author "Ingo Ruhnke")
   (name "Miyamoto Monument")
+  (name-pt_PT "O Monumento Miyamoto")
   (width  505)
   (height 15)
   (start_pos_x    100)
