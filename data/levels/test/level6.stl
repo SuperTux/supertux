@@ -2,7 +2,7 @@
 (supertux-level
   (version 1)
   (author "")
-  (name "Enemy Test 3 - Stay on Platform")
+  (name "Enemy Test 3 - Stay on Platform / Trampoline Test")
   (width  50)
   (height 15)
   (start_pos_x    100)
@@ -77,7 +77,8 @@
    )
   (objects
     (mriceblock  (x 439) (y 159) (stay-on-platform #t))
-        (mriceblock  (x 479) (y 159) (stay-on-platform #f))
+    (mriceblock  (x 479) (y 159) (stay-on-platform #f))
+    (trampoline (x 250) (y 150) (power 7.5) (type "trampoline"))
   )
    )
 
