@@ -27,8 +27,8 @@ PlayerStatus::PlayerStatus()
   : score(0),
     distros(0),
     lives(START_LIVES),
-    score_multiplier(1),
-    bonus(NO_BONUS)
+    bonus(NO_BONUS),
+    score_multiplier(1)
 {
 }
 
@@ -42,6 +42,8 @@ std::string bonus_to_string(PlayerStatus::BonusType b)
       return "growup";
     case PlayerStatus::FLOWER_BONUS:
       return "icflower";
+    default:
+      return "none";
     }
 }
 
