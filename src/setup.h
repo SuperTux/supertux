@@ -21,7 +21,7 @@ int faccessible(char *filename);
 int fcreatedir(char* relative_dir);
 int fwriteable(char *filename);
 string_list_type dsubdirs(char *rel_path, char* expected_file);
-string_list_type dfiles(char *rel_path, char* expected_file);
+string_list_type dfiles(char *rel_path, char* exception_str);
 void free_strings(char **strings, int num);
 void st_directory_setup(void);
 void st_general_setup(void);

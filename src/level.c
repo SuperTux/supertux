@@ -25,6 +25,7 @@ void subset_init(st_subset* st_subset)
 {
   st_subset->title = NULL;
   st_subset->description = NULL;
+  st_subset->name = NULL;
   st_subset->levels = 0;
 }
 
@@ -312,7 +313,6 @@ void level_free(st_level* plevel)
 
 void level_load_gfx(st_level *plevel)
 {
-
   level_load_image(&img_brick[0],plevel->theme,"brick0.png", IGNORE_ALPHA);
   level_load_image(&img_brick[1],plevel->theme,"brick1.png", IGNORE_ALPHA);
 
@@ -365,11 +365,11 @@ void level_free_gfx(void)
 void level_load_image(texture_type* ptexture, char* theme, char * file, int use_alpha)
 {
   char fname[1024];
-
+  
   snprintf(fname, 1024, "%s/themes/%s/%s", st_dir, theme, file);
   if(!faccessible(fname))
     snprintf(fname, 1024, "%s/images/themes/%s/%s", DATA_PREFIX, theme, file);
-
+    
   texture_load(ptexture, fname, use_alpha);
 }
 

@@ -73,7 +73,10 @@ void le_activate_bad_guys(void);
 void le_new_subset(char *subset_name);
 
 void le_highlight_selection();
+
 void apply_level_settings_menu();
+void update_subset_settings_menu();
+void save_subset_settings_menu();
 
 /* leveleditor internals */
 static string_list_type level_subsets;
@@ -194,6 +197,9 @@ int leveleditor(int levelnb)
                 case 2:
                   show_menu = NO;
                   break;
+                case 3:
+                  update_subset_settings_menu();
+                  break;
                 case 7:
                   done = DONE_LEVELEDITOR;
                   break;
@@ -203,15 +209,11 @@ int leveleditor(int levelnb)
             {
               switch (menu_check(&level_settings_menu))
                 {
-                case 0:
-                  break;
-                case 1:
-                  show_menu = YES;
-                  break;
-                case 4:
-                  break;
                 case 13:
                   apply_level_settings_menu();
+                  break;
+                default:
+                  show_menu = YES;
                   break;
                 }
             }
@@ -226,8 +228,6 @@ int leveleditor(int levelnb)
                     {
                       subset_load(&le_level_subset,level_subsets.item[i-2]);
                       leveleditor_menu.item[3].kind = MN_GOTO;
-                      menu_item_change_input(&subset_settings_menu.item[2],le_level_subset.title);
-                      menu_item_change_input(&subset_settings_menu.item[3],le_level_subset.description);
                       le_level = 1;
                       arrays_init();
                       loadshared();
@@ -257,8 +257,39 @@ int leveleditor(int levelnb)
                     {
                     case 3:
                       le_new_subset(subset_new_menu.item[2].input);
+                      subset_load(&le_level_subset,subset_new_menu.item[2].input);
+                      leveleditor_menu.item[3].kind = MN_GOTO;
+                      le_level = 1;
+                      arrays_init();
+                      loadshared();
+                      le_current_level = (st_level*) malloc(sizeof(st_level));
+                      if(level_load(le_current_level, le_level_subset.name, le_level) != 0)
+                        {
+                          le_quit();
+                          return 1;
+                        }
+                      le_set_defaults();
+                      level_load_gfx(le_current_level);
+                      le_activate_bad_guys();
+                      menu_item_change_input(&subset_new_menu.item[2],"");
+                      show_menu = YES;
                       break;
                     }
+                }
+            }
+          else if(current_menu == &subset_settings_menu)
+            {
+              if(strcmp(le_level_subset.title,subset_settings_menu.item[2].input) == 0 && strcmp(le_level_subset.description,subset_settings_menu.item[3].input) == 0  )
+                subset_settings_menu.item[5].kind = MN_DEACTIVE;
+              else
+                subset_settings_menu.item[5].kind = MN_ACTION;
+
+              switch (i = menu_check(&subset_settings_menu))
+                {
+                case 5:
+                  save_subset_settings_menu();
+                  show_menu = YES;
+                  break;
                 }
             }
         }
@@ -339,24 +370,8 @@ int le_init()
   le_frame = 0;	/* support for frames in some tiles, like waves and bad guys */
   le_level_changed = NO;
 
-  /*
-    subset_load(&le_level_subset,"default");
-    arrays_init();
-    loadshared();
-    le_set_defaults();
-   
-   
-    if(level_load(&le_current_level, le_level_subset.name, le_level) != 0)
-      {
-        le_quit();
-        return 1;
-      }
-    if(le_current_level.time_left == 0)
-      le_current_level.time_left = 255;
-   
-    level_load_gfx(&le_current_level);
-      le_activate_bad_guys();
-    */
+  subset_init(&le_level_subset);
+
   le_current_level = NULL;
 
   le_current_tile = '.';
@@ -415,7 +430,7 @@ int le_init()
   menu_additem(&subset_settings_menu,menu_item_create(MN_TEXTFIELD,"Title",0,0));
   menu_additem(&subset_settings_menu,menu_item_create(MN_TEXTFIELD,"Description",0,0));
   menu_additem(&subset_settings_menu,menu_item_create(MN_HL,"",0,0));
-  menu_additem(&subset_settings_menu,menu_item_create(MN_ACTION,"Apply Changes",0,0));
+  menu_additem(&subset_settings_menu,menu_item_create(MN_ACTION,"Save Changes",0,0));
   menu_additem(&subset_settings_menu,menu_item_create(MN_HL,"",0,0));
   menu_additem(&subset_settings_menu,menu_item_create(MN_BACK,"Back",0,0));
 
@@ -454,7 +469,7 @@ void update_level_settings_menu()
   sprintf(str,"%d",le_current_level->width);
 
   string_list_copy(level_settings_menu.item[3].list, dsubdirs("images/themes", "solid0.png"));
-  string_list_copy(level_settings_menu.item[4].list, dfiles("music/", NULL));
+  string_list_copy(level_settings_menu.item[4].list, dfiles("music/", "-fast"));
   string_list_copy(level_settings_menu.item[5].list, dfiles("images/background", NULL));
   if((i = string_list_find(level_settings_menu.item[3].list,le_current_level->theme)) != -1)
     level_settings_menu.item[3].list->active_item = i;
@@ -476,6 +491,12 @@ void update_level_settings_menu()
   menu_item_change_input(&level_settings_menu.item[11], str);
 }
 
+void update_subset_settings_menu()
+{
+  menu_item_change_input(&subset_settings_menu.item[2], le_level_subset.title);
+  menu_item_change_input(&subset_settings_menu.item[3], le_level_subset.description);
+}
+
 void apply_level_settings_menu()
 {
   int i,y,j;
@@ -483,7 +504,7 @@ void apply_level_settings_menu()
 
   strcpy(le_current_level->name,level_settings_menu.item[2].input);
 
-  if(strcmp(le_current_level->theme,string_list_active(level_settings_menu.item[5].list)) != 0)
+  if(strcmp(le_current_level->bkgd_image,string_list_active(level_settings_menu.item[5].list)) != 0)
     {
       strcpy(le_current_level->bkgd_image,string_list_active(level_settings_menu.item[5].list));
       i = YES;
@@ -530,6 +551,17 @@ void apply_level_settings_menu()
   le_current_level->bkgd_red = atoi(level_settings_menu.item[9].input);
   le_current_level->bkgd_green = atoi(level_settings_menu.item[10].input);
   le_current_level->bkgd_blue = atoi(level_settings_menu.item[11].input);
+}
+
+void save_subset_settings_menu()
+{
+  free(le_level_subset.title);
+  le_level_subset.title = (char*) malloc(sizeof(char)*(strlen(subset_settings_menu.item[2].input)+1));
+  strcpy(le_level_subset.title,subset_settings_menu.item[2].input);
+  free(le_level_subset.description);
+  le_level_subset.description = (char*) malloc(sizeof(char)*(strlen(subset_settings_menu.item[3].input)+1));
+  strcpy(le_level_subset.description,subset_settings_menu.item[3].input);
+  subset_save(&le_level_subset);
 }
 
 void le_goto_level(int levelnb)
@@ -1013,7 +1045,45 @@ void le_checkevents()
               if(button_get_state(&le_next_level_bt) == BN_CLICKED)
                 {
                   if(le_level < le_level_subset.levels)
-                    le_goto_level(++le_level);
+                    {
+                      le_goto_level(++le_level);
+                    }
+                  else
+                    {
+                      st_level new_lev;
+                      char str[1024];
+                      int d = 0;
+                      sprintf(str,"Level %d doesn't exist.",le_level+1);
+                      text_drawf(&white_text,str,0,-18,A_HMIDDLE,A_VMIDDLE,2,NO_UPDATE);
+                      text_drawf(&white_text,"Do you want to create it?",0,0,A_HMIDDLE,A_VMIDDLE,2,NO_UPDATE);
+                      text_drawf(&red_text,"(Y)es/(N)o",0,20,A_HMIDDLE,A_VMIDDLE,2,NO_UPDATE);
+                      flipscreen();
+                      while(d == 0)
+                        {
+                          while(SDL_PollEvent(&event))
+                            switch(event.type)
+                              {
+                              case SDL_KEYDOWN:		// key pressed
+                                switch(event.key.keysym.sym)
+                                  {
+                                  case SDLK_y:
+                                    le_default_level(&new_lev);
+                                    level_save(&new_lev,le_level_subset.name,++le_level);
+                                    le_level_subset.levels = le_level;
+                                    le_goto_level(le_level);
+                                    d = 1;
+                                    break;
+                                  case SDLK_n:
+                                    d = 1;
+                                    break;
+                                  }
+                                break;
+                              default:
+                                break;
+                              }
+                          SDL_Delay(50);
+                        }
+                    }
                 }
               button_event(&le_previous_level_bt,&event);
               if(button_get_state(&le_previous_level_bt) == BN_CLICKED)
@@ -1271,14 +1341,17 @@ void le_showhelp()
   done = 0;
 
   while(done == 0)
-    while(SDL_PollEvent(&event))
-      switch(event.type)
-        {
-        case SDL_MOUSEBUTTONDOWN:		// mouse pressed
-        case SDL_KEYDOWN:		// key pressed
-          done = 1;
-          break;
-        default:
-          break;
-        }
+    {
+      while(SDL_PollEvent(&event))
+        switch(event.type)
+          {
+          case SDL_MOUSEBUTTONDOWN:		// mouse pressed
+          case SDL_KEYDOWN:		// key pressed
+            done = 1;
+            break;
+          default:
+            break;
+          }
+      SDL_Delay(50);
+    }
 }

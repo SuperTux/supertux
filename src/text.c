@@ -75,7 +75,7 @@ void text_draw(text_type* ptext, char* text, int x, int y, int shadowsize, int u
 
 void text_draw_chars(text_type* ptext, texture_type* pchars, char* text, int x, int y, int update)
 {
-  int i,len;
+  int i,j,len;
 int w, h;
 
   len = strlen(text);
@@ -83,31 +83,33 @@ int w, h;
 
   if(ptext->kind == TEXT_TEXT)
     {
-      for( i = 0; i < len; ++i)
+      for( i = 0, j = 0; i < len; ++i,++j)
         {
           if( text[i] >= 'A' && text[i] <= 'Z')
-        texture_draw_part(pchars, (int)(text[i] - 'A')*w, 0, x+(i*w), y, ptext->w, ptext->h, update);
+        texture_draw_part(pchars, (int)(text[i] - 'A')*w, 0, x+(j*w), y, ptext->w, ptext->h, update);
           else if( text[i] >= 'a' && text[i] <= 'z')
-        texture_draw_part(pchars, (int)(text[i] - 'a')*w, h, x+(i*w), y, ptext->w, ptext->h, update);
+        texture_draw_part(pchars, (int)(text[i] - 'a')*w, h, x+(j*w), y, ptext->w, ptext->h, update);
           else if ( text[i] >= '!' && text[i] <= '9')
-        texture_draw_part(pchars, (int)(text[i] - '!')*w, h*2, x+(i*w), y, ptext->w, ptext->h, update);
+        texture_draw_part(pchars, (int)(text[i] - '!')*w, h*2, x+(j*w), y, ptext->w, ptext->h, update);
           else if ( text[i] == '?')
-        texture_draw_part(pchars, 25*w, h*2, x+(i*w), y, ptext->w, ptext->h, update);
+        texture_draw_part(pchars, 25*w, h*2, x+(j*w), y, ptext->w, ptext->h, update);
           else if ( text[i] == '\n')
             {
               y += ptext->h + 2;
+	      j = 0;
             }
         }
     }
   else if(ptext->kind == TEXT_NUM)
     {
-      for( i = 0; i < len; ++i)
+      for( i = 0, j = 0; i < len; ++i, ++j)
         {
           if ( text[i] >= '0' && text[i] <= '9')
-        texture_draw_part(pchars, (int)(text[i] - '0')*w, 0, x+(i*w), y, w, h, update);
+        texture_draw_part(pchars, (int)(text[i] - '0')*w, 0, x+(j*w), y, w, h, update);
           else if ( text[i] == '\n')
             {
               y += ptext->h + 2;
+	      j = 0;
             }
         }
     }
@@ -117,7 +119,7 @@ void text_drawf(text_type* ptext, char* text, int x, int y, int halign, int vali
 {
   if(text != NULL)
     {
-      if(halign == A_RIGHT)
+      if(halign == A_RIGHT)  /* FIXME: this doesn't work correctly for strings with newlines.*/
         x += screen->w - (strlen(text)*ptext->w);
       else if(halign == A_HMIDDLE)
         x += screen->w/2 - ((strlen(text)*ptext->w)/2);

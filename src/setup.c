@@ -161,7 +161,7 @@ string_list_type dsubdirs(char *rel_path, char* expected_file)
   return sdirs;
 }
 
-string_list_type dfiles(char *rel_path, char* expected_file)
+string_list_type dfiles(char *rel_path, char* exception_str)
 {
   DIR *dirStructP;
   struct dirent *direntp;
@@ -183,10 +183,9 @@ string_list_type dfiles(char *rel_path, char* expected_file)
 
           if (stat(absolute_filename, &buf) == 0 && S_ISREG(buf.st_mode))
             {
-              if(expected_file != NULL)
+              if(exception_str != NULL)
                 {
-                  sprintf(filename,"%s/%s/%s",path,direntp->d_name,expected_file);
-                  if(!faccessible(filename))
+                  if(strstr(direntp->d_name,exception_str) != NULL)
                     continue;
                 }
 
@@ -208,19 +207,10 @@ string_list_type dfiles(char *rel_path, char* expected_file)
 
           if (stat(absolute_filename, &buf) == 0 && S_ISREG(buf.st_mode))
             {
-              if(expected_file != NULL)
+              if(exception_str != NULL)
                 {
-                  sprintf(filename,"%s/%s/%s",path,direntp->d_name,expected_file);
-                  if(!faccessible(filename))
-                    {
-                      continue;
-                    }
-                  else
-                    {
-                      sprintf(filename,"%s/%s/%s/%s",st_dir,rel_path,direntp->d_name,expected_file);
-                      if(faccessible(filename))
-                        continue;
-                    }
+                  if(strstr(direntp->d_name,exception_str) != NULL)
+                    continue;
                 }
 
 		string_list_add_item(&sdirs,direntp->d_name);
