@@ -7,6 +7,7 @@ class SnowBall : public BadGuy
 {
 public:
   SnowBall(LispReader& reader);
+  SnowBall(float pos_x, float pos_y);
 
   void activate();
   void write(LispWriter& writer);

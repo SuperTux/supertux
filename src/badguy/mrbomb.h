@@ -7,6 +7,7 @@ class MrBomb : public BadGuy
 {
 public:
   MrBomb(LispReader& reader);
+  MrBomb(float pos_x, float pos_y);
 
   void activate();
   void write(LispWriter& writer);

@@ -84,11 +84,12 @@ protected:
    * initial position of the enemy. Also the position where enemy respawns when
    * after being deactivated.
    */
+  bool is_offscreen();
+  
   Vector start_position;
 
   Direction dir;
 private:
-  bool is_offscreen();
   void try_activate();
   
   State state;

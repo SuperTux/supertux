@@ -10,7 +10,7 @@
     (background (image "arctis.jpg")
                 (speed 0.5))
     (secretarea (x 400) (y 128) (message "You found a secret area!"))
-    (dispenser (x 500) (y 128) (badguy "snowball") (cycle 3))
+    (dispenser (x 500) (y 128) (badguy "bouncingsnowball") (cycle 2))
     (spawn-points
       (name "main")
       (x 100)
