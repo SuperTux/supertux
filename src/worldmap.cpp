@@ -489,33 +489,15 @@ void WorldMap::get_level_title(Level& level)
   /** get level's title */
   level.title = "<no title>";
 
-  FILE * fi;
-  lisp_object_t* root_obj = 0;
-  fi = fopen((datadir +  "/levels/" + level.name).c_str(), "r");
-  if (fi == NULL)
-  {
-    perror((datadir +  "/levels/" + level.name).c_str());
+  LispReader* reader = LispReader::load(datadir + "/levels/" + level.name, "supertux-level");
+  if(!reader)
+    {
+    std::cerr << "Error: Could not open level file. Ignoring...\n";
     return;
-  }
+    }
 
-  lisp_stream_t stream;
-  lisp_stream_init_file (&stream, fi);
-  root_obj = lisp_read (&stream);
-
-  if (root_obj->type == LISP_TYPE_EOF || root_obj->type == LISP_TYPE_PARSE_ERROR)
-  {
-    printf("World: Parse Error in file %s", level.name.c_str());
-  }
-
-  if (strcmp(lisp_symbol(lisp_car(root_obj)), "supertux-level") == 0)
-  {
-    LispReader reader(lisp_cdr(root_obj));
-    reader.read_string("name", level.title, true);
-  }
-
-  lisp_free(root_obj);
-
-  fclose(fi);
+  reader->read_string("name", level.title, true);
+  delete reader;
 }
 
 void

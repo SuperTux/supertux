@@ -144,10 +144,20 @@ void check_levels_contrib_menu()
               
       for (int i = 0; i < subset.get_num_levels(); ++i)
         {
-        Level* level = new Level;
-        level->load(subset.get_level_filename(i));
-        contrib_subset_menu->additem(MN_ACTION, level->get_name(), 0, 0, i);
-        delete level;
+        /** get level's title */
+        std::string level_title = "<no title>";
+
+        LispReader* reader = LispReader::load(subset.get_level_filename(i), "supertux-level");
+        if(!reader)
+          {
+          std::cerr << "Error: Could not open level file. Ignoring...\n";
+          return;
+          }
+
+        reader->read_string("name", level_title, true);
+        delete reader;
+
+        contrib_subset_menu->additem(MN_ACTION, level_title, 0, 0, i);
         }
 
       contrib_subset_menu->additem(MN_HL,"",0,0);      
