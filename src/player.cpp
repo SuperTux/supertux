@@ -592,15 +592,17 @@ Player::handle_vertical_input()
             }
          jumping = true;
          flapping = true;
-         float iv = physic.get_velocity_x();
-         float fv = 1.2;
-         float cv = 0;
-         if (iv < 0) {fv *= (-1);}
+         float iv = physic.get_velocity_x(); //flapping speed depends on initial velocity
+         float fv = 1.2;                     //fixed velocity that is reached when flapping is done
+         float cv = 0;                       //current velocity
+         if (iv < 0) {fv *= (-1);}           //make fv negative or positive depending on direction of iv
          if (flapping_timer.get_gone() <= TUX_FLAPPING_TIME)
             {
-               //FIXME: Changing directions while flapping doesn't work yet
+               //TODO: Tux currently slows down too fast; fix that.
                if (iv == 0) {cv = 0;}
                else {cv = (iv-((iv-fv)*(float)flapping_timer.get_gone()/TUX_FLAPPING_TIME));}
+               //Handle change of direction while flapping
+               if (((dir == LEFT) && (cv > 0)) || (dir == RIGHT) && (cv < 0)) {cv *= (-1);}
                physic.set_velocity_x(cv);
                physic.set_velocity_y((float)flapping_timer.get_gone()/700);
             }
