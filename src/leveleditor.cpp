@@ -642,6 +642,7 @@ void apply_level_settings_menu()
 {
   int i;
   i = false;
+  le_level_changed = true;
 
   le_world->get_level()->name = level_settings_menu->get_item_by_id(MNID_NAME).input;
   le_world->get_level()->author = level_settings_menu->get_item_by_id(MNID_AUTHOR).input;
@@ -922,22 +923,14 @@ void le_drawinterface()
 
 void le_drawlevel()
 {
-  unsigned int y,x,s;
+  unsigned int y,x;
   Uint8 a;
 
   /* Draw the real background */
-  if(le_world->get_level()->bkgd_image[0] != '\0')
-  {
-    s = (int)((float)pos_x * ((float)le_world->get_level()->bkgd_speed/100.0f)) % screen->w;
-    le_world->get_level()->img_bkgd->draw_part(s,0,0,0,
-        le_world->get_level()->img_bkgd->w - s - 32, le_world->get_level()->img_bkgd->h);
-    le_world->get_level()->img_bkgd->draw_part(0,0,screen->w - s - 32 ,0,s,
-        le_world->get_level()->img_bkgd->h);
-  }
+  if (le_world->get_level()->img_bkgd)
+    le_world->get_level()->draw_bg();
   else
-  {
     drawgradient(le_world->get_level()->bkgd_top, le_world->get_level()->bkgd_bottom);
-  }
 
   if(le_current.IsTile())
   {
