@@ -781,138 +781,138 @@
 ;                  "shared/tux-grow-right-7.png")))
 
 
+;; Bad Guys follow
+
  ;; Laptop
- (sprite (name "mriceblock-left")
+ (sprite (name "mriceblock")
        (action
+         (name "left")
          (x-offset 2)
          (y-offset 3)
          (images "shared/mriceblock-left-0.png"
                  "shared/mriceblock-left-1.png"
                  "shared/mriceblock-left-2.png"
-                 "shared/mriceblock-left-1.png")))
+                 "shared/mriceblock-left-1.png"))
 
- (sprite (name "mriceblock-right")
-       (action
+ (action (name "right")
          (x-offset 2)
          (y-offset 3)
-         (images "shared/mriceblock-right-0.png"
-                 "shared/mriceblock-right-1.png"
-                 "shared/mriceblock-right-2.png"
-                 "shared/mriceblock-right-1.png")))
+         (mirror-action "left"))
 
- (sprite (name "mriceblock-falling-right")
-       (action
+ (action (name "falling-right")
          (x-offset 2)
          (y-offset 3)
-         (images "shared/mriceblock-flat-right.png")))
+         (images "shared/mriceblock-flat-right.png"))
 
- (sprite (name "mriceblock-falling-left")
-       (action
+ (action (name "falling-left")
          (x-offset 2)
          (y-offset 3)
-         (images "shared/mriceblock-flat-left.png")))
+         (images "shared/mriceblock-flat-left.png"))
  
- (sprite (name "mriceblock-flat-left")
-       (action
+ (action (name "flat-left")
          (x-offset 2)
          (y-offset 3)
-         (images "shared/mriceblock-flat-left.png")))
+         (images "shared/mriceblock-flat-left.png"))
 
- (sprite (name "mriceblock-flat-right")
-       (action
+ (action (name "flat-right")
          (x-offset 2)
          (y-offset 3)
-         (images "shared/mriceblock-flat-right.png")))
+         (mirror-action "falling-left")))
 
-; (sprite (name "mriceblock-falling-left")
-;         (images "shared/mriceblock-falling-left.png")))
-
-; (sprite (name "mriceblock-falling-right")
-;         (images "shared/mriceblock-falling-right.png")))
-
- (sprite (name "snowball-squished-left")
+ (sprite (name "snowball")
        (action
+         (name "left")
+         (x-offset 2)
+         (y-offset 4)
+         (images "shared/snowball-left-0.png"
+                 "shared/snowball-left-1.png"
+                 "shared/snowball-left-2.png"
+                 "shared/snowball-left-1.png"))
+
+       (action
+         (name "right")
+         (x-offset 2)
+         (y-offset 4)
+         (mirror-action "left"))
+       (action
+         (name "squished-left")
          (x-offset 1)
          (y-offset -19)
-         (images "shared/snowball-squished-left.png")))
+         (images "shared/snowball-squished-left.png"))
 
- (sprite (name "snowball-squished-right")
        (action
+         (name "squished-right")
          (x-offset 1)
          (y-offset -19)
-         (images "shared/snowball-squished-right.png")))
+         (mirror-action "squished-left")))
 
- (sprite (name "jumpy-left-up")
+     (sprite (name "jumpy")
        (action
+         (name "left-up")
          (x-offset 7)
          (y-offset 8)
-         (images "shared/jumpy-left-up-0.png")))
- (sprite (name "jumpy-left-down")
+         (images "shared/jumpy-left-up-0.png"))
        (action
+         (name "left-down")
          (x-offset 7)
          (y-offset 8)
-         (images "shared/jumpy-left-down-0.png")))
- (sprite (name "jumpy-left-middle")
+         (images "shared/jumpy-left-down-0.png"))
        (action
+         (name "left-middle")
          (x-offset 7)
          (y-offset 8)
-         (images "shared/jumpy-left-middle-0.png")))
- (sprite (name "jumpy-left-iced")
+         (images "shared/jumpy-left-middle-0.png"))
        (action
+         (name "left-iced")
          (x-offset 7)
          (y-offset 8)
          (images "shared/jumpy-iced-left-up-0.png")))
 
- (sprite (name "mrbomb-left")
+     (sprite (name "mrbomb")
        (action
+         (name "left")
          (fps 10.0)
          (x-offset 3)
          (y-offset 12)
          (images "shared/mrbomb-left-0.png"
                  "shared/mrbomb-left-1.png"
                  "shared/mrbomb-left-2.png"
-                 "shared/mrbomb-left-3.png")))
+                 "shared/mrbomb-left-3.png"))
 
- (sprite (name "mrbomb-right")
        (action
+         (name "right")
          (fps 10.0)
          (x-offset 7)
          (y-offset 12)
-         (images "shared/mrbomb-right-0.png"
-                 "shared/mrbomb-right-1.png"
-                 "shared/mrbomb-right-2.png"
-                 "shared/mrbomb-right-3.png")))
- (sprite (name "mrbomb-iced-left")
+         (mirror-action "left"))
        (action
+         (name "iced-left")
          (x-offset 3)
          (y-offset 12)
-         (images "shared/mrbomb-iced-left-0.png")))
+         (images "shared/mrbomb-iced-left-0.png"))
 
- (sprite (name "mrbomb-iced-right")
        (action
+         (name "iced-right")
          (x-offset 7)
          (y-offset 12)
-         (images "shared/mrbomb-iced-right-0.png")))
- 
+         (mirror-action "iced-left")))
 
- (sprite (name "mrbomb-ticking-left")
+     (sprite (name "bomb")
        (action
+         (name "ticking-left")
          (fps 15.0)
          (x-offset 3)
          (y-offset 8)
          (images "shared/mrbombx-left-0.png"
-                 "shared/mrbombx-left-1.png")))
-
- (sprite (name "mrbomb-ticking-right")
+                 "shared/mrbombx-left-1.png"))
        (action
+         (name "ticking-right")
          (fps 15.0)
          (x-offset 10)
          (y-offset 8)
-         (images "shared/mrbombx-right-0.png"
-                 "shared/mrbombx-right-1.png")))
-
- (sprite (name "mrbomb-explosion")
+         (mirror-action "ticking-left"))
        (action
+         (name "explosion")
          (fps 15.0)
          (x-offset 32)
          (y-offset 32)
@@ -921,61 +921,65 @@
 
  (sprite (name "stalactite")
        (action
+         (name "normal")
          (x-offset 0)
          (y-offset 0)
-         (images "shared/stalactite.png")))
-
- (sprite (name "stalactite-broken")
+         (images "shared/stalactite.png"))
        (action
+         (name "broken")
          (x-offset 0)
          (y-offset 16)
          (images "shared/stalactite-broken.png")))
 
  (sprite (name "flame")
        (action
+         (name "normal")
          (images "shared/flame-0.png"
                  "shared/flame-1.png")))
 
  (sprite (name "fish")
        (action
+         (name "normal")
          (x-offset 2)
          (y-offset 3)
          (images "shared/fish-left-0.png"
-                 "shared/fish-left-1.png")))
+                 "shared/fish-left-1.png"))
 
- (sprite (name "fish-down")
        (action
+         (name "down")
          (x-offset 2)
          (y-offset 11)
-         (images "shared/fish-down-0.png")))
+         (images "shared/fish-down-0.png"))
 
- (sprite (name "fish-iced")
        (action
+         (name "iced")
          (x-offset 2)
          (y-offset 3)
-         (images "shared/fish-iced-left-0.png")))
+         (images "shared/fish-iced-left-0.png"))
 
- (sprite (name "fish-iced-down")
        (action
+         (name "iced-down")
          (x-offset 2)
          (y-offset 11)
          (images "shared/fish-iced-down-0.png")))
 
  (sprite (name "flamefish")
        (action
+         (name "normal")
          (x-offset 2)
          (y-offset 3)
          (images "shared/flamefish-left-0.png"
-                 "shared/flamefish-left-1.png")))
+                 "shared/flamefish-left-1.png"))
 
- (sprite (name "flamefish-down")
        (action
+         (name "down")
          (x-offset 2)
          (y-offset 11)
          (images "shared/flamefish-down-0.png")))
 
- (sprite (name "bouncingsnowball-left")
+ (sprite (name "bouncingsnowball")
        (action
+         (name "left")
          (x-offset 1)
          (y-offset 0)
          (images "shared/bouncingsnowball-left-0.png"
@@ -983,80 +987,79 @@
                  "shared/bouncingsnowball-left-2.png"
                  "shared/bouncingsnowball-left-3.png"
                  "shared/bouncingsnowball-left-4.png"
-                 "shared/bouncingsnowball-left-5.png")))
+                 "shared/bouncingsnowball-left-5.png"))
 
- (sprite (name "bouncingsnowball-right")
        (action
+         (name "right")
          (x-offset 1)
          (y-offset 0)
-         (images "shared/bouncingsnowball-right-0.png"
-                 "shared/bouncingsnowball-right-1.png"
-                 "shared/bouncingsnowball-right-2.png"
-                 "shared/bouncingsnowball-right-3.png"
-                 "shared/bouncingsnowball-right-4.png"
-                 "shared/bouncingsnowball-right-5.png")))
+         (mirror-action "left"))
 
- (sprite (name "bouncingsnowball-squished")
        (action
+         (name "squished")
          (x-offset 1)
          (y-offset -19)
          (images "shared/snowball-squished-left.png")))
 
  (sprite (name "flyingsnowball")
        (action
+         (name "normal")
          (x-offset 4)
          (y-offset 3)
          (images "shared/flyingsnowball-left-0.png"
-                 "shared/flyingsnowball-left-1.png")))
+                 "shared/flyingsnowball-left-1.png"))
 
- (sprite (name "flyingsnowball-squished")
        (action
+         (name "squished")
          (x-offset 4)
          (y-offset -12)
          (images "shared/flyingsnowball-squished-left.png")))
 
- (sprite (name "spiky-left")
+ (sprite (name "spiky")
        (action
+         (name "left")
          (x-offset 6)
          (y-offset 10)
          (images "shared/spiky-left-0.png"
                  "shared/spiky-left-1.png"
-                 "shared/spiky-left-2.png")))
- (sprite (name "spiky-right")
+                 "shared/spiky-left-2.png"))
        (action
+         (name "right")
          (x-offset 6)
          (y-offset 10)
-         (images "shared/spiky-right-0.png"
-                 "shared/spiky-right-1.png"
-                 "shared/spiky-right-2.png")))
- (sprite (name "spiky-iced-left")
+         (mirror-action "left"))
        (action
+         (name "iced-left")
          (x-offset 6)
          (y-offset 10)
-         (images "shared/spiky-iced-left-0.png")))
- (sprite (name "spiky-iced-right")
+         (images "shared/spiky-iced-left-0.png"))
        (action
+         (name "iced-right")
          (x-offset 6)
          (y-offset 10)
-         (images "shared/spiky-iced-right-0.png")))
+         (mirror-action "iced-left")))
 
- (sprite (name "snowball-left")
+  ; Wingling
+  (sprite (name "wingling")
        (action
-         (x-offset 2)
-         (y-offset 4)
-         (images "shared/snowball-left-0.png"
-                 "shared/snowball-left-1.png"
-                 "shared/snowball-left-2.png"
-                 "shared/snowball-left-1.png")))
+         (name "left")
+          (x-offset 0)
+          (y-offset 0)
+          (images "shared/wingling-1.png")))
 
- (sprite (name "snowball-right")
+  ; Walkingtree
+  (sprite (name "walkingtree")
        (action
-         (x-offset 2)
-         (y-offset 4)
-         (images "shared/snowball-right-0.png"
-                 "shared/snowball-right-1.png"
-                 "shared/snowball-right-2.png"
-                 "shared/snowball-right-1.png")))
+         (name "left")
+          (x-offset 0)
+          (y-offset 0)
+          (images "shared/walkingtree-left-1.png"))
+       (action
+          (name "left-small")
+          (x-offset 0)
+          (y-offset 0)
+          (images "shared/walkingtree-left-small-1.png")))
+
 
  (sprite (name "egg")
        (action
@@ -1122,26 +1125,6 @@
                  "shared/flying_platform-2.png"
                  "shared/flying_platform-3.png"
                  "shared/flying_platform-4.png")))
-
-  ; Wingling
-  (sprite (name "wingling-left")
-       (action
-          (x-offset 0)
-          (y-offset 0)
-          (images "shared/wingling-1.png")))
-
-  ; Walkingtree
-  (sprite (name "walkingtree-left")
-       (action
-          (x-offset 0)
-          (y-offset 0)
-          (images "shared/walkingtree-left-1.png")))
-  (sprite (name "walkingtree-left-small")
-       (action
-          (x-offset 0)
-          (y-offset 0)
-          (images "shared/walkingtree-left-small-1.png")))
-
   ; Door
   (sprite (name "door")
        (action
