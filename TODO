@@ -28,16 +28,19 @@ L: low priority
         - some fixed levels still have "glitches". See the menu level where
           some of the tiles are "wrong" and don't fit
 [H] Buttjump related things
-     ? Right now only breaks bricks beneath tux - what else should it break
      - Should kill enemies with a certain range
         - Done--now needs to be tweaked
      - Animation (need images)
-     ? Should disable Tux's movement temporarily (1 second?)
+     - Should be a powerup item
+     - Should break bricks if Tux is on top of bricks, otherwise it should
+       kill enemies within a close range.
+        - After enemy-kill is used, powerup should be removed from Tux
+[H] Icebullet related things
+     - we should decide on specifics
 [H] Tux should fall while walking in tiles that have a space between.
      - Possible solution: reduce Tux's width when checking collision with tiles
 [H] stdint.h isn't a part of FreeBSD. We should probably use SDL integer
     types instead.
-[H] Dead Tux/badguys should be drawn on top of the foreground layer
 [H] Graphics
      - New forest tileset
      - Badguy sprites
