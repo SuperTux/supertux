@@ -222,7 +222,8 @@ void draw_demo(GameSession* session, double frame_ratio)
 
   tux->can_jump = true;
   float last_tux_x_pos = tux->base.x;
-  tux->action(frame_ratio);
+  session->get_world()->action(frame_ratio);
+  
 
   // disabled for now, since with the new jump code we easily get deadlocks
   // Jump if tux stays in the same position for one loop, ie. if he is
