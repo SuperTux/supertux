@@ -18,7 +18,6 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <math.h>
-
 #include "gameloop.h"
 #include "globals.h"
 #include "player.h"
@@ -57,6 +56,7 @@ void player_input_init(player_input_type* pplayer_input)
   pplayer_input->old_fire = UP;
   pplayer_input->right = UP;
   pplayer_input->up = UP;
+  pplayer_input->old_up = UP;
 }
 
 void
@@ -396,11 +396,23 @@ Player::handle_vertical_input()
   else if(input.up == UP && jumping)
     {
       jumping = false;
-      can_jump = true;
       if(physic.get_velocity_y() > 0) {
         physic.set_velocity_y(0);
       }
     }
+
+  if ( (issolid(base.x + base.width / 2, base.y + base.height + 64) ||
+        issolid(base.x + 1, base.y + base.height + 64) ||
+        issolid(base.x + base.width - 1, base.y + base.height + 64))
+       && jumping  == false
+       && can_jump == false
+       && input.up == DOWN
+       && input.old_up == UP)
+    {
+      can_jump = true;
+    }
+
+  input.old_up = input.up;
 }
 
 void
