@@ -704,7 +704,7 @@ WorldMap::update(float delta)
             {
               PlayerStatus old_player_status = player_status;
 
-              std::cout << "Enter the current special_tile: " << special_tile->level_name << std::endl;
+              std::cout << "Enter the current level: " << special_tile->level_name << std::endl;
               // do a shriking fade to the special_tile
               shrink_fade(Vector((special_tile->x*32 + 16 + offset.x),(special_tile->y*32 + 16
                       + offset.y)), 500);
@@ -1039,7 +1039,7 @@ WorldMap::display()
 void
 WorldMap::savegame(const std::string& filename)
 {
-  if(filename != "")
+  if(filename == "")
     return;
 
   std::cout << "savegame: " << filename << std::endl;
