@@ -11,6 +11,9 @@ Todo
 H: high priority
 L: low priority
 
+[H] background in underground levels scrolls far too slow, makes them
+   hardly playable, since once too easily get focused on the
+   background instead of the playfield
 [H] The scrollstart position still isn't the same as before the changes.
 [H] Frame ratio code has been changed and so the animation may need tuning.
     Somebody do some testing and change the definitions regarding this.
