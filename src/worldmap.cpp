@@ -769,10 +769,14 @@ WorldMap::loadgame(const std::string& filename)
       if (reader.read_lisp("tux", &tux_cur))
         {
           Point p;
+          std::string back_str = "none";
+
           LispReader tux_reader(tux_cur);
           tux_reader.read_int("x", &p.x);
           tux_reader.read_int("y", &p.y);
-      
+          tux_reader.read_string("back", &back_str);
+          
+          tux->back_direction = string_to_direction(back_str);      
           tux->set_tile_pos(p);
         }
 
@@ -788,16 +792,10 @@ WorldMap::loadgame(const std::string& filename)
                 {
                   std::string name;
                   bool solved = false;
-                  std::string back_str ="";
-                  Direction back = NONE;
 
                   LispReader level_reader(data);
                   level_reader.read_string("name",   &name);
                   level_reader.read_bool("solved", &solved);
-                  if (level_reader.read_string("back", &back_str))
-                    back = string_to_direction(back_str);
-
-                  std::cout << "Name: " << name << " " << solved << std::endl;
 
                   for(Levels::iterator i = levels.begin(); i != levels.end(); ++i)
                     {
