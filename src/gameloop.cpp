@@ -611,7 +611,8 @@ GameSession::run()
         }
 
       /* Handle time: */
-      if (!time_left.check() && world->get_tux()->dying == DYING_NOT)
+      if (!time_left.check() && world->get_tux()->dying == DYING_NOT
+              && !end_sequence)
         world->get_tux()->kill(Player::KILL);
 
       /* Handle music: */
@@ -671,12 +672,14 @@ GameSession::drawstatus()
       white_text->draw("Press ESC To Return",0,20,1);
     }
 
-  if(!time_left.check()) {
-    white_text->draw("TIME'S UP", 224, 0, 1);
-  } else if (time_left.get_left() > TIME_WARNING || (global_frame_counter % 10) < 5) {
-    sprintf(str, "%d", time_left.get_left() / 1000 );
-    white_text->draw("TIME", 224, 0, 1);
-    gold_text->draw(str, 304, 0, 1);
+  if(!end_sequence) {
+    if(!time_left.check()) {
+      white_text->draw("TIME'S UP", 224, 0, 1);
+    } else if (time_left.get_left() > TIME_WARNING || (global_frame_counter % 10) < 5) {
+      sprintf(str, "%d", time_left.get_left() / 1000 );
+      white_text->draw("TIME", 224, 0, 1);
+      gold_text->draw(str, 304, 0, 1);
+    }
   }
 
   sprintf(str, "%d", player_status.distros);
