@@ -158,7 +158,9 @@ Player::init()
   last_ground_y = 0;
   fall_mode = ON_GROUND;
   jumping = false;
+  double_jumping = false;
   can_jump = true;
+  can_double_jump = false;
   butt_jump = false;
   
   frame_main = 0;
@@ -532,7 +534,9 @@ Player::handle_vertical_input()
 
       --base.y;
       jumping = true;
+		double_jumping = false;
       can_jump = false;
+		can_double_jump = false;
       if (size == SMALL)
         SoundManager::get()->play_sound(IDToSound(SND_JUMP));
       else
@@ -541,9 +545,25 @@ Player::handle_vertical_input()
   // Let go of jump key
   else if(input.up == UP && jumping && physic.get_velocity_y() > 0)
     {
-      jumping = false;
+      if (!double_jumping && !duck) {can_double_jump = true;}
+		jumping = false;
       physic.set_velocity_y(0);
     }
+	
+	// Double jump
+	if (input.up == DOWN && can_double_jump)
+	  {
+			can_double_jump = false;
+			jumping = true;
+			double_jumping = true;
+			physic.set_velocity_y(5.2);
+	  }
+	
+	// Hover
+	if (input.up == DOWN && !jumping && !butt_jump && physic.get_velocity_y() <= 0)
+	  {
+			physic.set_velocity_y(-1);
+	  }
 
    /* In case the player has pressed Down while in a certain range of air,
       enable butt jump action */

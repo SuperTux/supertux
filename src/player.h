@@ -147,7 +147,9 @@ public:
   FallMode fall_mode;
 
   bool jumping;
+  bool double_jumping;
   bool can_jump;
+  bool can_double_jump;
   bool butt_jump;
   int frame_;
   int frame_main;
