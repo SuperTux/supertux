@@ -99,7 +99,7 @@ if test "x${enable_opengl}" != "xno"; then
 fi
 
 # FIXME: Evil
-CFLAGS="$CFLAGS -DDATA_PREFIX=\\\"$PWD/data\\\" -DLINUX"
+CFLAGS="$CFLAGS -DDATA_PREFIX='\"$datadir/games/supertux/\"' -DLINUX"
 
 dnl Checks for library functions.
 AC_CHECK_FUNCS(mkdir strdup strstr)

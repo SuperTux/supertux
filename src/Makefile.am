@@ -1,3 +1,5 @@
+bindir=$(prefix)/games
+
 bin_PROGRAMS = supertux
 
 supertux_SOURCES = \
