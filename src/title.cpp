@@ -107,14 +107,22 @@ void draw_demo()
       timer_start(&random_timer, rand() % 3000 + 3000);
       walking = !walking;
     }
-
+  
+  // Wrap around at the end of the level back to the beginnig
   if(current_level.width * 32 - 320 < titletux.base.x)
     {
-      titletux.base.x = 160;
-      scroll_x = 0;
+      titletux.base.x = titletux.base.x - (current_level.width * 32 - 640);
+      scroll_x = titletux.base.x - 320;
     }
 
+  float last_tux_x_pos = titletux.base.x;
   titletux.action();
+
+  // Jump if tux stays in the same position for one loop, ie. if he is
+  // stuck behind a wall
+  if (last_tux_x_pos == titletux.base.x)
+    walking = false;
+
   titletux.draw();
 
   /* DEMO end */

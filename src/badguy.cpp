@@ -28,8 +28,8 @@ texture_type img_laptop_falling_left[1];
 texture_type img_laptop_falling_right[1];
 texture_type img_bsod_left[4];
 texture_type img_bsod_right[4];
-texture_type img_laptop_left[3];
-texture_type img_laptop_right[3];
+texture_type img_laptop_left[4];
+texture_type img_laptop_right[4];
 texture_type img_money_left[2];
 texture_type img_money_right[2];
 texture_type img_mrbomb_left[4];
@@ -57,7 +57,7 @@ BadGuyKind  badguykind_from_string(const std::string& str)
 {
   if (str == "money")
     return BAD_MONEY;
-  else if (str == "laptop")
+  else if (str == "laptop" || str == "mriceblock")
     return BAD_LAPTOP;
   else if (str == "bsod")
     return BAD_BSOD;
@@ -157,7 +157,7 @@ BadGuy::init(float x, float y, BadGuyKind kind_)
     set_texture(img_mrbomb_left, img_mrbomb_right, 4);
   } else if (kind == BAD_LAPTOP) {
     physic.set_velocity(-1.3, 0);
-    set_texture(img_laptop_left, img_laptop_right, 3);
+    set_texture(img_laptop_left, img_laptop_right, 4, 5);
   } else if(kind == BAD_MONEY) {
     set_texture(img_money_left, img_money_right, 1);
   } else if(kind == BAD_BOMB) {
@@ -296,7 +296,7 @@ BadGuy::action_laptop()
       if(!timer_check(&timer))
         {
           mode = NORMAL;
-          set_texture(img_laptop_left, img_laptop_right, 3);
+          set_texture(img_laptop_left, img_laptop_right, 4, 5);
           physic.set_velocity( (dir == LEFT) ? -1.3 : 1.3, 0);
         }
     }
@@ -986,32 +986,18 @@ void load_badguy_gfx()
 
   /* (Laptop) */
 
-  texture_load(&img_laptop_left[0], datadir +
-               "/images/shared/laptop-left-0.png",
-               USE_ALPHA);
+  texture_load(&img_laptop_left[0], datadir + "/images/shared/mriceblock-left-0.png", USE_ALPHA);
+  texture_load(&img_laptop_left[1], datadir + "/images/shared/mriceblock-left-1.png", USE_ALPHA);
+  texture_load(&img_laptop_left[2], datadir + "/images/shared/mriceblock-left-2.png", USE_ALPHA);
+  texture_load(&img_laptop_left[3], datadir + "/images/shared/mriceblock-left-1.png", USE_ALPHA);
 
-  texture_load(&img_laptop_left[1], datadir +
-               "/images/shared/laptop-left-1.png",
-               USE_ALPHA);
-
-  texture_load(&img_laptop_left[2], datadir +
-               "/images/shared/laptop-left-2.png",
-               USE_ALPHA);
-
-  texture_load(&img_laptop_right[0], datadir +
-               "/images/shared/laptop-right-0.png",
-               USE_ALPHA);
-
-  texture_load(&img_laptop_right[1], datadir +
-               "/images/shared/laptop-right-1.png",
-               USE_ALPHA);
-
-  texture_load(&img_laptop_right[2], datadir +
-               "/images/shared/laptop-right-2.png",
-               USE_ALPHA);
-
-  texture_load(&img_laptop_flat_left[0], datadir +
-               "/images/shared/laptop-flat-left.png",
+  texture_load(&img_laptop_right[0], datadir + "/images/shared/mriceblock-right-0.png", USE_ALPHA);
+  texture_load(&img_laptop_right[1], datadir + "/images/shared/mriceblock-right-1.png", USE_ALPHA);
+  texture_load(&img_laptop_right[2], datadir + "/images/shared/mriceblock-right-2.png", USE_ALPHA);
+  texture_load(&img_laptop_right[3], datadir + "/images/shared/mriceblock-right-1.png", USE_ALPHA);
+  
+  texture_load(&img_laptop_flat_left[0], 
+               datadir + "/images/shared/laptop-flat-left.png",
                USE_ALPHA);
 
   texture_load(&img_laptop_flat_right[0], datadir +
@@ -1144,7 +1130,7 @@ void free_badguy_gfx()
   texture_free(&img_bsod_falling_left[0]);
   texture_free(&img_bsod_falling_right[0]);
 
-  for (int i = 0; i < 3; i++)
+  for (int i = 0; i < 4; i++)
     {
       texture_free(&img_laptop_left[i]);
       texture_free(&img_laptop_right[i]);

@@ -23,7 +23,7 @@
 
 extern texture_type img_bsod_left[4];
 extern texture_type img_bsod_right[4];
-extern texture_type img_laptop_left[3];
+extern texture_type img_laptop_left[4];
 extern texture_type img_money_left[2];
 
 /* Enemy modes: */
