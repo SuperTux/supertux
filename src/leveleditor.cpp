@@ -66,6 +66,7 @@
 /* crutial ones (main loop) */
 int le_init();
 void le_quit();
+int le_load_level(char *filename);
 void le_drawlevel();
 void le_drawinterface();
 void le_checkevents();
@@ -183,11 +184,12 @@ void le_set_defaults()
   }
 }
 
-int leveleditor(int levelnb)
+int leveleditor(char* filename)
 {
   int last_time, now_time, i;
 
-  le_level = levelnb;
+  le_level = 1;
+  
   if(le_init() != 0)
     return 1;
 
@@ -200,6 +202,10 @@ int leveleditor(int levelnb)
 
   while (SDL_PollEvent(&event))
   {}
+
+  if(filename != NULL)
+    if(le_load_level(filename))
+      return 1;
 
   while(true)
   {
@@ -322,22 +328,8 @@ int leveleditor(int levelnb)
         default:
           if(i >= 1)
           {
-            le_level_subset->load(level_subsets.item[i-1]);
-            leveleditor_menu->get_item_by_id(MNID_SUBSETSETTINGS).kind = MN_GOTO;
-            le_level = 1;
-            le_world.arrays_free();
-            delete le_current_level;
-            le_current_level = new Level;
-            if(le_current_level->load(le_level_subset->name, le_level) != 0)
-            {
-              le_quit();
-              return 1;
-            }
-            le_set_defaults();
-            le_current_level->load_gfx();
-            le_world.activate_bad_guys();
-
-            Menu::set_current(NULL);
+            if(le_load_level(level_subsets.item[i-1]))
+             return 1;
           }
           break;
         }
@@ -413,6 +405,27 @@ int leveleditor(int levelnb)
   return done;
 }
 
+int le_load_level(char *filename)
+{
+le_level_subset->load(filename);
+leveleditor_menu->get_item_by_id(MNID_SUBSETSETTINGS).kind = MN_GOTO;
+le_level = 1;
+le_world.arrays_free();
+delete le_current_level;
+le_current_level = new Level;
+if(le_current_level->load(le_level_subset->name, le_level) != 0)
+  {
+    le_quit();
+    return 1;
+  }
+le_set_defaults();
+le_current_level->load_gfx();
+le_world.activate_bad_guys();
+
+Menu::set_current(NULL);
+
+return 0;
+}
 
 void le_init_menus()
 {
@@ -598,6 +611,7 @@ int le_init()
   le_init_menus();
 
   SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
+
 
   return 0;
 }

@@ -969,9 +969,9 @@ void parseargs(int argc, char * argv[])
                         << "  Start-Button: " << joystick_keymap.start_button << std::endl;
             }
         }
-      else if (strcmp(argv[i], "--worldmap") == 0)
+      else if (strcmp(argv[i], "--leveleditor") == 0)
         {
-          launch_worldmap_mode = true;
+          launch_leveleditor_mode = true;
         }
       else if (strcmp(argv[i], "--datadir") == 0 
                || strcmp(argv[i], "-d") == 0 )

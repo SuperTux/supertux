@@ -34,7 +34,7 @@ enum {
   SQUARE
 };
 
-int leveleditor(int levelnb);
+int leveleditor(char* filename = NULL);
 void newlevel(void);
 void selectlevel(void);
 void le_savelevel();

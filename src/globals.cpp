@@ -58,7 +58,7 @@ float game_speed = 1.0f;
 
 int joystick_num = 0;
 char* level_startup_file = 0;
-bool launch_worldmap_mode = false;
+bool launch_leveleditor_mode = false;
 
 /* SuperTux directory ($HOME/.supertux) and save directory($HOME/.supertux/save) */
 char *st_dir, *st_save_dir;

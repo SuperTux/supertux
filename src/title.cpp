@@ -299,7 +299,7 @@ void title(void)
                   generate_contrib_menu();
                   break;
                 case MNID_LEVELEDITOR:
-                  leveleditor(1);
+                  leveleditor();
                   Menu::set_current(main_menu);
                   break;
                 case MNID_CREDITS:

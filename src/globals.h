@@ -67,7 +67,7 @@ extern bool show_fps;
 /** The number of the joystick that will be use in the game */
 extern int joystick_num;
 extern char* level_startup_file;
-extern bool launch_worldmap_mode;
+extern bool launch_leveleditor_mode;
 
 /* SuperTux directory ($HOME/.supertux) and save directory($HOME/.supertux/save) */
 extern char* st_dir;

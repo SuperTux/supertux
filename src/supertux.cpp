@@ -46,10 +46,9 @@ int main(int argc, char * argv[])
   st_menu();
   loadshared();
 
-  if (launch_worldmap_mode)
+  if (launch_leveleditor_mode && level_startup_file)
     {
-      WorldMapNS::WorldMap worldmap;
-      worldmap.display();
+    leveleditor(level_startup_file);
     }
   else if (level_startup_file)
     {
