@@ -34,8 +34,6 @@ Surface* img_poletop;
 Surface* img_flag[2];
 Surface* img_cloud[2][4];
 
-Surface* img_box_full;
-Surface* img_box_empty;
 Surface* img_red_glow;
 
 SpriteManager* sprite_manager = 0;
@@ -184,14 +182,6 @@ void loadshared()
                USE_ALPHA);
 
 
-  /* Boxes: */
-
-  img_box_full = new Surface(datadir + "/images/shared/box-full.png",
-               IGNORE_ALPHA);
-  img_box_empty = new Surface(datadir + "/images/shared/box-empty.png",
-               IGNORE_ALPHA);
-
-
   /* Water: */
 
 
@@ -333,9 +323,6 @@ void unloadshared(void)
   delete skidtux_right;
 
   free_badguy_gfx();
-
-  delete img_box_full;
-  delete img_box_empty;
 
   delete img_water;
   for (i = 0; i < 3; i++)
