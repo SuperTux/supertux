@@ -18,7 +18,8 @@ L: low priority
     - needs discussion
 
 --Scons--
- * [H] Add an install target
+ * [H] Add an install target - done (however scons is creating stupid .sconsign
+                                     files at the install location :-/)
  * [M] improve opengl check to work on win32 and eventually more strange
    systems again
  * [H] Make sure compilation on win32 and cross-compilation works

@@ -1,6 +1,7 @@
 #
 # SConstruct build file. See http://www.scons.org for details.
 import os
+import glob
 
 class ConfigHeader:
     def __init__(self):
@@ -27,18 +28,26 @@ class ConfigHeader:
         file.write(self.postfix + "\n")
         file.close()
 
-def Glob(dirs, pattern = '*' ):
-    import os, fnmatch
-    files = []
-    for dir in dirs:
-        try:
-            for file in os.listdir( Dir(dir).srcnode().abspath ):
-                if fnmatch.fnmatch(file, pattern) :
-                    files.append( os.path.join( dir, file ) )
-        except Exception, e:
-            print "Warning, couldn't find directory '%s': %s" % (dir, str(e))
-        
-    return files
+def Glob(pattern):
+    path = GetBuildPath('SConscript').replace('SConscript', '')
+
+    result = []
+    for i in glob.glob(path + pattern): 
+        result.append(i.replace(path, ''))
+
+    return result
+
+def InstallData(files):
+    for file in files:
+        dir = os.path.dirname(file)
+        destdir = os.path.join(env.subst('$DESTDIR/$APPDATADIR'), dir)
+        env.Install(destdir, file)                                        
+
+def InstallExec(files):
+    for file in files:
+        destfile = env.subst('$DESTDIR/$BINDIR/$PROGRAM_PREFIX') + file + \
+            env.subst('$PROGRAM_POSTFIX')
+        env.InstallAs(destfile, file)
 
 # thanks to Michael P Jung
 def CheckSDLConfig(context, minVersion):
@@ -64,13 +73,6 @@ def CheckSDLConfig(context, minVersion):
     context.Result(ret)
     return ret
 
-# Package options
-PACKAGE_NAME = "SuperTux"
-PACKAGE_VERSION = "0.2-cvs"
-PACKAGE_BUGREPORT = "supertux-devel@lists.sourceforge.net"
-PACKAGE = PACKAGE_NAME.lower()
-PACKAGE_STRING = PACKAGE_NAME + " " + PACKAGE_VERSION
-
 # User configurable options
 opts = Options('build_config.py')
 opts.Add('CXX', 'The C++ compiler', 'g++')
@@ -80,25 +82,60 @@ opts.Add('CPPFLAGS', 'Additional preprocessor flags', '')
 opts.Add('CPPDEFINES', 'defined constants', '')
 opts.Add('LIBPATH', 'Additional library paths', '')
 opts.Add('LIBS', 'Additional libraries', '')
+
+# installation path options
+opts.Add('PREFIX', 'prefix for architecture-independent files', '/usr/local')
+opts.Add('EPREFIX', 'prefix for architecture-dependent files', '$PREFIX')
+opts.Add('BINDIR', 'user executables directory', '$EPREFIX/bin')
+#opts.Add('SBINDIR', 'system admin executables directory', '$EPREFIX/sbin')
+#opts.Add('LIBEXECDIR', 'program executables directory', '$EPREFIX/libexec')
+opts.Add('DATADIR', 'read-only architecture-independent data directory',
+    '$PREFIX/share')
+#opts.Add('SYSCONFDIR', 'read-only single-machine data directory', '$PREFIX/etc')
+#opts.Add('SHAREDSTATEDIR', 'modifiable architecture-independent data directory',
+#    '$PREFIX/com')
+#opts.Add('LOCALSTATEDIR', 'modifiable single-machine data directory',
+#    '$PREFIX/var')
+opts.Add('LIBDIR', 'object code libraries directory', '$EPREFIX/lib')
+opts.Add('INCLUDEDIR', 'C header files directory', '$PREFIX/include')
+#opts.Add('OLDINCLUDEDIR', 'C header files for non-gcc directory',
+#    '$PREFIX/include')
+#opts.Add('INFODIR', 'info documentation directory', '$PREFIX/info')
+#opts.Add('MANDIR', 'man documentation directory', '$PREFIX/man')
 opts.Add('DESTDIR', \
         'destination directory for installation. It is prepended to PREFIX', '')
-opts.Add('PREFIX', 'Installation prefix', '/usr/local')
+
+# misc options
+opts.Add('PROGRAM_PREFIX', 'prepend PREFIX to installed program names', '')
+opts.Add('PROGRAM_SUFFIX', 'append SUFFIX to installed program names', '')
 opts.Add(EnumOption('VARIANT', 'Build variant', 'optimize',
             ['optimize', 'debug', 'profile']))
 
 env = Environment(options = opts)
 Help(opts.GenerateHelpText(env))
 
+# Package options
+env['PACKAGE_NAME'] = 'SuperTux'
+env['PACKAGE_VERSION'] = '0.2-cvs'
+env['PACKAGE_BUGREPORT'] = 'supertux-devel@lists.sourceforge.net'
+env['PACKAGE'] = env['PACKAGE_NAME'].lower()
+env['PACKAGE_STRING'] = env['PACKAGE_NAME'] + " " + env['PACKAGE_VERSION']
+
+# directories
+env['APPDATADIR'] = "$DATADIR/$PACKAGE"
+env['LOCALEDIR'] = "$DATADIR/locale"
+
+
 # Create build_config.py and config.h
 if not os.path.exists("build_config.py") or not os.path.exists("config.h"):
     print "build_config.py or config.h don't exist - Generating new build config..."
 
     header = ConfigHeader()
-    header.Define("PACKAGE", PACKAGE)
-    header.Define("PACKAGE_NAME", PACKAGE_NAME)
-    header.Define("PACKAGE_VERSION", PACKAGE_VERSION)
-    header.Define("PACKAGE_BUGREPORT", PACKAGE_BUGREPORT)
-    header.Define("PACKAGE_STRING", PACKAGE_STRING)
+    header.Define("PACKAGE", env['PACKAGE'])
+    header.Define("PACKAGE_NAME", env['PACKAGE_NAME'])
+    header.Define("PACKAGE_VERSION", env['PACKAGE_VERSION'])
+    header.Define("PACKAGE_BUGREPORT", env['PACKAGE_BUGREPORT'])
+    header.Define("PACKAGE_STRING", env['PACKAGE_STRING'])
         
     conf = Configure(env, custom_tests = {
         'CheckSDLConfig' : CheckSDLConfig
@@ -120,8 +157,8 @@ if not os.path.exists("build_config.py") or not os.path.exists("config.h"):
 
     env.ParseConfig('sdl-config --cflags --libs')
     env.Append(CPPDEFINES = \
-        {'DATA_PREFIX':"'\"" + env['PREFIX'] + "/share/supertux\"'" ,
-         'LOCALEDIR'  :"'\"" + env['PREFIX'] + "/locales\"'"})
+        {'DATA_PREFIX':"'\"" + env.subst('$APPDATADIR') + "\"'" ,
+         'LOCALEDIR'  :"'\"" + env.subst('$LOCALEDIR') + "\"'"})
     opts.Save("build_config.py", env)
     header.Save("config.h")
 else:
@@ -137,11 +174,18 @@ elif env['VARIANT'] == "profile":
 
 build_dir="build/" + env['PLATFORM'] + "/" + env['VARIANT']
 
+# create some install aliases (only add paths here that are really used)
+env.Alias('install-data', env.subst('$DESTDIR/$APPDATADIR'))
+env.Alias('install-exec', env.subst('$DESTDIR/$BINDIR'))
+env.Alias('install', ['install-data', 'install-exec'])
+
+# append some include dirs and link libsupertux with main app
 env.Append(CPPPATH = ["#", "#/src", "#/lib"])
 env.Append(LIBS = ["supertux"])
 env.Append(LIBPATH=["#" + build_dir + "/lib"])
 
-env.Export(["env", "Glob"])
+env.Export(["env", "Glob", "InstallData", "InstallExec"])
 env.SConscript("lib/SConscript", build_dir=build_dir + "/lib", duplicate=0)
 env.SConscript("src/SConscript", build_dir=build_dir + "/src", duplicate=0)
+env.SConscript("data/SConscript", build_dir=build_dir + "/data", duplicate=0)
 env.SConscript("SConscript", build_dir=build_dir, duplicate=0)

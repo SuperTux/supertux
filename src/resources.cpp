@@ -249,7 +249,7 @@ void loadshared()
 
   /* Herring song */
   herring_song = SoundManager::get
-                   ()->load_music(datadir + "/music/SALCON.MOD");
+                   ()->load_music(datadir + "/music/salcon.mod");
   level_end_song = SoundManager::get
                      ()->load_music(datadir + "/music/leveldone.mod");
 }

@@ -488,7 +488,7 @@ WorldMap::WorldMap()
   enter_level = false;
 
   name = "<no title>";
-  music = "SALCON.MOD";
+  music = "salcon.mod";
 
   global_frame_counter = 0;
 
