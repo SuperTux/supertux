@@ -36,13 +36,10 @@ Background::Background(LispReader& reader)
     set_image(imagefile, speed);
   }
 
-  int tr, tg, tb, br, bg, bb;
-  if(reader.read_int("top_red", tr) && reader.read_int("top_green", tg)
-      && reader.read_int("top_blue", tb) && reader.read_int("bottom_red", br)
-      && reader.read_int("bottom_green", bg)
-      && reader.read_int("bottom_blue", bb)) {
-    set_gradient(Color(tr, tg, tb), Color(br, bg, bb));
-  }
+  std::vector <unsigned int> bkgd_top_color, bkgd_bottom_color;
+  if(reader.read_int_vector("top_color", bkgd_top_color) &&
+     reader.read_int_vector("bottom_color", bkgd_bottom_color))
+    set_gradient(Color(bkgd_top_color), Color(bkgd_bottom_color));
 }
 
 Background::~Background()
@@ -62,12 +59,15 @@ Background::write(LispWriter& writer)
     writer.write_string("image", imagefile);
     writer.write_float("speed", speed);
   } else if(type == GRADIENT) {
-    writer.write_int("top_red", gradient_top.red);
-    writer.write_int("top_green", gradient_top.green);
-    writer.write_int("top_blue", gradient_top.blue);
-    writer.write_int("bottom_red", gradient_bottom.red);
-    writer.write_int("bottom_green", gradient_bottom.green);
-    writer.write_int("bottom_blue", gradient_bottom.blue);
+    std::vector <unsigned int> bkgd_top_color, bkgd_bottom_color;
+    bkgd_top_color.push_back(gradient_top.red);
+    bkgd_top_color.push_back(gradient_top.green);
+    bkgd_top_color.push_back(gradient_top.blue);
+    bkgd_bottom_color.push_back(gradient_top.red);
+    bkgd_bottom_color.push_back(gradient_top.green);
+    bkgd_bottom_color.push_back(gradient_top.blue);
+    writer.write_int_vector("top_color", bkgd_top_color);
+    writer.write_int_vector("bottom_color", bkgd_bottom_color);
   }
   
   writer.end_list("background");
