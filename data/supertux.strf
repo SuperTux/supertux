@@ -88,14 +88,15 @@
          (y-hotspot 9)
          (images "shared/smalltux-kick-right-0.png")))
 
- (sprite (name "arm-grab-left")
+ (sprite (name "tux-arm")
        (action
+         (name "grab-left")
          (x-hotspot 5)
          (y-hotspot 9)
-         (images "shared/smalltux-grab-left-0.png")))
+         (images "shared/smalltux-grab-left-0.png"))
 
- (sprite (name "smalltux-grab-right")
-       (action
+       (action 
+         (name "grab-right")
          (x-hotspot 5)
          (y-hotspot 9)
          (images "shared/smalltux-grab-right-0.png")))

@@ -787,9 +787,9 @@ Player::draw(DrawingContext& context)
   if ((holding_something && physic.get_velocity_y() == 0) || shooting_timer.check() && !duck)
   {
     if (dir == RIGHT)
-      tux_arm->set_action("walk-right");
+      tux_arm->set_action("grab-right");
     else
-      tux_arm->set_action("walk-left");
+      tux_arm->set_action("grab-left");
     tux_arm->draw(context, pos, LAYER_OBJECTS + 1);
   }
   
