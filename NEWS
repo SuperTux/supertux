@@ -1,3 +1,12 @@
+Super Tux 0.0.7 (         )
+===========================
+  * new s-expr based file-format
+  * converter script for levels (levelconverter-0.0.6_0.0.7.py)
+  * experimental worldmap code
+  * switched to C++
+  * automagic detection of the datafile location, no more requirement
+    to run 'make install'
+
 Super Tux 0.0.6 (16 Mar 04)
 ===========================
   * Game Save/Load.
