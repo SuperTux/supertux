@@ -1401,6 +1401,24 @@
     (action
       (images "shared/unstable_tile.png"))
   )
-)
 
+; Hatch
+  (sprite (name "hatch")
+       (action
+          (name "default")
+          (x-offset 0)
+          (y-offset 0)
+          (images "shared/hatch-1.png"))
+       (action
+          (name "open")
+          (x-offset 0)
+          (y-offset 0)
+          (images "shared/hatch-1.png"
+                  "shared/hatch-2.png"
+                  "shared/hatch-3.png"
+                  "shared/hatch-4.png"
+                  "shared/hatch-5.png"
+                  "shared/hatch-6.png"))
+  )
+)
 ;; EOF ;;
