@@ -60,6 +60,8 @@ struct player_input_type
 
 void player_input_init(player_input_type* pplayer_input);
 
+class Sprite;
+
 extern Surface* tux_life;
 extern std::vector<Surface*> tux_right;
 extern std::vector<Surface*> tux_left;
@@ -67,10 +69,10 @@ extern Surface* smalltux_jump_left;
 extern Surface* smalltux_jump_right;
 extern Surface* smalltux_stand_left;
 extern Surface* smalltux_stand_right;
-extern Surface* bigtux_right[3];
-extern Surface* bigtux_left[3];
-extern Surface* bigtux_right_jump;
-extern Surface* bigtux_left_jump;
+extern Sprite* bigtux_right;
+extern Sprite* bigtux_left;
+extern Sprite* bigtux_right_jump;
+extern Sprite* bigtux_left_jump;
 extern Surface* ducktux_right;
 extern Surface* ducktux_left;
 extern Surface* skidtux_right;

@@ -17,6 +17,7 @@
 #include "defines.h"
 #include "scene.h"
 #include "tile.h"
+#include "sprite.h"
 #include "screen.h"
 
 Surface* tux_life;
@@ -27,10 +28,10 @@ Surface* smalltux_jump_right;
 Surface* smalltux_stand_left;
 Surface* smalltux_stand_right;
 
-Surface* bigtux_right[3];
-Surface* bigtux_left[3];
-Surface* bigtux_right_jump;
-Surface* bigtux_left_jump;
+Sprite* bigtux_right;
+Sprite* bigtux_left;
+Sprite* bigtux_right_jump;
+Sprite* bigtux_left_jump;
 Surface* ducktux_right;
 Surface* ducktux_left;
 Surface* skidtux_right;
@@ -597,45 +598,27 @@ Player::draw()
                 {
                   if (!skidding_timer.started())
                     {
-                      if (!jumping || physic.get_velocity_y() > 0)
+                      if (physic.get_velocity_y() == 0)
                         {
                           if (dir == RIGHT)
-                            {
-                              bigtux_right[frame_]->draw(
-                                           base.x- scroll_x - 8, base.y);
-                            }
+                            bigtux_right->draw(base.x- scroll_x - 8, base.y);
                           else
-                            {
-                              bigtux_left[frame_]->draw(
-                                           base.x- scroll_x - 8, base.y);
-                            }
+                              bigtux_left->draw(base.x- scroll_x - 8, base.y);
                         }
                       else
                         {
                           if (dir == RIGHT)
-                            {
-                              bigtux_right_jump->draw(
-                                           base.x- scroll_x - 8, base.y);
-                            }
+                            bigtux_right_jump->draw(base.x- scroll_x - 8, base.y);
                           else
-                            {
-                              bigtux_left_jump->draw(
-                                           base.x- scroll_x - 8, base.y);
-                            }
+                            bigtux_left_jump->draw(base.x- scroll_x - 8, base.y);
                         }
                     }
                   else
                     {
                       if (dir == RIGHT)
-                        {
-                          skidtux_right->draw(
-                                       base.x- scroll_x - 8, base.y);
-                        }
+                        skidtux_right->draw(base.x- scroll_x - 8, base.y);
                       else
-                        {
-                          skidtux_left->draw(
-                                       base.x- scroll_x - 8, base.y);
-                        }
+                        skidtux_left->draw(base.x- scroll_x - 8, base.y);
                     }
                 }
               else

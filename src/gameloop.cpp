@@ -63,6 +63,8 @@ GameSession::restart_level()
   fps_timer.init(true);
   frame_timer.init(true);
 
+  delete world;
+
   if (st_gl_mode == ST_GL_LOAD_LEVEL_FILE)
     {
       world = new World(subset);

@@ -75,27 +75,11 @@ void loadshared()
   cape_left[1] = new Surface(datadir + "/images/shared/cape-left-1.png",
                USE_ALPHA);
 
-  bigtux_right[0] = new Surface(datadir + "/images/shared/bigtux-right-0.png",
-               USE_ALPHA);
+  bigtux_right = sprite_manager->load("largetux-walk-right");
+  bigtux_left  = sprite_manager->load("largetux-walk-left");
 
-  bigtux_right[1] = new Surface(datadir + "/images/shared/bigtux-right-1.png",
-               USE_ALPHA);
-
-  bigtux_right[2] = new Surface(datadir + "/images/shared/bigtux-right-2.png",
-               USE_ALPHA);
-
-  bigtux_right_jump = new Surface(datadir + "/images/shared/bigtux-right-jump.png", USE_ALPHA);
-
-  bigtux_left[0] = new Surface(datadir + "/images/shared/bigtux-left-0.png",
-               USE_ALPHA);
-
-  bigtux_left[1] = new Surface(datadir + "/images/shared/bigtux-left-1.png",
-               USE_ALPHA);
-
-  bigtux_left[2] = new Surface(datadir + "/images/shared/bigtux-left-2.png",
-               USE_ALPHA);
-
-  bigtux_left_jump = new Surface(datadir + "/images/shared/bigtux-left-jump.png", USE_ALPHA);
+  bigtux_left_jump  = sprite_manager->load("largetux-jump-left");
+  bigtux_right_jump = sprite_manager->load("largetux-jump-right");
 
   bigcape_right[0] = new Surface(datadir + "/images/shared/bigcape-right-0.png",
                USE_ALPHA);
@@ -302,8 +286,6 @@ void unloadshared(void)
     {
       delete tux_right[i];
       delete tux_left[i];
-      delete bigtux_right[i];
-      delete bigtux_left[i];
     }
 
   delete bigtux_right_jump;

@@ -71,8 +71,10 @@ extern char* soundfilenames[NUM_SOUNDS];
 #include <SDL_mixer.h>
 
 /* variables for stocking the sound and music */
-extern Mix_Chunk * sounds[NUM_SOUNDS];
-extern Mix_Music * level_song, * level_song_fast, * herring_song;
+extern Mix_Chunk* sounds[NUM_SOUNDS];
+extern Mix_Music* level_song;
+extern Mix_Music* level_song_fast;
+extern Mix_Music* herring_song;
 
 /* functions handling the sound and music */
 int open_audio(int frequency, Uint16 format, int channels, int chunksize);
