@@ -210,6 +210,7 @@ BadGuy::activate(Direction activation_dir)
   frozen_timer.init(true);
   timer.init(true);
 
+  dying = DYING_NOT;
   seen = true;
 
   dir = activation_dir;
@@ -904,7 +905,7 @@ BadGuy::action(float elapsed_time)
 
   if(!seen)
     return;
-
+  
   switch (kind)
     {
     case BAD_MRICEBLOCK:
@@ -1226,9 +1227,6 @@ BadGuy::collision(const MovingObject&, int)
 void
 BadGuy::collision(void *p_c_object, int c_object, CollisionType type)
 {
-  if(!seen)
-    return;
-
   BadGuy* pbad_c    = NULL;
   Bullet* pbullet_c = NULL;
 
