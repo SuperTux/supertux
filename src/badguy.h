@@ -163,7 +163,8 @@ private:
   /** let the player jump a bit (used when you hit a badguy) */
   void make_player_jump(Player* player);
 
-  void explode();
+  /** Turn enemy into a bomb. To explode right way pass true */
+  void explode(bool right_away);
 
   /** check if we're running left or right in a wall and eventually change
    * direction

@@ -996,7 +996,7 @@ BadGuy::draw(Camera& viewport, int)
     }
 
   Sprite* sprite = (dir == LEFT) ? sprite_left : sprite_right;
-  if(dying == DYING_FALLING)
+  if(dying == DYING_FALLING && physic.get_velocity_y() < 0)
     sprite->draw(viewport.world2screen(Vector(base.x, base.y)), SD_VERTICAL_FLIP);
   else
     sprite->draw(viewport.world2screen(Vector(base.x, base.y)));
@@ -1080,7 +1080,7 @@ BadGuy::squish(Player* player)
     
   if(kind == BAD_MRBOMB) {
     // mrbomb transforms into a bomb now
-    explode();
+    explode(false);
     
     make_player_jump(player);
     World::current()->add_score(Vector(base.x, base.y),
@@ -1206,9 +1206,15 @@ BadGuy::kill_me(int score)
 }
 
 void
-BadGuy::explode()
+BadGuy::explode(bool right_way)
 {
-  World::current()->add_bad_guy(base.x, base.y, BAD_BOMB);
+  BadGuy *badguy = World::current()->add_bad_guy(base.x, base.y, BAD_BOMB);
+  if(right_way)
+    {
+    badguy->timer.start(0);
+    badguy->mode = BOMB_TICKING;
+    }
+
   remove_me();
 }
 
@@ -1279,7 +1285,7 @@ BadGuy::collision(void *p_c_object, int c_object, CollisionType type)
         if (pbad_c->kind == BAD_MRBOMB)
         {
           // mrbomb transforms into a bomb now
-          pbad_c->explode();
+          pbad_c->explode(true);
           return;
         }
         else if (pbad_c->kind != BAD_MRBOMB)
@@ -1294,7 +1300,7 @@ BadGuy::collision(void *p_c_object, int c_object, CollisionType type)
         if (pbad_c->kind == BAD_MRBOMB)
         {
           // mrbomb transforms into a bomb now
-          pbad_c->explode();
+          pbad_c->explode(false);
           return;
         }
         else
