@@ -47,7 +47,7 @@ void player_init(player_type* pplayer)
   pplayer->base.height = 32;
 
   pplayer->size = SMALL;
-  pplayer->got_coffee = NO;
+  pplayer->got_coffee = false;
 
   pplayer->base.x = 0;
   pplayer->base.y = 240;
@@ -55,10 +55,10 @@ void player_init(player_type* pplayer)
   pplayer->base.ym = 0;
   pplayer->old_base = pplayer->base;
   pplayer->dir = RIGHT;
-  pplayer->duck = NO;
+  pplayer->duck = false;
 
-  pplayer->dying = NO;
-  pplayer->jumping = NO;
+  pplayer->dying   = DYING_NOT;
+  pplayer->jumping = false;
 
   pplayer->frame_main = 0;
   pplayer->frame = 0;
@@ -74,10 +74,10 @@ void player_init(player_type* pplayer)
   pplayer->keymap.right = SDLK_RIGHT;
   pplayer->keymap.fire = SDLK_LCTRL;
 
-  timer_init(&pplayer->invincible_timer,YES);
-  timer_init(&pplayer->skidding_timer,YES);
-  timer_init(&pplayer->safe_timer,YES);
-  timer_init(&pplayer->frame_timer,YES);
+  timer_init(&pplayer->invincible_timer,true);
+  timer_init(&pplayer->skidding_timer,true);
+  timer_init(&pplayer->safe_timer,true);
+  timer_init(&pplayer->frame_timer,true);
   physic_init(&pplayer->hphysic);
   physic_init(&pplayer->vphysic);
 }
@@ -87,30 +87,30 @@ int player_key_event(player_type* pplayer, SDLKey key, int state)
   if(key == pplayer->keymap.right)
     {
       pplayer->input.right = state;
-      return YES;
+      return true;
     }
   else if( key == pplayer->keymap.left)
     {
       pplayer->input.left = state;
-      return YES;
+      return true;
     }
   else if(key == pplayer->keymap.jump)
     {
       pplayer->input.up = state;
-      return YES;
+      return true;
     }
   else if(key == pplayer->keymap.duck)
     {
       pplayer->input.down = state;
-      return YES;
+      return true;
     }
   else if(key == pplayer->keymap.fire)
     {
       pplayer->input.fire = state;
-      return YES;
+      return true;
     }
   else
-    return NO;
+    return false;
 }
 
 void player_level_begin(player_type* pplayer)
@@ -123,18 +123,17 @@ void player_level_begin(player_type* pplayer)
 
   player_input_init(&pplayer->input);
 
-  timer_init(&pplayer->invincible_timer,YES);
-  timer_init(&pplayer->skidding_timer,YES);
-  timer_init(&pplayer->safe_timer,YES);
-  timer_init(&pplayer->frame_timer,YES);
+  timer_init(&pplayer->invincible_timer,true);
+  timer_init(&pplayer->skidding_timer,true);
+  timer_init(&pplayer->safe_timer,true);
+  timer_init(&pplayer->frame_timer,true);
   physic_init(&pplayer->hphysic);
   physic_init(&pplayer->vphysic);
 }
 
 void player_action(player_type* pplayer)
 {
-  int jumped_in_solid;
-  jumped_in_solid = NO;
+  bool jumped_in_solid = false;
 
   /* --- HANDLE TUX! --- */
 
@@ -163,7 +162,7 @@ void player_action(player_type* pplayer)
             {
               physic_set_state(&pplayer->vphysic,PH_VT);
               physic_set_start_vy(&pplayer->vphysic,0);
-              jumped_in_solid = YES;
+              jumped_in_solid = true;
             }
           else
             {
@@ -194,7 +193,7 @@ void player_action(player_type* pplayer)
           score_multiplier = 1;
         }
 
-      if(jumped_in_solid == YES)
+      if(jumped_in_solid == true)
         {
 
           if (isbrick(pplayer->base.x, pplayer->base.y) ||
@@ -234,9 +233,9 @@ void player_action(player_type* pplayer)
                   add_bouncy_distro((((int)pplayer->base.x)
                                      / 32) * 32,
                                     ((int)pplayer->base.y / 32) * 32);
-                  if (counting_distros == NO)
+                  if (counting_distros == false)
                     {
-                      counting_distros = YES;
+                      counting_distros = true;
                       distro_counter = 100;
                     }
 
@@ -253,9 +252,9 @@ void player_action(player_type* pplayer)
                   add_bouncy_distro((((int)pplayer->base.x + 31)
                                      / 32) * 32,
                                     ((int)pplayer->base.y / 32) * 32);
-                  if (counting_distros == NO)
+                  if (counting_distros == false)
                     {
-                      counting_distros = YES;
+                      counting_distros = true;
                       distro_counter = 100;
                     }
 
@@ -270,14 +269,14 @@ void player_action(player_type* pplayer)
         }
 
       player_grabdistros(pplayer);
-      if(jumped_in_solid == YES)
+      if(jumped_in_solid == true)
         {
           ++pplayer->base.y;
           ++pplayer->old_base.y;
           if(player_on_ground(pplayer))
             {
               /* Make sure jumping is off. */
-              pplayer->jumping = NO;
+              pplayer->jumping = false;
             }
         }
 
@@ -330,32 +329,18 @@ void player_action(player_type* pplayer)
 
 }
 
-int player_on_ground(player_type *pplayer)
+bool player_on_ground(player_type *pplayer)
 {
-  if( issolid(pplayer->base.x + pplayer->base.width / 2, pplayer->base.y + pplayer->base.height) ||
-      issolid(pplayer->base.x + 1, pplayer->base.y + pplayer->base.height) ||
-      issolid(pplayer->base.x + pplayer->base.width - 1, pplayer->base.y + pplayer->base.height)  )
-    {
-      return YES;
-    }
-  else
-    {
-      return NO;
-    }
+  return ( issolid(pplayer->base.x + pplayer->base.width / 2, pplayer->base.y + pplayer->base.height) ||
+           issolid(pplayer->base.x + 1, pplayer->base.y + pplayer->base.height) ||
+           issolid(pplayer->base.x + pplayer->base.width - 1, pplayer->base.y + pplayer->base.height)  );
 }
 
-int player_under_solid(player_type *pplayer)
+bool player_under_solid(player_type *pplayer)
 {
-  if( issolid(pplayer->base.x + pplayer->base.width / 2, pplayer->base.y) ||
-      issolid(pplayer->base.x + 1, pplayer->base.y) ||
-      issolid(pplayer->base.x + pplayer->base.width - 1, pplayer->base.y)  )
-    {
-      return YES;
-    }
-  else
-    {
-      return NO;
-    }
+  return ( issolid(pplayer->base.x + pplayer->base.width / 2, pplayer->base.y) ||
+           issolid(pplayer->base.x + 1, pplayer->base.y) ||
+           issolid(pplayer->base.x + pplayer->base.width - 1, pplayer->base.y)  );
 }
 
 void player_handle_horizontal_input(player_type *pplayer, int dir)
@@ -448,7 +433,7 @@ void player_handle_vertical_input(player_type *pplayer)
               physic_set_state(&pplayer->vphysic,PH_VT);
               physic_set_start_vy(&pplayer->vphysic,5.5);
               --pplayer->base.y;
-              pplayer->jumping = YES;
+              pplayer->jumping = true;
               if (pplayer->size == SMALL)
                 play_sound(sounds[SND_JUMP], SOUND_CENTER_SPEAKER);
               else
@@ -456,16 +441,16 @@ void player_handle_vertical_input(player_type *pplayer)
             }
         }
     }
-  else if(pplayer->input.up == UP && pplayer->jumping == YES)
+  else if(pplayer->input.up == UP && pplayer->jumping == true)
     {
       if (player_on_ground(pplayer))
         {
           physic_init(&pplayer->vphysic);
-          pplayer->jumping = NO;
+          pplayer->jumping = false;
         }
       else
         {
-          pplayer->jumping = NO;
+          pplayer->jumping = false;
           if(physic_is_set(&pplayer->vphysic))
             {
               if(physic_get_velocity(&pplayer->vphysic) < 0.)
@@ -489,7 +474,7 @@ void player_input(player_type *pplayer)
 {
   /* Handle key and joystick state: */
 
-  if(pplayer->duck == NO)
+  if(pplayer->duck == false)
     {
       if (pplayer->input.right == DOWN && pplayer->input.left == UP)
         {
@@ -518,7 +503,7 @@ void player_input(player_type *pplayer)
 
   /* Jump/jumping? */
 
-  if ( pplayer->input.up == DOWN || (pplayer->input.up == UP && pplayer->jumping == YES))
+  if ( pplayer->input.up == DOWN || (pplayer->input.up == UP && pplayer->jumping == true))
     {
       player_handle_vertical_input(pplayer);
     }
@@ -535,16 +520,16 @@ void player_input(player_type *pplayer)
 
   if (pplayer->input.down == DOWN)
     {
-      if (pplayer->size == BIG && pplayer->duck != YES)
+      if (pplayer->size == BIG && pplayer->duck != true)
         {
-          pplayer->duck = YES;
+          pplayer->duck = true;
           pplayer->base.height = 32;
           pplayer->base.y += 32;
         }
     }
   else
     {
-      if (pplayer->size == BIG && pplayer->duck == YES)
+      if (pplayer->size == BIG && pplayer->duck == true)
         {
           /* Make sure we're not standing back up into a solid! */
           pplayer->base.height = 64;
@@ -552,7 +537,7 @@ void player_input(player_type *pplayer)
 
           if (!collision_object_map(&pplayer->base) /*issolid(pplayer->base.x + 16, pplayer->base.y - 16)*/)
             {
-              pplayer->duck = NO;
+              pplayer->duck = false;
               pplayer->base.height = 64;
               pplayer->old_base.y -= 32;
               pplayer->old_base.height = 64;
@@ -565,7 +550,7 @@ void player_input(player_type *pplayer)
         }
       else
         {
-          pplayer->duck = NO;
+          pplayer->duck = false;
         }
     }
 
@@ -898,7 +883,7 @@ void player_collision(player_type* pplayer, void* p_c_object, int c_object)
                         }
                       else
                         {
-                          pbad_c->dying = FALLING;
+                          pbad_c->dying = DYING_FALLING;
                           play_sound(sounds[SND_FALL], SOUND_CENTER_SPEAKER);
                           add_score(pbad_c->base.x - scroll_x,
                                     pbad_c->base.y,
@@ -915,7 +900,7 @@ void player_collision(player_type* pplayer, void* p_c_object, int c_object)
                 }
               else
                 {
-                  pbad_c->dying = FALLING;
+                  pbad_c->dying = DYING_FALLING;
                   play_sound(sounds[SND_FALL], SOUND_CENTER_SPEAKER);
                   add_score(pbad_c->base.x - scroll_x,
                             pbad_c->base.y,
@@ -947,7 +932,7 @@ void player_kill(player_type* pplayer, int mode)
   if (mode == SHRINK && pplayer->size == BIG)
     {
       if (pplayer->got_coffee)
-        pplayer->got_coffee = NO;
+        pplayer->got_coffee = false;
 
       pplayer->size = SMALL;
       pplayer->base.height = 32;
@@ -956,7 +941,7 @@ void player_kill(player_type* pplayer, int mode)
     }
   else
     {
-      pplayer->dying = 1;
+      pplayer->dying = DYING_SQUISHED;
     }
 }
 
@@ -968,7 +953,7 @@ void player_dying(player_type *pplayer)
 
   --pplayer->lives;
   player_remove_powerups(pplayer);
-  pplayer->dying = NO;
+  pplayer->dying = DYING_NOT;
 
   player_level_begin(pplayer);
 
@@ -977,7 +962,7 @@ void player_dying(player_type *pplayer)
 /* Remove Tux's power ups */
 void player_remove_powerups(player_type* pplayer)
 {
-  pplayer->got_coffee = NO;
+  pplayer->got_coffee = false;
   pplayer->size = SMALL;
   pplayer->base.height = 32;
 }
@@ -989,7 +974,7 @@ void player_keep_in_bounds(player_type* pplayer)
     pplayer->base.x= 0;
   else if(pplayer->base.x< scroll_x)
     pplayer->base.x= scroll_x;
-  else if (pplayer->base.x< 160 + scroll_x && scroll_x > 0 && debug_mode == YES)
+  else if (pplayer->base.x< 160 + scroll_x && scroll_x > 0 && debug_mode == true)
     {
       scroll_x = pplayer->base.x- 160;
       /*pplayer->base.x+= 160;*/

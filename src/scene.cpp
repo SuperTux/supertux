@@ -13,7 +13,16 @@
 #include <stdlib.h>
 #include "scene.h"
 
-int score, distros, level, next_level, game_pause, quit, score_multiplier, endpos, counting_distros, distro_counter;
+int score;
+int distros;
+int level;
+int next_level;
+int game_pause;
+bool quit;
+int score_multiplier;
+int endpos;
+bool counting_distros;
+int distro_counter;
 timer_type  super_bkgd_timer;
 float scroll_x;
 int frame;
@@ -53,9 +62,9 @@ void set_defaults(void)
   scroll_x = 0;
 
   score_multiplier = 1;
-  timer_init(&super_bkgd_timer, YES);
+  timer_init(&super_bkgd_timer, true);
 
-  counting_distros = NO;
+  counting_distros = false;
   distro_counter = 0;
 
   endpos = 0;

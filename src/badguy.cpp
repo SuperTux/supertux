@@ -35,7 +35,7 @@ void badguy_init(bad_guy_type* pbad, float x, float y, int kind)
   pbad->base.width = 32;
   pbad->base.height = 32;
   pbad->mode = NORMAL;
-  pbad->dying = NO;
+  pbad->dying = DYING_NOT;
   pbad->kind = kind;
   pbad->base.x = x;
   pbad->base.y = y;
@@ -43,8 +43,8 @@ void badguy_init(bad_guy_type* pbad, float x, float y, int kind)
   pbad->base.ym = 4.8;
   pbad->old_base = pbad->base;
   pbad->dir = LEFT;
-  pbad->seen = NO;
-  timer_init(&pbad->timer,YES);
+  pbad->seen = false;
+  timer_init(&pbad->timer, true);
   physic_init(&pbad->physic);
 }
 
@@ -58,9 +58,8 @@ void badguy_action(bad_guy_type* pbad)
               /* --- BLUE SCREEN OF DEATH MONSTER: --- */
 
               /* Move left/right: */
-
-              if (pbad->dying == NO ||
-                  pbad->dying == FALLING)
+              if (pbad->dying == DYING_NOT ||
+                  pbad->dying == DYING_FALLING)
                 {
                   if (pbad->dir == RIGHT)
                     pbad->base.x = pbad->base.x + pbad->base.xm * frame_ratio;
@@ -73,7 +72,7 @@ void badguy_action(bad_guy_type* pbad)
 
               pbad->base.y = pbad->base.y + pbad->base.ym * frame_ratio;
 
-              if (pbad->dying != FALLING)
+              if (pbad->dying != DYING_FALLING)
                 collision_swept_object_map(&pbad->old_base,&pbad->base);
               if (pbad->base.y > screen->h)
                 bad_guys.erase(static_cast<std::vector<bad_guy_type>::iterator>(pbad));
@@ -94,7 +93,7 @@ void badguy_action(bad_guy_type* pbad)
 
               /* Fall if we get off the ground: */
 
-              if (pbad->dying != FALLING)
+              if (pbad->dying != DYING_FALLING)
                 {
                   if (!issolid(pbad->base.x+16, pbad->base.y + 32))
                     {
@@ -139,8 +138,8 @@ void badguy_action(bad_guy_type* pbad)
 
               if (pbad->mode == NORMAL || pbad->mode == KICK)
                 {
-                  if (pbad->dying == NO ||
-                      pbad->dying == FALLING)
+                  if (pbad->dying == DYING_NOT ||
+                      pbad->dying == DYING_FALLING)
                     {
                       if (pbad->dir == RIGHT)
                         pbad->base.x = pbad->base.x + pbad->base.xm * frame_ratio;
@@ -188,7 +187,7 @@ void badguy_action(bad_guy_type* pbad)
               if(pbad->mode != HELD)
                 pbad->base.y = pbad->base.y + pbad->base.ym * frame_ratio;
 
-              if (pbad->dying != FALLING)
+              if (pbad->dying != DYING_FALLING)
                 collision_swept_object_map(&pbad->old_base,&pbad->base);
               if (pbad->base.y > screen->h)
                   bad_guys.erase(static_cast<std::vector<bad_guy_type>::iterator>(pbad));
@@ -224,7 +223,7 @@ void badguy_action(bad_guy_type* pbad)
 
               /* Fall if we get off the ground: */
 
-              if (pbad->dying != FALLING)
+              if (pbad->dying != DYING_FALLING)
                 {
                   if (!issolid(pbad->base.x+16, pbad->base.y + 32))
                     {
@@ -272,7 +271,7 @@ void badguy_action(bad_guy_type* pbad)
 
               pbad->base.y = pbad->base.y + pbad->base.ym * frame_ratio;
 
-              if (pbad->dying != FALLING)
+              if (pbad->dying != DYING_FALLING)
                 collision_swept_object_map(&pbad->old_base,&pbad->base);
 
               if (pbad->base.y > screen->h)
@@ -284,7 +283,7 @@ void badguy_action(bad_guy_type* pbad)
                   physic_set_start_vy(&pbad->physic,0.);
                 }
 
-              if (pbad->dying != FALLING)
+              if (pbad->dying != DYING_FALLING)
                 {
                   if(issolid(pbad->base.x, pbad->base.y + 32))
                     {
@@ -339,7 +338,7 @@ void badguy_action(bad_guy_type* pbad)
 
   /* Handle dying timer: */
 
-  if (pbad->dying == SQUISHED)
+  if (pbad->dying == DYING_SQUISHED)
     {
       /* Remove it if time's up: */
       if(!timer_check(&pbad->timer))
@@ -356,7 +355,7 @@ void badguy_action(bad_guy_type* pbad)
       /* Once it's on screen, it's activated! */
 
       if (pbad->base.x <= scroll_x + screen->w + OFFSCREEN_DISTANCE)
-        pbad->seen = YES;
+        pbad->seen = true;
     }
   /*}*/
 }
@@ -370,7 +369,7 @@ void badguy_draw(bad_guy_type* pbad)
         {
           /* --- BLUE SCREEN OF DEATH MONSTER: --- */
 
-          if (pbad->dying == NO)
+          if (pbad->dying == DYING_NOT)
             {
               /* Alive: */
 
@@ -389,7 +388,7 @@ void badguy_draw(bad_guy_type* pbad)
                                NO_UPDATE);
                 }
             }
-          else if (pbad->dying == FALLING)
+          else if (pbad->dying == DYING_FALLING)
             {
               /* Falling: */
 
@@ -408,7 +407,7 @@ void badguy_draw(bad_guy_type* pbad)
                                NO_UPDATE);
                 }
             }
-          else if (pbad->dying == SQUISHED)
+          else if (pbad->dying == DYING_SQUISHED)
             {
               /* Dying - Squished: */
 
@@ -432,7 +431,7 @@ void badguy_draw(bad_guy_type* pbad)
         {
           /* --- LAPTOP MONSTER: --- */
 
-          if (pbad->dying == NO)
+          if (pbad->dying == DYING_NOT)
             {
               /* Alive: */
 
@@ -475,7 +474,7 @@ void badguy_draw(bad_guy_type* pbad)
                     }
                 }
             }
-          else if (pbad->dying == FALLING)
+          else if (pbad->dying == DYING_FALLING)
             {
               /* Falling: */
 
@@ -545,7 +544,7 @@ void badguy_collision(bad_guy_type* pbad, void *p_c_object, int c_object)
   switch (c_object)
     {
     case CO_BULLET:
-      pbad->dying = FALLING;
+      pbad->dying = DYING_FALLING;
       pbad->base.ym = -8;
 
       /* Gain some points: */
@@ -574,15 +573,15 @@ void badguy_collision(bad_guy_type* pbad, void *p_c_object, int c_object)
           /* We're in kick mode, kill the other guy
 	     and yourself(wuahaha) : */
 
-          pbad_c->dying = FALLING;
+          pbad_c->dying = DYING_FALLING;
           pbad_c->base.ym = -8;
           play_sound(sounds[SND_FALL], SOUND_CENTER_SPEAKER);
 
           add_score(pbad->base.x - scroll_x,
                     pbad->base.y, 100);
-	          pbad_c->dying = FALLING;
+	          pbad_c->dying = DYING_FALLING;
 		  
-          pbad->dying = FALLING;
+          pbad->dying = DYING_FALLING;
           pbad->base.ym = -8;
 
           add_score(pbad_c->base.x - scroll_x,
@@ -595,7 +594,7 @@ void badguy_collision(bad_guy_type* pbad, void *p_c_object, int c_object)
         {
           if (pbad->kind == BAD_BSOD)
             {
-              pbad->dying = SQUISHED;
+              pbad->dying = DYING_SQUISHED;
               timer_start(&pbad->timer,4000);
               physic_set_state(&pplayer_c->vphysic,PH_VT);
               physic_set_start_vy(&pplayer_c->vphysic,2.);

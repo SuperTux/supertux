@@ -77,7 +77,7 @@ int open_audio (int frequency, Uint16 format, int channels, int chunksize)
 
 void close_audio( void )
 {
-  if (audio_device == YES) {
+  if (audio_device) {
     Mix_UnregisterAllEffects( SOUND_LEFT_SPEAKER );
     Mix_UnregisterAllEffects( SOUND_RIGHT_SPEAKER );
     Mix_CloseAudio();
@@ -94,7 +94,7 @@ Mix_Chunk * load_sound(const std::string& file)
   snd = Mix_LoadWAV(file.c_str());
 
   /* printf message and abort if there is an initialized audio device */
-  if ((snd == NULL) && (audio_device == YES))
+  if ((snd == NULL) && audio_device)
     st_abort("Can't load", file);
 
   return(snd);
@@ -110,7 +110,7 @@ Mix_Music * load_song(const std::string& file)
   sng = Mix_LoadMUS(file.c_str());
 
   /* printf message and abort if there is an initialized audio device */
-  if ((sng == NULL) && (audio_device == YES))
+  if ((sng == NULL) && audio_device)
     st_abort("Can't load", file);
   return (sng);
 }
@@ -123,7 +123,7 @@ void play_sound(Mix_Chunk * snd, enum Sound_Speaker whichSpeaker)
   /* this won't call the function if the user has disabled sound
    * either via menu or via command-line option
    */
-  if ((use_sound == YES) && (audio_device == YES))
+  if ((use_sound == true) && (audio_device == true))
     {
       Mix_PlayChannel( whichSpeaker, snd, 0);
 
@@ -156,7 +156,7 @@ void free_chunk(Mix_Chunk *chunk)
 
 int playing_music(void)
 {
-  if (use_music == YES)
+  if (use_music == true)
     {
       return Mix_PlayingMusic();
     }
@@ -170,7 +170,7 @@ int playing_music(void)
 
 int halt_music(void)
 {
-  if ((use_music == YES) && (audio_device == YES))
+  if ((use_music == true) && (audio_device == true))
     {
       return Mix_HaltMusic();
     }
@@ -183,7 +183,7 @@ int halt_music(void)
 
 int play_music(Mix_Music *music, int loops)
 {
-  if ((use_music == YES) && (audio_device == YES))
+  if ((use_music == true) && (audio_device == true))
     {
       DEBUG_MSG(__PRETTY_FUNCTION__);
       return Mix_PlayMusic(music, loops);

@@ -62,28 +62,28 @@ void player_input_init(player_input_type* pplayer_input);
 
 typedef struct player_type 
 {
- player_input_type input;
- player_keymap_type keymap;
- int score;
- int distros;
- int got_coffee;
- int size;
- int duck;
- int dying;
- int dir;
- int jumping;
- int frame_main;
- int frame;
- int lives;
- base_type base;
- base_type old_base;
- base_type previous_base;
- timer_type invincible_timer;
- timer_type skidding_timer;
- timer_type safe_timer;
- timer_type frame_timer;
- physic_type vphysic;
- physic_type hphysic;
+  player_input_type input;
+  player_keymap_type keymap;
+  int score;
+  int distros;
+  bool got_coffee;
+  int size;
+  bool duck;
+  DyingType dying;
+  int dir;
+  bool jumping;
+  int frame_main;
+  int frame;
+  int lives;
+  base_type base;
+  base_type old_base;
+  base_type previous_base;
+  timer_type invincible_timer;
+  timer_type skidding_timer;
+  timer_type safe_timer;
+  timer_type frame_timer;
+  physic_type vphysic;
+  physic_type hphysic;
 }
 player_type;
 
@@ -113,7 +113,7 @@ void player_kill(player_type *pplayer, int mode);
 void player_dying(player_type *pplayer);
 void player_remove_powerups(player_type *pplayer);
 void player_keep_in_bounds(player_type *pplayer);
-int player_on_ground(player_type *pplayer);
-int player_under_solid(player_type *pplayer);
+bool player_on_ground(player_type *pplayer);
+bool player_under_solid(player_type *pplayer);
 
 #endif /*SUPERTUX_PLAYER_H*/

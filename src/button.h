@@ -28,11 +28,11 @@ typedef struct button_type
     texture_type* bkgd;
     char *info;
     SDLKey shortcut;
-    int x;
-    int y;
-    int w;
-    int h;
-    int show_info;
+    int  x;
+    int  y;
+    int  w;
+    int  h;
+    bool show_info;
     ButtonState state;
     int tag;
   }

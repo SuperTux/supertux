@@ -89,7 +89,7 @@ int intro(void)
   scene = 0;
   i = 0;
   
-  timer_init(&timer,NO);
+  timer_init(&timer, false);
   timer_start(&timer,10000);
   
   while (timer_check(&timer) && !done && !quit)

@@ -84,8 +84,8 @@ enum MenuAction {
 
 /* (global) menu variables */
 extern MenuAction menuaction;
-extern int show_menu;
-extern int menu_change;
+extern bool show_menu;
+extern bool menu_change;
 extern texture_type checkbox, checkbox_checked, back, arrow_left, arrow_right;
 
 extern menu_type main_menu, game_menu, options_menu, highscore_menu, load_game_menu, save_game_menu;

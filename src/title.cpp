@@ -212,13 +212,13 @@ int title(void)
                                 }
                               else if(key == SDLK_SPACE || key == SDLK_RETURN)
                                 {
-                                  done = YES;
+                                  done = true;
                                   quit = gameloop(subset.name.c_str(),1,ST_GL_PLAY);
                                   subset.free();
                                 }
                               else if(key == SDLK_ESCAPE)
                                 {
-                                  done = YES;
+                                  done = true;
                                 }
                               break;
                             default:
@@ -229,7 +229,7 @@ int title(void)
                 }
               break;
             case 3:
-              update_load_save_game_menu(&load_game_menu, YES);
+              update_load_save_game_menu(&load_game_menu, true);
               break;
             case 5:
               done = 1;
@@ -249,7 +249,7 @@ int title(void)
         }
       else if(current_menu == &load_game_menu)
         {
-          process_save_load_game_menu(NO);
+          process_save_load_game_menu(false);
         }
 
       flipscreen();

@@ -56,14 +56,14 @@ int faccessible(const char *filename)
   struct stat filestat;
   if (stat(filename, &filestat) == -1)
     {
-      return NO;
+      return false;
     }
   else
     {
       if(S_ISREG(filestat.st_mode))
-        return YES;
+        return true;
       else
-        return NO;
+        return false;
     }
 }
 
@@ -74,9 +74,9 @@ int fwriteable(const char *filename)
   fi = fopen(filename, "wa");
   if (fi == NULL)
     {
-      return NO;
+      return false;
     }
-  return YES;
+  return true;
 }
 
 /* Makes sure a directory is created in either the SuperTux base directory or the SuperTux base directory.*/
@@ -89,16 +89,16 @@ int fcreatedir(const char* relative_dir)
       snprintf(path, 1024, "%s/%s/", datadir.c_str(), relative_dir);
       if(mkdir(path,0755) != 0)
         {
-          return NO;
+          return false;
         }
       else
         {
-          return YES;
+          return true;
         }
     }
   else
     {
-      return YES;
+      return true;
     }
 }
 
@@ -334,7 +334,7 @@ void st_menu(void)
   menu_additem(&options_menu, MN_LABEL,"Options",0,0);
   menu_additem(&options_menu, MN_HL,"",0,0);
   menu_additem(&options_menu, MN_TOGGLE,"Fullscreen",use_fullscreen,0);
-  if(audio_device == YES)
+  if(audio_device)
     {
       menu_additem(&options_menu, MN_TOGGLE,"Sound     ",use_sound,0);
       menu_additem(&options_menu, MN_TOGGLE,"Music     ",use_music,0);
@@ -410,16 +410,16 @@ void process_save_load_game_menu(int save)
     default:
       if(slot != -1)
         {
-          if(save == YES)
+          if(save == true)
             {
               savegame(slot - 1);
             }
           else
             {
-              if(game_started == NO)
+              if(game_started == false)
                 {
                   gameloop("default",slot - 1,ST_GL_LOAD_GAME);
-                  show_menu = YES;
+                  show_menu = true;
                   menu_set_current(&main_menu);
                 }
               else
@@ -450,17 +450,17 @@ void process_options_menu(void)
     case 4:
       if(use_music != options_menu.item[4].toggled)
         {
-          if(use_music == YES)
+          if(use_music == true)
             {
               if(playing_music())
                 {
                   halt_music();
                 }
-              use_music = NO;
+              use_music = false;
             }
           else
             {
-              use_music = YES;
+              use_music = true;
               if (!playing_music())
                 {
                   play_current_music();
@@ -576,7 +576,7 @@ void st_video_setup_sdl(void)
 {
   SDL_FreeSurface(screen);
 
-  if (use_fullscreen == YES)
+  if (use_fullscreen == true)
     {
       screen = SDL_SetVideoMode(640, 480, 0, SDL_FULLSCREEN ) ; /* | SDL_HWSURFACE); */
       if (screen == NULL)
@@ -586,7 +586,7 @@ void st_video_setup_sdl(void)
                   "640x480 mode.\n"
                   "The Simple DirectMedia error that occured was:\n"
                   "%s\n\n", SDL_GetError());
-          use_fullscreen = NO;
+          use_fullscreen = false;
         }
     }
   else
@@ -614,7 +614,7 @@ void st_video_setup_gl(void)
   SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
   SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
-  if (use_fullscreen == YES)
+  if (use_fullscreen == true)
     {
       screen = SDL_SetVideoMode(640, 480, 0, SDL_FULLSCREEN | SDL_OPENGL) ; /* | SDL_HWSURFACE); */
       if (screen == NULL)
@@ -624,7 +624,7 @@ void st_video_setup_gl(void)
                   "640x480 mode.\n"
                   "The Simple DirectMedia error that occured was:\n"
                   "%s\n\n", SDL_GetError());
-          use_fullscreen = NO;
+          use_fullscreen = false;
         }
     }
   else
@@ -665,7 +665,7 @@ void st_joystick_setup(void)
 
   /* Init Joystick: */
 
-  use_joystick = YES;
+  use_joystick = true;
 
   if (SDL_Init(SDL_INIT_JOYSTICK) < 0)
     {
@@ -673,7 +673,7 @@ void st_joystick_setup(void)
               "The Simple DirectMedia error that occured was:\n"
               "%s\n\n", SDL_GetError());
 
-      use_joystick = NO;
+      use_joystick = false;
     }
   else
     {
@@ -682,7 +682,7 @@ void st_joystick_setup(void)
         {
           fprintf(stderr, "Warning: No joysticks are available.\n");
 
-          use_joystick = NO;
+          use_joystick = false;
         }
       else
         {
@@ -694,7 +694,7 @@ void st_joystick_setup(void)
                       "The Simple DirectMedia error that occured was:\n"
                       "%s\n\n", joystick_num, SDL_GetError());
 
-              use_joystick = NO;
+              use_joystick = false;
             }
           else
             {
@@ -705,7 +705,7 @@ void st_joystick_setup(void)
                   fprintf(stderr,
                           "Warning: Joystick does not have enough axes!\n");
 
-                  use_joystick = NO;
+                  use_joystick = false;
                 }
               else
                 {
@@ -715,7 +715,7 @@ void st_joystick_setup(void)
                               "Warning: "
                               "Joystick does not have enough buttons!\n");
 
-                      use_joystick = NO;
+                      use_joystick = false;
                     }
                 }
             }
@@ -728,14 +728,14 @@ void st_audio_setup(void)
 
   /* Init SDL Audio silently even if --disable-sound : */
 
-  if (audio_device == YES)
+  if (audio_device == true)
     {
       if (SDL_Init(SDL_INIT_AUDIO) < 0)
         {
           /* only print out message if sound or music
              was not disabled at command-line
            */
-          if (use_sound == YES || use_music == YES)
+          if (use_sound || use_music)
             {
               fprintf(stderr,
                       "\nWarning: I could not initialize audio!\n"
@@ -746,23 +746,23 @@ void st_audio_setup(void)
              because in this case, use_sound & use_music' values are ignored
              when there's no available audio device
           */
-          use_sound = NO;
-          use_music = NO;
-          audio_device = NO;
+          use_sound = false;
+          use_music = false;
+          audio_device = false;
         }
     }
 
 
   /* Open sound silently regarless the value of "use_sound": */
 
-  if (audio_device == YES)
+  if (audio_device == true)
     {
       if (open_audio(44100, AUDIO_S16, 2, 2048) < 0)
         {
           /* only print out message if sound or music
              was not disabled at command-line
            */
-          if ((use_sound == YES) || (use_music == YES))
+          if ((use_sound == true) || (use_music == true))
             {
               fprintf(stderr,
                       "\nWarning: I could not set up audio for 44100 Hz "
@@ -770,9 +770,9 @@ void st_audio_setup(void)
                       "The Simple DirectMedia error that occured was:\n"
                       "%s\n\n", SDL_GetError());
             }
-          use_sound = NO;
-          use_music = NO;
-          audio_device = NO;
+          use_sound = false;
+          use_music = false;
+          audio_device = false;
         }
     }
 
@@ -848,14 +848,14 @@ void parseargs(int argc, char * argv[])
   /* Set defaults: */
 
 
-  debug_mode = NO;
-  use_fullscreen = NO;
-  show_fps = NO;
-  use_gl = NO;
+  debug_mode = false;
+  use_fullscreen = false;
+  show_fps = false;
+  use_gl = false;
 
-  use_sound = YES;
-  use_music = YES;
-  audio_device = YES;
+  use_sound = true;
+  use_music = true;
+  audio_device = true;
 
   /* Parse arguments: */
 
@@ -866,7 +866,7 @@ void parseargs(int argc, char * argv[])
         {
           /* Use full screen: */
 
-          use_fullscreen = YES;
+          use_fullscreen = true;
         }
       else if (strcmp(argv[i], "--joystick") == 0 || strcmp(argv[i], "-j") == 0)
         {
@@ -887,7 +887,7 @@ void parseargs(int argc, char * argv[])
         {
           /* Use full screen: */
 
-          show_fps = YES;
+          show_fps = true;
         }
       else if (strcmp(argv[i], "--opengl") == 0 ||
                strcmp(argv[i], "-gl") == 0)
@@ -895,7 +895,7 @@ void parseargs(int argc, char * argv[])
 #ifndef NOOPENGL
           /* Use OpengGL: */
 
-          use_gl = YES;
+          use_gl = true;
 #endif
 
         }
@@ -916,18 +916,18 @@ void parseargs(int argc, char * argv[])
         {
           /* Disable the compiled in sound feature */
           printf("Sounds disabled \n");
-          use_sound = NO;
+          use_sound = false;
         }
       else if (strcmp(argv[i], "--disable-music") == 0)
         {
           /* Disable the compiled in sound feature */
           printf("Music disabled \n");
-          use_music = NO;
+          use_music = false;
         }
       else if (strcmp(argv[i], "--debug-mode") == 0)
         {
           /* Enable the debug-mode */
-          debug_mode = YES;
+          debug_mode = true;
 
         }
       else if (strcmp(argv[i], "--help") == 0)

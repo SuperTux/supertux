@@ -51,7 +51,7 @@ void button_load(button_type* pbutton,char* icon_file, char* info, SDLKey shortc
   pbutton->h = pbutton->icon.h;
   pbutton->tag = -1;
   pbutton->state = BUTTON_NONE;
-  pbutton->show_info = NO;
+  pbutton->show_info = false;
   pbutton->bkgd = NULL;
 }
 
@@ -90,7 +90,7 @@ void button_draw(button_type* pbutton)
   texture_draw(pbutton->bkgd,pbutton->x,pbutton->y,NO_UPDATE);
   }
   texture_draw(&pbutton->icon,pbutton->x,pbutton->y,NO_UPDATE);
-  if(pbutton->show_info == YES)
+  if(pbutton->show_info)
     {
       char str[80];
       int i = -32;
@@ -130,7 +130,7 @@ void button_event(button_type* pbutton, SDL_Event *event)
             }
           else
             {
-              pbutton->show_info = YES;
+              pbutton->show_info = true;
             }
         }
       else if(event->type == SDL_MOUSEBUTTONUP)
@@ -141,7 +141,7 @@ void button_event(button_type* pbutton, SDL_Event *event)
             }
           else if(event->button.button != SDL_BUTTON_LEFT && pbutton->state != BUTTON_PRESSED)
             {
-              pbutton->show_info = YES;
+              pbutton->show_info = true;
             }
         }
 
@@ -155,7 +155,7 @@ void button_event(button_type* pbutton, SDL_Event *event)
       pbutton->state = BUTTON_NONE;
       if(pbutton->show_info)
         {
-          pbutton->show_info = NO;
+          pbutton->show_info = false;
         }
     }
 
@@ -174,7 +174,7 @@ void button_event(button_type* pbutton, SDL_Event *event)
 
       if(pbutton->show_info)
         {
-          pbutton->show_info = NO;
+          pbutton->show_info = false;
         }
     }
 }
@@ -202,12 +202,12 @@ void button_panel_init(button_panel_type* pbutton_panel, int x, int y, int w, in
   pbutton_panel->y = y;
   pbutton_panel->w = w;
   pbutton_panel->h = h;
-  pbutton_panel->hidden = NO;
+  pbutton_panel->hidden = false;
 }
 
 button_type* button_panel_event(button_panel_type* pbutton_panel, SDL_Event* event)
 {
-  if(pbutton_panel->hidden == NO)
+  if(pbutton_panel->hidden == false)
     {
       int i;
       for(i = 0; i < pbutton_panel->num_items; ++i)
@@ -237,7 +237,7 @@ void button_panel_free(button_panel_type* pbutton_panel)
 
 void button_panel_draw(button_panel_type* pbutton_panel)
 {
-  if(pbutton_panel->hidden == NO)
+  if(pbutton_panel->hidden == false)
     {
       int i;
       fillrect(pbutton_panel->x,pbutton_panel->y,pbutton_panel->w,pbutton_panel->h,100,100,100,200);

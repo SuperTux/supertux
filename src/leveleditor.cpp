@@ -81,7 +81,7 @@ void le_update_buttons(const char*);
 
 /* leveleditor internals */
 static string_list_type level_subsets;
-static int le_level_changed;  /* if changes, ask for saving, when quiting*/
+static bool le_level_changed;  /* if changes, ask for saving, when quiting*/
 static int pos_x, cursor_x, cursor_y, fire;
 static int le_level;
 static st_level* le_current_level;
@@ -91,7 +91,7 @@ static int le_frame;
 static texture_type le_selection;
 static int done;
 static char le_current_tile;
-static int le_mouse_pressed[2];
+static bool le_mouse_pressed[2];
 static button_type le_save_level_bt;
 static button_type le_test_level_bt;
 static button_type le_next_level_bt;
@@ -160,7 +160,7 @@ int leveleditor(int levelnb)
   while (SDL_PollEvent(&event))
   {}
 
-  while(YES)
+  while(true)
     {
       last_time = SDL_GetTicks();
       le_frame++;
@@ -192,7 +192,7 @@ int leveleditor(int levelnb)
               switch (menu_check(&leveleditor_menu))
                 {
                 case 2:
-                  show_menu = NO;
+                  show_menu = false;
                   break;
                 case 3:
                   update_subset_settings_menu();
@@ -211,7 +211,7 @@ int leveleditor(int levelnb)
                   menu_set_current(&leveleditor_menu);
                   break;
                 default:
-                  show_menu = YES;
+                  show_menu = true;
                   break;
                 }
             }
@@ -239,7 +239,7 @@ int leveleditor(int levelnb)
                       le_set_defaults();
                       level_load_gfx(le_current_level);
                       le_activate_bad_guys();
-                      show_menu = YES;
+                      show_menu = true;
                     }
                   break;
                 }
@@ -272,7 +272,7 @@ int leveleditor(int levelnb)
                       level_load_gfx(le_current_level);
                       le_activate_bad_guys();
                       menu_item_change_input(&subset_new_menu.item[2],"");
-                      show_menu = YES;
+                      show_menu = true;
                       break;
                     }
                 }
@@ -288,7 +288,7 @@ int leveleditor(int levelnb)
                 {
                 case 5:
                   save_subset_settings_menu();
-                  show_menu = YES;
+                  show_menu = true;
                   break;
                 }
             }
@@ -331,7 +331,7 @@ void le_update_buttons(const char *theme)
   bkgd_files =  dfiles(pathname,"bkgd-", NULL);
   string_list_sort(&bkgd_files);
 
-  le_bkgd_panel.hidden = YES;
+  le_bkgd_panel.hidden = true;
   key = SDLK_a;
   for(i = 0; i < bkgd_files.num_items; ++i)
     {
@@ -370,18 +370,18 @@ int le_init()
   string_list_type bad_files;
   level_subsets = dsubdirs("/levels", "info");
 
-  le_show_grid = YES;
+  le_show_grid = true;
 
   /*  level_changed = NO;*/
   fire = DOWN;
   done = 0;
   le_frame = 0;	/* support for frames in some tiles, like waves and bad guys */
-  le_level_changed = NO;
+  le_level_changed = false;
   le_current_level = NULL;
 
   le_current_tile = '.';
-  le_mouse_pressed[LEFT] = NO;
-  le_mouse_pressed[RIGHT] = NO;
+  le_mouse_pressed[LEFT] = false;
+  le_mouse_pressed[RIGHT] = false;
 
   texture_load(&le_selection, datadir + "/images/leveleditor/select.png", USE_ALPHA);
 
@@ -404,7 +404,7 @@ int le_init()
   string_list_sort(&bkgd_files);
 
   button_panel_init(&le_bkgd_panel, screen->w - 64,98, 64, 318);
-  le_bkgd_panel.hidden = YES;
+  le_bkgd_panel.hidden = true;
   key = SDLK_a;
   for(i = 0; i < bkgd_files.num_items; ++i)
     {
@@ -480,7 +480,7 @@ int le_init()
   string_list_add_item(&bad_files,"laptop-left-0.png");
   string_list_add_item(&bad_files,"bag-left-0.png");
   button_panel_init(&le_bad_panel, screen->w - 64,98, 64, 318);
-  le_bad_panel.hidden = YES;
+  le_bad_panel.hidden = true;
   key = SDLK_a;
   for(i = 0; i < bad_files.num_items; ++i)
     {
@@ -500,7 +500,7 @@ int le_init()
 
   menu_reset();
   menu_set_current(&leveleditor_menu);
-  show_menu = YES;
+  show_menu = true;
 
   menu_init(&subset_load_menu);
   menu_additem(&subset_load_menu,MN_LABEL,"Load Level Subset",0,0);
@@ -531,7 +531,7 @@ int le_init()
   menu_additem(&subset_settings_menu,MN_BACK,"Back",0,0);
 
   menu_init(&level_settings_menu);
-  level_settings_menu.arrange_left = YES;
+  level_settings_menu.arrange_left = true;
   menu_additem(&level_settings_menu,MN_LABEL,"Level Settings",0,0);
   menu_additem(&level_settings_menu,MN_HL,"",0,0);
   menu_additem(&level_settings_menu,MN_TEXTFIELD,"Name    ",0,0);
@@ -593,24 +593,24 @@ void update_subset_settings_menu()
 void apply_level_settings_menu()
 {
   int i,y,j;
-  i = NO;
+  i = false;
 
   le_current_level->name = level_settings_menu.item[2].input;
 
   if(le_current_level->bkgd_image.compare(string_list_active(level_settings_menu.item[5].list)) != 0)
     {
       le_current_level->bkgd_image = string_list_active(level_settings_menu.item[5].list);
-      i = YES;
+      i = true;
     }
 
   if(le_current_level->theme.compare(string_list_active(level_settings_menu.item[3].list)) != 0)
     {
       le_current_level->theme = string_list_active(level_settings_menu.item[3].list);
       le_update_buttons(le_current_level->theme.c_str());
-      i = YES;
+      i = true;
     }
 
-  if(i == YES)
+  if(i == true)
     {
       level_free_gfx();
       level_load_gfx(le_current_level);
@@ -681,7 +681,7 @@ void le_goto_level(int levelnb)
 
 void le_quit(void)
 {
-  /*if(level_changed == YES)
+  /*if(level_changed == true)
     if(askforsaving() == CANCEL)
       return;*/ //FIXME
 
@@ -807,7 +807,7 @@ void le_drawinterface()
     }
   else
     {
-      if(show_menu == NO)
+      if(show_menu == false)
         text_draw(&white_small_text, "No Level Subset loaded - Press ESC and choose one in the menu", 10, 430, 1, NO_UPDATE);
       else
         text_draw(&white_small_text, "No Level Subset loaded", 10, 430, 1, NO_UPDATE);
@@ -901,7 +901,7 @@ void le_checkevents()
                   menu_event(&event.key.keysym);
                   if(key == SDLK_ESCAPE)
                     {
-                      show_menu = NO;
+                      show_menu = false;
                       menu_set_current(&leveleditor_menu);
                     }
                   break;
@@ -910,9 +910,9 @@ void le_checkevents()
                 {
                 case SDLK_ESCAPE:
                   if(!show_menu)
-                    show_menu = YES;
+                    show_menu = true;
                   else
-                    show_menu = NO;
+                    show_menu = false;
                   break;
                 case SDLK_LEFT:
                   if(fire == DOWN)
@@ -986,7 +986,7 @@ void le_checkevents()
             case SDL_MOUSEBUTTONDOWN:
               if(event.button.button == SDL_BUTTON_LEFT)
                 {
-                  le_mouse_pressed[LEFT] = YES;
+                  le_mouse_pressed[LEFT] = true;
 
                   selection.x1 = event.motion.x + pos_x;
                   selection.y1 = event.motion.y;
@@ -994,13 +994,13 @@ void le_checkevents()
                   selection.y2 = event.motion.y;
                 }
               else if(event.button.button == SDL_BUTTON_RIGHT)
-                le_mouse_pressed[RIGHT] = YES;
+                le_mouse_pressed[RIGHT] = true;
               break;
             case SDL_MOUSEBUTTONUP:
               if(event.button.button == SDL_BUTTON_LEFT)
-                le_mouse_pressed[LEFT] = NO;
+                le_mouse_pressed[LEFT] = false;
               else if(event.button.button == SDL_BUTTON_RIGHT)
-                le_mouse_pressed[RIGHT] = NO;
+                le_mouse_pressed[RIGHT] = false;
               break;
             case SDL_MOUSEMOTION:
               if(!show_menu)
@@ -1011,13 +1011,13 @@ void le_checkevents()
                   cursor_x = ((int)(pos_x + x) / 32) * 32;
                   cursor_y = ((int) y / 32) * 32;
 
-                  if(le_mouse_pressed[LEFT] == YES)
+                  if(le_mouse_pressed[LEFT] == true)
                     {
                       selection.x2 = x + pos_x;
                       selection.y2 = y;
                     }
 
-                  if(le_mouse_pressed[RIGHT] == YES)
+                  if(le_mouse_pressed[RIGHT] == true)
                     {
                       pos_x += -1 * event.motion.xrel;
                     }
@@ -1036,10 +1036,10 @@ void le_checkevents()
           if(event.type == SDL_KEYDOWN || event.type == SDL_KEYUP || ((event.type == SDL_MOUSEBUTTONDOWN || SDL_MOUSEMOTION) && (event.motion.x > screen->w-64 && event.motion.x < screen->w &&
               event.motion.y > 0 && event.motion.y < screen->h)))
             {
-              le_mouse_pressed[LEFT] = NO;
-              le_mouse_pressed[RIGHT] = NO;
+              le_mouse_pressed[LEFT] = false;
+              le_mouse_pressed[RIGHT] = false;
 
-              if(show_menu == NO)
+              if(show_menu == false)
                 {
                   /* Check for button events */
                   button_event(&le_test_level_bt,&event);
@@ -1113,38 +1113,38 @@ void le_checkevents()
                   button_event(&le_bad_bt,&event);
                   if(button_get_state(&le_bad_bt) == BUTTON_CLICKED)
                     {
-                      le_bad_panel.hidden = NO;
-                      le_fgd_panel.hidden = YES;
-                      le_bkgd_panel.hidden = YES;
+                      le_bad_panel.hidden = false;
+                      le_fgd_panel.hidden = true;
+                      le_bkgd_panel.hidden = true;
                     }
 
                   button_event(&le_fgd_bt,&event);
                   if(button_get_state(&le_fgd_bt) == BUTTON_CLICKED)
                     {
-                      le_bad_panel.hidden = YES;
-                      le_fgd_panel.hidden = NO;
-                      le_bkgd_panel.hidden = YES;
+                      le_bad_panel.hidden = true;
+                      le_fgd_panel.hidden = false;
+                      le_bkgd_panel.hidden = true;
                     }
                   button_event(&le_bkgd_bt,&event);
                   if(button_get_state(&le_bkgd_bt) == BUTTON_CLICKED)
                     {
-                      le_bad_panel.hidden = YES;
-                      le_fgd_panel.hidden = YES;
-                      le_bkgd_panel.hidden = NO;
+                      le_bad_panel.hidden = true;
+                      le_fgd_panel.hidden = true;
+                      le_bkgd_panel.hidden = false;
                     }
                   button_event(&le_settings_bt,&event);
                   if(button_get_state(&le_settings_bt) == BUTTON_CLICKED)
                     {
-                      if(show_menu == NO)
+                      if(show_menu == false)
                         {
                           update_level_settings_menu();
                           menu_set_current(&level_settings_menu);
-                          show_menu = YES;
+                          show_menu = true;
                         }
                       else
                         {
                           menu_set_current(&leveleditor_menu);
-                          show_menu = NO;
+                          show_menu = false;
                         }
                     }
                   if((pbutton = button_panel_event(&le_bkgd_panel,&event)) != NULL)
@@ -1226,21 +1226,21 @@ void le_checkevents()
                   button_event(&le_settings_bt,&event);
                   if(button_get_state(&le_settings_bt) == BUTTON_CLICKED)
                     {
-                      if(show_menu == NO)
+                      if(show_menu == false)
                         {
                           update_level_settings_menu();
                           menu_set_current(&level_settings_menu);
-                          show_menu = YES;
+                          show_menu = true;
                         }
                       else
                         {
                           menu_set_current(&leveleditor_menu);
-                          show_menu = NO;
+                          show_menu = false;
                         }
                     }
                 }
             }
-          if(show_menu == NO)
+          if(show_menu == false)
             {
               button_event(&le_move_left_bt,&event);
               button_event(&le_move_right_bt,&event);
@@ -1252,7 +1252,7 @@ void le_checkevents()
             }
         }
     }
-  if(show_menu == NO)
+  if(show_menu == false)
     {
       if(button_get_state(&le_move_left_bt) == BUTTON_PRESSED)
         {
@@ -1316,7 +1316,7 @@ void le_change(float x, float y, unsigned char c)
       int x1, x2, y1, y2;
       unsigned int i;
 
-      /*  level_changed = YES; */
+      /*  level_changed = true; */
 
       switch(le_selection_mode)
         {

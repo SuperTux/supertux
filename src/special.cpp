@@ -245,14 +245,14 @@ void upgrade_collision(upgrade_type* pupgrade, void* p_c_object, int c_object)
 	  {
 	  pplayer->base.height = 32;
 	  pplayer->base.y += 32;
-	  pplayer->duck = YES;
+	  pplayer->duck = true;
 	  }
           timer_start(&super_bkgd_timer, 350);
         }
       else if (pupgrade->kind == UPGRADE_COFFEE)
         {
           play_sound(sounds[SND_COFFEE], SOUND_CENTER_SPEAKER);
-          pplayer->got_coffee = YES;
+          pplayer->got_coffee = true;
           timer_start(&super_bkgd_timer, 250);
         }
       else if (pupgrade->kind == UPGRADE_HERRING)

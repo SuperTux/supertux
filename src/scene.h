@@ -22,7 +22,17 @@
 #include "level.h"
 
 #define FRAME_RATE 10 // 100 Frames per second (10ms)
-extern int score, distros, level, next_level, game_pause, quit, score_multiplier, endpos, counting_distros, distro_counter;
+extern int score;
+extern int distros;
+extern int level; 
+extern int next_level;
+extern int game_pause;
+extern bool quit;
+extern int score_multiplier;
+extern int endpos;
+extern bool counting_distros;
+extern int distro_counter;
+
 extern timer_type  super_bkgd_timer;
 extern float scroll_x;
 extern int frame;

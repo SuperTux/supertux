@@ -33,9 +33,9 @@
 typedef struct bad_guy_type
   {
     int mode;
-    int dying;
+    DyingType dying;
     int kind;
-    int seen;
+    bool seen;
     int dir;
     int frame;
     base_type base;

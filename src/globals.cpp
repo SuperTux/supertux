@@ -18,7 +18,11 @@ std::string datadir;
 SDL_Surface * screen;
 text_type black_text, gold_text, blue_text, red_text, yellow_nums, white_text, white_small_text, white_big_text;
 
-int use_gl, use_joystick, use_fullscreen, debug_mode, show_fps;
+bool use_gl;
+bool use_joystick; 
+bool use_fullscreen;
+bool debug_mode;
+bool show_fps;
 
 int joystick_num = 0; 
 char* level_startup_file = 0;

@@ -33,12 +33,6 @@
 #define JOY_X 0
 #define JOY_Y 1
 
-
-/* Booleans: */
-
-#define NO 0
-#define YES 1
-
 /* Direction (keyboard/joystick) states: */
 
 #define UP 0
@@ -47,8 +41,11 @@
 /* Dying types: */
 
 /* ---- NO 0 */
-#define SQUISHED 1
-#define FALLING 2
+enum DyingType {
+  DYING_NOT = 0,
+  DYING_SQUISHED = 1,
+  DYING_FALLING = 2
+};
 
 /* Hurt modes: */
 

@@ -41,7 +41,7 @@
 /* extern variables */
 
 st_level current_level;
-int game_started = NO;
+int game_started = false;
 
 /* Local variables: */
 
@@ -187,7 +187,7 @@ void game_event(void)
                 }
               break;
             case SDLK_TAB:
-              if(debug_mode == YES)
+              if(debug_mode)
                 {
                   tux.size = !tux.size;
                   if(tux.size == BIG)
@@ -199,33 +199,33 @@ void game_event(void)
                 }
               break;
             case SDLK_END:
-              if(debug_mode == YES)
+              if(debug_mode)
                 distros += 50;
               break;
             case SDLK_SPACE:
-              if(debug_mode == YES)
+              if(debug_mode)
                 next_level = 1;
               break;
             case SDLK_DELETE:
-              if(debug_mode == YES)
+              if(debug_mode)
                 tux.got_coffee = 1;
               break;
             case SDLK_INSERT:
-              if(debug_mode == YES)
+              if(debug_mode)
                 timer_start(&tux.invincible_timer,TUX_INVINCIBLE_TIME);
               break;
             case SDLK_l:
-              if(debug_mode == YES)
+              if(debug_mode)
                 --tux.lives;
               break;
             case SDLK_s:
-              if(debug_mode == YES)
+              if(debug_mode)
                 score += 1000;
             case SDLK_f:
-              if(debug_fps == YES)
-	      debug_fps = NO;
+              if(debug_fps)
+	      debug_fps = false;
 	      else
-	      debug_fps = YES;
+	      debug_fps = true;
               break;	      
             default:
               break;
@@ -400,7 +400,7 @@ int game_action(void)
 
   /* Handle distro counting: */
 
-  if (counting_distros == YES)
+  if (counting_distros)
     {
       distro_counter--;
 
@@ -580,10 +580,10 @@ int gameloop(const char * subset, int levelnb, int mode)
 {
   int fps_cnt, jump, done;
   timer_type fps_timer, frame_timer;
-  timer_init(&fps_timer, YES);
-  timer_init(&frame_timer, YES);
+  timer_init(&fps_timer, true);
+  timer_init(&frame_timer, true);
 
-  game_started = YES;
+  game_started = true;
 
   st_gl_mode = mode;
   level = levelnb;
@@ -619,7 +619,7 @@ int gameloop(const char * subset, int levelnb, int mode)
   if(st_gl_mode == ST_GL_PLAY || st_gl_mode == ST_GL_LOAD_LEVEL_FILE)
     levelintro();
 
-  timer_init(&time_left,YES);
+  timer_init(&time_left,true);
   start_timers();
 
   if(st_gl_mode == ST_GL_LOAD_GAME)
@@ -628,13 +628,13 @@ int gameloop(const char * subset, int levelnb, int mode)
 
   /* --- MAIN GAME LOOP!!! --- */
 
-  jump = NO;
+  jump = false;
   done = 0;
   quit = 0;
   frame = 0;
   game_pause = 0;
-  timer_init(&fps_timer,YES);
-  timer_init(&frame_timer,YES);
+  timer_init(&fps_timer,true);
+  timer_init(&frame_timer,true);
   fps_cnt = 0;
 
   /* Clear screen: */
@@ -652,7 +652,7 @@ int gameloop(const char * subset, int levelnb, int mode)
   game_draw();
   do
     {
-      jump = NO;
+      jump = false;
 
       /* Calculate the movement-factor */
       frame_ratio = ((double)(update_time-last_update_time))/((double)FRAME_RATE);
@@ -681,10 +681,10 @@ int gameloop(const char * subset, int levelnb, int mode)
                   st_pause_ticks_stop();
                   break;
                 case 3:
-                  update_load_save_game_menu(&save_game_menu, NO);
+                  update_load_save_game_menu(&save_game_menu, false);
                   break;
                 case 4:
-                  update_load_save_game_menu(&load_game_menu, YES);
+                  update_load_save_game_menu(&load_game_menu, true);
                   break;
                 case 7:
                   st_pause_ticks_stop();
@@ -698,11 +698,11 @@ int gameloop(const char * subset, int levelnb, int mode)
             }
           else if(current_menu == &save_game_menu )
             {
-              process_save_load_game_menu(YES);
+              process_save_load_game_menu(true);
             }
           else if(current_menu == &load_game_menu )
             {
-              process_save_load_game_menu(NO);
+              process_save_load_game_menu(false);
             }
         }
 
@@ -730,7 +730,7 @@ int gameloop(const char * subset, int levelnb, int mode)
           SDL_Delay(50);
         }
 
-      if(debug_mode && debug_fps == YES)
+      if(debug_mode && debug_fps == true)
         SDL_Delay(60);
 
       /*Draw the current scene to the screen */
@@ -740,7 +740,7 @@ int gameloop(const char * subset, int levelnb, int mode)
       /*if( ! fps_fps < 50.0 )
       game_draw();
       else
-      jump = YES;*/ /*FIXME: Implement this tweak right.*/
+      jump = true;*/ /*FIXME: Implement this tweak right.*/
       game_draw();
 
       /* Time stops in pause mode */
@@ -757,7 +757,7 @@ int gameloop(const char * subset, int levelnb, int mode)
       /* Pause till next frame, if the machine running the game is too fast: */
       /* FIXME: Works great for in OpenGl mode, where the CPU doesn't have to do that much. But
                 the results in SDL mode aren't perfect (thought the 100 FPS are reached), even on an AMD2500+. */
-      if(last_update_time >= update_time - 12 && jump != YES )
+      if(last_update_time >= update_time - 12 && !jump)
         SDL_Delay(10);
       /*if((update_time - last_update_time) < 10)
           SDL_Delay((11 - (update_time - last_update_time))/2);*/
@@ -805,7 +805,7 @@ int gameloop(const char * subset, int levelnb, int mode)
   unloadshared();
   arrays_free();
 
-  game_started = NO;
+  game_started = false;
 
   return(quit);
 }
@@ -1379,66 +1379,44 @@ unsigned char shape(float x, float y)
 /* Is is ground? */
 
 
-int issolid(float x, float y)
+bool issolid(float x, float y)
 {
-  if (isbrick(x, y) ||
-      isice(x, y) ||
-      (shape(x, y) == '[') ||
-      (shape(x, y) == '=') ||
-      (shape(x, y) == ']') ||
-      (shape(x, y) == 'A') ||
-      (shape(x, y) == 'B') ||
-      (shape(x, y) == '!') ||
-      (shape(x, y) == 'a'))
-    {
-      return YES;
-    }
-
-  return NO;
+  return (isbrick(x, y) ||
+          isice(x, y) ||
+          (shape(x, y) == '[') ||
+          (shape(x, y) == '=') ||
+          (shape(x, y) == ']') ||
+          (shape(x, y) == 'A') ||
+          (shape(x, y) == 'B') ||
+          (shape(x, y) == '!') ||
+          (shape(x, y) == 'a'));
 }
-
 
 /* Is it a brick? */
 
-int isbrick(float x, float y)
+bool isbrick(float x, float y)
 {
-  if (shape(x, y) == 'X' ||
-      shape(x, y) == 'x' ||
-      shape(x, y) == 'Y' ||
-      shape(x, y) == 'y')
-    {
-      return YES;
-    }
-
-  return NO;
+  return (shape(x, y) == 'X' ||
+          shape(x, y) == 'x' ||
+          shape(x, y) == 'Y' ||
+          shape(x, y) == 'y');
 }
 
 
 /* Is it ice? */
 
-int isice(float x, float y)
+bool isice(float x, float y)
 {
-  if (shape(x, y) == '#')
-    {
-      return YES;
-    }
-
-  return NO;
+  return (shape(x, y) == '#');
 }
-
 
 /* Is it a full box? */
 
-int isfullbox(float x, float y)
+bool isfullbox(float x, float y)
 {
-  if (shape(x, y) == 'A' ||
-      shape(x, y) == 'B' ||
-      shape(x, y) == '!')
-    {
-      return YES;
-    }
-
-  return NO;
+  return (shape(x, y) == 'A' ||
+          shape(x, y) == 'B' ||
+          shape(x, y) == '!');
 }
 
 /* Break a brick: */
@@ -1454,9 +1432,9 @@ void trybreakbrick(float x, float y)
           add_bouncy_distro(((int)(x + 1) / 32) * 32,
                             (int)(y / 32) * 32);
 
-          if (counting_distros == NO)
+          if (!counting_distros)
             {
-              counting_distros = YES;
+              counting_distros = true;
               distro_counter = 50;
             }
 
@@ -1579,7 +1557,7 @@ void trybumpbadguy(float x, float y)
           if (bad_guys[i].kind == BAD_BSOD ||
               bad_guys[i].kind == BAD_LAPTOP)
             {
-              bad_guys[i].dying = FALLING;
+              bad_guys[i].dying = DYING_FALLING;
               bad_guys[i].base.ym = -8;
               play_sound(sounds[SND_FALL], SOUND_CENTER_SPEAKER);
             }

@@ -52,10 +52,7 @@ void physic_set_acceleration(physic_type* pphysic, float acceleration)
 
 int physic_is_set(physic_type* pphysic)
 {
-  if(pphysic->state != -1)
-    return YES;
-  else
-    return NO;
+  return (pphysic->state != -1);
 }
 
 float physic_get_velocity(physic_type* pphysic)

@@ -41,12 +41,12 @@ void st_pause_ticks_stop(void)
   st_pause_count = 0;
 }
 
-void timer_init(timer_type* ptimer, int st_ticks)
+void timer_init(timer_type* ptimer, bool st_ticks)
 {
   ptimer->period = 0;
   ptimer->time = 0;
 
-  if(st_ticks == YES)
+  if(st_ticks)
     ptimer->get_ticks = st_get_ticks;
   else
     ptimer->get_ticks = SDL_GetTicks;
@@ -62,28 +62,28 @@ void timer_start(timer_type* ptimer, unsigned int period)
 void timer_stop(timer_type* ptimer)
 {
   if(ptimer->get_ticks == st_get_ticks)
-    timer_init(ptimer,YES);
+    timer_init(ptimer,true);
   else
-    timer_init(ptimer,NO);
+    timer_init(ptimer,false);
 }
 
 int timer_check(timer_type* ptimer)
 {
   if((ptimer->time != 0) && (ptimer->time + ptimer->period > ptimer->get_ticks()))
-    return YES;
+    return true;
   else
     {
       ptimer->time = 0;
-      return NO;
+      return false;
     }
 }
 
 int timer_started(timer_type* ptimer)
 {
   if(ptimer->time != 0)
-    return YES;
+    return true;
   else
-    return NO;
+    return false;
 }
 
 int timer_get_left(timer_type* ptimer)
@@ -108,9 +108,9 @@ void timer_fwrite(timer_type* ptimer, FILE* fi)
   fwrite(&ptimer->period,sizeof(unsigned int),1,fi);
   fwrite(&diff_ticks,sizeof(unsigned int),1,fi);
   if(ptimer->get_ticks == st_get_ticks)
-      tick_mode = YES;
+      tick_mode = true;
   else
-      tick_mode = NO;
+      tick_mode = false;
   fwrite(&tick_mode,sizeof(unsigned int),1,fi);
 }
 
@@ -121,7 +121,7 @@ void timer_fread(timer_type* ptimer, FILE* fi)
   fread(&ptimer->period,sizeof(unsigned int),1,fi);
   fread(&diff_ticks,sizeof(unsigned int),1,fi);
   fread(&tick_mode,sizeof(unsigned int),1,fi);
-  if(tick_mode == YES)
+  if(tick_mode == true)
     ptimer->get_ticks = st_get_ticks;
   else
     ptimer->get_ticks = SDL_GetTicks;

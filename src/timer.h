@@ -28,7 +28,7 @@ unsigned int st_get_ticks(void);
 void st_pause_ticks_init(void);
 void st_pause_ticks_start(void);
 void st_pause_ticks_stop(void);
-void timer_init(timer_type* ptimer, int st_ticks);
+void timer_init(timer_type* ptimer, bool st_ticks);
 void timer_start(timer_type* ptimer, unsigned int period);
 void timer_stop(timer_type* ptimer);
 /*======================================================================
