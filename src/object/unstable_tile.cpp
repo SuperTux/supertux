@@ -9,8 +9,8 @@
 #include "special/sprite_manager.h"
 #include "special/sprite.h"
 
-static const float CRACKTIME = 1;
-static const float FALLTIME = 1.5;
+static const float CRACKTIME = 0.3;
+static const float FALLTIME = 0.8;
 
 UnstableTile::UnstableTile(const lisp::Lisp& lisp)
   : hit(false), falling(false)
