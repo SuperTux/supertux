@@ -11,6 +11,7 @@
 //
 
 #include <assert.h>
+#include <iostream>
 #include "SDL.h"
 #include "SDL_image.h"
 #include "texture.h"
@@ -19,9 +20,20 @@
 
 Surface::Surfaces Surface::surfaces;
 
-SurfaceData::SurfaceData(SDL_Surface* surf, int use_alpha_)
-  : type(SURFACE), surface(surf), use_alpha(use_alpha_)
+SurfaceData::SurfaceData(SDL_Surface* temp, int use_alpha_)
+  : type(SURFACE), use_alpha(use_alpha_)
 {
+  // Copy the given surface and make sure that it is not stored in
+  // video memory
+  surface = SDL_CreateRGBSurface(temp->flags & (~SDL_HWSURFACE),
+                                 temp->w, temp->h,
+                                 temp->format->BitsPerPixel,
+                                 temp->format->Rmask,
+                                 temp->format->Gmask,
+                                 temp->format->Bmask,
+                                 temp->format->Amask);
+  SDL_SetAlpha(temp,0,0);
+  SDL_BlitSurface(temp, NULL, surface, NULL);
 }
 
 SurfaceData::SurfaceData(const std::string& file_, int use_alpha_)
@@ -33,6 +45,11 @@ SurfaceData::SurfaceData(const std::string& file_, int x_, int y_, int w_, int h
   : type(LOAD_PART), file(file_), use_alpha(use_alpha_),
     x(x_), y(y_), w(w_), h(h_)
 {
+}
+
+SurfaceData::~SurfaceData()
+{
+  
 }
 
 SurfaceImpl*
@@ -54,7 +71,7 @@ SurfaceData::create_SurfaceSDL()
     case LOAD_PART:
       return new SurfaceSDL(file, x, y, w, h, use_alpha);
     case SURFACE:
-      return 0; //new SurfaceSDL(surface, use_alpha);
+      return new SurfaceSDL(surface, use_alpha);
     }
   assert(0);
 }
@@ -69,7 +86,7 @@ SurfaceData::create_SurfaceOpenGL()
     case LOAD_PART:
       return new SurfaceOpenGL(file, x, y, w, h, use_alpha);
     case SURFACE:
-      return 0; //new SurfaceOpenGL(surface, use_alpha);
+      return new SurfaceOpenGL(surface, use_alpha);
     }
   assert(0);
 }
@@ -152,19 +169,31 @@ Surface::reload_all()
 void
 Surface::draw(float x, float y, Uint8 alpha, bool update)
 {
-  if (impl) impl->draw(x, y, alpha, update);
+  if (impl) 
+    {
+      if (impl->draw(x, y, alpha, update) == -2)
+        reload();
+    }
 }
 
 void
 Surface::draw_bg(Uint8 alpha, bool update)
 {
-  if (impl) impl->draw_bg(alpha, update);
+  if (impl)
+    {
+      if (impl->draw_bg(alpha, update) == -2)
+        reload();
+    }
 }
 
 void
 Surface::draw_part(float sx, float sy, float x, float y, float w, float h,  Uint8 alpha, bool update)
 {
-  if (impl) impl->draw_part(sx, sy, x, y, w, h, alpha, update);
+  if (impl)
+    {
+      if (impl->draw_part(sx, sy, x, y, w, h, alpha, update) == -2)
+        reload();
+    }
 }
 
 SDL_Surface*
@@ -368,7 +397,7 @@ SurfaceOpenGL::create_gl(SDL_Surface * surf, GLuint * tex)
   SDL_FreeSurface(conv);
 }
 
-void
+int
 SurfaceOpenGL::draw(float x, float y, Uint8 alpha, bool update)
 {
   float pw = power_of_two(w);
@@ -398,9 +427,11 @@ SurfaceOpenGL::draw(float x, float y, Uint8 alpha, bool update)
   /* Avoid compiler warnings */
   if(update)
     {}
+
+  return 0;
 }
 
-void
+int
 SurfaceOpenGL::draw_bg(Uint8 alpha, bool update)
 {
   float pw = power_of_two(w);
@@ -427,9 +458,11 @@ SurfaceOpenGL::draw_bg(Uint8 alpha, bool update)
   /* Avoid compiler warnings */
   if(update)
     {}
+
+  return 0;
 }
 
-void
+int
 SurfaceOpenGL::draw_part(float sx, float sy, float x, float y, float w, float h, Uint8 alpha, bool update)
 {
   float pw = power_of_two(int(this->w));
@@ -462,6 +495,7 @@ SurfaceOpenGL::draw_part(float sx, float sy, float x, float y, float w, float h,
   /* Avoid compiler warnings */
   if(update)
     {}
+  return 0;
 }
 #endif
 
@@ -486,7 +520,7 @@ SurfaceSDL::SurfaceSDL(const std::string& file, int x, int y, int w, int h,  int
   h = sdl_surface->h;
 }
 
-void
+int
 SurfaceSDL::draw(float x, float y, Uint8 alpha, bool update)
 {
   SDL_Rect dest;
@@ -497,16 +531,18 @@ SurfaceSDL::draw(float x, float y, Uint8 alpha, bool update)
   dest.h = h;
   
   if(alpha != 255) /* SDL isn't capable of this kind of alpha :( therefore we'll leave now. */
-    return;
+    return -1;
   
   SDL_SetAlpha(sdl_surface ,SDL_SRCALPHA,alpha);
-  SDL_BlitSurface(sdl_surface, NULL, screen, &dest);
+  int ret = SDL_BlitSurface(sdl_surface, NULL, screen, &dest);
   
   if (update == UPDATE)
     SDL_UpdateRect(screen, dest.x, dest.y, dest.w, dest.h);
+
+  return ret;
 }
 
-void
+int
 SurfaceSDL::draw_bg(Uint8 alpha, bool update)
 {
   SDL_Rect dest;
@@ -518,13 +554,16 @@ SurfaceSDL::draw_bg(Uint8 alpha, bool update)
 
   if(alpha != 255)
     SDL_SetAlpha(sdl_surface ,SDL_SRCALPHA,alpha);
-  SDL_SoftStretch(sdl_surface, NULL, screen, &dest);
+  
+  int ret = SDL_SoftStretch(sdl_surface, NULL, screen, &dest);
   
   if (update == UPDATE)
     SDL_UpdateRect(screen, dest.x, dest.y, dest.w, dest.h);
+
+  return ret;
 }
 
-void
+int
 SurfaceSDL::draw_part(float sx, float sy, float x, float y, float w, float h, Uint8 alpha, bool update)
 {
   SDL_Rect src, dest;
@@ -542,10 +581,12 @@ SurfaceSDL::draw_part(float sx, float sy, float x, float y, float w, float h, Ui
   if(alpha != 255)
     SDL_SetAlpha(sdl_surface ,SDL_SRCALPHA,alpha);
   
-  SDL_BlitSurface(sdl_surface, &src, screen, &dest);
+  int ret = SDL_BlitSurface(sdl_surface, &src, screen, &dest);
 
   if (update == UPDATE)
     update_rect(screen, dest.x, dest.y, dest.w, dest.h);
+  
+  return ret;
 }
 
 SurfaceSDL::~SurfaceSDL()

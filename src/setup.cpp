@@ -373,7 +373,11 @@ void st_menu(void)
 
   options_menu->additem(MN_LABEL,"Options",0,0);
   options_menu->additem(MN_HL,"",0,0);
+#ifndef NOOPENGL
   options_menu->additem(MN_TOGGLE,"OpenGL",use_gl,0);
+#else
+  options_menu->additem(MN_DEACTIVE,"OpenGL (not supported)",use_gl,0);
+#endif
   options_menu->additem(MN_TOGGLE,"Fullscreen",use_fullscreen,0);
   if(audio_device)
     {
@@ -510,20 +514,13 @@ void process_options_menu(void)
   switch (options_menu->check())
     {
     case 2:
-      if(/*use_gl != */options_menu->item[2].toggled)
-        {
 #ifndef NOOPENGL
-/*
+      if(use_gl != options_menu->item[2].toggled)
+        {
           use_gl = !use_gl;
           st_video_setup();
-*/
-options_menu->item[2].toggled = false;
-printf("This feature has been temporarly disabled\n");
-#else
-  options_menu->item[2].toggled = false;
-  printf("OpenGL hasn't been enabled during compiling time.\n");
-#endif
         }
+#endif
       break;
     case 3:
       if(use_fullscreen != options_menu->item[3].toggled)

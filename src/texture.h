@@ -43,6 +43,7 @@ public:
   SurfaceData(SDL_Surface* surf, int use_alpha_);
   SurfaceData(const std::string& file_, int use_alpha_);
   SurfaceData(const std::string& file_, int x_, int y_, int w_, int h_, int use_alpha_);
+  ~SurfaceData();
 
   SurfaceSDL* create_SurfaceSDL();
   SurfaceOpenGL* create_SurfaceOpenGL();
@@ -87,9 +88,10 @@ public:
   int h;
 
 public:
-  virtual void draw(float x, float y, Uint8 alpha, bool update) = 0;
-  virtual void draw_bg(Uint8 alpha, bool update) = 0;
-  virtual void draw_part(float sx, float sy, float x, float y, float w, float h,  Uint8 alpha, bool update) = 0;
+  /** Return 0 on success, -2 if surface needs to be reloaded */
+  virtual int draw(float x, float y, Uint8 alpha, bool update) = 0;
+  virtual int draw_bg(Uint8 alpha, bool update) = 0;
+  virtual int draw_part(float sx, float sy, float x, float y, float w, float h,  Uint8 alpha, bool update) = 0;
 };
 
 class SurfaceSDL : public SurfaceImpl
@@ -102,9 +104,9 @@ public:
   SurfaceSDL(const std::string& file, int x, int y, int w, int h, int use_alpha);
   virtual ~SurfaceSDL();
 
-  void draw(float x, float y, Uint8 alpha, bool update);
-  void draw_bg(Uint8 alpha, bool update);
-  void draw_part(float sx, float sy, float x, float y, float w, float h,  Uint8 alpha, bool update);
+  int draw(float x, float y, Uint8 alpha, bool update);
+  int draw_bg(Uint8 alpha, bool update);
+  int draw_part(float sx, float sy, float x, float y, float w, float h,  Uint8 alpha, bool update);
 };
 
 class SurfaceOpenGL : public SurfaceImpl
@@ -118,9 +120,9 @@ public:
   SurfaceOpenGL(const std::string& file, int x, int y, int w, int h, int use_alpha);
   virtual ~SurfaceOpenGL();
 
-  void draw(float x, float y, Uint8 alpha, bool update);
-  void draw_bg(Uint8 alpha, bool update);
-  void draw_part(float sx, float sy, float x, float y, float w, float h,  Uint8 alpha, bool update);
+  int draw(float x, float y, Uint8 alpha, bool update);
+  int draw_bg(Uint8 alpha, bool update);
+  int draw_part(float sx, float sy, float x, float y, float w, float h,  Uint8 alpha, bool update);
 
 private:
   void create_gl(SDL_Surface * surf, GLuint * tex);

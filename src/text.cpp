@@ -46,7 +46,7 @@ Text::Text(const std::string& file, int kind_, int w_, int h_)
 
   chars = new Surface(file, USE_ALPHA);
 
-  /* Load shadow font. */
+  // Load shadow font.
   conv = SDL_DisplayFormatAlpha(chars->impl->sdl_surface);
   pixels = conv->w * conv->h;
   SDL_LockSurface(conv);
