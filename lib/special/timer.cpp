@@ -19,7 +19,7 @@
 //  02111-1307, USA.
 
 #include "SDL.h"
-#include "special/timer.h"
+#include "../special/timer.h"
 
 using namespace SuperTux;
 

@@ -22,9 +22,9 @@
 
 #include <vector>
 #include <string>
-#include "gui/menu.h"
-#include "audio/sound.h"
-#include "special/base.h"
+#include "../gui/menu.h"
+#include "../audio/sound.h"
+#include "../special/base.h"
 
 namespace SuperTux {
 

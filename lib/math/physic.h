@@ -21,7 +21,7 @@
 #ifndef SUPERTUX_PHYSIC_H
 #define SUPERTUX_PHYSIC_H
 
-#include "math/vector.h"
+#include "../math/vector.h"
 
 namespace SuperTux
   {

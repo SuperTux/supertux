@@ -20,9 +20,9 @@
 #include <cstdlib>
 #include <string>
 
-#include "utils/configfile.h"
-#include "app/setup.h"
-#include "app/globals.h"
+#include "../utils/configfile.h"
+#include "../app/setup.h"
+#include "../app/globals.h"
 
 using namespace SuperTux;
 

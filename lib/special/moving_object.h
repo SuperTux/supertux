@@ -20,9 +20,9 @@
 #ifndef SUPERTUX_MOVING_OBJECT_H
 #define SUPERTUX_MOVING_OBJECT_H
 
-#include "special/base.h"
-#include "special/game_object.h"
-#include "math/vector.h"
+#include "../special/base.h"
+#include "../special/game_object.h"
+#include "../math/vector.h"
 //#include "rectangle.h"
 
 namespace SuperTux

@@ -24,11 +24,11 @@
 
 #include "SDL.h"
 
-#include "video/surface.h"
-#include "special/timer.h"
-#include "special/base.h"
-#include "special/stringlist.h"
-#include "gui/mousecursor.h"
+#include "../video/surface.h"
+#include "../special/timer.h"
+#include "../special/base.h"
+#include "../special/stringlist.h"
+#include "../gui/mousecursor.h"
 
 namespace SuperTux
   {

@@ -19,7 +19,7 @@
 
 #include <cmath>
 
-#include "math/vector.h"
+#include "../math/vector.h"
 
 using namespace SuperTux;
 

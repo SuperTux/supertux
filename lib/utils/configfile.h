@@ -20,7 +20,7 @@
 #ifndef SUPERTUX_CONFIGFILE_H
 #define SUPERTUX_CONFIGFILE_H
 
-#include "utils/lispreader.h"
+#include "../utils/lispreader.h"
 
 namespace SuperTux {
 

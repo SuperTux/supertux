@@ -20,7 +20,7 @@
 
 #include "string.h"
 #include "stdlib.h"
-#include "special/stringlist.h"
+#include "../special/stringlist.h"
 
 using namespace SuperTux;
 

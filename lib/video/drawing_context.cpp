@@ -20,10 +20,10 @@
 #include <cassert>
 #include <iostream>
 
-#include "video/drawing_context.h"
-#include "video/surface.h"
-#include "app/globals.h"
-#include "video/font.h"
+#include "../video/drawing_context.h"
+#include "../video/surface.h"
+#include "../app/globals.h"
+#include "../video/font.h"
 
 using namespace SuperTux;
 

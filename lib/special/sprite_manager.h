@@ -22,7 +22,7 @@
 
 #include <map>
 
-#include "special/sprite.h"
+#include "../special/sprite.h"
 
 namespace SuperTux
   {

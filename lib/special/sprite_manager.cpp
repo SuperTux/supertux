@@ -19,8 +19,8 @@
 
 #include <iostream>
 
-#include "utils/lispreader.h"
-#include "special/sprite_manager.h"
+#include "../utils/lispreader.h"
+#include "../special/sprite_manager.h"
 
 using namespace SuperTux;
 

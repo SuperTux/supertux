@@ -20,10 +20,10 @@
 #include <iostream>
 #include <cmath>
 
-#include "app/globals.h"
-#include "app/setup.h"
-#include "special/sprite.h"
-#include "video/drawing_context.h"
+#include "../app/globals.h"
+#include "../app/setup.h"
+#include "../special/sprite.h"
+#include "../video/drawing_context.h"
 
 using namespace SuperTux;
 

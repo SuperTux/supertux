@@ -21,11 +21,11 @@
 #include <cstring>
 #include <cstdlib>
 
-#include "app/setup.h"
-#include "video/screen.h"
-#include "video/drawing_context.h"
-#include "app/globals.h"
-#include "gui/button.h"
+#include "../app/setup.h"
+#include "../video/screen.h"
+#include "../video/drawing_context.h"
+#include "../app/globals.h"
+#include "../gui/button.h"
 
 using namespace SuperTux;
 

@@ -26,9 +26,9 @@
 
 #include "SDL.h"
 
-#include "video/font.h"
-#include "gui/menu.h"
-#include "gui/mousecursor.h"
+#include "../video/font.h"
+#include "../gui/menu.h"
+#include "../gui/mousecursor.h"
 
 namespace SuperTux
   {

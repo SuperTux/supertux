@@ -27,9 +27,9 @@
 #include <cstdlib>
 #include <cstring>
 
-#include "app/globals.h"
-#include "app/setup.h"
-#include "utils/lispreader.h"
+#include "../app/globals.h"
+#include "../app/setup.h"
+#include "../utils/lispreader.h"
 
 using namespace SuperTux;
 

@@ -23,8 +23,8 @@
 
 #include <vector>
 
-#include "video/surface.h"
-#include "special/timer.h"
+#include "../video/surface.h"
+#include "../special/timer.h"
 
 namespace SuperTux
   {
