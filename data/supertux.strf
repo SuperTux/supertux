@@ -52,151 +52,172 @@
                  "shared/mriceblock-right-1.png"
                  "shared/mriceblock-right-2.png"
                  "shared/mriceblock-right-1.png"))
-  
-  (sprite (name "laptop-flat-left")
-          (images "shared/mriceblock-flat-left.png"))
+ 
+ (sprite (name "laptop-flat-left")
+         (images "shared/mriceblock-flat-left.png"))
 
-  (sprite (name "laptop-flat-right")
-          (images "shared/mriceblock-flat-right.png"))
+ (sprite (name "laptop-flat-right")
+         (images "shared/mriceblock-flat-right.png"))
 
-  (sprite (name "laptop-falling-left")
-          (images "shared/laptop-falling-left.png"))
+ (sprite (name "laptop-falling-left")
+         (images "shared/laptop-falling-left.png"))
 
-  (sprite (name "laptop-falling-right")
-          (images "shared/laptop-falling-right.png"))
+ (sprite (name "laptop-falling-right")
+         (images "shared/laptop-falling-right.png"))
 
-  (sprite (name "jumpy-left-up")
-          (images "shared/jumpy-left-up-0.png"))
-  (sprite (name "jumpy-left-down")
-          (images "shared/jumpy-left-down-0.png"))
-  (sprite (name "jumpy-left-middle")
-          (images "shared/jumpy-left-middle-0.png"))
+ (sprite (name "jumpy-left-up")
+         (images "shared/jumpy-left-up-0.png"))
+ (sprite (name "jumpy-left-down")
+         (images "shared/jumpy-left-down-0.png"))
+ (sprite (name "jumpy-left-middle")
+         (images "shared/jumpy-left-middle-0.png"))
 
-  (sprite (name "mrbomb-left")
-          (images "shared/mrbomb-left-0.png")
-          (images "shared/mrbomb-left-1.png")
-          (images "shared/mrbomb-left-2.png")
-          (images "shared/mrbomb-left-3.png"))
+ (sprite (name "mrbomb-left")
+         (images "shared/mrbomb-left-0.png")
+         (images "shared/mrbomb-left-1.png")
+         (images "shared/mrbomb-left-2.png")
+         (images "shared/mrbomb-left-3.png"))
 
-  (sprite (name "mrbomb-right")
-          (images "shared/mrbomb-right-0.png")
-          (images "shared/mrbomb-right-1.png")
-          (images "shared/mrbomb-right-2.png")
-          (images "shared/mrbomb-right-3.png"))
-          
+ (sprite (name "mrbomb-right")
+         (images "shared/mrbomb-right-0.png")
+         (images "shared/mrbomb-right-1.png")
+         (images "shared/mrbomb-right-2.png")
+         (images "shared/mrbomb-right-3.png"))
+ 
 
-  (sprite (name "mrbomb-ticking-left")
-          (images "shared/mrbombx-left-0.png"))
+ (sprite (name "mrbomb-ticking-left")
+         (images "shared/mrbombx-left-0.png"))
 
-  (sprite (name "mrbomb-ticking-right")
-          (images "shared/mrbombx-right-0.png"))
+ (sprite (name "mrbomb-ticking-right")
+         (images "shared/mrbombx-right-0.png"))
 
-  (sprite (name "mrbomb-explosion")
-          (images "shared/mrbomb-explosion.png"))
+ (sprite (name "mrbomb-explosion")
+         (images "shared/mrbomb-explosion.png"))
 
-  (sprite (name "stalactite")
-          (images "shared/stalactite.png"))
+ (sprite (name "stalactite")
+         (images "shared/stalactite.png"))
 
-  (sprite (name "stalactite-broken")
-          (images "shared/stalactite-broken.png"))
+ (sprite (name "stalactite-broken")
+         (images "shared/stalactite-broken.png"))
 
-  (sprite (name "flame")
-          (images "shared/flame-0.png"
-                  "shared/flame-1.png"))
+ (sprite (name "flame")
+         (images "shared/flame-0.png"
+                 "shared/flame-1.png"))
 
-  (sprite (name "fish")
-          (images "shared/fish-left-0.png"
-                  "shared/fish-left-1.png"))
+ (sprite (name "fish")
+         (images "shared/fish-left-0.png"
+                 "shared/fish-left-1.png"))
 
-  (sprite (name "fish-down")
-          (images "shared/fish-down-0.png"))
+ (sprite (name "fish-down")
+         (images "shared/fish-down-0.png"))
 
-  (sprite (name "bouncingsnowball-left")
-          (images "shared/bouncingsnowball-left-0.png"
-                  "shared/bouncingsnowball-left-1.png"
-                  "shared/bouncingsnowball-left-2.png"
-                  "shared/bouncingsnowball-left-3.png"
-                  "shared/bouncingsnowball-left-4.png"
-                  "shared/bouncingsnowball-left-5.png"))
+ (sprite (name "bouncingsnowball-left")
+         (images "shared/bouncingsnowball-left-0.png"
+                 "shared/bouncingsnowball-left-1.png"
+                 "shared/bouncingsnowball-left-2.png"
+                 "shared/bouncingsnowball-left-3.png"
+                 "shared/bouncingsnowball-left-4.png"
+                 "shared/bouncingsnowball-left-5.png"))
 
-  (sprite (name "bouncingsnowball-right")
-          (images "shared/bouncingsnowball-right-0.png"
-                  "shared/bouncingsnowball-right-1.png"
-                  "shared/bouncingsnowball-right-2.png"
-                  "shared/bouncingsnowball-right-3.png"
-                  "shared/bouncingsnowball-right-4.png"
-                  "shared/bouncingsnowball-right-5.png"))
+ (sprite (name "bouncingsnowball-right")
+         (images "shared/bouncingsnowball-right-0.png"
+                 "shared/bouncingsnowball-right-1.png"
+                 "shared/bouncingsnowball-right-2.png"
+                 "shared/bouncingsnowball-right-3.png"
+                 "shared/bouncingsnowball-right-4.png"
+                 "shared/bouncingsnowball-right-5.png"))
 
-  (sprite (name "bouncingsnowball-squished")
-          (images "shared/bsod-squished-left.png"))
+ (sprite (name "bouncingsnowball-squished")
+         (images "shared/bsod-squished-left.png"))
 
-  (sprite (name "flyingsnowball")
-          (images "shared/flyingsnowball-left-0.png"
-                  "shared/flyingsnowball-left-1.png"))
+ (sprite (name "flyingsnowball")
+         (images "shared/flyingsnowball-left-0.png"
+                 "shared/flyingsnowball-left-1.png"))
 
-  (sprite (name "flyingsnowball-squished")
-          (images "shared/bsod-squished-left.png"))
+ (sprite (name "flyingsnowball-squished")
+         (images "shared/bsod-squished-left.png"))
 
-  (sprite (name "spiky-left")
-          (images "shared/spiky-left-0.png"
-                  "shared/spiky-left-1.png"
-                  "shared/spiky-left-2.png"))
-  (sprite (name "spiky-right")
-          (images "shared/spiky-right-0.png"
-                  "shared/spiky-right-1.png"
-                  "shared/spiky-right-2.png"))
+ (sprite (name "spiky-left")
+         (images "shared/spiky-left-0.png"
+                 "shared/spiky-left-1.png"
+                 "shared/spiky-left-2.png"))
+ (sprite (name "spiky-right")
+         (images "shared/spiky-right-0.png"
+                 "shared/spiky-right-1.png"
+                 "shared/spiky-right-2.png"))
 
-  (sprite (name "snowball-left")
-          (images "shared/snowball-left-0.png"
-                  "shared/snowball-left-1.png"
-                  "shared/snowball-left-2.png"
-                  "shared/snowball-left-1.png"))
+ (sprite (name "snowball-left")
+         (images "shared/snowball-left-0.png"
+                 "shared/snowball-left-1.png"
+                 "shared/snowball-left-2.png"
+                 "shared/snowball-left-1.png"))
 
-  (sprite (name "snowball-right")
-          (images "shared/snowball-right-0.png"
-                  "shared/snowball-right-1.png"
-                  "shared/snowball-right-2.png"
-                  "shared/snowball-right-1.png"))
-
-
-  (sprite (name "largetux-walk-left")
-          (x-hotspot 6)
-          (y-hotspot 2)
-          (images "shared/largetux-walk-left-0.png"
-                  "shared/largetux-walk-left-1.png"
-                  "shared/largetux-walk-left-2.png"
-                  "shared/largetux-walk-left-3.png"
-                  "shared/largetux-walk-left-4.png"
-                  "shared/largetux-walk-left-5.png"))
-
-  (sprite (name "largetux-walk-right")
-          (x-hotspot 6)
-          (y-hotspot 2)
-          (images "shared/largetux-walk-right-0.png"
-                  "shared/largetux-walk-right-1.png"
-                  "shared/largetux-walk-right-2.png"
-                  "shared/largetux-walk-right-3.png"
-                  "shared/largetux-walk-right-4.png"
-                  "shared/largetux-walk-right-5.png"))
-
-  (sprite (name "largetux-jump-left")
-          (x-hotspot 9)
-          (y-hotspot 2)
-          (images "shared/largetux-jump-left-0.png"))
-  (sprite (name "largetux-jump-right")
-          (x-hotspot 9)
-          (y-hotspot 2)
-          (images "shared/largetux-jump-right-0.png"))
+ (sprite (name "snowball-right")
+         (images "shared/snowball-right-0.png"
+                 "shared/snowball-right-1.png"
+                 "shared/snowball-right-2.png"
+                 "shared/snowball-right-1.png"))
 
 
-  (sprite (name "largetux-duck-left")
-          (x-hotspot 6)
-          (y-hotspot 2)
-          (images "shared/tux-duck-left.png"))
-  (sprite (name "largetux-duck-right")
-          (x-hotspot 6)
-          (y-hotspot 6)
-          (images "shared/tux-duck-right.png"))
-)
+ (sprite (name "largetux-walk-left")
+         (x-hotspot 6)
+         (y-hotspot 2)
+         (images "shared/largetux-walk-left-0.png"
+                 "shared/largetux-walk-left-1.png"
+                 "shared/largetux-walk-left-2.png"
+                 "shared/largetux-walk-left-3.png"
+                 "shared/largetux-walk-left-4.png"
+                 "shared/largetux-walk-left-5.png"))
+
+ (sprite (name "largetux-walk-right")
+         (x-hotspot 6)
+         (y-hotspot 2)
+         (images "shared/largetux-walk-right-0.png"
+                 "shared/largetux-walk-right-1.png"
+                 "shared/largetux-walk-right-2.png"
+                 "shared/largetux-walk-right-3.png"
+                 "shared/largetux-walk-right-4.png"
+                 "shared/largetux-walk-right-5.png"))
+
+ (sprite (name "largetux-jump-left")
+         (x-hotspot 9)
+         (y-hotspot 2)
+         (images "shared/largetux-jump-left-0.png"))
+ (sprite (name "largetux-jump-right")
+         (x-hotspot 9)
+         (y-hotspot 2)
+         (images "shared/largetux-jump-right-0.png"))
+
+
+ (sprite (name "largetux-duck-left")
+         (x-hotspot 6)
+         (y-hotspot 2)
+         (images "shared/tux-duck-left.png"))
+ (sprite (name "largetux-duck-right")
+         (x-hotspot 6)
+         (y-hotspot 6)
+         (images "shared/tux-duck-right.png"))
+
+ (sprite (name "egg")
+         (images "shared/egg.png"))
+ (sprite (name "1up")
+         (images "shared/1up.png"))
+ (sprite (name "star")
+         (images "shared/star.png"
+                 "shared/star-1.png"
+                 "shared/star-2.png"
+                 "shared/star-3.png"
+                 "shared/star-4.png"
+                 "shared/star-3.png"
+                 "shared/star-2.png"
+                 "shared/star-1.png"))
+ (sprite (name "iceflower")
+         (images "shared/iceflower.png"
+          "shared/iceflower-1.png"
+          "shared/iceflower-2.png"
+          "shared/iceflower-3.png"
+          "shared/iceflower-2.png"
+          "shared/iceflower-1.png"))
+ )
 
 ;; EOF ;;

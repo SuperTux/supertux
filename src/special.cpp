@@ -20,13 +20,15 @@
 #include "scene.h"
 #include "globals.h"
 #include "player.h"
+#include "sprite_manager.h"
 #include "resources.h"
 
 Surface* img_bullet;
-Surface* img_golden_herring;
-Surface* img_growup;
-Surface* img_iceflower;
-Surface* img_1up;
+
+Sprite* img_star;
+Sprite* img_growup;
+Sprite* img_iceflower;
+Sprite* img_1up;
 
 #define GROWUP_SPEED 1.0f
 
@@ -237,7 +239,7 @@ Upgrade::draw()
       else if (kind == UPGRADE_ICEFLOWER)
         img_iceflower->draw_part(0,0,dest.x,dest.y,dest.w,dest.h);
       else if (kind == UPGRADE_HERRING)
-        img_golden_herring->draw_part(0,0,dest.x,dest.y,dest.w,dest.h);
+        img_star->draw_part(0,0,dest.x,dest.y,dest.w,dest.h);
       else if (kind == UPGRADE_1UP)
         img_1up->draw_part( 0, 0, dest.x, dest.y, dest.w, dest.h);
     }
@@ -255,7 +257,7 @@ Upgrade::draw()
         }
       else if (kind == UPGRADE_HERRING)
         {
-          img_golden_herring->draw(
+          img_star->draw(
                        base.x - scroll_x, base.y);
         }
       else if (kind == UPGRADE_1UP)
@@ -324,23 +326,17 @@ Upgrade::collision(void* p_c_object, int c_object)
 
 void load_special_gfx()
 {
-    img_growup = new Surface(datadir + "/images/shared/egg.png", USE_ALPHA);
-    img_iceflower = new Surface(datadir + "/images/shared/iceflower.png",
-            USE_ALPHA);
-    img_golden_herring = new Surface(datadir + "/images/shared/star.png", USE_ALPHA);
-    img_1up = new Surface(datadir + "/images/shared/1up.png",
-            USE_ALPHA);
+  img_growup    = sprite_manager->load("egg");
+  img_iceflower = sprite_manager->load("iceflower");
+  img_star      = sprite_manager->load("star");
+  img_1up       = sprite_manager->load("1up");
 
-    img_bullet = new Surface(datadir + "/images/shared/bullet.png",
-            USE_ALPHA);
+  img_bullet = new Surface(datadir + "/images/shared/bullet.png",
+                           USE_ALPHA);
 }
 
 void free_special_gfx()
 {
-    delete img_growup;
-    delete img_iceflower;
-    delete img_1up;
-    delete img_golden_herring;
-    delete img_bullet;
+  delete img_bullet;
 }
 
