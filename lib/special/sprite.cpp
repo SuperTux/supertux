@@ -39,6 +39,8 @@ Sprite::Sprite(lisp_object_t* cur)
       name = lisp_string(data);
     else if(token == "action")
       parse_action(reader);
+    else
+      std::cerr << "Warning: Unknown sprite field: " << token << std::endl;
     }
 
   if(name.empty())
@@ -68,8 +70,8 @@ Sprite::parse_action(LispReader& lispreader)
   if(!lispreader.read_string("name", action->name))
     if(!actions.empty())
       Termination::abort("Error: If there are more than one action, they need names!", "");
-  lispreader.read_int("x-hotspot", action->x_hotspot);
-  lispreader.read_int("y-hotspot", action->y_hotspot);
+  lispreader.read_int("x-offset", action->x_hotspot);
+  lispreader.read_int("y-offset", action->y_hotspot);
   lispreader.read_float("fps",     action->fps);
 
   std::vector<std::string> images;

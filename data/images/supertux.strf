@@ -9,8 +9,8 @@
        (action
          (name "walk")
          (fps 15.0)
-         (x-hotspot 5)
-         (y-hotspot 9)
+         (x-offset 5)
+         (y-offset 9)
          (images "shared/bigtux/arms-walk-0.png"
                  "shared/bigtux/arms-walk-1.png"
                  "shared/bigtux/arms-walk-2.png"
@@ -21,40 +21,40 @@
        (action
          (name "stand")
          (fps 15.0)
-         (x-hotspot 5)
-         (y-hotspot 9)
+         (x-offset 5)
+         (y-offset 9)
          (images "shared/bigtux/arms-stand-0.png"))
 
        (action
          (name "jump")
          (fps 15.0)
-         (x-hotspot 5)
-         (y-hotspot 7)
+         (x-offset 5)
+         (y-offset 7)
          (images "shared/bigtux/arms-jump-0.png"))
 
        (action
          (name "skid")
-         (x-hotspot 6)
-         (y-hotspot 8)
+         (x-offset 6)
+         (y-offset 8)
          (images "shared/bigtux/arms-skid-0.png"))
 
        (action
          (name "kick")
-         (x-hotspot 5)
-         (y-hotspot 9)
+         (x-offset 5)
+         (y-offset 9)
          (images "shared/bigtux/arms-stand-0.png"))
 
        (action
          (name "buttjump")
-         (x-hotspot 5)
-         (y-hotspot 9)
+         (x-offset 5)
+         (y-offset 9)
          (images "shared/bigtux/arms-stand-0.png"))
 
 ; Grabbing is arms specific!
        (action 
          (name "grab")
-         (x-hotspot 5)
-         (y-hotspot 9)
+         (x-offset 5)
+         (y-offset 9)
          (images "shared/bigtux/arms-grab-0.png")))
 
 ;; Big Tux Head
@@ -63,47 +63,47 @@
        (action
          (name "walk")
          (fps 15.0)
-         (x-hotspot 5)
-         (y-hotspot 9)
+         (x-offset 5)
+         (y-offset 9)
          (images "shared/bigtux/head-stand-0.png"))
 
        (action
          (name "stand")
          (fps 15.0)
-         (x-hotspot 5)
-         (y-hotspot 9)
+         (x-offset 5)
+         (y-offset 9)
          (images "shared/bigtux/head-stand-0.png"))
 
        (action
          (name "jump")
          (fps 15.0)
-         (x-hotspot 5)
-         (y-hotspot 7)
+         (x-offset 5)
+         (y-offset 7)
          (images "shared/bigtux/head-stand-0.png"))
 
        (action
          (name "skid")
-         (x-hotspot 6)
-         (y-hotspot 8)
+         (x-offset 6)
+         (y-offset 8)
          (images "shared/bigtux/head-skid-0.png"))
 
        (action
          (name "kick")
-         (x-hotspot 5)
-         (y-hotspot 9)
+         (x-offset 5)
+         (y-offset 9)
          (images "shared/bigtux/head-stand-0.png"))
 
        (action
          (name "buttjump")
-         (x-hotspot 5)
-         (y-hotspot 9)
+         (x-offset 5)
+         (y-offset 9)
          (images "shared/bigtux/head-stand-0.png"))
 
        (action
          (name "idle")
          (fps 1.0)
-         (x-hotspot 6)
-         (y-hotspot 8)
+         (x-offset 6)
+         (y-offset 8)
          (images "shared/bigtux/head-idle-blink-0.png"
                  "shared/bigtux/head-idle-blink-1.png")))
 
@@ -114,40 +114,40 @@
        (action
          (name "walk")
          (fps 15.0)
-         (x-hotspot 5)
-         (y-hotspot 9)
+         (x-offset 5)
+         (y-offset 9)
          (images "shared/bigtux/body-stand-0.png"))
 
        (action
          (name "stand")
          (fps 15.0)
-         (x-hotspot 5)
-         (y-hotspot 9)
+         (x-offset 5)
+         (y-offset 9)
          (images "shared/bigtux/body-stand-0.png"))
 
        (action
          (name "jump")
          (fps 15.0)
-         (x-hotspot 5)
-         (y-hotspot 7)
+         (x-offset 5)
+         (y-offset 7)
          (images "shared/bigtux/body-stand-0.png"))
 
        (action
          (name "skid")
-         (x-hotspot 6)
-         (y-hotspot 8)
+         (x-offset 6)
+         (y-offset 8)
          (images "shared/bigtux/body-skid-0.png"))
 
        (action
          (name "kick")
-         (x-hotspot 5)
-         (y-hotspot 9)
+         (x-offset 5)
+         (y-offset 9)
          (images "shared/bigtux/body-stand-0.png"))
 
        (action
          (name "buttjump")
-         (x-hotspot 5)
-         (y-hotspot 9)
+         (x-offset 5)
+         (y-offset 9)
          (images "shared/bigtux/body-stand-0.png")))
 
 ;; Big Tux Feet
@@ -156,8 +156,8 @@
        (action
          (name "walk")
          (fps 15.0)
-         (x-hotspot 5)
-         (y-hotspot 9)
+         (x-offset 5)
+         (y-offset 9)
          (images "shared/bigtux/feet-walk-0.png"
                  "shared/bigtux/feet-walk-1.png"
                  "shared/bigtux/feet-walk-2.png"
@@ -168,33 +168,33 @@
        (action
          (name "stand")
          (fps 15.0)
-         (x-hotspot 5)
-         (y-hotspot 9)
+         (x-offset 5)
+         (y-offset 9)
          (images "shared/bigtux/feet-stand-0.png"))
 
        (action
          (name "jump")
          (fps 15.0)
-         (x-hotspot 5)
-         (y-hotspot 7)
+         (x-offset 5)
+         (y-offset 7)
          (images "shared/bigtux/feet-jump-0.png"))
 
        (action
          (name "skid")
-         (x-hotspot 6)
-         (y-hotspot 8)
+         (x-offset 6)
+         (y-offset 8)
          (images "shared/bigtux/feet-skid-0.png"))
 
        (action
          (name "kick")
-         (x-hotspot 5)
-         (y-hotspot 9)
+         (x-offset 5)
+         (y-offset 9)
          (images "shared/bigtux/feet-kick-0.png"))
 
        (action
          (name "buttjump")
-         (x-hotspot 5)
-         (y-hotspot 9)
+         (x-offset 5)
+         (y-offset 9)
          (images "shared/bigtux/feet-buttjump-0.png")))
 
 ; End of Big Tux (no power) sprite
@@ -206,47 +206,47 @@
        (action
          (name "walk")
          (fps 15.0)
-         (x-hotspot 5)
-         (y-hotspot 9)
+         (x-offset 5)
+         (y-offset 9)
          (images "shared/bigtux/head-fire-stand-0.png"))
 
        (action
          (name "stand")
          (fps 15.0)
-         (x-hotspot 5)
-         (y-hotspot 9)
+         (x-offset 5)
+         (y-offset 9)
          (images "shared/bigtux/head-fire-stand-0.png"))
 
        (action
          (name "jump")
          (fps 15.0)
-         (x-hotspot 5)
-         (y-hotspot 7)
+         (x-offset 5)
+         (y-offset 7)
          (images "shared/bigtux/head-fire-stand-0.png"))
 
        (action
          (name "skid")
-         (x-hotspot 6)
-         (y-hotspot 8)
+         (x-offset 6)
+         (y-offset 8)
          (images "shared/bigtux/head-skid-0.png"))
 
        (action
          (name "kick")
-         (x-hotspot 5)
-         (y-hotspot 9)
+         (x-offset 5)
+         (y-offset 9)
          (images "shared/bigtux/head-fire-stand-0.png"))
 
        (action
          (name "buttjump")
-         (x-hotspot 5)
-         (y-hotspot 9)
+         (x-offset 5)
+         (y-offset 9)
          (images "shared/bigtux/head-fire-stand-0.png"))
 
        (action
          (name "idle")
          (fps 1.0)
-         (x-hotspot 6)
-         (y-hotspot 8)
+         (x-offset 6)
+         (y-offset 8)
          (images "shared/bigtux/head-idle-blink-0.png"
                  "shared/bigtux/head-idle-blink-1.png")))
 
@@ -256,23 +256,23 @@
  (sprite (name "smalltux-gameover")
        (action
          (fps 10.0)
-         (x-hotspot 13)
-         (y-hotspot 6)
+         (x-offset 13)
+         (y-offset 6)
          (images "shared/smalltux/gameover-0.png"
                  "shared/smalltux/gameover-1.png")))
 
  (sprite (name "smalltux-star")
        (action
-         (x-hotspot 5)
-         (y-hotspot 15)
+         (x-offset 5)
+         (y-offset 15)
          (images "shared/smalltux/extra-star-0.png"
                  "shared/smalltux/extra-star-1.png"
                  "shared/smalltux/extra-star-2.png")))
 
  (sprite (name "bigtux-star")
        (action
-         (x-hotspot 8)
-         (y-hotspot 8)
+         (x-offset 8)
+         (y-offset 8)
          (images "shared/bigtux/extra-star-0.png"
                  "shared/bigtux/extra-star-1.png"
                  "shared/bigtux/extra-star-2.png")))
@@ -281,8 +281,8 @@
 ;  (sprite (name "tux-grow-left")
 ;        (action
 ;          (fps 4.0)
-;          (x-hotspot 6)
-;          (y-hotspot 2)
+;          (x-offset 6)
+;          (y-offset 2)
 ;          (images "shared/tux-grow-left-1.png"
 ;                  "shared/tux-grow-left-2.png"
 ;                  "shared/tux-grow-left-3.png"
@@ -294,8 +294,8 @@
 ;  (sprite (name "tux-grow-right")
 ;        (action
 ;          (fps 4.0)
-;          (x-hotspot 6)
-;          (y-hotspot 2)
+;          (x-offset 6)
+;          (y-offset 2)
 ;          (images "shared/tux-grow-right-1.png"
 ;                  "shared/tux-grow-right-2.png"
 ;                  "shared/tux-grow-right-3.png"
@@ -308,8 +308,8 @@
  ;; Laptop
  (sprite (name "mriceblock-left")
        (action
-         (x-hotspot 2)
-         (y-hotspot 3)
+         (x-offset 2)
+         (y-offset 3)
          (images "shared/mriceblock-left-0.png"
                  "shared/mriceblock-left-1.png"
                  "shared/mriceblock-left-2.png"
@@ -317,8 +317,8 @@
 
  (sprite (name "mriceblock-right")
        (action
-         (x-hotspot 2)
-         (y-hotspot 3)
+         (x-offset 2)
+         (y-offset 3)
          (images "shared/mriceblock-right-0.png"
                  "shared/mriceblock-right-1.png"
                  "shared/mriceblock-right-2.png"
@@ -326,26 +326,26 @@
 
  (sprite (name "mriceblock-falling-right")
        (action
-         (x-hotspot 2)
-         (y-hotspot 3)
+         (x-offset 2)
+         (y-offset 3)
          (images "shared/mriceblock-flat-right.png")))
 
  (sprite (name "mriceblock-falling-left")
        (action
-         (x-hotspot 2)
-         (y-hotspot 3)
+         (x-offset 2)
+         (y-offset 3)
          (images "shared/mriceblock-flat-left.png")))
  
  (sprite (name "mriceblock-flat-left")
        (action
-         (x-hotspot 2)
-         (y-hotspot 3)
+         (x-offset 2)
+         (y-offset 3)
          (images "shared/mriceblock-flat-left.png")))
 
  (sprite (name "mriceblock-flat-right")
        (action
-         (x-hotspot 2)
-         (y-hotspot 3)
+         (x-offset 2)
+         (y-offset 3)
          (images "shared/mriceblock-flat-right.png")))
 
 ; (sprite (name "mriceblock-falling-left")
@@ -356,42 +356,42 @@
 
  (sprite (name "snowball-squished-left")
        (action
-         (x-hotspot 1)
-         (y-hotspot -19)
+         (x-offset 1)
+         (y-offset -19)
          (images "shared/snowball-squished-left.png")))
 
  (sprite (name "snowball-squished-right")
        (action
-         (x-hotspot 1)
-         (y-hotspot -19)
+         (x-offset 1)
+         (y-offset -19)
          (images "shared/snowball-squished-right.png")))
 
  (sprite (name "jumpy-left-up")
        (action
-         (x-hotspot 7)
-         (y-hotspot 8)
+         (x-offset 7)
+         (y-offset 8)
          (images "shared/jumpy-left-up-0.png")))
  (sprite (name "jumpy-left-down")
        (action
-         (x-hotspot 7)
-         (y-hotspot 8)
+         (x-offset 7)
+         (y-offset 8)
          (images "shared/jumpy-left-down-0.png")))
  (sprite (name "jumpy-left-middle")
        (action
-         (x-hotspot 7)
-         (y-hotspot 8)
+         (x-offset 7)
+         (y-offset 8)
          (images "shared/jumpy-left-middle-0.png")))
  (sprite (name "jumpy-left-iced")
        (action
-         (x-hotspot 7)
-         (y-hotspot 8)
+         (x-offset 7)
+         (y-offset 8)
          (images "shared/jumpy-iced-left-up-0.png")))
 
  (sprite (name "mrbomb-left")
        (action
          (fps 10.0)
-         (x-hotspot 3)
-         (y-hotspot 12)
+         (x-offset 3)
+         (y-offset 12)
          (images "shared/mrbomb-left-0.png"
                  "shared/mrbomb-left-1.png"
                  "shared/mrbomb-left-2.png"
@@ -400,59 +400,59 @@
  (sprite (name "mrbomb-right")
        (action
          (fps 10.0)
-         (x-hotspot 7)
-         (y-hotspot 12)
+         (x-offset 7)
+         (y-offset 12)
          (images "shared/mrbomb-right-0.png"
                  "shared/mrbomb-right-1.png"
                  "shared/mrbomb-right-2.png"
                  "shared/mrbomb-right-3.png")))
  (sprite (name "mrbomb-iced-left")
        (action
-         (x-hotspot 3)
-         (y-hotspot 12)
+         (x-offset 3)
+         (y-offset 12)
          (images "shared/mrbomb-iced-left-0.png")))
 
  (sprite (name "mrbomb-iced-right")
        (action
-         (x-hotspot 7)
-         (y-hotspot 12)
+         (x-offset 7)
+         (y-offset 12)
          (images "shared/mrbomb-iced-right-0.png")))
  
 
  (sprite (name "mrbomb-ticking-left")
        (action
          (fps 15.0)
-         (x-hotspot 3)
-         (y-hotspot 8)
+         (x-offset 3)
+         (y-offset 8)
          (images "shared/mrbombx-left-0.png"
                  "shared/mrbombx-left-1.png")))
 
  (sprite (name "mrbomb-ticking-right")
        (action
          (fps 15.0)
-         (x-hotspot 10)
-         (y-hotspot 8)
+         (x-offset 10)
+         (y-offset 8)
          (images "shared/mrbombx-right-0.png"
                  "shared/mrbombx-right-1.png")))
 
  (sprite (name "mrbomb-explosion")
        (action
          (fps 15.0)
-         (x-hotspot 32)
-         (y-hotspot 32)
+         (x-offset 32)
+         (y-offset 32)
          (images "shared/mrbomb-explosion.png"
                  "shared/mrbomb-explosion-1.png")))
 
  (sprite (name "stalactite")
        (action
-         (x-hotspot 0)
-         (y-hotspot 0)
+         (x-offset 0)
+         (y-offset 0)
          (images "shared/stalactite.png")))
 
  (sprite (name "stalactite-broken")
        (action
-         (x-hotspot 0)
-         (y-hotspot 16)
+         (x-offset 0)
+         (y-offset 16)
          (images "shared/stalactite-broken.png")))
 
  (sprite (name "flame")
@@ -462,33 +462,33 @@
 
  (sprite (name "fish")
        (action
-         (x-hotspot 2)
-         (y-hotspot 3)
+         (x-offset 2)
+         (y-offset 3)
          (images "shared/fish-left-0.png"
                  "shared/fish-left-1.png")))
 
  (sprite (name "fish-down")
        (action
-         (x-hotspot 2)
-         (y-hotspot 11)
+         (x-offset 2)
+         (y-offset 11)
          (images "shared/fish-down-0.png")))
 
  (sprite (name "fish-iced")
        (action
-         (x-hotspot 2)
-         (y-hotspot 3)
+         (x-offset 2)
+         (y-offset 3)
          (images "shared/fish-iced-left-0.png")))
 
  (sprite (name "fish-iced-down")
        (action
-         (x-hotspot 2)
-         (y-hotspot 11)
+         (x-offset 2)
+         (y-offset 11)
          (images "shared/fish-iced-down-0.png")))
 
  (sprite (name "bouncingsnowball-left")
        (action
-         (x-hotspot 1)
-         (y-hotspot 0)
+         (x-offset 1)
+         (y-offset 0)
          (images "shared/bouncingsnowball-left-0.png"
                  "shared/bouncingsnowball-left-1.png"
                  "shared/bouncingsnowball-left-2.png"
@@ -498,8 +498,8 @@
 
  (sprite (name "bouncingsnowball-right")
        (action
-         (x-hotspot 1)
-         (y-hotspot 0)
+         (x-offset 1)
+         (y-offset 0)
          (images "shared/bouncingsnowball-right-0.png"
                  "shared/bouncingsnowball-right-1.png"
                  "shared/bouncingsnowball-right-2.png"
@@ -509,52 +509,52 @@
 
  (sprite (name "bouncingsnowball-squished")
        (action
-         (x-hotspot 1)
-         (y-hotspot -19)
+         (x-offset 1)
+         (y-offset -19)
          (images "shared/snowball-squished-left.png")))
 
  (sprite (name "flyingsnowball")
        (action
-         (x-hotspot 4)
-         (y-hotspot 3)
+         (x-offset 4)
+         (y-offset 3)
          (images "shared/flyingsnowball-left-0.png"
                  "shared/flyingsnowball-left-1.png")))
 
  (sprite (name "flyingsnowball-squished")
        (action
-         (x-hotspot 4)
-         (y-hotspot -12)
+         (x-offset 4)
+         (y-offset -12)
          (images "shared/flyingsnowball-squished-left.png")))
 
  (sprite (name "spiky-left")
        (action
-         (x-hotspot 6)
-         (y-hotspot 10)
+         (x-offset 6)
+         (y-offset 10)
          (images "shared/spiky-left-0.png"
                  "shared/spiky-left-1.png"
                  "shared/spiky-left-2.png")))
  (sprite (name "spiky-right")
        (action
-         (x-hotspot 6)
-         (y-hotspot 10)
+         (x-offset 6)
+         (y-offset 10)
          (images "shared/spiky-right-0.png"
                  "shared/spiky-right-1.png"
                  "shared/spiky-right-2.png")))
  (sprite (name "spiky-iced-left")
        (action
-         (x-hotspot 6)
-         (y-hotspot 10)
+         (x-offset 6)
+         (y-offset 10)
          (images "shared/spiky-iced-left-0.png")))
  (sprite (name "spiky-iced-right")
        (action
-         (x-hotspot 6)
-         (y-hotspot 10)
+         (x-offset 6)
+         (y-offset 10)
          (images "shared/spiky-iced-right-0.png")))
 
  (sprite (name "snowball-left")
        (action
-         (x-hotspot 2)
-         (y-hotspot 4)
+         (x-offset 2)
+         (y-offset 4)
          (images "shared/snowball-left-0.png"
                  "shared/snowball-left-1.png"
                  "shared/snowball-left-2.png"
@@ -562,8 +562,8 @@
 
  (sprite (name "snowball-right")
        (action
-         (x-hotspot 2)
-         (y-hotspot 4)
+         (x-offset 2)
+         (y-offset 4)
          (images "shared/snowball-right-0.png"
                  "shared/snowball-right-1.png"
                  "shared/snowball-right-2.png"
@@ -601,8 +601,8 @@
 
  (sprite (name "firebullet")
        (action
-         (x-hotspot 12)
-         (x-hotspot 12)
+         (x-offset 12)
+         (x-offset 12)
          (fps 20)
          (images "shared/firebullet-1.png"
                  "shared/firebullet-2.png"
@@ -610,15 +610,15 @@
                  "shared/firebullet-4.png")))
  (sprite (name "icebullet")
        (action
-         (x-hotspot 12)
-         (x-hotspot 12)
+         (x-offset 12)
+         (x-offset 12)
          (fps 20)
          (images "shared/icebullet-1.png")))
   ; Trampoline
   (sprite (name "trampoline")
        (action
-         (x-hotspot 0)
-         (y-hotspot 0)
+         (x-offset 0)
+         (y-offset 0)
          (images "shared/trampoline-1.png"
                  "shared/trampoline-2.png"
                  "shared/trampoline-3.png"
@@ -627,8 +627,8 @@
   ; Flying platform
   (sprite (name "flying_platform")
        (action
-         (x-hotspot 0)
-         (y-hotspot 0)
+         (x-offset 0)
+         (y-offset 0)
          (images "shared/flying_platform-1.png"
                  "shared/flying_platform-2.png"
                  "shared/flying_platform-3.png"
@@ -637,33 +637,33 @@
   ; Wingling
   (sprite (name "wingling-left")
        (action
-          (x-hotspot 0)
-          (y-hotspot 0)
+          (x-offset 0)
+          (y-offset 0)
           (images "shared/wingling-1.png")))
 
   ; Walkingtree
   (sprite (name "walkingtree-left")
        (action
-          (x-hotspot 0)
-          (y-hotspot 0)
+          (x-offset 0)
+          (y-offset 0)
           (images "shared/walkingtree-left-1.png")))
   (sprite (name "walkingtree-left-small")
        (action
-          (x-hotspot 0)
-          (y-hotspot 0)
+          (x-offset 0)
+          (y-offset 0)
           (images "shared/walkingtree-left-small-1.png")))
 
   ; Door
   (sprite (name "door")
        (action
-          (x-hotspot 0)
-          (y-hotspot 64)
+          (x-offset 0)
+          (y-offset 64)
           (images "shared/door-1.png")
   ))
 ;   (sprite (name "openingdoor")
 ;        (action
-;           (x-hotspot 0)
-;           (y-hotspot 64)
+;           (x-offset 0)
+;           (y-offset 64)
 ;           (images "shared/door-1.png"
 ; 	   "shared/door-2.png"
 ; 	   "shared/door-3.png"
@@ -685,8 +685,8 @@
   ; Stomp
   (sprite (name "stomp")
        (action
-          (x-hotspot 0)
-          (y-hotspot 0)
+          (x-offset 0)
+          (y-offset 0)
           (images "shared/stomp.png")
   ))
 )
