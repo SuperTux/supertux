@@ -424,5 +424,38 @@
        (fullbox #t)
        (data 4)
        (next-tile 84))
+
+ (tile (id 129)
+       (anim-speed 50)
+       (images "goal1-1.png"
+               "goal1-2.png"
+               "goal1-2.png"
+               "goal1-3.png"
+               "goal1-4.png"
+               "goal1-5.png"
+               "goal1-4.png"
+               "goal1-3.png"
+               "goal1-2.png"
+               "goal1-2.png"
+               "goal1-1.png"
+               "goal1-1.png"
+               ))
+
+ (tile (id 130)
+       (anim-speed 50)
+       (images "goal2-1.png"
+               "goal2-2.png"
+               "goal2-2.png"
+               "goal2-3.png"
+               "goal2-4.png"
+               "goal2-5.png"
+               "goal2-4.png"
+               "goal2-3.png"
+               "goal2-2.png"
+               "goal2-2.png"
+               "goal2-1.png"
+               "goal2-1.png"))
+
+
  )
 
