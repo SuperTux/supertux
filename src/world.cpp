@@ -218,16 +218,16 @@ World::draw()
 }
 
 void
-World::action(double frame_ratio)
+World::action(float elapsed_time)
 {
-  tux->check_bounds(level->back_scrolling, (bool)level->hor_autoscroll_speed);
-  scrolling(frame_ratio);
-
   /* update objects (don't use iterators here, because the list might change
    * during the iteration)
    */
   for(size_t i = 0; i < gameobjects.size(); ++i)
-    gameobjects[i]->action(frame_ratio);
+    gameobjects[i]->action(elapsed_time);
+
+  tux->check_bounds(level->back_scrolling, (bool)level->hor_autoscroll_speed);
+  scrolling(elapsed_time);                                                      
 
   /* Handle all possible collisions. */
   collision_handler();
@@ -282,7 +282,7 @@ World::action(double frame_ratio)
 #define CHANGE_DIR_SCROLL_SPEED 2000
 
 /* This functions takes cares of the scrolling */
-void World::scrolling(double frame_ratio)
+void World::scrolling(float elapsed_time)
 {
   /* Y-axis scrolling */
 
@@ -307,7 +307,7 @@ void World::scrolling(double frame_ratio)
   /* Auto scrolling */
   if(level->hor_autoscroll_speed)
   {
-    scroll_x += level->hor_autoscroll_speed * frame_ratio;
+    scroll_x += level->hor_autoscroll_speed * elapsed_time;
     return;
   }
 
@@ -354,12 +354,13 @@ void World::scrolling(double frame_ratio)
       constant2 = 0.;
     }
     
-    float number = 2.5/(frame_ratio * CHANGE_DIR_SCROLL_SPEED/1000)*exp((CHANGE_DIR_SCROLL_SPEED-scrolling_timer.get_left())/1400.);
+    float number = 2.5/(elapsed_time * CHANGE_DIR_SCROLL_SPEED/1000)*exp((CHANGE_DIR_SCROLL_SPEED-scrolling_timer.get_left())/1400.);
     if(left) number *= -1.;
 
     scroll_x += number
-	    + constant1 * tux->physic.get_velocity_x() * frame_ratio
-	    + constant2 * tux->physic.get_acceleration_x() * frame_ratio * frame_ratio;
+	    + constant1 * tux->physic.get_velocity_x() * elapsed_time
+	    + constant2 * tux->physic.get_acceleration_x() * elapsed_time *
+            elapsed_time;
 
     if ((right && final_scroll_x - scroll_x < 0) || (left && final_scroll_x - scroll_x > 0))
       scroll_x = final_scroll_x;
