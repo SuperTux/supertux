@@ -34,6 +34,7 @@ struct PlayerStatus
   BonusType bonus;
 
   int  score_multiplier;
+  int max_score_multiplier;
 
   PlayerStatus();
 

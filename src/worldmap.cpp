@@ -1257,6 +1257,7 @@ WorldMap::savegame(const std::string& filename)
   writer->write_string("map", map_filename);
   writer->write_int("lives", player_status.lives);
   writer->write_int("distros", player_status.lives);
+  writer->write_int("max-score-multiplier", player_status.max_score_multiplier);
 
   writer->start_list("tux");
 
@@ -1330,6 +1331,7 @@ WorldMap::loadgame(const std::string& filename)
 
   reader.read_int("lives", player_status.lives);
   reader.read_int("distros", player_status.distros);
+  reader.read_int("max-score-multiplier", player_status.max_score_multiplier);
 
   if (player_status.lives < 0)
     player_status.lives = START_LIVES;

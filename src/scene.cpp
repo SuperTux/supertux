@@ -28,7 +28,8 @@ PlayerStatus::PlayerStatus()
   : distros(0),
     lives(START_LIVES),
     bonus(NO_BONUS),
-    score_multiplier(1)
+    score_multiplier(1),
+    max_score_multiplier(1)
 {
 }
 
@@ -38,6 +39,7 @@ void PlayerStatus::reset()
   lives = START_LIVES;
   bonus = NO_BONUS;
   score_multiplier = 1;
+  max_score_multiplier = 1;
 }
 
 std::string bonus_to_string(PlayerStatus::BonusType b)
