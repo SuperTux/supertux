@@ -145,24 +145,6 @@ DrawingContext::draw_filled_rect(const Vector& topleft, const Vector& size,
 }
 
 void
-DrawingContext::draw_line(const Vector& topleft, const Vector& botright,
-        Color color, int layer)
-{
-  DrawingRequest request;
-
-  request.type = LINE;
-  request.layer = layer;
-  request.pos = transform.apply(topleft);
-
-  LineRequest* linerequest = new LineRequest;
-  linerequest->botright = botright;
-  linerequest->color = color;
-  request.request_data = linerequest;
-
-  drawingrequests.push_back(request);
-}
-
-void
 DrawingContext::draw_surface_part(DrawingRequest& request)
 {
   SurfacePartRequest* surfacepartrequest
@@ -306,87 +288,6 @@ DrawingContext::draw_filled_rect(DrawingRequest& request)
   delete fillrectrequest;
 }
 
-/* Needed for line calculations */
-#define SGN(x) ((x)>0 ? 1 : ((x)==0 ? 0:(-1)))
-#define ABS(x) ((x)>0 ? (x) : (-x))
-
-void
-DrawingContext::draw_line(DrawingRequest& request)
-{
-  LineRequest* linerequest = (LineRequest*) request.request_data;
-
-  float x1 = request.pos.x;
-  float y1 = request.pos.y;
-  float x2 = linerequest->botright.x;
-  float y2 = linerequest->botright.y;
-  int r = linerequest->color.red;
-  int g = linerequest->color.green;
-  int b = linerequest->color.blue;
-  int a = linerequest->color.alpha;
-
-#ifndef NOOPENGL
-  if(use_gl)
-    {
-      glEnable(GL_BLEND);
-      glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-      glColor4ub(r, g, b,a);
-
-      glBegin(GL_LINES);
-      glVertex2f(x1, y1);
-      glVertex2f(x2, y2);
-      glEnd();
-      glDisable(GL_BLEND);
-    }
-  else
-    {
-#endif
-      /* Basic unantialiased Bresenham line algorithm */
-      int lg_delta, sh_delta, cycle, lg_step, sh_step;
-      Uint32 color = SDL_MapRGBA(screen->format, r, g, b, a);
-
-      lg_delta = (int)(x2 - x1);
-      sh_delta = (int)(y2 - y1);
-      lg_step = SGN(lg_delta);
-      lg_delta = ABS(lg_delta);
-      sh_step = SGN(sh_delta);
-      sh_delta = ABS(sh_delta);
-      if (sh_delta < lg_delta)
-        {
-          cycle = lg_delta >> 1;
-          while (x1 != x2)
-            {
-              drawpixel((int)x1, (int)y1, color);
-              cycle += sh_delta;
-              if (cycle > lg_delta)
-                {
-                  cycle -= lg_delta;
-                  y1 += sh_step;
-                }
-              x1 += lg_step;
-            }
-          drawpixel((int)x1, (int)y1, color);
-        }
-      cycle = sh_delta >> 1;
-      while (y1 != y2)
-        {
-          drawpixel((int)x1, (int)y1, color);
-          cycle += lg_delta;
-          if (cycle > sh_delta)
-            {
-              cycle -= sh_delta;
-              x1 += lg_step;
-            }
-          y1 += sh_step;
-        }
-      drawpixel((int)x1, (int)y1, color);
-#ifndef NOOPENGL
-
-    }
-#endif
-
-  delete linerequest;
-}
-
 void
 DrawingContext::do_drawing()
 {
@@ -412,9 +313,6 @@ DrawingContext::do_drawing()
         break;
       case FILLRECT:
         draw_filled_rect(*i);
-        break;
-      case LINE:
-        draw_line(*i);
         break;
     }
   }

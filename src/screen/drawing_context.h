@@ -71,9 +71,6 @@ public:
   /** fills a rectangle */
   void draw_filled_rect(const Vector& topleft, const Vector& size,
           Color color, int layer);
-  /** draws an one-pixel line */
-  void draw_line(const Vector& topleft, const Vector& downright,
-          Color color, int layer);
   
   /** Processes all pending drawing requests and flushes the list */
   void do_drawing();
@@ -105,7 +102,7 @@ private:
 
   enum RequestType
   {
-    SURFACE, SURFACE_PART, TEXT, GRADIENT, FILLRECT, LINE
+    SURFACE, SURFACE_PART, TEXT, GRADIENT, FILLRECT
   };
 
   struct SurfacePartRequest
@@ -132,12 +129,6 @@ private:
     Vector size;
   };
 
-  struct LineRequest
-  {
-    Color color;
-    Vector botright;
-  };
-
   struct DrawingRequest
   {
     int layer;
@@ -158,7 +149,6 @@ private:
   void draw_text(DrawingRequest& request);
   void draw_gradient(DrawingRequest& request);
   void draw_filled_rect(DrawingRequest& request);
-  void draw_line(DrawingRequest& request);
   
   typedef std::vector<DrawingRequest> DrawingRequests;
   DrawingRequests drawingrequests;
