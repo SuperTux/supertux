@@ -10,4 +10,6 @@ depcomp
 install-sh
 missing
 mkinstalldirs
+Makefile
+autom4te.cache
 
