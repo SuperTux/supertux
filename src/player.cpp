@@ -508,48 +508,45 @@ Player::draw()
           else
             sprite = &largetux;
           
-          if (skidding_timer.started())
+          if (duck)
+            {
+              if (dir == RIGHT)
+                sprite->duck_right->draw(base.x - scroll_x, base.y);
+              else 
+                sprite->duck_left->draw(base.x - scroll_x, base.y);
+            }                    
+          else if (skidding_timer.started())
             {
               if (dir == RIGHT)
                 sprite->skid_right->draw(base.x - scroll_x, base.y);
               else
                 sprite->skid_left->draw(base.x - scroll_x, base.y); 
             }
+          else if (physic.get_velocity_y() != 0)
+            {
+              if (dir == RIGHT)
+                sprite->jump_right->draw(base.x - scroll_x, base.y);
+              else
+                sprite->jump_left->draw(base.x - scroll_x, base.y);                   
+            }
           else
             {
-              if (duck)
+              if (fabsf(physic.get_velocity_x()) < 1.0f) // standing
                 {
                   if (dir == RIGHT)
-                    sprite->duck_right->draw(base.x - scroll_x, base.y);
-                  else 
-                    sprite->duck_left->draw(base.x - scroll_x, base.y);
-                }                    
-              else if (physic.get_velocity_y() != 0)
-                {
-                  if (dir == RIGHT)
-                    sprite->jump_right->draw(base.x - scroll_x, base.y);
+                    sprite->stand_right->draw( base.x - scroll_x, base.y);
                   else
-                    sprite->jump_left->draw(base.x - scroll_x, base.y);                   
+                    sprite->stand_left->draw( base.x - scroll_x, base.y);
                 }
-              else
+              else // moving
                 {
-                  if (fabsf(physic.get_velocity_x()) < 1.0f) // standing
-                    {
-                      if (dir == RIGHT)
-                        sprite->stand_right->draw( base.x - scroll_x, base.y);
-                      else
-                        sprite->stand_left->draw( base.x - scroll_x, base.y);
-                    }
-                  else // moving
-                    {
-                      if (dir == RIGHT)
-                        sprite->walk_right->draw(base.x - scroll_x, base.y);
-                      else
-                        sprite->walk_left->draw(base.x - scroll_x, base.y);
-                    }
+                  if (dir == RIGHT)
+                    sprite->walk_right->draw(base.x - scroll_x, base.y);
+                  else
+                    sprite->walk_left->draw(base.x - scroll_x, base.y);
                 }
             }
-          
+                      
           // Draw arm overlay graphics when Tux is holding something
           if (holding_something && physic.get_velocity_y() == 0)
             {
