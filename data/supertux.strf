@@ -73,12 +73,16 @@
          (images "shared/jumpy-left-middle-0.png"))
 
  (sprite (name "mrbomb-left")
+         (x-hotspot 0)
+         (y-hotspot 15)
          (images "shared/mrbomb-left-0.png")
          (images "shared/mrbomb-left-1.png")
          (images "shared/mrbomb-left-2.png")
          (images "shared/mrbomb-left-3.png"))
 
  (sprite (name "mrbomb-right")
+         (x-hotspot 0)
+         (y-hotspot 15)
          (images "shared/mrbomb-right-0.png")
          (images "shared/mrbomb-right-1.png")
          (images "shared/mrbomb-right-2.png")
@@ -86,12 +90,18 @@
  
 
  (sprite (name "mrbomb-ticking-left")
+         (x-hotspot 0)
+         (y-hotspot 10)
          (images "shared/mrbombx-left-0.png"))
 
  (sprite (name "mrbomb-ticking-right")
+         (x-hotspot 0)
+         (y-hotspot 10)
          (images "shared/mrbombx-right-0.png"))
 
  (sprite (name "mrbomb-explosion")
+         (x-hotspot 32)
+         (y-hotspot 32)
          (images "shared/mrbomb-explosion.png"))
 
  (sprite (name "stalactite")
