@@ -311,7 +311,7 @@ World::action(double frame_ratio)
 
 // the space that it takes for the screen to start scrolling, regarding
 // screen bounds (in pixels)
-#define X_SPACE 380
+#define X_SPACE (400-16)
 // the time it takes to move the camera (in ms)
 #define CHANGE_DIR_SCROLL_SPEED 2000
 
