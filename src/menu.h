@@ -48,13 +48,17 @@ void menu_item_change_text (menu_item_type* pmenu_item, const char *text);
 void menu_item_change_input(menu_item_type* pmenu_item, const char *text);
 
 typedef struct menu_type
-  {
-    int num_items;
-    int active_item;
-    int arrange_left;
-    menu_item_type *item;
-    timer_type effect;
-  }
+{
+  // center of the menu on the screen
+  int x;
+  int y;
+
+  int num_items;
+  int active_item;
+  int arrange_left;
+  menu_item_type *item;
+  timer_type effect;
+}
 menu_type;
 
 void menu_init   (menu_type* pmenu);

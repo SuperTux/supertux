@@ -117,6 +117,8 @@ void menu_free(menu_type* pmenu)
 /* Initialize a menu */
 void menu_init(menu_type* pmenu)
 {
+  pmenu->x = screen->w/2;
+  pmenu->y = screen->h/2;
   pmenu->arrange_left = 0;
   pmenu->num_items = 0;
   pmenu->active_item = 0;
@@ -296,8 +298,8 @@ void menu_draw_item(menu_type* pmenu,
     effect_offset = (index % 2) ? effect_time : -effect_time;
   }
 
-  int x_pos       = screen->w/2;
-  int y_pos       = screen->h/2 + 24*index - menu_height/2 + 12 + effect_offset;
+  int x_pos       = pmenu->x;
+  int y_pos       = pmenu->y + 24*index - menu_height/2 + 12 + effect_offset;
   int shadow_size = 2;
   int text_width  = strlen(pitem.text) * font_width;
   int input_width = strlen(pitem.input) * font_width;
@@ -325,7 +327,7 @@ void menu_draw_item(menu_type* pmenu,
 
     case MN_HL:
       {
-        int x = screen->w/2 - menu_width/2; 
+        int x = pmenu->x - menu_width/2; 
         int y = y_pos - 12 - effect_offset;
         /* Draw a horizontal line with a little 3d effect */
         fillrect(x, y + 6,
@@ -446,9 +448,10 @@ void menu_draw(menu_type* pmenu)
   menu_width  = menu_width * 16 + 48;
   menu_height = (pmenu->num_items) * 24;
 
-  int center_x = screen->w/2;
   /* Draw a transparent background */
-  fillrect(center_x - menu_width/2,screen->h/2-(((pmenu->num_items)*24)/2),menu_width,menu_height,150,150,150,100);
+  fillrect(pmenu->x - menu_width/2,
+           pmenu->y - 24*pmenu->num_items/2,
+           menu_width,menu_height,150,150,150,100);
 
   for(int i = 0; i < pmenu->num_items; ++i)
     {
