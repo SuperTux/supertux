@@ -39,6 +39,8 @@
 #include "timer.h"
 #include "high_scores.h"
 
+#define FLICK_CURSOR_TIME 500
+
 Surface* checkbox;
 Surface* checkbox_checked;
 Surface* back;
@@ -165,6 +167,10 @@ MenuItem::create(MenuItemKind kind_, const char *text_, int init_toggle_, Menu* 
   pnew_item->id = id;
   pnew_item->int_p = int_p_;
 
+  pnew_item->input_flickering = false;
+  pnew_item->input_flickering_timer.init(true);
+  pnew_item->input_flickering_timer.start(FLICK_CURSOR_TIME);
+
   return pnew_item;
 }
 
@@ -188,6 +194,31 @@ MenuItem::change_input(const  char *text_)
       input = (char*) malloc(sizeof(char )*(strlen(text_)+1));
       strcpy(input, text_);
     }
+}
+
+char* MenuItem::get_input_with_symbol(bool active_item)
+{
+if(!active_item)
+  input_flickering = true;
+else
+  {
+  if(input_flickering_timer.get_left() < 0)
+    {
+    if(input_flickering)
+      input_flickering = false;
+    else
+      input_flickering = true;
+    input_flickering_timer.start(FLICK_CURSOR_TIME);
+    }
+  }
+
+char str[1024];
+if(input_flickering)
+  sprintf(str,"%s-",input);
+else
+  sprintf(str,"%s ",input);
+
+return (char*)str;
 }
 
 /* Set ControlField a key */
@@ -461,7 +492,7 @@ Menu::draw_item(int index, // Position of the current item in the menu
   int y_pos       = pos_y + 24*index - menu_height/2 + 12 + effect_offset;
   int shadow_size = 2;
   int text_width  = strlen(pitem.text) * font_width;
-  int input_width = strlen(pitem.input) * font_width;
+  int input_width = (strlen(pitem.input)+ 1) * font_width;
   int list_width  = strlen(string_list_active(pitem.list)) * font_width;
   Text* text_font = white_text;
 
@@ -521,7 +552,15 @@ Menu::draw_item(int index, // Position of the current item in the menu
         if(pitem.kind == MN_CONTROLFIELD)
           get_controlfield_key_into_input(&pitem);
 
-        gold_text->draw_align(pitem.input,
+        if(pitem.kind == MN_TEXTFIELD || pitem.kind == MN_NUMFIELD)
+          {
+          if(active_item == index)
+            gold_text->draw_align(pitem.get_input_with_symbol(true), x_pos + text_pos, y_pos, A_HMIDDLE, A_VMIDDLE, 2);
+          else
+            gold_text->draw_align(pitem.get_input_with_symbol(false), x_pos + text_pos, y_pos, A_HMIDDLE, A_VMIDDLE, 2);
+          }
+        else
+          gold_text->draw_align(pitem.input,
                               x_pos + text_pos, y_pos,
                               A_HMIDDLE, A_VMIDDLE, 2);
 
