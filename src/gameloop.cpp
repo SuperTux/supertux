@@ -194,7 +194,7 @@ GameSession::levelintro(void)
       Vector(0, 310), LAYER_FOREGROUND1);
 
   if(best_level_statistics != NULL)
-    best_level_statistics->draw_message_info(context, "Best Level Statistics");
+    best_level_statistics->draw_message_info(context, _("Best Level Statistics"));
 
   context.do_drawing();
 
