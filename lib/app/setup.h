@@ -40,7 +40,7 @@ struct FileSystem
 /// All you need to get an application up and running
 struct Setup
   {
-    static void info(const std::string& _package_name, const std::string& _package_symbol_name, const std::string& _package_version);
+    static void init(const std::string& _package_name, const std::string& _package_symbol_name, const std::string& _package_version);
     static void directories(void);
     static void general(void);
     static void general_free();

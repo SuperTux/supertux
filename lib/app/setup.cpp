@@ -252,16 +252,21 @@ std::set<std::string> FileSystem::dfiles(const std::string& rel_path, const  std
   return sdirs;
 }
 
-void Setup::info(const std::string& _package_name, const std::string& _package_symbol_name, const std::string& _package_version)
+void Setup::init(const std::string& _package_name,
+        const std::string& _package_symbol_name,
+        const std::string& _package_version)
 {
-package_name = _package_name;
-package_symbol_name = _package_symbol_name;
-package_version = _package_version;
+  directories();
+  dictionary_manager.add_directory(datadir + "/locale");
+  
+  package_name = _package_name;
+  package_symbol_name = _package_symbol_name;
+  package_version = _package_version;
 }
 
 /* --- SETUP --- */
 /* Set SuperTux configuration and save directories */
-void Setup::directories(void)
+void Setup::directories()
 {
   std::string home;
   /* Get home directory (from $HOME variable)... if we can't determine it,

@@ -27,10 +27,14 @@
 #include "SDL.h"
 
 #include "../video/font.h"
+#include "tinygettext.h"
 
 namespace SuperTux
   {
 
+  extern TinyGetText::DictionaryManager dictionary_manager;
+  extern TinyGetText::Dictionary* dictionary;
+  
   class MouseCursor;
 
   extern std::string datadir;

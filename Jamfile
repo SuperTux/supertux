@@ -8,10 +8,7 @@ SubInclude TOP data ;
 UseAutoconf ;
 
 # for now...
-Package [ Wildcard po : *.po *.in Changelog ] ;
-Package [ Wildcard intl : *.c *.h ChangeLog VERSION Makefile.in ] ;
 Package INSTALL NEWS README COPYING AUTHORS ChangeLog ABOUT-NLS depcomp 
         install-sh mkinstalldirs missing ;
 
-Package Makefile.am src/Makefile.am lib/Makefile.am data/Makefile.am 
-            po/Makefile.in.in intl/Makefile.in ;
+Package Makefile.am src/Makefile.am lib/Makefile.am data/Makefile.am ;

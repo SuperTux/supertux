@@ -162,8 +162,8 @@ Sector::parseObject(const std::string& name, LispReader& reader)
       return new FlyingPlatform(reader);
 #endif
 
-   std::cerr << "Unknown object type '" << name << "'.\n";
-   return 0;
+  std::cerr << "Unknown object type '" << name << "'.\n";
+  return 0;
 }
 
 void

@@ -49,18 +49,9 @@ int main(int argc, char * argv[])
   try {
 #endif
     config = new MyConfig;
+   
+    Setup::init(PACKAGE_NAME, PACKAGE, PACKAGE_VERSION);  
     
-    // we want translations only on messages
-    setlocale(LC_ALL, "C");
-    setlocale(LC_MESSAGES, "");
-    
-    (void) bindtextdomain(PACKAGE, LOCALEDIR);
-    (void) textdomain(PACKAGE);
-    (void) bind_textdomain_codeset(PACKAGE, "ISO-8859-1");
-    
-    Setup::info(PACKAGE_NAME, PACKAGE, PACKAGE_VERSION);  
-    
-    Setup::directories();
     Setup::parseargs(argc, argv);
 
     Setup::audio();

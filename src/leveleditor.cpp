@@ -935,7 +935,7 @@ mouse_cursor->set_state(MC_HIDE);
 
 
 char str[1024];
-char *text1[] = {
+const char *text1[] = {
          _("This is the built-in level editor. Its aim is to be intuitive\n"
          "and simple to use, so it should be pretty straightforward.\n"
          "\n"
@@ -971,7 +971,7 @@ char *text1[] = {
          "enemies and game objects in the bottom.\n")
                 };
 
-char *text2[] = {
+const char *text2[] = {
          _("The Foreground/Interactive/Background buttons may be used to\n"
          "see and edit the respective layer. Levels have three tiles layers:\n"
          "Foreground - tiles are drawn on top of everything and have no contact\n"
@@ -1004,7 +1004,7 @@ char *text2[] = {
          "Webpage: http://pingus.seul.org/~grumbel/flexlay/")
                 };
 
-char **text[] = { text1, text2 };
+const char **text[] = { text1, text2 };
 
 
 bool done;

@@ -41,4 +41,4 @@ for p in $(LEVELPATHS) {
 InstallData [ Wildcard *.txt ] ;
 InstallData [ Wildcard music : *.mod *.ogg ] : music ;
 InstallData [ Wildcard sound : *.wav ] : sound ;
-
+InstallData [ Wildcard locale : *.po ] : locale ;

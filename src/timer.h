@@ -17,7 +17,7 @@ public:
    * Set period to zero if you want to disable the timer.
    */
   void start(float period, bool cyclic = false);
-  /** returns true if a period (or more) passed during the last tick command */
+  /** returns true if a period (or more) passed */
   bool check();
 
   /** returns the period of the timer or 0 if it isn't started */

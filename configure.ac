@@ -78,7 +78,7 @@ else
     AC_MSG_RESULT([no])
 fi
 
-AM_GNU_GETTEXT
+AM_ICONV
 
 dnl ===========================================================================
 dnl Check for SDL
@@ -127,10 +127,9 @@ AC_CHECK_FUNCS(mkdir strdup strstr)
 AC_INIT_JAM
 AC_CONFIG_FILES([Jamconfig])
 
-AC_OUTPUT(Makefile intl/Makefile
+AC_OUTPUT(Makefile
           src/Makefile
           data/Makefile
-          po/Makefile.in
 	  lib/Makefile)
 
 echo ""

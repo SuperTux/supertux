@@ -25,6 +25,9 @@
 
 namespace SuperTux {
 
+TinyGetText::DictionaryManager dictionary_manager;
+TinyGetText::Dictionary* dictionary = 0;
+
 /** The datadir prefix prepended when loading game data file */
 std::string datadir;
 std::string package_symbol_name;
