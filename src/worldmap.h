@@ -191,7 +191,7 @@ public:
   void get_input();
 
   /** Update Tux position */
-  void update();
+  void update(float delta);
 
   /** Draw one frame */
   void draw(const Point& offset);

@@ -627,7 +627,7 @@ WorldMap::path_ok(Direction direction, Point old_pos, Point* new_pos)
 }
 
 void
-WorldMap::update()
+WorldMap::update(float delta)
 {
   if (enter_level && !tux->is_moving())
     {
@@ -674,7 +674,7 @@ WorldMap::update()
                         if (dir != NONE)
                           {
                             tux->set_direction(dir);
-                            tux->update(0.33f);
+                            tux->update(delta);
                           }
 
                         std::cout << "Walk to dir: " << dir << std::endl;
@@ -723,7 +723,7 @@ WorldMap::update()
   else
     {
       tux->set_direction(input_direction);
-      tux->update(0.33f);
+      tux->update(delta);
     }
   
   Menu* menu = Menu::current();
@@ -853,33 +853,46 @@ WorldMap::display()
   song = music_manager->load_music(datadir +  "/music/" + music);
   music_manager->play_music(song);
 
-  while(!quit) {
-    Point tux_pos = tux->get_pos();
-    if (1)
-      {
-        offset.x = -tux_pos.x + screen->w/2;
-        offset.y = -tux_pos.y + screen->h/2;
+  unsigned int last_update_time;
+  unsigned int update_time;
 
-        if (offset.x > 0) offset.x = 0;
-        if (offset.y > 0) offset.y = 0;
+  last_update_time = update_time = st_get_ticks();
 
-        if (offset.x < screen->w - width*32) offset.x = screen->w - width*32;
-        if (offset.y < screen->h - height*32) offset.y = screen->h - height*32;
-      } 
-
-    draw(offset);
-    get_input();
-    update();
-
-  if(Menu::current())
+  while(!quit)
     {
-      Menu::current()->draw();
-      mouse_cursor->draw();
-    }
-    flipscreen();
+      float delta = ((float)(update_time-last_update_time))/100.0;
 
-    SDL_Delay(20);
-  }
+      delta *= 1.3f;
+
+      last_update_time = update_time;
+      update_time      = st_get_ticks();
+
+      Point tux_pos = tux->get_pos();
+      if (1)
+        {
+          offset.x = -tux_pos.x + screen->w/2;
+          offset.y = -tux_pos.y + screen->h/2;
+
+          if (offset.x > 0) offset.x = 0;
+          if (offset.y > 0) offset.y = 0;
+
+          if (offset.x < screen->w - width*32) offset.x = screen->w - width*32;
+          if (offset.y < screen->h - height*32) offset.y = screen->h - height*32;
+        } 
+
+      draw(offset);
+      get_input();
+      update(delta);
+
+      if(Menu::current())
+        {
+          Menu::current()->draw();
+          mouse_cursor->draw();
+        }
+      flipscreen();
+
+      SDL_Delay(20);
+    }
 }
 
 void
