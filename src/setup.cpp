@@ -55,8 +55,6 @@
 
 #include "player.h"
 
-void display_text_file(char *filename);
-
 #ifdef WIN32
 #define mkdir(dir, mode)    mkdir(dir)
 // on win32 we typically don't want LFS paths
@@ -498,7 +496,7 @@ bool process_load_game_menu()
 
       if (access(slotfile, F_OK) != 0)
         {
-          display_text_file("intro.txt");
+          display_text_file("intro.txt", "images/background/arctis2.jpg");
         }
 
       WorldMapNS::WorldMap worldmap;

@@ -23,6 +23,8 @@
 
 #include "texture.h"
 
+void display_text_file(char *file, char* surface);
+void display_text_file(char *file, Surface* surface);
 
 /* Kinds of texts. */
 enum {

@@ -219,3 +219,147 @@ Text::erasecenteredtext(const  char * text, int y, Surface * ptexture, int updat
 {
   erasetext(text, screen->w / 2 - (strlen(text) * 8), y, ptexture, update, shadowsize);
 }
+
+
+/* --- SCROLL TEXT FUNCTION --- */
+
+#define MAX_VEL 10
+#define SPEED   1
+#define SCROLL  60
+#define ITEMS_SPACE 4
+
+void display_text_file(char *file, char* surface)
+{
+Surface* sur = new Surface(datadir + surface, IGNORE_ALPHA);
+display_text_file(file, sur);
+delete sur;
+}
+
+void display_text_file(char *file, Surface* surface)
+{
+  int done;
+  int scroll, speed;
+  int y;
+  int length;
+  FILE* fi;
+  char temp[1024];
+  string_list_type names;
+  char filename[1024];
+  string_list_init(&names);
+  sprintf(filename,"%s/%s", datadir.c_str(), file);
+  if((fi = fopen(filename,"r")) != NULL)
+    {
+      while(fgets(temp, sizeof(temp), fi) != NULL)
+        {
+          temp[strlen(temp)-1]='\0';
+          string_list_add_item(&names,temp);
+        }
+      fclose(fi);
+    }
+  else
+    {
+      string_list_add_item(&names,"File was not found!");
+      string_list_add_item(&names,filename);
+      string_list_add_item(&names,"Shame on the guy, who");
+      string_list_add_item(&names,"forgot to include it");
+      string_list_add_item(&names,"in your SuperTux distribution.");
+    }
+
+
+  scroll = 0;
+  speed = 2;
+  done = 0;
+
+  length = names.num_items;
+
+  SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
+
+  while(done == 0)
+    {
+      /* in case of input, exit */
+      SDL_Event event;
+      while(SDL_PollEvent(&event))
+        switch(event.type)
+          {
+          case SDL_KEYDOWN:
+            switch(event.key.keysym.sym)
+              {
+              case SDLK_UP:
+                speed -= SPEED;
+                break;
+              case SDLK_DOWN:
+                speed += SPEED;
+                break;
+              case SDLK_SPACE:
+              case SDLK_RETURN:
+                if(speed >= 0)
+                  scroll += SCROLL;
+                break;
+              case SDLK_ESCAPE:
+                done = 1;
+                break;
+              default:
+                break;
+              }
+            break;
+          case SDL_QUIT:
+            done = 1;
+            break;
+          default:
+            break;
+          }
+
+      if(speed > MAX_VEL)
+        speed = MAX_VEL;
+      else if(speed < -MAX_VEL)
+        speed = -MAX_VEL;
+
+      /* draw the credits */
+
+      surface->draw_bg();
+
+      if (strcmp(file, "CREDITS") == 0)
+        white_big_text->drawf("- SuperTux " VERSION " -", 
+                              0, screen->h-scroll, A_HMIDDLE, A_TOP, 2);
+
+      y = 0;
+      for(int i = 0; i < length; i++)
+        {
+        switch(names.item[i][0])
+          {
+          case ' ':
+            white_small_text->drawf(names.item[i], 0, 60+screen->h+y-scroll, A_HMIDDLE, A_TOP, 1);
+            y += white_small_text->h+ITEMS_SPACE;
+            break;
+          case '	':
+            white_text->drawf(names.item[i], 0, 60+screen->h+y-scroll, A_HMIDDLE, A_TOP, 1);
+            y += white_text->h+ITEMS_SPACE;
+            break;
+          case '-':
+            white_big_text->drawf(names.item[i], 0, 60+screen->h+y-scroll, A_HMIDDLE, A_TOP, 3);
+            y += white_big_text->h+ITEMS_SPACE;
+            break;
+          default:
+            blue_text->drawf(names.item[i], 0, 60+screen->h+y-scroll, A_HMIDDLE, A_TOP, 1);
+            y += blue_text->h+ITEMS_SPACE;
+            break;
+          }
+        }
+
+      flipscreen();
+
+      if(60+screen->h+y-scroll < 0 && 20+60+screen->h+y-scroll < 0)
+        done = 1;
+
+      scroll += speed;
+      if(scroll < 0)
+        scroll = 0;
+
+      SDL_Delay(35);
+    }
+  string_list_free(&names);
+
+  SDL_EnableKeyRepeat(0, 0);    // disables key repeating
+  Menu::set_current(main_menu);
+}
+
