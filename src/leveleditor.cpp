@@ -1362,11 +1362,8 @@ void le_checkevents()
         }
       }
 
-      if(!Menu::current())
+      if(!Menu::current() && !show_minimap)
       {
-        le_move_left_bt->event(event);
-        le_move_right_bt->event(event);
-
         if(le_mouse_pressed[LEFT])
         {
           if(le_current.IsTile())
@@ -1393,28 +1390,43 @@ void le_checkevents()
   if(!Menu::current())
   {
     show_minimap = false;
-    
-    if(le_move_left_bt->get_state() == BUTTON_PRESSED)
+   
+    le_move_left_bt->event(event);
+    le_move_right_bt->event(event);
+    switch(le_move_left_bt->get_state())
     {
+    case BUTTON_PRESSED:
       pos_x -= 192;
       show_minimap = true;
-    }
-    else if(le_move_left_bt->get_state() == BUTTON_HOVER)
-    {
+      break;
+    case BUTTON_HOVER:
       pos_x -= 32;
-      show_minimap = true;      
+      show_minimap = true;
+      break;
+    case BUTTON_CLICKED:
+      show_minimap = true;    
+      break;
+    default:
+      break;
     }
 
-    if(le_move_right_bt->get_state() == BUTTON_PRESSED)
+    switch(le_move_right_bt->get_state())
     {
+    case BUTTON_PRESSED:
       pos_x += 192;
-      show_minimap = true;      
-    }
-    else if(le_move_right_bt->get_state() == BUTTON_HOVER)
-    {
+      show_minimap = true;
+      break;
+    case BUTTON_HOVER:
       pos_x += 32;
-      show_minimap = true;      
+      show_minimap = true;
+      break;
+    case BUTTON_CLICKED:
+      show_minimap = true;    
+      break;
+    default:
+      break;
     }
+    
   }
 
 }
