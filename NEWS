@@ -5,7 +5,7 @@ Super Tux 0.1.2 (upcoming release)
   * some new music and graphics
   * additions to level-/worldmap format and gameplay:
     -support for autoscrolling levels
-    -display of messages on the worldmap, one-way roads
+    -display of messages on the worldmap, one-way roads and teleporters
     -kicked ice blocks destroy wooden crates and open "?"-boxes
   * minor bug fixes
 
