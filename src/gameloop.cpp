@@ -720,12 +720,14 @@ GameSession::drawstatus(DrawingContext& context)
 
   sprintf(str, "%d", player_status.distros);
   context.draw_text(white_text, "COINS",
-      Vector(screen->w - white_text->w*9, 0), LAYER_FOREGROUND1);
+      Vector(screen->w - white_text->get_text_width("COINS   "), 0),
+        LAYER_FOREGROUND1);
   context.draw_text(gold_text, str,
-      Vector(screen->w - gold_text->w*2, 0), LAYER_FOREGROUND1);
+      Vector(screen->w - gold_text->get_text_width("99"), 0),LAYER_FOREGROUND1);
 
   context.draw_text(white_text, "LIVES",
-      Vector(screen->w - white_text->w*9, 20), LAYER_FOREGROUND1);
+      Vector(screen->w - white_text->get_text_width("LIVES    "), 20),
+      LAYER_FOREGROUND1);
   if (player_status.lives >= 5)
     {
       sprintf(str, "%dx", player_status.lives);
@@ -746,7 +748,8 @@ GameSession::drawstatus(DrawingContext& context)
     {
       sprintf(str, "%2.1f", fps_fps);
       context.draw_text(white_text, "FPS", 
-          Vector(screen->w - white_text->w*9, 40), LAYER_FOREGROUND1);
+          Vector(screen->w - white_text->get_text_width("FPS      "), 40),
+          LAYER_FOREGROUND1);
       context.draw_text(gold_text, str,
           Vector(screen->w-4*16, 40), LAYER_FOREGROUND1);
     }

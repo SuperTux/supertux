@@ -28,27 +28,25 @@
 void display_text_file(const std::string& file, const std::string& surface, float scroll_speed);
 void display_text_file(const std::string& file, Surface* surface, float scroll_speed);
 
-/* Kinds of texts. */
-enum {
-   TEXT_TEXT,
-   TEXT_NUM
-};
-
 /* Text type */
 class Font
 {
 public:
-  Surface* chars;
-  Surface* shadow_chars;
-  int kind;
-  int w;
-  int h;
-  int shadowsize;
-public:
-  Font(const std::string& file, int kind, int w, int h, int shadowsize = 2);
+  /* Kinds of texts. */
+  enum FontType {
+    TEXT, // images for all characters
+    NUM   // only images for numbers
+  };
+  
+  Font(const std::string& file, FontType type, int w, int h, int shadowsize=2);
   ~Font();
 
+  /** returns the height of the font */
   float get_height() const;
+  /** returns the width of a given text. (Note that I won't add a normal
+   * get_width function here, as we might switch to variable width fonts in the
+   * future.
+   */
   float get_text_width(const std::string& text) const;
 
 private:
@@ -57,6 +55,18 @@ private:
   void draw(const std::string& text, const Vector& pos);
   void draw_chars(Surface* pchars, const std::string& text, 
       const Vector& position);
+
+  Surface* chars;
+  Surface* shadow_chars;
+  FontType type;
+  int w;
+  int h;
+  int shadowsize;
+
+  /// the number of the first character that is represented in the font
+  int first_char;
+  /// the number of the last character that is represented in the font
+  int last_char;
 };
 
 #endif /*SUPERTUX_TEXT_H*/

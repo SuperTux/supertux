@@ -26,50 +26,40 @@
 #include "font.h"
 #include "drawing_context.h"
 
-Font::Font(const std::string& file, int kind_, int w_, int h_, int shadowsize_)
+Font::Font(const std::string& file, FontType ntype, int nw, int nh,
+        int nshadowsize)
+    : chars(0), shadow_chars(0), type(ntype), w(nw), h(nh),
+      shadowsize(nshadowsize)
 {
-  kind = kind_;
-  w = w_;
-  h = h_;
-  shadowsize = shadowsize_;
-
-  int mx, my;
-  SDL_Surface *conv;
-  int pixels;
-  int i;
-  
-  if(kind == TEXT_TEXT)
-    {
-      mx = 26;
-      my = 3;
-    }
-  else if(kind == TEXT_NUM)
-    {
-      mx = 10;
-      my = 1;
-    }
-  else
-    {
-      mx = 0;
-      my = 0;
-    }
-
   chars = new Surface(file, USE_ALPHA);
-
+ 
+  switch(type) {
+    case TEXT:
+      first_char = 32;
+      break;
+    case NUM:
+      first_char = 48;
+      break;
+  }
+  last_char = first_char + (chars->h / h) * 16;
+  if(last_char > 127) // we have left out some control chars at 128-159
+    last_char += 32;
+  printf("Chars: %d-%d.\n", first_char, last_char);
+   
   // Load shadow font.
-  conv = SDL_DisplayFormatAlpha(chars->impl->get_sdl_surface());
-  pixels = conv->w * conv->h;
-  SDL_LockSurface(conv);
-  for(i = 0; i < pixels; ++i)
-    {
+  if(shadowsize > 0) {
+    SDL_Surface* conv = SDL_DisplayFormatAlpha(chars->impl->get_sdl_surface());
+    int pixels = conv->w * conv->h;
+    SDL_LockSurface(conv);
+    for(int i = 0; i < pixels; ++i) {
       Uint32 *p = (Uint32 *)conv->pixels + i;
       *p = *p & conv->format->Amask;
     }
-  SDL_UnlockSurface(conv);
-  SDL_SetAlpha(conv, SDL_SRCALPHA, 128);
-  shadow_chars = new Surface(conv, USE_ALPHA);
-
-  SDL_FreeSurface(conv);
+    SDL_UnlockSurface(conv);
+    SDL_SetAlpha(conv, SDL_SRCALPHA, 128);
+    shadow_chars = new Surface(conv, USE_ALPHA);
+    SDL_FreeSurface(conv);
+  }
 }
 
 Font::~Font()
@@ -93,7 +83,7 @@ Font::get_text_width(const std::string& text) const
 void
 Font::draw(const std::string& text, const Vector& pos)
 {
-  if(shadowsize != 0)
+  if(shadowsize > 0)
     draw_chars(shadow_chars, text, pos + Vector(shadowsize, shadowsize));
 
   draw_chars(chars, text, pos);
@@ -102,48 +92,32 @@ Font::draw(const std::string& text, const Vector& pos)
 void
 Font::draw_chars(Surface* pchars, const std::string& text, const Vector& pos)
 {
-  size_t i, j;
-
   SurfaceImpl* impl = pchars->impl;
 
-  int x = int(pos.x);
-  int y = int(pos.y);
-  if(kind == TEXT_TEXT)
-    {
-      for( i = 0, j = 0; i < text.size(); ++i,++j)
-        {
-          if( text[i] >= ' ' && text[i] <= '/')
-            impl->draw_part((int)(text[i] - ' ')*w,  0 , x+(j*w), y, w, h, 255);
-          else if( text[i] >= '0' && text[i] <= '?')
-            impl->draw_part((int)(text[i] - '0')*w, h*1, x+(j*w), y, w, h, 255);
-          else if ( text[i] >= '@' && text[i] <= 'O')
-            impl->draw_part((int)(text[i] - '@')*w, h*2, x+(j*w), y, w, h, 255);
-          else if ( text[i] >= 'P' && text[i] <= '_')
-            impl->draw_part((int)(text[i] - 'P')*w, h*3, x+(j*w), y, w, h, 255);
-          else if ( text[i] >= '`' && text[i] <= 'o')
-            impl->draw_part((int)(text[i] - '`')*w, h*4, x+(j*w), y, w, h, 255);
-          else if ( text[i] >= 'p' && text[i] <= '~')
-            impl->draw_part((int)(text[i] - 'p')*w, h*5, x+(j*w), y, w, h, 255);
-          else if ( text[i] == '\n')
-            {
-              y += h + 2;
-              j = 0;
-            }
-        }
+  Vector p = pos;
+  for(size_t i = 0; i < text.size(); ++i)
+  {
+    int c = (unsigned char) text[i];
+    if(c > 127) // correct for the 32 controlchars at 128-159
+      c -= 32;
+    // a non-printable character?
+    if(c == '\n') {
+      p.x = pos.x;
+      p.y += h + 2;
+      continue;
     }
-  else if(kind == TEXT_NUM)
-    {
-      for( i = 0, j = 0; i < text.size(); ++i, ++j)
-        {
-          if ( text[i] >= '0' && text[i] <= '9')
-            impl->draw_part((int)(text[i] - '0')*w, 0, x+(j*w), y, w, h, 255);
-          else if ( text[i] == '\n')
-            {
-              y += h + 2;
-              j = 0;
-            }
-        }
+    if(c == ' ' || c < first_char || c > last_char) {
+      p.x += w;
+      continue;
     }
+    
+    int index = c - first_char;
+    int source_x = (index % 16) * w;
+    int source_y = (index / 16) * h;
+
+    impl->draw_part(source_x, source_y, p.x, p.y, w, h, 255);
+    p.x += w;
+  }
 }
 
 /* --- SCROLL TEXT FUNCTION --- */

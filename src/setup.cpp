@@ -584,19 +584,26 @@ void st_general_setup(void)
 
   /* Load global images: */
 
-  black_text  = new Font(datadir + "/images/status/letters-black.png", TEXT_TEXT, 16,18);
-  gold_text   = new Font(datadir + "/images/status/letters-gold.png", TEXT_TEXT, 16,18);
-  silver_text = new Font(datadir + "/images/status/letters-silver.png", TEXT_TEXT, 16,18);
-  blue_text   = new Font(datadir + "/images/status/letters-blue.png", TEXT_TEXT,
-      16,18, 3);
-  red_text    = new Font(datadir + "/images/status/letters-red.png", TEXT_TEXT, 16,18);
-  green_text  = new Font(datadir + "/images/status/letters-green.png", TEXT_TEXT, 16,18);
-  white_text  = new Font(datadir + "/images/status/letters-white.png", TEXT_TEXT, 16,18);
+  black_text  = new Font(datadir + "/images/status/letters-black.png",
+      Font::TEXT, 16,18);
+  gold_text   = new Font(datadir + "/images/status/letters-gold.png",
+      Font::TEXT, 16,18);
+  silver_text = new Font(datadir + "/images/status/letters-silver.png",
+      Font::TEXT, 16,18);
+  blue_text   = new Font(datadir + "/images/status/letters-blue.png",
+      Font::TEXT, 16, 18, 3);
+  red_text    = new Font(datadir + "/images/status/letters-red.png",
+      Font::TEXT, 16,18);
+  green_text  = new Font(datadir + "/images/status/letters-green.png",
+      Font::TEXT, 16,18);
+  white_text  = new Font(datadir + "/images/fonts/letters-white.png",
+      Font::TEXT, 16,18);
   white_small_text = new Font(datadir +
-      "/images/status/letters-white-small.png", TEXT_TEXT, 8,9, 1);
-  white_big_text   = new Font(datadir + "/images/status/letters-white-big.png",
-      TEXT_TEXT, 20,22, 3);
-  yellow_nums = new Font(datadir + "/images/status/numbers.png", TEXT_NUM, 32,32);
+      "/images/status/letters-white-small.png", Font::TEXT, 8,9, 1);
+  white_big_text   = new Font(datadir + "/images/fonts/letters-white-big.png",
+      Font::TEXT, 20,22, 3);
+  yellow_nums = new Font(datadir + "/images/status/numbers.png",
+      Font::TEXT, 32,32);
 
   /* Load GUI/menu images: */
   checkbox = new Surface(datadir + "/images/status/checkbox.png", USE_ALPHA);
