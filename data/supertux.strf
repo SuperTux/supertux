@@ -613,6 +613,25 @@
          (x-hotspot 12)
          (fps 20)
          (images "shared/icebullet-1.png"))
+
+  ; Trampoline
+  (sprite (name "trampoline-1")
+         (x-hotspot 0)
+         (x-hotspot 0)
+         (images "shared/trampoline-1.png"))
+ (sprite (name "trampoline-2")
+         (x-hotspot 0)
+         (x-hotspot 0)
+         (images "shared/trampoline-2.png"))
+ (sprite (name "trampoline-3")
+         (x-hotspot 0)
+         (x-hotspot 0)
+         (images "shared/trampoline-3.png"))
+ (sprite (name "trampoline-4")
+         (x-hotspot 0)
+         (x-hotspot 0)
+         (images "shared/trampoline-4.png"))
+
  )
 
 ;; EOF ;;
