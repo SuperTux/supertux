@@ -25,6 +25,7 @@ L: low priority
 
 [H] Make sure there are no invalid tile numbers in the level files
      - Tile 6 occurs in world1/level5.stl as well as other levels
+[H] Worldmap needs to allow multiple maps
 [H] Change resolution to 800x600
      - Levels need to be updated to resolution
          (half of the levels have been already updated)
