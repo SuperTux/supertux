@@ -179,7 +179,8 @@ void badguy_action(bad_guy_type* pbad)
                         pbad->base.x += 24;
 
                       pbad->mode=KICK;
-                      pbad->base.ym-=8;
+                      pbad->base.xm = 8;
+                      pbad->base.ym = 8;
                       play_sound(sounds[SND_KICK],SOUND_CENTER_SPEAKER);
                     }
                 }
@@ -634,7 +635,7 @@ void badguy_collision(bad_guy_type* pbad, void *p_c_object, int c_object)
                   /* Kick! */
                   play_sound(sounds[SND_KICK], SOUND_CENTER_SPEAKER);
 
-                  if (pplayer_c->base.x <= pbad->base.x)
+                  if (pplayer_c->base.x < pbad->base.x + (pbad->base.width/2))
                     pbad->dir = RIGHT;
                   else
                     pbad->dir = LEFT;
