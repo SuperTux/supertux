@@ -2,7 +2,9 @@ localedir = $(datadir)/locale
 
 bin_PROGRAMS = supertux
 supertux_CXXFLAGS = -DLOCALEDIR=\"$(localedir)\"
-supertux_LDADD = $(top_builddir)/lib/libsupertux.la @LIBINTL@
+supertux_LDADD = $(top_builddir)/lib/.libs/libsupertux @LIBINTL@
+#supertux_LDADD = $(top_builddir)/lib/libsupertux.la @LIBINTL@ Use this for releases
+
 
 supertux_SOURCES = badguy.cpp badguy.h bitmask.cpp bitmask.h camera.cpp \
 			camera.h collision.cpp collision.h door.cpp door.h intro.cpp intro.h \
