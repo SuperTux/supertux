@@ -509,6 +509,30 @@ SurfaceOpenGL::create_gl(SDL_Surface * surf, GLuint * tex)
     SDL_SetAlpha(surf, saved_flags, saved_alpha);
   }
 
+  // We check all the pixels of the surface to figure out which
+  // internal format OpenGL should use for storing it, ie. if no alpha
+  // is present store in RGB instead of RGBA, this saves a few bytes
+  // of memory, but much more importantly it makes the game look
+  // *much* better in 16bit color mode
+  int internal_format = GL_RGB10_A2;
+  bool has_alpha = false;
+
+  unsigned char* buf = static_cast<unsigned char*>(conv->pixels);
+  for (int y = 0; y < surf->h; ++y)
+    for (int x = 0; x < surf->w; ++x)
+      {
+        if (buf[(conv->pitch*y + x*4) + 3] != 255)
+          {
+            has_alpha = true;
+            break;
+          }
+      }
+
+  if (!has_alpha)
+    {
+      internal_format = GL_RGB;
+    }
+
   glGenTextures(1, &*tex);
   glBindTexture(GL_TEXTURE_2D , *tex);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -516,7 +540,7 @@ SurfaceOpenGL::create_gl(SDL_Surface * surf, GLuint * tex)
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
   glPixelStorei(GL_UNPACK_ROW_LENGTH, conv->pitch / conv->format->BytesPerPixel);
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB10_A2, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, conv->pixels);
+  glTexImage2D(GL_TEXTURE_2D, 0, internal_format, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, conv->pixels);
   glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
 
   SDL_FreeSurface(conv);
