@@ -110,7 +110,7 @@ class FloatingScore : public GameObject
 /* Trampoline */
 struct TrampolineData
 {
-  int power;
+  float power;
 };
 
 class Trampoline : public GameObject
@@ -133,7 +133,7 @@ class Trampoline : public GameObject
   Physic physic;
 
  private:
-  int power;
+  float power;
   unsigned int frame;
 };
 

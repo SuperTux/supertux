@@ -416,7 +416,7 @@ Level::load(const std::string& filename)
                       _trampoline_data.type = OBJ_TRAMPOLINE;
                       reader.read_int("x", &_trampoline_data.x);
                       reader.read_int("y", &_trampoline_data.y);
-                      reader.read_int("power", &_trampoline_data.type_specific.power);
+                      reader.read_float("power", &_trampoline_data.type_specific.power);
 
                       trampoline_data.push_back(_trampoline_data);
                     }

@@ -305,9 +305,9 @@ Trampoline::collision(void *p_c_object, int c_object, CollisionType type)
           frame = 0;
 
         if (squish_amount < 24)
-        {
-          pplayer_c->physic.set_velocity_y(8);
-        }
+          pplayer_c->physic.set_velocity_y(power);
+        else if (pplayer_c->physic.get_velocity_y() < 0)
+          pplayer_c->physic.set_velocity_y(-squish_amount/32);
       }
 
       break;

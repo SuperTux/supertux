@@ -511,7 +511,7 @@ World::collision_handler()
       {
         (*i)->collision(&tux, CO_PLAYER, COLLISION_SQUISH);
       }
-      else
+      else if (tux.previous_base.y <= tux.base.y)
       {
         tux.collision(*i, CO_TRAMPOLINE);
         (*i)->collision(&tux, CO_PLAYER, COLLISION_NORMAL);
