@@ -80,33 +80,26 @@ extern Sprite* smalltux_gameover;
 extern Sprite* smalltux_star;
 extern Sprite* largetux_star;
 
-extern Sprite* smalltux_stand_left;
-extern Sprite* smalltux_stand_right;
-extern Sprite* smalltux_walk_right;
-extern Sprite* smalltux_walk_left;
-extern Sprite* smalltux_jump_left;
-extern Sprite* smalltux_jump_right;
-extern Sprite* smalltux_kick_left;
-extern Sprite* smalltux_kick_right;
-extern Sprite* smalltux_skid_left;
-extern Sprite* smalltux_skid_right;
-extern Sprite* smalltux_grab_left;
-extern Sprite* smalltux_grab_right;
+struct PlayerSprite
+{
+  Sprite* stand_left;
+  Sprite* stand_right;
+  Sprite* walk_right;
+  Sprite* walk_left;
+  Sprite* jump_right;
+  Sprite* jump_left;
+  Sprite* kick_left;
+  Sprite* kick_right;
+  Sprite* skid_right;
+  Sprite* skid_left;
+  Sprite* grab_left;
+  Sprite* grab_right;
+  Sprite* duck_right;
+  Sprite* duck_left;
+};
 
-extern Sprite* largetux_stand_left;
-extern Sprite* largetux_stand_right;
-extern Sprite* largetux_walk_right;
-extern Sprite* largetux_walk_left;
-extern Sprite* largetux_jump_right;
-extern Sprite* largetux_jump_left;
-extern Sprite* largetux_kick_left;
-extern Sprite* largetux_kick_right;
-extern Sprite* largetux_skid_right;
-extern Sprite* largetux_skid_left;
-extern Sprite* largetux_grab_left;
-extern Sprite* largetux_grab_right;
-extern Sprite* largetux_duck_right;
-extern Sprite* largetux_duck_left;
+extern PlayerSprite smalltux;
+extern PlayerSprite largetux;
 
 extern Surface* firetux_right[3];
 extern Surface* firetux_left[3];

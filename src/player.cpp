@@ -34,33 +34,8 @@ Sprite* smalltux_gameover;
 Sprite* smalltux_star;
 Sprite* largetux_star;
 
-Sprite* smalltux_stand_left;
-Sprite* smalltux_stand_right;
-Sprite* smalltux_walk_right;
-Sprite* smalltux_walk_left;
-Sprite* smalltux_jump_left;
-Sprite* smalltux_jump_right;
-Sprite* smalltux_kick_left;
-Sprite* smalltux_kick_right;
-Sprite* smalltux_skid_left;
-Sprite* smalltux_skid_right;
-Sprite* smalltux_grab_left;
-Sprite* smalltux_grab_right;
-
-Sprite* largetux_stand_left;
-Sprite* largetux_stand_right;
-Sprite* largetux_walk_right;
-Sprite* largetux_walk_left;
-Sprite* largetux_jump_right;
-Sprite* largetux_jump_left;
-Sprite* largetux_kick_left;
-Sprite* largetux_kick_right;
-Sprite* largetux_skid_right;
-Sprite* largetux_skid_left;
-Sprite* largetux_grab_left;
-Sprite* largetux_grab_right;
-Sprite* largetux_duck_right;
-Sprite* largetux_duck_left;
+PlayerSprite smalltux;
+PlayerSprite largetux;
 
 Surface* firetux_right[3];
 Surface* firetux_left[3];
@@ -538,42 +513,42 @@ Player::draw()
                   if (physic.get_velocity_y() != 0)
                     {
                       if (dir == RIGHT)
-                        smalltux_jump_right->draw(base.x - scroll_x, base.y);
+                        smalltux.jump_right->draw(base.x - scroll_x, base.y);
                       else
-                        smalltux_jump_left->draw(base.x - scroll_x, base.y);                   
+                        smalltux.jump_left->draw(base.x - scroll_x, base.y);                   
                     }
                   else
                     {
                       if (fabsf(physic.get_velocity_x()) < 1.0f) // standing
                         {
                           if (dir == RIGHT)
-                            smalltux_stand_right->draw( base.x - scroll_x, base.y - 9);
+                            smalltux.stand_right->draw( base.x - scroll_x, base.y - 9);
                           else
-                            smalltux_stand_left->draw( base.x - scroll_x, base.y - 9);
+                            smalltux.stand_left->draw( base.x - scroll_x, base.y - 9);
                         }
                       else // moving
                         {
                           if (dir == RIGHT)
-                            smalltux_walk_right->draw(base.x - scroll_x, base.y);
+                            smalltux.walk_right->draw(base.x - scroll_x, base.y);
                           else
-                            smalltux_walk_left->draw(base.x - scroll_x, base.y);
+                            smalltux.walk_left->draw(base.x - scroll_x, base.y);
                         }
                     }
                 }
               else
                 {
                   if (dir == RIGHT)
-                    smalltux_skid_right->draw(base.x - scroll_x, base.y);
+                    smalltux.skid_right->draw(base.x - scroll_x, base.y);
                   else
-                    smalltux_skid_left->draw(base.x - scroll_x, base.y); 
+                    smalltux.skid_left->draw(base.x - scroll_x, base.y); 
                 }
 
               if (holding_something && physic.get_velocity_y() == 0)
                 {
                   if (dir == RIGHT)
-                    smalltux_grab_right->draw(base.x - scroll_x, base.y);
+                    smalltux.grab_right->draw(base.x - scroll_x, base.y);
                   else
-                    smalltux_grab_left->draw(base.x - scroll_x, base.y);
+                    smalltux.grab_left->draw(base.x - scroll_x, base.y);
                 }
 
               if (invincible_timer.started())
@@ -592,40 +567,40 @@ Player::draw()
                               if (fabsf(physic.get_velocity_x()) < 1.0f) // standing
                                 {
                                   if (dir == RIGHT)
-                                    largetux_stand_right->draw(base.x - scroll_x, base.y);
+                                    largetux.stand_right->draw(base.x - scroll_x, base.y);
                                   else
-                                    largetux_stand_left->draw(base.x - scroll_x, base.y);
+                                    largetux.stand_left->draw(base.x - scroll_x, base.y);
                                 }
                               else // walking
                                 {
                                   if (dir == RIGHT)
-                                    largetux_walk_right->draw(base.x - scroll_x, base.y);
+                                    largetux.walk_right->draw(base.x - scroll_x, base.y);
                                   else
-                                    largetux_walk_left->draw(base.x - scroll_x, base.y);
+                                    largetux.walk_left->draw(base.x - scroll_x, base.y);
                                 }
                             }
                           else
                             {
                               if (dir == RIGHT)
-                                largetux_jump_right->draw(base.x - scroll_x, base.y);
+                                largetux.jump_right->draw(base.x - scroll_x, base.y);
                               else
-                                largetux_jump_left->draw(base.x - scroll_x, base.y);
+                                largetux.jump_left->draw(base.x - scroll_x, base.y);
                             }
                         }
                       else
                         {
                           if (dir == RIGHT)
-                            largetux_skid_right->draw(base.x - scroll_x - 8, base.y);
+                            largetux.skid_right->draw(base.x - scroll_x - 8, base.y);
                           else
-                            largetux_skid_left->draw(base.x - scroll_x - 8, base.y);
+                            largetux.skid_left->draw(base.x - scroll_x - 8, base.y);
                         }
                     }
                   else
                     {
                       if (dir == RIGHT)
-                        largetux_duck_right->draw(base.x - scroll_x, base.y);
+                        largetux.duck_right->draw(base.x - scroll_x, base.y);
                       else
-                        largetux_duck_left->draw(base.x - scroll_x, base.y);
+                        largetux.duck_left->draw(base.x - scroll_x, base.y);
                     }
                 }
               else
@@ -670,9 +645,9 @@ Player::draw()
               if (holding_something && !duck && physic.get_velocity_y() == 0)
                 {
                   if (dir == RIGHT)
-                    largetux_grab_right->draw(base.x - scroll_x, base.y);
+                    largetux.grab_right->draw(base.x - scroll_x, base.y);
                   else
-                    largetux_grab_left->draw(base.x - scroll_x, base.y);
+                    largetux.grab_left->draw(base.x - scroll_x, base.y);
                 }
 
               if (invincible_timer.started())
