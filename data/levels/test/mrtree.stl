@@ -192,6 +192,14 @@
     ))
 
     (mrtree (x 200) (y 10))
+    (poisonivy (x 800) (y 10))
+    (poisonivy (x 1000) (y 10))
+    (poisonivy (x 1200) (y 10))
+    (poisonivy (x 1400) (y 10))
+    (poisonivy (x 1800) (y 10))
+    (poisonivy (x 2000) (y 10))
+    (poisonivy (x 2500) (y 10))
+    (poisonivy (x 3000) (y 10))
    )
  )
 

@@ -1161,6 +1161,73 @@
          (images "shared/dummyguy-dead.png")))
 
 
+  ; MrTree  
+  (sprite (name "mrtree")
+      (action
+        (y-offset -3)
+        (fps 5)
+        (name "left")
+        (images "shared/mrtree-walk-left-0.png"
+                "shared/mrtree-walk-left-1.png"
+                "shared/mrtree-walk-left-2.png")
+      )
+      (action
+        (y-offset -3)
+        (fps 5)
+        (name "right")
+        (mirror-action "left")
+      )
+      (action
+        (y-offset -3)
+        (name "small-left")
+        (images "shared/mrtree-small-left-0.png"
+                "shared/mrtree-small-left-1.png"
+                "shared/mrtree-small-left-2.png")
+      )
+      (action
+        (y-offset -3)
+        (name "small-right")
+        (mirror-action "small-left")
+      )
+      (action
+        (y-offset -6)
+        (name "squished-left")
+        (images "shared/mrtree-squished-left.png")
+      )
+      (action
+        (y-offset -6)
+        (name "squished-right")
+        (mirror-action "squished-left")
+      )
+  )
+
+ ; PoisonIvy
+ (sprite (name "poisonivy")
+       (action
+         (name "left")
+         (x-offset 2)
+         (y-offset 4)
+         (images "shared/poisonivy-left-0.png"
+                 "shared/poisonivy-left-1.png"
+                 "shared/poisonivy-left-2.png"))
+
+       (action
+         (name "right")
+         (x-offset 2)
+         (y-offset 4)
+         (mirror-action "left"))
+       (action
+         (name "squished-left")
+         (x-offset 1)
+         (y-offset -19)
+         (images "shared/poisonivy-squished-left.png"))
+
+       (action
+         (name "squished-right")
+         (x-offset 1)
+         (y-offset -19)
+         (mirror-action "squished-left")))
+
          
 ;; Game elements follow
           
@@ -1325,45 +1392,6 @@
         (name "empty")
         (images "tilesets/bonus2-d.png"))
   )                                        
-
-  (sprite (name "mrtree")
-      (action
-        (y-offset -3)
-        (fps 5)
-        (name "left")
-        (images "shared/mrtree-walk-left-0.png"
-                "shared/mrtree-walk-left-1.png"
-                "shared/mrtree-walk-left-2.png")
-      )
-      (action
-        (y-offset -3)
-        (fps 5)
-        (name "right")
-        (mirror-action "left")
-      )
-      (action
-        (y-offset -3)
-        (name "small-left")
-        (images "shared/mrtree-small-left-0.png"
-                "shared/mrtree-small-left-1.png"
-                "shared/mrtree-small-left-2.png")
-      )
-      (action
-        (y-offset -3)
-        (name "small-right")
-        (mirror-action "small-left")
-      )
-      (action
-        (y-offset -6)
-        (name "squished-left")
-        (images "shared/mrtree-squished-left.png")
-      )
-      (action
-        (y-offset -6)
-        (name "squished-right")
-        (mirror-action "squished-left")
-      )
-  )
 
   ; Stomp
   (sprite (name "stomp")
