@@ -227,7 +227,7 @@ void loadshared()
 
   /* Herring song */
   herring_song = sound_manager->load_music(datadir + "/music/SALCON.MOD");
-  level_end_song = sound_manager->load_music(datadir + "/music/tux-leveldone.mod");
+  level_end_song = sound_manager->load_music(datadir + "/music/leveldone.mod");
 }
 
 

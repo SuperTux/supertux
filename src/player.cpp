@@ -289,7 +289,7 @@ Player::action(float elapsed_time)
           if (isbrick(base.x, base.y) ||
               isfullbox(base.x, base.y))
             {
-              Sector::current()->trygrabdistro(
+	      Sector::current()->trygrabdistro(
                   Vector(base.x, base.y - 32), BOUNCE);
               Sector::current()->trybumpbadguy(Vector(base.x, base.y - 64));
 
@@ -303,7 +303,7 @@ Player::action(float elapsed_time)
           if (isbrick(base.x+ 31, base.y) ||
               isfullbox(base.x+ 31, base.y))
             {
-              Sector::current()->trygrabdistro(
+	      Sector::current()->trygrabdistro(
                   Vector(base.x+ 31, base.y - 32), BOUNCE);
               Sector::current()->trybumpbadguy(Vector(base.x+ 31, base.y - 64));
 
@@ -658,7 +658,6 @@ Player::grabdistros()
     {
       Sector::current()->trygrabdistro(Vector(base.x, base.y), NO_BOUNCE);
       Sector::current()->trygrabdistro(Vector(base.x+ 31, base.y), NO_BOUNCE);
-
       Sector::current()->trygrabdistro(
           Vector(base.x, base.y + base.height), NO_BOUNCE);
       Sector::current()->trygrabdistro(
@@ -666,7 +665,7 @@ Player::grabdistros()
 
       if(size == BIG)
         {
-          Sector::current()->trygrabdistro(
+	  Sector::current()->trygrabdistro(
               Vector(base.x, base.y + base.height / 2), NO_BOUNCE);
           Sector::current()->trygrabdistro(
               Vector(base.x+ 31, base.y + base.height / 2), NO_BOUNCE);

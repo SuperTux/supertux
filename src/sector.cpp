@@ -747,9 +747,14 @@ Sector::trygrabdistro(const Vector& pos, int bounciness)
   Tile* tile = solids->get_tile_at(pos);
   if (!tile)
   {
-    char errmsg[64];
+    /*char errmsg[64];
     sprintf(errmsg, "Invalid tile at %i,%i", (int)((pos.x+1)/32*32), (int)((pos.y+1)/32*32));
-    throw SuperTuxException(errmsg, __FILE__, __LINE__);
+    throw SuperTuxException(errmsg, __FILE__, __LINE__); */
+    
+    //Bad tiles (i.e. tiles that are not defined in supertux.stgt but appear in the map) are changed to ID 0 (blank tile)
+    std::cout << "Warning: Undefined tile at " <<(int)pos.x/32 << "/" << (int)pos.y/32 << " (ID: " << (int)solids->get_tile_id_at(pos) << ")" << std::endl;
+    solids->change_at(pos,0);
+    tile = solids->get_tile_at(pos);
   }
 
 
@@ -767,6 +772,7 @@ Sector::trygrabdistro(const Vector& pos, int bounciness)
                                                                             
   player_status.score = player_status.score + SCORE_DISTRO;
   player_status.distros++;
+
 }
                                                                                 
 /* Try to bump a bad guy from below: */
