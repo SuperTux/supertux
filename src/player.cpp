@@ -73,7 +73,7 @@ PlayerKeymap::PlayerKeymap()
   keymap.right = SDLK_RIGHT;
 
   keymap.power = SDLK_LCTRL;
-  keymap.jump  = SDLK_LALT;
+  keymap.jump  = SDLK_SPACE;
 }
 
 void player_input_init(player_input_type* pplayer_input)
