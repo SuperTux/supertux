@@ -13,7 +13,7 @@ InvisibleTile::InvisibleTile(const Vector& pos)
 }
 
 void
-InvisibleTile::draw(DrawingContext& context)
+InvisibleTile::draw(DrawingContext& )
 {
 }
 

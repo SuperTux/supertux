@@ -63,6 +63,7 @@ namespace SuperTux
 
     protected:
       friend class Sector;
+      friend class CollisionGrid;
       
       /** The bounding box of the object (as used for collision detection, this
        * isn't necessarily the bounding box for graphics)

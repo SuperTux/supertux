@@ -10,3 +10,12 @@ UseAutoconf ;
 # add some additional files to package
 Package INSTALL NEWS README COPYING AUTHORS ChangeLog ;
 
+
+actions MakePot
+{
+    xgettext --keyword='_:1' --c++ -o $(<) $(>)
+}
+MakePot supertux.pot : $(TRANSLATABLE_SOURCES) ;
+Depends supertux.pot : $(TRANSLATABLE_SOURCES) ;
+MakeLocate supertux.pot : data/locale ;
+Depends all : supertux.pot ;

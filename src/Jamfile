@@ -1,11 +1,14 @@
 SubDir TOP src ;
 
-Application supertux : 
+sources = 
     [ Wildcard *.cpp *.h ]
     [ Wildcard object : *.cpp *.h ]
     [ Wildcard badguy : *.cpp *.h ]
     [ Wildcard trigger : *.cpp *.h ]
 ;
+TRANSLATABLE_SOURCES += [ DoSourceGrist $(sources) ] ;
+
+Application supertux : $(sources) ;
 LinkWith supertux : supertuxlib ;
 ExternalLibs supertux : SDL SDLMIXER SDLIMAGE GL ;
 Help supertux : "Build the supertux executable" ;
