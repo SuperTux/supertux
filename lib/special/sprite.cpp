@@ -130,9 +130,9 @@ return animation_loops;
 }
 
 void
-Sprite::reverse_animation()
+Sprite::reverse_animation(bool reverse)
 {
-animation_reversed = !animation_reversed;
+animation_reversed = reverse;
 
 if(animation_reversed)
   frame = get_frames()-1;
@@ -147,13 +147,12 @@ if(animation_loops == 0)
   return;
 
 float frame_inc = (action->fps/1000.0) * (SDL_GetTicks() - last_tick);
+last_tick = SDL_GetTicks();
 
 if(animation_reversed)
   frame -= frame_inc;
 else
   frame += frame_inc;
-
-last_tick = SDL_GetTicks();
 
 if(animation_reversed)
   {
@@ -164,7 +163,7 @@ if(animation_reversed)
     if(animation_loops > 0)
       {
       animation_loops--;
-      if(animation_loops == 0)
+      if(animation_loops == 0 && !next_action.empty())
         {
         set_action(next_action);
         start_animation(-1);
@@ -184,7 +183,7 @@ else
     if(animation_loops > 0)
       {
       animation_loops--;
-      if(animation_loops == 0)
+      if(animation_loops == 0 && !next_action.empty())
         {
         set_action(next_action);
         start_animation(-1);

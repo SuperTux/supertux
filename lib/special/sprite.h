@@ -66,10 +66,13 @@ namespace SuperTux
           0  - stopped
           1,2,3  - one, two, three times... */
       void start_animation(int loops);
+      /* Stop animation */
+      void stop_animation()
+        { start_animation(0); }
       /** Check if animation is stopped or not */
       bool check_animation();
       /** Reverse the animation */
-      void reverse_animation();
+      void reverse_animation(bool reverse);
 
       float get_fps()
         { return action->fps; }
