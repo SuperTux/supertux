@@ -174,7 +174,6 @@ void texture_draw_bg_gl(texture_type* ptexture, int update)
 
 void texture_draw_part_gl(texture_type* ptexture,float sx, float sy, float x, float y, float w, float h, int update)
 {
-/*FIXME: The texture isn't drawn to the correct x,y positions.*/
 
   glBindTexture(GL_TEXTURE_2D, ptexture->gl_texture);
 
@@ -188,13 +187,13 @@ void texture_draw_part_gl(texture_type* ptexture,float sx, float sy, float x, fl
 
   glBegin(GL_QUADS);
   glTexCoord2f(sx / (float)power_of_two(ptexture->w), sy / (float)power_of_two(ptexture->h));
-  glVertex2f(sx, sy);
+  glVertex2f(x, y);
   glTexCoord2f((float)(sx + w) / (float)power_of_two(ptexture->w), sy / (float)power_of_two(ptexture->h));
-  glVertex2f(w+sx, sy);
+  glVertex2f(w+x, y);
   glTexCoord2f((sx+w) / (float)power_of_two(ptexture->w), (sy+h) / (float)power_of_two(ptexture->h));
-  glVertex2f(w +sx, h+sy);
+  glVertex2f(w +x, h+y);
   glTexCoord2f(sx / (float)power_of_two(ptexture->w), (float)(sy+h) / (float)power_of_two(ptexture->h));
-  glVertex2f(sx, h+sy);
+  glVertex2f(x, h+y);
   glEnd();
 
   glDisable(GL_BLEND);
