@@ -72,8 +72,8 @@ namespace SuperTux
   extern bool flip_levels_mode;
 
   /* SuperTux directory ($HOME/.supertux) and save directory($HOME/.supertux/save) */
-  extern char* st_dir;
-  extern char* st_save_dir;
+  extern std::string st_dir;
+  extern std::string st_save_dir;
   
   extern SDL_Joystick * js;
 

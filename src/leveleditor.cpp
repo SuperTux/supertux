@@ -544,8 +544,8 @@ void LevelEditor::update_level_settings_menu()
   level_settings_menu->get_item_by_id(MNID_NAME).change_input(le_level->name.c_str());
   level_settings_menu->get_item_by_id(MNID_AUTHOR).change_input(le_level->author.c_str());
 
-  level_settings_menu->get_item_by_id(MNID_SONG).list.first = FileSystem::dfiles("music/",NULL, "-fast");
-  level_settings_menu->get_item_by_id(MNID_BGIMG).list.first = FileSystem::dfiles("images/background",NULL, NULL);
+  level_settings_menu->get_item_by_id(MNID_SONG).list.first = FileSystem::dfiles("music/","", "-fast");
+  level_settings_menu->get_item_by_id(MNID_BGIMG).list.first = FileSystem::dfiles("images/background","", "");
   level_settings_menu->get_item_by_id(MNID_BGIMG).list.first.insert("");
   level_settings_menu->get_item_by_id(MNID_PARTICLE).list.first.insert("");
   level_settings_menu->get_item_by_id(MNID_PARTICLE).list.first.insert("snow");

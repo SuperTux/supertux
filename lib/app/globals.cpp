@@ -58,7 +58,7 @@ bool launch_worldmap_mode = false;
 bool flip_levels_mode = false;
 
 /* SuperTux directory ($HOME/.supertux) and save directory($HOME/.supertux/save) */
-char *st_dir, *st_save_dir;
+std::string st_dir, st_save_dir;
 
 SDL_Joystick * js;
 

@@ -20,6 +20,7 @@
 //  02111-1307, USA.
 
 #include <iostream>
+#include <sstream>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -279,7 +280,7 @@ void title(void)
   img_choose_subset = new Surface(datadir + "/images/status/choose-level-subset.png", true);
 
   /* Generating contrib maps by only using a string_list */
-  worldmap_list = FileSystem::dfiles("levels/worldmap", NULL, "icyisland.stwm");
+  worldmap_list = FileSystem::dfiles("levels/worldmap", "", "icyisland.stwm");
 
   titlesession->get_current_sector()->activate();
   titlesession->set_current();
@@ -379,14 +380,15 @@ void title(void)
               if(event.key.keysym.sym == SDLK_DELETE)
                 {
                 int slot = menu->get_active_item_id();
-                char str[1024];
-                sprintf(str,_("Are you sure you want to delete slot %d?"), slot);
+		std::stringstream stream;
+		stream << slot;
+                std::string str = _("Are you sure you want to delete slot") + stream.str() + "?";
                 
-                if(confirm_dialog(bkg_title, str))
+                if(confirm_dialog(bkg_title, str.c_str()))
                   {
-                  sprintf(str,"%s/slot%d.stsg", st_save_dir, slot);
-                  printf("Removing: %s\n",str);
-                  remove(str);
+                  str = st_save_dir + "/slot" + stream.str() + ".stsg";
+                  printf("Removing: %s\n",str.c_str());
+                  remove(str.c_str());
                   }
 
                 update_load_save_game_menu(load_game_menu);

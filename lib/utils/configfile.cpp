@@ -49,32 +49,25 @@ static void defaults ()
   SoundManager::get()->enable_music(true);
 }
 
-FILE * SuperTux::opendata(const char * rel_filename, const char * mode)
+FILE * SuperTux::opendata(const std::string& rel_filename, const char *mode)
 {
-  char * filename = NULL;
+  std::string filename;
   FILE * fi;
 
-  filename = (char *) malloc(sizeof(char) * (strlen(st_dir) +
-                                             strlen(rel_filename) + 1));
-
-  strcpy(filename, st_dir);
-  /* Open the high score file: */
-
-  strcat(filename, rel_filename);
+  filename = st_dir + rel_filename;
 
   /* Try opening the file: */
-  fi = fopen(filename, mode);
+  fi = fopen(filename.c_str(), mode);
 
   if (fi == NULL)
     {
-      fprintf(stderr, "Warning: Unable to open the file \"%s\" ", filename);
+      fprintf(stderr, "Warning: Unable to open the file \"%s\" ", filename.c_str());
 
       if (strcmp(mode, "r") == 0)
         fprintf(stderr, "for read!!!\n");
       else if (strcmp(mode, "w") == 0)
         fprintf(stderr, "for write!!!\n");
     }
-  free( filename );
 
   return(fi);
 }

@@ -20,6 +20,7 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <iostream>
+#include <sstream>
 #include <cassert>
 #include <cstdio>
 #include <cstdlib>
@@ -799,12 +800,14 @@ GameSession::drawresultscreen(void)
 
 std::string slotinfo(int slot)
 {
-  char tmp[1024];
-  char slotfile[1024];
+  std::string tmp;
+  std::string slotfile;
   std::string title;
-  sprintf(slotfile,"%s/slot%d.stsg",st_save_dir,slot);
+  std::stringstream stream;
+  stream << slot;
+  slotfile = st_save_dir + "/slot" + stream.str() + ".stsg";
 
-  lisp_object_t* savegame = lisp_read_from_file(slotfile);
+  lisp_object_t* savegame = lisp_read_from_file(slotfile.c_str());
   if (savegame)
     {
       LispReader reader(lisp_cdr(savegame));
@@ -812,15 +815,15 @@ std::string slotinfo(int slot)
       lisp_free(savegame);
     }
 
-  if (access(slotfile, F_OK) == 0)
+  if (access(slotfile.c_str(), F_OK) == 0)
     {
       if (!title.empty())
-        snprintf(tmp,1024,"Slot %d - %s",slot, title.c_str());
+        tmp = "Slot " + stream.str() + " - " + title;
       else
-        snprintf(tmp, 1024,_("Slot %d - Savegame"),slot);
+        tmp = "Slot " + stream.str() + " - Savegame";
     }
   else
-    sprintf(tmp,_("Slot %d - Free"),slot);
+    tmp = std::string(_("Slot")) + " " + stream.str() + " - " + std::string(_("Free"));
 
   return tmp;
 }
@@ -831,10 +834,11 @@ bool process_load_game_menu()
 
   if(slot != -1 && load_game_menu->get_item_by_id(slot).kind == MN_ACTION)
     {
-      char slotfile[1024];
-      snprintf(slotfile, 1024, "%s/slot%d.stsg", st_save_dir, slot);
+      std::stringstream stream;
+      stream << slot;
+      std::string slotfile = st_save_dir + "/slot" + stream.str() + ".stsg";
 
-      if (access(slotfile, F_OK) != 0)
+      if (access(slotfile.c_str(), F_OK) != 0)
         {
           draw_intro();
         }

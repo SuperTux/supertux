@@ -65,10 +65,10 @@ void seticon(void);
 void usage(char * prog, int ret);
 
 /* Does the given file exist and is it accessible? */
-int FileSystem::faccessible(const char *filename)
+int FileSystem::faccessible(const std::string& filename)
 {
   struct stat filestat;
-  if (stat(filename, &filestat) == -1)
+  if (stat(filename.c_str(), &filestat) == -1)
     {
       return false;
     }
@@ -82,10 +82,10 @@ int FileSystem::faccessible(const char *filename)
 }
 
 /* Can we write to this location? */
-int FileSystem::fwriteable(const char *filename)
+int FileSystem::fwriteable(const std::string& filename)
 {
   FILE* fi;
-  fi = fopen(filename, "wa");
+  fi = fopen(filename.c_str(), "wa");
   if (fi == NULL)
     {
       return false;
@@ -94,14 +94,13 @@ int FileSystem::fwriteable(const char *filename)
 }
 
 /* Makes sure a directory is created in either the SuperTux home directory or the SuperTux base directory.*/
-int FileSystem::fcreatedir(const char* relative_dir)
+int FileSystem::fcreatedir(const std::string& relative_dir)
 {
-  char path[1024];
-  snprintf(path, 1024, "%s/%s/", st_dir, relative_dir);
-  if(mkdir(path,0755) != 0)
+  std::string path = st_dir + "/" + relative_dir + "/";
+  if(mkdir(path.c_str(),0755) != 0)
     {
-      snprintf(path, 1024, "%s/%s/", datadir.c_str(), relative_dir);
-      if(mkdir(path,0755) != 0)
+      path = datadir + "/" + relative_dir + "/";
+      if(mkdir(path.c_str(),0755) != 0)
         {
           return false;
         }
@@ -119,29 +118,28 @@ int FileSystem::fcreatedir(const char* relative_dir)
 /* Get all names of sub-directories in a certain directory. */
 /* Returns the number of sub-directories found. */
 /* Note: The user has to free the allocated space. */
-std::set<std::string> FileSystem::dsubdirs(const char *rel_path,const  char* expected_file)
+std::set<std::string> FileSystem::dsubdirs(const std::string &rel_path,const  std::string& expected_file)
 {
   DIR *dirStructP;
   struct dirent *direntp;
   std::set<std::string> sdirs;
-  char filename[1024];
-  char path[1024];
+  std::string filename;
+  std::string path = st_dir + "/" + rel_path;
 
-  sprintf(path,"%s/%s",st_dir,rel_path);
-  if((dirStructP = opendir(path)) != NULL)
+  if((dirStructP = opendir(path.c_str())) != NULL)
     {
       while((direntp = readdir(dirStructP)) != NULL)
         {
-          char absolute_filename[1024];
+          std::string absolute_filename;
           struct stat buf;
 
-          sprintf(absolute_filename, "%s/%s", path, direntp->d_name);
+          absolute_filename = path + "/" + direntp->d_name;
 
-          if (stat(absolute_filename, &buf) == 0 && S_ISDIR(buf.st_mode))
+          if (stat(absolute_filename.c_str(), &buf) == 0 && S_ISDIR(buf.st_mode))
             {
-              if(expected_file != NULL)
+              if(!expected_file.empty())
                 {
-                  sprintf(filename,"%s/%s/%s",path,direntp->d_name,expected_file);
+                  filename = path + "/" + direntp->d_name + "/" + expected_file;
                   if(!faccessible(filename))
                     continue;
                 }
@@ -152,29 +150,29 @@ std::set<std::string> FileSystem::dsubdirs(const char *rel_path,const  char* exp
       closedir(dirStructP);
     }
 
-  sprintf(path,"%s/%s",datadir.c_str(),rel_path);
-  if((dirStructP = opendir(path)) != NULL)
+  path = datadir + "/" + rel_path;
+  if((dirStructP = opendir(path.c_str())) != NULL)
     {
       while((direntp = readdir(dirStructP)) != NULL)
         {
-          char absolute_filename[1024];
+          std::string absolute_filename;
           struct stat buf;
 
-          sprintf(absolute_filename, "%s/%s", path, direntp->d_name);
+          absolute_filename = path + "/" + direntp->d_name;
 
-          if (stat(absolute_filename, &buf) == 0 && S_ISDIR(buf.st_mode))
+          if (stat(absolute_filename.c_str(), &buf) == 0 && S_ISDIR(buf.st_mode))
             {
-              if(expected_file != NULL)
+              if(!expected_file.empty())
                 {
-                  sprintf(filename,"%s/%s/%s",path,direntp->d_name,expected_file);
-                  if(!faccessible(filename))
+                  filename = path + "/" + direntp->d_name + "/" + expected_file;
+                  if(!faccessible(filename.c_str()))
                     {
                       continue;
                     }
                   else
                     {
-                      sprintf(filename,"%s/%s/%s/%s",st_dir,rel_path,direntp->d_name,expected_file);
-                      if(faccessible(filename))
+                      filename = st_dir + "/" + rel_path + "/" + direntp->d_name + "/" + expected_file;
+                      if(faccessible(filename.c_str()))
                         continue;
                     }
                 }
@@ -188,32 +186,31 @@ std::set<std::string> FileSystem::dsubdirs(const char *rel_path,const  char* exp
   return sdirs;
 }
 
-std::set<std::string> FileSystem::dfiles(const char *rel_path, const  char* glob, const  char* exception_str)
+std::set<std::string> FileSystem::dfiles(const std::string& rel_path, const  std::string& glob, const  std::string& exception_str)
 {
   DIR *dirStructP;
   struct dirent *direntp;
   std::set<std::string> sdirs;
-  char path[1024];
+  std::string path = st_dir + "/" + rel_path;
 
-  sprintf(path,"%s/%s",st_dir,rel_path);
-  if((dirStructP = opendir(path)) != NULL)
+  if((dirStructP = opendir(path.c_str())) != NULL)
     {
       while((direntp = readdir(dirStructP)) != NULL)
         {
-          char absolute_filename[1024];
+          std::string absolute_filename;
           struct stat buf;
 
-          sprintf(absolute_filename, "%s/%s", path, direntp->d_name);
+          absolute_filename = path + "/" + direntp->d_name;
 
-          if (stat(absolute_filename, &buf) == 0 && S_ISREG(buf.st_mode))
+          if (stat(absolute_filename.c_str(), &buf) == 0 && S_ISREG(buf.st_mode))
             {
-              if(exception_str != NULL)
+              if(!exception_str.empty())
                 {
-                  if(strstr(direntp->d_name,exception_str) != NULL)
+                  if(strstr(direntp->d_name,exception_str.c_str()) != NULL)
                     continue;
                 }
-              if(glob != NULL)
-                if(strstr(direntp->d_name,glob) == NULL)
+              if(!glob.empty())
+                if(strstr(direntp->d_name,glob.c_str()) == NULL)
                   continue;
 
 	      sdirs.insert(direntp->d_name);
@@ -222,25 +219,25 @@ std::set<std::string> FileSystem::dfiles(const char *rel_path, const  char* glob
       closedir(dirStructP);
     }
 
-  sprintf(path,"%s/%s",datadir.c_str(),rel_path);
-  if((dirStructP = opendir(path)) != NULL)
+  path = datadir + "/" + rel_path;
+  if((dirStructP = opendir(path.c_str())) != NULL)
     {
       while((direntp = readdir(dirStructP)) != NULL)
         {
-          char absolute_filename[1024];
+          std::string absolute_filename;
           struct stat buf;
 
-          sprintf(absolute_filename, "%s/%s", path, direntp->d_name);
+          absolute_filename = path + "/" + direntp->d_name;
 
-          if (stat(absolute_filename, &buf) == 0 && S_ISREG(buf.st_mode))
+          if (stat(absolute_filename.c_str(), &buf) == 0 && S_ISREG(buf.st_mode))
             {
-              if(exception_str != NULL)
+              if(!exception_str.empty())
                 {
-                  if(strstr(direntp->d_name,exception_str) != NULL)
+                  if(strstr(direntp->d_name,exception_str.c_str()) != NULL)
                     continue;
                 }
-              if(glob != NULL)
-                if(strstr(direntp->d_name,glob) == NULL)
+              if(!glob.empty())
+                if(strstr(direntp->d_name,glob.c_str()) == NULL)
                   continue;
 
 	      sdirs.insert(direntp->d_name);
@@ -263,8 +260,7 @@ package_version = _package_version;
 /* Set SuperTux configuration and save directories */
 void Setup::directories(void)
 {
-  char *home;
-  char str[1024];
+  std::string home;
   /* Get home directory (from $HOME variable)... if we can't determine it,
      use the current directory ("."): */
   if (getenv("HOME") != NULL)
@@ -272,30 +268,21 @@ void Setup::directories(void)
   else
     home = ".";
 
-  std::string st_dir_tmp = "/." + package_symbol_name;
-  st_dir = (char *) malloc(sizeof(char) * (strlen(home) +
-                                           strlen(st_dir_tmp.c_str()) + 1));
-  strcpy(st_dir, home);
-  strcat(st_dir,st_dir_tmp.c_str());
+  st_dir = home + "/." + package_symbol_name;
 
   /* Remove .supertux config-file from old SuperTux versions */
   if(FileSystem::faccessible(st_dir))
     {
-      remove
-        (st_dir);
+      remove(st_dir.c_str());
     }
 
-  st_save_dir = (char *) malloc(sizeof(char) * (strlen(st_dir) + strlen("/save") + 1));
-
-  strcpy(st_save_dir,st_dir);
-  strcat(st_save_dir,"/save");
+  st_save_dir = st_dir + "/save";
 
   /* Create them. In the case they exist they won't destroy anything. */
-  mkdir(st_dir, 0755);
-  mkdir(st_save_dir, 0755);
+  mkdir(st_dir.c_str(), 0755);
+  mkdir(st_save_dir.c_str(), 0755);
 
-  sprintf(str, "%s/levels", st_dir);
-  mkdir(str, 0755);
+  mkdir((st_dir + "/levels").c_str(), 0755);
 
   // User has not that a datadir, so we try some magic
   if (datadir.empty())
