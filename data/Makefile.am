@@ -5,10 +5,10 @@ desktopdir = $(datadir)/applications
 desktop_DATA = supertux.desktop
 
 EXTRA_DIST = \
-  supertux.strf \
   intro.txt \
   extro.txt \
   CREDITS \
+  images/supertux.strf \
   $(wildcard sounds/*.wav) \
   $(wildcard images/*.png) \
   $(wildcard images/*.xpm) \
