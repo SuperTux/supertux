@@ -60,42 +60,33 @@ Bad guys:
 = BUILT-IN LEVEL EDITOR =
 
 
-//FIXME: Check if all the informations are still valid, when releasing 0.0.6.
 USING THE BUILT-IN LEVEL EDITOR:
 --------------------------------
 
-The built-in level editor can already be used for
-production, but more advances are expected in the
-future, including a mouse driven interface.
-
 When opening the leveleditor, a menu will appear. This
-menu can be used to add, edit, load, save and test levels.
+menu can be used to select or add level subsets.
+A subsite is like a theme, it is just a bunch of tiles and
+enemies.
 
-Menu entries:
-- Return to Level Editor - just closes the menu and goes
-to the editing mode. To come back to the menu, press Esc.
-- New Level - creates a new level. The number of the level
-is showed in the upper left part of the screen. The level
-file are currently placed on data/levels/default.
-- Test Level - if you want to test the current level, use
-this option.
-- Level Settings - this allows you to edit the header of the
-file (as described in the beggining of this document). An
-important field is the 'Level width' that allows you to
-adjust level's size.
-(Warning: there are some characters that do not work, cause
-they are not supported by the fonts)
-- Load Level - goes to a given level number.
-- Save Level - saves the current level.
-- Quit Level Editor - goes back to SuperTux's main menu.
+After selecting the subset, have a look at the level editor.
+The button bar in the right is the place where you can control
+the actions related with editing. You can select levels and add
+throught there.
+To select tiles (foreground or background) and enemies, the button
+bar is the right place. There you can also save, test and setup
+the level. It is also possible between two selection cursors! Give
+a try to both.
+A right click in a button bar button will give you a description
+and a shortcut for it.
 
-Editing mode:
-To edit the level, you'll have to use the mouse or the
-keyboard to control the red cursor, using the keyboard
-to change tiles. Tiles keys are the same used by the
-level format, listed above. You can check them in the fly,
-pressing F1. I'd suggest you to print the above list of keys.
-In the future, a mouse interface will be introduced.
+To change a tile, just press the tile you want to change with a
+mouse left click. The current tile will be used. Depending
+on the selection behavior, you can or not select more
+than one tiles.
+To scroll, you just have to point over the two arrow buttons, or
+use the right button click.
+
+There is a small help that can be reached by pressing F1.
 
 To go back to the menu, just press Esc.
 
