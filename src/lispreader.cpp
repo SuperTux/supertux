@@ -1218,19 +1218,26 @@ LispReader::read_string (const char* name, std::string& str, bool translatable)
      (text-fr "Bonjour Monde!")
      being fr the value of LANG (echo $LANG) for the language we want to translate to */
 
+    char* lang = getenv("LANG");
+
     char str_[1024];  // check, for instance, for (title-fr_FR "Bonjour")
-    sprintf(str_, "%s-%s", name, getenv("LANG"));
+    sprintf(str_, "%s-%s", name, lang);
 
     obj = search_for (str_);
 
     if(!obj)  // check, for instance, for (title-fr "Bonjour")
       {
-      char lang[3];
-      strncpy(lang, getenv("LANG"), 2);
-      lang[2] = '\0';
-      sprintf(str_, "%s-%s", name, lang);
+      if(strlen(lang) >= 2)
+        {
+        char lang_[3];
+        strncpy(lang_, lang, 2);
+        lang_[2] = '\0';
+        sprintf(str_, "%s-%s", name, lang_);
 
-      obj = search_for (str_);
+        obj = search_for (str_);
+        }
+      else
+        obj = 0;
       }
 
     if(!obj)  // check, for instance, for (title "Hello")

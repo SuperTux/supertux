@@ -361,7 +361,7 @@ WorldMap::WorldMap()
   input_direction = D_NONE;
   enter_level = false;
 
-  name = "<no file>";
+  name = "<no title>";
   music = "SALCON.MOD";
 }
 
