@@ -44,7 +44,8 @@ Bomb::collision_player(Player& player, const CollisionHit& )
 HitResponse
 Bomb::collision_badguy(BadGuy& badguy, const CollisionHit& )
 {
-  badguy.kill_fall();
+  if(state == 1)
+    badguy.kill_fall();
   return ABORT_MOVE;
 }
 
@@ -56,6 +57,8 @@ Bomb::active_action(float )
       if(timer.check()) {
         state = 1;
         sprite->set_action("explosion");
+        SoundManager::get()->play_sound(IDToSound(SND_EXPLODE), get_pos(),
+            Sector::current()->player->get_pos());
         timer.start(EXPLOSIONTIME);
       }
       break;

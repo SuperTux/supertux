@@ -64,6 +64,7 @@ Camera::parse(const lisp::Lisp& reader)
     do_backscrolling = true;
     reader.get("backscrolling", do_backscrolling);
   } else if(modename == "autoscroll") {
+    printf("autoscroll.\n");
     mode = AUTOSCROLL;
     
     const lisp::Lisp* path_lisp = reader.get_lisp("path");

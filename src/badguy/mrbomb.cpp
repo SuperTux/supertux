@@ -48,7 +48,7 @@ MrBomb::collision_squished(Player& player)
 {
   remove_me();
   Sector::current()->add_object(new Bomb(get_pos(), dir));
-  player.bounce(*this);
+  kill_squished(player);
   return true;
 }
 

@@ -6,6 +6,8 @@
 
 using namespace SuperTux;
 
+class CollisionGridIterator;
+
 /**
  * A rectangular grid to keep track of all moving game objects. It allows fast
  * queries for all objects in a rectangular area.

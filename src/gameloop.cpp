@@ -765,12 +765,11 @@ GameSession::run()
     //frame_rate.update();
     
     /* Handle time: */
-    if (time_left.check() && currentsector->player->dying == DYING_NOT
-        && !end_sequence)
+    if (time_left.check() && !end_sequence)
       currentsector->player->kill(Player::KILL);
     
     /* Handle music: */
-    if(currentsector->player->invincible_timer.started() && !end_sequence)
+    if (currentsector->player->invincible_timer.started() && !end_sequence)
     {
       currentsector->play_music(HERRING_MUSIC);
     }
@@ -850,7 +849,7 @@ GameSession::drawstatus(DrawingContext& context)
           LEFT_ALLIGN, LAYER_FOREGROUND1);
     }
 
-  if(time_left.check()) {
+  if(time_left.get_timeleft() < 0) {
     context.draw_text(white_text, _("TIME's UP"), Vector(screen->w/2, 0),
         CENTER_ALLIGN, LAYER_FOREGROUND1);
   } else if (time_left.get_timeleft() > TIME_WARNING
