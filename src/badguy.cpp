@@ -856,6 +856,7 @@ void
 BadGuy::squish(Player* player)
 {
   if(kind == BAD_MRBOMB) {
+    remove_me();
     // mrbomb transforms into a bomb now
     World::current()->add_bad_guy(base.x, base.y, BAD_BOMB);
     
@@ -864,7 +865,6 @@ BadGuy::squish(Player* player)
     play_sound(sounds[SND_SQUISH], SOUND_CENTER_SPEAKER);
     player_status.score_multiplier++;
       
-    remove_me();
     return;
 
   } else if(kind == BAD_BSOD) {
