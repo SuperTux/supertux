@@ -93,7 +93,6 @@ Bullet::collision(GameObject& other, const CollisionHit& hit)
     return FORCE_MOVE;
   }
  
-  // TODO kill badguys
   return FORCE_MOVE;
 }
 
