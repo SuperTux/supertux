@@ -13,7 +13,7 @@ REQUIREMENTS
 
   SDL
   ---
-    "Super Tux" was programed using the "Simple Direct Media" layer
+    "SuperTux" was programed using the "Simple DirectMedia Layer"
     libraries by Sam Lantinga.  This means that the game can
     theoretically run under any environment that the SDL libraries support.
 
@@ -30,7 +30,7 @@ REQUIREMENTS
   SDL_image
   ---------
     SDL_image is also required.  (It is used to load the PNG format images
-    that come with Super Tux!)
+    that come with SuperTux!)
 
   SDL_mixer
   ---------
@@ -46,6 +46,7 @@ REQUIREMENTS
     For linux, nvidia vendor is the only one that makes decent drivers.
     But the ATI drivers should run with the same performance, since
     it only uses accelerated 2d, not 3d.
+
     Anyway, you can use the SDL frontend and you most likely won't
     notice any difference.
 

@@ -6,8 +6,9 @@ Last update: April 26, 2004
  
 DESCRIPTION
 -----------
-  SuperTux is a jump'n run like game, with a strongly inspiration on
-  Nintendo's Super Mario Bros games.
+  SuperTux is a jump'n run like game, with strong inspiration from the
+  Super Mario Bros games for Nintendo.
+
   Run and jump through multiple worlds, fighting off enemies by jumping
   on them or bumping them from below.  Grabbing power-ups and other stuff
   on the way.
@@ -16,19 +17,19 @@ DESCRIPTION
 STORY
 -----
 
-- Gwen gets captured! -
+- Penny gets captured! -
 
-  Tux and Gwen were out having a nice
+  Tux and Penny were out having a nice
   picnic on the ice fields of Antarctica.
   Suddenly, a creature jumped from
   behind an ice bush, there was a flash,
   and Tux fell asleep!
 
-  When Tux wakes up, he finds that Gwen
+  When Tux wakes up, he finds that Penny
   is missing. Where she lay before now
   lies a letter. "Tux, my arch enemy!"
   says the letter. "I have captured
-  your beautiful Gwen and have taken her
+  your beautiful Penny and have taken her
   to my fortress. The path to my fortress
   is littered with my minions. Give up on
   the thought of trying to reclaim her,
@@ -36,7 +37,7 @@ STORY
 
   Tux looks and see Nolok's fortress in
   the distance. Determined to save his
-  beloved Gwen, he begins his journey.
+  beloved Penny, he begins his journey.
 
 
 DOCUMENTATION
@@ -44,12 +45,16 @@ DOCUMENTATION
   Important documentation for SuperTux is contained in multiple files.
   Please see them:
 
-    AUTHORS    - Credits for who made this game.
-    CHANGES    - Changes since the previous versions of "Super Tux"
-    COPYING    - The GNU Public License, which "Super Tux" is under.
-    INSTALL    - Instructions on requirements, compiling and installing.
-    README     - (This file.)  Game story, usage, rules and controls.
-    TODO       - A wish-list for this version of "Super Tux"
+    AUTHORS     - Credits for people that contributed to the creation
+                  of SuperTux.
+    CHANGES     - Changes since the previous versions of "SuperTux"
+    COPYING     - The GNU Public License, which "SuperTux" is liscensed
+                  under.
+    INSTALL     - Instructions on requirements, compiling and installing.
+    README      - (This file.)  Game story, usage, rules and controls.
+    TODO        - A wish-list for this version of "SuperTux"
+    LEVELDESIGN - Very useful information for those that want to design
+                  levels for SuperTux.
 
 
 RUNNING THE GAME
@@ -65,11 +70,10 @@ RUNNING THE GAME
   specifying them.
 
   The game has two frontends: SDL and OpenGL. Currently, there isn't any
-  noticiable difference between them.
-  Basically, SDL uses software to draw the game and OpenGL makes use of
-  the videocards cpu (in case the videocard has one and the drivers support
-  it). Under linux, nvidia is recommendaded (with the closed drivers), but
-  an ATI should work just fine.
+  noticiable difference between them. Basically, SDL uses software to draw
+  the game and OpenGL makes use of the videocards CPU (if the videocard has
+  one and the drivers support it). Under linux, nVidia is recommendaded
+  (with the closed drivers), but an ATI video card should work just fine.
 
 
 PLAYING THE GAME
@@ -77,17 +81,22 @@ PLAYING THE GAME
   Controls
   --------
   Both keyboards and joysticks/gamepads are supported. You can change the
-  controls via the Options menu.
-  Basically, the only keys you will have to use is for the following actions:
-  jump, duck, right and left. Also press Esc to go to the menu and use the
-  key cursors and Enter under it. Oh, press P to pause the game.
-  In the worldmap, the arrow keys and Enter are enough.
+  controls via the Options menu. Basically, the only keys you will need to
+  use in-game are to do the following actions: jump, duck, right left and
+  'P' to pause/unpause the game.
+  
+  Other useful keys include the Esc key, which is used to go to the menu or
+  to go up a level in the menu. The menu can be navigated using the arrow
+  keys or the mouse.
+
+  In the worldmap, the arrow keys are used to navigate and Enter enters the
+  current level.
 
   The leveleditor is controled via the mouse, but there are shortcuts that
   may make your life easier. To see the shortcuts for the buttons, just
-  do a Right-click on them.
-  In any case, we advise you to read LEVELDESIGN to have the best productivity
-  with the leveleditor.
+  do a Right-click on them. If you are interested in creating SuperTux
+  levels, we advise you to read LEVELDESIGN to learn more about the editor
+  and creating new levels.
 
 
 SCREEN LAYOUT
@@ -103,38 +112,38 @@ SCORING
 -------
   Enemies
   -------
-    If you get more than one enemy at a time without landing on the ground,
+    If you kill more than one enemy at a time without landing on the ground,
     each enemy is worth more points.  For example, if there are three in a
     row and you jump on the first, it's worth 50 points.  If you bounce off
     the first and onto the second, it's worth 100 points.  If you also get
     the third, it's worth 150 points.
 
-    You can also score by shooting at the ennemies. Don't forget to get
-    the flower in order to get the ability to fire.
+    You can also score by shooting at the enemies. Don't forget to get
+    the iceflower in order to get the ability to fire.
 
 
 OPTIONS FILE
 ------------
 
-  When Super Tux starts up, it looks for an options file.
+  When SuperTux starts up, it looks for an options file.
 
   Under Linux, this file is "config" in your directory
   ($HOME/.supertux/).
-  Under Windows, this file is "supertux.dat" in the Super Tux folder.
+  Under Windows, this file is "supertux.dat" in the SuperTux folder.
   
-  This file records program's settings. It uses the LISP syntax, anyway
-  there shouldn't be any reasons for you to hand edit it.
+  This file records program's settings. It uses the LISP syntax. There
+  should be no reason to edit this file by hand.
 
 THE END
 -------
-  Thanks for trying out Super Tux.
+  Thanks for trying out SuperTux.
 
-  If you like Super Tux, please rate and review it at the
+  If you like SuperTux, please rate and review it at the
   Linux Game Tome:
 
     http://www.happypenguin.org/
 
-  Search for "Super Tux"!
+  Search for "SuperTux"!
 
 
   Thanks!

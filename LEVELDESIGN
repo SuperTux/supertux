@@ -10,10 +10,9 @@ the level editor.
 = LEVEL FORMAT =
 
 The level format used to be pretty easy to understand, but it
-is now more complex.
-Anyway, should be pretty usefull to know a bit of it, when you
-want to do stuff just as to just change the author's name or
-something small.
+is now more complex. Anyway, should be pretty useful to know
+a bit of it, when you want to do stuff just as to just change
+the author's name or something small.
 
 It uses the Lisp syntax and is pretty intuitive. Here have a
 look at a quotation:
@@ -21,17 +20,17 @@ look at a quotation:
 
 ; This is a comment!
 (supertux-level
-; a few level's info: version, author and level's name
+; some level info: version, author and the level's name
   (version 1)
   (author "Ingo Ruhnke")
   (name "Night Chill")
 ; number of tiles used (currently the height has to be 15)
   (width  515)
   (height 15)
-; Tux starts position
+; Tux's start position
   (start_pos_x    100)
   (start_pos_y    170)
-; Background image, if any is specified, the color below will be used
+; Background image; if none is specified, the color below will be used
   (background "")
 ; Music file
   (music "Mortimers_chipdisko.mod")
@@ -47,15 +46,15 @@ look at a quotation:
   (time  300)
 ; Gravity to be used (you should let it stay in 10 for ordinary levels)
   (gravity  10)
-; The particle system allows that images can be displaying simulating weather
-; In the writing of this text, both "snow" and "clouds" are supported
+; The particle system draws images that simulate weather effects
+; As of the writing of this text, both "snow" and "clouds" are supported
   (particle_system "snow")
-; Theme is the tiles look that are used
+; Theme is the tileset that is used
   (theme "antarctica")
   (interactive-tm
-; here goes a lot of numbers that are the tiles places
+    ; here goes a lot of numbers that are the tiles places
   )
-; Reset points, there can be more than one
+; Reset points; there can be more than one
 ; Reset points are positions where the player passes through and
 ; if he dies, he will be back to there. They are invisible
   (reset-points
@@ -78,26 +77,27 @@ look at a quotation:
 USING THE BUILT-IN LEVEL EDITOR:
 --------------------------------
 
-When opening the leveleditor, a menu will appear. This
-menu can be used to select or add level subsets.
-A level subset is a collection of levels. Subsets can be chose
-during gameplay when starting a game.
+When opening the leveleditor, a menu will appear. This menu
+can be used to select or add level subsets. A level subset is
+a collection of levels. Subsets can be chose during gameplay
+when starting a game.
 
 After selecting the subset, have a look at the level editor.
 The button bar in the right is the place where you can control
 the actions related with editing. You can select levels and add
 throught there.
+
 To select tiles (foreground or background) and enemies, the button
 bar is the right place. There you can also save, test and setup
 the level. It is also possible between two selection cursors! Give
-a try to both.
-A right click in a button bar button will give you a description
-and a shortcut for it.
+a try to both. A right click in a button bar button will give you
+a description and a shortcut for it.
 
 To change a tile, just press the tile you want to change with a
-mouse left click. The current tile will be used. Depending
+left mouse click. The current tile will be used. Depending
 on the selection behavior, you can or not select more
 than one tiles.
+
 To scroll, you just have to point over the two arrow buttons, or
 use the right button click.
 
@@ -118,26 +118,29 @@ FlexLay is an external project (it even uses different libraries)
 that is developed by Ingo Ruhnke and supports a lot of different
 games, including SuperTux (or else we wouldn't mention it :) ).
 
-Anyway, it is pretty easy to use and a lot more advanced than
-the internal one. So, if you are considering in doing a few levels
-for us, it may be a good idea to check this out.
+Anyway, it is pretty easy to use and is a lot more advanced than
+the internal one. So, if you are considering doing a few levels
+for us, it would be a good idea to check this out.
 
 There isn't currently any webpage for it, just go to our webpage and
 you should find a download of this program.
 
+You can also get the latest development copy from the Subversion
+source tree:
+    svn co "svn://clanlib.org/Games/Windstille/trunk/flexlay/"
+
 The only cons it has is that you have to have an accelerated
-videocard (with the drivers working, obviously). Anyway shouldn't
-be a problem nowadays.
-For linux, we advise nvidia videocards with the use of nvidia's closed
+videocard (with the drivers working, obviously). For linux,
+we advise nvidia videocards with the use of nvidia's closed
 drivers. ATI drivers should be enough to run this game though.
 
 
 = CONCLUSION =
 
-To sum up, go and do lots of levels and HAVE FUN!!
+To sum up, go build lots of levels and HAVE FUN!!
 
-Please, send your levels or any art you created to the SuperTux's
-mailinglist or to the maintainer (look at AUTHORS).
+Please, send your levels or any art, including sketches, you
+have created to the SuperTux mailing list.
 
 
-- SuperTux developers
+    - SuperTux developers
