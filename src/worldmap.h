@@ -188,7 +188,7 @@ public:
   ~WorldMap();
 
   void set_map_file(std::string mapfile);
-  
+
   /** Busy loop */
   void display();
 
@@ -222,6 +222,12 @@ public:
   
   const int& get_start_y() const
     { return start_y; }
+
+  /** This functions should be call by contrib menu to set
+     all levels as played, since their state is not saved. */
+  void set_levels_as_solved()
+    { for(Levels::iterator i = levels.begin(); i != levels.end(); ++i)
+        i->solved = true;  }
 
 private:
   void on_escape_press();
