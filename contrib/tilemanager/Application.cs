@@ -26,7 +26,7 @@ public class Application {
     [Glade.Widget]
     private Gtk.Entry DataEntry;
     [Glade.Widget]
-    private Gtk.Entry AnimSpeedEntry;
+    private Gtk.Entry AnimFpsEntry;
     [Glade.Widget]                 
     private Gtk.Entry IDEntry;
     [Glade.Widget]
@@ -342,8 +342,8 @@ public class Application {
                     tile.ID = Int32.Parse(IDEntry.Text);
                 if(sender == DataEntry)
                     tile.Data = Int32.Parse(DataEntry.Text);
-                if(sender == AnimSpeedEntry)
-                    tile.AnimSpeed = Int32.Parse(AnimSpeedEntry.Text);
+                if(sender == AnimFpsEntry)
+                    tile.AnimFps = Single.Parse(AnimFpsEntry.Text);
             } catch(Exception exception) {
                 // ignore parse errors for now...
             }
@@ -380,7 +380,7 @@ public class Application {
                 SlopeCheckButton.Active = tile.Slope;
                 DontUseCheckButton.Active = tile.ID == -1;
                 DataEntry.Text = tile.Data.ToString();
-                AnimSpeedEntry.Text = tile.AnimSpeed.ToString();
+                AnimFpsEntry.Text = tile.AnimFps.ToString();
                 IDEntry.Text = tile.ID.ToString();
                 IDEntry.Editable = true;
                 first = false;

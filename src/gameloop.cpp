@@ -88,7 +88,6 @@ GameSession::GameSession(const std::string& levelname_, int mode,
 {
   current_ = this;
   
-  global_frame_counter = 0;
   game_pause = false;
   fps_fps = 0;
 
@@ -718,7 +717,6 @@ GameSession::run()
   Uint32 lastticks = SDL_GetTicks();
   fps_ticks = SDL_GetTicks();
 
-  frame_timer.start(.025, true);
   while (exit_status == ES_NONE) {
     Uint32 ticks = SDL_GetTicks();
     float elapsed_time = float(ticks - lastticks) / 1000.;
@@ -728,10 +726,6 @@ GameSession::run()
     if(elapsed_time > .05)
       elapsed_time = .05;
     
-    if(frame_timer.check()) {
-      ++global_frame_counter;
-    }
-
     /* Handle events: */
     currentsector->player->input.old_fire = currentsector->player->input.fire;
     currentsector->player->input.old_up = currentsector->player->input.old_up;
@@ -857,7 +851,7 @@ GameSession::drawstatus(DrawingContext& context)
     context.draw_text(white_text, _("TIME's UP"), Vector(screen->w/2, 0),
         CENTER_ALLIGN, LAYER_FOREGROUND1);
   } else if (time_left.get_timeleft() > TIME_WARNING
-      || (global_frame_counter % 10) < 5) {
+      || int(global_time * 2.5) % 2) {
     sprintf(str, " %d", int(time_left.get_timeleft()));
     context.draw_text(white_text, _("TIME"),
         Vector(screen->w/2, 0), CENTER_ALLIGN, LAYER_FOREGROUND1);

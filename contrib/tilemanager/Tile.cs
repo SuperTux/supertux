@@ -23,14 +23,14 @@ public class Tile {
     public bool Goal;
     public int NextTile;
     public int Data;
-    public int AnimSpeed;
+    public float AnimFps;
     public string EditorImage;
     public ArrayList Images = new ArrayList();
 
     public Tile() {
         ID = -1;
         NextTile = -1;
-        AnimSpeed = 25;
+        AnimFps = 1;
     }
 
     public void Write(LispWriter writer) {
@@ -82,8 +82,11 @@ public class Tile {
             writer.Write("editor-images", EditorImage);
         if(Data != 0)
             writer.Write("data", Data);
-        if(AnimSpeed != 25)
-            writer.Write("anim-speed", AnimSpeed);
+        if(Images.Count > 1) {
+            if(AnimFps == 1.0)
+              AnimFps = 40;
+            writer.Write("anim-fps", AnimFps);
+        }
         writer.EndList("tile");
     }
 
@@ -121,8 +124,8 @@ public class Tile {
                         Slope = true;
                         Data = parser.IntegerValue;
                         break;
-                    case "anim-speed":
-                        AnimSpeed = parser.IntegerValue;
+                    case "anim-fps":
+                        AnimFps = parser.FloatValue;
                         break;
                     case "spike":
                         Spike = parser.BoolValue;

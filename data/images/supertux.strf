@@ -1206,12 +1206,19 @@
 
   (sprite (name "bonusblock")
       (action
+         (fps 15)
          (name "default")
          (images "tilesets/bonus2-1.png"
                  "tilesets/bonus2-2.png"
                  "tilesets/bonus2-3.png"
                  "tilesets/bonus2-4.png"
-                 "tilesets/bonus2-5.png"))
+                 "tilesets/bonus2-5.png"
+                 "tilesets/bonus2-3.png"
+                 "tilesets/bonus2-2.png"
+                 "tilesets/bonus2-1.png"
+                 "tilesets/bonus2-1.png"
+                 "tilesets/bonus2-1.png"
+                 ))
       (action
          (name "empty")
          (images "tilesets/bonus2-d.png"))

@@ -179,8 +179,8 @@ TileManager::TileManager()
                 tile->images.push_back(image);
                 }
 
-              tile->anim_speed = 25;
-              reader.read_int("anim-speed", tile->anim_speed);
+              tile->anim_fps = 1;
+              reader.read_float("anim-fps", tile->anim_fps);
 
 
               if (id >= int(tiles.size()))
@@ -454,8 +454,7 @@ Tile::draw(DrawingContext& context, Vector pos)
 
   if(images.size() > 1)
     {
-    size_t frame 
-      = ((global_frame_counter*25) / anim_speed) % images.size();
+    size_t frame = size_t(global_time * anim_fps) % images.size();
 
     context.draw_surface(images[frame], pos, LAYER_TILES);
     }
@@ -489,8 +488,6 @@ WorldMap::WorldMap()
 
   name = "<no title>";
   music = "salcon.mod";
-
-  global_frame_counter = 0;
 
   total_stats.reset();
 }
@@ -831,10 +828,6 @@ std::cerr << "one way only\n";
 void
 WorldMap::update(float delta)
 {
-  if(!frame_timer.check()) {
-    global_frame_counter++;
-  }
-
   if (enter_level && !tux->is_moving())
     {
       /* Check special tile action */
@@ -1184,7 +1177,6 @@ WorldMap::display()
   frame_rate.set_frame_limit(false);
 
   frame_rate.start();
-  frame_timer.start(.25, true);
 
   DrawingContext context;
   while(!quit)

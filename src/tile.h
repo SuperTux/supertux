@@ -85,7 +85,7 @@ public:
       been collected or jumped at */
   int next_tile;
 
-  int anim_speed;
+  float anim_fps;
 
   /** Draw a tile on the screen */
   void draw(DrawingContext& context, const Vector& pos, int layer) const;

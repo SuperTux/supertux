@@ -100,7 +100,7 @@ std::vector<Surface*> create_surfaces(lisp_object_t* cur)
 }
 
 Tile::Tile()
-  : id(0), attributes(0), data(0), next_tile(0), anim_speed(25)
+  : id(0), attributes(0), data(0), next_tile(0), anim_fps(1)
 {
 }
 
@@ -146,7 +146,7 @@ Tile::read(LispReader& reader)
     attributes |= GOAL;
 
   reader.read_int("data", data);
-  reader.read_int("anim-speed", anim_speed);
+  reader.read_float("anim-fps", anim_fps);
   reader.read_int("next-tile", next_tile);
 
   if(reader.read_int("slope-type", data)) {
@@ -161,7 +161,7 @@ void
 Tile::draw(DrawingContext& context, const Vector& pos, int layer) const
 {
   if(images.size() > 1) {
-    size_t frame = ((global_frame_counter*25) / anim_speed) % images.size();
+    size_t frame = size_t(global_time * anim_fps) % images.size();
     context.draw_surface(images[frame], pos, layer);
   } else if (images.size() == 1) {
     context.draw_surface(images[0], pos, layer);

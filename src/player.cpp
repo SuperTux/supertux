@@ -846,7 +846,7 @@ Player::draw(DrawingContext& context)
             get_pos(), layer);
       }
     }
-  else if (safe_timer.started() && global_frame_counter%2)
+  else if (safe_timer.started() && size_t(global_time*40)%2)
     ;  // don't draw Tux
   else
     tux_body->draw(context, get_pos(), layer);
@@ -854,7 +854,7 @@ Player::draw(DrawingContext& context)
   // Draw blinking star overlay
   if (invincible_timer.started() &&
      (invincible_timer.get_timeleft() > TUX_INVINCIBLE_TIME_WARNING
-      || global_frame_counter % 3)
+      || size_t(global_time*20)%2)
      && !dying)
   {
     if (size == SMALL || duck)

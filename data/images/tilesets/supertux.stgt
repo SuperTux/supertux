@@ -232,7 +232,7 @@
     (fullbox #t)
     (next-tile 84)
     (data 1)
-    (anim-speed 50)
+    (anim-fps 2)
   )
   (tile
     (id 27)
@@ -363,6 +363,7 @@
       "coin-8.png"
     )
     (distro #t)
+    (anim-fps 10)
   )
   (tile
     (id 47)
@@ -575,6 +576,7 @@
       "waves-2.png"
     )
     (water #t)
+    (anim-fps 10)
   )
   (tile
     (id 77)
@@ -610,6 +612,7 @@
       "flag-0.png"
       "flag-1.png"
     )
+    (anim-fps 10)
   )
   (tile
     (id 82)
@@ -620,6 +623,7 @@
       "coin2.png"
     )
     (distro #t)
+    (anim-fps 10)
   )
   (tile
     (id 83)
@@ -640,7 +644,7 @@
     (fullbox #t)
     (next-tile 84)
     (data 1)
-    (anim-speed 50)
+    (anim-fps 2)
   )
   (tile
     (id 84)
@@ -771,7 +775,7 @@
     (next-tile 84)
     (editor-images "bonus-fireflower.png")
     (data 2)
-    (anim-speed 50)
+    (anim-fps 2)
   )
   (tile
     (id 103)
@@ -793,7 +797,7 @@
     (next-tile 84)
     (editor-images "bonus-herring.png")
     (data 3)
-    (anim-speed 50)
+    (anim-fps 2)
   )
   (tile
     (id 104)
@@ -979,7 +983,7 @@
     (next-tile 84)
     (editor-images "bonus-1up.png")
     (data 4)
-    (anim-speed 50)
+    (anim-fps 2)
   )
   (tile
     (id 129)
@@ -997,6 +1001,7 @@
       "goal1-1.png"
       "goal1-1.png"
     )
+    (anim-fps 10)
   )
   (tile
     (id 130)
@@ -1014,6 +1019,7 @@
       "goal2-1.png"
       "goal2-1.png"
     )
+    (anim-fps 10)
   )
   (tile
     (id 131)
@@ -1088,7 +1094,7 @@
     (next-tile 84)
     (editor-images "bonus-iceflower.png")
     (data 5)
-    (anim-speed 50)
+    (anim-fps 2)
   )
   (tile
     (id 141)
@@ -1151,6 +1157,7 @@
       "lava1-4.png"
     )
     (water #t)
+    (anim-fps 10)
   )
   (tile
     (id 174)
@@ -1161,6 +1168,7 @@
       "lava2-4.png"
     )
     (water #t)
+    (anim-fps 10)
   )
   (tile
     (id 175)
@@ -1171,6 +1179,7 @@
       "waterfall-trans1-1-4.png"
     )
     (water #t)
+    (anim-fps 10)
   )
   (tile
     (id 176)
@@ -1181,6 +1190,7 @@
       "waterfall-trans1-2-4.png"
     )
     (water #t)
+    (anim-fps 10)
   )
   (tile
     (id 177)
@@ -1191,6 +1201,7 @@
       "waterfall-trans1-3-4.png"
     )
     (water #t)
+    (anim-fps 10)
   )
   (tile
     (id 178)
@@ -1201,6 +1212,7 @@
       "waterfall-trans1-4-4.png"
     )
     (water #t)
+    (anim-fps 10)
   )
   (tile
     (id 179)
@@ -1211,6 +1223,7 @@
       "waterfall-trans2-1-4.png"
     )
     (water #t)
+    (anim-fps 10)
   )
   (tile
     (id 180)
@@ -1221,6 +1234,7 @@
       "waterfall-trans2-2-4.png"
     )
     (water #t)
+    (anim-fps 10)
   )
   (tile
     (id 181)
@@ -1231,6 +1245,7 @@
       "waterfall-trans2-3-4.png"
     )
     (water #t)
+    (anim-fps 10)
   )
   (tile
     (id 182)
@@ -1241,6 +1256,7 @@
       "waterfall-trans2-4-4.png"
     )
     (water #t)
+    (anim-fps 10)
   )
   (tile
     (id 183)
@@ -1251,6 +1267,7 @@
       "waterfall-trans3-1-4.png"
     )
     (water #t)
+    (anim-fps 10)
   )
   (tile
     (id 184)
@@ -1261,6 +1278,7 @@
       "waterfall-trans3-2-4.png"
     )
     (water #t)
+    (anim-fps 10)
   )
   (tile
     (id 185)
@@ -1271,6 +1289,7 @@
       "waterfall-trans3-3-4.png"
     )
     (water #t)
+    (anim-fps 10)
   )
   (tile
     (id 186)
@@ -1281,6 +1300,7 @@
       "waterfall-trans3-4-4.png"
     )
     (water #t)
+    (anim-fps 10)
   )
   (tile
     (id 187)
@@ -1291,6 +1311,7 @@
       "waterfall-trans4-1-4.png"
     )
     (water #t)
+    (anim-fps 10)
   )
   (tile
     (id 188)
@@ -1301,6 +1322,7 @@
       "waterfall-trans4-2-4.png"
     )
     (water #t)
+    (anim-fps 10)
   )
   (tile
     (id 189)
@@ -1311,6 +1333,7 @@
       "waterfall-trans4-3-4.png"
     )
     (water #t)
+    (anim-fps 10)
   )
   (tile
     (id 190)
@@ -1321,6 +1344,7 @@
       "waterfall-trans4-4-4.png"
     )
     (water #t)
+    (anim-fps 10)
   )
   (tile
     (id 191)
@@ -1331,6 +1355,7 @@
       "waterfall-trans5-1-4.png"
     )
     (water #t)
+    (anim-fps 10)
   )
   (tile
     (id 192)
@@ -1341,6 +1366,7 @@
       "waterfall-trans5-2-4.png"
     )
     (water #t)
+    (anim-fps 10)
   )
   (tile
     (id 193)
@@ -1351,6 +1377,7 @@
       "waterfall-trans5-3-4.png"
     )
     (water #t)
+    (anim-fps 10)
   )
   (tile
     (id 194)
@@ -1361,6 +1388,7 @@
       "waterfall-trans5-4-4.png"
     )
     (water #t)
+    (anim-fps 10)
   )
   (tile
     (id 195)
@@ -1371,6 +1399,7 @@
       "waterfall1-0-4.png"
     )
     (water #t)
+    (anim-fps 10)
   )
   (tile
     (id 196)
@@ -1381,6 +1410,7 @@
       "waterfall1-5-4.png"
     )
     (water #t)
+    (anim-fps 10)
   )
   (tile
     (id 197)
@@ -1391,6 +1421,7 @@
       "waterfall0-0-4.png"
     )
     (water #t)
+    (anim-fps 10)
   )
   (tile
     (id 198)
@@ -1401,6 +1432,7 @@
       "waterfall0-1-4.png"
     )
     (water #t)
+    (anim-fps 10)
   )
   (tile
     (id 199)
@@ -1411,6 +1443,7 @@
       "waterfall0-2-4.png"
     )
     (water #t)
+    (anim-fps 10)
   )
   (tile
     (id 200)
@@ -1427,6 +1460,7 @@
       "waves-trans-2.png"
     )
     (water #t)
+    (anim-fps 10)
   )
   (tile
     (id 202)
@@ -1520,6 +1554,7 @@
       "waterfall1-1-4.png"
     )
     (water #t)
+    (anim-fps 10)
   )
   (tile
     (id 276)
@@ -1530,6 +1565,7 @@
       "waterfall1-2-4.png"
     )
     (water #t)
+    (anim-fps 10)
   )
   (tile
     (id 277)
@@ -1540,6 +1576,7 @@
       "waterfall1-3-4.png"
     )
     (water #t)
+    (anim-fps 10)
   )
   (tile
     (id 278)
@@ -1550,6 +1587,7 @@
       "waterfall1-4-4.png"
     )
     (water #t)
+    (anim-fps 10)
   )
   (tile
     (id 279)
@@ -1560,6 +1598,7 @@
       "waterfall2-1-4.png"
     )
     (water #t)
+    (anim-fps 10)
   )
   (tile
     (id 280)
@@ -1570,6 +1609,7 @@
       "waterfall2-2-4.png"
     )
     (water #t)
+    (anim-fps 10)
   )
   (tile
     (id 281)
@@ -1580,6 +1620,7 @@
       "waterfall2-3-4.png"
     )
     (water #t)
+    (anim-fps 10)
   )
   (tile
     (id 282)
@@ -1590,6 +1631,7 @@
       "waterfall2-4-4.png"
     )
     (water #t)
+    (anim-fps 10)
   )
   (tile
     (id 283)
@@ -1600,6 +1642,7 @@
       "waterfall3-1-4.png"
     )
     (water #t)
+    (anim-fps 10)
   )
   (tile
     (id 284)
@@ -1610,6 +1653,7 @@
       "waterfall3-2-4.png"
     )
     (water #t)
+    (anim-fps 10)
   )
   (tile
     (id 285)
@@ -1620,6 +1664,7 @@
       "waterfall3-3-4.png"
     )
     (water #t)
+    (anim-fps 10)
   )
   (tile
     (id 286)
@@ -1630,6 +1675,7 @@
       "waterfall3-4-4.png"
     )
     (water #t)
+    (anim-fps 10)
   )
   (tile
     (id 287)
@@ -1640,6 +1686,7 @@
       "waterfall4-1-4.png"
     )
     (water #t)
+    (anim-fps 10)
   )
   (tile
     (id 288)
@@ -1650,6 +1697,7 @@
       "waterfall4-2-4.png"
     )
     (water #t)
+    (anim-fps 10)
   )
   (tile
     (id 289)
@@ -1660,6 +1708,7 @@
       "waterfall4-3-4.png"
     )
     (water #t)
+    (anim-fps 10)
   )
   (tile
     (id 290)
@@ -1670,6 +1719,7 @@
       "waterfall4-4-4.png"
     )
     (water #t)
+    (anim-fps 10)
   )
   (tile
     (id 291)
@@ -1680,6 +1730,7 @@
       "waterfall5-1-4.png"
     )
     (water #t)
+    (anim-fps 10)
   )
   (tile
     (id 292)
@@ -1690,6 +1741,7 @@
       "waterfall5-2-4.png"
     )
     (water #t)
+    (anim-fps 10)
   )
   (tile
     (id 293)
@@ -1700,6 +1752,7 @@
       "waterfall5-3-4.png"
     )
     (water #t)
+    (anim-fps 10)
   )
   (tile
     (id 294)
@@ -1710,6 +1763,7 @@
       "waterfall5-4-4.png"
     )
     (water #t)
+    (anim-fps 10)
   )
   (tile
     (id 295)
@@ -1830,6 +1884,7 @@
       "jungle12-2.png"
     )
     (solid #t)
+    (anim-fps 10)
   )
   (tile
     (id 313)
@@ -2380,6 +2435,7 @@
     )
     (solid #t)
     (slope-type 2)
+    (data 2)
   )
   (tile
     (id 1048)

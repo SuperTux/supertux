@@ -471,7 +471,7 @@
 		  <child>
 		    <widget class="GtkLabel" id="label4">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">AnimSpeed:</property>
+		      <property name="label" translatable="yes">AnimFPS:</property>
 		      <property name="use_underline">False</property>
 		      <property name="use_markup">False</property>
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -493,7 +493,7 @@
 		  </child>
 
 		  <child>
-		    <widget class="GtkEntry" id="AnimSpeedEntry">
+		    <widget class="GtkEntry" id="AnimFpsEntry">
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
 		      <property name="editable">True</property>

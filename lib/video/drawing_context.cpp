@@ -31,9 +31,6 @@ using namespace SuperTux;
 
 DrawingContext::DrawingContext()
 {
-  transform.draw_effect = NONE_EFFECT;
-  transform.zoom = 1;
-  transform.alpha = 255;
 }
 
 DrawingContext::~DrawingContext()
@@ -49,18 +46,17 @@ DrawingContext::draw_surface(const Surface* surface, const Vector& position,
   DrawingRequest request;
 
   request.type = SURFACE;
-  request.layer = layer;
-  request.request_data = const_cast<Surface*> (surface);
   request.pos = transform.apply(position);
 
   if(request.pos.x >= screen->w || request.pos.y >= screen->h
       || request.pos.x + surface->w < 0 || request.pos.y + surface->h < 0)
     return;
-  
-  request.drawing_effect = drawing_effect;
-  request.drawing_effect = transform.draw_effect | drawing_effect;
+
+  request.layer = layer;
+  request.drawing_effect = transform.drawing_effect | drawing_effect;
   request.zoom = transform.zoom;
   request.alpha = transform.alpha;
+  request.request_data = const_cast<Surface*> (surface);  
 
   drawingrequests.push_back(request);
 }
@@ -74,9 +70,9 @@ DrawingContext::draw_surface_part(const Surface* surface, const Vector& source,
   DrawingRequest request;
 
   request.type = SURFACE_PART;
-  request.layer = layer;
   request.pos = transform.apply(dest);
-  request.drawing_effect = drawing_effect;
+  request.layer = layer;
+  request.drawing_effect = transform.drawing_effect | drawing_effect;
   request.alpha = transform.alpha;
   
   SurfacePartRequest* surfacepartrequest = new SurfacePartRequest();
@@ -96,9 +92,10 @@ DrawingContext::draw_text(Font* font, const std::string& text,
   DrawingRequest request;
 
   request.type = TEXT;
-  request.layer = layer;
   request.pos = transform.apply(position);
-  request.drawing_effect = drawing_effect;
+  request.layer = layer;
+  request.drawing_effect = transform.drawing_effect | drawing_effect;
+  request.zoom = transform.zoom;
   request.alpha = transform.alpha;
 
   TextRequest* textrequest = new TextRequest;
@@ -124,8 +121,12 @@ DrawingContext::draw_gradient(Color top, Color bottom, int layer)
   DrawingRequest request;
 
   request.type = GRADIENT;
-  request.layer = layer;
   request.pos = Vector(0,0);
+  request.layer = layer;
+
+  request.drawing_effect = transform.drawing_effect;
+  request.zoom = transform.zoom;
+  request.alpha = transform.alpha;
 
   GradientRequest* gradientrequest = new GradientRequest;
   gradientrequest->top = top;
@@ -142,8 +143,12 @@ DrawingContext::draw_filled_rect(const Vector& topleft, const Vector& size,
   DrawingRequest request;
 
   request.type = FILLRECT;
-  request.layer = layer;
   request.pos = transform.apply(topleft);
+  request.layer = layer;
+
+  request.drawing_effect = transform.drawing_effect;
+  request.zoom = transform.zoom;
+  request.alpha = transform.alpha;                    
 
   FillRectRequest* fillrectrequest = new FillRectRequest;
   fillrectrequest->size = size;
@@ -360,7 +365,7 @@ DrawingContext::pop_transform()
 void
 DrawingContext::set_drawing_effect(int effect)
 {
-  transform.draw_effect = effect;
+  transform.drawing_effect = effect;
 }
 
 void

@@ -279,7 +279,6 @@ void draw_demo(float elapsed_time)
 
   world->play_music(LEVEL_MUSIC);
   
-  global_frame_counter++;
   tux->key_event((SDLKey) keymap.right,DOWN);
   
   if(random_timer.check()) {

@@ -86,9 +86,9 @@ namespace SuperTux
       void do_drawing();
 
       const Vector& get_translation() const
-        {  return transform.translation;  }
+      {  return transform.translation;  }
       Uint32 get_drawing_effect() const
-        {  return transform.draw_effect;  }
+      {  return transform.drawing_effect;  }
 
       void set_translation(const Vector& newtranslation)
         {  transform.translation = newtranslation;  }
@@ -105,19 +105,22 @@ namespace SuperTux
 
     private:
       class Transform
+      {
+      public:
+        Vector translation;
+        Uint32 drawing_effect;
+        float zoom;
+        int alpha;
+
+        Transform()
+          : drawing_effect(NONE_EFFECT), zoom(1), alpha(255)
+        { }
+
+        Vector apply(const Vector& v) const
         {
-        public:
-          Vector translation; // only translation for now...
-
-          Vector apply(const Vector& v) const
-            {
-              return v - translation;
-            }
-
-          Uint32 draw_effect;
-          float zoom;
-          int alpha;
-        };
+          return v - translation;
+        }
+      };
 
       /// the transform stack
       std::vector<Transform> transformstack;
@@ -156,13 +159,13 @@ namespace SuperTux
 
       struct DrawingRequest
         {
+          RequestType type;
+          Vector pos;                
+          
           int layer;
           Uint32 drawing_effect;
           float zoom;
           int alpha;
-
-          RequestType type;
-          Vector pos;
 
           void* request_data;
 

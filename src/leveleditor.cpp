@@ -44,7 +44,6 @@ LevelEditor::LevelEditor()
   show_grid = true;
 
   selection.clear();
-  global_frame_counter = 0;
   selection_end = selection_ini = Vector(0,0);
   left_button = middle_button = mouse_moved =  false;
   level = 0;
@@ -232,7 +231,6 @@ else
 
 mouse_cursor->set_state(MC_NORMAL);
 
-frame_timer.start(.25, true);
 done = false;
 while(!done)
   {
@@ -534,10 +532,6 @@ if(tiles_board->is_hover() || tiles_layer->is_hover() || level_options->is_hover
 
 if(sector)
   {
-    if(frame_timer.check()) {
-      ++global_frame_counter;
-    }
-
   // don't scroll before the start or after the level's end
   float width = sector->solids->get_width() * 32;
   float height = sector->solids->get_height() * 32;

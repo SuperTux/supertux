@@ -57,7 +57,6 @@ class GameSession
 {
 private:
   Uint32 fps_ticks;
-  Timer2 frame_timer;
   Timer2 endsequence_timer;
   Level* level;
   Sector* currentsector;

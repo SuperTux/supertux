@@ -129,7 +129,6 @@ private:
   float zoom;
 
   SDL_Event event;
-  Timer2 frame_timer;
   Timer2 level_name_timer;
 
   Surface *img_background_bt, *img_foreground_bt, *img_interactive_bt;

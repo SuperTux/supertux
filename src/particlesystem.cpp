@@ -140,7 +140,7 @@ CloudParticleSystem::CloudParticleSystem()
         particle->pos.x = rand() % int(virtual_width);
         particle->pos.y = rand() % int(virtual_height);
         particle->texture = cloudimage;
-        particle->speed = -float(250 + rand() % 200) / 1000.0;
+        particle->speed = -float(25 + rand() % 30);
 
         particles.push_back(particle);
     }

@@ -27,6 +27,7 @@ supertux_SOURCES = camera.cpp \
                         object/oneup.h object/oneup.cpp \
                         object/flower.h object/flower.cpp \
                         object/growup.h object/growup.cpp \
+                        object/invisible_block.h object/invisible_block.cpp \
                         badguy/badguy.h badguy/badguy.cpp \
                         badguy/bomb.h badguy/bomb.cpp \
                         badguy/bouncing_snowball.h badguy/bouncing_snowball.cpp\

@@ -60,7 +60,7 @@ public:
   void draw(DrawingContext& context, Vector pos);
 
   std::vector<Surface*> images;
-  int anim_speed;
+  float anim_fps;
 
   // Directions in which Tux is allowed to walk from this tile
   bool north;
@@ -247,8 +247,6 @@ private:
   // when need, it is calculated.
   Statistics total_stats;
   void calculate_total_stats();
-
-  Timer2 frame_timer;
 
 public:
   WorldMap();
