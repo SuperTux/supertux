@@ -203,7 +203,7 @@ Player::action(double frame_ratio)
       if(!duck && on_ground() && old_base.x == base.x && old_base.y == base.y
          && collision_object_map(base))
         {
-          base.x += frame_ratio * WALK_SPEED;
+          base.x += frame_ratio * WALK_SPEED * (dir ? 1: -1);
           previous_base = old_base = base;
         }
 
