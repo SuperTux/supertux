@@ -54,7 +54,8 @@ char * soundfilenames[NUM_SOUNDS] = {
 #include <SDL_mixer.h>
 
 Mix_Chunk * sounds[NUM_SOUNDS];
-Mix_Music * level_song, * level_song_fast, * herring_song;
+Mix_Music * herring_song = 0;
+Mix_Music * current_song = 0;
 
 /* --- OPEN THE AUDIO DEVICE --- */
 
@@ -113,13 +114,17 @@ Mix_Chunk * load_sound(const std::string& file)
 
 Mix_Music * load_song(const std::string& file)
 {
+  if(!audio_device)
+    return 0;
+  
   Mix_Music * sng;
 
   sng = Mix_LoadMUS(file.c_str());
 
   /* printf message and abort if there is an initialized audio device */
-  if ((sng == NULL) && audio_device)
+  if (sng == NULL)
     st_abort("Can't load", file);
+ 
   return (sng);
 }
 
@@ -161,88 +166,42 @@ void free_chunk(Mix_Chunk *chunk)
     }
 }
 
-
-int playing_music(void)
+void halt_music(void)
 {
-  if (use_music)
-    {
-      return Mix_PlayingMusic();
-    }
-  else
-    {
-      /* we are in --disable-music we can't be playing music */
-      return 0;
-    }
+  if (!use_music || !audio_device)
+    return;
+
+  Mix_HaltMusic();
+  current_song = 0;
 }
 
 
-int halt_music(void)
+void play_music(Mix_Music *music)
 {
-  if (use_music && audio_device)
-    {
-      return Mix_HaltMusic();
-    }
-  else
-    {
-      return 0;
-    }
-}
+  if (!audio_device)
+    return;
 
+  if (use_music && Mix_PlayMusic(music, -1) < 0)
+    st_abort("Couldn't play music: ", Mix_GetError());
 
-int play_music(Mix_Music *music, int loops)
-{
-  if (use_music && audio_device)
-    {
-      DEBUG_MSG(__PRETTY_FUNCTION__);
-      return Mix_PlayMusic(music, loops);
-    }
-  else
-    {
-      /* return error since you're trying to play music in --disable-sound mode */
-      return -1;
-    }
+  current_song = music;
 }
 
 
 void free_music(Mix_Music *music)
 {
-  if ( music != NULL )
-    {
-      DEBUG_MSG(__PRETTY_FUNCTION__);
-      Mix_FreeMusic( music );
-      music = NULL;
-    }
+  Mix_FreeMusic( music );
 }
- int get_current_music()
-  {
- return current_music;
- }
- 
- void set_current_music(int music)
- {
- current_music = music;
- }
- 
- void play_current_music()
- {
- if(playing_music())
-   halt_music();
- 
- switch(current_music)
-   {
-   case LEVEL_MUSIC:
-     play_music(level_song, -1);  // -1 to play forever
-     break;
-   case HERRING_MUSIC:
-     play_music(herring_song, -1);
-     break;
-   case HURRYUP_MUSIC:
-     play_music(level_song_fast, -1);
-     break;
-   case NO_MUSIC:      // keep the compiler happy for the moment :-)
-     {}
- /*default:*/
- }
- /* use halt_music whenever you want to stop it */
+
+void enable_music(bool enable)
+{
+  if(!audio_device)
+    return;
+  
+  use_music = enable;
+  if(!use_music)
+    Mix_HaltMusic();
+  else
+    Mix_PlayMusic(current_song, -1);
 }
 

@@ -68,6 +68,8 @@ class Level
 {
  public:
   Surface* img_bkgd;
+  Mix_Music* level_song;
+  Mix_Music* level_song_fast;
 
   std::string name;
   std::string author;
@@ -95,6 +97,7 @@ class Level
   Level();
   Level(const std::string& subset, int level);
   Level(const std::string& filename);
+  ~Level();
 
   /** Will the Level structure with default values */
   void init_defaults();
@@ -115,6 +118,8 @@ class Level
   
   void load_song();
   void free_song();
+  Mix_Music* get_level_music();
+  Mix_Music* get_level_music_fast();
 
   void save(const char* subset, int level);
 

@@ -199,17 +199,26 @@ void st_subset::free()
 }
 
 Level::Level()
+  : level_song(0), level_song_fast(0)
 {
 }
 
 Level::Level(const std::string& subset, int level)
+  : level_song(0), level_song_fast(0)
 {
   load(subset, level);
 }
 
 Level::Level(const std::string& filename)
+  : level_song(0), level_song_fast(0)
 {
   load(filename);
+}
+
+Level::~Level()
+{
+  free_gfx();
+  free_song();
 }
 
 void
@@ -688,12 +697,16 @@ void
 Level::free_song(void)
 {
   free_music(level_song);
+  level_song = 0;
   free_music(level_song_fast);
+  level_song_fast = 0;
 }
 
 void
 Level::load_song()
 {
+  free_song();
+  
   char* song_path;
   char* song_subtitle;
 
@@ -708,6 +721,18 @@ Level::load_song()
   level_song_fast = ::load_song(song_path);
   free(song_subtitle);
   free(song_path);
+}
+
+Mix_Music*
+Level::get_level_music()
+{
+  return level_song;
+}
+
+Mix_Music*
+Level::get_level_music_fast()
+{
+  return level_song_fast;
 }
 
 unsigned int 

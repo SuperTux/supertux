@@ -582,7 +582,7 @@ WorldMap::update()
                   break;
                 }
 
-              play_music(song, 1);
+              play_music(song);
               Menu::set_current(0);
               if (!savegame_file.empty())
                 savegame(savegame_file);
@@ -726,7 +726,7 @@ WorldMap::display()
   quit = false;
 
   song = load_song(datadir +  "/music/" + music);
-  play_music(song, 1);
+  play_music(song);
 
   while(!quit) {
     Point tux_pos = tux->get_pos();

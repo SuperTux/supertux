@@ -276,35 +276,7 @@ Player::action(double frame_ratio)
         }
     }
 
-
   /* ---- DONE HANDLING TUX! --- */
-
-  /* Handle invincibility timer: */
-  if (get_current_music() == HERRING_MUSIC && !invincible_timer.check())
-    {
-      /*
-        no, we are no more invincible
-        or we were not in invincible mode
-        but are we in hurry ?
-      */
-
-      // FIXME: Move this to gamesession
-      if (GameSession::current()->time_left.get_left() < TIME_WARNING)
-        {
-          /* yes, we are in hurry
-             stop the herring_song, prepare to play the correct
-             fast level_song !
-          */
-          set_current_music(HURRYUP_MUSIC);
-        }
-      else
-        {
-          set_current_music(LEVEL_MUSIC);
-        }
-
-      /* start playing it */
-      play_current_music();
-    }
 
   // check some timers
   skidding_timer.check();

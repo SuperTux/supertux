@@ -25,7 +25,8 @@ PlayerStatus player_status;
 PlayerStatus::PlayerStatus()
   : score(0),
     distros(0),
-    lives(3)
+    lives(3),
+    score_multiplier(1)
 {
 }
 

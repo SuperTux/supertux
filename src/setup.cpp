@@ -520,22 +520,7 @@ void process_options_menu(void)
     case 5:
       if(use_music != options_menu->item[5].toggled)
         {
-          if(use_music)
-            {
-              if(playing_music())
-                {
-                  halt_music();
-                }
-              use_music = false;
-            }
-          else
-            {
-              use_music = true;
-              if (!playing_music())
-                {
-                  play_current_music();
-                }
-            }
+          enable_music(options_menu->item[5].toggled);
         }
       break;
     case 6:
@@ -1000,6 +985,7 @@ void parseargs(int argc, char * argv[])
           /* Disable the compiled in sound feature */
           printf("Sounds disabled \n");
           use_sound = false;
+          audio_device = false;
         }
       else if (strcmp(argv[i], "--disable-music") == 0)
         {

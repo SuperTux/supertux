@@ -68,10 +68,13 @@ World::World(const std::string& subset, int level_nr)
   activate_bad_guys();
   activate_particle_systems();
   get_level()->load_song();
+
+  play_music(LEVEL_MUSIC);
 }
 
 World::~World()
 {
+  halt_music(); // just to be sure (because levelmusic is freed now)
   delete level;
 }
 
@@ -87,7 +90,7 @@ World::set_defaults()
   distro_counter = 0;
 
   /* set current song/music */
-  set_current_music(LEVEL_MUSIC);
+  currentmusic = LEVEL_MUSIC;
 }
 
 void
@@ -407,6 +410,32 @@ World::add_bullet(float x, float y, float xm, Direction dir)
   bullets.push_back(new_bullet);
   
   play_sound(sounds[SND_SHOOT], SOUND_CENTER_SPEAKER);
+}
+
+void
+World::play_music(int musictype)
+{
+  currentmusic = musictype;
+  switch(currentmusic) {
+    case HURRYUP_MUSIC:
+      ::play_music(get_level()->get_level_music_fast());
+      break;
+    case LEVEL_MUSIC:
+      ::play_music(get_level()->get_level_music());
+      break;
+    case HERRING_MUSIC:
+      ::play_music(herring_song);
+      break;
+    default:
+      ::halt_music();
+      break;
+  }
+}
+
+int
+World::get_music_type()
+{
+  return currentmusic;
 }
 
 /* Break a brick: */

@@ -55,6 +55,8 @@ class World
   int distro_counter;
   bool counting_distros;
 
+  int currentmusic;
+
   static World* current_;
  public:
   static World* current() { return current_; }
@@ -72,6 +74,10 @@ class World
 
   void draw();
   void action(double frame_ratio);
+
+  void play_music(int musictype);
+  int get_music_type();
+  
 
   /** Checks for all possible collisions. And calls the
       collision_handlers, which the collision_objects provide for this

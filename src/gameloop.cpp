@@ -122,7 +122,8 @@ GameSession::restart_level()
     }
 
   time_left.init(true);
-  start_timers(); 
+  start_timers();
+  world->play_music(LEVEL_MUSIC);
 }
 
 GameSession::~GameSession()
@@ -484,9 +485,6 @@ GameSession::run()
   clearscreen(0, 0, 0);
   updatescreen();
 
-  /* Play music: */
-  play_current_music();
-
   // Eat unneeded events
   SDL_Event event;
   while (SDL_PollEvent(&event)) {}
@@ -557,19 +555,25 @@ GameSession::run()
         }
 
       /* Handle time: */
-      if (time_left.check())
+      if (!time_left.check() && tux->dying == DYING_NOT)
+        tux->kill(KILL);
+
+      /* Handle music: */
+      if(tux->invincible_timer.check())
         {
-          /* are we low on time ? */
-          if (time_left.get_left() < TIME_WARNING
-              && (get_current_music() != HURRYUP_MUSIC)) /* play the fast music */
-            {
-              set_current_music(HURRYUP_MUSIC);
-              play_current_music();
-            }
+          if(world->get_music_type() != HERRING_MUSIC)
+            world->play_music(HERRING_MUSIC);
         }
-      else if(tux->dying == DYING_NOT)
+      /* are we low on time ? */
+      else if (time_left.get_left() < TIME_WARNING
+         && (world->get_music_type() == LEVEL_MUSIC))
         {
-          tux->kill(KILL);
+          world->play_music(HURRYUP_MUSIC);
+        }
+      /* or just normal music? */
+      else if(world->get_music_type() != LEVEL_MUSIC)
+        {
+          world->play_music(LEVEL_MUSIC);
         }
 
       /* Calculate frames per second */
@@ -586,11 +590,8 @@ GameSession::run()
         }
     }
   
-  halt_music();
-
-  world->get_level()->free_gfx();
-  world->get_level()->cleanup();
-  world->get_level()->free_song();
+  delete world;
+  world = 0;
 
   return exit_status;
 }
