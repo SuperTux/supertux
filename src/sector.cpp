@@ -42,6 +42,7 @@
 #include "gameloop.h"
 #include "resources.h"
 #include "statistics.h"
+#include "collision_grid.h"
 #include "special/collision.h"
 #include "math/rectangle.h"
 #include "math/aatriangle.h"
@@ -73,12 +74,16 @@ Sector::Sector()
   song_title = "Mortimers_chipdisko.mod";
   player = new Player();
   add_object(player);
+
+  grid = new CollisionGrid(32000, 32000);
 }
 
 Sector::~Sector()
 {
   update_game_objects();
   assert(gameobjects_new.size() == 0);
+
+  delete grid;
 
   for(GameObjects::iterator i = gameobjects.begin(); i != gameobjects.end();
       ++i) {
@@ -485,29 +490,42 @@ Sector::update_game_objects()
   /** cleanup marked objects */
   for(std::vector<GameObject*>::iterator i = gameobjects.begin();
       i != gameobjects.end(); /* nothing */) {
-    if((*i)->is_valid() == false) {
-      Bullet* bullet = dynamic_cast<Bullet*> (*i);
-      if(bullet) {
-        bullets.erase(
-            std::remove(bullets.begin(), bullets.end(), bullet),
-            bullets.end());
-      }
-      delete *i;
-      i = gameobjects.erase(i);
-    } else {
+    GameObject* object = *i;
+    
+    if(object->is_valid()) {
       ++i;
+      continue;
     }
+    
+    Bullet* bullet = dynamic_cast<Bullet*> (object);
+    if(bullet) {
+      bullets.erase(
+          std::remove(bullets.begin(), bullets.end(), bullet),
+          bullets.end());
+    }
+    MovingObject* movingobject = dynamic_cast<MovingObject*> (object);
+    if(movingobject) {
+      grid->remove_object(movingobject);
+    }
+    delete *i;
+    i = gameobjects.erase(i);
   }
 
   /* add newly created objects */
   for(std::vector<GameObject*>::iterator i = gameobjects_new.begin();
       i != gameobjects_new.end(); ++i)
   {
-    Bullet* bullet = dynamic_cast<Bullet*> (*i);
+    GameObject* object = *i;
+    
+    Bullet* bullet = dynamic_cast<Bullet*> (object);
     if(bullet)
       bullets.push_back(bullet);
 
-    TileMap* tilemap = dynamic_cast<TileMap*> (*i);
+    MovingObject* movingobject = dynamic_cast<MovingObject*> (object);
+    if(movingobject)
+      grid->add_object(movingobject);
+    
+    TileMap* tilemap = dynamic_cast<TileMap*> (object);
     if(tilemap && tilemap->is_solid()) {
       if(solids == 0) {
         solids = tilemap;
@@ -516,7 +534,7 @@ Sector::update_game_objects()
       }
     }
 
-    Camera* camera = dynamic_cast<Camera*> (*i);
+    Camera* camera = dynamic_cast<Camera*> (object);
     if(camera) {
       if(this->camera != 0) {
         std::cerr << "Warning: Multiple cameras added. Ignoring.";
@@ -525,7 +543,7 @@ Sector::update_game_objects()
       this->camera = camera;
     }
 
-    gameobjects.push_back(*i);
+    gameobjects.push_back(object);
   }
   gameobjects_new.clear();
 }
@@ -674,6 +692,9 @@ Sector::collision_object(MovingObject* object1, MovingObject* object2)
 void
 Sector::collision_handler()
 {
+#if 0
+  grid->check_collisions();
+#else
   for(std::vector<GameObject*>::iterator i = gameobjects.begin();
       i != gameobjects.end(); ++i) {
     GameObject* gameobject = *i;
@@ -709,6 +730,7 @@ Sector::collision_handler()
     movingobject->bbox.move(movingobject->get_movement());
     movingobject->movement = Vector(0, 0);
   }
+#endif
 }
 
 bool

@@ -40,19 +40,11 @@ class Lisp;
 class Writer;
 }
 
-class InteractiveObject;
-class Background;
 class Player;
 class Camera;
-class Trampoline;
-class FlyingPlatform;
 class TileMap;
-class Upgrade;
 class Bullet;
-class SmokeCloud;
-class Particles;
-class BadGuy;
-class Tile;
+class CollisionGrid;
 
 struct SpawnPoint
 {
@@ -115,8 +107,10 @@ public:
   /** Get total number of badguys */
   int get_total_badguys();
 
-private:
+  // make this private again soon
   void collision_tilemap(MovingObject* object, int depth);
+
+private:
   void collision_object(MovingObject* object1, MovingObject* object2);
   
   void load_music();
@@ -142,8 +136,6 @@ private:
   std::vector<Bullet*> bullets;
 
 public: // TODO make this private again
-  typedef std::vector<InteractiveObject*> InteractiveObjects;
-  InteractiveObjects interactive_objects;
   typedef std::vector<GameObject*> GameObjects;
   GameObjects gameobjects;
 
@@ -157,6 +149,8 @@ private:
   SpawnPoints spawnpoints;
 
   int currentmusic;
+
+  CollisionGrid* grid;
 };
 
 #endif

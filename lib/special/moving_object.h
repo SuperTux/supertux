@@ -26,6 +26,7 @@
 #include "math/rectangle.h"
 
 class Sector;
+class CollisionGrid;
 
 namespace SuperTux
   {

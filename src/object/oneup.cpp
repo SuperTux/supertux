@@ -4,6 +4,7 @@
 #include "resources.h"
 #include "player.h"
 #include "scene.h"
+#include "sector.h"
 #include "special/sprite_manager.h"
 #include "video/drawing_context.h"
 
@@ -23,6 +24,9 @@ OneUp::~OneUp()
 void
 OneUp::action(float elapsed_time)
 {
+  if(!Sector::current()->inside(bbox))
+    remove_me();
+
   movement = physic.get_movement(elapsed_time); 
 }
 
