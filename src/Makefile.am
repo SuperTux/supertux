@@ -11,6 +11,8 @@ collision.cpp \
 collision.h \
 configfile.cpp \
 configfile.h \
+intro.cpp \
+intro.h \
 defines.h \
 gameloop.cpp \
 gameloop.h \

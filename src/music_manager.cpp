@@ -24,7 +24,7 @@
 #include "setup.h"
 
 MusicManager::MusicManager()
-  : music_enabled(true)
+  : current_music(0), music_enabled(true)
 { }
 
 MusicManager::~MusicManager()

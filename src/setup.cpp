@@ -50,6 +50,7 @@
 #include "scene.h"
 #include "worldmap.h"
 #include "resources.h"
+#include "intro.h"
 #include "music_manager.h"
 
 #include "player.h"
@@ -490,10 +491,17 @@ bool process_load_game_menu()
 
   if(slot != -1 && load_game_menu->get_item(slot).kind == MN_ACTION)
     {
-      WorldMapNS::WorldMap worldmap;
-
       char slotfile[1024];
       snprintf(slotfile, 1024, "%s/slot%d.stsg", st_save_dir, slot-1);
+
+      if (access(slotfile, F_OK) != 0)
+        {
+          std::cout << "Draw intro" << std::endl;
+          draw_intro();
+        }
+      std::cout << "XXXDraw intro" << std::endl;
+
+      WorldMapNS::WorldMap worldmap;
      
       // Load the game or at least set the savegame_file variable
       worldmap.loadgame(slotfile);

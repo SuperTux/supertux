@@ -31,6 +31,7 @@
 Surface* tux_life;
 std::vector<Surface*> tux_right;
 std::vector<Surface*> tux_left;
+
 Surface* smalltux_jump_left;
 Surface* smalltux_jump_right;
 Surface* smalltux_stand_left;
@@ -38,33 +39,31 @@ Surface* smalltux_stand_right;
 Sprite*  smalltux_gameover;
 Sprite*  smalltux_skid_left;
 Sprite*  smalltux_skid_right;
-
 Sprite*  smalltux_kick_left;
 Sprite*  smalltux_kick_right;
 Sprite*  smalltux_grab_left;
 Sprite*  smalltux_grab_right;
-
 Sprite*  smalltux_star;
-Sprite*  largetux_star;
 
-Sprite*  largetux_kick_left;
-Sprite*  largetux_kick_right;
-Sprite*  largetux_grab_left;
-Sprite*  largetux_grab_right;
-
-Sprite*  largetux_stand_left;
-Sprite*  largetux_stand_right;
-
+Sprite* largetux_star;
+Sprite* largetux_kick_left;
+Sprite* largetux_kick_right;
+Sprite* largetux_grab_left;
+Sprite* largetux_grab_right;
+Sprite* largetux_stand_left;
+Sprite* largetux_stand_right;
 Sprite* bigtux_right;
 Sprite* bigtux_left;
 Sprite* bigtux_right_jump;
 Sprite* bigtux_left_jump;
 Sprite* ducktux_right;
 Sprite* ducktux_left;
+
 Surface* skidtux_right;
 Surface* skidtux_left;
 Surface* firetux_right[3];
 Surface* firetux_left[3];
+
 Surface* bigfiretux_right[3];
 Surface* bigfiretux_left[3];
 Surface* bigfiretux_right_jump;
@@ -73,6 +72,7 @@ Surface* duckfiretux_right;
 Surface* duckfiretux_left;
 Surface* skidfiretux_right;
 Surface* skidfiretux_left;
+
 Surface* cape_right[2];
 Surface* cape_left[2];
 
