@@ -4,8 +4,18 @@ by Bill Kendrick & Tobias Glaesser
 bill@newbreedsoftware.com
 http://www.newbreedsoftware.com/supertux/
 
-0.0.5 - December 19th, 2003 - ???
+0.0.5 - December 24th, 2003
 ---------------------------
+  * Added "Level 2"
+    Tobias Glaesser <tobi.web@gmx.de>
+
+  * Added a menu. You can set sound and fullscreen on and off for example.
+    Tobias Glaesser <tobi.web@gmx.de>
+    
+  * Improved sound handling again. Added: playing different
+    songs in one level is now supported (now we need new songs!)
+    Duong-Khang NGUYEN <neoneurone@users.sf.net>
+    
   * Added 'PAUSE' feature.
     Tobias Glaesser <tobi.web@gmx.de>
 
@@ -47,9 +57,6 @@ http://www.newbreedsoftware.com/supertux/
     Tobias Glaesser <tobi.web@gmx.de>
 
   * Initial support for additional levels.
-    Tobias Glaesser <tobi.web@gmx.de>
-
-  * Added small "Level 2"
     Tobias Glaesser <tobi.web@gmx.de>
 
   * One-ups ever 100 distros

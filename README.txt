@@ -6,7 +6,7 @@ http://www.newbreedsoftware.com/supertux/
 
 Version 0.0.5
 
-December 17, 2003
+December 24th, 2003
  
 
 NOTICE!  THIS GAME IS UNDER CONSTRUCTION!
@@ -81,17 +81,17 @@ SCREEN LAYOUT
   UNDER CONSTRUCTION
 
     +-------------------------------------------------+
-    |SCORE 1230    TIME 128     DISTROS 93    |
-    |HIGH 100                                                 |
-    |                                                               |
-    |                                                               |
-    |                                                               |
-    |                                                               |
-    |                                                               |
-    |                                                               |
-    |                                                               |
-    |                                                               |
-    |                                                               |
+    |SCORE 1230        TIME 128            DISTROS 93 |
+    |HIGH  100                                        |
+    |                                                 |
+    |                                                 |
+    |                                                 |
+    |                                                 |
+    |                                                 |
+    |                                                 |
+    |                                                 |
+    |                                                 |
+    |                                                 |
     +-------------------------------------------------+
 
 
@@ -121,10 +121,9 @@ PLAYING THE GAME
 
   Pausing
   -------
-    NOT IMPLEMENTED
-
-    To pause the game, you can press either the [TAB] or [P] key.
-    To unpause, press one of those keys again.
+    
+    To pause the game, you can press the [P] key.
+    To unpause, press [P] again.
 
   Quitting
   --------
@@ -155,7 +154,6 @@ GAME OVER SCREEN
 
 OPTIONS FILE
 ------------
-  NOT IMPLEMENTED
 
   When Super Tux starts up, it looks for an options file.
 
@@ -163,6 +161,7 @@ OPTIONS FILE
   Under Windows, this file is "supertux.dat" in the Super Tux folder.
 
   This file records high score scores and initials, and volume settings.
+  Currently it only records high score.
 
 
 THE END

@@ -6,7 +6,7 @@ http://www.newbreedsoftware.com/supertux/
 
 Version 0.0.5
 
-December 9, 2003
+December 24th, 2003
 
 
 CREDITS
@@ -15,7 +15,7 @@ CREDITS
                       http://www.newbreedsoftware.com/bill/
 
 		      Tobias Glaesser <tobi.web@gmx.de>
-
+                      Duong-Khang NGUYEN <neoneurone@users.sf.net>
   Graphics:           Bill Kendrick, using The GIMP
                       http://www.gimp.org/
 

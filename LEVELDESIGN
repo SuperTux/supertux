@@ -2,14 +2,16 @@ HEAD:
 --------
 
 1. Name of the level.
-2. The time you have to finish the level.
-3. Defines the music file, which should be played.
-4,5,6. RGB values for the background of the level.
-7. Defines the level's length.
+2. The theme of the level. The game will look in "supertuxdir/data/images/theme"
+3. The time you have to finish the level.
+4. Defines the music file, which should be played.
+5,6,7. RGB values for the background of the level.
+8. Defines the level's length.
 
 Example:
 ----------
 Antarctica
+antarctica
 240
 ji_turn.it
 128
