@@ -234,9 +234,11 @@
        (solid #t))
  
   (tile (id 75)
-        (images "water.png"))
+        (images "water.png")
+	(water #t))
   (tile (id 76)
         (images "waves-0.png" "waves-1.png" "waves-2.png")
+	(water #t)
 	(anim-speed 25))
 
   ;; Normal brick
