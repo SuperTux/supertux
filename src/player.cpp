@@ -767,9 +767,12 @@ Player::draw(DrawingContext& context)
 
   // Tux is holding something
   if ((holding_something && physic.get_velocity_y() == 0) ||
-      shooting_timer.check() && !duck)
+      shooting_timer.check())
     {
-    tux_body->arms->set_action("grab");
+    if (duck)
+      tux_body->arms->set_action("duck+grab");
+    else
+      tux_body->arms->set_action("grab");
     }
 
   /* Draw Tux */
