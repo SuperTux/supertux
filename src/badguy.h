@@ -29,7 +29,7 @@
 #include "video/surface.h"
 #include "math/physic.h"
 #include "special/sprite.h"
-#include "app/defines.h"
+#include "defines.h"
 #include "special/moving_object.h"
 #include "collision.h"
 #include "serializable.h"

@@ -36,7 +36,7 @@
 #include <ctype.h>
 #endif
 
-#include "app/defines.h"
+#include "defines.h"
 #include "app/globals.h"
 #include "gameloop.h"
 #include "video/screen.h"

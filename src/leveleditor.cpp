@@ -34,7 +34,7 @@
 
 #include "leveleditor.h"
 #include "video/screen.h"
-#include "app/defines.h"
+#include "defines.h"
 #include "app/globals.h"
 #include "app/setup.h"
 #include "sector.h"

@@ -24,7 +24,7 @@
 #include <cmath>
 
 #include "app/globals.h"
-#include "app/defines.h"
+#include "defines.h"
 #include "special/sprite_manager.h"
 #include "utils/lispwriter.h"
 #include "badguy.h"

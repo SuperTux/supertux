@@ -31,8 +31,7 @@ libsupertuxmathdir = $(libsupertuxdir)/math
 libsupertuxspecialdir = $(libsupertuxdir)/special
 libsupertuxutilsdir = $(libsupertuxdir)/utils
 libsupertuxvideodir = $(libsupertuxdir)/video
-libsupertuxapp_HEADERS =app/defines.h \
-			app/setup.h \
+libsupertuxapp_HEADERS =app/setup.h \
 			app/gettext.h \
 			app/globals.h
 libsupertuxaudio_HEADERS =audio/musicref.h \

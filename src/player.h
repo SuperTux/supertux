@@ -29,7 +29,7 @@
 #include "collision.h"
 #include "special/moving_object.h"
 #include "math/physic.h"
-#include "app/defines.h"
+#include "defines.h"
 
 using namespace SuperTux;
 

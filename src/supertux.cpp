@@ -24,7 +24,7 @@
 #include <exception>
 
 #include "utils/exceptions.h"
-#include "app/defines.h"
+#include "defines.h"
 #include "app/globals.h"
 #include "app/setup.h"
 #include "intro.h"

@@ -892,11 +892,13 @@ Menu::event(SDL_Event& event)
             y < pos_y + get_height()/2)
           {
             active_item = (y - (pos_y - get_height()/2)) / 24;
-            mouse_cursor->set_state(MC_LINK);
+	    if(MouseCursor::current())
+            MouseCursor::current()->set_state(MC_LINK);
           }
         else
           {
-            mouse_cursor->set_state(MC_NORMAL);
+	    if(MouseCursor::current())
+            MouseCursor::current()->set_state(MC_NORMAL);
           }
       }
       break;

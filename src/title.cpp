@@ -34,7 +34,7 @@
 #include <ctype.h>
 #endif
 
-#include "app/defines.h"
+#include "defines.h"
 #include "app/globals.h"
 #include "title.h"
 #include "video/screen.h"

@@ -24,7 +24,7 @@
 #include "gameloop.h"
 #include "app/globals.h"
 #include "player.h"
-#include "app/defines.h"
+#include "defines.h"
 #include "scene.h"
 #include "tile.h"
 #include "special/sprite.h"

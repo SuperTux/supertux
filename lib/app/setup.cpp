@@ -42,7 +42,6 @@
 #include <cctype>
 
 #include "../app/globals.h"
-#include "../app/defines.h"
 #include "../app/setup.h"
 #include "../video/screen.h"
 #include "../video/surface.h"
@@ -775,8 +774,8 @@ void Setup::parseargs(int argc, char * argv[])
         }
       else if (strcmp(argv[i], "--help") == 0)
         {     /* Show help: */
-          puts(_("  SuperTux  " VERSION "\n"
-               "  Please see the file \"README.txt\" for more details.\n"));
+          puts(_(("  SuperTux  " + package_version + "\n"
+               "  Please see the file \"README.txt\" for more details.\n").c_str()));
           printf(_("Usage: %s [OPTIONS] FILENAME\n\n"), argv[0]);
           puts(_("Display Options:\n"
                "  -f, --fullscreen    Run in fullscreen mode.\n"

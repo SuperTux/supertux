@@ -23,7 +23,7 @@
 #include <vector>
 #include <cassert>
 
-#include "app/defines.h"
+#include "defines.h"
 #include "math/vector.h"
 #include "special/game_object.h"
 #include "video/drawing_context.h"

@@ -19,7 +19,7 @@
 
 #include "intro.h"
 #include "app/globals.h"
-#include "app/defines.h"
+#include "defines.h"
 #include "video/font.h"
 #include "video/screen.h"
 #include "resources.h"

@@ -22,7 +22,7 @@
 
 #include "SDL.h"
 
-#include "app/defines.h"
+#include "defines.h"
 #include "special.h"
 #include "camera.h"
 #include "gameloop.h"
