@@ -692,7 +692,7 @@ GameSession::drawstatus()
   if (player_status.lives >= 5)
     {
       sprintf(str, "%dx", player_status.lives);
-      gold_text->draw(str, 585, 20);
+      gold_text->draw_align(str, 617, 20, A_RIGHT, A_TOP);
       tux_life->draw(565+(18*3), 20);
     }
   else
