@@ -74,7 +74,7 @@
       )
 
   (reset-points
-    (point (x 7240) (y 180))
+    (point (x 7233) (y 139))
    )
   (objects
     (mriceblock  (x 4548) (y 317))
