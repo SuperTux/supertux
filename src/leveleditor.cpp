@@ -489,14 +489,14 @@ int le_init()
     }
 
   menu_init(&leveleditor_menu);
-  menu_additem(&leveleditor_menu,menu_item_create(MN_LABEL,"Level Editor Menu",0,0));
-  menu_additem(&leveleditor_menu,menu_item_create(MN_HL,"",0,0));
-  menu_additem(&leveleditor_menu,menu_item_create(MN_ACTION,"Return To Level Editor",0,0));
-  menu_additem(&leveleditor_menu,menu_item_create(MN_DEACTIVE,"Level Subset Settings",0,&subset_settings_menu));
-  menu_additem(&leveleditor_menu,menu_item_create(MN_GOTO,"Load Level Subset",0,&subset_load_menu));
-  menu_additem(&leveleditor_menu,menu_item_create(MN_GOTO,"New Level Subset",0,&subset_new_menu));
-  menu_additem(&leveleditor_menu,menu_item_create(MN_HL,"",0,0));
-  menu_additem(&leveleditor_menu,menu_item_create(MN_ACTION,"Quit Level Editor",0,0));
+  menu_additem(&leveleditor_menu, menu_item_create(MN_LABEL,"Level Editor Menu",0,0));
+  menu_additem(&leveleditor_menu, menu_item_create(MN_HL,"",0,0));
+  menu_additem(&leveleditor_menu, menu_item_create(MN_ACTION,"Return To Level Editor",0,0));
+  menu_additem(&leveleditor_menu, menu_item_create(MN_DEACTIVE,"Level Subset Settings",0,&subset_settings_menu));
+  menu_additem(&leveleditor_menu, menu_item_create(MN_GOTO,"Load Level Subset",0,&subset_load_menu));
+  menu_additem(&leveleditor_menu, menu_item_create(MN_GOTO,"New Level Subset",0,&subset_new_menu));
+  menu_additem(&leveleditor_menu, menu_item_create(MN_HL,"",0,0));
+  menu_additem(&leveleditor_menu, menu_item_create(MN_ACTION,"Quit Level Editor",0,0));
 
   menu_reset();
   menu_set_current(&leveleditor_menu);

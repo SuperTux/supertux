@@ -18,9 +18,23 @@
 #include "timer.h"
 #include "type.h"
 
+/* Kinds of menu items */
+enum MenuItemKind {
+  MN_ACTION,
+  MN_GOTO,
+  MN_TOGGLE,
+  MN_BACK,
+  MN_DEACTIVE,
+  MN_TEXTFIELD,
+  MN_NUMFIELD,
+  MN_STRINGSELECT,
+  MN_LABEL,
+  MN_HL /* horizontal line */
+};
+
 typedef struct menu_item_type
   {
-    int kind;
+    MenuItemKind kind;
     int toggled;
     char *text;
     char *input;
@@ -29,7 +43,7 @@ typedef struct menu_item_type
   }
 menu_item_type;
 
-menu_item_type* menu_item_create(int kind, char *text, int init_toggle, void* target_menu);
+menu_item_type* menu_item_create(MenuItemKind kind, char *text, int init_toggle, void* target_menu);
 void menu_item_change_text(menu_item_type* pmenu_item, const char *text);
 void menu_item_change_input(menu_item_type* pmenu_item, const char *text);
 
@@ -50,20 +64,6 @@ void menu_action(menu_type* pmenu);
 int menu_check(menu_type* pmenu);
 void menu_draw(menu_type* pmenu);
 void menu_set_current(menu_type* pmenu);
-
-/* Kinds of menu items */
-enum {
-  MN_ACTION,
-  MN_GOTO,
-  MN_TOGGLE,
-  MN_BACK,
-  MN_DEACTIVE,
-  MN_TEXTFIELD,
-  MN_NUMFIELD,
-  MN_STRINGSELECT,
-  MN_LABEL,
-  MN_HL /* horizontal line */
-};
 
 /* Action done on the menu */
 enum {

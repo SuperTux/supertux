@@ -1,5 +1,3 @@
-AM_CXXFLAGS = -Wall -O2 -g
-
 bin_PROGRAMS = supertux
 
 supertux_SOURCES = \
