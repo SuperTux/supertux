@@ -222,32 +222,32 @@
                  "shared/largetux-star-2.png"
                  )))
 
-  ;; Growing Tux animation
- (sprite (name "tux-grow-left")
-       (action
-         (fps 4.0)
-         (x-hotspot 6)
-         (y-hotspot 2)
-         (images "shared/tux-grow-left-1.png"
-                 "shared/tux-grow-left-2.png"
-                 "shared/tux-grow-left-3.png"
-                 "shared/tux-grow-left-4.png"
-                 "shared/tux-grow-left-5.png"
-                 "shared/tux-grow-left-6.png"
-                 "shared/tux-grow-left-7.png")))
-
- (sprite (name "tux-grow-right")
-       (action
-         (fps 4.0)
-         (x-hotspot 6)
-         (y-hotspot 2)
-         (images "shared/tux-grow-right-1.png"
-                 "shared/tux-grow-right-2.png"
-                 "shared/tux-grow-right-3.png"
-                 "shared/tux-grow-right-4.png"
-                 "shared/tux-grow-right-5.png"
-                 "shared/tux-grow-right-6.png"
-                 "shared/tux-grow-right-7.png")))
+;   ;; Growing Tux animation
+;  (sprite (name "tux-grow-left")
+;        (action
+;          (fps 4.0)
+;          (x-hotspot 6)
+;          (y-hotspot 2)
+;          (images "shared/tux-grow-left-1.png"
+;                  "shared/tux-grow-left-2.png"
+;                  "shared/tux-grow-left-3.png"
+;                  "shared/tux-grow-left-4.png"
+;                  "shared/tux-grow-left-5.png"
+;                  "shared/tux-grow-left-6.png"
+;                  "shared/tux-grow-left-7.png")))
+; 
+;  (sprite (name "tux-grow-right")
+;        (action
+;          (fps 4.0)
+;          (x-hotspot 6)
+;          (y-hotspot 2)
+;          (images "shared/tux-grow-right-1.png"
+;                  "shared/tux-grow-right-2.png"
+;                  "shared/tux-grow-right-3.png"
+;                  "shared/tux-grow-right-4.png"
+;                  "shared/tux-grow-right-5.png"
+;                  "shared/tux-grow-right-6.png"
+;                  "shared/tux-grow-right-7.png")))
 
  ;; Icetux
  (sprite (name "ice-tux")
@@ -806,27 +806,27 @@
           (y-hotspot 64)
           (images "shared/door-1.png")
   ))
-  (sprite (name "openingdoor")
-       (action
-          (x-hotspot 0)
-          (y-hotspot 64)
-          (images "shared/door-1.png"
-	   "shared/door-2.png"
-	   "shared/door-3.png"
-	   "shared/door-4.png"
-	   "shared/door-5.png"
-	   "shared/door-6.png"
-	   "shared/door-7.png"
-	   "shared/door-8.png"
-	   "shared/door-8.png"
-	   "shared/door-7.png"
-	   "shared/door-6.png"
-	   "shared/door-5.png"
-	   "shared/door-4.png"
-	   "shared/door-3.png"
-	   "shared/door-2.png"
-	   "shared/door-1.png")
-  ))
+;   (sprite (name "openingdoor")
+;        (action
+;           (x-hotspot 0)
+;           (y-hotspot 64)
+;           (images "shared/door-1.png"
+; 	   "shared/door-2.png"
+; 	   "shared/door-3.png"
+; 	   "shared/door-4.png"
+; 	   "shared/door-5.png"
+; 	   "shared/door-6.png"
+; 	   "shared/door-7.png"
+; 	   "shared/door-8.png"
+; 	   "shared/door-8.png"
+; 	   "shared/door-7.png"
+; 	   "shared/door-6.png"
+; 	   "shared/door-5.png"
+; 	   "shared/door-4.png"
+; 	   "shared/door-3.png"
+; 	   "shared/door-2.png"
+; 	   "shared/door-1.png")
+;   ))
   
   ; Stomp
   (sprite (name "stomp")
