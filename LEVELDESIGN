@@ -43,3 +43,10 @@ $ <- Distro
 | <- Pole
 \ <- Flag
 & <- Water
+
+Bad guys:
+
+0 <- BluescreenOfDeath
+1 <- Laptop
+2 <- Money
+
