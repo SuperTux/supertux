@@ -10,7 +10,7 @@
 //
 //
 
-#include <SDL/SDL.h>
+#include "SDL.h"
 #include "defines.h"
 #include "timer.h"
 

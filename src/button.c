@@ -85,20 +85,7 @@ void button_free(button_type* pbutton)
 
 void button_event(button_type* pbutton, SDL_Event *event)
 {
-  if(event->type == SDL_KEYDOWN)
-    {
-      SDLKey key = event->key.keysym.sym;
-      if(key == pbutton->shortcut)
-        pbutton->state = BN_CLICKED;
-    }
-  else if(event->type == SDL_MOUSEMOTION)
-    {
-
-      if(pbutton->show_info)
-        {
-          pbutton->show_info = NO;
-        }
-    }
+SDLKey key = event->key.keysym.sym;
 
   if(event->motion.x > pbutton->x && event->motion.x < pbutton->x + pbutton->w &&
       event->motion.y > pbutton->y && event->motion.y < pbutton->y + pbutton->h)
@@ -126,9 +113,28 @@ void button_event(button_type* pbutton, SDL_Event *event)
             }
         }
     }
-  else
+  else if(event->type == SDL_MOUSEBUTTONDOWN || event->type == SDL_MOUSEBUTTONUP)
     {
       pbutton->state = -1;
+      if(pbutton->show_info)
+        {
+          pbutton->show_info = NO;
+        }
+    }
+    
+  if(event->type == SDL_KEYDOWN)
+    {
+      if(key == pbutton->shortcut)
+        pbutton->state = BN_PRESSED;
+    }
+  else if(event->type == SDL_KEYUP)
+    {
+      if(pbutton->state == BN_PRESSED && key == pbutton->shortcut)
+        pbutton->state = BN_CLICKED;
+    }
+  else if(event->type == SDL_MOUSEMOTION)
+    {
+
       if(pbutton->show_info)
         {
           pbutton->show_info = NO;

@@ -124,6 +124,9 @@ void player_level_begin(player_type* pplayer)
   timer_init(&pplayer->invincible_timer,YES);
   timer_init(&pplayer->skidding_timer,YES);
   timer_init(&pplayer->safe_timer,YES);
+  timer_init(&pplayer->frame_timer,YES);
+  physic_init(&pplayer->hphysic);
+  physic_init(&pplayer->vphysic);
 }
 
 void player_action(player_type* pplayer)

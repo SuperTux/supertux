@@ -28,6 +28,7 @@ typedef struct st_subset
 
 void subset_init(st_subset* st_subset);
 void subset_load(st_subset* st_subset, char *subset);
+void subset_save(st_subset* st_subset);
 void subset_free(st_subset* st_subset);
   
 #define LEVEL_NAME_MAX 20

@@ -93,7 +93,40 @@ void subset_load(st_subset* st_subset, char *subset)
             break;
         }
     }
-    st_subset->levels = --i;
+  st_subset->levels = --i;
+}
+
+void subset_save(st_subset* st_subset)
+{
+  FILE* fi;
+  char filename[1024];
+
+  /* Save data file: */
+  sprintf(filename, "/levels/%s/", st_subset->name);
+  
+  fcreatedir(filename);
+  snprintf(filename, 1024, "%s/levels/%s/info", st_dir, st_subset->name);
+  if(!fwriteable(filename))
+    snprintf(filename, 1024, "%s/levels/%s/info", DATA_PREFIX, st_subset->name);
+  if(fwriteable(filename))
+    {
+      fi = fopen(filename, "w");
+      if (fi == NULL)
+        {
+          perror(filename);
+        }
+
+      /* Save title info: */
+      fputs(st_subset->title, fi);
+      fputs("\n", fi);
+
+      /* Save the description: */
+
+      fputs(st_subset->description, fi);
+      fputs("\n", fi);
+      fclose(fi);
+
+    }
 }
 
 void subset_free(st_subset* st_subset)
@@ -168,11 +201,11 @@ int level_load(st_level* plevel, char *subset, int level)
   /* (Level width) */
   fgets(str, 10, fi);
   plevel->width = atoi(str);
-  
+
   /* (Level gravity) */
   fgets(str, 10, fi);
   plevel->gravity = atof(str);
-  
+
   /* Set the global gravity to the latest loaded level's gravity */
   gravity = plevel->gravity;
 
@@ -250,7 +283,7 @@ void level_save(st_level* plevel, char * subset, int level)
   fputs(str, fi);
   sprintf(str, "%2.1f\n", plevel->gravity);	/* level gravity */
   fputs(str, fi);
-  
+
   for(y = 0; y < 15; ++y)
     {
       fputs((const char*)plevel->tiles[y], fi);

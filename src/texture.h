@@ -13,9 +13,9 @@
 #ifndef SUPERTUX_TEXTURE_H
 #define SUPERTUX_TEXTURE_H
 
-#include <SDL/SDL.h>
+#include "SDL.h"
 #ifndef NOOPENGL
-#include <SDL/SDL_opengl.h>
+#include "SDL_opengl.h"
 #endif
 
 /* Texture type */
@@ -25,8 +25,7 @@ typedef struct texture_type
    GLuint gl_texture;
    int w;
    int h;
-  }  
-texture_type;
+  } texture_type;
 
 void texture_setup(void);
 extern void (*texture_load) (texture_type* ptexture, char * file, int use_alpha);  
