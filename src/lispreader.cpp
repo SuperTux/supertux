@@ -1196,3 +1196,65 @@ LispWriter::create_lisp ()
   return lisp_obj;
 }
 
+void mygzungetc(char c, void* file)
+{
+  gzungetc(c, file);
+}
+
+lisp_stream_t* lisp_stream_init_gzfile (lisp_stream_t *stream, gzFile file)
+{
+  return lisp_stream_init_any (stream, file, gzgetc, mygzungetc);
+}
+
+bool has_suffix(const char* data, const char* suffix)
+{
+  int suffix_len = strlen(suffix);
+  int data_len   = strlen(data);
+  
+  const char* data_suffix = (data + data_len - suffix_len);
+
+  if (data_suffix >= data)
+    {
+      return (strcmp(data_suffix, suffix) == 0);
+    }
+  else
+    {
+      return false;
+    }
+}
+
+lisp_object_t* lisp_read_from_file(const char* filename)
+{
+  lisp_stream_t stream;
+
+  if (has_suffix(filename, ".gz"))
+    {
+      lisp_object_t* obj = 0;
+      gzFile in = gzopen(filename, "r");
+
+      if (in)
+        {
+          lisp_stream_init_gzfile(&stream, in);
+          obj = lisp_read(&stream);
+          gzclose(in);
+        }
+
+      return obj;
+    }
+  else
+    {
+      lisp_object_t* obj = 0;
+      FILE* in = fopen(filename, "r");
+
+      if (in)
+        {
+          lisp_stream_init_file(&stream, in);
+          obj = lisp_read(&stream);
+          fclose(in);
+        }
+
+      return obj;
+    }
+}
+
+// EOF //

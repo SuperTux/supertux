@@ -44,13 +44,6 @@ struct Point
   int y;
 };
 
-struct Level
-{
-  int x;
-  int y;
-  std::string name;
-};
-
 struct Tile
 {
   texture_type sprite;
@@ -127,6 +120,13 @@ private:
   std::vector<int> tilemap;
   int width;
   int height;
+
+  struct Level
+  {
+    int x;
+    int y;
+    std::string name;
+  };
 
   typedef std::vector<Level> Levels;
   Levels levels;

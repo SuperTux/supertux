@@ -104,6 +104,8 @@ if test "x${enable_opengl}" != "xno"; then
    enable_opengl="no"])
 fi
 
+AC_CHECK_LIB(z, gzopen,, AC_MSG_ERROR([*** zlib is missing]))
+
 # FIXME: Evil
 CXXFLAGS="$CXXFLAGS -DDATA_PREFIX='\"$datadir/supertux/\"' -DLINUX"
 

@@ -32,12 +32,10 @@ TileManager* TileManager::instance_  = 0;
 
 TileManager::TileManager()
 {
-  lisp_stream_t stream;
-  FILE* in = fopen(DATA_PREFIX "images/worldmap/antarctica.scm", "r");
-  assert(in);
-  lisp_stream_init_file (&stream, in);
-  lisp_object_t* root_obj = lisp_read (&stream);
+  lisp_object_t* root_obj = lisp_read_from_file(DATA_PREFIX "images/worldmap/antarctica.scm");
   
+  assert(root_obj);
+
   if (strcmp(lisp_symbol(lisp_car(root_obj)), "supertux-worldmap-tiles") == 0)
     {
       lisp_object_t* cur = lisp_cdr(root_obj);
@@ -218,11 +216,8 @@ WorldMap::~WorldMap()
 void
 WorldMap::load_map()
 {
-  lisp_stream_t stream;
-  FILE* in = fopen(DATA_PREFIX "levels/default/worldmap.scm", "r");
-  assert(in);
-  lisp_stream_init_file (&stream, in);
-  lisp_object_t* root_obj = lisp_read (&stream);
+  lisp_object_t* root_obj = lisp_read_from_file(DATA_PREFIX "levels/default/worldmap.scm");
+  assert(root_obj);
   
   if (strcmp(lisp_symbol(lisp_car(root_obj)), "supertux-worldmap") == 0)
     {
