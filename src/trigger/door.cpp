@@ -42,10 +42,12 @@ Door::Door(LispReader& reader)
   sprite = sprite_manager->create("door");
 }
 
-Door::Door(int x, int y)
+Door::Door(int x, int y, std::string sector, std::string spawnpoint)
 {
   bbox.set_pos(Vector(x, y));
   bbox.set_size(32, 64);
+  target_sector = sector;
+  target_spawnpoint = spawnpoint;
 
   sprite = sprite_manager->create("door");
 }

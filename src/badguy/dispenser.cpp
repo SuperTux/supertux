@@ -13,7 +13,8 @@ Dispenser::Dispenser(LispReader& reader)
   reader.read_string("badguy", badguy);
   bbox.set_size(32, 32);
   //FIXME: Create dispenser sprite
-  sprite = sprite_manager->create("snowball");
+  sprite = sprite_manager->create("dummyguy");
+  sprite->set_action("stand");
 }
 
 void
@@ -69,6 +70,7 @@ Dispenser::collision_solid(GameObject& , const CollisionHit& hit)
 //TODO: Add launching velocity to badguys
 //      Add more badguys and randomizer
 //      Clean up stuff I copied without understanding what it does :)
+//      Stop dispensing when game is paused
 //      Lots-O-Stuff (tm)
 void
 Dispenser::launch_badguy()
@@ -78,7 +80,7 @@ Dispenser::launch_badguy()
     if (badguy == "snowball")
       Sector::current()->add_object(new SnowBall(get_pos().x-2, get_pos().y));
     else if (badguy == "bouncingsnowball")
-      Sector::current()->add_object(new BouncingSnowball(get_pos().x-2, get_pos().y));
+      Sector::current()->add_object(new BouncingSnowball(get_pos().x-2, get_pos().y, dir));
     else if (badguy == "random")
       {}
    }

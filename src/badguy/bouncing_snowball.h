@@ -7,7 +7,7 @@ class BouncingSnowball : public BadGuy
 {
 public:
   BouncingSnowball(LispReader& reader);
-  BouncingSnowball(float pos_x, float pos_y);
+  BouncingSnowball(float pos_x, float pos_y, Direction d);
 
   void activate();
   void write(LispWriter& writer);
@@ -15,6 +15,8 @@ public:
 
 protected:
   bool collision_squished(Player& player);
+  bool set_direction;
+  Direction initial_direction;  
 };
 
 #endif

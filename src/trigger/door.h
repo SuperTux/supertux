@@ -31,7 +31,7 @@ class Door : public TriggerBase, public Serializable
 {
 public:
   Door(LispReader& reader);
-  Door(int x, int y);
+  Door(int x, int y, std::string sector, std::string spawnpoint);
   virtual ~Door();
 
   virtual void write(LispWriter& writer);

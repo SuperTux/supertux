@@ -55,6 +55,7 @@
 #include "badguy/mrbomb.h"
 #include "badguy/dispenser.h"
 #include "badguy/spike.h"
+#include "badguy/nolok_01.h"
 #include "trigger/door.h"
 #include "trigger/sequence_trigger.h"
 #include "trigger/secretarea_trigger.h"
@@ -158,6 +159,8 @@ Sector::parse_object(const std::string& name, LispReader& reader)
     return new Dispenser(reader);
   } else if(name == "spike") {
     return new Spike(reader);
+  } else if(name == "nolok_01") {
+    return new Nolok_01(reader);
   }
 #if 0
     else if(badguykind_from_string(name) != BAD_INVALID) {
