@@ -95,9 +95,9 @@ public:
   void resize(int w_, int h_);
 
   /// conveniance function
-  void draw(const Vector& pos, Uint8 alpha = 255, bool update = false)
+  void draw(const Vector& pos, Uint8 alpha = 255, bool upside_down = false, bool update = false)
   {
-    draw(pos.x, pos.y, alpha, update);
+    draw(pos.x, pos.y, alpha, upside_down, update);
   }
 };
 
@@ -117,7 +117,7 @@ public:
   virtual ~SurfaceImpl();
   
   /** Return 0 on success, -2 if surface needs to be reloaded */
-  virtual int draw(float x, float y, Uint8 alpha, bool update) = 0;
+  virtual int draw(float x, float y, Uint8 alpha, bool upside_down, bool update) = 0;
   virtual int draw_bg(Uint8 alpha, bool update) = 0;
   virtual int draw_part(float sx, float sy, float x, float y, float w, float h,  Uint8 alpha, bool update) = 0;
   virtual int draw_stretched(float x, float y, int w, int h, Uint8 alpha, bool update) = 0;
@@ -134,7 +134,7 @@ public:
   SurfaceSDL(const std::string& file, int x, int y, int w, int h, int use_alpha);
   virtual ~SurfaceSDL();
 
-  int draw(float x, float y, Uint8 alpha, bool update);
+  int draw(float x, float y, Uint8 alpha, bool upside_down, bool update);
   int draw_bg(Uint8 alpha, bool update);
   int draw_part(float sx, float sy, float x, float y, float w, float h,  Uint8 alpha, bool update);
   int draw_stretched(float x, float y, int w, int h, Uint8 alpha, bool update);
@@ -152,7 +152,7 @@ public:
   SurfaceOpenGL(const std::string& file, int x, int y, int w, int h, int use_alpha);
   virtual ~SurfaceOpenGL();
 
-  int draw(float x, float y, Uint8 alpha, bool update);
+  int draw(float x, float y, Uint8 alpha, bool upside_down, bool update);
   int draw_bg(Uint8 alpha, bool update);
   int draw_part(float sx, float sy, float x, float y, float w, float h,  Uint8 alpha, bool update);
   int draw_stretched(float x, float y, int w, int h, Uint8 alpha, bool update);

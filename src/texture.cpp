@@ -211,11 +211,7 @@ Surface::draw(float x, float y, Uint8 alpha, bool upside_down, bool update)
 {
   if (impl)
   {
-    if(upside_down)   // FIXME: this should be done by the SDL and OpenGL draw()
-      for(float sy = 0; sy < h; sy++)
-        impl->draw_part(0, sy, x, y+(h-sy), w, 1, alpha, update);
-
-    else if (impl->draw(x, y, alpha, update) == -2)
+    if (impl->draw(x, y, alpha, upside_down, update) == -2)
       reload();
   }
 }
@@ -539,7 +535,7 @@ SurfaceOpenGL::create_gl(SDL_Surface * surf, GLuint * tex)
 }
 
 int
-SurfaceOpenGL::draw(float x, float y, Uint8 alpha, bool update)
+SurfaceOpenGL::draw(float x, float y, Uint8 alpha, bool upside_down, bool update)
 {
   float pw = power_of_two(w);
   float ph = power_of_two(h);
@@ -553,13 +549,34 @@ SurfaceOpenGL::draw(float x, float y, Uint8 alpha, bool update)
   glBindTexture(GL_TEXTURE_2D, gl_texture);
 
   glBegin(GL_QUADS);
-  glTexCoord2f(0, 0);
-  glVertex2f(x, y);
-  glTexCoord2f((float)w / pw, 0);
-  glVertex2f((float)w+x, y);
-  glTexCoord2f((float)w / pw, (float)h / ph);  glVertex2f((float)w+x, (float)h+y);
-  glTexCoord2f(0, (float)h / ph);
-  glVertex2f(x, (float)h+y);
+  if(upside_down)
+    {
+    glTexCoord2f(0, 0);
+    glVertex2f(x, (float)h+y);
+
+    glTexCoord2f((float)w / pw, 0);
+    glVertex2f((float)w+x, (float)h+y);
+
+    glTexCoord2f((float)w / pw, (float)h / ph);
+    glVertex2f((float)w+x, y);
+    
+    glTexCoord2f(0, (float)h / ph);
+    glVertex2f(x, y);
+    }
+  else
+    {
+    glTexCoord2f(0, 0);
+    glVertex2f(x, y);
+
+    glTexCoord2f((float)w / pw, 0);
+    glVertex2f((float)w+x, y);
+
+    glTexCoord2f((float)w / pw, (float)h / ph);
+    glVertex2f((float)w+x, (float)h+y);
+
+    glTexCoord2f(0, (float)h / ph);
+    glVertex2f(x, (float)h+y);
+    }
   glEnd();
 
   glDisable(GL_TEXTURE_2D);
@@ -691,7 +708,7 @@ SurfaceSDL::SurfaceSDL(const std::string& file, int x, int y, int w, int h,  int
 }
 
 int
-SurfaceSDL::draw(float x, float y, Uint8 alpha, bool update)
+SurfaceSDL::draw(float x, float y, Uint8 alpha, bool upside_down, bool update)
 {
   SDL_Rect dest;
 
@@ -699,6 +716,14 @@ SurfaceSDL::draw(float x, float y, Uint8 alpha, bool update)
   dest.y = (int)y;
   dest.w = w;
   dest.h = h;
+
+  if(upside_down)   // FIXME: feel free to replace this hack
+    {
+    for(float sy = 0; sy < h; sy++)
+      if(draw_part(0, sy, x, y+(h-sy), w, 1, alpha, update) == -2)
+        return -2;
+    return 0;
+    }
 
   if(alpha != 255)
     {
