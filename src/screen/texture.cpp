@@ -373,21 +373,29 @@ sdl_surface_from_gradient(Color top, Color bottom, int w, int h)
   if(sdl_surface == NULL)
       st_abort("Cannot create surface for the gradient", "SURFACE");
 
-  float redstep = (float(bottom.red)-float(top.red)) / float(h);
-  float greenstep = (float(bottom.green)-float(top.green)) / float(h);
-  float bluestep = (float(bottom.blue) - float(top.blue)) / float(h);
-
-  SDL_Rect rect;
-  rect.x = 0;
-  rect.w = w;
-  rect.h = 1;
-  for(float y = 0; y < h; y++)
+  if(top == bottom)
     {
-    rect.y = (int)y;
-    SDL_FillRect(sdl_surface, &rect, SDL_MapRGB(sdl_surface->format,
-        int(float(top.red) + redstep * y),
-        int(float(top.green) + greenstep * y),
-        int(float(top.blue) + bluestep * y)));
+    SDL_FillRect(sdl_surface, NULL, SDL_MapRGB(sdl_surface->format,
+        top.red, top.green, top.blue));
+    }
+  else
+    {
+    float redstep = (float(bottom.red)-float(top.red)) / float(h);
+    float greenstep = (float(bottom.green)-float(top.green)) / float(h);
+    float bluestep = (float(bottom.blue) - float(top.blue)) / float(h);
+
+    SDL_Rect rect;
+    rect.x = 0;
+    rect.w = w;
+    rect.h = 1;
+    for(float y = 0; y < h; y++)
+      {
+      rect.y = (int)y;
+      SDL_FillRect(sdl_surface, &rect, SDL_MapRGB(sdl_surface->format,
+          int(float(top.red) + redstep * y),
+          int(float(top.green) + greenstep * y),
+          int(float(top.blue) + bluestep * y)));
+      }
     }
 
   return sdl_surface;

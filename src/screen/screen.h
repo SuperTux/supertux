@@ -24,7 +24,7 @@
 #ifndef NOOPENGL
 #include <SDL_opengl.h>
 #endif
-
+#include <iostream>
 class Color
 {
 public:
@@ -39,6 +39,12 @@ public:
   Color(const Color& o)
     : red(o.red), green(o.green), blue(o.blue), alpha(o.alpha)
   { }
+
+  bool operator==(const Color& o)
+    {  if(red == o.red && green == o.green &&
+          blue == o.blue && alpha == o.alpha)
+         return true;
+       return false;  }
 
   Uint8 red, green, blue, alpha;
 };

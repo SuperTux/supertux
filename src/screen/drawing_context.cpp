@@ -181,15 +181,22 @@ DrawingContext::draw_gradient(DrawingRequest& request)
   else
   {
 #endif
-    float redstep = (float(bottom.red)-float(top.red)) / float(screen->h);
-    float greenstep = (float(bottom.green)-float(top.green)) / float(screen->h);
-    float bluestep = (float(bottom.blue) - float(top.blue)) / float(screen->h);
+    if(&top == &bottom)
+      {
+      fillrect(0, 0, screen->w, screen->h, top.red, top.green, top.blue);
+      }
+    else
+      {
+      float redstep = (float(bottom.red)-float(top.red)) / float(screen->h);
+      float greenstep = (float(bottom.green)-float(top.green)) / float(screen->h);
+      float bluestep = (float(bottom.blue) - float(top.blue)) / float(screen->h);
 
-    for(float y = 0; y < screen->h; y += 2)
-      fillrect(0, (int)y, screen->w, 2,
-          int(float(top.red) + redstep * y),
-          int(float(top.green) + greenstep * y),
-          int(float(top.blue) + bluestep * y), 255);
+      for(float y = 0; y < screen->h; y += 2)
+        fillrect(0, (int)y, screen->w, 2,
+            int(float(top.red) + redstep * y),
+            int(float(top.green) + greenstep * y),
+            int(float(top.blue) + bluestep * y), 255);
+      }
 #ifndef NOOPENGL
 
     }
