@@ -108,8 +108,6 @@ To go back to the menu, just press Esc.
 The levels are saved under a .supertux/levels directory in
 your home directory.
 
-FIXME: this description of the built-in level editor are
-out dated. Anyway, it is yet being developed.
 
 USING FLEXLAY:
 --------------
@@ -122,12 +120,11 @@ Anyway, it is pretty easy to use and is a lot more advanced than
 the internal one. So, if you are considering doing a few levels
 for us, it would be a good idea to check this out.
 
-There isn't currently any webpage for it, just go to our webpage and
-you should find a download of this program.
+Its webpage is located at:
+http://pingus.seul.org/~grumbel/flexlay/
 
-You can also get the latest development copy from the Subversion
-source tree:
-    svn co "svn://clanlib.org/Games/Windstille/trunk/flexlay/"
+It needs ClanLib and a few odd libraries... Anyway, it worths
+it ;)
 
 The only cons it has is that you have to have an accelerated
 videocard (with the drivers working, obviously). For linux,
