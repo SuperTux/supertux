@@ -148,6 +148,7 @@ public: // ugly
   InteractiveObjects interactive_objects;
   typedef std::vector<GameObject*> GameObjects;
   GameObjects gameobjects;
+  GameObjects gameobjects_new; // For newly created objects
 
 private:
   typedef std::vector<SpawnPoint*> SpawnPoints;
