@@ -103,10 +103,12 @@ action = i->second;
 }
 
 void
-Sprite::start_animation(int loops)
+Sprite::start_animation(int loops, std::string next_act)
 {
-animation_loops = loops;
 reset();
+animation_loops = loops;
+if(!next_act.empty())
+  next_action = next_act;
 }
 
 void
@@ -115,6 +117,7 @@ Sprite::reset()
 frame = 0;
 last_tick = SDL_GetTicks();
 animation_reversed = true;
+next_action.clear();
 }
 
 bool
@@ -156,7 +159,14 @@ if(animation_reversed)
     {  // last case can happen when not used reverse_animation()
     frame = get_frames() - 1;
     if(animation_loops > 0)
+      {
       animation_loops--;
+      if(animation_loops == 0)
+        {
+        set_action(next_action);
+        start_animation(-1);
+        }
+      }
 
     if(fabsf(excedent) < get_frames())
       frame += excedent;
@@ -169,7 +179,14 @@ else
     {
     frame = 0;
     if(animation_loops > 0)
+      {
       animation_loops--;
+      if(animation_loops == 0)
+        {
+        set_action(next_action);
+        start_animation(-1);
+        }
+      }
 
     if(excedent < get_frames())
       frame += excedent;

@@ -64,8 +64,9 @@ namespace SuperTux
       /* Start an animation
           -1 - for infinite
           0  - stopped
-          1,2,3  - one, two, three times... */
-      void start_animation(int loops);
+          1,2,3  - one, two, three times...
+          If next_act specified, that action will be used when animation ends. */
+      void start_animation(int loops, std::string next_act = "");
       /** Check if animation is stopped or not */
       bool check_animation();
       /** Reverse the animation */
@@ -116,6 +117,7 @@ namespace SuperTux
       Actions actions;
 
       Action* action;
+      std::string next_action;
     };
 
 } //namespace SuperTux
