@@ -324,7 +324,17 @@
   (east  #f)
   (stop #f)
   (one-way "north-south"))
-					    
+  
+    ;;one-way horizontal road
+  (tile (id 66)
+  (image "road_we.png")
+  (north #f)
+  (south #f)
+  (west  #t)
+  (east  #t)
+  (stop #f)
+  (one-way "west-east"))
+
 
 )
 ;; EOF ;;
