@@ -321,10 +321,13 @@ void World::scrolling(double frame_ratio)
 
   float tux_pos_y = tux.base.y + (tux.base.height/2);
 
-  if (scroll_y < tux_pos_y - (screen->h - Y_SPACE))
-    scroll_y = tux_pos_y - (screen->h - Y_SPACE);
-  else if (scroll_y > tux_pos_y - Y_SPACE)
-    scroll_y = tux_pos_y - Y_SPACE;
+  if(level->height > VISIBLE_TILES_Y-1)
+    {
+    if (scroll_y < tux_pos_y - (screen->h - Y_SPACE))
+      scroll_y = tux_pos_y - (screen->h - Y_SPACE);
+    else if (scroll_y > tux_pos_y - Y_SPACE)
+      scroll_y = tux_pos_y - Y_SPACE;
+    }
 
   // this code prevent the screen to scroll before the start or after the level's end
   if(scroll_y > level->height * 32 - screen->h)
