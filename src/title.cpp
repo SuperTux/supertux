@@ -328,6 +328,8 @@ bool title(void)
             case 3:
               done = true;
               done = leveleditor(1);
+              menu_reset();
+              show_menu = 1;
               Menu::set_current(main_menu);
               break;
             case 4:
