@@ -12,9 +12,11 @@ dnl ===========================================================================
 dnl Process this file with autoconf to produce a configure script.
 AC_PREREQ([2.54])
 AC_INIT(SuperTux, 0.1.1)
+AC_CONFIG_HEADER(config.h)
 AC_CONFIG_SRCDIR([src/supertux.cpp])
 AC_CANONICAL_TARGET
 AM_INIT_AUTOMAKE
+AM_CONFIG_HEADER
 
 SDL_VERSION=1.2.4
 
@@ -47,7 +49,7 @@ AC_MSG_CHECKING(for debug mode)
 AC_ARG_ENABLE(debug,
               AC_HELP_STRING([--enable-debug], [enable debugging mode]),, enable_debug="yes")
 if test "x${enable_debug}" != "xno"; then
-    CXXFLAGS="$CXXFLAGS -Wall -Werror -DDEBUG -O0 -g3"
+    CXXFLAGS="$CXXFLAGS -Wall -Werror -DDEBUG -O3 -g"
     AC_MSG_RESULT([enabled])
 else
     AC_MSG_RESULT([disabled])

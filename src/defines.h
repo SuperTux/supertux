@@ -20,7 +20,9 @@
 //  02111-1307, USA.
 
 #ifndef SUPERTUX_DEFINES_H
-#define SUPERTUX_DEFINES_H
+#define SUPERTUX_DEFINES_H 1
+
+#include <config.h>
 
 /* Version: */
 

@@ -263,6 +263,7 @@ Upgrade::draw(DrawingContext& context)
     case UPGRADE_1UP: sprite = img_1up; break;
     default:
       assert(!"wrong type in Powerup::draw()");
+      sprite = NULL;		// added by neoneurone, g++ likes this !
   }
 
   if(base.height < 32) // still raising up?

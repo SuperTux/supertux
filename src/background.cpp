@@ -39,7 +39,7 @@ Background::Background(LispReader& reader)
   int tr, tg, tb, br, bg, bb;
   if(reader.read_int("top_red", tr) && reader.read_int("top_green", tg)
       && reader.read_int("top_blue", tb) && reader.read_int("bottom_red", br)
-      && reader.read_int("bottom_green", br)
+      && reader.read_int("bottom_green", bg)
       && reader.read_int("bottom_blue", bb)) {
     set_gradient(Color(tr, tg, tb), Color(br, bg, bb));
   }

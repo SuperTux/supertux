@@ -1,5 +1,17 @@
+- SuperTux changes -
+http://super-tux.sf.net/
+
+Last update: May 3, 2004
+
+2004-06-13 neoneurone <neoneurone@users.sf.net>
+
+	* configure.ac: added CONFIG_HEADER
+	* special.cpp: added "sprite = NULL;"
+	* background.cpp: fix "br" variable, replaced by "bg"
+
 2004-06-07 neoneurone <neoneurone@users.sf.net>
 
+2004-06-07 neoneurone <neoneurone@users.sf.net>
 	* Makefile.am, configure.ac, autogen.sh: minor changes
 	for using automake version 1.6
 
@@ -23,11 +35,6 @@
 	(ACLOCAL_AMFLAGS): New variable.
 	(EXTRA_DIST): Add config.rpath.
 	* configure.ac (AC_OUTPUT): Add po/Makefile.in,
-
-- SuperTux changes -
-http://super-tux.sf.net/
-
-Last update: May 3, 2004
 
 Milestone 0.1.1 - May 11, 2004
 -----------------------------
