@@ -102,6 +102,7 @@ private:
   bool removable;
   bool seen;
   int squishcount; /// number of times this enemy was squiched
+  Vector target; // Target that badguy is aiming for (wingling uses this)
   Timer timer;
   Vector start_position;
   Physic physic;

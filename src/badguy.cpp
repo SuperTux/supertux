@@ -201,6 +201,7 @@ BadGuy::init()
   dir      = LEFT;
   seen     = false;
   animation_offset = 0;
+  target.x = target.y = -1;
   sprite_left = sprite_right = 0;
   physic.reset();
   frozen_timer.init(true);
@@ -244,6 +245,7 @@ BadGuy::activate(Direction activation_dir)
 {
   mode     = NORMAL;
   animation_offset = 0;
+  target.x = target.y = -1;
   physic.reset();
   frozen_timer.init(true);
   timer.init(true);
@@ -791,11 +793,19 @@ BadGuy::action_wingling(double elapsed_time)
   else
   {
     Player& tux = *World::current()->get_tux();
+    int dirsign = physic.get_velocity_x() < 0 ? -1 : 1;
 
-    if (fabsf(tux.base.x - base.x) < 200 && base.y < tux.base.y && tux.dying == DYING_NOT)
-      physic.set_velocity(-2.0f, -2.0f);
-    else
-      physic.set_velocity(-WINGLING_FLY_SPEED, 0);
+    if (fabsf(tux.base.x - base.x) < 150 && base.y < tux.base.y && tux.dying == DYING_NOT)
+    {
+      if (target.x < 0 && target.y < 0)
+      {
+        target.x = tux.base.x;
+        target.y = tux.base.y;
+        physic.set_velocity(dirsign * 1.5f, -2.25f);
+      }
+    }
+    else if (base.y >= target.y - 16)
+      physic.set_velocity(dirsign * WINGLING_FLY_SPEED, 0);
   }
 
   physic.apply(elapsed_time, base.x, base.y);
@@ -803,7 +813,9 @@ BadGuy::action_wingling(double elapsed_time)
 
   // Handle dying timer:
   if (dying == DYING_SQUISHED && !timer.check())
-    remove_me();                                  
+    remove_me();
+
+  // TODO: Winglings should be removed after flying off the screen
 }
 
 
