@@ -122,15 +122,14 @@ MenuItem::change_input(const  char *text_)
 /* Free a menu and all its items */
 Menu::~Menu()
 {
-  if(num_items != 0 && item != NULL)
+  if(item.size() != 0)
     {
-      for(int i = 0; i < num_items; ++i)
+      for(unsigned int i = 0; i < item.size(); ++i)
         {
           free(item[i].text);
           free(item[i].input);
           string_list_free(item[i].list);
         }
-      free(item);
     }
 }
 
@@ -140,10 +139,8 @@ Menu::Menu()
   pos_y        = screen->h/2;
   last_menu    = 0;
   arrange_left = 0;
-  num_items    = 0;
   active_item  = 0;
   last_menu    = 0;
-  item         = NULL;
   effect.init(false);
 }
 
@@ -163,17 +160,15 @@ Menu::additem(MenuItemKind kind_, char *text_, int toggle_, Menu* menu_)
 void
 Menu::additem(MenuItem* pmenu_item)
 {
-  ++num_items;
-  item = (MenuItem*)realloc(item, sizeof(MenuItem) * num_items);
-  memcpy(&item[num_items-1], pmenu_item, sizeof(MenuItem));
-  free(pmenu_item);
+  item.push_back(*pmenu_item);
+  delete pmenu_item;
 }
 
 /* Process actions done on the menu */
 void
 Menu::action()
 {
-  if(num_items != 0 && item != NULL)
+  if(item.size() != 0)
     {
       switch(menuaction)
         {
@@ -181,11 +176,11 @@ Menu::action()
           if (active_item > 0)
             --active_item;
           else
-            active_item = num_items-1;
+            active_item = int(item.size())-1;
           break;
 
         case MENU_ACTION_DOWN:
-          if(active_item < num_items-1)
+          if(active_item < int(item.size())-1)
             ++active_item;
           else
             active_item = 0;
@@ -297,7 +292,7 @@ Menu::action()
       if(menuaction != MENU_ACTION_UP && menuaction != MENU_ACTION_DOWN)
         menuaction = MENU_ACTION_DOWN;
 
-      if(num_items > 1)
+      if(item.size() > 1)
         action();
     }
 }
@@ -305,7 +300,7 @@ Menu::action()
 int
 Menu::check()
 {
-  if(num_items != 0 && item != NULL)
+  if (item.size() != 0)
     {
       if((item[active_item].kind == MN_ACTION
           || item[active_item].kind == MN_TEXTFIELD
@@ -477,7 +472,7 @@ int Menu::width()
   /* The width of the menu has to be more than the width of the text
      with the most characters */
   int menu_width = 0;
-  for(int i = 0; i < num_items; ++i)
+  for(unsigned int i = 0; i < item.size(); ++i)
     {
       int w = strlen(item[i].text) + (item[i].input ? strlen(item[i].input) + 1 : 0) + strlen(string_list_active(item[i].list));
       if( w > menu_width )
@@ -493,7 +488,7 @@ int Menu::width()
 
 int Menu::height()
 {
-  return ((num_items) * 24);
+  return item.size() * 24;
 }
 
 /* Draw the current menu. */
@@ -505,11 +500,11 @@ Menu::draw()
 
   /* Draw a transparent background */
   fillrect(pos_x - menu_width/2,
-           pos_y - 24*num_items/2 - 10,
+           pos_y - 24*item.size()/2 - 10,
            menu_width,menu_height + 20,
            150,180,200,125);
 
-  for(int i = 0; i < num_items; ++i)
+  for(unsigned int i = 0; i < item.size(); ++i)
     {
       draw_item(i, menu_width, menu_height);
     }

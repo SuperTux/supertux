@@ -14,6 +14,7 @@
 #define SUPERTUX_MENU_H
 
 #include <SDL.h>
+#include <vector>
 #include "texture.h"
 #include "timer.h"
 #include "type.h"
@@ -59,7 +60,6 @@ private:
   int pos_x;
   int pos_y;
   
-  int num_items;
   Menu* last_menu;
   int width();
   int height();
@@ -68,7 +68,7 @@ public:
   Timer effect;
   int arrange_left;
   int active_item;
-  MenuItem* item;
+  std::vector<MenuItem> item;
 
   static void set_current(Menu* pmenu);
 
