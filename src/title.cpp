@@ -249,7 +249,7 @@ void title(void)
   random_timer.start(rand() % 2000 + 2000);
 
   Mix_Music* music = load_song(datadir + "/music/theme.mod");
-  play_music(music, 1);
+  play_music(music);
 
   Menu::set_current(main_menu);
   while (Menu::current())
@@ -359,7 +359,7 @@ void title(void)
       SDL_Delay(25);
 
       if(!playing_music)
-       play_music(music, 1);
+       play_music(music);
     }
   /* Free surfaces: */
 
