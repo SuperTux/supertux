@@ -137,11 +137,12 @@ GameSession::levelintro(void)
   sprintf(str, "%s", world->get_level()->name.c_str());
   gold_text->drawf(str, 0, 224, A_HMIDDLE, A_TOP, 1);
 
-  sprintf(str, "by %s", world->get_level()->author.c_str());
-  red_text->drawf(str, 0, 256, A_HMIDDLE, A_TOP, 1);
-  
   sprintf(str, "TUX x %d", player_status.lives);
-  white_text->drawf(str, 0, 288, A_HMIDDLE, A_TOP, 1);
+  white_text->drawf(str, 0, 256, A_HMIDDLE, A_TOP, 1);
+  
+  sprintf(str, "by %s", world->get_level()->author.c_str());
+  white_small_text->drawf(str, 0, 400, A_HMIDDLE, A_TOP, 1);
+  
 
   flipscreen();
 
