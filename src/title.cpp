@@ -347,10 +347,14 @@ void title(void)
       context.draw_text(white_small_text, " SuperTux " PACKAGE_VERSION "\n",
               Vector(0, screen->h - 70), LEFT_ALLIGN, LAYER_FOREGROUND1);
       context.draw_text(white_small_text,
-        _("Copyright (c) 2003 SuperTux Devel Team\n"
-          "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you\n"
-          "are welcome to redistribute it under certain conditions; see the file COPYING\n"
-          "for details.\n"), Vector(0, screen->h - 70 + white_small_text->get_height()), LEFT_ALLIGN, LAYER_FOREGROUND1);
+        _(
+"Copyright (c) 2003 SuperTux Devel Team\n"
+"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you\n"
+"are welcome to redistribute it under certain conditions; see the file COPYING\n"
+"for details.\n"
+        ),
+        Vector(0, screen->h - 70 + white_small_text->get_height()),
+        LEFT_ALLIGN, LAYER_FOREGROUND1);
 
       /* Don't draw menu, if quit is true */
       Menu* menu = Menu::current();

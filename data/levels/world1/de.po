@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: world 1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-12-05 17:38+0100\n"
+"POT-Creation-Date: 2004-12-06 10:10+0100\n"
 "PO-Revision-Date: 2004-12-02 02:25+0100\n"
 "Last-Translator:  <matze@braunis.de>\n"
 "Language-Team: German <de@li.org>\n"
@@ -66,7 +66,75 @@ msgstr ""
 
 #: data/levels/world1/worldmap.stwm:4
 msgid "Icyisland"
-msgstr ""
+msgstr "Eisige Insel"
+
+#: data/levels/world1/level10.stl:5
+msgid "23rd Airborne"
+msgstr "23 Mann Luftverteidigung"
+
+#: data/levels/world1/level11.stl:5
+msgid "Night Chill"
+msgstr "Kalte Nacht"
+
+#: data/levels/world1/level12.stl:5
+msgid "Into the Stars"
+msgstr "Zu den Sternen"
+
+#: data/levels/world1/level13.stl:5
+msgid "Above the Arctic Skies"
+msgstr "Über den Wolken"
+
+#: data/levels/world1/level14.stl:5
+msgid "Entrance to the Cave"
+msgstr "Höhleneingang"
+
+#: data/levels/world1/level15.stl:5
+msgid "Under the Ice"
+msgstr "Unter dem Eis"
+
+#: data/levels/world1/level16.stl:5
+msgid "Living in a Fridge"
+msgstr "Leben im Kühlschrank"
+
+#: data/levels/world1/level17.stl:5
+msgid "'...or is it just me?'"
+msgstr "'... oder bin ich das?'"
+
+#: data/levels/world1/level18.stl:5
+msgid "Ice in the Hole"
+msgstr "Eisloch"
+
+#: data/levels/world1/level19.stl:5
+msgid "Miyamoto Monument"
+msgstr "Miyamoto Monument"
+
+#: data/levels/world1/level20.stl:5
+msgid "End of the Tunnel"
+msgstr "Licht am Ende des Tunnels"
+
+#: data/levels/world1/level21.stl:5
+msgid "A Path in the Clouds"
+msgstr "Ein Pfad durch die Wolken"
+
+#: data/levels/world1/level22.stl:5
+msgid "No more Mr Ice Guy"
+msgstr "Genug Eisjungs"
+
+#: data/levels/world1/level23.stl:5
+msgid "The Escape"
+msgstr "Die Flucht"
+
+#: data/levels/world1/level24.stl:5
+msgid "The Shattered Bridge"
+msgstr "Brückentrümmer"
+
+#: data/levels/world1/level25.stl:5
+msgid "Arctic Ruins"
+msgstr "arktische Ruinen"
+
+#: data/levels/world1/level26.stl:5
+msgid "The Castle of Nolok"
+msgstr "Noloks Festung"
 
 #: data/levels/world1/level1.stl:5
 msgid "Welcome to Antarctica"
@@ -78,7 +146,31 @@ msgstr "Die Reise Beginnt"
 
 #: data/levels/world1/level3.stl:5
 msgid "Via Nostalgica"
-msgstr ""
+msgstr "Nostalgiestraße"
+
+#: data/levels/world1/level4.stl:5
+msgid "Tobgle Road"
+msgstr "Tobgle Weg"
+
+#: data/levels/world1/level5.stl:5
+msgid "The Somewhat Smaller Bath"
+msgstr "Der etwas schmallere Weg"
+
+#: data/levels/world1/level6.stl:5
+msgid "The Frosted Fields"
+msgstr "Eisige Felder"
+
+#: data/levels/world1/level7.stl:5
+msgid "Oh no! More Snowballs!"
+msgstr "Oh Nein! Noch mehr Schneebälle!"
+
+#: data/levels/world1/level8.stl:5
+msgid "Stone Cold"
+msgstr "Steinkalt"
+
+#: data/levels/world1/level9.stl:5
+msgid "Grumbel's Sense of Snow"
+msgstr "Grumbels Schneegespür"
 
 #: data/levels/world1/extro.txt:7
 #, fuzzy

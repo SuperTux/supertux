@@ -2,7 +2,7 @@
 (supertux-level
   (version 1)
   (author "Abednego")
-  (name "Dungeons but no Dragons")
+  (name (_ "Dungeons but no Dragons"))
   (width  300)
   (height 15)
   (start_pos_x    100)

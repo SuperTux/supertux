@@ -2,7 +2,7 @@
 (supertux-level
   (version 1)
   (author "Abednego")
-  (name "Flight Test")
+  (name (_ "Flight Test"))
   (width  550)
   (height 15)
   (start_pos_x    100)

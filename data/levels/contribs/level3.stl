@@ -1,7 +1,7 @@
 ;SuperTux-Level
 (supertux-level
   (version 1)
-  (name "Een weg door de wolken")
+  (name (_ "Een weg door de wolken"))
   (author "Tobe Deprez")
   (music "Mortimers_chipdisko.mod")
   (background "")

@@ -2,10 +2,7 @@
 (supertux-level
   (version 1)
   (author "SuperTux Team")
-  (name "Entrance to the Cave")
-  (name-pt_PT "Entrada para a Gruta")
-  (name-de "Eingang der Höhle")
-  (name-es "Entrada a la cueva")
+  (name (_ "Entrance to the Cave"))
   (width  510)
   (height 19)
   (start_pos_x    100)

@@ -2,10 +2,7 @@
 (supertux-level
   (version 1)
   (author "Voluptuous Pachyderm")
-  (name "Oh no! More Snowballs!")
-  (name-pt_PT "Oh não! Mais Bolas de Neve!")
-  (name-de "Oh nein! Noch mehr Schneebälle!")
-  (name-es "¡O no!¡Más bolas de nieve!")
+  (name (_ "Oh no! More Snowballs!"))
   (width  525)
   (height 19)
   (start_pos_x    100)

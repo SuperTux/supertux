@@ -313,11 +313,11 @@ void unloadshared(void)
 std::string get_resource_filename(const std::string& resource)
 {
   std::string filepath = st_dir + resource;
-  if(access(filepath.c_str(), R_OK) == 0)
+  if(FileSystem::faccessible(filepath))
     return filepath;
   
   filepath = datadir + resource;
-  if(access(filepath.c_str(), R_OK) == 0)
+  if(FileSystem::faccessible(filepath))
     return filepath;
 
   std::cerr << "Couldn't find resource: '" << resource  << "'." << std::endl;

@@ -2,7 +2,7 @@
 (supertux-level
   (version 1)
   (author "Matr1x")
-  (name "Fire In The Sky")
+  (name (_ "Fire In The Sky"))
   (width  500)
   (height 15)
   (start_pos_x    100)

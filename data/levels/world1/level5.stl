@@ -2,7 +2,7 @@
 (supertux-level
   (version 1)
   (author "Philippe Saint-Pierre")
-  (name "The Somewhat Smaller Bath")
+  (name (_ "The Somewhat Smaller Bath"))
   (width  355)
   (height 19)
   (start_pos_x    100)

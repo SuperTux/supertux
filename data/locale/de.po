@@ -7,248 +7,436 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux 0.1.1\n"
-"Report-Msgid-Bugs-To: super-tux-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2004-10-20 14:06-0600\n"
-"PO-Revision-Date: 2004-06-03 00:29+0200\n"
-"Last-Translator:  <matze@braunis.de>\n"
+"POT-Creation-Date: 2004-12-05 18:22+0100\n"
+"PO-Revision-Date: 2004-12-06 18:26+0100\n"
+"Last-Translator: Matze Braun <matze@braunis.de>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/gameloop.cpp:205
-msgid "by "
-msgstr ""
+#: src/worldmap.cpp:802
+msgid "GAMEOVER"
+msgstr "Game Over"
 
-#: src/gameloop.cpp:211
-msgid "Level Vertically Flipped!"
-msgstr ""
+#: src/worldmap.cpp:805
+#: src/gameloop.cpp:922
+#, c-format
+msgid "COINS: %d"
+msgstr "Münzen: %d"
 
-#: src/gameloop.cpp:215
-msgid "Best Level Statistics"
-msgstr ""
+#: src/worldmap.cpp:810
+msgid "Total Statistics"
+msgstr "Gesamt Statistiken"
 
-#: src/gameloop.cpp:670
-msgid "PAUSE - Press 'P' To Play"
-msgstr ""
-
-#: src/gameloop.cpp:675
-msgid "Playing: "
-msgstr ""
-
-#: src/gameloop.cpp:850 src/worldmap.cpp:1111
+#: src/worldmap.cpp:963
+#: src/gameloop.cpp:843
 msgid "SCORE"
-msgstr ""
+msgstr "Punkte"
 
-#: src/gameloop.cpp:855
-msgid "Press ESC To Return"
-msgstr ""
-
-#: src/gameloop.cpp:860
-msgid "TIME's UP"
-msgstr ""
-
-#: src/gameloop.cpp:864
-msgid "TIME"
-msgstr ""
-
-#: src/gameloop.cpp:871 src/gameloop.cpp:872 src/worldmap.cpp:1115
+#: src/worldmap.cpp:967
+#: src/gameloop.cpp:865
+#: src/gameloop.cpp:866
 msgid "COINS"
-msgstr ""
+msgstr "Münzen"
 
-#: src/gameloop.cpp:893 src/gameloop.cpp:894 src/worldmap.cpp:1136
-#: src/worldmap.cpp:1137
+#: src/worldmap.cpp:988
+#: src/worldmap.cpp:989
+#: src/gameloop.cpp:887
+#: src/gameloop.cpp:888
 msgid "LIVES"
+msgstr "Leben"
+
+#: src/title.cpp:124
+#: src/misc.cpp:98
+msgid "Contrib Levels"
+msgstr "Zusatzlevel"
+
+#: src/title.cpp:143
+#: src/title.cpp:216
+#: src/misc.cpp:129
+#: src/misc.cpp:140
+#: src/misc.cpp:153
+#: src/misc.cpp:164
+#: src/leveleditor.cpp:67
+#: src/leveleditor.cpp:77
+msgid "Back"
+msgstr "Zurück"
+
+#: src/title.cpp:350
+msgid ""
+"Copyright (c) 2003 SuperTux Devel Team\n"
+"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you\n"
+"are welcome to redistribute it under certain conditions; see the file COPYING\n"
+"for details.\n"
 msgstr ""
+"Copyright (c) 2003 SuperTux Devel Team\n"
+"Diese Spiel kommt OHNE GEWÄHRLEISTUNG. Dies ist freie Software und sie\n"
+"dürfen sie gerne unter bestimmten Bedingungen weiterverteilen; Details finden\n"
+"Sie in der Datei COPYING.\n"
+
+#: src/title.cpp:404
+msgid "Are you sure you want to delete slot"
+msgstr "Sind sie sicher, dass sie den Spielstand löschen wollen?"
+
+#: src/gameloop.cpp:204
+msgid "contributed by "
+msgstr "von"
+
+#: src/gameloop.cpp:209
+msgid "Best Level Statistics"
+msgstr "Bester Level Statistik"
+
+#: src/gameloop.cpp:646
+msgid "PAUSE - Press 'P' To Play"
+msgstr "PAUSE - Drücke 'P' zum Spielen"
+
+#: src/gameloop.cpp:651
+msgid "Playing: "
+msgstr "Spiele:"
+
+#: src/gameloop.cpp:848
+msgid "Press ESC To Return"
+msgstr "Drücke ESC um zurückzukehren"
+
+#: src/gameloop.cpp:853
+msgid "TIME's UP"
+msgstr "Zeit ist um"
+
+#: src/gameloop.cpp:858
+msgid "TIME"
+msgstr "Zeit"
 
 #: src/gameloop.cpp:916
 msgid "Result:"
-msgstr ""
+msgstr "Ergebnis:"
 
 #: src/gameloop.cpp:919
 #, c-format
 msgid "SCORE: %d"
-msgstr ""
+msgstr "Punkte: %d"
 
-#: src/gameloop.cpp:922 src/worldmap.cpp:955
-#, c-format
-msgid "COINS: %d"
-msgstr ""
-
-#: src/gameloop.cpp:956
+#: src/gameloop.cpp:950
 msgid "Slot"
-msgstr ""
+msgstr "Speicherplatz"
 
-#: src/gameloop.cpp:956
+#: src/gameloop.cpp:951
 msgid "Free"
-msgstr ""
+msgstr "frei"
 
-#: src/leveleditor.cpp:64
-msgid "Load Subset"
-msgstr ""
+#: src/statistics.cpp:111
+msgid "- Best Level Statistics -"
+msgstr "- Beste level Statistik -"
 
-#: src/leveleditor.cpp:70 src/leveleditor.cpp:80 src/misc.cpp:125
-#: src/misc.cpp:136 src/misc.cpp:149 src/misc.cpp:160 src/title.cpp:142
-#: src/title.cpp:220
-msgid "Back"
-msgstr ""
+#: src/statistics.cpp:115
+msgid "Max score:"
+msgstr "Max Punkte:"
 
-#: src/leveleditor.cpp:73
-msgid "New Level Subset"
-msgstr ""
+#: src/statistics.cpp:135
+msgid "Max coins collected:"
+msgstr "Max Münzen gesammelt:"
 
-#: src/leveleditor.cpp:75
-msgid "Filename   "
-msgstr ""
+#: src/statistics.cpp:137
+msgid "Max fragging:"
+msgstr "Max besiegt:"
 
-#: src/leveleditor.cpp:76
-msgid "Title      "
-msgstr ""
+#: src/statistics.cpp:139
+msgid "Min time needed:"
+msgstr "Min Zeit benötigt:"
 
-#: src/leveleditor.cpp:77
-msgid "Description"
-msgstr ""
+#: src/statistics.cpp:168
+#, c-format
+msgid "Max score:             %d"
+msgstr "Max Punkte: %d"
 
-#: src/leveleditor.cpp:78
-#, fuzzy
-msgid "Create"
-msgstr "Mitwirkende"
+#: src/statistics.cpp:174
+#, c-format
+msgid "Max coins collected:   %d / %d"
+msgstr "Max Münzen gesammelt: %d / %d"
 
-#: src/leveleditor.cpp:83
-#, fuzzy
-msgid "Level Editor Menu"
-msgstr "Level Editor"
+#: src/statistics.cpp:178
+#, c-format
+msgid "Max fragging:          %d / %d"
+msgstr "Max besiegt: %d / %d"
 
-#: src/leveleditor.cpp:85
-#, fuzzy
-msgid "Return to Level Editor"
-msgstr "Level Editor"
+#: src/statistics.cpp:182
+#, c-format
+msgid "Min time needed:       %d / %d"
+msgstr "Min Zeit benötigt: %d / %d"
 
-#: src/leveleditor.cpp:86
-msgid "Create Level Subset"
-msgstr ""
-
-#: src/leveleditor.cpp:87
-msgid "Load Level Subset"
-msgstr ""
-
-#: src/leveleditor.cpp:89
-#, fuzzy
-msgid "Quit Level Editor"
-msgstr "Level Editor"
-
-#: src/leveleditor.cpp:92
-msgid "Level Settings"
-msgstr ""
-
-#: src/leveleditor.cpp:94
-msgid "Name    "
-msgstr ""
-
-#: src/leveleditor.cpp:95
-msgid "Author  "
-msgstr ""
-
-#: src/leveleditor.cpp:96
-msgid "Width   "
-msgstr ""
-
-#: src/leveleditor.cpp:97
-msgid "Height  "
-msgstr ""
-
-#: src/leveleditor.cpp:99
-msgid "Apply"
-msgstr ""
-
-#: src/leveleditor.cpp:109
-msgid "Eraser"
-msgstr ""
-
-#: src/leveleditor.cpp:141
-msgid "Trampoline"
-msgstr ""
-
-#: src/leveleditor.cpp:142
-msgid "Flying Platform"
-msgstr ""
-
-#: src/leveleditor.cpp:143
-msgid "Door"
-msgstr ""
-
-#: src/leveleditor.cpp:146
-msgid "Edtit foreground tiles"
-msgstr ""
-
-#: src/leveleditor.cpp:148
-msgid "Edit interactive tiles"
-msgstr ""
-
-#: src/leveleditor.cpp:150
-msgid "Edit background tiles"
-msgstr ""
-
-#: src/leveleditor.cpp:154
-msgid "Next sector"
-msgstr ""
-
-#: src/leveleditor.cpp:155
-msgid "Prevous sector"
-msgstr ""
-
-#: src/leveleditor.cpp:156
-msgid "Next level"
-msgstr ""
-
-#: src/leveleditor.cpp:157
-msgid "Prevous level"
-msgstr ""
-
-#: src/leveleditor.cpp:158
-#, fuzzy
-msgid "Save level"
+#: src/misc.cpp:97
+#: src/misc.cpp:156
+msgid "Start Game"
 msgstr "Spiel Beginnen"
 
-#: src/leveleditor.cpp:159
-msgid "Test level"
-msgstr ""
+#: src/misc.cpp:99
+#: src/misc.cpp:104
+#: src/misc.cpp:179
+#: src/misc.cpp:186
+msgid "Options"
+msgstr "Einstellungen"
 
-#: src/leveleditor.cpp:160
-msgid "Setup level"
-msgstr ""
-
-#: src/leveleditor.cpp:242 src/leveleditor.cpp:718 src/leveleditor.cpp:743
-#: src/leveleditor.cpp:834
-msgid "Level not saved. Wanna to?"
-msgstr ""
-
-#: src/leveleditor.cpp:357
-#, c-format
-msgid "Level %d doesn't exist. Create it?"
-msgstr ""
-
-#: src/leveleditor.cpp:560 src/misc.cpp:96
+#: src/misc.cpp:100
+#: src/leveleditor.cpp:562
 msgid "Level Editor"
 msgstr "Level Editor"
 
-#: src/leveleditor.cpp:583
-msgid "F1 for help"
-msgstr ""
+#: src/misc.cpp:101
+msgid "Credits"
+msgstr "Mitwirkende"
+
+#: src/misc.cpp:102
+msgid "Quit"
+msgstr "Beenden"
+
+#: src/misc.cpp:107
+msgid "OpenGL    "
+msgstr "OpenGL"
+
+#: src/misc.cpp:109
+msgid "OpenGL (not supported)"
+msgstr "OpenGL (nicht vorhanden)"
+
+#: src/misc.cpp:111
+msgid "Fullscreen"
+msgstr "Ganzer Bildschirm"
+
+#: src/misc.cpp:114
+#: src/misc.cpp:119
+msgid "Sound     "
+msgstr "Sound"
+
+#: src/misc.cpp:115
+#: src/misc.cpp:120
+msgid "Music     "
+msgstr "Musik"
+
+#: src/misc.cpp:122
+msgid "Show FPS  "
+msgstr "FPS anzeigen"
+
+#: src/misc.cpp:123
+msgid "Setup Keys"
+msgstr "Tasten einstellen"
+
+#: src/misc.cpp:126
+msgid "Setup Joystick"
+msgstr "Joystick einstellen"
+
+#: src/misc.cpp:131
+msgid "Keyboard Setup"
+msgstr "Tastatur einstellen"
+
+#: src/misc.cpp:133
+msgid "Left move"
+msgstr "Nach Links"
+
+#: src/misc.cpp:134
+msgid "Right move"
+msgstr "Nach Rechts"
+
+#: src/misc.cpp:135
+msgid "Up/Activate"
+msgstr "Nach Oben/Aktivieren"
+
+#: src/misc.cpp:136
+msgid "Down/Duck"
+msgstr "Nach Unten/Ducken"
+
+#: src/misc.cpp:137
+msgid "Jump"
+msgstr "Springen"
+
+#: src/misc.cpp:138
+msgid "Power/Run"
+msgstr "Power/Rennen"
+
+#: src/misc.cpp:144
+msgid "Joystick Setup"
+msgstr "Joystick Einstellungen"
+
+#: src/misc.cpp:148
+msgid "A button"
+msgstr "A Knopf"
+
+#: src/misc.cpp:149
+msgid "B button"
+msgstr "B Knopf"
+
+#: src/misc.cpp:166
+msgid "Save Game"
+msgstr "Spiel Speichern"
+
+#: src/misc.cpp:176
+#: src/misc.cpp:183
+msgid "Pause"
+msgstr "Pause"
+
+#: src/misc.cpp:178
+#: src/misc.cpp:185
+msgid "Continue"
+msgstr "Fortsetzen"
+
+#: src/misc.cpp:181
+msgid "Abort Level"
+msgstr "Level Abbrechen"
+
+#: src/misc.cpp:188
+msgid "Quit Game"
+msgstr "Spiel Beenden"
+
+#: src/misc.cpp:190
+msgid "Enter your name:"
+msgstr "Geben Sie ihren Namen ein:"
+
+#: src/leveleditor.cpp:61
+msgid "Load Subset"
+msgstr "Subset laden"
+
+#: src/leveleditor.cpp:70
+msgid "New Level Subset"
+msgstr "Neues Level-subset"
+
+#: src/leveleditor.cpp:72
+msgid "Filename   "
+msgstr "Dateiname"
+
+#: src/leveleditor.cpp:73
+msgid "Title      "
+msgstr "Titel"
+
+#: src/leveleditor.cpp:74
+msgid "Description"
+msgstr "Beschreibung"
+
+#: src/leveleditor.cpp:75
+msgid "Create"
+msgstr "Erzeugen"
+
+#: src/leveleditor.cpp:80
+msgid "Level Editor Menu"
+msgstr "Level Editor"
+
+#: src/leveleditor.cpp:82
+msgid "Return to Level Editor"
+msgstr "Zurück zum Level Editor"
+
+#: src/leveleditor.cpp:83
+msgid "Create Level Subset"
+msgstr "Level-subset erstellen"
+
+#: src/leveleditor.cpp:84
+msgid "Load Level Subset"
+msgstr "Level-subset laden"
+
+#: src/leveleditor.cpp:86
+msgid "Quit Level Editor"
+msgstr "Level Editor Beenden"
+
+#: src/leveleditor.cpp:89
+msgid "Level Settings"
+msgstr "Level-Einstellungen"
+
+#: src/leveleditor.cpp:91
+msgid "Name    "
+msgstr "Name"
+
+#: src/leveleditor.cpp:92
+msgid "Author  "
+msgstr "Autor"
+
+#: src/leveleditor.cpp:93
+msgid "Width   "
+msgstr "Breite"
+
+#: src/leveleditor.cpp:94
+msgid "Height  "
+msgstr "Höhe"
+
+#: src/leveleditor.cpp:96
+msgid "Apply"
+msgstr "Anwenden"
+
+#: src/leveleditor.cpp:104
+msgid "Eraser"
+msgstr "Radiergummie"
+
+#: src/leveleditor.cpp:136
+msgid "Trampoline"
+msgstr "Trampolin"
+
+#: src/leveleditor.cpp:137
+msgid "Flying Platform"
+msgstr "Fliegende Platform"
+
+#: src/leveleditor.cpp:141
+msgid "Edtit foreground tiles"
+msgstr "Vordergrund Bearbeiten"
+
+#: src/leveleditor.cpp:143
+msgid "Edit interactive tiles"
+msgstr "Interaktive Teile Bearbeiten"
+
+#: src/leveleditor.cpp:145
+msgid "Edit background tiles"
+msgstr "Hintergrund Bearbeiten"
+
+#: src/leveleditor.cpp:149
+msgid "Next sector"
+msgstr "Nächster Sektor"
+
+#: src/leveleditor.cpp:150
+msgid "Prevous sector"
+msgstr "Letzter Sektor"
+
+#: src/leveleditor.cpp:151
+msgid "Next level"
+msgstr "Nächster Level"
+
+#: src/leveleditor.cpp:152
+msgid "Prevous level"
+msgstr "Letzter Level"
+
+#: src/leveleditor.cpp:153
+msgid "Save level"
+msgstr "Level speichern"
+
+#: src/leveleditor.cpp:154
+msgid "Test level"
+msgstr "Test Level"
+
+#: src/leveleditor.cpp:155
+msgid "Setup level"
+msgstr "Level-Einstellungen"
+
+#: src/leveleditor.cpp:237
+#: src/leveleditor.cpp:727
+#: src/leveleditor.cpp:752
+#: src/leveleditor.cpp:841
+msgid "Level not saved. Wanna to?"
+msgstr "Level wurde noch nicht gespeichert. Jetzt speichern?"
+
+#: src/leveleditor.cpp:363
+#, c-format
+msgid "Level %d doesn't exist. Create it?"
+msgstr "Level %d exisitiert nicht. Jetzte erstellen?"
 
 #: src/leveleditor.cpp:585
+msgid "F1 for help"
+msgstr "Für Hilfe F1 drücken"
+
+#: src/leveleditor.cpp:587
 msgid "Choose a level subset"
-msgstr ""
+msgstr "Wählen Sie ein Level-Subset aus"
 
-#: src/leveleditor.cpp:769
+#: src/leveleditor.cpp:778
 msgid "No more sectors exist. Create another?"
-msgstr ""
+msgstr "Keine weiteren Sektoren vorhanden. Einen weiteren erzeugen?"
 
-#: src/leveleditor.cpp:921
+#: src/leveleditor.cpp:936
 msgid ""
-"This is the built-in level editor. It's aim is to be intuitive\n"
-"and simple to use, so it should be pretty straight forward.\n"
+"This is the built-in level editor. Its aim is to be intuitive\n"
+"and simple to use, so it should be pretty straightforward.\n"
 "\n"
 "To open a level, first you'll have to select a level subset from\n"
 "the menu (or create your own).\n"
@@ -257,24 +445,24 @@ msgid ""
 "\n"
 "To access the menu from the level editor, just press Esc.\n"
 "\n"
-"You are currently looking to the level, to scroll it, just\n"
+"You are currently looking at the level. To scroll it, just\n"
 "press the right mouse button and drag the mouse. It will move like\n"
 "a strategy game.\n"
 "You can also use the arrow keys and Page Up/Down.\n"
 "\n"
-"'+' and '-' keys can be used to zoom in/out the level.\n"
+"'+' and '-' keys can be used to zoom the level in/out.\n"
 "\n"
-"You probably already noticed those floating group of buttons.\n"
+"You probably already noticed those floating groups of buttons.\n"
 "Each one serves a different purpose. To select a certain button\n"
 "just press the Left mouse button on it. A few buttons have key\n"
-"shortcuts, you can know it by pressing the Right mouse button on\n"
-"it. That will also show what that button does.\n"
-"Group of buttons can also be move around by just dragging them,\n"
+"shortcuts. You can find them by pressing the Right mouse button on\n"
+"a button. That will also show what that button does.\n"
+"Groups of buttons can also be moved around by just dragging them,\n"
 "while pressing the Left mouse button.\n"
 "\n"
-"Let's learn a bit of what each group of buttons do, shall we?\n"
+"Let's learn a bit of what each group of buttons does, shall we?\n"
 "\n"
-"To starting putting tiles and objects around use the bigger gropup\n"
+"To starting putting tiles and objects around use the bigger group\n"
 "of buttons. Each button is a different tile. To put it on the level,\n"
 "just press it and then left click in the level.\n"
 "You can also copy tiles from the level by using the middle mouse button.\n"
@@ -282,18 +470,18 @@ msgid ""
 "enemies and game objects in the bottom.\n"
 msgstr ""
 
-#: src/leveleditor.cpp:957
+#: src/leveleditor.cpp:972
 msgid ""
 "The Foreground/Interactive/Background buttons may be used to\n"
-"see and edit the respective layer. Level's have three tiles layers:\n"
-"Foreground - tiles are drawn in top of everything and have no contact\n"
+"see and edit the respective layer. Levels have three tiles layers:\n"
+"Foreground - tiles are drawn on top of everything and have no contact\n"
 "with the player.\n"
 "Interactive - these are the tiles that have contact with the player.\n"
-"Background - tiles are drawn in bottom of everything and have no contact\n"
+"Background - tiles are drawn underneath everything and have no contact\n"
 "with the player.\n"
 "The unselected layers will be drawn semi-transparently.\n"
 "\n"
-"At last, but not least, the group of buttons that's left serves\n"
+"Last, but not least, the group of buttons that's left serves\n"
 "to do related actions with the level.\n"
 "From left to right:\n"
 "Mini arrows - can be used to choose other sectors.\n"
@@ -301,7 +489,7 @@ msgid ""
 "Big arrows - choose other level in the same level subset.\n"
 "Diskette - save the level\n"
 "Tux - test the level\n"
-"Tools - set a few settings for the level, incluiding resizing it.\n"
+"Tools - set a few settings for the level, including resizing it.\n"
 "\n"
 "We have reached the end of this Howto.\n"
 "\n"
@@ -310,328 +498,23 @@ msgid ""
 "Enjoy,\n"
 "  SuperTux development team\n"
 "\n"
-"ps: If you are looking for something more powerfull, you can give it a\n"
-"try to FlexLay. FlexLay is a level editor that supports several games,\n"
+"PS: If you are looking for something more powerful, you might like to\n"
+"try FlexLay. FlexLay is a level editor that supports several games,\n"
 "including SuperTux. It is an independent project.\n"
 "Webpage: http://pingus.seul.org/~grumbel/flexlay/"
 msgstr ""
 
-#: src/leveleditor.cpp:997
-#, fuzzy
+#: src/leveleditor.cpp:1012
 msgid "- Level Editor's Help -"
-msgstr "Level Editor"
+msgstr "- Level Editor Hilfe -"
 
-#: src/leveleditor.cpp:1001
+#: src/leveleditor.cpp:1016
 #, c-format
 msgid "Press any key to continue - Page %d/%d"
-msgstr ""
+msgstr "Um fortzufahren beliebige Taste drücken - Seite %d/%d"
 
-#: src/misc.cpp:93 src/misc.cpp:152
-msgid "Start Game"
-msgstr "Spiel Beginnen"
-
-#: src/misc.cpp:94 src/title.cpp:112
-msgid "Contrib Levels"
-msgstr "Zusatzlevel"
-
-#: src/misc.cpp:95 src/misc.cpp:100 src/misc.cpp:175 src/misc.cpp:182
-msgid "Options"
-msgstr "Einstellungen"
-
-#: src/misc.cpp:97
-msgid "Credits"
-msgstr "Mitwirkende"
-
-#: src/misc.cpp:98
-msgid "Quit"
-msgstr "Beenden"
-
-#: src/misc.cpp:103
-msgid "OpenGL    "
-msgstr ""
-
-#: src/misc.cpp:105
-msgid "OpenGL (not supported)"
-msgstr ""
-
-#: src/misc.cpp:107
-msgid "Fullscreen"
-msgstr ""
-
-#: src/misc.cpp:110 src/misc.cpp:115
-msgid "Sound     "
-msgstr ""
-
-#: src/misc.cpp:111 src/misc.cpp:116
-msgid "Music     "
-msgstr ""
-
-#: src/misc.cpp:118
-msgid "Show FPS  "
-msgstr ""
-
-#: src/misc.cpp:119
-msgid "Setup Keys"
-msgstr ""
-
-#: src/misc.cpp:122
-msgid "Setup Joystick"
-msgstr ""
-
-#: src/misc.cpp:127
-msgid "Keyboard Setup"
-msgstr ""
-
-#: src/misc.cpp:129
-msgid "Left move"
-msgstr ""
-
-#: src/misc.cpp:130
-msgid "Right move"
-msgstr ""
-
-#: src/misc.cpp:131
-msgid "Up/Activate"
-msgstr ""
-
-#: src/misc.cpp:132
-msgid "Down/Duck"
-msgstr ""
-
-#: src/misc.cpp:133
-msgid "Jump"
-msgstr ""
-
-#: src/misc.cpp:134
-msgid "Power/Run"
-msgstr ""
-
-#: src/misc.cpp:140
-msgid "Joystick Setup"
-msgstr ""
-
-#: src/misc.cpp:144
-msgid "A button"
-msgstr ""
-
-#: src/misc.cpp:145
-msgid "B button"
-msgstr ""
-
-#: src/misc.cpp:162
-msgid "Save Game"
-msgstr "Spiel Speichern"
-
-#: src/misc.cpp:172 src/misc.cpp:179
-msgid "Pause"
-msgstr ""
-
-#: src/misc.cpp:174 src/misc.cpp:181
-msgid "Continue"
-msgstr ""
-
-#: src/misc.cpp:177
-msgid "Abort Level"
-msgstr "Level Abbrechen"
-
-#: src/misc.cpp:184
-msgid "Quit Game"
-msgstr "Spiel Beenden"
-
-#: src/misc.cpp:186
-msgid "Enter your name:"
-msgstr ""
-
-#: src/player.cpp:1240
+#: src/object/player.cpp:279
 #, c-format
-msgid "Good! x%d"
-msgstr ""
+msgid "New max combo: %d"
+msgstr "Neue Max Kombination: %d"
 
-#: src/player.cpp:1242
-#, c-format
-msgid "Great! x%d"
-msgstr ""
-
-#: src/player.cpp:1244
-#, c-format
-msgid "Awesome! x%d"
-msgstr ""
-
-#: src/player.cpp:1246
-#, c-format
-msgid "Incredible! x%d"
-msgstr ""
-
-#: src/player.cpp:1248
-#, c-format
-msgid "Godlike! ;-) x%d"
-msgstr ""
-
-#: src/player.cpp:1250
-#, c-format
-msgid "Unbelievable!! x%d"
-msgstr ""
-
-#: src/statistics.cpp:113
-msgid "- Best Level Statistics -"
-msgstr ""
-
-#: src/statistics.cpp:117
-msgid "Max score:"
-msgstr ""
-
-#: src/statistics.cpp:137
-msgid "Max coins collected:"
-msgstr ""
-
-#: src/statistics.cpp:139
-msgid "Max fragging:"
-msgstr ""
-
-#: src/statistics.cpp:141
-msgid "Min time needed:"
-msgstr ""
-
-#: src/statistics.cpp:170
-#, c-format
-msgid "Max score:             %d"
-msgstr ""
-
-#: src/statistics.cpp:176
-#, c-format
-msgid "Max coins collected:   %d / %d"
-msgstr ""
-
-#: src/statistics.cpp:180
-#, c-format
-msgid "Max fragging:          %d / %d"
-msgstr ""
-
-#: src/statistics.cpp:184
-#, c-format
-msgid "Min time needed:       %d / %d"
-msgstr ""
-
-#: src/title.cpp:374
-msgid ""
-"Copyright (c) 2003 SuperTux Devel Team\n"
-"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you\n"
-"are welcome to redistribute it under certain conditions; see the file "
-"COPYING\n"
-"for details.\n"
-msgstr ""
-
-#: src/title.cpp:426
-msgid "Are you sure you want to delete slot"
-msgstr ""
-
-#: src/worldmap.cpp:952
-msgid "GAMEOVER"
-msgstr ""
-
-#: src/worldmap.cpp:959
-msgid "Total Statistics"
-msgstr ""
-
-#: lib/app/setup.cpp:774
-#, c-format
-msgid ""
-"Usage: %s [OPTIONS] FILENAME\n"
-"\n"
-msgstr ""
-
-#: lib/app/setup.cpp:775
-msgid ""
-"Display Options:\n"
-"  -f, --fullscreen    Run in fullscreen mode.\n"
-"  -w, --window        Run in window mode.\n"
-"  --opengl            If OpenGL support was compiled in, this will tell\n"
-"                      SuperTux to make use of it.\n"
-"  --sdl               Use the SDL software graphical renderer\n"
-"\n"
-"Sound Options:\n"
-"  --disable-sound     If sound support was compiled in,  this will\n"
-"                      disable sound for this session of the game.\n"
-"  --disable-music     Like above, but this will disable music.\n"
-"\n"
-"Misc Options:\n"
-"  -j, --joystick NUM  Use joystick NUM (default: 0)\n"
-"  --joymap XAXIS:YAXIS:A:B:START\n"
-"                      Define how joystick buttons and axis should be mapped\n"
-"  --leveleditor       Opens the leveleditor in a file.\n"
-"  --worldmap          Opens the specified worldmap file.\n"
-"  --flip-levels       Flip levels upside-down.\n"
-"  -d, --datadir DIR   Load Game data from DIR (default: automatic)\n"
-"  --debug             Enables the debug mode, which is useful for "
-"developers.\n"
-"  --help              Display a help message summarizing command-line\n"
-"                      options, license and game controls.\n"
-"  --usage             Display a brief message summarizing command-line "
-"options.\n"
-"  --version           Display the version of SuperTux you're running.\n"
-"\n"
-msgstr ""
-
-#: lib/app/setup.cpp:834
-#, c-format
-msgid ""
-"Usage: %s [--fullscreen] [--opengl] [--disable-sound] [--disable-music] [--"
-"debug] | [--usage | --help | --version] [--leveleditor] [--worldmap] [--flip-"
-"levels] FILENAME\n"
-msgstr ""
-
-#: lib/gui/menu.cpp:67
-msgid "Yes"
-msgstr ""
-
-#: lib/gui/menu.cpp:68
-msgid "No"
-msgstr ""
-
-#: lib/gui/menu.cpp:236
-msgid "Up cursor"
-msgstr ""
-
-#: lib/gui/menu.cpp:239
-msgid "Down cursor"
-msgstr ""
-
-#: lib/gui/menu.cpp:242
-msgid "Left cursor"
-msgstr ""
-
-#: lib/gui/menu.cpp:245
-msgid "Right cursor"
-msgstr ""
-
-#: lib/gui/menu.cpp:248
-msgid "Return"
-msgstr ""
-
-#: lib/gui/menu.cpp:251
-msgid "Space"
-msgstr ""
-
-#: lib/gui/menu.cpp:254
-msgid "Right Shift"
-msgstr ""
-
-#: lib/gui/menu.cpp:257
-msgid "Left Shift"
-msgstr ""
-
-#: lib/gui/menu.cpp:260
-msgid "Right Control"
-msgstr ""
-
-#: lib/gui/menu.cpp:263
-msgid "Left Control"
-msgstr ""
-
-#: lib/gui/menu.cpp:266
-msgid "Right Alt"
-msgstr ""
-
-#: lib/gui/menu.cpp:269
-msgid "Left Alt"
-msgstr ""

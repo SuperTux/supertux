@@ -2,10 +2,7 @@
 (supertux-level
   (version 1)
   (author "SuperTux Team")
-  (name "'...or is it just me?'")
-  (name-pt_PT "'... ou é apenas de mim?'")
-  (name-de "'...oder bin ich das?'")
-  (name-es "'...o, ¿eso es solo mio?'")
+  (name (_ "'...or is it just me?'"))
   (width  515)
   (height 19)
   (start_pos_x    100)

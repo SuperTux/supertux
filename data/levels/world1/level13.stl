@@ -2,7 +2,7 @@
 (supertux-level
   (version 1)
   (author "SuperTux Team")
-  (name "Above the Arctic Skies")
+  (name (_ "Above the Arctic Skies"))
   (width  290)
   (height 19)
   (start_pos_x    100)

@@ -2,10 +2,7 @@
 (supertux-level
   (version 1)
   (author "SuperTux Team")
-  (name "The Frosted Fields")
-  (name-pt_PT "Os Campos Congelados")
-  (name-de "Vereiste Felder")
-  (name-es "Los campos helados")
+  (name (_ "The Frosted Fields"))
   (width  510)
   (height 19)
   (start_pos_x    100)

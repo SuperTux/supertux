@@ -2,7 +2,7 @@
 (supertux-level
   (version 1)
   (author "SuperTux Team")
-  (name "A Path in the Clouds")
+  (name (_ "A Path in the Clouds"))
   (width  525)
   (height 19)
   (start_pos_x    100)

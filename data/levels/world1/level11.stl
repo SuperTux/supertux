@@ -2,10 +2,7 @@
 (supertux-level
   (version 1)
   (author "SuperTux Team")
-  (name "Night Chill")
-  (name-pt_PT "Noite Fria")
-  (name-de "Eine kalte Nacht")
-  (name-es "Noche fria")
+  (name (_ "Night Chill"))
   (width  515)
   (height 19)
   (start_pos_x    100)

@@ -20,8 +20,8 @@
 #And there is a secret level to be
 #found as well...
 	
-#A big "Thank you" goes out to
+#A big \"Thank you\" goes out to
 #everyone who contributed to this
-#release. We hope you enjoyed it!))
+#release. We hope you enjoyed it!"))
 )
 

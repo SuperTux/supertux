@@ -2,7 +2,7 @@
 (supertux-level
   (version 1)
   (author "SuperTux Team")
-  (name "A Maze In The Sky")
+  (name (_ "A Maze In The Sky"))
   (width  515)
   (height 15)
   (start_pos_x    100)

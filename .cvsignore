@@ -26,4 +26,4 @@ supertux
 *.exe
 config.h.in
 .sconf_temp
-
+.emacs

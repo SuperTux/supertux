@@ -2,10 +2,7 @@
 (supertux-level
   (version 1)
   (author "SuperTux Team")
-  (name "Stone Cold")
-  (name-pt_PT "Pedra Gelada")
-  (name-de "Kalt wie Stein")
-  (name-es "Piedra fría")
+  (name (_ "Stone Cold"))
   (width  520)
   (height 19)
   (start_pos_x    100)

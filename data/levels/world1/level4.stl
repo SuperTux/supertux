@@ -2,10 +2,7 @@
 (supertux-level
   (version 1)
   (author "SuperTux Team")
-  (name "Tobgle Road")
-  (name-pt_PT "A Estrada Tobgle")
-  (name-de "Tobgle Passage")
-  (name-es "Camino de Tobgle")
+  (name (_ "Tobgle Road"))
   (width  270)
   (height 19)
   (start_pos_x    100)

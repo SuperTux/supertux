@@ -2,10 +2,7 @@
 (supertux-level
   (version 1)
   (author "SuperTux Team")
-  (name "Grumbel's Sense of Snow")
-  (name-pt_PT "Sensação de Neve do Grumbel")
-  (name-de "Grumbels Gespür für Schnee")
-  (name-es "Sensación de nieve de Grumbel")
+  (name (_ "Grumbel's Sense of Snow"))
   (width  525)
   (height 19)
   (start_pos_x    100)

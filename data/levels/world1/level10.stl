@@ -2,10 +2,7 @@
 (supertux-level
   (version 1)
   (author "SuperTux Team")
-  (name "23rd Airborne")
-  (name-de "23 Mann Luftverteidigung")
-  (name-es "23º aerotransportado")
-  (name-pt_PT "23º aerotransportado")
+  (name (_ "23rd Airborne"))
   (width  515)
   (height 19)
   (start_pos_x    100)

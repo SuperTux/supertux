@@ -2,7 +2,7 @@
 (supertux-level
   (version 1)
   (author "SuperTux Team")
-  (name "Cave Of Mirrors")
+  (name (_ "Cave Of Mirrors"))
   (width  500)
   (height 15)
   (start_pos_x    170)

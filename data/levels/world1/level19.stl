@@ -2,7 +2,7 @@
 (supertux-level
   (version 1)
   (author "SuperTux Team")
-  (name "Miyamoto Monument")
+  (name (_ "Miyamoto Monument"))
   (width  505)
   (height 19)
   (start_pos_x    100)

@@ -2,7 +2,7 @@
 (supertux-level
   (version 1)
   (author "SuperTux Team")
-  (name "Bonus Dias!")
+  (name (_ "Bonus Dias!"))
   (width  300)
   (height 15)
   (start_pos_x    100)

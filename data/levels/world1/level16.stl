@@ -2,10 +2,7 @@
 (supertux-level
   (version 1)
   (author "SuperTux Team")
-  (name "Living in a Fridge")
-  (name-pt_PT "Vivendo numa Frigideira")
-  (name-de "Leben im Kühlschrank")
-  (name-es "Viviendo en un frigorífico")
+  (name (_ "Living in a Fridge"))
   (width  510)
   (height 19)
   (start_pos_x    100)

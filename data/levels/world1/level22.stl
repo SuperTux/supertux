@@ -2,7 +2,7 @@
 (supertux-level
   (version 1)
   (author "SuperTux Team")
-  (name "No more Mr Ice Guy")
+  (name (_ "No more Mr Ice Guy"))
   (width  260)
   (height 19)
   (start_pos_x    100)

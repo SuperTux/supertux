@@ -1,7 +1,7 @@
 ;SuperTux-Level
 (supertux-level
   (version 1)
-  (name "A good start")
+  (name (_ "A good start"))
   (author "Torfi Gunnarsson")
   (music "Mortimers_chipdisko.mod")
   (background "arctis.jpg")

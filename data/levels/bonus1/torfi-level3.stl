@@ -2,7 +2,7 @@
 (supertux-level
   (version 1)
   (author "Torfi Gunnarsson")
-  (name "Still too easy")
+  (name (_ "Still too easy"))
   (width  200)
   (height 15)
   (start_pos_x    100)
