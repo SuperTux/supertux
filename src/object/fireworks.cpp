@@ -4,6 +4,7 @@
 #include "resources.h"
 #include "sector.h"
 #include "camera.h"
+#include "gameobjs.h"
 #include "app/globals.h"
 #include "video/drawing_context.h"
 #include "audio/sound_manager.h"
@@ -30,9 +31,9 @@ Fireworks::action(float )
 
         int red = rand() % 255;
         int green = rand() % red;
-        sector->add_particles(pos, 0, 360, Vector(140, 140),
-                Vector(0, 0), 45, Color(red, green, 0), 3, 1300,
-                LAYER_FOREGROUND1+1);
+        sector->add_object(new Particles(pos, 0, 360, Vector(140, 140),
+                Vector(0, 0), 45, Color(red, green, 0), 3, 1.3,
+                LAYER_FOREGROUND1+1));
         SoundManager::get()->play_sound(IDToSound(SND_FIREWORKS));
         timer.start(((float) rand() / RAND_MAX) + .5);
     }

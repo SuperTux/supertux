@@ -175,12 +175,7 @@ Player::init()
 
   on_ground_flag = false;
 
-  frame_main = 0;
-  frame_ = 0;
-
   player_input_init(&input);
-
-  frame_timer.start(.025, true);
 
   physic.reset();
 }
@@ -363,12 +358,13 @@ Player::handle_horizontal_input()
           skidding_timer.start(SKID_TIME);
           SoundManager::get()->play_sound(IDToSound(SND_SKID));
           // dust some partcles
-          Sector::current()->add_particles(
-              Vector(bbox.p1.x + (dir == RIGHT ? bbox.get_width() : 0),
+          Sector::current()->add_object(
+              new Particles(
+                Vector(bbox.p1.x + (dir == RIGHT ? bbox.get_width() : 0),
                 bbox.p2.y),
               dir == RIGHT ? 270+20 : 90-40, dir == RIGHT ? 270+40 : 90-20,
-              Vector(280,-260), Vector(0,0.030), 3, Color(100,100,100), 3, 800,
-              LAYER_OBJECTS+1);
+              Vector(280,-260), Vector(0,0.030), 3, Color(100,100,100), 3, .8,
+              LAYER_OBJECTS+1));
 
           ax *= 2.5;
         }
@@ -423,6 +419,17 @@ Player::handle_vertical_input()
       fall_mode = JUMPING;
   }
 
+  if(on_ground()) { /* Make sure jumping is off. */
+    jumping = false;
+    flapping = false;
+    falling_from_flap = false;
+    if (flapping_timer.started()) {
+      flapping_timer.start(0);
+    }
+
+    physic.set_acceleration_y(0); //for flapping
+  }
+
   // Press jump key
   if(input.jump == DOWN && can_jump && on_ground())
     {
@@ -456,7 +463,6 @@ Player::handle_vertical_input()
          }
       if (jumping && physic.get_velocity_y() > 0)
          {
-            printf("jumpend.\n");
             jumping = false;
             physic.set_velocity_y(0);
          }
@@ -638,18 +644,6 @@ Player::handle_vertical_input()
     }
 #endif
 
-  if(on_ground())   /* Make sure jumping is off. */
-    {
-      jumping = false;
-      flapping = false;
-      falling_from_flap = false;
-      if (flapping_timer.started()) {
-        flapping_timer.start(0);
-      }
-
-      physic.set_acceleration_y(0); //for flapping
-    }
-
   input.old_jump = input.jump;
 }
 
@@ -672,28 +666,6 @@ Player::handle_input()
       shooting_timer.start(SHOOTING_TIME);
     input.old_fire = DOWN;
   }
-
-#if 0
-  /* tux animations: */
-  if(frame_timer.check()) {
-    if (input.right == UP && input.left == UP)
-    {
-      frame_main = 1;
-      frame_ = 1;
-    }
-    else
-    {
-      if ((input.fire == DOWN && (global_frame_counter % 2) == 0) ||
-          (global_frame_counter % 4) == 0)
-        frame_main = (frame_main + 1) % 4;
-
-      frame_ = frame_main;
-
-      if (frame_ == 3)
-        frame_ = 1;
-    }
-  }
-#endif
 
   /* Duck! */
   if (input.down == DOWN && size == BIG && !duck 
@@ -929,122 +901,6 @@ Player::collision(GameObject& other, const CollisionHit& hit)
 
   return FORCE_MOVE;
 }
-
-#if 0
-void
-Player::collision(void* p_c_object, int c_object)
-{
-  //BadGuy* pbad_c = NULL;
-  //Trampoline* ptramp_c = NULL;
-  //FlyingPlatform* pplatform_c = NULL;
-
-  switch (c_object)
-    {
-    case CO_BADGUY:
-      pbad_c = (BadGuy*) p_c_object;
-
-     /* Hurt player if he touches a badguy */
-      if (!pbad_c->dying && !dying &&
-          !safe_timer.started() &&
-          pbad_c->mode != BadGuy::HELD)
-        {
-          if (pbad_c->mode == BadGuy::FLAT && input.fire == DOWN
-               && !holding_something)
-            {
-              holding_something = true;
-              pbad_c->mode = BadGuy::HELD;
-              pbad_c->base.y-=8;
-            }
-          else if (pbad_c->mode == BadGuy::FLAT)
-            {
-              // Don't get hurt if we're kicking a flat badguy!
-            }
-          else if (pbad_c->mode == BadGuy::KICK)
-            {
-              /* Hurt if you get hit by kicked laptop: */
-              if (!invincible_timer.started())
-                {
-                  kill(SHRINK);
-                }
-              else
-                pbad_c->kill_me(20);
-            }
-          else if (!pbad_c->frozen_timer.check() && (pbad_c->kind == BAD_MRBOMB
-              || pbad_c->kind == BAD_JUMPY || pbad_c->kind == BAD_FISH
-              || pbad_c->kind == BAD_SPIKY))
-                pbad_c->kill_me(20);
-          else
-            {
-              if (!invincible_timer.started())
-                {
-                  kill(SHRINK);
-                }
-              else
-                {
-                  pbad_c->kill_me(25);
-                }
-            }
-          player_status.score_multiplier++;
-        }
-      break;
-
-    case CO_TRAMPOLINE:
-      ptramp_c = (Trampoline*) p_c_object;
-      
-      // Pick up trampoline
-      if (ptramp_c->mode != Trampoline::M_HELD && input.fire == DOWN && !holding_something && on_ground())
-      {
-        holding_something = true;
-        ptramp_c->mode = Trampoline::M_HELD;
-        ptramp_c->base.y -= 8;
-      }
-      // Set down trampoline
-      else if (ptramp_c->mode == Trampoline::M_HELD && input.fire != DOWN)
-      {
-        holding_something = false;
-        ptramp_c->mode = Trampoline::M_NORMAL;
-        ptramp_c->base.y += 8;
-        ptramp_c->physic.set_velocity(physic.get_velocity_x(), physic.get_velocity_y());
-
-        //if (dir == RIGHT)
-        //  ptramp_c->base.x = base.x + base.width+1;
-        //else /* LEFT */
-        //  ptramp_c->base.x = base.x - base.width-1;
-      }
-/*
-      // Don't let tux walk through trampoline
-      else if (ptramp_c->mode != Trampoline::M_HELD && on_ground())
-      {
-        if (physic.get_velocity_x() > 0) // RIGHT
-        {
-          physic.set_velocity_x(0);
-          base.x = ptramp_c->base.x - base.width;
-        }
-        else if (physic.get_velocity_x() < 0) // LEFT
-        {
-          physic.set_velocity_x(0);
-          base.x = ptramp_c->base.x + ptramp_c->base.width;
-        }
-      }
-*/
-      break;
-    case CO_FLYING_PLATFORM:
-      pplatform_c = (FlyingPlatform*) p_c_object;
-      
-      base.y = pplatform_c->base.y - base.height;
-      physic.set_velocity_x(pplatform_c->get_vel_x());
-      
-      physic.enable_gravity(false);
-      can_jump = true;
-      fall_mode = ON_GROUND;
-      break;
-
-    default:
-      break;
-    }
-
-}
-#endif
 
 void
 Player::make_invincible()

@@ -156,8 +156,6 @@ public:
   bool falling_from_flap;
   bool enable_hover;
   bool butt_jump;
-  int frame_;
-  int frame_main;
   
   float flapping_velocity;
 
@@ -171,7 +169,6 @@ public:
   Timer2 invincible_timer;
   Timer2 skidding_timer;
   Timer2 safe_timer;
-  Timer2 frame_timer;
   Timer2 kick_timer;
   Timer2 shooting_timer;   // used to show the arm when Tux is shooting
   Timer2 dying_timer;

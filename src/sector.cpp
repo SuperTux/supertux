@@ -791,13 +791,6 @@ Sector::add_smoke_cloud(const Vector& pos)
   return true;
 }
 
-bool
-Sector::add_particles(const Vector& epicenter, int min_angle, int max_angle, const Vector& initial_velocity, const Vector& acceleration, int number, Color color, int size, int life_time, int drawing_layer)
-{
-  add_object(new Particles(epicenter, min_angle, max_angle, initial_velocity, acceleration, number, color, size, life_time, drawing_layer));
-  return true;
-}
-
 void
 Sector::add_floating_text(const Vector& pos, const std::string& text)
 {

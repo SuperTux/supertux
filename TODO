@@ -84,7 +84,7 @@ L: low priority
  * check if unducking is actually possible or if something is in the way
  * fix flapping
  ** having a star doesn't kill enemies - ok
- * tux always jumps to full height at the moment
+ * tux always jumps to full height at the moment - ok
  * invisble blocks are visible and make the game crash when bumped
  * reimplement spikes as objects
  * what to do when stuck under tiles (after using duck-sliding)

@@ -106,9 +106,6 @@ public:
  
   bool add_bullet(const Vector& pos, float xm, Direction dir);
   bool add_smoke_cloud(const Vector& pos);
-  bool add_particles(const Vector& epicenter, int min_angle, int max_angle,
-      const Vector& initial_velocity, const Vector& acceleration, int number,
-      Color color, int size, int life_time, int drawing_layer);
   void add_floating_text(const Vector& pos, const std::string& text);
                                                                                 
   /** Flip the all the sector vertically. The purpose of this is to let

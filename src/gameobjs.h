@@ -130,7 +130,7 @@ class Particles : public GameObject
 public:
   Particles(const Vector& epicenter, int min_angle, int max_angle,
             const Vector& initial_velocity, const Vector& acceleration,
-            int number, Color color, int size, int life_time, int drawing_layer);
+            int number, Color color, int size, float life_time, int drawing_layer);
   ~Particles();
   
   virtual void action(float elapsed_time);

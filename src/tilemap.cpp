@@ -231,7 +231,7 @@ TileMap::get_tile(int x, int y) const
 {
   if(x < 0 || x >= width || y < 0 || y >= height) {
 #ifdef DEBUG
-    std::cout << "Warning: tile outside tilemap requested!\n";
+    //std::cout << "Warning: tile outside tilemap requested!\n";
 #endif
     return tilemanager->get(0);
   }
