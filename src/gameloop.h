@@ -67,7 +67,6 @@ private:
   float fps_fps;
   FrameRate frame_rate;
   int pause_menu_frame;
-  int debug_fps;
 
   /** If true the end_sequence will be played, user input will be
       ignored while doing that */
@@ -116,6 +115,9 @@ public:
 private:
   static GameSession* current_;
 
+  // for cheating
+  std::string last_keys;
+
   void restart_level();
 
   void check_end_conditions();
@@ -127,7 +129,6 @@ private:
   void drawendscreen();
   void drawresultscreen(void);
 
-private:
   void on_escape_press();
   void process_menu();
 };

@@ -95,6 +95,8 @@ GameSession::restart_level()
   fps_timer.init(true);
   frame_timer.init(true);
 
+  last_keys.clear();
+
 #if 0
   float old_x_pos = -1;
   if (world)
@@ -361,42 +363,15 @@ GameSession::process_events()
                               }
                           }
                         break;
-                      case SDLK_TAB:
-                        if(debug_mode)
-                          {
-                            tux.grow(false);
-                          }
-                        break;
-                      case SDLK_END:
-                        if(debug_mode)
-                          player_status.distros += 50;
-                        break;
-                      case SDLK_DELETE:
-                        if(debug_mode)
-                          tux.got_power = tux.FIRE_POWER;
-                        break;
-                      case SDLK_HOME:
-                        if(debug_mode)
-                          tux.got_power = tux.ICE_POWER;
-                        break;
-                      case SDLK_INSERT:
-                        if(debug_mode)
-                          tux.invincible_timer.start(TUX_INVINCIBLE_TIME);
-                        break;
-                      case SDLK_l:
-                        if(debug_mode)
-                          --player_status.lives;
-                        break;
-                      case SDLK_s:
-                        if(debug_mode)
-                          player_status.score += 1000;
-                      case SDLK_f:
-                        if(debug_fps)
-                          debug_fps = false;
-                        else
-                          debug_fps = true;
-                        break;
                       default:
+                        /* Check if chacrater is ASCII */
+                        char ch[2];
+                        if((event.key.keysym.unicode & 0xFF80) == 0)
+                          {
+                          ch[0] = event.key.keysym.unicode & 0x7F;
+                          ch[1] = '\0';
+                          }
+                        last_keys.append(ch);  // add to cheat keys
                         break;
                       }
                   }
@@ -474,6 +449,48 @@ GameSession::process_events()
             }
         } /* while */
     }
+
+// Cheating words (the goal of this is really for debugging, but could
+// be used for some cheating)
+// TODO: this could be implmented in a more elegant and faster way
+if(!last_keys.empty())
+  {
+  Player &tux = *currentsector->player;
+  if(last_keys.find("grow") != std::string::npos)
+    {
+    tux.grow(false);
+    last_keys.clear();
+    }
+  if(last_keys.find("fire") != std::string::npos)
+    {
+    tux.grow(false);
+    tux.got_power = tux.FIRE_POWER;
+    last_keys.clear();
+    }
+  if(last_keys.find("ice") != std::string::npos)
+    {
+    tux.grow(false);
+    tux.got_power = tux.ICE_POWER;
+    last_keys.clear();
+    }
+  if(last_keys.find("lifeup") != std::string::npos)
+    {
+    player_status.lives++;
+    last_keys.clear();
+    }
+  if(last_keys.find("lifedown") != std::string::npos)
+    {
+    player_status.lives--;
+    last_keys.clear();
+    }
+  if(last_keys.find("invincible") != std::string::npos)
+    {    // be invincle for the rest of the level
+    tux.invincible_timer.start(time_left.get_left());
+    last_keys.clear();
+    }
+  if(last_keys.size() > 15)
+    last_keys.clear();
+  }
 }
 
 void
