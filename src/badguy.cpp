@@ -339,16 +339,23 @@ BadGuy::action_mriceblock(double elapsed_time)
     { /* FIXME: The pbad object shouldn't know about pplayer objects. */
       /* If we're holding the iceblock */
       dir = tux.dir;
-      if(dir==RIGHT)
+      if(tux.size == SMALL)
         {
-          base.x = tux.base.x + 16;
-          base.y = tux.base.y + tux.base.height/1.5 - base.height;
+        if(dir == RIGHT)
+          base.x = tux.base.x + 24;
+        else // dir == LEFT
+          base.x = tux.base.x - 12;
+        base.y = tux.base.y + tux.base.height/1.5 - base.height;
         }
-      else /* facing left */
+      else // TUX == BIG
         {
-          base.x = tux.base.x - 16;
-          base.y = tux.base.y + tux.base.height/1.5 - base.height;
+        if(dir == RIGHT)
+          base.x = tux.base.x + 24;
+        else // dir == LEFT
+          base.x = tux.base.x - 4;
+        base.y = tux.base.y + tux.base.height/1.5 - base.height;
         }
+
       if(collision_object_map(base))
         {
           base.x = tux.base.x;
@@ -1325,7 +1332,8 @@ BadGuy::collision(void *p_c_object, int c_object, CollisionType type)
 
               // Put bad guys a part (or they get jammed)
               // only needed to do to one of them
-              base.x = pbad_c->base.x + pbad_c->base.width + 1;
+              if (physic.get_velocity_x() != 0)
+                base.x = pbad_c->base.x + pbad_c->base.width + 1;
             }
             else if (dir == RIGHT)
             {
