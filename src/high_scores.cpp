@@ -95,10 +95,7 @@ void save_hs(int score)
 
   Menu::set_current(highscore_menu);
 
-  if(!highscore_menu->item[0].input)
-    highscore_menu->item[0].input = (char*) malloc(strlen(hs_name.c_str()) + 1);
-
-  strcpy(highscore_menu->item[0].input,hs_name.c_str());
+  highscore_menu->item[0].input = hs_name;
 
   /* ask for player's name */
   while(Menu::current())
@@ -124,8 +121,7 @@ void save_hs(int score)
       switch (highscore_menu->check())
         {
         case 0:
-          if(highscore_menu->item[0].input != NULL)
-            hs_name = highscore_menu->item[0].input;
+          hs_name = highscore_menu->item[0].input;
           break;
         }
 

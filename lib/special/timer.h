@@ -21,6 +21,8 @@
 #ifndef SUPERTUX_TIMER_H
 #define SUPERTUX_TIMER_H
 
+#include <cstdlib>
+
 namespace SuperTux
   {
 

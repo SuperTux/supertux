@@ -24,6 +24,7 @@
 
 #include "special/timer.h"
 #include "special/base.h"
+#include "special/frame_rate.h"
 
 using namespace SuperTux;
 
@@ -64,8 +65,7 @@ private:
   int st_gl_mode;
   int levelnb;
   float fps_fps;
-  unsigned int last_update_time;
-  unsigned int update_time;
+  FrameRate frame_rate;
   int pause_menu_frame;
   int debug_fps;
 

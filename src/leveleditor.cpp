@@ -330,7 +330,7 @@ int LevelEditor::run(char* filename)
         default:
           if(i >= 1)
           {
-            if(load_level_subset(subset_load_menu->item[i+1].text))
+            if(load_level_subset(subset_load_menu->item[i+1].text.c_str()))
               return 1;
           }
           break;
@@ -348,7 +348,7 @@ int LevelEditor::run(char* filename)
           {
           case MNID_CREATESUBSET:
             LevelSubset::create(subset_new_menu->get_item_by_id(MNID_SUBSETNAME).input);
-            le_level_subset->load(subset_new_menu->get_item_by_id(MNID_SUBSETNAME).input);
+            le_level_subset->load(subset_new_menu->get_item_by_id(MNID_SUBSETNAME).input.c_str());
             leveleditor_menu->get_item_by_id(MNID_SUBSETSETTINGS).kind = MN_GOTO;
             goto_level(1);
             subset_new_menu->get_item_by_id(MNID_SUBSETNAME).change_input("");
@@ -599,7 +599,7 @@ void LevelEditor::apply_level_settings_menu()
 
   if(le_level->get_sector("main")->background->get_image().compare((*level_settings_menu->get_item_by_id(MNID_BGIMG).list.second)) != 0)
   {
-    le_level->get_sector("main")->background->set_image((*level_settings_menu->get_item_by_id(MNID_BGIMG).list.second), atoi(level_settings_menu->get_item_by_id(MNID_BGSPEED).input));
+    le_level->get_sector("main")->background->set_image((*level_settings_menu->get_item_by_id(MNID_BGIMG).list.second), atoi(level_settings_menu->get_item_by_id(MNID_BGSPEED).input.c_str()));
     i = true;
   }
 
@@ -616,17 +616,17 @@ void LevelEditor::apply_level_settings_menu()
   le_level->get_sector("main")->song_title = (*level_settings_menu->get_item_by_id(MNID_SONG).list.second);
 
   le_level->get_sector("main")->solids->resize(
-      atoi(level_settings_menu->get_item_by_id(MNID_LENGTH).input),
-      atoi(level_settings_menu->get_item_by_id(MNID_HEIGHT).input));
-  le_level->time_left = atoi(level_settings_menu->get_item_by_id(MNID_TIME).input);
-  le_level->get_sector("main")->gravity = atof(level_settings_menu->get_item_by_id(MNID_GRAVITY).input);
+      atoi(level_settings_menu->get_item_by_id(MNID_LENGTH).input.c_str()),
+      atoi(level_settings_menu->get_item_by_id(MNID_HEIGHT).input.c_str()));
+  le_level->time_left = atoi(level_settings_menu->get_item_by_id(MNID_TIME).input.c_str());
+  le_level->get_sector("main")->gravity = atof(level_settings_menu->get_item_by_id(MNID_GRAVITY).input.c_str());
   le_level->get_sector("main")->background->set_gradient(Color(
-      atoi(level_settings_menu->get_item_by_id(MNID_TopRed).input),
-      atoi(level_settings_menu->get_item_by_id(MNID_TopGreen).input),
-      atoi(level_settings_menu->get_item_by_id(MNID_TopBlue).input)), Color(
-      atoi(level_settings_menu->get_item_by_id(MNID_BottomRed).input),
-      atoi(level_settings_menu->get_item_by_id(MNID_BottomGreen).input),
-      atoi(level_settings_menu->get_item_by_id(MNID_BottomBlue).input)));
+      atoi(level_settings_menu->get_item_by_id(MNID_TopRed).input.c_str()),
+      atoi(level_settings_menu->get_item_by_id(MNID_TopGreen).input.c_str()),
+      atoi(level_settings_menu->get_item_by_id(MNID_TopBlue).input.c_str())), Color(
+      atoi(level_settings_menu->get_item_by_id(MNID_BottomRed).input.c_str()),
+      atoi(level_settings_menu->get_item_by_id(MNID_BottomGreen).input.c_str()),
+      atoi(level_settings_menu->get_item_by_id(MNID_BottomBlue).input.c_str())));
 }
 
 void LevelEditor::save_subset_settings_menu()

@@ -15,6 +15,7 @@ libsupertux_la_SOURCES =app/globals.cpp \
 			special/sprite.cpp \
 			special/sprite_manager.cpp \
 			special/timer.cpp \
+			special/frame_rate.cpp \
 			utils/configfile.cpp \
 			utils/lispreader.cpp \
 			utils/lispwriter.cpp \
@@ -45,7 +46,8 @@ libsupertuxspecial_HEADERS =special/base.h \
 			special/moving_object.h \
 			special/sprite.h \
 			special/sprite_manager.h \
-			special/timer.h
+			special/timer.h \
+			special/frame_rate.h
 libsupertuxutils_HEADERS =utils/configfile.h \
 			utils/exceptions.h \
 			utils/lispreader.h \

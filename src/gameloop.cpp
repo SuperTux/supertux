@@ -74,6 +74,7 @@ GameSession::GameSession(const std::string& levelname_, int mode, bool flip_leve
 
   fps_timer.init(true);            
   frame_timer.init(true);
+  frame_rate.set_fps(100);
 
   context = new DrawingContext();
 
@@ -190,7 +191,7 @@ GameSession::start_timers()
 {
   time_left.start(level->time_left*1000);
   Ticks::pause_init();
-  update_time = Ticks::get();
+  frame_rate.start();
 }
 
 void
@@ -600,7 +601,7 @@ GameSession::run()
   
   int fps_cnt = 0;
 
-  update_time = last_update_time = Ticks::get();
+  frame_rate.start();
 
   // Eat unneeded events
   SDL_Event event;
@@ -611,7 +612,7 @@ GameSession::run()
   while (exit_status == ES_NONE)
     {
       /* Calculate the movement-factor */
-      double frame_ratio = ((double)(update_time-last_update_time))/((double)FRAME_RATE);
+      double frame_ratio = frame_rate.get();
 
       if(!frame_timer.check())
         {
@@ -652,18 +653,7 @@ GameSession::run()
           continue;
         }
 
-      /* Set the time of the last update and the time of the current update */
-      last_update_time = update_time;
-      update_time      = Ticks::get();
-
-      /* Pause till next frame, if the machine running the game is too fast: */
-      /* FIXME: Works great for in OpenGl mode, where the CPU doesn't have to do that much. But
-         the results in SDL mode aren't perfect (thought the 100 FPS are reached), even on an AMD2500+. */
-      if(last_update_time >= update_time - 12) 
-        {
-          SDL_Delay(10);
-          update_time = Ticks::get();
-        }
+      frame_rate.update();
 
       /* Handle time: */
       if (!time_left.check() && currentsector->player->dying == DYING_NOT

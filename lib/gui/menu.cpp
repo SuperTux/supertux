@@ -152,15 +152,23 @@ Menu::set_current(Menu* menu)
   current_ = menu;
 }
 
+MenuItem::MenuItem(MenuItemKind _kind, int _id) : kind(_kind) , id(_id)
+{
+  list.second = 0;
+}
+
+MenuItem::MenuItem(MenuItemKind _kind, int _id, const std::string& _text) : kind(_kind) , id(_id) , text(_text)
+{
+  list.second = 0;
+}
+
 /* Return a pointer to a new menu item */
 MenuItem*
-MenuItem::create(MenuItemKind kind_, const char *text_, int init_toggle_, Menu* target_menu_, int id, int* int_p_)
+MenuItem::create(MenuItemKind kind_, const std::string& text_, int init_toggle_, Menu* target_menu_, int id_, int* int_p_)
 {
-  MenuItem *pnew_item = new MenuItem;
+  MenuItem *pnew_item = new MenuItem(kind_,id_);
 
-  pnew_item->kind = kind_;
-  pnew_item->text = (char*) malloc(sizeof(char) * (strlen(text_) + 1));
-  strcpy(pnew_item->text, text_);
+  pnew_item->text = text_;
 
   if(kind_ == MN_TOGGLE)
     pnew_item->toggled = init_toggle_;
@@ -168,10 +176,7 @@ MenuItem::create(MenuItemKind kind_, const char *text_, int init_toggle_, Menu* 
     pnew_item->toggled = false;
 
   pnew_item->target_menu = target_menu_;
-  pnew_item->input = (char*) malloc(sizeof(char));
-  pnew_item->input[0] = '\0';
 
-  pnew_item->id = id;
   pnew_item->int_p = int_p_;
   
   pnew_item->list.second = 0;
@@ -184,25 +189,15 @@ MenuItem::create(MenuItemKind kind_, const char *text_, int init_toggle_, Menu* 
 }
 
 void
-MenuItem::change_text(const  char *text_)
+MenuItem::change_text(const  std::string& text_)
 {
-  if (text_)
-    {
-      free(text);
-      text = (char*) malloc(sizeof(char )*(strlen(text_)+1));
-      strcpy(text, text_);
-    }
+  text = text_;
 }
 
 void
-MenuItem::change_input(const  char *text_)
+MenuItem::change_input(const  std::string& text_)
 {
-  if(text)
-    {
-      free(input);
-      input = (char*) malloc(sizeof(char )*(strlen(text_)+1));
-      strcpy(input, text_);
-    }
+  input = text_;
 }
 
 std::string MenuItem::get_input_with_symbol(bool active_item)
@@ -223,9 +218,9 @@ std::string MenuItem::get_input_with_symbol(bool active_item)
 
   char str[1024];
   if(input_flickering)
-    sprintf(str,"%s ",input);
+    sprintf(str,"%s ",input.c_str());
   else
-    sprintf(str,"%s_",input);
+    sprintf(str,"%s_",input.c_str());
 
   std::string string = str;
 
@@ -298,8 +293,6 @@ Menu::~Menu()
     {
       for(unsigned int i = 0; i < item.size(); ++i)
         {
-          free(item[i].text);
-          free(item[i].input);
           item[i].list.first.clear();
         }
     }
@@ -340,6 +333,13 @@ Menu::additem(MenuItem* pmenu_item)
 {
   item.push_back(*pmenu_item);
   delete pmenu_item;
+}
+
+/* Add an item to a menu */
+void
+Menu::additem(const MenuItem& pmenu_item)
+{
+  item.push_back(pmenu_item);
 }
 
 void
@@ -432,13 +432,13 @@ Menu::action()
           if(item[active_item].kind == MN_TEXTFIELD
               || item[active_item].kind == MN_NUMFIELD)
             {
-              if(item[active_item].input != NULL)
+              if(!item[active_item].input.empty())
                 {
-                  int i = strlen(item[active_item].input);
+                  int i = item[active_item].input.size();
 
                   while(delete_character > 0)	/* remove charactes */
                     {
-                      item[active_item].input[i-1] = '\0';
+                      item[active_item].input.resize(i-1);
                       delete_character--;
                     }
                 }
@@ -449,19 +449,7 @@ Menu::action()
           if(item[active_item].kind == MN_TEXTFIELD
               || (item[active_item].kind == MN_NUMFIELD && mn_input_char >= '0' && mn_input_char <= '9'))
             {
-              if(item[active_item].input != NULL)
-                {
-                  int i = strlen(item[active_item].input);
-                  item[active_item].input = (char*) realloc(item[active_item].input,sizeof(char)*(i + 2));
-                  item[active_item].input[i] = mn_input_char;
-                  item[active_item].input[i+1] = '\0';
-                }
-              else
-                {
-                  item[active_item].input = (char*) malloc(2*sizeof(char));
-                  item[active_item].input[0] = mn_input_char;
-                  item[active_item].input[1] = '\0';
-                }
+              item[active_item].input.push_back(mn_input_char);
             }
 
         case MENU_ACTION_NONE:
@@ -688,7 +676,7 @@ int Menu::get_width() const
     int menu_width = 0;
     for(unsigned int i = 0; i < item.size(); ++i)
       {
-        int w = strlen(item[i].text) + (item[i].input ? strlen(item[i].input) + 1 : 0); //+ ((item[i].list.second != item[i].list.first.end()) ? (strlen((*(item[i].list.second)).c_str())) : 0);
+        int w = item[i].text.size() + item[i].input.size() + 1; //+ ((item[i].list.second != item[i].list.first.end()) ? (strlen((*(item[i].list.second)).c_str())) : 0);
         if( w > menu_width )
           {
             menu_width = w;

@@ -64,19 +64,22 @@ namespace SuperTux
   class MenuItem
     {
     public:
+      MenuItem() {};
+      MenuItem(MenuItemKind kind, int id = -1);
+      MenuItem(MenuItemKind kind, int id, const std::string& text);
       MenuItemKind kind;
+      int id;   // item id      
       int toggled;
-      char *text;
-      char *input;
+      std::string text;
+      std::string input;
       int *int_p;   // used for setting keys (can be used for more stuff...)
-      int id;   // item id
       std::pair<std::set<std::string>, std::set<std::string>::iterator> list;
       Menu* target_menu;
 
-      void change_text (const char *text);
-      void change_input(const char *text);
+      void change_text (const std::string& text);
+      void change_input(const std::string& text);
 
-      static MenuItem* create(MenuItemKind kind, const char *text, int init_toggle, Menu* target_menu, int id, int* int_p);
+      static MenuItem* create(MenuItemKind kind, const std::string& text, int init_toggle, Menu* target_menu, int id, int* int_p);
 
       std::string get_input_with_symbol(bool active_item);   // returns the text with an input symbol
     private:
@@ -148,6 +151,7 @@ namespace SuperTux
       Menu();
       ~Menu();
 
+      void additem(const MenuItem& menu_item);      
       void additem(MenuItem* pmenu_item);
       void additem(MenuItemKind kind, const std::string& text, int init_toggle, Menu* target_menu, int id = -1, int *int_p = NULL);
 
