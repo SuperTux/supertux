@@ -747,7 +747,7 @@ Player::draw(DrawingContext& context)
   Vector pos = Vector(base.x, base.y);
 
   /* Set Tux sprite action */
-  if (duck && size != SMALL)
+  if (duck && size == BIG)
     {
     if(dir == LEFT)
       tux_body->set_action("duck-left");
@@ -807,7 +807,7 @@ Player::draw(DrawingContext& context)
       if(dir == LEFT)
         tux_body->head->set_action("idle-left");
       else // dir == RIGHT
-        tux_body->set_action("idle-right");
+        tux_body->head->set_action("idle-right");
 
       tux_body->head->start_animation(1);
       }
@@ -822,16 +822,16 @@ Player::draw(DrawingContext& context)
     if (duck)
       {
       if(dir == LEFT)
-        tux_body->arms->set_action("duck+grab");
+        tux_body->arms->set_action("duck+grab-left");
       else // dir == RIGHT
-        tux_body->set_action("duck-right");
+        tux_body->arms->set_action("duck+grab-right");
       }
     else
       {
       if(dir == LEFT)
-        tux_body->arms->set_action("grab");
+        tux_body->arms->set_action("grab-left");
       else // dir == RIGHT
-        tux_body->set_action("duck-right");
+        tux_body->arms->set_action("grab-right");
       }
     }
 
