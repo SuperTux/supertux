@@ -158,6 +158,29 @@
                   "shared/snowball-right-2.png"
                   "shared/snowball-right-1.png"))
 
-  )
+
+  (sprite (name "largetux-walk-left")
+          (images "shared/largetux-walk-left-0.png"
+                  "shared/largetux-walk-left-1.png"
+                  "shared/largetux-walk-left-2.png"
+                  "shared/largetux-walk-left-3.png"
+                  "shared/largetux-walk-left-4.png"
+                  "shared/largetux-walk-left-5.png"))
+
+  (sprite (name "largetux-walk-right")
+          (images "shared/largetux-walk-right-0.png"
+                  "shared/largetux-walk-right-1.png"
+                  "shared/largetux-walk-right-2.png"
+                  "shared/largetux-walk-right-3.png"
+                  "shared/largetux-walk-right-4.png"
+                  "shared/largetux-walk-right-5.png"))
+
+  (sprite (name "largetux-jump-left")
+          (images "shared/largetux-jump-left-0.png"))
+
+  (sprite (name "largetux-jump-right")
+          (images "shared/largetux-jump-right-0.png"))
+
+)
 
 ;; EOF ;;
