@@ -247,7 +247,14 @@ Tux::stop()
 {
   offset = 0;
   direction = D_NONE;
+  input_direction = D_NONE;
   moving = false;
+}
+
+void
+Tux::set_direction(Direction dir)
+{
+input_direction = dir;
 }
 
 void
@@ -271,7 +278,6 @@ Tux::action(float delta)
             }
           else if (input_direction == back_direction)
             {
-              std::cout << "Back triggered" << std::endl;
               moving = true;
               direction = input_direction;
               tile_pos = worldmap->get_next_tile(tile_pos, direction);
@@ -294,43 +300,65 @@ Tux::action(float delta)
             }
           else
             {
-              if (worldmap->at(tile_pos)->auto_walk)
+              if (worldmap->at(tile_pos)->auto_walk || direction != input_direction)
                 { // Turn to a new direction
                   Tile* tile = worldmap->at(tile_pos);
-                  Direction dir = D_NONE;
-                  
-                  if (tile->north && back_direction != D_NORTH)
-                    dir = D_NORTH;
-                  else if (tile->south && back_direction != D_SOUTH)
-                    dir = D_SOUTH;
-                  else if (tile->east && back_direction != D_EAST)
-                    dir = D_EAST;
-                  else if (tile->west && back_direction != D_WEST)
-                    dir = D_WEST;
 
-                  if (dir != D_NONE)
-                    {
-                      direction = dir;
+                  if(direction != input_direction && 
+                     ((tile->north && input_direction == D_NORTH) ||
+                     (tile->south && input_direction == D_SOUTH) ||
+                     (tile->east && input_direction == D_EAST) ||
+                     (tile->west && input_direction == D_WEST)))
+                    {  // player has changed direction during auto-movement
+                    direction = input_direction;
+                    back_direction = reverse_dir(direction);
+                    }
+                  else if(direction != input_direction)
+                    {  // player has changed to impossible tile
                       back_direction = reverse_dir(direction);
+                      stop();
                     }
                   else
                     {
+                    Direction dir = D_NONE;
+                  
+                    if (tile->north && back_direction != D_NORTH)
+                      dir = D_NORTH;
+                    else if (tile->south && back_direction != D_SOUTH)
+                      dir = D_SOUTH;
+                    else if (tile->east && back_direction != D_EAST)
+                      dir = D_EAST;
+                    else if (tile->west && back_direction != D_WEST)
+                      dir = D_WEST;
+
+                    if (dir != D_NONE)
+                      {
+                      direction = dir;
+                      input_direction = direction;
+                      back_direction = reverse_dir(direction);
+                      }
+                    else
+                      {
                       // Should never be reached if tiledata is good
                       stop();
                       return;
+                      }
                     }
-                }
+                  }
 
               // Walk automatically to the next tile
-              Vector next_tile;
-              if (worldmap->path_ok(direction, tile_pos, &next_tile))
+              if(direction != D_NONE)
                 {
+                Vector next_tile;
+                if (worldmap->path_ok(direction, tile_pos, &next_tile))
+                  {
                   tile_pos = next_tile;
-                }
-              else
-                {
+                  }
+                else
+                  {
                   puts("Tilemap data is buggy");
                   stop();
+                  }
                 }
             }
         }
@@ -364,7 +392,6 @@ WorldMap::WorldMap()
   leveldot_green = new Surface(datadir +  "/images/worldmap/leveldot_green.png", true);
   leveldot_red = new Surface(datadir +  "/images/worldmap/leveldot_red.png", true);
 
-  input_direction = D_NONE;
   enter_level = false;
 
   name = "<no title>";
@@ -384,9 +411,9 @@ WorldMap::~WorldMap()
 void
 WorldMap::load_map()
 {
-  lisp_object_t* root_obj = lisp_read_from_file(datadir + "/special_tiles/worldmap/" + map_filename);
+  lisp_object_t* root_obj = lisp_read_from_file(datadir + "/levels/worldmap/" + map_filename);
   if (!root_obj)
-    Termination::abort("Couldn't load file", datadir + "/special_tiles/worldmap/" + map_filename);
+    Termination::abort("Couldn't load file", datadir + "/levels/worldmap/" + map_filename);
 
   if (strcmp(lisp_symbol(lisp_car(root_obj)), "supertux-worldmap") == 0)
     {
@@ -411,7 +438,8 @@ WorldMap::load_map()
 	      reader.read_int("start_pos_x", start_x);
 	      reader.read_int("start_pos_y", start_y);
             }
-          else if (strcmp(lisp_symbol(lisp_car(element)), "special_tiles") == 0)
+          else if (strcmp(lisp_symbol(lisp_car(element)), "special-tiles") == 0 ||
+                   strcmp(lisp_symbol(lisp_car(element)), "levels") == 0)
             {
               lisp_object_t* cur = lisp_cdr(element);
               
@@ -494,7 +522,7 @@ void WorldMap::get_level_title(SpecialTile& special_tile)
   /** get special_tile's title */
   special_tile.title = "<no title>";
 
-  LispReader* reader = LispReader::load(datadir + "/special_tiles/" + special_tile.level_name, "supertux-special_tile");
+  LispReader* reader = LispReader::load(datadir + "/levels/" + special_tile.level_name, "supertux-level");
   if(!reader)
     {
     std::cerr << "Error: Could not open special_tile file. Ignoring...\n";
@@ -510,7 +538,10 @@ WorldMap::on_escape_press()
 {
   // Show or hide the menu
   if(!Menu::current())
+    {
     Menu::set_current(worldmap_menu); 
+    tux->set_direction(D_NONE);  // stop tux movement when menu is called
+    }
   else
     Menu::set_current(0); 
 }
@@ -519,7 +550,6 @@ void
 WorldMap::get_input()
 {
   enter_level = false;
-  input_direction = D_NONE;
    
   SDL_Event event;
   while (SDL_PollEvent(&event))
@@ -546,6 +576,20 @@ WorldMap::get_input()
                 case SDLK_RETURN:
                   enter_level = true;
                   break;
+
+                case SDLK_LEFT:
+                  tux->set_direction(D_WEST);
+                  break;
+                case SDLK_RIGHT:
+                  tux->set_direction(D_EAST);
+                  break;
+                case SDLK_UP:
+                  tux->set_direction(D_NORTH);
+                  break;
+                case SDLK_DOWN:
+                  tux->set_direction(D_SOUTH);
+                  break;
+
                 default:
                   break;
                 }
@@ -555,16 +599,16 @@ WorldMap::get_input()
               if (event.jaxis.axis == joystick_keymap.x_axis)
                 {
                   if (event.jaxis.value < -joystick_keymap.dead_zone)
-                    input_direction = D_WEST;
+                    tux->set_direction(D_WEST);
                   else if (event.jaxis.value > joystick_keymap.dead_zone)
-                    input_direction = D_EAST;
+                    tux->set_direction(D_EAST);
                 }
               else if (event.jaxis.axis == joystick_keymap.y_axis)
                 {
                   if (event.jaxis.value > joystick_keymap.dead_zone)
-                    input_direction = D_SOUTH;
+                    tux->set_direction(D_SOUTH);
                   else if (event.jaxis.value < -joystick_keymap.dead_zone)
-                    input_direction = D_NORTH;
+                    tux->set_direction(D_NORTH);
                 }
               break;
 
@@ -579,20 +623,6 @@ WorldMap::get_input()
               break;
             }
         }
-    }
-
-  if (!Menu::current())
-    {
-      Uint8 *keystate = SDL_GetKeyState(NULL);
-  
-      if (keystate[SDLK_LEFT])
-        input_direction = D_WEST;
-      else if (keystate[SDLK_RIGHT])
-        input_direction = D_EAST;
-      else if (keystate[SDLK_UP])
-        input_direction = D_NORTH;
-      else if (keystate[SDLK_DOWN])
-        input_direction = D_SOUTH;
     }
 }
 
@@ -678,7 +708,7 @@ WorldMap::update(float delta)
               // do a shriking fade to the special_tile
               shrink_fade(Vector((special_tile->x*32 + 16 + offset.x),(special_tile->y*32 + 16
                       + offset.y)), 500);
-              GameSession session(datadir +  "/special_tiles/" + special_tile->level_name,
+              GameSession session(datadir +  "/levels/" + special_tile->level_name,
                                   ST_GL_LOAD_LEVEL_FILE, special_tile->vertical_flip);
 
               switch (session.run())
@@ -805,7 +835,7 @@ WorldMap::update(float delta)
   else
     {
       tux->action(delta);
-      tux->set_direction(input_direction);
+//      tux->set_direction(input_direction);
     }
   
   Menu* menu = Menu::current();
@@ -1032,13 +1062,13 @@ WorldMap::savegame(const std::string& filename)
       << "  (tux (x " << tux->get_tile_pos().x << ") (y " << tux->get_tile_pos().y << ")\n"
       << "       (back \"" << direction_to_string(tux->back_direction) << "\")\n"
       << "       (bonus \"" << bonus_to_string(player_status.bonus) <<  "\"))\n"
-      << "  (special_tiles\n";
+      << "  (levels\n";
   
   for(SpecialTiles::iterator i = special_tiles.begin(); i != special_tiles.end(); ++i)
     {
       if (i->solved && !i->level_name.empty())
         {
-          out << "     (special_tile (name \"" << i->level_name << "\")\n"
+          out << "     (level (name \"" << i->level_name << "\")\n"
               << "            (solved #t))\n";
         }
     }  
@@ -1109,14 +1139,14 @@ WorldMap::loadgame(const std::string& filename)
     }
 
   lisp_object_t* level_cur = 0;
-  if (reader.read_lisp("special_tiles", level_cur))
+  if (reader.read_lisp("levels", level_cur))
     {
       while(level_cur)
         {
           lisp_object_t* sym  = lisp_car(lisp_car(level_cur));
           lisp_object_t* data = lisp_cdr(lisp_car(level_cur));
 
-          if (strcmp(lisp_symbol(sym), "special_tile") == 0)
+          if (strcmp(lisp_symbol(sym), "level") == 0)
             {
               std::string name;
               bool solved = false;

@@ -105,7 +105,7 @@ public:
   void draw(DrawingContext& context, const Vector& offset);
   void action(float elapsed_time);
 
-  void set_direction(Direction d) { input_direction = d; }
+  void set_direction(Direction dir);
 
   bool is_moving() const { return moving; }
   Vector get_pos();
@@ -185,7 +185,6 @@ private:
 
   MusicRef song;
 
-  Direction input_direction;
   bool enter_level;
 
   Vector offset;
