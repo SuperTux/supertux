@@ -41,6 +41,16 @@ Physic::set_velocity(float nvx, float nvy)
     vy = -nvy;
 }
 
+void Physic::inverse_velocity_x()
+{
+vx = -vx;
+}
+
+void Physic::inverse_velocity_y()
+{
+vy = -vy;
+}
+
 float
 Physic::get_velocity_x()
 {
