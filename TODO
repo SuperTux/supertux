@@ -11,9 +11,6 @@ Todo
 H: high priority
 L: low priority
 
-[H] background in underground levels scrolls far too slow, makes them
-   hardly playable, since once too easily get focused on the
-   background instead of the playfield
 [H] Frame ratio code has been changed and so the animation may need tuning.
     Somebody do some testing and change the definitions regarding this.
 [M] When aborting a level, lives and score should remain the same as they
@@ -34,17 +31,11 @@ L: low priority
 [L] when bumping a special with 2 blocks at once, it won't change direction
 [L] tux get killed if he kicks a iceblock while at the same time
    bouncing on the roof
-[L] tux can be killed by back bouncing iceblocks in the exit sequence
-   (all enemies should be removed/turned to coins once the exit
-   sequence started)
 [L] in the "Welcome to Antarctica" level, the blocks next to the first growup
     look like there are 2 blocks above each other when bumping against them as
     small tux...
-[L] Life counter should be decreased once the die-animation starts,
-   not when it ends
 [L] Enemies should turn upside down after being hit by an kicked
    iceblock
-- leveleditor crashs when pressing the button with the levelsettings
 
 
 Stuff for past milestone1:
@@ -64,7 +55,7 @@ to touch before milestone1 at the moment.
 Fixed
 -----
 
-- leveleditor lacks enemies support (will be fixed soon by Tobias)
+- leveleditor lacks enemies support - fixed
 - points aren't reset when gameover
 - when jumping into the exit with a star, the endgame music will change back to
   levelmusic after a short time
@@ -79,4 +70,12 @@ Fixed
 - sometimes the level restarts/you die after collecing a growup - fixed
 - mriceblock doesn't disapear after being kicked my another iceblock,
   not sure when exactly it happens, might depend on direction or so - fixed
-
+- Life counter should be decreased once the die-animation starts,
+   not when it ends - fixed
+- background in underground levels scrolls far too slow, makes them
+   hardly playable, since once too easily get focused on the
+   background instead of the playfield - fixed
+- tux can be killed by back bouncing iceblocks in the exit sequence
+   (all enemies should be removed/turned to coins once the exit
+   sequence started) - fixed
+- leveleditor crashs when pressing the button with the levelsettings - fixed
