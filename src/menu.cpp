@@ -767,141 +767,152 @@ Menu::isToggled(int id)
 void
 Menu::event(SDL_Event& event)
 {
-  SDLKey key;
   switch(event.type)
-  {
-  case SDL_KEYDOWN:
-    key = event.key.keysym.sym;
-    SDLMod keymod;
-    char ch[2];
-    keymod = SDL_GetModState();
-    int x,y;
-
-    /* If the current unicode character is an ASCII character,
-       assign it to ch. */
-    if ( (event.key.keysym.unicode & 0xFF80) == 0 )
     {
-      ch[0] = event.key.keysym.unicode & 0x7F;
-      ch[1] = '\0';
-    }
-    else
-    {
-      /* An International Character. */
-    }
-
-    if(item[active_item].kind == MN_CONTROLFIELD_KB)
-    {
-      if(key == SDLK_ESCAPE)
+    case SDL_KEYDOWN:
       {
-        Menu::pop_current();
-        return;
-      }
-      *item[active_item].int_p = key;
-      menuaction = MENU_ACTION_DOWN;
-      return;
-    }
+        SDLKey key = key = event.key.keysym.sym;
+        SDLMod keymod;
+        char ch[2];
+        keymod = SDL_GetModState();
+
+        /* If the current unicode character is an ASCII character,
+           assign it to ch. */
+        if ( (event.key.keysym.unicode & 0xFF80) == 0 )
+          {
+            ch[0] = event.key.keysym.unicode & 0x7F;
+            ch[1] = '\0';
+          }
+        else
+          {
+            /* An International Character. */
+          }
+
+        if(item[active_item].kind == MN_CONTROLFIELD_KB)
+          {
+            if(key == SDLK_ESCAPE)
+              {
+                Menu::pop_current();
+                return;
+              }
+            *item[active_item].int_p = key;
+            menuaction = MENU_ACTION_DOWN;
+            return;
+          }
 
 
-    switch(key)
-    {
-    case SDLK_UP:		/* Menu Up */
-      menuaction = MENU_ACTION_UP;
-      break;
-    case SDLK_DOWN:		/* Menu Down */
-      menuaction = MENU_ACTION_DOWN;
-      break;
-    case SDLK_LEFT:		/* Menu Up */
-      menuaction = MENU_ACTION_LEFT;
-      break;
-    case SDLK_RIGHT:		/* Menu Down */
-      menuaction = MENU_ACTION_RIGHT;
-      break;
-    case SDLK_SPACE:
-      if(item[active_item].kind == MN_TEXTFIELD)
-      {
-        menuaction = MENU_ACTION_INPUT;
-        mn_input_char = ' ';
-        break;
+        switch(key)
+          {
+          case SDLK_UP:		/* Menu Up */
+            menuaction = MENU_ACTION_UP;
+            break;
+          case SDLK_DOWN:		/* Menu Down */
+            menuaction = MENU_ACTION_DOWN;
+            break;
+          case SDLK_LEFT:		/* Menu Up */
+            menuaction = MENU_ACTION_LEFT;
+            break;
+          case SDLK_RIGHT:		/* Menu Down */
+            menuaction = MENU_ACTION_RIGHT;
+            break;
+          case SDLK_SPACE:
+            if(item[active_item].kind == MN_TEXTFIELD)
+              {
+                menuaction = MENU_ACTION_INPUT;
+                mn_input_char = ' ';
+                break;
+              }
+          case SDLK_RETURN: /* Menu Hit */
+            menuaction = MENU_ACTION_HIT;
+            break;
+          case SDLK_DELETE:
+          case SDLK_BACKSPACE:
+            menuaction = MENU_ACTION_REMOVE;
+            delete_character++;
+            break;
+          case SDLK_ESCAPE:
+            Menu::pop_current();
+            break;
+          default:
+            if( (key >= SDLK_0 && key <= SDLK_9) || (key >= SDLK_a && key <= SDLK_z) || (key >= SDLK_SPACE && key <= SDLK_SLASH))
+              {
+                menuaction = MENU_ACTION_INPUT;
+                mn_input_char = *ch;
+              }
+            else
+              {
+                mn_input_char = '\0';
+              }
+            break;
+          }
       }
-    case SDLK_RETURN: /* Menu Hit */
+      break;
+      
+    case  SDL_JOYAXISMOTION:
+      if(event.jaxis.axis == joystick_keymap.y_axis)
+        {
+          if (event.jaxis.value > joystick_keymap.dead_zone && !joystick_timer.started())
+            {
+              menuaction = MENU_ACTION_DOWN;
+              joystick_timer.start(JOYSTICK_MENU_DELAY);
+            }
+          else if (event.jaxis.value < -joystick_keymap.dead_zone && !joystick_timer.started())
+            {
+              menuaction = MENU_ACTION_UP;
+              joystick_timer.start(JOYSTICK_MENU_DELAY);
+            }
+          else
+            joystick_timer.stop();
+        }
+      break;
+    case  SDL_JOYBUTTONDOWN:
+      if (item[active_item].kind == MN_CONTROLFIELD_JS)
+        {
+          // FIXME: This next line does nothing useable, right? 
+          // *item[active_item].int_p = key;
+          menuaction = MENU_ACTION_DOWN;
+        }
       menuaction = MENU_ACTION_HIT;
       break;
-    case SDLK_DELETE:
-    case SDLK_BACKSPACE:
-      menuaction = MENU_ACTION_REMOVE;
-      delete_character++;
+
+    case SDL_MOUSEBUTTONDOWN:
+      {
+        int x = event.motion.x;
+        int y = event.motion.y;
+
+        if(x > pos_x - get_width()/2 &&
+           x < pos_x + get_width()/2 &&
+           y > pos_y - get_height()/2 &&
+           y < pos_y + get_height()/2)
+          {
+            menuaction = MENU_ACTION_HIT;
+          }
+      }
       break;
-    case SDLK_ESCAPE:
-      Menu::pop_current();
+
+    case SDL_MOUSEMOTION:
+      {
+        int x = event.motion.x;
+        int y = event.motion.y;
+
+        if(x > pos_x - get_width()/2 &&
+           x < pos_x + get_width()/2 &&
+           y > pos_y - get_height()/2 &&
+           y < pos_y + get_height()/2)
+          {
+            active_item = (y - (pos_y - get_height()/2)) / 24;
+            mouse_cursor->set_state(MC_LINK);
+          }
+        else
+          {
+            mouse_cursor->set_state(MC_NORMAL);
+          }
+      }
       break;
+
     default:
-      if( (key >= SDLK_0 && key <= SDLK_9) || (key >= SDLK_a && key <= SDLK_z) || (key >= SDLK_SPACE && key <= SDLK_SLASH))
-      {
-        menuaction = MENU_ACTION_INPUT;
-        mn_input_char = *ch;
-      }
-      else
-      {
-        mn_input_char = '\0';
-      }
       break;
     }
-    break;
-  case  SDL_JOYAXISMOTION:
-    if(event.jaxis.axis == joystick_keymap.y_axis)
-    {
-      if (event.jaxis.value > joystick_keymap.dead_zone && !joystick_timer.started())
-      {
-        menuaction = MENU_ACTION_DOWN;
-        joystick_timer.start(JOYSTICK_MENU_DELAY);
-      }
-      else if (event.jaxis.value < -joystick_keymap.dead_zone && !joystick_timer.started())
-      {
-        menuaction = MENU_ACTION_UP;
-        joystick_timer.start(JOYSTICK_MENU_DELAY);
-      }
-      else
-        joystick_timer.stop();
-    }
-    break;
-  case  SDL_JOYBUTTONDOWN:
-    if (item[active_item].kind == MN_CONTROLFIELD_JS)
-    {
-      *item[active_item].int_p = key;
-      menuaction = MENU_ACTION_DOWN;
-    }
-    menuaction = MENU_ACTION_HIT;
-    break;
-  case SDL_MOUSEBUTTONDOWN:
-    x = event.motion.x;
-    y = event.motion.y;
-    if(x > pos_x - get_width()/2 &&
-        x < pos_x + get_width()/2 &&
-        y > pos_y - get_height()/2 &&
-        y < pos_y + get_height()/2)
-    {
-      menuaction = MENU_ACTION_HIT;
-    }
-    break;
-  case SDL_MOUSEMOTION:
-    x = event.motion.x;
-    y = event.motion.y;
-    if(x > pos_x - get_width()/2 &&
-        x < pos_x + get_width()/2 &&
-        y > pos_y - get_height()/2 &&
-        y < pos_y + get_height()/2)
-    {
-      active_item = (y - (pos_y - get_height()/2)) / 24;
-      mouse_cursor->set_state(MC_LINK);
-    }
-    else
-    {
-      mouse_cursor->set_state(MC_NORMAL);
-    }
-    break;
-  default:
-    break;
-  }
 }
 
 
