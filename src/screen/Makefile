@@ -1,4 +1,0 @@
-all:
-	cd .. && $(MAKE)
-
-# EOF #
