@@ -181,6 +181,7 @@ public:
 	 int teleport_dest_x;
 	 int teleport_dest_y;
 	 std::string teleport_message;
+	 bool invisible_teleporter;
 
     /** If false, disables the auto walking after finishing a level */
     bool auto_path;

@@ -7,7 +7,7 @@
   (tilemap 
     (width  70)
     (height 50)
-    (data    ;;                     (10)                          (20)                          (30)                          (40)                          (50)                          (60)                       (69)   
+    (data
        9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  11 16 16 16 16 16 16 16 12 9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  
        9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  15 24 25 26 58 24 26 19 17 9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  
        9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  15 30 29 28 59 31 27 19 17 9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  
@@ -133,74 +133,120 @@
            (x 33)
            (y 39) (apply-action-right #f))
 
-			(level (teleporter #t)
+			(level 
 	        (x 33)
 			  (y 8)
 			  (teleport-message "Warp to Matr1x' Sector")
 			  (dest_x 20)
 			  (dest_y 14))
-			(level (teleporter #t)
+			(level 
 	        (x 31)
 			  (y 8)
 			  (teleport-message "Warp to Thompson's Domain")
 			  (dest_x 34)
 			  (dest_y 18))
-			(level (teleporter #t)
+			(level 
 	        (x 35)
 			  (y 8)
 			  (teleport-message "Warp to the SuperTux Team Island")
 			  (dest_x 51)
 			  (dest_y 10))
-			(level (teleporter #t)
+			(level 
 	        (x 37)
 			  (y 8)
 			  (teleport-message "Warp to Abednego's Area")
 			  (dest_x 15)
 			  (dest_y 31))
-		   (level (teleporter #t)
+		   (level 
 	        (x 39)
 			  (y 8)
 			  (teleport-message "Warp to Torfi's Territory")
 			  (dest_x 56)
 			  (dest_y 33))
-    	   (level (teleporter #t)
+    	   (level 
 	        (x 19)
 			  (y 24)
-			  (teleport-message "Castle")
+			  (teleport-message "Leave Matrix' Sector")
 			  (dest_x 32)
 			  (dest_y 37))
-     	   (level (teleporter #t)
+     	   (level 
 	        (x 35)
 			  (y 26)
-			  (teleport-message "Home")
+			  (teleport-message "Leave Thompson's Domain")
 			  (dest_x 35)
 			  (dest_y 2))
-    	   (level (teleporter #t)
+    	   (level 
 	        (x 54)
 			  (y 25)
-			  (teleport-message "Home")
+			  (teleport-message "Leave SuperTux Team Island")
 			  (dest_x 35)
 			  (dest_y 2))
-    	   (level (teleporter #t)
+    	   (level 
 	        (x 18)
 			  (y 43)
-			  (teleport-message "Home")
+			  (teleport-message "Leave Abednego's Area")
 			  (dest_x 35)
 			  (dest_y 2))
-    	   (level (teleporter #t)
+    	   (level 
 	        (x 60)
 			  (y 43)
-			  (teleport-message "Home")
+			  (teleport-message "Leave Thompson's Territory")
 			  (dest_x 35)
 			  (dest_y 2))
-    	   (level (teleporter #t)
+    	   
+			;;Back from Castle
+			(level 
 	        (x 27)
 			  (y 39)
-			  (teleport-message "Home")
+			  (teleport-message "Back to the Hub")
+			  (dest_x 35)
+			  (dest_y 2))
+			  
+			;;Back from Abednego
+			(level 
+	        (x 15)
+			  (y 31)
+			  (teleport-message "Back to the Hub")
+			  (invisible-teleporter #t)
+			  (dest_x 35)
+			  (dest_y 2))
+			
+			;; Back from Thompson
+			(level 
+	        (x 34)
+			  (y 18)
+			  (teleport-message "Back to the Hub")
+			  (invisible-teleporter #t)
+			  (dest_x 35)
+			  (dest_y 2))
+			
+			;; Back from Matr1x
+			(level 
+	        (x 20)
+			  (y 14)
+			  (teleport-message "Back to the Hub")
+			  (invisible-teleporter #t)
+			  (dest_x 35)
+			  (dest_y 2))
+			  
+			;; Back from Wansti
+			(level 
+	        (x 51)
+			  (y 10)
+			  (teleport-message "Back to the Hub")
+			  (invisible-teleporter #t)
+			  (dest_x 35)
+			  (dest_y 2))
+			  
+			;; Back from Torfi
+			(level 
+	        (x 56)
+			  (y 33)
+			  (teleport-message "Back to the Hub")
+			  (invisible-teleporter #t)
 			  (dest_x 35)
 			  (dest_y 2))
 
 		)
 )
-
 

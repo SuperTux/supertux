@@ -474,10 +474,12 @@ WorldMap::load_map()
                       level.passive_message = true;
                       reader.read_bool("passive-message", &level.passive_message);
 							 
+							 level.invisible_teleporter = false;
 							 level.teleport_dest_x = level.teleport_dest_y = -1;
 							 reader.read_int("dest_x", &level.teleport_dest_x);
 							 reader.read_int("dest_y", &level.teleport_dest_y);
 							 reader.read_string("teleport-message", &level.teleport_message);
+							 reader.read_bool("invisible-teleporter", &level.invisible_teleporter);
                       
 							 level.apply_action_north = level.apply_action_south =
                             level.apply_action_east = level.apply_action_west = true;
@@ -875,7 +877,7 @@ WorldMap::draw(const Point& offset)
   for(Levels::iterator i = levels.begin(); i != levels.end(); ++i)
     {
       if(i->name.empty()) {
-      	if (i->teleport_dest_x != -1) {
+      	if ((i->teleport_dest_x != -1) && !i->invisible_teleporter) {
 				leveldot_teleporter->draw(i->x*32 + offset.x, 
                              i->y*32 + offset.y);
 			}
