@@ -282,6 +282,38 @@
        (south #t)
        (west  #f)
        (east  #f))
- )
+ 
+ ;; SECRET PATHS, derived from tiles 44,18,9,16
+ (tile (id 61)
+       (image "road_new.png")
+       (north #t)
+       (south #t)
+       (west  #t)
+       (east  #t))
+  
+  (tile (id 62)
+       (image "snow8.png")
+       (stop  #f)
+       (north #t)
+       (south #t)
+       (west  #f)
+       (east  #f))
+  
+  (tile (id 63)
+       (image "water.png")
+       (stop  #f)
+       (north #t)
+       (south #t)
+       (west  #f)
+       (east  #f))
+  
+  (tile (id 64)
+       (image "snow6.png")
+       (stop  #f)
+       (north #t)
+       (south #t)
+       (west  #f)
+       (east  #f))
 
+)
 ;; EOF ;;
