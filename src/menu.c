@@ -417,13 +417,14 @@ int menu_leveleditor(void)
 /* Menu HighScore (ask for player's name) */
 int menu_highscore()
 {
+char str[60];
+
 while(delete_character > 0)	/* remove charactes */
 	{
 	hs_name[strlen(hs_name)-1] = '\0';
 	delete_character--;
 	}
 
-char str[60];
 strcat(hs_name, input_string);
 
 text_drawf(&red_text, "Congratulations", 0, 130, A_HMIDDLE, A_TOP, 2, NO_UPDATE);
@@ -488,8 +489,9 @@ void menu_event(SDL_keysym* keysym)
 {
 SDLKey key = keysym->sym;
 SDLMod keymod;
-keymod = SDL_GetModState();
 char ch[2];
+
+keymod = SDL_GetModState();
 
 /* If the current unicode character is an ASCII character,
    assign it to ch. */
