@@ -456,6 +456,14 @@ void st_general_setup(void)
 
   srand(SDL_GetTicks());
 
+  /* Set icon image: */
+
+  seticon();
+
+  /* Unicode needed for input handling: */
+
+  SDL_EnableUNICODE(1);
+
   /* Load global images: */
 
   text_load(&black_text,DATA_PREFIX "/images/status/letters-black.png", TEXT_TEXT, 16,18);
@@ -473,11 +481,6 @@ void st_general_setup(void)
   texture_load(&back, DATA_PREFIX "/images/status/back.png", USE_ALPHA);
   texture_load(&arrow_left, DATA_PREFIX "/images/icons/left.png", USE_ALPHA);
   texture_load(&arrow_right, DATA_PREFIX "/images/icons/right.png", USE_ALPHA);
-
-  /* Set icon image: */
-
-  seticon();
-  SDL_EnableUNICODE(1);
 
 }
 
