@@ -25,6 +25,7 @@ L: low priority
 
 [H] Change resolution to 800x600
      - Levels need to be updated to resolution
+         (half of the levels have been already updated)
 [H] Buttjump related things
      ? Right now only breaks bricks beneath tux - what else should it break
      - Breaks 1 box too much at the left when tux is facing left.
@@ -33,8 +34,6 @@ L: low priority
      ? Should disable Tux's movement temporarily (1 second?)
 [H] Tux should fall while walking in tiles that have a space between.
      - Possible solution: reduce Tux's width
-[H] Enemies should turn upside down after being hit by a kicked iceblock,
-    fireball or bomb
 [H] When you jump into the roof or a bonus and fall back down you collide with
     the badguys twice. Noticable with iceblocks. (level 15)
 
