@@ -681,7 +681,8 @@ void
 WorldMap::get_input()
 {
   enter_level = false;
-   
+  SDLKey key;
+
   SDL_Event event;
   while (SDL_PollEvent(&event))
     {
@@ -698,32 +699,22 @@ WorldMap::get_input()
               break;
           
             case SDL_KEYDOWN:
-              switch(event.key.keysym.sym)
-                {
-                case SDLK_ESCAPE:
-                  on_escape_press();
-                  break;
-                case SDLK_LCTRL:
-                case SDLK_RETURN:
-                  enter_level = true;
-                  break;
+              key = event.key.keysym.sym;
 
-                case SDLK_LEFT:
-                  tux->set_direction(D_WEST);
-                  break;
-                case SDLK_RIGHT:
-                  tux->set_direction(D_EAST);
-                  break;
-                case SDLK_UP:
-                  tux->set_direction(D_NORTH);
-                  break;
-                case SDLK_DOWN:
-                  tux->set_direction(D_SOUTH);
-                  break;
-
-                default:
-                  break;
-                }
+              if(key == SDLK_ESCAPE)
+                on_escape_press();
+              else if(key == SDLK_RETURN || key == keymap.power)
+                enter_level = true;
+              else if(key == SDLK_LEFT || key == keymap.power)
+                tux->set_direction(D_WEST);
+              else if(key == SDLK_RIGHT || key == keymap.right)
+                tux->set_direction(D_EAST);
+              else if(key == SDLK_UP || key == keymap.up ||
+                key == keymap.jump)
+                  // there might be ppl that use jump as up key
+                tux->set_direction(D_NORTH);
+              else if(key == SDLK_DOWN || key == keymap.down)
+                tux->set_direction(D_SOUTH);
               break;
 
             case SDL_JOYHATMOTION:
