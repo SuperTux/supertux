@@ -158,7 +158,7 @@ public:
   void is_dying();
   bool is_dead();
   void player_remove_powerups();
-  void check_bounds(bool back_scrolling, bool hor_autoscroll);
+  void check_bounds(ViewPort& viewport, bool back_scrolling, bool hor_autoscroll);
   bool on_ground();
   bool under_solid();
   void grow();

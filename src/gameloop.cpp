@@ -53,6 +53,7 @@
 #include "tile.h"
 #include "particlesystem.h"
 #include "resources.h"
+#include "background.h"
 #include "music_manager.h"
 
 GameSession* GameSession::current_ = 0;
@@ -145,8 +146,9 @@ GameSession::levelintro(void)
   music_manager->halt_music();
   
   char str[60];
- 
-  get_level()->draw_bg();
+
+  ViewPort dummy;
+  world->background->draw(dummy, LAYER_BACKGROUND0);
 
   sprintf(str, "%s", world->get_level()->name.c_str());
   gold_text->drawf(str, 0, 220, A_HMIDDLE, A_TOP, 1);
@@ -717,7 +719,8 @@ GameSession::drawresultscreen(void)
 {
   char str[80];
 
-  get_level()->draw_bg();
+  ViewPort dummy;
+  world->background->draw(dummy, LAYER_BACKGROUND0);  
 
   blue_text->drawf("Result:", 0, 200, A_HMIDDLE, A_TOP, 1);
 

@@ -42,6 +42,7 @@
 #include "tile.h"
 #include "resources.h"
 #include "music_manager.h"
+#include "background.h"
 #include "display_manager.h"
 
 /* definitions to aid development */
@@ -524,8 +525,6 @@ void le_init_menus()
 
 int le_init()
 {
-
-
   level_subsets = dsubdirs("/levels", "level1.stl");
   le_level_subset = new LevelSubset;
 
@@ -535,7 +534,6 @@ int le_init()
   active_tm = TM_IA;
   le_show_grid = true;
   show_selections = true;
-  scroll_x = 0;
 
   done = 0;
   le_frame = 0;	/* support for frames in some tiles, like waves and bad guys */
@@ -944,7 +942,8 @@ void le_drawlevel()
   Uint8 a;
 
   /* Draw the real background */
-  le_world->get_level()->draw_bg();
+  le_world->background->draw(le_world->displaymanager.get_viewport(),
+      LAYER_BACKGROUND0);
 
   if(le_current.IsTile())
   {

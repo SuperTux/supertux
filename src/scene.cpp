@@ -68,9 +68,6 @@ PlayerStatus::BonusType string_to_bonus(const std::string& str)
     return PlayerStatus::NO_BONUS;
 }
 
-// FIXME: Move this into a view class
-float scroll_x, scroll_y;
-
 unsigned int global_frame_counter;
 
 // EOF //

@@ -33,6 +33,7 @@
 #include "display_manager.h"
 
 class Level;
+class Background;
 
 /** The World class holds a level and all the game objects (badguys,
     bouncy distros, etc) that are needed to run a game. */
@@ -54,6 +55,7 @@ private:
 
   static World* current_;
 public:
+  Background* background;
   BadGuys bad_guys;
 
   std::vector<Upgrade*> upgrades;
@@ -79,8 +81,8 @@ public:
   void set_defaults();
 
   void draw();
-  void action(double frame_ratio);
-  void scrolling(double frame_ratio);   // camera scrolling
+  void action(float elapsed_time);
+  void scrolling(float elapsed_time);   // camera scrolling
 
   void play_music(int musictype);
   int get_music_type();

@@ -192,7 +192,6 @@ void draw_demo(GameSession* session, double frame_ratio)
   if(plevel->width * 32 - 320 < tux->base.x)
     {
       tux->level_begin();
-      scroll_x = 0;
     }
 
   tux->can_jump = true;
@@ -339,8 +338,6 @@ void title(void)
               else if (process_load_game_menu())
                 {
                   // FIXME: shouldn't be needed if GameSession doesn't relay on global variables
-                  // reset tux
-                  scroll_x = 0;
                   //titletux.level_begin();
                   update_time = st_get_ticks();
                 }

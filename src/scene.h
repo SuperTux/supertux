@@ -46,7 +46,6 @@ PlayerStatus::BonusType string_to_bonus(const std::string& str);
 
 extern PlayerStatus player_status;
 
-extern float scroll_x, scroll_y;
 extern unsigned int global_frame_counter;
 
 #endif /*SUPERTUX_SCENE_H*/

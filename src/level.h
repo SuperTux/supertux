@@ -140,9 +140,6 @@ class Level
   /** Resize the level to a new width/height */
   void resize(int new_width, int new_height);
 
-  /* Draw background */
-  void draw_bg();
-
   /** Return the id of the tile at position x/y */
   unsigned int gettileid(float x, float y) const;
   /** returns the id of the tile at position x,y

@@ -669,7 +669,8 @@ Player::draw(ViewPort& viewport, int layer)
     }     
   
   if (debug_mode)
-    fillrect(base.x - scroll_x, base.y - scroll_y, 
+    fillrect(base.x - viewport.get_translation().x,
+        base.y - viewport.get_translation().y, 
              base.width, base.height, 75,75,75, 150);
 }
 
@@ -828,6 +829,10 @@ Player::is_dying()
 
 bool Player::is_dead()
 {
+  float scroll_x =
+    World::current()->displaymanager.get_viewport().get_translation().x;
+  float scroll_y =
+    World::current()->displaymanager.get_viewport().get_translation().y;
   if(base.y > screen->h + scroll_y || base.y > World::current()->get_level()->height*32 ||
       base.x < scroll_x - AUTOSCROLL_DEAD_INTERVAL)  // can happen in auto-scrolling
     return true;
@@ -845,7 +850,8 @@ Player::remove_powerups()
 }
 
 void
-Player::check_bounds(bool back_scrolling, bool hor_autoscroll)
+Player::check_bounds(ViewPort& viewport,
+    bool back_scrolling, bool hor_autoscroll)
 {
   /* Keep tux in bounds: */
   if (base.x < 0)
@@ -860,17 +866,17 @@ Player::check_bounds(bool back_scrolling, bool hor_autoscroll)
       kill(KILL);
     }
 
-  if(base.x < scroll_x && (!back_scrolling || hor_autoscroll))  // can happen if back scrolling is disabled
-    base.x = scroll_x;
+  if(base.x < viewport.get_translation().x && (!back_scrolling || hor_autoscroll))  // can happen if back scrolling is disabled
+    base.x = viewport.get_translation().x;
 
   if(hor_autoscroll)
     {
-    if(base.x == scroll_x)
+    if(base.x == viewport.get_translation().x)
       if(issolid(base.x+32, base.y) || (size != SMALL && issolid(base.x+32, base.y+32)))
         kill(KILL);
 
-    if(base.x + base.width > scroll_x + screen->w)
-      base.x = scroll_x + screen->w - base.width;
+    if(base.x + base.width > viewport.get_translation().x + screen->w)
+      base.x = viewport.get_translation().x + screen->w - base.width;
     }
     
 }

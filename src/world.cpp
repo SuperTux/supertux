@@ -59,13 +59,13 @@ World::World(const std::string& filename)
   get_level()->load_gfx();
   // add background
   activate_particle_systems();
-  Background* bg = new Background(displaymanager);
+  background = new Background(displaymanager);
   if(level->img_bkgd) {
-    bg->set_image(level->img_bkgd, level->bkgd_speed);
+    background->set_image(level->img_bkgd, level->bkgd_speed);
   } else {
-    bg->set_gradient(level->bkgd_top, level->bkgd_bottom);
+    background->set_gradient(level->bkgd_top, level->bkgd_bottom);
   }
-  gameobjects.push_back(bg);
+  gameobjects.push_back(background);
 
   // add tilemap
   gameobjects.push_back(new TileMap(displaymanager, get_level()));
@@ -92,13 +92,13 @@ World::World(const std::string& subset, int level_nr)
 
   get_level()->load_gfx();
   activate_particle_systems();
-  Background* bg = new Background(displaymanager);
+  background = new Background(displaymanager);
   if(level->img_bkgd) {
-    bg->set_image(level->img_bkgd, level->bkgd_speed);
+    background->set_image(level->img_bkgd, level->bkgd_speed);
   } else {
-    bg->set_gradient(level->bkgd_top, level->bkgd_bottom);
+    background->set_gradient(level->bkgd_top, level->bkgd_bottom);
   }
-  gameobjects.push_back(bg);
+  gameobjects.push_back(background);
   // add tilemap
   gameobjects.push_back(new TileMap(displaymanager, get_level()));  
   get_level()->load_song();
@@ -140,9 +140,6 @@ World::~World()
 void
 World::set_defaults()
 {
-  // Set defaults: 
-  scroll_x = 0;
-
   player_status.score_multiplier = 1;
 
   counting_distros = false;
@@ -213,7 +210,6 @@ void
 World::draw()
 {
   /* Draw objects */
-  displaymanager.get_viewport().set_translation(Vector(scroll_x, scroll_y));
   displaymanager.draw();
 }
 
@@ -226,7 +222,8 @@ World::action(float elapsed_time)
   for(size_t i = 0; i < gameobjects.size(); ++i)
     gameobjects[i]->action(elapsed_time);
 
-  tux->check_bounds(level->back_scrolling, (bool)level->hor_autoscroll_speed);
+  tux->check_bounds(displaymanager.get_viewport(),
+      level->back_scrolling, (bool)level->hor_autoscroll_speed);
   scrolling(elapsed_time);                                                      
 
   /* Handle all possible collisions. */
@@ -284,6 +281,9 @@ World::action(float elapsed_time)
 /* This functions takes cares of the scrolling */
 void World::scrolling(float elapsed_time)
 {
+  float scroll_x = displaymanager.get_viewport().get_translation().x;
+  float scroll_y = displaymanager.get_viewport().get_translation().y;
+  
   /* Y-axis scrolling */
 
   float tux_pos_y = tux->base.y + (tux->base.height/2);
@@ -308,6 +308,7 @@ void World::scrolling(float elapsed_time)
   if(level->hor_autoscroll_speed)
   {
     scroll_x += level->hor_autoscroll_speed * elapsed_time;
+    displaymanager.get_viewport().set_translation(Vector(scroll_x, scroll_y));
     return;
   }
 
@@ -379,6 +380,8 @@ void World::scrolling(float elapsed_time)
     scroll_x = level->width * 32 - screen->w;
   if(scroll_x < 0)
     scroll_x = 0;
+
+  displaymanager.get_viewport().set_translation(Vector(scroll_x, scroll_y));
 }
 
 void

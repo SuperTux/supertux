@@ -95,9 +95,14 @@ Bullet::action(float elapsed_time)
   else if(physic.get_velocity_y() < -9)
     physic.set_velocity_y(-9);
 
+  float scroll_x =
+    World::current()->displaymanager.get_viewport().get_translation().x;
+  float scroll_y =
+    World::current()->displaymanager.get_viewport().get_translation().y;
   if (base.x < scroll_x ||
       base.x > scroll_x + screen->w ||
-      base.y > screen->h ||
+      base.y < scroll_y ||
+      base.y > scroll_y + screen->h ||
       issolid(base.x + 4, base.y + 2) ||
       issolid(base.x, base.y + 2) ||
       life_count <= 0)
@@ -181,11 +186,16 @@ Upgrade::action(float elapsed_time)
   }
 
   /* Away from the screen? Kill it! */
-  if(base.x < scroll_x - OFFSCREEN_DISTANCE) {
+  float scroll_x =
+    World::current()->displaymanager.get_viewport().get_translation().x;
+  float scroll_y =                                                        
+    World::current()->displaymanager.get_viewport().get_translation().y;
+  if(base.x < scroll_x - OFFSCREEN_DISTANCE
+      || base.y < scroll_y - OFFSCREEN_DISTANCE) {
       remove_me();
       return;
   }
-  if(base.y > screen->h) {
+  if(base.y > scroll_y + screen->h) {
     remove_me();
     return;
   }

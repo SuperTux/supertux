@@ -35,6 +35,7 @@
 #include "gameloop.h"
 #include "display_manager.h"
 #include "lispwriter.h"
+#include "viewport.h"
 
 Sprite* img_mriceblock_flat_left;
 Sprite* img_mriceblock_flat_right;
@@ -315,6 +316,9 @@ BadGuy::action_mriceblock(double elapsed_time)
       check_horizontal_bump();
       if(mode == KICK && changed != dir)
         {
+          float scroll_x = World::current()->displaymanager
+            .get_viewport().get_translation().x;
+          
           /* handle stereo sound (number 10 should be tweaked...)*/
           if (base.x < scroll_x + screen->w/2 - 10)
             play_sound(sounds[SND_RICOCHET], SOUND_LEFT_SPEAKER);
@@ -513,6 +517,9 @@ BadGuy::action_bomb(double elapsed_time)
       set_sprite(img_mrbomb_explosion, img_mrbomb_explosion);
       dying = DYING_NOT; // now the bomb hurts
       timer.start(EXPLODETIME);
+
+      float scroll_x = World::current()->displaymanager
+        .get_viewport().get_translation().x;                 
 
       /* play explosion sound */  // FIXME: is the stereo all right? maybe we should use player cordinates...
       if (base.x < scroll_x + screen->w/2 - 10)
@@ -746,6 +753,9 @@ BadGuy::action_snowball(double elapsed_time)
 void
 BadGuy::action(float elapsed_time)
 {
+  float scroll_x = World::current()->displaymanager
+    .get_viewport().get_translation().x;
+  
   // Remove if it's far off the screen:
   if (base.x < scroll_x - OFFSCREEN_DISTANCE)
     {
