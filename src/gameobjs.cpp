@@ -1,7 +1,8 @@
 //  $Id$
 // 
 //  SuperTux
-//  Copyright (C) 2004 SuperTux Development Team, see AUTHORS for details
+//  Copyright (C) 2000 Bill Kendrick <bill@newbreedsoftware.com>
+//  Copyright (C) 2004 Tobias Glaesser <tobi.web@gmx.de>
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -15,7 +16,8 @@
 // 
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  02111-1307, USA.
 
 #include "world.h"
 #include "tile.h"

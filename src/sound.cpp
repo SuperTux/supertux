@@ -1,14 +1,22 @@
-/*
-  sound.c
-  
-  Super Tux - Audio Functions
-  
-  by Bill Kendrick
-  bill@newbreedsoftware.com
-  http://www.newbreedsoftware.com/supertux/
- 
-  April 22, 2000 - March 15, 2004
-*/
+//  $Id$
+//
+//  SuperTux -  A Jump'n Run
+//  Copyright (C) 2000 Bill Kendrick <bill@newbreedsoftware.com>
+//  Copyright (C) 2004 Duong-Khang NGUYEN <neoneurone@users.sf.net>
+//
+//  This program is free software; you can redistribute it and/or
+//  modify it under the terms of the GNU General Public License
+//  as published by the Free Software Foundation; either version 2
+//  of the License, or (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program; if not, write to the Free Software
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "defines.h"
 #include "globals.h"
