@@ -2,12 +2,3856 @@
 - SuperTux changes -
 http://super-tux.sf.net/
 
-Last update: April 26, 2004
+Last update: May 3, 2004
 
-0.1
+Milestone 0.1.0 - May 3, 2004
+------------------------
+  2004-05-03 00:21  grumbel
 
-  FIXME: paste mesages from the sourceforge cvs mailing list
-to here
+  * contrib/levelconvert.py: - removed old convert script, the
+    working one is still in place
+
+2004-05-03 00:17  grumbel
+
+  * src/title.cpp: - fixed intro jumping
+
+2004-05-02 23:38  matzebraun
+
+  * TODO: TODO update
+
+2004-05-02 23:28  tobgle
+
+  * src/: badguy.cpp, badguy.h, button.cpp, button.h, gameobjs.h,
+    leveleditor.cpp, player.h, special.h, title.cpp, type.h,
+    world.cpp: leveleditor related improvements
+
+2004-05-02 20:47  grumbel
+
+  * Makefile.am, TODO, configure.ac: - added lispreader issue to todo
+    - changed version number
+
+2004-05-02 18:08  matzebraun
+
+  * TODO, src/leveleditor.cpp, src/scene.cpp, src/scene.h,
+    src/title.cpp, src/worldmap.cpp: fixed that points aren't reset
+    when gameover
+
+2004-05-02 17:51  matzebraun
+
+  * TODO, src/gameloop.cpp, src/world.cpp: fixed musicproblems in
+    endgame and fixed multicoinblock problems (not optimal yet, but I
+    don't want to do a complicated real fix before the release)
+
+2004-05-02 17:30  matzebraun
+
+  * TODO, src/title.cpp: fixed (well worked around) jump problems in
+    the intro
+
+2004-05-02 16:56  rmcruz
+
+  * src/intro.cpp: Only use the fade() on the debug mode.  Is anyone
+    willing to check this fading code to see what's wrong with it?
+
+2004-05-01 21:07  grumbel
+
+  * data/levels/world1/level6.stl: - fixed hidden passage which
+    served no purpose
+
+2004-05-01 18:39  grumbel
+
+  * src/: setup.cpp, texture.cpp, texture.h: - fixed compile with
+    opengl disabled
+
+2004-05-01 17:46  grumbel
+
+  * src/: badguy.cpp, player.cpp: - improved verboseness of badguy in
+    wall error message - fixed bug that caused tux to only high jump
+    to the right
+
+2004-05-01 16:43  grumbel
+
+  * data/images/tilesets/: background7.png, background8.png,
+    exitbg.png, exitfg.png, snow3.png: - changed contrast and made
+    little pixel corrections
+
+2004-05-01 16:41  grumbel
+
+  * data/levels/world1/: level24.stl, level25.stl: - badguy in wall
+    fixes
+
+2004-05-01 16:37  grumbel
+
+  * data/levels/world1/level23.stl: - added some background tiles -
+    badguy in wall fixes
+
+2004-05-01 16:31  grumbel
+
+  * data/levels/world1/level22.stl: - badguy in wall fixes
+
+2004-05-01 16:29  grumbel
+
+  * data/levels/world1/level21.stl: - added some background tiles -
+    badguy in wall fixes
+
+2004-05-01 16:23  grumbel
+
+  * data/levels/world1/level20.stl: - added some background tiles -
+    badguy in wall fixes
+
+2004-05-01 16:10  grumbel
+
+  * data/levels/world1/: level18.stl, level19.stl: - added some
+    background tiles - badguy in wall fixes
+
+2004-05-01 16:05  grumbel
+
+  * data/levels/world1/level18.stl: - added some background tiles
+
+2004-05-01 15:57  grumbel
+
+  * data/levels/world1/level17.stl: - added some background tiles
+
+2004-05-01 15:49  grumbel
+
+  * data/levels/world1/level16.stl: - added some background tiles
+
+2004-05-01 15:43  grumbel
+
+  * data/levels/world1/level15.stl: - added some background tiles
+
+2004-05-01 15:38  grumbel
+
+  * data/levels/world1/level14.stl: - added some background tiles
+
+2004-05-01 15:28  grumbel
+
+  * data/levels/world1/level13.stl: - added some background tiles
+
+2004-05-01 15:22  grumbel
+
+  * data/levels/world1/: level11.stl, level12.stl: - added some
+    background tiles
+
+2004-05-01 15:08  grumbel
+
+  * TODO: fixed level7 bug, does anybody mind if we removed the
+    'fixed' list?
+
+2004-05-01 15:08  grumbel
+
+  * data/levels/world1/level7.stl: - fixed one-tile space bonus bug
+
+2004-05-01 14:46  grumbel
+
+  * data/levels/world1/level10.stl: - added some background tiles
+
+2004-05-01 14:40  grumbel
+
+  * data/levels/world1/level9.stl: - added some background tiles
+
+2004-05-01 14:33  grumbel
+
+  * data/levels/world1/level8.stl: - added some background tiles
+
+2004-05-01 14:24  grumbel
+
+  * data/levels/world1/: level7.stl: - added some background tiles
+
+2004-05-01 14:21  grumbel
+
+  * data/levels/world1/level6.stl: - added some background tiles
+
+2004-05-01 14:11  grumbel
+
+  * data/levels/world1/level5.stl: - added some background tiles
+
+2004-05-01 14:06  grumbel
+
+  * data/levels/world1/level4.stl: - added some background tiles
+
+2004-05-01 13:59  grumbel
+
+  * data/levels/world1/: level1.stl, level2.stl, level3.stl: - added
+    some background tiles
+
+2004-05-01 13:39  grumbel
+
+  * data/levels/world1/: level3.stl, level5.stl: - removed some evil
+    tiles
+
+2004-05-01 13:25  rmcruz
+
+  * src/screen.cpp: Just use flipscreen(), instead of giving true as
+    update argument. This update thing seems broken.  Anyway, still
+    doesn't work.
+
+2004-05-01 13:25  grumbel
+
+  * data/levels/world1/level7.stl: - removed a bunch of random acting
+    bouncing snowball and replaced them with other enemies
+
+2004-05-01 13:14  rmcruz
+
+  * src/texture.cpp: Added alpha support for SDL. Dunno if works,
+    wasn't able to test.
+
+2004-05-01 13:12  grumbel
+
+  * data/levels/world1/level5.stl: - changed layout of water areas to
+    look more sane
+
+2004-05-01 13:00  rmcruz
+
+  * src/screen.cpp: Fixed naming.
+
+2004-05-01 12:59  rmcruz
+
+  * src/: intro.cpp, screen.cpp, screen.h: First atempt to add a fade
+    in/out function. Though, it doesn't work, dunno why in the Open
+    GL mode.  The SDL frontend doesn't seem to support alpha
+    blittling whatsoever.
+
+2004-05-01 12:58  grumbel
+
+  * data/levels/world1/level4.stl: - fixed secret to don't look like
+    a bug (ie. moved background tiles into foreground)
+
+2004-05-01 12:52  grumbel
+
+  * data/levels/world1/level1.stl: - changed highjump tutorial so
+    that it is impossible to get stuck
+
+2004-05-01 12:36  grumbel
+
+  * data/levels/world1/level19.stl: - feet visible at exit solved
+
+2004-05-01 12:32  grumbel
+
+  * data/levels/world1/level15.stl: - fixed problematic situation
+    with iceblock and two spikes and not enough space to the roof
+
+2004-05-01 12:26  grumbel
+
+  * data/levels/world1/level14.stl: - fixed feed visible in exit -
+    fixed badguy in wall error
+
+2004-05-01 12:18  grumbel
+
+  * data/levels/world1/level13.stl: - removed cloud tiles, since done
+    via particle system - removed some other obsolete tiles
+
+2004-05-01 12:12  grumbel
+
+  * data/levels/world1/level11.stl: - fixed an annoying hide-tile
+    that causes the player due die easily due to back bumping into a
+    hole
+
+2004-05-01 12:12  rmcruz
+
+  * src/player.cpp: Just made stars to blink more.
+
+2004-05-01 12:07  grumbel
+
+  * data/levels/world1/level10.stl: - fixed a few enemy positions,
+    removed snowball that made stuff to frustrating
+
+2004-04-30 20:44  grumbel
+
+  * TODO: added another bug
+
+2004-04-30 19:09  sik0fewl
+
+  * TODO: - separated fixed from unfixed in TODO
+
+2004-04-30 17:29  matzebraun
+
+  * TODO: TODO update
+
+2004-04-30 17:13  matzebraun
+
+  * TODO: TODO update
+
+2004-04-30 17:07  matzebraun
+
+  * TODO: TODO update
+
+2004-04-30 17:01  matzebraun
+
+  * TODO: TODO update
+
+2004-04-30 16:51  matzebraun
+
+  * TODO: TODO update
+
+2004-04-30 16:43  matzebraun
+
+  * TODO: TODO update
+
+2004-04-30 16:38  matzebraun
+
+  * TODO: TODO update
+
+2004-04-30 16:31  matzebraun
+
+  * autogen.sh: don't use buggy automake1.8 (install is broken)
+
+2004-04-30 16:29  matzebraun
+
+  * Makefile.cvs: removed outdated Makefile.cvs
+
+2004-04-30 13:40  rmcruz
+
+  * src/menu.cpp: Ups!
+
+2004-04-30 13:20  rmcruz
+
+  * src/: menu.cpp, menu.h: Return a string, instead of a char array
+    pointer, in order to please Ingo.
+
+2004-04-30 11:48  grumbel
+
+  * src/: player.cpp, player.h: - reduced jump tolleranze to two
+    tiles
+
+2004-04-30 09:25  sik0fewl
+
+  * src/badguy.cpp: - make badguys bounce up when bumped from beneath
+
+2004-04-30 08:07  sik0fewl
+
+  * src/badguy.cpp:  - fixed stunned blocks moving when bumped into
+    (as pointed out by Bill)
+
+2004-04-30 03:23  sik0fewl
+
+  * src/badguy.cpp:  - should fix all cases of bad guys
+    walking/bouncing backwards
+
+2004-04-30 02:53  sik0fewl
+
+  * src/: player.cpp, player.h: - Fixed jumping so it works in a way
+    everybody can enjoy :)
+
+2004-04-30 01:23  rmcruz
+
+  * src/world.cpp: In the invincible mode, don't bump/squish enemies,
+    just kill them!
+
+2004-04-30 01:12  rmcruz
+
+  * src/: player.cpp, player.h: In the invincible mode, stars start
+    flickering when the time is almost gone, as requested by Bill
+    Kendrick.
+
+2004-04-30 00:27  rmcruz
+
+  * data/levels/world1/level5.stl: Just changed a snowball into a
+    mr.iceblock, as it used to be.  It turns that place more hard,
+    but player can just grab star anyway.
+
+2004-04-30 00:08  rmcruz
+
+  * src/menu.cpp: Fixed a bug that could cause memory segfaults or
+    bad behaviour.
+
+2004-04-29 21:42  grumbel
+
+  * src/player.cpp: undo'ed Ricardo patch, since it makes small jumps
+    completly impossible instead of improving them (ie. velocity
+    starts with vmax, if you don't reset it you will always get the
+    highest possible jump)
+
+2004-04-29 20:58  rmcruz
+
+  * src/player.cpp: Commented the set_velocity_y(0). I guess this is
+    better than doing a crappy small jump.
+
+2004-04-29 19:32  rmcruz
+
+  * src/title.cpp: Fixed a couple of bugs when deleting slots: -
+    don't quit when back button is pressed; - refresh slots when one
+    is deleted.
+
+2004-04-29 19:20  matzebraun
+
+  * src/badguy.cpp: you can't bump flying snowballs
+
+2004-04-29 18:23  matzebraun
+
+  * src/: level.cpp, level.h, leveleditor.cpp: another leak fix for
+    the leveleditor
+
+2004-04-29 18:16  matzebraun
+
+  * src/: level.cpp, level.h, leveleditor.cpp: fixed some memory
+    leaks in the leveleditor and level code
+
+2004-04-29 17:41  matzebraun
+
+  * src/leveleditor.cpp: fixed broken leveleditor menus
+
+2004-04-29 17:18  rmcruz
+
+  * data/images/shared/old/red-glow.png,
+    data/images/shared/old/skidfiretux-left.png,
+    data/images/shared/red-glow.png,
+    data/images/shared/skidfiretux-left.png,
+    data/images/shared/skidfiretux-right.png,
+    data/images/shared/old/skidfiretux-right.png, src/resources.cpp,
+    src/resources.h: Moved some old and unused graphics to the old
+    dir.  Also removed red-glow dependecy from the game.
+
+    Congratulations Ingo, now we are using 100% original graphics.
+
+2004-04-29 16:07  rmcruz
+
+  * src/menu.cpp: When Enter is pressed in an input field, instead of
+    hidding the menu, go to the next item.
+
+2004-04-29 15:54  matzebraun
+
+  * src/collision.cpp: apparently we get a 0 tile from time to time,
+    no idea yet why
+
+2004-04-29 15:44  matzebraun
+
+  * src/: collision.cpp, level.cpp, level.h, player.cpp: -optimized
+    and cleaned up collision_object_map -fixed collision detection
+    moving tux far away from his last position -fixed fuck code not
+    resetting old_base.
+
+    All in all ducking and sliding in small areas should work like
+    expected now.
+
+2004-04-29 15:36  grumbel
+
+  * src/setup.cpp: power -> power/run
+
+2004-04-29 15:30  grumbel
+
+  * data/Makefile.am: - added missing files
+
+2004-04-29 15:07  grumbel
+
+  * data/levels/world1/: level21.stl, level22.stl, level26.stl,
+    level8.stl: - fixed endseq
+
+2004-04-29 15:02  rmcruz
+
+  * src/title.cpp: When removing a slot, keep the menu in the slots'
+    menu.
+
+2004-04-29 13:32  rmcruz
+
+  * src/: menu.cpp, menu.h: Added a flickering cursor for input menu
+    fields. The code is kinda of sucky, so feel free to clean it up.
+
+    Unfortanely, there isn't any '_' charcter, so I have to use '-'
+    :( I hope, we will soon add a new row of characters.
+
+2004-04-29 12:45  matzebraun
+
+  * src/gameobjs.cpp: added missing #include <algorithm>
+
+2004-04-29 12:34  rmcruz
+
+  * src/: menu.cpp, menu.h, title.cpp: Added removing of slots when
+    Delete is pressed.
+
+2004-04-29 12:00  rmcruz
+
+  * src/: leveleditor.cpp, menu.cpp, menu.h: Created a simple
+    confirm_dialog. Currently only used by the level editor, but can
+    be used, for instance, by slot delete confirmation.
+
+2004-04-29 02:53  grumbel
+
+  * data/intro.txt: - fixed typo, and gwen/penny
+
+2004-04-29 02:53  grumbel
+
+  * data/intro.txt: - fixed typo
+
+2004-04-29 02:51  grumbel
+
+  * src/: gameloop.cpp, worldmap.cpp: - fixed align of lives display
+    to handle >10 lives
+
+2004-04-29 02:43  grumbel
+
+  * src/: player.cpp, player.h: - removed auto-repeat of jump events,
+    now one has to press again to jump and can't just hold button,
+    makes the game a little bit more difficult, but removes the ugly
+    situations with largetux stuck directly under a tile and bouncing
+    up and down all the time
+
+2004-04-29 02:15  grumbel
+
+  * TODO, src/badguy.cpp, src/gameloop.cpp, src/gameloop.h,
+    src/music_manager.cpp, src/music_manager.h, src/player.cpp,
+    src/player.h, src/special.cpp, src/text.cpp, src/worldmap.cpp:
+    <MatzeB> -updates the TODO file <MatzeB> -should really fix the
+    problems when picking up specials <MatzeB> -should fix mriceblock
+    not falling down <MatzeB> -you can duck again while jumping
+    <MatzeB> -textscroller isn't framerate limited anymore <MatzeB>
+    -changes to the endsequence code, so that you can always hear the
+    complete music single
+
+    grumbel: removed the duck while jumping thing, since that is
+    reserved for the butt-jump
+
+2004-04-29 00:31  rmcruz
+
+  * data/music/: fortress-fast.mod, Mortimers_chipdisko-fast.mod,
+    Mortimers_chipdisko.mod, SALCON-fast.MOD, fortress.mod,
+    SALCON.MOD, theme.mod: Marek update for musics.  It looks like
+    due to a SDL_mixer bug, all musics loaded need to have the same
+    channel.
+
+2004-04-28 23:27  grumbel
+
+  * data/: images/tilesets/run1.png, images/tilesets/run2.png,
+    images/tilesets/run3.png, images/tilesets/run4.png,
+    images/tilesets/supertux.stgt, levels/world1/level1.stl,
+    levels/world1/level7.stl: - fixed author of level7 - added
+    'tutorial' for run
+
+2004-04-28 23:23  rmcruz
+
+  * src/badguy.cpp: Tux kicking animation wasn't being used in some
+    circustances - fixed.
+
+2004-04-28 22:51  grumbel
+
+  * src/: menu.cpp, setup.cpp: - removed joystick setup menu, since
+    it won't work anyway - changed wording from key to keyboard -
+    fixed strcpy versus change_input
+
+2004-04-28 22:34  grumbel
+
+  * src/: special.cpp, world.cpp: - memleak fix for my last patch -
+    iceflower/growup crash fix (well, maybe)
+
+2004-04-28 22:28  grumbel
+
+  * src/gameobjs.cpp: - replaced evil cast with std::find
+
+2004-04-28 22:24  grumbel
+
+  * src/: gameobjs.cpp, special.cpp, world.cpp, world.h: MatzeB: that
+    shoudl fix the cases where you die when picking up an iceflower
+
+2004-04-28 22:07  grumbel
+
+  * src/leveleditor.cpp: MatzeBs patch for evil cast
+
+2004-04-28 20:46  grumbel
+
+  * data/CREDITS: added story credits
+
+2004-04-28 20:45  grumbel
+
+  * src/: badguy.cpp, badguy.h, level.cpp, level.h, leveleditor.cpp,
+    title.cpp: <MatzeB> my patch fixes another leak in the
+    levelsubset code and cleans that up a little bit <MatzeB> it also
+    removes the code for the bsod badguy, since that was a
+    duplication of the snowball code anyway
+
+2004-04-28 19:27  grumbel
+
+  * src/: gameloop.cpp, resources.cpp, resources.h: - added level
+    done song, endseq needs to be a bit longer to get the song right
+
+2004-04-28 17:07  grumbel
+
+  * data/CREDITS: -changed wording
+
+2004-04-28 16:58  rmcruz
+
+  * src/: defines.h, intro.cpp, text.cpp, text.h, title.cpp,
+    worldmap.cpp: Made display_text_file() to get the scroll speed as
+    an argument. This way we can make the intro slower than the
+    credits, for instance. It was just impossible to read them.
+    Anyway, you can easily change their speed in defines.h .
+
+    Also fixes a bug that was making the text to take while before
+    starting to be displayed.
+
+2004-04-28 16:28  grumbel
+
+  * data/music/tux-leveldone.mod: - leveldone music from Wansti
+
+2004-04-28 16:12  rmcruz
+
+  * src/player.cpp: Forgot to commit this file. It used badguy's
+    killme() somewhere.
+
+2004-04-28 16:09  rmcruz
+
+  * src/: badguy.cpp, badguy.h: Changed kill_me() in order to get the
+    score has an argument.  This way, it makes much more flexible the
+    way we give scores.
+
+2004-04-28 16:01  grumbel
+
+  * data/images/background/extro.jpg, data/levels/world1/level26.stl,
+    src/worldmap.cpp: - added new extro background
+
+2004-04-28 15:45  grumbel
+
+  * data/supertux.strf, data/images/shared/firetux-duck-left.png,
+    data/images/shared/firetux-duck-right.png,
+    data/images/shared/iceflower-1.png,
+    data/images/shared/iceflower-2.png,
+    data/images/shared/iceflower-3.png,
+    data/images/shared/iceflower.png, data/levels/world1/level19.stl,
+    src/player.cpp: - added fire duck tux - turned iceflower into a
+    fire flower
+
+2004-04-28 15:27  grumbel
+
+  * AUTHORS, data/CREDITS: - added two music authors
+
+2004-04-28 15:18  grumbel
+
+  * src/: resources.cpp, setup.cpp, setup.h, supertux.cpp, text.cpp,
+    texture.cpp, title.cpp, world.cpp, world.h, worldmap.cpp:
+    <MatzeB> fixes some remaining memory leaks
+
+2004-04-28 14:39  rmcruz
+
+  * data/CREDITS: Removed Marek's email... I must have forgotten
+
+2004-04-28 14:15  rmcruz
+
+  * AUTHORS, INSTALL, LEVELDESIGN, README: Applied patch from Ryan
+    (the one sent to the mailing list).  Basically it corrects a few
+    grammar errors from me ;) and also formats some stuff.
+
+2004-04-28 14:13  rmcruz
+
+  * src/badguy.cpp: Don't give score when flatting a badguy, since
+    this leaves to unfair situations. Besides, we are already giving
+    score for when he kills other enemies...
+
+    I also think that we should give (let's say) half of the score,
+    when a badguy is killed by a bullet. Since it is so easy to do
+    that... What do you say?
+
+2004-04-28 13:43  rmcruz
+
+  * src/special.cpp: Fixed bug told in the mailing list: «- fireballs
+    don't shoot if you are above screen (they're destroyed because
+    they're off screen)» There is not point in removing them when
+    they are above y=0.
+
+2004-04-28 02:14  grumbel
+
+  * data/levels/world1/: level1.stl, level10.stl, level11.stl,
+    level12.stl, level13.stl, level14.stl, level15.stl, level16.stl,
+    level17.stl, level18.stl, level19.stl, level2.stl, level20.stl,
+    level23.stl, level24.stl, level3.stl, level4.stl, level5.stl,
+    level6.stl, level7.stl, level8.stl, level9.stl: - fixed
+    endsequences and a few other minor issues
+
+2004-04-27 23:49  grumbel
+
+  * TODO: update
+
+2004-04-27 23:33  grumbel
+
+  * data/: images/tilesets/nolok1.png, images/tilesets/nolok2.png,
+    images/tilesets/supertux.stgt, levels/world1/level26.stl: - added
+    nolok statue to the throne room
+
+2004-04-27 23:11  rmcruz
+
+  * data/CREDITS: Improved the CREDITS a little bit: - removed emails
+    (Ingo, in a irc discussion, you were the 1st one to say that
+    emails should go to the package CREDITS file, not the in-game
+    one). I have already done that.  - and just made something here
+    and there.
+
+    I don't really like the nicknames, but I left them there. I think
+    we should have a credits section in the webpage and there will be
+    the best place to put them. (OT: we also need a screenshots
+    section and old version downloads should be avaible).
+    Futhermore, I would still prefer one in-game credits with
+    descriptions.
+
+2004-04-27 23:00  rmcruz
+
+  * src/special.cpp: Matze made eggs not to be removed at all during
+    a level saying that they shouldn't be destroyed when off the
+    screen.  The fact is that OFFSCREEN_DISTANCE is already pretty
+    generous, but if you don't think so, just increase it.
+
+2004-04-27 21:18  grumbel
+
+  * TODO: updated todo
+
+2004-04-27 21:17  grumbel
+
+  * src/: tile.cpp, world.cpp: removed debug stuff
+
+2004-04-27 21:16  grumbel
+
+  * TODO, data/extro.txt, src/worldmap.cpp: - added credit after
+    extro, might need a bit fadeout stuff
+
+2004-04-27 21:01  grumbel
+
+  * data/images/background/oiltux.jpg: - added oiltux
+
+2004-04-27 20:55  grumbel
+
+  * src/: defines.h, text.cpp: - decreased kick time even more, fixed
+    type error
+
+2004-04-27 20:44  grumbel
+
+  * src/: worldmap.cpp, worldmap.h: - made worldmap CPU independend,
+    needs testing
+
+2004-04-27 20:35  grumbel
+
+  * data/supertux.strf: - added 'falling' graphics, well, not really,
+    but better than invisible
+
+2004-04-27 20:29  grumbel
+
+  * src/gameloop.cpp: - reset bonus on kill
+
+2004-04-27 19:09  grumbel
+
+  * TODO, data/supertux.strf, src/badguy.cpp, src/badguy.h,
+    src/leveleditor.cpp, src/special.cpp: <MatzeB> -adds a workaround
+    for the disappearing eggs (they're just not removed anymore when
+    off screen) <MatzeB> -updates the TODO file <MatzeB> -small fix
+    for mrbomb exploding and hitting other mrbomb <MatzeB> -renaming
+    money/laptop to jumpy/mriceblock <MatzeB> -fix for enemies
+    running backwards
+
+2004-04-27 19:06  grumbel
+
+  * data/levels/world1/level26.stl: - endseq fixing
+
+2004-04-27 17:45  grumbel
+
+  * data/CREDITS: name fix
+
+2004-04-27 17:15  grumbel
+
+  * src/: gameloop.cpp, level.cpp, text.cpp, text.h, worldmap.cpp,
+    worldmap.h: - added extro support to worldmap, crashes however,
+    no idea why:
+
+    0x080826f5 in display_text_file(std::string const&, Surface*) ()
+    at music_manager.cpp:26 26    MusicManager::MusicManager()
+    (gdb) where #0  0x080826f5 in display_text_file(std::string
+    const&, Surface*) () at music_manager.cpp:26 #1  0x080826b5 in
+    display_text_file(std::string const&, std::string const&)
+    (file=@0x88ad5d0, surface=@0xbffff230)     at text.cpp:234 #2
+    0x08093b31 in WorldMapNS::WorldMap::update() (this=0xbffff3b0) at
+    worldmap.cpp:685
+
+2004-04-27 17:07  grumbel
+
+  * data/levels/default/worldmap.stwm: -m added extro
+
+2004-04-27 16:26  grumbel
+
+  * data/images/tilesets/: brick0.png, brick1.png: - changed brick
+    color a little bit to look less yellow/green-ish
+
+2004-04-27 15:59  rmcruz
+
+  * src/defines.h: Just decreased the kicking time (the 3 secs were
+    only for testing purposes).
+
+2004-04-27 14:10  grumbel
+
+  * data/CREDITS: - added some mail addresses, but looks bloated
+    again, might be a good idea to reorder it for people instead of
+    for jobs
+
+2004-04-27 14:08  grumbel
+
+  * data/supertux.strf: - fixed align
+
+2004-04-27 13:46  grumbel
+
+  * data/CREDITS: this new CREDITS file *IS* an improvement, it might
+    not be perfect, but its a lot better then the old one, if you
+    miss something in this one *ADD* that stuff and don't replace it
+    with an rather obsolete file
+
+2004-04-27 13:11  rmcruz
+
+  * TODO, TODO.txt: Updated the TODO list and changed the extension.
+
+    Please, use these headers in every documentation file, in order
+    to keep consistency: « - Those behind SuperTux -
+    http://super-tux.sf.net/
+
+    Last update: April 26, 2004 » Obviously, replacing - * - by a
+    description and Last update by the last update date.
+
+2004-04-27 13:06  rmcruz
+
+  * src/: badguy.cpp, gameloop.cpp, special.cpp: Applied patch from
+    Matze Braun that was sent to the mailing list.  According to
+    Matzes, changes are: « -fixes fast music being replayed again and
+    again -fixes time being displayed negatively when tux dies
+    because of timeout -fixes exploding bombs that hit mrbomb, so
+    that the hit mrbomb now really  transform into a bomb -updates
+    the TODO file »
+
+    I've also fixed two more bugs listed in the TODO: « - enemies
+    start running backwards, when they collide with a flame - egg
+    gets removed when leaving the screen, while badguys don't or at
+    least much later, thus its not possible to wait for an egg that
+    would bounce back »
+
+2004-04-27 12:22  rmcruz
+
+  * data/images/shared/: old/bigcape-left-0.png,
+    old/bigcape-left-1.png, old/bigcape-right-0.png,
+    old/bigcape-right-1.png, old/bigfiretux-left-0.png,
+    old/bigfiretux-left-1.png, old/bigfiretux-left-2.png,
+    old/bigfiretux-left-jump.png, old/bigfiretux-right-0.png,
+    old/bigfiretux-right-1.png, old/bigfiretux-right-2.png,
+    old/bigfiretux-right-jump.png, old/bullet2.png,
+    old/cape-left-0.png, old/cape-left-1.png, old/cape-right-0.png,
+    old/cape-right-1.png, old/coffee2.png, old/duckfiretux-left.png,
+    old/duckfiretux-right.png, old/ducktux-left.png,
+    old/ducktux-right.png, old/firetux-left-0.png,
+    old/firetux-left-0.png.right, old/firetux-left-1.png,
+    old/firetux-left-1.png.right, old/firetux-left-2.png,
+    old/firetux-left-2.png.right, old/firetux-right-0.png,
+    old/firetux-right-1.png, old/firetux-right-2.png,
+    bigcape-left-0.png, bigcape-left-1.png, bigcape-right-0.png,
+    bigcape-right-1.png, bigfiretux-left-0.png,
+    bigfiretux-left-1.png, bigfiretux-left-2.png,
+    bigfiretux-left-jump.png, bigfiretux-right-0.png,
+    bigfiretux-right-1.png, bigfiretux-right-2.png,
+    bigfiretux-right-jump.png, bullet.png, cape-left-0.png,
+    cape-left-1.png, cape-right-0.png, cape-right-1.png, coffee.png,
+    duckfiretux-left.png, duckfiretux-right.png, ducktux-left.png,
+    ducktux-right.png, firetux-left-0.png, firetux-left-0.png.right,
+    firetux-left-1.png, firetux-left-1.png.right, firetux-left-2.png,
+    firetux-left-2.png.right, firetux-right-0.png,
+    firetux-right-1.png, firetux-right-2.png: Yet another change of
+    old images to the old dir.  I guess we are now using new fresh
+    graphics! Congrats, especially to Ingo!
+
+2004-04-27 12:14  rmcruz
+
+  * data/CREDITS: Improve this file or leave it.
+
+2004-04-27 00:11  rmcruz
+
+  * AUTHORS, ChangeLog, INSTALL, LEVELDESIGN, README: Updated the
+    documentation. There is still a few flaws.  It would be usefull
+    to have an English-speaker reading these, since my English sux a
+    bit (being modest ;) ).
+
+2004-04-26 23:39  grumbel
+
+  * data/levels/world1/: level17.stl, level18.stl, level19.stl,
+    level20.stl: - more endseq stuff
+
+2004-04-26 23:10  grumbel
+
+  * src/collision.cpp: - little bugfix
+
+2004-04-26 23:09  grumbel
+
+  * src/: special.cpp, special.h, world.cpp: bump patch for upgrades
+    from matzeb
+
+2004-04-26 22:46  neoneurone
+
+  * configure.ac: credits for SuperTux development team
+
+2004-04-26 22:36  grumbel
+
+  * data/levels/world1/: level24.stl, level25.stl, level26.stl: -
+    more endseq
+
+2004-04-26 22:22  grumbel
+
+  * data/levels/world1/: level13.stl, level14.stl, level15.stl,
+    level16.stl, level23.stl: - more endseq
+
+2004-04-26 22:09  grumbel
+
+  * data/levels/world1/: level10.stl, level11.stl, level12.stl,
+    level5.stl, level7.stl, level8.stl, level9.stl: - more endseq
+
+2004-04-26 21:58  grumbel
+
+  * src/: badguy.cpp, gameloop.cpp, player.cpp: - 'nother badguy fix
+    from MatzeB: <MatzeB> -fixes the bumping problem for badguys
+    <MatzeB> -implements bill kendricks proposal about helding
+    iceblock (if you hit another enemy while
+
+2004-04-26 21:37  grumbel
+
+  * data/levels/world1/: level1.stl, level2.stl, level3.stl,
+    level4.stl, level5.stl, level6.stl: - fixed levels for new end
+    seq code
+
+2004-04-26 21:35  grumbel
+
+  * data/images/tilesets/: endseq.png, finalgoal.png, supertux.stgt:
+    - added endseq/finalgoal tiles
+
+2004-04-26 21:11  grumbel
+
+  * src/: collision.cpp, collision.h, gameloop.cpp, gameloop.h,
+    level.cpp, level.h, tile.cpp, tile.h, timer.cpp, timer.h: - new
+    more bulletprof endsequence code patch from MatzeB
+
+2004-04-26 21:05  grumbel
+
+  * data/CREDITS: - rearanged the credits a bit, other people are
+    welcome to review/correct it where necesarry
+
+2004-04-26 20:51  grumbel
+
+  * data/images/tilesets/black.png: - added missing black
+
+2004-04-26 19:46  grumbel
+
+  * src/worldmap.cpp: - woopsy, fix for load/savegame
+
+2004-04-26 19:35  grumbel
+
+  * src/: intro.cpp, screen.cpp, screen.h, setup.cpp, text.cpp: -
+    added loading/fadeout screen placeholder - cleaned up credit code
+    a very little bit
+
+2004-04-26 18:45  grumbel
+
+  * src/scene.cpp: - gcc -Wall warning fix
+
+2004-04-26 18:38  grumbel
+
+  * TODO.txt: added milestone1 todo
+
+2004-04-26 17:04  grumbel
+
+  * src/text.cpp: - fixed miss align in scrolling text
+
+2004-04-26 17:03  grumbel
+
+  * data/images/tilesets/supertux.stgt, src/gameloop.cpp,
+    src/lispreader.cpp, src/sprite_manager.cpp, src/title.cpp,
+    src/worldmap.cpp: - removed st_abort() from lisp reader, client
+    code should check the return value instead
+
+2004-04-26 16:40  rmcruz
+
+  * src/: badguy.cpp, defines.h, player.cpp, player.h: Implemented
+    kicking (as asked by Ingo). The kick timing can be changed in
+    defines.h I've not tested it very well, but it doesn't seem to be
+    working. Can anyone have a look?
+
+2004-04-26 16:24  rmcruz
+
+  * src/gameloop.cpp: Removed (just commented) the clear screen code
+    before the level starts.  It looks bad when the intro info is
+    gradient and then it displays a black screen and then the level.
+
+2004-04-26 16:20  rmcruz
+
+  * src/: intro.cpp, setup.cpp: Intro file should be the one to
+    handle the intro sequence, even if it is only one line of code.
+    I think we shouldn't get rid of it, because in the future it
+    should be improved and maybe support some sort of scripting.
+
+2004-04-26 16:16  grumbel
+
+  * data/: images/worldmap/antarctica.stwt,
+    images/worldmap/snowman.png, levels/default/worldmap.stwm: -
+    added little snowman
+
+2004-04-26 16:15  rmcruz
+
+  * src/: setup.cpp, text.cpp, text.h, title.cpp: Improved the
+    display_text_file(): moved to text.cpp and made it more
+    independent.
+
+    I wasn't able to test it, since the game crashes because of: «
+    LispReader: File not found: /home/rick2/.supertux/save/slot1.stsg
+    Error: aborting »
+
+2004-04-26 15:43  grumbel
+
+  * data/images/shared/egg.png: - rounded the egg a bit
+
+2004-04-26 15:38  grumbel
+
+  * data/images/worldmap/firetux.png,
+    data/images/worldmap/smalltux.png, src/worldmap.cpp,
+    src/worldmap.h: - added small/firetux to worldmap
+
+2004-04-26 15:18  grumbel
+
+  * src/gameloop.cpp: - added more meaningfull savegame titles
+
+2004-04-26 15:13  grumbel
+
+  * src/player.cpp: - changed priority of skid and duck to avoid
+    glitches when ducking and skiding at the same time
+
+2004-04-26 15:00  grumbel
+
+  * src/title.cpp: - fix for title-demo going weird
+
+2004-04-26 14:48  grumbel
+
+  * src/gameloop.cpp: - fixed lives status to handle more than 5
+    lives
+
+2004-04-26 14:42  grumbel
+
+  * data/images/worldmap/antarctica.stwt: - added auto-walk markings
+
+2004-04-26 14:41  grumbel
+
+  * src/: worldmap.cpp, worldmap.h: - added automatic walking on
+    worldmap
+
+2004-04-26 14:41  grumbel
+
+  * data/levels/default/worldmap.stwm: - added some more trees
+
+2004-04-26 14:21  grumbel
+
+  * src/: badguy.cpp, level.cpp, lispreader.cpp, resources.cpp,
+    setup.cpp, sound.cpp, sound.h, special.cpp, sprite.cpp, sprite.h,
+    sprite_manager.cpp, sprite_manager.h, supertux.cpp, texture.cpp,
+    texture.h, tile.cpp, tile.h, world.cpp, worldmap.cpp: <MatzeB>
+    -cleanup in resource management functions <MatzeB> -fixes 3
+    potential crashs (deleting Sprite classes, using member function
+    in <MatzeB>    BadGuy class after removing it) <MatzeB> -cleans
+    up sound init code and hopes that calling Mix_AllocateChannel
+    will make <MatzeB>  SDL_mixer happy...  <MatzeB> -fix paths that
+    missed a / after DATADIR <MatzeB> at least valgrind doesn't
+    report any errors anymore when you apply that patch <MatzeB>
+    (memory errors though, not memory leaks)
+
+2004-04-26 14:19  grumbel
+
+  * src/: gameloop.cpp, worldmap.cpp, worldmap.h: - added way to
+    interupt exit sequence - added primitive autowalk to worldmap
+
+2004-04-26 13:45  grumbel
+
+  * data/levels/world1/level14.stl: - fixed reset point, well, maybe
+    not sure if this was the cause for being reseted in a completly
+    wrong spot
+
+2004-04-26 13:14  grumbel
+
+  * src/gameobjs.cpp: - little bouncing block fix
+
+2004-04-26 12:51  grumbel
+
+  * src/special.cpp: - fixed 'jump' on flower collection
+
+2004-04-26 12:46  grumbel
+
+  * src/: world.cpp, world.h, worldmap.cpp: - added bonus loading
+
+2004-04-26 12:03  grumbel
+
+  * src/: gameloop.cpp, player.cpp, scene.cpp, scene.h, worldmap.cpp:
+    - added saving of bonuses on worldmap, no loading yet
+
+2004-04-26 02:32  grumbel
+
+  * data/levels/world1/level15.stl: - added endseq
+
+2004-04-26 02:20  grumbel
+
+  * data/levels/world1/level10.stl: - added endseq
+
+2004-04-26 02:17  grumbel
+
+  * data/levels/world1/level2.stl: - added endseq
+
+2004-04-26 01:58  grumbel
+
+  * data/levels/test/level3.stl: - endseq stuff
+
+2004-04-26 01:46  grumbel
+
+  * src/: gameloop.cpp, gameloop.h, level.cpp, special.cpp,
+    special.h: - tweaked bullet and endsequence
+
+2004-04-26 01:45  grumbel
+
+  * data/levels/world1/level1.stl: - added end sequence
+
+2004-04-26 00:46  grumbel
+
+  * data/images/tilesets/: goal1-1.png, goal1-2.png, goal1-3.png,
+    goal1-4.png, goal1-5.png, goal2-1.png, goal2-2.png, goal2-3.png,
+    goal2-4.png, goal2-5.png, supertux.stgt: - added goal tiles
+
+2004-04-26 00:23  grumbel
+
+  * configure.ac, data/Makefile.am: [no log message]
+
+2004-04-26 00:13  grumbel
+
+  * data/CREDITS: - moved heading/version info into code
+
+2004-04-26 00:10  grumbel
+
+  * src/: player.cpp, special.cpp: - bullet tweaks
+
+2004-04-26 00:10  grumbel
+
+  * data/images/shared/: bullet-1.png, bullet-2.png, bullet-3.png,
+    bullet-4.png: - bullet gfx
+
+2004-04-25 23:55  grumbel
+
+  * data/extro.txt, data/intro.txt, data/supertux.strf,
+    src/button.cpp, src/configfile.cpp, src/defines.h,
+    src/high_scores.cpp, src/level.cpp, src/lispreader.cpp,
+    src/menu.cpp, src/menu.h, src/setup.cpp, src/special.cpp,
+    src/special.h, src/sprite_manager.cpp, src/text.cpp,
+    src/texture.cpp, src/texture.h, src/tile.cpp, src/tile.h,
+    src/title.cpp, src/worldmap.cpp, src/worldmap.h: - memleak fix
+    and menu fix from MatzeB - little bullet tweaking from myself -
+    added story
+
+2004-04-25 22:22  grumbel
+
+  * data/levels/world1/level19.stl: - fixed 'impossible to make'
+    situation
+
+2004-04-25 22:18  grumbel
+
+  * data/levels/world1/: level14.stl, level8.stl: - fixed jump on
+    cave issue - fixed background tiles
+
+2004-04-25 21:58  grumbel
+
+  * data/levels/world1/: level11.stl, level12.stl, level26.stl: -
+    fixed some gradients
+
+2004-04-25 21:51  grumbel
+
+  * data/levels/world1/: level10.stl, level14.stl, level21.stl,
+    level22.stl, level23.stl, level3.stl, level4.stl, level5.stl,
+    level6.stl, level7.stl, level8.stl, level9.stl: - replaced
+    backgrounds with new ones
+
+2004-04-25 20:38  grumbel
+
+  * configure.ac: - release preparations
+
+2004-04-25 20:37  grumbel
+
+  * data/Makefile.am, src/Makefile.am: - fixed makefile a bit
+
+2004-04-25 20:35  grumbel
+
+  * data/levels/default/worldmap.stwm: - removed the 'double' path
+
+2004-04-25 19:17  grumbel
+
+  * data/supertux.strf: - fixed some align problems
+
+2004-04-25 18:46  grumbel
+
+  * data/supertux.strf, src/player.cpp, src/player.h,
+    src/resources.cpp, src/setup.cpp: - rewrote tux drawing code,
+    added firetux
+
+2004-04-25 18:17  grumbel
+
+  * src/: leveleditor.cpp, player.cpp, player.h, resources.cpp: -
+    moved tux gfx into a struct
+
+2004-04-25 18:07  grumbel
+
+  * data/supertux.strf, src/leveleditor.cpp, src/player.cpp,
+    src/player.h, src/resources.cpp: - moved tux completly to sprites
+
+2004-04-25 17:21  rmcruz
+
+  * src/title.cpp: Turned the display_credits() function more
+    flexible by getting the file to open.
+
+    Ingo, what do you think if we used this for the intro text?
+
+2004-04-25 16:34  grumbel
+
+  * data/: images/shared/cloud.png, images/tilesets/background4.png,
+    images/tilesets/background5.png, images/tilesets/background6.png,
+    levels/test/level2.stl, levels/world1/level1.stl,
+    levels/world1/level2.stl: - some minor improvements in the gfx
+
+2004-04-25 16:27  grumbel
+
+  * src/: Makefile.am, intro.cpp, intro.h, music_manager.cpp,
+    player.cpp, setup.cpp: - added intro text
+
+2004-04-25 16:16  rmcruz
+
+  * src/lispreader.cpp: Ooops, did a mistake. Fixed by Arkadiusz
+    Miskiewicz.  Aparentaly, fclose(NULL) causes a segfault.
+
+2004-04-25 15:51  grumbel
+
+  * src/: gameloop.cpp, level.cpp: -added gradient support for start
+    screens
+
+2004-04-25 15:45  grumbel
+
+  * data/levels/world1/level13.stl: - added background gradient
+
+2004-04-25 15:16  grumbel
+
+  * src/gameloop.cpp: - improved look of start/gameover screens
+
+2004-04-25 14:50  rmcruz
+
+  * data/levels/test/level4.stl: Just updated the gradients test to
+    use the new color entries.
+
+2004-04-25 14:44  grumbel
+
+  * data/images/status/letters-white-big.png: - removed blurriness
+
+2004-04-25 14:38  rmcruz
+
+  * data/images/shared/: distro-0.png, distro-1.png, distro-2.png,
+    distro-3.png, old/distro2-0.png, old/distro2-1.png,
+    old/distro2-2.png, old/distro2-3.png: Changed the distros images
+    to the old dir.  Finally possible thanks to Ingo.
+
+2004-04-25 14:34  rmcruz
+
+  * data/levels/world1/: level1.stl, level10.stl, level11.stl,
+    level12.stl, level15.stl, level16.stl, level17.stl, level18.stl,
+    level19.stl, level2.stl, level20.stl, level26.stl, level3.stl,
+    level4.stl, level5.stl, level6.stl, level7.stl, level8.stl,
+    level9.stl: Yet another levels update by Marek.  Changelog: «I
+    fixed some minor flaws and tried to give each of the maps an
+    original title. The latter was kinda difficult, because most of
+    the maps didn't really have a theme, (like the bridge or the
+    castle) so I had to make up their names; a task in which I maybe
+    failed in some parts, but at least it's better than just
+    numbers.»
+
+2004-04-25 14:29  grumbel
+
+  * data/images/worldmap/tux.png, src/worldmap.cpp: - added new
+    worldmap tux
+
+2004-04-25 14:14  grumbel
+
+  * data/levels/world1/level26.stl: - added gradient
+
+2004-04-25 14:11  grumbel
+
+  * src/level.cpp: - fixed/changed gradient tags to match with the
+    one used in the current level files
+
+2004-04-25 13:57  grumbel
+
+  * data/images/: background/arctis2.jpg,
+    shared/stalactite-broken.png, shared/stalactite.png,
+    tilesets/supertux.stgt, tilesets/waves-0.png,
+    tilesets/waves-1.png, tilesets/waves-2.png: - smoothed water a
+    little bit - added new cloud - fixed stalactit look a bit
+
+2004-04-25 13:55  grumbel
+
+  * src/: gameloop.cpp, resources.cpp: replaced distros with coins
+
+2004-04-25 13:34  grumbel
+
+  * data/images/tilesets/: cloud-00.png, cloud-01.png, cloud-02.png,
+    cloud-03.png, cloud-10.png, cloud-11.png, cloud-12.png,
+    cloud-13.png: - added new cloud tile
+
+2004-04-25 12:02  rmcruz
+
+  * src/lispreader.cpp: Just made lispreader to send an error message
+    to stderr when the file could not be open, as suggested by
+    Arkadiusz Miskiewicz.
+
+2004-04-24 22:36  grumbel
+
+  * data/images/shared/: firetux-grab-left-0.png,
+    firetux-grab-right-0.png, firetux-jump-left-0.png,
+    firetux-jump-right-0.png, firetux-kick-left-0.png,
+    firetux-kick-right-0.png, firetux-left-0.png.right,
+    firetux-left-1.png.right, firetux-left-2.png.right,
+    firetux-skid-left.png, firetux-skid-right.png,
+    firetux-stand-left.png, firetux-stand-right.png,
+    firetux-walk-left-0.png, firetux-walk-left-1.png,
+    firetux-walk-left-2.png, firetux-walk-left-3.png,
+    firetux-walk-left-4.png, firetux-walk-left-5.png,
+    firetux-walk-right-0.png, firetux-walk-right-1.png,
+    firetux-walk-right-2.png, firetux-walk-right-3.png,
+    firetux-walk-right-4.png, firetux-walk-right-5.png: - added
+    firetux, nothing more than a boring placeholder, but should be
+    better than the current one
+
+2004-04-24 21:39  grumbel
+
+  * data/images/worldmap/antarctica.stwt,
+    data/images/worldmap/castle1.png,
+    data/images/worldmap/castle2.png,
+    data/images/worldmap/castle3.png,
+    data/images/worldmap/castle4.png,
+    data/images/worldmap/castle5.png,
+    data/images/worldmap/castle6.png,
+    data/images/worldmap/castle7.png,
+    data/images/worldmap/castle8.png,
+    data/images/worldmap/castle9.png,
+    data/images/worldmap/igloo1.png, data/images/worldmap/igloo2.png,
+    data/levels/default/worldmap.stwm, src/worldmap.cpp: - added
+    start/end tiles
+
+2004-04-24 20:03  rmcruz
+
+  * src/menu.cpp: At least my compiler (g++ (GCC) 3.3.2) needs this
+    include.  Anyway, there is still a crash to be fixed.
+
+2004-04-24 19:48  grumbel
+
+  * src/: leveleditor.cpp, menu.cpp, menu.h, resources.cpp,
+    setup.cpp, sound.cpp, sound.h: 'nother music patch by matzeb
+
+2004-04-24 17:27  rmcruz
+
+  * src/: menu.cpp, menu.h: Ingo, that code is not buggy! You can say
+    that it is a bad approuch, but it is not a bug! Besides, I don't
+    think it's a bad approuch. Your code is maybe a better approuch.
+    But in the other hand is buggy, so please let my code be there.
+
+    Buggy, why, you may ask...
+
+    Imagine this simple and fictional code:
+
+    «  #define MNID_START 1
+
+    menu->additem("Start Game", MNID_START);
+    menu->additem("Options");
+
+    if(menu->check() == MNID_START)   startgame(); »
+
+    With your code, when you pressed Options, the game would also
+    start. Have a look at it again and guess why ;-)
+
+2004-04-24 17:08  grumbel
+
+  * src/: menu.h, setup.cpp: - fixed option menu
+
+2004-04-24 17:02  rmcruz
+
+  * data/levels/: default/worldmap.stwm, world1/level10.stl,
+    world1/level11.stl, world1/level12.stl, world1/level13.stl,
+    world1/level14.stl, world1/level15.stl, world1/level16.stl,
+    world1/level17.stl, world1/level18.stl, world1/level1.stl,
+    world1/level19.stl, world1/level2.stl, world1/level20.stl,
+    world1/level21.stl, world1/level22.stl, world1/level23.stl,
+    world1/level24.stl, world1/level25.stl, world1/level26.stl,
+    world1/level3.stl, world1/level4.stl, world1/level5.stl,
+    world1/level6.stl, world1/level7.stl, world1/level8.stl,
+    world1/level9.stl: Marek levels updating. He also added two new
+    levels for the start that are easier.  Updated worldmap as well.
+    Can someone test if level 25 and 26 are there?
+
+2004-04-24 16:49  grumbel
+
+  * src/: Makefile.am, gameloop.cpp, level.cpp, level.h,
+    music_manager.cpp, music_manager.h, musicref.cpp, musicref.h,
+    resources.cpp, resources.h, setup.cpp, sound.cpp, sound.h,
+    title.cpp, world.cpp, worldmap.cpp, worldmap.h: - patch from
+    MatzeB to make music handling easier and more stable
+
+2004-04-24 15:11  grumbel
+
+  * data/images/shared/largetux-grab-left-0.png,
+    data/images/shared/largetux-grab-right-0.png,
+    data/images/shared/largetux-star-0.png,
+    data/images/shared/largetux-star-1.png,
+    data/images/shared/largetux-star-2.png,
+    data/images/shared/smalltux-star-0.png,
+    data/images/shared/smalltux-star-1.png,
+    data/images/shared/smalltux-star-2.png, data/supertux.strf,
+    src/player.cpp, src/player.h, src/resources.cpp: - new star tux,
+    still rather pure, but useable
+
+2004-04-24 14:45  grumbel
+
+  * src/player.cpp: - fixed duck-jump bug
+
+2004-04-24 14:30  grumbel
+
+  * src/: player.cpp, player.h: - added holding gfx, still looks
+    rather stupid, but I think thats unavoidable without major
+    changes to the current code
+
+2004-04-24 14:11  grumbel
+
+  * src/: level.cpp, level.h, menu.cpp, menu.h, player.cpp, player.h,
+    resources.cpp: - fixed bug in Menu::check() - added grab/kick tux
+    to resources - added flag to use endsequence or not
+
+2004-04-24 12:43  grumbel
+
+  * data/supertux.strf: - added new gfx
+
+2004-04-24 12:42  grumbel
+
+  * data/images/shared/: smalltux-kick-right-0.png,
+    smalltux-kick-rigth-0.png: - fixed spelling mistake in filename
+
+2004-04-24 12:28  grumbel
+
+  * data/images/shared/: largetux-grab-left-0.png,
+    largetux-grab-right-0.png, largetux-kick-left-0.png,
+    largetux-kick-right-0.png, smalltux-grab-left-0.png,
+    smalltux-grab-right-0.png, smalltux-kick-left-0.png,
+    smalltux-kick-rigth-0.png: - added grab and kick tuxes
+
+2004-04-24 11:32  rmcruz
+
+  * src/: gameloop.cpp, leveleditor.cpp, menu.cpp, menu.h, setup.cpp,
+    title.cpp, worldmap.cpp: Added a new concept to the menu, the ID.
+     Each item can have an ID that can be given, this way there won't
+    be any more hardcoded values for the entries.  Anyway, I've made
+    it to be compatible with the current behaviour, in case any ID is
+    given.
+
+    I've already updated the mainmenu, optionsmenu, leveleditormenu,
+    leveleditorsettingsmenu and worldmapmenu.  The definitions are
+    enumerated in the menu.h file. Should we keep each enum splited
+    or merge them all?
+
+    Feedback is appreciated :)
+
+2004-04-24 10:38  rmcruz
+
+  * src/gameloop.cpp: Took st_pause_ticks_stop() out of the events
+    loop.
+
+2004-04-24 02:10  rmcruz
+
+  * data/levels/world1/level10.stl: Marek bug fix for this problem:
+    revilyo: «Antartica 10 : tux falls in the last hole, maybe it
+    could works if I jump really high. I don't look at the sources
+    yet...»
+
+2004-04-23 19:15  rmcruz
+
+  * data/levels/world1/: level1.stl, level10.stl, level11.stl,
+    level12.stl, level13.stl, level14.stl, level15.stl, level16.stl,
+    level17.stl, level18.stl, level19.stl, level2.stl, level20.stl,
+    level21.stl, level22.stl, level23.stl, level24.stl, level3.stl,
+    level4.stl, level5.stl, level6.stl, level7.stl, level8.stl,
+    level9.stl: Marek has updated worldmap levels. Changes are: «
+    -Added reset points (one per level, except the last one which has
+    two) -Removed lots of difficult and unfair spots -Changed order
+    of cave levels according to Matze's suggestion -Small design
+    fixes »
+
+2004-04-23 18:37  rmcruz
+
+  * src/gameloop.cpp: Just fixed two small bugs in the gameplay
+    during pause: - don't show the menu, neither quit to level
+    editor; - when any event happen, the timer would continue
+    (fixed).
+
+2004-04-23 18:30  rmcruz
+
+  * data/levels/test/level4.stl: Added a test level for the
+    gradients.  Seems to work fine.
+
+2004-04-23 18:30  rmcruz
+
+  * data/levels/test/: endseq.stl, level3.stl: Changed filenames from
+    endseq.stl to level3.stl.  Damn, use level*.stl or else implement
+    a way to set the filenames!
+
+2004-04-23 14:41  grumbel
+
+  * data/: supertux.strf, images/shared/mrbomb-explosion-1.png: -
+    'animated' explosion a bit
+
+2004-04-23 13:42  rmcruz
+
+  * src/setup.cpp: Just removed spaces from key and joystick setup
+    entries... What were does doing there anyway?
+
+2004-04-23 13:24  rmcruz
+
+  * data/supertux.strf: Added laptop entry back, that is used by Mr.
+    IceBlock, as reported by Ryan. (had to remove comment laptop
+    falling) The BSOD is not also necessary, is it?
+
+2004-04-23 13:12  rmcruz
+
+  * src/: menu.cpp, menu.h, setup.cpp: Added a joystick control
+    dialog.  I don't have a joystick, so please test and improve this
+    thing. Thx.
+
+2004-04-22 23:51  rmcruz
+
+  * src/: badguy.cpp, sound.cpp, sound.h: Implemented explosion sound
+    when Mr.Bomb explodes.  It uses the current stereo system that is
+    kinda of primitive. We should base it on player's coordinates and
+    calculate it according it.  Instead, it bases the screen, besides
+    it is not even calculated, just use some constants.
+
+2004-04-22 23:29  rmcruz
+
+  * data/sounds/explode.wav: Added an explotion sound file to
+    repository.  To be used by Mr Bomb, until someone replaces it by
+    a better one ;)
+
+2004-04-22 23:26  rmcruz
+
+  * data/images/shared/: old/distro-0-2.png, old/distro-1-2.png,
+    old/distro-2-2.png, old/distro-3-2.png, distro-0.png,
+    distro-1.png, distro-2.png, distro-3.png: Distros old images
+    seems to be necessary by this BouncyDistro class in gameobjs.*
+    ...  Weird, what does that thing do anyway?
+
+2004-04-22 23:24  rmcruz
+
+  * src/: resources.cpp, resources.h: Removed box_full and box_empty
+    from this.  They are now implemented as tiles.
+
+2004-04-22 23:07  rmcruz
+
+  * data/images/shared/old/: box-empty.png, box-full2.png,
+    distro-0-2.png, distro-1-2.png, distro-2-2.png, distro-3-2.png:
+    Moving a few not used images to old dir.
+
+2004-04-22 23:05  rmcruz
+
+  * data/images/shared/: box-empty.png, box-full.png, distro-0.png,
+    distro-1.png, distro-2.png, distro-3.png: Moving not used images
+    to old dir.
+
+2004-04-22 22:58  rmcruz
+
+  * data/supertux.strf: Removed a few entries from the sprites config
+    file (supertux.strf).
+
+2004-04-22 22:56  rmcruz
+
+  * data/images/shared/: old/bag-left-0.png, old/bag-left-1.png,
+    old/bag-right-0.png, old/bag-right-1.png, old/bigtux-left-0.png,
+    old/bigtux-left-1.png, old/bigtux-left-2.png,
+    old/bigtux-left-jump.png, old/bigtux-right-0.png,
+    old/bigtux-right-1.png, old/bigtux-right-2.png,
+    old/bigtux-right-jump.png, old/bsod-falling-left.png,
+    old/bsod-falling-right.png, old/bsod-left-0.png,
+    old/bsod-left-1.png, old/bsod-left-2.png, old/bsod-left-3.png,
+    old/bsod-right-0.png, old/bsod-right-1.png, old/bsod-right-2.png,
+    old/bsod-right-3.png, old/bsod-squished-left.png,
+    old/bsod-squished-right.png, old/golden-herring.png,
+    old/laptop-falling-left.png, old/laptop-falling-right.png,
+    old/laptop-flat-left.png, old/laptop-flat-right.png,
+    old/laptop-left-0.png, old/laptop-left-1.png,
+    old/laptop-left-2.png, old/laptop-right-0.png,
+    old/laptop-right-1.png, old/laptop-right-2.png,
+    old/skidtux-left.png, old/skidtux-right.png, old/tux-left-0.png,
+    old/tux-left-1.png, old/tux-left-2.png, old/tux-right-0.png,
+    old/tux-right-1.png, old/tux-right-2.png, bag-left-0.png,
+    bag-left-1.png, bag-right-0.png, bag-right-1.png,
+    bigtux-left-0.png, bigtux-left-1.png, bigtux-left-2.png,
+    bigtux-left-jump.png, bigtux-right-0.png, bigtux-right-1.png,
+    bigtux-right-2.png, bigtux-right-jump.png, bsod-falling-left.png,
+    bsod-falling-right.png, bsod-left-0.png, bsod-left-1.png,
+    bsod-left-2.png, bsod-left-3.png, bsod-right-0.png,
+    bsod-right-1.png, bsod-right-2.png, bsod-right-3.png,
+    bsod-squished-left.png, bsod-squished-right.png,
+    golden-herring.png, laptop-falling-left.png,
+    laptop-falling-right.png, laptop-flat-left.png,
+    laptop-flat-right.png, laptop-left-0.png, laptop-left-1.png,
+    laptop-left-2.png, laptop-right-0.png, laptop-right-1.png,
+    laptop-right-2.png, mints.png, skidtux-left.png,
+    skidtux-right.png, tux-left-0.png, tux-left-1.png,
+    tux-left-2.png, tux-right-0.png, tux-right-1.png,
+    tux-right-2.png: Moving a few images that are not used anymore
+    from shared to the old directory.
+
+2004-04-22 22:45  rmcruz
+
+  * src/setup.cpp: Just moved the Right with the Left entry in
+    Controls.  I'm so used to define the Left key firstly... :)
+
+2004-04-22 22:44  rmcruz
+
+  * src/menu.cpp: If you press Esc in the control menu, it quits from
+    there.
+
+2004-04-22 22:41  rmcruz
+
+  * src/: defines.h, scene.cpp, worldmap.cpp: Made a START_LIVES
+    definition (in defines.h) that has the lives that the players
+    start with.  i have made them to be 4, since the worldmap is so
+    hard...
+
+2004-04-22 22:16  grumbel
+
+  * data/supertux.strf:  fixed squish sprite
+
+2004-04-22 22:14  grumbel
+
+  * src/: defines.h, gameloop.cpp, player.cpp, player.h, special.cpp:
+    - made shrink behaviour more mariobros3 like, ie. firetux will go
+    to largetux to smalltux, removed small-firetux
+
+2004-04-22 21:53  grumbel
+
+  * src/badguy.cpp: - changed bouncing snowball speed back to normal
+
+2004-04-22 21:40  grumbel
+
+  * src/resources.cpp: - integrated skid tux
+
+2004-04-22 21:15  grumbel
+
+  * src/: badguy.cpp, badguy.h, collision.cpp, collision.h,
+    leveleditor.cpp, player.cpp, special.cpp, world.cpp, world.h: -
+    changed way badguy removal is handled (ie. with a flag now) -
+    changed some pointers to const references in collision code
+
+2004-04-22 20:39  rmcruz
+
+  * src/: menu.cpp, menu.h: Controls menu wasn't showing the keys
+    until they were changed (fixed).  Also made a few internal
+    changes regarding this.
+
+2004-04-22 19:53  grumbel
+
+  * src/: badguy.cpp, world.cpp, world.h: - made some arrays private
+    - store badguys in pointers instead of per value
+
+2004-04-22 19:51  rmcruz
+
+  * src/menu.cpp: Removed a few useless code (it was commented
+    anyway).
+
+2004-04-22 19:38  rmcruz
+
+  * src/defines.h: Changed MAX_BULLETS from 2 to 1.  As someone said
+    Tux with bullets power is totally invencible, this will make it a
+    bit harder.
+
+2004-04-22 18:52  grumbel
+
+  * src/badguy.cpp: - undo of my last patch, removing 'this' is not a
+    good idea and causes even worse side effects
+
+2004-04-22 18:49  grumbel
+
+  * src/badguy.cpp: - fixed bomb-dup bug (vector increases on add,
+    and this changes I guess, so remove doesn't work, vector should
+    really store pointers, not values)
+
+2004-04-22 18:45  grumbel
+
+  * data/supertux.strf: - fixed bomb
+
+2004-04-22 18:36  grumbel
+
+  * data/supertux.strf: - fixed hotspot
+
+2004-04-22 18:28  grumbel
+
+  * data/: images/shared/largetux-stand-left.png,
+    images/shared/largetux-stand-right.png, supertux.strf: - supertux
+    stand gfx
+
+2004-04-22 18:25  grumbel
+
+  * src/: badguy.cpp, player.cpp, player.h, resources.cpp: - synced
+    walk speed of walking enemies - added standing tux
+
+2004-04-22 17:58  grumbel
+
+  * data/Makefile.am: - little makefile fix
+
+2004-04-22 17:53  grumbel
+
+  * data/supertux.strf: - removed wrong bsod
+
+2004-04-22 17:52  grumbel
+
+  * src/: badguy.cpp, badguy.h: - some cleanup
+
+2004-04-22 17:41  grumbel
+
+  * data/supertux.strf: - fixed hotspots
+
+2004-04-22 16:14  rmcruz
+
+  * data/levels/misc/menu.stl: Make use of Marek's music at the
+    beggining.
+
+2004-04-22 16:11  rmcruz
+
+  * src/: menu.cpp, menu.h: Improved the control key code a bit, in
+    order to make it possible to write the keys right in the first
+    dialog display (still to be done).
+
+2004-04-22 15:46  rmcruz
+
+  * data/music/theme.mod: Title music update by Marek.
+
+2004-04-22 15:24  grumbel
+
+  * src/: player.cpp, world.cpp: - merged a few duplicated if's in
+    player - added live-lost tux
+
+2004-04-22 14:47  grumbel
+
+  * data/images/shared/: smalltux-gameover-0.png,
+    smalltux-gameover-1.png: - new gfx
+
+2004-04-22 13:30  rmcruz
+
+  * src/title.cpp: Just made the intro's Tux to honour the keys
+    chosen by the user.
+
+2004-04-22 13:26  rmcruz
+
+  * data/images/icon.xpm, src/setup.cpp: Changed icon.png to
+    icon.xpm. This way we don't have to worry about masks.  But not
+    sure if it works well under windows (someone give a try).
+    Anyway, I just comment the old code, so we can reverse this any
+    time.
+
+2004-04-22 13:20  rmcruz
+
+  * src/menu.cpp: Mistake that was making non-characters keys not to
+    work after configuring keys.  Anyway, we still have to fix the
+    fact that the keys are not shown when you open Controls for the
+    first time.
+
+2004-04-22 13:17  rmcruz
+
+  * src/: gameloop.cpp, level.cpp, resources.cpp, sound.cpp,
+    title.cpp, world.cpp, worldmap.cpp: Applied MatzeB (Ryan?) patch
+    that fixes crash and also improves music.
+
+    Ingo, you seem to have forgotten to add two files to cvs:
+    smalltux-gameover-0.png smalltux-gameover-1.png
+
+2004-04-22 12:44  rmcruz
+
+  * data/supertux.strf: Applied Ryan's patch for MrBomb hotspot.
+
+2004-04-22 12:43  rmcruz
+
+  * src/badguy.cpp: Applied Ryan's patch for overlaping badguys.
+
+2004-04-22 02:13  grumbel
+
+  * data/supertux.strf, src/player.cpp, src/player.h,
+    src/resources.cpp, src/title.cpp: - added small skid tux
+
+2004-04-22 02:02  grumbel
+
+  * src/title.cpp: 'nother music fix
+
+2004-04-22 02:00  grumbel
+
+  * src/gameloop.cpp: patch from MatzeB for freeze at level start
+
+2004-04-22 01:36  grumbel
+
+  * src/: gameloop.cpp, level.cpp, level.h, player.cpp, scene.cpp,
+    setup.cpp, sound.cpp, sound.h, special.cpp, world.cpp, world.h,
+    worldmap.cpp: - music patch from MatzeB, should fix crash on
+    level exit too worldmap
+
+2004-04-22 01:10  grumbel
+
+  * data/images/shared/: largetux-skid-left.png,
+    largetux-skid-right.png, mriceblock-flat-left.png,
+    mriceblock-flat-right.png, smalltux-skid-left.png,
+    smalltux-skid-right.png, snowball-squished-left.png,
+    snowball-squished-right.png, spiky-left-0.png, spiky-left-1.png,
+    spiky-left-2.png, spiky-right-0.png, spiky-right-1.png,
+    spiky-right-2.png: - some more gfx
+
+2004-04-22 00:48  rmcruz
+
+  * src/: defines.h, world.cpp: Limitated the number of bullets to be
+    shot at the same time.  I have made 2 bullets to be the
+    maximum... if you don't agree tell me. anyway, you can easily
+    change them in defines.h
+
+2004-04-21 21:08  grumbel
+
+  * data/images/shared/: smalltux-jump-left.png,
+    smalltux-jump-right.png: - improved smalltux
+
+2004-04-21 21:02  grumbel
+
+  * data/images/shared/: smalltux-jump-left.png,
+    smalltux-jump-right.png, smalltux-left-1.png,
+    smalltux-left-2.png, smalltux-left-3.png, smalltux-left-4.png,
+    smalltux-left-5.png, smalltux-left-6.png, smalltux-left-7.png,
+    smalltux-left-8.png, smalltux-right-1.png, smalltux-right-2.png,
+    smalltux-right-3.png, smalltux-right-4.png, smalltux-right-5.png,
+    smalltux-right-6.png, smalltux-right-7.png, smalltux-right-8.png:
+    - improved smalltux
+
+2004-04-21 19:45  rmcruz
+
+  * src/: configfile.cpp, menu.cpp: Made the keys to be displayed
+    when typed and also save them to the file.  Still to fix: display
+    keys when menu is shown.
+
+2004-04-21 19:43  rmcruz
+
+  * data/music/theme.mod, src/title.cpp: Added Marek music to cvs and
+    play it in the main menu.
+
+2004-04-21 17:45  rmcruz
+
+  * src/menu.cpp: Display key number on the key selection: This is
+    not obvious to the user, we have to get a way to translate it
+    into human readable strings...
+
+2004-04-21 17:15  rmcruz
+
+  * src/: menu.cpp, menu.h, player.h, setup.cpp: Finally, made keys
+    configurable via the menu!! ;) Next step is to save them to
+    config file and to make joystick also configurable.
+
+2004-04-21 15:40  grumbel
+
+  * src/: gameloop.cpp, gameloop.h: - made end seq a bit more robust
+
+2004-04-21 15:40  grumbel
+
+  * data/levels/test/endseq.stl: - test level for endseq
+
+2004-04-21 14:44  grumbel
+
+  * src/: badguy.h, gameloop.cpp, gameloop.h, level.cpp, sprite.cpp:
+    - added end-sequence code
+
+2004-04-21 13:56  grumbel
+
+  * data/images/icon.png: - added new icon
+
+2004-04-21 13:37  grumbel
+
+  * data/images/shared/tux-life.png: - added new tux-life pic by
+    Benjamin P. Jung
+
+2004-04-21 13:17  rmcruz
+
+  * src/: worldmap.cpp, worldmap.h: Now, the worldmap displays the
+    Level's name, instead of the path.
+
+2004-04-21 00:52  rmcruz
+
+  * data/levels/: default/info, default/info.png, default/level1.stl,
+    default/level2.stl, default/level3.stl, cave/info,
+    cave/level1.stl, cave/level2.stl, cave/level3.stl,
+    cave/level4.stl, cave/level5.stl, cave/level6.stl, snow/info,
+    snow/level1.stl, snow/level2.stl, snow/level3.stl,
+    snow/level4.stl, snow/level5.stl, snow/level6.stl,
+    snow/level7.stl: These levels are all in the world1 dir.
+
+2004-04-20 22:10  grumbel
+
+  * src/: badguy.cpp, badguy.h, level.cpp, leveleditor.cpp,
+    world.cpp, world.h: - added stay-on-platform into the level
+    fileformat
+
+2004-04-20 21:55  grumbel
+
+  * src/: badguy.h, defines.h, level.cpp, leveleditor.cpp,
+    player.cpp, player.h, special.cpp, special.h, world.cpp, world.h:
+    - turned LEFT/RIGHT defines into enum, turned BadGuyModes into
+    enum
+
+2004-04-20 20:51  rmcruz
+
+  * src/leveleditor.cpp: When Esc was pressed the menu was not being
+    shown in leveleditor (fixed).
+
+2004-04-20 20:46  rmcruz
+
+  * src/gameloop.cpp: Level test mode didn't quit properly when Esc
+    was pressed (fixed)
+
+2004-04-20 20:40  rmcruz
+
+  * src/gameloop.cpp: Time is not stopped during menu display in
+    gameloop (fix).  Probably there is a prettier way to fix this ;)
+
+2004-04-20 20:39  grumbel
+
+  * src/: badguy.cpp, badguy.h, physic.cpp: - added stay_on_platform
+    flag for badguys - some code cleanup - tweaked iceblocx speed
+
+2004-04-20 19:58  grumbel
+
+  * src/: physic.cpp, physic.h, player.cpp: - stop tux if he ran into
+    a block, no more accelerating while standing infront of a block
+
+2004-04-20 19:46  rmcruz
+
+  * data/levels/world1/: level10.stl, level16.stl, level17.stl,
+    level18.stl, level19.stl, level1.stl, level20.stl, level21.stl,
+    level22.stl, level2.stl, level23.stl, level24.stl, level3.stl,
+    level4.stl, level5.stl, level7.stl, level8.stl, level9.stl: Marek
+    level updating.  According to him, this should be release ready.
+    Though, I have not tried them yet.  Please, try them and send
+    feedback.
+
+2004-04-20 19:31  grumbel
+
+  * src/: defines.h, globals.cpp, physic.cpp, physic.h, player.cpp: -
+    switched gamespeed back to normal - added high-jump while running
+
+2004-04-20 18:50  grumbel
+
+  * src/: configfile.cpp, globals.cpp, setup.cpp: - added config
+    options for joystick buttons/axis
+
+2004-04-20 18:25  grumbel
+
+  * src/: gameloop.cpp, globals.cpp, globals.h, menu.cpp, player.cpp,
+    player.h, worldmap.cpp: - moved joystick mappings into a struct
+
+2004-04-20 17:48  rmcruz
+
+  * data/images/shared/: mriceblock-flat-left.png,
+    mriceblock-flat-right.png: Improved my flat graphics hack a bit.
+    Someone should do a from scratch ones, but this work for now.
+
+2004-04-20 16:30  rmcruz
+
+  * src/leveleditor.cpp: Just removed two printfs I have mistakelly
+    committed.
+
+2004-04-20 14:24  grumbel
+
+  * src/: defines.h, gameloop.cpp, globals.cpp, globals.h,
+    worldmap.cpp: - turned joystick defines into variables
+
+2004-04-20 14:12  grumbel
+
+  * src/: gameloop.cpp, setup.cpp: - fixed some more menu issues -
+    removed highscore loading from gameloop
+
+2004-04-20 13:43  rmcruz
+
+  * src/title.cpp: Recoded credits code, in order to respect fonts
+    height.  (if you think there should be more space between items,
+    just change ITEMS_SPACE).
+
+    Also fixed a mistake that was making SDL_QUIT signal to never be
+    used.
+
+2004-04-20 13:37  grumbel
+
+  * src/: level.cpp, leveleditor.cpp, setup.cpp, special.cpp: - fixed
+    level editor menus a bit (still not 100% working) - added
+    resetpoint saving to Level
+
+2004-04-20 13:21  rmcruz
+
+  * src/title.cpp: Fixed a little mistake that was making title to
+    not be shutdown.
+
+2004-04-20 13:09  grumbel
+
+  * src/: badguy.cpp, badguy.h, button.cpp, button.h, collision.cpp,
+    collision.h, configfile.h, defines.h, gameloop.cpp, gameloop.h,
+    gameobjs.cpp, gameobjs.h, globals.cpp, globals.h,
+    high_scores.cpp, high_scores.h, intro.cpp, intro.h, level.cpp,
+    level.h, leveleditor.cpp, leveleditor.h, mousecursor.cpp,
+    mousecursor.h, particlesystem.cpp, particlesystem.h, physic.cpp,
+    physic.h, player.cpp, player.h, resources.cpp, resources.h,
+    scene.cpp, scene.h, screen.cpp, screen.h, setup.h, sound.cpp,
+    sound.h, special.h, sprite_manager.cpp, supertux.cpp, text.cpp,
+    text.h, texture.cpp, texture.h, tile.cpp, tile.h, timer.cpp,
+    timer.h, title.cpp, title.h, type.cpp, type.h, world.cpp,
+    world.h: - added standard copyright header to every file
+
+2004-04-20 12:42  grumbel
+
+  * src/: gameloop.cpp, high_scores.cpp, leveleditor.cpp, menu.cpp,
+    menu.h, title.cpp, worldmap.cpp: - changed Menu::check()
+    semantics a bit - speeded up the contrib menu a lot - fixed a few
+    other menu issues - might have broken editor a bit, needs more
+    testing
+
+2004-04-20 01:02  grumbel
+
+  * data/images/shared/resetpoint.png: - added resetpoint gfx (level
+    editor only)
+
+2004-04-20 00:47  grumbel
+
+  * src/: gameloop.cpp, level.cpp, level.h: - implemented reset
+    points
+
+2004-04-19 23:54  grumbel
+
+  * src/: menu.cpp, menu.h: - cleaned up my last_menu patch a bit
+    more
+
+2004-04-19 23:20  grumbel
+
+  * src/: gameloop.cpp, menu.cpp, menu.h, supertux.cpp, title.cpp,
+    title.h, worldmap.cpp: - fixed problem with last_menu not being
+    able to handle menues deeper than two submenues - misc other
+    cleanup
+
+2004-04-19 21:22  grumbel
+
+  * src/: gameloop.cpp, high_scores.cpp, leveleditor.cpp, menu.cpp,
+    menu.h, title.cpp, worldmap.cpp: - removed menu_process_current()
+
+2004-04-19 21:06  grumbel
+
+  * src/: defines.h, gameloop.cpp, gameloop.h, high_scores.cpp,
+    leveleditor.cpp, menu.cpp, menu.h, setup.cpp, title.cpp,
+    worldmap.cpp, worldmap.h: - removed a few menu variables
+
+2004-04-19 21:03  rmcruz
+
+  * data/levels/world1/info: Removed world1 from the Contrib Levels
+    entry.  It's impossible to navigate through so many levels
+    anyway.
+
+2004-04-19 16:34  rmcruz
+
+  * data/music/: cave-fast.mod, cave.mod, fortress-fast.mod,
+    fortress.mod: Marek update for his musics.
+
+2004-04-19 16:28  rmcruz
+
+  * data/CREDITS: Changed Ingo description in Credits as suggested by
+    Marek.  I really should get some English lessons :D
+
+2004-04-19 16:27  grumbel
+
+  * data/supertux.strf, src/special.cpp: - changed upgrades to use
+    sprites - added glowing iceflower and star (hardly visible)
+
+2004-04-19 16:24  rmcruz
+
+  * src/leveleditor.cpp: Fixed a help font bug (was using normal
+    fonts, instead of the small ones).  Tried to make leveleditor
+    quit when SDL_QUIT signal is received without success. Why
+    doesn't this work? :(
+
+2004-04-19 16:14  grumbel
+
+  * data/images/tilesets/supertux.stgt: - fixed problem with asyncron
+    blinkig bonus block - fixed indention
+
+2004-04-19 16:08  rmcruz
+
+  * src/: high_scores.cpp, high_scores.h: Made high_scores to use the
+    lispreader (i wasn't able to do proper testing, could someone
+    give a look at the code).  Anyway, do you think high_scores.*
+    should be merged with configfile.* ? If nobody says anything,
+    I'll do that.
+
+2004-04-19 16:06  grumbel
+
+  * src/: special.cpp, special.h, world.cpp, world.h: - added
+    UpgradeKind name to nameless enum - slowed down grow-up upgrade
+
+2004-04-19 15:56  grumbel
+
+  * src/player.cpp: - added more mario lik duck behaviour
+
+2004-04-19 15:34  grumbel
+
+  * src/worldmap.cpp: - fixed back direction saving
+
+2004-04-19 15:23  grumbel
+
+  * src/: defines.h, gameloop.cpp, gameloop.h, setup.cpp,
+    worldmap.cpp: - fixed bug in live counting - added save menu to
+    the worldmap - removed load/save from the game menu
+
+2004-04-19 14:05  rmcruz
+
+  * data/: images/shared/mriceblock-flat-left.png, supertux.strf,
+    images/shared/mriceblock-flat-right.png: Added a flat Mr. Ice
+    Block.  It is ugly as hell, but better than having a laptop.
+    Ingo, could you make a decent one? ;)
+
+2004-04-19 13:46  rmcruz
+
+  * data/CREDITS: Added Marek to in-game credits.
+
+2004-04-19 00:36  grumbel
+
+  * src/: level.cpp, level.h, player.cpp: - commited start_pos patch
+    from sik0fewl
+
+2004-04-18 23:45  grumbel
+
+  * src/leveleditor.cpp: - removed static_cast hack
+
+2004-04-18 23:16  grumbel
+
+  * data/supertux.strf, src/level.cpp, src/player.cpp, src/player.h,
+    src/resources.cpp: - fixed some align problems with tux - fixed
+    bug in tilemap resize
+
+2004-04-18 22:36  grumbel
+
+  * src/: gameloop.cpp, player.cpp, player.h, resources.cpp, sound.h:
+    - added new bigtux
+
+2004-04-18 22:35  grumbel
+
+  * data/supertux.strf: - added new tux
+
+2004-04-18 21:35  grumbel
+
+  * data/images/shared/: iceflower-1.png, iceflower-2.png,
+    iceflower-3.png, iceflower.png, largetux-jump-left-0.png,
+    largetux-jump-right-0.png, largetux-walk-left-0.png,
+    largetux-walk-left-1.png, largetux-walk-left-2.png,
+    largetux-walk-left-3.png, largetux-walk-left-4.png,
+    largetux-walk-left-5.png, largetux-walk-right-0.png,
+    largetux-walk-right-1.png, largetux-walk-right-2.png,
+    largetux-walk-right-3.png, largetux-walk-right-4.png,
+    largetux-walk-right-5.png, star-1.png, star-2.png, star-3.png,
+    star-4.png, star.png: - some graphics
+
+2004-04-18 20:00  rmcruz
+
+  * data/CREDITS: Added Ryan full name.
+
+2004-04-18 19:58  rmcruz
+
+  * data/levels/world1/: level1.stl, level10.stl, level11.stl,
+    level12.stl, level13.stl, level14.stl, level15.stl, level16.stl,
+    level17.stl, level18.stl, level2.stl, level3.stl, level4.stl,
+    level5.stl, level6.stl, level7.stl, level8.stl, level9.stl:
+    World1 levels update by Marek.  Polishing. Cave levels now use
+    the cave music.
+
+2004-04-18 19:54  rmcruz
+
+  * data/music/: cave-fast.mod, cave.mod: Musics by Marek, they are
+    pretty cool and could be used in cave levels.
+
+2004-04-18 17:08  grumbel
+
+  * src/player.cpp: - moved default start position two tiles higher
+
+2004-04-18 15:42  grumbel
+
+  * src/: gameloop.cpp, globals.cpp, globals.h, level.cpp, level.h,
+    resources.cpp, special.cpp, world.cpp: - added constructor to
+    level - changed framerate handling to avoid large frame_ratio's
+
+2004-04-18 14:31  grumbel
+
+  * data/images/shared/: tux-duck-left.png, tux-duck-right.png: -
+    added tux ducking images
+
+2004-04-18 14:11  rmcruz
+
+  * data/CREDITS: Changes in credits: Added Ryan and Ingo to the
+    developers list.  Ranked me to an higher position ;D
+
+2004-04-18 14:03  rmcruz
+
+  * src/: gameloop.cpp, leveleditor.cpp, menu.cpp, menu.h, timer.cpp,
+    title.cpp, worldmap.cpp: Finally!! This makes the Back button to
+    be used in case there is one (when Esc is pressed).  Because of
+    that, the menu is now much more independent.  Currently,
+    everything seems to be working just fine and smooth.
+
+2004-04-18 13:09  rmcruz
+
+  * src/: badguy.cpp, player.cpp, world.cpp: Patch by Ryan: « Here's
+    a patch that makes a few changes that makes ST more like SMB.
+
+    Changes include: * Kicked mriceblocks (laptops) don't die after
+    hitting a single enemy, they keep going to kill more badguys (or
+    Tux if you're not careful) * You can now kick mriceblocks
+    (laptops) by running into their sides. Before you had to jump on
+    them to "kick" them and if you walked into their sides you would
+    die (or shrink).  * When badguys walk into one another they turn
+    around instead of walking through eachother.  »
+
+2004-04-18 00:22  grumbel
+
+  * src/: sprite.cpp, sprite.h: - added draw_part()
+
+2004-04-17 23:24  grumbel
+
+  * src/: worldmap.cpp, worldmap.h: - implemented locked levels on
+    worldmap
+
+2004-04-17 22:41  grumbel
+
+  * src/worldmap.cpp: - fixed loadgame
+
+2004-04-17 17:40  rmcruz
+
+  * data/levels/: default/worldmap.stwm, world1/info,
+    world1/level1.stl, world1/level10.stl, world1/level11.stl,
+    world1/level12.stl, world1/level13.stl, world1/level14.stl,
+    world1/level15.stl, world1/level16.stl, world1/level17.stl,
+    world1/level18.stl, world1/level19.stl, world1/level2.stl,
+    world1/level20.stl, world1/level21.stl, world1/level22.stl,
+    world1/level23.stl, world1/level24.stl, world1/level3.stl,
+    world1/level4.stl, world1/level5.stl, world1/level6.stl,
+    world1/level7.stl, world1/level8.stl, world1/level9.stl: Marek
+    has sent this hand of 'world1' levels that he thinks are suitable
+    for a release. He has polish them.  I have made worldmap to use
+    them. We need testing, boys!
+
+2004-04-17 17:21  rmcruz
+
+  * src/: physic.cpp, physic.h: Added inverse functions for speed.
+    Might be usefull for someone that wants to make enemies to change
+    directions when colliding with each other.
+
+2004-04-17 16:18  grumbel
+
+  * data/levels/default/worldmap.stwm: sik0fewl's worldmap patch
+
+2004-04-17 16:13  grumbel
+
+  * src/: worldmap.cpp, worldmap.h: sik0fewl's worldmap patch
+
+2004-04-17 15:56  grumbel
+
+  * src/: gameloop.cpp, gameloop.h, player.cpp, scene.h, title.cpp,
+    world.cpp, world.h, worldmap.cpp, worldmap.h: - changed/clean up
+    level end detection a bit, still not really as it should be
+
+2004-04-17 15:29  grumbel
+
+  * src/leveleditor.cpp: - removed level editors dependency on the
+    World class
+
+2004-04-17 14:13  grumbel
+
+  * data/supertux.strf: - fixed some bugs in the resource file
+
+2004-04-17 14:00  rmcruz
+
+  * src/badguy.cpp: Applied patch from Ryan: « This patch causes
+    badguys to be killed when they run into an exploding bomb or get
+    hit by stalactite (as suggested by Ricardo).  »
+
+2004-04-17 12:48  grumbel
+
+  * data/supertux.strf, src/Makefile.am, src/badguy.cpp,
+    src/badguy.h, src/resources.cpp, src/resources.h, src/sprite.cpp,
+    src/sprite.h, src/sprite_manager.cpp, src/sprite_manager.h: -
+    moved badguys to use sprite class
+
+2004-04-17 03:23  grumbel
+
+  * data/levels/cave/: level1.stl, level2.stl, level3.stl,
+    level4.stl, level5.stl, level6.stl: - added cave background to
+    cave levels
+
+2004-04-17 02:49  grumbel
+
+  * src/: gameloop.cpp, setup.cpp, setup.h, supertux.cpp, title.cpp,
+    worldmap.cpp, worldmap.h: - added load game support for the
+    worldmap
+
+2004-04-16 23:16  grumbel
+
+  * src/: badguy.cpp, badguy.h: - added new jumpy/money gfx
+
+2004-04-16 23:14  grumbel
+
+  * data/images/shared/: jumpy-left-down-0.png,
+    jumpy-left-middle-0.png, jumpy-left-up-0.png: - added jumpy
+
+2004-04-16 20:49  rmcruz
+
+  * src/gameloop.cpp: As requested by Ingo Ruhnke, now the author
+    name is much more discrete.
+
+2004-04-16 18:52  grumbel
+
+  * src/: gameloop.cpp, gameloop.h, player.cpp, player.h, scene.cpp,
+    scene.h, setup.cpp, setup.h, special.cpp, text.h, worldmap.cpp,
+    worldmap.h: - some more savegame stuff - added status on worldmap
+    - made worldmap start on 'start game' - moved lives, distros,
+    score into PlayerStatus
+
+2004-04-16 18:24  rmcruz
+
+  * data/images/tilesets/supertux.stgt, src/player.cpp: This patch
+    was send to the mailing list by Ryan (aka sik0fewl).  «  I've
+    made it so that sliding on ice works again (after the changes to
+    the input handling functions--looks much nicer now, btw).
+
+    I also changed supertux.stgt to make snow5.png ice. You can try
+    out sliding around on ice in the second level. I wasn't really
+    sure what would be a good sliding rate so people should try
+    fiddling with different values.
+
+    Right now the accel/decel rate is the direct inverse of the
+    velocity.. this inverse can be increased or decreased.
+
+    Also, the smalltux animation doesn't "slide", he walks to a
+    stop.. haven't really looked into where to fix this, but I'm sure
+    others could find it and fix it before I could.  »
+
+2004-04-16 16:50  grumbel
+
+  * src/world.cpp: - changed scroll speed for background image
+    (should be configurable via level file) - fixed bug that caused
+    background to not get cleanly redrawn
+
+2004-04-16 16:48  grumbel
+
+  * data/images/background/cave2.jpg: - added cave background
+
+2004-04-16 16:31  grumbel
+
+  * data/images/tilesets/: bonus-1up.png, supertux.stgt: - added 1up
+    to tileset
+
+2004-04-16 16:26  grumbel
+
+  * src/: level.cpp, level.h, screen.h: - replaced a few pure
+    pointers with std::vector<>
+
+2004-04-15 21:08  grumbel
+
+  * data/levels/default/worldmap.stwm, src/worldmap.cpp,
+    src/worldmap.h: - added primitiv scrolling to the worldmap -
+    added a larger worldmap
+
+2004-04-13 20:50  grumbel
+
+  * data/images/shared/fish-down-0.png, src/badguy.cpp: fish fix
+
+2004-04-13 20:39  rmcruz
+
+  * src/gameloop.cpp: Just makes the level's author name to be
+    written in red, so that it is highlighted.  I'm sure level
+    creators will appretiate that.
+
+2004-04-13 20:24  grumbel
+
+  * src/special.cpp: - fixed egg behaviour a bit
+
+2004-04-13 20:17  grumbel
+
+  * src/player.cpp: - commited MatzeBs duck fix
+
+2004-04-13 17:20  rmcruz
+
+  * src/screen.cpp: Fixed SDL code of drawgradient().  I forgot that
+    the axis in SDL are positve in the Up-Down direction.  Now you
+    shouldn't notice any difference between SDL and OpenGL gradients
+    ;)
+
+2004-04-13 16:52  rmcruz
+
+  * data/images/background/ocean.png: Updated the ocean.png image,
+    message from its author (Marek): «I accidentally sent you an old
+    version of the ocean.png image.  The new one uses a tilable wave
+    pattern so there's no ugly edge when the image is repeated.»
+
+    Is it my impression or arctis.png doesn't repate very well? Ingo
+    could you try to correct this, should be pretty easy.
+
+2004-04-13 16:32  grumbel
+
+  * src/: setup.cpp, text.cpp, texture.cpp, texture.h: - reenabled
+    OpenGL menu entry - OpenGL menu entry is now disabled if no
+    opengl support is compiled in - added handling for lost surfaces
+    for modeswitch in win32 (needs testing) - fixed font-shadow issue
+
+2004-04-13 15:20  rmcruz
+
+  * src/setup.cpp: Disabled OpenGL option.
+
+2004-04-13 15:02  grumbel
+
+  * src/: setup.cpp, texture.cpp, texture.h: - implemeted video-mode
+    switching (this currently breaks shadow fonts, but shouldn't be
+    difficult to fix)
+
+2004-04-13 14:25  grumbel
+
+  * src/: button.cpp, gameloop.cpp, gameobjs.cpp, gameobjs.h,
+    globals.cpp, globals.h, high_scores.cpp, leveleditor.cpp,
+    menu.cpp, menu.h, player.cpp, setup.cpp, sprite.h, text.cpp,
+    text.h, texture.h, timer.h, title.cpp, world.h, worldmap.h: -
+    converted text_type into a class
+
+2004-04-13 13:34  rmcruz
+
+  * src/: gameobjs.cpp, level.cpp, leveleditor.cpp, level.h,
+    screen.cpp, screen.h, world.cpp: Just changed each bkgd_top_* and
+    bkgd_bottom_* to be Color structs that can be found at screen.h.
+    Requested by Ingo Ruhnke.  Ingo, I haven't even tried to change
+    the level files, since I don't have any clue about lisp. Please,
+    do that yourself.
+
+2004-04-13 04:19  grumbel
+
+  * src/: Makefile.am, badguy.cpp, badguy.h, button.cpp, button.h,
+    gameloop.cpp, gameobjs.cpp, gameobjs.h, high_scores.cpp,
+    intro.cpp, level.cpp, level.h, leveleditor.cpp, menu.cpp, menu.h,
+    mousecursor.cpp, mousecursor.h, particlesystem.cpp,
+    particlesystem.h, player.cpp, player.h, resources.cpp,
+    resources.h, setup.cpp, special.cpp, sprite.cpp, sprite.h,
+    text.cpp, text.h, texture.cpp, texture.h, tile.cpp, tile.h,
+    title.cpp, world.cpp, worldmap.cpp, worldmap.h: - converted
+    texture_type into a Surface class
+
+2004-04-13 01:31  rmcruz
+
+  * data/levels/snow/: info, level1.stl, level2.stl, level3.stl,
+    level4.stl, level5.stl, level6.stl, level7.stl: Organized levels
+    structures, feel free to curse me ;) This also adds authors names
+    to levels.
+
+2004-04-13 01:20  rmcruz
+
+  * data/levels/cave/: info, level1.stl, level2.stl, level3.stl,
+    level4.stl, level5.stl, level6.stl: Organized levels structures,
+    feel free to curse me ;) This also adds authors names to levels.
+
+2004-04-13 01:01  rmcruz
+
+  * data/levels/default/: boss1-grumbel.stl, cave1-grumbel.stl,
+    cave2-grumbel.stl, cave3-grumbel.stl, cave4-grumbel.stl,
+    cave5-grumbel.stl, cave6-grumbel.stl, level4.stl, levels,
+    snow1-grumbel.stl, snow1-voluptuous.stl, snow2-grumbel.stl,
+    snow3-grumbel.stl, snow4-grumbel.stl, snow5-grumbel.stl,
+    snow6-grumbel.stl, worldmap.stwm: Organized levels structures,
+    feel free to curse me ;) This also adds authors names to levels.
+    Made sure worldmap worked.
+
+2004-04-13 00:53  rmcruz
+
+  * data/levels/test/: enemytest.stl, exittest.stl, info, level1.stl,
+    level2.stl: Organized levels structures, feel free to curse me ;)
+    Made worldmap to still work.  This also adds authors names to
+    levels.
+
+2004-04-13 00:41  rmcruz
+
+  * data/levels/default/: level1.stl, level2.stl, level3.stl: Just
+    added authors name for these levels.  Hope that they are correct,
+    if not tell me :)
+
+2004-04-13 00:39  rmcruz
+
+  * src/: gameloop.cpp, level.cpp, level.h, leveleditor.cpp: Added
+    "author" field for levels.  Level editor setup config needs
+    testing (not really related with this).
+
+2004-04-12 23:14  rmcruz
+
+  * src/: setup.cpp, texture.cpp: A first attempt to make a simple
+    and clean way of an on the fly videomode change.  But there is
+    this problem: it seems to work on the first transition from SDL
+    to OpenGL, but doesn't work well in the following transitions to
+    OpenGL.  I think it is not really related with the texture code,
+    but with the st_video_setup_gl(). The way OpenGL is initialized.
+    Ingo/Tobias, please give a look at this ;)
+
+2004-04-12 20:57  grumbel
+
+  * src/: badguy.cpp, resources.cpp, resources.h, special.cpp,
+    special.h, world.cpp: - commited MatzeB's update patch
+
+2004-04-12 20:44  grumbel
+
+  * data/images/shared/: 1up.png, egg.png, iceflower.png, star.png: -
+    new extras
+
+2004-04-12 15:16  grumbel
+
+  * src/: badguy.cpp, defines.h, gameloop.cpp, player.cpp, player.h:
+    commited MatzeB's slider patch
+
+2004-04-12 14:46  grumbel
+
+  * src/: Makefile.am, sprite.cpp, sprite.h: - added simple sprite
+    class
+
+2004-04-12 03:55  grumbel
+
+  * src/: menu.cpp, menu.h, setup.cpp, worldmap.cpp: - added menu to
+    worldmap
+
+2004-04-12 03:35  grumbel
+
+  * data/images/shared/: mrbombx-left-1.png, mrbombx-right-1.png,
+    tux-duck.png: - some new gfx
+
+2004-04-12 03:29  grumbel
+
+  * NEWS: - some new news
+
+2004-04-12 03:29  grumbel
+
+  * contrib/levelconverter-0.0.6_0.0.7.py: bug fix in the converter,
+    in case anybody still cares
+
+2004-04-12 03:28  grumbel
+
+  * data/images/worldmap/: leveldot_green.png, leveldot_red.png: -
+    missing gfx
+
+2004-04-12 01:06  grumbel
+
+  * src/: badguy.cpp, player.cpp: - tweaked scroll behaviour a little
+    bit - added collision rects in debug mode
+
+2004-04-12 00:30  rmcruz
+
+  * src/title.cpp: Fixed a simple bug that was not letting levelsets
+    to be added.  Added a levelset for Wansti! These levels are great
+    :)
+
+2004-04-11 23:06  rmcruz
+
+  * src/screen.cpp: Made drawgradient() to use our fillrect(),
+    instead of SDL thingies and thus the code is much clear now.
+
+2004-04-11 22:46  rmcruz
+
+  * data/levels/default/level4.stl, src/gameobjs.cpp, src/level.cpp,
+    src/level.h, src/leveleditor.cpp, src/screen.cpp, src/screen.h,
+    src/world.cpp: Added support for gradients :) Changed bkgd_* to
+    bkgd_top_* and bkgd_bottom_* (being * either r, b or g) This
+    change includes both code and level files.
+
+2004-04-11 22:28  grumbel
+
+  * src/: menu.cpp, menu.h, setup.cpp, title.cpp: - added contrib
+    menu generator
+
+2004-04-11 21:12  rmcruz
+
+  * src/supertux.h: Removed supertux.h (its useless).  global
+    definitions go to defines.h
+
+2004-04-11 21:10  rmcruz
+
+  * src/supertux.cpp: Included supertux.h stuff into it.
+
+2004-04-11 19:48  grumbel
+
+  * src/: menu.cpp, menu.h: - turned some pointer-foo into a
+    std::vector
+
+2004-04-11 19:39  grumbel
+
+  * src/: button.cpp, gameloop.cpp, high_scores.cpp, leveleditor.cpp,
+    menu.cpp, menu.h, setup.cpp, title.cpp: - turned menu_item_type
+    into a class
+
+2004-04-11 19:16  grumbel
+
+  * src/: gameloop.cpp, leveleditor.cpp, world.cpp: - moved the
+    global_world into the leveleditors namespace
+
+2004-04-11 19:10  grumbel
+
+  * src/title.cpp: - fixed missing menu on level editor exit
+
+2004-04-11 19:09  grumbel
+
+  * src/title.cpp: - moved loadshared() to the right point
+
+2004-04-11 19:04  grumbel
+
+  * src/supertux.cpp: - moved loadshared() to the right point
+
+2004-04-11 18:58  grumbel
+
+  * src/: gameloop.cpp, leveleditor.cpp, supertux.cpp, title.cpp: -
+    removed local (un)loadshared() stuff and replaced it my a global
+    one, fixes crash on entering a level twice
+
+2004-04-11 18:38  grumbel
+
+  * src/: badguy.h, button.cpp, button.h, gameloop.h, gameobjs.h,
+    globals.cpp, intro.cpp, leveleditor.cpp, menu.h, mousecursor.h,
+    player.h, timer.cpp, timer.h, title.cpp: renamed timer_type to
+    Timer
+
+2004-04-11 18:33  grumbel
+
+  * src/: gameloop.cpp, intro.cpp, leveleditor.cpp, menu.cpp,
+    mousecursor.cpp, player.cpp, timer.cpp, timer.h, title.cpp:
+    started to convert timer into a class
+
+2004-04-11 18:23  grumbel
+
+  * src/: badguy.cpp, button.cpp, gameloop.cpp, gameobjs.cpp,
+    globals.cpp, intro.cpp, leveleditor.cpp, menu.cpp,
+    mousecursor.cpp, player.cpp, special.cpp, timer.cpp, timer.h,
+    title.cpp: started to convert timer into a class
+
+2004-04-11 17:33  grumbel
+
+  * src/: gameloop.h, player.cpp, scene.cpp, scene.h: - moved
+    time_left timer into gamesession
+
+2004-04-11 17:28  grumbel
+
+  * src/: badguy.cpp, badguy.h, gameloop.cpp, gameloop.h,
+    gameobjs.cpp, gameobjs.h, physic.cpp, physic.h, player.cpp,
+    player.h, scene.cpp, scene.h, special.cpp, special.h, title.cpp,
+    world.cpp, world.h: - made frame ration local
+
+2004-04-11 17:07  grumbel
+
+  * src/: badguy.cpp, gameloop.cpp, player.cpp, resources.cpp,
+    scene.cpp, scene.h, special.cpp, world.cpp: - moved some global
+    variables into a seperate class
+
+2004-04-11 16:55  grumbel
+
+  * src/: gameloop.cpp, gameloop.h, resources.cpp, resources.h,
+    scene.cpp, scene.h, special.cpp, world.cpp, world.h: - localized
+    some more variables
+
+2004-04-11 16:44  grumbel
+
+  * src/: badguy.cpp, collision.cpp, gameloop.cpp, gameloop.h,
+    level.cpp, level.h, leveleditor.cpp, particlesystem.cpp,
+    physic.cpp, physic.h, player.cpp, player.h, resources.cpp,
+    scene.cpp, scene.h, setup.cpp, title.cpp, world.cpp, world.h,
+    worldmap.cpp: - made some more global variables, local - replaced
+    a few char* with string
+
+2004-04-11 15:20  grumbel
+
+  * src/: special.cpp, special.h, world.cpp, world.h: - turned
+    special into classes
+
+2004-04-11 15:05  grumbel
+
+  * src/: gameloop.cpp, gameloop.h, gameobjs.cpp, leveleditor.cpp,
+    special.cpp, world.cpp, world.h: - renamed 'world' to
+    'global_world' to emphasis that it is mainly a temporary hack -
+    moved some 'world' to 'World::current()'
+
+2004-04-11 14:59  grumbel
+
+  * src/: collision.cpp, collision.h, gameloop.cpp, world.cpp,
+    world.h: - moved some collision code into the world class, since
+    it only acts on world data
+
+2004-04-11 14:43  grumbel
+
+  * src/: gameobjs.cpp, gameobjs.h, world.cpp, world.h: - change
+    gameobjs names from lower case to upper case
+
+2004-04-11 14:37  grumbel
+
+  * src/: badguy.cpp, gameobjs.cpp, gameobjs.h, player.cpp,
+    resources.cpp, world.cpp, world.h: - moved some more stuff into
+    the world class - turned gameobjs into classes
+
+2004-04-11 13:52  grumbel
+
+  * src/: Makefile.am, badguy.cpp, collision.cpp, gameloop.cpp,
+    gameobjs.cpp, gameobjs.h, level.h, leveleditor.cpp,
+    resources.cpp, scene.cpp, scene.h, tile.cpp, tile.h, title.cpp,
+    world.cpp, world.h: - moved gameobjects into there own file -
+    moved drawshape to tile.h
+
+2004-04-11 03:51  grumbel
+
+  * src/worldmap.cpp, src/worldmap.h,
+    data/levels/default/snow1-grumbel.stl,
+    data/levels/default/worldmap.stwm,
+    data/levels/test/enemytest.stl: - fixed worldmap a bit
+
+2004-04-11 03:36  grumbel
+
+  * src/: gameloop.cpp, gameloop.h, leveleditor.cpp, world.cpp,
+    world.h: - moved some activate_bad_guy stuff into the world,
+    where it belongs
+
+2004-04-11 03:24  grumbel
+
+  * src/: gameloop.cpp, gameloop.h, level.cpp, level.h,
+    leveleditor.cpp, scene.cpp, scene.h, supertux.cpp, title.cpp,
+    title.h, world.cpp: - moved some more level_ stuff into the
+    levelclass - removed a quit, since it did the same as a done
+
+2004-04-11 02:24  grumbel
+
+  * src/: level.cpp, level.h: - removed obsolete hardcoded tiles
+
+2004-04-11 02:10  grumbel
+
+  * src/: resources.cpp, resources.h: - moved stuff from gamesession
+    to world
+
+2004-04-11 02:05  grumbel
+
+  * src/: Makefile.am, collision.cpp, collision.h, gameloop.cpp,
+    gameloop.h, level.cpp, level.h, world.cpp, world.h: - moved stuff
+    from gamesession to world
+
+2004-04-11 00:37  grumbel
+
+  * src/: badguy.cpp, collision.cpp, gameloop.cpp, gameloop.h,
+    leveleditor.cpp, player.cpp, scene.cpp, scene.h, special.cpp,
+    world.cpp, world.h: - moved stuff from scene into a World class,
+    just an intermediate step, more cleanup will follow
+
+2004-04-11 00:04  rmcruz
+
+  * data/images/shared/: stalactite-broken.png, stalactite.png: New
+    stalactites done by Settra Gaia, they fit very well with Ingo
+    graphics.  They are 32x48 (previous: 32x32), i have checked, and
+    i think nothing will get broken, but please test that. also say
+    if 48 of height is too much...
+
+2004-04-11 00:01  grumbel
+
+  * src/: gameloop.cpp, gameloop.h, level.cpp, level.h, player.cpp,
+    setup.cpp, special.cpp, title.cpp, world.cpp, world.h: - moved
+    lots of code around, made gameloop even more into a class
+
+2004-04-10 22:37  grumbel
+
+  * src/: gameloop.cpp, gameloop.h, menu.cpp: - reduced menu fadness
+    a bit (ie. balanced the edges)
+
+2004-04-10 22:26  grumbel
+
+  * src/: gameloop.cpp, gameloop.h, leveleditor.cpp, setup.cpp,
+    supertux.cpp, worldmap.cpp: - turned gameloop into a class, in
+    the hope to reduce some global variables in the long run
+
+2004-04-10 22:19  rmcruz
+
+  * data/images/background/ocean.png: Another background image by a
+    guy whose nickname is Wantso (i think) :D Anyway, it is a night
+    background, might be usefull.
+
+2004-04-10 22:16  grumbel
+
+  * src/: gameloop.cpp, gameloop.h, level.cpp, level.h,
+    leveleditor.cpp, physic.cpp: - more c++-ification
+
+2004-04-10 21:49  grumbel
+
+  * src/: gameloop.cpp, level.cpp, level.h, title.cpp: - more
+    c++-ification
+
+2004-04-10 21:40  grumbel
+
+  * src/: gameloop.cpp, gameloop.h, level.cpp, level.h,
+    leveleditor.cpp, player.cpp, scene.cpp, setup.cpp, title.cpp,
+    world.cpp: - some indent fixes - started to turn st_level into a
+    proper class
+
+2004-04-10 20:56  grumbel
+
+  * src/: gameloop.cpp, gameloop.h, menu.cpp, menu.h, setup.cpp,
+    setup.h, title.cpp, worldmap.cpp: - reorganized menu flow as
+    descripted in the todo, this breaks returning from the game at
+    the moment, since something in loading savegames is broken, but
+    since savegames needs restructuring anyway, it shouldn't be much
+    of a problem
+
+2004-04-10 20:54  grumbel
+
+  * data/images/worldmap/antarctica.stwt: - fixed tile properties
+
+2004-04-10 17:40  grumbel
+
+  * data/levels/default/: cave3-grumbel.stl, level1.stl,
+    snow2-grumbel.stl, snow6-grumbel.stl, worldmap.stwm: - level
+    cleanup
+
+2004-04-10 16:53  grumbel
+
+  * src/: menu.cpp, menu.h, setup.cpp, title.cpp: removed title from
+    main menu
+
+2004-04-10 14:47  grumbel
+
+  * data/images/tilesets/supertux.stgt: - fixed water/fish
+
+2004-04-10 14:44  grumbel
+
+  * data/levels/test/enemytest.stl: - test level for badguys
+
+2004-04-10 14:42  grumbel
+
+  * data/levels/test/exittest.stl: - added test level for exits
+
+2004-04-10 14:41  grumbel
+
+  * data/images/tilesets/: exitbg.png, exitfg.png, supertux.stgt: -
+    added iglo for level end sequence
+
+2004-04-10 13:56  grumbel
+
+  * src/title.cpp: - fixed quit
+
+2004-04-10 13:48  grumbel
+
+  * src/title.cpp: - fixed menu/logo overdraw problem
+
+2004-04-10 13:42  grumbel
+
+  * data/levels/misc/menu.stl, src/badguy.cpp, src/badguy.h,
+    src/title.cpp: - introduced mriceblock (at least a bit) - made
+    title screen wrap-around seamlessly
+
+2004-04-10 11:53  tobgle
+
+  * data/music/: fortress-fast.mod, fortress.mod: update
+
+2004-04-09 18:25  grumbel
+
+  * src/badguy.cpp, src/player.cpp,
+    data/images/shared/snowball-left-0.png,
+    data/images/shared/snowball-left-1.png,
+    data/images/shared/snowball-left-2.png,
+    data/images/shared/snowball-right-0.png,
+    data/images/shared/snowball-right-1.png,
+    data/images/shared/snowball-right-2.png: - fixed snowball anim
+
+2004-04-09 04:19  grumbel
+
+  * src/gameloop.cpp, src/menu.cpp, src/player.cpp, src/player.h,
+    data/images/shared/smalltux-jump-left.png,
+    data/images/shared/smalltux-jump-right.png: - added new smalltux
+
+2004-04-09 03:54  grumbel
+
+  * data/images/shared/: smalltux-left-1.png, smalltux-left-2.png,
+    smalltux-left-3.png, smalltux-left-4.png, smalltux-left-5.png,
+    smalltux-left-6.png, smalltux-left-7.png, smalltux-left-8.png,
+    smalltux-right-1.png, smalltux-right-2.png, smalltux-right-3.png,
+    smalltux-right-4.png, smalltux-right-5.png, smalltux-right-6.png,
+    smalltux-right-7.png, smalltux-right-8.png: - added new smalltux
+    (still needs cleanup)
+
+2004-04-09 03:15  grumbel
+
+  * src/: globals.h, title.cpp: - moved title-demo code into its own
+    function
+
+2004-04-09 02:54  grumbel
+
+  * src/title.cpp: - fixed credits screen a bit
+
+2004-04-09 02:49  grumbel
+
+  * src/: menu.cpp, setup.cpp, supertux.cpp, title.cpp: - cleaned up
+    title screen a bit
+
+2004-04-09 02:49  grumbel
+
+  * data/images/title/: background.jpg, logo.png: - added some new
+    title menu gfx
+
+2004-04-05 00:33  rmcruz
+
+  * data/music/: fortress-fast.mod, fortress.mod: according to the
+    author: "there was one line that caused a dissonance... i fixed
+    that"
+
+2004-04-04 20:00  rmcruz
+
+  * data/music/: fortress-fast.mod, fortress.mod: 1 more song
+
+2004-04-04 02:32  tobgle
+
+  * src/: badguy.cpp, badguy.h, button.cpp, button.h, collision.cpp,
+    collision.h, gameloop.cpp, leveleditor.cpp, physic.cpp, physic.h,
+    player.cpp, player.h, scene.cpp, tile.cpp, tile.h, timer.cpp,
+    title.cpp: - Physic C++ rewrite (Matze Braun) - Added new badguys
+    (Matze Braun) - Fixed minor bugs (Matze Braun)
+
+2004-04-03 15:31  tobgle
+
+  * data/images/tilesets/supertux.stgt: update
+
+2004-04-03 15:31  tobgle
+
+  * src/: button.cpp, button.h, gameloop.cpp, gameloop.h,
+    high_scores.cpp, intro.cpp, level.cpp, leveleditor.cpp,
+    lispreader.cpp, menu.h, player.cpp, player.h, special.cpp,
+    text.cpp, texture.cpp, texture.h, tile.cpp, tile.h, worldmap.cpp:
+    lots of improvements all over the code.  Leveleditor
+    improvements.  Changed Tux's dying sequence.  Intros can be
+    skipped with any device now.  Converted button_type and
+    button_panel_type to C++ classes.
+
+2004-04-03 15:28  tobgle
+
+  * data/images/icons/save.png: scaled
+
+2004-04-03 15:27  tobgle
+
+  * data/images/icons/: bkgrd.png, exit.png, frgrd.png, intact.png,
+    tilegroup.png, tilegroup.xcf: initial
+
+2004-04-01 22:22  grumbel
+
+  * data/images/worldmap/: antarctica.stwt, road_ne.png,
+    road_nes.png, road_nesw.png, road_new.png, road_ns.png,
+    road_nsw.png, road_nw.png, road_nws.png, road_se.png,
+    road_sw.png, road_swe.png, road_we.png, wood10.png, wood11.png,
+    wood12.png, wood13.png: - more tiles
+
+2004-04-01 01:20  grumbel
+
+  * data/images/worldmap/: wood1.png, wood2.png, wood3.png,
+    wood4.png, wood5.png, wood6.png, wood7.png, wood8.png, wood9.png:
+    - improved tileability
+
+2004-04-01 01:11  grumbel
+
+  * data/images/worldmap/: antarctica.stwt, snow1.png, snow10.png,
+    snow11.png, snow12.png, snow13.png, snow2.png, snow3.png,
+    snow4.png, snow5.png, snow6.png, snow7.png, snow8.png, snow9.png,
+    water.png, wood1.png, wood2.png, wood3.png, wood4.png, wood5.png,
+    wood6.png, wood7.png, wood8.png, wood9.png: - new tiles
+
+2004-03-31 12:41  grumbel
+
+  * data/images/shared/: fish-left-0.png, fish-left-1.png: - scaled
+    down fish
+
+2004-03-30 22:34  grumbel
+
+  * data/images/tilesets/: snowbg1.png, snowbg2.png, snowbg3.png,
+    snowbg4.png, supertux.stgt: - more tiles
+
+2004-03-30 22:22  grumbel
+
+  * data/images/shared/: mriceblock-left-0.png,
+    mriceblock-left-1.png, mriceblock-left-2.png,
+    mriceblock-left-3.png, mriceblock-right-0.png,
+    mriceblock-right-1.png, mriceblock-right-2.png,
+    mriceblock-right-3.png: - more gfx
+
+2004-03-30 22:21  grumbel
+
+  * data/images/shared/: snowball-left-0.png, snowball-left-1.png,
+    snowball-left-2.png, snowball-right-0.png, snowball-right-1.png,
+    snowball-right-2.png: more gfx
+
+2004-03-30 22:18  grumbel
+
+  * data/images/shared/: bouncingsnowball-left-0.png,
+    bouncingsnowball-left-1.png, bouncingsnowball-left-2.png,
+    bouncingsnowball-left-3.png, bouncingsnowball-left-4.png,
+    bouncingsnowball-left-5.png, bouncingsnowball-right-0.png,
+    bouncingsnowball-right-1.png, bouncingsnowball-right-2.png,
+    bouncingsnowball-right-3.png, bouncingsnowball-right-4.png,
+    bouncingsnowball-right-5.png: - more gfx
+
+2004-03-30 22:09  grumbel
+
+  * data/images/shared/: spiky-left-0.png, spiky-left-1.png,
+    spiky-left-2.png, spiky-right-0.png, spiky-right-1.png,
+    spiky-right-2.png: more gfx
+
+2004-03-30 21:59  grumbel
+
+  * data/images/shared/: fish-left-0.png, fish-left-1.png,
+    flyingsnowball-left-0.png, flyingsnowball-left-1.png: more gfx
+
+2004-03-30 15:37  grumbel
+
+  * data/levels/default/snow1-voluptuous.stl: - new usercontributed
+    level
+
+2004-03-30 15:23  grumbel
+
+  * data/images/tilesets/: darksnow13.png, darksnow14.png,
+    darksnow15.png, snow20.png, snow21.png, snow22.png, snow23.png,
+    snow24.png, snow25.png, supertux.stgt: - added some more tiles
+
+2004-03-29 18:49  tobgle
+
+  * autogen.sh: improved to work flawless on more computers
+
+2004-03-29 15:24  tobgle
+
+  * src/: badguy.cpp, badguy.h, gameloop.cpp, globals.cpp, globals.h,
+    intro.cpp, leveleditor.cpp, menu.cpp, scene.cpp, scene.h,
+    special.cpp: - introduced new function wait_for_event - removed
+    arrays_init() - applied fixes from Matze Braun for badguy bugs
+
+2004-03-29 14:25  grumbel
+
+  * data/levels/default/: cave2-grumbel.stl, cave3-grumbel.stl,
+    cave4-grumbel.stl, snow2-grumbel.stl: - added enemies and such
+
+2004-03-29 01:23  grumbel
+
+  * configure.ac: - fixed datadir
+
+2004-03-28 23:48  tobgle
+
+  * configure.ac: little improvement
+
+2004-03-28 23:43  tobgle
+
+  * data/images/tilesets/supertux.stgt: tilegroup definitions
+
+2004-03-28 23:42  tobgle
+
+  * src/: badguy.cpp, collision.cpp, leveleditor.cpp, menu.cpp,
+    menu.h, tile.cpp, tile.h: - Leveleditor improvements and fixes.
+    - collision bugfixes from Matze Braun
+
+2004-03-28 22:56  grumbel
+
+  * data/levels/default/boss1-grumbel.stl: - added some flames
+
+2004-03-28 16:11  grumbel
+
+  * src/: gameloop.cpp, gameloop.h, player.cpp, tile.cpp, tile.h: -
+    removed alpha from tile since it isn't needed - fixed brick
+    behaviour (I hope...)
+
+2004-03-28 16:07  tobgle
+
+  * src/particlesystem.cpp: [no log message]
+
+2004-03-28 14:41  grumbel
+
+  * src/: gameloop.cpp, setup.cpp, tile.cpp, tile.h: - removed
+    next_tile2, which isn't needed - added --sdl option to turn of
+    opengl in case it is on in the config file
+
+2004-03-28 13:47  grumbel
+
+  * data/images/tilesets/: bonus-flower.png, bonus-grow.png,
+    bonus-herring.png, bonus-invisible.png, notile.png,
+    supertux.stgt: - use new boxes everywhere - added invisible-box
+    (usefull for secrets)
+
+2004-03-28 12:58  tobgle
+
+  * data/images/status/mousecursor.png: new link image
+
+2004-03-28 12:26  tobgle
+
+  * data/images/shared/: flame-0.png, flame-1.png: initial
+
+2004-03-28 03:44  tobgle
+
+  * src/: badguy.cpp, badguy.h, gameloop.cpp: applied flame badguy
+    patch from Matze Braun
+
+2004-03-28 03:30  tobgle
+
+  * src/: button.cpp, leveleditor.cpp: improved the behaviour of the
+    mouse-cursor in the leveleditor
+
+2004-03-28 03:03  grumbel
+
+  * data/images/shared/: mrbomb-explosion.png, mrbomb-left-0.png,
+    mrbomb-left-1.png, mrbomb-left-2.png, mrbomb-left-3.png,
+    mrbomb-right-0.png, mrbomb-right-1.png, mrbomb-right-2.png,
+    mrbomb-right-3.png, mrbombx-left-0.png, mrbombx-right-0.png: -
+    mrbomb stuff
+
+2004-03-28 03:00  tobgle
+
+  * src/: gameloop.cpp, globals.cpp, globals.h, leveleditor.cpp,
+    menu.cpp, menu.h, mousecursor.cpp, mousecursor.h, setup.cpp,
+    tile.h, title.cpp: We have our own mouse-cursor now! (graphics by
+    Settra Gaia)
+
+2004-03-28 01:58  tobgle
+
+  * data/images/status/mousecursor.png: initial
+
+2004-03-27 20:36  grumbel
+
+  * contrib/levelconverter-0.0.6_0.0.7.py: - added object support
+    (untested)
+
+2004-03-27 20:30  grumbel
+
+  * contrib/levelconverter-0.0.6_0.0.7.py: - added object support
+    (untested)
+
+2004-03-27 18:24  tobgle
+
+  * src/: gameloop.cpp, high_scores.cpp, leveleditor.cpp, menu.cpp,
+    menu.h, setup.cpp, title.cpp: more kinds of menu_event are
+    handled directly in the menu-code now.
+
+2004-03-27 17:34  grumbel
+
+  * data/levels/default/: boss1-grumbel.stl, cave2-grumbel.stl,
+    snow5-grumbel.stl: - added enemies and some other tweaks
+
+2004-03-27 17:17  tobgle
+
+  * Makefile.cvs: old Makefile works again
+
+2004-03-27 15:20  grumbel
+
+  * data/levels/default/boss1-grumbel.stl: - added enemies
+
+2004-03-27 14:04  tobgle
+
+  * src/: menu.cpp, menu.h: MN_BACK works for multiple layers of
+    menus now.
+
+2004-03-27 12:27  tobgle
+
+  * src/setup.cpp: little change to improve win32 portability
+
+2004-03-27 12:14  grumbel
+
+  * data/levels/default/: level1.stl, snow2-grumbel.stl,
+    snow3-grumbel.stl, snow4-grumbel.stl, snow5-grumbel.stl: - added
+    some enemies
+
+2004-03-27 01:38  grumbel
+
+  * src/: gameloop.cpp, level.cpp, level.h, leveleditor.cpp: -
+    removed dn_tilemap - fixed broken level_change() function to draw
+    only on one map, not all at once
+
+2004-03-27 01:14  tobgle
+
+  * src/: badguy.cpp, badguy.h: fixed BSOD hopping
+
+2004-03-27 00:54  tobgle
+
+  * src/: mousecursor.cpp, mousecursor.h: C++ port of Ricarod Cruz's
+    menu-handling code patch.
+
+2004-03-27 00:54  grumbel
+
+  * data/images/tilesets/: bonus2-d.png, supertux.stgt: - added new
+    deactivated bonus box
+
+2004-03-27 00:53  tobgle
+
+  * src/: Makefile.am, badguy.cpp, badguy.h, collision.cpp,
+    collision.h, gameloop.cpp, leveleditor.cpp, particlesystem.cpp,
+    player.cpp, type.h: merged bad_guy patch from Matze Braun.
+    (recycling Ricardo's stalactite patch and added mrbomb).
+
+2004-03-27 00:51  tobgle
+
+  * data/images/shared/: mrbomb-left-0.png, mrbomb-left-1.png,
+    mrbomb-left-2.png, mrbomb-left-3.png, mrbomb-right-0.png,
+    mrbomb-right-1.png, mrbomb-right-2.png, mrbomb-right-3.png,
+    stalactite-broken.png, stalactite.png: initial
+
+2004-03-27 00:45  grumbel
+
+  * data/images/tilesets/: bonus2-1.png, bonus2-2.png, bonus2-3.png,
+    bonus2-4.png, bonus2-5.png, supertux.stgt: - added new bonus
+    block
+
+2004-03-27 00:19  tobgle
+
+  * data/levels/default/level4.stl: particle_system changed to clouds
+
+2004-03-26 23:30  grumbel
+
+  * data/images/tilesets/supertux.stgt: - added more bricks
+
+2004-03-26 23:08  tobgle
+
+  * src/title.cpp: tux isn't jumping like on drugs anymore in the
+    demo
+
+2004-03-26 22:39  tobgle
+
+  * src/title.cpp: quick fix for bug introduced by the last commit
+
+2004-03-26 22:24  tobgle
+
+  * src/title.cpp: added demo to make SuperTux looking nice from the
+    start ;)
+
+2004-03-26 22:20  tobgle
+
+  * data/levels/misc/menu.stl: demo level created by Ingo Ruhnke
+
+2004-03-26 20:03  grumbel
+
+  * data/levels/default/: level1.stl, level2.stl, level3.stl,
+    level4.stl: - converted levels to the new format
+
+2004-03-26 16:17  grumbel
+
+  * src/lispreader.cpp: - added some error checking, so that we get
+    more usefull error messages than asserts
+
+2004-03-26 13:52  grumbel
+
+  * data/levels/default/snow1-grumbel.stl: - added some enemies
+
+2004-03-26 03:05  grumbel
+
+  * data/levels/default/: snow3-grumbel.stl, worldmap.stwm: - hooked
+    up more levels to the worldmap - added a bit of background stuff
+    to snow3
+
+2004-03-25 20:10  grumbel
+
+  * src/level.cpp: - fixed levelend (well, maybe more of an
+    workaround
+
+2004-03-25 20:01  grumbel
+
+  * src/: gameloop.cpp: - moved a few int's inside the for-loops -
+    replaced a old '.' with 0
+
+2004-03-25 19:52  grumbel
+
+  * src/: collision.cpp, player.cpp: - fixed brick-bug (or maybe not,
+    they still behave a bit weird - moved some int's into the
+    for-loops to reduce variable recycling
+
+2004-03-25 17:50  grumbel
+
+  * src/: level.cpp, worldmap.cpp: - cleanup in the worldmap - fixed
+    duplicate badguy bug
+
+2004-03-25 17:38  tobgle
+
+  * data/images/tilesets/supertux.stgt: fixed some "solids" to be
+    non-solid
+
+2004-03-25 17:31  grumbel
+
+  * src/worldmap.cpp: - fixed file extension
+
+2004-03-25 17:27  grumbel
+
+  * data/images/worldmap/: antarctica.scm, antarctica.stwt: - fixed
+    syntax
+
+2004-03-25 17:19  grumbel
+
+  * data/levels/default/: snow1-grumbel.stl, boss1-grumbel.stl,
+    cave1-grumbel.stl, cave2-grumbel.stl, cave3-grumbel.stl,
+    cave4-grumbel.stl, cave5-grumbel.stl, cave6-grumbel.stl,
+    snow2-grumbel.stl, snow3-grumbel.stl, snow4-grumbel.stl,
+    snow5-grumbel.stl, snow6-grumbel.stl: - added new levels
+
+2004-03-25 13:15  grumbel
+
+  * src/: gameloop.cpp, level.cpp: - cleaned up the way badguys are
+    handled
+
+2004-03-25 13:02  grumbel
+
+  * src/level.cpp: bye, bye dn_tm
+
+2004-03-25 12:36  grumbel
+
+  * src/: badguy.cpp, badguy.h, gameloop.cpp, level.cpp, level.h,
+    leveleditor.cpp, lispreader.cpp, lispreader.h: - added
+    alternative (more flexible) way to define badguys in a level
+
+2004-03-25 12:07  grumbel
+
+  * src/: gameloop.cpp, level.cpp, player.cpp, tile.cpp: - fixed
+    badguys a little bit
+
+2004-03-25 11:26  grumbel
+
+  * src/gameloop.cpp, src/level.cpp, src/tile.cpp, src/tile.h,
+    data/images/tilesets/supertux.stgt: - made TileManager::get()
+    always return a valid tile - made conversion code more robust
+    against unknown tiles - added next_tile/next_tile2 to replace the
+    old one on some events
+
+2004-03-25 03:35  grumbel
+
+  * contrib/levelconverter-0.0.6_0.0.7.py: - fixes for the converter
+
+2004-03-25 03:29  grumbel
+
+  * data/images/tilesets/: coin1.png, coin2.png, coin3.png,
+    supertux.stgt: - fixed up tileset a bit
+
+2004-03-25 03:27  grumbel
+
+  * src/: gameloop.cpp, gameloop.h, level.cpp, player.cpp, tile.cpp:
+    - fixed bricktile
+
+2004-03-25 03:13  grumbel
+
+  * src/: gameloop.cpp, level.cpp, player.cpp, tile.cpp, tile.h: -
+    added translation table for the old format
+
+2004-03-25 02:30  grumbel
+
+  * data/images/tilesets/: bkgd-00.png, bkgd-01.png, bkgd-02.png,
+    bkgd-03.png, bkgd-10.png, bkgd-11.png, bkgd-12.png, bkgd-13.png,
+    bonus1.png, box-empty.png, box-full.png, distro-0.png,
+    distro-1.png, distro-2.png, distro-3.png, flag-0.png, flag-1.png,
+    pipe1.png, pipe2.png, pipe3.png, pipe4.png, pipe5.png, pipe6.png,
+    pipe7.png, pipe8.png, pole.png, poletop.png, supertux.stgt: -
+    created a tileset that is compatible with the old levels and the
+    new ones
+
+2004-03-25 01:24  grumbel
+
+  * contrib/levelconverter-0.0.6_0.0.7.py: fixed converter to handle
+    the new format
+
+2004-03-24 23:39  grumbel
+
+  * contrib/levelconverter-0.0.6_0.0.7.py: fixed incorrect color
+    handling
+
+2004-03-24 23:33  tobgle
+
+  * data/images/shared/: cloud.png, snow0.png, snow1.png, snow2.png:
+    images for particle_sytem
+
+2004-03-24 23:31  tobgle
+
+  * data/levels/default/level1.stl: added line for use of
+    particle_system
+
+2004-03-24 23:29  tobgle
+
+  * data/images/tilesets/: background.stgt, background1.png,
+    background2.png, background3.png, background4.png,
+    background5.png, background6.png, background7.png,
+    background8.png, backgroundtile1.png, backgroundtile2.png,
+    backgroundtile3.png, backgroundtile4.png, backgroundtile5.png,
+    block.stgt, block1.png, block10.png, block11.png, block2.png,
+    block3.png, block4.png, block5.png, block6.png, block7.png,
+    block8.png, block9.png, brick0.png, brick1.png, cloud-00.png,
+    cloud-01.png, cloud-02.png, cloud-03.png, cloud-10.png,
+    cloud-11.png, cloud-12.png, cloud-13.png, darksnow.stgt,
+    darksnow1.png, darksnow10.png, darksnow11.png, darksnow12.png,
+    darksnow2.png, darksnow3.png, darksnow4.png, darksnow5.png,
+    darksnow6.png, darksnow7.png, darksnow8.png, darksnow9.png,
+    grey.png, grey.stgt, grey2.png, grey3.png, grey4.png, grey5.png,
+    grey6.png, main.stgt, misc.stgt, snow.stgt, snow1.png,
+    snow10.png, snow11.png, snow12.png, snow13.png, snow14.png,
+    snow15.png, snow16.png, snow17.png, snow18.png, snow19.png,
+    snow2.png, snow3.png, snow4.png, snow5.png, snow6.png, snow7.png,
+    snow8.png, snow9.png, water.png, waves-0.png, waves-1.png,
+    waves-2.png: the new tiles and tileset-definitions for the new
+    levelformat. (most tiles were contributed by Ingo Ruhnke)
+
+2004-03-24 23:23  tobgle
+
+  * src/: gameloop.cpp, gameloop.h, level.cpp, level.h,
+    leveleditor.cpp, player.cpp, scene.h, setup.cpp, texture.cpp,
+    particlesystem.cpp, particlesystem.h, tile.cpp, tile.h: new
+    levelformat with multiple layers and and new tileset code. Along
+    with a new particlesystem. (the latest one was contributed by
+    Matze Braun)
+
+2004-03-24 23:15  tobgle
+
+  * src/scene.cpp: new levelformat with multiple layers and and new
+    tileset code. Along with a new particlesystem. (the latest one
+    was contributed by Matze Braun)
+
+2004-03-24 23:10  grumbel
+
+  * src/: badguy.cpp, gameloop.cpp, player.cpp, player.h: - renamed
+    input/input_
+
+2004-03-24 23:08  tobgle
+
+  * src/Makefile.am: new levelformat with multiple layers, new
+    particlesystem
+
+2004-03-24 23:01  grumbel
+
+  * src/: badguy.cpp, badguy.h, scene.cpp, scene.h: - minor cleanup
+
+2004-03-24 22:43  grumbel
+
+  * src/: gameloop.cpp, leveleditor.cpp, menu.cpp, player.cpp,
+    setup.cpp, sound.cpp, timer.cpp: - removed a few redundant "==
+    true"'s
+
+2004-03-24 22:18  grumbel
+
+  * src/: gameloop.cpp, scene.cpp: - minor cleanup, removed some evil
+    variable recycling
+
+2004-03-24 18:41  grumbel
+
+  * src/: badguy.cpp, collision.cpp, gameloop.cpp, leveleditor.cpp,
+    player.cpp, player.h, scene.cpp, scene.h, special.cpp: -
+    converted Player into a class (naming still needs a bit of
+    cleanup
+
+2004-03-24 17:13  grumbel
+
+  * src/: configfile.cpp, configfile.h: - commited  Michael George's
+    config-file patch
+
+2004-03-24 17:12  grumbel
+
+  * src/: badguy.cpp, badguy.h, collision.cpp, gameloop.cpp,
+    level.cpp, leveleditor.cpp, player.cpp, scene.cpp, scene.h,
+    texture.cpp, worldmap.cpp: - coverted badguy type into an object
+
+2004-03-24 16:24  grumbel
+
+  * src/: badguy.cpp, badguy.h, gameloop.cpp, leveleditor.cpp,
+    scene.cpp, scene.h: - created a named enum for badguys
+
+2004-03-24 16:12  grumbel
+
+  * src/: badguy.cpp, badguy.h: splitted actions commands for
+    different badguys into seperate functions
+
+2004-03-24 16:03  grumbel
+
+  * src/: badguy.cpp, badguy.h: splitted drawing commands for
+    different badguys into seperate functions
+
+2004-03-24 15:35  grumbel
+
+  * src/: Makefile.am, globals.h, high_scores.cpp, high_scores.h,
+    setup.cpp, setup.h, sound.cpp, sound.h, supertux.cpp,
+    worldmap.cpp: - commited  Michael George's config-file patch
+
+2004-03-24 15:03  grumbel
+
+  * src/menu.cpp: fixed little type error
+
+2004-03-24 14:52  grumbel
+
+  * src/: gameloop.cpp, high_scores.cpp, leveleditor.cpp, menu.cpp,
+    menu.h, setup.cpp, setup.h, texture.cpp, timer.cpp, title.cpp: -
+    turned menu into a class, still a lot of public variables around
+    and menu_item isn't a class either, but its a start
+
+2004-03-23 18:25  grumbel
+
+  * src/: badguy.h, bitmask.h, button.h, gameloop.cpp, level.h,
+    leveleditor.h, menu.h, physic.h, player.h, special.h, text.h,
+    texture.h, timer.h, type.h, world.h: - removed unneded typedef's
+    for structs
+
+2004-03-23 02:30  grumbel
+
+  * src/: gameloop.cpp, globals.h, player.cpp, player.h,
+    worldmap.cpp: - fixed joystick code a bit
+
+2004-03-22 22:06  grumbel
+
+  * NEWS: new news
+
+2004-03-22 16:52  grumbel
+
+  * src/: badguy.cpp, button.cpp, gameloop.cpp, intro.cpp,
+    leveleditor.cpp, player.cpp, title.cpp, world.cpp: - removed
+    NO_UPDATE and let the default argument handle it
+
+2004-03-22 16:47  grumbel
+
+  * src/: badguy.cpp, badguy.h, button.cpp, button.h, collision.cpp,
+    collision.h, defines.h, gameloop.cpp, gameloop.h, globals.cpp,
+    globals.h, intro.cpp, leveleditor.cpp, menu.cpp, menu.h,
+    physic.cpp, player.cpp, player.h, scene.cpp, scene.h, setup.cpp,
+    sound.cpp, special.cpp, timer.cpp, timer.h, title.cpp, world.cpp:
+    - replaced YES/NO with true/false
+
+2004-03-22 16:25  grumbel
+
+  * src/: lispreader.cpp, lispreader.h: - added read_string_vector
+
+2004-03-22 15:34  grumbel
+
+  * src/worldmap.h: [no log message]
+
+2004-03-22 15:03  grumbel
+
+  * src/menu.cpp: minor cleanup
+
+2004-03-22 14:57  grumbel
+
+  * acinclude.m4: [no log message]
+
+2004-03-22 14:55  grumbel
+
+  * src/level.h: fixed indention to look a bit nicer
+
+2004-03-22 14:32  grumbel
+
+  * src/: menu.cpp, menu.h: - added ability to position menu freely
+    on the screen
+
+2004-03-22 14:20  grumbel
+
+  * src/menu.cpp: - fixed menu motion bug
+
+2004-03-22 13:14  grumbel
+
+  * src/: globals.cpp, globals.h, setup.cpp: - added config flag to
+    change the joystick
+
+2004-03-22 13:00  grumbel
+
+  * src/: leveleditor.cpp, menu.cpp, menu.h, setup.cpp: - added
+    shurtcut function to create menu items
+
+2004-03-22 12:23  grumbel
+
+  * src/: button.cpp, button.h, gameloop.cpp, menu.cpp, menu.h,
+    title.cpp: - converted menu enums into named enums
+
+2004-03-22 11:43  grumbel
+
+  * acinclude.m4: - removed AC_PATH_SDL from acinclude, replaced by
+    mk/autoconf content
+
+2004-03-22 11:39  grumbel
+
+  * mk/autoconf/: acx_pthread.m4, ax_check_gl.m4, sdl.m4: win32 fixes
+
+2004-03-22 11:33  grumbel
+
+  * autogen.sh, configure.ac, data/Makefile.am, src/button.cpp,
+    src/button.h, src/intro.cpp, src/leveleditor.cpp, src/setup.cpp,
+    src/sound.cpp, src/sound.h, src/supertux.cpp, src/supertux.h,
+    src/texture.h, src/worldmap.h: commited Matzes Win32 patch
+
+2004-03-22 01:01  grumbel
+
+  * src/: menu.cpp, text.cpp: - more menu cleanup
+
+2004-03-22 00:36  grumbel
+
+  * src/: leveleditor.cpp, menu.cpp, text.cpp, text.h: - some more
+    menu cleanup - added text_draw_align() - cleaned up ALIGN types
+
+2004-03-21 23:13  grumbel
+
+  * src/: Makefile.am, leveleditor.cpp, menu.cpp, menu.h, type.h: -
+    more menu cleanup
+
+2004-03-21 22:31  tobgle
+
+  * src/: gameloop.cpp, leveleditor.cpp: fixed warnings
+
+2004-03-21 22:20  tobgle
+
+  * src/: badguy.cpp, collision.cpp, gameloop.cpp, leveleditor.cpp,
+    scene.cpp, scene.h, special.cpp, type.h, world.cpp: converted
+    game object arrays to std::vector
+
+2004-03-21 21:31  grumbel
+
+  * src/: menu.cpp, screen.h, text.h, texture.cpp, texture.h: - added
+    default argument instead of NO_UPDATE - cleaned menucode a little
+    bit
+
+2004-03-21 20:37  grumbel
+
+  * src/: gameloop.cpp, globals.cpp, globals.h, intro.cpp, setup.cpp,
+    title.cpp: bye, bye, joystick ifdefs
+
+2004-03-21 20:22  grumbel
+
+  * src/: setup.cpp, setup.h, sound.cpp, texture.cpp, worldmap.cpp,
+    worldmap.h: - replaced char* with string - replace assert() with
+    st_aboart()
+
+2004-03-21 20:15  grumbel
+
+  * data/levels/default/worldmap.stwm: fixed extension
+
+2004-03-21 19:07  tobgle
+
+  * src/leveleditor.cpp: fixed creating of new level subset again,
+    because CVS was deadly to the previous fix
+
+2004-03-21 19:04  grumbel
+
+  * src/: gameloop.cpp, intro.cpp, menu.cpp, screen.cpp, setup.cpp,
+    title.cpp, worldmap.cpp: - fixed file extension, removed pwd.h
+    header
+
+2004-03-21 17:33  grumbel
+
+  * configure.ac: use C for SDL_mixer/image test
+
+2004-03-21 17:18  grumbel
+
+  * data/: Makefile.am, levels/default/worldmap.scm,
+    levels/default/worldmap.stwm: - changed suffix - fixed make
+    install
+
+2004-03-21 16:50  grumbel
+
+  * NEWS: some news
+
+2004-03-21 16:41  grumbel
+
+  * src/: gameloop.cpp, high_scores.cpp, level.cpp, leveleditor.cpp,
+    lispreader.cpp, lispreader.h, setup.cpp, sound.cpp, text.cpp,
+    text.h, title.cpp, worldmap.cpp: - replaced a few char* with
+    std::string - load datafiles from 'datadir' instead of
+    DATA_PREFIX
+
+2004-03-21 16:20  grumbel
+
+  * src/: button.cpp, gameloop.cpp, intro.cpp, sound.cpp, sound.h,
+    texture.cpp, texture.h: - replaced a few char* with std::string -
+    load datafiles from 'datadir' instead of DATA_PREFIX
+
+2004-03-21 16:05  grumbel
+
+  * src/: globals.cpp, globals.h, setup.cpp: - added detection magic
+    for the datadir
+
+2004-03-21 00:34  grumbel
+
+  * src/lispreader.cpp:  - removed dependency on gzungetc
+
+2004-03-20 23:19  tobgle
+
+  * src/level.cpp: [no log message]
+
+2004-03-20 23:18  tobgle
+
+  * data/levels/default/info, src/level.cpp: little info-file format
+    change
+
+2004-03-20 23:08  tobgle
+
+  * data/levels/default/: level1.stl, level2.stl, level3.stl,
+    level4.stl: we got a new extension
+
+2004-03-20 23:08  tobgle
+
+  * data/levels/default/: level1.dat, level2.dat, level3.dat,
+    level4.dat: removed
+
+2004-03-20 22:35  grumbel
+
+  * contrib/: levelconverter-0.0.6_0.0.7.py: - added usage help
+    string
+
+2004-03-20 22:26  grumbel
+
+  * contrib/levelconverter-0.0.6_0.0.7.py: [no log message]
+
+2004-03-20 22:21  grumbel
+
+  * contrib/levelconvert.py: - added converter script for levels
+
+2004-03-20 22:04  tobgle
+
+  * src/level.cpp: .stl is the new extension for levels
+
+2004-03-20 21:47  tobgle
+
+  * src/level.cpp: little bug-fix
+
+2004-03-20 19:09  grumbel
+
+  * configure.ac, src/lispreader.cpp, src/lispreader.h,
+    src/worldmap.cpp, src/worldmap.h: - added zlib support to
+    lispreader
+
+2004-03-20 18:16  tobgle
+
+  * src/: button.cpp, button.h, collision.cpp, gameloop.cpp,
+    gameloop.h, high_scores.cpp, level.cpp, level.h, leveleditor.cpp,
+    lispreader.cpp, lispreader.h, menu.cpp, menu.h, physic.cpp,
+    player.cpp, setup.cpp, setup.h, text.cpp, text.h, texture.cpp,
+    texture.h, timer.cpp, timer.h, title.cpp, type.cpp, type.h: new
+    level-format, many changes to level-related stuff
+
+2004-03-20 16:08  grumbel
+
+  * src/: worldmap.cpp, worldmap.h: - moved tux into its own class,
+    removed some clutter
+
+2004-03-20 15:42  grumbel
+
+  * src/: gameloop.cpp, high_scores.cpp, intro.cpp, menu.cpp,
+    screen.cpp, setup.cpp, title.cpp, worldmap.cpp: - replaced #ifdef
+    LINUX with #ifndef WIN32, should be easier to handle for other
+    posix systems this way
+
+2004-03-20 13:15  grumbel
+
+  * src/: worldmap.cpp, worldmap.h: - reorganized code a bit
+
+2004-03-20 13:06  grumbel
+
+  * src/Makefile.am:  -Wall per default
+
+2004-03-20 12:30  grumbel
+
+  * src/: worldmap.cpp, worldmap.h: - added check to catch brocken
+    worldmaps
+
+2004-03-20 12:12  grumbel
+
+  * src/setup.cpp: - cleaned up (wordwrapped below 80 chars, grouped)
+    the --help output
+
+2004-03-20 03:27  grumbel
+
+  * data/images/worldmap/antarctica.scm,
+    data/images/worldmap/levelmarker.png,
+    data/levels/default/worldmap.scm, src/worldmap.cpp,
+    src/worldmap.h: - added music support and support for starting
+    levels to the worldmap
+
+2004-03-20 01:12  tobgle
+
+  * src/level.cpp, src/level.h, data/levels/default/info: changed to
+    lisp-style
+
+2004-03-20 01:09  grumbel
+
+  * src/worldmap.cpp: - added tilemap loading for the worldmap
+
+2004-03-20 01:08  grumbel
+
+  * data/levels/default/worldmap.scm: - added a worldmap
+
+2004-03-20 00:56  tobgle
+
+  * Makefile.cvs: compile worldmap.c/h
+
+2004-03-20 00:49  grumbel
+
+  * src/: gameloop.cpp, gameloop.h, globals.cpp, globals.h,
+    level.cpp, level.h, setup.cpp, supertux.cpp, worldmap.cpp,
+    worldmap.h: - added level starting from command line thingy -
+    made it possible to run worldmap via command line
+
+2004-03-20 00:17  grumbel
+
+  * src/Makefile.am: - added worldmap stuff
+
+2004-03-20 00:16  grumbel
+
+  * src/supertux.h: - added worldmap include
+
+2004-03-20 00:14  grumbel
+
+  * data/images/worldmap/: antarctica.scm, ground.png,
+    placeholder.png, road_cross.png, road_e.png, road_h.png,
+    road_h_stop.png, road_v.png, road_v_stop.png, road_ws.png,
+    tux.png: - added worldmap gfx (just placeholder)
+
+2004-03-20 00:03  grumbel
+
+  * src/: lispreader.cpp, lispreader.h, worldmap.cpp, worldmap.h: -
+    added read_string and read_int_vector to LispReader - added
+    worldmap
+
+2004-03-19 14:59  rmcruz
+
+  * src/player.cpp: Corrected a laptop behaviour, regarding kicking
+
+2004-03-19 02:23  rmcruz
+
+  * src/badguy.cpp: corrected 2 badguys behaviour thingies
+
+2004-03-18 13:33  rmcruz
+
+  * src/lispreader.cpp: use #include "lispreader.h" , instead of
+    #include <lispreader.h>
+
+2004-03-17 20:37  tobgle
+
+  * Makefile.cvs: revival ;)
+
+2004-03-17 20:35  tobgle
+
+  * src/: lispreader.cpp, lispreader.h: merged lispreader with Ingo
+    Ruhnke's Construo LispReader and LispWriter wrappers.
+
+2004-03-17 20:21  grumbel
+
+  * NEWS: - added news file with content
+
+2004-03-17 20:19  grumbel
+
+  * configure.ac, src/Makefile.am, src/badguy.c, src/badguy.cpp,
+    src/bitmask.c, src/bitmask.cpp, src/button.c, src/button.cpp,
+    src/collision.c, src/collision.cpp, src/gameloop.c,
+    src/gameloop.cpp, src/globals.c, src/globals.cpp,
+    src/high_scores.c, src/high_scores.cpp, src/intro.c,
+    src/intro.cpp, src/level.c, src/level.cpp, src/leveleditor.c,
+    src/leveleditor.cpp, src/lispreader.c, src/lispreader.cpp,
+    src/menu.c, src/menu.cpp, src/physic.c, src/physic.cpp,
+    src/player.c, src/player.cpp, src/scene.c, src/scene.cpp,
+    src/screen.c, src/screen.cpp, src/setup.c, src/setup.cpp,
+    src/sound.c, src/sound.cpp, src/special.c, src/special.cpp,
+    src/supertux.c, src/supertux.cpp, src/text.c, src/text.cpp,
+    src/texture.c, src/texture.cpp, src/timer.c, src/timer.cpp,
+    src/title.c, src/title.cpp, src/type.c, src/type.cpp,
+    src/world.c, src/world.cpp: - renamed *.c to *.cxx
+
+2004-03-17 13:39  tobgle
+
+  * Makefile.cvs: fixed missing seperator
+
+2004-03-16 22:12  tobgle
+
+  * src/type.h: consistent SDL include
+
+2004-03-16 16:06  tobgle
+
+  * src/: lispreader.c, lispreader.h: initial
+
+2004-03-16 16:05  tobgle
+
+  * Makefile.cvs, src/Makefile.am: compile lispreader
+
 
 0.0.6 - March 15th, 2004
 ---------------------------
