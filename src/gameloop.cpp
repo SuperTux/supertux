@@ -319,7 +319,8 @@ GameSession::check_end_conditions()
       // Check End conditions
       if (tux->is_dead())
         {
-          
+          player_status.lives -= 1;             
+    
           if (player_status.lives < 0)
             { // No more lives!?
               if(st_gl_mode != ST_GL_TEST)
@@ -327,8 +328,10 @@ GameSession::check_end_conditions()
           
               if(st_gl_mode != ST_GL_TEST)
                 {
-                  if (player_status.score > hs_score)
-                    save_hs(player_status.score);
+                  // FIXME: highscore soving doesn't make sense in its
+                  // current form
+                  //if (player_status.score > hs_score)
+                  //save_hs(player_status.score);
                 }
               
               exit_status = GAME_OVER;
@@ -436,14 +439,7 @@ GameSession::run()
                 case 2:
                   st_pause_ticks_stop();
                   break;
-                case 3:
-                  // FIXME:
-                  //update_load_save_game_menu(save_game_menu);
-                  break;
-                case 4:
-                  update_load_save_game_menu(load_game_menu);
-                  break;
-                case 7:
+                case 5:
                   st_pause_ticks_stop();
                   exit_status = LEVEL_ABORT;
                   break;

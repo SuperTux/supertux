@@ -68,7 +68,7 @@ enum DyingType {
 #define MAX_RUN_XM 3.2
 #define MAX_YM 20.0
 #define MAX_JUMP_TIME 375
-#define MAX_LIVES 4.0
+#define MAX_LIVES 99
 
 #define WALK_SPEED 1.0
 #define RUN_SPEED 1.5

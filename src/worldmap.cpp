@@ -499,19 +499,39 @@ WorldMap::update()
 {
   if (enter_level && !tux->is_moving())
     {
-      for(Levels::iterator i = levels.begin(); i != levels.end(); ++i)
+      Level* level = at_level();
+      if (level)
         {
-          if (i->x == tux->get_tile_pos().x && 
-              i->y == tux->get_tile_pos().y)
+          if (level->x == tux->get_tile_pos().x && 
+              level->y == tux->get_tile_pos().y)
             {
-              std::cout << "Enter the current level: " << i->name << std::endl;;
+              std::cout << "Enter the current level: " << level->name << std::endl;;
               halt_music();
-              GameSession session(datadir +  "levels/" + i->name,
+              
+              GameSession session(datadir +  "levels/" + level->name,
                                   1, ST_GL_LOAD_LEVEL_FILE);
-              session.run();
 
-              if (1) // FIXME: insert exit status checker here
-                i->solved = true;
+              switch (session.run())
+                {
+                case GameSession::LEVEL_FINISHED:
+                  level->solved = true;
+                  break;
+                case GameSession::LEVEL_ABORT:
+                  // Reseting the player_status might be a worthy
+                  // consideration, but I don't think we need it
+                  // 'cause only the bad players will use it to
+                  // 'cheat' a few items and that isn't necesarry a
+                  // bad thing (ie. better they continue that way,
+                  // then stop playing the game all together since it
+                  // is to hard)
+                  break;
+                case GameSession::GAME_OVER:
+                  quit = true;
+                  break;
+                case GameSession::NONE:
+                  // Should never be reached 
+                  break;
+                }
 
               play_music(song, 1);
               show_menu = 0;
@@ -521,8 +541,11 @@ WorldMap::update()
               return;
             }
         }
-      std::cout << "Nothing to enter at: "
-                << tux->get_tile_pos().x << ", " << tux->get_tile_pos().y << std::endl;
+      else
+        {
+          std::cout << "Nothing to enter at: "
+                    << tux->get_tile_pos().x << ", " << tux->get_tile_pos().y << std::endl;
+        }
     }
   else
     {
@@ -539,7 +562,12 @@ WorldMap::update()
             case 2: // Return to game
               menu_reset();
               break;
-            case 5: // Quit Worldmap
+            case 3:
+              if (!savegame_file.empty())
+                savegame(savegame_file);
+              break;
+                
+            case 6: // Quit Worldmap
               quit = true;
               break;
             }
@@ -674,6 +702,7 @@ WorldMap::display()
     SDL_Delay(20);
   }
 
+  halt_music();
   free_music(song);
 }
 
@@ -733,6 +762,9 @@ WorldMap::loadgame(const std::string& filename)
       reader.read_int("score",  &player_status.score);
       reader.read_int("distros", &player_status.distros);
 
+      if (player_status.lives < 0)
+        player_status.lives = 3;
+
       lisp_object_t* tux_cur = 0;
       if (reader.read_lisp("tux", &tux_cur))
         {
@@ -782,4 +814,7 @@ WorldMap::loadgame(const std::string& filename)
 
 } // namespace WorldMapNS
 
-/* EOF */
+/* Local Variables: */
+/* mode:c++ */
+/* End: */
+

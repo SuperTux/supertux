@@ -51,9 +51,12 @@ class GameSession
   // FIXME: Hack for restarting the level
   std::string subset;
 
+ public:
   enum ExitStatus { NONE, LEVEL_FINISHED, GAME_OVER, LEVEL_ABORT };
+ private:
   ExitStatus exit_status;
  public:
+
   Timer time_left;
 
   GameSession(const std::string& subset, int levelnb, int mode);

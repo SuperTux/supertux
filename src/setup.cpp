@@ -422,18 +422,17 @@ void st_menu(void)
   save_game_menu->additem(MN_HL,"",0,0);
   save_game_menu->additem(MN_BACK,"Back",0,0);
 
-  game_menu->additem(MN_LABEL,"InGame Menu",0,0);
+  game_menu->additem(MN_LABEL,"Pause",0,0);
   game_menu->additem(MN_HL,"",0,0);
-  game_menu->additem(MN_ACTION,"Return To Game",0,0);
-  game_menu->additem(MN_GOTO,"Save Game",0,save_game_menu);
-  game_menu->additem(MN_GOTO,"Load Game",0,load_game_menu);
+  game_menu->additem(MN_ACTION,"Continue",0,0);
   game_menu->additem(MN_GOTO,"Options",0,options_menu);
   game_menu->additem(MN_HL,"",0,0);
-  game_menu->additem(MN_ACTION,"Quit Game",0,0);
+  game_menu->additem(MN_ACTION,"Abort Level",0,0);
 
-  worldmap_menu->additem(MN_LABEL,"Worldmap Menu",0,0);
+  worldmap_menu->additem(MN_LABEL,"Pause",0,0);
   worldmap_menu->additem(MN_HL,"",0,0);
-  worldmap_menu->additem(MN_ACTION,"Return To Game",0,0);
+  worldmap_menu->additem(MN_ACTION,"Continue",0,0);
+  worldmap_menu->additem(MN_ACTION,"Save",0,0);
   worldmap_menu->additem(MN_GOTO,"Options",0,options_menu);
   worldmap_menu->additem(MN_HL,"",0,0);
   worldmap_menu->additem(MN_ACTION,"Quit Game",0,0);
@@ -463,7 +462,8 @@ bool process_load_game_menu()
 
       char slotfile[1024];
       snprintf(slotfile, 1024, "%s/slot%d.stsg", st_save_dir, slot-1);
-      
+     
+      // Load the game or at least set the savegame_file variable
       worldmap.loadgame(slotfile);
 
       worldmap.display();
