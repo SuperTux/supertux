@@ -294,7 +294,7 @@
 
   (tile (id 84)
         (solid #t) 
-        (images "box-empty.png"))
+        (images "bonus2-d.png"))
 
 
   (tile (id 85) (images "cloud-00.png"))
