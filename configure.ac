@@ -88,7 +88,7 @@ if test "x$no_gl" = "xyes" -o "x$enable_opengl" = "xno"; then
 else
   CFLAGS="$CFLAGS $GL_CFLAGS"
   CXXFLAGS="$CXXFLAGS $GL_CFLAGS"
-  LIBS="$LIBS $GL_LIBS -lGL"
+  LIBS="$LIBS $GL_LIBS"
 fi
 
 AC_CHECK_LIB(z, gzopen,, AC_MSG_ERROR([*** zlib is missing]))
