@@ -1189,8 +1189,8 @@ BadGuy::explode(bool right_way)
     {
     badguy->timer.start(0);
     badguy->mode = BOMB_TICKING;
-    badguy->dir = dir;
     }
+  badguy->dir = dir;
 
   remove_me();
 }
