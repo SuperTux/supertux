@@ -40,7 +40,7 @@ class MouseCursor
     int cur_state;
     int cur_frame, tot_frames;
     texture_type cursor;
-    timer_type timer;
+    Timer timer;
   };
 
 #endif /*SUPERTUX_MOUSECURSOR_H*/

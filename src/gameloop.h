@@ -36,8 +36,8 @@ class GameSession
 {
  private:
   bool quit;
-  timer_type fps_timer;
-  timer_type frame_timer;
+  Timer fps_timer;
+  Timer frame_timer;
   World* world;
   int st_gl_mode;
 
@@ -53,7 +53,7 @@ class GameSession
   int levelnb;
 
  public:
-  timer_type time_left;
+  Timer time_left;
 
   GameSession();
   GameSession(const std::string& filename);

@@ -45,7 +45,7 @@ return;
 }
 
 void
-timer_type::init(bool st_ticks)
+Timer::init(bool st_ticks)
 {
   period    = 0;
   time      = 0;
@@ -53,14 +53,14 @@ timer_type::init(bool st_ticks)
 }
 
 void
-timer_type::start(unsigned int period_)
+Timer::start(unsigned int period_)
 {
   time   = get_ticks();
   period = period_;
 }
 
 void
-timer_type::stop()
+Timer::stop()
 {
   if(get_ticks == st_get_ticks)
     init(true);
@@ -69,7 +69,7 @@ timer_type::stop()
 }
 
 int
-timer_type::check()
+Timer::check()
 {
   if((time != 0) && (time + period > get_ticks()))
     return true;
@@ -81,7 +81,7 @@ timer_type::check()
 }
 
 int
-timer_type::started()
+Timer::started()
 {
   if(time != 0)
     return true;
@@ -90,19 +90,19 @@ timer_type::started()
 }
 
 int
-timer_type::get_left()
+Timer::get_left()
 {
   return (period - (get_ticks() - time));
 }
 
 int
-timer_type::get_gone()
+Timer::get_gone()
 {
   return (get_ticks() - time);
 }
 
 void
-timer_type::fwrite(FILE* fi)
+Timer::fwrite(FILE* fi)
 {
   unsigned int diff_ticks;
   int tick_mode;
@@ -121,7 +121,7 @@ timer_type::fwrite(FILE* fi)
 }
 
 void
-timer_type::fread(FILE* fi)
+Timer::fread(FILE* fi)
 {
   unsigned int diff_ticks;
   int tick_mode;

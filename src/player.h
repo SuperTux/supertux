@@ -111,10 +111,10 @@ class Player
   base_type  base;
   base_type  old_base;
   base_type  previous_base;
-  timer_type invincible_timer;
-  timer_type skidding_timer;
-  timer_type safe_timer;
-  timer_type frame_timer;
+  Timer invincible_timer;
+  Timer skidding_timer;
+  Timer safe_timer;
+  Timer frame_timer;
   Physic physic;
 
  public:

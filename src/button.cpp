@@ -17,7 +17,7 @@
 #include "globals.h"
 #include "button.h"
 
-timer_type Button::popup_timer;
+Timer Button::popup_timer;
 
 Button::Button(std::string icon_file, std::string ninfo, SDLKey nshortcut, int x, int y, int mw, int mh)
 {

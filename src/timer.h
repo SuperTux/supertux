@@ -20,7 +20,7 @@ void st_pause_ticks_init(void);
 void st_pause_ticks_start(void);
 void st_pause_ticks_stop(void);
 
-class timer_type
+class Timer
 {
  public:
   unsigned int period;
@@ -33,9 +33,6 @@ class timer_type
   void stop();
 
   /*======================================================================
-    int timer_check(timer_type* ptimer);
-    
-    param : pointer to a timer which needs to be checked
     return: NO  = the timer is not started
     or it is over
     YES = otherwise
@@ -44,9 +41,6 @@ class timer_type
   int started();
 
   /*======================================================================
-    int timer_get_left(timer_type* ptimer);
-
-    param : pointer to a timer that you want to get the time left
     return: the time left (in millisecond)
     note  : the returned value can be negative
     ======================================================================*/

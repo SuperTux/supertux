@@ -96,7 +96,7 @@ public:
 private:
   bool seen;
   base_type old_base;
-  timer_type timer;
+  Timer timer;
   Physic physic;
 
   texture_type* texture_left;

@@ -46,7 +46,7 @@ static texture_type logo;
 static texture_type img_choose_subset;
 
 static bool walking;
-static timer_type random_timer;
+static Timer random_timer;
 
 static SDL_Event event;
 static SDLKey key;
@@ -389,7 +389,7 @@ void display_credits()
 {
   int done;
   int scroll, speed;
-  timer_type timer;
+  Timer timer;
   int n,d;
   int length;
   FILE* fi;

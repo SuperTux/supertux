@@ -48,7 +48,7 @@ int intro(void)
   SDL_Rect src, dest;
   int done, i, quit, j, scene;
   int * height, * height_speed;
-  timer_type timer;
+  Timer timer;
 
   /* Load sprite images: */
   texture_load(&bkgd, datadir + "/images/intro/intro.png", IGNORE_ALPHA);

@@ -111,7 +111,7 @@ static Menu* subset_new_menu;
 static Menu* subset_settings_menu;
 static Menu* level_settings_menu;
 static Menu* select_tilegroup_menu;
-static timer_type select_tilegroup_menu_effect;
+static Timer select_tilegroup_menu_effect;
 static std::map<std::string, ButtonPanel* > tilegroups_map;
 static std::string cur_tilegroup;
 

@@ -65,7 +65,7 @@ private:
   int height();
   
 public:
-  timer_type effect;
+  Timer effect;
   int arrange_left;
   int active_item;
   menu_item_type *item;

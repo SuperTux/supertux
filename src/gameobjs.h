@@ -50,7 +50,7 @@ class BrokenBrick
 {
  public:
   base_type base;
-  timer_type timer;
+  Timer timer;
   Tile* tile;
 
   void init(Tile* tile, float x, float y, float xm, float ym);
@@ -75,7 +75,7 @@ class FloatingScore
 {
  public:
   int value;
-  timer_type timer;
+  Timer timer;
   base_type base;
   
   void init(float x, float y, int s);

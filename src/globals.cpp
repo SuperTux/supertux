@@ -39,8 +39,8 @@ SDL_Joystick * js;
 int wait_for_event(SDL_Event& event,unsigned int min_delay, unsigned int max_delay, bool empty_events)
 {
   int i;
-  timer_type maxdelay;
-  timer_type mindelay;
+  Timer maxdelay;
+  Timer mindelay;
   
   maxdelay.init(false);
   mindelay.init(false);
