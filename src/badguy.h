@@ -22,10 +22,18 @@
 #include "collision.h"
 
 /* Enemy modes: */
-#define NORMAL 0
-#define FLAT 1
-#define KICK 2
-#define HELD 3
+enum {
+    NORMAL=0,
+    FLAT,
+    KICK,
+    HELD,
+
+    BOMB_TICKING,
+    BOMB_EXPLODE,
+
+    STALACTITE_SHAKING,
+    STALACTITE_FALL
+};
 
 extern texture_type img_bsod_squished_left;
 extern texture_type img_bsod_squished_right;
@@ -41,12 +49,19 @@ extern texture_type img_laptop_left[3];
 extern texture_type img_laptop_right[3];
 extern texture_type img_money_left[2];
 extern texture_type img_money_right[2];
+extern texture_type img_mrbomb_left[4];
+extern texture_type img_mrbomb_right[4];
+extern texture_type img_stalactite;
+extern texture_type img_stalactite_broken;
 
 /* Bad guy kinds: */
 enum BadGuyKind {
   BAD_BSOD,
   BAD_LAPTOP,
-  BAD_MONEY
+  BAD_MONEY,
+  BAD_MRBOMB,
+  BAD_BOMB,
+  BAD_STALACTITE
 };
 
 BadGuyKind  badguykind_from_string(const std::string& str);
@@ -64,6 +79,8 @@ struct BadGuyData
   BadGuyData()
     : kind(BAD_BSOD), x(0), y(0) {}
 };
+
+class Player;
 
 /* Badguy type: */
 class BadGuy
@@ -85,6 +102,13 @@ class BadGuy
   void action();
   void draw();
 
+  void collision(void* p_c_object, int c_object,
+          CollisionType type = COLLISION_NORMAL);
+  
+ private:
+  void fall();
+  void remove_me();
+
   void action_bsod();
   void draw_bsod();
 
@@ -94,7 +118,19 @@ class BadGuy
   void action_money(); 
   void draw_money();
 
-  void collision(void* p_c_object, int c_object);
+  void action_bomb();
+  void draw_bomb();
+
+  void action_mrbomb();
+  void draw_mrbomb();
+
+  void action_stalactite();
+  void draw_stalactite();
+
+  void make_player_jump(Player* player);
+  void check_horizontal_bump(bool checkcliff = false);
+  void bump();
+  void squich(Player* player);
 };
 
 #endif /*SUPERTUX_BADGUY_H*/

@@ -90,7 +90,7 @@ static int le_show_grid;
 static int le_frame;
 static texture_type le_selection;
 static int done;
-static char le_current_tile;
+static unsigned int le_current_tile;
 static bool le_mouse_pressed[2];
 static button_type le_save_level_bt;
 static button_type le_test_level_bt;
@@ -382,7 +382,7 @@ int le_init()
   le_level_changed = false;
   le_current_level = NULL;
 
-  le_current_tile = '.';
+  le_current_tile = 0;
   le_mouse_pressed[LEFT] = false;
   le_mouse_pressed[RIGHT] = false;
 
@@ -1086,7 +1086,7 @@ void le_checkevents()
                     }
                   button_event(&le_rubber_bt,&event);
                   if(button_get_state(&le_rubber_bt) == BUTTON_CLICKED)
-                    le_current_tile = '.';
+                    le_current_tile = 0;
                   button_event(&le_select_mode_one_bt,&event);
                   if(button_get_state(&le_select_mode_one_bt) == BUTTON_CLICKED)
                     le_selection_mode = CURSOR;

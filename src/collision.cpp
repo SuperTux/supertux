@@ -250,10 +250,9 @@ void collision_handler()
           // We have detected a collision and now call the collision
           // functions of the collided objects.
           if (tux.previous_base.y < tux.base.y &&
-              tux.previous_base.y + tux.previous_base.height < bad_guys[i].base.y + bad_guys[i].base.height/2 &&
-              bad_guys[i].kind != BAD_MONEY && bad_guys[i].mode != HELD)
+              tux.previous_base.y + tux.previous_base.height < bad_guys[i].base.y + bad_guys[i].base.height/2)
             {
-              bad_guys[i].collision(&tux, CO_PLAYER);
+              bad_guys[i].collision(&tux, CO_PLAYER, COLLISION_SQUICH);
             }
           else
             {

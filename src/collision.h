@@ -19,8 +19,13 @@ enum
 {
   CO_BULLET,
   CO_BADGUY,
-  CO_BSOD,
   CO_PLAYER
+};
+
+enum CollisionType {
+    COLLISION_NORMAL,
+    COLLISION_BUMP,
+    COLLISION_SQUICH
 };
 
 bool rectcollision(base_type* one, base_type* two);

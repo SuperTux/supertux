@@ -110,7 +110,6 @@ void activate_bad_guys(void)
 
 void activate_particle_systems(void)
 {
-  printf("PSys: %s\n", current_level.particle_system.c_str());
   if(current_level.particle_system == "clouds")
     {
       particle_systems.push_back(new CloudParticleSystem);
@@ -1145,7 +1144,21 @@ void loadshared(void)
                "/images/shared/bag-right-1.png",
                USE_ALPHA);
 
+  /* Mr. Bomb */
+  for(int i=0; i<4; ++i) {
+      char num[4];
+      snprintf(num, 4, "%d", i);
+      texture_load(&img_mrbomb_left[i],
+              datadir + "/images/shared/mrbomb-left-" + num + ".png", USE_ALPHA);
+      texture_load(&img_mrbomb_right[i],
+              datadir + "/images/shared/mrbomb-right-" + num + ".png", USE_ALPHA);
+  }
 
+  /* stalactite */
+  texture_load(&img_stalactite, 
+          datadir + "/images/shared/stalactite.png", USE_ALPHA);
+  texture_load(&img_stalactite_broken,
+          datadir + "/images/shared/stalactite-broken.png", USE_ALPHA);
 
   /* Upgrades: */
 
@@ -1271,6 +1284,14 @@ void unloadshared(void)
       texture_free(&img_money_left[i]);
       texture_free(&img_money_right[i]);
     }
+
+  for(i = 0; i < 4; i++) {
+      texture_free(&img_mrbomb_left[i]);
+      texture_free(&img_mrbomb_right[i]);
+  }
+
+  texture_free(&img_stalactite);
+  texture_free(&img_stalactite_broken);
 
   texture_free(&img_box_full);
   texture_free(&img_box_empty);
@@ -1625,13 +1646,7 @@ void trybumpbadguy(float x, float y)
       if (bad_guys[i].base.x >= x - 32 && bad_guys[i].base.x <= x + 32 &&
           bad_guys[i].base.y >= y - 16 && bad_guys[i].base.y <= y + 16)
         {
-          if (bad_guys[i].kind == BAD_BSOD ||
-              bad_guys[i].kind == BAD_LAPTOP)
-            {
-              bad_guys[i].dying = DYING_FALLING;
-              bad_guys[i].base.ym = -8;
-              play_sound(sounds[SND_FALL], SOUND_CENTER_SPEAKER);
-            }
+          bad_guys[i].collision(&tux, CO_PLAYER, COLLISION_BUMP);
         }
     }
 

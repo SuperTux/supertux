@@ -82,7 +82,10 @@ SnowParticleSystem::SnowParticleSystem()
         particle->layer = i % 2;
         int snowsize = rand() % 3;
         particle->texture = &snowimages[snowsize];
-        particle->speed = 0.01 + snowsize/50.0 + (rand()%(int)gravity/15.0);
+        do {
+            particle->speed = snowsize/60.0 + (float(rand()%10)/300.0);
+        } while(particle->speed < 0.01);
+        particle->speed *= gravity;
 
         particles.push_back(particle);
     }
@@ -111,13 +114,13 @@ CloudParticleSystem::CloudParticleSystem()
 {
     texture_load(&cloudimage, datadir + "/images/shared/cloud.png", USE_ALPHA);
 
-    virtual_width = 5000.0;
+    virtual_width = 2000.0;
 
     // create some random clouds
     for(size_t i=0; i<15; ++i) {
         CloudParticle* particle = new CloudParticle;
         particle->x = rand() % int(virtual_width);
-        particle->y = rand() % int((float) screen->h * 0.3333);
+        particle->y = rand() % int(virtual_height);
         particle->layer = 0;
         particle->texture = &cloudimage;
         particle->speed = -float(250 + rand() % 200) / 1000.0;

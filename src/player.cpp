@@ -164,7 +164,7 @@ Player::action()
 
   base.x += base.xm * frame_ratio;
   base.y += base.ym * frame_ratio;
-
+  
   collision_swept_object_map(&old_base,&base);
 
   keep_in_bounds();
@@ -190,11 +190,9 @@ Player::action()
                 }
             }
           base.ym = physic_get_velocity(&vphysic);
-
         }
       else
         {
-
           /* Land: */
 
           if (base.ym > 0)
