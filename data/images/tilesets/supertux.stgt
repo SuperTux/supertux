@@ -202,9 +202,9 @@
  (tile (id 62)
        (images "block11.png")
        (solid #t))
-                                        ; (tile (id 63)
-                                        ;       (images "backgroundtile1.png")
-                                        ;       (solid #t))
+ (tile (id 63)
+       (images "backgroundtile1.png")
+       (solid #t))
  (tile (id 64)
        (images "grey.png")
        (solid #t))
@@ -246,16 +246,15 @@
         (images "waves-0.png" "waves-1.png" "waves-2.png")
 	(anim-speed 25))
 
+  ;; Normal brick
   (tile (id 77)
         (images "brick0.png")
 	(brick #t)    
-        (data 1)
         (next-tile 0)
         (solid #t))
   (tile (id 78)
         (images "brick1.png")
         (brick #t)
-        (data 1)
         (next-tile 0)
         (solid #t))
 
@@ -317,4 +316,21 @@
         (fullbox #t)
         (data 3)
         (next-tile 84))
+
+  ;; Brick with bonus content
+  (tile (id 104)
+        (images "brick0.png")
+	(brick #t)    
+        (data 1)
+        (next-tile 84)
+        (solid #t))
+
+  ;; Brick with bonus content
+  (tile (id 105)
+        (images "brick1.png")
+        (brick #t)
+        (data 1)
+        (next-tile 84)
+        (solid #t))
+
  )
