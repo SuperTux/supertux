@@ -46,6 +46,11 @@ public:
     return Vector(x / s, y / s);
   }
 
+  Vector operator-() const
+  {
+    return Vector(-x, -y);
+  }
+
   const Vector& operator +=(const Vector& other)
   {
     x += other.x;

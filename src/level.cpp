@@ -26,7 +26,8 @@
 #include <fstream>
 #include "globals.h"
 #include "setup.h"
-#include "screen.h"
+#include "camera.h"
+#include "screen/screen.h"
 #include "level.h"
 #include "physic.h"
 #include "scene.h"
@@ -36,6 +37,7 @@
 #include "music_manager.h"
 #include "gameobjs.h"
 #include "world.h"
+#include "background.h"
 #include "lispwriter.h"
 
 using namespace std;
@@ -220,20 +222,12 @@ Level::init_defaults()
   name       = "UnNamed";
   author     = "UnNamed";
   song_title = "Mortimers_chipdisko.mod";
-  bkgd_image = "arctis.jpg";
   width      = 0;
   height     = 0;
   start_pos.x = 100;
   start_pos.y = 170;
   time_left  = 100;
   gravity    = 10.;
-  bkgd_speed = 50;
-  bkgd_top.red   = 0;
-  bkgd_top.green = 0;
-  bkgd_top.blue  = 0;
-  bkgd_bottom.red   = 255;
-  bkgd_bottom.green = 255;
-  bkgd_bottom.blue  = 255;
 
   resize(21, 19);
 }
@@ -288,19 +282,40 @@ Level::load(const std::string& filename, World* world)
       if(!reader.read_int("height",  &height)) {
         printf("Warning: no height specified for level.\n");
       }
-      
-      bkgd_speed = 50;
+
+
+      // read old background stuff
+      int bkgd_speed = 50;
       reader.read_int("bkgd_speed",  &bkgd_speed);
       
-      bkgd_top.red = bkgd_top.green = bkgd_top.blue = 0;
-      reader.read_int("bkgd_red_top",  &bkgd_top.red);
-      reader.read_int("bkgd_green_top",  &bkgd_top.green);
-      reader.read_int("bkgd_blue_top",  &bkgd_top.blue);
+      Color bkgd_top, bkgd_bottom;
+      int r, g, b;
+      reader.read_int("bkgd_red_top", &r);
+      reader.read_int("bkgd_green_top",  &g);
+      reader.read_int("bkgd_blue_top",  &b);
+      bkgd_top.red = r;
+      bkgd_top.green = g;
+      bkgd_top.blue = b;
 
-      bkgd_bottom.red = bkgd_bottom.green = bkgd_bottom.blue = 0;
-      reader.read_int("bkgd_red_bottom",  &bkgd_bottom.red);
-      reader.read_int("bkgd_green_bottom",  &bkgd_bottom.green);
-      reader.read_int("bkgd_blue_bottom",  &bkgd_bottom.blue);
+      reader.read_int("bkgd_red_bottom",  &r);
+      reader.read_int("bkgd_green_bottom",  &g);
+      reader.read_int("bkgd_blue_bottom",  &b);
+      bkgd_bottom.red = r;
+      bkgd_bottom.green = g;
+      bkgd_bottom.blue = b;
+
+      std::string bkgd_image;
+      reader.read_string("background",  &bkgd_image);
+
+      if(world) {
+        Background* background = new Background();
+        if(bkgd_image != "")
+          background->set_image(bkgd_image, bkgd_speed);
+        else
+          background->set_gradient(bkgd_top, bkgd_bottom);
+
+        world->add_object(background);
+      }
 
       gravity = 10;
       reader.read_float("gravity",  &gravity);
@@ -310,8 +325,6 @@ Level::load(const std::string& filename, World* world)
       reader.read_string("author", &author);
       song_title = "";
       reader.read_string("music",  &song_title);
-      bkgd_image = "";
-      reader.read_string("background",  &bkgd_image);
       particle_system = "";
       reader.read_string("particle_system", &particle_system);
 
@@ -408,13 +421,6 @@ Level::save(const std::string& subset, int level, World* world)
   writer.write_string("music", song_title);
   writer.write_string("background", bkgd_image);
   writer.write_string("particle_system", particle_system);
-  writer.write_int("bkgd_speed", bkgd_speed);
-  writer.write_int("bkgd_red_top", bkgd_top.red);
-  writer.write_int("bkgd_green_top", bkgd_top.green);
-  writer.write_int("bkgd_blue_top", bkgd_top.blue);
-  writer.write_int("bkgd_red_bottom", bkgd_bottom.red);
-  writer.write_int("bkgd_green_bottom", bkgd_bottom.green);
-  writer.write_int("bkgd_blue_bottom", bkgd_bottom.blue);
   writer.write_int("time", time_left);
   writer.write_int("width", width);
   writer.write_int("height", height);
@@ -461,26 +467,6 @@ Level::cleanup()
   name = "";
   author = "";
   song_title = "";
-  bkgd_image = "";
-}
-
-void 
-Level::load_gfx()
-{
-  if(!bkgd_image.empty())
-    {
-      char fname[1024];
-      snprintf(fname, 1024, "%s/background/%s", st_dir, bkgd_image.c_str());
-      if(!faccessible(fname))
-        snprintf(fname, 1024, "%s/images/background/%s", datadir.c_str(), bkgd_image.c_str());
-      delete img_bkgd;
-      img_bkgd = new Surface(fname, IGNORE_ALPHA);
-    }
-  else
-    {
-      delete img_bkgd;
-      img_bkgd = 0;
-    }
 }
 
 /* Load a level-specific graphic... */

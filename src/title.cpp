@@ -36,10 +36,10 @@
 #include "defines.h"
 #include "globals.h"
 #include "title.h"
-#include "screen.h"
+#include "screen/screen.h"
+#include "screen/texture.h"
 #include "high_scores.h"
 #include "menu.h"
-#include "texture.h"
 #include "timer.h"
 #include "setup.h"
 #include "level.h"
@@ -117,8 +117,6 @@ void check_contrib_menu()
           
               current_contrib_subset = subset.name;
 
-              std::cout << "Updating the contrib subset menu..." << subset.levels << std::endl;
-      
               contrib_subset_menu->clear();
 
               contrib_subset_menu->additem(MN_LABEL, subset.title, 0,0);
@@ -154,13 +152,6 @@ void check_contrib_subset_menu()
           Menu::set_current(main_menu);
         }
     }  
-}
-
-void draw_background()
-{
-  /* Draw the title background: */
-
-  bkg_title->draw_bg();
 }
 
 void draw_demo(GameSession* session, double frame_ratio)
@@ -221,9 +212,6 @@ void title(void)
 
   GameSession session(datadir + "/levels/misc/menu.stl", 0, ST_GL_DEMO_GAME);
 
-  clearscreen(0, 0, 0);
-  updatescreen();
-
   /* Load images: */
   bkg_title = new Surface(datadir + "/images/background/arctis.jpg", IGNORE_ALPHA);
   logo = new Surface(datadir + "/images/title/logo.png", USE_ALPHA);
@@ -232,13 +220,11 @@ void title(void)
   /* --- Main title loop: --- */
   frame = 0;
 
-  /* Draw the title background: */
-  bkg_title->draw_bg();
-
   update_time = st_get_ticks();
   random_timer.start(rand() % 2000 + 2000);
 
   Menu::set_current(main_menu);
+  DrawingContext& context = World::current()->context;
   while (Menu::current())
     {
       // if we spent to much time on a menu entry
@@ -266,22 +252,26 @@ void title(void)
 
       /* Draw the background: */
       draw_demo(&session, frame_ratio);
-      
+     
+      context.push_transform();
+      context.set_translation(Vector(0, 0));
       if (Menu::current() == main_menu)
-        logo->draw(screen->w/2 - logo->w/2, 30);
+        context.draw_surface(logo, Vector(screen->w/2 - logo->w/2, 30),
+            LAYER_FOREGROUND1+1);
 
-      white_small_text->draw(" SuperTux " VERSION "\n"
-                             "Copyright (c) 2003 SuperTux Devel Team\n"
-                             "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you\n"
-                             "are welcome to redistribute it under certain conditions; see the file COPYING\n"
-                             "for details.\n",
-                             0, screen->h - 70, 0);
+      context.draw_text(white_small_text,
+          " SuperTux " VERSION "\n"
+          "Copyright (c) 2003 SuperTux Devel Team\n"
+          "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you\n"
+          "are welcome to redistribute it under certain conditions; see the file COPYING\n"
+          "for details.\n", Vector(0, screen->h - 70), LAYER_FOREGROUND1);
+      context.pop_transform();
 
       /* Don't draw menu, if quit is true */
       Menu* menu = Menu::current();
       if(menu)
         {
-          menu->draw();
+          menu->draw(context);
           menu->action();
         
           if(menu == main_menu)
@@ -298,7 +288,8 @@ void title(void)
                   generate_contrib_menu();
                   break;
                 case MNID_LEVELEDITOR:
-                  leveleditor();
+                  // TODO
+                  //leveleditor();
                   Menu::set_current(main_menu);
                   break;
                 case MNID_CREDITS:
@@ -322,8 +313,6 @@ void title(void)
                 char str[1024];
                 sprintf(str,"Are you sure you want to delete slot %d?", slot);
                 
-                draw_background();
-
                 if(confirm_dialog(str))
                   {
                   sprintf(str,"%s/slot%d.stsg", st_save_dir, slot);
@@ -352,9 +341,9 @@ void title(void)
             }
         }
 
-      mouse_cursor->draw();
-      
-      flipscreen();
+      mouse_cursor->draw(context);
+     
+      context.do_drawing();
 
       /* Set the time of the last update and the time of the current update */
       last_update_time = update_time;

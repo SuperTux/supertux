@@ -23,7 +23,7 @@
 #include "stdlib.h"
 #include "setup.h"
 #include "globals.h"
-#include "screen.h"
+#include "screen/screen.h"
 #include "defines.h"
 #include "type.h"
 #include "scene.h"

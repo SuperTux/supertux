@@ -16,8 +16,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
-#include "screen.h"
+#include "screen/drawing_context.h"
 #include "mousecursor.h"
 
 MouseCursor* MouseCursor::current_ = 0;
@@ -59,7 +58,7 @@ void MouseCursor::set_mid(int x, int y)
   mid_y = y;
 }
 
-void MouseCursor::draw()
+void MouseCursor::draw(DrawingContext& context)
 {
   int x,y,w,h;
   Uint8 ispressed = SDL_GetMouseState(&x,&y);
@@ -88,5 +87,9 @@ void MouseCursor::draw()
       timer.start(MC_FRAME_PERIOD);
     }
 
-  cursor->draw_part(w*cur_frame, h*cur_state , x-mid_x, y-mid_y, w, h);
+  context.push_transform();
+  context.set_translation(Vector(0, 0));
+  context.draw_surface_part(cursor, Vector(w*cur_frame, h*cur_state), Vector(w,
+        h), Vector(x-mid_x, y-mid_y), LAYER_FOREGROUND1+100);
+  context.pop_transform();
 }

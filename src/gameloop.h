@@ -103,7 +103,7 @@ class GameSession
   void process_events();
 
   void levelintro();
-  void drawstatus();
+  void drawstatus(DrawingContext& context);
   void drawendscreen();
   void drawresultscreen(void);
 

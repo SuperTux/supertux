@@ -26,8 +26,9 @@
 #include "globals.h"
 #include "high_scores.h"
 #include "menu.h"
-#include "screen.h"
-#include "texture.h"
+#include "screen/drawing_context.h"
+#include "screen/screen.h"
+#include "screen/texture.h"
 #include "setup.h"
 #include "lispreader.h"
 
@@ -84,6 +85,7 @@ void save_hs(int score)
   Surface* bkgd;
   SDL_Event event;
 
+  DrawingContext context;
   bkgd = new Surface(datadir + "/images/highscore/highscore.png", IGNORE_ALPHA);
 
   hs_score = score;
@@ -98,17 +100,19 @@ void save_hs(int score)
   /* ask for player's name */
   while(Menu::current())
     {
-      bkgd->draw_bg();
+      context.draw_surface(bkgd, Vector(0, 0), LAYER_BACKGROUND0);
 
-      blue_text->drawf("Congratulations", 0, 130, A_HMIDDLE, A_TOP, 2, NO_UPDATE);
-      blue_text->draw("Your score:", 150, 180, 1, NO_UPDATE);
+      context.draw_text_center(blue_text, "Congratulations", 
+          Vector(0, 130), LAYER_FOREGROUND1);
+      context.draw_text(blue_text, "Your score:", Vector(150, 180),
+          LAYER_FOREGROUND1);
       sprintf(str, "%d", hs_score);
-      yellow_nums->draw(str, 350, 170, 1, NO_UPDATE);
+      context.draw_text(yellow_nums, str, Vector(250, 170), LAYER_FOREGROUND1);
 
-      Menu::current()->draw();
+      Menu::current()->draw(context);
       Menu::current()->action();
 
-      flipscreen();
+      context.do_drawing();
 
       while(SDL_PollEvent(&event))
         if(event.type == SDL_KEYDOWN)
@@ -156,18 +160,4 @@ void save_hs(int score)
       fprintf( fi,")");
       fclose(fi);
     }
-
-/*
-  fi = opendata(highscore_filename, "w");
-  if (fi != NULL)
-    {
-      fprintf(fi, "# Supertux highscore file\n\n");
-
-      fprintf(fi, "name=%s\n", hs_name);
-      fprintf(fi, "highscore=%d\n", hs_score);
-
-      fprintf(fi, "# (File automatically created.)\n");
-
-      fclose(fi);
-    }*/
 }

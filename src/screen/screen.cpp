@@ -35,96 +35,56 @@
 #include "globals.h"
 #include "screen.h"
 #include "setup.h"
+#include "drawing_context.h"
 #include "type.h"
 
 /* Needed for line calculations */
 #define SGN(x) ((x)>0 ? 1 : ((x)==0 ? 0:(-1)))
 #define ABS(x) ((x)>0 ? (x) : (-x))
 
-/* --- CLEAR SCREEN --- */
+/* --- FADE IN --- */
 
-void clearscreen(int r, int g, int b)
+/** Fades the given surface into a black one. If fade_out is true, it will fade out, else
+it will fade in */
+
+#if 0
+void fade(Surface *surface, int seconds, bool fade_out);
+
+void fade(const std::string& surface, int seconds, bool fade_out)
 {
-#ifndef NOOPENGL
-  if(use_gl)
+Surface* sur = new Surface(datadir + surface, IGNORE_ALPHA);
+fade(sur, seconds, fade_out);
+delete sur;
+}
+
+void fade(Surface *surface, int seconds, bool fade_out)
+{
+float alpha;
+if (fade_out)
+  alpha = 0;
+else
+  alpha = 255;
+
+  int cur_time, old_time;
+  cur_time = SDL_GetTicks();
+
+  while(alpha >= 0 && alpha < 256)
     {
-      glClearColor(r/256, g/256, b/256, 1.0);
-      glClear(GL_COLOR_BUFFER_BIT);
-    }
-  else
-  {
-#endif
+    surface->draw(0,0,(int)alpha);
+    flipscreen();
 
-    SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, r, g, b));
-#ifndef NOOPENGL
+    old_time = cur_time;
+    cur_time = SDL_GetTicks();
 
+    /* Calculate the next alpha value */
+    float calc = (float) ((cur_time - old_time) / seconds);
+    if(fade_out)
+      alpha += 255 * calc;
+    else
+      alpha -= 255 * calc;
     }
-#endif
 }
-
-/* --- DRAWS A VERTICAL GRADIENT --- */
-
-void drawgradient(Color top_clr, Color bot_clr)
-{
-#ifndef NOOPENGL
-  if(use_gl)
-    {
-      glBegin(GL_QUADS);
-      glColor3ub(top_clr.red, top_clr.green, top_clr.blue);
-      glVertex2f(0, 0);
-      glVertex2f(screen->w, 0);
-      glColor3ub(bot_clr.red, bot_clr.green, bot_clr.blue);
-      glVertex2f(screen->w, screen->h);
-      glVertex2f(0, screen->h);
-      glEnd();
-    }
-  else
-  {
 #endif
-
-    for(float y = 0; y < screen->h; y += 2)
-      fillrect(0, (int)y, screen->w, 2,
-       (int)(((float)(top_clr.red-bot_clr.red)/(0-screen->h)) * y + top_clr.red),
-       (int)(((float)(top_clr.green-bot_clr.green)/(0-screen->h)) * y + top_clr.green),
-       (int)(((float)(top_clr.blue-bot_clr.blue)/(0-screen->h)) * y + top_clr.blue),
-       255);
-/* calculates the color for each line, based in the generic equation for functions: y = mx + b */
-
-#ifndef NOOPENGL
-
-    }
-#endif
-}
-
-/** This fade shrinks to the given point */
-
-#define LOOP_DELAY 20
-void shrink_fade(Point point, int fade_time)
-{
-float left_inc  = (float)point.x / ((float)fade_time / LOOP_DELAY);
-float right_inc = ((float)screen->w - point.x) / ((float)fade_time / LOOP_DELAY);
-float up_inc    = (float)point.y / ((float)fade_time / LOOP_DELAY);
-float down_inc  = ((float)screen->h - point.y) / ((float)fade_time / LOOP_DELAY);
-
-float left_cor = 0, right_cor = 0, up_cor = 0, down_cor = 0;
-
-while(left_cor < point.x && right_cor < screen->w - point.x &&
-      up_cor < point.y && down_cor < screen->h - point.y)
-  {
-  left_cor  += left_inc;
-  right_cor += right_inc;
-  up_cor    += up_inc;
-  down_cor  += down_inc;
-
-  fillrect(0, 0, left_cor, screen->h, 0,0,0);  // left side
-  fillrect(screen->w - right_cor, 0, right_cor, screen->h, 0,0,0);  // right side
-  fillrect(0, 0, screen->w, up_cor, 0,0,0);  // up side
-  fillrect(0, screen->h - down_cor, screen->w, down_cor+1, 0,0,0);  // down side
-
-  flipscreen();
-  SDL_Delay(LOOP_DELAY);
-  }
-}
 
 /* 'Stolen' from the SDL documentation.
  * Set the pixel at (x, y) to the given value
@@ -328,34 +288,42 @@ if(h < 0)
 }
 
 
-/* --- UPDATE SCREEN --- */
-
-void updatescreen(void)
-{
-  if(use_gl)  /*clearscreen(0,0,0);*/
-    SDL_GL_SwapBuffers();
-  else
-    SDL_UpdateRect(screen, 0, 0, screen->w, screen->h);
-}
-
-void flipscreen(void)
-{
-  if(use_gl)
-    SDL_GL_SwapBuffers();
-  else
-    SDL_Flip(screen);
-}
-
 void fadeout()
 {
-  clearscreen(0, 0, 0);
-  white_text->draw_align("Loading...", screen->w/2, screen->h/2, A_HMIDDLE, A_TOP);
-  flipscreen();
+  fillrect(0, 0, screen->w, screen->h, 0, 0, 0, 255);
+  
+  DrawingContext context;
+  context.draw_text_center(white_text, "Loading...",
+      Vector(0, screen->h/2), LAYER_FOREGROUND1);
+  context.do_drawing();
 }
 
-void update_rect(SDL_Surface *scr, Sint32 x, Sint32 y, Sint32 w, Sint32 h)
+#define LOOP_DELAY 20.0
+void shrink_fade(const Vector& point, float fade_time)
 {
-  if(!use_gl)
-    SDL_UpdateRect(scr, x, y, w, h);
+  float left_inc  = point.x / (fade_time / LOOP_DELAY);
+  float right_inc = (screen->w - point.x) / (fade_time / LOOP_DELAY);
+  float up_inc    = point.y / (fade_time / LOOP_DELAY);
+  float down_inc  = (screen->h - point.y) / (fade_time / LOOP_DELAY);
+                                                                                
+  float left_cor = 0, right_cor = 0, up_cor = 0, down_cor = 0;
+                                                                                
+  while(left_cor < point.x && right_cor < screen->w - point.x &&
+      up_cor < point.y && down_cor < screen->h - point.y)
+  {
+    left_cor  += left_inc;
+    right_cor += right_inc;
+    up_cor    += up_inc;
+    down_cor  += down_inc;
+                                                                                
+    fillrect(0, 0, left_cor, screen->h, 0,0,0);  // left side
+    fillrect(screen->w - right_cor, 0, right_cor, screen->h, 0,0,0);  // right side
+    fillrect(0, 0, screen->w, up_cor, 0,0,0);  // up side
+    fillrect(0, screen->h - down_cor, screen->w, down_cor+1, 0,0,0);  // down side                                                                                
+    DrawingContext context; // ugly...
+    context.do_drawing();
+    
+    SDL_Delay(int(LOOP_DELAY));
+  }
 }
 

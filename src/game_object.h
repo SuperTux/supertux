@@ -21,7 +21,7 @@
 
 #include <string>
 
-class DisplayManager;
+class DrawingContext;
 
 /**
  * Base class for all game objects. This contains functions for:
@@ -46,6 +46,11 @@ public:
    * the base for all timed things.
    */
   virtual void action(float elapsed_time) = 0;
+
+  /** The GameObject should draw itself onto the provided DrawingContext if this
+   * function is called.
+   */
+  virtual void draw(DrawingContext& context) = 0;
 
   /** returns true if the object is not scheduled to be removed yet */
   bool is_valid() const

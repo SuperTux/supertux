@@ -23,13 +23,15 @@
 #include "globals.h"
 #include "defines.h"
 #include "screen.h"
-#include "text.h"
+#include "font.h"
+#include "drawing_context.h"
 
-Text::Text(const std::string& file, int kind_, int w_, int h_)
+Font::Font(const std::string& file, int kind_, int w_, int h_, int shadowsize_)
 {
   kind = kind_;
   w = w_;
   h = h_;
+  shadowsize = shadowsize_;
 
   int mx, my;
   SDL_Surface *conv;
@@ -70,49 +72,58 @@ Text::Text(const std::string& file, int kind_, int w_, int h_)
   SDL_FreeSurface(conv);
 }
 
-Text::~Text()
+Font::~Font()
 {
   delete chars;
   delete shadow_chars;
 }
 
-void
-Text::draw(const  char* text, int x, int y, int shadowsize, int update)
+float
+Font::get_height() const
 {
-  if(text != NULL)
-    {
-      if(shadowsize != 0)
-        draw_chars(shadow_chars, text,x+shadowsize,y+shadowsize, update);
+  return h;
+}
 
-      draw_chars(chars, text,x,y, update);
-    }
+float
+Font::get_text_width(const std::string& text) const
+{
+  return text.size() * w;
 }
 
 void
-Text::draw_chars(Surface* pchars,const  char* text, int x, int y, int update)
+Font::draw(const std::string& text, const Vector& pos)
 {
-  int i,j,len;
+  if(shadowsize != 0)
+    draw_chars(shadow_chars, text, pos + Vector(shadowsize, shadowsize));
 
-  len = strlen(text);
-  int w = this->w;
-  int h = this->h;
+  draw_chars(chars, text, pos);
+}
 
+void
+Font::draw_chars(Surface* pchars, const std::string& text, const Vector& pos)
+{
+  size_t i, j;
+
+  SurfaceImpl* impl = pchars->impl;
+
+  int x = int(pos.x);
+  int y = int(pos.y);
   if(kind == TEXT_TEXT)
     {
-      for( i = 0, j = 0; i < len; ++i,++j)
+      for( i = 0, j = 0; i < text.size(); ++i,++j)
         {
           if( text[i] >= ' ' && text[i] <= '/')
-            pchars->draw_part((int)(text[i] - ' ')*w,  0 , x+(j*w), y, w, h, 255,  update);
+            impl->draw_part((int)(text[i] - ' ')*w,  0 , x+(j*w), y, w, h, 255);
           else if( text[i] >= '0' && text[i] <= '?')
-            pchars->draw_part((int)(text[i] - '0')*w, h*1, x+(j*w), y, w, h, 255,  update);
+            impl->draw_part((int)(text[i] - '0')*w, h*1, x+(j*w), y, w, h, 255);
           else if ( text[i] >= '@' && text[i] <= 'O')
-            pchars->draw_part((int)(text[i] - '@')*w, h*2, x+(j*w), y, w, h, 255,  update);
+            impl->draw_part((int)(text[i] - '@')*w, h*2, x+(j*w), y, w, h, 255);
           else if ( text[i] >= 'P' && text[i] <= '_')
-            pchars->draw_part((int)(text[i] - 'P')*w, h*3, x+(j*w), y, w, h, 255,  update);
+            impl->draw_part((int)(text[i] - 'P')*w, h*3, x+(j*w), y, w, h, 255);
           else if ( text[i] >= '`' && text[i] <= 'o')
-            pchars->draw_part((int)(text[i] - '`')*w, h*4, x+(j*w), y, w, h, 255,  update);
+            impl->draw_part((int)(text[i] - '`')*w, h*4, x+(j*w), y, w, h, 255);
           else if ( text[i] >= 'p' && text[i] <= '~')
-            pchars->draw_part((int)(text[i] - 'p')*w, h*5, x+(j*w), y, w, h, 255,  update);
+            impl->draw_part((int)(text[i] - 'p')*w, h*5, x+(j*w), y, w, h, 255);
           else if ( text[i] == '\n')
             {
               y += h + 2;
@@ -122,10 +133,10 @@ Text::draw_chars(Surface* pchars,const  char* text, int x, int y, int update)
     }
   else if(kind == TEXT_NUM)
     {
-      for( i = 0, j = 0; i < len; ++i, ++j)
+      for( i = 0, j = 0; i < text.size(); ++i, ++j)
         {
           if ( text[i] >= '0' && text[i] <= '9')
-            pchars->draw_part((int)(text[i] - '0')*w, 0, x+(j*w), y, w, h, 255, update);
+            impl->draw_part((int)(text[i] - '0')*w, 0, x+(j*w), y, w, h, 255);
           else if ( text[i] == '\n')
             {
               y += h + 2;
@@ -134,94 +145,6 @@ Text::draw_chars(Surface* pchars,const  char* text, int x, int y, int update)
         }
     }
 }
-
-void
-Text::draw_align(const char* text, int x, int y,
-                      TextHAlign halign, TextVAlign valign, int shadowsize, int update)
-{
-  if(text != NULL)
-    {
-      switch (halign)
-        {
-        case A_RIGHT:
-          x += -(strlen(text)*w);
-          break;
-        case A_HMIDDLE:
-          x += -((strlen(text)*w)/2);
-          break;
-        case A_LEFT:
-          // default
-          break;
-        }
-
-      switch (valign)
-        {
-        case A_BOTTOM:
-          y -= h;
-          break;
-          
-        case A_VMIDDLE:
-          y -= h/2;
-
-        case A_TOP:
-          // default
-          break;
-        }
-
-      draw(text, x, y, shadowsize, update);
-    }
-}
-
-void
-Text::drawf(const  char* text, int x, int y,
-                 TextHAlign halign, TextVAlign valign, int shadowsize, int update)
-{
-  if(text != NULL)
-    {
-      if(halign == A_RIGHT)  /* FIXME: this doesn't work correctly for strings with newlines.*/
-        x += screen->w - (strlen(text)*w);
-      else if(halign == A_HMIDDLE)
-        x += screen->w/2 - ((strlen(text)*w)/2);
-
-      if(valign == A_BOTTOM)
-        y += screen->h - h;
-      else if(valign == A_VMIDDLE)
-        y += screen->h/2 - h/2;
-
-      draw(text,x,y,shadowsize, update);
-    }
-}
-
-/* --- ERASE TEXT: --- */
-
-void
-Text::erasetext(const  char * text, int x, int y, Surface * ptexture, int update, int shadowsize)
-{
-  SDL_Rect dest;
-
-  dest.x = x;
-  dest.y = y;
-  dest.w = strlen(text) * w + shadowsize;
-  dest.h = h;
-
-  if (dest.w > screen->w)
-    dest.w = screen->w;
-
-  ptexture->draw_part(dest.x,dest.y,dest.x,dest.y,dest.w,dest.h, 255, update);
-
-  if (update == UPDATE)
-    update_rect(screen, dest.x, dest.y, dest.w, dest.h);
-}
-
-
-/* --- ERASE CENTERED TEXT: --- */
-
-void
-Text::erasecenteredtext(const  char * text, int y, Surface * ptexture, int update, int shadowsize)
-{
-  erasetext(text, screen->w / 2 - (strlen(text) * 8), y, ptexture, update, shadowsize);
-}
-
 
 /* --- SCROLL TEXT FUNCTION --- */
 
@@ -242,43 +165,39 @@ void display_text_file(const std::string& file, Surface* surface, float scroll_s
   int done;
   float scroll;
   float speed;
-  int y;
-  int length;
   FILE* fi;
   char temp[1024];
-  string_list_type names;
+  std::vector<std::string> names;
   char filename[1024];
-  string_list_init(&names);
+  
   sprintf(filename,"%s/%s", datadir.c_str(), file.c_str());
   if((fi = fopen(filename,"r")) != NULL)
     {
       while(fgets(temp, sizeof(temp), fi) != NULL)
         {
           temp[strlen(temp)-1]='\0';
-          string_list_add_item(&names,temp);
+          names.push_back(temp);
         }
       fclose(fi);
     }
   else
     {
-      string_list_add_item(&names,"File was not found!");
-      string_list_add_item(&names,filename);
-      string_list_add_item(&names,"Shame on the guy, who");
-      string_list_add_item(&names,"forgot to include it");
-      string_list_add_item(&names,"in your SuperTux distribution.");
+      names.push_back("File was not found!");
+      names.push_back(filename);
+      names.push_back("Shame on the guy, who");
+      names.push_back("forgot to include it");
+      names.push_back("in your SuperTux distribution.");
     }
-
 
   scroll = 0;
   speed = scroll_speed / 50;
   done = 0;
 
-  length = names.num_items;
-
+  DrawingContext context;
   SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
 
   Uint32 lastticks = SDL_GetTicks();
-  while(done == 0)
+  while(!done)
     {
       /* in case of input, exit */
       SDL_Event event;
@@ -319,37 +238,32 @@ void display_text_file(const std::string& file, Surface* surface, float scroll_s
         speed = -MAX_VEL;
 
       /* draw the credits */
-      surface->draw_bg();
+      context.draw_surface(surface, Vector(0,0), 0);
 
-      y = 0;
-      for(int i = 0; i < length; i++)
-        {
-        switch(names.item[i][0])
-          {
-          case ' ':
-            white_small_text->drawf(names.item[i]+1, 0, screen->h+y-int(scroll),
-                A_HMIDDLE, A_TOP, 1);
-            y += white_small_text->h+ITEMS_SPACE;
-            break;
-          case '	':
-            white_text->drawf(names.item[i]+1, 0, screen->h+y-int(scroll),
-                A_HMIDDLE, A_TOP, 1);
-            y += white_text->h+ITEMS_SPACE;
-            break;
-          case '-':
-            white_big_text->drawf(names.item[i]+1, 0, screen->h+y-int(scroll),
-                A_HMIDDLE, A_TOP, 3);
-            y += white_big_text->h+ITEMS_SPACE;
-            break;
-          default:
-            blue_text->drawf(names.item[i], 0, screen->h+y-int(scroll),
-                A_HMIDDLE, A_TOP, 1);
-            y += blue_text->h+ITEMS_SPACE;
-            break;
-          }
+      float y = 0;
+      for(size_t i = 0; i < names.size(); i++) {
+        if(names[i].size() == 0) {
+          y += white_text->get_height() + ITEMS_SPACE;
+          continue;
         }
 
-      flipscreen();
+        Font* font = 0;
+        switch(names[i][0])
+        {
+          case ' ': font = white_small_text; break;
+          case '\t': font = white_text; break;
+          case '-': font = white_big_text; break;
+          case '*': font = blue_text; break;
+          default: font = blue_text; break;
+        }
+
+        context.draw_text_center(font,
+            names[i].substr(1, names[i].size()-1),
+            Vector(0, screen->h + y - scroll), LAYER_FOREGROUND1);
+        y += font->get_height() + ITEMS_SPACE;
+      }
+
+      context.do_drawing();
 
       if(screen->h+y-scroll < 0 && 20+screen->h+y-scroll < 0)
         done = 1;
@@ -362,7 +276,6 @@ void display_text_file(const std::string& file, Surface* surface, float scroll_s
 
       SDL_Delay(10);
     }
-  string_list_free(&names);
 
   SDL_EnableKeyRepeat(0, 0);    // disables key repeating
   Menu::set_current(main_menu);

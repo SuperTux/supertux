@@ -23,7 +23,7 @@
 #include <SDL.h>
 #include "bitmask.h"
 #include "type.h"
-#include "texture.h"
+#include "screen/texture.h"
 #include "collision.h"
 #include "player.h"
 #include "physic.h"
@@ -41,19 +41,18 @@ enum UpgradeKind {
 void load_special_gfx();
 void free_special_gfx();
 
-class Upgrade : public MovingObject, public Drawable
+class Upgrade : public MovingObject
 {
 public:
   UpgradeKind kind;
   Direction  dir;
   Physic physic;
 
-  Upgrade(DisplayManager& display_manager, const Vector& pos, Direction dir,
-      UpgradeKind kind);
+  Upgrade(const Vector& pos, Direction dir, UpgradeKind kind);
   virtual ~Upgrade();
   
   virtual void action(float frame_ratio);
-  virtual void draw(Camera& viewport, int layer);
+  virtual void draw(DrawingContext& context);
 
   virtual void collision(const MovingObject& other, int);
   void collision(void* p_c_object, int c_object, CollisionType type);
@@ -67,14 +66,14 @@ enum BulletsKind {
   ICE_BULLET
 };
 
-class Bullet : public MovingObject, public Drawable
+class Bullet : public MovingObject
 {
 public:
-  Bullet(DisplayManager& manager, const Vector& pos, float xm, int dir,
+  Bullet(const Vector& pos, float xm, int dir,
       int kind);
   
   virtual void action(float frame_ratio);
-  virtual void draw(Camera& viewport, int layer);
+  virtual void draw(DrawingContext& context);
   void collision(int c_object);
 
   virtual void collision(const MovingObject& other_object, int type);

@@ -1195,17 +1195,11 @@ LispReader::read_bool (const char* name, bool* b)
   return false;
 }
 
-#if 0
-void mygzungetc(char c, void* file)
+lisp_object_t*
+LispReader::get_lisp()
 {
-  gzungetc(c, file);
+  return lst;
 }
-
-lisp_stream_t* lisp_stream_init_gzfile (lisp_stream_t *stream, gzFile file)
-{
-  return lisp_stream_init_any (stream, file, gzgetc, mygzungetc);
-}
-#endif
 
 lisp_object_t* lisp_read_from_gzfile(const char* filename)
 {

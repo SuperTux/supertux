@@ -23,8 +23,9 @@
 #include <assert.h>
 #include <unistd.h>
 #include "globals.h"
-#include "texture.h"
-#include "screen.h"
+#include "screen/texture.h"
+#include "screen/screen.h"
+#include "screen/drawing_context.h"
 #include "lispreader.h"
 #include "gameloop.h"
 #include "setup.h"
@@ -186,28 +187,28 @@ Tux::~Tux()
 }
 
 void
-Tux::draw(const Point& offset)
+Tux::draw(DrawingContext& context, const Vector& offset)
 {
-  Point pos = get_pos();
+  Vector pos = get_pos();
   switch (player_status.bonus)
     {
     case PlayerStatus::GROWUP_BONUS:
-      largetux_sprite->draw(pos.x + offset.x, 
-                            pos.y + offset.y - 10);
+      context.draw_surface(largetux_sprite,
+          Vector(pos.x + offset.x, pos.y + offset.y - 10), LAYER_OBJECTS);
       break;
     case PlayerStatus::FLOWER_BONUS:
-      firetux_sprite->draw(pos.x + offset.x, 
-                           pos.y + offset.y - 10);
+      context.draw_surface(firetux_sprite,
+          Vector(pos.x + offset.x, pos.y + offset.y - 10), LAYER_OBJECTS);
       break;
     case PlayerStatus::NO_BONUS:
-      smalltux_sprite->draw(pos.x + offset.x, 
-                            pos.y + offset.y - 10);
+      context.draw_surface(smalltux_sprite,
+          Vector(pos.x + offset.x, pos.y + offset.y - 10), LAYER_OBJECTS);
       break;
     }
 }
 
 
-Point
+Vector
 Tux::get_pos()
 {
   float x = tile_pos.x * 32;
@@ -231,7 +232,7 @@ Tux::get_pos()
       break;
     }
   
-  return Point((int)x, (int)y); 
+  return Vector((int)x, (int)y); 
 }
 
 void
@@ -243,7 +244,7 @@ Tux::stop()
 }
 
 void
-Tux::update(float delta)
+Tux::action(float delta)
 {
   if (!moving)
     {
@@ -252,7 +253,7 @@ Tux::update(float delta)
           WorldMap::Level* level = worldmap->at_level();
 
           // We got a new direction, so lets start walking when possible
-          Point next_tile;
+          Vector next_tile;
           if ((!level || level->solved)
               && worldmap->path_ok(input_direction, tile_pos, &next_tile))
             {
@@ -314,7 +315,7 @@ Tux::update(float delta)
                 }
 
               // Walk automatically to the next tile
-              Point next_tile;
+              Vector next_tile;
               if (worldmap->path_ok(direction, tile_pos, &next_tile))
                 {
                   tile_pos = next_tile;
@@ -426,8 +427,6 @@ WorldMap::load_map()
                       reader.read_int("x", &level.x);
                       reader.read_int("y", &level.y);
 
-                      get_level_title(&level);   // get level's title
-
                       levels.push_back(level);
                     }
                   
@@ -446,17 +445,17 @@ WorldMap::load_map()
     lisp_free(root_obj);
 }
 
-void WorldMap::get_level_title(Levels::pointer level)
+void WorldMap::get_level_title(Level& level)
 {
   /** get level's title */
-  level->title = "<no title>";
+  level.title = "<no title>";
 
   FILE * fi;
   lisp_object_t* root_obj = 0;
-  fi = fopen((datadir +  "/levels/" + level->name).c_str(), "r");
+  fi = fopen((datadir +  "/levels/" + level.name).c_str(), "r");
   if (fi == NULL)
   {
-    perror((datadir +  "/levels/" + level->name).c_str());
+    perror((datadir +  "/levels/" + level.name).c_str());
     return;
   }
 
@@ -466,13 +465,13 @@ void WorldMap::get_level_title(Levels::pointer level)
 
   if (root_obj->type == LISP_TYPE_EOF || root_obj->type == LISP_TYPE_PARSE_ERROR)
   {
-    printf("World: Parse Error in file %s", level->name.c_str());
+    printf("World: Parse Error in file %s", level.name.c_str());
   }
 
   if (strcmp(lisp_symbol(lisp_car(root_obj)), "supertux-level") == 0)
   {
     LispReader reader(lisp_cdr(root_obj));
-    reader.read_string("name",  &level->title);
+    reader.read_string("name",  &level.title);
   }
 
   lisp_free(root_obj);
@@ -571,8 +570,8 @@ WorldMap::get_input()
     }
 }
 
-Point
-WorldMap::get_next_tile(Point pos, Direction direction)
+Vector
+WorldMap::get_next_tile(Vector pos, Direction direction)
 {
   switch(direction)
     {
@@ -595,7 +594,7 @@ WorldMap::get_next_tile(Point pos, Direction direction)
 }
 
 bool
-WorldMap::path_ok(Direction direction, Point old_pos, Point* new_pos)
+WorldMap::path_ok(Direction direction, Vector old_pos, Vector* new_pos)
 {
   *new_pos = get_next_tile(old_pos, direction);
 
@@ -642,7 +641,8 @@ WorldMap::update(float delta)
 
               std::cout << "Enter the current level: " << level->name << std::endl;
               // do a shriking fade to the level
-              shrink_fade(Point((level->x*32 + 16 + offset.x),(level->y*32 + 16 + offset.y)), 2000);
+              shrink_fade(Vector((level->x*32 + 16 + offset.x),(level->y*32 + 16
+                      + offset.y)), 500);
               GameSession session(datadir +  "/levels/" + level->name,
                                   1, ST_GL_LOAD_LEVEL_FILE);
 
@@ -707,23 +707,29 @@ WorldMap::update(float delta)
                   player_status = old_player_status;
                   break;
                 case GameSession::ES_GAME_OVER:
+                {
                   /* draw an end screen */
                   /* in the future, this should make a dialog a la SuperMario, asking
                   if the player wants to restart the world map with no score and from
                   level 1 */
                   char str[80];
 
-                  drawgradient(Color (0, 255, 0), Color (255, 0, 255));
+                  DrawingContext context;
+                  context.draw_gradient(Color (0, 255, 0), Color (255, 0, 255),
+                      LAYER_BACKGROUND0);
 
-                  blue_text->drawf("GAMEOVER", 0, 200, A_HMIDDLE, A_TOP, 1);
+                  context.draw_text_center(blue_text, "GAMEOVER", 
+                      Vector(0, 200), LAYER_FOREGROUND1);
 
                   sprintf(str, "SCORE: %d", player_status.score);
-                  gold_text->drawf(str, 0, 224, A_HMIDDLE, A_TOP, 1);
+                  context.draw_text_center(gold_text, str,
+                      Vector(0, 224), LAYER_FOREGROUND1);
 
                   sprintf(str, "COINS: %d", player_status.distros);
-                  gold_text->drawf(str, 0, screen->w - gold_text->w*2, A_HMIDDLE, A_TOP, 1);
+                  context.draw_text_center(gold_text, str,
+                      Vector(0, screen->w - 32), LAYER_FOREGROUND1);
 
-                  flipscreen();
+                  context.do_drawing();
   
                   SDL_Event event;
                   wait_for_event(event,2000,5000,true);
@@ -731,7 +737,9 @@ WorldMap::update(float delta)
                   quit = true;
                   player_status.reset();
                   break;
+                }
                 case GameSession::ES_NONE:
+                  assert(false);
                   // Should never be reached 
                   break;
                 }
@@ -751,7 +759,7 @@ WorldMap::update(float delta)
     }
   else
     {
-      tux->update(delta);
+      tux->action(delta);
       tux->set_direction(input_direction);
     }
   
@@ -779,14 +787,16 @@ WorldMap::update(float delta)
 }
 
 Tile*
-WorldMap::at(Point p)
+WorldMap::at(Vector p)
 {
   assert(p.x >= 0 
          && p.x < width
          && p.y >= 0
          && p.y < height);
 
-  return tile_manager->get(tilemap[width * p.y + p.x]);
+  int x = int(p.x);
+  int y = int(p.y);
+  return tile_manager->get(tilemap[width * y + x]);
 }
 
 WorldMap::Level*
@@ -804,53 +814,66 @@ WorldMap::at_level()
 
 
 void
-WorldMap::draw(const Point& offset)
+WorldMap::draw(DrawingContext& context, const Vector& offset)
 {
   for(int y = 0; y < height; ++y)
     for(int x = 0; x < width; ++x)
       {
-        Tile* tile = at(Point(x, y));
-        tile->sprite->draw(x*32 + offset.x,
-                           y*32 + offset.y);
+        Tile* tile = at(Vector(x, y));
+        context.draw_surface(tile->sprite,
+            Vector(x*32 + offset.x, y*32 + offset.y), LAYER_TILES);
       }
   
   for(Levels::iterator i = levels.begin(); i != levels.end(); ++i)
     {
       if (i->solved)
-        leveldot_green->draw(i->x*32 + offset.x, 
-                             i->y*32 + offset.y);
+        context.draw_surface(leveldot_green,
+            Vector(i->x*32 + offset.x, i->y*32 + offset.y), LAYER_TILES+1);
       else
-        leveldot_red->draw(i->x*32 + offset.x, 
-                           i->y*32 + offset.y);        
+        context.draw_surface(leveldot_red,
+            Vector(i->x*32 + offset.x, i->y*32 + offset.y), LAYER_TILES+1);
     }
 
-  tux->draw(offset);
-  draw_status();
+  tux->draw(context, offset);
+  draw_status(context);
 }
 
 void
-WorldMap::draw_status()
+WorldMap::draw_status(DrawingContext& context)
 {
+  context.push_transform();
+  context.set_translation(Vector(0, 0));
+  
   char str[80];
   sprintf(str, "%d", player_status.score);
-  white_text->draw("SCORE", 0, 0);
-  gold_text->draw(str, 96, 0);
+
+  context.draw_text(white_text, "SCORE", Vector(0, 0), LAYER_FOREGROUND1);
+  context.draw_text(gold_text, str, Vector(96, 0), LAYER_FOREGROUND1);
 
   sprintf(str, "%d", player_status.distros);
-  white_text->draw_align("COINS", screen->w/2 - white_text->w*5, 0,  A_LEFT, A_TOP);
-  gold_text->draw_align(str, screen->w/2 + (white_text->w*5)/2, 0, A_RIGHT, A_TOP);
+  context.draw_text(white_text, "COINS", Vector(screen->w/2 - 16*5, 0),
+      LAYER_FOREGROUND1);
+  context.draw_text(gold_text, str, Vector(screen->w/2 + (16*5)/2, 0),
+        LAYER_FOREGROUND1);
 
-  white_text->draw("LIVES", screen->w - white_text->w*9, 0);
+  context.draw_text(white_text, "LIVES",
+      Vector(screen->w - white_text->get_text_width("LIVES")*2, 0),
+      LAYER_FOREGROUND1);
   if (player_status.lives >= 5)
     {
       sprintf(str, "%dx", player_status.lives);
-      gold_text->draw_align(str, screen->w - gold_text->w, 0, A_RIGHT, A_TOP);
-      tux_life->draw(screen->w - gold_text->w, 0);
+      context.draw_text(gold_text, str, 
+          Vector(screen->w - gold_text->get_text_width(str) - tux_life->w, 0),
+          LAYER_FOREGROUND1);
+      context.draw_surface(tux_life, Vector(screen->w - gold_text->w, 0),
+          LAYER_FOREGROUND1);
     }
   else
     {
       for(int i= 0; i < player_status.lives; ++i)
-        tux_life->draw(screen->w - tux_life->w*4 +(tux_life->w*i),0);
+        context.draw_surface(tux_life,
+            Vector(screen->w - tux_life->w*4 + (tux_life->w*i), 0),
+            LAYER_FOREGROUND1);
     }
 
   if (!tux->is_moving())
@@ -860,7 +883,13 @@ WorldMap::draw_status()
           if (i->x == tux->get_tile_pos().x && 
               i->y == tux->get_tile_pos().y)
             {
-              white_text->draw_align(i->title.c_str(), screen->w/2, screen->h,  A_HMIDDLE, A_BOTTOM);
+              if(i->title == "")
+                get_level_title(*i);
+
+              context.draw_text(white_text, i->title, 
+                  Vector(screen->w/2 - white_text->get_text_width(i->title)/2,
+                         screen->h - white_text->get_height() - 50),
+                  LAYER_FOREGROUND1);
               break;
             }
         }
@@ -882,6 +911,7 @@ WorldMap::display()
 
   last_update_time = update_time = st_get_ticks();
 
+  DrawingContext context;
   while(!quit)
     {
       float delta = ((float)(update_time-last_update_time))/100.0;
@@ -894,7 +924,7 @@ WorldMap::display()
       last_update_time = update_time;
       update_time      = st_get_ticks();
 
-      Point tux_pos = tux->get_pos();
+      Vector tux_pos = tux->get_pos();
       if (1)
         {
           offset.x = -tux_pos.x + screen->w/2;
@@ -907,16 +937,17 @@ WorldMap::display()
           if (offset.y < screen->h - height*32) offset.y = screen->h - height*32;
         } 
 
-      draw(offset);
+      draw(context, offset);
       get_input();
       update(delta);
 
       if(Menu::current())
         {
-          Menu::current()->draw();
-          mouse_cursor->draw();
+          Menu::current()->draw(context);
+          mouse_cursor->draw(context);
         }
-      flipscreen();
+
+      context.do_drawing();
 
       SDL_Delay(20);
     }
@@ -993,13 +1024,13 @@ WorldMap::loadgame(const std::string& filename)
   lisp_object_t* tux_cur = 0;
   if (reader.read_lisp("tux", &tux_cur))
     {
-      Point p;
+      Vector p;
       std::string back_str = "none";
       std::string bonus_str = "none";
 
       LispReader tux_reader(tux_cur);
-      tux_reader.read_int("x", &p.x);
-      tux_reader.read_int("y", &p.y);
+      tux_reader.read_float("x", &p.x);
+      tux_reader.read_float("y", &p.y);
       tux_reader.read_string("back", &back_str);
       tux_reader.read_string("bonus", &bonus_str);
       

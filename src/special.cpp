@@ -22,8 +22,9 @@
 #include "SDL.h"
 #include "defines.h"
 #include "special.h"
+#include "camera.h"
 #include "gameloop.h"
-#include "screen.h"
+#include "screen/screen.h"
 #include "sound.h"
 #include "scene.h"
 #include "globals.h"
@@ -44,11 +45,8 @@ Sprite* img_1up;
 #define BULLET_STARTING_YM 0
 #define BULLET_XM 6
 
-Bullet::Bullet(DisplayManager& display_manager, const Vector& pos, float xm,
-    int dir, int kind_)
+Bullet::Bullet(const Vector& pos, float xm, int dir, int kind_)
 {
-  display_manager.add_drawable(this, LAYER_OBJECTS);
-  
   life_count = 3;
   base.width = 4;
   base.height = 4;
@@ -112,12 +110,11 @@ Bullet::action(float elapsed_time)
 }
 
 void 
-Bullet::draw(Camera& viewport, int )
+Bullet::draw(DrawingContext& context)
 {
-  if(kind == FIRE_BULLET)
-    img_firebullet->draw(viewport.world2screen(Vector(base.x, base.y)));
-  else if(kind == ICE_BULLET)
-    img_icebullet->draw(viewport.world2screen(Vector(base.x, base.y)));
+  Sprite* sprite = kind == FIRE_BULLET ? img_firebullet : img_icebullet;
+ 
+  sprite->draw(context, Vector(base.x, base.y), LAYER_OBJECTS);
 }
 
 void
@@ -136,11 +133,8 @@ Bullet::collision(int c_object)
 
 //---------------------------------------------------------------------------
 
-Upgrade::Upgrade(DisplayManager& display_manager, const Vector& pos,
-    Direction dir_, UpgradeKind kind_)
+Upgrade::Upgrade(const Vector& pos, Direction dir_, UpgradeKind kind_)
 {
-  display_manager.add_drawable(this, LAYER_OBJECTS);
-  
   kind = kind_;
   dir = dir_;
 
@@ -243,53 +237,24 @@ Upgrade::action(float elapsed_time)
 }
 
 void
-Upgrade::draw(Camera& viewport, int)
+Upgrade::draw(DrawingContext& context)
 {
-  SDL_Rect dest;
+  Sprite* sprite;
+  switch(kind) {
+    case UPGRADE_GROWUP: sprite = img_growup; break;
+    case UPGRADE_ICEFLOWER: sprite = img_iceflower; break;
+    case UPGRADE_FIREFLOWER: sprite = img_fireflower; break;
+    case UPGRADE_HERRING: sprite = img_star; break;
+    case UPGRADE_1UP: sprite = img_1up; break;
+    default:
+      assert(!"wrong type in Powerup::draw()");
+  }
 
-  if (base.height < 32)
-    {
-      /* Rising up... */
-
-      dest.x = (int)(base.x - viewport.get_translation().x);
-      dest.y = (int)(base.y + 32 - base.height - viewport.get_translation().y);
-      dest.w = 32;
-      dest.h = (int)base.height;
-
-      if (kind == UPGRADE_GROWUP)
-        img_growup->draw_part(0,0,dest.x,dest.y,dest.w,dest.h);
-      else if (kind == UPGRADE_ICEFLOWER)
-        img_iceflower->draw_part(0,0,dest.x,dest.y,dest.w,dest.h);
-      else if (kind == UPGRADE_FIREFLOWER)
-        img_fireflower->draw_part(0,0,dest.x,dest.y,dest.w,dest.h);
-      else if (kind == UPGRADE_HERRING)
-        img_star->draw_part(0,0,dest.x,dest.y,dest.w,dest.h);
-      else if (kind == UPGRADE_1UP)
-        img_1up->draw_part( 0, 0, dest.x, dest.y, dest.w, dest.h);
-    }
+  if(base.height < 32) // still raising up?
+    sprite->draw(context, Vector(base.x, base.y + (32 - base.height)),
+        LAYER_TILES - 10);
   else
-    {
-      if (kind == UPGRADE_GROWUP)
-        {
-          img_growup->draw(viewport.world2screen(Vector(base.x, base.y)));
-        }
-      else if (kind == UPGRADE_ICEFLOWER)
-        {
-          img_iceflower->draw(viewport.world2screen(Vector(base.x, base.y)));
-        }
-      else if (kind == UPGRADE_FIREFLOWER)
-        {
-          img_fireflower->draw(viewport.world2screen(Vector(base.x, base.y)));
-        }
-      else if (kind == UPGRADE_HERRING)
-        {
-          img_star->draw(viewport.world2screen(Vector(base.x, base.y)));
-        }
-      else if (kind == UPGRADE_1UP)
-        {
-          img_1up->draw(viewport.world2screen(Vector(base.x, base.y)));
-        }
-    }
+    sprite->draw(context, Vector(base.x, base.y), LAYER_OBJECTS);
 }
 
 void

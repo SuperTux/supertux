@@ -25,6 +25,7 @@
 #include "player.h"
 #include "level.h"
 #include "globals.h"
+#include "world.h"
 
 Camera::Camera(Player* newplayer, Level* newlevel)
   : player(newplayer), level(newlevel), do_backscrolling(true),
@@ -40,10 +41,10 @@ Camera::~Camera()
 {
 }
 
-void
-Camera::set_translation(const Vector& newtranslation)
+const Vector&
+Camera::get_translation() const
 {
-  translation = newtranslation;
+  return World::current()->context.get_translation();
 }
 
 void
@@ -128,10 +129,12 @@ static const float max_speed_y = 1.4;
 void
 Camera::action(float elapsed_time)
 {
+  translation = World::current()->context.get_translation();
   if(mode == NORMAL)
     scroll_normal(elapsed_time);
   else if(mode == AUTOSCROLL)
     scroll_autoscroll(elapsed_time);
+  World::current()->context.set_translation(translation);
 }
 
 void

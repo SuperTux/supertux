@@ -24,11 +24,10 @@
 #include "bitmask.h"
 #include "type.h"
 #include "timer.h"
-#include "texture.h"
+#include "screen/texture.h"
 #include "collision.h"
 #include "sound.h"
 #include "moving_object.h"
-#include "drawable.h"
 #include "physic.h"
 
 /* Times: */
@@ -109,7 +108,7 @@ extern PlayerSprite largetux;
 extern PlayerSprite firetux;
 extern PlayerSprite icetux;
 
-class Player : public MovingObject, public Drawable
+class Player : public MovingObject
 {
 public:
   enum HurtMode { KILL, SHRINK };
@@ -148,7 +147,7 @@ public:
   Physic physic;
 
 public:
-  Player(DisplayManager& display_manager);
+  Player();
   virtual ~Player();
   
   int  key_event(SDLKey key, int state);
@@ -157,14 +156,14 @@ public:
   void grabdistros();
 
   virtual void action(float elapsed_time);
-  virtual void draw(Camera& viewport, int layer);
+  virtual void draw(DrawingContext& context);
   virtual void collision(const MovingObject& other_object,
       int collision_type);
 
   void collision(void* p_c_object, int c_object);
   void kill(HurtMode mode);
   void player_remove_powerups();
-  void check_bounds(Camera& viewport);
+  void check_bounds(DrawingContext& context);
   bool on_ground();
   bool under_solid();
   bool tiles_on_air(int tiles);

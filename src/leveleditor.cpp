@@ -31,7 +31,7 @@
 #include <algorithm>
 #include "leveleditor.h"
 
-#include "screen.h"
+#include "screen/screen.h"
 #include "defines.h"
 #include "globals.h"
 #include "setup.h"
@@ -45,7 +45,9 @@
 #include "resources.h"
 #include "music_manager.h"
 #include "background.h"
-#include "display_manager.h"
+
+// TODO
+#if 0
 
 /* definitions to aid development */
 
@@ -472,29 +474,18 @@ void le_init_menus()
       for(std::vector<int>::const_iterator sit = (*it).tiles.begin();
           sit != (*it).tiles.end(); ++sit, ++i)
       {
-        std::string imagefile = "/images/tilesets/" ;
-        bool only_editor_image = false;
-        if(!TileManager::instance()->get(*sit)->filenames.empty())
-        {
-          imagefile += TileManager::instance()->get(*sit)->filenames[0];
-        }
-        else if(!TileManager::instance()->get(*sit)->editor_filenames.empty())
-        {
-          imagefile += TileManager::instance()->get(*sit)->editor_filenames[0];
-          only_editor_image = true;
-        }
+        Tile& tile = *(TileManager::instance()->get(*sit));
+        Surface* image;
+        if(tile.editor_images.size() > 0)
+          image = tile.editor_images[0];
+        else if(tile.images.size() > 0)
+          image = tile.images[0];
         else
-        {
-          imagefile += "notile.png";
-        }
-        Button* button = new Button(imagefile, it->name, SDLKey(SDLK_a + i),
+          // TODO use some notile image...
+          image = 0;
+
+        Button* button = new Button(image, it->name, SDLKey(SDLK_a + i),
                                     0, 0, 32, 32);
-        if(!only_editor_image)
-          if(!TileManager::instance()->get(*sit)->editor_filenames.empty())
-          {
-            imagefile = "/images/tilesets/" + TileManager::instance()->get(*sit)->editor_filenames[0];
-            button->add_icon(imagefile,32,32);
-          }
         tilegroups_map[it->name]->additem(button, *sit);
       }
     }
@@ -511,7 +502,7 @@ void le_init_menus()
   for(int i = 0; i < NUM_BadGuyKinds; ++i)
   {
     BadGuy bad_tmp(dummy, BadGuyKind(i), 0, 0);
-    objects_map["BadGuys"]->additem(new Button("", "BadGuy",(SDLKey)(i+'a'),0,0,32,32),1000000+i);
+    objects_map["BadGuys"]->additem(new Button(0, "BadGuy",(SDLKey)(i+'a'),0,0,32,32),1000000+i);
     objects_map["BadGuys"]->manipulate_button(i)->set_drawable(new
         BadGuy(dummy,
           BadGuyKind(i),
@@ -1033,7 +1024,8 @@ void le_drawlevel()
 
 void le_change_object_properties(GameObject *pobj)
 {
-  Surface* cap_screen = Surface::CaptureScreen();
+  //Surface* cap_screen = Surface::CaptureScreen();
+    
   Menu* object_properties_menu = new Menu();
   bool loop = true;
 
@@ -1069,7 +1061,7 @@ void le_change_object_properties(GameObject *pobj)
       object_properties_menu->event(event);
     }
 
-    cap_screen->draw(0,0);
+    //cap_screen->draw(0,0);
 
     object_properties_menu->draw();
     object_properties_menu->action();
@@ -1099,7 +1091,7 @@ void le_change_object_properties(GameObject *pobj)
     SDL_Delay(25);
   }
 
-  delete cap_screen;
+  //delete cap_screen;
   Menu::set_current(0);
   delete object_properties_menu;
 }
@@ -1935,3 +1927,5 @@ void le_showhelp()
   le_selection_mode = temp_le_selection_mode;
   le_help_shown = false;
 }
+
+#endif

@@ -1,6 +1,14 @@
 bin_PROGRAMS = supertux
 
 supertux_SOURCES = \
+screen/drawing_context.h \
+screen/drawing_context.cpp \
+screen/font.h \
+screen/font.cpp \
+screen/screen.h \
+screen/screen.cpp \
+screen/texture.cpp \
+screen/texture.h \
 lispwriter.h \
 lispwriter.cpp \
 badguy.cpp \
@@ -38,8 +46,6 @@ player.cpp \
 player.h \
 scene.cpp \
 scene.h \
-screen.cpp \
-screen.h \
 setup.cpp \
 setup.h \
 sound.cpp \
@@ -47,10 +53,6 @@ sound.h \
 special.cpp \
 special.h \
 supertux.cpp \
-text.cpp \
-text.h \
-texture.cpp \
-texture.h \
 timer.cpp \
 timer.h \
 title.cpp \
@@ -81,8 +83,6 @@ camera.cpp \
 camera.h \
 game_object.cpp \
 game_object.h \
-display_manager.h \
-display_manager.cpp \
 drawable.h \
 background.h \
 background.cpp \

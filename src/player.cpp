@@ -27,7 +27,8 @@
 #include "scene.h"
 #include "tile.h"
 #include "sprite.h"
-#include "screen.h"
+#include "gameobjs.h"
+#include "screen/screen.h"
 
 // behavior definitions:
 #define TILES_FOR_BUTTJUMP 3
@@ -71,10 +72,8 @@ void player_input_init(player_input_type* pplayer_input)
   pplayer_input->old_up = UP;
 }
 
-Player::Player(DisplayManager& display_manager)
+Player::Player()
 {
-  display_manager.add_drawable(this, LAYER_OBJECTS-1); // for tux himself
-  display_manager.add_drawable(this, LAYER_OBJECTS+1); // for the arm
   init();
 }
 
@@ -262,7 +261,7 @@ Player::action(float elapsed_time)
           if (isbrick(base.x, base.y) ||
               isfullbox(base.x, base.y))
             {
-              World::current()->trygrabdistro(base.x, base.y - 32,BOUNCE);
+              World::current()->trygrabdistro(base.x, base.y - 32, BOUNCE);
               World::current()->trybumpbadguy(base.x, base.y - 64);
 
               World::current()->trybreakbrick(base.x, base.y, size == SMALL);
@@ -313,10 +312,7 @@ Player::on_ground()
 {
   return ( issolid(base.x + base.width / 2, base.y + base.height) ||
            issolid(base.x + 1, base.y + base.height) ||
-           issolid(base.x + base.width - 1, base.y + base.height) ||
-	   isunisolid(base.x + base.width / 2, base.y + base.height) ||
-	   isunisolid(base.x + 1, base.y + base.height) ||
-	   isunisolid(base.x + base.width - 1, base.y + base.height) );
+           issolid(base.x + base.width - 1, base.y + base.height));
 }
 
 bool
@@ -624,7 +620,7 @@ Player::grabdistros()
 }
 
 void
-Player::draw(Camera& viewport, int layer)
+Player::draw(DrawingContext& context)
 {
   PlayerSprite* sprite;
           
@@ -637,98 +633,97 @@ Player::draw(Camera& viewport, int layer)
   else
     sprite = &largetux;
 
-  Vector pos = viewport.world2screen(Vector(base.x, base.y));
+  int layer = LAYER_OBJECTS - 1;
+  Vector pos = Vector(base.x, base.y);
 
-  if(layer == LAYER_OBJECTS + 1) {
-    // Draw arm overlay graphics when Tux is holding something
-    if ((holding_something && physic.get_velocity_y() == 0) || shooting_timer.check() && !duck)
-    {
-      if (dir == RIGHT)
-        sprite->grab_right->draw(pos);
-      else
-        sprite->grab_left->draw(pos);
-    }
-
-    // Draw blinking star overlay
-    if (invincible_timer.started() &&
-        (invincible_timer.get_left() > TUX_INVINCIBLE_TIME_WARNING || global_frame_counter % 3))
-    {
-      if (size == SMALL || duck)
-        smalltux_star->draw(pos);
-      else
-        largetux_star->draw(pos);
-    }
-    
-    return;
-  }
-  
   if (!safe_timer.started() || (global_frame_counter % 2) == 0)
     {
       if (dying == DYING_SQUISHED)
         {
-          smalltux_gameover->draw(pos);
+          smalltux_gameover->draw(context, pos, LAYER_OBJECTS);
         }
       else
         {
           if(growing_timer.check())
             {
               if (dir == RIGHT)
-                growingtux_right->draw(pos);
+                growingtux_right->draw(context, pos, layer);
               else 
-                growingtux_left->draw(pos);
+                growingtux_left->draw(context, pos, layer);
             }
           else if (duck && size != SMALL)
             {
               if (dir == RIGHT)
-                sprite->duck_right->draw(pos);
+                sprite->duck_right->draw(context, pos, layer);
               else 
-                sprite->duck_left->draw(pos);
+                sprite->duck_left->draw(context, pos, layer);
             }
           else if (skidding_timer.started())
             {
               if (dir == RIGHT)
-                sprite->skid_right->draw(pos);
+                sprite->skid_right->draw(context, pos, layer);
               else
-                sprite->skid_left->draw(pos); 
+                sprite->skid_left->draw(context, pos, layer);
             }
           else if (kick_timer.started())
             {
               if (dir == RIGHT)
-                sprite->kick_right->draw(pos);
+                sprite->kick_right->draw(context, pos, layer);
               else
-                sprite->kick_left->draw(pos); 
+                sprite->kick_left->draw(context, pos, layer);
             }
           else if (physic.get_velocity_y() != 0)
             {
               if (dir == RIGHT)
-                sprite->jump_right->draw(pos);
+                sprite->jump_right->draw(context, pos, layer);
               else
-                sprite->jump_left->draw(pos);                   
+                sprite->jump_left->draw(context, pos, layer);
             }
           else
             {
               if (fabsf(physic.get_velocity_x()) < 1.0f) // standing
                 {
                   if (dir == RIGHT)
-                    sprite->stand_right->draw(pos);
+                    sprite->stand_right->draw(context, pos, layer);
                   else
-                    sprite->stand_left->draw(pos);
+                    sprite->stand_left->draw(context, pos, layer);
                 }
               else // moving
                 {
                   if (dir == RIGHT)
-                    sprite->walk_right->draw(pos);
+                    sprite->walk_right->draw(context, pos, layer);
                   else
-                    sprite->walk_left->draw(pos);
+                    sprite->walk_left->draw(context, pos, layer);
                 }
             }
         }
     }     
-  
+
+  // Draw arm overlay graphics when Tux is holding something
+  if ((holding_something && physic.get_velocity_y() == 0) || shooting_timer.check() && !duck)
+  {
+    if (dir == RIGHT)
+      sprite->grab_right->draw(context, pos, LAYER_OBJECTS + 1);
+    else
+      sprite->grab_left->draw(context, pos, LAYER_OBJECTS + 1);
+  }
+
+  // Draw blinking star overlay
+  if (invincible_timer.started() &&
+      (invincible_timer.get_left() > TUX_INVINCIBLE_TIME_WARNING || global_frame_counter % 3))
+  {
+    if (size == SMALL || duck)
+      smalltux_star->draw(context, pos, LAYER_OBJECTS + 2);
+    else
+      largetux_star->draw(context, pos, LAYER_OBJECTS + 2);
+  }
+ 
+#if 0 // TODO
   if (debug_mode)
     fillrect(base.x - viewport.get_translation().x,
         base.y - viewport.get_translation().y, 
              base.width, base.height, 75,75,75, 150);
+#endif
 }
 
 void
@@ -908,7 +903,7 @@ Player::move(const Vector& vector)
 }
 
 void
-Player::check_bounds(Camera& viewport)
+Player::check_bounds(DrawingContext& viewport)
 {
   /* Keep tux in bounds: */
   if (base.x < 0)

@@ -23,6 +23,8 @@
 #ifndef SUPERTUX_LEVELEDITOR_H
 #define SUPERTUX_LEVELEDITOR_H
 
+#if 0 // TODO
+
 struct square
 {
   int x1, y1, x2, y2;
@@ -39,5 +41,7 @@ void editlevel(void);
 void testlevel(void);
 int le_init(void);
 void le_checkevents(void);
+
+#endif
 
 #endif /*SUPERTUX_LEVELEDITOR_H*/

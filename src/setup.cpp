@@ -42,8 +42,8 @@
 #include "defines.h"
 #include "globals.h"
 #include "setup.h"
-#include "screen.h"
-#include "texture.h"
+#include "screen/screen.h"
+#include "screen/texture.h"
 #include "menu.h"
 #include "gameloop.h"
 #include "configfile.h"
@@ -505,7 +505,7 @@ bool process_load_game_menu()
           draw_intro();
         }
 
-      shrink_fade(Point((screen->w/2),(screen->h/2)), 1000);
+      // shrink_fade(Point((screen->w/2),(screen->h/2)), 1000);
       fadeout();
       WorldMapNS::WorldMap worldmap;
      
@@ -582,16 +582,19 @@ void st_general_setup(void)
 
   /* Load global images: */
 
-  black_text  = new Text(datadir + "/images/status/letters-black.png", TEXT_TEXT, 16,18);
-  gold_text   = new Text(datadir + "/images/status/letters-gold.png", TEXT_TEXT, 16,18);
-  silver_text = new Text(datadir + "/images/status/letters-silver.png", TEXT_TEXT, 16,18);
-  blue_text   = new Text(datadir + "/images/status/letters-blue.png", TEXT_TEXT, 16,18);
-  red_text    = new Text(datadir + "/images/status/letters-red.png", TEXT_TEXT, 16,18);
-  green_text  = new Text(datadir + "/images/status/letters-green.png", TEXT_TEXT, 16,18);
-  white_text  = new Text(datadir + "/images/status/letters-white.png", TEXT_TEXT, 16,18);
-  white_small_text = new Text(datadir + "/images/status/letters-white-small.png", TEXT_TEXT, 8,9);
-  white_big_text   = new Text(datadir + "/images/status/letters-white-big.png", TEXT_TEXT, 20,22);
-  yellow_nums = new Text(datadir + "/images/status/numbers.png", TEXT_NUM, 32,32);
+  black_text  = new Font(datadir + "/images/status/letters-black.png", TEXT_TEXT, 16,18);
+  gold_text   = new Font(datadir + "/images/status/letters-gold.png", TEXT_TEXT, 16,18);
+  silver_text = new Font(datadir + "/images/status/letters-silver.png", TEXT_TEXT, 16,18);
+  blue_text   = new Font(datadir + "/images/status/letters-blue.png", TEXT_TEXT,
+      16,18, 3);
+  red_text    = new Font(datadir + "/images/status/letters-red.png", TEXT_TEXT, 16,18);
+  green_text  = new Font(datadir + "/images/status/letters-green.png", TEXT_TEXT, 16,18);
+  white_text  = new Font(datadir + "/images/status/letters-white.png", TEXT_TEXT, 16,18);
+  white_small_text = new Font(datadir +
+      "/images/status/letters-white-small.png", TEXT_TEXT, 8,9, 1);
+  white_big_text   = new Font(datadir + "/images/status/letters-white-big.png",
+      TEXT_TEXT, 20,22, 3);
+  yellow_nums = new Font(datadir + "/images/status/numbers.png", TEXT_NUM, 32,32);
 
   /* Load GUI/menu images: */
   checkbox = new Surface(datadir + "/images/status/checkbox.png", USE_ALPHA);

@@ -23,8 +23,9 @@
 #include <vector>
 #include <string>
 
+#include "vector.h"
 #include "musicref.h"
-#include "screen.h"
+#include "screen/screen.h"
 
 namespace WorldMapNS {
 
@@ -83,7 +84,7 @@ private:
 
   Direction input_direction;
   Direction direction;
-  Point tile_pos;
+  Vector tile_pos;
   /** Length by which tux is away from its current tile, length is in
       input_direction direction */
   float offset;
@@ -94,15 +95,15 @@ public:
   Tux(WorldMap* worldmap_);
   ~Tux();
   
-  void draw(const Point& offset);
-  void update(float delta);
+  void draw(DrawingContext& context, const Vector& offset);
+  void action(float elapsed_time);
 
   void set_direction(Direction d) { input_direction = d; }
 
   bool is_moving() const { return moving; }
-  Point get_pos();
-  Point get_tile_pos() const { return tile_pos; } 
-  void  set_tile_pos(Point p) { tile_pos = p; } 
+  Vector get_pos();
+  Vector get_tile_pos() const { return tile_pos; } 
+  void  set_tile_pos(Vector p) { tile_pos = p; } 
 };
 
 /** */
@@ -155,12 +156,12 @@ private:
   Direction input_direction;
   bool enter_level;
 
-  Point offset;
+  Vector offset;
   std::string savegame_file;
 
-  void get_level_title(Levels::pointer level);
+  void get_level_title(Level& level);
 
-  void draw_status();
+  void draw_status(DrawingContext& context);
 public:
   WorldMap();
   ~WorldMap();
@@ -176,15 +177,15 @@ public:
   void update(float delta);
 
   /** Draw one frame */
-  void draw(const Point& offset);
+  void draw(DrawingContext& context, const Vector& offset);
 
-  Point get_next_tile(Point pos, Direction direction);
-  Tile* at(Point pos);
+  Vector get_next_tile(Vector pos, Direction direction);
+  Tile* at(Vector pos);
   WorldMap::Level* at_level();
 
   /** Check if it is possible to walk from \a pos into \a direction,
       if possible, write the new position to \a new_pos */
-  bool path_ok(Direction direction, Point pos, Point* new_pos);
+  bool path_ok(Direction direction, Vector pos, Vector* new_pos);
 
   void savegame(const std::string& filename);
   void loadgame(const std::string& filename);

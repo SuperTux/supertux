@@ -207,46 +207,6 @@ Surface::debug_check()
 }
 
 void
-Surface::draw(float x, float y, Uint8 alpha, bool upside_down, bool update)
-{
-  if (impl)
-  {
-    if (impl->draw(x, y, alpha, upside_down, update) == -2)
-      reload();
-  }
-}
-
-void
-Surface::draw_bg(Uint8 alpha, bool update)
-{
-  if (impl)
-  {
-    if (impl->draw_bg(alpha, update) == -2)
-      reload();
-  }
-}
-
-void
-Surface::draw_part(float sx, float sy, float x, float y, float w, float h,  Uint8 alpha, bool update)
-{
-  if (impl)
-  {
-    if (impl->draw_part(sx, sy, x, y, w, h, alpha, update) == -2)
-      reload();
-  }
-}
-
-void
-Surface::draw_stretched(float x, float y, int w, int h, Uint8 alpha, bool update)
-{
-  if (impl)
-  {
-    if (impl->draw_stretched(x, y, w, h, alpha, update) == -2)
-      reload();
-  }
-}
-
-void
 Surface::resize(int w_, int h_)
 {
   if (impl)
@@ -256,53 +216,6 @@ Surface::resize(int w_, int h_)
     if (impl->resize(w_,h_) == -2)
       reload();
   }
-}
-
-Surface* Surface::CaptureScreen()
-{
-  Surface *cap_screen;
-
-  if (!(screen->flags & SDL_OPENGL))
-  {
-    cap_screen = new Surface(SDL_GetVideoSurface(),false);
-  }
-
-#ifndef NOOPENGL
-  if (use_gl)
-  {
-    SDL_Surface *temp;
-    unsigned char *pixels;
-    int i;
-    temp = SDL_CreateRGBSurface(SDL_SWSURFACE, screen->w, screen->h, 24,
-#if SDL_BYTEORDER == SDL_LIL_ENDIAN
-                                0x000000FF, 0x0000FF00, 0x00FF0000, 0
-#else
-                                0x00FF0000, 0x0000FF00, 0x000000FF, 0
-#endif
-                               );
-    if (temp == NULL)
-      st_abort("Error while trying to capture the screen in OpenGL mode","");
-
-    pixels = (unsigned char*) malloc(3 * screen->w * screen->h);
-    if (pixels == NULL)
-    {
-      SDL_FreeSurface(temp);
-      st_abort("Error while trying to capture the screen in OpenGL mode","");
-    }
-
-    glReadPixels(0, 0, screen->w, screen->h, GL_RGB, GL_UNSIGNED_BYTE, pixels);
-
-    for (i=0; i<screen->h; i++)
-      memcpy(((char *) temp->pixels) + temp->pitch * i, pixels + 3*screen->w * (screen->h-i-1), screen->w*3);
-    free(pixels);
-
-    cap_screen = new Surface(temp,false);
-    SDL_FreeSurface(temp);
-
-  }
-#endif
-  
-return cap_screen;
 }
 
 SDL_Surface*
@@ -535,7 +448,7 @@ SurfaceOpenGL::create_gl(SDL_Surface * surf, GLuint * tex)
 }
 
 int
-SurfaceOpenGL::draw(float x, float y, Uint8 alpha, bool upside_down, bool update)
+SurfaceOpenGL::draw(float x, float y, Uint8 alpha)
 {
   float pw = power_of_two(w);
   float ph = power_of_two(h);
@@ -549,75 +462,23 @@ SurfaceOpenGL::draw(float x, float y, Uint8 alpha, bool upside_down, bool update
   glBindTexture(GL_TEXTURE_2D, gl_texture);
 
   glBegin(GL_QUADS);
-  if(upside_down)
-    {
-    glTexCoord2f(0, 0);
-    glVertex2f(x, (float)h+y);
-
-    glTexCoord2f((float)w / pw, 0);
-    glVertex2f((float)w+x, (float)h+y);
-
-    glTexCoord2f((float)w / pw, (float)h / ph);
-    glVertex2f((float)w+x, y);
-    
-    glTexCoord2f(0, (float)h / ph);
-    glVertex2f(x, y);
-    }
-  else
-    {
-    glTexCoord2f(0, 0);
-    glVertex2f(x, y);
-
-    glTexCoord2f((float)w / pw, 0);
-    glVertex2f((float)w+x, y);
-
-    glTexCoord2f((float)w / pw, (float)h / ph);
-    glVertex2f((float)w+x, (float)h+y);
-
-    glTexCoord2f(0, (float)h / ph);
-    glVertex2f(x, (float)h+y);
-    }
+  glTexCoord2f(0, 0);
+  glVertex2f(x, y);
+  glTexCoord2f((float)w / pw, 0);
+  glVertex2f((float)w+x, y);
+  glTexCoord2f((float)w / pw, (float)h / ph);  glVertex2f((float)w+x, (float)h+y);
+  glTexCoord2f(0, (float)h / ph);
+  glVertex2f(x, (float)h+y);
   glEnd();
 
   glDisable(GL_TEXTURE_2D);
   glDisable(GL_BLEND);
 
-  (void) update; // avoid compiler warning
-
   return 0;
 }
 
 int
-SurfaceOpenGL::draw_bg(Uint8 alpha, bool update)
-{
-  float pw = power_of_two(w);
-  float ph = power_of_two(h);
-
-  glColor3ub(alpha, alpha, alpha);
-
-  glEnable(GL_TEXTURE_2D);
-  glBindTexture(GL_TEXTURE_2D, gl_texture);
-
-  glBegin(GL_QUADS);
-  glTexCoord2f(0, 0);
-  glVertex2f(0, 0);
-  glTexCoord2f((float)w / pw, 0);
-  glVertex2f(screen->w, 0);
-  glTexCoord2f((float)w / pw, (float)h / ph);
-  glVertex2f(screen->w, screen->h);
-  glTexCoord2f(0, (float)h / ph);
-  glVertex2f(0, screen->h);
-  glEnd();
-
-  glDisable(GL_TEXTURE_2D);
-
-  (void) update; // avoid compiler warning
-
-  return 0;
-}
-
-int
-SurfaceOpenGL::draw_part(float sx, float sy, float x, float y, float w, float h, Uint8 alpha, bool update)
+SurfaceOpenGL::draw_part(float sx, float sy, float x, float y, float w, float h, Uint8 alpha)
 {
   float pw = power_of_two(int(this->w));
   float ph = power_of_two(int(this->h));
@@ -646,12 +507,12 @@ SurfaceOpenGL::draw_part(float sx, float sy, float x, float y, float w, float h,
   glDisable(GL_TEXTURE_2D);
   glDisable(GL_BLEND);
 
-  (void) update; // avoid warnings
   return 0;
 }
 
+#if 0
 int
-SurfaceOpenGL::draw_stretched(float x, float y, int sw, int sh, Uint8 alpha, bool update)
+SurfaceOpenGL::draw_stretched(float x, float y, int sw, int sh, Uint8 alpha)
 {
   float pw = power_of_two(int(this->w));
   float ph = power_of_two(int(this->h));
@@ -680,9 +541,9 @@ SurfaceOpenGL::draw_stretched(float x, float y, int sw, int sh, Uint8 alpha, boo
   glDisable(GL_TEXTURE_2D);
   glDisable(GL_BLEND);
 
-  (void) update; // avoid warnings
   return 0;
 }
+#endif
 
 #endif
 
@@ -708,7 +569,7 @@ SurfaceSDL::SurfaceSDL(const std::string& file, int x, int y, int w, int h,  int
 }
 
 int
-SurfaceSDL::draw(float x, float y, Uint8 alpha, bool upside_down, bool update)
+SurfaceSDL::draw(float x, float y, Uint8 alpha)
 {
   SDL_Rect dest;
 
@@ -717,14 +578,6 @@ SurfaceSDL::draw(float x, float y, Uint8 alpha, bool upside_down, bool update)
   dest.w = w;
   dest.h = h;
 
-  if(upside_down)   // FIXME: feel free to replace this hack
-    {
-    for(float sy = 0; sy < h; sy++)
-      if(draw_part(0, sy, x, y+(h-sy), w, 1, alpha, update) == -2)
-        return -2;
-    return 0;
-    }
-
   if(alpha != 255)
     {
     /* Create a Surface, make it using colorkey, blit surface into temp, apply alpha
@@ -746,9 +599,6 @@ SurfaceSDL::draw(float x, float y, Uint8 alpha, bool upside_down, bool update)
     SDL_SetAlpha(sdl_surface_copy ,SDL_SRCALPHA,alpha);
 
     int ret = SDL_BlitSurface(sdl_surface_copy, NULL, screen, &dest);
-
-    if (update == UPDATE)
-      SDL_UpdateRect(screen, dest.x, dest.y, dest.w, dest.h);
 
     SDL_FreeSurface (sdl_surface_copy);
     return ret;
@@ -756,61 +606,11 @@ SurfaceSDL::draw(float x, float y, Uint8 alpha, bool upside_down, bool update)
 
   int ret = SDL_BlitSurface(sdl_surface, NULL, screen, &dest);
 
-  if (update == UPDATE)
-    SDL_UpdateRect(screen, dest.x, dest.y, dest.w, dest.h);
-
   return ret;
 }
 
 int
-SurfaceSDL::draw_bg(Uint8 alpha, bool update)
-{
-  SDL_Rect dest;
-
-  dest.x = 0;
-  dest.y = 0;
-  dest.w = screen->w;
-  dest.h = screen->h;
-
-  if(alpha != 255)
-    {
-    /* Create a Surface, make it using colorkey, blit surface into temp, apply alpha
-      to temp sur, blit the temp into the screen */
-    /* Note: this has to be done, since SDL doesn't allow to set alpha to surfaces that
-      already have an alpha mask yet... */
-
-    SDL_Surface* sdl_surface_copy = SDL_CreateRGBSurface (sdl_surface->flags,
-                                    sdl_surface->w, sdl_surface->h, sdl_surface->format->BitsPerPixel,
-                                    sdl_surface->format->Rmask, sdl_surface->format->Gmask,
-                                    sdl_surface->format->Bmask,
-                                    0);
-    int colorkey = SDL_MapRGB(sdl_surface_copy->format, 255, 0, 255);
-    SDL_FillRect(sdl_surface_copy, NULL, colorkey);
-    SDL_SetColorKey(sdl_surface_copy, SDL_SRCCOLORKEY, colorkey);
-
-
-    SDL_BlitSurface(sdl_surface, NULL, sdl_surface_copy, NULL);
-    SDL_SetAlpha(sdl_surface_copy ,SDL_SRCALPHA,alpha);
-
-    int ret = SDL_BlitSurface(sdl_surface_copy, NULL, screen, &dest);
-
-    if (update == UPDATE)
-      SDL_UpdateRect(screen, dest.x, dest.y, dest.w, dest.h);
-
-    SDL_FreeSurface (sdl_surface_copy);
-    return ret;
-    }
-
-  int ret = SDL_SoftStretch(sdl_surface, NULL, screen, &dest);
-
-  if (update == UPDATE)
-    SDL_UpdateRect(screen, dest.x, dest.y, dest.w, dest.h);
-
-  return ret;
-}
-
-int
-SurfaceSDL::draw_part(float sx, float sy, float x, float y, float w, float h, Uint8 alpha, bool update)
+SurfaceSDL::draw_part(float sx, float sy, float x, float y, float w, float h, Uint8 alpha)
 {
   SDL_Rect src, dest;
 
@@ -846,21 +646,16 @@ SurfaceSDL::draw_part(float sx, float sy, float x, float y, float w, float h, Ui
 
     int ret = SDL_BlitSurface(sdl_surface_copy, NULL, screen, &dest);
 
-    if (update == UPDATE)
-      SDL_UpdateRect(screen, dest.x, dest.y, dest.w, dest.h);
-
     SDL_FreeSurface (sdl_surface_copy);
     return ret;
     }
 
   int ret = SDL_BlitSurface(sdl_surface, &src, screen, &dest);
 
-  if (update == UPDATE)
-    update_rect(screen, dest.x, dest.y, dest.w, dest.h);
-
   return ret;
 }
 
+#if 0
 int
 SurfaceSDL::draw_stretched(float x, float y, int sw, int sh, Uint8 alpha, bool update)
 {
@@ -892,6 +687,7 @@ SurfaceSDL::draw_stretched(float x, float y, int sw, int sh, Uint8 alpha, bool u
 
   return ret;
 }
+#endif
 
 SurfaceSDL::~SurfaceSDL()
 {}

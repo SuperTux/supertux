@@ -16,20 +16,19 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-#include <assert.h>
-
 #include "tilemap.h"
-#include "display_manager.h"
+
+#include <assert.h>
+#include <algorithm>
+#include "screen/drawing_context.h"
 #include "level.h"
 #include "tile.h"
 #include "globals.h"
 
-TileMap::TileMap(DisplayManager& display_manager, Level* newlevel)
+TileMap::TileMap(Level* newlevel)
   : level(newlevel)
 {
-  display_manager.add_drawable(this, LAYER_BACKGROUNDTILES);
-  display_manager.add_drawable(this, LAYER_TILES);
-  display_manager.add_drawable(this, LAYER_FOREGROUNDTILES);
+  tilemanager = TileManager::instance();
 }
 
 TileMap::~TileMap()
@@ -42,29 +41,31 @@ TileMap::action(float )
 }
 
 void
-TileMap::draw(Camera& viewport, int layer)
+TileMap::draw(const std::vector<unsigned int>& tiles, DrawingContext& context,
+    int layer)
 {
-  std::vector<unsigned int>* tiles;
-  switch(layer) {
-    case LAYER_BACKGROUNDTILES:
-      tiles = &level->bg_tiles; break;
-    case LAYER_TILES:
-      tiles = &level->ia_tiles; break;
-    case LAYER_FOREGROUNDTILES:
-      tiles = &level->fg_tiles; break;
-    default:
-      assert(!"Wrong layer when drawing tilemap.");
-  }
-
-  int tsx = int(viewport.get_translation().x / 32); // tilestartindex x
-  int tsy = int(viewport.get_translation().y / 32); // tilestartindex y
-  int sx = - (int(viewport.get_translation().x) % 32);
-  int sy = - (int(viewport.get_translation().y) % 32);
-  for(int x = sx, tx = tsx; x < screen->w && tx < level->width;
-      x += 32, ++tx) {
-    for(int y = sy, ty = tsy; y < screen->h && ty < level->height;
-          y += 32, ++ty) {
-      Tile::draw(x, y, (*tiles) [ty * level->width + tx]);
+  float start_x = context.get_translation().x;
+  float start_y = context.get_translation().y;
+  float end_x = std::min(start_x + screen->w, float(level->width * 32));
+  float end_y = std::min(start_y + screen->h, float(level->height * 32));
+  start_x -= int(start_x) % 32;
+  start_y -= int(start_y) % 32;  
+  int tsx = int(start_x / 32); // tilestartindex x
+  int tsy = int(start_y / 32); // tilestartindex y
+  
+  Vector pos;
+  int tx, ty;
+  for(pos.x = start_x, tx = tsx; pos.x < end_x; pos.x += 32, ++tx) {
+    for(pos.y = start_y, ty = tsy; pos.y < end_y; pos.y += 32, ++ty) {
+      tilemanager->draw_tile(context, tiles[ty*level->width + tx], pos, layer);
     }
   }
+}
+
+void
+TileMap::draw(DrawingContext& context)
+{
+  draw(level->bg_tiles, context, LAYER_BACKGROUNDTILES);
+  draw(level->ia_tiles, context, LAYER_TILES);
+  draw(level->fg_tiles, context, LAYER_FOREGROUNDTILES);
 }

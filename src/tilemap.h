@@ -19,24 +19,29 @@
 #ifndef __TILEMAP_H__
 #define __TILEMAP_H__
 
+#include <vector>
 #include "game_object.h"
-#include "drawable.h"
+#include "serializable.h"
 
 class Level;
+class TileManager;
 
 /**
  * This class is reponsible for drawing the level tiles
  */
-class TileMap : public GameObject, public Drawable
+class TileMap : public GameObject
 {
 public:
-  TileMap(DisplayManager& manager, Level* level);
+  TileMap(Level* level);
   virtual ~TileMap();
 
   virtual void action(float elapsed_time);
-  virtual void draw(Camera& viewport, int layer);
+  virtual void draw(const std::vector<unsigned int>& tiles,
+      DrawingContext& context, int layer);
+  virtual void draw(DrawingContext& context);
   
 private:
+  TileManager* tilemanager;
   Level* level;
 };
 

@@ -23,13 +23,12 @@
 #define SUPERTUX_GAMEOBJS_H
 
 #include "type.h"
-#include "texture.h"
+#include "screen/texture.h"
 #include "timer.h"
 #include "scene.h"
 #include "physic.h"
 #include "collision.h"
 #include "game_object.h"
-#include "drawable.h"
 #include "moving_object.h"
 #include "lispwriter.h"
 
@@ -37,12 +36,12 @@
 #define NO_BOUNCE 0
 #define BOUNCE 1
 
-class BouncyDistro : public GameObject, public Drawable
+class BouncyDistro : public GameObject
 {
 public:
-  BouncyDistro(DisplayManager& displaymanager, const Vector& pos);
+  BouncyDistro(const Vector& pos);
   virtual void action(float elapsed_time);
-  virtual void draw(Camera& viewport, int layer);
+  virtual void draw(DrawingContext& context);
 
 private:
   Vector position;
@@ -56,14 +55,13 @@ extern Surface* img_distro[4];
 
 class Tile;
 
-class BrokenBrick : public GameObject, public Drawable
+class BrokenBrick : public GameObject
 {
 public:
-  BrokenBrick(DisplayManager& displaymanager, Tile* tile,
-      const Vector& pos, const Vector& movement);
+  BrokenBrick(Tile* tile, const Vector& pos, const Vector& movement);
 
   virtual void action(float elapsed_time);
-  virtual void draw(Camera& viewport, int layer);
+  virtual void draw(DrawingContext& context);
 
 private:
   Timer timer;
@@ -72,12 +70,12 @@ private:
   Vector movement;
 };
 
-class BouncyBrick : public GameObject, public Drawable
+class BouncyBrick : public GameObject
 {
 public:
-  BouncyBrick(DisplayManager& displaymanager, const Vector& pos);
+  BouncyBrick(const Vector& pos);
   virtual void action(float elapsed_time);
-  virtual void draw(Camera& viewport, int layer);
+  virtual void draw(DrawingContext& context);
   
 private:
   Vector position;
@@ -86,13 +84,13 @@ private:
   int shape;      
 };
 
-class FloatingScore : public GameObject, public Drawable
+class FloatingScore : public GameObject
 {
 public:
-  FloatingScore(DisplayManager& displaymanager, const Vector& pos, int s);
+  FloatingScore(const Vector& pos, int s);
   
   virtual void action(float elapsed_time);
-  virtual void draw(Camera& viewport, int layer);
+  virtual void draw(DrawingContext& context);
 
 private:
   Vector position;
@@ -100,14 +98,14 @@ private:
   Timer timer;  
 };
 
-class Trampoline : public MovingObject, public Drawable, public Serializable
+class Trampoline : public MovingObject, public Serializable
 {
 public:
-  Trampoline(DisplayManager& displaymanager, LispReader& reader);
+  Trampoline(LispReader& reader);
  
   virtual void write(LispWriter& writer);
   virtual void action(float frame_ratio);
-  virtual void draw(Camera& viewport, int layer);
+  virtual void draw(DrawingContext& context);
 
   virtual void collision(const MovingObject& other, int);
   void collision(void *p_c_object, int c_object, CollisionType type);
@@ -120,14 +118,14 @@ public:
   unsigned int frame;
 };
 
-class FlyingPlatform : public MovingObject, public Drawable, public Serializable
+class FlyingPlatform : public MovingObject, public Serializable
 {
 public:
-  FlyingPlatform(DisplayManager& displaymanager, LispReader& reader);
+  FlyingPlatform(LispReader& reader);
  
   virtual void write(LispWriter& writer);
   virtual void action(float frame_ratio);
-  virtual void draw(Camera& viewport, int layer);
+  virtual void draw(DrawingContext& context);
 
   virtual void collision(const MovingObject& other, int);
   void collision(void *p_c_object, int c_object, CollisionType type);

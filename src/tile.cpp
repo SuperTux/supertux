@@ -20,12 +20,15 @@
 
 #include "tile.h"
 #include "scene.h"
-#include "assert.h"
+#include <assert.h>
+#include <iostream>
+#include "screen/drawing_context.h"
 
 TileManager* TileManager::instance_  = 0;
 std::set<TileGroup>* TileManager::tilegroups_  = 0;
 
 Tile::Tile()
+  : id(-1), attributes(0), data(0), next_tile(0), anim_speed(25)
 {
 }
 
@@ -39,6 +42,62 @@ Tile::~Tile()
       i != editor_images.end(); ++i) {
     delete *i;                                                                
   }
+}
+
+int
+Tile::read(LispReader& reader)
+{
+  if(!reader.read_int("id", &id)) {
+    std::cerr << "Missing tile-id.\n";
+    return -1;
+  }
+  
+  bool value;
+  if(reader.read_bool("solid", &value) && value)
+    attributes |= SOLID;
+  if(reader.read_bool("unisolid", &value) && value)
+    attributes |= GOAL;                            
+  if(reader.read_bool("brick", &value) && value)
+    attributes |= BRICK;
+  if(reader.read_bool("ice", &value) && value)
+    attributes |= ICE;
+  if(reader.read_bool("water", &value) && value)
+    attributes |= WATER;
+  if(reader.read_bool("spike", &value) && value)
+    attributes |= SPIKE;
+  if(reader.read_bool("fullbox", &value) && value)
+    attributes |= FULLBOX;
+  if(reader.read_bool("distro", &value) && value)
+    attributes |= COIN;
+  if(reader.read_bool("coin", &value) && value)
+    attributes |= COIN;
+  if(reader.read_bool("goal", &value) && value)
+    attributes |= GOAL;
+
+  reader.read_int("data", &data);
+  reader.read_int("anim-speed", &anim_speed);
+  reader.read_int("next-tile", &next_tile);
+
+  std::vector<std::string> filenames;
+  reader.read_string_vector("images", &filenames);
+  std::vector<std::string> editor_filenames;
+  reader.read_string_vector("editor-images", &editor_filenames);
+
+  // read images
+  for(std::vector<std::string>::iterator i = filenames.begin();
+      i != filenames.end(); ++i) {
+    Surface* surface 
+      = new Surface(datadir + "/images/tilesets/" + *i, USE_ALPHA);
+    images.push_back(surface);
+  }
+  for(std::vector<std::string>::iterator i = editor_filenames.begin();
+      i != editor_filenames.end(); ++i) {
+    Surface* surface 
+      = new Surface(datadir + "/images/tilesets/" + *i, USE_ALPHA);
+    editor_images.push_back(surface);
+  }
+
+  return id;
 }
 
 //---------------------------------------------------------------------------
@@ -83,67 +142,21 @@ void TileManager::load_tileset(std::string filename)
 
           if (strcmp(lisp_symbol(lisp_car(element)), "tile") == 0)
             {
-	      
-	     
-              Tile* tile = new Tile;
-              tile->id      = -1;
-              tile->solid   = false;
-	      tile->unisolid = false;
-              tile->brick   = false;
-              tile->ice     = false;
-              tile->water   = false;
-              tile->spike   = false;
-              tile->fullbox = false;
-              tile->distro  = false;
-              tile->goal    = false;
-              tile->data    = 0;
-              tile->next_tile  = 0;
-              tile->anim_speed = 25;
-
               LispReader reader(lisp_cdr(element));
-              assert(reader.read_int("id",  &tile->id));
-              reader.read_bool("solid",     &tile->solid);
-	      reader.read_bool("unisolid",  &tile->unisolid);
-              reader.read_bool("brick",     &tile->brick);
-              reader.read_bool("ice",       &tile->ice);
-              reader.read_bool("water",     &tile->water);
-              reader.read_bool("spike",     &tile->spike);
-              reader.read_bool("fullbox",   &tile->fullbox);
-              reader.read_bool("distro",    &tile->distro);
-              reader.read_bool("goal",      &tile->goal);
-              reader.read_int("data",       &tile->data);
-              reader.read_int("anim-speed", &tile->anim_speed);
-              reader.read_int("next-tile",  &tile->next_tile);
-              reader.read_string_vector("images",  &tile->filenames);
-	      reader.read_string_vector("editor-images", &tile->editor_filenames);
 
-              for(std::vector<std::string>::iterator it = tile->
-                  filenames.begin();
-                  it != tile->filenames.end();
-                  ++it)
-                {
-                  Surface* cur_image;
-                  tile->images.push_back(cur_image);
-                  tile->images[tile->images.size()-1] = new Surface(
-                               datadir +  "/images/tilesets/" + (*it),
-                               USE_ALPHA);
-                }
-              for(std::vector<std::string>::iterator it = tile->editor_filenames.begin();
-                  it != tile->editor_filenames.end();
-                  ++it)
-                {
-                  Surface* cur_image;
-                  tile->editor_images.push_back(cur_image);
-                  tile->editor_images[tile->editor_images.size()-1] = new Surface(
-                               datadir + "/images/tilesets/" + (*it),
-                               USE_ALPHA);
-                }
-		
-              if (tile->id + tileset_id >= int(tiles.size())
-                 )
-                tiles.resize(tile->id + tileset_id+1);
+              Tile* tile = new Tile;
+              int tile_id = tile->read(reader);
+              if(tile_id < 0) {
+                std::cerr 
+                  << "Warning: parse error when reading a tile, skipping.\n";
+                continue;
+              }
 
-              tiles[tile->id + tileset_id] = tile;
+              tile_id += tileset_id;
+
+              if(tile_id >= int(tiles.size()))
+                tiles.resize(tile_id+1);
+              tiles[tile_id] = tile;
             }
           else if (strcmp(lisp_symbol(lisp_car(element)), "tileset") == 0)
             {
@@ -171,7 +184,8 @@ void TileManager::load_tileset(std::string filename)
             }
           else
             {
-              puts("Unhandled symbol");
+              std::cerr << "Unknown symbol: " << 
+                lisp_symbol(lisp_car(element)) << "\n";
             }
 
           cur = lisp_cdr(cur);
@@ -187,52 +201,28 @@ void TileManager::load_tileset(std::string filename)
 }
 
 void
-Tile::draw(float x, float y, unsigned int c, Uint8 alpha)
+TileManager::draw_tile(DrawingContext& context, unsigned int c,
+    const Vector& pos, int layer)
 {
-  if (c != 0)
-    {
-      Tile* ptile = TileManager::instance()->get(c);
-      if(ptile)
-        {
-          if(ptile->images.size() > 1)
-            {
-              ptile->images[( ((global_frame_counter*25) / ptile->anim_speed) % (ptile->images.size()))]->draw(x,y, alpha);
-            }
-          else if (ptile->images.size() == 1)
-            {
-              ptile->images[0]->draw(x,y, alpha);
-            }
-          else
-            {
-              //printf("Tile not dravable %u\n", c);
-            }
-        }
-    }
-}
+  if(c == 0)
+    return;
 
-void
-Tile::draw_stretched(float x, float y, int w, int h, unsigned int c, Uint8 alpha)
-{
-  if (c != 0)
-    {
-      Tile* ptile = TileManager::instance()->get(c);
-      if(ptile)
-        {
-          if(ptile->images.size() > 1)
-            {
-              ptile->images[( ((global_frame_counter*25) / ptile->anim_speed) % (ptile->images.size()))]->draw_stretched(x,y,w,h, alpha);
-            }
-          else if (ptile->images.size() == 1)
-            {
-              ptile->images[0]->draw_stretched(x,y, w, h, alpha);
-            }
-          else
-            {
-              //printf("Tile not dravable %u\n", c);
-            }
-        }
-    }
-}
+  Tile* tile = get(c);
+  if(!tile)
+    return;
 
-// EOF //
+  if(!tile->images.size())
+    return;
+
+  if(tile->images.size() > 1)
+  {
+    size_t frame 
+      = ((global_frame_counter*25) / tile->anim_speed) % tile->images.size();
+    context.draw_surface(tile->images[frame], pos, layer);
+  }
+  else if (tile->images.size() == 1)
+  {
+    context.draw_surface(tile->images[0], pos, layer);
+  }
+}
 

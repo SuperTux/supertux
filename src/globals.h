@@ -24,7 +24,7 @@
 
 #include <string>
 #include <SDL.h>
-#include "text.h"
+#include "screen/font.h"
 #include "menu.h"
 #include "mousecursor.h"
 
@@ -47,16 +47,16 @@ struct JoystickKeymap
 extern JoystickKeymap joystick_keymap;
 
 extern SDL_Surface * screen;
-extern Text* black_text;
-extern Text* gold_text;
-extern Text* silver_text;
-extern Text* white_text;
-extern Text* white_small_text;
-extern Text* white_big_text;
-extern Text* blue_text;
-extern Text* red_text;
-extern Text* green_text;
-extern Text* yellow_nums;
+extern Font* black_text;
+extern Font* gold_text;
+extern Font* silver_text;
+extern Font* white_text;
+extern Font* white_small_text;
+extern Font* white_big_text;
+extern Font* blue_text;
+extern Font* red_text;
+extern Font* green_text;
+extern Font* yellow_nums;
 
 extern MouseCursor * mouse_cursor;
 

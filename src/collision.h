@@ -53,7 +53,6 @@ Tile* gettile(float x, float y);
 
 // Some little helper function to check for tile properties
 bool  issolid(float x, float y);
-bool  isunisolid(float x, float y);
 bool  isbrick(float x, float y);
 bool  isice(float x, float y);
 bool  isspike(float x, float y);

@@ -24,16 +24,12 @@
 #define SUPERTUX_BADGUY_H
 
 #include "SDL.h"
-#include "defines.h"
-#include "bitmask.h"
-#include "type.h"
 #include "timer.h"
-#include "texture.h"
+#include "screen/texture.h"
 #include "physic.h"
-#include "collision.h"
 #include "sprite.h"
 #include "moving_object.h"
-#include "drawable.h"
+#include "collision.h"
 #include "serializable.h"
 
 /* Bad guy kinds: */
@@ -62,7 +58,7 @@ void free_badguy_gfx();
 class Player;
 
 /* Badguy type: */
-class BadGuy : public MovingObject, public Drawable, public Serializable
+class BadGuy : public MovingObject, public Serializable
 {
 public:
   /* Enemy modes: */
@@ -118,14 +114,14 @@ private:
   int animation_offset;
 
 public:
-  BadGuy(DisplayManager& display_manager, BadGuyKind kind, float x, float y);
-  BadGuy(DisplayManager& display_manager, BadGuyKind kind, LispReader& reader);
+  BadGuy(BadGuyKind kind, float x, float y);
+  BadGuy(BadGuyKind kind, LispReader& reader);
   virtual ~BadGuy();
 
   virtual void write(LispWriter& writer);
 
   virtual void action(float frame_ratio);
-  virtual void draw(Camera& viewport, int layer);
+  virtual void draw(DrawingContext& context);
   virtual void collision(const MovingObject& other, int type);
 
   void collision(void* p_c_object, int c_object,

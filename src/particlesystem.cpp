@@ -26,14 +26,11 @@
 #include "level.h"
 #include "scene.h"
 #include "camera.h"
-#include "display_manager.h"
 
-ParticleSystem::ParticleSystem(DisplayManager& displaymanager)
+ParticleSystem::ParticleSystem()
 {
     virtual_width = screen->w;
     virtual_height = screen->h;
-
-    displaymanager.add_drawable(this, LAYER_BACKGROUND1);
 }
 
 ParticleSystem::~ParticleSystem()
@@ -44,39 +41,34 @@ ParticleSystem::~ParticleSystem()
     }
 }
 
-void ParticleSystem::draw(Camera& viewport, int layer)
+void ParticleSystem::draw(DrawingContext& context)
 {
+  float scrollx = context.get_translation().x;
+  float scrolly = context.get_translation().y;
+
+  context.push_transform();
+  context.set_translation(Vector(0,0));
+  
     std::vector<Particle*>::iterator i;
     for(i = particles.begin(); i != particles.end(); ++i) {
         Particle* particle = *i;
-        if(particle->layer != layer)
-            continue;
 
-        float scrollx = viewport.get_translation().x;
-        float scrolly = viewport.get_translation().y;
-        
         // remap x,y coordinates onto screencoordinates
-        float x = fmodf(particle->x - scrollx, virtual_width);
-        if(x < 0) x += virtual_width;
-        float y = fmodf(particle->y - scrolly, virtual_height);
-        if(y < 0) y += virtual_height;
-        float xmax = fmodf(x + particle->texture->w, virtual_width);
-        float ymax = fmodf(y + particle->texture->h, virtual_height);
+        Vector pos;
+        pos.x = fmodf(particle->pos.x - scrollx, virtual_width);
+        if(pos.x < 0) pos.x += virtual_width;
+        pos.y = fmodf(particle->pos.y - scrolly, virtual_height);
+        if(pos.y < 0) pos.y += virtual_height;
 
-        // particle on screen
-        if(x >= screen->w && xmax >= screen->w)
-            continue;
-        if(y >= screen->h && ymax >= screen->h)
-            continue;
-        
-        if(x > screen->w) x -= virtual_width;
-        if(y > screen->h) y -= virtual_height;
-        particle->texture->draw(x, y);
+        if(pos.x > screen->w) pos.x -= virtual_width;
+        if(pos.y > screen->h) pos.y -= virtual_height;
+        context.draw_surface(particle->texture, pos, LAYER_BACKGROUND1);
     }
+
+    context.pop_transform();
 }
 
-SnowParticleSystem::SnowParticleSystem(DisplayManager& displaymanager)
-  : ParticleSystem(displaymanager)
+SnowParticleSystem::SnowParticleSystem()
 {
     snowimages[0] = new Surface(datadir+"/images/shared/snow0.png", USE_ALPHA);
     snowimages[1] = new Surface(datadir+"/images/shared/snow1.png", USE_ALPHA);
@@ -88,9 +80,8 @@ SnowParticleSystem::SnowParticleSystem(DisplayManager& displaymanager)
     size_t snowflakecount = size_t(virtual_width/10.0);
     for(size_t i=0; i<snowflakecount; ++i) {
         SnowParticle* particle = new SnowParticle;
-        particle->x = rand() % int(virtual_width);
-        particle->y = rand() % screen->h;
-        particle->layer = LAYER_BACKGROUND1;
+        particle->pos.x = rand() % int(virtual_width);
+        particle->pos.y = rand() % screen->h;
         int snowsize = rand() % 3;
         particle->texture = snowimages[snowsize];
         do {
@@ -113,16 +104,15 @@ void SnowParticleSystem::action(float elapsed_time)
     std::vector<Particle*>::iterator i;
     for(i = particles.begin(); i != particles.end(); ++i) {
         SnowParticle* particle = (SnowParticle*) *i;
-        particle->y += particle->speed * elapsed_time;
-        if(particle->y > screen->h) {
-            particle->y = fmodf(particle->y , virtual_height);
-            particle->x = rand() % int(virtual_width);
+        particle->pos.y += particle->speed * elapsed_time;
+        if(particle->pos.y > screen->h) {
+            particle->pos.y = fmodf(particle->pos.y , virtual_height);
+            particle->pos.x = rand() % int(virtual_width);
         }
     }
 }
 
-CloudParticleSystem::CloudParticleSystem(DisplayManager& displaymanager)
-  : ParticleSystem(displaymanager)
+CloudParticleSystem::CloudParticleSystem()
 {
     cloudimage = new Surface(datadir + "/images/shared/cloud.png", USE_ALPHA);
 
@@ -131,9 +121,8 @@ CloudParticleSystem::CloudParticleSystem(DisplayManager& displaymanager)
     // create some random clouds
     for(size_t i=0; i<15; ++i) {
         CloudParticle* particle = new CloudParticle;
-        particle->x = rand() % int(virtual_width);
-        particle->y = rand() % int(virtual_height);
-        particle->layer = LAYER_BACKGROUND1;
+        particle->pos.x = rand() % int(virtual_width);
+        particle->pos.y = rand() % int(virtual_height);
         particle->texture = cloudimage;
         particle->speed = -float(250 + rand() % 200) / 1000.0;
 
@@ -151,6 +140,6 @@ void CloudParticleSystem::action(float elapsed_time)
     std::vector<Particle*>::iterator i;
     for(i = particles.begin(); i != particles.end(); ++i) {
         CloudParticle* particle = (CloudParticle*) *i;
-        particle->x += particle->speed * elapsed_time;
+        particle->pos.x += particle->speed * elapsed_time;
     }
 }

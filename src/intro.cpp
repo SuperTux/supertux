@@ -16,25 +16,14 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
-#include <iostream>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <errno.h>
-#include <unistd.h>
-#include <SDL.h>
-#include <SDL_image.h>
-
-#include "defines.h"
-#include "globals.h"
 #include "intro.h"
-#include "text.h"
-
-#include "screen.h"
+#include "globals.h"
+#include "defines.h"
+#include "screen/font.h"
+#include "screen/screen.h"
 
 void draw_intro()
 {
-display_text_file("intro.txt", "/images/background/arctis.jpg", SCROLL_SPEED_MESSAGE);
+  display_text_file("intro.txt", "/images/background/arctis.jpg", SCROLL_SPEED_MESSAGE);
 }
 

@@ -21,18 +21,23 @@
 #include <string.h>
 #include <stdlib.h>
 #include "setup.h"
-#include "screen.h"
+#include "screen/screen.h"
 #include "globals.h"
 #include "button.h"
 #include "camera.h"
 
+// TODO
+#if 0
+
 Timer Button::popup_timer;
 
-Button::Button(std::string icon_file, std::string ninfo, SDLKey nshortcut, int x, int y, int mw, int mh)
+Button::Button(Surface* button_image, const std::string& ninfo,
+    SDLKey nshortcut, int x, int y, int mw, int mh)
 {
   popup_timer.init(false);
 
-  add_icon(icon_file,mw,mh);
+  if(button_image)
+    icon.push_back(button_image);
 
   info = ninfo;
 
@@ -48,7 +53,28 @@ Button::Button(std::string icon_file, std::string ninfo, SDLKey nshortcut, int x
   drawable = NULL;
 }
 
-void Button::add_icon(std::string icon_file, int mw, int mh)
+Button::Button(const std::string& imagefilename, const std::string& ninfo,
+    SDLKey nshortcut, int x, int y, int mw, int mh)
+{
+  popup_timer.init(false);
+
+  add_icon(imagefilename, mw, mh);
+  
+  info = ninfo;
+
+  shortcut = nshortcut;
+
+  rect.x = x;
+  rect.y = y;
+  rect.w = icon[0]->w;
+  rect.h = icon[0]->h;
+  tag = -1;
+  state = BUTTON_NONE;
+  show_info = false;
+  drawable = NULL;
+}
+
+void Button::add_icon(const std::string& icon_file, int mw, int mh)
 {
   char filename[1024];
 
@@ -300,5 +326,6 @@ void ButtonPanel::highlight_last(bool b)
 {
   hlast = b;
 }
+#endif
 
 

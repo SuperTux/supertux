@@ -20,15 +20,16 @@
 
 #include "globals.h"
 #include "camera.h"
-#include "display_manager.h"
+#include "screen/drawing_context.h"
 
-Background::Background(DisplayManager& displaymanager)
+Background::Background()
+  : type(INVALID), image(0)
 {
-  displaymanager.add_drawable(this, LAYER_BACKGROUND0);
 }
 
 Background::~Background()
 {
+  delete image;
 }
 
 void
@@ -37,34 +38,39 @@ Background::action(float)
 }
 
 void
-Background::set_image(Surface* image, float speed)
+Background::set_image(const std::string& name, float speed)
 {
-  bgtype = BACKGROUND_IMAGE;
-  this->image = image;
+  type = IMAGE;
   this->speed = speed;
+
+  delete image;
+  image = new Surface(datadir + "/images/background/" + name, IGNORE_ALPHA);
 }
 
 void
 Background::set_gradient(Color top, Color bottom)
 {
-  bgtype = BACKGROUND_GRADIENT;
+  type = GRADIENT;
   gradient_top = top;
   gradient_bottom = bottom;
 }
 
 void
-Background::draw(Camera& viewport, int )
+Background::draw(DrawingContext& context)
 {
-  if(bgtype == BACKGROUND_GRADIENT) {
-    drawgradient(gradient_top, gradient_bottom);
-  } else if(bgtype == BACKGROUND_IMAGE) {
-    int sx = int(-viewport.get_translation().x * float(speed/100.))
+  if(type == GRADIENT) {
+    context.draw_gradient(gradient_top, gradient_bottom, LAYER_BACKGROUND0);
+  } else if(type == IMAGE) {
+    int sx = int(-context.get_translation().x * float(speed/100.))
       % image->w - image->w;
-    int sy = int(-viewport.get_translation().y * float(speed/100.))
+    int sy = int(-context.get_translation().y * float(speed/100.))
       % image->h - image->h;
+    context.push_transform();
+    context.set_translation(Vector(0, 0));
     for(int x = sx; x < screen->w; x += image->w)
       for(int y = sy; y < screen->h; y += image->h)
-        image->draw(x, y);
+        context.draw_surface(image, Vector(x, y), LAYER_BACKGROUND0);
+    context.pop_transform();
   }
 }
 

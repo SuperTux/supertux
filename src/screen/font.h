@@ -34,44 +34,29 @@ enum {
    TEXT_NUM
 };
 
-enum TextHAlign {
-   A_LEFT,
-   A_HMIDDLE,
-   A_RIGHT,
-};
-
-enum TextVAlign {
-   A_TOP,
-   A_VMIDDLE,
-   A_BOTTOM,
-};
-
 /* Text type */
-class Text
+class Font
 {
- public:
+public:
   Surface* chars;
   Surface* shadow_chars;
   int kind;
   int w;
   int h;
- public:
-  Text(const std::string& file, int kind, int w, int h);
-  ~Text();
+  int shadowsize;
+public:
+  Font(const std::string& file, int kind, int w, int h, int shadowsize = 2);
+  ~Font();
 
-  void draw(const char* text, int x, int y, int shadowsize = 1, int update = NO_UPDATE);
-  void draw_chars(Surface* pchars, const char* text, int x, int y, int update = NO_UPDATE);
-  void drawf(const char* text, int x, int y, TextHAlign halign, TextVAlign valign, int shadowsize, int update = NO_UPDATE);
-  void draw_align(const char* text, int x, int y, TextHAlign halign, TextVAlign valign, int shadowsize = 1, int update = NO_UPDATE);
-  void erasetext(const char * text, int x, int y, Surface* surf, int update, int shadowsize);
-  void erasecenteredtext(const char * text, int y, Surface* surf, int update, int shadowsize);
+  float get_height() const;
+  float get_text_width(const std::string& text) const;
 
-  /// conveniance function
-  void draw(const char* text, const Vector& pos, int shadowsize = 1, int update
-      = NO_UPDATE)
-  {
-    draw(text, int(pos.x), int(pos.y), shadowsize, update);
-  }
+private:
+  friend class DrawingContext;
+  
+  void draw(const std::string& text, const Vector& pos);
+  void draw_chars(Surface* pchars, const std::string& text, 
+      const Vector& position);
 };
 
 #endif /*SUPERTUX_TEXT_H*/

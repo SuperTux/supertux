@@ -21,8 +21,7 @@
 #define SUPERTUX_PARTICLESYSTEM_H
 
 #include <vector>
-#include "texture.h"
-#include "drawable.h"
+#include "screen/texture.h"
 #include "game_object.h"
 
 class DisplayManager;
@@ -42,13 +41,13 @@ class DisplayManager;
  * initialize particles in the constructor and move them in the simulate
  * function.
  */
-class ParticleSystem : public GameObject, public Drawable
+class ParticleSystem : public GameObject
 {
 public:
-    ParticleSystem(DisplayManager& displaymanager);
+    ParticleSystem();
     virtual ~ParticleSystem();
     
-    virtual void draw(Camera& view, int layer);
+    virtual void draw(DrawingContext& context);
 
 protected:
     class Particle
@@ -57,8 +56,7 @@ protected:
         virtual ~Particle()
         { }
 
-        float x, y;
-        int layer;
+        Vector pos;
         Surface* texture;
     };
     
@@ -69,7 +67,7 @@ protected:
 class SnowParticleSystem : public ParticleSystem
 {
 public:
-    SnowParticleSystem(DisplayManager& displaymanager);
+    SnowParticleSystem();
     virtual ~SnowParticleSystem();
 
     virtual void action(float elapsed_time);
@@ -90,7 +88,7 @@ private:
 class CloudParticleSystem : public ParticleSystem
 {
 public:
-    CloudParticleSystem(DisplayManager& displaymanager);
+    CloudParticleSystem();
     virtual ~CloudParticleSystem();
 
     virtual void action(float elapsed_time);

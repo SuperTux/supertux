@@ -36,6 +36,7 @@ SDL_Surface* sdl_surface_from_sdl_surface(SDL_Surface* sdl_surf, int use_alpha);
 class SurfaceImpl;
 class SurfaceSDL;
 class SurfaceOpenGL;
+class DrawingContext;
 
 /** This class holds all the data necessary to construct a surface */
 class SurfaceData 
@@ -82,23 +83,10 @@ public:
   Surface(const std::string& file, int x, int y, int w, int h, int use_alpha);
   ~Surface();
   
-  /** Captures the screen and returns it as Surface*, the user is expected to call the destructor. */
-  static Surface* CaptureScreen();
-  
   /** Reload the surface, which is necesarry in case of a mode swich */
   void reload();
 
-  void draw(float x, float y, Uint8 alpha = 255, bool upside_down = false, bool update = false);
-  void draw_bg(Uint8 alpha = 255, bool update = false);
-  void draw_part(float sx, float sy, float x, float y, float w, float h,  Uint8 alpha = 255, bool update = false);
-  void draw_stretched(float x, float y, int w, int h, Uint8 alpha, bool update = false);
-  void resize(int w_, int h_);
-
-  /// conveniance function
-  void draw(const Vector& pos, Uint8 alpha = 255, bool upside_down = false, bool update = false)
-  {
-    draw(pos.x, pos.y, alpha, upside_down, update);
-  }
+  void resize(int widht, int height);
 };
 
 /** Surface implementation, all implementation have to inherit from
@@ -117,10 +105,11 @@ public:
   virtual ~SurfaceImpl();
   
   /** Return 0 on success, -2 if surface needs to be reloaded */
-  virtual int draw(float x, float y, Uint8 alpha, bool upside_down, bool update) = 0;
-  virtual int draw_bg(Uint8 alpha, bool update) = 0;
-  virtual int draw_part(float sx, float sy, float x, float y, float w, float h,  Uint8 alpha, bool update) = 0;
+  virtual int draw(float x, float y, Uint8 alpha) = 0;
+  virtual int draw_part(float sx, float sy, float x, float y, float w, float h,  Uint8 alpha) = 0;
+#if 0
   virtual int draw_stretched(float x, float y, int w, int h, Uint8 alpha, bool update) = 0;
+#endif
   int resize(int w_, int h_);
 
   SDL_Surface* get_sdl_surface() const; // @evil@ try to avoid this function
@@ -134,10 +123,11 @@ public:
   SurfaceSDL(const std::string& file, int x, int y, int w, int h, int use_alpha);
   virtual ~SurfaceSDL();
 
-  int draw(float x, float y, Uint8 alpha, bool upside_down, bool update);
-  int draw_bg(Uint8 alpha, bool update);
-  int draw_part(float sx, float sy, float x, float y, float w, float h,  Uint8 alpha, bool update);
-  int draw_stretched(float x, float y, int w, int h, Uint8 alpha, bool update);
+  int draw(float x, float y, Uint8 alpha);
+  int draw_part(float sx, float sy, float x, float y, float w, float h,  Uint8 alpha);
+#if 0
+  int draw_stretched(float x, float y, int w, int h, Uint8 alpha);
+#endif
 };
 
 #ifndef NOOPENGL
@@ -152,10 +142,11 @@ public:
   SurfaceOpenGL(const std::string& file, int x, int y, int w, int h, int use_alpha);
   virtual ~SurfaceOpenGL();
 
-  int draw(float x, float y, Uint8 alpha, bool upside_down, bool update);
-  int draw_bg(Uint8 alpha, bool update);
-  int draw_part(float sx, float sy, float x, float y, float w, float h,  Uint8 alpha, bool update);
-  int draw_stretched(float x, float y, int w, int h, Uint8 alpha, bool update);
+  int draw(float x, float y, Uint8 alpha);
+  int draw_part(float sx, float sy, float x, float y, float w, float h,  Uint8 alpha);
+#if 0
+  int draw_stretched(float x, float y, int w, int h, Uint8 alpha);
+#endif
 
 private:
   void create_gl(SDL_Surface * surf, GLuint * tex);

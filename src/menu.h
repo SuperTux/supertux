@@ -22,7 +22,7 @@
 
 #include <SDL.h>
 #include <vector>
-#include "texture.h"
+#include "screen/texture.h"
 #include "timer.h"
 #include "type.h"
 #include "mousecursor.h"
@@ -213,8 +213,9 @@ public:
   void Menu::get_controlfield_key_into_input(MenuItem *item);
   void Menu::get_controlfield_js_into_input(MenuItem *item);
 
-  void draw   ();
-  void draw_item(int index, int menu_width, int menu_height);
+  void draw(DrawingContext& context);
+  void draw_item(DrawingContext& context,
+      int index, int menu_width, int menu_height);
   void set_pos(int x, int y, float rw = 0, float rh = 0);
 
   /** translate a SDL_Event into a menu_action */

@@ -59,7 +59,7 @@ bool collision_object_map(const base_type& base)
   for(int x = starttilex; x*32 < max_x; ++x) {
     for(int y = starttiley; y*32 < max_y; ++y) {
       Tile* tile = tilemanager.get(level.get_tile_at(x, y));
-      if(tile && tile->solid)
+      if(tile && (tile->attributes & Tile::SOLID))
         return true;
     }
   }
@@ -91,7 +91,7 @@ void* collision_func(const base_type& base, tiletestfunction function)
 
 static void* test_goal_tile_function(Tile* tile)
 {
-  if(tile && tile->goal)
+  if(tile && (tile->attributes & Tile::GOAL))
     return tile;
   return 0;
 }
@@ -248,44 +248,37 @@ Tile* gettile(float x, float y)
 bool issolid(float x, float y)
 {
   Tile* tile = gettile(x,y);
-  return tile && tile->solid;
+  return tile && (tile->attributes & Tile::SOLID);
 }
-
-bool isunisolid(float x, float y)
-{
-    Tile* tile = gettile(x,y);
-    return tile && tile->unisolid;
-}
-
 
 bool isbrick(float x, float y)
 {
   Tile* tile = gettile(x,y);
-  return tile && tile->brick;
+  return tile && (tile->attributes & Tile::BRICK);
 }
 
 bool isice(float x, float y)
 {
   Tile* tile = gettile(x,y);
-  return tile && tile->ice;
+  return tile && (tile->attributes & Tile::ICE);
 }
 
 bool isspike(float x, float y)
 {
   Tile* tile = gettile(x,y);
-  return tile && tile->spike;
+  return tile && (tile->attributes & Tile::SPIKE);
 }
 
 bool isfullbox(float x, float y)
 {
   Tile* tile = gettile(x,y);
-  return tile && tile->fullbox;
+  return tile && (tile->attributes & Tile::FULLBOX);
 }
 
-bool isdistro(float x, float y)
+bool iscoin(float x, float y)
 {
   Tile* tile = gettile(x,y);
-  return tile && tile->distro;
+  return tile && (tile->attributes & Tile::COIN);
 }
 
 /* EOF */

@@ -22,8 +22,10 @@
 #define SUPERTUX_BUTTON_H
 
 #include <vector>
-#include "texture.h"
-#include "drawable.h"
+#include "screen/texture.h"
+
+// TODO
+#if 0
 
 enum ButtonState {
   BUTTON_NONE = -1,
@@ -42,13 +44,17 @@ class Button
   friend class ButtonPanel;
 
 public:
-  Button(std::string icon_file, std::string info, SDLKey shortcut, int x, int y, int mw = -1, int h = -1);
+  Button(Surface* icon_file, const std::string& info, SDLKey shortcut,
+      int x, int y, int mw = -1, int h = -1);
+  Button(const std::string& icon_name, const std::string& info, SDLKey shortcut,
+      int x, int y, int mw = -1, int h = -1);
+  
   ~Button();
   void event(SDL_Event& event);
   void draw();
   int get_state();
   void set_active(bool active) { active ? state = BUTTON_NONE : state = BUTTON_DEACTIVE; };
-  void add_icon(std::string icon_file, int mw, int mh);
+  void add_icon(const std::string& imagefile, int mw, int mh);
   SDL_Rect get_pos() { return rect; }
   int get_tag(){return tag; }
   void set_drawable(Drawable* newdrawable)
@@ -89,5 +95,6 @@ private:
   std::vector<Button*> item;
   std::vector<Button*>::iterator last_clicked;
 };
+#endif
 
 #endif /*SUPERTUX_BUTTON_H*/

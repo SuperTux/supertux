@@ -32,10 +32,10 @@
 #include "title.h"
 #include "gameloop.h"
 #include "leveleditor.h"
-#include "screen.h"
+#include "screen/screen.h"
 #include "worldmap.h"
 #include "resources.h"
-#include "texture.h"
+#include "screen/texture.h"
 #include "tile.h"
 
 int main(int argc, char * argv[])
@@ -53,7 +53,8 @@ int main(int argc, char * argv[])
 
     if (launch_leveleditor_mode && level_startup_file)
     {
-    leveleditor(level_startup_file);
+      // TODO
+      // leveleditor(level_startup_file);
     }
     else if (level_startup_file)
     {
@@ -65,8 +66,8 @@ int main(int argc, char * argv[])
       title();
     }
 
-    clearscreen(0, 0, 0);
-    updatescreen();
+    SDL_FillRect(screen, 0, 0);
+    SDL_Flip(screen);
 
     unloadshared();
     st_general_free();

@@ -22,11 +22,9 @@
 #define SUPERTUX_LEVEL_H
 
 #include <string>
-#include "texture.h"
-#include "badguy.h"
+#include "screen/texture.h"
 #include "lispreader.h"
 #include "musicref.h"
-#include "gameobjs.h"
 
 class Tile;
 class World;
@@ -34,33 +32,32 @@ class World;
 /** This type holds meta-information about a level-subset. 
     It could be extended to handle manipulation of subsets. */
 class LevelSubset
-  {
-  public:
-    LevelSubset();
-    ~LevelSubset();
+{
+public:
+  LevelSubset();
+  ~LevelSubset();
 
-    static void create(const std::string& subset_name);
-    void load(char *subset);
-    void save();
+  static void create(const std::string& subset_name);
+  void load(char *subset);
+  void save();
 
-    std::string name;
-    std::string title;
-    std::string description;
-    Surface* image;
-    int levels;
+  std::string name;
+  std::string title;
+  std::string description;
+  Surface* image;
+  int levels;
  
-  private:
-    void parse(lisp_object_t* cursor);
-  };
+private:
+  void parse(lisp_object_t* cursor);
+};
 
 #define LEVEL_NAME_MAX 20
-
 
 enum TileMapType {
  TM_BG,
  TM_IA,
  TM_FG
- };
+};
 
 struct ResetPoint
 {
@@ -70,7 +67,7 @@ struct ResetPoint
 
 class Level 
 {
- public:
+public:
   Surface* img_bkgd;
   MusicRef level_song;
   MusicRef level_song_fast;
@@ -81,17 +78,11 @@ class Level
   std::string bkgd_image;
   std::string particle_system;
   std::vector<unsigned int> bg_tiles; /* Tiles in the background */
-  std::vector<unsigned int> ia_tiles; /* Tiles which can interact in the game (solids for example)*/
+  std::vector<unsigned int> ia_tiles; /* solid Tiles in the game */
   std::vector<unsigned int> fg_tiles; /* Tiles in the foreground */
-//  std::vector<unsigned int> bg_tiles[15]; /* Tiles in the background */
-//  std::vector<unsigned int> ia_tiles[15]; /* Tiles which can interact in the game (solids for example)*/
-//  std::vector<unsigned int> fg_tiles[15]; /* Tiles in the foreground */
   int time_left;
-  Color bkgd_top;
-  Color bkgd_bottom;
   int width;
   int height;
-  int bkgd_speed;
   Vector start_pos;
   float gravity;
 
@@ -121,8 +112,6 @@ class Level
    */
   int  load(const std::string& filename, World* world);
 
-  void load_gfx();
-  
   void load_song();
   void free_song();
   MusicRef get_level_music();

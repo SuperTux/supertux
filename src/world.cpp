@@ -26,7 +26,7 @@
 #include <string.h>
 #include "globals.h"
 #include "scene.h"
-#include "screen.h"
+#include "screen/screen.h"
 #include "defines.h"
 #include "world.h"
 #include "level.h"
@@ -34,7 +34,6 @@
 #include "resources.h"
 #include "gameobjs.h"
 #include "camera.h"
-#include "display_manager.h"
 #include "background.h"
 #include "tilemap.h"
 
@@ -49,10 +48,10 @@ World::World(const std::string& filename, int level_nr)
   // world calls child functions
   current_ = this;
 
-  tux = new Player(displaymanager);
+  tux = new Player;
   add_object(tux);
   
-  level = new Level();
+  level = new Level;
   camera = new Camera(tux, level);
   add_object(camera);                 
 
@@ -65,19 +64,11 @@ World::World(const std::string& filename, int level_nr)
   
   set_defaults();
 
-  level->load_gfx();
   // add background
   activate_particle_systems();
-  background = new Background(displaymanager);
-  if(level->img_bkgd) {
-    background->set_image(level->img_bkgd, level->bkgd_speed);
-  } else {
-    background->set_gradient(level->bkgd_top, level->bkgd_bottom);
-  }
-  add_object(background);
 
   // add tilemap
-  add_object(new TileMap(displaymanager, level));
+  add_object(new TileMap(level));
   level->load_song();
 
   apply_bonuses();
@@ -145,6 +136,9 @@ World::add_object(GameObject* object)
   FlyingPlatform* flying_platform = dynamic_cast<FlyingPlatform*> (object);
   if(flying_platform)
     flying_platforms.push_back(flying_platform);
+  Background* background = dynamic_cast<Background*> (object);
+  if(background)
+    this->background = background;
 
   gameobjects.push_back(object);
 }
@@ -159,14 +153,14 @@ World::parse_objects(lisp_object_t* cur)
     LispReader reader(lisp_cdr(data));
 
     if(object_type == "trampoline") {
-      add_object(new Trampoline(displaymanager, reader));
+      add_object(new Trampoline(reader));
     }
     else if(object_type == "flying-platform") {
-      add_object(new FlyingPlatform(displaymanager, reader));
+      add_object(new FlyingPlatform(reader));
     }
     else {
       BadGuyKind kind = badguykind_from_string(object_type);
-      add_object(new BadGuy(displaymanager, kind, reader));
+      add_object(new BadGuy(kind, reader));
     }
       
     cur = lisp_cdr(cur);
@@ -178,11 +172,11 @@ World::activate_particle_systems()
 {
   if (level->particle_system == "clouds")
     {
-      add_object(new CloudParticleSystem(displaymanager));
+      add_object(new CloudParticleSystem);
     }
   else if (level->particle_system == "snow")
     {
-      add_object(new SnowParticleSystem(displaymanager));
+      add_object(new SnowParticleSystem);
     }
   else if (level->particle_system != "")
     {
@@ -194,13 +188,16 @@ void
 World::draw()
 {
   /* Draw objects */
-  displaymanager.draw(*camera);
+  for(std::vector<GameObject*>::iterator i = gameobjects.begin();
+      i != gameobjects.end(); ++i)
+    if((*i)->is_valid())
+      (*i)->draw(context);
 }
 
 void
 World::action(float elapsed_time)
 {
-  tux->check_bounds(*camera);
+  tux->check_bounds(context);
     
   /* update objects (don't use iterators here, because the list might change
    * during the iteration)
@@ -216,9 +213,6 @@ World::action(float elapsed_time)
   for(std::vector<GameObject*>::iterator i = gameobjects.begin();
       i != gameobjects.end(); /* nothing */) {
     if((*i)->is_valid() == false) {
-      Drawable* drawable = dynamic_cast<Drawable*> (*i);
-      if(drawable)
-        displaymanager.remove_drawable(drawable);
       BadGuy* badguy = dynamic_cast<BadGuy*> (*i);
       if(badguy) {
         bad_guys.erase(std::remove(bad_guys.begin(), bad_guys.end(), badguy),
@@ -383,13 +377,13 @@ World::add_score(const Vector& pos, int s)
 {
   player_status.score += s;
 
-  add_object(new FloatingScore(displaymanager, pos, s));
+  add_object(new FloatingScore(pos, s));
 }
 
 void
 World::add_bouncy_distro(const Vector& pos)
 {
-  add_object(new BouncyDistro(displaymanager, pos));
+  add_object(new BouncyDistro(pos));
 }
 
 void
@@ -406,19 +400,19 @@ void
 World::add_broken_brick_piece(const Vector& pos, const Vector& movement,
     Tile* tile)
 {
-  add_object(new BrokenBrick(displaymanager, tile, pos, movement));
+  add_object(new BrokenBrick(tile, pos, movement));
 }
 
 void
 World::add_bouncy_brick(const Vector& pos)
 {
-  add_object(new BouncyBrick(displaymanager, pos));
+  add_object(new BouncyBrick(pos));
 }
 
 BadGuy*
 World::add_bad_guy(float x, float y, BadGuyKind kind)
 {
-  BadGuy* badguy = new BadGuy(displaymanager, kind, x, y);
+  BadGuy* badguy = new BadGuy(kind, x, y);
   add_object(badguy);
   return badguy;
 }
@@ -426,7 +420,7 @@ World::add_bad_guy(float x, float y, BadGuyKind kind)
 void
 World::add_upgrade(const Vector& pos, Direction dir, UpgradeKind kind)
 {
-  add_object(new Upgrade(displaymanager, pos, dir, kind));
+  add_object(new Upgrade(pos, dir, kind));
 }
 
 bool
@@ -445,9 +439,9 @@ World::add_bullet(const Vector& pos, float xm, Direction dir)
 
   Bullet* new_bullet = 0;
   if(tux->got_power == Player::FIRE_POWER)
-    new_bullet = new Bullet(displaymanager, pos, xm, dir, FIRE_BULLET);
+    new_bullet = new Bullet(pos, xm, dir, FIRE_BULLET);
   else if(tux->got_power == Player::ICE_POWER)
-    new_bullet = new Bullet(displaymanager, pos, xm, dir, ICE_BULLET);
+    new_bullet = new Bullet(pos, xm, dir, ICE_BULLET);
   else
     st_abort("wrong bullet type.", "");
   add_object(new_bullet);
@@ -490,7 +484,7 @@ World::trybreakbrick(float x, float y, bool small)
   Level* plevel = get_level();
   
   Tile* tile = gettile(x, y);
-  if (tile->brick)
+  if (tile->attributes & Tile::BRICK)
     {
       if (tile->data > 0)
         {
@@ -546,7 +540,7 @@ void
 World::tryemptybox(float x, float y, Direction col_side)
 {
   Tile* tile = gettile(x,y);
-  if (!tile->fullbox)
+  if (!(tile->attributes & Tile::FULLBOX))
     return;
 
   // according to the collision side, set the upgrade direction
@@ -602,7 +596,7 @@ void
 World::trygrabdistro(float x, float y, int bounciness)
 {
   Tile* tile = gettile(x, y);
-  if (tile && tile->distro)
+  if (tile && (tile->attributes & Tile::COIN))
     {
       level->change(x, y, TM_IA, tile->next_tile);
       play_sound(sounds[SND_DISTRO], SOUND_CENTER_SPEAKER);

@@ -26,16 +26,13 @@
 #include "globals.h"
 #include "defines.h"
 #include "badguy.h"
-#include "scene.h"
-#include "screen.h"
-#include "world.h"
 #include "tile.h"
 #include "resources.h"
 #include "sprite_manager.h"
-#include "gameloop.h"
-#include "display_manager.h"
-#include "lispwriter.h"
+#include "world.h"
 #include "camera.h"
+#include "lispwriter.h"
+#include "level.h"
 
 Sprite* img_mriceblock_flat_left;
 Sprite* img_mriceblock_flat_right;
@@ -158,12 +155,9 @@ std::string badguykind_to_string(BadGuyKind kind)
     }
 }
 
-BadGuy::BadGuy(DisplayManager& display_manager, BadGuyKind kind_,
-    LispReader& lispreader)
+BadGuy::BadGuy(BadGuyKind kind_, LispReader& lispreader)
   : removable(false), squishcount(0)
 {
-  display_manager.add_drawable(this, LAYER_OBJECTS);
-
   lispreader.read_float("x", &start_position.x);
   lispreader.read_float("y", &start_position.y);
 
@@ -175,11 +169,9 @@ BadGuy::BadGuy(DisplayManager& display_manager, BadGuyKind kind_,
   init();
 }
 
-BadGuy::BadGuy(DisplayManager& display_manager, BadGuyKind kind_,
-    float x, float y)
+BadGuy::BadGuy(BadGuyKind kind_, float x, float y)
+  : removable(false), squishcount(0)
 {
-  display_manager.add_drawable(this, LAYER_OBJECTS);
-
   start_position.x = x;
   start_position.y = y;
   stay_on_platform = false;
@@ -662,8 +654,9 @@ BadGuy::action_fish(double elapsed_time)
   static const int WAITTIME = 1000;
     
   // go in wait mode when back in water
-  if(dying == DYING_NOT && gettile(base.x, base.y+ base.height)->water
-        && physic.get_velocity_y() <= 0 && mode == NORMAL)
+  if(dying == DYING_NOT 
+      && gettile(base.x, base.y+ base.height)->attributes & Tile::WATER
+      && physic.get_velocity_y() <= 0 && mode == NORMAL)
     {
       mode = FISH_WAIT;
       set_sprite(0, 0);
@@ -866,7 +859,6 @@ BadGuy::action_walkingtree(double elapsed_time)
     remove_me();
 }
 
-
 void
 BadGuy::action(float elapsed_time)
 {
@@ -981,27 +973,24 @@ BadGuy::action(float elapsed_time)
 }
 
 void
-BadGuy::draw(Camera& viewport, int)
+BadGuy::draw(DrawingContext& context)
 {
-  float scroll_x = viewport.get_translation().x;
-  float scroll_y = viewport.get_translation().y;
-
-  // Don't try to draw stuff that is outside of the screen
-  if(base.x <= scroll_x - base.width || base.x >= scroll_x + screen->w)
+  Sprite* sprite = (dir == LEFT) ? sprite_left : sprite_right;
+  if(sprite == 0)
     return;
-  
-  if(sprite_left == 0 || sprite_right == 0)
-    {
-      return;
-    }
 
+  sprite->draw(context, Vector(base.x, base.y), LAYER_OBJECTS);
+#if 0
   Sprite* sprite = (dir == LEFT) ? sprite_left : sprite_right;
   if(dying == DYING_FALLING && physic.get_velocity_y() < 0)
     sprite->draw(viewport.world2screen(Vector(base.x, base.y)), SD_VERTICAL_FLIP);
   else
     sprite->draw(viewport.world2screen(Vector(base.x, base.y)));
+#endif
 
-  if (debug_mode)
+  float scroll_x = context.get_translation().x;
+  float scroll_y = context.get_translation().y;
+  if(debug_mode)
     fillrect(base.x - scroll_x, base.y - scroll_y, base.width, base.height, 75,0,75, 150);
 }
 

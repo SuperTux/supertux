@@ -23,7 +23,7 @@
 #include <string>
 #include <vector>
 #include "lispreader.h"
-#include "texture.h"
+#include "screen/texture.h"
 #include "vector.h"
 
 enum SpecialDrawing { SD_NONE, SD_VERTICAL_FLIP, SD_SEMI_TRANSPARENT };
@@ -58,15 +58,12 @@ class Sprite
 
   /** Update the sprite and process to the next frame */
   void update(float delta);
-  void draw(float x, float y, int special_drawing = SD_NONE);
-  void draw_part(float sx, float sy, float x, float y, float w, float h);
+  void draw(DrawingContext& context, const Vector& pos, int layer,
+      int special_drawing = SD_NONE);
   int get_current_frame() const;
 
   float get_fps() { return fps; } ;
   int get_frames() { return surfaces.size(); } ;
-
-  void draw(const Vector& pos, int special_drawing = SD_NONE)
-  { draw(pos.x, pos.y, special_drawing); }
 
   std::string get_name() const { return name; } 
   int get_width() const;

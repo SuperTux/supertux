@@ -29,11 +29,13 @@
 #include "special.h"
 #include "badguy.h"
 #include "particlesystem.h"
-#include "gameobjs.h"
-#include "display_manager.h"
+#include "screen/drawing_context.h"
 
+class Camera;
 class Level;
 class Background;
+class Trampoline;
+class FlyingPlatform;
 
 /** The World class holds a level and all the game objects (badguys,
     bouncy distros, etc) that are needed to run a game. */
@@ -63,7 +65,7 @@ public:
   std::vector<GameObject*> gameobjects;
 
   Camera* camera;
-  DisplayManager displaymanager;
+  DrawingContext context;
 
 public:
   static World* current()

@@ -35,27 +35,20 @@ public:
   Camera(Player* player = 0, Level* level = 0);
   virtual ~Camera();
 
-  /** transforms a coordinate in world space to screen space.
-   * Basically you have to apply this function to each coordinate that you want
-   * to display on screen.
-   */
-  Vector world2screen(const Vector& worldpos) const
-  {
-    return worldpos - translation;                   
-  }                                                  
-
   /// parse camera mode from lisp file
   void read(LispReader& reader);
   /// write camera mode to a lisp file
   virtual void write(LispWriter& writer);
 
-  /** returns the current translation (=scroll) vector of the viewport */
-  const Vector& get_translation() const
-  { return translation; }
-  /** set the curren translation vector of the viewport */
-  void set_translation(const Vector& translation);
+  /** @deprecated@ */
+  const Vector& get_translation() const;
 
   virtual void action(float elapsed_time);
+
+  virtual void draw(DrawingContext& context)
+  {
+    (void) context;
+  }
 
   enum CameraMode
   {

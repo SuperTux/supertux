@@ -39,7 +39,7 @@
 #include "defines.h"
 #include "globals.h"
 #include "gameloop.h"
-#include "screen.h"
+#include "screen/screen.h"
 #include "setup.h"
 #include "high_scores.h"
 #include "menu.h"
@@ -147,20 +147,19 @@ GameSession::levelintro(void)
   
   char str[60];
 
-  Camera dummy;
-  world->background->draw(dummy, LAYER_BACKGROUND0);
+  DrawingContext context;
+  world->background->draw(context);
 
   sprintf(str, "%s", world->get_level()->name.c_str());
-  gold_text->drawf(str, 0, 220, A_HMIDDLE, A_TOP, 1);
+  context.draw_text_center(gold_text, str, Vector(0, 220), 0);
 
   sprintf(str, "TUX x %d", player_status.lives);
-  white_text->drawf(str, 0, 240, A_HMIDDLE, A_TOP, 1);
+  context.draw_text_center(white_text, str, Vector(0, 240), 0);
   
   sprintf(str, "by %s", world->get_level()->author.c_str());
-  white_small_text->drawf(str, 0, 400, A_HMIDDLE, A_TOP, 1);
-  
+  context.draw_text_center(white_small_text, str, Vector(0, 400), 0);
 
-  flipscreen();
+  context.do_drawing();
 
   SDL_Event event;
   wait_for_event(event,1000,3000,true);
@@ -492,27 +491,37 @@ GameSession::action(double frame_ratio)
 void 
 GameSession::draw()
 {
+  DrawingContext& context = world->context;
+  
   world->draw();
-  drawstatus();
+  drawstatus(context);
 
   if(game_pause)
     {
       int x = screen->h / 20;
       for(int i = 0; i < x; ++i)
         {
-          fillrect(i % 2 ? (pause_menu_frame * i)%screen->w : -((pause_menu_frame * i)%screen->w) ,(i*20+pause_menu_frame)%screen->h,screen->w,10,20,20,20, rand() % 20 + 1);
+          context.draw_filled_rect(
+              Vector(i % 2 ? (pause_menu_frame * i)%screen->w :
+                -((pause_menu_frame * i)%screen->w)
+                ,(i*20+pause_menu_frame)%screen->h),
+              Vector(screen->w,10),
+              Color(20,20,20, rand() % 20 + 1), LAYER_FOREGROUND1+1);
         }
-      fillrect(0,0,screen->w,screen->h,rand() % 50, rand() % 50, rand() % 50, 128);
-      blue_text->drawf("PAUSE - Press 'P' To Play", 0, 230, A_HMIDDLE, A_TOP, 1);
+      context.draw_filled_rect(
+          Vector(0,0), Vector(screen->w, screen->h),
+          Color(rand() % 50, rand() % 50, rand() % 50, 128), LAYER_FOREGROUND1);
+      world->context.draw_text_center(blue_text, "PAUSE - Press 'P' To Play",
+          Vector(0, 230), LAYER_FOREGROUND1+2);
     }
 
   if(Menu::current())
     {
-      Menu::current()->draw();
-      mouse_cursor->draw();
+      Menu::current()->draw(context);
+      mouse_cursor->draw(context);
     }
 
-  updatescreen();
+  context.do_drawing();
 }
 
 void
@@ -668,50 +677,68 @@ void bumpbrick(float x, float y)
 
 /* (Status): */
 void
-GameSession::drawstatus()
+GameSession::drawstatus(DrawingContext& context)
 {
+  context.push_transform();
+  context.set_translation(Vector(0, 0));
+  
   char str[60];
-
+  
   snprintf(str, 60, "%d", player_status.score);
-  white_text->draw("SCORE", 0, 0, 1);
-  gold_text->draw(str, 96, 0, 1);
+  context.draw_text(white_text, "SCORE", Vector(0, 0), LAYER_FOREGROUND1);
+  context.draw_text(gold_text, str, Vector(96, 0), LAYER_FOREGROUND1);
 
   if(st_gl_mode == ST_GL_TEST)
     {
-      white_text->draw("Press ESC To Return",0,20,1);
+      context.draw_text(white_text, "Press ESC To Return", Vector(0,20),
+          LAYER_FOREGROUND1);
     }
 
   if(!time_left.check()) {
-    white_text->draw("TIME'S UP", screen->w/2 - white_text->w*8, 0, 1);
+    context.draw_text_center(white_text, "TIME's UP", Vector(0, 0),
+        LAYER_FOREGROUND1);
   } else if (time_left.get_left() > TIME_WARNING || (global_frame_counter % 10) < 5) {
     sprintf(str, "%d", time_left.get_left() / 1000 );
-    white_text->draw("TIME", screen->w/2 - white_text->w*4, 0, 1);
-    gold_text->draw(str, screen->w/2 + gold_text->w, 0, 1);
+    context.draw_text_center(white_text, "TIME",
+        Vector(0, 0), LAYER_FOREGROUND1);
+    context.draw_text_center(gold_text, str,
+        Vector(4*16, 0), LAYER_FOREGROUND1);
   }
 
   sprintf(str, "%d", player_status.distros);
-  white_text->draw("COINS", screen->w - white_text->w*9, 0, 1);
-  gold_text->draw(str, screen->w - gold_text->w*2, 0, 1);
+  context.draw_text(white_text, "COINS",
+      Vector(screen->w - white_text->w*9, 0), LAYER_FOREGROUND1);
+  context.draw_text(gold_text, str,
+      Vector(screen->w - gold_text->w*2, 0), LAYER_FOREGROUND1);
 
-  white_text->draw("LIVES", screen->w - white_text->w*9, 20);
+  context.draw_text(white_text, "LIVES",
+      Vector(screen->w - white_text->w*9, 20), LAYER_FOREGROUND1);
   if (player_status.lives >= 5)
     {
       sprintf(str, "%dx", player_status.lives);
-      gold_text->draw_align(str, screen->w - gold_text->w, 20, A_RIGHT, A_TOP);
-      tux_life->draw(screen->w - gold_text->w, 20);
+      float x = screen->w - gold_text->get_text_width(str) - tux_life->w;
+      context.draw_text(gold_text, str, Vector(x, 20), LAYER_FOREGROUND1);
+      context.draw_surface(tux_life, Vector(screen->w - 16, 20),
+          LAYER_FOREGROUND1);
     }
   else
     {
       for(int i= 0; i < player_status.lives; ++i)
-        tux_life->draw(screen->w - tux_life->w*4 +(tux_life->w*i), 20);
+        context.draw_surface(tux_life, 
+            Vector(screen->w - tux_life->w*4 +(tux_life->w*i), 20),
+            LAYER_FOREGROUND1);
     }
 
   if(show_fps)
     {
       sprintf(str, "%2.1f", fps_fps);
-      white_text->draw("FPS", screen->w - white_text->w*9, 40, 1);
-      gold_text->draw_align(str, screen->w, 40, A_RIGHT, A_TOP);
+      context.draw_text(white_text, "FPS", 
+          Vector(screen->w - white_text->w*9, 40), LAYER_FOREGROUND1);
+      context.draw_text(gold_text, str,
+          Vector(screen->w-4*16, 40), LAYER_FOREGROUND1);
     }
+
+  context.pop_transform();
 }
 
 void
@@ -719,18 +746,19 @@ GameSession::drawresultscreen(void)
 {
   char str[80];
 
-  Camera dummy;
-  world->background->draw(dummy, LAYER_BACKGROUND0);  
+  DrawingContext context;
+  world->background->draw(context);  
 
-  blue_text->drawf("Result:", 0, 200, A_HMIDDLE, A_TOP, 1);
+  context.draw_text_center(blue_text, "Result:", Vector(0, 200),
+      LAYER_FOREGROUND1);
 
   sprintf(str, "SCORE: %d", player_status.score);
-  gold_text->drawf(str, 0, 224, A_HMIDDLE, A_TOP, 1);
+  context.draw_text_center(gold_text, str, Vector(0, 224), LAYER_FOREGROUND1);
 
   sprintf(str, "COINS: %d", player_status.distros);
-  gold_text->drawf(str, 0, 256, A_HMIDDLE, A_TOP, 1);
+  context.draw_text_center(gold_text, str, Vector(0, 256), LAYER_FOREGROUND1);
 
-  flipscreen();
+  context.do_drawing();
   
   SDL_Event event;
   wait_for_event(event,2000,5000,true);

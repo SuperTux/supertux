@@ -20,6 +20,7 @@
 //  02111-1307, USA.
 #include <algorithm>
 #include <iostream>
+#include <math.h>
 #include "world.h"
 #include "tile.h"
 #include "gameloop.h"
@@ -27,13 +28,11 @@
 #include "sprite_manager.h"
 #include "resources.h"
 #include "level.h"
-#include "display_manager.h"
 
-BouncyDistro::BouncyDistro(DisplayManager& displaymanager, const Vector& pos)
+BouncyDistro::BouncyDistro(const Vector& pos)
   : position(pos)
 {
   ym = -2;
-  displaymanager.add_drawable(this, LAYER_OBJECTS);
 }
 
 void
@@ -47,17 +46,15 @@ BouncyDistro::action(float elapsed_time)
 }
 
 void
-BouncyDistro::draw(Camera& viewport, int )
+BouncyDistro::draw(DrawingContext& context)
 {
-  img_distro[0]->draw(viewport.world2screen(position));
+  context.draw_surface(img_distro[0], position, LAYER_OBJECTS);
 }
 
 
-BrokenBrick::BrokenBrick(DisplayManager& displaymanager, Tile* ntile,
-    const Vector& pos, const Vector& nmovement)
+BrokenBrick::BrokenBrick(Tile* ntile,const Vector& pos, const Vector& nmovement)
   : tile(ntile), position(pos), movement(nmovement)
 {
-  displaymanager.add_drawable(this, LAYER_OBJECTS);
   timer.start(200);
 }
 
@@ -71,27 +68,18 @@ BrokenBrick::action(float elapsed_time)
 }
 
 void
-BrokenBrick::draw(Camera& viewport, int )
+BrokenBrick::draw(DrawingContext& context)
 {
-  SDL_Rect src, dest;
-  src.x = rand() % 16;
-  src.y = rand() % 16;
-  src.w = 16;
-  src.h = 16;
-
-  dest.x = (int)(position.x - viewport.get_translation().x);
-  dest.y = (int)(position.y - viewport.get_translation().y);
-  dest.w = 16;
-  dest.h = 16;
-  
   if (tile->images.size() > 0)
-    tile->images[0]->draw_part(src.x,src.y,dest.x,dest.y,dest.w,dest.h);
+    context.draw_surface_part(tile->images[0],
+        Vector(rand() % 16, rand() % 16),
+        Vector(16, 16),
+        position, LAYER_OBJECTS + 1);
 }
 
-BouncyBrick::BouncyBrick(DisplayManager& displaymanager, const Vector& pos)
+BouncyBrick::BouncyBrick(const Vector& pos)
   : position(pos), offset(0), offset_m(-BOUNCY_BRICK_SPEED)
 {
-  displaymanager.add_drawable(this, LAYER_OBJECTS);
   shape    = World::current()->get_level()->gettileid(pos.x, pos.y);
 }
 
@@ -110,16 +98,15 @@ BouncyBrick::action(float elapsed_time)
 }
 
 void
-BouncyBrick::draw(Camera& viewport, int)
+BouncyBrick::draw(DrawingContext& context)
 {
-  Tile::draw(viewport.world2screen(position + Vector(0, offset)), shape);
+  TileManager::instance()->
+    draw_tile(context, shape, position + Vector(0, offset), LAYER_TILES+1);
 }
 
-FloatingScore::FloatingScore(DisplayManager& displaymanager, 
-    const Vector& pos, int score)
+FloatingScore::FloatingScore(const Vector& pos, int score)
   : position(pos)
 {
-  displaymanager.add_drawable(this, LAYER_OBJECTS);
   timer.start(1000);
   snprintf(str, 10, "%d", score);
   position.x -= strlen(str) * 8;
@@ -135,9 +122,9 @@ FloatingScore::action(float elapsed_time)
 }
 
 void
-FloatingScore::draw(Camera& viewport, int )
+FloatingScore::draw(DrawingContext& context)
 {
-  gold_text->draw(str, viewport.world2screen(position));
+  context.draw_text(gold_text, str, position, LAYER_OBJECTS);
 }
 
 /* Trampoline */
@@ -145,10 +132,8 @@ FloatingScore::draw(Camera& viewport, int )
 #define TRAMPOLINE_FRAMES 4
 Sprite *img_trampoline[TRAMPOLINE_FRAMES];
 
-Trampoline::Trampoline(DisplayManager& displaymanager, LispReader& reader)
+Trampoline::Trampoline(LispReader& reader)
 {
-  displaymanager.add_drawable(this, LAYER_OBJECTS);
-  
   reader.read_float("x", &base.x);
   reader.read_float("y", &base.y); 
   base.width = 32;
@@ -174,9 +159,9 @@ Trampoline::write(LispWriter& writer)
 }
 
 void
-Trampoline::draw(Camera& viewport, int )
+Trampoline::draw(DrawingContext& context)
 {
-  img_trampoline[frame]->draw(viewport.world2screen(Vector(base.x, base.y)));
+  img_trampoline[frame]->draw(context, Vector(base.x, base.y), LAYER_OBJECTS);
   frame = 0;
 }
 
@@ -284,10 +269,8 @@ Trampoline::collision(void *p_c_object, int c_object, CollisionType type)
 
 Sprite *img_flying_platform;
 
-FlyingPlatform::FlyingPlatform(DisplayManager& displaymanager, LispReader& reader)
+FlyingPlatform::FlyingPlatform(LispReader& reader)
 {
-  displaymanager.add_drawable(this, LAYER_OBJECTS);
-
   reader.read_int_vector("x",  &pos_x);
   reader.read_int_vector("y",  &pos_y);
 
@@ -323,9 +306,9 @@ FlyingPlatform::write(LispWriter& writer)
 }
 
 void
-FlyingPlatform::draw(Camera& viewport, int )
+FlyingPlatform::draw(DrawingContext& context)
 {
-img_flying_platform->draw(viewport.world2screen(Vector(base.x, base.y)));
+  img_flying_platform->draw(context, Vector(base.x, base.y), LAYER_OBJECTS);
 }
 
 void
