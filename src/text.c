@@ -22,7 +22,9 @@ void text_load(text_type* ptext, char* file, int kind, int w, int h)
   int x, y;
   int mx, my;
   SDL_Surface *conv;
-
+  int pixels;
+  int i;
+  
   if(kind == TEXT_TEXT)
     {
       mx = 26;
@@ -42,24 +44,22 @@ void text_load(text_type* ptext, char* file, int kind, int w, int h)
   ptext->w = w;
   ptext->h = h;
 
-texture_load(&ptext->chars, file, USE_ALPHA);
+  texture_load(&ptext->chars, file, USE_ALPHA);
 
   /* Load shadow font. */
-	  int pixels;
-          int i;
-          conv = SDL_DisplayFormatAlpha(ptext->chars.sdl_surface);
-	  pixels = conv->w * conv->h;
-	  SDL_LockSurface(conv);
-          for(i = 0; i < pixels; ++i)
-            {
-              Uint32 *p = (Uint32 *)conv->pixels + i;
-	      *p = *p & conv->format->Amask;
-            }
-	    SDL_UnlockSurface(conv);
-	   SDL_SetAlpha(conv, SDL_SRCALPHA, 128);
-          texture_from_sdl_surface(&ptext->shadow_chars,conv,USE_ALPHA);
+  conv = SDL_DisplayFormatAlpha(ptext->chars.sdl_surface);
+  pixels = conv->w * conv->h;
+  SDL_LockSurface(conv);
+  for(i = 0; i < pixels; ++i)
+    {
+      Uint32 *p = (Uint32 *)conv->pixels + i;
+      *p = *p & conv->format->Amask;
+    }
+  SDL_UnlockSurface(conv);
+  SDL_SetAlpha(conv, SDL_SRCALPHA, 128);
+  texture_from_sdl_surface(&ptext->shadow_chars,conv,USE_ALPHA);
 
-SDL_FreeSurface(conv); 
+  SDL_FreeSurface(conv);
 }
 
 void text_draw(text_type* ptext, char* text, int x, int y, int shadowsize, int update)
@@ -76,27 +76,28 @@ void text_draw(text_type* ptext, char* text, int x, int y, int shadowsize, int u
 void text_draw_chars(text_type* ptext, texture_type* pchars, char* text, int x, int y, int update)
 {
   int i,j,len;
-int w, h;
+  int w, h;
 
   len = strlen(text);
-  w = ptext->w; h = ptext->h;
+  w = ptext->w;
+  h = ptext->h;
 
   if(ptext->kind == TEXT_TEXT)
     {
       for( i = 0, j = 0; i < len; ++i,++j)
         {
           if( text[i] >= 'A' && text[i] <= 'Z')
-        texture_draw_part(pchars, (int)(text[i] - 'A')*w, 0, x+(j*w), y, ptext->w, ptext->h, update);
+            texture_draw_part(pchars, (int)(text[i] - 'A')*w, 0, x+(j*w), y, ptext->w, ptext->h, update);
           else if( text[i] >= 'a' && text[i] <= 'z')
-        texture_draw_part(pchars, (int)(text[i] - 'a')*w, h, x+(j*w), y, ptext->w, ptext->h, update);
+            texture_draw_part(pchars, (int)(text[i] - 'a')*w, h, x+(j*w), y, ptext->w, ptext->h, update);
           else if ( text[i] >= '!' && text[i] <= '9')
-        texture_draw_part(pchars, (int)(text[i] - '!')*w, h*2, x+(j*w), y, ptext->w, ptext->h, update);
+            texture_draw_part(pchars, (int)(text[i] - '!')*w, h*2, x+(j*w), y, ptext->w, ptext->h, update);
           else if ( text[i] == '?')
-        texture_draw_part(pchars, 25*w, h*2, x+(j*w), y, ptext->w, ptext->h, update);
+            texture_draw_part(pchars, 25*w, h*2, x+(j*w), y, ptext->w, ptext->h, update);
           else if ( text[i] == '\n')
             {
               y += ptext->h + 2;
-	      j = 0;
+              j = 0;
             }
         }
     }
@@ -105,11 +106,11 @@ int w, h;
       for( i = 0, j = 0; i < len; ++i, ++j)
         {
           if ( text[i] >= '0' && text[i] <= '9')
-        texture_draw_part(pchars, (int)(text[i] - '0')*w, 0, x+(j*w), y, w, h, update);
+            texture_draw_part(pchars, (int)(text[i] - '0')*w, 0, x+(j*w), y, w, h, update);
           else if ( text[i] == '\n')
             {
               y += ptext->h + 2;
-	      j = 0;
+              j = 0;
             }
         }
     }
@@ -137,9 +138,9 @@ void text_free(text_type* ptext)
 {
   int c;
   if(ptext->kind == TEXT_TEXT)
-        texture_free(&ptext->chars);
+    texture_free(&ptext->chars);
   else if(ptext->kind == TEXT_NUM)
-        texture_free(&ptext->chars);
+    texture_free(&ptext->chars);
 }
 
 /* --- ERASE TEXT: --- */

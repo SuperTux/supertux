@@ -417,8 +417,8 @@ void menu_event(SDL_keysym* keysym)
 {
   SDLKey key = keysym->sym;
   SDLMod keymod;
-  keymod = SDL_GetModState();
   char ch[2];
+  keymod = SDL_GetModState();
 
   /* If the current unicode character is an ASCII character,
      assign it to ch. */
