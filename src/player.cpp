@@ -86,6 +86,7 @@ Player::init()
   dying   = DYING_NOT;
   jumping = false;
   can_jump = true;
+  butt_jump = false;
 
   frame_main = 0;
   frame_ = 0;
@@ -404,6 +405,22 @@ Player::handle_vertical_input()
         physic.set_velocity_y(0);
       }
     }
+
+  if (input.down == DOWN && !on_ground() && !duck)
+    butt_jump = true;
+  else if (input.down == UP)
+    butt_jump = false;
+  if (input.down == DOWN && butt_jump && on_ground())
+  {
+    // FIXME: Currently only breaks the block if his middle is on top of it
+    if (isbrick(base.x + base.width/2, base.y + base.height))
+    {
+      World::current()->trybreakbrick(base.x + base.width/2, base.y + base.height, false);
+      bumpbrick(base.x, base.y);
+    }
+    butt_jump = false;
+  }
+
 
   if ( (issolid(base.x + base.width / 2, base.y + base.height + 64) ||
         issolid(base.x + 1, base.y + base.height + 64) ||

@@ -121,6 +121,7 @@ public:
 
   bool jumping;
   bool can_jump;
+  bool butt_jump;
   int frame_;
   int frame_main;
 
