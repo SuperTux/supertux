@@ -93,6 +93,7 @@ void TileManager::load_tileset(std::string filename)
               tile->water   = false;
               tile->fullbox = false;
               tile->distro  = false;
+              tile->goal    = false;
               tile->data    = 0;
               tile->next_tile  = 0;
               tile->anim_speed = 25;
@@ -105,6 +106,8 @@ void TileManager::load_tileset(std::string filename)
               reader.read_bool("water",     &tile->water);
               reader.read_bool("fullbox",   &tile->fullbox);
               reader.read_bool("distro",    &tile->distro);
+              reader.read_bool("goal",      &tile->goal);
+              if(tile->goal) printf("Goal!.\n");
               reader.read_int("data",       &tile->data);
               reader.read_int("anim-speed", &tile->anim_speed);
               reader.read_int("next-tile",  &tile->next_tile);

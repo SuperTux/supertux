@@ -55,5 +55,14 @@ bool  isbrick(float x, float y);
 bool  isice(float x, float y);
 bool  isfullbox(float x, float y);
 
+typedef void* (*tiletestfunction)(Tile* tile);
+/** invokes the function for each tile the baserectangle collides with. The
+ * function aborts and returns true as soon as the tiletestfunction returns
+ * != 0 then this value is returned. returns 0 if all tests failed.
+ */
+void* collision_func(const base_type& base, tiletestfunction* function);
+
+Tile* collision_goal(const base_type& base);
+
 #endif /*SUPERTUX_COLLISION_H*/
 

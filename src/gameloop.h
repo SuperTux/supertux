@@ -47,6 +47,7 @@ class GameSession
  private:
   Timer fps_timer;
   Timer frame_timer;
+  Timer endsequence_timer;
   World* world;
   int st_gl_mode;
   int levelnb;

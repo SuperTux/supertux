@@ -53,6 +53,11 @@ return;
   st_pause_count = 0;
 }
 
+Timer::Timer()
+{
+  init(true);
+}
+
 void
 Timer::init(bool st_ticks)
 {

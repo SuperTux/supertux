@@ -36,6 +36,8 @@ class Timer
   unsigned int (*get_ticks) (void);  
 
  public:
+  Timer();
+  
   void init(bool st_ticks);
   void start(unsigned int period);
   void stop();

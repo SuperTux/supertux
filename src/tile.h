@@ -62,6 +62,12 @@ public:
   /** Tile is a distro/coin */
   bool distro;
 
+  /** the level should be finished when touching a goaltile.
+   * if data is 0 then the endsequence should be triggered, if data is 1
+   * then we can finish the level instantly.
+   */
+  bool goal;
+
   /** General purpose data attached to a tile (content of a box, type of coin) */
   int data;
 

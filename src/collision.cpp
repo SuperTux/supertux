@@ -79,6 +79,31 @@ bool collision_object_map(const base_type& pbase)
   return false;
 }
 
+void* collision_func(const base_type& base, tiletestfunction function)
+{
+  for(float x = base.x; x < base.x + base.width; x += 32) {
+    for(float y = base.y; y < base.y + base.height; y += 32) {
+      Tile* tile = gettile(x, y);
+      void* result = function(tile);
+      if(result != 0)
+        return result;
+    }
+  }
+
+  return 0;
+}
+
+static void* test_goal_tile_function(Tile* tile)
+{
+  if(tile->goal)
+    return tile;
+  return 0;
+}
+
+Tile* collision_goal(const base_type& base)
+{
+  return (Tile*) collision_func(base, test_goal_tile_function);
+}
 
 void collision_swept_object_map(base_type* old, base_type* current)
 {

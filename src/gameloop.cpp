@@ -407,43 +407,47 @@ GameSession::process_events()
     }
 }
 
-
 void
 GameSession::check_end_conditions()
 {
   Player* tux = world->get_tux();
 
   /* End of level? */
-  if (tux->base.x >= World::current()->get_level()->endpos + 32 * (get_level()->use_endsequence ? 22 : 10))
+  int endpos = (World::current()->get_level()->width-10) * 32;
+  Tile* endtile = collision_goal(tux->base);
+  printf("EndTile: %p.\n", endtile);
+  // fallback in case the other endpositions don't trigger
+  if (tux->base.x >= endpos || (endtile && endtile->data >= 1)
+      || (end_sequence && !endsequence_timer.check()))
     {
       exit_status = LEVEL_FINISHED;
+      return;
     }
-  else if (tux->base.x >= World::current()->get_level()->endpos && !end_sequence)
+  else if(!end_sequence && endtile && endtile->data == 0)
     {
       end_sequence = true;
       last_x_pos = -1;
       music_manager->halt_music();
+      endsequence_timer.start(5000); // 5 seconds until we finish the map
     }
-  else
+  else if (!end_sequence && tux->is_dead())
     {
-      // Check End conditions
-      if (tux->is_dead())
-        {
-          player_status.lives -= 1;             
-    
-          if (player_status.lives < 0)
-            { // No more lives!?
-              if(st_gl_mode != ST_GL_TEST)
-                drawendscreen();
-              
-              exit_status = GAME_OVER;
-            }
-          else
-            { // Still has lives, so reset Tux to the levelstart
-              restart_level();
-            }
+      player_status.lives -= 1;             
+
+      if (player_status.lives < 0)
+        { // No more lives!?
+          if(st_gl_mode != ST_GL_TEST)
+            drawendscreen();
+          
+          exit_status = GAME_OVER;
         }
-    } 
+      else
+        { // Still has lives, so reset Tux to the levelstart
+          restart_level();
+        }
+
+      return;
+    }
 }
 
 void
