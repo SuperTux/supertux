@@ -150,8 +150,8 @@ float down_inc  = ((float)screen->h - point.y) / ((float)fade_time / LOOP_DELAY)
 
 float left_cor = 0, right_cor = 0, up_cor = 0, down_cor = 0;
 
-while(left_cor < screen->w - point.x && right_cor < screen->w - point.x &&
-      up_cor < screen->h - point.y && down_cor < screen->h - point.y)
+while(left_cor < point.x && right_cor < screen->w - point.x &&
+      up_cor < point.y && down_cor < screen->h - point.y)
   {
   left_cor  += left_inc;
   right_cor += right_inc;

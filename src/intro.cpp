@@ -35,7 +35,6 @@
 
 void draw_intro()
 {
-shrink_fade(Point((screen->w/2),(screen->h/2)), 2000);
 display_text_file("intro.txt", "/images/background/arctis.jpg", SCROLL_SPEED_MESSAGE);
 }
 
