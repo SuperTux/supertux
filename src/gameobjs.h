@@ -91,17 +91,18 @@ private:
   TileId& shape;      
 };
 
-class FloatingScore : public GameObject
+class FloatingText : public GameObject
 {
 public:
-  FloatingScore(const Vector& pos, int s);
+  FloatingText(const Vector& pos, std::string& text_);
+  FloatingText(const Vector& pos, int s);  // use this for score, for instance
   
   virtual void action(float elapsed_time);
   virtual void draw(DrawingContext& context);
 
 private:
   Vector position;
-  char str[10];
+  std::string text;
   Timer timer;  
 };
 

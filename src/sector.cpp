@@ -667,7 +667,7 @@ Sector::add_score(const Vector& pos, int s)
 {
   global_stats.add_points(SCORE_STAT, s);
                                                                                 
-  add_object(new FloatingScore(pos, s));
+  add_object(new FloatingText(pos, s));
 }
                                                                                 
 void

@@ -114,27 +114,48 @@ BouncyBrick::draw(DrawingContext& context)
     draw_tile(context, shape.id, position + Vector(0, offset), LAYER_TILES+1);
 }
 
-FloatingScore::FloatingScore(const Vector& pos, int score)
+FloatingText::FloatingText(const Vector& pos, std::string& text_)
+  : position(pos), text(text_)
+{
+  timer.start(1000);
+  position.x -= text.size() * 8;
+}
+
+FloatingText::FloatingText(const Vector& pos, int score)
   : position(pos)
 {
   timer.start(1000);
+
+  // turn int into a string
+  char str[10];
   snprintf(str, 10, "%d", score);
-  position.x -= strlen(str) * 8;
+  text = str;
+
+  position.x -= text.size() * 8;
 }
 
 void
-FloatingScore::action(float elapsed_time)
+FloatingText::action(float elapsed_time)
 {
-  position.y -= 2 * elapsed_time;
+  position.y -= 1.4 * elapsed_time;
 
   if(!timer.check())
     remove_me();
 }
 
+#define FADING_TIME 350
+
 void
-FloatingScore::draw(DrawingContext& context)
+FloatingText::draw(DrawingContext& context)
 {
-  context.draw_text(gold_text, str, position, LEFT_ALLIGN, LAYER_OBJECTS);
+  // make an alpha animation when disapearing
+  int alpha;
+  if(timer.get_left() < FADING_TIME)
+    alpha = timer.get_left() * 255 / FADING_TIME;
+  else
+    alpha = 255;
+
+  context.draw_text(gold_text, text, position, LEFT_ALLIGN, LAYER_OBJECTS, NONE_EFFECT, alpha);
 }
 
 /* Trampoline */
