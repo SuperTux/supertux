@@ -312,7 +312,7 @@ Tux::update(float delta)
             }
 
           Tile* cur_tile = worldmap->at(tile_pos);
-          if (cur_tile->stop || (level && !level->name.empty()))
+          if (cur_tile->stop || (level && !level->name.empty()) || (level && level->is_teleporter))
             {
               stop();
             }
@@ -387,6 +387,7 @@ WorldMap::WorldMap()
   level_sprite = new Surface(datadir +  "/images/worldmap/levelmarker.png", USE_ALPHA);
   leveldot_green = new Surface(datadir +  "/images/worldmap/leveldot_green.png", USE_ALPHA);
   leveldot_red = new Surface(datadir +  "/images/worldmap/leveldot_red.png", USE_ALPHA);
+  leveldot_teleporter = new Surface(datadir +  "/images/worldmap/teleporter.png", USE_ALPHA);
   
   map_file = datadir + "/levels/default/worldmap.stwm";
   
@@ -405,6 +406,7 @@ WorldMap::~WorldMap()
   delete level_sprite;
   delete leveldot_green;
   delete leveldot_red;
+  delete leveldot_teleporter;
 }
 
 void
@@ -471,8 +473,14 @@ WorldMap::load_map()
                       reader.read_bool("auto-path", &level.auto_path);
                       level.passive_message = true;
                       reader.read_bool("passive-message", &level.passive_message);
-
-                      level.apply_action_north = level.apply_action_south =
+							 
+							 level.is_teleporter = false;
+							 reader.read_bool("teleporter", &level.is_teleporter);
+							 reader.read_int("dest_x", &level.destination_x);
+							 reader.read_int("dest_y", &level.destination_y);
+							 reader.read_string("teleport-message", &level.teleport_message);
+                      
+							 level.apply_action_north = level.apply_action_south =
                             level.apply_action_east = level.apply_action_west = true;
                       reader.read_bool("apply-action-up", &level.apply_action_north);
                       reader.read_bool("apply-action-down", &level.apply_action_south);
@@ -785,7 +793,17 @@ WorldMap::update(float delta)
               return;
             }
         }
-      else
+      else if (level && level->is_teleporter) {
+			if (level->x == tux->get_tile_pos().x && 
+              level->y == tux->get_tile_pos().y)
+         	{
+					Point p;
+					p.x = level->destination_x;
+					p.y = level->destination_y;
+					tux->set_tile_pos(p);
+				}
+		}
+		else
         {
           std::cout << "Nothing to enter at: "
                     << tux->get_tile_pos().x << ", " << tux->get_tile_pos().y << std::endl;
@@ -858,10 +876,15 @@ WorldMap::draw(const Point& offset)
   
   for(Levels::iterator i = levels.begin(); i != levels.end(); ++i)
     {
-      if(i->name.empty())
-        continue;
+      if(i->name.empty()) {
+      	if (i->is_teleporter) {
+				leveldot_teleporter->draw(i->x*32 + offset.x, 
+                             i->y*32 + offset.y);
+			}
+			else continue;
+		}
 
-      if (i->solved)
+      else if (i->solved)
         leveldot_green->draw(i->x*32 + offset.x, 
                              i->y*32 + offset.y);
       else
@@ -909,6 +932,10 @@ WorldMap::draw_status()
                 {
               white_text->draw_align(i->title.c_str(), screen->w/2, screen->h,  A_HMIDDLE, A_BOTTOM);
                 }
+				  else if (i->is_teleporter) {
+				  	if(!i->teleport_message.empty())
+               	 gold_text->draw_align(i->teleport_message.c_str(), screen->w/2, screen->h,  A_HMIDDLE, A_BOTTOM);
+				  }
 
               /* Display a message in the map, if any as been selected */
               if(!i->display_map_message.empty() && !i->passive_message)

@@ -146,6 +146,7 @@ private:
   Surface* level_sprite;
   Surface* leveldot_green;
   Surface* leveldot_red;
+  Surface* leveldot_teleporter;
 
   std::string name;
   std::string music;
@@ -175,6 +176,12 @@ public:
     /** Message to show in the Map during a certain time */
     std::string display_map_message;
     bool passive_message;
+	 
+	 /** Teleporters */
+	 bool is_teleporter;
+	 int destination_x;
+	 int destination_y;
+	 std::string teleport_message;
 
     /** If false, disables the auto walking after finishing a level */
     bool auto_path;
