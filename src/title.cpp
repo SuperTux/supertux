@@ -25,6 +25,7 @@
 #include <string.h>
 #include <errno.h>
 #include <unistd.h>
+#include <cmath>
 #include <SDL.h>
 #include <SDL_image.h>
 
@@ -49,7 +50,6 @@
 #include "leveleditor.h"
 #include "scene.h"
 #include "player.h"
-#include "math.h"
 #include "tile.h"
 #include "sector.h"
 #include "tilemap.h"
