@@ -58,7 +58,7 @@ static Surface* img_choose_subset;
 static bool walking;
 static Timer random_timer;
 
-static int frame, i;
+static int frame;
 static unsigned int last_update_time;
 static unsigned int update_time;
 
@@ -265,12 +265,9 @@ void title(void)
             {
               Menu::current()->event(event);
             }
-          else
-            {
-              // FIXME: QUIT signal should be handled more generic, not locally
-              if (event.type == SDL_QUIT)
-                Menu::set_current(0);
-            }
+         // FIXME: QUIT signal should be handled more generic, not locally
+          if (event.type == SDL_QUIT)
+            Menu::set_current(0);
         }
 
       /* Draw the background: */
@@ -367,13 +364,14 @@ void title(void)
 #define MAX_VEL 10
 #define SPEED   1
 #define SCROLL  60
+#define ITEMS_SPACE 4
 
 void display_credits()
 {
   int done;
   int scroll, speed;
+  int y;
   Timer timer;
-  int n,d;
   int length;
   FILE* fi;
   char temp[1024];
@@ -405,8 +403,6 @@ void display_credits()
   scroll = 0;
   speed = 2;
   done = 0;
-
-  n = d = 0;
 
   length = names.num_items;
 
@@ -458,26 +454,33 @@ void display_credits()
 
       white_big_text->drawf("- Credits -", 0, screen->h-scroll, A_HMIDDLE, A_TOP, 2);
 
-      for(i = 0, n = 0, d = 0; i < length; i++,n++,d++)
+      y = 0;
+      for(int i = 0; i < length; i++)
         {
-          if(names.item[i] == "")
-            n--;
-          else
-            {
-              if(names.item[i][0] == ' ')
-                white_small_text->drawf(names.item[i], 0, 60+screen->h+(n*18)+(d*18)-scroll-10, A_HMIDDLE, A_TOP, 1);
-              else if(names.item[i][0] == '	')
-                white_text->drawf(names.item[i], 0, 60+screen->h+(n*18)+(d*18)-scroll, A_HMIDDLE, A_TOP, 1);
-              else if(names.item[i+1][0] == '-' || names.item[i][0] == '-')
-                white_big_text->drawf(names.item[i], 0, 60+screen->h+(n*18)+(d*18)-scroll, A_HMIDDLE, A_TOP, 3);
-              else
-                blue_text->drawf(names.item[i], 0, 60+screen->h+(n*18)+(d*18)-scroll, A_HMIDDLE, A_TOP, 1);
-            }
+        switch(names.item[i][0])
+          {
+          case ' ':
+            white_small_text->drawf(names.item[i], 0, 60+screen->h+y-scroll, A_HMIDDLE, A_TOP, 1);
+            y += white_small_text->h+ITEMS_SPACE;
+            break;
+          case '	':
+            white_text->drawf(names.item[i], 0, 60+screen->h+y-scroll, A_HMIDDLE, A_TOP, 1);
+            y += white_text->h+ITEMS_SPACE;
+            break;
+          case '-':
+            white_big_text->drawf(names.item[i], 0, 60+screen->h+y-scroll, A_HMIDDLE, A_TOP, 3);
+            y += white_big_text->h+ITEMS_SPACE;
+            break;
+          default:
+            blue_text->drawf(names.item[i], 0, 60+screen->h+y-scroll, A_HMIDDLE, A_TOP, 1);
+            y += blue_text->h+ITEMS_SPACE;
+            break;
+          }
         }
 
       flipscreen();
 
-      if(60+screen->h+(n*18)+(d*18)-scroll < 0 && 20+60+screen->h+(n*18)+(d*18)-scroll < 0)
+      if(60+screen->h+y-scroll < 0 && 20+60+screen->h+y-scroll < 0)
         done = 1;
 
       scroll += speed;
