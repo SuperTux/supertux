@@ -14,7 +14,8 @@ supertux_SOURCES = badguy.cpp badguy.h bitmask.cpp bitmask.h camera.cpp \
 			scene.h special.cpp special.h supertux.cpp title.cpp title.h worldmap.cpp \
 			worldmap.h tile.h tile.cpp tile_manager.h tile_manager.cpp resources.h \
 			resources.cpp gameobjs.h gameobjs.cpp background.h background.cpp tilemap.h \
-			tilemap.cpp serializable.h sector.cpp sector.h misc.h misc.cpp defines.h
+			tilemap.cpp serializable.h sector.cpp sector.h misc.h misc.cpp defines.h \
+			statistics.cpp
 
 # EOF #
 INCLUDES = -I$(top_srcdir)/lib

@@ -61,6 +61,7 @@
 #include "intro.h"
 #include "misc.h"
 #include "camera.h"
+#include "statistics.h"
 
 GameSession* GameSession::current_ = 0;
 
@@ -149,6 +150,8 @@ GameSession::restart_level()
       if(st_gl_mode == ST_GL_PLAY || st_gl_mode == ST_GL_LOAD_LEVEL_FILE)
         levelintro();
     }
+
+  global_stats.reset();
 
   time_left.init(true);
   start_timers();
@@ -785,7 +788,7 @@ GameSession::drawstatus(DrawingContext& context)
 {
   char str[60];
   
-  snprintf(str, 60, " %d", player_status.score);
+  snprintf(str, 60, " %d", global_stats.get_points(SCORE_STAT));
   context.draw_text(white_text, _("SCORE"), Vector(0, 0), LAYER_FOREGROUND1);
   context.draw_text(gold_text, str, Vector(96, 0), LAYER_FOREGROUND1);
 
@@ -855,7 +858,7 @@ GameSession::drawresultscreen(void)
   context.draw_text_center(blue_text, _("Result:"), Vector(0, 200),
       LAYER_FOREGROUND1);
 
-  sprintf(str, _("SCORE: %d"), player_status.score);
+  sprintf(str, _("SCORE: %d"), global_stats.get_points(SCORE_STAT));
   context.draw_text_center(gold_text, str, Vector(0, 224), LAYER_FOREGROUND1);
 
   sprintf(str, _("COINS: %d"), player_status.distros);

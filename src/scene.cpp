@@ -25,8 +25,7 @@
 PlayerStatus player_status;
 
 PlayerStatus::PlayerStatus()
-  : score(0),
-    distros(0),
+  : distros(0),
     lives(START_LIVES),
     bonus(NO_BONUS),
     score_multiplier(1)
@@ -35,7 +34,6 @@ PlayerStatus::PlayerStatus()
 
 void PlayerStatus::reset()
 {
-  score = 0;
   distros = 0;
   lives = START_LIVES;
   bonus = NO_BONUS;

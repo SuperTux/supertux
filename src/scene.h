@@ -28,7 +28,6 @@
 // Player stats
 struct PlayerStatus
 {
-  int  score;
   int  distros;
   int  lives;
   enum BonusType { NO_BONUS, GROWUP_BONUS, FLOWER_BONUS };

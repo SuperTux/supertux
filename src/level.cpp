@@ -156,4 +156,3 @@ Level::get_sector(const std::string& name)
 
   return i->second;
 }
-

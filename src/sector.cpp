@@ -40,6 +40,7 @@
 #include "resources.h"
 #include "interactive_object.h"
 #include "door.h"
+#include "statistics.h"
 
 Sector* Sector::_current = 0;
 
@@ -653,7 +654,7 @@ Sector::collision_handler()
 void
 Sector::add_score(const Vector& pos, int s)
 {
-  player_status.score += s;
+  global_stats.add_points(SCORE_STAT, s);
                                                                                 
   add_object(new FloatingScore(pos, s));
 }
@@ -779,9 +780,9 @@ Sector::trybreakbrick(const Vector& pos, bool small)
               counting_distros = false;
               solids->change_at(pos, tile->next_tile);
             }
-                                                                                
+
           SoundManager::get()->play_sound(IDToSound(SND_DISTRO));
-          player_status.score = player_status.score + SCORE_DISTRO;
+          global_stats.add_points(SCORE_STAT, SCORE_DISTRO);
           player_status.distros++;
           return true;
         }
@@ -797,7 +798,7 @@ Sector::trybreakbrick(const Vector& pos, bool small)
                                                                                 
           /* Get some score: */
           SoundManager::get()->play_sound(IDToSound(SND_BRICK));
-          player_status.score = player_status.score + SCORE_BRICK;
+          global_stats.add_points(SCORE_STAT, SCORE_BRICK);
                                                                                 
           return true;
         }
@@ -835,7 +836,7 @@ Sector::tryemptybox(const Vector& pos, Direction col_side)
     case 1: // Box with a distro!
       add_bouncy_distro(Vector(posx, posy));
       SoundManager::get()->play_sound(IDToSound(SND_DISTRO));
-      player_status.score = player_status.score + SCORE_DISTRO;
+      global_stats.add_points(SCORE_STAT, SCORE_DISTRO);
       player_status.distros++;
       break;
                                                                                 
@@ -900,7 +901,7 @@ Sector::trygrabdistro(const Vector& pos, int bounciness)
                               (int)(pos.y / 32) * 32));
     }
                                                                             
-  player_status.score = player_status.score + SCORE_DISTRO;
+  global_stats.add_points(SCORE_STAT, SCORE_DISTRO);
   player_status.distros++;
 
 }

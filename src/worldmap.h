@@ -26,6 +26,7 @@
 #include "math/vector.h"
 #include "audio/musicref.h"
 #include "video/screen.h"
+#include "statistics.h"
 
 extern Menu* worldmap_menu;
 
@@ -159,6 +160,9 @@ public:
     std::string title;
     bool solved;
 
+    /** Statistics for level tiles */
+    Statistics statistics;
+
     /** Optional flags: */
 
     /** Check if this level should be vertically flipped */
@@ -220,6 +224,12 @@ private:
   void get_level_title(SpecialTile& special_tile);
 
   void draw_status(DrawingContext& context);
+
+  // to avoid calculating total stats all the time. This way only
+  // when need, it is calculated.
+  Statistics total_stats;
+  void calculate_total_stats();
+
 public:
   WorldMap();
   ~WorldMap();

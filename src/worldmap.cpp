@@ -28,6 +28,7 @@
 #include "video/screen.h"
 #include "video/drawing_context.h"
 #include "utils/lispreader.h"
+#include "utils/lispwriter.h"
 #include "special/frame_rate.h"
 #include "gameloop.h"
 #include "app/setup.h"
@@ -512,7 +513,7 @@ WorldMap::load_map()
 
                       reader.read_int("x", special_tile.x);
                       reader.read_int("y", special_tile.y);
-                      reader.read_string("level", special_tile.level_name, true);
+                      reader.read_string("level", special_tile.level_name, false);
 
                       special_tile.vertical_flip = false;
                       reader.read_bool("vertical-flip", special_tile.vertical_flip);
@@ -621,6 +622,18 @@ void WorldMap::get_level_title(SpecialTile& special_tile)
 
   reader->read_string("name", special_tile.title, true);
   delete reader;
+}
+
+void WorldMap::calculate_total_stats()
+{
+  total_stats.reset();
+  for(SpecialTiles::iterator i = special_tiles.begin(); i != special_tiles.end(); ++i)
+    {
+    if (!i->level_name.empty() && i->solved)
+      {
+      total_stats += i->statistics;
+      }
+    }
 }
 
 void
@@ -831,6 +844,10 @@ WorldMap::update(float delta)
                     bool old_level_state = special_tile->solved;
                     special_tile->solved = true;
 
+                    // deal with statistics
+                    special_tile->statistics.merge(global_stats);
+                    calculate_total_stats();
+
                     if (session.get_current_sector()->player->got_power !=
                           session.get_current_sector()->player->NONE_POWER)
                       player_status.bonus = PlayerStatus::FLOWER_BONUS;
@@ -870,7 +887,6 @@ WorldMap::update(float delta)
                   level_finished = false;
                   /* In case the player's abort the special_tile, keep it using the old
                       status. But the minimum lives and no bonus. */
-                  player_status.score = old_player_status.score;
                   player_status.distros = old_player_status.distros;
                   player_status.lives = std::min(old_player_status.lives, player_status.lives);
                   player_status.bonus = player_status.NO_BONUS;
@@ -880,9 +896,9 @@ WorldMap::update(float delta)
                   {
                   level_finished = false;
                   /* draw an end screen */
-                  /* in the future, this should make a dialog a la SuperMario, asking
+                  /* TODO: in the future, this should make a dialog a la SuperMario, asking
                   if the player wants to restart the world map with no score and from
-                  special_tile 1 */
+                  level 1 */
                   char str[80];
 
                   DrawingContext context;
@@ -892,7 +908,7 @@ WorldMap::update(float delta)
                   context.draw_text_center(blue_text, _("GAMEOVER"), 
                       Vector(0, 200), LAYER_FOREGROUND1);
 
-                  sprintf(str, _("SCORE: %d"), player_status.score);
+                  sprintf(str, _("SCORE: %d"), total_stats.get_points(SCORE_STAT));
                   context.draw_text_center(gold_text, str,
                       Vector(0, 230), LAYER_FOREGROUND1);
 
@@ -1047,7 +1063,7 @@ void
 WorldMap::draw_status(DrawingContext& context)
 {
   char str[80];
-  sprintf(str, " %d", player_status.score);
+  sprintf(str, " %d", total_stats.get_points(SCORE_STAT));
 
   context.draw_text(white_text, _("SCORE"), Vector(0, 0), LAYER_FOREGROUND1);
   context.draw_text(gold_text, str, Vector(96, 0), LAYER_FOREGROUND1);
@@ -1174,38 +1190,60 @@ WorldMap::savegame(const std::string& filename)
     return;
 
   std::cout << "savegame: " << filename << std::endl;
-  std::ofstream out(filename.c_str());
 
-  int nb_solved_levels = 0;
+   std::ofstream file(filename.c_str(), std::ios::out);
+   LispWriter* writer = new LispWriter(file);
+
+  int nb_solved_levels = 0, total_levels = 0;
   for(SpecialTiles::iterator i = special_tiles.begin(); i != special_tiles.end(); ++i)
     {
+      if(!i->level_name.empty())
+        ++total_levels;
       if (i->solved)
         ++nb_solved_levels;
     }
+  char nb_solved_levels_str[80], total_levels_str[80];
+  sprintf(nb_solved_levels_str, "%d", nb_solved_levels);
+  sprintf(total_levels_str, "%d", total_levels);
 
-  out << "(supertux-savegame\n"
-      << "  (version 1)\n"
-      << "  (title  \"" << name << " - " << nb_solved_levels << "/" << special_tiles.size() << "\")\n"
-      << "  (map    \"" << map_filename << "\")\n"
-      << "  (lives   " << player_status.lives << ")\n"
-      << "  (score   " << player_status.score << ")\n"
-      << "  (distros " << player_status.distros << ")\n"
-      << "  (tux (x " << tux->get_tile_pos().x << ") (y " << tux->get_tile_pos().y << ")\n"
-      << "       (back \"" << direction_to_string(tux->back_direction) << "\")\n"
-      << "       (bonus \"" << bonus_to_string(player_status.bonus) <<  "\"))\n"
-      << "  (levels\n";
-  
+  writer->write_comment("Worldmap save file");
+
+  writer->start_list("supertux-savegame");
+
+  writer->write_int("version", 1);
+  writer->write_string("title", std::string(name + " - " + nb_solved_levels_str + "/" + total_levels_str));
+  writer->write_string("map", map_filename);
+  writer->write_int("lives", player_status.lives);
+  writer->write_int("distros", player_status.lives);
+
+  writer->start_list("tux");
+
+  writer->write_float("x", tux->get_tile_pos().x);
+  writer->write_float("y", tux->get_tile_pos().y);
+  writer->write_string("back", direction_to_string(tux->back_direction));
+  writer->write_string("bonus", bonus_to_string(player_status.bonus));
+
+  writer->end_list("tux");
+
+  writer->start_list("levels");
+
   for(SpecialTiles::iterator i = special_tiles.begin(); i != special_tiles.end(); ++i)
     {
       if (i->solved && !i->level_name.empty())
         {
-          out << "     (level (name \"" << i->level_name << "\")\n"
-              << "            (solved #t))\n";
+        writer->start_list("level");
+
+        writer->write_string("name", i->level_name);
+        writer->write_bool("solved", true);
+        i->statistics.write(*writer);
+
+        writer->end_list("level");
         }
     }  
 
-  out << "   )\n"
-      << " )\n\n;; EOF ;;" << std::endl;
+  writer->end_list("levels");
+
+  writer->end_list("supertux-savegame");
 }
 
 void
@@ -1245,7 +1283,6 @@ WorldMap::loadgame(const std::string& filename)
   load_map(); 
 
   reader.read_int("lives", player_status.lives);
-  reader.read_int("score", player_status.score);
   reader.read_int("distros", player_status.distros);
 
   if (player_status.lives < 0)
@@ -1283,13 +1320,17 @@ WorldMap::loadgame(const std::string& filename)
               bool solved = false;
 
               LispReader level_reader(data);
-              level_reader.read_string("name", name, true);
+              level_reader.read_string("name", name);
               level_reader.read_bool("solved", solved);
 
               for(SpecialTiles::iterator i = special_tiles.begin(); i != special_tiles.end(); ++i)
                 {
                   if (name == i->level_name)
+                    {
                     i->solved = solved;
+                    i->statistics.parse(level_reader);
+                    break;
+                    }
                 }
             }
 
@@ -1298,6 +1339,8 @@ WorldMap::loadgame(const std::string& filename)
     }
  
   lisp_free(savegame);
+
+  calculate_total_stats();
 }
 
 void

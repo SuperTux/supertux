@@ -86,6 +86,7 @@ private:
   // the sector and spawnpoint we shoudl spawn after this frame
   std::string newsector;
   std::string newspawnpoint;
+
 public:
   enum ExitStatus { ES_NONE, ES_LEVEL_FINISHED, ES_GAME_OVER, ES_LEVEL_ABORT };
 private:
