@@ -392,9 +392,9 @@ Player::handle_vertical_input()
   else if(input.up == UP && jumping)
     {
       jumping = false;
-//      if(physic.get_velocity_y() > 0) {
-//        physic.set_velocity_y(0);
-//      }
+      if(physic.get_velocity_y() > 0) {
+        physic.set_velocity_y(0);
+      }
     }
 }
 
