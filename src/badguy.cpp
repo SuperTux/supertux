@@ -59,6 +59,8 @@ Sprite* img_fish;
 Sprite* img_fish_down;
 Sprite* img_fish_iced;
 Sprite* img_fish_iced_down;
+Sprite* img_flamefish;
+Sprite* img_flamefish_down;
 Sprite* img_bouncingsnowball_left;
 Sprite* img_bouncingsnowball_right;
 Sprite* img_bouncingsnowball_squished;
@@ -93,6 +95,8 @@ BadGuyKind  badguykind_from_string(const std::string& str)
     return BAD_FLAME;
   else if (str == "fish")
     return BAD_FISH;
+  else if (str == "flamefish")
+    return BAD_FLAMEFISH;
   else if (str == "bouncingsnowball")
     return BAD_BOUNCINGSNOWBALL;
   else if (str == "flyingsnowball")
@@ -132,6 +136,9 @@ std::string badguykind_to_string(BadGuyKind kind)
       break;
     case BAD_FISH:
       return "fish";
+      break;
+    case BAD_FLAMEFISH:
+      return "flamefish";
       break;
     case BAD_BOUNCINGSNOWBALL:
       return "bouncingsnowball";
@@ -207,7 +214,7 @@ BadGuy::init()
 
   // if we're in a solid tile at start correct that now
   if(Sector::current()) {
-  if(kind != BAD_FLAME && kind != BAD_FISH && collision_object_map(base)) 
+  if(kind != BAD_FLAME && kind != BAD_FISH && kind != BAD_FLAMEFISH && collision_object_map(base)) 
     {
       std::cout << "Warning: badguy started in wall: kind: " << badguykind_to_string(kind) 
                 << " pos: (" << base.x << ", " << base.y << ")" << std::endl;
@@ -280,6 +287,9 @@ BadGuy::activate(Direction activation_dir)
     set_sprite(img_stalactite, img_stalactite);
   } else if(kind == BAD_FISH) {
     set_sprite(img_fish, img_fish);
+    physic.enable_gravity(true);
+  } else if(kind == BAD_FLAMEFISH) {
+    set_sprite(img_flamefish, img_flamefish);
     physic.enable_gravity(true);
   } else if(kind == BAD_FLYINGSNOWBALL) {
     set_sprite(img_flyingsnowball, img_flyingsnowball);
@@ -658,7 +668,10 @@ BadGuy::action_fish(double elapsed_time)
   else if(mode == FISH_WAIT && !timer.check())
     {
       // jump again
-      set_sprite(img_fish, img_fish);
+      if(kind == BAD_FISH)
+        set_sprite(img_fish, img_fish);
+      else // BAD_FLAMEFISH
+        set_sprite(img_flamefish, img_flamefish);
       mode = NORMAL;
       physic.set_velocity(0, JUMPV);
       physic.enable_gravity(true);
@@ -669,7 +682,12 @@ BadGuy::action_fish(double elapsed_time)
     collision_swept_object_map(&old_base, &base);
 
   if(physic.get_velocity_y() < 0)
-    set_sprite(img_fish_down, img_fish_down);
+    {
+      if(kind == BAD_FISH)
+        set_sprite(img_fish_down, img_fish_down);
+      else // BAD_FLAMEFISH
+        set_sprite(img_flamefish_down, img_flamefish_down);
+    }
 }
 
 void
@@ -913,6 +931,7 @@ BadGuy::action(float elapsed_time)
       break;
 
     case BAD_FISH:
+    case BAD_FLAMEFISH:
       action_fish(elapsed_time);
       break;
 
@@ -1001,7 +1020,7 @@ BadGuy::bump()
 {
   // these can't be bumped
   if(kind == BAD_FLAME || kind == BAD_BOMB || kind == BAD_FISH
-      || kind == BAD_FLYINGSNOWBALL)
+      || kind == BAD_FLAMEFISH || kind == BAD_FLYINGSNOWBALL)
     return;
 
   physic.set_velocity_y(3);
@@ -1079,7 +1098,7 @@ BadGuy::squish(Player* player)
     }
     
     return;
-  } else if(kind == BAD_FISH) {
+  } else if(kind == BAD_FISH || kind == BAD_FLAMEFISH) {
     // fish can only be killed when falling down
     if(physic.get_velocity_y() >= 0)
       return;
@@ -1206,12 +1225,13 @@ BadGuy::collision(void *p_c_object, int c_object, CollisionType type)
 
       if(pbullet_c->kind == FIRE_BULLET)
         {
-        if (kind != BAD_BOMB && kind != BAD_STALACTITE && kind != BAD_FLAME)
+        if (kind != BAD_BOMB && kind != BAD_STALACTITE && kind != BAD_FLAME
+            && kind != BAD_FLAMEFISH)
           kill_me(10);
         }
       else if(pbullet_c->kind == ICE_BULLET)
         {
-        if(kind == BAD_FLAME)
+        if(kind == BAD_FLAME || kind == BAD_FLAMEFISH)
           kill_me(10);
         else
           frozen_timer.start(FROZEN_TIME);
@@ -1273,7 +1293,8 @@ BadGuy::collision(void *p_c_object, int c_object, CollisionType type)
 
         // Jumpy, fish, flame, stalactites, wingling are exceptions
         if (pbad_c->kind == BAD_JUMPY || pbad_c->kind == BAD_FLAME
-            || pbad_c->kind == BAD_STALACTITE || pbad_c->kind == BAD_FISH)
+            || pbad_c->kind == BAD_STALACTITE || pbad_c->kind == BAD_FISH
+            || pbad_c->kind == BAD_FLAMEFISH)
           break;
 
         // Bounce off of other badguy if we land on top of him
@@ -1373,6 +1394,8 @@ void load_badguy_gfx()
   img_fish_down = sprite_manager->load("fish-down");
   img_fish_iced = sprite_manager->load("fish-iced");
   img_fish_iced_down = sprite_manager->load("fish-iced-down");
+  img_flamefish = sprite_manager->load("flamefish");
+  img_flamefish_down = sprite_manager->load("flamefish-down");
   img_bouncingsnowball_left = sprite_manager->load("bouncingsnowball-left");
   img_bouncingsnowball_right = sprite_manager->load("bouncingsnowball-right");
   img_bouncingsnowball_squished = sprite_manager->load("bouncingsnowball-squished");
