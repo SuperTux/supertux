@@ -248,6 +248,9 @@ void title(void)
   update_time = st_get_ticks();
   random_timer.start(rand() % 2000 + 2000);
 
+  Mix_Music* music = load_song(datadir + "/music/theme.mod");
+  play_music(music, 1);
+
   Menu::set_current(main_menu);
   while (Menu::current())
     {
@@ -305,6 +308,7 @@ void title(void)
                   generate_contrib_menu();
                   break;
                 case 3:
+                  halt_music();
                   leveleditor(1);
                   Menu::set_current(main_menu);
                   break;
@@ -354,11 +358,14 @@ void title(void)
       frame++;
       SDL_Delay(25);
 
+      if(!playing_music)
+       play_music(music, 1);
     }
   /* Free surfaces: */
 
   delete bkg_title;
   delete logo;
+  free_music(music);
 }
 
 #define MAX_VEL 10
