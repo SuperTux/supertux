@@ -57,7 +57,7 @@ class Sprite
   /** Update the sprite and process to the next frame */
   void update(float delta);
   void draw(DrawingContext& context, const Vector& pos, int layer,
-      uint32_t drawing_effect = NONE_EFFECT);
+      Uint32 drawing_effect = NONE_EFFECT);
   int get_current_frame() const;
 
   float get_fps() { return fps; } ;

@@ -19,7 +19,6 @@
 #ifndef __DRAWINGCONTEXT_H__
 #define __DRAWINGCONTEXT_H__
 
-#include <stdint.h>
 #include <vector>
 #include <string>
 #include "vector.h"
@@ -72,11 +71,11 @@ public:
 
   /** Adds a drawing request for a surface into the request list */
   void draw_surface(const Surface* surface, const Vector& position, int layer,
-      uint32_t drawing_effect = NONE_EFFECT);
+      Uint32 drawing_effect = NONE_EFFECT);
   /** Adds a drawing request for part of a surface */
   void draw_surface_part(const Surface* surface, const Vector& source,
       const Vector& size, const Vector& dest, int layer,
-      uint32_t drawing_effect = NONE_EFFECT);
+      Uint32 drawing_effect = NONE_EFFECT);
   /** draws a text */
   void draw_text(Font* font, const std::string& text, const Vector& position,
       int layer);
@@ -149,7 +148,7 @@ private:
   struct DrawingRequest
   {
     int layer;
-    uint32_t drawing_effect;
+    Uint32 drawing_effect;
 
     RequestType type;
     Vector pos;

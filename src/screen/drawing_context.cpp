@@ -35,7 +35,7 @@ DrawingContext::~DrawingContext()
 
 void
 DrawingContext::draw_surface(const Surface* surface, const Vector& position,
-    int layer, uint32_t drawing_effect)
+    int layer, Uint32 drawing_effect)
 {
   assert(surface != 0);
   
@@ -52,7 +52,7 @@ DrawingContext::draw_surface(const Surface* surface, const Vector& position,
 
 void
 DrawingContext::draw_surface_part(const Surface* surface, const Vector& source,
-    const Vector& size, const Vector& dest, int layer, uint32_t drawing_effect)
+    const Vector& size, const Vector& dest, int layer, Uint32 drawing_effect)
 {
   assert(surface != 0);
 

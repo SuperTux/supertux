@@ -448,7 +448,7 @@ SurfaceOpenGL::create_gl(SDL_Surface * surf, GLuint * tex)
 }
 
 int
-SurfaceOpenGL::draw(float x, float y, Uint8 alpha, uint32_t effect)
+SurfaceOpenGL::draw(float x, float y, Uint8 alpha, Uint32 effect)
 {
   float pw = power_of_two(w);
   float ph = power_of_two(h);
@@ -503,7 +503,7 @@ SurfaceOpenGL::draw(float x, float y, Uint8 alpha, uint32_t effect)
 }
 
 int
-SurfaceOpenGL::draw_part(float sx, float sy, float x, float y, float w, float h, Uint8 alpha, uint32_t effect)
+SurfaceOpenGL::draw_part(float sx, float sy, float x, float y, float w, float h, Uint8 alpha, Uint32 effect)
 {
   float pw = power_of_two(int(this->w));
   float ph = power_of_two(int(this->h));
@@ -619,7 +619,7 @@ SurfaceSDL::SurfaceSDL(const std::string& file, int x, int y, int w, int h,  int
 }
 
 int
-SurfaceSDL::draw(float x, float y, Uint8 alpha, uint32_t effect)
+SurfaceSDL::draw(float x, float y, Uint8 alpha, Uint32 effect)
 {
   SDL_Rect dest;
 
@@ -671,7 +671,7 @@ SurfaceSDL::draw(float x, float y, Uint8 alpha, uint32_t effect)
 }
 
 int
-SurfaceSDL::draw_part(float sx, float sy, float x, float y, float w, float h, Uint8 alpha, uint32_t effect)
+SurfaceSDL::draw_part(float sx, float sy, float x, float y, float w, float h, Uint8 alpha, Uint32 effect)
 {
   SDL_Rect src, dest;
 

@@ -75,7 +75,7 @@ Sprite::update(float /*delta*/)
 
 void
 Sprite::draw(DrawingContext& context, const Vector& pos, int layer,
-    uint32_t drawing_effect)
+    Uint32 drawing_effect)
 {
   time = SDL_GetTicks();
   unsigned int frame = get_current_frame();

@@ -24,7 +24,6 @@
 #include <set>
 #include <map>
 #include <vector>
-#include <stdint.h>
 #include "screen/texture.h"
 #include "globals.h"
 #include "lispreader.h"
@@ -76,7 +75,7 @@ public:
   };
 
   /** tile attributes */
-  uint32_t attributes;
+  Uint32 attributes;
   
   /** General purpose data attached to a tile (content of a box, type of coin)*/
   int data;
