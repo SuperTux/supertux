@@ -89,7 +89,7 @@ fi
 
 AC_CHECK_LIB(z, gzopen,, AC_MSG_ERROR([*** zlib is missing]))
 
-CXXFLAGS="$CXXFLAGS -DDATA_PREFIX='\"$datatdir/supertux\"'" 
+CXXFLAGS="$CXXFLAGS -DDATA_PREFIX='\"$datadir/supertux\"'" 
 
 dnl Checks for library functions.
 AC_CHECK_FUNCS(mkdir strdup strstr)
