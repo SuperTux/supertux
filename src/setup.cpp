@@ -383,12 +383,14 @@ void st_menu(void)
   game_menu      = new Menu();
   highscore_menu = new Menu();
   contrib_menu   = new Menu();
+  contrib_worldmap_menu = new Menu();
   contrib_subset_menu   = new Menu();
   worldmap_menu  = new Menu();
 
   main_menu->set_pos(screen->w/2, 335);
   main_menu->additem(MN_GOTO, _("Start Game"),0,load_game_menu, MNID_STARTGAME);
-  main_menu->additem(MN_GOTO, _("Contrib Levels"),0,contrib_menu, MNID_CONTRIB);
+  main_menu->additem(MN_GOTO, _("Contrib Worlds"),0,contrib_worldmap_menu, MNID_WORLDMAP_CONTRIB);
+  main_menu->additem(MN_GOTO, _("Contrib Levels"),0,contrib_menu, MNID_LEVELS_CONTRIB);
   main_menu->additem(MN_GOTO, _("Options"),0,options_menu, MNID_OPTIONMENU);
   main_menu->additem(MN_ACTION, _("Level Editor"),0,0, MNID_LEVELEDITOR);
   main_menu->additem(MN_ACTION, _("Credits"),0,0, MNID_CREDITS);
@@ -641,6 +643,7 @@ void st_general_free(void)
   delete options_keys_menu;
   delete options_joystick_menu;
   delete highscore_menu;
+  delete contrib_worldmap_menu;
   delete contrib_menu;
   delete contrib_subset_menu;
   delete worldmap_menu;
@@ -988,6 +991,10 @@ void parseargs(int argc, char * argv[])
         {
           launch_leveleditor_mode = true;
         }
+      else if (strcmp(argv[i], "--worldmap") == 0)
+        {
+          launch_worldmap_mode = true;
+        }
       else if (strcmp(argv[i], "--datadir") == 0 
                || strcmp(argv[i], "-d") == 0 )
         {
@@ -1065,7 +1072,8 @@ void parseargs(int argc, char * argv[])
                "  -j, --joystick NUM  Use joystick NUM (default: 0)\n" 
                "  --joymap XAXIS:YAXIS:A:B:START\n"
                "                      Define how joystick buttons and axis should be mapped\n"
-               "  --leveleditor       Opens the leveleditor in a file. (Only works when a file is provided.)\n"
+               "  --leveleditor       Opens the leveleditor in a file.\n"
+               "  --worldmap          Opens the specified worldmap file.\n"
                "  -d, --datadir DIR   Load Game data from DIR (default: automatic)\n"
                "  --debug             Enables the debug mode, which is useful for developers.\n"
                "  --help              Display a help message summarizing command-line\n"
@@ -1106,7 +1114,7 @@ void usage(char * prog, int ret)
 
   /* Display the usage message: */
 
-  fprintf(fi, _("Usage: %s [--fullscreen] [--opengl] [--disable-sound] [--disable-music] [--debug] | [--usage | --help | --version] [--leveleditor] FILENAME\n"),
+  fprintf(fi, _("Usage: %s [--fullscreen] [--opengl] [--disable-sound] [--disable-music] [--debug] | [--usage | --help | --version] [--leveleditor] [--worldmap] FILENAME\n"),
           prog);
 
 

@@ -69,6 +69,7 @@ extern bool show_fps;
 extern int joystick_num;
 extern char* level_startup_file;
 extern bool launch_leveleditor_mode;
+extern bool launch_worldmap_mode;
 
 /* SuperTux directory ($HOME/.supertux) and save directory($HOME/.supertux/save) */
 extern char* st_dir;

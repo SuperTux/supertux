@@ -378,11 +378,11 @@ WorldMap::~WorldMap()
 void
 WorldMap::load_map()
 {
+  std::cout << "Loading map: " << datadir + "/levels/worldmap/" + map_filename << std::endl;
+
   lisp_object_t* root_obj = lisp_read_from_file(datadir + "/levels/worldmap/" + map_filename);
   if (!root_obj)
     st_abort("Couldn't load file", datadir + "/levels/worldmap/" + map_filename);
-
-  std::cout << "Loading map: " << datadir + "/levels/worldmap/" + map_filename << std::endl;
 
   if (strcmp(lisp_symbol(lisp_car(root_obj)), "supertux-worldmap") == 0)
     {
@@ -960,6 +960,9 @@ WorldMap::display()
 void
 WorldMap::savegame(const std::string& filename)
 {
+  if(filename != "")
+    return;
+
   std::cout << "savegame: " << filename << std::endl;
   std::ofstream out(filename.c_str());
 
@@ -1085,6 +1088,14 @@ WorldMap::loadgame(const std::string& filename)
     }
  
   lisp_free(savegame);
+}
+
+void
+WorldMap::loadmap(const std::string& filename)
+{
+  savegame_file = "";
+  map_filename = filename;
+  load_map();
 }
 
 } // namespace WorldMapNS

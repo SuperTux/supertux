@@ -33,7 +33,8 @@
 
 enum MainMenuIDs {
   MNID_STARTGAME,
-  MNID_CONTRIB,
+  MNID_WORLDMAP_CONTRIB,
+  MNID_LEVELS_CONTRIB,
   MNID_OPTIONMENU,
   MNID_LEVELEDITOR,
   MNID_CREDITS,
@@ -235,6 +236,7 @@ extern Surface* back;
 extern Surface* arrow_left;
 extern Surface* arrow_right;
 
+extern Menu* contrib_worldmap_menu;
 extern Menu* contrib_menu;
 extern Menu* contrib_subset_menu;
 extern Menu* main_menu;

@@ -59,6 +59,7 @@ Menu* options_joystick_menu = 0;
 Menu* highscore_menu = 0;
 Menu* load_game_menu = 0;
 Menu* save_game_menu = 0;
+Menu* contrib_worldmap_menu   = 0;
 Menu* contrib_menu   = 0;
 Menu* contrib_subset_menu   = 0;
 

@@ -67,6 +67,18 @@ int main(int argc, char * argv[])
       else
         leveleditor.run();
     }
+    else if (launch_worldmap_mode && level_startup_file)
+    {
+      // hack to make it possible for someone to give an absolute path
+      std::string str(level_startup_file);
+      unsigned int i = str.find_last_of("/", str.size());
+      if(i != std::string::npos)
+        str.erase(0, i+1);
+
+      WorldMapNS::WorldMap worldmap;
+      worldmap.loadmap(str);
+      worldmap.display();
+    }
     else if (level_startup_file)
     {
       GameSession session(level_startup_file, ST_GL_LOAD_LEVEL_FILE);

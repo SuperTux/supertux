@@ -45,6 +45,7 @@
 #include "level.h"
 #include "level_subset.h"
 #include "gameloop.h"
+#include "worldmap.h"
 #include "leveleditor.h"
 #include "scene.h"
 #include "player.h"
@@ -53,6 +54,7 @@
 #include "sector.h"
 #include "tilemap.h"
 #include "resources.h"
+#include "type.h"
 #include "gettext.h"
 
 static Surface* bkg_title;
@@ -71,6 +73,8 @@ static GameSession* titlesession;
 static std::vector<LevelSubset*> contrib_subsets;
 static LevelSubset* current_contrib_subset = 0;
 
+static string_list_type worldmap_list;
+
 static LevelEditor* leveleditor;
 
 void free_contrib_menu()
@@ -85,6 +89,7 @@ void free_contrib_menu()
 
 void generate_contrib_menu()
 {
+  /** Generating contrib levels list by making use of Level Subset */
   string_list_type level_subsets = dsubdirs("/levels", "info");
 
   free_contrib_menu();
@@ -107,7 +112,7 @@ void generate_contrib_menu()
   string_list_free(&level_subsets);
 }
 
-void check_contrib_menu()
+void check_levels_contrib_menu()
 {
   static int current_subset = -1;
 
@@ -172,6 +177,19 @@ void check_contrib_subset_menu()
     }  
 }
 
+void check_contrib_worldmap_menu()
+{
+  int index = contrib_worldmap_menu->check();
+  if (index != -1)
+    {
+      WorldMapNS::WorldMap worldmap;
+      worldmap.loadmap(worldmap_list.item[index]);
+      worldmap.display();
+
+      Menu::set_current(main_menu);
+    }
+}
+
 void draw_demo(double frame_ratio)
 {
   Sector* world  = titlesession->get_current_sector();
@@ -232,6 +250,19 @@ void title(void)
   bkg_title = new Surface(datadir + "/images/background/arctis.jpg", IGNORE_ALPHA);
   logo = new Surface(datadir + "/images/title/logo.png", USE_ALPHA);
   img_choose_subset = new Surface(datadir + "/images/status/choose-level-subset.png", USE_ALPHA);
+
+  /* Generating contrib maps by only using a string_list */
+  worldmap_list = dfiles("levels/worldmap", NULL, NULL);
+
+  contrib_worldmap_menu->additem(MN_LABEL, _("Contrib Worlds"), 0,0);
+  contrib_worldmap_menu->additem(MN_HL, "", 0,0);
+  for(int i = 0; i < worldmap_list.num_items; i++)
+    contrib_worldmap_menu->additem(MN_ACTION, worldmap_list.item[i],0,0,i);
+  contrib_worldmap_menu->additem(MN_HL,"",0,0);
+  contrib_worldmap_menu->additem(MN_BACK,"Back",0,0);
+
+  titlesession->get_current_sector()->activate();
+  titlesession->set_current();
 
   /* --- Main title loop: --- */
   frame = 0;
@@ -295,7 +326,9 @@ void title(void)
                   // Start Game, ie. goto the slots menu
                   update_load_save_game_menu(load_game_menu);
                   break;
-                case MNID_CONTRIB:
+                case MNID_WORLDMAP_CONTRIB:
+                  break;
+                case MNID_LEVELS_CONTRIB:
                   // Contrib Menu
                   puts("Entering contrib menu");
                   generate_contrib_menu();
@@ -350,11 +383,15 @@ void title(void)
             }
           else if(menu == contrib_menu)
             {
-              check_contrib_menu();
+              check_levels_contrib_menu();
             }
           else if (menu == contrib_subset_menu)
             {
               check_contrib_subset_menu();
+            }
+          else if(menu == contrib_worldmap_menu)
+            {
+              check_contrib_worldmap_menu();
             }
         }
 
