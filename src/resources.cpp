@@ -118,7 +118,7 @@ void loadshared()
 
   /* Tuxes: */
   smalltux_star = sprite_manager->load("smalltux-star");
-  largetux_star = sprite_manager->load("largetux-star");
+  largetux_star = sprite_manager->load("bigtux-star");
   smalltux_gameover = sprite_manager->load("smalltux-gameover");
 
   char img_name[1024];
