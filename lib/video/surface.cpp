@@ -995,10 +995,10 @@ SurfaceSDL::draw_part(float sx, float sy, float x, float y, float w, float h, Ui
     /* Create a Surface, make it using colorkey, blit surface into temp, apply alpha
       to temp sur, blit the temp into the screen */
     /* Note: this has to be done, since SDL doesn't allow to set alpha to surfaces that
-      already have an alpha mask yet... */
+      already have an alpha mask, yet... */
 
     SDL_Surface* sdl_surface_copy = SDL_CreateRGBSurface (sdl_surface->flags,
-                                    sdl_surface->w, sdl_surface->h, sdl_surface->format->BitsPerPixel,
+                                    (int)w, (int)h, sdl_surface->format->BitsPerPixel,
                                     sdl_surface->format->Rmask, sdl_surface->format->Gmask,
                                     sdl_surface->format->Bmask,
                                     0);
@@ -1007,7 +1007,7 @@ SurfaceSDL::draw_part(float sx, float sy, float x, float y, float w, float h, Ui
     SDL_SetColorKey(sdl_surface_copy, SDL_SRCCOLORKEY, colorkey);
 
 
-    SDL_BlitSurface(sdl_surface, NULL, sdl_surface_copy, NULL);
+    SDL_BlitSurface(sdl_surface, &src, sdl_surface_copy, NULL);
     SDL_SetAlpha(sdl_surface_copy ,SDL_SRCALPHA,alpha);
 
     int ret = SDL_BlitSurface(sdl_surface_copy, NULL, screen, &dest);
