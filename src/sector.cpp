@@ -275,30 +275,6 @@ void
 Sector::add_object(GameObject* object)
 {
   gameobjects_new.push_back(object);
-#if 0
-  BadGuy* badguy = dynamic_cast<BadGuy*> (object);
-  if(badguy)
-    badguys.push_back(badguy);
-  Bullet* bullet = dynamic_cast<Bullet*> (object);
-  if(bullet)
-    bullets.push_back(bullet);
-  Upgrade* upgrade = dynamic_cast<Upgrade*> (object);
-  if(upgrade)
-    upgrades.push_back(upgrade);
-  Trampoline* trampoline = dynamic_cast<Trampoline*> (object);
-  if(trampoline)
-    trampolines.push_back(trampoline);
-  FlyingPlatform* flying_platform = dynamic_cast<FlyingPlatform*> (object);
-  if(flying_platform)
-    flying_platforms.push_back(flying_platform);
-  InteractiveObject* interactive_object 
-      = dynamic_cast<InteractiveObject*> (object);
-  if(interactive_object)
-    interactive_objects.push_back(interactive_object);
-
-  gameobjects.push_back(object);
-
-#endif
 }
 
 void
