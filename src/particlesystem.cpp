@@ -88,8 +88,9 @@ SnowParticleSystem::SnowParticleSystem()
         int snowsize = rand() % 3;
         particle->texture = snowimages[snowsize];
         do {
-            particle->speed = snowsize/60.0 + (float(rand()%10)/300.0);
-        } while(particle->speed < 0.01);
+            particle->speed = snowsize*.2 + (float(rand()%10)*.4);
+        } while(particle->speed < 1);
+        particle->speed *= 10; // gravity
 
         particles.push_back(particle);
     }
