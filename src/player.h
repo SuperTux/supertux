@@ -31,7 +31,7 @@
 
 /* Times: */
 
-#define TUX_SAFE_TIME 750
+#define TUX_SAFE_TIME 1250
 #define TUX_INVINCIBLE_TIME 10000
 #define TUX_INVINCIBLE_TIME_WARNING 2000
 #define TIME_WARNING 20000     /* When to alert player they're low on time! */
