@@ -89,10 +89,15 @@ void bullet_draw(bullet_type* pbullet)
 
 void bullet_collision(bullet_type* pbullet, int c_object)
 {
-
-  if(c_object == CO_BADGUY)
-    bullets.erase(static_cast<std::vector<bullet_type>::iterator>(pbullet));
-
+  if(c_object == CO_BADGUY) {
+    std::vector<bullet_type>::iterator i;
+    for(i = bullets.begin(); i != bullets.end(); ++i) {
+        if(& (*i) == pbullet) {
+            bullets.erase(i);
+            return;
+        }
+    }
+  }
 }
 
 void upgrade_init(upgrade_type *pupgrade, float x, float y, int dir, int kind)

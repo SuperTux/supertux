@@ -33,6 +33,9 @@ texture_type img_money_left[2];
 texture_type img_money_right[2];
 texture_type img_mrbomb_left[4];
 texture_type img_mrbomb_right[4];
+texture_type img_mrbomb_ticking_left;
+texture_type img_mrbomb_ticking_right;
+texture_type img_mrbomb_explosion;
 texture_type img_stalactite;
 texture_type img_stalactite_broken;
 texture_type img_flame[2];
@@ -88,15 +91,15 @@ std::string badguykind_to_string(BadGuyKind kind)
 void
 BadGuy::init(float x, float y, BadGuyKind kind_)
 {
+  base.x   = x;
+  base.y   = y;    
   base.width  = 32;
   base.height = 32;
   mode     = NORMAL;
   dying    = DYING_NOT;
   kind     = kind_;
-  base.x   = x;
-  base.y   = y;
   base.xm  = -1.3;
-  base.ym  = 4.8;
+  base.ym  = 0;
   old_base = base;
   dir      = LEFT;
   seen     = false;
@@ -110,6 +113,8 @@ BadGuy::init(float x, float y, BadGuyKind kind_)
     dying = DYING_SQUISHED;
   } else if(kind == BAD_FLAME) {
     base.ym = 0; // we misuse base.ym as angle for the flame
+  } else if(kind == BAD_MONEY) {
+    base.ym = 4.8;
   }
 }
 
@@ -118,14 +123,13 @@ void BadGuy::action_bsod()
   /* --- BLUE SCREEN OF DEATH MONSTER: --- */
 
   /* Move left/right: */
-  if (dying == DYING_NOT ||
-      dying == DYING_FALLING)
+  if (dying == DYING_NOT || dying == DYING_FALLING)
     {
       base.x += base.xm * frame_ratio;
     }
 
   /* Move vertically: */
-  base.y = base.y + base.ym * frame_ratio;
+  base.y += base.ym * frame_ratio;
 
   if (dying != DYING_FALLING)
     collision_swept_object_map(&old_base,&base);
@@ -136,13 +140,11 @@ void BadGuy::action_bsod()
   fall(true);
 
   // Handle dying timer:
-  if (dying == DYING_SQUISHED)       
+  if (dying == DYING_SQUISHED && !timer_check(&timer))       
     {
       /* Remove it if time's up: */
-      if(!timer_check(&timer)) {
-        remove_me();
-        return;
-      }
+      remove_me();
+      return;
     }
 }
 
@@ -219,17 +221,13 @@ void BadGuy::action_laptop()
   fall();
 
   /* Handle mode timer: */
-  if (mode == FLAT && mode != HELD)
+  if (mode == FLAT)
     {
       if(!timer_check(&timer))
         {
           mode = NORMAL;
-          base.xm = 4;
+          base.xm = (dir == LEFT) ? -1.3 : 1.3;
         }
-    }
-  else if (mode == KICK)
-    {
-      timer_check(&timer);
     }
 }
 
@@ -250,6 +248,8 @@ void BadGuy::check_horizontal_bump(bool checkcliff)
 
     // don't check for cliffs when we're falling
     if(!checkcliff)
+        return;
+    if(!issolid(base.x + base.width/2, base.y + base.height + 16))
         return;
     
     if(dir == LEFT && !issolid(base.x, (int) base.y + base.height + 16))
@@ -274,7 +274,7 @@ void BadGuy::fall(bool dojump)
   /* Fall if we get off the ground: */
   if (dying != DYING_FALLING)
     {
-      if (!issolid(base.x+16, base.y + 32))
+      if (!issolid(base.x+base.width/2, base.y + base.height))
         {
           if(!physic_is_set(&physic))
             {
@@ -282,18 +282,14 @@ void BadGuy::fall(bool dojump)
               physic_set_start_vy(&physic, dojump ? 2. : 0.);
             }
 
-          if(mode != HELD)
-            {
-              base.ym = physic_get_velocity(&physic);
-            }
+          base.ym = physic_get_velocity(&physic);
         }
       else
         {
           /* Land: */
-
           if (base.ym > 0)
             {
-              base.y = (int)(base.y / 32) * 32;
+              base.y = int((base.y + base.height)/32) * 32 - base.height;
               base.ym = 0;
             }
           physic_init(&physic);
@@ -354,18 +350,12 @@ void BadGuy::action_money()
           physic_set_state(&physic,PH_VT);
           physic_set_start_vy(&physic,6.);
           base.ym = physic_get_velocity(&physic);
+          mode = MONEY_JUMP;
         }
-      /* // matze: is this code needed?
-      else if(issolid(base.x, base.y))
-        { // This works, but isn't the best solution imagineable 
-          physic_set_state(&physic,PH_VT);
-          physic_set_start_vy(&physic,0.);
-          base.ym = physic_get_velocity(&physic);
-          ++base.y;
-        }*/
       else
         {
           base.ym = physic_get_velocity(&physic);
+          mode = NORMAL;
         }
     }
   else
@@ -407,6 +397,12 @@ void BadGuy::action_bomb()
       mode = BOMB_EXPLODE;
       dying = DYING_NOT; // now the bomb hurts
       timer_start(&timer, 1000);
+      // explosion image has different size
+      base.x -= (img_mrbomb_explosion.w - base.width) / 2;
+      base.y -= img_mrbomb_explosion.h - base.height;
+      base.width = img_mrbomb_explosion.w;
+      base.height = img_mrbomb_explosion.h;
+      old_base = base;
     } else if(mode == BOMB_EXPLODE) {
       remove_me();
       return;
@@ -417,7 +413,11 @@ void BadGuy::action_bomb()
 void BadGuy::action_stalactite()
 {
   if(mode == NORMAL) {
-    if(tux.base.x + 32 > base.x - 40 && tux.base.x < base.x + 32 + 40) {
+    static const int range = 40;
+    // start shaking when tux is below the stalactite and at least 40 pixels
+    // near
+    if(tux.base.x + 32 > base.x - range && tux.base.x < base.x + 32 + range
+            && tux.base.y + tux.base.height > base.y) {
       timer_start(&timer, 800);
       mode = STALACTITE_SHAKING;
     }
@@ -427,13 +427,18 @@ void BadGuy::action_stalactite()
       mode = STALACTITE_FALL;
     }
   } else if(mode == STALACTITE_FALL) {
-    base.y += base.ym * frame_ratio;   
+    base.y += base.ym * frame_ratio;
+    fall();
     /* Destroy if collides land */
     if(issolid(base.x+16, base.y+32))
     {
       timer_start(&timer, 3000);
       dying = DYING_SQUISHED;
       mode = FLAT;
+    }
+  } else if(mode == FLAT) {
+    if(!timer_check(&timer)) {
+      remove_me();
     }
   }
 }
@@ -451,52 +456,50 @@ BadGuy::action_flame()
 
 void
 BadGuy::action()
-{ 
-  if (seen)
-    {
-      switch (kind)
-        {
-        case BAD_BSOD:
-          action_bsod();
-          break;
-    
-        case BAD_LAPTOP:
-          action_laptop();
-          break;
-      
-        case BAD_MONEY:
-          action_money();
-          break;
-
-        case BAD_MRBOMB:
-          action_mrbomb();
-          break;
-        
-        case BAD_BOMB:
-          action_bomb();
-          break;
-
-        case BAD_STALACTITE:
-          action_stalactite();
-          break;
-
-        case BAD_FLAME:
-          action_flame();
-          break;
-        }
-    }
-
+{
   // Remove if it's far off the screen:
   if (base.x < scroll_x - OFFSCREEN_DISTANCE)
     {
-      remove_me();
+      remove_me();                                                
       return;
     }
-  else /* !seen */
+
+  // Once it's on screen, it's activated!
+  if (base.x <= scroll_x + screen->w + OFFSCREEN_DISTANCE)
+    seen = true;
+
+  if(!seen)
+    return;
+
+  switch (kind)
     {
-      // Once it's on screen, it's activated!
-      if (base.x <= scroll_x + screen->w + OFFSCREEN_DISTANCE)
-        seen = true;
+    case BAD_BSOD:
+      action_bsod();
+      break;
+
+    case BAD_LAPTOP:
+      action_laptop();
+      break;
+  
+    case BAD_MONEY:
+      action_money();
+      break;
+
+    case BAD_MRBOMB:
+      action_mrbomb();
+      break;
+    
+    case BAD_BOMB:
+      action_bomb();
+      break;
+
+    case BAD_STALACTITE:
+      action_stalactite();
+      break;
+
+    case BAD_FLAME:
+      action_flame();
+      break;
     }
 }
 
@@ -504,7 +507,7 @@ void
 BadGuy::draw_bsod()
 {
   texture_type* texture = 0;
-  float y = base.y;
+  
   if(dying == DYING_NOT) {
     size_t frame = (global_frame_counter / 5) % 4;
     texture = (dir == LEFT) ? &img_bsod_left[frame] : &img_bsod_right[frame];
@@ -513,10 +516,9 @@ BadGuy::draw_bsod()
   } else if(dying == DYING_SQUISHED) {
     texture = (dir == LEFT) 
         ? &img_bsod_squished_left : &img_bsod_squished_right;
-    y += 24;
   }
   
-  texture_draw(texture, base.x - scroll_x, y);
+  texture_draw(texture, base.x - scroll_x, base.y);
 }
 
 void
@@ -546,7 +548,7 @@ void
 BadGuy::draw_money()
 {
   texture_type* texture;
-  size_t frame = (base.ym != 300) ? 0 : 1;
+  size_t frame = (mode == NORMAL) ? 0 : 1;
 
   if(tux.base.x + tux.base.width < base.x) {
     texture = &img_money_left[frame];
@@ -575,12 +577,13 @@ void
 BadGuy::draw_bomb()
 {
   texture_type* texture;
-  
+
   // TODO add real bomb graphics
   if(mode == BOMB_TICKING) {
-    texture = &img_bsod_squished_right;
+    texture = (dir == LEFT) 
+        ? &img_mrbomb_ticking_left : &img_mrbomb_ticking_right;
   } else {
-    texture = &img_bsod_squished_left;
+    texture = &img_mrbomb_explosion;
   }
   
   texture_draw(texture, base.x - scroll_x, base.y);
@@ -611,40 +614,39 @@ void
 BadGuy::draw()
 {
   // Don't try to draw stuff that is outside of the screen
-  if (base.x > scroll_x - 32 &&
-      base.x < scroll_x + screen->w)
+  if (base.x <= scroll_x - base.width || base.x >= scroll_x + screen->w)
+    return;
+      
+  switch (kind)
     {
-      switch (kind)
-        {
-        case BAD_BSOD:
-          draw_bsod();
-          break;
-    
-        case BAD_LAPTOP:
-          draw_laptop();
-          break;
-    
-        case BAD_MONEY:
-          draw_money();
-          break;
+    case BAD_BSOD:
+      draw_bsod();
+      break;
 
-        case BAD_MRBOMB:
-          draw_mrbomb();
-          break;
+    case BAD_LAPTOP:
+      draw_laptop();
+      break;
 
-        case BAD_BOMB:
-          draw_bomb();
-          break;
+    case BAD_MONEY:
+      draw_money();
+      break;
 
-        case BAD_STALACTITE:
-          draw_stalactite();
-          break;
+    case BAD_MRBOMB:
+      draw_mrbomb();
+      break;
 
-        case BAD_FLAME:
-          draw_flame();
-          break;
+    case BAD_BOMB:
+      draw_bomb();
+      break;
 
-        }
+    case BAD_STALACTITE:
+      draw_stalactite();
+      break;
+
+    case BAD_FLAME:
+      draw_flame();
+      break;
+
     }
 }
 
@@ -662,8 +664,8 @@ void
 BadGuy::make_player_jump(Player* player)
 {
     physic_set_state(&player->vphysic,PH_VT);
-    physic_set_start_vy(&player->vphysic,2.);
-    player->base.y = base.y - player->base.height - 1;
+    physic_set_start_vy(&player->vphysic, 2.);
+    player->base.y = base.y - player->base.height - 2;
 }
 
 void
@@ -682,14 +684,18 @@ BadGuy::squich(Player* player)
       return;
 
   } else if(kind == BAD_BSOD) {
-      dying = DYING_SQUISHED;
-      timer_start(&timer,4000);
-
       make_player_jump(player);
 
       add_score(base.x - scroll_x, base.y, 50 * score_multiplier);
       play_sound(sounds[SND_SQUISH], SOUND_CENTER_SPEAKER);
       score_multiplier++;
+
+      dying = DYING_SQUISHED;
+      timer_start(&timer, 2000);
+      base.y += base.height - img_bsod_squished_left.h;
+      base.height = img_bsod_squished_left.h;
+      base.xm = base.ym = 0;
+      old_base = base;
       return;
       
   } else if (kind == BAD_LAPTOP) {
@@ -698,29 +704,27 @@ BadGuy::squich(Player* player)
           /* Flatten! */
           play_sound(sounds[SND_STOMP], SOUND_CENTER_SPEAKER);
           mode = FLAT;
-          base.xm = 4;
+          base.xm = 0;
 
           timer_start(&timer, 4000);
       } else if (mode == FLAT) {
           /* Kick! */
           play_sound(sounds[SND_KICK], SOUND_CENTER_SPEAKER);
 
-          if (player->base.x < base.x + (base.width/2))
+          if (player->base.x < base.x + (base.width/2)) {
+              base.xm = 5;
               dir = RIGHT;
-          else
+          } else {
+              base.xm = -5;
               dir = LEFT;
+          }
 
-          base.xm = 5;
           mode = KICK;
-
-          timer_start(&timer,5000);
       }
 
       make_player_jump(player);
 	      
-      add_score(base.x - scroll_x,
-              base.y,
-              25 * score_multiplier);
+      add_score(base.x - scroll_x, base.y, 25 * score_multiplier);
       score_multiplier++;
       return;
   }
@@ -767,11 +771,7 @@ BadGuy::collision(void *p_c_object, int c_object, CollisionType type)
 
     case CO_BADGUY:
       pbad_c = (BadGuy*) p_c_object;
-      if (mode == NORMAL)
-      {
-      /* do nothing */
-      }
-      else if(mode == KICK)
+      if(kind == BAD_LAPTOP && mode == KICK)
         {
           /* We're in kick mode, kill the other guy
 	     and yourself(wuahaha) : */
@@ -782,7 +782,6 @@ BadGuy::collision(void *p_c_object, int c_object, CollisionType type)
 
           add_score(base.x - scroll_x,
                     base.y, 100);
-	          pbad_c->dying = DYING_FALLING;
 		  
           dying = DYING_FALLING;
           base.ym = -8;
@@ -918,6 +917,12 @@ void load_badguy_gfx()
       texture_load(&img_mrbomb_right[i],
               datadir + "/images/shared/mrbomb-right-" + num + ".png", USE_ALPHA);
   }
+  texture_load(&img_mrbomb_ticking_left,
+          datadir + "/images/shared/mrbombx-left-0.png", USE_ALPHA);
+  texture_load(&img_mrbomb_ticking_right,
+          datadir + "/images/shared/mrbombx-right-0.png", USE_ALPHA);
+  texture_load(&img_mrbomb_explosion,
+          datadir + "/images/shared/mrbomb-explosion.png", USE_ALPHA);
 
   /* stalactite */
   texture_load(&img_stalactite, 
@@ -968,6 +973,10 @@ void free_badguy_gfx()
       texture_free(&img_mrbomb_left[i]);
       texture_free(&img_mrbomb_right[i]);
   }
+
+  texture_free(&img_mrbomb_ticking_left);
+  texture_free(&img_mrbomb_ticking_right);
+  texture_free(&img_mrbomb_explosion);
 
   texture_free(&img_stalactite);
   texture_free(&img_stalactite_broken);

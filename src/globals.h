@@ -44,6 +44,8 @@ extern char* st_save_dir;
 
 extern SDL_Joystick * js;
 
+int wait_for_event(SDL_Event& event,unsigned int min_delay = 0, unsigned int max_delay = 0, bool empty_events = false);
+
 #define JOYSTICK_DEAD_ZONE 4096
 
 #endif /* SUPERTUX_GLOBALS_H */

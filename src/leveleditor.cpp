@@ -240,7 +240,7 @@ int leveleditor(int levelnb)
                       le_level_subset.load(level_subsets.item[i-2]);
                       leveleditor_menu->item[3].kind = MN_GOTO;
                       le_level = 1;
-                      arrays_init();
+                      arrays_free();
                       loadshared();
                       le_current_level = new st_level;
                       if(level_load(le_current_level, le_level_subset.name.c_str(), le_level) != 0)
@@ -271,7 +271,7 @@ int leveleditor(int levelnb)
                       le_level_subset.load(subset_new_menu->item[2].input);
                       leveleditor_menu->item[3].kind = MN_GOTO;
                       le_level = 1;
-                      arrays_init();
+                      arrays_free();
                       loadshared();
                       le_current_level = new st_level;
                       if(level_load(le_current_level, le_level_subset.name.c_str(), le_level) != 0)
@@ -578,7 +578,6 @@ void save_subset_settings_menu()
 void le_goto_level(int levelnb)
 {
   arrays_free();
-  arrays_init();
 
   level_free(le_current_level);
   if(level_load(le_current_level, le_level_subset.name.c_str(), levelnb) != 0)
@@ -1237,7 +1236,7 @@ void le_testlevel()
   level_save(le_current_level,"test",le_level);
   gameloop("test",le_level, ST_GL_TEST);
   Menu::set_current(leveleditor_menu);
-  arrays_init();
+  arrays_free();
   level_load_gfx(le_current_level);
   loadshared();
 }

@@ -53,7 +53,6 @@ extern double frame_ratio;
 
 void add_score(float x, float y, int s);
 void set_defaults(void);
-void arrays_init(void);
 void arrays_free(void);
 
 void add_bouncy_distro(float x, float y);

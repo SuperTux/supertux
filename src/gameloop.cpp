@@ -87,7 +87,8 @@ void levelintro(void)
 
   flipscreen();
 
-  SDL_Delay(1000);
+  SDL_Event event;
+  wait_for_event(event,1000,3000,true);
 }
 
 /* Reset Timers */
@@ -370,7 +371,6 @@ int game_action(void)
         }
 
       arrays_free();
-      arrays_init();
       activate_bad_guys();
       activate_particle_systems();
       level_free_gfx();
@@ -594,7 +594,7 @@ int gameloop(const char * subset, int levelnb, int mode)
   level = levelnb;
 
   /* Init the game: */
-  arrays_init();
+  arrays_free();
   set_defaults();
 
   strcpy(level_subset,subset);
@@ -761,8 +761,10 @@ int gameloop(const char * subset, int levelnb, int mode)
       /* Pause till next frame, if the machine running the game is too fast: */
       /* FIXME: Works great for in OpenGl mode, where the CPU doesn't have to do that much. But
          the results in SDL mode aren't perfect (thought the 100 FPS are reached), even on an AMD2500+. */
-      if(last_update_time >= update_time - 12 && !jump)
+      if(last_update_time >= update_time - 12 && !jump) {
         SDL_Delay(10);
+        update_time = st_get_ticks();
+      }
       /*if((update_time - last_update_time) < 10)
         SDL_Delay((11 - (update_time - last_update_time))/2);*/
 
@@ -1548,7 +1550,9 @@ void drawendscreen(void)
   text_drawf(&gold_text, str, 0, 256, A_HMIDDLE, A_TOP, 1);
 
   flipscreen();
-  SDL_Delay(2000);
+  
+  SDL_Event event;
+  wait_for_event(event,2000,5000,true);
 }
 
 void drawresultscreen(void)
@@ -1566,7 +1570,9 @@ void drawresultscreen(void)
   text_drawf(&gold_text, str, 0, 256, A_HMIDDLE, A_TOP, 1);
 
   flipscreen();
-  SDL_Delay(2000);
+  
+  SDL_Event event;
+  wait_for_event(event,2000,5000,true);
 }
 
 void savegame(int slot)
@@ -1632,7 +1638,6 @@ void loadgame(int slot)
       if(level_load(&current_level,level_subset,level) != 0)
         exit(1);
       arrays_free();
-      arrays_init();
       activate_bad_guys();
       activate_particle_systems();
       level_free_gfx();

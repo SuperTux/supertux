@@ -45,10 +45,6 @@ texture_type img_red_glow;
 timer_type time_left;
 double frame_ratio;
 
-void arrays_init(void)
-{
-}
-
 void arrays_free(void)
 {
 bad_guys.clear();

@@ -129,6 +129,7 @@ Menu::Menu()
 {
   pos_x        = screen->w/2;
   pos_y        = screen->h/2;
+  last_menu    = 0;
   arrange_left = 0;
   num_items    = 0;
   active_item  = 0;
