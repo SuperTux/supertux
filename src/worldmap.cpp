@@ -110,6 +110,7 @@ TileManager::TileManager()
               tile->south = true;
               tile->west  = true;
               tile->stop  = true;
+              tile->auto_walk = false;
   
               LispReader reader(lisp_cdr(element));
               reader.read_int("id",  &id);
@@ -118,6 +119,7 @@ TileManager::TileManager()
               reader.read_bool("west",  &tile->west);
               reader.read_bool("east",  &tile->east);
               reader.read_bool("stop",  &tile->stop);
+              reader.read_bool("auto-walk",  &tile->auto_walk);
               reader.read_string("image",  &filename);
 
               tile->sprite = new Surface(
@@ -265,6 +267,33 @@ Tux::update(float delta)
             }
           else
             {
+              if (worldmap->at(tile_pos)->auto_walk)
+                { // Turn to a new direction
+                  Tile* tile = worldmap->at(tile_pos);
+                  Direction dir = NONE;
+                  
+                  if (tile->north && back_direction != NORTH)
+                    dir = NORTH;
+                  else if (tile->south && back_direction != SOUTH)
+                    dir = SOUTH;
+                  else if (tile->east && back_direction != EAST)
+                    dir = EAST;
+                  else if (tile->west && back_direction != WEST)
+                    dir = WEST;
+
+                  if (dir != NONE)
+                    {
+                      direction = dir;
+                      back_direction = reverse_dir(direction);
+                    }
+                  else
+                    {
+                      // Should never be reached if tiledata is good
+                      stop();
+                      return;
+                    }
+                }
+
               // Walk automatically to the next tile
               Point next_tile;
               if (worldmap->path_ok(direction, tile_pos, &next_tile))

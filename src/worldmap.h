@@ -63,8 +63,9 @@ public:
   /** Stop on this tile or walk over it? */
   bool stop;
 
-  /** direction in which to automatically turn when walked on such a tile */
-  Direction auto_walk;
+  /** When set automatically turn directions when walked over such a
+      tile (ie. walk smoothly a curve) */
+  bool auto_walk;
 };
 
 class TileManager
