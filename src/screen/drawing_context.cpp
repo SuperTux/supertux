@@ -263,7 +263,7 @@ DrawingContext::draw_filled_rect(DrawingRequest& request)
 void
 DrawingContext::do_drawing()
 {
-  std::sort(drawingrequests.begin(), drawingrequests.end());
+  std::stable_sort(drawingrequests.begin(), drawingrequests.end());
 
   for(DrawingRequests::iterator i = drawingrequests.begin();
       i != drawingrequests.end(); ++i) {
