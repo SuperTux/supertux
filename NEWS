@@ -7,6 +7,7 @@ Super Tux 0.0.7 (         )
   * automagic detection of the datafile location, no more requirement
     to run 'make install'
   * Win32 port
+  * config file support
 
 Super Tux 0.0.6 (16 Mar 04)
 ===========================
