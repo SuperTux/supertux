@@ -2260,7 +2260,6 @@ void loadlevel(void)
   /* Load data file: */
 
   filename = (char *) malloc(sizeof(char) * (strlen(DATA_PREFIX) + 20));
-  DEBUG_MSG("Fatal: FIXME QUICKLY : SEGMENTATION FAULT POSSIBLE !");
   sprintf(filename, "%s/levels/level%d.dat", DATA_PREFIX, level);
   fi = fopen(filename, "r");
   if (fi == NULL)
