@@ -7,14 +7,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux 0.1.1\n"
-"POT-Creation-Date: 2004-06-03 22:58+0100\n"
+"Report-Msgid-Bugs-To: super-tux-devel@lists.sourceforge.net\n"
+"POT-Creation-Date: 2004-06-07 23:38+0100\n"
 "PO-Revision-Date: 2004-06-03 00:29+0200\n"
 "Last-Translator:  <matze@braunis.de>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Report-Msgid-Bugs-To: super-tux-devel@lists.sourceforge.net\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/gameloop.cpp:163
@@ -45,31 +45,31 @@ msgstr ""
 msgid "COINS"
 msgstr ""
 
-#: src/gameloop.cpp:729 src/gameloop.cpp:730 src/worldmap.cpp:875
+#: src/gameloop.cpp:745 src/gameloop.cpp:746 src/worldmap.cpp:875
 #: src/worldmap.cpp:876
 msgid "LIVES"
 msgstr ""
 
-#: src/gameloop.cpp:767
+#: src/gameloop.cpp:768
 msgid "Result:"
 msgstr ""
 
-#: src/gameloop.cpp:770 src/worldmap.cpp:727
+#: src/gameloop.cpp:771 src/worldmap.cpp:727
 #, c-format
 msgid "SCORE: %d"
 msgstr ""
 
-#: src/gameloop.cpp:773 src/worldmap.cpp:731
+#: src/gameloop.cpp:774 src/worldmap.cpp:731
 #, c-format
 msgid "COINS: %d"
 msgstr ""
 
-#: src/gameloop.cpp:802
+#: src/gameloop.cpp:803
 #, c-format
 msgid "Slot %d - Savegame"
 msgstr ""
 
-#: src/gameloop.cpp:805
+#: src/gameloop.cpp:806
 #, c-format
 msgid "Slot %d - Free"
 msgstr ""
@@ -312,13 +312,8 @@ msgid ""
 "debug-mode] | [--usage | --help | --version] [--leveleditor] FILENAME\n"
 msgstr ""
 
-#: src/title.cpp:276
-msgid " SuperTux "
-msgstr ""
-
-#: src/title.cpp:276
+#: src/title.cpp:277
 msgid ""
-"\n"
 "Copyright (c) 2003 SuperTux Devel Team\n"
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you\n"
 "are welcome to redistribute it under certain conditions; see the file "
