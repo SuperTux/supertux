@@ -684,6 +684,18 @@ WorldMap::get_input()
                   break;
                 }
               break;
+
+            case SDL_JOYHATMOTION:
+              if(event.jhat.value & SDL_HAT_UP) {
+                tux->set_direction(D_NORTH);
+              } else if(event.jhat.value & SDL_HAT_DOWN) {
+                tux->set_direction(D_SOUTH);
+              } else if(event.jhat.value & SDL_HAT_LEFT) {
+                tux->set_direction(D_WEST);
+              } else if(event.jhat.value & SDL_HAT_RIGHT) {
+                tux->set_direction(D_EAST);
+              }
+              break;
           
             case SDL_JOYAXISMOTION:
               if (event.jaxis.axis == joystick_keymap.x_axis)

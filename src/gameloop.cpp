@@ -431,6 +431,27 @@ GameSession::process_events()
                         tux.input.down = UP;
                     }
                   break;
+
+                case SDL_JOYHATMOTION:
+                  if(event.jhat.value & SDL_HAT_UP) {
+                    tux.input.up = DOWN;
+                    tux.input.down = UP;
+                  } else if(event.jhat.value & SDL_HAT_DOWN) {
+                    tux.input.up = UP;
+                    tux.input.down = DOWN;
+                  } else if(event.jhat.value & SDL_HAT_LEFT) {
+                    tux.input.left = DOWN;
+                    tux.input.right = UP;
+                  } else if(event.jhat.value & SDL_HAT_RIGHT) {
+                    tux.input.left = UP;
+                    tux.input.right = DOWN;
+                  } else if(event.jhat.value == SDL_HAT_CENTERED) {
+                    tux.input.left = UP;
+                    tux.input.right = UP;
+                    tux.input.up = UP;
+                    tux.input.down = UP;
+                  }
+                  break;
             
                 case SDL_JOYBUTTONDOWN:
                   if (event.jbutton.button == joystick_keymap.a_button)

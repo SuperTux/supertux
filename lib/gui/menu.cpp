@@ -846,6 +846,13 @@ Menu::event(SDL_Event& event)
             joystick_timer.stop();
         }
       break;
+    case SDL_JOYHATMOTION:
+      if(event.jhat.value & SDL_HAT_UP) {
+          menuaction = MENU_ACTION_UP;
+      } else if(event.jhat.value & SDL_HAT_DOWN) {
+          menuaction = MENU_ACTION_DOWN;
+      }
+      break;
     case  SDL_JOYBUTTONDOWN:
       if (item.size() > 0 && item[active_item].kind == MN_CONTROLFIELD_JS)
         {
