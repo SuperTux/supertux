@@ -12,7 +12,7 @@
  (tilegroup (name "Classic-Bg") (tiles 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101))
  (tilegroup (name "Points") (tiles 132 133))
  (tilegroup (name "Bonus") (tiles 44 83 84 102 140 103 104 105 112 128))
- (tilegroup (name "Misc") (tiles 75 76 79 80 126 127 129 130 134 135 81 200))
+ (tilegroup (name "Misc") (tiles 75 76 79 80 126 127 129 130 134 135 81 200 173 174))
  (tilegroup (name "Pipe") (tiles 53 54 55 56 57 58 59 60))
  (tilegroup (name "Grey") (tiles 64 65 66 67 68 69))
  (tilegroup (name "Signs") (tiles 136 137 138 139 141 142 143 144))
@@ -589,6 +589,18 @@
  (tile (id 172)
        (images (region "snow-para-2.png" 96 64 32 32)))
 
+ ;; Lava
+ 
+ (tile (id 173)
+       (images "lava1-1.png" "lava1-2.png" "lava1-3.png" "lava1-4.png")
+       (water #t)
+       (anim-speed 120))
+ (tile (id 174)
+       (images "lava2-1.png" "lava2-2.png" "lava2-3.png" "lava2-4.png")
+       (water #t)
+       (anim-speed 120))
+
+ 
  ;; Jungle
 
  (tile (id 301)
