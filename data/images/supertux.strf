@@ -1511,4 +1511,11 @@
                   "shared/hatch-5.png"
                   "shared/hatch-6.png"))
   )
+
+  (sprite (name "yeti")
+    (action
+      (name "normal")
+      (images "shared/yeti/yeti.png")
+    )
+  )
 )

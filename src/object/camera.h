@@ -27,6 +27,7 @@
 #include "special/game_object.h"
 #include "video/drawing_context.h"
 #include "serializable.h"
+#include "timer.h"
 
 using namespace SuperTux;
 namespace lisp {
@@ -58,6 +59,9 @@ public:
   {
   }
 
+  // shake camera in a direction 1 time
+  void shake(float speed, float x, float y);
+
   void set_scrolling(int scroll_x, int scroll_y)
   {
     translation.x = scroll_x;
@@ -74,6 +78,7 @@ private:
   void scroll_normal(float elapsed_time);
   void scroll_autoscroll(float elapsed_time);
   void keep_in_bounds();
+  void shake();
 
   enum LeftRightScrollChange
   {
@@ -98,6 +103,12 @@ private:
   size_t auto_idx;
   float auto_t;
   Vector current_dir;
+
+  // shaking
+  Timer2 shaketimer;
+  float shakespeed;
+  float shakedepth_x;
+  float shakedepth_y;
 };
 
 #endif /*SUPERTUX_CAMERA_H*/

@@ -133,7 +133,18 @@ Camera::reset(const Vector& tuxpos)
 {
   translation.x = tuxpos.x - SCREEN_WIDTH/3 * 2;
   translation.y = tuxpos.y - SCREEN_HEIGHT/2;
+  shakespeed = 0;
+  shaketimer.stop();
   keep_in_bounds();
+}
+
+void
+Camera::shake(float time, float x, float y)
+{
+  shaketimer.start(time);
+  shakedepth_x = x;
+  shakedepth_y = y;
+  shakespeed = M_PI/2 / time;
 }
 
 static const float EPSILON = .00001;
@@ -163,6 +174,15 @@ Camera::keep_in_bounds()
     translation.x = width - SCREEN_WIDTH;
   if(translation.x < 0)
     translation.x = 0;                                         
+}
+
+void
+Camera::shake()
+{
+  if(shaketimer.started()) {
+    translation.x -= sin(shaketimer.get_timegone() * shakespeed) * shakedepth_x;
+    translation.y -= sin(shaketimer.get_timegone() * shakespeed) * shakedepth_y;
+  }
 }
 
 void
@@ -253,6 +273,7 @@ Camera::scroll_normal(float elapsed_time)
   translation.x -= speed_x * elapsed_time;
 
   keep_in_bounds();
+  shake();
 }
 
 void
@@ -289,5 +310,6 @@ Camera::scroll_autoscroll(float elapsed_time)
   }
 
   keep_in_bounds();
+  shake();
 }
 

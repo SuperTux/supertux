@@ -59,7 +59,7 @@ namespace SuperTux
       MusicRef load_music(const std::string& file);
 
       /// Load sound.
-      Mix_Chunk * load_sound(const std::string& file);
+      Mix_Chunk* load_sound(const std::string& file);
 
       /// Test if a certain music file exists.
       bool exists_music(const std::string& filename);

@@ -61,6 +61,7 @@ MrRocket::collision_squished(Player& player)
 {
   sprite->set_action(dir == LEFT ? "squished-left" : "squished-right");
   kill_squished(player);
+  kill_fall();
   return true;
 }
 

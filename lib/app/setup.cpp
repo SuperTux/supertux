@@ -756,7 +756,6 @@ void Setup::parseargs(int argc, char * argv[])
       else if (strcmp(argv[i], "--show-fps") == 0)
         {
           /* Use full screen: */
-
           show_fps = true;
         }
       else if (strcmp(argv[i], "--opengl") == 0 ||
@@ -764,7 +763,6 @@ void Setup::parseargs(int argc, char * argv[])
         {
 #ifndef NOOPENGL
           /* Use OpengGL: */
-
           use_gl = true;
 #endif
         }
@@ -775,7 +773,6 @@ void Setup::parseargs(int argc, char * argv[])
       else if (strcmp(argv[i], "--usage") == 0)
         {
           /* Show usage: */
-
           usage(argv[0], 0);
         }
       else if (strcmp(argv[i], "--version") == 0)

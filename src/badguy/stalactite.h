@@ -17,7 +17,7 @@ public:
   void draw(DrawingContext& context);
   void deactivate();
 
-private:
+protected:
   Timer2 timer;
 
   enum StalactiteState {
