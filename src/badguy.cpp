@@ -350,12 +350,12 @@ BadGuy::fall()
                   if (dir == LEFT)
                   {
                     dir = RIGHT;
-                    physic.set_velocity_x(fabs(physic.get_velocity_x()));
+                    physic.set_velocity_x(fabsf(physic.get_velocity_x()));
                   } 
                   else
                   {
                     dir = LEFT;
-                    physic.set_velocity_x(-fabs(physic.get_velocity_x()));
+                    physic.set_velocity_x(-fabsf(physic.get_velocity_x()));
                   }
                 }
             }
@@ -376,12 +376,15 @@ BadGuy::remove_me()
 void
 BadGuy::action_jumpy(double frame_ratio)
 {
-  if (fabsf(physic.get_velocity_y()) < 2.5f)
-    set_sprite(img_jumpy_left_middle, img_jumpy_left_middle);
-  else if (physic.get_velocity_y() < 0)
-    set_sprite(img_jumpy_left_up, img_jumpy_left_up);
-  else 
+  const float vy = physic.get_velocity_y();
+
+  // XXX: These tests *should* use location from ground, not velocity
+  if (fabsf(vy) > 5.6f)
     set_sprite(img_jumpy_left_down, img_jumpy_left_down);
+  else if (fabsf(vy) > 5.3f)
+    set_sprite(img_jumpy_left_middle, img_jumpy_left_middle);
+  else
+    set_sprite(img_jumpy_left_up, img_jumpy_left_up);
 
   Player& tux = *World::current()->get_tux();
 
@@ -1002,12 +1005,12 @@ BadGuy::collision(void *p_c_object, int c_object, CollisionType type)
           if (pbad_c->dir == LEFT)
           {
             dir = RIGHT;
-            physic.set_velocity(fabs(physic.get_velocity_x()), 2);
+            physic.set_velocity(fabsf(physic.get_velocity_x()), 2);
           }
           else if (pbad_c->dir == RIGHT)
           {
             dir = LEFT;
-            physic.set_velocity(-fabs(physic.get_velocity_x()), 2);
+            physic.set_velocity(-fabsf(physic.get_velocity_x()), 2);
           }
 
 
@@ -1022,12 +1025,12 @@ BadGuy::collision(void *p_c_object, int c_object, CollisionType type)
             if (dir == LEFT)
             {
               dir = RIGHT;
-              physic.set_velocity_x(fabs(physic.get_velocity_x()));
+              physic.set_velocity_x(fabsf(physic.get_velocity_x()));
             }
             else if (dir == RIGHT)
             {
               dir = LEFT;
-              physic.set_velocity_x(-fabs(physic.get_velocity_x()));
+              physic.set_velocity_x(-fabsf(physic.get_velocity_x()));
             }
 
           }
