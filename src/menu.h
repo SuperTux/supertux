@@ -103,7 +103,7 @@ public:
 
   static MenuItem* create(MenuItemKind kind, const char *text, int init_toggle, Menu* target_menu, int id, int* int_p);
 
-  char* get_input_with_symbol(bool active_item);   // returns the text with an input symbol
+  std::string get_input_with_symbol(bool active_item);   // returns the text with an input symbol
 private:
   bool input_flickering;
   Timer input_flickering_timer;

@@ -196,7 +196,7 @@ MenuItem::change_input(const  char *text_)
     }
 }
 
-char* MenuItem::get_input_with_symbol(bool active_item)
+std::string MenuItem::get_input_with_symbol(bool active_item)
 {
 if(!active_item)
   input_flickering = true;
@@ -212,13 +212,15 @@ else
     }
   }
 
-static char str[1024];
+char str[1024];
 if(input_flickering)
   sprintf(str,"%s-",input);
 else
   sprintf(str,"%s ",input);
 
-return (char*)str;
+std::string string = str;
+
+return str;
 }
 
 /* Set ControlField a key */
@@ -558,9 +560,9 @@ Menu::draw_item(int index, // Position of the current item in the menu
         if(pitem.kind == MN_TEXTFIELD || pitem.kind == MN_NUMFIELD)
           {
           if(active_item == index)
-            gold_text->draw_align(pitem.get_input_with_symbol(true), x_pos + text_pos, y_pos, A_HMIDDLE, A_VMIDDLE, 2);
+            gold_text->draw_align((pitem.get_input_with_symbol(true)).c_str(), x_pos + text_pos, y_pos, A_HMIDDLE, A_VMIDDLE, 2);
           else
-            gold_text->draw_align(pitem.get_input_with_symbol(false), x_pos + text_pos, y_pos, A_HMIDDLE, A_VMIDDLE, 2);
+            gold_text->draw_align((pitem.get_input_with_symbol(false)).c_str(), x_pos + text_pos, y_pos, A_HMIDDLE, A_VMIDDLE, 2);
           }
         else
           gold_text->draw_align(pitem.input,
