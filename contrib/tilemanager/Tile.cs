@@ -131,7 +131,7 @@ public class Tile {
                         Data = parser.IntegerValue;
                         break;
                     case "next-tile":
-                        Data = parser.IntegerValue;
+                        NextTile = parser.IntegerValue;
                         break;
                     case "brick":
                         Brick = parser.BoolValue;
