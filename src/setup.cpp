@@ -453,7 +453,7 @@ void process_save_game_menu()
 {
   int slot = save_game_menu->check();
   if (slot != -1)
-    savegame(slot - 1);
+    GameSession::current()->savegame(slot - 1);
 }
 
 bool process_load_game_menu()
@@ -486,7 +486,8 @@ bool process_load_game_menu()
             }
           else
             {
-              loadgame(slot - 1);
+              //loadgame(slot - 1);
+              puts("Warning: Loading games isn't supported at the moment");
             }
         }
       st_pause_ticks_stop();

@@ -17,6 +17,7 @@
 #include "screen.h"
 #include "defines.h"
 #include "world.h"
+#include "tile.h"
 
 texture_type img_distro[4];
 
@@ -81,11 +82,11 @@ void broken_brick_draw(broken_brick_type* pbroken_brick)
 
 void bouncy_brick_init(bouncy_brick_type* pbouncy_brick, float x, float y)
 {
-  pbouncy_brick->base.x = x;
-  pbouncy_brick->base.y = y;
-  pbouncy_brick->offset = 0;
+  pbouncy_brick->base.x   = x;
+  pbouncy_brick->base.y   = y;
+  pbouncy_brick->offset   = 0;
   pbouncy_brick->offset_m = -BOUNCY_BRICK_SPEED;
-  pbouncy_brick->shape = gettileid(x, y);
+  pbouncy_brick->shape    = GameSession::current()->get_level()->gettileid(x, y);
 }
 
 void bouncy_brick_action(bouncy_brick_type* pbouncy_brick)
@@ -119,13 +120,15 @@ void bouncy_brick_draw(bouncy_brick_type* pbouncy_brick)
       dest.w = 32;
       dest.h = 32;
 
+      Level* plevel = GameSession::current()->get_level();
+
       // FIXME: overdrawing hack to clean the tile from the screen to
       // paint it later at on offseted position
-      if(current_level.bkgd_image[0] == '\0')
+      if(plevel->bkgd_image[0] == '\0')
         {
           fillrect(pbouncy_brick->base.x - scroll_x, pbouncy_brick->base.y,
-                   32,32,current_level.bkgd_red,current_level.bkgd_green,
-                   current_level.bkgd_blue,0);
+                   32,32, 
+                   plevel->bkgd_red, plevel->bkgd_green, plevel->bkgd_blue, 0);
         }
       else
         {
@@ -161,6 +164,141 @@ void floating_score_draw(floating_score_type* pfloating_score)
   char str[10];
   sprintf(str, "%d", pfloating_score->value);
   text_draw(&gold_text, str, (int)pfloating_score->base.x + 16 - strlen(str) * 8, (int)pfloating_score->base.y, 1);
+}
+
+/* Break a brick: */
+void trybreakbrick(float x, float y, bool small)
+{
+  Level* plevel = GameSession::current()->get_level();
+  
+  Tile* tile = gettile(x, y);
+  if (tile->brick)
+    {
+      if (tile->data > 0)
+        {
+          /* Get a distro from it: */
+          add_bouncy_distro(((int)(x + 1) / 32) * 32,
+                            (int)(y / 32) * 32);
+
+          if (!counting_distros)
+            {
+              counting_distros = true;
+              distro_counter = 50;
+            }
+
+          if (distro_counter <= 0)
+            plevel->change(x, y, TM_IA, tile->next_tile);
+
+          play_sound(sounds[SND_DISTRO], SOUND_CENTER_SPEAKER);
+          score = score + SCORE_DISTRO;
+          distros++;
+        }
+      else if (!small)
+        {
+          /* Get rid of it: */
+          plevel->change(x, y, TM_IA, tile->next_tile);
+          
+          /* Replace it with broken bits: */
+          add_broken_brick(((int)(x + 1) / 32) * 32,
+                           (int)(y / 32) * 32);
+          
+          /* Get some score: */
+          play_sound(sounds[SND_BRICK], SOUND_CENTER_SPEAKER);
+          score = score + SCORE_BRICK;
+        }
+    }
+}
+
+/* Empty a box: */
+void tryemptybox(float x, float y, int col_side)
+{
+  Level* plevel = GameSession::current()->get_level();
+
+  Tile* tile = gettile(x,y);
+  if (!tile->fullbox)
+    return;
+
+  // according to the collision side, set the upgrade direction
+  if(col_side == LEFT)
+    col_side = RIGHT;
+  else
+    col_side = LEFT;
+
+  switch(tile->data)
+    {
+    case 1: //'A':      /* Box with a distro! */
+      add_bouncy_distro(((int)(x + 1) / 32) * 32, (int)(y / 32) * 32 - 32);
+      play_sound(sounds[SND_DISTRO], SOUND_CENTER_SPEAKER);
+      score = score + SCORE_DISTRO;
+      distros++;
+      break;
+
+    case 2: // 'B':      /* Add an upgrade! */
+      if (tux.size == SMALL)     /* Tux is small, add mints! */
+        add_upgrade((int)((x + 1) / 32) * 32, (int)(y / 32) * 32 - 32, col_side, UPGRADE_MINTS);
+      else     /* Tux is big, add coffee: */
+        add_upgrade((int)((x + 1) / 32) * 32, (int)(y / 32) * 32 - 32, col_side, UPGRADE_COFFEE);
+      play_sound(sounds[SND_UPGRADE], SOUND_CENTER_SPEAKER);
+      break;
+
+    case 3:// '!':     /* Add a golden herring */
+      add_upgrade((int)((x + 1) / 32) * 32, (int)(y / 32) * 32 - 32, col_side, UPGRADE_HERRING);
+      break;
+    default:
+      break;
+    }
+
+  /* Empty the box: */
+  plevel->change(x, y, TM_IA, tile->next_tile);
+}
+
+/* Try to grab a distro: */
+void trygrabdistro(float x, float y, int bounciness)
+{
+  Level* plevel = GameSession::current()->get_level();
+  Tile* tile = gettile(x, y);
+  if (tile && tile->distro)
+    {
+      plevel->change(x, y, TM_IA, tile->next_tile);
+      play_sound(sounds[SND_DISTRO], SOUND_CENTER_SPEAKER);
+
+      if (bounciness == BOUNCE)
+        {
+          add_bouncy_distro(((int)(x + 1) / 32) * 32,
+                            (int)(y / 32) * 32);
+        }
+
+      score = score + SCORE_DISTRO;
+      distros++;
+    }
+}
+
+/* Try to bump a bad guy from below: */
+void trybumpbadguy(float x, float y)
+{
+  /* Bad guys: */
+  for (unsigned int i = 0; i < bad_guys.size(); i++)
+    {
+      if (bad_guys[i].base.x >= x - 32 && bad_guys[i].base.x <= x + 32 &&
+          bad_guys[i].base.y >= y - 16 && bad_guys[i].base.y <= y + 16)
+        {
+          bad_guys[i].collision(&tux, CO_PLAYER, COLLISION_BUMP);
+        }
+    }
+
+
+  /* Upgrades: */
+  for (unsigned int i = 0; i < upgrades.size(); i++)
+    {
+      if (upgrades[i].base.height == 32 &&
+          upgrades[i].base.x >= x - 32 && upgrades[i].base.x <= x + 32 &&
+          upgrades[i].base.y >= y - 16 && upgrades[i].base.y <= y + 16)
+        {
+          upgrades[i].base.xm = -upgrades[i].base.xm;
+          upgrades[i].base.ym = -8;
+          play_sound(sounds[SND_BUMP_UPGRADE], SOUND_CENTER_SPEAKER);
+        }
+    }
 }
 
 /* EOF */

@@ -82,7 +82,7 @@ class Level
   void cleanup();
 
   int  load(const char* subset, int level);
-  int  load(const char* filename);
+  int  load(const std::string& filename);
 
   void load_gfx();
   void load_song();
@@ -94,14 +94,14 @@ class Level
 
   /** Resize the level to a new width */
   void change_size (int new_width);
+
+  /** Return the id of the tile at position x/y */
+  unsigned int gettileid(float x, float y);
 };
 
 void level_load_image(texture_type* ptexture, std::string theme, const char * file, int use_alpha);
 void level_free_song();
 void level_free_gfx();
-
-/** Return the id of the tile at the given x/y coordinates */
-unsigned int gettileid(float x, float y);
 
 /** Return a pointer to the tile at the given x/y coordinates */
 Tile* gettile(float x, float y);

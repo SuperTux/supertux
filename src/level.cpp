@@ -245,14 +245,14 @@ Level::load(const  char *subset, int level)
 }
 
 int 
-Level::load(const char* filename)
+Level::load(const std::string& filename)
 {
   FILE * fi;
   lisp_object_t* root_obj = 0;
-  fi = fopen(filename, "r");
+  fi = fopen(filename.c_str(), "r");
   if (fi == NULL)
     {
-      perror(filename);
+      perror(filename.c_str());
       return -1;
     }
 
@@ -262,7 +262,7 @@ Level::load(const char* filename)
 
   if (root_obj->type == LISP_TYPE_EOF || root_obj->type == LISP_TYPE_PARSE_ERROR)
     {
-      printf("World: Parse Error in file %s", filename);
+      printf("World: Parse Error in file %s", filename.c_str());
     }
 
   vector<int> ia_tm;
@@ -691,7 +691,8 @@ Level::load_song()
 }
 
 
-unsigned int gettileid(float x, float y)
+unsigned int 
+Level::gettileid(float x, float y)
 {
   int xx, yy;
   unsigned int c;
@@ -699,8 +700,8 @@ unsigned int gettileid(float x, float y)
   yy = ((int)y / 32);
   xx = ((int)x / 32);
 
-  if (yy >= 0 && yy < 15 && xx >= 0 && xx <= current_level.width)
-    c = current_level.ia_tiles[yy][xx];
+  if (yy >= 0 && yy < 15 && xx >= 0 && xx <= width)
+    c = ia_tiles[yy][xx];
   else
     c = 0;
 
@@ -709,36 +710,36 @@ unsigned int gettileid(float x, float y)
 
 Tile* gettile(float x, float y)
 {
-  return TileManager::instance()->get(gettileid(x, y));
+  return TileManager::instance()->get(GameSession::current()->get_level()->gettileid(x, y));
 }
 
 bool issolid(float x, float y)
 {
-  Tile* tile = TileManager::instance()->get(gettileid(x,y));
+  Tile* tile = gettile(x,y);
   return tile && tile->solid;
 }
 
 bool isbrick(float x, float y)
 {
-  Tile* tile = TileManager::instance()->get(gettileid(x,y));
+  Tile* tile = gettile(x,y);
   return tile && tile->brick;
 }
 
 bool isice(float x, float y)
 {
-  Tile* tile = TileManager::instance()->get(gettileid(x,y));
+  Tile* tile = gettile(x,y);
   return tile && tile->ice;
 }
 
 bool isfullbox(float x, float y)
 {
-  Tile* tile = TileManager::instance()->get(gettileid(x,y));
+  Tile* tile = gettile(x,y);
   return tile && tile->fullbox;
 }
 
 bool isdistro(float x, float y)
 {
-  Tile* tile = TileManager::instance()->get(gettileid(x,y));
+  Tile* tile = gettile(x,y);
   return tile && tile->distro;
 }
 

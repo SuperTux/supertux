@@ -69,5 +69,19 @@ void floating_score_init(floating_score_type* pfloating_score, float x, float y,
 void floating_score_action(floating_score_type* pfloating_score);
 void floating_score_draw(floating_score_type* pfloating_score);
 
+
+/** Try to grab the coin at the given coordinates */
+void trygrabdistro(float x, float y, int bounciness);
+
+/** Try to break the brick at the given coordinates */
+void trybreakbrick(float x, float y, bool small);
+
+/** Try to get the content out of a bonus box, thus emptying it */
+void tryemptybox(float x, float y, int col_side);
+
+/** Try to bumb a badguy that might we walking above Tux, thus shaking
+    the tile which the badguy is walking on an killing him this way */
+void trybumpbadguy(float x, float y);
+
 #endif /*SUPERTUX_WORLD_H*/
 

@@ -40,7 +40,6 @@
 #include "math.h"
 
 void loadshared(void);
-void activate_particle_systems(void);
 
 static texture_type bkg_title;
 static texture_type logo;
@@ -65,10 +64,10 @@ void draw_background()
   texture_draw_bg(&bkg_title);
 }
 
-void draw_demo()
+void draw_demo(Level* plevel)
 {
-  /* DEMO begin */
-  /* update particle systems */
+  /* FIXME:
+  // update particle systems
   std::vector<ParticleSystem*>::iterator p;
   for(p = particle_systems.begin(); p != particle_systems.end(); ++p)
     {
@@ -80,6 +79,7 @@ void draw_demo()
     {
       (*p)->draw(scroll_x, 0, 0);
     }
+  */
 
   // Draw interactive tiles:
   for (int y = 0; y < 15; ++y)
@@ -87,7 +87,7 @@ void draw_demo()
       for (int x = 0; x < 21; ++x)
         {
           drawshape(32*x - fmodf(scroll_x, 32), y * 32,
-                    current_level.ia_tiles[(int)y][(int)x + (int)(scroll_x / 32)]);
+                    plevel->ia_tiles[(int)y][(int)x + (int)(scroll_x / 32)]);
         }
     }
 
@@ -108,9 +108,9 @@ void draw_demo()
     }
   
   // Wrap around at the end of the level back to the beginnig
-  if(current_level.width * 32 - 320 < titletux.base.x)
+  if(plevel->width * 32 - 320 < titletux.base.x)
     {
-      titletux.base.x = titletux.base.x - (current_level.width * 32 - 640);
+      titletux.base.x = titletux.base.x - (plevel->width * 32 - 640);
       scroll_x = titletux.base.x - 320;
     }
 
@@ -142,9 +142,9 @@ int title(void)
 
   st_pause_ticks_init();
 
-  current_level.load((datadir + "/levels/misc/menu.stl").c_str());
+  GameSession session(datadir + "/levels/misc/menu.stl");
   loadshared();
-  activate_particle_systems();
+  //FIXME:activate_particle_systems();
   /* Lower the gravity that tux doesn't jump to hectically through the demo */
   //gravity = 5;
 
@@ -215,8 +215,8 @@ int title(void)
 
       /* Draw the background: */
       draw_background();
-      draw_demo();
-
+      draw_demo(session.get_level());
+      
       if (current_menu == main_menu)
         texture_draw(&logo, 160, 30);
 

@@ -10,6 +10,7 @@
   April 11, 2000 - March 15, 2004
 */
 
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -44,7 +45,6 @@
 
 /* extern variables */
 
-Level current_level;
 int game_started = false;
 
 /* Local variables: */
@@ -61,8 +61,9 @@ static unsigned int update_time;
 static int pause_menu_frame;
 static int debug_fps;
 
-/* Local function prototypes: */
+GameSession* GameSession::current_ = 0;
 
+/* Local function prototypes: */
 void levelintro(void);
 void loadshared(void);
 void unloadshared(void);
@@ -70,7 +71,74 @@ void drawstatus(void);
 void drawendscreen(void);
 void drawresultscreen(void);
 
-void levelintro(void)
+GameSession::GameSession()
+{
+  current_ = this;
+  assert(0);
+}
+
+GameSession::GameSession(const std::string& filename)
+{
+  current_ = this;
+
+  timer_init(&fps_timer, true);
+  timer_init(&frame_timer, true);
+
+  current_level.load(filename);
+}
+
+GameSession::GameSession(const std::string& subset, int levelnb, int mode)
+{
+  current_ = this;
+
+  timer_init(&fps_timer, true);
+  timer_init(&frame_timer, true);
+
+  game_started = true;
+
+  st_gl_mode = mode;
+  level = levelnb;
+
+  /* Init the game: */
+  arrays_free();
+  set_defaults();
+
+  strcpy(level_subset, subset.c_str());
+
+  if (st_gl_mode == ST_GL_LOAD_LEVEL_FILE)
+    {
+      if (current_level.load(level_subset))
+        exit(1);
+    }
+  else
+    {
+      if(current_level.load(level_subset, level) != 0)
+        exit(1);
+    }
+
+  current_level.load_gfx();
+  loadshared();
+  activate_bad_guys(&current_level);
+  activate_particle_systems();
+  current_level.load_song();
+
+  tux.init();
+
+  if(st_gl_mode != ST_GL_TEST)
+    load_hs();
+
+  if(st_gl_mode == ST_GL_PLAY || st_gl_mode == ST_GL_LOAD_LEVEL_FILE)
+    levelintro();
+
+  timer_init(&time_left,true);
+  start_timers();
+
+  if(st_gl_mode == ST_GL_LOAD_GAME)
+    loadgame(levelnb);
+}
+
+void
+GameSession::levelintro(void)
 {
   char str[60];
   /* Level Intro: */
@@ -92,7 +160,8 @@ void levelintro(void)
 }
 
 /* Reset Timers */
-void start_timers(void)
+void
+GameSession::start_timers()
 {
   timer_start(&time_left,current_level.time_left*1000);
   st_pause_ticks_init();
@@ -109,7 +178,8 @@ void activate_bad_guys(Level* plevel)
     }
 }
 
-void activate_particle_systems(void)
+void
+GameSession::activate_particle_systems()
 {
   if(current_level.particle_system == "clouds")
     {
@@ -125,9 +195,8 @@ void activate_particle_systems(void)
     }
 }
 
-/* --- GAME EVENT! --- */
-
-void game_event(void)
+void
+GameSession::process_events()
 {
   while (SDL_PollEvent(&event))
     {
@@ -294,14 +363,9 @@ void game_event(void)
     } /* while */
 }
 
-/* --- GAME ACTION! --- */
-
 int
 GameSession::action()
 {
-  unsigned int i;
-
-  /* (tux.is_dead() || next_level) */
   if (tux.is_dead() || next_level)
     {
       /* Tux either died, or reached the end of a level! */
@@ -388,21 +452,14 @@ GameSession::action()
   tux.action();
 
   /* Handle bouncy distros: */
-  for (i = 0; i < bouncy_distros.size(); i++)
-    {
-      bouncy_distro_action(&bouncy_distros[i]);
-    }
-
+  for (unsigned int i = 0; i < bouncy_distros.size(); i++)
+    bouncy_distro_action(&bouncy_distros[i]);
 
   /* Handle broken bricks: */
-  for (i = 0; i < broken_bricks.size(); i++)
-    {
+  for (unsigned int i = 0; i < broken_bricks.size(); i++)
       broken_brick_action(&broken_bricks[i]);
-    }
-
 
   /* Handle distro counting: */
-
   if (counting_distros)
     {
       distro_counter--;
@@ -411,44 +468,21 @@ GameSession::action()
         counting_distros = -1;
     }
 
+  // Handle all kinds of game objects
+  for (unsigned int i = 0; i < bouncy_bricks.size(); i++)
+    bouncy_brick_action(&bouncy_bricks[i]);
+  
+  for (unsigned int i = 0; i < floating_scores.size(); i++)
+    floating_score_action(&floating_scores[i]);
 
-  /* Handle bouncy bricks: */
+  for (unsigned int i = 0; i < bullets.size(); ++i)
+    bullet_action(&bullets[i]);
+  
+  for (unsigned int i = 0; i < upgrades.size(); i++)
+    upgrade_action(&upgrades[i]);
 
-  for (i = 0; i < bouncy_bricks.size(); i++)
-    {
-      bouncy_brick_action(&bouncy_bricks[i]);
-    }
-
-
-  /* Handle floating scores: */
-
-  for (i = 0; i < floating_scores.size(); i++)
-    {
-      floating_score_action(&floating_scores[i]);
-    }
-
-
-  /* Handle bullets: */
-
-  for (i = 0; i < bullets.size(); ++i)
-    {
-      bullet_action(&bullets[i]);
-    }
-
-  /* Handle upgrades: */
-
-  for (i = 0; i < upgrades.size(); i++)
-    {
-      upgrade_action(&upgrades[i]);
-    }
-
-
-  /* Handle bad guys: */
-
-  for (i = 0; i < bad_guys.size(); i++)
-    {
-      bad_guys[i].action();
-    }
+  for (unsigned int i = 0; i < bad_guys.size(); i++)
+    bad_guys[i].action();
 
   /* update particle systems */
   std::vector<ParticleSystem*>::iterator p;
@@ -579,59 +613,12 @@ GameSession::draw()
   updatescreen();
 }
 
-/* --- GAME LOOP! --- */
-
-GameSession::GameSession(const char * subset, int levelnb, int mode)
-{
-  timer_init(&fps_timer, true);
-  timer_init(&frame_timer, true);
-
-  game_started = true;
-
-  st_gl_mode = mode;
-  level = levelnb;
-
-  /* Init the game: */
-  arrays_free();
-  set_defaults();
-
-  strcpy(level_subset,subset);
-
-  if (st_gl_mode == ST_GL_LOAD_LEVEL_FILE)
-    {
-      if (current_level.load(level_subset))
-        exit(1);
-    }
-  else
-    {
-      if(current_level.load(level_subset, level) != 0)
-        exit(1);
-    }
-
-  current_level.load_gfx();
-  loadshared();
-  activate_bad_guys(&current_level);
-  activate_particle_systems();
-  current_level.load_song();
-
-  tux.init();
-
-  if(st_gl_mode != ST_GL_TEST)
-    load_hs();
-
-  if(st_gl_mode == ST_GL_PLAY || st_gl_mode == ST_GL_LOAD_LEVEL_FILE)
-    levelintro();
-
-  timer_init(&time_left,true);
-  start_timers();
-
-  if(st_gl_mode == ST_GL_LOAD_GAME)
-    loadgame(levelnb);
-}
 
 int
 GameSession::run()
 {
+  current_ = this;
+  
   int  fps_cnt;
   bool jump;
   bool done;
@@ -677,7 +664,7 @@ GameSession::run()
 
       tux.input.old_fire = tux.input.fire;
 
-      game_event();
+      process_events();
 
       if(show_menu)
         {
@@ -1198,145 +1185,13 @@ void drawshape(float x, float y, unsigned int c, Uint8 alpha)
     }
 }
 
-/* Break a brick: */
-void trybreakbrick(float x, float y, bool small)
-{
-  Tile* tile = gettile(x, y);
-  if (tile->brick)
-    {
-      if (tile->data > 0)
-        {
-          /* Get a distro from it: */
-          add_bouncy_distro(((int)(x + 1) / 32) * 32,
-                            (int)(y / 32) * 32);
-
-          if (!counting_distros)
-            {
-              counting_distros = true;
-              distro_counter = 50;
-            }
-
-          if (distro_counter <= 0)
-            current_level.change(x, y, TM_IA, tile->next_tile);
-
-          play_sound(sounds[SND_DISTRO], SOUND_CENTER_SPEAKER);
-          score = score + SCORE_DISTRO;
-          distros++;
-        }
-      else if (!small)
-        {
-          /* Get rid of it: */
-          current_level.change(x, y, TM_IA, tile->next_tile);
-          
-          /* Replace it with broken bits: */
-          add_broken_brick(((int)(x + 1) / 32) * 32,
-                           (int)(y / 32) * 32);
-          
-          /* Get some score: */
-          play_sound(sounds[SND_BRICK], SOUND_CENTER_SPEAKER);
-          score = score + SCORE_BRICK;
-        }
-    }
-}
-
-
 /* Bounce a brick: */
-
 void bumpbrick(float x, float y)
 {
   add_bouncy_brick(((int)(x + 1) / 32) * 32,
                    (int)(y / 32) * 32);
 
   play_sound(sounds[SND_BRICK], SOUND_CENTER_SPEAKER);
-}
-
-/* Empty a box: */
-void tryemptybox(float x, float y, int col_side)
-{
-  Tile* tile = gettile(x,y);
-  if (!tile->fullbox)
-    return;
-
-  // according to the collision side, set the upgrade direction
-  if(col_side == LEFT)
-    col_side = RIGHT;
-  else
-    col_side = LEFT;
-
-  switch(tile->data)
-    {
-    case 1: //'A':      /* Box with a distro! */
-      add_bouncy_distro(((int)(x + 1) / 32) * 32, (int)(y / 32) * 32 - 32);
-      play_sound(sounds[SND_DISTRO], SOUND_CENTER_SPEAKER);
-      score = score + SCORE_DISTRO;
-      distros++;
-      break;
-
-    case 2: // 'B':      /* Add an upgrade! */
-      if (tux.size == SMALL)     /* Tux is small, add mints! */
-        add_upgrade((int)((x + 1) / 32) * 32, (int)(y / 32) * 32 - 32, col_side, UPGRADE_MINTS);
-      else     /* Tux is big, add coffee: */
-        add_upgrade((int)((x + 1) / 32) * 32, (int)(y / 32) * 32 - 32, col_side, UPGRADE_COFFEE);
-      play_sound(sounds[SND_UPGRADE], SOUND_CENTER_SPEAKER);
-      break;
-
-    case 3:// '!':     /* Add a golden herring */
-      add_upgrade((int)((x + 1) / 32) * 32, (int)(y / 32) * 32 - 32, col_side, UPGRADE_HERRING);
-      break;
-    default:
-      break;
-    }
-
-  /* Empty the box: */
-  current_level.change(x, y, TM_IA, tile->next_tile);
-}
-
-/* Try to grab a distro: */
-void trygrabdistro(float x, float y, int bounciness)
-{
-  Tile* tile = gettile(x, y);
-  if (tile && tile->distro)
-    {
-      current_level.change(x, y, TM_IA, tile->next_tile);
-      play_sound(sounds[SND_DISTRO], SOUND_CENTER_SPEAKER);
-
-      if (bounciness == BOUNCE)
-        {
-          add_bouncy_distro(((int)(x + 1) / 32) * 32,
-                            (int)(y / 32) * 32);
-        }
-
-      score = score + SCORE_DISTRO;
-      distros++;
-    }
-}
-
-/* Try to bump a bad guy from below: */
-void trybumpbadguy(float x, float y)
-{
-  /* Bad guys: */
-  for (unsigned int i = 0; i < bad_guys.size(); i++)
-    {
-      if (bad_guys[i].base.x >= x - 32 && bad_guys[i].base.x <= x + 32 &&
-          bad_guys[i].base.y >= y - 16 && bad_guys[i].base.y <= y + 16)
-        {
-          bad_guys[i].collision(&tux, CO_PLAYER, COLLISION_BUMP);
-        }
-    }
-
-
-  /* Upgrades: */
-  for (unsigned int i = 0; i < upgrades.size(); i++)
-    {
-      if (upgrades[i].base.height == 32 &&
-          upgrades[i].base.x >= x - 32 && upgrades[i].base.x <= x + 32 &&
-          upgrades[i].base.y >= y - 16 && upgrades[i].base.y <= y + 16)
-        {
-          upgrades[i].base.xm = -upgrades[i].base.xm;
-          upgrades[i].base.ym = -8;
-          play_sound(sounds[SND_BUMP_UPGRADE], SOUND_CENTER_SPEAKER);
-        }
-    }
 }
 
 /* (Status): */
@@ -1426,7 +1281,8 @@ void drawresultscreen(void)
   wait_for_event(event,2000,5000,true);
 }
 
-void savegame(int slot)
+void
+GameSession::savegame(int slot)
 {
   char savefile[1024];
   FILE* fi;
@@ -1461,7 +1317,8 @@ void savegame(int slot)
 
 }
 
-void loadgame(int slot)
+void
+GameSession::loadgame(int slot)
 {
   char savefile[1024];
   char str[100];
@@ -1498,10 +1355,10 @@ void loadgame(int slot)
       levelintro();
       update_time = st_get_ticks();
 
-      fread(&score,sizeof(int),1,fi);
-      fread(&distros,sizeof(int),1,fi);
+      fread(&score,   sizeof(int),1,fi);
+      fread(&distros, sizeof(int),1,fi);
       fread(&scroll_x,sizeof(float),1,fi);
-      fread(&tux, sizeof(Player), 1, fi);
+      fread(&tux,     sizeof(Player), 1, fi);
       timer_fread(&tux.invincible_timer,fi);
       timer_fread(&tux.skidding_timer,fi);
       timer_fread(&tux.safe_timer,fi);

@@ -914,6 +914,8 @@ Player::remove_powerups()
 void
 Player::keep_in_bounds()
 {
+  Level* plevel = GameSession::current()->get_level();
+
   /* Keep tux in bounds: */
   if (base.x< 0)
     base.x= 0;
@@ -928,14 +930,17 @@ Player::keep_in_bounds()
         scroll_x = 0;
 
     }
-  else if (base.x> screen->w / 2 + scroll_x && scroll_x < ((current_level.width * 32) - screen->w))
+  else if (base.x > screen->w / 2 + scroll_x
+           && scroll_x < ((GameSession::current()->get_level()->width * 32) - screen->w))
     {
-      // Scroll the screen in past center:
+      // FIXME: Scrolling needs to be handled by a seperate View
+      // class, doing it as a player huck is ugly
 
+      // Scroll the screen in past center:
       scroll_x = base.x - screen->w / 2;
 
-      if (scroll_x > ((current_level.width * 32) - screen->w))
-        scroll_x = ((current_level.width * 32) - screen->w);
+      if (scroll_x > ((plevel->width * 32) - screen->w))
+        scroll_x = ((plevel->width * 32) - screen->w);
     }
   else if (base.x> 608 + scroll_x)
     {
