@@ -80,7 +80,6 @@ AM_PATH_SDL($SDL_VERSION,
 	    AC_MSG_ERROR([*** SDL version $SDL_VERSION not found!]))
 CXXFLAGS="$CXXFLAGS $SDL_CFLAGS"
 LDFLAGS="$LDFLAGS $SDL_LIBS"
-AC_LANG_POP()
 
 dnl Checks for additional libraries.
 if test "x${enable_sound}" != "xno"; then
@@ -103,6 +102,7 @@ if test "x${enable_opengl}" != "xno"; then
   [CXXFLAGS="$CXXFLAGS -DNOOPENGL"
    enable_opengl="no"])
 fi
+AC_LANG_POP()
 
 AC_CHECK_LIB(z, gzopen,, AC_MSG_ERROR([*** zlib is missing]))
 
