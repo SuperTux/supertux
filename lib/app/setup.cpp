@@ -745,7 +745,7 @@ void Setup::parseargs(int argc, char * argv[])
       else if (strcmp(argv[i], "--version") == 0)
         {
           /* Show version: */
-          printf((package_name + package_version + "\n").c_str() );
+          printf((package_name + " " + package_version + "\n").c_str() );
           exit(0);
         }
       else if (strcmp(argv[i], "--disable-sound") == 0)
