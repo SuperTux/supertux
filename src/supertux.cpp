@@ -25,7 +25,6 @@
 #include <exception>
 #include <locale.h>
 
-#include "utils/exceptions.h"
 #include "defines.h"
 #include "app/globals.h"
 #include "app/setup.h"
