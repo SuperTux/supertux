@@ -631,6 +631,9 @@ WorldMap::load_map()
     }
 
     lisp_free(root_obj);
+
+    delete tux;
+    tux = new Tux(this);
 }
 
 void WorldMap::get_level_title(Level& level)

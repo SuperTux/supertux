@@ -80,6 +80,20 @@ static std::set<std::string> worldmap_list;
 
 static FrameRate frame_rate(100);  
 
+/* If the demo was stopped - because game started, level
+   editor was excuted, etc - call this when you get back
+   to the title code.
+ */
+void resume_demo()
+{
+  // FIXME: shouldn't be needed if GameSession
+  // didn't relay on global variables
+  titlesession->get_current_sector()->activate();
+  titlesession->set_current();
+
+  frame_rate.update();
+}
+
 void update_load_save_game_menu(Menu* pmenu)
 {
   for(int i = 2; i < 7; ++i)
@@ -181,6 +195,7 @@ void check_levels_contrib_menu()
     worldmap.display();  // run the map
 
     Menu::set_current(main_menu);
+    resume_demo();
     }
   else if (index < (int)contrib_subsets.size() + first_level_index)
     {
@@ -239,24 +254,9 @@ void check_contrib_subset_menu()
           session.run();
           player_status.reset();
           Menu::set_current(main_menu);
-          titlesession->get_current_sector()->activate();
-          titlesession->set_current();
+          resume_demo();
         }
     }  
-}
-
-/* If the demo was stopped - because game started, level
-   editor was excuted, etc - call this when you get back
-   to the title code.
- */
-void resume_demo()
-{
-  // FIXME: shouldn't be needed if GameSession
-  // didn't relay on global variables
-  titlesession->get_current_sector()->activate();
-  titlesession->set_current();
-
-  frame_rate.update();
 }
 
 void draw_demo(double frame_ratio)
