@@ -19,7 +19,7 @@ L: low priority
 
 [?] When jumping into a brick and there is a powerup, it should change
     direction or not, depending where the collision was. It currently sucks.
-    - Discuss this, is that really what we want?
+     - Discuss this, is that really what we want?
 
 [H] Change resolution to 800x600
      - Levels need to be updated to resolution
@@ -33,9 +33,9 @@ L: low priority
 [H] Camera movement shouldn't be so fast at the beggining, it takes the focus
     from the game (backscrolling)
 [H] Tux should fall while walking in tiles that have a space between.
-    - Possible solution: reduce Tux's width
-[H] Enemies should turn upside down after being hit by an kicked
-   iceblock, fireball or bomb
+     - Possible solution: reduce Tux's width
+[H] Enemies should turn upside down after being hit by an kicked iceblock,
+    fireball or bomb
 
 [M] Save score on per-level basis to make high-score
 [M] Save time on per-level basis to make low-time-score
@@ -54,9 +54,9 @@ L: low priority
     look like there are 2 blocks above each other when bumping against them as
     small tux...
 [L] time runs while being in in-game menu, at least a bit (jump, go to
-   menu, wait a bit, leave menu, Tux will 'flip' to the ground,
-   instead of fall, pause mode doesn't seem to have this problem, only
-   menu)
+    menu, wait a bit, leave menu, Tux will 'flip' to the ground,
+    instead of fall, pause mode doesn't seem to have this problem, only
+    menu)
 [L] catch exceptions thrown by lispreader
 [L] fadein/out for intro/extro would be nice
 [L] we only have a global counter for multiple coin blocks. This should be handled
