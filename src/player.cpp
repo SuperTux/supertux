@@ -83,8 +83,6 @@ Player::~Player()
 void
 Player::init()
 {
-  Level* plevel = World::current()->get_level();
-
   holding_something = false;
 
   base.width = 32;
@@ -93,12 +91,13 @@ Player::init()
   size = SMALL;
   got_power = NONE_POWER;
 
-  base.x = plevel->start_pos_x;
-  base.y = plevel->start_pos_y;
+  base.x = 0;
+  base.y = 0;
   previous_base = old_base = base;
   dir = RIGHT;
   old_dir = dir;
   duck = false;
+  dead = false;
 
   dying   = DYING_NOT;
   last_ground_y = 0;
@@ -180,6 +179,11 @@ void
 Player::action(float elapsed_time)
 {
   bool jumped_in_solid = false;
+
+  if(dying && !dying_timer.check()) {
+    dead = true;
+    return;
+  }
 
   if (input.fire == UP)
     holding_something = false;
@@ -831,6 +835,9 @@ Player::collision(void* p_c_object, int c_object)
 void
 Player::kill(HurtMode mode)
 {
+  if(dying)
+    return;
+  
   play_sound(sounds[SND_HURT], SOUND_CENTER_SPEAKER);
 
   physic.set_velocity_x(0);
@@ -854,30 +861,10 @@ Player::kill(HurtMode mode)
       physic.enable_gravity(true);
       physic.set_acceleration(0, 0);
       physic.set_velocity(0, 7);
-      if(dying != DYING_SQUISHED)
       --player_status.lives;
       dying = DYING_SQUISHED;
+      dying_timer.start(3000);
     }
-}
-
-void
-Player::is_dying()
-{
-  remove_powerups();
-  dying = DYING_NOT;
-}
-
-bool Player::is_dead()
-{
-  float scroll_x =
-    World::current()->camera->get_translation().x;
-  float scroll_y =
-    World::current()->camera->get_translation().y;
-  if(base.y > screen->h + scroll_y || base.y > World::current()->get_level()->height*32 ||
-      base.x < scroll_x - AUTOSCROLL_DEAD_INTERVAL)  // can happen in auto-scrolling
-    return true;
-  else
-    return false;
 }
 
 /* Remove Tux's power ups */
@@ -887,6 +874,14 @@ Player::remove_powerups()
   got_power = NONE_POWER;
   size = SMALL;
   base.height = 32;
+}
+
+void
+Player::move(const Vector& vector)
+{
+  base.x = vector.x;
+  base.y = vector.y;
+  old_base = previous_base = base;
 }
 
 void
@@ -904,10 +899,27 @@ Player::check_bounds(Camera& viewport,
   if (base.y > World::current()->get_level()->height * /*TILE_HEIGHT*/ 32)
     {
       kill(KILL);
+      return;
     }
 
-  if(base.x < viewport.get_translation().x && (!back_scrolling || hor_autoscroll))  // can happen if back scrolling is disabled
+  bool adjust = false;
+  // can happen if back scrolling is disabled
+  if(base.x < viewport.get_translation().x) {
     base.x = viewport.get_translation().x;
+    adjust = true;
+  }
+  if(base.x >= viewport.get_translation().x + screen->w - base.width) {
+    base.x = viewport.get_translation().x + screen->w - base.width;
+    adjust = true;
+  }
+
+  if(adjust) {
+    // squished now?
+    if(collision_object_map(base)) {
+      kill(KILL);
+      return;
+    }
+  }
 
   if(hor_autoscroll)
     {

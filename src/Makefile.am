@@ -90,6 +90,8 @@ tilemap.h \
 tilemap.cpp \
 moving_object.h \
 moving_object.cpp \
-serializable.h
+serializable.h \
+vector.cpp \
+vector.h
 
 # EOF #

@@ -119,6 +119,7 @@ public:
   int size;
   bool duck;
   bool holding_something;
+  bool dead;
   DyingType dying;
 
   Direction dir;
@@ -140,6 +141,7 @@ public:
   Timer frame_timer;
   Timer kick_timer;
   Timer shooting_timer;   // used to show the arm when Tux is shooting
+  Timer dying_timer;
   Physic physic;
 
 public:
@@ -158,14 +160,15 @@ public:
 
   void collision(void* p_c_object, int c_object);
   void kill(HurtMode mode);
-  void is_dying();
-  bool is_dead();
   void player_remove_powerups();
   void check_bounds(Camera& viewport, bool back_scrolling, bool hor_autoscroll);
   bool on_ground();
   bool under_solid();
   bool tiles_on_air(int tiles);
   void grow();
+  void move(const Vector& vector);
+  bool is_dead() const
+  { return dead; }
   
 private:
   void init();

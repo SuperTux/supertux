@@ -48,16 +48,20 @@ World::World(const std::string& filename, int level_nr)
   // world calls child functions
   current_ = this;
 
+  tux = new Player(displaymanager);
+  add_object(tux);
+  
   level = new Level();
+  camera = new Camera(tux, level);
+  add_object(camera);                 
+
   if(level_nr >= 0) {
     level->load(filename, level_nr, this);
   } else {
     level->load(filename, this);
   }
-
-  tux = new Player(displaymanager);
-  add_object(tux);
-
+  tux->move(level->start_pos);
+  
   set_defaults();
 
   level->load_gfx();
@@ -74,9 +78,6 @@ World::World(const std::string& filename, int level_nr)
   // add tilemap
   add_object(new TileMap(displaymanager, level));
   level->load_song();
-
-  camera = new Camera(tux, level);
-  add_object(camera);               
 
   apply_bonuses();
 }

@@ -223,8 +223,8 @@ Level::init_defaults()
   bkgd_image = "arctis.jpg";
   width      = 0;
   height     = 0;
-  start_pos_x = 100;
-  start_pos_y = 170;
+  start_pos.x = 100;
+  start_pos.y = 170;
   time_left  = 100;
   gravity    = 10.;
   back_scrolling = false;
@@ -277,8 +277,8 @@ Level::load(const std::string& filename, World* world)
       reader.read_int("version",  &version);
       if(!reader.read_int("width",  &width))
         st_abort("No width specified for level.", "");
-      if (!reader.read_int("start_pos_x", &start_pos_x)) start_pos_x = 100;
-      if (!reader.read_int("start_pos_y", &start_pos_y)) start_pos_y = 170;
+      if (!reader.read_float("start_pos_x", &start_pos.x)) start_pos.x = 100;
+      if (!reader.read_float("start_pos_y", &start_pos.y)) start_pos.y = 170;
       time_left = 500;
       if(!reader.read_int("time",  &time_left)) {
         printf("Warning no time specified for level.\n");
@@ -355,7 +355,7 @@ Level::load(const std::string& filename, World* world)
           }
       }
 
-      { // Read BadGuys
+      { // Read Objects
         lisp_object_t* cur = 0;
         if (reader.read_lisp("objects",  &cur))
           {
@@ -364,77 +364,15 @@ Level::load(const std::string& filename, World* world)
           }
       }
 
-#if 0 // TODO fix this or remove it
-      // Convert old levels to the new tile numbers
-      if (version == 0)
-        {
-          std::map<char, int> transtable;
-          transtable['.'] = 0;
-          transtable['x'] = 104;
-          transtable['X'] = 77;
-          transtable['y'] = 78;
-          transtable['Y'] = 105;
-          transtable['A'] = 83;
-          transtable['B'] = 102;
-          transtable['!'] = 103;
-          transtable['a'] = 84;
-          transtable['C'] = 85;
-          transtable['D'] = 86;
-          transtable['E'] = 87;
-          transtable['F'] = 88;
-          transtable['c'] = 89;
-          transtable['d'] = 90;
-          transtable['e'] = 91;
-          transtable['f'] = 92;
-
-          transtable['G'] = 93;
-          transtable['H'] = 94;
-          transtable['I'] = 95;
-          transtable['J'] = 96;
-
-          transtable['g'] = 97;
-          transtable['h'] = 98;
-          transtable['i'] = 99;
-          transtable['j'] = 100
-                            ;
-          transtable['#'] = 11;
-          transtable['['] = 13;
-          transtable['='] = 14;
-          transtable[']'] = 15;
-          transtable['$'] = 82;
-          transtable['^'] = 76;
-          transtable['*'] = 80;
-          transtable['|'] = 79;
-          transtable['\\'] = 81;
-          transtable['&'] = 75;
-
-          int x = 0;
-          int y = 0;
-          for(std::vector<int>::iterator i = ia_tm.begin(); i != ia_tm.end(); ++i)
-            {
-              if (*i == '0' || *i == '1' || *i == '2')
-                {
-                  badguy_data.push_back(BadGuyData(static_cast<BadGuyKind>(*i-'0'),
-                                                   x*32, y*32, false));
-                  *i = 0;
-                }
-              else
-                {
-                  std::map<char, int>::iterator j = transtable.find(*i);
-                  if (j != transtable.end())
-                    *i = j->second;
-                  else
-                    printf("Error: conversion will fail, unsupported char: '%c' (%d)\n", *i, *i);
-                }
-              ++x;
-              if (x >= width)
-                {
-                  x = 0;
-                  ++y;
-                }
-            }
-        }
-#endif
+      { // Read Camera
+        lisp_object_t* cur = 0;
+        if (reader.read_lisp("camera", &cur))
+          {
+            LispReader reader(cur);
+            if(world)
+              world->camera->read(reader);
+          }
+      }
     }
 
   lisp_free(root_obj);

@@ -41,12 +41,26 @@ public:
     return Vector(x * s, y * s);
   }
 
+  Vector operator/(float s) const
+  {
+    return Vector(x / s, y / s);
+  }
+
   const Vector& operator +=(const Vector& other)
   {
     x += other.x;
     y += other.y;
     return *this;
   }
+
+  // scalar product of 2 vectors
+  float operator*(const Vector& other) const
+  {
+    return x*other.x + y*other.y;
+  }
+
+  float norm() const;
+  Vector unit() const;
 
   // ... add the other operators as needed, I'm too lazy now ...
 

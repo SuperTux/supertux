@@ -92,8 +92,7 @@ class Level
   int width;
   int height;
   int bkgd_speed;
-  int start_pos_x;
-  int start_pos_y;
+  Vector start_pos;
   float gravity;
   bool back_scrolling;
   float hor_autoscroll_speed;

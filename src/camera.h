@@ -19,6 +19,7 @@
 #ifndef __VIEWPORT_H__
 #define __VIEWPORT_H__
 
+#include <vector>
 #include "vector.h"
 #include "game_object.h"
 #include "serializable.h"
@@ -44,7 +45,7 @@ public:
   }                                                  
 
   /// parse camera mode from lisp file
-  void parse_camera(LispReader& reader);
+  void read(LispReader& reader);
   /// write camera mode to a lisp file
   virtual void write(LispWriter& writer);
 
@@ -60,10 +61,12 @@ public:
   {
     NORMAL, AUTOSCROLL, MANUAL
   };
+  CameraMode mode;
 
 private:
   void scroll_normal(float elapsed_time);
   void scroll_autoscroll(float elapsed_time);
+  void keep_in_bounds();
 
   enum LeftRightScrollChange
   {
@@ -74,12 +77,21 @@ private:
 
   Player* player;
   Level* level;
-  CameraMode mode;
 
   // normal mode
+  bool do_backscrolling;
   LeftRightScrollChange scrollchange;
 
   // autoscroll mode
+  class ScrollPoint {
+  public:
+    Vector position;
+    float speed;
+  };
+  std::vector<ScrollPoint> scrollpoints;
+  size_t auto_idx;
+  float auto_t;
+  Vector current_dir;
 };
 
 #endif
