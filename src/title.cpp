@@ -52,6 +52,7 @@
 #include "sector.h"
 #include "tilemap.h"
 #include "resources.h"
+#include "gettext.h"
 
 static Surface* bkg_title;
 static Surface* logo;
@@ -87,7 +88,7 @@ void generate_contrib_menu()
 
   free_contrib_menu();
 
-  contrib_menu->additem(MN_LABEL,"Contrib Levels",0,0);
+  contrib_menu->additem(MN_LABEL,_("Contrib Levels"),0,0);
   contrib_menu->additem(MN_HL,"",0,0);
 
   for (int i = 0; i < level_subsets.num_items; ++i)
@@ -100,7 +101,7 @@ void generate_contrib_menu()
     }
 
   contrib_menu->additem(MN_HL,"",0,0);
-  contrib_menu->additem(MN_BACK,"Back",0,0);
+  contrib_menu->additem(MN_BACK,_("Back"),0,0);
 
   string_list_free(&level_subsets);
 }
@@ -137,7 +138,7 @@ void check_contrib_menu()
                 }
               
               contrib_subset_menu->additem(MN_HL,"",0,0);      
-              contrib_subset_menu->additem(MN_BACK, "Back", 0, 0);
+              contrib_subset_menu->additem(MN_BACK, _("Back"), 0, 0);
 
               titlesession->get_current_sector()->activate();
               titlesession->set_current();
@@ -272,11 +273,11 @@ void title(void)
             LAYER_FOREGROUND1+1);
 
       context.draw_text(white_small_text,
-          " SuperTux " VERSION "\n"
+          _(" SuperTux " VERSION "\n"
           "Copyright (c) 2003 SuperTux Devel Team\n"
           "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you\n"
           "are welcome to redistribute it under certain conditions; see the file COPYING\n"
-          "for details.\n", Vector(0, screen->h - 70), LAYER_FOREGROUND1);
+          "for details.\n"), Vector(0, screen->h - 70), LAYER_FOREGROUND1);
 
       /* Don't draw menu, if quit is true */
       Menu* menu = Menu::current();
@@ -323,7 +324,7 @@ void title(void)
                 {
                 int slot = menu->get_active_item_id();
                 char str[1024];
-                sprintf(str,"Are you sure you want to delete slot %d?", slot);
+                sprintf(str,_("Are you sure you want to delete slot %d?"), slot);
                 
                 if(confirm_dialog(bkg_title, str))
                   {

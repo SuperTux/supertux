@@ -40,6 +40,7 @@
 #include "leveleditor.h"
 #include "timer.h"
 #include "high_scores.h"
+#include "gettext.h"
 
 #define FLICK_CURSOR_TIME 500
 
@@ -72,8 +73,8 @@ bool confirm_dialog(Surface *background, std::string text)
   Menu* dialog = new Menu;
   dialog->additem(MN_DEACTIVE, text,0,0);
   dialog->additem(MN_HL,"",0,0);
-  dialog->additem(MN_ACTION,"Yes",0,0,true);
-  dialog->additem(MN_ACTION,"No",0,0,false);
+  dialog->additem(MN_ACTION,_("Yes"),0,0,true);
+  dialog->additem(MN_ACTION,_("No"),0,0,false);
   dialog->additem(MN_HL,"",0,0);
 
   Menu::set_current(dialog);
@@ -252,40 +253,40 @@ void Menu::get_controlfield_key_into_input(MenuItem *item)
   switch(*item->int_p)
   {
   case SDLK_UP:
-    item->change_input("Up cursor");
+    item->change_input(_("Up cursor"));
     break;
   case SDLK_DOWN:
-    item->change_input("Down cursor");
+    item->change_input(_("Down cursor"));
     break;
   case SDLK_LEFT:
-    item->change_input("Left cursor");
+    item->change_input(_("Left cursor"));
     break;
   case SDLK_RIGHT:
-    item->change_input("Right cursor");
+    item->change_input(_("Right cursor"));
     break;
   case SDLK_RETURN:
-    item->change_input("Return");
+    item->change_input(_("Return"));
     break;
   case SDLK_SPACE:
-    item->change_input("Space");
+    item->change_input(_("Space"));
     break;
   case SDLK_RSHIFT:
-    item->change_input("Right Shift");
+    item->change_input(_("Right Shift"));
     break;
   case SDLK_LSHIFT:
-    item->change_input("Left Shift");
+    item->change_input(_("Left Shift"));
     break;
   case SDLK_RCTRL:
-    item->change_input("Right Control");
+    item->change_input(_("Right Control"));
     break;
   case SDLK_LCTRL:
-    item->change_input("Left Control");
+    item->change_input(_("Left Control"));
     break;
   case SDLK_RALT:
-    item->change_input("Right Alt");
+    item->change_input(_("Right Alt"));
     break;
   case SDLK_LALT:
-    item->change_input("Left Alt");
+    item->change_input(_("Left Alt"));
     break;
   default:
     {

@@ -392,60 +392,60 @@ void st_menu(void)
   main_menu->additem(MN_ACTION, _("Credits"),0,0, MNID_CREDITS);
   main_menu->additem(MN_ACTION, _("Quit"),0,0, MNID_QUITMAINMENU);
 
-  options_menu->additem(MN_LABEL,"Options",0,0);
+  options_menu->additem(MN_LABEL,_("Options"),0,0);
   options_menu->additem(MN_HL,"",0,0);
 #ifndef NOOPENGL
   options_menu->additem(MN_TOGGLE,"OpenGL",use_gl,0, MNID_OPENGL);
 #else
-  options_menu->additem(MN_DEACTIVE,"OpenGL (not supported)",use_gl, 0, MNID_OPENGL);
+  options_menu->additem(MN_DEACTIVE,_("OpenGL (not supported)"),use_gl, 0, MNID_OPENGL);
 #endif
-  options_menu->additem(MN_TOGGLE,"Fullscreen",use_fullscreen,0, MNID_FULLSCREEN);
+  options_menu->additem(MN_TOGGLE,_("Fullscreen"),use_fullscreen,0, MNID_FULLSCREEN);
   if(audio_device)
     {
-      options_menu->additem(MN_TOGGLE,"Sound     ", use_sound,0, MNID_SOUND);
-      options_menu->additem(MN_TOGGLE,"Music     ", use_music,0, MNID_MUSIC);
+      options_menu->additem(MN_TOGGLE,_("Sound     "), use_sound,0, MNID_SOUND);
+      options_menu->additem(MN_TOGGLE,_("Music     "), use_music,0, MNID_MUSIC);
     }
   else
     {
-      options_menu->additem(MN_DEACTIVE,"Sound     ", false,0, MNID_SOUND);
-      options_menu->additem(MN_DEACTIVE,"Music     ", false,0, MNID_MUSIC);
+      options_menu->additem(MN_DEACTIVE,_("Sound     "), false,0, MNID_SOUND);
+      options_menu->additem(MN_DEACTIVE,_("Music     "), false,0, MNID_MUSIC);
     }
-  options_menu->additem(MN_TOGGLE,"Show FPS  ",show_fps,0, MNID_SHOWFPS);
-  options_menu->additem(MN_GOTO,"Keyboard Setup",0,options_keys_menu);
+  options_menu->additem(MN_TOGGLE,_("Show FPS  "),show_fps,0, MNID_SHOWFPS);
+  options_menu->additem(MN_GOTO,_("Keyboard Setup"),0,options_keys_menu);
 
   if(use_joystick)
-    options_menu->additem(MN_GOTO,"Joystick Setup",0,options_joystick_menu);
+    options_menu->additem(MN_GOTO,_("Joystick Setup"),0,options_joystick_menu);
 
   options_menu->additem(MN_HL,"",0,0);
-  options_menu->additem(MN_BACK,"Back",0,0);
+  options_menu->additem(MN_BACK,_("Back"),0,0);
   
-  options_keys_menu->additem(MN_LABEL,"Key Setup",0,0);
+  options_keys_menu->additem(MN_LABEL,_("Key Setup"),0,0);
   options_keys_menu->additem(MN_HL,"",0,0);
-  options_keys_menu->additem(MN_CONTROLFIELD_KB,"Left move", 0,0, 0,&keymap.left);
-  options_keys_menu->additem(MN_CONTROLFIELD_KB,"Right move", 0,0, 0,&keymap.right);
-  options_keys_menu->additem(MN_CONTROLFIELD_KB,"Jump", 0,0, 0,&keymap.jump);
-  options_keys_menu->additem(MN_CONTROLFIELD_KB,"Duck", 0,0, 0,&keymap.duck);
-  options_keys_menu->additem(MN_CONTROLFIELD_KB,"Activate", 0, 0, 0,
+  options_keys_menu->additem(MN_CONTROLFIELD_KB,_("Left move"), 0,0, 0,&keymap.left);
+  options_keys_menu->additem(MN_CONTROLFIELD_KB,_("Right move"), 0,0, 0,&keymap.right);
+  options_keys_menu->additem(MN_CONTROLFIELD_KB,_("Jump"), 0,0, 0,&keymap.jump);
+  options_keys_menu->additem(MN_CONTROLFIELD_KB,_("Duck"), 0,0, 0,&keymap.duck);
+  options_keys_menu->additem(MN_CONTROLFIELD_KB,_("Activate"), 0, 0, 0,
           &keymap.activate);
-  options_keys_menu->additem(MN_CONTROLFIELD_KB,"Power/Run", 0,0, 0,&keymap.fire);
+  options_keys_menu->additem(MN_CONTROLFIELD_KB,_("Power/Run"), 0,0, 0,&keymap.fire);
   options_keys_menu->additem(MN_HL,"",0,0);
-  options_keys_menu->additem(MN_BACK,"Back",0,0);
+  options_keys_menu->additem(MN_BACK,_("Back"),0,0);
 
   if(use_joystick)
     {
-    options_joystick_menu->additem(MN_LABEL,"Joystick Setup",0,0);
+    options_joystick_menu->additem(MN_LABEL,_("Joystick Setup"),0,0);
     options_joystick_menu->additem(MN_HL,"",0,0);
     //options_joystick_menu->additem(MN_CONTROLFIELD_JS,"X axis", 0,0, 0,&joystick_keymap.x_axis);
     //options_joystick_menu->additem(MN_CONTROLFIELD_JS,"Y axis", 0,0, 0,&joystick_keymap.y_axis);
-    options_joystick_menu->additem(MN_CONTROLFIELD_JS,"A button", 0,0, 0,&joystick_keymap.a_button);
-    options_joystick_menu->additem(MN_CONTROLFIELD_JS,"B button", 0,0, 0,&joystick_keymap.b_button);
+    options_joystick_menu->additem(MN_CONTROLFIELD_JS,_("A button"), 0,0, 0,&joystick_keymap.a_button);
+    options_joystick_menu->additem(MN_CONTROLFIELD_JS,_("B button"), 0,0, 0,&joystick_keymap.b_button);
     //options_joystick_menu->additem(MN_CONTROLFIELD_JS,"Start", 0,0, 0,&joystick_keymap.start_button);
     //options_joystick_menu->additem(MN_CONTROLFIELD_JS,"DeadZone", 0,0, 0,&joystick_keymap.dead_zone);
     options_joystick_menu->additem(MN_HL,"",0,0);
-    options_joystick_menu->additem(MN_BACK,"Back",0,0);
+    options_joystick_menu->additem(MN_BACK,_("Back"),0,0);
     }
   
-  load_game_menu->additem(MN_LABEL,"Start Game",0,0);
+  load_game_menu->additem(MN_LABEL,_("Start Game"),0,0);
   load_game_menu->additem(MN_HL,"",0,0);
   load_game_menu->additem(MN_DEACTIVE,"Slot 1",0,0, 1);
   load_game_menu->additem(MN_DEACTIVE,"Slot 2",0,0, 2);
@@ -453,9 +453,9 @@ void st_menu(void)
   load_game_menu->additem(MN_DEACTIVE,"Slot 4",0,0, 4);
   load_game_menu->additem(MN_DEACTIVE,"Slot 5",0,0, 5);
   load_game_menu->additem(MN_HL,"",0,0);
-  load_game_menu->additem(MN_BACK,"Back",0,0);
+  load_game_menu->additem(MN_BACK,_("Back"),0,0);
 
-  save_game_menu->additem(MN_LABEL,"Save Game",0,0);
+  save_game_menu->additem(MN_LABEL,_("Save Game"),0,0);
   save_game_menu->additem(MN_HL,"",0,0);
   save_game_menu->additem(MN_DEACTIVE,"Slot 1",0,0, 1);
   save_game_menu->additem(MN_DEACTIVE,"Slot 2",0,0, 2);
@@ -465,21 +465,21 @@ void st_menu(void)
   save_game_menu->additem(MN_HL,"",0,0);
   save_game_menu->additem(MN_BACK,"Back",0,0);
 
-  game_menu->additem(MN_LABEL,"Pause",0,0);
+  game_menu->additem(MN_LABEL,_("Pause"),0,0);
   game_menu->additem(MN_HL,"",0,0);
-  game_menu->additem(MN_ACTION,"Continue",0,0,MNID_CONTINUE);
-  game_menu->additem(MN_GOTO,"Options",0,options_menu);
+  game_menu->additem(MN_ACTION,_("Continue"),0,0,MNID_CONTINUE);
+  game_menu->additem(MN_GOTO,_("Options"),0,options_menu);
   game_menu->additem(MN_HL,"",0,0);
-  game_menu->additem(MN_ACTION,"Abort Level",0,0,MNID_ABORTLEVEL);
+  game_menu->additem(MN_ACTION,_("Abort Level"),0,0,MNID_ABORTLEVEL);
 
-  worldmap_menu->additem(MN_LABEL,"Pause",0,0);
+  worldmap_menu->additem(MN_LABEL,_("Pause"),0,0);
   worldmap_menu->additem(MN_HL,"",0,0);
-  worldmap_menu->additem(MN_ACTION,"Continue",0,0,MNID_RETURNWORLDMAP);
-  worldmap_menu->additem(MN_GOTO,"Options",0,options_menu);
+  worldmap_menu->additem(MN_ACTION,_("Continue"),0,0,MNID_RETURNWORLDMAP);
+  worldmap_menu->additem(MN_GOTO,_("Options"),0,options_menu);
   worldmap_menu->additem(MN_HL,"",0,0);
-  worldmap_menu->additem(MN_ACTION,"Quit Game",0,0,MNID_QUITWORLDMAP);
+  worldmap_menu->additem(MN_ACTION,_("Quit Game"),0,0,MNID_QUITWORLDMAP);
 
-  highscore_menu->additem(MN_TEXTFIELD,"Enter your name:",0,0);
+  highscore_menu->additem(MN_TEXTFIELD,_("Enter your name:"),0,0);
 }
 
 void update_load_save_game_menu(Menu* pmenu)

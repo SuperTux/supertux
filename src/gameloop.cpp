@@ -55,6 +55,7 @@
 #include "resources.h"
 #include "background.h"
 #include "tilemap.h"
+#include "gettext.h"
 
 GameSession* GameSession::current_ = 0;
 
@@ -159,7 +160,7 @@ GameSession::levelintro(void)
       LAYER_FOREGROUND1);
   
   context.draw_text_center(white_small_text,
-      std::string("by ") + level->get_author(), 
+      std::string(_("by ")) + level->get_author(), 
       Vector(0, 400), LAYER_FOREGROUND1);
 
   context.do_drawing();
@@ -519,7 +520,7 @@ GameSession::draw()
       context->draw_filled_rect(
           Vector(0,0), Vector(screen->w, screen->h),
           Color(rand() % 50, rand() % 50, rand() % 50, 128), LAYER_FOREGROUND1);
-      context->draw_text_center(blue_text, "PAUSE - Press 'P' To Play",
+      context->draw_text_center(blue_text, _("PAUSE - Press 'P' To Play"),
           Vector(0, 230), LAYER_FOREGROUND1+2);
     }
 
@@ -698,35 +699,35 @@ GameSession::drawstatus(DrawingContext& context)
   char str[60];
   
   snprintf(str, 60, "%d", player_status.score);
-  context.draw_text(white_text, "SCORE", Vector(0, 0), LAYER_FOREGROUND1);
+  context.draw_text(white_text, _("SCORE"), Vector(0, 0), LAYER_FOREGROUND1);
   context.draw_text(gold_text, str, Vector(96, 0), LAYER_FOREGROUND1);
 
   if(st_gl_mode == ST_GL_TEST)
     {
-      context.draw_text(white_text, "Press ESC To Return", Vector(0,20),
+      context.draw_text(white_text, _("Press ESC To Return"), Vector(0,20),
           LAYER_FOREGROUND1);
     }
 
   if(!time_left.check()) {
-    context.draw_text_center(white_text, "TIME's UP", Vector(0, 0),
+    context.draw_text_center(white_text, _("TIME's UP"), Vector(0, 0),
         LAYER_FOREGROUND1);
   } else if (time_left.get_left() > TIME_WARNING || (global_frame_counter % 10) < 5) {
     sprintf(str, "%d", time_left.get_left() / 1000 );
-    context.draw_text_center(white_text, "TIME",
+    context.draw_text_center(white_text, _("TIME"),
         Vector(0, 0), LAYER_FOREGROUND1);
     context.draw_text_center(gold_text, str,
         Vector(4*16, 0), LAYER_FOREGROUND1);
   }
 
   sprintf(str, "%d", player_status.distros);
-  context.draw_text(white_text, "COINS",
-      Vector(screen->w - white_text->get_text_width("COINS   "), 0),
+  context.draw_text(white_text, _("COINS"),
+      Vector(screen->w - white_text->get_text_width(_("COINS"))+white_text->get_text_width(str), 0),
         LAYER_FOREGROUND1);
   context.draw_text(gold_text, str,
       Vector(screen->w - gold_text->get_text_width("99"), 0),LAYER_FOREGROUND1);
 
-  context.draw_text(white_text, "LIVES",
-      Vector(screen->w - white_text->get_text_width("LIVES    "), 20),
+  context.draw_text(white_text, _("LIVES"),
+      Vector(screen->w - white_text->get_text_width(_("LIVES"))+white_text->get_text_width(str), 20),
       LAYER_FOREGROUND1);
   if (player_status.lives >= 5)
     {
@@ -763,13 +764,13 @@ GameSession::drawresultscreen(void)
   DrawingContext context;
   currentsector->background->draw(context);  
 
-  context.draw_text_center(blue_text, "Result:", Vector(0, 200),
+  context.draw_text_center(blue_text, _("Result:"), Vector(0, 200),
       LAYER_FOREGROUND1);
 
-  sprintf(str, "SCORE: %d", player_status.score);
+  sprintf(str, _("SCORE: %d"), player_status.score);
   context.draw_text_center(gold_text, str, Vector(0, 224), LAYER_FOREGROUND1);
 
-  sprintf(str, "COINS: %d", player_status.distros);
+  sprintf(str, _("COINS: %d"), player_status.distros);
   context.draw_text_center(gold_text, str, Vector(0, 256), LAYER_FOREGROUND1);
 
   context.do_drawing();
@@ -798,10 +799,10 @@ std::string slotinfo(int slot)
       if (!title.empty())
         snprintf(tmp,1024,"Slot %d - %s",slot, title.c_str());
       else
-        snprintf(tmp, 1024,"Slot %d - Savegame",slot);
+        snprintf(tmp, 1024,_("Slot %d - Savegame"),slot);
     }
   else
-    sprintf(tmp,"Slot %d - Free",slot);
+    sprintf(tmp,_("Slot %d - Free"),slot);
 
   return tmp;
 }

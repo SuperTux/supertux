@@ -33,6 +33,7 @@
 #include "worldmap.h"
 #include "sound_manager.h"
 #include "resources.h"
+#include "gettext.h"
 
 namespace WorldMapNS {
 
@@ -720,14 +721,14 @@ WorldMap::update(float delta)
                   context.draw_gradient(Color (0, 255, 0), Color (255, 0, 255),
                       LAYER_BACKGROUND0);
 
-                  context.draw_text_center(blue_text, "GAMEOVER", 
+                  context.draw_text_center(blue_text, _("GAMEOVER"), 
                       Vector(0, 200), LAYER_FOREGROUND1);
 
-                  sprintf(str, "SCORE: %d", player_status.score);
+                  sprintf(str, _("SCORE: %d"), player_status.score);
                   context.draw_text_center(gold_text, str,
                       Vector(0, 224), LAYER_FOREGROUND1);
 
-                  sprintf(str, "COINS: %d", player_status.distros);
+                  sprintf(str, _("COINS: %d"), player_status.distros);
                   context.draw_text_center(gold_text, str,
                       Vector(0, screen->w - 32), LAYER_FOREGROUND1);
 
@@ -846,17 +847,17 @@ WorldMap::draw_status(DrawingContext& context)
   char str[80];
   sprintf(str, "%d", player_status.score);
 
-  context.draw_text(white_text, "SCORE", Vector(0, 0), LAYER_FOREGROUND1);
+  context.draw_text(white_text, _("SCORE"), Vector(0, 0), LAYER_FOREGROUND1);
   context.draw_text(gold_text, str, Vector(96, 0), LAYER_FOREGROUND1);
 
   sprintf(str, "%d", player_status.distros);
-  context.draw_text(white_text, "COINS", Vector(screen->w/2 - 16*5, 0),
+  context.draw_text(white_text, _("COINS"), Vector(screen->w/2 - 16*5, 0),
       LAYER_FOREGROUND1);
   context.draw_text(gold_text, str, Vector(screen->w/2 + (16*5)/2, 0),
         LAYER_FOREGROUND1);
 
-  context.draw_text(white_text, "LIVES",
-      Vector(screen->w - white_text->get_text_width("LIVES")*2, 0),
+  context.draw_text(white_text, _("LIVES"),
+      Vector(screen->w - white_text->get_text_width(_("LIVES"))*2, 0),
       LAYER_FOREGROUND1);
   if (player_status.lives >= 5)
     {
