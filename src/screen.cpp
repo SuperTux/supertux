@@ -74,17 +74,10 @@ void drawgradient(int top_r, int top_g, int top_b, int bot_r, int bot_g, int bot
   {
 #endif
 
-  SDL_Rect r;
-  r.x = 0;
-  r.w = 640;
-  r.h = 2;
-
     for(float y = 0; y < 480; y += 2)
-      {
-      r.y = (int)y;
-
-      SDL_FillRect(screen, &r, SDL_MapRGB(screen->format, (int)(((float)(top_r-bot_r)/640) * y + top_r), (int)(((float)(top_g-bot_g)/640) * y + top_g), (int)(((float)(top_b-bot_b)/640) * y + top_b)));
-      }
+      fillrect(0, (int)y, 640, 2, (int)(((float)(top_r-bot_r)/640) * y + top_r),
+                                  (int)(((float)(top_g-bot_g)/640) * y + top_g),
+                                  (int)(((float)(top_b-bot_b)/640) * y + top_b), 255);
 /* calculates the color for each line, based in the generic equation for functions: y = mx + b */
 
 #ifndef NOOPENGL
