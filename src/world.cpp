@@ -178,21 +178,10 @@ World::draw()
   int y,x;
 
   /* Draw the real background */
+  drawgradient(level->bkgd_top, level->bkgd_bottom);
   if(level->img_bkgd)
-    {
-      // Tile background horizontally
-      int sx = (int)((float)scroll_x * ((float)level->bkgd_speed/100.0f)) % level->img_bkgd->w;
-      for (int i = 0; (i-1)*level->img_bkgd->w <= screen->w; i++)
-        {
-          level->img_bkgd->draw_part(i == 0 ? sx : 0, 0,
-                                     i == 0 ? 0 : (level->img_bkgd->w * i) - sx, 0,
-                                     i == 0 ? level->img_bkgd->w - sx : level->img_bkgd->w, level->img_bkgd->h);
-        }
-    }
-  else
-    {
-      drawgradient(level->bkgd_top, level->bkgd_bottom);
-    }
+      level->draw_bg();
+
     
   /* Draw particle systems (background) */
   std::vector<ParticleSystem*>::iterator p;

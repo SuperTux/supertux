@@ -72,10 +72,10 @@ void drawgradient(Color top_clr, Color bot_clr)
       glBegin(GL_QUADS);
       glColor3ub(top_clr.red, top_clr.green, top_clr.blue);
       glVertex2f(0, 0);
-      glVertex2f(640, 0);
+      glVertex2f(screen->w, 0);
       glColor3ub(bot_clr.red, bot_clr.green, bot_clr.blue);
-      glVertex2f(640, 480);
-      glVertex2f(0, 480);
+      glVertex2f(screen->w, screen->h);
+      glVertex2f(0, screen->h);
       glEnd();
     }
   else

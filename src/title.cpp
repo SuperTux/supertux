@@ -271,7 +271,7 @@ void title(void)
       draw_demo(&session, frame_ratio);
       
       if (Menu::current() == main_menu)
-        logo->draw( 160, 30);
+        logo->draw(screen->w/2 - logo->w/2, 30);
 
       white_small_text->draw(" SuperTux " VERSION "\n"
                              "Copyright (c) 2003 SuperTux Devel Team\n"

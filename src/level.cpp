@@ -739,6 +739,16 @@ Level::change(float x, float y, int tm, unsigned int c)
     }
 }
 
+void Level::draw_bg()
+{
+  // Tile background horizontally
+  int sx = (int)((float)scroll_x * ((float)bkgd_speed/100.0f)) % img_bkgd->w;
+  for (int i = 0; (i-1)*img_bkgd->w <= screen->w; i++)
+    img_bkgd->draw_part(i == 0 ? sx : 0, 0,
+                        i == 0 ? 0 : (img_bkgd->w * i) - sx, 0,
+                        i == 0 ? img_bkgd->w - sx : img_bkgd->w, img_bkgd->h);
+}
+
 void
 Level::load_song()
 {

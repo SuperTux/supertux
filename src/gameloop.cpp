@@ -146,7 +146,7 @@ GameSession::levelintro(void)
   char str[60];
  
   if (get_level()->img_bkgd)
-    get_level()->img_bkgd->draw(0, 0);
+    get_level()->draw_bg();
   else
     drawgradient(get_level()->bkgd_top, get_level()->bkgd_bottom);
 
@@ -721,7 +721,7 @@ GameSession::drawendscreen()
   char str[80];
 
   if (get_level()->img_bkgd)
-    get_level()->img_bkgd->draw(0, 0);
+    get_level()->draw_bg();
   else
     drawgradient(get_level()->bkgd_top, get_level()->bkgd_bottom);
 
@@ -745,7 +745,7 @@ GameSession::drawresultscreen(void)
   char str[80];
 
   if (get_level()->img_bkgd)
-    get_level()->img_bkgd->draw(0, 0);
+    get_level()->draw_bg();
   else
     drawgradient(get_level()->bkgd_top, get_level()->bkgd_bottom);
 
