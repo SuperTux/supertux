@@ -45,7 +45,7 @@
            ))
 
 
-  (levels
+  (special-tiles
     (special-tile
       (x 4)
       (y 6)
