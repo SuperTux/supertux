@@ -322,7 +322,8 @@ void title(void)
 
   Ticks::pause_init();
 
-  titlesession = new GameSession("misc/menu.stl", ST_GL_DEMO_GAME);
+  titlesession = new GameSession(get_resource_filename("levels/misc/menu.stl"),
+      ST_GL_DEMO_GAME);
 
   /* Load images: */
   bkg_title = new Surface(datadir + "/images/background/arctis.jpg", false);
@@ -482,7 +483,4 @@ void title(void)
   delete logo;
   delete img_choose_subset;
 }
-
-
-// EOF //
 

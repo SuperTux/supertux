@@ -51,6 +51,7 @@ public:
   Level();
   ~Level();
 
+  // loads a levelfile
   void load(const std::string& filename);
   void save(const std::string& filename);
   static void create(const std::string& filename);

@@ -80,11 +80,11 @@ bool compare_last(std::string& haystack, std::string needle)
   return false;
 }
 
-GameSession::GameSession(const std::string& levelname_, int mode,
+GameSession::GameSession(const std::string& levelfile_, int mode,
     bool flip_level_, Statistics* statistics)
   : level(0), currentsector(0), st_gl_mode(mode),
-    end_sequence(NO_ENDSEQUENCE), levelname(levelname_), flip_level(flip_level_),
-    best_level_statistics(statistics)
+    end_sequence(NO_ENDSEQUENCE), levelfile(levelfile_),
+    flip_level(flip_level_), best_level_statistics(statistics)
 {
   current_ = this;
   
@@ -124,7 +124,7 @@ GameSession::restart_level()
   currentsector = 0;
 
   level = new Level;
-  level->load(levelname);
+  level->load(levelfile);
   if(flip_level)
     level->do_vertical_flip();
 
@@ -726,7 +726,8 @@ GameSession::run()
   while (exit_status == ES_NONE) {
     Uint32 ticks = SDL_GetTicks();
     float elapsed_time = float(ticks - lastticks) / 1000.;
-    global_time += elapsed_time;
+    if(!game_pause)
+      global_time += elapsed_time;
     lastticks = ticks;
 
     // 40fps is minimum

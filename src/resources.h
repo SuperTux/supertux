@@ -93,6 +93,10 @@ extern Font* white_small_text;
 extern Font* white_big_text;
 extern Font* yellow_nums;
 
+// maps a virtual resource path to a real path (ie. levels/bla is mapped to
+// $DATADIR/levels/bla or $HOME/.supertux/levels/bla)
+std::string get_resource_filename(const std::string& resource);
+
 void loadshared();
 void unloadshared();
 

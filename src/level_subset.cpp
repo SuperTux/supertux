@@ -20,10 +20,13 @@
 
 #include <config.h>
 
+#include <sstream>
+#include <stdexcept>
 #include <assert.h>
 #include <unistd.h>
 #include "app/setup.h"
 #include "level.h"
+#include "resources.h"
 #include "app/globals.h"
 #include "video/surface.h"
 #include "level_subset.h"
@@ -89,14 +92,13 @@ void LevelSubset::load(const std::string& subset)
   
   // Check in which directory our subset is located (ie. ~/.supertux/
   // or SUPERTUX_DATADIR)
-  std::string filename;
-  filename = st_dir + "/levels/" + subset + "/info";
-  if (access(filename.c_str(), R_OK) != 0)
-    {
-      filename = datadir + "/levels/" + subset + "/info";
-      if (access(filename.c_str(), R_OK) != 0)
-        std::cout << "Error: LevelSubset: couldn't find subset: " << subset << std::endl;
-    }
+  std::string filename = get_resource_filename(
+      std::string("levels/") + subset + "/info");
+  if(filename == "") {
+    std::stringstream msg;
+    msg << "Couldn't find level subset '" << subset << "'.";
+    throw new std::runtime_error(msg.str());
+  }
   
   read_info_file(filename);
 
@@ -115,7 +117,8 @@ void LevelSubset::load(const std::string& subset)
       for(std::set<std::string>::iterator i = files.begin(); i != files.end(); ++i)
         {
           if (has_suffix(*i, ".stl"))
-            levels.push_back(subset+ "/" + *i);
+            levels.push_back(get_resource_filename(
+                  std::string("levels/" + subset+ "/" + *i)));
         }
     }
 }
@@ -177,5 +180,3 @@ LevelSubset::get_num_levels() const
 {
   return levels.size();
 }
-
-/* EOF */

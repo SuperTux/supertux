@@ -863,7 +863,8 @@ WorldMap::update(float delta)
               // do a shriking fade to the level
               shrink_fade(Vector((level->pos.x*32 + 16 + offset.x),(level->pos.y*32 + 16
                       + offset.y)), 500);
-              GameSession session(level->name,
+              GameSession session(
+                  get_resource_filename(std::string("levels/" + level->name)),
                                   ST_GL_LOAD_LEVEL_FILE, level->vertical_flip,
                                   &level->statistics);
 

@@ -304,3 +304,16 @@ void unloadshared(void)
   sprite_manager = 0;
 }
 
+std::string get_resource_filename(const std::string& resource)
+{
+  std::string filepath = st_dir + resource;
+  if(access(filepath.c_str(), R_OK) == 0)
+    return filepath;
+  
+  filepath = datadir + resource;
+  if(access(filepath.c_str(), R_OK) == 0)
+    return filepath;
+
+  std::cerr << "Couldn't find resource: '" << resource  << "'." << std::endl;
+  return "";
+}

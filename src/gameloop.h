@@ -78,7 +78,7 @@ private:
 
   bool game_pause;
 
-  std::string levelname;
+  std::string levelfile;
   bool flip_level;
 
   // the sector and spawnpoint we shoudl spawn after this frame
@@ -93,7 +93,8 @@ public:
   DrawingContext* context;
   Timer2 time_left;
 
-  GameSession(const std::string& level, int mode, bool flip_level_ = false, Statistics* statistics = NULL);
+  GameSession(const std::string& levelfile, int mode, bool flip_level_ = false,
+          Statistics* statistics = 0);
   ~GameSession();
 
   /** Enter the busy loop */

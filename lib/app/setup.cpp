@@ -280,10 +280,9 @@ void Setup::directories()
   st_dir = home + "/." + package_symbol_name;
 
   /* Remove .supertux config-file from old SuperTux versions */
-  if(FileSystem::faccessible(st_dir))
-    {
-      remove(st_dir.c_str());
-    }
+  if(FileSystem::faccessible(st_dir)) {
+    remove(st_dir.c_str());
+  }
 
   st_save_dir = st_dir + "/save";
 
@@ -296,7 +295,7 @@ void Setup::directories()
   // try current directory as datadir
   if(datadir.empty()) {
       if(FileSystem::faccessible("./data/intro.txt"))
-          datadir = "./data";
+          datadir = "./data/";
   }
 
   // User has not that a datadir, so we try some magic
@@ -314,23 +313,25 @@ void Setup::directories()
         {
 	  std::string exedir = std::string(dirname(exe_file)) + "/";
 	  
-          datadir = exedir + "../data"; // SuperTux run from source dir
+          datadir = exedir + "../data/"; // SuperTux run from source dir
           if (access(datadir.c_str(), F_OK) != 0)
             {
-	      datadir = exedir + "../../data";  //SuperTux run from source dir (with libtool script)
+	      datadir = exedir + "../../data/";  //SuperTux run from source dir (with libtool script)
 	      
 	      if (access(datadir.c_str(), F_OK) != 0)
 	      {
-              datadir = exedir + "../share/" + package_symbol_name; // SuperTux run from PATH
+              datadir = exedir + "../share/" + package_symbol_name + "/"; // SuperTux run from PATH
               if (access(datadir.c_str(), F_OK) != 0) 
                 { // If all fails, fall back to compiled path
-                  datadir = DATA_PREFIX; 
+                  datadir = DATA_PREFIX;
+                  datadir += "/"; 
                 }
 	      }
             }
         }
 #else
-  datadir = DATA_PREFIX;
+      datadir = DATA_PREFIX;
+      datadir += "/";
 #endif
     }
   printf("Datadir: %s\n", datadir.c_str());

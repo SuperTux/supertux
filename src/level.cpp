@@ -62,20 +62,8 @@ Level::create(const std::string& filename)
 }
 
 void
-Level::load(const std::string& filename)
+Level::load(const std::string& filepath)
 {
-  std::string filepath;
-  filepath = st_dir + "/levels/" + filename;
-  if (access(filepath.c_str(), R_OK) != 0)
-  {
-    filepath = datadir + "/levels/" + filename;
-    if (access(filepath.c_str(), R_OK) != 0)
-    {
-      std::cerr << "Error: Level: couldn't find level: " << filename << std::endl;
-      return;
-    }
-  }
-  
   LispReader* level = LispReader::load(filepath, "supertux-level");
 
   int version = 1;
