@@ -17,9 +17,10 @@ Last update: June 7, 2004
   should use the personal one. And if it is possible to ommit it in your language, it might
   be a good idea.
 
-* Names like SuperTux, Tux, Penny and other game elements should not be translated. If you
+* Names like SuperTux, Tux, Penny or Nolok should not be translated. If you
   really think one of these to be a too strange word for your people, first inform us at
   our mailing list.
+  Minor characters like Mr. Ice Block can (and should) be translated.
 
 A couple of notes:
 * If somewhere in the game, after translating a string, it doesn't look well (bad
@@ -49,6 +50,16 @@ worths when lookins at the results ;-)
  After translating the file, add an entry of your language to the LINGUAS file (ie. Spanish - es)
  and run 'make update-po'. Then a binary file will be created. In order to make SuperTux using
  it, you will have to install it ('make install').
+
+ To translate data files, you'll have to use a text editor, since we don't follow any
+ convention. To translate a level's tile, to French, for instance, just do this:
+ (name "Hello World!")
+ (name-fr "Bonjour Monde!")
+ Other data files, like texts in data/, can be translated the same way:
+ (text "Hello World!
+       Bye World!")
+ (text-fr "Bonjour Monde!
+           Au revoir Monde!")
 
 
  == DEVELOPERS ==
