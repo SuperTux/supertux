@@ -25,7 +25,7 @@
 #include "world.h"
 #include "level.h"
 #include "scene.h"
-#include "viewport.h"
+#include "camera.h"
 #include "display_manager.h"
 
 ParticleSystem::ParticleSystem(DisplayManager& displaymanager)
@@ -44,7 +44,7 @@ ParticleSystem::~ParticleSystem()
     }
 }
 
-void ParticleSystem::draw(ViewPort& viewport, int layer)
+void ParticleSystem::draw(Camera& viewport, int layer)
 {
     std::vector<Particle*>::iterator i;
     for(i = particles.begin(); i != particles.end(); ++i) {

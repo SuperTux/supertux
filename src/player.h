@@ -112,6 +112,7 @@ class Player : public MovingObject, public Drawable
 public:
   enum HurtMode { KILL, SHRINK };
   enum Power { NONE_POWER, FIRE_POWER, ICE_POWER };
+  enum FallMode { ON_GROUND, JUMPING, TRAMPOLINE_JUMP, FALLING };
 
   player_input_type  input;
   int got_power;
@@ -122,6 +123,9 @@ public:
 
   Direction dir;
   Direction old_dir;
+
+  float last_ground_y;
+  FallMode fall_mode;
 
   bool jumping;
   bool can_jump;
@@ -148,18 +152,16 @@ public:
   void grabdistros();
 
   virtual void action(float elapsed_time);
-  virtual void draw(ViewPort& viewport, int layer);
+  virtual void draw(Camera& viewport, int layer);
   virtual void collision(const MovingObject& other_object,
       int collision_type);
-  virtual std::string type() const
-  { return "Player"; }
 
   void collision(void* p_c_object, int c_object);
   void kill(HurtMode mode);
   void is_dying();
   bool is_dead();
   void player_remove_powerups();
-  void check_bounds(ViewPort& viewport, bool back_scrolling, bool hor_autoscroll);
+  void check_bounds(Camera& viewport, bool back_scrolling, bool hor_autoscroll);
   bool on_ground();
   bool under_solid();
   bool tiles_on_air(int tiles);

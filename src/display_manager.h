@@ -22,7 +22,7 @@
 #include <vector>
 
 #include "drawable.h"
-#include "viewport.h"
+#include "camera.h"
 
 // some constants for predefined layer values
 enum {
@@ -51,10 +51,7 @@ public:
 
   void remove_drawable(Drawable* object);
 
-  void draw();
-
-  ViewPort& get_viewport()
-  { return viewport; }
+  void draw(Camera& camera);
 
 private:
   class DrawingQueueEntry {
@@ -74,7 +71,6 @@ private:
 
   typedef std::vector<DrawingQueueEntry> DisplayList;
   DisplayList displaylist;
-  ViewPort viewport;
 };
 
 #endif

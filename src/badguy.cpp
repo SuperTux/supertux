@@ -35,7 +35,7 @@
 #include "gameloop.h"
 #include "display_manager.h"
 #include "lispwriter.h"
-#include "viewport.h"
+#include "camera.h"
 
 Sprite* img_mriceblock_flat_left;
 Sprite* img_mriceblock_flat_right;
@@ -316,8 +316,7 @@ BadGuy::action_mriceblock(double elapsed_time)
       check_horizontal_bump();
       if(mode == KICK && changed != dir)
         {
-          float scroll_x = World::current()->displaymanager
-            .get_viewport().get_translation().x;
+          float scroll_x = World::current()->camera->get_translation().x;
           
           /* handle stereo sound (number 10 should be tweaked...)*/
           if (base.x < scroll_x + screen->w/2 - 10)
@@ -518,8 +517,7 @@ BadGuy::action_bomb(double elapsed_time)
       dying = DYING_NOT; // now the bomb hurts
       timer.start(EXPLODETIME);
 
-      float scroll_x = World::current()->displaymanager
-        .get_viewport().get_translation().x;                 
+      float scroll_x = World::current()->camera->get_translation().x;                 
 
       /* play explosion sound */  // FIXME: is the stereo all right? maybe we should use player cordinates...
       if (base.x < scroll_x + screen->w/2 - 10)
@@ -753,10 +751,8 @@ BadGuy::action_snowball(double elapsed_time)
 void
 BadGuy::action(float elapsed_time)
 {
-  float scroll_x = World::current()->displaymanager
-    .get_viewport().get_translation().x;
-  float scroll_y = World::current()->displaymanager
-    .get_viewport().get_translation().y;
+  float scroll_x = World::current()->camera->get_translation().x;
+  float scroll_y = World::current()->camera->get_translation().y;
   
   // BadGuy fall below the ground
   if (base.y > World::current()->get_level()->height * 32) {
@@ -836,7 +832,7 @@ BadGuy::action(float elapsed_time)
 }
 
 void
-BadGuy::draw(ViewPort& viewport, int)
+BadGuy::draw(Camera& viewport, int)
 {
   float scroll_x = viewport.get_translation().x;
   float scroll_y = viewport.get_translation().y;

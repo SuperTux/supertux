@@ -96,9 +96,9 @@ Bullet::action(float elapsed_time)
     physic.set_velocity_y(-9);
 
   float scroll_x =
-    World::current()->displaymanager.get_viewport().get_translation().x;
+    World::current()->camera->get_translation().x;
   float scroll_y =
-    World::current()->displaymanager.get_viewport().get_translation().y;
+    World::current()->camera->get_translation().y;
   if (base.x < scroll_x ||
       base.x > scroll_x + screen->w ||
       base.y < scroll_y ||
@@ -112,7 +112,7 @@ Bullet::action(float elapsed_time)
 }
 
 void 
-Bullet::draw(ViewPort& viewport, int )
+Bullet::draw(Camera& viewport, int )
 {
   if(kind == FIRE_BULLET)
     img_firebullet->draw(viewport.world2screen(Vector(base.x, base.y)));
@@ -187,9 +187,9 @@ Upgrade::action(float elapsed_time)
 
   /* Away from the screen? Kill it! */
   float scroll_x =
-    World::current()->displaymanager.get_viewport().get_translation().x;
+    World::current()->camera->get_translation().x;
   float scroll_y =                                                        
-    World::current()->displaymanager.get_viewport().get_translation().y;
+    World::current()->camera->get_translation().y;
   
   if(base.x < scroll_x - X_OFFSCREEN_DISTANCE ||
       base.x > scroll_x + screen->w + X_OFFSCREEN_DISTANCE ||
@@ -243,7 +243,7 @@ Upgrade::action(float elapsed_time)
 }
 
 void
-Upgrade::draw(ViewPort& viewport, int)
+Upgrade::draw(Camera& viewport, int)
 {
   SDL_Rect dest;
 

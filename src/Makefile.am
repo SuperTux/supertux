@@ -77,8 +77,8 @@ music_manager.cpp \
 music_manager.h \
 musicref.cpp \
 musicref.h \
-viewport.cpp \
-viewport.h \
+camera.cpp \
+camera.h \
 game_object.cpp \
 game_object.h \
 display_manager.h \

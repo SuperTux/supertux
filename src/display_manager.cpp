@@ -51,10 +51,10 @@ DisplayManager::remove_drawable(Drawable* drawable)
 }
 
 void
-DisplayManager::draw()
+DisplayManager::draw(Camera& camera)
 {
   for(DisplayList::iterator i = displaylist.begin(); i != displaylist.end();
       ++i)
-    i->object->draw(viewport, i->layer);
+    i->object->draw(camera, i->layer);
 }
 

@@ -40,12 +40,9 @@ public:
 
   void set_gradient(Color top, Color bottom);
 
-  virtual std::string type() const
-  { return "Background"; }
-
   virtual void action(float elapsed_time);
 
-  virtual void draw(ViewPort& viewport, int layer);
+  virtual void draw(Camera& viewport, int layer);
 
 private:
   int bgtype;

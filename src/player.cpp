@@ -101,6 +101,8 @@ Player::init()
   duck = false;
 
   dying   = DYING_NOT;
+  last_ground_y = 0;
+  fall_mode = ON_GROUND;
   jumping = false;
   can_jump = true;
   butt_jump = false;
@@ -415,6 +417,17 @@ Player::handle_horizontal_input()
 void
 Player::handle_vertical_input()
 {
+  // set fall mode...
+  if(on_ground()) {
+    fall_mode = ON_GROUND;
+    last_ground_y = base.y;
+  } else {
+    if(base.y > last_ground_y)
+      fall_mode = FALLING;
+    else if(fall_mode == ON_GROUND)
+      fall_mode = JUMPING;
+  }
+
   // Press jump key
   if(input.up == DOWN && can_jump && on_ground())
     {
@@ -596,7 +609,7 @@ Player::grabdistros()
 }
 
 void
-Player::draw(ViewPort& viewport, int layer)
+Player::draw(Camera& viewport, int layer)
 {
   PlayerSprite* sprite;
           
@@ -857,9 +870,9 @@ Player::is_dying()
 bool Player::is_dead()
 {
   float scroll_x =
-    World::current()->displaymanager.get_viewport().get_translation().x;
+    World::current()->camera->get_translation().x;
   float scroll_y =
-    World::current()->displaymanager.get_viewport().get_translation().y;
+    World::current()->camera->get_translation().y;
   if(base.y > screen->h + scroll_y || base.y > World::current()->get_level()->height*32 ||
       base.x < scroll_x - AUTOSCROLL_DEAD_INTERVAL)  // can happen in auto-scrolling
     return true;
@@ -877,7 +890,7 @@ Player::remove_powerups()
 }
 
 void
-Player::check_bounds(ViewPort& viewport,
+Player::check_bounds(Camera& viewport,
     bool back_scrolling, bool hor_autoscroll)
 {
   /* Keep tux in bounds: */

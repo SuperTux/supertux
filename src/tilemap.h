@@ -34,9 +34,7 @@ public:
   virtual ~TileMap();
 
   virtual void action(float elapsed_time);
-  virtual void draw(ViewPort& viewport, int layer);
-  virtual std::string type() const
-  { return "TileMap"; }
+  virtual void draw(Camera& viewport, int layer);
   
 private:
   Level* level;

@@ -64,6 +64,7 @@ public:
   std::vector<Bullet*> bullets;
   std::vector<GameObject*> gameobjects;
 
+  Camera* camera;
   DisplayManager displaymanager;
 
 public:
@@ -84,7 +85,6 @@ public:
 
   void draw();
   void action(float elapsed_time);
-  void scrolling(float elapsed_time);   // camera scrolling
 
   void play_music(int musictype);
   int get_music_type();

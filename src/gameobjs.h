@@ -42,9 +42,7 @@ class BouncyDistro : public GameObject, public Drawable
 public:
   BouncyDistro(DisplayManager& displaymanager, const Vector& pos);
   virtual void action(float elapsed_time);
-  virtual void draw(ViewPort& viewport, int layer);
-  virtual std::string type() const
-  { return "BouncyDistro"; };
+  virtual void draw(Camera& viewport, int layer);
 
 private:
   Vector position;
@@ -65,10 +63,7 @@ public:
       const Vector& pos, const Vector& movement);
 
   virtual void action(float elapsed_time);
-  virtual void draw(ViewPort& viewport, int layer);
-
-  virtual std::string type() const
-  { return "BrokenBrick"; };
+  virtual void draw(Camera& viewport, int layer);
 
 private:
   Timer timer;
@@ -82,11 +77,8 @@ class BouncyBrick : public GameObject, public Drawable
 public:
   BouncyBrick(DisplayManager& displaymanager, const Vector& pos);
   virtual void action(float elapsed_time);
-  virtual void draw(ViewPort& viewport, int layer);
+  virtual void draw(Camera& viewport, int layer);
   
-  virtual std::string type() const
-  { return "BouncyBrick"; };
-
 private:
   Vector position;
   float offset;   
@@ -100,9 +92,7 @@ public:
   FloatingScore(DisplayManager& displaymanager, const Vector& pos, int s);
   
   virtual void action(float elapsed_time);
-  virtual void draw(ViewPort& viewport, int layer);
-  virtual std::string type() const
-  { return "FloatingScore"; };
+  virtual void draw(Camera& viewport, int layer);
 
 private:
   Vector position;
@@ -117,9 +107,7 @@ public:
  
   virtual void write(LispWriter& writer);
   virtual void action(float frame_ratio);
-  virtual void draw(ViewPort& viewport, int layer);
-  virtual std::string type() const
-  { return "Trampoline"; };
+  virtual void draw(Camera& viewport, int layer);
 
   virtual void collision(const MovingObject& other, int);
   void collision(void *p_c_object, int c_object, CollisionType type);
@@ -139,9 +127,7 @@ public:
  
   virtual void write(LispWriter& writer);
   virtual void action(float frame_ratio);
-  virtual void draw(ViewPort& viewport, int layer);
-  virtual std::string type() const
-  { return "Trampoline"; };
+  virtual void draw(Camera& viewport, int layer);
 
   virtual void collision(const MovingObject& other, int);
   void collision(void *p_c_object, int c_object, CollisionType type);

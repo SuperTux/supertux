@@ -118,10 +118,8 @@ public:
   virtual void write(LispWriter& writer);
 
   virtual void action(float frame_ratio);
-  virtual void draw(ViewPort& viewport, int layer);
+  virtual void draw(Camera& viewport, int layer);
   virtual void collision(const MovingObject& other, int type);
-  virtual std::string type() const
-  { return "BadGuy"; };
 
   void collision(void* p_c_object, int c_object,
                  CollisionType type = COLLISION_NORMAL);

@@ -42,7 +42,7 @@ TileMap::action(float )
 }
 
 void
-TileMap::draw(ViewPort& viewport, int layer)
+TileMap::draw(Camera& viewport, int layer)
 {
   std::vector<unsigned int>* tiles;
   switch(layer) {

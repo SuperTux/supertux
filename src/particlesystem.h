@@ -48,7 +48,7 @@ public:
     ParticleSystem(DisplayManager& displaymanager);
     virtual ~ParticleSystem();
     
-    virtual void draw(ViewPort& view, int layer);
+    virtual void draw(Camera& view, int layer);
 
 protected:
     class Particle

@@ -19,7 +19,7 @@
 #include "background.h"
 
 #include "globals.h"
-#include "viewport.h"
+#include "camera.h"
 #include "display_manager.h"
 
 Background::Background(DisplayManager& displaymanager)
@@ -53,7 +53,7 @@ Background::set_gradient(Color top, Color bottom)
 }
 
 void
-Background::draw(ViewPort& viewport, int )
+Background::draw(Camera& viewport, int )
 {
   if(bgtype == BACKGROUND_GRADIENT) {
     drawgradient(gradient_top, gradient_bottom);

@@ -24,7 +24,7 @@
 #include "screen.h"
 #include "globals.h"
 #include "button.h"
-#include "viewport.h"
+#include "camera.h"
 
 Timer Button::popup_timer;
 
@@ -87,7 +87,7 @@ void Button::draw()
 
   if(drawable)
   {
-    ViewPort viewport;
+    Camera viewport;
     viewport.set_translation(Vector(rect.x, rect.y));
     drawable->draw(viewport, 0);
   }

@@ -20,26 +20,61 @@
 #define __VIEWPORT_H__
 
 #include "vector.h"
+#include "game_object.h"
+#include "serializable.h"
 
-class ViewPort
+class LispReader;
+class Player;
+class Level;
+
+class Camera : public GameObject, public Serializable
 {
 public:
-  ViewPort();
-  ~ViewPort();
+  Camera(Player* player = 0, Level* level = 0);
+  virtual ~Camera();
 
+  /** transforms a coordinate in world space to screen space.
+   * Basically you have to apply this function to each coordinate that you want
+   * to display on screen.
+   */
   Vector world2screen(const Vector& worldpos) const
   {
-    return worldpos - translation;
-  }
-    
+    return worldpos - translation;                   
+  }                                                  
+
+  /// parse camera mode from lisp file
+  void parse_camera(LispReader& reader);
+  /// write camera mode to a lisp file
+  virtual void write(LispWriter& writer);
+
   /** returns the current translation (=scroll) vector of the viewport */
   const Vector& get_translation() const
   { return translation; }
-
+  /** set the curren translation vector of the viewport */
   void set_translation(const Vector& translation);
 
+  virtual void action(float elapsed_time);
+
+  enum CameraMode
+  {
+    NORMAL, AUTOSCROLL, MANUAL
+  };
+
 private:
+  void scroll_normal(float elapsed_time);
+  void scroll_autoscroll(float elapsed_time);
+
+  enum LeftRightScrollChange
+  {
+    NONE, LEFT, RIGHT
+  };
+    
   Vector translation;
+
+  Player* player;
+  Level* level;
+  CameraMode mode;
+  LeftRightScrollChange scrollchange;
 };
 
 #endif

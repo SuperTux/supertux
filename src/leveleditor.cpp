@@ -19,6 +19,7 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <map>
+#include <typeinfo>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -942,8 +943,7 @@ void le_drawlevel()
   Uint8 a;
 
   /* Draw the real background */
-  le_world->background->draw(le_world->displaymanager.get_viewport(),
-      LAYER_BACKGROUND0);
+  le_world->background->draw(*le_world->camera, LAYER_BACKGROUND0);
 
   if(le_current.IsTile())
   {
@@ -1012,7 +1012,7 @@ void le_drawlevel()
       continue;
     
     /* to support frames: img_bsod_left[(frame / 5) % 4] */
-    ViewPort viewport;
+    Camera viewport;
     viewport.set_translation(Vector(pos_x, pos_y));
     badguy->draw(viewport, 0);
   }
@@ -1028,7 +1028,8 @@ void le_change_object_properties(GameObject *pobj)
   Menu* object_properties_menu = new Menu();
   bool loop = true;
 
-  object_properties_menu->additem(MN_LABEL,pobj->type() + " Properties",0,0);
+  std::string type = typeid(pobj).name();
+  object_properties_menu->additem(MN_LABEL, type + " Properties",0,0);
   object_properties_menu->additem(MN_HL,"",0,0);
 
   BadGuy* pbad = dynamic_cast<BadGuy*>(pobj);
@@ -1510,15 +1511,17 @@ void le_checkevents()
             if(le_current.IsObject())
             {
               le_level_changed  = true;
-              std::string type = le_current.obj->type();
+              BadGuy* pbadguy = dynamic_cast<BadGuy*>(le_current.obj);
 
-              if(type == "BadGuy")
+              if(pbadguy)
               {
-                ViewPort viewport(le_world->displaymanager.get_viewport());
+                Camera& camera = *le_world->camera;
                 DisplayManager dummy;
-                BadGuy* pbadguy = dynamic_cast<BadGuy*>(le_current.obj);
 
-                le_world->bad_guys.push_back(new BadGuy(dummy, pbadguy->kind, cursor_x + viewport.get_translation().x, cursor_y + viewport.get_translation().y));
+                le_world->bad_guys.push_back(
+                    new BadGuy(dummy, pbadguy->kind,
+                      cursor_x + camera.get_translation().x,
+                      cursor_y + camera.get_translation().y));
                 le_world->gameobjects.push_back(le_world->bad_guys.back());
               }
             }
@@ -1678,11 +1681,11 @@ void le_change(float x, float y, int tm, unsigned int c)
       /* if there is a bad guy over there, remove it */
       // XXX TODO
       for(std::vector<GameObject*>::iterator it = le_world->gameobjects.begin();
-            it != le_world->gameobjects.end(); ++it)
-        if ((*it)->type() == "BadGuy")
+            it != le_world->gameobjects.end(); ++it) {
+        BadGuy* badguy = dynamic_cast<BadGuy*>((*it));
+        if (badguy)
         {
-          BadGuy* pbadguy = dynamic_cast<BadGuy*>((*it));
-          if(rectcollision(cursor_base, pbadguy->base))
+          if(rectcollision(cursor_base, badguy->base))
           {
             delete (*it);
             //le_world->bad_guys.erase(it);
@@ -1690,6 +1693,7 @@ void le_change(float x, float y, int tm, unsigned int c)
             break;
           }
         }
+      }
 
       break;
     case SQUARE:
@@ -1724,9 +1728,9 @@ void le_change(float x, float y, int tm, unsigned int c)
       for(std::vector<GameObject*>::iterator it = le_world->gameobjects.begin();
           it != le_world->gameobjects.end(); ++it /* will be at end of loop */)
       {
-        if ((*it)->type() == "BadGuy")
+        MovingObject* pmobject = dynamic_cast<MovingObject*> (*it);       
+        if (pmobject)
         {
-          MovingObject* pmobject = dynamic_cast<MovingObject*> (*it);
           if(pmobject->base.x/32 >= x1 && pmobject->base.x/32 <= x2
               && pmobject->base.y/32 >= y1 && pmobject->base.y/32 <= y2)
           {

@@ -147,7 +147,7 @@ GameSession::levelintro(void)
   
   char str[60];
 
-  ViewPort dummy;
+  Camera dummy;
   world->background->draw(dummy, LAYER_BACKGROUND0);
 
   sprintf(str, "%s", world->get_level()->name.c_str());
@@ -719,7 +719,7 @@ GameSession::drawresultscreen(void)
 {
   char str[80];
 
-  ViewPort dummy;
+  Camera dummy;
   world->background->draw(dummy, LAYER_BACKGROUND0);  
 
   blue_text->drawf("Result:", 0, 200, A_HMIDDLE, A_TOP, 1);

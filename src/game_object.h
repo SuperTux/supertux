@@ -41,11 +41,6 @@ public:
   GameObject();
   virtual ~GameObject();
 
-  /** returns the name of the objecttype, this is mainly usefull for the editor.
-   * For the coding part you should use C++ RTTI (ie. typeid and dynamic_cast)
-   * instead.
-   */
-  virtual std::string type() const = 0;
   /** This function is called once per frame and allows the object to update
    * it's state. The elapsed_time is the time since the last frame and should be
    * the base for all timed things.

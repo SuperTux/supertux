@@ -47,7 +47,7 @@ BouncyDistro::action(float elapsed_time)
 }
 
 void
-BouncyDistro::draw(ViewPort& viewport, int )
+BouncyDistro::draw(Camera& viewport, int )
 {
   img_distro[0]->draw(viewport.world2screen(position));
 }
@@ -71,7 +71,7 @@ BrokenBrick::action(float elapsed_time)
 }
 
 void
-BrokenBrick::draw(ViewPort& viewport, int )
+BrokenBrick::draw(Camera& viewport, int )
 {
   SDL_Rect src, dest;
   src.x = rand() % 16;
@@ -110,7 +110,7 @@ BouncyBrick::action(float elapsed_time)
 }
 
 void
-BouncyBrick::draw(ViewPort& viewport, int)
+BouncyBrick::draw(Camera& viewport, int)
 {
   Tile::draw(viewport.world2screen(position + Vector(0, offset)), shape);
 }
@@ -135,7 +135,7 @@ FloatingScore::action(float elapsed_time)
 }
 
 void
-FloatingScore::draw(ViewPort& viewport, int )
+FloatingScore::draw(Camera& viewport, int )
 {
   gold_text->draw(str, viewport.world2screen(position));
 }
@@ -174,7 +174,7 @@ Trampoline::write(LispWriter& writer)
 }
 
 void
-Trampoline::draw(ViewPort& viewport, int )
+Trampoline::draw(Camera& viewport, int )
 {
   img_trampoline[frame]->draw(viewport.world2screen(Vector(base.x, base.y)));
   frame = 0;
@@ -264,8 +264,10 @@ Trampoline::collision(void *p_c_object, int c_object, CollisionType type)
         else
           frame = 0;
 
-        if (squish_amount < 20)
+        if (squish_amount < 20) {
           pplayer_c->physic.set_velocity_y(power);
+          pplayer_c->fall_mode = Player::TRAMPOLINE_JUMP;
+        }
         else if (pplayer_c->physic.get_velocity_y() < 0)
           pplayer_c->physic.set_velocity_y(-squish_amount/32);
       }
@@ -316,7 +318,7 @@ FlyingPlatform::write(LispWriter& writer)
 }
 
 void
-FlyingPlatform::draw(ViewPort& viewport, int )
+FlyingPlatform::draw(Camera& viewport, int )
 {
 img_flying_platform->draw(viewport.world2screen(Vector(base.x, base.y)));
 }

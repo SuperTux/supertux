@@ -53,14 +53,11 @@ public:
   virtual ~Upgrade();
   
   virtual void action(float frame_ratio);
-  virtual void draw(ViewPort& viewport, int layer);
+  virtual void draw(Camera& viewport, int layer);
 
   virtual void collision(const MovingObject& other, int);
   void collision(void* p_c_object, int c_object, CollisionType type);
 
-  virtual std::string type() const
-  { return "Upgrade"; };
-  
 private:
   void bump(Player* player);
 };
@@ -77,12 +74,10 @@ public:
       int kind);
   
   virtual void action(float frame_ratio);
-  virtual void draw(ViewPort& viewport, int layer);
+  virtual void draw(Camera& viewport, int layer);
   void collision(int c_object);
 
   virtual void collision(const MovingObject& other_object, int type);
-  virtual std::string type() const
-  { return "Bullet"; };
 
   int kind;        
   
