@@ -431,9 +431,9 @@
                  "shared/flyingsnowball-left-1.png"))
 
  (sprite (name "flyingsnowball-squished")
-         (x-hotspot 1)
-         (y-hotspot -19)
-         (images "shared/snowball-squished-left.png"))
+         (x-hotspot 4)
+         (y-hotspot -12)
+         (images "shared/flyingsnowball-squished-left.png"))
 
  (sprite (name "spiky-left")
          (x-hotspot 6)
