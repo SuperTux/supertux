@@ -452,7 +452,6 @@ public class Application {
     }
 
     private void OnTileListCursorChanged(object sender, EventArgs e) {
-        Console.WriteLine("Cursor changed.");
         TreeModel model;
         TreePath[] selectpaths =
             TileList.Selection.GetSelectedRows(out model); 

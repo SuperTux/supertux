@@ -90,7 +90,6 @@ public class TileSet {
     }
 
     public void ParseTiles(Lisp.Parser parser) {
-        Console.WriteLine("ParseTiles...");
         int d = parser.Depth;
         while(parser.Parse() && parser.Depth >= d) {
             if(parser.Depth == d && parser.Type != Parser.LispType.START_LIST) {
@@ -114,7 +113,6 @@ public class TileSet {
                     case "tile":
                         Tile tile = new Tile();
                         tile.Parse(parser);
-                        Console.WriteLine("***ID: " + tile.ID);
 
                         while(tile.ID >= Tiles.Count)
                             Tiles.Add(null);
