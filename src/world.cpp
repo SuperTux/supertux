@@ -183,13 +183,13 @@ World::draw()
   tux.draw();
 
   for (unsigned int i = 0; i < bullets.size(); ++i)
-    bullet_draw(&bullets[i]);
+    bullets[i].draw();
 
   for (unsigned int i = 0; i < floating_scores.size(); ++i)
     floating_scores[i].draw();
 
   for (unsigned int i = 0; i < upgrades.size(); ++i)
-    upgrade_draw(&upgrades[i]);
+    upgrades[i].draw();
 
   for (unsigned int i = 0; i < bouncy_distros.size(); ++i)
     bouncy_distros[i].draw();
@@ -242,10 +242,10 @@ World::action()
     floating_scores[i].action();
 
   for (unsigned int i = 0; i < bullets.size(); ++i)
-    bullet_action(&bullets[i]);
+    bullets[i].action();
   
   for (unsigned int i = 0; i < upgrades.size(); i++)
-    upgrade_action(&upgrades[i]);
+    upgrades[i].action();
 
   for (unsigned int i = 0; i < bad_guys.size(); i++)
     bad_guys[i].action();
@@ -279,7 +279,7 @@ World::collision_handler()
               // collide with bad_guy first, since bullet_collision will
               // delete the bullet
               bad_guys[j].collision(0, CO_BULLET);
-              bullet_collision(&bullets[i], CO_BADGUY);
+              bullets[i].collision(CO_BADGUY);
               break; // bullet is invalid now, so break
             }
         }
@@ -338,7 +338,7 @@ World::collision_handler()
         {
           // We have detected a collision and now call the collision
           // functions of the collided objects.
-          upgrade_collision(&upgrades[i], &tux, CO_PLAYER);
+          upgrades[i].collision(&tux, CO_PLAYER);
         }
     }
 }
@@ -399,16 +399,16 @@ World::add_bad_guy(float x, float y, BadGuyKind kind)
 void
 World::add_upgrade(float x, float y, int dir, int kind)
 {
-  upgrade_type new_upgrade;
-  upgrade_init(&new_upgrade,x,y,dir,kind);
+  Upgrade new_upgrade;
+  new_upgrade.init(x,y,dir,kind);
   upgrades.push_back(new_upgrade);
 }
 
 void 
 World::add_bullet(float x, float y, float xm, int dir)
 {
-  bullet_type new_bullet;
-  bullet_init(&new_bullet,x,y,xm,dir);
+  Bullet new_bullet;
+  new_bullet.init(x,y,xm,dir);
   bullets.push_back(new_bullet);
   
   play_sound(sounds[SND_SHOOT], SOUND_CENTER_SPEAKER);

@@ -31,17 +31,29 @@ enum {
   UPGRADE_HERRING
 };
 
-struct upgrade_type
+class Upgrade
 {
+ public:
   int kind;
   base_type base;
   base_type old_base;
+
+  void init(float x, float y, int dir, int kind);
+  void action();
+  void draw();
+  void collision(void* p_c_object, int c_object);
 };
 
-struct bullet_type
+class Bullet
 {
+ public:
   base_type base;
   base_type old_base;
+  
+  void init(float x, float y, float xm, int dir);
+  void action();
+  void draw();
+  void collision(int c_object);
 };
 
 extern texture_type img_bullet;
@@ -50,15 +62,5 @@ extern bitmask* bm_bullet;
 void create_special_bitmasks();
 
 extern texture_type img_golden_herring;
-
-void upgrade_init(upgrade_type *pupgrade, float x, float y, int dir, int kind);
-void upgrade_action(upgrade_type *pupgrade);
-void upgrade_draw(upgrade_type *pupgrade);
-void upgrade_collision(upgrade_type *pupgrade, void* p_c_object, int c_object);
-
-void bullet_init(bullet_type* pbullet, float x, float y, float xm, int dir);
-void bullet_action(bullet_type *pbullet);
-void bullet_draw(bullet_type *pbullet);
-void bullet_collision(bullet_type *pbullet, int c_object);
 
 #endif /*SUPERTUX_SPECIAL_H*/

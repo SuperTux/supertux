@@ -41,8 +41,8 @@ class World
   std::vector<FloatingScore> floating_scores;
 
   std::vector<BadGuy> bad_guys;
-  std::vector<upgrade_type> upgrades;
-  std::vector<bullet_type> bullets;
+  std::vector<Upgrade> upgrades;
+  std::vector<Bullet> bullets;
   std::vector<ParticleSystem*> particle_systems;
 
   static World* current_;

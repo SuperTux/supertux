@@ -29,200 +29,210 @@ void create_special_bitmasks()
   bm_bullet = bitmask_create_SDL(img_bullet.sdl_surface);
 }
 
-void bullet_init(bullet_type* pbullet, float x, float y, float xm, int dir)
+void
+Bullet::init(float x, float y, float xm, int dir)
 {
-  pbullet->base.width = 4;
-  pbullet->base.height = 4;
+  base.width = 4;
+  base.height = 4;
 
   if (dir == RIGHT)
     {
-      pbullet->base.x = x + 32;
-      pbullet->base.xm = BULLET_XM + xm;
+      base.x = x + 32;
+      base.xm = BULLET_XM + xm;
     }
   else
     {
-      pbullet->base.x = x;
-      pbullet->base.xm = -BULLET_XM + xm;
+      base.x = x;
+      base.xm = -BULLET_XM + xm;
     }
 
-  pbullet->base.y = y;
-  pbullet->base.ym = BULLET_STARTING_YM;
-  pbullet->old_base = pbullet->base;
+  base.y = y;
+  base.ym = BULLET_STARTING_YM;
+  old_base = base;
 }
 
-void bullet_action(bullet_type* pbullet)
+void
+Bullet::action()
 {
-  pbullet->base.x = pbullet->base.x + pbullet->base.xm * frame_ratio;
-  pbullet->base.y = pbullet->base.y + pbullet->base.ym * frame_ratio;
+  base.x = base.x + base.xm * frame_ratio;
+  base.y = base.y + base.ym * frame_ratio;
 
-  collision_swept_object_map(&pbullet->old_base,&pbullet->base);
+  collision_swept_object_map(&old_base,&base);
       
-  if (issolid(pbullet->base.x, pbullet->base.y + 4) || issolid(pbullet->base.x, pbullet->base.y))
+  if (issolid(base.x, base.y + 4) || issolid(base.x, base.y))
     {
-      pbullet->base.ym = -pbullet->base.ym;
-      pbullet->base.y = (int)(pbullet->base.y / 32) * 32;
+      base.ym = -base.ym;
+      base.y = (int)(base.y / 32) * 32;
     }
 
-  pbullet->base.ym = pbullet->base.ym + GRAVITY;
+  base.ym = base.ym + GRAVITY;
 
-  if (pbullet->base.x < scroll_x ||
-      pbullet->base.x > scroll_x + screen->w ||
-      pbullet->base.y < 0 ||
-      pbullet->base.y > screen->h ||
-      issolid(pbullet->base.x + 4, pbullet->base.y + 2) ||
-      issolid(pbullet->base.x, pbullet->base.y + 2))
+  if (base.x < scroll_x ||
+      base.x > scroll_x + screen->w ||
+      base.y < 0 ||
+      base.y > screen->h ||
+      issolid(base.x + 4, base.y + 2) ||
+      issolid(base.x, base.y + 2))
     {
-      World::current()->bullets.erase(static_cast<std::vector<bullet_type>::iterator>(pbullet));
+      World::current()->bullets.erase(static_cast<std::vector<Bullet>::iterator>(this));
     }
 
 }
 
-void bullet_draw(bullet_type* pbullet)
+void 
+Bullet::draw()
 {
-  if (pbullet->base.x >= scroll_x - pbullet->base.width &&
-      pbullet->base.x <= scroll_x + screen->w)
+  if (base.x >= scroll_x - base.width &&
+      base.x <= scroll_x + screen->w)
     {
-      texture_draw(&img_bullet, pbullet->base.x - scroll_x, pbullet->base.y, 255,
+      texture_draw(&img_bullet, base.x - scroll_x, base.y, 255,
                    NO_UPDATE);
     }
 }
 
-void bullet_collision(bullet_type* pbullet, int c_object)
+void
+Bullet::collision(int c_object)
 {
   if(c_object == CO_BADGUY) {
-    std::vector<bullet_type>::iterator i;
+    std::vector<Bullet>::iterator i;
     
-    for(i = World::current()->bullets.begin(); i != World::current()->bullets.end(); ++i) {
-      if(& (*i) == pbullet) {
-        World::current()->bullets.erase(i);
-        return;
+    for(i = World::current()->bullets.begin(); i != World::current()->bullets.end(); ++i) 
+      {
+        if(&(*i) == this) 
+          {
+            World::current()->bullets.erase(i);
+            return;
+          }
       }
-    }
   }
 }
 
-void upgrade_init(upgrade_type *pupgrade, float x, float y, int dir, int kind)
+void
+Upgrade::init(float x_, float y_, int dir_, int kind_)
 {
-  pupgrade->base.width = 32;
-  pupgrade->base.height = 0;
-  pupgrade->kind = kind;
-  pupgrade->base.x = x;
-  pupgrade->base.y = y;
-  if(dir == LEFT)
-    pupgrade->base.xm = -2;
+  base.width = 32;
+  base.height = 0;
+  kind = kind_;
+  base.x = x_;
+  base.y = y_;
+
+  if(dir_ == LEFT)
+    base.xm = -2;
   else
-    pupgrade->base.xm = 2;
-  pupgrade->base.ym = -2;
-  pupgrade->base.height = 0;
-  pupgrade->old_base = pupgrade->base;
+    base.xm = 2;
+
+  base.ym = -2;
+  base.height = 0;
+  old_base = base;
 }
 
-void upgrade_action(upgrade_type *pupgrade)
+void
+Upgrade::action()
 {
-
-
-  if (pupgrade->base.height < 32)
+  if (base.height < 32)
     {
       /* Rise up! */
 
-      pupgrade->base.height = pupgrade->base.height + 0.7 * frame_ratio;
-      if(pupgrade->base.height > 32)
-        pupgrade->base.height = 32;
+      base.height = base.height + 0.7 * frame_ratio;
+      if(base.height > 32)
+        base.height = 32;
     }
   else
     {
       /* Move around? */
 
-      if (pupgrade->kind == UPGRADE_MINTS ||
-          pupgrade->kind == UPGRADE_HERRING)
+      if (kind == UPGRADE_MINTS ||
+          kind == UPGRADE_HERRING)
         {
-          pupgrade->base.x = pupgrade->base.x + pupgrade->base.xm * frame_ratio;
-          pupgrade->base.y = pupgrade->base.y + pupgrade->base.ym * frame_ratio;
+          base.x = base.x + base.xm * frame_ratio;
+          base.y = base.y + base.ym * frame_ratio;
 
-          collision_swept_object_map(&pupgrade->old_base,&pupgrade->base);
+          collision_swept_object_map(&old_base,&base);
 
           /* Off the screen?  Kill it! */
 
-          if (pupgrade->base.x < scroll_x - pupgrade->base.width)
-            World::current()->upgrades.erase(static_cast<std::vector<upgrade_type>::iterator>(pupgrade));
-          if (pupgrade->base.y > screen->h)
-            World::current()->upgrades.erase(static_cast<std::vector<upgrade_type>::iterator>(pupgrade));
+          if (base.x < scroll_x - base.width)
+            World::current()->upgrades.erase(static_cast<std::vector<Upgrade>::iterator>(this));
+          if (base.y > screen->h)
+            World::current()->upgrades.erase(static_cast<std::vector<Upgrade>::iterator>(this));
 
-          if (issolid(pupgrade->base.x + 1, pupgrade->base.y + 32.) ||
-              issolid(pupgrade->base.x + 31., pupgrade->base.y + 32.))
+          if (issolid(base.x + 1, base.y + 32.) ||
+              issolid(base.x + 31., base.y + 32.))
             {
-              if (pupgrade->base.ym > 0)
+              if (base.ym > 0)
                 {
-                  if (pupgrade->kind == UPGRADE_MINTS)
+                  if (kind == UPGRADE_MINTS)
                     {
-                      pupgrade->base.ym = 0;
+                      base.ym = 0;
                     }
-                  else if (pupgrade->kind == UPGRADE_HERRING)
+                  else if (kind == UPGRADE_HERRING)
                     {
-                      pupgrade->base.ym = -8;
+                      base.ym = -8;
                     }
 
-                  pupgrade->base.y = (int)(pupgrade->base.y / 32) * 32;
+                  base.y = (int)(base.y / 32) * 32;
                 }
             }
           else
-            pupgrade->base.ym = pupgrade->base.ym + GRAVITY * frame_ratio;
+            base.ym = base.ym + GRAVITY * frame_ratio;
 
-          if (issolid(pupgrade->base.x - 1, (int) pupgrade->base.y))
+          if (issolid(base.x - 1, (int) base.y))
             {
-              if(pupgrade->base.xm < 0)
-                pupgrade->base.xm = -pupgrade->base.xm;
+              if(base.xm < 0)
+                base.xm = -base.xm;
             }
-          else if (issolid(pupgrade->base.x + pupgrade->base.width, (int) pupgrade->base.y))
+          else if (issolid(base.x + base.width, (int) base.y))
             {
-              if(pupgrade->base.xm > 0)
-                pupgrade->base.xm = -pupgrade->base.xm;
+              if(base.xm > 0)
+                base.xm = -base.xm;
             }
         }
 
     }
 }
 
-void upgrade_draw(upgrade_type* pupgrade)
+void
+Upgrade::draw()
 {
   SDL_Rect dest;
-  if (pupgrade->base.height < 32)
+  if (base.height < 32)
     {
       /* Rising up... */
 
-      dest.x = (int)(pupgrade->base.x - scroll_x);
-      dest.y = (int)(pupgrade->base.y + 32 - pupgrade->base.height);
+      dest.x = (int)(base.x - scroll_x);
+      dest.y = (int)(base.y + 32 - base.height);
       dest.w = 32;
-      dest.h = (int)pupgrade->base.height;
+      dest.h = (int)base.height;
 
-      if (pupgrade->kind == UPGRADE_MINTS)
+      if (kind == UPGRADE_MINTS)
         texture_draw_part(&img_mints,0,0,dest.x,dest.y,dest.w,dest.h);
-      else if (pupgrade->kind == UPGRADE_COFFEE)
+      else if (kind == UPGRADE_COFFEE)
         texture_draw_part(&img_coffee,0,0,dest.x,dest.y,dest.w,dest.h);
-      else if (pupgrade->kind == UPGRADE_HERRING)
+      else if (kind == UPGRADE_HERRING)
         texture_draw_part(&img_golden_herring,0,0,dest.x,dest.y,dest.w,dest.h);
     }
   else
     {
-      if (pupgrade->kind == UPGRADE_MINTS)
+      if (kind == UPGRADE_MINTS)
         {
           texture_draw(&img_mints,
-                       pupgrade->base.x - scroll_x, pupgrade->base.y);
+                       base.x - scroll_x, base.y);
         }
-      else if (pupgrade->kind == UPGRADE_COFFEE)
+      else if (kind == UPGRADE_COFFEE)
         {
           texture_draw(&img_coffee,
-                       pupgrade->base.x - scroll_x, pupgrade->base.y);
+                       base.x - scroll_x, base.y);
         }
-      else if (pupgrade->kind == UPGRADE_HERRING)
+      else if (kind == UPGRADE_HERRING)
         {
           texture_draw(&img_golden_herring,
-                       pupgrade->base.x - scroll_x, pupgrade->base.y);
+                       base.x - scroll_x, base.y);
         }
     }
 }
 
-void upgrade_collision(upgrade_type* pupgrade, void* p_c_object, int c_object)
+void
+Upgrade::collision(void* p_c_object, int c_object)
 {
   Player* pplayer = NULL;
 
@@ -234,11 +244,11 @@ void upgrade_collision(upgrade_type* pupgrade, void* p_c_object, int c_object)
       /* p_c_object is CO_PLAYER, so assign it to pplayer */
       pplayer = (Player*) p_c_object;
 
-      World::current()->upgrades.erase(static_cast<std::vector<upgrade_type>::iterator>(pupgrade));
+      World::current()->upgrades.erase(static_cast<std::vector<Upgrade>::iterator>(this));
 
       /* Affect the player: */
 
-      if (pupgrade->kind == UPGRADE_MINTS)
+      if (kind == UPGRADE_MINTS)
         {
           play_sound(sounds[SND_EXCELLENT], SOUND_CENTER_SPEAKER);
           pplayer->size = BIG;
@@ -252,13 +262,13 @@ void upgrade_collision(upgrade_type* pupgrade, void* p_c_object, int c_object)
             }
           timer_start(&super_bkgd_timer, 350);
         }
-      else if (pupgrade->kind == UPGRADE_COFFEE)
+      else if (kind == UPGRADE_COFFEE)
         {
           play_sound(sounds[SND_COFFEE], SOUND_CENTER_SPEAKER);
           pplayer->got_coffee = true;
           timer_start(&super_bkgd_timer, 250);
         }
-      else if (pupgrade->kind == UPGRADE_HERRING)
+      else if (kind == UPGRADE_HERRING)
         {
           play_sound(sounds[SND_HERRING], SOUND_CENTER_SPEAKER);
           timer_start(&pplayer->invincible_timer,TUX_INVINCIBLE_TIME);
