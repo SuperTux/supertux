@@ -166,6 +166,12 @@ public:
     /** If false, disables the auto walking after finishing a level */
     bool auto_path;
 
+    /** Only applies actions (ie. map messages) when going to that direction */
+    bool apply_action_north;
+    bool apply_action_east;
+    bool apply_action_south;
+    bool apply_action_west;
+
     // Directions which are walkable from this level
     bool north;
     bool east;

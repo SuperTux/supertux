@@ -284,9 +284,16 @@ Tux::update(float delta)
 
           WorldMap::Level* level = worldmap->at_level();
           if(level && level->name.empty() && !level->display_map_message.empty())
-            {
-            worldmap->passive_message = level->display_map_message;
-            worldmap->passive_message_timer.start(DISPLAY_MAP_MESSAGE_TIME);
+            {  // direction and the apply_action_ are opposites, since they "see"
+               // directions in a different way
+            if((direction == D_NORTH && level->apply_action_south) ||
+               (direction == D_SOUTH && level->apply_action_north) ||
+               (direction == D_WEST && level->apply_action_east) ||
+               (direction == D_EAST && level->apply_action_west))
+              {
+              worldmap->passive_message = level->display_map_message;
+              worldmap->passive_message_timer.start(DISPLAY_MAP_MESSAGE_TIME);
+              }
             }
 
           if (worldmap->at(tile_pos)->stop || (level && !level->name.empty()))
@@ -447,6 +454,13 @@ WorldMap::load_map()
                       reader.read_string("map-message", &level.display_map_message);
                       level.auto_path = true;
                       reader.read_bool("auto-path", &level.auto_path);
+
+                      level.apply_action_north = level.apply_action_south =
+                            level.apply_action_east = level.apply_action_west = true;
+                      reader.read_bool("apply-action-up", &level.apply_action_north);
+                      reader.read_bool("apply-action-down", &level.apply_action_south);
+                      reader.read_bool("apply-action-left", &level.apply_action_west);
+                      reader.read_bool("apply-action-right", &level.apply_action_east);
 
                       if(!level.name.empty())
                         get_level_title(&level);   // get level's title
