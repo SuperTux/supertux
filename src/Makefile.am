@@ -45,7 +45,6 @@ sound.h \
 special.cpp \
 special.h \
 supertux.cpp \
-supertux.h \
 text.cpp \
 text.h \
 texture.cpp \
