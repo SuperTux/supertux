@@ -1193,10 +1193,16 @@ void le_change(float x, float y, int tm, unsigned int c)
           y2 /= 32;
 
           /* if there is a bad guy over there, remove it */
-          for(i = 0; i < le_world.bad_guys.size(); ++i)
-            if(le_world.bad_guys[i].base.x/32 >= x1 && le_world.bad_guys[i].base.x/32 <= x2
-               && le_world.bad_guys[i].base.y/32 >= y1 && le_world.bad_guys[i].base.y/32 <= y2)
-              le_world.bad_guys.erase(static_cast<std::vector<BadGuy>::iterator>(&le_world.bad_guys[i]));
+          for(std::vector<BadGuy>::iterator i = le_world.bad_guys.begin(); 
+              i != le_world.bad_guys.end(); /* will be at end of loop */) {
+            if(i->base.x/32 >= x1 && i->base.x/32 <= x2
+               && i->base.y/32 >= y1 && i->base.y/32 <= y2) {
+              i = le_world.bad_guys.erase(i);
+              continue;
+            } else {
+              ++i;
+            }
+          }
 
           for(xx = x1; xx <= x2; xx++)
             for(yy = y1; yy <= y2; yy++)
