@@ -3,7 +3,7 @@ Super Tux 0.1.2 (upcoming release)
   * one new island containing contributed and "official" new levels
   * a "new" enemy: The Fish
   * support for auto-scrolling levels
-  * extended world map format
+  * extended world map format, support for contributed world maps
   * thrown ice blocks destroy wooden crates now
   * minor bug fixes
   
