@@ -488,15 +488,26 @@ Player::handle_horizontal_input()
   }
 
   // changing directions?
-  if(on_ground() && ((vx < 0 && dirsign >0) || (vx>0 && dirsign<0))) {
-      if(fabs(vx)>SKID_XM && !skidding_timer.check()) {
+  if(on_ground() && ((vx < 0 && dirsign >0) || (vx>0 && dirsign<0)))
+    {
+      // let's skid!
+      if(fabs(vx)>SKID_XM && !skidding_timer.check())
+        {
           skidding_timer.start(SKID_TIME);
           SoundManager::get()->play_sound(IDToSound(SND_SKID));
+          // dust some partcles
+          Sector::current()->add_particles(
+              Vector(base.x + (dir == LEFT ? base.width : 0), base.y+base.height),
+              dir == LEFT ? 270+20 : 90-40, dir == LEFT ? 270+40 : 90-20,
+              Vector(2.8,-2.6), Vector(0,0.030), 3, Color(100,100,100), 3, 800);
+
           ax *= 2.5;
-      } else {
+        }
+      else
+        {
           ax *= 2;
-      }
-  }
+        }
+    }
 
   // we get slower when not pressing any keys
   if(dirsign == 0) {
@@ -894,7 +905,7 @@ Player::draw(DrawingContext& context)
     else // dir == RIGHT
       tux_body->set_action("kick-right");
     }
-  else if (butt_jump)
+  else if (butt_jump && size == BIG)
     {
     if(dir == LEFT)
       tux_body->set_action("buttjump-left");
