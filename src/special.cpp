@@ -84,7 +84,7 @@ Bullet::action(float elapsed_time)
   physic.apply(elapsed_time, base.x, base.y);
   collision_swept_object_map(&old_base,&base);
       
-  if (issolid(base.x, base.y + 4) || issolid(base.x, base.y))
+  if (issolid(base.x+2, base.y + 4) || issolid(base.x+2, base.y))
     {
       base.y  = old_y;
       physic.set_velocity_y(-physic.get_velocity_y());
@@ -118,7 +118,8 @@ Bullet::action(float elapsed_time)
          remove_me();
        else if (kind == ICE_BULLET)
          {
-	   physic.set_velocity_x(physic.get_velocity_x() * -1);
+	   physic.set_velocity_x(-physic.get_velocity_x());
+	   //physic.set_velocity_y(-physic.get_velocity_y());
 	 }
      }
 }

@@ -76,7 +76,8 @@ L: low priority
 [L] we only have a global counter for multiple coin blocks. This should be handled
     per block.
 [L] Show level number on top of the screen when playing the level
-[L] fix the door animation
+[L] Fix the door animation
+[L] Prevent Tux from being able to jump over ending sequence triggers
 
 Beyond Milestone2
 -----------------
