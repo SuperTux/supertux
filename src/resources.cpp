@@ -125,10 +125,10 @@ void loadshared()
   for (int i = 0; i < GROWING_FRAMES; i++)
     {
       sprintf(img_name, "%s/images/shared/tux-grow-left-%i.png", datadir.c_str(), i+1);
-      growingtux_left[i] = new Surface(img_name, false);
+      growingtux_left[i] = new Surface(img_name, true);
 
       sprintf(img_name, "%s/images/shared/tux-grow-right-%i.png", datadir.c_str(), i+1);
-      growingtux_right[i] = new Surface(img_name, false);
+      growingtux_right[i] = new Surface(img_name, true);
     }
 
   smalltux.stand_left  = sprite_manager->load("smalltux-stand-left");
@@ -264,7 +264,7 @@ void loadshared()
   for (int i = 0; i < DOOR_OPENING_FRAMES; i++)
     {
       sprintf(img_name, "%s/images/shared/door-%i.png", datadir.c_str(), i+1);
-      door_opening[i] = new Surface(img_name, false);
+      door_opening[i] = new Surface(img_name, true);
     }
 
   /* Distros: */
