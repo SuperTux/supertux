@@ -108,5 +108,6 @@ void player_kill(player_type *pplayer, int mode);
 void player_dying(player_type *pplayer);
 void player_remove_powerups(player_type *pplayer);
 void player_keep_in_bounds(player_type *pplayer);
+int player_on_ground(player_type *pplayer);
 
 #endif /*SUPERTUX_PLAYER_H*/

@@ -221,57 +221,63 @@ void st_directory_setup(void)
 void st_menu(void)
 {
   menu_init(&main_menu);
+  menu_additem(&main_menu,menu_item_create(MN_LABEL,"Main Menu",0,0));
+  menu_additem(&main_menu,menu_item_create(MN_HL,"",0,0));
   menu_additem(&main_menu,menu_item_create(MN_ACTION,"Start Game",0,0));
   menu_additem(&main_menu,menu_item_create(MN_GOTO,"Load Game",0,&load_game_menu));
   menu_additem(&main_menu,menu_item_create(MN_GOTO,"Options",0,&options_menu));
   menu_additem(&main_menu,menu_item_create(MN_ACTION,"Level editor",0,0));
+  menu_additem(&main_menu,menu_item_create(MN_HL,"",0,0));
   menu_additem(&main_menu,menu_item_create(MN_ACTION,"Quit",0,0));
 
   menu_init(&options_menu);
+  menu_additem(&options_menu,menu_item_create(MN_LABEL,"Options",0,0));
+  menu_additem(&options_menu,menu_item_create(MN_HL,"",0,0));
   menu_additem(&options_menu,menu_item_create(MN_TOGGLE,"Fullscreen",use_fullscreen,0));
   if(audio_device == YES)
     {
-      menu_additem(&options_menu,menu_item_create(MN_TOGGLE,"Sound",use_sound,0));
-      menu_additem(&options_menu,menu_item_create(MN_TOGGLE,"Music",use_music,0));
+      menu_additem(&options_menu,menu_item_create(MN_TOGGLE,"Sound     ",use_sound,0));
+      menu_additem(&options_menu,menu_item_create(MN_TOGGLE,"Music     ",use_music,0));
     }
   else
     {
-      menu_additem(&options_menu,menu_item_create(MN_DEACTIVE,"Sound",use_sound,0));
-      menu_additem(&options_menu,menu_item_create(MN_DEACTIVE,"Music",use_music,0));
+      menu_additem(&options_menu,menu_item_create(MN_DEACTIVE,"Sound     ",use_sound,0));
+      menu_additem(&options_menu,menu_item_create(MN_DEACTIVE,"Music     ",use_music,0));
     }
-  menu_additem(&options_menu,menu_item_create(MN_TOGGLE,"Show FPS",show_fps,0));
+  menu_additem(&options_menu,menu_item_create(MN_TOGGLE,"Show FPS  ",show_fps,0));
+  menu_additem(&options_menu,menu_item_create(MN_HL,"",0,0));
   menu_additem(&options_menu,menu_item_create(MN_BACK,"Back",0,0));
-
-  menu_init(&leveleditor_menu);
-  menu_additem(&leveleditor_menu,menu_item_create(MN_ACTION,"Return To Level Editor",0,0));
-  menu_additem(&leveleditor_menu,menu_item_create(MN_ACTION,"New Level",0,0));
-  menu_additem(&leveleditor_menu,menu_item_create(MN_ACTION,"Load Level",0,0));
-  menu_additem(&leveleditor_menu,menu_item_create(MN_ACTION,"Save Level",0,0));
-  menu_additem(&leveleditor_menu,menu_item_create(MN_ACTION,"Quit Level Editor",0,0));
 
   menu_init(&load_game_menu);
   menu_additem(&load_game_menu,menu_item_create(MN_LABEL,"Load Game",0,0));
+  menu_additem(&load_game_menu,menu_item_create(MN_HL,"",0,0));
   menu_additem(&load_game_menu,menu_item_create(MN_DEACTIVE,"Slot 1",0,0));
   menu_additem(&load_game_menu,menu_item_create(MN_DEACTIVE,"Slot 2",0,0));
   menu_additem(&load_game_menu,menu_item_create(MN_DEACTIVE,"Slot 3",0,0));
   menu_additem(&load_game_menu,menu_item_create(MN_DEACTIVE,"Slot 4",0,0));
   menu_additem(&load_game_menu,menu_item_create(MN_DEACTIVE,"Slot 5",0,0));
+  menu_additem(&load_game_menu,menu_item_create(MN_HL,"",0,0));
   menu_additem(&load_game_menu,menu_item_create(MN_BACK,"Back",0,0));
 
   menu_init(&save_game_menu);
   menu_additem(&save_game_menu,menu_item_create(MN_LABEL,"Save Game",0,0));
+  menu_additem(&save_game_menu,menu_item_create(MN_HL,"",0,0));
   menu_additem(&save_game_menu,menu_item_create(MN_DEACTIVE,"Slot 1",0,0));
   menu_additem(&save_game_menu,menu_item_create(MN_DEACTIVE,"Slot 2",0,0));
   menu_additem(&save_game_menu,menu_item_create(MN_DEACTIVE,"Slot 3",0,0));
   menu_additem(&save_game_menu,menu_item_create(MN_DEACTIVE,"Slot 4",0,0));
   menu_additem(&save_game_menu,menu_item_create(MN_DEACTIVE,"Slot 5",0,0));
+  menu_additem(&save_game_menu,menu_item_create(MN_HL,"",0,0));
   menu_additem(&save_game_menu,menu_item_create(MN_BACK,"Back",0,0));
 
   menu_init(&game_menu);
+  menu_additem(&game_menu,menu_item_create(MN_LABEL,"InGame Menu",0,0));
+  menu_additem(&game_menu,menu_item_create(MN_HL,"",0,0));
   menu_additem(&game_menu,menu_item_create(MN_ACTION,"Return To Game",0,0));
   menu_additem(&game_menu,menu_item_create(MN_GOTO,"Save Game",0,&save_game_menu));
   menu_additem(&game_menu,menu_item_create(MN_GOTO,"Load Game",0,&load_game_menu));
   menu_additem(&game_menu,menu_item_create(MN_GOTO,"Options",0,&options_menu));
+  menu_additem(&game_menu,menu_item_create(MN_HL,"",0,0));
   menu_additem(&game_menu,menu_item_create(MN_ACTION,"Quit Game",0,0));
 
   menu_init(&highscore_menu);
@@ -283,10 +289,10 @@ void update_load_save_game_menu(menu_type* pmenu, int load)
 {
   int i;
 
-  for(i = 1; i < 6; ++i)
+  for(i = 2; i < 7; ++i)
     {
       char *tmp;
-      slotinfo(&tmp,i);
+      slotinfo(&tmp,i-1);
       if(load && strlen(tmp) == strlen("Slot X - Free") )
         pmenu->item[i].kind = MN_DEACTIVE;
       else
@@ -326,19 +332,19 @@ void process_options_menu(void)
 {
   switch (menu_check(&options_menu))
     {
-    case 0:
-      if(use_fullscreen != options_menu.item[0].toggled)
+    case 2:
+      if(use_fullscreen != options_menu.item[2].toggled)
         {
           use_fullscreen = !use_fullscreen;
           st_video_setup();
         }
       break;
-    case 1:
-      if(use_sound != options_menu.item[1].toggled)
+    case 3:
+      if(use_sound != options_menu.item[3].toggled)
         use_sound = !use_sound;
       break;
-    case 2:
-      if(use_music != options_menu.item[2].toggled)
+    case 4:
+      if(use_music != options_menu.item[4].toggled)
         {
           if(use_music == YES)
             {
@@ -358,8 +364,8 @@ void process_options_menu(void)
             }
         }
       break;
-    case 3:
-      if(show_fps != options_menu.item[3].toggled)
+    case 5:
+      if(show_fps != options_menu.item[5].toggled)
         show_fps = !show_fps;
       break;
     }
@@ -415,7 +421,6 @@ void st_general_free(void)
   menu_free(&main_menu);
   menu_free(&game_menu);
   menu_free(&options_menu);
-  menu_free(&leveleditor_menu);
   menu_free(&highscore_menu);
 
 }
@@ -496,7 +501,7 @@ void st_video_setup_gl(void)
 
   if (use_fullscreen == YES)
     {
-      screen = SDL_SetVideoMode(640, 480, 32, SDL_FULLSCREEN | SDL_OPENGL | SDL_OPENGLBLIT ) ; /* | SDL_HWSURFACE); */
+      screen = SDL_SetVideoMode(640, 480, 32, SDL_FULLSCREEN | SDL_OPENGL) ; /* | SDL_HWSURFACE); */
       if (screen == NULL)
         {
           fprintf(stderr,
@@ -509,7 +514,7 @@ void st_video_setup_gl(void)
     }
   else
     {
-      screen = SDL_SetVideoMode(640, 480, 32, SDL_HWSURFACE | SDL_OPENGL | SDL_OPENGLBLIT  );
+      screen = SDL_SetVideoMode(640, 480, 32, SDL_OPENGL);
 
       if (screen == NULL)
         {

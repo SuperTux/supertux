@@ -47,13 +47,13 @@ int title(void)
   int done, quit, frame, pict, i;
   char str[80];
   char **level_subsets;
-  level_subsets = NULL;
   int subsets_num;
+  level_subsets = NULL;
   level_subsets = dsubdirs("/levels", "info", &subsets_num);
   st_subset subset;
   subset_init(&subset);
 
-  /* Rest menu variables */
+  /* Reset menu variables */
   menu_reset();
   menu_set_current(&main_menu);
 
@@ -65,8 +65,8 @@ int title(void)
   texture_load(&title,DATA_PREFIX "/images/title/title.png", IGNORE_ALPHA);
   texture_load(&anim1,DATA_PREFIX "/images/title/title-anim2.png", IGNORE_ALPHA);
   texture_load(&anim2,DATA_PREFIX "/images/title/title-anim1.png", IGNORE_ALPHA);
-  texture_load(&img_choose_subset,DATA_PREFIX "/images/status/choose-level-subset.png", IGNORE_ALPHA);
-
+  texture_load(&img_choose_subset,DATA_PREFIX "/images/status/choose-level-subset.png", USE_ALPHA);
+  
   /* --- Main title loop: --- */
 
   done = 0;
@@ -78,7 +78,7 @@ int title(void)
   texture_draw_bg(&title, NO_UPDATE);
 
   load_hs();
-
+  
   while (!done && !quit)
     {
       frame++;
@@ -154,7 +154,7 @@ int title(void)
         {
           switch (menu_check(&main_menu))
             {
-            case 0:
+            case 2:
               done = 0;
               i = 0;
               if(level_subsets != NULL)
@@ -218,14 +218,14 @@ int title(void)
                     }
                 }
               break;
-	    case 1:
+	    case 3:
 	      update_load_save_game_menu(&load_game_menu, YES);
 	      break;
-            case 3:
+            case 5:
               done = 1;
               quit = leveleditor(1);
               break;
-            case 4:
+            case 7:
               quit = 1;
               break;
             }

@@ -68,9 +68,9 @@ void player_init(player_type* pplayer)
   pplayer->keymap.right = SDLK_RIGHT;
   pplayer->keymap.fire = SDLK_LCTRL;
 
-  timer_init(&pplayer->invincible_timer);
-  timer_init(&pplayer->skidding_timer);
-  timer_init(&pplayer->safe_timer);
+  timer_init(&pplayer->invincible_timer,YES);
+  timer_init(&pplayer->skidding_timer,YES);
+  timer_init(&pplayer->safe_timer,YES);
   physic_init(&pplayer->hphysic);
   physic_init(&pplayer->vphysic);
 }
@@ -120,9 +120,9 @@ void player_level_begin(player_type* pplayer)
   pplayer->input.right = UP;
   pplayer->input.up = UP;
 
-  timer_init(&pplayer->invincible_timer);
-  timer_init(&pplayer->skidding_timer);
-  timer_init(&pplayer->safe_timer);
+  timer_init(&pplayer->invincible_timer,YES);
+  timer_init(&pplayer->skidding_timer,YES);
+  timer_init(&pplayer->safe_timer,YES);
 }
 
 void player_action(player_type* pplayer)
@@ -149,22 +149,24 @@ void player_action(player_type* pplayer)
         }
       else
         {*/
-      if(!issolid( pplayer->base.x + 16,  pplayer->base.y + pplayer->base.height))
+      if( /*!issolid( pplayer->base.x + 16,  pplayer->base.y + pplayer->base.height )*/ !player_on_ground(pplayer))
         {
           if(!physic_is_set(&pplayer->vphysic))
             {
               physic_set_state(&pplayer->vphysic,PH_VT);
               physic_set_start_vy(&pplayer->vphysic,0.);
+	      DEBUG_MSG("Ich bin jetzt ordentlich am Punkten"); 
             }
           pplayer->base.ym = physic_get_velocity(&pplayer->vphysic);
         }
       else
         {
-          /* Land: */
+           /* Land: */
 
           if (pplayer->base.ym > 0)
             {
-              pplayer->base.y = (int)(pplayer->base.y / 32) * 32;
+              pplayer->base.y = (int)(((int)(pplayer->base.y +1) / 32) * 32);
+	      printf("%f",pplayer->base.y);
               pplayer->base.ym = 0;
             }
           physic_init(&pplayer->vphysic);
@@ -174,334 +176,192 @@ void player_action(player_type* pplayer)
         {
           --pplayer->base.y;
         }
-      while(issolid( pplayer->base.x + 16,  pplayer->base.y) && !issolid( pplayer->base.x + 16,  pplayer->base.y + pplayer->base.height))
+      while(issolid( pplayer->base.x + 16,  pplayer->base.y + 1) && !issolid( pplayer->base.x + 16,  pplayer->base.y + pplayer->base.height))
         {
           ++pplayer->base.y;
         }
-      while(issolid( pplayer->base.x - 1,  pplayer->base.y) || issolid( pplayer->base.x - 1,  pplayer->base.y+pplayer->base.height))
+      while(issolid( pplayer->base.x - 1,  pplayer->base.y + 1) || issolid( pplayer->base.x - 1,  pplayer->base.y+pplayer->base.height))
         {
           ++pplayer->base.x;
         }
-      while(issolid( pplayer->base.x + 32,  pplayer->base.y) || issolid( pplayer->base.x + 32,  pplayer->base.y+pplayer->base.height))
+      while(issolid( pplayer->base.x + 32,  pplayer->base.y + 1) || issolid( pplayer->base.x + 32,  pplayer->base.y+pplayer->base.height))
         {
           --pplayer->base.x;
         }
 
-      if (isbrick(pplayer->base.x, pplayer->base.y - 1) ||
-          isfullbox(pplayer->base.x, pplayer->base.y - 1))
+      if(pplayer->base.ym <= 0)
         {
-          trygrabdistro(pplayer->base.x, pplayer->base.y - 32,BOUNCE);
-          trybumpbadguy(pplayer->base.x, pplayer->base.y - 64);
-          bumpbrick(pplayer->base.x, pplayer->base.y - 1);
-          tryemptybox(pplayer->base.x, pplayer->base.y - 1);
-        }
 
-      if (isbrick(pplayer->base.x+ 31, pplayer->base.y - 1) ||
-          isfullbox(pplayer->base.x+ 31, pplayer->base.y - 1))
-        {
-          trygrabdistro(pplayer->base.x+ 31, pplayer->base.y - 32,BOUNCE);
-          trybumpbadguy(pplayer->base.x+ 31, pplayer->base.y - 64);
-          bumpbrick(pplayer->base.x+ 31, pplayer->base.y - 1);
-          tryemptybox(pplayer->base.x+ 31, pplayer->base.y - 1);
-        }
-
-
-      /* Get a distro from a brick? */
-
-      if (shape(pplayer->base.x, pplayer->base.y - 1) == 'x' ||
-          shape(pplayer->base.x, pplayer->base.y - 1) == 'y')
-        {
-          add_bouncy_distro((((int)pplayer->base.x)
-                             / 32) * 32,
-                            ((int)pplayer->base.y - 1 / 32) * 32);
-DEBUG_MSG("should work");
-          if (counting_distros == NO)
+          if (isbrick(pplayer->base.x, pplayer->base.y) ||
+              isfullbox(pplayer->base.x, pplayer->base.y))
             {
-              counting_distros = YES;
-              distro_counter = 100;
+              DEBUG_MSG("My sear");
+              trygrabdistro(pplayer->base.x, pplayer->base.y - 32,BOUNCE);
+              trybumpbadguy(pplayer->base.x, pplayer->base.y - 64);
+
+              if(pplayer->size == BIG)
+                trybreakbrick(pplayer->base.x, pplayer->base.y);
+
+              bumpbrick(pplayer->base.x, pplayer->base.y);
+              tryemptybox(pplayer->base.x, pplayer->base.y);
             }
 
-          if (distro_counter <= 0)
-            level_change(&current_level,pplayer->base.x,pplayer->base.y - 1, 'a');
-
-          play_sound(sounds[SND_DISTRO], SOUND_CENTER_SPEAKER);
-          score = score + SCORE_DISTRO;
-          distros++;
-        }
-      else if (shape(pplayer->base.x+ 31, pplayer->base.y - 1) == 'x' ||
-               shape(pplayer->base.x+ 31, pplayer->base.y - 1) == 'y')
-        {
-          add_bouncy_distro((((int)pplayer->base.x + 31)
-                             / 32) * 32,
-                            ((int)pplayer->base.y - 1 / 32) * 32);
-DEBUG_MSG("+31?");
-          if (counting_distros == NO)
+          if (isbrick(pplayer->base.x+ 31, pplayer->base.y) ||
+              isfullbox(pplayer->base.x+ 31, pplayer->base.y))
             {
-              counting_distros = YES;
-              distro_counter = 100;
+              trygrabdistro(pplayer->base.x+ 31, pplayer->base.y - 32,BOUNCE);
+              trybumpbadguy(pplayer->base.x+ 31, pplayer->base.y - 64);
+
+              if(pplayer->size == BIG)
+                trybreakbrick(pplayer->base.x+ 31, pplayer->base.y);
+
+              bumpbrick(pplayer->base.x+ 31, pplayer->base.y);
+              tryemptybox(pplayer->base.x+ 31, pplayer->base.y);
             }
 
-          if (distro_counter <= 0)
-            level_change(&current_level,pplayer->base.x+ 31, pplayer->base.y - 1, 'a');
 
-          play_sound(sounds[SND_DISTRO], SOUND_CENTER_SPEAKER);
-          score = score + SCORE_DISTRO;
-          distros++;
-        }
-
-      player_grabdistros(pplayer);
-
-      /* FIXME: this code is COMPLETLY broken!!! */
-      /* if (issolid(pplayer->base.x, pplayer->base.y + 31) &&
-           !issolid(pplayer->base.x- pplayer->base.xm, pplayer->base.y + 31))
-         {
-           while (issolid(pplayer->base.x, pplayer->base.y + 31))
-             {
-               if (pplayer->base.xm < 0)
-                 pplayer->base.x++;
-               else if (pplayer->base.xm > 0)
-                 pplayer->base.x--;
-             }
-
-           pplayer->base.xm = 0;
-         }*/
-
-      /*if (issolid(pplayer->base.x, pplayer->base.y) &&
-          !issolid(pplayer->base.x- pplayer->base.xm, pplayer->base.y))
-        {
-          while (issolid(pplayer->base.x, (pplayer->base.y)))
+          if(pplayer->size == SMALL)
             {
-              if (pplayer->base.xm < 0)
-                pplayer->base.x++;
-              else if (pplayer->base.xm > 0)
-                pplayer->base.x--;
-            }
+              /* Get a distro from a brick? */
 
-          pplayer->base.xm = 0;
-        }*/
-
-      /*if (issolid(pplayer->base.x, pplayer->base.y + 31))
-        {
-          /* Set down properly: * /
-
-          int debug_int = 0;
-          while (issolid(pplayer->base.x, pplayer->base.y + 31))
-            {
-              ++debug_int;
-              if(debug_int > 32)
+              if (shape(pplayer->base.x, pplayer->base.y) == 'x' ||
+                  shape(pplayer->base.x, pplayer->base.y) == 'y')
                 {
-                  DEBUG_MSG("FIXME - UNDER certain circumstances I'm hanging in a loop here!");
-                  /*the circumstances are:
-                  issolid() is true and base.ym == 0
-                  use of floating point varibles for base stuff* /
-                  break;
+                  add_bouncy_distro((((int)pplayer->base.x)
+                                     / 32) * 32,
+                                    ((int)pplayer->base.y / 32) * 32);
+                  DEBUG_MSG("should work");
+                  if (counting_distros == NO)
+                    {
+                      counting_distros = YES;
+                      distro_counter = 100;
+                    }
+
+                  if (distro_counter <= 0)
+                    level_change(&current_level,pplayer->base.x,pplayer->base.y - 1, 'a');
+
+                  play_sound(sounds[SND_DISTRO], SOUND_CENTER_SPEAKER);
+                  score = score + SCORE_DISTRO;
+                  distros++;
                 }
-              if (pplayer->base.ym < 0)
-                pplayer->base.y++;
-              else if (pplayer->base.ym > 0)
-                pplayer->base.y--;
+              else if (shape(pplayer->base.x+ 31, pplayer->base.y) == 'x' ||
+                       shape(pplayer->base.x+ 31, pplayer->base.y) == 'y')
+                {
+                  add_bouncy_distro((((int)pplayer->base.x + 31)
+                                     / 32) * 32,
+                                    ((int)pplayer->base.y / 32) * 32);
+                  DEBUG_MSG("+31?");
+                  if (counting_distros == NO)
+                    {
+                      counting_distros = YES;
+                      distro_counter = 100;
+                    }
+
+                  if (distro_counter <= 0)
+                    level_change(&current_level,pplayer->base.x+ 31, pplayer->base.y, 'a');
+
+                  play_sound(sounds[SND_DISTRO], SOUND_CENTER_SPEAKER);
+                  score = score + SCORE_DISTRO;
+                  distros++;
+                }
             }
+	    }
+
+          player_grabdistros(pplayer);
+
+          /* FIXME: this code is COMPLETLY broken!!! */
+          /* if (issolid(pplayer->base.x, pplayer->base.y + 31) &&
+               !issolid(pplayer->base.x- pplayer->base.xm, pplayer->base.y + 31))
+             {
+               while (issolid(pplayer->base.x, pplayer->base.y + 31))
+                 {
+                   if (pplayer->base.xm < 0)
+                     pplayer->base.x++;
+                   else if (pplayer->base.xm > 0)
+                     pplayer->base.x--;
+                 }
+
+               pplayer->base.xm = 0;
+             }*/
+
+          /*if (issolid(pplayer->base.x, pplayer->base.y) &&
+              !issolid(pplayer->base.x- pplayer->base.xm, pplayer->base.y))
+            {
+              while (issolid(pplayer->base.x, (pplayer->base.y)))
+                {
+                  if (pplayer->base.xm < 0)
+                    pplayer->base.x++;
+                  else if (pplayer->base.xm > 0)
+                    pplayer->base.x--;
+                }
+
+              pplayer->base.xm = 0;
+            }*/
+
+          /*if (issolid(pplayer->base.x, pplayer->base.y + 31))
+            {
+              /* Set down properly: * /
+
+              int debug_int = 0;
+              while (issolid(pplayer->base.x, pplayer->base.y + 31))
+                {
+                  ++debug_int;
+                  if(debug_int > 32)
+                    {
+                      DEBUG_MSG("FIXME - UNDER certain circumstances I'm hanging in a loop here!");
+                      /*the circumstances are:
+                      issolid() is true and base.ym == 0
+                      use of floating point varibles for base stuff* /
+                      break;
+                    }
+                  if (pplayer->base.ym < 0)
+                    pplayer->base.y++;
+                  else if (pplayer->base.ym > 0)
+                    pplayer->base.y--;
+                }
 
 
-          /* Reset score multiplier (for multi-hits): */
+              /* Reset score multiplier (for multi-hits): */
 
-      if (pplayer->base.ym > 0)
-        score_multiplier = 1;
+          if (pplayer->base.ym > 0)
+            score_multiplier = 1;
 
 
-      /* Stop jumping! * /
+          /* Stop jumping! * /
 
-      pplayer->base.ym = 0;
-      pplayer->jumping = NO;
-      pplayer->input.up = UP;
-      }
-      /* FIXME: this code is COMPLETLY broken!!! */
-      /*if (issolid(pplayer->base.x, pplayer->base.y) ||
-          (pplayer->size == BIG && !pplayer->duck &&
-           (issolid(pplayer->base.x, pplayer->base.y - 32))))
-        {*/
-      /*if (!issolid(pplayer->base.x- pplayer->base.xm, pplayer->base.y) &&
-          (pplayer->size == SMALL || pplayer->duck ||
-           !issolid(pplayer->base.x- pplayer->base.xm, pplayer->base.y - 32)))* /
-
-      if (((!issolid(pplayer->base.x, pplayer->base.y- pplayer->base.ym * frame_ratio) && (issolid(pplayer->base.x, pplayer->base.y) || issolid(pplayer->base.x, pplayer->base.y+31))))
-      ||((!issolid(pplayer->base.x - pplayer->base.xm * frame_ratio, pplayer->base.y) && (issolid(pplayer->base.x, pplayer->base.y) || issolid(pplayer->base.x+32, pplayer->base.y)))))
-          /*(pplayer->size == SMALL || pplayer->duck ||
-           !issolid(pplayer->base.x- pplayer->base.xm, pplayer->base.y - 32))* /
-        {
-          pplayer->base.y = pplayer->base.y- pplayer->base.ym * frame_ratio;
           pplayer->base.ym = 0;
-        }
-
-      if (((issolid(pplayer->base.x, pplayer->base.y) || issolid(pplayer->base.x+32, pplayer->base.y)) &&  (!issolid(pplayer->base.x - pplayer->base.xm * frame_ratio, pplayer->base.y))
-          /*(pplayer->size == SMALL || pplayer->duck ||
-           !issolid(pplayer->base.x- pplayer->base.xm, pplayer->base.y - 32))* /) || 
-      (!issolid(pplayer->base.x - pplayer->base.xm * frame_ratio, pplayer->base.y+pplayer->base.height) && (issolid(pplayer->base.x, pplayer->base.y+pplayer->base.height) || issolid(pplayer->base.x +32, pplayer->base.y+pplayer->base.height))))
-        {
-      pplayer->base.x = pplayer->base.x- pplayer->base.xm * frame_ratio;
-          pplayer->base.xm = 0;
-        }
-
-          if (pplayer->base.ym <= 0)
-            {
-      if (isbrick(pplayer->base.x, pplayer->base.y) ||
-          isfullbox(pplayer->base.x, pplayer->base.y))
-        {
-          trygrabdistro(pplayer->base.x, pplayer->base.y - 32,BOUNCE);
-          trybumpbadguy(pplayer->base.x, pplayer->base.y - 64);
-          bumpbrick(pplayer->base.x, pplayer->base.y);
-          tryemptybox(pplayer->base.x, pplayer->base.y);
-        }
-
-      if (isbrick(pplayer->base.x+ 31, pplayer->base.y) ||
-          isfullbox(pplayer->base.x+ 31, pplayer->base.y))
-        {
-          trygrabdistro(pplayer->base.x+ 31, pplayer->base.y - 32,BOUNCE);
-          trybumpbadguy(pplayer->base.x+ 31, pplayer->base.y - 64);
-          bumpbrick(pplayer->base.x+ 31, pplayer->base.y);
-          tryemptybox(pplayer->base.x+ 31, pplayer->base.y);
-        }
-      /* Get a distro from a brick? * /
-
-      if (shape(pplayer->base.x, pplayer->base.y) == 'x' ||
-          shape(pplayer->base.x, pplayer->base.y) == 'y')
-        {
-          add_bouncy_distro(((pplayer->base.x+ 1)
-                             / 32) * 32,
-                            (int)(pplayer->base.y / 32) * 32);
-
-          if (counting_distros == NO)
-            {
-              counting_distros = YES;
-              distro_counter = 100;
-            }
-
-          if (distro_counter <= 0)
-            level_change(&current_level,pplayer->base.x,pplayer->base.y, 'a');
-
-          play_sound(sounds[SND_DISTRO], SOUND_CENTER_SPEAKER);
-          score = score + SCORE_DISTRO;
-          distros++;
-        }
-      else if (shape(pplayer->base.x+ 31, pplayer->base.y) == 'x' ||
-               shape(pplayer->base.x+ 31, pplayer->base.y) == 'y')
-        {
-          add_bouncy_distro(((pplayer->base.x+ 1 + 31)
-                             / 32) * 32,
-                            (int)(pplayer->base.y / 32) * 32);
-
-          if (counting_distros == NO)
-            {
-              counting_distros = YES;
-              distro_counter = 100;
-            }
-
-          if (distro_counter <= 0)
-            level_change(&current_level,pplayer->base.x+ 31, pplayer->base.y, 'a');
-
-          play_sound(sounds[SND_DISTRO], SOUND_CENTER_SPEAKER);
-          score = score + SCORE_DISTRO;
-          distros++;
-        }
-
-      }
-      else
-      {
-      pplayer->base.ym = 0;
-      pplayer->jumping = NO;
-      timer_start(&pplayer->jump_timer,MAX_JUMP_TIME);
-      }
-      /*}*/
-      /* Bump into things: * /
-       
-      if (issolid(pplayer->base.x, pplayer->base.y) ||
-          (pplayer->size == BIG && !pplayer->duck &&
-           (issolid(pplayer->base.x, pplayer->base.y - 32))))
-        {
-       
-          if (!issolid(pplayer->base.x, pplayer->base.y - pplayer->base.ym) &&
+          pplayer->jumping = NO;
+          pplayer->input.up = UP;
+          }
+          /* FIXME: this code is COMPLETLY broken!!! */
+          /*if (issolid(pplayer->base.x, pplayer->base.y) ||
+              (pplayer->size == BIG && !pplayer->duck &&
+               (issolid(pplayer->base.x, pplayer->base.y - 32))))
+            {*/
+          /*if (!issolid(pplayer->base.x- pplayer->base.xm, pplayer->base.y) &&
               (pplayer->size == SMALL || pplayer->duck ||
-               !issolid(pplayer->base.x, pplayer->base.y - 32 - pplayer->base.ym)))
+               !issolid(pplayer->base.x- pplayer->base.xm, pplayer->base.y - 32)))* /
+
+          if (((!issolid(pplayer->base.x, pplayer->base.y- pplayer->base.ym * frame_ratio) && (issolid(pplayer->base.x, pplayer->base.y) || issolid(pplayer->base.x, pplayer->base.y+31))))
+          ||((!issolid(pplayer->base.x - pplayer->base.xm * frame_ratio, pplayer->base.y) && (issolid(pplayer->base.x, pplayer->base.y) || issolid(pplayer->base.x+32, pplayer->base.y)))))
+              /*(pplayer->size == SMALL || pplayer->duck ||
+               !issolid(pplayer->base.x- pplayer->base.xm, pplayer->base.y - 32))* /
             {
+              pplayer->base.y = pplayer->base.y- pplayer->base.ym * frame_ratio;
+              pplayer->base.ym = 0;
+            }
+
+          if (((issolid(pplayer->base.x, pplayer->base.y) || issolid(pplayer->base.x+32, pplayer->base.y)) &&  (!issolid(pplayer->base.x - pplayer->base.xm * frame_ratio, pplayer->base.y))
+              /*(pplayer->size == SMALL || pplayer->duck ||
+               !issolid(pplayer->base.x- pplayer->base.xm, pplayer->base.y - 32))* /) || 
+          (!issolid(pplayer->base.x - pplayer->base.xm * frame_ratio, pplayer->base.y+pplayer->base.height) && (issolid(pplayer->base.x, pplayer->base.y+pplayer->base.height) || issolid(pplayer->base.x +32, pplayer->base.y+pplayer->base.height))))
+            {
+          pplayer->base.x = pplayer->base.x- pplayer->base.xm * frame_ratio;
+              pplayer->base.xm = 0;
+            }
+
               if (pplayer->base.ym <= 0)
                 {
-                  /* Jumping up? */
-      /* FIXME: this code is COMPLETLY broken!!! */
-      if (pplayer->size == BIG)
-        {
-          /* Break bricks and empty boxes: * /
-
-          if (!pplayer->duck)
-            {
-              if (isbrick(pplayer->base.x, pplayer->base.y - 32) ||
-                  isfullbox(pplayer->base.x, pplayer->base.y - 32))
-                {
-                  trygrabdistro(pplayer->base.x, pplayer->base.y - 64, BOUNCE);
-                  trybumpbadguy(pplayer->base.x, pplayer->base.y - 96);
-
-                  if (isfullbox(pplayer->base.x, pplayer->base.y - 32))
-                    {
-                      bumpbrick(pplayer->base.x, pplayer->base.y - 32);
-                    }
-
-                  trybreakbrick(pplayer->base.x, pplayer->base.y - 32);
-                  tryemptybox(pplayer->base.x, pplayer->base.y - 32);
-                }
-
-              if (isbrick(pplayer->base.x+ 31, pplayer->base.y - 32) ||
-                  isfullbox(pplayer->base.x+ 31, pplayer->base.y - 32))
-                {
-                  trygrabdistro(pplayer->base.x+ 31,
-                                pplayer->base.y - 64,
-                                BOUNCE);
-                  trybumpbadguy(pplayer->base.x+ 31,
-                                pplayer->base.y - 96);
-
-                  if (isfullbox(pplayer->base.x+
-          printf("%f",pplayer->base.ym); 31, pplayer->base.y - 32))
-                    {
-                      bumpbrick(pplayer->base.x+ 31, pplayer->base.y - 32);
-                    }
-
-                  trybreakbrick(pplayer->base.x+ 31,
-                                pplayer->base.y - 32);
-                  tryemptybox(pplayer->base.x+ 31,
-                              pplayer->base.y - 32);
-                }
-            }
-          else /* ducking * /
-            {
-              if (isbrick(pplayer->base.x, pplayer->base.y) ||
-                  isfullbox(pplayer->base.x, pplayer->base.y))
-                {
-                  trygrabdistro(pplayer->base.x, pplayer->base.y - 32,BOUNCE);
-                  trybumpbadguy(pplayer->base.x, pplayer->base.y - 64);
-                  if (isfullbox(pplayer->base.x, pplayer->base.y))
-                    bumpbrick(pplayer->base.x, pplayer->base.y);
-                  trybreakbrick(pplayer->base.x, pplayer->base.y);
-                  tryemptybox(pplayer->base.x, pplayer->base.y);
-                }
-
-              if (isbrick(pplayer->base.x+ 31, pplayer->base.y) ||
-                  isfullbox(pplayer->base.x+ 31, pplayer->base.y))
-                {
-                  trygrabdistro(pplayer->base.x+ 31,
-                                pplayer->base.y - 32,
-                                BOUNCE);
-                  trybumpbadguy(pplayer->base.x+ 31,
-                                pplayer->base.y - 64);
-                  if (isfullbox(pplayer->base.x+ 31, pplayer->base.y))
-                    bumpbrick(pplayer->base.x+ 31, pplayer->base.y);
-                  trybreakbrick(pplayer->base.x+ 31, pplayer->base.y);
-                  tryemptybox(pplayer->base.x+ 31, pplayer->base.y);
-                }
-            }
-          }
-          else
-          {
-          /* It's a brick and we're small, make the brick
-             bounce, and grab any distros above it: * /
-
           if (isbrick(pplayer->base.x, pplayer->base.y) ||
               isfullbox(pplayer->base.x, pplayer->base.y))
             {
@@ -519,8 +379,6 @@ DEBUG_MSG("+31?");
               bumpbrick(pplayer->base.x+ 31, pplayer->base.y);
               tryemptybox(pplayer->base.x+ 31, pplayer->base.y);
             }
-
-
           /* Get a distro from a brick? * /
 
           if (shape(pplayer->base.x, pplayer->base.y) == 'x' ||
@@ -563,25 +421,184 @@ DEBUG_MSG("+31?");
               score = score + SCORE_DISTRO;
               distros++;
             }
-          }
 
-
-          /* Bump head: * /
-
-          pplayer->base.y = (int)(pplayer->base.y / 32) * 32 + 30;
           }
           else
           {
-          /* Land on feet: * /
-
-          pplayer->base.y = (int)(pplayer->base.y / 32) * 32 - 32;
-          }
-
           pplayer->base.ym = 0;
           pplayer->jumping = NO;
           timer_start(&pplayer->jump_timer,MAX_JUMP_TIME);
-          }*/
-        }
+          }
+          /*}*/
+          /* Bump into things: * /
+           
+          if (issolid(pplayer->base.x, pplayer->base.y) ||
+              (pplayer->size == BIG && !pplayer->duck &&
+               (issolid(pplayer->base.x, pplayer->base.y - 32))))
+            {
+           
+              if (!issolid(pplayer->base.x, pplayer->base.y - pplayer->base.ym) &&
+                  (pplayer->size == SMALL || pplayer->duck ||
+                   !issolid(pplayer->base.x, pplayer->base.y - 32 - pplayer->base.ym)))
+                {
+                  if (pplayer->base.ym <= 0)
+                    {
+                      /* Jumping up? */
+          /* FIXME: this code is COMPLETLY broken!!! */
+          if (pplayer->size == BIG)
+            {
+              /* Break bricks and empty boxes: * /
+
+              if (!pplayer->duck)
+                {
+                  if (isbrick(pplayer->base.x, pplayer->base.y - 32) ||
+                      isfullbox(pplayer->base.x, pplayer->base.y - 32))
+                    {
+                      trygrabdistro(pplayer->base.x, pplayer->base.y - 64, BOUNCE);
+                      trybumpbadguy(pplayer->base.x, pplayer->base.y - 96);
+
+                      if (isfullbox(pplayer->base.x, pplayer->base.y - 32))
+                        {
+                          bumpbrick(pplayer->base.x, pplayer->base.y - 32);
+                        }
+
+                      trybreakbrick(pplayer->base.x, pplayer->base.y - 32);
+                      tryemptybox(pplayer->base.x, pplayer->base.y - 32);
+                    }
+
+                  if (isbrick(pplayer->base.x+ 31, pplayer->base.y - 32) ||
+                      isfullbox(pplayer->base.x+ 31, pplayer->base.y - 32))
+                    {
+                      trygrabdistro(pplayer->base.x+ 31,
+                                    pplayer->base.y - 64,
+                                    BOUNCE);
+                      trybumpbadguy(pplayer->base.x+ 31,
+                                    pplayer->base.y - 96);
+
+                      if (isfullbox(pplayer->base.x+ 31, pplayer->base.y - 32))
+                        {
+                          bumpbrick(pplayer->base.x+ 31, pplayer->base.y - 32);
+                        }
+
+                      trybreakbrick(pplayer->base.x+ 31,
+                                    pplayer->base.y - 32);
+                      tryemptybox(pplayer->base.x+ 31,
+                                  pplayer->base.y - 32);
+                    }
+                }
+              else /* ducking * /
+                {
+                  if (isbrick(pplayer->base.x, pplayer->base.y) ||
+                      isfullbox(pplayer->base.x, pplayer->base.y))
+                    {
+                      trygrabdistro(pplayer->base.x, pplayer->base.y - 32,BOUNCE);
+                      trybumpbadguy(pplayer->base.x, pplayer->base.y - 64);
+                      if (isfullbox(pplayer->base.x, pplayer->base.y))
+                        bumpbrick(pplayer->base.x, pplayer->base.y);
+                      trybreakbrick(pplayer->base.x, pplayer->base.y);
+                      tryemptybox(pplayer->base.x, pplayer->base.y);
+                    }
+
+                  if (isbrick(pplayer->base.x+ 31, pplayer->base.y) ||
+                      isfullbox(pplayer->base.x+ 31, pplayer->base.y))
+                    {
+                      trygrabdistro(pplayer->base.x+ 31,
+                                    pplayer->base.y - 32,
+                                    BOUNCE);
+                      trybumpbadguy(pplayer->base.x+ 31,
+                                    pplayer->base.y - 64);
+                      if (isfullbox(pplayer->base.x+ 31, pplayer->base.y))
+                        bumpbrick(pplayer->base.x+ 31, pplayer->base.y);
+                      trybreakbrick(pplayer->base.x+ 31, pplayer->base.y);
+                      tryemptybox(pplayer->base.x+ 31, pplayer->base.y);
+                    }
+                }
+              }
+              else
+              {
+              /* It's a brick and we're small, make the brick
+                 bounce, and grab any distros above it: *  /
+
+              if (isbrick(pplayer->base.x, pplayer->base.y) ||
+                  isfullbox(pplayer->base.x, pplayer->base.y))
+                {
+                  trygrabdistro(pplayer->base.x, pplayer->base.y - 32,BOUNCE);
+                  trybumpbadguy(pplayer->base.x, pplayer->base.y - 64);
+                  bumpbrick(pplayer->base.x, pplayer->base.y);
+                  tryemptybox(pplayer->base.x, pplayer->base.y);
+                }
+
+              if (isbrick(pplayer->base.x+ 31, pplayer->base.y) ||
+                  isfullbox(pplayer->base.x+ 31, pplayer->base.y))
+                {
+                  trygrabdistro(pplayer->base.x+ 31, pplayer->base.y - 32,BOUNCE);
+                  trybumpbadguy(pplayer->base.x+ 31, pplayer->base.y - 64);
+                  bumpbrick(pplayer->base.x+ 31, pplayer->base.y);
+                  tryemptybox(pplayer->base.x+ 31, pplayer->base.y);
+                }
+
+
+              /* Get a distro from a brick? * /
+
+              if (shape(pplayer->base.x, pplayer->base.y) == 'x' ||
+                  shape(pplayer->base.x, pplayer->base.y) == 'y')
+                {
+                  add_bouncy_distro(((pplayer->base.x+ 1)
+                                     / 32) * 32,
+                                    (int)(pplayer->base.y / 32) * 32);
+
+                  if (counting_distros == NO)
+                    {
+                      counting_distros = YES;
+                      distro_counter = 100;
+                    }
+
+                  if (distro_counter <= 0)
+                    level_change(&current_level,pplayer->base.x,pplayer->base.y, 'a');
+
+                  play_sound(sounds[SND_DISTRO], SOUND_CENTER_SPEAKER);
+                  score = score + SCORE_DISTRO;
+                  distros++;
+                }
+              else if (shape(pplayer->base.x+ 31, pplayer->base.y) == 'x' ||
+                       shape(pplayer->base.x+ 31, pplayer->base.y) == 'y')
+                {
+                  add_bouncy_distro(((pplayer->base.x+ 1 + 31)
+                                     / 32) * 32,
+                                    (int)(pplayer->base.y / 32) * 32);
+
+                  if (counting_distros == NO)
+                    {
+                      counting_distros = YES;
+                      distro_counter = 100;
+                    }
+
+                  if (distro_counter <= 0)
+                    level_change(&current_level,pplayer->base.x+ 31, pplayer->base.y, 'a');
+
+                  play_sound(sounds[SND_DISTRO], SOUND_CENTER_SPEAKER);
+                  score = score + SCORE_DISTRO;
+                  distros++;
+                }
+              }
+
+
+              /* Bump head: * /
+
+              pplayer->base.y = (int)(pplayer->base.y / 32) * 32 + 30;
+              }
+              else
+              {
+              /* Land on feet: * /
+
+              pplayer->base.y = (int)(pplayer->base.y / 32) * 32 - 32;
+              }
+
+              pplayer->base.ym = 0;
+              pplayer->jumping = NO;
+              timer_start(&pplayer->jump_timer,MAX_JUMP_TIME);
+              }*/
+            }
     }
 
 
@@ -626,7 +643,7 @@ DEBUG_MSG("+31?");
   }
 
 
-
+  */
   timer_check(&pplayer->safe_timer);
 
 
@@ -673,6 +690,20 @@ DEBUG_MSG("+31?");
       next_level = 1;
     }
 
+}
+
+int player_on_ground(player_type *pplayer)
+{
+  if( issolid(pplayer->base.x + pplayer->base.width / 2, pplayer->base.y + pplayer->base.height + 1) ||
+      issolid(pplayer->base.x + 1, pplayer->base.y + pplayer->base.height + 1) ||
+      issolid(pplayer->base.x + pplayer->base.width - 1, pplayer->base.y + pplayer->base.height + 1)  )
+    {
+      return YES;
+    }
+  else
+    {
+      return NO;
+    }
 }
 
 void player_handle_horizontal_input(player_type *pplayer, int dir)
@@ -759,12 +790,13 @@ void player_handle_vertical_input(player_type *pplayer)
 {
   if(pplayer->input.up == DOWN)
     {
-      if (issolid(pplayer->base.x + 16, pplayer->base.y + pplayer->base.height + 1))
+      if (player_on_ground(pplayer))
         {
           if(!physic_is_set(&pplayer->vphysic))
             {
               physic_set_state(&pplayer->vphysic,PH_VT);
-              physic_set_start_vy(&pplayer->vphysic,5.2);
+              physic_set_start_vy(&pplayer->vphysic,5.5);
+              --pplayer->base.y;
               pplayer->jumping = YES;
               if (pplayer->size == SMALL)
                 play_sound(sounds[SND_JUMP], SOUND_CENTER_SPEAKER);
@@ -796,16 +828,22 @@ void player_handle_vertical_input(player_type *pplayer)
       else
         {
           pplayer->jumping = NO;
-          physic_set_state(&pplayer->vphysic,PH_VT);
-          physic_set_start_vy(&pplayer->vphysic,0);
-          if(physic_is_set(&pplayer->vphysic) && pplayer->vphysic.start_vx != 0)
+	  printf("%f",physic_get_velocity(&pplayer->vphysic));
+          if(physic_is_set(&pplayer->vphysic))
             {
+	    if(physic_get_velocity(&pplayer->vphysic) < 0.)
+	    {
+	                physic_set_state(&pplayer->vphysic,PH_VT);
+	      	    	    DEBUG_MSG("DUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUDE");
               physic_set_start_vy(&pplayer->vphysic,0);
+	      }
             }
           else
             {
+	    DEBUG_MSG("CHUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUHHHHAAA");
               if(!physic_is_set(&pplayer->vphysic))
                 {
+			    DEBUG_MSG("CHUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUHHHHAAA");
                   physic_set_state(&pplayer->vphysic,PH_VT);
                 }
             }
@@ -1017,13 +1055,13 @@ void player_draw(player_type* pplayer)
               if (pplayer->dir == RIGHT)
                 {
                   texture_draw(&bigcape_right[frame % 2],
-                               pplayer->base.x- scroll_x, pplayer->base.y,
+                               pplayer->base.x- scroll_x - 8, pplayer->base.y,
                                NO_UPDATE);
                 }
               else
                 {
                   texture_draw(&bigcape_left[frame % 2],
-                               pplayer->base.x-scroll_x, pplayer->base.y,
+                               pplayer->base.x-scroll_x - 8, pplayer->base.y,
                                NO_UPDATE);
                 }
             }
@@ -1039,13 +1077,13 @@ void player_draw(player_type* pplayer)
                           if (pplayer->dir == RIGHT)
                             {
                               texture_draw(&bigtux_right[pplayer->frame],
-                                           pplayer->base.x- scroll_x, pplayer->base.y,
+                                           pplayer->base.x- scroll_x - 8, pplayer->base.y,
                                            NO_UPDATE);
                             }
                           else
                             {
                               texture_draw(&bigtux_left[pplayer->frame],
-                                           pplayer->base.x- scroll_x, pplayer->base.y,
+                                           pplayer->base.x- scroll_x - 8, pplayer->base.y,
                                            NO_UPDATE);
                             }
                         }
@@ -1054,13 +1092,13 @@ void player_draw(player_type* pplayer)
                           if (pplayer->dir == RIGHT)
                             {
                               texture_draw(&bigtux_right_jump,
-                                           pplayer->base.x- scroll_x, pplayer->base.y,
+                                           pplayer->base.x- scroll_x - 8, pplayer->base.y,
                                            NO_UPDATE);
                             }
                           else
                             {
                               texture_draw(&bigtux_left_jump,
-                                           pplayer->base.x- scroll_x, pplayer->base.y,
+                                           pplayer->base.x- scroll_x - 8, pplayer->base.y,
                                            NO_UPDATE);
                             }
                         }
@@ -1070,13 +1108,13 @@ void player_draw(player_type* pplayer)
                       if (pplayer->dir == RIGHT)
                         {
                           texture_draw(&skidtux_right,
-                                       pplayer->base.x- scroll_x, pplayer->base.y,
+                                       pplayer->base.x- scroll_x - 8, pplayer->base.y,
                                        NO_UPDATE);
                         }
                       else
                         {
                           texture_draw(&skidtux_left,
-                                       pplayer->base.x- scroll_x, pplayer->base.y,
+                                       pplayer->base.x- scroll_x - 8, pplayer->base.y,
                                        NO_UPDATE);
                         }
                     }
@@ -1085,12 +1123,12 @@ void player_draw(player_type* pplayer)
                 {
                   if (pplayer->dir == RIGHT)
                     {
-                      texture_draw(&ducktux_right, pplayer->base.x- scroll_x, pplayer->base.y,
+                      texture_draw(&ducktux_right, pplayer->base.x- scroll_x - 8, pplayer->base.y,
                                    NO_UPDATE);
                     }
                   else
                     {
-                      texture_draw(&ducktux_left, pplayer->base.x- scroll_x, pplayer->base.y,
+                      texture_draw(&ducktux_left, pplayer->base.x- scroll_x - 8, pplayer->base.y,
                                    NO_UPDATE);
                     }
                 }
@@ -1108,13 +1146,13 @@ void player_draw(player_type* pplayer)
                           if (pplayer->dir == RIGHT)
                             {
                               texture_draw(&bigfiretux_right[pplayer->frame],
-                                           pplayer->base.x- scroll_x, pplayer->base.y,
+                                           pplayer->base.x- scroll_x - 8, pplayer->base.y,
                                            NO_UPDATE);
                             }
                           else
                             {
                               texture_draw(&bigfiretux_left[pplayer->frame],
-                                           pplayer->base.x- scroll_x, pplayer->base.y,
+                                           pplayer->base.x- scroll_x - 8, pplayer->base.y,
                                            NO_UPDATE);
                             }
                         }
@@ -1123,13 +1161,13 @@ void player_draw(player_type* pplayer)
                           if (pplayer->dir == RIGHT)
                             {
                               texture_draw(&bigfiretux_right_jump,
-                                           pplayer->base.x- scroll_x, pplayer->base.y,
+                                           pplayer->base.x- scroll_x - 8, pplayer->base.y,
                                            NO_UPDATE);
                             }
                           else
                             {
                               texture_draw(&bigfiretux_left_jump,
-                                           pplayer->base.x- scroll_x, pplayer->base.y,
+                                           pplayer->base.x- scroll_x - 8, pplayer->base.y,
                                            NO_UPDATE);
                             }
                         }
@@ -1139,13 +1177,13 @@ void player_draw(player_type* pplayer)
                       if (pplayer->dir == RIGHT)
                         {
                           texture_draw(&skidfiretux_right,
-                                       pplayer->base.x- scroll_x, pplayer->base.y,
+                                       pplayer->base.x- scroll_x - 8, pplayer->base.y,
                                        NO_UPDATE);
                         }
                       else
                         {
                           texture_draw(&skidfiretux_left,
-                                       pplayer->base.x- scroll_x, pplayer->base.y,
+                                       pplayer->base.x- scroll_x - 8, pplayer->base.y,
                                        NO_UPDATE);
                         }
                     }
@@ -1154,12 +1192,12 @@ void player_draw(player_type* pplayer)
                 {
                   if (pplayer->dir == RIGHT)
                     {
-                      texture_draw(&duckfiretux_right, pplayer->base.x- scroll_x, pplayer->base.y,
+                      texture_draw(&duckfiretux_right, pplayer->base.x- scroll_x - 8, pplayer->base.y,
                                    NO_UPDATE);
                     }
                   else
                     {
-                      texture_draw(&duckfiretux_left, pplayer->base.x- scroll_x, pplayer->base.y,
+                      texture_draw(&duckfiretux_left, pplayer->base.x- scroll_x - 8, pplayer->base.y,
                                    NO_UPDATE);
                     }
                 }

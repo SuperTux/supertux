@@ -32,7 +32,7 @@ int main(int argc, char * argv[])
   st_joystick_setup();
   st_general_setup();
   st_menu();
-    
+  
   done = intro();
   
   done = 0;

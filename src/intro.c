@@ -52,10 +52,9 @@ int intro(void)
   int done, i, quit, j, scene;
   int * height, * height_speed;
   timer_type timer;
-  
-  
+    
   /* Load sprite images: */
-  texture_load(&bkgd, DATA_PREFIX "/images/intro/intro.png", IGNORE_ALPHA);
+  texture_load(&bkgd, DATA_PREFIX "/images/intro/intro.png", IGNORE_ALPHA);  
   texture_load(&gown_sit, DATA_PREFIX "/images/intro/gown-sit.png", USE_ALPHA);
   texture_load(&gown_lookup, DATA_PREFIX "/images/intro/gown-lookup.png", USE_ALPHA);
   texture_load(&gown_upset, DATA_PREFIX "/images/intro/gown-upset.png", USE_ALPHA);
@@ -93,6 +92,7 @@ int intro(void)
   scene = 0;
   i = 0;
   
+  timer_init(&timer,NO);
   timer_start(&timer,10000);
   
   while (timer_check(&timer) && !done && !quit)

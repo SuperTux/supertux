@@ -59,6 +59,7 @@ void broken_brick_init(broken_brick_type* pbroken_brick, float x, float y, float
   pbroken_brick->base.y = y;
   pbroken_brick->base.xm = xm;
   pbroken_brick->base.ym = ym;
+  timer_init(&pbroken_brick->timer,YES);
   timer_start(&pbroken_brick->timer,200);
 }
 
@@ -163,6 +164,7 @@ void floating_score_init(floating_score_type* pfloating_score, float x, float y,
   pfloating_score->base.alive = YES;
   pfloating_score->base.x = x;
   pfloating_score->base.y = y - 16;
+  timer_init(&pfloating_score->timer,YES);
   timer_start(&pfloating_score->timer,1000);
   pfloating_score->value = s;
 }

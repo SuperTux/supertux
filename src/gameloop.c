@@ -186,15 +186,15 @@ void game_event(void)
               break;
             case SDLK_TAB:
               if(debug_mode == YES)
-	       {
-                tux.size = !tux.size;
-		if(tux.size == BIG)
-		{
-		tux.base.height = 64;
-		}
-		else
-		tux.base.height = 32;
-		}
+                {
+                  tux.size = !tux.size;
+                  if(tux.size == BIG)
+                    {
+                      tux.base.height = 64;
+                    }
+                  else
+                    tux.base.height = 32;
+                }
               break;
             case SDLK_END:
               if(debug_mode == YES)
@@ -551,7 +551,9 @@ int gameloop(char * subset, int levelnb, int mode)
 {
   int fps_cnt, jump, done;
   timer_type fps_timer, frame_timer;
-
+  timer_init(&fps_timer, YES);
+  timer_init(&frame_timer, YES);
+  
   game_started = YES;
 
   st_gl_mode = mode;
@@ -571,7 +573,7 @@ int gameloop(char * subset, int levelnb, int mode)
       level_load_song(&current_level);
 
     }
-
+    
   player_init(&tux);
 
   if(st_gl_mode != ST_GL_TEST)
@@ -583,6 +585,7 @@ int gameloop(char * subset, int levelnb, int mode)
     levelintro();
 
 
+    timer_init(&time_left,YES);
   start_timers();
 
   if(st_gl_mode == ST_GL_LOAD_GAME)
@@ -596,8 +599,8 @@ int gameloop(char * subset, int levelnb, int mode)
   quit = 0;
   frame = 0;
   game_pause = 0;
-  timer_init(&fps_timer);
-  timer_init(&frame_timer);
+  timer_init(&fps_timer,YES);
+  timer_init(&frame_timer,YES);
   fps_cnt = 0;
 
   /* Clear screen: */
@@ -637,16 +640,17 @@ int gameloop(char * subset, int levelnb, int mode)
             {
               switch (menu_check(&game_menu))
                 {
-                case 0:
+                case 2:
                   st_pause_ticks_stop();
                   break;
-                case 1:
+                case 3:
                   update_load_save_game_menu(&save_game_menu, NO);
                   break;
-                case 2:
+                case 4:
                   update_load_save_game_menu(&load_game_menu, YES);
                   break;
-                case 4:
+                case 7:
+                  st_pause_ticks_stop();
                   done = 1;
                   break;
                 }
@@ -1483,7 +1487,7 @@ void trybreakbrick(float x, float y)
 
       /* Replace it with broken bits: */
 
-      add_broken_brick(((x + 1) / 32) * 32,
+      add_broken_brick(((int)(x + 1) / 32) * 32,
                        (int)(y / 32) * 32);
 
 
@@ -1515,8 +1519,6 @@ void tryemptybox(float x, float y)
       if (shape(x, y) == 'A')
         {
 
-          DEBUG_MSG("Here I am");
-
           /* Box with a distro! */
 
           add_bouncy_distro(((int)(x + 1) / 32) * 32,
@@ -1534,7 +1536,7 @@ void tryemptybox(float x, float y)
             {
               /* Tux is small, add mints! */
 
-              add_upgrade(((x + 1) / 32) * 32,
+              add_upgrade((int)((x + 1) / 32) * 32,
                           (int)(y / 32) * 32 - 32,
                           UPGRADE_MINTS);
             }
@@ -1542,7 +1544,7 @@ void tryemptybox(float x, float y)
             {
               /* Tux is big, add coffee: */
 
-              add_upgrade(((x + 1) / 32) * 32,
+              add_upgrade((int)((x + 1) / 32) * 32,
                           (int)(y / 32) * 32 - 32,
                           UPGRADE_COFFEE);
             }
@@ -1553,7 +1555,7 @@ void tryemptybox(float x, float y)
         {
           /* Add a golden herring */
 
-          add_upgrade(((x + 1) / 32) * 32,
+          add_upgrade((int)((x + 1) / 32) * 32,
                       (int)(y / 32) * 32 - 32,
                       UPGRADE_HERRING);
         }

@@ -87,10 +87,10 @@ void texture_create_gl(SDL_Surface * surf, GLuint * tex)
   Uint8  saved_alpha;
   int w, h;
   SDL_Surface *conv;
- 
+  
   w = power_of_two(surf->w);
   h = power_of_two(surf->h),
-  conv = SDL_CreateRGBSurface(surf->flags, w, h, surf->format->BitsPerPixel,
+  conv = SDL_CreateRGBSurface(SDL_SWSURFACE, w, h, surf->format->BitsPerPixel,
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
                               0xff000000, 0x00ff0000, 0x0000ff00, 0x000000ff);
 #else
@@ -116,11 +116,8 @@ void texture_create_gl(SDL_Surface * surf, GLuint * tex)
       SDL_SetAlpha(surf, saved_flags, saved_alpha);
     }
 
-
   glGenTextures(1, &*tex);
-
   glBindTexture(GL_TEXTURE_2D , *tex);
-  glEnable(GL_TEXTURE_2D);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -128,7 +125,7 @@ void texture_create_gl(SDL_Surface * surf, GLuint * tex)
   glPixelStorei(GL_UNPACK_ROW_LENGTH, conv->pitch / conv->format->BytesPerPixel);
   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB10_A2, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, conv->pixels);
   glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
-  glDisable(GL_BLEND);
+      
   SDL_FreeSurface(conv);
 }
 
@@ -224,28 +221,28 @@ float ph = power_of_two(ptexture->h);
 void texture_load_sdl(texture_type* ptexture, char * file, int use_alpha)
 {
   SDL_Surface * temp;
-
+  
   temp = IMG_Load(file);
 
   if (temp == NULL)
     st_abort("Can't load", file);
 
-  if(use_alpha == IGNORE_ALPHA)
+  if(use_alpha == IGNORE_ALPHA && !use_gl)
   ptexture->sdl_surface = SDL_DisplayFormat(temp);
   else
   ptexture->sdl_surface = SDL_DisplayFormatAlpha(temp);
-
+  
   if (ptexture->sdl_surface == NULL)
     st_abort("Can't covert to display format", file);
 
-  if (use_alpha == IGNORE_ALPHA)
+  if (use_alpha == IGNORE_ALPHA && !use_gl)
     SDL_SetAlpha(ptexture->sdl_surface, 0, 0);
 
   SDL_FreeSurface(temp);
 
   ptexture->w = ptexture->sdl_surface->w;
   ptexture->h = ptexture->sdl_surface->h;
-
+  
 }
 
 void texture_load_part_sdl(texture_type* ptexture, char * file, int x, int y, int w, int h,  int use_alpha)
@@ -283,7 +280,7 @@ void texture_load_part_sdl(texture_type* ptexture, char * file, int x, int y, in
   SDL_SetAlpha(temp,0,0);
 
   SDL_BlitSurface(temp, &src, conv, NULL);
-  if(use_alpha == IGNORE_ALPHA)
+  if(use_alpha == IGNORE_ALPHA && !use_gl)
   ptexture->sdl_surface = SDL_DisplayFormat(conv);
   else
   ptexture->sdl_surface = SDL_DisplayFormatAlpha(conv);
@@ -291,7 +288,7 @@ void texture_load_part_sdl(texture_type* ptexture, char * file, int x, int y, in
   if (ptexture->sdl_surface == NULL)
     st_abort("Can't covert to display format", file);
 
-  if (use_alpha == IGNORE_ALPHA)
+  if (use_alpha == IGNORE_ALPHA && !use_gl)
     SDL_SetAlpha(ptexture->sdl_surface, 0, 0);
 
   SDL_FreeSurface(temp);
@@ -315,7 +312,7 @@ void texture_from_sdl_surface(texture_type* ptexture, SDL_Surface* sdl_surf, int
       SDL_SetAlpha(sdl_surf, 0, 0);
     }
    
-  if(use_alpha == IGNORE_ALPHA)
+  if(use_alpha == IGNORE_ALPHA && !use_gl)
   ptexture->sdl_surface = SDL_DisplayFormat(sdl_surf);
   else
   ptexture->sdl_surface = SDL_DisplayFormatAlpha(sdl_surf);
@@ -330,7 +327,7 @@ void texture_from_sdl_surface(texture_type* ptexture, SDL_Surface* sdl_surf, int
   if (ptexture->sdl_surface == NULL)
     st_abort("Can't covert to display format", "SURFACE");
 
-  if (use_alpha == IGNORE_ALPHA)
+  if (use_alpha == IGNORE_ALPHA && !use_gl)
     SDL_SetAlpha(ptexture->sdl_surface, 0, 0);
 
   ptexture->w = ptexture->sdl_surface->w;

@@ -184,8 +184,8 @@ int max_cols, row, col;
   row = pbutton_panel->num_items / max_cols;
   col = pbutton_panel->num_items % max_cols;
   
-  pbutton_panel->item[pbutton_panel->num_items-1].x = pbutton_panel->x + row * 32;
-  pbutton_panel->item[pbutton_panel->num_items-1].y = pbutton_panel->y + col * 32;
+  pbutton_panel->item[pbutton_panel->num_items-1].x = pbutton_panel->x + col * 32;
+  pbutton_panel->item[pbutton_panel->num_items-1].y = pbutton_panel->y + row * 32;
   
 }
 

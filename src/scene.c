@@ -74,7 +74,7 @@ void set_defaults(void)
   scroll_x = 0;
 
   score_multiplier = 1;
-  timer_init(&super_bkgd_timer);
+  timer_init(&super_bkgd_timer, YES);
 
   counting_distros = NO;
   distro_counter = 0;

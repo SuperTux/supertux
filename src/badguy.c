@@ -44,7 +44,7 @@ void badguy_init(bad_guy_type* pbad, float x, float y, int kind)
   pbad->base.ym = 4.8;
   pbad->dir = LEFT;
   pbad->seen = NO;
-  timer_init(&pbad->timer);
+  timer_init(&pbad->timer,YES);
   physic_init(&pbad->physic);
 }
 
@@ -90,7 +90,7 @@ void badguy_action(bad_guy_type* pbad)
                     }
                 }
 
- /* Fall if we get off the ground: */
+              /* Fall if we get off the ground: */
 
               if (pbad->dying != FALLING)
                 {
@@ -102,7 +102,7 @@ void badguy_action(bad_guy_type* pbad)
                           physic_set_start_vy(&pbad->physic,2.);
                         }
 
-                          pbad->base.ym = physic_get_velocity(&pbad->physic);
+                      pbad->base.ym = physic_get_velocity(&pbad->physic);
                     }
                   else
                     {
@@ -270,20 +270,32 @@ void badguy_action(bad_guy_type* pbad)
                   physic_set_start_vy(&pbad->physic,0.);
                 }
 
-              if(issolid(pbad->base.x, pbad->base.y + 32))
+              if (pbad->dying != FALLING)
                 {
-                  physic_set_state(&pbad->physic,PH_VT);
-                  physic_set_start_vy(&pbad->physic,6.);
-                  pbad->base.ym = physic_get_velocity(&pbad->physic);
-                }
-              else if(issolid(pbad->base.x, pbad->base.y - 1))
-                { /* This works, but isn't the best solution imagineable */
-                  physic_set_state(&pbad->physic,PH_VT);
-                  physic_set_start_vy(&pbad->physic,0.);
-                  pbad->base.ym = physic_get_velocity(&pbad->physic);
+                  if(issolid(pbad->base.x, pbad->base.y + 32))
+                    {
+                      physic_set_state(&pbad->physic,PH_VT);
+                      physic_set_start_vy(&pbad->physic,6.);
+                      pbad->base.ym = physic_get_velocity(&pbad->physic);
+                    }
+                  else if(issolid(pbad->base.x, pbad->base.y - 1))
+                    { /* This works, but isn't the best solution imagineable */
+                      physic_set_state(&pbad->physic,PH_VT);
+                      physic_set_start_vy(&pbad->physic,0.);
+                      pbad->base.ym = physic_get_velocity(&pbad->physic);
+                    }
+                  else
+                    {
+                      pbad->base.ym = physic_get_velocity(&pbad->physic);
+                    }
                 }
               else
                 {
+                  if(!physic_is_set(&pbad->physic))
+                    {
+                      physic_set_state(&pbad->physic,PH_VT);
+                      physic_set_start_vy(&pbad->physic,0.);
+                    }
                   pbad->base.ym = physic_get_velocity(&pbad->physic);
                 }
 
@@ -534,6 +546,9 @@ void badguy_collision(bad_guy_type* pbad, void *p_c_object, int c_object)
       else if (pbad->kind == BAD_LAPTOP)
         add_score(pbad->base.x - scroll_x, pbad->base.y,
                   25 * score_multiplier);
+      else if (pbad->kind == BAD_MONEY)
+        add_score(pbad->base.x - scroll_x, pbad->base.y,
+                  50 * score_multiplier);
 
       /* Play death sound: */
       play_sound(sounds[SND_FALL], SOUND_CENTER_SPEAKER);
