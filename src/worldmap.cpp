@@ -420,6 +420,7 @@ WorldMap::load_map()
                       level.south = true;
                       level.west  = true;
 
+                      reader.read_string("extro-filename",  &level.extro_filename);
                       reader.read_string("name",  &level.name);
                       reader.read_int("x", &level.x);
                       reader.read_int("y", &level.y);
@@ -677,6 +678,13 @@ WorldMap::update()
                           }
 
                         std::cout << "Walk to dir: " << dir << std::endl;
+                      }
+
+                    if (!level->extro_filename.empty())
+                      { // Display final credits and go back to the main menu
+                        display_text_file(level->extro_filename,
+                                          "/images/background/arctis2.jpg");
+                        quit = true;
                       }
                   }
 

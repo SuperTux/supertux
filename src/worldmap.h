@@ -153,6 +153,10 @@ public:
     std::string title;
     bool solved;
 
+    /** Filename of the extro text to show once the level is
+        successfully completed */
+    std::string extro_filename;
+
     // Directions which are walkable from this level
     bool north;
     bool east;

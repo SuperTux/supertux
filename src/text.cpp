@@ -228,14 +228,14 @@ Text::erasecenteredtext(const  char * text, int y, Surface * ptexture, int updat
 #define SCROLL  60
 #define ITEMS_SPACE 4
 
-void display_text_file(char *file, char* surface)
+void display_text_file(const std::string& file, const std::string& surface)
 {
-Surface* sur = new Surface(datadir + surface, IGNORE_ALPHA);
-display_text_file(file, sur);
-delete sur;
+  Surface* sur = new Surface(datadir + surface, IGNORE_ALPHA);
+  display_text_file(file, sur);
+  delete sur;
 }
 
-void display_text_file(char *file, Surface* surface)
+void display_text_file(const std::string& file, Surface* surface)
 {
   int done;
   int scroll, speed;

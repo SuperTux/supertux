@@ -21,10 +21,11 @@
 #ifndef SUPERTUX_TEXT_H
 #define SUPERTUX_TEXT_H
 
+#include <string>
 #include "texture.h"
 
-void display_text_file(char *file, char* surface);
-void display_text_file(char *file, Surface* surface);
+void display_text_file(const std::string& file, const std::string& surface);
+void display_text_file(const std::string& file, Surface* surface);
 
 /* Kinds of texts. */
 enum {

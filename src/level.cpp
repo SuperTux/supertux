@@ -282,22 +282,17 @@ Level::load(const std::string& subset, int level)
 int 
 Level::load(const std::string& filename)
 {
-  FILE * fi;
-  lisp_object_t* root_obj = 0;
-  fi = fopen(filename.c_str(), "r");
-  if (fi == NULL)
+  lisp_object_t* root_obj = lisp_read_from_file(filename);
+  if (!root_obj)
     {
-      perror(filename.c_str());
+      std::cout << "Level: Couldn't load file: " << filename << std::endl;
       return -1;
     }
-
-  lisp_stream_t stream;
-  lisp_stream_init_file (&stream, fi);
-  root_obj = lisp_read (&stream);
 
   if (root_obj->type == LISP_TYPE_EOF || root_obj->type == LISP_TYPE_PARSE_ERROR)
     {
       printf("World: Parse Error in file %s", filename.c_str());
+      return -1;
     }
 
   vector<int> ia_tm;
@@ -510,7 +505,6 @@ Level::load(const std::string& filename)
     }
 
   lisp_free(root_obj);
-  fclose(fi);
   return 0;
 }
 
