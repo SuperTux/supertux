@@ -169,8 +169,6 @@ std::string
 LevelSubset::get_level_filename(unsigned int num)
 {
   assert(num < levels.size());
-
-std::cerr << "levels[" << num << "]: " << levels[num] << std::endl;
   return directory + levels[num];
 }
 

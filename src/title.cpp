@@ -167,7 +167,7 @@ void check_levels_contrib_menu()
         if(!reader)
           {
           std::cerr << "Error: Could not open level file. Ignoring...\n";
-          return;
+          continue;
           }
 
         reader->read_string("name", level_title, true);
