@@ -12,8 +12,8 @@ translate_array \
    ['y', "brick1.png",    78],
    ['Y', "brick1.png",    78],
    ['A', "box-full.png",  83],
-   ['B', "box-full.png",  83],
-   ['!', "box-full.png",  83],
+   ['B', "box-full.png", 102],
+   ['!', "box-full.png", 103],
    ['a', "box-empty.png", 84],
    ['C', "cloud-00.png",  85],
    ['D', "cloud-00.png",  86],
@@ -23,14 +23,17 @@ translate_array \
    ['d', "cloud-00.png",  90],
    ['e', "cloud-00.png",  91],
    ['f', "cloud-00.png",  92],
-   ['g', "bkgd-00.png",   93],
-   ['h', "bkgd-01.png",   94],
-   ['i', "bkgd-02.png",   95],
-   ['j', "bkgd-03.png",   96],
-   ['G', "bkgd-10.png",   97],
-   ['H', "bkgd-11.png",   98],
-   ['I', "bkgd-12.png",   99],
-   ['J', "bkgd-13.png",  100],
+   
+   ['G', "bkgd-00.png",   93],
+   ['H', "bkgd-01.png",   94],
+   ['I', "bkgd-02.png",   95],
+   ['J', "bkgd-03.png",   96],
+   
+   ['g', "bkgd-10.png",   97],
+   ['h', "bkgd-11.png",   98],
+   ['i', "bkgd-12.png",   99],
+   ['j', "bkgd-13.png",  100],
+   
    ['#', "solid0.png",    11],
    ['[', "solid1.png",    13], 
    ['=', "solid2.png",    14],
@@ -76,6 +79,7 @@ height     = "15"
 gravity    = content[9]
 
 print "(supertux-level"
+print "  (version 1)"
 print "  (name \"%s\")" % name
 print "  (theme \"%s\")" % theme
 print "  (music \"%s\")" % music
