@@ -744,8 +744,6 @@ WorldMap::update(float delta)
             case MNID_RETURNWORLDMAP: // Return to game
               break;
             case MNID_QUITWORLDMAP: // Quit Worldmap
-              if (!savegame_file.empty())
-                savegame(savegame_file);
               quit = true;
               break;
             }
