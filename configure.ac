@@ -71,6 +71,7 @@ AM_PATH_SDL($SDL_VERSION,
 CXXFLAGS="$CXXFLAGS $SDL_CFLAGS"
 CFLAGS="$CFLAGS $SDL_CFLAGS"
 LIBS="$LIBS $SDL_LIBS"
+GL_LIBS="-lGL"
 
 dnl Checks for additional libraries.
 AC_CHECK_LIB(SDL_mixer, Mix_OpenAudio,,
@@ -88,7 +89,7 @@ if test "x$no_gl" = "xyes" -o "x$enable_opengl" = "xno"; then
 else
   CFLAGS="$CFLAGS $GL_CFLAGS"
   CXXFLAGS="$CXXFLAGS $GL_CFLAGS"
-  LIBS="$LIBS $GL_LIBS -lGL"
+  LIBS="$LIBS $GL_LIBS"
 fi
 
 AC_CHECK_LIB(z, gzopen,, AC_MSG_ERROR([*** zlib is missing]))
