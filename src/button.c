@@ -55,6 +55,25 @@ void button_load(button_type* pbutton,char* icon_file, char* info, SDLKey shortc
   pbutton->bkgd = NULL;
 }
 
+button_type* button_change_icon(button_type* pbutton,char* icon_file)
+{
+  char filename[1024];
+
+  if(icon_file != NULL)
+    {
+      snprintf(filename, 1024, "%s/%s", DATA_PREFIX, icon_file);
+      if(!faccessible(filename))
+        snprintf(filename, 1024, "%s/images/icons/default-icon.png", DATA_PREFIX);
+    }
+  else
+    {
+      snprintf(filename, 1024, "%s/images/icons/default-icon.png", DATA_PREFIX);
+    }
+  
+  texture_free(&pbutton->icon);
+  texture_load(&pbutton->icon,filename,USE_ALPHA);
+}
+
 button_type* button_create(char* icon_file, char* info, SDLKey shortcut, int x, int y)
 {
   button_type* pnew_button = (button_type*) malloc(sizeof(button_type));
@@ -244,8 +263,6 @@ void button_panel_additem(button_panel_type* pbutton_panel, button_type* pbutton
 
   row = (pbutton_panel->num_items-1) / max_cols;
   col = (pbutton_panel->num_items-1) % max_cols;
-
-  printf("R %d C %d\n",row,col);
 
   pbutton_panel->item[pbutton_panel->num_items-1].x = pbutton_panel->x + col * 32;
   pbutton_panel->item[pbutton_panel->num_items-1].y = pbutton_panel->y + row * 32;

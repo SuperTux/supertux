@@ -234,6 +234,7 @@ int leveleditor(int levelnb)
                           le_quit();
                           return 1;
                         }
+		      le_update_buttons(le_current_level->theme);
                       le_set_defaults();
                       level_load_gfx(le_current_level);
                       le_activate_bad_guys();
@@ -265,6 +266,7 @@ int leveleditor(int levelnb)
                           le_quit();
                           return 1;
                         }
+		      le_update_buttons(le_current_level->theme);
                       le_set_defaults();
                       level_load_gfx(le_current_level);
                       le_activate_bad_guys();
@@ -353,12 +355,58 @@ void le_new_subset(char *subset_name)
   level_save(&new_lev,subset_name,1);
 }
 
+le_update_buttons(char *theme)
+{
+  int i;
+  char filename[1024];
+  char pathname[1024];
+  SDLKey key;
+  string_list_type bkgd_files;
+  string_list_type fgd_files;
+
+  sprintf(pathname,"images/themes/%s",theme);
+  bkgd_files =  dfiles(pathname,"bkgd-", NULL);
+  string_list_sort(&bkgd_files);
+
+  le_bkgd_panel.hidden = YES;
+  key = SDLK_a;
+  for(i = 0; i < bkgd_files.num_items; ++i)
+    {
+      sprintf(filename,"%s/%s",pathname,bkgd_files.item[i]);
+      printf("%s\n",filename);
+      button_change_icon(&le_bkgd_panel.item[i],filename);
+    }
+
+  sprintf(pathname,"images/themes/%s",theme);
+  fgd_files =  dfiles(pathname,"solid", NULL);
+  string_list_sort(&fgd_files);
+  key = SDLK_a;
+  for(i = 0; i < fgd_files.num_items; ++i)
+    {
+      sprintf(filename,"%s/%s",pathname,fgd_files.item[i]);
+      button_change_icon(&le_fgd_panel.item[i],filename);
+    }
+
+  string_list_free(&fgd_files);
+  fgd_files =  dfiles(pathname,"brick", NULL);
+  string_list_sort(&fgd_files);
+
+  for(i = 0; i < fgd_files.num_items; ++i)
+    {
+      sprintf(filename,"%s/%s",pathname,fgd_files.item[i]);
+      button_change_icon(&le_fgd_panel.item[i+14],filename);
+    }
+}
+
 int le_init()
 {
   int i,j;
   char str[80];
   char filename[1024];
   SDLKey key;
+  string_list_type fgd_files;
+  string_list_type bkgd_files;
+  string_list_type bad_files;
   level_subsets = dsubdirs("/levels", "info");
 
   le_show_grid = YES;
@@ -394,7 +442,7 @@ int le_init()
   button_load(&le_bkgd_bt,"/images/icons/bgd.png","Background tiles", SDLK_F8,screen->w-43,82);
   button_load(&le_bad_bt,"/images/icons/bad.png","Bad guys", SDLK_F9,screen->w-22,82);
 
-  string_list_type bkgd_files =  dfiles("images/themes/antarctica","bkgd-", NULL);
+  bkgd_files =  dfiles("images/themes/antarctica","bkgd-", NULL);
   string_list_sort(&bkgd_files);
 
   button_panel_init(&le_bkgd_panel, screen->w - 64,98, 64, 318);
@@ -416,7 +464,7 @@ int le_init()
       button_panel_additem(&le_bkgd_panel,button_create(filename, "Background Tile",(SDLKey)((int)key+i+8),0,0),i+8);
     }
 
-  string_list_type fgd_files =  dfiles("images/themes/antarctica","solid", NULL);
+  fgd_files =  dfiles("images/themes/antarctica","solid", NULL);
   string_list_sort(&fgd_files);
   key = SDLK_a;
   button_panel_init(&le_fgd_panel, screen->w - 64,98, 64, 318);
@@ -447,13 +495,13 @@ int le_init()
   string_list_free(&fgd_files);
   fgd_files =  dfiles("images/themes/antarctica","brick", NULL);
   string_list_sort(&fgd_files);
-  
+
   for(i = 0; i < fgd_files.num_items; ++i)
     {
       sprintf(filename,"images/themes/antarctica/%s",fgd_files.item[i]);
       button_panel_additem(&le_fgd_panel,button_create(filename, "Foreground Tile",(SDLKey)((int)key+i+14),0,0),i+14);
     }
-    
+
   string_list_free(&fgd_files);
   string_list_add_item(&fgd_files,"distro-0.png");
   string_list_add_item(&fgd_files,"distro-0.png");
@@ -469,7 +517,7 @@ int le_init()
   le_fgd_panel.item[16].bkgd = &le_fgd_panel.item[14].icon;
   le_fgd_panel.item[17].bkgd = &le_fgd_panel.item[15].icon;
 
-  string_list_type bad_files;
+  bad_files;
   string_list_init(&bad_files);
   string_list_add_item(&bad_files,"bsod-left-0.png");
   string_list_add_item(&bad_files,"laptop-left-0.png");
@@ -600,6 +648,7 @@ void apply_level_settings_menu()
   if(strcmp(le_current_level->theme,string_list_active(level_settings_menu.item[3].list)) != 0)
     {
       strcpy(le_current_level->theme,string_list_active(level_settings_menu.item[3].list));
+      le_update_buttons(le_current_level->theme);
       i = YES;
     }
 
@@ -667,6 +716,8 @@ void le_goto_level(int levelnb)
     }
 
   le_set_defaults();
+
+  le_update_buttons(le_current_level->theme);
 
   level_free_gfx();
   level_load_gfx(le_current_level);
@@ -992,13 +1043,13 @@ void le_checkevents()
                   selection.y2 = event.motion.y;
                 }
               else if(event.button.button == SDL_BUTTON_RIGHT)
-                  le_mouse_pressed[RIGHT] = YES;
+                le_mouse_pressed[RIGHT] = YES;
               break;
             case SDL_MOUSEBUTTONUP:
               if(event.button.button == SDL_BUTTON_LEFT)
-                  le_mouse_pressed[LEFT] = NO;
+                le_mouse_pressed[LEFT] = NO;
               else if(event.button.button == SDL_BUTTON_RIGHT)
-                  le_mouse_pressed[RIGHT] = NO;
+                le_mouse_pressed[RIGHT] = NO;
               break;
             case SDL_MOUSEMOTION:
               if(!show_menu)
@@ -1017,9 +1068,9 @@ void le_checkevents()
 
                   if(le_mouse_pressed[RIGHT] == YES)
                     {
-fprintf(stderr, "mouse scrolling\n");
-                    pos_x += 1 * event.motion.xrel;
-										}
+                      fprintf(stderr, "mouse scrolling\n");
+                      pos_x += 1 * event.motion.xrel;
+                    }
                 }
               break;
             case SDL_QUIT:	// window closed
@@ -1035,6 +1086,9 @@ fprintf(stderr, "mouse scrolling\n");
           if(event.type == SDL_KEYDOWN || event.type == SDL_KEYUP || ((event.type == SDL_MOUSEBUTTONDOWN || SDL_MOUSEMOTION) && (event.motion.x > screen->w-64 && event.motion.x < screen->w &&
               event.motion.y > 0 && event.motion.y < screen->h)))
             {
+              le_mouse_pressed[LEFT] = NO;
+              le_mouse_pressed[RIGHT] = NO;
+
               if(show_menu == NO)
                 {
                   /* Check for button events */
@@ -1198,7 +1252,7 @@ fprintf(stderr, "mouse scrolling\n");
                           else if(pbutton->tag == 16)
                             c = 'x';
                           else if(pbutton->tag == 17)
-                            c = 'y';			    
+                            c = 'y';
                           if(c != '\0')
                             le_current_tile = c;
                         }

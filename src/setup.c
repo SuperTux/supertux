@@ -446,7 +446,7 @@ void st_general_setup(void)
   text_load(&red_text,DATA_PREFIX "/images/status/letters-red.png", TEXT_TEXT, 16,18);
   text_load(&white_text,DATA_PREFIX "/images/status/letters-white.png", TEXT_TEXT, 16,18);
   text_load(&white_small_text,DATA_PREFIX "/images/status/letters-white-small.png", TEXT_TEXT, 8,9);
-  text_load(&white_big_text,DATA_PREFIX "/images/status/letters-white-big.png", TEXT_TEXT, 24,27);
+  text_load(&white_big_text,DATA_PREFIX "/images/status/letters-white-big.png", TEXT_TEXT, 20,23);
   text_load(&yellow_nums,DATA_PREFIX "/images/status/numbers.png", TEXT_NUM, 32,32);
 
   /* Load GUI/menu images: */
@@ -474,18 +474,23 @@ void st_general_free(void)
   text_free(&blue_text);
   text_free(&red_text);
   text_free(&white_small_text);
+  text_free(&white_big_text);
 
   /* Free GUI/menu images: */
   texture_free(&checkbox);
   texture_free(&checkbox_checked);
   texture_free(&back);
-
+  texture_free(&arrow_left);
+  texture_free(&arrow_right);
+  
   /* Free menus */
 
   menu_free(&main_menu);
   menu_free(&game_menu);
   menu_free(&options_menu);
   menu_free(&highscore_menu);
+  menu_free(&save_game_menu);
+  menu_free(&load_game_menu);
 
 }
 

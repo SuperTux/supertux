@@ -305,7 +305,18 @@ int game_action(void)
           level++;
           next_level = 0;
           if(st_gl_mode != ST_GL_TEST)
+	  {
             drawresultscreen();
+	  }
+	  else
+	  {
+	      level_free_gfx();
+              level_free(&current_level);
+              level_free_song();
+              unloadshared();
+              arrays_free();
+              return(0);
+	  }
           player_level_begin(&tux);
         }
       else
