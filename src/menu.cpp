@@ -443,7 +443,6 @@ Menu::draw_item(int index, // Position of the current item in the menu
       }
     case MN_TEXTFIELD:
     case MN_NUMFIELD:
-    case MN_CONTROLFIELD:
       {
         int input_pos = input_width/2;
         int text_pos  = (text_width + font_width)/2;
@@ -456,6 +455,32 @@ Menu::draw_item(int index, // Position of the current item in the menu
                  0,0,0,128);
 
         gold_text->draw_align(pitem.input,
+                              x_pos + text_pos, y_pos,
+                              A_HMIDDLE, A_VMIDDLE, 2);
+
+        text_font->draw_align(pitem.text,
+                              x_pos - (input_width + font_width)/2, y_pos,
+                              A_HMIDDLE, A_VMIDDLE, shadow_size);
+        break;
+      }
+    case MN_CONTROLFIELD:
+      {
+        /* display key */  // FIXME: the key number is not that obvious to the user :P
+        char str[12];
+        sprintf(str, "%i", *pitem.int_p);
+        input_width = strlen(str) * font_width;
+
+        int input_pos = input_width/2;
+        int text_pos  = (text_width + font_width)/2;
+
+        fillrect(x_pos - input_pos + text_pos - 1, y_pos - 10,
+                 input_width + font_width + 2, 20,
+                 255,255,255,255);
+        fillrect(x_pos - input_pos + text_pos, y_pos - 9,
+                 input_width + font_width, 18,
+                 0,0,0,128);
+
+        gold_text->draw_align(str,
                               x_pos + text_pos, y_pos,
                               A_HMIDDLE, A_VMIDDLE, 2);
 
