@@ -557,6 +557,10 @@ Player::handle_vertical_input()
 			can_double_jump = false;
 			jumping = true;
 			double_jumping = true;
+			if (size == SMALL)
+            SoundManager::get()->play_sound(IDToSound(SND_JUMP));
+         else
+            SoundManager::get()->play_sound(IDToSound(SND_BIGJUMP));
 			physic.set_velocity_y(5.2);
 	  }
 	
