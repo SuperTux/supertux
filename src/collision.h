@@ -31,7 +31,8 @@ enum
 {
   CO_BULLET,
   CO_BADGUY,
-  CO_PLAYER
+  CO_PLAYER,
+  CO_TRAMPOLINE
 };
 
 enum CollisionType {

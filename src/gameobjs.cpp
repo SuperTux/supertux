@@ -223,7 +223,7 @@ void load_object_gfx()
   {
     char sprite_name[16];
     sprintf(sprite_name, "trampoline-%i", i+1);
-    img_trampoline[0] = sprite_manager->load(sprite_name);
+    img_trampoline[i] = sprite_manager->load(sprite_name);
   }
 }
 
@@ -235,6 +235,15 @@ Trampoline::init(float x, float y)
 
   base.width = 32;
   base.height = 32;
+}
+
+void
+Trampoline::draw()
+{
+  img_trampoline[0]->draw((int)base.x, (int)base.y);
+
+  if (debug_mode)
+    fillrect(base.x - scroll_x, base.y - scroll_y, base.width, base.height, 75, 75, 0, 150);
 }
 
 void
@@ -253,19 +262,50 @@ Trampoline::action(double frame_ratio)
   else
     physic.enable_gravity(true);
 
-  // TODO:
-  // If HELD
-  //   - move with tux
-  // If jumped on
-  //   - compress springs (reduce height)
 }
+
+// TODO:
+// If HELD
+//   - move with tux
+// If jumped on
+//   - compress springs (reduce height)
 
 void
-Trampoline::draw()
+Trampoline::collision(void *p_c_object, int c_object, CollisionType type)
 {
-  img_trampoline[0]->draw((int)base.x, (int)base.y);
-}
+  Player* pplayer_c = NULL;
+  switch (c_object)
+  {
+    case CO_PLAYER:
+      pplayer_c = (Player*) p_c_object;
 
+      if (type == COLLISION_NORMAL)
+      {
+        // TODO: Pick up if HELD
+      }
+
+      else if (type == COLLISION_SQUISH)
+      {
+        // TODO: compress springs
+        // TODO: launch tux, if necessary
+
+        base.y = pplayer_c->base.y + pplayer_c->base.height;
+        base.height = (32 - (int)pplayer_c->base.y % 32);
+        if (base.height < 16)
+        {
+          base.height = 32;
+
+          pplayer_c->physic.set_velocity_y(8);
+        }
+      }
+
+      break;
+
+    default:
+      break;
+    
+  }
+}
 
 /* EOF */
 

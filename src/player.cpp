@@ -18,6 +18,7 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <math.h>
+#include <cassert>
 #include "gameloop.h"
 #include "globals.h"
 #include "player.h"
@@ -643,6 +644,7 @@ void
 Player::collision(void* p_c_object, int c_object)
 {
   BadGuy* pbad_c = NULL;
+  Trampoline* ptramp_c = NULL;
 
   switch (c_object)
     {
@@ -693,6 +695,25 @@ Player::collision(void* p_c_object, int c_object)
           player_status.score_multiplier++;
         }
       break;
+
+    case CO_TRAMPOLINE:
+      ptramp_c = (Trampoline*) p_c_object;
+      
+      if (physic.get_velocity_x() > 0) // RIGHT
+      {
+        physic.set_velocity_x(0);
+        base.x = ptramp_c->base.x - base.width;
+      }
+      else if (physic.get_velocity_x() < 0) // LEFT
+      {
+        physic.set_velocity_x(0);
+        base.x = ptramp_c->base.x + ptramp_c->base.width;
+      }
+      else
+      {
+      }
+      break;
+
     default:
       break;
     }

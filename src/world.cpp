@@ -499,6 +499,25 @@ World::collision_handler()
           upgrades[i].collision(&tux, CO_PLAYER, COLLISION_NORMAL);
         }
     }
+
+  // CO_TRAMPOLINE & (CO_PLAYER or CO_BADGUY)
+  for (Trampolines::iterator i = trampolines.begin(); i != trampolines.end(); ++i)
+  {
+    if (rectcollision((*i)->base, tux.base))
+    {
+      if (tux.previous_base.y < tux.base.y &&
+          tux.previous_base.y + tux.previous_base.height 
+          < (*i)->base.y + (*i)->base.height/2)
+      {
+        (*i)->collision(&tux, CO_PLAYER, COLLISION_SQUISH);
+      }
+      else
+      {
+        tux.collision(*i, CO_TRAMPOLINE);
+        (*i)->collision(&tux, CO_PLAYER, COLLISION_NORMAL);
+      }
+    }
+  }
 }
 
 void

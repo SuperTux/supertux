@@ -27,6 +27,7 @@
 #include "timer.h"
 #include "scene.h"
 #include "physic.h"
+#include "collision.h"
 
 enum ObjectType { OBJ_NONE, OBJ_BADGUY, OBJ_TRAMPOLINE };
 
@@ -126,6 +127,8 @@ class Trampoline : public GameObject
 
     init(data.x, data.y);
   };
+
+  void collision(void *p_c_object, int c_object, CollisionType type);
 
   Physic physic;
 
