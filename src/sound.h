@@ -16,15 +16,27 @@
  /*all the sounds we have*/
 #define NUM_SOUNDS 16
 
+/*global variable*/
+int use_sound;
+
+/* enum of different internal music types */
+enum Music_Type {
+        NO_MUSIC,
+        LEVEL_MUSIC,
+        HURRYUP_MUSIC,
+        HERRING_MUSIC
+} current_music;
+
+
 #ifndef NOSOUND
 
 #include <SDL_mixer.h>
 
-// variables for stocking the sound and music
+/* variables for stocking the sound and music */
 Mix_Chunk* sounds[NUM_SOUNDS];
-Mix_Music* song;
+Mix_Music* level_song, *herring_song;
 
-// functions handling the sound and music
+/* functions handling the sound and music */
 int open_audio(int frequency, Uint16 format, int channels, int chunksize);
 
 Mix_Chunk * load_sound(char * file);
@@ -41,7 +53,7 @@ void free_chunk(Mix_Chunk*chunk);
 
 //fake variables
 void* sounds[NUM_SOUNDS];
-void* song;
+void* level_song, *herring_song;
 
 // fake sound handlers
 int open_audio (int frequency, int format, int channels, int chunksize);
@@ -52,9 +64,9 @@ void* load_song(void* file);
 
 int playing_music();
 void halt_music();
-int play_music(int *music, int loops);
-void free_music(int *music);;
-void free_chunk(int *chunk);
+int play_music(void *music, int loops);
+void free_music(void *music);;
+void free_chunk(void *chunk);
 
 #endif
 

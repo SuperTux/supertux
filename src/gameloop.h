@@ -107,7 +107,7 @@ enum {
 /* Times: */
 
 #define TUX_SAFE_TIME 16
-
+#define TUX_INVINCIBLE_TIME 200
 
 /* Size constraints: */
 

@@ -90,7 +90,7 @@ Mix_Music * load_song(char * file)
 
  void play_sound(Mix_Chunk * snd)
  {
-  // this won't call the function if the user has disabled sound
+  /* this won't call the function if the user has disabled sound */
   if (use_sound) {
     Mix_PlayChannel(-1, snd, 0);
   }
@@ -162,8 +162,8 @@ void* load_song(void* file) { return NULL; }
 
 int playing_music() { return 0; }
 void halt_music() {}
-int play_music(int *music, int loops) { return 0;}
-void free_music(int *music) {}
-void free_chunk(int *chunk) {}
+int play_music(void *music, int loops) { return 0;}
+void free_music(void *music) {}
+void free_chunk(void *chunk) {}
 
 #endif

@@ -11,14 +11,6 @@
 */
 
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <errno.h>
-#include <unistd.h>
-#include <SDL.h>
-#include <SDL_image.h>
-
 #ifdef LINUX
 #include <pwd.h>
 #include <sys/types.h>
@@ -49,6 +41,8 @@ int main(int argc, char * argv[])
   st_setup();
   
   done = intro();
+  
+  done = 0;
   
   while (!done)
     {
