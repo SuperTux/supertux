@@ -148,6 +148,11 @@ static int le_selection_mode;
 static SDL_Event event;
 TileMapType active_tm;
 
+// menu items for subset creation menu
+enum {
+  MNID_CREATESUBSET
+};
+
 void le_set_defaults()
 {
   if(le_current_level != NULL)
@@ -270,9 +275,9 @@ int leveleditor(int levelnb)
                 case 0:
                   break;
                 default:
-                  if(i != -1)
+                  if(i >= 1)
                     {
-                      le_level_subset.load(level_subsets.item[i-2]);
+                      le_level_subset.load(level_subsets.item[i-1]);
                       leveleditor_menu->item[3].kind = MN_GOTO;
                       le_level = 1;
                       le_world.arrays_free();
@@ -302,7 +307,7 @@ int leveleditor(int levelnb)
 
                   switch (i = subset_new_menu->check())
                     {
-                    case 3:
+                    case MNID_CREATESUBSET:
                       LevelSubset::create(subset_new_menu->item[2].input);
                       le_level_subset.load(subset_new_menu->item[2].input);
                       leveleditor_menu->item[3].kind = MN_GOTO;
@@ -430,7 +435,7 @@ int le_init()
 
   for(i = 0; i < level_subsets.num_items; ++i)
     {
-      subset_load_menu->additem(MN_ACTION,level_subsets.item[i],0,0);
+      subset_load_menu->additem(MN_ACTION,level_subsets.item[i],0,0, i+1);
     }
   subset_load_menu->additem(MN_HL,"",0,0);
   subset_load_menu->additem(MN_BACK,"Back",0,0);
@@ -438,7 +443,7 @@ int le_init()
   subset_new_menu->additem(MN_LABEL,"New Level Subset",0,0);
   subset_new_menu->additem(MN_HL,"",0,0);
   subset_new_menu->additem(MN_TEXTFIELD,"Enter Name",0,0);
-  subset_new_menu->additem(MN_ACTION,"Create",0,0);
+  subset_new_menu->additem(MN_ACTION,"Create",0,0, MNID_CREATESUBSET);
   subset_new_menu->additem(MN_HL,"",0,0);
   subset_new_menu->additem(MN_BACK,"Back",0,0);
 
