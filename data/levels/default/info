@@ -1,4 +1,4 @@
 ;SuperTux-Level-Subset
-(level-subset
+(supertux-level-subset
   (title "Revenge In Redmond")
   (description "Gown has been abducted."))

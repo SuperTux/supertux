@@ -111,7 +111,7 @@ void st_subset::load(char *subset)
           printf("World: Read error in %s",filename);
         }
 
-      if (strcmp(lisp_symbol(cur), "level-subset") == 0)
+      if (strcmp(lisp_symbol(cur), "supertux-level-subset") == 0)
         {
           parse(lisp_cdr(root_obj));
 
