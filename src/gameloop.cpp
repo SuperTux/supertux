@@ -151,13 +151,13 @@ GameSession::levelintro(void)
     drawgradient(get_level()->bkgd_top, get_level()->bkgd_bottom);
 
   sprintf(str, "%s", world->get_level()->name.c_str());
-  gold_text->drawf(str, 0, 200, A_HMIDDLE, A_TOP, 1);
+  gold_text->drawf(str, 0, 220, A_HMIDDLE, A_TOP, 1);
 
   sprintf(str, "TUX x %d", player_status.lives);
-  white_text->drawf(str, 0, 224, A_HMIDDLE, A_TOP, 1);
+  white_text->drawf(str, 0, 240, A_HMIDDLE, A_TOP, 1);
   
   sprintf(str, "by %s", world->get_level()->author.c_str());
-  white_small_text->drawf(str, 0, 360, A_HMIDDLE, A_TOP, 1);
+  white_small_text->drawf(str, 0, 400, A_HMIDDLE, A_TOP, 1);
   
 
   flipscreen();
