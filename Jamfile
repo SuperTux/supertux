@@ -1,24 +1,5 @@
 SubDir TOP ;
 
-if $(XGETTEXT) != ""
-{
-    actions XGetText
-    {
-        $(XGETTEXT) $(XGETTEXT_FLAGS) --keyword='_:1' -o $(<) $(>)
-    }
-    rule MakePot
-    {
-      if $(>) {
-        XGetText $(<) : $(>) ;
-        Depends $(<) : $(>) ;
-        Depends all : $(<) ;
-      }
-    }
-} else {
-    rule MakePot
-    { }
-}
-
 # Decend into subdirs
 SubInclude TOP lib ;
 SubInclude TOP src ;
@@ -31,3 +12,7 @@ Package INSTALL NEWS README COPYING AUTHORS ChangeLog ;
 
 MakePot data/locale/messages.pot : $(TRANSLATABLE_SOURCES) ;
 XGETTEXT_FLAGS on data/locale/messages.pot += --language=C++ ;
+
+InstallPixmap data/images/supertux.png data/images/supertux.xpm ;
+InstallDesktop supertux.desktop ;
+InstallDoc NEWS README COPYING AUTHORS ChangeLog ;

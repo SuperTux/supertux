@@ -17,6 +17,8 @@
 * Edit the .po files with your favourite Editor or with 1 of the GUI tools
   below.
 * Send the translated .po files to the supertux-devel mailing list.
+* You should also edit the supertux.desktop file and add a comment entry for
+  your language
 
 1. Notes for Translators
 ~~~~~~~~~~~~~~~~~~~~~~~~~

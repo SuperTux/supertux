@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=Supertux
+Comment=Classic 2D jump'n run sidescroller
+Comment[de]=Klassisches 2D Jump'n Run Spiel
+Exec=supertux
+Icon=supertux
+Terminal=false
+Type=Application
+StartupNotify=false
+Categories=Application;Game;ArcadeGame;

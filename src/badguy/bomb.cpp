@@ -55,11 +55,7 @@ Bomb::active_action(float )
   switch(state) {
     case 0:
       if(timer.check()) {
-        state = 1;
-        sprite->set_action("explosion");
-        SoundManager::get()->play_sound(IDToSound(SND_EXPLODE), get_pos(),
-            Sector::current()->player->get_pos());
-        timer.start(EXPLOSIONTIME);
+        explode();
       }
       break;
     case 1:
@@ -71,7 +67,18 @@ Bomb::active_action(float )
 }
 
 void
+Bomb::explode()
+{
+  state = 1;
+  sprite->set_action("explosion");
+  SoundManager::get()->play_sound(IDToSound(SND_EXPLODE), get_pos(),
+      Sector::current()->player->get_pos());
+  timer.start(EXPLOSIONTIME);
+}
+
+void
 Bomb::kill_fall()
 {
+  explode();
 }
 

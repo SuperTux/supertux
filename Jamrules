@@ -38,3 +38,23 @@ include $(TOP)/mk/jam/build.jam ;
 # Include Dirs
 IncludeDir $(top_builddir) ; # for config.h
 IncludeDir lib src ;
+
+if $(XGETTEXT) != ""
+{
+    actions XGetText
+    {
+        $(XGETTEXT) $(XGETTEXT_FLAGS) --keyword='_:1' -o $(<) $(>)
+    }
+    rule MakePot
+    {
+      if $(>) {
+        XGetText $(<) : $(>) ;
+        Depends $(<) : $(>) ;
+        Depends all : $(<) ;
+      }
+    }
+} else {
+    rule MakePot
+    { }
+}
+

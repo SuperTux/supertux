@@ -14,6 +14,8 @@ appdatadir ?= [ ConcatDirs $(datadir) $(PACKAGE_NAME) ] ;
 appdocdir ?= [ ConcatDirs $(datadir) doc $(PACKAGE_NAME)-$(PACKAGE_VERSION) ] ;
 appconfdir ?= [ ConcatDirs $(sysconfdir) $(PACKAGE_NAME) ] ;
 plugindir ?= [ ConcatDirs $(libdir) $(PACKAGE_NAME) ] ;
+applicationsdir ?= [ ConcatDirs $(datadir) applications ] ;
+pixmapsdir ?= [ ConcatDirs $(datadir) pixmaps ] ;
 
 ##  InstallHeader headername [ : subdir ]
 ##    DoInstall a headerfile into the includedir directory. A subdirectory
@@ -83,6 +85,24 @@ rule InstallMan
         }
         Depends install_man : [ DoInstall $(i) : $(dir) ] ;
     }
+}
+
+##  InstallPixmap files [ : subdir ]
+##    Install a pixmap
+rule InstallPixmap
+{
+    LOCATE on $(<:G=installpixmap) = $(SUBDIR) ;
+    Depends install_data
+        : [ DoInstall $(<:G=installpixmap) : $(pixmapsdir) $(2) ] ;
+}
+
+##  InstallDesktop files [ : subdir ]
+##    Install a .desktop file (menu entries for kde/gnome and others)
+rule InstallDesktop
+{
+    LOCATE on $(<:G=installdesktop) = $(SUBDIR) ;
+    Depends install_bin
+        : [ DoInstall $(<:G=installdesktop) : $(applicationsdir) $(2) ] ;
 }
 
 ##  DoInstall sourcename : directories [ : installapp ] [ : options ]

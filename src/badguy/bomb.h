@@ -14,6 +14,7 @@ public:
   HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
   void active_action(float elapsed_time);
   void kill_fall();
+  void explode();
 
 private:
   int state;
