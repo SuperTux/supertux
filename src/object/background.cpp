@@ -39,12 +39,12 @@ Background::Background(const lisp::Lisp& reader)
   if(reader.get("image", imagefile) 
       && reader.get("speed", speed)) {
     set_image(imagefile, speed);
+  } else {
+    std::vector <unsigned int> bkgd_top_color, bkgd_bottom_color;
+    if(reader.get_vector("top_color", bkgd_top_color) &&
+        reader.get_vector("bottom_color", bkgd_bottom_color))
+      set_gradient(Color(bkgd_top_color), Color(bkgd_bottom_color));
   }
-
-  std::vector <unsigned int> bkgd_top_color, bkgd_bottom_color;
-  if(reader.get_vector("top_color", bkgd_top_color) &&
-     reader.get_vector("bottom_color", bkgd_bottom_color))
-    set_gradient(Color(bkgd_top_color), Color(bkgd_bottom_color));
 }
 
 Background::~Background()
