@@ -78,7 +78,7 @@ DrawingContext::draw_surface_part(const Surface* surface, const Vector& source,
 
 void
 DrawingContext::draw_text(Font* font, const std::string& text,
-    const Vector& position, int layer, Uint32 drawing_effect)
+    const Vector& position, int layer, Uint32 drawing_effect, int alpha)
 {
   DrawingRequest request;
 
@@ -91,6 +91,7 @@ DrawingContext::draw_text(Font* font, const std::string& text,
   textrequest->font = font;
   textrequest->text = text;
   textrequest->center = false;
+  textrequest->alpha = alpha;
   request.request_data = textrequest;
 
   drawingrequests.push_back(request);
@@ -98,7 +99,7 @@ DrawingContext::draw_text(Font* font, const std::string& text,
 
 void
 DrawingContext::draw_text_center(Font* font, const std::string& text,
-    const Vector& position, int layer, Uint32 drawing_effect)
+    const Vector& position, int layer, Uint32 drawing_effect, int alpha)
 {
   DrawingRequest request;
 
@@ -111,6 +112,7 @@ DrawingContext::draw_text_center(Font* font, const std::string& text,
   textrequest->font = font;
   textrequest->text = text;
   textrequest->center = true;
+  textrequest->alpha = alpha;
   request.request_data = textrequest;
 
   drawingrequests.push_back(request);
@@ -218,9 +220,9 @@ DrawingContext::draw_text(DrawingRequest& request)
   TextRequest* textrequest = (TextRequest*) request.request_data;
 
   if(textrequest->center)
-    textrequest->font->draw_center(textrequest->text, request.pos, request.drawing_effect);
+    textrequest->font->draw_center(textrequest->text, request.pos, request.drawing_effect, textrequest->alpha);
   else
-    textrequest->font->draw(textrequest->text, request.pos, request.drawing_effect);
+    textrequest->font->draw(textrequest->text, request.pos, request.drawing_effect, textrequest->alpha);
 
   delete textrequest;
 }

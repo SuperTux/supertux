@@ -64,11 +64,11 @@ namespace SuperTux
       friend class DrawingContext;
 
       void draw(const std::string& text, const Vector& pos,
-                Uint32 drawing_effect = NONE_EFFECT);
+                Uint32 drawing_effect = NONE_EFFECT, int alpha = 255);
       void draw_center(const std::string& text, const Vector& pos,
-                Uint32 drawing_effect = NONE_EFFECT);
+                Uint32 drawing_effect = NONE_EFFECT, int alpha = 255);
       void draw_chars(Surface* pchars, const std::string& text,
-                      const Vector& position, Uint32 drawing_effect);
+                      const Vector& position, Uint32 drawing_effect, int alpha);
 
       Surface* chars;
       Surface* shadow_chars;

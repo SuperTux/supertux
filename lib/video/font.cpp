@@ -114,17 +114,17 @@ Font::get_height() const
 }
 
 void
-Font::draw(const std::string& text, const Vector& pos, Uint32 drawing_effect)
+Font::draw(const std::string& text, const Vector& pos, Uint32 drawing_effect, int alpha)
 {
   if(shadowsize > 0)
     draw_chars(shadow_chars, text, pos + Vector(shadowsize, shadowsize),
-               drawing_effect);
+               drawing_effect, alpha);
 
-  draw_chars(chars, text, pos, drawing_effect);
+  draw_chars(chars, text, pos, drawing_effect, alpha);
 }
 
 void
-Font::draw_center(const std::string& text, const Vector& pos, Uint32 drawing_effect)
+Font::draw_center(const std::string& text, const Vector& pos, Uint32 drawing_effect, int alpha)
 {
   /* Cut lines changes into seperate strings, needed to support centering text
      with break lines.
@@ -140,12 +140,12 @@ Font::draw_center(const std::string& text, const Vector& pos, Uint32 drawing_eff
       {
       temp[text.copy(temp, text.size() - i, i)] = '\0';
       draw(temp, Vector(screen->w/2 - get_text_width(temp)/2 + pos.x, pos.y + y),
-           drawing_effect);
+           drawing_effect, alpha);
       break;
       }
     temp[text.copy(temp, l - i, i)] = '\0';
     draw(temp, Vector(screen->w/2 - get_text_width(temp)/2 + pos.x, pos.y + y),
-         drawing_effect);
+         drawing_effect, alpha);
 
     i = l+1;
     y += h + 2;
@@ -154,7 +154,7 @@ Font::draw_center(const std::string& text, const Vector& pos, Uint32 drawing_eff
 
 void
 Font::draw_chars(Surface* pchars, const std::string& text, const Vector& pos,
-                 Uint32 drawing_effect)
+                 Uint32 drawing_effect, int alpha)
 {
   SurfaceImpl* impl = pchars->impl;
 
@@ -179,7 +179,7 @@ Font::draw_chars(Surface* pchars, const std::string& text, const Vector& pos,
     int source_x = (index % 16) * w;
     int source_y = (index / 16) * h;
 
-    impl->draw_part(source_x, source_y, p.x, p.y, w, h, 255, drawing_effect);
+    impl->draw_part(source_x, source_y, p.x, p.y, w, h, alpha, drawing_effect);
     p.x += w;
   }
 }
