@@ -173,6 +173,9 @@ GameSession::start_timers()
 void
 GameSession::on_escape_press()
 {
+  if(game_pause)
+    return;
+
   if(st_gl_mode == ST_GL_TEST)
     {
       exit_status = LEVEL_ABORT;
@@ -216,7 +219,8 @@ GameSession::process_events()
             {
               Player& tux = *world->get_tux();
   
-              st_pause_ticks_stop();
+              if(!game_pause)
+                st_pause_ticks_stop();
 
               switch(event.type)
                 {
