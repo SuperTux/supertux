@@ -327,16 +327,10 @@ void World::scrolling(double frame_ratio)
     scroll_y = tux_pos_y - Y_SPACE;
 
   // this code prevent the screen to scroll before the start or after the level's end
+  if(scroll_y > level->height * 32 - screen->h)
+    scroll_y = level->height * 32 - screen->h;
   if(scroll_y < 0)
     scroll_y = 0;
-  else if(scroll_y > level->height * 32 - screen->h)
-    scroll_y = level->height * 32 - screen->h;
-
-  if (scroll_y < 0)
-  {
-    //std::cerr << "Level too short!!" << std::endl;
-    scroll_y = 0;
-  }
 
   /* X-axis scrolling */
 
@@ -389,10 +383,10 @@ void World::scrolling(double frame_ratio)
   }
 
   // this code prevent the screen to scroll before the start or after the level's end
+  if(scroll_x > level->width * 32 - screen->w)
+    scroll_x = level->width * 32 - screen->w;
   if(scroll_x < 0)
     scroll_x = 0;
-  else if(scroll_x > level->width * 32 - screen->w)
-    scroll_x = level->width * 32 - screen->w;
 }
 
 void

@@ -1579,15 +1579,15 @@ void le_checkevents()
     }
 
       /* checking if pos_x and pos_y is within the limits... */
-      if(pos_x < 0)
-        pos_x = 0;
       if(pos_x > (le_world->get_level()->width * 32) - screen->w)
         pos_x = (le_world->get_level()->width * 32) - screen->w;
+      if(pos_x < 0)
+        pos_x = 0;
 
-      if(pos_y < 0)
-        pos_y = 0;
       if(pos_y > (le_world->get_level()->height * 32) - screen->h)
         pos_y = (le_world->get_level()->height * 32) - screen->h;
+      if(pos_y < 0)
+        pos_y = 0;
 
   }
 
