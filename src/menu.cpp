@@ -259,14 +259,159 @@ int menu_check(menu_type* pmenu)
     return -1;
 }
 
+void menu_draw_item(menu_type* pmenu, const menu_item_type& pitem,
+                    int offset, // Position of the current item in the menu
+                    int menu_width, 
+                    int menu_height)
+{
+  int a;
+  int b;
+  int e;
+  int f;
+
+  if(pmenu->arrange_left == YES)
+    a = menu_width * 16;
+  else
+    a = 0;
+  
+  if(pmenu->arrange_left == YES)
+    b = (a - ((strlen(pitem.text)+strlen(pitem.input)+ strlen(string_list_active(pitem.list))) * 16)) / 2;
+  else
+    b = 0;
+
+  if(timer_check(&pmenu->effect))
+    e = timer_get_left(&pmenu->effect) / 4;
+  else
+    e = 0;
+
+  if(e != 0)
+    f = (offset % 2) ? e : -e;
+  else
+    f = 0;
+
+  int x_pos = screen->w/2 - menu_width/2;
+  int y_pos = offset*24 - menu_height/2;
+
+  int center_x = screen->w/2;
+  int center_y = screen->h /2;
+  int start_x = center_x - b;
+
+  if(pitem.kind == MN_DEACTIVE)
+    {
+      text_drawf(&black_text, pitem.text, 
+                 -b, y_pos + 10 + f,
+                 A_HMIDDLE, A_VMIDDLE, 2, NO_UPDATE);
+    }
+  else if(pitem.kind == MN_HL)
+    {
+      /* Draw a horizontal line with a little 3d effect */
+      fillrect(x_pos, y_pos + 6 + center_y,
+               menu_width, 4,
+               210,50,50,225);
+      fillrect(x_pos, y_pos + 10 + center_y, 
+               menu_width, 2,
+               0,0,0,255);
+    }
+  else if(pitem.kind == MN_LABEL)
+    {
+      text_drawf(&white_big_text, pitem.text, 
+                 -b, y_pos + 10,
+                 A_HMIDDLE, A_VMIDDLE, 2);
+    }
+  else if(pitem.kind == MN_TEXTFIELD || pitem.kind == MN_NUMFIELD)
+    {
+      int input_pos = ((strlen(pitem.input)*16)/2);
+      int text_pos  = ((strlen(pitem.text) + 1)*16)/2;
+      fillrect(-b +center_x - input_pos + text_pos - 1,y_pos + 10 + center_y - 10 + f,
+               (strlen(pitem.input)+1)*16 + 2, 20,
+               255,255,255,255);
+      fillrect(-b +center_x - input_pos + text_pos, y_pos + 10 + center_y - 9 + f,
+               (strlen(pitem.input)+1)*16, 18,
+               0,0,0,128);
+      text_drawf(&gold_text, pitem.input,
+                 -b + text_pos, y_pos + 10 + f, 
+                 A_HMIDDLE, A_VMIDDLE, 2);
+
+      if(offset == pmenu->active_item)
+        {
+          text_drawf(&blue_text,pitem.text, -b  -(((strlen(pitem.input)+1) * 16)/2),y_pos + 10 + f,A_HMIDDLE, A_VMIDDLE,3);
+        }
+      else
+        {
+          text_drawf(&white_text,pitem.text, -b  -(((strlen(pitem.input)+1) * 16)/2),y_pos +10 + f,A_HMIDDLE, A_VMIDDLE,2);
+        }
+    }
+  else if(pitem.kind == MN_STRINGSELECT)
+    {
+      int list_pos = ((strlen(string_list_active(pitem.list))*16)/2);
+      int list_pos_2 = (strlen(string_list_active(pitem.list))+1)*16;
+      int text_pos = ((strlen(pitem.text) + 1)*16)/2;
+
+      /* Draw arrows */
+      texture_draw(&arrow_left, start_x - list_pos + text_pos - 17, y_pos + 10 + center_y -8 + f);
+      texture_draw(&arrow_right, start_x - list_pos + text_pos - 1 + list_pos_2, y_pos + 10 + center_y -8 + f);
+
+      /* Draw input background */
+      fillrect(start_x - list_pos + text_pos - 1, y_pos + 10 + center_y - 10 + f,
+               list_pos_2 + 2, 20,
+               255,255,255,255);
+      fillrect(start_x - list_pos + text_pos, y_pos + 10 + center_y - 9 + f,
+               list_pos_2, 18,
+               0,0,0,128);
+
+      text_drawf(&gold_text, string_list_active(pitem.list), 
+                 -b + text_pos, y_pos + 10 + f,
+                 A_HMIDDLE, A_VMIDDLE,2);
+
+      if(offset == pmenu->active_item)
+        {
+          text_drawf(&blue_text,pitem.text,
+                     -b - list_pos_2/2, y_pos + 10 + f,
+                     A_HMIDDLE, A_VMIDDLE,3);
+        }
+      else
+        {
+          text_drawf(&white_text,pitem.text,
+                     -b - list_pos_2/2, y_pos +10 + f,
+                     A_HMIDDLE, A_VMIDDLE,2);
+        }
+    }
+  else if(offset == pmenu->active_item)
+    {
+      text_drawf(&blue_text, pitem.text, 
+                 -b,y_pos + 10 + f,
+                 A_HMIDDLE, A_VMIDDLE, 3);
+    }
+  else
+    {
+      text_drawf(&white_text, pitem.text,
+                 -b, y_pos + 10 + f, 
+                 A_HMIDDLE, A_VMIDDLE, 2);
+    }
+
+  if(pitem.kind == MN_TOGGLE)
+    {
+      if(pitem.toggled == YES)
+        texture_draw(&checkbox_checked, -b + screen->w / 2 + (strlen(pitem.text) * 16)/2  + 16,y_pos + 10 + center_y -8 + f);
+      else
+        texture_draw(&checkbox, -b + screen->w / 2 + (strlen(pitem.text) * 16)/2 + 16,y_pos + 10 + center_y - 8 + f);
+    }
+  else if(pitem.kind == MN_BACK)
+    {
+      texture_draw(&back, -b + screen->w / 2 + (strlen(pitem.text) * 16)/2  + 16,y_pos + 10 + center_y -8 + f);
+    } 
+}
+
 /* Draw the current menu. */
 void menu_draw(menu_type* pmenu)
 {
-  int i, y, a, b, e, f, menu_height, menu_width;
-
+  int y;
+  int menu_height;
+  int menu_width;
+  
   /* The width of the menu has to be more than the width of the text with the most characters */
   menu_width = 0;
-  for(i = 0; i < pmenu->num_items; ++i)
+  for(int i = 0; i < pmenu->num_items; ++i)
     {
       y = strlen(pmenu->item[i].text) + (pmenu->item[i].input ? strlen(pmenu->item[i].input) + 1 : 0) + strlen(string_list_active(pmenu->item[i].list));
       if( y > menu_width )
@@ -276,110 +421,17 @@ void menu_draw(menu_type* pmenu)
             menu_width += 2;
         }
     }
-  if(pmenu->arrange_left == YES)
-    a = menu_width * 16;
-  else
-    a = 0;
 
   menu_width = menu_width * 16 + 48;
   menu_height = (pmenu->num_items) * 24;
 
+  int center_x = screen->w/2;
   /* Draw a transparent background */
-  fillrect(screen->w/2 - menu_width/2,screen->h/2-(((pmenu->num_items)*24)/2),menu_width,menu_height,150,150,150,100);
+  fillrect(center_x - menu_width/2,screen->h/2-(((pmenu->num_items)*24)/2),menu_width,menu_height,150,150,150,100);
 
-  if(timer_check(&pmenu->effect))
+  for(int i = 0; i < pmenu->num_items; ++i)
     {
-      e = timer_get_left(&pmenu->effect) / 4;
-    }
-  else
-    {
-      e = 0;
-    }
-
-  for(i = 0; i < pmenu->num_items; ++i)
-    {
-      if(pmenu->arrange_left == YES)
-        b = (a - ((strlen(pmenu->item[i].text)+strlen(pmenu->item[i].input)+ strlen(string_list_active(pmenu->item[i].list))) * 16)) / 2;
-      else
-        b = 0;
-
-      if(e != 0)
-        {
-          if(i % 2)
-            f = e;
-          else
-            f = -e;
-        }
-      else
-        f = 0;
-
-      if(pmenu->item[i].kind == MN_DEACTIVE)
-        {
-          text_drawf(&black_text,pmenu->item[i].text, - b,(i)*24 - menu_height/2 + 10 + f,A_HMIDDLE, A_VMIDDLE,2,NO_UPDATE);
-        }
-      else if(pmenu->item[i].kind == MN_HL)
-        {
-          /* Draw a horizontal line with a little 3d effect */
-          fillrect(screen->w/2 - menu_width/2,(i)*24 - menu_height/2 + 6 + screen->h /2,menu_width,4,210,50,50,225);
-          fillrect(screen->w/2 - menu_width/2,(i)*24 - menu_height/2 + 10 + screen->h /2,menu_width,2,0,0,0,255);
-        }
-      else if(pmenu->item[i].kind == MN_LABEL)
-        {
-          text_drawf(&white_big_text,pmenu->item[i].text, - b,(i)*24 - menu_height/2 + 10,A_HMIDDLE, A_VMIDDLE,2,NO_UPDATE);
-        }
-      else if(pmenu->item[i].kind == MN_TEXTFIELD || pmenu->item[i].kind == MN_NUMFIELD)
-        {
-          fillrect(-b +screen->w/2 - ((strlen(pmenu->item[i].input)*16)/2) + ((strlen(pmenu->item[i].text) + 1)*16)/2 - 1,(i)*24 - menu_height/2 + 10 + screen->h /2 - 10 + f,(strlen(pmenu->item[i].input)+1)*16 + 2,20,255,255,255,255);
-          fillrect(- b +screen->w/2 - ((strlen(pmenu->item[i].input)*16)/2) + ((strlen(pmenu->item[i].text) + 1)*16)/2,(i)*24 - menu_height/2 + 10 + screen->h /2 - 9 + f,(strlen(pmenu->item[i].input)+1)*16,18,0,0,0,128);
-          text_drawf(&gold_text,pmenu->item[i].input, - b + ((strlen(pmenu->item[i].text)+1) * 16)/2,(i)*24 - menu_height/2 + 10 + f,A_HMIDDLE, A_VMIDDLE,2,NO_UPDATE);
-          if(i == pmenu->active_item)
-            {
-              text_drawf(&blue_text,pmenu->item[i].text, - b  -(((strlen(pmenu->item[i].input)+1) * 16)/2),(i)*24 - menu_height/2 + 10 + f,A_HMIDDLE, A_VMIDDLE,3,NO_UPDATE);
-            }
-          else
-            {
-              text_drawf(&white_text,pmenu->item[i].text, - b  -(((strlen(pmenu->item[i].input)+1) * 16)/2),(i)*24 - menu_height/2 +10 + f,A_HMIDDLE, A_VMIDDLE,2,NO_UPDATE);
-            }
-        }
-      else if(pmenu->item[i].kind == MN_STRINGSELECT)
-        {
-          /* Draw arrows */
-          texture_draw(&arrow_left,-b +screen->w/2 - ((strlen(string_list_active(pmenu->item[i].list))*16)/2) + ((strlen(pmenu->item[i].text) + 1)*16)/2 - 17,(i)*24 - menu_height/2 + 10 + screen->h / 2 -8 + f,NO_UPDATE);
-          texture_draw(&arrow_right,-b +screen->w/2 - ((strlen(string_list_active(pmenu->item[i].list))*16)/2) + ((strlen(pmenu->item[i].text) + 1)*16)/2 - 1 + (strlen(string_list_active(pmenu->item[i].list))+1)*16,(i)*24 - menu_height/2 + 10 + screen->h / 2 -8 + f,NO_UPDATE);
-          /* Draw input background */
-          fillrect(-b +screen->w/2 - ((strlen(string_list_active(pmenu->item[i].list))*16)/2) + ((strlen(pmenu->item[i].text) + 1)*16)/2 - 1,(i)*24 - menu_height/2 + 10 + screen->h /2 - 10 + f,(strlen(string_list_active(pmenu->item[i].list))+1)*16 + 2,20,255,255,255,255);
-          fillrect(- b +screen->w/2 - ((strlen(string_list_active(pmenu->item[i].list))*16)/2) + ((strlen(pmenu->item[i].text) + 1)*16)/2,(i)*24 - menu_height/2 + 10 + screen->h /2 - 9 + f,(strlen(string_list_active(pmenu->item[i].list))+1)*16,18,0,0,0,128);
-
-          text_drawf(&gold_text,string_list_active(pmenu->item[i].list), - b + ((strlen(pmenu->item[i].text)+1) * 16)/2,(i)*24 - menu_height/2 + 10 + f,A_HMIDDLE, A_VMIDDLE,2,NO_UPDATE);
-          if(i == pmenu->active_item)
-            {
-              text_drawf(&blue_text,pmenu->item[i].text, - b  -(((strlen(string_list_active(pmenu->item[i].list))+1) * 16)/2),(i)*24 - menu_height/2 + 10 + f,A_HMIDDLE, A_VMIDDLE,3,NO_UPDATE);
-            }
-          else
-            {
-              text_drawf(&white_text,pmenu->item[i].text, - b  -(((strlen(string_list_active(pmenu->item[i].list))+1) * 16)/2),(i)*24 - menu_height/2 +10 + f,A_HMIDDLE, A_VMIDDLE,2,NO_UPDATE);
-            }
-        }
-      else if(i == pmenu->active_item)
-        {
-          text_drawf(&blue_text,pmenu->item[i].text, - b,(i)*24 - menu_height/2 + 10 + f ,A_HMIDDLE, A_VMIDDLE,3,NO_UPDATE);
-        }
-      else
-        {
-          text_drawf(&white_text,pmenu->item[i].text, - b,(i)*24 - menu_height/2 + 10 + f ,A_HMIDDLE, A_VMIDDLE,2,NO_UPDATE);
-        }
-      if(pmenu->item[i].kind == MN_TOGGLE)
-        {
-
-          if(pmenu->item[i].toggled == YES)
-            texture_draw(&checkbox_checked, - b + screen->w / 2 + (strlen(pmenu->item[i].text) * 16)/2  + 16,(i)*24 - menu_height/2 + 10 + screen->h / 2 -8 + f,NO_UPDATE);
-          else
-            texture_draw(&checkbox, - b + screen->w / 2 + (strlen(pmenu->item[i].text) * 16)/2 + 16,(i)*24 - menu_height/2 + 10 + screen->h / 2 - 8 + f,NO_UPDATE);
-        }
-      else if(pmenu->item[i].kind == MN_BACK)
-        {
-          texture_draw(&back, - b + screen->w / 2 + (strlen(pmenu->item[i].text) * 16)/2  + 16,(i)*24 - menu_height/2 + 10 + screen->h / 2 -8 + f,NO_UPDATE);
-        }
+      menu_draw_item(pmenu, pmenu->item[i], i, menu_width, menu_height);
     }
 }
 

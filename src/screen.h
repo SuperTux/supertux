@@ -19,8 +19,8 @@
 #endif
 #include "texture.h"
 
-#define NO_UPDATE 0
-#define UPDATE 1
+#define NO_UPDATE false
+#define UPDATE true
 #define USE_ALPHA 0
 #define IGNORE_ALPHA 1
 

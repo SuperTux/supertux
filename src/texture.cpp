@@ -20,9 +20,9 @@
 void (*texture_load)     (texture_type* ptexture, const std::string& file, int use_alpha);
 void (*texture_load_part)(texture_type* ptexture, const std::string& file, int x, int y, int w, int h, int use_alpha);
 void (*texture_free)     (texture_type* ptexture);  
-void (*texture_draw)     (texture_type* ptexture, float x, float y, int update);  
-void (*texture_draw_bg)  (texture_type* ptexture, int update);  
-void (*texture_draw_part)(texture_type* ptexture, float sx, float sy, float x, float y, float w, float h, int update);
+void (*texture_draw)     (texture_type* ptexture, float x, float y, bool update);  
+void (*texture_draw_bg)  (texture_type* ptexture, bool update);  
+void (*texture_draw_part)(texture_type* ptexture, float sx, float sy, float x, float y, float w, float h, bool update);
 
 
 void texture_setup(void)
@@ -135,7 +135,7 @@ void texture_free_gl(texture_type* ptexture)
   glDeleteTextures(1, &ptexture->gl_texture);
 }
 
-void texture_draw_gl(texture_type* ptexture, float x, float y, int update)
+void texture_draw_gl(texture_type* ptexture, float x, float y, bool update)
 {
 float pw = power_of_two(ptexture->w);
 float ph = power_of_two(ptexture->h);
@@ -162,7 +162,7 @@ float ph = power_of_two(ptexture->h);
   glDisable(GL_BLEND);
 }
 
-void texture_draw_bg_gl(texture_type* ptexture, int update)
+void texture_draw_bg_gl(texture_type* ptexture, bool update)
 {
 float pw = power_of_two(ptexture->w);
 float ph = power_of_two(ptexture->h);
@@ -186,7 +186,7 @@ float ph = power_of_two(ptexture->h);
   glDisable(GL_TEXTURE_2D);
 }
 
-void texture_draw_part_gl(texture_type* ptexture,float sx, float sy, float x, float y, float w, float h, int update)
+void texture_draw_part_gl(texture_type* ptexture,float sx, float sy, float x, float y, float w, float h, bool update)
 {
 float pw = power_of_two(ptexture->w);
 float ph = power_of_two(ptexture->h);
@@ -342,7 +342,7 @@ void texture_from_sdl_surface(texture_type* ptexture, SDL_Surface* sdl_surf, int
 #endif
 }
 
-void texture_draw_sdl(texture_type* ptexture, float x, float y, int update)
+void texture_draw_sdl(texture_type* ptexture, float x, float y, bool update)
 {
 
   SDL_Rect dest;
@@ -358,7 +358,7 @@ void texture_draw_sdl(texture_type* ptexture, float x, float y, int update)
 }
 
 
-void texture_draw_bg_sdl(texture_type* ptexture, int update)
+void texture_draw_bg_sdl(texture_type* ptexture, bool update)
 {
   SDL_Rect dest;
   
@@ -373,7 +373,7 @@ void texture_draw_bg_sdl(texture_type* ptexture, int update)
     SDL_UpdateRect(screen, dest.x, dest.y, dest.w, dest.h);
 }
 
-void texture_draw_part_sdl(texture_type* ptexture, float sx, float sy, float x, float y, float w, float h, int update)
+void texture_draw_part_sdl(texture_type* ptexture, float sx, float sy, float x, float y, float w, float h, bool update)
 {
   SDL_Rect src, dest;
 
