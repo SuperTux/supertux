@@ -98,7 +98,7 @@ Sprite::init_defaults(Action* act)
 }
 
 void
-Sprite::set_action(std::string& act)
+Sprite::set_action(std::string act)
 {
 Actions::iterator i = actions.find(act);
 action = i->second;

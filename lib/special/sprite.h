@@ -67,7 +67,7 @@ namespace SuperTux
       int get_current_frame() const;
 
       /** Set action (or state) */
-      void set_action(std::string& act);
+      void set_action(std::string act);
 
       float get_fps()
       {
