@@ -114,7 +114,7 @@ void generate_contrib_menu()
   for (std::set<std::string>::iterator it = level_subsets.begin(); it != level_subsets.end(); ++it)
     {
       LevelSubset* subset = new LevelSubset();
-      subset->load((*it).c_str());
+      subset->load(*it);
       contrib_menu->additem(MN_GOTO, subset->title, 0, contrib_subset_menu, i);
       contrib_subsets.push_back(subset);
       ++i;

@@ -61,6 +61,13 @@ public:
 
   Sector* get_sector(const std::string& name);
 
+  Sector* get_next_sector(const Sector* sector);
+  Sector* get_previous_sector(const Sector* sector);
+
+  const std::string& get_sector_name(const Sector* sector);
+
+  int get_total_sectors();
+
   int get_total_badguys();
   int get_total_coins();
 

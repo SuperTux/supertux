@@ -158,6 +158,58 @@ Level::get_sector(const std::string& name)
   return i->second;
 }
 
+const std::string&
+Level::get_sector_name(const Sector* sector)
+{
+  for(Sectors::iterator i = sectors.begin(); i != sectors.end(); ++i)
+    {
+    if(i->second == sector)
+      return i->first;
+    }
+  std::cerr << "Warning: Sector not found on level\n";
+  return "";
+}
+
+Sector*
+Level::get_next_sector(const Sector* sector)
+{
+  for(Sectors::iterator i = sectors.begin(); i != sectors.end(); ++i)
+    {
+    if(i->second == sector)
+      {
+      i++;
+      if(i == sectors.end())
+        return NULL;
+      return i->second;
+      }
+    }
+  std::cerr << "Warning: Sector not found on level\n";
+  return NULL;
+}
+
+Sector*
+Level::get_previous_sector(const Sector* sector)
+{
+  for(Sectors::iterator i = sectors.begin(); i != sectors.end(); ++i)
+    {
+    if(i->second == sector)
+      {
+      if(i == sectors.begin())
+        return NULL;
+      i--;
+      return i->second;
+      }
+    }
+  std::cerr << "Warning: Sector not found on level\n";
+  return NULL;
+}
+
+int
+Level::get_total_sectors()
+{
+return sectors.size();
+}
+
 int
 Level::get_total_badguys()
 {

@@ -76,7 +76,7 @@ void LevelSubset::read_info_file(const std::string& info_file)
   lisp_free(root_obj);
 }
 
-void LevelSubset::load(const char* subset)
+void LevelSubset::load(const std::string& subset)
 {
   name = subset;
   
@@ -170,6 +170,7 @@ LevelSubset::get_level_filename(unsigned int num)
 {
   assert(num < levels.size());
 
+std::cerr << "levels[" << num << "]: " << levels[num] << std::endl;
   return directory + levels[num];
 }
 

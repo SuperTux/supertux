@@ -48,7 +48,7 @@ public:
   ~LevelSubset();
 
   static void create(const std::string& subset_name);
-  void load(const char* subset);
+  void load(const std::string& filename);
   void save();
 
   void add_level(const std::string& name);

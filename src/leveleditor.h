@@ -1,203 +1,149 @@
-//  $Id$
-// 
-//  SuperTux
-//  Copyright (C) 2003 Ricardo Cruz <rick2@aeiou.pt>
-//  Copyright (C) 2003 Tobias Glaesser <tobi.web@gmx.de>
-//
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-// 
-//  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+/***************************************************************************
+                          leveleditor.h  -  built'in level editor
+                             -------------------
+    begin                : June, 23 2004
+    copyright            : (C) 2004 by Ricardo Cruz
+    email                : rick2@aeiou.pt
+ ***************************************************************************/
 
-/* leveleditor.h - A built-in level editor for SuperTux */
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
 
 #ifndef SUPERTUX_LEVELEDITOR_H
 #define SUPERTUX_LEVELEDITOR_H
 
+#include "SDL.h"
+
+#include <set>
+#include <string>
+
 #include "video/drawing_context.h"
-#include "special/game_object.h"
-#include "video/surface.h"
+#include "special/timer.h"
 #include "level.h"
 #include "level_subset.h"
-#include "special/moving_object.h"
-#include "gui/button.h"
-#include "gui/menu.h"
 
 using namespace SuperTux;
 
-enum LevelEditorMainMenuIDs {
-  MNID_RETURNLEVELEDITOR,
-  MNID_SUBSETSETTINGS,
-  MNID_QUITLEVELEDITOR
-  };
-  
-enum LevelEditorSubsetSettingsIDs {
-  MNID_SUBSETTITLE,
-  MNID_SUBSETDESCRIPTION,
-  MNID_SUBSETSAVECHANGES
-  };
-  
-enum LevelEditorSubsetNewIDs {
- MNID_SUBSETNAME,
- MNID_CREATESUBSET
-};
+namespace SuperTux {
+class ButtonGroup;
+class Menu;
+class Surface;
+}
 
-enum LevelEditorSettingsMenuIDs {
-  MNID_NAME,
-  MNID_AUTHOR,
-  MNID_SONG,
-  MNID_BGIMG,
-  MNID_PARTICLE,
-  MNID_LENGTH,
-  MNID_HEIGHT,
-  MNID_TIME,
-  MNID_GRAVITY,
-  MNID_BGSPEED,
-  MNID_TopRed,
-  MNID_TopGreen,
-  MNID_TopBlue,
-  MNID_BottomRed,
-  MNID_BottomGreen,
-  MNID_BottomBlue,
-  MNID_APPLY
+class Sector;
+class TileMap;
+
+enum {
+  MN_ID_RETURN,
+  MN_ID_LOAD_SUBSET,
+  MN_ID_QUIT,
+
+  // settings menu ids:
+  MN_ID_NAME,
+  MN_ID_AUTHOR,
+  MN_ID_WIDTH,
+  MN_ID_HEIGHT,
+  MN_ID_APPLY_SETTINGS,
+  
+  // creating subset menu ids:
+  MN_ID_FILENAME_SUBSET,
+  MN_ID_TITLE_SUBSET,
+  MN_ID_DESCRIPTION_SUBSET,
+  MN_ID_CREATE_SUBSET
   };
 
-  
+enum {
+  BT_LEVEL_SAVE,
+  BT_LEVEL_TEST,
+  BT_LEVEL_SETUP,
+
+  BT_NEXT_LEVEL,
+  BT_PREVIOUS_LEVEL,
+  BT_NEXT_SECTOR,
+  BT_PREVIOUS_SECTOR
+  };
+
+enum {
+  OBJ_TRAMPOLINE = -100,
+  OBJ_FLYING_PLATFORM = -101,
+  OBJ_DOOR = -102
+  };
+
 class LevelEditor
 {
 public:
   LevelEditor();
   ~LevelEditor();
 
-  int run(char* filename = NULL);
+  void run(const std::string filename = "");
 
 private:
+  void events();
+  void action();
+  void draw(DrawingContext& context);
 
-// Functions
-void newlevel(void);
-void selectlevel(void);
-void savelevel();
-void editlevel(void);
-void testlevel(void);
-void checkevents(void);
-void unload_level();
+  void load_level_subset(std::string filename);
+  void load_level(std::string filename);
+  void load_level(int nb);
+  void load_sector(std::string name);
+  void load_sector(Sector* sector);
 
-/* own declerations */
-/* crutial ones (main loop) */
-void init_menus();
-int load_level_subset(const char *filename);
-void drawlevel(DrawingContext& context);
-void drawinterface(DrawingContext& context);
-void change(float x, float y, int tm, unsigned int c);
-void showhelp();
-void set_defaults(void);
-void activate_bad_guys(void);
-void goto_level(int levelnb);
-void highlight_selection();
+  void save_level();
+  void test_level();
+  void setup_level();
 
-void drawminimap();
+  void show_help();
 
-void apply_level_settings_menu();
-void update_subset_settings_menu();
-void save_subset_settings_menu();
-void update_level_settings_menu();
-void change_object_properties(GameObject *pobj);
+  void change(int x, int y, int newtile, int layer);
 
-// structs
-struct TileOrObject
-{
-  TileOrObject() : tile(0), obj(NULL) { is_tile = true; };
+  void load_buttons_gfx();
+  void free_buttons_gfx();
 
-  void Tile(unsigned int set_to) { tile = set_to; is_tile = true; }
-  void Object(GameObject* pobj) { obj = pobj; is_tile = false; }
-  //Returns true for a tile
-  bool IsTile() { return is_tile; };
-  //Returns true for a GameObject
-  bool IsObject() { return !is_tile; };
+  Level level;
+  std::string level_filename;
 
+  Sector* sector;  // current sector
+  TileMap *solids, *foregrounds, *backgrounds;
+  std::string sector_name;
 
-  void Init() { tile = 0; obj = NULL; is_tile = true; };
+  std::set<std::string> level_subsets;
+  LevelSubset level_subset;
+  int level_nb;
 
-  bool is_tile; //true for tile (false for object)
-  unsigned int tile;
-  GameObject* obj;
+  Menu* main_menu;
+  Menu* subset_menu;
+  Menu* create_subset_menu;
+  Menu* settings_menu;
+
+  bool left_button, middle_button;
+  bool done;
+  bool show_grid;
+
+  Vector scroll;
+  float zoom;
+
+  SDL_Event event;
+  Timer frame_timer;
+  Timer level_name_timer;
+
+  Surface *img_background_bt, *img_foreground_bt, *img_interactive_bt;
+  Surface *img_save_level_bt, *img_setup_level_bt, *img_test_level_bt;
+  Surface *img_rubber_bt;
+  Surface *img_previous_level_bt, *img_next_level_bt, *img_previous_sector_bt, *img_next_sector_bt;
+
+  ButtonGroup *tiles_board, *tiles_layer, *level_options;
+  int cur_layer;
+
+  std::vector <std::vector <int> > selection;
+  Vector selection_ini, selection_end;
+
+  bool level_changed;
 };
 
-struct square
-{
-  int x1, y1, x2, y2;
-};
-
-/* selection modes */
-enum SelectionMode { CURSOR, SQUARE, NONE };
-
-// variables
-/* leveleditor internals */
-std::set<std::string> level_subsets;
-bool le_level_changed;  /* if changes, ask for saving, when quiting*/
-bool show_minimap;
-bool show_selections;
-bool le_help_shown;
-int pos_x, pos_y, cursor_x, cursor_y;
-int le_levelnb;
-Level* le_level;
-LevelSubset* le_level_subset;
-int le_show_grid;
-int le_frame;
-Surface* le_selection;
-int done;
-TileOrObject le_current;
-bool le_mouse_pressed[2];
-bool le_mouse_clicked[2];
-Button* le_save_level_bt;
-Button* le_exit_bt;
-Button* le_test_level_bt;
-Button* le_next_level_bt;
-Button* le_previous_level_bt;
-Button* le_move_right_bt;
-Button* le_move_left_bt;
-Button* le_move_up_bt;
-Button* le_move_down_bt;
-Button* le_rubber_bt;
-Button* le_select_mode_one_bt;
-Button* le_select_mode_two_bt;
-Button* le_settings_bt;
-Button* le_tilegroup_bt;
-Button* le_objects_bt;
-Button* le_object_select_bt;
-Button* le_object_properties_bt;
-ButtonPanel* le_tilemap_panel;
-int active_tm;
-Menu* leveleditor_menu;
-Menu* subset_load_menu;
-Menu* subset_new_menu;
-Menu* subset_settings_menu;
-Menu* level_settings_menu;
-Menu* select_tilegroup_menu;
-Menu* select_objects_menu;
-Timer select_tilegroup_menu_effect;
-Timer select_objects_menu_effect;
-Timer display_level_info;
-typedef std::map<std::string, ButtonPanel*> ButtonPanelMap;
-ButtonPanelMap tilegroups_map;
-ButtonPanelMap objects_map;
-std::string cur_tilegroup;
-std::string cur_objects;
-MouseCursor* mouse_select_object;
-MovingObject* selected_game_object;
-
-square selection;
-SelectionMode le_selection_mode;
-SDL_Event event;
-};
-
-#endif /*SUPERTUX_LEVELEDITOR_H*/
+#endif
