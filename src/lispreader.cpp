@@ -1060,6 +1060,22 @@ LispReader::read_float (const char* name, float* f)
 }
 
 bool
+LispReader::read_string_vector (const char* name, std::vector<std::string>* vec)
+{
+  lisp_object_t* obj = search_for (name);
+  if (obj)
+    {
+      while(!lisp_nil_p(obj))
+        {
+          vec->push_back(lisp_string(lisp_car(obj)));
+          obj = lisp_cdr(obj);
+        }
+      return true;
+    }
+  return false;    
+}
+
+bool
 LispReader::read_int_vector (const char* name, std::vector<int>* vec)
 {
   lisp_object_t* obj = search_for (name);
