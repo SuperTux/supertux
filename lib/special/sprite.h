@@ -22,6 +22,7 @@
 
 #include <string>
 #include <vector>
+#include <map>
 
 #include "../utils/lispreader.h"
 #include "../video/surface.h"
@@ -32,6 +33,25 @@ namespace SuperTux
 
   class Sprite
     {
+    private:
+
+      struct Action
+        {
+        std::string name;
+
+        int x_hotspot;
+        int y_hotspot;
+
+        /** Frames per second */
+        float fps;
+
+        /** Number of seconds that a frame is displayed until it is switched
+            to the next frame */
+        float frame_delay;
+
+        std::vector<Surface*> surfaces;
+        };
+
     public:
       /** cur has to be a pointer to data in the form of ((x-hotspot 5)
           (y-hotspot 10) ...) */
@@ -46,13 +66,16 @@ namespace SuperTux
                 Uint32 drawing_effect = NONE_EFFECT);
       int get_current_frame() const;
 
+      /** Set action (or state) */
+      void set_action(std::string& act);
+
       float get_fps()
       {
-        return fps;
+        return action->fps;
       } ;
       int get_frames()
       {
-        return surfaces.size();
+        return action->surfaces.size();
       } ;
 
       std::string get_name() const
@@ -64,29 +87,23 @@ namespace SuperTux
 
       Surface* get_frame(unsigned int frame)
       {
-        if(frame < surfaces.size())
-          return surfaces[frame];
+        if(frame < action->surfaces.size())
+          return action->surfaces[frame];
         else
-          return surfaces[0];
+          return action->surfaces[0];
       }    
     private:
+      void init_defaults(Action* act);
+      void parse_action(LispReader& lispreader);
+
       std::string name;
-
-      int x_hotspot;
-      int y_hotspot;
-
-      /** Frames per second */
-      float fps;
-
-      /** Number of seconds that a frame is displayed until it is switched
-          to the next frame */
-      float frame_delay;
 
       float time;
 
-      std::vector<Surface*> surfaces;
+      typedef std::map <std::string, Action*> Actions;
+      Actions actions;
 
-      void init_defaults();
+      Action* action;
     };
 
 } //namespace SuperTux

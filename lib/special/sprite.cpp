@@ -29,44 +29,79 @@ using namespace SuperTux;
 
 Sprite::Sprite(lisp_object_t* cur)
 {
-  init_defaults();
-
-  LispReader reader(cur);
-
-  if(!reader.read_string("name", name))
-    Termination::abort("Sprite wihtout name", "");
-  reader.read_int("x-hotspot", x_hotspot);
-  reader.read_int("y-hotspot", y_hotspot);
-  reader.read_float("fps",     fps);
-
-  std::vector<std::string> images;
-  if(!reader.read_string_vector("images", images))
-    Termination::abort("Sprite contains no images: ", name.c_str());
-
-  for(std::vector<std::string>::size_type i = 0; i < images.size(); ++i)
+  for(; !lisp_nil_p(cur); cur = lisp_cdr(cur))
     {
-      surfaces.push_back(
-          new Surface(datadir + "/images/" + images[i], true));
-    }        
+    std::string token = lisp_symbol(lisp_car(lisp_car(cur)));
+    lisp_object_t* data = lisp_car(lisp_cdr(lisp_car(cur)));
+    LispReader reader(lisp_cdr(lisp_car(cur)));
 
-  frame_delay = 1000.0f/fps;
+    if(token == "name")
+      name = lisp_string(data);
+    else if(token == "action")
+      parse_action(reader);
+    }
+
+  if(name.empty())
+    Termination::abort("Error: Sprite wihtout name.", "");
+  if(actions.empty())
+    Termination::abort("Error: Sprite wihtout actions.", "");
 }
 
 Sprite::~Sprite()
 {
-  for(std::vector<Surface*>::iterator i = surfaces.begin(); i != surfaces.end();
-      ++i)
-    delete *i;
+  for(Actions::iterator i_act = actions.begin(); i_act != actions.end(); ++i_act)
+    {
+    for(std::vector<Surface*>::iterator i_sur = i_act->second->surfaces.begin();
+        i_sur != i_act->second->surfaces.end(); ++i_sur)
+      delete *i_sur;
+    delete i_act->second;
+    }
 }
 
 void
-Sprite::init_defaults()
+Sprite::parse_action(LispReader& lispreader)
 {
-  x_hotspot = 0;
-  y_hotspot = 0;
-  fps = 10;
+  action = new Action;
+
+  init_defaults(action);
+
+  if(!lispreader.read_string("name", action->name))
+    if(!actions.empty())
+      Termination::abort("Error: If there are more than one action, they need names!", "");
+  lispreader.read_int("x-hotspot", action->x_hotspot);
+  lispreader.read_int("y-hotspot", action->y_hotspot);
+  lispreader.read_float("fps",     action->fps);
+
+  std::vector<std::string> images;
+  if(!lispreader.read_string_vector("images", images))
+    Termination::abort("Sprite contains no images: ", action->name.c_str());
+
+  for(std::vector<std::string>::size_type i = 0; i < images.size(); ++i)
+    {
+      action->surfaces.push_back(
+          new Surface(datadir + "/images/" + images[i], true));
+    }        
+
+  action->frame_delay = 1000.0f/action->fps;
+
+  actions[action->name] = action;
+}
+
+void
+Sprite::init_defaults(Action* act)
+{
+  act->x_hotspot = 0;
+  act->y_hotspot = 0;
+  act->fps = 10;
+  act->frame_delay = 1000.0f/act->fps;
   time = 0;
-  frame_delay = 1000.0f/fps;
+}
+
+void
+Sprite::set_action(std::string& act)
+{
+Actions::iterator i = actions.find(act);
+action = i->second;
 }
 
 void
@@ -83,11 +118,11 @@ Sprite::draw(DrawingContext& context, const Vector& pos, int layer,
   time = SDL_GetTicks();
   unsigned int frame = get_current_frame();
 
-  if (frame < surfaces.size())
+  if (frame < action->surfaces.size())
   {
-    Surface* surface = surfaces[frame];
+    Surface* surface = action->surfaces[frame];
     
-    context.draw_surface(surface, pos - Vector(x_hotspot, y_hotspot), layer, drawing_effect);
+    context.draw_surface(surface, pos - Vector(action->x_hotspot, action->y_hotspot), layer, drawing_effect);
   }
 }
 
@@ -112,20 +147,20 @@ Sprite::reset()
 int
 Sprite::get_current_frame() const
 {
-  unsigned int frame = static_cast<int>(fmodf(time, surfaces.size()*frame_delay)/frame_delay);
-  return frame % surfaces.size();
+  unsigned int frame = static_cast<int>(fmodf(time, action->surfaces.size()*action->frame_delay)/action->frame_delay);
+  return frame % action->surfaces.size();
 }
 
 int
 Sprite::get_width() const
 {
-  return surfaces[get_current_frame()]->w;
+  return action->surfaces[get_current_frame()]->w;
 }
 
 int
 Sprite::get_height() const
 {
-  return surfaces[get_current_frame()]->h;
+  return action->surfaces[get_current_frame()]->h;
 }
 
 /* EOF */
