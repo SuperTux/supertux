@@ -23,6 +23,7 @@
 
 #include "math/vector.h"
 
+/// Physics engine.
 /** This is a very simplistic physics engine handling accelerated and constant
   * movement along with gravity.
   */
@@ -32,23 +33,24 @@ public:
     Physic();
     ~Physic();
 
-    /** resets all velocities and accelerations to 0 */
+    /// Resets all velocities and accelerations to 0.
     void reset();
 
-    /** sets velocity to a fixed value */
+    /// Sets velocity to a fixed value.
     void set_velocity(float vx, float vy);
 
     void set_velocity_x(float vx);
     void set_velocity_y(float vy);
 
-    /** velocities invertion */
+    /// Velocities invertion.
     void inverse_velocity_x();
     void inverse_velocity_y();
 
     float get_velocity_x();
     float get_velocity_y();
     
-    /** sets acceleration applied to the object. (Note that gravity is
+    /// Set acceleration.
+    /** Sets acceleration applied to the object. (Note that gravity is
      * eventually added to the vertical acceleration)
      */
     void set_acceleration(float ax, float ay);
@@ -59,13 +61,13 @@ public:
     float get_acceleration_x();
     float get_acceleration_y();
 
-    /** enables or disables handling of gravity */
+    /// Enables or disables handling of gravity.
     void enable_gravity(bool gravity_enabled);
 
-    /** applies the physical simulation to given x and y coordinates */
+    /// Applies the physical simulation to given x and y coordinates.
     void apply(float frame_ratio, float &x, float &y, float& gravity = 10); 
 
-    /** applies the physical simulation to given x and y coordinates */
+    /// applies the physical simulation to given x and y coordinates.
     void apply(Vector& vector, float frame_ratio, float& gravity = 10);
 
 private:
