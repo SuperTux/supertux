@@ -1153,6 +1153,10 @@ Player::check_bounds(Camera* camera)
 void
 Player::bounce(BadGuy* badguy)
 {
+  //Make sure we stopped flapping
+  flapping = false;
+  falling_from_flap = false;
+
   if (input.up)
     physic.set_velocity_y(5.2);
   else
