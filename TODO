@@ -20,3 +20,6 @@ These are mostly bugs:
   to it, tux doesn't jump anymore
 - when jupming against the 2nd multiple coin block in a level only 1 coin will
   come out.
+- In the "Oh No More Snowballs" map, there's a ?-Growup-Block at the beginning
+  with only 1 tile space above it
+
