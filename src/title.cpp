@@ -35,11 +35,16 @@
 #include "level.h"
 #include "gameloop.h"
 #include "leveleditor.h"
+#include "scene.h"
+#include "player.h"
+#include "math.h"
 
 static texture_type bkg_title, img_choose_subset, anim1, anim2;
 static SDL_Event event;
 static SDLKey key;
-static int quit, frame, pict, i;
+static int frame, pict, i;
+static unsigned int last_update_time;
+static unsigned int update_time;
 
 void display_credits();
 
@@ -61,6 +66,8 @@ void draw_background()
     texture_draw(&anim2, 560, 270);
 }
 
+void loadshared(void);
+void activate_particle_systems(void);
 /* --- TITLE SCREEN --- */
 
 int title(void)
@@ -70,7 +77,17 @@ int title(void)
   string_list_type level_subsets;
   st_subset subset;
   level_subsets = dsubdirs("/levels", "info");
+  Player titletux;
+  titletux.init();
+  st_pause_ticks_init();
+  st_pause_ticks_stop();
 
+  level_load(&current_level, (datadir + "/levels/misc/menu.stl").c_str());
+  loadshared();
+  activate_particle_systems();
+  /* Lower the gravity that tux doesn't jump to hectically through the demo */
+  gravity = 5;
+  
   /* Reset menu variables */
   menu_reset();
   Menu::set_current(main_menu);
@@ -94,11 +111,20 @@ int title(void)
 
   /* Draw the title background: */
   texture_draw_bg(&bkg_title);
-
   load_hs();
 
+  update_time = st_get_ticks();
+  
   while (!done && !quit)
     {
+    
+      /* Calculate the movement-factor */
+      frame_ratio = ((double)(update_time-last_update_time))/((double)FRAME_RATE);
+      if(frame_ratio > 1.5) /* Quick hack to correct the unprecise CPU clocks a little bit. */
+        frame_ratio = 1.5 + (frame_ratio - 1.5) * 0.85;
+      /* Lower the frame_ratio that Tux doesn't jump to hectically throught the demo. */
+      frame_ratio /= 2;
+    
       /* Handle events: */
 
       while (SDL_PollEvent(&event))
@@ -137,15 +163,56 @@ int title(void)
               menuaction = MENU_ACTION_HIT;
             }
         }
-
+	
       /* Draw the background: */
       draw_background();
+
+      /* DEMO begin */
+      /* update particle systems */
+      std::vector<ParticleSystem*>::iterator p;
+      for(p = particle_systems.begin(); p != particle_systems.end(); ++p)
+        {
+          (*p)->simulate(frame_ratio);
+        }
+
+      /* Draw particle systems (background) */
+      for(p = particle_systems.begin(); p != particle_systems.end(); ++p)
+        {
+          (*p)->draw(scroll_x, 0, 0);
+        }
+
+      /* Draw interactive tiles: */
+
+      for (int y = 0; y < 15; ++y)
+        {
+          for (int x = 0; x < 21; ++x)
+            {
+              drawshape(32*x - fmodf(scroll_x, 32), y * 32,
+                        current_level.ia_tiles[(int)y][(int)x + (int)(scroll_x / 32)]);
+            }
+        }
+
+      global_frame_counter++;
+      titletux.key_event(SDLK_RIGHT,DOWN);
+      titletux.key_event(SDLK_UP,DOWN);
+
+      if(current_level.width * 32 - 320 < titletux.base.x)
+      {
+      titletux.base.x = 160;
+      scroll_x = 0;
+      }
+      
+      titletux.action();
+      titletux.draw();
+      
+      /* DEMO end */
 
       /* Draw the high score: */
       sprintf(str, "High score: %d", hs_score);
       text_drawf(&gold_text, str, 0, -40, A_HMIDDLE, A_BOTTOM, 1);
       sprintf(str, "by %s", hs_name);
       text_drawf(&gold_text, str, 0, -20, A_HMIDDLE, A_BOTTOM, 1);
+
 
       /* Don't draw menu, if quit is true */
       if(show_menu && !quit)
@@ -251,16 +318,21 @@ int title(void)
         {
           process_save_load_game_menu(false);
         }
-
+	
       flipscreen();
 
+      /* Set the time of the last update and the time of the current update */
+      last_update_time = update_time;
+      update_time = st_get_ticks();
+      
       /* Pause: */
       frame++;
-      SDL_Delay(50);
+      SDL_Delay(25);
 
     }
   /* Free surfaces: */
 
+  level_free(&current_level);
   texture_free(&bkg_title);
   texture_free(&anim1);
   texture_free(&anim2);
