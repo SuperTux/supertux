@@ -466,6 +466,7 @@ GameSession::process_events()
                         if(compare_last(last_keys, "grid"))
                           {    // toggle debug grid
                           debug_grid = !debug_grid;
+                          last_keys.clear();
                           }
                         if(compare_last(last_keys, "hover"))
                           {    // toggle hover ability on/off
