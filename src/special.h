@@ -26,7 +26,7 @@
 
 /* Upgrade types: */
 
-enum {
+enum UpgradeKind {
   UPGRADE_GROWUP,
   UPGRADE_ICEFLOWER,
   UPGRADE_HERRING,
@@ -39,13 +39,13 @@ void free_special_gfx();
 class Upgrade
 {
 public:
-  int kind;
+  UpgradeKind kind;
   int dir;
   base_type base;
   base_type old_base;
   Physic physic;
 
-  void init(float x, float y, int dir, int kind);
+  void init(float x, float y, int dir, UpgradeKind kind);
   void action(double frame_ratio);
   void draw();
   void collision(void* p_c_object, int c_object);

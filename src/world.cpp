@@ -386,7 +386,7 @@ World::add_bad_guy(float x, float y, BadGuyKind kind)
 }
 
 void
-World::add_upgrade(float x, float y, int dir, int kind)
+World::add_upgrade(float x, float y, int dir, UpgradeKind kind)
 {
   Upgrade new_upgrade;
   new_upgrade.init(x,y,dir,kind);

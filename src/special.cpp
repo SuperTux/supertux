@@ -28,6 +28,8 @@ Surface* img_growup;
 Surface* img_iceflower;
 Surface* img_1up;
 
+#define GROWUP_SPEED 1.0f
+
 void
 Bullet::init(float x, float y, float xm, int dir)
 {
@@ -113,7 +115,7 @@ Bullet::collision(int c_object)
 }
 
 void
-Upgrade::init(float x_, float y_, int dir_, int kind_)
+Upgrade::init(float x_, float y_, int dir_, UpgradeKind kind_)
 {
   kind = kind_;
   dir = dir_;
@@ -133,6 +135,8 @@ Upgrade::init(float x_, float y_, int dir_, int kind_)
     base.height = 32;
   } else if (kind == UPGRADE_ICEFLOWER) {
     // nothing
+  } else if (kind == UPGRADE_GROWUP) {
+    physic.set_velocity(dir == LEFT ? -GROWUP_SPEED : GROWUP_SPEED, 0);
   } else {
     physic.set_velocity(dir == LEFT ? -2 : 2, 0);
   }
@@ -188,7 +192,7 @@ Upgrade::action(double frame_ratio)
         old_base = base;                         
         if(kind == UPGRADE_GROWUP) {
           physic.enable_gravity(false);
-          physic.set_velocity(dir == LEFT ? -2 : 2, 0);
+          physic.set_velocity(dir == LEFT ? -GROWUP_SPEED : GROWUP_SPEED, 0);
         } else if(kind == UPGRADE_HERRING) {
           physic.set_velocity(dir == LEFT ? -2 : 2, 3);
         }

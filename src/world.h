@@ -85,7 +85,7 @@ class World
   void add_broken_brick_piece(Tile* tile, float x, float y, float xm, float ym);
   void add_bouncy_brick(float x, float y);
   void add_bad_guy(float x, float y, BadGuyKind kind);
-  void add_upgrade(float x, float y, int dir, int kind);
+  void add_upgrade(float x, float y, int dir, UpgradeKind kind);
   void add_bullet(float x, float y, float xm, int dir);
 
   /** Try to grab the coin at the given coordinates */
