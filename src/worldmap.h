@@ -77,10 +77,16 @@ public:
 
 enum Direction { NONE, WEST, EAST, NORTH, SOUTH };
 
+std::string direction_to_string(Direction d);
+Direction   string_to_direction(const std::string& d);
+Direction reverse_dir(Direction d);
+
 class WorldMap;
 
 class Tux
 {
+public:
+  Direction back_direction;
 private:
   WorldMap* worldmap;
   Surface* sprite;
@@ -127,14 +133,22 @@ private:
   int width;
   int height;
 
+public:
   struct Level
   {
     int x;
     int y;
     std::string name;
     bool solved;
+
+    // Directions which are walkable from this level
+    bool north;
+    bool east;
+    bool south;
+    bool west;
   };
 
+private:
   typedef std::vector<Level> Levels;
   Levels levels;
 
@@ -166,7 +180,7 @@ public:
 
   Point get_next_tile(Point pos, Direction direction);
   Tile* at(Point pos);
-  bool at_level();
+  WorldMap::Level* at_level();
 
   /** Check if it is possible to walk from \a pos into \a direction,
       if possible, write the new position to \a new_pos */

@@ -31,6 +31,57 @@
 
 namespace WorldMapNS {
 
+Direction reverse_dir(Direction direction)
+{
+  switch(direction)
+    {
+    case WEST:
+      return EAST;
+    case EAST:
+      return WEST;
+    case NORTH:
+      return SOUTH;
+    case SOUTH:
+      return NORTH;
+    case NONE:
+      return NONE;
+    }
+  return NONE;
+}
+
+std::string
+direction_to_string(Direction direction)
+{
+  switch(direction)
+    {
+    case WEST:
+      return "west";
+    case EAST:
+      return "east";
+    case NORTH:
+      return "north";
+    case SOUTH:
+      return "south";
+    default:
+      return "none";
+    }
+}
+
+Direction
+string_to_direction(const std::string& directory)
+{
+  if (directory == "west")
+    return WEST;
+  else if (directory == "east")
+    return EAST;
+  else if (directory == "north")
+    return NORTH;
+  else if (directory == "south")
+    return SOUTH;
+  else
+    return NONE;
+}
+
 TileManager* TileManager::instance_  = 0;
 
 TileManager::TileManager()
@@ -162,13 +213,26 @@ Tux::update(float delta)
   if (!moving)
     {
       if (input_direction != NONE)
-        { // We got a new direction, so lets start walking when possible
+        { 
+          WorldMap::Level* level = worldmap->at_level();
+
+          // We got a new direction, so lets start walking when possible
           Point next_tile;
-          if (worldmap->path_ok(input_direction, tile_pos, &next_tile))
+          if ((!level || level->solved)
+              && worldmap->path_ok(input_direction, tile_pos, &next_tile))
             {
               tile_pos = next_tile;
               moving = true;
               direction = input_direction;
+              back_direction = reverse_dir(direction);
+            }
+          else if (input_direction == back_direction)
+            {
+              std::cout << "Back triggered" << std::endl;
+              moving = true;
+              direction = input_direction;
+              tile_pos = worldmap->get_next_tile(tile_pos, direction);
+              back_direction = reverse_dir(direction);
             }
         }
     }
@@ -187,6 +251,7 @@ Tux::update(float delta)
             }
           else
             {
+              // Walk automatically to the next tile
               Point next_tile;
               if (worldmap->path_ok(direction, tile_pos, &next_tile))
                 {
@@ -271,6 +336,12 @@ WorldMap::load_map()
                       Level level;
                       LispReader reader(lisp_cdr(element));
                       level.solved = false;
+                      
+                      level.north = true;
+                      level.east  = true;
+                      level.south = true;
+                      level.west  = true;
+
                       reader.read_string("name",  &level.name);
                       reader.read_int("x", &level.x);
                       reader.read_int("y", &level.y);
@@ -487,20 +558,21 @@ WorldMap::at(Point p)
          && p.x < width
          && p.y >= 0
          && p.y < height);
+
   return TileManager::instance()->get(tilemap[width * p.y + p.x]);
 }
 
-bool
+WorldMap::Level*
 WorldMap::at_level()
 {
   for(Levels::iterator i = levels.begin(); i != levels.end(); ++i)
     {
       if (i->x == tux->get_tile_pos().x && 
           i->y == tux->get_tile_pos().y)
-           return true; 
+        return &*i; 
     }
 
-  return false;
+  return 0;
 }
 
 
@@ -625,7 +697,8 @@ WorldMap::savegame(const std::string& filename)
       << "  (lives   " << player_status.lives << ")\n"
       << "  (score   " << player_status.score << ")\n"
       << "  (distros " << player_status.distros << ")\n"
-      << "  (tux     (x " << tux->get_tile_pos().x << ") (y " << tux->get_tile_pos().y << "))\n"
+      << "  (tux     (x " << tux->get_tile_pos().x << ") (y " << tux->get_tile_pos().y << ")"
+      << " (back \"" << direction_to_string(tux->back_direction) << "\"))\n"
       << "  (levels\n";
   
   for(Levels::iterator i = levels.begin(); i != levels.end(); ++i)
@@ -684,10 +757,14 @@ WorldMap::loadgame(const std::string& filename)
                 {
                   std::string name;
                   bool solved = false;
-              
+                  std::string back_str ="";
+                  Direction back = NONE;
+
                   LispReader level_reader(data);
                   level_reader.read_string("name",   &name);
                   level_reader.read_bool("solved", &solved);
+                  if (level_reader.read_string("back", &back_str))
+                    back = string_to_direction(back_str);
 
                   std::cout << "Name: " << name << " " << solved << std::endl;
 
