@@ -913,12 +913,14 @@ WorldMap::draw(DrawingContext& context, const Vector& offset)
   
   for(SpecialTiles::iterator i = special_tiles.begin(); i != special_tiles.end(); ++i)
     {
-      if (!i->display_map_message.empty() && !i->passive_message)
-        context.draw_surface(messagedot,
-            Vector(i->x*32 + offset.x, i->y*32 + offset.y), LAYER_TILES+1);
-
       if(i->level_name.empty())
+        {
+        if (!i->display_map_message.empty() && !i->passive_message)
+          context.draw_surface(messagedot,
+              Vector(i->x*32 + offset.x, i->y*32 + offset.y), LAYER_TILES+1);
+
         continue;
+        }
 
       if (i->solved)
         context.draw_surface(leveldot_green,
