@@ -7,7 +7,7 @@ http://www.newbreedsoftware.com/supertux/
 
 0.0.6 - March 15th, 2004
 ---------------------------
-  * Levels can have own gravity settings.
+  * Game save/load feature.
     Tobias Glaesser <tobi.web@gmx.de>
  
   * Created Level 4 (Tux in Sky)
