@@ -26,6 +26,7 @@
 #include "SDL_image.h"
 
 #include "../video/surface.h"
+#include "../video/screen.h"
 #include "../app/globals.h"
 #include "../app/setup.h"
 
@@ -196,6 +197,11 @@ Surface::reload()
   }
 }
 
+void Surface::apply_mask(Color color)
+{
+impl->apply_mask(color);
+}
+
 Surface::~Surface()
 {
 #ifdef DEBUG
@@ -243,6 +249,32 @@ Surface::resize(int w_, int h_)
     h = h_;
     if (impl->resize(w_,h_) == -2)
       reload();
+  }
+}
+
+void
+apply_filter_to_surface(SDL_Surface* surface, int filter, Color color)
+{
+if(filter == MASK_FILTER)
+  {
+  Uint8 r,g,b,a;
+  SDL_Rect rect;
+  rect.w = rect.h = 1;
+  SDL_LockSurface(surface);
+  for(int x = 0; x < surface->w; x++)
+    for(int y = 0; y < surface->h; y++)
+      {
+//    SDL_LockSurface(surface);
+      SDL_GetRGBA(getpixel(surface,x,y), surface->format, &r,&g,&b,&a);
+//    SDL_UnlockSurface(surface);
+      if(a != 0)
+        {
+      putpixel(surface, x,y, color.map_rgba(surface));
+//        rect.x = x; rect.y = y;
+//        SDL_FillRect(surface, &rect, color.map_rgba(surface));
+        }
+      }
+  SDL_UnlockSurface(surface);
   }
 }
 
@@ -804,6 +836,16 @@ SurfaceOpenGL::draw_stretched(float x, float y, int sw, int sh, Uint8 alpha, Uin
   return 0;
 }
 
+void
+SurfaceOpenGL::apply_mask(Color color)
+{
+  ::apply_filter_to_surface(sdl_surface, MASK_FILTER, color);
+  create_gl(sdl_surface,&gl_texture);
+
+  w = sdl_surface->w;
+  h = sdl_surface->h;
+}
+
 #endif
 
 SurfaceSDL::SurfaceSDL(SDL_Surface* surf, bool use_alpha)
@@ -1004,6 +1046,15 @@ SurfaceSDL::draw_stretched(float x, float y, int sw, int sh, Uint8 alpha, Uint32
   SDL_FreeSurface(sdl_surface_copy);
 
   return ret;
+}
+
+void
+SurfaceSDL::apply_mask(Color color)
+{
+  ::apply_filter_to_surface(sdl_surface, MASK_FILTER, color);
+
+  w = sdl_surface->w;
+  h = sdl_surface->h;
 }
 
 SurfaceSDL::~SurfaceSDL()
