@@ -599,9 +599,6 @@ GameSession::run()
         }
     }
   
-  delete world;
-  world = 0;
-
   return exit_status;
 }
 

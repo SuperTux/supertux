@@ -597,6 +597,12 @@ WorldMap::update()
                 {
                 case GameSession::LEVEL_FINISHED:
                   level->solved = true;
+                  if (session.get_world()->get_tux()->got_coffee)
+                    player_status.bonus = PlayerStatus::FLOWER_BONUS;
+                  else if (session.get_world()->get_tux()->size == BIG)
+                    player_status.bonus = PlayerStatus::GROWUP_BONUS;
+                  else
+                    player_status.bonus = PlayerStatus::NO_BONUS;
                   break;
                 case GameSession::LEVEL_ABORT:
                   // Reseting the player_status might be a worthy
@@ -809,8 +815,9 @@ WorldMap::savegame(const std::string& filename)
       << "  (lives   " << player_status.lives << ")\n"
       << "  (score   " << player_status.score << ")\n"
       << "  (distros " << player_status.distros << ")\n"
-      << "  (tux     (x " << tux->get_tile_pos().x << ") (y " << tux->get_tile_pos().y << ")"
-      << " (back \"" << direction_to_string(tux->back_direction) << "\"))\n"
+      << "  (tux (x " << tux->get_tile_pos().x << ") (y " << tux->get_tile_pos().y << ")\n"
+      << "       (back \"" << direction_to_string(tux->back_direction) << "\")\n"
+      << "       (bonus \"" << bonus_to_string(player_status.bonus) <<  "\"))\n"
       << "  (levels\n";
   
   for(Levels::iterator i = levels.begin(); i != levels.end(); ++i)

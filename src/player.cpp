@@ -440,7 +440,7 @@ Player::handle_input()
     }
 
   /* Duck! */
-  if (input.down == DOWN && size == BIG && !duck && physic.get_velocity_y() == 0)
+  if (input.down == DOWN && size == BIG && !duck && physic.get_velocity_y() == 0 && on_ground())
     {
       duck = true;
       base.height = 32;                             

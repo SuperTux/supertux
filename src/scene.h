@@ -31,11 +31,16 @@ struct PlayerStatus
   int  score;
   int  distros;
   int  lives;
+  enum BonusType { NO_BONUS, GROWUP_BONUS, FLOWER_BONUS };
+  BonusType bonus;
 
   int  score_multiplier;
 
   PlayerStatus();
 };
+
+std::string bonus_to_string(PlayerStatus::BonusType b);
+PlayerStatus::BonusType string_to_bonus(const std::string& str);
 
 extern PlayerStatus player_status;
 
