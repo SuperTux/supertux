@@ -619,6 +619,7 @@ void st_general_free(void)
   delete gold_text;
   delete white_text;
   delete blue_text;
+  delete gray_text;
   delete white_small_text;
   delete white_big_text;
   delete yellow_nums;

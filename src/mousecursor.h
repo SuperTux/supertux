@@ -31,7 +31,8 @@
 enum {
   MC_NORMAL,
   MC_CLICK,
-  MC_LINK
+  MC_LINK,
+  MC_HIDE
 };
 
 class MouseCursor
