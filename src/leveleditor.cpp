@@ -341,7 +341,7 @@ std::cerr << "load subset level_subsets " << i << ": " << (*it) << std::endl;
         Menu::set_current(settings_menu);
         break;
       case BT_NEXT_LEVEL:
-        if(level_nb < level_subset.get_num_levels())
+        if(level_nb+1 < level_subset.get_num_levels())
           load_level(level_nb + 1);
         else
           {
@@ -357,7 +357,7 @@ std::cerr << "load subset level_subsets " << i << ": " << (*it) << std::endl;
           }
         break;
       case BT_PREVIOUS_LEVEL:
-        if(level_nb > 1)
+        if(level_nb-1 > 0)
           load_level(level_nb - 1);
         break;
       case BT_NEXT_SECTOR:
@@ -557,11 +557,9 @@ context.draw_filled_rect(Vector(0,0), Vector(screen->w,screen->h), Color(60,60,6
 
 if(level_name_timer.check())
   {
+  context.push_transform();
   if(level_name_timer.get_left() < FADING_TIME)
-    {
-    context.push_transform();
     context.set_alpha(level_name_timer.get_left() * 255 / FADING_TIME);
-    }
 
   context.draw_text(gold_text, level.name, Vector(screen->w/2, 30), CENTER_ALLIGN, LAYER_GUI);
   if(level_nb != -1)
@@ -571,8 +569,7 @@ if(level_name_timer.check())
     context.draw_text(gold_text, str, Vector(screen->w/2, 50), CENTER_ALLIGN, LAYER_GUI);
     }
 
-  if(level_name_timer.get_left() < FADING_TIME)
-    context.pop_transform();
+  context.pop_transform();
   }
 if(sector)
   context.draw_text(white_small_text, _("F1 for help"), Vector(5, 510), LEFT_ALLIGN, LAYER_GUI-10);
@@ -708,8 +705,13 @@ load_level(1);
 
 void LevelEditor::load_level(std::string filename)
 {
-if(!level_changed)
-  save_level();
+if(level_changed)
+  {
+  if(confirm_dialog(NULL, _("Level not saved. Wanna to?")))
+    save_level();
+  else
+    return;
+  }
 
 level_filename = filename;
 level.load(filename);
@@ -725,8 +727,13 @@ settings_menu->get_item_by_id(MN_ID_AUTHOR).change_input(level.author.c_str());
 
 void LevelEditor::load_level(int nb)
 {
-if(!level_changed)
-  save_level();
+if(level_changed)
+  {
+  if(confirm_dialog(NULL, _("Level not saved. Wanna to?")))
+    save_level();
+  else
+    return;
+  }
 
 level_nb = nb;
 std::cerr << "level_nb: " << level_nb << std::endl;
@@ -807,6 +814,7 @@ settings_menu->get_item_by_id(MN_ID_HEIGHT).change_input(str);
 
 void LevelEditor::save_level()
 {
+std::cerr << "saving level...\n";
 level.save(level_filename);
 level_changed = false;
 }
