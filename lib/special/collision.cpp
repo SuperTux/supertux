@@ -83,29 +83,57 @@ Collision::rectangle_aatriangle(CollisionHit& hit, const Rectangle& rect,
 {
   if(!rectangle_rectangle(hit, rect, movement, (const Rectangle&) triangle))
     return false;
-  
+
   Vector normal;
   float c;
   Vector p1;
-  switch(triangle.dir) {
+  Vector tp1, tp2;
+  switch(triangle.dir & AATriangle::DEFORM_MASK) {
+    case 0:
+      tp1 = triangle.p1;
+      tp2 = triangle.p2;
+      break;
+    case AATriangle::DEFORM1:
+      tp1 = Vector(triangle.p1.x, triangle.p1.y + triangle.get_height()/2);
+      tp2 = triangle.p2;
+      break;
+    case AATriangle::DEFORM2:
+      tp1 = triangle.p1;
+      tp2 = Vector(triangle.p2.x, triangle.p1.y + triangle.get_height()/2);
+      break;
+    case AATriangle::DEFORM3:
+      tp1 = triangle.p1;
+      tp2 = Vector(triangle.p1.x + triangle.get_width()/2, triangle.p2.y);
+      break;
+    case AATriangle::DEFORM4:
+      tp1 = Vector(triangle.p1.x + triangle.get_width()/2, triangle.p1.y);
+      tp2 = triangle.p2;
+      break;
+    default:
+      assert(false);
+  } 
+  
+  switch(triangle.dir & AATriangle::DIRECTION_MASK) {
     case AATriangle::SOUTHWEST:
       p1 = Vector(rect.p1.x, rect.p2.y);
-      makePlane(triangle.p1, triangle.p2, normal, c);
+      makePlane(tp1, tp2, normal, c);
       break;
     case AATriangle::NORTHEAST:
       p1 = Vector(rect.p2.x, rect.p1.y);
-      makePlane(triangle.p2, triangle.p1, normal, c);
+      makePlane(tp2, tp1, normal, c);
       break;
     case AATriangle::SOUTHEAST:
       p1 = rect.p2;
-      makePlane(Vector(triangle.p1.x, triangle.p2.y),
-          Vector(triangle.p2.x, triangle.p1.y), normal, c);
+      makePlane(Vector(tp1.x, tp2.y),
+          Vector(tp2.x, tp1.y), normal, c);
       break;
     case AATriangle::NORTHWEST:
       p1 = rect.p1;
-      makePlane(Vector(triangle.p2.x, triangle.p1.y),
-          Vector(triangle.p1.x, triangle.p2.y), normal, c);
+      makePlane(Vector(tp2.x, tp1.y),
+          Vector(tp1.x, tp2.y), normal, c);
       break;
+    default:
+      assert(false);
   }
 
   float n_p1 = -(normal * p1);

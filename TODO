@@ -75,7 +75,7 @@ L: low priority
     when hitting a block from the side when falling.
       - done for rectangles, fixes the issues with blocks and enemies hitting
         when they should get squished, still it's not optimal as when hitting 2
-        blocks now only 1 gets cleared...
+        blocks now only 1 gets cleared... - ok
  * rethink slopes collision feedback... tux becomes too slow when walking up
     and starts jumping when walking down
  * think about an attachement mechanism for moving platforms

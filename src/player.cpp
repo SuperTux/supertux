@@ -857,10 +857,6 @@ Player::draw(DrawingContext& context)
 HitResponse
 Player::collision(GameObject& other, const CollisionHit& hit)
 {
-  if(dying) {
-    return FORCE_MOVE;
-  }
-
   if(other.get_flags() & FLAG_SOLID) {
     if(hit.normal.y < 0) { // landed on floor?
       if (physic.get_velocity_y() < 0)

@@ -20,21 +20,32 @@ public:
    *    | \             \  |         / |       |  /
    *    |  \             \ |        /  |       | /
    *    *---*              *       *---*       *
+   *
+   * Deform flags: (see docs/aatriangletypes.png for details)
    */
   enum Direction {
-    SOUTHWEST, NORTHEAST, SOUTHEAST, NORTHWEST
+    SOUTHWEST = 0,
+    NORTHEAST,
+    SOUTHEAST,
+    NORTHWEST,
+    DIRECTION_MASK = 0x0003,
+    DEFORM1 = 0x0010,
+    DEFORM2 = 0x0020,
+    DEFORM3 = 0x0030,
+    DEFORM4 = 0x0040,
+    DEFORM_MASK = 0x0070
   };
 
   AATriangle()
     : dir(SOUTHWEST)
   {
   }
-  AATriangle(const Vector& v1, const Vector& v2, Direction newdir)
+  AATriangle(const Vector& v1, const Vector& v2, int newdir)
     : Rectangle(v1, v2), dir(newdir)
   {
   }
 
-  Direction dir;
+  int dir;
 };
 
 }

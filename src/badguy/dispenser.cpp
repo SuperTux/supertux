@@ -51,9 +51,9 @@ Dispenser::collision_squished(Player& player)
 void
 Dispenser::active_action(float )
 {
-   if (dispense_timer.check()) {
-      launch_badguy();
-   }
+  if (dispense_timer.check()) {
+    launch_badguy();
+  }
 }
 
 HitResponse
@@ -78,8 +78,8 @@ Dispenser::collision_solid(GameObject& , const CollisionHit& hit)
 void
 Dispenser::launch_badguy()
 {
-   //FIXME: Does is_offscreen() work right here?
-   if (!is_offscreen()) {
+  //FIXME: Does is_offscreen() work right here?
+  if (!is_offscreen()) {
     if (badguy == "snowball")
       Sector::current()->add_object(new SnowBall(get_pos().x, get_pos().y, dir));
     else if (badguy == "bouncingsnowball")
@@ -89,6 +89,7 @@ Dispenser::launch_badguy()
     else if (badguy == "mriceblock")
       Sector::current()->add_object(new MrIceBlock(get_pos().x, get_pos().y, dir));
     else if (badguy == "random")
-      {}
-   }
+    {}
+  }
 }
+

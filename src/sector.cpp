@@ -673,23 +673,7 @@ Sector::collision_tilemap(MovingObject* object, int depth)
         AATriangle triangle;
         Vector p1(x*32, y*32);
         Vector p2((x+1)*32, (y+1)*32);
-        switch(tile->data) {
-          case 0:
-            triangle = AATriangle(p1, p2, AATriangle::SOUTHWEST);
-            break;
-          case 1:
-            triangle = AATriangle(p1, p2, AATriangle::NORTHEAST);
-            break;
-          case 2:
-            triangle = AATriangle(p1, p2, AATriangle::SOUTHEAST);
-            break;
-          case 3:
-            triangle = AATriangle(p1, p2, AATriangle::NORTHWEST);
-            break;
-          default:
-            printf("Invalid slope angle in tile %d !\n", tile->id);
-            break;
-        }
+        triangle = AATriangle(p1, p2, tile->data);
 
         if(Collision::rectangle_aatriangle(temphit, dest, object->movement,
               triangle)) {
