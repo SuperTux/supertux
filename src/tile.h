@@ -81,6 +81,9 @@ public:
   int next_tile;
 
   int anim_speed;
+
+  /** This is the angle of the slope. Set to 0, if this is no slope. */
+  float slope_angle;
   
   /** Draw a tile on the screen: */
   static void draw(const Vector& pos, unsigned int c, Uint8 alpha = 255);

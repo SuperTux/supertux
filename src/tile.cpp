@@ -147,6 +147,14 @@ Tile::read(LispReader& reader)
   reader.read_int("anim-speed", anim_speed);
   reader.read_int("next-tile", next_tile);
 
+  slope_angle = 0;
+  reader.read_float("slope-angle", slope_angle);
+  if(slope_angle != 0)
+    {   // convert angle to radians from degrees:
+    slope_angle = (slope_angle * M_PI) / 180;
+    attributes |= SOLID;
+    }
+
   // FIXME: make images and editor_images a sprite
   images        = create_surfaces(reader.read_lisp("images"));
   editor_images = create_surfaces(reader.read_lisp("editor-images"));

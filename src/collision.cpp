@@ -26,6 +26,12 @@
 #include "tilemap.h"
 #include "tile.h"
 
+struct TileInfo
+{
+  Tile *tile;
+  int x, y;
+} tileinfo;
+
 bool rectcollision(const base_type& one, const base_type& two)
 {
   return (one.x >= two.x - one.width + 1  &&
@@ -52,11 +58,18 @@ bool collision_object_map(const base_type& base)
   int max_x = int(base.x + base.width);
   int max_y = int(base.y + base.height);
 
+  tileinfo.tile = NULL;
+
   for(int x = starttilex; x*32 < max_x; ++x) {
     for(int y = starttiley; y*32 < max_y; ++y) {
       Tile* tile = tilemap.get_tile(x, y);
       if(tile && tile->attributes & Tile::SOLID)
+        {
+        tileinfo.tile = tile;
+        tileinfo.x = x*32;
+        tileinfo.y = y*32;
         return true;
+        }
     }
   }
 
@@ -175,6 +188,21 @@ void collision_swept_object_map(base_type* old, base_type* current)
 
       if(collision_object_map(*old))
         {
+        if(tileinfo.tile->slope_angle != 0)
+          {  // in case this is a slope, set the right Y position
+          // left-right slope:
+          if(tileinfo.tile->slope_angle > 0 && tileinfo.tile->slope_angle < M_PI/2)
+            current->y = tileinfo.y - current->height +
+                         (tileinfo.x - current->x)*tan(M_PI/2 - tileinfo.tile->slope_angle)
+                         - 1;
+          // right-left slope:
+          if(tileinfo.tile->slope_angle > M_PI/2 && tileinfo.tile->slope_angle < M_PI)
+            current->y = tileinfo.y - current->height +
+                         (current->x - tileinfo.x)*tan(M_PI - tileinfo.tile->slope_angle)
+                         - 1;
+          }
+        else
+          {
           switch(h)
             {
             case 1:
@@ -225,6 +253,7 @@ void collision_swept_object_map(base_type* old, base_type* current)
             }
           break;
         }
+      }
     }
 
   if((xd > 0 && current->x < orig_x) || (xd < 0 && current->x > orig_x))
