@@ -82,32 +82,6 @@ void apply_level_settings_menu();
 void update_subset_settings_menu();
 void save_subset_settings_menu();
 
-/*static Level* le_current_level;*/
-
-/*struct LevelEditorWorld
-{
-  std::vector<BadGuy> bad_guys;
-  void arrays_free(void)
-  {
-    bad_guys.clear();
-  }
-
-  void add_bad_guy(float x, float y, BadGuyKind kind)
-  {
-    bad_guys.push_back(BadGuy(x,y,kind, false /* stay_on_platform * /));
-  }
-
-  void activate_bad_guys()
-  {
-    for (std::vector<BadGuyData>::iterator i = le_current_level->badguy_data.begin();
-         i != le_current_level->badguy_data.end();
-         ++i)
-    {
-      add_bad_guy(i->x, i->y, i->kind);
-    }
-  }
-};*/
-
 struct TileOrObject
 {
   TileOrObject() : tile(0), obj(NULL) { is_tile = true; };
@@ -338,9 +312,8 @@ int leveleditor(char* filename)
             LevelSubset::create(subset_new_menu->get_item_by_id(MNID_SUBSETNAME).input);
             le_level_subset->load(subset_new_menu->get_item_by_id(MNID_SUBSETNAME).input);
             leveleditor_menu->get_item_by_id(MNID_SUBSETSETTINGS).kind = MN_GOTO;
-            le_level = 1;
 	    delete le_world;
-            le_world = new World;
+            le_world = new World(le_level_subset->name,1);
             subset_new_menu->get_item_by_id(MNID_SUBSETNAME).change_input("");
 
             Menu::set_current(subset_settings_menu);
@@ -453,21 +426,21 @@ void le_init_menus()
   level_settings_menu->arrange_left = true;
   level_settings_menu->additem(MN_LABEL,"Level Settings",0,0);
   level_settings_menu->additem(MN_HL,"",0,0);
-  level_settings_menu->additem(MN_TEXTFIELD,"Name    ",0,0,MNID_NAME);
-  level_settings_menu->additem(MN_TEXTFIELD,"Author  ",0,0,MNID_AUTHOR);
+  level_settings_menu->additem(MN_TEXTFIELD,   "Name    ",0,0,MNID_NAME);
+  level_settings_menu->additem(MN_TEXTFIELD,   "Author  ",0,0,MNID_AUTHOR);
   level_settings_menu->additem(MN_STRINGSELECT,"Song    ",0,0,MNID_SONG);
   level_settings_menu->additem(MN_STRINGSELECT,"Bg-Image",0,0,MNID_BGIMG);
   level_settings_menu->additem(MN_STRINGSELECT,"Particle",0,0,MNID_PARTICLE);
-  level_settings_menu->additem(MN_NUMFIELD,"Length ",0,0,MNID_LENGTH);
-  level_settings_menu->additem(MN_NUMFIELD,"Time   ",0,0,MNID_TIME);
-  level_settings_menu->additem(MN_NUMFIELD,"Gravity",0,0,MNID_GRAVITY);
-  level_settings_menu->additem(MN_NUMFIELD,"Bg-Img-Speed",0,0,MNID_BGSPEED);
-  level_settings_menu->additem(MN_NUMFIELD,"Top Red    ",0,0,MNID_TopRed);
-  level_settings_menu->additem(MN_NUMFIELD,"Top Green  ",0,0,MNID_TopGreen);
-  level_settings_menu->additem(MN_NUMFIELD,"Top Blue   ",0,0,MNID_TopBlue);
-  level_settings_menu->additem(MN_NUMFIELD,"Bottom Red ",0,0,MNID_BottomRed);
-  level_settings_menu->additem(MN_NUMFIELD,"Bottom Green",0,0,MNID_BottomGreen);
-  level_settings_menu->additem(MN_NUMFIELD,"Bottom Blue",0,0,MNID_BottomBlue);
+  level_settings_menu->additem(MN_NUMFIELD,    "Length  ",0,0,MNID_LENGTH);
+  level_settings_menu->additem(MN_NUMFIELD,    "Time    ",0,0,MNID_TIME);
+  level_settings_menu->additem(MN_NUMFIELD,    "Gravity ",0,0,MNID_GRAVITY);
+  level_settings_menu->additem(MN_NUMFIELD,    "Bg-Img-Speed",0,0,MNID_BGSPEED);
+  level_settings_menu->additem(MN_NUMFIELD,    "Top Red    ",0,0,MNID_TopRed);
+  level_settings_menu->additem(MN_NUMFIELD,    "Top Green  ",0,0,MNID_TopGreen);
+  level_settings_menu->additem(MN_NUMFIELD,    "Top Blue   ",0,0,MNID_TopBlue);
+  level_settings_menu->additem(MN_NUMFIELD,    "Bottom Red ",0,0,MNID_BottomRed);
+  level_settings_menu->additem(MN_NUMFIELD,    "Bottom Green",0,0,MNID_BottomGreen);
+  level_settings_menu->additem(MN_NUMFIELD,    "Bottom Blue",0,0,MNID_BottomBlue);
   level_settings_menu->additem(MN_HL,"",0,0);
   level_settings_menu->additem(MN_ACTION,"Apply Changes",0,0,MNID_APPLY);
 
