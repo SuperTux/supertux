@@ -140,6 +140,9 @@ void check_contrib_menu()
       }
     else if(index < worldmap_list.num_items + (int)contrib_subsets.size())
       {
+      // Loading fade
+      fadeout();
+
       WorldMapNS::WorldMap worldmap;
       worldmap.loadmap(worldmap_list.item[index - contrib_subsets.size()]);
 //      worldmap.set_levels_as_solved();
