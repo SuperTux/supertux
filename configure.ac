@@ -51,7 +51,7 @@ fi
 
 AC_MSG_CHECKING(weather OpenGL should be used)
 AC_ARG_ENABLE(opengl,
-              AC_HELP_STRING([--enable-opengl], [enable OpenGL support]),, enable_opengl="yes")
+              AC_HELP_STRING([--disable-opengl], [disable OpenGL support]),, enable_opengl="yes")
 if test "x${enable_opengl}" != "xno"; then
     CFLAGS="$CFLAGS -D__OPENGL"
     AC_MSG_RESULT([yes])
@@ -62,7 +62,7 @@ fi
 
 AC_MSG_CHECKING(weather Sound should be supported)
 AC_ARG_ENABLE(sound,
-              AC_HELP_STRING([--enable-sound], [enable sound support]),, enable_sound="yes")
+              AC_HELP_STRING([--disable-sound], [disable sound support]),, enable_sound="yes")
 if test "x${enable_sound}" != "xno"; then
     CFLAGS="$CFLAGS -D__SOUND"
     AC_MSG_RESULT([yes])
