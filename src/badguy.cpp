@@ -988,7 +988,16 @@ BadGuy::collision(void *p_c_object, int c_object, CollisionType type)
       /* Kill any badguys that get hit by stalactite */
       else if (kind == BAD_STALACTITE && dying == DYING_NOT)
       {
-        pbad_c->kill_me(50);
+        if (pbad_c->kind == BAD_MRBOMB)
+        {
+          // mrbomb transforms into a bomb now
+          World::current()->add_bad_guy(pbad_c->base.x, pbad_c->base.y,
+                                        BAD_BOMB);
+          pbad_c->remove_me();
+          return;
+        }
+        else
+          pbad_c->kill_me(50);
       }
 
       /* When enemies run into eachother, make them change directions */
