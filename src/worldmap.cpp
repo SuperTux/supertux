@@ -1143,16 +1143,17 @@ WorldMap::draw_status(DrawingContext& context)
         {
           if (i->pos == tux->get_tile_pos())
             {
-                if(i->title == "")
-                  get_level_title(*i);
+              if(i->title == "")
+                get_level_title(*i);
 
-                context.draw_text(white_text, i->title, 
-                    Vector(screen->w/2, screen->h - white_text->get_height() - 30),
-                    CENTER_ALLIGN, LAYER_FOREGROUND1);
+              context.draw_text(white_text, i->title, 
+                  Vector(screen->w/2,
+                         screen->h - white_text->get_height() - 30),
+                  CENTER_ALLIGN, LAYER_FOREGROUND1);
 
-                i->statistics.draw_worldmap_info(context);
-                }
+              i->statistics.draw_worldmap_info(context);
               break;
+            }
         }
       for(SpecialTiles::iterator i = special_tiles.begin(); i != special_tiles.end(); ++i)
         {
@@ -1161,7 +1162,8 @@ WorldMap::draw_status(DrawingContext& context)
                /* Display an in-map message in the map, if any as been selected */
               if(!i->map_message.empty() && !i->passive_message)
                 context.draw_text(gold_text, i->map_message, 
-                    Vector(screen->w/2, screen->h - white_text->get_height() - 60),
+                    Vector(screen->w/2,
+                           screen->h - white_text->get_height() - 60),
                     CENTER_ALLIGN, LAYER_FOREGROUND1);
               break;
             }
