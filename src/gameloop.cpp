@@ -546,7 +546,6 @@ GameSession::run()
 
   draw();
 
-  float overlap = 0.0f;
   while (exit_status == NONE)
     {
       /* Calculate the movement-factor */
@@ -569,19 +568,12 @@ GameSession::run()
       // determistic and not different on different machines
       if(!game_pause && !Menu::current())
         {
-          frame_ratio *= game_speed;
-          frame_ratio += overlap;
-          while (frame_ratio > 0)
-            {
-              // Update the world
-              check_end_conditions();
-              if (end_sequence == ENDSEQUENCE_RUNNING)
-                action(.5f);
-              else if(end_sequence == NO_ENDSEQUENCE)
-                action(1.0f);
-              frame_ratio -= 1.0f;
-            }
-          overlap = frame_ratio;
+          // Update the world
+          check_end_conditions();
+          if (end_sequence == ENDSEQUENCE_RUNNING)
+             action(frame_ratio/2);
+          else if(end_sequence == NO_ENDSEQUENCE)
+             action(frame_ratio);
         }
       else
         {
