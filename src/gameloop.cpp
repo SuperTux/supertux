@@ -158,8 +158,9 @@ GameSession::levelintro(void)
   sprintf(str, "TUX x %d", player_status.lives);
   context.draw_text_center(white_text, str, Vector(0, 240),
       LAYER_FOREGROUND1);
-  
-  context.draw_text_center(white_small_text,
+
+  if(level->get_author().size())
+    context.draw_text_center(white_small_text,
       std::string(_("by ")) + level->get_author(), 
       Vector(0, 400), LAYER_FOREGROUND1);
 
