@@ -320,25 +320,51 @@ void World::scrolling(double frame_ratio)
 {
   int tux_pos_x = (int)(tux.base.x + (tux.base.width/2));
 
-  if(tux.old_dir != tux.dir && (level->back_scrolling || debug_mode))
-    scrolling_timer.start(CHANGE_DIR_SCROLL_SPEED);
-    
-  if(scrolling_timer.check())
+  if (level->back_scrolling || debug_mode)
+  {
+    if(tux.old_dir != tux.dir && level->back_scrolling)
+      scrolling_timer.start(CHANGE_DIR_SCROLL_SPEED);
+
+    if(scrolling_timer.check())
     {
-    float final_scroll_x;
-    if (tux.physic.get_velocity_x() > 0)
-      final_scroll_x = tux_pos_x - (screen->w - X_SPACE);
-    else if (tux.physic.get_velocity_x() < 0)
-      final_scroll_x = tux_pos_x - X_SPACE;
+      float final_scroll_x;
+      if (tux.physic.get_velocity_x() > 0)
+        final_scroll_x = tux_pos_x - (screen->w - X_SPACE);
+      else if (tux.physic.get_velocity_x() < 0)
+        final_scroll_x = tux_pos_x - X_SPACE;
+      else
+      {
+        if (tux.dir == RIGHT)
+          final_scroll_x = tux_pos_x - (screen->w - X_SPACE);
+        else if (tux.dir == LEFT && level->back_scrolling)
+          final_scroll_x = tux_pos_x - X_SPACE;
+      }
 
-    scroll_x += ((final_scroll_x - scroll_x) / (CHANGE_DIR_SCROLL_SPEED)) * frame_ratio;
+      scroll_x += (final_scroll_x - scroll_x) / (frame_ratio * (CHANGE_DIR_SCROLL_SPEED / 100));
+      // std::cerr << tux_pos_x << " " << final_scroll_x << " " << scroll_x << std::endl;
+
     }
+    else
+    {
+      if (tux.physic.get_velocity_x() > 0 && scroll_x < tux_pos_x - (screen->w - X_SPACE))
+        scroll_x = tux_pos_x - (screen->w - X_SPACE);
+      else if (tux.physic.get_velocity_x() < 0 && scroll_x > tux_pos_x - X_SPACE && level->back_scrolling)
+        scroll_x = tux_pos_x - X_SPACE;
+      else
+      {
+        if (tux.dir == RIGHT && scroll_x < tux_pos_x - (screen->w - X_SPACE))
+            scroll_x = tux_pos_x - (screen->w - X_SPACE);
+        else if (tux.dir == LEFT && scroll_x > tux_pos_x - X_SPACE && level->back_scrolling)
+            scroll_x = tux_pos_x - X_SPACE;
+      }
+    }
+  }
 
-  else
+  else /*no debug*/
     {
     if (tux.physic.get_velocity_x() > 0 && scroll_x < tux_pos_x - (screen->w - X_SPACE))
       scroll_x = tux_pos_x - (screen->w - X_SPACE);
-    else if (tux.physic.get_velocity_x() < 0 && scroll_x > tux_pos_x - X_SPACE && (level->back_scrolling || debug_mode))
+    else if (tux.physic.get_velocity_x() < 0 && scroll_x > tux_pos_x - X_SPACE && level->back_scrolling)
       scroll_x = tux_pos_x - X_SPACE;
     }
 
