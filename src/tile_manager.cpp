@@ -59,7 +59,7 @@ void TileManager::load_tileset(std::string filename)
   lisp_object_t* root_obj = lisp_read_from_file(filename);
 
   if (!root_obj)
-    st_abort("Couldn't load file", filename);
+    Termination::abort("Couldn't load file", filename);
 
   if (strcmp(lisp_symbol(lisp_car(root_obj)), "supertux-tiles") == 0)
     {

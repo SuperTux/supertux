@@ -357,7 +357,7 @@ BadGuy::action_mriceblock(double elapsed_time)
           tux.kick_timer.start(KICKING_TIME);
           set_sprite(img_mriceblock_flat_left, img_mriceblock_flat_right);
           physic.set_velocity_x((dir == LEFT) ? -3.5 : 3.5);
-          sound_manager->play_sound(sounds[SND_KICK], this, Sector::current()->player->get_pos());
+          SoundManager::get()->play_sound(IDToSound(SND_KICK), this, Sector::current()->player->get_pos());
         }
     }
 
@@ -367,7 +367,7 @@ BadGuy::action_mriceblock(double elapsed_time)
       check_horizontal_bump();
       if(mode == KICK && changed != dir)
         {
-          sound_manager->play_sound(sounds[SND_RICOCHET], get_pos(), Sector::current()->player->get_pos());
+          SoundManager::get()->play_sound(IDToSound(SND_RICOCHET), get_pos(), Sector::current()->player->get_pos());
         }
     }
 
@@ -561,7 +561,7 @@ BadGuy::action_bomb(double elapsed_time)
       dying = DYING_NOT; // now the bomb hurts
       timer.start(EXPLODETIME);
 
-      sound_manager->play_sound(sounds[SND_EXPLODE], this, Sector::current()->player->get_pos());
+      SoundManager::get()->play_sound(IDToSound(SND_EXPLODE), this, Sector::current()->player->get_pos());
     } else if(mode == BOMB_EXPLODE) {
       remove_me();
       return;
@@ -1034,7 +1034,7 @@ BadGuy::squish_me(Player* player)
   Sector::current()->add_score(Vector(base.x, base.y),
                               50 * player_status.score_multiplier);
 
-  sound_manager->play_sound(sounds[SND_SQUISH], get_pos(), Sector::current()->player->get_pos());
+  SoundManager::get()->play_sound(IDToSound(SND_SQUISH), get_pos(), Sector::current()->player->get_pos());
   player_status.score_multiplier++;
 
   dying = DYING_SQUISHED;
@@ -1054,7 +1054,7 @@ BadGuy::squish(Player* player)
     player->bounce(this);
     Sector::current()->add_score(Vector(base.x, base.y),
                                 50 * player_status.score_multiplier);
-    sound_manager->play_sound(sounds[SND_SQUISH], get_pos(), Sector::current()->player->get_pos());
+    SoundManager::get()->play_sound(IDToSound(SND_SQUISH), get_pos(), Sector::current()->player->get_pos());
     player_status.score_multiplier++;
     return;
 
@@ -1062,7 +1062,7 @@ BadGuy::squish(Player* player)
     if (mode == NORMAL || mode == KICK)
       {
         /* Flatten! */
-        sound_manager->play_sound(sounds[SND_STOMP], get_pos(), Sector::current()->player->get_pos());
+        SoundManager::get()->play_sound(IDToSound(SND_STOMP), get_pos(), Sector::current()->player->get_pos());
         mode = FLAT;
         set_sprite(img_mriceblock_flat_left, img_mriceblock_flat_right);
         physic.set_velocity_x(0);
@@ -1070,7 +1070,7 @@ BadGuy::squish(Player* player)
         timer.start(4000);
       } else if (mode == FLAT) {
         /* Kick! */
-        sound_manager->play_sound(sounds[SND_KICK], this, Sector::current()->player->get_pos());
+        SoundManager::get()->play_sound(IDToSound(SND_KICK), this, Sector::current()->player->get_pos());
 
         if (player->base.x < base.x + (base.width/2)) {
           physic.set_velocity_x(5);
@@ -1171,7 +1171,7 @@ BadGuy::kill_me(int score)
                                 score * player_status.score_multiplier);
 
   /* Play death sound: */
-  sound_manager->play_sound(sounds[SND_FALL], this, Sector::current()->player->get_pos());
+  SoundManager::get()->play_sound(IDToSound(SND_FALL), this, Sector::current()->player->get_pos());
 }
 
 void
@@ -1334,7 +1334,7 @@ BadGuy::collision(void *p_c_object, int c_object, CollisionType type)
       /* Get kicked if were flat */
       if (mode == FLAT && !dying)
       {
-        sound_manager->play_sound(sounds[SND_KICK], this, Sector::current()->player->get_pos());
+        SoundManager::get()->play_sound(IDToSound(SND_KICK), this, Sector::current()->player->get_pos());
 
         // Hit from left side
         if (player->base.x < base.x) {

@@ -46,7 +46,7 @@ void process_options_menu(void)
       if(use_gl != options_menu->isToggled(MNID_OPENGL))
         {
           use_gl = !use_gl;
-          st_video_setup(screen->w,screen->h);
+          Setup::video(screen->w,screen->h);
         }
 #else
       options_menu->get_item_by_id(MNID_OPENGL).toggled = false;
@@ -56,18 +56,17 @@ void process_options_menu(void)
       if(use_fullscreen != options_menu->isToggled(MNID_FULLSCREEN))
         {
           use_fullscreen = !use_fullscreen;
-          st_video_setup(screen->w,screen->h);
+          Setup::video(screen->w,screen->h);
         }
       break;
     case MNID_SOUND:
-      if(use_sound != options_menu->isToggled(MNID_SOUND))
-        use_sound = !use_sound;
+      if(SoundManager::get()->sound_enabled() != options_menu->isToggled(MNID_SOUND))
+        SoundManager::get()->enable_sound(!SoundManager::get()->sound_enabled());
       break;
     case MNID_MUSIC:
-      if(use_music != options_menu->isToggled(MNID_MUSIC))
+      if(SoundManager::get()->music_enabled() != options_menu->isToggled(MNID_MUSIC))
         {
-          use_music = !use_music;
-          sound_manager->enable_music(use_music);
+          SoundManager::get()->enable_music(!SoundManager::get()->music_enabled());
         }
       break;
     case MNID_SHOWFPS:
@@ -107,10 +106,10 @@ void st_menu(void)
   options_menu->additem(MN_DEACTIVE,_("OpenGL (not supported)"),use_gl, 0, MNID_OPENGL);
 #endif
   options_menu->additem(MN_TOGGLE,_("Fullscreen"),use_fullscreen,0, MNID_FULLSCREEN);
-  if(audio_device)
+  if(SoundManager::get()->audio_device_available())
     {
-      options_menu->additem(MN_TOGGLE,_("Sound     "), use_sound,0, MNID_SOUND);
-      options_menu->additem(MN_TOGGLE,_("Music     "), use_music,0, MNID_MUSIC);
+      options_menu->additem(MN_TOGGLE,_("Sound     "), SoundManager::get()->sound_enabled(),0, MNID_SOUND);
+      options_menu->additem(MN_TOGGLE,_("Music     "), SoundManager::get()->music_enabled(),0, MNID_MUSIC);
     }
   else
     {

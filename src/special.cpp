@@ -27,7 +27,6 @@
 #include "camera.h"
 #include "gameloop.h"
 #include "video/screen.h"
-#include "audio/sound.h"
 #include "scene.h"
 #include "app/globals.h"
 #include "player.h"
@@ -280,7 +279,7 @@ Upgrade::bump(Player* player)
   if(kind != UPGRADE_GROWUP)
     return;
 
-  sound_manager->play_sound(sounds[SND_BUMP_UPGRADE], Vector(base.x, base.y), Sector::current()->player->get_pos());
+  SoundManager::get()->play_sound(IDToSound(SND_BUMP_UPGRADE), Vector(base.x, base.y), Sector::current()->player->get_pos());
   
   // determine new direction
   Direction old_dir = dir;
@@ -328,30 +327,30 @@ Upgrade::collision(void* p_c_object, int c_object, CollisionType type)
 
       if (kind == UPGRADE_GROWUP)
         {
-          sound_manager->play_sound(sounds[SND_EXCELLENT]);
+          SoundManager::get()->play_sound(IDToSound(SND_EXCELLENT));
           pplayer->grow(true);
         }
       else if (kind == UPGRADE_FIREFLOWER)
         {
-          sound_manager->play_sound(sounds[SND_COFFEE]);
+          SoundManager::get()->play_sound(IDToSound(SND_COFFEE));
           pplayer->grow(true);
           pplayer->got_power = pplayer->FIRE_POWER;
         }
       else if (kind == UPGRADE_ICEFLOWER)
         {
-          sound_manager->play_sound(sounds[SND_COFFEE]);
+          SoundManager::get()->play_sound(IDToSound(SND_COFFEE));
           pplayer->grow(true);
           pplayer->got_power = pplayer->ICE_POWER;
         }
       else if (kind == UPGRADE_FIREFLOWER)
         {
-          sound_manager->play_sound(sounds[SND_COFFEE]);
+          SoundManager::get()->play_sound(IDToSound(SND_COFFEE));
           pplayer->grow(true);
           pplayer->got_power = pplayer->FIRE_POWER;
         }
       else if (kind == UPGRADE_HERRING)
         {
-          sound_manager->play_sound(sounds[SND_HERRING]);
+          SoundManager::get()->play_sound(IDToSound(SND_HERRING));
           pplayer->invincible_timer.start(TUX_INVINCIBLE_TIME);
           Sector::current()->play_music(HERRING_MUSIC);
         }
@@ -359,7 +358,7 @@ Upgrade::collision(void* p_c_object, int c_object, CollisionType type)
         {
           if(player_status.lives < MAX_LIVES) {
             player_status.lives++;
-            sound_manager->play_sound(sounds[SND_LIFEUP]);
+            SoundManager::get()->play_sound(IDToSound(SND_LIFEUP));
           }
         }
 

@@ -32,24 +32,6 @@ namespace SuperTux
 
   class Sprite
     {
-    private:
-      std::string name;
-
-      int x_hotspot;
-      int y_hotspot;
-
-      /** Frames per second */
-      float fps;
-
-      /** Number of seconds that a frame is displayed until it is switched
-          to the next frame */
-      float frame_delay;
-
-      float time;
-
-      std::vector<Surface*> surfaces;
-
-      void init_defaults();
     public:
       /** cur has to be a pointer to data in the form of ((x-hotspot 5)
           (y-hotspot 10) ...) */
@@ -86,7 +68,25 @@ namespace SuperTux
           return surfaces[frame];
         else
           return surfaces[0];
-      }
+      }    
+    private:
+      std::string name;
+
+      int x_hotspot;
+      int y_hotspot;
+
+      /** Frames per second */
+      float fps;
+
+      /** Number of seconds that a frame is displayed until it is switched
+          to the next frame */
+      float frame_delay;
+
+      float time;
+
+      std::vector<Surface*> surfaces;
+
+      void init_defaults();
     };
 
 } //namespace SuperTux

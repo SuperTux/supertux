@@ -98,7 +98,7 @@ TileManager::TileManager()
   lisp_object_t* root_obj = lisp_read_from_file(stwt_filename);
  
   if (!root_obj)
-    st_abort("Couldn't load file", stwt_filename);
+    Termination::abort("Couldn't load file", stwt_filename);
 
   if (strcmp(lisp_symbol(lisp_car(root_obj)), "supertux-worldmap-tiles") == 0)
     {
@@ -386,7 +386,7 @@ WorldMap::load_map()
 {
   lisp_object_t* root_obj = lisp_read_from_file(datadir + "/levels/worldmap/" + map_filename);
   if (!root_obj)
-    st_abort("Couldn't load file", datadir + "/levels/worldmap/" + map_filename);
+    Termination::abort("Couldn't load file", datadir + "/levels/worldmap/" + map_filename);
 
   if (strcmp(lisp_symbol(lisp_car(root_obj)), "supertux-worldmap") == 0)
     {
@@ -531,7 +531,7 @@ WorldMap::get_input()
           switch(event.type)
             {
             case SDL_QUIT:
-              st_abort("Received window close", "");
+              Termination::abort("Received window close", "");
               break;
           
             case SDL_KEYDOWN:
@@ -771,7 +771,7 @@ WorldMap::update(float delta)
                   break;
                 }
 
-              sound_manager->play_music(song);
+              SoundManager::get()->play_music(song);
               Menu::set_current(0);
               if (!savegame_file.empty())
                 savegame(savegame_file);
@@ -954,8 +954,8 @@ WorldMap::display()
 
   quit = false;
 
-  song = sound_manager->load_music(datadir +  "/music/" + music);
-  sound_manager->play_music(song);
+  song = SoundManager::get()->load_music(datadir +  "/music/" + music);
+  SoundManager::get()->play_music(song);
   
   unsigned int last_update_time;
   unsigned int update_time;

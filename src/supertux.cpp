@@ -52,15 +52,15 @@ int main(int argc, char * argv[])
     textdomain(PACKAGE);
     bind_textdomain_codeset(PACKAGE, "ISO-8859-1");
     
-    st_info_setup(PACKAGE_NAME,PACKAGE,PACKAGE_VERSION);  
+    Setup::info(PACKAGE_NAME,PACKAGE,PACKAGE_VERSION);  
     
-    st_directory_setup();
-    parseargs(argc, argv);
+    Setup::directories();
+    Setup::parseargs(argc, argv);
 
-    st_audio_setup();
-    st_video_setup(SCREEN_W,SCREEN_H);
-    st_joystick_setup();
-    st_general_setup();
+    Setup::audio();
+    Setup::video(SCREEN_W,SCREEN_H);
+    Setup::joystick();
+    Setup::general();
     st_menu();
     loadshared();
 
@@ -99,13 +99,13 @@ int main(int argc, char * argv[])
     //SDL_Flip(screen);
 
     unloadshared();
-    st_general_free();
+    Setup::general_free();
     st_menu_free();
     TileManager::destroy_instance();
     #ifdef DEBUG
     Surface::debug_check();
     #endif
-    st_shutdown();
+    Termination::shutdown();
 #ifndef DEBUG  // we want to see the backtrace in gdb when in debug mode
   }
   catch (SuperTuxException &e)

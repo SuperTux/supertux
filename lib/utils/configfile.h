@@ -24,6 +24,8 @@
 
 namespace SuperTux {
 
+FILE * opendata(const char * filename, const char * mode);
+
 class Config {
   public:
   void load ();

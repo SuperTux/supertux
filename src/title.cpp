@@ -103,7 +103,7 @@ void free_contrib_menu()
 void generate_contrib_menu()
 {
   /** Generating contrib levels list by making use of Level Subset */
-  string_list_type level_subsets = dsubdirs("/levels", "info");
+  string_list_type level_subsets = FileSystem::dsubdirs("/levels", "info");
 
   free_contrib_menu();
 
@@ -272,7 +272,7 @@ void title(void)
   img_choose_subset = new Surface(datadir + "/images/status/choose-level-subset.png", true);
 
   /* Generating contrib maps by only using a string_list */
-  worldmap_list = dfiles("levels/worldmap", NULL, "icyisland.stwm");
+  worldmap_list = FileSystem::dfiles("levels/worldmap", NULL, "icyisland.stwm");
 
   titlesession->get_current_sector()->activate();
   titlesession->set_current();

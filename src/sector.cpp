@@ -669,7 +669,7 @@ Sector::add_bullet(const Vector& pos, float xm, Direction dir)
     throw std::runtime_error("wrong bullet type.");
   add_object(new_bullet);
                                                                                 
-  sound_manager->play_sound(sounds[SND_SHOOT]);
+  SoundManager::get()->play_sound(IDToSound(SND_SHOOT));
                                                                                 
   return true;
 }
@@ -711,7 +711,7 @@ Sector::trybreakbrick(const Vector& pos, bool small)
               solids->change_at(pos, tile->next_tile);
             }
                                                                                 
-          sound_manager->play_sound(sounds[SND_DISTRO]);
+          SoundManager::get()->play_sound(IDToSound(SND_DISTRO));
           player_status.score = player_status.score + SCORE_DISTRO;
           player_status.distros++;
           return true;
@@ -727,7 +727,7 @@ Sector::trybreakbrick(const Vector& pos, bool small)
                                  (int)(pos.y / 32) * 32), tile);
                                                                                 
           /* Get some score: */
-          sound_manager->play_sound(sounds[SND_BRICK]);
+          SoundManager::get()->play_sound(IDToSound(SND_BRICK));
           player_status.score = player_status.score + SCORE_BRICK;
                                                                                 
           return true;
@@ -765,7 +765,7 @@ Sector::tryemptybox(const Vector& pos, Direction col_side)
     {
     case 1: // Box with a distro!
       add_bouncy_distro(Vector(posx, posy));
-      sound_manager->play_sound(sounds[SND_DISTRO]);
+      SoundManager::get()->play_sound(IDToSound(SND_DISTRO));
       player_status.score = player_status.score + SCORE_DISTRO;
       player_status.distros++;
       break;
@@ -775,7 +775,7 @@ Sector::tryemptybox(const Vector& pos, Direction col_side)
         add_upgrade(Vector(posx, posy), col_side, UPGRADE_GROWUP);
       else     /* Tux is big, add a fireflower: */
         add_upgrade(Vector(posx, posy), col_side, UPGRADE_FIREFLOWER);
-      sound_manager->play_sound(sounds[SND_UPGRADE]);
+      SoundManager::get()->play_sound(IDToSound(SND_UPGRADE));
       break;
                                                                                 
     case 5: // Add an ice flower upgrade!
@@ -783,7 +783,7 @@ Sector::tryemptybox(const Vector& pos, Direction col_side)
         add_upgrade(Vector(posx, posy), col_side, UPGRADE_GROWUP);
       else     /* Tux is big, add an iceflower: */
         add_upgrade(Vector(posx, posy), col_side, UPGRADE_ICEFLOWER);
-      sound_manager->play_sound(sounds[SND_UPGRADE]);
+      SoundManager::get()->play_sound(IDToSound(SND_UPGRADE));
       break;
                                                                                 
     case 3: // Add a golden herring
@@ -823,7 +823,7 @@ Sector::trygrabdistro(const Vector& pos, int bounciness)
     return;
 
   solids->change_at(pos, tile->next_tile);
-  sound_manager->play_sound(sounds[SND_DISTRO]);
+  SoundManager::get()->play_sound(IDToSound(SND_DISTRO));
                                                                             
   if (bounciness == BOUNCE)
     {
@@ -868,7 +868,7 @@ Sector::load_music()
   char* song_path;
   char* song_subtitle;
                                                                                 
-  level_song = sound_manager->load_music(datadir + "/music/" + song_title);
+  level_song = SoundManager::get()->load_music(datadir + "/music/" + song_title);
                                                                                 
   song_path = (char *) malloc(sizeof(char) * datadir.length() +
                               strlen(song_title.c_str()) + 8 + 5);
@@ -876,10 +876,10 @@ Sector::load_music()
   strcpy(strstr(song_subtitle, "."), "\0");
   sprintf(song_path, "%s/music/%s-fast%s", datadir.c_str(),
           song_subtitle, strstr(song_title.c_str(), "."));
-  if(!sound_manager->exists_music(song_path)) {
+  if(!SoundManager::get()->exists_music(song_path)) {
     level_song_fast = level_song;
   } else {
-    level_song_fast = sound_manager->load_music(song_path);
+    level_song_fast = SoundManager::get()->load_music(song_path);
   }
   free(song_subtitle);
   free(song_path);
@@ -891,16 +891,16 @@ Sector::play_music(int type)
   currentmusic = type;
   switch(currentmusic) {
     case HURRYUP_MUSIC:
-      sound_manager->play_music(level_song_fast);
+      SoundManager::get()->play_music(level_song_fast);
       break;
     case LEVEL_MUSIC:
-      sound_manager->play_music(level_song);
+      SoundManager::get()->play_music(level_song);
       break;
     case HERRING_MUSIC:
-      sound_manager->play_music(herring_song);
+      SoundManager::get()->play_music(herring_song);
       break;
     default:
-      sound_manager->halt_music();
+      SoundManager::get()->halt_music();
       break;
   }
 }

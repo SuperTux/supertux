@@ -23,6 +23,7 @@
 #include "../utils/configfile.h"
 #include "../app/setup.h"
 #include "../app/globals.h"
+#include "../audio/sound_manager.h"
 
 using namespace SuperTux;
 
@@ -38,14 +39,44 @@ static void defaults ()
 {
   /* Set defaults: */
   debug_mode = false;
-  audio_device = true;
+  SoundManager::get()->set_audio_device_available(true);
 
   use_fullscreen = false;
   show_fps = false;
   use_gl = false;
 
-  use_sound = true;
-  use_music = true;
+  SoundManager::get()->enable_sound(true);
+  SoundManager::get()->enable_music(true);
+}
+
+FILE * SuperTux::opendata(const char * rel_filename, const char * mode)
+{
+  char * filename = NULL;
+  FILE * fi;
+
+  filename = (char *) malloc(sizeof(char) * (strlen(st_dir) +
+                                             strlen(rel_filename) + 1));
+
+  strcpy(filename, st_dir);
+  /* Open the high score file: */
+
+  strcat(filename, rel_filename);
+
+  /* Try opening the file: */
+  fi = fopen(filename, mode);
+
+  if (fi == NULL)
+    {
+      fprintf(stderr, "Warning: Unable to open the file \"%s\" ", filename);
+
+      if (strcmp(mode, "r") == 0)
+        fprintf(stderr, "for read!!!\n");
+      else if (strcmp(mode, "w") == 0)
+        fprintf(stderr, "for write!!!\n");
+    }
+  free( filename );
+
+  return(fi);
 }
 
 void Config::load()
@@ -78,8 +109,11 @@ void Config::load()
   LispReader reader(lisp_cdr(root_obj));
 
   reader.read_bool("fullscreen", use_fullscreen);
-  reader.read_bool("sound",      use_sound);
-  reader.read_bool("music",      use_music);
+  bool temp;
+  reader.read_bool("sound",     temp);
+  SoundManager::get()->enable_sound(temp);
+  reader.read_bool("music",      temp);
+  SoundManager::get()->enable_music(temp);
   reader.read_bool("show_fps",   show_fps);
 
   std::string video;
@@ -116,8 +150,8 @@ void Config::save ()
       fprintf(config, "(supertux-config\n");
       fprintf(config, "\t;; the following options can be set to #t or #f:\n");
       fprintf(config, "\t(fullscreen %s)\n", use_fullscreen ? "#t" : "#f");
-      fprintf(config, "\t(sound      %s)\n", use_sound      ? "#t" : "#f");
-      fprintf(config, "\t(music      %s)\n", use_music      ? "#t" : "#f");
+      fprintf(config, "\t(sound      %s)\n", SoundManager::get()->sound_enabled()      ? "#t" : "#f");
+      fprintf(config, "\t(music      %s)\n", SoundManager::get()->music_enabled()      ? "#t" : "#f");
       fprintf(config, "\t(show_fps   %s)\n", show_fps       ? "#t" : "#f");
 
       fprintf(config, "\n\t;; either \"opengl\" or \"sdl\"\n");

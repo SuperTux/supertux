@@ -82,8 +82,6 @@ void loadshared()
   int i;
 
   sprite_manager = new SpriteManager(datadir + "/supertux.strf");
-  sound_manager = new SoundManager();
-  sound_manager->enable_music(use_music);
 
   /* Tuxes: */
   smalltux_star = sprite_manager->load("smalltux-star");
@@ -265,11 +263,11 @@ void loadshared()
                     Send a mail to me: neoneurone@users.sf.net, if you have another opinion. :)
   */
   for (i = 0; i < NUM_SOUNDS; i++)
-    sounds.push_back(load_sound(datadir + soundfilenames[i]));
+    SoundManager::get()->add_sound(SoundManager::get()->load_sound(datadir + soundfilenames[i]),i);
 
   /* Herring song */
-  herring_song = sound_manager->load_music(datadir + "/music/SALCON.MOD");
-  level_end_song = sound_manager->load_music(datadir + "/music/leveldone.mod");
+  herring_song = SoundManager::get()->load_music(datadir + "/music/SALCON.MOD");
+  level_end_song = SoundManager::get()->load_music(datadir + "/music/leveldone.mod");
 }
 
 
@@ -311,12 +309,8 @@ void unloadshared(void)
   for (int i = 0; i < DOOR_OPENING_FRAMES; i++)
     delete door_opening[i];
 
-  for (i = 0; i < NUM_SOUNDS; i++)
-    free_chunk(sounds[i]);
-
   delete sprite_manager;
   sprite_manager = 0;
-  delete sound_manager;
   sound_manager = 0;
 }
 

@@ -106,12 +106,12 @@ void LevelSubset::load(const char* subset)
       snprintf(filename, 1024, "%s/levels/%s/", st_dir, subset);
       if(access(filename, R_OK) == 0)
         {
-          files = read_directory(filename);
+          files = FileSystem::read_directory(filename);
         }
       else
         {
           snprintf(filename, 1024, "%s/levels/%s/", datadir.c_str(), subset);
-          files = read_directory(filename);
+          files = FileSystem::read_directory(filename);
         }
   
       for(std::vector<std::string>::iterator i = files.begin(); i != files.end(); ++i)
@@ -131,11 +131,11 @@ LevelSubset::save()
   /* Save data file: */
   filename = "/levels/" + name + "/";
 
-  fcreatedir(filename.c_str());
+  FileSystem::fcreatedir(filename.c_str());
   filename = std::string(st_dir) + "/levels/" + name + "/info";
-  if(!fwriteable(filename.c_str()))
+  if(!FileSystem::fwriteable(filename.c_str()))
     filename = datadir + "/levels/" + name + "/info";
-  if(fwriteable(filename.c_str()))
+  if(FileSystem::fwriteable(filename.c_str()))
     {
       fi = fopen(filename.c_str(), "w");
       if (fi == NULL)

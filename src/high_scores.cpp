@@ -141,8 +141,8 @@ void save_hs(int score)
   /* Save data file: */
   filename = highscore_filename;
 
-  fcreatedir(filename.c_str());
-  if(fwriteable(filename.c_str()))
+  FileSystem::fcreatedir(filename.c_str());
+  if(FileSystem::fwriteable(filename.c_str()))
     {
       fi = fopen(filename.c_str(), "w");
       if (fi == NULL)

@@ -22,15 +22,16 @@
 
 #include "../audio/sound_manager.h"
 #include "../audio/musicref.h"
-#include "../audio/sound.h"
 #include "../app/globals.h"
 #include "../app/setup.h"
 #include "../special/moving_object.h"
 
 using namespace SuperTux;
 
+SoundManager* SoundManager::instance_ = 0;
+
 SoundManager::SoundManager()
-  : current_music(0), music_enabled(true)
+  : current_music(0), m_music_enabled(true) , m_sound_enabled(true) , audio_device(true)
 {
 }
 
@@ -38,12 +39,15 @@ SoundManager::~SoundManager()
 {
   if(audio_device)
     Mix_HaltMusic();
+
+sounds.clear();
+destroy_instance();
 }
 
 void
 SoundManager::play_sound(Mix_Chunk* sound)
 {
-  if(!audio_device || !use_sound)
+  if(!audio_device || !m_sound_enabled)
     return;
 
   Mix_PlayChannel(-1, sound, 0);  
@@ -60,7 +64,7 @@ SoundManager::play_sound(Mix_Chunk* sound, const MovingObject* object, const Vec
 void
 SoundManager::play_sound(Mix_Chunk* sound, const Vector& pos, const Vector& pos2)
 {
-  if(!audio_device || !use_sound)
+  if(!audio_device || !m_sound_enabled)
     return;
 
   // TODO make sure this formula is good
@@ -89,7 +93,7 @@ SoundManager::load_music(const std::string& file)
     return MusicRef(0);
 
   if(!exists_music(file))
-    st_abort("Couldn't load musicfile ", file.c_str());
+    Termination::abort("Couldn't load musicfile ", file.c_str());
 
   std::map<std::string, MusicResource>::iterator i = musics.find(file);
   assert(i != musics.end());
@@ -145,7 +149,7 @@ SoundManager::play_music(const MusicRef& musicref, int loops)
   current_music = musicref.music;
   current_music->refcount++;
   
-  if(music_enabled)
+  if(m_music_enabled)
     Mix_PlayMusic(current_music->music, loops);
 }
 
@@ -171,20 +175,79 @@ SoundManager::enable_music(bool enable)
   if(!audio_device)
     return;
 
-  if(enable == music_enabled)
+  if(enable == m_music_enabled)
     return;
   
-  music_enabled = enable;
-  if(music_enabled == false) {
+  m_music_enabled = enable;
+  if(m_music_enabled == false) {
     Mix_HaltMusic();
   } else {
     Mix_PlayMusic(current_music->music, -1);
   }
 }
 
+void
+SoundManager::enable_sound(bool enable)
+{
+  if(!audio_device)
+    return;
+  
+  m_sound_enabled = enable;
+}
+
 SoundManager::MusicResource::~MusicResource()
 {
   // don't free music buggy SDL_Mixer crashs for some mod files
   // Mix_FreeMusic(music);
+}
+
+/* --- LOAD A SOUND --- */
+
+Mix_Chunk* SoundManager::load_sound(const std::string& file)
+{
+  if(!audio_device)
+    return 0;
+  
+  Mix_Chunk* snd = Mix_LoadWAV(file.c_str());
+
+  /*if (snd == 0)
+    Termination::abort("Can't load", file);*/
+
+  return(snd);
+}
+
+void SoundManager::free_chunk(Mix_Chunk *chunk)
+{
+  Mix_FreeChunk( chunk );
+}
+
+
+/* --- OPEN THE AUDIO DEVICE --- */
+
+int SoundManager::open_audio (int frequency, Uint16 format, int channels, int chunksize)
+{
+  if (Mix_OpenAudio( frequency, format, channels, chunksize ) < 0)
+    return -1;
+
+  // allocate 16 channels for mixing
+  if (Mix_AllocateChannels(8)  != 8)
+    return -2;
+  
+  return 0;
+}
+
+
+/* --- CLOSE THE AUDIO DEVICE --- */
+
+void SoundManager::close_audio( void )
+{
+  if (audio_device) {
+    Mix_CloseAudio();
+  }
+}
+
+Mix_Chunk* SuperTux::IDToSound(int id)
+{
+  return SoundManager::get()->sounds[id];
 }
 

@@ -66,7 +66,7 @@ void seticon(void);
 void usage(char * prog, int ret);
 
 /* Does the given file exist and is it accessible? */
-int SuperTux::faccessible(const char *filename)
+int FileSystem::faccessible(const char *filename)
 {
   struct stat filestat;
   if (stat(filename, &filestat) == -1)
@@ -83,7 +83,7 @@ int SuperTux::faccessible(const char *filename)
 }
 
 /* Can we write to this location? */
-int SuperTux::fwriteable(const char *filename)
+int FileSystem::fwriteable(const char *filename)
 {
   FILE* fi;
   fi = fopen(filename, "wa");
@@ -95,7 +95,7 @@ int SuperTux::fwriteable(const char *filename)
 }
 
 /* Makes sure a directory is created in either the SuperTux home directory or the SuperTux base directory.*/
-int SuperTux::fcreatedir(const char* relative_dir)
+int FileSystem::fcreatedir(const char* relative_dir)
 {
   char path[1024];
   snprintf(path, 1024, "%s/%s/", st_dir, relative_dir);
@@ -117,40 +117,10 @@ int SuperTux::fcreatedir(const char* relative_dir)
     }
 }
 
-FILE * SuperTux::opendata(const char * rel_filename, const char * mode)
-{
-  char * filename = NULL;
-  FILE * fi;
-
-  filename = (char *) malloc(sizeof(char) * (strlen(st_dir) +
-                                             strlen(rel_filename) + 1));
-
-  strcpy(filename, st_dir);
-  /* Open the high score file: */
-
-  strcat(filename, rel_filename);
-
-  /* Try opening the file: */
-  fi = fopen(filename, mode);
-
-  if (fi == NULL)
-    {
-      fprintf(stderr, "Warning: Unable to open the file \"%s\" ", filename);
-
-      if (strcmp(mode, "r") == 0)
-        fprintf(stderr, "for read!!!\n");
-      else if (strcmp(mode, "w") == 0)
-        fprintf(stderr, "for write!!!\n");
-    }
-  free( filename );
-
-  return(fi);
-}
-
 /* Get all names of sub-directories in a certain directory. */
 /* Returns the number of sub-directories found. */
 /* Note: The user has to free the allocated space. */
-string_list_type SuperTux::dsubdirs(const char *rel_path,const  char* expected_file)
+string_list_type FileSystem::dsubdirs(const char *rel_path,const  char* expected_file)
 {
   DIR *dirStructP;
   struct dirent *direntp;
@@ -220,7 +190,7 @@ string_list_type SuperTux::dsubdirs(const char *rel_path,const  char* expected_f
   return sdirs;
 }
 
-string_list_type SuperTux::dfiles(const char *rel_path, const  char* glob, const  char* exception_str)
+string_list_type FileSystem::dfiles(const char *rel_path, const  char* glob, const  char* exception_str)
 {
   DIR *dirStructP;
   struct dirent *direntp;
@@ -285,14 +255,7 @@ string_list_type SuperTux::dfiles(const char *rel_path, const  char* glob, const
   return sdirs;
 }
 
-void SuperTux::free_strings(char **strings, int num)
-{
-  int i;
-  for(i=0; i < num; ++i)
-    free(strings[i]);
-}
-
-void SuperTux::st_info_setup(const std::string& _package_name, const std::string& _package_symbol_name, const std::string& _package_version)
+void Setup::info(const std::string& _package_name, const std::string& _package_symbol_name, const std::string& _package_version)
 {
 package_name = _package_name;
 package_symbol_name = _package_symbol_name;
@@ -301,7 +264,7 @@ package_version = _package_version;
 
 /* --- SETUP --- */
 /* Set SuperTux configuration and save directories */
-void SuperTux::st_directory_setup(void)
+void Setup::directories(void)
 {
   char *home;
   char str[1024];
@@ -319,7 +282,7 @@ void SuperTux::st_directory_setup(void)
   strcat(st_dir,st_dir_tmp.c_str());
 
   /* Remove .supertux config-file from old SuperTux versions */
-  if(faccessible(st_dir))
+  if(FileSystem::faccessible(st_dir))
     {
       remove
         (st_dir);
@@ -369,7 +332,7 @@ void SuperTux::st_directory_setup(void)
   printf("Datadir: %s\n", datadir.c_str());
 }
 
-void SuperTux::st_general_setup(void)
+void Setup::general(void)
 {
   /* Seed random number generator: */
 
@@ -410,7 +373,7 @@ void SuperTux::st_general_setup(void)
   
 }
 
-void SuperTux::st_general_free(void)
+void Setup::general_free(void)
 {
 
   /* Free global images: */
@@ -434,7 +397,7 @@ void SuperTux::st_general_free(void)
   
 }
 
-void SuperTux::st_video_setup(unsigned int screen_w, unsigned int screen_h)
+void Setup::video(unsigned int screen_w, unsigned int screen_h)
 {
   /* Init SDL Video: */
   if (SDL_Init(SDL_INIT_VIDEO) < 0)
@@ -448,9 +411,9 @@ void SuperTux::st_video_setup(unsigned int screen_w, unsigned int screen_h)
 
   /* Open display: */
   if(use_gl)
-    st_video_setup_gl(screen_w, screen_h);
+    video_gl(screen_w, screen_h);
   else
-    st_video_setup_sdl(screen_w, screen_h);
+    video_sdl(screen_w, screen_h);
 
   Surface::reload_all();
 
@@ -458,7 +421,7 @@ void SuperTux::st_video_setup(unsigned int screen_w, unsigned int screen_h)
   SDL_WM_SetCaption((package_name + " " + package_version).c_str(), package_name.c_str());
 }
 
-void SuperTux::st_video_setup_sdl(unsigned int screen_w, unsigned int screen_h)
+void Setup::video_sdl(unsigned int screen_w, unsigned int screen_h)
 {
   if (use_fullscreen)
     {
@@ -488,7 +451,7 @@ void SuperTux::st_video_setup_sdl(unsigned int screen_w, unsigned int screen_h)
     }
 }
 
-void SuperTux::st_video_setup_gl(unsigned int screen_w, unsigned int screen_h)
+void Setup::video_gl(unsigned int screen_w, unsigned int screen_h)
 {
 #ifndef NOOPENGL
 
@@ -544,7 +507,7 @@ void SuperTux::st_video_setup_gl(unsigned int screen_w, unsigned int screen_h)
 
 }
 
-void SuperTux::st_joystick_setup(void)
+void Setup::joystick(void)
 {
 
   /* Init Joystick: */
@@ -605,19 +568,19 @@ void SuperTux::st_joystick_setup(void)
     }
 }
 
-void SuperTux::st_audio_setup(void)
+void Setup::audio(void)
 {
 
   /* Init SDL Audio silently even if --disable-sound : */
 
-  if (audio_device)
+  if (SoundManager::get()->audio_device_available())
     {
       if (SDL_Init(SDL_INIT_AUDIO) < 0)
         {
           /* only print out message if sound or music
              was not disabled at command-line
            */
-          if (use_sound || use_music)
+          if (SoundManager::get()->sound_enabled() || SoundManager::get()->music_enabled())
             {
               fprintf(stderr,
                       "\nWarning: I could not initialize audio!\n"
@@ -628,23 +591,23 @@ void SuperTux::st_audio_setup(void)
              because in this case, use_sound & use_music' values are ignored
              when there's no available audio device
           */
-          use_sound = false;
-          use_music = false;
-          audio_device = false;
+          SoundManager::get()->enable_sound(false);
+          SoundManager::get()->enable_music(false);
+          SoundManager::get()->set_audio_device_available(false);
         }
     }
 
 
   /* Open sound silently regarless the value of "use_sound": */
 
-  if (audio_device)
+  if (SoundManager::get()->audio_device_available())
     {
-      if (open_audio(44100, AUDIO_S16, 2, 2048) < 0)
+      if (SoundManager::get()->open_audio(44100, AUDIO_S16, 2, 2048) < 0)
         {
           /* only print out message if sound or music
              was not disabled at command-line
            */
-          if (use_sound || use_music)
+          if (SoundManager::get()->sound_enabled() || SoundManager::get()->music_enabled())
             {
               fprintf(stderr,
                       "\nWarning: I could not set up audio for 44100 Hz "
@@ -652,9 +615,9 @@ void SuperTux::st_audio_setup(void)
                       "The Simple DirectMedia error that occured was:\n"
                       "%s\n\n", SDL_GetError());
             }
-          use_sound = false;
-          use_music = false;
-          audio_device = false;
+          SoundManager::get()->enable_sound(false);
+          SoundManager::get()->enable_music(false);
+          SoundManager::get()->set_audio_device_available(false);
         }
     }
 
@@ -663,20 +626,20 @@ void SuperTux::st_audio_setup(void)
 
 /* --- SHUTDOWN --- */
 
-void SuperTux::st_shutdown(void)
+void Termination::shutdown(void)
 {
-  close_audio();
+  SoundManager::get()->close_audio();
   SDL_Quit();
   config->save();
 }
 
 /* --- ABORT! --- */
 
-void SuperTux::st_abort(const std::string& reason, const std::string& details)
+void Termination::abort(const std::string& reason, const std::string& details)
 {
   fprintf(stderr, "\nError: %s\n%s\n\n", reason.c_str(), details.c_str());
-  st_shutdown();
-  abort();
+  shutdown();
+  ::abort();
 }
 
 /* Set Icon (private) */
@@ -722,7 +685,7 @@ void seticon(void)
 
 /* Parse command-line arguments: */
 
-void SuperTux::parseargs(int argc, char * argv[])
+void Setup::parseargs(int argc, char * argv[])
 {
   int i;
 
@@ -819,14 +782,13 @@ void SuperTux::parseargs(int argc, char * argv[])
         {
           /* Disable the compiled in sound feature */
           printf("Sounds disabled \n");
-          use_sound = false;
-          audio_device = false;
+          SoundManager::get()->enable_sound(false); 
         }
       else if (strcmp(argv[i], "--disable-music") == 0)
         {
           /* Disable the compiled in sound feature */
           printf("Music disabled \n");
-          use_music = false;
+          SoundManager::get()->enable_music(false); 
         }
       else if (strcmp(argv[i], "--debug") == 0)
         {
@@ -906,7 +868,7 @@ void usage(char * prog, int ret)
   exit(ret);
 }
 
-std::vector<std::string> SuperTux::read_directory(const std::string& pathname)
+std::vector<std::string> FileSystem::read_directory(const std::string& pathname)
 {
   std::vector<std::string> dirnames;
   

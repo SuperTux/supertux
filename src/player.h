@@ -27,7 +27,6 @@
 #include "special/base.h"
 #include "video/surface.h"
 #include "collision.h"
-#include "audio/sound.h"
 #include "special/moving_object.h"
 #include "math/physic.h"
 #include "app/defines.h"

@@ -34,7 +34,6 @@
 #include "../video/screen.h"
 #include "../video/drawing_context.h"
 #include "../app/setup.h"
-#include "../audio/sound.h"
 #include "../special/timer.h"
 #include "../app/gettext.h"
 #include "../math/vector.h"

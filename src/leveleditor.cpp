@@ -77,7 +77,7 @@ enum { TM_IA, TM_BG, TM_FG };
 
 LevelEditor::LevelEditor()
 {
-  level_subsets = dsubdirs("/levels", "level1.stl");
+  level_subsets = FileSystem::dsubdirs("/levels", "level1.stl");
   le_level_subset = new LevelSubset;
 
   le_level = NULL;
@@ -201,7 +201,7 @@ int LevelEditor::run(char* filename)
   le_level = NULL;
   le_levelnb = 1;
 
-  sound_manager->halt_music();
+  SoundManager::get()->halt_music();
 
   while (SDL_PollEvent(&event))
   {}
@@ -544,8 +544,8 @@ void LevelEditor::update_level_settings_menu()
   level_settings_menu->get_item_by_id(MNID_NAME).change_input(le_level->name.c_str());
   level_settings_menu->get_item_by_id(MNID_AUTHOR).change_input(le_level->author.c_str());
 
-  string_list_copy(level_settings_menu->get_item_by_id(MNID_SONG).list, dfiles("music/",NULL, "-fast"));
-  string_list_copy(level_settings_menu->get_item_by_id(MNID_BGIMG).list, dfiles("images/background",NULL, NULL));
+  string_list_copy(level_settings_menu->get_item_by_id(MNID_SONG).list, FileSystem::dfiles("music/",NULL, "-fast"));
+  string_list_copy(level_settings_menu->get_item_by_id(MNID_BGIMG).list, FileSystem::dfiles("images/background",NULL, NULL));
   string_list_add_item(level_settings_menu->get_item_by_id(MNID_BGIMG).list,"");
   string_list_add_item(level_settings_menu->get_item_by_id(MNID_PARTICLE).list,"");
   string_list_add_item(level_settings_menu->get_item_by_id(MNID_PARTICLE).list,"snow");
@@ -1687,7 +1687,7 @@ void LevelEditor::testlevel()
   session.run();
   player_status.reset();
 
-  sound_manager->halt_music();
+  SoundManager::get()->halt_music();
 
   Menu::set_current(NULL);
 }

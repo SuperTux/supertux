@@ -23,7 +23,6 @@
 #define SUPERTUX_GAMELOOP_H
 
 #include "special/timer.h"
-#include "audio/sound.h"
 #include "special/base.h"
 
 using namespace SuperTux;

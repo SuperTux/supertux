@@ -110,7 +110,7 @@ GameSession::restart_level()
     level->do_vertical_flip();
   currentsector = level->get_sector("main");
   if(!currentsector)
-    st_abort("Level has no main sector.", "");
+    Termination::abort("Level has no main sector.", "");
   currentsector->activate("main");
 
 #if 0 // TODO
@@ -153,7 +153,7 @@ GameSession::~GameSession()
 void
 GameSession::levelintro(void)
 {
-  sound_manager->halt_music();
+  SoundManager::get()->halt_music();
   
   char str[60];
 
@@ -256,7 +256,7 @@ GameSession::process_events()
           switch(event.type)
             {
             case SDL_QUIT:        /* Quit event - quit: */
-              st_abort("Received window close", "");
+              Termination::abort("Received window close", "");
               break;
               
             case SDL_KEYDOWN:     /* A keypress! */
@@ -302,7 +302,7 @@ GameSession::process_events()
               switch(event.type)
                 {
                 case SDL_QUIT:        /* Quit event - quit: */
-                  st_abort("Received window close", "");
+                  Termination::abort("Received window close", "");
                   break;
 
                 case SDL_KEYDOWN:     /* A keypress! */
@@ -474,7 +474,7 @@ GameSession::check_end_conditions()
     {
       end_sequence = ENDSEQUENCE_RUNNING;
       last_x_pos = -1;
-      sound_manager->play_music(level_end_song, 0);
+      SoundManager::get()->play_music(level_end_song, 0);
       endsequence_timer.start(7000); // 5 seconds until we finish the map
       tux->invincible_timer.start(7000); //FIXME: Implement a winning timer for the end sequence (with special winning animation etc.)
     }
@@ -716,7 +716,7 @@ void bumpbrick(float x, float y)
   Sector::current()->add_bouncy_brick(Vector(((int)(x + 1) / 32) * 32,
                          (int)(y / 32) * 32));
 
-  sound_manager->play_sound(sounds[SND_BRICK], Vector(x, y), Sector::current()->player->get_pos());
+  SoundManager::get()->play_sound(IDToSound(SND_BRICK), Vector(x, y), Sector::current()->player->get_pos());
 }
 
 /* (Status): */

@@ -34,14 +34,14 @@ Sprite::Sprite(lisp_object_t* cur)
   LispReader reader(cur);
 
   if(!reader.read_string("name", name))
-    st_abort("Sprite wihtout name", "");
+    Termination::abort("Sprite wihtout name", "");
   reader.read_int("x-hotspot", x_hotspot);
   reader.read_int("y-hotspot", y_hotspot);
   reader.read_float("fps",     fps);
 
   std::vector<std::string> images;
   if(!reader.read_string_vector("images", images))
-    st_abort("Sprite contains no images: ", name.c_str());
+    Termination::abort("Sprite contains no images: ", name.c_str());
 
   for(std::vector<std::string>::size_type i = 0; i < images.size(); ++i)
     {

@@ -33,11 +33,11 @@ namespace SuperTux
       and displays it in a StarTrek fashion */
   void display_text_file(const std::string& file, float scroll_speed);
 
-  /* Text type */
+  /// Font
   class Font
     {
     public:
-      /* Kinds of texts. */
+      /// Kinds of texts.
       enum FontType {
         TEXT, // images for all characters
         NUM   // only images for numbers
@@ -46,7 +46,7 @@ namespace SuperTux
       Font(const std::string& file, FontType type, int w, int h, int shadowsize=2);
       ~Font();
 
-      /** returns the height of the font */
+      /// returns the height of the font.
       float get_height() const;
       /** returns the width of a given text. (Note that I won't add a normal
        * get_width function here, as we might switch to variable width fonts in the

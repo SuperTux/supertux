@@ -4,7 +4,6 @@ lib_LTLIBRARIES = libsupertux.la
 libsupertux_la_SOURCES =app/globals.cpp \
 			app/setup.cpp \
 			audio/musicref.cpp \
-			audio/sound.cpp \
 			audio/sound_manager.cpp \
 			gui/button.cpp \
 			gui/menu.cpp \
@@ -37,7 +36,6 @@ libsupertuxapp_HEADERS =app/defines.h \
 			app/gettext.h \
 			app/globals.h
 libsupertuxaudio_HEADERS =audio/musicref.h \
-			audio/sound.h \
 			audio/sound_manager.h
 libsupertuxgui_HEADERS =gui/button.h \
 			gui/menu.h \
@@ -60,4 +58,5 @@ libsupertuxvideo_HEADERS =video/drawing_context.h \
 			video/screen.h \
 			video/surface.h 
 libsupertux_la_LDFLAGS = -module
+
 

@@ -1132,7 +1132,7 @@ LispReader::read_float (const char* name, float& f)
     return false;
   
   if (!lisp_real_p(lisp_car(obj)) && !lisp_integer_p(lisp_car(obj)))
-    st_abort("LispReader expected type real at token: ", name);
+    Termination::abort("LispReader expected type real at token: ", name);
   
   f = lisp_real(lisp_car(obj));
   return true;
@@ -1149,7 +1149,7 @@ LispReader::read_string_vector (const char* name, std::vector<std::string>& vec)
   while(!lisp_nil_p(obj))
   {
     if (!lisp_string_p(lisp_car(obj)))
-      st_abort("LispReader expected type string at token: ", name);
+      Termination::abort("LispReader expected type string at token: ", name);
     vec.push_back(lisp_string(lisp_car(obj)));
     obj = lisp_cdr(obj);
   }
@@ -1167,7 +1167,7 @@ LispReader::read_int_vector (const char* name, std::vector<int>& vec)
   while(!lisp_nil_p(obj))
   {
     if (!lisp_integer_p(lisp_car(obj)))
-      st_abort("LispReader expected type integer at token: ", name);
+      Termination::abort("LispReader expected type integer at token: ", name);
     vec.push_back(lisp_integer(lisp_car(obj)));
     obj = lisp_cdr(obj);
   }
@@ -1185,7 +1185,7 @@ LispReader::read_int_vector (const char* name, std::vector<unsigned int>& vec)
   while(!lisp_nil_p(obj))
   {
     if (!lisp_integer_p(lisp_car(obj)))
-      st_abort("LispReader expected type integer at token: ", name);
+      Termination::abort("LispReader expected type integer at token: ", name);
     vec.push_back(lisp_integer(lisp_car(obj)));
     obj = lisp_cdr(obj);
   }
@@ -1253,7 +1253,7 @@ LispReader::read_string (const char* name, std::string& str, bool translatable)
     return false;
 
   if (!lisp_string_p(lisp_car(obj)))
-    st_abort("LispReader expected type string at token: ", name);
+    Termination::abort("LispReader expected type string at token: ", name);
   str = lisp_string(lisp_car(obj));
   return true;
 }
@@ -1266,7 +1266,7 @@ LispReader::read_bool (const char* name, bool& b)
     return false;
   
   if (!lisp_boolean_p(lisp_car(obj)))
-    st_abort("LispReader expected type bool at token: ", name);
+    Termination::abort("LispReader expected type bool at token: ", name);
   b = lisp_boolean(lisp_car(obj));
   return true;
 }

@@ -46,7 +46,7 @@ SurfaceData::SurfaceData(SDL_Surface* temp, bool use_alpha_)
                                  temp->format->Bmask,
                                  temp->format->Amask);
   if(!surface)
-    st_abort("No memory left.", "");
+    Termination::abort("No memory left.", "");
   SDL_SetAlpha(temp,0,0);
   SDL_BlitSurface(temp, NULL, surface, NULL);
 }
@@ -260,7 +260,7 @@ sdl_surface_part_from_file(const std::string& file, int x, int y, int w, int h, 
   temp = IMG_Load(file.c_str());
 
   if (temp == NULL)
-    st_abort("Can't load", file);
+    Termination::abort("Can't load", file);
 
   /* Set source rectangle for conv: */
 
@@ -291,7 +291,7 @@ sdl_surface_part_from_file(const std::string& file, int x, int y, int w, int h, 
     sdl_surface = SDL_DisplayFormatAlpha(conv);
 
   if (sdl_surface == NULL)
-    st_abort("Can't covert to display format", file);
+    Termination::abort("Can't covert to display format", file);
 
   if (use_alpha == false && !use_gl)
     SDL_SetAlpha(sdl_surface, 0, 0);
@@ -311,7 +311,7 @@ sdl_surface_from_file(const std::string& file, bool use_alpha)
   temp = IMG_Load(file.c_str());
 
   if (temp == NULL)
-    st_abort("Can't load", file);
+    Termination::abort("Can't load", file);
 
   if(use_alpha == false && !use_gl)
     sdl_surface = SDL_DisplayFormat(temp);
@@ -319,7 +319,7 @@ sdl_surface_from_file(const std::string& file, bool use_alpha)
     sdl_surface = SDL_DisplayFormatAlpha(temp);
 
   if (sdl_surface == NULL)
-    st_abort("Can't covert to display format", file);
+    Termination::abort("Can't covert to display format", file);
 
   if (use_alpha == false && !use_gl)
     SDL_SetAlpha(sdl_surface, 0, 0);
@@ -358,7 +358,7 @@ SuperTux::sdl_surface_from_sdl_surface(SDL_Surface* sdl_surf, bool use_alpha)
   }
 
   if (sdl_surface == NULL)
-    st_abort("Can't covert to display format", "SURFACE");
+    Termination::abort("Can't covert to display format", "SURFACE");
 
   if (use_alpha == false && !use_gl)
     SDL_SetAlpha(sdl_surface, 0, 0);
@@ -376,7 +376,7 @@ sdl_surface_from_gradient(Color top, Color bottom, int w, int h)
                     screen->format->Gmask, screen->format->Bmask, screen->format->Amask);
 
   if(sdl_surface == NULL)
-      st_abort("Cannot create surface for the gradient", "SURFACE");
+      Termination::abort("Cannot create surface for the gradient", "SURFACE");
 
   if(top == bottom)
     {

@@ -23,35 +23,44 @@
 #include <vector>
 #include <string>
 #include "../gui/menu.h"
-#include "../audio/sound.h"
 #include "../special/base.h"
 
 namespace SuperTux {
 
-int faccessible(const char *filename);
-int fcreatedir(const char* relative_dir);
-int fwriteable(const char *filename);
-std::vector<std::string> read_directory(const std::string& pathname);
+/// File system utility functions
+struct FileSystem
+  {
+    static int faccessible(const char *filename);
+    static int fcreatedir(const char* relative_dir);
+    static int fwriteable(const char *filename);
+    static std::vector<std::string> read_directory(const std::string& pathname);
+    static string_list_type dsubdirs(const char *rel_path, const char* expected_file);
+    static string_list_type dfiles(const char *rel_path, const char* glob, const char* exception_str);
+  };
 
-FILE * opendata(const char * filename, const char * mode);
-string_list_type dsubdirs(const char *rel_path, const char* expected_file);
-string_list_type dfiles(const char *rel_path, const char* glob, const char* exception_str);
-void free_strings(char **strings, int num);
-void st_info_setup(const std::string& _package_name, const std::string& _package_symbol_name, const std::string& _package_version);
-void st_directory_setup(void);
-void st_general_setup(void);
-void st_general_free();
-void st_video_setup_sdl(unsigned int screen_w, unsigned int screen_h);
-void st_video_setup_gl(unsigned int screen_w, unsigned int screen_h);
-void st_video_setup(unsigned int screen_w, unsigned int screen_h);
-void st_audio_setup(void);
-void st_joystick_setup(void);
-void st_shutdown(void);
-void st_abort(const std::string& reason, const std::string& details);
+/// All you need to get an application up and running
+struct Setup
+  {
+    static void info(const std::string& _package_name, const std::string& _package_symbol_name, const std::string& _package_version);
+    static void directories(void);
+    static void general(void);
+    static void general_free();
+    static void video_sdl(unsigned int screen_w, unsigned int screen_h);
+    static void video_gl(unsigned int screen_w, unsigned int screen_h);
+    static void video(unsigned int screen_w, unsigned int screen_h);
+    static void audio(void);
+    static void joystick(void);
+    static void parseargs(int argc, char * argv[]);
+  };
 
-void parseargs(int argc, char * argv[]);
-
-}
+/// Termination handling
+struct Termination
+  {
+    static void shutdown(void);
+    static void abort(const std::string& reason, const std::string& details);
+  };
+  
+} //namespace SuperTux
 
 #endif /*SUPERTUX_SETUP_H*/
 
