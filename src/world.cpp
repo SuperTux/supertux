@@ -320,9 +320,9 @@ void World::scrolling(double frame_ratio)
 {
   int tux_pos_x = (int)(tux.base.x + (tux.base.width/2));
 
-  if (level->back_scrolling || debug_mode)
+  if (/*level->back_scrolling || */debug_mode)
   {
-    if(tux.old_dir != tux.dir && level->back_scrolling)
+    if(tux.old_dir != tux.dir)
       scrolling_timer.start(CHANGE_DIR_SCROLL_SPEED);
 
     if(scrolling_timer.check())
@@ -350,13 +350,13 @@ void World::scrolling(double frame_ratio)
     {
       if (tux.physic.get_velocity_x() > 0 && scroll_x < tux_pos_x - (screen->w - X_SPACE))
         scroll_x = tux_pos_x - (screen->w - X_SPACE);
-      else if (tux.physic.get_velocity_x() < 0 && scroll_x > tux_pos_x - X_SPACE && level->back_scrolling)
+      else if (tux.physic.get_velocity_x() < 0 && scroll_x > tux_pos_x - X_SPACE && debug_mode)
         scroll_x = tux_pos_x - X_SPACE;
       else
       {
         if (tux.dir == RIGHT && scroll_x < tux_pos_x - (screen->w - X_SPACE))
             scroll_x = tux_pos_x - (screen->w - X_SPACE);
-        else if (tux.dir == LEFT && scroll_x > tux_pos_x - X_SPACE && level->back_scrolling)
+        else if (tux.dir == LEFT && scroll_x > tux_pos_x - X_SPACE && debug_mode)
             scroll_x = tux_pos_x - X_SPACE;
       }
     }
@@ -364,19 +364,9 @@ void World::scrolling(double frame_ratio)
 
   else /*no debug*/
   {
-    if (tux.physic.get_velocity_x() > 0 && scroll_x < tux_pos_x - (screen->w - X_SPACE))
+    if (scroll_x < tux_pos_x - (screen->w - X_SPACE))
       scroll_x = tux_pos_x - (screen->w - X_SPACE);
-    else if (tux.physic.get_velocity_x() < 0 && scroll_x > tux_pos_x - X_SPACE && level->back_scrolling)
-      scroll_x = tux_pos_x - X_SPACE;
-    else
-    {
-      if (tux.dir == RIGHT && scroll_x < tux_pos_x - (screen->w - X_SPACE))
-          scroll_x = tux_pos_x - (screen->w - X_SPACE);
-      else if (tux.dir == LEFT && scroll_x > tux_pos_x - X_SPACE && level->back_scrolling)
-          scroll_x = tux_pos_x - X_SPACE;
     }
-
-  }
 
   // this code prevent the screen to scroll before the start or after the level's end
   if(scroll_x < 0)
