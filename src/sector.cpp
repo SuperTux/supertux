@@ -67,6 +67,7 @@
 #include "trigger/door.h"
 #include "trigger/sequence_trigger.h"
 #include "trigger/secretarea_trigger.h"
+#include "gameobjs_bridge.h"
 
 Sector* Sector::_current = 0;
 
@@ -120,41 +121,14 @@ Sector::parse_object(const std::string& name, const lisp::Lisp& reader)
     CloudParticleSystem* partsys = new CloudParticleSystem();
     partsys->parse(reader);
     return partsys;
-  } else if(name == "door") {
-    return new Door(reader);
   } else if(name == "secretarea") {
     return new SecretAreaTrigger(reader);
   } else if(name == "sequencetrigger") {
     return new SequenceTrigger(reader);
-  } else if(name == "platform") {
-    return new Platform(reader);
-  } else if(name == "jumpy" || name == "money") {
-    return new Jumpy(reader);
-  } else if(name == "snowball") {
-    return new SnowBall(reader);
-  } else if(name == "bouncingsnowball") {
-    return new BouncingSnowball(reader);
-  } else if(name == "flame") {
-    return new Flame(reader);
-  } else if(name == "flyingsnowball") {
-    return new FlyingSnowBall(reader);
-  } else if(name == "mriceblock") {
-    return new MrIceBlock(reader);
-  } else if(name == "mrbomb") {
-    return new MrBomb(reader);
-  } else if(name == "dispenser") {
-    return new Dispenser(reader);
-  } else if(name == "spike") {
-    return new Spike(reader);
-  } else if(name == "spiky") {
-    return new Spiky(reader);
-  } else if(name == "nolok_01") {
-    return new Nolok_01(reader);
-  } else if(name == "rock") {
-    return new Rock(reader);
-  }
-
-  std::cerr << "Unknown object type '" << name << "'.\n";
+  } else if(is_object(name)) {
+    return create_object(object_name_to_type(name), reader);
+  } else
+    std::cerr << "Unknown object type '" << name << "'.\n";
   return 0;
 }
 

@@ -38,6 +38,7 @@
 #include "object/camera.h"
 #include "object/tilemap.h"
 #include "object/background.h"
+#include "gameobjs_bridge.h"
 
 LevelEditor::LevelEditor()
 {
@@ -102,7 +103,8 @@ LevelEditor::LevelEditor()
             Vector(32,32), Vector(4,8));
 
   tiles_board->add_button(Button(img_rubber_bt, _("Eraser"), SDLKey(SDLK_DELETE)), 0);
-  for(unsigned int id = 1; id < tile_manager->get_max_tileid(); id++)
+  unsigned int id;
+  for(id = 1; id < tile_manager->get_max_tileid(); id++)
     {
     const Tile* tile = tile_manager->get(id);
     if(!tile)
@@ -115,27 +117,15 @@ LevelEditor::LevelEditor()
     Button button = Button(surface, "", SDLKey(0));
     tiles_board->add_button(button, id);
     }
+  gameobjs_first_id = id;
 
-  #if 0
-  for(int i = 0; i < NUM_BadGuyKinds; i++)
+  for(id = 0; id < TOTAL_GAMEOBJECTS; id++)
     {
-    // filter bomb, since it is only for internal use, not for levels
-    if(i == BAD_BOMB)
-      continue;
-
-    BadGuyKind kind = BadGuyKind(i);
-    BadGuy badguy(kind, 0,0);
-    badguy.activate(LEFT);
-
-    Surface *img = badguy.get_image();
-    tiles_board->add_button(Button(img, "", SDLKey(SDLK_1+i)), -(i+1));
+//    Surface *img = badguy.get_image();
+// FIXME: get image from object. Using the rubber in the meanwhile.
+    tiles_board->add_button(Button(img_rubber_bt, object_type_to_string(id),
+                            SDLKey(SDLK_1+id)), id+gameobjs_first_id);
     }
-  #endif
-
-  #if 0
-  tiles_board->add_button(Button(img_trampoline[0].get_frame(0), _("Trampoline"), SDLKey(0)), OBJ_TRAMPOLINE);
-  tiles_board->add_button(Button(img_flying_platform->get_frame(0), _("Flying Platform"), SDLKey(0)), OBJ_FLYING_PLATFORM);
-  #endif
 
   tiles_layer = new ButtonGroup(Vector(12, screen->h-64), Vector(80,20), Vector(1,3));
   tiles_layer->add_button(Button(img_foreground_bt, _("Edtit foreground tiles"),
@@ -608,11 +598,12 @@ if(sector)
       if(selection[0][0] == 0 && selection.size() == 1)
           context.draw_surface(img_rubber_bt, Vector(event.button.x - 8,
           event.button.y - 8), LAYER_GUI-2);
-      else if(selection[0][0] < 0)
+      else if(selection[0][0] >= gameobjs_first_id || selection[0][0] < 0)
         {
+// FIXME: this should draw an object image near cursor
+#if 0
         int id = selection[0][0];
 
-#if 0
         if(id == OBJ_TRAMPOLINE)
           context.draw_surface(img_trampoline[0].get_frame(0), Vector(event.button.x - 8,
           event.button.y - 8), LAYER_GUI-2);
@@ -620,14 +611,12 @@ if(sector)
           context.draw_surface(img_flying_platform->get_frame(0), Vector(event.button.x - 8,
           event.button.y - 8), LAYER_GUI-2);
         else
-#endif
         if(id == OBJ_DOOR)
           /*context.draw_surface(door->get_frame(0), Vector(event.button.x - 8,
           event.button.y - 8), LAYER_GUI-2);*/
           ;
         else
           {
-#if 0
           BadGuyKind kind = BadGuyKind((-id)-1);
           BadGuy badguy(kind, 0,0);
           badguy.activate(LEFT);
@@ -635,8 +624,8 @@ if(sector)
 
           context.draw_surface(img, Vector(event.button.x - 8,
           event.button.y - 8), LAYER_GUI-2);
-#endif
           }
+#endif
         }
       else
         {
@@ -791,12 +780,6 @@ foregrounds = solids = backgrounds = 0;
 /* Point foregrounds, backgrounds, solids to its layer */
 for(Sector::GameObjects::iterator i = sector->gameobjects.begin(); i != sector->gameobjects.end(); i++)
   {
-#if 0
-  BadGuy* badguy = dynamic_cast<BadGuy*> (*i);
-  if(badguy)
-    badguy->activate(LEFT);
-#endif
-
   TileMap* tilemap = dynamic_cast<TileMap*> (*i);
   if(tilemap)
     {
@@ -866,22 +849,12 @@ void LevelEditor::change(int x, int y, int newtile, int layer)
     y = (int)(y * (zoom*32) / 32);
   }
 
-  if(newtile < 0)  // add object
+  if(newtile >= gameobjs_first_id)  // add object
   {
     // remove an active tile or object that might be there
     change(x, y, 0, LAYER_TILES);
 
-#if 0
-    if(newtile == OBJ_TRAMPOLINE)
-      sector->add_object(new Trampoline(x, y));
-    else if(newtile == OBJ_FLYING_PLATFORM)
-      sector->add_object(new FlyingPlatform(x, y));
-    else
-      if(newtile == OBJ_DOOR)
-        sector->add_object(new Door(x, y));
-      else
-        sector->add_bad_guy(x, y, BadGuyKind((-newtile)-1), true);
-#endif
+    create_object((GameObjectsType)(newtile-gameobjs_first_id),Vector(x,y));
 
     sector->update_game_objects();
   } else if(cur_layer == LAYER_FOREGROUNDTILES) {
@@ -891,13 +864,12 @@ void LevelEditor::change(int x, int y, int newtile, int layer)
     // we /32 in order to round numbers
     for(Sector::GameObjects::iterator i = sector->gameobjects.begin();
         i < sector->gameobjects.end(); i++) {
+// FIXME: if there is a game objs in here, remove it!
 #if 0
       BadGuy* badguy = dynamic_cast<BadGuy*> (*i);
       if(badguy)
         if((int)badguy->base.x/32 == x/32 && (int)badguy->base.y/32 == y/32)
           sector->gameobjects.erase(i);
-#endif
-#if 0
       Trampoline* trampoline = dynamic_cast<Trampoline*> (*i);
       if(trampoline)
       {
@@ -908,8 +880,6 @@ void LevelEditor::change(int x, int y, int newtile, int layer)
       if(flying_platform)
         if((int)flying_platform->base.x/32 == x/32 && (int)flying_platform->base.y/32 == y/32)
           sector->gameobjects.erase(i);
-#endif
-#if 0
       Door* door = dynamic_cast<Door*> (*i);
       if(door)
         if((int)door->get_area().x/32 == x/32 && (int)door->get_area().y/32 == y/32)

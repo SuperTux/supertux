@@ -137,7 +137,7 @@ private:
   Surface *img_previous_level_bt, *img_next_level_bt, *img_previous_sector_bt, *img_next_sector_bt;
 
   ButtonGroup *tiles_board, *tiles_layer, *level_options;
-  int cur_layer;
+  int gameobjs_first_id, cur_layer;
 
   std::vector <std::vector <int> > selection;
   Vector selection_ini, selection_end;
