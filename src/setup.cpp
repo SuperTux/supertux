@@ -98,6 +98,7 @@ int fwriteable(const char *filename)
     {
       return false;
     }
+  fclose(fi);
   return true;
 }
 
