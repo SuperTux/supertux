@@ -3,6 +3,7 @@
   (properties 
     (name  "Icyisland")
     (name-pt_PT  "Ilha Gelada")
+    (name-de "Eisinsel")
     (music "SALCON.MOD"))
   (tilemap 
     (width  40)
