@@ -202,10 +202,10 @@ Camera::scroll_normal(float elapsed_time)
       || (player->dir == ::RIGHT && scrollchange == LEFT))
     scrollchange = NONE;
   // when in left 1/3rd of screen scroll left
-  if(player->base.x < translation.x + screen->w/3 && do_backscrolling)
+  if(player->base.x < translation.x + screen->w/3 - 32 && do_backscrolling)
     scrollchange = LEFT;
   // scroll right when in right 1/3rd of screen
-  else if(player->base.x > translation.x + screen->w/3*2)
+  else if(player->base.x > translation.x + screen->w/3*2 + 32)
     scrollchange = RIGHT;
 
   // calculate our scroll target depending on scroll mode
@@ -220,10 +220,10 @@ Camera::scroll_normal(float elapsed_time)
   // that's the distance we would have to travel to reach target_x
   float delta_x = translation.x - target_x;
   // the speed we'd need to travel to reach target_x in this frame
-  float speed_x = delta_x / elapsed_time;
+  float speed_x = 1.3 * delta_x / elapsed_time;
 
   // limit our speed
-  float maxv = 1 + fabsf(player->physic.get_velocity_x() * 1.3);
+  float maxv = 1.3 * (1 + fabsf(player->physic.get_velocity_x() * 1.3));
   if(speed_x > maxv)
     speed_x = maxv;
   else if(speed_x < -maxv)
