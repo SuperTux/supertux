@@ -6,7 +6,8 @@ libsupertux_src = Glob("app/*.cpp") \
                 + Glob("math/*.cpp") \
                 + Glob("special/*.cpp") \
                 + Glob("utils/*.cpp") \
-                + Glob("video/*.cpp")
+                + Glob("video/*.cpp") \
+                + Glob("lisp/*.cpp")
 
 lib = env.Library(
     target="supertux",
