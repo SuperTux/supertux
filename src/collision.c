@@ -99,7 +99,7 @@ void collision_handler()
           if(bad_guys[i].dying == NO && rectcollision_offset(&bad_guys[i].base,&tux.base,0,0) == YES )
             {
               /* We have detected a collision and now call the collision functions of the collided objects. */
-              if (tux.base.ym > 0)
+              if (tux.base.ym > 0 && bad_guys[i].kind != BAD_MONEY)
                 {
                   badguy_collision(&bad_guys[i], &tux, CO_PLAYER);
                 }
