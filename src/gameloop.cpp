@@ -433,7 +433,16 @@ GameSession::process_events()
                           tux.invincible_timer.start(time_left.get_left());
                           last_keys.clear();
                           }
-
+								if(compare_last(last_keys, "shrink"))
+                          {    // remove powerups
+                          tux.kill(tux.SHRINK);
+                          last_keys.clear();
+                          }
+								if(compare_last(last_keys, "kill"))
+                          {    // kill Tux
+                          tux.kill(tux.KILL);
+                          last_keys.clear();
+                          }
                   break;
 
                 case SDL_JOYAXISMOTION:
