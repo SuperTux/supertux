@@ -84,6 +84,7 @@ L: low priority
  * check if unducking is actually possible or if something is in the way
  * fix flapping
  ** having a star doesn't kill enemies - ok
+ * tux always jumps to full height at the moment
 
 --Code Refactoring/Cleanup/Optimisation--
 [H] make the title using GameSession instead of reimplementing all the stuff
@@ -100,7 +101,7 @@ L: low priority
 [H] implement quadtree to speed up collision detection
 [?] remove badguyspecs and bitmask files
 
---Miscelaneous--
+--Miscellaneous--
 [?] think about how to implement scripting, and how to make a simple and easy to
   use api for the scripting interface
   (language will probably be lua - just have to figure out how well we can do
@@ -147,8 +148,6 @@ L: low priority
  - Gradient in software rendering doesn't currently work (at least here).
     Matze: can you give more details? The code looks perfectly fine to me
 
-[M] There are some weird graphical glitches when Tux bumps more than one block
-    at the same time
 [M] Save score on per-level basis to make high-score
 [M] Save time on per-level basis to make low-time-score
 [M] Add bonus score for extra time left when finishing a level
@@ -156,19 +155,9 @@ L: low priority
 [M] tux get killed if he kicks a iceblock while at the same time bouncing on
 [M] You shouldn't be able to stand on invisible blocks, before you bumped them
     the roof
-[M] Implement Unisolid type for tiles (where collisions from below are ignored).
-    - done
 
 [L] Allow any object to be inside of a [?] box, ie. trampoline or badguy
     - Not sure if this would be gameplay wise.
-[L] in the "Welcome to Antarctica" level, the blocks next to the first growup
-    look like there are 2 blocks above each other when bumping against them as
-    small tux...
-[L] time runs while being in in-game menu, at least a bit (jump, go to
-    menu, wait a bit, leave menu, Tux will 'flip' to the ground,
-    instead of fall, pause mode doesn't seem to have this problem, only
-    menu)
-[L] catch exceptions thrown by lispreader
 
 Beyond Milestone2
 -----------------
