@@ -11,26 +11,53 @@ This document describes how to edit a world map.
 To edit a World Map, please use FlexLay. Thought it might have problems with
 the editing of level and special tiles, since it isn't sync with CVS.
 
-= AVAILABLE SPECIAL TILES =
+= INTRODUCTION =
 
-These are the available special tiles (even if 0_1_1 branch has some of them,
-they will most likely have different names or used in another way):
+These things are always changing, so if even 0.1.x has something like something
+described here, it might have a different name or be used in a different way.
 
-; This is a comment!
+Stuff prefixed by a ';' are comments.
 
-(special-tile
+; This is a comment! :)
+
+= MAKING THE HOLE FOR A LEVEL =
+
+; Opening level group
+(level
+
 ; X and Y position [NECESSARY]
  (x 10)
  (y 14)
 
-; If this is a level:
- (level "file_name.stl")
+; Filename of the level [NECESSARY]
+ (name "file_name.stl")
 
-; Flip the level vertically [NEEDS: level] - default: false
+; Flip the level vertically - default: false
  (vertical-flip #t)
 
-; Stop auto-walking - default: false
+; Show this text file after completing this level
+ (extro-filename "filename")
+
+; Go to this world after completing this level
+ (next-worldmap "worldmap.stwt)
+
+; Exit world map after completing this level
+ (quit-worldmap #t)
+
+; Disable auto walking after completing the level - default: false
  (auto-path #f)
+
+) ; end of level group
+
+
+= AVAILABLE SPECIAL TILES =
+
+; Opening special-tile group
+(special-tile
+
+; X and Y position [NECESSARY]
+ (x 10)
+ (y 14)
 
 ; Add a message tile. You can also use this together with a teleporter.
  (map-message "Hello World!"
@@ -48,18 +75,10 @@ they will most likely have different names or used in another way):
  (teleport-to-x 20)
  (teleport-to-y 13)
 
-; Don't show this tile [WORKS FOR: level, teleporter, map-message]
+; Don't show this tile [WORKS FOR: teleporter, map-message]
  (invisible-tile #t)
 
-; Show this text file after completing this level [NEEDS: level]
- (extro-filename "filename")
+) ; end of special-tile group
 
-; Go to this world after completing this level [NEEDS: level]
- (next-world "worldmap.stwt)
-
-; Exit world map after completing this level [NEEDS: level]
- (exit-game #t)
-
-) ; end of special-tile
 
     - SuperTux developers
