@@ -68,6 +68,8 @@ BadGuyKind  badguykind_from_string(const std::string& str)
     return BAD_WINGLING;
   else if (str == "walkingtree")
     return BAD_WALKINGTREE;
+  else if(str == "bomb")  // not to be used as a real bad guys
+      return BAD_BOMB;
   else
     {
       return BAD_INVALID;
@@ -116,6 +118,9 @@ std::string badguykind_to_string(BadGuyKind kind)
       break;
     case BAD_WALKINGTREE:
       return "walkingtree";
+    case BAD_BOMB:  // not to be used as a real bad guys
+      return "bomb";
+      break;
     default:
       return "snowball";
     }
@@ -171,6 +176,8 @@ BadGuy::init()
   timer.init(true);
 
   specs = badguyspecs_manager->load(badguykind_to_string(kind));
+
+  set_action("hide", "hide");
 
   // if we're in a solid tile at start correct that now
   if(Sector::current()) {
@@ -964,6 +971,8 @@ BadGuy::set_action(std::string left, std::string right)
 
   action_left = left;
   action_right = right;
+
+std::cerr << "set_action(" << left << ", " << right << ") of " << badguykind_to_string(kind) << std::endl;
 
 #if 0
   if (1)

@@ -271,7 +271,7 @@ Sprite::draw(DrawingContext& context, const Vector& pos, int layer,
   else
     context.draw_surface(action->surfaces[(int)frame],
             pos - Vector(action->x_offset, action->y_offset), layer + action->z_order,
-            drawing_effect);
+            action->mirror ? drawing_effect | HORIZONTAL_FLIP : drawing_effect);
 }
 
 void
@@ -287,7 +287,7 @@ Sprite::draw_part(DrawingContext& context, const Vector& source, const Vector& s
   else
     context.draw_surface_part(action->surfaces[(int)frame], source, size,
             pos - Vector(action->x_offset, action->y_offset), layer + action->z_order,
-            drawing_effect);
+            action->mirror ? drawing_effect | HORIZONTAL_FLIP : drawing_effect);
 }
 
 int

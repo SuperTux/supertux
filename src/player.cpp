@@ -992,7 +992,7 @@ Player::draw(DrawingContext& context)
   else if (safe_timer.started() && global_frame_counter%2)
     ;  // don't draw Tux
   else
-    tux_body->draw(context, pos, layer, dir == LEFT ? HORIZONTAL_FLIP : NONE_EFFECT);
+    tux_body->draw(context, pos, layer);
 
   // Draw blinking star overlay
   if (invincible_timer.started() &&
