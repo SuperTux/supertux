@@ -24,8 +24,11 @@ BadGuy::draw(DrawingContext& context)
     return;
   if(state == STATE_INIT || state == STATE_INACTIVE)
     return;
-    
-  sprite->draw(context, get_pos(), LAYER_OBJECTS);
+  if(state == STATE_FALLING) {
+      sprite->draw(context, get_pos(), LAYER_OBJECTS, VERTICAL_FLIP);
+  } else {
+      sprite->draw(context, get_pos(), LAYER_OBJECTS);
+  }
 }
 
 void
@@ -164,7 +167,6 @@ BadGuy::kill_fall()
   physic.set_velocity_y(0);
   physic.enable_gravity(true);
   set_state(STATE_FALLING);
-  remove_me();
 }
 
 void

@@ -61,6 +61,10 @@ public class Application {
 
         Application app = new Application();
 
+        /* that's no proper commandlineparsing, but who'll notice... */
+        if(args.Length == 1)
+            app.LoadTileSet(args[0]);
+
         kit.Run();
         return 0;
     }
@@ -101,6 +105,10 @@ public class Application {
         string file = selection.Filename;
         selection.Destroy();
 
+        LoadTileSet(file);
+    }
+
+    private void LoadTileSet(string file) {
         try {
             tileset = new TileSet();
             tileset.Parse(file);
@@ -277,6 +285,9 @@ public class Application {
     }
 
     private void OnDrawingAreaButtonPress(object o, ButtonPressEventArgs e) {
+        if(SelectionArray == null)
+            return;
+
         selecting = true;
         
         for(int i = 0; i < SelectionArray.Length; ++i)

@@ -16,7 +16,6 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
 #include <config.h>
 
 #include <typeinfo>
@@ -266,31 +265,12 @@ Player::action(float elapsed_time)
   if (input.fire == UP)
     holding_something = false;
 
-  /* --- HANDLE TUX! --- */
   if(dying == DYING_NOT)
     handle_input();
 
   movement = physic.get_movement(elapsed_time);
 
-  if(dying == DYING_NOT) 
-    {
 #if 0
-      collision_swept_object_map(&old_base, &base);
-
-      if ((!invincible_timer.started() && !safe_timer.started())
-          && (isspike(base.x, base.y) || isspike(base.x + base.width, base.y)
-          ||  isspike(base.x, base.y + base.height)
-          ||  isspike(base.x + base.width, base.y + base.height)))
-      {
-         kill(SHRINK);
-      }
-
-      // Don't accelerate Tux if he is running against a wall
-      if (target.x != base.x)
-      {
-        physic.set_velocity_x(0);
-      }
-
       // special exception for cases where we're stuck under tiles after
       // being ducked. In this case we drift out
       if(!duck && on_ground() && old_base.x == base.x && old_base.y == base.y
@@ -300,31 +280,8 @@ Player::action(float elapsed_time)
           previous_base = old_base = base;
         }
 
-      // Land:
-      if (!on_ground())
-        {
-          physic.enable_gravity(true);
-          if(under_solid())
-            {
-              // fall down
-              physic.set_velocity_y(0);
-              jumped_in_solid = true;
-              jumping = false;
-              flapping = false;
-            }
-        }
-      else
-        {
-          /* Land: */
-          if (physic.get_velocity_y() < 0)
-            {
-              base.y = (int)(((int)base.y / 32) * 32);
-              physic.set_velocity_y(0);
-            }
-
-          physic.enable_gravity(false);
-          /* Reset score multiplier (for multi-hits): */
-          if (!invincible_timer.started())
+      /* Reset score multiplier (for multi-hits): */
+      if (!invincible_timer.started())
             {
             if(player_status.score_multiplier > player_status.max_score_multiplier)
               {
@@ -339,55 +296,8 @@ Player::action(float elapsed_time)
             }
         }
 
-      if(jumped_in_solid)
-        {
-          if (isbrick(base.x, base.y) ||
-              isfullbox(base.x, base.y))
-            {
-	      Sector::current()->trygrabdistro(
-                  Vector(base.x, base.y - 32), BOUNCE);
-              Sector::current()->trybumpbadguy(Vector(base.x, base.y - 64));
-
-              Sector::current()->trybreakbrick(
-                  Vector(base.x, base.y), size == SMALL);
-
-              bumpbrick(base.x, base.y);
-              Sector::current()->tryemptybox(Vector(base.x, base.y), RIGHT);
-            }
-
-          if (isbrick(base.x+ 31, base.y) ||
-              isfullbox(base.x+ 31, base.y))
-            {
-	      Sector::current()->trygrabdistro(
-                  Vector(base.x+ 31, base.y - 32), BOUNCE);
-              Sector::current()->trybumpbadguy(Vector(base.x+ 31, base.y - 64));
-
-              if(size == BIG)
-                Sector::current()->trybreakbrick(
-                    Vector(base.x+ 31, base.y), size == SMALL);
-
-              bumpbrick(base.x+ 31, base.y);
-              Sector::current()->tryemptybox(Vector(base.x+ 31, base.y), LEFT);
-            }
-        }
-#endif
-
-      grabdistros();
-
-#if 0
-      if (jumped_in_solid)
-        {
-          ++base.y;
-          ++old_base.y;
-          if(on_ground())
-            {
-              /* Make sure jumping is off. */
-              jumping = false;
-              flapping = false;
-            }
-        }
-#endif
     }
+#endif
 
   on_ground_flag = false;
 }
@@ -546,6 +456,7 @@ Player::handle_vertical_input()
          }
       if (jumping && physic.get_velocity_y() > 0)
          {
+            printf("jumpend.\n");
             jumping = false;
             physic.set_velocity_y(0);
          }
@@ -746,24 +657,23 @@ void
 Player::handle_input()
 {
   /* Handle horizontal movement: */
-    handle_horizontal_input();
+  handle_horizontal_input();
 
   /* Jump/jumping? */
-
   if (on_ground() && input.jump == UP)
     can_jump = true;
   handle_vertical_input();
 
   /* Shoot! */
-  if (input.fire == DOWN && input.old_fire == UP && got_power != NONE_POWER)
-    {
-      if(Sector::current()->add_bullet(
-            get_pos() + Vector(0, bbox.get_height()/2),
+  if (input.fire == DOWN && input.old_fire == UP && got_power != NONE_POWER) {
+    if(Sector::current()->add_bullet(
+          get_pos() + Vector(0, bbox.get_height()/2),
           physic.get_velocity_x(), dir))
-        shooting_timer.start(SHOOTING_TIME);
-      input.old_fire = DOWN;
-    }
+      shooting_timer.start(SHOOTING_TIME);
+    input.old_fire = DOWN;
+  }
 
+#if 0
   /* tux animations: */
   if(frame_timer.check()) {
     if (input.right == UP && input.left == UP)
@@ -783,6 +693,7 @@ Player::handle_input()
         frame_ = 1;
     }
   }
+#endif
 
   /* Duck! */
   if (input.down == DOWN && size == BIG && !duck 
