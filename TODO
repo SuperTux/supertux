@@ -19,7 +19,6 @@ L: low priority
 
 --Scons--
  * [H] Add an install target
- * [H] Generate the config.h file
  * [M] improve opengl check to work on win32 and eventually more strange
    systems again
  * [H] Make sure compilation on win32 and cross-compilation works
