@@ -1722,6 +1722,8 @@ void le_testlevel()
 void le_showhelp()
 {
   bool tmp_show_grid = le_show_grid;
+  int temp_le_selection_mode = le_selection_mode;
+  le_selection_mode = NONE;
   show_selections = true;
   le_show_grid = false;
   le_help_shown = true;
@@ -1862,5 +1864,6 @@ void le_showhelp()
 
   show_selections = true;
   le_show_grid = tmp_show_grid;
+  le_selection_mode = temp_le_selection_mode;
   le_help_shown = false;
 }
