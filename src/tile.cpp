@@ -28,6 +28,74 @@
 #include "vector.h"
 #include "screen/drawing_context.h"
 
+/** Dirty little helper to create a surface from a snipped of lisp:
+ *
+ *  "filename"
+ *  (region "filename" x y w h)
+ */
+static
+Surface* create_surface(lisp_object_t* cur)
+{
+  if (lisp_string_p(cur))
+    {
+      return new Surface(datadir + "/images/tilesets/" + lisp_string(cur),
+                         USE_ALPHA);
+    }
+  else if (lisp_cons_p(cur) && lisp_symbol_p(lisp_car(cur)))
+    {
+      lisp_object_t* sym  = lisp_car(cur);
+      lisp_object_t* data = lisp_cdr(cur);
+      
+      if (strcmp(lisp_symbol(sym), "region") == 0)
+        {
+          if (lisp_list_length(data) == 5) // (image-region filename x y w h)
+            {
+              return new Surface(datadir + "/images/tilesets/" + lisp_string(lisp_car(data)), 
+                                 lisp_integer(lisp_list_nth(data, 1)),
+                                 lisp_integer(lisp_list_nth(data, 2)),
+                                 lisp_integer(lisp_list_nth(data, 3)),
+                                 lisp_integer(lisp_list_nth(data, 4)),
+                                 USE_ALPHA);
+            }
+          else
+            {
+              std::cout << "Tile: Type mispatch, should be '(region \"somestring\" x y w h)'" << std::endl;
+              return 0;
+            }
+        }
+      else
+        {
+          std::cout << "Tile: Unhandled tag: " << lisp_symbol(sym) << std::endl;
+          return 0;
+        }
+    }
+
+  std::cout << "Tile: unhandled element" << std::endl;
+  return 0;  
+}
+
+/** Create a vector of surfaces (aka Sprite) from a piece of lisp:
+    ((image "bla.png") (image-region "bla.png") ...)
+ */
+static 
+std::vector<Surface*> create_surfaces(lisp_object_t* cur)
+{
+  std::vector<Surface*> surfs;
+
+  while(cur)
+    {
+      Surface* surface = create_surface(lisp_car(cur));
+      if (surface)
+        surfs.push_back(surface); 
+      else
+        std::cout << "Tile: Couldn't create image" << std::endl;
+        
+      cur = lisp_cdr(cur);
+    }
+  
+  return surfs;
+}
+
 Tile::Tile()
   : id(-1), attributes(0), data(0), next_tile(0), anim_speed(25)
 {
@@ -79,38 +147,9 @@ Tile::read(LispReader& reader)
   reader.read_int("anim-speed", anim_speed);
   reader.read_int("next-tile", next_tile);
 
-  std::vector<std::string> filenames;
-  reader.read_string_vector("images", filenames);
-  std::vector<std::string> editor_filenames;
-  reader.read_string_vector("editor-images", editor_filenames);
-
-  std::vector<int> grid;
-  reader.read_int_vector("grid", grid);
-
-  // read images
-  for(std::vector<std::string>::iterator i = filenames.begin();
-      i != filenames.end(); ++i) 
-    {
-      if (grid.size() == 4)
-        {
-          Surface* surface = new Surface(datadir + "/images/tilesets/" + *i,
-                                         grid[0], grid[1], grid[2], grid[3],
-                                         USE_ALPHA);
-          images.push_back(surface);
-        }
-      else
-        {
-          Surface* surface = new Surface(datadir + "/images/tilesets/" + *i, USE_ALPHA);
-          images.push_back(surface);
-        }
-    }
-
-  for(std::vector<std::string>::iterator i = editor_filenames.begin();
-      i != editor_filenames.end(); ++i) {
-    Surface* surface 
-      = new Surface(datadir + "/images/tilesets/" + *i, USE_ALPHA);
-    editor_images.push_back(surface);
-  }
+  // FIXME: make images and editor_images a sprite
+  images        = create_surfaces(reader.read_lisp("images"));
+  editor_images = create_surfaces(reader.read_lisp("editor-images"));
 
   return id;
 }

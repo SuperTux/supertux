@@ -1102,14 +1102,10 @@ LispReader::read_lisp(const char* name, lisp_object_t*& b)
   return true;
 }
 
-LispReader*
+lisp_object_t*
 LispReader::read_lisp(const char* name)
 {
-  lisp_object_t* obj = search_for(name);
-  if(!obj)
-    return 0;
-
-  return new LispReader(obj);
+  return search_for(name);
 }
 
 bool

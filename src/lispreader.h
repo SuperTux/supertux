@@ -192,7 +192,7 @@ public:
   bool read_float(const char* name, float& f);
   bool read_bool(const char* name, bool& b);
   bool read_lisp(const char* name, lisp_object_t*& b);
-  LispReader* read_lisp(const char* name);
+  lisp_object_t* read_lisp(const char* name);
 
   static LispReader* load(const std::string& filename,
       const std::string& toplevellist);
