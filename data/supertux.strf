@@ -282,6 +282,49 @@
          (x-hotspot 6)
          (y-hotspot 8)
          (images "shared/smalltux-skid-right.png"))
+
+
+ (sprite (name "smalltux-kick-left")
+         (x-hotspot 5)
+         (y-hotspot 9)
+         (images "shared/smalltux-kick-left-0.png"))
+
+ (sprite (name "smalltux-kick-right")
+         (x-hotspot 5)
+         (y-hotspot 9)
+         (images "shared/smalltux-kick-right-0.png"))
+
+ (sprite (name "smalltux-grab-left")
+         (x-hotspot 5)
+         (y-hotspot 9)
+         (images "shared/smalltux-grab-left-0.png"))
+
+ (sprite (name "smalltux-grab-right")
+         (x-hotspot 5)
+         (y-hotspot 9)
+         (images "shared/smalltux-grab-right-0.png"))
+
+
+ (sprite (name "largetux-kick-left")
+         (x-hotspot 5)
+         (y-hotspot 1)
+         (images "shared/largetux-kick-left-0.png"))
+
+ (sprite (name "largetux-kick-right")
+         (x-hotspot 5)
+         (y-hotspot 1)
+         (images "shared/largetux-kick-right-0.png"))
+
+ (sprite (name "largetux-grab-left")
+         (x-hotspot 5)
+         (y-hotspot 1)
+         (images "shared/largetux-grab-left-0.png"))
+
+ (sprite (name "largetux-grab-right")
+         (x-hotspot 5)
+         (y-hotspot 1)
+         (images "shared/largetux-grab-right-0.png"))
+
  )
 
 ;; EOF ;;
