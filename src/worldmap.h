@@ -139,12 +139,26 @@ public:
     std::string title;
     bool solved;
 
+    /** Optional flags: */
+
     /** Check if this level should be vertically flipped */
     bool vertical_flip;
 
     /** Filename of the extro text to show once the level is
         successfully completed */
     std::string extro_filename;
+
+    /** Position to swap player */
+    int swap_x, swap_y;
+
+    /** Message to show in the Map */
+    std::string display_map_message;
+
+    /** Go to this world */
+    std::string goto_worldmap;
+
+    /** Quit the worldmap */
+    bool quit_worldmap;
 
     // Directions which are walkable from this level
     bool north;

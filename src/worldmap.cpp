@@ -415,8 +415,8 @@ WorldMap::load_map()
               while(!lisp_nil_p(cur))
                 {
                   lisp_object_t* element = lisp_car(cur);
-                  
-                  if (strcmp(lisp_symbol(lisp_car(element)), "level") == 0)
+
+                  if (strcmp(lisp_symbol(lisp_car(element)), "special-tile") == 0)
                     {
                       Level level;
                       LispReader reader(lisp_cdr(element));
@@ -428,11 +428,42 @@ WorldMap::load_map()
                       level.west  = true;
 
                       reader.read_string("extro-filename", level.extro_filename);
+                      reader.read_string("map-message", level.display_map_message);
+                      reader.read_string("goto-world", level.goto_worldmap);
+                      reader.read_string("level", level.name, true);
+                      reader.read_int("x", level.x);
+                      reader.read_int("y", level.y);
+                      level.swap_x = level.swap_y = -1;
+                      reader.read_int("swap-x", level.swap_x);
+                      reader.read_int("swap-y", level.swap_y);
+                      level.vertical_flip = false;
+                      reader.read_bool("flip-level", level.vertical_flip);
+                      level.quit_worldmap = false;
+                      reader.read_bool("exit-game", level.quit_worldmap);
+
+                      levels.push_back(level);
+                    }
+
+                  /* Kept for backward compability */
+                  else if (strcmp(lisp_symbol(lisp_car(element)), "level") == 0)
+                    {
+                      Level level;
+                      LispReader reader(lisp_cdr(element));
+                      level.solved = false;
+                      
+                      level.north = true;
+                      level.east  = true;
+                      level.south = true;
+                      level.west  = true;
+
+                      reader.read_string("extro-filename", level.extro_filename);
+                      if(!level.extro_filename.empty())
+                        level.quit_worldmap = true;
                       reader.read_string("name", level.name, true);
                       reader.read_int("x", level.x);
                       reader.read_int("y", level.y);
                       level.vertical_flip = false;
-                      reader.read_bool("flip", level.vertical_flip);
+                      level.swap_x = level.swap_y = -1;
 
                       levels.push_back(level);
                     }
@@ -639,8 +670,17 @@ WorldMap::update(float delta)
 {
   if (enter_level && !tux->is_moving())
     {
+      bool level_finished = true;
       Level* level = at_level();
-      if (level)
+      if (!level)
+        {
+        std::cout << "Nothing to enter at: "
+          << tux->get_tile_pos().x << ", " << tux->get_tile_pos().y << std::endl;
+        return;
+        }
+
+
+      if(!level->name.empty())
         {
           if (level->x == tux->get_tile_pos().x && 
               level->y == tux->get_tile_pos().y)
@@ -658,6 +698,7 @@ WorldMap::update(float delta)
                 {
                 case GameSession::ES_LEVEL_FINISHED:
                   {
+                    level_finished = true;
                     bool old_level_state = level->solved;
                     level->solved = true;
 
@@ -693,30 +734,22 @@ WorldMap::update(float delta)
 
                         std::cout << "Walk to dir: " << dir << std::endl;
                       }
-
-                    if (!level->extro_filename.empty())
-                      { 
-                        MusicRef theme =
-                          sound_manager->load_music(datadir + "/music/theme.mod");
-                        sound_manager->play_music(theme);
-                        // Display final credits and go back to the main menu
-                        display_text_file(level->extro_filename, SCROLL_SPEED_MESSAGE);
-                        display_text_file("CREDITS", SCROLL_SPEED_CREDITS);
-                        quit = true;
-                      }
                   }
 
                   break;
                 case GameSession::ES_LEVEL_ABORT:
+                  level_finished = false;
                   /* In case the player's abort the level, keep it using the old
                       status. But the minimum lives and no bonus. */
                   player_status.score = old_player_status.score;
                   player_status.distros = old_player_status.distros;
                   player_status.lives = std::min(old_player_status.lives, player_status.lives);
                   player_status.bonus = player_status.NO_BONUS;
+
                   break;
                 case GameSession::ES_GAME_OVER:
-                {
+                  {
+                  level_finished = false;
                   /* draw an end screen */
                   /* in the future, this should make a dialog a la SuperMario, asking
                   if the player wants to restart the world map with no score and from
@@ -724,7 +757,7 @@ WorldMap::update(float delta)
                   char str[80];
 
                   DrawingContext context;
-                  context.draw_gradient(Color (0, 255, 0), Color (255, 0, 255),
+                  context.draw_gradient(Color (200,240,220), Color(200,200,220),
                       LAYER_BACKGROUND0);
 
                   context.draw_text_center(blue_text, _("GAMEOVER"), 
@@ -732,7 +765,7 @@ WorldMap::update(float delta)
 
                   sprintf(str, _("SCORE: %d"), player_status.score);
                   context.draw_text_center(gold_text, str,
-                      Vector(0, 224), LAYER_FOREGROUND1);
+                      Vector(0, 230), LAYER_FOREGROUND1);
 
                   sprintf(str, _("COINS: %d"), player_status.distros);
                   context.draw_text_center(gold_text, str,
@@ -746,7 +779,7 @@ WorldMap::update(float delta)
                   quit = true;
                   player_status.reset();
                   break;
-                }
+                  }
                 case GameSession::ES_NONE:
                   assert(false);
                   // Should never be reached 
@@ -757,13 +790,29 @@ WorldMap::update(float delta)
               Menu::set_current(0);
               if (!savegame_file.empty())
                 savegame(savegame_file);
-              return;
             }
         }
-      else
+      /* The porpose of the next checking is that if the player lost
+         the level (in case there is one), don't show anything */
+      if(level_finished)
         {
-          std::cout << "Nothing to enter at: "
-                    << tux->get_tile_pos().x << ", " << tux->get_tile_pos().y << std::endl;
+        if (!level->extro_filename.empty())
+          {
+          // Display a text file
+          display_text_file(level->extro_filename, SCROLL_SPEED_MESSAGE);
+          }
+        if (level->swap_x != -1 && level->swap_y != -1)
+          {
+          // TODO: add an effect, like a camera scrolling, or at least, a fading
+          tux->set_tile_pos(Vector(level->swap_x, level->swap_y));
+          }
+        if (!level->goto_worldmap.empty())
+          {
+          // Load given worldmap
+          loadmap(level->goto_worldmap);
+          }
+        if (level->quit_worldmap)
+          quit = true;
         }
     }
   else
@@ -835,6 +884,9 @@ WorldMap::draw(DrawingContext& context, const Vector& offset)
   
   for(Levels::iterator i = levels.begin(); i != levels.end(); ++i)
     {
+      if(i->name.empty())
+        continue;
+
       if (i->solved)
         context.draw_surface(leveldot_green,
             Vector(i->x*32 + offset.x, i->y*32 + offset.y), LAYER_TILES+1);
@@ -889,13 +941,21 @@ WorldMap::draw_status(DrawingContext& context)
           if (i->x == tux->get_tile_pos().x && 
               i->y == tux->get_tile_pos().y)
             {
-              if(i->title == "")
-                get_level_title(*i);
+              if(!i->name.empty())
+                {
+                if(i->title == "")
+                  get_level_title(*i);
 
-              context.draw_text(white_text, i->title, 
-                  Vector(screen->w/2 - white_text->get_text_width(i->title)/2,
-                         screen->h - white_text->get_height() - 30),
-                  LAYER_FOREGROUND1);
+                context.draw_text_center(white_text, i->title, 
+                    Vector(0, screen->h - white_text->get_height() - 30),
+                    LAYER_FOREGROUND1);
+                }
+
+              /* Display a message in the map, if any as been selected */
+              if(!i->display_map_message.empty())
+                context.draw_text_center(gold_text, i->display_map_message, 
+                    Vector(0, screen->h - white_text->get_height() - 60),
+                    LAYER_FOREGROUND1);
               break;
             }
         }

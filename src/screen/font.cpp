@@ -27,6 +27,8 @@
 #include "font.h"
 #include "drawing_context.h"
 #include "../lispreader.h"
+#include "../musicref.h"
+#include "../resources.h"
 
 Font::Font(const std::string& file, FontType ntype, int nw, int nh,
         int nshadowsize)
@@ -146,7 +148,17 @@ void display_text_file(const std::string& file, float scroll_speed)
   reader->read_string("text", text, true);
   std::string background_file;
   reader->read_string("background", background_file, true);
+  std::string music_file;
+  reader->read_string("music", music_file, true);
+  std::string show_after_text;
+  reader->read_string("show-after", show_after_text, true);
   delete reader;
+
+  if(!music_file.empty())
+    {
+    MusicRef theme = sound_manager->load_music(datadir + "/music/" + music_file);
+    sound_manager->play_music(theme);
+    }
 
   // Split text string lines into a vector
   names.clear();
@@ -264,5 +276,10 @@ void display_text_file(const std::string& file, float scroll_speed)
 
   SDL_EnableKeyRepeat(0, 0);    // disables key repeating
   delete background;
+
+  if(!show_after_text.empty())
+    {
+    display_text_file(show_after_text, scroll_speed);
+    }
 }
 
