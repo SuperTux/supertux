@@ -32,6 +32,7 @@
 #include "tile.h"
 #include "resources.h"
 #include "sprite_manager.h"
+#include "gameloop.h"
 
 Sprite* img_mriceblock_flat_left;
 Sprite* img_mriceblock_flat_right;
@@ -296,12 +297,18 @@ BadGuy::check_horizontal_bump(bool checkcliff)
     float halfheight = base.height / 2;
     if (dir == LEFT && issolid( base.x, (int) base.y + halfheight))
     {
+        if (kind == BAD_MRICEBLOCK && mode == KICK)
+            World::current()->trybreakbrick(base.x, (int) base.y + halfheight, false);
+            
         dir = RIGHT;
         physic.set_velocity(-physic.get_velocity_x(), physic.get_velocity_y());
         return;
     }
     if (dir == RIGHT && issolid( base.x + base.width, (int)base.y + halfheight))
     {
+        if (kind == BAD_MRICEBLOCK && mode == KICK)
+            World::current()->trybreakbrick(base.x + base.width, (int) base.y + halfheight, false);
+            
         dir = LEFT;
         physic.set_velocity(-physic.get_velocity_x(), physic.get_velocity_y());
         return;
