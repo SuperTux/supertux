@@ -46,16 +46,12 @@ struct JoystickKeymap
 
 extern JoystickKeymap joystick_keymap;
 
-extern SDL_Surface * screen;
-extern Font* black_text;
+extern SDL_Surface* screen;
 extern Font* gold_text;
-extern Font* silver_text;
 extern Font* white_text;
 extern Font* white_small_text;
 extern Font* white_big_text;
 extern Font* blue_text;
-extern Font* red_text;
-extern Font* green_text;
 extern Font* yellow_nums;
 
 extern MouseCursor * mouse_cursor;

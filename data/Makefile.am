@@ -14,6 +14,7 @@ EXTRA_DIST = \
   $(wildcard images/*.xpm) \
   $(wildcard images/background/*.png) \
   $(wildcard images/background/*.jpg) \
+  $(wildcard images/fonts/*.png) \
   $(wildcard images/highscore/*.png) \
   $(wildcard images/icons/*.png) \
   $(wildcard images/icons/*.xpm) \

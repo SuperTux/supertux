@@ -583,27 +583,16 @@ void st_general_setup(void)
   SDL_EnableUNICODE(1);
 
   /* Load global images: */
-
-  black_text  = new Font(datadir + "/images/status/letters-black.png",
+  gold_text = new Font(datadir + "/images/fonts/gold.png", Font::TEXT, 16,18);
+  blue_text = new Font(datadir + "/images/fonts/blue.png", Font::TEXT, 16,18,3);
+  white_text  = new Font(datadir + "/images/fonts/white.png",
       Font::TEXT, 16,18);
-  gold_text   = new Font(datadir + "/images/status/letters-gold.png",
-      Font::TEXT, 16,18);
-  silver_text = new Font(datadir + "/images/status/letters-silver.png",
-      Font::TEXT, 16,18);
-  blue_text   = new Font(datadir + "/images/status/letters-blue.png",
-      Font::TEXT, 16, 18, 3);
-  red_text    = new Font(datadir + "/images/status/letters-red.png",
-      Font::TEXT, 16,18);
-  green_text  = new Font(datadir + "/images/status/letters-green.png",
-      Font::TEXT, 16,18);
-  white_text  = new Font(datadir + "/images/fonts/letters-white.png",
-      Font::TEXT, 16,18);
-  white_small_text = new Font(datadir +
-      "/images/status/letters-white-small.png", Font::TEXT, 8,9, 1);
-  white_big_text   = new Font(datadir + "/images/fonts/letters-white-big.png",
+  white_small_text = new Font(datadir + "/images/fonts/white-small.png",
+          Font::TEXT, 8,9, 1);
+  white_big_text   = new Font(datadir + "/images/fonts/white-big.png",
       Font::TEXT, 20,22, 3);
-  yellow_nums = new Font(datadir + "/images/status/numbers.png",
-      Font::TEXT, 32,32);
+  yellow_nums = new Font(datadir + "/images/fonts/numbers.png",
+      Font::NUM, 32,32);
 
   /* Load GUI/menu images: */
   checkbox = new Surface(datadir + "/images/status/checkbox.png", USE_ALPHA);
@@ -622,13 +611,9 @@ void st_general_free(void)
 {
 
   /* Free global images: */
-  delete black_text;
   delete gold_text;
-  delete silver_text;
   delete white_text;
   delete blue_text;
-  delete red_text;
-  delete green_text;
   delete white_small_text;
   delete white_big_text;
   delete yellow_nums;

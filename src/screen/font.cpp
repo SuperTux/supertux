@@ -44,7 +44,6 @@ Font::Font(const std::string& file, FontType ntype, int nw, int nh,
   last_char = first_char + (chars->h / h) * 16;
   if(last_char > 127) // we have left out some control chars at 128-159
     last_char += 32;
-  printf("Chars: %d-%d.\n", first_char, last_char);
    
   // Load shadow font.
   if(shadowsize > 0) {
