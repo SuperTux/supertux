@@ -185,7 +185,8 @@ Sprite::draw(DrawingContext& context, const Vector& pos, int layer,
 
   if((int)frame >= get_frames() || (int)frame < 0)
     std::cerr << "Warning: frame out of range: " << (int)frame
-              << "/" << get_frames() << std::endl;
+              << "/" << get_frames() << " at sprite: " << get_name()
+              << "/" << get_action_name() << std::endl;
   else
     context.draw_surface(action->surfaces[(int)frame],
             pos - Vector(action->x_hotspot, action->y_hotspot), layer, drawing_effect);
