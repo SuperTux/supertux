@@ -116,7 +116,9 @@ Button::~Button()
   for(std::vector<Surface*>::iterator it = icon.begin(); it != icon.end(); ++it)
     delete (*it);
   icon.clear();
-  delete drawable;
+  // FIXME TODO XXX: commenting this out fixes the leveleditor quit crash
+  //   probably should be deleted somehow, though
+  //delete drawable;
 }
 
 void Button::event(SDL_Event &event)
