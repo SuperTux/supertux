@@ -2,7 +2,7 @@
 (supertux-level
   (version 1)
   (name "A good start")
-  (author "Torfi")
+  (author "Torfi Gunnarsson")
   (music "Mortimers_chipdisko.mod")
   (background "arctis.jpg")
   (particle_system "")
