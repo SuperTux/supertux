@@ -722,7 +722,6 @@ Player::draw()
           else
             {
               /* Tux has coffee! */
-
               if (!duck)
                 {
                   if (!skidding_timer.started())
@@ -785,6 +784,9 @@ Player::draw()
 
   if(dying)
     text_drawf(&gold_text,"Penguins can fly !:",0,0,A_HMIDDLE,A_VMIDDLE,1);
+
+  if (debug_mode)
+    fillrect(base.x - scroll_x, base.y, 32, 32, 75,75,75, 150);
 }
 
 void
@@ -917,42 +919,54 @@ Player::keep_in_bounds()
   Level* plevel = World::current()->get_level();
 
   /* Keep tux in bounds: */
-  if (base.x< 0)
-    base.x= 0;
-  else if(base.x< scroll_x)
-    base.x= scroll_x;
-  else if (base.x< 160 + scroll_x && scroll_x > 0 && debug_mode)
-    {
-      scroll_x = base.x- 160;
-      /*base.x+= 160;*/
-
-      if(scroll_x < 0)
-        scroll_x = 0;
-
+  if (base.x < 0)
+    { // Lock Tux to the size of the level, so that he doesn't fall of
+      // on the left side
+      base.x = 0;
     }
-  else if (base.x > screen->w / 2 + scroll_x
-           && scroll_x < ((World::current()->get_level()->width * 32) - screen->w))
-    {
-      // FIXME: Scrolling needs to be handled by a seperate View
-      // class, doing it as a player huck is ugly
-
-      // Scroll the screen in past center:
-      scroll_x = base.x - screen->w / 2;
-
-      if (scroll_x > ((plevel->width * 32) - screen->w))
-        scroll_x = ((plevel->width * 32) - screen->w);
-    }
-  else if (base.x> 608 + scroll_x)
-    {
-      /* ... unless there's no more to scroll! */
-
-      /*base.x= 608 + scroll_x;*/
+  else if (base.x < scroll_x)
+    { 
+      base.x = scroll_x;
     }
 
   /* Keep in-bounds, vertically: */
-
   if (base.y > screen->h)
     {
       kill(KILL);
     }
+
+  int scroll_threshold = screen->w/2 - 80;
+  if (debug_mode)
+    {
+      scroll_x += screen->w/2;
+      // Backscrolling for debug mode
+      if (scroll_x < base.x - 80)
+        scroll_x = base.x - 80;
+      else if (scroll_x > base.x + 80)
+        scroll_x = base.x + 80;
+      scroll_x -= screen->w/2;
+
+      if(scroll_x < 0)
+        scroll_x = 0;
+    }
+  else
+    {
+      if (base.x > scroll_threshold + scroll_x
+          && scroll_x < ((World::current()->get_level()->width * 32) - screen->w))
+        {
+          // FIXME: Scrolling needs to be handled by a seperate View
+          // class, doing it as a player huck is ugly
+          
+          // Scroll the screen in past center:
+          scroll_x = base.x - scroll_threshold;
+          
+          // Lock the scrolling to the levelsize, so that we don't
+          // scroll over the right border
+          if (scroll_x > 32 * plevel->width - screen->w)
+            scroll_x = 32 * plevel->width - screen->w;
+        }
+    }
 }
+
+// EOF //
+

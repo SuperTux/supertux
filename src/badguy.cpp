@@ -742,6 +742,9 @@ BadGuy::draw()
   texture_type* texture = 
       (dir == LEFT) ? &texture_left[frame] : &texture_right[frame];
   texture_draw(texture, base.x - scroll_x, base.y);
+
+  if (debug_mode)
+    fillrect(base.x - scroll_x, base.y, 32, 32, 75,0,75, 150);
 }
 
 void
