@@ -33,6 +33,7 @@
 #include "sector.h"
 #include "tilemap.h"
 #include "video/drawing_context.h"
+#include "camera.h"
 
 BouncyDistro::BouncyDistro(const Vector& pos)
   : position(pos)
@@ -441,7 +442,15 @@ SmokeCloud::draw(DrawingContext& context)
 Particles::Particles(const Vector& epicenter, const Vector& velocity, const Vector& acceleration, int number, Color color_, int size_, int life_time)
   : color(color_), size(size_), vel(velocity), accel(acceleration)
 {
-  timer.start(life_time);
+  if(life_time == 0)
+    {
+    live_forever = true;
+    }
+  else
+    {
+    live_forever = false;
+    timer.start(life_time);
+    }
 
   // create particles
   for(int p = 0; p < number; p++)
@@ -467,14 +476,24 @@ Particles::action(float elapsed_time)
   vel.x += accel.x * elapsed_time;
   vel.y += accel.y * elapsed_time;
 
+  int camera_x = (int)Sector::current()->camera->get_translation().x;
+  int camera_y = (int)Sector::current()->camera->get_translation().y;
+
   // update particles
-  for(int p = 0; p < particles.size(); p++)
+  for(std::vector<Particle*>::iterator i = particles.begin(); i < particles.end(); i++)
     {
-    particles[p]->pos.x += sin(particles[p]->angle) * vel.x * elapsed_time;
-    particles[p]->pos.y += cos(particles[p]->angle) * vel.y * elapsed_time;
+    (*i)->pos.x += sin((*i)->angle) * vel.x * elapsed_time;
+    (*i)->pos.y += cos((*i)->angle) * vel.y * elapsed_time;
+
+    if((*i)->pos.x < camera_x || (*i)->pos.x > screen->w + camera_x ||
+       (*i)->pos.y < camera_y || (*i)->pos.y > screen->h + camera_y)
+      {
+      delete (*i);
+      particles.erase(i);
+      }
     }
 
-  if(!timer.check())
+  if((!timer.check() && !live_forever) || particles.size() == 0)
     remove_me();
 }
 
@@ -482,9 +501,9 @@ void
 Particles::draw(DrawingContext& context)
 {
   // draw particles
-  for(int p = 0; p < particles.size(); p++)
+  for(std::vector<Particle*>::iterator i = particles.begin(); i < particles.end(); i++)
     {
-    context.draw_filled_rect(particles[p]->pos, Vector(size,size), color, LAYER_OBJECTS+10);
+    context.draw_filled_rect((*i)->pos, Vector(size,size), color, LAYER_OBJECTS+10);
     }
 }
 

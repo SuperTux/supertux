@@ -190,6 +190,7 @@ private:
   float size;
   Vector vel, accel;
   Timer timer;
+  bool live_forever;
 
   struct Particle {
     Vector pos;
