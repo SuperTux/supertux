@@ -58,7 +58,8 @@ Dispenser::active_action(float )
 }
 
 //TODO: Add launching velocity to certain badguys
-//      Add randomizer (themed to match tileset)
+//      Add themed randomizer
+//      Fix initial direction (everyone but MrRocket walks the wrong direction)
 void
 Dispenser::launch_badguy()
 {
@@ -75,7 +76,16 @@ Dispenser::launch_badguy()
     else if (badguy == "mrrocket")
       Sector::current()->add_object(new MrRocket(get_pos().x, get_pos().y+32, dir));
     else if (badguy == "random")
-    {}
+    {
+      switch (rand()%5)
+      {
+        case 0: Sector::current()->add_object(new SnowBall(get_pos().x, get_pos().y+32, dir)); break;
+        case 1: Sector::current()->add_object(new BouncingSnowball(get_pos().x, get_pos().y+32, dir)); break;
+        case 2: Sector::current()->add_object(new MrBomb(get_pos().x, get_pos().y+32, dir)); break;
+        case 3: Sector::current()->add_object(new MrIceBlock(get_pos().x, get_pos().y+32, dir)); break;
+        case 4: Sector::current()->add_object(new MrRocket(get_pos().x, get_pos().y+32, dir)); break;
+      }
+    }
   }
 }
 
