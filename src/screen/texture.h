@@ -134,7 +134,7 @@ public:
 class SurfaceOpenGL : public SurfaceImpl
 {
 public:
-  unsigned gl_texture;
+  GLuint gl_texture;
 
 public:
   SurfaceOpenGL(SDL_Surface* surf, int use_alpha);
