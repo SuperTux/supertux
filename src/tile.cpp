@@ -73,9 +73,9 @@ void TileManager::load_tileset(std::string filename)
                   it != tile->filenames.end();
                   ++it)
                 {
-                  texture_type cur_image;
+                  Surface* cur_image;
                   tile->images.push_back(cur_image);
-                  texture_load(&tile->images[tile->images.size()-1],
+                  tile->images[tile->images.size()-1] = new Surface(
                                datadir +  "images/tilesets/" + (*it),
                                USE_ALPHA);
                 }
@@ -83,9 +83,9 @@ void TileManager::load_tileset(std::string filename)
                   it != editor_filenames.end();
                   ++it)
                 {
-                  texture_type cur_image;
+                  Surface* cur_image;
                   tile->editor_images.push_back(cur_image);
-                  texture_load(&tile->editor_images[tile->editor_images.size()-1],
+                  tile->editor_images[tile->editor_images.size()-1] = new Surface(
                                datadir +  "images/tilesets/" + (*it),
                                USE_ALPHA);
                 }
@@ -145,11 +145,11 @@ Tile::draw(float x, float y, unsigned int c, Uint8 alpha)
         {
           if(ptile->images.size() > 1)
             {
-              texture_draw(&ptile->images[( ((global_frame_counter*25) / ptile->anim_speed) % (ptile->images.size()))],x,y, alpha);
+              ptile->images[( ((global_frame_counter*25) / ptile->anim_speed) % (ptile->images.size()))]->draw(x,y, alpha);
             }
           else if (ptile->images.size() == 1)
             {
-              texture_draw(&ptile->images[0],x,y, alpha);
+              ptile->images[0]->draw(x,y, alpha);
             }
           else
             {

@@ -15,7 +15,7 @@
 
 MouseCursor::MouseCursor(std::string cursor_file, int frames)
 {
-  texture_load(&cursor,cursor_file.c_str(),USE_ALPHA);
+  cursor = new Surface(cursor_file, USE_ALPHA);
 
   cur_state = MC_NORMAL;
   cur_frame = 0;
@@ -29,7 +29,7 @@ MouseCursor::MouseCursor(std::string cursor_file, int frames)
 
 MouseCursor::~MouseCursor()
 {
-  texture_free(&cursor);
+  delete cursor;
 
   SDL_ShowCursor(SDL_ENABLE);
 }
@@ -48,8 +48,8 @@ void MouseCursor::draw()
 {
   int x,y,w,h;
   Uint8 ispressed = SDL_GetMouseState(&x,&y);
-  w = cursor.w / tot_frames;
-  h = cursor.h / MC_STATES_NB;
+  w = cursor->w / tot_frames;
+  h = cursor->h / MC_STATES_NB;
   if(ispressed &SDL_BUTTON(1) || ispressed &SDL_BUTTON(2))
     {
       if(cur_state != MC_CLICK)
@@ -73,5 +73,5 @@ void MouseCursor::draw()
       timer.start(MC_FRAME_PERIOD);
     }
 
-  texture_draw_part(&cursor, w*cur_frame, h*cur_state , x, y, w, h);
+  cursor->draw_part(w*cur_frame, h*cur_state , x, y, w, h);
 }

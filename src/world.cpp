@@ -29,7 +29,7 @@
 #include "tile.h"
 #include "resources.h"
 
-texture_type img_distro[4];
+Surface* img_distro[4];
 
 World* World::current_ = 0;
 
@@ -129,8 +129,8 @@ World::draw()
   if(get_level()->bkgd_image[0] != '\0')
     {
       int s = (int)scroll_x / 30;
-      texture_draw_part(&level->img_bkgd, s, 0,0,0,level->img_bkgd.w - s, level->img_bkgd.h);
-      texture_draw_part(&level->img_bkgd, 0, 0,screen->w - s ,0,s,level->img_bkgd.h);
+      level->img_bkgd->draw_part(s, 0,0,0,level->img_bkgd->w - s, level->img_bkgd->h);
+      level->img_bkgd->draw_part(0, 0,screen->w - s ,0,s,level->img_bkgd->h);
     }
   else
     {

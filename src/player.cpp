@@ -19,36 +19,36 @@
 #include "tile.h"
 #include "screen.h"
 
-texture_type tux_life;
-std::vector<texture_type> tux_right;
-std::vector<texture_type> tux_left;
-texture_type smalltux_jump_left;
-texture_type smalltux_jump_right;
-texture_type smalltux_stand_left;
-texture_type smalltux_stand_right;
+Surface* tux_life;
+std::vector<Surface*> tux_right;
+std::vector<Surface*> tux_left;
+Surface* smalltux_jump_left;
+Surface* smalltux_jump_right;
+Surface* smalltux_stand_left;
+Surface* smalltux_stand_right;
 
-texture_type bigtux_right[3];
-texture_type bigtux_left[3];
-texture_type bigtux_right_jump;
-texture_type bigtux_left_jump;
-texture_type ducktux_right;
-texture_type ducktux_left;
-texture_type skidtux_right;
-texture_type skidtux_left;
-texture_type firetux_right[3];
-texture_type firetux_left[3];
-texture_type bigfiretux_right[3];
-texture_type bigfiretux_left[3];
-texture_type bigfiretux_right_jump;
-texture_type bigfiretux_left_jump;
-texture_type duckfiretux_right;
-texture_type duckfiretux_left;
-texture_type skidfiretux_right;
-texture_type skidfiretux_left;
-texture_type cape_right[2];
-texture_type cape_left[2];
-texture_type bigcape_right[2];
-texture_type bigcape_left[2];
+Surface* bigtux_right[3];
+Surface* bigtux_left[3];
+Surface* bigtux_right_jump;
+Surface* bigtux_left_jump;
+Surface* ducktux_right;
+Surface* ducktux_left;
+Surface* skidtux_right;
+Surface* skidtux_left;
+Surface* firetux_right[3];
+Surface* firetux_left[3];
+Surface* bigfiretux_right[3];
+Surface* bigfiretux_left[3];
+Surface* bigfiretux_right_jump;
+Surface* bigfiretux_left_jump;
+Surface* duckfiretux_right;
+Surface* duckfiretux_left;
+Surface* skidfiretux_right;
+Surface* skidfiretux_left;
+Surface* cape_right[2];
+Surface* cape_left[2];
+Surface* bigcape_right[2];
+Surface* bigcape_left[2];
 
 void player_input_init(player_input_type* pplayer_input)
 {
@@ -532,12 +532,11 @@ Player::draw()
 
               if (dir == RIGHT)
                 {
-                  texture_draw(&cape_right[global_frame_counter % 2],
-                               base.x- scroll_x, base.y);
+                 cape_right[global_frame_counter % 2]->draw(base.x- scroll_x, base.y);
                 }
               else
                 {
-                  texture_draw(&cape_left[global_frame_counter % 2],
+                  cape_left[global_frame_counter % 2]->draw(
                                base.x- scroll_x, base.y);
                 }
             }
@@ -548,26 +547,26 @@ Player::draw()
               if (physic.get_velocity_y() != 0)
                 {
                   if (dir == RIGHT)
-                    texture_draw(&smalltux_jump_right, base.x - scroll_x, base.y - 10);
+                    smalltux_jump_right->draw( base.x - scroll_x, base.y - 10);
                   else
-                    texture_draw(&smalltux_jump_left, base.x - scroll_x, base.y - 10);                   
+                    smalltux_jump_left->draw( base.x - scroll_x, base.y - 10);                   
                 }
               else
                 {
                   if (fabsf(physic.get_velocity_x()) < 1.0f) // standing
                     {
                       if (dir == RIGHT)
-                        texture_draw(&smalltux_stand_right, base.x - scroll_x, base.y - 9);
+                        smalltux_stand_right->draw( base.x - scroll_x, base.y - 9);
                       else
-                        texture_draw(&smalltux_stand_left, base.x - scroll_x, base.y - 9);
+                        smalltux_stand_left->draw( base.x - scroll_x, base.y - 9);
                     }
                   else // moving
                     {
                       if (dir == RIGHT)
-                        texture_draw(&tux_right[(global_frame_counter/2) % tux_right.size()], 
+                        tux_right[(global_frame_counter/2) % tux_right.size()]->draw( 
                                      base.x - scroll_x, base.y - 9);
                       else
-                        texture_draw(&tux_left[(global_frame_counter/2) % tux_left.size()], 
+                        tux_left[(global_frame_counter/2) % tux_left.size()]->draw( 
                                      base.x - scroll_x, base.y - 9);
                     }
                 }
@@ -578,11 +577,11 @@ Player::draw()
 
               if (dir == RIGHT)
                 {
-                  texture_draw(&firetux_right[frame_], base.x- scroll_x, base.y);
+                  firetux_right[frame_]->draw( base.x- scroll_x, base.y);
                 }
               else
                 {
-                  texture_draw(&firetux_left[frame_], base.x- scroll_x, base.y);
+                  firetux_left[frame_]->draw( base.x- scroll_x, base.y);
                 }
             }
         }
@@ -590,19 +589,19 @@ Player::draw()
         {
           if (invincible_timer.started())
             {
-              float capex = base.x + (base.width - bigcape_right[0].w) / 2;
+              float capex = base.x + (base.width - bigcape_right[0]->w) / 2;
               capex -= scroll_x;
-              float capey = base.y + (base.height - bigcape_right[0].h) / 2;
+              float capey = base.y + (base.height - bigcape_right[0]->h) / 2;
                 
               /* Draw cape (just not in ducked mode since that looks silly): */
               if (dir == RIGHT)
                 {
-                  texture_draw(&bigcape_right[global_frame_counter % 2],
+                  bigcape_right[global_frame_counter % 2]->draw(
                           capex, capey);
                 }
               else
                 {
-                  texture_draw(&bigcape_left[global_frame_counter % 2],
+                  bigcape_left[global_frame_counter % 2]->draw(
                           capex, capey);
                 }
             }
@@ -617,12 +616,12 @@ Player::draw()
                         {
                           if (dir == RIGHT)
                             {
-                              texture_draw(&bigtux_right[frame_],
+                              bigtux_right[frame_]->draw(
                                            base.x- scroll_x - 8, base.y);
                             }
                           else
                             {
-                              texture_draw(&bigtux_left[frame_],
+                              bigtux_left[frame_]->draw(
                                            base.x- scroll_x - 8, base.y);
                             }
                         }
@@ -630,12 +629,12 @@ Player::draw()
                         {
                           if (dir == RIGHT)
                             {
-                              texture_draw(&bigtux_right_jump,
+                              bigtux_right_jump->draw(
                                            base.x- scroll_x - 8, base.y);
                             }
                           else
                             {
-                              texture_draw(&bigtux_left_jump,
+                              bigtux_left_jump->draw(
                                            base.x- scroll_x - 8, base.y);
                             }
                         }
@@ -644,12 +643,12 @@ Player::draw()
                     {
                       if (dir == RIGHT)
                         {
-                          texture_draw(&skidtux_right,
+                          skidtux_right->draw(
                                        base.x- scroll_x - 8, base.y);
                         }
                       else
                         {
-                          texture_draw(&skidtux_left,
+                          skidtux_left->draw(
                                        base.x- scroll_x - 8, base.y);
                         }
                     }
@@ -658,11 +657,11 @@ Player::draw()
                 {
                   if (dir == RIGHT)
                     {
-                      texture_draw(&ducktux_right, base.x- scroll_x - 8, base.y - 16);
+                      ducktux_right->draw( base.x- scroll_x - 8, base.y - 16);
                     }
                   else
                     {
-                      texture_draw(&ducktux_left, base.x- scroll_x - 8, base.y - 16);
+                      ducktux_left->draw( base.x- scroll_x - 8, base.y - 16);
                     }
                 }
             }
@@ -677,12 +676,12 @@ Player::draw()
                         {
                           if (dir == RIGHT)
                             {
-                              texture_draw(&bigfiretux_right[frame_],
+                              bigfiretux_right[frame_]->draw(
                                            base.x- scroll_x - 8, base.y);
                             }
                           else
                             {
-                              texture_draw(&bigfiretux_left[frame_],
+                              bigfiretux_left[frame_]->draw(
                                            base.x- scroll_x - 8, base.y);
                             }
                         }
@@ -690,12 +689,12 @@ Player::draw()
                         {
                           if (dir == RIGHT)
                             {
-                              texture_draw(&bigfiretux_right_jump,
+                              bigfiretux_right_jump->draw(
                                            base.x- scroll_x - 8, base.y);
                             }
                           else
                             {
-                              texture_draw(&bigfiretux_left_jump,
+                              bigfiretux_left_jump->draw(
                                            base.x- scroll_x - 8, base.y);
                             }
                         }
@@ -704,12 +703,12 @@ Player::draw()
                     {
                       if (dir == RIGHT)
                         {
-                          texture_draw(&skidfiretux_right,
+                          skidfiretux_right->draw(
                                        base.x- scroll_x - 8, base.y);
                         }
                       else
                         {
-                          texture_draw(&skidfiretux_left,
+                          skidfiretux_left->draw(
                                        base.x- scroll_x - 8, base.y);
                         }
                     }
@@ -718,11 +717,11 @@ Player::draw()
                 {
                   if (dir == RIGHT)
                     {
-                      texture_draw(&duckfiretux_right, base.x- scroll_x - 8, base.y - 16);
+                      duckfiretux_right->draw( base.x- scroll_x - 8, base.y - 16);
                     }
                   else
                     {
-                      texture_draw(&duckfiretux_left, base.x- scroll_x - 8, base.y - 16);
+                      duckfiretux_left->draw( base.x- scroll_x - 8, base.y - 16);
                     }
                 }
             }

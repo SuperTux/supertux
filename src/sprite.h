@@ -40,7 +40,7 @@ class Sprite
 
   float time;
 
-  std::vector<texture_type> surfaces;
+  std::vector<Surface*> surfaces;
 
   void init_defaults();
  public:

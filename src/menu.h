@@ -110,11 +110,11 @@ extern MenuAction menuaction;
 extern bool show_menu;
 extern bool menu_change;
 
-extern texture_type checkbox;
-extern texture_type checkbox_checked;
-extern texture_type back;
-extern texture_type arrow_left;
-extern texture_type arrow_right;
+extern Surface* checkbox;
+extern Surface* checkbox_checked;
+extern Surface* back;
+extern Surface* arrow_left;
+extern Surface* arrow_right;
 
 extern Menu* contrib_menu;
 extern Menu* contrib_subset_menu;

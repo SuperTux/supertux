@@ -56,7 +56,7 @@ protected:
 
         float x, y;
         int layer;
-        texture_type* texture;
+        Surface* texture;
     };
     
     std::vector<Particle*> particles;
@@ -78,7 +78,7 @@ private:
         float speed;
     };
     
-    texture_type snowimages[3];
+    Surface* snowimages[3];
 };
 
 class CloudParticleSystem : public ParticleSystem
@@ -96,7 +96,7 @@ private:
         float speed;
     };
     
-    texture_type cloudimage;
+    Surface* cloudimage;
 };
 
 #endif

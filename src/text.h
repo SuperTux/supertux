@@ -18,8 +18,8 @@
 /* Text type */
 struct text_type
 {
-  texture_type chars;
-  texture_type shadow_chars;
+  Surface* chars;
+  Surface* shadow_chars;
   int kind;
   int w;
   int h;
@@ -45,12 +45,12 @@ enum TextVAlign {
 
 void text_load(text_type* ptext, const std::string& file, int kind, int w, int h);
 void text_draw(text_type* ptext, const char* text, int x, int y, int shadowsize, int update = NO_UPDATE);
-void text_draw_chars(text_type* ptext, texture_type* pchars, const char* text, int x, int y, int update = NO_UPDATE);
+void text_draw_chars(text_type* ptext, Surface* pchars, const char* text, int x, int y, int update = NO_UPDATE);
 void text_drawf(text_type* ptext, const char* text, int x, int y, TextHAlign halign, TextVAlign valign, int shadowsize, int update = NO_UPDATE);
 void text_draw_align(text_type* ptext, const char* text, int x, int y, TextHAlign halign, TextVAlign valign, int shadowsize, int update = NO_UPDATE);
 void text_free(text_type* ptext);
-void erasetext(text_type* ptext, const char * text, int x, int y, texture_type * surf, int update, int shadowsize);
-void erasecenteredtext(text_type* ptext, const char * text, int y, texture_type * surf, int update, int shadowsize);
+void erasetext(text_type* ptext, const char * text, int x, int y, Surface* surf, int update, int shadowsize);
+void erasecenteredtext(text_type* ptext, const char * text, int y, Surface* surf, int update, int shadowsize);
 
 #endif /*SUPERTUX_TEXT_H*/
 

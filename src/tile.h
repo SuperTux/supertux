@@ -26,8 +26,8 @@ struct Tile
 {
   int id;
 
-  std::vector<texture_type> images;
-  std::vector<texture_type> editor_images;
+  std::vector<Surface*> images;
+  std::vector<Surface*> editor_images;
   
   std::vector<std::string>  filenames;
 

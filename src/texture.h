@@ -21,38 +21,78 @@
 
 #include "screen.h"
 
-/* Texture type */
-struct texture_type
+class SurfaceImpl;
+
+/** Container class that holds a surface, necessary so that we can
+    switch Surface implementations (OpenGL, SDL) on the fly */
+class Surface
 {
-  SDL_Surface* sdl_surface;
-  unsigned gl_texture;
-  int w;
+public:
+  SurfaceImpl* impl;
+  int w; 
   int h;
+public:
+  Surface(SDL_Surface* surf, int use_alpha);  
+  Surface(const std::string& file, int use_alpha);  
+  Surface(const std::string& file, int x, int y, int w, int h, int use_alpha);
+  ~Surface();
+
+  void draw(float x, float y, Uint8 alpha = 255, bool update = false);
+  void draw_bg(Uint8 alpha = 255, bool update = false);
+  void draw_part(float sx, float sy, float x, float y, float w, float h,  Uint8 alpha = 255, bool update = false);
 };
 
-void texture_setup(void);
-extern void (*texture_load) (texture_type* ptexture, const std::string& file, int use_alpha);  
-extern void (*texture_load_part) (texture_type* ptexture, const std::string& file, int x, int y, int w, int h, int use_alpha);
-extern void (*texture_free) (texture_type* ptexture);  
-extern void (*texture_draw) (texture_type* ptexture, float x, float y, Uint8 alpha = 255, bool update = false);
-extern void (*texture_draw_bg) (texture_type* ptexture,  Uint8 alpha = 255, bool update = false);
-extern void (*texture_draw_part) (texture_type* ptexture, float sx, float sy, float x, float y, float w, float h,  Uint8 alpha = 255, bool update = false);
-void texture_load_sdl(texture_type* ptexture, const std::string&, int use_alpha);
-void texture_load_part_sdl(texture_type* ptexture, const std::string& file, int x, int y, int w, int h, int use_alpha);
-void texture_free_sdl(texture_type* ptexture);
-void texture_draw_sdl(texture_type* ptexture, float x, float y, Uint8 alpha, bool update);
-void texture_draw_bg_sdl(texture_type* ptexture,  Uint8 alpha, bool update);
-void texture_draw_part_sdl(texture_type* ptexture,float sx, float sy, float x, float y, float w, float h,  Uint8 alpha, bool update);
-void texture_from_sdl_surface(texture_type* ptexture, SDL_Surface * sdl_surf, int use_alpha);
-#ifndef NOOPENGL
-void texture_load_gl(texture_type* ptexture, const std::string& file, int use_alpha);
-void texture_load_part_gl(texture_type* ptexture, const std::string& file, int x, int y, int w, int h, int use_alpha);
-void texture_free_gl(texture_type* ptexture);
-void texture_draw_gl(texture_type* ptexture, float x, float y,  Uint8 alpha, bool update);
-void texture_draw_bg_gl(texture_type* ptexture,  Uint8 alpha, bool update);
-void texture_draw_part_gl(texture_type* ptexture, float sx, float sy, float x, float y, float w, float h,  Uint8 alpha, bool update);
-void texture_create_gl(SDL_Surface * surf, GLuint * tex);
-#endif
+/** Surface implementation, all implementation have to inherit from
+    this class */
+class SurfaceImpl
+{
+public:
+  SDL_Surface* sdl_surface;
+  int w;
+  int h;
+
+public:
+  virtual void draw(float x, float y, Uint8 alpha, bool update) = 0;
+  virtual void draw_bg(Uint8 alpha, bool update) = 0;
+  virtual void draw_part(float sx, float sy, float x, float y, float w, float h,  Uint8 alpha, bool update) = 0;
+};
+
+class SurfaceSDL : public SurfaceImpl
+{
+public:
+  
+public:
+  SurfaceSDL(SDL_Surface* surf, int use_alpha);
+  SurfaceSDL(const std::string& file, int use_alpha);  
+  SurfaceSDL(const std::string& file, int x, int y, int w, int h, int use_alpha);
+  virtual ~SurfaceSDL();
+
+  void draw(float x, float y, Uint8 alpha, bool update);
+  void draw_bg(Uint8 alpha, bool update);
+  void draw_part(float sx, float sy, float x, float y, float w, float h,  Uint8 alpha, bool update);
+};
+
+class SurfaceOpenGL : public SurfaceImpl
+{
+public:
+  unsigned gl_texture;
+
+public:
+  SurfaceOpenGL(SDL_Surface* surf, int use_alpha);
+  SurfaceOpenGL(const std::string& file, int use_alpha);  
+  SurfaceOpenGL(const std::string& file, int x, int y, int w, int h, int use_alpha);
+  virtual ~SurfaceOpenGL();
+
+  void draw(float x, float y, Uint8 alpha, bool update);
+  void draw_bg(Uint8 alpha, bool update);
+  void draw_part(float sx, float sy, float x, float y, float w, float h,  Uint8 alpha, bool update);
+
+private:
+  void create_gl(SDL_Surface * surf, GLuint * tex);
+};
 
 #endif /*SUPERTUX_TEXTURE_H*/
 
+/* Local Variables: */
+/* mode: c++ */
+/* End */

@@ -122,12 +122,12 @@ void st_subset::load(char *subset)
       snprintf(str, 1024, "%s.png", filename);
       if(faccessible(str))
         {
-          texture_load(&image,str,IGNORE_ALPHA);
+          image = new Surface(str,IGNORE_ALPHA);
         }
       else
         {
           snprintf(filename, 1024, "%s/images/status/level-subset-info.png", datadir.c_str());
-          texture_load(&image,filename,IGNORE_ALPHA);
+          image = new Surface(filename,IGNORE_ALPHA);
         }
     }
 
@@ -186,7 +186,7 @@ void st_subset::free()
   title.clear();
   description.clear();
   name.clear();
-  texture_free(&image);
+  delete image;
   levels = 0;
 }
 
@@ -557,7 +557,7 @@ Level::load_gfx()
       snprintf(fname, 1024, "%s/background/%s", st_dir, bkgd_image.c_str());
       if(!faccessible(fname))
         snprintf(fname, 1024, "%s/images/background/%s", datadir.c_str(), bkgd_image.c_str());
-      texture_load(&img_bkgd, fname, IGNORE_ALPHA);
+      img_bkgd = new Surface(fname, IGNORE_ALPHA);
     }
   else
     {
@@ -569,12 +569,12 @@ Level::load_gfx()
 void
 Level::free_gfx()
 {
-  texture_free(&img_bkgd);
+  delete img_bkgd;
 }
 
 /* Load a level-specific graphic... */
 void
-Level::load_image(texture_type* ptexture, string theme,const  char * file, int use_alpha)
+Level::load_image(Surface** ptexture, string theme,const  char * file, int use_alpha)
 {
   char fname[1024];
 
@@ -582,7 +582,7 @@ Level::load_image(texture_type* ptexture, string theme,const  char * file, int u
   if(!faccessible(fname))
     snprintf(fname, 1024, "%s/images/themes/%s/%s", datadir.c_str(), theme.c_str(), file);
 
-  texture_load(ptexture, fname, use_alpha);
+  *ptexture = new Surface(fname, use_alpha);
 }
 
 void tilemap_change_size(unsigned int** tilemap[15], int w, int old_w)

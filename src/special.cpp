@@ -22,11 +22,11 @@
 #include "player.h"
 #include "resources.h"
 
-texture_type img_bullet;
-texture_type img_golden_herring;
-texture_type img_growup;
-texture_type img_iceflower;
-texture_type img_1up;
+Surface* img_bullet;
+Surface* img_golden_herring;
+Surface* img_growup;
+Surface* img_iceflower;
+Surface* img_1up;
 
 void
 Bullet::init(float x, float y, float xm, int dir)
@@ -99,7 +99,7 @@ Bullet::draw()
   if (base.x >= scroll_x - base.width &&
       base.x <= scroll_x + screen->w)
     {
-      texture_draw(&img_bullet, base.x - scroll_x, base.y, 255,
+      img_bullet->draw( base.x - scroll_x, base.y, 255,
                    NO_UPDATE);
     }
 }
@@ -230,34 +230,34 @@ Upgrade::draw()
       dest.h = (int)base.height;
 
       if (kind == UPGRADE_GROWUP)
-        texture_draw_part(&img_growup,0,0,dest.x,dest.y,dest.w,dest.h);
+        img_growup->draw_part(0,0,dest.x,dest.y,dest.w,dest.h);
       else if (kind == UPGRADE_ICEFLOWER)
-        texture_draw_part(&img_iceflower,0,0,dest.x,dest.y,dest.w,dest.h);
+        img_iceflower->draw_part(0,0,dest.x,dest.y,dest.w,dest.h);
       else if (kind == UPGRADE_HERRING)
-        texture_draw_part(&img_golden_herring,0,0,dest.x,dest.y,dest.w,dest.h);
+        img_golden_herring->draw_part(0,0,dest.x,dest.y,dest.w,dest.h);
       else if (kind == UPGRADE_1UP)
-        texture_draw_part(&img_1up, 0, 0, dest.x, dest.y, dest.w, dest.h);
+        img_1up->draw_part( 0, 0, dest.x, dest.y, dest.w, dest.h);
     }
   else
     {
       if (kind == UPGRADE_GROWUP)
         {
-          texture_draw(&img_growup,
+          img_growup->draw(
                        base.x - scroll_x, base.y);
         }
       else if (kind == UPGRADE_ICEFLOWER)
         {
-          texture_draw(&img_iceflower,
+          img_iceflower->draw(
                        base.x - scroll_x, base.y);
         }
       else if (kind == UPGRADE_HERRING)
         {
-          texture_draw(&img_golden_herring,
+          img_golden_herring->draw(
                        base.x - scroll_x, base.y);
         }
       else if (kind == UPGRADE_1UP)
         {
-          texture_draw(&img_1up, base.x - scroll_x, base.y);
+          img_1up->draw( base.x - scroll_x, base.y);
         }
     }
 }
@@ -321,24 +321,24 @@ Upgrade::collision(void* p_c_object, int c_object)
 
 void load_special_gfx()
 {
-    texture_load(&img_growup, datadir + "/images/shared/egg.png", USE_ALPHA);
-    texture_load(&img_iceflower, datadir + "/images/shared/iceflower.png",
+    img_growup = new Surface(datadir + "/images/shared/egg.png", USE_ALPHA);
+    img_iceflower = new Surface(datadir + "/images/shared/iceflower.png",
             USE_ALPHA);
-    texture_load(&img_golden_herring, datadir +
+    img_golden_herring = new Surface(datadir +
             "/images/shared/star.png", USE_ALPHA);
-    texture_load(&img_1up, datadir + "/images/shared/1up.png",
+    img_1up = new Surface(datadir + "/images/shared/1up.png",
             USE_ALPHA);
 
-    texture_load(&img_bullet, datadir + "/images/shared/bullet.png",
+    img_bullet = new Surface(datadir + "/images/shared/bullet.png",
             USE_ALPHA);
 }
 
 void free_special_gfx()
 {
-    texture_free(&img_growup);
-    texture_free(&img_iceflower);
-    texture_free(&img_1up);
-    texture_free(&img_golden_herring);
-    texture_free(&img_bullet);
+    delete img_growup;
+    delete img_iceflower;
+    delete img_1up;
+    delete img_golden_herring;
+    delete img_bullet;
 }
 

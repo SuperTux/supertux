@@ -34,7 +34,12 @@
 MenuAction menuaction = MENU_ACTION_NONE;
 bool show_menu;
 bool menu_change;
-texture_type checkbox, checkbox_checked, back, arrow_left, arrow_right;
+
+Surface* checkbox;
+Surface* checkbox_checked;
+Surface* back;
+Surface* arrow_left;
+Surface* arrow_right;
 
 Menu* main_menu      = 0;
 Menu* game_menu      = 0;
@@ -425,8 +430,8 @@ Menu::draw_item(int index, // Position of the current item in the menu
         int text_pos   = (text_width + font_width)/2;
 
         /* Draw arrows */
-        texture_draw(&arrow_left,  x_pos - list_pos + text_pos - 17, y_pos - 8);
-        texture_draw(&arrow_right, x_pos - list_pos + text_pos - 1 + list_pos_2, y_pos - 8);
+        arrow_left->draw(  x_pos - list_pos + text_pos - 17, y_pos - 8);
+        arrow_right->draw( x_pos - list_pos + text_pos - 1 + list_pos_2, y_pos - 8);
 
         /* Draw input background */
         fillrect(x_pos - list_pos + text_pos - 1, y_pos - 10,
@@ -448,7 +453,7 @@ Menu::draw_item(int index, // Position of the current item in the menu
     case MN_BACK:
       {
         text_draw_align(text_font, pitem.text, x_pos, y_pos, A_HMIDDLE, A_VMIDDLE, shadow_size);
-        texture_draw(&back, x_pos + text_width/2  + font_width, y_pos - 8);
+        back->draw( x_pos + text_width/2  + font_width, y_pos - 8);
         break;
       }
 
@@ -457,11 +462,11 @@ Menu::draw_item(int index, // Position of the current item in the menu
         text_draw_align(text_font, pitem.text, x_pos, y_pos, A_HMIDDLE, A_VMIDDLE, shadow_size);
 
         if(pitem.toggled)
-          texture_draw(&checkbox_checked,
+          checkbox_checked->draw(
                        x_pos + (text_width+font_width)/2,
                        y_pos - 8);
         else
-          texture_draw(&checkbox,
+          checkbox->draw(
                        x_pos + (text_width+font_width)/2,
                        y_pos - 8);
         break;

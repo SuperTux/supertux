@@ -6,16 +6,16 @@
 #include "special.h"
 #include "resources.h"
 
-texture_type img_waves[3]; 
-texture_type img_water;
-texture_type img_pole;
-texture_type img_poletop;
-texture_type img_flag[2];
-texture_type img_cloud[2][4];
+Surface* img_waves[3]; 
+Surface* img_water;
+Surface* img_pole;
+Surface* img_poletop;
+Surface* img_flag[2];
+Surface* img_cloud[2][4];
 
-texture_type img_box_full;
-texture_type img_box_empty;
-texture_type img_red_glow;
+Surface* img_box_full;
+Surface* img_box_empty;
+Surface* img_red_glow;
 
 /* Load graphics/sounds shared between all levels: */
 void loadshared()
@@ -23,218 +23,218 @@ void loadshared()
   int i;
 
   /* Tuxes: */
-  texture_load(&smalltux_stand_left, datadir + "/images/shared/smalltux-left-6.png", USE_ALPHA);
-  texture_load(&smalltux_stand_right, datadir + "/images/shared/smalltux-right-6.png", USE_ALPHA);
+  smalltux_stand_left = new Surface(datadir + "/images/shared/smalltux-left-6.png", USE_ALPHA);
+  smalltux_stand_right = new Surface(datadir + "/images/shared/smalltux-right-6.png", USE_ALPHA);
 
-  texture_load(&smalltux_jump_left, datadir + "/images/shared/smalltux-jump-left.png", USE_ALPHA);
-  texture_load(&smalltux_jump_right, datadir + "/images/shared/smalltux-jump-right.png", USE_ALPHA);
+  smalltux_jump_left = new Surface(datadir + "/images/shared/smalltux-jump-left.png", USE_ALPHA);
+  smalltux_jump_right = new Surface(datadir + "/images/shared/smalltux-jump-right.png", USE_ALPHA);
 
   tux_right.resize(8);
-  texture_load(&tux_right[0], datadir + "/images/shared/smalltux-right-1.png", USE_ALPHA);
-  texture_load(&tux_right[1], datadir + "/images/shared/smalltux-right-2.png", USE_ALPHA);
-  texture_load(&tux_right[2], datadir + "/images/shared/smalltux-right-3.png", USE_ALPHA);
-  texture_load(&tux_right[3], datadir + "/images/shared/smalltux-right-4.png", USE_ALPHA);
-  texture_load(&tux_right[4], datadir + "/images/shared/smalltux-right-5.png", USE_ALPHA);
-  texture_load(&tux_right[5], datadir + "/images/shared/smalltux-right-6.png", USE_ALPHA);
-  texture_load(&tux_right[6], datadir + "/images/shared/smalltux-right-7.png", USE_ALPHA);
-  texture_load(&tux_right[7], datadir + "/images/shared/smalltux-right-8.png", USE_ALPHA);
+  tux_right[0] = new Surface(datadir + "/images/shared/smalltux-right-1.png", USE_ALPHA);
+  tux_right[1] = new Surface(datadir + "/images/shared/smalltux-right-2.png", USE_ALPHA);
+  tux_right[2] = new Surface(datadir + "/images/shared/smalltux-right-3.png", USE_ALPHA);
+  tux_right[3] = new Surface(datadir + "/images/shared/smalltux-right-4.png", USE_ALPHA);
+  tux_right[4] = new Surface(datadir + "/images/shared/smalltux-right-5.png", USE_ALPHA);
+  tux_right[5] = new Surface(datadir + "/images/shared/smalltux-right-6.png", USE_ALPHA);
+  tux_right[6] = new Surface(datadir + "/images/shared/smalltux-right-7.png", USE_ALPHA);
+  tux_right[7] = new Surface(datadir + "/images/shared/smalltux-right-8.png", USE_ALPHA);
 
   tux_left.resize(8);
-  texture_load(&tux_left[0], datadir + "/images/shared/smalltux-left-1.png", USE_ALPHA);
-  texture_load(&tux_left[1], datadir + "/images/shared/smalltux-left-2.png", USE_ALPHA);
-  texture_load(&tux_left[2], datadir + "/images/shared/smalltux-left-3.png", USE_ALPHA);
-  texture_load(&tux_left[3], datadir + "/images/shared/smalltux-left-4.png", USE_ALPHA);
-  texture_load(&tux_left[4], datadir + "/images/shared/smalltux-left-5.png", USE_ALPHA);
-  texture_load(&tux_left[5], datadir + "/images/shared/smalltux-left-6.png", USE_ALPHA);
-  texture_load(&tux_left[6], datadir + "/images/shared/smalltux-left-7.png", USE_ALPHA);
-  texture_load(&tux_left[7], datadir + "/images/shared/smalltux-left-8.png", USE_ALPHA);
+  tux_left[0] = new Surface(datadir + "/images/shared/smalltux-left-1.png", USE_ALPHA);
+  tux_left[1] = new Surface(datadir + "/images/shared/smalltux-left-2.png", USE_ALPHA);
+  tux_left[2] = new Surface(datadir + "/images/shared/smalltux-left-3.png", USE_ALPHA);
+  tux_left[3] = new Surface(datadir + "/images/shared/smalltux-left-4.png", USE_ALPHA);
+  tux_left[4] = new Surface(datadir + "/images/shared/smalltux-left-5.png", USE_ALPHA);
+  tux_left[5] = new Surface(datadir + "/images/shared/smalltux-left-6.png", USE_ALPHA);
+  tux_left[6] = new Surface(datadir + "/images/shared/smalltux-left-7.png", USE_ALPHA);
+  tux_left[7] = new Surface(datadir + "/images/shared/smalltux-left-8.png", USE_ALPHA);
 
-  texture_load(&firetux_right[0], datadir + "/images/shared/firetux-right-0.png", USE_ALPHA);
-  texture_load(&firetux_right[1], datadir + "/images/shared/firetux-right-1.png", USE_ALPHA);
-  texture_load(&firetux_right[2], datadir + "/images/shared/firetux-right-2.png", USE_ALPHA);
+  firetux_right[0] = new Surface(datadir + "/images/shared/firetux-right-0.png", USE_ALPHA);
+  firetux_right[1] = new Surface(datadir + "/images/shared/firetux-right-1.png", USE_ALPHA);
+  firetux_right[2] = new Surface(datadir + "/images/shared/firetux-right-2.png", USE_ALPHA);
 
-  texture_load(&firetux_left[0], datadir + "/images/shared/firetux-left-0.png", USE_ALPHA);
-  texture_load(&firetux_left[1], datadir + "/images/shared/firetux-left-1.png", USE_ALPHA);
-  texture_load(&firetux_left[2], datadir + "/images/shared/firetux-left-2.png", USE_ALPHA);
+  firetux_left[0] = new Surface(datadir + "/images/shared/firetux-left-0.png", USE_ALPHA);
+  firetux_left[1] = new Surface(datadir + "/images/shared/firetux-left-1.png", USE_ALPHA);
+  firetux_left[2] = new Surface(datadir + "/images/shared/firetux-left-2.png", USE_ALPHA);
 
 
-  texture_load(&cape_right[0], datadir + "/images/shared/cape-right-0.png",
+  cape_right[0] = new Surface(datadir + "/images/shared/cape-right-0.png",
                USE_ALPHA);
 
-  texture_load(&cape_right[1], datadir + "/images/shared/cape-right-1.png",
+  cape_right[1] = new Surface(datadir + "/images/shared/cape-right-1.png",
                USE_ALPHA);
 
-  texture_load(&cape_left[0], datadir + "/images/shared/cape-left-0.png",
+  cape_left[0] = new Surface(datadir + "/images/shared/cape-left-0.png",
                USE_ALPHA);
 
-  texture_load(&cape_left[1], datadir + "/images/shared/cape-left-1.png",
+  cape_left[1] = new Surface(datadir + "/images/shared/cape-left-1.png",
                USE_ALPHA);
 
-  texture_load(&bigtux_right[0], datadir + "/images/shared/bigtux-right-0.png",
+  bigtux_right[0] = new Surface(datadir + "/images/shared/bigtux-right-0.png",
                USE_ALPHA);
 
-  texture_load(&bigtux_right[1], datadir + "/images/shared/bigtux-right-1.png",
+  bigtux_right[1] = new Surface(datadir + "/images/shared/bigtux-right-1.png",
                USE_ALPHA);
 
-  texture_load(&bigtux_right[2], datadir + "/images/shared/bigtux-right-2.png",
+  bigtux_right[2] = new Surface(datadir + "/images/shared/bigtux-right-2.png",
                USE_ALPHA);
 
-  texture_load(&bigtux_right_jump, datadir + "/images/shared/bigtux-right-jump.png", USE_ALPHA);
+  bigtux_right_jump = new Surface(datadir + "/images/shared/bigtux-right-jump.png", USE_ALPHA);
 
-  texture_load(&bigtux_left[0], datadir + "/images/shared/bigtux-left-0.png",
+  bigtux_left[0] = new Surface(datadir + "/images/shared/bigtux-left-0.png",
                USE_ALPHA);
 
-  texture_load(&bigtux_left[1], datadir + "/images/shared/bigtux-left-1.png",
+  bigtux_left[1] = new Surface(datadir + "/images/shared/bigtux-left-1.png",
                USE_ALPHA);
 
-  texture_load(&bigtux_left[2], datadir + "/images/shared/bigtux-left-2.png",
+  bigtux_left[2] = new Surface(datadir + "/images/shared/bigtux-left-2.png",
                USE_ALPHA);
 
-  texture_load(&bigtux_left_jump, datadir + "/images/shared/bigtux-left-jump.png", USE_ALPHA);
+  bigtux_left_jump = new Surface(datadir + "/images/shared/bigtux-left-jump.png", USE_ALPHA);
 
-  texture_load(&bigcape_right[0], datadir + "/images/shared/bigcape-right-0.png",
+  bigcape_right[0] = new Surface(datadir + "/images/shared/bigcape-right-0.png",
                USE_ALPHA);
 
-  texture_load(&bigcape_right[1], datadir + "/images/shared/bigcape-right-1.png",
+  bigcape_right[1] = new Surface(datadir + "/images/shared/bigcape-right-1.png",
                USE_ALPHA);
 
-  texture_load(&bigcape_left[0], datadir + "/images/shared/bigcape-left-0.png",
+  bigcape_left[0] = new Surface(datadir + "/images/shared/bigcape-left-0.png",
                USE_ALPHA);
 
-  texture_load(&bigcape_left[1], datadir + "/images/shared/bigcape-left-1.png",
+  bigcape_left[1] = new Surface(datadir + "/images/shared/bigcape-left-1.png",
                USE_ALPHA);
 
-  texture_load(&bigfiretux_right[0], datadir + "/images/shared/bigfiretux-right-0.png",
+  bigfiretux_right[0] = new Surface(datadir + "/images/shared/bigfiretux-right-0.png",
                USE_ALPHA);
 
-  texture_load(&bigfiretux_right[1], datadir + "/images/shared/bigfiretux-right-1.png",
+  bigfiretux_right[1] = new Surface(datadir + "/images/shared/bigfiretux-right-1.png",
                USE_ALPHA);
 
-  texture_load(&bigfiretux_right[2], datadir + "/images/shared/bigfiretux-right-2.png",
+  bigfiretux_right[2] = new Surface(datadir + "/images/shared/bigfiretux-right-2.png",
                USE_ALPHA);
 
-  texture_load(&bigfiretux_right_jump, datadir + "/images/shared/bigfiretux-right-jump.png", USE_ALPHA);
+  bigfiretux_right_jump = new Surface(datadir + "/images/shared/bigfiretux-right-jump.png", USE_ALPHA);
 
-  texture_load(&bigfiretux_left[0], datadir + "/images/shared/bigfiretux-left-0.png",
+  bigfiretux_left[0] = new Surface(datadir + "/images/shared/bigfiretux-left-0.png",
                USE_ALPHA);
 
-  texture_load(&bigfiretux_left[1], datadir + "/images/shared/bigfiretux-left-1.png",
+  bigfiretux_left[1] = new Surface(datadir + "/images/shared/bigfiretux-left-1.png",
                USE_ALPHA);
 
-  texture_load(&bigfiretux_left[2], datadir + "/images/shared/bigfiretux-left-2.png",
+  bigfiretux_left[2] = new Surface(datadir + "/images/shared/bigfiretux-left-2.png",
                USE_ALPHA);
 
-  texture_load(&bigfiretux_left_jump, datadir + "/images/shared/bigfiretux-left-jump.png", USE_ALPHA);
+  bigfiretux_left_jump = new Surface(datadir + "/images/shared/bigfiretux-left-jump.png", USE_ALPHA);
 
-  texture_load(&bigcape_right[0], datadir + "/images/shared/bigcape-right-0.png",
+  bigcape_right[0] = new Surface(datadir + "/images/shared/bigcape-right-0.png",
                USE_ALPHA);
 
-  texture_load(&bigcape_right[1], datadir + "/images/shared/bigcape-right-1.png",
+  bigcape_right[1] = new Surface(datadir + "/images/shared/bigcape-right-1.png",
                USE_ALPHA);
 
-  texture_load(&bigcape_left[0], datadir + "/images/shared/bigcape-left-0.png",
+  bigcape_left[0] = new Surface(datadir + "/images/shared/bigcape-left-0.png",
                USE_ALPHA);
 
-  texture_load(&bigcape_left[1], datadir + "/images/shared/bigcape-left-1.png",
+  bigcape_left[1] = new Surface(datadir + "/images/shared/bigcape-left-1.png",
                USE_ALPHA);
 
 
-  texture_load(&ducktux_right, datadir +
+  ducktux_right = new Surface(datadir +
                "/images/shared/ducktux-right.png",
                USE_ALPHA);
 
-  texture_load(&ducktux_left, datadir +
+  ducktux_left = new Surface(datadir +
                "/images/shared/ducktux-left.png",
                USE_ALPHA);
 
-  texture_load(&skidtux_right, datadir +
+  skidtux_right = new Surface(datadir +
                "/images/shared/skidtux-right.png",
                USE_ALPHA);
 
-  texture_load(&skidtux_left, datadir +
+  skidtux_left = new Surface(datadir +
                "/images/shared/skidtux-left.png",
                USE_ALPHA);
 
-  texture_load(&duckfiretux_right, datadir +
+  duckfiretux_right = new Surface(datadir +
                "/images/shared/duckfiretux-right.png",
                USE_ALPHA);
 
-  texture_load(&duckfiretux_left, datadir +
+  duckfiretux_left = new Surface(datadir +
                "/images/shared/duckfiretux-left.png",
                USE_ALPHA);
 
-  texture_load(&skidfiretux_right, datadir +
+  skidfiretux_right = new Surface(datadir +
                "/images/shared/skidfiretux-right.png",
                USE_ALPHA);
 
-  texture_load(&skidfiretux_left, datadir +
+  skidfiretux_left = new Surface(datadir +
                "/images/shared/skidfiretux-left.png",
                USE_ALPHA);
 
 
   /* Boxes: */
 
-  texture_load(&img_box_full, datadir + "/images/shared/box-full.png",
+  img_box_full = new Surface(datadir + "/images/shared/box-full.png",
                IGNORE_ALPHA);
-  texture_load(&img_box_empty, datadir + "/images/shared/box-empty.png",
+  img_box_empty = new Surface(datadir + "/images/shared/box-empty.png",
                IGNORE_ALPHA);
 
 
   /* Water: */
 
 
-  texture_load(&img_water, datadir + "/images/shared/water.png", IGNORE_ALPHA);
+  img_water = new Surface(datadir + "/images/shared/water.png", IGNORE_ALPHA);
 
-  texture_load(&img_waves[0], datadir + "/images/shared/waves-0.png",
+  img_waves[0] = new Surface(datadir + "/images/shared/waves-0.png",
                USE_ALPHA);
 
-  texture_load(&img_waves[1], datadir + "/images/shared/waves-1.png",
+  img_waves[1] = new Surface(datadir + "/images/shared/waves-1.png",
                USE_ALPHA);
 
-  texture_load(&img_waves[2], datadir + "/images/shared/waves-2.png",
+  img_waves[2] = new Surface(datadir + "/images/shared/waves-2.png",
                USE_ALPHA);
 
 
   /* Pole: */
 
-  texture_load(&img_pole, datadir + "/images/shared/pole.png", USE_ALPHA);
-  texture_load(&img_poletop, datadir + "/images/shared/poletop.png",
+  img_pole = new Surface(datadir + "/images/shared/pole.png", USE_ALPHA);
+  img_poletop = new Surface(datadir + "/images/shared/poletop.png",
                USE_ALPHA);
 
 
   /* Flag: */
 
-  texture_load(&img_flag[0], datadir + "/images/shared/flag-0.png",
+  img_flag[0] = new Surface(datadir + "/images/shared/flag-0.png",
                USE_ALPHA);
-  texture_load(&img_flag[1], datadir + "/images/shared/flag-1.png",
+  img_flag[1] = new Surface(datadir + "/images/shared/flag-1.png",
                USE_ALPHA);
 
 
   /* Cloud: */
 
-  texture_load(&img_cloud[0][0], datadir + "/images/shared/cloud-00.png",
+  img_cloud[0][0] = new Surface(datadir + "/images/shared/cloud-00.png",
                USE_ALPHA);
 
-  texture_load(&img_cloud[0][1], datadir + "/images/shared/cloud-01.png",
+  img_cloud[0][1] = new Surface(datadir + "/images/shared/cloud-01.png",
                USE_ALPHA);
 
-  texture_load(&img_cloud[0][2], datadir + "/images/shared/cloud-02.png",
+  img_cloud[0][2] = new Surface(datadir + "/images/shared/cloud-02.png",
                USE_ALPHA);
 
-  texture_load(&img_cloud[0][3], datadir + "/images/shared/cloud-03.png",
+  img_cloud[0][3] = new Surface(datadir + "/images/shared/cloud-03.png",
                USE_ALPHA);
 
 
-  texture_load(&img_cloud[1][0], datadir + "/images/shared/cloud-10.png",
+  img_cloud[1][0] = new Surface(datadir + "/images/shared/cloud-10.png",
                USE_ALPHA);
 
-  texture_load(&img_cloud[1][1], datadir + "/images/shared/cloud-11.png",
+  img_cloud[1][1] = new Surface(datadir + "/images/shared/cloud-11.png",
                USE_ALPHA);
 
-  texture_load(&img_cloud[1][2], datadir + "/images/shared/cloud-12.png",
+  img_cloud[1][2] = new Surface(datadir + "/images/shared/cloud-12.png",
                USE_ALPHA);
 
-  texture_load(&img_cloud[1][3], datadir + "/images/shared/cloud-13.png",
+  img_cloud[1][3] = new Surface(datadir + "/images/shared/cloud-13.png",
                USE_ALPHA);
 
 
@@ -245,27 +245,27 @@ void loadshared()
   load_special_gfx();
 
   /* Weapons: */
-  texture_load(&img_red_glow, datadir + "/images/shared/red-glow.png",
+  img_red_glow = new Surface(datadir + "/images/shared/red-glow.png",
                USE_ALPHA);
 
   /* Distros: */
-  texture_load(&img_distro[0], datadir + "/images/shared/distro-0.png",
+  img_distro[0] = new Surface(datadir + "/images/shared/distro-0.png",
                USE_ALPHA);
 
-  texture_load(&img_distro[1], datadir + "/images/shared/distro-1.png",
+  img_distro[1] = new Surface(datadir + "/images/shared/distro-1.png",
                USE_ALPHA);
 
-  texture_load(&img_distro[2], datadir + "/images/shared/distro-2.png",
+  img_distro[2] = new Surface(datadir + "/images/shared/distro-2.png",
                USE_ALPHA);
 
-  texture_load(&img_distro[3], datadir + "/images/shared/distro-3.png",
+  img_distro[3] = new Surface(datadir + "/images/shared/distro-3.png",
                USE_ALPHA);
 
 
   /* Tux life: */
 
-  texture_load(&tux_life, datadir + "/images/shared/tux-life.png",
-               USE_ALPHA);
+  tux_life = new Surface(datadir + "/images/shared/tux-life.png",
+                         USE_ALPHA);
 
   /* Sound effects: */
 
@@ -293,49 +293,49 @@ void unloadshared(void)
 
   for (i = 0; i < 3; i++)
     {
-      texture_free(&tux_right[i]);
-      texture_free(&tux_left[i]);
-      texture_free(&bigtux_right[i]);
-      texture_free(&bigtux_left[i]);
+      delete tux_right[i];
+      delete tux_left[i];
+      delete bigtux_right[i];
+      delete bigtux_left[i];
     }
 
-  texture_free(&bigtux_right_jump);
-  texture_free(&bigtux_left_jump);
+  delete bigtux_right_jump;
+  delete bigtux_left_jump;
 
   for (i = 0; i < 2; i++)
     {
-      texture_free(&cape_right[i]);
-      texture_free(&cape_left[i]);
-      texture_free(&bigcape_right[i]);
-      texture_free(&bigcape_left[i]);
+      delete cape_right[i];
+      delete cape_left[i];
+      delete bigcape_right[i];
+      delete bigcape_left[i];
     }
 
-  texture_free(&ducktux_left);
-  texture_free(&ducktux_right);
+  delete ducktux_left;
+  delete ducktux_right;
 
-  texture_free(&skidtux_left);
-  texture_free(&skidtux_right);
+  delete skidtux_left;
+  delete skidtux_right;
 
   free_badguy_gfx();
 
-  texture_free(&img_box_full);
-  texture_free(&img_box_empty);
+  delete img_box_full;
+  delete img_box_empty;
 
-  texture_free(&img_water);
+  delete img_water;
   for (i = 0; i < 3; i++)
-    texture_free(&img_waves[i]);
+    delete img_waves[i];
 
-  texture_free(&img_pole);
-  texture_free(&img_poletop);
+  delete img_pole;
+  delete img_poletop;
 
   for (i = 0; i < 2; i++)
-    texture_free(&img_flag[i]);
+    delete img_flag[i];
 
   for (i = 0; i < 4; i++)
     {
-      texture_free(&img_distro[i]);
-      texture_free(&img_cloud[0][i]);
-      texture_free(&img_cloud[1][i]);
+      delete img_distro[i];
+      delete img_cloud[0][i];
+      delete img_cloud[1][i];
     }
 
   for (i = 0; i < NUM_SOUNDS; i++)

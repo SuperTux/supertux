@@ -36,7 +36,7 @@ Sprite::Sprite(lisp_object_t* cur)
 
   for(std::vector<std::string>::size_type i = 0; i < images.size(); ++i)
     {
-      texture_load(&surfaces[i], datadir + "/images/" + images[i], USE_ALPHA);
+      surfaces[i] = new Surface(datadir + "/images/" + images[i], USE_ALPHA);
     }        
 }
 
@@ -70,7 +70,7 @@ Sprite::draw(int x, int y)
             << frame_delay << " "
             << static_cast<int>(fmodf(time, surfaces.size()*frame_delay)/frame_delay) << std::endl;*/
   if (frame < surfaces.size())
-    texture_draw(&surfaces[frame], x - x_hotspot, y - y_hotspot);
+    surfaces[frame]->draw(x - x_hotspot, y - y_hotspot);
 }
 
 /* EOF */

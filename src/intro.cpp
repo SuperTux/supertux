@@ -41,7 +41,7 @@ char * intro_text[] = {
 int intro(void)
 {
   SDL_Event event;
-  texture_type bkgd,  copter_squish,  copter_stretch, beam,
+  texture_type bkgd, copter_squish,  copter_stretch, beam,
   gown_sit,  gown_lookup,  gown_upset,
   tux_sit, tux_upset, tux_mad;
   texture_type copter[2];
@@ -277,18 +277,18 @@ int intro(void)
 
   /* Free surfaces: */
 
-  texture_free(&bkgd);
-  texture_free(&gown_sit);
-  texture_free(&gown_lookup);
-  texture_free(&gown_upset);
-  texture_free(&tux_sit);
-  texture_free(&tux_upset);
-  texture_free(&tux_mad);
-  texture_free(&copter[0]);
-  texture_free(&copter[1]);
-  texture_free(&copter_squish);
-  texture_free(&copter_stretch);
-  texture_free(&beam);
+  delete bkgd;
+  delete gown_sit;
+  delete gown_lookup;
+  delete gown_upset;
+  delete tux_sit;
+  delete tux_upset;
+  delete tux_mad;
+  delete copter[0];
+  delete copter[1];
+  delete copter_squish;
+  delete copter_stretch;
+  delete beam;
 
 
   /* Free array buffers: */

@@ -43,8 +43,8 @@ class Button
 
   private:
     static Timer popup_timer;
-    texture_type icon;
-    texture_type* bkgd;
+    Surface* icon;
+    Surface* bkgd;
     std::string info;
     SDLKey shortcut;
     SDL_Rect rect;

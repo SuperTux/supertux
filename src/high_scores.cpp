@@ -82,12 +82,11 @@ void save_hs(int score)
 {
   char str[80];
 
-  texture_type bkgd;
+  Surface* bkgd;
   SDL_Event event;
   FILE * fi;
 
-
-  texture_load(&bkgd, datadir + "/images/highscore/highscore.png", IGNORE_ALPHA);
+  bkgd = new Surface(datadir + "/images/highscore/highscore.png", IGNORE_ALPHA);
 
   hs_score = score;
 
@@ -103,7 +102,7 @@ void save_hs(int score)
   show_menu = 1;
   while(show_menu)
     {
-      texture_draw_bg(&bkgd);
+      bkgd->draw_bg();
 
       text_drawf(&blue_text, "Congratulations", 0, 130, A_HMIDDLE, A_TOP, 2, NO_UPDATE);
       text_draw(&blue_text, "Your score:", 150, 180, 1, NO_UPDATE);

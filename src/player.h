@@ -60,35 +60,35 @@ struct player_input_type
 
 void player_input_init(player_input_type* pplayer_input);
 
-extern texture_type tux_life;
-extern std::vector<texture_type> tux_right;
-extern std::vector<texture_type> tux_left;
-extern texture_type smalltux_jump_left;
-extern texture_type smalltux_jump_right;
-extern texture_type smalltux_stand_left;
-extern texture_type smalltux_stand_right;
-extern texture_type bigtux_right[3];
-extern texture_type bigtux_left[3];
-extern texture_type bigtux_right_jump;
-extern texture_type bigtux_left_jump;
-extern texture_type ducktux_right;
-extern texture_type ducktux_left;
-extern texture_type skidtux_right;
-extern texture_type skidtux_left;
-extern texture_type firetux_right[3];
-extern texture_type firetux_left[3];
-extern texture_type bigfiretux_right[3];
-extern texture_type bigfiretux_left[3];
-extern texture_type bigfiretux_right_jump;
-extern texture_type bigfiretux_left_jump;
-extern texture_type duckfiretux_right;
-extern texture_type duckfiretux_left;
-extern texture_type skidfiretux_right;
-extern texture_type skidfiretux_left;
-extern texture_type cape_right[2];
-extern texture_type cape_left[2];
-extern texture_type bigcape_right[2];
-extern texture_type bigcape_left[2];
+extern Surface* tux_life;
+extern std::vector<Surface*> tux_right;
+extern std::vector<Surface*> tux_left;
+extern Surface* smalltux_jump_left;
+extern Surface* smalltux_jump_right;
+extern Surface* smalltux_stand_left;
+extern Surface* smalltux_stand_right;
+extern Surface* bigtux_right[3];
+extern Surface* bigtux_left[3];
+extern Surface* bigtux_right_jump;
+extern Surface* bigtux_left_jump;
+extern Surface* ducktux_right;
+extern Surface* ducktux_left;
+extern Surface* skidtux_right;
+extern Surface* skidtux_left;
+extern Surface* firetux_right[3];
+extern Surface* firetux_left[3];
+extern Surface* bigfiretux_right[3];
+extern Surface* bigfiretux_left[3];
+extern Surface* bigfiretux_right_jump;
+extern Surface* bigfiretux_left_jump;
+extern Surface* duckfiretux_right;
+extern Surface* duckfiretux_left;
+extern Surface* skidfiretux_right;
+extern Surface* skidfiretux_left;
+extern Surface* cape_right[2];
+extern Surface* cape_left[2];
+extern Surface* bigcape_right[2];
+extern Surface* bigcape_left[2];
 
 class Player
 {

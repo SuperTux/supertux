@@ -89,7 +89,7 @@ static World le_world;
 static st_subset le_level_subset;
 static int le_show_grid;
 static int le_frame;
-static texture_type le_selection;
+static Surface* le_selection;
 static int done;
 static unsigned int le_current_tile;
 static bool le_mouse_pressed[2];
@@ -352,7 +352,7 @@ int le_init()
   le_mouse_pressed[LEFT] = false;
   le_mouse_pressed[RIGHT] = false;
 
-  texture_load(&le_selection, datadir + "/images/leveleditor/select.png", USE_ALPHA);
+  le_selection = new Surface(datadir + "/images/leveleditor/select.png", USE_ALPHA);
 
   select_tilegroup_menu_effect.init(false);
 
@@ -583,7 +583,7 @@ void le_quit(void)
 
   SDL_EnableKeyRepeat(0, 0);    // disables key repeating
 
-  texture_free(&le_selection);
+  delete le_selection;
   delete leveleditor_menu;
   delete subset_load_menu;
   delete subset_new_menu;
@@ -630,7 +630,7 @@ void le_drawinterface()
     }
 
   if(le_selection_mode == CURSOR)
-    texture_draw(&le_selection, cursor_x - pos_x, cursor_y);
+    le_selection->draw( cursor_x - pos_x, cursor_y);
   else if(le_selection_mode == SQUARE)
     {
       int w, h;
@@ -650,7 +650,7 @@ void le_drawinterface()
   Tile::draw(19 * 32, 14 * 32, le_current_tile);
   
   	if(TileManager::instance()->get(le_current_tile)->editor_images.size() > 0)
-	texture_draw(&TileManager::instance()->get(le_current_tile)->editor_images[0], 19 * 32, 14 * 32);
+	TileManager::instance()->get(le_current_tile)->editor_images[0]->draw( 19 * 32, 14 * 32);
 
   if(le_current_level != NULL)
     {
@@ -694,10 +694,10 @@ void le_drawlevel()
   if(le_current_level->bkgd_image[0] != '\0')
     {
       s = pos_x / 30;
-      texture_draw_part(&le_current_level->img_bkgd,s,0,0,0,
-                        le_current_level->img_bkgd.w - s - 32, le_current_level->img_bkgd.h);
-      texture_draw_part(&le_current_level->img_bkgd,0,0,screen->w - s - 32 ,0,s,
-                        le_current_level->img_bkgd.h);
+      le_current_level->img_bkgd->draw_part(s,0,0,0,
+                                            le_current_level->img_bkgd->w - s - 32, le_current_level->img_bkgd->h);
+      le_current_level->img_bkgd->draw_part(0,0,screen->w - s - 32 ,0,s,
+                                            le_current_level->img_bkgd->h);
     }
   else
     {
@@ -735,7 +735,7 @@ void le_drawlevel()
         /* draw whats inside stuff when cursor is selecting those */
         /* (draw them all the time - is this the right behaviour?) */
 	if(TileManager::instance()->get(le_current_level->ia_tiles[y][x + (int)(pos_x / 32)])->editor_images.size() > 0)
-	texture_draw(&TileManager::instance()->get(le_current_level->ia_tiles[y][x + (int)(pos_x / 32)])->editor_images[0], x * 32 - ((int)pos_x % 32), y*32);
+	TileManager::instance()->get(le_current_level->ia_tiles[y][x + (int)(pos_x / 32)])->editor_images[0]->draw( x * 32 - ((int)pos_x % 32), y*32);
 
       }
 
@@ -751,7 +751,7 @@ void le_drawlevel()
 
   /* Draw the player: */
   /* for now, the position is fixed at (100, 240) */
-  texture_draw(&tux_right[(global_frame_counter / 5) % 3], 100 - pos_x, 240);
+  tux_right[(global_frame_counter / 5) % 3]->draw( 100 - pos_x, 240);
 }
 
 void le_checkevents()

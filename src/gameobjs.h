@@ -39,7 +39,7 @@ class BouncyDistro
   void draw(); 
 };
 
-extern texture_type img_distro[4];
+extern Surface* img_distro[4];
 
 #define BOUNCY_BRICK_MAX_OFFSET 8
 #define BOUNCY_BRICK_SPEED 0.9

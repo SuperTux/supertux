@@ -42,9 +42,9 @@
 #include "tile.h"
 #include "resources.h"
 
-static texture_type bkg_title;
-static texture_type logo;
-static texture_type img_choose_subset;
+static Surface* bkg_title;
+static Surface* logo;
+static Surface* img_choose_subset;
 
 static bool walking;
 static Timer random_timer;
@@ -149,7 +149,7 @@ void draw_background()
 {
   /* Draw the title background: */
 
-  texture_draw_bg(&bkg_title);
+  bkg_title->draw_bg();
 }
 
 void draw_demo(GameSession* session, double frame_ratio)
@@ -243,9 +243,9 @@ bool title(void)
 
   /* Load images: */
 
-  texture_load(&bkg_title,datadir + "/images/title/background.jpg", IGNORE_ALPHA);
-  texture_load(&logo,datadir + "/images/title/logo.png", USE_ALPHA);
-  texture_load(&img_choose_subset,datadir + "/images/status/choose-level-subset.png", USE_ALPHA);
+  bkg_title = new Surface(datadir + "/images/title/background.jpg", IGNORE_ALPHA);
+  logo = new Surface(datadir + "/images/title/logo.png", USE_ALPHA);
+  img_choose_subset = new Surface(datadir + "/images/status/choose-level-subset.png", USE_ALPHA);
 
   /* --- Main title loop: --- */
   bool done = 0;
@@ -253,7 +253,7 @@ bool title(void)
   frame = 0;
 
   /* Draw the title background: */
-  texture_draw_bg(&bkg_title);
+  bkg_title->draw_bg();
   load_hs();
 
   update_time = st_get_ticks();
@@ -298,7 +298,7 @@ bool title(void)
       draw_demo(&session, frame_ratio);
       
       if (current_menu == main_menu)
-        texture_draw(&logo, 160, 30);
+        logo->draw( 160, 30);
 
       text_draw(&white_small_text, 
                 " SuperTux " VERSION "\n"
@@ -338,16 +338,16 @@ bool title(void)
                   subset.load(level_subsets.item[0]);
                   while(!done)
                     {
-                      texture_draw(&img_choose_subset,(screen->w - img_choose_subset.w) / 2, 0);
+                      img_choose_subset->draw((screen->w - img_choose_subset.w) / 2, 0);
                       if(level_subsets.num_items != 0)
                         {
-                          texture_draw(&subset.image,(screen->w - subset.image.w) / 2 + 25,78);
+                          subset.image->draw((screen->w - subset.image.w) / 2 + 25,78);
                           if(level_subsets.num_items > 1)
                             {
                               if(i > 0)
-                                texture_draw(&arrow_left,(screen->w / 2) - ((subset.title.length()+2)*16)/2,20);
+                                arrow_left->draw((screen->w / 2) - ((subset.title.length()+2)*16)/2,20);
                               if(i < level_subsets.num_items-1)
-                                texture_draw(&arrow_right,(screen->w / 2) + ((subset.description.length())*16)/2,20);
+                                arrow_right->draw((screen->w / 2) + ((subset.description.length())*16)/2,20);
                             }
                           text_drawf(&gold_text, subset.title.c_str(), 0, 20, A_HMIDDLE, A_TOP, 1);
                           text_drawf(&gold_text, subset.description.c_str(), 20, -20, A_HMIDDLE, A_BOTTOM, 1);
@@ -468,8 +468,8 @@ bool title(void)
     }
   /* Free surfaces: */
 
-  texture_free(&bkg_title);
-  texture_free(&logo);
+  delete bkg_title;
+  delete logo;
   
   /* Return to main! */
   return done;

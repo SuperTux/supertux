@@ -69,7 +69,7 @@ TileManager::TileManager()
               reader.read_bool("stop",  &tile->stop);
               reader.read_string("image",  &filename);
 
-              texture_load(&tile->sprite, 
+              tile->sprite = new Surface(
                            datadir +  "/images/worldmap/" + filename, 
                            USE_ALPHA);
 
@@ -102,7 +102,7 @@ TileManager::get(int i)
 Tux::Tux(WorldMap* worldmap_)
   : worldmap(worldmap_)
 {
-  texture_load(&sprite, datadir +  "/images/worldmap/tux.png", USE_ALPHA);
+  sprite = new Surface(datadir +  "/images/worldmap/tux.png", USE_ALPHA);
   offset = 0;
   moving = false;
   tile_pos.x = 5;
@@ -135,7 +135,7 @@ Tux::draw()
       break;
     }
 
-  texture_draw(&sprite, (int)x, (int)y);
+  sprite->draw((int)x, (int)y);
 }
 
 void
@@ -200,9 +200,9 @@ WorldMap::WorldMap()
   width  = 20;
   height = 15;
 
-  texture_load(&level_sprite, datadir +  "/images/worldmap/levelmarker.png", USE_ALPHA);
-  texture_load(&leveldot_green, datadir +  "/images/worldmap/leveldot_green.png", USE_ALPHA);
-  texture_load(&leveldot_red, datadir +  "/images/worldmap/leveldot_red.png", USE_ALPHA);
+  level_sprite = new Surface(datadir +  "/images/worldmap/levelmarker.png", USE_ALPHA);
+  leveldot_green = new Surface(datadir +  "/images/worldmap/leveldot_green.png", USE_ALPHA);
+  leveldot_red = new Surface(datadir +  "/images/worldmap/leveldot_red.png", USE_ALPHA);
 
   input_direction = NONE;
   enter_level = false;
@@ -479,12 +479,12 @@ WorldMap::draw()
     for(int x = 0; x < width; ++x)
       {
         Tile* tile = at(Point(x, y));
-        texture_draw(&tile->sprite, x*32, y*32);
+        tile->sprite->draw(x*32, y*32);
       }
   
   for(Levels::iterator i = levels.begin(); i != levels.end(); ++i)
     {
-      texture_draw(&leveldot_green, i->x*32, i->y*32);
+      leveldot_green->draw(i->x*32, i->y*32);
     }
 
   tux->draw();

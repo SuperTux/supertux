@@ -18,8 +18,6 @@ globals.cpp \
 globals.h \
 high_scores.cpp \
 high_scores.h \
-intro.cpp \
-intro.h \
 level.cpp \
 level.h \
 leveleditor.cpp \

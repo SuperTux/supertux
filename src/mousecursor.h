@@ -39,7 +39,7 @@ class MouseCursor
     int state_before_click;
     int cur_state;
     int cur_frame, tot_frames;
-    texture_type cursor;
+    Surface* cursor;
     Timer timer;
   };
 

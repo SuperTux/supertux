@@ -12,65 +12,9 @@
 
 #include "SDL.h"
 #include "SDL_image.h"
-#include "globals.h"
-#include "screen.h"
-#include "setup.h"
 #include "texture.h"
-
-#define NO_TEXTURE 0
-
-void (*texture_load)     (texture_type* ptexture, const std::string& file, int use_alpha);
-void (*texture_load_part)(texture_type* ptexture, const std::string& file, int x, int y, int w, int h, int use_alpha);
-void (*texture_free)     (texture_type* ptexture);  
-void (*texture_draw)     (texture_type* ptexture, float x, float y, Uint8 alpha, bool update);  
-void (*texture_draw_bg)  (texture_type* ptexture, Uint8 alpha,  bool update);  
-void (*texture_draw_part)(texture_type* ptexture, float sx, float sy, float x, float y, float w, float h, Uint8 alpha, bool update);
-
-
-void texture_setup(void)
-{
-#ifdef NOOPENGL
-  texture_load = texture_load_sdl;
-  texture_load_part = texture_load_part_sdl;
-  texture_free = texture_free_sdl;
-  texture_draw = texture_draw_sdl;
-  texture_draw_bg = texture_draw_bg_sdl;
-  texture_draw_part = texture_draw_part_sdl;
-#else
-
-  if(use_gl)
-    {
-      texture_load = texture_load_gl;
-      texture_load_part = texture_load_part_gl;
-      texture_free = texture_free_gl;
-      texture_draw = texture_draw_gl;
-      texture_draw_bg = texture_draw_bg_gl;
-      texture_draw_part = texture_draw_part_gl;
-    }
-  else
-    {
-      texture_load = texture_load_sdl;
-      texture_load_part = texture_load_part_sdl;
-      texture_free = texture_free_sdl;
-      texture_draw = texture_draw_sdl;
-      texture_draw_bg = texture_draw_bg_sdl;
-      texture_draw_part = texture_draw_part_sdl;
-    }
-#endif
-}
-
-#ifndef NOOPENGL
-void texture_load_gl(texture_type* ptexture, const std::string& file, int use_alpha)
-{
-  texture_load_sdl(ptexture,file,use_alpha);
-  texture_create_gl(ptexture->sdl_surface,&ptexture->gl_texture);
-}
-
-void texture_load_part_gl(texture_type* ptexture, const std::string& file, int x, int y, int w, int h, int use_alpha)
-{
-  texture_load_part_sdl(ptexture,file,x,y,w,h,use_alpha);
-  texture_create_gl(ptexture->sdl_surface,&ptexture->gl_texture);
-}
+#include "globals.h"
+#include "setup.h"
 
 /* Quick utility function for texture creation */
 static int power_of_two(int input)
@@ -83,20 +27,229 @@ static int power_of_two(int input)
   return value;
 }
 
-void texture_create_gl(SDL_Surface * surf, GLuint * tex)
+Surface::Surface(SDL_Surface* surf, int use_alpha)
+{
+  if (use_gl)
+    impl = new SurfaceOpenGL(surf, use_alpha);
+  else
+    impl = new SurfaceSDL(surf, use_alpha);
+
+  w = impl->w;
+ h = impl->h;
+}
+
+Surface::Surface(const std::string& file, int use_alpha)
+{
+  if (use_gl)
+    impl = new SurfaceOpenGL(file, use_alpha);
+  else
+    impl = new SurfaceSDL(file, use_alpha);
+
+  w = impl->w;
+  h = impl->h;
+}
+
+Surface::Surface(const std::string& file, int x, int y, int w, int h, int use_alpha)
+{
+  if (use_gl)
+    impl = new SurfaceOpenGL(file, x, y, w, h, use_alpha);
+  else
+    impl = new SurfaceSDL(file, x, y, w, h, use_alpha);
+
+  w = impl->w;
+  h = impl->h;
+}
+
+Surface::~Surface()
+{
+  delete impl;
+}
+
+void
+Surface::draw(float x, float y, Uint8 alpha, bool update)
+{
+  if (impl) impl->draw(x, y, alpha, update);
+}
+
+void
+Surface::draw_bg(Uint8 alpha, bool update)
+{
+  if (impl) impl->draw_bg(alpha, update);
+}
+
+void
+Surface::draw_part(float sx, float sy, float x, float y, float w, float h,  Uint8 alpha, bool update)
+{
+  if (impl) impl->draw_part(sx, sy, x, y, w, h, alpha, update);
+}
+
+SDL_Surface*
+sdl_surface_part_from_file(const std::string& file, int x, int y, int w, int h,  int use_alpha)
+{
+  SDL_Rect src;
+  SDL_Surface * sdl_surface;
+  SDL_Surface * temp;
+  SDL_Surface * conv;
+
+  temp = IMG_Load(file.c_str());
+
+  if (temp == NULL)
+    st_abort("Can't load", file);
+
+  /* Set source rectangle for conv: */
+
+  src.x = x;
+  src.y = y;
+  src.w = w;
+  src.h = h;
+
+  conv = SDL_CreateRGBSurface(temp->flags, w, h, temp->format->BitsPerPixel,
+                              temp->format->Rmask,
+                              temp->format->Gmask,
+                              temp->format->Bmask,
+                              temp->format->Amask);
+
+  /* #if SDL_BYTEORDER == SDL_BIG_ENDIAN
+     0xff000000, 0x00ff0000, 0x0000ff00, 0x000000ff);
+     #else
+
+     0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000);
+     #endif*/
+
+  SDL_SetAlpha(temp,0,0);
+
+  SDL_BlitSurface(temp, &src, conv, NULL);
+  if(use_alpha == IGNORE_ALPHA && !use_gl)
+    sdl_surface = SDL_DisplayFormat(conv);
+  else
+    sdl_surface = SDL_DisplayFormatAlpha(conv);
+
+  if (sdl_surface == NULL)
+    st_abort("Can't covert to display format", file);
+
+  if (use_alpha == IGNORE_ALPHA && !use_gl)
+    SDL_SetAlpha(sdl_surface, 0, 0);
+
+  SDL_FreeSurface(temp);
+  SDL_FreeSurface(conv);
+  
+  return sdl_surface;
+}
+
+SDL_Surface*
+sdl_surface_from_file(const std::string& file, int use_alpha)
+{
+  SDL_Surface* sdl_surface;
+  SDL_Surface* temp;
+  
+  temp = IMG_Load(file.c_str());
+
+  if (temp == NULL)
+    st_abort("Can't load", file);
+
+  if(use_alpha == IGNORE_ALPHA && !use_gl)
+    sdl_surface = SDL_DisplayFormat(temp);
+  else
+    sdl_surface = SDL_DisplayFormatAlpha(temp);
+  
+  if (sdl_surface == NULL)
+    st_abort("Can't covert to display format", file);
+
+  if (use_alpha == IGNORE_ALPHA && !use_gl)
+    SDL_SetAlpha(sdl_surface, 0, 0);
+
+  SDL_FreeSurface(temp);
+
+  return sdl_surface;
+}
+
+SDL_Surface* 
+sdl_surface_from_sdl_surface(SDL_Surface* sdl_surf, int use_alpha)
+{
+  SDL_Surface* sdl_surface;
+  Uint32 saved_flags;
+  Uint8  saved_alpha;
+  
+  /* Save the alpha blending attributes */
+  saved_flags = sdl_surf->flags&(SDL_SRCALPHA|SDL_RLEACCELOK);
+  saved_alpha = sdl_surf->format->alpha;
+  if ( (saved_flags & SDL_SRCALPHA)
+       == SDL_SRCALPHA )
+    {
+      SDL_SetAlpha(sdl_surf, 0, 0);
+    }
+   
+  if(use_alpha == IGNORE_ALPHA && !use_gl)
+    sdl_surface = SDL_DisplayFormat(sdl_surf);
+  else
+    sdl_surface = SDL_DisplayFormatAlpha(sdl_surf);
+
+  /* Restore the alpha blending attributes */
+  if ( (saved_flags & SDL_SRCALPHA)
+       == SDL_SRCALPHA )
+    {
+      SDL_SetAlpha(sdl_surface, saved_flags, saved_alpha);
+    }
+  
+  if (sdl_surface == NULL)
+    st_abort("Can't covert to display format", "SURFACE");
+
+  if (use_alpha == IGNORE_ALPHA && !use_gl)
+    SDL_SetAlpha(sdl_surface, 0, 0);
+
+  return sdl_surface;
+}
+
+#ifndef NOOPENGL
+SurfaceOpenGL::SurfaceOpenGL(SDL_Surface* surf, int use_alpha)
+{
+  sdl_surface = sdl_surface_from_sdl_surface(surf, use_alpha);
+  create_gl(sdl_surface,&gl_texture);
+
+  w = sdl_surface->w;
+  h = sdl_surface->h;
+}
+
+SurfaceOpenGL::SurfaceOpenGL(const std::string& file, int use_alpha) 
+{
+  sdl_surface = sdl_surface_from_file(file, use_alpha);
+  create_gl(sdl_surface,&gl_texture);
+
+  w = sdl_surface->w;
+  h = sdl_surface->h;
+}
+
+SurfaceOpenGL::SurfaceOpenGL(const std::string& file, int x, int y, int w, int h, int use_alpha)
+{
+  sdl_surface = sdl_surface_part_from_file(file,x,y,w,h,use_alpha);
+  create_gl(sdl_surface, &gl_texture);
+
+  w = sdl_surface->w;
+  h = sdl_surface->h;
+}
+
+SurfaceOpenGL::~SurfaceOpenGL()
+{
+  SDL_FreeSurface(sdl_surface);
+  glDeleteTextures(1, &gl_texture);
+}
+
+void
+SurfaceOpenGL::create_gl(SDL_Surface * surf, GLuint * tex)
 {
   Uint32 saved_flags;
   Uint8  saved_alpha;
   int w, h;
   SDL_Surface *conv;
-  
+
   w = power_of_two(surf->w);
   h = power_of_two(surf->h),
-  conv = SDL_CreateRGBSurface(SDL_SWSURFACE, w, h, surf->format->BitsPerPixel,
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-                              0xff000000, 0x00ff0000, 0x0000ff00, 0x000000ff);
-#else
 
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+    conv = SDL_CreateRGBSurface(SDL_SWSURFACE, w, h, surf->format->BitsPerPixel,
+                                0xff000000, 0x00ff0000, 0x0000ff00, 0x000000ff);
+#else
+  conv = SDL_CreateRGBSurface(SDL_SWSURFACE, w, h, surf->format->BitsPerPixel,
                               0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000);
 #endif
 
@@ -131,19 +284,11 @@ void texture_create_gl(SDL_Surface * surf, GLuint * tex)
   SDL_FreeSurface(conv);
 }
 
-void texture_free_gl(texture_type* ptexture)
+void
+SurfaceOpenGL::draw(float x, float y, Uint8 alpha, bool update)
 {
-  SDL_FreeSurface(ptexture->sdl_surface);
-  glDeleteTextures(1, &ptexture->gl_texture);
-}
-
-void texture_draw_gl(texture_type* ptexture, float x, float y, Uint8 alpha, bool update)
-{
-if(ptexture->gl_texture == NO_TEXTURE)
-  texture_create_gl(ptexture->sdl_surface,&ptexture->gl_texture);
-
-float pw = power_of_two(ptexture->w);
-float ph = power_of_two(ptexture->h);
+  float pw = power_of_two(w);
+  float ph = power_of_two(h);
 
   glEnable(GL_TEXTURE_2D);
   glEnable(GL_BLEND);
@@ -151,66 +296,62 @@ float ph = power_of_two(ptexture->h);
 
   glColor4ub(alpha, alpha, alpha, alpha);
 
-  glBindTexture(GL_TEXTURE_2D, ptexture->gl_texture);
+  glBindTexture(GL_TEXTURE_2D, gl_texture);
 
   glBegin(GL_QUADS);
   glTexCoord2f(0, 0);
   glVertex2f(x, y);
-  glTexCoord2f((float)ptexture->w / pw, 0);
-  glVertex2f((float)ptexture->w+x, y);
-  glTexCoord2f((float)ptexture->w / pw, (float)ptexture->h / ph);  glVertex2f((float)ptexture->w+x, (float)ptexture->h+y);
-  glTexCoord2f(0, (float)ptexture->h / ph);
-  glVertex2f(x, (float)ptexture->h+y);
+  glTexCoord2f((float)w / pw, 0);
+  glVertex2f((float)w+x, y);
+  glTexCoord2f((float)w / pw, (float)h / ph);  glVertex2f((float)w+x, (float)h+y);
+  glTexCoord2f(0, (float)h / ph);
+  glVertex2f(x, (float)h+y);
   glEnd();
   
   glDisable(GL_TEXTURE_2D);
   glDisable(GL_BLEND);
   
-/* Avoid compiler warnings */
-if(update)
-{}
+  /* Avoid compiler warnings */
+  if(update)
+    {}
 }
 
-void texture_draw_bg_gl(texture_type* ptexture, Uint8 alpha, bool update)
+void
+SurfaceOpenGL::draw_bg(Uint8 alpha, bool update)
 {
-if(ptexture->gl_texture == NO_TEXTURE)
-  texture_create_gl(ptexture->sdl_surface,&ptexture->gl_texture);
-
-float pw = power_of_two(ptexture->w);
-float ph = power_of_two(ptexture->h);
+  float pw = power_of_two(w);
+  float ph = power_of_two(h);
 
   glColor3ub(alpha, alpha, alpha);
 
   glEnable(GL_TEXTURE_2D);
-  glBindTexture(GL_TEXTURE_2D, ptexture->gl_texture);
+  glBindTexture(GL_TEXTURE_2D, gl_texture);
 
   glBegin(GL_QUADS);
   glTexCoord2f(0, 0);
   glVertex2f(0, 0);
-  glTexCoord2f((float)ptexture->w / pw, 0);
+  glTexCoord2f((float)w / pw, 0);
   glVertex2f(screen->w, 0);
-  glTexCoord2f((float)ptexture->w / pw, (float)ptexture->h / ph);
+  glTexCoord2f((float)w / pw, (float)h / ph);
   glVertex2f(screen->w, screen->h);
-  glTexCoord2f(0, (float)ptexture->h / ph);
+  glTexCoord2f(0, (float)h / ph);
   glVertex2f(0, screen->h);
   glEnd();
   
   glDisable(GL_TEXTURE_2D);
 
-/* Avoid compiler warnings */
-if(update)
-{}
+  /* Avoid compiler warnings */
+  if(update)
+    {}
 }
 
-void texture_draw_part_gl(texture_type* ptexture,float sx, float sy, float x, float y, float w, float h, Uint8 alpha, bool update)
+void
+SurfaceOpenGL::draw_part(float sx, float sy, float x, float y, float w, float h, Uint8 alpha, bool update)
 {
-if(ptexture->gl_texture == NO_TEXTURE)
-  texture_create_gl(ptexture->sdl_surface,&ptexture->gl_texture);
+  float pw = power_of_two(int(this->w));
+  float ph = power_of_two(int(this->h));
 
-float pw = power_of_two(ptexture->w);
-float ph = power_of_two(ptexture->h);
-
-  glBindTexture(GL_TEXTURE_2D, ptexture->gl_texture);
+  glBindTexture(GL_TEXTURE_2D, gl_texture);
 
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -234,158 +375,55 @@ float ph = power_of_two(ptexture->h);
   glDisable(GL_TEXTURE_2D);
   glDisable(GL_BLEND);
 
-/* Avoid compiler warnings */
-if(update)
-{}
+  /* Avoid compiler warnings */
+  if(update)
+    {}
 }
 #endif
 
-void texture_load_sdl(texture_type* ptexture, const std::string& file, int use_alpha)
+SurfaceSDL::SurfaceSDL(SDL_Surface* surf, int use_alpha)
 {
-  SDL_Surface * temp;
-  
-  temp = IMG_Load(file.c_str());
-
-  if (temp == NULL)
-    st_abort("Can't load", file);
-
-  if(use_alpha == IGNORE_ALPHA && !use_gl)
-  ptexture->sdl_surface = SDL_DisplayFormat(temp);
-  else
-  ptexture->sdl_surface = SDL_DisplayFormatAlpha(temp);
-  
-  if (ptexture->sdl_surface == NULL)
-    st_abort("Can't covert to display format", file);
-
-  if (use_alpha == IGNORE_ALPHA && !use_gl)
-    SDL_SetAlpha(ptexture->sdl_surface, 0, 0);
-
-  SDL_FreeSurface(temp);
-
-  ptexture->w = ptexture->sdl_surface->w;
-  ptexture->h = ptexture->sdl_surface->h;
-  
-  ptexture->gl_texture = NO_TEXTURE;
+  sdl_surface = sdl_surface_from_sdl_surface(surf, use_alpha);
+  w = sdl_surface->w;
+  h = sdl_surface->h;
 }
 
-void texture_load_part_sdl(texture_type* ptexture, const std::string& file, int x, int y, int w, int h,  int use_alpha)
+SurfaceSDL::SurfaceSDL(const std::string& file, int use_alpha)
 {
-
-  SDL_Rect src;
-  SDL_Surface * temp;
-  SDL_Surface * conv;
-
-  temp = IMG_Load(file.c_str());
-
-  if (temp == NULL)
-    st_abort("Can't load", file);
-
-  /* Set source rectangle for conv: */
-
-  src.x = x;
-  src.y = y;
-  src.w = w;
-  src.h = h;
-
-  conv = SDL_CreateRGBSurface(temp->flags, w, h, temp->format->BitsPerPixel,
-                              temp->format->Rmask,
-                              temp->format->Gmask,
-                              temp->format->Bmask,
-                              temp->format->Amask);
-
-  /* #if SDL_BYTEORDER == SDL_BIG_ENDIAN
-                               0xff000000, 0x00ff0000, 0x0000ff00, 0x000000ff);
-  #else
-
-                               0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000);
-  #endif*/
-
-  SDL_SetAlpha(temp,0,0);
-
-  SDL_BlitSurface(temp, &src, conv, NULL);
-  if(use_alpha == IGNORE_ALPHA && !use_gl)
-  ptexture->sdl_surface = SDL_DisplayFormat(conv);
-  else
-  ptexture->sdl_surface = SDL_DisplayFormatAlpha(conv);
-
-  if (ptexture->sdl_surface == NULL)
-    st_abort("Can't covert to display format", file);
-
-  if (use_alpha == IGNORE_ALPHA && !use_gl)
-    SDL_SetAlpha(ptexture->sdl_surface, 0, 0);
-
-  SDL_FreeSurface(temp);
-  SDL_FreeSurface(conv);
-
-  ptexture->w = ptexture->sdl_surface->w;
-  ptexture->h = ptexture->sdl_surface->h;
+  sdl_surface = sdl_surface_from_file(file, use_alpha);
+  w = sdl_surface->w;
+  h = sdl_surface->h;
 }
 
-void texture_from_sdl_surface(texture_type* ptexture, SDL_Surface* sdl_surf, int use_alpha)
+SurfaceSDL::SurfaceSDL(const std::string& file, int x, int y, int w, int h,  int use_alpha)
 {
-  Uint32 saved_flags;
-  Uint8  saved_alpha;
-  
-  /* Save the alpha blending attributes */
-  saved_flags = sdl_surf->flags&(SDL_SRCALPHA|SDL_RLEACCELOK);
-  saved_alpha = sdl_surf->format->alpha;
-  if ( (saved_flags & SDL_SRCALPHA)
-       == SDL_SRCALPHA )
-    {
-      SDL_SetAlpha(sdl_surf, 0, 0);
-    }
-   
-  if(use_alpha == IGNORE_ALPHA && !use_gl)
-  ptexture->sdl_surface = SDL_DisplayFormat(sdl_surf);
-  else
-  ptexture->sdl_surface = SDL_DisplayFormatAlpha(sdl_surf);
-
-  /* Restore the alpha blending attributes */
-  if ( (saved_flags & SDL_SRCALPHA)
-       == SDL_SRCALPHA )
-    {
-      SDL_SetAlpha(ptexture->sdl_surface, saved_flags, saved_alpha);
-    }
-  
-  if (ptexture->sdl_surface == NULL)
-    st_abort("Can't covert to display format", "SURFACE");
-
-  if (use_alpha == IGNORE_ALPHA && !use_gl)
-    SDL_SetAlpha(ptexture->sdl_surface, 0, 0);
-
-  ptexture->w = ptexture->sdl_surface->w;
-  ptexture->h = ptexture->sdl_surface->h;
-
-#ifndef NOOPENGL
-
-  if(use_gl)
-    {
-      texture_create_gl(ptexture->sdl_surface,&ptexture->gl_texture);
-    }
-#endif
+  sdl_surface = sdl_surface_part_from_file(file, x, y, w, h, use_alpha);
+  w = sdl_surface->w;
+  h = sdl_surface->h;
 }
 
-void texture_draw_sdl(texture_type* ptexture, float x, float y, Uint8 alpha, bool update)
+void
+SurfaceSDL::draw(float x, float y, Uint8 alpha, bool update)
 {
   SDL_Rect dest;
 
   dest.x = (int)x;
   dest.y = (int)y;
-  dest.w = ptexture->w;
-  dest.h = ptexture->h;
+  dest.w = w;
+  dest.h = h;
   
   if(alpha != 255) /* SDL isn't capable of this kind of alpha :( therefore we'll leave now. */
   return;
   
-  SDL_SetAlpha(ptexture->sdl_surface ,SDL_SRCALPHA,alpha);
-  SDL_BlitSurface(ptexture->sdl_surface, NULL, screen, &dest);
+  SDL_SetAlpha(sdl_surface ,SDL_SRCALPHA,alpha);
+  SDL_BlitSurface(sdl_surface, NULL, screen, &dest);
   
   if (update == UPDATE)
     SDL_UpdateRect(screen, dest.x, dest.y, dest.w, dest.h);
 }
 
-
-void texture_draw_bg_sdl(texture_type* ptexture, Uint8 alpha, bool update)
+void
+SurfaceSDL::draw_bg(Uint8 alpha, bool update)
 {
   SDL_Rect dest;
   
@@ -395,14 +433,15 @@ void texture_draw_bg_sdl(texture_type* ptexture, Uint8 alpha, bool update)
   dest.h = screen->h;
 
   if(alpha != 255)
-  SDL_SetAlpha(ptexture->sdl_surface ,SDL_SRCALPHA,alpha);
-  SDL_SoftStretch(ptexture->sdl_surface, NULL, screen, &dest);
+  SDL_SetAlpha(sdl_surface ,SDL_SRCALPHA,alpha);
+  SDL_SoftStretch(sdl_surface, NULL, screen, &dest);
   
   if (update == UPDATE)
     SDL_UpdateRect(screen, dest.x, dest.y, dest.w, dest.h);
 }
 
-void texture_draw_part_sdl(texture_type* ptexture, float sx, float sy, float x, float y, float w, float h, Uint8 alpha, bool update)
+void
+SurfaceSDL::draw_part(float sx, float sy, float x, float y, float w, float h, Uint8 alpha, bool update)
 {
   SDL_Rect src, dest;
 
@@ -417,20 +456,17 @@ void texture_draw_part_sdl(texture_type* ptexture, float sx, float sy, float x, 
   dest.h = (int)h;
 
   if(alpha != 255)
-  SDL_SetAlpha(ptexture->sdl_surface ,SDL_SRCALPHA,alpha);
+  SDL_SetAlpha(sdl_surface ,SDL_SRCALPHA,alpha);
   
-  SDL_BlitSurface(ptexture->sdl_surface, &src, screen, &dest);
+  SDL_BlitSurface(sdl_surface, &src, screen, &dest);
 
   if (update == UPDATE)
     update_rect(screen, dest.x, dest.y, dest.w, dest.h);
 }
 
-void texture_free_sdl(texture_type* ptexture)
+SurfaceSDL::~SurfaceSDL()
 {
-  SDL_FreeSurface(ptexture->sdl_surface);
-#ifndef NOOPENGL
-  if(ptexture->gl_texture != NO_TEXTURE)
-    glDeleteTextures(1, &ptexture->gl_texture);
-#endif
+  SDL_FreeSurface(sdl_surface);
 }
 
+/* EOF */

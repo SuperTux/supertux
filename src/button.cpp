@@ -38,21 +38,21 @@ Button::Button(std::string icon_file, std::string ninfo, SDLKey nshortcut, int x
 
   if(mw != -1 || mh != -1)
     {
-      texture_load(&icon,filename,USE_ALPHA);
+      icon = new Surface(filename,USE_ALPHA);
       if(mw != -1)
-        icon.w = mw;
+        icon->w = mw;
       if(mh != -1)
-        icon.h = mh;
+        icon->h = mh;
 
       SDL_Rect dest;
       dest.x = 0;
       dest.y = 0;
-      dest.w = icon.w;
-      dest.h = icon.h;
-      SDL_SoftStretch(icon.sdl_surface, NULL, icon.sdl_surface, &dest);
+      dest.w = icon->w;
+      dest.h = icon->h;
+      SDL_SoftStretch(icon->impl->sdl_surface, NULL, icon->impl->sdl_surface, &dest);
     }
   else
-    texture_load(&icon,filename,USE_ALPHA);
+    icon = new Surface(filename,USE_ALPHA);
 
   info = ninfo;
 
@@ -60,8 +60,8 @@ Button::Button(std::string icon_file, std::string ninfo, SDLKey nshortcut, int x
 
   rect.x = x;
   rect.y = y;
-  rect.w = icon.w;
-  rect.h = icon.h;
+  rect.w = icon->w;
+  rect.h = icon->h;
   tag = -1;
   state = BUTTON_NONE;
   show_info = false;
@@ -83,8 +83,8 @@ void Button::change_icon(std::string icon_file, int /*mw*/, int /*mh*/)
       snprintf(filename, 1024, "%s/images/icons/default-icon.png", datadir.c_str());
     }
 
-  texture_free(&icon);
-  texture_load(&icon,filename,USE_ALPHA);
+  delete icon;
+  icon = new Surface(filename,USE_ALPHA);
 }
 
 void Button::draw()
@@ -97,9 +97,9 @@ void Button::draw()
   fillrect(rect.x+1,rect.y+1,rect.w-2,rect.h-2,175,175,175,200);
   if(bkgd != NULL)
     {
-      texture_draw(bkgd,rect.x,rect.y);
+      bkgd->draw(rect.x,rect.y);
     }
-  texture_draw(&icon,rect.x,rect.y);
+  icon->draw(rect.x,rect.y);
   if(show_info)
     {
       char str[80];
@@ -121,7 +121,7 @@ void Button::draw()
 
 Button::~Button()
 {
-  texture_free(&icon);
+  delete icon;
 }
 
 void Button::event(SDL_Event &event)

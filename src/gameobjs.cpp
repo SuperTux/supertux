@@ -44,9 +44,8 @@ BouncyDistro::action(double frame_ratio)
 void
 BouncyDistro::draw()
 {
-  texture_draw(&img_distro[0],
-               base.x - scroll_x,
-               base.y);
+  img_distro[0]->draw(base.x - scroll_x,
+                      base.y);
 }
 
 
@@ -88,8 +87,7 @@ BrokenBrick::draw()
   dest.h = 16;
   
   if (tile->images.size() > 0)
-    texture_draw_part(&tile->images[0],
-                      src.x,src.y,dest.x,dest.y,dest.w,dest.h);
+    tile->images[0]->draw_part(src.x,src.y,dest.x,dest.y,dest.w,dest.h);
 }
 
 void
@@ -145,8 +143,8 @@ BouncyBrick::draw()
       else
         {
           s = (int)scroll_x / 30;
-          texture_draw_part(&plevel->img_bkgd, dest.x + s, dest.y, 
-                            dest.x, dest.y,dest.w,dest.h);
+          plevel->img_bkgd->draw_part(dest.x + s, dest.y, 
+                                      dest.x, dest.y,dest.w,dest.h);
         }
 
       Tile::draw(base.x - scroll_x,

@@ -63,15 +63,15 @@ void ParticleSystem::draw(float scrollx, float scrolly, int layer)
         
         if(x > screen->w) x -= virtual_width;
         if(y > screen->h) y -= virtual_height;
-        texture_draw(particle->texture, x, y);
+        particle->texture->draw(x, y);
     }
 }
 
 SnowParticleSystem::SnowParticleSystem()
 {
-    texture_load(&snowimages[0], datadir+"/images/shared/snow0.png", USE_ALPHA);
-    texture_load(&snowimages[1], datadir+"/images/shared/snow1.png", USE_ALPHA);
-    texture_load(&snowimages[2], datadir+"/images/shared/snow2.png", USE_ALPHA);
+    snowimages[0] = new Surface(datadir+"/images/shared/snow0.png", USE_ALPHA);
+    snowimages[1] = new Surface(datadir+"/images/shared/snow1.png", USE_ALPHA);
+    snowimages[2] = new Surface(datadir+"/images/shared/snow2.png", USE_ALPHA);
 
     virtual_width = screen->w * 2;
 
@@ -83,7 +83,7 @@ SnowParticleSystem::SnowParticleSystem()
         particle->y = rand() % screen->h;
         particle->layer = i % 2;
         int snowsize = rand() % 3;
-        particle->texture = &snowimages[snowsize];
+        particle->texture = snowimages[snowsize];
         do {
             particle->speed = snowsize/60.0 + (float(rand()%10)/300.0);
         } while(particle->speed < 0.01);
@@ -95,8 +95,8 @@ SnowParticleSystem::SnowParticleSystem()
 
 SnowParticleSystem::~SnowParticleSystem()
 {
-    for(int i=0;i<3;++i)
-        texture_free(&snowimages[i]);
+  for(int i=0;i<3;++i)
+    delete snowimages[i];
 }
 
 void SnowParticleSystem::simulate(float elapsed_time)
@@ -114,7 +114,7 @@ void SnowParticleSystem::simulate(float elapsed_time)
 
 CloudParticleSystem::CloudParticleSystem()
 {
-    texture_load(&cloudimage, datadir + "/images/shared/cloud.png", USE_ALPHA);
+    cloudimage = new Surface(datadir + "/images/shared/cloud.png", USE_ALPHA);
 
     virtual_width = 2000.0;
 
@@ -124,7 +124,7 @@ CloudParticleSystem::CloudParticleSystem()
         particle->x = rand() % int(virtual_width);
         particle->y = rand() % int(virtual_height);
         particle->layer = 0;
-        particle->texture = &cloudimage;
+        particle->texture = cloudimage;
         particle->speed = -float(250 + rand() % 200) / 1000.0;
 
         particles.push_back(particle);
@@ -133,7 +133,7 @@ CloudParticleSystem::CloudParticleSystem()
 
 CloudParticleSystem::~CloudParticleSystem()
 {
-    texture_free(&cloudimage);
+  delete cloudimage;
 }
 
 void CloudParticleSystem::simulate(float elapsed_time)

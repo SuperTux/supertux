@@ -34,7 +34,7 @@ class st_subset
     std::string name;
     std::string title;
     std::string description;
-    texture_type image;
+    Surface* image;
     int levels;
  
   private:
@@ -53,7 +53,7 @@ enum TileMapType {
 class Level 
 {
  public:
-  texture_type img_bkgd;
+  Surface* img_bkgd;
 
   std::string name;
   std::string author;
@@ -109,7 +109,7 @@ class Level
 
   void free_gfx();
 
-  void load_image(texture_type* ptexture, std::string theme, const char * file, int use_alpha);
+  void load_image(Surface** ptexture, std::string theme, const char * file, int use_alpha);
 };
 
 #endif /*SUPERTUX_LEVEL_H*/

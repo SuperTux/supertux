@@ -43,10 +43,10 @@ void text_load(text_type* ptext, const std::string& file, int kind, int w, int h
   ptext->w = w;
   ptext->h = h;
 
-  texture_load(&ptext->chars, file, USE_ALPHA);
+  ptext->chars = new Surface(file, USE_ALPHA);
 
   /* Load shadow font. */
-  conv = SDL_DisplayFormatAlpha(ptext->chars.sdl_surface);
+  conv = SDL_DisplayFormatAlpha(ptext->chars->impl->sdl_surface);
   pixels = conv->w * conv->h;
   SDL_LockSurface(conv);
   for(i = 0; i < pixels; ++i)
@@ -56,7 +56,7 @@ void text_load(text_type* ptext, const std::string& file, int kind, int w, int h
     }
   SDL_UnlockSurface(conv);
   SDL_SetAlpha(conv, SDL_SRCALPHA, 128);
-  texture_from_sdl_surface(&ptext->shadow_chars,conv,USE_ALPHA);
+  ptext->shadow_chars = new Surface(conv, USE_ALPHA);
 
   SDL_FreeSurface(conv);
 }
@@ -66,13 +66,13 @@ void text_draw(text_type* ptext,const  char* text, int x, int y, int shadowsize,
   if(text != NULL)
     {
       if(shadowsize != 0)
-        text_draw_chars(ptext,&ptext->shadow_chars, text,x+shadowsize,y+shadowsize, update);
+        text_draw_chars(ptext, ptext->shadow_chars, text,x+shadowsize,y+shadowsize, update);
 
-      text_draw_chars(ptext,&ptext->chars, text,x,y, update);
+      text_draw_chars(ptext, ptext->chars, text,x,y, update);
     }
 }
 
-void text_draw_chars(text_type* ptext, texture_type* pchars,const  char* text, int x, int y, int update)
+void text_draw_chars(text_type* ptext, Surface* pchars,const  char* text, int x, int y, int update)
 {
   int i,j,len;
   int w, h;
@@ -86,13 +86,13 @@ void text_draw_chars(text_type* ptext, texture_type* pchars,const  char* text, i
       for( i = 0, j = 0; i < len; ++i,++j)
         {
           if( text[i] >= 'A' && text[i] <= 'Z')
-            texture_draw_part(pchars, (int)(text[i] - 'A')*w, 0, x+(j*w), y, ptext->w, ptext->h, 255,  update);
+            pchars->draw_part((int)(text[i] - 'A')*w, 0, x+(j*w), y, ptext->w, ptext->h, 255,  update);
           else if( text[i] >= 'a' && text[i] <= 'z')
-            texture_draw_part(pchars, (int)(text[i] - 'a')*w, h, x+(j*w), y, ptext->w, ptext->h, 255,  update);
+            pchars->draw_part((int)(text[i] - 'a')*w, h, x+(j*w), y, ptext->w, ptext->h, 255,  update);
           else if ( text[i] >= '!' && text[i] <= '9')
-            texture_draw_part(pchars, (int)(text[i] - '!')*w, h*2, x+(j*w), y, ptext->w, ptext->h, 255,  update);
+            pchars->draw_part((int)(text[i] - '!')*w, h*2, x+(j*w), y, ptext->w, ptext->h, 255,  update);
           else if ( text[i] == '?')
-            texture_draw_part(pchars, 25*w, h*2, x+(j*w), y, ptext->w, ptext->h, 255,  update);
+            pchars->draw_part(25*w, h*2, x+(j*w), y, ptext->w, ptext->h, 255,  update);
           else if ( text[i] == '\n')
             {
               y += ptext->h + 2;
@@ -105,7 +105,7 @@ void text_draw_chars(text_type* ptext, texture_type* pchars,const  char* text, i
       for( i = 0, j = 0; i < len; ++i, ++j)
         {
           if ( text[i] >= '0' && text[i] <= '9')
-            texture_draw_part(pchars, (int)(text[i] - '0')*w, 0, x+(j*w), y, w, h, 255, update);
+            pchars->draw_part((int)(text[i] - '0')*w, 0, x+(j*w), y, w, h, 255, update);
           else if ( text[i] == '\n')
             {
               y += ptext->h + 2;
@@ -172,14 +172,14 @@ void text_drawf(text_type* ptext,const  char* text, int x, int y, TextHAlign hal
 void text_free(text_type* ptext)
 {
   if(ptext->kind == TEXT_TEXT)
-    texture_free(&ptext->chars);
+    delete ptext->chars;
   else if(ptext->kind == TEXT_NUM)
-    texture_free(&ptext->chars);
+    delete ptext->chars;
 }
 
 /* --- ERASE TEXT: --- */
 
-void erasetext(text_type* ptext,const  char * text, int x, int y, texture_type * ptexture, int update, int shadowsize)
+void erasetext(text_type* ptext,const  char * text, int x, int y, Surface * ptexture, int update, int shadowsize)
 {
   SDL_Rect dest;
 
@@ -192,7 +192,7 @@ void erasetext(text_type* ptext,const  char * text, int x, int y, texture_type *
   if (dest.w > screen->w)
     dest.w = screen->w;
 
-  texture_draw_part(ptexture,dest.x,dest.y,dest.x,dest.y,dest.w,dest.h, 255, update);
+  ptexture->draw_part(dest.x,dest.y,dest.x,dest.y,dest.w,dest.h, 255, update);
 
   if (update == UPDATE)
     update_rect(screen, dest.x, dest.y, dest.w, dest.h);
@@ -201,7 +201,7 @@ void erasetext(text_type* ptext,const  char * text, int x, int y, texture_type *
 
 /* --- ERASE CENTERED TEXT: --- */
 
-void erasecenteredtext(text_type* ptext,const  char * text, int y, texture_type * ptexture, int update, int shadowsize)
+void erasecenteredtext(text_type* ptext,const  char * text, int y, Surface * ptexture, int update, int shadowsize)
 {
   erasetext(ptext, text, screen->w / 2 - (strlen(text) * 8), y, ptexture, update, shadowsize);
 }

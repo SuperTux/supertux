@@ -19,40 +19,40 @@
 #include "world.h"
 #include "tile.h"
 
-texture_type img_bsod_squished_left[1];
-texture_type img_bsod_squished_right[1];
-texture_type img_bsod_falling_left[1];
-texture_type img_bsod_falling_right[1];
-texture_type img_laptop_flat_left[1];
-texture_type img_laptop_flat_right[1];
-texture_type img_laptop_falling_left[1];
-texture_type img_laptop_falling_right[1];
-texture_type img_bsod_left[4];
-texture_type img_bsod_right[4];
-texture_type img_laptop_left[4];
-texture_type img_laptop_right[4];
-texture_type img_money_left[2];
-texture_type img_money_right[2];
-texture_type img_mrbomb_left[4];
-texture_type img_mrbomb_right[4];
-texture_type img_mrbomb_ticking_left[1];
-texture_type img_mrbomb_ticking_right[1];
-texture_type img_mrbomb_explosion[1];
-texture_type img_stalactite[1];
-texture_type img_stalactite_broken[1];
-texture_type img_flame[2];
-texture_type img_fish[2];
-texture_type img_bouncingsnowball_left[6];
-texture_type img_bouncingsnowball_right[6];
-texture_type img_bouncingsnowball_squished[1];
-texture_type img_flyingsnowball[2];
-texture_type img_flyingsnowball_squished[1];
-texture_type img_spiky_left[3];
-texture_type img_spiky_right[3];
-texture_type img_snowball_left[4];
-texture_type img_snowball_right[4];
-texture_type img_snowball_squished_left[1];
-texture_type img_snowball_squished_right[1];
+Surface* img_bsod_squished_left[1];
+Surface* img_bsod_squished_right[1];
+Surface* img_bsod_falling_left[1];
+Surface* img_bsod_falling_right[1];
+Surface* img_laptop_flat_left[1];
+Surface* img_laptop_flat_right[1];
+Surface* img_laptop_falling_left[1];
+Surface* img_laptop_falling_right[1];
+Surface* img_bsod_left[4];
+Surface* img_bsod_right[4];
+Surface* img_laptop_left[4];
+Surface* img_laptop_right[4];
+Surface* img_money_left[2];
+Surface* img_money_right[2];
+Surface* img_mrbomb_left[4];
+Surface* img_mrbomb_right[4];
+Surface* img_mrbomb_ticking_left[1];
+Surface* img_mrbomb_ticking_right[1];
+Surface* img_mrbomb_explosion[1];
+Surface* img_stalactite[1];
+Surface* img_stalactite_broken[1];
+Surface* img_flame[2];
+Surface* img_fish[2];
+Surface* img_bouncingsnowball_left[6];
+Surface* img_bouncingsnowball_right[6];
+Surface* img_bouncingsnowball_squished[1];
+Surface* img_flyingsnowball[2];
+Surface* img_flyingsnowball_squished[1];
+Surface* img_spiky_left[3];
+Surface* img_spiky_right[3];
+Surface* img_snowball_left[4];
+Surface* img_snowball_right[4];
+Surface* img_snowball_squished_left[1];
+Surface* img_snowball_squished_right[1];
 
 BadGuyKind  badguykind_from_string(const std::string& str)
 {
@@ -741,27 +741,27 @@ BadGuy::draw()
   float global_frame = (float(global_frame_counter - animation_offset) / 10);
   global_frame *= animation_speed;
   size_t frame = size_t(global_frame) % animation_length;
-  texture_type* texture = 
-      (dir == LEFT) ? &texture_left[frame] : &texture_right[frame];
-  texture_draw(texture, base.x - scroll_x, base.y);
+  Surface* texture = 
+      (dir == LEFT) ? texture_left[frame] : texture_right[frame];
+  texture->draw(base.x - scroll_x, base.y);
 
   if (debug_mode)
     fillrect(base.x - scroll_x, base.y, 32, 32, 75,0,75, 150);
 }
 
 void
-BadGuy::set_texture(texture_type* left, texture_type* right,
+BadGuy::set_texture(Surface** left, Surface** right,
     int nanimlength, float nanimspeed)
 {
   if(left != 0) {
     if(base.width == 0 && base.height == 0) {
-      base.width = left->w;
-      base.height = left->h;
-    } else if(base.width != left->w || base.height != left->h) {
-      base.x -= (left->w - base.width) / 2;
-      base.y -= left->h - base.height;
-      base.width = left->w;
-      base.height = left->h;
+      base.width = left[0]->w;
+      base.height = left[0]->h;
+    } else if(base.width != left[0]->w || base.height != left[0]->h) {
+      base.x -= (left[0]->w - base.width) / 2;
+      base.y -= left[0]->h - base.height;
+      base.width = left[0]->w;
+      base.height = left[0]->h;
       old_base = base;
     }
   } else {
@@ -949,99 +949,97 @@ BadGuy::collision(void *p_c_object, int c_object, CollisionType type)
 void load_badguy_gfx()
 {
   /* (BSOD) */
-  texture_load(&img_bsod_left[0], datadir +
-               "/images/shared/bsod-left-0.png",
-               USE_ALPHA);
+  img_bsod_left[0] = new Surface(datadir + "/images/shared/bsod-left-0.png", USE_ALPHA);
 
-  texture_load(&img_bsod_left[1], datadir +
+  img_bsod_left[1] = new Surface(datadir +
                "/images/shared/bsod-left-1.png",
                USE_ALPHA);
 
-  texture_load(&img_bsod_left[2], datadir +
+  img_bsod_left[2] = new Surface(datadir +
                "/images/shared/bsod-left-2.png",
                USE_ALPHA);
 
-  texture_load(&img_bsod_left[3], datadir +
+  img_bsod_left[3] = new Surface(datadir +
                "/images/shared/bsod-left-3.png",
                USE_ALPHA);
 
-  texture_load(&img_bsod_right[0], datadir +
+  img_bsod_right[0] = new Surface(datadir +
                "/images/shared/bsod-right-0.png",
                USE_ALPHA);
 
-  texture_load(&img_bsod_right[1], datadir +
+  img_bsod_right[1] = new Surface(datadir +
                "/images/shared/bsod-right-1.png",
                USE_ALPHA);
 
-  texture_load(&img_bsod_right[2], datadir +
+  img_bsod_right[2] = new Surface(datadir +
                "/images/shared/bsod-right-2.png",
                USE_ALPHA);
 
-  texture_load(&img_bsod_right[3], datadir +
+  img_bsod_right[3] = new Surface(datadir +
                "/images/shared/bsod-right-3.png",
                USE_ALPHA);
 
-  texture_load(&img_bsod_squished_left[0], datadir +
+  img_bsod_squished_left[0] = new Surface(datadir +
                "/images/shared/bsod-squished-left.png",
                USE_ALPHA);
 
-  texture_load(&img_bsod_squished_right[0], datadir +
+  img_bsod_squished_right[0] = new Surface(datadir +
                "/images/shared/bsod-squished-right.png",
                USE_ALPHA);
 
-  texture_load(&img_bsod_falling_left[0], datadir +
+  img_bsod_falling_left[0] = new Surface(datadir +
                "/images/shared/bsod-falling-left.png",
                USE_ALPHA);
 
-  texture_load(&img_bsod_falling_right[0], datadir +
+  img_bsod_falling_right[0] = new Surface(datadir +
                "/images/shared/bsod-falling-right.png",
                USE_ALPHA);
 
 
   /* (Laptop) */
 
-  texture_load(&img_laptop_left[0], datadir + "/images/shared/mriceblock-left-0.png", USE_ALPHA);
-  texture_load(&img_laptop_left[1], datadir + "/images/shared/mriceblock-left-1.png", USE_ALPHA);
-  texture_load(&img_laptop_left[2], datadir + "/images/shared/mriceblock-left-2.png", USE_ALPHA);
-  texture_load(&img_laptop_left[3], datadir + "/images/shared/mriceblock-left-1.png", USE_ALPHA);
+  img_laptop_left[0] = new Surface(datadir + "/images/shared/mriceblock-left-0.png", USE_ALPHA);
+  img_laptop_left[1] = new Surface(datadir + "/images/shared/mriceblock-left-1.png", USE_ALPHA);
+  img_laptop_left[2] = new Surface(datadir + "/images/shared/mriceblock-left-2.png", USE_ALPHA);
+  img_laptop_left[3] = new Surface(datadir + "/images/shared/mriceblock-left-1.png", USE_ALPHA);
 
-  texture_load(&img_laptop_right[0], datadir + "/images/shared/mriceblock-right-0.png", USE_ALPHA);
-  texture_load(&img_laptop_right[1], datadir + "/images/shared/mriceblock-right-1.png", USE_ALPHA);
-  texture_load(&img_laptop_right[2], datadir + "/images/shared/mriceblock-right-2.png", USE_ALPHA);
-  texture_load(&img_laptop_right[3], datadir + "/images/shared/mriceblock-right-1.png", USE_ALPHA);
+  img_laptop_right[0] = new Surface(datadir + "/images/shared/mriceblock-right-0.png", USE_ALPHA);
+  img_laptop_right[1] = new Surface(datadir + "/images/shared/mriceblock-right-1.png", USE_ALPHA);
+  img_laptop_right[2] = new Surface(datadir + "/images/shared/mriceblock-right-2.png", USE_ALPHA);
+  img_laptop_right[3] = new Surface(datadir + "/images/shared/mriceblock-right-1.png", USE_ALPHA);
   
-  texture_load(&img_laptop_flat_left[0], 
+  img_laptop_flat_left[0] = new Surface(
                datadir + "/images/shared/laptop-flat-left.png",
                USE_ALPHA);
 
-  texture_load(&img_laptop_flat_right[0], datadir +
+  img_laptop_flat_right[0] = new Surface(datadir +
                "/images/shared/laptop-flat-right.png",
                USE_ALPHA);
 
-  texture_load(&img_laptop_falling_left[0], datadir +
+  img_laptop_falling_left[0] = new Surface(datadir +
                "/images/shared/laptop-falling-left.png",
                USE_ALPHA);
 
-  texture_load(&img_laptop_falling_right[0], datadir +
+  img_laptop_falling_right[0] = new Surface(datadir +
                "/images/shared/laptop-falling-right.png",
                USE_ALPHA);
 
 
   /* (Money) */
 
-  texture_load(&img_money_left[0], datadir +
+  img_money_left[0] = new Surface(datadir +
                "/images/shared/bag-left-0.png",
                USE_ALPHA);
 
-  texture_load(&img_money_left[1], datadir +
+  img_money_left[1] = new Surface(datadir +
                "/images/shared/bag-left-1.png",
                USE_ALPHA);
 
-  texture_load(&img_money_right[0], datadir +
+  img_money_right[0] = new Surface(datadir +
                "/images/shared/bag-right-0.png",
                USE_ALPHA);
 
-  texture_load(&img_money_right[1], datadir +
+  img_money_right[1] = new Surface(datadir +
                "/images/shared/bag-right-1.png",
                USE_ALPHA);
 
@@ -1049,84 +1047,84 @@ void load_badguy_gfx()
   for(int i=0; i<4; ++i) {
       char num[4];
       snprintf(num, 4, "%d", i);
-      texture_load(&img_mrbomb_left[i],
+      img_mrbomb_left[i] = new Surface(
               datadir + "/images/shared/mrbomb-left-" + num + ".png", USE_ALPHA);
-      texture_load(&img_mrbomb_right[i],
+      img_mrbomb_right[i] = new Surface(
               datadir + "/images/shared/mrbomb-right-" + num + ".png", USE_ALPHA);
   }
-  texture_load(&img_mrbomb_ticking_left[0],
+  img_mrbomb_ticking_left[0] = new Surface(
           datadir + "/images/shared/mrbombx-left-0.png", USE_ALPHA);
-  texture_load(&img_mrbomb_ticking_right[0],
+  img_mrbomb_ticking_right[0] = new Surface(
           datadir + "/images/shared/mrbombx-right-0.png", USE_ALPHA);
-  texture_load(&img_mrbomb_explosion[0],
+  img_mrbomb_explosion[0] = new Surface(
           datadir + "/images/shared/mrbomb-explosion.png", USE_ALPHA);
 
   /* stalactite */
-  texture_load(&img_stalactite[0], 
+  img_stalactite[0] = new Surface(
           datadir + "/images/shared/stalactite.png", USE_ALPHA);
-  texture_load(&img_stalactite_broken[0],
+  img_stalactite_broken[0] = new Surface(
           datadir + "/images/shared/stalactite-broken.png", USE_ALPHA);
 
   /* flame */
-  texture_load(&img_flame[0],
+  img_flame[0] = new Surface(
           datadir + "/images/shared/flame-0.png", USE_ALPHA);
-  texture_load(&img_flame[1],
+  img_flame[1] = new Surface(
           datadir + "/images/shared/flame-1.png", USE_ALPHA);  
 
   /* fish */
-  texture_load(&img_fish[0],
+  img_fish[0] = new Surface(
           datadir + "/images/shared/fish-left-0.png", USE_ALPHA);
-  texture_load(&img_fish[1],
+  img_fish[1] = new Surface(
           datadir + "/images/shared/fish-left-1.png", USE_ALPHA);
 
   /* bouncing snowball */
   for(int i=0; i<6; ++i) {
       char num[4];
       snprintf(num, 4, "%d", i);
-      texture_load(&img_bouncingsnowball_left[i],
+      img_bouncingsnowball_left[i] = new Surface(
               datadir + "/images/shared/bouncingsnowball-left-" + num + ".png",
               USE_ALPHA);
-      texture_load(&img_bouncingsnowball_right[i],
+      img_bouncingsnowball_right[i] = new Surface(
               datadir + "/images/shared/bouncingsnowball-right-" + num + ".png",
               USE_ALPHA);
   } 
-  texture_load(&img_bouncingsnowball_squished[0],
+  img_bouncingsnowball_squished[0] = new Surface(
           datadir + "/images/shared/bsod-squished-left.png", USE_ALPHA);
 
   /* flying snowball */
-  texture_load(&img_flyingsnowball[0],
+  img_flyingsnowball[0] = new Surface(
           datadir + "/images/shared/flyingsnowball-left-0.png", USE_ALPHA);
-  texture_load(&img_flyingsnowball[1],
+  img_flyingsnowball[1] = new Surface(
           datadir + "/images/shared/flyingsnowball-left-1.png", USE_ALPHA);  
-  texture_load(&img_flyingsnowball_squished[0],
+  img_flyingsnowball_squished[0] = new Surface(
           datadir + "/images/shared/bsod-squished-left.png", USE_ALPHA);
 
   /* spiky */
   for(int i = 0; i < 3; ++i) {
         char num[4];
         snprintf(num, 4, "%d", i);
-        texture_load(&img_spiky_left[i],                                 
+        img_spiky_left[i] = new Surface(                                
                 datadir + "/images/shared/spiky-left-" + num + ".png",   
                 USE_ALPHA);
-        texture_load(&img_spiky_right[i],
+        img_spiky_right[i] = new Surface(
                 datadir + "/images/shared/spiky-right-" + num + ".png",
                 USE_ALPHA);
   }
 
   /** snowball */
-  texture_load(&img_snowball_left[0], datadir + "/images/shared/snowball-left-0.png", USE_ALPHA);
-  texture_load(&img_snowball_left[1], datadir + "/images/shared/snowball-left-1.png", USE_ALPHA);
-  texture_load(&img_snowball_left[2], datadir + "/images/shared/snowball-left-2.png", USE_ALPHA);
-  texture_load(&img_snowball_left[3], datadir + "/images/shared/snowball-left-1.png", USE_ALPHA);
+  img_snowball_left[0] = new Surface(datadir + "/images/shared/snowball-left-0.png", USE_ALPHA);
+  img_snowball_left[1] = new Surface(datadir + "/images/shared/snowball-left-1.png", USE_ALPHA);
+  img_snowball_left[2] = new Surface(datadir + "/images/shared/snowball-left-2.png", USE_ALPHA);
+  img_snowball_left[3] = new Surface(datadir + "/images/shared/snowball-left-1.png", USE_ALPHA);
 
-  texture_load(&img_snowball_right[0], datadir + "/images/shared/snowball-right-0.png", USE_ALPHA);
-  texture_load(&img_snowball_right[1], datadir + "/images/shared/snowball-right-1.png", USE_ALPHA);
-  texture_load(&img_snowball_right[2], datadir + "/images/shared/snowball-right-2.png", USE_ALPHA);
-  texture_load(&img_snowball_right[3], datadir + "/images/shared/snowball-right-1.png", USE_ALPHA);
+  img_snowball_right[0] = new Surface(datadir + "/images/shared/snowball-right-0.png", USE_ALPHA);
+  img_snowball_right[1] = new Surface(datadir + "/images/shared/snowball-right-1.png", USE_ALPHA);
+  img_snowball_right[2] = new Surface(datadir + "/images/shared/snowball-right-2.png", USE_ALPHA);
+  img_snowball_right[3] = new Surface(datadir + "/images/shared/snowball-right-1.png", USE_ALPHA);
 
-  texture_load(&img_snowball_squished_left[0],
+  img_snowball_squished_left[0] = new Surface(
           datadir + "/images/shared/bsod-squished-left.png", USE_ALPHA);
-  texture_load(&img_snowball_squished_right[0],
+  img_snowball_squished_right[0] = new Surface(
           datadir + "/images/shared/bsod-squished-right.png", USE_ALPHA);  
 }
 
@@ -1134,72 +1132,72 @@ void free_badguy_gfx()
 {
   for (int i = 0; i < 4; i++)
     {
-      texture_free(&img_bsod_left[i]);
-      texture_free(&img_bsod_right[i]);
+      delete img_bsod_left[i];
+      delete img_bsod_right[i];
     }
 
-  texture_free(&img_bsod_squished_left[0]);
-  texture_free(&img_bsod_squished_right[0]);
+  delete img_bsod_squished_left[0];
+  delete img_bsod_squished_right[0];
 
-  texture_free(&img_bsod_falling_left[0]);
-  texture_free(&img_bsod_falling_right[0]);
+  delete img_bsod_falling_left[0];
+  delete img_bsod_falling_right[0];
 
   for (int i = 0; i < 4; i++)
     {
-      texture_free(&img_laptop_left[i]);
-      texture_free(&img_laptop_right[i]);
+      delete img_laptop_left[i];
+      delete img_laptop_right[i];
     }
 
-  texture_free(&img_laptop_flat_left[0]);
-  texture_free(&img_laptop_flat_right[0]);
+  delete img_laptop_flat_left[0];
+  delete img_laptop_flat_right[0];
 
-  texture_free(&img_laptop_falling_left[0]);
-  texture_free(&img_laptop_falling_right[0]);
+  delete img_laptop_falling_left[0];
+  delete img_laptop_falling_right[0];
 
   for (int i = 0; i < 2; i++)
     {
-      texture_free(&img_money_left[i]);
-      texture_free(&img_money_right[i]);
+      delete img_money_left[i];
+      delete img_money_right[i];
     }
 
   for(int i = 0; i < 4; i++) {
-      texture_free(&img_mrbomb_left[i]);
-      texture_free(&img_mrbomb_right[i]);
+      delete img_mrbomb_left[i];
+      delete img_mrbomb_right[i];
   }
 
-  texture_free(&img_mrbomb_ticking_left[0]);
-  texture_free(&img_mrbomb_ticking_right[0]);
-  texture_free(&img_mrbomb_explosion[0]);
+  delete img_mrbomb_ticking_left[0];
+  delete img_mrbomb_ticking_right[0];
+  delete img_mrbomb_explosion[0];
 
-  texture_free(&img_stalactite[0]);
-  texture_free(&img_stalactite_broken[0]);
+  delete img_stalactite[0];
+  delete img_stalactite_broken[0];
 
-  texture_free(&img_flame[0]);
-  texture_free(&img_flame[1]);
+  delete img_flame[0];
+  delete img_flame[1];
 
-  texture_free(&img_fish[0]);
-  texture_free(&img_fish[1]);
+  delete img_fish[0];
+  delete img_fish[1];
 
   for(int i=0; i<6; ++i) {
-    texture_free(&img_bouncingsnowball_left[i]);
-    texture_free(&img_bouncingsnowball_right[i]);
+    delete img_bouncingsnowball_left[i];
+    delete img_bouncingsnowball_right[i];
   }
-  texture_free(&img_bouncingsnowball_squished[0]);
+  delete img_bouncingsnowball_squished[0];
 
-  texture_free(&img_flyingsnowball[0]);
-  texture_free(&img_flyingsnowball[1]);
-  texture_free(&img_flyingsnowball_squished[0]);
+  delete img_flyingsnowball[0];
+  delete img_flyingsnowball[1];
+  delete img_flyingsnowball_squished[0];
 
   for(int i = 0; i<3; ++i) {
-    texture_free(&img_spiky_left[i]);
-    texture_free(&img_spiky_right[i]);
+    delete img_spiky_left[i];
+    delete img_spiky_right[i];
   }
   for(int i = 0; i<4; ++i) {
-    texture_free(&img_snowball_left[i]);
-    texture_free(&img_snowball_right[i]);
+    delete img_snowball_left[i];
+    delete img_snowball_right[i];
   }
-  texture_free(&img_snowball_squished_left[0]);
-  texture_free(&img_snowball_squished_right[0]); 
+  delete img_snowball_squished_left[0];
+  delete img_snowball_squished_right[0]; 
 }
 
 // EOF //

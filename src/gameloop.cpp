@@ -698,7 +698,7 @@ GameSession::drawstatus()
 
   for(int i= 0; i < tux.lives; ++i)
     {
-      texture_draw(&tux_life,565+(18*i),20);
+      tux_life->draw(565+(18*i),20);
     }
 }
 

@@ -583,11 +583,11 @@ void st_general_setup(void)
   text_load(&yellow_nums,datadir + "/images/status/numbers.png", TEXT_NUM, 32,32);
 
   /* Load GUI/menu images: */
-  texture_load(&checkbox, datadir + "/images/status/checkbox.png", USE_ALPHA);
-  texture_load(&checkbox_checked, datadir + "/images/status/checkbox-checked.png", USE_ALPHA);
-  texture_load(&back, datadir + "/images/status/back.png", USE_ALPHA);
-  texture_load(&arrow_left, datadir + "/images/icons/left.png", USE_ALPHA);
-  texture_load(&arrow_right, datadir + "/images/icons/right.png", USE_ALPHA);
+  checkbox = new Surface(datadir + "/images/status/checkbox.png", USE_ALPHA);
+  checkbox_checked = new Surface(datadir + "/images/status/checkbox-checked.png", USE_ALPHA);
+  back = new Surface(datadir + "/images/status/back.png", USE_ALPHA);
+  arrow_left = new Surface(datadir + "/images/icons/left.png", USE_ALPHA);
+  arrow_right = new Surface(datadir + "/images/icons/right.png", USE_ALPHA);
 
   /* Load the mouse-cursor */
   mouse_cursor = new MouseCursor( datadir + "/images/status/mousecursor.png",1);
@@ -608,11 +608,11 @@ void st_general_free(void)
   text_free(&white_big_text);
 
   /* Free GUI/menu images: */
-  texture_free(&checkbox);
-  texture_free(&checkbox_checked);
-  texture_free(&back);
-  texture_free(&arrow_left);
-  texture_free(&arrow_right);
+  delete checkbox;
+  delete checkbox_checked;
+  delete back;
+  delete arrow_left;
+  delete arrow_right;
 
   /* Free mouse-cursor */
   delete mouse_cursor;
@@ -644,16 +644,12 @@ void st_video_setup(void)
     }
 
   /* Open display: */
-
   if(use_gl)
     st_video_setup_gl();
   else
     st_video_setup_sdl();
 
-  texture_setup();
-
   /* Set window manager stuff: */
-
   SDL_WM_SetCaption("SuperTux " VERSION, "SuperTux");
 
 }

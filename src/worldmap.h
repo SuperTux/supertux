@@ -48,7 +48,7 @@ struct Point
 
 struct Tile
 {
-  texture_type sprite;
+  Surface* sprite;
 
   // Directions in which Tux is allowed to walk from this tile
   bool north;
@@ -83,7 +83,7 @@ class Tux
 {
 private:
   WorldMap* worldmap;
-  texture_type sprite;
+  Surface* sprite;
 
   Direction input_direction;
   Direction direction;
@@ -113,9 +113,9 @@ class WorldMap
 private:
   Tux* tux;
 
-  texture_type level_sprite;
-  texture_type leveldot_green;
-  texture_type leveldot_red;
+  Surface* level_sprite;
+  Surface* leveldot_green;
+  Surface* leveldot_red;
 
   bool quit;
 
