@@ -1,4 +1,5 @@
 SUBDIRS = src data
 
-# EOF #
+EXTRA_DIST = contrib/levelconvert.py TODO
 
+# EOF #

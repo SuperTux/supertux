@@ -8,7 +8,8 @@ These are mostly bugs:
 
 Todo
 ----
-
+- change lispreader to throw exceptions instead of simply assert() on
+   syntax error
 - tux sometimes makes short jumps in the endsequence, mostly when
   going through the goal with a small jump, might be old_up related
 - fadein/out for intro/extro would be nice
