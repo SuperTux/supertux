@@ -144,48 +144,38 @@ void Button::event(SDL_Event &event)
 {
   SDLKey key = event.key.keysym.sym;
 
-  if(event.motion.x > rect.x && event.motion.x < rect.x + rect.w &&
-      event.motion.y > rect.y && event.motion.y < rect.y + rect.h)
+  if(event.type == SDL_MOUSEBUTTONDOWN || event.type == SDL_MOUSEBUTTONUP)
     {
-      if(event.type == SDL_MOUSEBUTTONDOWN)
+      if(event.button.x < rect.x || event.button.x >= rect.x + rect.w ||
+         event.button.y < rect.y || event.button.y >= rect.y + rect.h)
+        return;
+
+      if(event.button.button != SDL_BUTTON_LEFT)
         {
-          if(event.button.button == SDL_BUTTON_LEFT)
-            {
-              state = BUTTON_PRESSED;
-            }
-          else
-            {
-              show_info = true;
-            }
-        }
-      else if(event.type == SDL_MOUSEBUTTONUP)
-        {
-          if(event.button.button == SDL_BUTTON_LEFT && state == BUTTON_PRESSED)
-            {
-              state = BUTTON_CLICKED;
-            }
-          else if(event.button.button != SDL_BUTTON_LEFT && state != BUTTON_PRESSED)
-            {
-              show_info = true;
-            }
+          show_info = true;
+          return;
         }
 
-      if(state != BUTTON_PRESSED && state != BUTTON_CLICKED)
-        {
-          state = BUTTON_HOVER;
-          mouse_cursor->set_state(MC_LINK);
-        }
+      if(event.type == SDL_MOUSEBUTTONDOWN)
+        state = BUTTON_PRESSED;
+      else
+        state = BUTTON_CLICKED;
     }
-  else if((event.type != SDL_KEYDOWN && event.type != SDL_KEYUP) || event.type == SDL_MOUSEMOTION)
+  else if(event.type == SDL_MOUSEMOTION)
     {
-      state = BUTTON_NONE;
+      if(event.motion.x < rect.x || event.motion.x >= rect.x + rect.w ||
+         event.motion.y < rect.y || event.motion.y >= rect.y + rect.h)
+        state = BUTTON_NONE;
+      else
+        state = BUTTON_HOVER;
+
+      popup_timer.start(1500);
       if(show_info)
         {
           show_info = false;
-        }
+        }                           
     }
-
-  if(event.type == SDL_KEYDOWN)
+  else if(event.type == SDL_KEYDOWN)
     {
       if(key == shortcut)
         state = BUTTON_PRESSED;
@@ -195,16 +185,6 @@ void Button::event(SDL_Event &event)
       if(state == BUTTON_PRESSED && key == shortcut)
         state = BUTTON_CLICKED;
     }
-  else if(event.type == SDL_MOUSEMOTION)
-    {
-      popup_timer.start(1500);
-    
-      if(show_info)
-        {
-          show_info = false;
-        }
-    }
-    
 }
 
 int Button::get_state()
@@ -292,3 +272,16 @@ void ButtonPanel::additem(Button* pbutton, int tag)
 
 }
 
+void ButtonPanel::set_button_size(int w, int h)
+{
+  bw = w;
+  bh = h;
+}
+
+Button* ButtonPanel::manipulate_button(int i)
+{
+  if(int(item.size())-1 < i)
+    return item[item.size()-1];
+  else
+    return item[i];
+}

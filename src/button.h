@@ -71,8 +71,8 @@ public:
   Button* event(SDL_Event &event);
   void additem(Button* pbutton, int tag);
   Button* button_panel_event(SDL_Event& event);
-  void set_button_size(int w, int h) { bw = w; bh = h; }
-  Button* manipulate_button(int i) { if(item.size()-1 < i) { return item[item.size()-1]; } else { return item[i]; } };
+  void set_button_size(int w, int h);
+  Button* manipulate_button(int i);
 
 private:
   int bw, bh;
