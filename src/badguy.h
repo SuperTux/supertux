@@ -121,8 +121,6 @@ private:
   Sprite*   sprite_right;
 
   int animation_offset;
-  size_t animation_length;
-  float animation_speed;
 
 public:
   void init(float x, float y, BadGuyKind kind, bool stay_on_platform);
@@ -173,8 +171,7 @@ private:
   /** squish ourself, give player score and set dying to DYING_SQICHED */
   void squish_me(Player* player);
   /** set image of the badguy */
-  void set_sprite(Sprite* left, Sprite* right,
-                  int animlength = 1, float animspeed = 1);
+  void set_sprite(Sprite* left, Sprite* right);
 };
 
 #endif /*SUPERTUX_BADGUY_H*/

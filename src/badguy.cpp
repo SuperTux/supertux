@@ -160,8 +160,6 @@ BadGuy::init(float x, float y, BadGuyKind kind_, bool stay_on_platform_)
   old_base = base;
   dir      = LEFT;
   seen     = false;
-  animation_speed = 1;
-  animation_length = 1;
   animation_offset = 0;
   sprite_left = sprite_right = 0;
   physic.reset();
@@ -169,41 +167,41 @@ BadGuy::init(float x, float y, BadGuyKind kind_, bool stay_on_platform_)
 
   if(kind == BAD_BSOD) {
     physic.set_velocity(-1.3, 0);
-    set_sprite(img_bsod_left, img_bsod_right, 4);
+    set_sprite(img_bsod_left, img_bsod_right);
   } else if(kind == BAD_MRBOMB) {
     physic.set_velocity(-1.3, 0);
-    set_sprite(img_mrbomb_left, img_mrbomb_right, 4);
+    set_sprite(img_mrbomb_left, img_mrbomb_right);
   } else if (kind == BAD_LAPTOP) {
     physic.set_velocity(-.8, 0);
-    set_sprite(img_laptop_left, img_laptop_right, 4, 5);
+    set_sprite(img_laptop_left, img_laptop_right);
   } else if(kind == BAD_MONEY) {
-    set_sprite(img_jumpy_left_up, img_jumpy_left_up, 1);
+    set_sprite(img_jumpy_left_up, img_jumpy_left_up);
   } else if(kind == BAD_BOMB) {
-    set_sprite(img_mrbomb_ticking_left, img_mrbomb_ticking_right, 1);
+    set_sprite(img_mrbomb_ticking_left, img_mrbomb_ticking_right);
     // hack so that the bomb doesn't hurt until it expldes...
     dying = DYING_SQUISHED;
   } else if(kind == BAD_FLAME) {
     base.ym = 0; // we misuse base.ym as angle for the flame
     physic.enable_gravity(false);
-    set_sprite(img_flame, img_flame, 2, 0.5);
+    set_sprite(img_flame, img_flame);
   } else if(kind == BAD_BOUNCINGSNOWBALL) {
     physic.set_velocity(-1.3, 0);
-    set_sprite(img_bouncingsnowball_left, img_bouncingsnowball_right, 6);
+    set_sprite(img_bouncingsnowball_left, img_bouncingsnowball_right);
   } else if(kind == BAD_STALACTITE) {
     physic.enable_gravity(false);
-    set_sprite(img_stalactite, img_stalactite, 1);
+    set_sprite(img_stalactite, img_stalactite);
   } else if(kind == BAD_FISH) {
-    set_sprite(img_fish, img_fish, 2, 1);
+    set_sprite(img_fish, img_fish);
     physic.enable_gravity(true);
   } else if(kind == BAD_FLYINGSNOWBALL) {
-    set_sprite(img_flyingsnowball, img_flyingsnowball, 2, 5);
+    set_sprite(img_flyingsnowball, img_flyingsnowball);
     physic.enable_gravity(false);
   } else if(kind == BAD_SPIKY) {
     physic.set_velocity(-1.3, 0);
-    set_sprite(img_spiky_left, img_spiky_right, 3);
+    set_sprite(img_spiky_left, img_spiky_right);
   } else if(kind == BAD_SNOWBALL) {
     physic.set_velocity(-1.3, 0);
-    set_sprite(img_snowball_left, img_snowball_right, 4, 5);
+    set_sprite(img_snowball_left, img_snowball_right);
   }
 
   // if we're in a solid tile at start correct that now
@@ -291,7 +289,7 @@ BadGuy::action_laptop(float frame_ratio)
           old_base = base;
 
           mode=KICK;
-          set_sprite(img_laptop_flat_left, img_laptop_flat_right, 1);
+          set_sprite(img_laptop_flat_left, img_laptop_flat_right);
           physic.set_velocity_x((dir == LEFT) ? -3.5 : 3.5);
           play_sound(sounds[SND_KICK],SOUND_CENTER_SPEAKER);
         }
@@ -319,7 +317,7 @@ BadGuy::action_laptop(float frame_ratio)
       if(!timer.check())
         {
           mode = NORMAL;
-          set_sprite(img_laptop_left, img_laptop_right, 4, 5);
+          set_sprite(img_laptop_left, img_laptop_right);
           physic.set_velocity( (dir == LEFT) ? -.8 : .8, 0);
         }
     }
@@ -422,11 +420,11 @@ void
 BadGuy::action_money(float frame_ratio)
 {
   if (fabsf(physic.get_velocity_y()) < 2.5f)
-    set_sprite(img_jumpy_left_middle, img_jumpy_left_middle, 1);
+    set_sprite(img_jumpy_left_middle, img_jumpy_left_middle);
   else if (physic.get_velocity_y() < 0)
-    set_sprite(img_jumpy_left_up, img_jumpy_left_up, 1);
+    set_sprite(img_jumpy_left_up, img_jumpy_left_up);
   else 
-    set_sprite(img_jumpy_left_down, img_jumpy_left_down, 1);
+    set_sprite(img_jumpy_left_down, img_jumpy_left_down);
 
   Player& tux = *World::current()->get_tux();
 
@@ -485,7 +483,7 @@ BadGuy::action_bomb(float frame_ratio)
   } else if(!timer.check()) {
     if(mode == BOMB_TICKING) {
       mode = BOMB_EXPLODE;
-      set_sprite(img_mrbomb_explosion, img_mrbomb_explosion, 1);
+      set_sprite(img_mrbomb_explosion, img_mrbomb_explosion);
       dying = DYING_NOT; // now the bomb hurts
       timer.start(EXPLODETIME);
     } else if(mode == BOMB_EXPLODE) {
@@ -528,7 +526,7 @@ BadGuy::action_stalactite(float frame_ratio)
       timer.start(2000);
       dying = DYING_SQUISHED;
       mode = FLAT;
-      set_sprite(img_stalactite_broken, img_stalactite_broken, 1);
+      set_sprite(img_stalactite_broken, img_stalactite_broken);
     }
   } else if(mode == FLAT) {
     fall();
@@ -571,8 +569,7 @@ BadGuy::action_fish(float frame_ratio)
   else if(mode == FISH_WAIT && !timer.check())
     {
       // jump again
-      set_sprite(img_fish, img_fish, 2, 2);
-      animation_offset = global_frame_counter; // restart animation
+      set_sprite(img_fish, img_fish);
       mode = NORMAL;
       physic.set_velocity(0, JUMPV);
       physic.enable_gravity(true);
@@ -778,13 +775,9 @@ BadGuy::draw()
   
   if(sprite_left == 0 || sprite_right == 0)
     {
-      std::cout << "BadGuy: Error no sprite loaded" << std::endl;
       return;
     }
 
-  float global_frame = (float(global_frame_counter - animation_offset) / 10);
-  global_frame *= animation_speed;
-  //size_t frame = size_t(global_frame) % animation_length;
   Sprite* sprite = (dir == LEFT) ? sprite_left : sprite_right;
   sprite->draw(base.x - scroll_x, base.y);
 
@@ -793,8 +786,7 @@ BadGuy::draw()
 }
 
 void
-BadGuy::set_sprite(Sprite* left, Sprite* right,
-                   int nanimlength, float nanimspeed)
+BadGuy::set_sprite(Sprite* left, Sprite* right) 
 {
   if (1)
     {
@@ -822,8 +814,6 @@ BadGuy::set_sprite(Sprite* left, Sprite* right,
       }
     }
 
-  animation_length = nanimlength;
-  animation_speed = nanimspeed;
   animation_offset = 0;
   sprite_left  = left;
   sprite_right = right;
@@ -877,7 +867,7 @@ BadGuy::squish(Player* player)
 
   } else if(kind == BAD_BSOD) {
     squish_me(player);
-    set_sprite(img_bsod_squished_left, img_bsod_squished_right, 1);
+    set_sprite(img_bsod_squished_left, img_bsod_squished_right);
     physic.set_velocity_x(0);
     return;
       
@@ -887,7 +877,7 @@ BadGuy::squish(Player* player)
         /* Flatten! */
         play_sound(sounds[SND_STOMP], SOUND_CENTER_SPEAKER);
         mode = FLAT;
-        set_sprite(img_laptop_flat_left, img_laptop_flat_right, 1);
+        set_sprite(img_laptop_flat_left, img_laptop_flat_right);
         physic.set_velocity_x(0);
 
         timer.start(4000);
@@ -904,7 +894,7 @@ BadGuy::squish(Player* player)
         }
 
         mode = KICK;
-        set_sprite(img_laptop_flat_left, img_laptop_flat_right, 1);
+        set_sprite(img_laptop_flat_left, img_laptop_flat_right);
       }
 
     make_player_jump(player);
@@ -927,15 +917,15 @@ BadGuy::squish(Player* player)
     return;
   } else if(kind == BAD_BOUNCINGSNOWBALL) {
     squish_me(player);
-    set_sprite(img_bouncingsnowball_squished,img_bouncingsnowball_squished,1);
+    set_sprite(img_bouncingsnowball_squished,img_bouncingsnowball_squished);
     return;
   } else if(kind == BAD_FLYINGSNOWBALL) {
     squish_me(player);
-    set_sprite(img_flyingsnowball_squished,img_flyingsnowball_squished,1);
+    set_sprite(img_flyingsnowball_squished,img_flyingsnowball_squished);
     return;
   } else if(kind == BAD_SNOWBALL) {
     squish_me(player);
-    set_sprite(img_snowball_squished_left, img_snowball_squished_right, 1);
+    set_sprite(img_snowball_squished_left, img_snowball_squished_right);
     return;
   }
 }
@@ -948,9 +938,9 @@ BadGuy::kill_me()
 
   dying = DYING_FALLING;
   if(kind == BAD_LAPTOP)
-    set_sprite(img_laptop_falling_left, img_laptop_falling_right, 1);
+    set_sprite(img_laptop_falling_left, img_laptop_falling_right);
   else if(kind == BAD_BSOD)
-    set_sprite(img_bsod_falling_left, img_bsod_falling_right, 1);
+    set_sprite(img_bsod_falling_left, img_bsod_falling_right);
   
   physic.enable_gravity(true);
   physic.set_velocity_y(0);
@@ -1074,7 +1064,7 @@ BadGuy::collision(void *p_c_object, int c_object, CollisionType type)
         }
 
         mode = KICK;
-        set_sprite(img_laptop_flat_left, img_laptop_flat_right, 1);
+        set_sprite(img_laptop_flat_left, img_laptop_flat_right);
       }
       break;
 
