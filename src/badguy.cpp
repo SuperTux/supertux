@@ -841,10 +841,10 @@ BadGuy::action(float elapsed_time)
         start_position.y < scroll_y + screen->h + Y_OFFSCREEN_DISTANCE)
       activate(LEFT);
   } else {
-    if(base.x + base.width < scroll_x - X_OFFSCREEN_DISTANCE
-      || base.x > scroll_x + screen->w + X_OFFSCREEN_DISTANCE
-      || base.y + base.height < scroll_y - Y_OFFSCREEN_DISTANCE
-      || base.y > scroll_y + screen->h + Y_OFFSCREEN_DISTANCE) {
+    if(base.x + base.width < scroll_x - X_OFFSCREEN_DISTANCE*4
+      || base.x > scroll_x + screen->w + X_OFFSCREEN_DISTANCE*4
+      || base.y + base.height < scroll_y - Y_OFFSCREEN_DISTANCE*4
+      || base.y > scroll_y + screen->h + Y_OFFSCREEN_DISTANCE*4) {
       seen = false;
       if(dying != DYING_NOT)
         remove_me();
