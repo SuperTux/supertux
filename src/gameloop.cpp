@@ -770,7 +770,7 @@ GameSession::run()
       currentsector->player->kill(Player::KILL);
     
     /* Handle music: */
-    if(currentsector->player->invincible_timer.check() && !end_sequence)
+    if(currentsector->player->invincible_timer.started() && !end_sequence)
     {
       currentsector->play_music(HERRING_MUSIC);
     }
