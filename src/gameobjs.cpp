@@ -79,7 +79,12 @@ BrokenBrick::action(double frame_ratio)
 
   if (!timer.check())
     {
-      World::current()->broken_bricks.erase(static_cast<std::vector<BrokenBrick>::iterator>(this));
+      std::vector<BrokenBrick*>::iterator i
+        = std::find(World::current()->broken_bricks.begin(), 
+                    World::current()->broken_bricks.end(), 
+                    this);
+      if (i != World::current()->broken_bricks.end())
+        World::current()->broken_bricks.erase(i);
     }
 }
 
@@ -123,7 +128,14 @@ BouncyBrick::action(double frame_ratio)
 
   /* Stop bouncing? */
   if (offset >= 0)
-    World::current()->bouncy_bricks.erase(static_cast<std::vector<BouncyBrick>::iterator>(this));
+    {
+      std::vector<BouncyBrick*>::iterator i
+        = std::find(World::current()->bouncy_bricks.begin(), 
+                    World::current()->bouncy_bricks.end(), 
+                    this);
+      if (i != World::current()->bouncy_bricks.end())
+        World::current()->bouncy_bricks.erase(i);
+    }
 }
 
 void
@@ -179,7 +191,14 @@ FloatingScore::action(double frame_ratio)
   base.y = base.y - 2 * frame_ratio;
 
   if(!timer.check())
-    World::current()->floating_scores.erase(static_cast<std::vector<FloatingScore>::iterator>(this));
+    {
+      std::vector<FloatingScore*>::iterator i
+        = std::find(World::current()->floating_scores.begin(), 
+                    World::current()->floating_scores.end(), 
+                    this);
+      if (i != World::current()->floating_scores.end())
+        World::current()->floating_scores.erase(i);
+    }
 }
 
 void
