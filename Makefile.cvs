@@ -55,7 +55,7 @@ CC = g++
 
 OBJECTS=obj/supertux.o obj/setup.o obj/intro.o obj/title.o obj/scene.o obj/collision.o obj/bitmask.o obj/type.o \
 	obj/timer.o obj/text.o obj/texture.o obj/badguy.o obj/special.o  obj/world.o obj/player.o obj/level.o obj/gameloop.o \
-	obj/screen.o obj/sound.o obj/high_scores.o obj/menu.o obj/leveleditor.o obj/globals.o obj/button.o obj/physic.o obj/lispreader.o
+	obj/screen.o obj/sound.o obj/high_scores.o obj/menu.o obj/leveleditor.o obj/globals.o obj/button.o obj/physic.o obj/lispreader.o obj/worldmap.o
 
 # Make commands:
 
@@ -180,3 +180,6 @@ obj/button.o:	src/button.cpp
 
 obj/physic.o:	src/physic.cpp
 	$(CC) $(CFLAGS) src/physic.cpp -c -o obj/physic.o
+	
+obj/worldmap.o:	src/worldmap.cpp
+	$(CC) $(CFLAGS) src/worldmap.cpp -c -o obj/worldmap.o
