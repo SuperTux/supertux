@@ -17,6 +17,8 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
+#include <config.h>
+
 #include <cassert>
 #include <cstdio>
 #include <iostream>
@@ -284,6 +286,12 @@ void Setup::directories(void)
   mkdir(st_save_dir.c_str(), 0755);
 
   mkdir((st_dir + "/levels").c_str(), 0755);
+
+  // try current directory as datadir
+  if(datadir.empty()) {
+      if(FileSystem::faccessible("./data/intro.txt"))
+          datadir = "./data";
+  }
 
   // User has not that a datadir, so we try some magic
   if (datadir.empty())

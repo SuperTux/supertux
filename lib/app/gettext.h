@@ -32,6 +32,8 @@
 
 /* Get declarations of GNU message catalog functions.  */
 #include <libintl.h>
+// needed for LC_ALL constant
+#include <locale.h>
 
 #else
 

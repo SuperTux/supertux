@@ -24,7 +24,6 @@
 #include <set>
 #include <string>
 #include "../gui/menu.h"
-#include "../special/base.h"
 
 namespace SuperTux {
 
