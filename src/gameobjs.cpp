@@ -120,7 +120,6 @@ BouncyBrick::action(double frame_ratio)
 void
 BouncyBrick::draw()
 {
-  int s;
   SDL_Rect dest;
   
   if (base.x >= scroll_x - 32 &&
@@ -144,7 +143,7 @@ BouncyBrick::draw()
         }
       else
         {
-          s = (int)scroll_x / 30;
+          int s = ((int)scroll_x / 2)%640;
           plevel->img_bkgd->draw_part(dest.x + s, dest.y, 
                                       dest.x, dest.y,dest.w,dest.h);
         }
