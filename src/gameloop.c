@@ -146,6 +146,7 @@ void game_event(void)
                     quit = 1;
                   else if(show_menu)
                     {
+		      menu_set_current(&game_menu);
                       show_menu = 0;
                       st_pause_ticks_stop();
                     }
@@ -589,6 +590,9 @@ int gameloop(char * subset, int levelnb, int mode)
   timer_init(&frame_timer);
   fps_cnt = 0;
 
+    while (SDL_PollEvent(&event))
+    {}
+  
   game_draw();
   do
     {

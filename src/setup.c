@@ -252,9 +252,12 @@ void st_menu(void)
   menu_init(&load_game_menu);
   menu_additem(&load_game_menu,menu_item_create(MN_LABEL,"Load Game",0,0));
 
+  menu_init(&save_game_menu);
+  menu_additem(&save_game_menu,menu_item_create(MN_LABEL,"Save Game",0,0));
+  
   menu_init(&game_menu);
   menu_additem(&game_menu,menu_item_create(MN_ACTION,"Return To Game",0,0));
-  menu_additem(&game_menu,menu_item_create(MN_ACTION,"Save Game",0,0));
+  menu_additem(&game_menu,menu_item_create(MN_ACTION,"Save Game",0,&save_game_menu));
   menu_additem(&game_menu,menu_item_create(MN_GOTO,"Load Game",0,&load_game_menu));
   menu_additem(&game_menu,menu_item_create(MN_GOTO,"Options",0,&options_menu));
   menu_additem(&game_menu,menu_item_create(MN_ACTION,"Quit Game",0,0));

@@ -69,7 +69,7 @@ extern int show_menu;
 extern int menu_change;
 extern texture_type checkbox, checkbox_checked, back;
 
-extern menu_type main_menu, game_menu, options_menu, leveleditor_menu, highscore_menu, load_game_menu;
+extern menu_type main_menu, game_menu, options_menu, leveleditor_menu, highscore_menu, load_game_menu, save_game_menu;;
 extern menu_type* current_menu, * last_menu;
 
 /* input implementation variables */

@@ -37,7 +37,7 @@ int show_menu;
 int menu_change;
 texture_type checkbox, checkbox_checked, back;
 
-menu_type main_menu, game_menu, options_menu, leveleditor_menu, highscore_menu, load_game_menu;
+menu_type main_menu, game_menu, options_menu, leveleditor_menu, highscore_menu, load_game_menu, save_game_menu;
 menu_type* current_menu, * last_menu;
 
 /* input implementation variables */
@@ -242,7 +242,7 @@ void menu_draw(menu_type* pmenu)
       else if(pmenu->item[i].kind == MN_LABEL)
         {
           text_drawf(&gold_text,pmenu->item[i].text,0,(i)*24 - menu_height/2 + 10,A_HMIDDLE, A_VMIDDLE,2,NO_UPDATE);
-          fillrect(screen->w/2 - menu_width/2,(i)*24 - menu_height/2 + 28,menu_width,2,150,150,150,100);
+          fillrect(screen->w/2 - menu_width/2,(i)*24 - menu_height/2 + 20 + screen->h /2,menu_width,2,190,190,190,100);
         }
       else if(pmenu->item[i].kind == MN_TEXTFIELD)
         {
