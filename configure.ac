@@ -79,9 +79,15 @@ else
     AC_MSG_RESULT([no])
 fi
 
-AC_CHECK_LIB([iconv], [iconv_open])
-AC_TRY_LINK([#include <iconv.h>], [iconv_open(0, 0);],,
-    AC_MSG_ERROR([Couldn't find iconv library]))
+iconv_found=no
+AC_MSG_CHECKING([for iconv])
+AC_TRY_LINK([#include <iconv.h>], [iconv_open(0, 0);], [iconv_found="yes"])
+AS_IF([test "$iconv_found" = no],
+    LIBS="$LIBS -liconv"
+    AC_TRY_LINK([#include <iconv.h>], [iconv_open(0, 0);], [iconv_found="yes"]))
+AS_IF([test "$iconv_found" = no],
+    AC_MSG_ERROR([Couldn't find iconv library]),
+    AC_MSG_RESULT([found]))
 
 dnl ===========================================================================
 dnl Check for SDL
