@@ -160,11 +160,11 @@ void loadshared()
   ducktux_right = sprite_manager->load("largetux-duck-right");
 
   skidtux_right = new Surface(datadir +
-               "/images/shared/skidtux-right.png",
+               "/images/shared/largetux-skid-right.png",
                USE_ALPHA);
 
   skidtux_left = new Surface(datadir +
-               "/images/shared/skidtux-left.png",
+               "/images/shared/largetux-skid-left.png",
                USE_ALPHA);
 
   duckfiretux_right = new Surface(datadir +
