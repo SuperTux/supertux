@@ -200,7 +200,7 @@ BadGuy::set_state(State state)
       break;
     case STATE_INACTIVE:
       // was the badguy dead anyway?
-      if(laststate == STATE_SQUISHED || laststate == STATE_SQUISHED) {
+      if(laststate == STATE_SQUISHED || laststate == STATE_FALLING) {
         remove_me();
       }
       flags |= FLAG_NO_COLLDET;
