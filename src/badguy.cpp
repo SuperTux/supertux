@@ -520,10 +520,13 @@ BadGuy::action_jumpy(double elapsed_time)
     }
 
   // set direction based on tux
-  if(tux.base.x > base.x)
-    dir = RIGHT;
-  else
-    dir = LEFT;
+  if(dying == DYING_NOT)
+    {
+    if(tux.base.x > base.x)
+      dir = RIGHT;
+    else
+      dir = LEFT;
+    }
 
   // move
   physic.apply(elapsed_time, base.x, base.y, Sector::current()->gravity);
@@ -742,11 +745,14 @@ BadGuy::action_flyingsnowball(double elapsed_time)
   if(dying == DYING_NOT || dying == DYING_SQUISHED)
     collision_swept_object_map(&old_base, &base);
 
-  // set direction based on tux
-  if(Sector::current()->player->base.x > base.x)
-    dir = RIGHT;
-  else
-    dir = LEFT;
+  if(dying == DYING_NOT)
+    {
+    // set direction based on tux
+    if(Sector::current()->player->base.x > base.x)
+      dir = RIGHT;
+    else
+      dir = LEFT;
+    }
 
   // Handle dying timer:
   if (dying == DYING_SQUISHED && !timer.check())
