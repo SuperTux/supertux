@@ -168,6 +168,8 @@ Player::init()
   enable_hover = false;
   butt_jump = false;
   
+  flapping_velocity = 0;
+  
   frame_main = 0;
   frame_ = 0;
 
@@ -584,6 +586,7 @@ Player::handle_vertical_input()
          if (!flapping_timer.started())
             {
                flapping_timer.start(TUX_FLAPPING_TIME);
+               flapping_velocity = physic.get_velocity_x();
             }
          if (!flapping_timer.check()) 
             {
@@ -592,21 +595,15 @@ Player::handle_vertical_input()
             }
          jumping = true;
          flapping = true;
-         float iv = physic.get_velocity_x(); //flapping speed depends on initial velocity
-         //float fv = 1.2;                     //fixed velocity that is reached when flapping is done
-         float cv = 0;                       //current velocity
-         //if (iv < 0) {fv *= (-1);}           //make fv negative or positive depending on direction of iv
          if (flapping_timer.get_gone() <= TUX_FLAPPING_TIME)
             {
-               //TODO: Values okay when running, but that's pure coincidence; they don't depend on iv anymore.
-               if (iv == 0) {cv = 0;}
-               //else {cv = (iv-((iv-fv)*(float)flapping_timer.get_gone()/TUX_FLAPPING_TIME));}
-               else {cv = (sqrt(1000-(float)flapping_timer.get_gone()))/10;}
+               float cv;
+               if (flapping_velocity == 0) {cv = 0;}
+               else {cv = flapping_velocity*(sqrt(TUX_FLAPPING_TIME-(float)flapping_timer.get_gone()))/sqrt(TUX_FLAPPING_TIME);}
                //Handle change of direction while flapping
                if (((dir == LEFT) && (cv > 0)) || (dir == RIGHT) && (cv < 0)) {cv *= (-1);}
-               //std::cout << cv << std::endl;
                physic.set_velocity_x(cv);
-               physic.set_velocity_y((float)flapping_timer.get_gone()/800);
+               physic.set_velocity_y((float)flapping_timer.get_gone()/850);
             }
      }
      

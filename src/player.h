@@ -157,6 +157,8 @@ public:
   bool butt_jump;
   int frame_;
   int frame_main;
+  
+  float flapping_velocity;
 
   base_type  previous_base;
   Timer invincible_timer;
