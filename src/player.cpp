@@ -19,7 +19,6 @@
 
 #include <math.h>
 #include <iostream>
-#include <iostream>
 #include <cassert>
 #include "gameloop.h"
 #include "globals.h"
