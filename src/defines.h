@@ -49,9 +49,10 @@ enum DyingType {
 };
 
 /* Screen-related stuff */
-
-#define VISIBLE_TILES_X 25
-#define VISIBLE_TILES_Y 19
+// +1 is needed because when tiles are wrapping around the screen there
+//  are two partial tiles on the screen
+#define VISIBLE_TILES_X 25 +1
+#define VISIBLE_TILES_Y 19 +1
 
 /* Sizes: */
 

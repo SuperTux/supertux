@@ -180,9 +180,14 @@ World::draw()
   /* Draw the real background */
   if(level->img_bkgd)
     {
-      int s = (int)((float)scroll_x * ((float)level->bkgd_speed/100.0f)) % screen->w;
-      level->img_bkgd->draw_part(s, 0,0,0,level->img_bkgd->w - s, level->img_bkgd->h);
-      level->img_bkgd->draw_part(0, 0,screen->w - s ,0,s,level->img_bkgd->h);
+      // Tile background horizontally
+      int sx = (int)((float)scroll_x * ((float)level->bkgd_speed/100.0f)) % level->img_bkgd->w;
+      for (int i = 0; (i-1)*level->img_bkgd->w <= screen->w; i++)
+        {
+          level->img_bkgd->draw_part(i == 0 ? sx : 0, 0,
+                                     i == 0 ? 0 : (level->img_bkgd->w * i) - sx, 0,
+                                     i == 0 ? level->img_bkgd->w - sx : level->img_bkgd->w, level->img_bkgd->h);
+        }
     }
   else
     {
@@ -340,7 +345,7 @@ void World::scrolling(double frame_ratio)
 
   if (scroll_y < 0)
   {
-    std::cerr << "Level too short!!" << std::endl;
+    //std::cerr << "Level too short!!" << std::endl;
     scroll_y = 0;
   }
 
