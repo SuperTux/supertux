@@ -679,7 +679,7 @@
          (name "skid-right")
          (x-offset 6)
          (y-offset 31)
-         (images "shared/bigtux/head-skid-0.png"))
+         (images "shared/bigtux/head-fire-skid-0.png"))
 
        (action
          (name "skid-left")
