@@ -104,8 +104,12 @@ void
 Background::draw(DrawingContext& context)
 {
   if(type == GRADIENT) {
-    context.draw_surface(image, Vector(0, 0), LAYER_BACKGROUND0);
-//    context.draw_gradient(gradient_top, gradient_bottom, LAYER_BACKGROUND0);
+    /* In case we are using OpenGL just draw the gradient, else (software mode)
+        use the cache. */
+    if(use_gl)
+      context.draw_gradient(gradient_top, gradient_bottom, LAYER_BACKGROUND0);
+    else
+      context.draw_surface(image, Vector(0, 0), LAYER_BACKGROUND0);
   } else if(type == IMAGE) {
     int sx = int(-context.get_translation().x * speed)
       % image->w - image->w;
