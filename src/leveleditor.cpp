@@ -215,7 +215,10 @@ Menu::set_current(0);
 DrawingContext context;
 
 if(!filename.empty())
+  {
+  level_nb = -1;
   load_level(filename);
+  }
 else
   Menu::set_current(main_menu);
 
@@ -553,9 +556,12 @@ context.draw_filled_rect(Vector(0,0), Vector(screen->w,screen->h), Color(60,60,6
 if(level_name_timer.check())
   {
   context.draw_text(gold_text, level.name, Vector(screen->w/2, 30), CENTER_ALLIGN, LAYER_GUI);
-  char str[128];
-  sprintf(str, "%i/%i", level_nb+1, level_subset.get_num_levels());
-  context.draw_text(gold_text, str, Vector(screen->w/2, 50), CENTER_ALLIGN, LAYER_GUI);
+  if(level_nb != -1)
+    {
+    char str[128];
+    sprintf(str, "%i/%i", level_nb+1, level_subset.get_num_levels());
+    context.draw_text(gold_text, str, Vector(screen->w/2, 50), CENTER_ALLIGN, LAYER_GUI);
+    }
   }
 if(sector)
   context.draw_text(white_small_text, _("F1 for help"), Vector(5, 510), LEFT_ALLIGN, LAYER_GUI-10);
