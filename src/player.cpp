@@ -626,7 +626,7 @@ Player::draw(Camera& viewport, int layer)
 
   if(layer == LAYER_OBJECTS + 1) {
     // Draw arm overlay graphics when Tux is holding something
-    if ((holding_something && physic.get_velocity_y() == 0) || shooting_timer.check())
+    if ((holding_something && physic.get_velocity_y() == 0) || shooting_timer.check() && !duck)
     {
       if (dir == RIGHT)
         sprite->grab_right->draw(pos);
