@@ -1,80 +1,64 @@
+0. How to Translate
+~~~~~~~~~~~~~~~~~~~~
 
-- Translation info -
-http://super-tux.sf.net/
+* Install gettext
+* get a cvs snapshot of supertux and do the usual autogen.sh, configure.
+  Make sure configure can find the xgettext application.
+    (ie. "checking for xgettext... xgettext")
+* Run 'jam' and let it compile supertux and create all the messages.po files
+* Go into data/locale and data/levels/*/ and in each dir do:
+     - In case you want to create a new translation do
+        msginit -i messages.pot -o $LANG.po
+       (where $LANG is the 2character handle of your language)
+     - In case you want to update an existing translation do
+        msgmerge -U $LANG.po messages.pot
 
-Last update: June 7, 2004
-
- == TRANSLATORS ==
+* Edit the .po files with your favourite Editor or with 1 of the GUI tools
+  below.
+* Send the translated .po files to the supertux-devel mailing list.
 
 1. Notes for Translators
-~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
-* If there isn't a good translation for some term (ie. fullscreen), you might consider
-  to just keep it. It's better than making the user confused.
+* If there isn't a good translation for some term (ie. fullscreen), you might
+  consider to just keep it. It's better than making the user confused.
 
-* In English, there is only one singular second person mode (You). If your language does
-  have more than one - a personal and impersonal - remember that this is a game, so you
-  should use the personal one. And if it is possible to ommit it in your language, it might
-  be a good idea.
+* In English, there is only one singular second person mode (You). If your
+  language does have more than one - a personal and impersonal - remember that
+  this is a game, so you should use the personal one. And if it is possible to
+  ommit it in your language, it might be a good idea.
 
 * Names like SuperTux, Tux, Penny or Nolok should not be translated. If you
-  really think one of these to be a too strange word for your people, first inform us at
-  our mailing list.
-  Minor characters like Mr. Ice Block can (and should) be translated.
+  really think one of these to be a too strange word for your people, first
+  inform us at our mailing list. Minor characters like Mr. Ice Block can (and
+  should) be translated.
 
 A couple of notes:
-* If somewhere in the game, after translating a string, it doesn't look well (bad
-  aligment, overlaps other text...), let us know - will be fixed.
+* If somewhere in the game, after translating a string, it doesn't look well
+  (bad aligment, overlaps other text...), let us know - we will fix it.
 
-* Currently, only the game itself is translatable. Data files, like levels,
-  credits, story... are not yet translatable.
+2. GUI Tools
+~~~~~~~~~~~~~
 
-All in all, translating lots of strings can be boring and time consuming, but it
-worths when lookins at the results ;-)
-
-2. Programs to Aid Translation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
- KBabel      - a long dated KDE program that has been maturing over the years, and it's
-               really handy by now.
+ KBabel      - a long dated KDE program that has been maturing over the years,
+               and it's really handy by now.
  poEdit      - a multi-platform po editor (runs under Windows and Unix).
                URL: http://poedit.sourceforge.net/
- (X)Emacs    - a commonly used program for translating with the respective plugin.
+ (X)Emacs    - a commonly used program for translating with the respective
+               plugin.
  QTranslator - made by Qt, has the advantage of running in several platforms.
- PO files are written in ASCII and are pretty intuitive, so they can be used by any text
- editor. But it would be wise to use a program made for that effect. If not possible,
- use a text editor with highlighting for PO files.
+               PO files are written in ASCII and are pretty intuitive, so they
+               can be used by any text editor. But it would be wise to use a
+               program made for that effect. If not possible, use a text editor
+               with highlighting for PO files.
 
-
- If all of this is new to you, the translation file that you should use is the supertux.pot
- that is inside the po/ root folder. Rename it to your language (ie. Spanish - es.po) and
- then open it with an appropriate program.
- After translating the file, add an entry of your language to the LINGUAS file (ie. Spanish - es)
- and run 'make update-po'. Then a binary file will be created. In order to make SuperTux using
- it, you will have to install it ('make install').
-
- To translate data files, you'll have to use a text editor, since we don't follow any
- convention. To translate a level's tile, to French, for instance, just do this:
- (name "Hello World!")
- (name-fr "Bonjour Monde!")
- Other data files, like texts in data/, can be translated the same way:
- (text "Hello World!
-       Bye World!")
- (text-fr "Bonjour Monde!
-           Au revoir Monde!")
-
-
- == DEVELOPERS ==
-
-1. Translatable Strings
+3. Note for developers
 ~~~~~~~~~~~~~~~~~~~~~~~
 
  Output should not be translated, since their purpose is mainly for debugging.
- However, command description (ie. --help) should obviously be translated. Messages
- that give the user a solution for a problem, might be translatable, as well.
-
- Parametars shouldn't also be translatable. It breaks scripting, besides advanced users,
- the ones that will make use of this, usually don't like it.
-
+ However, command description (ie. --help) should obviously be translated.
+ Messages that give the user a solution for a problem, might be translatable,
+ as well.
+ Parametars shouldn't be translatable. It breaks scripting.
 
 The SuperTux Team
