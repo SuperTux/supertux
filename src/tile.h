@@ -43,7 +43,8 @@ public:
   std::vector<Surface*> editor_images;
   
   std::vector<std::string>  filenames;
-
+  std::vector<std::string> editor_filenames;
+  
   /** solid tile that is indestructable by Tux */
   bool solid;
 

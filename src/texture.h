@@ -85,6 +85,7 @@ public:
   void draw(float x, float y, Uint8 alpha = 255, bool update = false);
   void draw_bg(Uint8 alpha = 255, bool update = false);
   void draw_part(float sx, float sy, float x, float y, float w, float h,  Uint8 alpha = 255, bool update = false);
+  void Surface::resize(int w_, int h_);
 };
 
 /** Surface implementation, all implementation have to inherit from
@@ -106,6 +107,7 @@ public:
   virtual int draw(float x, float y, Uint8 alpha, bool update) = 0;
   virtual int draw_bg(Uint8 alpha, bool update) = 0;
   virtual int draw_part(float sx, float sy, float x, float y, float w, float h,  Uint8 alpha, bool update) = 0;
+  int resize(int w_, int h_);
 
   SDL_Surface* get_sdl_surface() const; // @evil@ try to avoid this function
 };

@@ -83,7 +83,7 @@ void TileManager::load_tileset(std::string filename)
 
           if (strcmp(lisp_symbol(lisp_car(element)), "tile") == 0)
             {
-	      std::vector<std::string> editor_filenames;
+	      
 	     
               Tile* tile = new Tile;
               tile->id      = -1;
@@ -111,7 +111,7 @@ void TileManager::load_tileset(std::string filename)
               reader.read_int("anim-speed", &tile->anim_speed);
               reader.read_int("next-tile",  &tile->next_tile);
               reader.read_string_vector("images",  &tile->filenames);
-	      reader.read_string_vector("editor-images", &editor_filenames);
+	      reader.read_string_vector("editor-images", &tile->editor_filenames);
 
               for(std::vector<std::string>::iterator it = tile->
                   filenames.begin();
@@ -124,8 +124,8 @@ void TileManager::load_tileset(std::string filename)
                                datadir +  "/images/tilesets/" + (*it),
                                USE_ALPHA);
                 }
-              for(std::vector<std::string>::iterator it = editor_filenames.begin();
-                  it != editor_filenames.end();
+              for(std::vector<std::string>::iterator it = tile->editor_filenames.begin();
+                  it != tile->editor_filenames.end();
                   ++it)
                 {
                   Surface* cur_image;

@@ -367,7 +367,7 @@ int leveleditor(int levelnb)
             le_current_level->load_gfx();
             le_world.activate_bad_guys();
             subset_new_menu->get_item_by_id(MNID_SUBSETNAME).change_input("");
-	    
+
             Menu::set_current(subset_settings_menu);
             break;
           }
@@ -498,7 +498,18 @@ void le_init_menus()
         sit != (*it).tiles.end(); ++sit, ++i)
     {
       std::string imagefile = "/images/tilesets/" ;
-      imagefile += TileManager::instance()->get(*sit)->filenames[0];
+      if(!TileManager::instance()->get(*sit)->filenames.empty())
+      {
+        imagefile += TileManager::instance()->get(*sit)->filenames[0];
+      }
+      else if(!TileManager::instance()->get(*sit)->editor_filenames.empty())
+      {
+        imagefile += TileManager::instance()->get(*sit)->editor_filenames[0];
+      }
+      else
+      {
+        imagefile += "notile.png";
+      }
       Button* button = new Button(imagefile, it->name, SDLKey(SDLK_a + i),
                                   0, 0, 32, 32);
       tilegroups_map[it->name]->additem(button, *sit);
@@ -580,20 +591,20 @@ void update_level_settings_menu()
 {
   char str[80];
   int i;
-  
+
   level_settings_menu->get_item_by_id(MNID_NAME).change_input(le_current_level->name.c_str());
   level_settings_menu->get_item_by_id(MNID_AUTHOR).change_input(le_current_level->author.c_str());
-  
+
   string_list_copy(level_settings_menu->get_item_by_id(MNID_SONG).list, dfiles("music/",NULL, "-fast"));
   string_list_copy(level_settings_menu->get_item_by_id(MNID_BGIMG).list, dfiles("images/background",NULL, NULL));
   string_list_add_item(level_settings_menu->get_item_by_id(MNID_BGIMG).list,"");
-  
+
   if((i = string_list_find(level_settings_menu->get_item_by_id(MNID_SONG).list,le_current_level->song_title.c_str())) != -1)
     level_settings_menu->get_item_by_id(MNID_SONG).list->active_item = i;
   if((i = string_list_find(level_settings_menu->get_item_by_id(MNID_BGIMG).list,le_current_level->bkgd_image.c_str())) != -1)
     level_settings_menu->get_item_by_id(MNID_BGIMG).list->active_item = i;
-  
-  sprintf(str,"%d",le_current_level->width);  
+
+  sprintf(str,"%d",le_current_level->width);
   level_settings_menu->get_item_by_id(MNID_LENGTH).change_input(str);
   sprintf(str,"%d",le_current_level->time_left);
   level_settings_menu->get_item_by_id(MNID_TIME).change_input(str);
@@ -769,7 +780,7 @@ void le_drawinterface()
     if(TileManager::instance()->get(le_current.tile)->editor_images.size() > 0)
       TileManager::instance()->get(le_current.tile)->editor_images[0]->draw( 19 * 32, 14 * 32);
   }
-  
+
   //if(le_current.IsObject())
   //printf("");
 
@@ -1013,16 +1024,16 @@ void le_checkevents()
             x = event.motion.x;
             y = event.motion.y;
 
-	    if(le_current.IsTile())
-	    {
-            cursor_x = ((int)(pos_x + x) / 32) * 32;
-            cursor_y = ((int) y / 32) * 32;
-	    }
-	    else
-	    {
-	    cursor_x = x;
-	    cursor_y = y;
-	    }
+            if(le_current.IsTile())
+            {
+              cursor_x = ((int)(pos_x + x) / 32) * 32;
+              cursor_y = ((int) y / 32) * 32;
+            }
+            else
+            {
+              cursor_x = x;
+              cursor_y = y;
+            }
 
             if(le_mouse_pressed[LEFT])
             {
@@ -1192,9 +1203,9 @@ void le_checkevents()
             if(type == "BadGuy")
             {
               BadGuy* pbadguy = dynamic_cast<BadGuy*>(le_current.obj);
-	      
+
               le_world.bad_guys.push_back(BadGuy(cursor_x, cursor_y,pbadguy->kind,false));
-	      le_current_level->badguy_data.push_back(&le_world.bad_guys.back());
+              le_current_level->badguy_data.push_back(&le_world.bad_guys.back());
             }
           }
         }
@@ -1281,10 +1292,10 @@ void le_change(float x, float y, int tm, unsigned int c)
       /* if there is a bad guy over there, remove it */
       for(i = 0; i < le_world.bad_guys.size(); ++i)
         if(rectcollision(cursor_base,le_world.bad_guys[i].base))
-	{
+        {
           le_world.bad_guys.erase(le_world.bad_guys.begin() + i);
-	  le_current_level->badguy_data.erase(le_current_level->badguy_data.begin() + i);
-	  }
+          le_current_level->badguy_data.erase(le_current_level->badguy_data.begin() + i);
+        }
 
       break;
     case SQUARE:
