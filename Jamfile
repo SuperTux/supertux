@@ -7,8 +7,6 @@ SubInclude TOP data ;
 
 UseAutoconf ;
 
-# for now...
-Package INSTALL NEWS README COPYING AUTHORS ChangeLog ABOUT-NLS depcomp 
-        install-sh mkinstalldirs missing ;
+# add some additional files to package
+Package INSTALL NEWS README COPYING AUTHORS ChangeLog ;
 
-Package Makefile.am src/Makefile.am lib/Makefile.am data/Makefile.am ;
