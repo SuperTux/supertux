@@ -618,6 +618,13 @@ bool
 Sector::trybreakbrick(const Vector& pos, bool small)
 {
   Tile* tile = solids->get_tile_at(pos);
+  if (!tile)
+  {
+    char errmsg[64];
+    sprintf(errmsg, "Invalid tile at %i,%i", (int)((pos.x+1)/32*32), (int)((pos.y+1)/32*32));
+    throw SuperTuxException(errmsg, __FILE__, __LINE__);
+  }
+
   if (tile->attributes & Tile::BRICK)
     {
       if (tile->data > 0)
@@ -674,6 +681,14 @@ void
 Sector::tryemptybox(const Vector& pos, Direction col_side)
 {
   Tile* tile = solids->get_tile_at(pos);
+  if (!tile)
+  {
+    char errmsg[64];
+    sprintf(errmsg, "Invalid tile at %i,%i", (int)((pos.x+1)/32*32), (int)((pos.y+1)/32*32));
+    throw SuperTuxException(errmsg, __FILE__, __LINE__);
+  }
+
+
   if (!(tile->attributes & Tile::FULLBOX))
     return;
                                                                                 
@@ -730,6 +745,14 @@ void
 Sector::trygrabdistro(const Vector& pos, int bounciness)
 {
   Tile* tile = solids->get_tile_at(pos);
+  if (!tile)
+  {
+    char errmsg[64];
+    sprintf(errmsg, "Invalid tile at %i,%i", (int)((pos.x+1)/32*32), (int)((pos.y+1)/32*32));
+    throw SuperTuxException(errmsg, __FILE__, __LINE__);
+  }
+
+
   if (!(tile->attributes & Tile::COIN))
     return;
 

@@ -644,7 +644,8 @@ BadGuy::action_fish(double elapsed_time)
     
   // go in wait mode when back in water
   if(dying == DYING_NOT 
-      && gettile(base.x, base.y+ base.height)->attributes & Tile::WATER
+      && gettile(base.x, base.y + base.height)
+      && gettile(base.x, base.y + base.height)->attributes & Tile::WATER
       && physic.get_velocity_y() <= 0 && mode == NORMAL)
     {
       mode = FISH_WAIT;
