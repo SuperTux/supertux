@@ -197,9 +197,9 @@ Surface::reload()
   }
 }
 
-void Surface::apply_mask(Color color)
+void Surface::apply_filter(int filter, Color color)
 {
-impl->apply_mask(color);
+impl->apply_filter(filter, color);
 }
 
 Surface::~Surface()
@@ -255,7 +255,25 @@ Surface::resize(int w_, int h_)
 void
 apply_filter_to_surface(SDL_Surface* surface, int filter, Color color)
 {
-if(filter == MASK_FILTER)
+if(filter == HORIZONTAL_FLIP_FILTER)
+  {
+  SDL_Surface* sur_copy = sdl_surface_from_sdl_surface(surface, true);
+  SDL_BlitSurface(surface, NULL, sur_copy, NULL);
+  SDL_SetAlpha(sur_copy,0,0);
+
+  SDL_Rect src, dst;
+  src.y = dst.y = 0;
+  src.w = dst.w = 1;
+  src.h = dst.h = sur_copy->h;
+  for(int x = 0; x < sur_copy->w; x++)
+    {
+    src.x = x; dst.x = sur_copy->w - x;
+    SDL_BlitSurface(sur_copy, &src, surface, &dst);
+    }
+
+  SDL_FreeSurface(sur_copy);
+  }
+else if(filter == MASK_FILTER)
   {
   SDL_Surface* sur_copy = sdl_surface_from_sdl_surface(surface, true);
 
@@ -841,9 +859,9 @@ SurfaceOpenGL::draw_stretched(float x, float y, int sw, int sh, Uint8 alpha, Uin
 }
 
 void
-SurfaceOpenGL::apply_mask(Color color)
+SurfaceOpenGL::apply_filter(int filter, Color color)
 {
-  ::apply_filter_to_surface(sdl_surface, MASK_FILTER, color);
+  ::apply_filter_to_surface(sdl_surface, filter, color);
   create_gl(sdl_surface,&gl_texture);
 
   w = sdl_surface->w;
@@ -1053,9 +1071,9 @@ SurfaceSDL::draw_stretched(float x, float y, int sw, int sh, Uint8 alpha, Uint32
 }
 
 void
-SurfaceSDL::apply_mask(Color color)
+SurfaceSDL::apply_filter(int filter, Color color)
 {
-  ::apply_filter_to_surface(sdl_surface, MASK_FILTER, color);
+  ::apply_filter_to_surface(sdl_surface, filter, color);
 
   w = sdl_surface->w;
   h = sdl_surface->h;

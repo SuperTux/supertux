@@ -59,7 +59,9 @@ namespace SuperTux
 
   /// types of filters
   enum {
-    MASK_FILTER
+    HORIZONTAL_FLIP_FILTER,
+    MASK_FILTER,
+    NONE_FILTER
   };
 
   /** This class holds all the data necessary to construct a surface */
@@ -118,7 +120,7 @@ namespace SuperTux
 
       void resize(int widht, int height);
 
-      void apply_mask(Color color);
+      void apply_filter(int filter, Color color = Color(0,0,0));
     };
 
   /** Surface implementation, all implementation have to inherit from
@@ -146,7 +148,7 @@ namespace SuperTux
 
       SDL_Surface* get_sdl_surface() const; // @evil@ try to avoid this function
 
-      virtual void apply_mask(Color color) = 0;
+      virtual void apply_filter(int filter, Color color = Color(0,0,0)) = 0;
     };
 
   class SurfaceSDL : public SurfaceImpl
@@ -162,7 +164,7 @@ namespace SuperTux
       int draw_part(float sx, float sy, float x, float y, float w, float h,  Uint8 alpha, Uint32 effect = NONE_EFFECT);
       int draw_stretched(float x, float y, int w, int h, Uint8 alpha, Uint32 effect = NONE_EFFECT);
 
-      void apply_mask(Color color);
+      void apply_filter(int filter, Color color);
     };
 
 #ifndef NOOPENGL
@@ -183,7 +185,7 @@ namespace SuperTux
       int draw_part(float sx, float sy, float x, float y, float w, float h,  Uint8 alpha, Uint32 effect = NONE_EFFECT);
       int draw_stretched(float x, float y, int w, int h, Uint8 alpha, Uint32 effect = NONE_EFFECT);
 
-      void apply_mask(Color color);
+      void apply_filter(int filter, Color color);
 
     private:
       void create_gl(SDL_Surface * surf, GLuint * tex);
