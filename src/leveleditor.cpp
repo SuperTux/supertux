@@ -220,7 +220,7 @@ int leveleditor(int levelnb)
                           le_quit();
                           return 1;
                         }
-		      le_update_buttons(le_current_level->theme.c_str());
+                      le_update_buttons(le_current_level->theme.c_str());
                       le_set_defaults();
                       level_load_gfx(le_current_level);
                       show_menu = true;
@@ -239,7 +239,7 @@ int leveleditor(int levelnb)
                   switch (i = subset_new_menu->check())
                     {
                     case 3:
-		      st_subset::create(subset_new_menu->item[2].input);
+                      st_subset::create(subset_new_menu->item[2].input);
                       le_level_subset.load(subset_new_menu->item[2].input);
                       leveleditor_menu->item[3].kind = MN_GOTO;
                       le_level = 1;
@@ -251,7 +251,7 @@ int leveleditor(int levelnb)
                           le_quit();
                           return 1;
                         }
-		      le_update_buttons(le_current_level->theme.c_str());
+                      le_update_buttons(le_current_level->theme.c_str());
                       le_set_defaults();
                       level_load_gfx(le_current_level);
                       menu_item_change_input(&subset_new_menu->item[2],"");
@@ -275,8 +275,9 @@ int leveleditor(int levelnb)
                   break;
                 }
             }
-	    mouse_cursor->draw();
         }
+
+      mouse_cursor->draw();
 
       if(done)
         {
@@ -850,9 +851,11 @@ void le_checkevents()
 
   while(SDL_PollEvent(&event))
     {
-     if(show_menu)
-      menu_event(event);
-    
+      if(show_menu)
+          menu_event(event);
+      else
+          mouse_cursor->set_state(MC_NORMAL);
+
       /* testing SDL_KEYDOWN, SDL_KEYUP and SDL_QUIT events*/
       if(event.type == SDL_KEYDOWN || ((event.type == SDL_MOUSEBUTTONDOWN || SDL_MOUSEMOTION) && (event.motion.x > 0 && event.motion.x < screen->w - 64 &&
                                        event.motion.y > 0 && event.motion.y < screen->h)))
@@ -1046,8 +1049,8 @@ void le_checkevents()
                                         break;
                                       case SDLK_n:
                                         d = 1;
-					break;
-				      default:
+                                        break;
+                                      default:
                                         break;
                                       }
                                     break;
@@ -1292,8 +1295,8 @@ void le_change(float x, float y, int tm, unsigned int c)
 
           /* if there is a bad guy over there, remove it */
           for(i = 0; i < bad_guys.size(); ++i)
-              if(xx == bad_guys[i].base.x/32 && yy == bad_guys[i].base.y/32)
-                  bad_guys.erase(static_cast<std::vector<BadGuy>::iterator>(&bad_guys[i]));
+            if(xx == bad_guys[i].base.x/32 && yy == bad_guys[i].base.y/32)
+              bad_guys.erase(static_cast<std::vector<BadGuy>::iterator>(&bad_guys[i]));
 
           if(c == '0')  /* if it's a bad guy */
             add_bad_guy(xx*32, yy*32, BAD_BSOD);
@@ -1332,9 +1335,9 @@ void le_change(float x, float y, int tm, unsigned int c)
 
           /* if there is a bad guy over there, remove it */
           for(i = 0; i < bad_guys.size(); ++i)
-              if(bad_guys[i].base.x/32 >= x1 && bad_guys[i].base.x/32 <= x2
-                  && bad_guys[i].base.y/32 >= y1 && bad_guys[i].base.y/32 <= y2)
-                  bad_guys.erase(static_cast<std::vector<BadGuy>::iterator>(&bad_guys[i]));
+            if(bad_guys[i].base.x/32 >= x1 && bad_guys[i].base.x/32 <= x2
+                && bad_guys[i].base.y/32 >= y1 && bad_guys[i].base.y/32 <= y2)
+              bad_guys.erase(static_cast<std::vector<BadGuy>::iterator>(&bad_guys[i]));
 
           for(xx = x1; xx <= x2; xx++)
             for(yy = y1; yy <= y2; yy++)
@@ -1391,12 +1394,12 @@ void le_showhelp()
                    "settings of your level, including how long it is or what music it will",
                    "play. When you are ready to give your level a test, click on the little",
                    "running Tux. If you like the changes you have made to your level,",
-				   "press the red save key to keep them.",
+                   "press the red save key to keep them.",
                    "To change which level in your subset you are editing, press the white",
                    "up and down arrow keys at the top of the button box.",
-				   "",
+                   "",
                    "Have fun making levels! If you make some good ones, send them to us on",
-				   "the SuperTux mailing list!",
+                   "the SuperTux mailing list!",
                    "- SuperTux team"
                  };
 

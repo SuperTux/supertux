@@ -148,6 +148,7 @@ void button_event(button_type* pbutton, SDL_Event *event)
       if(pbutton->state != BUTTON_PRESSED && pbutton->state != BUTTON_CLICKED)
         {
           pbutton->state = BUTTON_HOVER;
+	  mouse_cursor->set_state(MC_LINK);
         }
     }
   else if(event->type != SDL_KEYDOWN && event->type != SDL_KEYUP)
