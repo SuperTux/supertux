@@ -32,12 +32,12 @@
  (sprite (name "snowball-squished-left")
          (x-hotspot 1)
          (y-hotspot -19)
-         (images "shared/bsod-squished-left.png"))
+         (images "shared/snowball-squished-left.png"))
 
  (sprite (name "snowball-squished-right")
          (x-hotspot 1)
          (y-hotspot -19)
-         (images "shared/bsod-squished-right.png"))
+         (images "shared/snowball-squished-right.png"))
 
  (sprite (name "bsod-falling-left")
          (images "shared/bsod-falling-left.png"))
@@ -181,7 +181,7 @@
  (sprite (name "flyingsnowball-squished")
          (x-hotspot 1)
          (y-hotspot -19)
-         (images "shared/bsod-squished-left.png"))
+         (images "shared/snowball-squished-left.png"))
 
  (sprite (name "spiky-left")
          (x-hotspot 6)
