@@ -95,7 +95,7 @@ char ** dsubdirs(char *rel_path, char* expected_file, int* num)
   struct dirent *direntp;
   int i = 0;
   char ** sdirs= NULL;
-  char filename[100];
+  char filename[1024];
   char path[1024];
 
   sprintf(path,"%s/%s",st_dir,rel_path);
@@ -103,7 +103,12 @@ char ** dsubdirs(char *rel_path, char* expected_file, int* num)
     {
       while((direntp = readdir(dirStructP)) != NULL)
         {
-          if ( direntp->d_type == DT_DIR )
+          char absolute_filename[1024];
+          struct stat buf;
+
+          sprintf(absolute_filename, "%s/%s", path, direntp->d_name);
+          
+          if (stat(absolute_filename, &buf) == 0 && S_ISDIR(buf.st_mode))
             {
               if(expected_file != NULL)
                 {
@@ -126,7 +131,12 @@ char ** dsubdirs(char *rel_path, char* expected_file, int* num)
     {
       while((direntp = readdir(dirStructP)) != NULL)
         {
-          if ( direntp->d_type == DT_DIR )
+          char absolute_filename[1024];
+          struct stat buf;
+
+          sprintf(absolute_filename, "%s/%s", path, direntp->d_name);
+
+          if (stat(absolute_filename, &buf) == 0 && S_ISDIR(buf.st_mode))
             {
               if(expected_file != NULL)
                 {
