@@ -371,7 +371,7 @@ Player::handle_horizontal_input()
 void
 Player::handle_vertical_input()
 {
-  if(input.up == DOWN)
+  if(input.up == DOWN && input.old_up == UP)
     {
       if (on_ground())
         {
@@ -410,6 +410,7 @@ Player::handle_input()
     {
       handle_vertical_input();
     }
+  input.old_up = input.up;
 
   /* Shoot! */
 
