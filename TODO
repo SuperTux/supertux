@@ -16,8 +16,6 @@ Todo
   to it, tux doesn't jump anymore
 - when jupming against the 2nd multiple coin block in a level only 1 coin will
   come out.
-- In the "Oh No More Snowballs" map, there's a ?-Growup-Block at the beginning
-  with only 1 tile space above it
 - when jumping into the exit with a star, the endgame music will change back to
   levelmusic after a short time
 - the can_jump flag should be based on a time instead of the 2 tiles check.
