@@ -4,6 +4,7 @@
   (author "Marek Moeckel")
   (name "Welcome to Antarctica")
   (name-pt_PT "Bem-vindo à Antártida")
+  (name-de_DE "Willkommen in Antarctica")
   (width  310)
   (height 19)
   (start_pos_x    100)

@@ -4,6 +4,7 @@
   (author "Marek Moeckel")
   (name "The Shattered Bridge")
   (name-pt_PT "A Ponte Quebradiça")
+  (name-de_DE "Die eingestürzte Brücke")
   (width  525)
   (height 15)
   (start_pos_x    100)

@@ -4,6 +4,7 @@
   (author "Ingo Ruhnke")
   (name "The Frosted Fields")
   (name-pt_PT "Os Campos Congelados")
+  (name-de_DE "Vereiste Felder")
   (width  510)
   (height 19)
   (start_pos_x    100)

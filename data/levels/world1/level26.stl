@@ -4,6 +4,7 @@
   (author "Ingo Ruhnke")
   (name "The Castle of Nolok")
   (name-pt_PT "O Castelo do Nolok")
+  (name-de_DE "Noloks Festung")
   (width  525)
   (height 15)
   (start_pos_x    100)

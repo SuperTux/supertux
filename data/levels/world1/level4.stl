@@ -4,6 +4,7 @@
   (author "Tobias Glaesser")
   (name "Tobgle Road")
   (name-pt_PT "A Estrada Tobgle")
+  (name-de_DE "Tobgle Passage")
   (width  270)
   (height 19)
   (start_pos_x    100)

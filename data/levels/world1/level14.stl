@@ -4,6 +4,7 @@
   (author "Marek Moeckel")
   (name "Entrance to the Cave")
   (name-pt_PT "Entrada para a Gruta")
+  (name-de_DE "Eingang der Höhle")
   (width  510)
   (height 19)
   (start_pos_x    100)

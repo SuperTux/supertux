@@ -4,6 +4,7 @@
   (author "Voluptuous Pachyderm")
   (name "Oh no! More Snowballs!")
   (name-pt_PT "Oh não! Mais Bolas de Neve!")
+  (name-de_DE "Oh nein! Noch mehr Schneebälle!")
   (width  525)
   (height 19)
   (start_pos_x    100)

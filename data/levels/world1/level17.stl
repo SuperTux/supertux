@@ -4,6 +4,7 @@
   (author "Ingo Ruhnke")
   (name "'...or is it just me?'")
   (name-pt_PT "'... ou é apenas de mim?'")
+  (name-de_DE "'...oder bin ich das?'")
   (width  515)
   (height 19)
   (start_pos_x    100)

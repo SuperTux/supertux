@@ -4,6 +4,7 @@
   (author "Ingo Ruhnke")
   (name "Miyamoto Monument")
   (name-pt_PT "O Monumento Miyamoto")
+  (name-de_DE "Das Miyamoto Monument")
   (width  505)
   (height 15)
   (start_pos_x    100)

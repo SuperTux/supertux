@@ -4,6 +4,7 @@
   (author "Marek Moeckel")
   (name "The Journey Begins")
   (name-pt_PT "A Aventura Começa")
+  (name-de_DE "Das Abenteuer beginnt")
   (width  300)
   (height 19)
   (start_pos_x    100)

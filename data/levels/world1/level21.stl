@@ -4,6 +4,7 @@
   (author "Marek Moeckel")
   (name "A Path in the Clouds")
   (name-pt_PT "Um Caminho pelas Nuvens")
+  (name-de_DE "Ein Pfad in den Wolken")
   (width  525)
   (height 15)
   (start_pos_x    100)

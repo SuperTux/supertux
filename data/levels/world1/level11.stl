@@ -4,6 +4,7 @@
   (author "Ingo Ruhnke")
   (name "Night Chill")
   (name-pt_PT "Noite Fria")
+  (name-de_DE "Eine kalte Nacht")
   (width  515)
   (height 19)
   (start_pos_x    100)
