@@ -25,7 +25,7 @@
 /* Version: */
 
 #ifndef VERSION
-	#define VERSION "0.0.5-0.0.6-CVS"
+	#define VERSION "0.1.1"
 #endif
 
 /* Frames per second: */
