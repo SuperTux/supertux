@@ -121,9 +121,9 @@ private:
 
   bool quit;
 
-  Surface* level_sprite;
   Surface* leveldot_green;
   Surface* leveldot_red;
+  Surface* messagedot;
 
   std::string name;
   std::string music;
@@ -160,6 +160,8 @@ public:
 
     /** Message to show in the Map */
     std::string display_map_message;
+    Timer display_map_message_timer;
+    bool passive_message;
 
     /** Go to this world */
     std::string next_worldmap;

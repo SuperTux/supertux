@@ -37,6 +37,8 @@
 #include "app/gettext.h"
 #include "misc.h"
 
+#define DISPLAY_MAP_MESSAGE_TIME 2600
+
 Menu* worldmap_menu  = 0;
 
 namespace WorldMapNS {
@@ -294,7 +296,12 @@ Tux::action(float delta)
         { // We reached the next tile, so we check what to do now
           offset -= 32;
 
-          if (worldmap->at(tile_pos)->stop || worldmap->at_special_tile())
+          WorldMap::SpecialTile* special_tile = worldmap->at_special_tile();
+          if(special_tile && special_tile->passive_message)
+            special_tile->display_map_message_timer.start(DISPLAY_MAP_MESSAGE_TIME);
+
+          if (worldmap->at(tile_pos)->stop || (special_tile && 
+              !special_tile->passive_message))
             {
               stop();
             }
@@ -388,9 +395,9 @@ WorldMap::WorldMap()
   start_x = 4;
   start_y = 5;
   
-  level_sprite = new Surface(datadir +  "/images/worldmap/levelmarker.png", true);
   leveldot_green = new Surface(datadir +  "/images/worldmap/leveldot_green.png", true);
   leveldot_red = new Surface(datadir +  "/images/worldmap/leveldot_red.png", true);
+  messagedot   = new Surface(datadir +  "/images/worldmap/messagedot.png", true);
 
   enter_level = false;
 
@@ -403,9 +410,9 @@ WorldMap::~WorldMap()
   delete tux;
   delete tile_manager;
 
-  delete level_sprite;
   delete leveldot_green;
   delete leveldot_red;
+  delete messagedot;
 }
 
 void
@@ -459,6 +466,11 @@ WorldMap::load_map()
                       special_tile.west  = true;
 
                       reader.read_string("extro-filename", special_tile.extro_filename);
+                      reader.read_string("passive-message", special_tile.display_map_message);
+                      special_tile.passive_message = false;
+                      if(!special_tile.display_map_message.empty())
+                        special_tile.passive_message = true;
+                      special_tile.display_map_message_timer.init(true);
                       reader.read_string("map-message", special_tile.display_map_message);
                       reader.read_string("next-world", special_tile.next_worldmap);
                       reader.read_string("level", special_tile.level_name, true);
@@ -901,6 +913,10 @@ WorldMap::draw(DrawingContext& context, const Vector& offset)
   
   for(SpecialTiles::iterator i = special_tiles.begin(); i != special_tiles.end(); ++i)
     {
+      if (!i->display_map_message.empty() && !i->passive_message)
+        context.draw_surface(messagedot,
+            Vector(i->x*32 + offset.x, i->y*32 + offset.y), LAYER_TILES+1);
+
       if(i->level_name.empty())
         continue;
 
@@ -968,7 +984,7 @@ WorldMap::draw_status(DrawingContext& context)
                     LAYER_FOREGROUND1);
                 }
 
-              /* Display a message in the map, if any as been selected */
+              /* Display an in-map message in the map, if any as been selected */
               if(!i->display_map_message.empty())
                 context.draw_text_center(gold_text, i->display_map_message, 
                     Vector(0, screen->h - white_text->get_height() - 60),
@@ -976,6 +992,18 @@ WorldMap::draw_status(DrawingContext& context)
               break;
             }
         }
+    }
+  for(SpecialTiles::iterator i = special_tiles.begin(); i != special_tiles.end(); ++i)
+    {
+    /* Display a passive message in the map, if any as been selected */
+    if(i->display_map_message_timer.check())
+      {
+      if(!i->display_map_message.empty())
+        context.draw_text_center(gold_text, i->display_map_message, 
+                Vector(0, screen->h - white_text->get_height() - 60),
+                LAYER_FOREGROUND1);
+      break;
+      }
     }
 }
 
