@@ -82,7 +82,19 @@
        (solid #f))
 
  (tile (id 26)
-       (images "bonus1.png")
+       (images "bonus2-1.png" 
+               "bonus2-2.png"
+               "bonus2-3.png"
+               "bonus2-4.png" 
+               "bonus2-5.png"
+               "bonus2-4.png"
+               "bonus2-3.png"
+               "bonus2-2.png"
+               "bonus2-1.png" 
+               "bonus2-1.png" 
+               "bonus2-1.png" 
+               )
+       (anim-speed 50)
        (solid #t)
        (fullbox #t)
        (next-tile 84)
