@@ -67,8 +67,6 @@ void drawline(int x1, int y1, int x2, int y2, int r, int g, int b, int a);
 void clearscreen(int r, int g, int b);
 void drawgradient(Color top_clr, Color bot_clr);
 void fillrect(float x, float y, float w, float h, int r, int g, int b, int a = 255);
-//void black_fade(Surface* surface, int seconds, bool fade_out);
-void fade(const std::string& surface, int seconds, bool fade_out);
 void shrink_fade(Point point, int fade_time);
 void updatescreen(void);
 void flipscreen(void);

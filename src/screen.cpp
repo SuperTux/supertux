@@ -96,48 +96,6 @@ void drawgradient(Color top_clr, Color bot_clr)
 #endif
 }
 
-/* --- FADE IN --- */
-
-/** Fades the given surface into a black one. If fade_out is true, it will fade out, else
-it will fade in */
-
-void fade(Surface *surface, int seconds, bool fade_out);
-
-void fade(const std::string& surface, int seconds, bool fade_out)
-{
-Surface* sur = new Surface(datadir + surface, IGNORE_ALPHA);
-fade(sur, seconds, fade_out);
-delete sur;
-}
-
-void fade(Surface *surface, int seconds, bool fade_out)
-{
-float alpha;
-if (fade_out)
-  alpha = 0;
-else
-  alpha = 255;
-
-  int cur_time, old_time;
-  cur_time = SDL_GetTicks();
-
-  while(alpha >= 0 && alpha < 256)
-    {
-    surface->draw(0,0,(int)alpha);
-    flipscreen();
-
-    old_time = cur_time;
-    cur_time = SDL_GetTicks();
-
-    /* Calculate the next alpha value */
-    float calc = (float) ((cur_time - old_time) / seconds);
-    if(fade_out)
-      alpha += 255 * calc;
-    else
-      alpha -= 255 * calc;
-    }
-}
-
 /** This fade shrinks to the given point */
 
 #define LOOP_DELAY 20
@@ -161,7 +119,7 @@ while(left_cor < point.x && right_cor < screen->w - point.x &&
   fillrect(0, 0, left_cor, screen->h, 0,0,0);  // left side
   fillrect(screen->w - right_cor, 0, right_cor, screen->h, 0,0,0);  // right side
   fillrect(0, 0, screen->w, up_cor, 0,0,0);  // up side
-  fillrect(0, screen->h - down_cor, screen->w, down_cor, 0,0,0);  // down side
+  fillrect(0, screen->h - down_cor, screen->w, down_cor+1, 0,0,0);  // down side
 
   flipscreen();
   SDL_Delay(LOOP_DELAY);
