@@ -78,7 +78,7 @@ static int first_level_index;
 
 static std::set<std::string> worldmap_list;
 
-static LevelEditor* leveleditor;
+static FrameRate frame_rate(100);  
 
 void update_load_save_game_menu(Menu* pmenu)
 {
@@ -238,6 +238,20 @@ void check_contrib_subset_menu()
     }  
 }
 
+/* If the demo was stopped - because game started, level
+   editor was excuted, etc - call this when you get back
+   to the title code.
+ */
+void resume_demo()
+{
+  // FIXME: shouldn't be needed if GameSession
+  // didn't relay on global variables
+  titlesession->get_current_sector()->activate();
+  titlesession->set_current();
+
+  frame_rate.update();
+}
+
 void draw_demo(double frame_ratio)
 {
   Sector* world  = titlesession->get_current_sector();
@@ -287,10 +301,10 @@ void draw_demo(double frame_ratio)
 /* --- TITLE SCREEN --- */
 void title(void)
 {
-  random_timer.init(true);
-
   walking = true;
+  LevelEditor* leveleditor;
 
+  random_timer.init(true);
   Ticks::pause_init();
 
   titlesession = new GameSession(datadir + "/levels/misc/menu.stl", ST_GL_DEMO_GAME);
@@ -309,7 +323,6 @@ void title(void)
   /* --- Main title loop: --- */
   frame = 0;
 
-  FrameRate frame_rate(100);  
   frame_rate.set_frame_limit(false);
   
   random_timer.start(rand() % 2000 + 2000);
@@ -381,7 +394,7 @@ void title(void)
                   leveleditor->run();
                   delete leveleditor;
                   Menu::set_current(main_menu);
-                  frame_rate.update();
+                  resume_demo();
                   break;
                 case MNID_CREDITS:
                   display_text_file("CREDITS", SCROLL_SPEED_CREDITS, white_big_text , white_text, white_small_text, blue_text );
@@ -414,15 +427,11 @@ void title(void)
 
                 update_load_save_game_menu(load_game_menu);
                 Menu::set_current(main_menu);
-                frame_rate.update();
+                resume_demo();
                 }
               else if (process_load_game_menu())
                 {
-                  // FIXME: shouldn't be needed if GameSession doesn't relay on global variables
-                  titlesession->get_current_sector()->activate();
-                  titlesession->set_current();
-                  //titletux.level_begin();
-                  frame_rate.update();
+                  resume_demo();
                 }
             }
           else if(menu == contrib_menu)
