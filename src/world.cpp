@@ -128,7 +128,7 @@ World::draw()
   /* Draw the real background */
   if(get_level()->bkgd_image[0] != '\0')
     {
-      int s = (int)scroll_x / 30;
+      int s = ((int)scroll_x / 2)%640;
       level->img_bkgd->draw_part(s, 0,0,0,level->img_bkgd->w - s, level->img_bkgd->h);
       level->img_bkgd->draw_part(0, 0,screen->w - s ,0,s,level->img_bkgd->h);
     }
