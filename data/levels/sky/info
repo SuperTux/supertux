@@ -1,0 +1,4 @@
+;SuperTux-Level-Subset
+(supertux-level-subset
+  (title "In the sky")
+  (description "Action happens in the clouds %)"))

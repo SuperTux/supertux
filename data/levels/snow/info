@@ -1,0 +1,4 @@
+;SuperTux-Level-Subset
+(supertux-level-subset
+  (title "Snow collection")
+  (description "Yet more antarctida levels"))
