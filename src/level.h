@@ -73,6 +73,10 @@ class Level
 
   std::vector<BadGuyData> badguy_data;
  public:
+  Level();
+  Level(const std::string& subset, int level);
+  Level(const std::string& filename);
+
   /** Will the Level structure with default values */
   void init_defaults();
   
@@ -88,6 +92,7 @@ class Level
   int  load(const std::string& filename);
 
   void load_gfx();
+  void free_gfx();
   
   void load_song();
   void free_song();
@@ -102,8 +107,6 @@ class Level
 
   /** Return the id of the tile at position x/y */
   unsigned int gettileid(float x, float y);
-
-  void free_gfx();
 
   void load_image(Surface** ptexture, std::string theme, const char * file, int use_alpha);
 };

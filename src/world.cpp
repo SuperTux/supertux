@@ -39,10 +39,9 @@ World::World(const std::string& filename)
   // world calls child functions
   current_ = this;
 
-  level = new Level;
+  level = new Level(filename);
   tux.init();
 
-  level->load(filename);
   set_defaults();
 
   get_level()->load_gfx();
@@ -57,10 +56,9 @@ World::World(const std::string& subset, int level_nr)
   // world calls child functions
   current_ = this;
 
-  level = new Level;
+  level = new Level(subset, level_nr);
   tux.init();
 
-  level->load(subset, level_nr);
   set_defaults();
 
   get_level()->load_gfx();
@@ -205,6 +203,8 @@ World::draw()
 void
 World::action(double frame_ratio)
 {
+  tux.action(frame_ratio);
+
   /* Handle bouncy distros: */
   for (unsigned int i = 0; i < bouncy_distros.size(); i++)
     bouncy_distros[i].action(frame_ratio);

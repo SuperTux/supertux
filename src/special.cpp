@@ -323,8 +323,7 @@ void load_special_gfx()
     img_growup = new Surface(datadir + "/images/shared/egg.png", USE_ALPHA);
     img_iceflower = new Surface(datadir + "/images/shared/iceflower.png",
             USE_ALPHA);
-    img_golden_herring = new Surface(datadir +
-            "/images/shared/star.png", USE_ALPHA);
+    img_golden_herring = new Surface(datadir + "/images/shared/star.png", USE_ALPHA);
     img_1up = new Surface(datadir + "/images/shared/1up.png",
             USE_ALPHA);
 

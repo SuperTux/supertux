@@ -190,6 +190,20 @@ void st_subset::free()
   levels = 0;
 }
 
+Level::Level()
+{
+}
+
+Level::Level(const std::string& subset, int level)
+{
+  load(subset, level);
+}
+
+Level::Level(const std::string& filename)
+{
+  load(filename);
+}
+
 void
 Level::init_defaults()
 {
@@ -658,7 +672,6 @@ Level::load_song()
   free(song_subtitle);
   free(song_path);
 }
-
 
 unsigned int 
 Level::gettileid(float x, float y)

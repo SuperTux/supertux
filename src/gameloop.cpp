@@ -10,6 +10,7 @@
   April 11, 2000 - March 15, 2004
 */
 
+#include <iostream>
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -345,10 +346,7 @@ GameSession::action(double frame_ratio)
   
   if (exit_status == NONE)
     {
-      Player* tux = world->get_tux();
-      
       // Update Tux and the World
-      tux->action(frame_ratio);
       world->action(frame_ratio);
     }
 }
@@ -410,12 +408,11 @@ GameSession::run()
 
   draw();
 
+  float overlap = 0.0f;
   while (exit_status == NONE)
     {
       /* Calculate the movement-factor */
       double frame_ratio = ((double)(update_time-last_update_time))/((double)FRAME_RATE);
-      if(frame_ratio > 1.5) /* Quick hack to correct the unprecise CPU clocks a little bit. */
-        frame_ratio = 1.5 + (frame_ratio - 1.5) * 0.85;
 
       if(!frame_timer.check())
         {
@@ -463,7 +460,15 @@ GameSession::run()
       // Handle actions:
       if(!game_pause && !show_menu)
         {
-          action(frame_ratio);
+          frame_ratio *= game_speed;
+          frame_ratio += overlap;
+          while (frame_ratio > 0)
+            {
+              action(1.0f);
+              frame_ratio -= 1.0f;
+            }
+          overlap = frame_ratio;
+
           if (exit_status != NONE)
             return exit_status;
         }

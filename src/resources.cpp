@@ -145,11 +145,11 @@ void loadshared()
 
 
   ducktux_right = new Surface(datadir +
-               "/images/shared/ducktux-right.png",
+               "/images/shared/tux-duck-right.png",
                USE_ALPHA);
 
   ducktux_left = new Surface(datadir +
-               "/images/shared/ducktux-left.png",
+               "/images/shared/tux-duck-left.png",
                USE_ALPHA);
 
   skidtux_right = new Surface(datadir +
