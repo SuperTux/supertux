@@ -105,6 +105,22 @@ World::~World()
   for (ParticleSystems::iterator i = particle_systems.begin();
           i != particle_systems.end(); ++i)
     delete *i;
+
+  for (std::vector<BouncyDistro*>::iterator i = bouncy_distros.begin();
+       i != bouncy_distros.end(); ++i)
+    delete *i;
+  
+  for (std::vector<BrokenBrick*>::iterator i = broken_bricks.begin();
+       i != broken_bricks.end(); ++i)
+    delete *i;
+  
+  for (std::vector<BouncyBrick*>::iterator i = bouncy_bricks.begin();
+       i != bouncy_bricks.end(); ++i)
+    delete *i;
+
+  for (std::vector<FloatingScore*>::iterator i = floating_scores.begin();
+       i != floating_scores.end(); ++i)
+    delete *i;
   
   delete level;
 }
