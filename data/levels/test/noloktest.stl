@@ -51,6 +51,7 @@
     (spawnpoint (name "main2") (x 100) (y 100))
     (secretarea (x 100) (y 100) (message "You found a secret area!"))
     (dispenser (x 700) (y 500) (badguy "snowball") (cycle 2))
+    (jumpy (x 500) (y 400))
     (tilemap
       (layer "background")
       (solid #f)

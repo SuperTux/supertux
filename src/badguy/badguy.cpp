@@ -10,6 +10,7 @@ static const float Y_OFFSCREEN_DISTANCE = 1200;
 BadGuy::BadGuy()
   : sprite(0), dir(LEFT), state(STATE_INIT)
 {
+  hitpoints = 1;
 }
 
 BadGuy::~BadGuy()
@@ -131,8 +132,17 @@ BadGuy::collision_player(Player& player, const CollisionHit& hit)
     return ABORT_MOVE;
   }
   if(hit.normal.y > .9) {
+    //TODO: fix inaccuracy (tux sometimes dies even if badguy was hit)
+    //      give badguys some invincible time (prevent them from being hit multiple times)
+    //      use hitpoints also when hit by fireball or invincible tux
+    hitpoints--;
+    std::cout << "Hitpoints: " << hitpoints << std::endl;
     if(collision_squished(player))
       return ABORT_MOVE;
+    else if (hitpoints <= 0) {
+      player.kill(Player::SHRINK);
+      return FORCE_MOVE;
+    }
   }
   player.kill(Player::SHRINK);
   return FORCE_MOVE;

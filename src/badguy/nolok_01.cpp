@@ -7,10 +7,11 @@
 #define WALK_TIME 2.5
 #define SHOOT_TIME 0.4
 #define JUMP_TIME 0.5
+#define INITIAL_HITPOINTS 3
 
 static const float WALKSPEED = 90;
 
-//TODO: Create sprite, give multiple hitpoints, limit max number of snowballs
+//TODO: Create sprite, limit max number of snowballs
 //      Stop actions when pause button is hit (probably a general problem of timers)
 Nolok_01::Nolok_01(const lisp::Lisp& reader)
 {
@@ -42,6 +43,7 @@ Nolok_01::write(lisp::Writer& writer)
 void
 Nolok_01::activate()
 {
+  hitpoints = INITIAL_HITPOINTS;
   physic.set_velocity_x(dir == LEFT ? -WALKSPEED : WALKSPEED);
   sprite->set_action(dir == LEFT ? "left" : "right");
   action = WALKING;
@@ -86,10 +88,15 @@ Nolok_01::active_action(float elapsed_time)
 bool
 Nolok_01::collision_squished(Player& player)
 {
-  sprite->set_action("dead"); 
-  kill_squished(player);
-  Sector::current()->add_object(new Door((int)get_pos().x+32, 512, "sector1", "main2"));
-  return true;
+  bool result = false;
+  player.bounce(*this);
+  if (hitpoints <= 0) {
+    sprite->set_action("dead"); 
+    kill_squished(player);
+    Sector::current()->add_object(new Door((int)get_pos().x+32, 512, "sector1", "main2"));
+    result = true;
+  }
+  return result;
 }
 
 HitResponse
@@ -106,4 +113,4 @@ Nolok_01::collision_solid(GameObject& , const CollisionHit& hit)
   return CONTINUE;
 }
 
-IMPLEMENT_FACTORY(Nolok_01, "nolok01")
+IMPLEMENT_FACTORY(Nolok_01, "nolok_01")
