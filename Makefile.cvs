@@ -170,7 +170,7 @@ obj/leveleditor.o:	src/leveleditor.c
 	$(CC) $(CFLAGS) src/leveleditor.c -c -o obj/leveleditor.o
 
 obj/lispreader.o:	src/lispreader.c
-$(CC) $(CFLAGS) src/lispreader.c -c -o obj/lispreader.o
+	$(CC) $(CFLAGS) src/lispreader.c -c -o obj/lispreader.o
 
 obj/globals.o:	src/globals.c
 	$(CC) $(CFLAGS) src/globals.c -c -o obj/globals.o
