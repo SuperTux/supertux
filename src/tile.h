@@ -28,6 +28,7 @@
 #include "globals.h"
 #include "lispreader.h"
 #include "setup.h"
+#include "vector.h"
 
 /**
 Tile Class
@@ -86,6 +87,11 @@ public:
   /** Draw a tile on the screen: */
   static void draw(float x, float y, unsigned int c, Uint8 alpha = 255);
   static void draw_stretched(float x, float y, int w, int h, unsigned int c, Uint8 alpha = 255);
+
+  static void draw(const Vector& pos, unsigned int c, Uint8 alpha = 255)
+  {
+    draw(pos.x, pos.y, c, alpha);
+  }
 };
 
 struct TileGroup

@@ -74,6 +74,14 @@ sprite_manager.h \
 music_manager.cpp \
 music_manager.h \
 musicref.cpp \
-musicref.h
+musicref.h \
+viewport.cpp \
+viewport.h \
+game_object.cpp \
+game_object.h \
+display_manager.h \
+display_manager.cpp \
+background.h \
+background.cpp
 
 # EOF #

@@ -30,6 +30,7 @@
 #include "badguy.h"
 #include "particlesystem.h"
 #include "gameobjs.h"
+#include "display_manager.h"
 
 class Level;
 
@@ -54,15 +55,12 @@ private:
   static World* current_;
 public:
   BadGuys bad_guys;
-  std::vector<BouncyDistro*> bouncy_distros;
-  std::vector<BrokenBrick*>  broken_bricks;
-  std::vector<BouncyBrick*>  bouncy_bricks;
-  std::vector<FloatingScore*> floating_scores;
 
   std::vector<Upgrade> upgrades;
   std::vector<Bullet> bullets;
-  typedef std::vector<ParticleSystem*> ParticleSystems;
-  ParticleSystems particle_systems;
+  std::vector<_GameObject*> gameobjects;
+
+  DisplayManager displaymanager;
 
 public:
   static World* current() { return current_; }
@@ -95,11 +93,12 @@ public:
   void activate_bad_guys();
   void activate_objects();
 
-  void add_score(float x, float y, int s);
-  void add_bouncy_distro(float x, float y);
-  void add_broken_brick(Tile* tile, float x, float y);
-  void add_broken_brick_piece(Tile* tile, float x, float y, float xm, float ym);
-  void add_bouncy_brick(float x, float y);
+  void add_score(const Vector& pos, int s);
+  void add_bouncy_distro(const Vector& pos);
+  void add_broken_brick(const Vector& pos, Tile* tile);
+  void add_broken_brick_piece(const Vector& pos,
+      const Vector& movement, Tile* tile);
+  void add_bouncy_brick(const Vector& pos);
 
   BadGuy* add_bad_guy(float x, float y, BadGuyKind kind, bool stay_on_platform = false);
   template <class T, class U> T* add_object(U data);

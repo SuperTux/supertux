@@ -22,6 +22,10 @@
 
 #include <vector>
 #include "texture.h"
+#include "drawable.h"
+#include "game_object.h"
+
+class DisplayManager;
 
 /**
  * This is the base class for particle systems. It is responsible for storing a
@@ -38,15 +42,13 @@
  * initialize particles in the constructor and move them in the simulate
  * function.
  */
-class ParticleSystem
+class ParticleSystem : public _GameObject, public Drawable
 {
 public:
-    ParticleSystem();
+    ParticleSystem(DisplayManager& displaymanager);
     virtual ~ParticleSystem();
     
-    void draw(float scrollx, float scrolly, int layer);
-
-    virtual void simulate(float elapsed_time) = 0;
+    virtual void draw(ViewPort& view, int layer);
 
 protected:
     class Particle
@@ -67,10 +69,13 @@ protected:
 class SnowParticleSystem : public ParticleSystem
 {
 public:
-    SnowParticleSystem();
+    SnowParticleSystem(DisplayManager& displaymanager);
     virtual ~SnowParticleSystem();
 
-    virtual void simulate(float elapsed_time);
+    virtual void action(float elapsed_time);
+
+    std::string type() const
+    { return "SnowParticleSystem"; }
     
 private:
     class SnowParticle : public Particle
@@ -85,10 +90,13 @@ private:
 class CloudParticleSystem : public ParticleSystem
 {
 public:
-    CloudParticleSystem();
+    CloudParticleSystem(DisplayManager& displaymanager);
     virtual ~CloudParticleSystem();
 
-    virtual void simulate(float elapsed_time);
+    virtual void action(float elapsed_time);
+
+    std::string type() const
+    { return "SnowParticleSystem"; }    
     
 private:
     class CloudParticle : public Particle

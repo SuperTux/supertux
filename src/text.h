@@ -23,6 +23,7 @@
 
 #include <string>
 #include "texture.h"
+#include "vector.h"
 
 void display_text_file(const std::string& file, const std::string& surface, float scroll_speed);
 void display_text_file(const std::string& file, Surface* surface, float scroll_speed);
@@ -64,6 +65,13 @@ class Text
   void draw_align(const char* text, int x, int y, TextHAlign halign, TextVAlign valign, int shadowsize = 1, int update = NO_UPDATE);
   void erasetext(const char * text, int x, int y, Surface* surf, int update, int shadowsize);
   void erasecenteredtext(const char * text, int y, Surface* surf, int update, int shadowsize);
+
+  /// conveniance function
+  void draw(const char* text, const Vector& pos, int shadowsize = 1, int update
+      = NO_UPDATE)
+  {
+    draw(text, int(pos.x), int(pos.y), shadowsize, update);
+  }
 };
 
 #endif /*SUPERTUX_TEXT_H*/

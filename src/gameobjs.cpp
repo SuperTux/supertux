@@ -27,73 +27,51 @@
 #include "sprite_manager.h"
 #include "resources.h"
 #include "level.h"
+#include "display_manager.h"
 
-void
-BouncyDistro::init(float x, float y)
+BouncyDistro::BouncyDistro(DisplayManager& displaymanager, const Vector& pos)
+  : position(pos)
 {
-  base.x = x;
-  base.y = y;
-  base.ym = -2;
+  ym = -2;
+  displaymanager.add_drawable(this, LAYER_OBJECTS);
 }
 
 void
-BouncyDistro::action(double frame_ratio)
+BouncyDistro::action(float elapsed_time)
 {
-  base.y = base.y + base.ym * frame_ratio;
+  position.y += ym * elapsed_time;
 
-  base.ym += 0.1 * frame_ratio;
-
-  if (base.ym >= 0)
-    {
-      std::vector<BouncyDistro*>::iterator i
-        = std::find(World::current()->bouncy_distros.begin(), 
-                    World::current()->bouncy_distros.end(), 
-                    this);
-      if (i != World::current()->bouncy_distros.end())
-        World::current()->bouncy_distros.erase(i);
-    }
+  ym += 0.1 * elapsed_time; // not framerate independent... but who really cares
+  if(ym >= 0)
+    remove_me();
 }
 
 void
-BouncyDistro::draw()
+BouncyDistro::draw(ViewPort& viewport, int )
 {
-  img_distro[0]->draw(base.x - scroll_x,
-                      base.y - scroll_y);
+  img_distro[0]->draw(viewport.world2screen(position));
 }
 
 
-void
-BrokenBrick::init(Tile* tile_, float x, float y, float xm, float ym)
+BrokenBrick::BrokenBrick(DisplayManager& displaymanager, Tile* ntile,
+    const Vector& pos, const Vector& nmovement)
+  : tile(ntile), position(pos), movement(nmovement)
 {
-  tile    = tile_;
-  base.x  = x;
-  base.y  = y;
-  base.xm = xm;
-  base.ym = ym;
-
-  timer.init(true);
+  displaymanager.add_drawable(this, LAYER_OBJECTS);
   timer.start(200);
 }
 
 void
-BrokenBrick::action(double frame_ratio)
+BrokenBrick::action(float elapsed_time)
 {
-  base.x = base.x + base.xm * frame_ratio;
-  base.y = base.y + base.ym * frame_ratio;
+  position += movement * elapsed_time;
 
   if (!timer.check())
-    {
-      std::vector<BrokenBrick*>::iterator i
-        = std::find(World::current()->broken_bricks.begin(), 
-                    World::current()->broken_bricks.end(), 
-                    this);
-      if (i != World::current()->broken_bricks.end())
-        World::current()->broken_bricks.erase(i);
-    }
+    remove_me();
 }
 
 void
-BrokenBrick::draw()
+BrokenBrick::draw(ViewPort& viewport, int )
 {
   SDL_Rect src, dest;
   src.x = rand() % 16;
@@ -101,8 +79,8 @@ BrokenBrick::draw()
   src.w = 16;
   src.h = 16;
 
-  dest.x = (int)(base.x - scroll_x);
-  dest.y = (int)(base.y  - scroll_y);
+  dest.x = (int)(position.x - viewport.get_translation().x);
+  dest.y = (int)(position.y - viewport.get_translation().y);
   dest.w = 16;
   dest.h = 16;
   
@@ -110,107 +88,56 @@ BrokenBrick::draw()
     tile->images[0]->draw_part(src.x,src.y,dest.x,dest.y,dest.w,dest.h);
 }
 
-void
-BouncyBrick::init(float x, float y)
+BouncyBrick::BouncyBrick(DisplayManager& displaymanager, const Vector& pos)
+  : position(pos), offset(0), offset_m(-BOUNCY_BRICK_SPEED)
 {
-  base.x   = x;
-  base.y   = y;
-  offset   = 0;
-  offset_m = -BOUNCY_BRICK_SPEED;
-  shape    = World::current()->get_level()->gettileid(x, y);
+  displaymanager.add_drawable(this, LAYER_OBJECTS);
+  shape    = World::current()->get_level()->gettileid(pos.x, pos.y);
 }
 
 void
-BouncyBrick::action(double frame_ratio)
+BouncyBrick::action(float elapsed_time)
 {
-  offset = (offset + offset_m * frame_ratio);
+  offset += offset_m * elapsed_time;
 
   /* Go back down? */
   if (offset < -BOUNCY_BRICK_MAX_OFFSET)
     offset_m = BOUNCY_BRICK_SPEED;
 
-
   /* Stop bouncing? */
   if (offset >= 0)
-    {
-      std::vector<BouncyBrick*>::iterator i
-        = std::find(World::current()->bouncy_bricks.begin(), 
-                    World::current()->bouncy_bricks.end(), 
-                    this);
-      if (i != World::current()->bouncy_bricks.end())
-        World::current()->bouncy_bricks.erase(i);
-    }
+    remove_me();
 }
 
 void
-BouncyBrick::draw()
+BouncyBrick::draw(ViewPort& viewport, int)
 {
-  SDL_Rect dest;
-  
-  if (base.x >= scroll_x - 32 &&
-      base.x <= scroll_x + screen->w)
-    {
-      dest.x = (int)(base.x - scroll_x);
-      dest.y = (int)(base.y - scroll_y);
-      dest.w = 32;
-      dest.h = 32;
-
-      Level* plevel = World::current()->get_level();
-
-      // FIXME: overdrawing hack to clean the tile from the screen to
-      // paint it later at on offseted position
-      if(plevel->img_bkgd)
-        {
-          fillrect(base.x - scroll_x, base.y - scroll_y,
-                   32,32, 
-                   plevel->bkgd_top.red, plevel->bkgd_top.green, plevel->bkgd_top.blue, 0);
-// FIXME: doesn't respect the gradient, futhermore is this necessary at all??
-        }
-      else
-        {
-          int s = ((int)scroll_x / 2)%640;
-          plevel->img_bkgd->draw_part(dest.x + s, dest.y, 
-                                      dest.x, dest.y,dest.w,dest.h);
-        }
-
-      Tile::draw(base.x - scroll_x,
-                 base.y - scroll_y + offset,
-                 shape);
-    }
+  Tile::draw(viewport.world2screen(position + Vector(0, offset)), shape);
 }
 
-void
-FloatingScore::init(float x, float y, int s)
+FloatingScore::FloatingScore(DisplayManager& displaymanager, 
+    const Vector& pos, int score)
+  : position(pos)
 {
-  base.x = x;
-  base.y = y - 16;
-  timer.init(true);
+  displaymanager.add_drawable(this, LAYER_OBJECTS+1);
   timer.start(1000);
-  value = s;
+  snprintf(str, 10, "%d", score);
+  position.x += - strlen(str) * 8;
 }
 
 void
-FloatingScore::action(double frame_ratio)
+FloatingScore::action(float elapsed_time)
 {
-  base.y = base.y - 2 * frame_ratio;
+  position.y -= 2 * elapsed_time;
 
   if(!timer.check())
-    {
-      std::vector<FloatingScore*>::iterator i
-        = std::find(World::current()->floating_scores.begin(), 
-                    World::current()->floating_scores.end(), 
-                    this);
-      if (i != World::current()->floating_scores.end())
-        World::current()->floating_scores.erase(i);
-    }
+    remove_me();
 }
 
 void
-FloatingScore::draw()
+FloatingScore::draw(ViewPort& viewport, int )
 {
-  char str[10];
-  sprintf(str, "%d", value);
-  gold_text->draw(str, (int)base.x + 16 - strlen(str) * 8, (int)base.y, 1);
+  gold_text->draw(str, viewport.world2screen(position));
 }
 
 /* Trampoline */
@@ -364,6 +291,7 @@ ObjectManager::~ObjectManager()
 
 void ObjectManager::load_badguys(std::string filename)
 {
+  (void) filename;
 /*
   lisp_object_t* root_obj = lisp_read_from_file(filename);
 

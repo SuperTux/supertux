@@ -864,8 +864,8 @@ BadGuy::squish_me(Player* player)
 {
   make_player_jump(player);
     
-  World::current()->add_score(base.x,
-                              base.y, 50 * player_status.score_multiplier);
+  World::current()->add_score(Vector(base.x, base.y),
+                              50 * player_status.score_multiplier);
   play_sound(sounds[SND_SQUISH], SOUND_CENTER_SPEAKER);
   player_status.score_multiplier++;
 
@@ -884,7 +884,8 @@ BadGuy::squish(Player* player)
     World::current()->add_bad_guy(base.x, base.y, BAD_BOMB);
     
     make_player_jump(player);
-    World::current()->add_score(base.x, base.y, 50 * player_status.score_multiplier);
+    World::current()->add_score(Vector(base.x, base.y),
+                                50 * player_status.score_multiplier);
     play_sound(sounds[SND_SQUISH], SOUND_CENTER_SPEAKER);
     player_status.score_multiplier++;
     remove_me();
@@ -936,7 +937,8 @@ BadGuy::squish(Player* player)
       
     make_player_jump(player);
 	      
-    World::current()->add_score(base.x, base.y, 25 * player_status.score_multiplier);
+    World::current()->add_score(Vector(base.x, base.y),
+                                25 * player_status.score_multiplier);
     player_status.score_multiplier++;
      
     // simply remove the fish...
@@ -977,8 +979,8 @@ BadGuy::kill_me(int score)
 
   /* Gain some points: */
   if (score != 0)
-    World::current()->add_score(base.x, base.y,
-                    score * player_status.score_multiplier);
+    World::current()->add_score(Vector(base.x, base.y),
+                                score * player_status.score_multiplier);
 
   /* Play death sound: */
   play_sound(sounds[SND_FALL], SOUND_CENTER_SPEAKER);

@@ -28,6 +28,8 @@
 #include "scene.h"
 #include "physic.h"
 #include "collision.h"
+#include "game_object.h"
+#include "drawable.h"
 
 enum ObjectType { OBJ_NONE, OBJ_BADGUY, OBJ_TRAMPOLINE };
 
@@ -52,14 +54,18 @@ struct ObjectData
 #define NO_BOUNCE 0
 #define BOUNCE 1
 
-class BouncyDistro : public GameObject
+class BouncyDistro : public _GameObject, public Drawable
 {
- public:
-  
-  void init(float x, float y);
-  void action(double frame_ratio);
-  void draw(); 
-  std::string type() { return "BouncyDistro"; };
+public:
+  BouncyDistro(DisplayManager& displaymanager, const Vector& pos);
+  virtual void action(float elapsed_time);
+  virtual void draw(ViewPort& viewport, int layer);
+  virtual std::string type() const
+  { return "BouncyDistro"; };
+
+private:
+  Vector position;
+  float ym;
 };
 
 extern Surface* img_distro[4];
@@ -69,41 +75,56 @@ extern Surface* img_distro[4];
 
 class Tile;
 
-class BrokenBrick : public GameObject
+class BrokenBrick : public _GameObject, public Drawable
 {
- public:
+public:
+  BrokenBrick(DisplayManager& displaymanager, Tile* tile,
+      const Vector& pos, const Vector& movement);
+
+  virtual void action(float elapsed_time);
+  virtual void draw(ViewPort& viewport, int layer);
+
+  virtual std::string type() const
+  { return "BrokenBrick"; };
+
+private:
   Timer timer;
   Tile* tile;
-
-  void init(Tile* tile, float x, float y, float xm, float ym);
-  void action(double frame_ratio);
-  void draw();
-  std::string type() { return "BrokenBrick"; };
+  Vector position;
+  Vector movement;
 };
 
-class BouncyBrick : public GameObject
+class BouncyBrick : public _GameObject, public Drawable
 {
- public:
-  float offset;
-  float offset_m;
-  int shape;
-
-  void init(float x, float y);
-  void action(double frame_ratio);
-  void draw();
-  std::string type() { return "BouncyBrick"; };
-};
-
-class FloatingScore : public GameObject
-{
- public:
-  int value;
-  Timer timer;
+public:
+  BouncyBrick(DisplayManager& displaymanager, const Vector& pos);
+  virtual void action(float elapsed_time);
+  virtual void draw(ViewPort& viewport, int layer);
   
-  void init(float x, float y, int s);
-  void action(double frame_ratio);
-  void draw();
-  std::string type() { return "FloatingScore"; };
+  virtual std::string type() const
+  { return "BouncyBrick"; };
+
+private:
+  Vector position;
+  float offset;   
+  float offset_m;
+  int shape;      
+};
+
+class FloatingScore : public _GameObject, public Drawable
+{
+public:
+  FloatingScore(DisplayManager& displaymanager, const Vector& pos, int s);
+  
+  virtual void action(float elapsed_time);
+  virtual void draw(ViewPort& viewport, int layer);
+  virtual std::string type() const
+  { return "FloatingScore"; };
+
+private:
+  Vector position;
+  char str[10];
+  Timer timer;  
 };
 
 

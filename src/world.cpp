@@ -33,6 +33,9 @@
 #include "tile.h"
 #include "resources.h"
 #include "gameobjs.h"
+#include "viewport.h"
+#include "display_manager.h"
+#include "background.h"
 
 Surface* img_distro[4];
 
@@ -51,8 +54,16 @@ World::World(const std::string& filename)
 
   get_level()->load_gfx();
   activate_bad_guys();
-  activate_objects();
+  // add background
   activate_particle_systems();
+  Background* bg = new Background(displaymanager);
+  if(level->img_bkgd) {
+    bg->set_image(level->img_bkgd, level->bkgd_speed);
+  } else {
+    bg->set_gradient(level->bkgd_top, level->bkgd_bottom);
+  }
+  gameobjects.push_back(bg);
+  activate_objects();
   get_level()->load_song();
 
   apply_bonuses();
@@ -75,6 +86,13 @@ World::World(const std::string& subset, int level_nr)
   activate_bad_guys();
   activate_objects();
   activate_particle_systems();
+  Background* bg = new Background(displaymanager);
+  if(level->img_bkgd) {
+    bg->set_image(level->img_bkgd, level->bkgd_speed);
+  } else {
+    bg->set_gradient(level->bkgd_top, level->bkgd_bottom);
+  }
+  gameobjects.push_back(bg);
   get_level()->load_song();
 
   apply_bonuses();
@@ -112,26 +130,14 @@ World::~World()
   for (Trampolines::iterator i = trampolines.begin(); i != trampolines.end(); ++i)
     delete *i;
 
-  for (ParticleSystems::iterator i = particle_systems.begin();
-          i != particle_systems.end(); ++i)
+  for (std::vector<_GameObject*>::iterator i = gameobjects.begin();
+          i != gameobjects.end(); ++i) {
+    Drawable* drawable = dynamic_cast<Drawable*> (*i);
+    if(drawable)
+      displaymanager.remove_drawable(drawable);
     delete *i;
+  }
 
-  for (std::vector<BouncyDistro*>::iterator i = bouncy_distros.begin();
-       i != bouncy_distros.end(); ++i)
-    delete *i;
-  
-  for (std::vector<BrokenBrick*>::iterator i = broken_bricks.begin();
-       i != broken_bricks.end(); ++i)
-    delete *i;
-  
-  for (std::vector<BouncyBrick*>::iterator i = bouncy_bricks.begin();
-       i != bouncy_bricks.end(); ++i)
-    delete *i;
-
-  for (std::vector<FloatingScore*>::iterator i = floating_scores.begin();
-       i != floating_scores.end(); ++i)
-    delete *i;
-  
   delete level;
 }
 
@@ -177,11 +183,11 @@ World::activate_particle_systems()
 {
   if (level->particle_system == "clouds")
     {
-      particle_systems.push_back(new CloudParticleSystem);
+      gameobjects.push_back(new CloudParticleSystem(displaymanager));
     }
   else if (level->particle_system == "snow")
     {
-      particle_systems.push_back(new SnowParticleSystem);
+      gameobjects.push_back(new SnowParticleSystem(displaymanager));
     }
   else if (level->particle_system != "")
     {
@@ -195,18 +201,16 @@ World::draw()
   int y,x;
 
   /* Draw the real background */
+#if 0
   drawgradient(level->bkgd_top, level->bkgd_bottom);
   if(level->img_bkgd)
       level->draw_bg();
-
+#endif
     
   /* Draw particle systems (background) */
-  std::vector<ParticleSystem*>::iterator p;
-  for(p = particle_systems.begin(); p != particle_systems.end(); ++p)
-    {
-      (*p)->draw(scroll_x, 0, 0);
-    }
-
+  displaymanager.get_viewport().set_translation(Vector(scroll_x, scroll_y));
+  displaymanager.draw();
+  
   /* Draw background: */
   for (y = 0; y < VISIBLE_TILES_Y && y < level->height; ++y)
     {
@@ -227,10 +231,6 @@ World::draw()
         }
     }
 
-  /* (Bouncy bricks): */
-  for (unsigned int i = 0; i < bouncy_bricks.size(); ++i)
-    bouncy_bricks[i]->draw();
-
   for (BadGuys::iterator i = bad_guys.begin(); i != bad_guys.end(); ++i)
     (*i)->draw();
 
@@ -242,17 +242,8 @@ World::draw()
   for (unsigned int i = 0; i < bullets.size(); ++i)
     bullets[i].draw();
 
-  for (unsigned int i = 0; i < floating_scores.size(); ++i)
-    floating_scores[i]->draw();
-
   for (unsigned int i = 0; i < upgrades.size(); ++i)
     upgrades[i].draw();
-
-  for (unsigned int i = 0; i < bouncy_distros.size(); ++i)
-    bouncy_distros[i]->draw();
-
-  for (unsigned int i = 0; i < broken_bricks.size(); ++i)
-    broken_bricks[i]->draw();
 
   /* Draw foreground: */
   for (y = 0; y < VISIBLE_TILES_Y && y < level->height; ++y)
@@ -263,12 +254,6 @@ World::draw()
                      level->fg_tiles[(int)y + (int)(scroll_y / 32)][(int)x + (int)(scroll_x / 32)]);
         }
     }
-
-  /* Draw particle systems (foreground) */
-  for(p = particle_systems.begin(); p != particle_systems.end(); ++p)
-    {
-      (*p)->draw(scroll_x, 0, 1);
-    }
 }
 
 void
@@ -277,21 +262,6 @@ World::action(double frame_ratio)
   tux.action(frame_ratio);
   tux.check_bounds(level->back_scrolling, (bool)level->hor_autoscroll_speed);
   scrolling(frame_ratio);
-
-  /* Handle bouncy distros: */
-  for (unsigned int i = 0; i < bouncy_distros.size(); i++)
-    bouncy_distros[i]->action(frame_ratio);
-
-  /* Handle broken bricks: */
-  for (unsigned int i = 0; i < broken_bricks.size(); i++)
-    broken_bricks[i]->action(frame_ratio);
-
-  // Handle all kinds of game objects
-  for (unsigned int i = 0; i < bouncy_bricks.size(); i++)
-    bouncy_bricks[i]->action(frame_ratio);
-  
-  for (unsigned int i = 0; i < floating_scores.size(); i++)
-    floating_scores[i]->action(frame_ratio);
 
   for (unsigned int i = 0; i < bullets.size(); ++i)
     bullets[i].action(frame_ratio);
@@ -306,11 +276,9 @@ World::action(double frame_ratio)
      (*i)->action(frame_ratio);
 
   /* update particle systems */
-  std::vector<ParticleSystem*>::iterator p;
-  for(p = particle_systems.begin(); p != particle_systems.end(); ++p)
-    {
-      (*p)->simulate(frame_ratio);
-    }
+  for(std::vector<_GameObject*>::iterator i = gameobjects.begin();
+      i != gameobjects.end(); ++i)
+    (*i)->action(frame_ratio);
 
   /* Handle all possible collisions. */
   collision_handler();
@@ -321,6 +289,20 @@ World::action(double frame_ratio)
     if ((*i)->is_removable()) {
       delete *i;
       i =  bad_guys.erase(i);
+    } else {
+      ++i;
+    }
+  }
+
+  for(std::vector<_GameObject*>::iterator i = gameobjects.begin();
+      i != gameobjects.end(); /* nothing */) {
+    if((*i)->is_valid() == false) {
+      Drawable* drawable = dynamic_cast<Drawable*> (*i);
+      if(drawable)
+        displaymanager.remove_drawable(drawable);
+      
+      delete *i;
+      i = gameobjects.erase(i);
     } else {
       ++i;
     }
@@ -541,47 +523,40 @@ World::collision_handler()
 }
 
 void
-World::add_score(float x, float y, int s)
+World::add_score(const Vector& pos, int s)
 {
   player_status.score += s;
 
-  FloatingScore* new_floating_score = new FloatingScore();
-  new_floating_score->init(x-scroll_x, y-scroll_y, s);
-  floating_scores.push_back(new_floating_score);
+  gameobjects.push_back(new FloatingScore(displaymanager, pos, s));
 }
 
 void
-World::add_bouncy_distro(float x, float y)
+World::add_bouncy_distro(const Vector& pos)
 {
-  BouncyDistro* new_bouncy_distro = new BouncyDistro();
-  new_bouncy_distro->init(x, y);
-  bouncy_distros.push_back(new_bouncy_distro);
+  gameobjects.push_back(new BouncyDistro(displaymanager, pos));
 }
 
 void
-World::add_broken_brick(Tile* tile, float x, float y)
+World::add_broken_brick(const Vector& pos, Tile* tile)
 {
-  add_broken_brick_piece(tile, x, y, -1, -4);
-  add_broken_brick_piece(tile, x, y + 16, -1.5, -3);
+  add_broken_brick_piece(pos, Vector(-1, -4), tile);
+  add_broken_brick_piece(pos + Vector(0, 16), Vector(-1.5, -3), tile);
 
-  add_broken_brick_piece(tile, x + 16, y, 1, -4);
-  add_broken_brick_piece(tile, x + 16, y + 16, 1.5, -3);
+  add_broken_brick_piece(pos + Vector(16, 0), Vector(1, -4), tile);
+  add_broken_brick_piece(pos + Vector(16, 16), Vector(1.5, -3), tile);
 }
 
 void
-World::add_broken_brick_piece(Tile* tile, float x, float y, float xm, float ym)
+World::add_broken_brick_piece(const Vector& pos, const Vector& movement,
+    Tile* tile)
 {
-  BrokenBrick* new_broken_brick = new BrokenBrick();
-  new_broken_brick->init(tile, x, y, xm, ym);
-  broken_bricks.push_back(new_broken_brick);
+  gameobjects.push_back(new BrokenBrick(displaymanager, tile, pos, movement));
 }
 
 void
-World::add_bouncy_brick(float x, float y)
+World::add_bouncy_brick(const Vector& pos)
 {
-  BouncyBrick* new_bouncy_brick = new BouncyBrick();
-  new_bouncy_brick->init(x,y);
-  bouncy_bricks.push_back(new_bouncy_brick);
+  gameobjects.push_back(new BouncyBrick(displaymanager, pos));
 }
 
 BadGuy*
@@ -674,8 +649,8 @@ World::trybreakbrick(float x, float y, bool small)
       if (tile->data > 0)
         {
           /* Get a distro from it: */
-          add_bouncy_distro(((int)(x + 1) / 32) * 32,
-                                  (int)(y / 32) * 32);
+          add_bouncy_distro(
+              Vector(((int)(x + 1) / 32) * 32, (int)(y / 32) * 32));
 
           // TODO: don't handle this in a global way but per-tile...
           if (!counting_distros)
@@ -705,9 +680,9 @@ World::trybreakbrick(float x, float y, bool small)
           plevel->change(x, y, TM_IA, tile->next_tile);
           
           /* Replace it with broken bits: */
-          add_broken_brick(tile, 
+          add_broken_brick(Vector(
                                  ((int)(x + 1) / 32) * 32,
-                                 (int)(y / 32) * 32);
+                                 (int)(y / 32) * 32), tile);
           
           /* Get some score: */
           play_sound(sounds[SND_BRICK], SOUND_CENTER_SPEAKER);
@@ -739,7 +714,7 @@ World::tryemptybox(float x, float y, Direction col_side)
   switch(tile->data)
     {
     case 1: // Box with a distro!
-      add_bouncy_distro(posx, posy);
+      add_bouncy_distro(Vector(posx, posy));
       play_sound(sounds[SND_DISTRO], SOUND_CENTER_SPEAKER);
       player_status.score = player_status.score + SCORE_DISTRO;
       player_status.distros++;
@@ -788,8 +763,8 @@ World::trygrabdistro(float x, float y, int bounciness)
 
       if (bounciness == BOUNCE)
         {
-          add_bouncy_distro(((int)(x + 1) / 32) * 32,
-                                  (int)(y / 32) * 32);
+          add_bouncy_distro(Vector(((int)(x + 1) / 32) * 32,
+                                  (int)(y / 32) * 32));
         }
 
       player_status.score = player_status.score + SCORE_DISTRO;

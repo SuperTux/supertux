@@ -657,8 +657,8 @@ GameSession::run()
 /* Bounce a brick: */
 void bumpbrick(float x, float y)
 {
-  World::current()->add_bouncy_brick(((int)(x + 1) / 32) * 32,
-                         (int)(y / 32) * 32);
+  World::current()->add_bouncy_brick(Vector(((int)(x + 1) / 32) * 32,
+                         (int)(y / 32) * 32));
 
   play_sound(sounds[SND_BRICK], SOUND_CENTER_SPEAKER);
 }

@@ -25,11 +25,15 @@
 #include "world.h"
 #include "level.h"
 #include "scene.h"
+#include "viewport.h"
+#include "display_manager.h"
 
-ParticleSystem::ParticleSystem()
+ParticleSystem::ParticleSystem(DisplayManager& displaymanager)
 {
     virtual_width = screen->w;
     virtual_height = screen->h;
+
+    displaymanager.add_drawable(this, LAYER_BACKGROUND1);
 }
 
 ParticleSystem::~ParticleSystem()
@@ -40,13 +44,16 @@ ParticleSystem::~ParticleSystem()
     }
 }
 
-void ParticleSystem::draw(float scrollx, float scrolly, int layer)
+void ParticleSystem::draw(ViewPort& viewport, int layer)
 {
     std::vector<Particle*>::iterator i;
     for(i = particles.begin(); i != particles.end(); ++i) {
         Particle* particle = *i;
         if(particle->layer != layer)
             continue;
+
+        float scrollx = viewport.get_translation().x;
+        float scrolly = viewport.get_translation().y;
         
         // remap x,y coordinates onto screencoordinates
         float x = fmodf(particle->x - scrollx, virtual_width);
@@ -68,7 +75,8 @@ void ParticleSystem::draw(float scrollx, float scrolly, int layer)
     }
 }
 
-SnowParticleSystem::SnowParticleSystem()
+SnowParticleSystem::SnowParticleSystem(DisplayManager& displaymanager)
+  : ParticleSystem(displaymanager)
 {
     snowimages[0] = new Surface(datadir+"/images/shared/snow0.png", USE_ALPHA);
     snowimages[1] = new Surface(datadir+"/images/shared/snow1.png", USE_ALPHA);
@@ -82,7 +90,7 @@ SnowParticleSystem::SnowParticleSystem()
         SnowParticle* particle = new SnowParticle;
         particle->x = rand() % int(virtual_width);
         particle->y = rand() % screen->h;
-        particle->layer = i % 2;
+        particle->layer = LAYER_BACKGROUND1;
         int snowsize = rand() % 3;
         particle->texture = snowimages[snowsize];
         do {
@@ -100,7 +108,7 @@ SnowParticleSystem::~SnowParticleSystem()
     delete snowimages[i];
 }
 
-void SnowParticleSystem::simulate(float elapsed_time)
+void SnowParticleSystem::action(float elapsed_time)
 {
     std::vector<Particle*>::iterator i;
     for(i = particles.begin(); i != particles.end(); ++i) {
@@ -113,7 +121,8 @@ void SnowParticleSystem::simulate(float elapsed_time)
     }
 }
 
-CloudParticleSystem::CloudParticleSystem()
+CloudParticleSystem::CloudParticleSystem(DisplayManager& displaymanager)
+  : ParticleSystem(displaymanager)
 {
     cloudimage = new Surface(datadir + "/images/shared/cloud.png", USE_ALPHA);
 
@@ -124,7 +133,7 @@ CloudParticleSystem::CloudParticleSystem()
         CloudParticle* particle = new CloudParticle;
         particle->x = rand() % int(virtual_width);
         particle->y = rand() % int(virtual_height);
-        particle->layer = 0;
+        particle->layer = LAYER_BACKGROUND1;
         particle->texture = cloudimage;
         particle->speed = -float(250 + rand() % 200) / 1000.0;
 
@@ -137,7 +146,7 @@ CloudParticleSystem::~CloudParticleSystem()
   delete cloudimage;
 }
 
-void CloudParticleSystem::simulate(float elapsed_time)
+void CloudParticleSystem::action(float elapsed_time)
 {
     std::vector<Particle*>::iterator i;
     for(i = particles.begin(); i != particles.end(); ++i) {

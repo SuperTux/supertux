@@ -29,6 +29,7 @@
 
 #include <list>
 #include "screen.h"
+#include "vector.h"
 
 SDL_Surface* sdl_surface_from_sdl_surface(SDL_Surface* sdl_surf, int use_alpha);
 
@@ -92,6 +93,12 @@ public:
   void draw_part(float sx, float sy, float x, float y, float w, float h,  Uint8 alpha = 255, bool update = false);
   void draw_stretched(float x, float y, int w, int h, Uint8 alpha, bool update = false);
   void resize(int w_, int h_);
+
+  /// conveniance function
+  void draw(const Vector& pos, Uint8 alpha = 255, bool update = false)
+  {
+    draw(pos.x, pos.y, alpha, update);
+  }
 };
 
 /** Surface implementation, all implementation have to inherit from
