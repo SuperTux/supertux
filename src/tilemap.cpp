@@ -1,3 +1,5 @@
+#include <assert.h>
+
 #include "tilemap.h"
 #include "display_manager.h"
 #include "level.h"
