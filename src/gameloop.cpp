@@ -443,6 +443,11 @@ GameSession::process_events()
                           player_status.lives--;
                           last_keys.clear();
                           }
+                        if(compare_last(last_keys, "grease"))
+                          {
+                          tux.physic.set_velocity_x(tux.physic.get_velocity_x()*3);
+                          last_keys.clear();
+                          }
                         if(compare_last(last_keys, "invincible"))
                           {    // be invincle for the rest of the level
                           tux.invincible_timer.start(time_left.get_left());

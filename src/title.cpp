@@ -391,8 +391,8 @@ void title(void)
               if(event.key.keysym.sym == SDLK_DELETE)
                 {
                 int slot = menu->get_active_item_id();
-		std::stringstream stream;
-		stream << slot;
+                std::stringstream stream;
+                stream << slot;
                 std::string str = _("Are you sure you want to delete slot") + stream.str() + "?";
                 
                 if(confirm_dialog(bkg_title, str.c_str()))

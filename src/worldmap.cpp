@@ -309,11 +309,11 @@ Tux::action(float delta)
     {
       if (input_direction != D_NONE)
         { 
-          WorldMap::SpecialTile* special_tile = worldmap->at_special_tile();
+          WorldMap::Level* level = worldmap->at_level();
 
           // We got a new direction, so lets start walking when possible
           Vector next_tile;
-          if ((!special_tile || special_tile->solved || special_tile->level_name.empty())
+          if ((!level || level->solved)
               && worldmap->path_ok(input_direction, tile_pos, &next_tile))
             {
               tile_pos = next_tile;
@@ -353,8 +353,9 @@ Tux::action(float delta)
               }
             }
 
-          if (worldmap->at(tile_pos)->stop || (special_tile && 
-              !special_tile->passive_message))
+          if (worldmap->at(tile_pos)->stop ||
+             (special_tile && !special_tile->passive_message) ||
+              worldmap->at_level())
             {
               if(special_tile && !special_tile->map_message.empty() &&
                 !special_tile->passive_message)
@@ -453,7 +454,6 @@ Tile::draw(DrawingContext& context, Vector pos)
     size_t frame 
       = ((global_frame_counter*25) / anim_speed) % images.size();
 
-std::cerr << "frame: " << frame << std::endl;
     context.draw_surface(images[frame], pos, LAYER_TILES);
     }
   else if (images.size() == 1)
@@ -474,6 +474,8 @@ WorldMap::WorldMap()
   
   start_x = 4;
   start_y = 5;
+
+  tux = new Tux(this);
   
   leveldot_green = new Surface(datadir +  "/images/worldmap/leveldot_green.png", true);
   leveldot_red = new Surface(datadir +  "/images/worldmap/leveldot_red.png", true);
@@ -546,28 +548,18 @@ WorldMap::load_map()
                     {
                       SpecialTile special_tile;
                       LispReader reader(lisp_cdr(element));
-                      special_tile.solved = false;
                       
-                      special_tile.north = true;
-                      special_tile.east  = true;
-                      special_tile.south = true;
-                      special_tile.west  = true;
-
-                      reader.read_int("x", special_tile.x);
-                      reader.read_int("y", special_tile.y);
-                      reader.read_string("level", special_tile.level_name, false);
-
-                      special_tile.vertical_flip = false;
-                      reader.read_bool("vertical-flip", special_tile.vertical_flip);
+                      reader.read_float("x", special_tile.pos.x);
+                      reader.read_float("y", special_tile.pos.y);
 
                       special_tile.map_message.erase();
                       reader.read_string("map-message", special_tile.map_message);
                       special_tile.passive_message = false;
                       reader.read_bool("passive-message", special_tile.passive_message);
 
-                      special_tile.teleport_dest_x = special_tile.teleport_dest_y = -1;
-                      reader.read_int("teleport-to-x", special_tile.teleport_dest_x);
-                      reader.read_int("teleport-to-y", special_tile.teleport_dest_y);
+                      special_tile.teleport_dest = Vector(-1,-1);
+                      reader.read_float("teleport-to-x", special_tile.teleport_dest.x);
+                      reader.read_float("teleport-to-y", special_tile.teleport_dest.y);
 
                       special_tile.invisible = false;
                       reader.read_bool("invisible-tile", special_tile.invisible);
@@ -575,6 +567,7 @@ WorldMap::load_map()
                       special_tile.apply_action_north = special_tile.apply_action_south =
                           special_tile.apply_action_east = special_tile.apply_action_west =
                           true;
+
                       std::string apply_direction;
                       reader.read_string("apply-to-direction", apply_direction);
                       if(!apply_direction.empty())
@@ -592,46 +585,37 @@ WorldMap::load_map()
                           special_tile.apply_action_west = true;
                         }
 
-                      reader.read_string("extro-filename", special_tile.extro_filename);
-                      reader.read_string("next-world", special_tile.next_worldmap);
-                      special_tile.quit_worldmap = false;
-                      reader.read_bool("exit-game", special_tile.quit_worldmap);
-
-                      special_tile.auto_path = true;
-                      reader.read_bool("auto-path", special_tile.auto_path);
-
                       special_tiles.push_back(special_tile);
                     }
 
-                  /* Kept for backward compability */
                   else if (strcmp(lisp_symbol(lisp_car(element)), "level") == 0)
                     {
-                      SpecialTile special_tile;
+                      Level level;
                       LispReader reader(lisp_cdr(element));
-                      special_tile.solved = false;
+                      level.solved = false;
                       
-                      special_tile.north = true;
-                      special_tile.east  = true;
-                      special_tile.south = true;
-                      special_tile.west  = true;
+                      level.north = true;
+                      level.east  = true;
+                      level.south = true;
+                      level.west  = true;
 
-                      special_tile.invisible = false;
+                      reader.read_string("extro-filename", level.extro_filename);
+                      reader.read_string("next-worldmap", level.next_worldmap);
 
-                      special_tile.apply_action_north = special_tile.apply_action_south =
-                          special_tile.apply_action_east = special_tile.apply_action_west =
-                          true;
-                      special_tile.vertical_flip = false;
-                      special_tile.teleport_dest_x = special_tile.teleport_dest_y = -1;
+                      level.quit_worldmap = false;
+                      reader.read_bool("quit-worldmap", level.quit_worldmap);
 
-                      reader.read_string("extro-filename", special_tile.extro_filename);
-                      if(!special_tile.extro_filename.empty())
-                        special_tile.quit_worldmap = true;
-                      reader.read_string("name", special_tile.level_name, true);
-                      reader.read_int("x", special_tile.x);
-                      reader.read_int("y", special_tile.y);
+                      reader.read_string("name", level.name, true);
+                      reader.read_float("x", level.pos.x);
+                      reader.read_float("y", level.pos.y);
 
+                      level.auto_path = true;
+                      reader.read_bool("auto-path", level.auto_path);
 
-                      special_tiles.push_back(special_tile);
+                      level.vertical_flip = false;
+                      reader.read_bool("vertical-flip", level.vertical_flip);
+
+                      levels.push_back(level);
                     }
                   
                   cur = lisp_cdr(cur);      
@@ -647,31 +631,30 @@ WorldMap::load_map()
     }
 
     lisp_free(root_obj);
-    tux = new Tux(this);
 }
 
-void WorldMap::get_level_title(SpecialTile& special_tile)
+void WorldMap::get_level_title(Level& level)
 {
   /** get special_tile's title */
-  special_tile.title = "<no title>";
+  level.title = "<no title>";
 
-  LispReader* reader = LispReader::load(datadir + "/levels/" + special_tile.level_name, "supertux-level");
+  LispReader* reader = LispReader::load(datadir + "/levels/" + level.name, "supertux-level");
   if(!reader)
     {
     std::cerr << "Error: Could not open level file. Ignoring...\n";
     return;
     }
 
-  reader->read_string("name", special_tile.title, true);
+  reader->read_string("name", level.title, true);
   delete reader;
 }
 
 void WorldMap::calculate_total_stats()
 {
   total_stats.reset();
-  for(SpecialTiles::iterator i = special_tiles.begin(); i != special_tiles.end(); ++i)
+  for(Levels::iterator i = levels.begin(); i != levels.end(); ++i)
     {
-    if (!i->level_name.empty() && i->solved)
+    if (i->solved)
       {
       total_stats += i->statistics;
       }
@@ -860,41 +843,53 @@ WorldMap::update(float delta)
 
   if (enter_level && !tux->is_moving())
     {
-      bool level_finished = true;
+      /* Check special tile action */
       SpecialTile* special_tile = at_special_tile();
-      if (!special_tile)
+      if(special_tile)
         {
-        std::cout << "Nothing to enter at: "
+        if (special_tile->teleport_dest != Vector(-1,-1))
+          {
+          // TODO: an animation, camera scrolling or a fading would be a nice touch
+          SoundManager::get()->play_sound(IDToSound(SND_WARP));
+          tux->back_direction = D_NONE;
+          tux->set_tile_pos(special_tile->teleport_dest);
+          SDL_Delay(1000);
+          }
+        }
+
+      /* Check level action */
+      bool level_finished = true;
+      Level* level = at_level();
+      if (!level)
+        {
+        std::cout << "No level to enter at: "
           << tux->get_tile_pos().x << ", " << tux->get_tile_pos().y << std::endl;
         return;
         }
 
 
-      if(!special_tile->level_name.empty())
-        {
-          if (special_tile->x == tux->get_tile_pos().x && 
-              special_tile->y == tux->get_tile_pos().y)
+          if (level->pos == tux->get_tile_pos())
             {
               PlayerStatus old_player_status = player_status;
 
-              std::cout << "Enter the current level: " << special_tile->level_name << std::endl;
-              // do a shriking fade to the special_tile
-              shrink_fade(Vector((special_tile->x*32 + 16 + offset.x),(special_tile->y*32 + 16
+              std::cout << "Enter the current level: " << level->name << std::endl;
+              // do a shriking fade to the level
+              shrink_fade(Vector((level->pos.x*32 + 16 + offset.x),(level->pos.y*32 + 16
                       + offset.y)), 500);
-              GameSession session(datadir +  "/levels/" + special_tile->level_name,
-                                  ST_GL_LOAD_LEVEL_FILE, special_tile->vertical_flip,
-                                  &special_tile->statistics);
+              GameSession session(datadir +  "/levels/" + level->name,
+                                  ST_GL_LOAD_LEVEL_FILE, level->vertical_flip,
+                                  &level->statistics);
 
               switch (session.run())
                 {
                 case GameSession::ES_LEVEL_FINISHED:
                   {
                     level_finished = true;
-                    bool old_level_state = special_tile->solved;
-                    special_tile->solved = true;
+                    bool old_level_state = level->solved;
+                    level->solved = true;
 
                     // deal with statistics
-                    special_tile->statistics.merge(global_stats);
+                    level->statistics.merge(global_stats);
                     calculate_total_stats();
 
                     if (session.get_current_sector()->player->got_power !=
@@ -905,7 +900,7 @@ WorldMap::update(float delta)
                     else
                       player_status.bonus = PlayerStatus::NO_BONUS;
 
-                    if (old_level_state != special_tile->solved && special_tile->auto_path)
+                    if (old_level_state != level->solved && level->auto_path)
                       { // Try to detect the next direction to which we should walk
                         // FIXME: Mostly a hack
                         Direction dir = D_NONE;
@@ -934,7 +929,7 @@ WorldMap::update(float delta)
                   break;
                 case GameSession::ES_LEVEL_ABORT:
                   level_finished = false;
-                  /* In case the player's abort the special_tile, keep it using the old
+                  /* In case the player's abort the level, keep it using the old
                       status. But the minimum lives and no bonus. */
                   player_status.distros = old_player_status.distros;
                   player_status.lives = std::min(old_player_status.lives, player_status.lives);
@@ -983,30 +978,22 @@ WorldMap::update(float delta)
               if (!savegame_file.empty())
                 savegame(savegame_file);
             }
-        }
       /* The porpose of the next checking is that if the player lost
-         the special_tile (in case there is one), don't show anything */
+         the level (in case there is one), don't show anything */
       if(level_finished)
         {
-        if (!special_tile->extro_filename.empty())
+        if (!level->extro_filename.empty())
           {
           // Display a text file
-          display_text_file(special_tile->extro_filename, SCROLL_SPEED_MESSAGE, white_big_text , white_text, white_small_text, blue_text );
+          display_text_file(level->extro_filename, SCROLL_SPEED_MESSAGE, white_big_text , white_text, white_small_text, blue_text );
           }
-        if (special_tile->teleport_dest_x != -1 && special_tile->teleport_dest_y != -1)
-          {
-          // TODO: an animation, camera scrolling or a fading would be a nice touch
-          SoundManager::get()->play_sound(IDToSound(SND_WARP));
-          tux->back_direction = D_NONE;
-          tux->set_tile_pos(Vector(special_tile->teleport_dest_x, special_tile->teleport_dest_y));
-          SDL_Delay(1000);
-          }
-        if (!special_tile->next_worldmap.empty())
+
+        if (!level->next_worldmap.empty())
           {
           // Load given worldmap
-          loadmap(special_tile->next_worldmap);
+          loadmap(level->next_worldmap);
           }
-        if (special_tile->quit_worldmap)
+        if (level->quit_worldmap)
           quit = true;
         }
     }
@@ -1052,13 +1039,24 @@ WorldMap::at(Vector p)
   return tile_manager->get(tilemap[width * y + x]);
 }
 
+WorldMap::Level*
+WorldMap::at_level()
+{
+  for(Levels::iterator i = levels.begin(); i != levels.end(); ++i)
+    {
+      if (i->pos == tux->get_tile_pos())
+        return &*i; 
+    }
+
+  return 0;
+}
+
 WorldMap::SpecialTile*
 WorldMap::at_special_tile()
 {
   for(SpecialTiles::iterator i = special_tiles.begin(); i != special_tiles.end(); ++i)
     {
-      if (i->x == tux->get_tile_pos().x && 
-          i->y == tux->get_tile_pos().y)
+      if (i->pos == tux->get_tile_pos())
         return &*i; 
     }
 
@@ -1075,30 +1073,29 @@ WorldMap::draw(DrawingContext& context, const Vector& offset)
         Tile* tile = at(Vector(x, y));
         tile->draw(context, Vector(x*32 + offset.x, y*32 + offset.y));
       }
-  
+
+  for(Levels::iterator i = levels.begin(); i != levels.end(); ++i)
+    {
+      if (i->solved)
+        context.draw_surface(leveldot_green,
+            Vector(i->pos.x*32 + offset.x, i->pos.y*32 + offset.y), LAYER_TILES+1);
+      else
+        context.draw_surface(leveldot_red,
+            Vector(i->pos.x*32 + offset.x, i->pos.y*32 + offset.y), LAYER_TILES+1);
+    }
+
   for(SpecialTiles::iterator i = special_tiles.begin(); i != special_tiles.end(); ++i)
     {
       if(i->invisible)
         continue;
-      if(i->level_name.empty())
-        {
-        if (i->teleport_dest_x != -1 && i->teleport_dest_y != -1)
-          context.draw_surface(teleporterdot,
-              Vector(i->x*32 + offset.x, i->y*32 + offset.y), LAYER_TILES+1);
 
-        else if (!i->map_message.empty() && !i->passive_message)
-          context.draw_surface(messagedot,
-              Vector(i->x*32 + offset.x, i->y*32 + offset.y), LAYER_TILES+1);
+      if (i->teleport_dest != Vector(-1, -1))
+        context.draw_surface(teleporterdot,
+                Vector(i->pos.x*32 + offset.x, i->pos.y*32 + offset.y), LAYER_TILES+1);
 
-        continue;
-        }
-
-      if (i->solved)
-        context.draw_surface(leveldot_green,
-            Vector(i->x*32 + offset.x, i->y*32 + offset.y), LAYER_TILES+1);
-      else
-        context.draw_surface(leveldot_red,
-            Vector(i->x*32 + offset.x, i->y*32 + offset.y), LAYER_TILES+1);
+      else if (!i->map_message.empty() && !i->passive_message)
+        context.draw_surface(messagedot,
+                Vector(i->pos.x*32 + offset.x, i->pos.y*32 + offset.y), LAYER_TILES+1);
     }
 
   tux->draw(context, offset);
@@ -1142,13 +1139,10 @@ WorldMap::draw_status(DrawingContext& context)
 
   if (!tux->is_moving())
     {
-      for(SpecialTiles::iterator i = special_tiles.begin(); i != special_tiles.end(); ++i)
+      for(Levels::iterator i = levels.begin(); i != levels.end(); ++i)
         {
-          if (i->x == tux->get_tile_pos().x && 
-              i->y == tux->get_tile_pos().y)
+          if (i->pos == tux->get_tile_pos())
             {
-              if(!i->level_name.empty())
-                {
                 if(i->title == "")
                   get_level_title(*i);
 
@@ -1158,8 +1152,13 @@ WorldMap::draw_status(DrawingContext& context)
 
                 i->statistics.draw_worldmap_info(context);
                 }
-
-              /* Display an in-map message in the map, if any as been selected */
+              break;
+        }
+      for(SpecialTiles::iterator i = special_tiles.begin(); i != special_tiles.end(); ++i)
+        {
+          if (i->pos == tux->get_tile_pos())
+            {
+               /* Display an in-map message in the map, if any as been selected */
               if(!i->map_message.empty() && !i->passive_message)
                 context.draw_text(gold_text, i->map_message, 
                     Vector(screen->w/2, screen->h - white_text->get_height() - 60),
@@ -1243,10 +1242,9 @@ WorldMap::savegame(const std::string& filename)
    LispWriter* writer = new LispWriter(file);
 
   int nb_solved_levels = 0, total_levels = 0;
-  for(SpecialTiles::iterator i = special_tiles.begin(); i != special_tiles.end(); ++i)
+  for(Levels::iterator i = levels.begin(); i != levels.end(); ++i)
     {
-      if(!i->level_name.empty())
-        ++total_levels;
+      ++total_levels;
       if (i->solved)
         ++nb_solved_levels;
     }
@@ -1275,13 +1273,13 @@ WorldMap::savegame(const std::string& filename)
 
   writer->start_list("levels");
 
-  for(SpecialTiles::iterator i = special_tiles.begin(); i != special_tiles.end(); ++i)
+  for(Levels::iterator i = levels.begin(); i != levels.end(); ++i)
     {
-      if (i->solved && !i->level_name.empty())
+      if (i->solved)
         {
         writer->start_list("level");
 
-        writer->write_string("name", i->level_name);
+        writer->write_string("name", i->name);
         writer->write_bool("solved", true);
         i->statistics.write(*writer);
 
@@ -1328,10 +1326,10 @@ WorldMap::loadgame(const std::string& filename)
   cur = lisp_cdr(cur);
   LispReader reader(cur);
 
-  /* Get the Map filename and then load it before setting special_tile settings */
+  /* Get the Map filename and then load it before setting level settings */
   std::string cur_map_filename = map_filename;
   reader.read_string("map", map_filename);
-  if(cur_map_filename != map_filename)
+//  if(cur_map_filename != map_filename)
     load_map(); 
 
   reader.read_int("lives", player_status.lives);
@@ -1375,9 +1373,9 @@ WorldMap::loadgame(const std::string& filename)
               level_reader.read_string("name", name);
               level_reader.read_bool("solved", solved);
 
-              for(SpecialTiles::iterator i = special_tiles.begin(); i != special_tiles.end(); ++i)
+              for(Levels::iterator i = levels.begin(); i != levels.end(); ++i)
                 {
-                  if (name == i->level_name)
+                  if (name == i->name)
                     {
                     i->solved = solved;
                     i->statistics.parse(level_reader);

@@ -158,9 +158,32 @@ private:
 public:
   struct SpecialTile
   {
-    int x;
-    int y;
-    std::string level_name;
+    Vector pos;
+
+    /** Optional flags: */
+
+    /** Position to swap to player */
+    Vector teleport_dest;
+
+    /** Message to show in the Map */
+    std::string map_message;
+    bool passive_message;
+
+    /** Hide special tile */
+    bool invisible;
+
+    /** Only applies actions (ie. passive messages) when going to that direction */
+    bool apply_action_north;
+    bool apply_action_east;
+    bool apply_action_south;
+    bool apply_action_west;
+  };
+
+  struct Level
+  {
+    Vector pos;
+
+    std::string name;
     std::string title;
     bool solved;
 
@@ -176,16 +199,6 @@ public:
         successfully completed */
     std::string extro_filename;
 
-    /** Position to swap to player */
-    int teleport_dest_x, teleport_dest_y;
-
-    /** Message to show in the Map */
-    std::string map_message;
-    bool passive_message;
-
-    /** Hide special tile */
-    bool invisible;
-
     /** Go to this world */
     std::string next_worldmap;
 
@@ -200,12 +213,6 @@ public:
     bool east;
     bool south;
     bool west;
-
-    /** Only applies actions (ie. passive messages) when going to that direction */
-    bool apply_action_north;
-    bool apply_action_east;
-    bool apply_action_south;
-    bool apply_action_west;
   };
 
   /** Variables to deal with the passive map messages */
@@ -218,6 +225,9 @@ private:
   typedef std::vector<SpecialTile> SpecialTiles;
   SpecialTiles special_tiles;
 
+  typedef std::vector<Level> Levels;
+  Levels levels;
+
   MusicRef song;
 
   bool enter_level;
@@ -225,7 +235,7 @@ private:
   Vector offset;
   std::string savegame_file;
 
-  void get_level_title(SpecialTile& special_tile);
+  void get_level_title(Level& level);
 
   void draw_status(DrawingContext& context);
 
@@ -255,6 +265,8 @@ public:
 
   Vector get_next_tile(Vector pos, Direction direction);
   Tile* at(Vector pos);
+
+  WorldMap::Level* at_level();
   WorldMap::SpecialTile* at_special_tile();
 
   /** Check if it is possible to walk from \a pos into \a direction,
