@@ -173,6 +173,8 @@ public:
   MenuItem& get_item(int index) { return item[index]; }
   MenuItem& get_item_by_id(int id);
 
+  int get_active_item_id();
+
   bool isToggled(int id);
 
   void Menu::get_controlfield_key_into_input(MenuItem *item);

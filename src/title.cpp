@@ -337,7 +337,26 @@ void title(void)
             }
           else if(menu == load_game_menu)
             {
-              if (process_load_game_menu())
+              if(event.key.keysym.sym == SDLK_DELETE)
+                {
+                int slot = menu->get_active_item_id();
+                char str[1024];
+                sprintf(str,"Are you sure you want to delete slot %d?", slot);
+                
+                Menu::set_current(0);
+                draw_background();
+
+                if(confirm_dialog(str))
+                  {
+                  sprintf(str,"%s/slot%d.stsg", st_save_dir, slot);
+                  printf("Removing: %s\n",str);
+                  remove(str);
+                  }
+
+                update_time = st_get_ticks();
+                Menu::set_current(main_menu);
+                }
+              else if (process_load_game_menu())
                 {
                   // FIXME: shouldn't be needed if GameSession doesn't relay on global variables
                   // reset tux

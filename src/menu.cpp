@@ -644,6 +644,11 @@ Menu::get_item_by_id(int id)
   return dummyitem;
 }
 
+int Menu::get_active_item_id()
+{
+return item[active_item].id;
+}
+
 bool
 Menu::isToggled(int id)
 {
