@@ -235,6 +235,7 @@ Level::load(const std::string& filename)
   level->read_int("version", version);
   if(version == 1) {
     load_old_format(*level);
+    delete level;
     return;
   }
 
