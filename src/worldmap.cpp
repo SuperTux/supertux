@@ -31,7 +31,7 @@
 #include "worldmap.h"
 #include "resources.h"
 
-#define DISPLAY_MAP_MESSAGE_TIME 2600
+#define DISPLAY_MAP_MESSAGE_TIME 2800
 
 namespace WorldMapNS {
 
@@ -284,7 +284,10 @@ Tux::update(float delta)
 
           WorldMap::Level* level = worldmap->at_level();
           if(level && level->name.empty() && !level->display_map_message.empty())
-            level->display_map_message_timer.start(DISPLAY_MAP_MESSAGE_TIME);
+            {
+            worldmap->passive_message = level->display_map_message;
+            worldmap->passive_message_timer.start(DISPLAY_MAP_MESSAGE_TIME);
+            }
 
           if (worldmap->at(tile_pos)->stop || (level && !level->name.empty()))
             {
@@ -357,6 +360,8 @@ WorldMap::WorldMap()
   start_x = 4;
   start_y = 5;
 
+  passive_message_timer.init(true);
+
   level_sprite = new Surface(datadir +  "/images/worldmap/levelmarker.png", USE_ALPHA);
   leveldot_green = new Surface(datadir +  "/images/worldmap/leveldot_green.png", USE_ALPHA);
   leveldot_red = new Surface(datadir +  "/images/worldmap/leveldot_red.png", USE_ALPHA);
@@ -368,7 +373,6 @@ WorldMap::WorldMap()
 
   name = "<no file>";
   music = "SALCON.MOD";
-
 }
 
 WorldMap::~WorldMap()
@@ -441,7 +445,6 @@ WorldMap::load_map()
                       reader.read_int("x", &level.x);
                       reader.read_int("y", &level.y);
                       reader.read_string("map-message", &level.display_map_message);
-                      level.display_map_message_timer.init(true);
                       level.auto_path = true;
                       reader.read_bool("auto-path", &level.auto_path);
 
@@ -875,16 +878,11 @@ WorldMap::draw_status()
             }
         }
     }
-  for(Levels::iterator i = levels.begin(); i != levels.end(); ++i)
-    {
-    /* Display a message in the map, if any as been selected */
-    if(i->display_map_message_timer.check())
-      {
-      gold_text->draw_align(i->display_map_message.c_str(),
-                            screen->w/2, screen->h - 30,A_HMIDDLE, A_BOTTOM);
-      break;
-      }
-    }
+
+  /* Display a passive message in the map, if needed */
+  if(passive_message_timer.check())
+    gold_text->draw_align(passive_message.c_str(),
+                          screen->w/2, screen->h - 30,A_HMIDDLE, A_BOTTOM);
 }
 
 void

@@ -162,7 +162,6 @@ public:
 
     /** Message to show in the Map during a certain time */
     std::string display_map_message;
-    Timer display_map_message_timer;
 
     /** If false, disables the auto walking after finishing a level */
     bool auto_path;
@@ -173,6 +172,10 @@ public:
     bool south;
     bool west;
   };
+
+  /** Variables to deal with the passive map messages */
+  Timer passive_message_timer;
+  std::string passive_message;
 
 private:
   typedef std::vector<Level> Levels;
