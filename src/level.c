@@ -116,6 +116,57 @@ void loadlevel(st_level* plevel, char *subset, int level)
 
 }
 
+/* Save data for level: */
+
+void savelevel(st_level* plevel, char * subset, int level)
+{
+  FILE * fi;
+  char * filename;
+  int y;
+  char str[80];
+
+  /* Save data file: */
+
+  filename = (char *) malloc(sizeof(char) * (strlen(DATA_PREFIX) + 20) + strlen(subset));
+  sprintf(filename, "%s/levels/%s/level%d.dat", DATA_PREFIX, subset, level);
+  fi = fopen(filename, "w");
+  if (fi == NULL)
+    {
+      perror(filename);
+      st_shutdown();
+      free(filename);
+      exit(-1);
+    }
+  free(filename);
+
+  fputs(plevel->name, fi);
+  fputs("\n", fi);
+  fputs(plevel->theme, fi);
+  fputs("\n", fi);
+  sprintf(str, "%d\n", plevel->time_left);	/* time */
+  fputs(str, fi);
+  fputs(plevel->song_title, fi);	/* song filename */
+  fputs("\n",fi);
+  fputs(plevel->bkgd_image, fi);	/* background image */  
+  sprintf(str, "\n%d\n", plevel->bkgd_red);	/* red background color */
+  fputs(str, fi);
+  sprintf(str, "%d\n", plevel->bkgd_green);	/* green background color */
+  fputs(str, fi);
+  sprintf(str, "%d\n", plevel->bkgd_blue);	/* blue background color */
+  fputs(str, fi);
+  sprintf(str, "%d\n", plevel->width);	/* level width */
+  fputs(str, fi);
+
+  for(y = 0; y < 15; ++y)
+    {
+      fputs(plevel->tiles[y], fi);
+      fputs("\n", fi);
+    }
+
+  fclose(fi);
+}
+
+
 /* Unload data for this level: */
 
 void unloadlevel(st_level* plevel)

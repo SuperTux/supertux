@@ -554,62 +554,6 @@ int xx, yy;
         bad_guys[i].base.alive = NO;
 }
 
-/* Save data for this level: */
-void savelevel(void)
-{
-  FILE * fi;
-  char * filename;
-  int y;
-  char str[80];
-
-  /* Save data file: */
-
-  filename = (char *) malloc(sizeof(char) * (strlen(DATA_PREFIX) + 20) + strlen(level_subset));
-  sprintf(filename, "%s/levels/%s/level%d.dat", DATA_PREFIX, level_subset, level);
-  fi = fopen(filename, "w");
-  if (fi == NULL)
-    {
-      perror(filename);
-      st_shutdown();
-      free(filename);
-      exit(-1);
-    }
-  free(filename);
-
-
-  /* sptrinf("# Level created by SuperTux built-in editor", fi); */
-
-  fputs(current_level.name, fi);
-  fputs("\n", fi);
-  fputs(current_level.theme, fi);
-  fputs("\n", fi);
-  sprintf(str, "%d\n", current_level.time_left);	/* time */
-  fputs(str, fi);
-  fputs(current_level.song_title, fi);	/* song filename */
-  fputs("\n",fi);
-  fputs(current_level.bkgd_image, fi);	/* background image */  
-  sprintf(str, "\n%d\n", current_level.bkgd_red);	/* red background color */
-  fputs(str, fi);
-  sprintf(str, "%d\n", current_level.bkgd_green);	/* green background color */
-  fputs(str, fi);
-  sprintf(str, "%d\n", current_level.bkgd_blue);	/* blue background color */
-  fputs(str, fi);
-  sprintf(str, "%d\n", current_level.width);	/* level width */
-  fputs(str, fi);
-
-  for(y = 0; y < 15; ++y)
-    {
-      fputs(current_level.tiles[y], fi);
-      fputs("\n", fi);
-    }
-
-  fclose(fi);
-
-  text_drawf(&gold_text, "SAVED!", 0, 240, A_HMIDDLE, A_TOP, 1, NO_UPDATE);
-  flipscreen();
-  SDL_Delay(1000);
-}
-
 void showhelp()
 {
   SDL_Event event;

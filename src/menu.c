@@ -24,6 +24,7 @@
 #include "screen.h"
 #include "setup.h"
 #include "sound.h"
+#include "scene.h"
 #include "leveleditor.h"
 #include "gameloop.h"
 #include "timer.h"
@@ -390,7 +391,10 @@ int menu_leveleditor(void)
       if(menuaction == MN_HIT) /* Save the current level in the level-editor. */
         {
           show_menu = 0;
-          savelevel();
+          savelevel(&current_level,"default",level);
+	  text_drawf(&gold_text, "SAVED!", 0, 240, A_HMIDDLE, A_TOP, 1, NO_UPDATE);
+          flipscreen();
+          SDL_Delay(1000);
         }
     }
   else
