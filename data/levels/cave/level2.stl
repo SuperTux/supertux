@@ -5,7 +5,7 @@
   (author "Ingo Ruhnke")
   (width  500)
   (height 15)
-  (background "")
+  (background "cave2.jpg")
   (music "Mortimers_chipdisko.mod")
   (bkgd_red    0)
   (bkgd_green  0)
