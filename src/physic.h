@@ -43,7 +43,7 @@ public:
     void enable_gravity(bool gravity_enabled);
 
     /** applies the physical simulation to given x and y coordinates */
-    void apply(float &x, float &y); 
+    void apply(float frame_ratio, float &x, float &y); 
 
 private:
     /// horizontal and vertical acceleration

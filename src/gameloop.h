@@ -62,7 +62,7 @@ class GameSession
   int  run();
 
   void draw();
-  int  action();
+  int  action(double frame_ratio);
 
   Level* get_level() { return world->get_level(); }
   World* get_world() { return world; }

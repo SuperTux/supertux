@@ -31,7 +31,7 @@ BouncyDistro::init(float x, float y)
 }
 
 void
-BouncyDistro::action()
+BouncyDistro::action(double frame_ratio)
 {
   base.y = base.y + base.ym * frame_ratio;
 
@@ -64,7 +64,7 @@ BrokenBrick::init(Tile* tile_, float x, float y, float xm, float ym)
 }
 
 void
-BrokenBrick::action()
+BrokenBrick::action(double frame_ratio)
 {
   base.x = base.x + base.xm * frame_ratio;
   base.y = base.y + base.ym * frame_ratio;
@@ -103,10 +103,9 @@ BouncyBrick::init(float x, float y)
 }
 
 void
-BouncyBrick::action()
+BouncyBrick::action(double frame_ratio)
 {
-  offset = (offset +
-                           offset_m * frame_ratio);
+  offset = (offset + offset_m * frame_ratio);
 
   /* Go back down? */
   if (offset < -BOUNCY_BRICK_MAX_OFFSET)
@@ -166,7 +165,7 @@ FloatingScore::init(float x, float y, int s)
 }
 
 void
-FloatingScore::action()
+FloatingScore::action(double frame_ratio)
 {
   base.y = base.y - 2 * frame_ratio;
 

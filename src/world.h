@@ -67,7 +67,7 @@ class World
   void set_defaults();
 
   void draw();
-  void action();
+  void action(double frame_ratio);
 
   /** Checks for all possible collisions. And calls the
       collision_handlers, which the collision_objects provide for this

@@ -63,7 +63,7 @@ void draw_background()
   texture_draw_bg(&bkg_title);
 }
 
-void draw_demo(GameSession* session)
+void draw_demo(GameSession* session, double frame_ratio)
 {
   World::set_current(session->get_world());
   //World* world  = session->get_world();
@@ -118,8 +118,10 @@ void draw_demo(GameSession* session)
       scroll_x = tux->base.x - 320;
     }
 
+
+
   float last_tux_x_pos = tux->base.x;
-  tux->action();
+  tux->action(frame_ratio);
 
   // Jump if tux stays in the same position for one loop, ie. if he is
   // stuck behind a wall
@@ -176,7 +178,7 @@ bool title(void)
   while (!done)
     {
       /* Calculate the movement-factor */
-      frame_ratio = ((double)(update_time-last_update_time))/((double)FRAME_RATE);
+      double frame_ratio = ((double)(update_time-last_update_time))/((double)FRAME_RATE);
       if(frame_ratio > 1.5) /* Quick hack to correct the unprecise CPU clocks a little bit. */
         frame_ratio = 1.5 + (frame_ratio - 1.5) * 0.85;
       /* Lower the frame_ratio that Tux doesn't jump to hectically throught the demo. */
@@ -209,7 +211,7 @@ bool title(void)
 
       /* Draw the background: */
       draw_background();
-      draw_demo(&session);
+      draw_demo(&session, frame_ratio);
       
       if (current_menu == main_menu)
         texture_draw(&logo, 160, 30);

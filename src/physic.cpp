@@ -79,7 +79,7 @@ Physic::enable_gravity(bool enable_gravity)
 }
 
 void
-Physic::apply(float &x, float &y)
+Physic::apply(float frame_ratio, float &x, float &y)
 {
   float gravity = World::current()->get_level()->gravity;
   float grav;

@@ -338,7 +338,7 @@ GameSession::process_events()
 }
 
 int
-GameSession::action()
+GameSession::action(double frame_ratio)
 {
   Player& tux = *world->get_tux();
 
@@ -428,9 +428,9 @@ GameSession::action()
       play_current_music();
     }
 
-  tux.action();
+  tux.action(frame_ratio);
 
-  world->action();
+  world->action(frame_ratio);
 
   return -1;
 }
@@ -496,7 +496,7 @@ GameSession::run()
   while (!done && !quit)
     {
       /* Calculate the movement-factor */
-      frame_ratio = ((double)(update_time-last_update_time))/((double)FRAME_RATE);
+      double frame_ratio = ((double)(update_time-last_update_time))/((double)FRAME_RATE);
       if(frame_ratio > 1.5) /* Quick hack to correct the unprecise CPU clocks a little bit. */
         frame_ratio = 1.5 + (frame_ratio - 1.5) * 0.85;
 
@@ -555,7 +555,7 @@ GameSession::run()
             frame_ratio = 1;
             while(z >= 1)
             {*/
-          if (action() == 0)
+          if (action(frame_ratio) == 0)
             {
               /* == 0: no more lives */
               /* == -1: continues */

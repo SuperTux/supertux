@@ -108,7 +108,7 @@ private:
 public:
   void init(float x, float y, BadGuyKind kind);
 
-  void action();
+  void action(float frame_ratio);
   void draw();
 
   void collision(void* p_c_object, int c_object,
@@ -120,18 +120,18 @@ public:
   void kill_me();
   
 private:
-  void action_bsod();
-  void action_laptop();
-  void action_money(); 
-  void action_bomb();
-  void action_mrbomb();
-  void action_stalactite();
-  void action_flame();
-  void action_fish();
-  void action_bouncingsnowball();
-  void action_flyingsnowball();
-  void action_spiky();
-  void action_snowball();
+  void action_bsod(float frame_ratio);
+  void action_laptop(float frame_ratio);
+  void action_money(float frame_ratio); 
+  void action_bomb(float frame_ratio);
+  void action_mrbomb(float frame_ratio);
+  void action_stalactite(float frame_ratio);
+  void action_flame(float frame_ratio);
+  void action_fish(float frame_ratio);
+  void action_bouncingsnowball(float frame_ratio);
+  void action_flyingsnowball(float frame_ratio);
+  void action_spiky(float frame_ratio);
+  void action_snowball(float frame_ratio);
 
   /** handles falling down. disables gravity calculation when we're back on
    * ground */

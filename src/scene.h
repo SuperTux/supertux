@@ -29,11 +29,9 @@ struct PlayerStatus
 
 extern PlayerStatus player_status;
 
-extern timer_type  super_bkgd_timer;
 extern float scroll_x;
 extern unsigned int global_frame_counter;
 
 extern timer_type time_left;
-extern double frame_ratio;
 
 #endif /*SUPERTUX_SCENE_H*/

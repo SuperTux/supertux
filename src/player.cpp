@@ -157,7 +157,7 @@ Player::level_begin()
 }
 
 void
-Player::action()
+Player::action(double frame_ratio)
 {
   bool jumped_in_solid = false;
 
@@ -169,7 +169,7 @@ Player::action()
   /* Move tux: */
   previous_base = base;
 
-  physic.apply(base.x, base.y);
+  physic.apply(frame_ratio, base.x, base.y);
 
   if (!dying)
     {

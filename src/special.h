@@ -39,7 +39,7 @@ class Upgrade
   base_type old_base;
 
   void init(float x, float y, int dir, int kind);
-  void action();
+  void action(double frame_ratio);
   void draw();
   void collision(void* p_c_object, int c_object);
 };
@@ -51,7 +51,7 @@ class Bullet
   base_type old_base;
   
   void init(float x, float y, float xm, int dir);
-  void action();
+  void action(double frame_ratio);
   void draw();
   void collision(int c_object);
 };

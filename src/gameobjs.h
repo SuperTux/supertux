@@ -35,7 +35,7 @@ class BouncyDistro
   base_type base;
   
   void init(float x, float y);
-  void action();
+  void action(double frame_ratio);
   void draw(); 
 };
 
@@ -54,7 +54,7 @@ class BrokenBrick
   Tile* tile;
 
   void init(Tile* tile, float x, float y, float xm, float ym);
-  void action();
+  void action(double frame_ratio);
   void draw();
 };
 
@@ -67,7 +67,7 @@ class BouncyBrick
   base_type base;
 
   void init(float x, float y);
-  void action();
+  void action(double frame_ratio);
   void draw();
 };
 
@@ -79,7 +79,7 @@ class FloatingScore
   base_type base;
   
   void init(float x, float y, int s);
-  void action();
+  void action(double frame_ratio);
   void draw();
 };
 

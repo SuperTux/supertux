@@ -208,15 +208,15 @@ World::draw()
 }
 
 void
-World::action()
+World::action(double frame_ratio)
 {
   /* Handle bouncy distros: */
   for (unsigned int i = 0; i < bouncy_distros.size(); i++)
-    bouncy_distros[i].action();
+    bouncy_distros[i].action(frame_ratio);
 
   /* Handle broken bricks: */
   for (unsigned int i = 0; i < broken_bricks.size(); i++)
-    broken_bricks[i].action();
+    broken_bricks[i].action(frame_ratio);
 
   /* Handle distro counting: */
   if (counting_distros)
@@ -229,19 +229,19 @@ World::action()
 
   // Handle all kinds of game objects
   for (unsigned int i = 0; i < bouncy_bricks.size(); i++)
-    bouncy_bricks[i].action();
+    bouncy_bricks[i].action(frame_ratio);
   
   for (unsigned int i = 0; i < floating_scores.size(); i++)
-    floating_scores[i].action();
+    floating_scores[i].action(frame_ratio);
 
   for (unsigned int i = 0; i < bullets.size(); ++i)
-    bullets[i].action();
+    bullets[i].action(frame_ratio);
   
   for (unsigned int i = 0; i < upgrades.size(); i++)
-    upgrades[i].action();
+    upgrades[i].action(frame_ratio);
 
   for (unsigned int i = 0; i < bad_guys.size(); i++)
-    bad_guys[i].action();
+    bad_guys[i].action(frame_ratio);
 
   /* update particle systems */
   std::vector<ParticleSystem*>::iterator p;

@@ -53,7 +53,7 @@ Bullet::init(float x, float y, float xm, int dir)
 }
 
 void
-Bullet::action()
+Bullet::action(double frame_ratio)
 {
   base.x = base.x + base.xm * frame_ratio;
   base.y = base.y + base.ym * frame_ratio;
@@ -128,7 +128,7 @@ Upgrade::init(float x_, float y_, int dir_, int kind_)
 }
 
 void
-Upgrade::action()
+Upgrade::action(double frame_ratio)
 {
   if (base.height < 32)
     {

@@ -121,7 +121,7 @@ class Player
   void init();
   int  key_event(SDLKey key, int state);
   void level_begin();
-  void action();
+  void action(double frame_ratio);
   void handle_input();
   void grabdistros();
   void draw();

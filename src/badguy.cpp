@@ -198,7 +198,7 @@ BadGuy::init(float x, float y, BadGuyKind kind_)
 }
 
 void
-BadGuy::action_bsod()
+BadGuy::action_bsod(float frame_ratio)
 {
   static const float BSODJUMP = 2;
     
@@ -223,13 +223,13 @@ BadGuy::action_bsod()
     }
 
   // move
-  physic.apply(base.x, base.y);
+  physic.apply(frame_ratio, base.x, base.y);
   if(dying != DYING_FALLING)
     collision_swept_object_map(&old_base, &base);
 }
 
 void
-BadGuy::action_laptop()
+BadGuy::action_laptop(float frame_ratio)
 {
   Player& tux = *World::current()->get_tux();
 
@@ -239,7 +239,7 @@ BadGuy::action_laptop()
   if (mode == NORMAL || mode == KICK)
     {
       // move
-      physic.apply(base.x, base.y);
+      physic.apply(frame_ratio, base.x, base.y);
       if (dying != DYING_FALLING)
         collision_swept_object_map(&old_base,&base);
     }
@@ -386,7 +386,7 @@ BadGuy::remove_me()
 }
 
 void
-BadGuy::action_money()
+BadGuy::action_money(float frame_ratio)
 {
   Player& tux = *World::current()->get_tux();
 
@@ -414,26 +414,26 @@ BadGuy::action_money()
     dir = LEFT;
 
   // move
-  physic.apply(base.x, base.y);
+  physic.apply(frame_ratio, base.x, base.y);
   if(dying == DYING_NOT)
     collision_swept_object_map(&old_base, &base);
 }
 
 void
-BadGuy::action_mrbomb()
+BadGuy::action_mrbomb(float frame_ratio)
 {
   if (dying == DYING_NOT)
     check_horizontal_bump(true);
 
   fall();
 
-  physic.apply(base.x, base.y);
+  physic.apply(frame_ratio, base.x, base.y);
   if (dying != DYING_FALLING)
     collision_swept_object_map(&old_base,&base); 
 }
 
 void
-BadGuy::action_bomb()
+BadGuy::action_bomb(float frame_ratio)
 {
   static const int TICKINGTIME = 1000;
   static const int EXPLODETIME = 1000;
@@ -456,12 +456,12 @@ BadGuy::action_bomb()
   }
 
   // move
-  physic.apply(base.x, base.y);                 
+  physic.apply(frame_ratio, base.x, base.y);                 
   collision_swept_object_map(&old_base,&base);
 }
 
 void
-BadGuy::action_stalactite()
+BadGuy::action_stalactite(float frame_ratio)
 {
   Player& tux = *World::current()->get_tux();
 
@@ -496,14 +496,14 @@ BadGuy::action_stalactite()
   }
 
   // move
-  physic.apply(base.x, base.y);
+  physic.apply(frame_ratio, base.x, base.y);
 
   if(dying == DYING_SQUISHED && !timer_check(&timer))
     remove_me();
 }
 
 void
-BadGuy::action_flame()
+BadGuy::action_flame(float frame_ratio)
 {
     static const float radius = 100;
     static const float speed = 0.02;
@@ -514,7 +514,7 @@ BadGuy::action_flame()
 }
 
 void
-BadGuy::action_fish()
+BadGuy::action_fish(float frame_ratio)
 {
   static const float JUMPV = 6;
   static const int WAITTIME = 1000;
@@ -539,13 +539,13 @@ BadGuy::action_fish()
       physic.enable_gravity(true);
     }
 
-  physic.apply(base.x, base.y);
+  physic.apply(frame_ratio, base.x, base.y);
   if(dying == DYING_NOT)
     collision_swept_object_map(&old_base, &base);
 }
 
 void
-BadGuy::action_bouncingsnowball()
+BadGuy::action_bouncingsnowball(float frame_ratio)
 {
   static const float JUMPV = 4.5;
     
@@ -565,7 +565,7 @@ BadGuy::action_bouncingsnowball()
   // check for right/left collisions
   check_horizontal_bump();
 
-  physic.apply(base.x, base.y);
+  physic.apply(frame_ratio, base.x, base.y);
   if(dying == DYING_NOT)
     collision_swept_object_map(&old_base, &base);
 
@@ -579,7 +579,7 @@ BadGuy::action_bouncingsnowball()
 }
 
 void
-BadGuy::action_flyingsnowball()
+BadGuy::action_flyingsnowball(float frame_ratio)
 {
   static const float FLYINGSPEED = 1;
   static const int DIRCHANGETIME = 1000;
@@ -605,7 +605,7 @@ BadGuy::action_flyingsnowball()
   if(dying != DYING_NOT)
     physic.enable_gravity(true);
 
-  physic.apply(base.x, base.y);
+  physic.apply(frame_ratio, base.x, base.y);
   if(dying == DYING_NOT || dying == DYING_SQUISHED)
     collision_swept_object_map(&old_base, &base);
 
@@ -619,7 +619,7 @@ BadGuy::action_flyingsnowball()
 }
 
 void
-BadGuy::action_spiky()
+BadGuy::action_spiky(float frame_ratio)
 {
   if (dying == DYING_NOT)
     check_horizontal_bump();
@@ -634,26 +634,26 @@ BadGuy::action_spiky()
   }
 #endif
 
-  physic.apply(base.x, base.y);
+  physic.apply(frame_ratio, base.x, base.y);
   if (dying != DYING_FALLING)
     collision_swept_object_map(&old_base,&base);   
 }
 
 void
-BadGuy::action_snowball()
+BadGuy::action_snowball(float frame_ratio)
 {
   if (dying == DYING_NOT)
     check_horizontal_bump();
 
   fall();
 
-  physic.apply(base.x, base.y);
+  physic.apply(frame_ratio, base.x, base.y);
   if (dying != DYING_FALLING)
     collision_swept_object_map(&old_base,&base);
 }
 
 void
-BadGuy::action()
+BadGuy::action(float frame_ratio)
 {
   // Remove if it's far off the screen:
   if (base.x < scroll_x - OFFSCREEN_DISTANCE)
@@ -678,51 +678,51 @@ BadGuy::action()
   switch (kind)
     {
     case BAD_BSOD:
-      action_bsod();
+      action_bsod(frame_ratio);
       break;
 
     case BAD_LAPTOP:
-      action_laptop();
+      action_laptop(frame_ratio);
       break;
   
     case BAD_MONEY:
-      action_money();
+      action_money(frame_ratio);
       break;
 
     case BAD_MRBOMB:
-      action_mrbomb();
+      action_mrbomb(frame_ratio);
       break;
     
     case BAD_BOMB:
-      action_bomb();
+      action_bomb(frame_ratio);
       break;
 
     case BAD_STALACTITE:
-      action_stalactite();
+      action_stalactite(frame_ratio);
       break;
 
     case BAD_FLAME:
-      action_flame();
+      action_flame(frame_ratio);
       break;
 
     case BAD_FISH:
-      action_fish();
+      action_fish(frame_ratio);
       break;
 
     case BAD_BOUNCINGSNOWBALL:
-      action_bouncingsnowball();
+      action_bouncingsnowball(frame_ratio);
       break;
 
     case BAD_FLYINGSNOWBALL:
-      action_flyingsnowball();
+      action_flyingsnowball(frame_ratio);
       break;
 
     case BAD_SPIKY:
-      action_spiky();
+      action_spiky(frame_ratio);
       break;
 
     case BAD_SNOWBALL:
-      action_snowball();
+      action_snowball(frame_ratio);
       break;
     }
 }
