@@ -114,6 +114,8 @@ TileManager::~TileManager()
   for(std::vector<Tile*>::iterator i = tiles.begin(); i != tiles.end(); ++i) {
     delete *i;                                                                  
   }
+
+  delete tilegroups_;
 }
 
 void TileManager::load_tileset(std::string filename)
