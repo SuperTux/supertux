@@ -58,6 +58,36 @@ void clearscreen(float r, float g, float b)
  
 }
 
+/* --- FILL A RECT --- */
+
+void fillrect(float x, float y, float w, float h, float r, float g, float b)
+{
+#ifndef NOOPENGL
+if(use_gl)
+	{
+	glBegin(GL_QUADS);
+		glColor3ub(r/256, g/256, b/256);
+		glVertex2i(x, y);
+		glVertex2i(x+w, y);
+		glVertex2i(x+w, y+h);
+		glVertex2i(x, y+h);
+	glEnd();
+	}
+else
+	{
+#endif
+	SDL_Rect rect;
+	rect.x = x;
+	rect.y = y;
+	rect.w = w;
+	rect.h = h;
+
+	SDL_FillRect(screen, &rect, SDL_MapRGB(screen->format, r, g, b));
+#ifndef NOOPENGL
+	}
+#endif
+}
+
 
 /* --- UPDATE SCREEN --- */
 
@@ -117,13 +147,15 @@ void drawtext(char * text, int x, int y, SDL_Surface * surf, int update, int sha
 {
 	/* i - helps to keep tracking of the all string length
 		j - helps to keep track of the length of the current line */
-  int i, j;
+  int i, j, len;
   char c;
   SDL_Rect src, dest;
   
+  len = strlen(text);
+  
   /* For each letter in the string... */
   
-  for (i = 0; i < strlen(text); i++)
+  for (i = 0; i < len; ++i)
     {
       /* Set source rectangle: */
       
@@ -242,7 +274,7 @@ void drawtext(char * text, int x, int y, SDL_Surface * surf, int update, int sha
   
   if (update == UPDATE)
     {
-      dest.w = strlen(text) * 16 + 1;
+      dest.w = len * 16 + 1;
       
       if (dest.w > screen->w)
 	dest.w = screen->w;

@@ -29,6 +29,7 @@
 
 void load_and_display_image(char * file);
 void clearscreen(float r, float g, float b);
+void fillrect(float x, float y, float w, float h, float r, float g, float b);
 void updatescreen(void);
 void flipscreen(void);
 SDL_Surface * load_image(char * file, int use_alpha);

@@ -22,9 +22,19 @@
 
 /* Times: */
 
-#define TUX_SAFE_TIME 16
+#define TUX_SAFE_TIME 750
 #define TUX_INVINCIBLE_TIME 10000
 #define TIME_WARNING 20000     /* When to alert player they're low on time! */
+
+typedef struct player_keymap_type
+{
+ int jump;
+ int duck;
+ int left;
+ int right;
+ int fire;
+}
+player_keymap_type;
 
 typedef struct player_input_type
 {
@@ -40,10 +50,9 @@ player_input_type;
 typedef struct player_type 
 {
  player_input_type input;
+ player_keymap_type keymap;
  int got_coffee;
  int size;
- int skidding;
- int safe;
  int duck;
  int dying;
  int dir;
@@ -54,6 +63,8 @@ typedef struct player_type
  base_type base;
  timer_type invincible_timer;
  timer_type jump_timer;
+ timer_type skidding_timer;
+ timer_type safe_timer;
 }
 player_type;
 
@@ -72,6 +83,8 @@ texture_type tux_life,
  bigcape_right[2],  bigcape_left[2];
 
 void player_init(player_type* pplayer);
+int player_keydown_event(player_type* pplayer, SDLKey key);
+int player_keyup_event(player_type* pplayer, SDLKey key);
 void player_level_begin(player_type* pplayer);
 void player_action(player_type* pplayer);
 void player_input(player_type* pplayer);

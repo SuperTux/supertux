@@ -141,12 +141,8 @@ if(screen != NULL)
   st_video_setup_gl();
   else
   st_video_setup_sdl();
-
-  DEBUG_MSG("1");
   
   texture_setup();
-
-  DEBUG_MSG("2");
     
   /* Set window manager stuff: */
 
@@ -443,7 +439,7 @@ void parseargs(int argc, char * argv[])
 
   debug_mode = NO;
   use_fullscreen = NO;
-
+  show_fps = NO;
   use_gl = NO;    
 
 #ifndef NOSOUND
@@ -469,8 +465,14 @@ void parseargs(int argc, char * argv[])
 
           use_fullscreen = YES;
         }
+      else if (strcmp(argv[i], "--show-fps") == 0)
+        {
+          /* Use full screen: */
+
+          show_fps = YES;
+        }
       else if (strcmp(argv[i], "--opengl") == 0 ||
-          strcmp(argv[i], "-g") == 0)
+          strcmp(argv[i], "-gl") == 0)
         {
 	#ifndef NOOPENGL
           /* Use OpengGL: */

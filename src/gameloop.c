@@ -52,6 +52,7 @@ SDLKey key;
 char level_subset[100];
 char str[60];
 timer_type time_left;
+float fps_fps;
 
 /* Local function prototypes: */
 
@@ -94,7 +95,7 @@ void start_timers(void)
 void activate_bad_guys(void)
 {
   int x,y;
-  
+
   /* Activate bad guys: */
 
   for (y = 0; y < 15; y++)
@@ -103,7 +104,7 @@ void activate_bad_guys(void)
         {
           if (current_level.tiles[y][x] >= '0' && current_level.tiles[y][x] <= '9')
             {
-	      add_bad_guy(x * 32, y * 32, current_level.tiles[y][x] - '0');
+              add_bad_guy(x * 32, y * 32, current_level.tiles[y][x] - '0');
               current_level.tiles[y][x] = '.';
             }
         }
@@ -117,18 +118,21 @@ void game_event(void)
 {
   while (SDL_PollEvent(&event))
     {
-    switch(event.type)
-      {
-      case SDL_QUIT:        /* Quit event - quit: */
+      switch(event.type)
+        {
+        case SDL_QUIT:        /* Quit event - quit: */
           quit = 1;
           break;
-      case SDL_KEYDOWN:     /* A keypress! */
+        case SDL_KEYDOWN:     /* A keypress! */
           key = event.key.keysym.sym;
 
           /* Check for menu-events, if the menu is shown */
           if(show_menu)
             menu_event(key);
 
+	  if(player_keydown_event(&tux,key))
+	  break;
+	    
           switch(key)
             {
             case SDLK_ESCAPE:    /* Escape: Open/Close the menu: */
@@ -139,47 +143,20 @@ void game_event(void)
                   else
                     show_menu = 1;
                 }
-               break;
-          case SDLK_RIGHT:
-              tux.input.right = DOWN;
-               break;
-          case SDLK_LEFT:
-              tux.input.left = DOWN;
-            break;
-          case SDLK_UP:
-              tux.input.up = DOWN;
-            break;
-          case SDLK_DOWN:
-              tux.input.down = DOWN;
-            break;
-          case SDLK_LCTRL:
-              tux.input.fire = DOWN;
-            break;
-           default:
-            break;
-        }
-        break;
-      case SDL_KEYUP:      /* A keyrelease! */
+              break;
+            default:
+              break;
+            }
+          break;
+        case SDL_KEYUP:      /* A keyrelease! */
           key = event.key.keysym.sym;
-
+	  
+	  if(player_keyup_event(&tux,key))
+	  break;	  
+	  
           switch(key)
-           {
-          case SDLK_RIGHT:
-              tux.input.right = UP;
-            break;
-          case SDLK_LEFT:
-              tux.input.left = UP;
-            break;
-          case SDLK_UP:
-              tux.input.up = UP;
-            break;
-          case SDLK_DOWN:
-              tux.input.down = UP;
-            break;
-          case SDLK_LCTRL:
-              tux.input.fire = UP;
-            break;
-          case SDLK_p:
+            {
+            case SDLK_p:
               if(!show_menu)
                 {
                   if(game_pause)
@@ -187,37 +164,38 @@ void game_event(void)
                   else
                     game_pause = 1;
                 }
-            break;
-          case SDLK_TAB:
-            if(debug_mode == YES)
-              tux.size = !tux.size;
-            break;
-          case SDLK_END:
-            if(debug_mode == YES)
-              distros += 50;
-            break;
-          case SDLK_SPACE:
-            if(debug_mode == YES)
-              next_level = 1;
-            break;
-          case SDLK_DELETE:
-            if(debug_mode == YES)
-              tux.got_coffee = 1;
-            break;
-          case SDLK_INSERT:
-            if(debug_mode == YES)
-              timer_start(&tux.invincible_timer,TUX_INVINCIBLE_TIME);
-            break;
-           default:
-            break;
-        }
-        break;
+              break;
+            case SDLK_TAB:
+              if(debug_mode == YES)
+                tux.size = !tux.size;
+              break;
+            case SDLK_END:
+              if(debug_mode == YES)
+                distros += 50;
+              break;
+            case SDLK_SPACE:
+              if(debug_mode == YES)
+                next_level = 1;
+              break;
+            case SDLK_DELETE:
+              if(debug_mode == YES)
+                tux.got_coffee = 1;
+              break;
+            case SDLK_INSERT:
+              if(debug_mode == YES)
+                timer_start(&tux.invincible_timer,TUX_INVINCIBLE_TIME);
+              break;
+            default:
+              break;
+            }
+          break;
 #ifdef JOY_YES
-      case SDL_JOYAXISMOTION:
-        switch(event.jaxis.axis)
-           {
-           case JOY_X:
-	      printf("X: %d\n", event.jaxis.value);
+
+        case SDL_JOYAXISMOTION:
+          switch(event.jaxis.axis)
+            {
+            case JOY_X:
+              printf("X: %d\n", event.jaxis.value);
               if (event.jaxis.value < -1024)
                 tux.input.left = DOWN;
               else if (event.jaxis.value > 1024)
@@ -227,8 +205,8 @@ void game_event(void)
                 tux.input.right = DOWN;
               else if (event.jaxis.value < -1024)
                 tux.input.right = UP;
-            break;
-          case JOY_Y:
+              break;
+            case JOY_Y:
               if (event.jaxis.value > 1024)
                 tux.input.down = DOWN;
               else if (event.jaxis.value < -1024)
@@ -242,18 +220,18 @@ void game_event(void)
                   else
                     menuaction = MN_UP;
                 }
-            break;
+              break;
             default:
               break;
-        }
-        break;
-      case SDL_JOYBUTTONDOWN:
+            }
+          break;
+        case SDL_JOYBUTTONDOWN:
           if (event.jbutton.button == JOY_A)
             tux.input.up = DOWN;
           else if (event.jbutton.button == JOY_B)
             tux.input.fire = DOWN;
-        break;
-      case SDL_JOYBUTTONUP:
+          break;
+        case SDL_JOYBUTTONUP:
           if (event.jbutton.button == JOY_A)
             tux.input.up = UP;
           else if (event.jbutton.button == JOY_B)
@@ -262,8 +240,8 @@ void game_event(void)
           if(show_menu)
             menuaction = MN_HIT;
           break;
-       default:
-         break;
+        default:
+          break;
 
         }
 #endif
@@ -276,7 +254,7 @@ void game_event(void)
 
 int game_action(void)
 {
-int i;
+  int i;
 
   /* (tux_dying || next_level) */
   if (tux.dying || next_level)
@@ -294,12 +272,13 @@ int i;
           level++;
           next_level = 0;
           drawresultscreen();
+	  player_level_begin(&tux);
         }
       else
         {
 
-	player_dying(&tux);
-	
+          player_dying(&tux);
+
           /* No more lives!? */
 
           if (tux.lives < 0)
@@ -311,7 +290,7 @@ int i;
               unloadlevelgfx();
               unloadlevelsong();
               unloadshared();
-	      arrays_free();
+              arrays_free();
               return(0);
             } /* if (lives < 0) */
         }
@@ -388,7 +367,7 @@ int i;
 
   for (i = 0; i < num_upgrades; i++)
     {
-	upgrade_action(&upgrades[i]);
+      upgrade_action(&upgrades[i]);
     }
 
 
@@ -396,7 +375,7 @@ int i;
 
   for (i = 0; i < num_bad_guys; i++)
     {
-	badguy_action(&bad_guys[i]);
+      badguy_action(&bad_guys[i]);
     }
 
   /* Handle all possible collisions. */
@@ -420,14 +399,14 @@ void game_draw()
       if (timer_check(&super_bkgd_timer))
         texture_draw(&img_super_bkgd, 0, 0, NO_UPDATE);
       else
-	clearscreen(current_level.bkgd_red, current_level.bkgd_green, current_level.bkgd_blue);
+        clearscreen(current_level.bkgd_red, current_level.bkgd_green, current_level.bkgd_blue);
     }
 
   /* Draw background: */
 
-  for (y = 0; y < 15; y++)
+  for (y = 0; y < 15; ++y)
     {
-      for (x = 0; x < 21; x++)
+      for (x = 0; x < 21; ++x)
         {
           drawshape(x * 32 - ((int)scroll_x % 32), y * 32,
                     current_level.tiles[(int)y][(int)x + (int)(scroll_x / 32)]);
@@ -437,49 +416,49 @@ void game_draw()
 
   /* (Bouncy bricks): */
 
-  for (i = 0; i < num_bouncy_bricks; i++)
+  for (i = 0; i < num_bouncy_bricks; ++i)
     {
-	bouncy_brick_draw(&bouncy_bricks[i]);
+      bouncy_brick_draw(&bouncy_bricks[i]);
     }
 
 
   /* (Bad guys): */
 
-  for (i = 0; i < num_bad_guys; i++)
+  for (i = 0; i < num_bad_guys; ++i)
     {
-	badguy_draw(&bad_guys[i]);
+      badguy_draw(&bad_guys[i]);
     }
 
   /* (Tux): */
-  
+
   player_draw(&tux);
 
   /* (Bullets): */
 
-  for (i = 0; i < num_bullets; i++)
+  for (i = 0; i < num_bullets; ++i)
     {
-       bullet_draw(&bullets[i]);
+      bullet_draw(&bullets[i]);
     }
 
   /* (Floating scores): */
 
-  for (i = 0; i < num_floating_scores; i++)
+  for (i = 0; i < num_floating_scores; ++i)
     {
-	floating_score_draw(&floating_scores[i]);
+      floating_score_draw(&floating_scores[i]);
     }
 
 
   /* (Upgrades): */
 
-  for (i = 0; i < num_upgrades; i++)
+  for (i = 0; i < num_upgrades; ++i)
     {
-	upgrade_draw(&upgrades[i]);
+      upgrade_draw(&upgrades[i]);
     }
 
 
   /* (Bouncy distros): */
 
-  for (i = 0; i < num_bouncy_distros; i++)
+  for (i = 0; i < num_bouncy_distros; ++i)
     {
       bouncy_distro_draw(&bouncy_distros[i]);
     }
@@ -487,9 +466,9 @@ void game_draw()
 
   /* (Broken bricks): */
 
-  for (i = 0; i < num_broken_bricks; i++)
+  for (i = 0; i < num_broken_bricks; ++i)
     {
-	broken_brick_draw(&broken_bricks[i]);
+      broken_brick_draw(&broken_bricks[i]);
     }
 
   drawstatus();
@@ -513,7 +492,9 @@ void game_draw()
 int gameloop(void)
 {
 
-  Uint32 last_time, now_time;
+  /*Uint32 last_time, now_time*/
+  int fps_cnt;
+  timer_type fps_timer, frame_timer;
 
   /* Clear screen: */
 
@@ -523,13 +504,13 @@ int gameloop(void)
 
   /* Init the game: */
   arrays_init();
-  
+
   initmenu();
   menumenu = MENU_GAME;
   initgame();
   loadshared();
   set_defaults();
-  
+
   loadlevel(&current_level,"default",level);
   loadlevelgfx(&current_level);
   activate_bad_guys();
@@ -537,22 +518,29 @@ int gameloop(void)
   highscore = load_hs();
 
   player_init(&tux);
-  
+
   levelintro();
   start_timers();
-    
+
   /* --- MAIN GAME LOOP!!! --- */
 
   done = 0;
   quit = 0;
   frame = 0;
   game_pause = 0;
-  
+  timer_init(&fps_timer);
+  timer_init(&frame_timer);
+  fps_cnt = 0;
+
   game_draw();
   do
     {
-      last_time = SDL_GetTicks();
-      frame++;
+      /*last_time = SDL_GetTicks();*/
+      if(!timer_check(&frame_timer))
+      {
+      timer_start(&frame_timer,25);
+      ++frame;
+      }
 
 
       /* Handle events: */
@@ -561,7 +549,7 @@ int gameloop(void)
 
       game_event();
 
-     
+
       /* Handle actions: */
 
       if(!game_pause && !show_menu)
@@ -587,41 +575,56 @@ int gameloop(void)
 
       /* Pause til next frame: */
 
-      now_time = SDL_GetTicks();
-      /*if (now_time < last_time + FPS)
+      /*now_time = SDL_GetTicks();
+      if (now_time < last_time + FPS)
         SDL_Delay(last_time + FPS - now_time);*/
-	SDL_Delay(10);
+	/*printf("%d",timer_get_left(&frame_timer));*/
+      /*SDL_Delay(timer_get_left(&frame_timer) );*/
+	SDL_Delay(10);      
+      
 
 
       /* Handle time: */
 
       if (timer_check(&time_left))
         {
-	      /* are we low on time ? */
-      if ((timer_get_left(&time_left) < TIME_WARNING)
-          && (current_music != HURRYUP_MUSIC))
-        {
-          current_music = HURRYUP_MUSIC;
-          /* stop the others music, prepare to play the fast music */
-          if (playing_music())
+          /* are we low on time ? */
+          if ((timer_get_left(&time_left) < TIME_WARNING)
+              && (current_music != HURRYUP_MUSIC))
             {
-              halt_music();
+              current_music = HURRYUP_MUSIC;
+              /* stop the others music, prepare to play the fast music */
+              if (playing_music())
+                {
+                  halt_music();
+                }
             }
-        }
 
         }
-	else
-	player_kill(&tux,KILL);
-	
+      else
+        player_kill(&tux,KILL);
+
 
       /* Keep playing the correct music: */
 
       if (!playing_music())
         {
-	   play_current_music();
+          play_current_music();
         }
 
-	
+      /* Calculate frames per second */
+      if(show_fps)
+        {
+          fps_fps = ((float)1000 / (float)timer_get_gone(&fps_timer)) * (float)fps_cnt;
+          ++fps_cnt;
+
+          if(!timer_check(&fps_timer))
+            {
+              timer_start(&fps_timer,1000);
+              fps_cnt = 0;
+            }
+        }
+
     }
   while (!done && !quit);
 
@@ -668,7 +671,7 @@ void loadlevelsong(void)
   level_song = load_song(song_path);
   free(song_path);
 
-  
+
   song_path = (char *) malloc(sizeof(char) * (strlen(DATA_PREFIX) +
                               strlen(current_level.song_title) + 8 + 5));
   song_subtitle = strdup(current_level.song_title);
@@ -690,52 +693,52 @@ void loadshared(void)
 
   texture_load(&tux_right[0],DATA_PREFIX "/images/shared/tux-right-0.png", USE_ALPHA);
   texture_load(&tux_right[1],DATA_PREFIX "/images/shared/tux-right-1.png", USE_ALPHA);
-  texture_load(&tux_right[2],DATA_PREFIX "/images/shared/tux-right-2.png", USE_ALPHA);  
+  texture_load(&tux_right[2],DATA_PREFIX "/images/shared/tux-right-2.png", USE_ALPHA);
 
   texture_load(&tux_left[0],DATA_PREFIX "/images/shared/tux-left-0.png", USE_ALPHA);
   texture_load(&tux_left[1],DATA_PREFIX "/images/shared/tux-left-1.png", USE_ALPHA);
-  texture_load(&tux_left[2],DATA_PREFIX "/images/shared/tux-left-2.png", USE_ALPHA);  
-  
-  texture_load(&firetux_right[0],DATA_PREFIX "/images/shared/firetux-right-0.png", USE_ALPHA);  
-  texture_load(&firetux_right[1],DATA_PREFIX "/images/shared/firetux-right-1.png", USE_ALPHA); 
-  texture_load(&firetux_right[2],DATA_PREFIX "/images/shared/firetux-right-2.png", USE_ALPHA); 
+  texture_load(&tux_left[2],DATA_PREFIX "/images/shared/tux-left-2.png", USE_ALPHA);
 
-  texture_load(&firetux_left[0],DATA_PREFIX "/images/shared/firetux-left-0.png", USE_ALPHA);  
-  texture_load(&firetux_left[1],DATA_PREFIX "/images/shared/firetux-left-1.png", USE_ALPHA); 
-  texture_load(&firetux_left[2],DATA_PREFIX "/images/shared/firetux-left-2.png", USE_ALPHA); 
+  texture_load(&firetux_right[0],DATA_PREFIX "/images/shared/firetux-right-0.png", USE_ALPHA);
+  texture_load(&firetux_right[1],DATA_PREFIX "/images/shared/firetux-right-1.png", USE_ALPHA);
+  texture_load(&firetux_right[2],DATA_PREFIX "/images/shared/firetux-right-2.png", USE_ALPHA);
+
+  texture_load(&firetux_left[0],DATA_PREFIX "/images/shared/firetux-left-0.png", USE_ALPHA);
+  texture_load(&firetux_left[1],DATA_PREFIX "/images/shared/firetux-left-1.png", USE_ALPHA);
+  texture_load(&firetux_left[2],DATA_PREFIX "/images/shared/firetux-left-2.png", USE_ALPHA);
 
 
   texture_load(&cape_right[0] ,DATA_PREFIX "/images/shared/cape-right-0.png",
-                             USE_ALPHA);
+               USE_ALPHA);
 
   texture_load(&cape_right[1] ,DATA_PREFIX "/images/shared/cape-right-1.png",
-                             USE_ALPHA);
+               USE_ALPHA);
 
   texture_load(&cape_left[0] ,DATA_PREFIX "/images/shared/cape-left-0.png",
-                            USE_ALPHA);
+               USE_ALPHA);
 
   texture_load(&cape_left[1] ,DATA_PREFIX "/images/shared/cape-left-1.png",
-                            USE_ALPHA);
+               USE_ALPHA);
 
   texture_load(&bigtux_right[0] ,DATA_PREFIX "/images/shared/bigtux-right-0.png",
-                               USE_ALPHA);
+               USE_ALPHA);
 
   texture_load(&bigtux_right[1] ,DATA_PREFIX "/images/shared/bigtux-right-1.png",
-                               USE_ALPHA);
+               USE_ALPHA);
 
   texture_load(&bigtux_right[2] ,DATA_PREFIX "/images/shared/bigtux-right-2.png",
-                               USE_ALPHA);
+               USE_ALPHA);
 
   texture_load(&bigtux_right_jump ,DATA_PREFIX "/images/shared/bigtux-right-jump.png", USE_ALPHA);
 
   texture_load(&bigtux_left[0] ,DATA_PREFIX "/images/shared/bigtux-left-0.png",
-                              USE_ALPHA);
+               USE_ALPHA);
 
   texture_load(&bigtux_left[1] ,DATA_PREFIX "/images/shared/bigtux-left-1.png",
-                              USE_ALPHA);
+               USE_ALPHA);
 
   texture_load(&bigtux_left[2] ,DATA_PREFIX "/images/shared/bigtux-left-2.png",
-                              USE_ALPHA);
+               USE_ALPHA);
 
   texture_load(&bigtux_left_jump ,DATA_PREFIX "/images/shared/bigtux-left-jump.png", USE_ALPHA);
 
@@ -752,24 +755,24 @@ void loadshared(void)
                USE_ALPHA);
 
   texture_load(&bigfiretux_right[0] ,DATA_PREFIX "/images/shared/bigfiretux-right-0.png",
-                                   USE_ALPHA);
+               USE_ALPHA);
 
   texture_load(&bigfiretux_right[1] ,DATA_PREFIX "/images/shared/bigfiretux-right-1.png",
-                                   USE_ALPHA);
+               USE_ALPHA);
 
   texture_load(&bigfiretux_right[2] ,DATA_PREFIX "/images/shared/bigfiretux-right-2.png",
-                                   USE_ALPHA);
+               USE_ALPHA);
 
   texture_load(&bigfiretux_right_jump ,DATA_PREFIX "/images/shared/bigfiretux-right-jump.png", USE_ALPHA);
 
   texture_load(&bigfiretux_left[0] ,DATA_PREFIX "/images/shared/bigfiretux-left-0.png",
-                                  USE_ALPHA);
+               USE_ALPHA);
 
   texture_load(&bigfiretux_left[1] ,DATA_PREFIX "/images/shared/bigfiretux-left-1.png",
-                                  USE_ALPHA);
+               USE_ALPHA);
 
   texture_load(&bigfiretux_left[2] ,DATA_PREFIX "/images/shared/bigfiretux-left-2.png",
-                                  USE_ALPHA);
+               USE_ALPHA);
 
   texture_load(&bigfiretux_left_jump ,DATA_PREFIX "/images/shared/bigfiretux-left-jump.png", USE_ALPHA);
 
@@ -787,44 +790,44 @@ void loadshared(void)
 
 
   texture_load(&ducktux_right ,DATA_PREFIX
-                             "/images/shared/ducktux-right.png",
-                             USE_ALPHA);
+               "/images/shared/ducktux-right.png",
+               USE_ALPHA);
 
   texture_load(&ducktux_left ,DATA_PREFIX
-                            "/images/shared/ducktux-left.png",
-                            USE_ALPHA);
+               "/images/shared/ducktux-left.png",
+               USE_ALPHA);
 
   texture_load(&skidtux_right ,DATA_PREFIX
-                             "/images/shared/skidtux-right.png",
-                             USE_ALPHA);
+               "/images/shared/skidtux-right.png",
+               USE_ALPHA);
 
   texture_load(&skidtux_left ,DATA_PREFIX
-                            "/images/shared/skidtux-left.png",
-                            USE_ALPHA);
+               "/images/shared/skidtux-left.png",
+               USE_ALPHA);
 
   texture_load(&duckfiretux_right ,DATA_PREFIX
-                                 "/images/shared/duckfiretux-right.png",
-                                 USE_ALPHA);
+               "/images/shared/duckfiretux-right.png",
+               USE_ALPHA);
 
   texture_load(&duckfiretux_left ,DATA_PREFIX
-                                "/images/shared/duckfiretux-left.png",
-                                USE_ALPHA);
+               "/images/shared/duckfiretux-left.png",
+               USE_ALPHA);
 
   texture_load(&skidfiretux_right ,DATA_PREFIX
-                                 "/images/shared/skidfiretux-right.png",
-                                 USE_ALPHA);
+               "/images/shared/skidfiretux-right.png",
+               USE_ALPHA);
 
   texture_load(&skidfiretux_left ,DATA_PREFIX
-                                "/images/shared/skidfiretux-left.png",
-                                USE_ALPHA);
+               "/images/shared/skidfiretux-left.png",
+               USE_ALPHA);
 
 
   /* Boxes: */
 
   texture_load(&img_box_full ,DATA_PREFIX "/images/shared/box-full.png",
-                            IGNORE_ALPHA);
+               IGNORE_ALPHA);
   texture_load(&img_box_empty ,DATA_PREFIX "/images/shared/box-empty.png",
-                             IGNORE_ALPHA);
+               IGNORE_ALPHA);
 
 
   /* Water: */
@@ -833,56 +836,56 @@ void loadshared(void)
   texture_load(&img_water ,DATA_PREFIX "/images/shared/water.png", IGNORE_ALPHA);
 
   texture_load(&img_waves[0] ,DATA_PREFIX "/images/shared/waves-0.png",
-                            USE_ALPHA);
+               USE_ALPHA);
 
   texture_load(&img_waves[1] ,DATA_PREFIX "/images/shared/waves-1.png",
-                            USE_ALPHA);
+               USE_ALPHA);
 
   texture_load(&img_waves[2] ,DATA_PREFIX "/images/shared/waves-2.png",
-                            USE_ALPHA);
+               USE_ALPHA);
 
 
   /* Pole: */
 
   texture_load(&img_pole ,DATA_PREFIX "/images/shared/pole.png", USE_ALPHA);
   texture_load(&img_poletop ,DATA_PREFIX "/images/shared/poletop.png",
-                           USE_ALPHA);
+               USE_ALPHA);
 
 
   /* Flag: */
 
   texture_load(&img_flag[0] ,DATA_PREFIX "/images/shared/flag-0.png",
-                           USE_ALPHA);
+               USE_ALPHA);
   texture_load(&img_flag[1] ,DATA_PREFIX "/images/shared/flag-1.png",
-                           USE_ALPHA);
+               USE_ALPHA);
 
 
   /* Cloud: */
 
   texture_load(&img_cloud[0][0] ,DATA_PREFIX "/images/shared/cloud-00.png",
-                               USE_ALPHA);
+               USE_ALPHA);
 
   texture_load(&img_cloud[0][1] ,DATA_PREFIX "/images/shared/cloud-01.png",
-                               USE_ALPHA);
+               USE_ALPHA);
 
   texture_load(&img_cloud[0][2] ,DATA_PREFIX "/images/shared/cloud-02.png",
-                               USE_ALPHA);
+               USE_ALPHA);
 
   texture_load(&img_cloud[0][3] ,DATA_PREFIX "/images/shared/cloud-03.png",
-                               USE_ALPHA);
+               USE_ALPHA);
 
 
   texture_load(&img_cloud[1][0] ,DATA_PREFIX "/images/shared/cloud-10.png",
-                               USE_ALPHA);
+               USE_ALPHA);
 
   texture_load(&img_cloud[1][1] ,DATA_PREFIX "/images/shared/cloud-11.png",
-                               USE_ALPHA);
+               USE_ALPHA);
 
   texture_load(&img_cloud[1][2] ,DATA_PREFIX "/images/shared/cloud-12.png",
-                               USE_ALPHA);
+               USE_ALPHA);
 
   texture_load(&img_cloud[1][3] ,DATA_PREFIX "/images/shared/cloud-13.png",
-                               USE_ALPHA);
+               USE_ALPHA);
 
 
   /* Bad guys: */
@@ -890,87 +893,87 @@ void loadshared(void)
   /* (BSOD) */
 
   texture_load(&img_bsod_left[0] ,DATA_PREFIX
-                                "/images/shared/bsod-left-0.png",
-                                USE_ALPHA);
+               "/images/shared/bsod-left-0.png",
+               USE_ALPHA);
 
   texture_load(&img_bsod_left[1] ,DATA_PREFIX
-                                "/images/shared/bsod-left-1.png",
-                                USE_ALPHA);
+               "/images/shared/bsod-left-1.png",
+               USE_ALPHA);
 
   texture_load(&img_bsod_left[2] ,DATA_PREFIX
-                                "/images/shared/bsod-left-2.png",
-                                USE_ALPHA);
+               "/images/shared/bsod-left-2.png",
+               USE_ALPHA);
 
   texture_load(&img_bsod_left[3] ,DATA_PREFIX
-                                "/images/shared/bsod-left-3.png",
-                                USE_ALPHA);
+               "/images/shared/bsod-left-3.png",
+               USE_ALPHA);
 
   texture_load(&img_bsod_right[0] ,DATA_PREFIX
-                                 "/images/shared/bsod-right-0.png",
-                                 USE_ALPHA);
+               "/images/shared/bsod-right-0.png",
+               USE_ALPHA);
 
   texture_load(&img_bsod_right[1] ,DATA_PREFIX
-                                 "/images/shared/bsod-right-1.png",
-                                 USE_ALPHA);
+               "/images/shared/bsod-right-1.png",
+               USE_ALPHA);
 
   texture_load(&img_bsod_right[2] ,DATA_PREFIX
-                                 "/images/shared/bsod-right-2.png",
-                                 USE_ALPHA);
+               "/images/shared/bsod-right-2.png",
+               USE_ALPHA);
 
   texture_load(&img_bsod_right[3] ,DATA_PREFIX
-                                 "/images/shared/bsod-right-3.png",
-                                 USE_ALPHA);
+               "/images/shared/bsod-right-3.png",
+               USE_ALPHA);
 
   texture_load(&img_bsod_squished_left ,DATA_PREFIX
-                                      "/images/shared/bsod-squished-left.png",
-                                      USE_ALPHA);
+               "/images/shared/bsod-squished-left.png",
+               USE_ALPHA);
 
   texture_load(&img_bsod_squished_right ,DATA_PREFIX
-                                       "/images/shared/bsod-squished-right.png",
-                                       USE_ALPHA);
+               "/images/shared/bsod-squished-right.png",
+               USE_ALPHA);
 
   texture_load(&img_bsod_falling_left ,DATA_PREFIX
-                                     "/images/shared/bsod-falling-left.png",
-                                     USE_ALPHA);
+               "/images/shared/bsod-falling-left.png",
+               USE_ALPHA);
 
   texture_load(&img_bsod_falling_right ,DATA_PREFIX
-                                      "/images/shared/bsod-falling-right.png",
-                                      USE_ALPHA);
+               "/images/shared/bsod-falling-right.png",
+               USE_ALPHA);
 
 
   /* (Laptop) */
 
   texture_load(&img_laptop_left[0] ,DATA_PREFIX
-                                  "/images/shared/laptop-left-0.png",
-                                  USE_ALPHA);
+               "/images/shared/laptop-left-0.png",
+               USE_ALPHA);
 
   texture_load(&img_laptop_left[1] ,DATA_PREFIX
-                                  "/images/shared/laptop-left-1.png",
-                                  USE_ALPHA);
+               "/images/shared/laptop-left-1.png",
+               USE_ALPHA);
 
   texture_load(&img_laptop_left[2] ,DATA_PREFIX
-                                  "/images/shared/laptop-left-2.png",
-                                  USE_ALPHA);
+               "/images/shared/laptop-left-2.png",
+               USE_ALPHA);
 
   texture_load(&img_laptop_right[0] ,DATA_PREFIX
-                                   "/images/shared/laptop-right-0.png",
-                                   USE_ALPHA);
+               "/images/shared/laptop-right-0.png",
+               USE_ALPHA);
 
   texture_load(&img_laptop_right[1] ,DATA_PREFIX
-                                   "/images/shared/laptop-right-1.png",
-                                   USE_ALPHA);
+               "/images/shared/laptop-right-1.png",
+               USE_ALPHA);
 
   texture_load(&img_laptop_right[2] ,DATA_PREFIX
-                                   "/images/shared/laptop-right-2.png",
-                                   USE_ALPHA);
+               "/images/shared/laptop-right-2.png",
+               USE_ALPHA);
 
   texture_load(&img_laptop_flat_left ,DATA_PREFIX
-                                    "/images/shared/laptop-flat-left.png",
-                                    USE_ALPHA);
+               "/images/shared/laptop-flat-left.png",
+               USE_ALPHA);
 
   texture_load(&img_laptop_flat_right ,DATA_PREFIX
-                                     "/images/shared/laptop-flat-right.png",
-                                     USE_ALPHA);
+               "/images/shared/laptop-flat-right.png",
+               USE_ALPHA);
 
   texture_load(&img_laptop_falling_left ,DATA_PREFIX
                "/images/shared/laptop-falling-left.png",
@@ -984,20 +987,20 @@ void loadshared(void)
   /* (Money) */
 
   texture_load(&img_money_left[0] ,DATA_PREFIX
-                                 "/images/shared/bag-left-0.png",
-                                 USE_ALPHA);
+               "/images/shared/bag-left-0.png",
+               USE_ALPHA);
 
   texture_load(&img_money_left[1] ,DATA_PREFIX
-                                 "/images/shared/bag-left-1.png",
-                                 USE_ALPHA);
+               "/images/shared/bag-left-1.png",
+               USE_ALPHA);
 
   texture_load(&img_money_right[0] ,DATA_PREFIX
-                                  "/images/shared/bag-right-0.png",
-                                  USE_ALPHA);
+               "/images/shared/bag-right-0.png",
+               USE_ALPHA);
 
   texture_load(&img_money_right[1] ,DATA_PREFIX
-                                  "/images/shared/bag-right-1.png",
-                                  USE_ALPHA);
+               "/images/shared/bag-right-1.png",
+               USE_ALPHA);
 
 
 
@@ -1012,29 +1015,29 @@ void loadshared(void)
   texture_load(&img_bullet ,DATA_PREFIX "/images/shared/bullet.png", USE_ALPHA);
 
   texture_load(&img_red_glow ,DATA_PREFIX "/images/shared/red-glow.png",
-                            USE_ALPHA);
+               USE_ALPHA);
 
 
 
   /* Distros: */
 
   texture_load(&img_distro[0] ,DATA_PREFIX "/images/shared/distro-0.png",
-                             USE_ALPHA);
+               USE_ALPHA);
 
   texture_load(&img_distro[1] ,DATA_PREFIX "/images/shared/distro-1.png",
-                             USE_ALPHA);
+               USE_ALPHA);
 
   texture_load(&img_distro[2] ,DATA_PREFIX "/images/shared/distro-2.png",
-                             USE_ALPHA);
+               USE_ALPHA);
 
   texture_load(&img_distro[3] ,DATA_PREFIX "/images/shared/distro-3.png",
-                             USE_ALPHA);
+               USE_ALPHA);
 
 
   /* Tux life: */
 
   texture_load(&tux_life ,DATA_PREFIX "/images/shared/tux-life.png",
-                        USE_ALPHA);
+               USE_ALPHA);
 
   /* Herring: */
 
@@ -1045,7 +1048,7 @@ void loadshared(void)
   /* Super background: */
 
   texture_load(&img_super_bkgd ,DATA_PREFIX "/images/shared/super-bkgd.png",
-                              IGNORE_ALPHA);
+               IGNORE_ALPHA);
 
 
   /* Sound effects: */
@@ -1199,7 +1202,7 @@ void drawshape(float x, float y, unsigned char c)
     texture_draw(&img_solid[3], x, y, NO_UPDATE);
   else if (c == '$')
     {
-      
+
       z = (frame / 2) % 6;
 
       if (z < 4)
@@ -1248,12 +1251,12 @@ unsigned char shape(float x, float y)
   xx = ((int)x / 32);
 
   if (yy >= 0 && yy < 15 && xx >= 0 && xx <= current_level.width)
-  {
-    c = current_level.tiles[yy][xx];
+    {
+      c = current_level.tiles[yy][xx];
     }
   else
     c = '.';
-    
+
   return(c);
 }
 
@@ -1509,7 +1512,7 @@ void trybumpbadguy(float x, float y)
 /* (Status): */
 void drawstatus(void)
 {
-int i;
+  int i;
 
   sprintf(str, "%d", score);
   drawtext("SCORE", 0, 0, letters_blue, NO_UPDATE, 1);
@@ -1531,6 +1534,15 @@ int i;
   drawtext(str, 608, 0, letters_gold, NO_UPDATE, 1);
 
   drawtext("LIVES", screen->h, 20, letters_blue, NO_UPDATE, 1);
+
+  if(show_fps)
+    {
+      drawtext("FPS", screen->h, 40, letters_blue, NO_UPDATE, 1);
+      sprintf(str, "%f", fps_fps);
+      if(use_gl) /* FIXME: We need this check as text doesn't work in OpenGl mode. */
+        printf("%f\n",fps_fps);
+      drawtext(str, screen->h + 60, 40, letters_gold, NO_UPDATE, 1);
+    }
 
   for(i=0; i < tux.lives; ++i)
     {
@@ -1629,7 +1641,7 @@ void loadgame(char* filename)
     }
   else
     {
-    player_level_begin(&tux);
+      player_level_begin(&tux);
       set_defaults();
       loadlevel(&current_level,"default",level);
       arrays_free();

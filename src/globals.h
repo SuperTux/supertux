@@ -19,7 +19,7 @@
 SDL_Surface * screen;
 SDL_Surface * letters_black, * letters_gold, * letters_blue, * letters_red;
 
-int use_gl, use_joystick, use_fullscreen, debug_mode;
+int use_gl, use_joystick, use_fullscreen, debug_mode, show_fps;
 
 int game_started, level_editor_started;
 

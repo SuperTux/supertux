@@ -34,10 +34,7 @@ void player_init(player_type* pplayer)
   pplayer->duck = NO;
 
   pplayer->dying = NO;
-  pplayer->safe = TUX_SAFE_TIME;
-
   pplayer->jumping = NO;
-  pplayer->skidding = 0;
 
   pplayer->frame_main = 0;
   pplayer->frame = 0;
@@ -50,7 +47,77 @@ void player_init(player_type* pplayer)
   pplayer->input.right = UP;
   pplayer->input.up = UP;
 
+  pplayer->keymap.jump = SDLK_UP;
+  pplayer->keymap.duck = SDLK_DOWN;
+  pplayer->keymap.left = SDLK_LEFT;
+  pplayer->keymap.right = SDLK_RIGHT;
+  pplayer->keymap.fire = SDLK_LCTRL;
+  
   timer_init(&pplayer->invincible_timer);
+  timer_init(&pplayer->skidding_timer);
+  timer_init(&pplayer->safe_timer);
+}
+
+int player_keydown_event(player_type* pplayer, SDLKey key)
+{
+	    if(key == pplayer->keymap.right)
+	    {
+              pplayer->input.right = DOWN;
+              return YES;
+	    }
+            else if( key == pplayer->keymap.left)
+	    {
+              pplayer->input.left = DOWN;
+              return YES;
+	    }
+            else if(key == pplayer->keymap.jump)
+	    {
+              pplayer->input.up = DOWN;
+              return YES;
+	    }
+            else if(key == pplayer->keymap.duck)
+	    {
+              pplayer->input.down = DOWN;
+              return YES;
+            }
+	    else if(key == pplayer->keymap.fire)
+	    {
+              pplayer->input.fire = DOWN;
+              return YES;
+	    }
+	    else
+	    return NO;
+}
+	      
+int player_keyup_event(player_type* pplayer, SDLKey key)
+{
+	    if(key == pplayer->keymap.right)
+	    {
+              pplayer->input.right = UP;
+              return YES;
+	    }
+            else if( key == pplayer->keymap.left)
+	    {
+              pplayer->input.left = UP;
+              return YES;
+	    }
+            else if(key == pplayer->keymap.jump)
+	    {
+              pplayer->input.up = UP;
+              return YES;
+	    }
+            else if(key == pplayer->keymap.duck)
+	    {
+              pplayer->input.down = UP;
+              return YES;
+            }
+	    else if(key == pplayer->keymap.fire)
+	    {
+              pplayer->input.fire = UP;
+              return YES;
+	    }
+	    else
+	    return NO;
 }
 
 void player_level_begin(player_type* pplayer)
@@ -59,6 +126,14 @@ void player_level_begin(player_type* pplayer)
   pplayer->base.y = 240;
   pplayer->base.xm = 0;
   pplayer->base.ym = 0;
+  
+  pplayer->input.down = UP;
+  pplayer->input.fire = UP;
+  pplayer->input.left = UP;
+  pplayer->input.old_fire = UP;
+  pplayer->input.right = UP;
+  pplayer->input.up = UP;
+
 }
 
 void player_action(player_type* pplayer)
@@ -362,8 +437,8 @@ void player_action(player_type* pplayer)
 
 
 
-  if (pplayer->safe > 0)
-    pplayer->safe--;
+  timer_check(&pplayer->safe_timer);
+    
 
   /* ---- DONE HANDLING TUX! --- */
 
@@ -393,11 +468,8 @@ void player_action(player_type* pplayer)
 
   /* Handle skidding: */
 
-  if (pplayer->skidding > 0)
-    {
-      pplayer->skidding--;
-    }
-
+  timer_check(&pplayer->skidding_timer);
+  
   /* End of level? */
 
   if (pplayer->base.x>= endpos && endpos != 0)
@@ -416,10 +488,10 @@ void player_input(player_type *pplayer)
     {
       if (pplayer->jumping == NO)
         {
-          if (pplayer->base.xm < -SKID_XM && !pplayer->skidding &&
+          if (pplayer->base.xm < -SKID_XM && !timer_started(&pplayer->skidding_timer) &&
               pplayer->dir == LEFT)
             {
-              pplayer->skidding = SKID_TIME;
+              timer_start(&pplayer->skidding_timer, SKID_TIME);
 
               play_sound(sounds[SND_SKID], SOUND_CENTER_SPEAKER);
 
@@ -428,7 +500,7 @@ void player_input(player_type *pplayer)
         }
 
       if (pplayer->base.xm < 0 && !isice(pplayer->base.x, pplayer->base.y + 32) &&
-          !pplayer->skidding)
+          !timer_started(&pplayer->skidding_timer))
         {
           pplayer->base.xm = 0;
         }
@@ -470,17 +542,17 @@ void player_input(player_type *pplayer)
     {
       if (pplayer->jumping == NO)
         {
-          if (pplayer->base.xm > SKID_XM && !pplayer->skidding &&
+          if (pplayer->base.xm > SKID_XM && !timer_started(&pplayer->skidding_timer) &&
               pplayer->dir == RIGHT)
             {
-              pplayer->skidding = SKID_TIME;
+              timer_start(&pplayer->skidding_timer,SKID_TIME);
               play_sound(sounds[SND_SKID], SOUND_CENTER_SPEAKER);
             }
           pplayer->dir = LEFT;
         }
 
       if (pplayer->base.xm > 0 && !isice(pplayer->base.x, pplayer->base.y + 32) &&
-          !pplayer->skidding)
+          !timer_started(&pplayer->skidding_timer))
         {
           pplayer->base.xm = 0;
         }
@@ -647,7 +719,7 @@ void player_grabdistros(player_type *pplayer)
 void player_draw(player_type* pplayer)
 {
 
-  if (pplayer->safe == 0 || (frame % 2) == 0)
+  if (!timer_started(&pplayer->safe_timer) || (frame % 2) == 0)
     {
       if (pplayer->size == SMALL)
         {
@@ -719,7 +791,7 @@ void player_draw(player_type* pplayer)
             {
               if (!pplayer->duck)
                 {
-                  if (!pplayer->skidding)
+                  if (!timer_started(&pplayer->skidding_timer))
                     {
                       if (!pplayer->jumping || pplayer->base.ym > 0)
                         {
@@ -788,7 +860,7 @@ void player_draw(player_type* pplayer)
 
               if (!pplayer->duck)
                 {
-                  if (!pplayer->skidding)
+                  if (!timer_started(&pplayer->skidding_timer))
                     {
                       if (!pplayer->jumping || pplayer->base.ym > 0)
                         {
@@ -867,7 +939,7 @@ void player_collision(player_type* pplayer, void* p_c_object, int c_object)
       /* Hurt the player if he just touched it: */
 
       if (!pbad_c->dying && !pplayer->dying &&
-          !pplayer->safe &&
+          !timer_started(&pplayer->safe_timer) &&
           pbad_c->mode != HELD)
         {
           if (pbad_c->mode == FLAT  && pplayer->input.fire != DOWN)
@@ -965,7 +1037,7 @@ void player_kill(player_type* pplayer, int mode)
 
       pplayer->size = SMALL;
 
-      pplayer->safe = TUX_SAFE_TIME;
+      timer_start(&pplayer->safe_timer,TUX_SAFE_TIME);
     }
   else
     {
@@ -981,7 +1053,9 @@ void player_dying(player_type *pplayer)
 
   --pplayer->lives;
   player_remove_powerups(pplayer);
-  pplayer->dying = 0;
+  pplayer->dying = NO;
+  
+  player_level_begin(pplayer);
 
 }
 

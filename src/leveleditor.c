@@ -33,13 +33,15 @@
 #include "scene.h"
 
 /* definitions to aid development */
-#define DONE_LEVELEDITOR    1
+#define DONE_LEVELEDITOR 1
 #define DONE_QUIT        2
-#define DONE_CHANGELEVEL  3
+#define DONE_CHANGELEVEL 3
 
 /* definitions that affect gameplay */
 #define KEY_CURSOR_SPEED 32
 #define KEY_CURSOR_FASTSPEED 64
+// when pagedown/up pressed speed:
+#define PAGE_CURSOR_SPEED 13*32
 
 #define CURSOR_LEFT_MARGIN 96
 #define CURSOR_RIGHT_MARGIN 512
@@ -83,6 +85,7 @@ void le_activate_bad_guys(void);
 int level;
 st_level current_level;
 char level_subset[100];
+int show_grid;
 
 int frame;
 texture_type selection;
@@ -138,7 +141,8 @@ int leveleditor()
   SDLMod keymod;
 
   strcpy(level_subset,"default");
-
+  show_grid = NO;
+  
   level = 1;
 
   initmenu();
@@ -206,8 +210,8 @@ int leveleditor()
                   else
                     cursor_x += KEY_CURSOR_FASTSPEED;
 
-                  if(cursor_x > (current_level.width*32) - 1)
-                    cursor_x = (current_level.width*32) - 1;
+                  if(cursor_x > (current_level.width*32) - 32)
+                    cursor_x = (current_level.width*32) - 32;
                   break;
                 case SDLK_UP:
                   if(fire == DOWN)
@@ -238,6 +242,24 @@ int leveleditor()
                   break;
                 case SDLK_END:
                   cursor_x = (current_level.width * 32) - 32;
+                  break;
+                case SDLK_PAGEUP:
+                  cursor_x -= PAGE_CURSOR_SPEED;
+
+									if(cursor_x < 0)
+										cursor_x = 0;
+                  break;
+                case SDLK_PAGEDOWN:
+                  cursor_x += PAGE_CURSOR_SPEED;
+
+                  if(cursor_x > (current_level.width*32) - 32)
+                    cursor_x = (current_level.width*32) - 32;
+                  break;
+                case SDLK_F9:
+                  if(!show_grid)
+                    show_grid = YES;
+                  else
+                    show_grid = NO;
                   break;
                 case SDLK_PERIOD:
                   le_change(cursor_x, cursor_y, '.');
@@ -435,6 +457,25 @@ int leveleditor()
         for (x = 0; x < 21; ++x)
           drawshape(x * 32, y * 32, current_level.tiles[y][x + (pos_x / 32)]);
 
+/* draw whats inside stuff when cursor is selecting those */
+int cursor_tile = current_level.tiles[cursor_y/32][cursor_x/32];
+switch(cursor_tile)
+	{
+	case 'B':
+		texture_draw(&img_mints, cursor_x - pos_x, cursor_y, NO_UPDATE);
+		break;
+	case '!':
+		texture_draw(&img_golden_herring, cursor_x - pos_x, cursor_y, NO_UPDATE);
+		break;
+	case 'x':
+	case 'y':
+	case 'A':
+		texture_draw(&img_distro[(frame / 5) % 4], cursor_x - pos_x, cursor_y, NO_UPDATE);
+		break;
+	default:
+		break;
+	}
+
       /* Draw the Bad guys: */
       for (i = 0; i < num_bad_guys; ++i)
         {
@@ -450,6 +491,14 @@ int leveleditor()
             texture_draw(&img_money_left[(frame / 5) % 2], ((int)(bad_guys[i].base.x - pos_x)/32)*32, bad_guys[i].base.y, NO_UPDATE);
         }
 
+/* draw a grid (if selected) */
+if(show_grid)
+	{
+	for(x = 0; x < 21; x++)
+		fillrect(x*32, 0, 1, 480, 225, 225, 225);
+	for(y = 0; y < 15; y++)
+		fillrect(0, y*32, 640, 1, 225, 225, 225);
+	}
 
       texture_draw(&selection, ((int)(cursor_x - pos_x)/32)*32, cursor_y, NO_UPDATE);
 
@@ -585,6 +634,7 @@ void showhelp()
                    "& - Water",
                    "0-2 - BadGuys",
                    "./Del - Remove tile",
+                   "F9 - Show/Hide Grid",
                    "Esc - Menu"};
 
 

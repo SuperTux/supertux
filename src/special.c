@@ -166,7 +166,7 @@ void upgrade_action(upgrade_type *pupgrade)
 
           /* Off the screen?  Kill it! */
 
-          if (pupgrade->base.x < scroll_x)
+          if (pupgrade->base.x < scroll_x - pupgrade->base.width)
             pupgrade->base.alive = NO;
 
         }
