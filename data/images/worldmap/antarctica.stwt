@@ -1,3 +1,4 @@
+;; -*- mode: scheme -*-
 ;; (tile (id INT)
 ;;       (directions TOP RIGHT DOWN LEFT) 
 ;;
@@ -118,6 +119,8 @@
 
  (tile (id 37) 
        (image "road_ne.png")
+       (stop  #f)
+       (auto-walk #t)
        (north #t)
        (south #f)
        (west  #f)
@@ -131,6 +134,8 @@
        (east  #f))
  (tile (id 39)
        (image "road_sw.png")
+       (stop  #f)
+       (auto-walk #t)
        (north #f)
        (south #t)
        (west  #t)
@@ -150,6 +155,8 @@
        (east  #t))
  (tile (id 42)
        (image "road_nw.png")
+       (stop  #f)
+       (auto-walk #t)
        (north #t)
        (south #f)
        (west  #t)
@@ -187,6 +194,8 @@
        (stop  #f))
  (tile (id 48)
        (image "road_se.png")
+       (stop  #f)
+       (auto-walk #t)
        (north #f)
        (south #t)
        (west  #f)
