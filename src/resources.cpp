@@ -30,14 +30,6 @@
 #include "object/gameobjs.h"
 #include "object/player.h"
 
-Surface* img_waves[3]; 
-Surface* img_water;
-Surface* img_pole;
-Surface* img_poletop;
-Surface* img_flag[2];
-Surface* img_cloud[2][4];
-Surface* img_distro[4];
-
 Menu* main_menu      = 0;
 Menu* game_menu      = 0;
 Menu* options_menu   = 0;
@@ -91,7 +83,6 @@ Font* white_big_text;
 /* Load graphics/sounds shared between all levels: */
 void loadshared()
 {
-
   /* Load global images: */
   gold_text = new Font(datadir + "/images/fonts/gold.png", Font::TEXT, 16,18);
   blue_text = new Font(datadir + "/images/fonts/blue.png", Font::TEXT, 16,18,3);
@@ -121,10 +112,6 @@ void loadshared()
   tile_manager = new TileManager("/images/tilesets/supertux.stgt");
 
   /* Tuxes: */
-  smalltux_star = sprite_manager->create("smalltux-star");
-  bigtux_star = sprite_manager->create("bigtux-star");
-  smalltux_gameover = sprite_manager->create("smalltux-gameover");
-
   char img_name[1024];
   for (int i = 0; i < GROWING_FRAMES; i++)
     {
@@ -159,96 +146,17 @@ void loadshared()
   ice_tux->arms = sprite_manager->create("big-tux-arms");
   ice_tux->feet = sprite_manager->create("big-tux-feet");
 
-  /* Water: */
-  img_water = new Surface(datadir + "/images/shared/water.png", false);
-
-  img_waves[0] = new Surface(datadir + "/images/shared/waves-0.png",
-                             true);
-
-  img_waves[1] = new Surface(datadir + "/images/shared/waves-1.png",
-                             true);
-
-
-  img_waves[2] = new Surface(datadir + "/images/shared/waves-2.png",
-                             true);
-
-
-  /* Pole: */
-
-  img_pole = new Surface(datadir + "/images/shared/pole.png", true);
-  img_poletop = new Surface(datadir + "/images/shared/poletop.png",
-                            true);
-
-
-  /* Flag: */
-
-  img_flag[0] = new Surface(datadir + "/images/shared/flag-0.png",
-                            true);
-  img_flag[1] = new Surface(datadir + "/images/shared/flag-1.png",
-                            true);
-
-
-  /* Cloud: */
-
-  img_cloud[0][0] = new Surface(datadir + "/images/shared/cloud-00.png",
-                                true);
-
-  img_cloud[0][1] = new Surface(datadir + "/images/shared/cloud-01.png",
-                                true);
-
-  img_cloud[0][2] = new Surface(datadir + "/images/shared/cloud-02.png",
-                                true);
-
-  img_cloud[0][3] = new Surface(datadir + "/images/shared/cloud-03.png",
-                                true);
-
-
-  img_cloud[1][0] = new Surface(datadir + "/images/shared/cloud-10.png",
-                                true);
-
-  img_cloud[1][1] = new Surface(datadir + "/images/shared/cloud-11.png",
-                                true);
-
-  img_cloud[1][2] = new Surface(datadir + "/images/shared/cloud-12.png",
-                                true);
-
-  img_cloud[1][3] = new Surface(datadir + "/images/shared/cloud-13.png",
-                                true);
-
   /* Objects */
   load_object_gfx();
 
-  /* Distros: */
-  img_distro[0] = new Surface(datadir + "/images/tilesets/coin1.png",
-                              true);
-
-  img_distro[1] = new Surface(datadir + "/images/tilesets/coin2.png",
-                              true);
-
-  img_distro[2] = new Surface(datadir + "/images/tilesets/coin3.png",
-                              true);
-
-  img_distro[3] = new Surface(datadir + "/images/tilesets/coin2.png",
-                              true);
-
-
   /* Tux life: */
-
   tux_life = new Surface(datadir + "/images/shared/tux-life.png",
                          true);
 
   /* Sound effects: */
 
-  /* if (use_sound) // this will introduce SERIOUS bugs here ! because "load_sound"
-                    // initialize sounds[i] with the correct pointer's value:
-                    // NULL or something else. And it will be dangerous to
-                    // play with not-initialized pointers.
-                    // This is also true with if (use_music)
-                    Send a mail to me: neoneurone@users.sf.net, if you have another opinion. :)
-  */
   for (i = 0; i < NUM_SOUNDS; i++)
-    SoundManager::get
-      ()->add_sound(SoundManager::get
+    SoundManager::get()->add_sound(SoundManager::get
                       ()->load_sound(datadir + soundfilenames[i]),i);
 
   /* Herring song */
@@ -261,10 +169,6 @@ void loadshared()
 /* Free shared data: */
 void unloadshared(void)
 {
-  delete smalltux_star;
-  delete bigtux_star;
-  delete smalltux_gameover;
-
   /* Free global images: */
   delete gold_text;
   delete white_text;
@@ -275,22 +179,6 @@ void unloadshared(void)
   delete yellow_nums;
   
   free_object_gfx();
-
-  delete img_water;
-  for (int i = 0; i < 3; i++)
-    delete img_waves[i];
-
-  delete img_pole;
-  delete img_poletop;
-
-  for (int i = 0; i < 2; i++)
-    delete img_flag[i];
-
-  for (int i = 0; i < 4; i++) {
-    delete img_distro[i];
-    delete img_cloud[0][i];
-    delete img_cloud[1][i];
-  }
 
   delete tux_life;
 

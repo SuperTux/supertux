@@ -25,6 +25,7 @@
 
 #include "app/globals.h"
 #include "app/gettext.h"
+#include "special/sprite_manager.h"
 #include "player.h"
 #include "defines.h"
 #include "scene.h"
@@ -38,6 +39,7 @@
 #include "object/tilemap.h"
 #include "object/camera.h"
 #include "object/gameobjs.h"
+#include "object/portable.h"
 #include "trigger/trigger_base.h"
 
 static const int TILES_FOR_BUTTJUMP = 3;
@@ -58,10 +60,6 @@ Surface* growingtux_left[GROWING_FRAMES];
 Surface* growingtux_right[GROWING_FRAMES];
 
 Surface* tux_life = 0;
-
-Sprite* smalltux_gameover = 0;
-Sprite* smalltux_star = 0;
-Sprite* bigtux_star = 0;
 
 TuxBodyParts* small_tux = 0;
 TuxBodyParts* big_tux = 0;
@@ -123,19 +121,24 @@ TuxBodyParts::draw(DrawingContext& context, const Vector& pos, int layer,
 }
 
 Player::Player()
+  : grabbed_object(0)
 {
+  smalltux_gameover = sprite_manager->create("smalltux-gameover");
+  smalltux_star = sprite_manager->create("smalltux-star");
+  bigtux_star = sprite_manager->create("bigtux-star");
   init();
 }
 
 Player::~Player()
 {
+  delete smalltux_gameover;
+  delete smalltux_star;
+  delete bigtux_star;
 }
 
 void
 Player::init()
 {
-  holding_something = false;
-
   bbox.set_size(31.8, 31.8);
 
   size = SMALL;
@@ -166,6 +169,7 @@ Player::init()
   flaps_nb = 0;
 
   on_ground_flag = false;
+  grabbed_object = 0;
 
   player_input_init(&input);
 
@@ -249,44 +253,32 @@ Player::action(float elapsed_time)
     return;
   }
 
-  if (input.fire == UP)
-    holding_something = false;
+  if(input.fire == UP)
+    grabbed_object = 0;
+
 
   if(dying == DYING_NOT)
     handle_input();
 
   movement = physic.get_movement(elapsed_time);
+  on_ground_flag = false;
 
 #if 0
-      // special exception for cases where we're stuck under tiles after
-      // being ducked. In this case we drift out
-      if(!duck && on_ground() && old_base.x == base.x && old_base.y == base.y
-         && collision_object_map(base))
-        {
-          base.x += elapsed_time * WALK_SPEED * (dir ? 1: -1);
-          previous_base = old_base = base;
-        }
-
-      /* Reset score multiplier (for multi-hits): */
-      if (!invincible_timer.started())
-            {
-            if(player_status.score_multiplier > player_status.max_score_multiplier)
-              {
-              player_status.max_score_multiplier = player_status.score_multiplier;
-
-              // show a message
-              char str[124];
-              sprintf(str, _("New max combo: %d"), player_status.max_score_multiplier-1);
-              Sector::current()->add_floating_text(base, str);
-              }
-            player_status.score_multiplier = 1;
-            }
-        }
-
-    }
+  // special exception for cases where we're stuck under tiles after
+  // being ducked. In this case we drift out
+  if(!duck && on_ground() && old_base.x == base.x && old_base.y == base.y
+     && collision_object_map(base)) {
+    base.x += elapsed_time * WALK_SPEED * (dir ? 1: -1);
+    previous_base = old_base = base;
+  }
 #endif
 
-  on_ground_flag = false;
+  if(grabbed_object != 0) {
+    Vector pos = get_pos() + 
+      Vector(dir == LEFT ? -16 : 16,
+             bbox.get_height()*0.66666 - 32);
+    grabbed_object->grab(*this, pos);
+  }
 }
 
 bool
@@ -342,40 +334,36 @@ Player::handle_horizontal_input()
   }
 
   // changing directions?
-  if(on_ground() && ((vx < 0 && dirsign >0) || (vx>0 && dirsign<0)))
-    {
-      // let's skid!
-      if(fabs(vx)>SKID_XM && !skidding_timer.started())
-        {
-          skidding_timer.start(SKID_TIME);
-          SoundManager::get()->play_sound(IDToSound(SND_SKID));
-          // dust some partcles
-          Sector::current()->add_object(
-              new Particles(
-                Vector(bbox.p1.x + (dir == RIGHT ? bbox.get_width() : 0),
-                bbox.p2.y),
-              dir == RIGHT ? 270+20 : 90-40, dir == RIGHT ? 270+40 : 90-20,
-              Vector(280,-260), Vector(0,0.030), 3, Color(100,100,100), 3, .8,
-              LAYER_OBJECTS+1));
-
-          ax *= 2.5;
-        }
-      else
-        {
-          ax *= 2;
-        }
+  if(on_ground() && ((vx < 0 && dirsign >0) || (vx>0 && dirsign<0))) {
+    // let's skid!
+    if(fabs(vx)>SKID_XM && !skidding_timer.started()) {
+      skidding_timer.start(SKID_TIME);
+      SoundManager::get()->play_sound(IDToSound(SND_SKID));
+      // dust some partcles
+      Sector::current()->add_object(
+        new Particles(
+          Vector(bbox.p1.x + (dir == RIGHT ? bbox.get_width() : 0),
+                 bbox.p2.y),
+          dir == RIGHT ? 270+20 : 90-40, dir == RIGHT ? 270+40 : 90-20,
+          Vector(280,-260), Vector(0,0.030), 3, Color(100,100,100), 3, .8,
+          LAYER_OBJECTS+1));
+      
+      ax *= 2.5;
+    } else {
+      ax *= 2;
     }
+  }
 
   // we get slower when not pressing any keys
   if(dirsign == 0) {
-      if(fabs(vx) < WALK_SPEED) {
-          vx = 0;
-          ax = 0;
-      } else if(vx < 0) {
-          ax = WALK_ACCELERATION_X * 1.5;
-      } else {
-          ax = WALK_ACCELERATION_X * -1.5;
-      }
+    if(fabs(vx) < WALK_SPEED) {
+      vx = 0;
+      ax = 0;
+    } else if(vx < 0) {
+      ax = WALK_ACCELERATION_X * 1.5;
+    } else {
+      ax = WALK_ACCELERATION_X * -1.5;
+    }
   }
 
 #if 0
@@ -558,14 +546,6 @@ Player::handle_vertical_input()
      }
    }
 
-   // Hover
-   //(disabled by default, use cheat code "hover" to toggle on/off)
-   //TODO: needs some tweaking, especially when used together with double jump and jumping off badguys
-   if (enable_hover && input.jump == DOWN && !jumping && !butt_jump && physic.get_velocity_y() <= 0)
-      {
-         physic.set_velocity_y(-100);
-      }
-
 #if 0
    /* In case the player has pressed Down while in a certain range of air,
       enable butt jump action */
@@ -712,11 +692,6 @@ Player::grow(bool animate)
 }
 
 void
-Player::grabdistros()
-{
-}
-
-void
 Player::draw(DrawingContext& context)
 {
   TuxBodyParts* tux_body;
@@ -799,7 +774,7 @@ Player::draw(DrawingContext& context)
     }
 
   // Tux is holding something
-  if ((holding_something && physic.get_velocity_y() == 0) ||
+  if ((grabbed_object != 0 && physic.get_velocity_y() == 0) ||
       (shooting_timer.get_timeleft() > 0 && !shooting_timer.check()))
     {
     if (duck)
@@ -872,6 +847,13 @@ Player::draw(DrawingContext& context)
 HitResponse
 Player::collision(GameObject& other, const CollisionHit& hit)
 {
+  Portable* portable = dynamic_cast<Portable*> (&other);
+  if(portable && grabbed_object == 0 && input.fire == DOWN
+        && fabsf(hit.normal.x) > .9) {
+    grabbed_object = portable;
+    return CONTINUE;
+  }
+ 
   if(other.get_flags() & FLAG_SOLID) {
     if(hit.normal.y < 0) { // landed on floor?
       if (physic.get_velocity_y() < 0)

@@ -15,9 +15,9 @@ public:
   Coin(const Vector& pos);
   ~Coin();
 
-  virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
-  virtual void action(float elapsed_time);
-  virtual void draw(DrawingContext& context);
+  HitResponse collision(GameObject& other, const CollisionHit& hit);
+  void action(float elapsed_time);
+  void draw(DrawingContext& context);
 
   void collect();
 

@@ -52,6 +52,7 @@
 #include "object/invisible_block.h"
 #include "object/platform.h"
 #include "object/bullet.h"
+#include "object/rock.h"
 #include "badguy/jumpy.h"
 #include "badguy/snowball.h"
 #include "badguy/bouncing_snowball.h"
@@ -149,6 +150,8 @@ Sector::parse_object(const std::string& name, const lisp::Lisp& reader)
     return new Spiky(reader);
   } else if(name == "nolok_01") {
     return new Nolok_01(reader);
+  } else if(name == "rock") {
+    return new Rock(reader);
   }
 
   std::cerr << "Unknown object type '" << name << "'.\n";

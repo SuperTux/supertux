@@ -7,7 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux 0.1.1\n"
-"POT-Creation-Date: 2004-12-05 18:22+0100\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2004-12-15 17:21+0100\n"
 "PO-Revision-Date: 2004-12-06 18:26+0100\n"
 "Last-Translator: Matze Braun <matze@braunis.de>\n"
 "Language-Team: German <de@li.org>\n"
@@ -15,12 +16,141 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+#: lib/app/setup.cpp:798
+#, c-format
+msgid ""
+"Usage: %s [OPTIONS] FILENAME\n"
+"\n"
+msgstr ""
+"Aufruf: %s [OPTIONS] FILENAME\n"
+"\n"
+
+#: lib/app/setup.cpp:799
+msgid ""
+"Display Options:\n"
+"  -f, --fullscreen    Run in fullscreen mode.\n"
+"  -w, --window        Run in window mode.\n"
+"  --opengl            If OpenGL support was compiled in, this will tell\n"
+"                      SuperTux to make use of it.\n"
+"  --sdl               Use the SDL software graphical renderer\n"
+"\n"
+"Sound Options:\n"
+"  --disable-sound     If sound support was compiled in,  this will\n"
+"                      disable sound for this session of the game.\n"
+"  --disable-music     Like above, but this will disable music.\n"
+"\n"
+"Misc Options:\n"
+"  -j, --joystick NUM  Use joystick NUM (default: 0)\n"
+"  --joymap XAXIS:YAXIS:A:B:START\n"
+"                      Define how joystick buttons and axis should be mapped\n"
+"  --leveleditor       Opens the leveleditor in a file.\n"
+"  --worldmap          Opens the specified worldmap file.\n"
+"  --flip-levels       Flip levels upside-down.\n"
+"  -d, --datadir DIR   Load Game data from DIR (default: automatic)\n"
+"  --debug             Enables the debug mode, which is useful for "
+"developers.\n"
+"  --help              Display a help message summarizing command-line\n"
+"                      options, license and game controls.\n"
+"  --usage             Display a brief message summarizing command-line "
+"options.\n"
+"  --version           Display the version of SuperTux you're running.\n"
+"\n"
+msgstr ""
+"Display Options:\n"
+"  -f, --fullscreen    Im Vollbildmodus starten\n"
+"  -w, --window        Im Fenstermodus starten\n"
+"  --opengl            OpenGL benutzen\n"
+"  --sdl               SDL Software renderer benutzen\n"
+"\n"
+"Sound Options:\n"
+"  --disable-sound     Sound deaktivieren\n"
+"  --disable-music     Musik deaktivieren\n"
+"\n"
+"Misc Options:\n"
+"  -j, --joystick NUM  Joystick NUM benutzen (default: 0)\n"
+"  --joymap XAXIS:YAXIS:A:B:START\n"
+"                      Belegung der Joystick Knöpfe und Axen einstellen\n"
+"  --leveleditor       Startet den Level Editor\n"
+"  --worldmap          Startet im Worldmap Modus\n"
+"  -d, --datadir DIR   Verzeichnis mit Spieldaten (standard: automatisch)\n"
+"  --debug             Debug Modus aktivieren\n"
+"  --help              diese Hilfe anzeigen und beenden\n"
+"  --usage             kurzen Hilfstext über Optionen anzeigen\n"
+"  --version           Versionsinformationen anzeigen\n"
+"\n"
+
+#: lib/app/setup.cpp:858
+#, c-format
+msgid ""
+"Usage: %s [--fullscreen] [--opengl] [--disable-sound] [--disable-music] [--"
+"debug] | [--usage | --help | --version] [--leveleditor] [--worldmap] [--flip-"
+"levels] FILENAME\n"
+msgstr ""
+"Aufruf: %s [--fullscreen] [--opengl] [--disable-sound] [--disable-music] [--"
+"debug] | [--usage | --help | --version] [--leveleditor] [--worldmap] [--flip-"
+"levels] DATEI\n"
+
+#: lib/gui/menu.cpp:68
+msgid "Yes"
+msgstr "Ja"
+
+#: lib/gui/menu.cpp:69
+msgid "No"
+msgstr "Nein"
+
+#: lib/gui/menu.cpp:237
+msgid "Up cursor"
+msgstr "Nach Oben"
+
+#: lib/gui/menu.cpp:240
+msgid "Down cursor"
+msgstr "Nach Unten"
+
+#: lib/gui/menu.cpp:243
+msgid "Left cursor"
+msgstr "Nach Links"
+
+#: lib/gui/menu.cpp:246
+msgid "Right cursor"
+msgstr "Nach Rechts"
+
+#: lib/gui/menu.cpp:249
+msgid "Return"
+msgstr "Return"
+
+#: lib/gui/menu.cpp:252
+msgid "Space"
+msgstr "Space"
+
+#: lib/gui/menu.cpp:255
+msgid "Right Shift"
+msgstr "Shift Rechts"
+
+#: lib/gui/menu.cpp:258
+msgid "Left Shift"
+msgstr "Shift Links"
+
+#: lib/gui/menu.cpp:261
+msgid "Right Control"
+msgstr "Steuerung Rechts"
+
+#: lib/gui/menu.cpp:264
+msgid "Left Control"
+msgstr "Steuerung Links"
+
+#: lib/gui/menu.cpp:267
+msgid "Right Alt"
+msgstr "Alt Rechts"
+
+#: lib/gui/menu.cpp:270
+msgid "Left Alt"
+msgstr "Alt Links"
+
 #: src/worldmap.cpp:802
 msgid "GAMEOVER"
 msgstr "Game Over"
 
-#: src/worldmap.cpp:805
-#: src/gameloop.cpp:922
+#: src/worldmap.cpp:805 src/gameloop.cpp:922
 #, c-format
 msgid "COINS: %d"
 msgstr "Münzen: %d"
@@ -29,53 +159,44 @@ msgstr "Münzen: %d"
 msgid "Total Statistics"
 msgstr "Gesamt Statistiken"
 
-#: src/worldmap.cpp:963
-#: src/gameloop.cpp:843
+#: src/worldmap.cpp:963 src/gameloop.cpp:843
 msgid "SCORE"
 msgstr "Punkte"
 
-#: src/worldmap.cpp:967
-#: src/gameloop.cpp:865
-#: src/gameloop.cpp:866
+#: src/worldmap.cpp:967 src/gameloop.cpp:865 src/gameloop.cpp:866
 msgid "COINS"
 msgstr "Münzen"
 
-#: src/worldmap.cpp:988
-#: src/worldmap.cpp:989
-#: src/gameloop.cpp:887
+#: src/worldmap.cpp:988 src/worldmap.cpp:989 src/gameloop.cpp:887
 #: src/gameloop.cpp:888
 msgid "LIVES"
 msgstr "Leben"
 
-#: src/title.cpp:124
-#: src/misc.cpp:98
+#: src/title.cpp:124 src/misc.cpp:98
 msgid "Contrib Levels"
 msgstr "Zusatzlevel"
 
-#: src/title.cpp:143
-#: src/title.cpp:216
-#: src/misc.cpp:129
-#: src/misc.cpp:140
-#: src/misc.cpp:153
-#: src/misc.cpp:164
-#: src/leveleditor.cpp:67
+#: src/title.cpp:143 src/title.cpp:216 src/misc.cpp:129 src/misc.cpp:140
+#: src/misc.cpp:153 src/misc.cpp:164 src/leveleditor.cpp:67
 #: src/leveleditor.cpp:77
 msgid "Back"
 msgstr "Zurück"
 
-#: src/title.cpp:350
+#: src/title.cpp:351
 msgid ""
 "Copyright (c) 2003 SuperTux Devel Team\n"
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you\n"
-"are welcome to redistribute it under certain conditions; see the file COPYING\n"
+"are welcome to redistribute it under certain conditions; see the file "
+"COPYING\n"
 "for details.\n"
 msgstr ""
 "Copyright (c) 2003 SuperTux Devel Team\n"
 "Diese Spiel kommt OHNE GEWÄHRLEISTUNG. Dies ist freie Software und sie\n"
-"dürfen sie gerne unter bestimmten Bedingungen weiterverteilen; Details finden\n"
+"dürfen sie gerne unter bestimmten Bedingungen weiterverteilen; Details "
+"finden\n"
 "Sie in der Datei COPYING.\n"
 
-#: src/title.cpp:404
+#: src/title.cpp:408
 msgid "Are you sure you want to delete slot"
 msgstr "Sind sie sicher, dass sie den Spielstand löschen wollen?"
 
@@ -164,20 +285,15 @@ msgstr "Max besiegt: %d / %d"
 msgid "Min time needed:       %d / %d"
 msgstr "Min Zeit benötigt: %d / %d"
 
-#: src/misc.cpp:97
-#: src/misc.cpp:156
+#: src/misc.cpp:97 src/misc.cpp:156
 msgid "Start Game"
 msgstr "Spiel Beginnen"
 
-#: src/misc.cpp:99
-#: src/misc.cpp:104
-#: src/misc.cpp:179
-#: src/misc.cpp:186
+#: src/misc.cpp:99 src/misc.cpp:104 src/misc.cpp:179 src/misc.cpp:186
 msgid "Options"
 msgstr "Einstellungen"
 
-#: src/misc.cpp:100
-#: src/leveleditor.cpp:562
+#: src/misc.cpp:100 src/leveleditor.cpp:562
 msgid "Level Editor"
 msgstr "Level Editor"
 
@@ -201,13 +317,11 @@ msgstr "OpenGL (nicht vorhanden)"
 msgid "Fullscreen"
 msgstr "Ganzer Bildschirm"
 
-#: src/misc.cpp:114
-#: src/misc.cpp:119
+#: src/misc.cpp:114 src/misc.cpp:119
 msgid "Sound     "
 msgstr "Sound"
 
-#: src/misc.cpp:115
-#: src/misc.cpp:120
+#: src/misc.cpp:115 src/misc.cpp:120
 msgid "Music     "
 msgstr "Musik"
 
@@ -267,13 +381,11 @@ msgstr "B Knopf"
 msgid "Save Game"
 msgstr "Spiel Speichern"
 
-#: src/misc.cpp:176
-#: src/misc.cpp:183
+#: src/misc.cpp:176 src/misc.cpp:183
 msgid "Pause"
 msgstr "Pause"
 
-#: src/misc.cpp:178
-#: src/misc.cpp:185
+#: src/misc.cpp:178 src/misc.cpp:185
 msgid "Continue"
 msgstr "Fortsetzen"
 
@@ -409,9 +521,7 @@ msgstr "Test Level"
 msgid "Setup level"
 msgstr "Level-Einstellungen"
 
-#: src/leveleditor.cpp:237
-#: src/leveleditor.cpp:727
-#: src/leveleditor.cpp:752
+#: src/leveleditor.cpp:237 src/leveleditor.cpp:727 src/leveleditor.cpp:752
 #: src/leveleditor.cpp:841
 msgid "Level not saved. Wanna to?"
 msgstr "Level wurde noch nicht gespeichert. Jetzt speichern?"
@@ -517,4 +627,3 @@ msgstr "Um fortzufahren beliebige Taste drücken - Seite %d/%d"
 #, c-format
 msgid "New max combo: %d"
 msgstr "Neue Max Kombination: %d"
-

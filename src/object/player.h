@@ -19,6 +19,7 @@
 #ifndef SUPERTUX_PLAYER_H
 #define SUPERTUX_PLAYER_H
 
+#include <vector>
 #include "SDL.h"
 
 #include "timer.h"
@@ -31,6 +32,7 @@
 using namespace SuperTux;
 
 class BadGuy;
+class Portable;
 
 /* Times: */
 
@@ -40,17 +42,9 @@ class BadGuy;
 #define TUX_FLAPPING_TIME 1 /* How long Tux can flap his wings to gain additional jump height */
 #define TIME_WARNING 20     /* When to alert player they're low on time! */
 
-/* Scores: */
-
-#define SCORE_BRICK 5
-#define SCORE_DISTRO 20
-
 /* Sizes: */
-
 #define SMALL 0
 #define BIG 1
-
-#include <vector>
 
 struct PlayerKeymap
 {
@@ -88,9 +82,6 @@ class PlayerStatus;
 
 extern Surface* tux_life;
 
-extern Sprite* smalltux_gameover;
-extern Sprite* smalltux_star;
-extern Sprite* bigtux_star;
 
 #define GROWING_TIME 1.0
 #define GROWING_FRAMES 7
@@ -137,7 +128,6 @@ public:
   int got_power;
   int size;
   bool duck;
-  bool holding_something;
   bool dead;
   DyingType dying;
 
@@ -183,7 +173,6 @@ public:
   int  key_event(SDLKey key, int state);
   void level_begin();
   void handle_input();
-  void grabdistros();
 
   PlayerStatus& get_status();
 
@@ -196,11 +185,10 @@ public:
   {
       return invincible_timer.started();
   }
+  
   void kill(HurtMode mode);
   void player_remove_powerups();
   void check_bounds(Camera* camera);
-  bool on_ground();
-  bool under_solid();
   void grow(bool animate = false);
   void move(const Vector& vector);
 
@@ -210,15 +198,19 @@ public:
   { return dead; }
   
 private:
+  bool on_ground();
+  
   void init();
   
   void handle_horizontal_input();
   void handle_vertical_input();
   void remove_powerups();
+
+  Portable* grabbed_object;
+
+  Sprite* smalltux_gameover;
+  Sprite* smalltux_star;
+  Sprite* bigtux_star;
 };
 
 #endif /*SUPERTUX_PLAYER_H*/
-
-/* Local Variables: */
-/* mode:c++ */
-/* End: */

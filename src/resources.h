@@ -62,13 +62,6 @@ enum {
 
 extern char* soundfilenames[NUM_SOUNDS];
 
-extern Surface* img_waves[3]; 
-extern Surface* img_water;
-extern Surface* img_pole;
-extern Surface* img_poletop;
-extern Surface* img_flag[2];
-extern Surface* img_cloud[2][4];
-
 extern Surface* img_super_bkgd;
 
 extern MusicRef herring_song;
@@ -96,12 +89,14 @@ extern Font* white_small_text;
 extern Font* white_big_text;
 extern Font* yellow_nums;
 
-// maps a virtual resource path to a real path (ie. levels/bla is mapped to
-// $DATADIR/levels/bla or $HOME/.supertux/levels/bla)
+/** maps a virtual resource path to a real path (ie. levels/bla is mapped to
+ * $DATADIR/levels/bla or $HOME/.supertux/levels/bla)
+ * All paths inside the game should be handled in as virtual paths and then
+ * expanded with this function just before the call to fopen or std::ifstream.
+ */
 std::string get_resource_filename(const std::string& resource);
 
 void loadshared();
 void unloadshared();
 
 #endif
-

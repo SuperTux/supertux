@@ -1314,12 +1314,12 @@
         (images "tilesets/brick1.png"))
   )
 
-  (sprite (name "invisibleblock")
+  (sprite (name "rock")
       (action
-        (name "empty")
-        (images "tilesets/bonus2-d.png"))
+        (name "default")
+        (images "tilesets/block11.png"))
   )
-                 
+
   ; Stomp
   (sprite (name "stomp")
        (action
