@@ -7,7 +7,7 @@
 #include "special/moving_object.h"
 #include "special/sprite.h"
 #include "math/physic.h"
-#include "player.h"
+#include "object/player.h"
 #include "serializable.h"
 #include "resources.h"
 #include "sector.h"

@@ -54,7 +54,6 @@ public:
   // loads a levelfile
   void load(const std::string& filename);
   void save(const std::string& filename);
-  static void create(const std::string& filename);
 
   EndSequenceType get_end_sequence_type() const
   { return end_sequence_type; }

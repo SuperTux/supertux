@@ -31,13 +31,13 @@
 #include "leveleditor.h"
 #include "resources.h"
 #include "tile.h"
-#include "tilemap.h"
 #include "tile_manager.h"
 #include "sector.h"
-#include "background.h"
 #include "gameloop.h"
-#include "gameobjs.h"
-#include "camera.h"
+#include "object/gameobjs.h"
+#include "object/camera.h"
+#include "object/tilemap.h"
+#include "object/background.h"
 
 LevelEditor::LevelEditor()
 {
@@ -288,7 +288,9 @@ while(SDL_PollEvent(&event))
         level_subset->description = create_subset_menu->get_item_by_id(MN_ID_DESCRIPTION_SUBSET).input;
         //FIXME: generate better level filenames
         level_subset->add_level(subset_name+'/'+"new_level.stl");
-        Level::create(level_subset->get_level_filename(0));
+        Level* newlevel = new Level();
+        newlevel->add_sector(create_sector("main", 25, 19));
+        newlevel->save(level_subset->get_level_filename(0));
         level_subset->save();
         
         load_level(0);
@@ -368,7 +370,9 @@ while(SDL_PollEvent(&event))
           if(confirm_dialog(NULL, str))
             {
             level_subset->add_level("new_level.stl");
-            Level::create(level_subset->get_level_filename(level_nb + 1));
+            Level* newlevel = new Level();
+            newlevel->add_sector(create_sector("main", 25, 19));
+            newlevel->save(level_subset->get_level_filename(level_nb + 1));
             level_subset->save();
             load_level(level_nb + 1);
             }
@@ -780,7 +784,7 @@ if(sector_ == NULL)
   {
   if(!confirm_dialog(NULL, _("No more sectors exist. Create another?")))
     return;
-  sector_ = Sector::create("new_sector",25,19);
+  sector_ = create_sector("new_sector",25,19);
   level->add_sector(sector_);
   }
 
@@ -1033,3 +1037,19 @@ for(unsigned int i = 0; i < sizeof(text) / sizeof(text[0]); i++)
 show_grid = show_grid_t;
 mouse_cursor->set_state(MC_NORMAL);
 }
+
+Sector*
+LevelEditor::create_sector(const std::string& name, size_t width, size_t height)
+{
+  Sector* sector = new Sector;
+  sector->set_name(name);
+  
+  sector->add_object(new TileMap(LAYER_BACKGROUNDTILES, false, width, height));
+  sector->add_object(new TileMap(LAYER_TILES, true, width, height));
+  sector->add_object(new TileMap(LAYER_FOREGROUNDTILES, false, width, height));
+  sector->add_object(new Camera(sector));
+  sector->update_game_objects();
+  
+  return sector;
+}
+

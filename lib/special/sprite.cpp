@@ -87,7 +87,7 @@ Sprite::update()
 
   frame += frame_inc;
 
-  if(frame > get_frames()) {
+  if(frame >= get_frames()) {
     frame = fmodf(frame+get_frames(), get_frames());
     
     animation_loops--;

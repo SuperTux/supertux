@@ -31,13 +31,13 @@
 #include "tile.h"
 #include "special/sprite.h"
 #include "sector.h"
-#include "tilemap.h"
-#include "camera.h"
-#include "gameobjs.h"
 #include "resources.h"
 #include "video/screen.h"
 #include "statistics.h"
 #include "gameloop.h"
+#include "object/tilemap.h"
+#include "object/camera.h"
+#include "object/gameobjs.h"
 #include "trigger/trigger_base.h"
 
 static const int TILES_FOR_BUTTJUMP = 3;

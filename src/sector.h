@@ -67,8 +67,6 @@ public:
   Sector();
   ~Sector();
 
-  /// create new sector
-  static Sector *create(const std::string& name, size_t width, size_t height);
   /// read sector from lisp file
   void parse(LispReader& reader);
   void parse_old_format(LispReader& reader);
@@ -88,6 +86,8 @@ public:
   /// adds a gameobject
   void add_object(GameObject* object);
 
+  void set_name(const std::string& name)
+  { this->name = name; }
   const std::string& get_name() const
   { return name; }
 
@@ -102,16 +102,10 @@ public:
       case (or not). */
   void collision_handler();
 
-  void add_score(const Vector& pos, int s);
- 
   bool add_bullet(const Vector& pos, float xm, Direction dir);
   bool add_smoke_cloud(const Vector& pos);
   void add_floating_text(const Vector& pos, const std::string& text);
                                                                                 
-  /** Flip the all the sector vertically. The purpose of this is to let
-      player to play the same level in a different way :) */
-  void do_vertical_flip();
-
   /** @evil@ but can#t always be avoided in current design... */
   static Sector* current()
   { return _current; }

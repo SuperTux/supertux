@@ -30,7 +30,6 @@
 
 #include "app/globals.h"
 #include "app/setup.h"
-#include "camera.h"
 #include "video/screen.h"
 #include "level.h"
 #include "math/physic.h"
@@ -39,9 +38,10 @@
 #include "tile.h"
 #include "utils/lispreader.h"
 #include "resources.h"
-#include "gameobjs.h"
 #include "utils/lispwriter.h"
-#include "tilemap.h"
+#include "object/gameobjs.h"
+#include "object/camera.h"
+#include "object/tilemap.h"
 
 using namespace std;
 
@@ -49,16 +49,6 @@ Level::Level()
   : name("noname"), author("mr. x"), timelimit(500),
     end_sequence_type(NONE_ENDSEQ_ANIM) 
 {
-}
-
-void
-Level::create(const std::string& filename)
-{
-  Level level;
-  const size_t width = 25;
-  const size_t height = 19;
-  level.add_sector(Sector::create("main", width, height));
-  level.save(filename);
 }
 
 void
@@ -167,8 +157,10 @@ Level::~Level()
 void
 Level::do_vertical_flip()
 {
+#if 0
   for(Sectors::iterator i = sectors.begin(); i != sectors.end(); ++i)
     i->second->do_vertical_flip();
+#endif
 }
 
 void
@@ -242,10 +234,7 @@ Level::get_total_coins()
   int total_coins = 0;
   for(Sectors::iterator i = sectors.begin(); i != sectors.end(); ++i) {
     TileMap* solids = i->second->solids;
-    if(!solids) {
-      std::cerr << "Sector '" << i->first << "' contains no solids!?!\n";
-      continue;
-    }
+    assert(solids != 0);
     for(size_t x = 0; x < solids->get_width(); ++x)
       for(size_t y = 0; y < solids->get_height(); ++y) {
         const Tile* tile = solids->get_tile(x, y);

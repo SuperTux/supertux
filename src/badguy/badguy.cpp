@@ -1,7 +1,7 @@
 #include <config.h>
 
 #include "badguy.h"
-#include "camera.h"
+#include "object/camera.h"
 
 static const float SQUISH_TIME = 2;
 static const float X_OFFSCREEN_DISTANCE = 1600;

@@ -29,12 +29,12 @@
 #include "app/globals.h"
 #include "sector.h"
 #include "utils/lispreader.h"
-#include "gameobjs.h"
-#include "camera.h"
-#include "background.h"
-#include "particlesystem.h"
+#include "object/gameobjs.h"
+#include "object/camera.h"
+#include "object/background.h"
+#include "object/particlesystem.h"
+#include "object/tilemap.h"
 #include "tile.h"
-#include "tilemap.h"
 #include "audio/sound_manager.h"
 #include "gameloop.h"
 #include "resources.h"
@@ -69,13 +69,13 @@ Sector::Sector()
   song_title = "Mortimers_chipdisko.mod";
   player = new Player();
   add_object(player);
-
-  printf("seccreated: %p.\n", this);
 }
 
 Sector::~Sector()
 {
-  printf("secdel: %p.\n", this);
+  update_game_objects();
+  assert(gameobjects_new.size() == 0);
+
   for(GameObjects::iterator i = gameobjects.begin(); i != gameobjects.end();
       ++i) {
     delete *i;
@@ -87,23 +87,6 @@ Sector::~Sector()
     
   if(_current == this)
     _current = 0;
-}
-
-Sector *Sector::create(const std::string& name, size_t width, size_t height)
-{
-  Sector *sector = new Sector;
-  sector->name = name;
-  TileMap *background = new TileMap(LAYER_BACKGROUNDTILES, false, width, height);
-  TileMap *interactive = new TileMap(LAYER_TILES, true, width, height);
-  TileMap *foreground = new TileMap(LAYER_FOREGROUNDTILES, false, width, height);
-  sector->add_object(background);
-  sector->add_object(interactive);
-  sector->add_object(foreground);
-  sector->solids = interactive;
-  sector->camera = new Camera(sector);
-  sector->add_object(sector->camera);
-  sector->update_game_objects();
-  return sector;
 }
 
 GameObject*
@@ -151,14 +134,6 @@ Sector::parse_object(const std::string& name, LispReader& reader)
   } else if(name == "nolok_01") {
     return new Nolok_01(reader);
   }
-#if 0
-    else if(badguykind_from_string(name) != BAD_INVALID) {
-      return new BadGuy(badguykind_from_string(name), reader);
-    } else if(name == "trampoline") {
-      return new Trampoline(reader);
-    } else if(name == "flying-platform") {
-      return new FlyingPlatform(reader);
-#endif
 
   std::cerr << "Unknown object type '" << name << "'.\n";
   return 0;
@@ -197,6 +172,9 @@ Sector::parse(LispReader& lispreader)
     }
   }
 
+  update_game_objects();
+  fix_old_tiles();
+  update_game_objects();
   if(!camera) {
     std::cerr << "sector '" << name << "' does not contain a camera.\n";
     camera = new Camera(this);
@@ -237,11 +215,11 @@ Sector::parse_old_format(LispReader& reader)
   bkgd_bottom.blue = b;
   
   if(backgroundimage != "") {
-    background = new Background;
+    Background* background = new Background;
     background->set_image(backgroundimage, bgspeed);
     add_object(background);
   } else {
-    background = new Background;
+    Background* background = new Background;
     background->set_gradient(bkgd_top, bkgd_bottom);
     add_object(background);
   }
@@ -275,10 +253,7 @@ Sector::parse_old_format(LispReader& reader)
       || reader.read_int_vector("tilemap", tiles)) {
     TileMap* tilemap = new TileMap();
     tilemap->set(width, height, tiles, LAYER_TILES, true);
-    solids = tilemap;
     add_object(tilemap);
-
-    fix_old_tiles();
   }
 
   if(reader.read_int_vector("background-tm", tiles)) {
@@ -338,8 +313,14 @@ Sector::parse_old_format(LispReader& reader)
   }
 
   // add a camera
-  camera = new Camera(this);
+  Camera* camera = new Camera(this);
   add_object(camera);
+
+  update_game_objects();
+  fix_old_tiles();
+  update_game_objects();
+  if(solids == 0)
+    throw std::runtime_error("sector does not contain a solid tile layer.");  
 }
 
 void
@@ -408,41 +389,6 @@ Sector::write(LispWriter& writer)
     if(serializable)
       serializable->write(writer);
   }
-}
-
-void
-Sector::do_vertical_flip()
-{
-  // remove or fix later
-#if 0
-  for(GameObjects::iterator i = gameobjects_new.begin(); i != gameobjects_new.end(); ++i)
-    {
-    TileMap* tilemap = dynamic_cast<TileMap*> (*i);
-    if(tilemap)
-      {
-      tilemap->do_vertical_flip();
-      }
-
-    BadGuy* badguy = dynamic_cast<BadGuy*> (*i);
-    if(badguy)
-      badguy->start_position.y = solids->get_height()*32 - badguy->start_position.y - 32;
-    Trampoline* trampoline = dynamic_cast<Trampoline*> (*i);
-    if(trampoline)
-      trampoline->base.y = solids->get_height()*32 - trampoline->base.y - 32;
-    FlyingPlatform* flying_platform = dynamic_cast<FlyingPlatform*> (*i);
-    if(flying_platform)
-      flying_platform->base.y = solids->get_height()*32 - flying_platform->base.y - 32;
-    Door* door = dynamic_cast<Door*> (*i);
-    if(door)
-      door->set_area(door->get_area().x, solids->get_height()*32 - door->get_area().y - 32);
-    }
-
-  for(SpawnPoints::iterator i = spawnpoints.begin(); i != spawnpoints.end();
-      ++i) {
-    SpawnPoint* spawn = *i;
-    spawn->pos.y = solids->get_height()*32 - spawn->pos.y - 32;
-  }
-#endif
 }
 
 void
@@ -536,8 +482,7 @@ Sector::action(float elapsed_time)
   }
                                                                                 
   /* Handle all possible collisions. */
-  collision_handler();
-                                                                                
+  collision_handler();                                                                              
   update_game_objects();
 }
 
@@ -573,7 +518,6 @@ Sector::update_game_objects()
     if(tilemap && tilemap->is_solid()) {
       if(solids == 0) {
         solids = tilemap;
-        fix_old_tiles();
       } else {
         std::cerr << "Another solid tilemaps added. Ignoring.";
       }
@@ -774,14 +718,6 @@ Sector::collision_handler()
   }
 }
 
-void
-Sector::add_score(const Vector& pos, int s)
-{
-  global_stats.add_points(SCORE_STAT, s);
-                                                                                
-  add_object(new FloatingText(pos, s));
-}
-                                                                                
 bool
 Sector::add_bullet(const Vector& pos, float xm, Direction dir)
 {

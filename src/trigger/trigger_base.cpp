@@ -19,8 +19,8 @@
 #include <config.h>
 
 #include "trigger_base.h"
-#include "player.h"
 #include "video/drawing_context.h"
+#include "object/player.h"
 
 TriggerBase::TriggerBase()
   : sprite(0)

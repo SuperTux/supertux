@@ -19,14 +19,14 @@
 #define SUPERTUX_MISC_H
 
 #include "app/setup.h"
-#include "resources.h"
+#include "app/gettext.h"
 #include "gui/menu.h"
 #include "utils/configfile.h"
-#include "player.h"
 #include "title.h"
+#include "resources.h"
 #include "worldmap.h"
 #include "gameloop.h"
-#include "app/gettext.h"
+#include "object/player.h"
 
 class MyConfig : public Config
 {

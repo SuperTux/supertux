@@ -47,7 +47,6 @@ Background::Background(LispReader& reader)
 
 Background::~Background()
 {
-  printf("bgfree.\n");
   delete image;
 }
 
@@ -90,7 +89,6 @@ Background::set_image(const std::string& name, float speed)
   this->imagefile = name;
   this->speed = speed;
 
-  printf("seti %p\n", this);
   delete image;
   image = new Surface(datadir + "/images/background/" + name, false);
 }

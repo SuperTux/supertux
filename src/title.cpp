@@ -52,14 +52,14 @@
 #include "worldmap.h"
 #include "leveleditor.h"
 #include "scene.h"
-#include "player.h"
 #include "tile.h"
 #include "sector.h"
-#include "tilemap.h"
+#include "object/tilemap.h"
+#include "object/camera.h"
+#include "object/player.h"
 #include "resources.h"
 #include "app/gettext.h"
 #include "misc.h"
-#include "camera.h"
 
 static Surface* bkg_title;
 static Surface* logo;

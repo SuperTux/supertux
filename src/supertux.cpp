@@ -39,7 +39,6 @@
 #include "video/surface.h"
 #include "tile_manager.h"
 #include "app/gettext.h"
-#include "player.h"
 #include "misc.h"
 #include "utils/configfile.h"
 

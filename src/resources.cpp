@@ -25,9 +25,9 @@
 #include "gui/menu.h"
 #include "gui/button.h"
 #include "scene.h"
-#include "player.h"
-#include "gameobjs.h"
 #include "resources.h"
+#include "object/gameobjs.h"
+#include "object/player.h"
 
 Surface* img_waves[3]; 
 Surface* img_water;

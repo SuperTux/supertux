@@ -143,6 +143,9 @@ private:
   Vector selection_ini, selection_end;
 
   bool level_changed;
+
+private:
+  Sector* create_sector(const std::string& name, size_t width, size_t height);
 };
 
 #endif
