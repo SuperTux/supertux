@@ -269,7 +269,6 @@ int level_load(st_level* plevel, const char* filename)
     }
 
   vector<int> ia_tm;
-  vector<int> dn_tm;
   vector<int> bg_tm;
   vector<int> fg_tm;
 
@@ -295,7 +294,6 @@ int level_load(st_level* plevel, const char* filename)
       if (!reader.read_int_vector("interactive-tm", &ia_tm))
         reader.read_int_vector("tilemap", &ia_tm);
 
-      reader.read_int_vector("dynamic-tm",     &dn_tm);
       reader.read_int_vector("foreground-tm",  &fg_tm);
 
       {
@@ -389,18 +387,6 @@ int level_load(st_level* plevel, const char* filename)
   for(vector<int>::iterator it = ia_tm.begin(); it != ia_tm.end(); ++it, ++i)
     {
       plevel->ia_tiles[j][i] = (*it);
-      if(i == plevel->width - 1)
-        {
-          i = -1;
-          ++j;
-        }
-    }
-
-  i = j = 0;
-  for(vector<int>::iterator it = dn_tm.begin(); it != dn_tm.end(); ++it, ++i)
-    {
-
-      plevel->dn_tiles[j][i] = (*it);
       if(i == plevel->width - 1)
         {
           i = -1;
