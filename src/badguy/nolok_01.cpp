@@ -87,8 +87,8 @@ Nolok_01::collision_squished(Player& player)
 HitResponse
 Nolok_01::collision_solid(GameObject& , const CollisionHit& hit)
 {
-  if(fabsf(hit.normal.y) > .5) { // hit floor or roof?
-    //physic.set_velocity_y(0);
+  if(fabsf(hit.normal.y) > .5){ // hit floor or roof?
+    if (action != JUMPING) physic.set_velocity_y(0);
   } else { // hit right or left
     dir = dir == LEFT ? RIGHT : LEFT;
     sprite->set_action(dir == LEFT ? "left" : "right");
