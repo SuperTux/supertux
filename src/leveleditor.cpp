@@ -103,6 +103,7 @@ struct TileOrObject
 static string_list_type level_subsets;
 static bool le_level_changed;  /* if changes, ask for saving, when quiting*/
 static bool show_minimap;
+static bool show_selections;
 static bool le_help_shown;
 static int pos_x, cursor_x, cursor_y, fire;
 static int le_level;
@@ -517,6 +518,7 @@ int le_init()
 
   active_tm = TM_IA;
   le_show_grid = true;
+  show_selections = true;
   scroll_x = 0;
 
   fire = DOWN;
@@ -538,7 +540,7 @@ int le_init()
 
   /* Load buttons */
   le_save_level_bt = new Button("/images/icons/save.png","Save level", SDLK_F6,screen->w-64,32);
-  le_exit_bt = new Button("/images/icons/exit.png","Exit", SDLK_F6,screen->w-32,32);
+  le_exit_bt = new Button("/images/icons/exit.png","Exit", SDLK_F9,screen->w-32,32);
   le_next_level_bt = new Button("/images/icons/up.png","Next level", SDLK_PAGEUP,screen->w-64,0);
   le_previous_level_bt = new Button("/images/icons/down.png","Previous level",SDLK_PAGEDOWN,screen->w-32,0);
   le_rubber_bt = new Button("/images/icons/rubber.png","Rubber",SDLK_DELETE,screen->w-32,48);
@@ -549,7 +551,7 @@ int le_init()
   le_move_left_bt = new Button("/images/icons/left.png","Move left",SDLK_LEFT,0,0);
   le_move_right_bt = new Button("/images/icons/right.png","Move right",SDLK_RIGHT,screen->w-80,0);
   le_tilegroup_bt = new Button("/images/icons/tilegroup.png","Select Tilegroup", SDLK_F7,screen->w-64,64);
-  le_objects_bt = new Button("/images/icons/objects.png","Select Objects", SDLK_F7,screen->w-64,80);
+  le_objects_bt = new Button("/images/icons/objects.png","Select Objects", SDLK_F8,screen->w-64,80);
 
   le_tilemap_panel = new ButtonPanel(screen->w-64,screen->h-32,32,32);
   le_tilemap_panel->set_button_size(32,10);
@@ -786,6 +788,8 @@ void le_drawinterface()
   if(show_minimap) // use_gl because the minimap isn't shown correctly in software mode. Any idea? FIXME Possible reasons: SDL_SoftStretch is a hack itsself || an alpha blitting issue SDL can't handle in software mode
     le_drawminimap();
 
+  if(show_selections)
+  {
   if(le_selection_mode == CURSOR)
   {
     if(le_current.IsTile())
@@ -802,6 +806,7 @@ void le_drawinterface()
     fillrect(selection.x1 - pos_x + w, selection.y1, SELECT_W, h, SELECT_CLR);
     fillrect(selection.x1 - pos_x, selection.y1 + h, w, SELECT_W, SELECT_CLR);
     fillrect(selection.x1 - pos_x, selection.y1, SELECT_W, h, SELECT_CLR);
+  }
   }
 
 
@@ -1558,8 +1563,7 @@ void le_testlevel()
 void le_showhelp()
 {
   bool tmp_show_grid = le_show_grid;
-  int temp_le_selection_mode = le_selection_mode;
-  le_selection_mode = NONE;
+  show_selections = true;
   le_show_grid = false;
   le_help_shown = true;
 
@@ -1579,6 +1583,7 @@ void le_showhelp()
                    "the left mouse button over the map",
                    "to \"paint\" your selection over",
                    "the screen.",
+		   "",
                    "There are three layers for painting",
                    "tiles upon, Background layer,",
                    "the Interactive layer, and the",
@@ -1599,37 +1604,50 @@ void le_showhelp()
                     "the Interactive layer are those",
                     "which actually effect Tux in the",
                     "game.",
+		    "",
                     "Click the objects menu to put ",
                     "bad guys and other objects in the",
                     "game. Unlike placing tiles, you",
                     "cannot \"paint\" enemies. Click",
                     "them onto the screen one at a time.",
+		    "",
                     "To change the settings of your",
                     "level, click the button with the",
                     "screwdriver and wrench. From here",
                     "you can change the background,",
-                    "music, length of the level, and more.",
-                    "You may have more than one levelset.",
+                    "music, length of the level,",
+		    "and more."
+                  };
+
+  char *text3[] = {
+
+                    " - Supertux level editor tutorial - ",
+                    "",
+		    "You may have more than one level.",
                     "Pressing the up and down buttons",
-                    "above the button bar lets you choose",
-                    "which one you are working on.",
+                    "above the button bar lets you",
+		    "choose which one you are working on.",
+		    "",
                     "If you would like to speed up your",
                     "level editing, a useful trick is",
-                    "to learn the keyboard shortcuts. They",
-                    "are easy to learn, just right-",
+                    "to learn the keyboard shortcuts.",
+		    "They are easy to learn, just right-",
+		    "click on the buttons.",
+		    "",
                     "Have fun making levels! If you make",
                     "some good ones, send them to us on",
                     "the SuperTux mailing list!",
                     "- SuperTux team"
                   };
-
+		
+		  
 
   blue_text->drawf("- Help -", 0, 30, A_HMIDDLE, A_TOP, 2);
 
   for(i = 0; i < sizeof(text)/sizeof(char *); i++)
     white_text->draw(text[i], 5, 80+(i*white_text->h), 1);
 
-  gold_text->drawf("Press Any Key to Continue - Page 1/2", 0, 0, A_LEFT, A_BOTTOM, 1);
+  gold_text->drawf("Press Anything to Continue - Page 1/3", 0, 0, A_LEFT, A_BOTTOM, 1);
 
   flipscreen();
 
@@ -1650,7 +1668,28 @@ void le_showhelp()
   for(i = 0; i < sizeof(text2)/sizeof(char *); i++)
     white_text->draw(text2[i], 5, 80+(i*white_text->h), 1);
 
-  gold_text->drawf("Press Any Key to Continue - Page 2/2", 0, 0, A_LEFT, A_BOTTOM, 1);
+  gold_text->drawf("Press Anything to Continue - Page 2/3", 0, 0, A_LEFT, A_BOTTOM, 1);
+
+  flipscreen();
+
+  done_ = 0;
+
+  while(done_ == 0)
+  {
+    done_ = wait_for_event(event);
+    SDL_Delay(50);
+  }
+  
+    drawgradient(Color(0,0,0), Color(255,255,255));
+  le_drawinterface();
+
+
+  blue_text->drawf("- Help -", 0, 30, A_HMIDDLE, A_TOP, 2);
+
+  for(i = 0; i < sizeof(text3)/sizeof(char *); i++)
+    white_text->draw(text3[i], 5, 80+(i*white_text->h), 1);
+
+  gold_text->drawf("Press Anything to Continue - Page 3/3", 0, 0, A_LEFT, A_BOTTOM, 1);
 
   flipscreen();
 
@@ -1662,7 +1701,7 @@ void le_showhelp()
     SDL_Delay(50);
   }
 
+  show_selections = true;
   le_show_grid = tmp_show_grid;
   le_help_shown = false;
-  le_selection_mode = temp_le_selection_mode;
 }
