@@ -68,11 +68,11 @@ void player_init(player_type* pplayer)
 
   player_input_init(&pplayer->input);
 
-  pplayer->keymap.jump = SDLK_UP;
-  pplayer->keymap.duck = SDLK_DOWN;
-  pplayer->keymap.left = SDLK_LEFT;
+  pplayer->keymap.jump  = SDLK_UP;
+  pplayer->keymap.duck  = SDLK_DOWN;
+  pplayer->keymap.left  = SDLK_LEFT;
   pplayer->keymap.right = SDLK_RIGHT;
-  pplayer->keymap.fire = SDLK_LCTRL;
+  pplayer->keymap.fire  = SDLK_LCTRL;
 
   timer_init(&pplayer->invincible_timer,true);
   timer_init(&pplayer->skidding_timer,true);
@@ -89,7 +89,7 @@ int player_key_event(player_type* pplayer, SDLKey key, int state)
       pplayer->input.right = state;
       return true;
     }
-  else if( key == pplayer->keymap.left)
+  else if(key == pplayer->keymap.left)
     {
       pplayer->input.left = state;
       return true;

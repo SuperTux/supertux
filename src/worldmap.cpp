@@ -284,6 +284,7 @@ WorldMap::get_input()
   SDL_Event event;
 
   enter_level = false;
+  input_direction = NONE;
 
   while (SDL_PollEvent(&event))
     {
@@ -307,12 +308,36 @@ WorldMap::get_input()
               break;
             }
           break;
+          
+        case SDL_JOYAXISMOTION:
+          switch(event.jaxis.axis)
+            {
+            case JOY_X:
+              if (event.jaxis.value < -JOYSTICK_DEAD_ZONE)
+                input_direction = WEST;
+              else if (event.jaxis.value > JOYSTICK_DEAD_ZONE)
+                input_direction = EAST;
+              break;
+            case JOY_Y:
+              if (event.jaxis.value > JOYSTICK_DEAD_ZONE)
+                input_direction = SOUTH;
+              else if (event.jaxis.value < -JOYSTICK_DEAD_ZONE)
+                input_direction = NORTH;
+              break;
+            }
+          break;
+
+        case SDL_JOYBUTTONDOWN:
+          if (event.jbutton.button == JOY_B)
+            enter_level = true;
+          break;
+
+        default:
+          break;
         }
     }
 
   Uint8 *keystate = SDL_GetKeyState(NULL);
-  
-  input_direction = NONE;
   
   if (keystate[SDLK_LEFT])
     input_direction = WEST;

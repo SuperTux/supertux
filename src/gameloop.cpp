@@ -8,7 +8,7 @@
   http://www.newbreedsoftware.com/supertux/
   
   April 11, 2000 - March 15, 2004
- */
+*/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -66,8 +66,6 @@ void unloadshared(void);
 void drawstatus(void);
 void drawendscreen(void);
 void drawresultscreen(void);
-
-#define JOYSTICK_DEAD_ZONE 4096
 
 void levelintro(void)
 {
@@ -223,9 +221,9 @@ void game_event(void)
                 score += 1000;
             case SDLK_f:
               if(debug_fps)
-	      debug_fps = false;
+                debug_fps = false;
 	      else
-	      debug_fps = true;
+                debug_fps = true;
               break;	      
             default:
               break;
@@ -237,19 +235,27 @@ void game_event(void)
             {
             case JOY_X:
               if (event.jaxis.value < -JOYSTICK_DEAD_ZONE)
-                tux.input.left = DOWN;
+                {
+                  tux.input.left  = DOWN;
+                  tux.input.right = UP;
+                }
               else if (event.jaxis.value > JOYSTICK_DEAD_ZONE)
-                tux.input.left = UP;
-
-              if (event.jaxis.value > JOYSTICK_DEAD_ZONE)
-                tux.input.right = DOWN;
-              else if (event.jaxis.value < -JOYSTICK_DEAD_ZONE)
-                tux.input.right = UP;
+                {
+                  tux.input.left  = UP;
+                  tux.input.right = DOWN;
+                }
+              else
+                {
+                  tux.input.left  = DOWN;
+                  tux.input.right = DOWN;
+                }
               break;
             case JOY_Y:
               if (event.jaxis.value > JOYSTICK_DEAD_ZONE)
                 tux.input.down = DOWN;
               else if (event.jaxis.value < -JOYSTICK_DEAD_ZONE)
+                tux.input.down = UP;
+              else
                 tux.input.down = UP;
 
               /* Handle joystick for the menu */
@@ -287,7 +293,6 @@ void game_event(void)
         }  /* switch */
 
     } /* while */
-
 }
 
 /* --- GAME ACTION! --- */
@@ -647,7 +652,7 @@ int gameloop(const char * subset, int levelnb, int mode)
 
 
   while (SDL_PollEvent(&event))
-  {}
+    {}
 
   game_draw();
   do
@@ -657,7 +662,7 @@ int gameloop(const char * subset, int levelnb, int mode)
       /* Calculate the movement-factor */
       frame_ratio = ((double)(update_time-last_update_time))/((double)FRAME_RATE);
       if(frame_ratio > 1.5) /* Quick hack to correct the unprecise CPU clocks a little bit. */
-      frame_ratio = 1.5 + (frame_ratio - 1.5) * 0.85;
+        frame_ratio = 1.5 + (frame_ratio - 1.5) * 0.85;
       
       if(!timer_check(&frame_timer))
         {
@@ -711,10 +716,10 @@ int gameloop(const char * subset, int levelnb, int mode)
 
       if(!game_pause && !show_menu)
         {
-	/*float z = frame_ratio;
-	frame_ratio = 1;
-	while(z >= 1)
-	{*/
+          /*float z = frame_ratio;
+            frame_ratio = 1;
+            while(z >= 1)
+            {*/
           if (game_action() == 0)
             {
               /* == 0: no more lives */
@@ -722,7 +727,7 @@ int gameloop(const char * subset, int levelnb, int mode)
               return 0;
             }
 	  /*  --z;
-	    }*/
+              }*/
         }
       else
         {
@@ -736,11 +741,11 @@ int gameloop(const char * subset, int levelnb, int mode)
       /*Draw the current scene to the screen */
       /*If the machine running the game is too slow
         skip the drawing of the frame (so the calculations are more precise and
-      the FPS aren't affected).*/
+        the FPS aren't affected).*/
       /*if( ! fps_fps < 50.0 )
-      game_draw();
-      else
-      jump = true;*/ /*FIXME: Implement this tweak right.*/
+        game_draw();
+        else
+        jump = true;*/ /*FIXME: Implement this tweak right.*/
       game_draw();
 
       /* Time stops in pause mode */
@@ -756,11 +761,11 @@ int gameloop(const char * subset, int levelnb, int mode)
 
       /* Pause till next frame, if the machine running the game is too fast: */
       /* FIXME: Works great for in OpenGl mode, where the CPU doesn't have to do that much. But
-                the results in SDL mode aren't perfect (thought the 100 FPS are reached), even on an AMD2500+. */
+         the results in SDL mode aren't perfect (thought the 100 FPS are reached), even on an AMD2500+. */
       if(last_update_time >= update_time - 12 && !jump)
         SDL_Delay(10);
       /*if((update_time - last_update_time) < 10)
-          SDL_Delay((11 - (update_time - last_update_time))/2);*/
+        SDL_Delay((11 - (update_time - last_update_time))/2);*/
 
 
 
@@ -771,10 +776,10 @@ int gameloop(const char * subset, int levelnb, int mode)
           /* are we low on time ? */
           if ((timer_get_left(&time_left) < TIME_WARNING)
               && (get_current_music() != HURRYUP_MUSIC))     /* play the fast music */
-             {
+            {
               set_current_music(HURRYUP_MUSIC);
               play_current_music();
-             }
+            }
 
         }
       else
@@ -1185,7 +1190,7 @@ void loadshared(void)
                     // NULL or something else. And it will be dangerous to
                     // play with not-initialized pointers.
                     // This is also true with if (use_music)
-     Send a mail to me: neoneurone@users.sf.net, if you have another opinion. :)
+                    Send a mail to me: neoneurone@users.sf.net, if you have another opinion. :)
   */
   for (i = 0; i < NUM_SOUNDS; i++)
     sounds[i] = load_sound(datadir + soundfilenames[i]);
@@ -1483,40 +1488,40 @@ void bumpbrick(float x, float y)
 
 void tryemptybox(float x, float y, int col_side)
 {
-if (!isfullbox(x, y))
-  return;
+  if (!isfullbox(x, y))
+    return;
 
-// according to the collision side, set the upgrade direction
+  // according to the collision side, set the upgrade direction
 
-if(col_side == LEFT)
-  col_side = RIGHT;
-else
-  col_side = LEFT;
+  if(col_side == LEFT)
+    col_side = RIGHT;
+  else
+    col_side = LEFT;
 
-switch(shape(x,y))
-  {
-  case 'A':      /* Box with a distro! */
-    add_bouncy_distro(((int)(x + 1) / 32) * 32, (int)(y / 32) * 32 - 32);
-    play_sound(sounds[SND_DISTRO], SOUND_CENTER_SPEAKER);
-    score = score + SCORE_DISTRO;
-    distros++;
-    break;
-  case 'B':      /* Add an upgrade! */
-    if (tux.size == SMALL)     /* Tux is small, add mints! */
-      add_upgrade((int)((x + 1) / 32) * 32, (int)(y / 32) * 32 - 32, col_side, UPGRADE_MINTS);
-    else     /* Tux is big, add coffee: */
-      add_upgrade((int)((x + 1) / 32) * 32, (int)(y / 32) * 32 - 32, col_side, UPGRADE_COFFEE);
-    play_sound(sounds[SND_UPGRADE], SOUND_CENTER_SPEAKER);
-    break;
-  case '!':     /* Add a golden herring */
-    add_upgrade((int)((x + 1) / 32) * 32, (int)(y / 32) * 32 - 32, col_side, UPGRADE_HERRING);
-    break;
-  default:
-    break;
-  }
+  switch(shape(x,y))
+    {
+    case 'A':      /* Box with a distro! */
+      add_bouncy_distro(((int)(x + 1) / 32) * 32, (int)(y / 32) * 32 - 32);
+      play_sound(sounds[SND_DISTRO], SOUND_CENTER_SPEAKER);
+      score = score + SCORE_DISTRO;
+      distros++;
+      break;
+    case 'B':      /* Add an upgrade! */
+      if (tux.size == SMALL)     /* Tux is small, add mints! */
+        add_upgrade((int)((x + 1) / 32) * 32, (int)(y / 32) * 32 - 32, col_side, UPGRADE_MINTS);
+      else     /* Tux is big, add coffee: */
+        add_upgrade((int)((x + 1) / 32) * 32, (int)(y / 32) * 32 - 32, col_side, UPGRADE_COFFEE);
+      play_sound(sounds[SND_UPGRADE], SOUND_CENTER_SPEAKER);
+      break;
+    case '!':     /* Add a golden herring */
+      add_upgrade((int)((x + 1) / 32) * 32, (int)(y / 32) * 32 - 32, col_side, UPGRADE_HERRING);
+      break;
+    default:
+      break;
+    }
 
-/* Empty the box: */
-level_change(&current_level,x, y, 'a');
+  /* Empty the box: */
+  level_change(&current_level,x, y, 'a');
 }
 
 
@@ -1546,9 +1551,7 @@ void trybumpbadguy(float x, float y)
 {
   unsigned int i;
 
-
   /* Bad guys: */
-
   for (i = 0; i < bad_guys.size(); i++)
     {
       if (bad_guys[i].base.x >= x - 32 && bad_guys[i].base.x <= x + 32 &&
@@ -1566,7 +1569,6 @@ void trybumpbadguy(float x, float y)
 
 
   /* Upgrades: */
-
   for (i = 0; i < upgrades.size(); i++)
     {
       if (upgrades[i].base.height == 32 &&
@@ -1717,8 +1719,6 @@ void loadgame(int slot)
     }
   else
     {
-
-
       fgets(str, 100, fi);
       strcpy(level_subset, str);
       level_subset[strlen(level_subset)-1] = '\0';

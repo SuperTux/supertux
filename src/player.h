@@ -37,26 +37,24 @@
 #define SCORE_BRICK 5
 #define SCORE_DISTRO 25
 
-typedef struct player_keymap_type
+struct player_keymap_type
 {
- int jump;
- int duck;
- int left;
- int right;
- int fire;
-}
-player_keymap_type;
+  int jump;
+  int duck;
+  int left;
+  int right;
+  int fire;
+};
 
-typedef struct player_input_type
+struct player_input_type
 {
- int right;
- int left;
- int up;
- int down;
- int fire;
- int old_fire;
-}
-player_input_type;
+  int right;
+  int left;
+  int up;
+  int down;
+  int fire;
+  int old_fire;
+};
 
 void player_input_init(player_input_type* pplayer_input);
 

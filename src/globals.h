@@ -40,4 +40,6 @@ extern char *st_dir, *st_save_dir;
 
 extern SDL_Joystick * js;
 
+#define JOYSTICK_DEAD_ZONE 4096
+
 #endif /* SUPERTUX_GLOBALS_H */
