@@ -1,0 +1,389 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR SuperTux Development Team
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACGE VERSION\n"
+"Report-Msgid-Bugs-To: super-tux-devel@lists.sourceforge.net\n"
+"POT-Creation-Date: 2004-06-10 14:53+0100\n"
+"PO-Revision-Date: 2004-06-07 HO:MI+ZONE\n"
+"Last-Translator: Frank van der Loo <frank_l@linuxmail.org>\n"
+"Language-Team: Dutch <nl@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/gameloop.cpp:163
+msgid "by "
+msgstr "door "
+
+#: src/gameloop.cpp:523
+msgid "PAUSE - Press 'P' To Play"
+msgstr "PAUSE - Druk op 'P' Om Verder Te Gaan"
+
+#: src/gameloop.cpp:528
+#, c-format
+msgid "Playing: "
+msgstr "Level: "
+
+#: src/gameloop.cpp:714 src/worldmap.cpp:849
+msgid "SCORE"
+msgstr "SCORE"
+
+#: src/gameloop.cpp:719
+msgid "Press ESC To Return"
+msgstr "Druk op ESC Om Terug Te Gaan"
+
+#: src/gameloop.cpp:724
+msgid "TIME's UP"
+msgstr "TIJD is OM"
+
+#: src/gameloop.cpp:728
+msgid "TIME"
+msgstr "TIJD"
+
+#: src/gameloop.cpp:735 src/gameloop.cpp:736 src/worldmap.cpp:853
+msgid "COINS"
+msgstr "MUNTEN"
+
+#: src/gameloop.cpp:757 src/gameloop.cpp:758 src/worldmap.cpp:874
+#: src/worldmap.cpp:875
+msgid "LIVES"
+msgstr "LEVENS"
+
+#: src/gameloop.cpp:780
+msgid "Result:"
+msgstr "Resultaat:"
+
+#: src/gameloop.cpp:783 src/worldmap.cpp:726
+#, c-format
+msgid "SCORE: %d"
+msgstr "SCORE: %d"
+
+#: src/gameloop.cpp:786 src/worldmap.cpp:730
+#, c-format
+msgid "COINS: %d"
+msgstr "MUNTEN: %d"
+
+#: src/gameloop.cpp:815
+#, c-format
+msgid "Slot %d - Savegame"
+msgstr "Slot %d - Bewaard spel"
+
+#: src/gameloop.cpp:818
+#, c-format
+msgid "Slot %d - Free"
+msgstr "Slot %d - Vrij"
+
+#: src/menu.cpp:76
+msgid "Yes"
+msgstr "Ja"
+
+#: src/menu.cpp:77
+msgid "No"
+msgstr "Nee"
+
+#: src/menu.cpp:256
+msgid "Up cursor"
+msgstr "Pijltje omhoom"
+
+#: src/menu.cpp:259
+msgid "Down cursor"
+msgstr "Pijltje omlaag"
+
+#: src/menu.cpp:262
+msgid "Left cursor"
+msgstr "Pijltje naar links"
+
+#: src/menu.cpp:265
+msgid "Right cursor"
+msgstr "Pijltje naar rechts"
+
+#: src/menu.cpp:268
+msgid "Return"
+msgstr "Enter"
+
+#: src/menu.cpp:271
+msgid "Space"
+msgstr "Spatiebalk"
+
+#: src/menu.cpp:274
+msgid "Right Shift"
+msgstr "Rechter Shift toets"
+
+#: src/menu.cpp:277
+msgid "Left Shift"
+msgstr "Linker Shift toets"
+
+#: src/menu.cpp:280
+msgid "Right Control"
+msgstr "Rechter Control toets"
+
+#: src/menu.cpp:283
+msgid "Left Control"
+msgstr "Linker Control toets"
+
+#: src/menu.cpp:286
+msgid "Right Alt"
+msgstr "Rechter Alt toets"
+
+#: src/menu.cpp:289
+msgid "Left Alt"
+msgstr "Linker Alt toets"
+
+#: src/setup.cpp:390 src/setup.cpp:450
+msgid "Start Game"
+msgstr "Spel Starten"
+
+#: src/setup.cpp:391 src/title.cpp:91
+msgid "Contrib Levels"
+msgstr "Contrib Levels"
+
+#: src/setup.cpp:392 src/setup.cpp:397 src/setup.cpp:473 src/setup.cpp:480
+msgid "Options"
+msgstr "Opties"
+
+#: src/setup.cpp:393
+msgid "Level Editor"
+msgstr "Level Bewerker"
+
+#: src/setup.cpp:394
+msgid "Credits"
+msgstr "Credits"
+
+#: src/setup.cpp:395
+msgid "Quit"
+msgstr "Afsluiten"
+
+#: src/setup.cpp:400
+msgid "OpenGL    "
+msgstr "OpenGL    "
+
+#: src/setup.cpp:402
+msgid "OpenGL (not supported)"
+msgstr "OpenGL (niet ondersteund)"
+
+#: src/setup.cpp:404
+msgid "Fullscreen"
+msgstr "Volledig scherm"
+
+#: src/setup.cpp:407 src/setup.cpp:412
+msgid "Sound     "
+msgstr "Geluid    "
+
+#: src/setup.cpp:408 src/setup.cpp:413
+msgid "Music     "
+msgstr "Muziek    "
+
+#: src/setup.cpp:415
+msgid "Show FPS  "
+msgstr "Toon FPS  "
+
+#: src/setup.cpp:416
+msgid "Setup Keys"
+msgstr "Toetsen Instellen"
+
+#: src/setup.cpp:419
+msgid "Setup Joystick"
+msgstr "Joystick Instellen"
+
+#: src/setup.cpp:422 src/setup.cpp:434 src/setup.cpp:447 src/setup.cpp:458
+#: src/title.cpp:104 src/title.cpp:141
+msgid "Back"
+msgstr "Terug"
+
+#: src/setup.cpp:424
+msgid "Keyboard Setup"
+msgstr "Toetsenbord Instellen"
+
+#: src/setup.cpp:426
+msgid "Left move"
+msgstr "Naar links"
+
+#: src/setup.cpp:427
+msgid "Right move"
+msgstr "Naar rechts"
+
+#: src/setup.cpp:428
+msgid "Jump"
+msgstr "Spring"
+
+#: src/setup.cpp:429
+msgid "Duck"
+msgstr "Buk"
+
+#: src/setup.cpp:430
+msgid "Activate"
+msgstr "Activeer"
+
+#: src/setup.cpp:432
+msgid "Power/Run"
+msgstr "Kracht/Rennen"
+
+#: src/setup.cpp:438
+msgid "Joystick Setup"
+msgstr "Joystick Instellen"
+
+#: src/setup.cpp:442
+msgid "A button"
+msgstr "A knop"
+
+#: src/setup.cpp:443
+msgid "B button"
+msgstr "B knop"
+
+#: src/setup.cpp:460
+msgid "Save Game"
+msgstr "Bewaar Spel"
+
+#: src/setup.cpp:470 src/setup.cpp:477
+msgid "Pause"
+msgstr "Pause"
+
+#: src/setup.cpp:472 src/setup.cpp:479
+msgid "Continue"
+msgstr "Verder gaan"
+
+#: src/setup.cpp:475
+msgid "Abort Level"
+msgstr "Level Afbreken"
+
+#: src/setup.cpp:482
+msgid "Quit Game"
+msgstr "Spel Afsluiten"
+
+#: src/setup.cpp:484
+msgid "Enter your name:"
+msgstr "Voer uw naam in:"
+
+#: src/setup.cpp:1043
+msgid "  SuperTux  "
+msgstr "  SuperTux  "
+
+#: src/setup.cpp:1043
+msgid ""
+"\n"
+"  Please see the file \"README.txt\" for more details.\n"
+msgstr ""
+"\n"
+"  Lees a.u.b. het bestand \"README.txt\" voor meer details.\n"
+
+#: src/setup.cpp:1045
+#, c-format
+msgid ""
+"Usage: %s [OPTIONS] FILENAME\n"
+"\n"
+msgstr ""
+"Gebruik: %s [OPTIES] BESTANDSNAAM\n"
+"\n"
+
+#: src/setup.cpp:1046
+msgid ""
+"Display Options:\n"
+"  --fullscreen        Run in fullscreen mode.\n"
+"  --opengl            If OpenGL support was compiled in, this will tell\n"
+"                      SuperTux to make use of it.\n"
+"  --sdl               Use the SDL software graphical renderer\n"
+"\n"
+"Sound Options:\n"
+"  --disable-sound     If sound support was compiled in,  this will\n"
+"                      disable sound for this session of the game.\n"
+"  --disable-music     Like above, but this will disable music.\n"
+"\n"
+"Misc Options:\n"
+"  -j, --joystick NUM  Use joystick NUM (default: 0)\n"
+"  --joymap XAXIS:YAXIS:A:B:START\n"
+"                      Define how joystick buttons and axis should be mapped\n"
+"  --leveleditor       Opens the leveleditor in a file. (Only works when a "
+"file is provided.)\n"
+"  -d, --datadir DIR   Load Game data from DIR (default: automatic)\n"
+"  --debug-mode        Enables the debug-mode, which is useful for "
+"developers.\n"
+"  --help              Display a help message summarizing command-line\n"
+"                      options, license and game controls.\n"
+"  --usage             Display a brief message summarizing command-line "
+"options.\n"
+"  --version           Display the version of SuperTux you're running.\n"
+"\n"
+msgstr ""
+"Beeld Opties:\n"
+"  --fullscreen        Draai in volledig scherm.\n"
+"  --opengl            Als OpenGL ondersteuning is meegecompileerd, dan "
+"vertelt dit\n"
+"                      SuperTux om er gebruik van te maken.\n"
+"  --sdl               Gebruik SDL voor het renderen\n"
+"\n"
+"Geluid Opties:\n"
+"  --disable-sound     Als geluidsondersteuning is meegecompileerd, dan "
+"schakelt dit\n"
+"                      het geluid uit voor deze sessie van het spel.\n"
+"  --disable-music     Zoals hierboven, maar dit schakelt de muziek uit.\n"
+"\n"
+"Overige Opties:\n"
+"  -j, --joystick NUM  Gebruik joystick NUM (standaard: 0)\n"
+"  --joymap XAXIS:YAXIS:A:B:START\n"
+"                      Defineert hoe de joystick knoppen en assen gebruikt "
+"worden\n"
+"  --leveleditor       Opent de leveleditor in een bestand. (Werkt alleen als "
+"een bestand is opgegeven.)\n"
+"  -d, --datadir DIR   Laad Spel data uit DIR (standaard: automatisch)\n"
+"  --debug-mode        Schakelt de debug-modus in, wat nuttig is voor "
+"ontwikkelaars.\n"
+"  --help              Toon een help bericht waarin de opties,\n"
+"                      licentie en besturing worden getoond.\n"
+"  --usage             Toon een kort bericht waarin de opties worden "
+"opgesomd.\n"
+"  --version           Toon de versie van SuperTux die u heeft.\n"
+"\n"
+
+#: src/setup.cpp:1102
+#, c-format
+msgid ""
+"Usage: %s [--fullscreen] [--opengl] [--disable-sound] [--disable-music] [--"
+"debug-mode] | [--usage | --help | --version] [--leveleditor] FILENAME\n"
+msgstr ""
+"Gebruik: %s [--fullscreen] [--opengl] [--disable-sound] [--disable-music] [--"
+"debug-mode] | [--usage | --help | --version] [--leveleditor] BESTANDSNAAM\n"
+
+#: src/title.cpp:277
+msgid ""
+"Copyright (c) 2003 SuperTux Devel Team\n"
+"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you\n"
+"are welcome to redistribute it under certain conditions; see the file "
+"COPYING\n"
+"for details.\n"
+msgstr ""
+"Copyright (C) 2003 SuperTux Devel Team\n"
+"Dit spel komt ZONDER ENIGE GARANTIE. Dit is vrije software, en u\n"
+"mag het verspreiden onder bepaalde voorwaarden; bekijk het bestand COPYING\n"
+"voor details.\n"
+
+#: src/title.cpp:327
+#, c-format
+msgid "Are you sure you want to delete slot %d?"
+msgstr "Weet u zeker dat u slot %d wilt verwijderen?"
+
+#: src/worldmap.cpp:723
+msgid "GAMEOVER"
+msgstr "GAMEOVER"
+
+#~ msgid " SuperTux "
+#~ msgstr " SuperTux "
+
+#~ msgid ""
+#~ "\n"
+#~ "Copyright (c) 2003 SuperTux Devel Team\n"
+#~ "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and "
+#~ "you\n"
+#~ "are welcome to redistribute it under certain conditions; see the file "
+#~ "COPYING\n"
+#~ "for details.\n"
+#~ msgstr ""
+#~ "\n"
+#~ "Copyright (C) 2003 SuperTux Devel Team\n"
+#~ "Dit spel komt ZONDER ENIGE GARANTIE. Dit is vrije software, en u\n"
+#~ "mag het verspreiden onder bepaalde voorwaarden; bekijk het bestand "
+#~ "COPYING\n"
+#~ "voor details.\n"
