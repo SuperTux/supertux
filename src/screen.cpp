@@ -138,6 +138,36 @@ else
     }
 }
 
+/** This fade shrinks to the given point */
+
+#define LOOP_DELAY 20
+void shrink_fade(Point point, int fade_time)
+{
+float left_inc  = (float)point.x / ((float)fade_time / LOOP_DELAY);
+float right_inc = ((float)screen->w - point.x) / ((float)fade_time / LOOP_DELAY);
+float up_inc    = (float)point.y / ((float)fade_time / LOOP_DELAY);
+float down_inc  = ((float)screen->h - point.y) / ((float)fade_time / LOOP_DELAY);
+
+float left_cor = 0, right_cor = 0, up_cor = 0, down_cor = 0;
+
+while(left_cor < screen->w - point.x && right_cor < screen->w - point.x &&
+      up_cor < screen->h - point.y && down_cor < screen->h - point.y)
+  {
+  left_cor  += left_inc;
+  right_cor += right_inc;
+  up_cor    += up_inc;
+  down_cor  += down_inc;
+
+  fillrect(0, 0, left_cor, screen->h, 0,0,0);  // left side
+  fillrect(screen->w - right_cor, 0, right_cor, screen->h, 0,0,0);  // right side
+  fillrect(0, 0, screen->w, up_cor, 0,0,0);  // up side
+  fillrect(0, screen->h - down_cor, screen->w, down_cor, 0,0,0);  // down side
+
+  flipscreen();
+  SDL_Delay(LOOP_DELAY);
+  }
+}
+
 /* 'Stolen' from the SDL documentation.
  * Set the pixel at (x, y) to the given value
  * NOTE: The surface must be locked before calling this!

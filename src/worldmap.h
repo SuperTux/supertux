@@ -24,27 +24,9 @@
 #include <string>
 
 #include "musicref.h"
+#include "screen.h"
 
 namespace WorldMapNS {
-
-struct Point
-{
-  Point() : x(0), y(0) {}
-
-  Point(const Point& pos)
-    : x(pos.x), y(pos.y) {}
-
-  Point& operator=(const Point& pos)
-  { x = pos.x;
-    y = pos.y; 
-    return *this; }
-
-  Point(int x_, int y_)
-    : x(x_), y(y_) {}
-
-  int x;
-  int y;
-};
 
 class Tile
 {

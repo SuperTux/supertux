@@ -640,7 +640,9 @@ WorldMap::update(float delta)
             {
               PlayerStatus old_player_status = player_status;
 
-              std::cout << "Enter the current level: " << level->name << std::endl;;
+              std::cout << "Enter the current level: " << level->name << std::endl;
+              // do a shriking fade to the level
+              shrink_fade(Point((level->x*32 + 16 + offset.x),(level->y*32 + 16 + offset.y)), 3000);
               GameSession session(datadir +  "/levels/" + level->name,
                                   1, ST_GL_LOAD_LEVEL_FILE);
 
