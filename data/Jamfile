@@ -1,0 +1,43 @@
+SubDir TOP data ;
+
+IMAGEPATHS =
+  images
+  images/background
+  images/fonts
+  images/highscore
+  images/icons
+  images/intro
+  images/leveleditor
+  images/map
+  images/shared/smalltux
+  images/shared/bigtux
+  images/status
+  images/tilesets
+  images/title
+  images/worldmap
+;
+
+for p in $(IMAGEPATHS) {
+    InstallData 
+        [ Wildcard $(p) : *.png *.jpg *.xpm *.strf *.ico *.stgt *.stwt ] 
+      : $(p)
+    ;
+}
+
+LEVELPATHS = 
+  levels/bonus1
+  levels/contribs
+  levels/misc
+  levels/test
+  levels/world1
+  levels/world2
+  levels/worldmap
+;
+
+for p in $(LEVELPATHS) {
+  InstallData [ Wildcard $(p) : info *.stl *.stwm ] : $(p) ;
+}
+InstallData [ Wildcard *.txt ] ;
+InstallData [ Wildcard music : *.mod *.ogg ] : music ;
+InstallData [ Wildcard sound : *.wav ] : sound ;
+

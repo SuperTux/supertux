@@ -1,0 +1,47 @@
+#============================================================================
+# Jam configuration and actions for Linux/Unix
+#============================================================================
+SHELL ?= "/bin/sh" ;
+
+#----------------------------------------------------------------------------
+# platform specific rules
+
+##  ConstructApplicationTarget target : options
+##    Constructs the application atrget name (ie. foo.exe for foo)
+rule ConstructApplicationTarget
+{
+    return $(<) ;
+}
+rule ConstructLibraryTarget
+{
+    if [ IsElem shared : $(2) ] {
+        return lib$(<).la ;
+    } else {
+        return lib$(<).a ;
+    }
+}
+rule ConstructPluginTarget
+{
+    return $(<).so ;
+}
+
+# SystemLinkApplication target : objects : options
+#  do system specific actions needed for linking the application and construct
+#  correct clean targets.
+rule SystemLinkApplication
+{
+    local target = $($(<)_TARGET) ;
+  
+    Depends $(target) : $(>) ;
+    LinkApplication $(target) : $(>) ;
+    # setup clean rules
+    Clean clean : $(target) ;
+    Clean $(<)clean : $(target) ;
+}
+
+actions LinkApplication bind NEEDLIBS bind EXTRAOBJECTS
+{
+    $(LINK) -o $(<) $(>) $(EXTRAOBJECTS) $(NEEDLIBS) $(LFLAGS)
+}
+
+

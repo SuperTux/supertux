@@ -37,7 +37,8 @@ using namespace SuperTux;
 Surface::Surfaces Surface::surfaces;
 
 SurfaceData::SurfaceData(SDL_Surface* temp, bool use_alpha_)
-    : type(SURFACE), surface(0), use_alpha(use_alpha_)
+    : type(SURFACE), surface(0), use_alpha(use_alpha_),
+      x(0), y(0), w(0), h(0)
 {
   // Copy the given surface and make sure that it is not stored in
   // video memory
@@ -254,58 +255,41 @@ Surface::debug_check()
 }
 
 void
-Surface::resize(int w_, int h_)
-{
-  if (impl)
-  {
-    w = w_;
-    h = h_;
-    if (impl->resize(w_,h_) == -2)
-      reload();
-  }
-}
-
-void
 apply_filter_to_surface(SDL_Surface* surface, int filter, Color color)
 {
-if(filter == HORIZONTAL_FLIP_FILTER)
-  {
-  SDL_Surface* sur_copy = sdl_surface_from_sdl_surface(surface, true);
-  SDL_BlitSurface(surface, NULL, sur_copy, NULL);
-  SDL_SetAlpha(sur_copy,0,0);
+  if(filter == HORIZONTAL_FLIP_FILTER) {
+    SDL_Surface* sur_copy = sdl_surface_from_sdl_surface(surface, true);
+    SDL_BlitSurface(surface, NULL, sur_copy, NULL);
+    SDL_SetAlpha(sur_copy,0,0);
 
-  SDL_Rect src, dst;
-  src.y = dst.y = 0;
-  src.w = dst.w = 1;
-  src.h = dst.h = sur_copy->h;
-  for(int x = 0; x < sur_copy->w; x++)
+    SDL_Rect src, dst;
+    src.y = dst.y = 0;
+    src.w = dst.w = 1;
+    src.h = dst.h = sur_copy->h;
+    for(int x = 0; x < sur_copy->w; x++)
     {
-    src.x = x; dst.x = sur_copy->w-1 - x;
-    SDL_BlitSurface(sur_copy, &src, surface, &dst);
+      src.x = x; dst.x = sur_copy->w-1 - x;
+      SDL_BlitSurface(sur_copy, &src, surface, &dst);
     }
 
-  SDL_FreeSurface(sur_copy);
-  }
-else if(filter == MASK_FILTER)
-  {
-  SDL_Surface* sur_copy = sdl_surface_from_sdl_surface(surface, true);
+    SDL_FreeSurface(sur_copy);
+  } else if(filter == MASK_FILTER) {
+    SDL_Surface* sur_copy = sdl_surface_from_sdl_surface(surface, true);
 
-  Uint8 r,g,b,a;
+    Uint8 r,g,b,a;
 
-  SDL_LockSurface(sur_copy);
-  for(int x = 0; x < sur_copy->w; x++)
-    for(int y = 0; y < sur_copy->h; y++)
-      {
-      SDL_GetRGBA(getpixel(sur_copy,x,y), sur_copy->format, &r,&g,&b,&a);
-      if(a != 0)
-        {
-        putpixel(sur_copy, x,y, color.map_rgba(sur_copy));
+    SDL_LockSurface(sur_copy);
+    for(int x = 0; x < sur_copy->w; x++)
+      for(int y = 0; y < sur_copy->h; y++) {
+        SDL_GetRGBA(getpixel(sur_copy,x,y), sur_copy->format, &r,&g,&b,&a);
+        if(a != 0) {
+          putpixel(sur_copy, x,y, color.map_rgba(sur_copy));
         }
       }
-  SDL_UnlockSurface(sur_copy);
+    SDL_UnlockSurface(sur_copy);
 
-  SDL_BlitSurface(sur_copy, NULL, surface, NULL);
-  SDL_FreeSurface(sur_copy);
+    SDL_BlitSurface(sur_copy, NULL, surface, NULL);
+    SDL_FreeSurface(sur_copy);
   }
 }
 
@@ -329,18 +313,11 @@ sdl_surface_part_from_file(const std::string& file, int x, int y, int w, int h, 
   src.w = w;
   src.h = h;
 
-  conv = SDL_CreateRGBSurface(temp->flags, w, h, temp->format->BitsPerPixel,
+  conv = SDL_CreateRGBSurface(SDL_SWSURFACE, w, h, temp->format->BitsPerPixel,
                               temp->format->Rmask,
                               temp->format->Gmask,
                               temp->format->Bmask,
                               temp->format->Amask);
-
-  /* #if SDL_BYTEORDER == SDL_BIG_ENDIAN
-     0xff000000, 0x00ff0000, 0x0000ff00, 0x000000ff);
-     #else
-
-     0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000);
-     #endif*/
 
   SDL_SetAlpha(temp,0,0);
 
@@ -478,20 +455,6 @@ SurfaceImpl::~SurfaceImpl()
 SDL_Surface* SurfaceImpl::get_sdl_surface() const
 {
   return sdl_surface;
-}
-
-int SurfaceImpl::resize(int w_, int h_)
-{
-  w = w_;
-  h = h_;
-  SDL_Rect dest;
-  dest.x = 0;
-  dest.y = 0;
-  dest.w = w;
-  dest.h = h;
-  int ret = SDL_SoftStretch(sdl_surface, NULL,
-                            sdl_surface, &dest);
-  return ret;
 }
 
 #ifndef NOOPENGL
@@ -1089,4 +1052,3 @@ SurfaceSDL::apply_filter(int filter, Color color)
 SurfaceSDL::~SurfaceSDL()
 {}
 
-/* EOF */

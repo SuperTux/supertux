@@ -31,7 +31,7 @@ Coin::draw(DrawingContext& context)
 }
 
 HitResponse
-Coin::collision(GameObject& other, const CollisionHit& hit)
+Coin::collision(GameObject& other, const CollisionHit& )
 {
   Player* player = dynamic_cast<Player*>(&other);
   if(player == 0)

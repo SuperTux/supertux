@@ -17,7 +17,6 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
-
 #ifndef SUPERTUX_TEXTURE_H
 #define SUPERTUX_TEXTURE_H
 
@@ -25,7 +24,7 @@
 #include <list>
 
 #ifndef NOOPENGL
-#include "SDL_opengl.h"
+#include <SDL_opengl.h>
 #endif
 
 #include "SDL.h"
@@ -122,8 +121,6 @@ namespace SuperTux
       /** Reload the surface, which is necesarry in case of a mode swich */
       void reload();
 
-      void resize(int widht, int height);
-
       void apply_filter(int filter, Color color = Color(0,0,0));
     };
 
@@ -147,8 +144,6 @@ namespace SuperTux
       virtual int draw_part(float sx, float sy, float x, float y, float w, float h,  Uint8 alpha, Uint32 effect = NONE_EFFECT) = 0;
       virtual int draw_stretched(float x, float y, int w, int h, Uint8 alpha, Uint32 effect = NONE_EFFECT) = 0;
 
-
-      int resize(int w_, int h_);
 
       SDL_Surface* get_sdl_surface() const; // @evil@ try to avoid this function
 

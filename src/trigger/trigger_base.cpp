@@ -48,7 +48,7 @@ TriggerBase::draw(DrawingContext& context)
 }
 
 HitResponse
-TriggerBase::collision(GameObject& other, const CollisionHit& collhit)
+TriggerBase::collision(GameObject& other, const CollisionHit& )
 {
   Player* player = dynamic_cast<Player*> (&other);
   if(player) {

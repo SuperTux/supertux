@@ -1010,7 +1010,7 @@ Player::check_bounds(Camera* camera)
 }
 
 void
-Player::bounce(BadGuy& badguy)
+Player::bounce(BadGuy& )
 {
   //Make sure we stopped flapping
   flapping = false;

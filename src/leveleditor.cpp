@@ -855,6 +855,7 @@ void LevelEditor::test_level()
 
 void LevelEditor::change(int x, int y, int newtile, int layer)
 {  
+  (void) layer;
   // find the tilemap of the current layer, and then change the tile
   if(x < 0 || (unsigned int)x >= sector->solids->get_width()*32 ||
       y < 0 || (unsigned int)y >= sector->solids->get_height()*32)

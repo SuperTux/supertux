@@ -26,7 +26,7 @@ Platform::~Platform()
 }
 
 HitResponse
-Platform::collision(GameObject& object, const CollisionHit& hit)
+Platform::collision(GameObject& , const CollisionHit& )
 {
 #if 0
   if(typeid(object) == typeid(Player)) {
@@ -38,7 +38,7 @@ Platform::collision(GameObject& object, const CollisionHit& hit)
 }
 
 void
-Platform::action(float elapsed_time)
+Platform::action(float )
 {
   // just some test code...
   if(state == 0) {

@@ -1,0 +1,84 @@
+#============================================================================
+# Rules for compiling applications
+#============================================================================
+
+##  Application appname : sources [ : options ]
+##    Build an application out of sourcefiles. All sourcefiles will be passed
+##    to the Objects rule which tries to compile them into object-files. You
+##    can create rules for your own filetypes with the UserObject rule. Header
+##    files will just be ignored. They are only used for MSVC projectfile
+##    generation.
+##    Possible options are "noinstall" if you don't want a default install
+##    target to be created and "console" if you're building a console
+##    application (an application without any graphical output which is
+##    intended to be used on commandline)
+##    Some notes: You should not add the .exe extension to the appname - jam
+##    will do that on win32.
+##    If you have sourcefiles in subdirectories, then you'll need to use the
+##    SearchSubdir rule. Never specify sourcefiles with paths, only specify
+##    the filenames.
+##    Options:
+##	console: Create a console application
+##	noinstall: Don't setup a default installation target.
+##	independent: The target will not be made a dependency of the apps and
+##		     all target.
+rule Application
+{
+  # check options
+  CheckOptions noinstall console independent : $(3) : $(<) ;
+
+  local target = [ ConstructApplicationTarget $(<) : $(3) ] ;
+  local sources = [ DoSourceGrist $(>) ] ;
+  local objects = [ CompileObjects $(sources) ] ;
+
+  $(<)_TYPE = application ;
+  $(<)_OBJECTS = $(objects) ;
+  $(<)_SOURCES = $(sources) ;
+  $(<)_TARGET = $(target) ;
+  $(<)_OPTIONS = $(3) ;
+  $(<)_INSTALLTARGET = ;
+
+  # create target clean rule
+  Always $(<)clean ;
+  NotFile $(<)clean ;
+  Clean $(<)clean : $(objects) ; # create target clean rule 
+  Depends clean : $(<)clean ;
+
+  # so 'jam foo' works when it's really foo.exe (Windows) or foo.app (MacOS/X)
+  if $(target) != $(<)
+  {
+    Depends $(<) : $(target) ;
+    NotFile $(<) ;
+  }
+
+  # make dependency on apps target
+  if ! [ IsElem independent : $(3) ]
+  {
+    Depends apps : $(<) ;
+  }
+
+  # construct Install target
+  if ! [ IsElem noinstall : $(3) ]
+  {
+    $(<)_INSTALLTARGET = [ DoInstall $(target) : $(bindir) : $(INSTALL_PROGRAM) ] ;
+    Depends install_bin : $($(<)_INSTALLTARGET) ;
+  }
+
+  # Link
+  MakeLocate $(target) : $(LOCATE_TARGETS) ;
+  SystemLinkApplication $(<) : $(objects) : $(3) ;
+
+  # Import default flags
+  CppFlags $(<) : $(CPPFLAGS) $(APPLICTION_CPPFLAGS) ;
+  CFlags $(<) : $(CFLAGS) $(APPLICATION_CFLAGS) ;
+  C++Flags $(<) : $(C++FLAGS) $(APPLICATION_C++FLAGS) ;
+  LFlags $(<) : $(LFLAGS) $(APPLICATION_LFLAGS) ;
+}
+
+#----------------------------------------------------------------------------
+# private part
+
+# Construct pseudo target apps
+Depends all : apps ;
+NotFile apps ;
+

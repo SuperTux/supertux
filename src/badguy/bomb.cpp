@@ -18,13 +18,13 @@ Bomb::Bomb(const Vector& pos, Direction dir)
 }
 
 void
-Bomb::write(LispWriter& writer)
+Bomb::write(LispWriter& )
 {
   // bombs are only temporarily so don't write them out...
 }
 
 HitResponse
-Bomb::collision_solid(GameObject& other, const CollisionHit& hit)
+Bomb::collision_solid(GameObject& , const CollisionHit& hit)
 {
   if(fabsf(hit.normal.y) > .5)
     physic.set_velocity_y(0);
@@ -33,7 +33,7 @@ Bomb::collision_solid(GameObject& other, const CollisionHit& hit)
 }
 
 HitResponse
-Bomb::collision_player(Player& player, const CollisionHit& hit)
+Bomb::collision_player(Player& player, const CollisionHit& )
 {
   if(state == 1) {
     player.kill(Player::SHRINK);
@@ -42,7 +42,7 @@ Bomb::collision_player(Player& player, const CollisionHit& hit)
 }
 
 void
-Bomb::active_action(float elapsed_time)
+Bomb::active_action(float )
 {
   switch(state) {
     case 0:

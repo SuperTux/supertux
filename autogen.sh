@@ -1,5 +1,19 @@
 #!/bin/sh
 
+# Correct working directory?
+if test ! -f configure.ac ; then
+  echo "*** Please invoke this script from directory containing configure.ac."
+  exit 1
+fi
+
+# generate Jamconfig.in
+autoconf --trace=AC_SUBST \
+  | sed -e 's/configure.ac:[0-9]*:AC_SUBST:\([^:]*\).*/\1 ?= "@\1@" ;/g' \
+  > Jamconfig.in
+sed -e 's/.*BACKSLASH.*//' -i Jamconfig.in
+echo 'INSTALL ?= "@INSTALL@" ;' >> Jamconfig.in
+echo 'JAMCONFIG_READ = yes ;' >> Jamconfig.in
+
 # we need a minimum of automake 1.6 and automake 1.8 seems to be buggy
 # this doesn't seem to work well
 # see AUTOMAKE_OPTIONS in Makefile.am
@@ -7,7 +21,7 @@ export WANT_AUTOMAKE=1.6
 
 autoheader
 libtoolize --force
-aclocal -I m4
+aclocal -I mk/autoconf
 automake --copy --add-missing
 autoconf
 

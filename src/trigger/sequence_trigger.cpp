@@ -4,9 +4,9 @@
 #include "utils/lispwriter.h"
 #include "gameloop.h"
 
-SequenceTrigger::SequenceTrigger(LispReader& reader,
-    const std::string& sequence)
+SequenceTrigger::SequenceTrigger(LispReader& reader)
 {
+  (void) reader;
   // TODO
 }
 
@@ -38,7 +38,7 @@ SequenceTrigger::write(LispWriter& writer)
 }
 
 void
-SequenceTrigger::event(Player& player, EventType type)
+SequenceTrigger::event(Player& , EventType type)
 {
   if(type == triggerevent) {
     GameSession::current()->start_sequence(sequence_name);

@@ -7,7 +7,7 @@
 class SequenceTrigger : public TriggerBase, public Serializable
 {
 public:
-  SequenceTrigger(LispReader& reader, const std::string& sequence);
+  SequenceTrigger(LispReader& reader);
   SequenceTrigger(const Vector& pos, const std::string& sequence);
   ~SequenceTrigger();
  

@@ -79,6 +79,22 @@ DrawingContext::draw_surface_part(const Surface* surface, const Vector& source,
   surfacepartrequest->size = size;
   surfacepartrequest->source = source;
   surfacepartrequest->surface = surface;
+
+  // clip on screen borders
+  if(request.pos.x < 0) {
+    surfacepartrequest->size.x += request.pos.x;
+    if(surfacepartrequest->size.x <= 0)
+      return;
+    surfacepartrequest->source.x -= request.pos.x;
+    request.pos.x = 0;
+  }
+  if(request.pos.y < 0) {
+    surfacepartrequest->size.y += request.pos.y;
+    if(surfacepartrequest->size.y <= 0)
+      return;
+    surfacepartrequest->source.y -= request.pos.y;
+    request.pos.y = 0;
+  }
   request.request_data = surfacepartrequest;
 
   drawingrequests.push_back(request);

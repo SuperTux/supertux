@@ -1,0 +1,81 @@
+#============================================================================
+# Rules for C and C++ files
+#============================================================================
+
+# convert autoconf style variablenames to jam style ones
+CCFLAGS += $(CFLAGS) ;
+C++FLAGS += $(CXXFLAGS) ;
+LFLAGS += $(LIBS) ;
+
+if $(CC)
+{
+
+rule CcRule
+{
+    local object ;
+
+    if [ IsElem shared : $(2) ]
+    {
+        object = [ DoObjectGrist $(<:S=.lo) ] ;
+        CC on $(object) = "$(LIBTOOL) --mode=compile $(CC)" ;
+    } else {
+        object = [ DoObjectGrist $(<:S=.o) ] ;
+    }
+
+    Cc $(object) : $(<) ;
+    return $(object) ;
+}
+RegisterFileType CcRule : .c ;
+RegisterHeaderRule HeaderRule : $(HDRPATTERN) : .c ;
+
+rule Cc
+{
+    Depends $(<) : $(>) ;
+}
+
+actions Cc
+{
+    $(CC) -c -o $(<) $(CPPFLAGS) $(CFLAGS) $(>)
+}
+} # end if $(CC)
+
+if $(CXX)
+{
+
+rule C++Rule
+{
+    local object ;
+    
+    if [ IsElem shared : $(2) ] {
+        object = [ DoObjectGrist $(<:S=.lo) ] ;
+        CXX on $(object) = "$(LIBTOOL) --mode=compile $(CXX)" ;
+    } else {
+        object = [ DoObjectGrist $(<:S=.o) ] ;
+    }
+    C++ $(object) : $(<) ;
+    return $(object) ;
+}
+RegisterFileType C++Rule : .cpp .cc .c++ ; # we can't register .C here because
+                                           # of windows being case-insensitive.
+RegisterHeaderRule HeaderRule : $(HDRPATTERN) : .cpp .cc .c++ ;
+
+rule C++
+{
+    Depends $(<) : $(>) ;
+}
+
+actions C++
+{
+    $(CXX) -c -o $(<) $(CPPFLAGS) $(C++FLAGS) $(>)
+}
+} # end if $(CXX)
+
+rule CreateIncludeFlags
+{
+    return -I$(<) ;
+}
+
+rule CreateDefineFlags
+{
+    return -D$(<) ;
+}

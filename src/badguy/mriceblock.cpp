@@ -46,7 +46,7 @@ MrIceBlock::active_action(float elapsed_time)
 }
 
 HitResponse
-MrIceBlock::collision_solid(GameObject& other, const CollisionHit& hit)
+MrIceBlock::collision_solid(GameObject& , const CollisionHit& hit)
 {
   if(fabsf(hit.normal.y) > .5) { // floor or roof
     physic.set_velocity_y(0);

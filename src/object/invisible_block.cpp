@@ -20,7 +20,7 @@ InvisibleBlock::draw(DrawingContext& context)
 }
 
 void
-InvisibleBlock::hit(Player& player)
+InvisibleBlock::hit(Player& )
 {
   if(visible)
     return;

@@ -41,7 +41,7 @@ MrBomb::collision_squished(Player& player)
 }
 
 HitResponse
-MrBomb::collision_solid(GameObject& other, const CollisionHit& hit)
+MrBomb::collision_solid(GameObject& , const CollisionHit& hit)
 {
   if(fabsf(hit.normal.y) > .5) { // hit floor or roof?
     physic.set_velocity_y(0);

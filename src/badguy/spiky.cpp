@@ -31,7 +31,7 @@ Spiky::activate()
 }
 
 HitResponse
-Spiky::collision_solid(GameObject& other, const CollisionHit& hit)
+Spiky::collision_solid(GameObject& , const CollisionHit& hit)
 {
   if(fabsf(hit.normal.y) > .5) { // hit floor or roof?
     physic.set_velocity_y(0);

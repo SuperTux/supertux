@@ -40,7 +40,7 @@ BouncingSnowball::collision_squished(Player& player)
 }
 
 HitResponse
-BouncingSnowball::collision_solid(GameObject& other, const CollisionHit& hit)
+BouncingSnowball::collision_solid(GameObject& , const CollisionHit& hit)
 {
   if(hit.normal.y < -.5) { // hit floor
     physic.set_velocity_y(JUMPSPEED);

@@ -254,8 +254,18 @@ public class Application {
                 return;
             }
             foreach(Tile tile in Selection) {
-                if(tile.ID != -1)
-                    tile.ID = id++;
+                if(tile.ID == -1)
+                    continue;
+                
+                int oldid = tile.ID;
+                tile.ID = id++;
+                // remap in all tilegroups...
+                foreach(TileGroup tilegroup in tileset.TileGroups) {
+                    int idx = tilegroup.Tiles.IndexOf(oldid);
+                    if(idx >= 0) {
+                        tilegroup.Tiles[idx] = tile.ID;
+                    }
+                }
             }
             FillTileList();
             SelectionChanged();

@@ -81,7 +81,7 @@ BadGuy::active_action(float elapsed_time)
 }
 
 void
-BadGuy::inactive_action(float elapsed_time)
+BadGuy::inactive_action(float )
 {
 }
 
@@ -118,7 +118,7 @@ BadGuy::collision(GameObject& other, const CollisionHit& hit)
 }
 
 HitResponse
-BadGuy::collision_solid(GameObject& other, const CollisionHit& hit)
+BadGuy::collision_solid(GameObject& , const CollisionHit& )
 {
   return FORCE_MOVE;
 }
@@ -139,13 +139,13 @@ BadGuy::collision_player(Player& player, const CollisionHit& hit)
 }
 
 HitResponse
-BadGuy::collision_badguy(BadGuy& other, const CollisionHit& hit)
+BadGuy::collision_badguy(BadGuy& , const CollisionHit& )
 {
   return FORCE_MOVE;
 }
 
 bool
-BadGuy::collision_squished(Player& player)
+BadGuy::collision_squished(Player& )
 {
   return false;
 }

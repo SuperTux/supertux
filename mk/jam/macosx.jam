@@ -1,0 +1,53 @@
+#============================================================================
+# Jam configuration and actions for MacOS/X
+# Copyright (C) 2003 by Eric Sunshine <sunshine@sunshineco.com>
+#============================================================================
+SHELL ?= "/bin/sh" ;
+DEEPCOPY ?= "cp -R" ;
+
+# Experience seems to indicate that library scanning misbehaves on MacOS/X with
+# Jam 2.4, consequently we disable it.
+AR = "ar ru" ;
+NOARUPDATE = true ;
+NOARSCAN = true ;
+actions Archive
+{
+  $(AR) $(<) $(>)
+}
+
+#------------------------------------------------------------------------------
+# Public rules.
+#------------------------------------------------------------------------------
+
+# ConstructApplicationTarget target : options
+#    Constructs the application target name (ie. foo.app for foo)
+rule ConstructApplicationTarget
+{
+  return $(<) ;
+}
+
+# ConstructLibraryTarget target : options
+rule ConstructLibraryTarget
+{
+  return lib$(<).a ;
+}
+
+# SystemLinkApplication target : objects : options
+rule SystemLinkApplication
+{
+  local target = $($(<)_TARGET) ;
+  Depends $(target) : $(>) ;
+    
+  LinkApplication $(target) : $(>) ;
+  Clean clean : $(target) ;
+  Clean $(<)clean : $(target) ;
+}
+
+# LinkApplicationConsole exe : objects
+#    Link a console (non-GUI) appliation from a set of object files.
+actions LinkApplication bind NEEDLIBS bind EXTRAOBJECTS
+{
+  $(MACOSX.ENVIRON)
+  $(LINK) -o $(<) $(>) $(EXTRAOBJECTS) $(NEEDLIBS) $(LFLAGS)
+}
+

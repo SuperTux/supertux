@@ -11,7 +11,7 @@ dnl ===========================================================================
 
 dnl Process this file with autoconf to produce a configure script.
 AC_PREREQ([2.54])
-AC_INIT(SuperTux, 0.2-cvs)
+AC_INIT(supertux, 0.2-cvs)
 AC_CONFIG_HEADERS(config.h)
 AC_CONFIG_SRCDIR([src/supertux.cpp])
 AC_CANONICAL_TARGET
@@ -39,12 +39,14 @@ AC_C_CONST
 dnl ===========================================================================
 dnl Give advanced users some options to play with
 
+VARIANT=optimize
 AC_MSG_CHECKING(for gprof mode)
 AC_ARG_ENABLE(gprof,
               AC_HELP_STRING([--enable-gprof], [enable GNU profiling support]),
               [enable_gprof=$enableval], [enable_gprof=no])
 if test "$enable_gprof" = "yes"; then
-    CXXFLAGS="$CXXFLAGS -pg"
+    #CXXFLAGS="$CXXFLAGS -pg"
+    VARIANT=profile
     AC_MSG_RESULT([enabled])
 else
     AC_MSG_RESULT([disabled])
@@ -56,12 +58,15 @@ AC_ARG_ENABLE(debug,
               [enable_debug=$enableval], [enable_debug=no])
 if test "$enable_debug" = "yes"; then
     AC_DEFINE([DEBUG], 1, [define to compile in debug checks])
-    CXXFLAGS="$CXXFLAGS -Wall -Werror -O0 -g3"
+    #CXXFLAGS="$CXXFLAGS -Wall -Werror -O0 -g3"
+    VARIANT=debug
     AC_MSG_RESULT([enabled])
 else
-    CXXFLAGS="$CXXFLAGS -O2 -g"
+    #CXXFLAGS="$CXXFLAGS -O2 -g"
+    VARIANT=optimize
     AC_MSG_RESULT([disabled])
 fi
+AC_SUBST([VARIANT])
 
 AC_MSG_CHECKING(wether OpenGL should be used)
 AC_ARG_ENABLE(opengl,
@@ -81,36 +86,46 @@ SDL_VERSION=1.2.4
 AM_PATH_SDL($SDL_VERSION,
             :,
 	    AC_MSG_ERROR([*** SDL version $SDL_VERSION not found!]))
-CXXFLAGS="$CXXFLAGS $SDL_CFLAGS"
-CFLAGS="$CFLAGS $SDL_CFLAGS"
-LIBS="$LIBS $SDL_LIBS"
-GL_LIBS="-lGL"
 
-dnl Checks for additional libraries.
-AC_CHECK_LIB(SDL_mixer, Mix_OpenAudio,,
-	AC_MSG_ERROR([SDL_mixer library required]))
+NP_FINDLIB([SDLMIXER], [SDL_mixer], [SDL_mixer >= 1.2],
+        NP_LANG_PROGRAM([#include <SDL_mixer.h>
+#if MIX_MAJOR_VERSION < 1
+# error SDLMix too old
+#else
+# if MIX_MAJOR_VERSION == 1
+#  if MIX_MINOR_VERSION < 2
+#   error SDLMix too old
+#  endif
+# endif
+#endif], [Mix_OpenAudio(0, 0, 0, 0);]),
+        [], [-lSDL_mixer],
+        [],
+        [AC_MSG_ERROR([Please install SDLMixer >=1.2.2])],
+        [$SDL_CFLAGS], [$SDL_LIBS])
 
-AC_CHECK_LIB(SDL_image, IMG_Load,,
-	AC_MSG_ERROR([SDL_image library required]))
+NP_FINDLIB([SDLIMAGE], [SDL_image], [SDL_image >= 1.2],
+        NP_LANG_PROGRAM([#include <SDL_image.h>], [IMG_Load("");]),
+        [], [-lSDL_image],
+        [],
+        [AC_MSG_ERROR([Please install SDLImage >= 1.2.1])],
+        [$SDL_CFLAGS], [$SDL_LIBS])
 
 if test "$enable_opengl" = "yes"; then
   AX_CHECK_GL
 fi
 if test "$no_gl" = "yes" -o "$enable_opengl" = "no"; then
-  CXXFLAGS="$CXXFLAGS -DNOOPENGL"
-  enable_opengl=no
+  GL_AVAILABLE="no"
+  AC_DEFINE([NOOPENGL],, [Define if opengl should not be used])
 else
-  CFLAGS="$CFLAGS $GL_CFLAGS"
-  CXXFLAGS="$CXXFLAGS $GL_CFLAGS"
-  LIBS="$LIBS $GL_LIBS"
+  GL_AVAILABLE="yes"
 fi
-
-AC_CHECK_LIB(z, gzopen,, AC_MSG_ERROR([*** zlib is missing]))
-
-CXXFLAGS="$CXXFLAGS -DDATA_PREFIX='\"$datadir/supertux\"'" 
+AC_SUBST([GL_AVAILABLE])
 
 dnl Checks for library functions.
 AC_CHECK_FUNCS(mkdir strdup strstr)
+
+AC_INIT_JAM
+AC_CONFIG_FILES([Jamconfig])
 
 AC_OUTPUT(Makefile m4/Makefile intl/Makefile
           src/Makefile
@@ -125,5 +140,3 @@ echo " Profile Mode:   $enable_gprof"
 echo " Debug Mode:     $enable_debug"
 echo " OpenGL Support: $enable_opengl"
 echo ""
-
-# EOF #

@@ -1,0 +1,14 @@
+SubDir TOP lib ;
+
+Library supertuxlib :
+    [ Wildcard app : *.cpp *.h ]
+    [ Wildcard audio : *.cpp *.h ]
+    [ Wildcard gui : *.cpp *.h ]
+    [ Wildcard math : *.cpp *.h ]
+    [ Wildcard special : *.cpp *.h ]
+    [ Wildcard utils : *.cpp *.h ]
+    [ Wildcard video : *.cpp *.h ]
+;
+ExternalLibs supertuxlib : SDL SDLMIXER SDLIMAGE GL ;
+C++Flags supertuxlib : -DDATA_PREFIX='\"$(appdatadir)\"' -DLOCALEDIR='\"$(datadir)/locale\"' : export ;
+Help supertuxlib : "Build supertux library" ;

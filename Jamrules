@@ -1,0 +1,40 @@
+if ! $(top_builddir)
+{
+    top_builddir = $(TOP) ;
+}
+top_srcdir = $(TOP) ;
+
+JAMCONFIG ?= $(top_builddir)/Jamconfig ;
+include $(JAMCONFIG) ;
+if ! $(JAMCONFIG_READ)
+{
+  EXIT "Couldn't find config. Please run 'configure' first." ;
+}
+
+if $(USE_STLPORT_DEBUG)
+{
+  CPPFLAGS += -I/usr/include/stlport ;
+  CPPFLAGS += -D_STLP_DEBUG=1 -D_STLP_DEBUG_UNINITIALIZED=1 ;
+  CPPFLAGS += -D_STLP_SHRED_BYTE=0xA3 ;
+  LIBS += -lstlport_gcc_debug ;
+}
+
+COMPILER_CFLAGS += -Wall -W ;
+COMPILER_CFLAGS_optimize += -O3 -g3 ;
+COMPILER_C++FLAGS_optimize += -O3 -g3 ;
+COMPILER_LFLAGS_optimize += -O3 -g3 ;
+COMPILER_CFLAGS_debug += -DDEBUG -Werror -g3 ;
+COMPILER_CXXFLAGS_debug += -DDEBUG -Werror -g3 ;
+COMPILER_LFLAGS_debug += -g3 ;
+COMPILER_CFLAGS_profile += -O2 -g3 -pg ;
+COMPILER_CXXFLAGS_profile += -O2 -g3 -pg ;
+COMPILER_LFLAGS_profile += -g3 -pg ;
+
+LINK = $(CXX) ;
+
+# Include build rules
+include $(TOP)/mk/jam/build.jam ;
+
+# Include Dirs
+IncludeDir $(top_builddir) ; # for config.h
+IncludeDir lib src ;

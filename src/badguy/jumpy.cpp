@@ -24,7 +24,7 @@ Jumpy::write(LispWriter& writer)
 }
 
 HitResponse
-Jumpy::collision_solid(GameObject& other, const CollisionHit& hit)
+Jumpy::collision_solid(GameObject& , const CollisionHit& hit)
 {
   // hit floor?
   if(hit.normal.y < -.5) {

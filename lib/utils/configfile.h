@@ -30,8 +30,10 @@ class Config {
   public:
   void load ();
   void save ();
-  virtual void customload(LispReader& reader) {};
-  virtual void customsave(FILE * config) {};
+  virtual void customload(LispReader& )
+  {};
+  virtual void customsave(FILE* )
+  {};
 };
 
 extern Config* config;

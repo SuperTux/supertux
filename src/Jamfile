@@ -1,0 +1,12 @@
+SubDir TOP src ;
+
+Application supertux : 
+    [ Wildcard *.cpp *.h ]
+    [ Wildcard object : *.cpp *.h ]
+    [ Wildcard badguy : *.cpp *.h ]
+    [ Wildcard trigger : *.cpp *.h ]
+;
+LinkWith supertux : supertuxlib ;
+ExternalLibs supertux : SDL SDLMIXER SDLIMAGE GL ;
+Help supertux : "Build the supertux executable" ;
+

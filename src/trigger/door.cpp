@@ -87,7 +87,7 @@ Door::draw(DrawingContext& context)
 }
 
 void
-Door::event(Player& player, EventType type)
+Door::event(Player& , EventType type)
 {
   if(type == EVENT_ACTIVATE) {
     sprite->set_action("open");

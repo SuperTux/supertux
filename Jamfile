@@ -1,0 +1,7 @@
+SubDir TOP ;
+
+# Decend into subdirs
+SubInclude TOP lib ;
+SubInclude TOP src ;
+SubInclude TOP data ;
+

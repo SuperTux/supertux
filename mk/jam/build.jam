@@ -1,0 +1,48 @@
+#============================================================================
+# Main rules file - Includes all important rulefiles in correct order
+#============================================================================
+
+# enable if you want debug messages
+JAM_DEBUG ?= 1 ;
+
+jamrulesdir = $(TOP)/mk/jam ;
+
+include $(jamrulesdir)/jamcompatibility.jam ;
+include $(jamrulesdir)/helper.jam ;
+include $(jamrulesdir)/subdir.jam ;
+
+include $(jamrulesdir)/variant.jam ;
+include $(jamrulesdir)/resource.jam ;
+
+include $(jamrulesdir)/help.jam ;
+include $(jamrulesdir)/groups.jam ;
+include $(jamrulesdir)/install.jam ;
+include $(jamrulesdir)/clean.jam ;
+
+include $(jamrulesdir)/objects.jam ;
+include $(jamrulesdir)/compiler.jam ;
+
+include $(jamrulesdir)/autoconf.jam ;
+
+include $(jamrulesdir)/flags.jam ;
+include $(jamrulesdir)/libtool.jam ;
+include $(jamrulesdir)/library.jam ;
+include $(jamrulesdir)/application.jam ;
+
+include $(jamrulesdir)/options.jam ;
+
+# Include OS specific rules
+switch $(target_os)
+{
+case cygwin* :
+  include $(jamrulesdir)/win32.jam ;
+case mingw32* :
+  include $(jamrulesdir)/win32.jam ;
+case apple-darwin :
+  include $(jamrulesdir)/macosx.jam ;
+case linux-gnu :
+  include $(jamrulesdir)/unix.jam ;
+case * :
+  include $(jamrulesdir)/unix.jam ;
+}
+

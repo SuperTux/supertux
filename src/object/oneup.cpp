@@ -33,7 +33,7 @@ OneUp::draw(DrawingContext& context)
 }
 
 HitResponse
-OneUp::collision(GameObject& other, const CollisionHit& hit)
+OneUp::collision(GameObject& other, const CollisionHit& )
 {
   Player* player = dynamic_cast<Player*> (&other);
   if(player) {
