@@ -1,7 +1,770 @@
 - SuperTux changes -
 http://super-tux.sf.net/
 
-Last update: May 3, 2004
+Last update: August 25, 2004
+
+Milestone 0.1.2 - August 25, 2004
+-----------------------------
+
+(date: 2004/05/15 22:22:54;  author: sik0fewl;  state: Exp;  lines: +13 -13)
+
+
+- Created supertux_0_1_1_branch branch (bugfix branch)
+- Fixed level editor not scrolling all the way to end of level
+- Fixed problems with enums
+
+==============================================================================
+
+
+(date: 2004/05/16 17:30:12;  author: sik0fewl;  state: Exp;  lines: +2 -1)
+
+- added missing include
+(supertux_0_1_1_branch)
+
+==============================================================================
+
+
+(date: 2004/06/28 23:04:57;  author: sik0fewl;  state: Exp;  lines: +36 -22)
+
+- backported MatzeB's lisp_free() patch
+
+==============================================================================
+
+
+(date: 2004/06/29 17:55:22;  author: sik0fewl;  state: Exp;  lines: +9 -9)
+
+- backported MatzeB's improved lisp_free() patch
+
+==============================================================================
+
+
+(date: 2004/07/10 21:53:08;  author: wansti;  state: Exp;  lines: +104 -0)
+
+fixed autoscrolling problems
+added new world map properties (start_pos_x) and (start_pos_y), changed
+worldmap.stwm accordingly
+added bonus island levels and world map
+loading of world maps other than "worldmap.stwm" now possible
+(currently, the bonus island is loaded by default)
+
+==============================================================================
+
+
+(date: 2004/07/18 11:58:15;  author: rmcruz;  state: Exp;  lines: +5 -1)
+
+Added support for worlds in Contribs menus.
+
+==============================================================================
+
+
+(date: 2004/07/18 19:12:28;  author: rmcruz;  state: Exp;  lines: +8 -2)
+
+Mark all contrib world map levels as played.
+This as to be done (at least, until another solution is implemented), since the world map level's state are not saved, and it would make no sense to make the player to have to play the all map without exiting the game.
+
+==============================================================================
+
+
+(date: 2004/07/18 19:39:05;  author: rmcruz;  state: Exp;  lines: +7 -1)
+LEASE
+
+==============================================================================
+
+Implemented bricks breaking by Ice Guys.
+Thx Ryan for pointing out the code.
+
+==============================================================================
+
+
+(date: 2004/07/19 11:41:54;  author: rmcruz;  state: Exp;  lines: +4 -4)
+
+Save Bonus Island state to file.
+
+==============================================================================
+
+
+(date: 2004/07/22 09:41:19;  author: rmcruz;  state: Exp;  lines: +4 -1)
+
+Just added fadeout.
+
+==============================================================================
+
+
+(date: 2004/07/22 09:44:18;  author: rmcruz;  state: Exp;  lines: +0 -0)
+
+Added bonus levels.
+
+==============================================================================
+
+
+(date: 2004/07/22 13:52:44;  author: rmcruz;  state: Exp;  lines: +4 -1)
+
+Fixed the reset point bug in auto-scrolling that changed Tux position, but not camera's.
+(Not tested.)
+
+==============================================================================
+
+
+(date: 2004/07/26 13:56:08;  author: rmcruz;  state: Exp;  lines: +8 -6)
+
+Mini-map related tweaks:
+- Show mini-map in mouse movement, as well;
+- Removed the 'to fix' comment, related to the SDL use, since it has been already fixed;
+- Changed the map selection lines color.
+
+==============================================================================
+
+
+(date: 2004/07/26 18:04:30;  author: rmcruz;  state: Exp;  lines: +17 -1)
+
+Don't crash in levels bigger than 15 vertical tiles.
+
+==============================================================================
+
+
+(date: 2004/07/27 12:00:14;  author: rmcruz;  state: Exp;  lines: +7 -7)
+
+Fixed bug: in the last commit that avoided the crash in level bigger than 15 vertical tiles, I was cutting the X tiles, not the Y. It was a typo in the name of the variable.
+
+==============================================================================
+
+
+(date: 2004/07/27 12:29:08;  author: wansti;  state: Exp;  lines: +48 -47)
+
+minor changes to wansti-level2
+
+==============================================================================
+
+
+(date: 2004/07/27 12:50:08;  author: wansti;  state: Exp;  lines: +10 -0)
+
+updated NEWS with changes that will appear in 0.1.2
+(If I forgot anything, please add)
+
+==============================================================================
+
+
+(date: 2004/07/27 13:03:07;  author: wansti;  state: Exp;  lines: +4 -1)
+
+extended "level higher than 15 tiles" warning
+(why is it shown three times, anyway?)
+
+==============================================================================
+
+
+(date: 2004/07/27 16:36:59;  author: rmcruz;  state: Exp;  lines: +18 -3)
+
+Added map-message and auto-walk fields for world maps.
+(map-message "message") shows 'message' when player is in the specified position. It can or not have a level specified as well.
+(auto-walk #f) makes the player not walk or walk (default to walk) after finishing level. Not sure if it is usefull, but could be used in levels in a hidden place.
+
+==============================================================================
+
+
+(date: 2004/07/27 16:43:23;  author: rmcruz;  state: Exp;  lines: +8 -7)
+
+Added the layer that has more than 15 tiles in the warning message, so that they are not equal, and thus looking like if it was a bug.
+
+==============================================================================
+
+
+(date: 2004/07/27 16:48:18;  author: wansti;  state: Exp;  lines: +15 -12)
+
+added secret path to the bonus island map
+(the actual secret level will follow)
+
+==============================================================================
+
+
+(date: 2004/07/27 19:21:54;  author: wansti;  state: Exp;  lines: +103 -0)
+
+added secret level (work in progress)
+made use of new worldmap stuff
+
+==============================================================================
+
+
+(date: 2004/07/27 22:36:00;  author: rmcruz;  state: Exp;  lines: +3 -3)
+
+Fixed bug of saving even special tiles that have not levels and when pressing enter on special tiles with no levels.
+
+==============================================================================
+
+
+(date: 2004/07/27 22:45:36;  author: rmcruz;  state: Exp;  lines: +2 -2)
+
+Fixed bug to let the player go through messages with no levels on it.
+
+==============================================================================
+
+
+(date: 2004/07/27 22:52:33;  author: rmcruz;  state: Exp;  lines: +4 -1)
+
+Changed the position of the message.
+
+Marek, I find it confusing, as a player, to have two messages when going to the first level of each "island", so my suggestion is doing like this; put the messages in a fork or something before the level.
+Have a look at this example (just go to the abednego area) and check if you also prefer this approach.
+
+==============================================================================
+
+
+(date: 2004/07/27 23:15:27;  author: wansti;  state: Exp;  lines: +18 -10)
+
+moved section names/authors to the intersection at the beginning of the worldmap
+(apparently, someone else had the same idea at the same time... :))
+
+==============================================================================
+
+
+(date: 2004/07/28 09:13:57;  author: wansti;  state: Exp;  lines: +4 -4)
+
+changed world map messages
+
+==============================================================================
+
+
+(date: 2004/07/28 16:01:17;  author: rmcruz;  state: Exp;  lines: +3 -2)
+
+When a message is placed and there is no level, it is handled as a passive message and will be displayed for almost 3 seconds. When you go from a message to another, you might notice that only a random of those will be displayed, not necessarly the last one. Will be fixed.
+If there is a level, it will be handled as before.
+(last case not tested)
+
+==============================================================================
+
+
+(date: 2004/07/28 16:55:49;  author: wansti;  state: Exp;  lines: +62 -48)
+
+more work on secret level
+
+==============================================================================
+
+
+(date: 2004/07/28 20:40:27;  author: rmcruz;  state: Exp;  lines: +5 -2)
+
+Improved passive messages code. Fixed bug of showing a previous passive message when a new one should be being displayed now.
+
+==============================================================================
+
+
+(date: 2004/07/30 10:54:53;  author: rmcruz;  state: Exp;  lines: +7 -1)
+
+Let map messages being disabled when the player is coming from a specific direction.
+For instance, to not show a message when the player comes from left, do: (apply-action-left #f) .
+It is also possible to have more than one for different directions.
+Also, you can have to different (level, so that in one it shows a message and from another direction another.
+
+==============================================================================
+
+
+(date: 2004/07/30 11:00:35;  author: rmcruz;  state: Exp;  lines: +5 -5)
+
+Fixed the showing of messages when coming from the levels and not from the forks.
+Dunno if the secret level one needs fixing, since I don't know where it is.
+
+==============================================================================
+
+
+(date: 2004/07/30 15:09:00;  author: wansti;  state: Exp;  lines: +83 -0)
+
+added one new level to the worldmap, fixed "secret area" message
+added template for that level
+some more work on secret.stl
+
+==============================================================================
+
+
+(date: 2004/07/30 16:30:34;  author: wansti;  state: Exp;  lines: +47 -45)
+
+added one-way road tile for world map
+(coding needed - see mailing list!)
+
+==============================================================================
+
+
+(date: 2004/07/30 22:34:31;  author: rmcruz;  state: Exp;  lines: +13 -1)
+
+Added support for one way roads, as requested by Marek.
+Possible of usage: (one-way "north-south"), (one-way "south-north"), (one-way "east-west") or (one-way "west-east"). Use only one. And none for both ways.
+
+Worldmap stuff is getting too many expections, which is not bad, but is getting bloated. After the release of 0.1.2, I will port all these new aditions, but in a way to avoid both worldmap dta and source code getting bloated.
+The use of strings in worldmap data (like in this case), and arrays of booleans or peraphs bitfields in the code sound like a good choice.
+
+==============================================================================
+
+
+(date: 2004/07/30 22:35:13;  author: rmcruz;  state: Exp;  lines: +2 -1)
+
+Made the new Marek tile to only having a north-south way.
+
+==============================================================================
+
+
+(date: 2004/07/31 10:06:52;  author: wansti;  state: Exp;  lines: +83 -0)
+
+-changed bonus island worldmap, added a path leading back
+-added template for a new level
+
+PLEASE NOTE:
+-the game says tilemap data is buggy, i don't know why, maybe someone can check this out.
+-I put in a little gag with some map-messages being thrown on that new path leading back to the start; I'm not sure if it's funny :-) please try it and tell me if you like it.
+Thanks
+
+==============================================================================
+
+
+(date: 2004/07/31 10:30:30;  author: wansti;  state: Exp;  lines: +1 -1)
+
+fixed a bug which allowed tux to wander off the paths after completeing the secret level
+
+==============================================================================
+
+
+(date: 2004/07/31 10:39:50;  author: rmcruz;  state: Exp;  lines: +2 -1)
+
+Added flag to disable passive messages, so that they become map ones.
+(passive-messages #f) . They are enabled by default.
+Fixed the "Tilemap buggy message".
+
+==============================================================================
+
+
+(date: 2004/07/31 10:41:04;  author: rmcruz;  state: Exp;  lines: +6 -6)
+
+Made messages regarding impossible ways to be only showed only when in that tile.
+Showing them time-based is confusing for players, in my opinion.
+
+==============================================================================
+
+
+(date: 2004/07/31 10:49:19;  author: rmcruz;  state: Exp;  lines: +13 -0)
+
+Just a suggestion of a smaller news list.
+Marek, please read what I say there and change it, if you agree.
+
+==============================================================================
+
+
+(date: 2004/07/31 12:18:59;  author: wansti;  state: Exp;  lines: +83 -0)
+
+renamed some levels
+removed that stupid way-home-message-gag because, on second thought, i realized it sucked ass :)
+
+==============================================================================
+
+
+(date: 2004/07/31 14:54:00;  author: wansti;  state: Exp;  lines: +149 -94)
+
+added design fixes and reset points to Abednego's and Matr1x' levels
+added enemies to wansti-level2
+
+==============================================================================
+
+
+(date: 2004/07/31 22:28:44;  author: wansti;  state: Exp;  lines: +0 -0)
+
+more work on the levels
+removed Iceberg Fortress from Bonus Island, since it won't be used
+put it into world2 (in HEAD) instead, replaced it with a template here
+added fortress2 music to be used in 0.1.2
+
+==============================================================================
+
+
+(date: 2004/07/31 22:48:31;  author: wansti;  state: Exp;  lines: +3 -2)
+
+added an extro for bonus island
+please read and see if you agree
+...and be sure to scroll all the way down ;-)
+
+==============================================================================
+
+
+(date: 2004/08/01 12:07:06;  author: wansti;  state: Exp;  lines: +90 -11)
+
+some level tweaks, castle level added
+updated music
+
+==============================================================================
+
+
+(date: 2004/08/01 18:38:38;  author: wansti;  state: Exp;  lines: +0 -0)
+
+added lava tiles and used them in Bonus Island Castle
+
+==============================================================================
+
+
+(date: 2004/08/03 11:39:19;  author: wansti;  state: Exp;  lines: +96 -47)
+
+finished level: Castle Gate
+
+==============================================================================
+
+
+(date: 2004/08/03 15:33:52;  author: wansti;  state: Exp;  lines: +5 -2)
+
+added one new level to SuperTux team section, changed their numbers
+(please test!)
+
+==============================================================================
+
+
+(date: 2004/08/03 18:47:15;  author: rmcruz;  state: Exp;  lines: +2 -2)
+
+Bug fix: Ice blocks should now break full boxes.
+
+==============================================================================
+
+
+(date: 2004/08/03 18:52:48;  author: rmcruz;  state: Exp;  lines: +1 -2)
+
+Ooops, forgot to remove the line I use to not be damaged by bad guys.
+Yes, I am a lazy bastard. :D
+
+==============================================================================
+
+
+(date: 2004/08/04 11:51:24;  author: wansti;  state: Exp;  lines: +20 -20)
+
+small changes in the Cave Of Mirrors
+
+==============================================================================
+
+
+(date: 2004/08/04 16:22:32;  author: wansti;  state: Exp;  lines: +145 -50)
+
+added "Way Home" level
+minor design fixes in world1 levels
+
+==============================================================================
+
+
+(date: 2004/08/05 10:04:17;  author: rmcruz;  state: Exp;  lines: +3 -3)
+
+Bug fix: powerups were going on Tux direction, not based in the bump position.
+
+(If there are still problems, we can just disable this thing.)
+
+==============================================================================
+
+
+(date: 2004/08/05 14:14:19;  author: wansti;  state: Exp;  lines: +1 -1)
+
+more work on levels
+
+==============================================================================
+
+
+(date: 2004/08/05 14:54:09;  author: matzebraun;  state: Exp;  lines: +1 -1)
+
+removed -lGL again. on windows and macosx it's different names. AX_CHECK_GL should detect the correct one anyway and set it to GL_LIBS, if this doesn't work then fix AX_CHECK_GL instead of adding hacks
+
+==============================================================================
+
+
+(date: 2004/08/05 15:06:59;  author: matzebraun;  state: Exp;  lines: +2 -0)
+
+added some missing flags, that fix problems when regenerating configure
+
+==============================================================================
+
+
+(date: 2004/08/06 21:29:06;  author: wansti;  state: Exp;  lines: +14 -8)
+
+put two new levels (and level-templates) on the map
+(plus, I changed level numbers again)
+The world map of Bonus Island, as it is with this commit, is CONSIDERED FINAL
+So, if there are no objections, this is what Bonus Island will look like in 0.1.2
+
+==============================================================================
+
+
+(date: 2004/08/08 09:39:20;  author: wansti;  state: Exp;  lines: +1 -11)
+
+added unDEFER's water and waterfall tiles and used them in wansti-level1
+
+==============================================================================
+
+
+(date: 2004/08/08 10:37:03;  author: wansti;  state: Exp;  lines: +15 -15)
+
+updated secret level (i.e. added waterfall :-) )
+
+==============================================================================
+
+
+(date: 2004/08/08 12:34:08;  author: wansti;  state: Exp;  lines: +15 -0)
+
+added a simple teleporter leveldot
+i hope someone can come up with something better...
+
+==============================================================================
+
+
+(date: 2004/08/10 11:33:26;  author: rmcruz;  state: Exp;  lines: +1 -1)
+
+Changed 0.1.1 to 0.1.2 in 0_1_1_branch.
+
+==============================================================================
+
+
+(date: 2004/08/10 11:34:25;  author: rmcruz;  state: Exp;  lines: +2 -1)
+
+Fixed slot deleting.
+Bug report from Mickael Husson.
+
+==============================================================================
+
+
+(date: 2004/08/10 16:18:08;  author: rmcruz;  state: Exp;  lines: +6 -6)
+
+Added a '-' before Tux talks.
+Just so that it looks like it is Tux talking... Marek, if you don't like it, feel free to remove it.
+
+==============================================================================
+
+
+(date: 2004/08/10 16:21:40;  author: wansti;  state: Exp;  lines: +4 -0)
+
+updated waterfall and transparent water tiles from unDEFER
+added unDEFER to "Graphics" credits
+changed bonus levels to use transparent water
+
+==============================================================================
+
+
+(date: 2004/08/10 17:28:34;  author: sik0fewl;  state: Exp;  lines: +2 -2)
+
+- don't draw arm when Tux is ducking and holding something
+
+==============================================================================
+
+
+(date: 2004/08/10 19:04:35;  author: wansti;  state: Exp;  lines: +73 -46)
+
+added a new level - only one more to go!
+
+==============================================================================
+
+
+(date: 2004/08/10 21:18:11;  author: wansti;  state: Exp;  lines: +6 -1)
+
+hacked in a very simple but working teleporter,
+"That's-really-all-I'm-asking-for-edition" :-)
+anyone who is more into the code than i am, please revise!
+
+==============================================================================
+
+
+(date: 2004/08/10 21:31:56;  author: wansti;  state: Exp;  lines: +7 -1)
+
+just added a second teleporter to the world map
+
+==============================================================================
+
+
+(date: 2004/08/10 22:27:17;  author: rmcruz;  state: Exp;  lines: +4 -0)
+
+Added a warp world map dot image and sound effect.
+
+==============================================================================
+
+
+(date: 2004/08/10 22:48:55;  author: rmcruz;  state: dead;  lines: +0 -0)
+
+I was gonna implement warping. Looks like Marek was faster. ;)
+
+Removed my warpdot image.
+
+==============================================================================
+
+
+(date: 2004/08/10 22:50:39;  author: rmcruz;  state: Exp;  lines: +3 -2)
+
+Added warp sound and removed necessity of the boolean.
+
+Marek, should the teleport messages be shown for a period of time, like the passive ones, or what?
+
+==============================================================================
+
+
+(date: 2004/08/10 22:56:34;  author: rmcruz;  state: Exp;  lines: +2 -2)
+
+Removed (teleporter #t). Not needed,
+
+==============================================================================
+
+
+(date: 2004/08/11 00:53:22;  author: wansti;  state: Exp;  lines: +8 -1)
+
+completely redesigned Bonus Island world map using teleporters
+(levels are still missing)
+
+==============================================================================
+
+
+(date: 2004/08/11 00:59:17;  author: wansti;  state: Exp;  lines: +572 -115)
+
+included new lifeup sound from HEAD
+
+==============================================================================
+
+
+(date: 2004/08/11 10:30:20;  author: wansti;  state: Exp;  lines: +67 -16)
+
+put the levels on the map
+
+==============================================================================
+
+
+(date: 2004/08/11 11:09:41;  author: wansti;  state: Exp;  lines: +65 -19)
+
+added support for invisible teleporters
+players can now leave a section by going through the igloo
+
+==============================================================================
+
+
+(date: 2004/08/11 11:11:24;  author: wansti;  state: Exp;  lines: +1 -6)
+
+removed messages from igloo-teleporters
+
+==============================================================================
+
+
+(date: 2004/08/11 12:05:56;  author: wansti;  state: Exp;  lines: +3 -3)
+
+some small fixes
+
+==============================================================================
+
+
+(date: 2004/08/11 17:16:45;  author: rmcruz;  state: Exp;  lines: +2 -1)
+
+Added small delay on warping.
+
+==============================================================================
+
+
+(date: 2004/08/11 22:01:14;  author: wansti;  state: Exp;  lines: +114 -47)
+
+finished the last level - the testing can begin!
+
+==============================================================================
+
+
+(date: 2004/08/11 22:46:45;  author: wansti;  state: dead;  lines: +0 -0)
+
+updated NEWS and Bonus Island extro
+removed unused music
+
+==============================================================================
+
+
+(date: 2004/08/12 15:09:07;  author: wansti;  state: Exp;  lines: +2 -2)
+
+added transparent water to world1 levels
+
+==============================================================================
+
+
+(date: 2004/08/12 18:51:29;  author: rmcruz;  state: Exp;  lines: +5 -1)
+
+Close config file after accessing it!!
+Bug reported by unDEFER.
+
+==============================================================================
+
+
+(date: 2004/08/12 18:56:39;  author: rmcruz;  state: Exp;  lines: +1 -0)
+
+Install extro-bonus.txt!
+Bug reported by unDEFER.
+
+==============================================================================
+
+
+(date: 2004/08/12 19:06:09;  author: rmcruz;  state: Exp;  lines: +3 -3)
+
+Contrib levels were not working fine.
+Bug reported by unDEFER.
+
+==============================================================================
+
+
+(date: 2004/08/13 10:10:49;  author: wansti;  state: Exp;  lines: +4 -0)
+
+edited NEWS again (only the release date is missing, DON'T FORGET!)
+added a hint to the hub area that igloos take you back there.
+
+==============================================================================
+
+
+(date: 2004/08/13 11:03:40;  author: wansti;  state: Exp;  lines: +2 -1)
+
+made hint message passive
+
+==============================================================================
+
+
+(date: 2004/08/13 11:19:17;  author: wansti;  state: Exp;  lines: +1 -1)
+
+looked through text files, fixed a typo, put today's date into NEWS as 0.1.2 release date
+
+==============================================================================
+
+
+(date: 2004/08/13 11:38:18;  author: rmcruz;  state: Exp;  lines: +2 -1)
+
+Yet another file not being closed.
+Whoever that did the setup file related calls, certanely deserves a few slaps!
+
+==============================================================================
+
+
+(date: 2004/08/14 09:55:40;  author: wansti;  state: Exp;  lines: +6 -6)
+
+fixed "visible invisible blocks" in Something Fishy
+
+==============================================================================
+
+
+(date: 2004/08/14 10:07:16;  author: wansti;  state: Exp;  lines: +9 -9)
+
+small change to "Bonus Dias!"
+
+==============================================================================
+
+
+(date: 2004/08/16 16:14:49;  author: wansti;  state: Exp;  lines: +10 -10)
+
+added new box images
+
+==============================================================================
+
+
+(date: 2004/08/18 21:27:29;  author: rmcruz;  state: Exp;  lines: +2 -2)
+
+Bugfix: Collisions were not being applied for the Star powerup.
+Bug reported by Seneca.
+
+==============================================================================
+
+
+(date: 2004/08/19 08:29:33;  author: wansti;  state: Exp;  lines: +3 -3)
+
+small beauty fixes
+
+==============================================================================
+
+
+(date: 2004/08/23 21:58:35;  author: wansti;  state: Exp;  lines: +1 -1)
+
+changed the release date of 0.1.2 to 24 August 2004
+--READY FOR RELEASE
+
+==============================================================================
+
 
 Milestone 0.1.1 - May 11, 2004
 -----------------------------
