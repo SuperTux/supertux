@@ -1,5 +1,3 @@
-pkgdatadir = $(datadir)/games/@PACKAGE@
-
 EXTRA_DIST = \
   $(wildcard sounds/*.wav) \
   $(wildcard images/*.png) \
