@@ -11,6 +11,7 @@ Todo
 H: high priority
 L: low priority
 
+[M] Tux releases bonus in the intro without collecting them, looks stupid
 [M] When aborting a level, lives and score should remain the same as they
     were before. Solution: make more dependency between the game engine and worldmap
     or just backup those variables before starting a level.
