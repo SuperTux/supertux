@@ -12,10 +12,6 @@ Todo
 - tux sometimes makes short jumps in the endsequence, mostly when
   going through the goal with a small jump, might be old_up related
 - fadein/out for intro/extro would be nice
-- when jupming against the 2nd multiple coin block in a level only 1 coin will
-  come out.
-- when jumping into the exit with a star, the endgame music will change back to
-  levelmusic after a short time
 - the can_jump flag should be based on a time instead of the 2 tiles check.
   Since the 2 tiles flag won't help when you're jumping over a hole. Better use
   a timer that is started when up is pressed, when you then land and the timer
@@ -30,6 +26,10 @@ Todo
 Fixed
 -----
 
+- when jumping into the exit with a star, the endgame music will change back to
+  levelmusic after a short time
+- when jupming against the 2nd multiple coin block in a level only 1 coin will
+  come out.
 - when you interrupted the intro (by going to credits for example) and go back
   to it, tux doesn't jump anymore
 - supertux crashs from time to time - fixed

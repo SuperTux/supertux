@@ -540,10 +540,6 @@ GameSession::run()
 
   update_time = last_update_time = st_get_ticks();
 
-  /* Clear screen: */
-//  clearscreen(0, 0, 0);
-//  updatescreen();
-
   // Eat unneeded events
   SDL_Event event;
   while (SDL_PollEvent(&event)) {}
@@ -619,18 +615,17 @@ GameSession::run()
         world->get_tux()->kill(Player::KILL);
 
       /* Handle music: */
-      if(world->get_tux()->invincible_timer.check())
+      if(world->get_tux()->invincible_timer.check() && !end_sequence)
         {
-          if(world->get_music_type() != HERRING_MUSIC)
-            world->play_music(HERRING_MUSIC);
+          world->play_music(HERRING_MUSIC);
         }
       /* are we low on time ? */
-      else if (time_left.get_left() < TIME_WARNING)
+      else if (time_left.get_left() < TIME_WARNING && !end_sequence)
         {
           world->play_music(HURRYUP_MUSIC);
         }
       /* or just normal music? */
-      else if(world->get_music_type() != LEVEL_MUSIC)
+      else if(world->get_music_type() != LEVEL_MUSIC && !end_sequence)
         {
           world->play_music(LEVEL_MUSIC);
         }

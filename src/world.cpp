@@ -266,15 +266,6 @@ World::action(double frame_ratio)
   for (unsigned int i = 0; i < broken_bricks.size(); i++)
     broken_bricks[i]->action(frame_ratio);
 
-  /* Handle distro counting: */
-  if (counting_distros)
-    {
-      distro_counter--;
-
-      if (distro_counter <= 0)
-        counting_distros = -1;
-    }
-
   // Handle all kinds of game objects
   for (unsigned int i = 0; i < bouncy_bricks.size(); i++)
     bouncy_bricks[i]->action(frame_ratio);
@@ -513,14 +504,22 @@ World::trybreakbrick(float x, float y, bool small)
           add_bouncy_distro(((int)(x + 1) / 32) * 32,
                                   (int)(y / 32) * 32);
 
+          // TODO: don't handle this in a global way but per-tile...
           if (!counting_distros)
             {
               counting_distros = true;
-              distro_counter = 50;
+              distro_counter = 5;
+            }
+          else
+            {
+              distro_counter--;
             }
 
           if (distro_counter <= 0)
-            plevel->change(x, y, TM_IA, tile->next_tile);
+            {
+              counting_distros = false;
+              plevel->change(x, y, TM_IA, tile->next_tile);
+            }
 
           play_sound(sounds[SND_DISTRO], SOUND_CENTER_SPEAKER);
           player_status.score = player_status.score + SCORE_DISTRO;
