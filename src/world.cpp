@@ -330,7 +330,7 @@ void World::scrolling(double frame_ratio)
       final_scroll_x = tux_pos_x - (screen->w - X_SPACE);
     else// if (tux.dir == LEFT)// && )
       final_scroll_x = tux_pos_x - X_SPACE;
-printf("%f\n", frame_ratio);
+
     scroll_x += ((final_scroll_x - scroll_x) / (CHANGE_DIR_SCROLL_SPEED)) * frame_ratio;
     }
 

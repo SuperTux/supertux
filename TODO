@@ -11,10 +11,6 @@ Todo
 H: high priority
 L: low priority
 
-[H] Scrolling still broken, changing directions while jumping causes
-   the camera to 'jump', level13 even more broken and full of debug prints
-[M] Tux releases bonus in the intro without collecting them, looks
-   stupid, background is most likly drawn twice, intro shouldn't have snow
 [M] When aborting a level, lives and score should remain the same as they
     were before. Solution: make more dependency between the game engine and worldmap
     or just backup those variables before starting a level.
