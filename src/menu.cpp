@@ -158,43 +158,47 @@ void Menu::get_controlfield_key_into_input(MenuItem *item)
   switch(*item->int_p)
   {
   case SDLK_UP:
-    strcpy(item->input, "Up cursor");
+    item->change_input("Up cursor");
     break;
   case SDLK_DOWN:
-    strcpy(item->input, "Down cursor");
+    item->change_input("Down cursor");
     break;
   case SDLK_LEFT:
-    strcpy(item->input, "Left cursor");
+    item->change_input("Left cursor");
     break;
   case SDLK_RIGHT:
-    strcpy(item->input, "Right cursor");
+    item->change_input("Right cursor");
     break;
   case SDLK_RETURN:
-    strcpy(item->input, "Return");
+    item->change_input("Return");
     break;
   case SDLK_SPACE:
-    strcpy(item->input, "Space");
+    item->change_input("Space");
     break;
   case SDLK_RSHIFT:
-    strcpy(item->input, "Right Shift");
+    item->change_input("Right Shift");
     break;
   case SDLK_LSHIFT:
-    strcpy(item->input, "Left Shift");
+    item->change_input("Left Shift");
     break;
   case SDLK_RCTRL:
-    strcpy(item->input, "Right Control");
+    item->change_input("Right Control");
     break;
   case SDLK_LCTRL:
-    strcpy(item->input, "Left Control");
+    item->change_input("Left Control");
     break;
   case SDLK_RALT:
-    strcpy(item->input, "Right Alt");
+    item->change_input("Right Alt");
     break;
   case SDLK_LALT:
-    strcpy(item->input, "Left Alt");
+    item->change_input("Left Alt");
     break;
   default:
-    strcpy(item->input, (char*)item->int_p);
+    {
+      char tmp[64];
+      snprintf(tmp, 64, "%d", *item->int_p);
+      item->change_input(tmp);
+    }
     break;
   }
 }

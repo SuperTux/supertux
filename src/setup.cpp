@@ -405,9 +405,11 @@ void st_menu(void)
       options_menu->additem(MN_DEACTIVE,"Music     ", false,0, MNID_MUSIC);
     }
   options_menu->additem(MN_TOGGLE,"Show FPS  ",show_fps,0, MNID_SHOWFPS);
-  options_menu->additem(MN_GOTO,"Key Setup",0,options_keys_menu);
-  if(use_joystick)
-    options_menu->additem(MN_GOTO,"Joystick Setup",0,options_joystick_menu);
+  options_menu->additem(MN_GOTO,"Keyboard Setup",0,options_keys_menu);
+
+  //if(use_joystick)
+  //  options_menu->additem(MN_GOTO,"Joystick Setup",0,options_joystick_menu);
+
   options_menu->additem(MN_HL,"",0,0);
   options_menu->additem(MN_BACK,"Back",0,0);
   
