@@ -214,7 +214,7 @@ else
 
 char str[1024];
 if(input_flickering)
-  sprintf(str,"%s-",input);
+  sprintf(str,"%s_",input);
 else
   sprintf(str,"%s ",input);
 
