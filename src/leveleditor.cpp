@@ -107,7 +107,7 @@ static bool le_level_changed;  /* if changes, ask for saving, when quiting*/
 static bool show_minimap;
 static bool show_selections;
 static bool le_help_shown;
-static int pos_x, cursor_x, cursor_y, fire;
+static int pos_x, pos_y, cursor_x, cursor_y;
 static int le_level;
 static World* le_world;
 static LevelSubset* le_level_subset;
@@ -125,6 +125,8 @@ static Button* le_next_level_bt;
 static Button* le_previous_level_bt;
 static Button* le_move_right_bt;
 static Button* le_move_left_bt;
+static Button* le_move_up_bt;
+static Button* le_move_down_bt;
 static Button* le_rubber_bt;
 static Button* le_select_mode_one_bt;
 static Button* le_select_mode_two_bt;
@@ -210,10 +212,6 @@ int leveleditor(char* filename)
     if(le_world != NULL)
     {
       /* making events results to be in order */
-      if(pos_x < 0)
-        pos_x = 0;
-      if(pos_x > (le_world->get_level()->width * 32) - screen->w)
-        pos_x = (le_world->get_level()->width * 32) - screen->w;
 
       /* draw the level */
       le_drawlevel();
@@ -529,7 +527,6 @@ int le_init()
   show_selections = true;
   scroll_x = 0;
 
-  fire = DOWN;
   done = 0;
   le_frame = 0;	/* support for frames in some tiles, like waves and bad guys */
   le_level_changed = false;
@@ -550,15 +547,17 @@ int le_init()
   /* Load buttons */
   le_save_level_bt = new Button("/images/icons/save.png","Save level", SDLK_F6,screen->w-64,32);
   le_exit_bt = new Button("/images/icons/exit.png","Exit", SDLK_F10,screen->w-32,32);
-  le_next_level_bt = new Button("/images/icons/up.png","Next level", SDLK_PAGEUP,screen->w-64,0);
-  le_previous_level_bt = new Button("/images/icons/down.png","Previous level",SDLK_PAGEDOWN,screen->w-32,0);
+  le_next_level_bt = new Button("/images/icons/next.png","Next level", SDLK_PAGEUP,screen->w-64,0);
+  le_previous_level_bt = new Button("/images/icons/previous.png","Previous level",SDLK_PAGEDOWN,screen->w-32,0);
   le_rubber_bt = new Button("/images/icons/rubber.png","Rubber",SDLK_DELETE,screen->w-32,48);
   le_select_mode_one_bt = new Button ("/images/icons/select-mode1.png","Select single tile",SDLK_F3,screen->w-64,48);
   le_select_mode_two_bt = new Button("/images/icons/select-mode2.png","Select multiple tiles",SDLK_F3,screen->w-64,48);
   le_test_level_bt = new Button("/images/icons/test-level.png","Test level",SDLK_F4,screen->w-64,screen->h - 64);
   le_settings_bt = new Button("/images/icons/settings.png","Level settings",SDLK_F5,screen->w-32,screen->h - 64);
-  le_move_left_bt = new Button("/images/icons/left.png","Move left",SDLK_LEFT,0,0);
+  le_move_left_bt = new Button("/images/icons/left.png","Move left",SDLK_LEFT,screen->w-80-16,0);
   le_move_right_bt = new Button("/images/icons/right.png","Move right",SDLK_RIGHT,screen->w-80,0);
+  le_move_up_bt = new Button("/images/icons/up.png","Move up",SDLK_UP,screen->w-80,16);
+  le_move_down_bt = new Button("/images/icons/down.png","Move down",SDLK_DOWN,screen->w-80,32);
   le_tilegroup_bt = new Button("/images/icons/tilegroup.png","Select Tilegroup", SDLK_F7,screen->w-64,64);
   le_objects_bt = new Button("/images/icons/objects.png","Select Objects", SDLK_F8,screen->w-64,80);
   le_object_select_bt = new Button("/images/icons/select-one.png","Select an Object", SDLK_s, screen->w - 64, screen->h-98);
@@ -731,6 +730,8 @@ void le_quit(void)
   delete le_previous_level_bt;
   delete le_move_right_bt;
   delete le_move_left_bt;
+  delete le_move_up_bt;
+  delete le_move_down_bt;
   delete le_rubber_bt;
   delete le_select_mode_one_bt;
   delete le_select_mode_two_bt;
@@ -805,7 +806,7 @@ void le_drawinterface()
       for(x = 0; x < 19; x++)
         fillrect(x*32 - ((int)pos_x % 32), 0, 1, screen->h, 225, 225, 225,255);
       for(y = 0; y < 15; y++)
-        fillrect(0, y*32, screen->w - 32, 1, 225, 225, 225,255);
+        fillrect(0, y*32 - ((int)pos_y % 32), screen->w - 32, 1, 225, 225, 225,255);
     }
   }
 
@@ -817,7 +818,7 @@ void le_drawinterface()
     if(le_selection_mode == CURSOR)
     {
       if(le_current.IsTile())
-        le_selection->draw( cursor_x - pos_x, cursor_y);
+        le_selection->draw(cursor_x - pos_x, cursor_y - pos_y);
     }
     else if(le_selection_mode == SQUARE)
     {
@@ -826,10 +827,10 @@ void le_drawinterface()
       /* draw current selection */
       w = selection.x2 - selection.x1;
       h = selection.y2 - selection.y1;
-      fillrect(selection.x1 - pos_x, selection.y1, w, SELECT_W, SELECT_CLR);
-      fillrect(selection.x1 - pos_x + w, selection.y1, SELECT_W, h, SELECT_CLR);
-      fillrect(selection.x1 - pos_x, selection.y1 + h, w, SELECT_W, SELECT_CLR);
-      fillrect(selection.x1 - pos_x, selection.y1, SELECT_W, h, SELECT_CLR);
+      fillrect(selection.x1 - pos_x, selection.y1 - pos_y, w, SELECT_W, SELECT_CLR);
+      fillrect(selection.x1 - pos_x + w, selection.y1 - pos_y, SELECT_W, h, SELECT_CLR);
+      fillrect(selection.x1 - pos_x, selection.y1 - pos_y + h, w, SELECT_W, SELECT_CLR);
+      fillrect(selection.x1 - pos_x, selection.y1 - pos_y, SELECT_W, h, SELECT_CLR);
     }
   }
 
@@ -851,10 +852,10 @@ void le_drawinterface()
 
   if(mouse_select_object && selected_game_object != NULL)
   {
-    fillrect(selected_game_object->base.x-pos_x,selected_game_object->base.y,selected_game_object->base.width,3,255,0,0,255);
-    fillrect(selected_game_object->base.x-pos_x,selected_game_object->base.y,3,selected_game_object->base.height,255,0,0,255);
-    fillrect(selected_game_object->base.x-pos_x,selected_game_object->base.y+selected_game_object->base.height,selected_game_object->base.width,3,255,0,0,255);
-    fillrect(selected_game_object->base.x-pos_x+selected_game_object->base.width,selected_game_object->base.y,3,selected_game_object->base.height,255,0,0,255);
+    fillrect(selected_game_object->base.x-pos_x,selected_game_object->base.y-pos_y,selected_game_object->base.width,3,255,0,0,255);
+    fillrect(selected_game_object->base.x-pos_x,selected_game_object->base.y-pos_y,3,selected_game_object->base.height,255,0,0,255);
+    fillrect(selected_game_object->base.x-pos_x,selected_game_object->base.y-pos_y+selected_game_object->base.height,selected_game_object->base.width,3,255,0,0,255);
+    fillrect(selected_game_object->base.x-pos_x+selected_game_object->base.width,selected_game_object->base.y-pos_y,3,selected_game_object->base.height,255,0,0,255);
   }
 
   if(le_world != NULL)
@@ -872,6 +873,8 @@ void le_drawinterface()
     le_settings_bt->draw();
     le_move_right_bt->draw();
     le_move_left_bt->draw();
+    le_move_up_bt->draw();
+    le_move_down_bt->draw();
     le_tilegroup_bt->draw();
     le_objects_bt->draw();
     if(!cur_tilegroup.empty())
@@ -929,9 +932,9 @@ void le_drawlevel()
 
   if(le_current.IsTile())
   {
-    Tile::draw(cursor_x-pos_x, cursor_y,le_current.tile,128);
+    Tile::draw(cursor_x-pos_x, cursor_y-pos_y,le_current.tile,128);
     if(!TileManager::instance()->get(le_current.tile)->images.empty())
-      fillrect(cursor_x-pos_x,cursor_y,TileManager::instance()->get(le_current.tile)->images[0]->w,TileManager::instance()->get(le_current.tile)->images[0]->h,50,50,50,50);
+      fillrect(cursor_x-pos_x,cursor_y-pos_y,TileManager::instance()->get(le_current.tile)->images[0]->w,TileManager::instance()->get(le_current.tile)->images[0]->h,50,50,50,50);
   }
   if(le_current.IsObject())
   {
@@ -949,27 +952,27 @@ void le_drawlevel()
       else
         a = 128;
 
-      Tile::draw(32*x - fmodf(pos_x, 32), y * 32, le_world->get_level()->bg_tiles[y][x + (int)(pos_x / 32)],a);
+      Tile::draw(32*x - fmodf(pos_x, 32), y*32 - fmodf(pos_y, 32), le_world->get_level()->bg_tiles[y + (int)(pos_y / 32)][x + (int)(pos_x / 32)],a);
 
       if(active_tm == TM_IA)
         a = 255;
       else
         a = 128;
 
-      Tile::draw(32*x - fmodf(pos_x, 32), y * 32, le_world->get_level()->ia_tiles[y][x + (int)(pos_x / 32)],a);
+      Tile::draw(32*x - fmodf(pos_x, 32), y*32 - fmodf(pos_y, 32), le_world->get_level()->ia_tiles[y + (int)(pos_y / 32)][x + (int)(pos_x / 32)],a);
 
       if(active_tm == TM_FG)
         a = 255;
       else
         a = 128;
 
-      Tile::draw(32*x - fmodf(pos_x, 32), y * 32, le_world->get_level()->fg_tiles[y][x + (int)(pos_x / 32)],a);
+      Tile::draw(32*x - fmodf(pos_x, 32), y*32 - fmodf(pos_y, 32), le_world->get_level()->fg_tiles[y + (int)(pos_y / 32)][x + (int)(pos_x / 32)],a);
 
       /* draw whats inside stuff when cursor is selecting those */
       /* (draw them all the time - is this the right behaviour?) */
-      Tile* edit_image = TileManager::instance()->get(le_world->get_level()->ia_tiles[y][x + (int)(pos_x / 32)]);
+      Tile* edit_image = TileManager::instance()->get(le_world->get_level()->ia_tiles[y + (int)(pos_x / 32)][x + (int)(pos_x / 32)]);
       if(edit_image && !edit_image->editor_images.empty())
-        edit_image->editor_images[0]->draw( x * 32 - ((int)pos_x % 32), y*32);
+        edit_image->editor_images[0]->draw( x * 32 - ((int)pos_x % 32), y*32 - ((int)pos_y % 32));
 
     }
 
@@ -979,13 +982,14 @@ void le_drawlevel()
     /* to support frames: img_bsod_left[(frame / 5) % 4] */
 
     scroll_x = pos_x;
+    scroll_y = pos_y;
     (*it)->draw();
   }
 
 
   /* Draw the player: */
   /* for now, the position is fixed at (100, 240) */
-  largetux.walk_right->draw( 100 - pos_x, 240);
+  largetux.walk_right->draw( 100 - pos_x, 240 - pos_y);
 }
 
 void le_change_object_properties(GameObject *pobj)
@@ -1104,47 +1108,6 @@ void le_checkevents()
           case SDLK_ESCAPE:
             Menu::set_current(leveleditor_menu);
             break;
-          case SDLK_LEFT:
-            if(fire == DOWN)
-              cursor_x -= KEY_CURSOR_SPEED;
-            else
-              cursor_x -= KEY_CURSOR_FASTSPEED;
-
-            if(cursor_x < pos_x + MOUSE_LEFT_MARGIN)
-              pos_x = cursor_x - MOUSE_LEFT_MARGIN;
-
-            break;
-          case SDLK_RIGHT:
-            if(fire == DOWN)
-              cursor_x += KEY_CURSOR_SPEED;
-            else
-              cursor_x += KEY_CURSOR_FASTSPEED;
-
-            if(cursor_x > pos_x + MOUSE_RIGHT_MARGIN-32)
-              pos_x = cursor_x - MOUSE_RIGHT_MARGIN+32;
-
-            break;
-          case SDLK_UP:
-            if(fire == DOWN)
-              cursor_y -= KEY_CURSOR_SPEED;
-            else
-              cursor_y -= KEY_CURSOR_FASTSPEED;
-
-            if(cursor_y < 0)
-              cursor_y = 0;
-            break;
-          case SDLK_DOWN:
-            if(fire == DOWN)
-              cursor_y += KEY_CURSOR_SPEED;
-            else
-              cursor_y += KEY_CURSOR_FASTSPEED;
-
-            if(cursor_y > screen->h-32)
-              cursor_y = screen->h-32;
-            break;
-          case SDLK_LCTRL:
-            fire =UP;
-            break;
           case SDLK_F1:
             if(le_world != NULL)
               le_showhelp();
@@ -1164,25 +1127,15 @@ void le_checkevents()
             break;
           }
           break;
-        case SDL_KEYUP:	/* key released */
-          switch(event.key.keysym.sym)
-          {
-          case SDLK_LCTRL:
-            fire = DOWN;
-            break;
-          default:
-            break;
-          }
-          break;
         case SDL_MOUSEBUTTONDOWN:
           if(event.button.button == SDL_BUTTON_LEFT)
           {
             le_mouse_pressed[LEFT] = true;
 
             selection.x1 = event.motion.x + pos_x;
-            selection.y1 = event.motion.y;
+            selection.y1 = event.motion.y + pos_y;
             selection.x2 = event.motion.x + pos_x;
-            selection.y2 = event.motion.y;
+            selection.y2 = event.motion.y + pos_y;
           }
           else if(event.button.button == SDL_BUTTON_RIGHT)
           {
@@ -1211,7 +1164,7 @@ void le_checkevents()
             if(le_current.IsTile())
             {
               cursor_x = ((int)(pos_x + x) / 32) * 32;
-              cursor_y = ((int) y / 32) * 32;
+              cursor_y = ((int)(pos_y + y) / 32) * 32;
             }
             else
             {
@@ -1222,12 +1175,13 @@ void le_checkevents()
             if(le_mouse_pressed[LEFT])
             {
               selection.x2 = x + pos_x;
-              selection.y2 = y;
+              selection.y2 = y + pos_y;
             }
 
             if(le_mouse_pressed[RIGHT])
             {
               pos_x += -1 * event.motion.xrel;
+              pos_y += -1 * event.motion.yrel;
             }
           }
           break;
@@ -1493,7 +1447,7 @@ void le_checkevents()
 	    else if(le_current.IsObject())
 	    {
             cursor_base.x = cursor_x + pos_x;
-            cursor_base.y = cursor_y + pos_x;	    
+            cursor_base.y = cursor_y + pos_y;	    
 	    }
             cursor_base.width = 32;
             cursor_base.height = 32;
@@ -1545,6 +1499,8 @@ void le_checkevents()
 
     le_move_left_bt->event(event);
     le_move_right_bt->event(event);
+    le_move_up_bt->event(event);
+    le_move_down_bt->event(event);
     switch(le_move_left_bt->get_state())
     {
     case BUTTON_PRESSED:
@@ -1578,6 +1534,51 @@ void le_checkevents()
     default:
       break;
     }
+
+    switch(le_move_up_bt->get_state())
+    {
+    case BUTTON_PRESSED:
+      pos_y += 192;
+      show_minimap = true;
+      break;
+    case BUTTON_HOVER:
+      pos_y += 32;
+      show_minimap = true;
+      break;
+    case BUTTON_CLICKED:
+      show_minimap = true;
+      break;
+    default:
+      break;
+    }
+
+    switch(le_move_down_bt->get_state())
+    {
+    case BUTTON_PRESSED:
+      pos_y -= 192;
+      show_minimap = true;
+      break;
+    case BUTTON_HOVER:
+      pos_y -= 32;
+      show_minimap = true;
+      break;
+    case BUTTON_CLICKED:
+      show_minimap = true;
+      break;
+    default:
+      break;
+    }
+
+      /* checking if pos_x and pos_y is within the limits... */
+      if(pos_x < 0)
+        pos_x = 0;
+      if(pos_x > (le_world->get_level()->width * 32) - screen->w)
+        pos_x = (le_world->get_level()->width * 32) - screen->w;
+
+      if(pos_y < 0)
+        pos_y = 0;
+      if(pos_y > (le_world->get_level()->height * 32) - screen->h)
+        pos_y = (le_world->get_level()->height * 32) - screen->h;
 
   }
 
@@ -1613,7 +1614,7 @@ void le_highlight_selection()
   y1 /= 32;
   y2 /= 32;
 
-  fillrect(x1*32-pos_x, y1*32,32* (x2 - x1 + 1),32 * (y2 - y1 + 1),173,234,177,103);
+  fillrect(x1*32-pos_x, y1*32-pos_y,32* (x2 - x1 + 1),32 * (y2 - y1 + 1),173,234,177,103);
 }
 
 void le_change(float x, float y, int tm, unsigned int c)
