@@ -124,7 +124,7 @@ private:
   void collision_object(MovingObject* object1, MovingObject* object2);
   
   void load_music();
-  GameObject* parseObject(const std::string& name, LispReader& reader);
+  GameObject* parse_object(const std::string& name, LispReader& reader);
   
   static Sector* _current;
   

@@ -8,7 +8,7 @@ Spiky::Spiky(LispReader& reader)
 {
   reader.read_float("x", start_position.x);
   reader.read_float("y", start_position.y);
-  bbox.set_size(32, 32);
+  bbox.set_size(31.8, 31.8);
   sprite = sprite_manager->create("spiky");
 }
 

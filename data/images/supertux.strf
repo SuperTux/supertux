@@ -782,6 +782,24 @@
 
 
 ;; Bad Guys follow
+ (sprite (name "spike")
+    (action
+      (name "north")
+      (images "tilesets/spike_up.png")
+    )
+    (action
+      (name "south")
+      (images "tilesets/spike_down.png")
+    )
+    (action
+      (name "west")
+      (images "tilesets/spike_left.png")
+    )
+    (action
+      (name "east")
+      (images "tilesets/spike_right.png")
+    )
+ )
 
  ;; MrIceBlock
  (sprite (name "mriceblock")

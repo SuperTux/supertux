@@ -44,12 +44,12 @@ L: low priority
     few pixels higher) - hopefully ok
  * it's impossible to go into passages that have exactly the size of tux,
    either reduce collision rectangle by DELTA or round collision coordinates to
-   integers... 
+   integers... - ok for tux and most badguys
  ** implement 1up - ok
  ** implement star - ok
  * bring back the enemies
-    - add activation again
-    - make api simpler
+    - add activation again - ok
+    - make api simpler - ok
     - implement jumpy - ok
     -* implement spiky - ok
     - implement snowball - ok
@@ -69,7 +69,7 @@ L: low priority
     for  after big commit...
  * smoke clouds are too fast
  * some shots disappear in the ground with a "max collision depth reached"
-   message
+   message - ok
  * rework collision detection to take movement into account - this should fix
     the egg suddenly turning directions and the somtimes strange behaviour
     when hitting a block from the side when falling.
@@ -89,7 +89,7 @@ L: low priority
  ** having a star doesn't kill enemies - ok
  * tux always jumps to full height at the moment - ok
  * invisble blocks are visible and make the game crash when bumped - ok
- * reimplement spikes as objects
+ * reimplement spikes as objects - ok
  * what to do when stuck under tiles (after using duck-sliding)
  * do we want multi hit scores again?
  * tux doesn't stop at igloo anymore

@@ -139,3 +139,6 @@ echo " Profile Mode:   $enable_gprof"
 echo " Debug Mode:     $enable_debug"
 echo " OpenGL Support: $enable_opengl"
 echo ""
+echo ""
+echo "       NOTE: This project uses jam (and not make) as build tool"
+

@@ -9,7 +9,7 @@ Bomb::Bomb(const Vector& pos, Direction dir)
 {
   start_position = pos;
   bbox.set_pos(pos);
-  bbox.set_size(32, 32);
+  bbox.set_size(31.8, 31.8);
   sprite = sprite_manager->create("bomb");
   state = 0;
   timer.start(TICKINGTIME);

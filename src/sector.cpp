@@ -46,7 +46,6 @@
 #include "object/block.h"
 #include "object/invisible_block.h"
 #include "object/platform.h"
-#include "trigger/door.h"
 #include "object/bullet.h"
 #include "badguy/jumpy.h"
 #include "badguy/snowball.h"
@@ -55,6 +54,8 @@
 #include "badguy/mriceblock.h"
 #include "badguy/mrbomb.h"
 #include "badguy/dispenser.h"
+#include "badguy/spike.h"
+#include "trigger/door.h"
 #include "trigger/sequence_trigger.h"
 #include "trigger/secretarea_trigger.h"
 
@@ -102,7 +103,7 @@ Sector *Sector::create(const std::string& name, size_t width, size_t height)
 }
 
 GameObject*
-Sector::parseObject(const std::string& name, LispReader& reader)
+Sector::parse_object(const std::string& name, LispReader& reader)
 {
   if(name == "background") {
     background = new Background(reader);
@@ -155,6 +156,8 @@ Sector::parseObject(const std::string& name, LispReader& reader)
     return new MrBomb(reader);
   } else if(name == "dispenser") {
     return new Dispenser(reader);
+  } else if(name == "spike") {
+    return new Spike(reader);
   }
 #if 0
     else if(badguykind_from_string(name) != BAD_INVALID) {
@@ -195,7 +198,7 @@ Sector::parse(LispReader& lispreader)
       reader.read_float("y", sp->pos.y);
       spawnpoints.push_back(sp);
     } else {
-      GameObject* object = parseObject(token, reader);
+      GameObject* object = parse_object(token, reader);
       if(object) {
         add_object(object);
       }
@@ -330,7 +333,7 @@ Sector::parse_old_format(LispReader& reader)
                                                                                 
         LispReader reader(lisp_cdr(data));
 
-        GameObject* object = parseObject(object_type, reader);
+        GameObject* object = parse_object(object_type, reader);
         if(object) {
           add_object(object);
         } else {
@@ -358,6 +361,18 @@ Sector::fix_old_tiles()
       
       if(tile->id == 112) {
         add_object(new InvisibleBlock(pos));
+        solids->change(x, y, 0);
+      } else if(tile->id == 295) {
+        add_object(new Spike(pos, Spike::NORTH));
+        solids->change(x, y, 0);
+      } else if(tile->id == 296) {
+        add_object(new Spike(pos, Spike::EAST));
+        solids->change(x, y, 0);
+      } else if(tile->id == 297) {
+        add_object(new Spike(pos, Spike::SOUTH));
+        solids->change(x, y, 0);
+      } else if(tile->id == 298) {
+        add_object(new Spike(pos, Spike::WEST));
         solids->change(x, y, 0);
       } else if(tile->attributes & Tile::COIN) {
         add_object(new Coin(pos));

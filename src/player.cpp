@@ -870,8 +870,7 @@ Player::collision(GameObject& other, const CollisionHit& hit)
       physic.set_velocity_y(.1);
     }
     
-    if(fabsf(hit.normal.x) > .5) { // hit on the side?
-      printf("s"); fflush(stdout);
+    if(fabsf(hit.normal.x) > .9) { // hit on the side?
       physic.set_velocity_x(0);
     }
 

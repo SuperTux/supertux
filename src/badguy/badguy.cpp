@@ -25,9 +25,9 @@ BadGuy::draw(DrawingContext& context)
   if(state == STATE_INIT || state == STATE_INACTIVE)
     return;
   if(state == STATE_FALLING) {
-      sprite->draw(context, get_pos(), LAYER_OBJECTS, VERTICAL_FLIP);
+    sprite->draw(context, get_pos(), LAYER_OBJECTS, VERTICAL_FLIP);
   } else {
-      sprite->draw(context, get_pos(), LAYER_OBJECTS);
+    sprite->draw(context, get_pos(), LAYER_OBJECTS);
   }
 }
 
