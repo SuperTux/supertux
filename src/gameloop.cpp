@@ -460,11 +460,7 @@ int game_action(void)
 
 void game_draw(void)
 {
-  int y, s;
-  unsigned int i,x;
-
   /* Draw screen: */
-
   if (tux.dying && (global_frame_counter % 4) == 0)
     clearscreen(255, 255, 255);
   else if(timer_check(&super_bkgd_timer))
@@ -474,7 +470,7 @@ void game_draw(void)
       /* Draw the real background */
       if(current_level.bkgd_image[0] != '\0')
         {
-          s = (int)scroll_x / 30;
+          int s = (int)scroll_x / 30;
           texture_draw_part(&img_bkgd,s,0,0,0,img_bkgd.w - s, img_bkgd.h);
           texture_draw_part(&img_bkgd,0,0,screen->w - s ,0,s,img_bkgd.h);
         }
@@ -484,74 +480,45 @@ void game_draw(void)
         }
     }
 
-  /* Draw background: */
-
-  for (y = 0; y < 15; ++y)
+  // Draw background:
+  for (int y = 0; y < 15; ++y)
     {
-      for (x = 0; x < 21; ++x)
+      for (int x = 0; x < 21; ++x)
         {
           drawshape(32*x - fmodf(scroll_x, 32), y * 32,
                     current_level.tiles[(int)y][(int)x + (int)(scroll_x / 32)]);
         }
     }
 
+  for (unsigned int i = 0; i < bouncy_bricks.size(); ++i)
+    bouncy_brick_draw(&bouncy_bricks[i]);
 
-  /* (Bouncy bricks): */
+  for (unsigned int i = 0; i < bad_guys.size(); ++i)
+    bad_guys[i].draw();
 
-  for (i = 0; i < bouncy_bricks.size(); ++i)
-    {
-      bouncy_brick_draw(&bouncy_bricks[i]);
-    }
-
-
-  /* (Bad guys): */
-  for (i = 0; i < bad_guys.size(); ++i)
-    {
-      bad_guys[i].draw();
-    }
-
-  /* (Tux): */
   tux.draw();
 
-  /* (Bullets): */
-  for (i = 0; i < bullets.size(); ++i)
-    {
-      bullet_draw(&bullets[i]);
-    }
+  for (unsigned int i = 0; i < bullets.size(); ++i)
+    bullet_draw(&bullets[i]);
 
-  /* (Floating scores): */
-  for (i = 0; i < floating_scores.size(); ++i)
-    {
-      floating_score_draw(&floating_scores[i]);
-    }
+  for (unsigned int i = 0; i < floating_scores.size(); ++i)
+    floating_score_draw(&floating_scores[i]);
 
+  for (unsigned int i = 0; i < upgrades.size(); ++i)
+    upgrade_draw(&upgrades[i]);
 
-  /* (Upgrades): */
-  for (i = 0; i < upgrades.size(); ++i)
-    {
-      upgrade_draw(&upgrades[i]);
-    }
-
-
-  /* (Bouncy distros): */
-  for (i = 0; i < bouncy_distros.size(); ++i)
-    {
+  for (unsigned int i = 0; i < bouncy_distros.size(); ++i)
       bouncy_distro_draw(&bouncy_distros[i]);
-    }
 
-
-  /* (Broken bricks): */
-  for (i = 0; i < broken_bricks.size(); ++i)
-    {
-      broken_brick_draw(&broken_bricks[i]);
-    }
+  for (unsigned int i = 0; i < broken_bricks.size(); ++i)
+    broken_brick_draw(&broken_bricks[i]);
 
   drawstatus();
 
   if(game_pause)
     {
-      x = screen->h / 20;
-      for(i = 0; i < x; ++i)
+      int x = screen->h / 20;
+      for(int i = 0; i < x; ++i)
         {
           fillrect(i % 2 ? (pause_menu_frame * i)%screen->w : -((pause_menu_frame * i)%screen->w) ,(i*20+pause_menu_frame)%screen->h,screen->w,10,20,20,20, rand() % 20 + 1);
         }

@@ -46,13 +46,13 @@ void arrays_init(void)
 /* Free memory of 'dynamic' arrays */
 void arrays_free(void)
 {
-bad_guys.clear();
-bouncy_distros.clear();
-broken_bricks.clear();
-bouncy_bricks.clear();
-floating_scores.clear();
-upgrades.clear();
-bullets.clear();
+  bad_guys.clear();
+  bouncy_distros.clear();
+  broken_bricks.clear();
+  bouncy_bricks.clear();
+  floating_scores.clear();
+  upgrades.clear();
+  bullets.clear();
 }
 
 void set_defaults(void)
