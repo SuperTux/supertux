@@ -43,6 +43,7 @@
 #include "timer.h"
 #include "setup.h"
 #include "level.h"
+#include "level_subset.h"
 #include "gameloop.h"
 #include "leveleditor.h"
 #include "scene.h"
