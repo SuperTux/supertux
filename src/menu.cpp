@@ -150,54 +150,50 @@ MenuItem::change_input(const  char *text_)
 }
 
 /* Set ControlField a key */
-void MenuItem::set_controlfield_key(SDLKey key, char ch[])
+void Menu::get_controlfield_key_into_input(MenuItem *item)
 {
-*int_p = key;
-if(ch[0] != '\0')
-  strcpy(input, ch);
-else
-  switch(key)
-    {
-    case SDLK_UP:
-      strcpy(input, "Up cursor");
-      break;
-    case SDLK_DOWN:
-      strcpy(input, "Down cursor");
-      break;
-    case SDLK_LEFT:
-      strcpy(input, "Left cursor");
-      break;
-    case SDLK_RIGHT:
-      strcpy(input, "Right cursor");
-      break;
-    case SDLK_RETURN:
-      strcpy(input, "Return");
-      break;
-    case SDLK_SPACE:
-      strcpy(input, "Space");
-      break;
-    case SDLK_RSHIFT:
-      strcpy(input, "Right Shift");
-      break;
-    case SDLK_LSHIFT:
-      strcpy(input, "Left Shift");
-      break;
-    case SDLK_RCTRL:
-      strcpy(input, "Right Control");
-      break;
-    case SDLK_LCTRL:
-      strcpy(input, "Left Control");
-      break;
-    case SDLK_RALT:
-      strcpy(input, "Right Alt");
-      break;
-    case SDLK_LALT:
-      strcpy(input, "Left Alt");
-      break;
-    default:
-      strcpy(input, "?");
-      break;
-    }
+switch(*item->int_p)
+  {
+  case SDLK_UP:
+    strcpy(item->input, "Up cursor");
+    break;
+  case SDLK_DOWN:
+    strcpy(item->input, "Down cursor");
+    break;
+  case SDLK_LEFT:
+    strcpy(item->input, "Left cursor");
+    break;
+  case SDLK_RIGHT:
+    strcpy(item->input, "Right cursor");
+    break;
+  case SDLK_RETURN:
+    strcpy(item->input, "Return");
+    break;
+  case SDLK_SPACE:
+    strcpy(item->input, "Space");
+    break;
+  case SDLK_RSHIFT:
+    strcpy(item->input, "Right Shift");
+    break;
+  case SDLK_LSHIFT:
+    strcpy(item->input, "Left Shift");
+    break;
+  case SDLK_RCTRL:
+    strcpy(item->input, "Right Control");
+    break;
+  case SDLK_LCTRL:
+    strcpy(item->input, "Left Control");
+    break;
+  case SDLK_RALT:
+    strcpy(item->input, "Right Alt");
+    break;
+  case SDLK_LALT:
+    strcpy(item->input, "Left Alt");
+    break;
+  default:
+    strcpy(item->input, (char*)item->int_p);
+    break;
+  }
 }
 
 /* Free a menu and all its items */
@@ -430,7 +426,7 @@ Menu::draw_item(int index, // Position of the current item in the menu
                 int menu_width,
                 int menu_height)
 {
-  const MenuItem& pitem = item[index];
+  MenuItem& pitem = item[index];
 
   int font_width  = 16;
   int effect_offset = 0;
@@ -503,6 +499,9 @@ Menu::draw_item(int index, // Position of the current item in the menu
         fillrect(x_pos - input_pos + text_pos, y_pos - 9,
                  input_width + font_width, 18,
                  0,0,0,128);
+
+        if(pitem.kind == MN_CONTROLFIELD)
+          get_controlfield_key_into_input(&pitem);
 
         gold_text->draw_align(pitem.input,
                               x_pos + text_pos, y_pos,
@@ -642,7 +641,7 @@ Menu::event(SDL_Event& event)
 
       if(item[active_item].kind == MN_CONTROLFIELD)
         {
-        item[active_item].set_controlfield_key(key, ch);
+        *item[active_item].int_p = key;
         menuaction = MENU_ACTION_DOWN;
         return;
         }

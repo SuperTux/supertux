@@ -59,8 +59,6 @@ public:
   void change_input(const char *text);
 
   static MenuItem* create(MenuItemKind kind, const char *text, int init_toggle, Menu* target_menu, int* int_p);
-
-  void set_controlfield_key(SDLKey key, char ch[]);
 };
 
 class Menu
@@ -131,6 +129,8 @@ public:
   int  check  ();
 
   MenuItem& get_item(int index) { return item[index]; }
+
+  void Menu::get_controlfield_key_into_input(MenuItem *item);
 
   void draw   ();
   void draw_item(int index, int menu_width, int menu_height);
