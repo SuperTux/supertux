@@ -469,9 +469,11 @@ void le_init_menus()
   level_settings_menu->additem(MN_TEXTFIELD,"Author  ",0,0,MNID_AUTHOR);
   level_settings_menu->additem(MN_STRINGSELECT,"Song    ",0,0,MNID_SONG);
   level_settings_menu->additem(MN_STRINGSELECT,"Bg-Image",0,0,MNID_BGIMG);
+  level_settings_menu->additem(MN_STRINGSELECT,"Particle",0,0,MNID_PARTICLE);  
   level_settings_menu->additem(MN_NUMFIELD,"Length ",0,0,MNID_LENGTH);
   level_settings_menu->additem(MN_NUMFIELD,"Time   ",0,0,MNID_TIME);
   level_settings_menu->additem(MN_NUMFIELD,"Gravity",0,0,MNID_GRAVITY);
+  level_settings_menu->additem(MN_NUMFIELD,"Bg-Img-Speed",0,0,MNID_BGSPEED);  
   level_settings_menu->additem(MN_NUMFIELD,"Top Red    ",0,0,MNID_TopRed);
   level_settings_menu->additem(MN_NUMFIELD,"Top Green  ",0,0,MNID_TopGreen);
   level_settings_menu->additem(MN_NUMFIELD,"Top Blue   ",0,0,MNID_TopBlue);
@@ -598,11 +600,16 @@ void update_level_settings_menu()
   string_list_copy(level_settings_menu->get_item_by_id(MNID_SONG).list, dfiles("music/",NULL, "-fast"));
   string_list_copy(level_settings_menu->get_item_by_id(MNID_BGIMG).list, dfiles("images/background",NULL, NULL));
   string_list_add_item(level_settings_menu->get_item_by_id(MNID_BGIMG).list,"");
+  string_list_add_item(level_settings_menu->get_item_by_id(MNID_PARTICLE).list,"");
+  string_list_add_item(level_settings_menu->get_item_by_id(MNID_PARTICLE).list,"snow");
+  string_list_add_item(level_settings_menu->get_item_by_id(MNID_PARTICLE).list,"clouds");
 
   if((i = string_list_find(level_settings_menu->get_item_by_id(MNID_SONG).list,le_current_level->song_title.c_str())) != -1)
     level_settings_menu->get_item_by_id(MNID_SONG).list->active_item = i;
   if((i = string_list_find(level_settings_menu->get_item_by_id(MNID_BGIMG).list,le_current_level->bkgd_image.c_str())) != -1)
     level_settings_menu->get_item_by_id(MNID_BGIMG).list->active_item = i;
+  if((i = string_list_find(level_settings_menu->get_item_by_id(MNID_PARTICLE).list,le_current_level->particle_system.c_str())) != -1)
+    level_settings_menu->get_item_by_id(MNID_PARTICLE).list->active_item = i;
 
   sprintf(str,"%d",le_current_level->width);
   level_settings_menu->get_item_by_id(MNID_LENGTH).change_input(str);
@@ -610,6 +617,8 @@ void update_level_settings_menu()
   level_settings_menu->get_item_by_id(MNID_TIME).change_input(str);
   sprintf(str,"%2.0f",le_current_level->gravity);
   level_settings_menu->get_item_by_id(MNID_GRAVITY).change_input(str);
+  sprintf(str,"%d",le_current_level->bkgd_speed);
+  level_settings_menu->get_item_by_id(MNID_BGSPEED).change_input(str);
   sprintf(str,"%d",le_current_level->bkgd_top.red);
   level_settings_menu->get_item_by_id(MNID_TopRed).change_input(str);
   sprintf(str,"%d",le_current_level->bkgd_top.green);
@@ -643,6 +652,11 @@ void apply_level_settings_menu()
     le_current_level->bkgd_image = string_list_active(level_settings_menu->get_item_by_id(MNID_BGIMG).list);
     i = true;
   }
+  
+  if(le_current_level->particle_system.compare(string_list_active(level_settings_menu->get_item_by_id(MNID_PARTICLE).list)) != 0)
+  {
+    le_current_level->particle_system = string_list_active(level_settings_menu->get_item_by_id(MNID_PARTICLE).list);
+  }
 
   if(i)
   {
@@ -654,6 +668,7 @@ void apply_level_settings_menu()
   le_current_level->change_size(atoi(level_settings_menu->get_item_by_id(MNID_LENGTH).input));
   le_current_level->time_left = atoi(level_settings_menu->get_item_by_id(MNID_BGIMG).input);
   le_current_level->gravity = atof(level_settings_menu->get_item_by_id(MNID_GRAVITY).input);
+  le_current_level->bkgd_speed = atoi(level_settings_menu->get_item_by_id(MNID_BGSPEED).input);
   le_current_level->bkgd_top.red = atoi(level_settings_menu->get_item_by_id(MNID_TopRed).input);
   le_current_level->bkgd_top.green = atoi(level_settings_menu->get_item_by_id(MNID_TopGreen).input);
   le_current_level->bkgd_top.blue = atoi(level_settings_menu->get_item_by_id(MNID_TopBlue).input);
@@ -756,7 +771,7 @@ void le_drawinterface()
   }
 
   if(le_selection_mode == CURSOR)
-    le_selection->draw( cursor_x - pos_x, cursor_y);
+    le_selection->draw( cursor_x - scroll_x, cursor_y);
   else if(le_selection_mode == SQUARE)
   {
     int w, h;
@@ -779,6 +794,10 @@ void le_drawinterface()
     Tile::draw(19 * 32, 14 * 32, le_current.tile);
     if(TileManager::instance()->get(le_current.tile)->editor_images.size() > 0)
       TileManager::instance()->get(le_current.tile)->editor_images[0]->draw( 19 * 32, 14 * 32);
+  }
+  if(le_current.IsObject())
+  {
+     le_current.obj->draw_on_screen(19 * 32, 14 * 32);
   }
 
   //if(le_current.IsObject())
@@ -833,7 +852,7 @@ void le_drawlevel()
   /* Draw the real background */
   if(le_current_level->bkgd_image[0] != '\0')
   {
-    s = pos_x / 30;
+    s = (int)((float)pos_x * ((float)le_current_level->bkgd_speed/60.)) % screen->w;
     le_current_level->img_bkgd->draw_part(s,0,0,0,
                                           le_current_level->img_bkgd->w - s - 32, le_current_level->img_bkgd->h);
     le_current_level->img_bkgd->draw_part(0,0,screen->w - s - 32 ,0,s,
@@ -842,6 +861,17 @@ void le_drawlevel()
   else
   {
     drawgradient(le_current_level->bkgd_top, le_current_level->bkgd_bottom);
+  }
+  
+  if(le_current.IsTile())
+  {
+  Tile::draw(cursor_x, cursor_y,le_current.tile,128);
+  if(!TileManager::instance()->get(le_current.tile)->images.empty())
+  fillrect(cursor_x,cursor_y,TileManager::instance()->get(le_current.tile)->images[0]->w,TileManager::instance()->get(le_current.tile)->images[0]->h,50,50,50,50);
+  }
+  if(le_current.IsObject())
+  {
+  le_current.obj->move_to(cursor_x, cursor_y);
   }
 
   /*       clearscreen(current_level.bkgd_red, current_level.bkgd_green, current_level.bkgd_blue); */
@@ -1150,6 +1180,8 @@ void le_checkevents()
             {
               if(pbutton->get_state() == BUTTON_CLICKED)
               {
+	        if(le_current.IsObject())
+		le_current.obj->move_to(pbutton->get_pos().x,pbutton->get_pos().y);
                 le_current.Tile(pbutton->get_tag());
               }
             }
@@ -1160,6 +1192,8 @@ void le_checkevents()
             {
               if(pbutton->get_state() == BUTTON_CLICKED)
               {
+	        if(le_current.IsObject())
+		le_current.obj->move_to(pbutton->get_pos().x,pbutton->get_pos().y);
                 le_current.Object(pbutton->get_game_object());
               }
             }
@@ -1204,7 +1238,7 @@ void le_checkevents()
             {
               BadGuy* pbadguy = dynamic_cast<BadGuy*>(le_current.obj);
 
-              le_world.bad_guys.push_back(BadGuy(cursor_x, cursor_y,pbadguy->kind,false));
+              le_world.bad_guys.push_back(BadGuy(cursor_x+scroll_x, cursor_y,pbadguy->kind,false));
               le_current_level->badguy_data.push_back(&le_world.bad_guys.back());
             }
           }
@@ -1220,7 +1254,7 @@ void le_checkevents()
     }
     else if(le_move_left_bt->get_state() == BUTTON_HOVER)
     {
-      pos_x -= 64;
+      pos_x -= 32;
     }
 
     if(le_move_right_bt->get_state() == BUTTON_PRESSED)
@@ -1229,7 +1263,7 @@ void le_checkevents()
     }
     else if(le_move_right_bt->get_state() == BUTTON_HOVER)
     {
-      pos_x += 64;
+      pos_x += 32;
     }
   }
 

@@ -23,6 +23,7 @@
 
 #include <string>
 #include "SDL.h"
+#include "scene.h"
 
 /* 'Base' type for game objects */
 
@@ -41,32 +42,30 @@ struct base_type
 class GameObject
 {
 
-friend bool operator<(const GameObject& lhs, const GameObject& rhs)
-{
- if( lhs.base.x < rhs.base.x )
- return true;
- else if( lhs.base.x == rhs.base.x && lhs.base.y < rhs.base.y)
- return true;
- else
- return false;
-}
-
-friend bool operator>(const GameObject& lhs, const GameObject& rhs)
-{
- if( lhs.base.x > rhs.base.x )
- return true;
- else if( lhs.base.x == rhs.base.x && lhs.base.y > rhs.base.y)
- return true;
- else
- return false;
-}
-
 public:
 GameObject() {};
 virtual ~GameObject() {};
 virtual void action(double frame_ratio) = 0;
 virtual void draw() = 0;
 virtual std::string type() = 0;
+/* Draw ignoring the scroll_x value. FIXME: Hack? Should be discussed. @tobgle*/
+void draw_on_screen(float x = -1, float y = -1)
+{
+ base_type btmp = base;
+ if(x != -1 || y != -1)
+ {
+ btmp = base;
+ if(x != -1)
+ base.x = x;
+ if(y != -1)
+ base.y = y;
+ }
+ float tmp = scroll_x;
+ scroll_x = 0; draw();
+ scroll_x = tmp; 
+ base = btmp;
+};
+void move_to(float x, float y) { base.x = x; base.y = y; };
 
 base_type base;
 base_type old_base;

@@ -237,6 +237,7 @@ Level::init_defaults()
   time_left  = 100;
   gravity    = 10.;
   back_scrolling = false;
+  bkgd_speed = 2;
   bkgd_top.red   = 0;
   bkgd_top.green = 0;
   bkgd_top.blue  = 0;
@@ -315,6 +316,10 @@ Level::load(const std::string& filename)
       back_scrolling = false;
       reader.read_bool("back_scrolling",  &back_scrolling);
 
+      bkgd_speed = 2;
+      reader.read_int("bkgd_speed",  &bkgd_speed);
+
+      
       bkgd_top.red = bkgd_top.green = bkgd_top.blue = 0;
       reader.read_int("bkgd_red_top",  &bkgd_top.red);
       reader.read_int("bkgd_green_top",  &bkgd_top.green);
@@ -543,6 +548,7 @@ Level::save(const std::string& subset, int level)
   fprintf(fi,"  (music \"%s\")\n", song_title.c_str());
   fprintf(fi,"  (background \"%s\")\n", bkgd_image.c_str());
   fprintf(fi,"  (particle_system \"%s\")\n", particle_system.c_str());
+  fprintf(fi,"  (bkgd_speed \"%d\")\n", bkgd_speed);
   fprintf(fi,"  (bkgd_red_top %d)\n", bkgd_top.red);
   fprintf(fi,"  (bkgd_green_top %d)\n", bkgd_top.green);
   fprintf(fi,"  (bkgd_blue_top %d)\n", bkgd_top.blue);

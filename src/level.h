@@ -85,6 +85,7 @@ class Level
   Color bkgd_top;
   Color bkgd_bottom;
   int width;
+  int bkgd_speed;
   int start_pos_x;
   int start_pos_y;
   float gravity;

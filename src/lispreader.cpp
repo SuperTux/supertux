@@ -1043,7 +1043,10 @@ LispReader::read_int (const char* name, int* i)
   if (obj)
     {
       if (!lisp_integer_p(lisp_car(obj)))
-        st_abort("LispReader expected type integer at token: ", name);
+      {
+        //st_abort("LispReader expected type integer at token: ", name); /* Instead of giving up, we return with false now. */
+	return false;
+	}
       *i = lisp_integer(lisp_car(obj));
       return true;
     }

@@ -101,7 +101,7 @@ void Button::draw()
   icon->draw(rect.x,rect.y);
   if(game_object != NULL)
   {
-    game_object->draw();
+    game_object->draw_on_screen();
   }
 
   if(show_info)
