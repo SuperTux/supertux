@@ -192,8 +192,8 @@
        (action
          (name "walk-left")
          (fps 15.0)
-         (x-offset 5)
-         (y-offset 14)
+         (x-offset 27)
+         (y-offset 32)
          (mirror-action "walk-right"))
 
        (action
@@ -206,7 +206,7 @@
        (action
          (name "stand-left")
          (fps 15.0)
-         (x-offset 5)
+         (x-offset 27)
          (y-offset 32)
          (mirror-action "stand-right"))
 
@@ -220,7 +220,7 @@
        (action
          (name "jump-left")
          (fps 15.0)
-         (x-offset 5)
+         (x-offset 27)
          (y-offset 30)
          (mirror-action "jump-right"))
 
@@ -232,7 +232,7 @@
 
        (action
          (name "duck-left")
-         (x-offset 5)
+         (x-offset 27)
          (y-offset 62)
          (mirror-action "duck-right"))
 
@@ -245,7 +245,7 @@
        (action
          (name "skid-left")
          (fps 15.0)
-         (x-offset 6)
+         (x-offset 27)
          (y-offset 31)
          (mirror-action "skid-right"))
 
@@ -257,7 +257,7 @@
 
        (action
          (name "kick-left")
-         (x-offset 5)
+         (x-offset 27)
          (y-offset 32)
          (mirror-action "kick-right"))
 
@@ -269,7 +269,7 @@
 
        (action
          (name "buttjump-left")
-         (x-offset 5)
+         (x-offset 27)
          (y-offset 32)
          (mirror-action "buttjump-right"))
 
@@ -283,7 +283,7 @@
 
        (action
          (name "grab-left")
-         (x-offset 5)
+         (x-offset 27)
          (y-offset 32)
          (z-order 2)
          (mirror-action "grab-right"))
@@ -297,7 +297,7 @@
 
        (action
          (name "duck+grab-left")
-         (x-offset 5)
+         (x-offset 27)
          (y-offset 62)
          (z-order 2)
          (mirror-action "duck+grab-right")))
@@ -315,7 +315,7 @@
        (action
          (name "walk-left")
          (fps 15.0)
-         (x-offset 5)
+         (x-offset 27)
          (y-offset 32)
          (mirror-action "walk-right"))
 
@@ -329,7 +329,7 @@
        (action
          (name "stand-left")
          (fps 15.0)
-         (x-offset 5)
+         (x-offset 27)
          (y-offset 32)
          (mirror-action "stand-right"))
 
@@ -343,7 +343,7 @@
        (action
          (name "jump-left")
          (fps 15.0)
-         (x-offset 5)
+         (x-offset 27)
          (y-offset 30)
          (mirror-action "jump-right"))
 
@@ -357,7 +357,7 @@
        (action
          (name "duck-left")
          (fps 15.0)
-         (x-offset 5)
+         (x-offset 27)
          (y-offset 62)
          (mirror-action "duck-right"))
 
@@ -370,7 +370,7 @@
        (action
          (name "skid-left")
          (fps 15.0)
-         (x-offset 6)
+         (x-offset 27)
          (y-offset 31)
          (mirror-action "skid-right"))
 
@@ -383,7 +383,7 @@
        (action
          (name "kick-left")
          (fps 15.0)
-         (x-offset 5)
+         (x-offset 27)
          (y-offset 32)
          (mirror-action "kick-right"))
 
@@ -395,7 +395,7 @@
 
        (action
          (name "buttjump-left")
-         (x-offset 5)
+         (x-offset 27)
          (y-offset 32)
          (mirror-action "buttjump-right"))
 
@@ -411,7 +411,7 @@
        (action
          (name "idle-left")
          (fps 1.0)
-         (x-offset 6)
+         (x-offset 27)
          (y-offset 31)
          (mirror-action "idle-right")))
 
@@ -428,7 +428,7 @@
        (action
          (name "walk-left")
          (fps 15.0)
-         (x-offset 5)
+         (x-offset 27)
          (y-offset 32)
          (mirror-action "walk-right"))
 
@@ -442,7 +442,7 @@
        (action
          (name "stand-left")
          (fps 15.0)
-         (x-offset 5)
+         (x-offset 27)
          (y-offset 32)
          (mirror-action "stand-right"))
 
@@ -456,7 +456,7 @@
        (action
          (name "jump-left")
          (fps 15.0)
-         (x-offset 5)
+         (x-offset 27)
          (y-offset 30)
          (mirror-action "jump-right"))
 
@@ -470,7 +470,7 @@
        (action
          (name "duck-left")
          (fps 15.0)
-         (x-offset 5)
+         (x-offset 27)
          (y-offset 62)
          (mirror-action "duck-right"))
 
@@ -483,7 +483,7 @@
        (action
          (name "skid-left")
          (fps 15.0)
-         (x-offset 6)
+         (x-offset 27)
          (y-offset 31)
          (mirror-action "skid-right"))
 
@@ -496,7 +496,7 @@
        (action
          (name "kick-left")
          (fps 15.0)
-         (x-offset 5)
+         (x-offset 27)
          (y-offset 32)
          (mirror-action "kick-right"))
 
@@ -509,7 +509,7 @@
        (action
          (name "buttjump-left")
          (fps 15.0)
-         (x-offset 5)
+         (x-offset 27)
          (y-offset 32)
          (mirror-action "buttjump-right")))
 
@@ -531,7 +531,7 @@
        (action
          (name "walk-left")
          (fps 15.0)
-         (x-offset 5)
+         (x-offset 27)
          (y-offset 32)
          (mirror-action "walk-right"))
 
@@ -545,7 +545,7 @@
        (action
          (name "stand-left")
          (fps 15.0)
-         (x-offset 5)
+         (x-offset 27)
          (y-offset 32)
          (mirror-action "stand-right"))
 
@@ -559,7 +559,7 @@
        (action
          (name "jump-left")
          (fps 15.0)
-         (x-offset 5)
+         (x-offset 27)
          (y-offset 30)
          (mirror-action "jump-right"))
 
@@ -573,7 +573,7 @@
        (action
          (name "duck-left")
          (fps 15.0)
-         (x-offset 5)
+         (x-offset 27)
          (y-offset 62)
          (mirror-action "duck-right"))
 
@@ -585,7 +585,7 @@
 
        (action
          (name "skid-left")
-         (x-offset 6)
+         (x-offset 27)
          (y-offset 31)
          (mirror-action "skid-right"))
 
@@ -597,7 +597,7 @@
 
        (action
          (name "kick-left")
-         (x-offset 5)
+         (x-offset 27)
          (y-offset 32)
          (mirror-action "kick-right"))
 
@@ -609,7 +609,7 @@
 
        (action
          (name "buttjump-left")
-         (x-offset 5)
+         (x-offset 27)
          (y-offset 32)
          (mirror-action "buttjump-right")))
 
@@ -629,7 +629,7 @@
        (action
          (name "walk-left")
          (fps 15.0)
-         (x-offset 5)
+         (x-offset 27)
          (y-offset 32)
          (mirror-action "walk-right"))
 
@@ -643,7 +643,7 @@
        (action
          (name "stand-left")
          (fps 15.0)
-         (x-offset 5)
+         (x-offset 27)
          (y-offset 32)
          (mirror-action "stand-right"))
 
@@ -657,7 +657,7 @@
        (action
          (name "jump-left")
          (fps 15.0)
-         (x-offset 5)
+         (x-offset 27)
          (y-offset 30)
          (mirror-action "jump-right"))
 
@@ -666,12 +666,12 @@
          (fps 15.0)
          (x-offset 5)
          (y-offset 62)
-         (images "shared/bigtux/head-fire-stand-0.png"))
+         (images "shared/bigtux/head-duck-0.png"))
 
        (action
          (name "duck-left")
          (fps 15.0)
-         (x-offset 5)
+         (x-offset 27)
          (y-offset 62)
          (mirror-action "duck-right"))
 
@@ -683,7 +683,7 @@
 
        (action
          (name "skid-left")
-         (x-offset 6)
+         (x-offset 27)
          (y-offset 31)
          (mirror-action "skid-right"))
 
@@ -695,7 +695,7 @@
 
        (action
          (name "kick-left")
-         (x-offset 5)
+         (x-offset 27)
          (y-offset 32)
          (mirror-action "kick-right"))
 
@@ -707,7 +707,7 @@
 
        (action
          (name "buttjump-left")
-         (x-offset 5)
+         (x-offset 27)
          (y-offset 32)
          (mirror-action "buttjump-right"))
 
@@ -722,7 +722,7 @@
        (action
          (name "idle-left")
          (fps 1.0)
-         (x-offset 6)
+         (x-offset 27)
          (y-offset 31)
          (mirror-action "idle-right")))
 
