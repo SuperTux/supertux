@@ -72,13 +72,14 @@ Sector::parse(LispReader& lispreader)
   for(lisp_object_t* cur = lispreader.get_lisp(); !lisp_nil_p(cur);
       cur = lisp_cdr(cur)) {
     std::string token = lisp_symbol(lisp_car(lisp_car(cur)));
+    // FIXME: doesn't handle empty data
     lisp_object_t* data = lisp_car(lisp_cdr(lisp_car(cur)));
     LispReader reader(lisp_cdr(lisp_car(cur)));
 
     if(token == "name") {
       name = lisp_string(data);
     } else if(token == "gravity") {
-      gravity = lisp_integer(data);
+      gravity = lisp_real(data);
     } else if(token == "music") {
       song_title = lisp_string(data);
       load_music();
