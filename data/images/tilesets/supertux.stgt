@@ -532,6 +532,7 @@
 
 ; Spike
   (tile (id 200)
+        (spike #t)
         (images "spike.png"))
 
  )
