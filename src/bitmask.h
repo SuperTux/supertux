@@ -10,7 +10,6 @@
  *  to check for collisions.
  *  The current implementation uses 32 bit wide stripes to hold  
  *  the masks, but should work just as well with 64 bit sizes.
- *  (Note that the current bitcount function is 32 bit only!)
  *
  *  The overlap tests uses the following offsets (which may be negative):
  *
@@ -25,11 +24,6 @@
  *  For optimal collision detection performance combine these functions
  *  with some kind of pre-sorting to avoid comparing objects far from 
  *  each other.
- *
- *  BUGS: No known bugs, even though they may certainly be in here somewhere.
- *  Possible performance improvements could be to remove the div in 
- *  bitmask_overlap_pos() and to implement wider stripes if the masks used
- *  are wider than 64 bits on the average.
  *
  *  Performance of the various functions goes something like: 
  *  (relative timings, smaller is better)
@@ -65,11 +59,12 @@
 #define SUPERTUX_BITMASK_H
 
 #include <SDL.h>
+#include <climits>
 
 /* Define INLINE for different compilers. */
 #ifndef INLINE
 # ifdef __GNUC__
-#  define INLINE __inline__
+#  define INLINE inline
 # else
 #  ifdef _MSC_VER
 #   define INLINE __inline
@@ -80,8 +75,8 @@
 #endif
 
 #define BITW unsigned long int
-#define BITW_LEN 32
-#define BITW_MASK 31
+#define BITW_LEN (sizeof(BITW)*CHAR_BIT)
+#define BITW_MASK (BITW_LEN - 1)
 #define BITN(n) ((BITW)1 << (n))
 
 struct bitmask
@@ -95,6 +90,9 @@ struct bitmask
  */
 bitmask *bitmask_create(int w, int h);
 void bitmask_free(bitmask *m);
+
+void bitmask_clear(bitmask *m);
+void bitmask_fill(bitmask *m);
 
 /* Returns nonzero if the bit at (x,y) is set. 
  * Coordinates start at (0,0)
@@ -123,7 +121,7 @@ static INLINE void bitmask_clearbit(bitmask *m,int x,int y)
 int bitmask_overlap(const bitmask *a,const bitmask *b,int xoffset, int yoffset);
 
 /* Like bitmask_overlap(), but will also give a point of intersection.
- * x and y are given in the coordinates of mask a, and are untouched if the is 
+ * x and y are given in the coordinates of mask a, and are untouched if there is 
  * no overlap.
  */
 int bitmask_overlap_pos(const bitmask *a,const bitmask *b,int xoffset, int yoffset, int *x, int *y);

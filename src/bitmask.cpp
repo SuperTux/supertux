@@ -23,8 +23,9 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-#include <stdlib.h>
-#include <stdio.h>
+#include <cstdlib>
+#include <cstdio>
+#include <cstring>
 #include "bitmask.h"
 
 #define MIN(a,b) ((a) < (b) ? (a) : (b))
@@ -46,6 +47,8 @@ bitmask *bitmask_create(int w, int h)
     return temp;
 }
 
+/* (C) Tobias Glaesser <tobi.web@gmx.de>, 2004.
+   This function isn't available in the original bitmask library. */
 bitmask *bitmask_create_SDL(SDL_Surface* surf)
 {
   bitmask* pbitmask = bitmask_create(surf->w, surf->h);
@@ -56,7 +59,7 @@ bitmask *bitmask_create_SDL(SDL_Surface* surf)
 
   if(surf->format->BytesPerPixel != 4) //This function only works for true-color surfaces with an alpha channel
     return 0;
-  
+
   fmt = surf->format;
   for(h = 0; h <= surf->h; ++h)
     {
@@ -79,6 +82,16 @@ void bitmask_free(bitmask *m)
 {
   free(m->bits);
   free(m);
+}
+
+void bitmask_clear(bitmask *m)
+{
+  memset(m->bits,0,m->h*((m->w - 1)/BITW_LEN + 1)*sizeof(BITW));
+}
+
+void bitmask_fill(bitmask *m)
+{
+  memset(m->bits,255,m->h*((m->w - 1)/BITW_LEN + 1)*sizeof(BITW));
 }
 
 int bitmask_overlap(const bitmask *a,const bitmask *b,int xoffset, int yoffset)
@@ -184,24 +197,26 @@ int bitmask_overlap_pos(const bitmask *a,const bitmask *b,int xoffset, int yoffs
   BITW *a_entry,*a_end;
   BITW *b_entry;
   BITW *ap,*bp;
-  int shift,rshift,i,astripes,bstripes;
+  int shift,rshift,i,astripes,bstripes,xbase;
 
   if ((xoffset >= a->w) || (yoffset >= a->h) || (yoffset <= - b->h))
     return 0;
 
   if (xoffset >= 0)
     {
+      xbase = xoffset/BITW_LEN; /* first stripe from mask a */    
       if (yoffset >= 0)
         {
-          a_entry = a->bits + a->h*(xoffset/BITW_LEN) + yoffset;
+          a_entry = a->bits + a->h*xbase + yoffset;
           a_end = a_entry + MIN(b->h,a->h - yoffset);
           b_entry = b->bits;
         }
       else
         {
-          a_entry = a->bits + a->h*(xoffset/BITW_LEN);
+          a_entry = a->bits + a->h*xbase;
           a_end = a_entry + MIN(b->h + yoffset,a->h);
           b_entry = b->bits - yoffset;
+          yoffset = 0; /* relied on below */
         }
       shift = xoffset & BITW_MASK;
       if (shift)
@@ -216,8 +231,8 @@ int bitmask_overlap_pos(const bitmask *a,const bitmask *b,int xoffset, int yoffs
                   for (ap = a_entry,bp = b_entry;ap < a_end;ap++,bp++)
                     if (*ap & (*bp << shift))
                       {
-                        *y = (ap - a->bits) % a->h;
-                        *x = ((ap - a->bits) / a->h)*BITW_LEN + firstsetbit(*ap & (*bp << shift));
+                        *y = ap - a_entry + yoffset;
+                        *x = (xbase + i)*BITW_LEN + firstsetbit(*ap & (*bp << shift));
                         return 1;
                       }
                   a_entry += a->h;
@@ -225,8 +240,8 @@ int bitmask_overlap_pos(const bitmask *a,const bitmask *b,int xoffset, int yoffs
                   for (ap = a_entry,bp = b_entry;ap < a_end;ap++,bp++)
                     if (*ap & (*bp >> rshift))
                       {
-                        *y = (ap - a->bits) % a->h;
-                        *x = ((ap - a->bits) / a->h)*BITW_LEN + firstsetbit(*ap & (*bp >> rshift));
+                        *y = ap - a_entry + yoffset;
+                        *x = (xbase + i + 1)*BITW_LEN + firstsetbit(*ap & (*bp >> rshift));
                         return 1;
                       }
                   b_entry += b->h;
@@ -234,8 +249,8 @@ int bitmask_overlap_pos(const bitmask *a,const bitmask *b,int xoffset, int yoffs
               for (ap = a_entry,bp = b_entry;ap < a_end;ap++,bp++)
                 if (*ap & (*bp << shift))
                   {
-                    *y = (ap - a->bits) % a->h;
-                    *x = ((ap - a->bits) / a->h)*BITW_LEN + firstsetbit(*ap & (*bp << shift));
+                    *y = ap - a_entry + yoffset;
+                    *x = (xbase + astripes)*BITW_LEN + firstsetbit(*ap & (*bp << shift));
                     return 1;
                   }
               return 0;
@@ -247,8 +262,8 @@ int bitmask_overlap_pos(const bitmask *a,const bitmask *b,int xoffset, int yoffs
                   for (ap = a_entry,bp = b_entry;ap < a_end;ap++,bp++)
                     if (*ap & (*bp << shift))
                       {
-                        *y = (ap - a->bits) % a->h;
-                        *x = ((ap - a->bits) / a->h)*BITW_LEN + firstsetbit(*ap & (*bp << shift));
+                        *y = ap - a_entry + yoffset;
+                        *x = (xbase + i)*BITW_LEN + firstsetbit(*ap & (*bp << shift));
                         return 1;
                       }
                   a_entry += a->h;
@@ -256,8 +271,8 @@ int bitmask_overlap_pos(const bitmask *a,const bitmask *b,int xoffset, int yoffs
                   for (ap = a_entry,bp = b_entry;ap < a_end;ap++,bp++)
                     if (*ap & (*bp >> rshift))
                       {
-                        *y = (ap - a->bits) % a->h;
-                        *x = ((ap - a->bits) / a->h)*BITW_LEN + firstsetbit(*ap & (*bp >> rshift));
+                        *y = ap - a_entry + yoffset;
+                        *x = (xbase + i + 1)*BITW_LEN + firstsetbit(*ap & (*bp >> rshift));
                         return 1;
                       }
                   b_entry += b->h;
@@ -265,7 +280,8 @@ int bitmask_overlap_pos(const bitmask *a,const bitmask *b,int xoffset, int yoffs
               return 0;
             }
         }
-      else /* xoffset is a multiple of the stripe width, and the above routines won't work. */
+      else /* xoffset is a multiple of the stripe width, and the above routines
+           won't work. This way is also slightly faster. */
         {
           astripes = (MIN(b->w,a->w - xoffset) - 1)/BITW_LEN + 1;
           for (i=0;i<astripes;i++)
@@ -274,8 +290,8 @@ int bitmask_overlap_pos(const bitmask *a,const bitmask *b,int xoffset, int yoffs
                 {
                   if (*ap & *bp)
                     {
-                      *y = (ap - a->bits) % a->h;
-                      *x = ((ap - a->bits) / a->h)*BITW_LEN + firstsetbit(*ap & *bp);
+                       *y = ap - a_entry + yoffset;
+                       *x = (xbase + i)*BITW_LEN + firstsetbit(*ap & *bp);
                       return 1;
                     }
                 }
@@ -299,20 +315,34 @@ int bitmask_overlap_pos(const bitmask *a,const bitmask *b,int xoffset, int yoffs
     }
 }
 
-
-
-/* (C) Donald W. Gillies, 1992.  All rights reserved.  You may reuse
-   this bitcount() function anywhere you please as long as you retain
-   this Copyright Notice. */
 static INLINE int bitcount(unsigned long n)
 {
-  register unsigned long tmp;
-  return (tmp = (n) - (((n) >> 1) & 033333333333) - (((n) >> 2) & 011111111111),\
-          tmp = ((tmp + (tmp >> 3)) & 030707070707),			\
-          tmp =  (tmp + (tmp >> 6)),					\
-          tmp = (tmp + (tmp >> 12) + (tmp >> 24)) & 077);
+  if (BITW_LEN == 32)
+    {
+      /* (C) Donald W. Gillies, 1992.  All rights reserved.  You may reuse
+         this bitcount() function anywhere you please as long as you retain
+         this Copyright Notice. */
+      register unsigned long tmp;
+      return (tmp = (n) - (((n) >> 1) & 033333333333) -
+                    (((n) >> 2) & 011111111111),
+              tmp = ((tmp + (tmp >> 3)) & 030707070707),
+              tmp =  (tmp + (tmp >> 6)),
+              tmp = (tmp + (tmp >> 12) + (tmp >> 24)) & 077);
+      /* End of Donald W. Gillies bitcount code */
+    }
+  else
+    {
+      /* Handle non-32 bit case the slow way */
+      int nbits = 0;
+      while (n)
+        {
+          if (n & 1)
+            nbits++;
+          n = n >> 1;
+        }
+      return nbits;
+    }
 }
-/* End of Donald W. Gillies bitcount code */
 
 
 int bitmask_overlap_area(const bitmask *a,const bitmask *b,int xoffset, int yoffset)
@@ -474,7 +504,8 @@ void bitmask_draw(bitmask *a,bitmask *b,int xoffset, int yoffset)
     }
   else
     {
-      /* 'Swapping' arguments to be able to almost reuse the code above */
+      /* 'Swapping' arguments to be able to almost reuse the code above,
+       should be taken care of by the compiler efficiently. */
       swap = a;
       a = b;
       b = swap;
