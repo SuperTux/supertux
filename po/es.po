@@ -1,21 +1,22 @@
-# translation of es.po to 
-# translation of supertux.po to 
-# This file is distributed under the same license as the PACKAGE package.
-# Copyright (C) YEAR SuperTux Development Team, 2004.
-# Javier Beaumont <demon@ziberghetto.dhis.org>, 2004.
+# Spanish translation for SuperTux package.
+# Translation of supertux.pot to es_ES
+# This file is distributed under the same license as the SuperTux package.
+# Copyright (C) 2004 SuperTux Development Team.
+# Javier Beaumont <demonight@users.sourceforge.net>, 2004.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: es\n"
+"Project-Id-Version: SuperTux-CVS\n"
 "Report-Msgid-Bugs-To: super-tux-devel@lists.sourceforge.net\n"
 "POT-Creation-Date: 2004-06-07 23:38+0100\n"
-"PO-Revision-Date: 2004-06-03 22:29+0200\n"
-"Last-Translator: Javier Beaumont <demon@ziberghetto.dhis.org>\n"
-"Language-Team: \n"
+"PO-Revision-Date: 2004-06-08 21:03+0200\n"
+"Last-Translator: Javier Beaumont <demonight@users.sourceforge.net>\n"
+"Language-Team: Spanish Team <super-tux-devel@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.3.1\n"
+"Plural-Forms:  nplurals=2; plural=(n != 1);\n"
 
 #: src/gameloop.cpp:163
 msgid "by "
@@ -31,11 +32,11 @@ msgstr "PUNTOS"
 
 #: src/gameloop.cpp:707
 msgid "Press ESC To Return"
-msgstr "Pulsa ESC para sair"
+msgstr "Pulsa ESC para volver"
 
 #: src/gameloop.cpp:712
 msgid "TIME's UP"
-msgstr "PASADO DE TIEMPO"
+msgstr "FUERA DE TIEMPO"
 
 #: src/gameloop.cpp:716
 msgid "TIME"
@@ -67,7 +68,7 @@ msgstr "MONEDAS: %d"
 #: src/gameloop.cpp:803
 #, c-format
 msgid "Slot %d - Savegame"
-msgstr "Slot %d - Juego grabado"
+msgstr "Slot %d - Juego salvado"
 
 #: src/gameloop.cpp:806
 #, c-format
@@ -104,11 +105,11 @@ msgstr "Entrar"
 
 #: src/menu.cpp:271
 msgid "Space"
-msgstr "EspÃ¡cio"
+msgstr "Espácio"
 
 #: src/menu.cpp:274
 msgid "Right Shift"
-msgstr "Shift direcho"
+msgstr "Shift derecho"
 
 #: src/menu.cpp:277
 msgid "Left Shift"
@@ -156,7 +157,7 @@ msgstr "Salir"
 
 #: src/setup.cpp:398
 msgid "OpenGL    "
-msgstr ""
+msgstr "OpenGL    "
 
 #: src/setup.cpp:400
 msgid "OpenGL (not supported)"
@@ -172,7 +173,7 @@ msgstr "Sonido     "
 
 #: src/setup.cpp:406 src/setup.cpp:411
 msgid "Music     "
-msgstr "MÃºsica     "
+msgstr "Música     "
 
 #: src/setup.cpp:413
 msgid "Show FPS  "
@@ -180,11 +181,11 @@ msgstr "Mostrar FPS  "
 
 #: src/setup.cpp:414
 msgid "Setup Keys"
-msgstr ""
+msgstr "Configurar las teclas"
 
 #: src/setup.cpp:417
 msgid "Setup Joystick"
-msgstr ""
+msgstr "Configurar el Joystick"
 
 #: src/setup.cpp:420 src/setup.cpp:432 src/setup.cpp:445 src/setup.cpp:456
 #: src/title.cpp:104 src/title.cpp:141
@@ -193,7 +194,7 @@ msgstr "Volver"
 
 #: src/setup.cpp:422
 msgid "Keyboard Setup"
-msgstr "ConfiguraciÃ³n del teclado"
+msgstr "Configurar el teclado"
 
 #: src/setup.cpp:424
 msgid "Left move"
@@ -221,15 +222,15 @@ msgstr "Poder/Correr"
 
 #: src/setup.cpp:436
 msgid "Joystick Setup"
-msgstr "ConfiguraciÃ³n del Joystick"
+msgstr "Configurar el Joystick"
 
 #: src/setup.cpp:440
 msgid "A button"
-msgstr "BotÃ³n A"
+msgstr "Botón A"
 
 #: src/setup.cpp:441
 msgid "B button"
-msgstr "BotÃ³n B"
+msgstr "Botón B"
 
 #: src/setup.cpp:458
 msgid "Save Game"
@@ -256,15 +257,17 @@ msgid "Enter your name:"
 msgstr "Introduce tu nombre:"
 
 #: src/setup.cpp:1036
-#, fuzzy
 msgid "  SuperTux  "
-msgstr " SuperTux "
+msgstr "  SuperTux  "
 
 #: src/setup.cpp:1036
 msgid ""
 "\n"
 "  Please see the file \"README.txt\" for more details.\n"
 msgstr ""
+"\n"
+"  Por favor mira el fichero \"README.txt\" para más detalles."
+"\n"
 
 #: src/setup.cpp:1038
 #, c-format
@@ -272,6 +275,8 @@ msgid ""
 "Usage: %s [OPTIONS] FILENAME\n"
 "\n"
 msgstr ""
+"Uso: %s [OPCIONES] NOMBRE_DEL_FICHERO\n"
+"\n"
 
 #: src/setup.cpp:1039
 msgid ""
@@ -302,6 +307,29 @@ msgid ""
 "  --version           Display the version of SuperTux you're running.\n"
 "\n"
 msgstr ""
+"Opciones de pantalla:\n"
+"  --fullscreen        Funciona a pantalla completa.\n"
+"  --opengl            En el caso de que se haya compilado con soporte para OpenGL, esto lo activara\n"
+"                      y SuperTux hará uso de ello.\n"
+"  --sdl               Usar SDL como render gráfico (software)\n"
+"\n"
+"Opciones de sonido:\n"
+"  --disable-sound     En el caso de que se haya compilado con soporte para sonido, esto\n"
+"                      desactivará el sonido para esta sesión de juego.\n"
+"  --disable-music     Igual que el anterior, pero esto desactiva la música.\n"
+"\n"
+"Opciones varias:\n"
+"  -j, --joystick NUM  Usa el joystick NUM (por defecto: 0)\n"
+"  --joymap XAXIS:YAXIS:A:B:START\n"
+"                      Define como deben estar mapeados los botones y el eje del joystick\n"
+"  --leveleditor       Abre el editor de niveles en un fichero. (Solo funciona cuando se le pasa el nombre de un fichero.)\n"
+"  -d, --datadir DIR   Carga los datos del juego desde DIR (Por defecto: automático)\n"
+"  --debug-mode        Activa el modo de depuración, que es útil para desarrolladores.\n"
+"  --help              Muestra un mensaje de ayuda con una lista de los comandos de linea\n"
+"                      opciones, licencia y controles del juego.\n"
+"  --usage             Muestra un breve mensaje listando las opciones de los comandos de linea.\n"
+"  --version           Muestra la versión de SuperTux que estás ejecutando.\n"
+"\n"
 
 #: src/setup.cpp:1095
 #, c-format
@@ -309,9 +337,10 @@ msgid ""
 "Usage: %s [--fullscreen] [--opengl] [--disable-sound] [--disable-music] [--"
 "debug-mode] | [--usage | --help | --version] [--leveleditor] FILENAME\n"
 msgstr ""
+"Uso: %s [--fullscreen] [--opengl] [--disable-sound] [--disable-music] [--"
+"debug-mode] | [--usage | --help | --version] [--leveleditor] NOMBRE_DEL_FICHERO\n"
 
 #: src/title.cpp:277
-#, fuzzy
 msgid ""
 "Copyright (c) 2003 SuperTux Devel Team\n"
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you\n"
@@ -319,7 +348,6 @@ msgid ""
 "COPYING\n"
 "for details.\n"
 msgstr ""
-"\n"
 "Copyright (c) 2003 El equipo de SuperTux\n"
 "Este juego viene sin ABSOLUTAMENTE NINGUNA GARANTIA. Esto es software libre, "
 "y tu\n"
@@ -330,14 +358,9 @@ msgstr ""
 #: src/title.cpp:327
 #, c-format
 msgid "Are you sure you want to delete slot %d?"
-msgstr "Â¿EstÃ¡s seguro de que quieres borrar el slot %d?"
+msgstr "¿Estás seguro de que quieres borrar el slot %d?"
 
 #: src/worldmap.cpp:724
 msgid "GAMEOVER"
 msgstr "FIN DEL JUEGO"
 
-#~ msgid " SuperTux "
-#~ msgstr " SuperTux "
-
-#~ msgid "Key Setup"
-#~ msgstr "Configurar teclas"
