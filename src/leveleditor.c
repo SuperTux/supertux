@@ -1068,7 +1068,7 @@ void le_checkevents()
                   if(le_mouse_pressed[RIGHT] == YES)
                     {
                       fprintf(stderr, "mouse scrolling\n");
-                      pos_x += 1 * event.motion.xrel;
+                      pos_x += -1 * event.motion.xrel;
                     }
                 }
               break;
@@ -1456,37 +1456,33 @@ void le_showhelp()
   SDL_Event event;
   int i, done;
   char *text[] = {
-                   "X/x - Brick0",
-                   "Y/y - Brick1",
-                   "A/B/! - Box full",
-                   "a - Box empty",
-                   "C-F - Cloud0",
-                   "c-f - Cloud1",
-                   "G-J - Bkgd0",
-                   "g-j - Bkgd1",
-                   "# - Solid0",
-                   "[ - Solid1",
-                   "= - Solid2",
-                   "] - Solid3",
-                   "$ - Distro",
-                   "^ - Waves",
-                   "* - Poletop",
-                   "| - Pole",
-                   "\\ - Flag",
-                   "& - Water",
-                   "0-2 - BadGuys",
-                   "./Del - Remove tile",
-                   "F9 - Show/Hide Grid",
-                   "F3 - Change Selection Mode",
-                   "Esc - Menu"};
+                   "  - This is SuperTux's built-in level editor -",
+                   "The level editor was made to be light, as well as, easy from",
+                   "the start, so probabily i am just wasting my English ,-)",
+                   "",
+                   "At your right, you have the button bar, that allows you",
+                   "to select tiles, both background and foregrounds, as",
+                   "well as enemies. A-Z keys can be used as shortcuts.",
+                   "The button bar can be used also to do level actions,",
+                   "just as changing, save, setup and test the level. It",
+                   "also allows you to choose between two selection cursors.",
+                   "Scrolling the level is possible by pointing at the arrows",
+                   "buttons or by using the right-mouse button.",
+                   "Use the Esc key to go to the menu, in order to",
+                   "manage subsets or just quit the level editor.",
+                   "",
+                   "Have fun with it and don't forget to send your levels",
+                   "to us (using the mailing list) %-)",
+                   "- SuperTux team"
+                 };
 
 
   text_drawf(&blue_text, "- Help -", 0, 30, A_HMIDDLE, A_TOP, 2, NO_UPDATE);
 
   for(i = 0; i < sizeof(text)/sizeof(char *); i++)
-    text_draw(&white_text, text[i], 40, 90+(i*16), 1, NO_UPDATE);
+    text_draw(&white_small_text, text[i], 5, 80+(i*12), 1, NO_UPDATE);
 
-  text_drawf(&gold_text, "Press Any Key to Continue", 0, 460, A_HMIDDLE, A_TOP, 1, NO_UPDATE);
+  text_drawf(&gold_text, "Press Any Key to Continue", 0, 440, A_HMIDDLE, A_TOP, 1, NO_UPDATE);
 
   flipscreen();
 

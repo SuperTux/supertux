@@ -3,88 +3,87 @@ CREDITS for Super Tux
 	Version 0.0.6 (in development)
 	January 1st, 2004
 
-by Bill Kendrick
- <bill(at)newbreedsoftware.com>
- http://www.newbreedsoftware.com/supertux/
-& Tobias Glaesser
- <tobi.web(at)gmx.d>
 
-CREDITS
+Developers
+----------
+
+Tobias Glaesser
+ Maintainer and main developer
+
+Bill Kendrick
+ Original author
+
+Duong-Khang NGUYEN
+Ricardo Cruz
+ Contributors
+
+
+Artists
 -------
 
-Game Software:
---------------
-
 Bill Kendrick
- <bill(at)newbreedsoftware.com>
- http://www.newbreedsoftware.com/bill/
- Maintainer.
- 
+ Antartic/Geek theme
+
+Wesley Poole
+ Most Tux images
+
+Eric Windisch
+ Title screen
+
 Tobias Glaesser
- <tobi.web(at)gmx.de>
- Maintainer.
-
 Duong-Khang NGUYEN
- <neoneurone(at)users.sf.net>
+ Graphics improvements
 
-Ricardo Cruz
- <rick2(at)aeiou.pt>
-		      
-Graphics:
+
+Designing
 ---------
-Bill Kendrick
- using The GIMP http://www.gimp.org/
 
-Original Tux created by Larry Ewing
- <lewing(at)isc.tamu.edu>
- http://www.isc.tamu.edu/~lewing/linux/
+Ingo Ruhnke
+ This guy is a not ever end of ideas and
+ a good constructive criticist
+ Author and maintainer of the webpage
+ Basically he makes suggestions for everything from
+ the engine itself to the gameplay.
 
-Most Tux images for Super Tux
-created by Wesley Poole
- <kokido(at)postmark.net>
- http://members.xoom.com/kokido
+Sound Effects
+-------------
 
-Titlescreen Composed by Eric Windisch
- <raptor(at)bwbohh.net>
+Royalty free sound effects
+ CDROMs and FTP sites
 
-Images for the darkstone theme &
-a icons for the level-editor.
-Tobias Glaesser
- <tobi.web(at)gmx.de>
-		      
-Improved images for the shared folder
-Duong-Khang NGUYEN
- <neoneurone(at)users.sf.net>
-		        
-Concept:
---------
-Gown (Tux's Girlfriend) from
-"Tux: A Quest For Herring"
- by Steve Baker <sjbaker1(at)airmail.net>
- http://tuxaqfh.sourceforge.net/
 
-Originally from "xTux"
-by Dave Lawrence & James Andrews
- http://xtux.sourceforge.net/
+Thanks to
+---------
 
-Idea to play as Gown also
-from Steve Baker.
+Larry Ewing
+ Creator of Tux, the Linux penguin
 
-"Mints" upgrade based
-on Penguin Mints.
- http://powermint.safeshopper.com/1/3.htm?63
+SDL and OpenGL
+ For giving such a great gaming experience
+ possible in Linux
 
-Sound Effects:
---------------
- Royalty free sound effects CDROMs and FTP sites.
 
-Miscellaneous:
- See CHANGES.txt for bug fixers, etc.
- Also, comments, suggestions and praise from:
+We hope you enjoy this game! ,-)
+- SuperTux team
 
-James Harr
- <jharr(at)mad.scientist.com>
-Robert S Dubinski
- <dubinski(at)mscs.mu.edu>
-Brian Stentzel
- <brian.stentzel(at)operamail.com>
+
+Visit our webpage at
+ http://super-tux.sf.net
+
+Have a nice flaming with us at
+ #supertux at irc.freenode.net
+
+Comments, ideas and suggestions
+go to our mailing list
+ super-tux-devel(at)lists.sourceforge.net
+
+If you want to contribute;
+ graphics, sounds, levels,
+ coding and
+ even ideas are allways
+ appreciated!
+
+
+
+	I'm sure nobody will read
+	this until the end... !-)
