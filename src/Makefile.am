@@ -53,6 +53,8 @@ supertux_SOURCES = \
   type.cpp \
   type.h \
   world.cpp \
-  world.h
+  world.h \
+  worldmap.cpp \
+  worldmap.h
 
 # EOF #
