@@ -23,6 +23,7 @@ SDL_VERSION=1.2.4
 AC_PROG_CC
 AC_PROG_CXX
 AC_PROG_INSTALL
+AC_PROG_LIBTOOL
 
 dnl Checks for header files.
 AC_HEADER_DIRENT
@@ -105,7 +106,8 @@ AC_CHECK_FUNCS(mkdir strdup strstr)
 AC_OUTPUT(Makefile m4/Makefile intl/Makefile
           src/Makefile
           data/Makefile
-          po/Makefile.in)
+          po/Makefile.in
+	  lib/Makefile)
 
 echo ""
 echo "Features:"

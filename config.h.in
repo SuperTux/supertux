@@ -33,6 +33,9 @@
    */
 #undef HAVE_DIRENT_H
 
+/* Define to 1 if you have the <dlfcn.h> header file. */
+#undef HAVE_DLFCN_H
+
 /* Define to 1 if you have the `feof_unlocked' function. */
 #undef HAVE_FEOF_UNLOCKED
 
