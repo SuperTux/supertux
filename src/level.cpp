@@ -200,9 +200,12 @@ Level::init_defaults()
   width      = 21;
   time_left  = 100;
   gravity    = 10.;
-  bkgd_red   = 0;
-  bkgd_green = 0;
-  bkgd_blue  = 0;
+  bkgd_top_red   = 0;
+  bkgd_top_green = 0;
+  bkgd_top_blue  = 0;
+  bkgd_bottom_red   = 0;
+  bkgd_bottom_green = 0;
+  bkgd_bottom_blue  = 0;
   endpos     = 0;
 
   for(int i = 0; i < 15; ++i)
@@ -273,9 +276,12 @@ Level::load(const std::string& filename)
       reader.read_int("version",  &version);
       reader.read_int("width",  &width);
       reader.read_int("time",  &time_left);
-      reader.read_int("bkgd_red",  &bkgd_red);
-      reader.read_int("bkgd_green",  &bkgd_green);
-      reader.read_int("bkgd_blue",  &bkgd_blue);
+      reader.read_int("bkgd_top_red",  &bkgd_top_red);
+      reader.read_int("bkgd_top_green",  &bkgd_top_green);
+      reader.read_int("bkgd_top_blue",  &bkgd_top_blue);
+      reader.read_int("bkgd_bottom_red",  &bkgd_bottom_red);
+      reader.read_int("bkgd_bottom_green",  &bkgd_bottom_green);
+      reader.read_int("bkgd_bottom_blue",  &bkgd_bottom_blue);
       reader.read_float("gravity",  &gravity);
       reader.read_string("name",  &name);
       reader.read_string("theme",  &theme);
@@ -467,9 +473,12 @@ Level::save(const  char * subset, int level)
   fprintf(fi,"  (music \"%s\")\n", song_title.c_str());
   fprintf(fi,"  (background \"%s\")\n", bkgd_image.c_str());
   fprintf(fi,"  (particle_system \"%s\")\n", particle_system.c_str());
-  fprintf(fi,"  (bkgd_red %d)\n", bkgd_red);
-  fprintf(fi,"  (bkgd_green %d)\n", bkgd_green);
-  fprintf(fi,"  (bkgd_blue %d)\n", bkgd_blue);
+  fprintf(fi,"  (bkgd_top_red %d)\n", bkgd_top_red);
+  fprintf(fi,"  (bkgd_top_green %d)\n", bkgd_top_green);
+  fprintf(fi,"  (bkgd_top_blue %d)\n", bkgd_top_blue);
+  fprintf(fi,"  (bkgd_bottom_red %d)\n", bkgd_bottom_red);
+  fprintf(fi,"  (bkgd_bottom_green %d)\n", bkgd_bottom_green);
+  fprintf(fi,"  (bkgd_bottom_blue %d)\n", bkgd_bottom_blue);
   fprintf(fi,"  (time %d)\n", time_left);
   fprintf(fi,"  (width %d)\n", width);
   fprintf(fi,"  (gravity %2.1f)\n", gravity);

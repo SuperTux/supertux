@@ -205,7 +205,7 @@ int leveleditor(int levelnb)
             {
               switch (level_settings_menu->check())
                 {
-                case 13:
+                case 16:
                   apply_level_settings_menu();
                   Menu::set_current(leveleditor_menu);
                   break;
@@ -432,9 +432,12 @@ int le_init()
   level_settings_menu->additem(MN_NUMFIELD,"Length ",0,0);
   level_settings_menu->additem(MN_NUMFIELD,"Time   ",0,0);
   level_settings_menu->additem(MN_NUMFIELD,"Gravity",0,0);
-  level_settings_menu->additem(MN_NUMFIELD,"Red    ",0,0);
-  level_settings_menu->additem(MN_NUMFIELD,"Green  ",0,0);
-  level_settings_menu->additem(MN_NUMFIELD,"Blue   ",0,0);
+  level_settings_menu->additem(MN_NUMFIELD,"Top Red    ",0,0);
+  level_settings_menu->additem(MN_NUMFIELD,"Top Green  ",0,0);
+  level_settings_menu->additem(MN_NUMFIELD,"Top Blue   ",0,0);
+  level_settings_menu->additem(MN_NUMFIELD,"Bottom Red ",0,0);
+  level_settings_menu->additem(MN_NUMFIELD,"Bottom Green",0,0);
+  level_settings_menu->additem(MN_NUMFIELD,"Bottom Blue",0,0);
   level_settings_menu->additem(MN_HL,"",0,0);
   level_settings_menu->additem(MN_ACTION,"Apply Changes",0,0);
 
@@ -482,12 +485,18 @@ void update_level_settings_menu()
   level_settings_menu->item[7].change_input(str);
   sprintf(str,"%2.0f",le_current_level->gravity);
   level_settings_menu->item[8].change_input(str);
-  sprintf(str,"%d",le_current_level->bkgd_red);
+  sprintf(str,"%d",le_current_level->bkgd_top_red);
   level_settings_menu->item[9].change_input(str);
-  sprintf(str,"%d",le_current_level->bkgd_green);
-                         level_settings_menu->item[10].change_input(str);
-  sprintf(str,"%d",le_current_level->bkgd_blue);
-                         level_settings_menu->item[11].change_input(str);
+  sprintf(str,"%d",le_current_level->bkgd_top_green);
+  level_settings_menu->item[10].change_input(str);
+  sprintf(str,"%d",le_current_level->bkgd_top_blue);
+  level_settings_menu->item[11].change_input(str);
+  sprintf(str,"%d",le_current_level->bkgd_bottom_red);
+  level_settings_menu->item[12].change_input(str);
+  sprintf(str,"%d",le_current_level->bkgd_bottom_green);
+  level_settings_menu->item[13].change_input(str);
+  sprintf(str,"%d",le_current_level->bkgd_bottom_blue);
+  level_settings_menu->item[14].change_input(str);
 }
 
 void update_subset_settings_menu()
@@ -526,9 +535,12 @@ void apply_level_settings_menu()
   le_current_level->change_size(atoi(level_settings_menu->item[6].input));
   le_current_level->time_left = atoi(level_settings_menu->item[7].input);
   le_current_level->gravity = atof(level_settings_menu->item[8].input);
-  le_current_level->bkgd_red = atoi(level_settings_menu->item[9].input);
-  le_current_level->bkgd_green = atoi(level_settings_menu->item[10].input);
-  le_current_level->bkgd_blue = atoi(level_settings_menu->item[11].input);
+  le_current_level->bkgd_top_red = atoi(level_settings_menu->item[9].input);
+  le_current_level->bkgd_top_green = atoi(level_settings_menu->item[10].input);
+  le_current_level->bkgd_top_blue = atoi(level_settings_menu->item[11].input);
+  le_current_level->bkgd_bottom_red = atoi(level_settings_menu->item[12].input);
+  le_current_level->bkgd_bottom_green = atoi(level_settings_menu->item[13].input);
+  le_current_level->bkgd_bottom_blue = atoi(level_settings_menu->item[14].input);
 }
 
 void save_subset_settings_menu()
@@ -686,7 +698,8 @@ void le_drawlevel()
     }
   else
     {
-      clearscreen(le_current_level->bkgd_red, le_current_level->bkgd_green, le_current_level->bkgd_blue);
+          drawgradient(le_current_level->bkgd_top_red, le_current_level->bkgd_top_green, le_current_level->bkgd_top_blue, 
+                   le_current_level->bkgd_bottom_red, le_current_level->bkgd_bottom_green, le_current_level->bkgd_bottom_blue);
     }
 
   /*       clearscreen(current_level.bkgd_red, current_level.bkgd_green, current_level.bkgd_blue); */

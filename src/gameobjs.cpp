@@ -139,7 +139,8 @@ BouncyBrick::draw()
         {
           fillrect(base.x - scroll_x, base.y,
                    32,32, 
-                   plevel->bkgd_red, plevel->bkgd_green, plevel->bkgd_blue, 0);
+                   plevel->bkgd_top_red, plevel->bkgd_top_green, plevel->bkgd_top_blue, 0);
+// FIXME: doesn't respect the gradient, futhermore is this necessary at all??
         }
       else
         {

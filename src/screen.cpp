@@ -54,6 +54,45 @@ void clearscreen(int r, int g, int b)
 #endif
 }
 
+/* --- DRAWS A VERTICAL GRADIENT --- */
+
+void drawgradient(int top_r, int top_g, int top_b, int bot_r, int bot_g, int bot_b)
+{
+#ifndef NOOPENGL
+  if(use_gl)
+    {
+      glBegin(GL_QUADS);
+      glColor3ub(top_r, top_g, top_b);
+      glVertex2f(0, 0);
+      glVertex2f(640, 0);
+      glColor3ub(bot_r, bot_g, bot_b);
+      glVertex2f(640, 480);
+      glVertex2f(0, 480);
+      glEnd();
+    }
+  else
+  {
+#endif
+
+  SDL_Rect r;
+  r.x = 0;
+  r.w = 640;
+  r.h = 2;
+
+    for(float y = 0; y < 480; y += 2)
+      {
+      r.y = (int)y;
+
+      SDL_FillRect(screen, &r, SDL_MapRGB(screen->format, (int)(((float)(top_r-bot_r)/640) * y + top_r), (int)(((float)(top_g-bot_g)/640) * y + top_g), (int)(((float)(top_b-bot_b)/640) * y + top_b)));
+      }
+/* calculates the color for each line, based in the generic equation for functions: y = mx + b */
+
+#ifndef NOOPENGL
+
+    }
+#endif
+}
+
 /* 'Stolen' from the SDL documentation.
  * Set the pixel at (x, y) to the given value
  * NOTE: The surface must be locked before calling this!

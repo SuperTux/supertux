@@ -26,6 +26,7 @@
 
 void drawline(int x1, int y1, int x2, int y2, int r, int g, int b, int a);
 void clearscreen(int r, int g, int b);
+void drawgradient(int top_r, int top_g, int top_b, int bot_r, int bot_g, int bot_b);
 void fillrect(float x, float y, float w, float h, int r, int g, int b, int a);
 void updatescreen(void);
 void flipscreen(void);
