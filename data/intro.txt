@@ -70,8 +70,6 @@
 	lontananza. Determinato a salvare la sua
 	amata Penny, comincia il suo viaggio.")
 	
-  )
-
 ; German by Marek Moeckel
     (text-de_DE "-Penny ist verschwunden!
 
@@ -94,5 +92,6 @@
 	Tux blickte von dem Brief auf und sah Noloks
 	Festung in der Ferne. Fest entschlossen
 	seine geliebte Penny zu retten, machte 
-	er sich auf die Reise.
+	er sich auf die Reise.")
+)
     
