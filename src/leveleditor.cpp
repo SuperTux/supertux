@@ -38,8 +38,7 @@
 #include "resources.h"
 
 /* definitions to aid development */
-#define DONE_LEVELEDITOR 1
-#define DONE_QUIT        2
+
 
 /* definitions that affect gameplay */
 #define KEY_CURSOR_SPEED 32
@@ -223,7 +222,7 @@ int leveleditor(int levelnb)
                   update_subset_settings_menu();
                   break;
                 case 7:
-                  done = DONE_LEVELEDITOR;
+                  done = 1;
                   break;
                 }
             }
@@ -333,8 +332,11 @@ int leveleditor(int levelnb)
 
       mouse_cursor->draw();
 
+printf("done: %i\n", done);
+
       if(done)
         {
+printf("done\n");
           le_quit();
           return 0;
         }
@@ -794,6 +796,10 @@ void le_checkevents()
         {
           switch(event.type)
             {
+            case SDL_QUIT:	// window closed
+printf("window closed\n");
+              done = -1;
+              break;
             case SDL_KEYDOWN:	// key pressed
               key = event.key.keysym.sym;
               switch(key)
@@ -908,9 +914,6 @@ void le_checkevents()
                       pos_x += -1 * event.motion.xrel;
                     }
                 }
-              break;
-            case SDL_QUIT:	// window closed
-              done = DONE_QUIT;
               break;
             default:
               break;
@@ -1217,7 +1220,7 @@ void le_testlevel()
 void le_showhelp()
 {
   SDL_Event event;
-  unsigned int i, done;
+  unsigned int i, done_;
   char *text[] = {
                    "  - This is SuperTux's built-in level editor -",
                    "It has been designed to be light and easy to use from the start.",
@@ -1253,17 +1256,17 @@ void le_showhelp()
   blue_text->drawf("- Help -", 0, 30, A_HMIDDLE, A_TOP, 2);
 
   for(i = 0; i < sizeof(text)/sizeof(char *); i++)
-    white_text->draw(text[i], 5, 80+(i*18), 1);
+    white_small_text->draw(text[i], 5, 80+(i*white_small_text->h), 1);
 
   gold_text->drawf("Press Any Key to Continue", 0, 440, A_HMIDDLE, A_TOP, 1);
 
   flipscreen();
 
-  done = 0;
+  done_ = 0;
 
-  while(done == 0)
+  while(done_ == 0)
     {
-      done = wait_for_event(event);
+      done_ = wait_for_event(event);
       SDL_Delay(50);
     }
 }
