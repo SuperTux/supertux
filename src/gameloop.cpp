@@ -63,6 +63,19 @@
 
 GameSession* GameSession::current_ = 0;
 
+bool compare_last(std::string& haystack, std::string needle)
+{
+int haystack_size = haystack.size();
+int needle_size = needle.size();
+
+if(haystack_size < needle_size)
+  return false;
+
+if(haystack.compare(haystack_size-needle_size, needle_size, needle) == 0)
+  return true;
+return false;
+}
+
 GameSession::GameSession(const std::string& levelname_, int mode, bool flip_level_)
   : level(0), currentsector(0), st_gl_mode(mode),
     end_sequence(NO_ENDSEQUENCE), levelname(levelname_), flip_level(flip_level_)
@@ -456,34 +469,34 @@ GameSession::process_events()
 if(!last_keys.empty())
   {
   Player &tux = *currentsector->player;
-  if(last_keys.find("grow") != std::string::npos)
+  if(compare_last(last_keys, "grow"))
     {
     tux.grow(false);
     last_keys.clear();
     }
-  if(last_keys.find("fire") != std::string::npos)
+  if(compare_last(last_keys, "fire"))
     {
     tux.grow(false);
     tux.got_power = tux.FIRE_POWER;
     last_keys.clear();
     }
-  if(last_keys.find("ice") != std::string::npos)
+  if(compare_last(last_keys, "ice"))
     {
     tux.grow(false);
     tux.got_power = tux.ICE_POWER;
     last_keys.clear();
     }
-  if(last_keys.find("lifeup") != std::string::npos)
+  if(compare_last(last_keys, "lifeup"))
     {
     player_status.lives++;
     last_keys.clear();
     }
-  if(last_keys.find("lifedown") != std::string::npos)
+  if(compare_last(last_keys, "lifedown"))
     {
     player_status.lives--;
     last_keys.clear();
     }
-  if(last_keys.find("invincible") != std::string::npos)
+  if(compare_last(last_keys, "invincible"))
     {    // be invincle for the rest of the level
     tux.invincible_timer.start(time_left.get_left());
     last_keys.clear();
