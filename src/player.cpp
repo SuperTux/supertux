@@ -594,7 +594,7 @@ Player::draw()
             }
                       
           // Draw arm overlay graphics when Tux is holding something
-          if (holding_something && physic.get_velocity_y() == 0)
+          if (holding_something && physic.get_velocity_y() == 0 && !duck)
             {
               if (dir == RIGHT)
                 sprite->grab_right->draw(base.x - scroll_x, base.y);
