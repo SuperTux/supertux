@@ -855,39 +855,39 @@ void st_abort(const std::string& reason, const std::string& details)
 
 void seticon(void)
 {
-  int masklen;
-  Uint8 * mask;
+//  int masklen;
+//  Uint8 * mask;
   SDL_Surface * icon;
 
 
   /* Load icon into a surface: */
 
-  icon = IMG_Load((datadir + "/images/icon.png").c_str());
+  icon = IMG_Load((datadir + "/images/icon.xpm").c_str());
   if (icon == NULL)
     {
       fprintf(stderr,
               "\nError: I could not load the icon image: %s%s\n"
               "The Simple DirectMedia error that occured was:\n"
-              "%s\n\n", datadir.c_str(), "/images/icon.png", SDL_GetError());
+              "%s\n\n", datadir.c_str(), "/images/icon.xpm", SDL_GetError());
       exit(1);
     }
 
 
   /* Create mask: */
-
+/*
   masklen = (((icon -> w) + 7) / 8) * (icon -> h);
   mask = (Uint8*) malloc(masklen * sizeof(Uint8));
   memset(mask, 0xFF, masklen);
-
+*/
 
   /* Set icon: */
 
-  SDL_WM_SetIcon(icon, mask);
+  SDL_WM_SetIcon(icon, NULL);//mask);
 
 
   /* Free icon surface & mask: */
 
-  free(mask);
+//  free(mask);
   SDL_FreeSurface(icon);
 }
 
