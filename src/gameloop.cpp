@@ -746,10 +746,21 @@ std::string slotinfo(int slot)
 {
   char tmp[1024];
   char slotfile[1024];
+  std::string title;
   sprintf(slotfile,"%s/slot%d.stsg",st_save_dir,slot);
 
+  lisp_object_t* savegame = lisp_read_from_file(slotfile);
+  LispReader reader(lisp_cdr(savegame));
+  reader.read_string("title", &title);
+  lisp_free(savegame);
+
   if (access(slotfile, F_OK) == 0)
-    sprintf(tmp,"Slot %d - Savegame",slot);
+    {
+      if (!title.empty())
+        snprintf(tmp,1024,"Slot %d - %s",slot, title.c_str());
+      else
+        snprintf(tmp, 1024,"Slot %d - Savegame",slot);
+    }
   else
     sprintf(tmp,"Slot %d - Free",slot);
 
