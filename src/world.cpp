@@ -42,14 +42,18 @@ Surface* img_distro[4];
 
 World* World::current_ = 0;
 
-World::World(const std::string& filename)
+World::World(const std::string& filename, int level_nr)
 {
   // FIXME: Move this to action and draw and everywhere else where the
   // world calls child functions
   current_ = this;
 
   level = new Level();
-  level->load(filename, this);
+  if(level_nr >= 0) {
+    level->load(filename, level_nr, this);
+  } else {
+    level->load(filename, this);
+  }
 
   tux = new Player(displaymanager);
   add_object(tux);
@@ -71,44 +75,10 @@ World::World(const std::string& filename)
   add_object(new TileMap(displaymanager, level));
   level->load_song();
 
-  apply_bonuses();
-
   camera = new Camera(tux, level);
-  add_object(camera);
-
-  scrolling_timer.init(true);
-}
-
-World::World(const std::string& subset, int level_nr)
-{
-  // FIXME: Move this to action and draw and everywhere else where the
-  // world calls child functions
-  current_ = this;
-
-  level = new Level();
-  level->load(subset, level_nr, this);
-
-  tux = new Player(displaymanager);
-  gameobjects.push_back(tux);        
-
-  set_defaults();
-
-  get_level()->load_gfx();
-  activate_particle_systems();
-  background = new Background(displaymanager);
-  if(level->img_bkgd) {
-    background->set_image(level->img_bkgd, level->bkgd_speed);
-  } else {
-    background->set_gradient(level->bkgd_top, level->bkgd_bottom);
-  }
-  gameobjects.push_back(background);
-  // add tilemap
-  gameobjects.push_back(new TileMap(displaymanager, get_level()));  
-  get_level()->load_song();
+  add_object(camera);               
 
   apply_bonuses();
-
-  scrolling_timer.init(true);
 }
 
 void
@@ -226,14 +196,14 @@ World::draw()
 void
 World::action(float elapsed_time)
 {
+  tux->check_bounds(*camera,
+      level->back_scrolling, (bool)level->hor_autoscroll_speed);
+    
   /* update objects (don't use iterators here, because the list might change
    * during the iteration)
    */
   for(size_t i = 0; i < gameobjects.size(); ++i)
     gameobjects[i]->action(elapsed_time);
-
-  tux->check_bounds(*camera,
-      level->back_scrolling, (bool)level->hor_autoscroll_speed);
 
   /* Handle all possible collisions. */
   collision_handler();
@@ -282,147 +252,6 @@ World::action(float elapsed_time)
     }
   }
 }
-
-/* the space that it takes for the screen to start scrolling, regarding */
-/* screen bounds (in pixels) */
-// should be higher than screen->w/2 (400)
-#define X_SPACE (500-16)
-// should be less than screen->h/2 (300)
-#define Y_SPACE 250
-
-static const float max_speed_y = 1.4;
-
-// the time it takes to move the camera (in ms)
-#define CHANGE_DIR_SCROLL_SPEED 2000
-
-static const float EPSILON = .0001;
-
-#if 0
-/* This functions takes cares of the scrolling */
-void World::scrolling(float elapsed_time)
-{
-  if(elapsed_time < EPSILON)
-    return;
-  
-  Vector scroll = displaymanager.get_viewport().get_translation();
-  bool do_y_scrolling = true;
-
-  if(tux->dying)
-    do_y_scrolling = false;
-  
-  /* Y-axis scrolling */
-  if(do_y_scrolling) {
-    float target_y;
-    // upwards we target the y position of the platforms tux stands on
-    if(tux->fall_mode != Player::FALLING)
-      target_y = tux->last_ground_y + tux->base.height;
-    else
-      target_y = tux->base.y + tux->base.height;
-
-    float delta_y = scroll.y - (target_y - (screen->h/2));
-    float speed_y = delta_y / elapsed_time;
-
-    float max = max_speed_y;
-    if(fabsf(delta_y) > float(screen->h)/5.0)
-      max *= 5;
-    
-    if(speed_y > max)
-      speed_y = max;
-    else if(speed_y < -max)
-      speed_y = -max;
-
-    scroll.y -= speed_y * elapsed_time;
-    
-    // don't scroll before the start or after the level's end
-    if(scroll.y > level->height * 32 - screen->h)
-      scroll.y = level->height * 32 - screen->h;
-    if(scroll.y < 0)
-      scroll.y = 0;
-  }
-
-  /* X-axis scrolling */
-
-#if 0
-  /* Auto scrolling */
-  if(level->hor_autoscroll_speed)
-  {
-    scroll_x += level->hor_autoscroll_speed * elapsed_time;
-    displaymanager.get_viewport().set_translation(Vector(scroll_x, scroll_y));
-    return;
-  }
-#endif
-
-  /* Horizontal backscrolling */
-  float tux_pos_x = tux->base.x + (tux->base.width/2);
-
-  if(tux->old_dir != tux->dir && level->back_scrolling)
-    scrolling_timer.start(CHANGE_DIR_SCROLL_SPEED);
-
-  bool right = false;
-  bool left = false;
-  if (tux->physic.get_velocity_x() > 0)
-    right = true;
-  else if (tux->physic.get_velocity_x() < 0)
-    left = true;
-  else
-    {
-    if (tux->dir == RIGHT)
-      right = true;
-    else
-      left = true;
-    }
-
-  if(scrolling_timer.check())
-  {
-    float final_scroll_x;
-    float constant1;
-    float constant2;
-    if (right)
-      final_scroll_x = tux_pos_x - (screen->w - X_SPACE);
-    else
-      final_scroll_x = tux_pos_x - X_SPACE;
-
-    if((tux->physic.get_velocity_x() > 0 && tux->dir == RIGHT)
-        || (tux->physic.get_velocity_x() < 0 && tux->dir == LEFT))
-    {
-      constant1 = 1.0;
-      constant2 = .4;
-    }
-    else
-    {
-      constant1 = 0.;
-      constant2 = 0.;
-    }
-    
-    float number = 2.5/(elapsed_time * CHANGE_DIR_SCROLL_SPEED/1000)*exp((CHANGE_DIR_SCROLL_SPEED-scrolling_timer.get_left())/1400.);
-    if(left) number *= -1.;
-
-    scroll.x += number
-	    + constant1 * tux->physic.get_velocity_x() * elapsed_time
-	    + constant2 * tux->physic.get_acceleration_x() * elapsed_time *
-            elapsed_time;
-
-    if ((right && final_scroll_x - scroll.x < 0) || (left && final_scroll_x -
-          scroll.x > 0))
-      scroll.x = final_scroll_x;
-  }
-  else
-  {
-    if (right && scroll.x < tux_pos_x - (screen->w - X_SPACE))
-      scroll.x = tux_pos_x - (screen->w - X_SPACE);
-    else if (left && scroll.x > tux_pos_x - X_SPACE && level->back_scrolling)
-      scroll.x = tux_pos_x - X_SPACE;
-  }
-
-  // don't scroll before the start or after the level's end
-  if(scroll.x > level->width * 32 - screen->w)
-    scroll.x = level->width * 32 - screen->w;
-  if(scroll.x < 0)
-    scroll.x = 0;
-
-  displaymanager.get_viewport().set_translation(scroll);
-}
-#endif
 
 void
 World::collision_handler()

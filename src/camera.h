@@ -74,7 +74,11 @@ private:
   Player* player;
   Level* level;
   CameraMode mode;
+
+  // normal mode
   LeftRightScrollChange scrollchange;
+
+  // autoscroll mode
 };
 
 #endif

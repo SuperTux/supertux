@@ -132,7 +132,6 @@ Camera::scroll_normal(float elapsed_time)
   float speed_x = delta_x / elapsed_time;
 
   float maxv = 1 + fabsf(player->physic.get_velocity_x() * 2);
-  printf("SX: %f MV: %f.\n", player->physic.get_velocity_x(), maxv);
   if(speed_x > maxv)
     speed_x = maxv;
   else if(speed_x < -maxv)

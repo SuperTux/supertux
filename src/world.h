@@ -49,8 +49,6 @@ private:
   Level* level;
   Player* tux;
 
-  Timer scrolling_timer;
-
   int distro_counter;
   bool counting_distros;
   int currentmusic;
@@ -71,9 +69,7 @@ public:
   static World* current() { return current_; }
   static void set_current(World* w) { current_ = w; }
 
-  World(const std::string& filename);
-  World(const std::string& subset, int level_nr);
-  //World() {};
+  World(const std::string& filename, int level_nr = -1);
   ~World();
   
   Level*  get_level() { return level; }
