@@ -732,7 +732,7 @@ int gameloop(char * subset, int levelnb, int mode)
           continue;
         }
 
-      /* Set the time the last update and the time of the current update */
+      /* Set the time of the last update and the time of the current update */
       last_update_time = update_time;
       update_time = st_get_ticks();
 
@@ -1389,34 +1389,6 @@ int issolid(float x, float y)
 
   return NO;
 }
-
-/*
-int issolid(float x, float y)
-{
-  if (isbrick(x, y) ||
-      isbrick(x + 31, y) ||
-      isice(x, y) ||
-      isice(x + 31, y) ||
-      (shape(x, y) == '[' ||
-       shape(x + 31, y) == '[') ||
-      (shape(x, y) == '=' ||
-       shape(x + 31, y) == '=') ||
-      (shape(x, y) == ']' ||
-       shape(x + 31, y) == ']') ||
-      (shape(x, y) == 'A' ||
-       shape(x + 31, y) == 'A') ||
-      (shape(x, y) == 'B' ||
-       shape(x + 31, y) == 'B') ||
-      (shape(x, y) == '!' ||
-       shape(x + 31, y) == '!') ||
-      (shape(x, y) == 'a' ||
-       shape(x + 31, y) == 'a'))
-    {
-      return YES;
-    }
- 
-  return NO;
-}*/
 
 
 /* Is it a brick? */
