@@ -28,4 +28,4 @@ These are mostly bugs:
   Since the 2 tiles flag won't help when you're jumping over a hole. Better use
   a timer that is started when up is pressed, when you then land and the timer
   is below a certain time, you can do the jump.
-
+- when bumping a special with 2 blocks at once, it won't change direction
