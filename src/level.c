@@ -67,7 +67,10 @@ void loadlevel(st_level* plevel, char *subset, int level)
   strcpy(plevel->song_title, str);
   plevel->song_title[strlen(plevel->song_title)-1] = '\0';
 
-
+  /* (Level background image) */
+  fgets(str, sizeof(plevel->bkgd_image), fi);
+  strcpy(plevel->bkgd_image, str);
+  plevel->bkgd_image[strlen(plevel->bkgd_image)-1] = '\0';
 
   /* (Level background color) */
   fgets(str, 10, fi);
@@ -113,6 +116,17 @@ void loadlevel(st_level* plevel, char *subset, int level)
 
 }
 
+/* Unload data for this level: */
+
+void unloadlevel(st_level* plevel)
+{
+  free(plevel->tiles);
+  plevel->name[0] = '\0';
+  plevel->theme[0] = '\0';
+  plevel->song_title[0] = '\0';
+  plevel->bkgd_image[0] = '\0';
+}
+
 /* Load graphics: */
 
 void loadlevelgfx(st_level *plevel)
@@ -125,16 +139,26 @@ void loadlevelgfx(st_level *plevel)
   load_level_image(&img_solid[1],plevel->theme,"solid1.png", USE_ALPHA);
   load_level_image(&img_solid[2],plevel->theme,"solid2.png", USE_ALPHA);
   load_level_image(&img_solid[3],plevel->theme,"solid3.png", USE_ALPHA);
-   
-  load_level_image(&img_bkgd[0][0],plevel->theme,"bkgd-00.png", USE_ALPHA);
-  load_level_image(&img_bkgd[0][1],plevel->theme,"bkgd-01.png", USE_ALPHA);
-  load_level_image(&img_bkgd[0][2],plevel->theme,"bkgd-02.png", USE_ALPHA);
-  load_level_image(&img_bkgd[0][3],plevel->theme,"bkgd-03.png", USE_ALPHA);
-   
-  load_level_image(&img_bkgd[1][0],plevel->theme,"bkgd-10.png", USE_ALPHA);
-  load_level_image(&img_bkgd[1][1],plevel->theme,"bkgd-11.png", USE_ALPHA);
-  load_level_image(&img_bkgd[1][2],plevel->theme,"bkgd-12.png", USE_ALPHA);
-  load_level_image(&img_bkgd[1][3],plevel->theme,"bkgd-13.png", USE_ALPHA);
+
+  load_level_image(&img_bkgd_tile[0][0],plevel->theme,"bkgd-00.png", USE_ALPHA);
+  load_level_image(&img_bkgd_tile[0][1],plevel->theme,"bkgd-01.png", USE_ALPHA);
+  load_level_image(&img_bkgd_tile[0][2],plevel->theme,"bkgd-02.png", USE_ALPHA);
+  load_level_image(&img_bkgd_tile[0][3],plevel->theme,"bkgd-03.png", USE_ALPHA);
+
+  load_level_image(&img_bkgd_tile[1][0],plevel->theme,"bkgd-10.png", USE_ALPHA);
+  load_level_image(&img_bkgd_tile[1][1],plevel->theme,"bkgd-11.png", USE_ALPHA);
+  load_level_image(&img_bkgd_tile[1][2],plevel->theme,"bkgd-12.png", USE_ALPHA);
+  load_level_image(&img_bkgd_tile[1][3],plevel->theme,"bkgd-13.png", USE_ALPHA);
+
+  if(strcmp(plevel->bkgd_image,"") != 0)
+    {
+      char fname[1024];
+      snprintf(fname, 1024, "%s/background/%s", st_dir, plevel->bkgd_image);
+      if(!faccessible(fname))
+        snprintf(fname, 1024, "%s/images/background/%s", DATA_PREFIX, plevel->bkgd_image);
+      texture_load(&img_bkgd, fname, IGNORE_ALPHA);
+      printf("%s",fname);
+    }
 }
 
 /* Free graphics data for this level: */
@@ -150,9 +174,10 @@ void unloadlevelgfx(void)
   for (i = 0; i < 4; i++)
     {
       texture_free(&img_solid[i]);
-      texture_free(&img_bkgd[0][i]);
-      texture_free(&img_bkgd[1][i]);
+      texture_free(&img_bkgd_tile[0][i]);
+      texture_free(&img_bkgd_tile[1][i]);
     }
+  texture_free(&img_bkgd);
 }
 
 /* Load a level-specific graphic... */
@@ -163,8 +188,8 @@ void load_level_image(texture_type* ptexture, char* theme, char * file, int use_
 
   snprintf(fname, 1024, "%s/themes/%s/%s", st_dir, theme, file);
   if(!faccessible(fname))
-  snprintf(fname, 1024, "%s/images/themes/%s/%s", DATA_PREFIX, theme, file);
-  
+    snprintf(fname, 1024, "%s/images/themes/%s/%s", DATA_PREFIX, theme, file);
+
   texture_load(ptexture, fname, use_alpha);
 }
 

@@ -8,7 +8,7 @@
  *                                                                         *
  ***************************************************************************/
 
-/*  December 28, 2003 - January 1st, 2004 */
+/*  December 28, 2003 - February 1st, 2004 */
 
 /* leveleditor.c - A built-in level editor for SuperTux
  by Ricardo Cruz <rick2@aeiou.pt>                      */
@@ -190,7 +190,7 @@ int leveleditor()
               key = event.key.keysym.sym;
               if(show_menu)
                 {
-                  menu_event(key);
+                  menu_event(&event.key.keysym);
                   break;
                 }
               switch(key)
@@ -479,7 +479,6 @@ switch(cursor_tile)
       /* Draw the Bad guys: */
       for (i = 0; i < num_bad_guys; ++i)
         {
-          /* printf("\nbad_guys[%i].alive = %i", i, bad_guys[i].alive); */
           if(bad_guys[i].base.alive == NO)
             continue;
           /* to support frames: img_bsod_left[(frame / 5) % 4] */
@@ -503,14 +502,14 @@ if(show_grid)
       texture_draw(&selection, ((int)(cursor_x - pos_x)/32)*32, cursor_y, NO_UPDATE);
 
       sprintf(str, "%d", current_level.time_left);
-      drawtext("TIME", 324, 0, letters_blue, NO_UPDATE, 1);
-      drawtext(str, 404, 0, letters_gold, NO_UPDATE, 1);
+      text_draw(&blue_text, "TIME", 324, 0, 1, NO_UPDATE);
+      text_draw(&gold_text, str, 404, 0, 1, NO_UPDATE);
 
       sprintf(str, "%s", current_level.name);
-      drawtext("NAME", 0, 0, letters_blue, NO_UPDATE, 1);
-      drawtext(str, 80, 0, letters_gold, NO_UPDATE, 1);
+      text_draw(&blue_text, "NAME", 0, 0, 1, NO_UPDATE);
+      text_draw(&gold_text, str, 80, 0, 1, NO_UPDATE);
 
-      drawtext("F1 for Help", 10, 430, letters_blue, NO_UPDATE, 1);
+      text_draw(&blue_text, "F1 for Help", 10, 430, 1, NO_UPDATE);
 
       if(show_menu)
         {
@@ -604,7 +603,7 @@ void savelevel(void)
 
   fclose(fi);
 
-  drawcenteredtext("SAVED!", 240, letters_gold, NO_UPDATE, 1);
+  text_drawf(&gold_text, "SAVED!", 0, 240, A_HMIDDLE, A_TOP, 1, NO_UPDATE);
   flipscreen();
   SDL_Delay(1000);
 }
@@ -638,14 +637,14 @@ void showhelp()
                    "Esc - Menu"};
 
 
-  drawcenteredtext("- Help -", 30, letters_red, NO_UPDATE, 2);
-  drawtext("Keys:", 80, 60, letters_gold, NO_UPDATE, 1);
+  text_drawf(&red_text, "- Help -", 0, 30, A_HMIDDLE, A_TOP, 2, NO_UPDATE);
+  text_draw(&gold_text, "Keys:", 80, 60, 1, NO_UPDATE);
 
   int i;
   for(i = 0; i < sizeof(text)/sizeof(char *); i++)
-    drawtext(text[i], 40, 90+(i*16), letters_blue, NO_UPDATE, 1);
+    text_draw(&blue_text, text[i], 40, 90+(i*16), 1, NO_UPDATE);
 
-  drawcenteredtext("Press Any Key to Continue", 460, letters_gold, NO_UPDATE, 1);
+  text_drawf(&gold_text, "Press Any Key to Continue", 0, 460, A_HMIDDLE, A_TOP, 1, NO_UPDATE);
 
   flipscreen();
 

@@ -26,11 +26,10 @@ typedef struct base_type
     float ym;
     float width;
     float height;
-    int updated;
   }
 base_type;
 
-double get_frame_ratio(base_type* pbase);
+//double get_frame_ratio(base_type* pbase);
 
 #endif /*SUPERTUX_TYPE_H*/
 

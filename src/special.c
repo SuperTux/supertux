@@ -4,7 +4,7 @@
 // Description:
 //
 //
-// Author: Tobias Glaesser <tobi.web@gmx.de>, (C) 2004
+// Author: Tobias Glaesser <tobi.web@gmx.de> & Bill Kendrick, (C) 2004
 //
 // Copyright: See COPYING file that comes with this distribution
 //
@@ -29,7 +29,6 @@ void bullet_init(bullet_type* pbullet, float x, float y, float xm, int dir)
 {
   pbullet->base.width = 4;
   pbullet->base.height = 4;
-  pbullet->base.updated = SDL_GetTicks();
   pbullet->base.alive = YES;
 
   if (dir == RIGHT)
@@ -49,9 +48,6 @@ void bullet_init(bullet_type* pbullet, float x, float y, float xm, int dir)
 
 void bullet_action(bullet_type* pbullet)
 {
-
-  double frame_ratio = get_frame_ratio(&pbullet->base);
-
   if (pbullet->base.alive)
     {
       pbullet->base.x = pbullet->base.x + pbullet->base.xm * frame_ratio;
@@ -112,12 +108,10 @@ void upgrade_init(upgrade_type *pupgrade, float x, float y, int kind)
   pupgrade->base.xm = 2;
   pupgrade->base.ym = -2;
   pupgrade->base.height = 0;
-  pupgrade->base.updated = SDL_GetTicks();
 }
 
 void upgrade_action(upgrade_type *pupgrade)
 {
-  double frame_ratio = get_frame_ratio(&pupgrade->base);
 
   if (pupgrade->base.alive)
     {
@@ -125,7 +119,9 @@ void upgrade_action(upgrade_type *pupgrade)
         {
           /* Rise up! */
 
-          pupgrade->base.height++;
+          pupgrade->base.height = pupgrade->base.height + 0.7 * frame_ratio;
+	  if(pupgrade->base.height > 32)
+	  pupgrade->base.height = 32;
         }
       else
         {
@@ -148,7 +144,7 @@ void upgrade_action(upgrade_type *pupgrade)
                         }
                       else if (pupgrade->kind == UPGRADE_HERRING)
                         {
-                          pupgrade->base.ym = -24;
+                          pupgrade->base.ym = -8;
                         }
 
                       pupgrade->base.y = (int)(pupgrade->base.y / 32) * 32;
@@ -253,7 +249,7 @@ void upgrade_collision(upgrade_type* pupgrade, void* p_c_object, int c_object)
       else if (pupgrade->kind == UPGRADE_HERRING)
         {
           play_sound(sounds[SND_HERRING], SOUND_CENTER_SPEAKER);
-          timer_start(&tux.invincible_timer,TUX_INVINCIBLE_TIME);
+          timer_start(&pplayer->invincible_timer,TUX_INVINCIBLE_TIME);
           timer_start(&super_bkgd_timer, 250);
           /* play the herring song ^^ */
           if (current_music != HURRYUP_MUSIC)

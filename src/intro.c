@@ -7,7 +7,7 @@
   bill@newbreedsoftware.com
   http://www.newbreedsoftware.com/supertux/
   
-  April 11, 2000 - April 23, 2000
+  April 11, 2000 - February 1st, 2004
 */
 
 #include <stdio.h>
@@ -137,7 +137,7 @@ int intro(void)
 	  texture_draw(&tux_sit, 270, 400, UPDATE);
 	  texture_draw(&gown_sit, 320, 400, UPDATE);
 	  
-	  drawcenteredtext(intro_text[0], 456, letters_blue, UPDATE, 1);
+	  text_drawf(&blue_text, intro_text[0], 0, -8, A_HMIDDLE, A_BOTTOM, 0, NO_UPDATE);
 	}
       
       
@@ -147,14 +147,14 @@ int intro(void)
 	  /* Helicopter begins to fly in: */
 	  
 	  erasecenteredtext(intro_text[0], 456, bkgd.sdl_surface, NO_UPDATE, 1);
-	  drawcenteredtext(intro_text[1], 456, letters_red, NO_UPDATE, 1);
+	  text_drawf(&blue_text, intro_text[1], 0,-8, A_HMIDDLE, A_BOTTOM, 0, NO_UPDATE);
 	}
 
       
       if (timer_get_gone(&timer) >= 2000 && timer_get_gone(&timer) < 4000)
 	{
 	  /* Helicopter flying in: */
-	  texture_draw_part(&bkgd, 0, 32, screen->w, (copter[0].h), NO_UPDATE);
+	  texture_draw_part(&bkgd,0,32, 0, 32, screen->w, (copter[0].h), NO_UPDATE);
 	  
 	  texture_draw(&copter[i % 2],
 		    (float)(timer_get_gone(&timer) - 2000) / 5  - (copter[0].w), 32,
@@ -185,7 +185,7 @@ int intro(void)
       if (timer_get_gone(&timer) >= 4000 && timer_get_gone(&timer) < 8000)
 	{
 	  /* Helicopter sits: */
-	  texture_draw_part(&bkgd, 0, 32, screen->w, (copter[0].h), NO_UPDATE);
+	  texture_draw_part(&bkgd,0,32, 0, 32, screen->w, (copter[0].h), NO_UPDATE);
 	  
 	  texture_draw(&copter[i % 2], 400 - (copter[0].w), 32, NO_UPDATE);
 	  update_rect(screen, 0, 32, screen->w, (copter[0].h));
@@ -201,7 +201,7 @@ int intro(void)
 	  
 	  
 	  erasecenteredtext(intro_text[1], 456, bkgd.sdl_surface, UPDATE, 1);
-	  drawcenteredtext(intro_text[2], 456, letters_red, UPDATE, 1);
+	  text_drawf(&blue_text, intro_text[2], 0,-8, A_HMIDDLE, A_BOTTOM, 0, NO_UPDATE);
 	}
       
       
@@ -210,7 +210,7 @@ int intro(void)
 	  /* Beam gown up! */
 	  
 	  texture_draw_part(&bkgd,
-		   320,
+		   320, 32 + (copter[0].h), 320,
 		   32 + (copter[0].h),
 		   (gown_upset.w),
 		   368 + (gown_upset.h) - (copter[0].h), NO_UPDATE);
@@ -255,7 +255,7 @@ int intro(void)
 	  texture_draw(&tux_mad, 270, 400, UPDATE);
 	  
 	  erasecenteredtext(intro_text[2], 456, bkgd.sdl_surface, UPDATE, 1);
-	  drawcenteredtext(intro_text[3], 456, letters_gold, UPDATE, 1);
+	  text_drawf(&blue_text, intro_text[3], 0,-8, A_HMIDDLE, A_BOTTOM, 0, NO_UPDATE);
 	}
       
       
@@ -263,7 +263,7 @@ int intro(void)
 	{
 	  /* Helicopter starting to speed off: */
 	  
-	  texture_draw_part(&bkgd, 0, 32, screen->w, (copter_squish.h), NO_UPDATE);
+	  texture_draw_part(&bkgd, 0, 32, 0, 32, screen->w, (copter_squish.h), NO_UPDATE);
 	  
 	  texture_draw(&copter_squish,
 		    400 - (copter[0].w), 32,
@@ -277,7 +277,7 @@ int intro(void)
 	{
 	  /* Helicopter speeding off: */
 	  
-	  texture_draw_part(&bkgd, 0, 32, screen->w, (copter_stretch.h), NO_UPDATE);
+	  texture_draw_part(&bkgd, 0, 32, 0, 32, screen->w, (copter_stretch.h), NO_UPDATE);
 	  
 	  texture_draw(&copter_stretch,
 		    (timer_get_gone(&timer) - 8250) /*(i - (8250 / FPS)) * 30*/ + 400 - (copter[0].w),

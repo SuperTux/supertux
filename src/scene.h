@@ -22,7 +22,7 @@
 #include "level.h"
 
 #define FRAME_RATE 10 // 100 Frames per second (10ms)
-int score, highscore, distros, level, next_level, game_pause,
+int score, distros, level, next_level, game_pause,
 done, quit, score_multiplier, endpos, counting_distros, distro_counter;
 timer_type  super_bkgd_timer;
 float scroll_x;
@@ -45,6 +45,10 @@ player_type tux;
 SDL_Rect src, dest;
 texture_type img_box_full, img_box_empty, img_mints, img_coffee, img_super_bkgd, img_red_glow;
 st_level current_level;
+unsigned int last_update_time;
+unsigned int update_time;
+timer_type time_left;
+double frame_ratio;
 
 void add_score(int x, int y, int s);
 void set_defaults(void);

@@ -7,7 +7,7 @@
   bill@newbreedsoftware.com
   http://www.newbreedsoftware.com/supertux/
   
-  April 11, 2000 - January 1st, 2004
+  April 11, 2000 - February 1st, 2004
 */
 
 #include <stdio.h>
@@ -96,25 +96,16 @@ void st_general_setup(void)
   srand(SDL_GetTicks());
 
   /* Load global images: */
-
-  letters_black = load_image(DATA_PREFIX "/images/status/letters-black.png",
-                             USE_ALPHA);
-
-  letters_gold = load_image(DATA_PREFIX "/images/status/letters-gold.png",
-                            USE_ALPHA);/*
-      if (tux_x < 0)
-        tux_x = 0;*/
-
-  letters_blue = load_image(DATA_PREFIX "/images/status/letters-blue.png",
-                            USE_ALPHA);
-
-  letters_red = load_image(DATA_PREFIX "/images/status/letters-red.png",
-                           USE_ALPHA);
-
-
+	   
+ text_load(&black_text,DATA_PREFIX "/images/status/letters-black.png");
+ text_load(&gold_text,DATA_PREFIX "/images/status/letters-gold.png");
+ text_load(&blue_text,DATA_PREFIX "/images/status/letters-blue.png");
+ text_load(&red_text,DATA_PREFIX "/images/status/letters-red.png");
+ 
   /* Set icon image: */
 
   seticon();
+  SDL_EnableUNICODE(1);
 
 }
 
@@ -189,7 +180,7 @@ void st_video_setup_gl(void)
 	SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 5);
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-		
+
   if (use_fullscreen == YES)
     {
       screen = SDL_SetVideoMode(640, 480, 32, SDL_FULLSCREEN | SDL_OPENGL ) ; /* | SDL_HWSURFACE); */
@@ -216,18 +207,8 @@ void st_video_setup_gl(void)
           exit(1);
         }
     }
-    
-    /* Initialisierung von OpenGL * /
-	glViewport(0, 0, screen->w, screen->h);
-
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glOrtho(0, screen->w, screen->h, 0, -1.0, 1.0);
-
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-*/
-    	/*
+    	
+	/*
 	 * Set up OpenGL for 2D rendering.
 	 */
 	glDisable(GL_DEPTH_TEST);
@@ -241,7 +222,7 @@ void st_video_setup_gl(void)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	glTranslatef(0.0f, 0.0f, 0.0f);
-
+	
 #endif
 }
 
@@ -346,7 +327,7 @@ void st_audio_setup(void)
 
   if (audio_device == YES)
     {
-      if (open_audio(44100, AUDIO_S16, 2, 512) < 0)
+      if (open_audio(44100, AUDIO_S16, 2, 2048) < 0)
         {
           /* only print out message if sound or music
              was not disabled at command-line

@@ -21,6 +21,7 @@
 #include "type.h"
 #include "texture.h"
 #include "collision.h"
+#include "player.h"
 
 typedef struct upgrade_type
   {

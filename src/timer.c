@@ -14,6 +14,31 @@
 #include "defines.h"
 #include "timer.h"
 
+unsigned int st_get_ticks(void)
+{
+if(st_pause_count != 0)
+return SDL_GetTicks() - st_pause_ticks - SDL_GetTicks() + st_pause_count;
+else
+return SDL_GetTicks() - st_pause_ticks;
+}
+
+void st_pause_ticks_init(void)
+{
+st_pause_ticks = 0;
+st_pause_count = 0;
+}
+
+void st_pause_ticks_start(void)
+{
+st_pause_count = SDL_GetTicks();
+}
+
+void st_pause_ticks_stop(void)
+{
+st_pause_ticks += SDL_GetTicks() - st_pause_count;
+st_pause_count = 0;
+}
+
 void timer_init(timer_type* ptimer)
 {
   ptimer->period = 0;
@@ -22,7 +47,7 @@ void timer_init(timer_type* ptimer)
 
 void timer_start(timer_type* ptimer, unsigned int period)
 {
-  ptimer->time = SDL_GetTicks();
+  ptimer->time = st_get_ticks();
   ptimer->period = period;
 }
 
@@ -33,7 +58,7 @@ void timer_stop(timer_type* ptimer)
 
 int timer_check(timer_type* ptimer)
 {
-  if(ptimer->time != 0 && ptimer->time + ptimer->period > SDL_GetTicks())
+  if((ptimer->time != 0) && (ptimer->time + ptimer->period > st_get_ticks()))
     return YES;
   else
     {
@@ -52,10 +77,10 @@ int timer_started(timer_type* ptimer)
 
 int timer_get_left(timer_type* ptimer)
 {
-  return (ptimer->period - (SDL_GetTicks() - ptimer->time));
+  return (ptimer->period - (st_get_ticks() - ptimer->time));
 }
 
 int timer_get_gone(timer_type* ptimer)
 {
-  return (SDL_GetTicks() - ptimer->time);
+  return (st_get_ticks() - ptimer->time);
 }

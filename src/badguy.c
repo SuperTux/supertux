@@ -4,7 +4,7 @@
 // Description:
 //
 //
-// Author: Tobias Glaesser <tobi.web@gmx.de>, (C) 2004
+// Author: Tobias Glaesser <tobi.web@gmx.de> & Bill Kendrick, (C) 2004
 //
 // Copyright: See COPYING file that comes with this distribution
 //
@@ -23,7 +23,6 @@ void badguy_create_bitmasks()
 
 void badguy_init(bad_guy_type* pbad, float x, float y, int kind)
 {
-  pbad->base.updated = SDL_GetTicks();
   pbad->base.width = 32;
   pbad->base.height = 32;
   pbad->base.alive = YES;
@@ -33,7 +32,7 @@ void badguy_init(bad_guy_type* pbad, float x, float y, int kind)
   pbad->base.x = x;
   pbad->base.y = y;
   pbad->base.xm = 1.3;
-  pbad->base.ym = 1.5;
+  pbad->base.ym = 4.8;
   pbad->dir = LEFT;
   pbad->seen = NO;
   timer_init(&pbad->timer);
@@ -41,8 +40,6 @@ void badguy_init(bad_guy_type* pbad, float x, float y, int kind)
 
 void badguy_action(bad_guy_type* pbad)
 {
-
-  double frame_ratio = get_frame_ratio(&pbad->base);
 
   if (pbad->base.alive)
     {
@@ -214,7 +211,7 @@ void badguy_action(bad_guy_type* pbad)
 
               /* Move vertically: */
 
-              pbad->base.y = pbad->base.y + pbad->base.ym *frame_ratio;
+              pbad->base.y = pbad->base.y + pbad->base.ym * frame_ratio;
 
 
               /* Fall if we get off the ground: */
@@ -225,7 +222,7 @@ void badguy_action(bad_guy_type* pbad)
                     {
                       if (pbad->base.ym < MAX_YM)
                         {
-                          pbad->base.ym = pbad->base.ym + GRAVITY;
+                          pbad->base.ym = pbad->base.ym + GRAVITY * frame_ratio;
                         }
                     }
                   else
@@ -240,7 +237,7 @@ void badguy_action(bad_guy_type* pbad)
                     }
                 }
               else
-                pbad->base.ym = pbad->base.ym + GRAVITY;
+                pbad->base.ym = pbad->base.ym + GRAVITY * frame_ratio;
 
               if (pbad->base.y > screen->h)
                 pbad->base.alive = NO;

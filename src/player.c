@@ -4,7 +4,7 @@
 // Description:
 //
 //
-// Author: Tobias Glaesser <tobi.web@gmx.de>, (C) 2004
+// Author: Tobias Glaesser <tobi.web@gmx.de> & Bill Kendrick, (C) 2004
 //
 // Copyright: See COPYING file that comes with this distribution
 //
@@ -22,7 +22,6 @@ void player_init(player_type* pplayer)
   pplayer->base.width = 32;
   pplayer->base.height = 32;
 
-  pplayer->base.updated = SDL_GetTicks();
   pplayer->size = SMALL;
   pplayer->got_coffee = NO;
 
@@ -52,7 +51,7 @@ void player_init(player_type* pplayer)
   pplayer->keymap.left = SDLK_LEFT;
   pplayer->keymap.right = SDLK_RIGHT;
   pplayer->keymap.fire = SDLK_LCTRL;
-  
+
   timer_init(&pplayer->invincible_timer);
   timer_init(&pplayer->skidding_timer);
   timer_init(&pplayer->safe_timer);
@@ -60,64 +59,64 @@ void player_init(player_type* pplayer)
 
 int player_keydown_event(player_type* pplayer, SDLKey key)
 {
-	    if(key == pplayer->keymap.right)
-	    {
-              pplayer->input.right = DOWN;
-              return YES;
-	    }
-            else if( key == pplayer->keymap.left)
-	    {
-              pplayer->input.left = DOWN;
-              return YES;
-	    }
-            else if(key == pplayer->keymap.jump)
-	    {
-              pplayer->input.up = DOWN;
-              return YES;
-	    }
-            else if(key == pplayer->keymap.duck)
-	    {
-              pplayer->input.down = DOWN;
-              return YES;
-            }
-	    else if(key == pplayer->keymap.fire)
-	    {
-              pplayer->input.fire = DOWN;
-              return YES;
-	    }
-	    else
-	    return NO;
+  if(key == pplayer->keymap.right)
+    {
+      pplayer->input.right = DOWN;
+      return YES;
+    }
+  else if( key == pplayer->keymap.left)
+    {
+      pplayer->input.left = DOWN;
+      return YES;
+    }
+  else if(key == pplayer->keymap.jump)
+    {
+      pplayer->input.up = DOWN;
+      return YES;
+    }
+  else if(key == pplayer->keymap.duck)
+    {
+      pplayer->input.down = DOWN;
+      return YES;
+    }
+  else if(key == pplayer->keymap.fire)
+    {
+      pplayer->input.fire = DOWN;
+      return YES;
+    }
+  else
+    return NO;
 }
-	      
+
 int player_keyup_event(player_type* pplayer, SDLKey key)
 {
-	    if(key == pplayer->keymap.right)
-	    {
-              pplayer->input.right = UP;
-              return YES;
-	    }
-            else if( key == pplayer->keymap.left)
-	    {
-              pplayer->input.left = UP;
-              return YES;
-	    }
-            else if(key == pplayer->keymap.jump)
-	    {
-              pplayer->input.up = UP;
-              return YES;
-	    }
-            else if(key == pplayer->keymap.duck)
-	    {
-              pplayer->input.down = UP;
-              return YES;
-            }
-	    else if(key == pplayer->keymap.fire)
-	    {
-              pplayer->input.fire = UP;
-              return YES;
-	    }
-	    else
-	    return NO;
+  if(key == pplayer->keymap.right)
+    {
+      pplayer->input.right = UP;
+      return YES;
+    }
+  else if( key == pplayer->keymap.left)
+    {
+      pplayer->input.left = UP;
+      return YES;
+    }
+  else if(key == pplayer->keymap.jump)
+    {
+      pplayer->input.up = UP;
+      return YES;
+    }
+  else if(key == pplayer->keymap.duck)
+    {
+      pplayer->input.down = UP;
+      return YES;
+    }
+  else if(key == pplayer->keymap.fire)
+    {
+      pplayer->input.fire = UP;
+      return YES;
+    }
+  else
+    return NO;
 }
 
 void player_level_begin(player_type* pplayer)
@@ -126,7 +125,7 @@ void player_level_begin(player_type* pplayer)
   pplayer->base.y = 240;
   pplayer->base.xm = 0;
   pplayer->base.ym = 0;
-  
+
   pplayer->input.down = UP;
   pplayer->input.fire = UP;
   pplayer->input.left = UP;
@@ -138,9 +137,6 @@ void player_level_begin(player_type* pplayer)
 
 void player_action(player_type* pplayer)
 {
-
-  double frame_ratio = get_frame_ratio(&pplayer->base);
-
   /* --- HANDLE TUX! --- */
 
   player_input(pplayer);
@@ -194,7 +190,9 @@ void player_action(player_type* pplayer)
               ++debug_int;
               if(debug_int > 32)
                 DEBUG_MSG("FIXME - UNDER certain circumstances I'm hanging in a loop here!");
-		
+              /*the circumstances are:
+               issolid() is true and base.ym == 0
+               use of floating point varibles for base stuff*/
               if (pplayer->base.ym < 0)
                 pplayer->base.y++;
               else if (pplayer->base.ym > 0)
@@ -212,6 +210,7 @@ void player_action(player_type* pplayer)
 
           pplayer->base.ym = 0;
           pplayer->jumping = NO;
+          pplayer->input.up = UP;
         }
 
 
@@ -438,38 +437,44 @@ void player_action(player_type* pplayer)
 
 
   timer_check(&pplayer->safe_timer);
-    
+
 
   /* ---- DONE HANDLING TUX! --- */
 
   /* Handle invincibility timer: */
 
 
-  if (timer_check(&pplayer->invincible_timer))
+  if (current_music == HERRING_MUSIC && !timer_check(&pplayer->invincible_timer))
     {
-      if (current_music == HERRING_MUSIC)
+      /*
+         no, we are no more invincible
+         or we were not in invincible mode
+         but are we in hurry ?
+       */
+
+
+      if (timer_get_left(&time_left) < TIME_WARNING)
         {
-          if (current_level.time_left <= TIME_WARNING)
-            {
-              /* stop the herring_song, prepare to play the correct
-               * fast level_song !
-               */
-              current_music = HURRYUP_MUSIC;
-            }
-          else
-            {
-              current_music = LEVEL_MUSIC;
-            }
-          /* stop the old music if it's being played */
-          if (playing_music())
-            halt_music();
+          /* yes, we are in hurry
+             stop the herring_song, prepare to play the correct
+             fast level_song !
+           */
+          current_music = HURRYUP_MUSIC;
         }
+      else
+        {
+          current_music = LEVEL_MUSIC;
+        }
+
+      /* stop the old music if it's being played */
+      if (playing_music())
+        halt_music();
     }
 
   /* Handle skidding: */
 
   timer_check(&pplayer->skidding_timer);
-  
+
   /* End of level? */
 
   if (pplayer->base.x>= endpos && endpos != 0)
@@ -479,101 +484,59 @@ void player_action(player_type* pplayer)
 
 }
 
-void player_input(player_type *pplayer)
+void player_handle_horizontal_input(player_type *pplayer, int dir)
 {
-  /* Handle key and joystick state: */
-
-
-  if (pplayer->input.right == DOWN && pplayer->input.left == UP)
+  if (pplayer->jumping == NO)
     {
-      if (pplayer->jumping == NO)
+      if ((dir ? (pplayer->base.xm < -SKID_XM) : (pplayer->base.xm > SKID_XM)) && !timer_started(&pplayer->skidding_timer) &&
+          pplayer->dir == !dir)
         {
-          if (pplayer->base.xm < -SKID_XM && !timer_started(&pplayer->skidding_timer) &&
-              pplayer->dir == LEFT)
-            {
-              timer_start(&pplayer->skidding_timer, SKID_TIME);
+          timer_start(&pplayer->skidding_timer, SKID_TIME);
 
-              play_sound(sounds[SND_SKID], SOUND_CENTER_SPEAKER);
+          play_sound(sounds[SND_SKID], SOUND_CENTER_SPEAKER);
 
-            }
-          pplayer->dir = RIGHT;
         }
+      pplayer->dir = dir;
+    }
 
-      if (pplayer->base.xm < 0 && !isice(pplayer->base.x, pplayer->base.y + 32) &&
-          !timer_started(&pplayer->skidding_timer))
-        {
-          pplayer->base.xm = 0;
-        }
+  if ((dir ? (pplayer->base.xm < 0) : (pplayer->base.xm > 0)) && !isice(pplayer->base.x, pplayer->base.y + 32) &&
+      !timer_started(&pplayer->skidding_timer))
+    {
+      pplayer->base.xm = 0;
+    }
 
-      if (!pplayer->duck)
+  if (!pplayer->duck)
+    {
+      if (pplayer->dir == dir)
         {
-          if (pplayer->dir == RIGHT)
+          /* Facing the direction we're jumping?  Go full-speed: */
+
+          if (pplayer->input.fire == UP)
             {
-              /* Facing the direction we're jumping?  Go full-speed: */
+              pplayer->base.xm = pplayer->base.xm + ( dir ? WALK_SPEED : -WALK_SPEED) * frame_ratio;
 
-              if (pplayer->input.fire == UP)
+              if(dir)
                 {
-                  pplayer->base.xm = pplayer->base.xm + WALK_SPEED;
-
                   if (pplayer->base.xm > MAX_WALK_XM)
                     pplayer->base.xm = MAX_WALK_XM;
                 }
-              else if ( pplayer->input.fire == DOWN)
+              else
                 {
-                  pplayer->base.xm = pplayer->base.xm + RUN_SPEED;
-
-                  if (pplayer->base.xm > MAX_RUN_XM)
-                    pplayer->base.xm = MAX_RUN_XM;
-                }
-            }
-          else
-            {
-              /* Not facing the direction we're jumping?
-              Go half-speed: */
-
-              pplayer->base.xm = pplayer->base.xm + WALK_SPEED / 2;
-
-              if (pplayer->base.xm > MAX_WALK_XM / 2)
-                pplayer->base.xm = MAX_WALK_XM / 2;
-            }
-        }
-    }
-  else if (pplayer->input.left == DOWN && pplayer->input.right == UP)
-    {
-      if (pplayer->jumping == NO)
-        {
-          if (pplayer->base.xm > SKID_XM && !timer_started(&pplayer->skidding_timer) &&
-              pplayer->dir == RIGHT)
-            {
-              timer_start(&pplayer->skidding_timer,SKID_TIME);
-              play_sound(sounds[SND_SKID], SOUND_CENTER_SPEAKER);
-            }
-          pplayer->dir = LEFT;
-        }
-
-      if (pplayer->base.xm > 0 && !isice(pplayer->base.x, pplayer->base.y + 32) &&
-          !timer_started(&pplayer->skidding_timer))
-        {
-          pplayer->base.xm = 0;
-        }
-
-      if (!pplayer->duck)
-        {
-          if (pplayer->dir == LEFT)
-            {
-              /* Facing the direction we're jumping?  Go full-speed: */
-
-              if (pplayer->input.fire == UP)
-                {
-                  pplayer->base.xm = pplayer->base.xm - WALK_SPEED;
-
                   if (pplayer->base.xm < -MAX_WALK_XM)
                     pplayer->base.xm = -MAX_WALK_XM;
                 }
-              else if (pplayer->input.fire == DOWN)
-                {
-                  pplayer->base.xm = pplayer->base.xm - RUN_SPEED;
+            }
+          else if ( pplayer->input.fire == DOWN)
+            {
+              pplayer->base.xm = pplayer->base.xm + ( dir ? RUN_SPEED : -RUN_SPEED) * frame_ratio;
 
+              if(dir)
+                {
+                  if (pplayer->base.xm > MAX_RUN_XM)
+                    pplayer->base.xm = MAX_RUN_XM;
+                }
+              else
+                {
                   if (pplayer->base.xm < -MAX_RUN_XM)
                     pplayer->base.xm = -MAX_RUN_XM;
                 }
@@ -583,528 +546,558 @@ void player_input(player_type *pplayer)
               /* Not facing the direction we're jumping?
               Go half-speed: */
 
-              pplayer->base.xm = pplayer->base.xm - WALK_SPEED / 2;
+              pplayer->base.xm = pplayer->base.xm + ( dir ? (WALK_SPEED / 2) : -(WALK_SPEED / 2)) * frame_ratio;
 
-              if (pplayer->base.xm < -MAX_WALK_XM / 2)
-                pplayer->base.xm = -MAX_WALK_XM / 2;
-            }
-        }
-    }
-
-  /* Jump/jumping? */
-
-  if ( pplayer->input.up == DOWN)
-    {
-      if(!timer_started(&pplayer->jump_timer))
-        {
-          timer_start(&pplayer->jump_timer,MAX_JUMP_TIME);
-
-
-          /* Taking off? */
-
-          if (!issolid(pplayer->base.x, pplayer->base.y + 32) ||
-              pplayer->base.ym != 0)
-            {
-              /* If they're not on the ground, or are currently moving
-              vertically, don't jump! */
-
-              pplayer->jumping = NO;
-              timer_stop(&pplayer->jump_timer);
-            }
-          else
-            {
-              /* Make sure we're not standing back up into a solid! */
-
-              if (pplayer->size == SMALL || pplayer->duck == NO ||
-                  !issolid(pplayer->base.x, pplayer->base.y))
+              if(dir)
                 {
-                  pplayer->jumping = YES;
-
-                  if (pplayer->size == SMALL)
-                    play_sound(sounds[SND_JUMP], SOUND_CENTER_SPEAKER);
-                  else
-                    play_sound(sounds[SND_BIGJUMP], SOUND_CENTER_SPEAKER);
+                  if (pplayer->base.xm > MAX_WALK_XM / 2)
+                    pplayer->base.xm = MAX_WALK_XM / 2;
+                }
+              else
+                {
+                  if (pplayer->base.xm < -MAX_WALK_XM / 2)
+                    pplayer->base.xm = -MAX_WALK_XM / 2;
                 }
             }
         }
 
-      /* Keep jumping for a while: */
-
-      if (timer_check(&pplayer->jump_timer))
-        {
-          pplayer->base.ym = pplayer->base.ym - JUMP_SPEED;
-        }
     }
-  else
-    timer_stop(&pplayer->jump_timer);
+}
+
+void player_handle_vertical_input(player_type *pplayer)
+{
+        if(!timer_started(&pplayer->jump_timer))
+          {
+            timer_start(&pplayer->jump_timer,MAX_JUMP_TIME);
 
 
-  /* Shoot! */
+            /* Taking off? */
 
-  if (pplayer->input.fire == DOWN && pplayer->input.old_fire == UP && pplayer->got_coffee)
-    {
-      add_bullet(pplayer->base.x, pplayer->base.y, pplayer->base.xm, pplayer->dir);
-    }
+            if (!issolid(pplayer->base.x, pplayer->base.y + 32) ||
+                pplayer->base.ym != 0)
+              {
+                /* If they're not on the ground, or are currently moving
+                vertically, don't jump! */
+
+                pplayer->jumping = NO;
+                timer_stop(&pplayer->jump_timer);
+              }
+            else
+              {
+                /* Make sure we're not standing back up into a solid! */
+
+                if (pplayer->size == SMALL || pplayer->duck == NO ||
+                    !issolid(pplayer->base.x, pplayer->base.y))
+                  {
+                    pplayer->jumping = YES;
+
+                    if (pplayer->size == SMALL)
+                      play_sound(sounds[SND_JUMP], SOUND_CENTER_SPEAKER);
+                    else
+                      play_sound(sounds[SND_BIGJUMP], SOUND_CENTER_SPEAKER);
+                  }
+              }
+          }
+
+        /* Keep jumping for a while: */
+
+        if (timer_check(&pplayer->jump_timer))
+          {
+            pplayer->base.ym = pplayer->base.ym - JUMP_SPEED * frame_ratio;
+            if (pplayer->base.ym < -YM_FOR_JUMP)
+              pplayer->base.ym = -YM_FOR_JUMP;
+          }
+      }
+   
+  void player_input(player_type *pplayer)
+  {
+    /* Handle key and joystick state: */
 
 
-  /* Duck! */
+    if (pplayer->input.right == DOWN && pplayer->input.left == UP)
+      {
+        player_handle_horizontal_input(pplayer,RIGHT);
+      }
+    else if (pplayer->input.left == DOWN && pplayer->input.right == UP)
+      {
+        player_handle_horizontal_input(pplayer,LEFT);
+      }
 
-  if (pplayer->input.down == DOWN)
-    {
-      if (pplayer->size == BIG)
-        pplayer->duck = YES;
-    }
-  else
-    {
-      if (pplayer->size == BIG && pplayer->duck == YES)
-        {
-          /* Make sure we're not standing back up into a solid! */
+    /* Jump/jumping? */
 
-          if (!issolid(pplayer->base.x, pplayer->base.y - 32))
-            pplayer->duck = NO;
-        }
-      else
-        pplayer->duck = NO;
-    }
+    if ( pplayer->input.up == DOWN)
+      {
+       player_handle_vertical_input(pplayer);
+      }
+    else
+      timer_stop(&pplayer->jump_timer);
+      
+    /* Shoot! */
 
-  /* (Tux): */
+    if (pplayer->input.fire == DOWN && pplayer->input.old_fire == UP && pplayer->got_coffee)
+      {
+        add_bullet(pplayer->base.x, pplayer->base.y, pplayer->base.xm, pplayer->dir);
+      }
 
-  if (pplayer->input.right == UP && pplayer->input.left == UP)
-    {
-      pplayer->frame_main = 1;
-      pplayer->frame = 1;
-    }
-  else
-    {
-      if ((pplayer->input.fire == DOWN && (frame % 2) == 0) ||
-          (frame % 4) == 0)
-        pplayer->frame_main = (pplayer->frame_main + 1) % 4;
 
-      pplayer->frame = pplayer->frame_main;
+    /* Duck! */
 
-      if (pplayer->frame == 3)
+    if (pplayer->input.down == DOWN)
+      {
+        if (pplayer->size == BIG)
+          pplayer->duck = YES;
+      }
+    else
+      {
+        if (pplayer->size == BIG && pplayer->duck == YES)
+          {
+            /* Make sure we're not standing back up into a solid! */
+
+            if (!issolid(pplayer->base.x, pplayer->base.y - 32))
+              pplayer->duck = NO;
+          }
+        else
+          pplayer->duck = NO;
+      }
+
+    /* (Tux): */
+
+    if (pplayer->input.right == UP && pplayer->input.left == UP)
+      {
+        pplayer->frame_main = 1;
         pplayer->frame = 1;
-    }
+      }
+    else
+      {
+        if ((pplayer->input.fire == DOWN && (frame % 2) == 0) ||
+            (frame % 4) == 0)
+          pplayer->frame_main = (pplayer->frame_main + 1) % 4;
 
-}
+        pplayer->frame = pplayer->frame_main;
 
-void player_grabdistros(player_type *pplayer)
-{
-  /* Grab distros: */
-  if (!pplayer->dying)
-    {
-      trygrabdistro(pplayer->base.x, pplayer->base.y, NO_BOUNCE);
-      trygrabdistro(pplayer->base.x+ 31, pplayer->base.y, NO_BOUNCE);
+        if (pplayer->frame == 3)
+          pplayer->frame = 1;
+      }
 
-      if (pplayer->size == BIG && !pplayer->duck)
-        {
-          trygrabdistro(pplayer->base.x, pplayer->base.y - 32, NO_BOUNCE);
-          trygrabdistro(pplayer->base.x+ 31, pplayer->base.y - 32, NO_BOUNCE);
-        }
-    }
+  }
 
+  void player_grabdistros(player_type *pplayer)
+  {
+    /* Grab distros: */
+    if (!pplayer->dying)
+      {
+        trygrabdistro(pplayer->base.x, pplayer->base.y, NO_BOUNCE);
+        trygrabdistro(pplayer->base.x+ 31, pplayer->base.y, NO_BOUNCE);
 
-  /* Enough distros for a One-up? */
-
-  if (distros >= DISTROS_LIFEUP)
-    {
-      distros = distros - DISTROS_LIFEUP;
-      if(pplayer->lives < MAX_LIVES)
-        pplayer->lives++;
-      /*We want to hear the sound even, if MAX_LIVES is reached*/
-      play_sound(sounds[SND_LIFEUP], SOUND_CENTER_SPEAKER);
-    }
-}
-
-void player_draw(player_type* pplayer)
-{
-
-  if (!timer_started(&pplayer->safe_timer) || (frame % 2) == 0)
-    {
-      if (pplayer->size == SMALL)
-        {
-          if (timer_started(&pplayer->invincible_timer))
-            {
-              /* Draw cape: */
-
-              if (pplayer->dir == RIGHT)
-                {
-                  texture_draw(&cape_right[frame % 2],
-                               pplayer->base.x- scroll_x, pplayer->base.y,
-                               NO_UPDATE);
-                }
-              else
-                {
-                  texture_draw(&cape_left[frame % 2],
-                               pplayer->base.x- scroll_x, pplayer->base.y,
-                               NO_UPDATE);
-                }
-            }
+        if (pplayer->size == BIG && !pplayer->duck)
+          {
+            trygrabdistro(pplayer->base.x, pplayer->base.y - 32, NO_BOUNCE);
+            trygrabdistro(pplayer->base.x+ 31, pplayer->base.y - 32, NO_BOUNCE);
+          }
+      }
 
 
-          if (!pplayer->got_coffee)
-            {
-              if (pplayer->dir == RIGHT)
-                {
-                  texture_draw(&tux_right[pplayer->frame], pplayer->base.x- scroll_x, pplayer->base.y, NO_UPDATE);
-                }
-              else
-                {
-                  texture_draw(&tux_left[pplayer->frame], pplayer->base.x- scroll_x, pplayer->base.y, NO_UPDATE);
-                }
-            }
-          else
-            {
-              /* Tux got coffee! */
+    /* Enough distros for a One-up? */
 
-              if (pplayer->dir == RIGHT)
-                {
-                  texture_draw(&firetux_right[pplayer->frame], pplayer->base.x- scroll_x, pplayer->base.y, NO_UPDATE);
-                }
-              else
-                {
-                  texture_draw(&firetux_left[pplayer->frame], pplayer->base.x- scroll_x, pplayer->base.y, NO_UPDATE);
-                }
-            }
-        }
-      else
-        {
-          if (timer_started(&pplayer->invincible_timer))
-            {
-              /* Draw cape: */
+    if (distros >= DISTROS_LIFEUP)
+      {
+        distros = distros - DISTROS_LIFEUP;
+        if(pplayer->lives < MAX_LIVES)
+          pplayer->lives++;
+        /*We want to hear the sound even, if MAX_LIVES is reached*/
+        play_sound(sounds[SND_LIFEUP], SOUND_CENTER_SPEAKER);
+      }
+  }
 
-              if (pplayer->dir == RIGHT)
-                {
-                  texture_draw(&bigcape_right[frame % 2],
-                               pplayer->base.x- scroll_x - 8 - 16, pplayer->base.y - 32,
-                               NO_UPDATE);
-                }
-              else
-                {
-                  texture_draw(&bigcape_left[frame % 2],
-                               pplayer->base.x-scroll_x - 8, pplayer->base.y - 32,
-                               NO_UPDATE);
-                }
-            }
+  void player_draw(player_type* pplayer)
+  {
 
-          if (!pplayer->got_coffee)
-            {
-              if (!pplayer->duck)
-                {
-                  if (!timer_started(&pplayer->skidding_timer))
-                    {
-                      if (!pplayer->jumping || pplayer->base.ym > 0)
-                        {
-                          if (pplayer->dir == RIGHT)
-                            {
-                              texture_draw(&bigtux_right[pplayer->frame],
-                                           pplayer->base.x- scroll_x - 8, pplayer->base.y - 32,
-                                           NO_UPDATE);
-                            }
-                          else
-                            {
-                              texture_draw(&bigtux_left[pplayer->frame],
-                                           pplayer->base.x- scroll_x - 8, pplayer->base.y - 32,
-                                           NO_UPDATE);
-                            }
-                        }
-                      else
-                        {
-                          if (pplayer->dir == RIGHT)
-                            {
-                              texture_draw(&bigtux_right_jump,
-                                           pplayer->base.x- scroll_x - 8, pplayer->base.y - 32,
-                                           NO_UPDATE);
-                            }
-                          else
-                            {
-                              texture_draw(&bigtux_left_jump,
-                                           pplayer->base.x- scroll_x - 8, pplayer->base.y - 32,
-                                           NO_UPDATE);
-                            }
-                        }
-                    }
-                  else
-                    {
-                      if (pplayer->dir == RIGHT)
-                        {
-                          texture_draw(&skidtux_right,
-                                       pplayer->base.x- scroll_x - 8, pplayer->base.y - 32,
-                                       NO_UPDATE);
-                        }
-                      else
-                        {
-                          texture_draw(&skidtux_left,
-                                       pplayer->base.x- scroll_x - 8, pplayer->base.y - 32,
-                                       NO_UPDATE);
-                        }
-                    }
-                }
-              else
-                {
-                  if (pplayer->dir == RIGHT)
-                    {
-                      texture_draw(&ducktux_right, pplayer->base.x- scroll_x - 8, pplayer->base.y - 16,
-                                   NO_UPDATE);
-                    }
-                  else
-                    {
-                      texture_draw(&ducktux_left, pplayer->base.x- scroll_x - 8, pplayer->base.y - 16,
-                                   NO_UPDATE);
-                    }
-                }
-            }
-          else
-            {
-              /* Tux has coffee! */
+    if (!timer_started(&pplayer->safe_timer) || (frame % 2) == 0)
+      {
+        if (pplayer->size == SMALL)
+          {
+            if (timer_started(&pplayer->invincible_timer))
+              {
+                /* Draw cape: */
 
-              if (!pplayer->duck)
-                {
-                  if (!timer_started(&pplayer->skidding_timer))
-                    {
-                      if (!pplayer->jumping || pplayer->base.ym > 0)
-                        {
-                          if (pplayer->dir == RIGHT)
-                            {
-                              texture_draw(&bigfiretux_right[pplayer->frame],
-                                           pplayer->base.x- scroll_x - 8, pplayer->base.y - 32,
-                                           NO_UPDATE);
-                            }
-                          else
-                            {
-                              texture_draw(&bigfiretux_left[pplayer->frame],
-                                           pplayer->base.x- scroll_x - 8, pplayer->base.y - 32,
-                                           NO_UPDATE);
-                            }
-                        }
-                      else
-                        {
-                          if (pplayer->dir == RIGHT)
-                            {
-                              texture_draw(&bigfiretux_right_jump,
-                                           pplayer->base.x- scroll_x - 8, pplayer->base.y - 32,
-                                           NO_UPDATE);
-                            }
-                          else
-                            {
-                              texture_draw(&bigfiretux_left_jump,
-                                           pplayer->base.x- scroll_x - 8, pplayer->base.y - 32,
-                                           NO_UPDATE);
-                            }
-                        }
-                    }
-                  else
-                    {
-                      if (pplayer->dir == RIGHT)
-                        {
-                          texture_draw(&skidfiretux_right,
-                                       pplayer->base.x- scroll_x - 8, pplayer->base.y - 32,
-                                       NO_UPDATE);
-                        }
-                      else
-                        {
-                          texture_draw(&skidfiretux_left,
-                                       pplayer->base.x- scroll_x - 8, pplayer->base.y - 32,
-                                       NO_UPDATE);
-                        }
-                    }
-                }
-              else
-                {
-                  if (pplayer->dir == RIGHT)
-                    {
-                      texture_draw(&duckfiretux_right, pplayer->base.x- scroll_x - 8, pplayer->base.y - 16,
-                                   NO_UPDATE);
-                    }
-                  else
-                    {
-                      texture_draw(&duckfiretux_left, pplayer->base.x- scroll_x - 8, pplayer->base.y - 16,
-                                   NO_UPDATE);
-                    }
-                }
-            }
-        }
-    }
+                if (pplayer->dir == RIGHT)
+                  {
+                    texture_draw(&cape_right[frame % 2],
+                                 pplayer->base.x- scroll_x, pplayer->base.y,
+                                 NO_UPDATE);
+                  }
+                else
+                  {
+                    texture_draw(&cape_left[frame % 2],
+                                 pplayer->base.x- scroll_x, pplayer->base.y,
+                                 NO_UPDATE);
+                  }
+              }
 
-}
 
-void player_collision(player_type* pplayer, void* p_c_object, int c_object)
-{
-  bad_guy_type* pbad_c = NULL;
+            if (!pplayer->got_coffee)
+              {
+                if (pplayer->dir == RIGHT)
+                  {
+                    texture_draw(&tux_right[pplayer->frame], pplayer->base.x- scroll_x, pplayer->base.y, NO_UPDATE);
+                  }
+                else
+                  {
+                    texture_draw(&tux_left[pplayer->frame], pplayer->base.x- scroll_x, pplayer->base.y, NO_UPDATE);
+                  }
+              }
+            else
+              {
+                /* Tux got coffee! */
 
-  switch (c_object)
-    {
-    case CO_BADGUY:
-      pbad_c = p_c_object;
-      /* Hurt the player if he just touched it: */
+                if (pplayer->dir == RIGHT)
+                  {
+                    texture_draw(&firetux_right[pplayer->frame], pplayer->base.x- scroll_x, pplayer->base.y, NO_UPDATE);
+                  }
+                else
+                  {
+                    texture_draw(&firetux_left[pplayer->frame], pplayer->base.x- scroll_x, pplayer->base.y, NO_UPDATE);
+                  }
+              }
+          }
+        else
+          {
+            if (timer_started(&pplayer->invincible_timer))
+              {
+                /* Draw cape: */
 
-      if (!pbad_c->dying && !pplayer->dying &&
-          !timer_started(&pplayer->safe_timer) &&
-          pbad_c->mode != HELD)
-        {
-          if (pbad_c->mode == FLAT  && pplayer->input.fire != DOWN)
-            {
-              /* Kick: */
+                if (pplayer->dir == RIGHT)
+                  {
+                    texture_draw(&bigcape_right[frame % 2],
+                                 pplayer->base.x- scroll_x - 8 - 16, pplayer->base.y - 32,
+                                 NO_UPDATE);
+                  }
+                else
+                  {
+                    texture_draw(&bigcape_left[frame % 2],
+                                 pplayer->base.x-scroll_x - 8, pplayer->base.y - 32,
+                                 NO_UPDATE);
+                  }
+              }
 
-              pbad_c->mode = KICK;
-              play_sound(sounds[SND_KICK], SOUND_CENTER_SPEAKER);
+            if (!pplayer->got_coffee)
+              {
+                if (!pplayer->duck)
+                  {
+                    if (!timer_started(&pplayer->skidding_timer))
+                      {
+                        if (!pplayer->jumping || pplayer->base.ym > 0)
+                          {
+                            if (pplayer->dir == RIGHT)
+                              {
+                                texture_draw(&bigtux_right[pplayer->frame],
+                                             pplayer->base.x- scroll_x - 8, pplayer->base.y - 32,
+                                             NO_UPDATE);
+                              }
+                            else
+                              {
+                                texture_draw(&bigtux_left[pplayer->frame],
+                                             pplayer->base.x- scroll_x - 8, pplayer->base.y - 32,
+                                             NO_UPDATE);
+                              }
+                          }
+                        else
+                          {
+                            if (pplayer->dir == RIGHT)
+                              {
+                                texture_draw(&bigtux_right_jump,
+                                             pplayer->base.x- scroll_x - 8, pplayer->base.y - 32,
+                                             NO_UPDATE);
+                              }
+                            else
+                              {
+                                texture_draw(&bigtux_left_jump,
+                                             pplayer->base.x- scroll_x - 8, pplayer->base.y - 32,
+                                             NO_UPDATE);
+                              }
+                          }
+                      }
+                    else
+                      {
+                        if (pplayer->dir == RIGHT)
+                          {
+                            texture_draw(&skidtux_right,
+                                         pplayer->base.x- scroll_x - 8, pplayer->base.y - 32,
+                                         NO_UPDATE);
+                          }
+                        else
+                          {
+                            texture_draw(&skidtux_left,
+                                         pplayer->base.x- scroll_x - 8, pplayer->base.y - 32,
+                                         NO_UPDATE);
+                          }
+                      }
+                  }
+                else
+                  {
+                    if (pplayer->dir == RIGHT)
+                      {
+                        texture_draw(&ducktux_right, pplayer->base.x- scroll_x - 8, pplayer->base.y - 16,
+                                     NO_UPDATE);
+                      }
+                    else
+                      {
+                        texture_draw(&ducktux_left, pplayer->base.x- scroll_x - 8, pplayer->base.y - 16,
+                                     NO_UPDATE);
+                      }
+                  }
+              }
+            else
+              {
+                /* Tux has coffee! */
 
-              if (pplayer->base.x<= pbad_c->base.x)
-                {
-                  pbad_c->dir = RIGHT;
-                  pbad_c->base.x = pbad_c->base.x + 16;
-                }
-              else
-                {
-                  pbad_c->dir = LEFT;
-                  pbad_c->base.x = pbad_c->base.x - 16;
-                }
+                if (!pplayer->duck)
+                  {
+                    if (!timer_started(&pplayer->skidding_timer))
+                      {
+                        if (!pplayer->jumping || pplayer->base.ym > 0)
+                          {
+                            if (pplayer->dir == RIGHT)
+                              {
+                                texture_draw(&bigfiretux_right[pplayer->frame],
+                                             pplayer->base.x- scroll_x - 8, pplayer->base.y - 32,
+                                             NO_UPDATE);
+                              }
+                            else
+                              {
+                                texture_draw(&bigfiretux_left[pplayer->frame],
+                                             pplayer->base.x- scroll_x - 8, pplayer->base.y - 32,
+                                             NO_UPDATE);
+                              }
+                          }
+                        else
+                          {
+                            if (pplayer->dir == RIGHT)
+                              {
+                                texture_draw(&bigfiretux_right_jump,
+                                             pplayer->base.x- scroll_x - 8, pplayer->base.y - 32,
+                                             NO_UPDATE);
+                              }
+                            else
+                              {
+                                texture_draw(&bigfiretux_left_jump,
+                                             pplayer->base.x- scroll_x - 8, pplayer->base.y - 32,
+                                             NO_UPDATE);
+                              }
+                          }
+                      }
+                    else
+                      {
+                        if (pplayer->dir == RIGHT)
+                          {
+                            texture_draw(&skidfiretux_right,
+                                         pplayer->base.x- scroll_x - 8, pplayer->base.y - 32,
+                                         NO_UPDATE);
+                          }
+                        else
+                          {
+                            texture_draw(&skidfiretux_left,
+                                         pplayer->base.x- scroll_x - 8, pplayer->base.y - 32,
+                                         NO_UPDATE);
+                          }
+                      }
+                  }
+                else
+                  {
+                    if (pplayer->dir == RIGHT)
+                      {
+                        texture_draw(&duckfiretux_right, pplayer->base.x- scroll_x - 8, pplayer->base.y - 16,
+                                     NO_UPDATE);
+                      }
+                    else
+                      {
+                        texture_draw(&duckfiretux_left, pplayer->base.x- scroll_x - 8, pplayer->base.y - 16,
+                                     NO_UPDATE);
+                      }
+                  }
+              }
+          }
+      }
 
-              timer_start(&pbad_c->timer,5000);
-            }
-          else if (pbad_c->mode == FLAT && pplayer->input.fire == DOWN)
-            {
-              pbad_c->mode = HELD;
-              pbad_c->base.y-=8;
-            }
-          else if (pbad_c->mode == KICK)
-            {
-              if (pplayer->base.y < pbad_c->base.y - 16 &&
-                  timer_started(&pbad_c->timer))
-                {
-                  /* Step on (stop being kicked) */
+  }
 
-                  pbad_c->mode = FLAT;
-                  play_sound(sounds[SND_STOMP], SOUND_CENTER_SPEAKER);
-                  timer_start(&pbad_c->timer, 10000);
-                }
-              else
-                {
-                  /* Hurt if you get hit by kicked laptop: */
+  void player_collision(player_type* pplayer, void* p_c_object, int c_object)
+  {
+    bad_guy_type* pbad_c = NULL;
 
-                  if (timer_started(&pbad_c->timer))
-                    {
-                      if (!timer_started(&pplayer->invincible_timer))
-                        {
-                          player_kill(pplayer,SHRINK);
-                        }
-                      else
-                        {
-                          pbad_c->dying = FALLING;
-                          pbad_c->base.ym = -8;
-                          play_sound(sounds[SND_FALL], SOUND_CENTER_SPEAKER);
-                        }
-                    }
-                }
-            }
-          else
-            {
-              if (!timer_started(&pplayer->invincible_timer ))
-                {
-                  player_kill(pplayer,SHRINK);
-                }
-              else
-                {
-                  pbad_c->dying = FALLING;
-                  pbad_c->base.ym = -8;
-                  play_sound(sounds[SND_FALL], SOUND_CENTER_SPEAKER);
-                }
-            }
-        }
-      score_multiplier++;
-      break;
-    }
+    switch (c_object)
+      {
+      case CO_BADGUY:
+        pbad_c = p_c_object;
+        /* Hurt the player if he just touched it: */
 
-}
+        if (!pbad_c->dying && !pplayer->dying &&
+            !timer_started(&pplayer->safe_timer) &&
+            pbad_c->mode != HELD)
+          {
+            if (pbad_c->mode == FLAT  && pplayer->input.fire != DOWN)
+              {
+                /* Kick: */
 
-/* Kill Player! */
+                pbad_c->mode = KICK;
+                play_sound(sounds[SND_KICK], SOUND_CENTER_SPEAKER);
 
-void player_kill(player_type* pplayer, int mode)
-{
-  pplayer->base.ym = -5;
+                if (pplayer->base.x<= pbad_c->base.x)
+                  {
+                    pbad_c->dir = RIGHT;
+                    pbad_c->base.x = pbad_c->base.x + 16;
+                  }
+                else
+                  {
+                    pbad_c->dir = LEFT;
+                    pbad_c->base.x = pbad_c->base.x - 16;
+                  }
 
-  play_sound(sounds[SND_HURT], SOUND_CENTER_SPEAKER);
+                timer_start(&pbad_c->timer,5000);
+              }
+            else if (pbad_c->mode == FLAT && pplayer->input.fire == DOWN)
+              {
+                pbad_c->mode = HELD;
+                pbad_c->base.y-=8;
+              }
+            else if (pbad_c->mode == KICK)
+              {
+                if (pplayer->base.y < pbad_c->base.y - 16 &&
+                    timer_started(&pbad_c->timer))
+                  {
+                    /* Step on (stop being kicked) */
 
-  if (pplayer->dir == RIGHT)
-    pplayer->base.xm = -8;
-  else if (tux.dir == LEFT)
-    pplayer->base.xm = 8;
+                    pbad_c->mode = FLAT;
+                    play_sound(sounds[SND_STOMP], SOUND_CENTER_SPEAKER);
+                    timer_start(&pbad_c->timer, 10000);
+                  }
+                else
+                  {
+                    /* Hurt if you get hit by kicked laptop: */
 
-  if (mode == SHRINK && pplayer->size == BIG)
-    {
-      if (pplayer->got_coffee)
-        pplayer->got_coffee = NO;
+                    if (timer_started(&pbad_c->timer))
+                      {
+                        if (!timer_started(&pplayer->invincible_timer))
+                          {
+                            player_kill(pplayer,SHRINK);
+                          }
+                        else
+                          {
+                            pbad_c->dying = FALLING;
+                            pbad_c->base.ym = -8;
+                            play_sound(sounds[SND_FALL], SOUND_CENTER_SPEAKER);
+                          }
+                      }
+                  }
+              }
+            else
+              {
+                if (!timer_started(&pplayer->invincible_timer ))
+                  {
+                    player_kill(pplayer,SHRINK);
+                  }
+                else
+                  {
+                    pbad_c->dying = FALLING;
+                    pbad_c->base.ym = -8;
+                    play_sound(sounds[SND_FALL], SOUND_CENTER_SPEAKER);
+                  }
+              }
+          }
+        score_multiplier++;
+        break;
+      }
 
-      pplayer->size = SMALL;
+  }
 
-      timer_start(&pplayer->safe_timer,TUX_SAFE_TIME);
-    }
-  else
-    {
-      pplayer->dying = 1;
-    }
-}
+  /* Kill Player! */
 
-void player_dying(player_type *pplayer)
-{
-  pplayer->base.ym = pplayer->base.ym + GRAVITY;
+  void player_kill(player_type* pplayer, int mode)
+  {
+    pplayer->base.ym = -5;
 
-  /* He died :^( */
+    play_sound(sounds[SND_HURT], SOUND_CENTER_SPEAKER);
 
-  --pplayer->lives;
-  player_remove_powerups(pplayer);
-  pplayer->dying = NO;
-  
-  player_level_begin(pplayer);
+    if (pplayer->dir == RIGHT)
+      pplayer->base.xm = -8;
+    else if (pplayer->dir == LEFT)
+      pplayer->base.xm = 8;
 
-}
+    if (mode == SHRINK && pplayer->size == BIG)
+      {
+        if (pplayer->got_coffee)
+          pplayer->got_coffee = NO;
 
-/* Remove Tux's power ups */
-void player_remove_powerups(player_type* pplayer)
-{
-  pplayer->got_coffee = NO;
-  pplayer->size = SMALL;
-}
+        pplayer->size = SMALL;
 
-void player_keep_in_bounds(player_type* pplayer)
-{
-  /* Keep tux in bounds: */
-  if (pplayer->base.x< 0)
-    pplayer->base.x= 0;
-  else if(pplayer->base.x< scroll_x)
-    pplayer->base.x= scroll_x;
-  else if (pplayer->base.x< 160 + scroll_x && scroll_x > 0 && debug_mode == YES)
-    {
-      scroll_x = pplayer->base.x- 160;
-      /*pplayer->base.x+= 160;*/
+        timer_start(&pplayer->safe_timer,TUX_SAFE_TIME);
+      }
+    else
+      {
+        pplayer->dying = 1;
+      }
+  }
 
-      if(scroll_x < 0)
-        scroll_x = 0;
+  void player_dying(player_type *pplayer)
+  {
+    pplayer->base.ym = pplayer->base.ym + GRAVITY;
 
-    }
-  else if (pplayer->base.x> screen->w / 2 + scroll_x && scroll_x < ((current_level.width * 32) - screen->w))
-    {
-      /* Scroll the screen in past center: */
+    /* He died :^( */
 
-      scroll_x = pplayer->base.x- screen->w / 2;
-      /*pplayer->base.x= 320 + scroll_x;*/
+    --pplayer->lives;
+    player_remove_powerups(pplayer);
+    pplayer->dying = NO;
 
-      if (scroll_x > ((current_level.width * 32) - screen->w))
-        scroll_x = ((current_level.width * 32) - screen->w);
-    }
-  else if (pplayer->base.x> 608 + scroll_x)
-    {
-      /* ... unless there's no more to scroll! */
+    player_level_begin(pplayer);
 
-      /*pplayer->base.x= 608 + scroll_x;*/
-    }
+  }
 
-  /* Keep in-bounds, vertically: */
+  /* Remove Tux's power ups */
+  void player_remove_powerups(player_type* pplayer)
+  {
+    pplayer->got_coffee = NO;
+    pplayer->size = SMALL;
+  }
 
-  if (pplayer->base.y < 0)
-    pplayer->base.y = 0;
-  else if (pplayer->base.y > screen->h)
-    {
-      player_kill(&tux,KILL);
-    }
-}
+  void player_keep_in_bounds(player_type* pplayer)
+  {
+    /* Keep tux in bounds: */
+    if (pplayer->base.x< 0)
+      pplayer->base.x= 0;
+    else if(pplayer->base.x< scroll_x)
+      pplayer->base.x= scroll_x;
+    else if (pplayer->base.x< 160 + scroll_x && scroll_x > 0 && debug_mode == YES)
+      {
+        scroll_x = pplayer->base.x- 160;
+        /*pplayer->base.x+= 160;*/
+
+        if(scroll_x < 0)
+          scroll_x = 0;
+
+      }
+    else if (pplayer->base.x> screen->w / 2 + scroll_x && scroll_x < ((current_level.width * 32) - screen->w))
+      {
+        /* Scroll the screen in past center: */
+
+        scroll_x = pplayer->base.x- screen->w / 2;
+        /*pplayer->base.x= 320 + scroll_x;*/
+
+        if (scroll_x > ((current_level.width * 32) - screen->w))
+          scroll_x = ((current_level.width * 32) - screen->w);
+      }
+    else if (pplayer->base.x> 608 + scroll_x)
+      {
+        /* ... unless there's no more to scroll! */
+
+        /*pplayer->base.x= 608 + scroll_x;*/
+      }
+
+    /* Keep in-bounds, vertically: */
+
+    if (pplayer->base.y < 0)
+      pplayer->base.y = 0;
+    else if (pplayer->base.y > screen->h)
+      {
+        player_kill(&tux,KILL);
+      }
+  }

@@ -15,9 +15,10 @@
 #define SUPERTUX_GLOBALS_H
 
 #include <SDL.h>
+#include "text.h"
 
 SDL_Surface * screen;
-SDL_Surface * letters_black, * letters_gold, * letters_blue, * letters_red;
+text_type black_text, gold_text, blue_text, red_text;
 
 int use_gl, use_joystick, use_fullscreen, debug_mode, show_fps;
 

@@ -19,6 +19,7 @@
 #include "timer.h"
 #include "texture.h"
 #include "collision.h"
+#include "sound.h"
 
 /* Times: */
 

@@ -7,7 +7,7 @@
   bill@newbreedsoftware.com
   http://www.newbreedsoftware.com/supertux/
  
-  April 11, 2000 - December 28, 2003
+  April 11, 2000 - February 1, 2004
 */
 
 
@@ -67,16 +67,16 @@
 
 #define MAX_WALK_XM 2.3
 #define MAX_RUN_XM 3.2
-#define MAX_YM 10.0
-#define MAX_JUMP_TIME 1000
+#define MAX_YM 20.0
+#define MAX_JUMP_TIME 375
 #define MAX_LIVES 4.0
 
 #define WALK_SPEED 1.0
 #define RUN_SPEED 1.5
-#define JUMP_SPEED 1.5
+#define JUMP_SPEED 1.2
 
 #define GRAVITY 1.0
-#define YM_FOR_JUMP 50.0
+#define YM_FOR_JUMP 6.0
 #define KILL_BOUNCE_YM 8.0
 
 #define SKID_XM 2.0

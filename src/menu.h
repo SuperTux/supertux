@@ -39,8 +39,13 @@ enum {
   MENU_MAIN,
   MENU_GAME,
   MENU_OPTIONS,
-  MENU_LEVELEDITOR
+  MENU_LEVELEDITOR,
+  MENU_HIGHSCORE
 };
+
+/* input implementation variables */
+int delete_character;
+char input_string[62];
 
 /* Initialize the menu variables */
 void initmenu(void);
@@ -49,7 +54,7 @@ void initmenu(void);
 int drawmenu(void);
 
 /* Check for a menu event */
-void menu_event(SDLKey key);
+void menu_event(SDL_keysym* keysym);
 
 #endif /*SUPERTUX_MENU_H*/
 

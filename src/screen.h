@@ -7,8 +7,11 @@
   bill@newbreedsoftware.com
   http://www.newbreedsoftware.com/supertux/
   
-  April 11, 2000 - April 21, 2000
+  April 11, 2000 - February 1, 2004
 */
+
+#ifndef SUPERTUX_SCREEN_H
+#define SUPERTUX_SCREEN_H
 
 #include <SDL.h>
 #ifndef NOOPENGL
@@ -33,13 +36,8 @@ void fillrect(float x, float y, float w, float h, float r, float g, float b);
 void updatescreen(void);
 void flipscreen(void);
 SDL_Surface * load_image(char * file, int use_alpha);
-/*
-void drawimage(SDL_Surface * surf, float x, float y, int update);
-void drawpart(SDL_Surface * surf, float x, float y, float w, float h, int update);
-*/
-void drawtext(char * text, int x, int y, SDL_Surface * surf, int update, int shadowsize);
-void drawcenteredtext(char * text, int y, SDL_Surface * surf, int update, int shadowsize);
 void erasetext(char * text, int x, int y, SDL_Surface * surf, int update, int shadowsize);
 void erasecenteredtext(char * text, int y, SDL_Surface * surf, int update, int shadowsize);
 void update_rect(SDL_Surface *scr, Sint32 x, Sint32 y, Sint32 w, Sint32 h);
 
+#endif /*SUPERTUX_SCREEN_H*/

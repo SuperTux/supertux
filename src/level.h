@@ -22,6 +22,7 @@ typedef struct st_level /*It is easier to read the sources IMHO, if we don't wri
     char name[LEVEL_NAME_MAX];
     char theme[100];
     char song_title[100];
+    char bkgd_image[100];   
     unsigned char* tiles[15];
     int time_left;
     int bkgd_red;
@@ -30,9 +31,10 @@ typedef struct st_level /*It is easier to read the sources IMHO, if we don't wri
     int width;
   } st_level;
 
-texture_type img_bkgd[2][4], img_solid[4], img_brick[2];
+texture_type img_bkgd, img_bkgd_tile[2][4], img_solid[4], img_brick[2];
   
 void loadlevel(st_level* plevel, char * subset, int level);
+void unloadlevel(st_level* plevel);
 void loadlevelgfx(st_level* plevel);
 void unloadlevelgfx();
 void load_level_image(texture_type* ptexture, char* theme, char * file, int use_alpha);

@@ -12,6 +12,9 @@
 
 #include "globals.h"
 #include "high_scores.h"
+#include "menu.h"
+#include "screen.h"
+#include "texture.h"
 
 FILE * opendata(char * mode)
 {
@@ -24,13 +27,15 @@ FILE * opendata(char * mode)
 
   strcpy(filename, st_dir);
   /* Open the high score file: */
-  
+
 #ifdef LINUX
+
   strcat(filename, "/highscore");
 #else
 #ifdef WIN32
- strcat(filename, "/st_highscore.dat");
- #endif
+
+  strcat(filename, "/st_highscore.dat");
+#endif
 #endif
 
 
@@ -38,7 +43,7 @@ FILE * opendata(char * mode)
 
   fi = fopen(filename, mode);
   free( filename );
-  
+
   if (fi == NULL)
     {
       fprintf(stderr, "Warning: I could not open the high score file ");
@@ -55,12 +60,15 @@ FILE * opendata(char * mode)
 
 /* Load data from high score file: */
 
-int load_hs(void)
+void load_hs(void)
 {
   FILE * fi;
   char temp[128];
-  int score = 100;
-
+  hs_score = 100;
+  int c, strl;
+  strcpy(hs_name, "Grandma");
+  c = 0;
+  
   /* Try to open file: */
 
   fi = opendata("r");
@@ -79,10 +87,18 @@ int load_hs(void)
 
               if (strstr(temp, "highscore=") == temp)
                 {
-                  score = atoi(temp + 10);
+                  hs_score = atoi(temp + 10);
 
-                  if (score == 0)
-                    score = 100;
+                  if (hs_score == 0)
+                    hs_score = 100;
+                }
+              if (strstr(temp, "name=") == temp)
+                {
+                  fprintf(stderr, "name found\n");
+                  strl = strlen("name=");
+		  hs_name[strl-1]='\0';
+                  for(c = strl; c < strlen(temp); c++)
+                    hs_name[c-strl] = temp[c];
                 }
             }
         }
@@ -90,13 +106,32 @@ int load_hs(void)
 
       fclose(fi);
     }
-  return score;
 }
 
 void save_hs(int score)
 {
-  FILE * fi;
+  texture_type bkgd;
+  texture_load(&bkgd, DATA_PREFIX "/images/highscore/highscore.png", IGNORE_ALPHA);
 
+  hs_score = score;
+
+  /* ask for player's name */
+  menumenu = MENU_HIGHSCORE;
+  show_menu = 1;
+  SDL_Event event;
+  while(show_menu)
+    {
+      texture_draw_bg(&bkgd, NO_UPDATE);
+      drawmenu();
+      flipscreen();
+
+      while(SDL_PollEvent(&event))
+        if(event.type == SDL_KEYDOWN)
+          menu_event(&event.key.keysym);
+    }
+
+
+  FILE * fi;
 
   /* Try to open file: */
 
@@ -105,7 +140,8 @@ void save_hs(int score)
     {
       fprintf(fi, "# Supertux highscore file\n\n");
 
-      fprintf(fi, "highscore=%d\n", score);
+      fprintf(fi, "name=%s\n", hs_name);
+      fprintf(fi, "highscore=%d\n", hs_score);
 
       fprintf(fi, "# (File automatically created.)\n");
 

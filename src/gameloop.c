@@ -3,11 +3,11 @@
   
   Super Tux - Game Loop!
   
-  by Bill Kendrick
+  by Bill Kendrick & Tobias Glaesser
   bill@newbreedsoftware.com
   http://www.newbreedsoftware.com/supertux/
   
-  April 11, 2000 - January 1st, 2004
+  April 11, 2000 - February 1st, 2004
  */
 
 #include <stdio.h>
@@ -51,7 +51,6 @@ SDL_Event event;
 SDLKey key;
 char level_subset[100];
 char str[60];
-timer_type time_left;
 float fps_fps;
 
 /* Local function prototypes: */
@@ -73,13 +72,13 @@ void levelintro(void)
   clearscreen(0, 0, 0);
 
   sprintf(str, "LEVEL %d", level);
-  drawcenteredtext(str, 200, letters_red, NO_UPDATE, 1);
+  text_drawf(&red_text, str, 0, 200, A_HMIDDLE, A_TOP, 1, NO_UPDATE);
 
   sprintf(str, "%s", current_level.name);
-  drawcenteredtext(str, 224, letters_gold, NO_UPDATE, 1);
+  text_drawf(&gold_text, str, 0, 224, A_HMIDDLE, A_TOP, 1, NO_UPDATE);
 
   sprintf(str, "TUX x %d", tux.lives);
-  drawcenteredtext(str, 256, letters_blue, NO_UPDATE, 1);
+  text_drawf(&blue_text, str, 0, 256, A_HMIDDLE, A_TOP, 1, NO_UPDATE);
 
   flipscreen();
 
@@ -90,6 +89,8 @@ void levelintro(void)
 void start_timers(void)
 {
   timer_start(&time_left,current_level.time_left*1000);
+  st_pause_ticks_init();
+  update_time = st_get_ticks();
 }
 
 void activate_bad_guys(void)
@@ -128,20 +129,26 @@ void game_event(void)
 
           /* Check for menu-events, if the menu is shown */
           if(show_menu)
-            menu_event(key);
+            menu_event(&event.key.keysym);
 
-	  if(player_keydown_event(&tux,key))
-	  break;
-	    
+          if(player_keydown_event(&tux,key))
+            break;
+
           switch(key)
             {
             case SDLK_ESCAPE:    /* Escape: Open/Close the menu: */
               if(!game_pause)
                 {
                   if(show_menu)
+		  {
                     show_menu = 0;
+		    st_pause_ticks_stop();
+		    }
                   else
+		  {
                     show_menu = 1;
+		    st_pause_ticks_start();
+		    }
                 }
               break;
             default:
@@ -150,19 +157,25 @@ void game_event(void)
           break;
         case SDL_KEYUP:      /* A keyrelease! */
           key = event.key.keysym.sym;
-	  
-	  if(player_keyup_event(&tux,key))
-	  break;	  
-	  
+
+          if(player_keyup_event(&tux,key))
+            break;
+
           switch(key)
             {
             case SDLK_p:
               if(!show_menu)
                 {
                   if(game_pause)
+		  {
                     game_pause = 0;
+		    st_pause_ticks_stop();
+		    }
                   else
+		  {
                     game_pause = 1;
+		    st_pause_ticks_start();
+		    }
                 }
               break;
             case SDLK_TAB:
@@ -185,6 +198,14 @@ void game_event(void)
               if(debug_mode == YES)
                 timer_start(&tux.invincible_timer,TUX_INVINCIBLE_TIME);
               break;
+            case SDLK_l:
+              if(debug_mode == YES)
+              --tux.lives;
+              break;
+            case SDLK_s:
+              if(debug_mode == YES)
+              score += 1000;
+              break;
             default:
               break;
             }
@@ -195,7 +216,6 @@ void game_event(void)
           switch(event.jaxis.axis)
             {
             case JOY_X:
-              printf("X: %d\n", event.jaxis.value);
               if (event.jaxis.value < -1024)
                 tux.input.left = DOWN;
               else if (event.jaxis.value > 1024)
@@ -272,7 +292,7 @@ int game_action(void)
           level++;
           next_level = 0;
           drawresultscreen();
-	  player_level_begin(&tux);
+          player_level_begin(&tux);
         }
       else
         {
@@ -285,7 +305,7 @@ int game_action(void)
             {
               drawendscreen();
 
-              if (score > highscore)
+              if (score > hs_score)
                 save_hs(score);
               unloadlevelgfx();
               unloadlevelsong();
@@ -386,20 +406,29 @@ int game_action(void)
 
 /* --- GAME DRAW! --- */
 
-void game_draw()
+void game_draw(void)
 {
-  int  x, y, i;
+  int  x, y, i, s;
 
   /* Draw screen: */
 
   if (tux.dying && (frame % 4) == 0)
     clearscreen(255, 255, 255);
+  else if(timer_check(&super_bkgd_timer))
+    texture_draw(&img_super_bkgd, 0, 0, NO_UPDATE);
   else
     {
-      if (timer_check(&super_bkgd_timer))
-        texture_draw(&img_super_bkgd, 0, 0, NO_UPDATE);
+      /* Draw the real background */
+      if(current_level.bkgd_image[0] != '\0')
+        {
+          s = scroll_x / 30;
+          texture_draw_part(&img_bkgd,s,0,0,0,img_bkgd.w - s, img_bkgd.h, NO_UPDATE);
+          texture_draw_part(&img_bkgd,0,0,screen->w - s ,0,s,img_bkgd.h, NO_UPDATE);
+        }
       else
-        clearscreen(current_level.bkgd_red, current_level.bkgd_green, current_level.bkgd_blue);
+        {
+          clearscreen(current_level.bkgd_red, current_level.bkgd_green, current_level.bkgd_blue);
+        }
     }
 
   /* Draw background: */
@@ -475,7 +504,7 @@ void game_draw()
 
 
   if(game_pause)
-    drawcenteredtext("PAUSE",230,letters_red, NO_UPDATE, 1);
+  text_drawf(&red_text, "PAUSE", 0, 230, A_HMIDDLE, A_TOP, 1, NO_UPDATE);
 
   if(show_menu)
     done = drawmenu();
@@ -493,7 +522,7 @@ int gameloop(void)
 {
 
   /*Uint32 last_time, now_time*/
-  int fps_cnt;
+  int fps_cnt, jump;
   timer_type fps_timer, frame_timer;
 
   /* Clear screen: */
@@ -515,7 +544,7 @@ int gameloop(void)
   loadlevelgfx(&current_level);
   activate_bad_guys();
   loadlevelsong();
-  highscore = load_hs();
+  load_hs();
 
   player_init(&tux);
 
@@ -524,6 +553,7 @@ int gameloop(void)
 
   /* --- MAIN GAME LOOP!!! --- */
 
+  jump = NO;
   done = 0;
   quit = 0;
   frame = 0;
@@ -535,18 +565,28 @@ int gameloop(void)
   game_draw();
   do
     {
-      /*last_time = SDL_GetTicks();*/
+    jump = NO;
+    
+      /* Set the time the last update and the time of the current update */
+      last_update_time = update_time;
+      update_time = st_get_ticks();
+      
+      /* Calculate the movement-factor */
+      frame_ratio = ((double)(update_time-last_update_time))/((double)FRAME_RATE);
+
       if(!timer_check(&frame_timer))
-      {
-      timer_start(&frame_timer,25);
-      ++frame;
-      }
+        {
+          timer_start(&frame_timer,25);
+          ++frame;
+        }
 
 
       /* Handle events: */
 
       tux.input.old_fire = tux.input.fire;
 
+      printf("%lf\n",frame_ratio);
+      
       game_event();
 
 
@@ -563,8 +603,18 @@ int gameloop(void)
         }
       else
         SDL_Delay(50);
-
+	
+	if(tux.input.down == DOWN)
+	SDL_Delay(30);
+	
       /*Draw the current scene to the screen */
+      /*If the machine running the game is too slow
+        skip the drawing of the frame (so the calculations are more precise and
+	the FPS aren't affected).*/
+      /*if( ! fps_fps < 50.0 )
+      game_draw();
+      else
+      jump = YES;*/ /*FIXME: Implement this tweak right.*/
       game_draw();
 
       /* Time stops in pause mode */
@@ -573,15 +623,12 @@ int gameloop(void)
           continue;
         }
 
-      /* Pause til next frame: */
+      /* Pause till next frame, if the machine running the game is too fast: */
+      /* FIXME: Works great for in OpenGl mode, where the CPU doesn't have to do that much. But
+                the results in SDL mode aren't perfect (thought the 100 FPS are reached), even on an AMD2500+. */      
+      if(last_update_time >= update_time - 12 && jump != YES )
+        SDL_Delay(10);
 
-      /*now_time = SDL_GetTicks();
-      if (now_time < last_time + FPS)
-        SDL_Delay(last_time + FPS - now_time);*/
-	/*printf("%d",timer_get_left(&frame_timer));*/
-      /*SDL_Delay(timer_get_left(&frame_timer) );*/
-	SDL_Delay(10);      
-      
 
 
       /* Handle time: */
@@ -615,8 +662,8 @@ int gameloop(void)
       /* Calculate frames per second */
       if(show_fps)
         {
-          fps_fps = ((float)1000 / (float)timer_get_gone(&fps_timer)) * (float)fps_cnt;
-          ++fps_cnt;
+	  ++fps_cnt;
+          fps_fps = (1000.0 / (float)timer_get_gone(&fps_timer)) * (float)fps_cnt;
 
           if(!timer_check(&fps_timer))
             {
@@ -1189,9 +1236,9 @@ void drawshape(float x, float y, unsigned char c)
   else if (c >= 'c' && c <= 'f')
     texture_draw(&img_cloud[1][c - 'c'], x, y, NO_UPDATE);
   else if (c >= 'G' && c <= 'J')
-    texture_draw(&img_bkgd[0][c - 'G'], x, y, NO_UPDATE);
+    texture_draw(&img_bkgd_tile[0][c - 'G'], x, y, NO_UPDATE);
   else if (c >= 'g' && c <= 'j')
-    texture_draw(&img_bkgd[1][c - 'g'], x, y, NO_UPDATE);
+    texture_draw(&img_bkgd_tile[1][c - 'g'], x, y, NO_UPDATE);
   else if (c == '#')
     texture_draw(&img_solid[0], x, y, NO_UPDATE);
   else if (c == '[')
@@ -1515,33 +1562,31 @@ void drawstatus(void)
   int i;
 
   sprintf(str, "%d", score);
-  drawtext("SCORE", 0, 0, letters_blue, NO_UPDATE, 1);
-  drawtext(str, 96, 0, letters_gold, NO_UPDATE, 1);
+  text_draw(&blue_text, "SCORE", 0, 0, 1, NO_UPDATE);
+  text_draw(&gold_text, str, 96, 0, 1, NO_UPDATE);
 
-  sprintf(str, "%d", highscore);
-  drawtext("HIGH", 0, 20, letters_blue, NO_UPDATE, 1);
-  drawtext(str, 96, 20, letters_gold, NO_UPDATE, 1);
-
+  sprintf(str, "%d", hs_score);
+  text_draw(&blue_text, "HIGH", 0, 20, 1, NO_UPDATE);
+  text_draw(&gold_text, str, 96, 20, 1, NO_UPDATE);
+  
   if (timer_get_left(&time_left) > TIME_WARNING || (frame % 10) < 5)
     {
       sprintf(str, "%d", timer_get_left(&time_left) / 1000 );
-      drawtext("TIME", 224, 0, letters_blue, NO_UPDATE, 1);
-      drawtext(str, 304, 0, letters_gold, NO_UPDATE, 1);
+  text_draw(&blue_text, "TIME", 224, 0, 1, NO_UPDATE);
+  text_draw(&gold_text, str, 304, 0, 1, NO_UPDATE);
     }
 
   sprintf(str, "%d", distros);
-  drawtext("DISTROS", screen->h, 0, letters_blue, NO_UPDATE, 1);
-  drawtext(str, 608, 0, letters_gold, NO_UPDATE, 1);
+  text_draw(&blue_text, "DISTROS", screen->h, 0, 1, NO_UPDATE);
+  text_draw(&gold_text, str, 608, 0, 1, NO_UPDATE);
 
-  drawtext("LIVES", screen->h, 20, letters_blue, NO_UPDATE, 1);
+  text_draw(&blue_text, "LIVES", screen->h, 20, 1, NO_UPDATE);
 
   if(show_fps)
     {
-      drawtext("FPS", screen->h, 40, letters_blue, NO_UPDATE, 1);
       sprintf(str, "%f", fps_fps);
-      if(use_gl) /* FIXME: We need this check as text doesn't work in OpenGl mode. */
-        printf("%f\n",fps_fps);
-      drawtext(str, screen->h + 60, 40, letters_gold, NO_UPDATE, 1);
+      text_draw(&blue_text, "FPS", screen->h, 40, 1, NO_UPDATE);
+      text_draw(&blue_text, str, screen->h + 60, 40, 1, NO_UPDATE);
     }
 
   for(i=0; i < tux.lives; ++i)
@@ -1557,13 +1602,13 @@ void drawendscreen(void)
 
   clearscreen(0, 0, 0);
 
-  drawcenteredtext("GAMEOVER", 200, letters_red, NO_UPDATE, 1);
+  text_drawf(&blue_text, "GAMEOVER", 0, 200, A_HMIDDLE, A_TOP, 1, NO_UPDATE);
 
   sprintf(str, "SCORE: %d", score);
-  drawcenteredtext(str, 224, letters_gold, NO_UPDATE, 1);
+  text_drawf(&gold_text, str, 0, 224, A_HMIDDLE, A_TOP, 1, NO_UPDATE);
 
   sprintf(str, "DISTROS: %d", distros);
-  drawcenteredtext(str, 256, letters_blue, NO_UPDATE, 1);
+  text_drawf(&gold_text, str, 0, 256, A_HMIDDLE, A_TOP, 1, NO_UPDATE);
 
   flipscreen();
   SDL_Delay(2000);
@@ -1575,13 +1620,13 @@ void drawresultscreen(void)
 
   clearscreen(0, 0, 0);
 
-  drawcenteredtext("Result:", 200, letters_red, NO_UPDATE, 1);
+  text_drawf(&red_text, "Result:", 0, 200, A_HMIDDLE, A_TOP, 1, NO_UPDATE);
 
   sprintf(str, "SCORE: %d", score);
-  drawcenteredtext(str, 224, letters_gold, NO_UPDATE, 1);
+  text_drawf(&gold_text, str, 0, 224, A_HMIDDLE, A_TOP, 1, NO_UPDATE);
 
   sprintf(str, "DISTROS: %d", distros);
-  drawcenteredtext(str, 256, letters_blue, NO_UPDATE, 1);
+  text_drawf(&gold_text, str, 0, 256, A_HMIDDLE, A_TOP, 1, NO_UPDATE);
 
   flipscreen();
   SDL_Delay(2000);

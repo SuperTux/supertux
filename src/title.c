@@ -41,7 +41,7 @@ int title(void)
   texture_type title, anim1, anim2;
   SDL_Event event;
   SDLKey key;
-  int done, quit, frame, pict, last_highscore;
+  int done, quit, frame, pict;
   char str[80];
 
   game_started = 0;
@@ -74,9 +74,11 @@ int title(void)
 
 
   /* Draw the high score: */
-  last_highscore = load_hs();
-  sprintf(str, "High score: %d", last_highscore);
-  drawcenteredtext(str, 460, letters_red, NO_UPDATE, 1);
+  load_hs();
+  sprintf(str, "High score: %d", hs_score);
+  text_drawf(&gold_text, str, 0, -40, A_HMIDDLE, A_BOTTOM, 1, NO_UPDATE);
+  sprintf(str, "by %s", hs_name);
+  text_drawf(&gold_text, str, 0, -20, A_HMIDDLE, A_BOTTOM, 1, NO_UPDATE);
 
   while (!done && !quit)
     {
@@ -100,7 +102,7 @@ int title(void)
               key = event.key.keysym.sym;
 
               /* Check for menu events */
-              menu_event(key);
+              menu_event(&event.key.keysym);
 
               if (key == SDLK_ESCAPE)
                 {
@@ -135,8 +137,11 @@ int title(void)
           texture_draw_bg(&title, NO_UPDATE);
 
           /* Draw the high score: */
-          sprintf(str, "High score: %d", last_highscore);
-          drawcenteredtext(str, 460, letters_red, NO_UPDATE, 1);
+          sprintf(str, "High score: %d", hs_score);
+	    text_drawf(&gold_text, str, 0, -40, A_HMIDDLE, A_BOTTOM, 1, NO_UPDATE);
+  sprintf(str, "by %s", hs_name);
+  text_drawf(&gold_text, str, 0, -20, A_HMIDDLE, A_BOTTOM, 1, NO_UPDATE);
+  
         }
 
       /* Don't draw menu, if quit is true */
@@ -151,12 +156,12 @@ int title(void)
       pict = (frame / 5) % 3;
 
       if (pict == 0)
-        texture_draw_part(&title, 560, 270, 80, 75, NO_UPDATE);
+        texture_draw_part(&title, 560, 270, 560, 270, 80, 75, NO_UPDATE);
       else if (pict == 1)
         texture_draw(&anim1, 560, 270, NO_UPDATE);
       else if (pict == 2)
         texture_draw(&anim2, 560, 270, NO_UPDATE);
-
+	
       flipscreen();
 
       /* Pause: */

@@ -7,6 +7,9 @@
 
 # include <stdio.h>
 
+int hs_score;
+char hs_name[62]; /* highscores global variables*/
+
 void save_hs(int score);
-int load_hs();
+void load_hs();
 FILE * opendata(char * mode);
