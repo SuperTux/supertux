@@ -78,8 +78,6 @@ World::World(const std::string& subset, int level_nr)
 void
 World::apply_bonuses()
 {
-  std::cout << "Bonus: " << player_status.bonus << std::endl;
-
   // Apply bonuses from former levels
   switch (player_status.bonus)
     {

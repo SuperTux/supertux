@@ -107,7 +107,6 @@ void TileManager::load_tileset(std::string filename)
               reader.read_bool("fullbox",   &tile->fullbox);
               reader.read_bool("distro",    &tile->distro);
               reader.read_bool("goal",      &tile->goal);
-              if(tile->goal) printf("Goal!.\n");
               reader.read_int("data",       &tile->data);
               reader.read_int("anim-speed", &tile->anim_speed);
               reader.read_int("next-tile",  &tile->next_tile);
