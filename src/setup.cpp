@@ -601,6 +601,7 @@ void st_general_setup(void)
 
   /* Load the mouse-cursor */
   mouse_cursor = new MouseCursor( datadir + "/images/status/mousecursor.png",1);
+  MouseCursor::set_current(mouse_cursor);
   
 }
 

@@ -20,17 +20,19 @@
 #include "screen.h"
 #include "mousecursor.h"
 
-MouseCursor::MouseCursor(std::string cursor_file, int frames)
+MouseCursor* MouseCursor::current_ = 0;
+
+MouseCursor::MouseCursor(std::string cursor_file, int frames) : mid_x(0), mid_y(0)
 {
   cursor = new Surface(cursor_file, USE_ALPHA);
-
+  
   cur_state = MC_NORMAL;
   cur_frame = 0;
   tot_frames = frames;
 
   timer.init(false);
   timer.start(MC_FRAME_PERIOD);
-
+  
   SDL_ShowCursor(SDL_DISABLE);
 }
 
@@ -49,6 +51,12 @@ int MouseCursor::state()
 void MouseCursor::set_state(int nstate)
 {
   cur_state = nstate;
+}
+
+void MouseCursor::set_mid(int x, int y)
+{
+  mid_x = x;
+  mid_y = y;
 }
 
 void MouseCursor::draw()
@@ -80,5 +88,5 @@ void MouseCursor::draw()
       timer.start(MC_FRAME_PERIOD);
     }
 
-  cursor->draw_part(w*cur_frame, h*cur_state , x, y, w, h);
+  cursor->draw_part(w*cur_frame, h*cur_state , x-mid_x, y-mid_y, w, h);
 }

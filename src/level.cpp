@@ -552,7 +552,7 @@ Level::save(const std::string& subset, int level)
   fprintf(fi,"  (music \"%s\")\n", song_title.c_str());
   fprintf(fi,"  (background \"%s\")\n", bkgd_image.c_str());
   fprintf(fi,"  (particle_system \"%s\")\n", particle_system.c_str());
-  fprintf(fi,"  (bkgd_speed \"%d\")\n", bkgd_speed);
+  fprintf(fi,"  (bkgd_speed %d)\n", bkgd_speed);
   fprintf(fi,"  (bkgd_red_top %d)\n", bkgd_top.red);
   fprintf(fi,"  (bkgd_green_top %d)\n", bkgd_top.green);
   fprintf(fi,"  (bkgd_blue_top %d)\n", bkgd_top.blue);

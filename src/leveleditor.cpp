@@ -92,6 +92,8 @@ struct TileOrObject
   bool IsTile() { return is_tile; };
   //Returns true for a GameObject
   bool IsObject() { return !is_tile; };
+
+
   void Init() { tile = 0; obj = NULL; is_tile = true; };
 
   bool is_tile; //true for tile (false for object)
@@ -129,6 +131,8 @@ static Button* le_select_mode_two_bt;
 static Button* le_settings_bt;
 static Button* le_tilegroup_bt;
 static Button* le_objects_bt;
+static Button* le_object_select_bt;
+static Button* le_object_properties_bt;
 static ButtonPanel* le_tilemap_panel;
 static Menu* leveleditor_menu;
 static Menu* subset_load_menu;
@@ -139,11 +143,14 @@ static Menu* select_tilegroup_menu;
 static Menu* select_objects_menu;
 static Timer select_tilegroup_menu_effect;
 static Timer select_objects_menu_effect;
+static Timer display_level_info;
 typedef std::map<std::string, ButtonPanel*> ButtonPanelMap;
 static ButtonPanelMap tilegroups_map;
 static ButtonPanelMap objects_map;
 static std::string cur_tilegroup;
 static std::string cur_objects;
+static MouseCursor* mouse_select_object;
+static GameObject* selected_game_object;
 
 static square selection;
 static int le_selection_mode;
@@ -340,7 +347,7 @@ int leveleditor(char* filename)
       }
     }
 
-    mouse_cursor->draw();
+    MouseCursor::current()->draw();
 
     if(done)
     {
@@ -436,19 +443,18 @@ void le_init_menus()
   level_settings_menu->additem(MN_NUMFIELD,    "Time    ",0,0,MNID_TIME);
   level_settings_menu->additem(MN_NUMFIELD,    "Gravity ",0,0,MNID_GRAVITY);
   level_settings_menu->additem(MN_NUMFIELD,    "Bg-Img-Speed",0,0,MNID_BGSPEED);
-  level_settings_menu->additem(MN_NUMFIELD,    "Top Red    ",0,0,MNID_TopRed);
-  level_settings_menu->additem(MN_NUMFIELD,    "Top Green  ",0,0,MNID_TopGreen);
-  level_settings_menu->additem(MN_NUMFIELD,    "Top Blue   ",0,0,MNID_TopBlue);
-  level_settings_menu->additem(MN_NUMFIELD,    "Bottom Red ",0,0,MNID_BottomRed);
+  level_settings_menu->additem(MN_NUMFIELD,    "Top Red     ",0,0,MNID_TopRed);
+  level_settings_menu->additem(MN_NUMFIELD,    "Top Green   ",0,0,MNID_TopGreen);
+  level_settings_menu->additem(MN_NUMFIELD,    "Top Blue    ",0,0,MNID_TopBlue);
+  level_settings_menu->additem(MN_NUMFIELD,    "Bottom Red  ",0,0,MNID_BottomRed);
   level_settings_menu->additem(MN_NUMFIELD,    "Bottom Green",0,0,MNID_BottomGreen);
-  level_settings_menu->additem(MN_NUMFIELD,    "Bottom Blue",0,0,MNID_BottomBlue);
+  level_settings_menu->additem(MN_NUMFIELD,    "Bottom Blue ",0,0,MNID_BottomBlue);
   level_settings_menu->additem(MN_HL,"",0,0);
   level_settings_menu->additem(MN_ACTION,"Apply Changes",0,0,MNID_APPLY);
 
   select_tilegroup_menu->arrange_left = true;
   select_tilegroup_menu->additem(MN_LABEL,"Tilegroup",0,0);
   select_tilegroup_menu->additem(MN_HL,"",0,0);
-  select_tilegroup_menu->additem(MN_ACTION,"asd",0,0);
   std::set<TileGroup>* tilegroups = TileManager::tilegroups();
   int tileid = 1;
   for(std::set<TileGroup>::iterator it = tilegroups->begin();
@@ -515,6 +521,7 @@ int le_init()
   le_level_subset = new LevelSubset;
 
   le_world = NULL;
+  selected_game_object = NULL;
 
   active_tm = TM_IA;
   le_show_grid = true;
@@ -537,10 +544,11 @@ int le_init()
 
   select_tilegroup_menu_effect.init(false);
   select_objects_menu_effect.init(false);
+  display_level_info.init(false);
 
   /* Load buttons */
   le_save_level_bt = new Button("/images/icons/save.png","Save level", SDLK_F6,screen->w-64,32);
-  le_exit_bt = new Button("/images/icons/exit.png","Exit", SDLK_F9,screen->w-32,32);
+  le_exit_bt = new Button("/images/icons/exit.png","Exit", SDLK_F10,screen->w-32,32);
   le_next_level_bt = new Button("/images/icons/up.png","Next level", SDLK_PAGEUP,screen->w-64,0);
   le_previous_level_bt = new Button("/images/icons/down.png","Previous level",SDLK_PAGEDOWN,screen->w-32,0);
   le_rubber_bt = new Button("/images/icons/rubber.png","Rubber",SDLK_DELETE,screen->w-32,48);
@@ -552,6 +560,12 @@ int le_init()
   le_move_right_bt = new Button("/images/icons/right.png","Move right",SDLK_RIGHT,screen->w-80,0);
   le_tilegroup_bt = new Button("/images/icons/tilegroup.png","Select Tilegroup", SDLK_F7,screen->w-64,64);
   le_objects_bt = new Button("/images/icons/objects.png","Select Objects", SDLK_F8,screen->w-64,80);
+  le_object_select_bt = new Button("/images/icons/select-one.png","Select an Object", SDLK_s, screen->w - 64, screen->h-98);
+  le_object_properties_bt = new Button("/images/icons/properties.png","Select an Object", SDLK_p, screen->w - 32, screen->h-98);
+  le_object_properties_bt->set_active(false);
+
+  mouse_select_object = new MouseCursor(datadir + "/images/status/select-cursor.png",1);
+  mouse_select_object->set_mid(16,16);
 
   le_tilemap_panel = new ButtonPanel(screen->w-64,screen->h-32,32,32);
   le_tilemap_panel->set_button_size(32,10);
@@ -681,13 +695,15 @@ void le_unload_level()
   }
 
   delete le_world;
-  le_level_changed = false;  
+  le_level_changed = false;
 }
 
 void le_goto_level(int levelnb)
 {
   le_unload_level();
   le_world = new World(le_level_subset->name, levelnb);
+  display_level_info.start(2500);
+  le_level = levelnb;
 }
 
 void le_quit(void)
@@ -717,6 +733,9 @@ void le_quit(void)
   delete le_tilegroup_bt;
   delete le_objects_bt;
   delete le_tilemap_panel;
+  delete le_object_select_bt;
+  delete le_object_properties_bt;
+  delete mouse_select_object;
 
   delete le_level_subset;
   le_level_subset = 0;
@@ -788,25 +807,25 @@ void le_drawinterface()
   if(show_minimap) // use_gl because the minimap isn't shown correctly in software mode. Any idea? FIXME Possible reasons: SDL_SoftStretch is a hack itsself || an alpha blitting issue SDL can't handle in software mode
     le_drawminimap();
 
-  if(show_selections)
+  if(show_selections && MouseCursor::current() != mouse_select_object)
   {
-  if(le_selection_mode == CURSOR)
-  {
-    if(le_current.IsTile())
-      le_selection->draw( cursor_x - pos_x, cursor_y);
-  }
-  else if(le_selection_mode == SQUARE)
-  {
-    int w, h;
-    le_highlight_selection();
-    /* draw current selection */
-    w = selection.x2 - selection.x1;
-    h = selection.y2 - selection.y1;
-    fillrect(selection.x1 - pos_x, selection.y1, w, SELECT_W, SELECT_CLR);
-    fillrect(selection.x1 - pos_x + w, selection.y1, SELECT_W, h, SELECT_CLR);
-    fillrect(selection.x1 - pos_x, selection.y1 + h, w, SELECT_W, SELECT_CLR);
-    fillrect(selection.x1 - pos_x, selection.y1, SELECT_W, h, SELECT_CLR);
-  }
+    if(le_selection_mode == CURSOR)
+    {
+      if(le_current.IsTile())
+        le_selection->draw( cursor_x - pos_x, cursor_y);
+    }
+    else if(le_selection_mode == SQUARE)
+    {
+      int w, h;
+      le_highlight_selection();
+      /* draw current selection */
+      w = selection.x2 - selection.x1;
+      h = selection.y2 - selection.y1;
+      fillrect(selection.x1 - pos_x, selection.y1, w, SELECT_W, SELECT_CLR);
+      fillrect(selection.x1 - pos_x + w, selection.y1, SELECT_W, h, SELECT_CLR);
+      fillrect(selection.x1 - pos_x, selection.y1 + h, w, SELECT_W, SELECT_CLR);
+      fillrect(selection.x1 - pos_x, selection.y1, SELECT_W, h, SELECT_CLR);
+    }
   }
 
 
@@ -819,10 +838,18 @@ void le_drawinterface()
     if(TileManager::instance()->get(le_current.tile)->editor_images.size() > 0)
       TileManager::instance()->get(le_current.tile)->editor_images[0]->draw( 19 * 32, 14 * 32);
   }
-  if(le_current.IsObject())
+  if(le_current.IsObject() && MouseCursor::current() != mouse_select_object)
   {
     le_current.obj->draw_on_screen(19 * 32, 14 * 32);
     le_current.obj->draw_on_screen(cursor_x,cursor_y);
+  }
+
+  if(mouse_select_object && selected_game_object != NULL)
+  {
+    fillrect(selected_game_object->base.x-pos_x,selected_game_object->base.y,selected_game_object->base.width,3,255,0,0,255);
+    fillrect(selected_game_object->base.x-pos_x,selected_game_object->base.y,3,selected_game_object->base.height,255,0,0,255);
+    fillrect(selected_game_object->base.x-pos_x,selected_game_object->base.y+selected_game_object->base.height,selected_game_object->base.width,3,255,0,0,255);
+    fillrect(selected_game_object->base.x-pos_x+selected_game_object->base.width,selected_game_object->base.y,3,selected_game_object->base.height,255,0,0,255);
   }
 
   if(le_world != NULL)
@@ -851,11 +878,20 @@ void le_drawinterface()
 
     le_tilemap_panel->draw();
 
+    if(!cur_objects.empty())
+    {
+      le_object_select_bt->draw();
+      le_object_properties_bt->draw();
+    }
+
     sprintf(str, "%d/%d", le_level,le_level_subset->levels);
     white_text->drawf(str, (le_level_subset->levels < 10) ? -10 : 0, 16, A_RIGHT, A_TOP, 0);
 
     if(!le_help_shown)
       white_small_text->draw("F1 for Help", 10, 430, 1);
+
+    if(display_level_info.check())
+      white_text->drawf(le_world->get_level()->name.c_str(), 0, 0, A_HMIDDLE, A_TOP, 0);
   }
   else
   {
@@ -949,17 +985,79 @@ void le_drawlevel()
 
 void le_change_object_properties(GameObject *pobj)
 {
+  Surface* cap_screen = Surface::CaptureScreen();
   Menu* object_properties_menu = new Menu();
+  bool loop = true;
 
   object_properties_menu->additem(MN_LABEL,pobj->type() + " Properties",0,0);
   object_properties_menu->additem(MN_HL,"",0,0);
-  /*object_properties_menu->additem(MN_TEXTFIELD,"Title",0,0,MNID_SUBSETTITLE);
-  object_properties_menu->additem(MN_TEXTFIELD,"Description",0,0,MNID_SUBSETDESCRIPTION);
-  object_properties_menu->additem(MN_HL,"",0,0);
-  object_properties_menu->additem(MN_ACTION,"Save Changes",0,0,MNID_SUBSETSAVECHANGES);*/
-  object_properties_menu->additem(MN_HL,"",0,0);
-  object_properties_menu->additem(MN_BACK,"Apply",0,0);
 
+  if(pobj->type() == "BadGuy")
+  {
+    BadGuy* pbad = dynamic_cast<BadGuy*>(pobj);
+    object_properties_menu->additem(MN_STRINGSELECT,"Kind",0,0,1);
+    for(int i = 0; i < NUM_BadGuyKinds; ++i)
+    {
+      string_list_add_item(object_properties_menu->get_item_by_id(1).list,badguykind_to_string(static_cast<BadGuyKind>(i)).c_str());
+      if(pbad->kind == i)
+        object_properties_menu->get_item_by_id(1).list->active_item = i;
+    }
+    object_properties_menu->additem(MN_TOGGLE,"StayOnPlatform",pbad->stay_on_platform,0,2);
+  }
+
+  object_properties_menu->additem(MN_HL,"",0,0);
+  object_properties_menu->additem(MN_ACTION,"Ok",0,0,3);
+
+  Menu::set_current(object_properties_menu);
+
+  while(loop)
+  {
+    SDL_Event event;
+
+    while (SDL_PollEvent(&event))
+    {
+      object_properties_menu->event(event);
+    }
+
+    cap_screen->draw(0,0);
+
+    object_properties_menu->draw();
+    object_properties_menu->action();
+
+    switch (object_properties_menu->check())
+    {
+    case 3:
+      if(pobj->type() == "BadGuy")
+      {
+        BadGuy* pbad = dynamic_cast<BadGuy*>(pobj);
+        pbad->kind =  badguykind_from_string(string_list_active(object_properties_menu->get_item_by_id(1).list));
+        pbad->stay_on_platform = object_properties_menu->get_item_by_id(2).toggled;
+	int i = 0;
+	std::list<BadGuy*>::iterator it;
+        for(it = le_world->bad_guys.begin(); it != le_world->bad_guys.end(); ++it, ++i)
+          if((*it) == pbad)
+            break;
+        le_world->get_level()->badguy_data[i].kind = pbad->kind;
+	le_world->get_level()->badguy_data[i].stay_on_platform = pbad->stay_on_platform;
+	delete (*it);
+	(*it) = new BadGuy(le_world->get_level()->badguy_data[i].x,le_world->get_level()->badguy_data[i].y,le_world->get_level()->badguy_data[i].kind,le_world->get_level()->badguy_data[i].stay_on_platform);
+      }
+      loop = false;
+      break;
+    default:
+      break;
+    }
+
+    if(Menu::current() == NULL)
+      loop = false;
+
+    mouse_cursor->draw();
+    flipscreen();
+    SDL_Delay(25);
+  }
+
+  delete cap_screen;
+  Menu::set_current(0);
   delete object_properties_menu;
 }
 
@@ -1164,7 +1262,7 @@ void le_checkevents()
           {
             if(le_level < le_level_subset->levels)
             {
-              le_goto_level(++le_level);
+              le_goto_level(le_level+1);
             }
             else
             {
@@ -1174,7 +1272,7 @@ void le_checkevents()
               if(confirm_dialog(str))
               {
                 new_lev.init_defaults();
-                new_lev.save(le_level_subset->name.c_str(),++le_level);
+                new_lev.save(le_level_subset->name.c_str(),le_level+1);
                 le_level_subset->levels = le_level;
                 le_goto_level(le_level);
               }
@@ -1184,11 +1282,27 @@ void le_checkevents()
           if(le_previous_level_bt->get_state() == BUTTON_CLICKED)
           {
             if(le_level > 1)
-              le_goto_level(--le_level);
+              le_goto_level(le_level -1);
           }
           le_rubber_bt->event(event);
           if(le_rubber_bt->get_state() == BUTTON_CLICKED)
             le_current.Tile(0);
+
+          if(!cur_objects.empty())
+          {
+            le_object_select_bt->event(event);
+            if(le_object_select_bt->get_state() == BUTTON_CLICKED)
+            {
+              MouseCursor::set_current(mouse_select_object);
+            }
+
+            le_object_properties_bt->event(event);
+            if(le_object_properties_bt->get_state() == BUTTON_CLICKED)
+            {
+              le_change_object_properties(selected_game_object);
+            }
+          }
+
 
           if(le_selection_mode == SQUARE)
           {
@@ -1352,24 +1466,61 @@ void le_checkevents()
       {
         if(le_mouse_pressed[LEFT])
         {
-          if(le_current.IsTile())
-            le_change(cursor_x, cursor_y, active_tm, le_current.tile);
+          if(MouseCursor::current() != mouse_select_object)
+          {
+            if(le_current.IsTile())
+              le_change(cursor_x, cursor_y, active_tm, le_current.tile);
+          }
         }
         else if(le_mouse_clicked[LEFT])
         {
-          if(le_current.IsObject())
+          if(MouseCursor::current() == mouse_select_object)
           {
-	    le_level_changed  = true;
-            std::string type = le_current.obj->type();
-            if(type == "BadGuy")
-            {
-              BadGuy* pbadguy = dynamic_cast<BadGuy*>(le_current.obj);
+            int i = 0;
+            bool object_got_hit = false;
+            base_type cursor_base;
+            cursor_base.x = cursor_x;
+            cursor_base.y = cursor_y;
+            cursor_base.width = 32;
+            cursor_base.height = 32;
 
-              le_world->bad_guys.push_back(new BadGuy(cursor_x+scroll_x, cursor_y,pbadguy->kind,false));
-              le_world->get_level()->badguy_data.push_back(le_world->bad_guys.back());
+            /* if there is a bad guy over there, remove it */
+            for(std::list<BadGuy*>::iterator it = le_world->bad_guys.begin(); it != le_world->bad_guys.end(); ++it, ++i)
+              if(rectcollision(cursor_base,(*it)->base))
+              {
+                selected_game_object = (*it);
+                object_got_hit = true;
+                break;
+              }
+
+            if(!object_got_hit)
+            {
+              selected_game_object = NULL;
+              le_object_properties_bt->set_active(false);
+            }
+            else
+              le_object_properties_bt->set_active(true);
+
+            MouseCursor::set_current(mouse_cursor);
+
+          }
+          else
+          {
+            if(le_current.IsObject())
+            {
+              le_level_changed  = true;
+              std::string type = le_current.obj->type();
+              if(type == "BadGuy")
+              {
+                BadGuy* pbadguy = dynamic_cast<BadGuy*>(le_current.obj);
+
+                le_world->bad_guys.push_back(new BadGuy(cursor_x+scroll_x, cursor_y,pbadguy->kind,false));
+                le_world->get_level()->badguy_data.push_back(le_world->bad_guys.back());
+              }
             }
           }
           le_mouse_clicked[LEFT] = false;
+
         }
       }
     }
@@ -1460,7 +1611,7 @@ void le_change(float x, float y, int tm, unsigned int c)
     unsigned int i = 0;
 
     le_level_changed = true;
-    
+
     switch(le_selection_mode)
     {
     case CURSOR:
@@ -1563,8 +1714,6 @@ void le_testlevel()
 void le_showhelp()
 {
   bool tmp_show_grid = le_show_grid;
-  int temp_le_selection_mode = le_selection_mode;
-  le_selection_mode = NONE;
   show_selections = true;
   le_show_grid = false;
   le_help_shown = true;
@@ -1585,7 +1734,7 @@ void le_showhelp()
                    "the left mouse button over the map",
                    "to \"paint\" your selection over",
                    "the screen.",
-		   "",
+                   "",
                    "There are three layers for painting",
                    "tiles upon, Background layer,",
                    "the Interactive layer, and the",
@@ -1606,43 +1755,43 @@ void le_showhelp()
                     "the Interactive layer are those",
                     "which actually effect Tux in the",
                     "game.",
-		    "",
+                    "",
                     "Click the objects menu to put ",
                     "bad guys and other objects in the",
                     "game. Unlike placing tiles, you",
                     "cannot \"paint\" enemies. Click",
                     "them onto the screen one at a time.",
-		    "",
+                    "",
                     "To change the settings of your",
                     "level, click the button with the",
                     "screwdriver and wrench. From here",
                     "you can change the background,",
                     "music, length of the level,",
-		    "and more."
+                    "and more."
                   };
 
   char *text3[] = {
 
                     " - Supertux level editor tutorial - ",
                     "",
-		    "You may have more than one level.",
+                    "You may have more than one level.",
                     "Pressing the up and down buttons",
                     "above the button bar lets you",
-		    "choose which one you are working on.",
-		    "",
+                    "choose which one you are working on.",
+                    "",
                     "If you would like to speed up your",
                     "level editing, a useful trick is",
                     "to learn the keyboard shortcuts.",
-		    "They are easy to learn, just right-",
-		    "click on the buttons.",
-		    "",
+                    "They are easy to learn, just right-",
+                    "click on the buttons.",
+                    "",
                     "Have fun making levels! If you make",
                     "some good ones, send them to us on",
                     "the SuperTux mailing list!",
                     "- SuperTux team"
                   };
-		
-		  
+
+
 
   blue_text->drawf("- Help -", 0, 30, A_HMIDDLE, A_TOP, 2);
 
@@ -1681,8 +1830,8 @@ void le_showhelp()
     done_ = wait_for_event(event);
     SDL_Delay(50);
   }
-  
-    drawgradient(Color(0,0,0), Color(255,255,255));
+
+  drawgradient(Color(0,0,0), Color(255,255,255));
   le_drawinterface();
 
 
@@ -1705,6 +1854,5 @@ void le_showhelp()
 
   show_selections = true;
   le_show_grid = tmp_show_grid;
-  le_selection_mode = temp_le_selection_mode;
   le_help_shown = false;
 }

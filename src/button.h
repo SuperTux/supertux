@@ -30,7 +30,8 @@ enum ButtonState {
   BUTTON_PRESSED,
   BUTTON_HOVER,
   BUTTON_WHEELUP,
-  BUTTON_WHEELDOWN
+  BUTTON_WHEELDOWN,
+  BUTTON_DEACTIVE
 };
 
 class ButtonPanel;
@@ -45,6 +46,7 @@ public:
   void event(SDL_Event& event);
   void draw();
   int get_state();
+  void set_active(bool active) { active ? state = BUTTON_NONE : state = BUTTON_DEACTIVE; };
   void add_icon(std::string icon_file, int mw, int mh);
   SDL_Rect get_pos() { return rect; }
   int get_tag(){return tag; }

@@ -40,9 +40,15 @@ class MouseCursor
     ~MouseCursor();
     int state();
     void set_state(int nstate);
+    void set_mid(int x, int y);
     void draw();
     
+    static MouseCursor* current() { return current_; };
+    static void set_current(MouseCursor* pcursor) {  current_ = pcursor; };
+    
     private:
+    int mid_x, mid_y;
+    static MouseCursor* current_;    
     int state_before_click;
     int cur_state;
     int cur_frame, tot_frames;

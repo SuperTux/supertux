@@ -102,7 +102,7 @@ void Button::draw()
     sprintf(str,"(%s)", SDL_GetKeyName(shortcut));
     white_small_text->draw(str, i + rect.x - strlen(str) * white_small_text->w, rect.y + white_small_text->h+2, 1);
   }
-  if(state == BUTTON_PRESSED)
+  if(state == BUTTON_PRESSED || state == BUTTON_DEACTIVE)
     fillrect(rect.x,rect.y,rect.w,rect.h,75,75,75,200);
   else if(state == BUTTON_HOVER)
     fillrect(rect.x,rect.y,rect.w,rect.h,150,150,150,128);
@@ -118,6 +118,9 @@ Button::~Button()
 
 void Button::event(SDL_Event &event)
 {
+if(state == BUTTON_DEACTIVE)
+return;
+
   SDLKey key = event.key.keysym.sym;
 
   if(event.type == SDL_MOUSEBUTTONDOWN || event.type == SDL_MOUSEBUTTONUP)
