@@ -298,6 +298,27 @@ int level_load(st_level* plevel, const char* filename)
       reader.read_int_vector("dynamic-tm",     &dn_tm);
       reader.read_int_vector("foreground-tm",  &fg_tm);
 
+      {
+        lisp_object_t* cur = 0;
+        if (reader.read_lisp("objects",  &cur))
+          {
+            while (!lisp_nil_p(cur))
+              {
+                lisp_object_t* data = lisp_car(cur);
+
+                BadGuyData bg_data;
+                bg_data.kind = badguykind_from_string(lisp_symbol(lisp_car(data)));
+                LispReader reader(lisp_cdr(data));
+                reader.read_int("x", &bg_data.x);
+                reader.read_int("y", &bg_data.y);
+
+                plevel->badguy_data.push_back(bg_data);
+ 
+                cur = lisp_cdr(cur);
+              }
+          }        
+      }
+
       // Convert old levels to the new tile numbers
       if (version == 0)
         {

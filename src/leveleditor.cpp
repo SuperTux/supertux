@@ -597,7 +597,7 @@ void update_subset_settings_menu()
 
 void apply_level_settings_menu()
 {
-  int i,y,j;
+  int i;
   i = false;
 
   le_current_level->name = level_settings_menu->item[2].input;

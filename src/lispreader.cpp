@@ -1048,6 +1048,19 @@ LispReader::read_int (const char* name, int* i)
 }
 
 bool
+LispReader::read_lisp(const char* name, lisp_object_t** b)
+{
+  lisp_object_t* obj = search_for (name);
+  if (obj)
+    {
+      *b = obj;
+      return true;
+    }
+  else
+    return false;
+}
+
+bool
 LispReader::read_float (const char* name, float* f)
 {
   lisp_object_t* obj = search_for (name);

@@ -49,6 +49,22 @@ enum BadGuyKind {
   BAD_MONEY
 };
 
+BadGuyKind  badguykind_from_string(const std::string& str);
+std::string badguykind_to_string(BadGuyKind kind);
+
+struct BadGuyData
+{
+  BadGuyKind kind;
+  int x;
+  int y;
+
+  BadGuyData(BadGuyKind kind_, int x_, int y_) 
+    : kind(kind_), x(x_), y(y_) {}
+
+  BadGuyData()
+    : kind(BAD_BSOD), x(0), y(0) {}
+};
+
 /* Badguy type: */
 class BadGuy
 {

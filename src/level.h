@@ -15,6 +15,7 @@
 
 #include <string>
 #include "texture.h"
+#include "badguy.h"
 #include "lispreader.h"
 
 /* This type holds meta-information about a level-subset. */
@@ -40,8 +41,22 @@ class st_subset
 
 #define LEVEL_NAME_MAX 20
 
-struct st_level 
+
+enum {
+ TM_BG,
+ TM_IA,
+ TM_DN,
+ TM_FG
+ };
+
+extern texture_type img_bkgd;
+extern texture_type img_bkgd_tile[2][4];
+extern texture_type img_solid[4];
+extern texture_type img_brick[2];
+
+class st_level 
 {
+ public:
   std::string name;
   std::string theme;
   std::string song_title;
@@ -57,16 +72,10 @@ struct st_level
   int bkgd_blue;
   int width;
   float gravity;
+
+  std::vector<BadGuyData> badguy_data;
+ public:
 };
-
-enum {
- TM_BG,
- TM_IA,
- TM_DN,
- TM_FG
- };
-
-extern texture_type img_bkgd, img_bkgd_tile[2][4], img_solid[4], img_brick[2];
 
 void level_default  (st_level* plevel);
 int  level_load     (st_level* plevel, const char * subset, int level);

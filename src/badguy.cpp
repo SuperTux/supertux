@@ -31,6 +31,39 @@ texture_type img_laptop_right[3];
 texture_type img_money_left[2];
 texture_type img_money_right[2];
 
+BadGuyKind  badguykind_from_string(const std::string& str)
+{
+  if (str == "money")
+    return BAD_MONEY;
+  else if (str == "laptop")
+    return BAD_LAPTOP;
+  else if (str == "bsod")
+    return BAD_BSOD;
+  else
+    {
+      printf("Couldn't convert badguy: %s\n", str.c_str());
+      return BAD_BSOD;
+    }
+}
+
+std::string badguykind_to_string(BadGuyKind kind)
+{
+  switch(kind)
+    {
+    case BAD_MONEY:
+      return "money";
+      break;
+    case BAD_LAPTOP:
+      return "laptop";
+      break;
+    case BAD_BSOD:
+      return "bsod";
+      break;
+    default:
+      return "bsod";
+    }
+}
+
 void
 BadGuy::init(float x, float y, BadGuyKind kind_)
 {

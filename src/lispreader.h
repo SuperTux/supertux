@@ -176,6 +176,7 @@ class LispReader
     bool read_int (const char* name, int* i);
     bool read_float (const char* name, float* f);
     bool read_bool (const char* name, bool* b);
+    bool read_lisp (const char* name, lisp_object_t** b);
   };
 
 /** */
