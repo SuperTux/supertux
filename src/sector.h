@@ -45,6 +45,7 @@ class FlyingPlatform;
 class TileMap;
 class Upgrade;
 class Bullet;
+class SmokeCloud;
 class BadGuy;
 class Tile;
 
@@ -102,6 +103,7 @@ public:
                                                                                 
   void add_upgrade(const Vector& pos, Direction dir, UpgradeKind kind);
   bool add_bullet(const Vector& pos, float xm, Direction dir);
+  bool add_smoke_cloud(const Vector& pos);
                                                                                 
   /** Try to grab the coin at the given coordinates */
   void trygrabdistro(const Vector& pos, int bounciness);
@@ -154,6 +156,7 @@ private:
 
   std::vector<Upgrade*> upgrades;
   std::vector<Bullet*> bullets;
+  std::vector<SmokeCloud*> smoke_clouds;
 
 public: // ugly
   typedef std::vector<InteractiveObject*> InteractiveObjects;

@@ -423,6 +423,12 @@ Sector::update_game_objects()
             std::remove(flying_platforms.begin(), flying_platforms.end(), flying_platform),
             flying_platforms.end());
       }
+      SmokeCloud* smoke_cloud = dynamic_cast<SmokeCloud*> (*i);
+      if(smoke_cloud) {
+        smoke_clouds.erase(
+            std::remove(smoke_clouds.begin(), smoke_clouds.end(), smoke_cloud),
+            smoke_clouds.end());
+      }
                                                                                 
       delete *i;
       i = gameobjects.erase(i);
@@ -454,6 +460,10 @@ Sector::update_game_objects()
               = dynamic_cast<InteractiveObject*> (*i);
           if(interactive_object)
             interactive_objects.push_back(interactive_object);
+          SmokeCloud* smoke_cloud = dynamic_cast<SmokeCloud*> (*i);
+          if(smoke_cloud)
+            smoke_clouds.push_back(smoke_cloud);
+
 
           gameobjects.push_back(*i);
   }
@@ -671,6 +681,13 @@ Sector::add_bullet(const Vector& pos, float xm, Direction dir)
                                                                                 
   SoundManager::get()->play_sound(IDToSound(SND_SHOOT));
                                                                                 
+  return true;
+}
+
+bool
+Sector::add_smoke_cloud(const Vector& pos)
+{
+  add_object(new SmokeCloud(pos));
   return true;
 }
 

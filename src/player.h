@@ -119,7 +119,6 @@ struct PlayerSprite
   Sprite* grab_right;
   Sprite* duck_right;
   Sprite* duck_left;
-  Sprite* stomp;
 };
 
 extern PlayerSprite smalltux;
@@ -163,11 +162,8 @@ public:
   Timer shooting_timer;   // used to show the arm when Tux is shooting
   Timer dying_timer;
   Timer growing_timer;
-  Timer stomp_timer;
   Physic physic;
   
-  Vector stomp_pos;
-
 public:
   Player();
   virtual ~Player();

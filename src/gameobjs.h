@@ -162,6 +162,21 @@ public:
   unsigned int frame;
 };
 
+extern Sprite *img_smoke_cloud;
+
+class SmokeCloud : public GameObject
+{
+public:
+  SmokeCloud(const Vector& pos);
+  
+  virtual void action(float elapsed_time);
+  virtual void draw(DrawingContext& context);
+
+private:
+  Timer timer;
+  Vector position;
+};
+
 void load_object_gfx();
 
 #endif 

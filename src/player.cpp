@@ -40,7 +40,6 @@
 #define TILES_FOR_BUTTJUMP 3
 // animation times (in ms):
 #define SHOOTING_TIME 320
-#define STOMP_TIME 250
 // others stuff:
 #define AUTOSCROLL_DEAD_INTERVAL 300
 
@@ -118,7 +117,6 @@ Player::init()
   can_jump = true;
   butt_jump = false;
   
-  stomp_pos = Vector(0,0);
   frame_main = 0;
   frame_ = 0;
 
@@ -510,12 +508,11 @@ Player::handle_vertical_input()
   // Do butt jump
   if (butt_jump && on_ground() && size == BIG)
   {
-    
+    // Add a smoke cloud
     if (duck) 
-      stomp_pos = Vector(base.x - 32, base.y);
+      Sector::current()->add_smoke_cloud(Vector(base.x - 32, base.y));
     else 
-      stomp_pos = Vector(base.x - 32, base.y + 32);    
-    stomp_timer.start(STOMP_TIME);
+      Sector::current()->add_smoke_cloud(Vector(base.x - 32, base.y + 32));
     
     butt_jump = false;
 
@@ -774,10 +771,6 @@ Player::draw(DrawingContext& context)
       sprite->grab_left->draw(context, pos, LAYER_OBJECTS + 1);
   }
   
-  // Draw stomp clouds when doing a butt jump
-  if (stomp_timer.check())
-      sprite->stomp->draw(context, stomp_pos, LAYER_OBJECTS + 1);
-
   // Draw blinking star overlay
   if (invincible_timer.started() &&
       (invincible_timer.get_left() > TUX_INVINCIBLE_TIME_WARNING || global_frame_counter % 3))

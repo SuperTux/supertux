@@ -181,7 +181,7 @@ Trampoline::write(LispWriter& writer)
 void
 Trampoline::draw(DrawingContext& context)
 {
-  img_trampoline[frame]->draw(context, Vector(base.x, base.y), LAYER_OBJECTS);
+  img_trampoline[frame]->draw(context, base, LAYER_OBJECTS);
   frame = 0;
 }
 
@@ -336,7 +336,7 @@ FlyingPlatform::write(LispWriter& writer)
 void
 FlyingPlatform::draw(DrawingContext& context)
 {
-  img_flying_platform->draw(context, Vector(base.x, base.y), LAYER_OBJECTS);
+  img_flying_platform->draw(context, base, LAYER_OBJECTS);
 }
 
 void
@@ -413,6 +413,29 @@ FlyingPlatform::collision(void *p_c_object, int c_object, CollisionType type)
   }
 }
 
+Sprite *img_smoke_cloud;
+
+SmokeCloud::SmokeCloud(const Vector& pos)
+  : position(pos)
+{
+  timer.start(250);
+}
+
+void
+SmokeCloud::action(float elapsed_time)
+{
+  position.y -= 2 * elapsed_time;
+
+  if(!timer.check())
+    remove_me();
+}
+
+void
+SmokeCloud::draw(DrawingContext& context)
+{
+  img_smoke_cloud->draw(context, position, LAYER_OBJECTS+1);
+}
+
 void load_object_gfx()
 {
   char sprite_name[16];
@@ -424,4 +447,6 @@ void load_object_gfx()
   }
 
   img_flying_platform = sprite_manager->load("flying_platform");
+
+  img_smoke_cloud = sprite_manager->load("stomp");
 }
