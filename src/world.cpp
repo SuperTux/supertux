@@ -347,8 +347,11 @@ void World::scrolling()
       scroll_x = tux_pos_x - X_SPACE;
     }
 
+  // this code prevent the screen to scroll before the start or after the level's end
   if(scroll_x < 0)
     scroll_x = 0;
+  if(scroll_x > (level->width-1) * 32)
+    scroll_x = (level->width-1) * 32;
 }
 
 void
