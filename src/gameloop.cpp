@@ -609,7 +609,7 @@ GameSession::run()
       if (time_left.check())
         {
           /* are we low on time ? */
-          if ((timer_get_left(&time_left) < TIME_WARNING)
+          if (time_left.get_left() < TIME_WARNING
               && (get_current_music() != HURRYUP_MUSIC))     /* play the fast music */
             {
               set_current_music(HURRYUP_MUSIC);
@@ -624,7 +624,7 @@ GameSession::run()
       if(show_fps)
         {
           ++fps_cnt;
-          fps_fps = (1000.0 / (float)timer_get_gone(&fps_timer)) * (float)fps_cnt;
+          fps_fps = (1000.0 / (float)fps_timer.get_gone()) * (float)fps_cnt;
 
           if(!fps_timer.check())
             {
@@ -677,9 +677,9 @@ GameSession::drawstatus()
       text_draw(&white_text,"Press ESC To Return",0,20,1);
     }
 
-  if (timer_get_left(&time_left) > TIME_WARNING || (global_frame_counter % 10) < 5)
+  if (time_left.get_left() > TIME_WARNING || (global_frame_counter % 10) < 5)
     {
-      sprintf(str, "%d", timer_get_left(&time_left) / 1000 );
+      sprintf(str, "%d", time_left.get_left() / 1000 );
       text_draw(&white_text, "TIME", 224, 0, 1);
       text_draw(&gold_text, str, 304, 0, 1);
     }

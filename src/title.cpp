@@ -502,7 +502,7 @@ void display_credits()
 
       SDL_Delay(35);
 
-      if(timer_get_left(&timer) < 0)
+      if(timer.get_left() < 0)
         {
           frame++;
           timer.start(50);

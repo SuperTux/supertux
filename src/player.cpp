@@ -263,7 +263,7 @@ Player::action(double frame_ratio)
        */
 
       // FIXME: Move this to gamesession
-      if (timer_get_left(&GameSession::current()->time_left) < TIME_WARNING)
+      if (GameSession::current()->time_left.get_left() < TIME_WARNING)
         {
           /* yes, we are in hurry
              stop the herring_song, prepare to play the correct

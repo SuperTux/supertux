@@ -42,18 +42,20 @@ class timer_type
     ======================================================================*/
   int check();
   int started();
-};
-/*======================================================================
-  int timer_get_left(timer_type* ptimer);
 
-  param : pointer to a timer that you want to get the time left
-  return: the time left (in millisecond)
-  note  : the returned value can be negative
-  ======================================================================*/
-int timer_get_left(timer_type* ptimer);
-int timer_get_gone(timer_type* ptimer);
-void timer_fwrite(timer_type* ptimer, FILE* fi);
-void timer_fread(timer_type* ptimer, FILE* fi);
+  /*======================================================================
+    int timer_get_left(timer_type* ptimer);
+
+    param : pointer to a timer that you want to get the time left
+    return: the time left (in millisecond)
+    note  : the returned value can be negative
+    ======================================================================*/
+  int get_left();
+
+  int  get_gone();
+  void fwrite(FILE* fi);
+  void fread(FILE* fi);
+};
 
 #endif /*SUPERTUX_TIMER_H*/
 

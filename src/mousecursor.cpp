@@ -64,7 +64,7 @@ void MouseCursor::draw()
         cur_state = state_before_click;
     }
 
-  if(timer_get_left(&timer) < 0 && tot_frames > 1)
+  if(timer.get_left() < 0 && tot_frames > 1)
     {
       cur_frame++;
       if(cur_frame++ >= tot_frames)

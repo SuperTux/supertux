@@ -89,51 +89,57 @@ timer_type::started()
     return false;
 }
 
-int timer_get_left(timer_type* ptimer)
+int
+timer_type::get_left()
 {
-  return (ptimer->period - (ptimer->get_ticks() - ptimer->time));
+  return (period - (get_ticks() - time));
 }
 
-int timer_get_gone(timer_type* ptimer)
+int
+timer_type::get_gone()
 {
-  return (ptimer->get_ticks() - ptimer->time);
+  return (get_ticks() - time);
 }
 
-void timer_fwrite(timer_type* ptimer, FILE* fi)
+void
+timer_type::fwrite(FILE* fi)
 {
   unsigned int diff_ticks;
   int tick_mode;
-  if(ptimer->time != 0)
-    diff_ticks = ptimer->get_ticks() - ptimer->time;
+  if(time != 0)
+    diff_ticks = get_ticks() - time;
   else
     diff_ticks = 0;
 
-  fwrite(&ptimer->period,sizeof(unsigned int),1,fi);
-  fwrite(&diff_ticks,sizeof(unsigned int),1,fi);
-  if(ptimer->get_ticks == st_get_ticks)
+  ::fwrite(&period,sizeof(unsigned int),1,fi);
+  ::fwrite(&diff_ticks,sizeof(unsigned int),1,fi);
+  if(get_ticks == st_get_ticks)
       tick_mode = true;
   else
       tick_mode = false;
-  fwrite(&tick_mode,sizeof(unsigned int),1,fi);
+  ::fwrite(&tick_mode,sizeof(unsigned int),1,fi);
 }
 
-void timer_fread(timer_type* ptimer, FILE* fi)
+void
+timer_type::fread(FILE* fi)
 {
   unsigned int diff_ticks;
   int tick_mode;
-  fread(&ptimer->period,sizeof(unsigned int),1,fi);
-  fread(&diff_ticks,sizeof(unsigned int),1,fi);
-  fread(&tick_mode,sizeof(unsigned int),1,fi);
+
+  ::fread(&period,sizeof(unsigned int),1,fi);
+  ::fread(&diff_ticks,sizeof(unsigned int),1,fi);
+  ::fread(&tick_mode,sizeof(unsigned int),1,fi);
 
   if (tick_mode)
-    ptimer->get_ticks = st_get_ticks;
+    get_ticks = st_get_ticks;
   else
-    ptimer->get_ticks = SDL_GetTicks;
+    get_ticks = SDL_GetTicks;
 
   if (diff_ticks != 0)
-    ptimer->time = ptimer->get_ticks() - diff_ticks;
+    time = get_ticks() - diff_ticks;
   else
-    ptimer->time = 0;
+    time = 0;
 
 }
 
+/* EOF */

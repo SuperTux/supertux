@@ -332,7 +332,7 @@ Menu::draw_item(int index, // Position of the current item in the menu
   {
     int effect_time = 0;
     if(effect.check())
-      effect_time = timer_get_left(&effect) / 4;
+      effect_time = effect.get_left() / 4;
 
     effect_offset = (index % 2) ? effect_time : -effect_time;
   }

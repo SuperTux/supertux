@@ -108,7 +108,7 @@ int intro(void)
 
       /* Draw things: */
 
-      if (timer_get_gone(&timer) < 2000 && scene == 0)
+      if (timer.get_gone() < 2000 && scene == 0)
         {
           ++scene;
           /* Gown and tux sitting: */
@@ -120,7 +120,7 @@ int intro(void)
         }
 
 
-      if (timer_get_gone(&timer) >= 2000 && scene == 1)
+      if (timer.get_gone() >= 2000 && scene == 1)
         {
           ++scene;
           /* Helicopter begins to fly in: */
@@ -130,19 +130,19 @@ int intro(void)
         }
 
 
-      if (timer_get_gone(&timer) >= 2000 && timer_get_gone(&timer) < 4000)
+      if (timer.get_gone() >= 2000 && timer.get_gone() < 4000)
         {
           /* Helicopter flying in: */
           texture_draw_part(&bkgd,0,32, 0, 32, screen->w, (copter[0].h));
 
           texture_draw(&copter[i % 2],
-                       (float)(timer_get_gone(&timer) - 2000) / 5  - (copter[0].w), 32);
+                       (float)(timer.get_gone() - 2000) / 5  - (copter[0].w), 32);
 
           update_rect(screen, 0, 32, screen->w, (copter[0].h));
         }
 
 
-      if (timer_get_gone(&timer) >= 2500 && scene == 2)
+      if (timer.get_gone() >= 2500 && scene == 2)
         {
           ++scene;
           /* Gown notices something... */
@@ -151,7 +151,7 @@ int intro(void)
         }
 
 
-      if (timer_get_gone(&timer) >= 3500 && scene == 3)
+      if (timer.get_gone() >= 3500 && scene == 3)
         {
           ++scene;
           /* Gown realizes it's bad! */
@@ -160,7 +160,7 @@ int intro(void)
         }
 
 
-      if (timer_get_gone(&timer) >= 4000 && timer_get_gone(&timer) < 8000)
+      if (timer.get_gone() >= 4000 && timer.get_gone() < 8000)
         {
           /* Helicopter sits: */
           texture_draw_part(&bkgd,0,32, 0, 32, screen->w, (copter[0].h));
@@ -170,7 +170,7 @@ int intro(void)
         }
 
 
-      if (timer_get_gone(&timer) >= 5000 && scene == 4)
+      if (timer.get_gone() >= 5000 && scene == 4)
         {
           ++scene;
           /* Tux realizes something's happening: */
@@ -183,7 +183,7 @@ int intro(void)
         }
 
 
-      if (timer_get_gone(&timer) >= 5000 && timer_get_gone(&timer) <= 8000)
+      if (timer.get_gone() >= 5000 && timer.get_gone() <= 8000)
         {
           /* Beam gown up! */
 
@@ -210,7 +210,7 @@ int intro(void)
 
               texture_draw_part(&gown_upset,src.x,src.y,dest.x,dest.y,dest.w,dest.h);
 
-              height[j] = 400 + rand() % 10 - (int)(300. * ((float)(timer_get_gone(&timer) - 5000)/(float)3000.));
+              height[j] = 400 + rand() % 10 - (int)(300. * ((float)(timer.get_gone() - 5000)/(float)3000.));
               if(height[j] < 105)
                 height[j] = 105;
             }
@@ -223,7 +223,7 @@ int intro(void)
         }
 
 
-      if (timer_get_gone(&timer) >= 8000 && scene == 5)
+      if (timer.get_gone() >= 8000 && scene == 5)
         {
           texture_draw_part(&bkgd,
                             310, 32 + (copter[0].h), 310,
@@ -241,7 +241,7 @@ int intro(void)
         }
 
 
-      if (timer_get_gone(&timer) >= 8000 && timer_get_gone(&timer) <= 8250)
+      if (timer.get_gone() >= 8000 && timer.get_gone() <= 8250)
         {
           /* Helicopter starting to speed off: */
 
@@ -254,14 +254,14 @@ int intro(void)
         }
 
 
-      if (timer_get_gone(&timer) >= 8250)
+      if (timer.get_gone() >= 8250)
         {
           /* Helicopter speeding off: */
 
           texture_draw_part(&bkgd, 0, 32, 0, 32, screen->w, (copter_stretch.h));
 
           texture_draw(&copter_stretch,
-                       (timer_get_gone(&timer) - 8250) /*(i - (8250 / FPS)) * 30*/ + 400 - (copter[0].w),
+                       (timer.get_gone() - 8250) /*(i - (8250 / FPS)) * 30*/ + 400 - (copter[0].w),
                        32);
 
           update_rect(screen, 0, 32, screen->w, (copter_stretch.h));

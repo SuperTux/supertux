@@ -158,7 +158,8 @@ int leveleditor(int levelnb)
         {
           if(select_tilegroup_menu_effect.check())
             {
-              select_tilegroup_menu->set_pos(screen->w - 64 + timer_get_left(&select_tilegroup_menu_effect),82,-0.5,0.5);
+              select_tilegroup_menu->set_pos(screen->w - 64 + select_tilegroup_menu_effect.get_left(),
+                                             82,-0.5,0.5);
             }
           else
             select_tilegroup_menu->set_pos(screen->w - 64,82,-0.5,0.5);
