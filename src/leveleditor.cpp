@@ -137,6 +137,7 @@ static Surface* le_selection;
 static int done;
 static TileOrObject le_current;
 static bool le_mouse_pressed[2];
+static bool le_mouse_clicked[2];
 static Button* le_save_level_bt;
 static Button* le_exit_bt;
 static Button* le_test_level_bt;
@@ -385,7 +386,6 @@ int leveleditor(int levelnb)
         {
         case MNID_SUBSETSAVECHANGES:
           save_subset_settings_menu();
-          //FIXME:show_menu = true;
           Menu::set_current(leveleditor_menu);
           break;
         }
@@ -470,11 +470,11 @@ void le_init_menus()
   level_settings_menu->additem(MN_TEXTFIELD,"Author  ",0,0,MNID_AUTHOR);
   level_settings_menu->additem(MN_STRINGSELECT,"Song    ",0,0,MNID_SONG);
   level_settings_menu->additem(MN_STRINGSELECT,"Bg-Image",0,0,MNID_BGIMG);
-  level_settings_menu->additem(MN_STRINGSELECT,"Particle",0,0,MNID_PARTICLE);  
+  level_settings_menu->additem(MN_STRINGSELECT,"Particle",0,0,MNID_PARTICLE);
   level_settings_menu->additem(MN_NUMFIELD,"Length ",0,0,MNID_LENGTH);
   level_settings_menu->additem(MN_NUMFIELD,"Time   ",0,0,MNID_TIME);
   level_settings_menu->additem(MN_NUMFIELD,"Gravity",0,0,MNID_GRAVITY);
-  level_settings_menu->additem(MN_NUMFIELD,"Bg-Img-Speed",0,0,MNID_BGSPEED);  
+  level_settings_menu->additem(MN_NUMFIELD,"Bg-Img-Speed",0,0,MNID_BGSPEED);
   level_settings_menu->additem(MN_NUMFIELD,"Top Red    ",0,0,MNID_TopRed);
   level_settings_menu->additem(MN_NUMFIELD,"Top Green  ",0,0,MNID_TopGreen);
   level_settings_menu->additem(MN_NUMFIELD,"Top Blue   ",0,0,MNID_TopBlue);
@@ -509,7 +509,7 @@ void le_init_menus()
       else if(!TileManager::instance()->get(*sit)->editor_filenames.empty())
       {
         imagefile += TileManager::instance()->get(*sit)->editor_filenames[0];
-	only_editor_image = true;
+        only_editor_image = true;
       }
       else
       {
@@ -518,11 +518,11 @@ void le_init_menus()
       Button* button = new Button(imagefile, it->name, SDLKey(SDLK_a + i),
                                   0, 0, 32, 32);
       if(!only_editor_image)
-      if(!TileManager::instance()->get(*sit)->editor_filenames.empty())
-      {
-        imagefile = "/images/tilesets/" + TileManager::instance()->get(*sit)->editor_filenames[0];      
-        button->add_icon(imagefile,32,32);
-      }
+        if(!TileManager::instance()->get(*sit)->editor_filenames.empty())
+        {
+          imagefile = "/images/tilesets/" + TileManager::instance()->get(*sit)->editor_filenames[0];
+          button->add_icon(imagefile,32,32);
+        }
       tilegroups_map[it->name]->additem(button, *sit);
     }
   }
@@ -563,6 +563,9 @@ int le_init()
   le_mouse_pressed[LEFT] = false;
   le_mouse_pressed[RIGHT] = false;
 
+  le_mouse_clicked[LEFT] = false;
+  le_mouse_clicked[RIGHT] = false;
+
   le_selection = new Surface(datadir + "/images/leveleditor/select.png", USE_ALPHA);
 
   select_tilegroup_menu_effect.init(false);
@@ -589,9 +592,9 @@ int le_init()
   le_tilemap_panel->additem(new Button("/images/icons/intact.png","Interactive",SDLK_i,0,0),TM_IA);
   le_tilemap_panel->additem(new Button("/images/icons/frgrd.png","Foreground",SDLK_f,0,0),TM_FG);
   le_tilemap_panel->highlight_last(true);
-    
+
   le_current.Init();
-  
+
   le_init_menus();
 
   SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
@@ -662,7 +665,7 @@ void apply_level_settings_menu()
     le_current_level->bkgd_image = string_list_active(level_settings_menu->get_item_by_id(MNID_BGIMG).list);
     i = true;
   }
-  
+
   if(le_current_level->particle_system.compare(string_list_active(level_settings_menu->get_item_by_id(MNID_PARTICLE).list)) != 0)
   {
     le_current_level->particle_system = string_list_active(level_settings_menu->get_item_by_id(MNID_PARTICLE).list);
@@ -807,7 +810,7 @@ void le_drawinterface()
   }
   if(le_current.IsObject())
   {
-     le_current.obj->draw_on_screen(19 * 32, 14 * 32);
+    le_current.obj->draw_on_screen(19 * 32, 14 * 32);
   }
 
   //if(le_current.IsObject())
@@ -872,16 +875,16 @@ void le_drawlevel()
   {
     drawgradient(le_current_level->bkgd_top, le_current_level->bkgd_bottom);
   }
-  
+
   if(le_current.IsTile())
   {
-  Tile::draw(cursor_x, cursor_y,le_current.tile,128);
-  if(!TileManager::instance()->get(le_current.tile)->images.empty())
-  fillrect(cursor_x,cursor_y,TileManager::instance()->get(le_current.tile)->images[0]->w,TileManager::instance()->get(le_current.tile)->images[0]->h,50,50,50,50);
+    Tile::draw(cursor_x, cursor_y,le_current.tile,128);
+    if(!TileManager::instance()->get(le_current.tile)->images.empty())
+      fillrect(cursor_x,cursor_y,TileManager::instance()->get(le_current.tile)->images[0]->w,TileManager::instance()->get(le_current.tile)->images[0]->h,50,50,50,50);
   }
   if(le_current.IsObject())
   {
-  le_current.obj->move_to(cursor_x, cursor_y);
+    le_current.obj->move_to(cursor_x, cursor_y);
   }
 
   /*       clearscreen(current_level.bkgd_red, current_level.bkgd_green, current_level.bkgd_blue); */
@@ -1053,9 +1056,15 @@ void le_checkevents()
           break;
         case SDL_MOUSEBUTTONUP:
           if(event.button.button == SDL_BUTTON_LEFT)
+          {
             le_mouse_pressed[LEFT] = false;
+            le_mouse_clicked[LEFT] = true;
+          }
           else if(event.button.button == SDL_BUTTON_RIGHT)
+          {
             le_mouse_pressed[RIGHT] = false;
+            le_mouse_clicked[RIGHT] = true;
+          }
           break;
         case SDL_MOUSEMOTION:
 
@@ -1190,8 +1199,8 @@ void le_checkevents()
             {
               if(pbutton->get_state() == BUTTON_CLICKED)
               {
-	        if(le_current.IsObject())
-		le_current.obj->move_to(pbutton->get_pos().x,pbutton->get_pos().y);
+                if(le_current.IsObject())
+                  le_current.obj->move_to(pbutton->get_pos().x,pbutton->get_pos().y);
                 le_current.Tile(pbutton->get_tag());
               }
             }
@@ -1202,8 +1211,8 @@ void le_checkevents()
             {
               if(pbutton->get_state() == BUTTON_CLICKED)
               {
-	        if(le_current.IsObject())
-		le_current.obj->move_to(pbutton->get_pos().x,pbutton->get_pos().y);
+                if(le_current.IsObject())
+                  le_current.obj->move_to(pbutton->get_pos().x,pbutton->get_pos().y);
                 le_current.Object(pbutton->get_game_object());
               }
             }
@@ -1241,7 +1250,10 @@ void le_checkevents()
         {
           if(le_current.IsTile())
             le_change(cursor_x, cursor_y, active_tm, le_current.tile);
-          else if(le_current.IsObject())
+        }
+        else if(le_mouse_clicked[LEFT])
+        {
+          if(le_current.IsObject())
           {
             std::string type = le_current.obj->type();
             if(type == "BadGuy")
@@ -1252,6 +1264,7 @@ void le_checkevents()
               le_current_level->badguy_data.push_back(&le_world.bad_guys.back());
             }
           }
+	  le_mouse_clicked[LEFT] = false;
         }
       }
     }

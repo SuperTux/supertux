@@ -188,7 +188,6 @@ ButtonPanel::ButtonPanel(int x, int y, int w, int h)
   rect.h = h;
   hidden = false;
   hlast = false;
-  //last_clicked(NULL);
 }
 
 Button* ButtonPanel::event(SDL_Event& event)
