@@ -7,6 +7,9 @@ http://www.newbreedsoftware.com/supertux/
 
 0.0.6 - current CVS version
 ---------------------------
+  * Compiling with g++ is supported.
+    Tobias Glaesser <tobi.web@gmx.de>
+ 
   * Added realistic physic. Only implemented for the bad money atm.
     Tobias Glaesser <tobi.web@gmx.de>
 
