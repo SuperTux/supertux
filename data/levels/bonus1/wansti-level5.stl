@@ -15,7 +15,7 @@
   (bkgd_red_bottom    0)
   (bkgd_green_bottom  10)
   (bkgd_blue_bottom   120)
-  (time  500)
+  (time  300)
   (gravity  10)
   (particle_system "clouds")
   (theme "antarctica")

@@ -1,26 +1,14 @@
 Super Tux 0.1.2 (upcoming release)
 =====================
-  * one new island containing contributed and "official" new levels
+  * a brand new island containing 22 contributed and "official" levels!
   * a "new" enemy: The Fish
-  * some new music
-  * support for auto-scrolling levels
-  * extended world map format, support for contributed world maps
-  * thrown ice blocks destroy wooden crates now
+  * some new music and graphics
+  * additions to level-/worldmap format and gameplay:
+    -support for autoscrolling levels
+    -display of messages on the worldmap, one-way roads
+    -kicked ice blocks destroy wooden crates and open "?"-boxes
   * minor bug fixes
 
-This is a nice list of the new additions, but I think it gives the impression
-that a lot of stuff has been added and the fact is that basically, it is just
-a release that has a new world.
-What about making it smaller and highlighting the new world (that is the purpose
-of the release), something like this:
-
-  * a brand new island containing 20 contributed and "official" levels! Have fun!
-  * a "new" enemy: The Fish
-  * support for auto-scrolling levels
-  * some gameplay aditions: improved world map and support for Mr. Ice Blocks to
-destroy wooden crates when flat
-  * minor bug fixes
-  
 
 Super Tux 0.1.1 (11 May 04)
 =====================
