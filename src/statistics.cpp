@@ -44,6 +44,16 @@ stat_name_to_string(int stat_enum)
     }
 }
 
+int
+my_min(int a, int b)
+{
+if(a == -1)
+  return b;
+if(b == -1)
+  return a;
+return std::min(a, b);
+}
+
 Statistics::Statistics()
 {
   timer.init(true);
@@ -77,6 +87,9 @@ Statistics::write(LispWriter& writer)
 void
 Statistics::draw_worldmap_info(DrawingContext& context)
 {
+  if(stats[SCORE_STAT] == -1)  // not initialized yet
+    return;
+
   if(!timer.check())
     {
     timer.start(TOTAL_DISPLAY_TIME);
@@ -113,9 +126,29 @@ Statistics::draw_worldmap_info(DrawingContext& context)
 }
 
 void
-Statistics::draw_message_info(DrawingContext& context)
+Statistics::draw_message_info(DrawingContext& context, std::string title)
 {
-  // TODO
+  if(stats[SCORE_STAT] == -1)  // not initialized yet
+    return;
+
+  context.draw_text_center(gold_text, title, Vector(0, 400), LAYER_GUI);
+
+  char str[128];
+  for(int i = 0; i < NUM_STATS; i++)
+    {
+    if(i == SCORE_STAT)
+      sprintf(str, _("Max score: %d"), stats[SCORE_STAT]);
+    else if(i == BADGUYS_SQUISHED_STAT)
+      sprintf(str, _("Max fragging: %d"), stats[BADGUYS_SQUISHED_STAT]);
+    else if(i == SHOTS_STAT)
+      sprintf(str, _("Min shots: %d"), stats[SHOTS_STAT]);
+    else if(i == TIME_NEEDED_STAT)
+      sprintf(str, _("Min time needed: %d"), stats[TIME_NEEDED_STAT]);
+    else// if(i == JUMPS_STAT)
+      sprintf(str, _("Min jumps: %d"), stats[JUMPS_STAT]);
+
+    context.draw_text_center(white_text, str, Vector(0, 430 + i*22), LAYER_GUI);
+    }
 }
 
 void
@@ -147,12 +180,13 @@ void
 Statistics::merge(Statistics& stats_)
 {
   stats[SCORE_STAT] = std::max(stats[SCORE_STAT], stats_.stats[SCORE_STAT]);
-  stats[JUMPS_STAT] = std::min(stats[JUMPS_STAT], stats_.stats[JUMPS_STAT]);
+  if(stats[JUMPS_STAT] != -1)
+    stats[JUMPS_STAT] = my_min(stats[JUMPS_STAT], stats_.stats[JUMPS_STAT]);
   stats[BADGUYS_SQUISHED_STAT] =
     std::max(stats[BADGUYS_SQUISHED_STAT], stats_.stats[BADGUYS_SQUISHED_STAT]);
-  stats[SHOTS_STAT] = std::min(stats[SHOTS_STAT], stats_.stats[SHOTS_STAT]);
+  stats[SHOTS_STAT] = my_min(stats[SHOTS_STAT], stats_.stats[SHOTS_STAT]);
   stats[TIME_NEEDED_STAT] =
-    std::min(stats[TIME_NEEDED_STAT], stats_.stats[TIME_NEEDED_STAT]);
+    my_min(stats[TIME_NEEDED_STAT], stats_.stats[TIME_NEEDED_STAT]);
 }
 
 void

@@ -834,7 +834,8 @@ WorldMap::update(float delta)
               shrink_fade(Vector((special_tile->x*32 + 16 + offset.x),(special_tile->y*32 + 16
                       + offset.y)), 500);
               GameSession session(datadir +  "/levels/" + special_tile->level_name,
-                                  ST_GL_LOAD_LEVEL_FILE, special_tile->vertical_flip);
+                                  ST_GL_LOAD_LEVEL_FILE, special_tile->vertical_flip,
+                                  &special_tile->statistics);
 
               switch (session.run())
                 {
@@ -908,18 +909,20 @@ WorldMap::update(float delta)
                   context.draw_text_center(blue_text, _("GAMEOVER"), 
                       Vector(0, 200), LAYER_FOREGROUND1);
 
-                  sprintf(str, _("SCORE: %d"), total_stats.get_points(SCORE_STAT));
-                  context.draw_text_center(gold_text, str,
-                      Vector(0, 230), LAYER_FOREGROUND1);
+//                  sprintf(str, _("SCORE: %d"), total_stats.get_points(SCORE_STAT));
+//                  context.draw_text_center(gold_text, str,
+//                      Vector(0, 230), LAYER_FOREGROUND1);
 
                   sprintf(str, _("COINS: %d"), player_status.distros);
                   context.draw_text_center(gold_text, str,
                       Vector(0, screen->w - 32), LAYER_FOREGROUND1);
 
+                  total_stats.draw_message_info(context, _("Total Statistics"));
+
                   context.do_drawing();
   
                   SDL_Event event;
-                  wait_for_event(event,2000,5000,true);
+                  wait_for_event(event,2000,6000,true);
 
                   quit = true;
                   player_status.reset();

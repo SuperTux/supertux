@@ -78,9 +78,10 @@ if(haystack.compare(haystack_size-needle_size, needle_size, needle) == 0)
 return false;
 }
 
-GameSession::GameSession(const std::string& levelname_, int mode, bool flip_level_)
+GameSession::GameSession(const std::string& levelname_, int mode, bool flip_level_, Statistics* statistics)
   : level(0), currentsector(0), st_gl_mode(mode),
-    end_sequence(NO_ENDSEQUENCE), levelname(levelname_), flip_level(flip_level_)
+    end_sequence(NO_ENDSEQUENCE), levelname(levelname_), flip_level(flip_level_),
+    best_level_statistics(statistics)
 {
   current_ = this;
   
@@ -184,13 +185,16 @@ GameSession::levelintro(void)
   if(level->get_author().size())
     context.draw_text_center(white_small_text,
       std::string(_("by ")) + level->get_author(), 
-      Vector(0, 400), LAYER_FOREGROUND1);
+      Vector(0, 360), LAYER_FOREGROUND1);
 
 
   if(flip_level)
     context.draw_text_center(white_text,
       _("Level Vertically Flipped!"),
       Vector(0, 310), LAYER_FOREGROUND1);
+
+  if(best_level_statistics != NULL)
+    best_level_statistics->draw_message_info(context, "Best Level Statistics");
 
   context.do_drawing();
 
@@ -546,7 +550,7 @@ GameSession::check_end_conditions()
       tux->invincible_timer.start(7000); //FIXME: Implement a winning timer for the end sequence (with special winning animation etc.)
 
       // add left time to stats
-      global_stats.set_points(TIME_NEEDED_STAT, time_left.get_gone());
+      global_stats.set_points(TIME_NEEDED_STAT, time_left.get_gone() / 1000);
     }
   else if (!end_sequence && tux->is_dead())
     {

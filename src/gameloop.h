@@ -45,6 +45,7 @@ extern int game_started;
 
 class Level;
 class Sector;
+class Statistics;
 
 namespace SuperTux {
 class DrawingContext;
@@ -95,7 +96,7 @@ public:
   DrawingContext* context;
   Timer time_left;
 
-  GameSession(const std::string& level, int mode, bool flip_level_ = false);
+  GameSession(const std::string& level, int mode, bool flip_level_ = false, Statistics* statistics = NULL);
   ~GameSession();
 
   /** Enter the busy loop */
@@ -134,6 +135,8 @@ private:
 
   void on_escape_press();
   void process_menu();
+
+  Statistics* best_level_statistics;
 };
 
 std::string slotinfo(int slot);

@@ -57,7 +57,7 @@ public:
   /* Draw to the worldmap or a game message */
   // TODO: make this functions working
   void draw_worldmap_info(DrawingContext& context);
-  void draw_message_info(DrawingContext& context);
+  void draw_message_info(DrawingContext& context, std::string title);
 
   /* Add / Set / Get points to/from one of the stats this can keep track of */
   void add_points(int stat, int points);
