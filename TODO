@@ -12,8 +12,6 @@ Todo
 - tux sometimes makes short jumps in the endsequence, mostly when
   going through the goal with a small jump, might be old_up related
 - fadein/out for intro/extro would be nice
-- when you interrupted the intro (by going to credits for example) and go back
-  to it, tux doesn't jump anymore
 - when jupming against the 2nd multiple coin block in a level only 1 coin will
   come out.
 - when jumping into the exit with a star, the endgame music will change back to
@@ -32,6 +30,8 @@ Todo
 Fixed
 -----
 
+- when you interrupted the intro (by going to credits for example) and go back
+  to it, tux doesn't jump anymore
 - supertux crashs from time to time - fixed
 - mriceblock doesn't fall down when being squished in the air - fixed
 - It's not possible to duck while jumping - fixed

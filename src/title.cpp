@@ -222,10 +222,12 @@ void draw_demo(GameSession* session, double frame_ratio)
   float last_tux_x_pos = tux->base.x;
   tux->action(frame_ratio);
 
+#if 0 // disabled for now, since with the new jump code we easily get deadlocks
   // Jump if tux stays in the same position for one loop, ie. if he is
   // stuck behind a wall
   if (last_tux_x_pos == tux->base.x)
     walking = false;
+#endif
 
   tux->draw();
 }
