@@ -315,7 +315,7 @@ void title(void)
                   display_credits();
                   Menu::set_current(main_menu);
                   break;
-                case 5:
+                case 6:
                   Menu::set_current(0);
                   break;
                 }
