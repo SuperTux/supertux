@@ -143,7 +143,7 @@ GameSession::levelintro(void)
   gold_text->drawf(str, 0, 224, A_HMIDDLE, A_TOP, 1);
 
   sprintf(str, "by %s", world->get_level()->author.c_str());
-  gold_text->drawf(str, 0, 256, A_HMIDDLE, A_TOP, 1);
+  red_text->drawf(str, 0, 256, A_HMIDDLE, A_TOP, 1);
   
   sprintf(str, "TUX x %d", tux.lives);
   white_text->drawf(str, 0, 288, A_HMIDDLE, A_TOP, 1);
