@@ -42,6 +42,13 @@ struct Pointf
   float y;
 };
 
+struct Level
+{
+  int x;
+  int y;
+  std::string name;
+};
+
 struct Tile
 {
   texture_type sprite;
@@ -76,10 +83,20 @@ class WorldMap
 {
 private:
   texture_type tux_sprite;
+  texture_type level_sprite;
   bool quit;
+
+  std::string name;
+  std::string music;
+
   std::vector<int> tilemap;
   int width;
   int height;
+
+  typedef std::vector<Level> Levels;
+  Levels levels;
+
+  Mix_Music* song;
 
   enum Direction { NONE, WEST, EAST, NORTH, SOUTH };
   Direction tux_direction;

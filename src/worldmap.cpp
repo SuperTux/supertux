@@ -17,11 +17,13 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
+#include <iostream>
 #include <vector>
 #include <assert.h>
 #include "texture.h"
 #include "screen.h"
 #include "lispreader.h"
+#include "gameloop.h"
 #include "worldmap.h"
 
 namespace WorldMapNS {
@@ -103,6 +105,7 @@ WorldMap::WorldMap()
   tux_moving = false;
 
   texture_load(&tux_sprite, DATA_PREFIX "/images/worldmap/tux.png", USE_ALPHA);
+  texture_load(&level_sprite, DATA_PREFIX "/images/worldmap/levelmarker.png", USE_ALPHA);
 
   tux_offset = 0;
 
@@ -112,6 +115,10 @@ WorldMap::WorldMap()
   input_direction = NONE;
   tux_direction = NONE;
   enter_level = false;
+
+  name = "<no name>";
+  music = "SALCON.MOD";
+  song = 0;
 
   load_map();
 }
@@ -143,6 +150,33 @@ WorldMap::load_map()
               reader.read_int("width",  &width);
               reader.read_int("height", &height);
               reader.read_int_vector("data", &tilemap);
+            }
+          else if (strcmp(lisp_symbol(lisp_car(element)), "properties") == 0)
+            {
+              LispReader reader(lisp_cdr(element));
+              reader.read_string("name",  &name);
+              reader.read_string("music", &music);
+            }
+          else if (strcmp(lisp_symbol(lisp_car(element)), "levels") == 0)
+            {
+              lisp_object_t* cur = lisp_cdr(element);
+              
+              while(!lisp_nil_p(cur))
+                {
+                  lisp_object_t* element = lisp_car(cur);
+                  
+                  if (strcmp(lisp_symbol(lisp_car(element)), "level") == 0)
+                    {
+                      Level level;
+                      LispReader reader(lisp_cdr(element));
+                      reader.read_string("name",  &level.name);
+                      reader.read_int("x-pos", &level.x);
+                      reader.read_int("y-pos", &level.y);
+                      levels.push_back(level);
+                    }
+                  
+                  cur = lisp_cdr(cur);      
+                }
             }
           else
             {
@@ -206,7 +240,20 @@ WorldMap::update()
 
   if (enter_level)
     {
-      puts("Enter the current level");
+      for(Levels::iterator i = levels.begin(); i != levels.end(); ++i)
+        {
+          if (i->x == tux_tile_pos.x && 
+              i->y == tux_tile_pos.y)
+            {
+              std::cout << "Enter the current level: " << i->name << std::endl;;
+              halt_music();
+              gameloop(const_cast<char*>((DATA_PREFIX "levels/default/" + i->name).c_str()),
+                                         1, ST_GL_LOAD_LEVEL_FILE);
+              play_music(song, 1);
+              break;
+            }
+        }
+      
     }
   else
     {
@@ -335,6 +382,11 @@ WorldMap::draw()
       break;
     }
 
+  for(Levels::iterator i = levels.begin(); i != levels.end(); ++i)
+    {
+      texture_draw(&level_sprite, i->x*32, i->y*32, NO_UPDATE);
+    }
+
   texture_draw(&tux_sprite, (int)x, (int)y, NO_UPDATE);
   flipscreen();
 }
@@ -344,12 +396,17 @@ WorldMap::display()
 {
   quit = false;
 
+  song = load_song(const_cast<char*>((DATA_PREFIX "/music/" + music).c_str()));
+  play_music(song, 1);
+
   while(!quit) {
     draw();
     get_input();
     update();
     SDL_Delay(20);
   }
+
+  free_music(song);
 }
 
 } // namespace WorldMapNS

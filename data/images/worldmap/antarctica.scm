@@ -8,7 +8,7 @@
        (south #f)
        (east  #f)
        (west  #f)
-       (stop #f))
+       (stop  #f))
  (tile (id 1)
        (image "road_h.png")
        (north #f)

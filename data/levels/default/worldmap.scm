@@ -16,6 +16,20 @@
                 0 0 0 0 0 4 1 1 6 1 1 6 1 1 4 0 0 0 0 0
                 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
                 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-                )))
+                ))
+ (levels 
+  (level (name "level1.dat")
+         (x-pos 3)
+         (y-pos 0))
+  (level (name "level2.dat")
+         (x-pos 5)
+         (y-pos 3))
+  (level (name "level3.dat")
+         (x-pos 8)
+         (y-pos 0))
+  (level (name "level4.dat")
+         (x-pos 7)
+         (y-pos 5))
+  ))
 
 ;; EOF ;;
