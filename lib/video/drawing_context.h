@@ -129,6 +129,7 @@ namespace SuperTux
         {
           Font* font;
           std::string text;
+          bool center;
         };
 
       struct GradientRequest
@@ -161,6 +162,7 @@ namespace SuperTux
 
       void draw_surface_part(DrawingRequest& request);
       void draw_text(DrawingRequest& request);
+      void draw_text_center(DrawingRequest& request);
       void draw_gradient(DrawingRequest& request);
       void draw_filled_rect(DrawingRequest& request);
 

@@ -93,6 +93,35 @@ Font::draw(const std::string& text, const Vector& pos, Uint32 drawing_effect)
 }
 
 void
+Font::draw_center(const std::string& text, const Vector& pos, Uint32 drawing_effect)
+{
+  /* Cut lines changes into seperate strings, needed to support centering text
+     with break lines.
+     Feel free to replace this hack with a more elegant solution
+  */
+  char temp[1024];
+  unsigned int i, l, y;
+  i = y = 0;
+  while(true)
+    {
+    l = text.find("\n", i);
+    if(l == std::string::npos)
+      {
+      temp[text.copy(temp, text.size() - i, i)] = '\0';
+      draw(temp, Vector(screen->w/2 - get_text_width(temp)/2 + pos.x, pos.y + y),
+           drawing_effect);
+      break;
+      }
+    temp[text.copy(temp, l - i, i)] = '\0';
+    draw(temp, Vector(screen->w/2 - get_text_width(temp)/2 + pos.x, pos.y + y),
+         drawing_effect);
+
+    i = l+1;
+    y += h + 2;
+    }
+}
+
+void
 Font::draw_chars(Surface* pchars, const std::string& text, const Vector& pos,
                  Uint32 drawing_effect)
 {

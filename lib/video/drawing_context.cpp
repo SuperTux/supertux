@@ -90,6 +90,7 @@ DrawingContext::draw_text(Font* font, const std::string& text,
   TextRequest* textrequest = new TextRequest;
   textrequest->font = font;
   textrequest->text = text;
+  textrequest->center = false;
   request.request_data = textrequest;
 
   drawingrequests.push_back(request);
@@ -103,13 +104,13 @@ DrawingContext::draw_text_center(Font* font, const std::string& text,
 
   request.type = TEXT;
   request.layer = layer;
-  request.pos = transform.apply(position) + Vector(screen->w/2 - 
-      font->get_text_width(text)/2, 0);
+  request.pos = transform.apply(position);
   request.drawing_effect = drawing_effect;
 
   TextRequest* textrequest = new TextRequest;
   textrequest->font = font;
   textrequest->text = text;
+  textrequest->center = true;
   request.request_data = textrequest;
 
   drawingrequests.push_back(request);
@@ -215,8 +216,11 @@ void
 DrawingContext::draw_text(DrawingRequest& request)
 {
   TextRequest* textrequest = (TextRequest*) request.request_data;
-  
-  textrequest->font->draw(textrequest->text, request.pos, request.drawing_effect);
+
+  if(textrequest->center)
+    textrequest->font->draw_center(textrequest->text, request.pos, request.drawing_effect);
+  else
+    textrequest->font->draw(textrequest->text, request.pos, request.drawing_effect);
 
   delete textrequest;
 }

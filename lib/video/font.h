@@ -55,6 +55,8 @@ namespace SuperTux
 
       void draw(const std::string& text, const Vector& pos,
                 Uint32 drawing_effect = NONE_EFFECT);
+      void draw_center(const std::string& text, const Vector& pos,
+                Uint32 drawing_effect = NONE_EFFECT);
       void draw_chars(Surface* pchars, const std::string& text,
                       const Vector& position, Uint32 drawing_effect);
 
