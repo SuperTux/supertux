@@ -989,12 +989,9 @@ BadGuy::draw(DrawingContext& context)
   else
     sprite->draw(context, Vector(base.x, base.y), LAYER_OBJECTS);
 
-  if(debug_mode)   // draw hotpoint
-    {
-    float scroll_x = context.get_translation().x;
-    float scroll_y = context.get_translation().y;
-    fillrect(base.x - scroll_x, base.y - scroll_y, base.width, base.height, 75,0,75, 150);
-    }
+  if(debug_mode)
+    context.draw_filled_rect(Vector(base.x, base.y),
+        Vector(base.width, base.height), Color(75,0,75, 150), LAYER_OBJECTS+1);
 }
 
 void

@@ -16,15 +16,13 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-#include "vector.h"
-#include <math.h>
+#include "interactive_object.h"
 
-Vector Vector::unit() const
+InteractiveObject::InteractiveObject()
 {
-  return *this / norm();
 }
 
-float Vector::norm() const
+InteractiveObject::~InteractiveObject()
 {
-  return sqrt(x*x + y*y);
 }
+

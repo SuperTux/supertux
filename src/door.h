@@ -16,15 +16,34 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-#include "vector.h"
-#include <math.h>
+#ifndef __DOOR_H__
+#define __DOOR_H__
 
-Vector Vector::unit() const
-{
-  return *this / norm();
-}
+#include <string>
+#include "interactive_object.h"
+#include "serializable.h"
 
-float Vector::norm() const
+class Sprite;
+
+class LispReader;
+
+class Door : public InteractiveObject, public Serializable
 {
-  return sqrt(x*x + y*y);
-}
+public:
+  Door(LispReader& reader);
+  virtual ~Door();
+
+  virtual void write(LispWriter& writer);
+  
+  virtual void action(float elapsed_time);
+  virtual void draw(DrawingContext& context);
+  virtual void interaction(InteractionType type);
+
+private:
+  Sprite* sprite;
+  std::string target_sector;
+  std::string target_spawnpoint;
+};
+
+#endif
+

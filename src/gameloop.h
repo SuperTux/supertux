@@ -72,6 +72,10 @@ private:
   bool game_pause;
 
   std::string levelname;
+
+  // the sector and spawnpoint we shoudl spawn after this frame
+  std::string newsector;
+  std::string newspawnpoint;
 public:
   enum ExitStatus { ES_NONE, ES_LEVEL_FINISHED, ES_GAME_OVER, ES_LEVEL_ABORT };
 private:
@@ -93,6 +97,8 @@ public:
   { current_ = this; }
   static GameSession* current() { return current_; }
 
+  void respawn(const std::string& sectorname,
+      const std::string& spawnpointname);
   Sector* get_current_sector()
   { return currentsector; }
   

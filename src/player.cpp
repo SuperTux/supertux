@@ -31,6 +31,7 @@
 #include "tilemap.h"
 #include "camera.h"
 #include "gameobjs.h"
+#include "interactive_object.h"
 #include "screen/screen.h"
 
 // behavior definitions:
@@ -57,7 +58,8 @@ PlayerKeymap keymap;
 
 PlayerKeymap::PlayerKeymap()
 {
-  keymap.jump  = SDLK_UP;
+  keymap.jump  = SDLK_SPACE;
+  keymap.activate = SDLK_UP;
   keymap.duck  = SDLK_DOWN;
   keymap.left  = SDLK_LEFT;
   keymap.right = SDLK_RIGHT;
@@ -73,6 +75,7 @@ void player_input_init(player_input_type* pplayer_input)
   pplayer_input->right = UP;
   pplayer_input->up = UP;
   pplayer_input->old_up = UP;
+  pplayer_input->activate = UP;
 }
 
 Player::Player()
@@ -154,6 +157,23 @@ Player::key_event(SDLKey key, int state)
       if (state == UP)
         input.old_fire = UP;
       input.fire = state;
+      return true;
+    }
+  else if(key == keymap.activate)
+    {
+      input.activate = state;
+
+      if(state == DOWN) {
+        /** check for interactive objects */
+        for(Sector::InteractiveObjects::iterator i 
+            = Sector::current()->interactive_objects.begin();
+            i != Sector::current()->interactive_objects.end(); ++i) {
+          if(rectcollision(base, (*i)->get_area())) {
+            (*i)->interaction(INTERACTION_ACTIVATE);
+          }
+        }
+      }
+      
       return true;
     }
   else
@@ -751,12 +771,9 @@ Player::draw(DrawingContext& context)
       largetux_star->draw(context, pos, LAYER_OBJECTS + 2);
   }
  
-#if 0 // TODO
   if (debug_mode)
-    fillrect(base.x - viewport.get_translation().x,
-        base.y - viewport.get_translation().y, 
-             base.width, base.height, 75,75,75, 150);
-#endif
+    context.draw_filled_rect(Vector(base.x, base.y),
+        Vector(base.width, base.height), Color(75,75,75, 150), LAYER_OBJECTS+1);
 }
 
 void

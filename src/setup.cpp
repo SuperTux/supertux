@@ -424,6 +424,8 @@ void st_menu(void)
   options_keys_menu->additem(MN_CONTROLFIELD_KB,"Right move", 0,0, 0,&keymap.right);
   options_keys_menu->additem(MN_CONTROLFIELD_KB,"Jump", 0,0, 0,&keymap.jump);
   options_keys_menu->additem(MN_CONTROLFIELD_KB,"Duck", 0,0, 0,&keymap.duck);
+  options_keys_menu->additem(MN_CONTROLFIELD_KB,"Activate", 0, 0, 0,
+          &keymap.activate);
   options_keys_menu->additem(MN_CONTROLFIELD_KB,"Power/Run", 0,0, 0,&keymap.fire);
   options_keys_menu->additem(MN_HL,"",0,0);
   options_keys_menu->additem(MN_BACK,"Back",0,0);

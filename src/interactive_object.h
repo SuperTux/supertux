@@ -16,15 +16,35 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-#include "vector.h"
-#include <math.h>
+#ifndef __INTERACTIVE_OBJECT_H__
+#define __INTERACTIVE_OBJECT_H__
 
-Vector Vector::unit() const
-{
-  return *this / norm();
-}
+#include "game_object.h"
+#include "type.h"
 
-float Vector::norm() const
+enum InteractionType
 {
-  return sqrt(x*x + y*y);
-}
+  INTERACTION_TOUCH, INTERACTION_ACTIVATE // more to come
+};
+
+/** This class is the base class for all objects you can interact with in some
+ * way. There are several interaction types defined like touch and activate
+ */
+class InteractiveObject : public GameObject
+{
+public:
+  InteractiveObject();
+  virtual ~InteractiveObject();
+
+  /** this function is called when an interaction has taken place */
+  virtual void interaction(InteractionType type) = 0;
+
+  const base_type& get_area() const
+  { return area; }
+
+protected:
+  base_type area;
+};
+
+#endif
+

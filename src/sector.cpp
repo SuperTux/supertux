@@ -1,3 +1,21 @@
+//  $Id$
+//
+//  SuperTux -  A Jump'n Run
+//  Copyright (C) 2004 Matthias Braun <matze@braunis.de
+//
+//  This program is free software; you can redistribute it and/or
+//  modify it under the terms of the GNU General Public License
+//  as published by the Free Software Foundation; either version 2
+//  of the License, or (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program; if not, write to the Free Software
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "sector.h"
 
 #include <memory>
@@ -18,6 +36,8 @@
 #include "music_manager.h"
 #include "gameloop.h"
 #include "resources.h"
+#include "interactive_object.h"
+#include "door.h"
 
 Sector* Sector::_current = 0;
 
@@ -78,6 +98,7 @@ Sector::parse(LispReader& lispreader)
       reader.read_string("name", sp->name);
       reader.read_float("x", sp->pos.x);
       reader.read_float("y", sp->pos.y);
+      spawnpoints.push_back(sp);
     } else if(token == "tilemap") {
       TileMap* tilemap = new TileMap(reader);
       add_object(tilemap);
@@ -103,12 +124,17 @@ Sector::parse(LispReader& lispreader)
       CloudParticleSystem* partsys = new CloudParticleSystem();
       partsys->parse(reader);
       add_object(partsys);
+    } else if(token == "door") {
+      add_object(new Door(reader));
+    } else {
+      std::cerr << "Unknown object type '" << token << "'.\n";
     }
   }
 
   if(!camera) {
-    std::cerr << "sector does not contain a camera.\n";
+    std::cerr << "sector '" << name << "' does not contain a camera.\n";
     camera = new Camera(this);
+    add_object(camera);
   }
   if(!solids)
     throw std::runtime_error("sector does not contain a solid tile layer.");
@@ -264,9 +290,10 @@ Sector::add_object(GameObject* object)
   FlyingPlatform* flying_platform = dynamic_cast<FlyingPlatform*> (object);
   if(flying_platform)
     flying_platforms.push_back(flying_platform);
-  Background* background = dynamic_cast<Background*> (object);
-  if(background)
-    this->background = background;
+  InteractiveObject* interactive_object 
+      = dynamic_cast<InteractiveObject*> (object);
+  if(interactive_object)
+    interactive_objects.push_back(interactive_object);
 
   gameobjects.push_back(object);
 }
@@ -337,6 +364,13 @@ Sector::action(float elapsed_time)
         bullets.erase(
             std::remove(bullets.begin(), bullets.end(), bullet),
             bullets.end());
+      }
+      InteractiveObject* interactive_object =
+          dynamic_cast<InteractiveObject*> (*i);
+      if(interactive_object) {
+        interactive_objects.erase(
+            std::remove(interactive_objects.begin(), interactive_objects.end(),
+                interactive_object), interactive_objects.end());
       }
       Upgrade* upgrade = dynamic_cast<Upgrade*> (*i);
       if(upgrade) {

@@ -316,6 +316,19 @@ GameSession::process_events()
 
                     switch(key)
                       {
+                      case SDLK_a:
+                        if(debug_mode)
+                        {
+                          char buf[160];
+                          snprintf(buf, sizeof(buf), "P: %4.1f,%4.1f",
+                              tux.base.x, tux.base.y);
+                          context->draw_text(white_text, buf,
+                              Vector(0, screen->h - white_text->get_height()),
+                              LAYER_FOREGROUND1);
+                          context->do_drawing();
+                          SDL_Delay(1000);
+                        }
+                        break;
                       case SDLK_p:
                         if(!Menu::current())
                           {
@@ -334,13 +347,7 @@ GameSession::process_events()
                       case SDLK_TAB:
                         if(debug_mode)
                           {
-                            tux.size = !tux.size;
-                            if(tux.size == BIG)
-                              {
-                                tux.base.height = 64;
-                              }
-                            else
-                              tux.base.height = 32;
+                            tux.grow(false);
                           }
                         break;
                       case SDLK_END:
@@ -437,19 +444,9 @@ GameSession::check_end_conditions()
   Player* tux = currentsector->player;
 
   /* End of level? */
-  int endpos = (currentsector->solids->get_width() - 5) * 32;
   Tile* endtile = collision_goal(tux->base);
 
-  // fallback in case the other endpositions don't trigger
-  if (!end_sequence && tux->base.x >= endpos)
-    {
-      end_sequence = ENDSEQUENCE_WAITING;
-      last_x_pos = -1;
-      music_manager->play_music(level_end_song, 0);
-      endsequence_timer.start(7000);
-      tux->invincible_timer.start(7000); //FIXME: Implement a winning timer for the end sequence (with special winning animation etc.)
-    }
-  else if(end_sequence && !endsequence_timer.check())
+  if(end_sequence && !endsequence_timer.check())
     {
       exit_status = ES_LEVEL_FINISHED;
       return;
@@ -491,6 +488,15 @@ GameSession::action(double frame_ratio)
       // Update Tux and the World
       currentsector->action(frame_ratio);
     }
+
+  // respawning in new sector?
+  if(newsector != "" && newspawnpoint != "") {
+    Sector* sector = level->get_sector(newsector);
+    currentsector = sector;
+    currentsector->activate(newspawnpoint);
+    currentsector->play_music(LEVEL_MUSIC);
+    newsector = newspawnpoint = "";
+  }
 }
 
 void 
@@ -668,6 +674,13 @@ GameSession::run()
     }
   
   return exit_status;
+}
+
+void
+GameSession::respawn(const std::string& sector, const std::string& spawnpoint)
+{
+  newsector = sector;
+  newspawnpoint = spawnpoint;
 }
 
 /* Bounce a brick: */

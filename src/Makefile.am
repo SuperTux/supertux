@@ -17,10 +17,14 @@ bitmask.cpp \
 bitmask.h \
 button.cpp \
 button.h \
+camera.cpp \
+camera.h \
 collision.cpp \
 collision.h \
 configfile.cpp \
 configfile.h \
+door.cpp \
+door.h \
 intro.cpp \
 intro.h \
 defines.h \
@@ -30,6 +34,8 @@ globals.cpp \
 globals.h \
 high_scores.cpp \
 high_scores.h \
+interactive_object.cpp \
+interactive_object.h \
 level.cpp \
 level.h \
 leveleditor.cpp \
@@ -38,6 +44,12 @@ lispreader.cpp \
 lispreader.h \
 menu.cpp \
 menu.h \
+mousecursor.cpp \
+mousecursor.h \
+music_manager.cpp \
+music_manager.h \
+musicref.cpp \
+musicref.h \
 particlesystem.cpp \
 particlesystem.h \
 physic.cpp \
@@ -52,6 +64,10 @@ sound.cpp \
 sound.h \
 special.cpp \
 special.h \
+sprite.h \
+sprite.cpp \
+sprite_manager.cpp \
+sprite_manager.h \
 supertux.cpp \
 timer.cpp \
 timer.h \
@@ -63,22 +79,10 @@ worldmap.cpp \
 worldmap.h \
 tile.h \
 tile.cpp \
-mousecursor.cpp \
-mousecursor.h \
 resources.h \
 resources.cpp \
 gameobjs.h \
 gameobjs.cpp \
-sprite.h \
-sprite.cpp \
-sprite_manager.cpp \
-sprite_manager.h \
-music_manager.cpp \
-music_manager.h \
-musicref.cpp \
-musicref.h \
-camera.cpp \
-camera.h \
 game_object.cpp \
 game_object.h \
 drawable.h \
@@ -92,6 +96,6 @@ serializable.h \
 vector.cpp \
 vector.h \
 sector.cpp \
-sector.h 
+sector.h
 
 # EOF #

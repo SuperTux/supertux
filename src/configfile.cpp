@@ -100,6 +100,7 @@ void loadconfig(void)
   reader.read_int ("joystick-deadzone", joystick_keymap.dead_zone);
 
   reader.read_int ("keyboard-jump", keymap.jump);
+  reader.read_int ("keyboard-activate", keymap.activate);
   reader.read_int ("keyboard-duck", keymap.duck);
   reader.read_int ("keyboard-left", keymap.left);
   reader.read_int ("keyboard-right", keymap.right);
