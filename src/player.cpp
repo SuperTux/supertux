@@ -510,13 +510,13 @@ Player::draw()
           else
             sprite = &largetux;
           
-          if (duck)
+          if (duck && size != SMALL)
             {
               if (dir == RIGHT)
                 sprite->duck_right->draw(base.x - scroll_x, base.y);
               else 
                 sprite->duck_left->draw(base.x - scroll_x, base.y);
-            }                    
+            }
           else if (skidding_timer.started())
             {
               if (dir == RIGHT)

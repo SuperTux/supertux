@@ -241,11 +241,11 @@
  (sprite (name "firetux-duck-left")
          (x-hotspot 6)
          (y-hotspot 6)
-         (images "shared/tux-duck-left.png"))
+         (images "shared/firetux-duck-left.png"))
  (sprite (name "firetux-duck-right")
          (x-hotspot 6)
          (y-hotspot 6)
-         (images "shared/tux-duck-right.png"))
+         (images "shared/firetux-duck-right.png"))
 
 
  (sprite (name "firetux-kick-left")
