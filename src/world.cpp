@@ -134,8 +134,7 @@ World::draw()
     }
   else
     {
-      drawgradient(level->bkgd_top_red, level->bkgd_top_green, level->bkgd_top_blue,
-                     level->bkgd_bottom_red, level->bkgd_bottom_green, level->bkgd_bottom_blue);
+      drawgradient(level->bkgd_top, level->bkgd_bottom);
     }
     
   /* Draw particle systems (background) */

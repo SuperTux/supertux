@@ -24,9 +24,14 @@
 #define USE_ALPHA 0
 #define IGNORE_ALPHA 1
 
+struct Color
+{
+int red, green, blue;
+};
+
 void drawline(int x1, int y1, int x2, int y2, int r, int g, int b, int a);
 void clearscreen(int r, int g, int b);
-void drawgradient(int top_r, int top_g, int top_b, int bot_r, int bot_g, int bot_b);
+void drawgradient(Color top_clr, Color bot_clr);
 void fillrect(float x, float y, float w, float h, int r, int g, int b, int a);
 void updatescreen(void);
 void flipscreen(void);

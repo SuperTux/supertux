@@ -56,16 +56,16 @@ void clearscreen(int r, int g, int b)
 
 /* --- DRAWS A VERTICAL GRADIENT --- */
 
-void drawgradient(int top_r, int top_g, int top_b, int bot_r, int bot_g, int bot_b)
+void drawgradient(Color top_clr, Color bot_clr)
 {
 #ifndef NOOPENGL
   if(use_gl)
     {
       glBegin(GL_QUADS);
-      glColor3ub(top_r, top_g, top_b);
+      glColor3ub(top_clr.red, top_clr.green, top_clr.blue);
       glVertex2f(0, 0);
       glVertex2f(640, 0);
-      glColor3ub(bot_r, bot_g, bot_b);
+      glColor3ub(bot_clr.red, bot_clr.green, bot_clr.blue);
       glVertex2f(640, 480);
       glVertex2f(0, 480);
       glEnd();
@@ -75,9 +75,9 @@ void drawgradient(int top_r, int top_g, int top_b, int bot_r, int bot_g, int bot
 #endif
 
     for(float y = 0; y < 480; y += 2)
-      fillrect(0, (int)y, 640, 2, (int)(((float)(top_r-bot_r)/640) * y + top_r),
-                                  (int)(((float)(top_g-bot_g)/640) * y + top_g),
-                                  (int)(((float)(top_b-bot_b)/640) * y + top_b), 255);
+      fillrect(0, (int)y, 640, 2, (int)(((float)(top_clr.red-bot_clr.red)/640) * y + top_clr.red),
+                                  (int)(((float)(top_clr.green-bot_clr.green)/640) * y + top_clr.green),
+                                  (int)(((float)(top_clr.blue-bot_clr.blue)/640) * y + top_clr.blue), 255);
 /* calculates the color for each line, based in the generic equation for functions: y = mx + b */
 
 #ifndef NOOPENGL

@@ -201,12 +201,12 @@ Level::init_defaults()
   width      = 21;
   time_left  = 100;
   gravity    = 10.;
-  bkgd_top_red   = 0;
-  bkgd_top_green = 0;
-  bkgd_top_blue  = 0;
-  bkgd_bottom_red   = 0;
-  bkgd_bottom_green = 0;
-  bkgd_bottom_blue  = 0;
+  bkgd_top.red   = 0;
+  bkgd_top.green = 0;
+  bkgd_top.blue  = 0;
+  bkgd_bottom.red   = 255;
+  bkgd_bottom.green = 255;
+  bkgd_bottom.blue  = 255;
   endpos     = 0;
 
   for(int i = 0; i < 15; ++i)
@@ -277,12 +277,12 @@ Level::load(const std::string& filename)
       reader.read_int("version",  &version);
       reader.read_int("width",  &width);
       reader.read_int("time",  &time_left);
-      reader.read_int("bkgd_top_red",  &bkgd_top_red);
-      reader.read_int("bkgd_top_green",  &bkgd_top_green);
-      reader.read_int("bkgd_top_blue",  &bkgd_top_blue);
-      reader.read_int("bkgd_bottom_red",  &bkgd_bottom_red);
-      reader.read_int("bkgd_bottom_green",  &bkgd_bottom_green);
-      reader.read_int("bkgd_bottom_blue",  &bkgd_bottom_blue);
+      reader.read_int("bkgd_top_red",  &bkgd_top.red);
+      reader.read_int("bkgd_top_green",  &bkgd_top.green);
+      reader.read_int("bkgd_top_blue",  &bkgd_top.blue);
+      reader.read_int("bkgd_bottom_red",  &bkgd_bottom.red);
+      reader.read_int("bkgd_bottom_green",  &bkgd_bottom.green);
+      reader.read_int("bkgd_bottom_blue",  &bkgd_bottom.blue);
       reader.read_float("gravity",  &gravity);
       reader.read_string("name",  &name);
       reader.read_string("author", &author);
@@ -476,12 +476,12 @@ Level::save(const  char * subset, int level)
   fprintf(fi,"  (music \"%s\")\n", song_title.c_str());
   fprintf(fi,"  (background \"%s\")\n", bkgd_image.c_str());
   fprintf(fi,"  (particle_system \"%s\")\n", particle_system.c_str());
-  fprintf(fi,"  (bkgd_top_red %d)\n", bkgd_top_red);
-  fprintf(fi,"  (bkgd_top_green %d)\n", bkgd_top_green);
-  fprintf(fi,"  (bkgd_top_blue %d)\n", bkgd_top_blue);
-  fprintf(fi,"  (bkgd_bottom_red %d)\n", bkgd_bottom_red);
-  fprintf(fi,"  (bkgd_bottom_green %d)\n", bkgd_bottom_green);
-  fprintf(fi,"  (bkgd_bottom_blue %d)\n", bkgd_bottom_blue);
+  fprintf(fi,"  (bkgd_top_red %d)\n", bkgd_top.red);
+  fprintf(fi,"  (bkgd_top_green %d)\n", bkgd_top.green);
+  fprintf(fi,"  (bkgd_top_blue %d)\n", bkgd_top.blue);
+  fprintf(fi,"  (bkgd_bottom_red %d)\n", bkgd_bottom.red);
+  fprintf(fi,"  (bkgd_bottom_green %d)\n", bkgd_bottom.green);
+  fprintf(fi,"  (bkgd_bottom_blue %d)\n", bkgd_bottom.blue);
   fprintf(fi,"  (time %d)\n", time_left);
   fprintf(fi,"  (width %d)\n", width);
   fprintf(fi,"  (gravity %2.1f)\n", gravity);

@@ -65,12 +65,8 @@ class Level
   unsigned int* ia_tiles[15]; /* Tiles which can interact in the game (solids for example)*/
   unsigned int* fg_tiles[15]; /* Tiles in the foreground */
   int time_left;
-  int bkgd_top_red;
-  int bkgd_top_green;
-  int bkgd_top_blue;
-  int bkgd_bottom_red;
-  int bkgd_bottom_green;
-  int bkgd_bottom_blue;
+  Color bkgd_top;
+  Color bkgd_bottom;
   int width;
   int  endpos;
   float gravity;

@@ -487,17 +487,17 @@ void update_level_settings_menu()
   level_settings_menu->item[8].change_input(str);
   sprintf(str,"%2.0f",le_current_level->gravity);
   level_settings_menu->item[9].change_input(str);
-  sprintf(str,"%d",le_current_level->bkgd_top_red);
+  sprintf(str,"%d",le_current_level->bkgd_top.red);
   level_settings_menu->item[10].change_input(str);
-  sprintf(str,"%d",le_current_level->bkgd_top_green);
+  sprintf(str,"%d",le_current_level->bkgd_top.green);
   level_settings_menu->item[11].change_input(str);
-  sprintf(str,"%d",le_current_level->bkgd_top_blue);
+  sprintf(str,"%d",le_current_level->bkgd_top.blue);
   level_settings_menu->item[12].change_input(str);
-  sprintf(str,"%d",le_current_level->bkgd_bottom_red);
+  sprintf(str,"%d",le_current_level->bkgd_bottom.red);
   level_settings_menu->item[13].change_input(str);
-  sprintf(str,"%d",le_current_level->bkgd_bottom_green);
+  sprintf(str,"%d",le_current_level->bkgd_bottom.green);
   level_settings_menu->item[14].change_input(str);
-  sprintf(str,"%d",le_current_level->bkgd_bottom_blue);
+  sprintf(str,"%d",le_current_level->bkgd_bottom.blue);
   level_settings_menu->item[15].change_input(str);
 }
 
@@ -538,12 +538,12 @@ void apply_level_settings_menu()
   le_current_level->change_size(atoi(level_settings_menu->item[7].input));
   le_current_level->time_left = atoi(level_settings_menu->item[8].input);
   le_current_level->gravity = atof(level_settings_menu->item[9].input);
-  le_current_level->bkgd_top_red = atoi(level_settings_menu->item[10].input);
-  le_current_level->bkgd_top_green = atoi(level_settings_menu->item[11].input);
-  le_current_level->bkgd_top_blue = atoi(level_settings_menu->item[12].input);
-  le_current_level->bkgd_bottom_red = atoi(level_settings_menu->item[13].input);
-  le_current_level->bkgd_bottom_green = atoi(level_settings_menu->item[14].input);
-  le_current_level->bkgd_bottom_blue = atoi(level_settings_menu->item[15].input);
+  le_current_level->bkgd_top.red = atoi(level_settings_menu->item[10].input);
+  le_current_level->bkgd_top.green = atoi(level_settings_menu->item[11].input);
+  le_current_level->bkgd_top.blue = atoi(level_settings_menu->item[12].input);
+  le_current_level->bkgd_bottom.red = atoi(level_settings_menu->item[13].input);
+  le_current_level->bkgd_bottom.green = atoi(level_settings_menu->item[14].input);
+  le_current_level->bkgd_bottom.blue = atoi(level_settings_menu->item[15].input);
 }
 
 void save_subset_settings_menu()
@@ -701,8 +701,7 @@ void le_drawlevel()
     }
   else
     {
-          drawgradient(le_current_level->bkgd_top_red, le_current_level->bkgd_top_green, le_current_level->bkgd_top_blue, 
-                   le_current_level->bkgd_bottom_red, le_current_level->bkgd_bottom_green, le_current_level->bkgd_bottom_blue);
+          drawgradient(le_current_level->bkgd_top, le_current_level->bkgd_bottom);
     }
 
   /*       clearscreen(current_level.bkgd_red, current_level.bkgd_green, current_level.bkgd_blue); */
