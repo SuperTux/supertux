@@ -89,6 +89,7 @@ background.cpp \
 tilemap.h \
 tilemap.cpp \
 moving_object.h \
-moving_object.cpp 
+moving_object.cpp \
+serializable.h
 
 # EOF #
