@@ -78,7 +78,7 @@
   (objects
     (mriceblock  (x 439) (y 159) (stay-on-platform #t))
     (mriceblock  (x 479) (y 159) (stay-on-platform #f))
-    (trampoline (x 250) (y 150) (power 7.5) (type "trampoline"))
+    (trampoline (x 250) (y 150) (power 7.5))
   )
    )
 
