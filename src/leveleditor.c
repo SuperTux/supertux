@@ -441,7 +441,7 @@ int le_init()
   button_load(&le_move_right_bt,"/images/icons/right.png","Move right",SDLK_RIGHT,screen->w-80,0);
   button_load(&le_fgd_bt,"/images/icons/fgd.png","Foreground tiles", SDLK_F7,screen->w-64,82);
   button_load(&le_bkgd_bt,"/images/icons/bgd.png","Background tiles", SDLK_F8,screen->w-43,82);
-  button_load(&le_bad_bt,"/images/icons/bad.png","Bad guys", SDLK_F9,screen->w-22,82);
+  button_load(&le_bad_bt,"/images/icons/emy.png","Enemies", SDLK_F9,screen->w-22,82);
 
   bkgd_files =  dfiles("images/themes/antarctica","bkgd-", NULL);
   string_list_sort(&bkgd_files);

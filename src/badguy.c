@@ -575,9 +575,10 @@ void badguy_collision(bad_guy_type* pbad, void *p_c_object, int c_object)
       {
       /* do nothing */
       }
-      else
+      else if(pbad->mode == KICK)
         {
-          /* We're in kick mode, kill the other guy: */
+          /* We're in kick mode, kill the other guy
+	     and yourself(wuahaha) : */
 
           pbad_c->dying = FALLING;
           pbad_c->base.ym = -8;
@@ -585,6 +586,13 @@ void badguy_collision(bad_guy_type* pbad, void *p_c_object, int c_object)
 
           add_score(pbad->base.x - scroll_x,
                     pbad->base.y, 100);
+	          pbad_c->dying = FALLING;
+		  
+          pbad->dying = FALLING;
+          pbad->base.ym = -8;
+
+          add_score(pbad_c->base.x - scroll_x,
+                    pbad_c->base.y, 100);
         }
       break;
     case CO_PLAYER:
@@ -597,7 +605,7 @@ void badguy_collision(bad_guy_type* pbad, void *p_c_object, int c_object)
               timer_start(&pbad->timer,4000);
               physic_set_state(&pplayer_c->vphysic,PH_VT);
               physic_set_start_vy(&pplayer_c->vphysic,2.);
-	      pplayer_c->base.y = pbad->base.y - pplayer_c->base.height;
+	      pplayer_c->base.y = pbad->base.y - pplayer_c->base.height - 1;
 
               add_score(pbad->base.x - scroll_x, pbad->base.y,
                         50 * score_multiplier);
@@ -619,12 +627,11 @@ void badguy_collision(bad_guy_type* pbad, void *p_c_object, int c_object)
 
                   physic_set_state(&pplayer_c->vphysic,PH_VT);
                   physic_set_start_vy(&pplayer_c->vphysic,2.);
-		  pplayer_c->base.y = pbad->base.y - pplayer_c->base.height;
+		  pplayer_c->base.y = pbad->base.y - pplayer_c->base.height - 1;
                 }
               else if (pbad->mode == FLAT)
                 {
                   /* Kick! */
-
                   play_sound(sounds[SND_KICK], SOUND_CENTER_SPEAKER);
 
                   if (pplayer_c->base.x <= pbad->base.x)
@@ -632,14 +639,15 @@ void badguy_collision(bad_guy_type* pbad, void *p_c_object, int c_object)
                   else
                     pbad->dir = LEFT;
 
-                  pbad->base.xm = 8;
+                  pbad->base.xm = 5;
+		  pbad->mode = KICK;
 
                   timer_start(&pbad->timer,5000);
                 }
-
+		
               physic_set_state(&pplayer_c->vphysic,PH_VT);
               physic_set_start_vy(&pplayer_c->vphysic,2.);
-	      pplayer_c->base.y = pbad->base.y - pplayer_c->base.height;
+	      pplayer_c->base.y = pbad->base.y - pplayer_c->base.height - 1;
 	      
               add_score(pbad->base.x - scroll_x,
                         pbad->base.y,
