@@ -10,7 +10,7 @@
   (bkgd_red    150)
   (bkgd_green  200)
   (bkgd_blue   255)
-  (time  500)
+  (time  300)
   (gravity  10)
   (particle_system "snow")
   (theme "antarctica")
