@@ -481,6 +481,15 @@ BadGuy::action_bomb(float frame_ratio)
       set_sprite(img_mrbomb_explosion, img_mrbomb_explosion);
       dying = DYING_NOT; // now the bomb hurts
       timer.start(EXPLODETIME);
+
+      /* play explosion sound */  // FIXME: is the stereo all right? maybe we should use player cordinates...
+      if (base.x < scroll_x + screen->w/2 - 10)
+        play_sound(sounds[SND_EXPLODE], SOUND_LEFT_SPEAKER);
+      else if (base.x > scroll_x + screen->w/2 + 10)
+        play_sound(sounds[SND_EXPLODE], SOUND_RIGHT_SPEAKER);
+      else
+        play_sound(sounds[SND_EXPLODE], SOUND_CENTER_SPEAKER);
+
     } else if(mode == BOMB_EXPLODE) {
       remove_me();
       return;
