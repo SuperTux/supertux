@@ -28,7 +28,6 @@
 #include "globals.h"
 #include "lispreader.h"
 #include "setup.h"
-#include "polygon.h"
 #include "vector.h"
 
 class LispReader;
