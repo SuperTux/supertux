@@ -49,7 +49,7 @@ class BadGuy;
 /* Scores: */
 
 #define SCORE_BRICK 5
-#define SCORE_DISTRO 25
+#define SCORE_DISTRO 20
 
 /* Sizes: */
 

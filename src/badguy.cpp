@@ -1033,7 +1033,7 @@ BadGuy::squish_me(Player* player)
   player->bounce(this);
     
   Sector::current()->add_score(Vector(base.x, base.y),
-                              50 * player_status.score_multiplier);
+                              25 * player_status.score_multiplier);
 
   SoundManager::get()->play_sound(IDToSound(SND_SQUISH), get_pos(), Sector::current()->player->get_pos());
   player_status.score_multiplier++;
@@ -1054,7 +1054,7 @@ BadGuy::squish(Player* player)
     
     player->bounce(this);
     Sector::current()->add_score(Vector(base.x, base.y),
-                                50 * player_status.score_multiplier);
+                                25 * player_status.score_multiplier);
     SoundManager::get()->play_sound(IDToSound(SND_SQUISH), get_pos(), Sector::current()->player->get_pos());
     player_status.score_multiplier++;
     return;
