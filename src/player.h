@@ -84,6 +84,8 @@ extern Surface* smalltux_stand_right;
 extern Sprite*  smalltux_skid_left;
 extern Sprite*  smalltux_skid_right;
 extern Sprite*  smalltux_gameover;
+extern Sprite*  largetux_stand_left;
+extern Sprite*  largetux_stand_right;
 extern Sprite* bigtux_right;
 extern Sprite* bigtux_left;
 extern Sprite* bigtux_right_jump;

@@ -38,6 +38,8 @@ Surface* smalltux_stand_right;
 Sprite*  smalltux_gameover;
 Sprite*  smalltux_skid_left;
 Sprite*  smalltux_skid_right;
+Sprite*  largetux_stand_left;
+Sprite*  largetux_stand_right;
 
 Sprite* bigtux_right;
 Sprite* bigtux_left;
@@ -598,10 +600,20 @@ Player::draw()
                         {
                           if (physic.get_velocity_y() == 0)
                             {
-                              if (dir == RIGHT)
-                                bigtux_right->draw(base.x - scroll_x, base.y);
-                              else
-                                bigtux_left->draw(base.x - scroll_x, base.y);
+                              if (fabsf(physic.get_velocity_x()) < 1.0f) // standing
+                                {
+                                  if (dir == RIGHT)
+                                    largetux_stand_right->draw(base.x - scroll_x, base.y);
+                                  else
+                                    largetux_stand_left->draw(base.x - scroll_x, base.y);
+                                }
+                              else // walking
+                                {
+                                  if (dir == RIGHT)
+                                    bigtux_right->draw(base.x - scroll_x, base.y);
+                                  else
+                                    bigtux_left->draw(base.x - scroll_x, base.y);
+                                }
                             }
                           else
                             {

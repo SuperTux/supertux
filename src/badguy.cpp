@@ -70,6 +70,8 @@ Sprite* img_snowball_right;
 Sprite* img_snowball_squished_left;
 Sprite* img_snowball_squished_right;
 
+#define BADGUY_WALK_SPEED .8f
+
 BadGuyKind  badguykind_from_string(const std::string& str)
 {
   if (str == "money")
@@ -166,13 +168,13 @@ BadGuy::init(float x, float y, BadGuyKind kind_, bool stay_on_platform_)
   timer.init(true);
 
   if(kind == BAD_BSOD) {
-    physic.set_velocity(-1.3, 0);
+    physic.set_velocity(-BADGUY_WALK_SPEED, 0);
     set_sprite(img_bsod_left, img_bsod_right);
   } else if(kind == BAD_MRBOMB) {
-    physic.set_velocity(-1.3, 0);
+    physic.set_velocity(-BADGUY_WALK_SPEED, 0);
     set_sprite(img_mrbomb_left, img_mrbomb_right);
   } else if (kind == BAD_LAPTOP) {
-    physic.set_velocity(-.8, 0);
+    physic.set_velocity(-BADGUY_WALK_SPEED, 0);
     set_sprite(img_laptop_left, img_laptop_right);
   } else if(kind == BAD_MONEY) {
     set_sprite(img_jumpy_left_up, img_jumpy_left_up);
@@ -185,7 +187,7 @@ BadGuy::init(float x, float y, BadGuyKind kind_, bool stay_on_platform_)
     physic.enable_gravity(false);
     set_sprite(img_flame, img_flame);
   } else if(kind == BAD_BOUNCINGSNOWBALL) {
-    physic.set_velocity(-1.3, 0);
+    physic.set_velocity(-BADGUY_WALK_SPEED, 0);
     set_sprite(img_bouncingsnowball_left, img_bouncingsnowball_right);
   } else if(kind == BAD_STALACTITE) {
     physic.enable_gravity(false);
@@ -197,10 +199,10 @@ BadGuy::init(float x, float y, BadGuyKind kind_, bool stay_on_platform_)
     set_sprite(img_flyingsnowball, img_flyingsnowball);
     physic.enable_gravity(false);
   } else if(kind == BAD_SPIKY) {
-    physic.set_velocity(-1.3, 0);
+    physic.set_velocity(-BADGUY_WALK_SPEED, 0);
     set_sprite(img_spiky_left, img_spiky_right);
   } else if(kind == BAD_SNOWBALL) {
-    physic.set_velocity(-1.3, 0);
+    physic.set_velocity(-BADGUY_WALK_SPEED, 0);
     set_sprite(img_snowball_left, img_snowball_right);
   }
 
