@@ -784,8 +784,9 @@ void le_drawinterface()
     if(TileManager::instance()->get(le_current.tile)->editor_images.size() > 0)
       TileManager::instance()->get(le_current.tile)->editor_images[0]->draw( 19 * 32, 14 * 32);
   }
-  if(le_current.IsObject())
-    printf("");
+  
+  //if(le_current.IsObject())
+  //printf("");
 
   if(le_current_level != NULL)
   {
