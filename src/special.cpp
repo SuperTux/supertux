@@ -309,7 +309,7 @@ Upgrade::draw()
 }
 
 void
-Upgrade::bump(Player* )
+Upgrade::bump(Player* player)
 {
   // these can't be bumped
   if(kind != UPGRADE_GROWUP)
@@ -317,9 +317,14 @@ Upgrade::bump(Player* )
 
   play_sound(sounds[SND_BUMP_UPGRADE], SOUND_CENTER_SPEAKER);
   
+  // determine new direction
+  if (player->base.x + player->base.width/2 > base.x + base.width/2)
+    dir = LEFT;
+  else
+    dir = RIGHT;
+
   // do a little jump and change direction
   physic.set_velocity(-physic.get_velocity_x(), 3);
-  dir = dir == LEFT ? RIGHT : LEFT;
   physic.enable_gravity(true);
 }
 
