@@ -22,6 +22,7 @@
 #include <cassert>
 
 #include "app/globals.h"
+#include "app/gettext.h"
 #include "player.h"
 #include "defines.h"
 #include "scene.h"
@@ -334,7 +335,15 @@ Player::action(float elapsed_time)
           physic.enable_gravity(false);
           /* Reset score multiplier (for multi-hits): */
           if (!invincible_timer.started())
+            {
+            if(player_status.score_multiplier > 2)
+              {  // show a message
+              char str[124];
+              sprintf(str, _("%d bad guys in a row!"), player_status.score_multiplier-1);
+              Sector::current()->add_floating_text(base, str);
+              }
             player_status.score_multiplier = 1;
+            }
         }
 
       if(jumped_in_solid)

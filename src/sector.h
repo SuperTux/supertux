@@ -113,6 +113,7 @@ public:
   bool add_bullet(const Vector& pos, float xm, Direction dir);
   bool add_smoke_cloud(const Vector& pos);
   bool add_particles(const Vector& epicenter, const Vector& velocity, const Vector& acceleration, int number, Color color, int size, int life_time);
+  void add_floating_text(const Vector& pos, const std::string& text);
                                                                                 
   /** Try to grab the coin at the given coordinates */
   void trygrabdistro(const Vector& pos, int bounciness);
@@ -190,7 +191,7 @@ private:
 
   int distro_counter;
   bool counting_distros;
-  int currentmusic;        
+  int currentmusic;
 };
 
 #endif

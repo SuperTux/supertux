@@ -756,6 +756,12 @@ Sector::add_particles(const Vector& epicenter, const Vector& velocity, const Vec
   return true;
 }
 
+void
+Sector::add_floating_text(const Vector& pos, const std::string& text)
+{
+  add_object(new FloatingText(pos, text));
+}
+
 /* Break a brick: */
 bool
 Sector::trybreakbrick(const Vector& pos, bool small)

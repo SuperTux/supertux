@@ -114,7 +114,7 @@ BouncyBrick::draw(DrawingContext& context)
     draw_tile(context, shape.id, position + Vector(0, offset), LAYER_TILES+1);
 }
 
-FloatingText::FloatingText(const Vector& pos, std::string& text_)
+FloatingText::FloatingText(const Vector& pos, const std::string& text_)
   : position(pos), text(text_)
 {
   timer.start(1000);
