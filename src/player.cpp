@@ -581,11 +581,13 @@ Player::handle_vertical_input()
                can_flap = false;
                falling_from_flap = true;
             }
+         if (physic.get_velocity_x() > 0) {physic.set_velocity_x(WALK_SPEED);}
+         else if (physic.get_velocity_x() < 0) {physic.set_velocity_x(WALK_SPEED * (-1));}
          jumping = true;
          flapping = true;
          if (flapping_timer.get_gone() <= TUX_FLAPPING_TIME)
             {
-               physic.set_velocity_y((float)flapping_timer.get_gone()/450);
+               physic.set_velocity_y((float)flapping_timer.get_gone()/700);
             }
      }
    
