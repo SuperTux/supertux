@@ -151,6 +151,7 @@ BadGuy::BadGuy(float x, float y, BadGuyKind kind_, bool stay_on_platform_)
   old_base = base;
   dir      = LEFT;
   seen     = false;
+  frozen_timer.init(true);
   animation_offset = 0;
   sprite_left = sprite_right = 0;
   physic.reset();
@@ -683,6 +684,9 @@ BadGuy::action(double frame_ratio)
   if(!seen)
     return;
 
+  if(frozen_timer.check())
+    return;
+
   switch (kind)
     {
     case BAD_MRICEBLOCK:
@@ -939,6 +943,7 @@ void
 BadGuy::collision(void *p_c_object, int c_object, CollisionType type)
 {
   BadGuy* pbad_c    = NULL;
+  Bullet* pbullet_c = NULL;
 
   if(type == COLLISION_BUMP) {
     bump();
@@ -955,7 +960,12 @@ BadGuy::collision(void *p_c_object, int c_object, CollisionType type)
   switch (c_object)
     {
     case CO_BULLET:
-      kill_me(10);
+      pbullet_c = (Bullet*) p_c_object;
+
+      if(pbullet_c->kind == FIRE_BULLET)
+        kill_me(10);
+      else if(pbullet_c->kind == ICE_BULLET)
+        frozen_timer.start(FROZEN_TIME);
       break;
 
     case CO_BADGUY:

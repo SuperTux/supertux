@@ -648,7 +648,8 @@ WorldMap::update(float delta)
                     bool old_level_state = level->solved;
                     level->solved = true;
 
-                    if (session.get_world()->get_tux()->got_coffee)
+                    if (session.get_world()->get_tux()->got_power !=
+                          session.get_world()->get_tux()->NONE_POWER)
                       player_status.bonus = PlayerStatus::FLOWER_BONUS;
                     else if (session.get_world()->get_tux()->size == BIG)
                       player_status.bonus = PlayerStatus::GROWUP_BONUS;

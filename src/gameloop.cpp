@@ -343,7 +343,11 @@ GameSession::process_events()
                         break;
                       case SDLK_DELETE:
                         if(debug_mode)
-                          tux.got_coffee = 1;
+                          tux.got_power = tux.FIRE_POWER;
+                        break;
+                      case SDLK_HOME:
+                        if(debug_mode)
+                          tux.got_power = tux.ICE_POWER;
                         break;
                       case SDLK_INSERT:
                         if(debug_mode)

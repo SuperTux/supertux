@@ -103,14 +103,16 @@ struct PlayerSprite
 extern PlayerSprite smalltux;
 extern PlayerSprite largetux;
 extern PlayerSprite firetux;
+extern PlayerSprite icetux;
 
 class Player : public GameObject
 {
 public:
   enum HurtMode { KILL, SHRINK };
+  enum Power { NONE_POWER, FIRE_POWER, ICE_POWER };
 
   player_input_type  input;
-  bool got_coffee;
+  int got_power;
   int size;
   bool duck;
   bool holding_something;

@@ -37,6 +37,7 @@ Sprite* largetux_star;
 
 PlayerSprite smalltux;
 PlayerSprite largetux;
+PlayerSprite icetux;
 PlayerSprite firetux;
 
 PlayerKeymap keymap;
@@ -72,7 +73,7 @@ Player::init()
   base.height = 32;
 
   size = SMALL;
-  got_coffee = false;
+  got_power = NONE_POWER;
 
   base.x = plevel->start_pos_x;
   base.y = plevel->start_pos_y;
@@ -453,7 +454,7 @@ Player::handle_input()
 
   /* Shoot! */
 
-  if (input.fire == DOWN && input.old_fire == UP && got_coffee)
+  if (input.fire == DOWN && input.old_fire == UP && got_power != NONE_POWER)
     {
       World::current()->add_bullet(base.x, base.y, physic.get_velocity_x(), dir);
       input.old_fire = DOWN;
@@ -559,8 +560,10 @@ Player::draw()
           
           if (size == SMALL)
             sprite = &smalltux;
-          else if (got_coffee)
+          else if (got_power == FIRE_POWER)
             sprite = &firetux;
+          else if (got_power == ICE_POWER)
+            sprite = &icetux;
           else
             sprite = &largetux;
           
@@ -709,9 +712,9 @@ Player::kill(HurtMode mode)
 
   if (mode == SHRINK && size == BIG)
     {
-      if (got_coffee)
+      if (got_power != NONE_POWER)
         {
-          got_coffee = false;
+          got_power = NONE_POWER;
         }
       else
         {
@@ -751,7 +754,7 @@ bool Player::is_dead()
 void
 Player::remove_powerups()
 {
-  got_coffee = false;
+  got_power = NONE_POWER;
   size = SMALL;
   base.height = 32;
 }

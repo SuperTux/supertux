@@ -32,6 +32,7 @@
 
 enum UpgradeKind {
   UPGRADE_GROWUP,
+  UPGRADE_FIREFLOWER,
   UPGRADE_ICEFLOWER,
   UPGRADE_HERRING,
   UPGRADE_1UP
@@ -65,14 +66,21 @@ private:
   void bump(Player* player);
 };
 
+enum BulletsKind {
+  FIRE_BULLET,
+  ICE_BULLET
+};
+
 class Bullet : public GameObject
 {
  public:
   int life_count;
   base_type base;
   base_type old_base;
+
+  int kind;
   
-  void init(float x, float y, float xm, Direction dir);
+  void init(float x, float y, float xm, Direction dir, int kind_);
   void action(double frame_ratio);
   void draw();
   void collision(int c_object);

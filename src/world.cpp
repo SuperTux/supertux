@@ -89,7 +89,7 @@ World::apply_bonuses()
       break;
 
     case PlayerStatus::FLOWER_BONUS:
-      tux.got_coffee = true;
+      tux.got_power = tux.FIRE_POWER;  // FIXME: add ice power to here
       // fall through
 
     case PlayerStatus::GROWUP_BONUS:
@@ -546,11 +546,22 @@ World::add_upgrade(float x, float y, Direction dir, UpgradeKind kind)
 void 
 World::add_bullet(float x, float y, float xm, Direction dir)
 {
-  if(bullets.size() > MAX_BULLETS-1)
-    return;
+  if(tux.got_power == tux.FIRE_POWER)
+    {
+    if(bullets.size() > MAX_FIRE_BULLETS-1)
+      return;
+    }
+  else if(tux.got_power == tux.ICE_POWER)
+    {
+    if(bullets.size() > MAX_ICE_BULLETS-1)
+      return;
+    }
 
   Bullet new_bullet;
-  new_bullet.init(x,y,xm,dir);
+  if(tux.got_power == tux.FIRE_POWER)
+    new_bullet.init(x,y,xm,dir, FIRE_BULLET);
+  else if(tux.got_power == tux.ICE_POWER)
+    new_bullet.init(x,y,xm,dir, ICE_BULLET);
   bullets.push_back(new_bullet);
   
   play_sound(sounds[SND_SHOOT], SOUND_CENTER_SPEAKER);

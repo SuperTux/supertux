@@ -97,6 +97,22 @@ void loadshared()
   firetux.duck_left   = sprite_manager->load("firetux-duck-left");
   firetux.duck_right  = sprite_manager->load("firetux-duck-right");
 
+  icetux.stand_left  = sprite_manager->load("icetux-stand-left");
+  icetux.stand_right = sprite_manager->load("icetux-stand-right");
+  icetux.walk_left   = sprite_manager->load("icetux-walk-left");
+  icetux.walk_right  = sprite_manager->load("icetux-walk-right");
+  icetux.jump_left   = sprite_manager->load("icetux-jump-left");
+  icetux.jump_right  = sprite_manager->load("icetux-jump-right");
+  icetux.kick_left   = sprite_manager->load("icetux-kick-left");
+  icetux.kick_right  = sprite_manager->load("icetux-kick-right");
+  icetux.skid_right  = sprite_manager->load("icetux-skid-right");
+  icetux.skid_left   = sprite_manager->load("icetux-skid-left");
+  icetux.grab_left   = sprite_manager->load("icetux-grab-left");
+  icetux.grab_right  = sprite_manager->load("icetux-grab-right");
+  icetux.duck_left   = sprite_manager->load("icetux-duck-left");
+  icetux.duck_right  = sprite_manager->load("icetux-duck-right");
+
+
   /* Water: */
   img_water = new Surface(datadir + "/images/shared/water.png", IGNORE_ALPHA);
 

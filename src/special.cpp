@@ -31,7 +31,8 @@
 #include "sprite_manager.h"
 #include "resources.h"
 
-Sprite* img_bullet;
+Sprite* img_firebullet;
+Sprite* img_icebullet;
 Sprite* img_star;
 Sprite* img_growup;
 Sprite* img_iceflower;
@@ -43,7 +44,7 @@ Sprite* img_1up;
 #define BULLET_XM 6
 
 void
-Bullet::init(float x, float y, float xm, Direction dir)
+Bullet::init(float x, float y, float xm, Direction dir, int kind_)
 {
   life_count = 3;
   base.width = 4;
@@ -63,6 +64,7 @@ Bullet::init(float x, float y, float xm, Direction dir)
   base.y = y;
   base.ym = BULLET_STARTING_YM;
   old_base = base;
+  kind = kind_;
 }
 
 void
@@ -103,7 +105,10 @@ Bullet::action(double frame_ratio)
       life_count -= 1;
     }
 
-  base.ym = base.ym + 0.5 * frame_ratio;
+  if(kind == FIRE_BULLET)
+    base.ym = base.ym + 0.5 * frame_ratio;
+  else if(kind == FIRE_BULLET)
+    base.ym = 0;
 
   if (base.x < scroll_x ||
       base.x > scroll_x + screen->w ||
@@ -123,7 +128,10 @@ Bullet::draw()
   if (base.x >= scroll_x - base.width &&
       base.x <= scroll_x + screen->w)
     {
-      img_bullet->draw(base.x, base.y);
+      if(kind == FIRE_BULLET)
+        img_firebullet->draw(base.x, base.y);
+      else if(kind == FIRE_BULLET)
+        img_icebullet->draw(base.x, base.y);
     }
 }
 
@@ -333,11 +341,17 @@ Upgrade::collision(void* p_c_object, int c_object, CollisionType type)
           play_sound(sounds[SND_EXCELLENT], SOUND_CENTER_SPEAKER);
           pplayer->grow();
         }
+      else if (kind == UPGRADE_FIREFLOWER)
+        {
+          play_sound(sounds[SND_COFFEE], SOUND_CENTER_SPEAKER);
+          pplayer->grow();
+          pplayer->got_power = pplayer->FIRE_POWER;
+        }
       else if (kind == UPGRADE_ICEFLOWER)
         {
           play_sound(sounds[SND_COFFEE], SOUND_CENTER_SPEAKER);
           pplayer->grow();
-          pplayer->got_coffee = true;
+          pplayer->got_power = pplayer->ICE_POWER;
         }
       else if (kind == UPGRADE_HERRING)
         {
@@ -365,7 +379,8 @@ void load_special_gfx()
   img_star      = sprite_manager->load("star");
   img_1up       = sprite_manager->load("1up");
 
-  img_bullet    = sprite_manager->load("bullet");
+  img_firebullet    = sprite_manager->load("firebullet");
+  img_icebullet    = sprite_manager->load("icebullet");
 }
 
 void free_special_gfx()
