@@ -204,7 +204,7 @@ Upgrade::action(double frame_ratio)
 
   /* Move around? */
   physic.apply(frame_ratio, base.x, base.y);
-  if(kind == UPGRADE_GROWUP) {
+  if(kind == UPGRADE_GROWUP || kind == UPGRADE_HERRING) {
     collision_swept_object_map(&old_base, &base);
   }
 
