@@ -20,10 +20,10 @@
 #include "SDL.h"
 #include <iostream>
 
-#include "../gui/button.h"
-#include "../gui/mousecursor.h"
-#include "../app/globals.h"
-#include "../video/font.h"
+#include "button.h"
+#include "mousecursor.h"
+#include "app/globals.h"
+#include "video/font.h"
 
 using namespace SuperTux;
 

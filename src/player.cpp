@@ -885,9 +885,9 @@ Player::collision(GameObject& other, const CollisionHit& hit)
       physic.set_velocity_y(.1);
     }
     
-    if(hit.normal.x != 0) { // hit on the side?
-      if(hit.normal.y > 0.6) // limits the slopes we can move up...
-        physic.set_velocity_x(0);
+    if(fabsf(hit.normal.x) > .5) { // hit on the side?
+      printf("s"); fflush(stdout);
+      physic.set_velocity_x(0);
     }
 
     return CONTINUE;

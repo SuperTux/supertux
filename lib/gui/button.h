@@ -21,8 +21,8 @@
 #include <vector>
 #include <string>
 
-#include "../math/vector.h"
-#include "../video/drawing_context.h"
+#include "math/vector.h"
+#include "video/drawing_context.h"
 
 namespace SuperTux
   {

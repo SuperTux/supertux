@@ -40,8 +40,7 @@ Block::collision(GameObject& other, const CollisionHit& hitdata)
   Player* player = dynamic_cast<Player*> (&other);
   if(player) {
     // collided from below?
-    if(hitdata.normal.x == 0 && hitdata.normal.y < 0
-        && player->get_movement().y < 0) {
+    if(hitdata.normal.x == 0 && hitdata.normal.y < 0) {
       hit(*player);
     }
   }
@@ -132,7 +131,7 @@ BonusBlock::hit(Player& player)
       break;
 
     case 3: // star
-      sector->add_object(new Star(get_pos()));
+      sector->add_object(new Star(get_pos() + Vector(0, -32)));
       break;
 
     case 4: // 1up

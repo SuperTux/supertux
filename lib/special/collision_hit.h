@@ -44,7 +44,9 @@ class CollisionHit
 public:
   /// penetration depth
   float depth;
-  // The normal of the side we collided with
+  /// time of the collision (between 0 and 1 in relation to movement)
+  float time;
+  /// The normal of the side we collided with
   Vector normal;
 };
 

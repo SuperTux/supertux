@@ -20,7 +20,7 @@
 
 #include <config.h>
 
-#include "../audio/musicref.h"
+#include "audio/musicref.h"
 
 using namespace SuperTux;
 

@@ -19,8 +19,8 @@
 
 #include <config.h>
 
-#include "../video/drawing_context.h"
-#include "../gui/mousecursor.h"
+#include "video/drawing_context.h"
+#include "gui/mousecursor.h"
 
 using namespace SuperTux;
 

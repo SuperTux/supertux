@@ -19,7 +19,7 @@
 
 #include <config.h>
 
-#include "../special/moving_object.h"
+#include "moving_object.h"
 
 using namespace SuperTux;
 

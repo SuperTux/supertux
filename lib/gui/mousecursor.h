@@ -22,8 +22,8 @@
 
 #include <string>
 
-#include "../special/timer.h"
-#include "../video/surface.h"
+#include "special/timer.h"
+#include "video/surface.h"
 
 namespace SuperTux
   {

@@ -25,7 +25,7 @@
 #include <map>
 
 #include "SDL_mixer.h"
-#include "../math/vector.h"
+#include "math/vector.h"
 
 namespace SuperTux
   {

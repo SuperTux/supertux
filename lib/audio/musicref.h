@@ -20,7 +20,7 @@
 #ifndef SUPERTUX_MUSICREF_H
 #define SUPERTUX_MUSICREF_H
 
-#include "../audio/sound_manager.h"
+#include "sound_manager.h"
 
 namespace SuperTux
   {

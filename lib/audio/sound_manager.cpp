@@ -22,11 +22,11 @@
 #include <cmath>
 #include <cassert>
 
-#include "../audio/sound_manager.h"
-#include "../audio/musicref.h"
-#include "../app/globals.h"
-#include "../app/setup.h"
-#include "../special/moving_object.h"
+#include "audio/sound_manager.h"
+#include "audio/musicref.h"
+#include "app/globals.h"
+#include "app/setup.h"
+#include "special/moving_object.h"
 
 using namespace SuperTux;
 

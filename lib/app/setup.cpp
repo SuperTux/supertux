@@ -43,14 +43,14 @@
 
 #include <cctype>
 
-#include "../app/globals.h"
-#include "../app/setup.h"
-#include "../video/screen.h"
-#include "../video/surface.h"
-#include "../gui/menu.h"
-#include "../utils/configfile.h"
-#include "../audio/sound_manager.h"
-#include "../app/gettext.h"
+#include "globals.h"
+#include "setup.h"
+#include "video/screen.h"
+#include "video/surface.h"
+#include "gui/menu.h"
+#include "utils/configfile.h"
+#include "audio/sound_manager.h"
+#include "gettext.h"
 
 using namespace SuperTux;
 

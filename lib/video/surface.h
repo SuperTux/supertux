@@ -29,8 +29,8 @@
 
 #include "SDL.h"
 
-#include "../math/vector.h"
-#include "../video/screen.h"
+#include "math/vector.h"
+#include "video/screen.h"
 
 namespace SuperTux
   {

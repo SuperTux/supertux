@@ -31,13 +31,13 @@
 #include <string>
 #include <cassert>
 
-#include "../app/globals.h"
-#include "../gui/menu.h"
-#include "../video/screen.h"
-#include "../video/drawing_context.h"
-#include "../app/setup.h"
-#include "../app/gettext.h"
-#include "../math/vector.h"
+#include "app/globals.h"
+#include "menu.h"
+#include "video/screen.h"
+#include "video/drawing_context.h"
+#include "app/setup.h"
+#include "app/gettext.h"
+#include "math/vector.h"
 
 using namespace SuperTux;
 

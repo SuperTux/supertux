@@ -24,8 +24,8 @@
 #include <vector>
 #include <map>
 
-#include "../utils/lispreader.h"
-#include "../video/surface.h"
+#include "utils/lispreader.h"
+#include "video/surface.h"
 
 namespace SuperTux
 {

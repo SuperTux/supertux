@@ -723,6 +723,7 @@ GameSession::run()
     float elapsed_time = float(ticks - lastticks) / 1000.;
     global_time += elapsed_time;
     lastticks = ticks;
+
     // 40fps is minimum
     if(elapsed_time > .025)
       elapsed_time = .025;

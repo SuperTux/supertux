@@ -21,7 +21,7 @@
 #include <config.h>
 
 #include "SDL.h"
-#include "../special/timer.h"
+#include "timer.h"
 
 using namespace SuperTux;
 

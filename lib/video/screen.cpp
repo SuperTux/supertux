@@ -35,10 +35,10 @@
 #include <ctype.h>
 #endif
 
-#include "../video/screen.h"
-#include "../app/globals.h"
-#include "../video/drawing_context.h"
-#include "../math/vector.h"
+#include "screen.h"
+#include "app/globals.h"
+#include "video/drawing_context.h"
+#include "math/vector.h"
 
 using namespace SuperTux;
 

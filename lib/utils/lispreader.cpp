@@ -31,9 +31,9 @@
 #include <cstring>
 #include <cassert>
 
-#include "../app/globals.h"
-#include "../app/setup.h"
-#include "../utils/lispreader.h"
+#include "app/globals.h"
+#include "app/setup.h"
+#include "lispreader.h"
 
 using namespace SuperTux;
 

@@ -635,7 +635,7 @@ Sector::collision_tilemap(MovingObject* object, int depth)
   CollisionHit temphit, hit;
   Rectangle dest = object->get_bbox();
   dest.move(object->movement);
-  hit.depth = -1;
+  hit.time = -1; // represents an invalid value
   for(int x = starttilex; x*32 < max_x; ++x) {
     for(int y = starttiley; y*32 < max_y; ++y) {
       const Tile* tile = solids->get_tile(x, y);
@@ -670,14 +670,14 @@ Sector::collision_tilemap(MovingObject* object, int depth)
 
         if(Collision::rectangle_aatriangle(temphit, dest, object->movement,
               triangle)) {
-          if(temphit.depth > hit.depth)
+          if(temphit.time > hit.time)
             hit = temphit;
         }
       } else { // normal rectangular tile
         Rectangle rect(x*32, y*32, (x+1)*32, (y+1)*32);
         if(Collision::rectangle_rectangle(temphit, dest,
               object->movement, rect)) {
-          if(temphit.depth > hit.depth)
+          if(temphit.time > hit.time)
             hit = temphit;
         }
       }
@@ -685,7 +685,7 @@ Sector::collision_tilemap(MovingObject* object, int depth)
   }
 
   // did we collide at all?
-  if(hit.depth < 0)
+  if(hit.time < 0)
     return;
  
   // call collision function
@@ -698,7 +698,7 @@ Sector::collision_tilemap(MovingObject* object, int depth)
       return;
   }
   // move out of collision and try again
-  object->movement += hit.normal * (hit.depth + .001);
+  object->movement += hit.normal * (hit.depth + .05);
   collision_tilemap(object, depth+1);
 }
 
@@ -714,7 +714,6 @@ Sector::collision_object(MovingObject* object1, MovingObject* object2)
   Vector movement = object1->get_movement() - object2->get_movement();
   if(Collision::rectangle_rectangle(hit, dest1, movement, dest2)) {
     HitResponse response1 = object1->collision(*object2, hit);
-    Vector hitnormal1 = hit.normal;
     hit.normal *= -1;
     HitResponse response2 = object2->collision(*object1, hit);
 
@@ -722,15 +721,15 @@ Sector::collision_object(MovingObject* object1, MovingObject* object2)
       if(response1 == ABORT_MOVE)
         object1->movement = Vector(0, 0);
       if(response2 == CONTINUE)
-        object2->movement += hit.normal * (hit.depth + .1);
+        object2->movement += hit.normal * (hit.depth + .05);
     } else if(response2 != CONTINUE) {
       if(response2 == ABORT_MOVE)
         object2->movement = Vector(0, 0);
       if(response1 == CONTINUE)
-        object1->movement += hitnormal1 * (hit.depth + .1);
+        object1->movement += -hit.normal * (hit.depth + .05);
     } else {
-      object1->movement += hitnormal1 * (hit.depth/2 + 1);
-      object2->movement += hit.normal * (hit.depth/2 + 1);
+      object1->movement += -hit.normal * (hit.depth/2 + .05);
+      object2->movement += hit.normal * (hit.depth/2 + .05);
     }
   }
 }

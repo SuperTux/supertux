@@ -19,7 +19,7 @@
 
 #include <config.h>
 
-#include "../special/game_object.h"
+#include "special/game_object.h"
 
 namespace SuperTux
 {

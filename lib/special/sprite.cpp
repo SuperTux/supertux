@@ -23,10 +23,10 @@
 #include <cassert>
 #include <stdexcept>
 
-#include "../app/globals.h"
-#include "../app/setup.h"
-#include "../special/sprite.h"
-#include "../video/drawing_context.h"
+#include "app/globals.h"
+#include "app/setup.h"
+#include "sprite.h"
+#include "video/drawing_context.h"
 
 namespace SuperTux
 {

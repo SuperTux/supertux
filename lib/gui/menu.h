@@ -27,10 +27,10 @@
 
 #include "SDL.h"
 
-#include "../video/surface.h"
-#include "../video/font.h"
-#include "../special/timer.h"
-#include "../gui/mousecursor.h"
+#include "video/surface.h"
+#include "video/font.h"
+#include "special/timer.h"
+#include "mousecursor.h"
 
 namespace SuperTux
   {

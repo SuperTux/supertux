@@ -124,7 +124,7 @@ rule ExtraObjects
 ##    sure the dependency scanner is able to locate your header files. The
 ##    directories are relative to the current subdir specified with the SubDir
 ##    rule.
-##    Implementation: The directories are simply added to the HDRS variable
+##    Implementation: The directories are simply added to the HDRSEARCH variable
 ##    which is respected by all jam rules.
 rule IncludeDir
 {
@@ -136,14 +136,14 @@ rule IncludeDir
             CppFlags $(<) : [ CreateIncludeFlags $(dir) ] ;
 
             # needed for header scanning
-            HDRS on $($(<)_SOURCES) += $(dir) ;
+            HDRSEARCH on $($(<)_SOURCES) += $(dir) ;
         }
     } else {
         for i in $(<) {
             dir = [ ConcatDirs $(SUBDIR) $(i) ] ;
             CPPFLAGS += [ CreateIncludeFlags $(dir) ] ;
             # needed for header scanning
-            HDRS += $(dir) ;
+            HDRSEARCH += $(dir) ;
         }
     }
 }

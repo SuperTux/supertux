@@ -21,7 +21,7 @@
 
 #include <iostream>
 
-#include "../utils/lispwriter.h"
+#include "lispwriter.h"
 
 using namespace SuperTux;
 

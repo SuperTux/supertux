@@ -23,10 +23,10 @@
 #include <sstream>
 #include <stdexcept>
 
-#include "../app/globals.h"
-#include "../app/setup.h"
-#include "../special/sprite.h"
-#include "../video/drawing_context.h"
+#include "sprite_data.h"
+#include "app/globals.h"
+#include "app/setup.h"
+#include "video/drawing_context.h"
 
 namespace SuperTux
 {

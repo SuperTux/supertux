@@ -75,18 +75,15 @@ rule CompileObject
     # the regexp pattern $(HDRSCAN) and then invokes $(HDRRULE)
     # with the scanned file as the target and the found headers
     # as the sources.  HDRSEARCH is the value of SEARCH used for
-    # the found header files.  Finally, if jam must deal with 
-    # header files of the same name in different directories,
-    # they can be distinguished with HDRGRIST.
+    # the found header files.
 
     # $(SEARCH_SOURCE:E) is where cc first looks for #include 
     # "foo.h" files.  If the source file is in a distant directory, 
     # look there.  Else, look in "" (the current directory).
     if $(HDRRULE_$(<:S))
     {
-        HDRS on $(<) = [ ConcatDirs $(SUBDIR) $(<:D) ]
-            $(SEARCH_SOURCE:E) $(HDRS) $(STDHDRS) ;
-        HDRGRIST on $(<) = $(HDRGRIST) ;                               
+        HDRSEARCH on $(<) = $(SEARCH_SOURCE:E) $(HDRSEARCH) $(STDHDRSEARCH) ;
+        SEARCH_SOURCE on $(<) = $(SEARCH_SOURCE) ;
         HDRRULE on $(<) = $(HDRRULE_$(<:S)) ;
         HDRSCAN on $(<) = $(HDRPATTERN_$(<:S)) ;
     }
@@ -125,19 +122,26 @@ rule HeaderRule
     # set SEARCH so Jam can find the headers, but then say we don't
     # care if we can't actually find the headers (they may have been
     # within ifdefs),
-    local s = $(>:G=$(HDRGRIST:E)) ;
+    local HDRSEARCH = [ on $(<) GetVar HDRSEARCH ] ;
+    local SEARCH_SOURCE = [ on $(<) GetVar SEARCH_SOURCE ] ;
 
-    Includes $(<) : $(s) ;
-    SEARCH on $(s) = $(HDRS) ;
-    NoCare $(s) ;
- 
+    Includes $(<) : $(>) ;
+    SEARCH on $(>) = $(HDRSEARCH) $(SEARCH_SOURCE)/$(<:D) ;
+    NoCare $(>) ;
+
     local i ;
-    for i in $(s)
+    for i in $(>)
     {
-        HDRGRIST on $(s) = $(HDRGRIST) ;
-        HDRS on $(s) = $(HDRS) ;
-        HDRRULE on $(s) = [ on $(<) GetVar HDRRULE ] ;
-        HDRSCAN on $(s) = [ on $(<) GetVar HDRPATTERN ] ;
+
+        SEARCH on $(>) = $(HDRSEARCH) $(SEARCH_SOURCE)/$(<:D) ;
+        if $(i:D) = "" {
+            SEARCH_SOURCE on $(i) = $(SEARCH_SOURCE)/$(<:D) ;
+        } else {
+            SEARCH_SOURCE on $(i) = $(SEARCH_SOURCE) ;
+        }
+        HDRSEARCH on $(>) = $(HDRSEARCH) ;
+        HDRRULE on $(>) = [ on $(<) GetVar HDRRULE ] ;
+        HDRSCAN on $(>) = [ on $(<) GetVar HDRPATTERN ] ;
     }
 }
 
@@ -148,10 +152,10 @@ if $(JAMVERSION) < 2.5
 
 rule HeaderRule
 {
-    local s = $(>:G=$(HDRGRIST:E)) ;
+    local s = $(>:G=$(HDRGRIST)) ;
 
     Includes $(<) : $(s) ;
-    SEARCH on $(s) = $(HDRS) ;
+    SEARCH on $(s) = $(HDRSEARCH) ;
     NoCare $(s) ;
  
     local i ;
@@ -160,7 +164,7 @@ rule HeaderRule
         if $(HDRRULE_$(i:S))
         {
             HDRGRIST on $(s) = $(HDRGRIST) ;
-            HDRS on $(s) = $(HDRS) ;
+            HDRSEARCH on $(s) = $(HDRSEARCH) ;
             HDRRULE on $(s) = $(HDRRULE_$(i:S)) ;
             HDRSCAN on $(s) = $(HDRPATTERN_$(i:S)) ;
         }

@@ -220,7 +220,6 @@ rule SubDir
 	# directory should not hold object files, LOCATE_TARGET can
 	# subsequently be redefined.
 
-#echo SS: $(SUBDIR) ;
 	SEARCH_SOURCE = $(SUBDIR) ;
 	LOCATE_SOURCE = $(ALL_LOCATE_TARGET) $(SUBDIR) ;
 	LOCATE_TARGET = $(ALL_LOCATE_TARGET) $(SUBDIR) ;

@@ -35,7 +35,7 @@ HitResponse
 GrowUp::collision(GameObject& other, const CollisionHit& hit)
 {
   if(other.get_flags() & FLAG_SOLID) {
-    if(fabsf(hit.normal.y) > .5) { // roof
+    if(fabsf(hit.normal.y) > .5) { // roof or ground
       physic.set_velocity_y(0);
     } else { // bumped left or right
       physic.set_velocity_x(-physic.get_velocity_x());

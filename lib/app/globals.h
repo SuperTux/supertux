@@ -26,7 +26,7 @@
 
 #include "SDL.h"
 
-#include "../video/font.h"
+#include "video/font.h"
 #include "tinygettext.h"
 
 namespace SuperTux

@@ -27,10 +27,10 @@
 #include "SDL.h"
 #include "SDL_image.h"
 
-#include "../video/surface.h"
-#include "../video/screen.h"
-#include "../app/globals.h"
-#include "../app/setup.h"
+#include "video/surface.h"
+#include "video/screen.h"
+#include "app/globals.h"
+#include "app/setup.h"
 
 using namespace SuperTux;
 

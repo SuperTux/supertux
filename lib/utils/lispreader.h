@@ -31,7 +31,7 @@
 
 #include <zlib.h>
 
-#include "../utils/exceptions.h"
+#include "utils/exceptions.h"
 
 namespace SuperTux {
 

@@ -23,8 +23,8 @@
 
 #include <string>
 
-#include "../video/surface.h"
-#include "../math/vector.h"
+#include "video/surface.h"
+#include "math/vector.h"
 
 namespace SuperTux
   {

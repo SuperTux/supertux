@@ -22,10 +22,10 @@
 #include <cstdlib>
 #include <string>
 
-#include "../utils/configfile.h"
-#include "../app/setup.h"
-#include "../app/globals.h"
-#include "../audio/sound_manager.h"
+#include "configfile.h"
+#include "app/setup.h"
+#include "app/globals.h"
+#include "audio/sound_manager.h"
 
 using namespace SuperTux;
 

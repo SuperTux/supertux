@@ -6,8 +6,6 @@
   (time   999)
   (sector
     (name  "main")
-    (width  30)
-    (height  30)
     (gravity 10.000000)
     (background (image "arctis.jpg")
                 (speed 0.5))

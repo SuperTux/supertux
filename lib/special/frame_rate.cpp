@@ -20,8 +20,8 @@
 
 #include "SDL.h"
 
-#include "../special/frame_rate.h"
-#include "../special/timer.h"
+#include "frame_rate.h"
+#include "timer.h"
 
 using namespace SuperTux;
 

@@ -26,37 +26,38 @@ Collision::rectangle_rectangle(CollisionHit& hit, const Rectangle& r1,
   if(r1.p2.y < r2.p1.y || r1.p1.y > r2.p2.y)
     return false;
 
-  float xr;
   if(movement.x > DELTA) {
     hit.depth = r1.p2.x - r2.p1.x;
+    hit.time = hit.depth / movement.x;
     hit.normal.x = -1;
     hit.normal.y = 0;
-    xr = hit.depth / movement.x;
   } else if(movement.x < -DELTA) {
     hit.depth = r2.p2.x - r1.p1.x;
+    hit.time = hit.depth / -movement.x;
     hit.normal.x = 1;
     hit.normal.y = 0;
-    xr = hit.depth / -movement.x;
   } else {
-    xr = FLT_MAX;
     if(movement.y > -DELTA && movement.y < DELTA) {
       return false;
     }
+    hit.time = FLT_MAX;
   }
 
   if(movement.y > DELTA) {
     float ydepth = r1.p2.y - r2.p1.y;
-    float yr = ydepth / movement.y;
-    if(yr < xr) {
+    float yt = ydepth / movement.y;
+    if(yt < hit.time) {
       hit.depth = ydepth;
+      hit.time = yt;
       hit.normal.x = 0;
       hit.normal.y = -1;
     }
   } else if(movement.y < -DELTA) {
     float ydepth = r2.p2.y - r1.p1.y;
-    float yr = ydepth / -movement.y;
-    if(yr < xr) {
+    float yt = ydepth / -movement.y;
+    if(yt < hit.time) {
       hit.depth = ydepth;
+      hit.time = yt;
       hit.normal.x = 0;
       hit.normal.y = 1;
     }
