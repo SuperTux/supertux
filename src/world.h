@@ -50,8 +50,10 @@ class World
   std::vector<Bullet> bullets;
   std::vector<ParticleSystem*> particle_systems;
 
-  static World* current_;
+  int distro_counter;
+  bool counting_distros;
 
+  static World* current_;
  public:
   static World* current() { return current_; }
   static void set_current(World* w) { current_ = w; }
@@ -112,4 +114,8 @@ class World
 extern World global_world;
 
 #endif /*SUPERTUX_WORLD_H*/
+
+/* Local Variables: */
+/* mode:c++ */
+/* End */
 

@@ -27,6 +27,7 @@
 #include "world.h"
 #include "level.h"
 #include "tile.h"
+#include "resources.h"
 
 texture_type img_distro[4];
 

@@ -73,8 +73,9 @@ GameSession::GameSession(const std::string& filename)
   world->load(filename);
 }
 
-GameSession::GameSession(const std::string& subset_, int levelnb, int mode)
-  : subset(subset_)
+GameSession::GameSession(const std::string& subset_, int levelnb_, int mode)
+  : subset(subset_),
+    levelnb(levelnb_)
 {
   init();
 
@@ -86,8 +87,7 @@ GameSession::GameSession(const std::string& subset_, int levelnb, int mode)
   timer_init(&frame_timer, true);
 
   st_gl_mode = mode;
-  level      = levelnb;
-
+  
   /* Init the game: */
   world->arrays_free();
   world->set_defaults();
@@ -99,7 +99,7 @@ GameSession::GameSession(const std::string& subset_, int levelnb, int mode)
     }
   else
     {
-      if(world->load(subset, level) != 0)
+      if(world->load(subset, levelnb) != 0)
         exit(1);
     }
 
@@ -137,7 +137,7 @@ GameSession::levelintro(void)
   /* Level Intro: */
   clearscreen(0, 0, 0);
 
-  sprintf(str, "LEVEL %d", level);
+  sprintf(str, "LEVEL %d", levelnb);
   text_drawf(&blue_text, str, 0, 200, A_HMIDDLE, A_TOP, 1);
 
   sprintf(str, "%s", world->get_level()->name.c_str());
@@ -350,7 +350,7 @@ GameSession::action()
       if (next_level)
         {
           /* End of a level! */
-          level++;
+          levelnb++;
           next_level = 0;
           if(st_gl_mode != ST_GL_TEST)
             {
@@ -408,7 +408,7 @@ GameSession::action()
         }
       else
         {
-          if(world->get_level()->load(subset, level) != 0)
+          if(world->get_level()->load(subset, levelnb) != 0)
             return 0;
         }
 

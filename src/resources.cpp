@@ -13,6 +13,13 @@ texture_type img_poletop;
 texture_type img_flag[2];
 texture_type img_cloud[2][4];
 
+texture_type img_box_full;
+texture_type img_box_empty;
+texture_type img_mints;
+texture_type img_coffee;
+texture_type img_super_bkgd;
+texture_type img_red_glow;
+
 /* Load graphics/sounds shared between all levels: */
 void loadshared()
 {

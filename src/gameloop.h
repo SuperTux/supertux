@@ -50,6 +50,7 @@ class GameSession
 
   // FIXME: Hack for restarting the level
   std::string subset;
+  int levelnb;
 
  public:
   GameSession();

@@ -19,6 +19,7 @@
 #include "scene.h"
 #include "globals.h"
 #include "player.h"
+#include "resources.h"
 
 texture_type img_bullet;
 texture_type img_golden_herring;
