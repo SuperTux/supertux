@@ -24,6 +24,7 @@
 #include <set>
 #include <vector>
 #include <string>
+#include <map>
 
 class Tile;
 
@@ -44,7 +45,10 @@ class TileManager
   TileManager();
   ~TileManager();
   
-  std::vector<Tile*> tiles;
+//  std::vector<Tile*> tiles;
+  typedef std::map<int, Tile*> Tiles;
+  Tiles tiles;
+
   static TileManager* instance_ ;
   static std::set<TileGroup>* tilegroups_;
   void load_tileset(std::string filename);
@@ -65,20 +69,7 @@ class TileManager
   unsigned int total_ids()
     { return tiles.size(); }
 
-  Tile& get(unsigned int id) {
-
-    if(id < tiles.size())
-      {
-        return *tiles[id]; 
-      }
-    else
-      {
-        // Never return 0, but return the 0th tile instead so that
-        // user code doesn't have to check for NULL pointers all over
-        // the place
-        return *tiles[0]; 
-      } 
-  }
+  Tile* get(unsigned int id);
 };
 
 #endif

@@ -263,9 +263,9 @@ Tile*
 TileMap::get_tile(int x, int y) const
 {
   if(x < 0 || x >= width || y < 0 || y >= height)
-    return &tilemanager->get(0);
+    return tilemanager->get(0);
 
-  return &tilemanager->get(tiles[y*width + x].id);
+  return tilemanager->get(tiles[y*width + x].id);
 }
 
 Tile*

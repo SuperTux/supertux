@@ -496,7 +496,7 @@ void LevelEditor::init_menus()
       for(std::vector<int>::const_iterator sit = (*it).tiles.begin();
           sit != (*it).tiles.end(); ++sit, ++i)
       {
-        Tile& tile = TileManager::instance()->get(*sit);
+/*        Tile& tile = TileManager::instance()->get(*sit);
         Surface* image;
         if(tile.editor_images.size() > 0)
           image = tile.editor_images[0];
@@ -508,7 +508,7 @@ void LevelEditor::init_menus()
 
         Button* button = new Button(image, it->name, SDLKey(SDLK_a + i),
                                     0, 0, 32, 32);
-        tilegroups_map[it->name]->additem(button, *sit);
+        tilegroups_map[it->name]->additem(button, *sit);*/
       }
     }
   select_tilegroup_menu->additem(MN_HL,"",0,0);

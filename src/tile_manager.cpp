@@ -38,9 +38,8 @@ TileManager::TileManager()
 
 TileManager::~TileManager()
 {
-  for(std::vector<Tile*>::iterator i = tiles.begin(); i != tiles.end(); ++i) {
-    delete *i;                                                                  
-  }
+  for(Tiles::iterator i = tiles.begin(); i != tiles.end(); ++i)
+    delete i->second;
 
   delete tilegroups_;
 }
@@ -51,9 +50,8 @@ void TileManager::load_tileset(std::string filename)
     return;
   
   // free old tiles
-  for(std::vector<Tile*>::iterator i = tiles.begin(); i != tiles.end(); ++i) {
-    delete *i;
-  }
+  for(Tiles::iterator i = tiles.begin(); i != tiles.end(); ++i)
+    delete i->second;
   tiles.clear();
  
   lisp_object_t* root_obj = lisp_read_from_file(filename);
@@ -78,15 +76,17 @@ void TileManager::load_tileset(std::string filename)
               int tile_id = tile->read(reader);
               if(tile_id < 0) {
                 std::cerr 
-                  << "Warning: parse error when reading a tile, skipping.\n";
+                  << "Warning: parse error when reading a tile (id < 0), skipping.\n";
                 continue;
               }
 
-              tile_id += tileset_id;
+              tiles.insert(std::make_pair(tile_id, tile));
+
+/*              tile_id += tileset_id;
 
               if(tile_id >= int(tiles.size()))
                 tiles.resize(tile_id+1);
-              tiles[tile_id] = tile;
+              tiles[tile_id] = tile;*/
             }
           else if (strcmp(lisp_symbol(lisp_car(element)), "tileset") == 0)
             {
@@ -137,21 +137,51 @@ TileManager::draw_tile(DrawingContext& context, unsigned int c,
   if(c == 0)
     return;
 
-  Tile& tile = get(c);
+  Tile* tile = get(c);
 
-  if(!tile.images.size())
+  if(!tile->images.size())
     return;
 
-  if(tile.images.size() > 1)
+  if(tile->images.size() > 1)
   {
     size_t frame 
-      = ((global_frame_counter*25) / tile.anim_speed) % tile.images.size();
-    context.draw_surface(tile.images[frame], pos, layer);
+      = ((global_frame_counter*25) / tile->anim_speed) % tile->images.size();
+    context.draw_surface(tile->images[frame], pos, layer);
   }
-  else if (tile.images.size() == 1)
+  else if (tile->images.size() == 1)
   {
-    context.draw_surface(tile.images[0], pos, layer);
+    context.draw_surface(tile->images[0], pos, layer);
   }
+}
+
+Tile*
+TileManager::get(unsigned int id)
+{
+Tiles::iterator i = tiles.find(id);
+
+if(i == tiles.end())
+  {
+  std::cerr << "Warning: Asked for a non-existing tile id. Ignoring.\n";
+  // Never return 0, but return the first tile instead so that
+  // user code doesn't have to check for NULL pointers all over
+  // the place
+  i = tiles.begin();
+  return i->second;
+  }
+return i->second;
+
+/*
+    if(id < tiles.size())
+      {
+        return *tiles[id]; 
+      }
+    else
+      {
+        // Never return 0, but return the 0th tile instead so that
+        // user code doesn't have to check for NULL pointers all over
+        // the place
+        return *tiles[0]; 
+      }*/
 }
 
 /* EOF */
