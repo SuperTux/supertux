@@ -149,7 +149,7 @@ GameSession::levelintro(void)
   if (get_level()->img_bkgd)
     get_level()->img_bkgd->draw(0, 0);
   else
-    clearscreen(0, 0, 0);
+    drawgradient(get_level()->bkgd_top, get_level()->bkgd_bottom);
 
   sprintf(str, "%s", world->get_level()->name.c_str());
   gold_text->drawf(str, 0, 200, A_HMIDDLE, A_TOP, 1);
@@ -663,7 +663,7 @@ GameSession::drawendscreen()
   if (get_level()->img_bkgd)
     get_level()->img_bkgd->draw(0, 0);
   else
-    clearscreen(0, 0, 0);
+    drawgradient(get_level()->bkgd_top, get_level()->bkgd_bottom);
 
   blue_text->drawf("GAMEOVER", 0, 200, A_HMIDDLE, A_TOP, 1);
 
@@ -687,7 +687,7 @@ GameSession::drawresultscreen(void)
   if (get_level()->img_bkgd)
     get_level()->img_bkgd->draw(0, 0);
   else
-    clearscreen(0, 0, 0);
+    drawgradient(get_level()->bkgd_top, get_level()->bkgd_bottom);
 
   blue_text->drawf("Result:", 0, 200, A_HMIDDLE, A_TOP, 1);
 

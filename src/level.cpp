@@ -635,8 +635,7 @@ Level::load_gfx()
     }
   else
     {
-      /* Quick hack to make sure an image is loaded, when we are freeing it afterwards. */
-      load_image(&img_bkgd, theme,"solid0.png", IGNORE_ALPHA);
+      img_bkgd = 0;
     }
 }
 
