@@ -92,3 +92,4 @@ Dispenser::launch_badguy()
   }
 }
 
+IMPLEMENT_FACTORY(Dispenser, "dispenser")

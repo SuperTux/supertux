@@ -11,6 +11,7 @@
 #include "serializable.h"
 #include "resources.h"
 #include "sector.h"
+#include "object_factory.h"
 #include "lisp/parser.h"
 #include "lisp/lisp.h"
 #include "lisp/writer.h"

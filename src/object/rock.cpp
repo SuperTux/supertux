@@ -6,6 +6,7 @@
 #include "lisp/writer.h"
 #include "video/drawing_context.h"
 #include "resources.h"
+#include "object_factory.h"
 
 Rock::Rock(const lisp::Lisp& reader)
 {
@@ -72,4 +73,6 @@ Rock::grab(MovingObject& , const Vector& pos)
   movement = pos - get_pos();
   grabbed = true;
 }
+
+IMPLEMENT_FACTORY(Rock, "rock")
 

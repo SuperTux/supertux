@@ -62,3 +62,5 @@ void
 Spike::active_action(float )
 {
 }
+
+IMPLEMENT_FACTORY(Spike, "spike")

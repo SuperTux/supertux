@@ -7,6 +7,7 @@
 #include "special/sprite_manager.h"
 #include "lisp/lisp.h"
 #include "lisp/writer.h"
+#include "object_factory.h"
 
 Platform::Platform(const lisp::Lisp& reader)
 {
@@ -74,3 +75,5 @@ Platform::draw(DrawingContext& context)
 {
   sprite->draw(context, get_pos(), LAYER_OBJECTS);
 }
+
+IMPLEMENT_FACTORY(Platform, "flying_platform");

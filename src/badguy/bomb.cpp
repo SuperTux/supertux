@@ -74,3 +74,4 @@ void
 Bomb::kill_fall()
 {
 }
+

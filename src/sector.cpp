@@ -44,30 +44,17 @@
 #include "statistics.h"
 #include "collision_grid.h"
 #include "collision_grid_iterator.h"
+#include "object_factory.h"
 #include "special/collision.h"
 #include "math/rectangle.h"
 #include "math/aatriangle.h"
 #include "object/coin.h"
 #include "object/block.h"
 #include "object/invisible_block.h"
-#include "object/platform.h"
 #include "object/bullet.h"
-#include "object/rock.h"
 #include "badguy/jumpy.h"
-#include "badguy/snowball.h"
-#include "badguy/bouncing_snowball.h"
-#include "badguy/flame.h"
-#include "badguy/flyingsnowball.h"
-#include "badguy/mriceblock.h"
-#include "badguy/mrbomb.h"
-#include "badguy/dispenser.h"
 #include "badguy/spike.h"
-#include "badguy/spiky.h"
-#include "badguy/nolok_01.h"
-#include "trigger/door.h"
 #include "trigger/sequence_trigger.h"
-#include "trigger/secretarea_trigger.h"
-#include "gameobjs_bridge.h"
 
 Sector* Sector::_current = 0;
 
@@ -105,14 +92,10 @@ Sector::~Sector()
 GameObject*
 Sector::parse_object(const std::string& name, const lisp::Lisp& reader)
 {
-  if(name == "background") {
-    return new Background(reader);
-  } else if(name == "camera") {
+  if(name == "camera") {
     Camera* camera = new Camera(this);
     camera->parse(reader);
     return camera;
-  } else if(name == "tilemap") {
-    return  new TileMap(reader);
   } else if(name == "particles-snow") {
     SnowParticleSystem* partsys = new SnowParticleSystem();
     partsys->parse(reader);
@@ -121,14 +104,16 @@ Sector::parse_object(const std::string& name, const lisp::Lisp& reader)
     CloudParticleSystem* partsys = new CloudParticleSystem();
     partsys->parse(reader);
     return partsys;
-  } else if(name == "secretarea") {
-    return new SecretAreaTrigger(reader);
-  } else if(name == "sequencetrigger") {
-    return new SequenceTrigger(reader);
-  } else if(is_object(name)) {
-    return create_object(object_name_to_type(name), reader);
-  } else
-    std::cerr << "Unknown object type '" << name << "'.\n";
+  } else if(name == "money") { // for compatibility with old maps
+    return new Jumpy(reader);
+  } 
+
+  try {
+    return create_object(name, reader);
+  } catch(std::exception& e) {
+    std::cerr << e.what() << "\n";
+  }
+  
   return 0;
 }
 

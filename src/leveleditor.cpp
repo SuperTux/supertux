@@ -34,11 +34,11 @@
 #include "tile_manager.h"
 #include "sector.h"
 #include "gameloop.h"
+#include "object_factory.h"
 #include "object/gameobjs.h"
 #include "object/camera.h"
 #include "object/tilemap.h"
 #include "object/background.h"
-#include "gameobjs_bridge.h"
 
 LevelEditor::LevelEditor()
 {
@@ -119,13 +119,14 @@ LevelEditor::LevelEditor()
     }
   gameobjs_first_id = id;
 
-  for(id = 0; id < TOTAL_GAMEOBJECTS; id++)
-    {
+  for(Factories::iterator i = object_factories->begin();
+      i != object_factories->end(); ++i) {
+    
 //    Surface *img = badguy.get_image();
 // FIXME: get image from object. Using the rubber in the meanwhile.
-    tiles_board->add_button(Button(img_rubber_bt, object_type_to_string(id),
-                            SDLKey(SDLK_1+id)), id+gameobjs_first_id);
-    }
+    tiles_board->add_button(Button(img_rubber_bt, i->first,
+                            SDLKey(SDLK_1+id)), id++);
+  }
 
   tiles_layer = new ButtonGroup(Vector(12, screen->h-64), Vector(80,20), Vector(1,3));
   tiles_layer->add_button(Button(img_foreground_bt, _("Edtit foreground tiles"),
@@ -844,7 +845,8 @@ void LevelEditor::change(int x, int y, int newtile, int layer)
   level_changed = true;
   
   if(zoom != 1)
-  {  // no need to do this for normal view (no zoom)
+  { 
+    // no need to do this for normal view (no zoom)
     x = (int)(x * (zoom*32) / 32);
     y = (int)(y * (zoom*32) / 32);
   }
@@ -854,9 +856,20 @@ void LevelEditor::change(int x, int y, int newtile, int layer)
     // remove an active tile or object that might be there
     change(x, y, 0, LAYER_TILES);
 
-    create_object((GameObjectsType)(newtile-gameobjs_first_id),Vector(x,y));
-
-    sector->update_game_objects();
+    int id = 0;
+    GameObject* object = 0;
+    for(Factories::iterator i = object_factories->begin(); i !=
+        object_factories->end(); ++i) {
+      if(id == newtile - gameobjs_first_id) {
+        object = i->second->create_object(Vector(x, y));
+        break;
+      }
+      id++;
+    }
+    if(object) {
+      sector->add_object(object);
+      sector->update_game_objects();
+    }
   } else if(cur_layer == LAYER_FOREGROUNDTILES) {
     foregrounds->change(x/32, y/32, newtile);
   } else if(cur_layer == LAYER_TILES) {

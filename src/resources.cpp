@@ -154,7 +154,6 @@ void loadshared()
                          true);
 
   /* Sound effects: */
-
   for (i = 0; i < NUM_SOUNDS; i++)
     SoundManager::get()->add_sound(SoundManager::get
                       ()->load_sound(datadir + soundfilenames[i]),i);

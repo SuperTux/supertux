@@ -106,3 +106,4 @@ Nolok_01::collision_solid(GameObject& , const CollisionHit& hit)
   return CONTINUE;
 }
 
+IMPLEMENT_FACTORY(Nolok_01, "nolok01")

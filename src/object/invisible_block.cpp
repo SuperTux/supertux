@@ -5,6 +5,7 @@
 #include "special/sprite.h"
 #include "special/sprite_manager.h"
 #include "video/drawing_context.h"
+#include "object_factory.h"
 
 InvisibleBlock::InvisibleBlock(const Vector& pos)
   : Block(pos, sprite_manager->create("invisibleblock")), visible(false)
@@ -32,3 +33,4 @@ InvisibleBlock::hit(Player& )
   visible = true;
 }
 
+//IMPLEMENT_FACTORY(InvisibleBlock, "invisible_block");

@@ -80,3 +80,4 @@ FlyingSnowBall::active_action(float elapsed_time)
   sprite->set_action(dir == LEFT ? "left" : "right");
 }
 
+IMPLEMENT_FACTORY(FlyingSnowBall, "flyingsnowball")

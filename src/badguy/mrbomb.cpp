@@ -77,3 +77,5 @@ MrBomb::collision_badguy(BadGuy& , const CollisionHit& hit)
 
   return CONTINUE;
 }
+
+IMPLEMENT_FACTORY(MrBomb, "mrbomb")

@@ -15,6 +15,7 @@
 #include "star.h"
 #include "badguy/badguy.h"
 #include "coin.h"
+#include "object_factory.h"
 
 static const float BOUNCY_BRICK_MAX_OFFSET=8;
 static const float BOUNCY_BRICK_SPEED=90;
@@ -164,6 +165,8 @@ BonusBlock::try_open()
   sprite->set_action("empty");
 }
 
+//IMPLEMENT_FACTORY(BonusBlock, "bonusblock")
+
 //---------------------------------------------------------------------------
 
 Brick::Brick(const Vector& pos, int data)
@@ -222,3 +225,4 @@ Brick::try_break(bool playerhit)
   }
 }
 
+//IMPLEMENT_FACTORY(Brick, "brick")

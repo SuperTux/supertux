@@ -25,6 +25,7 @@
 #include "video/drawing_context.h"
 #include "lisp/lisp.h"
 #include "lisp/writer.h"
+#include "object_factory.h"
 
 Background::Background()
   : type(INVALID), layer(LAYER_BACKGROUND0), image(0)
@@ -128,3 +129,4 @@ Background::draw(DrawingContext& context)
   }
 }
 
+IMPLEMENT_FACTORY(Background, "background");

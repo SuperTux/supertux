@@ -119,8 +119,6 @@ Parser::read()
         result = new Lisp(Lisp::TYPE_STRING);
         if(dictionary) {
           std::string translation = dictionary->translate(lexer->getString());
-          std::cout << "Translated '" << lexer->getString() << "' -> '" 
-            << translation << "'\n";
           result->v.string = new char[translation.size()+1];
           memcpy(result->v.string, translation.c_str(), translation.size()+1);
         } else {

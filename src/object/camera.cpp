@@ -32,6 +32,7 @@
 #include "gameloop.h"
 #include "app/globals.h"
 #include "sector.h"
+#include "object_factory.h"
 
 using namespace SuperTux;
 
@@ -289,3 +290,4 @@ Camera::scroll_autoscroll(float elapsed_time)
 
   keep_in_bounds();
 }
+

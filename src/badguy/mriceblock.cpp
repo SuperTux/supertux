@@ -165,3 +165,4 @@ MrIceBlock::collision_squished(Player& player)
   return true;
 }
 
+IMPLEMENT_FACTORY(MrIceBlock, "mriceblock")

@@ -9,10 +9,19 @@
 #include "scene.h"
 #include "gameobjs.h"
 #include "statistics.h"
+#include "object_factory.h"
 
 Coin::Coin(const Vector& pos)
 {
   bbox.set_pos(pos);
+  bbox.set_size(32, 32);
+  sprite = sprite_manager->create("coin");
+}
+
+Coin::Coin(const lisp::Lisp& reader)
+{
+  reader.get("x", bbox.p1.x);
+  reader.get("y", bbox.p1.y);
   bbox.set_size(32, 32);
   sprite = sprite_manager->create("coin");
 }
@@ -53,3 +62,4 @@ Coin::collision(GameObject& other, const CollisionHit& )
   return ABORT_MOVE;
 }
 
+IMPLEMENT_FACTORY(Coin, "coin");

@@ -81,3 +81,5 @@ BouncingSnowball::collision_badguy(BadGuy& , const CollisionHit& hit)
   return CONTINUE;
 }
 
+IMPLEMENT_FACTORY(BouncingSnowball, "bouncingsnowball")
+

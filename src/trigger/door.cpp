@@ -21,6 +21,7 @@
 #include "door.h"
 #include "gameloop.h"
 #include "resources.h"
+#include "object_factory.h"
 #include "special/sprite.h"
 #include "special/sprite_manager.h"
 #include "video/drawing_context.h"
@@ -96,3 +97,4 @@ Door::event(Player& , EventType type)
   }
 }
 
+IMPLEMENT_FACTORY(Door, "door");

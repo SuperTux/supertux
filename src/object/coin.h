@@ -2,6 +2,7 @@
 #define __COIN_H__
 
 #include "special/moving_object.h"
+#include "lisp/lisp.h"
 
 namespace SuperTux {
   class Sprite;
@@ -13,6 +14,7 @@ class Coin : public MovingObject
 {
 public:
   Coin(const Vector& pos);
+  Coin(const lisp::Lisp& reader);
   ~Coin();
 
   HitResponse collision(GameObject& other, const CollisionHit& hit);

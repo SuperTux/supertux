@@ -33,6 +33,7 @@
 #include "app/globals.h"
 #include "lisp/lisp.h"
 #include "lisp/writer.h"
+#include "object_factory.h"
 
 TileMap::TileMap()
   : solid(false), speed(1), width(0), height(0), layer(LAYER_TILES),
@@ -277,3 +278,5 @@ TileMap::change_at(const Vector& pos, uint32_t newtile)
 {
   change(int(pos.x)/32, int(pos.y)/32, newtile);
 }
+
+IMPLEMENT_FACTORY(TileMap, "tilemap");

@@ -4,6 +4,7 @@
 #include "gameloop.h"
 #include "lisp/lisp.h"
 #include "lisp/writer.h"
+#include "object_factory.h"
 
 SequenceTrigger::SequenceTrigger(const lisp::Lisp& reader)
 {
@@ -49,3 +50,5 @@ SequenceTrigger::event(Player& , EventType type)
     GameSession::current()->start_sequence(sequence_name);
   }
 }
+
+IMPLEMENT_FACTORY(SequenceTrigger, "sequencetrigger")

@@ -58,3 +58,5 @@ Jumpy::active_action(float elapsed_time)
     //FIXME: add middle and up here
   sprite->set_action(dir == LEFT ? "left-down" : "right-down");
 }
+
+IMPLEMENT_FACTORY(Jumpy, "jumpy")
