@@ -40,6 +40,7 @@ JoystickKeymap joystick_keymap;
 SDL_Surface * screen;
 Text* black_text;
 Text* gold_text;
+Text* silver_text;
 Text* blue_text;
 Text* red_text;
 Text* green_text;

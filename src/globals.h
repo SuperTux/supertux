@@ -49,6 +49,7 @@ extern JoystickKeymap joystick_keymap;
 extern SDL_Surface * screen;
 extern Text* black_text;
 extern Text* gold_text;
+extern Text* silver_text;
 extern Text* white_text;
 extern Text* white_small_text;
 extern Text* white_big_text;
