@@ -335,6 +335,7 @@ void title(void)
                   }
 
                 update_load_save_game_menu(load_game_menu);
+                Menu::set_current(main_menu);
                 update_time = st_get_ticks();
                 }
               else if (process_load_game_menu())
