@@ -129,10 +129,8 @@ namespace SuperTux
       /** Return 0 on success, -2 if surface needs to be reloaded */
       virtual int draw(float x, float y, Uint8 alpha, Uint32 effect = NONE_EFFECT) = 0;
       virtual int draw_part(float sx, float sy, float x, float y, float w, float h,  Uint8 alpha, Uint32 effect = NONE_EFFECT) = 0;
-#if 0
+      virtual int draw_stretched(float x, float y, int w, int h, Uint8 alpha, Uint32 effect = NONE_EFFECT) = 0;
 
-      virtual int draw_stretched(float x, float y, int w, int h, Uint8 alpha, bool update) = 0;
-#endif
 
       int resize(int w_, int h_);
 
@@ -150,10 +148,7 @@ namespace SuperTux
 
       int draw(float x, float y, Uint8 alpha, Uint32 effect = NONE_EFFECT);
       int draw_part(float sx, float sy, float x, float y, float w, float h,  Uint8 alpha, Uint32 effect = NONE_EFFECT);
-#if 0
-
-      int draw_stretched(float x, float y, int w, int h, Uint8 alpha);
-#endif
+      int draw_stretched(float x, float y, int w, int h, Uint8 alpha, Uint32 effect = NONE_EFFECT);
     };
 
 #ifndef NOOPENGL
@@ -172,10 +167,8 @@ namespace SuperTux
 
       int draw(float x, float y, Uint8 alpha, Uint32 effect = NONE_EFFECT);
       int draw_part(float sx, float sy, float x, float y, float w, float h,  Uint8 alpha, Uint32 effect = NONE_EFFECT);
-#if 0
+      int draw_stretched(float x, float y, int w, int h, Uint8 alpha, Uint32 effect = NONE_EFFECT);
 
-      int draw_stretched(float x, float y, int w, int h, Uint8 alpha);
-#endif
 
     private:
       void create_gl(SDL_Surface * surf, GLuint * tex);

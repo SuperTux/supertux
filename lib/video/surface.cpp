@@ -173,7 +173,7 @@ Surface::Surface(const std::string& file, int x, int y, int w, int h, bool use_a
 }
 
 Surface::Surface(Color top_background, Color bottom_background, int w_, int h_)
-    : data(top_background, bottom_background, 0, 0), w(0), h(0)
+    : data(top_background, bottom_background, w_, h_), w(0), h(0)
 {
   // FIXME: Gradient surfaces currently don't accept width/height
   //        If nonzero values are passed to data.create(), supertux
@@ -373,7 +373,7 @@ sdl_surface_from_gradient(Color top, Color bottom, int w, int h)
 
   sdl_surface = SDL_CreateRGBSurface(screen->flags, w, h,
                     screen->format->BitsPerPixel, screen->format->Rmask,
-                    screen->format->Gmask, screen->format->Bmask, screen->format->Amask);
+                    screen->format->Gmask, screen->format->Bmask, 0);
 
   if(sdl_surface == NULL)
       Termination::abort("Cannot create surface for the gradient", "SURFACE");
@@ -665,32 +665,56 @@ SurfaceOpenGL::draw_part(float sx, float sy, float x, float y, float w, float h,
   return 0;
 }
 
-#if 0
 int
-SurfaceOpenGL::draw_stretched(float x, float y, int sw, int sh, Uint8 alpha)
+SurfaceOpenGL::draw_stretched(float x, float y, int sw, int sh, Uint8 alpha, Uint32 effect)
 {
-  float pw = power_of_two(int(this->w));
-  float ph = power_of_two(int(this->h));
+  if(effect & SEMI_TRANSPARENT)
+    alpha = 128;
 
-  glBindTexture(GL_TEXTURE_2D, gl_texture);
+  float pw = power_of_two(sw);
+  float ph = power_of_two(sh);
 
+  if(effect & SEMI_TRANSPARENT)
+    alpha = 128;
+
+  glEnable(GL_TEXTURE_2D);
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
   glColor4ub(alpha, alpha, alpha, alpha);
 
-  glEnable(GL_TEXTURE_2D);
-
+  glBindTexture(GL_TEXTURE_2D, gl_texture);
 
   glBegin(GL_QUADS);
-  glTexCoord2f(0, 0);
-  glVertex2f(x, y);
-  glTexCoord2f((float)w / pw, 0);
-  glVertex2f(sw+x, y);
-  glTexCoord2f((float)w / pw, (float)h / ph);  glVertex2f((float)sw+x, (float)sh+y);
-  glVertex2f(sw +x, sh+y);
-  glTexCoord2f(0, (float)h / ph);
-  glVertex2f(x, sh+y);
+
+  if(effect & VERTICAL_FLIP)
+    {
+    glTexCoord2f(0, 0);
+    glVertex2f(x, (float)sh+y);
+
+    glTexCoord2f((float)w / pw, 0);
+    glVertex2f((float)sw+x, (float)sh+y);
+
+    glTexCoord2f((float)w / pw, (float)h / ph);
+    glVertex2f((float)sw+x, y);
+    
+    glTexCoord2f(0, (float)h / ph);
+    glVertex2f(x, y);
+    }
+  else
+    {
+    glTexCoord2f(0, 0);
+    glVertex2f(x, y);
+
+    glTexCoord2f((float)w / pw, 0);
+    glVertex2f((float)sw+x, y);
+
+    glTexCoord2f((float)w / pw, (float)h / ph);
+    glVertex2f((float)sw+x, (float)sh+y);
+
+    glTexCoord2f(0, (float)h / ph);
+    glVertex2f(x, (float)sh+y);
+    }
   glEnd();
 
   glDisable(GL_TEXTURE_2D);
@@ -698,7 +722,6 @@ SurfaceOpenGL::draw_stretched(float x, float y, int sw, int sh, Uint8 alpha)
 
   return 0;
 }
-#endif
 
 #endif
 
@@ -839,9 +862,8 @@ SurfaceSDL::draw_part(float sx, float sy, float x, float y, float w, float h, Ui
   return ret;
 }
 
-#if 0
 int
-SurfaceSDL::draw_stretched(float x, float y, int sw, int sh, Uint8 alpha, bool update)
+SurfaceSDL::draw_stretched(float x, float y, int sw, int sh, Uint8 alpha, Uint32 effect)
 {
   SDL_Rect dest;
 
@@ -850,9 +872,8 @@ SurfaceSDL::draw_stretched(float x, float y, int sw, int sh, Uint8 alpha, bool u
   dest.w = (int)sw;
   dest.h = (int)sh;
 
-  if(alpha != 255)
-    SDL_SetAlpha(sdl_surface ,SDL_SRCALPHA,alpha);
-
+  if(effect & SEMI_TRANSPARENT)
+    alpha = 128;
 
   SDL_Surface* sdl_surface_copy = SDL_CreateRGBSurface (sdl_surface->flags,
                                   sw, sh, sdl_surface->format->BitsPerPixel,
@@ -863,15 +884,14 @@ SurfaceSDL::draw_stretched(float x, float y, int sw, int sh, Uint8 alpha, bool u
   SDL_BlitSurface(sdl_surface, NULL, sdl_surface_copy, NULL);
   SDL_SoftStretch(sdl_surface_copy, NULL, sdl_surface_copy, &dest);
 
+  if(alpha != 255)
+    SDL_SetAlpha(sdl_surface_copy,SDL_SRCALPHA,alpha);
+
   int ret = SDL_BlitSurface(sdl_surface_copy,NULL,screen,&dest);
   SDL_FreeSurface(sdl_surface_copy);
 
-  if (update == UPDATE)
-    update_rect(screen, dest.x, dest.y, dest.w, dest.h);
-
   return ret;
 }
-#endif
 
 SurfaceSDL::~SurfaceSDL()
 {}
