@@ -346,11 +346,15 @@ BadGuy::fall()
                            base.y + base.height))
                 {
                   if (dir == LEFT)
+                  {
                     dir = RIGHT;
+                    physic.set_velocity_x(fabs(physic.get_velocity_x()));
+                  } 
                   else
+                  {
                     dir = LEFT;
-
-                  physic.set_velocity_x(fabs(physic.get_velocity_x()) * dir == LEFT ? -1 : 1);
+                    physic.set_velocity_x(-fabs(physic.get_velocity_x()));
+                  }
                 }
             }
         }
@@ -992,11 +996,17 @@ BadGuy::collision(void *p_c_object, int c_object, CollisionType type)
         if (base.y + base.height < pbad_c->base.y + pbad_c->base.height)
         {
           if (pbad_c->dir == LEFT)
+          {
             dir = RIGHT;
+            physic.set_velocity(fabs(physic.get_velocity_x()), 2);
+          }
           else if (pbad_c->dir == RIGHT)
+          {
             dir = LEFT;
+            physic.set_velocity(-fabs(physic.get_velocity_x()), 2);
+          }
 
-          physic.set_velocity(fabs(physic.get_velocity_x()) * dir == LEFT ? -1 : 1, 2);
+
 
           break;
         }
@@ -1005,12 +1015,17 @@ BadGuy::collision(void *p_c_object, int c_object, CollisionType type)
 
         if (pbad_c->kind != BAD_FLAME)
           {
-          if (dir == LEFT)
-            dir = RIGHT;
-          else if (dir == RIGHT)
-            dir = LEFT;
-        
-          physic.set_velocity_x(fabs(physic.get_velocity_x()) * dir == LEFT ? -1 : 1);
+            if (dir == LEFT)
+            {
+              dir = RIGHT;
+              physic.set_velocity_x(fabs(physic.get_velocity_x()));
+            }
+            else if (dir == RIGHT)
+            {
+              dir = LEFT;
+              physic.set_velocity_x(-fabs(physic.get_velocity_x()));
+            }
+
           }
       }
       
