@@ -244,6 +244,8 @@ void collision_handler()
         }
     }
 
+  if(tux.dying != DYING_NOT) return;
+    
   // CO_BADGUY & CO_PLAYER check 
   for(unsigned int i = 0; i < bad_guys.size(); ++i)
     {
@@ -257,7 +259,7 @@ void collision_handler()
           if (tux.previous_base.y < tux.base.y &&
               tux.previous_base.y + tux.previous_base.height < bad_guys[i].base.y + bad_guys[i].base.height/2)
             {
-              bad_guys[i].collision(&tux, CO_PLAYER, COLLISION_SQUICH);
+              bad_guys[i].collision(&tux, CO_PLAYER, COLLISION_SQUISH);
             }
           else
             {

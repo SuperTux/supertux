@@ -861,20 +861,6 @@ void le_checkevents()
                 }
               else if(event.button.button == SDL_BUTTON_RIGHT)
 	        {
-		switch(active_tm)
-		{
-		case TM_BG:
-		   active_tm = TM_IA;
-		   break;
-		case TM_IA:
-		   active_tm = TM_FG;
-		   break;
-		case TM_FG:
-		   active_tm = TM_BG;
-		   break;
-		default:
-		   break;
-		}
                 le_mouse_pressed[RIGHT] = true;
 		}
               break;
@@ -1066,7 +1052,7 @@ void le_checkevents()
         }
       else if(le_move_left_bt->get_state() == BUTTON_HOVER)
         {
-          pos_x -= 96;
+          pos_x -= 64;
         }
 
       if(le_move_right_bt->get_state() == BUTTON_PRESSED)
@@ -1075,7 +1061,7 @@ void le_checkevents()
         }
       else if(le_move_right_bt->get_state() == BUTTON_HOVER)
         {
-          pos_x += 96;
+          pos_x += 64;
         }
     }
 
@@ -1247,7 +1233,7 @@ void le_showhelp()
   text_drawf(&blue_text, "- Help -", 0, 30, A_HMIDDLE, A_TOP, 2);
 
   for(i = 0; i < sizeof(text)/sizeof(char *); i++)
-    text_draw(&white_small_text, text[i], 5, 80+(i*12), 1);
+    text_draw(&white_text, text[i], 5, 80+(i*18), 1);
 
   text_drawf(&gold_text, "Press Any Key to Continue", 0, 440, A_HMIDDLE, A_TOP, 1);
 
@@ -1257,16 +1243,7 @@ void le_showhelp()
 
   while(done == 0)
     {
-      while(SDL_PollEvent(&event))
-        switch(event.type)
-          {
-          case SDL_MOUSEBUTTONDOWN:		// mouse pressed
-          case SDL_KEYDOWN:		// key pressed
-            done = 1;
-            break;
-          default:
-            break;
-          }
+      done = wait_for_event(event);
       SDL_Delay(50);
     }
 }

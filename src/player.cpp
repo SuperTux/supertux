@@ -9,6 +9,7 @@
 // Copyright: See COPYING file that comes with this distribution
 //
 //
+#include <math.h>
 
 #include "gameloop.h"
 #include "globals.h"
@@ -66,7 +67,6 @@ Player::init()
   // FIXME: Make the start position configurable via the levelfile
   base.x = 100;
   base.y = 240;
-
   base.xm = 0;
   base.ym = 0;
   old_base = base;
@@ -94,8 +94,7 @@ Player::init()
   timer_init(&skidding_timer,true);
   timer_init(&safe_timer,true);
   timer_init(&frame_timer,true);
-  physic_init(&hphysic);
-  physic_init(&vphysic);
+  physic.reset();
 }
 
 int
@@ -138,6 +137,9 @@ Player::level_begin()
   base.xm = 0;
   base.ym = 0;
   old_base = base;
+  previous_base = base;
+
+  dying = DYING_NOT;
 
   player_input_init(&input);
 
@@ -145,8 +147,7 @@ Player::level_begin()
   timer_init(&skidding_timer,true);
   timer_init(&safe_timer,true);
   timer_init(&frame_timer,true);
-  physic_init(&hphysic);
-  physic_init(&vphysic);
+  physic.reset();
 }
 
 void
@@ -160,12 +161,9 @@ Player::action()
     handle_input();
 
   /* Move tux: */
-
   previous_base = base;
 
-  base.x += base.xm * frame_ratio;
-  base.y += base.ym * frame_ratio;
-
+  physic.apply(base.x, base.y);
 
   if (!dying)
     {
@@ -178,36 +176,25 @@ Player::action()
 
       if( !on_ground())
         {
+          physic.enable_gravity(true);
           if(under_solid())
             {
-              physic_set_state(&vphysic,PH_VT);
-              physic_set_start_vy(&vphysic,0);
+              // fall down
+              physic.set_velocity(physic.get_velocity_x(), 0);
               jumped_in_solid = true;
             }
-          else
-            {
-              if(!physic_is_set(&vphysic))
-                {
-                  physic_set_state(&vphysic,PH_VT);
-                  physic_set_start_vy(&vphysic,0);
-                }
-            }
-          base.ym = physic_get_velocity(&vphysic);
         }
       else
         {
           /* Land: */
-
-          if (base.ym > 0)
+          if (physic.get_velocity_y() < 0)
             {
               base.y = (int)(((int)base.y / 32) * 32);
-              base.ym = 0;
+              physic.set_velocity(physic.get_velocity_x(), 0);
             }
 
-          physic_init(&vphysic);
-
+          physic.enable_gravity(false);
           /* Reset score multiplier (for multi-hits): */
-
           score_multiplier = 1;
         }
 
@@ -253,8 +240,6 @@ Player::action()
         }
 
     }
-  else
-    base.ym = physic_get_velocity(&vphysic);
 
   timer_check(&safe_timer);
 
@@ -292,7 +277,7 @@ Player::action()
 
   /* Handle skidding: */
 
-  timer_check(&skidding_timer);
+  // timer_check(&skidding_timer); // disabled
 
   /* End of level? */
 
@@ -322,80 +307,105 @@ Player::under_solid()
 void
 Player::handle_horizontal_input(int newdir)
 {
-  if ((newdir ? (base.xm < -SKID_XM) : (base.xm > SKID_XM)) && !timer_started(&skidding_timer) &&
-      dir == !newdir && on_ground())
-    {
-      timer_start(&skidding_timer, SKID_TIME);
+  if(duck)
+    return;
 
-      play_sound(sounds[SND_SKID], SOUND_CENTER_SPEAKER);
-
-    }
+  float vx = physic.get_velocity_x();
+  float vy = physic.get_velocity_y();
   dir = newdir;
 
+  // skid if we're too fast
+  if(dir != newdir && on_ground() && fabs(physic.get_velocity_x()) > SKID_XM 
+          && !timer_started(&skidding_timer))
+    {
+      timer_start(&skidding_timer, SKID_TIME);
+      play_sound(sounds[SND_SKID], SOUND_CENTER_SPEAKER);
+      return;
+    }
 
-  if ((newdir ? (base.xm < 0) : (base.xm > 0)) && !isice(base.x, base.y + base.height) &&
+  if ((newdir ? (vx < 0) : (vx > 0)) && !isice(base.x, base.y + base.height) &&
       !timer_started(&skidding_timer))
     {
-      base.xm = 0;
+      //vx = 0;
     }
 
-  if (!duck)
+  /* Facing the direction we're jumping?  Go full-speed: */
+  if (input.fire == UP)
     {
-      if (dir == newdir)
+      if(vx >= MAX_WALK_XM) {
+        vx = MAX_WALK_XM;
+        physic.set_acceleration(0, 0); // enough speedup
+      } else if(vx <= -MAX_WALK_XM) {
+        vx = -MAX_WALK_XM;
+        physic.set_acceleration(0, 0);
+      }
+      physic.set_acceleration(newdir ? 0.02 : -0.02, 0);
+      if(fabs(vx) < 1) // set some basic run speed
+        vx = newdir ? 1 : -1;
+#if 0
+      vx += ( newdir ? WALK_SPEED : -WALK_SPEED) * frame_ratio;
+
+      if(newdir)
         {
-          /* Facing the direction we're jumping?  Go full-speed: */
-
-          if (input.fire == UP)
-            {
-              base.xm = base.xm + ( newdir ? WALK_SPEED : -WALK_SPEED) * frame_ratio;
-
-              if(newdir)
-                {
-                  if (base.xm > MAX_WALK_XM)
-                    base.xm = MAX_WALK_XM;
-                }
-              else
-                {
-                  if (base.xm < -MAX_WALK_XM)
-                    base.xm = -MAX_WALK_XM;
-                }
-            }
-          else if ( input.fire == DOWN)
-            {
-              base.xm = base.xm + ( newdir ? RUN_SPEED : -RUN_SPEED) * frame_ratio;
-
-              if(newdir)
-                {
-                  if (base.xm > MAX_RUN_XM)
-                    base.xm = MAX_RUN_XM;
-                }
-              else
-                {
-                  if (base.xm < -MAX_RUN_XM)
-                    base.xm = -MAX_RUN_XM;
-                }
-            }
-          else
-            {
-              /* Not facing the direction we're jumping?
-                 Go half-speed: */
-
-              base.xm = base.xm + ( newdir ? (WALK_SPEED / 2) : -(WALK_SPEED / 2)) * frame_ratio;
-
-              if(newdir)
-                {
-                  if (base.xm > MAX_WALK_XM / 2)
-                    base.xm = MAX_WALK_XM / 2;
-                }
-              else
-                {
-                  if (base.xm < -MAX_WALK_XM / 2)
-                    base.xm = -MAX_WALK_XM / 2;
-                }
-            }
+          if (vx > MAX_WALK_XM)
+            vx = MAX_WALK_XM;
         }
-
+      else
+        {
+          if (vx < -MAX_WALK_XM)
+            vx = -MAX_WALK_XM;
+        }
+#endif
     }
+  else if ( input.fire == DOWN)
+    {
+      if(vx >= MAX_RUN_XM) {
+        vx = MAX_RUN_XM;
+        physic.set_acceleration(0, 0); // enough speedup      
+      } else if(vx <= -MAX_RUN_XM) {
+        vx = -MAX_RUN_XM;
+        physic.set_acceleration(0, 0);
+      }
+      physic.set_acceleration(newdir ? 0.03 : -0.03, 0);
+      if(fabs(vx) < 1) // set some basic run speed
+        vx = newdir ? 1 : -1;
+
+#if 0
+      vx = vx + ( newdir ? RUN_SPEED : -RUN_SPEED) * frame_ratio;
+
+      if(newdir)
+        {
+          if (vx > MAX_RUN_XM)
+            vx = MAX_RUN_XM;
+        }
+      else
+        {
+          if (vx < -MAX_RUN_XM)
+            vx = -MAX_RUN_XM;
+        }
+#endif
+    }
+  else
+    {
+#if 0
+      /* Not facing the direction we're jumping?
+         Go half-speed: */
+      vx = vx + ( newdir ? (WALK_SPEED / 2) : -(WALK_SPEED / 2)) * frame_ratio;
+
+      if(newdir)
+        {
+          if (vx > MAX_WALK_XM / 2)
+            vx = MAX_WALK_XM / 2;
+        }
+      else
+        {
+          if (vx < -MAX_WALK_XM / 2)
+            vx = -MAX_WALK_XM / 2;
+        }
+#endif
+    }
+  
+  physic.set_velocity(vx, vy);
 }
 
 void
@@ -405,45 +415,22 @@ Player::handle_vertical_input()
     {
       if (on_ground())
         {
-          if(!physic_is_set(&vphysic))
-            {
-              physic_set_state(&vphysic,PH_VT);
-              physic_set_start_vy(&vphysic,5.5);
-              --base.y;
-              jumping = true;
-              if (size == SMALL)
-                play_sound(sounds[SND_JUMP], SOUND_CENTER_SPEAKER);
-              else
-                play_sound(sounds[SND_BIGJUMP], SOUND_CENTER_SPEAKER);
-            }
+          // jump
+          physic.set_velocity(physic.get_velocity_x(), 5.5);
+          --base.y;
+          jumping = true;
+          if (size == SMALL)
+            play_sound(sounds[SND_JUMP], SOUND_CENTER_SPEAKER);
+          else
+            play_sound(sounds[SND_BIGJUMP], SOUND_CENTER_SPEAKER);
         }
     }
   else if(input.up == UP && jumping)
     {
-      if (on_ground())
-        {
-          physic_init(&vphysic);
-          jumping = false;
-        }
-      else
-        {
-          jumping = false;
-          if(physic_is_set(&vphysic))
-            {
-              if(physic_get_velocity(&vphysic) < 0.)
-                {
-                  physic_set_state(&vphysic,PH_VT);
-                  physic_set_start_vy(&vphysic,0);
-                }
-            }
-          else
-            {
-              if(!physic_is_set(&vphysic))
-                {
-                  physic_set_state(&vphysic,PH_VT);
-                }
-            }
-        }
+      jumping = false;
+      if(physic.get_velocity_y() > 0) {
+        physic.set_velocity(physic.get_velocity_x(), 0);
+      }
     }
 }
 
@@ -463,18 +450,15 @@ Player::handle_input()
         }
       else
         {
-          if(base.xm > 0)
-            {
-              base.xm = (int)(base.xm - frame_ratio);
-              if(base.xm < 0)
-                base.xm = 0;
-            }
-          else if(base.xm < 0)
-            {
-              base.xm = (int)(base.xm + frame_ratio);
-              if(base.xm > 0)
-                base.xm = 0;
-            }
+          float vx = physic.get_velocity_x();
+          if(fabs(vx) < 0.01) {
+            physic.set_velocity(0, physic.get_velocity_y());
+            physic.set_acceleration(0, 0);
+          } else if(vx < 0) {
+            physic.set_acceleration(0.1, 0);
+          } else {
+            physic.set_acceleration(-0.1, 0);
+          }
         }
     }
 
@@ -489,7 +473,7 @@ Player::handle_input()
 
   if (input.fire == DOWN && input.old_fire == UP && got_coffee)
     {
-      add_bullet(base.x, base.y, base.xm, dir);
+      add_bullet(base.x, base.y, physic.get_velocity_x(), dir);
     }
 
 
@@ -659,7 +643,7 @@ Player::draw()
                 {
                   if (!timer_started(&skidding_timer))
                     {
-                      if (!jumping || base.ym > 0)
+                      if (!jumping || physic.get_velocity_y() > 0)
                         {
                           if (dir == RIGHT)
                             {
@@ -720,7 +704,7 @@ Player::draw()
                 {
                   if (!timer_started(&skidding_timer))
                     {
-                      if (!jumping || base.ym > 0)
+                      if (!jumping || physic.get_velocity_y() > 0)
                         {
                           if (dir == RIGHT)
                             {
@@ -775,6 +759,7 @@ Player::draw()
             }
         }
     }
+
   if(dying)
     text_drawf(&gold_text,"Penguins can fly !:",0,0,A_HMIDDLE,A_VMIDDLE,1);
 }
@@ -794,60 +779,34 @@ Player::collision(void* p_c_object, int c_object)
           !timer_started(&safe_timer) &&
           pbad_c->mode != HELD)
         {
-          if (pbad_c->mode == FLAT  && input.fire != DOWN)
-            {
-              /* Kick: */
-
-              pbad_c->mode = KICK;
-              play_sound(sounds[SND_KICK], SOUND_CENTER_SPEAKER);
-
-              if (base.x < pbad_c->base.x + (pbad_c->base.width/2))
-                {
-                  pbad_c->dir = RIGHT;
-                  pbad_c->base.x = pbad_c->base.x + 16;
-                }
-              else
-                {
-                  pbad_c->dir = LEFT;
-                  pbad_c->base.x = pbad_c->base.x - 32;
-                }
-
-              timer_start(&pbad_c->timer,5000);
-            }
-          else if (pbad_c->mode == FLAT && input.fire == DOWN)
+          if (pbad_c->mode == FLAT && input.fire == DOWN)
             {
               pbad_c->mode = HELD;
               pbad_c->base.y-=8;
             }
           else if (pbad_c->mode == KICK)
             {
-              if (base.y < pbad_c->base.y - 16 &&
-                  timer_started(&pbad_c->timer))
+              if (base.y < pbad_c->base.y - 16)
                 {
                   /* Step on (stop being kicked) */
 
                   pbad_c->mode = FLAT;
                   play_sound(sounds[SND_STOMP], SOUND_CENTER_SPEAKER);
-                  timer_start(&pbad_c->timer, 10000);
                 }
               else
                 {
                   /* Hurt if you get hit by kicked laptop: */
-
-                  if (timer_started(&pbad_c->timer))
+                  if (!timer_started(&invincible_timer))
                     {
-                      if (!timer_started(&invincible_timer))
-                        {
-                          kill(SHRINK);
-                        }
-                      else
-                        {
-                          pbad_c->dying = DYING_FALLING;
-                          play_sound(sounds[SND_FALL], SOUND_CENTER_SPEAKER);
-                          add_score(pbad_c->base.x - scroll_x,
-                                    pbad_c->base.y,
-                                    25 * score_multiplier);
-                        }
+                      kill(SHRINK);
+                    }
+                  else
+                    {
+                      pbad_c->dying = DYING_FALLING;
+                      play_sound(sounds[SND_FALL], SOUND_CENTER_SPEAKER);
+                      add_score(pbad_c->base.x - scroll_x,
+                                pbad_c->base.y,
+                                25 * score_multiplier);
                     }
                 }
             }
@@ -859,11 +818,7 @@ Player::collision(void* p_c_object, int c_object)
                 }
               else
                 {
-                  pbad_c->dying = DYING_FALLING;
-                  play_sound(sounds[SND_FALL], SOUND_CENTER_SPEAKER);
-                  add_score(pbad_c->base.x - scroll_x,
-                            pbad_c->base.y,
-                            25 * score_multiplier);
+                  pbad_c->kill_me();
                 }
             }
           score_multiplier++;
@@ -880,10 +835,9 @@ Player::collision(void* p_c_object, int c_object)
 void
 Player::kill(int mode)
 {
-
   play_sound(sounds[SND_HURT], SOUND_CENTER_SPEAKER);
 
-  base.xm = 0;
+  physic.set_velocity(0, physic.get_velocity_y());
 
   if (mode == SHRINK && size == BIG)
     {
@@ -899,8 +853,10 @@ Player::kill(int mode)
     {
       if(size == BIG)
         duck = true;
-      physic_set_state(&vphysic,PH_VT);
-      physic_set_start_vy(&vphysic,7);
+
+      physic.enable_gravity(true);
+      physic.set_acceleration(0, 0);
+      physic.set_velocity(0, 7);
       dying = DYING_SQUISHED;
     }
 }
@@ -908,8 +864,6 @@ Player::kill(int mode)
 void
 Player::is_dying()
 {
-  base.ym = base.ym + gravity;
-
   /* He died :^( */
 
   --lives;

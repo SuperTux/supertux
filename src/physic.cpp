@@ -9,75 +9,86 @@
 // Copyright: See COPYING file that comes with this distribution
 //
 //
-
 #include <stdio.h>
+
+#include "scene.h"
 #include "defines.h"
 #include "physic.h"
+#include "timer.h"
 
 float gravity;
 
-void physic_init(physic_type* pphysic)
+Physic::Physic()
+    : ax(0), ay(0), vx(0), vy(0), gravity_enabled(true)
 {
-  pphysic->state = -1;
-  pphysic->start_time = 0;
-  pphysic->start_vy = 0;
 }
 
-int physic_get_state(physic_type* pphysic)
+Physic::~Physic()
 {
-  return pphysic->state;
 }
 
-void physic_set_state(physic_type* pphysic, int nstate)
+void
+Physic::reset()
 {
-  pphysic->state = nstate;
-  pphysic->start_time = st_get_ticks();
+    ax = ay = vx = vy = 0;
+    gravity_enabled = true;
 }
 
-void physic_set_start_vy(physic_type* pphysic, float start_vy)
+void
+Physic::set_velocity(float nvx, float nvy)
 {
-  pphysic->start_vy = start_vy;
+    vx = nvx;
+    vy = -nvy;
 }
 
-void physic_set_start_vx(physic_type* pphysic, float start_vx)
+float
+Physic::get_velocity_x()
 {
-  pphysic->start_vx = start_vx;
+    return vx;
 }
 
-void physic_set_acceleration(physic_type* pphysic, float acceleration)
+float
+Physic::get_velocity_y()
 {
-  pphysic->acceleration = acceleration;
+    return -vy;
 }
 
-
-int physic_is_set(physic_type* pphysic)
+void
+Physic::set_acceleration(float nax, float nay)
 {
-  return (pphysic->state != -1);
+    ax = nax;
+    ay = -nay;
 }
 
-float physic_get_velocity(physic_type* pphysic)
+float
+Physic::get_acceleration_x()
 {
-  if(pphysic->state == PH_VT)
-    return - (pphysic->start_vy - gravity* ((float)(st_get_ticks() - pphysic->start_time))/1000.);
-  else if(pphysic->state == PH_HA)
-    return - (pphysic->start_vx - pphysic->acceleration * ((float)(st_get_ticks() - pphysic->start_time))/1000.);
-  else
-    return 0;
+    return ax;
 }
 
-float physic_get_max_distance(physic_type* pphysic)
+float
+Physic::get_acceleration_y()
 {
-  return (pphysic->start_vy * pphysic->start_vy / 2.*gravity);
+    return -ay;
 }
 
-unsigned int physic_get_max_time(physic_type* pphysic)
+void
+Physic::enable_gravity(bool enable_gravity)
 {
-  return (unsigned int)((pphysic->start_vy / gravity) * 1000);
+    gravity_enabled = enable_gravity;
 }
 
-unsigned int physic_get_time_gone(physic_type* pphysic)
+void
+Physic::apply(float &x, float &y)
 {
-  return st_get_ticks() - pphysic->start_time;
+    float grav;
+    if(gravity_enabled)
+        grav = gravity / 100.0;
+    else
+        grav = 0;
+
+    x += vx * frame_ratio + ax * frame_ratio * frame_ratio;
+    y += vy * frame_ratio + (ay + grav) * frame_ratio * frame_ratio;
+    vx += ax * frame_ratio;
+    vy += (ay + grav) * frame_ratio;
 }
-
-

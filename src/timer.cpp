@@ -19,7 +19,7 @@ unsigned int st_pause_ticks, st_pause_count;
 unsigned int st_get_ticks(void)
 {
   if(st_pause_count != 0)
-    return SDL_GetTicks() - st_pause_ticks - SDL_GetTicks() + st_pause_count;
+    return /*SDL_GetTicks()*/ - st_pause_ticks /*- SDL_GetTicks()*/ + st_pause_count;
   else
     return SDL_GetTicks() - st_pause_ticks;
 }
@@ -37,6 +37,9 @@ void st_pause_ticks_start(void)
 
 void st_pause_ticks_stop(void)
 {
+if(st_pause_count == 0)
+return;
+
   st_pause_ticks += SDL_GetTicks() - st_pause_count;
   st_pause_count = 0;
 }

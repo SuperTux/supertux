@@ -42,6 +42,7 @@ class Button
     }
 
   private:
+    static timer_type popup_timer;
     texture_type icon;
     texture_type* bkgd;
     std::string info;

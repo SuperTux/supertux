@@ -84,13 +84,12 @@ int title(void)
   Player titletux;
   titletux.init();
   st_pause_ticks_init();
-  st_pause_ticks_stop();
 
   level_load(&current_level, (datadir + "/levels/misc/menu.stl").c_str());
   loadshared();
   activate_particle_systems();
   /* Lower the gravity that tux doesn't jump to hectically through the demo */
-  gravity = 5;
+  //gravity = 5;
 
   /* Reset menu variables */
   menu_reset();
@@ -301,6 +300,10 @@ int title(void)
                         }
                     }
                 }
+              // reset tux
+              scroll_x = 0;
+              titletux.level_begin();
+              update_time = st_get_ticks();
               break;
             case 3:
               update_load_save_game_menu(load_game_menu, true);

@@ -13,37 +13,48 @@
 #ifndef SUPERTUX_PHYSIC_H
 #define SUPERTUX_PHYSIC_H
 
-#include "timer.h"
+/** This is a very simplistic physics engine handling accelerated and constant
+  * movement along with gravity.
+  */
+class Physic
+{
+public:
+    Physic();
+    ~Physic();
 
-enum {
-  PH_VT, /* Vertical throw.*/
-  PH_HA  /* Horizontal acceleration. */
-};
+    /** resets all velocities and accelerations to 0 */
+    void reset();
 
-/* Physic type: */
+    /** sets velocity to a fixed value */
+    void set_velocity(float vx, float vy);
 
-struct physic_type
-  {
-    int state;
-    float start_vy;
-    float start_vx;
-    float acceleration;
-    unsigned int start_time;
+    float get_velocity_x();
+    float get_velocity_y();
+    
+    /** sets acceleration applied to the object. (Note that gravity is
+     * eventually added to the vertical acceleration)
+     */
+    void set_acceleration(float ax, float ay);
+
+    float get_acceleration_x();
+    float get_acceleration_y();
+
+    /** enables or disables handling of gravity */
+    void enable_gravity(bool gravity_enabled);
+
+    /** applies the physical simulation to given x and y coordinates */
+    void apply(float &x, float &y); 
+
+private:
+    /// horizontal and vertical acceleration
+    float ax, ay;
+    /// horizontal and vertical velocity
+    float vx, vy;
+    /// should we respect gravity in out calculations?
+    bool gravity_enabled;
 };
 
 /* global variables. */
 extern float gravity;
-
-void physic_init(physic_type* pphysic);
-int physic_get_state(physic_type* pphysic);
-void physic_set_state(physic_type* pphysic, int nstate);
-void physic_set_start_vy(physic_type* pphysic, float start_vy);
-void physic_set_start_vx(physic_type* pphysic, float start_vx);
-void physic_set_acceleration(physic_type* pphysic, float acceleration);
-int physic_is_set(physic_type* pphysic);
-float physic_get_velocity(physic_type* pphysic);
-float physic_get_max_distance(physic_type* pphysic);
-unsigned int physic_get_max_time(physic_type* pphysic);
-unsigned int physic_get_time_gone(physic_type* pphysic);
 
 #endif /*SUPERTUX_PHYSIC_H*/

@@ -39,7 +39,12 @@ enum {
     BOMB_EXPLODE,
 
     STALACTITE_SHAKING,
-    STALACTITE_FALL
+    STALACTITE_FALL,
+
+    FISH_WAIT,
+
+    FLY_UP,
+    FLY_DOWN
 };
 
 /* Bad guy kinds: */
@@ -50,7 +55,12 @@ enum BadGuyKind {
   BAD_MRBOMB,
   BAD_BOMB,
   BAD_STALACTITE,
-  BAD_FLAME
+  BAD_FLAME,
+  BAD_FISH,
+  BAD_BOUNCINGSNOWBALL,
+  BAD_FLYINGSNOWBALL,
+  BAD_SPIKY,
+  BAD_SNOWBALL
 };
 
 BadGuyKind  badguykind_from_string(const std::string& str);
@@ -76,18 +86,26 @@ class Player;
 /* Badguy type: */
 class BadGuy
 {
- public:
-  int mode;
+public:
   DyingType dying;
-  BadGuyKind kind;
-  bool seen;
-  int dir;
   base_type base;
+  BadGuyKind kind;
+  int mode;
+  int dir;
+
+private:
+  bool seen;
   base_type old_base;
   timer_type timer;
-  physic_type physic;
+  Physic physic;
 
- public:
+  texture_type* texture_left;
+  texture_type* texture_right;
+  int animation_offset;
+  size_t animation_length;
+  float animation_speed;
+
+public:
   void init(float x, float y, BadGuyKind kind);
 
   void action();
@@ -95,36 +113,49 @@ class BadGuy
 
   void collision(void* p_c_object, int c_object,
           CollisionType type = COLLISION_NORMAL);
+
+  /** this functions tries to kill the badguy and lets him fall off the
+   * screen. Some badguys like the flame might ignore this.
+   */
+  void kill_me();
   
- private:
-  void fall(bool dojump=false);
-  void remove_me();
-
+private:
   void action_bsod();
-  void draw_bsod();
-
   void action_laptop();
-  void draw_laptop();
-   
   void action_money(); 
-  void draw_money();
-
   void action_bomb();
-  void draw_bomb();
-
   void action_mrbomb();
-  void draw_mrbomb();
-
   void action_stalactite();
-  void draw_stalactite();
-
   void action_flame();
-  void draw_flame();
+  void action_fish();
+  void action_bouncingsnowball();
+  void action_flyingsnowball();
+  void action_spiky();
+  void action_snowball();
 
+  /** handles falling down. disables gravity calculation when we're back on
+   * ground */
+  void fall();
+  /** remove ourself from the list of badguys. WARNING! This function will
+   * invalidate all members. So don't do anything else with member after calling
+   * this.
+   */
+  void remove_me();  
+  /** let the player jump a bit (used when you hit a badguy) */
   void make_player_jump(Player* player);
+  /** check if we're running left or right in a wall and eventually change
+   * direction
+   */
   void check_horizontal_bump(bool checkcliff = false);
+  /** called when we're bumped from below with a block */
   void bump();
-  void squich(Player* player);
+  /** called when a player jumped on the badguy from above */
+  void squish(Player* player);
+  /** squish ourself, give player score and set dying to DYING_SQICHED */
+  void squish_me(Player* player);
+  /** set image of the badguy */
+  void set_texture(texture_type* left, texture_type* right,
+        int animlength = 1, float animspeed = 1);
 };
 
 #endif /*SUPERTUX_BADGUY_H*/

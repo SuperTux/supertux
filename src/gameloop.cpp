@@ -469,9 +469,7 @@ void game_draw(void)
   int y,x;
 
   /* Draw screen: */
-  if (tux.dying && (global_frame_counter % 4) == 0)
-    clearscreen(255, 255, 255);
-  else if(timer_check(&super_bkgd_timer))
+  if(timer_check(&super_bkgd_timer))
     texture_draw(&img_super_bkgd, 0, 0);
   else
     {
@@ -611,6 +609,7 @@ int gameloop(const char * subset, int levelnb, int mode)
     }
 
   level_load_gfx(&current_level);
+  loadshared();
   activate_bad_guys(&current_level);
   activate_particle_systems();
   level_load_song(&current_level);
@@ -619,8 +618,6 @@ int gameloop(const char * subset, int levelnb, int mode)
 
   if(st_gl_mode != ST_GL_TEST)
     load_hs();
-
-  loadshared();
 
   if(st_gl_mode == ST_GL_PLAY || st_gl_mode == ST_GL_LOAD_LEVEL_FILE)
     levelintro();
@@ -640,6 +637,7 @@ int gameloop(const char * subset, int levelnb, int mode)
   game_pause = 0;
   timer_init(&fps_timer,true);
   timer_init(&frame_timer,true);
+  last_update_time = st_get_ticks();
   fps_cnt = 0;
 
   /* Clear screen: */
@@ -1177,65 +1175,6 @@ void drawshape(float x, float y, unsigned int c, Uint8 alpha)
             }
         }
     }
-
-  /*
-  if (c == 'X' || c == 'x')
-    texture_draw(&img_brick[0], x, y);
-  else if (c == 'Y' || c == 'y')
-    texture_draw(&img_brick[1], x, y);
-  else if (c == 'A' || c =='B' || c == '!')
-    texture_draw(&img_box_full, x, y);
-  else if (c == 'a')
-    texture_draw(&img_box_empty, x, y);
-  else if (c >= 'C' && c <= 'F')
-    texture_draw(&img_cloud[0][c - 'C'], x, y);
-  else if (c >= 'c' && c <= 'f')
-    texture_draw(&img_cloud[1][c - 'c'], x, y);
-  else if (c >= 'G' && c <= 'J')
-    texture_draw(&img_bkgd_tile[0][c - 'G'], x, y);
-  else if (c >= 'g' && c <= 'j')
-    texture_draw(&img_bkgd_tile[1][c - 'g'], x, y);
-  else if (c == '#')
-    texture_draw(&img_solid[0], x, y);
-  else if (c == '[')
-    texture_draw(&img_solid[1], x, y);
-  else if (c == '=')
-    texture_draw(&img_solid[2], x, y);
-  else if (c == ']')
-    texture_draw(&img_solid[3], x, y);
-  else if (c == '$')
-    {
-      z = (global_frame_counter / 2) % 6;
-
-      if (z < 4)
-        texture_draw(&img_distro[z], x, y);
-      else if (z == 4)
-        texture_draw(&img_distro[2], x, y);
-      else if (z == 5)
-        texture_draw(&img_distro[1], x, y);
-    }
-  else if (c == '^')
-    {
-      z = (global_frame_counter / 3) % 3;
-
-      texture_draw(&img_waves[z], x, y);
-    }
-  else if (c == '*')
-    texture_draw(&img_poletop, x, y);
-  else if (c == '|')
-    {
-      texture_draw(&img_pole, x, y);
-
-    }
-  else if (c == '\\')
-    {
-      z = (global_frame_counter / 3) % 2;
-
-      texture_draw(&img_flag[z], x + 16, y);
-    }
-  else if (c == '&')
-    texture_draw(&img_water, x, y);*/
-
 }
 
 
@@ -1657,8 +1596,6 @@ void loadgame(int slot)
       timer_fread(&tux.frame_timer,fi);
       timer_fread(&time_left,fi);
       fread(&ui,sizeof(int),1,fi);
-      tux.hphysic.start_time += st_get_ticks() - ui;
-      tux.vphysic.start_time += st_get_ticks() - ui;
       fclose(fi);
     }
 

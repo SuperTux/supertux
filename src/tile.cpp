@@ -46,6 +46,7 @@ void TileManager::load_tileset(std::string filename)
               tile->solid   = false;
               tile->brick   = false;
               tile->ice     = false;
+              tile->water   = false;
               tile->fullbox = false;
               tile->distro  = false;
               tile->data    = 0;
@@ -57,6 +58,7 @@ void TileManager::load_tileset(std::string filename)
               reader.read_bool("solid",     &tile->solid);
               reader.read_bool("brick",     &tile->brick);
               reader.read_bool("ice",       &tile->ice);
+              reader.read_bool("water",     &tile->water);
               reader.read_bool("fullbox",   &tile->fullbox);
               reader.read_bool("distro",    &tile->distro);
               reader.read_int("data",       &tile->data);

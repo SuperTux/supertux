@@ -17,8 +17,12 @@
 #include "globals.h"
 #include "button.h"
 
+timer_type Button::popup_timer;
+
 Button::Button(std::string icon_file, std::string ninfo, SDLKey nshortcut, int x, int y, int mw, int mh)
 {
+  timer_init(&popup_timer,false);
+
   char filename[1024];
 
   if(!icon_file.empty())
@@ -85,6 +89,10 @@ void Button::change_icon(std::string icon_file, int mw, int mh)
 
 void Button::draw()
 {
+  if(state == BUTTON_HOVER)
+    if(!timer_check(&popup_timer))
+     show_info = true;
+
   fillrect(rect.x,rect.y,rect.w,rect.h,75,75,75,200);
   fillrect(rect.x+1,rect.y+1,rect.w-2,rect.h-2,175,175,175,200);
   if(bkgd != NULL)
@@ -152,7 +160,7 @@ void Button::event(SDL_Event &event)
           mouse_cursor->set_state(MC_LINK);
         }
     }
-  else if(event.type != SDL_KEYDOWN && event.type != SDL_KEYUP)
+  else if((event.type != SDL_KEYDOWN && event.type != SDL_KEYUP) || event.type == SDL_MOUSEMOTION)
     {
       state = BUTTON_NONE;
       if(show_info)
@@ -173,12 +181,14 @@ void Button::event(SDL_Event &event)
     }
   else if(event.type == SDL_MOUSEMOTION)
     {
-
+      timer_start(&popup_timer, 1500);
+    
       if(show_info)
         {
           show_info = false;
         }
     }
+    
 }
 
 int Button::get_state()
@@ -214,7 +224,7 @@ Button* ButtonPanel::event(SDL_Event& event)
       for(std::vector<Button*>::iterator it = item.begin(); it != item.end(); ++it)
         {
           (*it)->event(event);
-          if((*it)->state != -1)
+          if((*it)->state != BUTTON_NONE)
             return (*it);
         }
       return NULL;
@@ -236,6 +246,7 @@ ButtonPanel::~ButtonPanel()
 
 void ButtonPanel::draw()
 {
+
   if(hidden == false)
     {
       fillrect(rect.x,rect.y,rect.w,rect.h,100,100,100,200);

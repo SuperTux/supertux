@@ -107,8 +107,7 @@ class Player
   timer_type skidding_timer;
   timer_type safe_timer;
   timer_type frame_timer;
-  physic_type vphysic;
-  physic_type hphysic;
+  Physic physic;
 
  public:
   void init();

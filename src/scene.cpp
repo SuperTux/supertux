@@ -121,9 +121,10 @@ void add_bouncy_brick(float x, float y)
 
 void add_bad_guy(float x, float y, BadGuyKind kind)
 {
-  BadGuy new_bad_guy;
+  bad_guys.push_back(BadGuy());
+  BadGuy& new_bad_guy = bad_guys.back();
+  
   new_bad_guy.init(x,y,kind);
-  bad_guys.push_back(new_bad_guy);
 }
 
 void add_upgrade(float x, float y, int dir, int kind)

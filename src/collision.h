@@ -25,7 +25,7 @@ enum
 enum CollisionType {
     COLLISION_NORMAL,
     COLLISION_BUMP,
-    COLLISION_SQUICH
+    COLLISION_SQUISH
 };
 
 bool rectcollision(base_type* one, base_type* two);

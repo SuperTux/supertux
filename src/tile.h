@@ -40,6 +40,9 @@ struct Tile
   /** FIXME: ? */
   bool ice;
 
+  /** water */
+  bool water;
+
   /** Bonusbox, content is stored in \a data */
   bool fullbox;
 
