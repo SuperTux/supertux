@@ -17,6 +17,7 @@
   (bkgd_blue_bottom   150)
   (time  300)
   (gravity  10)
+  (end-sequence-animation "fireworks")
   (particle_system "")
   (theme "antarctica")
   (interactive-tm

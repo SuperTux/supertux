@@ -20,6 +20,7 @@
   (bkgd_blue_bottom   150)
   (time  300)
   (gravity  10)
+  (end-sequence-animation "fireworks")
   (particle_system "snow")
   (theme "antarctica")
   (interactive-tm
