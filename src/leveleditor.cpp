@@ -153,7 +153,7 @@ static MouseCursor* mouse_select_object;
 static GameObject* selected_game_object;
 
 static square selection;
-static int le_selection_mode;
+static SelectionMode le_selection_mode;
 static SDL_Event event;
 TileMapType active_tm;
 
@@ -1727,7 +1727,7 @@ void le_testlevel()
 void le_showhelp()
 {
   bool tmp_show_grid = le_show_grid;
-  int temp_le_selection_mode = le_selection_mode;
+  SelectionMode temp_le_selection_mode = le_selection_mode;
   le_selection_mode = NONE;
   show_selections = true;
   le_show_grid = false;
