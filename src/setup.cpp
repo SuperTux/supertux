@@ -391,7 +391,7 @@ void st_menu(void)
 #ifndef NOOPENGL
   options_menu->additem(MN_TOGGLE,"OpenGL",use_gl,0, MNID_OPENGL);
 #else
-  options_menu->additem(MN_DEACTIVE,"OpenGL (not supported)",use_gl,MNID_OPENGL);
+  options_menu->additem(MN_DEACTIVE,"OpenGL (not supported)",use_gl, 0, MNID_OPENGL);
 #endif
   options_menu->additem(MN_TOGGLE,"Fullscreen",use_fullscreen,0, MNID_FULLSCREEN);
   if(audio_device)

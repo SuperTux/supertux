@@ -123,6 +123,7 @@ public:
   int draw_part(float sx, float sy, float x, float y, float w, float h,  Uint8 alpha, bool update);
 };
 
+#ifndef NOOPENGL
 class SurfaceOpenGL : public SurfaceImpl
 {
 public:
@@ -141,6 +142,7 @@ public:
 private:
   void create_gl(SDL_Surface * surf, GLuint * tex);
 };
+#endif 
 
 #endif /*SUPERTUX_TEXTURE_H*/
 

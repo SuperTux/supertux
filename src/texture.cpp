@@ -66,10 +66,14 @@ SurfaceData::~SurfaceData()
 SurfaceImpl*
 SurfaceData::create()
 {
+#ifndef NOOPENGL
   if (use_gl)
     return create_SurfaceOpenGL();
   else
     return create_SurfaceSDL();
+#else
+  return create_SurfaceSDL();
+#endif
 }
 
 SurfaceSDL*
@@ -90,6 +94,7 @@ SurfaceData::create_SurfaceSDL()
 SurfaceOpenGL*
 SurfaceData::create_SurfaceOpenGL()
 {
+#ifndef NOOPENGL
   switch(type)
     {
     case LOAD:
@@ -99,10 +104,11 @@ SurfaceData::create_SurfaceOpenGL()
     case SURFACE:
       return new SurfaceOpenGL(surface, use_alpha);
     }
+#endif
   assert(0);
 }
 
-
+#ifndef NOOPENGL
 /* Quick utility function for texture creation */
 static int power_of_two(int input)
 {
@@ -113,6 +119,7 @@ static int power_of_two(int input)
   }
   return value;
 }
+#endif
 
 Surface::Surface(SDL_Surface* surf, int use_alpha)
   : data(surf, use_alpha), w(0), h(0)
