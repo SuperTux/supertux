@@ -284,6 +284,16 @@
                  "shared/mriceblock-right-1.png"
                  "shared/mriceblock-right-2.png"
                  "shared/mriceblock-right-1.png"))
+
+ (sprite (name "mriceblock-falling-right")
+         (x-hotspot 2)
+         (y-hotspot 3)
+         (images "shared/mriceblock-flat-right.png"))
+
+ (sprite (name "mriceblock-falling-left")
+         (x-hotspot 2)
+         (y-hotspot 3)
+         (images "shared/mriceblock-flat-left.png"))
  
  (sprite (name "mriceblock-flat-left")
          (x-hotspot 2)
