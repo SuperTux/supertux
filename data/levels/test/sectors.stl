@@ -6,7 +6,6 @@
   (sector
     (name "main")
     (gravity 10)
-    (music "supertux-1.ogg")
     (camera
       (mode "normal")
     )
@@ -60,7 +59,6 @@
   )
   (sector
     (name "another_world")
-    (music "supertux-2.ogg")
     ;(particles-snow)
     (tilemap
       (width 200)
