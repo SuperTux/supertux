@@ -77,12 +77,7 @@ int title(void)
   /* Draw the title background: */
   texture_draw_bg(&title, NO_UPDATE);
 
-  /* Draw the high score: */
   load_hs();
-  sprintf(str, "High score: %d", hs_score);
-  text_drawf(&gold_text, str, 0, -40, A_HMIDDLE, A_BOTTOM, 1, NO_UPDATE);
-  sprintf(str, "by %s", hs_name);
-  text_drawf(&gold_text, str, 0, -20, A_HMIDDLE, A_BOTTOM, 1, NO_UPDATE);
 
   while (!done && !quit)
     {
@@ -151,64 +146,67 @@ int title(void)
             case 0:
               done = 0;
               i = 0;
-              subset_load(&subset,level_subsets[0]);
-              while(!done)
+              if(level_subsets != NULL)
                 {
-                  texture_draw(&img_choose_subset, 50, 0, NO_UPDATE);
-                  if(subsets_num != 0)
+                  subset_load(&subset,level_subsets[0]);
+                  while(!done)
                     {
-                      texture_draw(&subset.image,135,78,NO_UPDATE);
-                      text_drawf(&gold_text, subset.title, 0, 20, A_HMIDDLE, A_TOP, 1, NO_UPDATE);
-                    }
-                  updatescreen();
-                  SDL_Delay(50);
-                  while(SDL_PollEvent(&event) && !done)
-                    {
-                      switch(event.type)
+                      texture_draw(&img_choose_subset, 50, 0, NO_UPDATE);
+                      if(subsets_num != 0)
                         {
-                        case SDL_QUIT:
-                          done = 1;
-                          quit = 1;
-                        case SDL_KEYDOWN:		// key pressed
-                          /* Keypress... */
+                          texture_draw(&subset.image,135,78,NO_UPDATE);
+                          text_drawf(&gold_text, subset.title, 0, 20, A_HMIDDLE, A_TOP, 1, NO_UPDATE);
+                        }
+                      updatescreen();
+                      SDL_Delay(50);
+                      while(SDL_PollEvent(&event) && !done)
+                        {
+                          switch(event.type)
+                            {
+                            case SDL_QUIT:
+                              done = 1;
+                              quit = 1;
+                            case SDL_KEYDOWN:		// key pressed
+                              /* Keypress... */
 
-                          key = event.key.keysym.sym;
+                              key = event.key.keysym.sym;
 
-                          if(key == SDLK_LEFT)
-                            {
-                              if(i > 0)
+                              if(key == SDLK_LEFT)
                                 {
-                                  --i;
-                                  subset_free(&subset);
-                                  subset_load(&subset,level_subsets[i]);
+                                  if(i > 0)
+                                    {
+                                      --i;
+                                      subset_free(&subset);
+                                      subset_load(&subset,level_subsets[i]);
+                                    }
                                 }
-                            }
-                          else if(key == SDLK_RIGHT)
-                            {
-                              if(i < subsets_num -1)
+                              else if(key == SDLK_RIGHT)
                                 {
-                                  ++i;
-                                  subset_free(&subset);
-                                  subset_load(&subset,level_subsets[i]);
+                                  if(i < subsets_num -1)
+                                    {
+                                      ++i;
+                                      subset_free(&subset);
+                                      subset_load(&subset,level_subsets[i]);
+                                    }
                                 }
+                              else if(key == SDLK_SPACE || key == SDLK_RETURN)
+                                {
+                                  done = YES;
+                                  quit = gameloop(subset.name,1,ST_GL_PLAY);
+                                  subset_free(&subset);
+                                }
+                              else if(key == SDLK_ESCAPE)
+                                {
+                                  done = YES;
+                                }
+                              break;
+                            default:
+                              break;
                             }
-                          else if(key == SDLK_SPACE || key == SDLK_RETURN)
-                            {
-                              done = YES;
-                              quit = gameloop(subset.name,1,ST_GL_PLAY);
-			      subset_free(&subset);
-                            }
-                          else if(key == SDLK_ESCAPE)
-                            {
-                              done = YES;
-                            }
-                          break;
-                        default:
-                          break;
                         }
                     }
+                  break;
                 }
-              break;
             case 3:
               done = 1;
               quit = leveleditor(1);
