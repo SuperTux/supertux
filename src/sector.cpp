@@ -45,8 +45,9 @@
 Sector* Sector::_current = 0;
 
 Sector::Sector()
-  : gravity(10), player(0), solids(0), background(0), camera(0),
-    end_sequence_animation_type(NONE_ENDSEQ_ANIM), currentmusic(LEVEL_MUSIC)
+  : end_sequence_animation_type(NONE_ENDSEQ_ANIM),
+    gravity(10), player(0), solids(0), background(0), camera(0),
+    currentmusic(LEVEL_MUSIC)
 {
   song_title = "Mortimers_chipdisko.mod";
   player = new Player();
