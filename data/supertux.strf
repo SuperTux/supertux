@@ -632,6 +632,12 @@
          (x-hotspot 0)
          (images "shared/trampoline-4.png"))
 
+  ; Flying platforms
+  (sprite (name "flying_platform-1")
+         (x-hotspot 0)
+         (x-hotspot 0)
+         (images "shared/flying_platform-1.png"))
+
  )
 
 ;; EOF ;;
