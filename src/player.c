@@ -71,62 +71,31 @@ void player_init(player_type* pplayer)
   timer_init(&pplayer->safe_timer);
 }
 
-int player_keydown_event(player_type* pplayer, SDLKey key)
+int player_key_event(player_type* pplayer, SDLKey key, int state)
 {
   if(key == pplayer->keymap.right)
     {
-      pplayer->input.right = DOWN;
+      pplayer->input.right = state;
       return YES;
     }
   else if( key == pplayer->keymap.left)
     {
-      pplayer->input.left = DOWN;
+      pplayer->input.left = state;
       return YES;
     }
   else if(key == pplayer->keymap.jump)
     {
-      pplayer->input.up = DOWN;
+      pplayer->input.up = state;
       return YES;
     }
   else if(key == pplayer->keymap.duck)
     {
-      pplayer->input.down = DOWN;
+      pplayer->input.down = state;
       return YES;
     }
   else if(key == pplayer->keymap.fire)
     {
-      pplayer->input.fire = DOWN;
-      return YES;
-    }
-  else
-    return NO;
-}
-
-int player_keyup_event(player_type* pplayer, SDLKey key)
-{
-  if(key == pplayer->keymap.right)
-    {
-      pplayer->input.right = UP;
-      return YES;
-    }
-  else if( key == pplayer->keymap.left)
-    {
-      pplayer->input.left = UP;
-      return YES;
-    }
-  else if(key == pplayer->keymap.jump)
-    {
-      pplayer->input.up = UP;
-      return YES;
-    }
-  else if(key == pplayer->keymap.duck)
-    {
-      pplayer->input.down = UP;
-      return YES;
-    }
-  else if(key == pplayer->keymap.fire)
-    {
-      pplayer->input.fire = UP;
+      pplayer->input.fire = state;
       return YES;
     }
   else
@@ -146,7 +115,7 @@ void player_level_begin(player_type* pplayer)
   pplayer->input.old_fire = UP;
   pplayer->input.right = UP;
   pplayer->input.up = UP;
-  
+
   timer_init(&pplayer->invincible_timer);
   timer_init(&pplayer->skidding_timer);
   timer_init(&pplayer->safe_timer);

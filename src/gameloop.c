@@ -134,7 +134,7 @@ void game_event(void)
           if(show_menu)
             menu_event(&event.key.keysym);
 
-          if(player_keydown_event(&tux,key))
+          if(player_key_event(&tux,key,DOWN))
             break;
 
           switch(key)
@@ -163,7 +163,7 @@ void game_event(void)
         case SDL_KEYUP:      /* A keyrelease! */
           key = event.key.keysym.sym;
 
-          if(player_keyup_event(&tux,key))
+          if(player_key_event(&tux,key,UP))
             break;
 
           switch(key)

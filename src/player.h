@@ -84,8 +84,7 @@ extern texture_type tux_life,
  bigcape_right[2],  bigcape_left[2];
 
 void player_init(player_type* pplayer);
-int player_keydown_event(player_type* pplayer, SDLKey key);
-int player_keyup_event(player_type* pplayer, SDLKey key);
+int player_key_event(player_type* pplayer, SDLKey key, int state);
 void player_level_begin(player_type* pplayer);
 void player_action(player_type* pplayer);
 void player_input(player_type* pplayer);
