@@ -318,6 +318,12 @@ World::action(double frame_ratio)
 /* This functions takes cares of the scrolling */
 void World::scrolling(double frame_ratio)
 {
+  if(level->hor_autoscroll_speed)
+    {
+    scroll_x += level->hor_autoscroll_speed * frame_ratio;
+    return;
+    }
+
   int tux_pos_x = (int)(tux.base.x + (tux.base.width/2));
 
   if (level->back_scrolling || debug_mode)

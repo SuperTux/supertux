@@ -237,6 +237,7 @@ Level::init_defaults()
   time_left  = 100;
   gravity    = 10.;
   back_scrolling = false;
+  hor_autoscroll_speed = 0;
   bkgd_speed = 2;
   bkgd_top.red   = 0;
   bkgd_top.green = 0;
@@ -316,6 +317,9 @@ Level::load(const std::string& filename)
       back_scrolling = false;
       reader.read_bool("back_scrolling",  &back_scrolling);
 
+      hor_autoscroll_speed = 0;
+      reader.read_float("hor_autoscroll_speed",  &hor_autoscroll_speed);
+      
       bkgd_speed = 2;
       reader.read_int("bkgd_speed",  &bkgd_speed);
 
@@ -561,6 +565,7 @@ Level::save(const std::string& subset, int level)
     fprintf(fi,"  (back_scrolling #t)\n"); 
   else
     fprintf(fi,"  (back_scrolling #f)\n");
+  fprintf(fi,"  (hor_autoscroll_speed %2.1f)\n", hor_autoscroll_speed);
   fprintf(fi,"  (gravity %2.1f)\n", gravity);
   fprintf(fi,"  (background-tm ");
 

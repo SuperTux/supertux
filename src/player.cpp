@@ -27,6 +27,8 @@
 #include "sprite.h"
 #include "screen.h"
 
+#define AUTOSCROLL_DEAD_INTERVAL 300
+
 Surface* tux_life;
 
 Sprite* smalltux_gameover;
@@ -721,7 +723,7 @@ Player::is_dying()
 
 bool Player::is_dead()
 {
-  if(base.y > screen->h)
+  if(base.y > screen->h || base.x < scroll_x - AUTOSCROLL_DEAD_INTERVAL)  // last condition can happen in auto-scrolling
     return true;
   else
     return false;
@@ -754,6 +756,15 @@ Player::check_bounds()
 
   if(base.x < scroll_x)  // can happen if back scrolling is disabled
     base.x = scroll_x;
+
+  if(base.x == scroll_x)
+    if(issolid(base.x, base.y) || issolid(base.x, base.y+32))
+      kill(KILL);
+
+  if(base.x + base.width > scroll_x + screen->w)
+    base.x = scroll_x + screen->w - base.width;
+
+    
 }
 
 // EOF //
