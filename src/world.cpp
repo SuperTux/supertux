@@ -340,9 +340,13 @@ void World::scrolling(double frame_ratio)
           final_scroll_x = tux_pos_x - X_SPACE;
       }
 
-      scroll_x +=   (final_scroll_x - scroll_x)
+/*      scroll_x +=   (final_scroll_x - scroll_x)
                   / (frame_ratio * (CHANGE_DIR_SCROLL_SPEED / 100))
                   + (tux.physic.get_velocity_x() * frame_ratio + tux.physic.get_acceleration_x() * frame_ratio * frame_ratio);
+*/
+
+scroll_x += ((final_scroll_x - scroll_x) / CHANGE_DIR_SCROLL_SPEED) * frame_ratio;
+
       // std::cerr << tux_pos_x << " " << final_scroll_x << " " << scroll_x << std::endl;
 
     }
