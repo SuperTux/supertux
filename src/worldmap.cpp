@@ -436,6 +436,7 @@ WorldMap::load_map()
                       reader.read_string("level", level.name, true);
                       reader.read_int("x", level.x);
                       reader.read_int("y", level.y);
+                      reader.read_bool("auto-path", &level.auto_path);
                       level.swap_x = level.swap_y = -1;
                       reader.read_int("swap-x", level.swap_x);
                       reader.read_int("swap-y", level.swap_y);
@@ -695,7 +696,7 @@ WorldMap::update(float delta)
                     else
                       player_status.bonus = PlayerStatus::NO_BONUS;
 
-                    if (old_level_state != level->solved)
+                    if (old_level_state != level->solved && level->auto_path)
                       { // Try to detect the next direction to which we should walk
                         // FIXME: Mostly a hack
                         Direction dir = D_NONE;

@@ -167,6 +167,9 @@ public:
     /** Quit the worldmap */
     bool quit_worldmap;
 
+    /** If false, disables the auto walking after finishing a level */
+    bool auto_path;
+
     // Directions which are walkable from this level
     bool north;
     bool east;
