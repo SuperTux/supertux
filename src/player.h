@@ -135,6 +135,7 @@ public:
   Timer safe_timer;
   Timer frame_timer;
   Timer kick_timer;
+  Timer shooting_timer;   // used to show the arm when Tux is shooting
   Physic physic;
 
 public:

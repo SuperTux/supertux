@@ -106,7 +106,7 @@ public:
   BadGuy* add_bad_guy(float x, float y, BadGuyKind kind);
 
   void add_upgrade(const Vector& pos, Direction dir, UpgradeKind kind);
-  void add_bullet(const Vector& pos, float xm, Direction dir);
+  bool add_bullet(const Vector& pos, float xm, Direction dir);
 
   /** Try to grab the coin at the given coordinates */
   void trygrabdistro(float x, float y, int bounciness);

@@ -538,18 +538,18 @@ World::add_upgrade(const Vector& pos, Direction dir, UpgradeKind kind)
   add_object(new Upgrade(displaymanager, pos, dir, kind));
 }
 
-void 
+bool
 World::add_bullet(const Vector& pos, float xm, Direction dir)
 {
   if(tux->got_power == Player::FIRE_POWER)
     {
     if(bullets.size() > MAX_FIRE_BULLETS-1)
-      return;
+      return false;
     }
   else if(tux->got_power == Player::ICE_POWER)
     {
     if(bullets.size() > MAX_ICE_BULLETS-1)
-      return;
+      return false;
     }
 
   Bullet* new_bullet = 0;
@@ -562,6 +562,8 @@ World::add_bullet(const Vector& pos, float xm, Direction dir)
   add_object(new_bullet);
   
   play_sound(sounds[SND_SHOOT], SOUND_CENTER_SPEAKER);
+
+  return true;
 }
 
 void

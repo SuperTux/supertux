@@ -30,6 +30,8 @@
 #include "screen.h"
 
 #define AUTOSCROLL_DEAD_INTERVAL 300
+// animation times (in ms):
+#define SHOOTING_TIME 320
 
 Surface* tux_life;
 
@@ -110,6 +112,7 @@ Player::init()
   safe_timer.init(true);
   frame_timer.init(true);
   kick_timer.init(true);
+  shooting_timer.init(true);
 
   physic.reset();
 }
@@ -474,8 +477,9 @@ Player::handle_input()
   /* Shoot! */
   if (input.fire == DOWN && input.old_fire == UP && got_power != NONE_POWER)
     {
-      World::current()->add_bullet(Vector(base.x, base.y + (base.height/2)),
-          physic.get_velocity_x(), dir);
+      if(World::current()->add_bullet(Vector(base.x, base.y + (base.height/2)),
+          physic.get_velocity_x(), dir))
+        shooting_timer.start(SHOOTING_TIME);
       input.old_fire = DOWN;
     }
 
@@ -590,7 +594,7 @@ Player::draw(ViewPort& viewport, int layer)
 
   if(layer == LAYER_OBJECTS + 1) {
     // Draw arm overlay graphics when Tux is holding something
-    if (holding_something && physic.get_velocity_y() == 0)
+    if ((holding_something && physic.get_velocity_y() == 0) || shooting_timer.check())
     {
       if (dir == RIGHT)
         sprite->grab_right->draw(pos);
