@@ -121,7 +121,6 @@ GameSession::restart_level()
           world->get_tux()->base.y = best_reset_point.y;
         }
     }
-
     
   if (st_gl_mode != ST_GL_DEMO_GAME)
     {
@@ -674,18 +673,24 @@ GameSession::drawstatus()
   white_text->draw("COINS", screen->h, 0, 1);
   gold_text->draw(str, 608, 0, 1);
 
-  white_text->draw("LIVES", screen->h, 20, 1);
+  white_text->draw("LIVES", 480, 20);
+  if (player_status.lives >= 5)
+    {
+      sprintf(str, "%dx", player_status.lives);
+      gold_text->draw(str, 585, 20);
+      tux_life->draw(565+(18*3), 20);
+    }
+  else
+    {
+      for(int i= 0; i < player_status.lives; ++i)
+        tux_life->draw(565+(18*i),20);
+    }
 
   if(show_fps)
     {
       sprintf(str, "%2.1f", fps_fps);
       white_text->draw("FPS", screen->h, 40, 1);
       gold_text->draw(str, screen->h + 60, 40, 1);
-    }
-
-  for(int i= 0; i < player_status.lives; ++i)
-    {
-      tux_life->draw(565+(18*i),20);
     }
 }
 
