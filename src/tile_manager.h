@@ -45,7 +45,6 @@ class TileManager
   TileManager();
   ~TileManager();
   
-//  std::vector<Tile*> tiles;
   typedef std::map<int, Tile*> Tiles;
   Tiles tiles;
 

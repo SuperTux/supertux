@@ -74,19 +74,13 @@ void TileManager::load_tileset(std::string filename)
 
               Tile* tile = new Tile;
               int tile_id = tile->read(reader);
-              if(tile_id < 0) {
+/*              if(tile_id < 0) {
                 std::cerr 
                   << "Warning: parse error when reading a tile (id < 0), skipping.\n";
                 continue;
-              }
+              }*/
 
               tiles.insert(std::make_pair(tile_id, tile));
-
-/*              tile_id += tileset_id;
-
-              if(tile_id >= int(tiles.size()))
-                tiles.resize(tile_id+1);
-              tiles[tile_id] = tile;*/
             }
           else if (strcmp(lisp_symbol(lisp_car(element)), "tileset") == 0)
             {
@@ -169,19 +163,6 @@ if(i == tiles.end())
   return i->second;
   }
 return i->second;
-
-/*
-    if(id < tiles.size())
-      {
-        return *tiles[id]; 
-      }
-    else
-      {
-        // Never return 0, but return the 0th tile instead so that
-        // user code doesn't have to check for NULL pointers all over
-        // the place
-        return *tiles[0]; 
-      }*/
 }
 
 /* EOF */
