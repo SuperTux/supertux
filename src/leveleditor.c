@@ -220,14 +220,11 @@ int leveleditor(int levelnb)
                 default:
                   if(i != -1)
                     {
-                      printf("%d",i);
-                      printf("Load %s\n",level_subsets[i-2]);
                       subset_load(&le_level_subset,level_subsets[i-2]);
                       leveleditor_menu.item[3].kind = MN_GOTO;
                       le_level = 1;
                       arrays_init();
                       loadshared();
-		      printf("%s\n",le_level_subset.name);
 		      le_current_level = (st_level*) malloc(sizeof(st_level));
                       if(level_load(le_current_level, le_level_subset.name, le_level) != 0)
                         {

@@ -155,7 +155,6 @@ void player_action(player_type* pplayer)
             {
               physic_set_state(&pplayer->vphysic,PH_VT);
               physic_set_start_vy(&pplayer->vphysic,0.);
-	      DEBUG_MSG("Ich bin jetzt ordentlich am Punkten"); 
             }
           pplayer->base.ym = physic_get_velocity(&pplayer->vphysic);
         }
@@ -166,7 +165,6 @@ void player_action(player_type* pplayer)
           if (pplayer->base.ym > 0)
             {
               pplayer->base.y = (int)(((int)(pplayer->base.y +1) / 32) * 32);
-	      printf("%f",pplayer->base.y);
               pplayer->base.ym = 0;
             }
           physic_init(&pplayer->vphysic);
@@ -195,7 +193,6 @@ void player_action(player_type* pplayer)
           if (isbrick(pplayer->base.x, pplayer->base.y) ||
               isfullbox(pplayer->base.x, pplayer->base.y))
             {
-              DEBUG_MSG("My sear");
               trygrabdistro(pplayer->base.x, pplayer->base.y - 32,BOUNCE);
               trybumpbadguy(pplayer->base.x, pplayer->base.y - 64);
 
@@ -230,7 +227,6 @@ void player_action(player_type* pplayer)
                   add_bouncy_distro((((int)pplayer->base.x)
                                      / 32) * 32,
                                     ((int)pplayer->base.y / 32) * 32);
-                  DEBUG_MSG("should work");
                   if (counting_distros == NO)
                     {
                       counting_distros = YES;
@@ -250,7 +246,6 @@ void player_action(player_type* pplayer)
                   add_bouncy_distro((((int)pplayer->base.x + 31)
                                      / 32) * 32,
                                     ((int)pplayer->base.y / 32) * 32);
-                  DEBUG_MSG("+31?");
                   if (counting_distros == NO)
                     {
                       counting_distros = YES;
@@ -834,16 +829,13 @@ void player_handle_vertical_input(player_type *pplayer)
 	    if(physic_get_velocity(&pplayer->vphysic) < 0.)
 	    {
 	                physic_set_state(&pplayer->vphysic,PH_VT);
-	      	    	    DEBUG_MSG("DUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUDE");
               physic_set_start_vy(&pplayer->vphysic,0);
 	      }
             }
           else
             {
-	    DEBUG_MSG("CHUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUHHHHAAA");
               if(!physic_is_set(&pplayer->vphysic))
                 {
-			    DEBUG_MSG("CHUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUHHHHAAA");
                   physic_set_state(&pplayer->vphysic,PH_VT);
                 }
             }
