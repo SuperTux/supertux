@@ -930,7 +930,7 @@ le_level->get_sector("main")->solids->draw(context);
 
   /* Draw the player: */
   /* for now, the position is fixed at (100, 240) */
-  largetux.walk_right->draw(context, Vector(100 - pos_x, 240 - pos_y), LAYER_OBJECTS-1);
+//  largetux.walk_right->draw(context, Vector(100 - pos_x, 240 - pos_y), LAYER_OBJECTS-1);
 }
 
 void LevelEditor::change_object_properties(GameObject *pobj)

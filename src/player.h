@@ -103,7 +103,7 @@ extern Sprite* largetux_star;
 extern Surface* growingtux_left[GROWING_FRAMES];
 extern Surface* growingtux_right[GROWING_FRAMES];
 
-struct PlayerSprite
+/*struct PlayerSprite
 {
   Sprite* stand_left;
   Sprite* stand_right;
@@ -119,12 +119,14 @@ struct PlayerSprite
   Sprite* grab_right;
   Sprite* duck_right;
   Sprite* duck_left;
-};
+};*/
 
-extern PlayerSprite smalltux;
-extern PlayerSprite largetux;
-extern PlayerSprite firetux;
-extern PlayerSprite icetux;
+extern Sprite* small_tux;
+extern Sprite* big_tux;
+extern Sprite* fire_tux;
+extern Sprite* ice_tux;
+
+extern Sprite* tux_arm;
 
 class Player : public MovingObject
 {

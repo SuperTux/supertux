@@ -53,10 +53,12 @@ Sprite* smalltux_gameover;
 Sprite* smalltux_star;
 Sprite* largetux_star;
 
-PlayerSprite smalltux;
-PlayerSprite largetux;
-PlayerSprite icetux;
-PlayerSprite firetux;
+Sprite* small_tux;
+Sprite* big_tux;
+Sprite* ice_tux;
+Sprite* fire_tux;
+
+Sprite* tux_arm;
 
 PlayerKeymap keymap;
 
@@ -685,21 +687,21 @@ Player::grabdistros()
 void
 Player::draw(DrawingContext& context)
 {
-  PlayerSprite* sprite;
+  Sprite* sprite;
           
   if (size == SMALL)
-    sprite = &smalltux;
+    sprite = small_tux;
   else if (got_power == FIRE_POWER)
-    sprite = &firetux;
+    sprite = fire_tux;
   else if (got_power == ICE_POWER)
-    sprite = &icetux;
+    sprite = ice_tux;
   else
-    sprite = &largetux;
+    sprite = big_tux;
 
   int layer = LAYER_OBJECTS - 1;
   Vector pos = Vector(base.x, base.y);
 
-  if (!safe_timer.started() || (global_frame_counter % 2) == 0)
+  if ((!safe_timer.started() || growing_timer.started()) || (global_frame_counter % 2) == 0)
     {
       if (dying == DYING_SQUISHED)
         {
@@ -709,66 +711,86 @@ Player::draw(DrawingContext& context)
         {
           if(growing_timer.check())
             {
-              if (dir == RIGHT)
-                context.draw_surface(growingtux_right[(growing_timer.get_gone() * GROWING_FRAMES) / GROWING_TIME], pos, layer);
-              else 
-                context.draw_surface(growingtux_left[(growing_timer.get_gone() * GROWING_FRAMES) / GROWING_TIME], pos, layer);
+              if(size == SMALL)
+                {
+                if (dir == RIGHT)
+                  context.draw_surface(growingtux_right[GROWING_FRAMES-1 - 
+                          ((growing_timer.get_gone() *
+                          GROWING_FRAMES) / GROWING_TIME)], pos, layer);
+                else
+                  context.draw_surface(growingtux_left[GROWING_FRAMES-1 - 
+                          ((growing_timer.get_gone() *
+                          GROWING_FRAMES) / GROWING_TIME)], pos, layer);
+                }
+              else
+                {
+                if (dir == RIGHT)
+                  context.draw_surface(growingtux_right[(growing_timer.get_gone() *
+                          GROWING_FRAMES) / GROWING_TIME], pos, layer);
+                else
+                  context.draw_surface(growingtux_left[(growing_timer.get_gone() *
+                                       GROWING_FRAMES) / GROWING_TIME], pos, layer);
+                }
             }
           else if (duck && size != SMALL)
             {
               if (dir == RIGHT)
-                sprite->duck_right->draw(context, pos, layer);
+                sprite->set_action("duck-right");
               else 
-                sprite->duck_left->draw(context, pos, layer);
+                sprite->set_action("duck-left");
             }
           else if (skidding_timer.started())
             {
               if (dir == RIGHT)
-                sprite->skid_right->draw(context, pos, layer);
+                sprite->set_action("skid-right");
               else
-                sprite->skid_left->draw(context, pos, layer);
+                sprite->set_action("skid-left");
             }
           else if (kick_timer.started())
             {
               if (dir == RIGHT)
-                sprite->kick_right->draw(context, pos, layer);
+                sprite->set_action("kick-right");
               else
-                sprite->kick_left->draw(context, pos, layer);
+                sprite->set_action("kick-left");
             }
           else if (physic.get_velocity_y() != 0)
             {
               if (dir == RIGHT)
-                sprite->jump_right->draw(context, pos, layer);
+                sprite->set_action("jump-right");
               else
-                sprite->jump_left->draw(context, pos, layer);
+                sprite->set_action("jump-left");
             }
           else
             {
               if (fabsf(physic.get_velocity_x()) < 1.0f) // standing
                 {
                   if (dir == RIGHT)
-                    sprite->stand_right->draw(context, pos, layer);
+                    sprite->set_action("stand-right");
                   else
-                    sprite->stand_left->draw(context, pos, layer);
+                    sprite->set_action("stand-left");
                 }
               else // moving
                 {
                   if (dir == RIGHT)
-                    sprite->walk_right->draw(context, pos, layer);
+                    sprite->set_action("walk-right");
                   else
-                    sprite->walk_left->draw(context, pos, layer);
+                    sprite->set_action("walk-left");
                 }
             }
         }
-    }     
+    }
+
+  if(dying != DYING_SQUISHED && !growing_timer.check())
+    sprite->draw(context, pos, layer);
 
   // Draw arm overlay graphics when Tux is holding something
   if ((holding_something && physic.get_velocity_y() == 0) || shooting_timer.check() && !duck)
   {
     if (dir == RIGHT)
-      sprite->grab_right->draw(context, pos, LAYER_OBJECTS + 1);
+      tux_arm->set_action("walk-right");
     else
-      sprite->grab_left->draw(context, pos, LAYER_OBJECTS + 1);
+      tux_arm->set_action("walk-left");
+    tux_arm->draw(context, pos, LAYER_OBJECTS + 1);
   }
   
   // Draw blinking star overlay
@@ -924,15 +946,17 @@ Player::kill(HurtMode mode)
     {
       if (got_power != NONE_POWER)
         {
+          safe_timer.start(TUX_SAFE_TIME);
           got_power = NONE_POWER;
         }
       else
         {
+          growing_timer.start(GROWING_TIME);
+          safe_timer.start(TUX_SAFE_TIME + GROWING_TIME);
           size = SMALL;
           base.height = 32;
           duck = false;
         }
-      safe_timer.start(TUX_SAFE_TIME);
     }
   else
     {

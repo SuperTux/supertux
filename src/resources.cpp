@@ -131,63 +131,12 @@ void loadshared()
       growingtux_right[i] = new Surface(img_name, true);
     }
 
-  smalltux.stand_left  = sprite_manager->load("smalltux-stand-left");
-  smalltux.stand_right = sprite_manager->load("smalltux-stand-right");
-  smalltux.walk_left   = sprite_manager->load("smalltux-walk-left");
-  smalltux.walk_right  = sprite_manager->load("smalltux-walk-right");
-  smalltux.jump_left   = sprite_manager->load("smalltux-jump-left");
-  smalltux.jump_right  = sprite_manager->load("smalltux-jump-right");
-  smalltux.kick_left   = sprite_manager->load("smalltux-kick-left");
-  smalltux.kick_right  = sprite_manager->load("smalltux-kick-right");
-  smalltux.skid_left   = sprite_manager->load("smalltux-skid-left");
-  smalltux.skid_right  = sprite_manager->load("smalltux-skid-right");
-  smalltux.grab_left   = sprite_manager->load("smalltux-grab-left");
-  smalltux.grab_right  = sprite_manager->load("smalltux-grab-right");
+  small_tux = sprite_manager->load("small-tux");
+  big_tux   = sprite_manager->load("big-tux");
+  ice_tux   = sprite_manager->load("ice-tux");
+  fire_tux  = sprite_manager->load("fire-tux");
 
-  largetux.stand_left  = sprite_manager->load("largetux-stand-left");
-  largetux.stand_right = sprite_manager->load("largetux-stand-right");
-  largetux.walk_left   = sprite_manager->load("largetux-walk-left");
-  largetux.walk_right  = sprite_manager->load("largetux-walk-right");
-  largetux.jump_left   = sprite_manager->load("largetux-jump-left");
-  largetux.jump_right  = sprite_manager->load("largetux-jump-right");
-  largetux.kick_left   = sprite_manager->load("largetux-kick-left");
-  largetux.kick_right  = sprite_manager->load("largetux-kick-right");
-  largetux.skid_right  = sprite_manager->load("largetux-skid-right");
-  largetux.skid_left   = sprite_manager->load("largetux-skid-left");
-  largetux.grab_left   = sprite_manager->load("largetux-grab-left");
-  largetux.grab_right  = sprite_manager->load("largetux-grab-right");
-  largetux.duck_left   = sprite_manager->load("largetux-duck-left");
-  largetux.duck_right  = sprite_manager->load("largetux-duck-right");
-
-  firetux.stand_left  = sprite_manager->load("firetux-stand-left");
-  firetux.stand_right = sprite_manager->load("firetux-stand-right");
-  firetux.walk_left   = sprite_manager->load("firetux-walk-left");
-  firetux.walk_right  = sprite_manager->load("firetux-walk-right");
-  firetux.jump_left   = sprite_manager->load("firetux-jump-left");
-  firetux.jump_right  = sprite_manager->load("firetux-jump-right");
-  firetux.kick_left   = sprite_manager->load("firetux-kick-left");
-  firetux.kick_right  = sprite_manager->load("firetux-kick-right");
-  firetux.skid_right  = sprite_manager->load("firetux-skid-right");
-  firetux.skid_left   = sprite_manager->load("firetux-skid-left");
-  firetux.grab_left   = sprite_manager->load("firetux-grab-left");
-  firetux.grab_right  = sprite_manager->load("firetux-grab-right");
-  firetux.duck_left   = sprite_manager->load("firetux-duck-left");
-  firetux.duck_right  = sprite_manager->load("firetux-duck-right");
-
-  icetux.stand_left  = sprite_manager->load("icetux-stand-left");
-  icetux.stand_right = sprite_manager->load("icetux-stand-right");
-  icetux.walk_left   = sprite_manager->load("icetux-walk-left");
-  icetux.walk_right  = sprite_manager->load("icetux-walk-right");
-  icetux.jump_left   = sprite_manager->load("icetux-jump-left");
-  icetux.jump_right  = sprite_manager->load("icetux-jump-right");
-  icetux.kick_left   = sprite_manager->load("icetux-kick-left");
-  icetux.kick_right  = sprite_manager->load("icetux-kick-right");
-  icetux.skid_right  = sprite_manager->load("icetux-skid-right");
-  icetux.skid_left   = sprite_manager->load("icetux-skid-left");
-  icetux.grab_left   = sprite_manager->load("icetux-grab-left");
-  icetux.grab_right  = sprite_manager->load("icetux-grab-right");
-  icetux.duck_left   = sprite_manager->load("icetux-duck-left");
-  icetux.duck_right  = sprite_manager->load("icetux-duck-right");
+  tux_arm = sprite_manager->load("tux-arm");
 
   /* Water: */
   img_water = new Surface(datadir + "/images/shared/water.png", false);
@@ -197,6 +146,7 @@ void loadshared()
 
   img_waves[1] = new Surface(datadir + "/images/shared/waves-1.png",
                              true);
+
 
   img_waves[2] = new Surface(datadir + "/images/shared/waves-2.png",
                              true);
