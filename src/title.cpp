@@ -326,8 +326,9 @@ bool title(void)
               // Contrib Menu
               break;
             case 3:
-              done = 1;
+              done = true;
               done = leveleditor(1);
+              Menu::set_current(main_menu);
               break;
             case 4:
               display_credits();
