@@ -5,7 +5,7 @@
   (author "Ingo Ruhnke")
   (width  50)
   (height 15)
-  (background "")
+  (background "arctis.jpg")
   (music "Mortimers_chipdisko.mod")
   (bkgd_red    150)
   (bkgd_green  200)

@@ -4,7 +4,7 @@
   (name "Fire Test")
   (author "Ingo Ruhnke")
   (music "Mortimers_chipdisko.mod")
-  (background "")
+  (background "arctis.jpg")
   (particle_system "")
   (bkgd_speed 0.5)
   (bkgd_red_top 150)
