@@ -97,20 +97,108 @@ TileManager::get(int i)
   return tiles[i];
 }
 
+Tux::Tux(WorldMap* worldmap_)
+  : worldmap(worldmap_)
+{
+  texture_load(&sprite, DATA_PREFIX "/images/worldmap/tux.png", USE_ALPHA);
+  offset = 0;
+  moving = false;
+  tile_pos.x = 0;
+  tile_pos.y = 0;
+  direction = NONE;
+  input_direction = NONE;
+}
+
+void
+Tux::draw()
+{
+  float x = tile_pos.x * 32;
+  float y = tile_pos.y * 32;
+
+  switch(direction)
+    {
+    case WEST:
+      x -= offset - 32;
+      break;
+    case EAST:
+      x += offset - 32;
+      break;
+    case NORTH:
+      y -= offset - 32;
+      break;
+    case SOUTH:
+      y += offset - 32;
+      break;
+    case NONE:
+      break;
+    }
+
+  texture_draw(&sprite, (int)x, (int)y, NO_UPDATE);
+}
+
+void
+Tux::stop()
+{
+  offset = 0;
+  direction = NONE;
+  moving = false;
+}
+
+void
+Tux::update(float delta)
+{
+  if (!moving)
+    {
+      if (input_direction != NONE)
+        { // We got a new direction, so lets start walking when possible
+          Point next_tile;
+          if (worldmap->path_ok(input_direction, tile_pos, &next_tile))
+            {
+              tile_pos = next_tile;
+              moving = true;
+              direction = input_direction;
+            }
+        }
+    }
+  else
+    {
+      // Let tux walk a few pixels (20 pixel/sec)
+      offset += 20.0f * delta;
+
+      if (offset > 32)
+        { // We reached the next tile, so we check what to do now
+          offset -= 32;
+
+          if (worldmap->at(tile_pos)->stop)
+            {
+              stop();
+            }
+          else
+            {
+              Point next_tile;
+              if (worldmap->path_ok(direction, tile_pos, &next_tile))
+                {
+                  tile_pos = next_tile;
+                }
+              else
+                {
+                  puts("Tilemap data is buggy");
+                  stop();
+                }
+            }
+        }
+    }
+}
+
 WorldMap::WorldMap()
 {
+  tux = new Tux(this);
+
   quit = false;
   width  = 20;
   height = 15;
 
-  texture_load(&tux_sprite, DATA_PREFIX "/images/worldmap/tux.png", USE_ALPHA);
   texture_load(&level_sprite, DATA_PREFIX "/images/worldmap/levelmarker.png", USE_ALPHA);
-
-  tux_offset = 0;
-  tux_moving = false;
-  tux_tile_pos.x = 0;
-  tux_tile_pos.y = 0;
-  tux_direction = NONE;
 
   input_direction = NONE;
   enter_level = false;
@@ -124,6 +212,7 @@ WorldMap::WorldMap()
 
 WorldMap::~WorldMap()
 {
+  delete tux;
 }
 
 void
@@ -292,14 +381,12 @@ WorldMap::path_ok(Direction direction, Point old_pos, Point* new_pos)
 void
 WorldMap::update()
 {
-  float speed = 4.5;
-
-  if (enter_level && !tux_moving)
+  if (enter_level && !tux->is_moving())
     {
       for(Levels::iterator i = levels.begin(); i != levels.end(); ++i)
         {
-          if (i->x == tux_tile_pos.x && 
-              i->y == tux_tile_pos.y)
+          if (i->x == tux->get_tile_pos().x && 
+              i->y == tux->get_tile_pos().y)
             {
               std::cout << "Enter the current level: " << i->name << std::endl;;
               halt_music();
@@ -312,59 +399,8 @@ WorldMap::update()
     }
   else
     {
-      if (!tux_moving)
-        {
-          if (input_direction == NONE)
-            {
-              tux_offset = 0;
-              tux_direction = NONE;
-            }
-          else
-            {
-              Point next_tile;
-              if (path_ok(input_direction, tux_tile_pos, &next_tile))
-                {
-                  tux_tile_pos = next_tile;
-                  tux_moving = true;
-                  tux_direction = input_direction;
-                }
-              else
-                { // Stop
-                  tux_offset = 0;
-                  tux_direction = NONE;
-                }
-            }
-        }
-      else
-        {
-          tux_offset += speed;
-
-          if (tux_offset > 32)
-            {
-              tux_offset -= 32;
-
-              if (at(tux_tile_pos)->stop)
-                {
-                  tux_direction = NONE;
-                  tux_moving = false;
-                }
-              else
-                {
-                  Point next_tile;
-                  if (path_ok(tux_direction, tux_tile_pos, &next_tile))
-                    {
-                      tux_tile_pos = next_tile;
-                    }
-                  else
-                    {
-                      puts("Tilemap data is buggy");
-                      tux_direction = NONE;
-                      tux_moving = false;
-                      tux_offset = 0;
-                    }
-                }
-            }
-        }
+      tux->set_direction(input_direction);
+      tux->update(0.33f);
     }
 }
 
@@ -388,33 +424,12 @@ WorldMap::draw()
         texture_draw(&tile->sprite, x*32, y*32, NO_UPDATE);
       }
   
-  float x = tux_tile_pos.x * 32;
-  float y = tux_tile_pos.y * 32;
-
-  switch(tux_direction)
-    {
-    case WEST:
-      x -= tux_offset - 32;
-      break;
-    case EAST:
-      x += tux_offset - 32;
-      break;
-    case NORTH:
-      y -= tux_offset - 32;
-      break;
-    case SOUTH:
-      y += tux_offset - 32;
-      break;
-    case NONE:
-      break;
-    }
-
   for(Levels::iterator i = levels.begin(); i != levels.end(); ++i)
     {
       texture_draw(&level_sprite, i->x*32, i->y*32, NO_UPDATE);
     }
 
-  texture_draw(&tux_sprite, (int)x, (int)y, NO_UPDATE);
+  tux->draw();
   flipscreen();
 }
 

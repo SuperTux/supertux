@@ -80,11 +80,44 @@ public:
   Tile* get(int i);
 };
 
+enum Direction { NONE, WEST, EAST, NORTH, SOUTH };
+
+class WorldMap;
+
+class Tux
+{
+private:
+  WorldMap* worldmap;
+  texture_type sprite;
+
+  Direction input_direction;
+  Direction direction;
+  Point tile_pos;
+  /** Length by which tux is away from its current tile, length is in
+      input_direction direction */
+  float offset;
+  bool  moving;
+
+  void stop();
+public: 
+  Tux(WorldMap* worldmap_);
+  
+  void draw();
+  void update(float delta);
+
+  void set_direction(Direction d) { input_direction = d; }
+
+  bool is_moving() const { return moving; }
+  Point get_tile_pos() const { return tile_pos; } 
+  void  set_tile_pos(Point p) { tile_pos = p; } 
+};
+
 /** */
 class WorldMap
 {
 private:
-  texture_type tux_sprite;
+  Tux* tux;
+
   texture_type level_sprite;
   bool quit;
 
@@ -100,20 +133,9 @@ private:
 
   Mix_Music* song;
 
-  enum Direction { NONE, WEST, EAST, NORTH, SOUTH };
-  Direction tux_direction;
-  Point tux_tile_pos;
-  /** Length by which tux is away from its current tile, length is in
-      input_direction direction */
-  float tux_offset;
-  bool tux_moving;
-
   Direction input_direction;
   bool enter_level;
 
-  Tile* at(Point pos);
-  Point get_next_tile(Point pos, Direction direction);
-  bool path_ok(Direction direction, Point old_pos, Point* new_pos);
 public:
   WorldMap();
   ~WorldMap();
@@ -130,6 +152,10 @@ public:
 
   /** Draw one frame */
   void draw();
+
+  Point get_next_tile(Point pos, Direction direction);
+  Tile* at(Point pos);
+  bool path_ok(Direction direction, Point old_pos, Point* new_pos);
 };
 
 } // namespace WorldMapNS
