@@ -72,6 +72,8 @@ public:
 
   /// activates this sector (change music, intialize player class, ...)
   void activate(const std::string& spawnpoint = "main");
+  /// get best spawn point
+  Vector get_best_spawn_point(Vector pos);
 
   void action(float elapsed_time);
   void update_game_objects();

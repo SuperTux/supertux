@@ -60,6 +60,7 @@
 #include "worldmap.h"
 #include "intro.h"
 #include "misc.h"
+#include "camera.h"
 
 GameSession* GameSession::current_ = 0;
 
@@ -110,13 +111,11 @@ GameSession::restart_level()
 
   last_keys.clear();
 
-#if 0
-  float old_x_pos = -1;
-  if (world)
+  Vector tux_pos = Vector(-1,-1);
+  if (currentsector)
     { // Tux has lost a life, so we try to respawn him at the nearest reset point
-      old_x_pos = world->get_tux()->base.x;
+      tux_pos = currentsector->player->base;
     }
-#endif
   
   delete level;
   currentsector = 0;
@@ -125,31 +124,24 @@ GameSession::restart_level()
   level->load(levelname);
   if(flip_level)
     level->do_vertical_flip();
+
   currentsector = level->get_sector("main");
   if(!currentsector)
     Termination::abort("Level has no main sector.", "");
   currentsector->activate("main");
 
-#if 0 // TODO
   // Set Tux to the nearest reset point
-  if (old_x_pos != -1)
+  if(tux_pos.x != -1)
     {
-      ResetPoint best_reset_point = { -1, -1 };
-      for(std::vector<ResetPoint>::iterator i = get_level()->reset_points.begin();
-          i != get_level()->reset_points.end(); ++i)
-        {
-          if (i->x < old_x_pos && best_reset_point.x < i->x)
-            best_reset_point = *i;
-        }
-      
-      if (best_reset_point.x != -1)
-        {
-          world->get_tux()->base.x = best_reset_point.x;
-          world->get_tux()->base.y = best_reset_point.y;
-        }
-    }
-#endif
+    tux_pos = currentsector->get_best_spawn_point(tux_pos);
+    currentsector->player->base.x = tux_pos.x;
+    currentsector->player->base.y = tux_pos.y;
     
+    // has to reset camera on swapping
+    currentsector->camera->reset(Vector(currentsector->player->base.x,
+                                        currentsector->player->base.y));
+    }
+
   if (st_gl_mode != ST_GL_DEMO_GAME)
     {
       if(st_gl_mode == ST_GL_PLAY || st_gl_mode == ST_GL_LOAD_LEVEL_FILE)
@@ -377,6 +369,10 @@ GameSession::process_events()
                           }
                         break;
                       default:
+                        break;
+                      }
+                  }
+
                         /* Check if chacrater is ASCII */
                         char ch[2];
                         if((event.key.keysym.unicode & 0xFF80) == 0)
@@ -420,9 +416,7 @@ GameSession::process_events()
                           tux.invincible_timer.start(time_left.get_left());
                           last_keys.clear();
                           }
-                        break;
-                      }
-                  }
+
                   break;
 
                 case SDL_JOYAXISMOTION:

@@ -96,7 +96,7 @@ Sector::parse(LispReader& lispreader)
     } else if(token == "background") {
       background = new Background(reader);
       add_object(background);
-    } else if(token == "playerspawn") {
+    } else if(token == "spawn-points") {
       SpawnPoint* sp = new SpawnPoint;
       reader.read_string("name", sp->name);
       reader.read_float("x", sp->pos.x);
@@ -228,7 +228,27 @@ Sector::parse_old_format(LispReader& reader)
     add_object(tilemap);
   }
 
-  // TODO read resetpoints
+  // read reset-points (now spawn-points)
+  {
+    lisp_object_t* cur = 0;
+    if(reader.read_lisp("reset-points", cur)) {
+      while(!lisp_nil_p(cur)) {
+        lisp_object_t* data = lisp_car(cur);
+        LispReader reader(lisp_cdr(data));
+
+        Vector sp_pos;
+        if(reader.read_float("x", sp_pos.x) && reader.read_float("y", sp_pos.y))
+          {
+          SpawnPoint* sp = new SpawnPoint;
+          sp->name = "main";
+          sp->pos = sp_pos;
+          spawnpoints.push_back(sp);
+          }
+                                                             
+        cur = lisp_cdr(cur);
+      }
+    }
+  }
 
   // read objects
   {
@@ -272,11 +292,11 @@ Sector::write(LispWriter& writer)
   for(SpawnPoints::iterator i = spawnpoints.begin(); i != spawnpoints.end();
       ++i) {
     SpawnPoint* spawn = *i;
-    writer.start_list("playerspawn");
+    writer.start_list("spawn-points");
     writer.write_string("name", spawn->name);
     writer.write_float("x", spawn->pos.x);
     writer.write_float("y", spawn->pos.y);
-    writer.end_list("playerspawn");
+    writer.end_list("spawn-points");
   }
 
   // write objects
@@ -361,6 +381,22 @@ Sector::activate(const std::string& spawnpoint)
   }
 
   camera->reset(Vector(player->base.x, player->base.y));
+}
+
+Vector
+Sector::get_best_spawn_point(Vector pos)
+{
+Vector best_reset_point = Vector(-1,-1);
+
+for(SpawnPoints::iterator i = spawnpoints.begin(); i != spawnpoints.end();
+      ++i) {
+  if((*i)->name != "main")
+    continue;
+  if((*i)->pos.x > best_reset_point.x && (*i)->pos.x < pos.x)
+    best_reset_point = (*i)->pos;
+  }
+
+return best_reset_point;
 }
 
 void
