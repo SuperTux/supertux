@@ -9,6 +9,8 @@ These are mostly bugs:
 Todo
 ----
 
+- tux sometimes makes short jumps in the endsequence, mostly when
+  going through the goal with a small jump, might be old_up related
 - fadein/out for intro/extro would be nice
 - when you interrupted the intro (by going to credits for example) and go back
   to it, tux doesn't jump anymore
