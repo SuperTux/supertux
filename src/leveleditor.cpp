@@ -1226,12 +1226,13 @@ void le_checkevents()
             }
           }
           break;
-        case SDL_QUIT:	// window closed
-          done = 1;
-          break;
         default:
           break;
         }
+      }
+      else if(event.type == SDL_QUIT) /* window closing */
+      {
+      done = 1;
       }
     }
 
