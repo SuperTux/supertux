@@ -150,7 +150,7 @@ LevelSubset::save()
       fprintf(fi,"  (description \"%s\")\n", description.c_str());
 
       /* Save the hide from Contrbis menu boolean: */
-      fprintf(fi,"  (hide-from-contribs \"%s\")\n", hide_from_contribs ? "#t" : "#f");
+      fprintf(fi,"  (hide-from-contribs %s)\n", hide_from_contribs ? "#t" : "#f");
 
       fprintf( fi,")");
       fclose(fi);

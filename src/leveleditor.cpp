@@ -268,9 +268,13 @@ while(SDL_PollEvent(&event))
       }
     else if(menu == create_subset_menu)
       {
+      // activate or deactivate Create button if any filename as been specified
       if(create_subset_menu->get_item_by_id(MN_ID_FILENAME_SUBSET).input[0] == '\0')
         create_subset_menu->get_item_by_id(MN_ID_CREATE_SUBSET).kind = MN_DEACTIVE;
-      else if(create_subset_menu->check() == MN_ID_CREATE_SUBSET)
+      else
+        create_subset_menu->get_item_by_id(MN_ID_CREATE_SUBSET).kind = MN_ACTION;
+
+      if(create_subset_menu->check() == MN_ID_CREATE_SUBSET)
         {   // applying settings:
         LevelSubset::create(create_subset_menu->get_item_by_id(MN_ID_FILENAME_SUBSET).input);
 
