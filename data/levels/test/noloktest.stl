@@ -10,7 +10,7 @@
     (gravity 10)
     (background (image "forest1.jpg")
                 (speed 0.5))
-    (music "Mortimers_chipdisko.mod")
+    (music "bossattack.mod")
     (spawnpoint (name "main") (x 100) (y 100))
     (nolok_01 (x 650) (y 512))
     (tilemap
