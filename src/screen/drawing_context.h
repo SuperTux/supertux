@@ -16,14 +16,16 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-#ifndef __DRAWINGCONTEXT_H__
-#define __DRAWINGCONTEXT_H__
+#ifndef SUPERTUX_DRAWINGCONTEXT_H
+#define SUPERTUX_DRAWINGCONTEXT_H
 
 #include <vector>
 #include <string>
+
+#include "SDL.h"
+
 #include "vector.h"
 #include "screen.h"
-#include <SDL.h>
 
 class Surface;
 class Font;
@@ -170,5 +172,5 @@ private:
   DrawingRequests drawingrequests;
 };
 
-#endif
+#endif /*SUPERTUX_DRAWINGCONTEXT_H*/
 

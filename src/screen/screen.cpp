@@ -18,13 +18,15 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <iostream>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <errno.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <cerrno>
+
 #include <unistd.h>
-#include <SDL.h>
-#include <SDL_image.h>
+
+#include "SDL.h"
+#include "SDL_image.h"
 
 #ifndef WIN32
 #include <sys/types.h>

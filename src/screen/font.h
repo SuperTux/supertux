@@ -18,10 +18,11 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 
-#ifndef SUPERTUX_TEXT_H
-#define SUPERTUX_TEXT_H
+#ifndef SUPERTUX_FONT_H
+#define SUPERTUX_FONT_H
 
 #include <string>
+
 #include "texture.h"
 #include "vector.h"
 
@@ -69,5 +70,5 @@ private:
   int last_char;
 };
 
-#endif /*SUPERTUX_TEXT_H*/
+#endif /*SUPERTUX_FONT_H*/
 

@@ -18,11 +18,13 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 
-#include <assert.h>
+#include <cassert>
 #include <iostream>
 #include <algorithm>
+
 #include "SDL.h"
 #include "SDL_image.h"
+
 #include "texture.h"
 #include "globals.h"
 #include "setup.h"
