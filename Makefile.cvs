@@ -54,8 +54,8 @@ installdat = install -g $(USERNAME) -o $(USERNAME) -m 644
 CC = g++
 
 OBJECTS=obj/supertux.o obj/setup.o obj/intro.o obj/title.o obj/scene.o obj/collision.o obj/bitmask.o obj/type.o \
-	obj/timer.o obj/text.o obj/texture.o obj/badguy.o obj/special.o  obj/world.o obj/player.o obj/level.o obj/gameloop.o \
-	obj/screen.o obj/sound.o obj/high_scores.o obj/menu.o obj/leveleditor.o obj/globals.o obj/button.o obj/physic.o obj/lispreader.o obj/worldmap.o
+	obj/timer.o obj/text.o obj/texture.o obj/badguy.o obj/special.o obj/player.o obj/level.o obj/gameloop.o \
+	obj/screen.o obj/sound.o obj/high_scores.o obj/menu.o obj/leveleditor.o obj/globals.o obj/button.o obj/physic.o obj/lispreader.o obj/worldmap.o obj/particlesystem.o obj/tile.o obj/mousecursor.o obj/configfile.o obj/world.o
 
 # Make commands:
 
@@ -183,3 +183,15 @@ obj/physic.o:	src/physic.cpp
 	
 obj/worldmap.o:	src/worldmap.cpp
 	$(CC) $(CFLAGS) src/worldmap.cpp -c -o obj/worldmap.o
+	
+obj/particlesystem.o:	src/particlesystem.cpp
+	$(CC) $(CFLAGS) src/particlesystem.cpp -c -o obj/particlesystem.o
+
+obj/tile.o:	src/tile.cpp
+	$(CC) $(CFLAGS) src/tile.cpp -c -o obj/tile.o
+	
+obj/mousecursor.o:	src/mousecursor.cpp
+	$(CC) $(CFLAGS) src/mousecursor.cpp -c -o obj/mousecursor.o
+
+obj/configfile.o:	src/configfile.cpp
+	$(CC) $(CFLAGS) src/configfile.cpp -c -o obj/configfile.o
