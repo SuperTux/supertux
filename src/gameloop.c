@@ -639,6 +639,8 @@ int gameloop(char * subset, int levelnb, int mode)
 
       /* Calculate the movement-factor */
       frame_ratio = ((double)(update_time-last_update_time))/((double)FRAME_RATE);
+      if(frame_ratio > 1.5) /* Quick hack to correct the unprecise CPU clocks a little bit. */
+      frame_ratio = 1.5 + (frame_ratio - 1.5) * 0.85;
       
       if(!timer_check(&frame_timer))
         {
@@ -712,7 +714,7 @@ int gameloop(char * subset, int levelnb, int mode)
         }
 
       if(debug_mode && debug_fps == YES)
-        SDL_Delay(50);
+        SDL_Delay(60);
 
       /*Draw the current scene to the screen */
       /*If the machine running the game is too slow

@@ -49,7 +49,7 @@ FILE * opendata(char * mode)
 
   if (fi == NULL)
     {
-      fprintf(stderr, "Warning: I could not open the high score file ");
+      fprintf(stderr, "Warning: Unable to open the high score file ");
 
       if (strcmp(mode, "r") == 0)
         fprintf(stderr, "for read!!!\n");
@@ -68,7 +68,7 @@ void load_hs(void)
   FILE * fi;
   char temp[128];
   int c, i, strl;
-  
+
   hs_score = 100;
   strcpy(hs_name, "Grandma\0");
   c = 0;
@@ -102,7 +102,7 @@ void load_hs(void)
                   strl = strlen("name=");
                   for(c = strl, i = 0; c < strlen(temp); ++c, ++i)
                     hs_name[i] = temp[c];
-		  hs_name[i]= '\0';
+                  hs_name[i]= '\0';
                 }
             }
         }
@@ -120,7 +120,7 @@ void save_hs(int score)
   SDL_Event event;
   FILE * fi;
 
-  
+
   texture_load(&bkgd, DATA_PREFIX "/images/highscore/highscore.png", IGNORE_ALPHA);
 
   hs_score = score;
@@ -129,8 +129,8 @@ void save_hs(int score)
   menu_set_current(&highscore_menu);
 
   if(!highscore_menu.item[0].input)
-  highscore_menu.item[0].input = (char*) malloc(strlen(hs_name) + 1);
-  
+    highscore_menu.item[0].input = (char*) malloc(strlen(hs_name) + 1);
+
   strcpy(highscore_menu.item[0].input,hs_name);
 
   /* ask for player's name */

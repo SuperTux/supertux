@@ -47,16 +47,16 @@ int faccessible(char *filename)
 {
   struct stat filestat;
   if (stat(filename, &filestat) == -1)
-  {
-    return NO;
-  }
+    {
+      return NO;
+    }
   else
-  {
-  if(S_ISREG(filestat.st_mode))
-    return YES;
-  else
-    return NO;
-  }
+    {
+      if(S_ISREG(filestat.st_mode))
+        return YES;
+      else
+        return NO;
+    }
 }
 
 /* Can we write to this location? */
@@ -259,12 +259,13 @@ void st_directory_setup(void)
                            strlen("/.supertux") + 1));
   strcpy(st_dir, home);
   strcat(st_dir, "/.supertux");
-  
+
   /* Remove .supertux config-file from old SuperTux versions */
   if(faccessible(st_dir))
-  {
-  remove(st_dir);
-  }
+    {
+      remove
+        (st_dir);
+    }
 
   st_save_dir = (char *) malloc(sizeof(char) * (strlen(st_dir) + strlen("/save") + 1));
 
@@ -392,11 +393,11 @@ void process_save_load_game_menu(int save)
           else
             {
               if(game_started == NO)
-	      {
-                gameloop("default",slot - 1,ST_GL_LOAD_GAME);
-		show_menu = YES;
-		menu_set_current(&main_menu);
-		}
+                {
+                  gameloop("default",slot - 1,ST_GL_LOAD_GAME);
+                  show_menu = YES;
+                  menu_set_current(&main_menu);
+                }
               else
                 loadgame(slot - 1);
             }
@@ -503,7 +504,7 @@ void st_general_free(void)
   texture_free(&back);
   texture_free(&arrow_left);
   texture_free(&arrow_right);
-  
+
   /* Free menus */
 
   menu_free(&main_menu);
@@ -892,7 +893,7 @@ void parseargs(int argc, char * argv[])
           use_sound = NO;
 #else
 
-          printf("Warning: Sounds feature is not compiled in \n");
+          printf("Warning: Sound capability has not been compiled into this build.\n");
 #endif
 
         }
