@@ -16,9 +16,9 @@
 #include "texture.h"
 
 enum {
-  BN_CLICKED,
-  BN_PRESSED,
-  BN_HOVER
+  BUTTON_CLICKED,
+  BUTTON_PRESSED,
+  BUTTON_HOVER
 };
 
 typedef struct button_type

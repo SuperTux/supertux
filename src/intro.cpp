@@ -18,10 +18,8 @@
 #include <SDL.h>
 #include <SDL_image.h>
 
-#ifndef LINUX
 #include <sys/types.h>
 #include <ctype.h>
-#endif
 
 #include "defines.h"
 #include "globals.h"

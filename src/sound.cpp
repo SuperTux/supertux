@@ -43,8 +43,6 @@ char * soundfilenames[NUM_SOUNDS] = {
                                     };
 
 
-#ifndef NOSOUND
-
 #include <SDL_mixer.h>
 
 Mix_Chunk * sounds[NUM_SOUNDS];
@@ -240,69 +238,3 @@ void free_music(Mix_Music *music)
  /* use halt_music whenever you want to stop it */
 }
 
-#else
-
-void* sounds[NUM_SOUNDS];
-void* level_song, * level_song_fast, * herring_song;
-
-int open_audio (int frequency, int format, int channels, int chunksize)
-{
-  return -1;
-}
-
-
-void close_audio(void)
-{}
-
-
-void* load_sound(void* file)
-{
-  return NULL;
-}
-
-
-void play_sound(void * snd, enum Sound_Speaker whichSpeaker)
-{}
-
-
-void* load_song(void* file)
-{
-  return NULL;
-}
-
-
-int playing_music()
-{
-  return 0;
-}
-
-
-void halt_music()
-{}
-
-
-int play_music(void *music, int loops)
-{
-  return 0;
-}
-
-
-void free_music(void *music)
-{}
-
-
-void free_chunk(void *chunk)
-{}
-
-int get_current_music()
-{
-}
-
-void set_current_music(int music)
-{
-}
-
-void play_current_music(void)
-{}
-
-#endif

@@ -103,9 +103,9 @@ void button_draw(button_type* pbutton)
       sprintf(str,"(%s)", SDL_GetKeyName(pbutton->shortcut));
       text_draw(&white_small_text, str, i + pbutton->x - strlen(str) * white_small_text.w, pbutton->y + white_small_text.h+2, 1, NO_UPDATE);
     }
-  if(pbutton->state == BN_PRESSED)
+  if(pbutton->state == BUTTON_PRESSED)
     fillrect(pbutton->x,pbutton->y,pbutton->w,pbutton->h,75,75,75,200);
-  else if(pbutton->state == BN_HOVER)
+  else if(pbutton->state == BUTTON_HOVER)
     fillrect(pbutton->x,pbutton->y,pbutton->w,pbutton->h,150,150,150,128);
 }
 
@@ -126,7 +126,7 @@ void button_event(button_type* pbutton, SDL_Event *event)
         {
           if(event->button.button == SDL_BUTTON_LEFT)
             {
-              pbutton->state = BN_PRESSED;
+              pbutton->state = BUTTON_PRESSED;
             }
           else
             {
@@ -135,19 +135,19 @@ void button_event(button_type* pbutton, SDL_Event *event)
         }
       else if(event->type == SDL_MOUSEBUTTONUP)
         {
-          if(event->button.button == SDL_BUTTON_LEFT && pbutton->state == BN_PRESSED)
+          if(event->button.button == SDL_BUTTON_LEFT && pbutton->state == BUTTON_PRESSED)
             {
-              pbutton->state = BN_CLICKED;
+              pbutton->state = BUTTON_CLICKED;
             }
-          else if(event->button.button != SDL_BUTTON_LEFT && pbutton->state != BN_PRESSED)
+          else if(event->button.button != SDL_BUTTON_LEFT && pbutton->state != BUTTON_PRESSED)
             {
               pbutton->show_info = YES;
             }
         }
 
-      if(pbutton->state != BN_PRESSED && pbutton->state != BN_CLICKED)
+      if(pbutton->state != BUTTON_PRESSED && pbutton->state != BUTTON_CLICKED)
         {
-          pbutton->state = BN_HOVER;
+          pbutton->state = BUTTON_HOVER;
         }
     }
   else if(event->type != SDL_KEYDOWN && event->type != SDL_KEYUP)
@@ -162,12 +162,12 @@ void button_event(button_type* pbutton, SDL_Event *event)
   if(event->type == SDL_KEYDOWN)
     {
       if(key == pbutton->shortcut)
-        pbutton->state = BN_PRESSED;
+        pbutton->state = BUTTON_PRESSED;
     }
   else if(event->type == SDL_KEYUP)
     {
-      if(pbutton->state == BN_PRESSED && key == pbutton->shortcut)
-        pbutton->state = BN_CLICKED;
+      if(pbutton->state == BUTTON_PRESSED && key == pbutton->shortcut)
+        pbutton->state = BUTTON_CLICKED;
     }
   else if(event->type == SDL_MOUSEMOTION)
     {
@@ -182,7 +182,7 @@ void button_event(button_type* pbutton, SDL_Event *event)
 int button_get_state(button_type* pbutton)
 {
   int state;
-  if(pbutton->state == BN_CLICKED)
+  if(pbutton->state == BUTTON_CLICKED)
     {
       state = pbutton->state;
       pbutton->state = -1;

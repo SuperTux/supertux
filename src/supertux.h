@@ -1,11 +1,8 @@
 #ifndef SUPERTUX_SUPERTUX_H
 #define SUPERTUX_SUPERTUX_H
 
-#ifdef LINUX
-#include <pwd.h>
 #include <sys/types.h>
 #include <ctype.h>
-#endif
 
 #include "defines.h"
 #include "globals.h"

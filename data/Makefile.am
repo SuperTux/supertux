@@ -10,6 +10,7 @@ EXTRA_DIST = \
   $(wildcard images/shared/*.png) \
   $(wildcard images/status/*.png) \
   $(wildcard images/themes/*/*.png) \
+  $(wildcard images/worldmap/*.png) \
   $(wildcard images/title/*.png) \
   levels/default/info.png \
   levels/default/info \

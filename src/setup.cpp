@@ -22,13 +22,13 @@
 #include <SDL_opengl.h>
 #endif
 
-#ifndef WIN32
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <dirent.h>
+#ifndef WIN32
 #include <libgen.h>
-#include <ctype.h>
 #endif
+#include <ctype.h>
 
 #include "defines.h"
 #include "globals.h"
@@ -37,6 +37,13 @@
 #include "texture.h"
 #include "menu.h"
 #include "gameloop.h"
+
+#ifdef WIN32
+#define mkdir(dir, mode)    mkdir(dir)
+// on win32 we typically don't want LFS paths
+#undef DATA_PREFIX
+#define DATA_PREFIX "./data"
+#endif
 
 /* Local function prototypes: */
 
@@ -271,22 +278,16 @@ void st_directory_setup(void)
   strcat(st_save_dir,"/save");
 
   /* Create them. In the case they exist they won't destroy anything. */
-#ifndef WIN32
   mkdir(st_dir, 0755);
   mkdir(st_save_dir, 0755);
 
   sprintf(str, "%s/levels", st_dir);
   mkdir(str, 0755);
-#else
-  mkdir(st_dir);
-  mkdir(st_save_dir);
-  sprintf(str, "%s/levels", st_dir);
-  mkdir(str);
-#endif
 
   // User has not that a datadir, so we try some magic
   if (datadir.empty())
     {
+#ifndef WIN32
       // Detect datadir
       char exe_file[PATH_MAX];
       if (readlink("/proc/self/exe", exe_file, PATH_MAX) < 0)
@@ -308,6 +309,9 @@ void st_directory_setup(void)
                 }
             }
         }
+#else
+	datadir = DATA_PREFIX;
+#endif
     }
   printf("Datadir: %s\n", datadir.c_str());
 }
@@ -849,17 +853,9 @@ void parseargs(int argc, char * argv[])
   show_fps = NO;
   use_gl = NO;
 
-#ifndef NOSOUND
-
   use_sound = YES;
   use_music = YES;
   audio_device = YES;
-#else
-
-  use_sound = NO;
-  use_music = NO;
-  audio_device = NO;
-#endif
 
   /* Parse arguments: */
 
@@ -914,26 +910,14 @@ void parseargs(int argc, char * argv[])
       else if (strcmp(argv[i], "--disable-sound") == 0)
         {
           /* Disable the compiled in sound feature */
-#ifndef NOSOUND
           printf("Sounds disabled \n");
           use_sound = NO;
-#else
-
-          printf("Warning: Sound capability has not been compiled into this build.\n");
-#endif
-
         }
       else if (strcmp(argv[i], "--disable-music") == 0)
         {
           /* Disable the compiled in sound feature */
-#ifndef NOSOUND
           printf("Music disabled \n");
           use_music = NO;
-#else
-
-          printf("Warning: Music feature is not compiled in \n");
-#endif
-
         }
       else if (strcmp(argv[i], "--debug-mode") == 0)
         {

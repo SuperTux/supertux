@@ -1043,13 +1043,13 @@ void le_checkevents()
                 {
                   /* Check for button events */
                   button_event(&le_test_level_bt,&event);
-                  if(button_get_state(&le_test_level_bt) == BN_CLICKED)
+                  if(button_get_state(&le_test_level_bt) == BUTTON_CLICKED)
                     le_testlevel();
                   button_event(&le_save_level_bt,&event);
-                  if(button_get_state(&le_save_level_bt) == BN_CLICKED)
+                  if(button_get_state(&le_save_level_bt) == BUTTON_CLICKED)
                     level_save(le_current_level,le_level_subset.name.c_str(),le_level);
                   button_event(&le_next_level_bt,&event);
-                  if(button_get_state(&le_next_level_bt) == BN_CLICKED)
+                  if(button_get_state(&le_next_level_bt) == BUTTON_CLICKED)
                     {
                       if(le_level < le_level_subset.levels)
                         {
@@ -1095,23 +1095,23 @@ void le_checkevents()
                         }
                     }
                   button_event(&le_previous_level_bt,&event);
-                  if(button_get_state(&le_previous_level_bt) == BN_CLICKED)
+                  if(button_get_state(&le_previous_level_bt) == BUTTON_CLICKED)
                     {
                       if(le_level > 1)
                         le_goto_level(--le_level);
                     }
                   button_event(&le_rubber_bt,&event);
-                  if(button_get_state(&le_rubber_bt) == BN_CLICKED)
+                  if(button_get_state(&le_rubber_bt) == BUTTON_CLICKED)
                     le_current_tile = '.';
                   button_event(&le_select_mode_one_bt,&event);
-                  if(button_get_state(&le_select_mode_one_bt) == BN_CLICKED)
+                  if(button_get_state(&le_select_mode_one_bt) == BUTTON_CLICKED)
                     le_selection_mode = CURSOR;
                   button_event(&le_select_mode_two_bt,&event);
-                  if(button_get_state(&le_select_mode_two_bt) == BN_CLICKED)
+                  if(button_get_state(&le_select_mode_two_bt) == BUTTON_CLICKED)
                     le_selection_mode = SQUARE;
 
                   button_event(&le_bad_bt,&event);
-                  if(button_get_state(&le_bad_bt) == BN_CLICKED)
+                  if(button_get_state(&le_bad_bt) == BUTTON_CLICKED)
                     {
                       le_bad_panel.hidden = NO;
                       le_fgd_panel.hidden = YES;
@@ -1119,21 +1119,21 @@ void le_checkevents()
                     }
 
                   button_event(&le_fgd_bt,&event);
-                  if(button_get_state(&le_fgd_bt) == BN_CLICKED)
+                  if(button_get_state(&le_fgd_bt) == BUTTON_CLICKED)
                     {
                       le_bad_panel.hidden = YES;
                       le_fgd_panel.hidden = NO;
                       le_bkgd_panel.hidden = YES;
                     }
                   button_event(&le_bkgd_bt,&event);
-                  if(button_get_state(&le_bkgd_bt) == BN_CLICKED)
+                  if(button_get_state(&le_bkgd_bt) == BUTTON_CLICKED)
                     {
                       le_bad_panel.hidden = YES;
                       le_fgd_panel.hidden = YES;
                       le_bkgd_panel.hidden = NO;
                     }
                   button_event(&le_settings_bt,&event);
-                  if(button_get_state(&le_settings_bt) == BN_CLICKED)
+                  if(button_get_state(&le_settings_bt) == BUTTON_CLICKED)
                     {
                       if(show_menu == NO)
                         {
@@ -1149,7 +1149,7 @@ void le_checkevents()
                     }
                   if((pbutton = button_panel_event(&le_bkgd_panel,&event)) != NULL)
                     {
-                      if(button_get_state(pbutton) == BN_CLICKED)
+                      if(button_get_state(pbutton) == BUTTON_CLICKED)
                         {
                           char c = '\0';
                           if(pbutton->tag >= 0 && pbutton->tag <= 3)
@@ -1166,7 +1166,7 @@ void le_checkevents()
                     }
                   if((pbutton = button_panel_event(&le_fgd_panel,&event)) != NULL)
                     {
-                      if(button_get_state(pbutton) == BN_CLICKED)
+                      if(button_get_state(pbutton) == BUTTON_CLICKED)
                         {
                           char c = '\0';
                           if(pbutton->tag == 0)
@@ -1211,7 +1211,7 @@ void le_checkevents()
                     }
                   if((pbutton = button_panel_event(&le_bad_panel,&event)) != NULL)
                     {
-                      if(button_get_state(pbutton) == BN_CLICKED)
+                      if(button_get_state(pbutton) == BUTTON_CLICKED)
                         {
                           char c = '\0';
                           if(pbutton->tag >= 0 && pbutton->tag <= 2)
@@ -1224,7 +1224,7 @@ void le_checkevents()
               else
                 {
                   button_event(&le_settings_bt,&event);
-                  if(button_get_state(&le_settings_bt) == BN_CLICKED)
+                  if(button_get_state(&le_settings_bt) == BUTTON_CLICKED)
                     {
                       if(show_menu == NO)
                         {
@@ -1254,20 +1254,20 @@ void le_checkevents()
     }
   if(show_menu == NO)
     {
-      if(button_get_state(&le_move_left_bt) == BN_PRESSED)
+      if(button_get_state(&le_move_left_bt) == BUTTON_PRESSED)
         {
           pos_x -= 192;
         }
-      else if(button_get_state(&le_move_left_bt) == BN_HOVER)
+      else if(button_get_state(&le_move_left_bt) == BUTTON_HOVER)
         {
           pos_x -= 96;
         }
 
-      if(button_get_state(&le_move_right_bt) == BN_PRESSED)
+      if(button_get_state(&le_move_right_bt) == BUTTON_PRESSED)
         {
           pos_x += 192;
         }
-      else if(button_get_state(&le_move_right_bt) == BN_HOVER)
+      else if(button_get_state(&le_move_right_bt) == BUTTON_HOVER)
         {
           pos_x += 96;
         }

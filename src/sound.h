@@ -67,8 +67,6 @@ enum {
 
 extern char* soundfilenames[NUM_SOUNDS];
 
-#ifndef NOSOUND
-
 #include <string>
 #include <SDL_mixer.h>
 
@@ -93,31 +91,5 @@ void free_chunk(Mix_Chunk*chunk);
 int get_current_music();
 void set_current_music(int music);
 void play_current_music();
-
-#else
-
-/* fake variables */
-extern void* sounds[NUM_SOUNDS];
-extern void * level_song, * level_song_fast, * herring_song;
-
-/* fake sound handlers */
-int open_audio (int frequency, int format, int channels, int chunksize);
-void close_audio( void );
-
-void* load_sound(void* file);
-void play_sound(void * snd, enum Sound_Speaker whichSpeaker);
-void* load_song(void* file);
-
-int playing_music();
-void halt_music();
-int play_music(void *music, int loops);
-void free_music(void *music);
-void free_chunk(void *chunk);
-
-int get_current_music();
-void set_current_music(int music);
-void play_current_music(void);
-
-#endif
 
 #endif /*SUPERTUX_SOUND_H*/

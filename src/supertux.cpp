@@ -15,11 +15,7 @@
 
 /* --- MAIN --- */
 
-#ifdef WIN32
-main(int argc, char * argv[])
-#else
 int main(int argc, char * argv[])
-#endif
 {
   int done;
   
