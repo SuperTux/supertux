@@ -711,7 +711,6 @@ void player_handle_vertical_input(player_type *pplayer)
 
   void player_draw(player_type* pplayer)
   {
-
     if (!timer_started(&pplayer->safe_timer) || (frame % 2) == 0)
       {
         if (pplayer->size == SMALL)
@@ -918,7 +917,6 @@ void player_handle_vertical_input(player_type *pplayer)
               }
           }
       }
-
   }
 
   void player_collision(player_type* pplayer, void* p_c_object, int c_object)

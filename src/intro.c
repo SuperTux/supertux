@@ -231,7 +231,7 @@ int intro(void)
 	      dest.w = src.w;
 	      dest.h = src.h;
 	      
-	      SDL_BlitSurface(gown_upset.sdl_surface, &src, screen, &dest);
+	      texture_draw_part(&gown_upset,src.x,src.y,dest.x,dest.y,dest.w,dest.h,NO_UPDATE);
 	      
 	      height[j] = height[j] - height_speed[j];
 	      

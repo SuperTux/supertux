@@ -87,7 +87,7 @@ void broken_brick_draw(broken_brick_type* pbroken_brick)
           dest.w = 16;
           dest.h = 16;
 
-          SDL_BlitSurface(img_brick[0].sdl_surface, &src, screen, &dest);
+	  texture_draw_part(&img_brick[0],src.x,src.y,dest.x,dest.y,dest.w,dest.h,NO_UPDATE);
         }
 }
 

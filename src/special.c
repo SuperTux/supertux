@@ -182,17 +182,12 @@ void upgrade_draw(upgrade_type* pupgrade)
           dest.w = 32;
           dest.h = pupgrade->base.height;
 
-          src.x = 0;
-          src.y = 0;
-          src.w = 32;
-          src.h = pupgrade->base.height;
-
           if (pupgrade->kind == UPGRADE_MINTS)
-            SDL_BlitSurface(img_mints.sdl_surface, &src, screen, &dest);
+	    texture_draw_part(&img_mints,0,0,dest.x,dest.y,dest.w,dest.h,NO_UPDATE);
           else if (pupgrade->kind == UPGRADE_COFFEE)
-            SDL_BlitSurface(img_coffee.sdl_surface, &src, screen, &dest);
+	    texture_draw_part(&img_coffee,0,0,dest.x,dest.y,dest.w,dest.h,NO_UPDATE);
           else if (pupgrade->kind == UPGRADE_HERRING)
-            SDL_BlitSurface(img_golden_herring.sdl_surface, &src, screen, &dest);
+	    texture_draw_part(&img_golden_herring,0,0,dest.x,dest.y,dest.w,dest.h,NO_UPDATE);
         }
       else
         {
