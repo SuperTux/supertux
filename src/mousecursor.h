@@ -33,9 +33,10 @@ class MouseCursor
     ~MouseCursor();
     int state();
     void set_state(int nstate);
-    void draw(int x, int y);
+    void draw();
     
     private:
+    int state_before_click;
     int cur_state;
     int cur_frame, tot_frames;
     texture_type cursor;

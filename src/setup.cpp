@@ -545,6 +545,9 @@ void st_general_setup(void)
   texture_load(&arrow_left, datadir + "/images/icons/left.png", USE_ALPHA);
   texture_load(&arrow_right, datadir + "/images/icons/right.png", USE_ALPHA);
 
+  /* Load the mouse-cursor */
+  mouse_cursor = new MouseCursor( datadir + "/images/status/mousecursor.png",1);
+  
 }
 
 void st_general_free(void)
@@ -567,6 +570,9 @@ void st_general_free(void)
   texture_free(&arrow_left);
   texture_free(&arrow_right);
 
+  /* Free mouse-cursor */
+  delete mouse_cursor;
+  
   /* Free menus */
   delete main_menu;
   delete game_menu;

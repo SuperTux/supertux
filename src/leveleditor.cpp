@@ -275,6 +275,7 @@ int leveleditor(int levelnb)
                   break;
                 }
             }
+	    mouse_cursor->draw();
         }
 
       if(done)
@@ -849,18 +850,19 @@ void le_checkevents()
 
   while(SDL_PollEvent(&event))
     {
+     if(show_menu)
+      menu_event(event);
+    
       /* testing SDL_KEYDOWN, SDL_KEYUP and SDL_QUIT events*/
       if(event.type == SDL_KEYDOWN || ((event.type == SDL_MOUSEBUTTONDOWN || SDL_MOUSEMOTION) && (event.motion.x > 0 && event.motion.x < screen->w - 64 &&
                                        event.motion.y > 0 && event.motion.y < screen->h)))
         {
-
           switch(event.type)
             {
             case SDL_KEYDOWN:	// key pressed
               key = event.key.keysym.sym;
               if(show_menu)
                 {
-                  menu_event(event);
                   if(key == SDLK_ESCAPE)
                     {
                       show_menu = false;

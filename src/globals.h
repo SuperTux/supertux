@@ -18,11 +18,14 @@
 #include <SDL.h>
 #include "text.h"
 #include "menu.h"
+#include "mousecursor.h"
 
 extern std::string datadir;
 
 extern SDL_Surface * screen;
 extern text_type black_text, gold_text, white_text, white_small_text, white_big_text, blue_text, red_text, yellow_nums;
+
+extern MouseCursor * mouse_cursor;
 
 extern bool use_gl;
 extern bool use_joystick;

@@ -15,16 +15,16 @@
 
 MouseCursor::MouseCursor(std::string cursor_file, int frames)
 {
-texture_load(&cursor,cursor_file.c_str(),USE_ALPHA);
+  texture_load(&cursor,cursor_file.c_str(),USE_ALPHA);
 
-cur_state = MC_NORMAL;
-cur_frame = 0;
-tot_frames = frames;
+  cur_state = MC_NORMAL;
+  cur_frame = 0;
+  tot_frames = frames;
 
-timer_init(&timer, false);
-timer_start(&timer,MC_FRAME_PERIOD);
+  timer_init(&timer, false);
+  timer_start(&timer,MC_FRAME_PERIOD);
 
-SDL_ShowCursor(SDL_DISABLE);
+  SDL_ShowCursor(SDL_DISABLE);
 }
 
 MouseCursor::~MouseCursor()
@@ -36,28 +36,42 @@ MouseCursor::~MouseCursor()
 
 int MouseCursor::state()
 {
-return cur_state;
+  return cur_state;
 }
 
 void MouseCursor::set_state(int nstate)
 {
-cur_state = nstate;
+  cur_state = nstate;
 }
 
-void MouseCursor::draw(int x, int y)
+void MouseCursor::draw()
 {
-int w,h;
-w = cursor.w / tot_frames;
-h = cursor.h / MC_STATES_NB;
+  int x,y,w,h;
+  Uint8 ispressed = SDL_GetMouseState(&x,&y);
+  w = cursor.w / tot_frames;
+  h = cursor.h / MC_STATES_NB;
+  if(ispressed &SDL_BUTTON(1) || ispressed &SDL_BUTTON(2))
+    {
+      if(cur_state != MC_CLICK)
+        {
+          state_before_click = cur_state;
+          cur_state = MC_CLICK;
+        }
+    }
+  else
+    {
+      if(cur_state == MC_CLICK)
+        cur_state = state_before_click;
+    }
 
-if(timer_get_left(&timer) < 0 && tot_frames > 1)
-  {
-  cur_frame++;
-  if(cur_frame++ >= tot_frames)
-    cur_frame = 0;
+  if(timer_get_left(&timer) < 0 && tot_frames > 1)
+    {
+      cur_frame++;
+      if(cur_frame++ >= tot_frames)
+        cur_frame = 0;
 
-  timer_start(&timer,MC_FRAME_PERIOD);
-  }
+      timer_start(&timer,MC_FRAME_PERIOD);
+    }
 
-texture_draw_part(&cursor, w*cur_frame, h*cur_state , x, y, w, h);
+  texture_draw_part(&cursor, w*cur_frame, h*cur_state , x, y, w, h);
 }

@@ -570,7 +570,10 @@ void game_draw(void)
     }
 
   if(show_menu)
+  {
     menu_process_current();
+    mouse_cursor->draw();
+  }
 
   /* (Update it all!) */
   updatescreen();

@@ -456,16 +456,11 @@ Menu::draw_item(int index, // Position of the current item in the menu
     }
 }
 
-/* Draw the current menu. */
-void
-Menu::draw()
+int Menu::width()
 {
-  int menu_height;
-  int menu_width;
-
   /* The width of the menu has to be more than the width of the text
      with the most characters */
-  menu_width = 0;
+  int menu_width = 0;
   for(int i = 0; i < num_items; ++i)
     {
       int w = strlen(item[i].text) + (item[i].input ? strlen(item[i].input) + 1 : 0) + strlen(string_list_active(item[i].list));
@@ -477,8 +472,20 @@ Menu::draw()
         }
     }
 
-  menu_width  = menu_width * 16 + 48;
-  menu_height = (num_items) * 24;
+  return (menu_width * 16 + 48);
+}
+
+int Menu::height()
+{
+  return ((num_items) * 24);
+}
+
+/* Draw the current menu. */
+void
+Menu::draw()
+{
+  int menu_height = height();
+  int menu_width = width();
 
   /* Draw a transparent background */
   fillrect(pos_x - menu_width/2,
@@ -524,11 +531,12 @@ void menu_event(SDL_Event& event)
   SDLKey key;
   switch(event.type)
     {
-      case SDL_KEYDOWN:
+    case SDL_KEYDOWN:
       key = event.key.keysym.sym;
       SDLMod keymod;
       char ch[2];
       keymod = SDL_GetModState();
+      int x,y;
 
       /* If the current unicode character is an ASCII character,
          assign it to ch. */
@@ -604,18 +612,37 @@ void menu_event(SDL_Event& event)
     case  SDL_JOYBUTTONDOWN:
       menuaction = MENU_ACTION_HIT;
       break;
+    case SDL_MOUSEBUTTONDOWN:
+      x = event.motion.x;
+      y = event.motion.y;
+      if(x > current_menu->pos_x - current_menu->width()/2 &&
+          x < current_menu->pos_x + current_menu->width()/2 &&
+          y > current_menu->pos_y - current_menu->height()/2 &&
+          y < current_menu->pos_y + current_menu->height()/2)
+        {
+          menuaction = MENU_ACTION_HIT;
+        }
+      break;
+    case SDL_MOUSEMOTION:
+      x = event.motion.x;
+      y = event.motion.y;
+      if(x > current_menu->pos_x - current_menu->width()/2 &&
+          x < current_menu->pos_x + current_menu->width()/2 &&
+          y > current_menu->pos_y - current_menu->height()/2 &&
+          y < current_menu->pos_y + current_menu->height()/2)
+        {
+          current_menu->active_item = (y - (current_menu->pos_y - current_menu->height()/2)) / 24;
+          menu_change = true;
+	  mouse_cursor->set_state(MC_LINK);
+        }
+	else
+	{
+	  mouse_cursor->set_state(MC_NORMAL);
+	}
+      break;
     default:
       break;
     }
-  /* FIXME: NO JOYSTICK SUPPORT */
-  /*#ifdef JOY_YES
-    else if (event.type == SDL_JOYBUTTONDOWN)
-    {
-    Joystick button: Continue:
-
-    done = 1;
-    }
-    #endif*/
 }
 
 

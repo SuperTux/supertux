@@ -55,6 +55,7 @@ struct Tile
   unsigned char alpha;
 };
 
+
 class TileManager
 {
  private:
@@ -79,5 +80,7 @@ class TileManager
       } 
   }
 };
+
+
 
 #endif

@@ -18,6 +18,8 @@ std::string datadir;
 SDL_Surface * screen;
 text_type black_text, gold_text, blue_text, red_text, yellow_nums, white_text, white_small_text, white_big_text;
 
+MouseCursor * mouse_cursor;
+
 bool use_gl;
 bool use_joystick; 
 bool use_fullscreen;

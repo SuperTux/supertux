@@ -326,6 +326,8 @@ int title(void)
           process_save_load_game_menu(false);
         }
 
+      mouse_cursor->draw();
+      
       flipscreen();
 
       /* Set the time of the last update and the time of the current update */
@@ -461,7 +463,7 @@ void display_credits()
 
 
       texture_draw_part(&bkg_title, 0, 0, 0, 0, 640, 130);
-
+      
       flipscreen();
 
       if(60+screen->h+(n*18)+(d*18)-scroll < 0 && 20+60+screen->h+(n*18)+(d*18)-scroll < 0)

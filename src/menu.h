@@ -17,6 +17,7 @@
 #include "texture.h"
 #include "timer.h"
 #include "type.h"
+#include "mousecursor.h"
 
 /* Kinds of menu items */
 enum MenuItemKind {
@@ -51,6 +52,8 @@ void menu_item_change_input(menu_item_type* pmenu_item, const char *text);
 
 class Menu
 {
+friend void menu_event(SDL_Event& event);
+
 private:
   // position of the menu (ie. center of the menu, not top/left)
   int pos_x;
@@ -58,6 +61,8 @@ private:
   
   int num_items;
   Menu* last_menu;
+  int width();
+  int height();
 
 public:
   timer_type effect;
