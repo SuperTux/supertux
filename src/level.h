@@ -42,10 +42,9 @@ class st_subset
 #define LEVEL_NAME_MAX 20
 
 
-enum {
+enum TileMapType {
  TM_BG,
  TM_IA,
- TM_DN,
  TM_FG
  };
 
@@ -64,7 +63,6 @@ class st_level
   std::string particle_system;
   unsigned int* bg_tiles[15]; /* Tiles in the background */
   unsigned int* ia_tiles[15]; /* Tiles which can interact in the game (solids for example)*/
-  unsigned int* dn_tiles[15]; /* Dynamic tiles (bad guys and moving platforms for example)*/
   unsigned int* fg_tiles[15]; /* Tiles in the foreground */
   int time_left;
   int bkgd_red;

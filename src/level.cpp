@@ -224,12 +224,6 @@ void level_default(st_level* plevel)
       for(y = 0; y < plevel->width; ++y)
         plevel->fg_tiles[i][y] = (unsigned int) '.';
       plevel->fg_tiles[i][plevel->width] = (unsigned int) '\0';
-
-      plevel->dn_tiles[i] = (unsigned int*) malloc((plevel->width+1)*sizeof(unsigned int));
-      plevel->dn_tiles[i][plevel->width] = (unsigned int) '\0';
-      for(y = 0; y < plevel->width; ++y)
-        plevel->dn_tiles[i][y] = (unsigned int) '.';
-      plevel->dn_tiles[i][plevel->width] = (unsigned int) '\0';
     }
 }
 
@@ -389,7 +383,6 @@ int level_load(st_level* plevel, const char* filename)
 
   for(int i = 0; i < 15; ++i)
     {
-      plevel->dn_tiles[i] = (unsigned int*) calloc((plevel->width +1) , sizeof(unsigned int) );
       plevel->ia_tiles[i] = (unsigned int*) calloc((plevel->width +1) , sizeof(unsigned int) );
       plevel->bg_tiles[i] = (unsigned int*) calloc((plevel->width +1) , sizeof(unsigned int) );
       plevel->fg_tiles[i] = (unsigned int*) calloc((plevel->width +1) , sizeof(unsigned int) );
@@ -502,15 +495,6 @@ void level_save(st_level* plevel,const  char * subset, int level)
     }
 
   fprintf( fi,")\n");
-  fprintf(fi,"  (dynamic-tm ");
-
-  for(y = 0; y < 15; ++y)
-    {
-      for(i = 0; i < plevel->width; ++i)
-        fprintf(fi," %d ", plevel->dn_tiles[y][i]);
-    }
-
-  fprintf( fi,")\n");
   fprintf(fi,"  (foreground-tm ");
 
   for(y = 0; y < 15; ++y)
@@ -535,8 +519,6 @@ void level_free(st_level* plevel)
     free(plevel->bg_tiles[i]);
   for(i=0; i < 15; ++i)
     free(plevel->ia_tiles[i]);
-  for(i=0; i < 15; ++i)
-    free(plevel->dn_tiles[i]);
   for(i=0; i < 15; ++i)
     free(plevel->fg_tiles[i]);
 
@@ -637,7 +619,6 @@ void level_change_size (st_level* plevel, int new_width)
   if(new_width < 21)
     new_width = 21;
   tilemap_change_size((unsigned int***)&plevel->ia_tiles,new_width,plevel->width);
-  tilemap_change_size((unsigned int***)&plevel->dn_tiles,new_width,plevel->width);
   tilemap_change_size((unsigned int***)&plevel->bg_tiles,new_width,plevel->width);
   tilemap_change_size((unsigned int***)&plevel->fg_tiles,new_width,plevel->width);
   plevel->width = new_width;
@@ -657,14 +638,15 @@ void level_change(st_level* plevel, float x, float y, int tm, unsigned int c)
     {
       switch(tm)
         {
-        case 0:
+        case TM_BG:
           plevel->bg_tiles[yy][xx] = c;
-        case 1:
+          break;
+        case TM_IA:
           plevel->ia_tiles[yy][xx] = c;
-        case 2:
-          plevel->dn_tiles[yy][xx] = c;
-        case 4:
+          break;
+        case TM_FG:
           plevel->fg_tiles[yy][xx] = c;
+          break;
         }
     }
 }

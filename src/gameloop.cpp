@@ -477,7 +477,7 @@ int game_action(void)
 
 void game_draw(void)
 {
-int y,x;
+  int y,x;
 
   /* Draw screen: */
   if (tux.dying && (global_frame_counter % 4) == 0)
@@ -518,7 +518,6 @@ int y,x;
     }
 
   /* Draw interactive tiles: */
-
   for (y = 0; y < 15; ++y)
     {
       for (x = 0; x < 21; ++x)
@@ -529,7 +528,6 @@ int y,x;
     }
 
   /* (Bouncy bricks): */
-
   for (unsigned int i = 0; i < bouncy_bricks.size(); ++i)
     bouncy_brick_draw(&bouncy_bricks[i]);
 
@@ -548,13 +546,12 @@ int y,x;
     upgrade_draw(&upgrades[i]);
 
   for (unsigned int i = 0; i < bouncy_distros.size(); ++i)
-      bouncy_distro_draw(&bouncy_distros[i]);
+    bouncy_distro_draw(&bouncy_distros[i]);
 
   for (unsigned int i = 0; i < broken_bricks.size(); ++i)
     broken_brick_draw(&broken_bricks[i]);
 
   /* Draw foreground: */
-
   for (y = 0; y < 15; ++y)
     {
       for (x = 0; x < 21; ++x)

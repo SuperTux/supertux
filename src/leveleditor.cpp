@@ -118,24 +118,6 @@ static square selection;
 static int le_selection_mode;
 static SDL_Event event;
 
-void le_activate_bad_guys(void)
-{
-  int x,y;
-
-  /* Activate bad guys: */
-
-  /* as oposed to the gameloop.c func, this one doesn't remove
-  the badguys from tiles                                    */
-
-  for (y = 0; y < 15; ++y)
-    for (x = 0; x < le_current_level->width; ++x)
-      if (le_current_level->dn_tiles[y][x] >= '0' && le_current_level->dn_tiles[y][x] <= '9')
-        add_bad_guy(x * 32, y * 32, static_cast<BadGuyKind>(le_current_level->dn_tiles[y][x] - '0'));
-
-
-
-}
-
 void le_set_defaults()
 {
   if(le_current_level != NULL)
@@ -241,7 +223,6 @@ int leveleditor(int levelnb)
 		      le_update_buttons(le_current_level->theme.c_str());
                       le_set_defaults();
                       level_load_gfx(le_current_level);
-                      le_activate_bad_guys();
                       show_menu = true;
                     }
                   break;
@@ -273,7 +254,6 @@ int leveleditor(int levelnb)
 		      le_update_buttons(le_current_level->theme.c_str());
                       le_set_defaults();
                       level_load_gfx(le_current_level);
-                      le_activate_bad_guys();
                       menu_item_change_input(&subset_new_menu->item[2],"");
                       show_menu = true;
                       break;
@@ -659,8 +639,6 @@ void le_goto_level(int levelnb)
 
   level_free_gfx();
   level_load_gfx(le_current_level);
-
-  le_activate_bad_guys();
 }
 
 void le_quit(void)
@@ -1383,7 +1361,6 @@ void le_testlevel()
   arrays_init();
   level_load_gfx(le_current_level);
   loadshared();
-  le_activate_bad_guys();
 }
 
 void le_showhelp()
