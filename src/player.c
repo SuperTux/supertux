@@ -189,10 +189,13 @@ void player_action(player_type* pplayer)
             {
               ++debug_int;
               if(debug_int > 32)
+	      {
                 DEBUG_MSG("FIXME - UNDER certain circumstances I'm hanging in a loop here!");
-              /*the circumstances are:
+		              /*the circumstances are:
                issolid() is true and base.ym == 0
                use of floating point varibles for base stuff*/
+		break;
+		}
               if (pplayer->base.ym < 0)
                 pplayer->base.y++;
               else if (pplayer->base.ym > 0)
@@ -477,7 +480,7 @@ void player_action(player_type* pplayer)
 
   /* End of level? */
 
-  if (pplayer->base.x>= endpos && endpos != 0)
+  if (pplayer->base.x - scroll_x >= endpos && endpos != 0)
     {
       next_level = 1;
     }
