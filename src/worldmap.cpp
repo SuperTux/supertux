@@ -707,8 +707,11 @@ WorldMap::update(float delta)
                   break;
                 case GameSession::ES_LEVEL_ABORT:
                   /* In case the player's abort the level, keep it using the old
-                      status */
-                  player_status = old_player_status;
+                      status. But the minimum lives and no bonus. */
+                  player_status.score = old_player_status.score;
+                  player_status.distros = old_player_status.distros;
+                  player_status.lives = std::min(old_player_status.lives, player_status.lives);
+                  player_status.bonus = player_status.NO_BONUS;
                   break;
                 case GameSession::ES_GAME_OVER:
                 {
