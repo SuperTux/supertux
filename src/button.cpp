@@ -119,13 +119,13 @@ void Button::draw(DrawingContext& context)
     char str[80];
     int i = -32;
 
-    if(0 > rect.x - (int)strlen(info.c_str()) * white_small_text->w)
-      i = rect.w + strlen(info.c_str()) * white_small_text->w;
+    if(0 > rect.x - white_small_text->get_text_width(info))
+      i = rect.w + (int)white_small_text->get_text_width(info);
 
     if(!info.empty())
-      context.draw_text(white_small_text, info.c_str(), Vector(i + rect.x - strlen(info.c_str()) * white_small_text->w, rect.y), LAYER_GUI);
+      context.draw_text(white_small_text, info, Vector(i + rect.x - white_small_text->get_text_width(info), rect.y), LAYER_GUI);
     sprintf(str,"(%s)", SDL_GetKeyName(shortcut));
-    context.draw_text(white_small_text, str, Vector(i + rect.x - strlen(str) * white_small_text->w, rect.y + white_small_text->h+2), LAYER_GUI);
+    context.draw_text(white_small_text, str, Vector(i + rect.x -  white_small_text->get_text_width(str), rect.y + white_small_text->get_height()+2), LAYER_GUI);
   }
   if(state == BUTTON_PRESSED || state == BUTTON_DEACTIVE)
     fillrect(rect.x,rect.y,rect.w,rect.h,75,75,75,200);
