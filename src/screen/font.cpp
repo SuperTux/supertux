@@ -141,33 +141,39 @@ void display_text_file(const std::string& file, Surface* surface, float scroll_s
 {
   std::string text;
   std::vector<std::string> names;
-  
-  lisp_object_t* root_obj = lisp_read_from_file(datadir + file);
-  lisp_object_t* cur = lisp_car(root_obj);
 
-  if (lisp_symbol_p(cur) && strcmp(lisp_symbol(cur), "text") == 0)
+  LispReader* reader = LispReader::load(datadir + "/" + file, "supertux-text");
+
+  if(!reader)
     {
-      LispReader reader(lisp_cdr(root_obj));
-      reader.read_string("text", text);
-    }
-  else
-    {
-      std::cerr << "Error: Could not open text. Ignoring...\n";
-      return;
+    std::cerr << "Error: Could not open text. Ignoring...\n";
+    return;
     }
 
-  unsigned int l, i;
-  l = 0;
+
+  reader->read_string("text", text);
+  delete reader;
+
+  names.clear();
+  unsigned int i, l;
+  i = 0;
   while(true)
     {
-    i = l;
     l = text.find("\n", i);
-    if(l != std::string::npos)
-      break;
 
-    char* temp = 0;
-    text.copy(temp, l, i);
+    if(l == std::string::npos)
+      {
+      char temp[1024];
+      temp[text.copy(temp, text.size() - i, i)] = '\0';
+      names.push_back(temp);
+      break;
+      }
+
+    char temp[1024];
+    temp[text.copy(temp, l-i, i)] = '\0';
     names.push_back(temp);
+
+    i = l+1;
     }
 
   int done = 0;

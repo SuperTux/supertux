@@ -44,7 +44,7 @@
 #define TOKEN_FALSE                   10
 
 
-#define MAX_TOKEN_LENGTH           1024
+#define MAX_TOKEN_LENGTH           4096
 
 static char token_string[MAX_TOKEN_LENGTH + 1] = "";
 static int token_length = 0;
@@ -1208,7 +1208,7 @@ LispReader::read_char_vector (const char* name, std::vector<char>& vec)
 bool
 LispReader::read_string (const char* name, std::string& str)
 {
-  char str_[1204];
+  char str_[1024];
   sprintf(str_, "%s-%s", name, getenv("LANG"));
   lisp_object_t* obj = search_for (str_);
 

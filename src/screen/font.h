@@ -26,6 +26,8 @@
 #include "surface.h"
 #include "vector.h"
 
+/** Reads a text file (using LispReader, so it as to be in its formatting)
+    and displays it in a StarTrek fashion */
 void display_text_file(const std::string& file, const std::string& surface, float scroll_speed);
 void display_text_file(const std::string& file, Surface* surface, float scroll_speed);
 
