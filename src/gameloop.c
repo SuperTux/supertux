@@ -2132,7 +2132,7 @@ int gameloop(void)
 
       sprintf(str, "%d", highscore);
       drawtext("HIGH", 0, 20, letters_blue, NO_UPDATE);
-      drawtext(str, 80, 20, letters_gold, NO_UPDATE);
+      drawtext(str, 96, 20, letters_gold, NO_UPDATE);
       
       if (time_left >= 50 || (frame % 10) < 5)
 	{
