@@ -1,6 +1,8 @@
 (supertux-tiles
  (properties 
   (id 0))
+ ;; Zero tile
+ (tile (id 0))
 
  (tile (id 1)
        (images "background1.png")
@@ -83,7 +85,8 @@
  (tile (id 26)
        (images "bonus1.png")
        (solid #t)
-       (fullbox #t))
+       (fullbox #t)
+       (data 1))
  (tile (id 27)
        (images "block1.png")
        (solid #t))
@@ -137,16 +140,18 @@
        (images "darksnow12.png")
        (solid #t))
 
-;; (tile (id 44)
-;;       (images "coin1.png")
-;       (solid #t))
-; (tile (id 45)
-;       (images "coin2.png")
-;       (solid #t))
-; (tile (id 46)
-;       (images "coin3.png")
-;       (solid #t))
-
+ (tile (id 44)
+       (images "coin1.png" "coin2.png" "coin3.png")
+       (distro #t)
+       (anim-speed 25))
+ (tile (id 45)
+       (images "coin1.png" "coin2.png" "coin3.png")
+       (distro #t)
+       (anim-speed 25))
+ (tile (id 46)
+       (images "coin1.png" "coin2.png" "coin3.png")
+       (distro #t)
+       (anim-speed 25))
 
  (tile (id 47)
        (images "block4.png")
@@ -243,12 +248,12 @@
 
   (tile (id 77)
         (images "brick0.png")
-	(solid #t)
-        (solid #t))	
+	(brick #t)      
+        (solid #t))
   (tile (id 78)
         (images "brick1.png")
-	(solid #t)
-        (brick #t))
+        (brick #t)
+        (solid #t))
 
   (tile (id 79)
         (images "pole.png")
@@ -259,15 +264,20 @@
   (tile (id 81)
         (images "flag-0.png" "flag-1.png")
 	(solid #f))
+
   (tile (id 82)
         (images "distro-0.png" "distro-1.png" "distro-2.png" "distro-3.png")
-	(solid #f))
+	(solid #f)
+        (distro #t))
 
   (tile (id 83)
         (images "box-full.png")
+        (fullbox #t)
+        (solid #t) 
         (data 1))
 
   (tile (id 84)
+        (solid #t) 
         (images "box-empty.png"))
 
 
@@ -292,8 +302,12 @@
 
   (tile (id 102)
         (images "box-full.png")
+        (solid #t)
+        (fullbox #t)
         (data 2))
   (tile (id 103)
         (images "box-full.png")
+        (solid #t)
+        (fullbox #t)
         (data 3))
  )
