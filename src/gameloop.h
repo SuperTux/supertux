@@ -25,14 +25,14 @@
 #define ST_GL_LOAD_LEVEL_FILE  3
 
 // FIXME: Make this local to the gamesession
-extern st_level current_level;
+extern Level current_level;
 
 extern int game_started;
 
 /* Function prototypes: */
 class Tile;
 
-void  activate_bad_guys(st_level* plevel);
+void  activate_bad_guys(Level* plevel);
 int   gameloop(const char * subset, int levelnb, int mode);
 void  savegame(int slot);
 void  loadgame(int slot);

@@ -75,7 +75,7 @@ Physic::get_acceleration_y()
 void
 Physic::enable_gravity(bool enable_gravity)
 {
-    gravity_enabled = enable_gravity;
+  gravity_enabled = enable_gravity;
 }
 
 void

@@ -44,7 +44,7 @@
 
 /* extern variables */
 
-st_level current_level;
+Level current_level;
 int game_started = false;
 
 /* Local variables: */
@@ -99,7 +99,7 @@ void start_timers(void)
   update_time = st_get_ticks();
 }
 
-void activate_bad_guys(st_level* plevel)
+void activate_bad_guys(Level* plevel)
 {
   for (std::vector<BadGuyData>::iterator i = plevel->badguy_data.begin();
        i != plevel->badguy_data.end();
@@ -374,9 +374,9 @@ int game_action(void)
       activate_bad_guys(&current_level);
       activate_particle_systems();
       level_free_gfx();
-      level_load_gfx(&current_level);
+      current_level.load_gfx();
       level_free_song();
-      level_load_song(&current_level);
+      current_level.load_song();
       if(st_gl_mode != ST_GL_TEST)
         levelintro();
       start_timers();
@@ -608,11 +608,11 @@ int gameloop(const char * subset, int levelnb, int mode)
         exit(1);
     }
 
-  level_load_gfx(&current_level);
+  current_level.load_gfx();
   loadshared();
   activate_bad_guys(&current_level);
   activate_particle_systems();
-  level_load_song(&current_level);
+  current_level.load_song();
 
   tux.init();
 
@@ -1214,7 +1214,7 @@ void trybreakbrick(float x, float y, bool small)
             }
 
           if (distro_counter <= 0)
-            level_change(&current_level,x, y, TM_IA, tile->next_tile);
+            current_level.change(x, y, TM_IA, tile->next_tile);
 
           play_sound(sounds[SND_DISTRO], SOUND_CENTER_SPEAKER);
           score = score + SCORE_DISTRO;
@@ -1223,7 +1223,7 @@ void trybreakbrick(float x, float y, bool small)
       else if (!small)
         {
           /* Get rid of it: */
-          level_change(&current_level,x, y, TM_IA, tile->next_tile);
+          current_level.change(x, y, TM_IA, tile->next_tile);
           
           /* Replace it with broken bits: */
           add_broken_brick(((int)(x + 1) / 32) * 32,
@@ -1285,7 +1285,7 @@ void tryemptybox(float x, float y, int col_side)
     }
 
   /* Empty the box: */
-  level_change(&current_level,x, y, TM_IA, tile->next_tile);
+  current_level.change(x, y, TM_IA, tile->next_tile);
 }
 
 /* Try to grab a distro: */
@@ -1294,7 +1294,7 @@ void trygrabdistro(float x, float y, int bounciness)
   Tile* tile = gettile(x, y);
   if (tile && tile->distro)
     {
-      level_change(&current_level,x, y, TM_IA, tile->next_tile);
+      current_level.change(x, y, TM_IA, tile->next_tile);
       play_sound(sounds[SND_DISTRO], SOUND_CENTER_SPEAKER);
 
       if (bounciness == BOUNCE)
@@ -1489,9 +1489,9 @@ void loadgame(int slot)
       activate_bad_guys(&current_level);
       activate_particle_systems();
       level_free_gfx();
-      level_load_gfx(&current_level);
+      current_level.load_gfx();
       level_free_song();
-      level_load_song(&current_level);
+      current_level.load_song();
       levelintro();
       update_time = st_get_ticks();
 

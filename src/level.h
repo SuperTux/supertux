@@ -55,7 +55,7 @@ extern texture_type img_bkgd_tile[2][4];
 extern texture_type img_solid[4];
 extern texture_type img_brick[2];
 
-class st_level 
+class Level 
 {
  public:
   std::string name;
@@ -81,19 +81,24 @@ class st_level
   /** Cleanup the level struct from allocated tile data and such */
   void cleanup();
 
-  int  load(const char * subset, int level);
+  int  load(const char* subset, int level);
   int  load(const char* filename);
- 
+
+  void load_gfx();
+  void load_song();
+
+  void save(const char* subset, int level);
+
+  /** Edit a piece of the map! */
+  void change(float x, float y, int tm, unsigned int c);
+
+  /** Resize the level to a new width */
+  void change_size (int new_width);
 };
 
-void level_save     (st_level* plevel, const char * subset, int level);
-void level_load_gfx (st_level* plevel);
-void level_change   (st_level* plevel, float x, float y, int tm, unsigned int c);
-void level_change_size (st_level* plevel, int new_width);
-void level_load_song(st_level* plevel);
-void level_free_gfx();
 void level_load_image(texture_type* ptexture, std::string theme, const char * file, int use_alpha);
-void level_free_song(void);
+void level_free_song();
+void level_free_gfx();
 
 /** Return the id of the tile at the given x/y coordinates */
 unsigned int gettileid(float x, float y);

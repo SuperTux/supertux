@@ -86,7 +86,7 @@ static string_list_type level_subsets;
 static bool le_level_changed;  /* if changes, ask for saving, when quiting*/
 static int pos_x, cursor_x, cursor_y, fire;
 static int le_level;
-static st_level* le_current_level;
+static Level* le_current_level;
 static st_subset le_level_subset;
 static int le_show_grid;
 static int le_frame;
@@ -244,14 +244,14 @@ int leveleditor(int levelnb)
                       le_level = 1;
                       arrays_free();
                       loadshared();
-                      le_current_level = new st_level;
+                      le_current_level = new Level;
                       if(le_current_level->load(le_level_subset.name.c_str(), le_level) != 0)
                         {
                           le_quit();
                           return 1;
                         }
                       le_set_defaults();
-                      level_load_gfx(le_current_level);
+                      le_current_level->load_gfx();
 		      activate_bad_guys(le_current_level);
                       show_menu = true;
                     }
@@ -275,14 +275,14 @@ int leveleditor(int levelnb)
                       le_level = 1;
                       arrays_free();
                       loadshared();
-                      le_current_level = new st_level;
+                      le_current_level = new Level;
                       if(le_current_level->load(le_level_subset.name.c_str(), le_level) != 0)
                         {
                           le_quit();
                           return 1;
                         }
                       le_set_defaults();
-                      level_load_gfx(le_current_level);
+                      le_current_level->load_gfx();
 		      activate_bad_guys(le_current_level);
                       menu_item_change_input(&subset_new_menu->item[2],"");
                       show_menu = true;
@@ -520,12 +520,12 @@ void apply_level_settings_menu()
   if(i)
     {
       level_free_gfx();
-      level_load_gfx(le_current_level);
+      le_current_level->load_gfx();
     }
 
   le_current_level->song_title = string_list_active(level_settings_menu->item[4].list);
 
-  level_change_size(le_current_level, atoi(level_settings_menu->item[6].input));
+  le_current_level->change_size(atoi(level_settings_menu->item[6].input));
   le_current_level->time_left = atoi(level_settings_menu->item[7].input);
   le_current_level->gravity = atof(level_settings_menu->item[8].input);
   le_current_level->bkgd_red = atoi(level_settings_menu->item[9].input);
@@ -558,7 +558,7 @@ void le_goto_level(int levelnb)
 
 
   level_free_gfx();
-  level_load_gfx(le_current_level);
+  le_current_level->load_gfx();
   activate_bad_guys(le_current_level);
 }
 
@@ -915,7 +915,7 @@ void le_checkevents()
                     le_testlevel();
                   le_save_level_bt->event(event);
                   if(le_save_level_bt->get_state() == BUTTON_CLICKED)
-                    level_save(le_current_level,le_level_subset.name.c_str(),le_level);
+                    le_current_level->save(le_level_subset.name.c_str(),le_level);
                   le_exit_bt->event(event);
                   if(le_exit_bt->get_state() == BUTTON_CLICKED)
 		  {
@@ -931,7 +931,7 @@ void le_checkevents()
                         }
                       else
                         {
-                          st_level new_lev;
+                          Level new_lev;
                           char str[1024];
                           int d = 0;
                           sprintf(str,"Level %d doesn't exist.",le_level+1);
@@ -949,7 +949,7 @@ void le_checkevents()
                                       {
                                       case SDLK_y:
                                         new_lev.init_defaults();
-                                        level_save(&new_lev,le_level_subset.name.c_str(),++le_level);
+                                        new_lev.save(le_level_subset.name.c_str(),++le_level);
                                         le_level_subset.levels = le_level;
                                         le_goto_level(le_level);
                                         d = 1;
@@ -1113,7 +1113,7 @@ void le_change(float x, float y, int tm, unsigned int c)
       switch(le_selection_mode)
         {
         case CURSOR:
-          level_change(le_current_level,x,y,tm,c);
+          le_current_level->change(x,y,tm,c);
 
           yy = ((int)y / 32);
           xx = ((int)x / 32);
@@ -1167,7 +1167,7 @@ void le_change(float x, float y, int tm, unsigned int c)
           for(xx = x1; xx <= x2; xx++)
             for(yy = y1; yy <= y2; yy++)
               {
-                level_change(le_current_level, xx*32, yy*32, tm, c);
+                le_current_level->change(xx*32, yy*32, tm, c);
 
                 if(c == '0')  // if it's a bad guy
                   add_bad_guy(xx*32, yy*32, BAD_BSOD);
@@ -1185,11 +1185,11 @@ void le_change(float x, float y, int tm, unsigned int c)
 
 void le_testlevel()
 {
-  level_save(le_current_level,"test",le_level);
+  le_current_level->save("test", le_level);
   gameloop("test",le_level, ST_GL_TEST);
   Menu::set_current(leveleditor_menu);
   arrays_free();
-  level_load_gfx(le_current_level);
+  le_current_level->load_gfx();
   loadshared();
   activate_bad_guys(le_current_level);
 }

@@ -35,14 +35,14 @@ st_subset::st_subset()
 
 void st_subset::create(const std::string& subset_name)
 {
-  st_level new_lev;
+  Level new_lev;
   st_subset new_subset;
   new_subset.name = subset_name;
   new_subset.title = "Unknown Title";
   new_subset.description = "No description so far.";
   new_subset.save();
   new_lev.init_defaults();
-  level_save(&new_lev,subset_name.c_str(),1);
+  new_lev.save(subset_name.c_str(),1);
 }
 
 void st_subset::parse (lisp_object_t* cursor)
@@ -193,7 +193,7 @@ void st_subset::free()
 }
 
 void
-st_level::init_defaults()
+Level::init_defaults()
 {
   name       = "UnNamed";
   theme      = "antarctica";
@@ -231,7 +231,7 @@ st_level::init_defaults()
 /* Load data for this level: */
 /* Returns -1, if the loading of the level failed. */
 int
-st_level::load(const  char *subset, int level)
+Level::load(const  char *subset, int level)
 {
   char filename[1024];
 
@@ -245,7 +245,7 @@ st_level::load(const  char *subset, int level)
 }
 
 int 
-st_level::load(const char* filename)
+Level::load(const char* filename)
 {
   FILE * fi;
   lisp_object_t* root_obj = 0;
@@ -442,11 +442,10 @@ st_level::load(const char* filename)
 
 /* Save data for level: */
 
-void level_save(st_level* plevel,const  char * subset, int level)
+void 
+Level::save(const  char * subset, int level)
 {
-  FILE * fi;
   char filename[1024];
-  int y,i;
   char str[80];
 
   /* Save data file: */
@@ -456,7 +455,7 @@ void level_save(st_level* plevel,const  char * subset, int level)
   if(!fwriteable(filename))
     snprintf(filename, 1024, "%s/levels/%s/level%d.stl", datadir.c_str(), subset, level);
 
-  fi = fopen(filename, "w");
+  FILE * fi = fopen(filename, "w");
   if (fi == NULL)
     {
       perror(filename);
@@ -470,49 +469,48 @@ void level_save(st_level* plevel,const  char * subset, int level)
   fprintf(fi,"(supertux-level\n");
 
   fprintf(fi,"  (version %d)\n", 1);
-  fprintf(fi,"  (name \"%s\")\n", plevel->name.c_str());
-  fprintf(fi,"  (theme \"%s\")\n", plevel->theme.c_str());
-  fprintf(fi,"  (music \"%s\")\n", plevel->song_title.c_str());
-  fprintf(fi,"  (background \"%s\")\n", plevel->bkgd_image.c_str());
-  fprintf(fi,"  (particle_system \"%s\")\n", plevel->particle_system.c_str());
-  fprintf(fi,"  (bkgd_red %d)\n", plevel->bkgd_red);
-  fprintf(fi,"  (bkgd_green %d)\n", plevel->bkgd_green);
-  fprintf(fi,"  (bkgd_blue %d)\n", plevel->bkgd_blue);
-  fprintf(fi,"  (time %d)\n", plevel->time_left);
-  fprintf(fi,"  (width %d)\n", plevel->width);
-  fprintf(fi,"  (gravity %2.1f)\n", plevel->gravity);
+  fprintf(fi,"  (name \"%s\")\n", name.c_str());
+  fprintf(fi,"  (theme \"%s\")\n", theme.c_str());
+  fprintf(fi,"  (music \"%s\")\n", song_title.c_str());
+  fprintf(fi,"  (background \"%s\")\n", bkgd_image.c_str());
+  fprintf(fi,"  (particle_system \"%s\")\n", particle_system.c_str());
+  fprintf(fi,"  (bkgd_red %d)\n", bkgd_red);
+  fprintf(fi,"  (bkgd_green %d)\n", bkgd_green);
+  fprintf(fi,"  (bkgd_blue %d)\n", bkgd_blue);
+  fprintf(fi,"  (time %d)\n", time_left);
+  fprintf(fi,"  (width %d)\n", width);
+  fprintf(fi,"  (gravity %2.1f)\n", gravity);
   fprintf(fi,"  (background-tm ");
 
-  for(y = 0; y < 15; ++y)
+  for(int y = 0; y < 15; ++y)
     {
-      for(i = 0; i < plevel->width; ++i)
-        fprintf(fi," %d ", plevel->bg_tiles[y][i]);
+      for(int i = 0; i < width; ++i)
+        fprintf(fi," %d ", bg_tiles[y][i]);
     }
 
   fprintf( fi,")\n");
   fprintf(fi,"  (interactive-tm ");
 
-  for(y = 0; y < 15; ++y)
+  for(int y = 0; y < 15; ++y)
     {
-      for(i = 0; i < plevel->width; ++i)
-        fprintf(fi," %d ", plevel->ia_tiles[y][i]);
+      for(int i = 0; i < width; ++i)
+        fprintf(fi," %d ", ia_tiles[y][i]);
     }
 
   fprintf( fi,")\n");
   fprintf(fi,"  (foreground-tm ");
 
-  for(y = 0; y < 15; ++y)
+  for(int y = 0; y < 15; ++y)
     {
-      for(i = 0; i < plevel->width; ++i)
-        fprintf(fi," %d ", plevel->fg_tiles[y][i]);
+      for(int i = 0; i < width; ++i)
+        fprintf(fi," %d ", fg_tiles[y][i]);
     }
 
   fprintf( fi,")\n");
   fprintf( fi,"(objects\n");
 
-  for(std::vector<BadGuyData>::iterator it = plevel->
-      badguy_data.begin();
-      it != plevel->badguy_data.end();
+  for(std::vector<BadGuyData>::iterator it = badguy_data.begin();
+      it != badguy_data.end();
       ++it)
     fprintf( fi,"(%s (x %d) (y %d))\n",badguykind_to_string((*it).kind).c_str(),(*it).x,(*it).y);
 
@@ -527,7 +525,7 @@ void level_save(st_level* plevel,const  char * subset, int level)
 /* Unload data for this level: */
 
 void
-st_level::cleanup()
+Level::cleanup()
 {
   for(int i=0; i < 15; ++i)
     free(bg_tiles[i]);
@@ -546,43 +544,43 @@ st_level::cleanup()
 
 /* Load graphics: */
 
-void level_load_gfx(st_level *plevel)
+void 
+Level::load_gfx()
 {
-  level_load_image(&img_brick[0],plevel->theme,"brick0.png", IGNORE_ALPHA);
-  level_load_image(&img_brick[1],plevel->theme,"brick1.png", IGNORE_ALPHA);
+  level_load_image(&img_brick[0],theme,"brick0.png", IGNORE_ALPHA);
+  level_load_image(&img_brick[1],theme,"brick1.png", IGNORE_ALPHA);
 
-  level_load_image(&img_solid[0],plevel->theme,"solid0.png", USE_ALPHA);
-  level_load_image(&img_solid[1],plevel->theme,"solid1.png", USE_ALPHA);
-  level_load_image(&img_solid[2],plevel->theme,"solid2.png", USE_ALPHA);
-  level_load_image(&img_solid[3],plevel->theme,"solid3.png", USE_ALPHA);
+  level_load_image(&img_solid[0],theme,"solid0.png", USE_ALPHA);
+  level_load_image(&img_solid[1],theme,"solid1.png", USE_ALPHA);
+  level_load_image(&img_solid[2],theme,"solid2.png", USE_ALPHA);
+  level_load_image(&img_solid[3],theme,"solid3.png", USE_ALPHA);
 
-  level_load_image(&img_bkgd_tile[0][0],plevel->theme,"bkgd-00.png", USE_ALPHA);
-  level_load_image(&img_bkgd_tile[0][1],plevel->theme,"bkgd-01.png", USE_ALPHA);
-  level_load_image(&img_bkgd_tile[0][2],plevel->theme,"bkgd-02.png", USE_ALPHA);
-  level_load_image(&img_bkgd_tile[0][3],plevel->theme,"bkgd-03.png", USE_ALPHA);
+  level_load_image(&img_bkgd_tile[0][0],theme,"bkgd-00.png", USE_ALPHA);
+  level_load_image(&img_bkgd_tile[0][1],theme,"bkgd-01.png", USE_ALPHA);
+  level_load_image(&img_bkgd_tile[0][2],theme,"bkgd-02.png", USE_ALPHA);
+  level_load_image(&img_bkgd_tile[0][3],theme,"bkgd-03.png", USE_ALPHA);
 
-  level_load_image(&img_bkgd_tile[1][0],plevel->theme,"bkgd-10.png", USE_ALPHA);
-  level_load_image(&img_bkgd_tile[1][1],plevel->theme,"bkgd-11.png", USE_ALPHA);
-  level_load_image(&img_bkgd_tile[1][2],plevel->theme,"bkgd-12.png", USE_ALPHA);
-  level_load_image(&img_bkgd_tile[1][3],plevel->theme,"bkgd-13.png", USE_ALPHA);
+  level_load_image(&img_bkgd_tile[1][0],theme,"bkgd-10.png", USE_ALPHA);
+  level_load_image(&img_bkgd_tile[1][1],theme,"bkgd-11.png", USE_ALPHA);
+  level_load_image(&img_bkgd_tile[1][2],theme,"bkgd-12.png", USE_ALPHA);
+  level_load_image(&img_bkgd_tile[1][3],theme,"bkgd-13.png", USE_ALPHA);
 
-  if(!plevel->bkgd_image.empty())
+  if(!bkgd_image.empty())
     {
       char fname[1024];
-      snprintf(fname, 1024, "%s/background/%s", st_dir, plevel->bkgd_image.c_str());
+      snprintf(fname, 1024, "%s/background/%s", st_dir, bkgd_image.c_str());
       if(!faccessible(fname))
-        snprintf(fname, 1024, "%s/images/background/%s", datadir.c_str(), plevel->bkgd_image.c_str());
+        snprintf(fname, 1024, "%s/images/background/%s", datadir.c_str(), bkgd_image.c_str());
       texture_load(&img_bkgd, fname, IGNORE_ALPHA);
     }
   else
     {
       /* Quick hack to make sure an image is loaded, when we are freeing it afterwards. */#
-      level_load_image(&img_bkgd, plevel->theme,"solid0.png", IGNORE_ALPHA);
+      level_load_image(&img_bkgd, theme,"solid0.png", IGNORE_ALPHA);
     }
 }
 
 /* Free graphics data for this level: */
-
 void level_free_gfx(void)
 {
   int i;
@@ -628,38 +626,37 @@ void tilemap_change_size(unsigned int** tilemap[15], int w, int old_w)
 }
 
 /* Change the size of a level (width) */
-void level_change_size (st_level* plevel, int new_width)
+void 
+Level::change_size (int new_width)
 {
   if(new_width < 21)
     new_width = 21;
-  tilemap_change_size((unsigned int***)&plevel->ia_tiles,new_width,plevel->width);
-  tilemap_change_size((unsigned int***)&plevel->bg_tiles,new_width,plevel->width);
-  tilemap_change_size((unsigned int***)&plevel->fg_tiles,new_width,plevel->width);
-  plevel->width = new_width;
 
+  tilemap_change_size((unsigned int***)&ia_tiles, new_width, width);
+  tilemap_change_size((unsigned int***)&bg_tiles, new_width, width);
+  tilemap_change_size((unsigned int***)&fg_tiles, new_width, width);
+
+  width = new_width;
 }
 
-/* Edit a piece of the map! */
-
-void level_change(st_level* plevel, float x, float y, int tm, unsigned int c)
+void
+Level::change(float x, float y, int tm, unsigned int c)
 {
-  int xx, yy;
+  int yy = ((int)y / 32);
+  int xx = ((int)x / 32);
 
-  yy = ((int)y / 32);
-  xx = ((int)x / 32);
-
-  if (yy >= 0 && yy < 15 && xx >= 0 && xx <= plevel->width)
+  if (yy >= 0 && yy < 15 && xx >= 0 && xx <= width)
     {
       switch(tm)
         {
         case TM_BG:
-          plevel->bg_tiles[yy][xx] = c;
+          bg_tiles[yy][xx] = c;
           break;
         case TM_IA:
-          plevel->ia_tiles[yy][xx] = c;
+          ia_tiles[yy][xx] = c;
           break;
         case TM_FG:
-          plevel->fg_tiles[yy][xx] = c;
+          fg_tiles[yy][xx] = c;
           break;
         }
     }
@@ -675,20 +672,20 @@ void level_free_song(void)
 
 /* Load music: */
 
-void level_load_song(st_level* plevel)
+void
+Level::load_song()
 {
+  char* song_path;
+  char* song_subtitle;
 
-  char * song_path;
-  char * song_subtitle;
-
-  level_song = load_song(datadir + "/music/" + plevel->song_title);
+  level_song = ::load_song(datadir + "/music/" + song_title);
 
   song_path = (char *) malloc(sizeof(char) * datadir.length() +
-                              strlen(plevel->song_title.c_str()) + 8 + 5);
-  song_subtitle = strdup(plevel->song_title.c_str());
+                              strlen(song_title.c_str()) + 8 + 5);
+  song_subtitle = strdup(song_title.c_str());
   strcpy(strstr(song_subtitle, "."), "\0");
-  sprintf(song_path, "%s/music/%s-fast%s", datadir.c_str(), song_subtitle, strstr(plevel->song_title.c_str(), "."));
-  level_song_fast = load_song(song_path);
+  sprintf(song_path, "%s/music/%s-fast%s", datadir.c_str(), song_subtitle, strstr(song_title.c_str(), "."));
+  level_song_fast = ::load_song(song_path);
   free(song_subtitle);
   free(song_path);
 }
