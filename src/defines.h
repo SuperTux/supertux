@@ -25,14 +25,11 @@
 
 enum Direction { LEFT = 0, RIGHT = 1 };
 
-/* Direction (keyboard/joystick) states: */
-
+/* keyboard/joystick states: */
 #define UP 0
 #define DOWN 1
 
 /* Dying types: */
-
-/* ---- NO 0 */
 enum DyingType {
   DYING_NOT = 0,
   DYING_SQUISHED = 1,
@@ -40,25 +37,14 @@ enum DyingType {
 };
 
 /* Speed constraints: */
-#define MAX_WALK_XM 230
-#define MAX_RUN_XM 320
 #define MAX_LIVES 99
 
-#define WALK_SPEED 100
-
 /* gameplay related defines */
-
 #define START_LIVES 4
 
 #define MAX_FIRE_BULLETS 2
 #define MAX_ICE_BULLETS  1
 #define FROZEN_TIME 3.0
-
-#define WALK_ACCELERATION_X 300
-#define RUN_ACCELERATION_X 400
-
-#define SKID_XM 200
-#define SKID_TIME .3
 
 #endif /*SUPERTUX_DEFINES_H*/
 

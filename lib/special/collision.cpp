@@ -38,7 +38,11 @@ Collision::rectangle_rectangle(CollisionHit& hit, const Rectangle& r1,
     hit.normal.y = 0;
   } else {
     if(movement.y > -DELTA && movement.y < DELTA) {
-      return false;
+      hit.time = 0;
+      hit.depth = 0;
+      hit.normal.x = 1;
+      hit.normal.y = 0;
+      return true;
     }
     hit.time = FLT_MAX;
   }

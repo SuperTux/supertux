@@ -40,13 +40,18 @@
 #include "gameloop.h"
 #include "trigger/trigger_base.h"
 
-// behavior definitions:
-#define TILES_FOR_BUTTJUMP 3
-// animation times (in ms):
-#define SHOOTING_TIME .150
+static const int TILES_FOR_BUTTJUMP = 3;
+static const float SHOOTING_TIME = .150;
+/// time before idle animation starts
+static const float IDLE_TIME = 2.5;
 
-// time before idle animation starts
-#define IDLE_TIME 2.500
+static const float WALK_ACCELERATION_X = 300;
+static const float RUN_ACCELERATION_X = 400;
+static const float SKID_XM = 200;
+static const float SKID_TIME = .3;
+static const float MAX_WALK_XM = 230;
+static const float MAX_RUN_XM = 320;
+static const float WALK_SPEED = 100;
 
 // growing animation
 Surface* growingtux_left[GROWING_FRAMES];

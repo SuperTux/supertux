@@ -69,10 +69,13 @@ Sector::Sector()
   song_title = "Mortimers_chipdisko.mod";
   player = new Player();
   add_object(player);
+
+  printf("seccreated: %p.\n", this);
 }
 
 Sector::~Sector()
 {
+  printf("secdel: %p.\n", this);
   for(GameObjects::iterator i = gameobjects.begin(); i != gameobjects.end();
       ++i) {
     delete *i;
@@ -110,25 +113,11 @@ Sector::parse_object(const std::string& name, LispReader& reader)
     background = new Background(reader);
     return background;
   } else if(name == "camera") {
-    if(camera) {
-      std::cerr << "Warning: More than 1 camera defined in sector.\n";
-      return 0;
-    }
-    camera = new Camera(this);
-    camera->read(reader);
+    Camera* camera = new Camera(this);
+    camera->parse(reader);
     return camera;
   } else if(name == "tilemap") {
-    TileMap* tilemap = new TileMap(reader);
-
-    if(tilemap->is_solid()) {
-      if(solids) {
-        std::cerr << "Warning multiple solid tilemaps in sector.\n";
-        return 0;
-      }
-      solids = tilemap;
-      fix_old_tiles();
-    }
-    return tilemap;
+    return  new TileMap(reader);
   } else if(name == "particles-snow") {
     SnowParticleSystem* partsys = new SnowParticleSystem();
     partsys->parse(reader);
@@ -565,15 +554,6 @@ Sector::update_game_objects()
             std::remove(bullets.begin(), bullets.end(), bullet),
             bullets.end());
       }
-#if 0
-      InteractiveObject* interactive_object =
-          dynamic_cast<InteractiveObject*> (*i);
-      if(interactive_object) {
-        interactive_objects.erase(
-            std::remove(interactive_objects.begin(), interactive_objects.end(),
-                interactive_object), interactive_objects.end());
-      }
-#endif
       delete *i;
       i = gameobjects.erase(i);
     } else {
@@ -585,17 +565,30 @@ Sector::update_game_objects()
   for(std::vector<GameObject*>::iterator i = gameobjects_new.begin();
       i != gameobjects_new.end(); ++i)
   {
-          Bullet* bullet = dynamic_cast<Bullet*> (*i);
-          if(bullet)
-            bullets.push_back(bullet);
-#if 0
-          InteractiveObject* interactive_object 
-              = dynamic_cast<InteractiveObject*> (*i);
-          if(interactive_object)
-            interactive_objects.push_back(interactive_object);
-#endif
+    Bullet* bullet = dynamic_cast<Bullet*> (*i);
+    if(bullet)
+      bullets.push_back(bullet);
 
-          gameobjects.push_back(*i);
+    TileMap* tilemap = dynamic_cast<TileMap*> (*i);
+    if(tilemap && tilemap->is_solid()) {
+      if(solids == 0) {
+        solids = tilemap;
+        fix_old_tiles();
+      } else {
+        std::cerr << "Another solid tilemaps added. Ignoring.";
+      }
+    }
+
+    Camera* camera = dynamic_cast<Camera*> (*i);
+    if(camera) {
+      if(this->camera != 0) {
+        std::cerr << "Warning: Multiple cameras added. Ignoring.";
+        continue;
+      }
+      this->camera = camera;
+    }
+
+    gameobjects.push_back(*i);
   }
   gameobjects_new.clear();
 }

@@ -23,7 +23,6 @@
 #include <cstdio>
 
 #include "math/physic.h"
-#include "special/timer.h"
 
 using namespace SuperTux;
 

@@ -89,5 +89,3 @@ class TileManager
 };
 
 #endif
-
-/* EOF */

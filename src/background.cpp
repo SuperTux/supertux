@@ -47,6 +47,7 @@ Background::Background(LispReader& reader)
 
 Background::~Background()
 {
+  printf("bgfree.\n");
   delete image;
 }
 
@@ -89,6 +90,7 @@ Background::set_image(const std::string& name, float speed)
   this->imagefile = name;
   this->speed = speed;
 
+  printf("seti %p\n", this);
   delete image;
   image = new Surface(datadir + "/images/background/" + name, false);
 }
@@ -108,17 +110,10 @@ void
 Background::draw(DrawingContext& context)
 {
   if(type == GRADIENT) {
-    /* In case we are using OpenGL just draw the gradient, else (software mode)
-        use the cache. */
-    if(use_gl)
-      context.draw_gradient(gradient_top, gradient_bottom, layer);
-    else
-      {
-      context.push_transform();
-      context.set_translation(Vector(0, 0));
-      context.draw_surface(image, Vector(0, 0), layer);
-      context.pop_transform();
-      }
+    context.push_transform();
+    context.set_translation(Vector(0, 0));
+    context.draw_surface(image, Vector(0, 0), layer);
+    context.pop_transform();
   } else if(type == IMAGE) {
     if(!image)
       return;

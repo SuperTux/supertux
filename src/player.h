@@ -23,7 +23,6 @@
 
 #include "timer.h"
 #include "video/surface.h"
-#include "collision.h"
 #include "special/moving_object.h"
 #include "special/sprite.h"
 #include "math/physic.h"

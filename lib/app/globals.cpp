@@ -70,7 +70,8 @@ std::string st_dir, st_save_dir;
 SDL_Joystick * js;
 
 /* Returns 1 for every button event, 2 for a quit event and 0 for no event. */
-int wait_for_event(SDL_Event& event,unsigned int min_delay, unsigned int max_delay, bool empty_events)
+int wait_for_event(SDL_Event& event, unsigned int min_delay,
+    unsigned int max_delay, bool empty_events)
 {
   int i;
   Timer maxdelay;

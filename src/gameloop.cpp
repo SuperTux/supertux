@@ -50,7 +50,6 @@
 #include "player.h"
 #include "level.h"
 #include "scene.h"
-#include "collision.h"
 #include "tile.h"
 #include "particlesystem.h"
 #include "resources.h"

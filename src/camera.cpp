@@ -52,7 +52,7 @@ Camera::get_translation() const
 }
 
 void
-Camera::read(LispReader& reader)
+Camera::parse(LispReader& reader)
 {
   std::string modename;
   

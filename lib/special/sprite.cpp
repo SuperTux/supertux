@@ -57,7 +57,7 @@ Sprite::set_action(std::string name, int loops)
     return;
 
   SpriteData::Action* newaction = data.get_action(name);
-  if(!action) {
+  if(!newaction) {
 #ifdef DEBUG
     std::cerr << "Action '" << name << "' not found.\n";
 #endif
@@ -72,7 +72,7 @@ Sprite::set_action(std::string name, int loops)
 bool
 Sprite::check_animation()
 {
-  return animation_loops;
+  return animation_loops == 0;
 }
 
 void
@@ -87,14 +87,12 @@ Sprite::update()
 
   frame += frame_inc;
 
-  float lastframe = frame;
-  frame = fmodf(frame+get_frames(), get_frames());
-  if(frame != lastframe) {
-    if(animation_loops > 0) {
-      animation_loops--;
-      if(animation_loops == 0)
-        frame = 0;
-    }
+  if(frame > get_frames()) {
+    frame = fmodf(frame+get_frames(), get_frames());
+    
+    animation_loops--;
+    if(animation_loops == 0)
+      frame = 0;
   }
 }
 
@@ -146,4 +144,3 @@ Sprite::get_height() const
 
 }
 
-/* EOF */

@@ -44,7 +44,7 @@ public:
   virtual ~Camera();
 
   /// parse camera mode from lisp file
-  void read(LispReader& reader);
+  void parse(LispReader& reader);
   /// write camera mode to a lisp file
   virtual void write(LispWriter& writer);
 

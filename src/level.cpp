@@ -126,36 +126,36 @@ Level::load_old_format(LispReader& reader)
 void
 Level::save(const std::string& filename)
 {
- std::string filepath = "levels/" + filename;
- int last_slash = filepath.find_last_of('/');
- FileSystem::fcreatedir(filepath.substr(0,last_slash).c_str());
- filepath = st_dir + "/" + filepath;
- ofstream file(filepath.c_str(), ios::out);
- LispWriter* writer = new LispWriter(file);
+  std::string filepath = "levels/" + filename;
+  int last_slash = filepath.find_last_of('/');
+  FileSystem::fcreatedir(filepath.substr(0,last_slash).c_str());
+  filepath = st_dir + "/" + filepath;
+  ofstream file(filepath.c_str(), ios::out);
+  LispWriter* writer = new LispWriter(file);
 
- writer->write_comment("Level made using SuperTux's built-in Level Editor");
+  writer->write_comment("Level made using SuperTux's built-in Level Editor");
 
- writer->start_list("supertux-level");
+  writer->start_list("supertux-level");
 
- int version = 2;
- writer->write_int("version", version);
+  int version = 2;
+  writer->write_int("version", version);
 
- writer->write_string("name", name);
- writer->write_string("author", author);
- writer->write_int("time", timelimit);
- writer->write_string("end-sequence-animation",
-     end_sequence_type == FIREWORKS_ENDSEQ_ANIM ? "fireworks" : "none");
+  writer->write_string("name", name);
+  writer->write_string("author", author);
+  writer->write_int("time", timelimit);
+  writer->write_string("end-sequence-animation",
+      end_sequence_type == FIREWORKS_ENDSEQ_ANIM ? "fireworks" : "none");
 
- for(Sectors::iterator i = sectors.begin(); i != sectors.end(); ++i) {
-   writer->start_list("sector");
-   i->second->write(*writer);
-   writer->end_list("sector");
- }
+  for(Sectors::iterator i = sectors.begin(); i != sectors.end(); ++i) {
+    writer->start_list("sector");
+    i->second->write(*writer);
+    writer->end_list("sector");
+  }
 
- writer->end_list("supertux-level");
+  writer->end_list("supertux-level");
 
- delete writer;
- file.close();
+  delete writer;
+  file.close();
 }
 
 Level::~Level()
