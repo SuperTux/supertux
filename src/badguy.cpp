@@ -377,15 +377,13 @@ void badguy_draw(bad_guy_type* pbad)
                 {
                   texture_draw(&img_bsod_left[(frame / 5) % 4],
                                pbad->base.x - scroll_x,
-                               pbad->base.y,
-                               NO_UPDATE);
+                               pbad->base.y);
                 }
               else
                 {
                   texture_draw(&img_bsod_right[(frame / 5) % 4],
                                pbad->base.x - scroll_x,
-                               pbad->base.y,
-                               NO_UPDATE);
+                               pbad->base.y);
                 }
             }
           else if (pbad->dying == DYING_FALLING)
@@ -396,15 +394,13 @@ void badguy_draw(bad_guy_type* pbad)
                 {
                   texture_draw(&img_bsod_falling_left,
                                pbad->base.x - scroll_x,
-                               pbad->base.y,
-                               NO_UPDATE);
+                               pbad->base.y);
                 }
               else
                 {
                   texture_draw(&img_bsod_falling_right,
                                pbad->base.x - scroll_x,
-                               pbad->base.y,
-                               NO_UPDATE);
+                               pbad->base.y);
                 }
             }
           else if (pbad->dying == DYING_SQUISHED)
@@ -415,15 +411,13 @@ void badguy_draw(bad_guy_type* pbad)
                 {
                   texture_draw(&img_bsod_squished_left,
                                pbad->base.x - scroll_x,
-                               pbad->base.y + 24,
-                               NO_UPDATE);
+                               pbad->base.y + 24);
                 }
               else
                 {
                   texture_draw(&img_bsod_squished_right,
                                pbad->base.x - scroll_x,
-                               pbad->base.y + 24,
-                               NO_UPDATE);
+                               pbad->base.y + 24);
                 }
             }
         }
@@ -443,15 +437,13 @@ void badguy_draw(bad_guy_type* pbad)
                     {
                       texture_draw(&img_laptop_left[(frame / 5) % 3],
                                    pbad->base.x - scroll_x,
-                                   pbad->base.y,
-                                   NO_UPDATE);
+                                   pbad->base.y);
                     }
                   else
                     {
                       texture_draw(&img_laptop_right[(frame / 5) % 3],
                                    pbad->base.x - scroll_x,
-                                   pbad->base.y,
-                                   NO_UPDATE);
+                                   pbad->base.y);
                     }
                 }
               else
@@ -462,15 +454,13 @@ void badguy_draw(bad_guy_type* pbad)
                     {
                       texture_draw(&img_laptop_flat_left,
                                    pbad->base.x - scroll_x,
-                                   pbad->base.y,
-                                   NO_UPDATE);
+                                   pbad->base.y);
                     }
                   else
                     {
                       texture_draw(&img_laptop_flat_right,
                                    pbad->base.x - scroll_x,
-                                   pbad->base.y,
-                                   NO_UPDATE);
+                                   pbad->base.y);
                     }
                 }
             }
@@ -482,15 +472,13 @@ void badguy_draw(bad_guy_type* pbad)
                 {
                   texture_draw(&img_laptop_falling_left,
                                pbad->base.x - scroll_x,
-                               pbad->base.y,
-                               NO_UPDATE);
+                               pbad->base.y);
                 }
               else
                 {
                   texture_draw(&img_laptop_falling_right,
                                pbad->base.x - scroll_x,
-                               pbad->base.y,
-                               NO_UPDATE);
+                               pbad->base.y);
                 }
             }
         }
@@ -502,15 +490,13 @@ void badguy_draw(bad_guy_type* pbad)
                 {
                   texture_draw(&img_money_left[0],
                                pbad->base.x - scroll_x,
-                               pbad->base.y,
-                               NO_UPDATE);
+                               pbad->base.y);
                 }
               else
                 {
                   texture_draw(&img_money_right[0],
                                pbad->base.x - scroll_x,
-                               pbad->base.y,
-                               NO_UPDATE);
+                               pbad->base.y);
                 }
             }
           else
@@ -519,15 +505,13 @@ void badguy_draw(bad_guy_type* pbad)
                 {
                   texture_draw(&img_money_left[1],
                                pbad->base.x - scroll_x,
-                               pbad->base.y,
-                               NO_UPDATE);
+                               pbad->base.y);
                 }
               else
                 {
                   texture_draw(&img_money_right[1],
                                pbad->base.x - scroll_x,
-                               pbad->base.y,
-                               NO_UPDATE);
+                               pbad->base.y);
                 }
             }
         }

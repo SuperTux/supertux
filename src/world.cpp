@@ -41,8 +41,7 @@ void bouncy_distro_draw(bouncy_distro_type* pbouncy_distro)
 {
       texture_draw(&img_distro[0],
                    pbouncy_distro->base.x - scroll_x,
-                   pbouncy_distro->base.y,
-                   NO_UPDATE);
+                   pbouncy_distro->base.y);
 }
 
 void broken_brick_init(broken_brick_type* pbroken_brick, float x, float y, float xm, float ym)
@@ -77,7 +76,7 @@ SDL_Rect src, dest;
       dest.w = 16;
       dest.h = 16;
 
-      texture_draw_part(&img_brick[0],src.x,src.y,dest.x,dest.y,dest.w,dest.h,NO_UPDATE);
+      texture_draw_part(&img_brick[0],src.x,src.y,dest.x,dest.y,dest.w,dest.h);
 }
 
 void bouncy_brick_init(bouncy_brick_type* pbouncy_brick, float x, float y)
@@ -128,7 +127,7 @@ void bouncy_brick_draw(bouncy_brick_type* pbouncy_brick)
           else
             {
               s = (int)scroll_x / 30;
-              texture_draw_part(&img_bkgd,dest.x + s,dest.y,dest.x,dest.y,dest.w,dest.h,NO_UPDATE);
+              texture_draw_part(&img_bkgd,dest.x + s,dest.y,dest.x,dest.y,dest.w,dest.h);
             }
 
           drawshape(pbouncy_brick->base.x - scroll_x,
@@ -158,6 +157,6 @@ void floating_score_draw(floating_score_type* pfloating_score)
 {
       char str[10];
       sprintf(str, "%d", pfloating_score->value);
-      text_draw(&gold_text, str, (int)pfloating_score->base.x + 16 - strlen(str) * 8, (int)pfloating_score->base.y, 1, NO_UPDATE);
+      text_draw(&gold_text, str, (int)pfloating_score->base.x + 16 - strlen(str) * 8, (int)pfloating_score->base.y, 1);
 }
 

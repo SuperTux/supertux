@@ -132,7 +132,7 @@ int intro(void)
 	  texture_draw(&tux_sit, 270, 400, UPDATE);
 	  texture_draw(&gown_sit, 320, 400, UPDATE);
 	  
-	  text_drawf(&white_text, intro_text[0], 0, -8, A_HMIDDLE, A_BOTTOM, 0, NO_UPDATE);
+	  text_drawf(&white_text, intro_text[0], 0, -8, A_HMIDDLE, A_BOTTOM, 0);
 	}
       
       
@@ -142,14 +142,14 @@ int intro(void)
 	  /* Helicopter begins to fly in: */
 	  
 	  erasecenteredtext(&white_text, intro_text[0], 454, &bkgd, NO_UPDATE, 1);
-	  text_drawf(&white_text, intro_text[1], 0,-8, A_HMIDDLE, A_BOTTOM, 0, NO_UPDATE);
+	  text_drawf(&white_text, intro_text[1], 0,-8, A_HMIDDLE, A_BOTTOM, 0);
 	}
 
       
       if (timer_get_gone(&timer) >= 2000 && timer_get_gone(&timer) < 4000)
 	{
 	  /* Helicopter flying in: */
-	  texture_draw_part(&bkgd,0,32, 0, 32, screen->w, (copter[0].h), NO_UPDATE);
+	  texture_draw_part(&bkgd,0,32, 0, 32, screen->w, (copter[0].h));
 	  
 	  texture_draw(&copter[i % 2],
 		    (float)(timer_get_gone(&timer) - 2000) / 5  - (copter[0].w), 32,
@@ -180,9 +180,9 @@ int intro(void)
       if (timer_get_gone(&timer) >= 4000 && timer_get_gone(&timer) < 8000)
 	{
 	  /* Helicopter sits: */
-	  texture_draw_part(&bkgd,0,32, 0, 32, screen->w, (copter[0].h), NO_UPDATE);
+	  texture_draw_part(&bkgd,0,32, 0, 32, screen->w, (copter[0].h));
 	  
-	  texture_draw(&copter[i % 2], 400 - (copter[0].w), 32, NO_UPDATE);
+	  texture_draw(&copter[i % 2], 400 - (copter[0].w), 32);
 	  update_rect(screen, 0, 32, screen->w, (copter[0].h));
 	}
 
@@ -196,7 +196,7 @@ int intro(void)
 	  
 	  
 	  erasecenteredtext(&white_text, intro_text[1], 454, &bkgd, UPDATE, 1);
-	  text_drawf(&white_text, intro_text[2], 0,-8, A_HMIDDLE, A_BOTTOM, 0, NO_UPDATE);
+	  text_drawf(&white_text, intro_text[2], 0,-8, A_HMIDDLE, A_BOTTOM, 0);
 	}
       
       
@@ -208,7 +208,7 @@ int intro(void)
 		   310, 32 + (copter[0].h), 310,
 		   32 + (copter[0].h),
 		   (gown_upset.w) + 20,
-		   376 + (gown_upset.h) - (copter[0].h), NO_UPDATE);
+		   376 + (gown_upset.h) - (copter[0].h));
 	  
 	  
 	  for (j = 0; j < (gown_upset.sdl_surface -> w); j++)
@@ -226,7 +226,7 @@ int intro(void)
 	      dest.w = src.w;
 	      dest.h = src.h;
 	      
-	      texture_draw_part(&gown_upset,src.x,src.y,dest.x,dest.y,dest.w,dest.h,NO_UPDATE);
+	      texture_draw_part(&gown_upset,src.x,src.y,dest.x,dest.y,dest.w,dest.h);
 	      
 	      height[j] = 400 + rand() % 10 - (int)(300. * ((float)(timer_get_gone(&timer) - 5000)/(float)3000.));
 	      if(height[j] < 105)
@@ -247,7 +247,7 @@ int intro(void)
 		   310, 32 + (copter[0].h), 310,
 		   32 + (copter[0].h),
 		   (gown_upset.w) + 20,
-		   368 + (gown_upset.h) - (copter[0].h), NO_UPDATE);
+		   368 + (gown_upset.h) - (copter[0].h));
 	
 	++scene;
 	  /* Tux gets mad! */
@@ -255,7 +255,7 @@ int intro(void)
 	  texture_draw(&tux_mad, 270, 400, UPDATE);
 	  
 	  erasecenteredtext(&white_text, intro_text[2], 454, &bkgd, UPDATE, 1);
-	  text_drawf(&white_text, intro_text[3], 0,-8, A_HMIDDLE, A_BOTTOM, 0, NO_UPDATE);
+	  text_drawf(&white_text, intro_text[3], 0,-8, A_HMIDDLE, A_BOTTOM, 0);
 	}
       
       
@@ -263,7 +263,7 @@ int intro(void)
 	{
 	  /* Helicopter starting to speed off: */
 	  
-	  texture_draw_part(&bkgd, 0, 32, 0, 32, screen->w, (copter_squish.h), NO_UPDATE);
+	  texture_draw_part(&bkgd, 0, 32, 0, 32, screen->w, (copter_squish.h));
 	  
 	  texture_draw(&copter_squish,
 		    400 - (copter[0].w), 32,
@@ -277,7 +277,7 @@ int intro(void)
 	{
 	  /* Helicopter speeding off: */
 	  
-	  texture_draw_part(&bkgd, 0, 32, 0, 32, screen->w, (copter_stretch.h), NO_UPDATE);
+	  texture_draw_part(&bkgd, 0, 32, 0, 32, screen->w, (copter_stretch.h));
 	  
 	  texture_draw(&copter_stretch,
 		    (timer_get_gone(&timer) - 8250) /*(i - (8250 / FPS)) * 30*/ + 400 - (copter[0].w),

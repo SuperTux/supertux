@@ -624,14 +624,12 @@ void player_draw(player_type* pplayer)
               if (pplayer->dir == RIGHT)
                 {
                   texture_draw(&cape_right[frame % 2],
-                               pplayer->base.x- scroll_x, pplayer->base.y,
-                               NO_UPDATE);
+                               pplayer->base.x- scroll_x, pplayer->base.y);
                 }
               else
                 {
                   texture_draw(&cape_left[frame % 2],
-                               pplayer->base.x- scroll_x, pplayer->base.y,
-                               NO_UPDATE);
+                               pplayer->base.x- scroll_x, pplayer->base.y);
                 }
             }
 
@@ -640,11 +638,11 @@ void player_draw(player_type* pplayer)
             {
               if (pplayer->dir == RIGHT)
                 {
-                  texture_draw(&tux_right[pplayer->frame], pplayer->base.x- scroll_x, pplayer->base.y, NO_UPDATE);
+                  texture_draw(&tux_right[pplayer->frame], pplayer->base.x- scroll_x, pplayer->base.y);
                 }
               else
                 {
-                  texture_draw(&tux_left[pplayer->frame], pplayer->base.x- scroll_x, pplayer->base.y, NO_UPDATE);
+                  texture_draw(&tux_left[pplayer->frame], pplayer->base.x- scroll_x, pplayer->base.y);
                 }
             }
           else
@@ -653,11 +651,11 @@ void player_draw(player_type* pplayer)
 
               if (pplayer->dir == RIGHT)
                 {
-                  texture_draw(&firetux_right[pplayer->frame], pplayer->base.x- scroll_x, pplayer->base.y, NO_UPDATE);
+                  texture_draw(&firetux_right[pplayer->frame], pplayer->base.x- scroll_x, pplayer->base.y);
                 }
               else
                 {
-                  texture_draw(&firetux_left[pplayer->frame], pplayer->base.x- scroll_x, pplayer->base.y, NO_UPDATE);
+                  texture_draw(&firetux_left[pplayer->frame], pplayer->base.x- scroll_x, pplayer->base.y);
                 }
             }
         }
@@ -670,14 +668,12 @@ void player_draw(player_type* pplayer)
               if (pplayer->dir == RIGHT)
                 {
                   texture_draw(&bigcape_right[frame % 2],
-                               pplayer->base.x- scroll_x - 8, pplayer->base.y,
-                               NO_UPDATE);
+                               pplayer->base.x- scroll_x - 8, pplayer->base.y);
                 }
               else
                 {
                   texture_draw(&bigcape_left[frame % 2],
-                               pplayer->base.x-scroll_x - 8, pplayer->base.y,
-                               NO_UPDATE);
+                               pplayer->base.x-scroll_x - 8, pplayer->base.y);
                 }
             }
 
@@ -692,14 +688,12 @@ void player_draw(player_type* pplayer)
                           if (pplayer->dir == RIGHT)
                             {
                               texture_draw(&bigtux_right[pplayer->frame],
-                                           pplayer->base.x- scroll_x - 8, pplayer->base.y,
-                                           NO_UPDATE);
+                                           pplayer->base.x- scroll_x - 8, pplayer->base.y);
                             }
                           else
                             {
                               texture_draw(&bigtux_left[pplayer->frame],
-                                           pplayer->base.x- scroll_x - 8, pplayer->base.y,
-                                           NO_UPDATE);
+                                           pplayer->base.x- scroll_x - 8, pplayer->base.y);
                             }
                         }
                       else
@@ -707,14 +701,12 @@ void player_draw(player_type* pplayer)
                           if (pplayer->dir == RIGHT)
                             {
                               texture_draw(&bigtux_right_jump,
-                                           pplayer->base.x- scroll_x - 8, pplayer->base.y,
-                                           NO_UPDATE);
+                                           pplayer->base.x- scroll_x - 8, pplayer->base.y);
                             }
                           else
                             {
                               texture_draw(&bigtux_left_jump,
-                                           pplayer->base.x- scroll_x - 8, pplayer->base.y,
-                                           NO_UPDATE);
+                                           pplayer->base.x- scroll_x - 8, pplayer->base.y);
                             }
                         }
                     }
@@ -723,14 +715,12 @@ void player_draw(player_type* pplayer)
                       if (pplayer->dir == RIGHT)
                         {
                           texture_draw(&skidtux_right,
-                                       pplayer->base.x- scroll_x - 8, pplayer->base.y,
-                                       NO_UPDATE);
+                                       pplayer->base.x- scroll_x - 8, pplayer->base.y);
                         }
                       else
                         {
                           texture_draw(&skidtux_left,
-                                       pplayer->base.x- scroll_x - 8, pplayer->base.y,
-                                       NO_UPDATE);
+                                       pplayer->base.x- scroll_x - 8, pplayer->base.y);
                         }
                     }
                 }
@@ -738,13 +728,11 @@ void player_draw(player_type* pplayer)
                 {
                   if (pplayer->dir == RIGHT)
                     {
-                      texture_draw(&ducktux_right, pplayer->base.x- scroll_x - 8, pplayer->base.y - 16,
-                                   NO_UPDATE);
+                      texture_draw(&ducktux_right, pplayer->base.x- scroll_x - 8, pplayer->base.y - 16);
                     }
                   else
                     {
-                      texture_draw(&ducktux_left, pplayer->base.x- scroll_x - 8, pplayer->base.y - 16,
-                                   NO_UPDATE);
+                      texture_draw(&ducktux_left, pplayer->base.x- scroll_x - 8, pplayer->base.y - 16);
                     }
                 }
             }
@@ -761,14 +749,12 @@ void player_draw(player_type* pplayer)
                           if (pplayer->dir == RIGHT)
                             {
                               texture_draw(&bigfiretux_right[pplayer->frame],
-                                           pplayer->base.x- scroll_x - 8, pplayer->base.y,
-                                           NO_UPDATE);
+                                           pplayer->base.x- scroll_x - 8, pplayer->base.y);
                             }
                           else
                             {
                               texture_draw(&bigfiretux_left[pplayer->frame],
-                                           pplayer->base.x- scroll_x - 8, pplayer->base.y,
-                                           NO_UPDATE);
+                                           pplayer->base.x- scroll_x - 8, pplayer->base.y);
                             }
                         }
                       else
@@ -776,14 +762,12 @@ void player_draw(player_type* pplayer)
                           if (pplayer->dir == RIGHT)
                             {
                               texture_draw(&bigfiretux_right_jump,
-                                           pplayer->base.x- scroll_x - 8, pplayer->base.y,
-                                           NO_UPDATE);
+                                           pplayer->base.x- scroll_x - 8, pplayer->base.y);
                             }
                           else
                             {
                               texture_draw(&bigfiretux_left_jump,
-                                           pplayer->base.x- scroll_x - 8, pplayer->base.y,
-                                           NO_UPDATE);
+                                           pplayer->base.x- scroll_x - 8, pplayer->base.y);
                             }
                         }
                     }
@@ -792,14 +776,12 @@ void player_draw(player_type* pplayer)
                       if (pplayer->dir == RIGHT)
                         {
                           texture_draw(&skidfiretux_right,
-                                       pplayer->base.x- scroll_x - 8, pplayer->base.y,
-                                       NO_UPDATE);
+                                       pplayer->base.x- scroll_x - 8, pplayer->base.y);
                         }
                       else
                         {
                           texture_draw(&skidfiretux_left,
-                                       pplayer->base.x- scroll_x - 8, pplayer->base.y,
-                                       NO_UPDATE);
+                                       pplayer->base.x- scroll_x - 8, pplayer->base.y);
                         }
                     }
                 }
@@ -807,13 +789,11 @@ void player_draw(player_type* pplayer)
                 {
                   if (pplayer->dir == RIGHT)
                     {
-                      texture_draw(&duckfiretux_right, pplayer->base.x- scroll_x - 8, pplayer->base.y - 16,
-                                   NO_UPDATE);
+                      texture_draw(&duckfiretux_right, pplayer->base.x- scroll_x - 8, pplayer->base.y - 16);
                     }
                   else
                     {
-                      texture_draw(&duckfiretux_left, pplayer->base.x- scroll_x - 8, pplayer->base.y - 16,
-                                   NO_UPDATE);
+                      texture_draw(&duckfiretux_left, pplayer->base.x- scroll_x - 8, pplayer->base.y - 16);
                     }
                 }
             }

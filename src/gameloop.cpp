@@ -76,13 +76,13 @@ void levelintro(void)
   clearscreen(0, 0, 0);
 
   sprintf(str, "LEVEL %d", level);
-  text_drawf(&blue_text, str, 0, 200, A_HMIDDLE, A_TOP, 1, NO_UPDATE);
+  text_drawf(&blue_text, str, 0, 200, A_HMIDDLE, A_TOP, 1);
 
   sprintf(str, "%s", current_level.name.c_str());
-  text_drawf(&gold_text, str, 0, 224, A_HMIDDLE, A_TOP, 1, NO_UPDATE);
+  text_drawf(&gold_text, str, 0, 224, A_HMIDDLE, A_TOP, 1);
 
   sprintf(str, "TUX x %d", tux.lives);
-  text_drawf(&white_text, str, 0, 256, A_HMIDDLE, A_TOP, 1, NO_UPDATE);
+  text_drawf(&white_text, str, 0, 256, A_HMIDDLE, A_TOP, 1);
 
   flipscreen();
 
@@ -465,15 +465,15 @@ void game_draw(void)
   if (tux.dying && (frame % 4) == 0)
     clearscreen(255, 255, 255);
   else if(timer_check(&super_bkgd_timer))
-    texture_draw(&img_super_bkgd, 0, 0, NO_UPDATE);
+    texture_draw(&img_super_bkgd, 0, 0);
   else
     {
       /* Draw the real background */
       if(current_level.bkgd_image[0] != '\0')
         {
           s = (int)scroll_x / 30;
-          texture_draw_part(&img_bkgd,s,0,0,0,img_bkgd.w - s, img_bkgd.h, NO_UPDATE);
-          texture_draw_part(&img_bkgd,0,0,screen->w - s ,0,s,img_bkgd.h, NO_UPDATE);
+          texture_draw_part(&img_bkgd,s,0,0,0,img_bkgd.w - s, img_bkgd.h);
+          texture_draw_part(&img_bkgd,0,0,screen->w - s ,0,s,img_bkgd.h);
         }
       else
         {
@@ -561,7 +561,7 @@ void game_draw(void)
           fillrect(i % 2 ? (pause_menu_frame * i)%screen->w : -((pause_menu_frame * i)%screen->w) ,(i*20+pause_menu_frame)%screen->h,screen->w,10,20,20,20, rand() % 20 + 1);
         }
       fillrect(0,0,screen->w,screen->h,rand() % 50, rand() % 50, rand() % 50, 128);
-      text_drawf(&blue_text, "PAUSE - Press 'P' To Play", 0, 230, A_HMIDDLE, A_TOP, 1, NO_UPDATE);
+      text_drawf(&blue_text, "PAUSE - Press 'P' To Play", 0, 230, A_HMIDDLE, A_TOP, 1);
     }
 
   if(show_menu)
@@ -1296,62 +1296,62 @@ void drawshape(float x, float y, unsigned char c)
   int z;
 
   if (c == 'X' || c == 'x')
-    texture_draw(&img_brick[0], x, y, NO_UPDATE);
+    texture_draw(&img_brick[0], x, y);
   else if (c == 'Y' || c == 'y')
-    texture_draw(&img_brick[1], x, y, NO_UPDATE);
+    texture_draw(&img_brick[1], x, y);
   else if (c == 'A' || c =='B' || c == '!')
-    texture_draw(&img_box_full, x, y, NO_UPDATE);
+    texture_draw(&img_box_full, x, y);
   else if (c == 'a')
-    texture_draw(&img_box_empty, x, y, NO_UPDATE);
+    texture_draw(&img_box_empty, x, y);
   else if (c >= 'C' && c <= 'F')
-    texture_draw(&img_cloud[0][c - 'C'], x, y, NO_UPDATE);
+    texture_draw(&img_cloud[0][c - 'C'], x, y);
   else if (c >= 'c' && c <= 'f')
-    texture_draw(&img_cloud[1][c - 'c'], x, y, NO_UPDATE);
+    texture_draw(&img_cloud[1][c - 'c'], x, y);
   else if (c >= 'G' && c <= 'J')
-    texture_draw(&img_bkgd_tile[0][c - 'G'], x, y, NO_UPDATE);
+    texture_draw(&img_bkgd_tile[0][c - 'G'], x, y);
   else if (c >= 'g' && c <= 'j')
-    texture_draw(&img_bkgd_tile[1][c - 'g'], x, y, NO_UPDATE);
+    texture_draw(&img_bkgd_tile[1][c - 'g'], x, y);
   else if (c == '#')
-    texture_draw(&img_solid[0], x, y, NO_UPDATE);
+    texture_draw(&img_solid[0], x, y);
   else if (c == '[')
-    texture_draw(&img_solid[1], x, y, NO_UPDATE);
+    texture_draw(&img_solid[1], x, y);
   else if (c == '=')
-    texture_draw(&img_solid[2], x, y, NO_UPDATE);
+    texture_draw(&img_solid[2], x, y);
   else if (c == ']')
-    texture_draw(&img_solid[3], x, y, NO_UPDATE);
+    texture_draw(&img_solid[3], x, y);
   else if (c == '$')
     {
 
       z = (frame / 2) % 6;
 
       if (z < 4)
-        texture_draw(&img_distro[z], x, y, NO_UPDATE);
+        texture_draw(&img_distro[z], x, y);
       else if (z == 4)
-        texture_draw(&img_distro[2], x, y, NO_UPDATE);
+        texture_draw(&img_distro[2], x, y);
       else if (z == 5)
-        texture_draw(&img_distro[1], x, y, NO_UPDATE);
+        texture_draw(&img_distro[1], x, y);
     }
   else if (c == '^')
     {
       z = (frame / 3) % 3;
 
-      texture_draw(&img_waves[z], x, y, NO_UPDATE);
+      texture_draw(&img_waves[z], x, y);
     }
   else if (c == '*')
-    texture_draw(&img_poletop, x, y, NO_UPDATE);
+    texture_draw(&img_poletop, x, y);
   else if (c == '|')
     {
-      texture_draw(&img_pole, x, y, NO_UPDATE);
+      texture_draw(&img_pole, x, y);
 
     }
   else if (c == '\\')
     {
       z = (frame / 3) % 2;
 
-      texture_draw(&img_flag[z], x + 16, y, NO_UPDATE);
+      texture_draw(&img_flag[z], x + 16, y);
     }
   else if (c == '&')
-    texture_draw(&img_water, x, y, NO_UPDATE);
+    texture_draw(&img_water, x, y);
 }
 
 
@@ -1586,43 +1586,43 @@ void drawstatus(void)
   int i;
 
   sprintf(str, "%d", score);
-  text_draw(&white_text, "SCORE", 0, 0, 1, NO_UPDATE);
-  text_draw(&gold_text, str, 96, 0, 1, NO_UPDATE);
+  text_draw(&white_text, "SCORE", 0, 0, 1);
+  text_draw(&gold_text, str, 96, 0, 1);
 
   if(st_gl_mode != ST_GL_TEST)
     {
       sprintf(str, "%d", hs_score);
-      text_draw(&white_text, "HIGH", 0, 20, 1, NO_UPDATE);
-      text_draw(&gold_text, str, 96, 20, 1, NO_UPDATE);
+      text_draw(&white_text, "HIGH", 0, 20, 1);
+      text_draw(&gold_text, str, 96, 20, 1);
     }
   else
     {
-      text_draw(&white_text,"Press ESC To Return",0,20,1, NO_UPDATE);
+      text_draw(&white_text,"Press ESC To Return",0,20,1);
     }
 
   if (timer_get_left(&time_left) > TIME_WARNING || (frame % 10) < 5)
     {
       sprintf(str, "%d", timer_get_left(&time_left) / 1000 );
-      text_draw(&white_text, "TIME", 224, 0, 1, NO_UPDATE);
-      text_draw(&gold_text, str, 304, 0, 1, NO_UPDATE);
+      text_draw(&white_text, "TIME", 224, 0, 1);
+      text_draw(&gold_text, str, 304, 0, 1);
     }
 
   sprintf(str, "%d", distros);
-  text_draw(&white_text, "DISTROS", screen->h, 0, 1, NO_UPDATE);
-  text_draw(&gold_text, str, 608, 0, 1, NO_UPDATE);
+  text_draw(&white_text, "DISTROS", screen->h, 0, 1);
+  text_draw(&gold_text, str, 608, 0, 1);
 
-  text_draw(&white_text, "LIVES", screen->h, 20, 1, NO_UPDATE);
+  text_draw(&white_text, "LIVES", screen->h, 20, 1);
 
   if(show_fps)
     {
       sprintf(str, "%2.1f", fps_fps);
-      text_draw(&white_text, "FPS", screen->h, 40, 1, NO_UPDATE);
-      text_draw(&gold_text, str, screen->h + 60, 40, 1, NO_UPDATE);
+      text_draw(&white_text, "FPS", screen->h, 40, 1);
+      text_draw(&gold_text, str, screen->h + 60, 40, 1);
     }
 
   for(i=0; i < tux.lives; ++i)
     {
-      texture_draw(&tux_life,565+(18*i),20,NO_UPDATE);
+      texture_draw(&tux_life,565+(18*i),20);
     }
 }
 
@@ -1633,13 +1633,13 @@ void drawendscreen(void)
 
   clearscreen(0, 0, 0);
 
-  text_drawf(&blue_text, "GAMEOVER", 0, 200, A_HMIDDLE, A_TOP, 1, NO_UPDATE);
+  text_drawf(&blue_text, "GAMEOVER", 0, 200, A_HMIDDLE, A_TOP, 1);
 
   sprintf(str, "SCORE: %d", score);
-  text_drawf(&gold_text, str, 0, 224, A_HMIDDLE, A_TOP, 1, NO_UPDATE);
+  text_drawf(&gold_text, str, 0, 224, A_HMIDDLE, A_TOP, 1);
 
   sprintf(str, "DISTROS: %d", distros);
-  text_drawf(&gold_text, str, 0, 256, A_HMIDDLE, A_TOP, 1, NO_UPDATE);
+  text_drawf(&gold_text, str, 0, 256, A_HMIDDLE, A_TOP, 1);
 
   flipscreen();
   SDL_Delay(2000);
@@ -1651,13 +1651,13 @@ void drawresultscreen(void)
 
   clearscreen(0, 0, 0);
 
-  text_drawf(&blue_text, "Result:", 0, 200, A_HMIDDLE, A_TOP, 1, NO_UPDATE);
+  text_drawf(&blue_text, "Result:", 0, 200, A_HMIDDLE, A_TOP, 1);
 
   sprintf(str, "SCORE: %d", score);
-  text_drawf(&gold_text, str, 0, 224, A_HMIDDLE, A_TOP, 1, NO_UPDATE);
+  text_drawf(&gold_text, str, 0, 224, A_HMIDDLE, A_TOP, 1);
 
   sprintf(str, "DISTROS: %d", distros);
-  text_drawf(&gold_text, str, 0, 256, A_HMIDDLE, A_TOP, 1, NO_UPDATE);
+  text_drawf(&gold_text, str, 0, 256, A_HMIDDLE, A_TOP, 1);
 
   flipscreen();
   SDL_Delay(2000);

@@ -47,18 +47,18 @@ void draw_background()
 {
   /* Draw the title background: */
 
-  texture_draw_bg(&bkg_title, NO_UPDATE);
+  texture_draw_bg(&bkg_title);
 
   /* Animate title screen: */
 
   pict = (frame / 5) % 3;
 
   if (pict == 0)
-    texture_draw_part(&bkg_title, 560, 270, 560, 270, 80, 75, NO_UPDATE);
+    texture_draw_part(&bkg_title, 560, 270, 560, 270, 80, 75);
   else if (pict == 1)
-    texture_draw(&anim1, 560, 270, NO_UPDATE);
+    texture_draw(&anim1, 560, 270);
   else if (pict == 2)
-    texture_draw(&anim2, 560, 270, NO_UPDATE);
+    texture_draw(&anim2, 560, 270);
 }
 
 /* --- TITLE SCREEN --- */
@@ -93,7 +93,7 @@ int title(void)
   frame = 0;
 
   /* Draw the title background: */
-  texture_draw_bg(&bkg_title, NO_UPDATE);
+  texture_draw_bg(&bkg_title);
 
   load_hs();
 
@@ -143,9 +143,9 @@ int title(void)
 
       /* Draw the high score: */
       sprintf(str, "High score: %d", hs_score);
-      text_drawf(&gold_text, str, 0, -40, A_HMIDDLE, A_BOTTOM, 1, NO_UPDATE);
+      text_drawf(&gold_text, str, 0, -40, A_HMIDDLE, A_BOTTOM, 1);
       sprintf(str, "by %s", hs_name);
-      text_drawf(&gold_text, str, 0, -20, A_HMIDDLE, A_BOTTOM, 1, NO_UPDATE);
+      text_drawf(&gold_text, str, 0, -20, A_HMIDDLE, A_BOTTOM, 1);
 
       /* Don't draw menu, if quit is true */
       if(show_menu && !quit)
@@ -163,19 +163,19 @@ int title(void)
                   subset.load(level_subsets.item[0]);
                   while(!done)
                     {
-                      texture_draw(&img_choose_subset,(screen->w - img_choose_subset.w) / 2, 0, NO_UPDATE);
+                      texture_draw(&img_choose_subset,(screen->w - img_choose_subset.w) / 2, 0);
                       if(level_subsets.num_items != 0)
                         {
-                          texture_draw(&subset.image,(screen->w - subset.image.w) / 2 + 25,78,NO_UPDATE);
+                          texture_draw(&subset.image,(screen->w - subset.image.w) / 2 + 25,78);
                           if(level_subsets.num_items > 1)
                             {
                               if(i > 0)
-                                texture_draw(&arrow_left,(screen->w / 2) - ((subset.title.length()+2)*16)/2,20,NO_UPDATE);
+                                texture_draw(&arrow_left,(screen->w / 2) - ((subset.title.length()+2)*16)/2,20);
                               if(i < level_subsets.num_items-1)
-                                texture_draw(&arrow_right,(screen->w / 2) + ((subset.description.length())*16)/2,20,NO_UPDATE);
+                                texture_draw(&arrow_right,(screen->w / 2) + ((subset.description.length())*16)/2,20);
                             }
-                          text_drawf(&gold_text, subset.title.c_str(), 0, 20, A_HMIDDLE, A_TOP, 1, NO_UPDATE);
-                          text_drawf(&gold_text, subset.description.c_str(), 20, -20, A_HMIDDLE, A_BOTTOM, 1, NO_UPDATE);
+                          text_drawf(&gold_text, subset.title.c_str(), 0, 20, A_HMIDDLE, A_TOP, 1);
+                          text_drawf(&gold_text, subset.description.c_str(), 20, -20, A_HMIDDLE, A_BOTTOM, 1);
                         }
                       updatescreen();
                       SDL_Delay(50);
@@ -362,7 +362,7 @@ void display_credits()
 
       draw_background();
 
-      text_drawf(&white_big_text, "- Credits -", 0, screen->h-scroll, A_HMIDDLE, A_TOP, 2, NO_UPDATE);
+      text_drawf(&white_big_text, "- Credits -", 0, screen->h-scroll, A_HMIDDLE, A_TOP, 2);
 
       for(i = 0, n = 0, d = 0; i < length; i++,n++,d++)
         {
@@ -371,18 +371,18 @@ void display_credits()
           else
             {
               if(names.item[i][0] == ' ')
-                text_drawf(&white_small_text, names.item[i], 0, 60+screen->h+(n*18)+(d*18)-scroll-10, A_HMIDDLE, A_TOP, 1, NO_UPDATE);
+                text_drawf(&white_small_text, names.item[i], 0, 60+screen->h+(n*18)+(d*18)-scroll-10, A_HMIDDLE, A_TOP, 1);
               else if(names.item[i][0] == '	')
-                text_drawf(&white_text, names.item[i], 0, 60+screen->h+(n*18)+(d*18)-scroll, A_HMIDDLE, A_TOP, 1, NO_UPDATE);
+                text_drawf(&white_text, names.item[i], 0, 60+screen->h+(n*18)+(d*18)-scroll, A_HMIDDLE, A_TOP, 1);
               else if(names.item[i+1][0] == '-' || names.item[i][0] == '-')
-                text_drawf(&white_big_text, names.item[i], 0, 60+screen->h+(n*18)+(d*18)-scroll, A_HMIDDLE, A_TOP, 3, NO_UPDATE);
+                text_drawf(&white_big_text, names.item[i], 0, 60+screen->h+(n*18)+(d*18)-scroll, A_HMIDDLE, A_TOP, 3);
               else
-                text_drawf(&blue_text, names.item[i], 0, 60+screen->h+(n*18)+(d*18)-scroll, A_HMIDDLE, A_TOP, 1, NO_UPDATE);
+                text_drawf(&blue_text, names.item[i], 0, 60+screen->h+(n*18)+(d*18)-scroll, A_HMIDDLE, A_TOP, 1);
             }
         }
 
 
-      texture_draw_part(&bkg_title, 0, 0, 0, 0, 640, 130, NO_UPDATE);
+      texture_draw_part(&bkg_title, 0, 0, 0, 0, 640, 130);
 
       flipscreen();
 

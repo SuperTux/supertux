@@ -737,7 +737,7 @@ void le_drawinterface()
     }
 
   if(le_selection_mode == CURSOR)
-    texture_draw(&le_selection, cursor_x - pos_x, cursor_y, NO_UPDATE);
+    texture_draw(&le_selection, cursor_x - pos_x, cursor_y);
   else if(le_selection_mode == SQUARE)
     {
       int w, h;
@@ -758,24 +758,24 @@ void le_drawinterface()
   switch(le_current_tile)
     {
     case 'B':
-      texture_draw(&img_mints, 19 * 32, 14 * 32, NO_UPDATE);
+      texture_draw(&img_mints, 19 * 32, 14 * 32);
       break;
     case '!':
-      texture_draw(&img_golden_herring,19 * 32, 14 * 32, NO_UPDATE);
+      texture_draw(&img_golden_herring,19 * 32, 14 * 32);
       break;
     case 'x':
     case 'y':
     case 'A':
-      texture_draw(&img_distro[(le_frame / 5) % 4], 19 * 32, 14 * 32, NO_UPDATE);
+      texture_draw(&img_distro[(le_frame / 5) % 4], 19 * 32, 14 * 32);
       break;
     case '0':
-      texture_draw(&img_bsod_left[(le_frame / 5) % 4],19 * 32, 14 * 32, NO_UPDATE);
+      texture_draw(&img_bsod_left[(le_frame / 5) % 4],19 * 32, 14 * 32);
       break;
     case '1':
-      texture_draw(&img_laptop_left[(le_frame / 5) % 3],19 * 32, 14 * 32, NO_UPDATE);
+      texture_draw(&img_laptop_left[(le_frame / 5) % 3],19 * 32, 14 * 32);
       break;
     case '2':
-      texture_draw(&img_money_left[0],19 * 32, 14 * 32, NO_UPDATE);
+      texture_draw(&img_money_left[0],19 * 32, 14 * 32);
       break;
     default:
       break;
@@ -801,16 +801,16 @@ void le_drawinterface()
       button_panel_draw(&le_bad_panel);
 
       sprintf(str, "%d/%d", le_level,le_level_subset.levels);
-      text_drawf(&white_text, str, -8, 16, A_RIGHT, A_TOP, 1, NO_UPDATE);
+      text_drawf(&white_text, str, -8, 16, A_RIGHT, A_TOP, 1);
 
-      text_draw(&white_small_text, "F1 for Help", 10, 430, 1, NO_UPDATE);
+      text_draw(&white_small_text, "F1 for Help", 10, 430, 1);
     }
   else
     {
       if(show_menu == false)
-        text_draw(&white_small_text, "No Level Subset loaded - Press ESC and choose one in the menu", 10, 430, 1, NO_UPDATE);
+        text_draw(&white_small_text, "No Level Subset loaded - Press ESC and choose one in the menu", 10, 430, 1);
       else
-        text_draw(&white_small_text, "No Level Subset loaded", 10, 430, 1, NO_UPDATE);
+        text_draw(&white_small_text, "No Level Subset loaded", 10, 430, 1);
     }
 
 }
@@ -823,8 +823,8 @@ void le_drawlevel()
   if(le_current_level->bkgd_image[0] != '\0')
     {
       s = pos_x / 30;
-      texture_draw_part(&img_bkgd,s,0,0,0,img_bkgd.w - s - 32, img_bkgd.h, NO_UPDATE);
-      texture_draw_part(&img_bkgd,0,0,screen->w - s - 32 ,0,s,img_bkgd.h, NO_UPDATE);
+      texture_draw_part(&img_bkgd,s,0,0,0,img_bkgd.w - s - 32, img_bkgd.h);
+      texture_draw_part(&img_bkgd,0,0,screen->w - s - 32 ,0,s,img_bkgd.h);
     }
   else
     {
@@ -843,15 +843,15 @@ void le_drawlevel()
         switch(le_current_level->tiles[y][x + (int)(pos_x/32)])
           {
           case 'B':
-            texture_draw(&img_mints, x * 32 - ((int)pos_x % 32), y*32, NO_UPDATE);
+            texture_draw(&img_mints, x * 32 - ((int)pos_x % 32), y*32);
             break;
           case '!':
-            texture_draw(&img_golden_herring, x * 32 - ((int)pos_x % 32), y*32, NO_UPDATE);
+            texture_draw(&img_golden_herring, x * 32 - ((int)pos_x % 32), y*32);
             break;
           case 'x':
           case 'y':
           case 'A':
-            texture_draw(&img_distro[(frame / 5) % 4], x * 32 - ((int)pos_x % 32), y*32, NO_UPDATE);
+            texture_draw(&img_distro[(frame / 5) % 4], x * 32 - ((int)pos_x % 32), y*32);
             break;
           default:
             break;
@@ -863,17 +863,17 @@ void le_drawlevel()
     {
       /* to support frames: img_bsod_left[(frame / 5) % 4] */
       if(bad_guys[i].kind == BAD_BSOD)
-        texture_draw(&img_bsod_left[(le_frame / 5) % 4], bad_guys[i].base.x - pos_x, bad_guys[i].base.y, NO_UPDATE);
+        texture_draw(&img_bsod_left[(le_frame / 5) % 4], bad_guys[i].base.x - pos_x, bad_guys[i].base.y);
       else if(bad_guys[i].kind == BAD_LAPTOP)
-        texture_draw(&img_laptop_left[(le_frame / 5) % 3], bad_guys[i].base.x - pos_x, bad_guys[i].base.y, NO_UPDATE);
+        texture_draw(&img_laptop_left[(le_frame / 5) % 3], bad_guys[i].base.x - pos_x, bad_guys[i].base.y);
       else if (bad_guys[i].kind == BAD_MONEY)
-        texture_draw(&img_money_left[(le_frame / 5) % 2], bad_guys[i].base.x - pos_x, bad_guys[i].base.y, NO_UPDATE);
+        texture_draw(&img_money_left[(le_frame / 5) % 2], bad_guys[i].base.x - pos_x, bad_guys[i].base.y);
     }
 
 
   /* Draw the player: */
   /* for now, the position is fixed at (0, 240) */
-  texture_draw(&tux_right[(frame / 5) % 3], 0 - pos_x, 240, NO_UPDATE);
+  texture_draw(&tux_right[(frame / 5) % 3], 0 - pos_x, 240);
 }
 
 void le_checkevents()
@@ -1061,9 +1061,9 @@ void le_checkevents()
                           char str[1024];
                           int d = 0;
                           sprintf(str,"Level %d doesn't exist.",le_level+1);
-                          text_drawf(&white_text,str,0,-18,A_HMIDDLE,A_VMIDDLE,2,NO_UPDATE);
-                          text_drawf(&white_text,"Do you want to create it?",0,0,A_HMIDDLE,A_VMIDDLE,2,NO_UPDATE);
-                          text_drawf(&red_text,"(Y)es/(N)o",0,20,A_HMIDDLE,A_VMIDDLE,2,NO_UPDATE);
+                          text_drawf(&white_text,str,0,-18,A_HMIDDLE,A_VMIDDLE,2);
+                          text_drawf(&white_text,"Do you want to create it?",0,0,A_HMIDDLE,A_VMIDDLE,2);
+                          text_drawf(&red_text,"(Y)es/(N)o",0,20,A_HMIDDLE,A_VMIDDLE,2);
                           flipscreen();
                           while(d == 0)
                             {
@@ -1438,12 +1438,12 @@ void le_showhelp()
                  };
 
 
-  text_drawf(&blue_text, "- Help -", 0, 30, A_HMIDDLE, A_TOP, 2, NO_UPDATE);
+  text_drawf(&blue_text, "- Help -", 0, 30, A_HMIDDLE, A_TOP, 2);
 
   for(i = 0; i < sizeof(text)/sizeof(char *); i++)
-    text_draw(&white_small_text, text[i], 5, 80+(i*12), 1, NO_UPDATE);
+    text_draw(&white_small_text, text[i], 5, 80+(i*12), 1);
 
-  text_drawf(&gold_text, "Press Any Key to Continue", 0, 440, A_HMIDDLE, A_TOP, 1, NO_UPDATE);
+  text_drawf(&gold_text, "Press Any Key to Continue", 0, 440, A_HMIDDLE, A_TOP, 1);
 
   flipscreen();
 

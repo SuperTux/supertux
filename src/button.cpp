@@ -87,9 +87,9 @@ void button_draw(button_type* pbutton)
   fillrect(pbutton->x+1,pbutton->y+1,pbutton->w-2,pbutton->h-2,175,175,175,200);
   if(pbutton->bkgd != NULL)
   {
-  texture_draw(pbutton->bkgd,pbutton->x,pbutton->y,NO_UPDATE);
+  texture_draw(pbutton->bkgd,pbutton->x,pbutton->y);
   }
-  texture_draw(&pbutton->icon,pbutton->x,pbutton->y,NO_UPDATE);
+  texture_draw(&pbutton->icon,pbutton->x,pbutton->y);
   if(pbutton->show_info)
     {
       char str[80];
@@ -99,9 +99,9 @@ void button_draw(button_type* pbutton)
         i = pbutton->w + strlen(pbutton->info) * white_small_text.w;
 
       if(pbutton->info)
-        text_draw(&white_small_text, pbutton->info, i + pbutton->x - strlen(pbutton->info) * white_small_text.w, pbutton->y, 1, NO_UPDATE);
+        text_draw(&white_small_text, pbutton->info, i + pbutton->x - strlen(pbutton->info) * white_small_text.w, pbutton->y, 1);
       sprintf(str,"(%s)", SDL_GetKeyName(pbutton->shortcut));
-      text_draw(&white_small_text, str, i + pbutton->x - strlen(str) * white_small_text.w, pbutton->y + white_small_text.h+2, 1, NO_UPDATE);
+      text_draw(&white_small_text, str, i + pbutton->x - strlen(str) * white_small_text.w, pbutton->y + white_small_text.h+2, 1);
     }
   if(pbutton->state == BUTTON_PRESSED)
     fillrect(pbutton->x,pbutton->y,pbutton->w,pbutton->h,75,75,75,200);
