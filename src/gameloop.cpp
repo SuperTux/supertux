@@ -294,7 +294,7 @@ void game_event(void)
 
 int game_action(void)
 {
-  int i;
+  unsigned int i;
 
   /* (tux_dying || next_level) */
   if (tux.dying || next_level)
@@ -457,7 +457,8 @@ int game_action(void)
 
 void game_draw(void)
 {
-  int  x, y, i, s;
+  int y, s;
+  unsigned int i,x;
 
   /* Draw screen: */
 
@@ -1565,7 +1566,7 @@ void trygrabdistro(float x, float y, int bounciness)
 
 void trybumpbadguy(float x, float y)
 {
-  int i;
+  unsigned int i;
 
 
   /* Bad guys: */

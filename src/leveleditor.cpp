@@ -817,7 +817,7 @@ void le_drawinterface()
 
 void le_drawlevel()
 {
-  int y,x,i,s;
+  unsigned int y,x,i,s;
 
   /* Draw the real background */
   if(le_current_level->bkgd_image[0] != '\0')
@@ -1312,8 +1312,9 @@ void le_change(float x, float y, unsigned char c)
 {
   if(le_current_level != NULL)
     {
-      int xx,yy,i;
+      int xx,yy;
       int x1, x2, y1, y2;
+      unsigned int i;
 
       /*  level_changed = YES; */
 
