@@ -244,16 +244,16 @@ void loadshared()
                USE_ALPHA);
 
   /* Distros: */
-  img_distro[0] = new Surface(datadir + "/images/shared/distro-0.png",
+  img_distro[0] = new Surface(datadir + "/images/tilesets/coin1.png",
                USE_ALPHA);
 
-  img_distro[1] = new Surface(datadir + "/images/shared/distro-1.png",
+  img_distro[1] = new Surface(datadir + "/images/tilesets/coin2.png",
                USE_ALPHA);
 
-  img_distro[2] = new Surface(datadir + "/images/shared/distro-2.png",
+  img_distro[2] = new Surface(datadir + "/images/tilesets/coin3.png",
                USE_ALPHA);
 
-  img_distro[3] = new Surface(datadir + "/images/shared/distro-3.png",
+  img_distro[3] = new Surface(datadir + "/images/tilesets/coin2.png",
                USE_ALPHA);
 
 

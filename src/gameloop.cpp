@@ -634,7 +634,7 @@ GameSession::drawstatus()
     }
 
   sprintf(str, "%d", player_status.distros);
-  white_text->draw("DISTROS", screen->h, 0, 1);
+  white_text->draw("COINS", screen->h, 0, 1);
   gold_text->draw(str, 608, 0, 1);
 
   white_text->draw("LIVES", screen->h, 20, 1);
@@ -685,7 +685,7 @@ GameSession::drawresultscreen(void)
   sprintf(str, "SCORE: %d", player_status.score);
   gold_text->drawf(str, 0, 224, A_HMIDDLE, A_TOP, 1);
 
-  sprintf(str, "DISTROS: %d", player_status.distros);
+  sprintf(str, "COINS: %d", player_status.distros);
   gold_text->drawf(str, 0, 256, A_HMIDDLE, A_TOP, 1);
 
   flipscreen();
