@@ -310,9 +310,13 @@ World::action(double frame_ratio)
   }
 }
 
-// the space that it takes for the screen to start scrolling, regarding
-// screen bounds (in pixels)
+/* the space that it takes for the screen to start scrolling, regarding
+/* screen bounds (in pixels) */
+// should be higher than screen->w/2 (320)
 #define X_SPACE (400-16)
+// should be less than screen->h/2 (240)
+#define Y_SPACE 200
+
 // the time it takes to move the camera (in ms)
 #define CHANGE_DIR_SCROLL_SPEED 2000
 
@@ -380,7 +384,10 @@ void World::scrolling(double frame_ratio)
 
   float tux_pos_y = tux.base.y + (tux.base.height/2);
 
-  scroll_y = tux_pos_y - (screen->h / 2);
+  if (scroll_y < tux_pos_y - (screen->h - Y_SPACE))
+    scroll_y = tux_pos_y - (screen->h - Y_SPACE);
+  else if (scroll_y > tux_pos_y - Y_SPACE)
+    scroll_y = tux_pos_y - Y_SPACE;
 
   // this code prevent the screen to scroll before the start or after the level's end
   if(scroll_y < 0)
