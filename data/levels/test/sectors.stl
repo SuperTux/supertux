@@ -1,6 +1,6 @@
 (supertux-level
   (version 2)
-  (name "Sector Test")
+  (name (_ "Sector Test"))
   (author "Matthias Braun")
   (time 500)
   (sector

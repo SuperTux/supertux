@@ -23,21 +23,28 @@
 #include <stdexcept>
 #include <fstream>
 #include <cassert>
+#include <iostream>
 
+#include "app/setup.h"
+#include "app/tinygettext.h"
 #include "parser.h"
 #include "lisp.h"
 
 namespace lisp
 {
 
-Parser::Parser()
-  : lexer(0)
+Parser::Parser(bool translate)
+  : lexer(0), dictionary_manager(0), dictionary(0)
 {
+  if(translate) {
+    dictionary_manager = new TinyGetText::DictionaryManager();
+  }
 }
 
 Parser::~Parser()
 {
   delete lexer;
+  delete dictionary_manager;
 }
 
 Lisp*
@@ -49,6 +56,12 @@ Parser::parse(const std::string& filename)
     msg << "Parser problem: Couldn't open file '" << filename << "'.";
     throw std::runtime_error(msg.str());
   }
+
+  if(dictionary_manager) {
+    dictionary_manager->add_directory(SuperTux::FileSystem::dirname(filename));
+    dictionary = & (dictionary_manager->get_dictionary());
+  }
+  
   return parse(in);
 }
 
@@ -93,6 +106,31 @@ Parser::read()
       if(token == Lexer::TOKEN_CLOSE_PAREN) {
         result->v.cons.car = 0;
         result->v.cons.cdr = 0;
+        break;
+      }
+
+      if(token == Lexer::TOKEN_SYMBOL &&
+          strcmp(lexer->getString(), "_") == 0) {
+        // evaluate translation function (_ str) in place here
+        token = lexer->getNextToken();
+        if(token != Lexer::TOKEN_STRING)
+          throw new std::runtime_error("Expected string after '(_'");
+        
+        result = new Lisp(Lisp::TYPE_STRING);
+        if(dictionary) {
+          std::string translation = dictionary->translate(lexer->getString());
+          std::cout << "Translated '" << lexer->getString() << "' -> '" 
+            << translation << "'\n";
+          result->v.string = new char[translation.size()+1];
+          memcpy(result->v.string, translation.c_str(), translation.size()+1);
+        } else {
+          size_t len = strlen(lexer->getString()) + 1;                                
+          result->v.string = new char[len];
+          memcpy(result->v.string, lexer->getString(), len);
+        }
+        token = lexer->getNextToken();
+        if(token != Lexer::TOKEN_CLOSE_PAREN)
+          throw new std::runtime_error("Expected ')' after '(_ string'");
         break;
       }
 

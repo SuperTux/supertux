@@ -2,7 +2,7 @@
 (supertux-level
   (version 1)
   (author "SuperTux Team")
-  (name "The Journey Begins")
+  (name (_ "The Journey Begins"))
   (name-pt_PT "A Aventura Começa")
   (name-de "Das Abenteuer beginnt")
   (name-es "La aventura comienza")

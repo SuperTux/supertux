@@ -2,7 +2,7 @@
 (supertux-level
   (version 1)
   (author "SuperTux Team")
-  (name "Welcome to Antarctica")
+  (name (_ "Welcome to Antarctica"))
   (name-pt_PT "Bem-vindo à Antártida")
   (name-de "Willkommen in Antarctica")
   (name-es "Bienvenido a la Antártida")

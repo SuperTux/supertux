@@ -35,6 +35,8 @@ struct FileSystem
     static std::set<std::string> read_directory(const std::string& pathname);
     static std::set<std::string> dsubdirs(const std::string& rel_path, const std::string& expected_file);
     static std::set<std::string> dfiles(const std::string& rel_path, const std::string& glob, const std::string& exception_str);
+
+    static std::string dirname(const std::string& filename);
   };
 
 /// All you need to get an application up and running

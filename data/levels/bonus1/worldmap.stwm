@@ -1,7 +1,7 @@
 ;; Generated with Flexlay Editor
 (supertux-worldmap
   (properties 
-    (name  "Bonus Island I")
+    (name  (_ "Bonus Island I"))
     (start_pos_x 35)
     (start_pos_y 2))
   (tilemap 
@@ -128,13 +128,13 @@
     (level (name "wansti-level5.stl")
            (x 50)
            (y 22))
-			  
-			(special-tile (map-message "You found a secret place!")
+    (special-tile (map-message (_ "You found a secret place!"))
            (x 33) 
            (y 39) (passive-message #t)
            (apply-to-direction "west-north-south"))
 			  
-			(special-tile (map-message "Hint: Use igloos to get back here.")
+			(special-tile (map-message 
+                                       (_ "Hint: Use igloos to get back here."))
            (x 35)
            (y 5) (passive-message #t)
            (apply-to-direction "north"))
@@ -142,61 +142,61 @@
 			(special-tile 
 	        (x 33)
 			  (y 8)
-			  (map-message "Warp to Matr1x' Sector")
+			  (map-message (_ "Warp to Matr1x' Sector"))
 			  (teleport-to-x 20)
 			  (teleport-to-y 14))
 			(special-tile 
 	        (x 31)
 			  (y 8)
-			  (map-message "Warp to Thompson's Domain")
+			  (map-message (_ "Warp to Thompson's Domain"))
 			  (teleport-to-x 34)
 			  (teleport-to-y 18))
 			(special-tile 
 	        (x 35)
 			  (y 8)
-			  (map-message "Warp to the SuperTux Team Island")
+			  (map-message (_ "Warp to the SuperTux Team Island"))
 			  (teleport-to-x 51)
 			  (teleport-to-y 10))
 			(special-tile 
 	        (x 37)
 			  (y 8)
-			  (map-message "Warp to Abednego's Area")
+			  (map-message (_ "Warp to Abednego's Area"))
 			  (teleport-to-x 15)
 			  (teleport-to-y 31))
 		   (special-tile 
 	        (x 39)
 			  (y 8)
-			  (map-message "Warp to Torfi's Territory")
+			  (map-message (_ "Warp to Torfi's Territory"))
 			  (teleport-to-x 56)
 			  (teleport-to-y 33))
     	   (special-tile 
 	        (x 19)
 			  (y 24)
-			  (map-message "Leave Matrix' Sector")
+			  (map-message (_ "Leave Matrix' Sector"))
 			  (teleport-to-x 32)
 			  (teleport-to-y 37))
      	   (special-tile 
 	        (x 35)
 			  (y 26)
-			  (map-message "Leave Thompson's Domain")
+			  (map-message (_ "Leave Thompson's Domain"))
 			  (teleport-to-x 35)
 			  (teleport-to-y 2))
     	   (special-tile 
 	        (x 54)
 			  (y 25)
-			  (map-message "Leave SuperTux Team Island")
+			  (map-message (_ "Leave SuperTux Team Island"))
 			  (teleport-to-x 35)
 			  (teleport-to-y 2))
     	   (special-tile 
 	        (x 18)
 			  (y 43)
-			  (map-message "Leave Abednego's Area")
+			  (map-message (_ "Leave Abednego's Area"))
 			  (teleport-to-x 35)
 			  (teleport-to-y 2))
     	   (special-tile 
 	        (x 60)
 			  (y 43)
-			  (map-message "Leave Torfi's Territory")
+			  (map-message (_ "Leave Torfi's Territory"))
 			  (teleport-to-x 35)
 			  (teleport-to-y 2))
     	   
@@ -204,7 +204,7 @@
 			(special-tile 
 	        (x 27)
 			  (y 39)
-			  (map-message "Warp home")
+			  (map-message (_ "Warp home"))
 			  (teleport-to-x 35)
 			  (teleport-to-y 2))
 			  

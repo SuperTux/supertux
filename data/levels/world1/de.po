@@ -1,0 +1,26 @@
+# German translations for world package
+# German messages for world.
+# Copyright (C) 2004 THE world'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the world package.
+#  <matze@braunis.de>, 2004.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: world 1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2004-12-02 02:10+0100\n"
+"PO-Revision-Date: 2004-12-02 02:25+0100\n"
+"Last-Translator:  <matze@braunis.de>\n"
+"Language-Team: German <de@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: data/levels/world1/level1.stl:5
+msgid "Welcome to Antarctica"
+msgstr "Willkommen in Antarktika"
+
+#: data/levels/world1/level2.stl:5
+msgid "The Journey Begins"
+msgstr "Die Reise Beginnt"

@@ -252,6 +252,15 @@ std::set<std::string> FileSystem::dfiles(const std::string& rel_path, const  std
   return sdirs;
 }
 
+std::string FileSystem::dirname(const std::string& filename)
+{
+  std::string::size_type p = filename.find_last_of('/');
+  if(p == std::string::npos)                              
+    return "";
+  
+  return filename.substr(0, p+1);
+}
+
 void Setup::init(const std::string& _package_name,
         const std::string& _package_symbol_name,
         const std::string& _package_version)

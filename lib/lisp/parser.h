@@ -23,6 +23,11 @@
 #include <string>
 #include "lexer.h"
 
+namespace TinyGetText {
+class Dictionary;
+class DictionaryManager;
+}
+
 namespace lisp
 {
 
@@ -31,7 +36,7 @@ class Lisp;
 class Parser
 {
 public:
-  Parser();
+  Parser(bool translate = true);
   ~Parser();
 
   Lisp* parse(const std::string& filename);
@@ -41,6 +46,8 @@ private:
   Lisp* read();
     
   Lexer* lexer;
+  TinyGetText::DictionaryManager* dictionary_manager;
+  TinyGetText::Dictionary* dictionary;
   Lexer::TokenType token;
 };
 

@@ -2,7 +2,7 @@
 (supertux-level
   (version 1)
   (author "SuperTux Team")
-  (name "Iceberg Fortress")
+  (name (_ "Iceberg Fortress"))
   (width  550)
   (height 105)
   (start_pos_x    100)

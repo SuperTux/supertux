@@ -1,5 +1,24 @@
 SubDir TOP ;
 
+if $(XGETTEXT) != ""
+{
+    actions XGetText
+    {
+        $(XGETTEXT) $(XGETTEXT_FLAGS) --keyword='_:1' -o $(<) $(>)
+    }
+    rule MakePot
+    {
+      if $(>) {
+        XGetText $(<) : $(>) ;
+        Depends $(<) : $(>) ;
+        Depends all : $(<) ;
+      }
+    }
+} else {
+    rule MakePot
+    { }
+}
+
 # Decend into subdirs
 SubInclude TOP lib ;
 SubInclude TOP src ;
@@ -10,15 +29,5 @@ UseAutoconf ;
 # add some additional files to package
 Package INSTALL NEWS README COPYING AUTHORS ChangeLog ;
 
-if $(XGETTEXT) != ""
-{
-
-    actions MakePot
-    {
-        $(XGETTEXT) --keyword='_:1' --c++ -o $(<) $(>)
-    }
-    MakePot supertux.pot : $(TRANSLATABLE_SOURCES) ;
-    Depends supertux.pot : $(TRANSLATABLE_SOURCES) ;
-    MakeLocate supertux.pot : data/locale ;
-    Depends all : supertux.pot ;
-}
+MakePot data/locale/supertux.pot : $(TRANSLATABLE_SOURCES) ;
+XGETTEXT_FLAGS on data/locale/supertux.pot += --language=C++ ;

@@ -368,11 +368,7 @@ WorldMap::~WorldMap()
 void
 WorldMap::load_map()
 {
-  std::string::size_type p = map_filename.find_last_of('/');
-  if(p == std::string::npos)                              
-    levels_path = "";
-  else
-    levels_path = map_filename.substr(0, p+1);
+  levels_path = FileSystem::dirname(map_filename);
 
   try {
     lisp::Parser parser;

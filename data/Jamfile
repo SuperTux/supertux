@@ -32,11 +32,15 @@ LEVELPATHS =
   levels/test
   levels/world1
   levels/world2
-  levels/worldmap
 ;
 
 for p in $(LEVELPATHS) {
   InstallData [ Wildcard $(p) : info *.stl *.stwm ] : $(p) ;
+
+  local translatable_lisp = [ Wildcard $(p) : info *.stl *.stwm ] ;
+  SEARCH on $(translatable_lisp) = $(SEARCH_SOURCE) ;
+  MakePot $(SUBDIR)/$(p)/messages.pot : $(translatable_lisp) ;
+  XGETTEXT_FLAGS on $(SUBDIR)/$(p)/messages.pot += --language=Lisp ;
 }
 InstallData [ Wildcard *.txt ] ;
 InstallData [ Wildcard music : *.mod *.ogg ] : music ;

@@ -1,7 +1,7 @@
 ;SuperTux-Level
 (supertux-level
   (version 1)
-  (name "Hello World")
+  (name (_ "Menu Level"))
   (author "unknown author")
   (music "theme.mod")
   (background "arctis.jpg")
