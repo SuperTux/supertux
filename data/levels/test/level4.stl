@@ -4,7 +4,7 @@
   (name "Gradients Test / Iceblock Test")
   (author "Ricardo Cruz")
   (music "Mortimers_chipdisko.mod")
-  (background "arctis.jpg")
+  (background "")
   (particle_system "")
   (bkgd_speed 0.5)
   (bkgd_red_top 0)
