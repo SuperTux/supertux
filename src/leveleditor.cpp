@@ -682,6 +682,7 @@ void save_subset_settings_menu()
   le_level_subset->title = subset_settings_menu->item[2].input;
   le_level_subset->description = subset_settings_menu->item[3].input;
   le_level_subset->save();
+  le_level_changed = false;
 }
 
 void le_unload_level()
