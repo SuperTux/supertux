@@ -312,7 +312,7 @@ Tux::update(float delta)
             }
 
           Tile* cur_tile = worldmap->at(tile_pos);
-          if (cur_tile->stop || (level && !level->name.empty()) || (level && level->is_teleporter))
+          if (cur_tile->stop || (level && (!level->name.empty() || level->teleport_dest_x != -1)))
             {
               stop();
             }
@@ -474,10 +474,9 @@ WorldMap::load_map()
                       level.passive_message = true;
                       reader.read_bool("passive-message", &level.passive_message);
 							 
-							 level.is_teleporter = false;
-							 reader.read_bool("teleporter", &level.is_teleporter);
-							 reader.read_int("dest_x", &level.destination_x);
-							 reader.read_int("dest_y", &level.destination_y);
+							 level.teleport_dest_x = level.teleport_dest_y = -1;
+							 reader.read_int("dest_x", &level.teleport_dest_x);
+							 reader.read_int("dest_y", &level.teleport_dest_y);
 							 reader.read_string("teleport-message", &level.teleport_message);
                       
 							 level.apply_action_north = level.apply_action_south =
@@ -793,14 +792,13 @@ WorldMap::update(float delta)
               return;
             }
         }
-      else if (level && level->is_teleporter) {
+      else if (level && level->teleport_dest_x != -1 && level->teleport_dest_y != -1) {
 			if (level->x == tux->get_tile_pos().x && 
               level->y == tux->get_tile_pos().y)
-         	{
-					Point p;
-					p.x = level->destination_x;
-					p.y = level->destination_y;
-					tux->set_tile_pos(p);
+				{
+					play_sound(sounds[SND_TELEPORT], SOUND_CENTER_SPEAKER);
+					tux->back_direction = D_NONE;
+					tux->set_tile_pos(Point(level->teleport_dest_x, level->teleport_dest_y));
 				}
 		}
 		else
@@ -877,7 +875,7 @@ WorldMap::draw(const Point& offset)
   for(Levels::iterator i = levels.begin(); i != levels.end(); ++i)
     {
       if(i->name.empty()) {
-      	if (i->is_teleporter) {
+      	if (i->teleport_dest_x != -1) {
 				leveldot_teleporter->draw(i->x*32 + offset.x, 
                              i->y*32 + offset.y);
 			}
@@ -932,7 +930,7 @@ WorldMap::draw_status()
                 {
               white_text->draw_align(i->title.c_str(), screen->w/2, screen->h,  A_HMIDDLE, A_BOTTOM);
                 }
-				  else if (i->is_teleporter) {
+				  else if (i->teleport_dest_x != -1) {
 				  	if(!i->teleport_message.empty())
                	 gold_text->draw_align(i->teleport_message.c_str(), screen->w/2, screen->h,  A_HMIDDLE, A_BOTTOM);
 				  }

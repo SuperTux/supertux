@@ -178,9 +178,8 @@ public:
     bool passive_message;
 	 
 	 /** Teleporters */
-	 bool is_teleporter;
-	 int destination_x;
-	 int destination_y;
+	 int teleport_dest_x;
+	 int teleport_dest_y;
 	 std::string teleport_message;
 
     /** If false, disables the auto walking after finishing a level */
