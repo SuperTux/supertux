@@ -498,6 +498,7 @@ Level::save(const std::string& subset, int level, World* world)
     writer.start_list("point");
     writer.write_int("x", i->x);
     writer.write_int("y", i->y);
+    writer.end_list("point");
   }
   writer.end_list("reset-points");
 
@@ -566,27 +567,39 @@ void Level::load_image(Surface** ptexture, string theme,const  char * file, int 
 void 
 Level::resize(int new_width, int new_height)
 {
-  // first: resize height
-  ia_tiles.resize(new_height * width, 0);
-  bg_tiles.resize(new_height * width, 0);
-  fg_tiles.resize(new_height * width, 0);
-  height = new_height;
-
-  // remap horizontal tiles for new width
-  int np = 0;
-  for(int y = 0; y < height; ++y) {
-    for(int x = 0; x < new_width && x < width; ++x) {
-      ia_tiles[np] = ia_tiles[y * width + x];
-      bg_tiles[np] = bg_tiles[y * width + x];
-      fg_tiles[np] = fg_tiles[y * width + x];
-      np++;
+  if(new_width < width) {
+    // remap tiles for new width
+    for(int y = 0; y < height && y < new_height; ++y) {
+      for(int x = 0; x < new_width; ++x) {
+        ia_tiles[y * new_width + x] = ia_tiles[y * width + x];
+        bg_tiles[y * new_width + x] = bg_tiles[y * width + x];
+        fg_tiles[y * new_width + x] = fg_tiles[y * width + x];
+      }
     }
   }
 
-  ia_tiles.resize(new_height * new_width);
-  bg_tiles.resize(new_height * new_width);
-  fg_tiles.resize(new_height * new_width); 
-  
+  ia_tiles.resize(new_width * new_height);
+  bg_tiles.resize(new_width * new_height);
+  fg_tiles.resize(new_width * new_height); 
+
+  if(new_width > width) {
+    // remap tiles
+    for(int y = std::min(height, new_height)-1; y >= 0; --y) {
+      for(int x = new_width-1; x >= 0; --x) {
+        if(x >= width) {
+          ia_tiles[y * new_width + x] = 0;
+          bg_tiles[y * new_width + x] = 0;
+          fg_tiles[y * new_width + x] = 0;
+        } else {
+          ia_tiles[y * new_width + x] = ia_tiles[y * width + x];
+          bg_tiles[y * new_width + x] = bg_tiles[y * width + x];
+          fg_tiles[y * new_width + x] = fg_tiles[y * width + x];
+        }
+      }
+    }
+  }
+
+  height = new_height;
   width = new_width;
 }
 
