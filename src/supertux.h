@@ -15,5 +15,6 @@
 #include "gameloop.h"
 #include "leveleditor.h"
 #include "screen.h"
+#include "worldmap.h"
 
 #endif /*SUPERTUX_SUPERTUX_H*/
