@@ -208,26 +208,26 @@ Player::action()
           if (isbrick(base.x, base.y) ||
               isfullbox(base.x, base.y))
             {
-              trygrabdistro(base.x, base.y - 32,BOUNCE);
-              trybumpbadguy(base.x, base.y - 64);
+              World::current()->trygrabdistro(base.x, base.y - 32,BOUNCE);
+              World::current()->trybumpbadguy(base.x, base.y - 64);
 
-              trybreakbrick(base.x, base.y, size == SMALL);
+              World::current()->trybreakbrick(base.x, base.y, size == SMALL);
 
               bumpbrick(base.x, base.y);
-              tryemptybox(base.x, base.y, RIGHT);
+              World::current()->tryemptybox(base.x, base.y, RIGHT);
             }
 
           if (isbrick(base.x+ 31, base.y) ||
               isfullbox(base.x+ 31, base.y))
             {
-              trygrabdistro(base.x+ 31, base.y - 32,BOUNCE);
-              trybumpbadguy(base.x+ 31, base.y - 64);
+              World::current()->trygrabdistro(base.x+ 31, base.y - 32,BOUNCE);
+              World::current()->trybumpbadguy(base.x+ 31, base.y - 64);
 
               if(size == BIG)
-                trybreakbrick(base.x+ 31, base.y, size == SMALL);
+                World::current()->trybreakbrick(base.x+ 31, base.y, size == SMALL);
 
               bumpbrick(base.x+ 31, base.y);
-              tryemptybox(base.x+ 31, base.y, LEFT);
+              World::current()->tryemptybox(base.x+ 31, base.y, LEFT);
             }
         }
 
@@ -478,7 +478,7 @@ Player::handle_input()
 
   if (input.fire == DOWN && input.old_fire == UP && got_coffee)
     {
-      world.add_bullet(base.x, base.y, physic.get_velocity_x(), dir);
+      World::current()->add_bullet(base.x, base.y, physic.get_velocity_x(), dir);
     }
 
 
@@ -551,16 +551,16 @@ Player::grabdistros()
   /* Grab distros: */
   if (!dying)
     {
-      trygrabdistro(base.x, base.y, NO_BOUNCE);
-      trygrabdistro(base.x+ 31, base.y, NO_BOUNCE);
+      World::current()->trygrabdistro(base.x, base.y, NO_BOUNCE);
+      World::current()->trygrabdistro(base.x+ 31, base.y, NO_BOUNCE);
 
-      trygrabdistro(base.x, base.y + base.height, NO_BOUNCE);
-      trygrabdistro(base.x+ 31, base.y + base.height, NO_BOUNCE);
+      World::current()->trygrabdistro(base.x, base.y + base.height, NO_BOUNCE);
+      World::current()->trygrabdistro(base.x+ 31, base.y + base.height, NO_BOUNCE);
 
       if(size == BIG)
         {
-          trygrabdistro(base.x, base.y + base.height / 2, NO_BOUNCE);
-          trygrabdistro(base.x+ 31, base.y + base.height / 2, NO_BOUNCE);
+          World::current()->trygrabdistro(base.x, base.y + base.height / 2, NO_BOUNCE);
+          World::current()->trygrabdistro(base.x+ 31, base.y + base.height / 2, NO_BOUNCE);
         }
 
     }
@@ -827,9 +827,9 @@ Player::collision(void* p_c_object, int c_object)
                     {
                       pbad_c->dying = DYING_FALLING;
                       play_sound(sounds[SND_FALL], SOUND_CENTER_SPEAKER);
-                      world.add_score(pbad_c->base.x - scroll_x,
-                                      pbad_c->base.y,
-                                      25 * score_multiplier);
+                      World::current()->add_score(pbad_c->base.x - scroll_x,
+                                                  pbad_c->base.y,
+                                                  25 * score_multiplier);
                     }
                 }
             }

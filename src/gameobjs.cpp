@@ -1,55 +1,80 @@
+//  $Id$
+// 
+//  SuperTux
+//  Copyright (C) 2004 SuperTux Development Team, see AUTHORS for details
+//
+//  This program is free software; you can redistribute it and/or
+//  modify it under the terms of the GNU General Public License
+//  as published by the Free Software Foundation; either version 2
+//  of the License, or (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+// 
+//  You should have received a copy of the GNU General Public License
+//  along with this program; if not, write to the Free Software
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
 #include "world.h"
 #include "tile.h"
 #include "gameloop.h"
 #include "gameobjs.h"
 
-void bouncy_distro_init(bouncy_distro_type* pbouncy_distro, float x, float y)
+void
+bouncy_distro_type::init(float x, float y)
 {
-  pbouncy_distro->base.x = x;
-  pbouncy_distro->base.y = y;
-  pbouncy_distro->base.ym = -2;
+  base.x = x;
+  base.y = y;
+  base.ym = -2;
 }
 
-void bouncy_distro_action(bouncy_distro_type* pbouncy_distro)
+void
+bouncy_distro_type::action()
 {
-  pbouncy_distro->base.y = pbouncy_distro->base.y + pbouncy_distro->base.ym * frame_ratio;
+  base.y = base.y + base.ym * frame_ratio;
 
-  pbouncy_distro->base.ym += 0.1 * frame_ratio;
+  base.ym += 0.1 * frame_ratio;
 
-  if (pbouncy_distro->base.ym >= 0)
-    world.bouncy_distros.erase(static_cast<std::vector<bouncy_distro_type>::iterator>(pbouncy_distro));
+  if (base.ym >= 0)
+    world.bouncy_distros.erase(static_cast<std::vector<bouncy_distro_type>::iterator>(this));
 }
 
-void bouncy_distro_draw(bouncy_distro_type* pbouncy_distro)
+void
+bouncy_distro_type::draw()
 {
   texture_draw(&img_distro[0],
-               pbouncy_distro->base.x - scroll_x,
-               pbouncy_distro->base.y);
+               base.x - scroll_x,
+               base.y);
 }
 
-void broken_brick_init(broken_brick_type* pbroken_brick, Tile* tile, 
-                       float x, float y, float xm, float ym)
+
+void
+broken_brick_type::init(Tile* tile_, float x, float y, float xm, float ym)
 {
-  pbroken_brick->tile   = tile;
-  pbroken_brick->base.x = x;
-  pbroken_brick->base.y = y;
-  pbroken_brick->base.xm = xm;
-  pbroken_brick->base.ym = ym;
+  tile    = tile_;
+  base.x  = x;
+  base.y  = y;
+  base.xm = xm;
+  base.ym = ym;
 
-  timer_init(&pbroken_brick->timer, true);
-  timer_start(&pbroken_brick->timer,200);
+  timer_init(&timer, true);
+  timer_start(&timer,200);
 }
 
-void broken_brick_action(broken_brick_type* pbroken_brick)
+void
+broken_brick_type::action()
 {
-  pbroken_brick->base.x = pbroken_brick->base.x + pbroken_brick->base.xm * frame_ratio;
-  pbroken_brick->base.y = pbroken_brick->base.y + pbroken_brick->base.ym * frame_ratio;
+  base.x = base.x + base.xm * frame_ratio;
+  base.y = base.y + base.ym * frame_ratio;
 
-  if (!timer_check(&pbroken_brick->timer))
-    world.broken_bricks.erase(static_cast<std::vector<broken_brick_type>::iterator>(pbroken_brick));
+  if (!timer_check(&timer))
+    world.broken_bricks.erase(static_cast<std::vector<broken_brick_type>::iterator>(this));
 }
 
-void broken_brick_draw(broken_brick_type* pbroken_brick)
+void
+broken_brick_type::draw()
 {
   SDL_Rect src, dest;
   src.x = rand() % 16;
@@ -57,63 +82,63 @@ void broken_brick_draw(broken_brick_type* pbroken_brick)
   src.w = 16;
   src.h = 16;
 
-  dest.x = (int)(pbroken_brick->base.x - scroll_x);
-  dest.y = (int)pbroken_brick->base.y;
+  dest.x = (int)(base.x - scroll_x);
+  dest.y = (int)base.y;
   dest.w = 16;
   dest.h = 16;
   
-  if (pbroken_brick->tile->images.size() > 0)
-    texture_draw_part(&pbroken_brick->tile->images[0],
+  if (tile->images.size() > 0)
+    texture_draw_part(&tile->images[0],
                       src.x,src.y,dest.x,dest.y,dest.w,dest.h);
 }
 
-void bouncy_brick_init(bouncy_brick_type* pbouncy_brick, float x, float y)
+void
+bouncy_brick_type::init(float x, float y)
 {
-  pbouncy_brick->base.x   = x;
-  pbouncy_brick->base.y   = y;
-  pbouncy_brick->offset   = 0;
-  pbouncy_brick->offset_m = -BOUNCY_BRICK_SPEED;
-  pbouncy_brick->shape    = GameSession::current()->get_level()->gettileid(x, y);
+  base.x   = x;
+  base.y   = y;
+  offset   = 0;
+  offset_m = -BOUNCY_BRICK_SPEED;
+  shape    = World::current()->get_level()->gettileid(x, y);
 }
 
-void bouncy_brick_action(bouncy_brick_type* pbouncy_brick)
+void
+bouncy_brick_type::action()
 {
-
-  pbouncy_brick->offset = (pbouncy_brick->offset +
-                           pbouncy_brick->offset_m * frame_ratio);
+  offset = (offset +
+                           offset_m * frame_ratio);
 
   /* Go back down? */
-
-  if (pbouncy_brick->offset < -BOUNCY_BRICK_MAX_OFFSET)
-    pbouncy_brick->offset_m = BOUNCY_BRICK_SPEED;
+  if (offset < -BOUNCY_BRICK_MAX_OFFSET)
+    offset_m = BOUNCY_BRICK_SPEED;
 
 
   /* Stop bouncing? */
-
-  if (pbouncy_brick->offset >= 0)
-    world.bouncy_bricks.erase(static_cast<std::vector<bouncy_brick_type>::iterator>(pbouncy_brick));
+  if (offset >= 0)
+    world.bouncy_bricks.erase(static_cast<std::vector<bouncy_brick_type>::iterator>(this));
 }
 
-void bouncy_brick_draw(bouncy_brick_type* pbouncy_brick)
+void
+bouncy_brick_type::draw()
 {
   int s;
   SDL_Rect dest;
   
-  if (pbouncy_brick->base.x >= scroll_x - 32 &&
-      pbouncy_brick->base.x <= scroll_x + screen->w)
+  if (base.x >= scroll_x - 32 &&
+      base.x <= scroll_x + screen->w)
     {
-      dest.x = (int)(pbouncy_brick->base.x - scroll_x);
-      dest.y = (int)pbouncy_brick->base.y;
+      dest.x = (int)(base.x - scroll_x);
+      dest.y = (int)base.y;
       dest.w = 32;
       dest.h = 32;
 
-      Level* plevel = GameSession::current()->get_level();
+      Level* plevel = World::current()->get_level();
 
       // FIXME: overdrawing hack to clean the tile from the screen to
       // paint it later at on offseted position
       if(plevel->bkgd_image[0] == '\0')
         {
-          fillrect(pbouncy_brick->base.x - scroll_x, pbouncy_brick->base.y,
+          fillrect(base.x - scroll_x, base.y,
                    32,32, 
                    plevel->bkgd_red, plevel->bkgd_green, plevel->bkgd_blue, 0);
         }
@@ -124,34 +149,37 @@ void bouncy_brick_draw(bouncy_brick_type* pbouncy_brick)
                             dest.x, dest.y,dest.w,dest.h);
         }
 
-      Tile::draw(pbouncy_brick->base.x - scroll_x,
-                 pbouncy_brick->base.y + pbouncy_brick->offset,
-                 pbouncy_brick->shape);
+      Tile::draw(base.x - scroll_x,
+                 base.y + offset,
+                 shape);
     }
 }
 
-void floating_score_init(floating_score_type* pfloating_score, float x, float y, int s)
+void
+floating_score_type::init(float x, float y, int s)
 {
-  pfloating_score->base.x = x;
-  pfloating_score->base.y = y - 16;
-  timer_init(&pfloating_score->timer,true);
-  timer_start(&pfloating_score->timer,1000);
-  pfloating_score->value = s;
+  base.x = x;
+  base.y = y - 16;
+  timer_init(&timer,true);
+  timer_start(&timer,1000);
+  value = s;
 }
 
-void floating_score_action(floating_score_type* pfloating_score)
+void
+floating_score_type::action()
 {
-  pfloating_score->base.y = pfloating_score->base.y - 2 * frame_ratio;
+  base.y = base.y - 2 * frame_ratio;
 
-  if(!timer_check(&pfloating_score->timer))
-    world.floating_scores.erase(static_cast<std::vector<floating_score_type>::iterator>(pfloating_score));
+  if(!timer_check(&timer))
+    world.floating_scores.erase(static_cast<std::vector<floating_score_type>::iterator>(this));
 }
 
-void floating_score_draw(floating_score_type* pfloating_score)
+void
+floating_score_type::draw()
 {
   char str[10];
-  sprintf(str, "%d", pfloating_score->value);
-  text_draw(&gold_text, str, (int)pfloating_score->base.x + 16 - strlen(str) * 8, (int)pfloating_score->base.y, 1);
+  sprintf(str, "%d", value);
+  text_draw(&gold_text, str, (int)base.x + 16 - strlen(str) * 8, (int)base.y, 1);
 }
 
 /* EOF */

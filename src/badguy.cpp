@@ -373,11 +373,11 @@ BadGuy::fall()
 void
 BadGuy::remove_me()
 {
-  for(std::vector<BadGuy>::iterator i = world.bad_guys.begin(); 
-      i != world.bad_guys.end(); ++i) 
+  for(std::vector<BadGuy>::iterator i = World::current()->bad_guys.begin(); 
+      i != World::current()->bad_guys.end(); ++i) 
     {
       if( & (*i) == this) {
-        world.bad_guys.erase(i);
+        World::current()->bad_guys.erase(i);
         return;
       }
     }
@@ -785,7 +785,7 @@ BadGuy::squish_me(Player* player)
 {
   make_player_jump(player);
     
-  world.add_score(base.x - scroll_x, base.y, 50 * score_multiplier);
+  World::current()->add_score(base.x - scroll_x, base.y, 50 * score_multiplier);
   play_sound(sounds[SND_SQUISH], SOUND_CENTER_SPEAKER);
   score_multiplier++;
 
@@ -799,10 +799,10 @@ BadGuy::squish(Player* player)
 {
   if(kind == BAD_MRBOMB) {
     // mrbomb transforms into a bomb now
-    world.add_bad_guy(base.x, base.y, BAD_BOMB);
+    World::current()->add_bad_guy(base.x, base.y, BAD_BOMB);
     
     make_player_jump(player);
-    world.add_score(base.x - scroll_x, base.y, 50 * score_multiplier);
+    World::current()->add_score(base.x - scroll_x, base.y, 50 * score_multiplier);
     play_sound(sounds[SND_SQUISH], SOUND_CENTER_SPEAKER);
     score_multiplier++;
       
@@ -843,13 +843,13 @@ BadGuy::squish(Player* player)
 
     make_player_jump(player);
 	      
-    world.add_score(base.x - scroll_x, base.y, 25 * score_multiplier);
+    World::current()->add_score(base.x - scroll_x, base.y, 25 * score_multiplier);
     score_multiplier++;
     return;
   } else if(kind == BAD_FISH) {
     make_player_jump(player);
 	      
-    world.add_score(base.x - scroll_x, base.y, 25 * score_multiplier);
+    World::current()->add_score(base.x - scroll_x, base.y, 25 * score_multiplier);
     score_multiplier++;
      
     // simply remove the fish...
@@ -887,10 +887,10 @@ BadGuy::kill_me()
 
   /* Gain some points: */
   if (kind == BAD_BSOD)
-    world.add_score(base.x - scroll_x, base.y,
+    World::current()->add_score(base.x - scroll_x, base.y,
                     50 * score_multiplier);
   else 
-    world.add_score(base.x - scroll_x, base.y,                                 
+    World::current()->add_score(base.x - scroll_x, base.y,                                 
                     25 * score_multiplier);
 
   /* Play death sound: */

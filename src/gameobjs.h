@@ -1,3 +1,21 @@
+//  $Id$
+// 
+//  SuperTux
+//  Copyright (C) 2004 SuperTux Development Team, see AUTHORS for details
+//
+//  This program is free software; you can redistribute it and/or
+//  modify it under the terms of the GNU General Public License
+//  as published by the Free Software Foundation; either version 2
+//  of the License, or (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+// 
+//  You should have received a copy of the GNU General Public License
+//  along with this program; if not, write to the Free Software
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #ifndef SUPERTUX_GAMEOBJS_H
 #define SUPERTUX_GAMEOBJS_H
@@ -15,14 +33,13 @@ class bouncy_distro_type
 {
  public:
   base_type base;
+  
+  void init(float x, float y);
+  void action();
+  void draw(); 
 };
 
 extern texture_type img_distro[4];
-
-void bouncy_distro_init(bouncy_distro_type* pbouncy_distro, float x, float y);
-void bouncy_distro_action(bouncy_distro_type* pbouncy_distro);
-void bouncy_distro_draw(bouncy_distro_type* pbouncy_distro);
-void bouncy_distro_collision(bouncy_distro_type* pbouncy_distro, int c_object);
 
 #define BOUNCY_BRICK_MAX_OFFSET 8
 #define BOUNCY_BRICK_SPEED 0.9
@@ -35,12 +52,11 @@ class broken_brick_type
   base_type base;
   timer_type timer;
   Tile* tile;
-};
 
-void broken_brick_init(broken_brick_type* pbroken_brick, Tile* tile,
-                       float x, float y, float xm, float ym);
-void broken_brick_action(broken_brick_type* pbroken_brick);
-void broken_brick_draw(broken_brick_type* pbroken_brick);
+  void init(Tile* tile, float x, float y, float xm, float ym);
+  void action();
+  void draw();
+};
 
 class bouncy_brick_type
 {
@@ -49,11 +65,11 @@ class bouncy_brick_type
   float offset_m;
   int shape;
   base_type base;
-};
 
-void bouncy_brick_init(bouncy_brick_type* pbouncy_brick, float x, float y);
-void bouncy_brick_action(bouncy_brick_type* pbouncy_brick);
-void bouncy_brick_draw(bouncy_brick_type* pbouncy_brick);
+  void init(float x, float y);
+  void action();
+  void draw();
+};
 
 class floating_score_type
 {
@@ -61,11 +77,11 @@ class floating_score_type
   int value;
   timer_type timer;
   base_type base;
+  
+  void init(float x, float y, int s);
+  void action();
+  void draw();
 };
-
-void floating_score_init(floating_score_type* pfloating_score, float x, float y, int s);
-void floating_score_action(floating_score_type* pfloating_score);
-void floating_score_draw(floating_score_type* pfloating_score);
 
 #endif 
 

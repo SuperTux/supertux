@@ -1,14 +1,21 @@
+//  $Id$
+// 
+//  SuperTux
+//  Copyright (C) 2004 SuperTux Development Team, see AUTHORS for details
 //
-// C Implementation: world
+//  This program is free software; you can redistribute it and/or
+//  modify it under the terms of the GNU General Public License
+//  as published by the Free Software Foundation; either version 2
+//  of the License, or (at your option) any later version.
 //
-// Description:
-//
-//
-// Author: Tobias Glaesser <tobi.web@gmx.de>, (C) 2004
-//
-// Copyright: See COPYING file that comes with this distribution
-//
-//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+// 
+//  You should have received a copy of the GNU General Public License
+//  along with this program; if not, write to the Free Software
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <math.h>
 #include <stdlib.h>
@@ -168,7 +175,7 @@ World::draw()
 
   /* (Bouncy bricks): */
   for (unsigned int i = 0; i < bouncy_bricks.size(); ++i)
-    bouncy_brick_draw(&bouncy_bricks[i]);
+    bouncy_bricks[i].draw();
 
   for (unsigned int i = 0; i < bad_guys.size(); ++i)
     bad_guys[i].draw();
@@ -179,16 +186,16 @@ World::draw()
     bullet_draw(&bullets[i]);
 
   for (unsigned int i = 0; i < floating_scores.size(); ++i)
-    floating_score_draw(&floating_scores[i]);
+    floating_scores[i].draw();
 
   for (unsigned int i = 0; i < upgrades.size(); ++i)
     upgrade_draw(&upgrades[i]);
 
   for (unsigned int i = 0; i < bouncy_distros.size(); ++i)
-    bouncy_distro_draw(&bouncy_distros[i]);
+    bouncy_distros[i].draw();
 
   for (unsigned int i = 0; i < broken_bricks.size(); ++i)
-    broken_brick_draw(&broken_bricks[i]);
+    broken_bricks[i].draw();
 
   /* Draw foreground: */
   for (y = 0; y < 15; ++y)
@@ -212,11 +219,11 @@ World::action()
 {
   /* Handle bouncy distros: */
   for (unsigned int i = 0; i < bouncy_distros.size(); i++)
-    bouncy_distro_action(&bouncy_distros[i]);
+    bouncy_distros[i].action();
 
   /* Handle broken bricks: */
   for (unsigned int i = 0; i < broken_bricks.size(); i++)
-    broken_brick_action(&broken_bricks[i]);
+    broken_bricks[i].action();
 
   /* Handle distro counting: */
   if (counting_distros)
@@ -229,10 +236,10 @@ World::action()
 
   // Handle all kinds of game objects
   for (unsigned int i = 0; i < bouncy_bricks.size(); i++)
-    bouncy_brick_action(&bouncy_bricks[i]);
+    bouncy_bricks[i].action();
   
   for (unsigned int i = 0; i < floating_scores.size(); i++)
-    floating_score_action(&floating_scores[i]);
+    floating_scores[i].action();
 
   for (unsigned int i = 0; i < bullets.size(); ++i)
     bullet_action(&bullets[i]);
@@ -250,7 +257,7 @@ World::add_score(float x, float y, int s)
   score += s;
 
   floating_score_type new_floating_score;
-  floating_score_init(&new_floating_score,x,y,s);
+new_floating_score.init(x,y,s);
   floating_scores.push_back(new_floating_score);
 }
 
@@ -258,7 +265,7 @@ void
 World::add_bouncy_distro(float x, float y)
 {
   bouncy_distro_type new_bouncy_distro;
-  bouncy_distro_init(&new_bouncy_distro,x,y);
+  new_bouncy_distro.init(x,y);
   bouncy_distros.push_back(new_bouncy_distro);
 }
 
@@ -276,7 +283,7 @@ void
 World::add_broken_brick_piece(Tile* tile, float x, float y, float xm, float ym)
 {
   broken_brick_type new_broken_brick;
-  broken_brick_init(&new_broken_brick, tile, x, y, xm, ym);
+  new_broken_brick.init(tile, x, y, xm, ym);
   broken_bricks.push_back(new_broken_brick);
 }
 
@@ -284,7 +291,7 @@ void
 World::add_bouncy_brick(float x, float y)
 {
   bouncy_brick_type new_bouncy_brick;
-  bouncy_brick_init(&new_bouncy_brick,x,y);
+  new_bouncy_brick.init(x,y);
   bouncy_bricks.push_back(new_bouncy_brick);
 }
 
@@ -316,9 +323,10 @@ World::add_bullet(float x, float y, float xm, int dir)
 }
 
 /* Break a brick: */
-void trybreakbrick(float x, float y, bool small)
+void
+World::trybreakbrick(float x, float y, bool small)
 {
-  Level* plevel = World::current()->get_level();
+  Level* plevel = get_level();
   
   Tile* tile = gettile(x, y);
   if (tile->brick)
@@ -326,7 +334,7 @@ void trybreakbrick(float x, float y, bool small)
       if (tile->data > 0)
         {
           /* Get a distro from it: */
-          world.add_bouncy_distro(((int)(x + 1) / 32) * 32,
+          add_bouncy_distro(((int)(x + 1) / 32) * 32,
                                   (int)(y / 32) * 32);
 
           if (!counting_distros)
@@ -348,7 +356,7 @@ void trybreakbrick(float x, float y, bool small)
           plevel->change(x, y, TM_IA, tile->next_tile);
           
           /* Replace it with broken bits: */
-          world.add_broken_brick(tile, 
+          add_broken_brick(tile, 
                                  ((int)(x + 1) / 32) * 32,
                                  (int)(y / 32) * 32);
           
@@ -360,10 +368,9 @@ void trybreakbrick(float x, float y, bool small)
 }
 
 /* Empty a box: */
-void tryemptybox(float x, float y, int col_side)
+void
+World::tryemptybox(float x, float y, int col_side)
 {
-  Level* plevel = World::current()->get_level();
-
   Tile* tile = gettile(x,y);
   if (!tile->fullbox)
     return;
@@ -376,45 +383,45 @@ void tryemptybox(float x, float y, int col_side)
 
   switch(tile->data)
     {
-    case 1: //'A':      /* Box with a distro! */
-      world.add_bouncy_distro(((int)(x + 1) / 32) * 32, (int)(y / 32) * 32 - 32);
+    case 1: // Box with a distro!
+      add_bouncy_distro(((int)(x + 1) / 32) * 32, (int)(y / 32) * 32 - 32);
       play_sound(sounds[SND_DISTRO], SOUND_CENTER_SPEAKER);
       score = score + SCORE_DISTRO;
       distros++;
       break;
 
-    case 2: // 'B':      /* Add an upgrade! */
+    case 2: // Add an upgrade!
       if (tux.size == SMALL)     /* Tux is small, add mints! */
-        world.add_upgrade((int)((x + 1) / 32) * 32, (int)(y / 32) * 32 - 32, col_side, UPGRADE_MINTS);
+        add_upgrade((int)((x + 1) / 32) * 32, (int)(y / 32) * 32 - 32, col_side, UPGRADE_MINTS);
       else     /* Tux is big, add coffee: */
-        world.add_upgrade((int)((x + 1) / 32) * 32, (int)(y / 32) * 32 - 32, col_side, UPGRADE_COFFEE);
+        add_upgrade((int)((x + 1) / 32) * 32, (int)(y / 32) * 32 - 32, col_side, UPGRADE_COFFEE);
       play_sound(sounds[SND_UPGRADE], SOUND_CENTER_SPEAKER);
       break;
 
-    case 3:// '!':     /* Add a golden herring */
-      world.add_upgrade((int)((x + 1) / 32) * 32, (int)(y / 32) * 32 - 32, col_side, UPGRADE_HERRING);
+    case 3: // Add a golden herring
+      add_upgrade((int)((x + 1) / 32) * 32, (int)(y / 32) * 32 - 32, col_side, UPGRADE_HERRING);
       break;
     default:
       break;
     }
 
   /* Empty the box: */
-  plevel->change(x, y, TM_IA, tile->next_tile);
+  level->change(x, y, TM_IA, tile->next_tile);
 }
 
 /* Try to grab a distro: */
-void trygrabdistro(float x, float y, int bounciness)
+void
+World::trygrabdistro(float x, float y, int bounciness)
 {
-  Level* plevel = World::current()->get_level();
   Tile* tile = gettile(x, y);
   if (tile && tile->distro)
     {
-      plevel->change(x, y, TM_IA, tile->next_tile);
+      level->change(x, y, TM_IA, tile->next_tile);
       play_sound(sounds[SND_DISTRO], SOUND_CENTER_SPEAKER);
 
       if (bounciness == BOUNCE)
         {
-          world.add_bouncy_distro(((int)(x + 1) / 32) * 32,
+          add_bouncy_distro(((int)(x + 1) / 32) * 32,
                                   (int)(y / 32) * 32);
         }
 
@@ -424,28 +431,29 @@ void trygrabdistro(float x, float y, int bounciness)
 }
 
 /* Try to bump a bad guy from below: */
-void trybumpbadguy(float x, float y)
+void
+World::trybumpbadguy(float x, float y)
 {
   /* Bad guys: */
-  for (unsigned int i = 0; i < world.bad_guys.size(); i++)
+  for (unsigned int i = 0; i < bad_guys.size(); i++)
     {
-      if (world.bad_guys[i].base.x >= x - 32 && world.bad_guys[i].base.x <= x + 32 &&
-          world.bad_guys[i].base.y >= y - 16 && world.bad_guys[i].base.y <= y + 16)
+      if (bad_guys[i].base.x >= x - 32 && bad_guys[i].base.x <= x + 32 &&
+          bad_guys[i].base.y >= y - 16 && bad_guys[i].base.y <= y + 16)
         {
-          world.bad_guys[i].collision(&tux, CO_PLAYER, COLLISION_BUMP);
+          bad_guys[i].collision(&tux, CO_PLAYER, COLLISION_BUMP);
         }
     }
 
 
   /* Upgrades: */
-  for (unsigned int i = 0; i < world.upgrades.size(); i++)
+  for (unsigned int i = 0; i < upgrades.size(); i++)
     {
-      if (world.upgrades[i].base.height == 32 &&
-          world.upgrades[i].base.x >= x - 32 && world.upgrades[i].base.x <= x + 32 &&
-          world.upgrades[i].base.y >= y - 16 && world.upgrades[i].base.y <= y + 16)
+      if (upgrades[i].base.height == 32 &&
+          upgrades[i].base.x >= x - 32 && upgrades[i].base.x <= x + 32 &&
+          upgrades[i].base.y >= y - 16 && upgrades[i].base.y <= y + 16)
         {
-          world.upgrades[i].base.xm = -world.upgrades[i].base.xm;
-          world.upgrades[i].base.ym = -8;
+          upgrades[i].base.xm = -upgrades[i].base.xm;
+          upgrades[i].base.ym = -8;
           play_sound(sounds[SND_BUMP_UPGRADE], SOUND_CENTER_SPEAKER);
         }
     }
