@@ -50,7 +50,7 @@ namespace SuperTux
 
         /** Mirror is used to avoid duplicating left and right side
             sprites */
-        bool mirror;
+//        bool mirror;
 
         std::vector<Surface*> surfaces;
         };

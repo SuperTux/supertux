@@ -56,7 +56,6 @@ Sprite::~Sprite()
     for(std::vector<Surface*>::iterator i_sur = i_act->second->surfaces.begin();
         i_sur != i_act->second->surfaces.end(); ++i_sur)
       {
-      if(!i_act->second->mirror)
         delete *i_sur;
       }
     delete i_act->second;
@@ -86,26 +85,30 @@ Sprite::parse_action(LispReader& lispreader)
     for(std::vector<Surface*>::iterator i = action->surfaces.begin();
         i < action->surfaces.end(); i++)
       {
-        (*i)->apply_mask(Color(mask_color));
+        (*i)->apply_filter(MASK_FILTER, Color(mask_color));
       }
     }
 
-  action->mirror = false;
   std::string mirror_action;
   lispreader.read_string("mirror-action", mirror_action);
   if(!mirror_action.empty())
     {
-    action->mirror = true;
     Action* act_tmp = get_action(mirror_action);
     if(act_tmp == NULL)
       std::cerr << "Warning: Could not mirror action. Action not found\n"
                    "Mirror actions must be defined after the real one!\n";
     else
-      action->surfaces = act_tmp->surfaces;
+      {
+      for(int i = 0; i < act_tmp->surfaces.size(); i++)
+        {
+        Surface* surface = new Surface(sdl_surface_from_sdl_surface(
+            act_tmp->surfaces[i]->impl->get_sdl_surface(), true), true);
+        surface->apply_filter(HORIZONTAL_FLIP_FILTER);
+        action->surfaces.push_back(surface);
+        }
+      }
     }
-
-  // Load images
-  if(!action->mirror)
+  else // Load images
     {
     std::vector<std::string> images;
     if(!lispreader.read_string_vector("images", images))
@@ -270,8 +273,7 @@ Sprite::draw(DrawingContext& context, const Vector& pos, int layer,
               << "/" << get_action_name() << std::endl;
   else
     context.draw_surface(action->surfaces[(int)frame],
-            pos - Vector(action->x_offset, action->y_offset), layer + action->z_order,
-            action->mirror ? drawing_effect | HORIZONTAL_FLIP : drawing_effect);
+            pos - Vector(action->x_offset, action->y_offset), layer + action->z_order, drawing_effect);
 }
 
 void
@@ -286,8 +288,7 @@ Sprite::draw_part(DrawingContext& context, const Vector& source, const Vector& s
               << "/" << get_action_name() << std::endl;
   else
     context.draw_surface_part(action->surfaces[(int)frame], source, size,
-            pos - Vector(action->x_offset, action->y_offset), layer + action->z_order,
-            action->mirror ? drawing_effect | HORIZONTAL_FLIP : drawing_effect);
+            pos - Vector(action->x_offset, action->y_offset), layer + action->z_order, drawing_effect);
 }
 
 int
