@@ -392,11 +392,15 @@ Player::handle_vertical_input()
   // Press jump key
   if(input.up == DOWN && can_jump && on_ground())
     {
-      // jump higher if we are running
-      if (fabs(physic.get_velocity_x()) > MAX_WALK_XM)
-        physic.set_velocity_y(5.8);
-      else
-        physic.set_velocity_y(5.2);
+      if(duck) { // only jump a little bit when in duck mode {
+        physic.set_velocity_y(3);
+      } else {
+        // jump higher if we are running
+        if (fabs(physic.get_velocity_x()) > MAX_WALK_XM)
+          physic.set_velocity_y(5.8);
+        else
+          physic.set_velocity_y(5.2);
+      }
 
       --base.y;
       jumping = true;
@@ -492,13 +496,21 @@ Player::handle_input()
       // changing base size confuses collision otherwise
       old_base = previous_base = base;
     }
-  else if(input.down == UP && size == BIG && duck && physic.get_velocity_y() == 0 && on_ground())
+  else if(input.down == UP && size == BIG && duck)
     {
-      duck = false;
+      // try if we can really unduck
       base.y -= 32;
       base.height = 64;
-      // changing base size confuses collision otherwise
-      old_base = previous_base = base;                        
+      // when unducking in air we need some space to do so
+      if(on_ground() || !collision_object_map(base)) {
+        duck = false;
+        // changing base size confuses collision otherwise
+        old_base = previous_base = base;                                
+      } else {
+        // undo the ducking changes
+        base.y += 32;
+        base.height = 32;
+      }   
     }
 }
 
