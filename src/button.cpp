@@ -187,6 +187,8 @@ ButtonPanel::ButtonPanel(int x, int y, int w, int h)
   rect.w = w;
   rect.h = h;
   hidden = false;
+  hlast = false;
+  //last_clicked(NULL);
 }
 
 Button* ButtonPanel::event(SDL_Event& event)
@@ -197,7 +199,11 @@ Button* ButtonPanel::event(SDL_Event& event)
     {
       (*it)->event(event);
       if((*it)->state != BUTTON_NONE)
+      {
+        if(hlast && (*it)->state == BUTTON_CLICKED)
+	last_clicked = it;
         return (*it);
+	}
     }
     return NULL;
   }
@@ -225,6 +231,10 @@ void ButtonPanel::draw()
     for(std::vector<Button*>::iterator it = item.begin(); it != item.end(); ++it)
     {
       (*it)->draw();
+      if(hlast && it == last_clicked)
+      {
+      fillrect((*it)->get_pos().x,(*it)->get_pos().y,(*it)->get_pos().w,(*it)->get_pos().h,100,100,100,128);
+      }
     }
   }
 }
@@ -261,3 +271,10 @@ Button* ButtonPanel::manipulate_button(int i)
   else
     return item[i];
 }
+
+void ButtonPanel::highlight_last(bool b)
+{
+hlast = b;
+}
+
+

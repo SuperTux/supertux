@@ -485,7 +485,7 @@ void le_init_menus()
   level_settings_menu->additem(MN_ACTION,"Apply Changes",0,0,MNID_APPLY);
 
   select_tilegroup_menu->arrange_left = true;
-  select_tilegroup_menu->additem(MN_LABEL,"Select Tilegroup",0,0);
+  select_tilegroup_menu->additem(MN_LABEL,"Tilegroup",0,0);
   select_tilegroup_menu->additem(MN_HL,"",0,0);
   std::vector<TileGroup>* tilegroups = TileManager::tilegroups();
   int tileid = 1;
@@ -529,7 +529,7 @@ void le_init_menus()
   select_tilegroup_menu->additem(MN_HL,"",0,0);
 
   select_objects_menu->arrange_left = true;
-  select_objects_menu->additem(MN_LABEL,"Select Objects",0,0);
+  select_objects_menu->additem(MN_LABEL,"Objects",0,0);
   select_objects_menu->additem(MN_HL,"",0,0);
   select_objects_menu->additem(MN_ACTION,"BadGuys",0,0,1);
   objects_map["BadGuys"] = new ButtonPanel(screen->w - 64,96, 64, 318);
@@ -585,9 +585,10 @@ int le_init()
 
   le_tilemap_panel = new ButtonPanel(screen->w-64,screen->h-32,32,32);
   le_tilemap_panel->set_button_size(32,10);
-  le_tilemap_panel->additem(new Button("/images/icons/bkgrd.png","Background",SDLK_F4,0,0),TM_BG);
-  le_tilemap_panel->additem(new Button("/images/icons/intact.png","Interactive",SDLK_F4,0,0),TM_IA);
-  le_tilemap_panel->additem(new Button("/images/icons/frgrd.png","Foreground",SDLK_F4,0,0),TM_FG);
+  le_tilemap_panel->additem(new Button("/images/icons/bkgrd.png","Background",SDLK_b,0,0),TM_BG);
+  le_tilemap_panel->additem(new Button("/images/icons/intact.png","Interactive",SDLK_i,0,0),TM_IA);
+  le_tilemap_panel->additem(new Button("/images/icons/frgrd.png","Foreground",SDLK_f,0,0),TM_FG);
+  le_tilemap_panel->highlight_last(true);
     
   le_current.Init();
   

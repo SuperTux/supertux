@@ -72,12 +72,15 @@ public:
   Button* button_panel_event(SDL_Event& event);
   void set_button_size(int w, int h);
   Button* manipulate_button(int i);
+  void highlight_last(bool b);
 
 private:
   int bw, bh;
+  bool hlast;
   bool hidden;
   SDL_Rect rect;
   std::vector<Button*> item;
+  std::vector<Button*>::iterator last_clicked;
 };
 
 #endif /*SUPERTUX_BUTTON_H*/
