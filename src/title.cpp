@@ -217,7 +217,10 @@ int title(void)
       /* Draw the background: */
       draw_background();
       draw_demo();
-      texture_draw(&logo, 160, 30);
+
+      if (current_menu == main_menu)
+        texture_draw(&logo, 160, 30);
+
       text_draw(&white_small_text, 
                 " SuperTux " VERSION "\n"
                 "Copyright (c) 2003 SuperTux Devel Team\n"
