@@ -2140,6 +2140,7 @@ int gameloop(void)
   frame = 0;
   tux_frame_main = 0;
   tux_frame = 0;
+  game_pause = 0;
   
   do
     {
@@ -2389,6 +2390,7 @@ void loadlevel(void)
   counting_distros = NO;
   distro_counter = 0;
   
+  endpos = 0;
   
   /* Level Intro: */
   
