@@ -199,7 +199,6 @@ Upgrade::action(double frame_ratio)
         || (physic.get_velocity_x() > 0
             && !issolid(base.x, base.y + base.height))) {
         physic.enable_gravity(true);
-        physic.set_velocity(0, physic.get_velocity_y());
       }
     }
   }
