@@ -134,10 +134,10 @@ void st_subset::load(char *subset)
   for(i=1; i != -1; ++i)
     {
       /* Get the number of levels in this subset */
-      snprintf(filename, 1024, "%s/levels/%s/level%d.dat", st_dir, subset,i);
+      snprintf(filename, 1024, "%s/levels/%s/level%d.stl", st_dir, subset,i);
       if(!faccessible(filename))
         {
-          snprintf(filename, 1024, "%s/levels/%s/level%d.dat", DATA_PREFIX, subset,i);
+          snprintf(filename, 1024, "%s/levels/%s/level%d.stl", DATA_PREFIX, subset,i);
           if(!faccessible(filename))
             break;
         }
@@ -222,9 +222,9 @@ int level_load(st_level* plevel,const  char *subset, int level)
 
   /* Load data file: */
 
-  snprintf(filename, 1024, "%s/levels/%s/level%d.dat", st_dir, subset, level);
+  snprintf(filename, 1024, "%s/levels/%s/level%d.stl", st_dir, subset, level);
   if(!faccessible(filename))
-    snprintf(filename, 1024, "%s/levels/%s/level%d.dat", DATA_PREFIX, subset, level);
+    snprintf(filename, 1024, "%s/levels/%s/level%d.stl", DATA_PREFIX, subset, level);
 
   return level_load(plevel, filename);
 }
@@ -252,7 +252,7 @@ int level_load(st_level* plevel, const char* filename)
 
   vector<int> vi;
 
-  if (strcmp(lisp_symbol(lisp_car(root_obj)), "level") == 0)
+  if (strcmp(lisp_symbol(lisp_car(root_obj)), "supertux-level") == 0)
     {
       LispReader reader(lisp_cdr(root_obj));
       
@@ -320,9 +320,9 @@ void level_save(st_level* plevel,const  char * subset, int level)
   /* Save data file: */
   sprintf(str, "/levels/%s/", subset);
   fcreatedir(str);
-  snprintf(filename, 1024, "%s/levels/%s/level%d.dat", st_dir, subset, level);
+  snprintf(filename, 1024, "%s/levels/%s/level%d.stl", st_dir, subset, level);
   if(!fwriteable(filename))
-    snprintf(filename, 1024, "%s/levels/%s/level%d.dat", DATA_PREFIX, subset, level);
+    snprintf(filename, 1024, "%s/levels/%s/level%d.stl", DATA_PREFIX, subset, level);
 
   fi = fopen(filename, "w");
   if (fi == NULL)
@@ -335,7 +335,7 @@ void level_save(st_level* plevel,const  char * subset, int level)
 
         /* Write header: */
       fprintf(fi,";SuperTux-Level\n");
-      fprintf(fi,"(level\n");
+      fprintf(fi,"(supertux-level\n");
 
       fprintf(fi,"  (name \"%s\")\n", plevel->name.c_str());
       fprintf(fi,"  (theme \"%s\")\n", plevel->theme.c_str());
