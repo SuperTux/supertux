@@ -490,8 +490,8 @@ Menu::action()
 
   menuaction = MENU_ACTION_NONE;
 
-  //if (active_item >= int(item.size()))
-  //  active_item = int(item.size()) - 1;
+  if (active_item >= int(item.size()))
+    active_item = int(item.size()) - 1;
 }
 
 int
