@@ -834,10 +834,28 @@ BadGuy::action_wingling(double elapsed_time)
 void
 BadGuy::action_walkingtree(double elapsed_time)
 {
+  Player& tux = *World::current()->get_tux();
+  Direction v_dir = physic.get_velocity_x() < 0 ? LEFT : RIGHT;
+
   if (dying == DYING_NOT)
     check_horizontal_bump();
 
   fall();
+
+  if (mode == BGM_BIG)
+  {
+    if ((tux.base.x + tux.base.width/2 > base.x + base.width/2) && v_dir == LEFT)
+    {
+      dir = RIGHT;
+      physic.set_velocity_x(-physic.get_velocity_x());
+    }
+    else if ((tux.base.x + tux.base.width/2 < base.x + base.width/2) && v_dir == RIGHT)
+    {
+      dir = LEFT;
+      physic.set_velocity_x(-physic.get_velocity_x());
+    }
+  }
+  
 
   physic.apply(elapsed_time, base.x, base.y);
   if (dying != DYING_FALLING)
