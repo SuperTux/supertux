@@ -2,7 +2,7 @@
 (supertux-level
   (version 1)
   (name (_ "Menu Level"))
-  (author "unknown author")
+  (author "SuperTux Team")
   (music "theme.mod")
   (background "arctis.jpg")
   (particle_system "")
