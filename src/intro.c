@@ -205,15 +205,15 @@ int intro(void)
 	}
       
       
-      if (timer_get_gone(&timer) >= 5000)
+      if (timer_get_gone(&timer) >= 5000 && timer_get_gone(&timer) <= 8000 && height[j] != 105)
 	{
 	  /* Beam gown up! */
 	  
 	  texture_draw_part(&bkgd,
-		   320, 32 + (copter[0].h), 320,
+		   310, 32 + (copter[0].h), 310,
 		   32 + (copter[0].h),
-		   (gown_upset.w),
-		   368 + (gown_upset.h) - (copter[0].h), NO_UPDATE);
+		   (gown_upset.w) + 20,
+		   378 + (gown_upset.h) - (copter[0].h), NO_UPDATE);
 	  
 	  
 	  for (j = 0; j < (gown_upset.sdl_surface -> w); j++)
@@ -233,22 +233,29 @@ int intro(void)
 	      
 	      texture_draw_part(&gown_upset,src.x,src.y,dest.x,dest.y,dest.w,dest.h,NO_UPDATE);
 	      
-	      height[j] = height[j] - height_speed[j];
+	      height[j] = 400 + rand() % 10 - (int)(300. * ((float)(timer_get_gone(&timer) - 5000)/(float)3000.));
+	      if(height[j] < 105)
+	      height[j] = 105;
 	      
-	      if ((i % 2) == 0)
-		height_speed[j]++;
+		height_speed[j] = (float)(timer_get_gone(&timer) - 5000) / 300.;
 	    }
 
 	  update_rect(screen,
-			 320,
+			 310,
 			 32 + (copter[0].h),
-			 (gown_upset.w),
+			 (gown_upset.w) + 20,
 			 400 + (gown_upset.h) - (copter[0].h));
 	}
       
       
       if (timer_get_gone(&timer) >= 8000 && scene == 5)
 	{
+		  texture_draw_part(&bkgd,
+		   310, 32 + (copter[0].h), 310,
+		   32 + (copter[0].h),
+		   (gown_upset.w) + 20,
+		   368 + (gown_upset.h) - (copter[0].h), NO_UPDATE);
+	
 	++scene;
 	  /* Tux gets mad! */
 	  
