@@ -84,12 +84,14 @@
          (name "grab-right")
          (x-offset 5)
          (y-offset 14)
+         (z-order 2)
          (images "shared/smalltux/arms-grab-0.png"))
 
        (action
          (name "grab-left")
          (x-offset 5)
          (y-offset 14)
+         (z-order 2)
          (mirror-action "grab-right")))
 
 ;; Small Tux Body
