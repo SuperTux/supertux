@@ -6,9 +6,13 @@ def Glob(dirs, pattern = '*' ):
     import os, fnmatch
     files = []
     for dir in dirs:
-        for file in os.listdir( Dir(dir).srcnode().abspath ):
-            if fnmatch.fnmatch(file, pattern) :
-                files.append( os.path.join( dir, file ) )
+        try:
+            for file in os.listdir( Dir(dir).srcnode().abspath ):
+                if fnmatch.fnmatch(file, pattern) :
+                    files.append( os.path.join( dir, file ) )
+        except:
+            print "Warning, couldn't find directory " + dir
+        
     return files
 
 # thanks to Michael P Jung
@@ -84,7 +88,7 @@ else:
     
 
 if env['VARIANT'] == "optimize":
-    env.Append(CXXFLAGS = "-O2 -g")
+    env.Append(CXXFLAGS = "-O2 -g -Wall")
 elif env['VARIANT'] == "debug":
     env.Append(CXXFLAGS = "-O0 -g3 -Wall -Werror")
     env.Append(CPPDEFINES = { "DEBUG":"1" })
