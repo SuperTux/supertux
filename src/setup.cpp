@@ -921,39 +921,27 @@ void parseargs(int argc, char * argv[])
         }
       else if (strcmp(argv[i], "--help") == 0)
         { 	  /* Show help: */
-
-          printf("Super Tux " VERSION "\n\n");
-          printf("Usage: %s [OPTIONS] FILENAME", argv[0]);
-          printf("----------  Command-line options  ----------\n\n");
-
-          printf("  --worldmap          - Start in worldmap-mode (EXPERIMENTAL)\n\n");
-
-          printf("  --opengl            - If opengl support was compiled in, this will enable the EXPERIMENTAL OpenGL mode.\n\n");
-
-          printf("  --disable-sound     - If sound support was compiled in,  this will\n                        disable sound for this session of the game.\n\n");
-
-          printf("  --disable-music     - Like above, but this will disable music.\n\n");
-
-          printf("  --fullscreen        - Run in fullscreen mode.\n\n");
-
-          printf("  --debug-mode        - Enables the debug-mode, which is useful for developers.\n\n");
-
-          printf("  --help              - Display a help message summarizing command-line\n                        options, license and game controls.\n\n");
-
-          printf("  --usage             - Display a brief message summarizing command-line options.\n\n");
-
-          printf("  --version           - Display the version of SuperTux you're running.\n\n\n");
-
-
-          printf("----------          License       ----------\n\n");
-          printf("  This program comes with ABSOLUTELY NO WARRANTY.\n");
-          printf("  This is free software, and you are welcome to redistribute\n");
-          printf("  or modify it under certain conditions. See the file \n");
-          printf("  \"COPYING.txt\" for more details.\n\n\n");
-
-          printf("----------      Game controls     ----------\n\n");
-          printf("  Please see the file \"README.txt\"\n\n");
-
+          puts("Super Tux " VERSION "\n"
+               "  Please see the file \"README.txt\" for more details.\n");
+          printf("Usage: %s [OPTIONS] FILENAME\n\n", argv[0]);
+          puts("Display Options:\n"
+               "  --fullscreen      Run in fullscreen mode.\n"
+               "  --opengl          If opengl support was compiled in, this will enable\n"
+               "                    the EXPERIMENTAL OpenGL mode.\n"
+               "\n"
+               "Sound Options:\n"
+               "  --disable-sound   If sound support was compiled in,  this will\n"
+               "                    disable sound for this session of the game.\n"
+               "  --disable-music   Like above, but this will disable music.\n"
+               "\n"
+               "Misc Options:\n"
+               "  --worldmap        Start in worldmap-mode (EXPERIMENTAL)\n"          
+               "  --debug-mode      Enables the debug-mode, which is useful for developers.\n"
+               "  --help            Display a help message summarizing command-line\n"
+               "                    options, license and game controls.\n"
+               "  --usage           Display a brief message summarizing command-line options.\n"
+               "  --version         Display the version of SuperTux you're running.\n\n"
+               );
           exit(0);
         }
       else if (argv[i][0] != '-')
@@ -987,7 +975,7 @@ void usage(char * prog, int ret)
 
   /* Display the usage message: */
 
-  fprintf(fi, "Usage: %s [--fullscreen] [--opengl] [--disable-sound] [--disable-music] [--debug-mode] | [--usage | --help | --version]\n",
+  fprintf(fi, "Usage: %s [--fullscreen] [--opengl] [--disable-sound] [--disable-music] [--debug-mode] | [--usage | --help | --version] [--worldmap] FILENAME\n",
           prog);
 
 
