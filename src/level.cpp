@@ -303,13 +303,13 @@ int level_load(st_level* plevel, const char* filename)
         {
           std::map<char, int> transtable;
           transtable['.'] = 0;
-          transtable['0'] = 0;
-          transtable['1'] = 1;
-          transtable['2'] = 2;
-          transtable['x'] = 77;
+          transtable['0'] = 1000;
+          transtable['1'] = 1001;
+          transtable['2'] = 1002;
+          transtable['x'] = 104;
           transtable['X'] = 77;
           transtable['y'] = 78;
-          transtable['Y'] = 78;
+          transtable['Y'] = 105;
           transtable['A'] = 83;
           transtable['B'] = 102;
           transtable['!'] = 103;

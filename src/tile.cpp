@@ -53,16 +53,16 @@ void TileManager::load_tileset(std::string filename)
   
               LispReader reader(lisp_cdr(element));
               assert(reader.read_int("id",  &tile->id));
-              reader.read_bool("solid", &tile->solid);
-              reader.read_bool("brick", &tile->brick);
-              reader.read_bool("ice", &tile->ice);	   
-              reader.read_bool("fullbox", &tile->fullbox);
-              reader.read_bool("distro", &tile->distro);
-              reader.read_int("data",  (int*)&tile->data);
-              reader.read_int("alpha",  (int*)&tile->alpha);
-              reader.read_int("anim-speed",  &tile->anim_speed);
+              reader.read_bool("solid",     &tile->solid);
+              reader.read_bool("brick",     &tile->brick);
+              reader.read_bool("ice",       &tile->ice);	   
+              reader.read_bool("fullbox",   &tile->fullbox);
+              reader.read_bool("distro",    &tile->distro);
+              reader.read_int("data",       (int*)&tile->data);
+              reader.read_int("alpha",      (int*)&tile->alpha);
+              reader.read_int("anim-speed", &tile->anim_speed);
               reader.read_int("next-tile",  &tile->next_tile);
-              reader.read_int("next-tile2",  &tile->next_tile2);
+              reader.read_int("next-tile2", &tile->next_tile2);
               reader.read_string_vector("images",  &tile->filenames);
 
 	      for(std::vector<std::string>::iterator it = tile->filenames.begin();

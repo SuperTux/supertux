@@ -173,8 +173,6 @@ Player::action()
 
   if (!dying)
     {
-
-
       if( !on_ground())
         {
           if(under_solid())
@@ -243,9 +241,10 @@ Player::action()
 
           if(size == SMALL)
             {
+              Tile* tile  = gettile(base.x, base.y);
+              Tile* tile2 = gettile(base.x + 31, base.y);
               /* Get a distro from a brick? */
-              if (gettile(base.x, base.y)->brick ||
-                  gettile(base.x, base.y)->brick)
+              if (tile->brick)
                 {
                   add_bouncy_distro((((int)base.x)
                                      / 32) * 32,
@@ -257,15 +256,14 @@ Player::action()
                     }
 
                   if (distro_counter <= 0)
-                    level_change(&current_level,base.x,base.y - 1, TM_IA, 'a');
+                    level_change(&current_level,base.x,base.y - 1, TM_IA, tile->next_tile);
 		    
                   play_sound(sounds[SND_DISTRO], SOUND_CENTER_SPEAKER);
                   score = score + SCORE_DISTRO;
                   distros++;
                 }
-              else if (gettile(base.x+ 31, base.y)->brick ||
-                       gettile(base.x+ 31, base.y)->brick)
-                {
+              else if (tile2->brick)
+              {
                   add_bouncy_distro((((int)base.x + 31)
                                      / 32) * 32,
                                     ((int)base.y / 32) * 32);
@@ -276,7 +274,7 @@ Player::action()
                     }
 
                   if (distro_counter <= 0)
-                    level_change(&current_level,base.x+ 31, base.y, TM_IA, 'a');
+                    level_change(&current_level,base.x+ 31, base.y, TM_IA, tile2->next_tile);
 
                   play_sound(sounds[SND_DISTRO], SOUND_CENTER_SPEAKER);
                   score = score + SCORE_DISTRO;

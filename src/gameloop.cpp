@@ -103,15 +103,15 @@ void activate_bad_guys(void)
   int x,y;
 
   /* Activate bad guys: */
-
   for (y = 0; y < 15; y++)
     {
       for (x = 0; x < current_level.width; x++)
         {
-          if (current_level.dn_tiles[y][x] >= '0' && current_level.dn_tiles[y][x] <= '9')
+          if (current_level.ia_tiles[y][x] >= 1000 && current_level.ia_tiles[y][x] <= 1010)
             {
-              add_bad_guy(x * 32, y * 32,  static_cast<BadGuyKind>(current_level.dn_tiles[y][x] - '0'));
-              current_level.dn_tiles[y][x] = 0;
+              add_bad_guy(x * 32, y * 32,  
+                          static_cast<BadGuyKind>(current_level.ia_tiles[y][x] - 1000));
+              current_level.ia_tiles[y][x] = 0;
             }
         }
     }
