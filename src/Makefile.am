@@ -2,109 +2,18 @@ localedir = $(datadir)/locale
 
 bin_PROGRAMS = supertux
 supertux_CXXFLAGS = -DLOCALEDIR=\"$(localedir)\"
-supertux_LDADD = @LIBINTL@
+supertux_LDADD = $(top_builddir)/lib/libsupertux.la @LIBINTL@
 
-supertux_SOURCES = \
-screen/drawing_context.h \
-screen/drawing_context.cpp \
-screen/font.h \
-screen/font.cpp \
-screen/screen.h \
-screen/screen.cpp \
-screen/surface.cpp \
-screen/surface.h \
-lispwriter.h \
-lispwriter.cpp \
-badguy.cpp \
-badguy.h \
-bitmask.cpp \
-bitmask.h \
-button.cpp \
-button.h \
-camera.cpp \
-camera.h \
-collision.cpp \
-collision.h \
-configfile.cpp \
-configfile.h \
-door.cpp \
-door.h \
-intro.cpp \
-intro.h \
-defines.h \
-exceptions.h \
-gameloop.cpp \
-gameloop.h \
-gettext.h \
-globals.cpp \
-globals.h \
-high_scores.cpp \
-high_scores.h \
-interactive_object.cpp \
-interactive_object.h \
-level.cpp \
-level.h \
-level_subset.cpp \
-level_subset.h \
-leveleditor.cpp \
-leveleditor.h \
-lispreader.cpp \
-lispreader.h \
-menu.cpp \
-menu.h \
-mousecursor.cpp \
-mousecursor.h \
-musicref.cpp \
-musicref.h \
-particlesystem.cpp \
-particlesystem.h \
-physic.cpp \
-physic.h \
-player.cpp \
-player.h \
-scene.cpp \
-scene.h \
-setup.cpp \
-setup.h \
-sound.cpp \
-sound.h \
-sound_manager.h \
-sound_manager.cpp \
-special.cpp \
-special.h \
-sprite.h \
-sprite.cpp \
-sprite_manager.cpp \
-sprite_manager.h \
-supertux.cpp \
-timer.cpp \
-timer.h \
-title.cpp \
-title.h \
-type.cpp \
-type.h \
-worldmap.cpp \
-worldmap.h \
-tile.h \
-tile.cpp \
-tile_manager.h \
-tile_manager.cpp \
-resources.h \
-resources.cpp \
-gameobjs.h \
-gameobjs.cpp \
-game_object.cpp \
-game_object.h \
-background.h \
-background.cpp \
-tilemap.h \
-tilemap.cpp \
-moving_object.h \
-moving_object.cpp \
-serializable.h \
-vector.cpp \
-vector.h \
-sector.cpp \
-sector.h
+supertux_SOURCES = badguy.cpp badguy.h bitmask.cpp bitmask.h camera.cpp \
+		camera.h collision.cpp collision.h door.cpp door.h intro.cpp intro.h \
+		gameloop.cpp gameloop.h high_scores.cpp high_scores.h interactive_object.cpp \
+		interactive_object.h level.cpp level.h level_subset.cpp level_subset.h leveleditor.cpp \
+		leveleditor.h particlesystem.cpp particlesystem.h player.cpp player.h scene.cpp \
+		scene.h special.cpp special.h supertux.cpp title.cpp title.h worldmap.cpp \
+		worldmap.h tile.h tile.cpp tile_manager.h tile_manager.cpp resources.h \
+		resources.cpp gameobjs.h gameobjs.cpp background.h background.cpp tilemap.h \
+		tilemap.cpp serializable.h sector.cpp sector.h misc.h misc.cpp
 
 # EOF #
+INCLUDES = -I$(top_srcdir)/lib
+noinst_HEADERS = misc.h
