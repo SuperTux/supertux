@@ -220,7 +220,7 @@ else
 
 std::string string = str;
 
-return str;
+return string;
 }
 
 /* Set ControlField a key */
