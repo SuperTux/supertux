@@ -48,38 +48,33 @@ bitmask *bitmask_create(int w, int h)
 
 bitmask *bitmask_create_SDL(SDL_Surface* surf)
 {
+  bitmask* pbitmask = bitmask_create(surf->w, surf->h);
   int w,h;
-  int bpp;
-  Uint8* p;
+  SDL_PixelFormat* fmt;
+  Uint32 temp, pixel;
+  Uint8 alpha;
 
-  bitmask *temp = (bitmask*) malloc(sizeof(bitmask));
-  if (! temp)
+  if(surf->format->BytesPerPixel != 4) //This function only works for true-color surfaces with an alpha channel
     return 0;
-  temp->w = surf->w;
-  temp->h = surf->h;
-  temp->bits = (long unsigned int*) calloc(surf->h*((surf->w - 1)/BITW_LEN + 1),sizeof(BITW));
-  if (! temp->bits)
-    {
-      free(temp);
-      return 0;
-    }
-  else
-    return temp;
-
-  bpp = surf->format->BytesPerPixel;
+  
+  fmt = surf->format;
   for(h = 0; h <= surf->h; ++h)
     {
-      for(w = 0; w <= surf->h; ++w)
+      for(w = 0; w <= surf->w; ++w)
         {
 
-          p = (Uint8 *)surf->pixels + h*surf->pitch + w*bpp;
-          if(*p == 255)
-            bitmask_setbit(temp,w,h);
+          pixel = *((Uint32*)((Uint8 *)surf->pixels + h * surf->pitch + w * 4));
+          /* Get Alpha component */
+          temp=pixel&fmt->Amask; /* Isolate alpha component */
+          temp=temp>>fmt->Ashift;/* Shift it down to 8-bit */
+          temp=temp<<fmt->Aloss; /* Expand to a full 8-bit number */
+          alpha=(Uint8)temp;
+          if (fmt->Amask == 0 || alpha != 0)
+            bitmask_setbit(pbitmask,w,h);
         }
     }
-
+  return pbitmask;
 }
-
 void bitmask_free(bitmask *m)
 {
   free(m->bits);
