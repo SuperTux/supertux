@@ -31,8 +31,11 @@
 #include "intro.h"
 #include "text.h"
 
+#include "screen.h"
+
 void draw_intro()
 {
+fade("/images/background/arctis2.jpg", 30, false);
 display_text_file("intro.txt", "/images/background/arctis2.jpg", SCROLL_SPEED_MESSAGE);
 }
 
