@@ -52,6 +52,7 @@ void LevelSubset::create(const std::string& subset_name)
   new_subset.name = subset_name;
   new_subset.title = "Unknown Title";
   new_subset.description = "No description so far.";
+  new_subset.hide_from_contribs = false;
   new_subset.save();
 }
 
@@ -67,6 +68,8 @@ void LevelSubset::read_info_file(const std::string& info_file)
       reader.read_string("title", title, true);
       reader.read_string("description", description, true);
       reader.read_string_vector("levels", levels);
+      hide_from_contribs = false;
+      reader.read_bool("hide-from-contribs", hide_from_contribs);
     }
   else
     {
@@ -153,6 +156,9 @@ LevelSubset::save()
 
       /* Save the description: */
       fprintf(fi,"  (description \"%s\")\n", description.c_str());
+
+      /* Save the hide from Contrbis menu boolean: */
+      fprintf(fi,"  (hide-from-contribs \"%s\")\n", hide_from_contribs ? "#t" : "#f");
 
       fprintf( fi,")");
       fclose(fi);

@@ -59,7 +59,7 @@ public:
   std::string name;
   std::string title;
   std::string description;
-  Surface* image;
+  bool hide_from_contribs;
 
 private:
   void read_info_file(const std::string& info_file);

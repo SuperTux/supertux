@@ -74,6 +74,7 @@ static GameSession* titlesession;
 
 static std::vector<LevelSubset*> contrib_subsets;
 static LevelSubset* current_contrib_subset = 0;
+static int first_level_index;
 
 static std::set<std::string> worldmap_list;
 
@@ -111,22 +112,30 @@ void generate_contrib_menu()
   contrib_menu->additem(MN_LABEL,_("Contrib Levels"),0,0);
   contrib_menu->additem(MN_HL,"",0,0);
   int i = 0;
-  for (std::set<std::string>::iterator it = level_subsets.begin(); it != level_subsets.end(); ++it)
-    {
-      LevelSubset* subset = new LevelSubset();
-      subset->load(*it);
-      contrib_menu->additem(MN_GOTO, subset->title, 0, contrib_subset_menu, i);
-      contrib_subsets.push_back(subset);
-      ++i;
-    }
 
-  i = level_subsets.size();
   for(std::set<std::string>::iterator it = worldmap_list.begin(); it != worldmap_list.end(); ++it)
     {
     WorldMapNS::WorldMap worldmap;
     worldmap.loadmap((*it).c_str());
     contrib_menu->additem(MN_ACTION, worldmap.get_world_title(),0,0, i);
     ++i;
+    }
+
+  contrib_menu->additem(MN_HL,"",0,0);
+
+  first_level_index = i;
+  for (std::set<std::string>::iterator it = level_subsets.begin(); it != level_subsets.end(); ++it)
+    {
+      LevelSubset* subset = new LevelSubset();
+      subset->load(*it);
+      if(subset->hide_from_contribs)
+        {
+        delete subset;
+        continue;
+        }
+      contrib_menu->additem(MN_GOTO, subset->title, 0, contrib_subset_menu, i);
+      contrib_subsets.push_back(subset);
+      ++i;
     }
 
   contrib_menu->additem(MN_HL,"",0,0);
@@ -143,8 +152,32 @@ void check_levels_contrib_menu()
   if (index == -1)
     return;
 
-  if (index < (int)contrib_subsets.size())
+  if((unsigned)index < worldmap_list.size())
     {
+    WorldMapNS::WorldMap worldmap;
+    std::set<std::string>::iterator it = worldmap_list.begin();
+    for(int i = index; i > 0; --i)
+    ++it;
+
+    std::string map_filename = *it;
+
+    worldmap.set_map_filename(map_filename);
+
+    // hack to erase the extension
+    unsigned int ext_pos = it->find_last_of(".");
+    if(ext_pos != std::string::npos)
+      map_filename.erase(ext_pos, map_filename.size() - ext_pos);
+
+    // TODO: slots should be available for contrib maps
+    worldmap.loadgame(st_save_dir + "/" + map_filename + "-slot1.stsg");
+
+    worldmap.display();  // run the map
+
+    Menu::set_current(main_menu);
+    }
+  else if (index < (int)contrib_subsets.size() + first_level_index)
+    {
+    index -= first_level_index;
     if (current_subset != index)
       {
       current_subset = index;
@@ -182,29 +215,6 @@ void check_levels_contrib_menu()
       titlesession->get_current_sector()->activate();
       titlesession->set_current();
       }
-    }
-  else if((unsigned)index < worldmap_list.size() + (int)contrib_subsets.size())
-    {
-    WorldMapNS::WorldMap worldmap;
-    std::set<std::string>::iterator it = worldmap_list.begin();
-    for(int i = index - contrib_subsets.size(); i > 0; --i)
-    ++it;
-
-    std::string map_filename = *it;
-
-    worldmap.set_map_filename(map_filename);
-
-    // hack to erase the extension
-    unsigned int ext_pos = it->find_last_of(".");
-    if(ext_pos != std::string::npos)
-      map_filename.erase(ext_pos, map_filename.size() - ext_pos);
-
-    // TODO: slots should be available for contrib maps
-    worldmap.loadgame(st_save_dir + "/" + map_filename + "-slot1.stsg");
-
-    worldmap.display();  // run the map
-
-    Menu::set_current(main_menu);
     }
 }
 
