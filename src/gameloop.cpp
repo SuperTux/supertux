@@ -65,7 +65,7 @@ GameSession::GameSession(const std::string& filename)
   //assert(!"Don't call me");
   current_ = this;
 
-  world = new World; // &::global_world;
+  world = new World;
 
   fps_timer.init(true);
   frame_timer.init(true);
@@ -81,7 +81,7 @@ GameSession::GameSession(const std::string& subset_, int levelnb_, int mode)
 
   current_ = this;
 
-  world = new World; // &::global_world;
+  world = new World;
 
   fps_timer.init(true);
   frame_timer.init(true);

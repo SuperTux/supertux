@@ -33,8 +33,6 @@ texture_type img_distro[4];
 
 World* World::current_ = 0;
 
-World global_world;
-
 World::World()
 {
   // FIXME: Move this to action and draw and everywhere else where the

@@ -85,6 +85,7 @@ static bool le_level_changed;  /* if changes, ask for saving, when quiting*/
 static int pos_x, cursor_x, cursor_y, fire;
 static int le_level;
 static Level* le_current_level;
+static World le_world;
 static st_subset le_level_subset;
 static int le_show_grid;
 static int le_frame;
@@ -241,7 +242,7 @@ int leveleditor(int levelnb)
                       le_level_subset.load(level_subsets.item[i-2]);
                       leveleditor_menu->item[3].kind = MN_GOTO;
                       le_level = 1;
-                      global_world.arrays_free();
+                      le_world.arrays_free();
                       le_current_level = new Level;
                       if(le_current_level->load(le_level_subset.name.c_str(), le_level) != 0)
                         {
@@ -250,7 +251,7 @@ int leveleditor(int levelnb)
                         }
                       le_set_defaults();
                       le_current_level->load_gfx();
-		      global_world.activate_bad_guys();
+		      le_world.activate_bad_guys();
                       show_menu = true;
                     }
                   break;
@@ -271,7 +272,7 @@ int leveleditor(int levelnb)
                       le_level_subset.load(subset_new_menu->item[2].input);
                       leveleditor_menu->item[3].kind = MN_GOTO;
                       le_level = 1;
-                      global_world.arrays_free();
+                      le_world.arrays_free();
                       le_current_level = new Level;
                       if(le_current_level->load(le_level_subset.name.c_str(), le_level) != 0)
                         {
@@ -280,7 +281,7 @@ int leveleditor(int levelnb)
                         }
                       le_set_defaults();
                       le_current_level->load_gfx();
-		      global_world.activate_bad_guys();
+		      le_world.activate_bad_guys();
                       menu_item_change_input(&subset_new_menu->item[2],"");
                       show_menu = true;
                       break;
@@ -539,7 +540,7 @@ void save_subset_settings_menu()
 
 void le_goto_level(int levelnb)
 {
-  global_world.arrays_free();
+  le_world.arrays_free();
 
   le_current_level->cleanup();
   if(le_current_level->load(le_level_subset.name.c_str(), levelnb) != 0)
@@ -556,7 +557,7 @@ void le_goto_level(int levelnb)
   le_current_level->free_gfx();
   le_current_level->load_gfx();
 
-  global_world.activate_bad_guys();
+  le_world.activate_bad_guys();
 }
 
 void le_quit(void)
@@ -592,7 +593,7 @@ void le_quit(void)
     {
       le_current_level->free_gfx();
       le_current_level->cleanup();
-      global_world.arrays_free();
+      le_world.arrays_free();
     }
 }
 
@@ -723,12 +724,12 @@ void le_drawlevel()
       }
 
   /* Draw the Bad guys: */
-  for (i = 0; i < global_world.bad_guys.size(); ++i)
+  for (i = 0; i < le_world.bad_guys.size(); ++i)
     {
       /* to support frames: img_bsod_left[(frame / 5) % 4] */
       
       scroll_x = pos_x;
-      global_world.bad_guys[i].draw();
+      le_world.bad_guys[i].draw();
     }
 
 
@@ -1117,16 +1118,16 @@ void le_change(float x, float y, int tm, unsigned int c)
           xx = ((int)x / 32);
 
           /* if there is a bad guy over there, remove it */
-          for(i = 0; i < global_world.bad_guys.size(); ++i)
-            if(xx == global_world.bad_guys[i].base.x/32 && yy == global_world.bad_guys[i].base.y/32)
-              global_world.bad_guys.erase(static_cast<std::vector<BadGuy>::iterator>(&global_world.bad_guys[i]));
+          for(i = 0; i < le_world.bad_guys.size(); ++i)
+            if(xx == le_world.bad_guys[i].base.x/32 && yy == le_world.bad_guys[i].base.y/32)
+              le_world.bad_guys.erase(static_cast<std::vector<BadGuy>::iterator>(&le_world.bad_guys[i]));
 
           if(c == '0')  /* if it's a bad guy */
-            global_world.add_bad_guy(xx*32, yy*32, BAD_BSOD);
+            le_world.add_bad_guy(xx*32, yy*32, BAD_BSOD);
           else if(c == '1')
-            global_world.add_bad_guy(xx*32, yy*32, BAD_LAPTOP);
+            le_world.add_bad_guy(xx*32, yy*32, BAD_LAPTOP);
           else if(c == '2')
-            global_world.add_bad_guy(xx*32, yy*32, BAD_MONEY);
+            le_world.add_bad_guy(xx*32, yy*32, BAD_MONEY);
 
           break;
         case SQUARE:
@@ -1157,10 +1158,10 @@ void le_change(float x, float y, int tm, unsigned int c)
           y2 /= 32;
 
           /* if there is a bad guy over there, remove it */
-          for(i = 0; i < global_world.bad_guys.size(); ++i)
-            if(global_world.bad_guys[i].base.x/32 >= x1 && global_world.bad_guys[i].base.x/32 <= x2
-               && global_world.bad_guys[i].base.y/32 >= y1 && global_world.bad_guys[i].base.y/32 <= y2)
-              global_world.bad_guys.erase(static_cast<std::vector<BadGuy>::iterator>(&global_world.bad_guys[i]));
+          for(i = 0; i < le_world.bad_guys.size(); ++i)
+            if(le_world.bad_guys[i].base.x/32 >= x1 && le_world.bad_guys[i].base.x/32 <= x2
+               && le_world.bad_guys[i].base.y/32 >= y1 && le_world.bad_guys[i].base.y/32 <= y2)
+              le_world.bad_guys.erase(static_cast<std::vector<BadGuy>::iterator>(&le_world.bad_guys[i]));
 
           for(xx = x1; xx <= x2; xx++)
             for(yy = y1; yy <= y2; yy++)
@@ -1168,11 +1169,11 @@ void le_change(float x, float y, int tm, unsigned int c)
                 le_current_level->change(xx*32, yy*32, tm, c);
 
                 if(c == '0')  // if it's a bad guy
-                  global_world.add_bad_guy(xx*32, yy*32, BAD_BSOD);
+                  le_world.add_bad_guy(xx*32, yy*32, BAD_BSOD);
                 else if(c == '1')
-                  global_world.add_bad_guy(xx*32, yy*32, BAD_LAPTOP);
+                  le_world.add_bad_guy(xx*32, yy*32, BAD_LAPTOP);
                 else if(c == '2')
-                  global_world.add_bad_guy(xx*32, yy*32, BAD_MONEY);
+                  le_world.add_bad_guy(xx*32, yy*32, BAD_MONEY);
               }
           break;
         default:
@@ -1189,9 +1190,9 @@ void le_testlevel()
   session.run();
 
   Menu::set_current(leveleditor_menu);
-  global_world.arrays_free();
+  le_world.arrays_free();
   le_current_level->load_gfx();
-  global_world.activate_bad_guys();
+  le_world.activate_bad_guys();
 }
 
 void le_showhelp()
