@@ -38,7 +38,7 @@
 #include "app/gettext.h"
 #include "misc.h"
 
-#define DISPLAY_MAP_MESSAGE_TIME 2800
+#define map_message_TIME 2800
 
 Menu* worldmap_menu  = 0;
 
@@ -117,22 +117,51 @@ TileManager::TileManager()
               std::string filename = "<invalid>";
 
               Tile* tile = new Tile;             
-              tile->north = true;
-              tile->east  = true;
-              tile->south = true;
-              tile->west  = true;
+              tile->north = tile->east = tile->south = tile->west = true;
               tile->stop  = true;
               tile->auto_walk = false;
   
               LispReader reader(lisp_cdr(element));
               reader.read_int("id", id);
+
+              std::string temp;
+              reader.read_string("possible-directions", temp);
+              if(!temp.empty())
+                {
+                tile->north = tile->east = tile->south = tile->west = false;
+                if(temp.find("north") != std::string::npos)
+                  tile->north = true;
+                if(temp.find("south") != std::string::npos)
+                  tile->south = true;
+                if(temp.find("east") != std::string::npos)
+                  tile->east = true;
+                if(temp.find("west") != std::string::npos)
+                  tile->west = true;
+                }
+
+              /* For backward compatibility */
               reader.read_bool("north", tile->north);
               reader.read_bool("south", tile->south);
               reader.read_bool("west",  tile->west);
               reader.read_bool("east",  tile->east);
+
               reader.read_bool("stop",  tile->stop);
               reader.read_bool("auto-walk",  tile->auto_walk);
               reader.read_string("image", filename);
+
+              reader.read_string("one-way", temp);
+              tile->one_way = BOTH_WAYS;
+              if(!temp.empty())
+                {
+                if(temp == "north-south")
+                  tile->one_way = NORTH_SOUTH_WAY;
+                else if(temp == "south-north")
+                  tile->one_way = SOUTH_NORTH_WAY;
+                else if(temp == "east-west")
+                  tile->one_way = EAST_WEST_WAY;
+                else if(temp == "west-east")
+                  tile->one_way = WEST_EAST_WAY;
+                }
 
               tile->sprite = new Surface(
                            datadir +  "/images/worldmap/" + filename, 
@@ -299,14 +328,24 @@ Tux::action(float delta)
 
           WorldMap::SpecialTile* special_tile = worldmap->at_special_tile();
           if(special_tile && special_tile->passive_message)
-            {
-            worldmap->passive_message = special_tile->display_map_message;
-            worldmap->passive_message_timer.start(DISPLAY_MAP_MESSAGE_TIME);
+            {  // direction and the apply_action_ are opposites, since they "see"
+               // directions in a different way
+            if((direction == D_NORTH && special_tile->apply_action_south) ||
+               (direction == D_SOUTH && special_tile->apply_action_north) ||
+               (direction == D_WEST && special_tile->apply_action_east) ||
+               (direction == D_EAST && special_tile->apply_action_west))
+              {
+              worldmap->passive_message = special_tile->map_message;
+              worldmap->passive_message_timer.start(map_message_TIME);
+              }
             }
 
           if (worldmap->at(tile_pos)->stop || (special_tile && 
               !special_tile->passive_message))
             {
+              if(special_tile && !special_tile->map_message.empty() &&
+                !special_tile->passive_message)
+                worldmap->passive_message_timer.stop();
               stop();
             }
           else
@@ -402,6 +441,7 @@ WorldMap::WorldMap()
   leveldot_green = new Surface(datadir +  "/images/worldmap/leveldot_green.png", true);
   leveldot_red = new Surface(datadir +  "/images/worldmap/leveldot_red.png", true);
   messagedot   = new Surface(datadir +  "/images/worldmap/messagedot.png", true);
+  teleporterdot   = new Surface(datadir +  "/images/worldmap/teleporterdot.png", true);
 
   enter_level = false;
 
@@ -417,6 +457,7 @@ WorldMap::~WorldMap()
   delete leveldot_green;
   delete leveldot_red;
   delete messagedot;
+  delete teleporterdot;
 }
 
 void
@@ -469,25 +510,52 @@ WorldMap::load_map()
                       special_tile.south = true;
                       special_tile.west  = true;
 
-                      reader.read_string("extro-filename", special_tile.extro_filename);
-                      reader.read_string("passive-message", special_tile.display_map_message);
-                      special_tile.passive_message = false;
-                      if(!special_tile.display_map_message.empty())
-                        special_tile.passive_message = true;
-                      reader.read_string("map-message", special_tile.display_map_message);
-                      reader.read_string("next-world", special_tile.next_worldmap);
-                      reader.read_string("level", special_tile.level_name, true);
                       reader.read_int("x", special_tile.x);
                       reader.read_int("y", special_tile.y);
-                      special_tile.auto_path = true;
-                      reader.read_bool("auto-path", special_tile.auto_path);
-                      special_tile.swap_x = special_tile.swap_y = -1;
-                      reader.read_int("swap-x", special_tile.swap_x);
-                      reader.read_int("swap-y", special_tile.swap_y);
+                      reader.read_string("level", special_tile.level_name, true);
+
                       special_tile.vertical_flip = false;
-                      reader.read_bool("flip-special_tile", special_tile.vertical_flip);
+                      reader.read_bool("vertical-flip", special_tile.vertical_flip);
+
+                      special_tile.map_message.erase();
+                      reader.read_string("map-message", special_tile.map_message);
+                      special_tile.passive_message = false;
+                      reader.read_bool("passive-message", special_tile.passive_message);
+
+                      special_tile.teleport_dest_x = special_tile.teleport_dest_y = -1;
+                      reader.read_int("teleport-to-x", special_tile.teleport_dest_x);
+                      reader.read_int("teleport-to-y", special_tile.teleport_dest_y);
+
+                      special_tile.invisible = false;
+                      reader.read_bool("invisible-tile", special_tile.invisible);
+
+                      special_tile.apply_action_north = special_tile.apply_action_south =
+                          special_tile.apply_action_east = special_tile.apply_action_west =
+                          true;
+                      std::string apply_direction;
+                      reader.read_string("apply-to-direction", apply_direction);
+                      if(!apply_direction.empty())
+                        {
+                        special_tile.apply_action_north = special_tile.apply_action_south =
+                            special_tile.apply_action_east = special_tile.apply_action_west =
+                            false;
+                        if(apply_direction.find("north") != std::string::npos)
+                          special_tile.apply_action_north = true;
+                        if(apply_direction.find("south") != std::string::npos)
+                          special_tile.apply_action_south = true;
+                        if(apply_direction.find("east") != std::string::npos)
+                          special_tile.apply_action_east = true;
+                        if(apply_direction.find("west") != std::string::npos)
+                          special_tile.apply_action_west = true;
+                        }
+
+                      reader.read_string("extro-filename", special_tile.extro_filename);
+                      reader.read_string("next-world", special_tile.next_worldmap);
                       special_tile.quit_worldmap = false;
                       reader.read_bool("exit-game", special_tile.quit_worldmap);
+
+                      special_tile.auto_path = true;
+                      reader.read_bool("auto-path", special_tile.auto_path);
 
                       special_tiles.push_back(special_tile);
                     }
@@ -504,14 +572,21 @@ WorldMap::load_map()
                       special_tile.south = true;
                       special_tile.west  = true;
 
+                      special_tile.invisible = false;
+
+                      special_tile.apply_action_north = special_tile.apply_action_south =
+                          special_tile.apply_action_east = special_tile.apply_action_west =
+                          true;
+                      special_tile.vertical_flip = false;
+                      special_tile.teleport_dest_x = special_tile.teleport_dest_y = -1;
+
                       reader.read_string("extro-filename", special_tile.extro_filename);
                       if(!special_tile.extro_filename.empty())
                         special_tile.quit_worldmap = true;
                       reader.read_string("name", special_tile.level_name, true);
                       reader.read_int("x", special_tile.x);
                       reader.read_int("y", special_tile.y);
-                      special_tile.vertical_flip = false;
-                      special_tile.swap_x = special_tile.swap_y = -1;
+
 
                       special_tiles.push_back(special_tile);
                     }
@@ -674,6 +749,16 @@ WorldMap::path_ok(Direction direction, Vector old_pos, Vector* new_pos)
     { // New position is outsite the tilemap
       return false;
     }
+  else if(at(*new_pos)->one_way != BOTH_WAYS)
+    {
+std::cerr << "one way only\n";
+      if((at(*new_pos)->one_way == NORTH_SOUTH_WAY && direction != D_SOUTH) ||
+         (at(*new_pos)->one_way == SOUTH_NORTH_WAY && direction != D_NORTH) ||
+         (at(*new_pos)->one_way == EAST_WEST_WAY && direction != D_WEST) ||
+         (at(*new_pos)->one_way == WEST_EAST_WAY && direction != D_EAST))
+        return false;
+      return true;
+    }
   else
     { // Check if we the tile allows us to go to new_pos
       switch(direction)
@@ -833,10 +918,13 @@ WorldMap::update(float delta)
           // Display a text file
           display_text_file(special_tile->extro_filename, SCROLL_SPEED_MESSAGE, white_big_text , white_text, white_small_text, blue_text );
           }
-        if (special_tile->swap_x != -1 && special_tile->swap_y != -1)
+        if (special_tile->teleport_dest_x != -1 && special_tile->teleport_dest_y != -1)
           {
-          // TODO: add an effect, like a camera scrolling, or at least, a fading
-          tux->set_tile_pos(Vector(special_tile->swap_x, special_tile->swap_y));
+          // TODO: an animation, camera scrolling or a fading would be a nice touch
+          SoundManager::get()->play_sound(IDToSound(SND_WARP));
+          tux->back_direction = D_NONE;
+          tux->set_tile_pos(Vector(special_tile->teleport_dest_x, special_tile->teleport_dest_y));
+          SDL_Delay(1000);
           }
         if (!special_tile->next_worldmap.empty())
           {
@@ -916,9 +1004,15 @@ WorldMap::draw(DrawingContext& context, const Vector& offset)
   
   for(SpecialTiles::iterator i = special_tiles.begin(); i != special_tiles.end(); ++i)
     {
+      if(i->invisible)
+        continue;
       if(i->level_name.empty())
         {
-        if (!i->display_map_message.empty() && !i->passive_message)
+        if (i->teleport_dest_x != -1 && i->teleport_dest_y != -1)
+          context.draw_surface(teleporterdot,
+              Vector(i->x*32 + offset.x, i->y*32 + offset.y), LAYER_TILES+1);
+
+        else if (!i->map_message.empty() && !i->passive_message)
           context.draw_surface(messagedot,
               Vector(i->x*32 + offset.x, i->y*32 + offset.y), LAYER_TILES+1);
 
@@ -990,8 +1084,8 @@ WorldMap::draw_status(DrawingContext& context)
                 }
 
               /* Display an in-map message in the map, if any as been selected */
-              if(!i->display_map_message.empty())
-                context.draw_text_center(gold_text, i->display_map_message, 
+              if(!i->map_message.empty() && !i->passive_message)
+                context.draw_text_center(gold_text, i->map_message, 
                     Vector(0, screen->h - white_text->get_height() - 60),
                     LAYER_FOREGROUND1);
               break;

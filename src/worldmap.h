@@ -36,6 +36,15 @@ enum WorldMapMenuIDs {
   MNID_QUITWORLDMAP
   };
 
+// For one way tiles
+enum {
+  BOTH_WAYS,
+  NORTH_SOUTH_WAY,
+  SOUTH_NORTH_WAY,
+  EAST_WEST_WAY,
+  WEST_EAST_WAY
+  };
+
 class Tile
 {
 public:
@@ -49,6 +58,9 @@ public:
   bool east;
   bool south;
   bool west;
+
+  /** One way tile */
+  int one_way;
 
   /** Stop on this tile or walk over it? */
   bool stop;
@@ -124,6 +136,7 @@ private:
   Surface* leveldot_green;
   Surface* leveldot_red;
   Surface* messagedot;
+  Surface* teleporterdot;
 
   std::string name;
   std::string music;
@@ -155,12 +168,15 @@ public:
         successfully completed */
     std::string extro_filename;
 
-    /** Position to swap player */
-    int swap_x, swap_y;
+    /** Position to swap to player */
+    int teleport_dest_x, teleport_dest_y;
 
     /** Message to show in the Map */
-    std::string display_map_message;
+    std::string map_message;
     bool passive_message;
+
+    /** Hide special tile */
+    bool invisible;
 
     /** Go to this world */
     std::string next_worldmap;
@@ -176,6 +192,12 @@ public:
     bool east;
     bool south;
     bool west;
+
+    /** Only applies actions (ie. passive messages) when going to that direction */
+    bool apply_action_north;
+    bool apply_action_east;
+    bool apply_action_south;
+    bool apply_action_west;
   };
 
   /** Variables to deal with the passive map messages */
