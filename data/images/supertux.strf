@@ -24,7 +24,7 @@
          (fps 15.0)
          (x-offset 5)
          (y-offset 14)
-         (images "shared/smalltux/arms-walk-0.png"))
+         (images "shared/smalltux/arms-walk-5.png"))
 
        (action
          (name "jump")
@@ -74,7 +74,7 @@
          (fps 15.0)
          (x-offset 5)
          (y-offset 14)
-         (images "shared/smalltux/body-walk-0.png"))
+         (images "shared/smalltux/body-walk-5.png"))
 
        (action
          (name "jump")
