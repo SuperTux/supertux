@@ -46,6 +46,10 @@ static texture_type bkg_title;
 static texture_type logo;
 static texture_type img_choose_subset;
 
+static bool walking;
+static Player titletux;
+static timer_type random_timer;
+
 static SDL_Event event;
 static SDLKey key;
 static int frame, i;
@@ -61,6 +65,61 @@ void draw_background()
   texture_draw_bg(&bkg_title);
 }
 
+void draw_demo()
+{
+  /* DEMO begin */
+  /* update particle systems */
+  std::vector<ParticleSystem*>::iterator p;
+  for(p = particle_systems.begin(); p != particle_systems.end(); ++p)
+    {
+      (*p)->simulate(frame_ratio);
+    }
+
+  /* Draw particle systems (background) */
+  for(p = particle_systems.begin(); p != particle_systems.end(); ++p)
+    {
+      (*p)->draw(scroll_x, 0, 0);
+    }
+
+  /* Draw interactive tiles: */
+
+  for (int y = 0; y < 15; ++y)
+    {
+      for (int x = 0; x < 21; ++x)
+        {
+          drawshape(32*x - fmodf(scroll_x, 32), y * 32,
+                    current_level.ia_tiles[(int)y][(int)x + (int)(scroll_x / 32)]);
+        }
+    }
+
+  global_frame_counter++;
+  titletux.key_event(SDLK_RIGHT,DOWN);
+  
+  if(timer_check(&random_timer))
+    {
+      if(walking)
+        titletux.key_event(SDLK_UP,UP);
+      else
+        titletux.key_event(SDLK_UP,DOWN);
+    }
+  else
+    {
+      timer_start(&random_timer, rand() % 3000 + 3000);
+      walking = !walking;
+    }
+
+  if(current_level.width * 32 - 320 < titletux.base.x)
+    {
+      titletux.base.x = 160;
+      scroll_x = 0;
+    }
+
+  titletux.action();
+  titletux.draw();
+
+  /* DEMO end */
+}
+
 /* --- TITLE SCREEN --- */
 
 int title(void)
@@ -69,11 +128,11 @@ int title(void)
   string_list_type level_subsets;
   st_subset subset;
   level_subsets = dsubdirs("/levels", "info");
-  timer_type random_timer;
   timer_init(&random_timer, true);
-  bool walking = true;
-  Player titletux;
+
+  walking = true;
   titletux.init();
+
   st_pause_ticks_init();
 
   level_load(&current_level, (datadir + "/levels/misc/menu.stl").c_str());
@@ -149,59 +208,15 @@ int title(void)
 
       /* Draw the background: */
       draw_background();
-
-      /* DEMO begin */
-      /* update particle systems */
-      std::vector<ParticleSystem*>::iterator p;
-      for(p = particle_systems.begin(); p != particle_systems.end(); ++p)
-        {
-          (*p)->simulate(frame_ratio);
-        }
-
-      /* Draw particle systems (background) */
-      for(p = particle_systems.begin(); p != particle_systems.end(); ++p)
-        {
-          (*p)->draw(scroll_x, 0, 0);
-        }
-
-      /* Draw interactive tiles: */
-
-      for (int y = 0; y < 15; ++y)
-        {
-          for (int x = 0; x < 21; ++x)
-            {
-              drawshape(32*x - fmodf(scroll_x, 32), y * 32,
-                        current_level.ia_tiles[(int)y][(int)x + (int)(scroll_x / 32)]);
-            }
-        }
-
-      global_frame_counter++;
-      titletux.key_event(SDLK_RIGHT,DOWN);
-
-      
-      if(timer_check(&random_timer))
-        {
-	  if(walking)
-          titletux.key_event(SDLK_UP,UP);
-	  else
-	  titletux.key_event(SDLK_UP,DOWN);
-        }
-      else
-        {
-          timer_start(&random_timer, rand() % 3000 + 3000);
-	  walking = !walking;
-        }
-
-      if(current_level.width * 32 - 320 < titletux.base.x)
-        {
-          titletux.base.x = 160;
-          scroll_x = 0;
-        }
-
-      titletux.action();
-      titletux.draw();
-
-      /* DEMO end */
+      draw_demo();
+      texture_draw(&logo, 160, 30);
+      text_draw(&white_small_text, 
+                " SuperTux " VERSION "\n"
+                "Copyright (c) 2003 SuperTux Devel Team\n"
+                "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you\n"
+                "are welcome to redistribute it under certain conditions; see the file COPYING\n"
+                "for details.\n",
+                0, 420, 0);
 
       /* Draw the high score: */
       /*
@@ -319,8 +334,6 @@ int title(void)
         {
           process_save_load_game_menu(false);
         }
-
-      texture_draw(&logo, 160, 30);
 
       mouse_cursor->draw();
       
