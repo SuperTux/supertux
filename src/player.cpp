@@ -603,14 +603,25 @@ Player::handle_vertical_input()
 
                // XXX: magic numbers. should be a percent of gravity
                //      gravity is (by default) -0.1f
-               physic.set_acceleration_y(.05 + .06f*xr);
+               physic.set_acceleration_y(.12 + .01f*xr);
+
+#if 0
+               // To slow down x-vel when flapping (not working)
+               if (fabsf(physic.get_velocity_x()) > MAX_WALK_XM)
+               {
+                   if (physic.get_velocity_x() < 0)
+                       physic.set_acceleration_x(1.0f);
+                   else if (physic.get_velocity_x() > 0)
+                       physic.set_acceleration_x(-1.0f);
+               }
+#endif
             }
      }
     else
      {
         physic.set_acceleration_y(0);
      }
-   
+
    // Hover
    //(disabled by default, use cheat code "hover" to toggle on/off)
    //TODO: needs some tweaking, especially when used together with double jump and jumping off badguys
