@@ -180,6 +180,11 @@ public:
   bool tiles_on_air(int tiles);
   void grow(bool animate);
   void move(const Vector& vector);
+
+  /** let the player jump a bit or more if jump button is hold down
+      (used when you hit a badguy) */
+  void bounce();
+
   bool is_dead() const
   { return dead; }
   

@@ -160,9 +160,6 @@ private:
    * ground */
   void fall();
 
-  /** let the player jump a bit (used when you hit a badguy) */
-  void make_player_jump(Player* player);
-
   /** Turn enemy into a bomb. To explode right way pass true */
   void explode(bool right_away);
 

@@ -1006,3 +1006,18 @@ Player::check_bounds(Camera* camera)
   }
 }
 
+void
+Player::bounce()
+{
+  if (input.up)
+    physic.set_velocity_y(5.2);
+  else
+    physic.set_velocity_y(2);
+
+  // FIXME: moving tux up looks ugly, but without it tux might collide
+  // FIXME: with enemies, which he has just jump onto (iceblock)
+  //base.y = base.y - base.height - 2;
+}
+
+/* EOF */
+
