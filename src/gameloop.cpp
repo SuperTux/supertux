@@ -91,9 +91,6 @@ GameSession::GameSession(const std::string& levelfile_, int mode,
 
   context = new DrawingContext();
 
-  last_swap_point = Vector(-1, -1);
-  last_swap_stats.reset();
-
   restart_level();
 }
 
@@ -126,40 +123,23 @@ GameSession::restart_level()
   global_stats.set_total_points(BADGUYS_KILLED_STAT, level->get_total_badguys());
   global_stats.set_total_points(TIME_NEEDED_STAT, level->timelimit);
 
-  currentsector = level->get_sector("main");
-  if(!currentsector)
-    Termination::abort("Level has no main sector.", "");
-  currentsector->activate("main");
-
-#if 0
-  // Set Tux to the nearest reset point
-  if(tux_pos.x != -1)
-    {
-    tux_pos = currentsector->get_best_spawn_point(tux_pos);
-
-    if(last_swap_point.x > tux_pos.x)
-      tux_pos = last_swap_point;
-    else  // new swap point
-      {
-      last_swap_point = tux_pos;
-
-      last_swap_stats += global_stats;
-      }
-
-    currentsector->player->base.x = tux_pos.x;
-    currentsector->player->base.y = tux_pos.y;
-
-    // has to reset camera on swapping
-    currentsector->camera->reset(Vector(currentsector->player->base.x,
-                                        currentsector->player->base.y));
+  if(reset_sector != "") {
+    currentsector = level->get_sector(reset_sector);
+    if(!currentsector) {
+      std::stringstream msg;
+      msg << "Couldn't find sector '" << reset_sector << "' for resetting tux.";
+      throw std::runtime_error(msg.str());
     }
-#endif
-
-  if (st_gl_mode != ST_GL_DEMO_GAME)
-    {
-      if(st_gl_mode == ST_GL_PLAY || st_gl_mode == ST_GL_LOAD_LEVEL_FILE)
-        levelintro();
-    }
+    currentsector->activate(reset_pos);
+  } else {
+    currentsector = level->get_sector("main");
+    if(!currentsector)
+      throw std::runtime_error("Couldn't find main sector");
+    currentsector->activate("main");
+  }
+  
+  if(st_gl_mode == ST_GL_PLAY || st_gl_mode == ST_GL_LOAD_LEVEL_FILE)
+    levelintro();
 
   start_timers();
   currentsector->play_music(LEVEL_MUSIC);
@@ -172,7 +152,7 @@ GameSession::~GameSession()
 }
 
 void
-GameSession::levelintro(void)
+GameSession::levelintro()
 {
   SoundManager::get()->halt_music();
   
@@ -383,13 +363,13 @@ GameSession::process_events()
                       }
                   }
 
-                        /* Check if chacrater is ASCII */
-                        char ch[2];
-                        if((event.key.keysym.unicode & 0xFF80) == 0)
-                          {
-                          ch[0] = event.key.keysym.unicode & 0x7F;
-                          ch[1] = '\0';
-                          }
+                  /* Check if chacrater is ASCII */
+                  char ch[2];
+                  if((event.key.keysym.unicode & 0xFF80) == 0)
+                  {
+                      ch[0] = event.key.keysym.unicode & 0x7F;
+                      ch[1] = '\0';
+                  }
                         last_keys.append(ch);  // add to cheat keys
                         handle_cheats();
                   break;
@@ -572,9 +552,8 @@ GameSession::check_end_conditions()
 
   /* End of level? */
   if(end_sequence && endsequence_timer.check()) {
-      exit_status = ES_LEVEL_FINISHED;
-      global_stats += last_swap_stats;  // add swap points stats
-      return;
+    exit_status = ES_LEVEL_FINISHED;
+    return;
   } else if (!end_sequence && tux->is_dead()) {
     player_status.bonus = PlayerStatus::NO_BONUS;
 
@@ -792,6 +771,13 @@ GameSession::respawn(const std::string& sector, const std::string& spawnpoint)
 {
   newsector = sector;
   newspawnpoint = spawnpoint;
+}
+
+void
+GameSession::set_reset_point(const std::string& sector, const Vector& pos)
+{
+  reset_sector = sector;
+  reset_pos = pos;
 }
 
 void

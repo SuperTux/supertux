@@ -85,7 +85,7 @@ void resume_demo()
 {
   // FIXME: shouldn't be needed if GameSession
   // didn't relay on global variables
-  titlesession->get_current_sector()->activate();
+  titlesession->get_current_sector()->activate("main");
   titlesession->set_current();
 
   frame_rate.update();
@@ -214,7 +214,7 @@ void check_levels_contrib_menu()
     contrib_subset_menu->additem(MN_HL,"",0,0);      
     contrib_subset_menu->additem(MN_BACK, _("Back"), 0, 0);
 
-    titlesession->get_current_sector()->activate();
+    titlesession->get_current_sector()->activate("main");
     titlesession->set_current();
   }
 }
@@ -297,7 +297,7 @@ void title(void)
   logo = new Surface(datadir + "/images/title/logo.png", true);
   img_choose_subset = new Surface(datadir + "/images/status/choose-level-subset.png", true);
 
-  titlesession->get_current_sector()->activate();
+  titlesession->get_current_sector()->activate("main");
   titlesession->set_current();
 
   /* --- Main title loop: --- */

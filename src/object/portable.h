@@ -14,10 +14,19 @@ using namespace SuperTux;
 class Portable
 {
 public:
-    /**
-     * called each frame when the object has been grabbed.
-     */
+  virtual ~Portable()
+  { }
+  
+  /**
+   * called each frame when the object has been grabbed.
+   */
   virtual void grab(MovingObject& object, const Vector& pos) = 0;
+
+  /** called when object isn't grabbed anymore */
+  virtual void ungrab(MovingObject& object)
+  {
+    (void) object;
+  }
 };
 
 #endif

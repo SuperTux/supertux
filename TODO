@@ -58,13 +58,7 @@ Programming
     themselfes. This could speed up rendering of tilemaps.
 [M] Make the gamelogic run in a fixed logical framerate
 
---Miscellaneous--
-[?] think about how to implement scripting, and how to make a simple and easy to
-  use api for the scripting interface
-  (language will probably be lua - just have to figure out how well we can do
-   without OO support in the scripting language.
-   Other candidates are python, ruby and less likely java, mono/.net,
-   surely no own invention, perl or 1 of these c-like scripting languages)
+--Objects--
 [H] Create a "sound object" that is an object or area, that can be placed on the
     map and constantly plays a .wav file to improve game athmosphere.
     Good examples would be a water sound which can be placed at waterfalls,
@@ -86,6 +80,14 @@ Programming
 [H] Add a rope object on which tux is able to climb, also add a ? block that
     emits a rope when hit
 [H] redo trampolines
+
+--Miscellaneous--
+[?] think about how to implement scripting, and how to make a simple and easy to
+  use api for the scripting interface
+  (language will probably be lua - just have to figure out how well we can do
+   without OO support in the scripting language.
+   Other candidates are python, ruby and less likely java, mono/.net,
+   surely no own invention, perl or 1 of these c-like scripting languages)
 [H] Buttjump related things
      - enable buttjump again
      - Should kill enemies with a certain range

@@ -137,7 +137,7 @@ RainParticleSystem::RainParticleSystem()
 
     virtual_width = screen->w * 2;
 
-    // create some random snowflakes
+    // create some random raindrops
     size_t raindropcount = size_t(virtual_width/8.0);
     for(size_t i=0; i<raindropcount; ++i) {
         RainParticle* particle = new RainParticle;

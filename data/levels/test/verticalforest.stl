@@ -931,6 +931,8 @@
   (reset-points
    )
   (objects
+   (bell (x 609) (y 6500))
+   (bell (x 543) (y 3655))   
   )
    )
 

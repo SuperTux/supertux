@@ -392,11 +392,33 @@ Sector::add_object(GameObject* object)
 void
 Sector::activate(const std::string& spawnpoint)
 {
+  SpawnPoint* sp = 0;
+  for(SpawnPoints::iterator i = spawnpoints.begin(); i != spawnpoints.end();
+      ++i) {
+    if((*i)->name == spawnpoint) {
+      sp = *i;
+      break;
+    }
+  }                                                                           
+  if(!sp) {
+    std::cerr << "Spawnpoint '" << spawnpoint << "' not found.\n";
+    if(spawnpoint != "main") {
+      activate("main");
+    } else {
+      activate(Vector(0, 0));
+    }
+  } else {
+    activate(sp->pos);
+  }
+}
+
+void
+Sector::activate(const Vector& player_pos)
+{
   _current = this;
 
   // Apply bonuses from former levels
-  switch (player_status.bonus)
-    {
+  switch (player_status.bonus) {
     case PlayerStatus::NO_BONUS:
       break;
                                                                                 
@@ -407,39 +429,14 @@ Sector::activate(const std::string& spawnpoint)
     case PlayerStatus::GROWUP_BONUS:
       player->grow(false);
       break;
-    }
 
-  SpawnPoint* sp = 0;
-  for(SpawnPoints::iterator i = spawnpoints.begin(); i != spawnpoints.end();
-      ++i) {
-    if((*i)->name == spawnpoint) {
-      sp = *i;
+    default:
+      std::cerr << "Unknown bonus in PlayerStatus?!?\n";
       break;
-    }
-  }
-  if(!sp) {
-    std::cerr << "Spawnpoint '" << spawnpoint << "' not found.\n";
-  } else {
-    player->move(sp->pos);
   }
 
+  player->move(player_pos);
   camera->reset(player->get_pos());
-}
-
-Vector
-Sector::get_best_spawn_point(Vector pos)
-{
-  Vector best_reset_point = Vector(-1,-1);
-
-  for(SpawnPoints::iterator i = spawnpoints.begin(); i != spawnpoints.end();
-      ++i) {
-    if((*i)->name != "main")
-      continue;
-    if((*i)->pos.x > best_reset_point.x && (*i)->pos.x < pos.x)
-      best_reset_point = (*i)->pos;
-  }
-
-  return best_reset_point;
 }
 
 Rectangle

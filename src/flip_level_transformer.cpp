@@ -71,8 +71,8 @@ FlipLevelTransformer::transform_spawnpoint(float height, SpawnPoint* spawn)
 void
 FlipLevelTransformer::transform_moving_object(float height, MovingObject*object)
 {
-  Vector pos = object->bbox.p1;
+  Vector pos = object->get_pos();
   pos.y = height - pos.y;
-  object->bbox.set_pos(pos);
+  object->set_pos(pos);
 }
 

@@ -1,5 +1,5 @@
-#ifndef __BOX_H__
-#define __BOX_H__
+#ifndef __BLOCK_H__
+#define __BLOCK_H__
 
 #include "special/moving_object.h"
 

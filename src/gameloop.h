@@ -55,7 +55,52 @@ class DrawingContext;
     keeping the speed and framerate sane, etc. */
 class GameSession
 {
+public:
+  enum ExitStatus { ES_NONE, ES_LEVEL_FINISHED, ES_GAME_OVER, ES_LEVEL_ABORT };
+
+public:
+  DrawingContext* context;
+  Timer2 time_left;
+
+  GameSession(const std::string& levelfile, int mode, Statistics* statistics=0);
+  ~GameSession();
+
+  /** Enter the busy loop */
+  ExitStatus run();
+
+  void draw();
+  void action(float frame_ratio);
+
+  void set_current()
+  { current_ = this; }
+  static GameSession* current() { return current_; }
+
+  void respawn(const std::string& sectorname,
+      const std::string& spawnpointname);
+  void set_reset_point(const std::string& sectorname,
+      const Vector& pos);
+  Sector* get_current_sector()
+  { return currentsector; }
+
+  void start_sequence(const std::string& sequencename);
+  
 private:
+  void restart_level();
+
+  void check_end_conditions();
+  void start_timers();
+  void process_events();
+  void handle_cheats();
+
+  void levelintro();
+  void drawstatus(DrawingContext& context);
+  void drawendscreen();
+  void drawresultscreen(void);
+
+  void on_escape_press();
+  void process_menu();
+
+
   Uint32 fps_ticks;
   Timer2 endsequence_timer;
   Level* level;
@@ -80,69 +125,25 @@ private:
 
   std::string levelfile;
 
-  // the sector and spawnpoint we shoudl spawn after this frame
+  // reset point (the point where tux respawns if he dies)
+  std::string reset_sector;
+  Vector reset_pos;
+
+  // the sector and spawnpoint we should spawn after this frame
   std::string newsector;
   std::string newspawnpoint;
 
-public:
-  enum ExitStatus { ES_NONE, ES_LEVEL_FINISHED, ES_GAME_OVER, ES_LEVEL_ABORT };
-private:
-  ExitStatus exit_status;
-public:
-  DrawingContext* context;
-  Timer2 time_left;
-
-  GameSession(const std::string& levelfile, int mode, Statistics* statistics=0);
-  ~GameSession();
-
-  /** Enter the busy loop */
-  ExitStatus run();
-
-  void draw();
-  void action(float frame_ratio);
-
-  void set_current()
-  { current_ = this; }
-  static GameSession* current() { return current_; }
-
-  void respawn(const std::string& sectorname,
-      const std::string& spawnpointname);
-  Sector* get_current_sector()
-  { return currentsector; }
-
-  void start_sequence(const std::string& sequencename);
-  
-private:
   static GameSession* current_;
 
   // for cheating
   std::string last_keys;
 
-  // swap points
-  Vector last_swap_point;
-  Statistics last_swap_stats;
-
   Statistics* best_level_statistics;
 
-  void restart_level();
-
-  void check_end_conditions();
-  void start_timers();
-  void process_events();
-  void handle_cheats();
-
-  void levelintro();
-  void drawstatus(DrawingContext& context);
-  void drawendscreen();
-  void drawresultscreen(void);
-
-  void on_escape_press();
-  void process_menu();
+  ExitStatus exit_status;
 };
 
 std::string slotinfo(int slot);
-
-void bumpbrick(float x, float y);
 
 /** Return true if the gameloop() was entered, false otherwise */
 bool process_load_game_menu();

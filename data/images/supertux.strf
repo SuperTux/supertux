@@ -1379,6 +1379,23 @@
           (y-offset 0)
           (images "shared/stomp.png")
   ))
+
+  (sprite (name "bell")
+       (action
+          (name "default")
+          (x-offset 0)
+          (y-offset 0)
+          (images "shared/bell/bell-m.png")
+       )
+       (action
+         (name "ringing")
+         (images "shared/bell/bell-l.png"
+           "shared/bell/bell-m.png"
+           "shared/bell/bell-r.png"
+           "shared/bell/bell-m.png"
+         )
+       )
+  )
 )
 
 ;; EOF ;;

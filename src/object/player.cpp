@@ -257,9 +257,21 @@ Player::action(float elapsed_time)
     return;
   }
 
-  if(input.fire == false)
+  if(input.fire == false && grabbed_object) {
     grabbed_object = 0;
-
+    // move the grabbed object a bit away from tux
+    Vector pos = get_pos() + 
+        Vector(dir == LEFT ? -bbox.get_width() : bbox.get_width(),
+                bbox.get_height()*0.66666 - 32);
+    MovingObject* object = dynamic_cast<MovingObject*> (grabbed_object);
+    if(object) {
+      object->set_pos(pos);
+    } else {
+#ifdef DEBUG
+      std::cout << "Non MovingObjetc grabbed?!?\n";
+#endif
+    }
+  }
 
   if(!dying)
     handle_input();

@@ -63,10 +63,18 @@ namespace SuperTux
         return movement;
       }
 
+      /** places the moving object at a specific position. Be carefull when
+       * using this function. There are no collision detection checks performed
+       * here so bad things could happen.
+       */
+      virtual void set_pos(const Vector& pos)
+      {
+        bbox.set_pos(pos);
+      }
+
     protected:
       friend class Sector;
       friend class CollisionGrid;
-      friend class FlipLevelTransformer;
       
       /** The bounding box of the object (as used for collision detection, this
        * isn't necessarily the bounding box for graphics)
