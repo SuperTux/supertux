@@ -22,6 +22,7 @@
  */
 
 #include <iostream>
+#include <queue>
 #include <string>
 #include <assert.h>
 #include <ctype.h>
@@ -503,28 +504,41 @@ lisp_free (lisp_object_t *obj)
   if (obj == 0)
     return;
 
-  switch (obj->type)
+  /** We have to use this iterative code because the recursion function
+   * produces a stack overflow and crashes on OSX 10.2
+   */
+  std::queue<lisp_object_t*> objs;
+  objs.push(obj);
+
+  while(!objs.empty())
+  {
+    lisp_object_t* obj = objs.front();
+    objs.pop();
+
+    switch (obj->type)
     {
-    case LISP_TYPE_INTERNAL :
-    case LISP_TYPE_PARSE_ERROR :
-    case LISP_TYPE_EOF :
-      return;
+      case LISP_TYPE_INTERNAL :
+      case LISP_TYPE_PARSE_ERROR :
+      case LISP_TYPE_EOF :
+        return;
+      case LISP_TYPE_SYMBOL :
+      case LISP_TYPE_STRING :
+        free(obj->v.string);
+        break;
+       case LISP_TYPE_CONS :
+      case LISP_TYPE_PATTERN_CONS :
+        if(obj->v.cons.car)
+          objs.push(obj->v.cons.car);
+        if(obj->v.cons.cdr)
+          objs.push(obj->v.cons.cdr);
+        break;
 
-    case LISP_TYPE_SYMBOL :
-    case LISP_TYPE_STRING :
-      free(obj->v.string);
-      break;
-
-    case LISP_TYPE_CONS :
-    case LISP_TYPE_PATTERN_CONS :
-      lisp_free(obj->v.cons.car);
-      lisp_free(obj->v.cons.cdr);
-      break;
-
-    case LISP_TYPE_PATTERN_VAR :
-      lisp_free(obj->v.pattern.sub);
-      break;
+      case LISP_TYPE_PATTERN_VAR :
+        if(obj->v.pattern.sub)
+          objs.push(obj->v.pattern.sub);
+        break;
     }
+  }
 
   free(obj);
 }
