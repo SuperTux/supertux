@@ -772,7 +772,15 @@ void le_drawminimap()
     mini_tile_width = 1;
   int left_offset = (screen->w - 64 - le_world->get_level()->width*mini_tile_width) / 2;
 
-  for (int y = 0; y < 15; ++y)
+  int mini_tile_height;
+  if(screen->h - 64 > le_world->get_level()->height * 4)
+    mini_tile_height = 4;
+  else if(screen->h - 64 > le_world->get_level()->height * 2)
+    mini_tile_height = 2;
+  else
+    mini_tile_height = 1;
+
+  for (int y = 0; y < le_world->get_level()->height; ++y)
     for (int x = 0; x < le_world->get_level()->width; ++x)
     {
 
@@ -784,12 +792,12 @@ void le_drawminimap()
 
     }
 
-  fillrect(left_offset, 0, le_world->get_level()->width*mini_tile_width, 15*4, 200, 200, 200, 128);
+  fillrect(left_offset, 0, le_world->get_level()->width*mini_tile_width, le_world->get_level()->height*mini_tile_height, 200, 200, 200, 128);
 
   fillrect(left_offset + (pos_x/32)*mini_tile_width, 0, 19*mini_tile_width, 2, 200, 200, 200, 200);
-  fillrect(left_offset + (pos_x/32)*mini_tile_width, 0, 2, 15*4, 200, 200, 200, 200);
-  fillrect(left_offset + (pos_x/32)*mini_tile_width + 19*mini_tile_width - 2, 0, 2, 15*4, 200, 200, 200, 200);
-  fillrect(left_offset + (pos_x/32)*mini_tile_width, 15*4-2, 19*mini_tile_width, 2, 200, 200, 200, 200);
+  fillrect(left_offset + (pos_x/32)*mini_tile_width, 0, 2, le_world->get_level()->height*mini_tile_height, 200, 200, 200, 200);
+  fillrect(left_offset + (pos_x/32)*mini_tile_width + 19*mini_tile_width - 2, 0, 2, le_world->get_level()->height*mini_tile_height, 200, 200, 200, 200);
+  fillrect(left_offset + (pos_x/32)*mini_tile_width, le_world->get_level()->height*mini_tile_height-2, 19*mini_tile_width, 2, 200, 200, 200, 200);
 
 }
 
@@ -805,7 +813,7 @@ void le_drawinterface()
     {
       for(x = 0; x < 19; x++)
         fillrect(x*32 - ((int)pos_x % 32), 0, 1, screen->h, 225, 225, 225,255);
-      for(y = 0; y < 15; y++)
+      for(y = 0; y < 16; y++)
         fillrect(0, y*32 - ((int)pos_y % 32), screen->w - 32, 1, 225, 225, 225,255);
     }
   }
@@ -943,7 +951,7 @@ void le_drawlevel()
 
   /*       clearscreen(current_level.bkgd_red, current_level.bkgd_green, current_level.bkgd_blue); */
 
-  for (y = 0; y < 15; ++y)
+  for (y = 0; y < 16 && y < (unsigned)le_world->get_level()->height; ++y)
     for (x = 0; x < 20; ++x)
     {
 
@@ -970,7 +978,7 @@ void le_drawlevel()
 
       /* draw whats inside stuff when cursor is selecting those */
       /* (draw them all the time - is this the right behaviour?) */
-      Tile* edit_image = TileManager::instance()->get(le_world->get_level()->ia_tiles[y + (int)(pos_x / 32)][x + (int)(pos_x / 32)]);
+      Tile* edit_image = TileManager::instance()->get(le_world->get_level()->ia_tiles[y + (int)(pos_y / 32)][x + (int)(pos_x / 32)]);
       if(edit_image && !edit_image->editor_images.empty())
         edit_image->editor_images[0]->draw( x * 32 - ((int)pos_x % 32), y*32 - ((int)pos_y % 32));
 
