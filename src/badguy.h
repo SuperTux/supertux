@@ -92,11 +92,12 @@ public:
 
   Direction dir;
 
+  Timer frozen_timer;  // gets frozen when a ice shot hits it
+
 private:
   bool removable;
   bool seen;
   int squishcount; /// number of times this enemy was squiched
-  Timer frozen_timer;  // gets frozen when a ice shot hits it
   Timer timer;
   Physic physic;
 

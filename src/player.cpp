@@ -673,14 +673,12 @@ Player::collision(void* p_c_object, int c_object)
                   kill(SHRINK);
                 }
               else
-                {
-                   pbad_c->dying = DYING_FALLING;
-                   play_sound(sounds[SND_FALL], SOUND_CENTER_SPEAKER);
-                   World::current()->add_score(pbad_c->base.x,
-                                               pbad_c->base.y,
-                                               25 * player_status.score_multiplier);
-                }
+                pbad_c->kill_me(20);
             }
+          else if (pbad_c->frozen_timer.check() && (pbad_c->kind == BAD_MRBOMB
+              || pbad_c->kind == BAD_JUMPY || pbad_c->kind == BAD_FISH
+              || pbad_c->kind == BAD_SPIKY))
+                pbad_c->kill_me(20);
           else
             {
               if (!invincible_timer.started())

@@ -42,8 +42,11 @@ Sprite* img_mriceblock_right;
 Sprite* img_jumpy_left_up;
 Sprite* img_jumpy_left_down;
 Sprite* img_jumpy_left_middle;
+Sprite* img_jumpy_left_iced;
 Sprite* img_mrbomb_left;
 Sprite* img_mrbomb_right;
+Sprite* img_mrbomb_iced_left;
+Sprite* img_mrbomb_iced_right;
 Sprite* img_mrbomb_ticking_left;
 Sprite* img_mrbomb_ticking_right;
 Sprite* img_mrbomb_explosion;
@@ -52,6 +55,8 @@ Sprite* img_stalactite_broken;
 Sprite* img_flame;
 Sprite* img_fish;
 Sprite* img_fish_down;
+Sprite* img_fish_iced;
+Sprite* img_fish_iced_down;
 Sprite* img_bouncingsnowball_left;
 Sprite* img_bouncingsnowball_right;
 Sprite* img_bouncingsnowball_squished;
@@ -59,6 +64,8 @@ Sprite* img_flyingsnowball;
 Sprite* img_flyingsnowball_squished;
 Sprite* img_spiky_left;
 Sprite* img_spiky_right;
+Sprite* img_spiky_iced_left;
+Sprite* img_spiky_iced_right;
 Sprite* img_snowball_left;
 Sprite* img_snowball_right;
 Sprite* img_snowball_squished_left;
@@ -377,6 +384,12 @@ BadGuy::remove_me()
 void
 BadGuy::action_jumpy(double frame_ratio)
 {
+  if(frozen_timer.check())
+    {
+    set_sprite(img_jumpy_left_iced, img_jumpy_left_iced);
+    return;
+    }
+
   const float vy = physic.get_velocity_y();
 
   // XXX: These tests *should* use location from ground, not velocity
@@ -420,6 +433,12 @@ BadGuy::action_jumpy(double frame_ratio)
 void
 BadGuy::action_mrbomb(double frame_ratio)
 {
+  if(frozen_timer.check())
+    {
+    set_sprite(img_mrbomb_iced_left, img_mrbomb_iced_right);
+    return;
+    }
+
   if (dying == DYING_NOT)
     check_horizontal_bump(true);
 
@@ -523,6 +542,16 @@ BadGuy::action_flame(double frame_ratio)
 void
 BadGuy::action_fish(double frame_ratio)
 {
+  if(frozen_timer.check())
+    {
+    if(physic.get_velocity_y() < 0)
+      set_sprite(img_fish_iced_down, img_fish_iced_down);
+    else
+      set_sprite(img_fish_iced, img_fish_iced);
+
+    return;
+    }
+
   static const float JUMPV = 6;
   static const int WAITTIME = 1000;
     
@@ -630,6 +659,12 @@ BadGuy::action_flyingsnowball(double frame_ratio)
 void
 BadGuy::action_spiky(double frame_ratio)
 {
+  if(frozen_timer.check())
+    {
+    set_sprite(img_spiky_iced_left, img_spiky_iced_right);
+    return;
+    }
+
   if (dying == DYING_NOT)
     check_horizontal_bump();
 
@@ -682,9 +717,6 @@ BadGuy::action(double frame_ratio)
     seen = true;
 
   if(!seen)
-    return;
-
-  if(frozen_timer.check())
     return;
 
   switch (kind)
@@ -910,7 +942,7 @@ BadGuy::squish(Player* player)
 void
 BadGuy::kill_me(int score)
 {
-  if(kind == BAD_BOMB || kind == BAD_STALACTITE || kind == BAD_FLAME)
+  if(kind == BAD_BOMB)
     return;
 
   dying = DYING_FALLING;
@@ -963,9 +995,19 @@ BadGuy::collision(void *p_c_object, int c_object, CollisionType type)
       pbullet_c = (Bullet*) p_c_object;
 
       if(pbullet_c->kind == FIRE_BULLET)
+        {
+        if(kind == BAD_MRICEBLOCK || kind == BAD_STALACTITE ||
+            kind == BAD_FISH || kind == BAD_BOUNCINGSNOWBALL ||
+            kind == BAD_FLYINGSNOWBALL || kind == BAD_FLYINGSNOWBALL)
         kill_me(10);
+        }
       else if(pbullet_c->kind == ICE_BULLET)
-        frozen_timer.start(FROZEN_TIME);
+        {
+        if(kind == BAD_FLAME)
+          kill_me(10);
+        else
+          frozen_timer.start(FROZEN_TIME);
+        }
       break;
 
     case CO_BADGUY:
@@ -1100,8 +1142,11 @@ void load_badguy_gfx()
   img_jumpy_left_up = sprite_manager->load("jumpy-left-up");
   img_jumpy_left_down = sprite_manager->load("jumpy-left-down");
   img_jumpy_left_middle = sprite_manager->load("jumpy-left-middle");
+  img_jumpy_left_iced = sprite_manager->load("jumpy-left-iced");
   img_mrbomb_left = sprite_manager->load("mrbomb-left");
   img_mrbomb_right = sprite_manager->load("mrbomb-right");
+  img_mrbomb_iced_left = sprite_manager->load("mrbomb-iced-left");
+  img_mrbomb_iced_right = sprite_manager->load("mrbomb-iced-right");
   img_mrbomb_ticking_left = sprite_manager->load("mrbomb-ticking-left");
   img_mrbomb_ticking_right = sprite_manager->load("mrbomb-ticking-right");
   img_mrbomb_explosion = sprite_manager->load("mrbomb-explosion");
@@ -1110,6 +1155,8 @@ void load_badguy_gfx()
   img_flame = sprite_manager->load("flame");
   img_fish = sprite_manager->load("fish");
   img_fish_down = sprite_manager->load("fish-down");
+  img_fish_iced = sprite_manager->load("fish-iced");
+  img_fish_iced_down = sprite_manager->load("fish-iced-down");
   img_bouncingsnowball_left = sprite_manager->load("bouncingsnowball-left");
   img_bouncingsnowball_right = sprite_manager->load("bouncingsnowball-right");
   img_bouncingsnowball_squished = sprite_manager->load("bouncingsnowball-squished");
@@ -1117,6 +1164,8 @@ void load_badguy_gfx()
   img_flyingsnowball_squished = sprite_manager->load("flyingsnowball-squished");
   img_spiky_left = sprite_manager->load("spiky-left");
   img_spiky_right = sprite_manager->load("spiky-right");
+  img_spiky_iced_left = sprite_manager->load("spiky-iced-left");
+  img_spiky_iced_right = sprite_manager->load("spiky-iced-right");
   img_snowball_left = sprite_manager->load("snowball-left");
   img_snowball_right = sprite_manager->load("snowball-right");
   img_snowball_squished_left = sprite_manager->load("snowball-squished-left");
