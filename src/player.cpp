@@ -1007,16 +1007,16 @@ Player::check_bounds(Camera* camera)
 }
 
 void
-Player::bounce()
+Player::bounce(BadGuy* badguy)
 {
   if (input.up)
     physic.set_velocity_y(5.2);
   else
     physic.set_velocity_y(2);
 
-  // FIXME: moving tux up looks ugly, but without it tux might collide
-  // FIXME: with enemies, which he has just jump onto (iceblock)
-  //base.y = base.y - base.height - 2;
+  // Move the player a little bit above the badguy to avoid collision
+  // between badguy and player directly after the bounce has happend
+  base.y = badguy->base.y - base.height - 2;
 }
 
 /* EOF */

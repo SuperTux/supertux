@@ -1028,7 +1028,7 @@ BadGuy::bump()
 void
 BadGuy::squish_me(Player* player)
 {
-  player->bounce();
+  player->bounce(this);
     
   Sector::current()->add_score(Vector(base.x, base.y),
                               50 * player_status.score_multiplier);
@@ -1050,7 +1050,7 @@ BadGuy::squish(Player* player)
     // mrbomb transforms into a bomb now
     explode(false);
     
-    player->bounce();
+    player->bounce(this);
     Sector::current()->add_score(Vector(base.x, base.y),
                                 50 * player_status.score_multiplier);
     sound_manager->play_sound(sounds[SND_SQUISH], get_pos());
@@ -1084,7 +1084,7 @@ BadGuy::squish(Player* player)
         set_sprite(img_mriceblock_flat_left, img_mriceblock_flat_right);
       }
 
-    player->bounce();
+    player->bounce(this);
 
     player_status.score_multiplier++;
 
@@ -1101,7 +1101,7 @@ BadGuy::squish(Player* player)
     if(physic.get_velocity_y() >= 0)
       return;
       
-    player->bounce();
+    player->bounce(this);
 	      
     Sector::current()->add_score(Vector(base.x, base.y),
                                 25 * player_status.score_multiplier);
@@ -1132,7 +1132,7 @@ BadGuy::squish(Player* player)
       physic.set_velocity_x(physic.get_velocity_x() * 2.0f);
       // XXX magic number: 66 is BGM_BIG height
 
-      player->bounce();
+      player->bounce(this);
       base.y += 66 - base.height;
 	      
       Sector::current()->add_score(Vector(base.x, base.y),

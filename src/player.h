@@ -31,6 +31,8 @@
 #include "moving_object.h"
 #include "physic.h"
 
+class BadGuy;
+
 /* Times: */
 
 #define TUX_SAFE_TIME 1250
@@ -183,7 +185,7 @@ public:
 
   /** let the player jump a bit or more if jump button is hold down
       (used when you hit a badguy) */
-  void bounce();
+  void bounce(BadGuy* badguy);
 
   bool is_dead() const
   { return dead; }
