@@ -1,3 +1,24 @@
+2004-06-02  gettextize  <bug-gnu-gettext@gnu.org>
+
+	* Makefile.am (SUBDIRS): Add intl,
+	(EXTRA_DIST): Add config.rpath mkinstalldirs.
+	* configure.ac (AC_OUTPUT): Add intl/Makefile,
+
+2004-06-02  gettextize  <bug-gnu-gettext@gnu.org>
+
+	* Makefile.am (EXTRA_DIST): Add config.rpath mkinstalldirs.
+
+2004-06-02  gettextize  <bug-gnu-gettext@gnu.org>
+
+	* Makefile.am (EXTRA_DIST): Add config.rpath.
+
+2004-06-02  gettextize  <bug-gnu-gettext@gnu.org>
+
+	* Makefile.am (SUBDIRS): Add m4.
+	(ACLOCAL_AMFLAGS): New variable.
+	(EXTRA_DIST): Add config.rpath.
+	* configure.ac (AC_OUTPUT): Add po/Makefile.in,
+
 - SuperTux changes -
 http://super-tux.sf.net/
 

@@ -1,0 +1,13 @@
+Makefile.in
+aclocal.m4
+config.log
+config.status
+config.guess
+config.rpath
+config.sub
+configure
+depcomp
+install-sh
+missing
+mkinstalldirs
+
