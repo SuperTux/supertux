@@ -29,7 +29,7 @@
 #define NO_BOUNCE 0
 #define BOUNCE 1
 
-class bouncy_distro_type
+class BouncyDistro
 {
  public:
   base_type base;
@@ -46,7 +46,7 @@ extern texture_type img_distro[4];
 
 class Tile;
 
-class broken_brick_type
+class BrokenBrick
 {
  public:
   base_type base;
@@ -58,7 +58,7 @@ class broken_brick_type
   void draw();
 };
 
-class bouncy_brick_type
+class BouncyBrick
 {
  public:
   float offset;
@@ -71,7 +71,7 @@ class bouncy_brick_type
   void draw();
 };
 
-class floating_score_type
+class FloatingScore
 {
  public:
   int value;

@@ -23,7 +23,7 @@
 #include "gameobjs.h"
 
 void
-bouncy_distro_type::init(float x, float y)
+BouncyDistro::init(float x, float y)
 {
   base.x = x;
   base.y = y;
@@ -31,18 +31,18 @@ bouncy_distro_type::init(float x, float y)
 }
 
 void
-bouncy_distro_type::action()
+BouncyDistro::action()
 {
   base.y = base.y + base.ym * frame_ratio;
 
   base.ym += 0.1 * frame_ratio;
 
   if (base.ym >= 0)
-    world.bouncy_distros.erase(static_cast<std::vector<bouncy_distro_type>::iterator>(this));
+    world.bouncy_distros.erase(static_cast<std::vector<BouncyDistro>::iterator>(this));
 }
 
 void
-bouncy_distro_type::draw()
+BouncyDistro::draw()
 {
   texture_draw(&img_distro[0],
                base.x - scroll_x,
@@ -51,7 +51,7 @@ bouncy_distro_type::draw()
 
 
 void
-broken_brick_type::init(Tile* tile_, float x, float y, float xm, float ym)
+BrokenBrick::init(Tile* tile_, float x, float y, float xm, float ym)
 {
   tile    = tile_;
   base.x  = x;
@@ -64,17 +64,17 @@ broken_brick_type::init(Tile* tile_, float x, float y, float xm, float ym)
 }
 
 void
-broken_brick_type::action()
+BrokenBrick::action()
 {
   base.x = base.x + base.xm * frame_ratio;
   base.y = base.y + base.ym * frame_ratio;
 
   if (!timer_check(&timer))
-    world.broken_bricks.erase(static_cast<std::vector<broken_brick_type>::iterator>(this));
+    world.broken_bricks.erase(static_cast<std::vector<BrokenBrick>::iterator>(this));
 }
 
 void
-broken_brick_type::draw()
+BrokenBrick::draw()
 {
   SDL_Rect src, dest;
   src.x = rand() % 16;
@@ -93,7 +93,7 @@ broken_brick_type::draw()
 }
 
 void
-bouncy_brick_type::init(float x, float y)
+BouncyBrick::init(float x, float y)
 {
   base.x   = x;
   base.y   = y;
@@ -103,7 +103,7 @@ bouncy_brick_type::init(float x, float y)
 }
 
 void
-bouncy_brick_type::action()
+BouncyBrick::action()
 {
   offset = (offset +
                            offset_m * frame_ratio);
@@ -115,11 +115,11 @@ bouncy_brick_type::action()
 
   /* Stop bouncing? */
   if (offset >= 0)
-    world.bouncy_bricks.erase(static_cast<std::vector<bouncy_brick_type>::iterator>(this));
+    world.bouncy_bricks.erase(static_cast<std::vector<BouncyBrick>::iterator>(this));
 }
 
 void
-bouncy_brick_type::draw()
+BouncyBrick::draw()
 {
   int s;
   SDL_Rect dest;
@@ -156,7 +156,7 @@ bouncy_brick_type::draw()
 }
 
 void
-floating_score_type::init(float x, float y, int s)
+FloatingScore::init(float x, float y, int s)
 {
   base.x = x;
   base.y = y - 16;
@@ -166,16 +166,16 @@ floating_score_type::init(float x, float y, int s)
 }
 
 void
-floating_score_type::action()
+FloatingScore::action()
 {
   base.y = base.y - 2 * frame_ratio;
 
   if(!timer_check(&timer))
-    world.floating_scores.erase(static_cast<std::vector<floating_score_type>::iterator>(this));
+    world.floating_scores.erase(static_cast<std::vector<FloatingScore>::iterator>(this));
 }
 
 void
-floating_score_type::draw()
+FloatingScore::draw()
 {
   char str[10];
   sprintf(str, "%d", value);

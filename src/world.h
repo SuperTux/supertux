@@ -35,10 +35,10 @@ class World
  public:
   Level* level;
   
-  std::vector<bouncy_distro_type> bouncy_distros;
-  std::vector<broken_brick_type>  broken_bricks;
-  std::vector<bouncy_brick_type>  bouncy_bricks;
-  std::vector<floating_score_type> floating_scores;
+  std::vector<BouncyDistro> bouncy_distros;
+  std::vector<BrokenBrick>  broken_bricks;
+  std::vector<BouncyBrick>  bouncy_bricks;
+  std::vector<FloatingScore> floating_scores;
 
   std::vector<BadGuy> bad_guys;
   std::vector<upgrade_type> upgrades;

@@ -256,15 +256,15 @@ World::add_score(float x, float y, int s)
 {
   score += s;
 
-  floating_score_type new_floating_score;
-new_floating_score.init(x,y,s);
+  FloatingScore new_floating_score;
+  new_floating_score.init(x,y,s);
   floating_scores.push_back(new_floating_score);
 }
 
 void
 World::add_bouncy_distro(float x, float y)
 {
-  bouncy_distro_type new_bouncy_distro;
+  BouncyDistro new_bouncy_distro;
   new_bouncy_distro.init(x,y);
   bouncy_distros.push_back(new_bouncy_distro);
 }
@@ -282,7 +282,7 @@ World::add_broken_brick(Tile* tile, float x, float y)
 void
 World::add_broken_brick_piece(Tile* tile, float x, float y, float xm, float ym)
 {
-  broken_brick_type new_broken_brick;
+  BrokenBrick new_broken_brick;
   new_broken_brick.init(tile, x, y, xm, ym);
   broken_bricks.push_back(new_broken_brick);
 }
@@ -290,7 +290,7 @@ World::add_broken_brick_piece(Tile* tile, float x, float y, float xm, float ym)
 void
 World::add_bouncy_brick(float x, float y)
 {
-  bouncy_brick_type new_bouncy_brick;
+  BouncyBrick new_bouncy_brick;
   new_bouncy_brick.init(x,y);
   bouncy_bricks.push_back(new_bouncy_brick);
 }
