@@ -132,6 +132,33 @@ public:
   unsigned int frame;
 };
 
+class FlyingPlatform : public MovingObject, public Drawable, public Serializable
+{
+public:
+  FlyingPlatform(DisplayManager& displaymanager, LispReader& reader);
+ 
+  virtual void write(LispWriter& writer);
+  virtual void action(float frame_ratio);
+  virtual void draw(ViewPort& viewport, int layer);
+  virtual std::string type() const
+  { return "Trampoline"; };
+
+  virtual void collision(const MovingObject& other, int);
+  void collision(void *p_c_object, int c_object, CollisionType type);
+
+  Physic physic;
+  enum { M_NORMAL, M_HELD } mode;
+
+ private:
+  std::vector<int> pos_x;
+  std::vector<int> pos_y;
+  float velocity;
+
+  int point;
+  bool move;
+  unsigned int frame;
+};
+
 void load_object_gfx();
 
 #endif 

@@ -165,6 +165,9 @@ World::add_object(GameObject* object)
   Trampoline* trampoline = dynamic_cast<Trampoline*> (object);
   if(trampoline)
     trampolines.push_back(trampoline);
+  FlyingPlatform* flying_platform = dynamic_cast<FlyingPlatform*> (object);
+  if(flying_platform)
+    flying_platforms.push_back(flying_platform);
 
   gameobjects.push_back(object);
 }
@@ -180,7 +183,11 @@ World::parse_objects(lisp_object_t* cur)
 
     if(object_type == "trampoline") {
       add_object(new Trampoline(displaymanager, reader));
-    } else {
+    }
+    else if(object_type == "flying-platform") {
+      add_object(new FlyingPlatform(displaymanager, reader));
+    }
+    else {
       BadGuyKind kind = badguykind_from_string(object_type);
       add_object(new BadGuy(displaymanager, kind, reader));
     }
@@ -258,6 +265,12 @@ World::action(float elapsed_time)
         trampolines.erase(
             std::remove(trampolines.begin(), trampolines.end(), trampoline),
             trampolines.end());
+      }
+      FlyingPlatform* flying_platform= dynamic_cast<FlyingPlatform*> (*i);
+      if(flying_platform) {
+        flying_platforms.erase(
+            std::remove(flying_platforms.begin(), flying_platforms.end(), flying_platform),
+            flying_platforms.end());
       }
       
       delete *i;
@@ -483,6 +496,24 @@ World::collision_handler()
         tux->collision(*i, CO_TRAMPOLINE);
         (*i)->collision(tux, CO_PLAYER, COLLISION_NORMAL);
       }
+    }
+  }
+
+  // CO_FLYING_PLATFORM & (CO_PLAYER or CO_BADGUY)
+  for (FlyingPlatforms::iterator i = flying_platforms.begin(); i != flying_platforms.end(); ++i)
+  {
+    if (rectcollision((*i)->base, tux->base))
+    {
+      if (tux->previous_base.y < tux->base.y &&
+          tux->previous_base.y + tux->previous_base.height 
+          < (*i)->base.y + (*i)->base.height/2)
+      {
+        (*i)->collision(tux, CO_PLAYER, COLLISION_SQUISH);
+        tux->collision(*i, CO_FLYING_PLATFORM);
+      }
+/*      else if (tux->previous_base.y <= tux->base.y)
+      {
+      }*/
     }
   }
 }

@@ -44,6 +44,8 @@ private:
   BadGuys bad_guys_to_add;
   typedef std::list<Trampoline*> Trampolines;
   Trampolines trampolines;
+  typedef std::list<FlyingPlatform*> FlyingPlatforms;
+  FlyingPlatforms flying_platforms;
   Level* level;
   Player* tux;
 

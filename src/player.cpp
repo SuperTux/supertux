@@ -709,6 +709,7 @@ Player::collision(void* p_c_object, int c_object)
 {
   BadGuy* pbad_c = NULL;
   Trampoline* ptramp_c = NULL;
+  FlyingPlatform* pplatform_c = NULL;
 
   switch (c_object)
     {
@@ -799,7 +800,11 @@ Player::collision(void* p_c_object, int c_object)
         }
       }
 */
-
+      break;
+    case CO_FLYING_PLATFORM:
+      pplatform_c = (FlyingPlatform*) p_c_object;
+      
+      base.y = pplatform_c->base.y - base.height;
       break;
 
     default:

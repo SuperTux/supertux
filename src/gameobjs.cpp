@@ -145,17 +145,6 @@ FloatingScore::draw(ViewPort& viewport, int )
 #define TRAMPOLINE_FRAMES 4
 Sprite *img_trampoline[TRAMPOLINE_FRAMES];
 
-void load_object_gfx()
-{
-  char sprite_name[16];
-
-  for (int i = 0; i < TRAMPOLINE_FRAMES; i++)
-  {
-    sprintf(sprite_name, "trampoline-%i", i+1);
-    img_trampoline[i] = sprite_manager->load(sprite_name);
-  }
-}
-
 Trampoline::Trampoline(DisplayManager& displaymanager, LispReader& reader)
 {
   displaymanager.add_drawable(this, LAYER_OBJECTS);
@@ -289,4 +278,137 @@ Trampoline::collision(void *p_c_object, int c_object, CollisionType type)
   }
 }
 
+/* Flying Platform */
 
+#define FLYING_PLATFORM_FRAMES 1
+Sprite *img_flying_platform[FLYING_PLATFORM_FRAMES];
+
+FlyingPlatform::FlyingPlatform(DisplayManager& displaymanager, LispReader& reader)
+{
+  displaymanager.add_drawable(this, LAYER_OBJECTS);
+
+  reader.read_int_vector("x",  &pos_x);
+  reader.read_int_vector("y",  &pos_y);
+
+  velocity = 2.0;
+  reader.read_float("velocity", &velocity);
+
+  base.x = pos_x[0];
+  base.y = pos_y[0];
+  base.width = 96;
+  base.height = 40;
+
+  point = 0;
+  move = false;
+
+  frame = 0;
+}
+
+void
+FlyingPlatform::write(LispWriter& writer)
+{
+  writer.start_list("flying-trampoline");
+
+  writer.write_int_vector("x", pos_x);
+  writer.write_int_vector("y", pos_y);
+  writer.write_float("velocity", velocity);
+
+  writer.end_list("flying-trampoline");
+}
+
+void
+FlyingPlatform::draw(ViewPort& viewport, int )
+{
+img_flying_platform[frame]->draw(viewport.world2screen(Vector(base.x, base.y)));
+}
+
+void
+FlyingPlatform::action(float frame_ratio)
+{
+  // TODO: Remove if we're too far off the screen
+
+  // FIXME: change frame
+if(!move)
+  return;
+
+if((unsigned)point+1 != pos_x.size())
+  if(((pos_x[point+1] > pos_x[point] && base.x >= pos_x[point+1]) ||
+      (pos_x[point+1] < pos_x[point] && base.x <= pos_x[point+1]) ||
+      pos_x[point+1] == pos_x[point+1]) &&
+    ((pos_y[point+1] > pos_y[point] && base.y >= pos_y[point+1]) ||
+      (pos_y[point+1] < pos_y[point] && base.y <= pos_y[point+1]) ||
+      pos_y[point+1] == pos_y[point+1]))
+    {
+    point++;
+std::cerr << "next point: " << point << std::endl;
+    }
+else   // last point
+  {
+  // point = 0;
+  // reverse vector
+  return;
+  }
+
+if(pos_x[point] > base.x)
+  base.x += velocity * frame_ratio;
+else if(pos_x[point] < base.x)
+  base.x -= velocity * frame_ratio;
+
+if(pos_y[point] > base.y)
+  base.y += velocity * frame_ratio;
+else if(pos_y[point] < base.y)
+  base.y -= velocity * frame_ratio;
+/*
+float x = pos_x[point+1] - pos_x[point];
+float y = pos_y[point+1] - pos_y[point];
+float vel_x = x*velocity / sqrt(x*x + y*y);
+float vel_y = velocity - vel_x;
+
+base.x += vel_x * frame_ratio;
+base.y += vel_y * frame_ratio;
+*/
+}
+
+void
+FlyingPlatform::collision(const MovingObject&, int)
+{
+  // comes later
+}
+
+void
+FlyingPlatform::collision(void *p_c_object, int c_object, CollisionType type)
+{
+(void) p_c_object;
+(void) type;
+
+//  Player* pplayer_c = NULL;
+  switch (c_object)
+  {
+    case CO_PLAYER:
+//      pplayer_c = (Player*) p_c_object;
+      move = true;
+      
+      break;
+
+    default:
+      break;
+    
+  }
+}
+
+void load_object_gfx()
+{
+  char sprite_name[16];
+
+  for (int i = 0; i < TRAMPOLINE_FRAMES; i++)
+  {
+    sprintf(sprite_name, "trampoline-%i", i+1);
+    img_trampoline[i] = sprite_manager->load(sprite_name);
+  }
+
+  for (int i = 0; i < FLYING_PLATFORM_FRAMES; i++)
+  {
+    sprintf(sprite_name, "flying_platform-%i", i+1);
+    img_flying_platform[i] = sprite_manager->load(sprite_name);
+  }
+}
