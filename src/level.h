@@ -29,6 +29,7 @@
 #include "gameobjs.h"
 
 class Tile;
+class World;
 
 /** This type holds meta-information about a level-subset. 
     It could be extended to handle manipulation of subsets. */
@@ -79,9 +80,9 @@ class Level
   std::string song_title;
   std::string bkgd_image;
   std::string particle_system;
-  std::vector<std::vector<unsigned int> > bg_tiles; /* Tiles in the background */
-  std::vector<std::vector<unsigned int> > ia_tiles; /* Tiles which can interact in the game (solids for example)*/
-  std::vector<std::vector<unsigned int> > fg_tiles; /* Tiles in the foreground */
+  std::vector<unsigned int> bg_tiles; /* Tiles in the background */
+  std::vector<unsigned int> ia_tiles; /* Tiles which can interact in the game (solids for example)*/
+  std::vector<unsigned int> fg_tiles; /* Tiles in the foreground */
 //  std::vector<unsigned int> bg_tiles[15]; /* Tiles in the background */
 //  std::vector<unsigned int> ia_tiles[15]; /* Tiles which can interact in the game (solids for example)*/
 //  std::vector<unsigned int> fg_tiles[15]; /* Tiles in the foreground */
@@ -97,15 +98,14 @@ class Level
   bool back_scrolling;
   float hor_autoscroll_speed;
 
-  std::vector<BadGuyData> badguy_data;
   std::vector< ObjectData<TrampolineData> > trampoline_data;
 
   /** A collection of points to which Tux can be reset after a lost live */
   std::vector<ResetPoint> reset_points;
  public:
   Level();
-  Level(const std::string& subset, int level);
-  Level(const std::string& filename);
+  Level(const std::string& subset, int level, World* world);
+  Level(const std::string& filename, World* world);
   ~Level();
 
   /** Will the Level structure with default values */
@@ -115,12 +115,16 @@ class Level
   void cleanup();
 
   /** Load data for this level: 
-      Returns -1, if the loading of the level failed. */
-  int  load(const std::string& subset, int level);
+      Returns -1, if the loading of the level failed. 
+      XXX the world parameter is a temporary hack   
+  */
+  int  load(const std::string& subset, int level, World* world);
 
   /** Load data for this level: 
-      Returns -1, if the loading of the level failed. */
-  int  load(const std::string& filename);
+      Returns -1, if the loading of the level failed. 
+      XXX the world parameter is a temporary hack
+   */
+  int  load(const std::string& filename, World* world);
 
   void load_gfx();
   
@@ -129,14 +133,14 @@ class Level
   MusicRef get_level_music();
   MusicRef get_level_music_fast();
 
-  void save(const std::string& subset, int level);
+  // XXX the world parameter is a temporary hack
+  void save(const std::string& subset, int level, World* world);
 
   /** Edit a piece of the map! */
   void change(float x, float y, int tm, unsigned int c);
 
   /** Resize the level to a new width/height */
-  void change_width (int new_width);
-  void change_height (int new_height);
+  void resize(int new_width, int new_height);
 
   /* Draw background */
   void draw_bg();

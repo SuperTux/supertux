@@ -141,7 +141,6 @@ public:
   Player(DisplayManager& display_manager);
   virtual ~Player();
   
-  void init();
   int  key_event(SDLKey key, int state);
   void level_begin();
   void handle_input();
@@ -165,6 +164,8 @@ public:
   void grow();
   
 private:
+  void init();
+  
   void handle_horizontal_input();
   void handle_vertical_input();
   void remove_powerups();

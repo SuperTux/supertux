@@ -1,6 +1,8 @@
 bin_PROGRAMS = supertux
 
 supertux_SOURCES = \
+lispwriter.h \
+lispwriter.cpp \
 badguy.cpp \
 badguy.h \
 bitmask.cpp \
@@ -87,6 +89,6 @@ background.cpp \
 tilemap.h \
 tilemap.cpp \
 moving_object.h \
-moving_object.cpp
+moving_object.cpp 
 
 # EOF #

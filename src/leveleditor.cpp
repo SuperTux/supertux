@@ -42,6 +42,7 @@
 #include "tile.h"
 #include "resources.h"
 #include "music_manager.h"
+#include "display_manager.h"
 
 /* definitions to aid development */
 
@@ -153,7 +154,7 @@ static ButtonPanelMap objects_map;
 static std::string cur_tilegroup;
 static std::string cur_objects;
 static MouseCursor* mouse_select_object;
-static GameObject* selected_game_object;
+static MovingObject* selected_game_object;
 
 static square selection;
 static SelectionMode le_selection_mode;
@@ -499,15 +500,23 @@ void le_init_menus()
   select_objects_menu->arrange_left = true;
   select_objects_menu->additem(MN_LABEL,"Objects",0,0);
   select_objects_menu->additem(MN_HL,"",0,0);
+  // TODO fix this
+#if 0
   select_objects_menu->additem(MN_ACTION,"BadGuys",0,0,1);
   objects_map["BadGuys"] = new ButtonPanel(screen->w - 64,96, 64, 318);
 
+  DisplayManager dummy;
   for(int i = 0; i < NUM_BadGuyKinds; ++i)
   {
-    BadGuy bad_tmp(0,0,BadGuyKind(i),false);
+    BadGuy bad_tmp(dummy, 0,0,BadGuyKind(i),false);
     objects_map["BadGuys"]->additem(new Button("", "BadGuy",(SDLKey)(i+'a'),0,0,32,32),1000000+i);
-    objects_map["BadGuys"]->manipulate_button(i)->set_game_object(new BadGuy(objects_map["BadGuys"]->manipulate_button(i)->get_pos().x,objects_map["BadGuys"]->manipulate_button(i)->get_pos().y,BadGuyKind(i),false));
+    objects_map["BadGuys"]->manipulate_button(i)->set_drawable(new
+        BadGuy(dummy,
+          objects_map["BadGuys"]->manipulate_button(i)->get_pos().x,
+          objects_map["BadGuys"]->manipulate_button(i)->get_pos().y,
+          BadGuyKind(i), false));
   }
+#endif
 
   select_objects_menu->additem(MN_HL,"",0,0);
 
@@ -665,8 +674,9 @@ void apply_level_settings_menu()
 
   le_world->get_level()->song_title = string_list_active(level_settings_menu->get_item_by_id(MNID_SONG).list);
 
-  le_world->get_level()->change_width(atoi(level_settings_menu->get_item_by_id(MNID_LENGTH).input));
-  le_world->get_level()->change_height(atoi(level_settings_menu->get_item_by_id(MNID_HEIGHT).input));
+  le_world->get_level()->resize(
+      atoi(level_settings_menu->get_item_by_id(MNID_LENGTH).input),
+      atoi(level_settings_menu->get_item_by_id(MNID_HEIGHT).input));
   le_world->get_level()->time_left = atoi(level_settings_menu->get_item_by_id(MNID_TIME).input);
   le_world->get_level()->gravity = atof(level_settings_menu->get_item_by_id(MNID_GRAVITY).input);
   le_world->get_level()->bkgd_speed = atoi(level_settings_menu->get_item_by_id(MNID_BGSPEED).input);
@@ -696,7 +706,8 @@ void le_unload_level()
     sprintf(str,"Save changes to level %d of %s?",le_level,le_level_subset->name.c_str());
     if(confirm_dialog(str))
     {
-      le_world->get_level()->save(le_level_subset->name.c_str(),le_level);
+      le_world->get_level()->save(le_level_subset->name.c_str(), le_level,
+          le_world);
     }
   }
 
@@ -782,15 +793,19 @@ void le_drawminimap()
   else
     mini_tile_height = 1;
 
+  Level* level = le_world->get_level();
   for (int y = 0; y < le_world->get_level()->height; ++y)
     for (int x = 0; x < le_world->get_level()->width; ++x)
     {
 
-      Tile::draw_stretched(left_offset + mini_tile_width*x, y * 4, mini_tile_width , 4, le_world->get_level()->bg_tiles[y][x]);
+      Tile::draw_stretched(left_offset + mini_tile_width*x, y * 4,
+          mini_tile_width , 4, level->bg_tiles[y * level->width + x]);
 
-      Tile::draw_stretched(left_offset + mini_tile_width*x, y * 4, mini_tile_width , 4, le_world->get_level()->ia_tiles[y][x]);
+      Tile::draw_stretched(left_offset + mini_tile_width*x, y * 4,
+          mini_tile_width , 4, level->ia_tiles[y * level->width + x]);
 
-      Tile::draw_stretched(left_offset + mini_tile_width*x, y * 4, mini_tile_width , 4, le_world->get_level()->fg_tiles[y][x]);
+      Tile::draw_stretched(left_offset + mini_tile_width*x, y * 4,
+          mini_tile_width , 4, level->fg_tiles[y + level->width + x]);
 
     }
 
@@ -942,6 +957,7 @@ void le_drawlevel()
 
   /*       clearscreen(current_level.bkgd_red, current_level.bkgd_green, current_level.bkgd_blue); */
 
+  Level* level = le_world->get_level();
   for (y = 0; y < VISIBLE_TILES_Y && y < (unsigned)le_world->get_level()->height; ++y)
     for (x = 0; x < (unsigned)VISIBLE_TILES_X - 2; ++x)
     {
@@ -951,47 +967,59 @@ void le_drawlevel()
       else
         a = 128;
 
-      Tile::draw(32*x - fmodf(pos_x, 32), y*32 - fmodf(pos_y, 32), le_world->get_level()->bg_tiles[y + (int)(pos_y / 32)][x + (int)(pos_x / 32)],a);
+      Tile::draw(32*x - fmodf(pos_x, 32), y*32 - fmodf(pos_y, 32),
+          level->bg_tiles[ (y + (int)(pos_y / 32)) * level->width + 
+          (x + (int)(pos_x / 32))],a);
 
       if(active_tm == TM_IA)
         a = 255;
       else
         a = 128;
 
-      Tile::draw(32*x - fmodf(pos_x, 32), y*32 - fmodf(pos_y, 32), le_world->get_level()->ia_tiles[y + (int)(pos_y / 32)][x + (int)(pos_x / 32)],a);
+      Tile::draw(32*x - fmodf(pos_x, 32), y*32 - fmodf(pos_y, 32),
+          level->ia_tiles[ (y + (int)(pos_y / 32)) * level->width +       
+          (x + (int)(pos_x / 32))],a);
 
+      
       if(active_tm == TM_FG)
         a = 255;
       else
         a = 128;
 
-      Tile::draw(32*x - fmodf(pos_x, 32), y*32 - fmodf(pos_y, 32), le_world->get_level()->fg_tiles[y + (int)(pos_y / 32)][x + (int)(pos_x / 32)],a);
+      Tile::draw(32*x - fmodf(pos_x, 32), y*32 - fmodf(pos_y, 32),
+          level->fg_tiles[ (y + (int)(pos_y / 32)) * level->width +       
+          (x + (int)(pos_x / 32))],a);
 
       /* draw whats inside stuff when cursor is selecting those */
       /* (draw them all the time - is this the right behaviour?) */
-      Tile* edit_image = TileManager::instance()->get(le_world->get_level()->ia_tiles[y + (int)(pos_y / 32)][x + (int)(pos_x / 32)]);
+      Tile* edit_image = TileManager::instance()->get(
+          level->ia_tiles
+          [ (y + (int)(pos_y / 32)) * level->width + (x + (int)(pos_x / 32))]);
       if(edit_image && !edit_image->editor_images.empty())
         edit_image->editor_images[0]->draw( x * 32 - ((int)pos_x % 32), y*32 - ((int)pos_y % 32));
 
     }
 
   /* Draw the Bad guys: */
-  for (std::list<BadGuy*>::iterator it = le_world->bad_guys.begin(); it != le_world->bad_guys.end(); ++it)
+  for (std::vector<_GameObject*>::iterator it = le_world->gameobjects.begin();
+       it != le_world->gameobjects.end(); ++it)
   {
+    BadGuy* badguy = dynamic_cast<BadGuy*> (*it);
+    if(badguy == 0)
+      continue;
+    
     /* to support frames: img_bsod_left[(frame / 5) % 4] */
-
-    scroll_x = pos_x;
-    scroll_y = pos_y;
-    (*it)->draw();
+    ViewPort viewport;
+    viewport.set_translation(Vector(pos_x, pos_y));
+    badguy->draw(viewport, 0);
   }
-
 
   /* Draw the player: */
   /* for now, the position is fixed at (100, 240) */
   largetux.walk_right->draw( 100 - pos_x, 240 - pos_y);
 }
 
-void le_change_object_properties(GameObject *pobj)
+void le_change_object_properties(_GameObject *pobj)
 {
   Surface* cap_screen = Surface::CaptureScreen();
   Menu* object_properties_menu = new Menu();
@@ -1000,13 +1028,14 @@ void le_change_object_properties(GameObject *pobj)
   object_properties_menu->additem(MN_LABEL,pobj->type() + " Properties",0,0);
   object_properties_menu->additem(MN_HL,"",0,0);
 
-  if(pobj->type() == "BadGuy")
+  BadGuy* pbad = dynamic_cast<BadGuy*>(pobj);
+  if(pobj != 0)
   {
-    BadGuy* pbad = dynamic_cast<BadGuy*>(pobj);
     object_properties_menu->additem(MN_STRINGSELECT,"Kind",0,0,1);
     for(int i = 0; i < NUM_BadGuyKinds; ++i)
     {
-      string_list_add_item(object_properties_menu->get_item_by_id(1).list,badguykind_to_string(static_cast<BadGuyKind>(i)).c_str());
+      string_list_add_item(object_properties_menu->get_item_by_id(1).list,
+          badguykind_to_string(static_cast<BadGuyKind>(i)).c_str());
       if(pbad->kind == i)
         object_properties_menu->get_item_by_id(1).list->active_item = i;
     }
@@ -1035,23 +1064,16 @@ void le_change_object_properties(GameObject *pobj)
     switch (object_properties_menu->check())
     {
     case 3:
-      if(pobj->type() == "BadGuy")
       {
+      BadGuy* pbad = dynamic_cast<BadGuy*>(pobj);
+      if(pbad != 0) {
         BadGuy* pbad = dynamic_cast<BadGuy*>(pobj);
         pbad->kind =  badguykind_from_string(string_list_active(object_properties_menu->get_item_by_id(1).list));
         pbad->stay_on_platform = object_properties_menu->get_item_by_id(2).toggled;
-	int i = 0;
-	std::list<BadGuy*>::iterator it;
-        for(it = le_world->bad_guys.begin(); it != le_world->bad_guys.end(); ++it, ++i)
-          if((*it) == pbad)
-            break;
-        le_world->get_level()->badguy_data[i].kind = pbad->kind;
-	le_world->get_level()->badguy_data[i].stay_on_platform = pbad->stay_on_platform;
-	delete (*it);
-	(*it) = new BadGuy(le_world->get_level()->badguy_data[i].x,le_world->get_level()->badguy_data[i].y,le_world->get_level()->badguy_data[i].kind,le_world->get_level()->badguy_data[i].stay_on_platform);
       }
       loop = false;
       break;
+      }
     default:
       break;
     }
@@ -1210,7 +1232,8 @@ void le_checkevents()
             le_testlevel();
           le_save_level_bt->event(event);
           if(le_save_level_bt->get_state() == BUTTON_CLICKED)
-            le_world->get_level()->save(le_level_subset->name.c_str(),le_level);
+            le_world->get_level()->save(le_level_subset->name.c_str(),le_level,
+                le_world);
           le_exit_bt->event(event);
           if(le_exit_bt->get_state() == BUTTON_CLICKED)
           {
@@ -1231,7 +1254,7 @@ void le_checkevents()
               if(confirm_dialog(str))
               {
                 new_lev.init_defaults();
-                new_lev.save(le_level_subset->name.c_str(),le_level+1);
+                new_lev.save(le_level_subset->name.c_str(),le_level+1, le_world);
                 le_level_subset->levels = le_level;
                 le_goto_level(le_level);
               }
@@ -1388,7 +1411,9 @@ void le_checkevents()
             {
               if(pbutton->get_state() == BUTTON_CLICKED)
               {
-                le_current.Object(pbutton->get_game_object());
+#if 0   // TODO fixme!!
+                le_current.Object(pbutton->get_drawable());
+#endif
               }
             }
           }
@@ -1435,7 +1460,6 @@ void le_checkevents()
         {
           if(MouseCursor::current() == mouse_select_object)
           {
-            int i = 0;
             bool object_got_hit = false;
             base_type cursor_base;
 	    if(le_current.IsTile())
@@ -1451,13 +1475,20 @@ void le_checkevents()
             cursor_base.width = 32;
             cursor_base.height = 32;
 
-            for(std::list<BadGuy*>::iterator it = le_world->bad_guys.begin(); it != le_world->bad_guys.end(); ++it, ++i)
-              if(rectcollision(cursor_base,(*it)->base))
+            for(std::vector<_GameObject*>::iterator it =
+                le_world->gameobjects.begin();
+                it != le_world->gameobjects.end(); ++it) {
+              MovingObject* mobj = dynamic_cast<MovingObject*> (*it);
+              if(!mobj)
+                continue;
+
+              if(rectcollision(cursor_base, mobj->base))
               {
-                selected_game_object = (*it);
+                selected_game_object = mobj;
                 object_got_hit = true;
                 break;
               }
+            }
 
             if(!object_got_hit)
             {
@@ -1472,6 +1503,7 @@ void le_checkevents()
           }
           else
           {
+#if 0 // FIXME TODO
             if(le_current.IsObject())
             {
               le_level_changed  = true;
@@ -1484,6 +1516,7 @@ void le_checkevents()
                 le_world->get_level()->badguy_data.push_back(le_world->bad_guys.back());
               }
             }
+#endif
           }
 	  
           le_mouse_clicked[LEFT] = false;
@@ -1622,7 +1655,6 @@ void le_change(float x, float y, int tm, unsigned int c)
   {
     int xx,yy;
     int x1, x2, y1, y2;
-    unsigned int i = 0;
 
     le_level_changed = true;
 
@@ -1638,6 +1670,8 @@ void le_change(float x, float y, int tm, unsigned int c)
       cursor_base.height = 32;
 
       /* if there is a bad guy over there, remove it */
+      // XXX TODO
+#if 0
       for(std::list<BadGuy*>::iterator it = le_world->bad_guys.begin(); it != le_world->bad_guys.end(); ++it, ++i)
         if(rectcollision(cursor_base,(*it)->base))
         {
@@ -1646,6 +1680,7 @@ void le_change(float x, float y, int tm, unsigned int c)
           le_world->get_level()->badguy_data.erase(le_world->get_level()->badguy_data.begin() + i);
           break;
         }
+#endif
 
       break;
     case SQUARE:
@@ -1676,6 +1711,8 @@ void le_change(float x, float y, int tm, unsigned int c)
       y2 /= 32;
 
       /* if there is a bad guy over there, remove it */
+      // TODO FIXME
+#if 0
       for(std::list<BadGuy*>::iterator it = le_world->bad_guys.begin();
           it != le_world->bad_guys.end(); /* will be at end of loop */)
       {
@@ -1693,6 +1730,7 @@ void le_change(float x, float y, int tm, unsigned int c)
           ++it;
         }
       }
+#endif
 
       for(xx = x1; xx <= x2; xx++)
         for(yy = y1; yy <= y2; yy++)
@@ -1713,7 +1751,7 @@ void le_testlevel()
   if(le_world->get_level()->time_left == 0)
     le_world->get_level()->time_left = 250;
 
-  le_world->get_level()->save("test", le_level);
+  le_world->get_level()->save("test", le_level, le_world);
 
   GameSession session("test",le_level, ST_GL_TEST);
   session.run();

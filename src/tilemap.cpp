@@ -26,7 +26,7 @@ TileMap::action(float )
 void
 TileMap::draw(ViewPort& viewport, int layer)
 {
-  std::vector<std::vector<unsigned int> >* tiles;
+  std::vector<unsigned int>* tiles;
   switch(layer) {
     case LAYER_BACKGROUNDTILES:
       tiles = &level->bg_tiles; break;
@@ -42,11 +42,11 @@ TileMap::draw(ViewPort& viewport, int layer)
   int tsy = int(viewport.get_translation().y / 32); // tilestartindex y
   int sx = - (int(viewport.get_translation().x) % 32);
   int sy = - (int(viewport.get_translation().y) % 32);
-  for(int x = sx, tx = tsx; x < screen->w && tx < int((*tiles)[0].size());
+  for(int x = sx, tx = tsx; x < screen->w && tx < level->width;
       x += 32, ++tx) {
-    for(int y = sy, ty = tsy; y < screen->h && ty < int(tiles->size());
+    for(int y = sy, ty = tsy; y < screen->h && ty < level->height;
           y += 32, ++ty) {
-      Tile::draw(x, y, (*tiles) [ty][tx]);
+      Tile::draw(x, y, (*tiles) [ty * level->width + tx]);
     }
   }
 }

@@ -48,7 +48,8 @@ World::World(const std::string& filename)
   // world calls child functions
   current_ = this;
 
-  level = new Level(filename);
+  level = new Level();
+  level->load(filename, this);
 
   tux = new Player(displaymanager);
   gameobjects.push_back(tux);
@@ -56,7 +57,6 @@ World::World(const std::string& filename)
   set_defaults();
 
   get_level()->load_gfx();
-  activate_bad_guys();
   // add background
   activate_particle_systems();
   Background* bg = new Background(displaymanager);
@@ -83,13 +83,15 @@ World::World(const std::string& subset, int level_nr)
   // world calls child functions
   current_ = this;
 
-  level = new Level(subset, level_nr);
-  tux->init();
+  level = new Level();
+  level->load(subset, level_nr, this);
+
+  tux = new Player(displaymanager);
+  gameobjects.push_back(tux);        
 
   set_defaults();
 
   get_level()->load_gfx();
-  activate_bad_guys();
   activate_objects();
   activate_particle_systems();
   Background* bg = new Background(displaymanager);
@@ -111,32 +113,24 @@ World::World(const std::string& subset, int level_nr)
 void
 World::apply_bonuses()
 {
-#if 0
   // Apply bonuses from former levels
   switch (player_status.bonus)
     {
     case PlayerStatus::NO_BONUS:
       break;
-
+                                                                                
     case PlayerStatus::FLOWER_BONUS:
-      tux->got_power = tux.FIRE_POWER;  // FIXME: add ice power to here
+      tux->got_power = Player::FIRE_POWER;  // FIXME: add ice power to here
       // fall through
-
+                                                                                
     case PlayerStatus::GROWUP_BONUS:
-      // FIXME: Move this to Player class
-      tux->size = BIG;
-      tux->base.height = 64;
-      tux->base.y -= 32;
+      tux->grow();
       break;
     }
-#endif
 }
 
 World::~World()
 {
-  for (BadGuys::iterator i = bad_guys.begin(); i != bad_guys.end(); ++i)
-    delete *i;
-
   for (Trampolines::iterator i = trampolines.begin(); i != trampolines.end(); ++i)
     delete *i;
 
@@ -147,6 +141,7 @@ World::~World()
       displaymanager.remove_drawable(drawable);
     delete *i;
   }
+  bad_guys.clear();
 
   delete level;
 }
@@ -167,14 +162,36 @@ World::set_defaults()
 }
 
 void
-World::activate_bad_guys()
+World::add_object(_GameObject* object)
 {
-  for (std::vector<BadGuyData>::iterator i = level->badguy_data.begin();
-       i != level->badguy_data.end();
-       ++i)
+  // XXX hack for now until new collision code is ready
+  BadGuy* badguy = dynamic_cast<BadGuy*> (object);
+  if(badguy)
+    bad_guys.push_back(badguy);
+
+  gameobjects.push_back(object);
+}
+
+void
+World::parse_objects(lisp_object_t* cur)
+{
+  while(!lisp_nil_p(cur)) {
+    lisp_object_t* data = lisp_car(cur);
+    std::string object_type = "";
+    
+    LispReader reader(lisp_cdr(data));
+    reader.read_string("type", &object_type);
+
+    if(object_type == "badguy" || object_type == "")
     {
-      add_bad_guy(i->x, i->y, i->kind, i->stay_on_platform);
+      BadGuyKind kind = badguykind_from_string(
+          lisp_symbol(lisp_car(data)));
+      add_object(new BadGuy(displaymanager, kind, reader));
     }
+    // TODO add parsing code for trampolines
+
+    cur = lisp_cdr(cur);
+  } 
 }
 
 void
@@ -193,11 +210,11 @@ World::activate_particle_systems()
 {
   if (level->particle_system == "clouds")
     {
-      gameobjects.push_back(new CloudParticleSystem(displaymanager));
+      add_object(new CloudParticleSystem(displaymanager));
     }
   else if (level->particle_system == "snow")
     {
-      gameobjects.push_back(new SnowParticleSystem(displaymanager));
+      add_object(new SnowParticleSystem(displaymanager));
     }
   else if (level->particle_system != "")
     {
@@ -212,9 +229,6 @@ World::draw()
   displaymanager.get_viewport().set_translation(Vector(scroll_x, scroll_y));
   displaymanager.draw();
   
-  for (BadGuys::iterator i = bad_guys.begin(); i != bad_guys.end(); ++i)
-    (*i)->draw();
-
   for (Trampolines::iterator i = trampolines.begin(); i != trampolines.end(); ++i)
     (*i)->draw();
 
@@ -237,9 +251,6 @@ World::action(double frame_ratio)
   for (unsigned int i = 0; i < upgrades.size(); i++)
     upgrades[i].action(frame_ratio);
 
-  for (BadGuys::iterator i = bad_guys.begin(); i != bad_guys.end(); ++i)
-    (*i)->action(frame_ratio);
-
   for (Trampolines::iterator i = trampolines.begin(); i != trampolines.end(); ++i)
      (*i)->action(frame_ratio);
 
@@ -251,24 +262,18 @@ World::action(double frame_ratio)
 
   /* Handle all possible collisions. */
   collision_handler();
-  
-  // Cleanup marked badguys
-  for (BadGuys::iterator i = bad_guys.begin(); i != bad_guys.end();
-      /* ++i handled at end of the loop */) {
-    if ((*i)->is_removable()) {
-      delete *i;
-      i =  bad_guys.erase(i);
-    } else {
-      ++i;
-    }
-  }
-
+ 
+  /** cleanup marked objects */
   for(std::vector<_GameObject*>::iterator i = gameobjects.begin();
       i != gameobjects.end(); /* nothing */) {
     if((*i)->is_valid() == false) {
       Drawable* drawable = dynamic_cast<Drawable*> (*i);
       if(drawable)
         displaymanager.remove_drawable(drawable);
+      BadGuy* badguy = dynamic_cast<BadGuy*> (*i);
+      if(badguy) {
+        std::remove(bad_guys.begin(), bad_guys.end(), badguy);
+      } 
       
       delete *i;
       i = gameobjects.erase(i);
@@ -497,13 +502,13 @@ World::add_score(const Vector& pos, int s)
 {
   player_status.score += s;
 
-  gameobjects.push_back(new FloatingScore(displaymanager, pos, s));
+  add_object(new FloatingScore(displaymanager, pos, s));
 }
 
 void
 World::add_bouncy_distro(const Vector& pos)
 {
-  gameobjects.push_back(new BouncyDistro(displaymanager, pos));
+  add_object(new BouncyDistro(displaymanager, pos));
 }
 
 void
@@ -520,20 +525,20 @@ void
 World::add_broken_brick_piece(const Vector& pos, const Vector& movement,
     Tile* tile)
 {
-  gameobjects.push_back(new BrokenBrick(displaymanager, tile, pos, movement));
+  add_object(new BrokenBrick(displaymanager, tile, pos, movement));
 }
 
 void
 World::add_bouncy_brick(const Vector& pos)
 {
-  gameobjects.push_back(new BouncyBrick(displaymanager, pos));
+  add_object(new BouncyBrick(displaymanager, pos));
 }
 
 BadGuy*
-World::add_bad_guy(float x, float y, BadGuyKind kind, bool stay_on_platform)
+World::add_bad_guy(float x, float y, BadGuyKind kind)
 {
-  BadGuy* badguy = new BadGuy(x,y,kind, stay_on_platform);
-  bad_guys.push_back(badguy);
+  BadGuy* badguy = new BadGuy(displaymanager, kind, x, y);
+  add_object(badguy);
   return badguy;
 }
 

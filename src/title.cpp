@@ -126,7 +126,7 @@ void check_contrib_menu()
               for (int i = 1; i <= subset.levels; ++i)
                 {
                   Level level;
-                  level.load(subset.name, i);
+                  level.load(subset.name, i, 0);
                   contrib_subset_menu->additem(MN_ACTION, level.name, 0, 0, i);
                 }
               contrib_subset_menu->additem(MN_HL,"",0,0);      

@@ -24,6 +24,7 @@
 #include "screen.h"
 #include "globals.h"
 #include "button.h"
+#include "viewport.h"
 
 Timer Button::popup_timer;
 
@@ -44,7 +45,7 @@ Button::Button(std::string icon_file, std::string ninfo, SDLKey nshortcut, int x
   tag = -1;
   state = BUTTON_NONE;
   show_info = false;
-  game_object = NULL;
+  drawable = NULL;
 }
 
 void Button::add_icon(std::string icon_file, int mw, int mh)
@@ -84,9 +85,11 @@ void Button::draw()
   for(std::vector<Surface*>::iterator it = icon.begin(); it != icon.end(); ++it)
     (*it)->draw(rect.x,rect.y);
 
-  if(game_object != NULL)
+  if(drawable)
   {
-    game_object->draw_on_screen(rect.x,rect.y);
+    ViewPort viewport;
+    viewport.set_translation(Vector(rect.x, rect.y));
+    drawable->draw(viewport, 0);
   }
 
   if(show_info)
@@ -113,7 +116,7 @@ Button::~Button()
   for(std::vector<Surface*>::iterator it = icon.begin(); it != icon.end(); ++it)
     delete (*it);
   icon.clear();
-  delete game_object;
+  delete drawable;
 }
 
 void Button::event(SDL_Event &event)

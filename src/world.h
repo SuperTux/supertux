@@ -68,11 +68,13 @@ public:
 
   World(const std::string& filename);
   World(const std::string& subset, int level_nr);
-  World() {};
+  //World() {};
   ~World();
   
   Level*  get_level() { return level; }
   Player* get_tux() { return tux; }
+
+  void add_object(_GameObject* object);
 
   void set_defaults();
 
@@ -82,15 +84,15 @@ public:
 
   void play_music(int musictype);
   int get_music_type();
-  
 
   /** Checks for all possible collisions. And calls the
       collision_handlers, which the collision_objects provide for this
       case (or not). */
   void collision_handler();
+
+  void parse_objects(lisp_object_t* cur);
   
   void activate_particle_systems();
-  void activate_bad_guys();
   void activate_objects();
 
   void add_score(const Vector& pos, int s);
@@ -100,7 +102,7 @@ public:
       const Vector& movement, Tile* tile);
   void add_bouncy_brick(const Vector& pos);
 
-  BadGuy* add_bad_guy(float x, float y, BadGuyKind kind, bool stay_on_platform = false);
+  BadGuy* add_bad_guy(float x, float y, BadGuyKind kind);
   template <class T, class U> T* add_object(U data);
 
   void add_upgrade(float x, float y, Direction dir, UpgradeKind kind);

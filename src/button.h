@@ -23,6 +23,7 @@
 
 #include <vector>
 #include "texture.h"
+#include "drawable.h"
 
 enum ButtonState {
   BUTTON_NONE = -1,
@@ -50,12 +51,12 @@ public:
   void add_icon(std::string icon_file, int mw, int mh);
   SDL_Rect get_pos() { return rect; }
   int get_tag(){return tag; }
-  void set_game_object(GameObject* game_object_) { game_object = game_object_; }
-  GameObject* get_game_object() { return game_object; };
+  void set_drawable(Drawable* newdrawable)
+  { drawable = newdrawable; }
 
 private:
   static Timer popup_timer;
-  GameObject* game_object;
+  Drawable* drawable;
   std::vector<Surface*> icon;
   std::string info;
   SDLKey shortcut;

@@ -180,6 +180,7 @@ class LispReader
     LispReader (lisp_object_t* l);
 
     bool read_int_vector (const char* name, std::vector<int>* vec);
+    bool read_int_vector (const char* name, std::vector<unsigned int>* vec);
     bool read_char_vector (const char* name, std::vector<char>* vec);
     bool read_string_vector (const char* name, std::vector<std::string>* vec);
     bool read_string (const char* name, std::string* str);
@@ -187,28 +188,6 @@ class LispReader
     bool read_float (const char* name, float* f);
     bool read_bool (const char* name, bool* b);
     bool read_lisp (const char* name, lisp_object_t** b);
-  };
-
-/** */
-class LispWriter
-  {
-  private:
-    std::vector<lisp_object_t*> lisp_objs;
-
-    void append (lisp_object_t* obj);
-    lisp_object_t* make_list3 (lisp_object_t*, lisp_object_t*, lisp_object_t*);
-    lisp_object_t* make_list2 (lisp_object_t*, lisp_object_t*);
-  public:
-    LispWriter (const char* name);
-    void write_float (const char* name, float f);
-    void write_int (const char* name, int i);
-    void write_boolean (const char* name, bool b);
-    void write_string (const char* name, const char* str);
-    void write_symbol (const char* name, const char* symname);
-    void write_lisp_obj(const char* name, lisp_object_t* lst);
-
-    /** caller is responible to free the returned lisp_object_t */
-    lisp_object_t* create_lisp ();
   };
 
 #endif

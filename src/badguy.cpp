@@ -33,6 +33,8 @@
 #include "resources.h"
 #include "sprite_manager.h"
 #include "gameloop.h"
+#include "display_manager.h"
+#include "lispwriter.h"
 
 Sprite* img_mriceblock_flat_left;
 Sprite* img_mriceblock_flat_right;
@@ -142,20 +144,56 @@ std::string badguykind_to_string(BadGuyKind kind)
     }
 }
 
-BadGuy::BadGuy(float x, float y, BadGuyKind kind_, bool stay_on_platform_)
+BadGuy::BadGuy(DisplayManager& display_manager, BadGuyKind kind_,
+    LispReader& lispreader)
   : removable(false), squishcount(0)
 {
-  base.x   = x;
-  base.y   = y;    
+  display_manager.add_drawable(this, LAYER_OBJECTS);
+
+  base.x = 0;
+  base.y = 0;
+  lispreader.read_float("x", &base.x);
+  lispreader.read_float("y", &base.y);
   base.width  = 0;
   base.height = 0;
   base.xm  = 0;
   base.ym  = 0;
 
-  stay_on_platform = stay_on_platform_;
+  kind     = kind_;
+
+  stay_on_platform = false;
+  lispreader.read_bool("stay-on-platform", &stay_on_platform);  
+
+  init();
+}
+
+BadGuy::BadGuy(DisplayManager& display_manager, BadGuyKind kind_,
+    float x, float y)
+{
+  display_manager.add_drawable(this, LAYER_OBJECTS);
+
+  base.x = x;
+  base.y = y;
+  base.width  = 0;
+  base.height = 0;
+  base.xm  = 0;
+  base.ym  = 0;
+  stay_on_platform = false;
+
+  kind     = kind_;
+  
+  init();
+}
+
+BadGuy::~BadGuy()
+{
+}
+
+void
+BadGuy::init()
+{
   mode     = NORMAL;
   dying    = DYING_NOT;
-  kind     = kind_;
   old_base = base;
   dir      = LEFT;
   seen     = false;
@@ -212,7 +250,19 @@ BadGuy::BadGuy(float x, float y, BadGuyKind kind_, bool stay_on_platform_)
 }
 
 void
-BadGuy::action_mriceblock(double frame_ratio)
+BadGuy::write(LispWriter& writer)
+{
+  writer.startList(badguykind_to_string(kind));
+
+  writer.writeFloat("x", base.x);
+  writer.writeFloat("y", base.y);
+  writer.writeBool("stay-on-platform", stay_on_platform);  
+
+  writer.endList(badguykind_to_string(kind));
+}
+
+void
+BadGuy::action_mriceblock(double elapsed_time)
 {
   Player& tux = *World::current()->get_tux();
 
@@ -223,7 +273,7 @@ BadGuy::action_mriceblock(double frame_ratio)
   if (mode != HELD)
     {
       // move
-      physic.apply(frame_ratio, base.x, base.y);
+      physic.apply(elapsed_time, base.x, base.y);
       if (dying != DYING_FALLING)
         collision_swept_object_map(&old_base,&base);
     }
@@ -383,13 +433,7 @@ BadGuy::fall()
 }
 
 void
-BadGuy::remove_me()
-{
-  removable = true;
-}
-
-void
-BadGuy::action_jumpy(double frame_ratio)
+BadGuy::action_jumpy(double elapsed_time)
 {
   if(frozen_timer.check())
     {
@@ -432,13 +476,13 @@ BadGuy::action_jumpy(double frame_ratio)
     dir = LEFT;
 
   // move
-  physic.apply(frame_ratio, base.x, base.y);
+  physic.apply(elapsed_time, base.x, base.y);
   if(dying == DYING_NOT)
     collision_swept_object_map(&old_base, &base);
 }
 
 void
-BadGuy::action_mrbomb(double frame_ratio)
+BadGuy::action_mrbomb(double elapsed_time)
 {
   if(frozen_timer.check())
     {
@@ -451,13 +495,13 @@ BadGuy::action_mrbomb(double frame_ratio)
 
   fall();
 
-  physic.apply(frame_ratio, base.x, base.y);
+  physic.apply(elapsed_time, base.x, base.y);
   if (dying != DYING_FALLING)
     collision_swept_object_map(&old_base,&base); 
 }
 
 void
-BadGuy::action_bomb(double frame_ratio)
+BadGuy::action_bomb(double elapsed_time)
 {
   static const int TICKINGTIME = 1000;
   static const int EXPLODETIME = 1000;
@@ -489,12 +533,12 @@ BadGuy::action_bomb(double frame_ratio)
   }
 
   // move
-  physic.apply(frame_ratio, base.x, base.y);                 
+  physic.apply(elapsed_time, base.x, base.y);                 
   collision_swept_object_map(&old_base,&base);
 }
 
 void
-BadGuy::action_stalactite(double frame_ratio)
+BadGuy::action_stalactite(double elapsed_time)
 {
   Player& tux = *World::current()->get_tux();
 
@@ -529,25 +573,25 @@ BadGuy::action_stalactite(double frame_ratio)
   }
 
   // move
-  physic.apply(frame_ratio, base.x, base.y);
+  physic.apply(elapsed_time, base.x, base.y);
 
   if(dying == DYING_SQUISHED && !timer.check())
     remove_me();
 }
 
 void
-BadGuy::action_flame(double frame_ratio)
+BadGuy::action_flame(double elapsed_time)
 {
     static const float radius = 100;
     static const float speed = 0.02;
     base.x = old_base.x + cos(base.ym) * radius;
     base.y = old_base.y + sin(base.ym) * radius;
 
-    base.ym = fmodf(base.ym + frame_ratio * speed, 2*M_PI);
+    base.ym = fmodf(base.ym + elapsed_time * speed, 2*M_PI);
 }
 
 void
-BadGuy::action_fish(double frame_ratio)
+BadGuy::action_fish(double elapsed_time)
 {
   if(frozen_timer.check())
     {
@@ -581,7 +625,7 @@ BadGuy::action_fish(double frame_ratio)
       physic.enable_gravity(true);
     }
 
-  physic.apply(frame_ratio, base.x, base.y);
+  physic.apply(elapsed_time, base.x, base.y);
   if(dying == DYING_NOT)
     collision_swept_object_map(&old_base, &base);
 
@@ -590,7 +634,7 @@ BadGuy::action_fish(double frame_ratio)
 }
 
 void
-BadGuy::action_bouncingsnowball(double frame_ratio)
+BadGuy::action_bouncingsnowball(double elapsed_time)
 {
   static const float JUMPV = 4.5;
     
@@ -610,7 +654,7 @@ BadGuy::action_bouncingsnowball(double frame_ratio)
   // check for right/left collisions
   check_horizontal_bump();
 
-  physic.apply(frame_ratio, base.x, base.y);
+  physic.apply(elapsed_time, base.x, base.y);
   if(dying == DYING_NOT)
     collision_swept_object_map(&old_base, &base);
 
@@ -624,7 +668,7 @@ BadGuy::action_bouncingsnowball(double frame_ratio)
 }
 
 void
-BadGuy::action_flyingsnowball(double frame_ratio)
+BadGuy::action_flyingsnowball(double elapsed_time)
 {
   static const float FLYINGSPEED = 1;
   static const int DIRCHANGETIME = 1000;
@@ -650,7 +694,7 @@ BadGuy::action_flyingsnowball(double frame_ratio)
   if(dying != DYING_NOT)
     physic.enable_gravity(true);
 
-  physic.apply(frame_ratio, base.x, base.y);
+  physic.apply(elapsed_time, base.x, base.y);
   if(dying == DYING_NOT || dying == DYING_SQUISHED)
     collision_swept_object_map(&old_base, &base);
 
@@ -664,7 +708,7 @@ BadGuy::action_flyingsnowball(double frame_ratio)
 }
 
 void
-BadGuy::action_spiky(double frame_ratio)
+BadGuy::action_spiky(double elapsed_time)
 {
   if(frozen_timer.check())
     {
@@ -685,26 +729,26 @@ BadGuy::action_spiky(double frame_ratio)
   }
 #endif
 
-  physic.apply(frame_ratio, base.x, base.y);
+  physic.apply(elapsed_time, base.x, base.y);
   if (dying != DYING_FALLING)
     collision_swept_object_map(&old_base,&base);   
 }
 
 void
-BadGuy::action_snowball(double frame_ratio)
+BadGuy::action_snowball(double elapsed_time)
 {
   if (dying == DYING_NOT)
     check_horizontal_bump();
 
   fall();
 
-  physic.apply(frame_ratio, base.x, base.y);
+  physic.apply(elapsed_time, base.x, base.y);
   if (dying != DYING_FALLING)
     collision_swept_object_map(&old_base,&base);
 }
 
 void
-BadGuy::action(double frame_ratio)
+BadGuy::action(float elapsed_time)
 {
   // Remove if it's far off the screen:
   if (base.x < scroll_x - OFFSCREEN_DISTANCE)
@@ -740,47 +784,47 @@ BadGuy::action(double frame_ratio)
   switch (kind)
     {
     case BAD_MRICEBLOCK:
-      action_mriceblock(frame_ratio);
+      action_mriceblock(elapsed_time);
       break;
   
     case BAD_JUMPY:
-      action_jumpy(frame_ratio);
+      action_jumpy(elapsed_time);
       break;
 
     case BAD_MRBOMB:
-      action_mrbomb(frame_ratio);
+      action_mrbomb(elapsed_time);
       break;
     
     case BAD_BOMB:
-      action_bomb(frame_ratio);
+      action_bomb(elapsed_time);
       break;
 
     case BAD_STALACTITE:
-      action_stalactite(frame_ratio);
+      action_stalactite(elapsed_time);
       break;
 
     case BAD_FLAME:
-      action_flame(frame_ratio);
+      action_flame(elapsed_time);
       break;
 
     case BAD_FISH:
-      action_fish(frame_ratio);
+      action_fish(elapsed_time);
       break;
 
     case BAD_BOUNCINGSNOWBALL:
-      action_bouncingsnowball(frame_ratio);
+      action_bouncingsnowball(elapsed_time);
       break;
 
     case BAD_FLYINGSNOWBALL:
-      action_flyingsnowball(frame_ratio);
+      action_flyingsnowball(elapsed_time);
       break;
 
     case BAD_SPIKY:
-      action_spiky(frame_ratio);
+      action_spiky(elapsed_time);
       break;
 
     case BAD_SNOWBALL:
-      action_snowball(frame_ratio);
+      action_snowball(elapsed_time);
       break;
     default:
       break;
@@ -788,8 +832,11 @@ BadGuy::action(double frame_ratio)
 }
 
 void
-BadGuy::draw()
+BadGuy::draw(ViewPort& viewport, int)
 {
+  float scroll_x = viewport.get_translation().x;
+  float scroll_y = viewport.get_translation().y;
+
   // Don't try to draw stuff that is outside of the screen
   if(base.x <= scroll_x - base.width || base.x >= scroll_x + screen->w)
     return;
@@ -881,14 +928,13 @@ BadGuy::squish(Player* player)
     
   if(kind == BAD_MRBOMB) {
     // mrbomb transforms into a bomb now
-    World::current()->add_bad_guy(base.x, base.y, BAD_BOMB);
+    explode();
     
     make_player_jump(player);
     World::current()->add_score(Vector(base.x, base.y),
                                 50 * player_status.score_multiplier);
     play_sound(sounds[SND_SQUISH], SOUND_CENTER_SPEAKER);
     player_status.score_multiplier++;
-    remove_me();
     return;
 
   } else if (kind == BAD_MRICEBLOCK) {
@@ -986,10 +1032,17 @@ BadGuy::kill_me(int score)
   play_sound(sounds[SND_FALL], SOUND_CENTER_SPEAKER);
 }
 
-void BadGuy::explode(BadGuy *badguy)
+void
+BadGuy::explode()
 {
-World::current()->add_bad_guy(badguy->base.x, badguy->base.y, BAD_BOMB);
-badguy->remove_me();
+  World::current()->add_bad_guy(base.x, base.y, BAD_BOMB);
+  remove_me();
+}
+
+void
+BadGuy::collision(const MovingObject&, int)
+{
+  // later
 }
 
 void
@@ -1052,7 +1105,7 @@ BadGuy::collision(void *p_c_object, int c_object, CollisionType type)
         if (pbad_c->kind == BAD_MRBOMB)
         {
           // mrbomb transforms into a bomb now
-          explode(pbad_c);
+          pbad_c->explode();
           return;
         }
         else if (pbad_c->kind != BAD_MRBOMB)
@@ -1067,7 +1120,7 @@ BadGuy::collision(void *p_c_object, int c_object, CollisionType type)
         if (pbad_c->kind == BAD_MRBOMB)
         {
           // mrbomb transforms into a bomb now
-          explode(pbad_c);
+          pbad_c->explode();
           return;
         }
         else

@@ -1116,6 +1116,26 @@ LispReader::read_string_vector (const char* name, std::vector<std::string>* vec)
 bool
 LispReader::read_int_vector (const char* name, std::vector<int>* vec)
 {
+  vec->clear();
+  lisp_object_t* obj = search_for (name);
+  if (obj)
+    {
+      while(!lisp_nil_p(obj))
+        {
+          if (!lisp_integer_p(lisp_car(obj)))
+            st_abort("LispReader expected type integer at token: ", name);
+          vec->push_back(lisp_integer(lisp_car(obj)));
+          obj = lisp_cdr(obj);
+        }
+      return true;
+    }
+  return false;    
+}
+
+bool
+LispReader::read_int_vector (const char* name, std::vector<unsigned int>* vec)
+{
+  vec->clear();
   lisp_object_t* obj = search_for (name);
   if (obj)
     {
@@ -1173,86 +1193,6 @@ LispReader::read_bool (const char* name, bool* b)
       return true;
     }
   return false;
-}
-
-LispWriter::LispWriter (const char* name)
-{
-  lisp_objs.push_back(lisp_make_symbol (name));
-}
-
-void
-LispWriter::append (lisp_object_t* obj)
-{
-  lisp_objs.push_back(obj);
-}
-
-lisp_object_t*
-LispWriter::make_list3 (lisp_object_t* a, lisp_object_t* b, lisp_object_t* c)
-{
-  return lisp_make_cons (a, lisp_make_cons(b, lisp_make_cons(c, lisp_nil())));
-}
-
-lisp_object_t*
-LispWriter::make_list2 (lisp_object_t* a, lisp_object_t* b)
-{
-  return lisp_make_cons (a, lisp_make_cons(b, lisp_nil()));
-}
-
-void
-LispWriter::write_float (const char* name, float f)
-{
-  append(make_list2 (lisp_make_symbol (name),
-                     lisp_make_real(f)));
-}
-
-void
-LispWriter::write_int (const char* name, int i)
-{
-  append(make_list2 (lisp_make_symbol (name),
-                     lisp_make_integer(i)));
-}
-
-void
-LispWriter::write_string (const char* name, const char* str)
-{
-  append(make_list2 (lisp_make_symbol (name),
-                     lisp_make_string(str)));
-}
-
-void
-LispWriter::write_symbol (const char* name, const char* symname)
-{
-  append(make_list2 (lisp_make_symbol (name),
-                     lisp_make_symbol(symname)));
-}
-
-void
-LispWriter::write_lisp_obj(const char* name, lisp_object_t* lst)
-{
-  append(make_list2 (lisp_make_symbol (name),
-                     lst));
-}
-
-void
-LispWriter::write_boolean (const char* name, bool b)
-{
-  append(make_list2 (lisp_make_symbol (name),
-                     lisp_make_boolean(b)));
-}
-
-lisp_object_t*
-LispWriter::create_lisp ()
-{
-  lisp_object_t* lisp_obj = lisp_nil();
-
-  for(std::vector<lisp_object_t*>::reverse_iterator i = lisp_objs.rbegin ();
-      i != lisp_objs.rend (); ++i)
-    {
-      lisp_obj = lisp_make_cons (*i, lisp_obj);
-    }
-  lisp_objs.clear();
-
-  return lisp_obj;
 }
 
 #if 0

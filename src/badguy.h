@@ -32,6 +32,9 @@
 #include "physic.h"
 #include "collision.h"
 #include "sprite.h"
+#include "moving_object.h"
+#include "drawable.h"
+#include "serializable.h"
 
 /* Bad guy kinds: */
 enum BadGuyKind {
@@ -57,7 +60,7 @@ void free_badguy_gfx();
 class Player;
 
 /* Badguy type: */
-class BadGuy : public GameObject
+class BadGuy : public MovingObject, public Drawable, public Serializable
 {
 public:
   /* Enemy modes: */
@@ -107,13 +110,17 @@ private:
   int animation_offset;
 
 public:
-  BadGuy(float x, float y, BadGuyKind kind, bool stay_on_platform);
+  BadGuy(DisplayManager& display_manager, BadGuyKind kind, float x, float y);
+  BadGuy(DisplayManager& display_manager, BadGuyKind kind, LispReader& reader);
+  virtual ~BadGuy();
 
-  void action(double frame_ratio);
-  void draw();
-  std::string type() { return "BadGuy"; };
+  virtual void write(LispWriter& writer);
 
-  void explode(BadGuy* badguy);
+  virtual void action(float frame_ratio);
+  virtual void draw(ViewPort& viewport, int layer);
+  virtual void collision(const MovingObject& other, int type);
+  virtual std::string type() const
+  { return "BadGuy"; };
 
   void collision(void* p_c_object, int c_object,
                  CollisionType type = COLLISION_NORMAL);
@@ -123,14 +130,9 @@ public:
    */
   void kill_me(int score);
 
-  /** remove ourself from the list of badguys. WARNING! This function will
-   * invalidate all members. So don't do anything else with member after calling
-   * this.
-   */
-  void remove_me();  
-  bool is_removable() const { return removable; }
- 
 private:
+  void init();
+  
   void action_mriceblock(double frame_ratio);
   void action_jumpy(double frame_ratio); 
   void action_bomb(double frame_ratio);
@@ -150,6 +152,8 @@ private:
   /** let the player jump a bit (used when you hit a badguy) */
   void make_player_jump(Player* player);
 
+  void explode();
+
   /** check if we're running left or right in a wall and eventually change
    * direction
    */
@@ -162,21 +166,6 @@ private:
   void squish_me(Player* player);
   /** set image of the badguy */
   void set_sprite(Sprite* left, Sprite* right);
-};
-
-struct BadGuyData
-{
-  BadGuyKind kind;
-  int x;
-  int y;
-  bool stay_on_platform;
-
-  BadGuyData(BadGuy* pbadguy) : kind(pbadguy->kind), x((int)pbadguy->base.x), y((int)pbadguy->base.y), stay_on_platform(pbadguy->stay_on_platform)  {};
-  BadGuyData(BadGuyKind kind_, int x_, int y_, bool stay_on_platform_) 
-    : kind(kind_), x(x_), y(y_), stay_on_platform(stay_on_platform_) {}
-
-  BadGuyData()
-    : kind(BAD_SNOWBALL), x(0), y(0), stay_on_platform(false) {}
 };
 
 #endif /*SUPERTUX_BADGUY_H*/
