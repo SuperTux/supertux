@@ -119,10 +119,10 @@ bad_guy_type bad_guys[NUM_BAD_GUYS];
 floating_score_type floating_scores[NUM_FLOATING_SCORES];
 upgrade_type upgrades[NUM_UPGRADES];
 bullet_type bullets[NUM_BULLETS];
-char song_title[20];
-char levelname[20];
-char leveltheme[20];
-char str[10];
+char song_title[60];
+char levelname[60];
+char leveltheme[60];
+char str[60];
 
 
 /* Local function prototypes: */
@@ -1125,7 +1125,10 @@ int game_action(void)
 
       if (!playing_music())
       {
-        play_music( level_song, 1 );
+	if (time_left <= TIME_WARNING)
+          play_music( level_song_fast, 1 );
+	else
+          play_music( level_song, 1 );
       }
       
       if (tux_invincible_time > 0)
@@ -2155,7 +2158,7 @@ void game_draw()
   drawtext("HIGH", 0, 20, letters_blue, NO_UPDATE);
   drawtext(str, 96, 20, letters_gold, NO_UPDATE);
 
-  if (time_left >= 50 || (frame % 10) < 5)
+  if (time_left >= TIME_WARNING || (frame % 10) < 5)
     {
       sprintf(str, "%d", time_left);
       drawtext("TIME", 224, 0, letters_blue, NO_UPDATE);
@@ -2257,7 +2260,10 @@ int gameloop(void)
           switch (current_music)
             {
             case LEVEL_MUSIC:
-              play_music(level_song, 1);
+	      if (time_left <= TIME_WARNING)
+                play_music(level_song_fast, 1);
+	      else
+                play_music(level_song, 1);
               break;
             case HERRING_MUSIC:
               play_music(herring_song, 1);
@@ -2287,6 +2293,10 @@ int gameloop(void)
       if ((frame % 10) == 0 && time_left > 0)
         {
           time_left--;
+
+	  /* Stop the music; it will start again, faster! */
+	  if (time_left == TIME_WARNING)
+	    halt_music();
 
           if (time_left <= 0)
             killtux(KILL);
@@ -2387,7 +2397,7 @@ void loadlevel(void)
   time_left = atoi(str);
 
   /* (Song file for this level) */
-  fgets(str, 20, fi);
+  fgets(str, sizeof(song_title), fi);
   strcpy(song_title, str);
   song_title[strlen(song_title)-1] = '\0';
 
@@ -2550,14 +2560,22 @@ void loadlevelsong(void)
 {
 
   char * song_path;
+  char * song_subtitle;
 
   song_path = (char *) malloc(sizeof(char) * (strlen(DATA_PREFIX) +
                               strlen(song_title) + 8));
-
   sprintf(song_path, "%s/music/%s", DATA_PREFIX, song_title);
-
   level_song = load_song(song_path);
+  free(song_path);
 
+  
+  song_path = (char *) malloc(sizeof(char) * (strlen(DATA_PREFIX) +
+                              strlen(song_title) + 8 + 5));
+  song_subtitle = strdup(song_title);
+  strcpy(strstr(song_subtitle, "."), "\0");
+  sprintf(song_path, "%s/music/%s-fast%s", DATA_PREFIX, song_subtitle, strstr(song_title, "."));
+  level_song_fast = load_song(song_path);
+  free(song_subtitle);
   free(song_path);
 }
 

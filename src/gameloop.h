@@ -7,7 +7,7 @@
   bill@newbreedsoftware.com
   http://www.newbreedsoftware.com/supertux/
   
-  April 11, 2000 - November 7, 2001
+  April 11, 2000 - December 28, 2003
 */
 
 
@@ -38,6 +38,11 @@
 /* One-ups... */
 
 #define DISTROS_LIFEUP 100
+
+
+/* When to alert player they're low on time! */
+
+#define TIME_WARNING 50
 
 
 /* Dying types: */

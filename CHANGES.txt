@@ -13,6 +13,10 @@ http://www.newbreedsoftware.com/supertux/
   * Added: --disable-music and music on/off menu option
     Duong-Khang NGUYEN <neoneurone@users.sf.net>
 
+  * Changed out some music.  Created sped-up versions of songs for when
+    time is running out.
+    Bill Kendrick <bill@newbreedsoftware.com>
+
 
 0.0.5 - December 24th, 2003
 ---------------------------

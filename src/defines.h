@@ -7,7 +7,7 @@
   bill@newbreedsoftware.com
   http://www.newbreedsoftware.com/supertux/
 
-  April 11, 2000 - August 29, 2002
+  April 11, 2000 - December 28, 2003
 */
 
 

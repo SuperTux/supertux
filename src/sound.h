@@ -40,8 +40,8 @@ enum Music_Type {
 #include <SDL_mixer.h>
 
 /* variables for stocking the sound and music */
-Mix_Chunk* sounds[NUM_SOUNDS];
-Mix_Music* level_song, *herring_song;
+Mix_Chunk * sounds[NUM_SOUNDS];
+Mix_Music * level_song, * level_song_fast, * herring_song;
 
 /* functions handling the sound and music */
 int open_audio(int frequency, Uint16 format, int channels, int chunksize);
