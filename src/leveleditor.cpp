@@ -117,6 +117,7 @@ struct TileOrObject
   bool IsTile() { return is_tile; };
   //Returns true for a GameObject
   bool IsObject() { return !is_tile; };
+  void Init() { tile = 0; obj = NULL; is_tile = true; };
 
   bool is_tile; //true for tile (false for object)
   unsigned int tile;
@@ -375,14 +376,14 @@ int leveleditor(int levelnb)
       }
       else if(menu == subset_settings_menu)
       {
-        if(le_level_subset->title.compare(subset_settings_menu->get_item_by_id(MNID_TITLE).input) == 0 && le_level_subset->description.compare(subset_settings_menu->get_item_by_id(MNID_DESCRIPTION).input) == 0  )
-          subset_settings_menu->get_item_by_id(MNID_SAVE_CHANGES).kind = MN_DEACTIVE;
+        if(le_level_subset->title.compare(subset_settings_menu->get_item_by_id(MNID_SUBSETTITLE).input) == 0 && le_level_subset->description.compare(subset_settings_menu->get_item_by_id(MNID_SUBSETDESCRIPTION).input) == 0  )
+          subset_settings_menu->get_item_by_id(MNID_SUBSETSAVECHANGES).kind = MN_DEACTIVE;
         else
-          subset_settings_menu->get_item_by_id(MNID_SAVE_CHANGES).kind = MN_ACTION;
+          subset_settings_menu->get_item_by_id(MNID_SUBSETSAVECHANGES).kind = MN_ACTION;
 
         switch (i = subset_settings_menu->check())
         {
-        case MNID_SAVE_CHANGES:
+        case MNID_SUBSETSAVECHANGES:
           save_subset_settings_menu();
           //FIXME:show_menu = true;
           Menu::set_current(leveleditor_menu);
@@ -455,10 +456,10 @@ void le_init_menus()
 
   subset_settings_menu->additem(MN_LABEL,"Level Subset Settings",0,0);
   subset_settings_menu->additem(MN_HL,"",0,0);
-  subset_settings_menu->additem(MN_TEXTFIELD,"Title",0,0);
-  subset_settings_menu->additem(MN_TEXTFIELD,"Description",0,0);
+  subset_settings_menu->additem(MN_TEXTFIELD,"Title",0,0,MNID_SUBSETTITLE);
+  subset_settings_menu->additem(MN_TEXTFIELD,"Description",0,0,MNID_SUBSETDESCRIPTION);
   subset_settings_menu->additem(MN_HL,"",0,0);
-  subset_settings_menu->additem(MN_ACTION,"Save Changes",0,0);
+  subset_settings_menu->additem(MN_ACTION,"Save Changes",0,0,MNID_SUBSETSAVECHANGES);
   subset_settings_menu->additem(MN_HL,"",0,0);
   subset_settings_menu->additem(MN_BACK,"Back",0,0);
 
@@ -500,6 +501,7 @@ void le_init_menus()
         sit != (*it).tiles.end(); ++sit, ++i)
     {
       std::string imagefile = "/images/tilesets/" ;
+      bool only_editor_image = false;
       if(!TileManager::instance()->get(*sit)->filenames.empty())
       {
         imagefile += TileManager::instance()->get(*sit)->filenames[0];
@@ -507,6 +509,7 @@ void le_init_menus()
       else if(!TileManager::instance()->get(*sit)->editor_filenames.empty())
       {
         imagefile += TileManager::instance()->get(*sit)->editor_filenames[0];
+	only_editor_image = true;
       }
       else
       {
@@ -514,6 +517,12 @@ void le_init_menus()
       }
       Button* button = new Button(imagefile, it->name, SDLKey(SDLK_a + i),
                                   0, 0, 32, 32);
+      if(!only_editor_image)
+      if(!TileManager::instance()->get(*sit)->editor_filenames.empty())
+      {
+        imagefile = "/images/tilesets/" + TileManager::instance()->get(*sit)->editor_filenames[0];      
+        button->add_icon(imagefile,32,32);
+      }
       tilegroups_map[it->name]->additem(button, *sit);
     }
   }
@@ -539,14 +548,12 @@ void le_init_menus()
 int le_init()
 {
   level_subsets = dsubdirs("/levels", "info");
-
   le_level_subset = new LevelSubset;
 
   active_tm = TM_IA;
-
   le_show_grid = true;
+  scroll_x = 0;
 
-  /*  level_changed = NO;*/
   fire = DOWN;
   done = 0;
   le_frame = 0;	/* support for frames in some tiles, like waves and bad guys */
@@ -581,7 +588,9 @@ int le_init()
   le_tilemap_panel->additem(new Button("/images/icons/bkgrd.png","Background",SDLK_F4,0,0),TM_BG);
   le_tilemap_panel->additem(new Button("/images/icons/intact.png","Interactive",SDLK_F4,0,0),TM_IA);
   le_tilemap_panel->additem(new Button("/images/icons/frgrd.png","Foreground",SDLK_F4,0,0),TM_FG);
-
+    
+  le_current.Init();
+  
   le_init_menus();
 
   SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
@@ -1398,7 +1407,7 @@ void le_testlevel()
 
   music_manager->halt_music();
 
-  Menu::set_current(leveleditor_menu);
+  Menu::set_current(NULL);
   le_world.arrays_free();
   le_current_level->load_gfx();
   le_world.activate_bad_guys();

@@ -31,6 +31,24 @@ Button::Button(std::string icon_file, std::string ninfo, SDLKey nshortcut, int x
 {
   popup_timer.init(false);
 
+  add_icon(icon_file,mw,mh);
+
+  info = ninfo;
+
+  shortcut = nshortcut;
+
+  rect.x = x;
+  rect.y = y;
+  rect.w = icon[0]->w;
+  rect.h = icon[0]->h;
+  tag = -1;
+  state = BUTTON_NONE;
+  show_info = false;
+  game_object = NULL;
+}
+
+void Button::add_icon(std::string icon_file, int mw, int mh)
+{
   char filename[1024];
 
   if(!icon_file.empty())
@@ -46,44 +64,12 @@ Button::Button(std::string icon_file, std::string ninfo, SDLKey nshortcut, int x
 
   if(mw != -1 || mh != -1)
   {
-    icon = new Surface(filename,USE_ALPHA);
-    icon->resize(mw,mh);
+    icon.push_back(new Surface(filename,USE_ALPHA));
+    icon.back()->resize(mw,mh);
   }
   else
-    icon = new Surface(filename,USE_ALPHA);
-
-  info = ninfo;
-
-  shortcut = nshortcut;
-
-  rect.x = x;
-  rect.y = y;
-  rect.w = icon->w;
-  rect.h = icon->h;
-  tag = -1;
-  state = BUTTON_NONE;
-  show_info = false;
-  bkgd = NULL;
-  game_object = NULL;
-}
-
-void Button::change_icon(std::string icon_file, int /*mw*/, int /*mh*/)
-{
-  char filename[1024];
-
-  if(!icon_file.empty())
-  {
-    snprintf(filename, 1024, "%s/%s", datadir.c_str(), icon_file.c_str());
-    if(!faccessible(filename))
-      snprintf(filename, 1024, "%s/images/icons/default-icon.png", datadir.c_str());
-  }
-  else
-  {
-    snprintf(filename, 1024, "%s/images/icons/default-icon.png", datadir.c_str());
-  }
-
-  delete icon;
-  icon = new Surface(filename,USE_ALPHA);
+    icon.push_back(new Surface(filename,USE_ALPHA));
+    
 }
 
 void Button::draw()
@@ -94,11 +80,10 @@ void Button::draw()
 
   fillrect(rect.x,rect.y,rect.w,rect.h,75,75,75,200);
   fillrect(rect.x+1,rect.y+1,rect.w-2,rect.h-2,175,175,175,200);
-  if(bkgd != NULL)
-  {
-    bkgd->draw(rect.x,rect.y);
-  }
-  icon->draw(rect.x,rect.y);
+
+  for(std::vector<Surface*>::iterator it = icon.begin(); it != icon.end(); ++it)
+  (*it)->draw(rect.x,rect.y);
+  
   if(game_object != NULL)
   {
     game_object->draw_on_screen();
@@ -125,7 +110,9 @@ void Button::draw()
 
 Button::~Button()
 {
-  delete icon;
+  for(std::vector<Surface*>::iterator it = icon.begin(); it != icon.end(); ++it)
+  delete (*it);
+  icon.clear();
   delete game_object;
 }
 

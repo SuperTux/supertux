@@ -43,7 +43,7 @@ public:
   void event(SDL_Event& event);
   void draw();
   int get_state();
-  void change_icon(std::string icon_file, int mw, int mh);
+  void add_icon(std::string icon_file, int mw, int mh);
   SDL_Rect get_pos() { return rect; }
   int get_tag(){return tag; }
   void set_game_object(GameObject* game_object_) { game_object = game_object_; }
@@ -52,8 +52,7 @@ public:
 private:
   static Timer popup_timer;
   GameObject* game_object;
-  Surface* icon;
-  Surface* bkgd;
+  std::vector<Surface*> icon;
   std::string info;
   SDLKey shortcut;
   SDL_Rect rect;

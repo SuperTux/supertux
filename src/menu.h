@@ -64,9 +64,9 @@ enum LevelEditorMainMenuIDs {
   };
   
 enum LevelEditorSubsetSettingsIDs {
-  MNID_TITLE,
-  MNID_DESCRIPTION,
-  MNID_SAVE_CHANGES
+  MNID_SUBSETTITLE,
+  MNID_SUBSETDESCRIPTION,
+  MNID_SUBSETSAVECHANGES
   };
   
 enum LevelEditorSubsetNewIDs {
