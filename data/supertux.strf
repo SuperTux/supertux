@@ -30,9 +30,13 @@
          (images "shared/bsod-squished-right.png"))
 
  (sprite (name "snowball-squished-left")
+         (x-hotspot 1)
+         (y-hotspot -19)
          (images "shared/bsod-squished-left.png"))
 
  (sprite (name "snowball-squished-right")
+         (x-hotspot 1)
+         (y-hotspot -19)
          (images "shared/bsod-squished-right.png"))
 
  (sprite (name "bsod-falling-left")
@@ -42,21 +46,29 @@
          (images "shared/bsod-falling-right.png"))
 
  (sprite (name "laptop-left")
+         (x-hotspot 2)
+         (y-hotspot 3)
          (images "shared/mriceblock-left-0.png"
                  "shared/mriceblock-left-1.png"
                  "shared/mriceblock-left-2.png"
                  "shared/mriceblock-left-1.png"))
 
  (sprite (name "laptop-right")
+         (x-hotspot 2)
+         (y-hotspot 3)
          (images "shared/mriceblock-right-0.png"
                  "shared/mriceblock-right-1.png"
                  "shared/mriceblock-right-2.png"
                  "shared/mriceblock-right-1.png"))
  
  (sprite (name "laptop-flat-left")
+         (x-hotspot 2)
+         (y-hotspot 3)
          (images "shared/mriceblock-flat-left.png"))
 
  (sprite (name "laptop-flat-right")
+         (x-hotspot 2)
+         (y-hotspot 3)
          (images "shared/mriceblock-flat-right.png"))
 
  (sprite (name "laptop-falling-left")
@@ -66,10 +78,16 @@
          (images "shared/laptop-falling-right.png"))
 
  (sprite (name "jumpy-left-up")
+         (x-hotspot 7)
+         (y-hotspot 8)
          (images "shared/jumpy-left-up-0.png"))
  (sprite (name "jumpy-left-down")
+         (x-hotspot 7)
+         (y-hotspot 8)
          (images "shared/jumpy-left-down-0.png"))
  (sprite (name "jumpy-left-middle")
+         (x-hotspot 7)
+         (y-hotspot 8)
          (images "shared/jumpy-left-middle-0.png"))
 
  (sprite (name "mrbomb-left")
@@ -105,9 +123,13 @@
          (images "shared/mrbomb-explosion.png"))
 
  (sprite (name "stalactite")
+         (x-hotspot 0)
+         (y-hotspot 0)
          (images "shared/stalactite.png"))
 
  (sprite (name "stalactite-broken")
+         (x-hotspot 0)
+         (y-hotspot 16)
          (images "shared/stalactite-broken.png"))
 
  (sprite (name "flame")
@@ -115,13 +137,19 @@
                  "shared/flame-1.png"))
 
  (sprite (name "fish")
+         (x-hotspot 2)
+         (y-hotspot 3)
          (images "shared/fish-left-0.png"
                  "shared/fish-left-1.png"))
 
  (sprite (name "fish-down")
+         (x-hotspot 2)
+         (y-hotspot 11)
          (images "shared/fish-down-0.png"))
 
  (sprite (name "bouncingsnowball-left")
+         (x-hotspot 1)
+         (y-hotspot 0)
          (images "shared/bouncingsnowball-left-0.png"
                  "shared/bouncingsnowball-left-1.png"
                  "shared/bouncingsnowball-left-2.png"
@@ -130,6 +158,8 @@
                  "shared/bouncingsnowball-left-5.png"))
 
  (sprite (name "bouncingsnowball-right")
+         (x-hotspot 1)
+         (y-hotspot 0)
          (images "shared/bouncingsnowball-right-0.png"
                  "shared/bouncingsnowball-right-1.png"
                  "shared/bouncingsnowball-right-2.png"
@@ -138,31 +168,45 @@
                  "shared/bouncingsnowball-right-5.png"))
 
  (sprite (name "bouncingsnowball-squished")
+         (x-hotspot 1)
+         (y-hotspot -19)
          (images "shared/bsod-squished-left.png"))
 
  (sprite (name "flyingsnowball")
+         (x-hotspot 4)
+         (y-hotspot 3)
          (images "shared/flyingsnowball-left-0.png"
                  "shared/flyingsnowball-left-1.png"))
 
  (sprite (name "flyingsnowball-squished")
+         (x-hotspot 1)
+         (y-hotspot -19)
          (images "shared/bsod-squished-left.png"))
 
  (sprite (name "spiky-left")
+         (x-hotspot 6)
+         (y-hotspot 10)
          (images "shared/spiky-left-0.png"
                  "shared/spiky-left-1.png"
                  "shared/spiky-left-2.png"))
  (sprite (name "spiky-right")
+         (x-hotspot 6)
+         (y-hotspot 10)
          (images "shared/spiky-right-0.png"
                  "shared/spiky-right-1.png"
                  "shared/spiky-right-2.png"))
 
  (sprite (name "snowball-left")
+         (x-hotspot 2)
+         (y-hotspot 4)
          (images "shared/snowball-left-0.png"
                  "shared/snowball-left-1.png"
                  "shared/snowball-left-2.png"
                  "shared/snowball-left-1.png"))
 
  (sprite (name "snowball-right")
+         (x-hotspot 2)
+         (y-hotspot 4)
          (images "shared/snowball-right-0.png"
                  "shared/snowball-right-1.png"
                  "shared/snowball-right-2.png"
@@ -230,6 +274,7 @@
           "shared/iceflower-1.png"))
 
  (sprite (name "smalltux-gameover")
+         (fps 10.0)
          (images "shared/smalltux-gameover-0.png"
                  "shared/smalltux-gameover-1.png"))
 
