@@ -3,11 +3,11 @@
   
   Super Tux - Game Loop!
   
-  by Bill Kendrick
+  by Bill Kendrick & Tobias Glaesser <tobi.web@gmx.de>
   bill@newbreedsoftware.com
   http://www.newbreedsoftware.com/supertux/
   
-  April 11, 2000 - Junuary 1st, 2004
+  April 11, 2000 - March 15, 2004
 */
 
 #ifndef SUPERTUX_GAMELOOP_H

@@ -7,7 +7,7 @@
   bill@newbreedsoftware.com
   http://www.newbreedsoftware.com/supertux/
   
-  April 11, 2000 - April 11, 2000
+  April 11, 2000 - March 15, 2004
 */
 
 int title(void);

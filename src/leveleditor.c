@@ -7,10 +7,11 @@
  *                                                                         *
  ***************************************************************************/
 
-/*  December 28, 2003 - February 1st, 2004 */
+/*  December 28, 2003 - March 15, 2004 */
 
 /* leveleditor.c - A built-in level editor for SuperTux
- by Ricardo Cruz <rick2@aeiou.pt>                      */
+ Ricardo Cruz <rick2@aeiou.pt>
+ Tobias Glaesser <tobi.web@gmx.de>                      */
 
 #include <stdio.h>
 #include <stdlib.h>

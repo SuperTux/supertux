@@ -10,7 +10,8 @@
 /*  December 28, 2003 - February 1st, 2004 */
 
 /* leveleditor.h - A built-in level editor for SuperTux
- by Ricardo Cruz <rick2@aeiou.pt>                      */
+   Ricardo Cruz <rick2@aeiou.pt>                      
+   Tobias Glaesser <tobi.web@gmx.de> */
 
 #ifndef SUPERTUX_LEVELEDITOR_H
 #define SUPERTUX_LEVELEDITOR_H

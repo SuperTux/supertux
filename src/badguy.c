@@ -331,7 +331,10 @@ void badguy_action(bad_guy_type* pbad)
   if (pbad->mode == FLAT && pbad->mode != HELD)
     {
       if(!timer_check(&pbad->timer))
+      {
         pbad->mode = NORMAL;
+        pbad->base.xm = 4;
+        }
     }
   else if (pbad->mode == KICK)
     {

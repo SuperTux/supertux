@@ -7,7 +7,7 @@
   bill@newbreedsoftware.com
   http://www.newbreedsoftware.com/supertux/
  
-  April 22, 2000 - December 28, 2003
+  April 22, 2000 - March 15, 2004
 */
 
 #include "defines.h"

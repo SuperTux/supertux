@@ -5,12 +5,27 @@ bill@newbreedsoftware.com
 http://www.newbreedsoftware.com/supertux/
 
 
-0.0.6 - current CVS version
+0.0.6 - March 15th, 2004
 ---------------------------
+  * Levels can have own gravity settings.
+    Tobias Glaesser <tobi.web@gmx.de>
+ 
+  * Created Level 4 (Tux in Sky)
+    Ricardo Cruz <rick2@aeiou.pt>
+
+  * Created Level 3 (Mondo)
+    Philippe Saint-Pierre <stpere@linuxmail.org>
+
+  * New collision detection. (object vs. map)
+    Tobias Glaesser <tobi.web@gmx.de>
+  
+  * Nice level-editor help text.
+    Christopher A. Webber <creat0r@lingocomic.com>
+
   * Compiling with g++ is supported.
     Tobias Glaesser <tobi.web@gmx.de>
  
-  * Added realistic physic. Only implemented for the bad money atm.
+  * Added realistic physics.
     Tobias Glaesser <tobi.web@gmx.de>
 
   * Created new letters.
@@ -95,7 +110,7 @@ http://www.newbreedsoftware.com/supertux/
     (FIXME: Pause doesn't work properly for now)
     Tobias Glaesser <tobi.web@gmx.de>
 
-  * Introduced highly experimental OpenGL mode.
+  * Added OpenGL mode.
     Tobias Glaesser <tobi.web@gmx.de>  
 
   * Restructured much code or even all code of SuperTux in an object orientated way.
@@ -114,7 +129,7 @@ http://www.newbreedsoftware.com/supertux/
   * Fixed possible segfaults.
     Tobias Glaesser <tobi.web@gmx.de>
     
-  * Reorganized level-code and introced level-subset-structure.
+  * Reorganized level-code and introduced level-subset-structure.
     Tobias Glaesser <tobi.web@gmx.de>
 
   * Fixed Amiga/MorphOS build problem.

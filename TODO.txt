@@ -1,12 +1,12 @@
 TODO.txt for Super Tux
 
-by Bill Kendrick
+by Bill Kendrick & Tobias Glaesser
 bill@newbreedsoftware.com
 http://www.newbreedsoftware.com/supertux/
 
-Version 0.0.6 (in development)
+Version 0.0.6
 
-December 26th, 2003
+March 15, 2004
 
 
 TO DO
@@ -17,6 +17,8 @@ TO DO
   More levels
   Play as Gown, rescuing Tux
  
+  Note: Use our mailing-list to find out what is really to do.
+  
 DONE
 -----
   One-ups, End game on game over (by Tobias Glaesser <tobi.web@gmx.de>)

@@ -7,7 +7,7 @@
   tobi.web@gmx.de
   http://www.newbreedsoftware.com/supertux/
   
-  December 20, 2003 - December 30, 2003
+  December 20, 2003 - March 15, 2004
 */
 
 #ifdef LINUX
