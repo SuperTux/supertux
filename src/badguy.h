@@ -102,6 +102,7 @@ private:
   bool seen;
   int squishcount; /// number of times this enemy was squiched
   Timer timer;
+  Vector start_position;
   Physic physic;
   float angle;
 
@@ -143,6 +144,9 @@ private:
   void action_flyingsnowball(double frame_ratio);
   void action_spiky(double frame_ratio);
   void action_snowball(double frame_ratio);
+
+  /** initializes the badguy (when he appears on screen) */
+  void activate(Direction direction);
 
   /** handles falling down. disables gravity calculation when we're back on
    * ground */

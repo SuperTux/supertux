@@ -151,12 +151,8 @@ BadGuy::BadGuy(DisplayManager& display_manager, BadGuyKind kind_,
 {
   display_manager.add_drawable(this, LAYER_OBJECTS);
 
-  base.x = 0;
-  base.y = 0;
-  lispreader.read_float("x", &base.x);
-  lispreader.read_float("y", &base.y);
-  base.width  = 0;
-  base.height = 0;
+  lispreader.read_float("x", &start_position.x);
+  lispreader.read_float("y", &start_position.y);
 
   kind     = kind_;
 
@@ -171,10 +167,8 @@ BadGuy::BadGuy(DisplayManager& display_manager, BadGuyKind kind_,
 {
   display_manager.add_drawable(this, LAYER_OBJECTS);
 
-  base.x = x;
-  base.y = y;
-  base.width  = 0;
-  base.height = 0;
+  start_position.x = x;
+  start_position.y = y;
   stay_on_platform = false;
 
   kind     = kind_;
@@ -189,52 +183,21 @@ BadGuy::~BadGuy()
 void
 BadGuy::init()
 {
+  base.x = 0;
+  base.y = 0;
+  base.width  = 0;
+  base.height = 0;
+  
   mode     = NORMAL;
   dying    = DYING_NOT;
   old_base = base;
   dir      = LEFT;
   seen     = false;
-  frozen_timer.init(true);
   animation_offset = 0;
   sprite_left = sprite_right = 0;
   physic.reset();
+  frozen_timer.init(true);
   timer.init(true);
-
-  if(kind == BAD_MRBOMB) {
-    physic.set_velocity(-BADGUY_WALK_SPEED, 0);
-    set_sprite(img_mrbomb_left, img_mrbomb_right);
-  } else if (kind == BAD_MRICEBLOCK) {
-    physic.set_velocity(-BADGUY_WALK_SPEED, 0);
-    set_sprite(img_mriceblock_left, img_mriceblock_right);
-  } else if(kind == BAD_JUMPY) {
-    set_sprite(img_jumpy_left_up, img_jumpy_left_up);
-  } else if(kind == BAD_BOMB) {
-    set_sprite(img_mrbomb_ticking_left, img_mrbomb_ticking_right);
-    // hack so that the bomb doesn't hurt until it expldes...
-    dying = DYING_SQUISHED;
-  } else if(kind == BAD_FLAME) {
-    angle = 0;
-    physic.enable_gravity(false);
-    set_sprite(img_flame, img_flame);
-  } else if(kind == BAD_BOUNCINGSNOWBALL) {
-    physic.set_velocity(-1.3, 0);
-    set_sprite(img_bouncingsnowball_left, img_bouncingsnowball_right);
-  } else if(kind == BAD_STALACTITE) {
-    physic.enable_gravity(false);
-    set_sprite(img_stalactite, img_stalactite);
-  } else if(kind == BAD_FISH) {
-    set_sprite(img_fish, img_fish);
-    physic.enable_gravity(true);
-  } else if(kind == BAD_FLYINGSNOWBALL) {
-    set_sprite(img_flyingsnowball, img_flyingsnowball);
-    physic.enable_gravity(false);
-  } else if(kind == BAD_SPIKY) {
-    physic.set_velocity(-BADGUY_WALK_SPEED, 0);
-    set_sprite(img_spiky_left, img_spiky_right);
-  } else if(kind == BAD_SNOWBALL) {
-    physic.set_velocity(-BADGUY_WALK_SPEED, 0);
-    set_sprite(img_snowball_left, img_snowball_right);
-  }
 
   // if we're in a solid tile at start correct that now
   if(kind != BAD_FLAME && kind != BAD_FISH && collision_object_map(base)) 
@@ -244,6 +207,10 @@ BadGuy::init()
       while(collision_object_map(base))
         --base.y;
     }
+
+  // just activate the badguy, since he might be on screen already. If not he
+  // gets deactivated anyway
+  activate(LEFT);
 }
 
 void
@@ -256,6 +223,60 @@ BadGuy::write(LispWriter& writer)
   writer.write_bool("stay-on-platform", stay_on_platform);  
 
   writer.end_list(badguykind_to_string(kind));
+}
+
+void
+BadGuy::activate(Direction activation_dir)
+{
+  mode     = NORMAL;
+  animation_offset = 0;
+  physic.reset();
+  frozen_timer.init(true);
+  timer.init(true);
+
+  dir = activation_dir;
+  float dirsign = activation_dir == LEFT ? -1 : 1;
+  
+  if(kind == BAD_MRBOMB) {
+    physic.set_velocity(dirsign * BADGUY_WALK_SPEED, 0);
+    set_sprite(img_mrbomb_left, img_mrbomb_right);
+  } else if (kind == BAD_MRICEBLOCK) {
+    physic.set_velocity(dirsign * BADGUY_WALK_SPEED, 0);
+    set_sprite(img_mriceblock_left, img_mriceblock_right);
+  } else if(kind == BAD_JUMPY) {
+    set_sprite(img_jumpy_left_up, img_jumpy_left_up);
+  } else if(kind == BAD_BOMB) {
+    set_sprite(img_mrbomb_ticking_left, img_mrbomb_ticking_right);
+    // hack so that the bomb doesn't hurt until it expldes...           
+    dying = DYING_SQUISHED;
+  } else if(kind == BAD_FLAME) {
+    angle = 0;
+    physic.enable_gravity(false);
+    set_sprite(img_flame, img_flame);
+  } else if(kind == BAD_BOUNCINGSNOWBALL) {
+    physic.set_velocity(dirsign * 1.3, 0);
+    set_sprite(img_bouncingsnowball_left, img_bouncingsnowball_right);
+  } else if(kind == BAD_STALACTITE) {
+    physic.enable_gravity(false);
+    set_sprite(img_stalactite, img_stalactite);
+  } else if(kind == BAD_FISH) {
+    set_sprite(img_fish, img_fish);
+    physic.enable_gravity(true);
+  } else if(kind == BAD_FLYINGSNOWBALL) {
+    set_sprite(img_flyingsnowball, img_flyingsnowball);
+    physic.enable_gravity(false);
+  } else if(kind == BAD_SPIKY) {
+    physic.set_velocity(dirsign * BADGUY_WALK_SPEED, 0);
+    set_sprite(img_spiky_left, img_spiky_right);
+  } else if(kind == BAD_SNOWBALL) {
+    physic.set_velocity(dirsign * BADGUY_WALK_SPEED, 0);
+    set_sprite(img_snowball_left, img_snowball_right);
+  }
+
+  base.x = start_position.x;
+  base.y = start_position.y;  
+  old_base = base;
+  seen = true;
 }
 
 void
@@ -661,11 +682,7 @@ BadGuy::action_bouncingsnowball(double elapsed_time)
 
   // Handle dying timer:
   if (dying == DYING_SQUISHED && !timer.check())
-    {
-      /* Remove it if time's up: */
-      remove_me();
-      return;
-    }
+    remove_me();
 }
 
 void
@@ -701,11 +718,7 @@ BadGuy::action_flyingsnowball(double elapsed_time)
 
   // Handle dying timer:
   if (dying == DYING_SQUISHED && !timer.check())
-    {
-      /* Remove it if time's up: */
-      remove_me();
-      return;
-    }                                                          
+    remove_me();
 }
 
 void
@@ -746,6 +759,10 @@ BadGuy::action_snowball(double elapsed_time)
   physic.apply(elapsed_time, base.x, base.y);
   if (dying != DYING_FALLING)
     collision_swept_object_map(&old_base,&base);
+
+  // Handle dying timer:
+  if (dying == DYING_SQUISHED && !timer.check())
+    remove_me();                                  
 }
 
 void
@@ -771,16 +788,37 @@ BadGuy::action(float elapsed_time)
          kill_me(0);
       }
 
-  // Once it's on screen, it's activated!
-  if (base.x > scroll_x - X_OFFSCREEN_DISTANCE &&
-       base.x < scroll_x + screen->w + X_OFFSCREEN_DISTANCE &&
-       base.y > scroll_y - Y_OFFSCREEN_DISTANCE &&
-       base.y < scroll_y + screen->h + Y_OFFSCREEN_DISTANCE)
-    seen = true;
-
+  if(!seen) {
+    /* activate badguys if they're just inside the offscreen_distance around the
+     * screen. Don't activate them inside the screen, since that might have the
+     * effect of badguys suddenly popping up from nowhere
+     */
+    if (start_position.x > scroll_x - X_OFFSCREEN_DISTANCE &&
+        start_position.x < scroll_x - base.width)
+      activate(RIGHT);
+    else if(start_position.x > scroll_y - Y_OFFSCREEN_DISTANCE &&
+        start_position.y < scroll_y - base.height)
+      activate(LEFT);
+    else if(start_position.x > scroll_x + screen->w &&
+        start_position.x < scroll_x + screen->w + X_OFFSCREEN_DISTANCE)
+      activate(LEFT);
+    else if(start_position.y > scroll_y + screen->h &&
+        start_position.y < scroll_y + screen->h + Y_OFFSCREEN_DISTANCE)
+      activate(LEFT);
+  } else {
+    if(base.x + base.width < scroll_x - X_OFFSCREEN_DISTANCE
+      || base.x > scroll_x + screen->w + X_OFFSCREEN_DISTANCE
+      || base.y + base.height < scroll_y - Y_OFFSCREEN_DISTANCE
+      || base.y > scroll_y + screen->h + Y_OFFSCREEN_DISTANCE) {
+      seen = false;
+      if(dying != DYING_NOT)
+        remove_me();
+    }
+  }
+  
   if(!seen)
     return;
-
+  
   switch (kind)
     {
     case BAD_MRICEBLOCK:
@@ -968,7 +1006,7 @@ BadGuy::squish(Player* player)
 
     player_status.score_multiplier++;
 
-    // check for maximum number of squiches
+    // check for maximum number of squishes
     squishcount++;
     if(squishcount >= MAX_ICEBLOCK_SQUICHES) {
       kill_me(50);

@@ -203,7 +203,8 @@ World::action(float elapsed_time)
    * during the iteration)
    */
   for(size_t i = 0; i < gameobjects.size(); ++i)
-    gameobjects[i]->action(elapsed_time);
+    if(gameobjects[i]->is_valid())
+      gameobjects[i]->action(elapsed_time);
 
   /* Handle all possible collisions. */
   collision_handler();
