@@ -240,65 +240,63 @@ std::string MenuItem::get_input_with_symbol(bool active_item)
   return string;
 }
 
-/* Set ControlField a key */
+/* Set ControlField for keyboard key */
 void Menu::get_controlfield_key_into_input(MenuItem *item)
 {
-  if (this == options_joystick_menu)
+  switch(*item->int_p)
   {
-    std::ostringstream oss;
-    oss << "Button " << *item->int_p;
-    item->change_input(oss.str().c_str());
-  }
-
-  else if (this == options_keys_menu)
-  {
-    switch(*item->int_p)
+  case SDLK_UP:
+    item->change_input("Up cursor");
+    break;
+  case SDLK_DOWN:
+    item->change_input("Down cursor");
+    break;
+  case SDLK_LEFT:
+    item->change_input("Left cursor");
+    break;
+  case SDLK_RIGHT:
+    item->change_input("Right cursor");
+    break;
+  case SDLK_RETURN:
+    item->change_input("Return");
+    break;
+  case SDLK_SPACE:
+    item->change_input("Space");
+    break;
+  case SDLK_RSHIFT:
+    item->change_input("Right Shift");
+    break;
+  case SDLK_LSHIFT:
+    item->change_input("Left Shift");
+    break;
+  case SDLK_RCTRL:
+    item->change_input("Right Control");
+    break;
+  case SDLK_LCTRL:
+    item->change_input("Left Control");
+    break;
+  case SDLK_RALT:
+    item->change_input("Right Alt");
+    break;
+  case SDLK_LALT:
+    item->change_input("Left Alt");
+    break;
+  default:
     {
-    case SDLK_UP:
-      item->change_input("Up cursor");
-      break;
-    case SDLK_DOWN:
-      item->change_input("Down cursor");
-      break;
-    case SDLK_LEFT:
-      item->change_input("Left cursor");
-      break;
-    case SDLK_RIGHT:
-      item->change_input("Right cursor");
-      break;
-    case SDLK_RETURN:
-      item->change_input("Return");
-      break;
-    case SDLK_SPACE:
-      item->change_input("Space");
-      break;
-    case SDLK_RSHIFT:
-      item->change_input("Right Shift");
-      break;
-    case SDLK_LSHIFT:
-      item->change_input("Left Shift");
-      break;
-    case SDLK_RCTRL:
-      item->change_input("Right Control");
-      break;
-    case SDLK_LCTRL:
-      item->change_input("Left Control");
-      break;
-    case SDLK_RALT:
-      item->change_input("Right Alt");
-      break;
-    case SDLK_LALT:
-      item->change_input("Left Alt");
-      break;
-    default:
-      {
-        char tmp[64];
-        snprintf(tmp, 64, "%d", *item->int_p);
-        item->change_input(tmp);
-      }
-      break;
+      char tmp[64];
+      snprintf(tmp, 64, "%d", *item->int_p);
+      item->change_input(tmp);
     }
+    break;
   }
+}
+
+/* Set ControlField for joystick button */
+void Menu::get_controlfield_js_into_input(MenuItem *item)
+{
+  std::ostringstream oss;
+  oss << "Button " << *item->int_p;
+  item->change_input(oss.str().c_str());
 }
 
 /* Free a menu and all its items */
@@ -572,7 +570,8 @@ Menu::draw_item(int index, // Position of the current item in the menu
     }
   case MN_TEXTFIELD:
   case MN_NUMFIELD:
-  case MN_CONTROLFIELD:
+  case MN_CONTROLFIELD_KB:
+  case MN_CONTROLFIELD_JS:
     {
       int input_pos = input_width/2;
       int text_pos  = (text_width + font_width)/2;
@@ -584,8 +583,10 @@ Menu::draw_item(int index, // Position of the current item in the menu
                input_width + font_width, 18,
                0,0,0,128);
 
-      if(pitem.kind == MN_CONTROLFIELD)
+      if(pitem.kind == MN_CONTROLFIELD_KB)
         get_controlfield_key_into_input(&pitem);
+      else if (pitem.kind == MN_CONTROLFIELD_JS)
+        get_controlfield_js_into_input(&pitem);
 
       if(pitem.kind == MN_TEXTFIELD || pitem.kind == MN_NUMFIELD)
       {
@@ -756,7 +757,7 @@ Menu::event(SDL_Event& event)
       /* An International Character. */
     }
 
-    if(item[active_item].kind == MN_CONTROLFIELD && this == options_keys_menu)
+    if(item[active_item].kind == MN_CONTROLFIELD_KB)
     {
       if(key == SDLK_ESCAPE)
       {
@@ -824,7 +825,7 @@ Menu::event(SDL_Event& event)
     }
     break;
   case  SDL_JOYBUTTONDOWN:
-    if (item[active_item].kind == MN_CONTROLFIELD && this == options_joystick_menu)
+    if (item[active_item].kind == MN_CONTROLFIELD_JS)
     {
       *item[active_item].int_p = key;
       menuaction = MENU_ACTION_DOWN;

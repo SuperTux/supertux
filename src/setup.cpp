@@ -420,11 +420,11 @@ void st_menu(void)
   
   options_keys_menu->additem(MN_LABEL,"Key Setup",0,0);
   options_keys_menu->additem(MN_HL,"",0,0);
-  options_keys_menu->additem(MN_CONTROLFIELD,"Left move", 0,0, 0,&keymap.left);
-  options_keys_menu->additem(MN_CONTROLFIELD,"Right move", 0,0, 0,&keymap.right);
-  options_keys_menu->additem(MN_CONTROLFIELD,"Jump", 0,0, 0,&keymap.jump);
-  options_keys_menu->additem(MN_CONTROLFIELD,"Duck", 0,0, 0,&keymap.duck);
-  options_keys_menu->additem(MN_CONTROLFIELD,"Power/Run", 0,0, 0,&keymap.fire);
+  options_keys_menu->additem(MN_CONTROLFIELD_KB,"Left move", 0,0, 0,&keymap.left);
+  options_keys_menu->additem(MN_CONTROLFIELD_KB,"Right move", 0,0, 0,&keymap.right);
+  options_keys_menu->additem(MN_CONTROLFIELD_KB,"Jump", 0,0, 0,&keymap.jump);
+  options_keys_menu->additem(MN_CONTROLFIELD_KB,"Duck", 0,0, 0,&keymap.duck);
+  options_keys_menu->additem(MN_CONTROLFIELD_KB,"Power/Run", 0,0, 0,&keymap.fire);
   options_keys_menu->additem(MN_HL,"",0,0);
   options_keys_menu->additem(MN_BACK,"Back",0,0);
 
@@ -432,12 +432,12 @@ void st_menu(void)
     {
     options_joystick_menu->additem(MN_LABEL,"Joystick Setup",0,0);
     options_joystick_menu->additem(MN_HL,"",0,0);
-    //options_joystick_menu->additem(MN_CONTROLFIELD,"X axis", 0,0, 0,&joystick_keymap.x_axis);
-    //options_joystick_menu->additem(MN_CONTROLFIELD,"Y axis", 0,0, 0,&joystick_keymap.y_axis);
-    options_joystick_menu->additem(MN_CONTROLFIELD,"A button", 0,0, 0,&joystick_keymap.a_button);
-    options_joystick_menu->additem(MN_CONTROLFIELD,"B button", 0,0, 0,&joystick_keymap.b_button);
-    //options_joystick_menu->additem(MN_CONTROLFIELD,"Start", 0,0, 0,&joystick_keymap.start_button);
-    //options_joystick_menu->additem(MN_CONTROLFIELD,"DeadZone", 0,0, 0,&joystick_keymap.dead_zone);
+    //options_joystick_menu->additem(MN_CONTROLFIELD_JS,"X axis", 0,0, 0,&joystick_keymap.x_axis);
+    //options_joystick_menu->additem(MN_CONTROLFIELD_JS,"Y axis", 0,0, 0,&joystick_keymap.y_axis);
+    options_joystick_menu->additem(MN_CONTROLFIELD_JS,"A button", 0,0, 0,&joystick_keymap.a_button);
+    options_joystick_menu->additem(MN_CONTROLFIELD_JS,"B button", 0,0, 0,&joystick_keymap.b_button);
+    //options_joystick_menu->additem(MN_CONTROLFIELD_JS,"Start", 0,0, 0,&joystick_keymap.start_button);
+    //options_joystick_menu->additem(MN_CONTROLFIELD_JS,"DeadZone", 0,0, 0,&joystick_keymap.dead_zone);
     options_joystick_menu->additem(MN_HL,"",0,0);
     options_joystick_menu->additem(MN_BACK,"Back",0,0);
     }

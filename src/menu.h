@@ -104,7 +104,8 @@ enum MenuItemKind {
   MN_DEACTIVE,
   MN_TEXTFIELD,
   MN_NUMFIELD,
-  MN_CONTROLFIELD,
+  MN_CONTROLFIELD_KB,
+  MN_CONTROLFIELD_JS,
   MN_STRINGSELECT,
   MN_LABEL,
   MN_HL, /* horizontal line */
@@ -209,6 +210,7 @@ public:
   bool isToggled(int id);
 
   void Menu::get_controlfield_key_into_input(MenuItem *item);
+  void Menu::get_controlfield_js_into_input(MenuItem *item);
 
   void draw   ();
   void draw_item(int index, int menu_width, int menu_height);
