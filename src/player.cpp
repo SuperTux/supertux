@@ -228,7 +228,7 @@ Player::action(double frame_ratio)
               World::current()->trygrabdistro(base.x, base.y - 32,BOUNCE);
               World::current()->trybumpbadguy(base.x, base.y - 64);
 
-              World::current()->trybreakbrick(base.x, base.y, size == SMALL, dir);
+              World::current()->trybreakbrick(base.x, base.y, size == SMALL, RIGHT);
 
               bumpbrick(base.x, base.y);
               World::current()->tryemptybox(base.x, base.y, RIGHT);
@@ -241,7 +241,7 @@ Player::action(double frame_ratio)
               World::current()->trybumpbadguy(base.x+ 31, base.y - 64);
 
               if(size == BIG)
-                World::current()->trybreakbrick(base.x+ 31, base.y, size == SMALL, dir);
+                World::current()->trybreakbrick(base.x+ 31, base.y, size == SMALL, LEFT);
 
               bumpbrick(base.x+ 31, base.y);
               World::current()->tryemptybox(base.x+ 31, base.y, LEFT);
