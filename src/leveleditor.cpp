@@ -257,8 +257,7 @@ int leveleditor(char* filename)
         default:
           if(it >= 0)
           {
-            cur_tilegroup
-            = select_tilegroup_menu->get_item_by_id(it).text;
+            cur_tilegroup = select_tilegroup_menu->get_item_by_id(it).text;
             Menu::set_current(0);
             cur_objects = "";
 
@@ -446,6 +445,7 @@ void le_init_menus()
   select_tilegroup_menu->arrange_left = true;
   select_tilegroup_menu->additem(MN_LABEL,"Tilegroup",0,0);
   select_tilegroup_menu->additem(MN_HL,"",0,0);
+  select_tilegroup_menu->additem(MN_ACTION,"asd",0,0);
   std::set<TileGroup>* tilegroups = TileManager::tilegroups();
   int tileid = 1;
   for(std::set<TileGroup>::iterator it = tilegroups->begin();
@@ -642,7 +642,7 @@ void apply_level_settings_menu()
   le_world->get_level()->song_title = string_list_active(level_settings_menu->get_item_by_id(MNID_SONG).list);
 
   le_world->get_level()->change_size(atoi(level_settings_menu->get_item_by_id(MNID_LENGTH).input));
-  le_world->get_level()->time_left = atoi(level_settings_menu->get_item_by_id(MNID_BGIMG).input);
+  le_world->get_level()->time_left = atoi(level_settings_menu->get_item_by_id(MNID_TIME).input);
   le_world->get_level()->gravity = atof(level_settings_menu->get_item_by_id(MNID_GRAVITY).input);
   le_world->get_level()->bkgd_speed = atoi(level_settings_menu->get_item_by_id(MNID_BGSPEED).input);
   le_world->get_level()->bkgd_top.red = atoi(level_settings_menu->get_item_by_id(MNID_TopRed).input);
@@ -901,7 +901,7 @@ void le_drawlevel()
 
       /* draw whats inside stuff when cursor is selecting those */
       /* (draw them all the time - is this the right behaviour?) */
-      if(TileManager::instance()->get(le_world->get_level()->ia_tiles[y][x + (int)(pos_x / 32)])->editor_images.size() > 0)
+      if(!TileManager::instance()->get(le_world->get_level()->ia_tiles[y][x + (int)(pos_x / 32)])->editor_images.empty())
         TileManager::instance()->get(le_world->get_level()->ia_tiles[y][x + (int)(pos_x / 32)])->editor_images[0]->draw( x * 32 - ((int)pos_x % 32), y*32);
 
     }

@@ -112,7 +112,7 @@ class TileManager
   static TileManager* instance() { return instance_ ? instance_ : instance_ = new TileManager(); }
   static void destroy_instance() { delete instance_; instance_ = 0; }
   
-  static std::set<TileGroup>* tilegroups() { return tilegroups_ ? tilegroups_ : tilegroups_ = new std::set<TileGroup>; }
+  static std::set<TileGroup>* tilegroups() { if(!instance_) { instance_ = new TileManager(); } return tilegroups_ ? tilegroups_ : tilegroups_ = new std::set<TileGroup>; }
   Tile* get(unsigned int id) {
     if(id < tiles.size())
       {
