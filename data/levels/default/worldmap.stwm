@@ -21,22 +21,9 @@
    9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  
    ))
  (levels
-  (level (name "level1.stl") (x 3) (y 0))
-  (level (name "level2.stl") (x 5) (y 3))
-  (level (name "level3.stl") (x 8) (y 0))
-  (level (name "level4.stl") (x 7) (y 5))
-  (level (name "snow1-grumbel.stl")  (x 0) (y 0))
-  (level (name "snow2-grumbel.stl")  (x 5) (y 0))
-  (level (name "cave1-grumbel.stl")  (x 5) (y 6))
-  (level (name "cave2-grumbel.stl")  (x 5) (y 8))
-  (level (name "snow3-grumbel.stl")  (x 5) (y 12))
-  (level (name "cave3-grumbel.stl")  (x 8) (y 12))
-  (level (name "cave4-grumbel.stl")  (x 11) (y 12))
-  (level (name "snow4-grumbel.stl")  (x 14) (y 12))
-  (level (name "cave5-grumbel.stl")  (x 14) (y 9))
-  (level (name "snow5-grumbel.stl")  (x 14) (y 5))
-  (level (name "cave6-grumbel.stl")  (x 11) (y 0))
-  (level (name "snow6-grumbel.stl")  (x 14) (y 9)))
+  (level (name "level1.stl") (x 3) (y 6))
+  (level (name "level2.stl") (x 5) (y 8))
+  (level (name "level3.stl") (x 9) (y 1)))
 
  )
 
