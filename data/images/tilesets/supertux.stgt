@@ -15,7 +15,7 @@
  (tilegroup (name "Misc") (tiles 75 76 79 80 126 127 129 130 134 135 136 137 138 139 81 173 174))
  (tilegroup (name "Pipe") (tiles 53 54 55 56 57 58 59 60))
  (tilegroup (name "Grey") (tiles 64 65 66 67 68 69))
- (tilegroup (name "WaterFall") (tiles 175 176 177 178 179 180 181 182 183 184 185 186 187 188 189 190 191 192 193 194 195 196 197 198 199))
+ (tilegroup (name "Waterfall") (tiles 175 176 177 178 179 180 181 182 183 184 185 186 187 188 189 190 191 192 193 194 195 196 197 198 199))
   (tile (id 0)
        (images "notile.png"))
 
