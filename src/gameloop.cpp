@@ -206,6 +206,9 @@ GameSession::process_events()
     }
   else
     {
+      if(!Menu::current() && !game_pause)
+        st_pause_ticks_stop();
+
       SDL_Event event;
       while (SDL_PollEvent(&event))
         {
@@ -219,9 +222,6 @@ GameSession::process_events()
             {
               Player& tux = *world->get_tux();
   
-              if(!game_pause)
-                st_pause_ticks_stop();
-
               switch(event.type)
                 {
                 case SDL_QUIT:        /* Quit event - quit: */
