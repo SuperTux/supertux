@@ -29,7 +29,7 @@
 Surface::Surfaces Surface::surfaces;
 
 SurfaceData::SurfaceData(SDL_Surface* temp, int use_alpha_)
-  : type(SURFACE), use_alpha(use_alpha_)
+  : type(SURFACE), surface(0), use_alpha(use_alpha_)
 {
   // Copy the given surface and make sure that it is not stored in
   // video memory
@@ -40,24 +40,26 @@ SurfaceData::SurfaceData(SDL_Surface* temp, int use_alpha_)
                                  temp->format->Gmask,
                                  temp->format->Bmask,
                                  temp->format->Amask);
+  if(!surface)
+    st_abort("No memory left.", "");
   SDL_SetAlpha(temp,0,0);
   SDL_BlitSurface(temp, NULL, surface, NULL);
 }
 
 SurfaceData::SurfaceData(const std::string& file_, int use_alpha_)
-  : type(LOAD), file(file_), use_alpha(use_alpha_)
+  : type(LOAD), surface(0), file(file_), use_alpha(use_alpha_)
 {
 }
   
 SurfaceData::SurfaceData(const std::string& file_, int x_, int y_, int w_, int h_, int use_alpha_)
-  : type(LOAD_PART), file(file_), use_alpha(use_alpha_),
+  : type(LOAD_PART), surface(0), file(file_), use_alpha(use_alpha_),
     x(x_), y(y_), w(w_), h(h_)
 {
 }
 
 SurfaceData::~SurfaceData()
 {
-  
+  SDL_FreeSurface(surface);  
 }
 
 SurfaceImpl*
@@ -321,6 +323,22 @@ sdl_surface_from_sdl_surface(SDL_Surface* sdl_surf, int use_alpha)
   return sdl_surface;
 }
 
+//---------------------------------------------------------------------------
+
+SurfaceImpl::SurfaceImpl()
+{
+}
+
+SurfaceImpl::~SurfaceImpl()
+{
+  SDL_FreeSurface(sdl_surface);
+}
+
+SDL_Surface* SurfaceImpl::get_sdl_surface() const
+{
+  return sdl_surface;
+}
+
 #ifndef NOOPENGL
 SurfaceOpenGL::SurfaceOpenGL(SDL_Surface* surf, int use_alpha)
 {
@@ -351,7 +369,6 @@ SurfaceOpenGL::SurfaceOpenGL(const std::string& file, int x, int y, int w, int h
 
 SurfaceOpenGL::~SurfaceOpenGL()
 {
-  SDL_FreeSurface(sdl_surface);
   glDeleteTextures(1, &gl_texture);
 }
 
@@ -367,7 +384,7 @@ SurfaceOpenGL::create_gl(SDL_Surface * surf, GLuint * tex)
   h = power_of_two(surf->h),
 
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
-    conv = SDL_CreateRGBSurface(SDL_SWSURFACE, w, h, surf->format->BitsPerPixel,
+  conv = SDL_CreateRGBSurface(SDL_SWSURFACE, w, h, surf->format->BitsPerPixel,
                                 0xff000000, 0x00ff0000, 0x0000ff00, 0x000000ff);
 #else
   conv = SDL_CreateRGBSurface(SDL_SWSURFACE, w, h, surf->format->BitsPerPixel,
@@ -432,10 +449,8 @@ SurfaceOpenGL::draw(float x, float y, Uint8 alpha, bool update)
   glDisable(GL_TEXTURE_2D);
   glDisable(GL_BLEND);
   
-  /* Avoid compiler warnings */
-  if(update)
-    {}
-
+  (void) update; // avoid compiler warning
+  
   return 0;
 }
 
@@ -463,9 +478,7 @@ SurfaceOpenGL::draw_bg(Uint8 alpha, bool update)
   
   glDisable(GL_TEXTURE_2D);
 
-  /* Avoid compiler warnings */
-  if(update)
-    {}
+  (void) update; // avoid compiler warning
 
   return 0;
 }
@@ -599,7 +612,6 @@ SurfaceSDL::draw_part(float sx, float sy, float x, float y, float w, float h, Ui
 
 SurfaceSDL::~SurfaceSDL()
 {
-  SDL_FreeSurface(sdl_surface);
 }
 
 /* EOF */

@@ -69,9 +69,8 @@ enum DyingType {
 
 #define START_LIVES 4
 
-#define MAX_BULLETS 1
+#define MAX_BULLETS 2
 
-#define GRAVITY 1.0
 #define YM_FOR_JUMP 6.0
 #define WALK_ACCELERATION_X 0.03
 #define RUN_ACCELERATION_X 0.04

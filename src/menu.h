@@ -138,8 +138,6 @@ private:
   // position of the menu (ie. center of the menu, not top/left)
   int pos_x;
   int pos_y;
-  bool has_backitem;
-  int last_id;
 
   /** input event for the menu (up, down, left, right, etc.) */
   MenuAction menuaction;

@@ -55,6 +55,8 @@
 
 #include "player.h"
 
+void display_text_file(char *filename);
+
 #ifdef WIN32
 #define mkdir(dir, mode)    mkdir(dir)
 // on win32 we typically don't want LFS paths
@@ -437,21 +439,21 @@ void st_menu(void)
   
   load_game_menu->additem(MN_LABEL,"Start Game",0,0);
   load_game_menu->additem(MN_HL,"",0,0);
-  load_game_menu->additem(MN_DEACTIVE,"Slot 1",0,0);
-  load_game_menu->additem(MN_DEACTIVE,"Slot 2",0,0);
-  load_game_menu->additem(MN_DEACTIVE,"Slot 3",0,0);
-  load_game_menu->additem(MN_DEACTIVE,"Slot 4",0,0);
-  load_game_menu->additem(MN_DEACTIVE,"Slot 5",0,0);
+  load_game_menu->additem(MN_DEACTIVE,"Slot 1",0,0, 1);
+  load_game_menu->additem(MN_DEACTIVE,"Slot 2",0,0, 2);
+  load_game_menu->additem(MN_DEACTIVE,"Slot 3",0,0, 3);
+  load_game_menu->additem(MN_DEACTIVE,"Slot 4",0,0, 4);
+  load_game_menu->additem(MN_DEACTIVE,"Slot 5",0,0, 5);
   load_game_menu->additem(MN_HL,"",0,0);
   load_game_menu->additem(MN_BACK,"Back",0,0);
 
   save_game_menu->additem(MN_LABEL,"Save Game",0,0);
   save_game_menu->additem(MN_HL,"",0,0);
-  save_game_menu->additem(MN_DEACTIVE,"Slot 1",0,0);
-  save_game_menu->additem(MN_DEACTIVE,"Slot 2",0,0);
-  save_game_menu->additem(MN_DEACTIVE,"Slot 3",0,0);
-  save_game_menu->additem(MN_DEACTIVE,"Slot 4",0,0);
-  save_game_menu->additem(MN_DEACTIVE,"Slot 5",0,0);
+  save_game_menu->additem(MN_DEACTIVE,"Slot 1",0,0, 1);
+  save_game_menu->additem(MN_DEACTIVE,"Slot 2",0,0, 2);
+  save_game_menu->additem(MN_DEACTIVE,"Slot 3",0,0, 3);
+  save_game_menu->additem(MN_DEACTIVE,"Slot 4",0,0, 4);
+  save_game_menu->additem(MN_DEACTIVE,"Slot 5",0,0, 5);
   save_game_menu->additem(MN_HL,"",0,0);
   save_game_menu->additem(MN_BACK,"Back",0,0);
 
@@ -489,14 +491,14 @@ bool process_load_game_menu()
 {
   int slot = load_game_menu->check();
 
-  if(slot != -1 && load_game_menu->get_item(slot).kind == MN_ACTION)
+  if(slot != -1 && load_game_menu->get_item_by_id(slot).kind == MN_ACTION)
     {
       char slotfile[1024];
-      snprintf(slotfile, 1024, "%s/slot%d.stsg", st_save_dir, slot-1);
+      snprintf(slotfile, 1024, "%s/slot%d.stsg", st_save_dir, slot);
 
       if (access(slotfile, F_OK) != 0)
         {
-          draw_intro();
+          display_text_file("intro.txt");
         }
 
       WorldMapNS::WorldMap worldmap;

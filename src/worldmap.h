@@ -46,8 +46,12 @@ struct Point
   int y;
 };
 
-struct Tile
+class Tile
 {
+public:
+  Tile();
+  ~Tile();
+  
   Surface* sprite;
 
   // Directions in which Tux is allowed to walk from this tile
@@ -65,13 +69,11 @@ class TileManager
 private:
   typedef std::vector<Tile*> Tiles;
   Tiles tiles;
-  static TileManager* instance_ ;
 
- TileManager();
 public:
-  static TileManager* instance() { return instance_ ? instance_ : instance_ = new TileManager(); }
+  TileManager();
+  ~TileManager();
 
-  void load();
   Tile* get(int i);
 };
 
@@ -102,6 +104,7 @@ private:
   void stop();
 public: 
   Tux(WorldMap* worldmap_);
+  ~Tux();
   
   void draw(const Point& offset);
   void update(float delta);
@@ -132,6 +135,8 @@ private:
   std::vector<int> tilemap;
   int width;
   int height;
+
+  TileManager* tile_manager;
 
 public:
   struct Level

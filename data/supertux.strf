@@ -1,3 +1,4 @@
+;; -*- mode: scheme; -*-
 (supertux-resources
  ;; Small Tux Walk
  (sprite (name "smalltux-walk-left")
@@ -155,7 +156,7 @@
          (images "shared/tux-duck-left.png"))
  (sprite (name "largetux-duck-right")
          (x-hotspot 6)
-         (y-hotspot 6)
+         (y-hotspot 2)
          (images "shared/tux-duck-right.png"))
 
 
@@ -473,6 +474,15 @@
                  "shared/iceflower-3.png"
                  "shared/iceflower-2.png"
                  "shared/iceflower-1.png"))
+
+ (sprite (name "bullet")
+         (x-hotspot 12)
+         (x-hotspot 12)
+         (fps 20)
+         (images "shared/bullet-1.png"
+                 "shared/bullet-2.png"
+                 "shared/bullet-3.png"
+                 "shared/bullet-4.png"))
  )
 
 ;; EOF ;;

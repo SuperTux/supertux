@@ -74,9 +74,7 @@ void load_hs(void)
     }
  
   fclose(fi);
-
-printf("name=%s\n", hs_name.c_str());
-printf("score=%i\n\n", hs_score);
+  lisp_free(root_obj);
 }
 
 void save_hs(int score)

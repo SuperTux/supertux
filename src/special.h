@@ -17,9 +17,6 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-#define BULLET_STARTING_YM 1
-#define BULLET_XM 5
-
 #ifndef SUPERTUX_SPECIAL_H
 #define SUPERTUX_SPECIAL_H
 

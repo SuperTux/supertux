@@ -104,6 +104,8 @@ void loadconfig(void)
   reader.read_int ("keyboard-left", &keymap.left);
   reader.read_int ("keyboard-right", &keymap.right);
   reader.read_int ("keyboard-fire", &keymap.fire);
+
+  lisp_free(root_obj);
 }
 
 void saveconfig (void)

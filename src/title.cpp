@@ -79,7 +79,8 @@ void generate_contrib_menu()
     {
       st_subset subset;
       subset.load(level_subsets.item[i]);
-      contrib_menu->additem(MN_GOTO, subset.title.c_str(), i, contrib_subset_menu);
+      contrib_menu->additem(MN_GOTO, subset.title.c_str(), i,
+          contrib_subset_menu, i+1);
       contrib_subsets.push_back(subset);
     }
 
@@ -96,7 +97,7 @@ void check_contrib_menu()
   int index = contrib_menu->check();
   if (index != -1)
     {
-      index -= 2; // FIXME: Hack
+      index -= 1;
       if (index >= 0 && index <= int(contrib_subsets.size()))
         {
           if (current_subset != index)
@@ -117,7 +118,7 @@ void check_contrib_menu()
                 {
                   Level level;
                   level.load(subset.name, i);
-                  contrib_subset_menu->additem(MN_ACTION, level.name, 0, 0);
+                  contrib_subset_menu->additem(MN_ACTION, level.name, 0, 0, i);
                 }
               contrib_subset_menu->additem(MN_HL,"",0,0);      
               contrib_subset_menu->additem(MN_BACK, "Back", 0, 0);
@@ -135,9 +136,8 @@ void check_contrib_subset_menu()
   int index = contrib_subset_menu->check();
   if (index != -1)
     {
-      if (contrib_subset_menu->get_item(index).kind == MN_ACTION)
+      if (contrib_subset_menu->get_item_by_id(index).kind == MN_ACTION)
         {
-          index -= 1; // FIXME: Hack
           std::cout << "Sarting level: " << index << std::endl;
           GameSession session(current_contrib_subset, index, ST_GL_PLAY);
           session.run();
@@ -453,7 +453,9 @@ void display_text_file(char *file)
 
       draw_background();
 
-      white_big_text->drawf("- Credits -", 0, screen->h-scroll, A_HMIDDLE, A_TOP, 2);
+      if (strcmp(file, "CREDITS") == 0)
+        white_big_text->drawf("- SuperTux " VERSION " -", 
+                              0, screen->h-scroll, A_HMIDDLE, A_TOP, 2);
 
       y = 0;
       for(int i = 0; i < length; i++)

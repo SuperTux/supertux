@@ -25,6 +25,24 @@
 TileManager* TileManager::instance_  = 0;
 std::vector<TileGroup>* TileManager::tilegroups_  = 0;
 
+Tile::Tile()
+{
+}
+
+Tile::~Tile()
+{
+  for(std::vector<Surface*>::iterator i = images.begin(); i != images.end();
+      ++i) {
+    delete *i;
+  }
+  for(std::vector<Surface*>::iterator i = editor_images.begin();
+      i != editor_images.end(); ++i) {
+    delete *i;                                                                
+  }
+}
+
+//---------------------------------------------------------------------------
+
 TileManager::TileManager()
 {
   std::string filename = datadir +  "images/tilesets/supertux.stgt";
@@ -33,6 +51,12 @@ TileManager::TileManager()
 
 void TileManager::load_tileset(std::string filename)
 {
+  // free old tiles
+  for(std::vector<Tile*>::iterator i = tiles.begin(); i != tiles.end(); ++i) {
+    delete *i;
+  }
+  tiles.clear();
+ 
   lisp_object_t* root_obj = lisp_read_from_file(filename);
 
   if (!root_obj)
@@ -142,6 +166,8 @@ void TileManager::load_tileset(std::string filename)
     {
       assert(0);
     }
+
+  lisp_free(root_obj);
 }
 
 void

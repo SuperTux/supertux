@@ -57,7 +57,8 @@ Button::Button(std::string icon_file, std::string ninfo, SDLKey nshortcut, int x
       dest.y = 0;
       dest.w = icon->w;
       dest.h = icon->h;
-      SDL_SoftStretch(icon->impl->sdl_surface, NULL, icon->impl->sdl_surface, &dest);
+      SDL_SoftStretch(icon->impl->get_sdl_surface(), NULL,
+          icon->impl->get_sdl_surface(), &dest);
     }
   else
     icon = new Surface(filename,USE_ALPHA);

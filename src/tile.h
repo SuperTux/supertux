@@ -31,8 +31,12 @@
 /**
 Tile Class
 */
-struct Tile
+class Tile
 {
+public:
+  Tile();
+  ~Tile();
+
   int id;
 
   std::vector<Surface*> images;

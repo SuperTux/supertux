@@ -29,7 +29,8 @@ SpriteManager::SpriteManager(const std::string& filename)
 void
 SpriteManager::load_resfile(const std::string& filename)
 {
-  lisp_object_t* cur = lisp_read_from_file(filename);
+  lisp_object_t* root_obj = lisp_read_from_file(filename);
+  lisp_object_t* cur = root_obj;
 
   if (strcmp(lisp_symbol(lisp_car(cur)), "supertux-resources") != 0)
     return;
@@ -62,6 +63,8 @@ SpriteManager::load_resfile(const std::string& filename)
 
       cur = lisp_cdr(cur);
     }
+
+  lisp_free(root_obj);
 }
 
 Sprite*

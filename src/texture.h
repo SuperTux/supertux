@@ -90,22 +90,27 @@ public:
     this class */
 class SurfaceImpl
 {
-public:
+protected:
   SDL_Surface* sdl_surface;
+
+public:
   int w;
   int h;
 
 public:
+  SurfaceImpl();
+  virtual ~SurfaceImpl();
+  
   /** Return 0 on success, -2 if surface needs to be reloaded */
   virtual int draw(float x, float y, Uint8 alpha, bool update) = 0;
   virtual int draw_bg(Uint8 alpha, bool update) = 0;
   virtual int draw_part(float sx, float sy, float x, float y, float w, float h,  Uint8 alpha, bool update) = 0;
+
+  SDL_Surface* get_sdl_surface() const; // @evil@ try to avoid this function
 };
 
 class SurfaceSDL : public SurfaceImpl
 {
-public:
-  
 public:
   SurfaceSDL(SDL_Surface* surf, int use_alpha);
   SurfaceSDL(const std::string& file, int use_alpha);  

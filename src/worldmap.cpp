@@ -83,8 +83,6 @@ string_to_direction(const std::string& directory)
     return NONE;
 }
 
-TileManager* TileManager::instance_  = 0;
-
 TileManager::TileManager()
 {
   std::string stwt_filename = datadir +  "images/worldmap/antarctica.stwt";
@@ -143,6 +141,14 @@ TileManager::TileManager()
     {
       assert(0);
     }
+
+  lisp_free(root_obj);
+}
+
+TileManager::~TileManager()
+{
+  for(std::vector<Tile*>::iterator i = tiles.begin(); i != tiles.end(); ++i)
+    delete *i;
 }
 
 Tile*
@@ -151,6 +157,8 @@ TileManager::get(int i)
   assert(i >=0 && i < int(tiles.size()));
   return tiles[i];
 }
+
+//---------------------------------------------------------------------------
 
 Tux::Tux(WorldMap* worldmap_)
   : worldmap(worldmap_)
@@ -162,6 +170,11 @@ Tux::Tux(WorldMap* worldmap_)
   tile_pos.y = 5;
   direction = NONE;
   input_direction = NONE;
+}
+
+Tux::~Tux()
+{
+  delete sprite;
 }
 
 void
@@ -268,8 +281,21 @@ Tux::update(float delta)
     }
 }
 
+//---------------------------------------------------------------------------
+Tile::Tile()
+{
+}
+
+Tile::~Tile()
+{
+  delete sprite;
+}
+
+//---------------------------------------------------------------------------
+
 WorldMap::WorldMap()
 {
+  tile_manager = new TileManager();
   tux = new Tux(this);
 
   width  = 20;
@@ -291,6 +317,11 @@ WorldMap::WorldMap()
 WorldMap::~WorldMap()
 {
   delete tux;
+  delete tile_manager;
+
+  delete level_sprite;
+  delete leveldot_green;
+  delete leveldot_red;
 }
 
 void
@@ -362,38 +393,42 @@ WorldMap::load_map()
           cur = lisp_cdr(cur);
         }
     }
+
+    lisp_free(root_obj);
 }
 
 void WorldMap::get_level_title(Levels::pointer level)
 {
-/** get level's title */
-level->title = "<no title>";
+  /** get level's title */
+  level->title = "<no title>";
 
-FILE * fi;
-lisp_object_t* root_obj = 0;
-fi = fopen((datadir +  "levels/" + level->name).c_str(), "r");
-if (fi == NULL)
+  FILE * fi;
+  lisp_object_t* root_obj = 0;
+  fi = fopen((datadir +  "levels/" + level->name).c_str(), "r");
+  if (fi == NULL)
   {
-  perror((datadir +  "levels/" + level->name).c_str());
-  return;
+    perror((datadir +  "levels/" + level->name).c_str());
+    return;
   }
 
-lisp_stream_t stream;
-lisp_stream_init_file (&stream, fi);
-root_obj = lisp_read (&stream);
+  lisp_stream_t stream;
+  lisp_stream_init_file (&stream, fi);
+  root_obj = lisp_read (&stream);
 
-if (root_obj->type == LISP_TYPE_EOF || root_obj->type == LISP_TYPE_PARSE_ERROR)
+  if (root_obj->type == LISP_TYPE_EOF || root_obj->type == LISP_TYPE_PARSE_ERROR)
   {
-  printf("World: Parse Error in file %s", level->name.c_str());
+    printf("World: Parse Error in file %s", level->name.c_str());
   }
 
-if (strcmp(lisp_symbol(lisp_car(root_obj)), "supertux-level") == 0)
+  if (strcmp(lisp_symbol(lisp_car(root_obj)), "supertux-level") == 0)
   {
-  LispReader reader(lisp_cdr(root_obj));
-  reader.read_string("name",  &level->title);
+    LispReader reader(lisp_cdr(root_obj));
+    reader.read_string("name",  &level->title);
   }
 
-fclose(fi);
+  lisp_free(root_obj);
+
+  fclose(fi);
 }
 
 void
@@ -635,7 +670,7 @@ WorldMap::at(Point p)
          && p.y >= 0
          && p.y < height);
 
-  return TileManager::instance()->get(tilemap[width * p.y + p.x]);
+  return tile_manager->get(tilemap[width * p.y + p.x]);
 }
 
 WorldMap::Level*
@@ -797,66 +832,69 @@ WorldMap::loadgame(const std::string& filename)
   std::cout << "loadgame: " << filename << std::endl;
   savegame_file = filename;
 
-  if (access(filename.c_str(), F_OK) == 0)
-    {
-      lisp_object_t* cur = lisp_read_from_file(filename);
-
-      if (strcmp(lisp_symbol(lisp_car(cur)), "supertux-savegame") != 0)
-        return;
-
-      cur = lisp_cdr(cur);
-      LispReader reader(cur);
+  if (access(filename.c_str(), F_OK) != 0)
+    return;
   
-      reader.read_int("lives",  &player_status.lives);
-      reader.read_int("score",  &player_status.score);
-      reader.read_int("distros", &player_status.distros);
+  lisp_object_t* savegame = lisp_read_from_file(filename);
+  lisp_object_t* cur = savegame;
 
-      if (player_status.lives < 0)
-        player_status.lives = START_LIVES;
+  if (strcmp(lisp_symbol(lisp_car(cur)), "supertux-savegame") != 0)
+    return;
 
-      lisp_object_t* tux_cur = 0;
-      if (reader.read_lisp("tux", &tux_cur))
+  cur = lisp_cdr(cur);
+  LispReader reader(cur);
+
+  reader.read_int("lives",  &player_status.lives);
+  reader.read_int("score",  &player_status.score);
+  reader.read_int("distros", &player_status.distros);
+
+  if (player_status.lives < 0)
+    player_status.lives = START_LIVES;
+
+  lisp_object_t* tux_cur = 0;
+  if (reader.read_lisp("tux", &tux_cur))
+    {
+      Point p;
+      std::string back_str = "none";
+
+      LispReader tux_reader(tux_cur);
+      tux_reader.read_int("x", &p.x);
+      tux_reader.read_int("y", &p.y);
+      tux_reader.read_string("back", &back_str);
+      
+      tux->back_direction = string_to_direction(back_str);      
+      tux->set_tile_pos(p);
+    }
+
+  lisp_object_t* level_cur = 0;
+  if (reader.read_lisp("levels", &level_cur))
+    {
+      while(level_cur)
         {
-          Point p;
-          std::string back_str = "none";
+          lisp_object_t* sym  = lisp_car(lisp_car(level_cur));
+          lisp_object_t* data = lisp_cdr(lisp_car(level_cur));
 
-          LispReader tux_reader(tux_cur);
-          tux_reader.read_int("x", &p.x);
-          tux_reader.read_int("y", &p.y);
-          tux_reader.read_string("back", &back_str);
-          
-          tux->back_direction = string_to_direction(back_str);      
-          tux->set_tile_pos(p);
-        }
-
-      lisp_object_t* level_cur = 0;
-      if (reader.read_lisp("levels", &level_cur))
-        {
-          while(level_cur)
+          if (strcmp(lisp_symbol(sym), "level") == 0)
             {
-              lisp_object_t* sym  = lisp_car(lisp_car(level_cur));
-              lisp_object_t* data = lisp_cdr(lisp_car(level_cur));
+              std::string name;
+              bool solved = false;
 
-              if (strcmp(lisp_symbol(sym), "level") == 0)
+              LispReader level_reader(data);
+              level_reader.read_string("name",   &name);
+              level_reader.read_bool("solved", &solved);
+
+              for(Levels::iterator i = levels.begin(); i != levels.end(); ++i)
                 {
-                  std::string name;
-                  bool solved = false;
-
-                  LispReader level_reader(data);
-                  level_reader.read_string("name",   &name);
-                  level_reader.read_bool("solved", &solved);
-
-                  for(Levels::iterator i = levels.begin(); i != levels.end(); ++i)
-                    {
-                      if (name == i->name)
-                        i->solved = solved;
-                    }
+                  if (name == i->name)
+                    i->solved = solved;
                 }
-
-              level_cur = lisp_cdr(level_cur);
             }
+
+          level_cur = lisp_cdr(level_cur);
         }
     }
+ 
+  lisp_free(savegame);
 }
 
 } // namespace WorldMapNS

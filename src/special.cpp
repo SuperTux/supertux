@@ -18,6 +18,7 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <assert.h>
+#include <iostream>
 #include "SDL.h"
 #include "defines.h"
 #include "special.h"
@@ -30,14 +31,16 @@
 #include "sprite_manager.h"
 #include "resources.h"
 
-Surface* img_bullet;
-
+Sprite* img_bullet;
 Sprite* img_star;
 Sprite* img_growup;
 Sprite* img_iceflower;
 Sprite* img_1up;
 
 #define GROWUP_SPEED 1.0f
+
+#define BULLET_STARTING_YM 0
+#define BULLET_XM 6
 
 void
 Bullet::init(float x, float y, float xm, Direction dir)
@@ -79,6 +82,10 @@ Bullet::remove_me()
 void
 Bullet::action(double frame_ratio)
 {
+  frame_ratio *= 0.5f;
+
+  float old_y = base.y;
+
   base.x = base.x + base.xm * frame_ratio;
   base.y = base.y + base.ym * frame_ratio;
 
@@ -86,11 +93,15 @@ Bullet::action(double frame_ratio)
       
   if (issolid(base.x, base.y + 4) || issolid(base.x, base.y))
     {
-      base.ym = -base.ym;
-      base.y = (int)(base.y / 32) * 32;
+      base.y  = old_y;
+      base.ym = -base.ym;     
+      if (base.ym > 13)
+        base.ym = 13;
+      else if (base.ym < -13)
+        base.ym = -13;
     }
 
-  base.ym = base.ym + GRAVITY;
+  base.ym = base.ym + 0.5 * frame_ratio;
 
   if (base.x < scroll_x ||
       base.x > scroll_x + screen->w ||
@@ -110,8 +121,7 @@ Bullet::draw()
   if (base.x >= scroll_x - base.width &&
       base.x <= scroll_x + screen->w)
     {
-      img_bullet->draw( base.x - scroll_x, base.y, 255,
-                   NO_UPDATE);
+      img_bullet->draw(base.x - scroll_x, base.y);
     }
 }
 
@@ -342,8 +352,7 @@ void load_special_gfx()
   img_star      = sprite_manager->load("star");
   img_1up       = sprite_manager->load("1up");
 
-  img_bullet = new Surface(datadir + "/images/shared/bullet.png",
-                           USE_ALPHA);
+  img_bullet    = sprite_manager->load("bullet");
 }
 
 void free_special_gfx()

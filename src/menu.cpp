@@ -223,8 +223,6 @@ Menu::Menu()
   
   pos_x        = screen->w/2;
   pos_y        = screen->h/2;
-  has_backitem = false;
-  last_id = 0;
   arrange_left = 0;
   active_item  = 0;
   effect.init(false);
@@ -239,15 +237,6 @@ void Menu::set_pos(int x, int y, float rw, float rh)
 void
 Menu::additem(MenuItemKind kind_, const std::string& text_, int toggle_, Menu* menu_, int id, int* int_p)
 {
-  if(kind_ == MN_BACK)
-    has_backitem = true;
-  
-  if(id == -1 && item.size() == (unsigned)last_id)
-    {
-    id = last_id;
-    last_id++;
-    }
-
   additem(MenuItem::create(kind_, text_.c_str(), toggle_, menu_, id, int_p));
 }
 
@@ -255,9 +244,6 @@ Menu::additem(MenuItemKind kind_, const std::string& text_, int toggle_, Menu* m
 void
 Menu::additem(MenuItem* pmenu_item)
 {
-  if(pmenu_item->kind == MN_BACK)
-    has_backitem = true;
-
   item.push_back(*pmenu_item);
   delete pmenu_item;
 }

@@ -127,6 +127,7 @@ void st_subset::load(char *subset)
 
         }
 
+      lisp_free(root_obj);
       fclose(fi);
 
       snprintf(str, 1024, "%s.png", filename);
@@ -203,6 +204,7 @@ void st_subset::free()
 Level::Level()
   : img_bkgd(0)
 {
+  init_defaults();
 }
 
 Level::Level(const std::string& subset, int level)
@@ -501,6 +503,7 @@ Level::load(const std::string& filename)
   else
     endpos = 32*(width-15);
 
+  lisp_free(root_obj);
   fclose(fi);
   return 0;
 }
