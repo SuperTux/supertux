@@ -79,7 +79,7 @@ Player::init()
   score = 0;
   distros = 0;
 
-  player_input_init(&input_);
+  player_input_init(&input);
 
   keymap.jump  = SDLK_UP;
   keymap.duck  = SDLK_DOWN;
@@ -100,27 +100,27 @@ Player::key_event(SDLKey key, int state)
 {
   if(key == keymap.right)
     {
-      input_.right = state;
+      input.right = state;
       return true;
     }
   else if(key == keymap.left)
     {
-      input_.left = state;
+      input.left = state;
       return true;
     }
   else if(key == keymap.jump)
     {
-      input_.up = state;
+      input.up = state;
       return true;
     }
   else if(key == keymap.duck)
     {
-      input_.down = state;
+      input.down = state;
       return true;
     }
   else if(key == keymap.fire)
     {
-      input_.fire = state;
+      input.fire = state;
       return true;
     }
   else
@@ -136,7 +136,7 @@ Player::level_begin()
   base.ym = 0;
   old_base = base;
 
-  player_input_init(&input_);
+  player_input_init(&input);
 
   timer_init(&invincible_timer,true);
   timer_init(&skidding_timer,true);
@@ -153,7 +153,7 @@ Player::action()
 
   /* --- HANDLE TUX! --- */
 
-  input();
+  handle_input();
 
   /* Move tux: */
 
@@ -387,7 +387,7 @@ Player::handle_horizontal_input(int newdir)
         {
           /* Facing the direction we're jumping?  Go full-speed: */
 
-          if (input_.fire == UP)
+          if (input.fire == UP)
             {
               base.xm = base.xm + ( newdir ? WALK_SPEED : -WALK_SPEED) * frame_ratio;
 
@@ -402,7 +402,7 @@ Player::handle_horizontal_input(int newdir)
                     base.xm = -MAX_WALK_XM;
                 }
             }
-          else if ( input_.fire == DOWN)
+          else if ( input.fire == DOWN)
             {
               base.xm = base.xm + ( newdir ? RUN_SPEED : -RUN_SPEED) * frame_ratio;
 
@@ -443,7 +443,7 @@ Player::handle_horizontal_input(int newdir)
 void
 Player::handle_vertical_input()
 {
-  if(input_.up == DOWN)
+  if(input.up == DOWN)
     {
       if (on_ground())
         {
@@ -460,7 +460,7 @@ Player::handle_vertical_input()
             }
         }
     }
-  else if(input_.up == UP && jumping)
+  else if(input.up == UP && jumping)
     {
       if (on_ground())
         {
@@ -490,17 +490,16 @@ Player::handle_vertical_input()
 }
 
 void
-Player::input()
+Player::handle_input()
 {
   /* Handle key and joystick state: */
-
   if(duck == false)
     {
-      if (input_.right == DOWN && input_.left == UP)
+      if (input.right == DOWN && input.left == UP)
         {
           handle_horizontal_input(RIGHT);
         }
-      else if (input_.left == DOWN && input_.right == UP)
+      else if (input.left == DOWN && input.right == UP)
         {
           handle_horizontal_input(LEFT);
         }
@@ -523,14 +522,14 @@ Player::input()
 
   /* Jump/jumping? */
 
-  if ( input_.up == DOWN || (input_.up == UP && jumping))
+  if ( input.up == DOWN || (input.up == UP && jumping))
     {
       handle_vertical_input();
     }
 
   /* Shoot! */
 
-  if (input_.fire == DOWN && input_.old_fire == UP && got_coffee)
+  if (input.fire == DOWN && input.old_fire == UP && got_coffee)
     {
       add_bullet(base.x, base.y, base.xm, dir);
     }
@@ -538,7 +537,7 @@ Player::input()
 
   /* Duck! */
 
-  if (input_.down == DOWN)
+  if (input.down == DOWN)
     {
       if (size == BIG && duck != true)
         {
@@ -579,14 +578,14 @@ Player::input()
   if(!timer_check(&frame_timer))
     {
       timer_start(&frame_timer,25);
-      if (input_.right == UP && input_.left == UP)
+      if (input.right == UP && input.left == UP)
         {
           frame_main = 1;
           frame_ = 1;
         }
       else
         {
-          if ((input_.fire == DOWN && (global_frame_counter % 2) == 0) ||
+          if ((input.fire == DOWN && (global_frame_counter % 2) == 0) ||
               (global_frame_counter % 4) == 0)
             frame_main = (frame_main + 1) % 4;
 
@@ -835,7 +834,7 @@ Player::collision(void* p_c_object, int c_object)
           !timer_started(&safe_timer) &&
           pbad_c->mode != HELD)
         {
-          if (pbad_c->mode == FLAT  && input_.fire != DOWN)
+          if (pbad_c->mode == FLAT  && input.fire != DOWN)
             {
               /* Kick: */
 
@@ -855,7 +854,7 @@ Player::collision(void* p_c_object, int c_object)
 
               timer_start(&pbad_c->timer,5000);
             }
-          else if (pbad_c->mode == FLAT && input_.fire == DOWN)
+          else if (pbad_c->mode == FLAT && input.fire == DOWN)
             {
               pbad_c->mode = HELD;
               pbad_c->base.y-=8;

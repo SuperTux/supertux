@@ -236,32 +236,32 @@ void game_event(void)
             case JOY_X:
               if (event.jaxis.value < -JOYSTICK_DEAD_ZONE)
                 {
-                  tux.input_.left  = DOWN;
-                  tux.input_.right = UP;
+                  tux.input.left  = DOWN;
+                  tux.input.right = UP;
                 }
               else if (event.jaxis.value > JOYSTICK_DEAD_ZONE)
                 {
-                  tux.input_.left  = UP;
-                  tux.input_.right = DOWN;
+                  tux.input.left  = UP;
+                  tux.input.right = DOWN;
                 }
               else
                 {
-                  tux.input_.left  = DOWN;
-                  tux.input_.right = DOWN;
+                  tux.input.left  = DOWN;
+                  tux.input.right = DOWN;
                 }
               break;
             case JOY_Y:
               if (event.jaxis.value > JOYSTICK_DEAD_ZONE)
-                tux.input_.down = DOWN;
+                tux.input.down = DOWN;
               else if (event.jaxis.value < -JOYSTICK_DEAD_ZONE)
-                tux.input_.down = UP;
+                tux.input.down = UP;
               else
-                tux.input_.down = UP;
+                tux.input.down = UP;
 
               /* Handle joystick for the menu */
               if(show_menu)
                 {
-                  if(tux.input_.down == DOWN)
+                  if(tux.input.down == DOWN)
                     menuaction = MENU_ACTION_DOWN;
                   else
                     menuaction = MENU_ACTION_UP;
@@ -273,15 +273,15 @@ void game_event(void)
           break;
         case SDL_JOYBUTTONDOWN:
           if (event.jbutton.button == JOY_A)
-            tux.input_.up = DOWN;
+            tux.input.up = DOWN;
           else if (event.jbutton.button == JOY_B)
-            tux.input_.fire = DOWN;
+            tux.input.fire = DOWN;
           break;
         case SDL_JOYBUTTONUP:
           if (event.jbutton.button == JOY_A)
-            tux.input_.up = UP;
+            tux.input.up = UP;
           else if (event.jbutton.button == JOY_B)
-            tux.input_.fire = UP;
+            tux.input.fire = UP;
 
           if(show_menu)
             menuaction = MENU_ACTION_HIT;
@@ -625,7 +625,7 @@ int gameloop(const char * subset, int levelnb, int mode)
 
       /* Handle events: */
 
-      tux.input_.old_fire = tux.input_.fire;
+      tux.input.old_fire = tux.input.fire;
 
       game_event();
 

@@ -87,7 +87,7 @@ extern texture_type bigcape_left[2];
 class Player
 {
  public:
-  player_input_type  input_;
+  player_input_type  input;
   player_keymap_type keymap;
   int score;
   int distros;
@@ -115,7 +115,7 @@ class Player
   int  key_event(SDLKey key, int state);
   void level_begin();
   void action();
-  void input();
+  void handle_input();
   void grabdistros();
   void draw();
   void collision(void* p_c_object, int c_object);

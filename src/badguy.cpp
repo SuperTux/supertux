@@ -160,7 +160,7 @@ void BadGuy::action_laptop()
           base.y = tux.base.y + tux.base.height/1.5 - base.height;
         }
 
-      if(tux.input_.fire != DOWN) /* SHOOT! */
+      if(tux.input.fire != DOWN) /* SHOOT! */
         {
           if(dir == LEFT)
             base.x -= 24;
