@@ -144,24 +144,29 @@ void subset_free(st_subset* st_subset)
 /* Returns -1, if the loading of the level failed. */
 int level_load(st_level* plevel, char *subset, int level)
 {
-  int y,x;
-  FILE * fi;
-  char str[80];
   char filename[1024];
-  char * line;
 
   /* Load data file: */
 
   snprintf(filename, 1024, "%s/levels/%s/level%d.dat", st_dir, subset, level);
   if(!faccessible(filename))
     snprintf(filename, 1024, "%s/levels/%s/level%d.dat", DATA_PREFIX, subset, level);
+
+  return level_load(plevel, filename);
+}
+
+int level_load(st_level* plevel, const char* filename)
+{
+  char str[80];
+  int x, y;
+  char * line;
+  FILE * fi;
   fi = fopen(filename, "r");
   if (fi == NULL)
     {
       perror(filename);
       return -1;
     }
-
 
   /* Load header info: */
 

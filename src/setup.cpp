@@ -856,6 +856,10 @@ void parseargs(int argc, char * argv[])
 
           use_fullscreen = YES;
         }
+      else if (strcmp(argv[i], "--worldmap") == 0)
+        {
+          launch_worldmap_mode = true;
+        }
       else if (strcmp(argv[i], "--show-fps") == 0)
         {
           /* Use full screen: */
@@ -919,8 +923,10 @@ void parseargs(int argc, char * argv[])
         { 	  /* Show help: */
 
           printf("Super Tux " VERSION "\n\n");
-
+          printf("Usage: %s [OPTIONS] FILENAME", argv[0]);
           printf("----------  Command-line options  ----------\n\n");
+
+          printf("  --worldmap          - Start in worldmap-mode (EXPERIMENTAL)\n\n");
 
           printf("  --opengl            - If opengl support was compiled in, this will enable the EXPERIMENTAL OpenGL mode.\n\n");
 
@@ -949,6 +955,10 @@ void parseargs(int argc, char * argv[])
           printf("  Please see the file \"README.txt\"\n\n");
 
           exit(0);
+        }
+      else if (argv[i][0] != '-')
+        {
+          level_startup_file = argv[i];
         }
       else
         {

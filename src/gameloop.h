@@ -22,6 +22,7 @@
 #define ST_GL_PLAY 0
 #define ST_GL_TEST 1
 #define ST_GL_LOAD_GAME 2
+#define ST_GL_LOAD_LEVEL_FILE  3
 
 extern int game_started;
 extern st_level current_level;

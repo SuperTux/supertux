@@ -10,7 +10,6 @@
   April 11, 2000 - March 15, 2004
 */
 
-
 #include "supertux.h"
 
 
@@ -32,19 +31,30 @@ int main(int argc, char * argv[])
   st_joystick_setup();
   st_general_setup();
   st_menu();
-  
-  done = intro();
-  
-  done = 0;
-  
-  while (!done)
+
+  if (launch_worldmap_mode)
     {
-      done = title();
+      worldmap_run();
+    }
+  else if (level_startup_file)
+    {
+      gameloop(level_startup_file, 1, ST_GL_LOAD_LEVEL_FILE);
+    }
+  else
+    {  
+      done = intro();
+  
+      done = 0;
+  
+      while (!done)
+        {
+          done = title();
+        }
     }
   
   clearscreen(0, 0, 0);
   updatescreen();
-  
+
   st_shutdown();
   
   return(0);

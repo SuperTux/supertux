@@ -31,7 +31,7 @@ TileManager* TileManager::instance_  = 0;
 TileManager::TileManager()
 {
   lisp_stream_t stream;
-  FILE* in = fopen(DATA_PREFIX "tiles/antarctica.scm", "r");
+  FILE* in = fopen(DATA_PREFIX "images/worldmap/antarctica.scm", "r");
   assert(in);
   lisp_stream_init_file (&stream, in);
   lisp_object_t* root_obj = lisp_read (&stream);
@@ -44,7 +44,6 @@ TileManager::TileManager()
         {
           lisp_object_t* element = lisp_car(cur);
 
-          lisp_dump (element, stdout);
           if (strcmp(lisp_symbol(lisp_car(element)), "tile") == 0)
             {
               int id = 0;
@@ -102,17 +101,6 @@ WorldMap::WorldMap()
   width  = 20;
   height = 15;
   tux_moving = false;
-  tilemap.resize(width * height);
-  
-  tilemap[0] = 5;
-  tilemap[1] = 1;
-  tilemap[2] = 6;
-  tilemap[3] = 1;
-  tilemap[4] = 3;
-  tilemap[4+20] = 2;
-  tilemap[4+40] = 7;
-  tilemap[4+60] = 2;
-  tilemap[4+80] = 4;
 
   texture_load(&tux_sprite, DATA_PREFIX "/images/worldmap/tux.png", USE_ALPHA);
 
@@ -124,10 +112,28 @@ WorldMap::WorldMap()
   input_direction = NONE;
   tux_direction = NONE;
   enter_level = false;
+
+  load_map();
 }
 
 WorldMap::~WorldMap()
 {
+}
+
+void
+WorldMap::load_map()
+{
+  tilemap.resize(width * height);
+  
+  tilemap[0] = 5;
+  tilemap[1] = 1;
+  tilemap[2] = 6;
+  tilemap[3] = 1;
+  tilemap[4] = 3;
+  tilemap[4+20] = 2;
+  tilemap[4+40] = 7;
+  tilemap[4+60] = 2;
+  tilemap[4+80] = 4;
 }
 
 void

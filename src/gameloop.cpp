@@ -357,8 +357,18 @@ int game_action(void)
       player_level_begin(&tux);
       set_defaults();
       level_free(&current_level);
-      if(level_load(&current_level,level_subset,level) != 0)
-        return 0;
+
+      if (st_gl_mode == ST_GL_LOAD_LEVEL_FILE)
+        {
+          if(level_load(&current_level, level_subset) != 0)
+            return 0;
+        }
+      else
+        {
+          if(level_load(&current_level,level_subset,level) != 0)
+            return 0;
+        }
+
       arrays_free();
       arrays_init();
       activate_bad_guys();
@@ -579,14 +589,24 @@ int gameloop(char * subset, int levelnb, int mode)
 
   st_gl_mode = mode;
   level = levelnb;
-  strcpy(level_subset,subset);
 
   /* Init the game: */
   arrays_init();
   set_defaults();
 
-  if(level_load(&current_level,level_subset,level) != 0)
-    exit(1);
+  strcpy(level_subset,subset);
+
+  if (st_gl_mode == ST_GL_LOAD_LEVEL_FILE)
+    {
+      if (level_load(&current_level, level_subset))
+        exit(1);
+    }
+  else
+    {
+      if(level_load(&current_level, level_subset, level) != 0)
+        exit(1);
+    }
+
   level_load_gfx(&current_level);
   activate_bad_guys();
   level_load_song(&current_level);
@@ -598,9 +618,8 @@ int gameloop(char * subset, int levelnb, int mode)
 
   loadshared();
 
-  if(st_gl_mode == ST_GL_PLAY)
+  if(st_gl_mode == ST_GL_PLAY || st_gl_mode == ST_GL_LOAD_LEVEL_FILE)
     levelintro();
-
 
   timer_init(&time_left,YES);
   start_timers();

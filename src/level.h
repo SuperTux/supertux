@@ -51,6 +51,7 @@ typedef struct st_level /*It is easier to read the sources IMHO, if we don't wri
 extern texture_type img_bkgd, img_bkgd_tile[2][4], img_solid[4], img_brick[2];
   
 int level_load(st_level* plevel, char * subset, int level);
+int level_load(st_level* plevel, const char* filename);
 void level_save(st_level* plevel, char * subset, int level);
 void level_free(st_level* plevel);
 void level_load_gfx(st_level* plevel);

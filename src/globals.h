@@ -23,6 +23,9 @@ extern text_type black_text, gold_text, white_text, white_small_text, white_big_
 
 extern int use_gl, use_joystick, use_fullscreen, debug_mode, show_fps;
 
+extern char* level_startup_file;
+extern bool launch_worldmap_mode;
+
 /* SuperTux directory ($HOME/.supertux) and save directory($HOME/.supertux/save) */
 extern char *st_dir, *st_save_dir;
 

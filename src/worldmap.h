@@ -99,6 +99,8 @@ public:
 
   /** Busy loop */
   void display();
+
+  void load_map();
   
   void get_input();
 

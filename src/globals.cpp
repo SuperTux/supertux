@@ -17,6 +17,9 @@ text_type black_text, gold_text, blue_text, red_text, yellow_nums, white_text, w
 
 int use_gl, use_joystick, use_fullscreen, debug_mode, show_fps;
 
+char* level_startup_file = 0;
+bool launch_worldmap_mode = false;
+
 /* SuperTux directory ($HOME/.supertux) and save directory($HOME/.supertux/save) */
 char *st_dir, *st_save_dir;
 
