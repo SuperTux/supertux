@@ -248,11 +248,12 @@ GameSession::on_escape_press()
         it could have nasty bugs, like going allways to the right
         or whatever that key does */
       Player& tux = *(currentsector->player);
-      tux.key_event((SDLKey)keymap.jump, UP);
-      tux.key_event((SDLKey)keymap.duck, UP);
+      tux.key_event((SDLKey)keymap.up, UP);
+      tux.key_event((SDLKey)keymap.down, UP);
       tux.key_event((SDLKey)keymap.left, UP);
       tux.key_event((SDLKey)keymap.right, UP);
-      tux.key_event((SDLKey)keymap.fire, UP);
+      tux.key_event((SDLKey)keymap.jump, UP);
+      tux.key_event((SDLKey)keymap.power, UP);
 
       Menu::set_current(game_menu);
       Ticks::pause_start();
@@ -500,11 +501,20 @@ GameSession::process_events()
                   else if (event.jaxis.axis == joystick_keymap.y_axis)
                     {
                       if (event.jaxis.value > joystick_keymap.dead_zone)
-                        tux.input.down = DOWN;
+                        {
+                        tux.input.up = DOWN;
+                        tux.input.down = UP;
+                        }
                       else if (event.jaxis.value < -joystick_keymap.dead_zone)
-                        tux.input.down = UP;
+                        {
+                        tux.input.up = UP;
+                        tux.input.down = DOWN;
+                        }
                       else
-                        tux.input.down = UP;
+                        {
+                        tux.input.up = DOWN;
+                        tux.input.down = DOWN;
+                        }
                     }
                   break;
 
@@ -531,7 +541,7 @@ GameSession::process_events()
             
                 case SDL_JOYBUTTONDOWN:
                   if (event.jbutton.button == joystick_keymap.a_button)
-                    tux.input.up = DOWN;
+                    tux.input.jump = DOWN;
                   else if (event.jbutton.button == joystick_keymap.b_button)
                     tux.input.fire = DOWN;
                   else if (event.jbutton.button == joystick_keymap.start_button)
@@ -539,7 +549,7 @@ GameSession::process_events()
                   break;
                 case SDL_JOYBUTTONUP:
                   if (event.jbutton.button == joystick_keymap.a_button)
-                    tux.input.up = UP;
+                    tux.input.jump = UP;
                   else if (event.jbutton.button == joystick_keymap.b_button)
                     tux.input.fire = UP;
                   break;

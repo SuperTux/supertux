@@ -67,23 +67,25 @@ PlayerKeymap keymap;
 
 PlayerKeymap::PlayerKeymap()
 {
-  keymap.jump  = SDLK_SPACE;
-  keymap.activate = SDLK_UP;
-  keymap.duck  = SDLK_DOWN;
+  keymap.up    = SDLK_UP;
+  keymap.down  = SDLK_DOWN;
   keymap.left  = SDLK_LEFT;
   keymap.right = SDLK_RIGHT;
-  keymap.fire  = SDLK_LCTRL;
+
+  keymap.power = SDLK_LCTRL;
+  keymap.jump  = SDLK_LALT;
 }
 
 void player_input_init(player_input_type* pplayer_input)
 {
+  pplayer_input->up = UP;
   pplayer_input->down = UP;
   pplayer_input->fire = UP;
   pplayer_input->left = UP;
   pplayer_input->old_fire = UP;
   pplayer_input->right = UP;
-  pplayer_input->up = UP;
-  pplayer_input->old_up = UP;
+  pplayer_input->jump = UP;
+  pplayer_input->old_jump = UP;
   pplayer_input->activate = UP;
 }
 
@@ -199,25 +201,11 @@ Player::key_event(SDLKey key, int state)
       input.left = state;
       return true;
     }
-  else if(key == keymap.jump)
+  else if(key == keymap.up)
     {
       input.up = state;
-      return true;
-    }
-  else if(key == keymap.duck)
-    {
-      input.down = state;
-      return true;
-    }
-  else if(key == keymap.fire)
-    {
-      if (state == UP)
-        input.old_fire = UP;
-      input.fire = state;
-      return true;
-    }
-  else if(key == keymap.activate)
-    {
+
+      /* Up key also opens activates stuff */
       input.activate = state;
 
       if(state == DOWN) {
@@ -230,7 +218,27 @@ Player::key_event(SDLKey key, int state)
           }
         }
       }
-      
+
+      return true;
+    }
+  else if(key == keymap.down)
+    {
+      input.down = state;
+      return true;
+    }
+  else if(key == keymap.power)
+    {
+      if (state == UP)
+        input.old_fire = UP;
+      input.fire = state;
+
+      return true;
+    }
+  else if(key == keymap.jump)
+    {
+      if (state == UP)
+        input.old_jump = UP;
+      input.jump = state;
       return true;
     }
   else
@@ -533,7 +541,7 @@ Player::handle_vertical_input()
   }
 
   // Press jump key
-  if(input.up == DOWN && can_jump && on_ground())
+  if(input.jump == DOWN && can_jump && on_ground())
     {
       if(duck) { // only jump a little bit when in duck mode {
         physic.set_velocity_y(3);
@@ -556,7 +564,7 @@ Player::handle_vertical_input()
         SoundManager::get()->play_sound(IDToSound(SND_BIGJUMP));
     }
   // Let go of jump key
-  else if(input.up == UP)
+  else if(input.jump == UP)
     {
       if (!flapping && !duck && !falling_from_flap && !on_ground())
          {
@@ -570,7 +578,7 @@ Player::handle_vertical_input()
     }
 
    // Flapping
-   if (input.up == DOWN && can_flap)
+   if (input.jump == DOWN && can_flap)
      {
          if (!flapping_timer.started())
             {
@@ -606,7 +614,7 @@ Player::handle_vertical_input()
    // Hover
    //(disabled by default, use cheat code "hover" to toggle on/off)
    //TODO: needs some tweaking, especially when used together with double jump and jumping off badguys
-   if (enable_hover && input.up == DOWN && !jumping && !butt_jump && physic.get_velocity_y() <= 0)
+   if (enable_hover && input.jump == DOWN && !jumping && !butt_jump && physic.get_velocity_y() <= 0)
       {
          physic.set_velocity_y(-1);
       }
@@ -670,8 +678,8 @@ Player::handle_vertical_input()
         issolid(base.x + base.width - 1, base.y + base.height + 64))
        && jumping  == false
        && can_jump == false
-       && input.up == DOWN
-       && input.old_up == UP)
+       && input.jump == DOWN
+       && input.old_jump == UP)
     {
       can_jump = true;
     }
@@ -686,7 +694,7 @@ Player::handle_vertical_input()
       physic.set_acceleration_y(0); //for flapping
     }
 
-  input.old_up = input.up;
+  input.old_jump = input.jump;
 }
 
 void
@@ -697,7 +705,7 @@ Player::handle_input()
 
   /* Jump/jumping? */
 
-  if (on_ground() && input.up == UP)
+  if (on_ground() && input.jump == UP)
     can_jump = true;
   handle_vertical_input();
 
@@ -1205,7 +1213,7 @@ Player::bounce(BadGuy* badguy)
     Sector::current()->add_floating_text(base, str);
     }
 
-  if (input.up)
+  if (input.jump)
     physic.set_velocity_y(5.2);
   else
     physic.set_velocity_y(2);

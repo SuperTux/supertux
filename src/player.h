@@ -63,11 +63,11 @@ struct PlayerKeymap
 {
 public:
   int jump;
-  int activate;
-  int duck;
+  int up;
+  int down;
   int left;
   int right;
-  int fire;
+  int power;
   
   PlayerKeymap();
 };
@@ -79,11 +79,12 @@ struct player_input_type
   int right;
   int left;
   int up;
-  int old_up;
   int down;
   int fire;
   int old_fire;
   int activate;
+  int jump;
+  int old_jump;
 };
 
 void player_input_init(player_input_type* pplayer_input);

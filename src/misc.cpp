@@ -19,22 +19,21 @@
 
 void MyConfig::customload(LispReader& reader)
 {
-  reader.read_int ("keyboard-jump", keymap.jump);
-  reader.read_int ("keyboard-activate", keymap.activate);
-  reader.read_int ("keyboard-duck", keymap.duck);
+  reader.read_int ("keyboard-up", keymap.up);
+  reader.read_int ("keyboard-down", keymap.down);
   reader.read_int ("keyboard-left", keymap.left);
   reader.read_int ("keyboard-right", keymap.right);
-  reader.read_int ("keyboard-fire", keymap.fire);
+  reader.read_int ("keyboard-jump", keymap.jump);
+  reader.read_int ("keyboard-power", keymap.power);
 }
 void MyConfig::customsave(FILE * config)
 {
-  fprintf(config, "\t(keyboard-jump  %d)\n", keymap.jump);
-  fprintf(config, "\t(keyboard-duck  %d)\n", keymap.duck);
+  fprintf(config, "\t(keyboard-up  %d)\n", keymap.up);
+  fprintf(config, "\t(keyboard-down  %d)\n", keymap.down);
   fprintf(config, "\t(keyboard-left  %d)\n", keymap.left);
   fprintf(config, "\t(keyboard-right %d)\n", keymap.right);
-  fprintf(config, "\t(keyboard-fire  %d)\n", keymap.fire);
-  fprintf(config, "\t(keyboard-activate  %d)\n", keymap.activate);
-
+  fprintf(config, "\t(keyboard-jump  %d)\n", keymap.jump);
+  fprintf(config, "\t(keyboard-power  %d)\n", keymap.power);
 }
 
 void process_options_menu(void)
@@ -129,11 +128,10 @@ void st_menu(void)
   options_keys_menu->additem(MN_HL,"",0,0);
   options_keys_menu->additem(MN_CONTROLFIELD_KB,_("Left move"), 0,0, 0,&keymap.left);
   options_keys_menu->additem(MN_CONTROLFIELD_KB,_("Right move"), 0,0, 0,&keymap.right);
+  options_keys_menu->additem(MN_CONTROLFIELD_KB,_("Up/Activate"), 0,0, 0,&keymap.up);
+  options_keys_menu->additem(MN_CONTROLFIELD_KB,_("Down/Duck"), 0,0, 0,&keymap.down);
   options_keys_menu->additem(MN_CONTROLFIELD_KB,_("Jump"), 0,0, 0,&keymap.jump);
-  options_keys_menu->additem(MN_CONTROLFIELD_KB,_("Duck"), 0,0, 0,&keymap.duck);
-  options_keys_menu->additem(MN_CONTROLFIELD_KB,_("Activate"), 0, 0, 0,
-          &keymap.activate);
-  options_keys_menu->additem(MN_CONTROLFIELD_KB,_("Power/Run"), 0,0, 0,&keymap.fire);
+  options_keys_menu->additem(MN_CONTROLFIELD_KB,_("Power/Run"), 0,0, 0,&keymap.power);
   options_keys_menu->additem(MN_HL,"",0,0);
   options_keys_menu->additem(MN_BACK,_("Back"),0,0);
 
