@@ -16,14 +16,8 @@
 #include <SDL.h>
 #ifndef NOOPENGL
 #include <SDL_opengl.h>
-
-#ifndef GL_NV_texture_rectangle
-#define GL_TEXTURE_RECTANGLE_NV           0x84F5
-#define GL_TEXTURE_BINDING_RECTANGLE_NV   0x84F6
-#define GL_PROXY_TEXTURE_RECTANGLE_NV     0x84F7
-#define GL_MAX_RECTANGLE_TEXTURE_SIZE_NV  0x84F8
 #endif
-#endif
+#include "texture.h"
 
 #define NO_UPDATE 0
 #define UPDATE 1
@@ -36,8 +30,8 @@ void fillrect(float x, float y, float w, float h, float r, float g, float b);
 void updatescreen(void);
 void flipscreen(void);
 SDL_Surface * load_image(char * file, int use_alpha);
-void erasetext(char * text, int x, int y, SDL_Surface * surf, int update, int shadowsize);
-void erasecenteredtext(char * text, int y, SDL_Surface * surf, int update, int shadowsize);
+void erasetext(char * text, int x, int y, texture_type * surf, int update, int shadowsize);
+void erasecenteredtext(char * text, int y, texture_type * surf, int update, int shadowsize);
 void update_rect(SDL_Surface *scr, Sint32 x, Sint32 y, Sint32 w, Sint32 h);
 
 #endif /*SUPERTUX_SCREEN_H*/

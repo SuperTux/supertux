@@ -62,85 +62,27 @@ void texture_load_part_gl(texture_type* ptexture, char * file, int x, int y, int
   texture_create_gl(ptexture->sdl_surface,&ptexture->gl_texture);
 }
 
-void texture_draw_gl(texture_type* ptexture, float x, float y, int update)
+/* Quick utility function for texture creation */
+static int power_of_two(int input)
 {
+	int value = 1;
 
-
-  glEnable(GL_BLEND);
-  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-  glColor4ub(255, 255, 255,255);
-
-  glBindTexture(GL_TEXTURE_RECTANGLE_NV, ptexture->gl_texture);
-
-  glBegin(GL_QUADS);
-  glTexCoord2f(0, 0);
-  glVertex2f(x, y);
-  glTexCoord2f((float)ptexture->w, 0);
-  glVertex2f((float)ptexture->w+x, y);
-  glTexCoord2f((float)ptexture->w, (float)ptexture->h);
-  glVertex2f((float)ptexture->w+x, (float)ptexture->h+y);
-  glTexCoord2f(0, (float)ptexture->h);
-  glVertex2f(x, (float)ptexture->h+y);
-  glEnd();
-
-  glDisable(GL_BLEND);
-}
-
-void texture_draw_bg_gl(texture_type* ptexture, int update)
-{
-  glColor3ub(255, 255, 255);
-
-  glEnable(GL_TEXTURE_RECTANGLE_NV);
-  glBindTexture(GL_TEXTURE_RECTANGLE_NV, ptexture->gl_texture);
-
-  glBegin(GL_QUADS);
-  glTexCoord2f(0, 0);
-  glVertex2f(0, 0);
-  glTexCoord2f((float)ptexture->w, 0);
-  glVertex2f(screen->w, 0);
-  glTexCoord2f((float)ptexture->w, (float)ptexture->h);
-  glVertex2f(screen->w, screen->h);
-  glTexCoord2f(0, (float)ptexture->h);
-  glVertex2f(0, screen->h);
-  glEnd();
-}
-
-void texture_draw_part_gl(texture_type* ptexture,float sx, float sy, float x, float y, float w, float h, int update)
-{
-
-  glBindTexture(GL_TEXTURE_RECTANGLE_NV, ptexture->gl_texture);
-
-  glEnable(GL_BLEND);
-  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-  glColor4ub(255, 255, 255,255);
-
-  glEnable(GL_TEXTURE_RECTANGLE_NV);
-
-
-  glBegin(GL_QUADS);
-  glTexCoord2f(x, y);
-  glVertex2f(x, y);
-  glTexCoord2f(x+w, y);
-  glVertex2f(w+x, y);
-  glTexCoord2f(x+w, y+h);
-  glVertex2f(w+x, h+y);
-  glTexCoord2f(x, y+h);
-  glVertex2f(x, h+y);
-  glEnd();
-
-  glDisable(GL_BLEND);
-
+	while ( value < input ) {
+		value <<= 1;
+	}
+	return value;
 }
 
 void texture_create_gl(SDL_Surface * surf, GLint * tex)
 {
   Uint32 saved_flags;
   Uint8  saved_alpha;
-
+  int w, h;
   SDL_Surface *conv;
-  conv = SDL_CreateRGBSurface(surf->flags, surf->w, surf->h, surf->format->BitsPerPixel,
+ 
+  w = power_of_two(surf->w);
+  h = power_of_two(surf->h),
+  conv = SDL_CreateRGBSurface(surf->flags, w, h, surf->format->BitsPerPixel,
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
                               0xff000000, 0x00ff0000, 0x0000ff00, 0x000000ff);
 #else
@@ -169,12 +111,12 @@ void texture_create_gl(SDL_Surface * surf, GLint * tex)
 
   glGenTextures(1, &*tex);
 
-  glBindTexture(GL_TEXTURE_RECTANGLE_NV , *tex);
-  glEnable(GL_TEXTURE_RECTANGLE_NV);
-  glTexParameteri(GL_TEXTURE_RECTANGLE_NV, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-  glTexParameteri(GL_TEXTURE_RECTANGLE_NV, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+  glBindTexture(GL_TEXTURE_2D , *tex);
+  glEnable(GL_TEXTURE_2D);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
   glPixelStorei(GL_UNPACK_ROW_LENGTH, conv->pitch / conv->format->BytesPerPixel);
-  glTexImage2D(GL_TEXTURE_RECTANGLE_NV, 0, GL_RGB10_A2, conv->w, conv->h, 0, GL_RGBA, GL_UNSIGNED_BYTE, conv->pixels);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB10_A2, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, conv->pixels);
   glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
   SDL_FreeSurface(conv);
 }
@@ -183,6 +125,78 @@ void texture_free_gl(texture_type* ptexture)
 {
   SDL_FreeSurface(ptexture->sdl_surface);
   glDeleteTextures(1, &ptexture->gl_texture);
+}
+
+void texture_draw_gl(texture_type* ptexture, float x, float y, int update)
+{
+
+
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+  glColor4ub(255, 255, 255,255);
+
+  glBindTexture(GL_TEXTURE_2D, ptexture->gl_texture);
+
+  glBegin(GL_QUADS);
+  glTexCoord2f(0, 0);
+  glVertex2f(x, y);
+  glTexCoord2f((float)ptexture->w / (float)power_of_two(ptexture->w), 0);
+  glVertex2f((float)ptexture->w+x, y);
+  glTexCoord2f((float)ptexture->w / (float)power_of_two(ptexture->w), (float)ptexture->h / (float)power_of_two(ptexture->h));  glVertex2f((float)ptexture->w+x, (float)ptexture->h+y);
+  glTexCoord2f(0, (float)ptexture->h / (float)power_of_two(ptexture->h));
+  glVertex2f(x, (float)ptexture->h+y);
+  glEnd();
+
+  glDisable(GL_BLEND);
+}
+
+void texture_draw_bg_gl(texture_type* ptexture, int update)
+{
+  glColor3ub(255, 255, 255);
+
+  glEnable(GL_TEXTURE_2D);
+  glBindTexture(GL_TEXTURE_2D, ptexture->gl_texture);
+
+  glBegin(GL_QUADS);
+  glTexCoord2f(0, 0);
+  glVertex2f(0, 0);
+  glTexCoord2f((float)ptexture->w / (float)power_of_two(ptexture->w), 0);
+  glVertex2f(screen->w, 0);
+  glTexCoord2f((float)ptexture->w / (float)power_of_two(ptexture->w), (float)ptexture->h / power_of_two(ptexture->h));
+  glVertex2f(screen->w, screen->h);
+  glTexCoord2f(0, (float)ptexture->h / (float)power_of_two(ptexture->h));
+  glVertex2f(0, screen->h);
+  glEnd();
+}
+
+void texture_draw_part_gl(texture_type* ptexture,float sx, float sy, float x, float y, float w, float h, int update)
+{
+/*FIXME: The texture isn't drawn to the correct x,y positions.*/
+
+  glBindTexture(GL_TEXTURE_2D, ptexture->gl_texture);
+
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+  glColor4ub(255, 255, 255,255);
+
+  glEnable(GL_TEXTURE_2D);
+
+
+  glBegin(GL_QUADS);
+  glTexCoord2f(sx / (float)power_of_two(ptexture->w), sy / (float)power_of_two(ptexture->h));
+  glVertex2f(sx, sy);
+  glTexCoord2f((float)(sx + w) / (float)power_of_two(ptexture->w), sy / (float)power_of_two(ptexture->h));
+  glVertex2f(w+sx, sy);
+  glTexCoord2f((sx+w) / (float)power_of_two(ptexture->w), (sy+h) / (float)power_of_two(ptexture->h));
+  glVertex2f(w +sx, h+sy);
+  glTexCoord2f(sx / (float)power_of_two(ptexture->w), (float)(sy+h) / (float)power_of_two(ptexture->h));
+  glVertex2f(sx, h+sy);
+  glEnd();
+
+  glDisable(GL_BLEND);
+
 }
 #endif
 

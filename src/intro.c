@@ -146,7 +146,7 @@ int intro(void)
 	  ++scene;
 	  /* Helicopter begins to fly in: */
 	  
-	  erasecenteredtext(intro_text[0], 456, bkgd.sdl_surface, NO_UPDATE, 1);
+	  erasecenteredtext(intro_text[0], 456, &bkgd, NO_UPDATE, 1);
 	  text_drawf(&blue_text, intro_text[1], 0,-8, A_HMIDDLE, A_BOTTOM, 0, NO_UPDATE);
 	}
 
@@ -200,7 +200,7 @@ int intro(void)
 	  texture_draw(&tux_upset, 270, 400, UPDATE);
 	  
 	  
-	  erasecenteredtext(intro_text[1], 456, bkgd.sdl_surface, UPDATE, 1);
+	  erasecenteredtext(intro_text[1], 456, &bkgd, UPDATE, 1);
 	  text_drawf(&blue_text, intro_text[2], 0,-8, A_HMIDDLE, A_BOTTOM, 0, NO_UPDATE);
 	}
       
@@ -254,7 +254,7 @@ int intro(void)
 	  
 	  texture_draw(&tux_mad, 270, 400, UPDATE);
 	  
-	  erasecenteredtext(intro_text[2], 456, bkgd.sdl_surface, UPDATE, 1);
+	  erasecenteredtext(intro_text[2], 456, &bkgd, UPDATE, 1);
 	  text_drawf(&blue_text, intro_text[3], 0,-8, A_HMIDDLE, A_BOTTOM, 0, NO_UPDATE);
 	}
       
