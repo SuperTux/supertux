@@ -205,8 +205,8 @@ int title(void)
                             }
                         }
                     }
-                  break;
                 }
+              break;
             case 3:
               done = 1;
               quit = leveleditor(1);
