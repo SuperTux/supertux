@@ -95,12 +95,12 @@ feet->set_action(action);
 }
 
 void
-TuxBodyParts::start_animation(int loops, std::string next_action)
+TuxBodyParts::one_time_animation()
 {
-head->start_animation(loops, next_action);
-body->start_animation(loops, next_action);
-arms->start_animation(loops, next_action);
-feet->start_animation(loops, next_action);
+head->start_animation(1);
+body->start_animation(1);
+arms->start_animation(1);
+feet->start_animation(1);
 }
 
 void
@@ -826,12 +826,12 @@ Player::draw(DrawingContext& context)
     if (dir == RIGHT)
       {
       tux_body->set_action("idle-right");
-      tux_body->start_animation(1, "stand-right");
+      tux_body->one_time_animation();
       }
     else
       {
       tux_body->set_action("idle-left");
-      tux_body->start_animation(1, "stand-left");
+      tux_body->one_time_animation();
       }
     idle_timer.start(IDLE_TIME);
     }

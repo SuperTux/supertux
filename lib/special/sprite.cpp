@@ -98,17 +98,20 @@ Sprite::init_defaults(Action* act)
 void
 Sprite::set_action(std::string act)
 {
+if(!next_action.empty() && animation_loops > 0)
+  {
+  next_action = act;
+  return;
+  }
 Actions::iterator i = actions.find(act);
 action = i->second;
 }
 
 void
-Sprite::start_animation(int loops, std::string next_act)
+Sprite::start_animation(int loops)
 {
 reset();
 animation_loops = loops;
-if(!next_act.empty())
-  next_action = next_act;
 }
 
 void

@@ -110,7 +110,7 @@ public:
   ~TuxBodyParts() { };
 
   void set_action(std::string action);
-  void start_animation(int loops, std::string next_action = "");
+  void one_time_animation();
   void draw(DrawingContext& context, const Vector& pos, int layer,
                 Uint32 drawing_effect = NONE_EFFECT);
 
