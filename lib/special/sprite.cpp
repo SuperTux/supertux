@@ -131,9 +131,6 @@ if(i == actions.end())
   return;
   }
 action = i->second;
-
-if((int)frame >= get_frames())
-  frame = 0;
 }
 
 void
