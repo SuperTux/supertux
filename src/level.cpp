@@ -232,6 +232,7 @@ Level::init_defaults()
   song_title = "Mortimers_chipdisko.mod";
   bkgd_image = "arctis.png";
   width      = 21;
+  height     = 15;
   start_pos_x = 100;
   start_pos_y = 170;
   time_left  = 100;
@@ -246,7 +247,11 @@ Level::init_defaults()
   bkgd_bottom.green = 255;
   bkgd_bottom.blue  = 255;
 
-  for(int i = 0; i < 15; ++i)
+  bg_tiles.resize(height+1, std::vector<unsigned int>(width, 0));
+  ia_tiles.resize(height+1, std::vector<unsigned int>(width, 0));
+  fg_tiles.resize(height+1, std::vector<unsigned int>(width, 0));
+
+  for(int i = 0; i < height; ++i)
     {
       ia_tiles[i].resize(width+1, 0);
       ia_tiles[i][width] = (unsigned int) '\0';
@@ -313,6 +318,9 @@ Level::load(const std::string& filename)
       if(!reader.read_int("time",  &time_left)) {
         printf("Warning no time specified for level.\n");
       }
+      
+      height = 15;
+      reader.read_int("height",  &height);
       
       back_scrolling = false;
       reader.read_bool("back_scrolling",  &back_scrolling);
@@ -469,7 +477,11 @@ Level::load(const std::string& filename)
         }
     }
 
-  for(int i = 0; i < 15; ++i)
+  bg_tiles.resize(height+1, std::vector<unsigned int>(width, 0));
+  ia_tiles.resize(height+1, std::vector<unsigned int>(width, 0));
+  fg_tiles.resize(height+1, std::vector<unsigned int>(width, 0));
+
+  for(int i = 0; i < height; ++i)
     {
       ia_tiles[i].resize(width + 1, 0);
       bg_tiles[i].resize(width + 1, 0);
@@ -561,6 +573,7 @@ Level::save(const std::string& subset, int level)
   fprintf(fi,"  (bkgd_blue_bottom %d)\n", bkgd_bottom.blue);
   fprintf(fi,"  (time %d)\n", time_left);
   fprintf(fi,"  (width %d)\n", width);
+  fprintf(fi,"  (height %d)\n", height);
   if(back_scrolling)
     fprintf(fi,"  (back_scrolling #t)\n"); 
   else
@@ -569,7 +582,7 @@ Level::save(const std::string& subset, int level)
   fprintf(fi,"  (gravity %2.1f)\n", gravity);
   fprintf(fi,"  (background-tm ");
 
-  for(int y = 0; y < 15; ++y)
+  for(int y = 0; y < height; ++y)
     {
       for(int i = 0; i < width; ++i)
         fprintf(fi," %d ", bg_tiles[y][i]);
@@ -578,7 +591,7 @@ Level::save(const std::string& subset, int level)
   fprintf( fi,")\n");
   fprintf(fi,"  (interactive-tm ");
 
-  for(int y = 0; y < 15; ++y)
+  for(int y = 0; y < height; ++y)
     {
       for(int i = 0; i < width; ++i)
         fprintf(fi," %d ", ia_tiles[y][i]);
@@ -587,7 +600,7 @@ Level::save(const std::string& subset, int level)
   fprintf( fi,")\n");
   fprintf(fi,"  (foreground-tm ");
 
-  for(int y = 0; y < 15; ++y)
+  for(int y = 0; y < height; ++y)
     {
       for(int i = 0; i < width; ++i)
         fprintf(fi," %d ", fg_tiles[y][i]);
@@ -670,14 +683,14 @@ void Level::load_image(Surface** ptexture, string theme,const  char * file, int 
   *ptexture = new Surface(fname, use_alpha);
 }
 
-/* Change the size of a level (width) */
+/* Change the size of a level */
 void 
-Level::change_size (int new_width)
+Level::change_width (int new_width)
 {
   if(new_width < 21)
     new_width = 21;
 
-  for(int y = 0; y < 15; ++y)
+  for(int y = 0; y < height; ++y)
     {
       ia_tiles[y].resize(new_width, 0);
       bg_tiles[y].resize(new_width, 0);
@@ -687,13 +700,26 @@ Level::change_size (int new_width)
   width = new_width;
 }
 
+void 
+Level::change_height (int new_height)
+{
+  if(new_height < 15)
+    new_height = 15;
+
+  bg_tiles.resize(height+1, std::vector<unsigned int>(width, 0));
+  ia_tiles.resize(height+1, std::vector<unsigned int>(width, 0));
+  fg_tiles.resize(height+1, std::vector<unsigned int>(width, 0));
+
+  height = new_height;
+}
+
 void
 Level::change(float x, float y, int tm, unsigned int c)
 {
   int yy = ((int)y / 32);
   int xx = ((int)x / 32);
 
-  if (yy >= 0 && yy < 15 && xx >= 0 && xx <= width)
+  if (yy >= 0 && yy < height && xx >= 0 && xx <= width)
     {
       switch(tm)
         {
@@ -754,7 +780,7 @@ Level::gettileid(float x, float y) const
   yy = ((int)y / 32);
   xx = ((int)x / 32);
 
-  if (yy >= 0 && yy < 15 && xx >= 0 && xx <= width)
+  if (yy >= 0 && yy < height && xx >= 0 && xx <= width)
     c = ia_tiles[yy][xx];
   else
     c = 0;
@@ -765,7 +791,7 @@ Level::gettileid(float x, float y) const
 unsigned int
 Level::get_tile_at(int x, int y) const
 {
-  if(x < 0 || x > width || y < 0 || y > 14)
+  if(x < 0 || x > width || y < 0 || y > height)
     return 0;
   
   return ia_tiles[y][x];

@@ -78,13 +78,17 @@ class Level
   std::string song_title;
   std::string bkgd_image;
   std::string particle_system;
-  std::vector<unsigned int> bg_tiles[15]; /* Tiles in the background */
-  std::vector<unsigned int> ia_tiles[15]; /* Tiles which can interact in the game (solids for example)*/
-  std::vector<unsigned int> fg_tiles[15]; /* Tiles in the foreground */
+  std::vector<std::vector<unsigned int> > bg_tiles; /* Tiles in the background */
+  std::vector<std::vector<unsigned int> > ia_tiles; /* Tiles which can interact in the game (solids for example)*/
+  std::vector<std::vector<unsigned int> > fg_tiles; /* Tiles in the foreground */
+//  std::vector<unsigned int> bg_tiles[15]; /* Tiles in the background */
+//  std::vector<unsigned int> ia_tiles[15]; /* Tiles which can interact in the game (solids for example)*/
+//  std::vector<unsigned int> fg_tiles[15]; /* Tiles in the foreground */
   int time_left;
   Color bkgd_top;
   Color bkgd_bottom;
   int width;
+  int height;
   int bkgd_speed;
   int start_pos_x;
   int start_pos_y;
@@ -128,8 +132,9 @@ class Level
   /** Edit a piece of the map! */
   void change(float x, float y, int tm, unsigned int c);
 
-  /** Resize the level to a new width */
-  void change_size (int new_width);
+  /** Resize the level to a new width/height */
+  void change_width (int new_width);
+  void change_height (int new_height);
 
   /** Return the id of the tile at position x/y */
   unsigned int gettileid(float x, float y) const;

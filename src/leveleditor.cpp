@@ -440,6 +440,7 @@ void le_init_menus()
   level_settings_menu->additem(MN_STRINGSELECT,"Bg-Image",0,0,MNID_BGIMG);
   level_settings_menu->additem(MN_STRINGSELECT,"Particle",0,0,MNID_PARTICLE);
   level_settings_menu->additem(MN_NUMFIELD,    "Length  ",0,0,MNID_LENGTH);
+  level_settings_menu->additem(MN_NUMFIELD,    "Height  ",0,0,MNID_HEIGHT);
   level_settings_menu->additem(MN_NUMFIELD,    "Time    ",0,0,MNID_TIME);
   level_settings_menu->additem(MN_NUMFIELD,    "Gravity ",0,0,MNID_GRAVITY);
   level_settings_menu->additem(MN_NUMFIELD,    "Bg-Img-Speed",0,0,MNID_BGSPEED);
@@ -609,6 +610,8 @@ void update_level_settings_menu()
 
   sprintf(str,"%d",le_world->get_level()->width);
   level_settings_menu->get_item_by_id(MNID_LENGTH).change_input(str);
+  sprintf(str,"%d",le_world->get_level()->height);
+  level_settings_menu->get_item_by_id(MNID_HEIGHT).change_input(str);
   sprintf(str,"%d",le_world->get_level()->time_left);
   level_settings_menu->get_item_by_id(MNID_TIME).change_input(str);
   sprintf(str,"%2.0f",le_world->get_level()->gravity);
@@ -661,7 +664,8 @@ void apply_level_settings_menu()
 
   le_world->get_level()->song_title = string_list_active(level_settings_menu->get_item_by_id(MNID_SONG).list);
 
-  le_world->get_level()->change_size(atoi(level_settings_menu->get_item_by_id(MNID_LENGTH).input));
+  le_world->get_level()->change_width(atoi(level_settings_menu->get_item_by_id(MNID_LENGTH).input));
+  le_world->get_level()->change_height(atoi(level_settings_menu->get_item_by_id(MNID_HEIGHT).input));
   le_world->get_level()->time_left = atoi(level_settings_menu->get_item_by_id(MNID_TIME).input);
   le_world->get_level()->gravity = atof(level_settings_menu->get_item_by_id(MNID_GRAVITY).input);
   le_world->get_level()->bkgd_speed = atoi(level_settings_menu->get_item_by_id(MNID_BGSPEED).input);
