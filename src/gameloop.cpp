@@ -170,7 +170,6 @@ GameSession::on_escape_press()
   else if (!Menu::current())
     {
       Menu::set_current(game_menu);
-      st_pause_ticks_stop();
     }
 }
 
@@ -186,9 +185,12 @@ GameSession::process_events()
       if (Menu::current())
         {
           Menu::current()->event(event);
+          st_pause_ticks_start();
         }
       else
         {
+          st_pause_ticks_stop();
+
           switch(event.type)
             {
             case SDL_QUIT:        /* Quit event - quit: */
