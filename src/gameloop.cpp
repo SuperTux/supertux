@@ -296,7 +296,8 @@ void game_event(void)
 
 /* --- GAME ACTION! --- */
 
-int game_action(void)
+int
+GameSession::action()
 {
   unsigned int i;
 
@@ -464,7 +465,8 @@ int game_action(void)
 
 /* --- GAME DRAW! --- */
 
-void game_draw(void)
+void 
+GameSession::draw()
 {
   int y,x;
 
@@ -655,7 +657,7 @@ GameSession::run()
   while (SDL_PollEvent(&event))
   {}
 
-  game_draw();
+  draw();
   do
     {
       jump = false;
@@ -721,7 +723,7 @@ GameSession::run()
             frame_ratio = 1;
             while(z >= 1)
             {*/
-          if (game_action() == 0)
+          if (action() == 0)
             {
               /* == 0: no more lives */
               /* == -1: continues */
@@ -747,7 +749,7 @@ GameSession::run()
         game_draw();
         else
         jump = true;*/ /*FIXME: Implement this tweak right.*/
-      game_draw();
+      draw();
 
       /* Time stops in pause mode */
       if(game_pause || show_menu )
@@ -817,10 +819,8 @@ GameSession::run()
   return(quit);
 }
 
-
 /* Load graphics/sounds shared between all levels: */
-
-void loadshared(void)
+void loadshared()
 {
   int i;
 

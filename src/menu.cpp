@@ -481,7 +481,7 @@ int Menu::width()
         }
     }
 
-  return (menu_width * 16 + 48);
+  return (menu_width * 16 + 24);
 }
 
 int Menu::height()
@@ -498,9 +498,9 @@ Menu::draw()
 
   /* Draw a transparent background */
   fillrect(pos_x - menu_width/2,
-           pos_y - 24*num_items/2,
-           menu_width,menu_height,
-           150,180,200,100);
+           pos_y - 24*num_items/2 - 10,
+           menu_width,menu_height + 20,
+           150,180,200,125);
 
   for(int i = 0; i < num_items; ++i)
     {

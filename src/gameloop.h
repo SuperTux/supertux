@@ -32,10 +32,13 @@ extern int game_started;
 class GameSession
 {
  private:
-    timer_type fps_timer, frame_timer;
+  timer_type fps_timer, frame_timer;
+
  public:
   GameSession(const char * subset, int levelnb, int mode);
-  int run();
+  int  run();
+  void draw();
+  int  action();
 };
 
 void  activate_bad_guys(Level* plevel);
