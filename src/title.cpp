@@ -62,7 +62,7 @@ static int frame;
 static unsigned int last_update_time;
 static unsigned int update_time;
 
-void display_credits();
+void display_text_file(char *filename);
 
 std::vector<st_subset> contrib_subsets;
 std::string current_contrib_subset;
@@ -311,7 +311,7 @@ void title(void)
                   Menu::set_current(main_menu);
                   break;
                 case MNID_CREDITS:
-                  display_credits();
+                  display_text_file("CREDITS");
                   Menu::set_current(main_menu);
                   break;
                 case MNID_QUITMAINMENU:
@@ -367,7 +367,7 @@ void title(void)
 #define SCROLL  60
 #define ITEMS_SPACE 4
 
-void display_credits()
+void display_text_file(char *file)
 {
   int done;
   int scroll, speed;
@@ -379,7 +379,7 @@ void display_credits()
   string_list_type names;
   char filename[1024];
   string_list_init(&names);
-  sprintf(filename,"%s/CREDITS", datadir.c_str());
+  sprintf(filename,"%s/%s", datadir.c_str(), file);
   if((fi = fopen(filename,"r")) != NULL)
     {
       while(fgets(temp, sizeof(temp), fi) != NULL)
