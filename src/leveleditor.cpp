@@ -261,7 +261,7 @@ int leveleditor(int levelnb)
                       le_level = 1;
                       arrays_init();
                       loadshared();
-                      le_current_level = (st_level*) malloc(sizeof(st_level));
+                      le_current_level = new st_level;
                       if(level_load(le_current_level, le_level_subset.name.c_str(), le_level) != 0)
                         {
                           le_quit();
