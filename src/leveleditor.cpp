@@ -128,6 +128,7 @@ struct TileOrObject
 /* leveleditor internals */
 static string_list_type level_subsets;
 static bool le_level_changed;  /* if changes, ask for saving, when quiting*/
+static bool show_minimap;
 static int pos_x, cursor_x, cursor_y, fire;
 static int le_level;
 static LevelEditorWorld le_world;
@@ -782,6 +783,41 @@ void le_quit(void)
   }
 }
 
+void le_drawminimap()
+{
+if(le_current_level == NULL)
+return;
+
+int mini_tile_width;
+if(screen->w - 64 > le_current_level->width * 4)
+mini_tile_width = 4;
+else if(screen->w - 64 > le_current_level->width * 2)
+mini_tile_width = 2;
+else
+mini_tile_width = 1;
+int left_offset = (screen->w - 64 - le_current_level->width*mini_tile_width) / 2;
+
+  for (int y = 0; y < 15; ++y)
+    for (int x = 0; x < le_current_level->width; ++x)
+    {
+
+      Tile::draw_stretched(left_offset + mini_tile_width*x, y * 4, mini_tile_width , 4, le_current_level->bg_tiles[y][x]);
+
+      Tile::draw_stretched(left_offset + mini_tile_width*x, y * 4, mini_tile_width , 4, le_current_level->ia_tiles[y][x]);
+
+      Tile::draw_stretched(left_offset + mini_tile_width*x, y * 4, mini_tile_width , 4, le_current_level->fg_tiles[y][x]);
+
+    }
+    
+fillrect(left_offset, 0, le_current_level->width*mini_tile_width, 15*4, 200, 200, 200, 128);
+
+fillrect(left_offset + (pos_x/32)*mini_tile_width, 0, 19*mini_tile_width, 2, 200, 200, 200, 200);
+fillrect(left_offset + (pos_x/32)*mini_tile_width, 0, 2, 15*4, 200, 200, 200, 200);
+fillrect(left_offset + (pos_x/32)*mini_tile_width + 19*mini_tile_width - 2, 0, 2, 15*4, 200, 200, 200, 200);
+fillrect(left_offset + (pos_x/32)*mini_tile_width, 15*4-2, 19*mini_tile_width, 2, 200, 200, 200, 200);
+
+}
+
 void le_drawinterface()
 {
   int x,y;
@@ -798,6 +834,9 @@ void le_drawinterface()
         fillrect(0, y*32, screen->w - 32, 1, 225, 225, 225,255);
     }
   }
+  
+  if(show_minimap && use_gl) // use_gl because the minimap isn't shown correctly in software mode. Any idea? FIXME Possible reasons: SDL_SoftStretch is a hack itsself || an alpha blitting issue SDL can't handle in software mode
+  le_drawminimap();
 
   if(le_selection_mode == CURSOR)
     if(le_current.IsTile())
@@ -1353,22 +1392,28 @@ void le_checkevents()
   }
   if(!Menu::current())
   {
+    show_minimap = false;
+    
     if(le_move_left_bt->get_state() == BUTTON_PRESSED)
     {
       pos_x -= 192;
+      show_minimap = true;
     }
     else if(le_move_left_bt->get_state() == BUTTON_HOVER)
     {
       pos_x -= 32;
+      show_minimap = true;      
     }
 
     if(le_move_right_bt->get_state() == BUTTON_PRESSED)
     {
       pos_x += 192;
+      show_minimap = true;      
     }
     else if(le_move_right_bt->get_state() == BUTTON_HOVER)
     {
       pos_x += 32;
+      show_minimap = true;      
     }
   }
 

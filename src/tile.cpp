@@ -207,5 +207,29 @@ Tile::draw(float x, float y, unsigned int c, Uint8 alpha)
     }
 }
 
+void
+Tile::draw_stretched(float x, float y, int w, int h, unsigned int c, Uint8 alpha)
+{
+  if (c != 0)
+    {
+      Tile* ptile = TileManager::instance()->get(c);
+      if(ptile)
+        {
+          if(ptile->images.size() > 1)
+            {
+              ptile->images[( ((global_frame_counter*25) / ptile->anim_speed) % (ptile->images.size()))]->draw_stretched(x,y,w,h, alpha);
+            }
+          else if (ptile->images.size() == 1)
+            {
+              ptile->images[0]->draw_stretched(x,y, w, h, alpha);
+            }
+          else
+            {
+              //printf("Tile not dravable %u\n", c);
+            }
+        }
+    }
+}
+
 // EOF //
 

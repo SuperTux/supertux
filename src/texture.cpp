@@ -237,6 +237,16 @@ Surface::draw_part(float sx, float sy, float x, float y, float w, float h,  Uint
 }
 
 void
+Surface::draw_stretched(float x, float y, int w, int h, Uint8 alpha, bool update)
+{
+  if (impl)
+  {
+    if (impl->draw_stretched(x, y, w, h, alpha, update) == -2)
+      reload();
+  }
+}
+
+void
 Surface::resize(int w_, int h_)
 {
   if (impl)
@@ -571,6 +581,41 @@ SurfaceOpenGL::draw_part(float sx, float sy, float x, float y, float w, float h,
   (void) update; // avoid warnings
   return 0;
 }
+
+int
+SurfaceOpenGL::draw_stretched(float x, float y, int sw, int sh, Uint8 alpha, bool update)
+{
+  float pw = power_of_two(int(this->w));
+  float ph = power_of_two(int(this->h));
+
+  glBindTexture(GL_TEXTURE_2D, gl_texture);
+
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+  glColor4ub(alpha, alpha, alpha, alpha);
+
+  glEnable(GL_TEXTURE_2D);
+
+
+  glBegin(GL_QUADS);
+  glTexCoord2f(0, 0);
+  glVertex2f(x, y);
+  glTexCoord2f((float)w / pw, 0);
+  glVertex2f(sw+x, y);
+  glTexCoord2f((float)w / pw, (float)h / ph);  glVertex2f((float)sw+x, (float)sh+y);
+  glVertex2f(sw +x, sh+y);
+  glTexCoord2f(0, (float)h / ph);
+  glVertex2f(x, sh+y);
+  glEnd();
+
+  glDisable(GL_TEXTURE_2D);
+  glDisable(GL_BLEND);
+
+  (void) update; // avoid warnings
+  return 0;
+}
+
 #endif
 
 SurfaceSDL::SurfaceSDL(SDL_Surface* surf, int use_alpha)
@@ -673,6 +718,27 @@ SurfaceSDL::draw_part(float sx, float sy, float x, float y, float w, float h, Ui
     SDL_SetAlpha(sdl_surface ,SDL_SRCALPHA,alpha);
 
   int ret = SDL_BlitSurface(sdl_surface, &src, screen, &dest);
+
+  if (update == UPDATE)
+    update_rect(screen, dest.x, dest.y, dest.w, dest.h);
+
+  return ret;
+}
+
+int
+SurfaceSDL::draw_stretched(float x, float y, int sw, int sh, Uint8 alpha, bool update)
+{
+  SDL_Rect dest;
+
+  dest.x = (int)x;
+  dest.y = (int)y;
+  dest.w = (int)sw;
+  dest.h = (int)sh;
+
+  if(alpha != 255)
+    SDL_SetAlpha(sdl_surface ,SDL_SRCALPHA,alpha);
+
+  int ret = SDL_SoftStretch(sdl_surface, NULL, screen, &dest);
 
   if (update == UPDATE)
     update_rect(screen, dest.x, dest.y, dest.w, dest.h);
