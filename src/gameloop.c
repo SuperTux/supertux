@@ -581,10 +581,18 @@ int game_action(void)
 
 
   /* Keep tux in bounds: */
-
   if (tux_x < 0)
     tux_x = 0;
-  else if (tux_x > 320 && scroll_x < ((level_width * 32) - 640))
+    else if (tux_x < 160 && scroll_x > 0 && debug_mode == YES)
+    {
+    scroll_x = scroll_x - ( 160 - tux_x);
+    tux_x = 160;
+    
+    if(scroll_x < 0)
+     scroll_x = 0;
+   
+    }
+    else if (tux_x > 320 && scroll_x < ((level_width * 32) - 640))
     {
       /* Scroll the screen in past center: */
 

@@ -233,7 +233,7 @@ int drawmenu(void)
                 use_fullscreen = 0;
               else
                 use_fullscreen = 1;
-              st_setup();
+              st_video_setup();
               menu_change = YES;
             }
         }

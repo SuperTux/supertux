@@ -38,7 +38,11 @@ int main(int argc, char * argv[])
   
   parseargs(argc, argv);
   
-  st_setup();
+  st_directory_setup();
+  st_audio_setup();
+  st_video_setup();
+  st_joystick_setup();
+  st_general_setup();
   
   done = intro();
   

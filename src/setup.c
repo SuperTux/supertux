@@ -39,7 +39,7 @@ void usage(char * prog, int ret);
 
 /* --- SETUP --- */
 
-void st_setup(void)
+void st_directory_setup(void)
 {
 
   /* Set SuperTux configuration and save directories */
@@ -65,11 +65,39 @@ void st_setup(void)
   /* Create them. In the case they exist it won't destroy anything. */
   mkdir(st_dir, 0755);
   mkdir(st_save_dir, 0755);
+}
 
+void st_general_setup(void)
+{
   /* Seed random number generator: */
 
   srand(SDL_GetTicks());
+  
+  /* Load global images: */
 
+  letters_black = load_image(DATA_PREFIX "/images/status/letters-black.png",
+                             USE_ALPHA);
+
+  letters_gold = load_image(DATA_PREFIX "/images/status/letters-gold.png",
+                            USE_ALPHA);/*
+  if (tux_x < 0)
+    tux_x = 0;*/
+
+  letters_blue = load_image(DATA_PREFIX "/images/status/letters-blue.png",
+                            USE_ALPHA);
+
+  letters_red = load_image(DATA_PREFIX "/images/status/letters-red.png",
+                           USE_ALPHA);
+
+
+  /* Set icon image: */
+
+  seticon();
+
+}
+
+void st_video_setup(void)
+{
 
   /* Init SDL Video: */
 
@@ -82,6 +110,44 @@ void st_setup(void)
       exit(1);
     }
 
+  /* Open display: */
+
+  if (use_fullscreen == YES)
+    {
+      screen = SDL_SetVideoMode(640, 480, 16, SDL_FULLSCREEN ) ; /* | SDL_HWSURFACE); */
+      if (screen == NULL)
+        {
+          fprintf(stderr,
+                  "\nWarning: I could not set up fullscreen video for "
+                  "640x480 mode.\n"
+                  "The Simple DirectMedia error that occured was:\n"
+                  "%s\n\n", SDL_GetError());
+          use_fullscreen = NO;
+        }
+    }
+
+  if (use_fullscreen == NO)
+    {
+      screen = SDL_SetVideoMode(640, 480, 16, SDL_HWSURFACE | SDL_DOUBLEBUF);
+
+      if (screen == NULL)
+        {
+          fprintf(stderr,
+                  "\nError: I could not set up video for 640x480 mode.\n"
+                  "The Simple DirectMedia error that occured was:\n"
+                  "%s\n\n", SDL_GetError());
+          exit(1);
+        }
+    }
+
+  /* Set window manager stuff: */
+
+  SDL_WM_SetCaption("Super Tux", "Super Tux");
+    
+}
+
+void st_joystick_setup(void)
+{
 
   /* Init Joystick: */
 
@@ -145,8 +211,10 @@ void st_setup(void)
     }
 #endif
 
+}
 
-
+void st_audio_setup(void)
+{
 
   /* Init SDL Audio silently even if --disable-sound : */
 
@@ -198,61 +266,6 @@ void st_setup(void)
         }
     }
 
-
-  /* Open display: */
-
-  if (use_fullscreen == YES)
-    {
-      screen = SDL_SetVideoMode(640, 480, 16, SDL_FULLSCREEN ) ; /* | SDL_HWSURFACE); */
-      if (screen == NULL)
-        {
-          fprintf(stderr,
-                  "\nWarning: I could not set up fullscreen video for "
-                  "640x480 mode.\n"
-                  "The Simple DirectMedia error that occured was:\n"
-                  "%s\n\n", SDL_GetError());
-          use_fullscreen = NO;
-        }
-    }
-
-  if (use_fullscreen == NO)
-    {
-      screen = SDL_SetVideoMode(640, 480, 16, SDL_HWSURFACE | SDL_DOUBLEBUF);
-
-      if (screen == NULL)
-        {
-          fprintf(stderr,
-                  "\nError: I could not set up video for 640x480 mode.\n"
-                  "The Simple DirectMedia error that occured was:\n"
-                  "%s\n\n", SDL_GetError());
-          exit(1);
-        }
-    }
-
-
-  /* Load global images: */
-
-  letters_black = load_image(DATA_PREFIX "/images/status/letters-black.png",
-                             USE_ALPHA);
-
-  letters_gold = load_image(DATA_PREFIX "/images/status/letters-gold.png",
-                            USE_ALPHA);
-
-  letters_blue = load_image(DATA_PREFIX "/images/status/letters-blue.png",
-                            USE_ALPHA);
-
-  letters_red = load_image(DATA_PREFIX "/images/status/letters-red.png",
-                           USE_ALPHA);
-
-
-  /* Set icon image: */
-
-  seticon();
-
-
-  /* Set window manager stuff: */
-
-  SDL_WM_SetCaption("Super Tux", "Super Tux");
 }
 
 
@@ -324,6 +337,7 @@ void parseargs(int argc, char * argv[])
 
   /* Set defaults: */
 
+  debug_mode = NO;
   use_fullscreen = NO;
 #ifndef NOSOUND
 
@@ -384,6 +398,12 @@ void parseargs(int argc, char * argv[])
 #endif
 
         }
+      else if (strcmp(argv[i], "--debug-mode") == 0)
+        {
+          /* Enable the debug-mode */
+	debug_mode = YES;
+
+        }
       else if (strcmp(argv[i], "--help") == 0)
         { 	  /* Show help: */
 
@@ -397,6 +417,8 @@ void parseargs(int argc, char * argv[])
 
           printf("  --fullscreen        - Run in fullscreen mode.\n\n");
 
+          printf("  --debug-mode        - Enables the debug-mode, which is useful for developers.\n\n");
+	  
           printf("  --help              - Display a help message summarizing command-line\n                        options, license and game controls.\n\n");
 
           printf("  --usage             - Display a brief message summarizing command-line options.\n\n");
@@ -442,7 +464,7 @@ void usage(char * prog, int ret)
 
   /* Display the usage message: */
 
-  fprintf(fi, "Usage: %s [--fullscreen] [--disable-sound] [--disable-music] | [--usage | --help | --version]\n",
+  fprintf(fi, "Usage: %s [--fullscreen] [--disable-sound] [--disable-music] [--debug-mode] | [--usage | --help | --version]\n",
            prog);
 
 
