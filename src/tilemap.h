@@ -48,6 +48,7 @@ class TileMap : public GameObject, public Serializable
 public:
   TileMap();
   TileMap(LispReader& reader);
+  TileMap(int layer_, bool solid_, size_t width_, size_t height_);
   virtual ~TileMap();
 
   virtual void write(LispWriter& writer);

@@ -40,6 +40,7 @@ class Door : public InteractiveObject, public Serializable
 {
 public:
   Door(LispReader& reader);
+  Door(int x, int y);
   virtual ~Door();
 
   virtual void write(LispWriter& writer);

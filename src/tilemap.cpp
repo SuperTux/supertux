@@ -83,6 +83,11 @@ TileMap::TileMap(LispReader& reader)
     throw std::runtime_error("wrong number of tiles in tilemap.");
 }
 
+TileMap::TileMap(int layer_, bool solid_, size_t width_, size_t height_)
+  : solid(solid_), speed(1), width(width_), height(height_), layer(layer_)
+{
+}
+
 TileMap::~TileMap()
 {
 }

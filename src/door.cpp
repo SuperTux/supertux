@@ -47,6 +47,19 @@ Door::Door(LispReader& reader)
   animation_timer.init(true);
 }
 
+Door::Door(int x, int y)
+{
+area.x = x;
+area.y = y;
+area.width = 32;
+area.height = 64;
+
+animation_timer.init(true);
+door_activated = false;
+
+animation_timer.init(true);
+}
+
 void
 Door::write(LispWriter& writer)
 {

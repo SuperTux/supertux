@@ -91,7 +91,7 @@ bool confirm_dialog(Surface *background, std::string text)
     }
 
     if(background == NULL)
-      context.draw_gradient(Color(200, 100, 200), Color(100, 200, 100), LAYER_BACKGROUND0);
+      context.draw_gradient(Color(200,240,220), Color(200,200,220), LAYER_BACKGROUND0);
     else
       context.draw_surface(background, Vector(0,0), LAYER_BACKGROUND0);
 
@@ -238,9 +238,9 @@ std::string MenuItem::get_input_with_symbol(bool active_item)
 
   char str[1024];
   if(input_flickering)
-    sprintf(str,"%s_",input);
-  else
     sprintf(str,"%s ",input);
+  else
+    sprintf(str,"%s_",input);
 
   std::string string = str;
 
