@@ -1479,12 +1479,19 @@ void le_checkevents()
             int i = 0;
             bool object_got_hit = false;
             base_type cursor_base;
+	    if(le_current.IsTile())
+	    {
             cursor_base.x = cursor_x;
             cursor_base.y = cursor_y;
+	    }
+	    else if(le_current.IsObject())
+	    {
+            cursor_base.x = cursor_x + pos_x;
+            cursor_base.y = cursor_y + pos_x;	    
+	    }
             cursor_base.width = 32;
             cursor_base.height = 32;
 
-            /* if there is a bad guy over there, remove it */
             for(std::list<BadGuy*>::iterator it = le_world->bad_guys.begin(); it != le_world->bad_guys.end(); ++it, ++i)
               if(rectcollision(cursor_base,(*it)->base))
               {
@@ -1519,6 +1526,7 @@ void le_checkevents()
               }
             }
           }
+	  
           le_mouse_clicked[LEFT] = false;
 
         }
