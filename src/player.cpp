@@ -822,6 +822,7 @@ Player::collision(void* p_c_object, int c_object)
       pplatform_c = (FlyingPlatform*) p_c_object;
       
       base.y = pplatform_c->base.y - base.height;
+      physic.enable_gravity(false);
       break;
 
     default:
