@@ -960,7 +960,7 @@ WorldMap::display()
   unsigned int last_update_time;
   unsigned int update_time;
 
-  last_update_time = update_time = st_get_ticks();
+  last_update_time = update_time = Ticks::get();
 
   DrawingContext context;
   while(!quit)
@@ -973,7 +973,7 @@ WorldMap::display()
         delta = .3f;
       
       last_update_time = update_time;
-      update_time      = st_get_ticks();
+      update_time      = Ticks::get();
 
       Vector tux_pos = tux->get_pos();
       if (1)

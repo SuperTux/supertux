@@ -262,7 +262,7 @@ void title(void)
 
   walking = true;
 
-  st_pause_ticks_init();
+  Ticks::pause_init();
 
   titlesession = new GameSession(datadir + "/levels/misc/menu.stl", ST_GL_DEMO_GAME);
 
@@ -280,7 +280,7 @@ void title(void)
   /* --- Main title loop: --- */
   frame = 0;
 
-  update_time = st_get_ticks();
+  update_time = Ticks::get();
   random_timer.start(rand() % 2000 + 2000);
 
   Menu::set_current(main_menu);
@@ -289,7 +289,7 @@ void title(void)
     {
       // if we spent to much time on a menu entry
       if( (update_time - last_update_time) > 1000)
-        update_time = last_update_time = st_get_ticks();
+        update_time = last_update_time = Ticks::get();
 
       // Calculate the movement-factor
       double frame_ratio = ((double)(update_time-last_update_time))/((double)FRAME_RATE);
@@ -349,7 +349,7 @@ void title(void)
                   leveleditor->run();
                   delete leveleditor;
                   Menu::set_current(main_menu);
-                  update_time = st_get_ticks();
+                  update_time = Ticks::get();
                   break;
                 case MNID_CREDITS:
                   display_text_file("CREDITS", SCROLL_SPEED_CREDITS, white_big_text , white_text, white_small_text, blue_text );
@@ -381,7 +381,7 @@ void title(void)
 
                 update_load_save_game_menu(load_game_menu);
                 Menu::set_current(main_menu);
-                update_time = st_get_ticks();
+                update_time = Ticks::get();
                 }
               else if (process_load_game_menu())
                 {
@@ -389,7 +389,7 @@ void title(void)
                   titlesession->get_current_sector()->activate();
                   titlesession->set_current();
                   //titletux.level_begin();
-                  update_time = st_get_ticks();
+                  update_time = Ticks::get();
                 }
             }
           else if(menu == contrib_menu)
@@ -408,7 +408,7 @@ void title(void)
 
       /* Set the time of the last update and the time of the current update */
       last_update_time = update_time;
-      update_time = st_get_ticks();
+      update_time = Ticks::get();
 
       /* Pause: */
       frame++;

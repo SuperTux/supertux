@@ -24,22 +24,29 @@
 namespace SuperTux
   {
 
-  extern unsigned int st_pause_ticks, st_pause_count;
+  class Ticks
+    {
+    public:
+      /// Time a game is running. (Non-pause mode, etc.)
+      static unsigned int get(void);
 
-  /// Time a game is running. (Non-pause mode, etc.)
-  unsigned int st_get_ticks(void);
+      static void pause_init(void);
+      static void pause_start(void);
+      static void pause_stop(void);
+      static bool pause_started(void);
 
-  void st_pause_ticks_init(void);
-  void st_pause_ticks_start(void);
-  void st_pause_ticks_stop(void);
-  bool st_pause_ticks_started(void);
+    private:
+      static unsigned int pause_ticks;
+      static unsigned int pause_count;
+
+    };
 
   /// Timer
   /** This class can be used as stop watch
       for example. It's also possible to calculate
       frames per seconds and things like that with it.
       It's a general timing class, but it
-      can esspecially be used together with st_get_ticks(). */
+      can esspecially be used together with Ticks::get(). */
   class Timer
     {
     public:
@@ -51,8 +58,8 @@ namespace SuperTux
       Timer();
 
       /// Initialize the timer.
-      /** @param st_ticks: If true internally st_get_ticks() is used, else SDL_GetTicks() is used. */
-      void init(bool st_ticks);
+      /** @param st_ticks: If true internally Ticks::get() is used, else SDL_GetTicks() is used. */
+      void init(bool game_ticks);
 
       /// Start the timer with the given period (in ms).
       void start(unsigned int period);

@@ -189,8 +189,8 @@ void
 GameSession::start_timers()
 {
   time_left.start(level->time_left*1000);
-  st_pause_ticks_init();
-  update_time = st_get_ticks();
+  Ticks::pause_init();
+  update_time = Ticks::get();
 }
 
 void
@@ -219,7 +219,7 @@ GameSession::on_escape_press()
       tux.key_event((SDLKey)keymap.fire, UP);
 
       Menu::set_current(game_menu);
-      st_pause_ticks_start();
+      Ticks::pause_start();
     }
 }
 
@@ -250,7 +250,7 @@ GameSession::process_events()
             {
               Menu::current()->event(event);
 	      if(!Menu::current())
-	      st_pause_ticks_stop();
+	      Ticks::pause_stop();
             }
 
           switch(event.type)
@@ -283,7 +283,7 @@ GameSession::process_events()
   else // normal mode
     {
       if(!Menu::current() && !game_pause)
-        st_pause_ticks_stop();
+        Ticks::pause_stop();
 
       SDL_Event event;
       while (SDL_PollEvent(&event))
@@ -293,7 +293,7 @@ GameSession::process_events()
             {
               Menu::current()->event(event);
               if(!Menu::current())
-                st_pause_ticks_stop();
+                Ticks::pause_stop();
             }
           else
             {
@@ -350,12 +350,12 @@ GameSession::process_events()
                             if(game_pause)
                               {
                                 game_pause = false;
-                                st_pause_ticks_stop();
+                                Ticks::pause_stop();
                               }
                             else
                               {
                                 game_pause = true;
-                                st_pause_ticks_start();
+                                Ticks::pause_start();
                               }
                           }
                         break;
@@ -573,10 +573,10 @@ GameSession::process_menu()
           switch (game_menu->check())
             {
             case MNID_CONTINUE:
-              st_pause_ticks_stop();
+              Ticks::pause_stop();
               break;
             case MNID_ABORTLEVEL:
-              st_pause_ticks_stop();
+              Ticks::pause_stop();
               exit_status = ES_LEVEL_ABORT;
               break;
             }
@@ -600,7 +600,7 @@ GameSession::run()
   
   int fps_cnt = 0;
 
-  update_time = last_update_time = st_get_ticks();
+  update_time = last_update_time = Ticks::get();
 
   // Eat unneeded events
   SDL_Event event;
@@ -654,7 +654,7 @@ GameSession::run()
 
       /* Set the time of the last update and the time of the current update */
       last_update_time = update_time;
-      update_time      = st_get_ticks();
+      update_time      = Ticks::get();
 
       /* Pause till next frame, if the machine running the game is too fast: */
       /* FIXME: Works great for in OpenGl mode, where the CPU doesn't have to do that much. But
@@ -662,7 +662,7 @@ GameSession::run()
       if(last_update_time >= update_time - 12) 
         {
           SDL_Delay(10);
-          update_time = st_get_ticks();
+          update_time = Ticks::get();
         }
 
       /* Handle time: */
@@ -866,7 +866,7 @@ bool process_load_game_menu()
 
       Menu::set_current(main_menu);
 
-      st_pause_ticks_stop();
+      Ticks::pause_stop();
       return true;
     }
   else

@@ -23,40 +23,40 @@
 
 using namespace SuperTux;
 
-unsigned int SuperTux::st_pause_ticks, SuperTux::st_pause_count;
+unsigned int Ticks::pause_ticks, Ticks::pause_count;
 
-unsigned int SuperTux::st_get_ticks(void)
+unsigned int Ticks::get(void)
 {
-  if(st_pause_count != 0)
-    return /*SDL_GetTicks()*/ - st_pause_ticks /*- SDL_GetTicks()*/ + st_pause_count;
+  if(pause_count != 0)
+    return /*SDL_GetTicks()*/ - pause_ticks /*- SDL_GetTicks()*/ + pause_count;
   else
-    return SDL_GetTicks() - st_pause_ticks;
+    return SDL_GetTicks() - pause_ticks;
 }
 
-void SuperTux::st_pause_ticks_init(void)
+void Ticks::pause_init(void)
 {
-  st_pause_ticks = 0;
-  st_pause_count = 0;
+  pause_ticks = 0;
+  pause_count = 0;
 }
 
-void SuperTux::st_pause_ticks_start(void)
+void Ticks::pause_start(void)
 {
-  if(st_pause_count == 0)
-    st_pause_count = SDL_GetTicks();
+  if(pause_count == 0)
+    pause_count = SDL_GetTicks();
 }
 
-void SuperTux::st_pause_ticks_stop(void)
+void Ticks::pause_stop(void)
 {
-if(st_pause_count == 0)
+if(pause_count == 0)
 return;
 
-  st_pause_ticks += SDL_GetTicks() - st_pause_count;
-  st_pause_count = 0;
+  pause_ticks += SDL_GetTicks() - pause_count;
+  pause_count = 0;
 }
 
-bool SuperTux::st_pause_ticks_started(void)
+bool Ticks::pause_started(void)
 {
-if(st_pause_count == 0)
+if(pause_count == 0)
 return false;
 else
 return true;
@@ -68,11 +68,11 @@ Timer::Timer()
 }
 
 void
-Timer::init(bool st_ticks)
+Timer::init(bool game_ticks)
 {
   period    = 0;
   time      = 0;
-  get_ticks = st_ticks ? st_get_ticks : SDL_GetTicks;
+  get_ticks = game_ticks ? Ticks::get : SDL_GetTicks;
 }
 
 void
@@ -85,7 +85,7 @@ Timer::start(unsigned int period_)
 void
 Timer::stop()
 {
-  if(get_ticks == st_get_ticks)
+  if(get_ticks == get_ticks)
     init(true);
   else
     init(false);
@@ -136,7 +136,7 @@ Timer::fwrite(FILE* fi)
 
   ::fwrite(&period,sizeof(unsigned int),1,fi);
   ::fwrite(&diff_ticks,sizeof(unsigned int),1,fi);
-  if(get_ticks == st_get_ticks)
+  if(get_ticks == get_ticks)
       tick_mode = true;
   else
       tick_mode = false;
@@ -154,7 +154,7 @@ Timer::fread(FILE* fi)
   ::fread(&tick_mode,sizeof(unsigned int),1,fi);
 
   if (tick_mode)
-    get_ticks = st_get_ticks;
+    get_ticks = get_ticks;
   else
     get_ticks = SDL_GetTicks;
 
