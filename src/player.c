@@ -490,28 +490,30 @@ void player_input(player_type *pplayer)
 {
   /* Handle key and joystick state: */
 
-
-  if (pplayer->input.right == DOWN && pplayer->input.left == UP)
+  if(pplayer->duck == NO)
     {
-      player_handle_horizontal_input(pplayer,RIGHT);
-    }
-  else if (pplayer->input.left == DOWN && pplayer->input.right == UP)
-    {
-      player_handle_horizontal_input(pplayer,LEFT);
-    }
-  else
-    {
-      if(pplayer->base.xm > 0)
+      if (pplayer->input.right == DOWN && pplayer->input.left == UP)
         {
-          pplayer->base.xm = (int)(pplayer->base.xm - frame_ratio);
-          if(pplayer->base.xm < 0)
-            pplayer->base.xm = 0;
+          player_handle_horizontal_input(pplayer,RIGHT);
         }
-      else if(pplayer->base.xm < 0)
+      else if (pplayer->input.left == DOWN && pplayer->input.right == UP)
         {
-          pplayer->base.xm = (int)(pplayer->base.xm + frame_ratio);
+          player_handle_horizontal_input(pplayer,LEFT);
+        }
+      else
+        {
           if(pplayer->base.xm > 0)
-            pplayer->base.xm = 0;
+            {
+              pplayer->base.xm = (int)(pplayer->base.xm - frame_ratio);
+              if(pplayer->base.xm < 0)
+                pplayer->base.xm = 0;
+            }
+          else if(pplayer->base.xm < 0)
+            {
+              pplayer->base.xm = (int)(pplayer->base.xm + frame_ratio);
+              if(pplayer->base.xm > 0)
+                pplayer->base.xm = 0;
+            }
         }
     }
 
@@ -864,10 +866,10 @@ void player_collision(player_type* pplayer, void* p_c_object, int c_object)
               else
                 {
                   pbad_c->dir = LEFT;
-                  pbad_c->base.x = pbad_c->base.x - 32;	  
+                  pbad_c->base.x = pbad_c->base.x - 32;
                 }
-             
-	     timer_start(&pbad_c->timer,5000);
+
+              timer_start(&pbad_c->timer,5000);
             }
           else if (pbad_c->mode == FLAT && pplayer->input.fire == DOWN)
             {
