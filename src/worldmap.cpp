@@ -233,6 +233,30 @@ WorldMap::get_input()
     input_direction = SOUTH;
 }
 
+Point
+WorldMap::get_next_tile(Point pos, Direction direction)
+{
+  // FIXME: Cleanup, seperate tux
+  switch(input_direction)
+    {
+    case WEST:
+      pos.x -= 1;
+      break;
+    case EAST:
+      pos.x += 1;
+      break;
+    case NORTH:
+      pos.y -= 1;
+      break;
+    case SOUTH:
+      pos.y += 1;
+      break;
+    case NONE:
+      break;
+    }
+  return pos;
+}
+
 void
 WorldMap::update()
 {
@@ -248,57 +272,67 @@ WorldMap::update()
               std::cout << "Enter the current level: " << i->name << std::endl;;
               halt_music();
               gameloop(const_cast<char*>((DATA_PREFIX "levels/default/" + i->name).c_str()),
-                                         1, ST_GL_LOAD_LEVEL_FILE);
+                       1, ST_GL_LOAD_LEVEL_FILE);
               play_music(song, 1);
               break;
             }
         }
-      
     }
   else
     {
       if (!tux_moving)
         {
-          // FIXME: Cleanup, seperate tux
-          switch(input_direction)
+          Point next_tile = get_next_tile(tux_tile_pos, input_direction);
+          if (next_tile.x >= 0 && next_tile.x < width
+              && next_tile.y >= 0 && next_tile.y < height)
             {
-            case WEST:
-              if (at(tux_tile_pos)->west)
+              // FIXME: Cleanup, seperate tux
+              switch(input_direction)
                 {
-                  tux_tile_pos.x -= 1;
-                  tux_moving = true;
+                case WEST:
+                  if (at(tux_tile_pos)->west && at(next_tile)->east)
+                    {
+                      tux_tile_pos.x -= 1;
+                      tux_moving = true;
+                      tux_direction = input_direction;
+                    }
+                  break;
+                case EAST:
+                  if (at(tux_tile_pos)->east && at(next_tile)->west)
+                    {
+                      tux_tile_pos.x += 1;
+                      tux_moving = true;
+                      tux_direction = input_direction;
+                    }
+                  break;
+                case NORTH:
+                  if (at(tux_tile_pos)->north && at(next_tile)->south)
+                    {
+                      tux_tile_pos.y -= 1;
+                      tux_moving = true;
+                      tux_direction = input_direction;
+                    }
+                  break;
+                case SOUTH:
+                  if (at(tux_tile_pos)->south && at(next_tile)->north)
+                    {
+                      tux_tile_pos.y += 1;
+                      tux_moving = true;
+                      tux_direction = input_direction;
+                    }
+                  break;
+                case NONE:
+                  tux_moving = false;
+                  tux_offset = 0;
                   tux_direction = input_direction;
+                  break;
                 }
-              break;
-            case EAST:
-              if (at(tux_tile_pos)->east)
-                {
-                  tux_tile_pos.x += 1;
-                  tux_moving = true;
-                  tux_direction = input_direction;
-                }
-              break;
-            case NORTH:
-              if (at(tux_tile_pos)->north)
-                {
-                  tux_tile_pos.y -= 1;
-                  tux_moving = true;
-                  tux_direction = input_direction;
-                }
-              break;
-            case SOUTH:
-              if (at(tux_tile_pos)->south)
-                {
-                  tux_tile_pos.y += 1;
-                  tux_moving = true;
-                  tux_direction = input_direction;
-                }
-              break;
-            case NONE:
+            }
+          else
+            {
               tux_moving = false;
               tux_offset = 0;
-              tux_direction = input_direction;
-              break;
+              tux_direction = NONE;
             }
         }
       else

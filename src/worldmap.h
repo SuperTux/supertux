@@ -110,6 +110,7 @@ private:
   bool enter_level;
 
   Tile* at(Point pos);
+  Point get_next_tile(Point pos, Direction direction);
 public:
   WorldMap();
   ~WorldMap();
