@@ -359,16 +359,13 @@ void st_menu(void)
   game_menu      = new Menu();
   highscore_menu = new Menu();
 
-  main_menu->set_pos(screen->w/2, 350);
-  main_menu->additem(MN_LABEL,"Main Menu",0,0);
-  main_menu->additem(MN_HL,"",0,0);
+  main_menu->set_pos(screen->w/2, 335);
   main_menu->additem(MN_ACTION,"Start Game",0,0);
   main_menu->additem(MN_GOTO,"Load Game",0,load_game_menu);
   main_menu->additem(MN_GOTO,"Options",0,options_menu);
   main_menu->additem(MN_ACTION,"Level editor",0,0);
   main_menu->additem(MN_ACTION,"Credits",0,0);
   main_menu->additem(MN_ACTION,"Quit",0,0);
-  main_menu->additem(MN_HL,"",0,0);
 
   options_menu->additem(MN_LABEL,"Options",0,0);
   options_menu->additem(MN_HL,"",0,0);

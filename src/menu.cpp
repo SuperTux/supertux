@@ -293,7 +293,6 @@ Menu::action()
     }
 }
 
-/* Check, if the value of the active menu item has changed. */
 int
 Menu::check()
 {

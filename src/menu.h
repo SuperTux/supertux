@@ -79,6 +79,8 @@ public:
   void additem(menu_item_type* pmenu_item);
   void additem(MenuItemKind kind, char *text, int init_toggle, Menu* target_menu);
   void action ();
+
+  /** Check, if the value of the active menu item has changed. */
   int  check  ();
   void draw   ();
   void draw_item(int index, int menu_width, int menu_height);

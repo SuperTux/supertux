@@ -245,7 +245,7 @@ int title(void)
         {
           switch (main_menu->check())
             {
-            case 2:
+            case 0:
               done = 0;
               i = 0;
               if(level_subsets.num_items != 0)
@@ -322,17 +322,17 @@ int title(void)
               titletux.level_begin();
               update_time = st_get_ticks();
               break;
-            case 3:
+            case 1:
               update_load_save_game_menu(load_game_menu, true);
               break;
-            case 5:
+            case 3:
               done = 1;
               quit = leveleditor(1);
               break;
-            case 6:
+            case 4:
               display_credits();
               break;
-            case 7:
+            case 5:
               quit = 1;
               break;
             }
