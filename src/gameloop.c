@@ -1457,7 +1457,7 @@ void trybreakbrick(float x, float y)
         {
           /* Get a distro from it: */
 
-          add_bouncy_distro(((x + 1) / 32) * 32,
+          add_bouncy_distro(((int)(x + 1) / 32) * 32,
                             (int)(y / 32) * 32);
 
           if (counting_distros == NO)
@@ -1519,7 +1519,7 @@ void tryemptybox(float x, float y)
 
           /* Box with a distro! */
 
-          add_bouncy_distro(((x + 1) / 32) * 32,
+          add_bouncy_distro(((int)(x + 1) / 32) * 32,
                             (int)(y / 32) * 32 - 32);
 
           play_sound(sounds[SND_DISTRO], SOUND_CENTER_SPEAKER);
@@ -1576,7 +1576,7 @@ void trygrabdistro(float x, float y, int bounciness)
 
       if (bounciness == BOUNCE)
         {
-          add_bouncy_distro(((x + 1) / 32) * 32,
+          add_bouncy_distro(((int)(x + 1) / 32) * 32,
                             (int)(y / 32) * 32);
         }
 

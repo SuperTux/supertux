@@ -25,7 +25,7 @@ void bouncy_distro_init(bouncy_distro_type* pbouncy_distro, float x, float y)
   pbouncy_distro->base.alive = YES;
   pbouncy_distro->base.x = x;
   pbouncy_distro->base.y = y;
-  pbouncy_distro->base.ym = -6;
+  pbouncy_distro->base.ym = -2;
 }
 
 void bouncy_distro_action(bouncy_distro_type* pbouncy_distro)
@@ -34,7 +34,7 @@ void bouncy_distro_action(bouncy_distro_type* pbouncy_distro)
     {
       pbouncy_distro->base.y = pbouncy_distro->base.y + pbouncy_distro->base.ym * frame_ratio;
 
-      pbouncy_distro->base.ym += 1. * frame_ratio;
+      pbouncy_distro->base.ym += 0.1 * frame_ratio;
 
       if (pbouncy_distro->base.ym >= 0)
         pbouncy_distro->base.alive = NO;

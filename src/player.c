@@ -211,10 +211,10 @@ void player_action(player_type* pplayer)
       if (shape(pplayer->base.x, pplayer->base.y - 1) == 'x' ||
           shape(pplayer->base.x, pplayer->base.y - 1) == 'y')
         {
-          add_bouncy_distro(((pplayer->base.x+ 1)
+          add_bouncy_distro((((int)pplayer->base.x)
                              / 32) * 32,
-                            (int)(pplayer->base.y - 1 / 32) * 32);
-
+                            ((int)pplayer->base.y - 1 / 32) * 32);
+DEBUG_MSG("should work");
           if (counting_distros == NO)
             {
               counting_distros = YES;
@@ -231,10 +231,10 @@ void player_action(player_type* pplayer)
       else if (shape(pplayer->base.x+ 31, pplayer->base.y - 1) == 'x' ||
                shape(pplayer->base.x+ 31, pplayer->base.y - 1) == 'y')
         {
-          add_bouncy_distro(((pplayer->base.x+ 1 + 31)
+          add_bouncy_distro((((int)pplayer->base.x + 31)
                              / 32) * 32,
-                            (int)(pplayer->base.y - 1 / 32) * 32);
-
+                            ((int)pplayer->base.y - 1 / 32) * 32);
+DEBUG_MSG("+31?");
           if (counting_distros == NO)
             {
               counting_distros = YES;
@@ -862,12 +862,12 @@ void player_input(player_type *pplayer)
     {
       player_handle_horizontal_input(pplayer,LEFT);
     }
-    else
+  else
     {
-    if(pplayer->base.xm > 0)
-    pplayer->base.xm = (int)(pplayer->base.xm - frame_ratio);
-    else if(pplayer->base.xm < 0)
-    pplayer->base.xm = (int)(pplayer->base.xm + frame_ratio);
+      if(pplayer->base.xm > 0)
+        pplayer->base.xm = (int)(pplayer->base.xm - frame_ratio);
+      else if(pplayer->base.xm < 0)
+        pplayer->base.xm = (int)(pplayer->base.xm + frame_ratio);
     }
 
   /* Jump/jumping? */
@@ -934,11 +934,15 @@ void player_grabdistros(player_type *pplayer)
       trygrabdistro(pplayer->base.x, pplayer->base.y, NO_BOUNCE);
       trygrabdistro(pplayer->base.x+ 31, pplayer->base.y, NO_BOUNCE);
 
-      if (pplayer->size == BIG && !pplayer->duck)
+      trygrabdistro(pplayer->base.x, pplayer->base.y + pplayer->base.height, NO_BOUNCE);
+      trygrabdistro(pplayer->base.x+ 31, pplayer->base.y + pplayer->base.height, NO_BOUNCE);
+
+      if(pplayer->size == BIG)
         {
-          trygrabdistro(pplayer->base.x, pplayer->base.y - 32, NO_BOUNCE);
-          trygrabdistro(pplayer->base.x+ 31, pplayer->base.y - 32, NO_BOUNCE);
+          trygrabdistro(pplayer->base.x, pplayer->base.y + pplayer->base.height / 2, NO_BOUNCE);
+          trygrabdistro(pplayer->base.x+ 31, pplayer->base.y + pplayer->base.height / 2, NO_BOUNCE);
         }
+
     }
 
 

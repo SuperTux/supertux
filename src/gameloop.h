@@ -44,13 +44,6 @@ void trygrabdistro(float x, float y, int bounciness);
 void trybreakbrick(float x, float y);
 void tryemptybox(float x, float y);
 void trybumpbadguy(float x, float y);
-void add_bouncy_distro(float x, float y);
-void add_broken_brick(float x, float y);
-void add_broken_brick_piece(float x, float y, float xm, float ym);
-void add_bouncy_brick(float x, float y);
-void add_bad_guy(float x, float y, int kind);
-void add_upgrade(float x, float y, int kind);
-void add_bullet(float x, float y, float xm, int dir);
 
 #endif /*SUPERTUX_GAMELOOP_H*/
 
