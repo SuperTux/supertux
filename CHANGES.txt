@@ -1,11 +1,15 @@
 CHANGES.txt for Super Tux
 
-by Bill Kendrick
+by Bill Kendrick & Tobias Glaesser
 bill@newbreedsoftware.com
 http://www.newbreedsoftware.com/supertux/
 
 0.0.5 - December 19th, 2003 - ???
 ---------------------------
+  * Fixed FIXME (tux doesn't die anymore, when he reaches the end of a level).
+    And added a result-screen. (Nothing spectacular ;) )
+    Tobias Glaesser <tobi.web@gmx.de>
+
   * Fixed FIXME (sound when 100 distros are reached).
     And set the maximum lives to 4.
     Tobias Glaesser <tobi.web@gmx.de>
