@@ -418,13 +418,13 @@ Sprite *img_smoke_cloud;
 SmokeCloud::SmokeCloud(const Vector& pos)
   : position(pos)
 {
-  timer.start(250);
+  timer.start(300);
 }
 
 void
 SmokeCloud::action(float elapsed_time)
 {
-  position.y -= 2 * elapsed_time;
+  position.y -= 1.2 * elapsed_time;
 
   if(!timer.check())
     remove_me();
