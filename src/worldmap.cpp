@@ -596,13 +596,43 @@ WorldMap::update()
               switch (session.run())
                 {
                 case GameSession::LEVEL_FINISHED:
-                  level->solved = true;
-                  if (session.get_world()->get_tux()->got_coffee)
-                    player_status.bonus = PlayerStatus::FLOWER_BONUS;
-                  else if (session.get_world()->get_tux()->size == BIG)
-                    player_status.bonus = PlayerStatus::GROWUP_BONUS;
-                  else
-                    player_status.bonus = PlayerStatus::NO_BONUS;
+                  {
+                    bool old_level_state = level->solved;
+                    level->solved = true;
+
+                    if (session.get_world()->get_tux()->got_coffee)
+                      player_status.bonus = PlayerStatus::FLOWER_BONUS;
+                    else if (session.get_world()->get_tux()->size == BIG)
+                      player_status.bonus = PlayerStatus::GROWUP_BONUS;
+                    else
+                      player_status.bonus = PlayerStatus::NO_BONUS;
+
+                    if (old_level_state != level->solved)
+                      { // Try to detect the next direction to which we should walk
+                        // FIXME: Mostly a hack
+                        Direction dir = NONE;
+                    
+                        Tile* tile = at(tux->get_tile_pos());
+
+                        if (tile->north && tux->back_direction != NORTH)
+                          dir = NORTH;
+                        else if (tile->south && tux->back_direction != SOUTH)
+                          dir = SOUTH;
+                        else if (tile->east && tux->back_direction != EAST)
+                          dir = EAST;
+                        else if (tile->west && tux->back_direction != WEST)
+                          dir = WEST;
+
+                        if (dir != NONE)
+                          {
+                            tux->set_direction(dir);
+                            tux->update(0.33f);
+                          }
+
+                        std::cout << "Walk to dir: " << dir << std::endl;
+                      }
+                  }
+
                   break;
                 case GameSession::LEVEL_ABORT:
                   // Reseting the player_status might be a worthy

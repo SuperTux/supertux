@@ -209,6 +209,43 @@ GameSession::process_events()
         tux.input.up    = UP; 
 
       last_x_pos = tux.base.x;
+
+      SDL_Event event;
+      while (SDL_PollEvent(&event))
+        {
+          /* Check for menu-events, if the menu is shown */
+          if (Menu::current())
+            {
+              Menu::current()->event(event);
+              st_pause_ticks_start();
+            }
+
+          switch(event.type)
+            {
+            case SDL_QUIT:        /* Quit event - quit: */
+              st_abort("Received window close", "");
+              break;
+              
+            case SDL_KEYDOWN:     /* A keypress! */
+              {
+                SDLKey key = event.key.keysym.sym;
+           
+                switch(key)
+                  {
+                  case SDLK_ESCAPE:    /* Escape: Open/Close the menu: */
+                    on_escape_press();
+                    break;
+                  default:
+                    break;
+                  }
+              }
+          
+            case SDL_JOYBUTTONDOWN:
+              if (event.jbutton.button == joystick_keymap.start_button)
+                on_escape_press();
+              break;
+            }
+        }
     }
   else
     {
