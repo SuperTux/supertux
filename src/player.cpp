@@ -218,7 +218,8 @@ Player::action(double frame_ratio)
 
           physic.enable_gravity(false);
           /* Reset score multiplier (for multi-hits): */
-          player_status.score_multiplier = 1;
+          if (!invincible_timer.started())
+            player_status.score_multiplier = 1;
         }
 
       if(jumped_in_solid)
@@ -412,12 +413,11 @@ Player::handle_vertical_input()
     butt_jump = false;
   if (input.down == DOWN && butt_jump && on_ground())
   {
-    // FIXME: Currently only breaks the block if his middle is on top of it
-    if (isbrick(base.x + base.width/2, base.y + base.height))
-    {
-      World::current()->trybreakbrick(base.x + base.width/2, base.y + base.height, false);
-      bumpbrick(base.x, base.y);
-    }
+    if (isbrick(base.x, base.y + base.height))
+      World::current()->trybreakbrick(base.x, base.y + base.height, false);
+    if (isbrick(base.x + base.width, base.y + base.height))
+      World::current()->trybreakbrick(base.x + base.width, base.y + base.height, false);
+
     butt_jump = false;
   }
 
