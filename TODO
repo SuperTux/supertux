@@ -94,6 +94,7 @@ L: low priority
  * do we want multi hit scores again?
  * tux doesn't stop at igloo anymore
  * background particle systems are too slow - ok
+ * buttjump is deactivated
 
 --Code Refactoring/Cleanup/Optimisation--
 [H] make the title using GameSession instead of reimplementing all the stuff
