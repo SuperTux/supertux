@@ -226,7 +226,10 @@ int leveleditor(char* filename)
         switch (leveleditor_menu->check())
         {
         case MNID_RETURNLEVELEDITOR:
+	  if(le_world != NULL)
           Menu::set_current(0);
+	  else
+	  Menu::set_current(leveleditor_menu);
           break;
         case MNID_SUBSETSETTINGS:
           update_subset_settings_menu();
@@ -1014,6 +1017,7 @@ void le_checkevents()
             fire =UP;
             break;
           case SDLK_F1:
+	    if(le_world != NULL)
             le_showhelp();
             break;
           case SDLK_HOME:
@@ -1534,43 +1538,88 @@ void le_showhelp()
   SDL_Event event;
   unsigned int i, done_;
   char *text[] = {
-                   "  - This is SuperTux's built-in level editor -",
-                   "It has been designed to be light and easy to use from the start.",
-                   "",
-                   "When you first load the level editor you are given a menu where you",
-                   "can load level subsets, create a new level subset, edit the current",
-                   "subset's settings, or simply quit the editor. You can access this menu",
-                   "from the level editor at any time by pressing the escape key.",
-                   "",
-                   "To your right is your button bar. The center of this contains many",
-                   "tiles you can use to make your level. To select a tile, click on it",
-                   "with your left mouse button; your selection will be shown in the",
-                   "bottom right corner of the button box. Click anywhere on your level",
-                   "with the left mouse button to place that tile down. If you right click",
-                   "a tile in the button bar, you can find out what its keyboard shortcut",
-                   "is. The three buttons FGD, BGD and EMY let you pick from foreground,",
-                   "background, and enemy tiles. The eraser lets you remove tiles.",
-                   "The left and right arrow keys scroll back and forth through your level.",
-                   "The button with the wrench and screwdriver, lets you change the",
-                   "settings of your level, including how long it is or what music it will",
-                   "play. When you are ready to give your level a test, click on the little",
-                   "running Tux. If you like the changes you have made to your level,",
-                   "press the red save key to keep them.",
-                   "To change which level in your subset you are editing, press the white",
-                   "up and down arrow keys at the top of the button box.",
-                   "",
+
+                   " - Supertux level editor tutorial - ",
+		   "",
+                   "To make your map, click the tilegroup button and choose a tilegroup."
+                   "Pick a tile and simply hold down the left mouse button over the map",
+		   "to \"paint\" your selection over the screen.",
+		   "There are three layers for painting tiles upon, Background layer,",
+                   "the Interactive layer, and the Foreground layer, which can be toggled",
+                   "by the BkGrd, IntAct and FrGrd buttons. The Foreground and Background",
+                   "layers do not effect Tux in the gameplay, but lie in front of him or",
+                   "lie behind him in his adventures. The tiles placed on the Interactive",
+		   "layer are those which actually effect Tux in the game.",  
+		   "Click the objects menu to put bad guys and other objects in the game.",
+		   "Unlike placing tiles, you cannot \"paint\" enemies. Click them onto",
+		   "the screen one at a time.",
+		   "To change the settings of your level, click the button with the",
+		   "screwdriver and wrench. From here you can change the background,",
+		   "music, length of the level, and more.",
+		   "You may have more than one levelset. Pressing the up and down buttons",
+		   "above the button bar lets you choose which one you are working on.",
+		   "If you would like to speed up your level editing, a useful trick is",
+		   "to learn the keyboard shortcuts. They are easy to learn, just right-",
                    "Have fun making levels! If you make some good ones, send them to us on",
                    "the SuperTux mailing list!",
                    "- SuperTux team"
                  };
 
+  char *text2[] = {
+
+                   " - Supertux level editor tutorial - ",
+		   "",
+                   "To make your map, click the tilegroup button and choose a tilegroup."
+                   "APick a tile and simply hold down the left mouse button over the map",
+		   "Ato \"paint\" your selection over the screen.",
+		   "AThere are three layers for painting tiles upon, Background layer,",
+                   "the Interactive layer, and the Foreground layer, which can be toggled",
+                   "by the BkGrd, IntAct and FrGrd buttons. The Foreground and Background",
+                   "layers do not effect Tux in the gameplay, but lie in front of him or",
+                   "lie behind him in his adventures. The tiles placed on the Interactive",
+		   "layer are those which actually effect Tux in the game.",  
+		   "Click the objects menu to put bad guys and other objects in the game.",
+		   "Unlike placing tiles, you cannot \"paint\" enemies. Click them onto",
+		   "the screen one at a time.",
+		   "To change the settings of your level, click the button with the",
+		   "screwdriver and wrench. From here you can change the background,",
+		   "music, length of the level, and more.",
+		   "You may have more than one levelset. Pressing the up and down buttons",
+		   "above the button bar lets you choose which one you are working on.",
+		   "If you would like to speed up your level editing, a useful trick is",
+		   "to learn the keyboard shortcuts. They are easy to learn, just right-",
+                   "Have fun making levels! If you make some good ones, send them to us on",
+                   "the SuperTux mailing list!",
+                   "- SuperTux team"
+                 };		 
+
 
   blue_text->drawf("- Help -", 0, 30, A_HMIDDLE, A_TOP, 2);
 
   for(i = 0; i < sizeof(text)/sizeof(char *); i++)
-    white_small_text->draw(text[i], 5, 80+(i*white_small_text->h), 1);
+    white_text->draw(text[i], 5, 80+(i*white_text->h), 1);
 
-  gold_text->drawf("Press Any Key to Continue", 0, 440, A_HMIDDLE, A_TOP, 1);
+  gold_text->drawf("Press Any Key to Continue - Page 1/2", 0, 440, A_HMIDDLE, A_TOP, 1);
+
+  flipscreen();
+
+  done_ = 0;
+
+  while(done_ == 0)
+  {
+    done_ = wait_for_event(event);
+    SDL_Delay(50);
+  }
+  
+  le_drawlevel();
+  le_drawinterface();
+  
+  blue_text->drawf("- Help -", 0, 30, A_HMIDDLE, A_TOP, 2);
+
+  for(i = 0; i < sizeof(text2)/sizeof(char *); i++)
+    white_text->draw(text2[i], 5, 80+(i*white_text->h), 1);
+
+  gold_text->drawf("Press Any Key to Continue - Page 2/2", 0, 440, A_HMIDDLE, A_TOP, 1);
 
   flipscreen();
 
