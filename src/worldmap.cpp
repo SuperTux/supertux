@@ -165,7 +165,10 @@ TileManager::get(int i)
 Tux::Tux(WorldMap* worldmap_)
   : worldmap(worldmap_)
 {
-  sprite = new Surface(datadir +  "/images/worldmap/tux.png", USE_ALPHA);
+  largetux_sprite = new Surface(datadir +  "/images/worldmap/tux.png", USE_ALPHA);
+  firetux_sprite = new Surface(datadir +  "/images/worldmap/firetux.png", USE_ALPHA);
+  smalltux_sprite = new Surface(datadir +  "/images/worldmap/smalltux.png", USE_ALPHA);
+
   offset = 0;
   moving = false;
   tile_pos.x = 4;
@@ -176,15 +179,30 @@ Tux::Tux(WorldMap* worldmap_)
 
 Tux::~Tux()
 {
-  delete sprite;
+  delete smalltux_sprite;
+  delete firetux_sprite;
+  delete largetux_sprite;
 }
 
 void
 Tux::draw(const Point& offset)
 {
   Point pos = get_pos();
-  sprite->draw(pos.x + offset.x, 
-               pos.y + offset.y - 10);
+  switch (player_status.bonus)
+    {
+    case PlayerStatus::GROWUP_BONUS:
+      largetux_sprite->draw(pos.x + offset.x, 
+                            pos.y + offset.y - 10);
+      break;
+    case PlayerStatus::FLOWER_BONUS:
+      firetux_sprite->draw(pos.x + offset.x, 
+                           pos.y + offset.y - 10);
+      break;
+    case PlayerStatus::NO_BONUS:
+      smalltux_sprite->draw(pos.x + offset.x, 
+                            pos.y + offset.y - 10);
+      break;
+    }
 }
 
 

@@ -95,7 +95,9 @@ public:
   Direction back_direction;
 private:
   WorldMap* worldmap;
-  Surface* sprite;
+  Surface* largetux_sprite;
+  Surface* firetux_sprite;
+  Surface* smalltux_sprite;
 
   Direction input_direction;
   Direction direction;
