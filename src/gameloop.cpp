@@ -189,6 +189,16 @@ GameSession::on_escape_press()
     }
   else if (!Menu::current())
     {
+      /* Tell Tux that the keys are all down, otherwise
+        it could have nasty bugs, like going allways to the right
+        or whatever that key does */
+      Player& tux = *world->get_tux();
+      tux.key_event((SDLKey)keymap.jump, UP);
+      tux.key_event((SDLKey)keymap.duck, UP);
+      tux.key_event((SDLKey)keymap.left, UP);
+      tux.key_event((SDLKey)keymap.right, UP);
+      tux.key_event((SDLKey)keymap.fire, UP);
+
       Menu::set_current(game_menu);
       st_pause_ticks_start();
     }
@@ -263,18 +273,8 @@ GameSession::process_events()
           if (Menu::current())
             {
               Menu::current()->event(event);
-	      if(!Menu::current())
-	      st_pause_ticks_stop();
-
-            /* Tell Tux that the keys are all down, otherwise
-               it could have nasty bugs, like going allways to the right
-               or whatever that key does */
-            Player& tux = *world->get_tux();
-            tux.key_event((SDLKey)keymap.jump, UP);
-            tux.key_event((SDLKey)keymap.duck, UP);
-            tux.key_event((SDLKey)keymap.left, UP);
-            tux.key_event((SDLKey)keymap.right, UP);
-            tux.key_event((SDLKey)keymap.fire, UP);
+              if(!Menu::current())
+                st_pause_ticks_stop();
             }
           else
             {
