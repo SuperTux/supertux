@@ -50,7 +50,7 @@ int main(int argc, char * argv[])
 #endif
     config = new MyConfig;
    
-    Setup::init(PACKAGE_NAME, PACKAGE, PACKAGE_VERSION);  
+    Setup::init(PACKAGE_NAME, PACKAGE_NAME, PACKAGE_VERSION);
     
     Setup::parseargs(argc, argv);
 
