@@ -869,11 +869,13 @@ void le_drawinterface()
     if(TileManager::instance()->get(le_current.tile)->editor_images.size() > 0)
       TileManager::instance()->get(le_current.tile)->editor_images[0]->draw( screen->w - 32, screen->h - 32);
   }
+#if 0 // XXX FIXME TODO
   if(le_current.IsObject() && MouseCursor::current() != mouse_select_object)
   {
     le_current.obj->draw_on_screen(screen->w - 32, screen->h - 32);
     le_current.obj->draw_on_screen(cursor_x,cursor_y);
   }
+#endif
 
   if(mouse_select_object && selected_game_object != NULL)
   {
@@ -950,10 +952,12 @@ void le_drawlevel()
     if(!TileManager::instance()->get(le_current.tile)->images.empty())
       fillrect(cursor_x-pos_x,cursor_y-pos_y,TileManager::instance()->get(le_current.tile)->images[0]->w,TileManager::instance()->get(le_current.tile)->images[0]->h,50,50,50,50);
   }
+#if 0 // XXX FIXME TODO
   if(le_current.IsObject())
   {
     le_current.obj->move_to(cursor_x, cursor_y);
   }
+#endif
 
   /*       clearscreen(current_level.bkgd_red, current_level.bkgd_green, current_level.bkgd_blue); */
 
@@ -1001,7 +1005,7 @@ void le_drawlevel()
     }
 
   /* Draw the Bad guys: */
-  for (std::vector<_GameObject*>::iterator it = le_world->gameobjects.begin();
+  for (std::vector<GameObject*>::iterator it = le_world->gameobjects.begin();
        it != le_world->gameobjects.end(); ++it)
   {
     BadGuy* badguy = dynamic_cast<BadGuy*> (*it);
@@ -1019,7 +1023,7 @@ void le_drawlevel()
   largetux.walk_right->draw( 100 - pos_x, 240 - pos_y);
 }
 
-void le_change_object_properties(_GameObject *pobj)
+void le_change_object_properties(GameObject *pobj)
 {
   Surface* cap_screen = Surface::CaptureScreen();
   Menu* object_properties_menu = new Menu();
@@ -1475,7 +1479,7 @@ void le_checkevents()
             cursor_base.width = 32;
             cursor_base.height = 32;
 
-            for(std::vector<_GameObject*>::iterator it =
+            for(std::vector<GameObject*>::iterator it =
                 le_world->gameobjects.begin();
                 it != le_world->gameobjects.end(); ++it) {
               MovingObject* mobj = dynamic_cast<MovingObject*> (*it);

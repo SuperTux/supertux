@@ -156,8 +156,6 @@ BadGuy::BadGuy(DisplayManager& display_manager, BadGuyKind kind_,
   lispreader.read_float("y", &base.y);
   base.width  = 0;
   base.height = 0;
-  base.xm  = 0;
-  base.ym  = 0;
 
   kind     = kind_;
 
@@ -176,8 +174,6 @@ BadGuy::BadGuy(DisplayManager& display_manager, BadGuyKind kind_,
   base.y = y;
   base.width  = 0;
   base.height = 0;
-  base.xm  = 0;
-  base.ym  = 0;
   stay_on_platform = false;
 
   kind     = kind_;
@@ -216,7 +212,7 @@ BadGuy::init()
     // hack so that the bomb doesn't hurt until it expldes...
     dying = DYING_SQUISHED;
   } else if(kind == BAD_FLAME) {
-    base.ym = 0; // we misuse base.ym as angle for the flame
+    angle = 0;
     physic.enable_gravity(false);
     set_sprite(img_flame, img_flame);
   } else if(kind == BAD_BOUNCINGSNOWBALL) {
@@ -252,13 +248,13 @@ BadGuy::init()
 void
 BadGuy::write(LispWriter& writer)
 {
-  writer.startList(badguykind_to_string(kind));
+  writer.start_list(badguykind_to_string(kind));
 
-  writer.writeFloat("x", base.x);
-  writer.writeFloat("y", base.y);
-  writer.writeBool("stay-on-platform", stay_on_platform);  
+  writer.write_float("x", base.x);
+  writer.write_float("y", base.y);
+  writer.write_bool("stay-on-platform", stay_on_platform);  
 
-  writer.endList(badguykind_to_string(kind));
+  writer.end_list(badguykind_to_string(kind));
 }
 
 void
@@ -584,10 +580,10 @@ BadGuy::action_flame(double elapsed_time)
 {
     static const float radius = 100;
     static const float speed = 0.02;
-    base.x = old_base.x + cos(base.ym) * radius;
-    base.y = old_base.y + sin(base.ym) * radius;
+    base.x = old_base.x + cos(angle) * radius;
+    base.y = old_base.y + sin(angle) * radius;
 
-    base.ym = fmodf(base.ym + elapsed_time * speed, 2*M_PI);
+    angle = fmodf(angle + elapsed_time * speed, 2*M_PI);
 }
 
 void
@@ -847,7 +843,7 @@ BadGuy::draw(ViewPort& viewport, int)
     }
 
   Sprite* sprite = (dir == LEFT) ? sprite_left : sprite_right;
-  sprite->draw(base.x, base.y);
+  sprite->draw(viewport.world2screen(Vector(base.x, base.y)));
 
   if (debug_mode)
     fillrect(base.x - scroll_x, base.y - scroll_y, base.width, base.height, 75,0,75, 150);

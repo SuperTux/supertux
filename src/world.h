@@ -56,9 +56,9 @@ private:
 public:
   BadGuys bad_guys;
 
-  std::vector<Upgrade> upgrades;
-  std::vector<Bullet> bullets;
-  std::vector<_GameObject*> gameobjects;
+  std::vector<Upgrade*> upgrades;
+  std::vector<Bullet*> bullets;
+  std::vector<GameObject*> gameobjects;
 
   DisplayManager displaymanager;
 
@@ -74,7 +74,7 @@ public:
   Level*  get_level() { return level; }
   Player* get_tux() { return tux; }
 
-  void add_object(_GameObject* object);
+  void add_object(GameObject* object);
 
   void set_defaults();
 
@@ -93,7 +93,6 @@ public:
   void parse_objects(lisp_object_t* cur);
   
   void activate_particle_systems();
-  void activate_objects();
 
   void add_score(const Vector& pos, int s);
   void add_bouncy_distro(const Vector& pos);
@@ -103,10 +102,9 @@ public:
   void add_bouncy_brick(const Vector& pos);
 
   BadGuy* add_bad_guy(float x, float y, BadGuyKind kind);
-  template <class T, class U> T* add_object(U data);
 
-  void add_upgrade(float x, float y, Direction dir, UpgradeKind kind);
-  void add_bullet(float x, float y, float xm, Direction dir);
+  void add_upgrade(const Vector& pos, Direction dir, UpgradeKind kind);
+  void add_bullet(const Vector& pos, float xm, Direction dir);
 
   /** Try to grab the coin at the given coordinates */
   void trygrabdistro(float x, float y, int bounciness);

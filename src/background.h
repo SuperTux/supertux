@@ -12,7 +12,7 @@ enum {
 
 class DisplayManager;
 
-class Background : public _GameObject, public Drawable
+class Background : public GameObject, public Drawable
 {
 public:
   Background(DisplayManager& displaymanager);

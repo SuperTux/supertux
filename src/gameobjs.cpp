@@ -156,13 +156,16 @@ void load_object_gfx()
   }
 }
 
-void
-Trampoline::init(float x, float y)
+Trampoline::Trampoline(DisplayManager& displaymanager, LispReader& reader)
 {
-  base.x = x;
-  base.y = y;
+  displaymanager.add_drawable(this, LAYER_OBJECTS);
+  
+  reader.read_float("x", &base.x);
+  reader.read_float("y", &base.y); 
   base.width = 32;
   base.height = 32;
+  power = 7.5;
+  reader.read_float("power", &power);
 
   frame = 0;
   mode = M_NORMAL;
@@ -170,18 +173,26 @@ Trampoline::init(float x, float y)
 }
 
 void
-Trampoline::draw()
+Trampoline::write(LispWriter& writer)
 {
-  img_trampoline[frame]->draw((int)base.x, (int)base.y);
+  writer.start_list("trampoline");
 
-  frame = 0;
+  writer.write_float("x", base.x);
+  writer.write_float("y", base.y);
+  writer.write_float("power", power);
 
-  if (debug_mode)
-    fillrect(base.x - scroll_x, base.y - scroll_y, base.width, base.height, 75, 75, 0, 150);
+  writer.end_list("trampoline");
 }
 
 void
-Trampoline::action(double frame_ratio)
+Trampoline::draw(ViewPort& viewport, int )
+{
+  img_trampoline[frame]->draw(viewport.world2screen(Vector(base.x, base.y)));
+  frame = 0;
+}
+
+void
+Trampoline::action(float frame_ratio)
 {
   // TODO: Remove if we're too far off the screen
 
@@ -229,6 +240,12 @@ Trampoline::action(double frame_ratio)
 
   physic.apply(frame_ratio, base.x, base.y);
   collision_swept_object_map(&old_base, &base);
+}
+
+void
+Trampoline::collision(const MovingObject&, int)
+{
+  // comes later
 }
 
 void

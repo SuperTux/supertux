@@ -14,13 +14,13 @@ LispWriter::~LispWriter()
 }
 
 void
-LispWriter::writeComment(const std::string& comment)
+LispWriter::write_comment(const std::string& comment)
 {
   out << "; " << comment << "\n";
 }
 
 void
-LispWriter::startList(const std::string& listname)
+LispWriter::start_list(const std::string& listname)
 {
   indent();
   out << '(' << listname << '\n';
@@ -30,7 +30,7 @@ LispWriter::startList(const std::string& listname)
 }
 
 void
-LispWriter::endList(const std::string& listname)
+LispWriter::end_list(const std::string& listname)
 {
   if(lists.size() == 0) {
     std::cerr << "Trying to close list '" << listname 
@@ -50,35 +50,35 @@ LispWriter::endList(const std::string& listname)
 }
 
 void
-LispWriter::writeInt(const std::string& name, int value)
+LispWriter::write_int(const std::string& name, int value)
 {
   indent();
   out << '(' << name << ' ' << value << ")\n";
 }
 
 void
-LispWriter::writeFloat(const std::string& name, float value)
+LispWriter::write_float(const std::string& name, float value)
 {
   indent();
   out << '(' << name << ' ' << value << ")\n";
 }
 
 void
-LispWriter::writeString(const std::string& name, const std::string& value)
+LispWriter::write_string(const std::string& name, const std::string& value)
 {
   indent();
   out << '(' << name << " \"" << value << "\")\n";
 }
 
 void
-LispWriter::writeBool(const std::string& name, bool value)
+LispWriter::write_bool(const std::string& name, bool value)
 {
   indent();
   out << '(' << name << ' ' << (value ? "#t" : "#f") << ")\n";
 }
 
 void
-LispWriter::writeIntVector(const std::string& name,
+LispWriter::write_int_vector(const std::string& name,
     const std::vector<int>& value)
 {
   indent();
@@ -89,7 +89,7 @@ LispWriter::writeIntVector(const std::string& name,
 }
 
 void
-LispWriter::writeIntVector(const std::string& name,
+LispWriter::write_int_vector(const std::string& name,
     const std::vector<unsigned int>& value)
 {
   indent();

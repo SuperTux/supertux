@@ -24,8 +24,7 @@ DisplayManager::add_drawable(Drawable* drawable, int layer)
 void
 DisplayManager::remove_drawable(Drawable* drawable)
 {
-  for(DisplayList::iterator i = displaylist.begin();
-      i != displaylist.end(); ) {
+  for(DisplayList::iterator i = displaylist.begin(); i != displaylist.end();) {
     if(i->object == drawable)
       i = displaylist.erase(i);
     else

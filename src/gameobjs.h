@@ -30,31 +30,14 @@
 #include "collision.h"
 #include "game_object.h"
 #include "drawable.h"
-
-enum ObjectType { OBJ_NONE, OBJ_BADGUY, OBJ_TRAMPOLINE };
-
-template <class T>
-struct ObjectData
-{
-  int x;
-  int y;
-  ObjectType type;
-  T type_specific;
-
-  ObjectData(ObjectData* pobject)
-    : x((int)pobject->x), y((int)pobject->y), type(pobject->type), type_specific(pobject->type_specific) {};
-  ObjectData(int x_, int y_, ObjectType type_, T type_specific_) 
-    : x(x_), y(y_), type(type_), type_specific(type_specific_) {};
-
-  ObjectData()
-    : x(0), y(0), type(OBJ_NONE), type_specific() {};
-};
+#include "moving_object.h"
+#include "lispwriter.h"
 
 /* Bounciness of distros: */
 #define NO_BOUNCE 0
 #define BOUNCE 1
 
-class BouncyDistro : public _GameObject, public Drawable
+class BouncyDistro : public GameObject, public Drawable
 {
 public:
   BouncyDistro(DisplayManager& displaymanager, const Vector& pos);
@@ -75,7 +58,7 @@ extern Surface* img_distro[4];
 
 class Tile;
 
-class BrokenBrick : public _GameObject, public Drawable
+class BrokenBrick : public GameObject, public Drawable
 {
 public:
   BrokenBrick(DisplayManager& displaymanager, Tile* tile,
@@ -94,7 +77,7 @@ private:
   Vector movement;
 };
 
-class BouncyBrick : public _GameObject, public Drawable
+class BouncyBrick : public GameObject, public Drawable
 {
 public:
   BouncyBrick(DisplayManager& displaymanager, const Vector& pos);
@@ -111,7 +94,7 @@ private:
   int shape;      
 };
 
-class FloatingScore : public _GameObject, public Drawable
+class FloatingScore : public GameObject, public Drawable
 {
 public:
   FloatingScore(DisplayManager& displaymanager, const Vector& pos, int s);
@@ -127,28 +110,18 @@ private:
   Timer timer;  
 };
 
-
-/* Trampoline */
-struct TrampolineData
+class Trampoline : public MovingObject, public Drawable, public Serializable
 {
-  float power;
-};
+public:
+  Trampoline(DisplayManager& displaymanager, LispReader& reader);
+ 
+  virtual void write(LispWriter& writer);
+  virtual void action(float frame_ratio);
+  virtual void draw(ViewPort& viewport, int layer);
+  virtual std::string type() const
+  { return "Trampoline"; };
 
-class Trampoline : public GameObject
-{
- public:
-  void init(float x, float y);
-  void action(double frame_ratio);
-  void draw();
-  std::string type() { return "Trampoline"; };
-
-  Trampoline(ObjectData<TrampolineData> data)
-  {
-    power = data.type_specific.power;
-
-    init(data.x, data.y);
-  };
-
+  virtual void collision(const MovingObject& other, int);
   void collision(void *p_c_object, int c_object, CollisionType type);
 
   Physic physic;

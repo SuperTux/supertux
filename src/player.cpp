@@ -89,8 +89,6 @@ Player::init()
 
   base.x = plevel->start_pos_x;
   base.y = plevel->start_pos_y;
-  base.xm = 0;
-  base.ym = 0;
   previous_base = old_base = base;
   dir = RIGHT;
   old_dir = dir;
@@ -154,8 +152,6 @@ Player::level_begin()
 {
   base.x  = 100;
   base.y  = 170;
-  base.xm = 0;
-  base.ym = 0;
   previous_base = old_base = base;
   duck = false;
 
@@ -478,7 +474,8 @@ Player::handle_input()
   if (input.fire == DOWN && input.old_fire == UP && got_power != NONE_POWER)
     {
       holding_something = true;
-      World::current()->add_bullet(base.x, base.y + (base.height/2), physic.get_velocity_x(), dir);
+      World::current()->add_bullet(Vector(base.x, base.y + (base.height/2)),
+          physic.get_velocity_x(), dir);
       input.old_fire = DOWN;
     }
 
@@ -578,14 +575,13 @@ Player::grabdistros()
 void
 Player::draw(ViewPort& viewport, int )
 {
-  float scroll_x = viewport.get_translation().x;
-  float scroll_y = viewport.get_translation().y;
+  Vector pos = viewport.world2screen(Vector(base.x, base.y));
 
   if (!safe_timer.started() || (global_frame_counter % 2) == 0)
     {
       if (dying == DYING_SQUISHED)
         {
-          smalltux_gameover->draw(base.x, base.y);
+          smalltux_gameover->draw(pos);
         }
       else
         {
@@ -603,46 +599,46 @@ Player::draw(ViewPort& viewport, int )
           if (duck && size != SMALL)
             {
               if (dir == RIGHT)
-                sprite->duck_right->draw(base.x, base.y);
+                sprite->duck_right->draw(pos);
               else 
-                sprite->duck_left->draw(base.x, base.y);
+                sprite->duck_left->draw(pos);
             }
           else if (skidding_timer.started())
             {
               if (dir == RIGHT)
-                sprite->skid_right->draw(base.x, base.y);
+                sprite->skid_right->draw(pos);
               else
-                sprite->skid_left->draw(base.x, base.y); 
+                sprite->skid_left->draw(pos); 
             }
           else if (kick_timer.started())
             {
               if (dir == RIGHT)
-                sprite->kick_right->draw(base.x, base.y);
+                sprite->kick_right->draw(pos);
               else
-                sprite->kick_left->draw(base.x, base.y); 
+                sprite->kick_left->draw(pos); 
             }
           else if (physic.get_velocity_y() != 0)
             {
               if (dir == RIGHT)
-                sprite->jump_right->draw(base.x, base.y);
+                sprite->jump_right->draw(pos);
               else
-                sprite->jump_left->draw(base.x, base.y);                   
+                sprite->jump_left->draw(pos);                   
             }
           else
             {
               if (fabsf(physic.get_velocity_x()) < 1.0f) // standing
                 {
                   if (dir == RIGHT)
-                    sprite->stand_right->draw( base.x, base.y);
+                    sprite->stand_right->draw(pos);
                   else
-                    sprite->stand_left->draw( base.x, base.y);
+                    sprite->stand_left->draw(pos);
                 }
               else // moving
                 {
                   if (dir == RIGHT)
-                    sprite->walk_right->draw(base.x, base.y);
+                    sprite->walk_right->draw(pos);
                   else
-                    sprite->walk_left->draw(base.x, base.y);
+                    sprite->walk_left->draw(pos);
                 }
             }
                       
@@ -650,9 +646,9 @@ Player::draw(ViewPort& viewport, int )
           if (holding_something && physic.get_velocity_y() == 0)
             {
               if (dir == RIGHT)
-                sprite->grab_right->draw(base.x, base.y);
+                sprite->grab_right->draw(pos);
               else
-                sprite->grab_left->draw(base.x, base.y);
+                sprite->grab_left->draw(pos);
             }
 
           // Draw blinking star overlay
@@ -660,9 +656,9 @@ Player::draw(ViewPort& viewport, int )
              (invincible_timer.get_left() > TUX_INVINCIBLE_TIME_WARNING || global_frame_counter % 3))
             {
               if (size == SMALL || duck)
-                smalltux_star->draw(base.x, base.y);
+                smalltux_star->draw(pos);
               else
-                largetux_star->draw(base.x, base.y);
+                largetux_star->draw(pos);
             }
         }
     }     

@@ -17,11 +17,11 @@ class DisplayManager;
  * Most GameObjects will also implement the DrawableObject interface so that
  * they can actually be drawn on screen.
  */
-class _GameObject // TODO rename this once the game has been converted
+class GameObject // TODO rename this once the game has been converted
 {
 public:
-  _GameObject();
-  virtual ~_GameObject();
+  GameObject();
+  virtual ~GameObject();
 
   /** returns the name of the objecttype, this is mainly usefull for the editor.
    * For the coding part you should use C++ RTTI (ie. typeid and dynamic_cast)

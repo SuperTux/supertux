@@ -44,72 +44,56 @@ Sprite* img_1up;
 #define BULLET_STARTING_YM 0
 #define BULLET_XM 6
 
-void
-Bullet::init(float x, float y, float xm, Direction dir, int kind_)
+Bullet::Bullet(DisplayManager& display_manager, const Vector& pos, float xm,
+    int dir, int kind_)
 {
+  display_manager.add_drawable(this, LAYER_OBJECTS);
+  
   life_count = 3;
   base.width = 4;
   base.height = 4;
 
   if (dir == RIGHT)
     {
-      base.x = x + 32;
-      base.xm = BULLET_XM + xm;
+      base.x = pos.x + 32;
+      physic.set_velocity_x(BULLET_XM + xm);
     }
   else
     {
-      base.x = x;
-      base.xm = -BULLET_XM + xm;
+      base.x = pos.x;
+      physic.set_velocity_x(-BULLET_XM + xm);
     }
 
-  base.y = y + base.height/2;
-  base.ym = BULLET_STARTING_YM;
+  base.y = pos.y + base.height/2;
+  physic.set_velocity_y(-BULLET_STARTING_YM);
   old_base = base;
   kind = kind_;
 }
 
 void
-Bullet::remove_me()
+Bullet::action(float elapsed_time)
 {
-  std::vector<Bullet>& bullets = World::current()->bullets;
-  for(std::vector<Bullet>::iterator i = bullets.begin();
-         i != bullets.end(); ++i) {
-    if( & (*i) == this) {
-      bullets.erase(i);
-      return;
-    }
-  }
-
-  assert(false);
-}
-
-void
-Bullet::action(double frame_ratio)
-{
-  frame_ratio *= 0.5f;
+  elapsed_time *= 0.5f;
 
   float old_y = base.y;
 
-  base.x = base.x + base.xm * frame_ratio;
-  base.y = base.y + base.ym * frame_ratio;
-
+  physic.apply(elapsed_time, base.x, base.y);
   collision_swept_object_map(&old_base,&base);
       
   if (issolid(base.x, base.y + 4) || issolid(base.x, base.y))
     {
       base.y  = old_y;
-      base.ym = -base.ym;     
-      if (base.ym > 9)
-        base.ym = 9;
-      else if (base.ym < -9)
-        base.ym = -9;
+      physic.set_velocity_y(-physic.get_velocity_y());
       life_count -= 1;
     }
 
   if(kind == FIRE_BULLET)
-    base.ym = base.ym + 0.5 * frame_ratio;
-  else if(kind == ICE_BULLET)
-    base.ym = 0;
+    // @not framerate independant :-/
+    physic.set_velocity_y(physic.get_velocity_y() - 0.5 * elapsed_time);
+  if(physic.get_velocity_y() > 9)
+    physic.set_velocity_y(9);
+  else if(physic.get_velocity_y() < -9)
+    physic.set_velocity_y(-9);
 
   if (base.x < scroll_x ||
       base.x > scroll_x + screen->w ||
@@ -120,20 +104,21 @@ Bullet::action(double frame_ratio)
     {
       remove_me();
     }
-
 }
 
 void 
-Bullet::draw()
+Bullet::draw(ViewPort& viewport, int )
 {
-  if (base.x >= scroll_x - base.width &&
-      base.x <= scroll_x + screen->w)
-    {
-      if(kind == FIRE_BULLET)
-        img_firebullet->draw(base.x, base.y);
-      else if(kind == ICE_BULLET)
-        img_icebullet->draw(base.x, base.y);
-    }
+  if(kind == FIRE_BULLET)
+    img_firebullet->draw(viewport.world2screen(Vector(base.x, base.y)));
+  else if(kind == ICE_BULLET)
+    img_icebullet->draw(viewport.world2screen(Vector(base.x, base.y)));
+}
+
+void
+Bullet::collision(const MovingObject& , int)
+{
+  // later
 }
 
 void
@@ -144,16 +129,20 @@ Bullet::collision(int c_object)
   }
 }
 
-void
-Upgrade::init(float x_, float y_, Direction dir_, UpgradeKind kind_)
+//---------------------------------------------------------------------------
+
+Upgrade::Upgrade(DisplayManager& display_manager, const Vector& pos,
+    Direction dir_, UpgradeKind kind_)
 {
+  display_manager.add_drawable(this, LAYER_OBJECTS);
+  
   kind = kind_;
   dir = dir_;
 
   base.width = 32;
   base.height = 0;
-  base.x = x_;
-  base.y = y_;
+  base.x = pos.x;
+  base.y = pos.y;
   old_base = base;
 
   physic.reset();
@@ -172,29 +161,18 @@ Upgrade::init(float x_, float y_, Direction dir_, UpgradeKind kind_)
   }
 }
 
-void
-Upgrade::remove_me()
+Upgrade::~Upgrade()
 {
-  std::vector<Upgrade>& upgrades = World::current()->upgrades;
-  for(std::vector<Upgrade>::iterator i = upgrades.begin();
-         i != upgrades.end(); ++i) {
-    if( & (*i) == this) {
-      upgrades.erase(i);
-      return;
-    }
-  }
-
-  assert(false);
 }
 
 void
-Upgrade::action(double frame_ratio)
+Upgrade::action(float elapsed_time)
 {
   if (kind == UPGRADE_ICEFLOWER || kind == UPGRADE_FIREFLOWER
       || kind == UPGRADE_GROWUP) {
     if (base.height < 32) {
       /* Rise up! */
-      base.height = base.height + 0.7 * frame_ratio;
+      base.height = base.height + 0.7 * elapsed_time;
       if(base.height > 32)
         base.height = 32;
 
@@ -213,7 +191,7 @@ Upgrade::action(double frame_ratio)
   }
 
   /* Move around? */
-  physic.apply(frame_ratio, base.x, base.y);
+  physic.apply(elapsed_time, base.x, base.y);
   if(kind == UPGRADE_GROWUP) {
     collision_swept_object_map(&old_base, &base);
   }
@@ -255,7 +233,7 @@ Upgrade::action(double frame_ratio)
 }
 
 void
-Upgrade::draw()
+Upgrade::draw(ViewPort& viewport, int)
 {
   SDL_Rect dest;
 
@@ -263,8 +241,8 @@ Upgrade::draw()
     {
       /* Rising up... */
 
-      dest.x = (int)(base.x);
-      dest.y = (int)(base.y + 32 - base.height);
+      dest.x = (int)(base.x - viewport.get_translation().x);
+      dest.y = (int)(base.y + 32 - base.height - viewport.get_translation().y);
       dest.w = 32;
       dest.h = (int)base.height;
 
@@ -283,27 +261,23 @@ Upgrade::draw()
     {
       if (kind == UPGRADE_GROWUP)
         {
-          img_growup->draw(
-                       base.x, base.y);
+          img_growup->draw(viewport.world2screen(Vector(base.x, base.y)));
         }
       else if (kind == UPGRADE_ICEFLOWER)
         {
-          img_iceflower->draw(
-                       base.x, base.y);
+          img_iceflower->draw(viewport.world2screen(Vector(base.x, base.y)));
         }
       else if (kind == UPGRADE_FIREFLOWER)
         {
-          img_fireflower->draw(
-                       base.x, base.y);
+          img_fireflower->draw(viewport.world2screen(Vector(base.x, base.y)));
         }
       else if (kind == UPGRADE_HERRING)
         {
-          img_star->draw(
-                       base.x, base.y);
+          img_star->draw(viewport.world2screen(Vector(base.x, base.y)));
         }
       else if (kind == UPGRADE_1UP)
         {
-          img_1up->draw( base.x, base.y);
+          img_1up->draw(viewport.world2screen(Vector(base.x, base.y)));
         }
     }
 }
@@ -326,6 +300,12 @@ Upgrade::bump(Player* player)
   // do a little jump and change direction
   physic.set_velocity(-physic.get_velocity_x(), 3);
   physic.enable_gravity(true);
+}
+
+void
+Upgrade::collision(const MovingObject& , int)
+{
+  // later
 }
 
 void

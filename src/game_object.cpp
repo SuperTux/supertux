@@ -1,11 +1,11 @@
 #include "game_object.h"
 
-_GameObject::_GameObject()
+GameObject::GameObject()
   : wants_to_die(false)
 {
 }
 
-_GameObject::~_GameObject()
+GameObject::~GameObject()
 {
 }
 

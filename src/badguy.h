@@ -103,6 +103,7 @@ private:
   int squishcount; /// number of times this enemy was squiched
   Timer timer;
   Physic physic;
+  float angle;
 
   Sprite*   sprite_left;
   Sprite*   sprite_right;

@@ -42,7 +42,7 @@ class DisplayManager;
  * initialize particles in the constructor and move them in the simulate
  * function.
  */
-class ParticleSystem : public _GameObject, public Drawable
+class ParticleSystem : public GameObject, public Drawable
 {
 public:
     ParticleSystem(DisplayManager& displaymanager);

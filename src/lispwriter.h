@@ -10,19 +10,19 @@ public:
   LispWriter(std::ostream& out);
   ~LispWriter();
 
-  void writeComment(const std::string& comment);
+  void write_comment(const std::string& comment);
   
-  void startList(const std::string& listname);
+  void start_list(const std::string& listname);
 
-  void writeInt(const std::string& name, int value);
-  void writeFloat(const std::string& name, float value);
-  void writeString(const std::string& name, const std::string& value);
-  void writeBool(const std::string& name, bool value);
-  void writeIntVector(const std::string& name, const std::vector<int>& value);
-  void writeIntVector(const std::string& name, const std::vector<unsigned int>& value);
+  void write_int(const std::string& name, int value);
+  void write_float(const std::string& name, float value);
+  void write_string(const std::string& name, const std::string& value);
+  void write_bool(const std::string& name, bool value);
+  void write_int_vector(const std::string& name, const std::vector<int>& value);
+  void write_int_vector(const std::string& name, const std::vector<unsigned int>& value);
   // add more write-functions when needed...
   
-  void endList(const std::string& listname);
+  void end_list(const std::string& listname);
 
 private:
   void indent();

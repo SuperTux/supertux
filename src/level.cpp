@@ -465,54 +465,54 @@ Level::save(const std::string& subset, int level, World* world)
   LispWriter writer(out);
 
   /* Write header: */
-  writer.writeComment("SuperTux level made using the built-in leveleditor");
-  writer.startList("supertux-level");
+  writer.write_comment("SuperTux level made using the built-in leveleditor");
+  writer.start_list("supertux-level");
 
-  writer.writeInt("version", 1);
-  writer.writeString("name", name);
-  writer.writeString("author", author);
-  writer.writeString("music", song_title);
-  writer.writeString("background", bkgd_image);
-  writer.writeString("particle_system", particle_system);
-  writer.writeInt("bkgd_speed", bkgd_speed);
-  writer.writeInt("bkgd_red_top", bkgd_top.red);
-  writer.writeInt("bkgd_green_top", bkgd_top.green);
-  writer.writeInt("bkgd_blue_top", bkgd_top.blue);
-  writer.writeInt("bkgd_red_bottom", bkgd_bottom.red);
-  writer.writeInt("bkgd_green_bottom", bkgd_bottom.green);
-  writer.writeInt("bkgd_blue_bottom", bkgd_bottom.blue);
-  writer.writeInt("time", time_left);
-  writer.writeInt("width", width);
-  writer.writeInt("height", height);
-  writer.writeBool("back_scrolling", back_scrolling);
-  writer.writeFloat("hor_autoscroll_speed", hor_autoscroll_speed);
-  writer.writeFloat("gravity", gravity);
+  writer.write_int("version", 1);
+  writer.write_string("name", name);
+  writer.write_string("author", author);
+  writer.write_string("music", song_title);
+  writer.write_string("background", bkgd_image);
+  writer.write_string("particle_system", particle_system);
+  writer.write_int("bkgd_speed", bkgd_speed);
+  writer.write_int("bkgd_red_top", bkgd_top.red);
+  writer.write_int("bkgd_green_top", bkgd_top.green);
+  writer.write_int("bkgd_blue_top", bkgd_top.blue);
+  writer.write_int("bkgd_red_bottom", bkgd_bottom.red);
+  writer.write_int("bkgd_green_bottom", bkgd_bottom.green);
+  writer.write_int("bkgd_blue_bottom", bkgd_bottom.blue);
+  writer.write_int("time", time_left);
+  writer.write_int("width", width);
+  writer.write_int("height", height);
+  writer.write_bool("back_scrolling", back_scrolling);
+  writer.write_float("hor_autoscroll_speed", hor_autoscroll_speed);
+  writer.write_float("gravity", gravity);
 
-  writer.writeIntVector("background-tm", bg_tiles);
-  writer.writeIntVector("interactive-tm", ia_tiles);
-  writer.writeIntVector("foreground-tm", fg_tiles);
+  writer.write_int_vector("background-tm", bg_tiles);
+  writer.write_int_vector("interactive-tm", ia_tiles);
+  writer.write_int_vector("foreground-tm", fg_tiles);
 
-  writer.startList("reset-points");
+  writer.start_list("reset-points");
   for(std::vector<ResetPoint>::iterator i = reset_points.begin();
       i != reset_points.end(); ++i) {
-    writer.startList("point");
-    writer.writeInt("x", i->x);
-    writer.writeInt("y", i->y);
+    writer.start_list("point");
+    writer.write_int("x", i->x);
+    writer.write_int("y", i->y);
   }
-  writer.endList("reset-points");
+  writer.end_list("reset-points");
 
   // write objects
-  writer.startList("objects");
+  writer.start_list("objects");
   // pick all objects that can be written into a levelfile
-  for(std::vector<_GameObject*>::iterator it = world->gameobjects.begin();
+  for(std::vector<GameObject*>::iterator it = world->gameobjects.begin();
       it != world->gameobjects.end(); ++it) {
     Serializable* serializable = dynamic_cast<Serializable*> (*it);
     if(serializable)
       serializable->write(writer);
   }
-  writer.endList("objects");
+  writer.end_list("objects");
 
-  writer.endList("supertux-level");
+  writer.end_list("supertux-level");
   out.close();
 }
 

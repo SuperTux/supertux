@@ -10,7 +10,7 @@
  * Base class for all dynamic/moving game objects. This class contains things
  * for handling the bounding boxes and collision feedback.
  */
-class MovingObject : public _GameObject
+class MovingObject : public GameObject
 {
 public:
   MovingObject();

@@ -41,28 +41,27 @@ enum UpgradeKind {
 void load_special_gfx();
 void free_special_gfx();
 
-class Upgrade : public GameObject
+class Upgrade : public MovingObject, public Drawable
 {
 public:
   UpgradeKind kind;
   Direction  dir;
   Physic physic;
 
-  void init(float x, float y, Direction dir, UpgradeKind kind);
-  void action(double frame_ratio);
-  void draw();
-  void collision(void* p_c_object, int c_object, CollisionType type);
-  std::string type() { return "Upgrade"; };
+  Upgrade(DisplayManager& display_manager, const Vector& pos, Direction dir,
+      UpgradeKind kind);
+  virtual ~Upgrade();
   
-  ~Upgrade() {};
+  virtual void action(float frame_ratio);
+  virtual void draw(ViewPort& viewport, int layer);
 
+  virtual void collision(const MovingObject& other, int);
+  void collision(void* p_c_object, int c_object, CollisionType type);
+
+  virtual std::string type() const
+  { return "Upgrade"; };
+  
 private:
-  /** removes the Upgrade from the global upgrade list. Note that after this
-   * call the class doesn't exist anymore! So don't use any member variables
-   * anymore then
-   */
-  void remove_me();
-
   void bump(Player* player);
 };
 
@@ -71,27 +70,25 @@ enum BulletsKind {
   ICE_BULLET
 };
 
-class Bullet : public GameObject
+class Bullet : public MovingObject, public Drawable
 {
- public:
-  int life_count;
-  base_type base;
-  base_type old_base;
-
-  int kind;
+public:
+  Bullet(DisplayManager& manager, const Vector& pos, float xm, int dir,
+      int kind);
   
-  void init(float x, float y, float xm, Direction dir, int kind_);
-  void action(double frame_ratio);
-  void draw();
+  virtual void action(float frame_ratio);
+  virtual void draw(ViewPort& viewport, int layer);
   void collision(int c_object);
-  std::string type() { return "Bullet"; };
 
+  virtual void collision(const MovingObject& other_object, int type);
+  virtual std::string type() const
+  { return "Bullet"; };
+
+  int kind;        
+  
 private:
-  /** removes the Upgrade from the global upgrade list. Note that after this
-   * call the class doesn't exist anymore! So don't use any member variables
-   * anymore then
-   */
-  void remove_me();
+  int life_count;
+  Physic physic;
 };
 
 #endif /*SUPERTUX_SPECIAL_H*/

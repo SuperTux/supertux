@@ -9,7 +9,7 @@ class Level;
 /**
  * This class is reponsible for drawing the level tiles
  */
-class TileMap : public _GameObject, public Drawable
+class TileMap : public GameObject, public Drawable
 {
 public:
   TileMap(DisplayManager& manager, Level* level);

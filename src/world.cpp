@@ -69,7 +69,6 @@ World::World(const std::string& filename)
 
   // add tilemap
   gameobjects.push_back(new TileMap(displaymanager, get_level()));
-  activate_objects();
   get_level()->load_song();
 
   apply_bonuses();
@@ -92,7 +91,6 @@ World::World(const std::string& subset, int level_nr)
   set_defaults();
 
   get_level()->load_gfx();
-  activate_objects();
   activate_particle_systems();
   Background* bg = new Background(displaymanager);
   if(level->img_bkgd) {
@@ -134,7 +132,7 @@ World::~World()
   for (Trampolines::iterator i = trampolines.begin(); i != trampolines.end(); ++i)
     delete *i;
 
-  for (std::vector<_GameObject*>::iterator i = gameobjects.begin();
+  for (std::vector<GameObject*>::iterator i = gameobjects.begin();
           i != gameobjects.end(); ++i) {
     Drawable* drawable = dynamic_cast<Drawable*> (*i);
     if(drawable)
@@ -162,12 +160,21 @@ World::set_defaults()
 }
 
 void
-World::add_object(_GameObject* object)
+World::add_object(GameObject* object)
 {
   // XXX hack for now until new collision code is ready
   BadGuy* badguy = dynamic_cast<BadGuy*> (object);
   if(badguy)
     bad_guys.push_back(badguy);
+  Bullet* bullet = dynamic_cast<Bullet*> (object);
+  if(bullet)
+    bullets.push_back(bullet);
+  Upgrade* upgrade = dynamic_cast<Upgrade*> (object);
+  if(upgrade)
+    upgrades.push_back(upgrade);
+  Trampoline* trampoline = dynamic_cast<Trampoline*> (object);
+  if(trampoline)
+    trampolines.push_back(trampoline);
 
   gameobjects.push_back(object);
 }
@@ -177,32 +184,19 @@ World::parse_objects(lisp_object_t* cur)
 {
   while(!lisp_nil_p(cur)) {
     lisp_object_t* data = lisp_car(cur);
-    std::string object_type = "";
+    std::string object_type = lisp_symbol(lisp_car(data));
     
     LispReader reader(lisp_cdr(data));
-    reader.read_string("type", &object_type);
 
-    if(object_type == "badguy" || object_type == "")
-    {
-      BadGuyKind kind = badguykind_from_string(
-          lisp_symbol(lisp_car(data)));
+    if(object_type == "trampoline") {
+      add_object(new Trampoline(displaymanager, reader));
+    } else {
+      BadGuyKind kind = badguykind_from_string(object_type);
       add_object(new BadGuy(displaymanager, kind, reader));
     }
-    // TODO add parsing code for trampolines
-
+      
     cur = lisp_cdr(cur);
   } 
-}
-
-void
-World::activate_objects()
-{
-  for (std::vector< ObjectData<TrampolineData> >::iterator i = level->trampoline_data.begin();
-       i != level->trampoline_data.end();
-       ++i)
-  {
-    add_object<Trampoline, ObjectData<TrampolineData> >(*i);
-  }
 }
 
 void
@@ -228,15 +222,6 @@ World::draw()
   /* Draw objects */
   displaymanager.get_viewport().set_translation(Vector(scroll_x, scroll_y));
   displaymanager.draw();
-  
-  for (Trampolines::iterator i = trampolines.begin(); i != trampolines.end(); ++i)
-    (*i)->draw();
-
-  for (unsigned int i = 0; i < bullets.size(); ++i)
-    bullets[i].draw();
-
-  for (unsigned int i = 0; i < upgrades.size(); ++i)
-    upgrades[i].draw();
 }
 
 void
@@ -244,15 +229,6 @@ World::action(double frame_ratio)
 {
   tux->check_bounds(level->back_scrolling, (bool)level->hor_autoscroll_speed);
   scrolling(frame_ratio);
-
-  for (unsigned int i = 0; i < bullets.size(); ++i)
-    bullets[i].action(frame_ratio);
-  
-  for (unsigned int i = 0; i < upgrades.size(); i++)
-    upgrades[i].action(frame_ratio);
-
-  for (Trampolines::iterator i = trampolines.begin(); i != trampolines.end(); ++i)
-     (*i)->action(frame_ratio);
 
   /* update objects (don't use iterators here, because the list might change
    * during the iteration)
@@ -264,7 +240,7 @@ World::action(double frame_ratio)
   collision_handler();
  
   /** cleanup marked objects */
-  for(std::vector<_GameObject*>::iterator i = gameobjects.begin();
+  for(std::vector<GameObject*>::iterator i = gameobjects.begin();
       i != gameobjects.end(); /* nothing */) {
     if((*i)->is_valid() == false) {
       Drawable* drawable = dynamic_cast<Drawable*> (*i);
@@ -272,8 +248,27 @@ World::action(double frame_ratio)
         displaymanager.remove_drawable(drawable);
       BadGuy* badguy = dynamic_cast<BadGuy*> (*i);
       if(badguy) {
-        std::remove(bad_guys.begin(), bad_guys.end(), badguy);
-      } 
+        bad_guys.erase(std::remove(bad_guys.begin(), bad_guys.end(), badguy),
+            bad_guys.end());
+      }
+      Bullet* bullet = dynamic_cast<Bullet*> (*i);
+      if(bullet) {
+        bullets.erase(
+            std::remove(bullets.begin(), bullets.end(), bullet),
+            bullets.end());
+      }
+      Upgrade* upgrade = dynamic_cast<Upgrade*> (*i);
+      if(upgrade) {
+        upgrades.erase(
+            std::remove(upgrades.begin(), upgrades.end(), upgrade),
+            upgrades.end());
+      }
+      Trampoline* trampoline = dynamic_cast<Trampoline*> (*i);
+      if(trampoline) {
+        trampolines.erase(
+            std::remove(trampolines.begin(), trampolines.end(), trampoline),
+            trampolines.end());
+      }
       
       delete *i;
       i = gameobjects.erase(i);
@@ -403,14 +398,12 @@ World::collision_handler()
           if((*j)->dying != DYING_NOT)
             continue;
           
-          if(rectcollision(bullets[i].base, (*j)->base))
+          if(rectcollision(bullets[i]->base, (*j)->base))
             {
               // We have detected a collision and now call the
               // collision functions of the collided objects.
-              // collide with bad_guy first, since bullet_collision will
-              // delete the bullet
-              (*j)->collision(&bullets[i], CO_BULLET);
-              bullets[i].collision(CO_BADGUY);
+              (*j)->collision(&bullets[i], CO_BULLET, COLLISION_NORMAL);
+              bullets[i]->collision(CO_BADGUY);
               break; // bullet is invalid now, so break
             }
         }
@@ -469,11 +462,11 @@ World::collision_handler()
   // CO_UPGRADE & CO_PLAYER check
   for(unsigned int i = 0; i < upgrades.size(); ++i)
     {
-      if(rectcollision(upgrades[i].base, tux->base))
+      if(rectcollision(upgrades[i]->base, tux->base))
         {
           // We have detected a collision and now call the collision
           // functions of the collided objects.
-          upgrades[i].collision(tux, CO_PLAYER, COLLISION_NORMAL);
+          upgrades[i]->collision(tux, CO_PLAYER, COLLISION_NORMAL);
         }
     }
 
@@ -542,28 +535,14 @@ World::add_bad_guy(float x, float y, BadGuyKind kind)
   return badguy;
 }
 
-template<class T, class U>
-T*
-World::add_object(U data)
-{
-  T* tobject = new T(data);
-
-  if (data.type == OBJ_TRAMPOLINE)
-    trampolines.push_back(tobject);
-
-  return tobject;
-}
-
 void
-World::add_upgrade(float x, float y, Direction dir, UpgradeKind kind)
+World::add_upgrade(const Vector& pos, Direction dir, UpgradeKind kind)
 {
-  Upgrade new_upgrade;
-  new_upgrade.init(x,y,dir,kind);
-  upgrades.push_back(new_upgrade);
+  add_object(new Upgrade(displaymanager, pos, dir, kind));
 }
 
 void 
-World::add_bullet(float x, float y, float xm, Direction dir)
+World::add_bullet(const Vector& pos, float xm, Direction dir)
 {
   if(tux->got_power == Player::FIRE_POWER)
     {
@@ -576,12 +555,14 @@ World::add_bullet(float x, float y, float xm, Direction dir)
       return;
     }
 
-  Bullet new_bullet;
+  Bullet* new_bullet = 0;
   if(tux->got_power == Player::FIRE_POWER)
-    new_bullet.init(x,y,xm,dir, FIRE_BULLET);
+    new_bullet = new Bullet(displaymanager, pos, xm, dir, FIRE_BULLET);
   else if(tux->got_power == Player::ICE_POWER)
-    new_bullet.init(x,y,xm,dir, ICE_BULLET);
-  bullets.push_back(new_bullet);
+    new_bullet = new Bullet(displaymanager, pos, xm, dir, ICE_BULLET);
+  else
+    st_abort("wrong bullet type.", "");
+  add_object(new_bullet);
   
   play_sound(sounds[SND_SHOOT], SOUND_CENTER_SPEAKER);
 }
@@ -697,26 +678,26 @@ World::tryemptybox(float x, float y, Direction col_side)
 
     case 2: // Add a fire flower upgrade!
       if (tux->size == SMALL)     /* Tux is small, add mints! */
-        add_upgrade(posx, posy, col_side, UPGRADE_GROWUP);
+        add_upgrade(Vector(posx, posy), col_side, UPGRADE_GROWUP);
       else     /* Tux is big, add a fireflower: */
-        add_upgrade(posx, posy, col_side, UPGRADE_FIREFLOWER);
+        add_upgrade(Vector(posx, posy), col_side, UPGRADE_FIREFLOWER);
       play_sound(sounds[SND_UPGRADE], SOUND_CENTER_SPEAKER);
       break;
     
     case 5: // Add an ice flower upgrade!
       if (tux->size == SMALL)     /* Tux is small, add mints! */
-        add_upgrade(posx, posy, col_side, UPGRADE_GROWUP);
+        add_upgrade(Vector(posx, posy), col_side, UPGRADE_GROWUP);
       else     /* Tux is big, add an iceflower: */
-        add_upgrade(posx, posy, col_side, UPGRADE_ICEFLOWER);
+        add_upgrade(Vector(posx, posy), col_side, UPGRADE_ICEFLOWER);
       play_sound(sounds[SND_UPGRADE], SOUND_CENTER_SPEAKER);
       break;
 
     case 3: // Add a golden herring
-      add_upgrade(posx, posy, col_side, UPGRADE_HERRING);
+      add_upgrade(Vector(posx, posy), col_side, UPGRADE_HERRING);
       break;
 
     case 4: // Add a 1up extra
-      add_upgrade(posx, posy, col_side, UPGRADE_1UP);
+      add_upgrade(Vector(posx, posy), col_side, UPGRADE_1UP);
       break;
     default:
       break;
@@ -764,11 +745,11 @@ World::trybumpbadguy(float x, float y)
   // Upgrades:
   for (unsigned int i = 0; i < upgrades.size(); i++)
     {
-      if (upgrades[i].base.height == 32 &&
-          upgrades[i].base.x >= x - 32 && upgrades[i].base.x <= x + 32 &&
-          upgrades[i].base.y >= y - 16 && upgrades[i].base.y <= y + 16)
+      if (upgrades[i]->base.height == 32 &&
+          upgrades[i]->base.x >= x - 32 && upgrades[i]->base.x <= x + 32 &&
+          upgrades[i]->base.y >= y - 16 && upgrades[i]->base.y <= y + 16)
         {
-          upgrades[i].collision(tux, CO_PLAYER, COLLISION_BUMP);
+          upgrades[i]->collision(tux, CO_PLAYER, COLLISION_BUMP);
         }
     }
 }

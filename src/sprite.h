@@ -24,6 +24,7 @@
 #include <vector>
 #include "lispreader.h"
 #include "texture.h"
+#include "vector.h"
 
 class Sprite
 {
@@ -58,6 +59,9 @@ class Sprite
   void draw(float x, float y);
   void draw_part(float sx, float sy, float x, float y, float w, float h);
   int get_current_frame() const;
+
+  void draw(const Vector& pos)
+  { draw(pos.x, pos.y); }
 
   std::string get_name() const { return name; } 
   int get_width() const;
