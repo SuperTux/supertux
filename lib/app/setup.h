@@ -21,6 +21,7 @@
 #define SUPERTUX_SETUP_H
 
 #include <vector>
+#include <set>
 #include <string>
 #include "../gui/menu.h"
 #include "../special/base.h"
@@ -33,9 +34,9 @@ struct FileSystem
     static int faccessible(const char *filename);
     static int fcreatedir(const char* relative_dir);
     static int fwriteable(const char *filename);
-    static std::vector<std::string> read_directory(const std::string& pathname);
-    static string_list_type dsubdirs(const char *rel_path, const char* expected_file);
-    static string_list_type dfiles(const char *rel_path, const char* glob, const char* exception_str);
+    static std::set<std::string> read_directory(const std::string& pathname);
+    static std::set<std::string> dsubdirs(const char *rel_path, const char* expected_file);
+    static std::set<std::string> dfiles(const char *rel_path, const char* glob, const char* exception_str);
   };
 
 /// All you need to get an application up and running

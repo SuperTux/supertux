@@ -330,7 +330,7 @@ int LevelEditor::run(char* filename)
         default:
           if(i >= 1)
           {
-            if(load_level_subset(level_subsets.item[i-1]))
+            if(load_level_subset(subset_load_menu->item[i+1].text))
               return 1;
           }
           break;
@@ -395,7 +395,7 @@ int LevelEditor::run(char* filename)
   return done;
 }
 
-int LevelEditor::load_level_subset(char *filename)
+int LevelEditor::load_level_subset(const char *filename)
 {
   le_level_subset->load(filename);
   leveleditor_menu->get_item_by_id(MNID_SUBSETSETTINGS).kind = MN_GOTO;
@@ -411,7 +411,7 @@ int LevelEditor::load_level_subset(char *filename)
 
 void LevelEditor::init_menus()
 {
-  int i;
+  int i = 0;
 
   leveleditor_menu = new Menu();
   subset_load_menu = new Menu();
@@ -435,9 +435,9 @@ void LevelEditor::init_menus()
   subset_load_menu->additem(MN_LABEL, "Load Level Subset", 0, 0);
   subset_load_menu->additem(MN_HL, "", 0, 0);
 
-  for(i = 0; i < level_subsets.num_items; ++i)
+  for(std::set<std::string>::iterator it = level_subsets.begin(); it != level_subsets.end(); ++it)
   {
-    subset_load_menu->additem(MN_ACTION,level_subsets.item[i],0,0, i+1);
+    subset_load_menu->additem(MN_ACTION,(*it),0,0, i+1);
   }
   subset_load_menu->additem(MN_HL,"",0,0);
   subset_load_menu->additem(MN_BACK,"Back",0,0);
@@ -539,22 +539,22 @@ void LevelEditor::init_menus()
 void LevelEditor::update_level_settings_menu()
 {
   char str[80];
-  int i;
+  std::set<std::string>::iterator it;
 
   level_settings_menu->get_item_by_id(MNID_NAME).change_input(le_level->name.c_str());
   level_settings_menu->get_item_by_id(MNID_AUTHOR).change_input(le_level->author.c_str());
 
-  string_list_copy(level_settings_menu->get_item_by_id(MNID_SONG).list, FileSystem::dfiles("music/",NULL, "-fast"));
-  string_list_copy(level_settings_menu->get_item_by_id(MNID_BGIMG).list, FileSystem::dfiles("images/background",NULL, NULL));
-  string_list_add_item(level_settings_menu->get_item_by_id(MNID_BGIMG).list,"");
-  string_list_add_item(level_settings_menu->get_item_by_id(MNID_PARTICLE).list,"");
-  string_list_add_item(level_settings_menu->get_item_by_id(MNID_PARTICLE).list,"snow");
-  string_list_add_item(level_settings_menu->get_item_by_id(MNID_PARTICLE).list,"clouds");
+  level_settings_menu->get_item_by_id(MNID_SONG).list.first = FileSystem::dfiles("music/",NULL, "-fast");
+  level_settings_menu->get_item_by_id(MNID_BGIMG).list.first = FileSystem::dfiles("images/background",NULL, NULL);
+  level_settings_menu->get_item_by_id(MNID_BGIMG).list.first.insert("");
+  level_settings_menu->get_item_by_id(MNID_PARTICLE).list.first.insert("");
+  level_settings_menu->get_item_by_id(MNID_PARTICLE).list.first.insert("snow");
+  level_settings_menu->get_item_by_id(MNID_PARTICLE).list.first.insert("clouds");
 
-  if((i = string_list_find(level_settings_menu->get_item_by_id(MNID_SONG).list,le_level->get_sector("main")->song_title.c_str())) != -1)
-    level_settings_menu->get_item_by_id(MNID_SONG).list->active_item = i;
-  if((i = string_list_find(level_settings_menu->get_item_by_id(MNID_BGIMG).list,le_level->get_sector("main")->background->get_image().c_str())) != -1)
-    level_settings_menu->get_item_by_id(MNID_BGIMG).list->active_item = i;
+  if((it = level_settings_menu->get_item_by_id(MNID_SONG).list.first.find(le_level->get_sector("main")->song_title)) != level_settings_menu->get_item_by_id(MNID_SONG).list.first.end())
+    level_settings_menu->get_item_by_id(MNID_SONG).list.second = it;
+  if((it = level_settings_menu->get_item_by_id(MNID_BGIMG).list.first.find(le_level->get_sector("main")->background->get_image())) != level_settings_menu->get_item_by_id(MNID_BGIMG).list.first.end())
+    level_settings_menu->get_item_by_id(MNID_BGIMG).list.second = it;
 /*  if((i = string_list_find(level_settings_menu->get_item_by_id(MNID_PARTICLE).list,le_level->get_sector("main")->particlesystem.c_str())) != -1)
     level_settings_menu->get_item_by_id(MNID_PARTICLE).list->active_item = i;*/
 
@@ -597,9 +597,9 @@ void LevelEditor::apply_level_settings_menu()
   le_level->name = level_settings_menu->get_item_by_id(MNID_NAME).input;
   le_level->author = level_settings_menu->get_item_by_id(MNID_AUTHOR).input;
 
-  if(le_level->get_sector("main")->background->get_image().compare(string_list_active(level_settings_menu->get_item_by_id(MNID_BGIMG).list)) != 0)
+  if(le_level->get_sector("main")->background->get_image().compare((*level_settings_menu->get_item_by_id(MNID_BGIMG).list.second)) != 0)
   {
-    le_level->get_sector("main")->background->set_image(string_list_active(level_settings_menu->get_item_by_id(MNID_BGIMG).list), atoi(level_settings_menu->get_item_by_id(MNID_BGSPEED).input));
+    le_level->get_sector("main")->background->set_image((*level_settings_menu->get_item_by_id(MNID_BGIMG).list.second), atoi(level_settings_menu->get_item_by_id(MNID_BGSPEED).input));
     i = true;
   }
 
@@ -613,7 +613,7 @@ void LevelEditor::apply_level_settings_menu()
     le_level->load_gfx();
   }*/
 
-  le_level->get_sector("main")->song_title = string_list_active(level_settings_menu->get_item_by_id(MNID_SONG).list);
+  le_level->get_sector("main")->song_title = (*level_settings_menu->get_item_by_id(MNID_SONG).list.second);
 
   le_level->get_sector("main")->solids->resize(
       atoi(level_settings_menu->get_item_by_id(MNID_LENGTH).input),
@@ -950,10 +950,10 @@ void LevelEditor::change_object_properties(GameObject *pobj)
     object_properties_menu->additem(MN_STRINGSELECT,"Kind",0,0,1);
     for(int i = 0; i < NUM_BadGuyKinds; ++i)
     {
-      string_list_add_item(object_properties_menu->get_item_by_id(1).list,
-          badguykind_to_string(static_cast<BadGuyKind>(i)).c_str());
+      object_properties_menu->get_item_by_id(1).list.first.insert(
+          badguykind_to_string(static_cast<BadGuyKind>(i)));
       if(pbad->kind == i)
-        object_properties_menu->get_item_by_id(1).list->active_item = i;
+        object_properties_menu->get_item_by_id(1).list.second = object_properties_menu->get_item_by_id(1).list.first.find(badguykind_to_string(static_cast<BadGuyKind>(i)));
     }
     object_properties_menu->additem(MN_TOGGLE,"StayOnPlatform",pbad->stay_on_platform,0,2);
   }
@@ -984,7 +984,7 @@ void LevelEditor::change_object_properties(GameObject *pobj)
       BadGuy* pbad = dynamic_cast<BadGuy*>(pobj);
       if(pbad != 0) {
         BadGuy* pbad = dynamic_cast<BadGuy*>(pobj);
-        pbad->kind =  badguykind_from_string(string_list_active(object_properties_menu->get_item_by_id(1).list));
+        pbad->kind =  badguykind_from_string((*object_properties_menu->get_item_by_id(1).list.second));
         pbad->stay_on_platform = object_properties_menu->get_item_by_id(2).toggled;
       }
       loop = false;

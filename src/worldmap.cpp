@@ -437,7 +437,7 @@ WorldMap::load_map()
                       reader.read_int("x", level.x);
                       reader.read_int("y", level.y);
                       level.auto_path = true;
-                      reader.read_bool("auto-path", &level.auto_path);
+                      reader.read_bool("auto-path", level.auto_path);
                       level.swap_x = level.swap_y = -1;
                       reader.read_int("swap-x", level.swap_x);
                       reader.read_int("swap-y", level.swap_y);

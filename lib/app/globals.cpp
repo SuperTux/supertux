@@ -50,7 +50,6 @@ bool use_joystick;
 bool use_fullscreen;
 bool debug_mode;
 bool show_fps;
-float game_speed = 1.0f;
 
 int joystick_num = 0;
 char* level_startup_file = 0;

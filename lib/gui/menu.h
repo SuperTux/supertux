@@ -21,6 +21,9 @@
 #define SUPERTUX_MENU_H
 
 #include <vector>
+#include <set>
+#include <string>
+#include <utility>
 
 #include "SDL.h"
 
@@ -28,7 +31,6 @@
 #include "../video/font.h"
 #include "../special/timer.h"
 #include "../special/base.h"
-#include "../special/stringlist.h"
 #include "../gui/mousecursor.h"
 
 namespace SuperTux
@@ -68,7 +70,7 @@ namespace SuperTux
       char *input;
       int *int_p;   // used for setting keys (can be used for more stuff...)
       int id;   // item id
-      string_list_type* list;
+      std::pair<std::set<std::string>, std::set<std::string>::iterator> list;
       Menu* target_menu;
 
       void change_text (const char *text);

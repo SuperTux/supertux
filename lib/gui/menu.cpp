@@ -171,16 +171,10 @@ MenuItem::create(MenuItemKind kind_, const char *text_, int init_toggle_, Menu* 
   pnew_item->input = (char*) malloc(sizeof(char));
   pnew_item->input[0] = '\0';
 
-  if(kind_ == MN_STRINGSELECT)
-    {
-      pnew_item->list = (string_list_type*) malloc(sizeof(string_list_type));
-      string_list_init(pnew_item->list);
-    }
-  else
-    pnew_item->list = NULL;
-
   pnew_item->id = id;
   pnew_item->int_p = int_p_;
+  
+  pnew_item->list.second = 0;
 
   pnew_item->input_flickering = false;
   pnew_item->input_flickering_timer.init(true);
@@ -306,7 +300,7 @@ Menu::~Menu()
         {
           free(item[i].text);
           free(item[i].input);
-          string_list_free(item[i].list);
+          item[i].list.first.clear();
         }
     }
 }
@@ -379,23 +373,23 @@ Menu::action()
 
         case MENU_ACTION_LEFT:
           if(item[active_item].kind == MN_STRINGSELECT
-              && item[active_item].list->num_items != 0)
+              && item[active_item].list.first.size() != 0)
             {
-              if(item[active_item].list->active_item > 0)
-                --item[active_item].list->active_item;
+              if(item[active_item].list.second != item[active_item].list.first.begin())
+                --item[active_item].list.second;
               else
-                item[active_item].list->active_item = item[active_item].list->num_items-1;
+                item[active_item].list.second = item[active_item].list.first.end();
             }
           break;
 
         case MENU_ACTION_RIGHT:
           if(item[active_item].kind == MN_STRINGSELECT
-              && item[active_item].list->num_items != 0)
+              && item[active_item].list.first.size() != 0)
             {
-              if(item[active_item].list->active_item < item[active_item].list->num_items-1)
-                ++item[active_item].list->active_item;
+              if(item[active_item].list.second != item[active_item].list.first.end())
+                ++item[active_item].list.second;
               else
-                item[active_item].list->active_item = 0;
+                item[active_item].list.second = item[active_item].list.first.begin();
             }
           break;
 
@@ -526,9 +520,10 @@ Menu::draw_item(DrawingContext& context,
   int shadow_size = 2;
   int text_width  = int(text_font->get_text_width(pitem.text));
   int input_width = int(text_font->get_text_width(pitem.input) + 10);
-  int list_width  =
-    int(text_font->get_text_width(string_list_active(pitem.list)));
-
+  int list_width = 0;
+  if(pitem.list.second != 0)
+  list_width = int(text_font->get_text_width((*pitem.list.second)));
+  
   if (arrange_left)
     x_pos += 24 - menu_width/2 + (text_width + input_width + list_width)/2;
 
@@ -637,7 +632,7 @@ Menu::draw_item(DrawingContext& context,
           Vector(list_pos_2, 18),
           Color(0,0,0,128), LAYER_GUI - 5);
 
-        context.draw_text_center(text_font, string_list_active(pitem.list),
+        context.draw_text_center(text_font, (*pitem.list.second),
                                  Vector(text_pos, y_pos - int(text_font->get_height()/2)),
                                  LAYER_GUI);
         context.draw_text_center(text_font, pitem.text,
@@ -693,7 +688,7 @@ int Menu::get_width() const
     int menu_width = 0;
     for(unsigned int i = 0; i < item.size(); ++i)
       {
-        int w = strlen(item[i].text) + (item[i].input ? strlen(item[i].input) + 1 : 0) + strlen(string_list_active(item[i].list));
+        int w = strlen(item[i].text) + (item[i].input ? strlen(item[i].input) + 1 : 0); //+ ((item[i].list.second != item[i].list.first.end()) ? (strlen((*(item[i].list.second)).c_str())) : 0);
         if( w > menu_width )
           {
             menu_width = w;
@@ -714,8 +709,9 @@ int Menu::get_height() const
 void
 Menu::draw(DrawingContext& context)
 {
+
   int menu_height = get_height();
-  int menu_width  = get_width();
+  int menu_width = get_width();  
 
   /* Draw a transparent background */
   context.draw_filled_rect(

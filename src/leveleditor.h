@@ -94,7 +94,7 @@ void unload_level();
 /* own declerations */
 /* crutial ones (main loop) */
 void init_menus();
-int load_level_subset(char *filename);
+int load_level_subset(const char *filename);
 void drawlevel(DrawingContext& context);
 void drawinterface(DrawingContext& context);
 void change(float x, float y, int tm, unsigned int c);
@@ -142,7 +142,7 @@ enum SelectionMode { CURSOR, SQUARE, NONE };
 
 // variables
 /* leveleditor internals */
-string_list_type level_subsets;
+std::set<std::string> level_subsets;
 bool le_level_changed;  /* if changes, ask for saving, when quiting*/
 bool show_minimap;
 bool show_selections;

@@ -119,15 +119,14 @@ int FileSystem::fcreatedir(const char* relative_dir)
 /* Get all names of sub-directories in a certain directory. */
 /* Returns the number of sub-directories found. */
 /* Note: The user has to free the allocated space. */
-string_list_type FileSystem::dsubdirs(const char *rel_path,const  char* expected_file)
+std::set<std::string> FileSystem::dsubdirs(const char *rel_path,const  char* expected_file)
 {
   DIR *dirStructP;
   struct dirent *direntp;
-  string_list_type sdirs;
+  std::set<std::string> sdirs;
   char filename[1024];
   char path[1024];
 
-  string_list_init(&sdirs);
   sprintf(path,"%s/%s",st_dir,rel_path);
   if((dirStructP = opendir(path)) != NULL)
     {
@@ -147,7 +146,7 @@ string_list_type FileSystem::dsubdirs(const char *rel_path,const  char* expected
                     continue;
                 }
 
-              string_list_add_item(&sdirs,direntp->d_name);
+	      sdirs.insert(direntp->d_name);
             }
         }
       closedir(dirStructP);
@@ -180,7 +179,7 @@ string_list_type FileSystem::dsubdirs(const char *rel_path,const  char* expected
                     }
                 }
 
-              string_list_add_item(&sdirs,direntp->d_name);
+	      sdirs.insert(direntp->d_name);
             }
         }
       closedir(dirStructP);
@@ -189,14 +188,13 @@ string_list_type FileSystem::dsubdirs(const char *rel_path,const  char* expected
   return sdirs;
 }
 
-string_list_type FileSystem::dfiles(const char *rel_path, const  char* glob, const  char* exception_str)
+std::set<std::string> FileSystem::dfiles(const char *rel_path, const  char* glob, const  char* exception_str)
 {
   DIR *dirStructP;
   struct dirent *direntp;
-  string_list_type sdirs;
+  std::set<std::string> sdirs;
   char path[1024];
 
-  string_list_init(&sdirs);
   sprintf(path,"%s/%s",st_dir,rel_path);
   if((dirStructP = opendir(path)) != NULL)
     {
@@ -218,7 +216,7 @@ string_list_type FileSystem::dfiles(const char *rel_path, const  char* glob, con
                 if(strstr(direntp->d_name,glob) == NULL)
                   continue;
 
-              string_list_add_item(&sdirs,direntp->d_name);
+	      sdirs.insert(direntp->d_name);
             }
         }
       closedir(dirStructP);
@@ -245,7 +243,7 @@ string_list_type FileSystem::dfiles(const char *rel_path, const  char* glob, con
                 if(strstr(direntp->d_name,glob) == NULL)
                   continue;
 
-              string_list_add_item(&sdirs,direntp->d_name);
+	      sdirs.insert(direntp->d_name);
             }
         }
       closedir(dirStructP);
@@ -844,9 +842,9 @@ void usage(char * prog, int ret)
   exit(ret);
 }
 
-std::vector<std::string> FileSystem::read_directory(const std::string& pathname)
+std::set<std::string> FileSystem::read_directory(const std::string& pathname)
 {
-  std::vector<std::string> dirnames;
+  std::set<std::string> dirnames;
   
   DIR* dir = opendir(pathname.c_str());
   if (dir)
@@ -855,7 +853,7 @@ std::vector<std::string> FileSystem::read_directory(const std::string& pathname)
       
       while((direntp = readdir(dir)))
         {
-          dirnames.push_back(direntp->d_name);
+          dirnames.insert(direntp->d_name);
         }
       
       closedir(dir);

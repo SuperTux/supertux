@@ -19,8 +19,6 @@
 //  02111-1307, USA.
 
 #include <assert.h>
-#include <unistd.h>
-
 #include "app/setup.h"
 #include "level.h"
 #include "app/globals.h"
@@ -103,7 +101,7 @@ void LevelSubset::load(const char* subset)
   if (levels.empty())
     { // Level info file doesn't define any levels, so read the
       // directory to see what we can find
-      std::vector<std::string> files;
+      std::set<std::string> files;
   
       snprintf(filename, 1024, "%s/levels/%s/", st_dir, subset);
       if(access(filename, R_OK) == 0)
@@ -116,7 +114,7 @@ void LevelSubset::load(const char* subset)
           files = FileSystem::read_directory(filename);
         }
   
-      for(std::vector<std::string>::iterator i = files.begin(); i != files.end(); ++i)
+      for(std::set<std::string>::iterator i = files.begin(); i != files.end(); ++i)
         {
           if (has_suffix(*i, ".stl"))
             levels.push_back(*i);

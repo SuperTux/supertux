@@ -103,7 +103,7 @@ void Config::load()
   if (root_obj->type == LISP_TYPE_EOF || root_obj->type == LISP_TYPE_PARSE_ERROR)
     return;
 
-  if (strcmp(lisp_symbol(lisp_car(root_obj)), "supertux-config") != 0)
+  if (strcmp(lisp_symbol(lisp_car(root_obj)), (package_symbol_name+"-config").c_str()) != 0)
     return;
 
   LispReader reader(lisp_cdr(root_obj));
@@ -148,7 +148,7 @@ void Config::save ()
 
   if(config)
     {
-      fprintf(config, "(supertux-config\n");
+      fprintf(config, ("("+package_symbol_name+"-config\n").c_str());
       fprintf(config, "\t;; the following options can be set to #t or #f:\n");
       fprintf(config, "\t(fullscreen %s)\n", use_fullscreen ? "#t" : "#f");
       fprintf(config, "\t(sound      %s)\n", SoundManager::get()->sound_enabled()      ? "#t" : "#f");

@@ -74,7 +74,7 @@ static GameSession* titlesession;
 static std::vector<LevelSubset*> contrib_subsets;
 static LevelSubset* current_contrib_subset = 0;
 
-static string_list_type worldmap_list;
+static std::set<std::string> worldmap_list;
 
 static LevelEditor* leveleditor;
 
@@ -102,34 +102,39 @@ void free_contrib_menu()
 
 void generate_contrib_menu()
 {
+  
   /** Generating contrib levels list by making use of Level Subset */
-  string_list_type level_subsets = FileSystem::dsubdirs("/levels", "info");
+  std::set<std::string> level_subsets = FileSystem::dsubdirs("/levels", "info");
 
   free_contrib_menu();
 
   contrib_menu->additem(MN_LABEL,_("Contrib Levels"),0,0);
   contrib_menu->additem(MN_HL,"",0,0);
-
-  for (int i = 0; i < level_subsets.num_items; ++i)
+  
+  int i = 0;
+  for (std::set<std::string>::iterator it = level_subsets.begin(); it != level_subsets.end(); ++it)
     {
       LevelSubset* subset = new LevelSubset();
-      subset->load(level_subsets.item[i]);
+      subset->load((*it).c_str());
       contrib_menu->additem(MN_GOTO, subset->title.c_str(), i,
-          contrib_subset_menu, i);
+          contrib_subset_menu);
       contrib_subsets.push_back(subset);
+      ++i;
     }
 
-  for(int i = 0; i < worldmap_list.num_items; i++)
+  i = 0;
+  for(std::set<std::string>::iterator it = worldmap_list.begin(); it != worldmap_list.end(); ++it)
     {
     WorldMapNS::WorldMap worldmap;
-    worldmap.loadmap(worldmap_list.item[i]);
-    contrib_menu->additem(MN_ACTION, worldmap.get_world_title(),0,0, i + level_subsets.num_items);
+    worldmap.loadmap((*it).c_str());
+    contrib_menu->additem(MN_ACTION, worldmap.get_world_title(),0,0, i + level_subsets.size());
+    ++i;
     }
 
   contrib_menu->additem(MN_HL,"",0,0);
   contrib_menu->additem(MN_BACK,_("Back"),0,0);
 
-  string_list_free(&level_subsets);
+  level_subsets.clear();
 }
 
 void check_levels_contrib_menu()
@@ -180,10 +185,13 @@ void check_levels_contrib_menu()
       titlesession->set_current();
       }
     }
-  else if(index < worldmap_list.num_items + (int)contrib_subsets.size())
+  else if((unsigned)index < worldmap_list.size() + (int)contrib_subsets.size())
     {
     WorldMapNS::WorldMap worldmap;
-    worldmap.loadmap(worldmap_list.item[index - contrib_subsets.size()]);
+    std::set<std::string>::iterator it = worldmap_list.begin();
+    for(int i = index - contrib_subsets.size(); i > 0; --i)
+    ++it;
+    worldmap.loadmap((*it));
     worldmap.display();
 
     Menu::set_current(main_menu);
@@ -309,10 +317,11 @@ void title(void)
           if (event.type == SDL_QUIT)
             Menu::set_current(0);
         }
-
+  
       /* Draw the background: */
       draw_demo(frame_ratio);
-     
+      
+      
       if (Menu::current() == main_menu)
         context.draw_surface(logo, Vector(screen->w/2 - logo->w/2, 30),
             LAYER_FOREGROUND1+1);
@@ -330,7 +339,7 @@ void title(void)
         {
           menu->draw(context);
           menu->action();
-        
+  	  
           if(menu == main_menu)
             {
               switch (main_menu->check())
@@ -417,12 +426,13 @@ void title(void)
   /* Free surfaces: */
 
   free_contrib_menu();
-  string_list_free(&worldmap_list);
+  worldmap_list.clear();
   delete titlesession;
   delete bkg_title;
   delete logo;
   delete img_choose_subset;
 }
+
 
 // EOF //
 
