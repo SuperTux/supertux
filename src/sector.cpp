@@ -332,6 +332,12 @@ Sector::action(float elapsed_time)
   /* Handle all possible collisions. */
   collision_handler();
                                                                                 
+  update_game_objects();
+}
+
+void
+Sector::update_game_objects()
+{
   /** cleanup marked objects */
   for(std::vector<GameObject*>::iterator i = gameobjects.begin();
       i != gameobjects.end(); /* nothing */) {
@@ -407,7 +413,6 @@ Sector::action(float elapsed_time)
           gameobjects.push_back(*i);
   }
   gameobjects_new.clear();
-
 }
 
 void

@@ -83,6 +83,9 @@ public:
   void push_transform();
   void pop_transform();
 
+  /** apply that effect in the next draws (effects are listed on surface.h) */
+  void set_drawing_effect(int effect);
+
 private:
   class Transform
   {
@@ -93,6 +96,8 @@ private:
     {
       return v - translation;
     }
+
+    int draw_effect;
   };
 
   /// the transform stack

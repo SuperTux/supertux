@@ -69,6 +69,8 @@ public:
   void activate(const std::string& spawnpoint = "main");
 
   void action(float elapsed_time);
+  void update_game_objects();
+
   void draw(DrawingContext& context);
 
   /// adds a gameobject

@@ -27,6 +27,7 @@
 
 DrawingContext::DrawingContext()
 {
+transform.draw_effect = NONE_EFFECT;
 }
 
 DrawingContext::~DrawingContext()
@@ -46,6 +47,7 @@ DrawingContext::draw_surface(const Surface* surface, const Vector& position,
   request.request_data = const_cast<Surface*> (surface);
   request.pos = transform.apply(position);
   request.drawing_effect = drawing_effect;
+  request.drawing_effect = transform.draw_effect | drawing_effect;
 
   drawingrequests.push_back(request);
 }
@@ -341,3 +343,8 @@ DrawingContext::pop_transform()
   transformstack.pop_back();
 }
 
+void
+DrawingContext::set_drawing_effect(int effect)
+{
+  transform.draw_effect = effect;
+}

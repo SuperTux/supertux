@@ -58,10 +58,14 @@ int main(int argc, char * argv[])
     st_menu();
     loadshared();
 
-    if (launch_leveleditor_mode && level_startup_file)
+    if (launch_leveleditor_mode)
     {
-      // TODO
-      // leveleditor(level_startup_file);
+      LevelEditor leveleditor;
+
+      if(level_startup_file)
+        leveleditor.run(level_startup_file);
+      else
+        leveleditor.run();
     }
     else if (level_startup_file)
     {

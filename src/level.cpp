@@ -100,40 +100,27 @@ Level::load_old_format(LispReader& reader)
 void
 Level::save(const std::string& filename)
 {
-#if 0
-  LispReader* level = LispReader::load(filename, "supertux-level");
+ ofstream file(filename.c_str(), ios::out);
+ LispWriter* writer = new LispWriter(file);
 
-  int version = 1;
-  level->read_int("version", version);
-  if(version == 1) {
-    load_old_format(*level);
-    return;
-  }
+ writer->write_comment("Level made using SuperTux's built-in Level Editor");
 
-  for(lisp_object_t* cur = level->get_lisp(); !lisp_nil_p(cur);
-      cur = lisp_cdr(cur)) {
-    std::string token = lisp_symbol(lisp_car(lisp_car(cur)));
-    lisp_object_t* data = lisp_car(lisp_cdr(lisp_car(cur)));
-    LispReader reader(lisp_cdr(lisp_car(cur)));
+ writer->start_list("supertux-level");
 
-    if(token == "name") {
-      name = lisp_string(data);
-    } else if(token == "author") {
-      author = lisp_string(data);
-    } else if(token == "time") {
-      time_left = lisp_integer(data);
-    } else if(token == "sector") {
-      Sector* sector = new Sector;
-      sector->parse(reader);
-      add_sector(sector);
-    } else {
-      std::cerr << "Unknown token '" << token << "' in level file.\n";
-      continue;
-    }
-  }
-  
-  delete level;
-#endif
+ int version = 2;
+ writer->write_int("version", version);
+
+ writer->write_string("name", name);
+ writer->write_string("author", author);
+ writer->write_int("time", time_left);
+
+ for(Sectors::iterator i = sectors.begin(); i != sectors.end(); ++i)
+   i->second->write(*writer);
+
+ writer->end_list("supertux-level");
+
+ delete writer;
+ file.close();
 }
 
 Level::~Level()

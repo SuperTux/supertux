@@ -61,6 +61,10 @@ class TileManager
       const Vector& pos, int layer);
   
   static std::set<TileGroup>* tilegroups() { if(!instance_) { instance_ = new TileManager(); } return tilegroups_ ? tilegroups_ : tilegroups_ = new std::set<TileGroup>; }
+
+  unsigned int total_ids()
+    { return tiles.size(); }
+
   Tile& get(unsigned int id) {
 
     if(id < tiles.size())

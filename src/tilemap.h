@@ -68,6 +68,9 @@ public:
 
   size_t get_height() const
   { return height; }
+
+  int get_layer() const
+  { return layer; }
   
   bool is_solid() const
   { return solid; }

@@ -89,5 +89,5 @@ void MouseCursor::draw(DrawingContext& context)
     }
 
   context.draw_surface_part(cursor, Vector(w*cur_frame, h*cur_state), Vector(w,
-        h), Vector(x-mid_x, y-mid_y), LAYER_FOREGROUND1+100);
+        h), Vector(x-mid_x, y-mid_y), LAYER_GUI+100);
 }
