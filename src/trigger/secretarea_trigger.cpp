@@ -1,19 +1,20 @@
 #include <config.h>
 
 #include "secretarea_trigger.h"
-#include "utils/lispwriter.h"
 #include "gameloop.h"
+#include "lisp/lisp.h"
+#include "lisp/writer.h"
 
 #define MESSAGE_TIME 3.5
 
 //TODO: Count numbers of triggered/total secret areas
-SecretAreaTrigger::SecretAreaTrigger(LispReader& reader)
+SecretAreaTrigger::SecretAreaTrigger(const lisp::Lisp& reader)
 {
-  reader.read_float("x", bbox.p1.x);
-  reader.read_float("y", bbox.p1.y);
+  reader.get("x", bbox.p1.x);
+  reader.get("y", bbox.p1.y);
   bbox.set_size(32, 32);
 
-  reader.read_string("message", message);
+  reader.get("message", message);
   message_displayed = false;
 }
 
@@ -30,7 +31,7 @@ SecretAreaTrigger::~SecretAreaTrigger()
 }
 
 void
-SecretAreaTrigger::write(LispWriter& writer)
+SecretAreaTrigger::write(lisp::Writer& writer)
 {
   writer.start_list("secretarea");
 

@@ -6,11 +6,11 @@ static const float WALKSPEED = 80;
 static const float KICKSPEED = 500;
 static const int MAXSQUISHES = 10;
 
-MrIceBlock::MrIceBlock(LispReader& reader)
+MrIceBlock::MrIceBlock(const lisp::Lisp& reader)
   : ice_state(ICESTATE_NORMAL), squishcount(0)
 {
-  reader.read_float("x", start_position.x);
-  reader.read_float("y", start_position.y);
+  reader.get("x", start_position.x);
+  reader.get("y", start_position.y);
   bbox.set_size(31.8, 31.8);
   sprite = sprite_manager->create("mriceblock");
   set_direction = false;
@@ -28,7 +28,7 @@ MrIceBlock::MrIceBlock(float pos_x, float pos_y, Direction d)
 }
 
 void
-MrIceBlock::write(LispWriter& writer)
+MrIceBlock::write(lisp::Writer& writer)
 {
   writer.start_list("mriceblock");
 

@@ -6,11 +6,11 @@
 class MrIceBlock : public BadGuy
 {
 public:
-  MrIceBlock(LispReader& reader);
+  MrIceBlock(const lisp::Lisp& reader);
   MrIceBlock(float pos_x, float pos_y, Direction d);
 
   void activate();
-  void write(LispWriter& writer);
+  void write(lisp::Writer& writer);
   HitResponse collision_solid(GameObject& other, const CollisionHit& hit);
 
   void active_action(float elapsed_time);

@@ -18,7 +18,6 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
-
 #ifndef SUPERTUX_GAMEOBJS_H
 #define SUPERTUX_GAMEOBJS_H
 
@@ -29,7 +28,6 @@
 #include "special/game_object.h"
 #include "special/moving_object.h"
 #include "serializable.h"
-#include "utils/lispwriter.h"
 
 /* Bounciness of distros: */
 #define NO_BOUNCE 0
@@ -83,31 +81,6 @@ private:
   std::string text;
   Timer2 timer;  
 };
-
-#if 0
-extern Sprite *img_trampoline;
-
-class Trampoline : public MovingObject, public Serializable
-{
-public:
-  Trampoline(LispReader& reader);
-  Trampoline(float x, float y);
- 
-  virtual void write(LispWriter& writer);
-  virtual void action(float frame_ratio);
-  virtual void draw(DrawingContext& context);
-
-  virtual void collision(const MovingObject& other, int);
-  void collision(void *p_c_object, int c_object, CollisionType type);
-
-  Physic physic;
-  enum { M_NORMAL, M_HELD } mode;
-
- private:
-  float power;
-  unsigned int frame;
-};
-#endif
 
 extern Sprite *img_smoke_cloud;
 

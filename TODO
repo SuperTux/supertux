@@ -68,7 +68,6 @@ L: low priority
 [L] rename gameloop.* files to gamesession.*
 [L] rename GameObject::action to GameObject::update()
 [L] use physfs for loading files
-[L] eventually move over new lispreader code from tuxkart
 [L] change physics class y-velocity-coordinate to be like all other
     y-coordinates again (positive y to go down)
 [M] harmonize to 1 single gameloop that switches between title, worldmap,

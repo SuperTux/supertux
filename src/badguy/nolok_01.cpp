@@ -12,10 +12,10 @@ static const float WALKSPEED = 90;
 
 //TODO: Create sprite, give multiple hitpoints, limit max number of snowballs
 //      Stop actions when pause button is hit (probably a general problem of timers)
-Nolok_01::Nolok_01(LispReader& reader)
+Nolok_01::Nolok_01(const lisp::Lisp& reader)
 {
-  reader.read_float("x", start_position.x);
-  reader.read_float("y", start_position.y);
+  reader.get("x", start_position.x);
+  reader.get("y", start_position.y);
   bbox.set_size(31.8, 63.8);
   sprite = sprite_manager->create("dummyguy");
 }
@@ -29,7 +29,7 @@ Nolok_01::Nolok_01(float pos_x, float pos_y)
 }
 
 void
-Nolok_01::write(LispWriter& writer)
+Nolok_01::write(lisp::Writer& writer)
 {
   writer.start_list("nolok01");
 

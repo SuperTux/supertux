@@ -41,11 +41,12 @@
 #include "title.h"
 #include "video/screen.h"
 #include "video/surface.h"
-#include "high_scores.h"
 #include "gui/menu.h"
 #include "timer.h"
 #include "special/frame_rate.h"
 #include "app/setup.h"
+#include "lisp/lisp.h"
+#include "lisp/parser.h"
 #include "level.h"
 #include "level_subset.h"
 #include "gameloop.h"
@@ -127,13 +128,13 @@ void generate_contrib_menu()
   contrib_menu->additem(MN_HL,"",0,0);
   int i = 0;
 
-  for(std::set<std::string>::iterator it = worldmap_list.begin(); it != worldmap_list.end(); ++it)
-    {
+  for(std::set<std::string>::iterator it = worldmap_list.begin();
+          it != worldmap_list.end(); ++it) {
     WorldMapNS::WorldMap worldmap;
     worldmap.loadmap((*it).c_str());
     contrib_menu->additem(MN_ACTION, worldmap.get_world_title(),0,0, i);
     ++i;
-    }
+  }
 
   contrib_menu->additem(MN_HL,"",0,0);
 
@@ -156,6 +157,25 @@ void generate_contrib_menu()
   contrib_menu->additem(MN_BACK,_("Back"),0,0);
 
   level_subsets.clear();
+}
+
+std::string get_level_name(const std::string& filename)
+{
+  try {
+    lisp::Parser parser;
+    std::auto_ptr<lisp::Lisp> root (parser.parse(filename));
+
+    const lisp::Lisp* level = root->get_lisp("supertux-level");
+    if(!level)
+      return "";
+
+    std::string name;
+    level->get("name", name);
+    return name;
+  } catch(std::exception& e) {
+    std::cerr << "Problem getting name of '" << filename << "'.\n";
+    return "";
+  }
 }
 
 void check_levels_contrib_menu()
@@ -214,35 +234,12 @@ void check_levels_contrib_menu()
       contrib_subset_menu->additem(MN_HL,"",0,0);
 
       for (int i = 0; i < subset.get_num_levels(); ++i)
-        {
+      {
         /** get level's title */
-        std::string level_title = "<no title>";
-
         std::string filename = subset.get_level_filename(i);
-        std::string filepath;
-        filepath = st_dir + "/levels/" + filename;
-        if (access(filepath.c_str(), R_OK) != 0)
-        {
-          filepath = datadir + "/levels/" + filename;
-          if (access(filepath.c_str(), R_OK) != 0)
-          {
-            std::cerr << "Error: Level: couldn't find level: " << filename << std::endl;
-            continue;
-          }
-        }
-        
-        LispReader* reader = LispReader::load(filepath, "supertux-level");
-        if(!reader)
-          {
-          std::cerr << "Error: Could not open level file. Ignoring...\n";
-          continue;
-          }
-
-        reader->read_string("name", level_title, true);
-        delete reader;
-
-        contrib_subset_menu->additem(MN_ACTION, level_title, 0, 0, i);
-        }
+        std::string title = get_level_name(filename);
+        contrib_subset_menu->additem(MN_ACTION, title, 0, 0, i);
+      }
 
       contrib_subset_menu->additem(MN_HL,"",0,0);      
       contrib_subset_menu->additem(MN_BACK, _("Back"), 0, 0);

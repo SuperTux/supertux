@@ -21,12 +21,12 @@
 #define SUPERTUX_STATISTICS_H
 
 #include "timer.h"
+#include "lisp/lisp.h"
+#include "lisp/writer.h"
 
 using namespace SuperTux;
 
 namespace SuperTux {
-class LispReader;
-class LispWriter;
 class DrawingContext;
 }
 
@@ -53,9 +53,9 @@ public:
   ~Statistics();
 
   /// read statistics from lisp file
-  void parse(LispReader& reader);
+  void parse(const lisp::Lisp& lisp);
   /// write statistics to lisp file
-  void write(LispWriter& writer);
+  void write(lisp::Writer& writer);
 
   /* Draw to the worldmap or a game message */
   // TODO: make this functions working

@@ -9,12 +9,12 @@
     (name "main")
     (gravity 10)
     (music "forest2.mod")
-    (spawn-points
+    (spawnpoint
       (name "main")
       (x 100)
       (y 100)
     )
-    (spawn-points
+    (spawnpoint
       (name "main")
       (x 6381)
       (y 201)

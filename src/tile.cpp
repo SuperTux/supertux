@@ -25,10 +25,10 @@
 #include <stdexcept>
 
 #include "app/globals.h"
+#include "lisp/lisp.h"
 #include "tile.h"
 #include "scene.h"
 #include "resources.h"
-#include "utils/lispreader.h"
 #include "math/vector.h"
 #include "video/drawing_context.h"
 
@@ -47,78 +47,91 @@ Tile::~Tile()
 }
 
 void
-Tile::parse(LispReader& reader)
+Tile::parse(const lisp::Lisp& reader)
 {
-  if(!reader.read_uint("id", id)) {
+  if(!reader.get("id", id)) {
     throw std::runtime_error("Missing tile-id.");
   }
   
   bool value;
-  if(reader.read_bool("solid", value) && value)
+  if(reader.get("solid", value) && value)
     attributes |= SOLID;
-  if(reader.read_bool("unisolid", value) && value)
+  if(reader.get("unisolid", value) && value)
     attributes |= UNISOLID | SOLID;
-  if(reader.read_bool("brick", value) && value)
+  if(reader.get("brick", value) && value)
     attributes |= BRICK;
-  if(reader.read_bool("ice", value) && value)
+  if(reader.get("ice", value) && value)
     attributes |= ICE;
-  if(reader.read_bool("water", value) && value)
+  if(reader.get("water", value) && value)
     attributes |= WATER;
-  if(reader.read_bool("spike", value) && value)
+  if(reader.get("spike", value) && value)
     attributes |= SPIKE;
-  if(reader.read_bool("fullbox", value) && value)
+  if(reader.get("fullbox", value) && value)
     attributes |= FULLBOX;
-  if(reader.read_bool("distro", value) && value)
+  if(reader.get("distro", value) && value)
     attributes |= COIN;
-  if(reader.read_bool("coin", value) && value)
+  if(reader.get("coin", value) && value)
     attributes |= COIN;
-  if(reader.read_bool("goal", value) && value)
+  if(reader.get("goal", value) && value)
     attributes |= GOAL;
 
-  reader.read_int("data", data);
-  reader.read_float("anim-fps", anim_fps);
+  if(reader.get("north", value) && value)
+    data |= WORLDMAP_NORTH;
+  if(reader.get("south", value) && value)
+    data |= WORLDMAP_SOUTH;
+  if(reader.get("west", value) && value)
+    data |= WORLDMAP_WEST;
+  if(reader.get("east", value) && value) 
+    data |= WORLDMAP_EAST;
+  if(reader.get("stop", value) && value)
+    data |= WORLDMAP_STOP;                      
 
-  if(reader.read_int("slope-type", data)) {
+  reader.get("data", data);
+  reader.get("anim-fps", anim_fps);
+
+  if(reader.get("slope-type", data)) {
     attributes |= SOLID | SLOPE;
   }
 
-  parse_images(reader.read_lisp("images"));
-  reader.read_string("editor-images", editor_imagefile);
+  const lisp::Lisp* images = reader.get_lisp("images");
+  if(images)
+    parse_images(*images);
+  reader.get("editor-images", editor_imagefile);
 }
 
 void
-Tile::parse_images(lisp_object_t* list)
+Tile::parse_images(const lisp::Lisp& images_lisp)
 {
-  while(!lisp_nil_p(list)) {
-    lisp_object_t* cur = lisp_car(list);
-    if(lisp_string_p(cur)) {
-      imagespecs.push_back(ImageSpec(lisp_string(cur), Rectangle(0, 0, 0, 0)));
-    } else if(lisp_cons_p(cur) && lisp_symbol_p(lisp_car(cur))) {
-      lisp_object_t* sym  = lisp_car(cur);
-      lisp_object_t* data = lisp_cdr(cur);
-      
-      if (strcmp(lisp_symbol(sym), "region") == 0) {
-        float x = lisp_integer(lisp_list_nth(data, 1));
-        float y = lisp_integer(lisp_list_nth(data, 2));
-        float width = lisp_integer(lisp_list_nth(data, 3));
-        float height = lisp_integer(lisp_list_nth(data, 4));
-        imagespecs.push_back(ImageSpec(lisp_string(lisp_car(data)),
-              Rectangle(x, y, x+width, y+height)));
-      } else {
-        std::cerr << "Tile: Type mismatch, should be '(region \"somestring\" x y w h)'" << std::endl;
-        continue;
-      }
+  const lisp::Lisp* list = &images_lisp;
+  while(list) {
+    const lisp::Lisp* cur = list->get_car();
+    if(cur->get_type() == lisp::Lisp::TYPE_STRING) {
+      std::string file;
+      cur->get(file);
+      imagespecs.push_back(ImageSpec(file, Rectangle(0, 0, 0, 0)));
+    } else if(cur->get_type() == lisp::Lisp::TYPE_CONS && 
+        cur->get_car()->get_type() == lisp::Lisp::TYPE_SYMBOL) {
+      const lisp::Lisp* ptr = cur->get_cdr();
+
+      std::string file;
+      float x, y, w, h;
+      ptr->get_car()->get(file); ptr = ptr->get_cdr();
+      ptr->get_car()->get(x); ptr = ptr->get_cdr();
+      ptr->get_car()->get(y); ptr = ptr->get_cdr();
+      ptr->get_car()->get(w); ptr = ptr->get_cdr();
+      ptr->get_car()->get(h);
+      imagespecs.push_back(ImageSpec(file, Rectangle(x, y, x+w, y+h)));
     } else {
       std::cerr << "Expected string or list in images tag.\n";
       continue;
     }
     
-    list = lisp_cdr(list);
+    list = list->get_cdr();
   }
 }
 
 void
-Tile::load_images()
+Tile::load_images(const std::string& tilesetpath)
 {
   assert(images.size() == 0);
   for(std::vector<ImageSpec>::iterator i = imagespecs.begin(); i !=
@@ -126,7 +139,7 @@ Tile::load_images()
     const ImageSpec& spec = *i;
     Surface* surface;
     std::string file 
-      = get_resource_filename(std::string("images/tilesets/") + spec.file);
+      = get_resource_filename(tilesetpath + spec.file);
     if(spec.rect.get_width() <= 0) {
       surface = new Surface(file, true);
     } else {

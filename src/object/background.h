@@ -23,19 +23,22 @@
 #include "video/surface.h"
 #include "video/drawing_context.h"
 #include "special/game_object.h"
-#include "utils/lispreader.h"
 #include "serializable.h"
 
 class DisplayManager;
+
+namespace lisp {
+class Lisp;
+}
 
 class Background : public GameObject, public Serializable
 {
 public:
   Background();
-  Background(LispReader& reader);
+  Background(const lisp::Lisp& reader);
   virtual ~Background();
 
-  virtual void write(LispWriter& writer);
+  virtual void write(lisp::Writer& writer);
 
   void set_image(const std::string& name, float bkgd_speed);
 

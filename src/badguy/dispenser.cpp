@@ -6,20 +6,19 @@
 #include "badguy/mrbomb.h"
 #include "badguy/mriceblock.h"
 
-
-Dispenser::Dispenser(LispReader& reader)
+Dispenser::Dispenser(const lisp::Lisp& reader)
 {
-  reader.read_float("x", start_position.x);
-  reader.read_float("y", start_position.y);
-  reader.read_float("cycle", cycle);
-  reader.read_string("badguy", badguy);
+  reader.get("x", start_position.x);
+  reader.get("y", start_position.y);
+  reader.get("cycle", cycle);
+  reader.get("badguy", badguy);
   bbox.set_size(32, 32);
   sprite = sprite_manager->create("dispenser");
   sprite->set_action("working");
 }
 
 void
-Dispenser::write(LispWriter& writer)
+Dispenser::write(lisp::Writer& writer)
 {
   writer.start_list("dispenser");
 

@@ -2,19 +2,16 @@
 #define __JUMPY_H__
 
 #include "badguy.h"
-#include "utils/lispreader.h"
-#include "utils/lispwriter.h"
-#include "serializable.h"
 
 class Jumpy : public BadGuy
 {
 public:
-  Jumpy(LispReader& reader);
+  Jumpy(const lisp::Lisp& reader);
 
   virtual HitResponse collision_solid(GameObject& other,
       const CollisionHit& hit);
 
-  virtual void write(LispWriter& writer);
+  virtual void write(lisp::Writer& writer);
 };
 
 #endif

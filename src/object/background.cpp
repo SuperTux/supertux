@@ -23,25 +23,26 @@
 #include "app/globals.h"
 #include "camera.h"
 #include "video/drawing_context.h"
-#include "utils/lispwriter.h"
+#include "lisp/lisp.h"
+#include "lisp/writer.h"
 
 Background::Background()
   : type(INVALID), layer(LAYER_BACKGROUND0), image(0)
 {
 }
 
-Background::Background(LispReader& reader)
+Background::Background(const lisp::Lisp& reader)
   : type(INVALID), layer(LAYER_BACKGROUND0), image(0)
 {
-  reader.read_int("layer", layer);
-  if(reader.read_string("image", imagefile) 
-      && reader.read_float("speed", speed)) {
+  reader.get("layer", layer);
+  if(reader.get("image", imagefile) 
+      && reader.get("speed", speed)) {
     set_image(imagefile, speed);
   }
 
   std::vector <unsigned int> bkgd_top_color, bkgd_bottom_color;
-  if(reader.read_int_vector("top_color", bkgd_top_color) &&
-     reader.read_int_vector("bottom_color", bkgd_bottom_color))
+  if(reader.get_vector("top_color", bkgd_top_color) &&
+     reader.get_vector("bottom_color", bkgd_bottom_color))
     set_gradient(Color(bkgd_top_color), Color(bkgd_bottom_color));
 }
 
@@ -51,7 +52,7 @@ Background::~Background()
 }
 
 void
-Background::write(LispWriter& writer)
+Background::write(lisp::Writer& writer)
 {
   if(type == INVALID)
     return;

@@ -31,7 +31,7 @@
 class MyConfig : public Config
 {
   public:
-    void customload(LispReader& reader);
+    void customload(const lisp::Lisp& reader);
     void customsave(FILE * config);
 };
 

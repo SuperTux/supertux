@@ -6,11 +6,11 @@
 class MrBomb : public BadGuy
 {
 public:
-  MrBomb(LispReader& reader);
+  MrBomb(const lisp::Lisp& reader);
   MrBomb(float pos_x, float pos_y, Direction d);
 
   void activate();
-  void write(LispWriter& writer);
+  void write(lisp::Writer& writer);
   HitResponse collision_solid(GameObject& other, const CollisionHit& hit);
 
 protected:

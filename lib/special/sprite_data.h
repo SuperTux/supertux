@@ -24,7 +24,7 @@
 #include <vector>
 #include <map>
 
-#include "utils/lispreader.h"
+#include "lisp/lisp.h"
 #include "video/surface.h"
 
 namespace SuperTux
@@ -35,7 +35,7 @@ namespace SuperTux
   public:
     /** cur has to be a pointer to data in the form of ((x-offset 5)
       (y-offset 10) ...) */
-    SpriteData(lisp_object_t* cur);                                         
+    SpriteData(const lisp::Lisp* cur);                                         
     ~SpriteData();
 
     const std::string& get_name() const
@@ -72,7 +72,7 @@ namespace SuperTux
     typedef std::map <std::string, Action*> Actions;
     Actions actions;
 
-    void parse_action(LispReader& lispreader);
+    void parse_action(const lisp::Lisp* lispreader);
     /** Get an action */
     Action* get_action(std::string act);
 

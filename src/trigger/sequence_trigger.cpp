@@ -1,13 +1,19 @@
 #include <config.h>
 
 #include "sequence_trigger.h"
-#include "utils/lispwriter.h"
 #include "gameloop.h"
+#include "lisp/lisp.h"
+#include "lisp/writer.h"
 
-SequenceTrigger::SequenceTrigger(LispReader& reader)
+SequenceTrigger::SequenceTrigger(const lisp::Lisp& reader)
 {
-  (void) reader;
-  // TODO
+  reader.get("x", bbox.p1.x);
+  reader.get("y", bbox.p1.y);
+  float w, h;
+  reader.get("width", w);
+  reader.get("height", h);
+  bbox.set_size(w, h);
+  reader.get("sequence", sequence_name);
 }
 
 SequenceTrigger::SequenceTrigger(const Vector& pos, const std::string& sequence)
@@ -23,7 +29,7 @@ SequenceTrigger::~SequenceTrigger()
 }
 
 void
-SequenceTrigger::write(LispWriter& writer)
+SequenceTrigger::write(lisp::Writer& writer)
 {
   writer.start_list("sequencetrigger");
 

@@ -21,11 +21,13 @@
 
 #include <cstdlib>
 #include <string>
+#include <stdexcept>
 
 #include "configfile.h"
 #include "app/setup.h"
 #include "app/globals.h"
 #include "audio/sound_manager.h"
+#include "lisp/parser.h"
 
 using namespace SuperTux;
 
@@ -76,64 +78,49 @@ FILE * SuperTux::opendata(const std::string& rel_filename, const char *mode)
 
 void Config::load()
 {
-  FILE * file = NULL;
-
   defaults();
 
-  /* override defaults from config file */
+  lisp::Parser parser;
+  try {
+    std::auto_ptr<lisp::Lisp> root (parser.parse(st_dir + config_filename));
 
-  file = opendata(config_filename, "r");
+    const lisp::Lisp* config_lisp = root->get_lisp(
+        package_symbol_name + "-config");
+    if(!config_lisp)
+      throw new std::runtime_error("Config file is not a supertux-config file");
 
-  if (file == NULL)
-    return;
+    config_lisp->get("fullscreen", use_fullscreen);
+    bool temp = false;
+    if(config_lisp->get("sound", temp))
+      SoundManager::get()->enable_sound(temp);
+    if(config_lisp->get("music", temp))
+      SoundManager::get()->enable_music(temp);
+    config_lisp->get("show_fps",   show_fps);
 
-  /* read config file */
-
-  lisp_stream_t   stream;
-  lisp_object_t * root_obj = NULL;
-
-  lisp_stream_init_file (&stream, file);
-  root_obj = lisp_read (&stream);
-
-  if (root_obj->type == LISP_TYPE_EOF || root_obj->type == LISP_TYPE_PARSE_ERROR)
-    return;
-
-  if (strcmp(lisp_symbol(lisp_car(root_obj)), (package_symbol_name+"-config").c_str()) != 0)
-    return;
-
-  LispReader reader(lisp_cdr(root_obj));
-
-  reader.read_bool("fullscreen", use_fullscreen);
-  bool temp;
-  reader.read_bool("sound",     temp);
-  SoundManager::get()->enable_sound(temp);
-  reader.read_bool("music",      temp);
-  SoundManager::get()->enable_music(temp);
-  reader.read_bool("show_fps",   show_fps);
-
-  std::string video;
-  reader.read_string ("video", video);
-  if (video == "opengl")
-    use_gl = true;
-  else
-    use_gl = false;
-
-  reader.read_int ("joystick", joystick_num);
-
-  if (joystick_num >= 0)
-    {
-    reader.read_int ("joystick-x", joystick_keymap.x_axis);
-    reader.read_int ("joystick-y", joystick_keymap.y_axis);
-    reader.read_int ("joystick-a", joystick_keymap.a_button);
-    reader.read_int ("joystick-b", joystick_keymap.b_button);
-    reader.read_int ("joystick-start", joystick_keymap.start_button);
-    reader.read_int ("joystick-deadzone", joystick_keymap.dead_zone);
+    std::string video;
+    if(config_lisp->get("video", video)) {
+      if (video == "opengl")
+        use_gl = true;
+      else
+        use_gl = false;
     }
 
-  customload(reader);
+    joystick_num = 0;
+    config_lisp->get("joystick", joystick_num);
+    
+    if (joystick_num >= 0) {
+      config_lisp->get("joystick-x", joystick_keymap.x_axis);
+      config_lisp->get("joystick-y", joystick_keymap.y_axis);
+      config_lisp->get("joystick-a", joystick_keymap.a_button);
+      config_lisp->get("joystick-b", joystick_keymap.b_button);
+      config_lisp->get("joystick-start", joystick_keymap.start_button);
+      config_lisp->get("joystick-deadzone", joystick_keymap.dead_zone);
+    }
 
-  lisp_free(root_obj);
-  fclose(file);
+    customload(config_lisp);
+  } catch(std::exception& e) {
+    std::cerr << "Couldn't load configfile: " << e.what() << "\n";
+  }
 }
 
 void Config::save ()
@@ -173,4 +160,3 @@ void Config::save ()
     }
 }
 
-/* EOF */

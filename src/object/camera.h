@@ -30,9 +30,8 @@
 #include "serializable.h"
 
 using namespace SuperTux;
-
-namespace SuperTux {
-class LispReader;
+namespace lisp {
+class Lisp;
 }
 
 class Sector;
@@ -44,9 +43,9 @@ public:
   virtual ~Camera();
 
   /// parse camera mode from lisp file
-  void parse(LispReader& reader);
+  void parse(const lisp::Lisp& reader);
   /// write camera mode to a lisp file
-  virtual void write(LispWriter& writer);
+  virtual void write(lisp::Writer& writer);
 
   /// reset camera postion
   virtual void reset(const Vector& tuxpos);

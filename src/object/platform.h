@@ -12,7 +12,7 @@ using namespace SuperTux;
 class Platform : public SuperTux::MovingObject
 {
 public:
-  Platform(LispReader& reader);
+  Platform(const lisp::Lisp& reader);
   ~Platform();
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit);

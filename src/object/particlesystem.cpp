@@ -25,9 +25,10 @@
 
 #include "particlesystem.h"
 #include "app/globals.h"
-#include "utils/lispreader.h"
-#include "utils/lispwriter.h"
 #include "video/drawing_context.h"
+#include "lisp/parser.h"
+#include "lisp/lisp.h"
+#include "lisp/writer.h"
 
 ParticleSystem::ParticleSystem()
 {
@@ -97,13 +98,13 @@ SnowParticleSystem::SnowParticleSystem()
 }
 
 void
-SnowParticleSystem::parse(LispReader& reader)
+SnowParticleSystem::parse(const lisp::Lisp& reader)
 {
-  reader.read_int("layer", layer);
+  reader.get("layer", layer);
 }
 
 void
-SnowParticleSystem::write(LispWriter& writer)
+SnowParticleSystem::write(lisp::Writer& writer)
 {
   writer.start_list("particles-snow");
   writer.write_int("layer", layer);
@@ -148,13 +149,13 @@ CloudParticleSystem::CloudParticleSystem()
 }
 
 void
-CloudParticleSystem::parse(LispReader& reader)
+CloudParticleSystem::parse(const lisp::Lisp& reader)
 {
-  reader.read_int("layer", layer);
+  reader.get("layer", layer);
 }
 
 void
-CloudParticleSystem::write(LispWriter& writer)
+CloudParticleSystem::write(lisp::Writer& writer)
 {
   writer.start_list("particles-clouds");
   writer.write_int("layer", layer);

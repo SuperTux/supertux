@@ -27,6 +27,7 @@
 #include "app/globals.h"
 #include "app/setup.h"
 #include "video/drawing_context.h"
+#include "lisp/list_iterator.h"
 
 namespace SuperTux
 {
@@ -46,21 +47,18 @@ SpriteData::Action::~Action()
     delete *i;
 }
 
-SpriteData::SpriteData(lisp_object_t* cur)
+SpriteData::SpriteData(const lisp::Lisp* lisp)
 {
-  for(; !lisp_nil_p(cur); cur = lisp_cdr(cur)) {
-    std::string token = lisp_symbol(lisp_car(lisp_car(cur)));
-    lisp_object_t* data = lisp_car(lisp_cdr(lisp_car(cur)));
-    LispReader reader(lisp_cdr(lisp_car(cur)));
-
-    if(token == "name")
-      name = lisp_string(data);
-    else if(token == "action")
-      parse_action(reader);
-    else
-      std::cerr << "Warning: Unknown sprite field: " << token << std::endl;
+  lisp::ListIterator iter(lisp);
+  while(iter.next()) {
+    if(iter.item() == "name") {
+      iter.value()->get(name);
+    } else if(iter.item() == "action") {
+      parse_action(iter.lisp());
+    } else {
+      std::cerr << "Unknown sprite field: " << iter.item() << "\n";
+    }
   }
-
   if(name.empty())
     throw std::runtime_error("Error: Sprite wihtout name.");
   if(actions.empty())
@@ -74,21 +72,22 @@ SpriteData::~SpriteData()
 }
 
 void
-SpriteData::parse_action(LispReader& lispreader)
+SpriteData::parse_action(const lisp::Lisp* lisp)
 {
   Action* action = new Action;
 
-  if(!lispreader.read_string("name", action->name)) {
+  if(!lisp->get("name", action->name)) {
     if(!actions.empty())
       throw std::runtime_error(
           "If there are more than one action, they need names!");
   }
-  lispreader.read_int("x-offset", action->x_offset);
-  lispreader.read_int("y-offset", action->y_offset);
-  lispreader.read_int("z-order", action->z_order);
-  lispreader.read_float("fps",     action->fps);
+  lisp->get("x-offset", action->x_offset);
+  lisp->get("y-offset", action->y_offset);
+  lisp->get("z-order", action->z_order);
+  lisp->get("fps", action->fps);
 
-  /* TODO: add a top filter entry */
+  // this doesn't seem to be used and implemented
+#if 0
   std::vector <int> mask_color;
   lispreader.read_int_vector("apply-mask", mask_color);
   if(mask_color.size() == 4) {
@@ -97,9 +96,10 @@ SpriteData::parse_action(LispReader& lispreader)
       (*i)->apply_filter(MASK_FILTER, Color(mask_color));
     }
   }
+#endif
 
   std::string mirror_action;
-  lispreader.read_string("mirror-action", mirror_action);
+  lisp->get("mirror-action", mirror_action);
   if(!mirror_action.empty()) {
     Action* act_tmp = get_action(mirror_action);
     if(act_tmp == NULL) {
@@ -116,7 +116,7 @@ SpriteData::parse_action(LispReader& lispreader)
     }
   } else { // Load images
     std::vector<std::string> images;
-    if(!lispreader.read_string_vector("images", images)) {
+    if(!lisp->get_vector("images", images)) {
       std::stringstream msg;
       msg << "Sprite '" << name << "' contains no images in action '"
           << action->name << "'.";

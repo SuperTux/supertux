@@ -10,7 +10,7 @@
     (camera
       (mode "normal")
     )
-    (spawn-points
+    (spawnpoint
       (name "main")
       (x 100)
       (y 170)
@@ -90,7 +90,7 @@
       (sector "main")
       (spawnpoint "main")
     )
-    (spawn-points
+    (spawnpoint
       (name "main")    
       (x 300)
       (y 170)

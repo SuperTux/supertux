@@ -20,7 +20,7 @@
 #ifndef SUPERTUX_CONFIGFILE_H
 #define SUPERTUX_CONFIGFILE_H
 
-#include "lispreader.h"
+#include "lisp/lisp.h"
 
 namespace SuperTux {
 
@@ -30,7 +30,7 @@ class Config {
   public:
   void load ();
   void save ();
-  virtual void customload(LispReader& )
+  virtual void customload(const lisp::Lisp* )
   {};
   virtual void customsave(FILE* )
   {};

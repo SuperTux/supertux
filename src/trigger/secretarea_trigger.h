@@ -11,11 +11,11 @@
 class SecretAreaTrigger : public TriggerBase, public Serializable
 {
 public:
-  SecretAreaTrigger(LispReader& reader);
+  SecretAreaTrigger(const lisp::Lisp& reader);
   SecretAreaTrigger(const Vector& pos);
   ~SecretAreaTrigger();
  
-  void write(LispWriter& writer);
+  void write(lisp::Writer& writer);
   void event(Player& player, EventType type);
   void draw(DrawingContext& context);
   

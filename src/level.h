@@ -28,8 +28,8 @@ using namespace SuperTux;
 
 class Sector;
 
-namespace SuperTux {
-class LispReader;
+namespace lisp {
+class Lisp;
 }
 
 class Level
@@ -77,7 +77,7 @@ public:
   int get_total_coins();
 
 private:
-  void load_old_format(LispReader& reader);
+  void load_old_format(const lisp::Lisp& reader);
 };
 
 #endif /*SUPERTUX_LEVEL_H*/

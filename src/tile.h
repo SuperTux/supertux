@@ -22,8 +22,8 @@
 
 #include <vector>
 #include "video/surface.h"
-#include "utils/lispreader.h"
 #include "math/rectangle.h"
+#include "lisp/lisp.h"
 
 using namespace SuperTux;
 
@@ -57,7 +57,17 @@ public:
      */
     GOAL      = 0x0100,
     /** slope tile */
-    SLOPE     = 0x0200
+    SLOPE     = 0x0200,
+  };
+
+  /// worldmap flags
+  enum {
+    WORLDMAP_NORTH = 0x0001,
+    WORLDMAP_SOUTH = 0x0002,
+    WORLDMAP_EAST  = 0x0004,
+    WORLDMAP_WEST  = 0x0008,
+    
+    WORLDMAP_STOP  = 0x0010
   };
   
 private:
@@ -122,11 +132,11 @@ protected:
   friend class TileManager;
   Tile();
 
-  void load_images();
+  void load_images(const std::string& tilesetpath);
 
   /// parses the tile and returns it's id number
-  void parse(LispReader& reader);
-  void parse_images(lisp_object_t* cur);
+  void parse(const lisp::Lisp& reader);
+  void parse_images(const lisp::Lisp& cur);
 };
 
 #endif

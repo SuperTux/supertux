@@ -5,10 +5,10 @@
 static const float JUMPSPEED = 450;
 static const float WALKSPEED = 80;
 
-BouncingSnowball::BouncingSnowball(LispReader& reader)
+BouncingSnowball::BouncingSnowball(const lisp::Lisp& reader)
 {
-  reader.read_float("x", start_position.x);
-  reader.read_float("y", start_position.y);
+  reader.get("x", start_position.x);
+  reader.get("y", start_position.y);
   bbox.set_size(31.8, 31.8);
   sprite = sprite_manager->create("bouncingsnowball");
   set_direction = false;
@@ -25,7 +25,7 @@ BouncingSnowball::BouncingSnowball(float pos_x, float pos_y, Direction d)
 }
 
 void
-BouncingSnowball::write(LispWriter& writer)
+BouncingSnowball::write(lisp::Writer& writer)
 {
   writer.start_list("bouncingsnowball");
 

@@ -32,10 +32,12 @@ using namespace SuperTux;
 
 namespace SuperTux {
 class GameObject;
-class LispReader;
-class LispWriter;
 class Sprite;
 class Rectangle;
+}
+namespace lisp {
+class Lisp;
+class Writer;
 }
 
 class InteractiveObject;
@@ -68,10 +70,10 @@ public:
   ~Sector();
 
   /// read sector from lisp file
-  void parse(LispReader& reader);
-  void parse_old_format(LispReader& reader);
+  void parse(const lisp::Lisp& lisp);
+  void parse_old_format(const lisp::Lisp& lisp);
   /// write sector to lisp file
-  void write(LispWriter& writer);
+  void write(lisp::Writer& writer);
 
   /// activates this sector (change music, intialize player class, ...)
   void activate(const std::string& spawnpoint = "main");
@@ -118,7 +120,7 @@ private:
   void collision_object(MovingObject* object1, MovingObject* object2);
   
   void load_music();
-  GameObject* parse_object(const std::string& name, LispReader& reader);
+  GameObject* parse_object(const std::string& name, const lisp::Lisp& lisp);
   
   static Sector* _current;
   

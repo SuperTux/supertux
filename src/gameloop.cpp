@@ -18,7 +18,6 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
 #include <config.h>
 
 #include <iostream>
@@ -31,6 +30,7 @@
 #include <cerrno>
 #include <unistd.h>
 #include <ctime>
+#include <stdexcept>
 
 #include "SDL.h"
 
@@ -44,7 +44,6 @@
 #include "gameloop.h"
 #include "video/screen.h"
 #include "app/setup.h"
-#include "high_scores.h"
 #include "gui/menu.h"
 #include "sector.h"
 #include "level.h"
@@ -55,6 +54,8 @@
 #include "object/tilemap.h"
 #include "object/camera.h"
 #include "object/player.h"
+#include "lisp/lisp.h"
+#include "lisp/parser.h"
 #include "resources.h"
 #include "app/gettext.h"
 #include "worldmap.h"
@@ -937,25 +938,21 @@ std::string slotinfo(int slot)
   stream << slot;
   slotfile = st_save_dir + "/slot" + stream.str() + ".stsg";
 
-  lisp_object_t* savegame = lisp_read_from_file(slotfile.c_str());
-  if (savegame)
-    {
-      LispReader reader(lisp_cdr(savegame));
-      reader.read_string("title", title);
-      lisp_free(savegame);
-    }
+  try {
+    lisp::Parser parser;
+    std::auto_ptr<lisp::Lisp> root (parser.parse(slotfile));
 
-  if (access(slotfile.c_str(), F_OK) == 0)
-    {
-      if (!title.empty())
-        tmp = "Slot " + stream.str() + " - " + title;
-      else
-        tmp = "Slot " + stream.str() + " - Savegame";
-    }
-  else
-    tmp = std::string(_("Slot")) + " " + stream.str() + " - " + std::string(_("Free"));
+    const lisp::Lisp* savegame = root->get_lisp("supertux-savegame");
+    if(!savegame)
+      throw std::runtime_error("file is not a supertux-savegame.");
 
-  return tmp;
+    savegame->get("title", title);
+  } catch(std::exception& e) {
+    return std::string(_("Slot")) + " " + stream.str() + " - " +
+      std::string(_("Free"));
+  }
+
+  return std::string("Slot ") + stream.str() + " - " + title;
 }
 
 bool process_load_game_menu()

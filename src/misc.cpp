@@ -20,15 +20,16 @@
 #include "misc.h"
 #include "app/globals.h"
 
-void MyConfig::customload(LispReader& reader)
+void MyConfig::customload(const lisp::Lisp& reader)
 {
-  reader.read_int ("keyboard-up", keymap.up);
-  reader.read_int ("keyboard-down", keymap.down);
-  reader.read_int ("keyboard-left", keymap.left);
-  reader.read_int ("keyboard-right", keymap.right);
-  reader.read_int ("keyboard-jump", keymap.jump);
-  reader.read_int ("keyboard-power", keymap.power);
+  reader.get("keyboard-up", keymap.up);
+  reader.get("keyboard-down", keymap.down);
+  reader.get("keyboard-left", keymap.left);
+  reader.get("keyboard-right", keymap.right);
+  reader.get("keyboard-jump", keymap.jump);
+  reader.get("keyboard-power", keymap.power);
 }
+
 void MyConfig::customsave(FILE * config)
 {
   fprintf(config, "\t(keyboard-up  %d)\n", keymap.up);

@@ -19,20 +19,22 @@
 //  02111-1307, USA.
 #include <config.h>
 
+#include <memory>
+#include <stdexcept>
 #include <assert.h>
 #include "video/drawing_context.h"
 #include "app/setup.h"
 #include "app/globals.h"
-#include "utils/lispreader.h"
+#include "lisp/lisp.h"
+#include "lisp/parser.h"
+#include "lisp/list_iterator.h"
 #include "tile.h"
 #include "tile_manager.h"
+#include "resources.h"
 #include "scene.h"
 
-TileManager* TileManager::instance_  = 0;
-
-TileManager::TileManager()
+TileManager::TileManager(const std::string& filename)
 {
-  std::string filename = datadir + "/images/tilesets/supertux.stgt";
   load_tileset(filename);
 }
 
@@ -48,64 +50,42 @@ void TileManager::load_tileset(std::string filename)
   for(Tiles::iterator i = tiles.begin(); i != tiles.end(); ++i)
     delete *i;
   tiles.clear();
- 
-  lisp_object_t* root_obj = lisp_read_from_file(filename);
 
-  if (!root_obj)
-    Termination::abort("Couldn't load file", filename);
-
-  if (strcmp(lisp_symbol(lisp_car(root_obj)), "supertux-tiles") != 0)
-    assert(false);
-
-  lisp_object_t* cur = lisp_cdr(root_obj);
-  int tileset_id = 0;
-
-  while(!lisp_nil_p(cur)) {
-    lisp_object_t* element = lisp_car(cur);
-
-    if (strcmp(lisp_symbol(lisp_car(element)), "tile") == 0)
-      {
-        LispReader reader(lisp_cdr(element));
-
-        Tile* tile = new Tile;
-        tile->parse(reader);
-
-        while(tile->id >= tiles.size()) {
-            tiles.push_back(0);
-        }
-        tiles[tile->id] = tile;
-      }
-    else if (strcmp(lisp_symbol(lisp_car(element)), "tileset") == 0)
-      {
-        LispReader reader(lisp_cdr(element));
-        std::string filename;
-        reader.read_string("file", filename);
-        filename = datadir + "/images/tilesets/" + filename;
-        load_tileset(filename);
-      }
-    else if (strcmp(lisp_symbol(lisp_car(element)), "tilegroup") == 0)
-      {
-        TileGroup new_;
-        LispReader reader(lisp_cdr(element));
-        reader.read_string("name", new_.name);
-        reader.read_int_vector("tiles", new_.tiles);	      
-        tilegroups.insert(new_).first;
-      }
-    else if (strcmp(lisp_symbol(lisp_car(element)), "properties") == 0)
-      {
-        LispReader reader(lisp_cdr(element));
-        reader.read_int("id", tileset_id);
-        tileset_id *= 1000;
-      }
-    else
-      {
-        std::cerr << "Unknown symbol: " << 
-          lisp_symbol(lisp_car(element)) << "\n";
-      }
-
-    cur = lisp_cdr(cur);
+  std::string::size_type t = filename.rfind('/');
+  if(t == std::string::npos) {
+    tiles_path = "";
+  } else {
+    tiles_path = filename.substr(0, t+1);
   }
 
-  lisp_free(root_obj);
+  lisp::Parser parser;
+  std::auto_ptr<lisp::Lisp> root (parser.parse(
+        get_resource_filename(filename)));
+
+  const lisp::Lisp* tiles_lisp = root->get_lisp("supertux-tiles");
+  if(!tiles_lisp)
+    throw std::runtime_error("file is not a supertux tiles file.");
+
+  lisp::ListIterator iter(tiles_lisp);
+  while(iter.next()) {
+    if(iter.item() == "tile") {
+      Tile* tile = new Tile();
+      tile->parse(*(iter.lisp()));
+      while(tile->id >= tiles.size()) {
+        tiles.push_back(0);
+      }
+      tiles[tile->id] = tile;
+    } else if(iter.item() == "tilegroup") {
+        TileGroup tilegroup;
+        const lisp::Lisp* tilegroup_lisp = iter.lisp();
+        tilegroup_lisp->get("name", tilegroup.name);
+        tilegroup_lisp->get_vector("tiles", tilegroup.tiles);
+        tilegroups.insert(tilegroup);
+    } else if(iter.item() == "properties") {
+      // deprecated
+    } else {
+      std::cerr << "Unknown symbol '" << iter.item() << "'.\n";
+    }
+  }
 }
 

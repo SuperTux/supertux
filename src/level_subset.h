@@ -23,7 +23,6 @@
 
 #include <vector>
 #include <string>
-#include "utils/lispreader.h"
 
 using namespace SuperTux;
 

@@ -18,7 +18,7 @@ Bomb::Bomb(const Vector& pos, Direction dir)
 }
 
 void
-Bomb::write(LispWriter& )
+Bomb::write(lisp::Writer& )
 {
   // bombs are only temporarily so don't write them out...
 }

@@ -7,11 +7,11 @@
 class SequenceTrigger : public TriggerBase, public Serializable
 {
 public:
-  SequenceTrigger(LispReader& reader);
+  SequenceTrigger(const lisp::Lisp& reader);
   SequenceTrigger(const Vector& pos, const std::string& sequence);
   ~SequenceTrigger();
  
-  void write(LispWriter& writer);
+  void write(lisp::Writer& writer);
   void event(Player& player, EventType type);
   
 private:

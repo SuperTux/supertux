@@ -4,16 +4,16 @@
 
 static const float WALKSPEED = 80;
 
-Spiky::Spiky(LispReader& reader)
+Spiky::Spiky(const lisp::Lisp& reader)
 {
-  reader.read_float("x", start_position.x);
-  reader.read_float("y", start_position.y);
+  reader.get("x", start_position.x);
+  reader.get("y", start_position.y);
   bbox.set_size(31.8, 31.8);
   sprite = sprite_manager->create("spiky");
 }
 
 void
-Spiky::write(LispWriter& writer)
+Spiky::write(lisp::Writer& writer)
 {
   writer.start_list("spiky");
 

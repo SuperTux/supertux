@@ -25,8 +25,10 @@
 #include "math/vector.h"
 #include "audio/musicref.h"
 #include "video/screen.h"
+#include "lisp/lisp.h"
 #include "statistics.h"
 #include "timer.h"
+#include "tile_manager.h"
 
 namespace SuperTux {
   class Menu;
@@ -39,7 +41,7 @@ namespace WorldMapNS {
 enum WorldMapMenuIDs {
   MNID_RETURNWORLDMAP,
   MNID_QUITWORLDMAP
-  };
+};
 
 // For one way tiles
 enum {
@@ -48,47 +50,6 @@ enum {
   SOUTH_NORTH_WAY,
   EAST_WEST_WAY,
   WEST_EAST_WAY
-  };
-
-class Tile
-{
-public:
-  Tile();
-  ~Tile();
-
-  void draw(DrawingContext& context, Vector pos);
-
-  std::vector<Surface*> images;
-  float anim_fps;
-
-  // Directions in which Tux is allowed to walk from this tile
-  bool north;
-  bool east;
-  bool south;
-  bool west;
-
-  /** One way tile */
-  int one_way;
-
-  /** Stop on this tile or walk over it? */
-  bool stop;
-
-  /** When set automatically turn directions when walked over such a
-      tile (ie. walk smoothly a curve) */
-  bool auto_walk;
-};
-
-class TileManager
-{
-private:
-  typedef std::vector<Tile*> Tiles;
-  Tiles tiles;
-
-public:
-  TileManager();
-  ~TileManager();
-
-  Tile* get(int i);
 };
 
 enum Direction { D_NONE, D_WEST, D_EAST, D_NORTH, D_SOUTH };
@@ -265,7 +226,7 @@ public:
   void draw(DrawingContext& context, const Vector& offset);
 
   Vector get_next_tile(Vector pos, Direction direction);
-  Tile* at(Vector pos);
+  const Tile* at(Vector pos);
 
   WorldMap::Level* at_level();
   WorldMap::SpecialTile* at_special_tile();
@@ -296,6 +257,7 @@ public:
 
 private:
   void on_escape_press();
+  void parse_special_tiles(const lisp::Lisp* lisp);
 };
 
 } // namespace WorldMapNS

@@ -22,10 +22,12 @@
 #include <sstream>
 #include <stdexcept>
 
-#include "utils/lispreader.h"
 #include "sprite_manager.h"
 #include "sprite_data.h"
 #include "sprite.h"
+#include "lisp/lisp.h"
+#include "lisp/parser.h"
+#include "lisp/list_iterator.h"
 
 namespace SuperTux
 {
@@ -45,42 +47,39 @@ SpriteManager::~SpriteManager()
 void
 SpriteManager::load_resfile(const std::string& filename)
 {
-  lisp_object_t* root_obj = lisp_read_from_file(filename);
-  if (!root_obj)
-    {
-      std::cout << "SpriteManager: Couldn't load: " << filename << std::endl;
-      return;
-    }
+  lisp::Parser parser;
+  try {
+    std::auto_ptr<lisp::Lisp> root (parser.parse(filename));
 
-  lisp_object_t* cur = root_obj;
+    const lisp::Lisp* resources = root->get_lisp("supertux-resources");
+    if(!resources)
+      throw std::runtime_error("file is not a supertux-resources files");
 
-  if (strcmp(lisp_symbol(lisp_car(cur)), "supertux-resources") != 0)
-    return;
-  cur = lisp_cdr(cur);
+    lisp::ListIterator iter(resources);
+    while(iter.next()) {
+      if(iter.item() == "sprite") {
+        SpriteData* spritedata = new SpriteData(iter.lisp());
 
-  while(cur) {
-    lisp_object_t* el = lisp_car(cur);
-
-    if (strcmp(lisp_symbol(lisp_car(el)), "sprite") == 0) {
-      SpriteData* spritedata = new SpriteData(lisp_cdr(el));
-
-      Sprites::iterator i = sprites.find(spritedata->get_name());
-      if (i == sprites.end()) {
-        sprites[spritedata->get_name()] = spritedata;
+        printf("Spr: %s.\n", spritedata->get_name().c_str());
+        Sprites::iterator i = sprites.find(spritedata->get_name());
+        if (i == sprites.end()) {
+          sprites[spritedata->get_name()] = spritedata;
+        } else {
+          delete i->second;
+          i->second = spritedata;
+          std::cout << "Warning: dulpicate entry: '" << spritedata->get_name()
+            << "' in spritefile." << std::endl;
+        }
       } else {
-        delete i->second;
-        i->second = spritedata;
-        std::cout << "Warning: dulpicate entry: '" << spritedata->get_name()
-          << "' in spritefile." << std::endl;
+        std::cout << "SpriteManager: Unknown tag '" << iter.item() 
+          << "' in spritefile.\n";
       }
-    } else {
-      std::cout << "SpriteManager: Unknown tag in spritefile.\n";
     }
-
-    cur = lisp_cdr(cur);
+  } catch(std::exception& e) {
+    std::stringstream msg;
+    msg << "Couldn't load file '" << filename << "': " << e.what() << "\n";
+    throw std::runtime_error(msg.str());
   }
-
-  lisp_free(root_obj);
 }
 
 Sprite*

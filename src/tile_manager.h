@@ -43,21 +43,19 @@ struct TileGroup
 class TileManager
 {
 private:
-  TileManager();
-  ~TileManager();
-  
   typedef std::vector<Tile*> Tiles;
   Tiles tiles;
 
   static TileManager* instance_ ;
   std::set<TileGroup> tilegroups;
+
+  std::string tiles_path;
+  
   void load_tileset(std::string filename);
 
 public:
-  static TileManager* instance()
-  { return instance_ ? instance_ : instance_ = new TileManager(); }
-  static void destroy_instance()
-  { delete instance_; instance_ = 0; }
+  TileManager(const std::string& filename);
+  ~TileManager();
 
   const std::set<TileGroup>& get_tilegroups() const
   {
@@ -74,7 +72,7 @@ public:
     }
 
     if(tile->images.size() == 0 && tile->imagespecs.size() != 0)
-      tile->load_images();
+      tile->load_images(tiles_path);
     
     return tile;
   }

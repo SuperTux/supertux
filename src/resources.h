@@ -32,6 +32,8 @@ class Font;
 class Surface;
 }
 
+class TileManager;
+
 /* Sound files: */
 enum {
   SND_JUMP,
@@ -73,6 +75,7 @@ extern MusicRef herring_song;
 extern MusicRef level_end_song;
 
 extern SpriteManager* sprite_manager;
+extern TileManager* tile_manager;
 
 extern Menu* contrib_menu;
 extern Menu* contrib_subset_menu;

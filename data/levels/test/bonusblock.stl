@@ -9,7 +9,7 @@
     (gravity 10.000000)
     (background (image "arctis.jpg")
                 (speed 0.5))
-    (spawn-points
+    (spawnpoint
       (name "main")
       (x 100)
       (y 170)

@@ -6,11 +6,11 @@
 class BouncingSnowball : public BadGuy
 {
 public:
-  BouncingSnowball(LispReader& reader);
+  BouncingSnowball(const lisp::Lisp& reader);
   BouncingSnowball(float pos_x, float pos_y, Direction d);
 
   void activate();
-  void write(LispWriter& writer);
+  void write(lisp::Writer& writer);
   HitResponse collision_solid(GameObject& other, const CollisionHit& hit);
 
 protected:

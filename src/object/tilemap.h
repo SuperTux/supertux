@@ -27,11 +27,11 @@
 #include "serializable.h"
 #include "math/vector.h"
 
-using namespace SuperTux;
-
-namespace SuperTux {
-class LispReader;
+namespace lisp {
+class Lisp;
 }
+
+using namespace SuperTux;
 
 class Level;
 class TileManager;
@@ -44,11 +44,11 @@ class TileMap : public GameObject, public Serializable
 {
 public:
   TileMap();
-  TileMap(LispReader& reader);
+  TileMap(const lisp::Lisp& reader);
   TileMap(int layer_, bool solid_, size_t width_, size_t height_);
   virtual ~TileMap();
 
-  virtual void write(LispWriter& writer);
+  virtual void write(lisp::Writer& writer);
 
   virtual void action(float elapsed_time);
   virtual void draw(DrawingContext& context);

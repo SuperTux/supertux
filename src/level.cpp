@@ -17,7 +17,6 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
-
 #include <config.h>
 
 #include <map>
@@ -26,19 +25,23 @@
 #include <cstring>
 #include <iostream>
 #include <fstream>
+#include <sstream>
+#include <memory>
 #include <stdexcept>
 
 #include "app/globals.h"
 #include "app/setup.h"
 #include "video/screen.h"
+#include "lisp/parser.h"
+#include "lisp/lisp.h"
+#include "lisp/list_iterator.h"
+#include "lisp/writer.h"
 #include "level.h"
 #include "math/physic.h"
 #include "scene.h"
 #include "sector.h"
 #include "tile.h"
-#include "utils/lispreader.h"
 #include "resources.h"
-#include "utils/lispwriter.h"
 #include "object/gameobjs.h"
 #include "object/camera.h"
 #include "object/tilemap.h"
@@ -55,59 +58,66 @@ Level::Level()
 void
 Level::load(const std::string& filepath)
 {
-  LispReader* level = LispReader::load(filepath, "supertux-level");
+  try {
+    lisp::Parser parser;
+    std::auto_ptr<lisp::Lisp> root (parser.parse(filepath));
 
-  int version = 1;
-  level->read_int("version", version);
-  if(version == 1) {
-    load_old_format(*level);
-    delete level;
-    return;
-  }
+    const lisp::Lisp* level = root->get_lisp("supertux-level");
+    if(!level)
+      throw std::runtime_error("file is not a supertux-level file.");
 
-  for(lisp_object_t* cur = level->get_lisp(); !lisp_nil_p(cur);
-      cur = lisp_cdr(cur)) {
-    std::string token = lisp_symbol(lisp_car(lisp_car(cur)));
-    lisp_object_t* data = lisp_car(lisp_cdr(lisp_car(cur)));
-    LispReader reader(lisp_cdr(lisp_car(cur)));
-
-    if(token == "version") {
-      if(lisp_integer(data) > 2) {
-        std::cerr << "Warning: level format newer than application.\n";
-      }
-    } else if(token == "name") {
-      name = lisp_string(data);
-    } else if(token == "author") {
-      author = lisp_string(data);
-    } else if(token == "time") {
-      timelimit = lisp_integer(data);
-    } else if(token == "sector") {
-      Sector* sector = new Sector;
-      sector->parse(reader);
-      add_sector(sector);
-    } else if(token == "end-sequence-animation") {
-      std::string endsequencename = lisp_string(data);
-      if(endsequencename == "fireworks") {
-        end_sequence_type = FIREWORKS_ENDSEQ_ANIM;
-      } else {
-        std::cout << "Unknown endsequence type: '" << endsequencename <<
-          "'.\n";
-      }
-    } else {
-      std::cerr << "Unknown token '" << token << "' in level file.\n";
-      continue;
+    int version = 1;
+    level->get("version", version);
+    if(version == 1) {
+      load_old_format(*level);
+      return;
     }
+
+    lisp::ListIterator iter(level);
+    while(iter.next()) {
+      const std::string& token = iter.item();
+      if(token == "version") {
+        iter.value()->get(version);
+        if(version > 2) {
+          std::cerr << "Warning: level format newer than application.\n";
+        }
+      } else if(token == "name") {
+        iter.value()->get(name);
+      } else if(token == "author") {
+        iter.value()->get(author);
+      } else if(token == "time") {
+        iter.value()->get(timelimit);
+      } else if(token == "sector") {
+        Sector* sector = new Sector;
+        sector->parse(*(iter.lisp()));
+        add_sector(sector);
+      } else if(token == "end-sequence-animation") {
+        std::string endsequencename;
+        iter.value()->get(endsequencename);
+        if(endsequencename == "fireworks") {
+          end_sequence_type = FIREWORKS_ENDSEQ_ANIM;
+        } else {
+          std::cout << "Unknown endsequence type: '" << endsequencename <<
+            "'.\n";
+        }
+      } else {
+        std::cerr << "Unknown token '" << token << "' in level file.\n";
+        continue;
+      }
+    }
+  } catch(std::exception& e) {
+    std::stringstream msg;
+    msg << "Problem when reading level '" << filepath << "': " << e.what();
+    throw std::runtime_error(msg.str());
   }
-  
-  delete level;
 }
 
 void
-Level::load_old_format(LispReader& reader)
+Level::load_old_format(const lisp::Lisp& reader)
 {
-  reader.read_string("name", name, true);
-  reader.read_string("author", author);
-  reader.read_int("time", timelimit);
+  reader.get("name", name);
+  reader.get("author", author);
+  reader.get("time", timelimit);
 
   Sector* sector = new Sector;
   sector->parse_old_format(reader);
@@ -122,7 +132,7 @@ Level::save(const std::string& filename)
   FileSystem::fcreatedir(filepath.substr(0,last_slash).c_str());
   filepath = st_dir + "/" + filepath;
   ofstream file(filepath.c_str(), ios::out);
-  LispWriter* writer = new LispWriter(file);
+  lisp::Writer* writer = new lisp::Writer(file);
 
   writer->write_comment("Level made using SuperTux's built-in Level Editor");
 

@@ -28,29 +28,30 @@
 #include "video/drawing_context.h"
 #include "level.h"
 #include "tile.h"
+#include "resources.h"
 #include "tile_manager.h"
 #include "app/globals.h"
-#include "utils/lispreader.h"
-#include "utils/lispwriter.h"
+#include "lisp/lisp.h"
+#include "lisp/writer.h"
 
 TileMap::TileMap()
   : solid(false), speed(1), width(0), height(0), layer(LAYER_TILES),
     vertical_flip(false)
 {
-  tilemanager = TileManager::instance();
+  tilemanager = tile_manager;
 
   if(solid)
     flags |= FLAG_SOLID;
 }
 
-TileMap::TileMap(LispReader& reader)
+TileMap::TileMap(const lisp::Lisp& reader)
   : solid(false), speed(1), width(0), height(0), layer(LAYER_TILES),
     vertical_flip(false)
 {
-  tilemanager = TileManager::instance();
+  tilemanager = tile_manager;
 
   std::string layer_str;
-  if(reader.read_string("layer", layer_str)) {
+  if(reader.get("layer", layer_str)) {
     if(layer_str == "background")
       layer = LAYER_BACKGROUNDTILES;
     else if(layer_str == "interactive")
@@ -61,8 +62,8 @@ TileMap::TileMap(LispReader& reader)
       std::cerr << "Unknown layer '" << layer_str << "' in tilemap.\n";
   }
 
-  reader.read_bool("solid", solid);
-  reader.read_float("speed", speed);
+  reader.get("solid", solid);
+  reader.get("speed", speed);
 
   if(solid && speed != 1) {
     std::cout << "Speed of solid tilemap is not 1. fixing.\n";
@@ -71,22 +72,23 @@ TileMap::TileMap(LispReader& reader)
   if(solid)
     flags |= FLAG_SOLID;
   
-  if(!reader.read_int("width", width) ||
-     !reader.read_int("height", height))
+  if(!reader.get("width", width) ||
+     !reader.get("height", height))
     throw std::runtime_error("No width or height specified in tilemap.");
 
-  if(!reader.read_int_vector("tiles", tiles))
+  if(!reader.get_vector("tiles", tiles))
     throw std::runtime_error("No tiles in tilemap.");
 
-  if(int(tiles.size()) != width*height)
+  if(int(tiles.size()) != width*height) {
     throw std::runtime_error("wrong number of tiles in tilemap.");
+  }
 }
 
 TileMap::TileMap(int layer_, bool solid_, size_t width_, size_t height_)
   : solid(solid_), speed(1), width(0), height(0), layer(layer_),
     vertical_flip(false)
 {
-  tilemanager = TileManager::instance();
+  tilemanager = tile_manager;
   
   resize(width_, height_);
 
@@ -99,7 +101,7 @@ TileMap::~TileMap()
 }
 
 void
-TileMap::write(LispWriter& writer)
+TileMap::write(lisp::Writer& writer)
 {
   writer.start_list("tilemap");
 
@@ -182,7 +184,8 @@ void
 TileMap::set(int newwidth, int newheight, const std::vector<unsigned int>&newt,
     int newlayer, bool newsolid)
 {
-  assert(int(newt.size()) == newwidth * newheight);
+  if(int(newt.size()) != newwidth * newheight)
+    throw std::runtime_error("Wrong tilecount count.");
 
   width  = newwidth;
   height = newheight;

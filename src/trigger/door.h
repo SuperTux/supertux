@@ -30,11 +30,11 @@
 class Door : public TriggerBase, public Serializable
 {
 public:
-  Door(LispReader& reader);
+  Door(const lisp::Lisp& reader);
   Door(int x, int y, std::string sector, std::string spawnpoint);
   virtual ~Door();
 
-  virtual void write(LispWriter& writer);
+  virtual void write(lisp::Writer& writer);
   
   virtual void action(float elapsed_time);
   virtual void draw(DrawingContext& context);

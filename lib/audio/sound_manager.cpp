@@ -33,7 +33,8 @@ using namespace SuperTux;
 SoundManager* SoundManager::instance_ = 0;
 
 SoundManager::SoundManager()
-  : current_music(0), m_music_enabled(true) , m_sound_enabled(true) , audio_device(true)
+  : current_music(0), m_music_enabled(true) , m_sound_enabled(true),
+    audio_device(true)
 {
 }
 
@@ -42,8 +43,7 @@ SoundManager::~SoundManager()
   if(audio_device)
     Mix_HaltMusic();
 
-sounds.clear();
-destroy_instance();
+  sounds.clear();
 }
 
 void
@@ -184,7 +184,8 @@ SoundManager::enable_music(bool enable)
   if(m_music_enabled == false) {
     Mix_HaltMusic();
   } else {
-    Mix_PlayMusic(current_music->music, -1);
+    if(current_music)
+      Mix_PlayMusic(current_music->music, -1);
   }
 }
 

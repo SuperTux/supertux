@@ -23,9 +23,10 @@
 #include <sstream>
 #include <cmath>
 
+#include "lisp/lisp.h"
+#include "lisp/writer.h"
+#include "lisp/list_iterator.h"
 #include "camera.h"
-#include "utils/lispreader.h"
-#include "utils/lispwriter.h"
 #include "player.h"
 #include "tilemap.h"
 #include "gameloop.h"
@@ -52,43 +53,41 @@ Camera::get_translation() const
 }
 
 void
-Camera::parse(LispReader& reader)
+Camera::parse(const lisp::Lisp& reader)
 {
   std::string modename;
   
-  reader.read_string("mode", modename);
+  reader.get("mode", modename);
   if(modename == "normal") {
     mode = NORMAL;
 
     do_backscrolling = true;
-    reader.read_bool("backscrolling", do_backscrolling);
+    reader.get("backscrolling", do_backscrolling);
   } else if(modename == "autoscroll") {
     mode = AUTOSCROLL;
     
-    lisp_object_t* cur = 0;
-    reader.read_lisp("path", cur);
-    if(cur == 0) {
+    const lisp::Lisp* path_lisp = reader.get_lisp("path");
+    if(!path_lisp)
       throw std::runtime_error("No path specified in autoscroll camera.");
-    }
-    float speed = 50;
-    while(!lisp_nil_p(cur)) {
-      if(strcmp(lisp_symbol(lisp_car(lisp_car(cur))), "point") != 0) {
-        std::cerr << "Warning: unknown token in camera path.\n";
+
+    lisp::ListIterator iter(path_lisp);
+    float speed = .5;
+    while(iter.next()) {
+      if(iter.item() != "point") {
+        std::cerr << "Warning: unknown token '" << iter.item() 
+          << "' in camera path.\n";
         continue;
       }
-           
-      LispReader reader(lisp_cdr(lisp_car(cur)));
+      const lisp::Lisp* point_lisp = iter.lisp();
 
       ScrollPoint point;
-      if(!reader.read_float("x", point.position.x) ||
-         !reader.read_float("y", point.position.y)) {
+      if(!point_lisp->get("x", point.position.x) ||
+         !point_lisp->get("y", point.position.y)) {
         throw std::runtime_error("x and y missing in point of camerapath");
       }
-      reader.read_float("speed", speed);
+      point_lisp->get("speed", speed);
       point.speed = speed;
       scrollpoints.push_back(point);
-
-      cur = lisp_cdr(cur);
     }
   } else if(modename == "manual") {
     mode = MANUAL;
@@ -100,7 +99,7 @@ Camera::parse(LispReader& reader)
 }
 
 void
-Camera::write(LispWriter& writer)
+Camera::write(lisp::Writer& writer)
 {
   writer.start_list("camera");
   

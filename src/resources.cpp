@@ -26,6 +26,7 @@
 #include "gui/button.h"
 #include "scene.h"
 #include "resources.h"
+#include "tile_manager.h"
 #include "object/gameobjs.h"
 #include "object/player.h"
 
@@ -52,6 +53,7 @@ MusicRef herring_song;
 MusicRef level_end_song;
 
 SpriteManager* sprite_manager = 0;
+TileManager* tile_manager = 0;
 
 char * soundfilenames[NUM_SOUNDS] = {
                                        "/sounds/jump.wav",
@@ -114,7 +116,9 @@ void loadshared()
 
   int i;
 
-  sprite_manager = new SpriteManager(datadir + "/images/supertux.strf");
+  sprite_manager = new SpriteManager(
+      get_resource_filename("/images/supertux.strf"));
+  tile_manager = new TileManager("/images/tilesets/supertux.stgt");
 
   /* Tuxes: */
   smalltux_star = sprite_manager->create("smalltux-star");
@@ -302,6 +306,8 @@ void unloadshared(void)
 
   delete sprite_manager;
   sprite_manager = 0;
+  delete tile_manager;
+  tile_manager = 0;
 }
 
 std::string get_resource_filename(const std::string& resource)

@@ -30,6 +30,8 @@
 #include "app/globals.h"
 #include "video/surface.h"
 #include "level_subset.h"
+#include "lisp/parser.h"
+#include "lisp/lisp.h"
 
 using namespace SuperTux;
 
@@ -63,27 +65,19 @@ void LevelSubset::create(const std::string& subset_name)
 
 void LevelSubset::read_info_file(const std::string& info_file)
 {
-  lisp_object_t* root_obj = lisp_read_from_file(info_file);
-  if (root_obj == NULL)
-    return;
-  lisp_object_t* cur = lisp_car(root_obj);
+  lisp::Parser parser;
+  std::auto_ptr<lisp::Lisp> root (parser.parse(info_file));
 
-  if (lisp_symbol_p(cur) && strcmp(lisp_symbol(cur), "supertux-level-subset") == 0)
-    {
-      LispReader reader(lisp_cdr(root_obj));
+  const lisp::Lisp* info = root->get_lisp("supertux-level-subset");
+  if(!info)
+    throw std::runtime_error("File is not a levelsubset file");
 
-      reader.read_string("title", title, true);
-      reader.read_string("description", description, true);
-      reader.read_string_vector("levels", levels);
-      hide_from_contribs = false;
-      reader.read_bool("hide-from-contribs", hide_from_contribs);
-    }
-  else
-    {
-      std::cout << "LevelSubset: parse error in info file: " << info_file << std::endl;
-    }
+  hide_from_contribs = false;
 
-  lisp_free(root_obj);
+  info->get("title", title);
+  info->get("description", description);
+  info->get_vector("levels", levels);
+  info->get("hide-from-contribs", hide_from_contribs);
 }
 
 void LevelSubset::load(const std::string& subset)
@@ -99,8 +93,14 @@ void LevelSubset::load(const std::string& subset)
     msg << "Couldn't find level subset '" << subset << "'.";
     throw new std::runtime_error(msg.str());
   }
-  
-  read_info_file(filename);
+ 
+  try {
+    read_info_file(filename);
+  } catch(std::exception& e) {
+    std::stringstream msg;
+    msg << "Couldn't parse info file '" << filename << "': " << e.what();
+    throw new std::runtime_error(msg.str());
+  }
 
   if (levels.empty())
     { // Level info file doesn't define any levels, so read the

@@ -28,8 +28,8 @@
 
 using namespace SuperTux;
 
-namespace SuperTux {
-class LispReader;
+namespace lisp {
+class Lisp;
 }
 
 class DisplayManager;
@@ -80,8 +80,8 @@ public:
     SnowParticleSystem();
     virtual ~SnowParticleSystem();
 
-    void parse(LispReader& reader);
-    void write(LispWriter& writer);
+    void parse(const lisp::Lisp& lisp);
+    void write(lisp::Writer& writer);
 
     virtual void action(float elapsed_time);
 
@@ -104,8 +104,8 @@ public:
     CloudParticleSystem();
     virtual ~CloudParticleSystem();
 
-    void parse(LispReader& reader);
-    void write(LispWriter& writer);
+    void parse(const lisp::Lisp& lisp);
+    void write(lisp::Writer& writer);
 
     virtual void action(float elapsed_time);
 

@@ -7,10 +7,10 @@
 class Dispenser : public BadGuy
 {
 public:
-  Dispenser(LispReader& reader);
+  Dispenser(const lisp::Lisp& reader);
 
   void activate();
-  void write(LispWriter& writer);
+  void write(lisp::Writer& writer);
   HitResponse collision_solid(GameObject& other, const CollisionHit& hit);
   void active_action(float elapsed_time);
 

@@ -16,20 +16,19 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
 #ifndef SUPERTUX_SERIALIZABLE_H
 #define SUPERTUX_SERIALIZABLE_H
 
 using namespace SuperTux;
 
-namespace SuperTux {
-class LispWriter;
+namespace lisp {
+class Writer;
 }
 
 class Serializable
 {
 public:
-  virtual void write(LispWriter& writer) = 0;
+  virtual void write(lisp::Writer& writer) = 0;
 };
 
 #endif /*SUPERTUX_SERIALIZABLE_H*/

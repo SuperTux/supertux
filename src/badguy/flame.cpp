@@ -2,13 +2,13 @@
 
 #include "flame.h"
 
-Flame::Flame(LispReader& reader)
+Flame::Flame(const lisp::Lisp& reader)
   : angle(0), radius(100), speed(2)
 {
-  reader.read_float("x", start_position.x);
-  reader.read_float("y", start_position.y);
-  reader.read_float("radius", radius);
-  reader.read_float("speed", speed);
+  reader.get("x", start_position.x);
+  reader.get("y", start_position.y);
+  reader.get("radius", radius);
+  reader.get("speed", speed);
   bbox.set_pos(Vector(start_position.x + cos(angle) * radius,
                       start_position.y + sin(angle) * radius));
   bbox.set_size(32, 32);  
@@ -16,7 +16,7 @@ Flame::Flame(LispReader& reader)
 }
 
 void
-Flame::write(LispWriter& writer)
+Flame::write(lisp::Writer& writer)
 {
   writer.start_list("flame");
 

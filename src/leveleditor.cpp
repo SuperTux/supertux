@@ -101,12 +101,10 @@ LevelEditor::LevelEditor()
   tiles_board = new ButtonGroup(Vector(screen->w - 140, 100),
             Vector(32,32), Vector(4,8));
 
-  TileManager* tilemanager = TileManager::instance();
-
   tiles_board->add_button(Button(img_rubber_bt, _("Eraser"), SDLKey(SDLK_DELETE)), 0);
-  for(unsigned int id = 1; id < tilemanager->get_max_tileid(); id++)
+  for(unsigned int id = 1; id < tile_manager->get_max_tileid(); id++)
     {
-    const Tile* tile = tilemanager->get(id);
+    const Tile* tile = tile_manager->get(id);
     if(!tile)
       continue;
 
@@ -642,10 +640,9 @@ if(sector)
         }
       else
         {
-        TileManager* tilemanager = TileManager::instance();
         for(unsigned int x = 0; x < selection.size(); x++)
           for(unsigned int y = 0; y < selection[x].size(); y++) {
-            const Tile* tile = tilemanager->get(selection[x][y]);
+            const Tile* tile = tile_manager->get(selection[x][y]);
             tile->draw(context,
                 Vector(event.button.x + x*32 - 8, event.button.y + y*32 - 8),
                 LAYER_GUI-2);

@@ -9,14 +9,14 @@ Spike::Spike(const Vector& pos, Direction dir)
   set_direction(dir);
 }
 
-Spike::Spike(LispReader& reader)
+Spike::Spike(const lisp::Lisp& reader)
 {
   sprite = sprite_manager->create("spike");
-  reader.read_float("x", start_position.x);
-  reader.read_float("y", start_position.y);
+  reader.get("x", start_position.x);
+  reader.get("y", start_position.y);
   bbox.set_size(32, 32);
   int idir = 0;
-  reader.read_int("direction", idir);
+  reader.get("direction", idir);
   set_direction((Direction) idir);
 }
 
@@ -43,7 +43,7 @@ Spike::set_direction(Direction dir)
 }
 
 void
-Spike::write(LispWriter& writer)
+Spike::write(lisp::Writer& writer)
 {
   writer.start_list("spike");
   writer.write_float("x", start_position.x);

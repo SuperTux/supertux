@@ -6,10 +6,10 @@
 class Spiky : public BadGuy
 {
 public:
-  Spiky(LispReader& reader);
+  Spiky(const lisp::Lisp& reader);
 
   void activate();
-  void write(LispWriter& writer);
+  void write(lisp::Writer& writer);
   HitResponse collision_solid(GameObject& other, const CollisionHit& hit);
 };
 

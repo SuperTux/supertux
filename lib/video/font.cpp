@@ -22,12 +22,14 @@
 
 #include <cstdlib>
 #include <cstring>
+#include <stdexcept>
 
 #include "app/globals.h"
+#include "lisp/parser.h"
+#include "lisp/lisp.h"
 #include "screen.h"
 #include "font.h"
 #include "drawing_context.h"
-#include "utils/lispreader.h"
 
 using namespace SuperTux;
 
@@ -202,23 +204,30 @@ Font::draw_chars(Surface* pchars, const std::string& text, const Vector& pos,
 #define SCROLL      60
 #define ITEMS_SPACE 4
 
-void SuperTux::display_text_file(const std::string& file, float scroll_speed, Font* heading_font, Font* normal_font, Font* small_font, Font* reference_font )
+void SuperTux::display_text_file(const std::string& file, float scroll_speed,
+    Font* heading_font, Font* normal_font, Font* small_font,
+    Font* reference_font)
 {
   std::string text;
+  std::string background_file;
   std::vector<std::string> names;
 
-  LispReader* reader = LispReader::load(datadir + "/" + file, "supertux-text");
+  std::string filename = datadir + "/" + file;
+  lisp::Parser parser;
+  try {
+    std::auto_ptr<lisp::Lisp> root (parser.parse(filename));
 
-  if(!reader)
-    {
-    std::cerr << "Error: Could not open text. Ignoring...\n";
+    const lisp::Lisp* text_lisp = root->get_lisp("supertux-text");
+    if(!text_lisp)
+      throw std::runtime_error("File isn't a supertux-text file");
+    
+    if(!text_lisp->get("text", text))
+      throw std::runtime_error("file doesn't contain a text field");
+  } catch(std::exception& e) {
+    std::cerr << "Couldn't load file '" << filename << "': " << e.what() <<
+      "\n";
     return;
-    }
-
-  reader->read_string("text", text, true);
-  std::string background_file;
-  reader->read_string("background", background_file, true);
-  delete reader;
+  }
 
   // Split text string lines into a vector
   names.clear();

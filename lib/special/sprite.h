@@ -25,7 +25,6 @@
 #include <cassert>
 #include <map>
 
-#include "utils/lispreader.h"
 #include "video/surface.h"
 #include "math/vector.h"
 #include "sprite_data.h"

@@ -6,11 +6,11 @@
 class SnowBall : public BadGuy
 {
 public:
-  SnowBall(LispReader& reader);
+  SnowBall(const lisp::Lisp& reader);
   SnowBall(float pos_x, float pos_y, Direction d);
 
   void activate();
-  void write(LispWriter& writer);
+  void write(lisp::Writer& writer);
   HitResponse collision_solid(GameObject& other, const CollisionHit& hit);
   
 protected:

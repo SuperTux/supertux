@@ -11,8 +11,9 @@
 #include "serializable.h"
 #include "resources.h"
 #include "sector.h"
-#include "utils/lispwriter.h"
-#include "utils/lispreader.h"
+#include "lisp/parser.h"
+#include "lisp/lisp.h"
+#include "lisp/writer.h"
 #include "video/drawing_context.h"
 #include "special/sprite_manager.h"
 

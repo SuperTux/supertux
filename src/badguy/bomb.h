@@ -8,7 +8,7 @@ class Bomb : public BadGuy
 public:
   Bomb(const Vector& pos, Direction dir);
 
-  void write(LispWriter& writer);
+  void write(lisp::Writer& writer);
   HitResponse collision_solid(GameObject& other, const CollisionHit& hit);
   HitResponse collision_player(Player& player, const CollisionHit& hit);
   void active_action(float elapsed_time);

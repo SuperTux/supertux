@@ -4,16 +4,16 @@
 
 static const float JUMPSPEED=600;
 
-Jumpy::Jumpy(LispReader& reader)
+Jumpy::Jumpy(const lisp::Lisp& reader)
 {
-  reader.read_float("x", start_position.x);
-  reader.read_float("y", start_position.y);
+  reader.get("x", start_position.x);
+  reader.get("y", start_position.y);
   bbox.set_size(31.8, 31.8);
   sprite = sprite_manager->create("jumpy");
 }
 
 void
-Jumpy::write(LispWriter& writer)
+Jumpy::write(lisp::Writer& writer)
 {
   writer.start_list("jumpy");
 

@@ -5,14 +5,15 @@
 #include "resources.h"
 #include "player.h"
 #include "special/sprite_manager.h"
-#include "utils/lispreader.h"
+#include "lisp/lisp.h"
+#include "lisp/writer.h"
 
-Platform::Platform(LispReader& reader)
+Platform::Platform(const lisp::Lisp& reader)
 {
   sprite = sprite_manager->create("flying_platform");
   movement = Vector(0, 1);
-  reader.read_float("x", bbox.p1.x);
-  reader.read_float("y", bbox.p1.y);
+  reader.get("x", bbox.p1.x);
+  reader.get("y", bbox.p1.y);
   bbox.set_size(sprite->get_width(), sprite->get_height());
 
   flags |= FLAG_SOLID;

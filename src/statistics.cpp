@@ -19,11 +19,10 @@
 
 #include <config.h>
 
-#include "utils/lispreader.h"
-#include "utils/lispwriter.h"
 #include "video/drawing_context.h"
 #include "app/gettext.h"
 #include "app/globals.h"
+#include "lisp/lisp.h"
 #include "resources.h"
 #include "statistics.h"
 
@@ -70,23 +69,21 @@ Statistics::~Statistics()
 }
 
 void
-Statistics::parse(LispReader& reader)
+Statistics::parse(const lisp::Lisp& reader)
 {
-  for(int i = 0; i < NUM_STATS; i++)
-    {
-    reader.read_int(stat_name_to_string(i).c_str(), stats[i][SPLAYER]);
-    reader.read_int((stat_name_to_string(i) + "-total").c_str(), stats[i][STOTAL]);
-    }
+  for(int i = 0; i < NUM_STATS; i++) {
+    reader.get(stat_name_to_string(i).c_str(), stats[i][SPLAYER]);
+    reader.get((stat_name_to_string(i) + "-total").c_str(), stats[i][STOTAL]);
+  }
 }
 
 void
-Statistics::write(LispWriter& writer)
+Statistics::write(lisp::Writer& writer)
 {
-  for(int i = 0; i < NUM_STATS; i++)
-    {
+  for(int i = 0; i < NUM_STATS; i++) {
     writer.write_int(stat_name_to_string(i), stats[i][SPLAYER]);
     writer.write_int(stat_name_to_string(i) + "-total", stats[i][STOTAL]);
-    }
+  }
 }
 
 #define TOTAL_DISPLAY_TIME 3400

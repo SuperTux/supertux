@@ -8,6 +8,7 @@ sources =
     [ Wildcard special : *.cpp *.h ]
     [ Wildcard utils : *.cpp *.h ]
     [ Wildcard video : *.cpp *.h ]
+    [ Wildcard lisp : *.cpp *.h ]
 ;
 TRANSLATABLE_SOURCE += [ DoSourceGrist $(sources) ] ;
 

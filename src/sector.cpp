@@ -28,12 +28,15 @@
 
 #include "app/globals.h"
 #include "sector.h"
-#include "utils/lispreader.h"
 #include "object/gameobjs.h"
 #include "object/camera.h"
 #include "object/background.h"
 #include "object/particlesystem.h"
 #include "object/tilemap.h"
+#include "lisp/parser.h"
+#include "lisp/lisp.h"
+#include "lisp/writer.h"
+#include "lisp/list_iterator.h"
 #include "tile.h"
 #include "audio/sound_manager.h"
 #include "gameloop.h"
@@ -92,7 +95,7 @@ Sector::~Sector()
 }
 
 GameObject*
-Sector::parse_object(const std::string& name, LispReader& reader)
+Sector::parse_object(const std::string& name, const lisp::Lisp& reader)
 {
   if(name == "background") {
     return new Background(reader);
@@ -143,32 +146,30 @@ Sector::parse_object(const std::string& name, LispReader& reader)
 }
 
 void
-Sector::parse(LispReader& lispreader)
+Sector::parse(const lisp::Lisp& sector)
 {
   _current = this;
   
-  for(lisp_object_t* cur = lispreader.get_lisp(); !lisp_nil_p(cur);
-      cur = lisp_cdr(cur)) {
-    std::string token = lisp_symbol(lisp_car(lisp_car(cur)));
-    // FIXME: doesn't handle empty data
-    lisp_object_t* data = lisp_car(lisp_cdr(lisp_car(cur)));
-    LispReader reader(lisp_cdr(lisp_car(cur)));
-
+  lisp::ListIterator iter(&sector);
+  while(iter.next()) {
+    const std::string& token = iter.item();
     if(token == "name") {
-      name = lisp_string(data);
+      iter.value()->get(name);
     } else if(token == "gravity") {
-      gravity = lisp_real(data);
+      iter.value()->get(gravity);
     } else if(token == "music") {
-      song_title = lisp_string(data);
+      iter.value()->get(song_title);
       load_music();
-    } else if(token == "spawn-points") {
+    } else if(token == "spawnpoint") {
+      const lisp::Lisp* spawnpoint_lisp = iter.lisp();
+      
       SpawnPoint* sp = new SpawnPoint;
-      reader.read_string("name", sp->name);
-      reader.read_float("x", sp->pos.x);
-      reader.read_float("y", sp->pos.y);
+      spawnpoint_lisp->get("name", sp->name);
+      spawnpoint_lisp->get("x", sp->pos.x);
+      spawnpoint_lisp->get("y", sp->pos.y);
       spawnpoints.push_back(sp);
     } else {
-      GameObject* object = parse_object(token, reader);
+      GameObject* object = parse_object(token, *(iter.lisp()));
       if(object) {
         add_object(object);
       }
@@ -188,31 +189,31 @@ Sector::parse(LispReader& lispreader)
 }
 
 void
-Sector::parse_old_format(LispReader& reader)
+Sector::parse_old_format(const lisp::Lisp& reader)
 {
   _current = this;
   
   name = "main";
-  reader.read_float("gravity", gravity);
+  reader.get("gravity", gravity);
 
   std::string backgroundimage;
-  reader.read_string("background", backgroundimage);
+  reader.get("background", backgroundimage);
   float bgspeed = .5;
-  reader.read_float("bkgd_speed", bgspeed);
+  reader.get("bkgd_speed", bgspeed);
   bgspeed /= 100;
 
   Color bkgd_top, bkgd_bottom;
   int r = 0, g = 0, b = 128;
-  reader.read_int("bkgd_red_top", r);
-  reader.read_int("bkgd_green_top",  g);
-  reader.read_int("bkgd_blue_top",  b);
+  reader.get("bkgd_red_top", r);
+  reader.get("bkgd_green_top",  g);
+  reader.get("bkgd_blue_top",  b);
   bkgd_top.red = r;
   bkgd_top.green = g;
   bkgd_top.blue = b;
   
-  reader.read_int("bkgd_red_bottom",  r);
-  reader.read_int("bkgd_green_bottom", g);
-  reader.read_int("bkgd_blue_bottom", b);
+  reader.get("bkgd_red_bottom",  r);
+  reader.get("bkgd_green_bottom", g);
+  reader.get("bkgd_blue_bottom", b);
   bkgd_bottom.red = r;
   bkgd_bottom.green = g;
   bkgd_bottom.blue = b;
@@ -228,15 +229,15 @@ Sector::parse_old_format(LispReader& reader)
   }
 
   std::string particlesystem;
-  reader.read_string("particle_system", particlesystem);
+  reader.get("particle_system", particlesystem);
   if(particlesystem == "clouds")
     add_object(new CloudParticleSystem());
   else if(particlesystem == "snow")
     add_object(new SnowParticleSystem());
 
   Vector startpos(100, 170);
-  reader.read_float("start_pos_x", startpos.x);
-  reader.read_float("start_pos_y", startpos.y);
+  reader.get("start_pos_x", startpos.x);
+  reader.get("start_pos_y", startpos.y);
 
   SpawnPoint* spawn = new SpawnPoint;
   spawn->pos = startpos;
@@ -244,73 +245,63 @@ Sector::parse_old_format(LispReader& reader)
   spawnpoints.push_back(spawn);
 
   song_title = "Mortimers_chipdisko.mod";
-  reader.read_string("music", song_title);
+  reader.get("music", song_title);
   load_music();
 
   int width, height = 15;
-  reader.read_int("width", width);
-  reader.read_int("height", height);
+  reader.get("width", width);
+  reader.get("height", height);
   
   std::vector<unsigned int> tiles;
-  if(reader.read_int_vector("interactive-tm", tiles)
-      || reader.read_int_vector("tilemap", tiles)) {
+  if(reader.get_vector("interactive-tm", tiles)
+      || reader.get_vector("tilemap", tiles)) {
     TileMap* tilemap = new TileMap();
     tilemap->set(width, height, tiles, LAYER_TILES, true);
     add_object(tilemap);
   }
 
-  if(reader.read_int_vector("background-tm", tiles)) {
+  if(reader.get_vector("background-tm", tiles)) {
     TileMap* tilemap = new TileMap();
     tilemap->set(width, height, tiles, LAYER_BACKGROUNDTILES, false);
     add_object(tilemap);
   }
 
-  if(reader.read_int_vector("foreground-tm", tiles)) {
+  if(reader.get_vector("foreground-tm", tiles)) {
     TileMap* tilemap = new TileMap();
     tilemap->set(width, height, tiles, LAYER_FOREGROUNDTILES, false);
     add_object(tilemap);
   }
 
   // read reset-points (now spawn-points)
-  {
-    lisp_object_t* cur = 0;
-    if(reader.read_lisp("reset-points", cur)) {
-      while(!lisp_nil_p(cur)) {
-        lisp_object_t* data = lisp_car(cur);
-        LispReader reader(lisp_cdr(data));
-
+  const lisp::Lisp* resetpoints = reader.get_lisp("reset-points");
+  if(resetpoints) {
+    lisp::ListIterator iter(resetpoints);
+    while(iter.next()) {
+      if(iter.item() == "point") {
         Vector sp_pos;
-        if(reader.read_float("x", sp_pos.x) && reader.read_float("y", sp_pos.y))
+        if(reader.get("x", sp_pos.x) && reader.get("y", sp_pos.y))
           {
           SpawnPoint* sp = new SpawnPoint;
           sp->name = "main";
           sp->pos = sp_pos;
           spawnpoints.push_back(sp);
           }
-                                                             
-        cur = lisp_cdr(cur);
+      } else {
+        std::cerr << "Unknown token '" << iter.item() << "' in reset-points.\n";
       }
     }
   }
 
   // read objects
-  {
-    lisp_object_t* cur = 0;
-    if(reader.read_lisp("objects", cur)) {
-      while(!lisp_nil_p(cur)) {
-        lisp_object_t* data = lisp_car(cur);
-        std::string object_type = lisp_symbol(lisp_car(data));
-                                                                                
-        LispReader reader(lisp_cdr(data));
-
-        GameObject* object = parse_object(object_type, reader);
-        if(object) {
-          add_object(object);
-        } else {
-          std::cerr << "Unknown object '" << object_type << "' in level.\n";
-        }
-                                                                               
-        cur = lisp_cdr(cur);
+  const lisp::Lisp* objects = reader.get_lisp("objects");
+  if(objects) {
+    lisp::ListIterator iter(objects);
+    while(iter.next()) {
+      GameObject* object = parse_object(iter.item(), *(iter.lisp()));
+      if(object) {
+        add_object(object);
+      } else {
+        std::cerr << "Unknown object '" << iter.item() << "' in level.\n";
       }
     }
   }
@@ -371,7 +362,7 @@ Sector::fix_old_tiles()
 }
 
 void
-Sector::write(LispWriter& writer)
+Sector::write(lisp::Writer& writer)
 {
   writer.write_string("name", name);
   writer.write_float("gravity", gravity);

@@ -4,10 +4,10 @@
 
 static const float WALKSPEED = 80;
 
-SnowBall::SnowBall(LispReader& reader)
+SnowBall::SnowBall(const lisp::Lisp& reader)
 {
-  reader.read_float("x", start_position.x);
-  reader.read_float("y", start_position.y);
+  reader.get("x", start_position.x);
+  reader.get("y", start_position.y);
   bbox.set_size(31.8, 31.8);
   sprite = sprite_manager->create("snowball");
   set_direction = false;
@@ -24,7 +24,7 @@ SnowBall::SnowBall(float pos_x, float pos_y, Direction d)
 }
 
 void
-SnowBall::write(LispWriter& writer)
+SnowBall::write(lisp::Writer& writer)
 {
   writer.start_list("snowball");
 

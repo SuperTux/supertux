@@ -19,25 +19,25 @@
 #include <config.h>
 
 #include "door.h"
-#include "utils/lispreader.h"
-#include "utils/lispwriter.h"
 #include "gameloop.h"
 #include "resources.h"
 #include "special/sprite.h"
 #include "special/sprite_manager.h"
 #include "video/drawing_context.h"
 #include "app/globals.h"
+#include "lisp/lisp.h"
+#include "lisp/writer.h"
 
 using namespace SuperTux;
 
-Door::Door(LispReader& reader)
+Door::Door(const lisp::Lisp& reader)
 {
-  reader.read_float("x", bbox.p1.x);
-  reader.read_float("y", bbox.p1.y);
+  reader.get("x", bbox.p1.x);
+  reader.get("y", bbox.p1.y);
   bbox.set_size(32, 64);
 
-  reader.read_string("sector", target_sector);
-  reader.read_string("spawnpoint", target_spawnpoint);
+  reader.get("sector", target_sector);
+  reader.get("spawnpoint", target_spawnpoint);
 
   sprite = sprite_manager->create("door");
 }
@@ -58,7 +58,7 @@ Door::~Door()
 }
 
 void
-Door::write(LispWriter& writer)
+Door::write(lisp::Writer& writer)
 {
   writer.start_list("door");
 

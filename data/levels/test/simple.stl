@@ -12,7 +12,7 @@
     (gravity 10.000000)
     (background (image "arctis.jpg")
                 (speed 0.5))
-    (spawn-points (name "main") (x 50) (y 200))
+    (spawnpoint (name "main") (x 50) (y 200))
     (tilemap
       (layer  "background")
       (solid #f)

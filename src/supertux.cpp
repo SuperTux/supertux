@@ -94,7 +94,6 @@ int main(int argc, char * argv[])
     unloadshared();
     Setup::general_free();
     st_menu_free();
-    TileManager::destroy_instance();
 #ifdef DEBUG
     Surface::debug_check();
 #endif
