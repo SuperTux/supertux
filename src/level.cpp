@@ -19,6 +19,7 @@
 #include "level.h"
 #include "physic.h"
 #include "scene.h"
+#include "lispreader.h"
 
 texture_type img_bkgd, img_bkgd_tile[2][4], img_solid[4], img_brick[2];
 
@@ -30,12 +31,47 @@ void subset_init(st_subset* st_subset)
   st_subset->levels = 0;
 }
 
+void subset_parse (st_subset* st_subset, lisp_object_t* cursor)
+{
+  while(!lisp_nil_p(cursor))
+    {
+      lisp_object_t* cur = lisp_car(cursor);
+      char *s;
+
+      if (!lisp_cons_p(cur) || !lisp_symbol_p (lisp_car(cur)))
+        {
+          printf("Not good");
+        }
+      else
+        {
+          if (strcmp(lisp_symbol(lisp_car(cur)), "title") == 0)
+            {
+              if(( s = lisp_string(lisp_car(lisp_cdr(cur)))) != NULL)
+                {
+                  st_subset->title = (char*) malloc(sizeof(char)*(strlen(s)+1));
+                  strcpy(st_subset->title,s);
+                }
+            }
+          else if (strcmp(lisp_symbol(lisp_car(cur)), "description") == 0)
+            {
+              if(( s = lisp_string(lisp_car(lisp_cdr(cur)))) != NULL)
+                {
+                  st_subset->description = (char*) malloc(sizeof(char)*(strlen(s)+1));
+                  strcpy(st_subset->description,s);
+                }
+            }
+        }
+      cursor = lisp_cdr (cursor);
+    }
+}
+
 void subset_load(st_subset* st_subset, char *subset)
 {
   FILE* fi;
   char filename[1024];
   char str[1024];
   int len,i;
+  lisp_object_t* root_obj = 0;
 
   st_subset->name = (char*) malloc(sizeof(char)*(strlen(subset)+1));
   strcpy(st_subset->name,subset);
@@ -50,26 +86,28 @@ void subset_load(st_subset* st_subset, char *subset)
         {
           perror(filename);
         }
+      lisp_stream_t stream;
+      lisp_stream_init_file (&stream, fi);
+      root_obj = lisp_read (&stream);
 
-      /* Load title info: */
-      fgets(str, 40, fi);
-      st_subset->title = (char*) malloc(sizeof(char)*(strlen(str)+1));
-      strcpy(st_subset->title, str);
-
-      /* Load the description: */
-
-      str[0] = '\0';
-      st_subset->description = NULL;
-      len = 0;
-      while(fgets(str, 300, fi) != NULL)
+      if (root_obj->type == LISP_TYPE_EOF || root_obj->type == LISP_TYPE_PARSE_ERROR)
         {
-          len += strlen(str);
-          if(st_subset->description == NULL)
-            st_subset->description = (char*) calloc(len+1,sizeof(char));
-          else
-            st_subset->description = (char*) realloc(st_subset->description, sizeof(char) * (len+1));
-          strcat(st_subset->description,str);
+          printf("World: Parse Error in file %s", filename);
         }
+
+      lisp_object_t* cur = lisp_car(root_obj);
+
+      if (!lisp_symbol_p (cur))
+        {
+          printf("World: Read error in %s",filename);
+        }
+
+      if (strcmp(lisp_symbol(cur), "level-subset") == 0)
+        {
+          subset_parse(st_subset,lisp_cdr(root_obj));
+
+        }
+
       fclose(fi);
 
       snprintf(str, 1024, "%s.png", filename);
@@ -117,15 +155,18 @@ void subset_save(st_subset* st_subset)
         {
           perror(filename);
         }
-
+	
+      /* Write header: */
+      fprintf(fi,";SuperTux-Level-Subset\n");
+      fprintf(fi,"(level-subset\n");
+            
       /* Save title info: */
-      fputs(st_subset->title, fi);
-      fputs("\n", fi);
+      fprintf(fi,"  (title \"%s\")\n",st_subset->title);
 
       /* Save the description: */
-
-      fputs(st_subset->description, fi);
-      fputs("\n", fi);
+      fprintf(fi,"  (description \"%s\")\n",st_subset->description);
+      
+      fprintf( fi,")");
       fclose(fi);
 
     }
@@ -249,10 +290,10 @@ int level_load(st_level* plevel, const char* filename)
       for (x = 0; x < plevel->width; ++x)
         {
           if(plevel->tiles[y][x] == '|')
-	  {
-	  if(x*32 > endpos)
-	  endpos = x*32;
-	  }
+            {
+              if(x*32 > endpos)
+                endpos = x*32;
+            }
         }
     }
 

@@ -14,6 +14,7 @@
 #define SUPERTUX_LEVEL_H
 
 #include "texture.h"
+#include "lispreader.h"
 
 /* This type holds meta-information about a level-subset. */
 /* It could be extended to handle manipulation of subsets. */
@@ -27,6 +28,7 @@ typedef struct st_subset
   } st_subset;
 
 void subset_init(st_subset* st_subset);
+void subset_parse(st_subset* st_subset, lisp_object_t* cursor);
 void subset_load(st_subset* st_subset, char *subset);
 void subset_save(st_subset* st_subset);
 void subset_free(st_subset* st_subset);
