@@ -22,6 +22,7 @@
 #include <sstream>
 #include <stdexcept>
 #include <fstream>
+#include <cassert>
 
 #include "parser.h"
 #include "lisp.h"
