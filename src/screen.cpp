@@ -105,7 +105,7 @@ void fade(Surface *surface, int seconds, bool fade_out);
 void fade(const std::string& surface, int seconds, bool fade_out)
 {
 Surface* sur = new Surface(datadir + surface, IGNORE_ALPHA);
-black_fade(sur, seconds, fade_out);
+fade(sur, seconds, fade_out);
 delete sur;
 }
 
