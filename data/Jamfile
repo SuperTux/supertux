@@ -35,7 +35,7 @@ LEVELPATHS =
 ;
 
 for p in $(LEVELPATHS) {
-  InstallData [ Wildcard $(p) : info *.stl *.stwm *.txt ] : $(p) ;
+  InstallData [ Wildcard $(p) : info *.stl *.stwm *.txt *.po ] : $(p) ;
 
   local translatable_lisp = [ Wildcard $(p) : info *.stl *.stwm *.txt ] ;
   SEARCH on $(translatable_lisp) = $(SEARCH_SOURCE) ;
