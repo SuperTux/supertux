@@ -451,6 +451,13 @@ void menu_event(SDL_keysym* keysym)
       menu_change = YES;
       break;
     case SDLK_SPACE:
+      if(current_menu->item[current_menu->active_item].kind == MN_TEXTFIELD)
+      {
+      menuaction = MN_INPUT;
+      menu_change = YES;
+      mn_input_char = ' ';
+      break;
+      }
     case SDLK_RETURN: /* Menu Hit */
       menuaction = MN_HIT;
       menu_change = YES;
