@@ -192,7 +192,7 @@ void check_levels_contrib_menu()
 
     std::string map_filename = *it;
 
-    worldmap.loadmap(map_filename);
+    worldmap.set_map_filename(map_filename);
 
     // hack to erase the extension
     unsigned int ext_pos = it->find_last_of(".");

@@ -115,13 +115,12 @@ TileManager::TileManager()
           if (strcmp(lisp_symbol(lisp_car(element)), "tile") == 0)
             {
               int id = 0;
-              std::string filename = "<invalid>";
 
               Tile* tile = new Tile;             
               tile->north = tile->east = tile->south = tile->west = true;
               tile->stop  = true;
               tile->auto_walk = false;
-  
+
               LispReader reader(lisp_cdr(element));
               reader.read_int("id", id);
 
@@ -148,7 +147,6 @@ TileManager::TileManager()
 
               reader.read_bool("stop",  tile->stop);
               reader.read_bool("auto-walk",  tile->auto_walk);
-              reader.read_string("image", filename);
 
               reader.read_string("one-way", temp);
               tile->one_way = BOTH_WAYS;
@@ -164,9 +162,23 @@ TileManager::TileManager()
                   tile->one_way = WEST_EAST_WAY;
                 }
 
-              tile->sprite = new Surface(
-                           datadir +  "/images/worldmap/" + filename, 
-                           true);
+              std::vector<std::string> filenames;
+              reader.read_string_vector("image", filenames);
+
+              if(filenames.size() == 0)
+                std::cerr << "Warning: no image specified for tile " << id
+                          << ".\nIgnoring...\n" << std::endl;
+
+              for(int i = 0; i < filenames.size(); i++)
+                {
+                Surface* image = new Surface(
+                         datadir +  "/images/worldmap/" + filenames[i], true);
+                tile->images.push_back(image);
+                }
+
+              tile->anim_speed = 25;
+              reader.read_int("anim-speed", tile->anim_speed);
+
 
               if (id >= int(tiles.size()))
                 tiles.resize(id+1);
@@ -423,7 +435,31 @@ Tile::Tile()
 
 Tile::~Tile()
 {
-  delete sprite;
+  for(std::vector<Surface*>::iterator i = images.begin(); i != images.end(); i++)
+    delete *i;
+}
+
+
+void
+Tile::draw(DrawingContext& context, Vector pos)
+{
+  // same code as from tile_manager.cpp draw_tile()
+
+  if(!images.size())
+    return;
+
+  if(images.size() > 1)
+    {
+    size_t frame 
+      = ((global_frame_counter*25) / anim_speed) % images.size();
+
+std::cerr << "frame: " << frame << std::endl;
+    context.draw_surface(images[frame], pos, LAYER_TILES);
+    }
+  else if (images.size() == 1)
+    {
+    context.draw_surface(images[0], pos, LAYER_TILES);
+    }
 }
 
 //---------------------------------------------------------------------------
@@ -449,6 +485,9 @@ WorldMap::WorldMap()
   name = "<no title>";
   music = "SALCON.MOD";
 
+  global_frame_counter = 0;
+  frame_timer.init(true);
+
   total_stats.reset();
 }
 
@@ -463,6 +502,7 @@ WorldMap::~WorldMap()
   delete teleporterdot;
 }
 
+// Don't forget to set map_filename before calling this
 void
 WorldMap::load_map()
 {
@@ -812,6 +852,12 @@ std::cerr << "one way only\n";
 void
 WorldMap::update(float delta)
 {
+  if(!frame_timer.check())
+    {
+    frame_timer.start(25);
+    global_frame_counter++;
+    }
+
   if (enter_level && !tux->is_moving())
     {
       bool level_finished = true;
@@ -1027,8 +1073,7 @@ WorldMap::draw(DrawingContext& context, const Vector& offset)
     for(int x = 0; x < width; ++x)
       {
         Tile* tile = at(Vector(x, y));
-        context.draw_surface(tile->sprite,
-            Vector(x*32 + offset.x, y*32 + offset.y), LAYER_TILES);
+        tile->draw(context, Vector(x*32 + offset.x, y*32 + offset.y));
       }
   
   for(SpecialTiles::iterator i = special_tiles.begin(); i != special_tiles.end(); ++i)

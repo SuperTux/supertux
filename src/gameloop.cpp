@@ -191,8 +191,10 @@ GameSession::levelintro(void)
   DrawingContext context;
   currentsector->background->draw(context);
 
-  context.draw_text(gold_text, level->get_name(), Vector(screen->w/2, 160),
-      CENTER_ALLIGN, LAYER_FOREGROUND1);
+//  context.draw_text(gold_text, level->get_name(), Vector(screen->w/2, 160),
+//      CENTER_ALLIGN, LAYER_FOREGROUND1);
+  context.draw_center_text(gold_text, level->get_name(), Vector(0, 160),
+      LAYER_FOREGROUND1);
 
   sprintf(str, "TUX x %d", player_status.lives);
   context.draw_text(white_text, str, Vector(screen->w/2, 210),
@@ -966,6 +968,7 @@ bool process_load_game_menu()
 
       WorldMapNS::WorldMap worldmap;
 
+      worldmap.set_map_filename("icyisland.stwm");
       // Load the game or at least set the savegame_file variable
       worldmap.loadgame(slotfile);
 

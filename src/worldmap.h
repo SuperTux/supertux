@@ -27,6 +27,7 @@
 #include "audio/musicref.h"
 #include "video/screen.h"
 #include "statistics.h"
+#include "special/timer.h"
 
 extern Menu* worldmap_menu;
 
@@ -51,8 +52,11 @@ class Tile
 public:
   Tile();
   ~Tile();
-  
-  Surface* sprite;
+
+  void draw(DrawingContext& context, Vector pos);
+
+  std::vector<Surface*> images;
+  int anim_speed;
 
   // Directions in which Tux is allowed to walk from this tile
   bool north;
@@ -230,6 +234,8 @@ private:
   Statistics total_stats;
   void calculate_total_stats();
 
+  Timer frame_timer;
+
 public:
   WorldMap();
   ~WorldMap();
@@ -257,7 +263,8 @@ public:
 
   /* Save map to slot */
   void savegame(const std::string& filename);
-  /* Load map from slot */
+  /* Load map from slot
+     You should call set_map_filename() before this */
   void loadgame(const std::string& filename);
   /* Load map directly from file */
   void loadmap(const std::string& filename);
@@ -270,6 +277,9 @@ public:
   
   const int& get_start_y() const
     { return start_y; }
+
+  void set_map_filename(std::string filename)
+    { map_filename = filename; }
 
 private:
   void on_escape_press();
