@@ -52,16 +52,11 @@ Mix_Chunk * load_sound(char * file)
 {
   Mix_Chunk * snd;
 
-  if (use_sound)
-  {
-    snd = Mix_LoadWAV(file);
+  snd = Mix_LoadWAV(file);
 
-    if (snd == NULL)
-      st_abort("Can't load", file);
-  }
-  else
-    snd = NULL;
-
+  if (snd == NULL)
+    st_abort("Can't load", file);
+   
   return(snd);
 }
 
@@ -72,16 +67,11 @@ Mix_Music * load_song(char * file)
 {
   Mix_Music * sng;
 
-  if (use_sound)
-  {
-    sng = Mix_LoadMUS(file);
+  sng = Mix_LoadMUS(file);
 
-    if (sng == NULL)
-      st_abort("Can't load", file);
-  }
-  else
-    sng = NULL;
-
+  if (sng == NULL)
+    st_abort("Can't load", file);
+  
   return (sng);
 }
 
@@ -99,9 +89,10 @@ Mix_Music * load_song(char * file)
 
 void free_chunk(Mix_Chunk *chunk)
 {
-  if (use_sound) {
-    DEBUG_MSG( __PRETTY_FUNCTION__ );
-    Mix_FreeChunk( chunk );
+  if (chunk != NULL) {
+   DEBUG_MSG( __PRETTY_FUNCTION__ );
+   Mix_FreeChunk( chunk );
+   chunk = NULL;
   }
 }
 
@@ -143,9 +134,10 @@ int play_music(Mix_Music *music, int loops)
 
 void free_music(Mix_Music *music)
 {
-  if (use_sound) {
+  if ( music != NULL ) {
     DEBUG_MSG(__PRETTY_FUNCTION__);
     Mix_FreeMusic( music );
+    music = NULL;
   }
 }
 
