@@ -82,8 +82,6 @@ void drawgradient(Color top_clr, Color bot_clr)
   {
 #endif
 
-//void fillrect(float x, float y, float w, float h, int r, int g, int b, int a)
-
     for(float y = 0; y < screen->h; y += 2)
       fillrect(0, (int)y, screen->w, 2,
        (int)(((float)(top_clr.red-bot_clr.red)/(0-screen->h)) * y + top_clr.red),
