@@ -58,6 +58,8 @@ class World
   static World* current() { return current_; }
   static void set_current(World* w) { current_ = w; }
 
+  World(const std::string& filename);
+  World(const std::string& subset, int level_nr);
   World();
   ~World();
   
@@ -74,16 +76,6 @@ class World
       case (or not). */
   void collision_handler();
   
-  void arrays_free();
-
-  /** Load data for this level: 
-      Returns -1, if the loading of the level failed. */
-  int  load(const std::string& subset, int level);
-
-  /** Load data for this level: 
-      Returns -1, if the loading of the level failed. */
-  int  load(const std::string& filename);
-
   void activate_particle_systems();
   void activate_bad_guys();
 

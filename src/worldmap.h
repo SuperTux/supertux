@@ -114,11 +114,11 @@ class WorldMap
 private:
   Tux* tux;
 
+  bool quit;
+
   Surface* level_sprite;
   Surface* leveldot_green;
   Surface* leveldot_red;
-
-  bool quit;
 
   std::string name;
   std::string music;

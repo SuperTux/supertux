@@ -230,7 +230,7 @@ bool title(void)
 
   st_pause_ticks_init();
 
-  GameSession session(datadir + "/levels/misc/menu.stl");
+  GameSession session(datadir + "/levels/misc/menu.stl", 0, ST_GL_DEMO_GAME);
 
   //FIXME:activate_particle_systems();
 

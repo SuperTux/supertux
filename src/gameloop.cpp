@@ -46,77 +46,46 @@
 
 GameSession* GameSession::current_ = 0;
 
+GameSession::GameSession(const std::string& subset_, int levelnb_, int mode)
+  : world(0), st_gl_mode(mode), levelnb(levelnb_), subset(subset_)
+{
+  current_ = this;
+  restart_level();
+}
+
 void
-GameSession::init()
+GameSession::restart_level()
 {
   game_pause = false;
-}
-
-GameSession::GameSession()
-{
-  current_ = this;
-  assert(0);
-}
-
-GameSession::GameSession(const std::string& filename)
-{
-  init();
-
-  //assert(!"Don't call me");
-  current_ = this;
-
-  world = new World;
+  exit_status = NONE;
 
   fps_timer.init(true);
   frame_timer.init(true);
-
-  world->load(filename);
-}
-
-GameSession::GameSession(const std::string& subset_, int levelnb_, int mode)
-  : subset(subset_),
-    levelnb(levelnb_)
-{
-  init();
-
-  current_ = this;
-
-  world = new World;
-
-  fps_timer.init(true);
-  frame_timer.init(true);
-
-  st_gl_mode = mode;
-  
-  /* Init the game: */
-  world->arrays_free();
-  world->set_defaults();
 
   if (st_gl_mode == ST_GL_LOAD_LEVEL_FILE)
     {
-      if (world->load(subset))
-        exit(1);
+      world = new World(subset);
+    }
+  else if (st_gl_mode == ST_GL_DEMO_GAME)
+    {
+      world = new World(subset);
     }
   else
     {
-      if(world->load(subset, levelnb) != 0)
-        exit(1);
+      world = new World(subset, levelnb);
+    }
+    
+  if (st_gl_mode != ST_GL_DEMO_GAME)
+    {
+      if(st_gl_mode != ST_GL_TEST)
+        load_hs();
+
+      if(st_gl_mode == ST_GL_PLAY || st_gl_mode == ST_GL_LOAD_LEVEL_FILE)
+        levelintro();
     }
 
-  world->get_level()->load_gfx();
-  
-  world->activate_bad_guys();
-  world->activate_particle_systems();
-  world->get_level()->load_song();
-
-  if(st_gl_mode != ST_GL_TEST)
-    load_hs();
-
-  if(st_gl_mode == ST_GL_PLAY || st_gl_mode == ST_GL_LOAD_LEVEL_FILE)
-    levelintro();
-
   time_left.init(true);
-  start_timers();
+  start_timers(); 
 }
 
 GameSession::~GameSession()
@@ -131,14 +100,11 @@ GameSession::levelintro(void)
   /* Level Intro: */
   clearscreen(0, 0, 0);
 
-  sprintf(str, "LEVEL %d", levelnb);
-  blue_text->drawf(str, 0, 200, A_HMIDDLE, A_TOP, 1);
-
   sprintf(str, "%s", world->get_level()->name.c_str());
-  gold_text->drawf(str, 0, 224, A_HMIDDLE, A_TOP, 1);
+  gold_text->drawf(str, 0, 200, A_HMIDDLE, A_TOP, 1);
 
   sprintf(str, "TUX x %d", player_status.lives);
-  white_text->drawf(str, 0, 256, A_HMIDDLE, A_TOP, 1);
+  white_text->drawf(str, 0, 224, A_HMIDDLE, A_TOP, 1);
   
   sprintf(str, "by %s", world->get_level()->author.c_str());
   white_small_text->drawf(str, 0, 400, A_HMIDDLE, A_TOP, 1);
@@ -174,8 +140,9 @@ GameSession::process_events()
       switch(event.type)
         {
         case SDL_QUIT:        /* Quit event - quit: */
-          quit = true;
+          st_abort("Received window close", "");
           break;
+
         case SDL_KEYDOWN:     /* A keypress! */
           {
             SDLKey key = event.key.keysym.sym;
@@ -189,7 +156,9 @@ GameSession::process_events()
                 if(!game_pause)
                   {
                     if(st_gl_mode == ST_GL_TEST)
-                      quit = true;
+                      {
+                        exit_status = LEVEL_ABORT;
+                      }
                     else if(show_menu)
                       {
                         Menu::set_current(game_menu);
@@ -248,10 +217,6 @@ GameSession::process_events()
               case SDLK_END:
                 if(debug_mode)
                   player_status.distros += 50;
-                break;
-              case SDLK_SPACE:
-                if(debug_mode)
-                  player_status.next_level = 1;
                 break;
               case SDLK_DELETE:
                 if(debug_mode)
@@ -335,100 +300,58 @@ GameSession::process_events()
     } /* while */
 }
 
-int
-GameSession::action(double frame_ratio)
+
+void
+GameSession::check_end_conditions()
 {
-  Player& tux = *world->get_tux();
+  Player* tux = world->get_tux();
 
-  if (tux.is_dead() || player_status.next_level)
+  /* End of level? */
+  if (tux->base.x >= World::current()->get_level()->endpos
+      && World::current()->get_level()->endpos != 0)
     {
-      /* Tux either died, or reached the end of a level! */
-      halt_music();
-      
-      if (player_status.next_level)
+      exit_status = LEVEL_FINISHED;
+    }
+  else
+    {
+      // Check End conditions
+      if (tux->is_dead())
         {
-          /* End of a level! */
-          levelnb++;
-          player_status.next_level = 0;
-          if(st_gl_mode != ST_GL_TEST)
-            {
-              drawresultscreen();
-            }
-          else
-            {
-              world->get_level()->free_gfx();
-              world->get_level()->cleanup();
-              world->get_level()->free_song();
-              world->arrays_free();
-
-              return(0);
-            }
-          tux.level_begin();
-        }
-      else
-        {
-          tux.is_dying();
-
-          /* No more lives!? */
-
+          
           if (player_status.lives < 0)
-            {
+            { // No more lives!?
               if(st_gl_mode != ST_GL_TEST)
                 drawendscreen();
-
+          
               if(st_gl_mode != ST_GL_TEST)
                 {
                   if (player_status.score > hs_score)
                     save_hs(player_status.score);
                 }
-
-              world->get_level()->free_gfx();
-              world->get_level()->cleanup();
-              world->get_level()->free_song();
-              world->arrays_free();
-
-              return(0);
-            } /* if (lives < 0) */
+              
+              exit_status = GAME_OVER;
+            }
+          else
+            { // Still has lives, so reset Tux to the levelstart
+              restart_level();
+            }
         }
+    } 
+}
 
-      /* Either way, (re-)load the (next) level... */
-      tux.level_begin();
-      world->set_defaults();
+void
+GameSession::action(double frame_ratio)
+{
+  check_end_conditions();
+  
+  if (exit_status == NONE)
+    {
+      Player* tux = world->get_tux();
       
-      world->get_level()->cleanup();
-
-      if (st_gl_mode == ST_GL_LOAD_LEVEL_FILE)
-        {
-          if(world->get_level()->load(subset) != 0)
-            return 0;
-        }
-      else
-        {
-          if(world->get_level()->load(subset, levelnb) != 0)
-            return 0;
-        }
-
-      world->arrays_free();
-      world->activate_bad_guys();
-      world->activate_particle_systems();
-
-      world->get_level()->free_gfx();
-      world->get_level()->load_gfx();
-      world->get_level()->free_song();
-      world->get_level()->load_song();
-
-      if(st_gl_mode != ST_GL_TEST)
-        levelintro();
-      start_timers();
-      /* Play music: */
-      play_current_music();
+      // Update Tux and the World
+      tux->action(frame_ratio);
+      world->action(frame_ratio);
     }
-
-  tux.action(frame_ratio);
-
-  world->action(frame_ratio);
-
-  return -1;
 }
 
 void 
@@ -458,14 +381,13 @@ GameSession::draw()
 }
 
 
-int
+GameSession::ExitStatus
 GameSession::run()
 {
-  Player& tux = *world->get_tux();
+  Player* tux = world->get_tux();
   current_ = this;
   
   int  fps_cnt;
-  bool done;
 
   global_frame_counter = 0;
   game_pause = false;
@@ -489,9 +411,7 @@ GameSession::run()
 
   draw();
 
-  done = false;
-  quit = false;
-  while (!done && !quit)
+  while (exit_status == NONE)
     {
       /* Calculate the movement-factor */
       double frame_ratio = ((double)(update_time-last_update_time))/((double)FRAME_RATE);
@@ -505,7 +425,7 @@ GameSession::run()
         }
 
       /* Handle events: */
-      tux.input.old_fire = tux.input.fire;
+      tux->input.old_fire = tux->input.fire;
 
       process_events();
 
@@ -527,7 +447,7 @@ GameSession::run()
                   break;
                 case 7:
                   st_pause_ticks_stop();
-                  done = true;
+                  exit_status = LEVEL_ABORT;
                   break;
                 }
             }
@@ -540,24 +460,13 @@ GameSession::run()
               process_load_game_menu();
             }
         }
-
-
-      /* Handle actions: */
-
+      
+      // Handle actions:
       if(!game_pause && !show_menu)
         {
-          /*float z = frame_ratio;
-            frame_ratio = 1;
-            while(z >= 1)
-            {*/
-          if (action(frame_ratio) == 0)
-            {
-              /* == 0: no more lives */
-              /* == -1: continues */
-              return 0;
-            }
-          /*  --z;
-                     }*/
+          action(frame_ratio);
+          if (exit_status != NONE)
+            return exit_status;
         }
       else
         {
@@ -603,15 +512,14 @@ GameSession::run()
         {
           /* are we low on time ? */
           if (time_left.get_left() < TIME_WARNING
-              && (get_current_music() != HURRYUP_MUSIC))     /* play the fast music */
+              && (get_current_music() != HURRYUP_MUSIC)) /* play the fast music */
             {
               set_current_music(HURRYUP_MUSIC);
               play_current_music();
             }
-
         }
-      else if(tux.dying == DYING_NOT)
-        tux.kill(KILL);
+      else if(tux->dying == DYING_NOT)
+        tux->kill(KILL);
 
       /* Calculate frames per second */
       if(show_fps)
@@ -633,9 +541,7 @@ GameSession::run()
   world->get_level()->cleanup();
   world->get_level()->free_song();
 
-  world->arrays_free();
-
-  return quit;
+  return exit_status;
 }
 
 /* Bounce a brick: */

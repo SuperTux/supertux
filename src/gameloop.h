@@ -24,6 +24,7 @@
 #define ST_GL_TEST 1
 #define ST_GL_LOAD_GAME 2
 #define ST_GL_LOAD_LEVEL_FILE  3
+#define ST_GL_DEMO_GAME  4
 
 extern int game_started;
 
@@ -35,12 +36,11 @@ class World;
 class GameSession
 {
  private:
-  bool quit;
   Timer fps_timer;
   Timer frame_timer;
   World* world;
   int st_gl_mode;
-
+  int levelnb;
   float fps_fps;
   unsigned int last_update_time;
   unsigned int update_time;
@@ -50,21 +50,20 @@ class GameSession
 
   // FIXME: Hack for restarting the level
   std::string subset;
-  int levelnb;
 
+  enum ExitStatus { NONE, LEVEL_FINISHED, GAME_OVER, LEVEL_ABORT };
+  ExitStatus exit_status;
  public:
   Timer time_left;
 
-  GameSession();
-  GameSession(const std::string& filename);
   GameSession(const std::string& subset, int levelnb, int mode);
   ~GameSession();
 
   /** Enter the busy loop */
-  int  run();
+  ExitStatus run();
 
   void draw();
-  int  action(double frame_ratio);
+  void action(double frame_ratio);
 
   Level* get_level() { return world->get_level(); }
   World* get_world() { return world; }
@@ -73,8 +72,9 @@ class GameSession
  private:
   static GameSession* current_;
 
-  void init();
+  void restart_level();
 
+  void check_end_conditions();
   void start_timers();
   void process_events();
 

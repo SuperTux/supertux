@@ -206,7 +206,6 @@ WorldMap::WorldMap()
 {
   tux = new Tux(this);
 
-  quit = false;
   width  = 20;
   height = 15;
 
@@ -309,7 +308,7 @@ WorldMap::get_input()
           switch(event.type)
             {
             case SDL_QUIT:
-              quit = true;
+              st_abort("Received window close", "");
               break;
           
             case SDL_KEYDOWN:

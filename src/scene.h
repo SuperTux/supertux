@@ -25,7 +25,6 @@ struct PlayerStatus
   int  distros;
   int  lives;
 
-  int  next_level;
   int  score_multiplier;
 
   PlayerStatus();

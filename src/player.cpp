@@ -281,13 +281,6 @@ Player::action(double frame_ratio)
       play_current_music();
     }
 
-  /* End of level? */
-  if (base.x >= World::current()->get_level()->endpos
-      && World::current()->get_level()->endpos != 0)
-    {
-      player_status.next_level = 1;
-    }
-
   // check some timers
   skidding_timer.check();
   invincible_timer.check();
@@ -822,9 +815,6 @@ Player::kill(int mode)
 void
 Player::is_dying()
 {
-  /* He died :^( */
-
-  --player_status.lives;
   remove_powerups();
   dying = DYING_NOT;
 }

@@ -33,7 +33,7 @@ Surface* img_distro[4];
 
 World* World::current_ = 0;
 
-World::World()
+World::World(const std::string& filename)
 {
   // FIXME: Move this to action and draw and everywhere else where the
   // world calls child functions
@@ -41,6 +41,32 @@ World::World()
 
   level = new Level;
   tux.init();
+
+  level->load(filename);
+  set_defaults();
+
+  get_level()->load_gfx();
+  activate_bad_guys();
+  activate_particle_systems();
+  get_level()->load_song();
+}
+
+World::World(const std::string& subset, int level_nr)
+{
+  // FIXME: Move this to action and draw and everywhere else where the
+  // world calls child functions
+  current_ = this;
+
+  level = new Level;
+  tux.init();
+
+  level->load(subset, level_nr);
+  set_defaults();
+
+  get_level()->load_gfx();
+  activate_bad_guys();
+  activate_particle_systems();
+  get_level()->load_song();
 }
 
 World::~World()
@@ -61,35 +87,6 @@ World::set_defaults()
 
   /* set current song/music */
   set_current_music(LEVEL_MUSIC);
-}
-
-int
-World::load(const std::string& subset, int level_nr)
-{
-  return level->load(subset, level_nr);
-}
-
-int
-World::load(const std::string& filename)
-{
-  return level->load(filename);
-}
-
-void
-World::arrays_free(void)
-{
-  bad_guys.clear();
-  bouncy_distros.clear();
-  broken_bricks.clear();
-  bouncy_bricks.clear();
-  floating_scores.clear();
-  upgrades.clear();
-  bullets.clear();
-  std::vector<ParticleSystem*>::iterator i;
-  for(i = particle_systems.begin(); i != particle_systems.end(); ++i) {
-    delete *i;
-  }
-  particle_systems.clear();
 }
 
 void
