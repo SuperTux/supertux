@@ -118,7 +118,7 @@ Physic::enable_gravity(bool enable_gravity)
 }
 
 void
-Physic::apply(float elapsed_time, float &x, float &y, float& gravity)
+Physic::apply(float elapsed_time, float &x, float &y, float gravity)
 {
   float grav;
   if(gravity_enabled)
@@ -133,7 +133,7 @@ Physic::apply(float elapsed_time, float &x, float &y, float& gravity)
 }
 
 void
-Physic::apply(Vector& vector, float elapsed_time, float& gravity)
+Physic::apply(Vector& vector, float elapsed_time, float gravity)
 {
   apply(elapsed_time, vector.x, vector.y, gravity);
 }

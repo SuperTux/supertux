@@ -65,10 +65,10 @@ public:
     void enable_gravity(bool gravity_enabled);
 
     /// Applies the physical simulation to given x and y coordinates.
-    void apply(float frame_ratio, float &x, float &y, float& gravity = 10); 
+    void apply(float frame_ratio, float &x, float &y, float gravity = 10.0f); 
 
     /// applies the physical simulation to given x and y coordinates.
-    void apply(Vector& vector, float frame_ratio, float& gravity = 10);
+    void apply(Vector& vector, float frame_ratio, float gravity = 10.0f);
 
 private:
     /// horizontal and vertical acceleration
