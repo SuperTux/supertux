@@ -815,6 +815,8 @@ void le_checkevents()
                   key = event.key.keysym.sym;
                   switch(key)
                     {
+                    case SDLK_ESCAPE:
+                      Menu::set_current(leveleditor_menu);
                     case SDLK_LEFT:
                       if(fire == DOWN)
                         cursor_x -= KEY_CURSOR_SPEED;
