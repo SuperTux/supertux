@@ -555,6 +555,9 @@ int game_action(void)
               if (score > highscore)
                 save_hs(score);
 
+	      unloadlevelgfx();
+              unloadlevelsong();
+              unloadshared();	      
               return(0);
             } /* if (lives < 0) */
         }
