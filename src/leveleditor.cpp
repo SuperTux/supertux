@@ -97,7 +97,7 @@ LevelEditor::LevelEditor()
   le_mouse_clicked[LEFT] = false;
   le_mouse_clicked[RIGHT] = false;
 
-  le_selection = new Surface(datadir + "/images/leveleditor/select.png", USE_ALPHA);
+  le_selection = new Surface(datadir + "/images/leveleditor/select.png", true);
 
   select_tilegroup_menu_effect.init(false);
   select_objects_menu_effect.init(false);

@@ -247,9 +247,9 @@ void title(void)
   titlesession = new GameSession(datadir + "/levels/misc/menu.stl", ST_GL_DEMO_GAME);
 
   /* Load images: */
-  bkg_title = new Surface(datadir + "/images/background/arctis.jpg", IGNORE_ALPHA);
-  logo = new Surface(datadir + "/images/title/logo.png", USE_ALPHA);
-  img_choose_subset = new Surface(datadir + "/images/status/choose-level-subset.png", USE_ALPHA);
+  bkg_title = new Surface(datadir + "/images/background/arctis.jpg", false);
+  logo = new Surface(datadir + "/images/title/logo.png", true);
+  img_choose_subset = new Surface(datadir + "/images/status/choose-level-subset.png", true);
 
   /* Generating contrib maps by only using a string_list */
   worldmap_list = dfiles("levels/worldmap", NULL, NULL);

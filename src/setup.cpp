@@ -602,11 +602,11 @@ void st_general_setup(void)
       Font::NUM, 32,32);
 
   /* Load GUI/menu images: */
-  checkbox = new Surface(datadir + "/images/status/checkbox.png", USE_ALPHA);
-  checkbox_checked = new Surface(datadir + "/images/status/checkbox-checked.png", USE_ALPHA);
-  back = new Surface(datadir + "/images/status/back.png", USE_ALPHA);
-  arrow_left = new Surface(datadir + "/images/icons/left.png", USE_ALPHA);
-  arrow_right = new Surface(datadir + "/images/icons/right.png", USE_ALPHA);
+  checkbox = new Surface(datadir + "/images/status/checkbox.png", true);
+  checkbox_checked = new Surface(datadir + "/images/status/checkbox-checked.png", true);
+  back = new Surface(datadir + "/images/status/back.png", true);
+  arrow_left = new Surface(datadir + "/images/icons/left.png", true);
+  arrow_right = new Surface(datadir + "/images/icons/right.png", true);
 
   /* Load the mouse-cursor */
   mouse_cursor = new MouseCursor( datadir + "/images/status/mousecursor.png",1);

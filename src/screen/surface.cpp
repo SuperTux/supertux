@@ -31,7 +31,7 @@
 
 Surface::Surfaces Surface::surfaces;
 
-SurfaceData::SurfaceData(SDL_Surface* temp, int use_alpha_)
+SurfaceData::SurfaceData(SDL_Surface* temp, bool use_alpha_)
     : type(SURFACE), surface(0), use_alpha(use_alpha_)
 {
   // Copy the given surface and make sure that it is not stored in
@@ -49,11 +49,11 @@ SurfaceData::SurfaceData(SDL_Surface* temp, int use_alpha_)
   SDL_BlitSurface(temp, NULL, surface, NULL);
 }
 
-SurfaceData::SurfaceData(const std::string& file_, int use_alpha_)
+SurfaceData::SurfaceData(const std::string& file_, bool use_alpha_)
     : type(LOAD), surface(0), file(file_), use_alpha(use_alpha_)
 {}
 
-SurfaceData::SurfaceData(const std::string& file_, int x_, int y_, int w_, int h_, int use_alpha_)
+SurfaceData::SurfaceData(const std::string& file_, int x_, int y_, int w_, int h_, bool use_alpha_)
     : type(LOAD_PART), surface(0), file(file_), use_alpha(use_alpha_),
     x(x_), y(y_), w(w_), h(h_)
 {}
@@ -134,7 +134,7 @@ static int power_of_two(int input)
 }
 #endif
 
-Surface::Surface(SDL_Surface* surf, int use_alpha)
+Surface::Surface(SDL_Surface* surf, bool use_alpha)
     : data(surf, use_alpha), w(0), h(0)
 {
   impl = data.create();
@@ -146,7 +146,7 @@ Surface::Surface(SDL_Surface* surf, int use_alpha)
   surfaces.push_back(this);
 }
 
-Surface::Surface(const std::string& file, int use_alpha)
+Surface::Surface(const std::string& file, bool use_alpha)
     : data(file, use_alpha), w(0), h(0)
 {
   impl = data.create();
@@ -158,7 +158,7 @@ Surface::Surface(const std::string& file, int use_alpha)
   surfaces.push_back(this);
 }
 
-Surface::Surface(const std::string& file, int x, int y, int w, int h, int use_alpha)
+Surface::Surface(const std::string& file, int x, int y, int w, int h, bool use_alpha)
     : data(file, x, y, w, h, use_alpha), w(0), h(0)
 {
   impl = data.create();
@@ -248,7 +248,7 @@ Surface::resize(int w_, int h_)
 }
 
 SDL_Surface*
-sdl_surface_part_from_file(const std::string& file, int x, int y, int w, int h,  int use_alpha)
+sdl_surface_part_from_file(const std::string& file, int x, int y, int w, int h,  bool use_alpha)
 {
   SDL_Rect src;
   SDL_Surface * sdl_surface;
@@ -283,7 +283,7 @@ sdl_surface_part_from_file(const std::string& file, int x, int y, int w, int h, 
   SDL_SetAlpha(temp,0,0);
 
   SDL_BlitSurface(temp, &src, conv, NULL);
-  if(use_alpha == IGNORE_ALPHA && !use_gl)
+  if(use_alpha == false && !use_gl)
     sdl_surface = SDL_DisplayFormat(conv);
   else
     sdl_surface = SDL_DisplayFormatAlpha(conv);
@@ -291,7 +291,7 @@ sdl_surface_part_from_file(const std::string& file, int x, int y, int w, int h, 
   if (sdl_surface == NULL)
     st_abort("Can't covert to display format", file);
 
-  if (use_alpha == IGNORE_ALPHA && !use_gl)
+  if (use_alpha == false && !use_gl)
     SDL_SetAlpha(sdl_surface, 0, 0);
 
   SDL_FreeSurface(temp);
@@ -301,7 +301,7 @@ sdl_surface_part_from_file(const std::string& file, int x, int y, int w, int h, 
 }
 
 SDL_Surface*
-sdl_surface_from_file(const std::string& file, int use_alpha)
+sdl_surface_from_file(const std::string& file, bool use_alpha)
 {
   SDL_Surface* sdl_surface;
   SDL_Surface* temp;
@@ -311,7 +311,7 @@ sdl_surface_from_file(const std::string& file, int use_alpha)
   if (temp == NULL)
     st_abort("Can't load", file);
 
-  if(use_alpha == IGNORE_ALPHA && !use_gl)
+  if(use_alpha == false && !use_gl)
     sdl_surface = SDL_DisplayFormat(temp);
   else
     sdl_surface = SDL_DisplayFormatAlpha(temp);
@@ -319,7 +319,7 @@ sdl_surface_from_file(const std::string& file, int use_alpha)
   if (sdl_surface == NULL)
     st_abort("Can't covert to display format", file);
 
-  if (use_alpha == IGNORE_ALPHA && !use_gl)
+  if (use_alpha == false && !use_gl)
     SDL_SetAlpha(sdl_surface, 0, 0);
 
   SDL_FreeSurface(temp);
@@ -328,7 +328,7 @@ sdl_surface_from_file(const std::string& file, int use_alpha)
 }
 
 SDL_Surface*
-sdl_surface_from_sdl_surface(SDL_Surface* sdl_surf, int use_alpha)
+sdl_surface_from_sdl_surface(SDL_Surface* sdl_surf, bool use_alpha)
 {
   SDL_Surface* sdl_surface;
   Uint32 saved_flags;
@@ -343,7 +343,7 @@ sdl_surface_from_sdl_surface(SDL_Surface* sdl_surf, int use_alpha)
     SDL_SetAlpha(sdl_surf, 0, 0);
   }
 
-  if(use_alpha == IGNORE_ALPHA && !use_gl)
+  if(use_alpha == false && !use_gl)
     sdl_surface = SDL_DisplayFormat(sdl_surf);
   else
     sdl_surface = SDL_DisplayFormatAlpha(sdl_surf);
@@ -358,7 +358,7 @@ sdl_surface_from_sdl_surface(SDL_Surface* sdl_surf, int use_alpha)
   if (sdl_surface == NULL)
     st_abort("Can't covert to display format", "SURFACE");
 
-  if (use_alpha == IGNORE_ALPHA && !use_gl)
+  if (use_alpha == false && !use_gl)
     SDL_SetAlpha(sdl_surface, 0, 0);
 
   return sdl_surface;
@@ -434,7 +434,7 @@ int SurfaceImpl::resize(int w_, int h_)
 }
 
 #ifndef NOOPENGL
-SurfaceOpenGL::SurfaceOpenGL(SDL_Surface* surf, int use_alpha)
+SurfaceOpenGL::SurfaceOpenGL(SDL_Surface* surf, bool use_alpha)
 {
   sdl_surface = sdl_surface_from_sdl_surface(surf, use_alpha);
   create_gl(sdl_surface,&gl_texture);
@@ -443,7 +443,7 @@ SurfaceOpenGL::SurfaceOpenGL(SDL_Surface* surf, int use_alpha)
   h = sdl_surface->h;
 }
 
-SurfaceOpenGL::SurfaceOpenGL(const std::string& file, int use_alpha)
+SurfaceOpenGL::SurfaceOpenGL(const std::string& file, bool use_alpha)
 {
   sdl_surface = sdl_surface_from_file(file, use_alpha);
   create_gl(sdl_surface,&gl_texture);
@@ -452,7 +452,7 @@ SurfaceOpenGL::SurfaceOpenGL(const std::string& file, int use_alpha)
   h = sdl_surface->h;
 }
 
-SurfaceOpenGL::SurfaceOpenGL(const std::string& file_, int x_, int y_, int w_, int h_, int use_alpha_)
+SurfaceOpenGL::SurfaceOpenGL(const std::string& file_, int x_, int y_, int w_, int h_, bool use_alpha_)
 {
   sdl_surface = sdl_surface_part_from_file(file_,x_,y_,w_,h_,use_alpha_);
   
@@ -700,21 +700,21 @@ SurfaceOpenGL::draw_stretched(float x, float y, int sw, int sh, Uint8 alpha)
 
 #endif
 
-SurfaceSDL::SurfaceSDL(SDL_Surface* surf, int use_alpha)
+SurfaceSDL::SurfaceSDL(SDL_Surface* surf, bool use_alpha)
 {
   sdl_surface = sdl_surface_from_sdl_surface(surf, use_alpha);
   w = sdl_surface->w;
   h = sdl_surface->h;
 }
 
-SurfaceSDL::SurfaceSDL(const std::string& file, int use_alpha)
+SurfaceSDL::SurfaceSDL(const std::string& file, bool use_alpha)
 {
   sdl_surface = sdl_surface_from_file(file, use_alpha);
   w = sdl_surface->w;
   h = sdl_surface->h;
 }
 
-SurfaceSDL::SurfaceSDL(const std::string& file, int x, int y, int w, int h,  int use_alpha)
+SurfaceSDL::SurfaceSDL(const std::string& file, int x, int y, int w, int h,  bool use_alpha)
 {
   sdl_surface = sdl_surface_part_from_file(file, x, y, w, h, use_alpha);
   w = sdl_surface->w;

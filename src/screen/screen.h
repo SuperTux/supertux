@@ -53,11 +53,6 @@ public:
 
 class Vector;
 
-#define NO_UPDATE false
-#define UPDATE true
-#define USE_ALPHA 0
-#define IGNORE_ALPHA 1
-
 void putpixel(SDL_Surface *surface, int x, int y, Uint32 pixel);
 void drawpixel(int x, int y, Uint32 pixel);
 void fillrect(float x, float y, float w, float h, int r, int g, int b, int a = 255);

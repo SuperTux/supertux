@@ -33,7 +33,7 @@ Font::Font(const std::string& file, FontType ntype, int nw, int nh,
     : chars(0), shadow_chars(0), type(ntype), w(nw), h(nh),
       shadowsize(nshadowsize)
 {
-  chars = new Surface(file, USE_ALPHA);
+  chars = new Surface(file, true);
  
   switch(type) {
     case TEXT:
@@ -58,7 +58,7 @@ Font::Font(const std::string& file, FontType ntype, int nw, int nh,
     }
     SDL_UnlockSurface(conv);
     SDL_SetAlpha(conv, SDL_SRCALPHA, 128);
-    shadow_chars = new Surface(conv, USE_ALPHA);
+    shadow_chars = new Surface(conv, true);
     SDL_FreeSurface(conv);
   }
 }
@@ -172,7 +172,7 @@ void display_text_file(const std::string& file, float scroll_speed)
     }
 
   // load background image
-  Surface* background = new Surface(datadir + "/images/background/" + background_file, IGNORE_ALPHA);
+  Surface* background = new Surface(datadir + "/images/background/" + background_file, false);
 
   int done = 0;
   float scroll = 0;

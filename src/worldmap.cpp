@@ -130,7 +130,7 @@ TileManager::TileManager()
 
               tile->sprite = new Surface(
                            datadir +  "/images/worldmap/" + filename, 
-                           USE_ALPHA);
+                           true);
 
               if (id >= int(tiles.size()))
                 tiles.resize(id+1);
@@ -171,9 +171,9 @@ TileManager::get(int i)
 Tux::Tux(WorldMap* worldmap_)
   : worldmap(worldmap_)
 {
-  largetux_sprite = new Surface(datadir +  "/images/worldmap/tux.png", USE_ALPHA);
-  firetux_sprite = new Surface(datadir +  "/images/worldmap/firetux.png", USE_ALPHA);
-  smalltux_sprite = new Surface(datadir +  "/images/worldmap/smalltux.png", USE_ALPHA);
+  largetux_sprite = new Surface(datadir +  "/images/worldmap/tux.png", true);
+  firetux_sprite = new Surface(datadir +  "/images/worldmap/firetux.png", true);
+  smalltux_sprite = new Surface(datadir +  "/images/worldmap/smalltux.png", true);
 
   offset = 0;
   moving = false;
@@ -357,9 +357,9 @@ WorldMap::WorldMap()
   start_x = 4;
   start_y = 5;
   
-  level_sprite = new Surface(datadir +  "/images/worldmap/levelmarker.png", USE_ALPHA);
-  leveldot_green = new Surface(datadir +  "/images/worldmap/leveldot_green.png", USE_ALPHA);
-  leveldot_red = new Surface(datadir +  "/images/worldmap/leveldot_red.png", USE_ALPHA);
+  level_sprite = new Surface(datadir +  "/images/worldmap/levelmarker.png", true);
+  leveldot_green = new Surface(datadir +  "/images/worldmap/leveldot_green.png", true);
+  leveldot_red = new Surface(datadir +  "/images/worldmap/leveldot_red.png", true);
 
   input_direction = D_NONE;
   enter_level = false;

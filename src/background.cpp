@@ -86,7 +86,7 @@ Background::set_image(const std::string& name, float speed)
   this->speed = speed;
 
   delete image;
-  image = new Surface(datadir + "/images/background/" + name, IGNORE_ALPHA);
+  image = new Surface(datadir + "/images/background/" + name, false);
 }
 
 void

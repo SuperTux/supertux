@@ -88,11 +88,11 @@ void Button::add_icon(const std::string& icon_file, int mw, int mh)
 
   if(mw != -1 || mh != -1)
   {
-    icon.push_back(new Surface(filename,USE_ALPHA));
+    icon.push_back(new Surface(filename,true));
     icon.back()->resize(mw,mh);
   }
   else
-    icon.push_back(new Surface(filename,USE_ALPHA));
+    icon.push_back(new Surface(filename,true));
 
 }
 

@@ -39,7 +39,7 @@ Surface* create_surface(lisp_object_t* cur)
   if (lisp_string_p(cur))
     {
       return new Surface(datadir + "/images/tilesets/" + lisp_string(cur),
-                         USE_ALPHA);
+                         true);
     }
   else if (lisp_cons_p(cur) && lisp_symbol_p(lisp_car(cur)))
     {
@@ -55,7 +55,7 @@ Surface* create_surface(lisp_object_t* cur)
                                  lisp_integer(lisp_list_nth(data, 2)),
                                  lisp_integer(lisp_list_nth(data, 3)),
                                  lisp_integer(lisp_list_nth(data, 4)),
-                                 USE_ALPHA);
+                                 true);
             }
           else
             {

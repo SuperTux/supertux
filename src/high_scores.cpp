@@ -86,7 +86,7 @@ void save_hs(int score)
   SDL_Event event;
 
   DrawingContext context;
-  bkgd = new Surface(datadir + "/images/highscore/highscore.png", IGNORE_ALPHA);
+  bkgd = new Surface(datadir + "/images/highscore/highscore.png", false);
 
   hs_score = score;
 

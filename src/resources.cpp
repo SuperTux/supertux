@@ -131,59 +131,59 @@ void loadshared()
 
 
   /* Water: */
-  img_water = new Surface(datadir + "/images/shared/water.png", IGNORE_ALPHA);
+  img_water = new Surface(datadir + "/images/shared/water.png", false);
 
   img_waves[0] = new Surface(datadir + "/images/shared/waves-0.png",
-               USE_ALPHA);
+               true);
 
   img_waves[1] = new Surface(datadir + "/images/shared/waves-1.png",
-               USE_ALPHA);
+               true);
 
   img_waves[2] = new Surface(datadir + "/images/shared/waves-2.png",
-               USE_ALPHA);
+               true);
 
 
   /* Pole: */
 
-  img_pole = new Surface(datadir + "/images/shared/pole.png", USE_ALPHA);
+  img_pole = new Surface(datadir + "/images/shared/pole.png", true);
   img_poletop = new Surface(datadir + "/images/shared/poletop.png",
-               USE_ALPHA);
+               true);
 
 
   /* Flag: */
 
   img_flag[0] = new Surface(datadir + "/images/shared/flag-0.png",
-               USE_ALPHA);
+               true);
   img_flag[1] = new Surface(datadir + "/images/shared/flag-1.png",
-               USE_ALPHA);
+               true);
 
 
   /* Cloud: */
 
   img_cloud[0][0] = new Surface(datadir + "/images/shared/cloud-00.png",
-               USE_ALPHA);
+               true);
 
   img_cloud[0][1] = new Surface(datadir + "/images/shared/cloud-01.png",
-               USE_ALPHA);
+               true);
 
   img_cloud[0][2] = new Surface(datadir + "/images/shared/cloud-02.png",
-               USE_ALPHA);
+               true);
 
   img_cloud[0][3] = new Surface(datadir + "/images/shared/cloud-03.png",
-               USE_ALPHA);
+               true);
 
 
   img_cloud[1][0] = new Surface(datadir + "/images/shared/cloud-10.png",
-               USE_ALPHA);
+               true);
 
   img_cloud[1][1] = new Surface(datadir + "/images/shared/cloud-11.png",
-               USE_ALPHA);
+               true);
 
   img_cloud[1][2] = new Surface(datadir + "/images/shared/cloud-12.png",
-               USE_ALPHA);
+               true);
 
   img_cloud[1][3] = new Surface(datadir + "/images/shared/cloud-13.png",
-               USE_ALPHA);
+               true);
 
 
   /* Bad guys: */
@@ -205,22 +205,22 @@ void loadshared()
 
   /* Distros: */
   img_distro[0] = new Surface(datadir + "/images/tilesets/coin1.png",
-               USE_ALPHA);
+               true);
 
   img_distro[1] = new Surface(datadir + "/images/tilesets/coin2.png",
-               USE_ALPHA);
+               true);
 
   img_distro[2] = new Surface(datadir + "/images/tilesets/coin3.png",
-               USE_ALPHA);
+               true);
 
   img_distro[3] = new Surface(datadir + "/images/tilesets/coin2.png",
-               USE_ALPHA);
+               true);
 
 
   /* Tux life: */
 
   tux_life = new Surface(datadir + "/images/shared/tux-life.png",
-                         USE_ALPHA);
+                         true);
 
   /* Sound effects: */
 

@@ -24,7 +24,7 @@ MouseCursor* MouseCursor::current_ = 0;
 
 MouseCursor::MouseCursor(std::string cursor_file, int frames) : mid_x(0), mid_y(0)
 {
-  cursor = new Surface(cursor_file, USE_ALPHA);
+  cursor = new Surface(cursor_file, true);
   
   cur_state = MC_NORMAL;
   cur_frame = 0;

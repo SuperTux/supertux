@@ -33,7 +33,7 @@
 #include "screen.h"
 #include "vector.h"
 
-SDL_Surface* sdl_surface_from_sdl_surface(SDL_Surface* sdl_surf, int use_alpha);
+SDL_Surface* sdl_surface_from_sdl_surface(SDL_Surface* sdl_surf, bool use_alpha);
 SDL_Surface* sdl_surface_from_nothing();
 
 class SurfaceImpl;
@@ -59,7 +59,7 @@ public:
   ConstructorType type;
   SDL_Surface* surface;
   std::string file;
-  int use_alpha;
+  bool use_alpha;
   int x;
   int y;
   int w;
@@ -67,9 +67,9 @@ public:
   Color top_gradient;
   Color bottom_gradient;
 
-  SurfaceData(SDL_Surface* surf, int use_alpha_);
-  SurfaceData(const std::string& file_, int use_alpha_);
-  SurfaceData(const std::string& file_, int x_, int y_, int w_, int h_, int use_alpha_);
+  SurfaceData(SDL_Surface* surf, bool use_alpha_);
+  SurfaceData(const std::string& file_, bool use_alpha_);
+  SurfaceData(const std::string& file_, int x_, int y_, int w_, int h_, bool use_alpha_);
   SurfaceData(Color top_gradient_, Color bottom_gradient_, int w_, int h_);
   ~SurfaceData();
 
@@ -94,9 +94,9 @@ public:
   static void reload_all();
   static void debug_check();
 
-  Surface(SDL_Surface* surf, int use_alpha);  
-  Surface(const std::string& file, int use_alpha);  
-  Surface(const std::string& file, int x, int y, int w, int h, int use_alpha);
+  Surface(SDL_Surface* surf, bool use_alpha);  
+  Surface(const std::string& file, bool use_alpha);  
+  Surface(const std::string& file, int x, int y, int w, int h, bool use_alpha);
   Surface(Color top_gradient, Color bottom_gradient, int w_, int h_);
   ~Surface();
   
@@ -135,9 +135,9 @@ public:
 class SurfaceSDL : public SurfaceImpl
 {
 public:
-  SurfaceSDL(SDL_Surface* surf, int use_alpha);
-  SurfaceSDL(const std::string& file, int use_alpha);  
-  SurfaceSDL(const std::string& file, int x, int y, int w, int h, int use_alpha);
+  SurfaceSDL(SDL_Surface* surf, bool use_alpha);
+  SurfaceSDL(const std::string& file, bool use_alpha);  
+  SurfaceSDL(const std::string& file, int x, int y, int w, int h, bool use_alpha);
   SurfaceSDL(Color top_gradient, Color bottom_gradient, int w, int h);
   virtual ~SurfaceSDL();
 
@@ -155,9 +155,9 @@ public:
   GLuint gl_texture;
 
 public:
-  SurfaceOpenGL(SDL_Surface* surf, int use_alpha);
-  SurfaceOpenGL(const std::string& file, int use_alpha);  
-  SurfaceOpenGL(const std::string& file, int x, int y, int w, int h, int use_alpha);
+  SurfaceOpenGL(SDL_Surface* surf, bool use_alpha);
+  SurfaceOpenGL(const std::string& file, bool use_alpha);  
+  SurfaceOpenGL(const std::string& file, int x, int y, int w, int h, bool use_alpha);
   SurfaceOpenGL(Color top_gradient, Color bottom_gradient, int w, int h);
 
   virtual ~SurfaceOpenGL();
