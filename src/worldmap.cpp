@@ -123,17 +123,35 @@ WorldMap::~WorldMap()
 void
 WorldMap::load_map()
 {
-  tilemap.resize(width * height);
+  lisp_stream_t stream;
+  FILE* in = fopen(DATA_PREFIX "levels/default/worldmap.scm", "r");
+  assert(in);
+  lisp_stream_init_file (&stream, in);
+  lisp_object_t* root_obj = lisp_read (&stream);
   
-  tilemap[0] = 5;
-  tilemap[1] = 1;
-  tilemap[2] = 6;
-  tilemap[3] = 1;
-  tilemap[4] = 3;
-  tilemap[4+20] = 2;
-  tilemap[4+40] = 7;
-  tilemap[4+60] = 2;
-  tilemap[4+80] = 4;
+  if (strcmp(lisp_symbol(lisp_car(root_obj)), "supertux-worldmap") == 0)
+    {
+      lisp_object_t* cur = lisp_cdr(root_obj);
+
+      while(!lisp_nil_p(cur))
+        {
+          lisp_object_t* element = lisp_car(cur);
+
+          if (strcmp(lisp_symbol(lisp_car(element)), "tilemap") == 0)
+            {
+              LispReader reader(lisp_cdr(element));
+              reader.read_int("width",  &width);
+              reader.read_int("height", &height);
+              reader.read_int_vector("data", &tilemap);
+            }
+          else
+            {
+              
+            }
+          
+          cur = lisp_cdr(cur);
+        }
+    }
 }
 
 void
