@@ -482,7 +482,7 @@ GameSession::check_end_conditions()
 void
 GameSession::action(double frame_ratio)
 {
-  if (exit_status == ES_NONE)
+  if (exit_status == ES_NONE && !world->get_tux()->growing_timer.check())
     {
       // Update Tux and the World
       world->action(frame_ratio);

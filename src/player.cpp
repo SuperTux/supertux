@@ -41,6 +41,8 @@ Surface* tux_life;
 Sprite* smalltux_gameover;
 Sprite* smalltux_star;
 Sprite* largetux_star;
+Sprite* growingtux_left;
+Sprite* growingtux_right;
 
 PlayerSprite smalltux;
 PlayerSprite largetux;
@@ -117,6 +119,7 @@ Player::init()
   frame_timer.init(true);
   kick_timer.init(true);
   shooting_timer.init(true);
+  growing_timer.init(true);
 
   physic.reset();
 }
@@ -171,6 +174,7 @@ Player::level_begin()
   skidding_timer.init(true);
   safe_timer.init(true);
   frame_timer.init(true);
+  growing_timer.init(true);
 
   physic.reset();
 }
@@ -569,7 +573,7 @@ Player::handle_input()
 }
 
 void
-Player::grow()
+Player::grow(bool animate)
 {
   if(size == BIG)
     return;
@@ -577,6 +581,9 @@ Player::grow()
   size = BIG;
   base.height = 64;
   base.y -= 32;
+
+  if(animate)
+    growing_timer.start((int)((growingtux_left->get_frames() / growingtux_left->get_fps()) * 1000));
 
   old_base = previous_base = base;
 }
@@ -659,7 +666,14 @@ Player::draw(Camera& viewport, int layer)
         }
       else
         {
-          if (duck && size != SMALL)
+          if(growing_timer.check())
+            {
+              if (dir == RIGHT)
+                growingtux_right->draw(pos);
+              else 
+                growingtux_left->draw(pos);
+            }
+          else if (duck && size != SMALL)
             {
               if (dir == RIGHT)
                 sprite->duck_right->draw(pos);

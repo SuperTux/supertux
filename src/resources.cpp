@@ -54,6 +54,9 @@ void loadshared()
   largetux_star = sprite_manager->load("largetux-star");
   smalltux_gameover = sprite_manager->load("smalltux-gameover");
 
+  growingtux_left = sprite_manager->load("tux-grow-left");
+  growingtux_right = sprite_manager->load("tux-grow-right");
+
   smalltux.stand_left  = sprite_manager->load("smalltux-stand-left");
   smalltux.stand_right = sprite_manager->load("smalltux-stand-right");
   smalltux.walk_left   = sprite_manager->load("smalltux-walk-left");

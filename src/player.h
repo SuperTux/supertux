@@ -83,6 +83,8 @@ extern Surface* tux_life;
 extern Sprite* smalltux_gameover;
 extern Sprite* smalltux_star;
 extern Sprite* largetux_star;
+extern Sprite* growingtux_left;
+extern Sprite* growingtux_right;
 
 struct PlayerSprite
 {
@@ -142,6 +144,7 @@ public:
   Timer kick_timer;
   Timer shooting_timer;   // used to show the arm when Tux is shooting
   Timer dying_timer;
+  Timer growing_timer;
   Physic physic;
 
 public:
@@ -165,7 +168,7 @@ public:
   bool on_ground();
   bool under_solid();
   bool tiles_on_air(int tiles);
-  void grow();
+  void grow(bool animate);
   void move(const Vector& vector);
   bool is_dead() const
   { return dead; }

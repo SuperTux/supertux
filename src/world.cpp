@@ -97,7 +97,7 @@ World::apply_bonuses()
       // fall through
                                                                                 
     case PlayerStatus::GROWUP_BONUS:
-      tux->grow();
+      tux->grow(false);
       break;
     }
 }

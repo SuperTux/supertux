@@ -62,6 +62,9 @@ class Sprite
   void draw_part(float sx, float sy, float x, float y, float w, float h);
   int get_current_frame() const;
 
+  float get_fps() { return fps; } ;
+  int get_frames() { return surfaces.size(); } ;
+
   void draw(const Vector& pos, int special_drawing = SD_NONE)
   { draw(pos.x, pos.y, special_drawing); }
 
