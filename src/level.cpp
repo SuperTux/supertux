@@ -26,8 +26,6 @@
 
 using namespace std;
 
-texture_type img_bkgd;
-
 st_subset::st_subset()
 {
   levels = 0;
@@ -539,30 +537,9 @@ Level::cleanup()
   badguy_data.clear();
 }
 
-/* Load graphics: */
-
 void 
 Level::load_gfx()
 {
-  /*
-  level_load_image(&img_brick[0],theme,"brick0.png", IGNORE_ALPHA);
-  level_load_image(&img_brick[1],theme,"brick1.png", IGNORE_ALPHA);
-
-  level_load_image(&img_solid[0],theme,"solid0.png", USE_ALPHA);
-  level_load_image(&img_solid[1],theme,"solid1.png", USE_ALPHA);
-  level_load_image(&img_solid[2],theme,"solid2.png", USE_ALPHA);
-  level_load_image(&img_solid[3],theme,"solid3.png", USE_ALPHA);
-
-  level_load_image(&img_bkgd_tile[0][0],theme,"bkgd-00.png", USE_ALPHA);
-  level_load_image(&img_bkgd_tile[0][1],theme,"bkgd-01.png", USE_ALPHA);
-  level_load_image(&img_bkgd_tile[0][2],theme,"bkgd-02.png", USE_ALPHA);
-  level_load_image(&img_bkgd_tile[0][3],theme,"bkgd-03.png", USE_ALPHA);
-
-  level_load_image(&img_bkgd_tile[1][0],theme,"bkgd-10.png", USE_ALPHA);
-  level_load_image(&img_bkgd_tile[1][1],theme,"bkgd-11.png", USE_ALPHA);
-  level_load_image(&img_bkgd_tile[1][2],theme,"bkgd-12.png", USE_ALPHA);
-  level_load_image(&img_bkgd_tile[1][3],theme,"bkgd-13.png", USE_ALPHA);
-  */
   if(!bkgd_image.empty())
     {
       char fname[1024];
@@ -573,20 +550,20 @@ Level::load_gfx()
     }
   else
     {
-      /* Quick hack to make sure an image is loaded, when we are freeing it afterwards. */#
-      level_load_image(&img_bkgd, theme,"solid0.png", IGNORE_ALPHA);
+      /* Quick hack to make sure an image is loaded, when we are freeing it afterwards. */
+      load_image(&img_bkgd, theme,"solid0.png", IGNORE_ALPHA);
     }
 }
 
-/* Free graphics data for this level: */
-void level_free_gfx(void)
+void
+Level::free_gfx()
 {
   texture_free(&img_bkgd);
 }
 
 /* Load a level-specific graphic... */
-
-void level_load_image(texture_type* ptexture, string theme,const  char * file, int use_alpha)
+void
+Level::load_image(texture_type* ptexture, string theme,const  char * file, int use_alpha)
 {
   char fname[1024];
 
@@ -647,15 +624,12 @@ Level::change(float x, float y, int tm, unsigned int c)
     }
 }
 
-/* Free music data for this level: */
-
-void level_free_song(void)
+void 
+Level::free_song(void)
 {
   free_music(level_song);
   free_music(level_song_fast);
 }
-
-/* Load music: */
 
 void
 Level::load_song()
@@ -669,7 +643,8 @@ Level::load_song()
                               strlen(song_title.c_str()) + 8 + 5);
   song_subtitle = strdup(song_title.c_str());
   strcpy(strstr(song_subtitle, "."), "\0");
-  sprintf(song_path, "%s/music/%s-fast%s", datadir.c_str(), song_subtitle, strstr(song_title.c_str(), "."));
+  sprintf(song_path, "%s/music/%s-fast%s", datadir.c_str(), 
+          song_subtitle, strstr(song_title.c_str(), "."));
   level_song_fast = ::load_song(song_path);
   free(song_subtitle);
   free(song_path);

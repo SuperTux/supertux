@@ -10,4 +10,4 @@
   April 11, 2000 - March 15, 2004
 */
 
-int title(void);
+bool title(void);

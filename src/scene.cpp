@@ -18,7 +18,6 @@ int distros;
 int level;
 int next_level;
 int game_pause;
-bool quit;
 int score_multiplier;
 int endpos;
 bool counting_distros;

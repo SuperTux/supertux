@@ -129,9 +129,8 @@ void draw_demo(Level* plevel)
 
 /* --- TITLE SCREEN --- */
 
-int title(void)
+bool title(void)
 {
-  int done;
   string_list_type level_subsets;
   st_subset subset;
   level_subsets = dsubdirs("/levels", "info");
@@ -162,9 +161,7 @@ int title(void)
   texture_load(&img_choose_subset,datadir + "/images/status/choose-level-subset.png", USE_ALPHA);
 
   /* --- Main title loop: --- */
-
-  done = 0;
-  quit = 0;
+  bool done = 0;
   show_menu = 1;
   frame = 0;
 
@@ -175,9 +172,8 @@ int title(void)
   update_time = st_get_ticks();
   timer_start(&random_timer, rand() % 2000 + 2000);
 
-  while (!done && !quit)
+  while (!done)
     {
-
       /* Calculate the movement-factor */
       frame_ratio = ((double)(update_time-last_update_time))/((double)FRAME_RATE);
       if(frame_ratio > 1.5) /* Quick hack to correct the unprecise CPU clocks a little bit. */
@@ -192,13 +188,11 @@ int title(void)
           menu_event(event);
           if (event.type == SDL_QUIT)
             {
-              /* Quit event - quit: */
-              quit = 1;
+              done = true;
             }
           else if (event.type == SDL_KEYDOWN)
             {
               /* Keypress... */
-
               key = event.key.keysym.sym;
 
               /* Check for menu events */
@@ -207,8 +201,7 @@ int title(void)
               if (key == SDLK_ESCAPE)
                 {
                   /* Escape: Quit: */
-
-                  quit = 1;
+                  done = true;
                 }
             }
         }
@@ -237,7 +230,7 @@ int title(void)
       */
 
       /* Don't draw menu, if quit is true */
-      if(show_menu && !quit)
+      if(show_menu && !done)
         menu_process_current();
 
       if(current_menu == main_menu)
@@ -276,8 +269,7 @@ int title(void)
                           switch(event.type)
                             {
                             case SDL_QUIT:
-                              done = 1;
-                              quit = 1;
+                              done = true;
                               break;
                             case SDL_KEYDOWN:		// key pressed
                               // Keypress...
@@ -333,13 +325,13 @@ int title(void)
               break;
             case 3:
               done = 1;
-              quit = leveleditor(1);
+              done = leveleditor(1);
               break;
             case 4:
               display_credits();
               break;
             case 5:
-              quit = 1;
+              done = true;
               break;
             }
         }
@@ -382,8 +374,7 @@ int title(void)
   string_list_free(&level_subsets);
 
   /* Return to main! */
-
-  return(quit);
+  return done;
 }
 
 #define MAX_VEL 10

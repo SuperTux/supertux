@@ -35,6 +35,7 @@ class World;
 class GameSession
 {
  private:
+  bool quit;
   timer_type fps_timer, frame_timer;
   World* world;
 

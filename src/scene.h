@@ -29,7 +29,6 @@ extern int distros;
 extern int level; 
 extern int next_level;
 extern int game_pause;
-extern bool quit;
 extern int score_multiplier;
 extern int endpos;
 extern bool counting_distros;

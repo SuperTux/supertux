@@ -50,11 +50,11 @@ enum TileMapType {
  TM_FG
  };
 
-extern texture_type img_bkgd;
-
 class Level 
 {
  public:
+  texture_type img_bkgd;
+
   std::string name;
   std::string theme;
   std::string song_title;
@@ -87,7 +87,9 @@ class Level
   int  load(const std::string& filename);
 
   void load_gfx();
+  
   void load_song();
+  void free_song();
 
   void save(const char* subset, int level);
 
@@ -99,10 +101,11 @@ class Level
 
   /** Return the id of the tile at position x/y */
   unsigned int gettileid(float x, float y);
+
+  void free_gfx();
+
+  void load_image(texture_type* ptexture, std::string theme, const char * file, int use_alpha);
 };
 
-void level_load_image(texture_type* ptexture, std::string theme, const char * file, int use_alpha);
-void level_free_song();
-void level_free_gfx();
 
 #endif /*SUPERTUX_LEVEL_H*/

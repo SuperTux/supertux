@@ -17,7 +17,7 @@
 
 int main(int argc, char * argv[])
 {
-  int done;
+  bool done;
   
   st_directory_setup();
   parseargs(argc, argv);
@@ -39,8 +39,7 @@ int main(int argc, char * argv[])
     }
   else
     {  
-      done = 0;
-  
+      done = false;
       while (!done)
         {
           done = title();
@@ -52,5 +51,5 @@ int main(int argc, char * argv[])
 
   st_shutdown();
   
-  return(0);
+  return 0;
 }

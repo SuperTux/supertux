@@ -191,7 +191,7 @@ GameSession::process_events()
       switch(event.type)
         {
         case SDL_QUIT:        /* Quit event - quit: */
-          quit = 1;
+          quit = true;
           break;
         case SDL_KEYDOWN:     /* A keypress! */
           key = event.key.keysym.sym;
@@ -205,7 +205,7 @@ GameSession::process_events()
               if(!game_pause)
                 {
                   if(st_gl_mode == ST_GL_TEST)
-                    quit = 1;
+                    quit = true;
                   else if(show_menu)
                     {
                       Menu::set_current(game_menu);
@@ -367,9 +367,9 @@ GameSession::action()
             }
           else
             {
-              level_free_gfx();
+              world->get_level()->free_gfx();
               world->get_level()->cleanup();
-              level_free_song();
+              world->get_level()->free_song();
               unloadshared();
               world->arrays_free();
               return(0);
@@ -392,9 +392,9 @@ GameSession::action()
                   if (score > hs_score)
                     save_hs(score);
                 }
-              level_free_gfx();
+              world->get_level()->free_gfx();
               world->get_level()->cleanup();
-              level_free_song();
+              world->get_level()->free_song();
               unloadshared();
               world->arrays_free();
               return(0);
@@ -421,10 +421,12 @@ GameSession::action()
       world->arrays_free();
       activate_bad_guys(world->get_level());
       world->activate_particle_systems();
-      level_free_gfx();
+
+      world->get_level()->free_gfx();
       world->get_level()->load_gfx();
-      level_free_song();
+      world->get_level()->free_song();
       world->get_level()->load_song();
+
       if(st_gl_mode != ST_GL_TEST)
         levelintro();
       start_timers();
@@ -452,10 +454,7 @@ GameSession::action()
 void 
 GameSession::draw()
 {
-
-  
   world->draw();
-
   drawstatus();
 
   if(game_pause)
@@ -470,12 +469,11 @@ GameSession::draw()
     }
 
   if(show_menu)
-  {
-    menu_process_current();
-    mouse_cursor->draw();
-  }
+    {
+      menu_process_current();
+      mouse_cursor->draw();
+    }
 
-  /* (Update it all!) */
   updatescreen();
 }
 
@@ -486,13 +484,8 @@ GameSession::run()
   current_ = this;
   
   int  fps_cnt;
-  bool jump;
   bool done;
 
-  /* --- MAIN GAME LOOP!!! --- */
-  jump = false;
-  done = false;
-  quit = 0;
   global_frame_counter = 0;
   game_pause = 0;
   timer_init(&fps_timer,true);
@@ -511,10 +504,11 @@ GameSession::run()
   {}
 
   draw();
-  do
-    {
-      jump = false;
 
+  done = false;
+  quit = false;
+  while (!done && !quit)
+    {
       /* Calculate the movement-factor */
       frame_ratio = ((double)(update_time-last_update_time))/((double)FRAME_RATE);
       if(frame_ratio > 1.5) /* Quick hack to correct the unprecise CPU clocks a little bit. */
@@ -617,17 +611,14 @@ GameSession::run()
       /* Pause till next frame, if the machine running the game is too fast: */
       /* FIXME: Works great for in OpenGl mode, where the CPU doesn't have to do that much. But
          the results in SDL mode aren't perfect (thought the 100 FPS are reached), even on an AMD2500+. */
-      if(last_update_time >= update_time - 12 && !jump) {
+      if(last_update_time >= update_time - 12) {
         SDL_Delay(10);
         update_time = st_get_ticks();
       }
       /*if((update_time - last_update_time) < 10)
         SDL_Delay((11 - (update_time - last_update_time))/2);*/
 
-
-
       /* Handle time: */
-
       if (timer_check(&time_left))
         {
           /* are we low on time ? */
@@ -642,7 +633,6 @@ GameSession::run()
       else
         tux.kill(KILL);
 
-
       /* Calculate frames per second */
       if(show_fps)
         {
@@ -655,15 +645,14 @@ GameSession::run()
               fps_cnt = 0;
             }
         }
-
     }
-  while (!done && !quit);
 
   halt_music();
 
-  level_free_gfx();
+  world->get_level()->free_gfx();
   world->get_level()->cleanup();
-  level_free_song();
+  world->get_level()->free_song();
+
   unloadshared();
   world->arrays_free();
 
@@ -860,10 +849,12 @@ GameSession::loadgame(int slot)
       world->arrays_free();
       activate_bad_guys(world->get_level());
       world->activate_particle_systems();
-      level_free_gfx();
+      
+      world->get_level()->free_gfx();
       world->get_level()->load_gfx();
-      level_free_song();
+      world->get_level()->free_song();
       world->get_level()->load_song();
+
       levelintro();
       update_time = st_get_ticks();
 

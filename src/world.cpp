@@ -18,6 +18,7 @@
 #include "screen.h"
 #include "defines.h"
 #include "world.h"
+#include "level.h"
 #include "tile.h"
 
 texture_type img_distro[4];
@@ -95,8 +96,8 @@ World::draw()
       if(get_level()->bkgd_image[0] != '\0')
         {
           int s = (int)scroll_x / 30;
-          texture_draw_part(&img_bkgd,s,0,0,0,img_bkgd.w - s, img_bkgd.h);
-          texture_draw_part(&img_bkgd,0,0,screen->w - s ,0,s,img_bkgd.h);
+          texture_draw_part(&level->img_bkgd, s, 0,0,0,level->img_bkgd.w - s, level->img_bkgd.h);
+          texture_draw_part(&level->img_bkgd, 0, 0,screen->w - s ,0,s,level->img_bkgd.h);
         }
       else
         {
@@ -399,7 +400,8 @@ void bouncy_brick_draw(bouncy_brick_type* pbouncy_brick)
       else
         {
           s = (int)scroll_x / 30;
-          texture_draw_part(&img_bkgd,dest.x + s,dest.y,dest.x,dest.y,dest.w,dest.h);
+          texture_draw_part(&plevel->img_bkgd, dest.x + s, dest.y, 
+                            dest.x, dest.y,dest.w,dest.h);
         }
 
       drawshape(pbouncy_brick->base.x - scroll_x,

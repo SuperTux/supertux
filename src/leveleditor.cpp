@@ -519,7 +519,7 @@ void apply_level_settings_menu()
 
   if(i)
     {
-      level_free_gfx();
+      le_current_level->free_gfx();
       le_current_level->load_gfx();
     }
 
@@ -556,9 +556,9 @@ void le_goto_level(int levelnb)
 
   le_set_defaults();
 
-
-  level_free_gfx();
+  le_current_level->free_gfx();
   le_current_level->load_gfx();
+
   activate_bad_guys(le_current_level);
 }
 
@@ -593,7 +593,7 @@ void le_quit(void)
 
   if(le_current_level != NULL)
     {
-      level_free_gfx();
+      le_current_level->free_gfx();
       le_current_level->cleanup();
       unloadshared();
       world.arrays_free();
@@ -682,8 +682,10 @@ void le_drawlevel()
   if(le_current_level->bkgd_image[0] != '\0')
     {
       s = pos_x / 30;
-      texture_draw_part(&img_bkgd,s,0,0,0,img_bkgd.w - s - 32, img_bkgd.h);
-      texture_draw_part(&img_bkgd,0,0,screen->w - s - 32 ,0,s,img_bkgd.h);
+      texture_draw_part(&le_current_level->img_bkgd,s,0,0,0,
+                        le_current_level->img_bkgd.w - s - 32, le_current_level->img_bkgd.h);
+      texture_draw_part(&le_current_level->img_bkgd,0,0,screen->w - s - 32 ,0,s,
+                        le_current_level->img_bkgd.h);
     }
   else
     {
