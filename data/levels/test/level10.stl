@@ -23,9 +23,9 @@
   (reset-points
   )
   (objects
-    (mriceblock
+    (walkingtree
       (x 1176)
-      (y 272)
+      (y 250)
       (stay-on-platform #f)
     )
     (wingling
