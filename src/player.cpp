@@ -59,6 +59,17 @@ Surface* cape_left[2];
 Surface* bigcape_right[2];
 Surface* bigcape_left[2];
 
+PlayerKeymap keymap;
+
+PlayerKeymap::PlayerKeymap()
+{
+  keymap.jump  = SDLK_UP;
+  keymap.duck  = SDLK_DOWN;
+  keymap.left  = SDLK_LEFT;
+  keymap.right = SDLK_RIGHT;
+  keymap.fire  = SDLK_LCTRL;
+}
+
 void player_input_init(player_input_type* pplayer_input)
 {
   pplayer_input->down = UP;
@@ -95,12 +106,6 @@ Player::init()
   frame_ = 0;
   
   player_input_init(&input);
-
-  keymap.jump  = SDLK_UP;
-  keymap.duck  = SDLK_DOWN;
-  keymap.left  = SDLK_LEFT;
-  keymap.right = SDLK_RIGHT;
-  keymap.fire  = SDLK_LCTRL;
 
   invincible_timer.init(true);
   skidding_timer.init(true);

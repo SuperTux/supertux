@@ -30,13 +30,21 @@
 
 extern std::string datadir;
 
-/* Joystick buttons and axes: */
-extern int JOY_A;
-extern int JOY_B;
-extern int JOY_START;
+struct JoystickKeymap
+{
+  int a_button;
+  int b_button;
+  int start_button;
 
-extern int JOY_X;
-extern int JOY_Y;
+  int x_axis;
+  int y_axis;
+  
+  int dead_zone;
+
+  JoystickKeymap();
+};
+
+extern JoystickKeymap joystick_keymap;
 
 extern SDL_Surface * screen;
 extern Text* black_text;
@@ -69,7 +77,5 @@ extern float game_speed;
 extern SDL_Joystick * js;
 
 int wait_for_event(SDL_Event& event,unsigned int min_delay = 0, unsigned int max_delay = 0, bool empty_events = false);
-
-#define JOYSTICK_DEAD_ZONE 4096
 
 #endif /* SUPERTUX_GLOBALS_H */

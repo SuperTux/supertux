@@ -408,26 +408,26 @@ WorldMap::get_input()
               break;
           
             case SDL_JOYAXISMOTION:
-              if (event.jaxis.axis == JOY_X)
+              if (event.jaxis.axis == joystick_keymap.x_axis)
                 {
-                  if (event.jaxis.value < -JOYSTICK_DEAD_ZONE)
+                  if (event.jaxis.value < -joystick_keymap.dead_zone)
                     input_direction = WEST;
-                  else if (event.jaxis.value > JOYSTICK_DEAD_ZONE)
+                  else if (event.jaxis.value > joystick_keymap.dead_zone)
                     input_direction = EAST;
                 }
-              else if (event.jaxis.axis == JOY_Y)
+              else if (event.jaxis.axis == joystick_keymap.y_axis)
                 {
-                  if (event.jaxis.value > JOYSTICK_DEAD_ZONE)
+                  if (event.jaxis.value > joystick_keymap.dead_zone)
                     input_direction = SOUTH;
-                  else if (event.jaxis.value < -JOYSTICK_DEAD_ZONE)
+                  else if (event.jaxis.value < -joystick_keymap.dead_zone)
                     input_direction = NORTH;
                 }
               break;
 
             case SDL_JOYBUTTONDOWN:
-              if (event.jbutton.button == JOY_B)
+              if (event.jbutton.button == joystick_keymap.b_button)
                 enter_level = true;
-              else if (event.jbutton.button == JOY_START)
+              else if (event.jbutton.button == joystick_keymap.start_button)
                 on_escape_press();
               break;
 

@@ -23,12 +23,19 @@
 /** The datadir prefix prepended when loading game data file */
 std::string datadir;
 
-int JOY_A = 0;
-int JOY_B = 1;
-int JOY_START = 9;
+JoystickKeymap::JoystickKeymap()
+{
+  a_button     = 0;
+  b_button     = 1;
+  start_button = 9;
+  
+  x_axis = 0;
+  y_axis = 1;
+    
+  dead_zone = 4096;
+}
 
-int JOY_X = 0;
-int JOY_Y = 1;
+JoystickKeymap joystick_keymap;
 
 SDL_Surface * screen;
 Text* black_text;
@@ -47,7 +54,7 @@ bool use_joystick;
 bool use_fullscreen;
 bool debug_mode;
 bool show_fps;
-float game_speed = 1.0f;
+float game_speed = 1.2f;
 
 int joystick_num = 0;
 char* level_startup_file = 0;

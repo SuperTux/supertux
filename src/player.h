@@ -46,13 +46,16 @@
 
 #include <vector>
 
-struct player_keymap_type
+struct PlayerKeymap
 {
+public:
   int jump;
   int duck;
   int left;
   int right;
   int fire;
+  
+  PlayerKeymap();
 };
 
 struct player_input_type
@@ -101,9 +104,7 @@ extern Surface* bigcape_left[2];
 
 class Player
 {
- public:
-  player_keymap_type keymap;
-
+public:
   player_input_type  input;
   bool got_coffee;
   int size;
@@ -123,7 +124,7 @@ class Player
   Timer frame_timer;
   Physic physic;
 
- public:
+public:
   void init();
   int  key_event(SDLKey key, int state);
   void level_begin();
@@ -140,10 +141,14 @@ class Player
   bool on_ground();
   bool under_solid();
   
- private:
+private:
   void handle_horizontal_input();
   void handle_vertical_input();
   void remove_powerups();
 };
 
 #endif /*SUPERTUX_PLAYER_H*/
+
+/* Local Variables: */
+/* mode:c++ */
+/* End: */
