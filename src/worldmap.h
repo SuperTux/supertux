@@ -174,6 +174,7 @@ public:
 
     /** Message to show in the Map during a certain time */
     std::string display_map_message;
+    bool passive_message;
 
     /** If false, disables the auto walking after finishing a level */
     bool auto_path;

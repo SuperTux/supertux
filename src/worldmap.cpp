@@ -297,7 +297,8 @@ Tux::update(float delta)
           offset -= 32;
 
           WorldMap::Level* level = worldmap->at_level();
-          if(level && level->name.empty() && !level->display_map_message.empty())
+          if(level && level->name.empty() && !level->display_map_message.empty() &&
+             level->passive_message)
             {  // direction and the apply_action_ are opposites, since they "see"
                // directions in a different way
             if((direction == D_NORTH && level->apply_action_south) ||
@@ -311,11 +312,7 @@ Tux::update(float delta)
             }
 
           Tile* cur_tile = worldmap->at(tile_pos);
-          if (cur_tile->stop || (level && !level->name.empty()) ||
-             (cur_tile->one_way == NORTH_SOUTH_WAY && direction != D_SOUTH) ||
-             (cur_tile->one_way == SOUTH_NORTH_WAY && direction != D_NORTH) ||
-             (cur_tile->one_way == EAST_WEST_WAY && direction != D_WEST) ||
-             (cur_tile->one_way == WEST_EAST_WAY && direction != D_EAST))
+          if (cur_tile->stop || (level && !level->name.empty()))
             {
               stop();
             }
@@ -356,7 +353,6 @@ Tux::update(float delta)
                 }
               else
                 {
-                  puts("Tilemap data is buggy");
                   stop();
                 }
             }
@@ -473,6 +469,8 @@ WorldMap::load_map()
                       reader.read_string("map-message", &level.display_map_message);
                       level.auto_path = true;
                       reader.read_bool("auto-path", &level.auto_path);
+                      level.passive_message = true;
+                      reader.read_bool("passive-message", &level.passive_message);
 
                       level.apply_action_north = level.apply_action_south =
                             level.apply_action_east = level.apply_action_west = true;
@@ -913,7 +911,7 @@ WorldMap::draw_status()
                 }
 
               /* Display a message in the map, if any as been selected */
-              if((!i->display_map_message.empty() && !i->name.empty()))
+              if(!i->display_map_message.empty() && !i->passive_message)
                 gold_text->draw_align(i->display_map_message.c_str(),
                      screen->w/2, screen->h - 30,A_HMIDDLE, A_BOTTOM);
               break;
