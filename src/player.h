@@ -153,6 +153,8 @@ public:
   Timer growing_timer;
   Timer stomp_timer;
   Physic physic;
+  
+  Vector stomp_pos;
 
 public:
   Player();

@@ -116,7 +116,8 @@ Player::init()
   jumping = false;
   can_jump = true;
   butt_jump = false;
-
+  
+  stomp_pos = Vector(0,0);
   frame_main = 0;
   frame_ = 0;
 
@@ -508,7 +509,13 @@ Player::handle_vertical_input()
   // Do butt jump
   if (butt_jump && on_ground() && size == BIG)
   {
+    
+    if (duck) 
+      stomp_pos = Vector(base.x - 32, base.y);
+    else 
+      stomp_pos = Vector(base.x - 32, base.y + 32);    
     stomp_timer.start(STOMP_TIME);
+    
     butt_jump = false;
 
     // Break bricks beneath Tux
@@ -769,10 +776,7 @@ Player::draw(DrawingContext& context)
   
   // Draw stomp clouds when doing a butt jump
   if (stomp_timer.check())
-    if (duck) 
-      sprite->stomp->draw(context, Vector(base.x - 32, base.y), LAYER_OBJECTS + 1);
-    else 
-      sprite->stomp->draw(context, Vector(base.x - 32, base.y + 32), LAYER_OBJECTS + 1);
+      sprite->stomp->draw(context, stomp_pos, LAYER_OBJECTS + 1);
 
   // Draw blinking star overlay
   if (invincible_timer.started() &&
