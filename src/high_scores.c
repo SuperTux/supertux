@@ -66,7 +66,7 @@ void load_hs(void)
   char temp[128];
   hs_score = 100;
   int c, strl;
-  strcpy(hs_name, "Grandma");
+  strcpy(hs_name, "Grandma\0");
   c = 0;
   
   /* Try to open file: */
