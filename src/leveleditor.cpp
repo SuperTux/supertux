@@ -1522,9 +1522,7 @@ void le_testlevel()
   music_manager->halt_music();
 
   Menu::set_current(NULL);
-  /*delete le_world.arrays_free();
-  le_current_level->load_gfx();
-  le_world.activate_bad_guys();*/
+  World::set_current(le_world);
 }
 
 void le_showhelp()
