@@ -39,8 +39,11 @@ namespace SuperTux
         {
         std::string name;
 
+        /** Position correction */
         int x_offset;
         int y_offset;
+        /** Drawing priority in queue */
+        int z_order;
 
         /** Frames per second */
         float fps;
@@ -57,6 +60,10 @@ namespace SuperTux
       /** Draw sprite, automatically calculates next frame */
       void draw(DrawingContext& context, const Vector& pos, int layer,
                 Uint32 drawing_effect = NONE_EFFECT);
+
+      void draw_part(DrawingContext& context, const Vector& source,
+                    const Vector& size, const Vector& pos, int layer,
+                    Uint32 drawing_effect = NONE_EFFECT);
 
       /** Set action (or state) */
       void set_action(std::string act);

@@ -72,6 +72,7 @@ Sprite::parse_action(LispReader& lispreader)
       Termination::abort("Error: If there are more than one action, they need names!", "");
   lispreader.read_int("x-offset", action->x_offset);
   lispreader.read_int("y-offset", action->y_offset);
+  lispreader.read_int("z-order", action->z_order);
   lispreader.read_float("fps",     action->fps);
 
   std::vector<std::string> images;
@@ -92,6 +93,7 @@ Sprite::init_defaults(Action* act)
 {
   act->x_offset = 0;
   act->y_offset = 0;
+  act->z_order = 0;
   act->fps = 10;
 
   start_animation(-1);
@@ -215,20 +217,25 @@ Sprite::draw(DrawingContext& context, const Vector& pos, int layer,
               << "/" << get_action_name() << std::endl;
   else
     context.draw_surface(action->surfaces[(int)frame],
-            pos - Vector(action->x_offset, action->y_offset), layer, drawing_effect);
+            pos - Vector(action->x_offset, action->y_offset), layer + action->z_order,
+            drawing_effect);
 }
 
-#if 0
 void
-Sprite::draw_part(float sx, float sy, float x, float y, float w, float h)
+Sprite::draw_part(DrawingContext& context, const Vector& source, const Vector& size,
+                  const Vector& pos, int layer, Uint32 drawing_effect)
 {
-  time = SDL_GetTicks();
-  unsigned int frame = get_current_frame();
+  update();
 
-  if (frame < surfaces.size())
-    surfaces[frame]->draw_part(sx, sy, x - x_offset, y - y_offset, w, h);
+  if((int)frame >= get_frames() || (int)frame < 0)
+    std::cerr << "Warning: frame out of range: " << (int)frame
+              << "/" << get_frames() << " at sprite: " << get_name()
+              << "/" << get_action_name() << std::endl;
+  else
+    context.draw_surface_part(action->surfaces[(int)frame], source, size,
+            pos - Vector(action->x_offset, action->y_offset), layer + action->z_order,
+            drawing_effect);
 }
-#endif
 
 int
 Sprite::get_width()
