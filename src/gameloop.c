@@ -115,7 +115,7 @@ upgrade_type upgrades[NUM_UPGRADES];
 bullet_type bullets[NUM_BULLETS];
 char song_title[20];
 char levelname[20];
-
+char leveltheme[20];
 
 /* Local function prototypes: */
 
@@ -437,6 +437,7 @@ int gameloop(void)
 
 	  if (tux_x >= endpos && endpos != 0)
 	  {
+            /* FIXME: No need to kill Tux to end the level! ;^) */
 	    next_level = 1;
 	  }
 	  
@@ -2230,6 +2231,11 @@ void loadlevel(void)
   fgets(str, 20, fi);
   strcpy(levelname, str);
 
+  /* (Level theme) */
+  fgets(str, 20, fi);
+  strcpy(leveltheme, str);
+  leveltheme[strlen(leveltheme)-1] = '\0';
+
   /* (Time to beat level) */
   fgets(str, 10, fi);
   time_left = atoi(str);
@@ -2351,7 +2357,7 @@ SDL_Surface * load_level_image(char * file, int use_alpha)
 {
   char fname[1024];
 
-  snprintf(fname, 1024, "%s/images/level%d/%s", DATA_PREFIX, level, file);
+  snprintf(fname, 1024, "%s/images/%s/%s", DATA_PREFIX, leveltheme, file);
 
   return(load_image(fname, use_alpha));
 }
