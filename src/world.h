@@ -44,6 +44,9 @@ private:
   Level* level;
   Player tux;
 
+  Timer scrolling_timer;
+  float moved_scroll_x;
+
   int distro_counter;
   bool counting_distros;
   int currentmusic;
@@ -76,7 +79,7 @@ public:
 
   void draw();
   void action(double frame_ratio);
-  void keep_in_bounds();
+  void scrolling();   // camera scrolling
 
   void play_music(int musictype);
   int get_music_type();

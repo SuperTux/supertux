@@ -78,6 +78,7 @@ Player::init()
   base.ym = 0;
   previous_base = old_base = base;
   dir = RIGHT;
+  old_dir = dir;
   duck = false;
 
   dying   = DYING_NOT;
@@ -295,9 +296,11 @@ Player::handle_horizontal_input()
 
   float dirsign = 0;
   if(input.left == DOWN && input.right == UP && (!duck || physic.get_velocity_y() != 0)) {
+      old_dir = dir;
       dir = LEFT;
       dirsign = -1;
   } else if(input.left == UP && input.right == DOWN && (!duck || physic.get_velocity_y() != 0)) {
+      old_dir = dir;
       dir = RIGHT;
       dirsign = 1;
   }

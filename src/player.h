@@ -117,6 +117,7 @@ public:
   DyingType dying;
 
   Direction dir;
+  Direction old_dir;
 
   bool jumping;
   bool can_jump;

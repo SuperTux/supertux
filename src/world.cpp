@@ -54,6 +54,8 @@ World::World(const std::string& filename)
   get_level()->load_song();
 
   apply_bonuses();
+
+  scrolling_timer.init(true);
 }
 
 World::World(const std::string& subset, int level_nr)
@@ -73,6 +75,8 @@ World::World(const std::string& subset, int level_nr)
   get_level()->load_song();
 
   apply_bonuses();
+
+  scrolling_timer.init(true);
 }
 
 void
@@ -257,7 +261,7 @@ void
 World::action(double frame_ratio)
 {
   tux.action(frame_ratio);
-  keep_in_bounds();
+  scrolling();
 
   /* Handle bouncy distros: */
   for (unsigned int i = 0; i < bouncy_distros.size(); i++)
@@ -307,17 +311,41 @@ World::action(double frame_ratio)
 
 // the space that it takes for the screen to start scrolling, regarding
 // screen bounds (in pixels)
-#define X_SPACE 160
+#define X_SPACE 380
+// the time it takes to move the camera (in ms)
+#define CHANGE_DIR_SCROLL_SPEED 2000
 
 /* This functions takes cares of the scrolling */
-void World::keep_in_bounds()
+void World::scrolling()
 {
   int tux_pos_x = (int)(tux.base.x + (tux.base.width/2));
 
-  if (scroll_x < tux_pos_x - (screen->w - X_SPACE))
-    scroll_x = tux_pos_x - (screen->w - X_SPACE);
-  else if (scroll_x > tux_pos_x - X_SPACE && level->back_scrolling)
-    scroll_x = tux_pos_x - X_SPACE;
+  if(tux.old_dir != tux.dir && (level->back_scrolling || debug_mode))
+    scrolling_timer.start(CHANGE_DIR_SCROLL_SPEED);
+    
+  if(scrolling_timer.check())
+    {
+    float final_scroll_x;
+    if (tux.dir == RIGHT)
+      final_scroll_x = tux_pos_x - (screen->w - X_SPACE);
+    else// if (tux.dir == LEFT)// && )
+      final_scroll_x = tux_pos_x - X_SPACE;
+
+    if(moved_scroll_x == 0)
+      moved_scroll_x = scroll_x;
+
+    scroll_x += (final_scroll_x - scroll_x) / (CHANGE_DIR_SCROLL_SPEED);
+    }
+
+  else
+    {
+    moved_scroll_x = 0;
+
+    if (tux.dir == RIGHT && scroll_x < tux_pos_x - (screen->w - X_SPACE))
+      scroll_x = tux_pos_x - (screen->w - X_SPACE);
+    else if (tux.dir == LEFT && scroll_x > tux_pos_x - X_SPACE && (level->back_scrolling || debug_mode))
+      scroll_x = tux_pos_x - X_SPACE;
+    }
 
   if(scroll_x < 0)
     scroll_x = 0;
