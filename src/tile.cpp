@@ -185,6 +185,8 @@ void TileManager::load_tileset(std::string filename)
 void
 Tile::draw(float x, float y, unsigned int c, Uint8 alpha)
 {
+fprintf(stderr, "x: %i\n", x);
+fprintf(stderr, "y: %i\n", y);
   if (c != 0)
     {
       Tile* ptile = TileManager::instance()->get(c);

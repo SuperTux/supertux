@@ -952,8 +952,8 @@ void le_drawlevel()
 
   /*       clearscreen(current_level.bkgd_red, current_level.bkgd_green, current_level.bkgd_blue); */
 
-  for (y = 0; y < 16 && y < (unsigned)le_world->get_level()->height; ++y)
-    for (x = 0; x < 20; ++x)
+  for (y = 0; y < VISIBLE_TILES_Y && y < (unsigned)le_world->get_level()->height; ++y)
+    for (x = 0; x < (unsigned)VISIBLE_TILES_X-80; ++x)
     {
 
       if(active_tm == TM_BG)

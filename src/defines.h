@@ -48,6 +48,11 @@ enum DyingType {
   DYING_FALLING = 2
 };
 
+/* Screen-related stuff */
+
+#define VISIBLE_TILES_X 25
+#define VISIBLE_TILES_Y 19
+
 /* Sizes: */
 
 #define SMALL 0

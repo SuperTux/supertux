@@ -196,20 +196,25 @@ World::draw()
       (*p)->draw(scroll_x, 0, 0);
     }
 
+fprintf(stderr, "level->height: %i\n", level->height);
+fprintf(stderr, "scroll_x: %i\n", scroll_x);
+fprintf(stderr, "scroll_y: %i\n", scroll_y);
   /* Draw background: */
-  for (y = 0; y < 16 && y < level->height; ++y)
+  for (y = 0; y < VISIBLE_TILES_Y && y < level->height; ++y)
     {
-      for (x = 0; x < 21; ++x)
+fprintf(stderr, "drawing row: %i\n", y);
+      for (x = 0; x < VISIBLE_TILES_X; ++x)
         {
+fprintf(stderr, "x: %i\n", x);
           Tile::draw(32*x - fmodf(scroll_x, 32), y * 32 - fmodf(scroll_y, 32),
                      level->bg_tiles[(int)y + (int)(scroll_y / 32)][(int)x + (int)(scroll_x / 32)]);
         }
     }
 
   /* Draw interactive tiles: */
-  for (y = 0; y < 16 && y < level->height; ++y)
+  for (y = 0; y < VISIBLE_TILES_Y && y < level->height; ++y)
     {
-      for (x = 0; x < 21; ++x)
+      for (x = 0; x < VISIBLE_TILES_X; ++x)
         {
           Tile::draw(32*x - fmodf(scroll_x, 32), y * 32 - fmodf(scroll_y, 32),
                      level->ia_tiles[(int)y + (int)(scroll_y / 32)][(int)x + (int)(scroll_x / 32)]);
@@ -241,9 +246,9 @@ World::draw()
     broken_bricks[i]->draw();
 
   /* Draw foreground: */
-  for (y = 0; y < 16 && y < level->height; ++y)
+  for (y = 0; y < VISIBLE_TILES_Y && y < level->height; ++y)
     {
-      for (x = 0; x < 21; ++x)
+      for (x = 0; x < VISIBLE_TILES_X; ++x)
         {
           Tile::draw(32*x - fmodf(scroll_x, 32), y * 32 - fmodf(scroll_y, 32),
                      level->fg_tiles[(int)y + (int)(scroll_y / 32)][(int)x + (int)(scroll_x / 32)]);
@@ -312,10 +317,10 @@ World::action(double frame_ratio)
 
 /* the space that it takes for the screen to start scrolling, regarding */
 /* screen bounds (in pixels) */
-// should be higher than screen->w/2 (320)
-#define X_SPACE (400-16)
-// should be less than screen->h/2 (240)
-#define Y_SPACE 200
+// should be higher than screen->w/2 (400)
+#define X_SPACE (500-16)
+// should be less than screen->h/2 (300)
+#define Y_SPACE 250
 
 // the time it takes to move the camera (in ms)
 #define CHANGE_DIR_SCROLL_SPEED 2000
