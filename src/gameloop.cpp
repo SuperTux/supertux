@@ -712,22 +712,22 @@ GameSession::drawstatus(DrawingContext& context)
     context.draw_text_center(white_text, _("TIME's UP"), Vector(0, 0),
         LAYER_FOREGROUND1);
   } else if (time_left.get_left() > TIME_WARNING || (global_frame_counter % 10) < 5) {
-    sprintf(str, "%d", time_left.get_left() / 1000 );
+    sprintf(str, " %d", time_left.get_left() / 1000 );
     context.draw_text_center(white_text, _("TIME"),
         Vector(0, 0), LAYER_FOREGROUND1);
     context.draw_text_center(gold_text, str,
         Vector(4*16, 0), LAYER_FOREGROUND1);
   }
 
-  sprintf(str, "%d", player_status.distros);
+  sprintf(str, " %d", player_status.distros);
   context.draw_text(white_text, _("COINS"),
-      Vector(screen->w - white_text->get_text_width(_("COINS"))+white_text->get_text_width(str), 0),
+      Vector(screen->w - white_text->get_text_width(_("COINS"))-white_text->get_text_width(str), 0),
         LAYER_FOREGROUND1);
   context.draw_text(gold_text, str,
-      Vector(screen->w - gold_text->get_text_width("99"), 0),LAYER_FOREGROUND1);
+      Vector(screen->w - gold_text->get_text_width(" 99"), 0),LAYER_FOREGROUND1);
 
   context.draw_text(white_text, _("LIVES"),
-      Vector(screen->w - white_text->get_text_width(_("LIVES"))+white_text->get_text_width(str), 20),
+      Vector(screen->w - white_text->get_text_width(_("LIVES"))-white_text->get_text_width(str), 20),
       LAYER_FOREGROUND1);
   if (player_status.lives >= 5)
     {

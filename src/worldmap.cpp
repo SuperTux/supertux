@@ -845,7 +845,7 @@ void
 WorldMap::draw_status(DrawingContext& context)
 {
   char str[80];
-  sprintf(str, "%d", player_status.score);
+  sprintf(str, " %d", player_status.score);
 
   context.draw_text(white_text, _("SCORE"), Vector(0, 0), LAYER_FOREGROUND1);
   context.draw_text(gold_text, str, Vector(96, 0), LAYER_FOREGROUND1);
