@@ -417,7 +417,7 @@ void title(void)
                   break;
                 case MNID_CREDITS:
                   fadeout(500);
-                  display_text_file("CREDITS", SCROLL_SPEED_CREDITS, white_big_text , white_text, white_small_text, blue_text );
+                  display_text_file("credits.txt", SCROLL_SPEED_CREDITS, white_big_text , white_text, white_small_text, blue_text );
                   fadeout(500);
                   Menu::set_current(main_menu);
                   break;
