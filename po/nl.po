@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACGE VERSION\n"
 "Report-Msgid-Bugs-To: super-tux-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2004-10-12 19:19+0100\n"
+"POT-Creation-Date: 2004-10-20 14:06-0600\n"
 "PO-Revision-Date: 2004-06-07 HO:MI+ZONE\n"
 "Last-Translator: Frank van der Loo <frank_l@linuxmail.org>\n"
 "Language-Team: Dutch <nl@li.org>\n"
@@ -32,7 +32,6 @@ msgid "PAUSE - Press 'P' To Play"
 msgstr "PAUSE - Druk op 'P' Om Verder Te Gaan"
 
 #: src/gameloop.cpp:675
-#, c-format
 msgid "Playing: "
 msgstr "Level: "
 
@@ -89,7 +88,7 @@ msgstr ""
 
 #: src/leveleditor.cpp:70 src/leveleditor.cpp:80 src/misc.cpp:125
 #: src/misc.cpp:136 src/misc.cpp:149 src/misc.cpp:160 src/title.cpp:142
-#: src/title.cpp:213
+#: src/title.cpp:220
 msgid "Back"
 msgstr "Terug"
 
@@ -165,87 +164,87 @@ msgstr ""
 msgid "Eraser"
 msgstr ""
 
-#: src/leveleditor.cpp:137
+#: src/leveleditor.cpp:141
 msgid "Trampoline"
 msgstr ""
 
-#: src/leveleditor.cpp:138
+#: src/leveleditor.cpp:142
 msgid "Flying Platform"
 msgstr ""
 
-#: src/leveleditor.cpp:139
+#: src/leveleditor.cpp:143
 msgid "Door"
 msgstr ""
 
-#: src/leveleditor.cpp:142
+#: src/leveleditor.cpp:146
 msgid "Edtit foreground tiles"
 msgstr ""
 
-#: src/leveleditor.cpp:144
+#: src/leveleditor.cpp:148
 msgid "Edit interactive tiles"
 msgstr ""
 
-#: src/leveleditor.cpp:146
+#: src/leveleditor.cpp:150
 msgid "Edit background tiles"
 msgstr ""
 
-#: src/leveleditor.cpp:150
+#: src/leveleditor.cpp:154
 msgid "Next sector"
 msgstr ""
 
-#: src/leveleditor.cpp:151
+#: src/leveleditor.cpp:155
 msgid "Prevous sector"
 msgstr ""
 
-#: src/leveleditor.cpp:152
+#: src/leveleditor.cpp:156
 msgid "Next level"
 msgstr ""
 
-#: src/leveleditor.cpp:153
+#: src/leveleditor.cpp:157
 msgid "Prevous level"
 msgstr ""
 
-#: src/leveleditor.cpp:154
+#: src/leveleditor.cpp:158
 #, fuzzy
 msgid "Save level"
 msgstr "Bewaar Spel"
 
-#: src/leveleditor.cpp:155
+#: src/leveleditor.cpp:159
 msgid "Test level"
 msgstr ""
 
-#: src/leveleditor.cpp:156
+#: src/leveleditor.cpp:160
 #, fuzzy
 msgid "Setup level"
 msgstr "Toetsen Instellen"
 
-#: src/leveleditor.cpp:238 src/leveleditor.cpp:714 src/leveleditor.cpp:739
-#: src/leveleditor.cpp:830
+#: src/leveleditor.cpp:242 src/leveleditor.cpp:718 src/leveleditor.cpp:743
+#: src/leveleditor.cpp:834
 msgid "Level not saved. Wanna to?"
 msgstr ""
 
-#: src/leveleditor.cpp:353
+#: src/leveleditor.cpp:357
 #, c-format
 msgid "Level %d doesn't exist. Create it?"
 msgstr ""
 
-#: src/leveleditor.cpp:556 src/misc.cpp:96
+#: src/leveleditor.cpp:560 src/misc.cpp:96
 msgid "Level Editor"
 msgstr "Level Bewerker"
 
-#: src/leveleditor.cpp:579
+#: src/leveleditor.cpp:583
 msgid "F1 for help"
 msgstr ""
 
-#: src/leveleditor.cpp:581
+#: src/leveleditor.cpp:585
 msgid "Choose a level subset"
 msgstr ""
 
-#: src/leveleditor.cpp:765
+#: src/leveleditor.cpp:769
 msgid "No more sectors exist. Create another?"
 msgstr ""
 
-#: src/leveleditor.cpp:917
+#: src/leveleditor.cpp:921
 msgid ""
 "This is the built-in level editor. It's aim is to be intuitive\n"
 "and simple to use, so it should be pretty straight forward.\n"
@@ -282,7 +281,7 @@ msgid ""
 "enemies and game objects in the bottom.\n"
 msgstr ""
 
-#: src/leveleditor.cpp:953
+#: src/leveleditor.cpp:957
 msgid ""
 "The Foreground/Interactive/Background buttons may be used to\n"
 "see and edit the respective layer. Level's have three tiles layers:\n"
@@ -316,12 +315,12 @@ msgid ""
 "Webpage: http://pingus.seul.org/~grumbel/flexlay/"
 msgstr ""
 
-#: src/leveleditor.cpp:993
+#: src/leveleditor.cpp:997
 #, fuzzy
 msgid "- Level Editor's Help -"
 msgstr "Level Bewerker"
 
-#: src/leveleditor.cpp:997
+#: src/leveleditor.cpp:1001
 #, c-format
 msgid "Press any key to continue - Page %d/%d"
 msgstr ""
@@ -479,22 +478,18 @@ msgid "- Best Level Statistics -"
 msgstr ""
 
 #: src/statistics.cpp:117
-#, c-format
 msgid "Max score:"
 msgstr ""
 
 #: src/statistics.cpp:137
-#, c-format
 msgid "Max coins collected:"
 msgstr ""
 
 #: src/statistics.cpp:139
-#, c-format
 msgid "Max fragging:"
 msgstr ""
 
 #: src/statistics.cpp:141
-#, c-format
 msgid "Min time needed:"
 msgstr ""
 
@@ -518,7 +513,7 @@ msgstr ""
 msgid "Min time needed:       %d / %d"
 msgstr ""
 
-#: src/title.cpp:367
+#: src/title.cpp:374
 msgid ""
 "Copyright (c) 2003 SuperTux Devel Team\n"
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you\n"
@@ -531,7 +526,7 @@ msgstr ""
 "mag het verspreiden onder bepaalde voorwaarden; bekijk het bestand COPYING\n"
 "voor details.\n"
 
-#: src/title.cpp:419
+#: src/title.cpp:426
 #, fuzzy
 msgid "Are you sure you want to delete slot"
 msgstr "Weet u zeker dat u slot %d wilt verwijderen?"

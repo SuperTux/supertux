@@ -840,7 +840,8 @@ if(level_changed)
 GameSession session(level_filename, ST_GL_TEST);
 session.run();
 //  player_status.reset();
-sound_manager->halt_music();
+if(sound_manager)
+  sound_manager->halt_music();
 }
 
 void LevelEditor::change(int x, int y, int newtile, int layer)

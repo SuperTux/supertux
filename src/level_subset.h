@@ -32,9 +32,6 @@ using namespace SuperTux;
 class LevelSubset
 {
 private:
-  /** Directory in which the level subset is stored */
-  std::string directory;
-
   /** Level filenames without the leading path ("level1.stl",
       "level3.stl", ...) */
   std::vector<std::string> levels;

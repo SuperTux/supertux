@@ -99,7 +99,7 @@ Sprite::parse_action(LispReader& lispreader)
                    "Mirror actions must be defined after the real one!\n";
     else
       {
-      for(int i = 0; i < act_tmp->surfaces.size(); i++)
+      for(int i = 0; static_cast<unsigned int>(i) < act_tmp->surfaces.size(); i++)
         {
         Surface* surface = new Surface(sdl_surface_from_sdl_surface(
             act_tmp->surfaces[i]->impl->get_sdl_surface(), true), true);

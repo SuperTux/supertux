@@ -88,42 +88,32 @@ void LevelSubset::load(const std::string& subset)
   // Check in which directory our subset is located (ie. ~/.supertux/
   // or SUPERTUX_DATADIR)
   std::string filename;
-  filename = st_dir + "/levels/" + subset + "/";
-  if (access(filename.c_str(), R_OK) == 0)
+  filename = st_dir + "/levels/" + subset + "/info";
+  if (access(filename.c_str(), R_OK) != 0)
     {
-      directory = filename;
-    }
-  else
-    {
-      filename = datadir + "/levels/" + subset + "/";
-      if (access(filename.c_str(), R_OK) == 0)
-        directory = filename;
-      else
+      filename = datadir + "/levels/" + subset + "/info";
+      if (access(filename.c_str(), R_OK) != 0)
         std::cout << "Error: LevelSubset: couldn't find subset: " << subset << std::endl;
     }
   
-  read_info_file(directory + "info");
+  read_info_file(filename);
 
   if (levels.empty())
     { // Level info file doesn't define any levels, so read the
       // directory to see what we can find
       std::set<std::string> files;
   
+      filename = datadir + "/levels/" + subset + "/";
+      files = FileSystem::read_directory(filename);
+
       filename = st_dir + "/levels/" + subset + "/";
-      if(access(filename.c_str(), R_OK) == 0)
-        {
-          files = FileSystem::read_directory(filename);
-        }
-      else
-        {
-          filename = datadir + "/levels/" + subset + "/";
-          files = FileSystem::read_directory(filename);
-        }
+      std::set<std::string> user_files = FileSystem::read_directory(filename);
+      files.insert(user_files.begin(), user_files.end());
   
       for(std::set<std::string>::iterator i = files.begin(); i != files.end(); ++i)
         {
           if (has_suffix(*i, ".stl"))
-            levels.push_back(*i);
+            levels.push_back(subset+ "/" + *i);
         }
     }
 }
@@ -177,7 +167,7 @@ std::string
 LevelSubset::get_level_filename(unsigned int num)
 {
   assert(num < levels.size());
-  return directory + levels[num];
+  return levels[num];
 }
 
 int

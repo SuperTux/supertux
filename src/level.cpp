@@ -52,7 +52,19 @@ Level::Level()
 void
 Level::load(const std::string& filename)
 {
-  LispReader* level = LispReader::load(filename, "supertux-level");
+  std::string filepath;
+  filepath = st_dir + "/levels/" + filename;
+  if (access(filepath.c_str(), R_OK) != 0)
+  {
+    filepath = datadir + "/levels/" + filename;
+    if (access(filepath.c_str(), R_OK) != 0)
+    {
+      std::cerr << "Error: Level: couldn't find level: " << filename << std::endl;
+      return;
+    }
+  }
+  
+  LispReader* level = LispReader::load(filepath, "supertux-level");
 
   int version = 1;
   level->read_int("version", version);
@@ -102,7 +114,11 @@ Level::load_old_format(LispReader& reader)
 void
 Level::save(const std::string& filename)
 {
- ofstream file(filename.c_str(), ios::out);
+ std::string filepath = "levels/" + filename;
+ int last_slash = filepath.find_last_of('/');
+ FileSystem::fcreatedir(filepath.substr(0,last_slash).c_str());
+ filepath = st_dir + "/" + filepath;
+ ofstream file(filepath.c_str(), ios::out);
  LispWriter* writer = new LispWriter(file);
 
  writer->write_comment("Level made using SuperTux's built-in Level Editor");

@@ -169,7 +169,7 @@ TileManager::TileManager()
                 std::cerr << "Warning: no image specified for tile " << id
                           << ".\nIgnoring...\n" << std::endl;
 
-              for(int i = 0; i < filenames.size(); i++)
+              for(int i = 0; static_cast<unsigned int>(i) < filenames.size(); i++)
                 {
                 Surface* image = new Surface(
                          datadir +  "/images/worldmap/" + filenames[i], true);
@@ -879,7 +879,7 @@ WorldMap::update(float delta)
               // do a shriking fade to the level
               shrink_fade(Vector((level->pos.x*32 + 16 + offset.x),(level->pos.y*32 + 16
                       + offset.y)), 500);
-              GameSession session(datadir +  "/levels/" + level->name,
+              GameSession session(level->name,
                                   ST_GL_LOAD_LEVEL_FILE, level->vertical_flip,
                                   &level->statistics);
 

@@ -218,7 +218,20 @@ void check_levels_contrib_menu()
         /** get level's title */
         std::string level_title = "<no title>";
 
-        LispReader* reader = LispReader::load(subset.get_level_filename(i), "supertux-level");
+        std::string filename = subset.get_level_filename(i);
+        std::string filepath;
+        filepath = st_dir + "/levels/" + filename;
+        if (access(filepath.c_str(), R_OK) != 0)
+        {
+          filepath = datadir + "/levels/" + filename;
+          if (access(filepath.c_str(), R_OK) != 0)
+          {
+            std::cerr << "Error: Level: couldn't find level: " << filename << std::endl;
+            continue;
+          }
+        }
+        
+        LispReader* reader = LispReader::load(filepath, "supertux-level");
         if(!reader)
           {
           std::cerr << "Error: Could not open level file. Ignoring...\n";
@@ -314,7 +327,7 @@ void title(void)
   random_timer.init(true);
   Ticks::pause_init();
 
-  titlesession = new GameSession(datadir + "/levels/misc/menu.stl", ST_GL_DEMO_GAME);
+  titlesession = new GameSession("misc/menu.stl", ST_GL_DEMO_GAME);
 
   /* Load images: */
   bkg_title = new Surface(datadir + "/images/background/arctis.jpg", false);
