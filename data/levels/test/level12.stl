@@ -15,12 +15,8 @@
   )
     (music "fortress.mod")
     (background
-      (top_red 0)
-      (top_green 0)
-      (top_blue 0)
-      (bottom_red 150)
-      (bottom_green 0)
-      (bottom_blue 0)
+      (top_color 0 0 0)
+      (bottom_color 150 0 0)
     )
     (tilemap
       (layer "interactive")
