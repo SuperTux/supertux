@@ -16,15 +16,14 @@
 #include "texture.h"
 
 /* Text type */
-typedef struct text_type
-  {
-   texture_type chars;
-   texture_type shadow_chars;
-   int kind;
-   int w;
-   int h;
-  }  
-text_type;
+struct text_type
+{
+  texture_type chars;
+  texture_type shadow_chars;
+  int kind;
+  int w;
+  int h;
+};
 
 /* Kinds of texts. */
 enum {

@@ -40,7 +40,7 @@ class st_subset
 
 #define LEVEL_NAME_MAX 20
 
-typedef struct st_level 
+struct st_level 
 {
   std::string name;
   std::string theme;
@@ -53,8 +53,7 @@ typedef struct st_level
   int bkgd_blue;
   int width;
   float gravity;
-}
-st_level;
+};
 
 extern texture_type img_bkgd, img_bkgd_tile[2][4], img_solid[4], img_brick[2];
 

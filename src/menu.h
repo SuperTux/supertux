@@ -32,7 +32,7 @@ enum MenuItemKind {
   MN_HL /* horizontal line */
 };
 
-typedef struct menu_item_type
+struct menu_item_type
   {
     MenuItemKind kind;
     int toggled;
@@ -40,14 +40,13 @@ typedef struct menu_item_type
     char *input;
     string_list_type* list;
     void* target_menu;
-  }
-menu_item_type;
+};
 
 menu_item_type* menu_item_create(MenuItemKind kind, char *text, int init_toggle, void* target_menu);
 void menu_item_change_text (menu_item_type* pmenu_item, const char *text);
 void menu_item_change_input(menu_item_type* pmenu_item, const char *text);
 
-typedef struct menu_type
+struct menu_type
 {
   // center of the menu on the screen
   int x;
@@ -58,8 +57,7 @@ typedef struct menu_type
   int arrange_left;
   menu_item_type *item;
   timer_type effect;
-}
-menu_type;
+};
 
 void menu_init   (menu_type* pmenu);
 void menu_free   (menu_type* pmenu);

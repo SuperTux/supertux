@@ -1326,7 +1326,6 @@ void drawshape(float x, float y, unsigned char c)
     texture_draw(&img_solid[3], x, y);
   else if (c == '$')
     {
-
       z = (frame / 2) % 6;
 
       if (z < 4)

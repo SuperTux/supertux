@@ -31,20 +31,18 @@ enum {
   UPGRADE_HERRING
 };
 
-typedef struct upgrade_type
-  {
-    int kind;
-    base_type base;
-    base_type old_base;
-  }
-upgrade_type;
+struct upgrade_type
+{
+  int kind;
+  base_type base;
+  base_type old_base;
+};
 
-typedef struct bullet_type
-  {
-    base_type base;
-    base_type old_base;
-  }
-bullet_type;
+struct bullet_type
+{
+  base_type base;
+  base_type old_base;
+};
 
 extern texture_type img_bullet;
 extern bitmask* bm_bullet;

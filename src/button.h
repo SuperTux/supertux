@@ -22,21 +22,20 @@ enum ButtonState {
   BUTTON_HOVER
 };
 
-typedef struct button_type
-  {
-    texture_type icon;
-    texture_type* bkgd;
-    char *info;
-    SDLKey shortcut;
-    int  x;
-    int  y;
-    int  w;
-    int  h;
-    bool show_info;
-    ButtonState state;
-    int tag;
-  }
-button_type;
+struct button_type
+{
+  texture_type icon;
+  texture_type* bkgd;
+  char *info;
+  SDLKey shortcut;
+  int  x;
+  int  y;
+  int  w;
+  int  h;
+  bool show_info;
+  ButtonState state;
+  int tag;
+};
 
 void button_load(button_type* pbutton,char* icon_file, char* info, SDLKey shortcut, int x, int y);
 button_type* button_create(char* icon_file, char* info, SDLKey shortcut, int x, int y);
@@ -46,15 +45,14 @@ void button_free(button_type* pbutton);
 void button_event(button_type* pbutton, SDL_Event* event);
 int  button_get_state(button_type* pbutton);
 
-typedef struct button_panel_type
-  {
-    int num_items;
-    int hidden;
-    int x,y;
-    int w,h;
-    button_type* item;
-  }
-button_panel_type;
+struct button_panel_type
+{
+  int num_items;
+  int hidden;
+  int x,y;
+  int w,h;
+  button_type* item;
+};
 
 void button_panel_init(button_panel_type* pbutton_panel, int x, int y, int w, int h);
 void button_panel_free(button_panel_type* pbutton_panel);

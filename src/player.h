@@ -58,7 +58,7 @@ struct player_input_type
 
 void player_input_init(player_input_type* pplayer_input);
 
-typedef struct player_type 
+struct player_type 
 {
   player_input_type input;
   player_keymap_type keymap;
@@ -82,8 +82,7 @@ typedef struct player_type
   timer_type frame_timer;
   physic_type vphysic;
   physic_type hphysic;
-}
-player_type;
+};
 
 extern texture_type tux_life,
  tux_right[3],  tux_left[3],

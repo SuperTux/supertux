@@ -17,25 +17,22 @@
 
 /* 'Base' type for game objects */
 
-typedef struct base_type
-  {
-    float x;
-    float y;
-    float xm;
-    float ym;
-    float width;
-    float height;
-  }
-base_type;
-
-
-typedef struct string_list_type
+struct base_type
 {
- int num_items;
- int active_item;
- char **item;
- }
-string_list_type;
+  float x;
+  float y;
+  float xm;
+  float ym;
+  float width;
+  float height;
+};
+
+struct string_list_type
+{
+  int num_items;
+  int active_item;
+  char **item;
+};
 
 void  string_list_init(string_list_type* pstring_list);
 char* string_list_active(string_list_type* pstring_list);

@@ -22,13 +22,13 @@
 #include "screen.h"
 
 /* Texture type */
-typedef struct texture_type
-  {
-   SDL_Surface* sdl_surface;
-   unsigned gl_texture;
-   int w;
-   int h;
-  } texture_type;
+struct texture_type
+{
+  SDL_Surface* sdl_surface;
+  unsigned gl_texture;
+  int w;
+  int h;
+};
 
 void texture_setup(void);
 extern void (*texture_load) (texture_type* ptexture, const std::string& file, int use_alpha);  

@@ -84,11 +84,11 @@
 #define BITW_MASK 31
 #define BITN(n) ((BITW)1 << (n))
 
-typedef struct bitmask
+struct bitmask
 {
   int w,h;
   BITW *bits;
-} bitmask;
+};
 
 /* Creates a bitmask of width w and height h.
  * The mask is automatically cleared when created.

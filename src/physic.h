@@ -22,15 +22,14 @@ enum {
 
 /* Physic type: */
 
-typedef struct physic_type
+struct physic_type
   {
-      int state;
-      float start_vy;
-      float start_vx;
-      float acceleration;
-      unsigned int start_time;
-  }
-physic_type;
+    int state;
+    float start_vy;
+    float start_vx;
+    float acceleration;
+    unsigned int start_time;
+};
 
 /* global variables. */
 extern float gravity;

@@ -14,13 +14,12 @@
 #define SUPERTUX_TIMER_H
 
 /* Timer type */
-typedef struct timer_type
-  {
-   unsigned int period;
-   unsigned int time;
-   unsigned int (*get_ticks) (void);  
-  }
-timer_type;
+struct timer_type
+{
+  unsigned int period;
+  unsigned int time;
+  unsigned int (*get_ticks) (void);  
+};
 
 extern unsigned int st_pause_ticks, st_pause_count;
 

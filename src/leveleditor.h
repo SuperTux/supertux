@@ -16,11 +16,10 @@
 #ifndef SUPERTUX_LEVELEDITOR_H
 #define SUPERTUX_LEVELEDITOR_H
 
-typedef struct square
-  {
-    int x1, y1, x2, y2;
-  }
-square;
+struct square
+{
+  int x1, y1, x2, y2;
+};
 
 /* selection modes */
 enum {
