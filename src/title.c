@@ -282,7 +282,7 @@ void display_credits()
   int done;
   int scroll, speed;
   timer_type timer;
-  int n,d;
+  int n,d,e;
   int length;
   FILE* fi;
   char temp[1024];
@@ -316,6 +316,7 @@ void display_credits()
   done = 0;
 
   n = d = 0;
+  e = -20;
 
   length = names.num_items;
 
@@ -372,12 +373,18 @@ void display_credits()
               else if(names.item[i][0] == '	')
                 text_drawf(&white_text, names.item[i], 0, 60+screen->h+(n*18)+(d*18)-scroll, A_HMIDDLE, A_TOP, 1, NO_UPDATE);
               else if(names.item[i+1][0] == '-' || names.item[i][0] == '-')
-                text_drawf(&white_big_text, names.item[i], 0, 60+screen->h+(n*18)+(d*18)-scroll, A_HMIDDLE, A_TOP, 1, NO_UPDATE);
+                text_drawf(&white_big_text, names.item[i], 0, 60+screen->h+(n*18)+(d*18)-scroll, A_HMIDDLE, A_TOP, 3+e%7, NO_UPDATE);
               else
-                text_drawf(&blue_text, names.item[i], 0, 60+screen->h+(n*18)+(d*18)-scroll, A_HMIDDLE, A_TOP, 1, NO_UPDATE);
+                text_drawf(&blue_text, names.item[i], 0 + e % 20, 60+screen->h+(n*18)+(d*18)-scroll, A_HMIDDLE, A_TOP, 1, NO_UPDATE);
             }
         }
-
+      if(e == 20)
+      {
+      e = -19;
+      }
+      e++;
+      
+      
       texture_draw_part(&bkg_title, 0, 0, 0, 0, 640, 130, NO_UPDATE);
 
       flipscreen();
@@ -389,7 +396,7 @@ void display_credits()
       if(scroll < 0)
         scroll = 0;
 
-      SDL_Delay(20);
+      SDL_Delay(35);
 
       if(timer_get_left(&timer) < 0)
         {

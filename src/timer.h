@@ -50,6 +50,8 @@ int timer_started(timer_type* ptimer);
 ======================================================================*/
 int timer_get_left(timer_type* ptimer);
 int timer_get_gone(timer_type* ptimer);
+int timer_fwrite(timer_type* ptimer, FILE* fi);
+int timer_fread(timer_type* ptimer, FILE* fi);
 
 #endif /*SUPERTUX_TIMER_H*/
 

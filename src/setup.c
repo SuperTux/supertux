@@ -392,7 +392,11 @@ void process_save_load_game_menu(int save)
           else
             {
               if(game_started == NO)
-                gameloop("whatever",slot,ST_GL_LOAD_GAME);
+	      {
+                gameloop("default",slot,ST_GL_LOAD_GAME);
+		show_menu = YES;
+		menu_set_current(&main_menu);
+		}
               else
                 loadgame(slot);
             }

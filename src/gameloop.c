@@ -305,18 +305,18 @@ int game_action(void)
           level++;
           next_level = 0;
           if(st_gl_mode != ST_GL_TEST)
-	  {
-            drawresultscreen();
-	  }
-	  else
-	  {
-	      level_free_gfx();
+            {
+              drawresultscreen();
+            }
+          else
+            {
+              level_free_gfx();
               level_free(&current_level);
               level_free_song();
               unloadshared();
               arrays_free();
               return(0);
-	  }
+            }
           player_level_begin(&tux);
         }
       else
@@ -350,7 +350,7 @@ int game_action(void)
       set_defaults();
       level_free(&current_level);
       if(level_load(&current_level,level_subset,level) != 0)
-        exit(1);
+        return 0;
       arrays_free();
       arrays_init();
       activate_bad_guys();
@@ -564,27 +564,23 @@ int gameloop(char * subset, int levelnb, int mode)
   timer_type fps_timer, frame_timer;
   timer_init(&fps_timer, YES);
   timer_init(&frame_timer, YES);
-  
+
   game_started = YES;
 
   st_gl_mode = mode;
   level = levelnb;
   strcpy(level_subset,subset);
 
-  if(st_gl_mode != ST_GL_LOAD_GAME)
-    {
-      /* Init the game: */
-      arrays_init();
-      set_defaults();
+  /* Init the game: */
+  arrays_init();
+  set_defaults();
 
-      if(level_load(&current_level,level_subset,level) != 0)
-        exit(1);
-      level_load_gfx(&current_level);
-      activate_bad_guys();
-      level_load_song(&current_level);
+  if(level_load(&current_level,level_subset,level) != 0)
+    exit(1);
+  level_load_gfx(&current_level);
+  activate_bad_guys();
+  level_load_song(&current_level);
 
-    }
-    
   player_init(&tux);
 
   if(st_gl_mode != ST_GL_TEST)
@@ -596,7 +592,7 @@ int gameloop(char * subset, int levelnb, int mode)
     levelintro();
 
 
-    timer_init(&time_left,YES);
+  timer_init(&time_left,YES);
   start_timers();
 
   if(st_gl_mode == ST_GL_LOAD_GAME)
@@ -640,7 +636,7 @@ int gameloop(char * subset, int levelnb, int mode)
       /* Handle events: */
 
       tux.input.old_fire = tux.input.fire;
-      
+
       game_event();
 
       if(show_menu)
@@ -1742,9 +1738,15 @@ void savegame(int slot)
       fwrite(&level,sizeof(int),1,fi);
       fwrite(&score,sizeof(int),1,fi);
       fwrite(&distros,sizeof(int),1,fi);
-      fwrite(&tux,sizeof(player_type),1,fi);
       fwrite(&scroll_x,sizeof(float),1,fi);
-      fwrite(&time_left,sizeof(float),1,fi);
+      fwrite(&tux,sizeof(player_type),1,fi);
+      timer_fwrite(&tux.invincible_timer,fi);
+      printf("Time inv LEFT: %d\n",timer_get_left(&tux.invincible_timer));
+      timer_fwrite(&tux.skidding_timer,fi);
+      timer_fwrite(&tux.safe_timer,fi);
+      timer_fwrite(&tux.frame_timer,fi);
+      timer_fwrite(&time_left,fi);
+      printf("Time LEFT: %d\n",timer_get_left(&time_left));
       ui = st_get_ticks();
       fwrite(&ui,sizeof(int),1,fi);
     }
@@ -1789,20 +1791,20 @@ void loadgame(int slot)
       level_free_song();
       level_load_song(&current_level);
       levelintro();
-      timer_start(&time_left,current_level.time_left*1000);
       update_time = st_get_ticks();
 
       fread(&score,sizeof(int),1,fi);
       fread(&distros,sizeof(int),1,fi);
-      fread(&tux,sizeof(player_type),1,fi);
       fread(&scroll_x,sizeof(float),1,fi);
-      fread(&time_left,sizeof(float),1,fi);
+      fread(&tux,sizeof(player_type),1,fi);
+      timer_fread(&tux.invincible_timer,fi);
+      printf("Time inv LEFT: %d - %d\n",timer_get_left(&tux.invincible_timer),tux.invincible_timer.time);
+      timer_fread(&tux.skidding_timer,fi);
+      timer_fread(&tux.safe_timer,fi);
+      timer_fread(&tux.frame_timer,fi);
+      timer_fread(&time_left,fi);
+      printf("Time LEFT: %d\n",timer_get_left(&time_left));
       fread(&ui,sizeof(int),1,fi);
-      time_left.time += st_get_ticks() - ui;
-      tux.invincible_timer.time += st_get_ticks() - ui;
-      tux.skidding_timer.time += st_get_ticks() - ui;
-      tux.safe_timer.time += st_get_ticks() - ui;
-      tux.vphysic.start_time += st_get_ticks() - ui;
       tux.hphysic.start_time += st_get_ticks() - ui;
       tux.vphysic.start_time += st_get_ticks() - ui;
       fclose(fi);
