@@ -85,13 +85,19 @@ class TileManager
 {
  private:
   TileManager();
+  ~TileManager();
+  
   std::vector<Tile*> tiles;
   static TileManager* instance_ ;
   static std::vector<TileGroup>* tilegroups_;
   void load_tileset(std::string filename);
+
+  std::string current_tileset;
   
  public:
   static TileManager* instance() { return instance_ ? instance_ : instance_ = new TileManager(); }
+  static void destroy_instance() { delete instance_; instance_ = 0; }
+  
   static std::vector<TileGroup>* tilegroups() { return tilegroups_ ? tilegroups_ : tilegroups_ = new std::vector<TileGroup>; }
   Tile* get(unsigned int id) {
     if(id < tiles.size())

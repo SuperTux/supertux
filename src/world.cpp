@@ -283,11 +283,15 @@ World::action(double frame_ratio)
   /* Handle all possible collisions. */
   collision_handler();
   
-  { // Cleanup marked badguys
-    for (BadGuys::iterator i = bad_guys.begin(); i != bad_guys.end(); ++i)
-      if ((*i)->is_removable())
-        delete *i;
-    bad_guys.remove_if(std::mem_fun(&BadGuy::is_removable));
+  // Cleanup marked badguys
+  for (BadGuys::iterator i = bad_guys.begin(); i != bad_guys.end();
+      /* ++i handled at end of the loop */) {
+    if ((*i)->is_removable()) {
+      delete *i;
+      i = bad_guys.erase(i);
+    } else {
+      ++i;
+    }
   }
 }
 

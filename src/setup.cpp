@@ -348,10 +348,10 @@ void st_directory_setup(void)
         {
           std::string exedir = std::string(dirname(exe_file)) + "/";
           
-          datadir = exedir + "../data/"; // SuperTux run from source dir
+          datadir = exedir + "../data"; // SuperTux run from source dir
           if (access(datadir.c_str(), F_OK) != 0)
             {
-              datadir = exedir + "../share/supertux/"; // SuperTux run from PATH
+              datadir = exedir + "../share/supertux"; // SuperTux run from PATH
               if (access(datadir.c_str(), F_OK) != 0) 
                 { // If all fails, fall back to compiled path
                   datadir = DATA_PREFIX; 
@@ -879,7 +879,6 @@ void st_abort(const std::string& reason, const std::string& details)
   st_shutdown();
   abort();
 }
-
 
 /* Set Icon (private) */
 

@@ -1341,8 +1341,11 @@ lisp_object_t* lisp_read_from_file(const std::string& filename)
           obj = lisp_read(&stream);
           fclose(in);
         }
-      else
+      else {
         std::cerr << "LispReader: File not found: " << filename << endl;
+        st_abort("aborting", "");
+      }
+      
 
 
       return obj;

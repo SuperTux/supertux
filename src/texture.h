@@ -72,6 +72,7 @@ public:
   static Surfaces surfaces;
 public:
   static void reload_all();
+  static void debug_check();
 
   Surface(SDL_Surface* surf, int use_alpha);  
   Surface(const std::string& file, int use_alpha);  

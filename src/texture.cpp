@@ -177,6 +177,16 @@ Surface::reload_all()
 }
 
 void
+Surface::debug_check()
+{
+  for(Surfaces::iterator i = surfaces.begin(); i != surfaces.end(); ++i)
+    {
+      printf("Surface not freed: T:%d F:%s.\n", (*i)->data.type, 
+          (*i)->data.file.c_str());
+    }
+}
+
+void
 Surface::draw(float x, float y, Uint8 alpha, bool update)
 {
   if (impl) 
@@ -513,9 +523,7 @@ SurfaceOpenGL::draw_part(float sx, float sy, float x, float y, float w, float h,
   glDisable(GL_TEXTURE_2D);
   glDisable(GL_BLEND);
 
-  /* Avoid compiler warnings */
-  if(update)
-    {}
+  (void) update; // avoid warnings
   return 0;
 }
 #endif

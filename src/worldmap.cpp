@@ -85,7 +85,7 @@ string_to_direction(const std::string& directory)
 
 TileManager::TileManager()
 {
-  std::string stwt_filename = datadir +  "images/worldmap/antarctica.stwt";
+  std::string stwt_filename = datadir +  "/images/worldmap/antarctica.stwt";
   lisp_object_t* root_obj = lisp_read_from_file(stwt_filename);
  
   if (!root_obj)
@@ -327,7 +327,7 @@ WorldMap::~WorldMap()
 void
 WorldMap::load_map()
 {
-  std::string filename = datadir +  "levels/default/worldmap.stwm";
+  std::string filename = datadir +  "/levels/default/worldmap.stwm";
   
   lisp_object_t* root_obj = lisp_read_from_file(filename);
   if (!root_obj)
@@ -404,10 +404,10 @@ void WorldMap::get_level_title(Levels::pointer level)
 
   FILE * fi;
   lisp_object_t* root_obj = 0;
-  fi = fopen((datadir +  "levels/" + level->name).c_str(), "r");
+  fi = fopen((datadir +  "/levels/" + level->name).c_str(), "r");
   if (fi == NULL)
   {
-    perror((datadir +  "levels/" + level->name).c_str());
+    perror((datadir +  "/levels/" + level->name).c_str());
     return;
   }
 
@@ -590,7 +590,7 @@ WorldMap::update()
               level->y == tux->get_tile_pos().y)
             {
               std::cout << "Enter the current level: " << level->name << std::endl;;
-              GameSession session(datadir +  "levels/" + level->name,
+              GameSession session(datadir +  "/levels/" + level->name,
                                   1, ST_GL_LOAD_LEVEL_FILE);
 
               switch (session.run())

@@ -208,8 +208,6 @@ void unloadshared(void)
   free_special_gfx();
   free_badguy_gfx();
 
-  delete smalltux_gameover;
-
   delete img_water;
   for (i = 0; i < 3; i++)
     delete img_waves[i];

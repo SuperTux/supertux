@@ -45,12 +45,22 @@ Tile::~Tile()
 
 TileManager::TileManager()
 {
-  std::string filename = datadir +  "images/tilesets/supertux.stgt";
+  std::string filename = datadir + "/images/tilesets/supertux.stgt";
   load_tileset(filename);
+}
+
+TileManager::~TileManager()
+{
+  for(std::vector<Tile*>::iterator i = tiles.begin(); i != tiles.end(); ++i) {
+    delete *i;                                                                  
+  }
 }
 
 void TileManager::load_tileset(std::string filename)
 {
+  if(filename == current_tileset)
+    return;
+  
   // free old tiles
   for(std::vector<Tile*>::iterator i = tiles.begin(); i != tiles.end(); ++i) {
     delete *i;
@@ -109,7 +119,7 @@ void TileManager::load_tileset(std::string filename)
                   Surface* cur_image;
                   tile->images.push_back(cur_image);
                   tile->images[tile->images.size()-1] = new Surface(
-                               datadir +  "images/tilesets/" + (*it),
+                               datadir +  "/images/tilesets/" + (*it),
                                USE_ALPHA);
                 }
               for(std::vector<std::string>::iterator it = editor_filenames.begin();
@@ -119,7 +129,7 @@ void TileManager::load_tileset(std::string filename)
                   Surface* cur_image;
                   tile->editor_images.push_back(cur_image);
                   tile->editor_images[tile->editor_images.size()-1] = new Surface(
-                               datadir +  "images/tilesets/" + (*it),
+                               datadir + "/images/tilesets/" + (*it),
                                USE_ALPHA);
                 }
 		
@@ -134,7 +144,7 @@ void TileManager::load_tileset(std::string filename)
               LispReader reader(lisp_cdr(element));
               std::string filename;
               reader.read_string("file",  &filename);
-              filename = datadir + "images/tilesets/" + filename;
+              filename = datadir + "/images/tilesets/" + filename;
               load_tileset(filename);
             }
           else if (strcmp(lisp_symbol(lisp_car(element)), "tilegroup") == 0)
@@ -168,6 +178,7 @@ void TileManager::load_tileset(std::string filename)
     }
 
   lisp_free(root_obj);
+  current_tileset = filename;
 }
 
 void

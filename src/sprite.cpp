@@ -21,6 +21,7 @@
 #include <math.h>
 #include "globals.h"
 #include "sprite.h"
+#include "setup.h"
 
 Sprite::Sprite(lisp_object_t* cur)
 {
@@ -28,20 +29,30 @@ Sprite::Sprite(lisp_object_t* cur)
 
   LispReader reader(cur);
 
-  reader.read_string("name",   &name);
+  if(!reader.read_string("name",   &name))
+    st_abort("Sprite wihtout name", "");
   reader.read_int("x-hotspot", &x_hotspot);
   reader.read_int("y-hotspot", &y_hotspot);
   reader.read_float("fps",     &fps);
+
   std::vector<std::string> images;
-  reader.read_string_vector("images", &images);
-  surfaces.resize(images.size());
+  if(!reader.read_string_vector("images", &images))
+    st_abort("Sprite contains no images: ", name.c_str());
 
   for(std::vector<std::string>::size_type i = 0; i < images.size(); ++i)
     {
-      surfaces[i] = new Surface(datadir + "/images/" + images[i], USE_ALPHA);
+      surfaces.push_back(
+          new Surface(datadir + "/images/" + images[i], USE_ALPHA));
     }        
 
   frame_delay = 1000.0f/fps;
+}
+
+Sprite::~Sprite()
+{
+  for(std::vector<Surface*>::iterator i = surfaces.begin(); i != surfaces.end();
+      ++i)
+    delete *i;
 }
 
 void

@@ -26,6 +26,14 @@ SpriteManager::SpriteManager(const std::string& filename)
   load_resfile(filename);
 }
 
+SpriteManager::~SpriteManager()
+{
+  for(std::map<std::string, Sprite*>::iterator i = sprites.begin();
+      i != sprites.end(); ++i) {
+    delete i->second;
+  }
+}
+
 void
 SpriteManager::load_resfile(const std::string& filename)
 {

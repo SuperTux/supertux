@@ -31,6 +31,8 @@
 #include "screen.h"
 #include "worldmap.h"
 #include "resources.h"
+#include "texture.h"
+#include "tile.h"
 
 int main(int argc, char * argv[])
 {
@@ -63,6 +65,10 @@ int main(int argc, char * argv[])
   updatescreen();
 
   unloadshared();
+  TileManager::destroy_instance();
+#ifdef DEBUG
+  Surface::debug_check();
+#endif
   st_shutdown();
   
   return 0;

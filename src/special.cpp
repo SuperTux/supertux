@@ -363,6 +363,5 @@ void load_special_gfx()
 
 void free_special_gfx()
 {
-  delete img_bullet;
 }
 

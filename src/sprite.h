@@ -49,6 +49,7 @@ class Sprite
   /** cur has to be a pointer to data in the form of ((x-hotspot 5)
       (y-hotspot 10) ...) */
   Sprite(lisp_object_t* cur);
+  ~Sprite();
   
   void reset();
 

@@ -30,8 +30,12 @@ class SpriteManager
   Sprites sprites;
  public:
   SpriteManager(const std::string& filename);
+  ~SpriteManager();
   
   void    load_resfile(const std::string& filename);
+  /** loads a sprite.
+   * WARNING: You must not delete the returned object.
+   */
   Sprite* load(const std::string& name);
 };
 

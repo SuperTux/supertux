@@ -210,13 +210,15 @@ Level::Level()
 Level::Level(const std::string& subset, int level)
   : img_bkgd(0)
 {
-  load(subset, level);
+  if(load(subset, level) < 0)
+    st_abort("Couldn't load level from subset", subset.c_str());
 }
 
 Level::Level(const std::string& filename)
   : img_bkgd(0)
 {
-  load(filename);
+  if(load(filename) < 0)
+    st_abort("Couldn't load level " , filename.c_str());
 }
 
 Level::~Level()
@@ -308,28 +310,44 @@ Level::load(const std::string& filename)
   if (strcmp(lisp_symbol(lisp_car(root_obj)), "supertux-level") == 0)
     {
       LispReader reader(lisp_cdr(root_obj));
+      version = 0;
       reader.read_int("version",  &version);
+      use_endsequence = false;
       reader.read_bool("use-endsequence", &use_endsequence);
-      reader.read_int("width",  &width);
+      if(!reader.read_int("width",  &width))
+        st_abort("No width specified for level.", "");
       if (!reader.read_int("start_pos_x", &start_pos_x)) start_pos_x = 100;
       if (!reader.read_int("start_pos_y", &start_pos_y)) start_pos_y = 170;
-      reader.read_int("time",  &time_left);
+      time_left = 500;
+      if(!reader.read_int("time",  &time_left)) {
+        printf("Warning no time specified for level.\n");
+      }
 
+      bkgd_top.red = bkgd_top.green = bkgd_top.blue = 0;
       reader.read_int("bkgd_red_top",  &bkgd_top.red);
       reader.read_int("bkgd_green_top",  &bkgd_top.green);
       reader.read_int("bkgd_blue_top",  &bkgd_top.blue);
 
+      bkgd_bottom.red = bkgd_bottom.green = bkgd_bottom.blue = 0;
       reader.read_int("bkgd_red_bottom",  &bkgd_bottom.red);
       reader.read_int("bkgd_green_bottom",  &bkgd_bottom.green);
       reader.read_int("bkgd_blue_bottom",  &bkgd_bottom.blue);
 
+      gravity = 10;
       reader.read_float("gravity",  &gravity);
+      name = "Noname";
       reader.read_string("name",  &name);
+      author = "unknown author";
       reader.read_string("author", &author);
-      reader.read_string("theme",  &theme);
+      if(!reader.read_string("theme",  &theme))
+        st_abort("No theme specified in level file", "");
+      song_title = "";
       reader.read_string("music",  &song_title);
+      bkgd_image = "";
       reader.read_string("background",  &bkgd_image);
+      particle_system = "";
       reader.read_string("particle_system", &particle_system);
+
       reader.read_int_vector("background-tm",  &bg_tm);
 
       if (!reader.read_int_vector("interactive-tm", &ia_tm))

@@ -59,24 +59,21 @@ Mix_Chunk * sounds[NUM_SOUNDS];
 
 int open_audio (int frequency, Uint16 format, int channels, int chunksize)
 {
-  /* if success we reserved some channels and register panning effects */
-  if (Mix_OpenAudio( frequency, format, channels, chunksize ) == 0)
-    {
-      if (Mix_ReserveChannels( SOUND_RESERVED_CHANNELS )
-                            != SOUND_RESERVED_CHANNELS )
-        {
-          DEBUG_MSG( "Warning: open_audio could'nt reserve channels" );
-        }
+  if (Mix_OpenAudio( frequency, format, channels, chunksize ) < 0)
+    return -1;
 
-      /* prepare the spanning effects, no error checking */
-      Mix_SetPanning( SOUND_LEFT_SPEAKER, 230, 24 );
-      Mix_SetPanning( SOUND_RIGHT_SPEAKER, 24, 230 );
-      return 0;
-    }
-  else
-    {
-      return -1;
-    }
+  // allocate 16 channels for mixing
+  if (Mix_AllocateChannels(8)  != 8)
+    return -2;
+  
+  /* reserve some channels and register panning effects */
+  if (Mix_ReserveChannels(SOUND_RESERVED_CHANNELS) != SOUND_RESERVED_CHANNELS)
+    return -3;
+
+  /* prepare the spanning effects */
+  Mix_SetPanning( SOUND_LEFT_SPEAKER, 230, 24 );
+  Mix_SetPanning( SOUND_RIGHT_SPEAKER, 24, 230 );
+  return 0;
 }
 
 
@@ -94,30 +91,18 @@ void close_audio( void )
 
 /* --- LOAD A SOUND --- */
 
-Mix_Chunk * load_sound(const std::string& file)
+Mix_Chunk* load_sound(const std::string& file)
 {
-  Mix_Chunk * snd;
+  if(!audio_device)
+    return 0;
+  
+  Mix_Chunk* snd = Mix_LoadWAV(file.c_str());
 
-  snd = Mix_LoadWAV(file.c_str());
-
-  if ((snd == NULL) && audio_device)
+  if (snd == 0)
     st_abort("Can't load", file);
 
   return(snd);
 }
-
-
-/* --- LOAD A SONG --- */
-
-Mix_Music * load_song(const std::string& file)
-{
-  if(!audio_device)
-    return (Mix_Music*) ~0;
-  
-  Mix_Music* song = Mix_LoadMUS(file.c_str());
-  return song;
-}
-
 
 /* --- PLAY A SOUND ON LEFT OR RIGHT OR CENTER SPEAKER --- */
 
@@ -126,32 +111,26 @@ void play_sound(Mix_Chunk * snd, enum Sound_Speaker whichSpeaker)
   /* this won't call the function if the user has disabled sound
    * either via menu or via command-line option
    */
-  if (use_sound && audio_device)
-    {
-      Mix_PlayChannel( whichSpeaker, snd, 0);
+  if(!audio_device || !use_sound)
+    return;
 
-      /* prepare for panning effects for next call */
-      /* warning: currently, I do not check for errors here */
-      switch (whichSpeaker) {
-        case SOUND_LEFT_SPEAKER:
-          Mix_SetPanning( SOUND_LEFT_SPEAKER, 230, 24 );
-          break;
-        case SOUND_RIGHT_SPEAKER:
-          Mix_SetPanning( SOUND_RIGHT_SPEAKER, 24, 230 );
-          break;
-        default:  // keep the compiler happy
-          break;
-      }
-    }
+  Mix_PlayChannel( whichSpeaker, snd, 0);
+
+  /* prepare for panning effects for next call */
+  switch (whichSpeaker) {
+    case SOUND_LEFT_SPEAKER:
+      Mix_SetPanning( SOUND_LEFT_SPEAKER, 230, 24 );
+      break;
+    case SOUND_RIGHT_SPEAKER:
+      Mix_SetPanning( SOUND_RIGHT_SPEAKER, 24, 230 );
+      break;
+    default:  // keep the compiler happy
+      break;
+  }
 }
-
 
 void free_chunk(Mix_Chunk *chunk)
 {
-  if (chunk != NULL)
-    {
-      Mix_FreeChunk( chunk );
-      chunk = NULL;
-    }
+  Mix_FreeChunk( chunk );
 }
 

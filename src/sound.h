@@ -23,9 +23,6 @@
 
 #include "defines.h"     /* get YES/NO defines */
 
-/* used to reserve some channels for panning effects */
-#define SOUND_RESERVED_CHANNELS 2
-
 /*global variable*/
 extern bool use_sound;           /* handle sound on/off menu and command-line option */
 extern bool use_music;           /* handle music on/off menu and command-line */
@@ -39,11 +36,11 @@ enum Music_Type {
   HERRING_MUSIC
 };
 
-
 /* panning effects: terrible :-) ! */
 enum Sound_Speaker {
   SOUND_LEFT_SPEAKER = 0,
   SOUND_RIGHT_SPEAKER = 1,
+  SOUND_RESERVED_CHANNELS = 2, // 2 channels reserved for left/right speaker
   SOUND_CENTER_SPEAKER = -1
 };
 
