@@ -551,7 +551,7 @@ Menu::draw_item(DrawingContext& context,
   {
   case MN_DEACTIVE:
     {
-      context.draw_text_center(blue_text, pitem.text,
+      context.draw_text_center(gray_text, pitem.text,
           Vector(0, y_pos - int(blue_text->get_height()/2)),
           LAYER_FOREGROUND1);
       break;

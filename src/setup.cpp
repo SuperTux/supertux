@@ -590,6 +590,8 @@ void st_general_setup(void)
   blue_text = new Font(datadir + "/images/fonts/blue.png", Font::TEXT, 16,18,3);
   white_text  = new Font(datadir + "/images/fonts/white.png",
       Font::TEXT, 16,18);
+  gray_text  = new Font(datadir + "/images/fonts/gray.png",
+      Font::TEXT, 16,18);
   white_small_text = new Font(datadir + "/images/fonts/white-small.png",
           Font::TEXT, 8,9, 1);
   white_big_text   = new Font(datadir + "/images/fonts/white-big.png",

@@ -38,12 +38,9 @@ JoystickKeymap::JoystickKeymap()
 JoystickKeymap joystick_keymap;
 
 SDL_Surface * screen;
-Font* black_text;
 Font* gold_text;
-Font* silver_text;
 Font* blue_text;
-Font* red_text;
-Font* green_text;
+Font* gray_text;
 Font* yellow_nums;
 Font* white_text;
 Font* white_small_text;
