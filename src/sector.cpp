@@ -804,7 +804,7 @@ Sector::tryemptybox(const Vector& pos, Direction col_side)
       break;
                                                                                 
     case 3: // Add a golden herring
-      add_upgrade(Vector(posx, posy), col_side, UPGRADE_HERRING);
+      add_upgrade(Vector(posx, posy), col_side, UPGRADE_STAR);
       break;
                                                                                 
     case 4: // Add a 1up extra

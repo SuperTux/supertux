@@ -161,7 +161,7 @@ Upgrade::Upgrade(const Vector& pos, Direction dir_, UpgradeKind kind_)
   physic.reset();
   physic.enable_gravity(false);
 
-  if(kind == UPGRADE_1UP || kind == UPGRADE_HERRING) {
+  if(kind == UPGRADE_1UP || kind == UPGRADE_STAR) {
     physic.set_velocity(dir == LEFT ? -1 : 1, 4);
     physic.enable_gravity(true);
     base.height = 32;
@@ -210,12 +210,12 @@ Upgrade::action(float elapsed_time)
 
   /* Move around? */
   physic.apply(elapsed_time, base.x, base.y, Sector::current()->gravity);
-  if(kind == UPGRADE_GROWUP) {
+  if(kind == UPGRADE_GROWUP || kind == UPGRADE_STAR) {
     collision_swept_object_map(&old_base, &base);
   }
 
   // fall down?
-  if(kind == UPGRADE_GROWUP || kind == UPGRADE_HERRING) {
+  if(kind == UPGRADE_GROWUP || kind == UPGRADE_STAR) {
     // falling?
     if(physic.get_velocity_y() != 0) {
       if(issolid(base.x, base.y + base.height)) {
@@ -224,7 +224,7 @@ Upgrade::action(float elapsed_time)
         if(kind == UPGRADE_GROWUP) {
           physic.enable_gravity(false);
           physic.set_velocity(dir == LEFT ? -GROWUP_SPEED : GROWUP_SPEED, 0);
-        } else if(kind == UPGRADE_HERRING) {
+        } else if(kind == UPGRADE_STAR) {
           physic.set_velocity(dir == LEFT ? -2 : 2, 3);
         }
       }
@@ -239,7 +239,7 @@ Upgrade::action(float elapsed_time)
   }
 
   // horizontal bounce?
-  if(kind == UPGRADE_GROWUP || kind == UPGRADE_HERRING) {
+  if(kind == UPGRADE_GROWUP || kind == UPGRADE_STAR) {
     if (  (physic.get_velocity_x() < 0
           && issolid(base.x, (int) base.y + base.height/2)) 
         ||  (physic.get_velocity_x() > 0
@@ -258,7 +258,7 @@ Upgrade::draw(DrawingContext& context)
     case UPGRADE_GROWUP: sprite = img_growup; break;
     case UPGRADE_ICEFLOWER: sprite = img_iceflower; break;
     case UPGRADE_FIREFLOWER: sprite = img_fireflower; break;
-    case UPGRADE_HERRING: sprite = img_star; break;
+    case UPGRADE_STAR: sprite = img_star; break;
     case UPGRADE_1UP: sprite = img_1up; break;
     default:
       assert(!"wrong type in Powerup::draw()");
@@ -348,7 +348,7 @@ Upgrade::collision(void* p_c_object, int c_object, CollisionType type)
           pplayer->grow(true);
           pplayer->got_power = pplayer->FIRE_POWER;
         }
-      else if (kind == UPGRADE_HERRING)
+      else if (kind == UPGRADE_STAR)
         {
           SoundManager::get()->play_sound(IDToSound(SND_HERRING));
           pplayer->invincible_timer.start(TUX_INVINCIBLE_TIME);
