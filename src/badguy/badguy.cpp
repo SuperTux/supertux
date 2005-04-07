@@ -146,6 +146,7 @@ BadGuy::collision_player(Player& player, const CollisionHit& hit)
       return FORCE_MOVE;
     }
   }
+  std::cout << "COLLISION - HITPOINTS: " << hitpoints << ", BULLLET HP: " << bullet_hitpoints << std::endl;
   player.kill(Player::SHRINK);
   return FORCE_MOVE;
 }
@@ -179,12 +180,14 @@ BadGuy::kill_fall()
 {
   bullet_hitpoints--;
   if (bullet_hitpoints <= 0) {
+    hitpoints = 0;
     SoundManager::get()->play_sound(IDToSound(SND_FALL), this,
        Sector::current()->player->get_pos());
     physic.set_velocity_y(0);
     physic.enable_gravity(true);
     set_state(STATE_FALLING);
   }
+  std::cout << "KILL_FALL - HITPOINTS: " << hitpoints << ", BULLLET HP: " << bullet_hitpoints << std::endl;
 }
 
 void

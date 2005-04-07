@@ -121,6 +121,7 @@ Nolok_01::kill_fall()
 {
   bullet_hitpoints--;
   if (bullet_hitpoints <= 0) {
+   hitpoints = 0;
    SoundManager::get()->play_sound(IDToSound(SND_FALL), this,
          Sector::current()->player->get_pos());
    physic.set_velocity_y(0);
@@ -128,6 +129,7 @@ Nolok_01::kill_fall()
    set_state(STATE_FALLING);
    Sector::current()->add_object(new Door((int)get_pos().x+32, 512, "sector1", "main2"));
   }
+  std::cout << "KILL_FALL - HITPOINTS: " << hitpoints << ", BULLLET HP: " << bullet_hitpoints << std::endl;
 }
 
 IMPLEMENT_FACTORY(Nolok_01, "nolok_01")
