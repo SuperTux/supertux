@@ -20,7 +20,7 @@
 #define SUPERTUX_PLAYER_H
 
 #include <vector>
-#include <SDL.h>
+#include "SDL.h"
 
 #include "timer.h"
 #include "direction.h"
