@@ -21,6 +21,7 @@ private:
   void go_left();
   void angry_jumping();
   void drop_stalactite();
+  void summon_snowball();
   
   enum YetiState {
     INIT,
@@ -29,11 +30,7 @@ private:
     GO_RIGHT,
     GO_LEFT
   };
-  enum Side {
-    LEFT,
-    RIGHT
-  };
-  Side side;
+  Direction side;
   YetiState state;
   Timer2 timer;
   int jumpcount;

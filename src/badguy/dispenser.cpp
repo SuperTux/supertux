@@ -78,8 +78,7 @@ Dispenser::launch_badguy()
     else if (badguy == "mriceblock")
       Sector::current()->add_object(new MrIceBlock(get_pos().x, get_pos().y+32, dir));
     else if (badguy == "mrrocket") {
-      int offset = (dir == LEFT ? -32 : 32);
-      Sector::current()->add_object(new MrRocket(get_pos().x+offset, get_pos().y, dir));}
+      Sector::current()->add_object(new MrRocket(get_pos().x+(dir == LEFT ? -32 : 32), get_pos().y, dir));}
     else if (badguy == "poisonivy")
       Sector::current()->add_object(new PoisonIvy(get_pos().x, get_pos().y+32, dir));
     else if (badguy == "random")

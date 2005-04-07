@@ -4,6 +4,7 @@
 #include "yeti.h"
 #include "object/camera.h"
 #include "yeti_stalactite.h"
+#include "bouncing_snowball.h"
 
 static const float JUMP_VEL1 = 250;
 static const float JUMP_VEL2 = 700;
@@ -92,6 +93,12 @@ Yeti::angry_jumping()
   physic.set_velocity_x(0);
 }
 
+void
+Yeti::summon_snowball()
+{
+  Sector::current()->add_object(new BouncingSnowball(get_pos().x+(side == LEFT ? 64 : -64), get_pos().y, (side == LEFT ? RIGHT : LEFT)));
+}
+
 HitResponse
 Yeti::collision_player(Player& player, const CollisionHit& hit)
 {
@@ -168,9 +175,11 @@ Yeti::collision_solid(GameObject& , const CollisionHit& hit)
       go_right();
     } else if(state == GO_LEFT && !timer.started()) {
       side = LEFT;
+      summon_snowball();
       angry_jumping();
     } else if(state == GO_RIGHT && !timer.started()) {
       side = RIGHT;
+      summon_snowball();
       angry_jumping();
     } else if(state == ANGRY_JUMPING) {
       if(!timer.started()) {
