@@ -15,6 +15,7 @@ public:
   HitResponse collision_player(Player& player, const CollisionHit& hit);
   HitResponse collision_badguy(BadGuy& badguy, const CollisionHit&);
   bool collision_squished(Player& player);
+  void kill_fall();
 
 private:
   void go_right();
@@ -42,6 +43,7 @@ private:
   int jumpcount;
   float jump_time_left;
   Mix_Chunk* sound_gna;
+  Mix_Chunk* sound_roar;
 };
 
 #endif

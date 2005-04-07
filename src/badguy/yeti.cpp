@@ -11,6 +11,7 @@ static const float RUN_SPEED = 300;
 static const float JUMP_TIME = 1.6;
 static const float ANGRY_JUMP_WAIT = .5;
 static const float STUN_TIME = 2;
+static const int INITIAL_HITPOINTS = 3;
 
 Yeti::Yeti(const lisp::Lisp& reader)
 {
@@ -20,8 +21,11 @@ Yeti::Yeti(const lisp::Lisp& reader)
   sprite = sprite_manager->create("yeti");
   state = INIT;
   side = LEFT;
+  hitpoints = INITIAL_HITPOINTS;
   sound_gna = SoundManager::get()->load_sound(
       get_resource_filename("sounds/yeti_gna.wav"));
+  sound_roar = SoundManager::get()->load_sound(
+      get_resource_filename("sounds/yeti_roar.wav"));
   jump_time_left = 0.0f;
 }
 
@@ -115,7 +119,6 @@ Yeti::collision_player(Player& player, const CollisionHit& hit)
   if(hit.normal.y > .9) {
     //TODO: fix inaccuracy (tux sometimes dies even if badguy was hit)
     //      give badguys some invincible time (prevent them from being hit multiple times)
-    //      use hitpoints also when hit by fireball or invincible tux
     hitpoints--;
     if(collision_squished(player))
       return ABORT_MOVE;
@@ -223,6 +226,20 @@ Yeti::collision_solid(GameObject& , const CollisionHit& hit)
   }
   
   return CONTINUE;
+}
+
+void
+Yeti::kill_fall()
+{
+  SoundManager::get()->play_sound(sound_roar);
+  hitpoints--;
+  if (hitpoints <= 0) {
+    SoundManager::get()->play_sound(IDToSound(SND_FALL), this,
+       Sector::current()->player->get_pos());
+    physic.set_velocity_y(0);
+    physic.enable_gravity(true);
+    set_state(STATE_FALLING);
+  }
 }
 
 IMPLEMENT_FACTORY(Yeti, "yeti")

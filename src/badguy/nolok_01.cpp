@@ -116,6 +116,7 @@ Nolok_01::collision_solid(GameObject& , const CollisionHit& hit)
 void
 Nolok_01::kill_fall()
 {
+  hitpoints--;
   if (hitpoints <= 0) {
    SoundManager::get()->play_sound(IDToSound(SND_FALL), this,
          Sector::current()->player->get_pos());
@@ -124,7 +125,6 @@ Nolok_01::kill_fall()
    set_state(STATE_FALLING);
    Sector::current()->add_object(new Door((int)get_pos().x+32, 512, "sector1", "main2"));
   }
-  else {hitpoints--;}
 }
 
 IMPLEMENT_FACTORY(Nolok_01, "nolok_01")
