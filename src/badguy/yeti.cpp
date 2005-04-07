@@ -12,6 +12,7 @@ static const float JUMP_TIME = 1.6;
 static const float ANGRY_JUMP_WAIT = .5;
 static const float STUN_TIME = 2;
 static const int INITIAL_HITPOINTS = 3;
+static const int INITIAL_BULLET_HP = 10;
 
 Yeti::Yeti(const lisp::Lisp& reader)
 {
@@ -22,6 +23,7 @@ Yeti::Yeti(const lisp::Lisp& reader)
   state = INIT;
   side = LEFT;
   hitpoints = INITIAL_HITPOINTS;
+  bullet_hitpoints = INITIAL_BULLET_HP;
   sound_gna = SoundManager::get()->load_sound(
       get_resource_filename("sounds/yeti_gna.wav"));
   sound_roar = SoundManager::get()->load_sound(
@@ -120,9 +122,11 @@ Yeti::collision_player(Player& player, const CollisionHit& hit)
     //TODO: fix inaccuracy (tux sometimes dies even if badguy was hit)
     //      give badguys some invincible time (prevent them from being hit multiple times)
     hitpoints--;
+    bullet_hitpoints--;
     if(collision_squished(player))
       return ABORT_MOVE;
     else if (hitpoints <= 0) {
+      bullet_hitpoints = 0;
       player.kill(Player::SHRINK);
       return FORCE_MOVE;
     }
@@ -232,8 +236,8 @@ void
 Yeti::kill_fall()
 {
   SoundManager::get()->play_sound(sound_roar);
-  hitpoints--;
-  if (hitpoints <= 0) {
+  bullet_hitpoints--;
+  if (bullet_hitpoints <= 0) {
     SoundManager::get()->play_sound(IDToSound(SND_FALL), this,
        Sector::current()->player->get_pos());
     physic.set_velocity_y(0);

@@ -8,6 +8,7 @@
 #define SHOOT_TIME 0.4
 #define JUMP_TIME 0.5
 #define INITIAL_HITPOINTS 3
+#define INITIAL_BULLET_HP 10
 
 static const float WALKSPEED = 90;
 
@@ -43,6 +44,7 @@ void
 Nolok_01::activate()
 {
   hitpoints = INITIAL_HITPOINTS;
+  bullet_hitpoints = INITIAL_BULLET_HP;
   physic.set_velocity_x(dir == LEFT ? -WALKSPEED : WALKSPEED);
   sprite->set_action(dir == LEFT ? "left" : "right");
   action = WALKING;
@@ -90,6 +92,7 @@ Nolok_01::collision_squished(Player& player)
   bool result = false;
   player.bounce(*this);
   if (hitpoints <= 0) {
+    bullet_hitpoints = 0;
     sprite->set_action("dead"); 
     kill_squished(player);
     Sector::current()->add_object(new Door((int)get_pos().x+32, 512, "sector1", "main2"));
@@ -116,8 +119,8 @@ Nolok_01::collision_solid(GameObject& , const CollisionHit& hit)
 void
 Nolok_01::kill_fall()
 {
-  hitpoints--;
-  if (hitpoints <= 0) {
+  bullet_hitpoints--;
+  if (bullet_hitpoints <= 0) {
    SoundManager::get()->play_sound(IDToSound(SND_FALL), this,
          Sector::current()->player->get_pos());
    physic.set_velocity_y(0);

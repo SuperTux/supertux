@@ -10,8 +10,9 @@ static const float Y_OFFSCREEN_DISTANCE = 1200;
 BadGuy::BadGuy()
   : sprite(0), dir(LEFT), state(STATE_INIT)
 {
-  //TODO: Count fireball hits separately so you can make badguys need more fireballs than jumps
+  //Set hitpoints and bullet hitpoints
   hitpoints = 1;
+  bullet_hitpoints = 1;
 }
 
 BadGuy::~BadGuy()
@@ -136,9 +137,11 @@ BadGuy::collision_player(Player& player, const CollisionHit& hit)
     //TODO: fix inaccuracy (tux sometimes dies even if badguy was hit)
     //      give badguys some invincible time (prevent them from being hit multiple times)
     hitpoints--;
+    bullet_hitpoints--;
     if(collision_squished(player))
       return ABORT_MOVE;
     else if (hitpoints <= 0) {
+      bullet_hitpoints = 0;
       player.kill(Player::SHRINK);
       return FORCE_MOVE;
     }
@@ -174,8 +177,8 @@ BadGuy::kill_squished(Player& player)
 void
 BadGuy::kill_fall()
 {
-  hitpoints--;
-  if (hitpoints <= 0) {
+  bullet_hitpoints--;
+  if (bullet_hitpoints <= 0) {
     SoundManager::get()->play_sound(IDToSound(SND_FALL), this,
        Sector::current()->player->get_pos());
     physic.set_velocity_y(0);

@@ -90,7 +90,7 @@ protected:
    * variable might have been changed so that it faces towards the player.
    */
   virtual void activate();
-  /** caleed when the badguy has been deactivated */
+  /** called when the badguy has been deactivated */
   virtual void deactivate();
 
   void kill_squished(Player& player);
@@ -122,6 +122,7 @@ protected:
   Direction dir;
 
   int hitpoints;
+  int bullet_hitpoints;
 private:
   void try_activate();
   
