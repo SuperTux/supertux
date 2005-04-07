@@ -17,9 +17,6 @@ public:
   void draw(DrawingContext& context);
   void deactivate();
 
-  // returns whether or not the stalactite is harmful in it's current state
-  bool is_harmful();
-
 protected:
   Timer2 timer;
 

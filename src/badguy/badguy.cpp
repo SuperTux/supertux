@@ -146,7 +146,7 @@ BadGuy::collision_player(Player& player, const CollisionHit& hit)
       return FORCE_MOVE;
     }
   }
-  std::cout << "COLLISION - HITPOINTS: " << hitpoints << ", BULLLET HP: " << bullet_hitpoints << std::endl;
+  std::cout << "COLLISION - HITPOINTS: " << hitpoints << ", BULLET HP: " << bullet_hitpoints << std::endl;
   player.kill(Player::SHRINK);
   return FORCE_MOVE;
 }
@@ -187,7 +187,7 @@ BadGuy::kill_fall()
     physic.enable_gravity(true);
     set_state(STATE_FALLING);
   }
-  std::cout << "KILL_FALL - HITPOINTS: " << hitpoints << ", BULLLET HP: " << bullet_hitpoints << std::endl;
+  std::cout << "KILL_FALL - HITPOINTS: " << hitpoints << ", BULLET HP: " << bullet_hitpoints << std::endl;
 }
 
 void

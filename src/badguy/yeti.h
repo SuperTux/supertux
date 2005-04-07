@@ -13,7 +13,6 @@ public:
   void active_action(float elapsed_time);
   HitResponse collision_solid(GameObject& other, const CollisionHit& hit);
   HitResponse collision_player(Player& player, const CollisionHit& hit);
-  HitResponse collision_badguy(BadGuy& badguy, const CollisionHit&);
   bool collision_squished(Player& player);
   void kill_fall();
 
@@ -21,7 +20,6 @@ private:
   void go_right();
   void go_left();
   void angry_jumping();
-  void stun();
   void drop_stalactite();
   
   enum YetiState {
@@ -29,8 +27,7 @@ private:
     ANGRY_JUMPING,
     THROW_SNOWBALL,
     GO_RIGHT,
-    GO_LEFT,
-    STUNNED
+    GO_LEFT
   };
   enum Side {
     LEFT,
@@ -38,10 +35,8 @@ private:
   };
   Side side;
   YetiState state;
-  Timer2 jump_timer;
-  Timer2 stun_timer;
+  Timer2 timer;
   int jumpcount;
-  float jump_time_left;
   Mix_Chunk* sound_gna;
   Mix_Chunk* sound_roar;
 };

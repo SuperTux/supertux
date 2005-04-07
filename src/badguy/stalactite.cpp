@@ -99,13 +99,4 @@ Stalactite::deactivate()
     remove_me();
 }
 
-bool
-Stalactite::is_harmful()
-{
-    if (state == STALACTITE_SQUISHED)
-        return false;
-    else
-        return true;
-}
-
 IMPLEMENT_FACTORY(Stalactite, "stalactite")

@@ -7,10 +7,9 @@
 
 static const float JUMP_VEL1 = 250;
 static const float JUMP_VEL2 = 700;
-static const float RUN_SPEED = 300;
+static const float RUN_SPEED = 350;
 static const float JUMP_TIME = 1.6;
 static const float ANGRY_JUMP_WAIT = .5;
-static const float STUN_TIME = 2;
 static const int INITIAL_HITPOINTS = 3;
 static const int INITIAL_BULLET_HP = 10;
 
@@ -28,7 +27,6 @@ Yeti::Yeti(const lisp::Lisp& reader)
       get_resource_filename("sounds/yeti_gna.wav"));
   sound_roar = SoundManager::get()->load_sound(
       get_resource_filename("sounds/yeti_roar.wav"));
-  jump_time_left = 0.0f;
 }
 
 Yeti::~Yeti()
@@ -44,27 +42,21 @@ Yeti::active_action(float elapsed_time)
       break;
     case GO_RIGHT:
       physic.set_velocity_x(RUN_SPEED);
-      if(jump_timer.check())
+      if(timer.check())
         physic.set_velocity_y(JUMP_VEL2);
       break;
     case GO_LEFT:
       physic.set_velocity_x(-RUN_SPEED);
-      if(jump_timer.check())
+      if(timer.check())
         physic.set_velocity_y(JUMP_VEL2);
       break;
     case ANGRY_JUMPING:
-      if(jump_timer.check()) {
+      if(timer.check()) {
         // jump
         SoundManager::get()->play_sound(sound_gna);
         physic.set_velocity_y(JUMP_VEL1);
       }
       break;
-
-    case STUNNED:
-        if (stun_timer.check()) {
-            go_right();
-        }
-      
     default:
       break;
   }
@@ -79,7 +71,7 @@ Yeti::go_right()
   physic.set_velocity_y(JUMP_VEL1);
   physic.set_velocity_x(RUN_SPEED);
   state = GO_RIGHT;
-  jump_timer.start(JUMP_TIME);
+  timer.start(JUMP_TIME);
 }
 
 void
@@ -88,41 +80,29 @@ Yeti::go_left()
   physic.set_velocity_y(JUMP_VEL1);
   physic.set_velocity_x(-RUN_SPEED);
   state = GO_LEFT;
-  jump_timer.start(JUMP_TIME);
+  timer.start(JUMP_TIME);
 }
 
 void
 Yeti::angry_jumping()
 {
   jumpcount = 0;
-  jump_timer.start(ANGRY_JUMP_WAIT);
+  timer.start(ANGRY_JUMP_WAIT);
   state = ANGRY_JUMPING;
   physic.set_velocity_x(0);
 }
 
-void
-Yeti::stun()
-{
-  physic.set_acceleration(0.0f, 0.0f);
-  physic.set_velocity(0.0f, 0.0f);
-  jump_time_left = jump_timer.get_timeleft();
-  jump_timer.stop();
-  stun_timer.start(STUN_TIME);
-  state = STUNNED;
-}
-
 HitResponse
 Yeti::collision_player(Player& player, const CollisionHit& hit)
-{     
+{
   if(player.is_invincible()) {
     kill_fall();
     return ABORT_MOVE;
-  } 
+  }
   if(hit.normal.y > .9) {
-    //TODO: fix inaccuracy (tux sometimes dies even if badguy was hit)
-    //      give badguys some invincible time (prevent them from being hit multiple times)
     hitpoints--;
     bullet_hitpoints--;
+    SoundManager::get()->play_sound(sound_roar);
     if(collision_squished(player))
       return ABORT_MOVE;
     else if (hitpoints <= 0) {
@@ -131,38 +111,23 @@ Yeti::collision_player(Player& player, const CollisionHit& hit)
       return FORCE_MOVE;
     }
   }
-
-  if (state == STUNNED)
-    return ABORT_MOVE;
-
+  std::cout << "COLLISION - HITPOINTS: " << hitpoints << ", BULLET HP: " << bullet_hitpoints << std::endl;
   player.kill(Player::SHRINK);
   return FORCE_MOVE;
 }
 
-HitResponse
-Yeti::collision_badguy(BadGuy& badguy, const CollisionHit&)
-{
-  YetiStalactite* yeti_stal = dynamic_cast<YetiStalactite*>(&badguy);
-
-  if (state == STUNNED && yeti_stal && yeti_stal->is_harmful())
-  {
-    kill_fall();
-  }
-
-  return FORCE_MOVE;
-} 
-  
-
 bool
 Yeti::collision_squished(Player& player)
 {
-  // we don't use the player object, even though it was given to us
-  (void)player;
-
-  // stun yeti
-  stun();
-
-  return true;
+  bool result = false;
+  player.bounce(*this);
+  if (hitpoints <= 0) {
+    bullet_hitpoints = 0;
+    //sprite->set_action("dead"); 
+    kill_squished(player);
+    result = true;
+  }
+  return result;
 }
 
 void
@@ -201,14 +166,14 @@ Yeti::collision_solid(GameObject& , const CollisionHit& hit)
     physic.set_velocity_y(0);
     if(state == INIT) {
       go_right();
-    } else if(state == GO_LEFT && !jump_timer.started()) {
+    } else if(state == GO_LEFT && !timer.started()) {
       side = LEFT;
       angry_jumping();
-    } else if(state == GO_RIGHT && !jump_timer.started()) {
+    } else if(state == GO_RIGHT && !timer.started()) {
       side = RIGHT;
       angry_jumping();
     } else if(state == ANGRY_JUMPING) {
-      if(!jump_timer.started()) {
+      if(!timer.started()) {
         // we just landed
         jumpcount++;
         // make a stalactite falling down and shake camera a bit
@@ -223,7 +188,7 @@ Yeti::collision_solid(GameObject& , const CollisionHit& hit)
             go_left();
         } else {
           // jump again
-          jump_timer.start(ANGRY_JUMP_WAIT);
+          timer.start(ANGRY_JUMP_WAIT);
         }
       }
     }
@@ -244,6 +209,7 @@ Yeti::kill_fall()
     physic.enable_gravity(true);
     set_state(STATE_FALLING);
   }
+  std::cout << "KILL_FALL - HITPOINTS: " << hitpoints << ", BULLET HP: " << bullet_hitpoints << std::endl;
 }
 
 IMPLEMENT_FACTORY(Yeti, "yeti")

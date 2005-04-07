@@ -129,7 +129,7 @@ Nolok_01::kill_fall()
    set_state(STATE_FALLING);
    Sector::current()->add_object(new Door((int)get_pos().x+32, 512, "sector1", "main2"));
   }
-  std::cout << "KILL_FALL - HITPOINTS: " << hitpoints << ", BULLLET HP: " << bullet_hitpoints << std::endl;
+  std::cout << "KILL_FALL - HITPOINTS: " << hitpoints << ", BULLET HP: " << bullet_hitpoints << std::endl;
 }
 
 IMPLEMENT_FACTORY(Nolok_01, "nolok_01")
