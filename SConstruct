@@ -117,7 +117,7 @@ Help(opts.GenerateHelpText(env))
 # Package options
 env['PACKAGE_NAME'] = 'SuperTux'
 env['PACKAGE_VERSION'] = '0.2-cvs'
-env['PACKAGE_BUGREPORT'] = 'supertux-devel@lists.sourceforge.net'
+env['PACKAGE_BUGREPORT'] = 'supertux-devel@lists.berlios.de'
 env['PACKAGE'] = env['PACKAGE_NAME'].lower()
 env['PACKAGE_STRING'] = env['PACKAGE_NAME'] + " " + env['PACKAGE_VERSION']
 

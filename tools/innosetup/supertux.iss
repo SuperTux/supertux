@@ -5,9 +5,9 @@
 AppName=SuperTux
 AppVerName=SuperTux 0.1.0
 AppPublisher=SuperTux Development Team
-AppPublisherURL=http://super-tux.sourceforge.net
-AppSupportURL=http://super-tux.sourceforge.net
-AppUpdatesURL=http://super-tux.sourceforge.net
+AppPublisherURL=http://supertux.berlios.de
+AppSupportURL=http://supertux.berlios.de
+AppUpdatesURL=http://supertux.berlios.de
 DefaultDirName={pf}\SuperTux
 DefaultGroupName=SuperTux
 AllowNoIcons=yes

@@ -2,7 +2,7 @@ Note: the "official" editor for supertux is now flexlay
 (http://flexlay.berlios.de)
 
 - Level editing for SuperTux -
-http://super-tux.sf.net/
+http://supertux.berlios.de/
 
 Last update: April 26, 2004
 

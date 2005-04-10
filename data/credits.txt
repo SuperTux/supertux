@@ -85,14 +85,14 @@
 -Contact
 
 	Visit our webpage at
-*http://super-tux.sf.net
+*http://supertux.berlios.de
 
 	Or visit us directly at IRC:
 *#supertux at irc.freenode.net
 
 	Comments, ideas and suggestions
 	go to our mailing list
-*super-tux-devel@lists.sourceforge.net
+*supertux-devel@lists.berlios.de
 
 
 

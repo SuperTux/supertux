@@ -8,7 +8,7 @@ Summary: 	A free arcade game like Super Mario.
 Vendor:		The SuperTux Developer Team
 Packager:       Astakhov Peter
 License: 	GPL
-URL: 		http://super-tux.sf.net/
+URL: 		http://supertux.berlios.de/
 Source0: 	%{name}-%{version}.tar.bz2
 BuildRoot: 	%{_tmppath}/%{name}-%{version}-root
 Prefix: /usr

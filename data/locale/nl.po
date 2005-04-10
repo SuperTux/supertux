@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux 0.1.1\n"
-"Report-Msgid-Bugs-To: super-tux-devel@lists.sourceforge.net\n"
+"Report-Msgid-Bugs-To: supertux-devel@lists.berlios.de\n"
 "POT-Creation-Date: 2004-11-10 22:38+0100\n"
 "PO-Revision-Date: 2004-06-07 21:48+0100\n"
 "Last-Translator: Frank van der Loo <frank_l@linuxmail.org>\n"

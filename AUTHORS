@@ -2,7 +2,7 @@
 - Those behind SuperTux -
 =========================
 
-http://super-tux.sf.net/
+http://supertux.berlios.de/
 
 Last update: October 25, 2004
 
@@ -38,7 +38,6 @@ Programmers
 
     Ryan Flegel
     xxdigitalhellxx@hotmail.com
-    http://digitalhell.cjb.net/~ryan/
 
 Code contributors
 -----------------
@@ -111,21 +110,21 @@ Translation
 More information and contacts
 =============================
 
-Visit our webpage at: http://super-tux.sf.net/
+Visit our webpage at: http://supertux.berlios.de/
 
 Or chat with us directly on IRC:
 #supertux at irc.freenode.net
 
 Send your comments, ideas and suggestions
 to our mailing list at:
-super-tux-devel@lists.sourceforge.net
+supertux-devel@lists.berlios.de
 
 You can also register yourself to know what's happening.
 A daily digest mailing is avaible.
-http://sourceforge.net/mail/?group_id=69183
-super-tux-devel is where we talk about SuperTux.
-super-tux-commit is where all changes in cvs are notifying for (only
-usefull for developers)
+http://developer.berlios.de/mail/?group_id=3467
+supertux-devel is where we talk about SuperTux and it's development.
+supertux-commit is where all changes in cvs are notifying for (only
+useful for developers)
 
 
 Thank you for caring enough for our project to even read this
