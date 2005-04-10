@@ -664,7 +664,7 @@ GameSession::run()
   current_ = this;
   
   int fps_cnt = 0;
-  unsigned int fps_nextframe_ticks; // fps regulating code
+  double fps_nextframe_ticks; // fps regulating code
 
   // Eat unneeded events
   SDL_Event event;
@@ -690,7 +690,7 @@ GameSession::run()
     }
             
     // fps regualting code  
-    const int wantedFps= 60; // set to 60 by now
+    const double wantedFps= 60.0; // set to 60 by now
     while (fps_nextframe_ticks > SDL_GetTicks()){
 	    /* just wait */
 	    // If we really have to wait long, then do an imprecise SDL_Delay()
@@ -699,7 +699,11 @@ GameSession::run()
 	    }
 	    
     }
-    fps_nextframe_ticks = SDL_GetTicks() + (1000 / wantedFps); // sets the ticks that must have elapsed
+    float diff = SDL_GetTicks() - fps_nextframe_ticks;
+    if (diff > 5.0)
+    	fps_nextframe_ticks = SDL_GetTicks() + (1000.0 / wantedFps); // sets the ticks that must have elapsed
+    else
+    	fps_nextframe_ticks += 1000.0 / wantedFps; // sets the ticks that must have elapsed
                                                // in order for the next frame to start.
 
     
