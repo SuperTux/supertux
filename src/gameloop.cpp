@@ -656,6 +656,7 @@ GameSession::process_menu()
     }
 }
 
+
 GameSession::ExitStatus
 GameSession::run()
 {
@@ -663,6 +664,7 @@ GameSession::run()
   current_ = this;
   
   int fps_cnt = 0;
+  unsigned int fps_nextframe_ticks; // fps regulating code
 
   // Eat unneeded events
   SDL_Event event;
@@ -673,6 +675,7 @@ GameSession::run()
 
   Uint32 lastticks = SDL_GetTicks();
   fps_ticks = SDL_GetTicks();
+  fps_nextframe_ticks = SDL_GetTicks(); // fps regulating code
 
   while (exit_status == ES_NONE) {
     Uint32 ticks = SDL_GetTicks();
@@ -682,8 +685,23 @@ GameSession::run()
     lastticks = ticks;
 
     // 40fps is minimum
-    if(elapsed_time > .025)
-      elapsed_time = .025;
+    if(elapsed_time > 0.025){
+      elapsed_time = 0.025; 
+    }
+            
+    // fps regualting code  
+    const int wantedFps= 60; // set to 60 by now
+    while (fps_nextframe_ticks > SDL_GetTicks()){
+	    /* just wait */
+	    // If we really have to wait long, then do an imprecise SDL_Delay()
+	    if (fps_nextframe_ticks - SDL_GetTicks() > 15){
+	    	SDL_Delay(5);
+	    }
+	    
+    }
+    fps_nextframe_ticks = SDL_GetTicks() + (1000 / wantedFps); // sets the ticks that must have elapsed
+                                               // in order for the next frame to start.
+
     
     /* Handle events: */
     currentsector->player->input.old_fire = currentsector->player->input.fire;
