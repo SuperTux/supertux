@@ -4693,12 +4693,84 @@
     (hidden #t)
     (images "havoktux-0.png")
   )
-  ;(tile
-  ;  (id 1313)
-  ;  (solid #f)
-  ;  (hidden #t)
-  ;  (images "havoktux-1.png"
-  ;          "havoktux-2.png")
-  ;  (anim-fps 2)
-  ;)
+  (tile
+    (id 1313)
+    (solid #f)
+    (images "rainsplash-1.png"
+            "rainsplash-2.png"
+            "rainsplash-3.png"
+            "rainsplash-4.png"
+            "blank.png")
+    (anim-fps 18)
+  )
+  (tile
+    (id 1314)
+    (solid #f)
+    (images "rainsplash-2.png"
+            "rainsplash-3.png"
+            "rainsplash-4.png"
+            "blank.png"
+            "rainsplash-1.png")
+    (anim-fps 20)
+  )
+  (tile
+    (id 1315)
+    (solid #f)
+    (images "rainsplash-3.png"
+            "rainsplash-4.png"
+            "blank.png"
+            "rainsplash-1.png"
+            "rainsplash-2.png")
+    (anim-fps 22)
+  )
+  (tile
+    (id 1316)
+    (solid #f)
+    (images "rainsplash-4.png"
+            "blank.png"
+            "rainsplash-1.png"
+            "rainsplash-2.png"
+            "rainsplash-3.png")
+    (anim-fps 24)
+  )
+  (tile
+    (id 1317)
+    (solid #f)
+    (images "rainsplash-vertical-1.png"
+            "rainsplash-vertical-2.png"
+            "rainsplash-vertical-3.png"
+            "rainsplash-vertical-4.png"
+            "blank.png")
+    (anim-fps 21)
+  )
+  (tile
+    (id 1318)
+    (solid #f)
+    (images "rainsplash-vertical-2.png"
+            "rainsplash-vertical-3.png"
+            "rainsplash-vertical-4.png"
+            "blank.png"
+            "rainsplash-vertical-1.png")
+    (anim-fps 19)
+  )
+  (tile
+    (id 1319)
+    (solid #f)
+    (images "rainsplash-vertical-3.png"
+            "rainsplash-vertical-4.png"
+            "blank.png"
+            "rainsplash-vertical-1.png"
+            "rainsplash-vertical-2.png")
+    (anim-fps 17)
+  )
+  (tile
+    (id 1320)
+    (solid #f)
+    (images "rainsplash-vertical-4.png"
+            "blank.png"
+            "rainsplash-vertical-1.png"
+            "rainsplash-vertical-2.png"
+            "rainsplash-vertical-3.png")
+    (anim-fps 15)
+  )
 )
