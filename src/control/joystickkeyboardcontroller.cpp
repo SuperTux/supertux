@@ -520,7 +520,7 @@ JoystickKeyboardController::check_cheatcode(const std::string& cheatcode)
     return false;
   }
 
-  for(int i = 0; i < cheatcode.size(); ++i) {
+  for(size_t i = 0; i < cheatcode.size(); ++i) {
     if(last_keys[sizeof(last_keys)-1 - i] != cheatcode[cheatcode.size()-1-i])
       return false;
   }

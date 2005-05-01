@@ -818,12 +818,11 @@ Menu::event(const SDL_Event& event)
 void
 Menu::set_active_item(int id)
 {
-	for(int i = 0; i < items.size(); ++i) {
-		MenuItem* item = items[i];
-		if(item->id == id) {
-			active_item = i;
-			break;
-		}
-	}
+  for(size_t i = 0; i < items.size(); ++i) {
+    MenuItem* item = items[i];
+    if(item->id == id) {
+      active_item = i;
+      break;
+    }
+  }
 }
-

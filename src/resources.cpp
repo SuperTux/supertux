@@ -81,8 +81,6 @@ void load_shared()
   
   Button::info_font = white_small_text;
 
-  int i;
-
   sprite_manager = new SpriteManager(
       get_resource_filename("/images/supertux.strf"));
   tile_manager = new TileManager("/images/tilesets/supertux.stgt");

@@ -76,9 +76,9 @@ public:
 
 private:
   /// copy-construction not allowed
-  MenuItem(const MenuItem& other) { assert(false); }
+  MenuItem(const MenuItem& ) { assert(false); }
   /// assignment not allowed
-  void operator= (const MenuItem& other) { assert(false); }
+  void operator= (const MenuItem& ) { assert(false); }
 
   /// keyboard key or joystick button
   bool input_flickering;
@@ -144,7 +144,7 @@ public:
   std::vector<MenuItem*> items;
   
   Menu();
-  ~Menu();
+  virtual ~Menu();
   
   void add_hl();
   void add_label(const std::string& text);

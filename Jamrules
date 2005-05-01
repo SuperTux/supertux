@@ -21,16 +21,16 @@ if $(USE_STLPORT_DEBUG)
 
 switch $(VARIANT) {
     case optimize :
-        CFLAGS += -O3 -g ;
-        CXXFLAGS += -O3 -g ;
+        CFLAGS += -Wall -O3 -g ;
+        CXXFLAGS += -Wall -O3 -g ;
         LIBS += -g ;
     case debug :
-        CFLAGS += -O0 -g3 -DDEBUG ;
-        CXXFLAGS += -O0 -g3 -DDEBUG ;
+        CFLAGS += -Wall -W -Werror -O0 -g3 -DDEBUG ;
+        CXXFLAGS += -Wall -W -Werror -O0 -g3 -DDEBUG ;
         LIBS += -g3 ;
     case profile :
-        CFLAGS += -O3 -g3 -pg ;
-        CXXFLAGS += -O3 -g3 -pg ;
+        CFLAGS += -Wall -W -O3 -g3 -pg ;
+        CXXFLAGS += -Wall -W -O3 -g3 -pg ;
         LIBS += -g3 -pg ;
     case * :
         EXIT "Invalid variant $(VARIANT) selected" ;

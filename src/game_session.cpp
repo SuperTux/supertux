@@ -486,10 +486,10 @@ GameSession::run()
     while (fps_nextframe_ticks > SDL_GetTicks()){
 	    /* just wait */
 	    // If we really have to wait long, then do an imprecise SDL_Delay()
-	    if (fps_nextframe_ticks - SDL_GetTicks() > 15){
-	    	SDL_Delay(5);
-	    }
-	    
+            Uint32 ticks = SDL_GetTicks();
+	    if (fps_nextframe_ticks - ticks > 15) {
+	    	SDL_Delay((Uint32) (fps_nextframe_ticks - ticks));
+	    } 
     }
     float diff = SDL_GetTicks() - fps_nextframe_ticks;
     if (diff > 5.0)

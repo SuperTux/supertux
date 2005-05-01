@@ -69,11 +69,9 @@ AC_ARG_ENABLE(debug,
               [enable_debug=$enableval], [enable_debug=no])
 if test "$enable_debug" = "yes"; then
     AC_DEFINE([DEBUG], 1, [define to compile in debug checks])
-    #CXXFLAGS="$CXXFLAGS -Wall -Werror -O0 -g3"
     VARIANT=debug
     AC_MSG_RESULT([enabled])
 else
-    #CXXFLAGS="$CXXFLAGS -O2 -g"
     VARIANT=optimize
     AC_MSG_RESULT([disabled])
 fi
