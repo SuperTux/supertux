@@ -17,7 +17,6 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
-
 #include <config.h>
 
 #include "main.h"
@@ -168,6 +167,18 @@ static void parse_commandline(int argc, char** argv)
       }
     } else if(arg == "--show-fps") {
       config->show_fps = true;
+    } else if(arg == "--play-demo") {
+      if(i+1 >= argc) {
+        print_usage(argv[0]);
+        throw std::runtime_error("Need to specify a demo filename");
+      }
+      config->start_demo = argv[++i];
+    } else if(arg == "--record-demo") {
+      if(i+1 >= argc) {
+        print_usage(argv[0]);
+        throw std::runtime_error("Need to specify a demo filename");
+      }
+      config->record_demo = argv[++i];
     } else if(arg == "--help") {
       print_usage(argv[0]);
       throw std::runtime_error("");
@@ -343,6 +354,10 @@ int main(int argc, char** argv)
     load_shared();
     if(config->start_level != "") {
       GameSession session(config->start_level, ST_GL_LOAD_LEVEL_FILE);
+      if(config->start_demo != "")
+        session.play_demo(config->start_demo);
+      if(config->record_demo != "")
+        session.record_demo(config->record_demo);
       session.run();
     } else {
       // normal game

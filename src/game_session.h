@@ -69,6 +69,8 @@ public:
   /** Enter the busy loop */
   ExitStatus run();
 
+  void record_demo(const std::string& filename);
+  void play_demo(const std::string& filename);
   void draw();
   void action(float frame_ratio);
 
@@ -94,6 +96,7 @@ private:
   void check_end_conditions();
   void start_timers();
   void process_events();
+  void capture_demo_step();
 
   void levelintro();
   void drawstatus(DrawingContext& context);
@@ -104,7 +107,6 @@ private:
   void on_escape_press();
   void process_menu();
 
-  Uint32 fps_ticks;
   Timer2 endsequence_timer;
   Level* level;
   Sector* currentsector;
@@ -139,12 +141,13 @@ private:
 
   static GameSession* current_;
 
-  // for cheating
-  std::string last_keys;
-
   Statistics* best_level_statistics;
-
   ExitStatus exit_status;
+
+  std::ostream* capture_demo_stream;
+  std::string capture_file;
+  std::istream* playback_demo_stream;
+  CodeController* demo_controller;
 };
 
 std::string slotinfo(int slot);

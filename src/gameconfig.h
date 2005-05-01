@@ -49,6 +49,8 @@ public:
 
   /** this variable is set if supertux should start in a specific level */
   std::string start_level;
+  std::string start_demo;
+  std::string record_demo;
 };
 
 extern Config* config;

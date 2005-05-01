@@ -21,6 +21,7 @@
 #include <config.h>
 
 #include <iostream>
+#include <fstream>
 #include <sstream>
 #include <cassert>
 #include <cstdio>
@@ -67,13 +68,19 @@
 #include "control/joystickkeyboardcontroller.h"
 #include "main.h"
 
+// the engine will be run with a lofical framerate of 64fps.
+// We choose 64fps here because it is a power of 2, so 1/64 gives an "even"
+// binary fraction...
+static const float LOGICAL_FPS = 64.0;
+
 GameSession* GameSession::current_ = 0;
 
 GameSession::GameSession(const std::string& levelfile_, GameSessionMode mode,
     Statistics* statistics)
   : level(0), currentsector(0), mode(mode),
     end_sequence(NO_ENDSEQUENCE), end_sequence_controller(0),
-    levelfile(levelfile_), best_level_statistics(statistics)
+    levelfile(levelfile_), best_level_statistics(statistics),
+    capture_demo_stream(0), playback_demo_stream(0), demo_controller(0)
 {
   current_ = this;
   
@@ -93,7 +100,6 @@ GameSession::restart_level()
   end_sequence = NO_ENDSEQUENCE;
 
   main_controller->reset();
-  last_keys.clear();
 
   delete level;
   currentsector = 0;
@@ -126,13 +132,52 @@ GameSession::restart_level()
 
   start_timers();
   currentsector->play_music(LEVEL_MUSIC);
+
+  if(capture_file != "")
+    record_demo(capture_file);
 }
 
 GameSession::~GameSession()
 {
+  delete capture_demo_stream;
+  delete playback_demo_stream;
+  delete demo_controller;
+
   delete end_sequence_controller;
   delete level;
   delete context;
+}
+
+void
+GameSession::record_demo(const std::string& filename)
+{
+  delete capture_demo_stream;
+  
+  capture_demo_stream = new std::ofstream(filename.c_str()); 
+  if(!capture_demo_stream->good()) {
+    std::stringstream msg;
+    msg << "Couldn't open demo file '" << filename << "' for writing.";
+    throw std::runtime_error(msg.str());
+  }
+  capture_file = filename;
+}
+
+void
+GameSession::play_demo(const std::string& filename)
+{
+  delete playback_demo_stream;
+  delete demo_controller;
+  
+  playback_demo_stream = new std::ifstream(filename.c_str());
+  if(!playback_demo_stream->good()) {
+    std::stringstream msg;
+    msg << "Couldn't open demo file '" << filename << "' for reading.";
+    throw std::runtime_error(msg.str());
+  }
+
+  Player& tux = *currentsector->player;
+  demo_controller = new CodeController();
+  tux.set_controller(demo_controller);
 }
 
 void
@@ -238,6 +283,39 @@ GameSession::process_events()
     if(event.type == SDL_QUIT)
       throw std::runtime_error("Received window close");  
   }
+
+  // playback a demo?
+  if(playback_demo_stream != 0) {
+    demo_controller->update();
+    char left = false;
+    char right = false;
+    char up = false;
+    char down = false;
+    char jump = false;
+    char action = false;
+    playback_demo_stream->get(left);
+    playback_demo_stream->get(right);
+    playback_demo_stream->get(up);
+    playback_demo_stream->get(down);
+    playback_demo_stream->get(jump);
+    playback_demo_stream->get(action);
+    demo_controller->press(Controller::LEFT, left);
+    demo_controller->press(Controller::RIGHT, right);
+    demo_controller->press(Controller::UP, up);
+    demo_controller->press(Controller::DOWN, down);
+    demo_controller->press(Controller::JUMP, jump);
+    demo_controller->press(Controller::ACTION, action);
+  }
+
+  // save input for demo?
+  if(capture_demo_stream != 0) {
+    capture_demo_stream ->put(main_controller->hold(Controller::LEFT));
+    capture_demo_stream ->put(main_controller->hold(Controller::RIGHT));
+    capture_demo_stream ->put(main_controller->hold(Controller::UP));
+    capture_demo_stream ->put(main_controller->hold(Controller::DOWN));
+    capture_demo_stream ->put(main_controller->hold(Controller::JUMP));   
+    capture_demo_stream ->put(main_controller->hold(Controller::ACTION));
+  }
 }
 
 void
@@ -249,55 +327,44 @@ GameSession::try_cheats()
   // but could be used for some cheating, nothing wrong with that)
   if(main_controller->check_cheatcode("grow")) {
     tux.set_bonus(GROWUP_BONUS, false);
-    last_keys.clear();
   }
   if(main_controller->check_cheatcode("fire")) {
     tux.set_bonus(FIRE_BONUS, false);
-    last_keys.clear();
   }
   if(main_controller->check_cheatcode("ice")) {
     tux.set_bonus(ICE_BONUS, false);
-    last_keys.clear();
   }
   if(main_controller->check_cheatcode("lifeup")) {
     player_status.lives++;
-    last_keys.clear();
   }
   if(main_controller->check_cheatcode("lifedown")) {
     player_status.lives--;
-    last_keys.clear();
   }
   if(main_controller->check_cheatcode("grease")) {
     tux.physic.set_velocity_x(tux.physic.get_velocity_x()*3);
-    last_keys.clear();
   }
   if(main_controller->check_cheatcode("invincible")) {
     // be invincle for the rest of the level
     tux.invincible_timer.start(10000);
-    last_keys.clear();
   }
   if(main_controller->check_cheatcode("shrink")) {
     // remove powerups
     tux.kill(tux.SHRINK);
-    last_keys.clear();
   }
   if(main_controller->check_cheatcode("kill")) {
     // kill Tux, but without losing a life
     player_status.lives++;
     tux.kill(tux.KILL);
-    last_keys.clear();
   }
 #if 0
   if(main_controller->check_cheatcode("grid")) {
     // toggle debug grid
     debug_grid = !debug_grid;
-    last_keys.clear();
   }
 #endif
   if(main_controller->check_cheatcode("hover")) {
     // toggle hover ability on/off
     tux.enable_hover = !tux.enable_hover;
-    last_keys.clear();
   }
   if(main_controller->check_cheatcode("gotoend")) {
     // goes to the end of the level
@@ -305,7 +372,6 @@ GameSession::try_cheats()
           (currentsector->solids->get_width()*32) - (SCREEN_WIDTH*2), 0));
     currentsector->camera->reset(
         Vector(tux.get_pos().x, tux.get_pos().y));
-    last_keys.clear();
   }
   if(main_controller->check_cheatcode("finish")) {
     // finish current sector
@@ -315,15 +381,12 @@ GameSession::try_cheats()
   // temporary to help player's choosing a flapping
   if(main_controller->check_cheatcode("marek")) {
     tux.flapping_mode = Player::MAREK_FLAP;
-    last_keys.clear();
   }
   if(main_controller->check_cheatcode("ricardo")) {
     tux.flapping_mode = Player::RICARDO_FLAP;
-    last_keys.clear();
   }
   if(main_controller->check_cheatcode("ryan")) {
     tux.flapping_mode = Player::RYAN_FLAP;
-    last_keys.clear();
   }
 }
 
@@ -456,7 +519,6 @@ GameSession::run()
   current_ = this;
   
   int fps_cnt = 0;
-  double fps_nextframe_ticks; // fps regulating code
 
   // Eat unneeded events
   SDL_Event event;
@@ -465,38 +527,49 @@ GameSession::run()
 
   draw();
 
-  Uint32 lastticks = SDL_GetTicks();
-  fps_ticks = SDL_GetTicks();
-  fps_nextframe_ticks = SDL_GetTicks(); // fps regulating code
+  Uint32 fps_ticks = SDL_GetTicks();
+  Uint32 fps_nextframe_ticks = SDL_GetTicks();
+  Uint32 ticks;
+  bool skipdraw = false;
 
   while (exit_status == ES_NONE) {
-    Uint32 ticks = SDL_GetTicks();
-    float elapsed_time = float(ticks - lastticks) / 1000.;
+    // we run in a logical framerate so elapsed time is a constant
+    static const float elapsed_time = 1.0 / LOGICAL_FPS;
+    // old code... float elapsed_time = float(ticks - lastticks) / 1000.;
     if(!game_pause)
       global_time += elapsed_time;
-    lastticks = ticks;
 
-    // 40fps is minimum
-    if(elapsed_time > 0.025){
-      elapsed_time = 0.025; 
+    skipdraw = false;
+
+    // regulate fps
+    ticks = SDL_GetTicks();
+    if(ticks > fps_nextframe_ticks) {
+      // don't draw all frames when we're getting too slow
+      skipdraw = true;
+    } else {
+      while(fps_nextframe_ticks > ticks) {
+        /* just wait */
+        // If we really have to wait long, then do an imprecise SDL_Delay()
+        Uint32 diff = fps_nextframe_ticks - ticks;
+        if(diff > 15) {
+          SDL_Delay(diff - 10);
+        } 
+        ticks = SDL_GetTicks();
+      }
     }
-            
-    // fps regualting code  
-    const double wantedFps= 60.0; // set to 60 by now
-    while (fps_nextframe_ticks > SDL_GetTicks()){
-	    /* just wait */
-	    // If we really have to wait long, then do an imprecise SDL_Delay()
-            Uint32 ticks = SDL_GetTicks();
-	    if (fps_nextframe_ticks - ticks > 15) {
-	    	SDL_Delay((Uint32) (fps_nextframe_ticks - ticks));
-	    } 
-    }
+    fps_nextframe_ticks = ticks + (Uint32) (1000.0 / LOGICAL_FPS);
+
+#if 0
     float diff = SDL_GetTicks() - fps_nextframe_ticks;
-    if (diff > 5.0)
-    	fps_nextframe_ticks = SDL_GetTicks() + (1000.0 / wantedFps); // sets the ticks that must have elapsed
-    else
-    	fps_nextframe_ticks += 1000.0 / wantedFps; // sets the ticks that must have elapsed
-                                               // in order for the next frame to start.
+    if (diff > 5.0) {
+         // sets the ticks that must have elapsed
+    	fps_nextframe_ticks = SDL_GetTicks() + (1000.0 / LOGICAL_FPS);
+    } else {
+        // sets the ticks that must have elapsed
+        // in order for the next frame to start.
+    	fps_nextframe_ticks += 1000.0 / LOGICAL_FPS;
+    }
+#endif
 
     process_events();
     process_menu();
@@ -516,10 +589,10 @@ GameSession::run()
     else
     {
       ++pause_menu_frame;
-      SDL_Delay(50);
     }
 
-    draw();
+    if(!skipdraw)
+      draw();
 
     /* Time stops in pause mode */
     if(game_pause || Menu::current())
