@@ -22,9 +22,7 @@ rule CompileResources
 rule Win32Resource
 {
     local target = $($(<)_TARGET) ;
-    local rcobject = [ DoObjectGrist _resource.o ] ;
-    LOCATE on $(rcobject) = $(LOCATE_TARGET) ;
-    SEARCH on $(rcobject) = $(LOCATE_TARGET) ;
+    local rcobject = [ LocateTarget _resource.o ] ;
     
     # only add 1 resource object per target
     if ! $($(<)_HASWIN32RESOURCE)
@@ -61,6 +59,7 @@ rule SystemLinkApplication
 
   Depends $(target) : $(>) ;
   LinkApplication $(target) : $(>) ;
+  LIBS on $(target) = $(LIBS) ;
   # setup clean rules
   Clean clean : $(target) ;
   Clean $(<)clean : $(target) ;
@@ -68,6 +67,6 @@ rule SystemLinkApplication
 
 actions LinkApplication bind NEEDLIBS bind EXTRAOBJECTS
 {
-  $(LINK) -o $(<) $(>) $(EXTRAOBJECTS) $(NEEDLIBS) $(LFLAGS)
+  $(LINK) -o $(<) $(>) $(EXTRAOBJECTS) $(NEEDLIBS) $(LIBS)
 }
 

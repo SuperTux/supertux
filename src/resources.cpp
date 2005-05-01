@@ -20,7 +20,7 @@
 #include <config.h>
 
 #include "app/globals.h"
-#include "special/sprite_manager.h"
+#include "sprite/sprite_manager.h"
 #include "app/setup.h"
 #include "gui/menu.h"
 #include "gui/button.h"
@@ -29,48 +29,13 @@
 #include "object/gameobjs.h"
 #include "object/player.h"
 
-Menu* main_menu      = 0;
-Menu* game_menu      = 0;
-Menu* options_menu   = 0;
-Menu* options_keys_menu     = 0;
-Menu* options_joystick_menu = 0;
-Menu* highscore_menu = 0;
-Menu* load_game_menu = 0;
-Menu* save_game_menu = 0;
-Menu* contrib_menu   = 0;
-Menu* contrib_subset_menu   = 0;
-
 MusicRef herring_song;
 MusicRef level_end_song;
 MusicRef credits_song;
 
 SpriteManager* sprite_manager = 0;
 TileManager* tile_manager = 0;
-
-char * soundfilenames[NUM_SOUNDS] = {
-                                       "/sounds/jump.wav",
-                                       "/sounds/bigjump.wav",
-                                       "/sounds/skid.wav",
-                                       "/sounds/coin.wav",
-                                       "/sounds/invincible.wav",
-                                       "/sounds/brick.wav",
-                                       "/sounds/hurt.wav",
-                                       "/sounds/squish.wav",
-                                       "/sounds/fall.wav",
-                                       "/sounds/ricochet.wav",
-                                       "/sounds/bump-upgrade.wav",
-                                       "/sounds/upgrade.wav",
-                                       "/sounds/grow.wav",
-                                       "/sounds/fire-flower.wav",
-                                       "/sounds/shoot.wav",
-                                       "/sounds/lifeup.wav",
-                                       "/sounds/stomp.wav",
-                                       "/sounds/kick.wav",
-                                       "/sounds/explosion.wav",
-                                       "/sounds/warp.wav",
-                                       "/sounds/fireworks.wav"
-                                    };
-
+SoundManager* sound_manager = 0;
 
 Font* gold_text;
 Font* blue_text;
@@ -81,8 +46,19 @@ Font* white_small_text;
 Font* white_big_text;				    
 				    
 /* Load graphics/sounds shared between all levels: */
-void loadshared()
+void load_shared()
 {
+  /* Load GUI/menu images: */
+  checkbox = new Surface(datadir + "/images/status/checkbox.png", true);
+  checkbox_checked = new Surface(datadir + "/images/status/checkbox-checked.png", true);
+  back = new Surface(datadir + "/images/status/back.png", true);
+  arrow_left = new Surface(datadir + "/images/icons/left.png", true);
+  arrow_right = new Surface(datadir + "/images/icons/right.png", true);
+
+  /* Load the mouse-cursor */
+  mouse_cursor = new MouseCursor( datadir + "/images/status/mousecursor.png",1);
+  MouseCursor::set_current(mouse_cursor);
+
   /* Load global images: */
   gold_text = new Font(datadir + "/images/fonts/gold.png", Font::TEXT, 16,18);
   blue_text = new Font(datadir + "/images/fonts/blue.png", Font::TEXT, 16,18,3);
@@ -154,19 +130,35 @@ void loadshared()
                          true);
 
   /* Sound effects: */
-  for (i = 0; i < NUM_SOUNDS; i++)
-    SoundManager::get()->add_sound(SoundManager::get
-                      ()->load_sound(datadir + soundfilenames[i]),i);
+  sound_manager->preload_sound("jump");
+  sound_manager->preload_sound("bigjump");
+  sound_manager->preload_sound("skid");
+  sound_manager->preload_sound("coin");
+  sound_manager->preload_sound("invincible");
+  sound_manager->preload_sound("brick");
+  sound_manager->preload_sound("hurt");
+  sound_manager->preload_sound("squish");
+  sound_manager->preload_sound("fall");
+  sound_manager->preload_sound("ricochet");
+  sound_manager->preload_sound("bump-upgrade");
+  sound_manager->preload_sound("upgrade");
+  sound_manager->preload_sound("grow");
+  sound_manager->preload_sound("fire-flower");
+  sound_manager->preload_sound("shoot");
+  sound_manager->preload_sound("lifeup");
+  sound_manager->preload_sound("stomp");
+  sound_manager->preload_sound("kick");
+  sound_manager->preload_sound("explosion");
+  sound_manager->preload_sound("warp");
+  sound_manager->preload_sound("fireworks");
 
   /* Herring song */
-  herring_song = SoundManager::get
-                   ()->load_music(datadir + "/music/salcon.mod");
-  level_end_song = SoundManager::get
-                     ()->load_music(datadir + "/music/leveldone.mod");
+  herring_song = sound_manager->load_music(datadir + "/music/salcon.mod");
+  level_end_song = sound_manager->load_music(datadir + "/music/leveldone.mod");
 }
 
 /* Free shared data: */
-void unloadshared(void)
+void unload_shared()
 {
   /* Free global images: */
   delete gold_text;
@@ -195,11 +187,21 @@ void unloadshared(void)
   sprite_manager = 0;
   delete tile_manager;
   tile_manager = 0;
+
+  /* Free GUI/menu images: */
+  delete checkbox;
+  delete checkbox_checked;
+  delete back;
+  delete arrow_left;
+  delete arrow_right;
+
+  /* Free mouse-cursor */
+  delete mouse_cursor;
 }
 
 std::string get_resource_filename(const std::string& resource)
 {
-  std::string filepath = st_dir + resource;
+  std::string filepath = user_dir + resource;
   if(FileSystem::faccessible(filepath))
     return filepath;
   

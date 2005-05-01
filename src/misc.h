@@ -20,33 +20,23 @@
 #include "app/setup.h"
 #include "app/gettext.h"
 #include "gui/menu.h"
-#include "utils/configfile.h"
+#include "gameconfig.h"
 #include "title.h"
 #include "resources.h"
 #include "worldmap.h"
-#include "gameloop.h"
 #include "object/player.h"
 
-class MyConfig : public Config
-{
-  public:
-    void customload(const lisp::Lisp& reader);
-    void customsave(FILE * config);
-};
-
 enum OptionsMenuIDs {
-  MNID_OPENGL,
   MNID_FULLSCREEN,
   MNID_SOUND,
-  MNID_MUSIC,
-  MNID_SHOWFPS
-  };
+  MNID_MUSIC
+};
 
 /* Handle changes made to global settings in the options menu. */
 void process_options_menu();
 
 /* Create and setup menus. */
-void st_menu();
-void st_menu_free();
+void setup_menu();
+void free_menu();
 
-#endif //SUPERTUX_MISC_H
+#endif

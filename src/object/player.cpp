@@ -25,20 +25,22 @@
 
 #include "app/globals.h"
 #include "app/gettext.h"
-#include "special/sprite_manager.h"
+#include "sprite/sprite_manager.h"
 #include "player.h"
 #include "tile.h"
-#include "special/sprite.h"
+#include "sprite/sprite.h"
 #include "sector.h"
 #include "resources.h"
 #include "video/screen.h"
 #include "statistics.h"
-#include "gameloop.h"
+#include "game_session.h"
 #include "object/tilemap.h"
 #include "object/camera.h"
 #include "object/gameobjs.h"
 #include "object/portable.h"
 #include "trigger/trigger_base.h"
+#include "control/joystickkeyboardcontroller.h"
+#include "main.h"
 
 static const int TILES_FOR_BUTTJUMP = 3;
 static const float SHOOTING_TIME = .150;
@@ -63,39 +65,6 @@ TuxBodyParts* small_tux = 0;
 TuxBodyParts* big_tux = 0;
 TuxBodyParts* fire_tux = 0;
 TuxBodyParts* ice_tux = 0;
-
-PlayerKeymap keymap;
-
-PlayerKeymap::PlayerKeymap()
-{
-  keymap.up    = SDLK_UP;
-  keymap.down  = SDLK_DOWN;
-  keymap.left  = SDLK_LEFT;
-  keymap.right = SDLK_RIGHT;
-
-  keymap.power = SDLK_LCTRL;
-  keymap.jump  = SDLK_SPACE;
-}
-
-PlayerInputType::PlayerInputType()
-{
-  reset();
-}
-
-void
-PlayerInputType::reset()
-{
-  up = false;
-  old_up = false;
-  down = false;
-  fire = false;
-  old_fire = false;
-  left = false;
-  right = false;
-  jump = false;
-  old_jump = false;
-  activate = false;
-}
 
 void
 TuxBodyParts::set_action(std::string action, int loops)
@@ -127,6 +96,7 @@ TuxBodyParts::draw(DrawingContext& context, const Vector& pos, int layer,
 Player::Player(PlayerStatus* _player_status)
   : player_status(_player_status), grabbed_object(0)
 {
+  controller = main_controller;
   smalltux_gameover = sprite_manager->create("smalltux-gameover");
   smalltux_star = sprite_manager->create("smalltux-star");
   bigtux_star = sprite_manager->create("bigtux-star");
@@ -175,56 +145,13 @@ Player::init()
   on_ground_flag = false;
   grabbed_object = 0;
 
-  input.reset();
   physic.reset();
 }
 
-bool
-Player::key_event(SDLKey key, bool state)
+void
+Player::set_controller(Controller* controller)
 {
-  idle_timer.start(IDLE_TIME, true);
-
-  if(key == keymap.right)
-    {
-      input.right = state;
-      return true;
-    }
-  else if(key == keymap.left)
-    {
-      input.left = state;
-      return true;
-    }
-  else if(key == keymap.up)
-    {
-      if(state == false)
-        input.old_up = false;
-      input.up = state;
-      /* Up key also opens activates stuff */
-      input.activate = state;
-      return true;
-    }
-  else if(key == keymap.down)
-    {
-      input.down = state;
-      return true;
-    }
-  else if(key == keymap.power)
-    {
-      if(state == false)
-        input.old_fire = false;
-      input.fire = state;
-
-      return true;
-    }
-  else if(key == keymap.jump)
-    {
-      if(state == false)
-        input.old_jump = false;
-      input.jump = state;
-      return true;
-    }
-  else
-    return false;
+  this->controller = controller;
 }
 
 void
@@ -235,7 +162,7 @@ Player::action(float elapsed_time)
     return;
   }
 
-  if(input.fire == false && grabbed_object) {
+  if(!controller->hold(Controller::ACTION) && grabbed_object) {
     grabbed_object = 0;
     // move the grabbed object a bit away from tux
     Vector pos = get_pos() + 
@@ -300,18 +227,19 @@ Player::handle_horizontal_input()
 
   float dirsign = 0;
   if(!duck || physic.get_velocity_y() != 0) {
-    if(input.left && !input.right) {
+    if(controller->hold(Controller::LEFT) && !controller->hold(Controller::RIGHT)) {
       old_dir = dir;
       dir = LEFT;
       dirsign = -1;
-    } else if(!input.left && input.right) {
+    } else if(!controller->hold(Controller::LEFT)
+              && controller->hold(Controller::RIGHT)) {
       old_dir = dir;
       dir = RIGHT;
       dirsign = 1;
     }
   }
 
-  if (!input.fire) {
+  if (!controller->hold(Controller::ACTION)) {
     ax = dirsign * WALK_ACCELERATION_X;
     // limit speed
     if(vx >= MAX_WALK_XM && dirsign > 0) {
@@ -343,7 +271,7 @@ Player::handle_horizontal_input()
     // let's skid!
     if(fabs(vx)>SKID_XM && !skidding_timer.started()) {
       skidding_timer.start(SKID_TIME);
-      SoundManager::get()->play_sound(IDToSound(SND_SKID));
+      sound_manager->play_sound("skid");
       // dust some partcles
       Sector::current()->add_object(
         new Particles(
@@ -424,182 +352,163 @@ Player::handle_vertical_input()
   }
 
   // Press jump key
-  if(input.jump && can_jump && on_ground())
-    {
-      if(duck) { // only jump a little bit when in duck mode {
-        physic.set_velocity_y(300);
-      } else {
-        // jump higher if we are running
-        if (fabs(physic.get_velocity_x()) > MAX_WALK_XM)
-          physic.set_velocity_y(580);
-        else
-          physic.set_velocity_y(520);
-      }
-
-      //bbox.move(Vector(0, -1));
-      jumping = true;
-      flapping = false;
-      can_jump = false;
-      can_flap = false;
-      flaps_nb = 0; // Ricardo's flapping
-      if (is_big())
-        SoundManager::get()->play_sound(IDToSound(SND_BIGJUMP));
+  if(controller->pressed(Controller::JUMP) && can_jump && on_ground()) {
+    if(duck) { // only jump a little bit when in duck mode {
+      physic.set_velocity_y(300);
+    } else {
+      // jump higher if we are running
+      if (fabs(physic.get_velocity_x()) > MAX_WALK_XM)
+        physic.set_velocity_y(580);
       else
-        SoundManager::get()->play_sound(IDToSound(SND_JUMP));
+        physic.set_velocity_y(520);
     }
-  // Let go of jump key
-  else if(!input.jump)
-    {
-      if (!flapping && !duck && !falling_from_flap && !on_ground())
-         {
-            can_flap = true;
-         }
-      if (jumping && physic.get_velocity_y() > 0)
-         {
-            jumping = false;
-            physic.set_velocity_y(0);
-         }
-    }
-
- // temporary to help player's choosing a flapping
- if(flapping_mode == RICARDO_FLAP)
-   {
-   // Flapping, Ricardo's version
-   // similar to SM3 Fox
-   if(input.jump && !input.old_jump && can_flap && flaps_nb < 3)
-     {
-       physic.set_velocity_y(350);
-       physic.set_velocity_x(physic.get_velocity_x() * 35);
-       flaps_nb++;
-     }
-   }
-  else if(flapping_mode == MAREK_FLAP)
-   {
-   // Flapping, Marek's version
-   if (input.jump && can_flap)
-     {
-         if (!flapping_timer.started())
-            {
-               flapping_timer.start(TUX_FLAPPING_TIME);
-               flapping_velocity = physic.get_velocity_x();
-            }
-         if (flapping_timer.check()) 
-            {
-               can_flap = false;
-               falling_from_flap = true;
-            }
-         jumping = true;
-         flapping = true;
-         if (!flapping_timer.check()) {
-           float cv = flapping_velocity * sqrt(
-               TUX_FLAPPING_TIME - flapping_timer.get_timegone() 
-               / TUX_FLAPPING_TIME);
-
-           //Handle change of direction while flapping
-           if (((dir == LEFT) && (cv > 0)) || (dir == RIGHT) && (cv < 0)) {
-             cv *= (-1);
-           }
-           physic.set_velocity_x(cv);
-           physic.set_velocity_y(
-               flapping_timer.get_timegone()/.850);
-         }
-     }
-   }
-  else if(flapping_mode == RYAN_FLAP)
-   {
-   // Flapping, Ryan's version
-   if (input.jump && can_flap)
-     {
-         if (!flapping_timer.started())
-            {
-               flapping_timer.start(TUX_FLAPPING_TIME);
-            }
-         if (flapping_timer.check()) 
-            {
-               can_flap = false;
-               falling_from_flap = true;
-            }
-         jumping = true;
-         flapping = true;
-         if (flapping && flapping_timer.get_timegone() <= TUX_FLAPPING_TIME
-                && physic.get_velocity_y() < 0)
-            {
-               float gravity = Sector::current()->gravity;
-               (void)gravity;
-               float xr = (fabsf(physic.get_velocity_x()) / MAX_RUN_XM);
-
-               // XXX: magic numbers. should be a percent of gravity
-               //      gravity is (by default) -0.1f
-               physic.set_acceleration_y(12 + 1*xr);
-
-#if 0
-               // To slow down x-vel when flapping (not working)
-               if (fabsf(physic.get_velocity_x()) > MAX_WALK_XM)
-               {
-                   if (physic.get_velocity_x() < 0)
-                       physic.set_acceleration_x(1.0f);
-                   else if (physic.get_velocity_x() > 0)
-                       physic.set_acceleration_x(-1.0f);
-               }
-#endif
-            }
-     }
+    
+    //bbox.move(Vector(0, -1));
+    jumping = true;
+    flapping = false;
+    can_jump = false;
+    can_flap = false;
+    flaps_nb = 0; // Ricardo's flapping
+    if (is_big())
+      sound_manager->play_sound("bigjump");
     else
-     {
-        physic.set_acceleration_y(0);
-     }
-   }
+      sound_manager->play_sound("jump");
+  } else if(!controller->hold(Controller::JUMP)) { // Let go of jump key
+    if (!flapping && !duck && !falling_from_flap && !on_ground()) {
+      can_flap = true;
+    }
+    if (jumping && physic.get_velocity_y() > 0) {
+      jumping = false;
+      physic.set_velocity_y(0);
+    }
+  }
 
-   /* In case the player has pressed Down while in a certain range of air,
-      enable butt jump action */
-  if (input.down && !butt_jump && !duck)
+  // temporary to help player's choosing a flapping
+  if(flapping_mode == RICARDO_FLAP) {
+    // Flapping, Ricardo's version
+    // similar to SM3 Fox
+    if(controller->pressed(Controller::JUMP) && can_flap && flaps_nb < 3) {
+      physic.set_velocity_y(350);
+      physic.set_velocity_x(physic.get_velocity_x() * 35);
+      flaps_nb++;
+    }
+  } else if(flapping_mode == MAREK_FLAP) {
+    // Flapping, Marek's version
+    if (controller->hold(Controller::JUMP) && can_flap)
+    {
+      if (!flapping_timer.started())
+      {
+        flapping_timer.start(TUX_FLAPPING_TIME);
+        flapping_velocity = physic.get_velocity_x();
+      }
+      if (flapping_timer.check()) 
+      {
+        can_flap = false;
+        falling_from_flap = true;
+      }
+      jumping = true;
+      flapping = true;
+      if (!flapping_timer.check()) {
+        float cv = flapping_velocity * sqrt(
+          TUX_FLAPPING_TIME - flapping_timer.get_timegone() 
+          / TUX_FLAPPING_TIME);
+        
+        //Handle change of direction while flapping
+        if (((dir == LEFT) && (cv > 0)) || (dir == RIGHT) && (cv < 0)) {
+          cv *= (-1);
+        }
+        physic.set_velocity_x(cv);
+        physic.set_velocity_y(
+          flapping_timer.get_timegone()/.850);
+      }
+    }
+  } else if(flapping_mode == RYAN_FLAP) {
+    // Flapping, Ryan's version
+    if (controller->hold(Controller::JUMP) && can_flap)
+    {
+      if (!flapping_timer.started())
+      {
+        flapping_timer.start(TUX_FLAPPING_TIME);
+      }
+      if (flapping_timer.check()) 
+      {
+        can_flap = false;
+        falling_from_flap = true;
+      }
+      jumping = true;
+      flapping = true;
+      if (flapping && flapping_timer.get_timegone() <= TUX_FLAPPING_TIME
+          && physic.get_velocity_y() < 0)
+      {
+        float gravity = Sector::current()->gravity;
+        (void)gravity;
+        float xr = (fabsf(physic.get_velocity_x()) / MAX_RUN_XM);
+        
+        // XXX: magic numbers. should be a percent of gravity
+        //      gravity is (by default) -0.1f
+        physic.set_acceleration_y(12 + 1*xr);
+        
+#if 0
+        // To slow down x-vel when flapping (not working)
+        if (fabsf(physic.get_velocity_x()) > MAX_WALK_XM)
+        {
+          if (physic.get_velocity_x() < 0)
+            physic.set_acceleration_x(1.0f);
+          else if (physic.get_velocity_x() > 0)
+            physic.set_acceleration_x(-1.0f);
+        }
+#endif
+      }
+    } else {
+      physic.set_acceleration_y(0);
+    }
+  }
+
+  /* In case the player has pressed Down while in a certain range of air,
+     enable butt jump action */
+  if (controller->hold(Controller::DOWN) && !butt_jump && !duck)
     //if(tiles_on_air(TILES_FOR_BUTTJUMP) && jumping)
-      butt_jump = true;
-
-   /* When Down is not held anymore, disable butt jump */
-  if(butt_jump && !input.down)
+    butt_jump = true;
+  
+  /* When Down is not held anymore, disable butt jump */
+  if(butt_jump && !controller->hold(Controller::DOWN))
     butt_jump = false;
-
+  
 #if 0
   // Do butt jump
-  if (butt_jump && on_ground() && is_big())
-  {
+  if (butt_jump && on_ground() && is_big()) {
     // Add a smoke cloud
     if (duck) 
       Sector::current()->add_smoke_cloud(Vector(get_pos().x - 32, get_pos().y));
     else 
       Sector::current()->add_smoke_cloud(
-          Vector(get_pos().x - 32, get_pos().y + 32));
+        Vector(get_pos().x - 32, get_pos().y + 32));
     
     butt_jump = false;
-
+    
     // Break bricks beneath Tux
     if(Sector::current()->trybreakbrick(
-          Vector(base.x + 1, base.y + base.height), false)
-        || Sector::current()->trybreakbrick(
-           Vector(base.x + base.width - 1, base.y + base.height), false))
-    {
+         Vector(base.x + 1, base.y + base.height), false)
+       || Sector::current()->trybreakbrick(
+         Vector(base.x + base.width - 1, base.y + base.height), false)) {
       physic.set_velocity_y(2);
       butt_jump = true;
     }
-
+    
     // Kill nearby badguys
     std::vector<GameObject*> gameobjects = Sector::current()->gameobjects;
     for (std::vector<GameObject*>::iterator i = gameobjects.begin();
          i != gameobjects.end();
-         i++)
-    {
+         i++) {
       BadGuy* badguy = dynamic_cast<BadGuy*> (*i);
-      if(badguy)
-      {
+      if(badguy) {
         // don't kill when badguys are already dying or in a certain mode
         if(badguy->dying == DYING_NOT && badguy->mode != BadGuy::BOMB_TICKING &&
-           badguy->mode != BadGuy::BOMB_EXPLODE)
-          {
-            if (fabsf(base.x - badguy->base.x) < 96 &&
-                fabsf(base.y - badguy->base.y) < 64)
-              badguy->kill_me(25);
-          }
+           badguy->mode != BadGuy::BOMB_EXPLODE) {
+          if (fabsf(base.x - badguy->base.x) < 96 &&
+              fabsf(base.y - badguy->base.y) < 64)
+            badguy->kill_me(25);
+        }
       }
     }
   }
@@ -622,10 +531,6 @@ Player::handle_vertical_input()
       can_jump = true;
     }
 #endif
-
-  // FIXME: why the heck is this here and not somewhere where the keys are
-  // checked?!?
-  input.old_jump = input.jump;
 }
 
 void
@@ -635,48 +540,42 @@ Player::handle_input()
   handle_horizontal_input();
 
   /* Jump/jumping? */
-  if (on_ground() && !input.jump)
+  if (on_ground() && !controller->hold(Controller::JUMP))
     can_jump = true;
   handle_vertical_input();
 
   /* Shoot! */
-  if (input.fire && !input.old_fire && player_status->bonus == FIRE_BONUS) {
+  if (controller->pressed(Controller::ACTION) && player_status->bonus == FIRE_BONUS) {
     if(Sector::current()->add_bullet(
-//           get_pos() + Vector(0, bbox.get_height()/2),
-	   get_pos() + ((dir == LEFT)? Vector(0, bbox.get_height()/2) 
-	   : Vector(32, bbox.get_height()/2)),
-          physic.get_velocity_x(), dir))
+         get_pos() + ((dir == LEFT)? Vector(0, bbox.get_height()/2) 
+                      : Vector(32, bbox.get_height()/2)),
+         physic.get_velocity_x(), dir))
       shooting_timer.start(SHOOTING_TIME);
-    // FIXME: why the heck is this here
-    input.old_fire = false;
   }
-
+  
   /* Duck! */
-  if (input.down && is_big() && !duck 
-      && physic.get_velocity_y() == 0 && on_ground())
-    {
-      duck = true;
+  if (controller->hold(Controller::DOWN) && is_big() && !duck 
+      && physic.get_velocity_y() == 0 && on_ground()) {
+    duck = true;
+    bbox.move(Vector(0, 32));
+    bbox.set_height(31.8);
+  } else if(!controller->hold(Controller::DOWN) && is_big() && duck) {
+    // try if we can really unduck
+    bbox.move(Vector(0, -32));
+    bbox.set_height(63.8);
+    duck = false;
+    // FIXME
+#if 0
+    // when unducking in air we need some space to do so
+    if(on_ground() || !collision_object_map(bbox)) {
+      duck = false;
+    } else {
+      // undo the ducking changes
       bbox.move(Vector(0, 32));
       bbox.set_height(31.8);
     }
-  else if(!input.down && is_big() && duck)
-    {
-      // try if we can really unduck
-      bbox.move(Vector(0, -32));
-      bbox.set_height(63.8);
-      duck = false;
-      // FIXME
-#if 0
-      // when unducking in air we need some space to do so
-      if(on_ground() || !collision_object_map(bbox)) {
-        duck = false;
-      } else {
-        // undo the ducking changes
-        bbox.move(Vector(0, 32));
-        bbox.set_height(31.8);
-      }
 #endif
-    }
+  }
 }
 
 void
@@ -686,12 +585,12 @@ Player::set_bonus(BonusType type, bool animate)
     return;
   
   if(player_status->bonus == NO_BONUS) {
-      bbox.set_height(63.8);
-      bbox.move(Vector(0, -32));
-      if(animate)
-        growing_timer.start(GROWING_TIME);
+    bbox.set_height(63.8);
+    bbox.move(Vector(0, -32));
+    if(animate)
+      growing_timer.start(GROWING_TIME);
   }
-      
+  
   player_status->bonus = type;
 }
 
@@ -840,20 +739,15 @@ Player::draw(DrawingContext& context)
       smalltux_star->draw(context, get_pos(), layer + 5);
     else
       bigtux_star->draw(context, get_pos(), layer + 5);
-  }
- 
-  if (debug_mode)
-    context.draw_filled_rect(get_pos(),
-        Vector(bbox.get_width(), bbox.get_height()),
-        Color(75,75,75, 150), LAYER_OBJECTS+20);
+  } 
 }
 
 HitResponse
 Player::collision(GameObject& other, const CollisionHit& hit)
 {
   Portable* portable = dynamic_cast<Portable*> (&other);
-  if(portable && grabbed_object == 0 && input.fire
-        && fabsf(hit.normal.x) > .9) {
+  if(portable && grabbed_object == 0 && controller->hold(Controller::ACTION)
+     && fabsf(hit.normal.x) > .9) {
     grabbed_object = portable;
     return CONTINUE;
   }
@@ -876,7 +770,7 @@ Player::collision(GameObject& other, const CollisionHit& hit)
 
   TriggerBase* trigger = dynamic_cast<TriggerBase*> (&other);
   if(trigger) {
-    if(input.up && !input.old_up)
+    if(controller->pressed(Controller::UP))
       trigger->event(*this, TriggerBase::EVENT_ACTIVATE);
   }
 
@@ -886,7 +780,7 @@ Player::collision(GameObject& other, const CollisionHit& hit)
 void
 Player::make_invincible()
 {
-  SoundManager::get()->play_sound(IDToSound(SND_HERRING));
+  sound_manager->play_sound("invincible");
   invincible_timer.start(TUX_INVINCIBLE_TIME);
   Sector::current()->play_music(HERRING_MUSIC);               
 }
@@ -898,10 +792,11 @@ Player::kill(HurtMode mode)
   if(dying)
     return;
 
-  if(safe_timer.get_timeleft() > 0 || invincible_timer.get_timeleft() > 0)
+  if(mode != KILL && 
+          safe_timer.get_timeleft() > 0 || invincible_timer.get_timeleft() > 0)
     return;                          
   
-  SoundManager::get()->play_sound(IDToSound(SND_HURT));
+  sound_manager->play_sound("hurt");
 
   physic.set_velocity_x(0);
 
@@ -947,7 +842,6 @@ Player::move(const Vector& vector)
   duck = false;
   last_ground_y = vector.y;
 
-  input.reset();
   physic.reset();
 }
 
@@ -1001,7 +895,7 @@ Player::bounce(BadGuy& )
   flapping = false;
   falling_from_flap = false;
   
-  if (input.jump)
+  if(controller->hold(Controller::JUMP))
     physic.set_velocity_y(520);
   else
     physic.set_velocity_y(200);

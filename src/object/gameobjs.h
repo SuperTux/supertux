@@ -24,17 +24,15 @@
 #include "video/surface.h"
 #include "timer.h"
 #include "math/physic.h"
-#include "special/game_object.h"
-#include "special/moving_object.h"
+#include "game_object.h"
+#include "moving_object.h"
 #include "serializable.h"
 
 /* Bounciness of distros: */
 #define NO_BOUNCE 0
 #define BOUNCE 1
 
-namespace SuperTux {
 class Sprite;
-}
 
 class BouncyCoin : public GameObject
 {

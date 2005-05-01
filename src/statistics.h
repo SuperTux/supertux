@@ -26,9 +26,7 @@
 
 using namespace SuperTux;
 
-namespace SuperTux {
 class DrawingContext;
-}
 
 #define SPLAYER 0
 #define STOTAL  1

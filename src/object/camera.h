@@ -24,7 +24,7 @@
 #include <cassert>
 
 #include "math/vector.h"
-#include "special/game_object.h"
+#include "game_object.h"
 #include "video/drawing_context.h"
 #include "serializable.h"
 #include "timer.h"

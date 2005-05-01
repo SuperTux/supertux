@@ -118,7 +118,7 @@ void LevelSubset::load(const std::string& subset)
       filename = datadir + "/levels/" + subset + "/";
       files = FileSystem::read_directory(filename);
 
-      filename = st_dir + "/levels/" + subset + "/";
+      filename = user_dir + "/levels/" + subset + "/";
       std::set<std::string> user_files = FileSystem::read_directory(filename);
       files.insert(user_files.begin(), user_files.end());
   
@@ -141,7 +141,7 @@ LevelSubset::save()
   filename = "/levels/" + name + "/";
 
   FileSystem::fcreatedir(filename.c_str());
-  filename = std::string(st_dir) + "/levels/" + name + "/info";
+  filename = std::string(user_dir) + "/levels/" + name + "/info";
   if(!FileSystem::fwriteable(filename.c_str()))
     filename = datadir + "/levels/" + name + "/info";
   if(FileSystem::fwriteable(filename.c_str()))

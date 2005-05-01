@@ -22,7 +22,7 @@
 
 #include "video/surface.h"
 #include "video/drawing_context.h"
-#include "special/game_object.h"
+#include "game_object.h"
 #include "serializable.h"
 
 using namespace SuperTux;

@@ -10,7 +10,7 @@ sources =
     [ Wildcard video : *.cpp *.h ]
     [ Wildcard lisp : *.cpp *.h ]
 ;
-TRANSLATABLE_SOURCES += [ DoSourceGrist $(sources) ] ;
+TRANSLATABLE_SOURCES += [ SearchSource $(sources) ] ;
 
 Library supertuxlib : $(sources) : noinstall ;
 ExternalLibs supertuxlib : SDL SDLMIXER SDLIMAGE GL ;

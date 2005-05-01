@@ -26,15 +26,13 @@
 #include "audio/musicref.h"
 #include "video/screen.h"
 #include "lisp/lisp.h"
+#include "control/controller.h"
 #include "statistics.h"
 #include "timer.h"
 #include "tile_manager.h"
 
-namespace SuperTux {
-  class Menu;
-  class Sprite;
-}
-
+class Sprite;
+class Menu;
 extern Menu* worldmap_menu;
 
 namespace WorldMapNS {
@@ -68,6 +66,7 @@ public:
 private:
   WorldMap* worldmap;
   Sprite* tux_sprite;
+  Controller* controller;
 
   Direction input_direction;
   Direction direction;
@@ -193,8 +192,6 @@ private:
   Levels levels;
 
   MusicRef song;
-
-  bool enter_level;
 
   Vector offset;
   std::string savegame_file;

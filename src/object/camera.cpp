@@ -29,7 +29,7 @@
 #include "camera.h"
 #include "player.h"
 #include "tilemap.h"
-#include "gameloop.h"
+#include "game_session.h"
 #include "app/globals.h"
 #include "sector.h"
 #include "object_factory.h"

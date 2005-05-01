@@ -19,11 +19,11 @@
 #include <config.h>
 
 #include "hatch.h"
-#include "gameloop.h"
+#include "game_session.h"
 #include "resources.h"
 #include "object_factory.h"
-#include "special/sprite.h"
-#include "special/sprite_manager.h"
+#include "sprite/sprite.h"
+#include "sprite/sprite_manager.h"
 #include "video/drawing_context.h"
 #include "app/globals.h"
 #include "lisp/lisp.h"

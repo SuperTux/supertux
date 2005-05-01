@@ -29,7 +29,7 @@ static const int MAX_LIVES = 99;
 PlayerStatus player_status;
 
 PlayerStatus::PlayerStatus()
-  : distros(0),
+  : coins(0),
     lives(START_LIVES),
     bonus(NO_BONUS),
     score_multiplier(1),
@@ -39,7 +39,7 @@ PlayerStatus::PlayerStatus()
 
 void PlayerStatus::reset()
 {
-  distros = 0;
+  coins = 0;
   lives = START_LIVES;
   bonus = NO_BONUS;
   score_multiplier = 1;
@@ -51,18 +51,18 @@ PlayerStatus::incLives()
 {
   if(lives < MAX_LIVES)
     ++lives;
-  SoundManager::get()->play_sound(IDToSound(SND_LIFEUP));
+  sound_manager->play_sound("lifeup");
 }
 
 void
 PlayerStatus::incCoins()
 {
-  distros++;
-  if(distros >= 100) {
+  coins++;
+  if(coins >= 100) {
     incLives();
-    distros = 0;
+    coins = 0;
   }
-  SoundManager::get()->play_sound(IDToSound(SND_DISTRO));
+  sound_manager->play_sound("coin");
 }
 
 void
@@ -87,7 +87,7 @@ PlayerStatus::write(lisp::Writer& writer)
   }
 
   writer.write_int("lives", lives);
-  writer.write_int("distros", distros);
+  writer.write_int("coins", coins);
   writer.write_int("max-score-multiplier", max_score_multiplier);
 }
 
@@ -113,7 +113,7 @@ PlayerStatus::read(const lisp::Lisp& lisp)
   }
 
   lisp.get("lives", lives);
-  lisp.get("distros", distros);
+  lisp.get("coins", coins);
   lisp.get("max-score-multiplier", max_score_multiplier);
 }
 

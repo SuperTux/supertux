@@ -1,3 +1,23 @@
+//  $Id$
+// 
+//  SuperTux
+//  Copyright (C) 2005 Matthias Braun <matze@braunis.de>
+//
+//  This program is free software; you can redistribute it and/or
+//  modify it under the terms of the GNU General Public License
+//  as published by the Free Software Foundation; either version 2
+//  of the License, or (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+// 
+//  You should have received a copy of the GNU General Public License
+//  along with this program; if not, write to the Free Software
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  02111-1307, USA.
+
 #include <config.h>
 
 #include <float.h>
@@ -24,10 +44,8 @@ Yeti::Yeti(const lisp::Lisp& reader)
   side = LEFT;
   hitpoints = INITIAL_HITPOINTS;
   bullet_hitpoints = INITIAL_BULLET_HP;
-  sound_gna = SoundManager::get()->load_sound(
-      get_resource_filename("sounds/yeti_gna.wav"));
-  sound_roar = SoundManager::get()->load_sound(
-      get_resource_filename("sounds/yeti_roar.wav"));
+  sound_manager->preload_sound("yeti_gna");
+  sound_manager->preload_sound("yeti_roar");  
 }
 
 Yeti::~Yeti()
@@ -54,7 +72,7 @@ Yeti::active_action(float elapsed_time)
     case ANGRY_JUMPING:
       if(timer.check()) {
         // jump
-        SoundManager::get()->play_sound(sound_gna);
+        sound_manager->play_sound("yeti_gna");
         physic.set_velocity_y(JUMP_VEL1);
       }
       break;
@@ -109,7 +127,7 @@ Yeti::collision_player(Player& player, const CollisionHit& hit)
   if(hit.normal.y > .9) {
     hitpoints--;
     bullet_hitpoints--;
-    SoundManager::get()->play_sound(sound_roar);
+    sound_manager->play_sound("yeti_roar");    
     if(collision_squished(player))
       return ABORT_MOVE;
     else if (hitpoints <= 0) {
@@ -118,7 +136,6 @@ Yeti::collision_player(Player& player, const CollisionHit& hit)
       return FORCE_MOVE;
     }
   }
-  std::cout << "COLLISION - HITPOINTS: " << hitpoints << ", BULLET HP: " << bullet_hitpoints << std::endl;
   player.kill(Player::SHRINK);
   return FORCE_MOVE;
 }
@@ -209,11 +226,11 @@ Yeti::collision_solid(GameObject& , const CollisionHit& hit)
 void
 Yeti::kill_fall()
 {
-  SoundManager::get()->play_sound(sound_roar);
+  sound_manager->play_sound("yeti_roar");  
   bullet_hitpoints--;
   if (bullet_hitpoints <= 0) {
-    SoundManager::get()->play_sound(IDToSound(SND_FALL), this,
-       Sector::current()->player->get_pos());
+    sound_manager->play_sound("fall", this,
+                              Sector::current()->player->get_pos());
     physic.set_velocity_y(0);
     physic.enable_gravity(true);
     set_state(STATE_FALLING);

@@ -1,7 +1,27 @@
+//  $Id$
+// 
+//  SuperTux
+//  Copyright (C) 2005 Matthias Braun <matze@braunis.de>
+//
+//  This program is free software; you can redistribute it and/or
+//  modify it under the terms of the GNU General Public License
+//  as published by the Free Software Foundation; either version 2
+//  of the License, or (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+// 
+//  You should have received a copy of the GNU General Public License
+//  along with this program; if not, write to the Free Software
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  02111-1307, USA.
+
 #include <config.h>
 
 #include "secretarea_trigger.h"
-#include "gameloop.h"
+#include "game_session.h"
 #include "lisp/lisp.h"
 #include "lisp/writer.h"
 #include "object_factory.h"
@@ -53,7 +73,7 @@ SecretAreaTrigger::draw(DrawingContext& context)
    if (message_timer.started()) {
       context.push_transform();
       context.set_translation(Vector(0, 0));
-      Vector pos = Vector(0, screen->h/2 - gold_text->get_height()/2);
+      Vector pos = Vector(0, SCREEN_HEIGHT/2 - gold_text->get_height()/2);
       context.draw_center_text(gold_text, message, pos, LAYER_GUI);
       context.pop_transform();
    }

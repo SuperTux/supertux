@@ -69,7 +69,7 @@ public class Tile {
         if(Spike)
             writer.Write("spike", true);
         if(Coin)
-            writer.Write("distro", true);
+            writer.Write("coin", true);
         if(FullBox)
             writer.Write("fullbox", true);
         if(Brick)
@@ -142,7 +142,7 @@ public class Tile {
                     case "fullbox":
                         FullBox = parser.BoolValue;
                         break;
-                    case "distro":
+                    case "coin":
                         Coin = parser.BoolValue;
                         break;
                     case "goal":

@@ -33,25 +33,26 @@
 #include "video/screen.h"
 #include "video/drawing_context.h"
 #include "special/frame_rate.h"
-#include "special/sprite_manager.h"
+#include "sprite/sprite_manager.h"
 #include "audio/sound_manager.h"
 #include "lisp/parser.h"
 #include "lisp/lisp.h"
 #include "lisp/list_iterator.h"
 #include "lisp/writer.h"
-#include "gameloop.h"
+#include "game_session.h"
 #include "sector.h"
 #include "worldmap.h"
 #include "resources.h"
 #include "misc.h"
 #include "player_status.h"
 #include "textscroller.h"
-
-#define map_message_TIME 2.8
+#include "main.h"
+#include "control/joystickkeyboardcontroller.h"
 
 Menu* worldmap_menu  = 0;
 
 static const float TUXSPEED = 200;
+static const float map_message_TIME = 2.8;
 
 namespace WorldMapNS {
 
@@ -190,13 +191,23 @@ Tux::stop()
 void
 Tux::set_direction(Direction dir)
 {
-input_direction = dir;
+  input_direction = dir;
 }
 
 void
 Tux::action(float delta)
 {
-  if (!moving)
+  // check controller
+  if(main_controller->pressed(Controller::UP))
+    input_direction = D_NORTH;
+  else if(main_controller->pressed(Controller::DOWN))
+    input_direction = D_SOUTH;
+  else if(main_controller->pressed(Controller::LEFT))
+    input_direction = D_WEST;
+  else if(main_controller->pressed(Controller::RIGHT))
+    input_direction = D_EAST;
+
+  if(!moving)
     {
       if (input_direction != D_NONE)
         { 
@@ -347,8 +358,6 @@ WorldMap::WorldMap()
   leveldot_red = new Surface(datadir +  "/images/worldmap/leveldot_red.png", true);
   messagedot   = new Surface(datadir +  "/images/worldmap/messagedot.png", true);
   teleporterdot   = new Surface(datadir +  "/images/worldmap/teleporterdot.png", true);
-
-  enter_level = false;
 
   name = "<no title>";
   music = "salcon.mod";
@@ -533,103 +542,33 @@ void
 WorldMap::on_escape_press()
 {
   // Show or hide the menu
-  if(!Menu::current())
-    {
-    Menu::set_current(worldmap_menu); 
+  if(!Menu::current()) {
+    Menu::set_current(worldmap_menu);
     tux->set_direction(D_NONE);  // stop tux movement when menu is called
-    }
-  else
-    Menu::set_current(0); 
+  } else {
+    Menu::set_current(0);
+  }
 }
 
 void
 WorldMap::get_input()
 {
-  enter_level = false;
-  SDLKey key;
+  main_controller->update();
 
   SDL_Event event;
-  while (SDL_PollEvent(&event))
-    {
-      if (Menu::current())
-        {
-          Menu::current()->event(event);
-        }
-      else
-        {
-          switch(event.type)
-            {
-            case SDL_QUIT:
-              Termination::abort("Received window close", "");
-              break;
-          
-            case SDL_KEYDOWN:
-              key = event.key.keysym.sym;
-
-              if(key == SDLK_ESCAPE)
-                on_escape_press();
-              else if(key == SDLK_RETURN || key == keymap.power)
-                enter_level = true;
-              else if(key == SDLK_LEFT || key == keymap.power)
-                tux->set_direction(D_WEST);
-              else if(key == SDLK_RIGHT || key == keymap.right)
-                tux->set_direction(D_EAST);
-              else if(key == SDLK_UP || key == keymap.up ||
-                key == keymap.jump)
-                  // there might be ppl that use jump as up key
-                tux->set_direction(D_NORTH);
-              else if(key == SDLK_DOWN || key == keymap.down)
-                tux->set_direction(D_SOUTH);
-              break;
-
-            case SDL_JOYHATMOTION:
-              if(event.jhat.value & SDL_HAT_UP) {
-                tux->set_direction(D_NORTH);
-              } else if(event.jhat.value & SDL_HAT_DOWN) {
-                tux->set_direction(D_SOUTH);
-              } else if(event.jhat.value & SDL_HAT_LEFT) {
-                tux->set_direction(D_WEST);
-              } else if(event.jhat.value & SDL_HAT_RIGHT) {
-                tux->set_direction(D_EAST);
-              }
-              break;
-          
-            case SDL_JOYAXISMOTION:
-              if (event.jaxis.axis == joystick_keymap.x_axis)
-                {
-                  if (event.jaxis.value < -joystick_keymap.dead_zone)
-                    tux->set_direction(D_WEST);
-                  else if (event.jaxis.value > joystick_keymap.dead_zone)
-                    tux->set_direction(D_EAST);
-                }
-              else if (event.jaxis.axis == joystick_keymap.y_axis)
-                {
-                  if (event.jaxis.value > joystick_keymap.dead_zone)
-                    tux->set_direction(D_SOUTH);
-                  else if (event.jaxis.value < -joystick_keymap.dead_zone)
-                    tux->set_direction(D_NORTH);
-                }
-              break;
-
-            case SDL_JOYBUTTONDOWN:
-              if (event.jbutton.button == joystick_keymap.b_button)
-                enter_level = true;
-              else if (event.jbutton.button == joystick_keymap.start_button)
-                on_escape_press();
-              break;
-
-            default:
-              break;
-            }
-        }
-    }
+  while (SDL_PollEvent(&event)) {
+    if (Menu::current())
+      Menu::current()->event(event);
+    main_controller->process_event(event);
+    if(event.type == SDL_QUIT)
+      throw std::runtime_error("Received window close");
+  }
 }
 
 Vector
 WorldMap::get_next_tile(Vector pos, Direction direction)
 {
-  switch(direction)
-    {
+  switch(direction) {
     case D_WEST:
       pos.x -= 1;
       break;
@@ -644,7 +583,7 @@ WorldMap::get_next_tile(Vector pos, Direction direction)
       break;
     case D_NONE:
       break;
-    }
+  }
   return pos;
 }
 
@@ -688,6 +627,35 @@ WorldMap::path_ok(Direction direction, Vector old_pos, Vector* new_pos)
 void
 WorldMap::update(float delta)
 {
+  Menu* menu = Menu::current();
+  if(menu) {
+    menu->action();
+
+    if(menu == worldmap_menu) {
+      switch (worldmap_menu->check())
+      {
+        case MNID_RETURNWORLDMAP: // Return to game  
+          Menu::set_current(0);
+          break;
+        case MNID_QUITWORLDMAP: // Quit Worldmap
+          quit = true;                               
+          break;
+      }
+    } else if(menu == options_menu) {
+      process_options_menu();
+    }
+
+    return;
+  }
+
+  bool enter_level = false;
+  if(main_controller->pressed(Controller::ACTION)
+      || main_controller->pressed(Controller::JUMP)
+      || main_controller->pressed(Controller::MENU_SELECT))
+    enter_level = true;
+  if(main_controller->pressed(Controller::PAUSE_MENU))
+    on_escape_press();
+  
   if (enter_level && !tux->is_moving())
     {
       /* Check special tile action */
@@ -697,7 +665,7 @@ WorldMap::update(float delta)
         if (special_tile->teleport_dest != Vector(-1,-1))
           {
           // TODO: an animation, camera scrolling or a fading would be a nice touch
-          SoundManager::get()->play_sound(IDToSound(SND_WARP));
+          sound_manager->play_sound("warp");
           tux->back_direction = D_NONE;
           tux->set_tile_pos(special_tile->teleport_dest);
           SDL_Delay(1000);
@@ -774,7 +742,7 @@ WorldMap::update(float delta)
               level_finished = false;
               /* In case the player's abort the level, keep it using the old
                   status. But the minimum lives and no bonus. */
-              player_status.distros = old_player_status.distros;
+              player_status.coins = old_player_status.coins;
               player_status.lives = std::min(old_player_status.lives, player_status.lives);
               player_status.bonus = NO_BONUS;
 
@@ -795,7 +763,7 @@ WorldMap::update(float delta)
               context.draw_text(blue_text, _("GAMEOVER"), 
                   Vector(SCREEN_WIDTH/2, 200), CENTER_ALLIGN, LAYER_FOREGROUND1);
 
-              sprintf(str, _("COINS: %d"), player_status.distros);
+              sprintf(str, _("COINS: %d"), player_status.coins);
               context.draw_text(gold_text, str,
                   Vector(SCREEN_WIDTH/2, SCREEN_WIDTH - 32), CENTER_ALLIGN,
                   LAYER_FOREGROUND1);
@@ -817,7 +785,7 @@ WorldMap::update(float delta)
               break;
             }
 
-          SoundManager::get()->play_music(song);
+          sound_manager->play_music(song);
           Menu::set_current(0);
           if (!savegame_file.empty())
             savegame(savegame_file);
@@ -844,28 +812,6 @@ WorldMap::update(float delta)
     {
       tux->action(delta);
 //      tux->set_direction(input_direction);
-    }
-  
-  Menu* menu = Menu::current();
-  if(menu)
-    {
-      menu->action();
-
-      if(menu == worldmap_menu)
-        {
-          switch (worldmap_menu->check())
-            {
-            case MNID_RETURNWORLDMAP: // Return to game
-              break;
-            case MNID_QUITWORLDMAP: // Quit Worldmap
-              quit = true;
-              break;
-            }
-        }
-      else if(menu == options_menu)
-        {
-          process_options_menu();
-        }
     }
 }
 
@@ -956,7 +902,7 @@ WorldMap::draw_status(DrawingContext& context)
   context.draw_text(white_text, _("SCORE"), Vector(0, 0), LEFT_ALLIGN, LAYER_FOREGROUND1);
   context.draw_text(gold_text, str, Vector(96, 0), LEFT_ALLIGN, LAYER_FOREGROUND1);
 
-  sprintf(str, "%d", player_status.distros);
+  sprintf(str, "%d", player_status.coins);
   context.draw_text(white_text, _("COINS"), Vector(SCREEN_WIDTH/2 - 16*5, 0),
       LEFT_ALLIGN, LAYER_FOREGROUND1);
   context.draw_text(gold_text, str, Vector(SCREEN_WIDTH/2 + (16*5)/2, 0),
@@ -1030,8 +976,8 @@ WorldMap::display()
 
   quit = false;
 
-  song = SoundManager::get()->load_music(datadir +  "/music/" + music);
-  SoundManager::get()->play_music(song);
+  song = sound_manager->load_music(datadir +  "/music/" + music);
+  sound_manager->play_music(song);
 
   if(!intro_displayed && intro_filename != "") {
     std::string filename = levels_path + intro_filename;
@@ -1159,7 +1105,7 @@ WorldMap::loadgame(const std::string& filename)
 
     savegame->get("intro-displayed", intro_displayed);
     savegame->get("lives", player_status.lives);
-    savegame->get("distros", player_status.distros);
+    savegame->get("coins", player_status.coins);
     savegame->get("max-score-multiplier", player_status.max_score_multiplier);
     if (player_status.lives < 0)
       player_status.reset();

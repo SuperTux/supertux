@@ -10,9 +10,9 @@
 ##  RegisterFileType Rulename : extensions
 ##    Register a rule which is used to compile a filetype into object
 ##    files. The registered rule is called with the name of the
-##    sourcefile as argument and should return a list of objectfiles which are
-##    created. You should set the grist of the object files by using the
-##    DoObjectGrist function.
+##    sourcefile as argument (completely gristed and SEARCH is set already).
+##    The rule should return the object files created completely gristed and
+##    with LOCATE set (use the LocateTarget rule to do this).
 rule RegisterFileType
 {
     local suffix ;
@@ -36,28 +36,23 @@ rule RegisterHeaderRule
 }
 
 ##  CompileObjects sources [ : options ]
-##    Compile a set of sourcefiles into objectfiles (extension: SUFOBJ,
-##    usually .o). This rule takes care of setting LOCATE and SEARCH
-##    variables to the $(SEARCH_SOURCE) and $(LOCATE_SOURCE) variables.
-##    The Application, Plugin and Library rules already use this rule
-##    internally. You should only use this rule if you have to avoid the
-##    Application, Plugin or Library rules.
+##    Compile a set of sourcefiles into objectfiles (usually .o extension).
+##    For ungristed sourcefiles $(SEARCH) will be set to $(SEARCH_SOURCE).
+##    The function returns the names of the targets being built (gristed and
+##    with LOCATE set.
+##    Normally you don't have to use this rule. The Application or Library rules
+##    are taking care of calling it for you.
 rule CompileObjects
 {
-    local source ;
+    local s ;
+    local sources = [ SearchSource $(<) ] ;
     local targets ;
 
-    # Search the source
-    SEARCH on $(<) = $(SEARCH_SOURCE) ;      
-
-    for source in $(<)
+    for s in $(sources)
     {
         # compile the sourcefile to targetfile
-        targets += [ CompileObject $(source) : $(2) ] ;
+        targets += [ CompileObject $(s) : $(2) ] ;
     }
-  
-    # locate the targets
-    MakeLocate $(targets) : $(LOCATE_TARGET) ;
 
     return $(targets) ;
 }
@@ -66,9 +61,9 @@ rule CompileObjects
 # private part
 
 # CompileObject sourcefile [ : options ]
-# helper rule: Compiles a source file to an object file. Does header file
-# scanning, sets LOCATE and SEARCH for source and target, grists the files
-# with the current subdir and searches for the correct registered rule.
+# helper rule: Compiles a source file to an object file. The source should be
+# correctly gristed and SEARCH should be set. The function will return the
+# target names gristed and with LOCATE set.
 rule CompileObject
 {
     # handle #includes for source: Jam scans for headers with
@@ -90,17 +85,13 @@ rule CompileObject
 
     local targets ;
     # Invoke filetype specific rule
-    if $(FILETYPE_$(<:S))
-    {
+    if $(FILETYPE_$(<:S)) {
         targets = [ $(FILETYPE_$(<:S)) $(<) : $(2) ] ;
-    }
-    else
-    {
-        echo "Warning: no rules for filetype $(>:S) defined (at file $(>))." ;
+    } else {
+        echo "Warning: no rules for filetype $(<:S) defined (at file $(<))." ;
     }
 
-    if $(targets)
-    {
+    if $(targets) {
         # construct clean target
         Clean clean : $(targets) ;
     }
@@ -145,38 +136,6 @@ rule HeaderRule
     }
 }
 
-if $(JAMVERSION) < 2.5
-{
-## XXX XXX XXX a bug in jam 2.4 let's the version above fail. I'll let this
-##    non-optimal version in here until jam 2.5 is out.
-
-rule HeaderRule
-{
-    local s = $(>:G=$(HDRGRIST)) ;
-
-    Includes $(<) : $(s) ;
-    SEARCH on $(s) = $(HDRSEARCH) ;
-    NoCare $(s) ;
- 
-    local i ;
-    for i in $(s)
-    {
-        if $(HDRRULE_$(i:S))
-        {
-            HDRGRIST on $(s) = $(HDRGRIST) ;
-            HDRSEARCH on $(s) = $(HDRSEARCH) ;
-            HDRRULE on $(s) = $(HDRRULE_$(i:S)) ;
-            HDRSCAN on $(s) = $(HDRPATTERN_$(i:S)) ;
-        }
-        else if $(JAM_DEBUG)
-        {
-            #echo "No Header rule for $(i:S) file $(i) " ;
-        }
-    }
-}
-
-} # end of if $(JAMVERSION) < 1.5
-
 # Dummy rule: .o files are used as is.
 rule UseObjectFile
 {
@@ -192,16 +151,42 @@ rule UseHeaderFile
 RegisterFileType UseHeaderFile : .h .hpp ;
 RegisterHeaderRule HeaderRule : $(HDRPATTERN) : .h .hpp .inc ;
 
-# Generates a grist suitable for output objects based on
-# SUBVARIANT and SUBDIR variable.
-rule DoObjectGrist
+##  SearchSource
+##    Sets search path of the sourcefiles to the current SUBDIR and sets a
+##    suitable grist on the sources. Ignores source files that already have
+##    grist set.
+rule SearchSource
 {
-    return $(<:G=$(SOURCE_GRIST:E)!$(SUBVARIANT)) ;
+    local sources ;
+    
+    for f in $(<) {
+        if $(f:G) {
+            sources += $(f) ;
+        } else {
+            local source = $(f:G=$(SOURCE_GRIST:E)) ;
+            sources += $(source) ;
+            SEARCH on $(source) = $(SEARCH_SOURCE) ;
+        }
+    }
+    return $(sources) ;
 }
 
-# Generates a grist suitable for source files based on SUBDIR variable.
-rule DoSourceGrist
+##  LocateTarget
+##    Sets LOCATE on the current output directory (depending on builddir,
+##    variant and current subdir), sets a suitable grist and makes sure the
+##    target directory is created if it doesn't exist.
+rule LocateTarget
 {
-    return $(<:G=$(SOURCE_GRIST:E)) ;
+    local targetdir ;
+    if $(>) {
+        targetdir = $(>) ;
+    } else {
+        targetdir = $(LOCATE_TARGET) ;
+    }
+    
+    local targets = $(<:G=T!$(SOURCE_GRIST:E)!$(SUBVARIANT)) ;
+    MakeLocate $(targets) : $(targetdir) ;
+
+    return $(targets) ;
 }
 

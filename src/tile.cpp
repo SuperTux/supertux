@@ -68,8 +68,6 @@ Tile::parse(const lisp::Lisp& reader)
     attributes |= SPIKE;
   if(reader.get("fullbox", value) && value)
     attributes |= FULLBOX;
-  if(reader.get("distro", value) && value)
-    attributes |= COIN;
   if(reader.get("coin", value) && value)
     attributes |= COIN;
   if(reader.get("goal", value) && value)

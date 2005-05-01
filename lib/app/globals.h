@@ -38,9 +38,6 @@ namespace SuperTux
   class MouseCursor;
 
   extern std::string datadir;
-  extern std::string package_symbol_name;
-  extern std::string package_name;
-  extern std::string package_version;
 
   struct JoystickKeymap
     {
@@ -58,32 +55,16 @@ namespace SuperTux
 
   extern JoystickKeymap joystick_keymap;
 
-  extern SDL_Surface* screen;
-
   extern MouseCursor * mouse_cursor;
 
 #define SCREEN_WIDTH  800
 #define SCREEN_HEIGHT 600
 
-  extern bool use_gl;
-  extern bool use_joystick;
-  extern bool use_fullscreen;
-  extern int  screen_width;
-  extern int  screen_height;
-  extern bool debug_mode;
-  extern bool show_fps;
-  extern bool debug_grid;
-
   /** The number of the joystick that will be use in the game */
   extern int joystick_num;
-  extern char* level_startup_file;
-  extern bool launch_leveleditor_mode;
-  extern bool launch_worldmap_mode;
-  extern bool flip_levels_mode;
 
-  /* SuperTux directory ($HOME/.supertux) and save directory($HOME/.supertux/save) */
-  extern std::string st_dir;
-  extern std::string st_save_dir;
+  /* SuperTux directory ($HOME/.supertux) */
+  extern std::string user_dir;
   
   extern SDL_Joystick * js;
 

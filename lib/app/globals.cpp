@@ -54,21 +54,16 @@ JoystickKeymap joystick_keymap;
 SDL_Surface * screen;
 MouseCursor * mouse_cursor;
 
-bool use_gl;
-bool use_joystick;
-bool use_fullscreen;
-bool debug_mode;
-bool show_fps;
-bool debug_grid = false;
-
+#if 0
 int joystick_num = 0;
 char* level_startup_file = 0;
 bool launch_leveleditor_mode = false;
 bool launch_worldmap_mode = false;
 bool flip_levels_mode = false;
+#endif
 
 /* SuperTux directory ($HOME/.supertux) and save directory($HOME/.supertux/save) */
-std::string st_dir, st_save_dir;
+std::string user_dir;
 
 SDL_Joystick * js;
 

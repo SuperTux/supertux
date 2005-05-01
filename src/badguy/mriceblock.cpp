@@ -1,3 +1,23 @@
+//  $Id$
+// 
+//  SuperTux
+//  Copyright (C) 2005 Matthias Braun <matze@braunis.de>
+//
+//  This program is free software; you can redistribute it and/or
+//  modify it under the terms of the GNU General Public License
+//  as published by the Free Software Foundation; either version 2
+//  of the License, or (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+// 
+//  You should have received a copy of the GNU General Public License
+//  along with this program; if not, write to the Free Software
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  02111-1307, USA.
+
 #include <config.h>
 
 #include "mriceblock.h"
@@ -86,8 +106,8 @@ MrIceBlock::collision_solid(GameObject& object, const CollisionHit& hit)
       dir = dir == LEFT ? RIGHT : LEFT;
       sprite->set_action(dir == LEFT ? "flat-left" : "flat-right");
       physic.set_velocity_x(-physic.get_velocity_x());
-      SoundManager::get()->play_sound(IDToSound(SND_RICOCHET), get_pos(),
-          Sector::current()->player->get_pos());
+      sound_manager->play_sound("ricochet", get_pos(),
+                                Sector::current()->player->get_pos());
       break;
     }
     case ICESTATE_FLAT:
@@ -134,8 +154,7 @@ MrIceBlock::collision_squished(Player& player)
       }
 
       // flatten
-      SoundManager::get()->play_sound(IDToSound(SND_STOMP), get_pos(),
-          player.get_pos());
+      sound_manager->play_sound("stomp", get_pos(), player.get_pos());
       physic.set_velocity_x(0);
       physic.set_velocity_y(0); 
       
@@ -146,8 +165,7 @@ MrIceBlock::collision_squished(Player& player)
       break;
     case ICESTATE_FLAT:
       // kick
-      SoundManager::get()->play_sound(IDToSound(SND_KICK), this,
-          player.get_pos());
+      sound_manager->play_sound("kick", this, player.get_pos());
 
       if(player.get_pos().x < get_pos().x) {
         dir = RIGHT;

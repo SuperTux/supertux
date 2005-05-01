@@ -13,22 +13,28 @@ if ! $(JAMCONFIG_READ)
 
 if $(USE_STLPORT_DEBUG)
 {
-  CPPFLAGS += -I/usr/include/stlport ;
-  CPPFLAGS += -D_STLP_DEBUG=1 -D_STLP_DEBUG_UNINITIALIZED=1 ;
-  CPPFLAGS += -D_STLP_SHRED_BYTE=0xA3 ;
+  CXXFLAGS += -I/usr/include/stlport ;
+  CXXFLAGS += -D_STLP_DEBUG=1 -D_STLP_DEBUG_UNINITIALIZED=1 ;
+  CXXFLAGS += -D_STLP_SHRED_BYTE=0xA3 ;
   LIBS += -lstlport_gcc_debug ;
 }
 
-COMPILER_CFLAGS += -Wall -W ;
-COMPILER_CFLAGS_optimize += -O3 -g3 ;
-COMPILER_C++FLAGS_optimize += -O3 -g3 ;
-COMPILER_LFLAGS_optimize += -O3 -g3 ;
-COMPILER_CFLAGS_debug += -DDEBUG -Werror -g3 ;
-COMPILER_CXXFLAGS_debug += -DDEBUG -Werror -g3 ;
-COMPILER_LFLAGS_debug += -g3 ;
-COMPILER_CFLAGS_profile += -O2 -g3 -pg ;
-COMPILER_CXXFLAGS_profile += -O2 -g3 -pg ;
-COMPILER_LFLAGS_profile += -g3 -pg ;
+switch $(VARIANT) {
+    case optimize :
+        CFLAGS += -O3 -g ;
+        CXXFLAGS += -O3 -g ;
+        LIBS += -g ;
+    case debug :
+        CFLAGS += -O0 -g3 -DDEBUG ;
+        CXXFLAGS += -O0 -g3 -DDEBUG ;
+        LIBS += -g3 ;
+    case profile :
+        CFLAGS += -O3 -g3 -pg ;
+        CXXFLAGS += -O3 -g3 -pg ;
+        LIBS += -g3 -pg ;
+    case * :
+        EXIT "Invalid variant $(VARIANT) selected" ;
+}
 
 LINK = $(CXX) ;
 

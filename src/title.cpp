@@ -22,6 +22,7 @@
 
 #include <iostream>
 #include <sstream>
+#include <stdexcept>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -48,7 +49,7 @@
 #include "lisp/parser.h"
 #include "level.h"
 #include "level_subset.h"
-#include "gameloop.h"
+#include "game_session.h"
 #include "worldmap.h"
 #include "leveleditor.h"
 #include "player_status.h"
@@ -61,6 +62,9 @@
 #include "app/gettext.h"
 #include "misc.h"
 #include "textscroller.h"
+#include "control/joystickkeyboardcontroller.h"
+#include "control/codecontroller.h"
+#include "main.h"
 
 static Surface* bkg_title;
 static Surface* logo;
@@ -72,11 +76,12 @@ static Timer2 random_timer;
 static int frame;
 
 static GameSession* titlesession;
+static CodeController* controller;
 
 static std::vector<LevelSubset*> contrib_subsets;
 static LevelSubset* current_contrib_subset = 0;
 
-static FrameRate frame_rate(100);  
+static FrameRate frame_rate(100);
 
 /* If the demo was stopped - because game started, level
    editor was excuted, etc - call this when you get back
@@ -91,16 +96,14 @@ void resume_demo()
   frame_rate.update();
 }
 
-void update_load_save_game_menu(Menu* pmenu)
+void update_load_save_game_menu(Menu* menu)
 {
-  for(int i = 2; i < 7; ++i)
-    {
-      // FIXME: Insert a real savegame struct/class here instead of
-      // doing string vodoo
-      std::string tmp = slotinfo(i - 1);
-      pmenu->item[i].kind = MN_ACTION;
-      pmenu->item[i].change_text(tmp.c_str());
-    }
+  printf("update loadsavemenu.\n");
+  for(int i = 1; i < 6; ++i) {
+    MenuItem& item = menu->get_item_by_id(i);
+    item.kind = MN_ACTION;
+    item.change_text(slotinfo(i));
+  }
 }
 
 void free_contrib_menu()
@@ -120,8 +123,8 @@ void generate_contrib_menu()
 
   free_contrib_menu();
 
-  contrib_menu->additem(MN_LABEL,_("Contrib Levels"),0,0);
-  contrib_menu->additem(MN_HL,"",0,0);
+  contrib_menu->add_label(_("Contrib Levels"));
+  contrib_menu->add_hl();
   
   int i = 0;
   for (std::set<std::string>::iterator it = level_subsets.begin();
@@ -133,14 +136,14 @@ void generate_contrib_menu()
         delete subset;
         continue;
       }
-      contrib_menu->additem(MN_GOTO, subset->title, 0, contrib_subset_menu, i);
+      contrib_menu->add_submenu(subset->title, contrib_subset_menu);
       contrib_subsets.push_back(subset);
       ++i;
     }
 
-  contrib_menu->additem(MN_HL,"",0,0);
-  contrib_menu->additem(MN_BACK,_("Back"),0,0);
-
+  contrib_menu->add_hl();
+  contrib_menu->add_back(_("Back"));
+  
   level_subsets.clear();
 }
 
@@ -185,7 +188,7 @@ void check_levels_contrib_menu()
     context.do_drawing();
 
     // TODO: slots should be available for contrib maps
-    worldmap.loadgame(st_save_dir + "/" + subset.name + "-slot1.stsg");
+    worldmap.loadgame(user_dir + "/save/" + subset.name + "-slot1.stsg");
 
     worldmap.display();  // run the map
 
@@ -200,19 +203,19 @@ void check_levels_contrib_menu()
 
     contrib_subset_menu->clear();
 
-    contrib_subset_menu->additem(MN_LABEL, subset.title, 0,0);
-    contrib_subset_menu->additem(MN_HL,"",0,0);
+    contrib_subset_menu->add_label(subset.title);
+    contrib_subset_menu->add_hl();
 
     for (int i = 0; i < subset.get_num_levels(); ++i)
     {
       /** get level's title */
       std::string filename = subset.get_level_filename(i);
       std::string title = get_level_name(filename);
-      contrib_subset_menu->additem(MN_ACTION, title, 0, 0, i);
+      contrib_subset_menu->add_entry(i, title);
     }
 
-    contrib_subset_menu->additem(MN_HL,"",0,0);      
-    contrib_subset_menu->additem(MN_BACK, _("Back"), 0, 0);
+    contrib_subset_menu->add_hl();
+    contrib_subset_menu->add_back(_("Back"));
 
     titlesession->get_current_sector()->activate("main");
     titlesession->set_current();
@@ -240,52 +243,41 @@ void check_contrib_subset_menu()
 
 void draw_demo(float elapsed_time)
 {
-  Sector* world  = titlesession->get_current_sector();
-  Player* tux = world->player;
+  static float last_tux_x_pos = -1;
+  Sector* sector  = titlesession->get_current_sector();
+  Player* tux = sector->player;
 
-  world->play_music(LEVEL_MUSIC);
+  sector->play_music(LEVEL_MUSIC);
+
+  controller->update();
+  controller->press(Controller::RIGHT);
   
-  tux->key_event((SDLKey) keymap.right, true);
-  
-  if(random_timer.check()) {
+  if(random_timer.check() || (int) last_tux_x_pos == (int) tux->get_pos().x) {
     random_timer.start(float(rand() % 3000 + 3000) / 1000.);
     walking = !walking;
   } else {
-      if(walking)
-        tux->key_event((SDLKey) keymap.jump, false);
-      else
-        tux->key_event((SDLKey) keymap.jump, true);
+      if(!walking)
+        controller->press(Controller::JUMP);
   }
+  last_tux_x_pos = tux->get_pos().x;
 
   // Wrap around at the end of the level back to the beginnig
-  if(world->solids->get_width() * 32 - 320 < tux->get_pos().x)
-    {
-      world->activate("main");
-      world->camera->reset(tux->get_pos());
-    }
+  if(sector->solids->get_width() * 32 - 320 < tux->get_pos().x) {
+    sector->activate("main");
+    sector->camera->reset(tux->get_pos());
+  }
 
-  tux->can_jump = true;
-  float last_tux_x_pos = tux->get_pos().x;
-  world->action(elapsed_time);
-  
-
-  // disabled for now, since with the new jump code we easily get deadlocks
-  // Jump if tux stays in the same position for one loop, ie. if he is
-  // stuck behind a wall
-  if (last_tux_x_pos == tux->get_pos().x)
-    {
-      walking = false;
-    }
-
-  world->draw(*titlesession->context);
+  sector->action(elapsed_time);
+  sector->draw(*titlesession->context);
 }
 
 /* --- TITLE SCREEN --- */
-void title(void)
+void title()
 {
   walking = true;
   LevelEditor* leveleditor;
   MusicRef credits_music;
+  controller = new CodeController();
 
   Ticks::pause_init();
 
@@ -299,6 +291,9 @@ void title(void)
 
   titlesession->get_current_sector()->activate("main");
   titlesession->set_current();
+
+  Player* player = titlesession->get_current_sector()->player;
+  player->set_controller(controller);
 
   /* --- Main title loop: --- */
   frame = 0;
@@ -325,21 +320,20 @@ void title(void)
       elapsed_time /= 2;
 
       SDL_Event event;
-      while (SDL_PollEvent(&event))
-        {
-          if (Menu::current())
-            {
-              Menu::current()->event(event);
-            }
-         // FIXME: QUIT signal should be handled more generic, not locally
-          if (event.type == SDL_QUIT)
-            Menu::set_current(0);
+      main_controller->update();
+      while (SDL_PollEvent(&event)) {
+        if (Menu::current()) {
+          Menu::current()->event(event);
         }
+        main_controller->process_event(event);
+        // FIXME: QUIT signal should be handled more generic, not locally
+        if (event.type == SDL_QUIT)
+          throw std::runtime_error("Received window close");
+      }
   
       /* Draw the background: */
       draw_demo(elapsed_time);
-      
-      
+
       if (Menu::current() == main_menu)
         context.draw_surface(logo, Vector(SCREEN_WIDTH/2 - logo->w/2, 30),
             LAYER_FOREGROUND1+1);
@@ -375,6 +369,7 @@ void title(void)
                   puts("Entering contrib menu");
                   generate_contrib_menu();
                   break;
+#if 0
                 case MNID_LEVELEDITOR:
                   leveleditor = new LevelEditor();
                   leveleditor->run();
@@ -382,10 +377,12 @@ void title(void)
                   Menu::set_current(main_menu);
                   resume_demo();
                   break;
+#endif
                 case MNID_CREDITS:
                   fadeout(500);
-                  credits_music = SoundManager::get()->load_music(datadir + "/music/credits.ogg");
-                  SoundManager::get()->play_music(credits_music);
+                  credits_music = sound_manager->load_music(
+                    get_resource_filename("/music/credits.ogg"));
+                  sound_manager->play_music(credits_music);
                   display_text_file("credits.txt");
                   fadeout(500);
                   Menu::set_current(main_menu);
@@ -410,7 +407,7 @@ void title(void)
                 
                 if(confirm_dialog(bkg_title, str.c_str()))
                   {
-                  str = st_save_dir + "/slot" + stream.str() + ".stsg";
+                  str = user_dir + "/save/slot" + stream.str() + ".stsg";
                   printf("Removing: %s\n",str.c_str());
                   remove(str.c_str());
                   }
@@ -451,4 +448,3 @@ void title(void)
   delete logo;
   delete img_choose_subset;
 }
-

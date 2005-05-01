@@ -130,7 +130,7 @@ Level::save(const std::string& filename)
   std::string filepath = "levels/" + filename;
   int last_slash = filepath.find_last_of('/');
   FileSystem::fcreatedir(filepath.substr(0,last_slash).c_str());
-  filepath = st_dir + "/" + filepath;
+  filepath = user_dir + "/" + filepath;
   ofstream file(filepath.c_str(), ios::out);
   lisp::Writer* writer = new lisp::Writer(file);
 

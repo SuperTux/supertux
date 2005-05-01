@@ -34,6 +34,7 @@ rule SystemLinkApplication
   
     Depends $(target) : $(>) ;
     LinkApplication $(target) : $(>) ;
+    LIBS on $(target) = $(LIBS) ;
     # setup clean rules
     Clean clean : $(target) ;
     Clean $(<)clean : $(target) ;
@@ -41,7 +42,7 @@ rule SystemLinkApplication
 
 actions LinkApplication bind NEEDLIBS bind EXTRAOBJECTS
 {
-    $(LINK) -o $(<) $(>) $(EXTRAOBJECTS) $(NEEDLIBS) $(LFLAGS)
+    $(LINK) -o $(<) $(>) $(EXTRAOBJECTS) $(NEEDLIBS) $(LIBS)
 }
 
 

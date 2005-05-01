@@ -16,7 +16,6 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
 #ifndef SUPERTUX_RESOURCES_H
 #define SUPERTUX_RESOURCES_H
 
@@ -24,62 +23,29 @@
 
 using namespace SuperTux;
 
-namespace SuperTux {
 class SpriteManager;
-class SoundManager;
 class Menu;
 class Font;
 class Surface;
-}
-
+class SoundManager;
 class TileManager;
 
-/* Sound files: */
-enum {
-  SND_JUMP,
-  SND_BIGJUMP,
-  SND_SKID,
-  SND_DISTRO,
-  SND_HERRING,
-  SND_BRICK,
-  SND_HURT,
-  SND_SQUISH,
-  SND_FALL,
-  SND_RICOCHET,
-  SND_BUMP_UPGRADE,
-  SND_UPGRADE,
-  SND_EXCELLENT,
-  SND_COFFEE,
-  SND_SHOOT,
-  SND_LIFEUP,
-  SND_STOMP,
-  SND_KICK,
-  SND_EXPLODE,
-  SND_WARP,
-  SND_FIREWORKS,
-  NUM_SOUNDS
-};
-
-extern char* soundfilenames[NUM_SOUNDS];
-
 extern Surface* img_super_bkgd;
+extern Surface* tux_life;
 
 extern MusicRef herring_song;
 extern MusicRef level_end_song;
 
 extern SpriteManager* sprite_manager;
 extern TileManager* tile_manager;
+extern SoundManager* sound_manager;
 
 extern Menu* contrib_menu;
 extern Menu* contrib_subset_menu;
 extern Menu* main_menu;
 extern Menu* game_menu;
 extern Menu* options_menu;
-extern Menu* options_keys_menu;
-extern Menu* options_joystick_menu;
-extern Menu* highscore_menu;
 extern Menu* load_game_menu;
-extern Menu* save_game_menu;
 
 extern Font* gold_text;
 extern Font* white_text;
@@ -96,7 +62,7 @@ extern Font* yellow_nums;
  */
 std::string get_resource_filename(const std::string& resource);
 
-void loadshared();
-void unloadshared();
+void load_shared();
+void unload_shared();
 
 #endif

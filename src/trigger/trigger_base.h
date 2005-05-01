@@ -19,9 +19,9 @@
 #ifndef SUPERTUX_TRIGGER_BASE_H
 #define SUPERTUX_TRIGGER_BASE_H
 
-#include "special/moving_object.h"
+#include "moving_object.h"
 #include "math/rectangle.h"
-#include "special/sprite.h"
+#include "sprite/sprite.h"
 
 class Player;
 using namespace SuperTux;

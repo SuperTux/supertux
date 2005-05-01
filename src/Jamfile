@@ -2,11 +2,17 @@ SubDir TOP src ;
 
 sources = 
     [ Wildcard *.cpp *.h ]
+    [ Wildcard video : *.cpp *.h ]
+    [ Wildcard audio : *.cpp *.h ]
+    [ Wildcard gui : *.cpp *.h ]
+    [ Wildcard lisp : *.cpp *.h ]
     [ Wildcard object : *.cpp *.h ]
     [ Wildcard badguy : *.cpp *.h ]
+    [ Wildcard sprite : *.cpp *.h ]
     [ Wildcard trigger : *.cpp *.h ]
+    [ Wildcard control : *.cpp *.h ]
 ;
-TRANSLATABLE_SOURCES += [ DoSourceGrist $(sources) ] ;
+TRANSLATABLE_SOURCES += [ SearchSource $(sources) ] ;
 
 Application supertux : $(sources) ;
 LinkWith supertux : supertuxlib ;

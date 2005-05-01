@@ -22,7 +22,7 @@ rule Library
 
     local no_scan_archive = $(NOARSCAN) ;
     local target = [ ConstructLibraryTarget $(<) : $(3) ] ;
-    local sources = [ DoSourceGrist $(>) ] ;
+    local sources = [ SearchSource $(>) ] ;
     local objects = [ CompileObjects $(sources) : $(3) ] ;
     local install_targets ;
 
@@ -113,16 +113,18 @@ rule Library
     }
 
     # Import default flags
-    CppFlags $(<) : $(CPPFLAGS) $(LIBRARY_CPPFLAGS) ;
-    CFlags $(<) : $(CFLAGS) $(LIBRARY_CFLAGS) ;
-    C++Flags $(<) : $(C++FLAGS) $(LIBRARY_C++FLAGS) ;
-    LFlags $(<) : $(LFLAGS) $(LIBRARY_LFLAGS) ;
+    CppFlags $(<) : $(LIBRARY_CPPFLAGS) ;
+    CFlags $(<) : $(LIBRARY_CFLAGS) ;
+    C++Flags $(<) : $(LIBRARY_CXXFLAGS) ;
+    LFlags $(<) : $(LIBRARY_LIBS) ;
 
     # Sources are part of the package
     if ! [ IsElem nopackage : $(3) ]
     {
       Package $(sources) ;
     }
+
+    return $(target) ;
 }
 
 ##  LibraryVersion
@@ -130,7 +132,7 @@ rule Library
 ##    major:minor:patchlevel
 rule LibraryVersion
 {
-    LFLAGS on $($(<)_TARGET) = -version-info $(>) ;
+    LIBS on $($(<)_TARGET) = -version-info $(>) ;
 }
 
 #----------------------------------------------------------------------------
@@ -160,7 +162,7 @@ actions together Ranlib
 
 actions LinkLibrary bind NEEDLIBS bind EXTRAOBJECTS
 {
-    $(LINK) -o $(<) $(>) $(EXTRAOBJECTS) $(NEEDLIBS) $(LFLAGS)
+    $(LINK) -o $(<) $(>) $(EXTRAOBJECTS) $(NEEDLIBS) $(LIBS)
 }
 
 # Construct pseudo target libs which is used instead of the pseudo target lib

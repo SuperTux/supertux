@@ -22,7 +22,7 @@
 #include <string>
 
 #include "video/surface.h"
-#include "special/sprite.h"
+#include "sprite/sprite.h"
 #include "trigger_base.h"
 #include "serializable.h"
 #include "timer.h"

@@ -39,6 +39,7 @@ rule SystemLinkApplication
   Depends $(target) : $(>) ;
     
   LinkApplication $(target) : $(>) ;
+  LIBS on $(target) = $(LIBS) ;
   Clean clean : $(target) ;
   Clean $(<)clean : $(target) ;
 }
@@ -48,6 +49,6 @@ rule SystemLinkApplication
 actions LinkApplication bind NEEDLIBS bind EXTRAOBJECTS
 {
   $(MACOSX.ENVIRON)
-  $(LINK) -o $(<) $(>) $(EXTRAOBJECTS) $(NEEDLIBS) $(LFLAGS)
+  $(LINK) -o $(<) $(>) $(EXTRAOBJECTS) $(NEEDLIBS) $(LIBS)
 }
 

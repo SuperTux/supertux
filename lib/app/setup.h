@@ -39,30 +39,6 @@ struct FileSystem
     static std::string dirname(const std::string& filename);
   };
 
-/// All you need to get an application up and running
-struct Setup
-  {
-    static void init(const std::string& _package_name, const std::string& _package_symbol_name, const std::string& _package_version);
-    static void directories(void);
-    static void general(void);
-    static void general_free();
-    static void video(unsigned int screen_w, unsigned int screen_h);
-    static void audio(void);
-    static void joystick(void);
-    static void parseargs(int argc, char * argv[]);
-
-    private:
-    static void video_sdl(unsigned int screen_w, unsigned int screen_h);
-    static void video_gl(unsigned int screen_w, unsigned int screen_h);
-  };
-
-/// Termination handling
-struct Termination
-  {
-    static void shutdown(void);
-    static void abort(const std::string& reason, const std::string& details);
-  };
-  
 } //namespace SuperTux
 
 #endif /*SUPERTUX_SETUP_H*/

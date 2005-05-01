@@ -1,0 +1,117 @@
+#============================================================================
+# Rules for flex and bison
+#============================================================================
+
+if $(LEX)
+{
+  rule LexRule
+  {
+    local cfile = [ LocateTarget $(<:S=.c) ] ;
+    local object = [ CompileObjects $(cfile) ] ;
+
+    Lex $(cfile) : $(<) ;
+    
+    return $(object) ;
+  }
+  RegisterFileType LexRule : .l ;
+  
+  rule Lex++Rule
+  {
+    local cppfile = [ LocateTarget $(<:S=.cpp) ] ;
+    local object = [ CompileObjects $(cppfile) ] ;
+
+    Lex $(cppfile) : $(<) ;
+
+    return $(object) ;
+  }
+  RegisterFileType Flex++Rule : .ll ;
+
+  if $(COMPILER_TYPE) != "GCC"
+  {
+    # compilers like msvc don't like #line statements.
+    LEX_FLAGS += -L ;
+  }
+
+  rule Lex
+  {
+    Depends $(<) : $(>) ;
+    LEX_FLAGS on $(cfile) += $(LEX_FLAGS) ;    
+    Clean clean : $(cfile) ;
+  }
+  
+  # Use -t and output redirection to avoid flex choosing stupid names for it's
+  # output files.
+  actions Lex
+  {
+    $(LEX) -t $(LEX_FLAGS) $(>) > $(<)
+  }
+}
+
+if $(BISON)
+{
+  rule BisonRule
+  {
+    local cfile = [ LocateTarget $(<:S=.c) ] ;
+    local headerfile = [ LocateTarget $(<:S=.h) ] ;
+    local object = [ CompileObjects $(cfile) ] ;
+
+    Includes $(headerfile:G=) : $(headerfile) ;
+    
+    Bison $(cfile) $(headerfile) : $(<) ;
+    # work around jam warning about independent target 
+    Includes $(cfile) : $(headerfile) ;
+
+    return $(object) ;
+  }
+  RegisterFileType BisonRule : .y ;
+
+  rule Bison++Rule
+  {
+    local cppfile = [ LocateTarget $(<:S=.cpp) ] ;
+    local headerfile = [ LocateTarget $(<:S=.hpp) ] ;
+    headerfile = $(headerfile:G=) ;
+    local object = [ CompileObjects $(cppfile) ] ;
+
+    # jams header file scannning doesn't use grist so we have to workaround this
+    # here
+    Includes $(headerfile:G=) : $(headerfile) ;
+
+    Bison $(cppfile) $(headerfile) : $(<) ;
+    Includes $(cppfile) : $(headerfile) ;
+
+    return $(object) ;
+  }
+  RegisterFileType Bison++Rule : .yy ;
+    
+  rule Bison
+  {
+    Depends $(<) : $(>) ;
+    BISON_FLAGS on $(<) += $(BISON_FLAGS) ;
+    Clean clean : $(<) ;
+  }
+  rule BisonFlags
+  {
+    local target ;
+    
+    if $(<:S) = .yy
+    {
+      target = [ LocateTarget $(<:S=.cpp) $(<:S=.hpp) ] ;
+    }
+    else
+    {
+      target = [ LocateTarget $(<:S=.c) $(<:S=.h) ] ;
+    }
+    BISON_FLAGS on $(target) += $(>) ;
+  }
+
+  if $(COMPILER_TYPE) != "GCC"
+  {
+    # compilers like msvc don't like #line statements.
+    BISON_FLAGS += --no-lines ;
+  }
+  actions Bison
+  {
+    $(BISON) -d $(BISON_FLAGS) -o $(<[1]) $(>)
+  }
+}
+

@@ -25,9 +25,10 @@
 #include "timer.h"
 #include "direction.h"
 #include "video/surface.h"
-#include "special/moving_object.h"
-#include "special/sprite.h"
+#include "moving_object.h"
+#include "sprite/sprite.h"
 #include "math/physic.h"
+#include "control/controller.h"
 #include "player_status.h"
 
 using namespace SuperTux;
@@ -36,57 +37,17 @@ class BadGuy;
 class Portable;
 
 /* Times: */
-
-#define TUX_SAFE_TIME 1.250
-#define TUX_INVINCIBLE_TIME 10.0
-#define TUX_INVINCIBLE_TIME_WARNING 2.0
-#define TUX_FLAPPING_TIME 1 /* How long Tux can flap his wings to gain additional jump height */
-#define TIME_WARNING 20     /* When to alert player they're low on time! */
-
-struct PlayerKeymap
-{
-public:
-  int jump;
-  int up;
-  int down;
-  int left;
-  int right;
-  int power;
-  
-  PlayerKeymap();
-};
-
-extern PlayerKeymap keymap;
-
-/** Contains a field of booleans that indicate wheter a button is pressed or
- * released. The old_ fields contain the state of the button at the previous
- * frame.
- */
-struct PlayerInputType
-{
-public:
-  PlayerInputType();
-  void reset();
-
-  bool left;
-  bool right;
-  bool up;
-  bool old_up;
-  bool down;
-  bool fire;
-  bool old_fire;
-  bool activate;
-  bool jump;
-  bool old_jump;
-};
+static const float TUX_SAFE_TIME = 1.250;
+static const float TUX_INVINCIBLE_TIME = 10.0;
+static const float TUX_INVINCIBLE_TIME_WARNING = 2.0;
+static const float TUX_FLAPPING_TIME = 1; /* How long Tux can flap his wings to gain additional jump height */
+static const float TIME_WARNING = 20;     /* When to alert player they're low on time! */
+static const float GROWING_TIME = 1.0;
+static const int GROWING_FRAMES = 7;
 
 class Camera;
 class PlayerStatus;
 
-extern Surface* tux_life;
-
-#define GROWING_TIME 1.0
-#define GROWING_FRAMES 7
 extern Surface* growingtux_left[GROWING_FRAMES];
 extern Surface* growingtux_right[GROWING_FRAMES];
 
@@ -125,7 +86,7 @@ public:
   enum HurtMode { KILL, SHRINK };
   enum FallMode { ON_GROUND, JUMPING, TRAMPOLINE_JUMP, FALLING };
 
-  PlayerInputType input;
+  Controller* controller;
   PlayerStatus* player_status;
   bool duck;
   bool dead;
@@ -172,9 +133,8 @@ public:
 public:
   Player(PlayerStatus* player_status);
   virtual ~Player();
-  
-  bool key_event(SDLKey key, bool state);
-  void handle_input();
+
+  void set_controller(Controller* controller);  
 
   virtual void action(float elapsed_time);
   virtual void draw(DrawingContext& context);
@@ -191,7 +151,6 @@ public:
   }
   
   void kill(HurtMode mode);
-  void player_remove_powerups();
   void check_bounds(Camera* camera);
   void move(const Vector& vector);
   void set_bonus(BonusType type, bool animate = false);
@@ -207,6 +166,7 @@ public:
   bool is_big();
   
 private:
+  void handle_input();
   bool on_ground();
   
   void init();

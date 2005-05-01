@@ -1,11 +1,31 @@
+//  $Id$
+// 
+//  SuperTux
+//  Copyright (C) 2005 Matthias Braun <matze@braunis.de>
+//
+//  This program is free software; you can redistribute it and/or
+//  modify it under the terms of the GNU General Public License
+//  as published by the Free Software Foundation; either version 2
+//  of the License, or (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+// 
+//  You should have received a copy of the GNU General Public License
+//  along with this program; if not, write to the Free Software
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  02111-1307, USA.
+
 #include <config.h>
 
 #include "block.h"
 #include "resources.h"
 #include "player.h"
 #include "sector.h"
-#include "special/sprite.h"
-#include "special/sprite_manager.h"
+#include "sprite/sprite.h"
+#include "sprite/sprite_manager.h"
 #include "video/drawing_context.h"
 #include "lisp/lisp.h"
 #include "gameobjs.h"
@@ -151,7 +171,7 @@ void
 BonusBlock::try_open()
 {
   if(sprite->get_action_name() == "empty") {
-    SoundManager::get()->play_sound(IDToSound(SND_BRICK));
+    sound_manager->play_sound("brick");
     return;
   }
   
@@ -173,7 +193,7 @@ BonusBlock::try_open()
             new Flower(get_pos() + Vector(0, -32), Flower::FIREFLOWER));
         sector->add_object(riser);
       }
-      SoundManager::get()->play_sound(IDToSound(SND_UPGRADE));
+      sound_manager->play_sound("upgrade");
       break;
 
     case CONTENT_ICEGROW:
@@ -186,7 +206,7 @@ BonusBlock::try_open()
             new Flower(get_pos() + Vector(0, -32), Flower::ICEFLOWER));
         sector->add_object(riser);
       }      
-      SoundManager::get()->play_sound(IDToSound(SND_UPGRADE));
+      sound_manager->play_sound("upgrade");
       break;
 
     case CONTENT_STAR:
@@ -235,7 +255,7 @@ Brick::try_break(bool playerhit)
   if(sprite->get_action_name() == "empty")
     return;
   
-  SoundManager::get()->play_sound(IDToSound(SND_BRICK));
+  sound_manager->play_sound("brick");
   Sector* sector = Sector::current();
   Player& player = *(sector->player);
   if(coin_counter > 0) {

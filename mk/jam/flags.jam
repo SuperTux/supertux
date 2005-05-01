@@ -22,8 +22,8 @@ rule LinkWith
                 # inherit the exported flags
                 CppFlags $(<) : $($(i)_CPPFLAGS) : $(3) ;
                 CFlags $(<) : $($(i)_CFLAGS) : $(3) ;
-                C++Flags $(<) : $($(i)_C++FLAGS) : $(3) ;
-                LFlags $(<) : $($(i)_LFLAGS) : $(3) ;
+                C++Flags $(<) : $($(i)_CXXFLAGS) : $(3) ;
+                LFlags $(<) : $($(i)_LIBS) : $(3) ;
             }
         } else {
             echo "WARNING: Trying to link" $(i)
@@ -74,10 +74,10 @@ rule CFlags
 
 rule C++Flags
 {
-    C++FLAGS on $($(<)_OBJECTS) += $(>) ;
+    CXXFLAGS on $($(<)_OBJECTS) += $(>) ;
 
     if [ IsElem export : $(3) ] {
-	$(<)_C++FLAGS = $(>) ;
+	$(<)_CXXFLAGS = $(>) ;
     }
 }
 
@@ -85,10 +85,10 @@ rule C++Flags
 ##    Sets linker flags for a library, plugin or application target
 rule LFlags
 {
-    LFLAGS on $($(<)_TARGET) += $(>) ;
+    LIBS on $($(<)_TARGET) += $(>) ;
 
     if [ IsElem export : $(3) ] {
-        $(<)_LFLAGS = $(>) ;
+        $(<)_LIBS = $(>) ;
     }
 }
 

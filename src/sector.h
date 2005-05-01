@@ -16,7 +16,6 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
 #ifndef SUPERTUX_SECTOR_H
 #define SUPERTUX_SECTOR_H
 
@@ -31,8 +30,6 @@
 using namespace SuperTux;
 
 namespace SuperTux {
-class GameObject;
-class Sprite;
 class Rectangle;
 }
 namespace lisp {
@@ -40,6 +37,8 @@ class Lisp;
 class Writer;
 }
 
+class Sprite;
+class GameObject;
 class Player;
 class Camera;
 class TileMap;
@@ -51,6 +50,11 @@ class SpawnPoint
 public:
   std::string name;
   Vector pos;
+};
+
+enum MusicType {
+  LEVEL_MUSIC,
+  HERRING_MUSIC
 };
 
 /** This class holds a sector (a part of a level) and all the game objects
@@ -88,8 +92,8 @@ public:
   /// tests if a given rectangle is inside the sector
   bool inside(const Rectangle& rectangle) const;
 
-  void play_music(int musictype);
-  int get_music_type();
+  void play_music(MusicType musictype);
+  MusicType get_music_type();
   
   /** Checks for all possible collisions. And calls the
       collision_handlers, which the collision_objects provide for this
@@ -121,7 +125,6 @@ private:
   std::string name;
 
   MusicRef level_song;
-  MusicRef level_song_fast;
 
 public:
   std::string song_title;
@@ -148,8 +151,8 @@ private:
   
   /// container for newly created objects, they'll be added in Sector::action
   GameObjects gameobjects_new;
-  
-  int currentmusic;
+ 
+  MusicType currentmusic;
 
   CollisionGrid* grid;
 };

@@ -2,11 +2,6 @@
 # Rules for C and C++ files
 #============================================================================
 
-# convert autoconf style variablenames to jam style ones
-CCFLAGS += $(CFLAGS) ;
-C++FLAGS += $(CXXFLAGS) ;
-LFLAGS += $(LIBS) ;
-
 if $(CC)
 {
 
@@ -16,22 +11,20 @@ rule CcRule
 
     if [ IsElem shared : $(2) ]
     {
-        object = [ DoObjectGrist $(<:S=.lo) ] ;
+        object = [ LocateTarget $(<:S=.lo) ] ;
         CC on $(object) = "$(LIBTOOL) --mode=compile $(CC)" ;
     } else {
-        object = [ DoObjectGrist $(<:S=.o) ] ;
+        object = [ LocateTarget $(<:S=.o) ] ;
     }
 
+    CFLAGS on $(object) = $(CFLAGS) ;
+    CPPFLAGS on $(object) = $(CPPFLAGS) ;
     Cc $(object) : $(<) ;
+    Depends $(object) : $(<) ;
     return $(object) ;
 }
 RegisterFileType CcRule : .c ;
 RegisterHeaderRule HeaderRule : $(HDRPATTERN) : .c ;
-
-rule Cc
-{
-    Depends $(<) : $(>) ;
-}
 
 actions Cc
 {
@@ -47,26 +40,24 @@ rule C++Rule
     local object ;
     
     if [ IsElem shared : $(2) ] {
-        object = [ DoObjectGrist $(<:S=.lo) ] ;
+        object = [ LocateTarget $(<:S=.lo) ] ;
         CXX on $(object) = "$(LIBTOOL) --mode=compile $(CXX)" ;
     } else {
-        object = [ DoObjectGrist $(<:S=.o) ] ;
+        object = [ LocateTarget $(<:S=.o) ] ;
     }
+    CXXFLAGS on $(object) = $(CXXFLAGS) ;
+    CPPFLAGS on $(object) = $(CPPFLAGS) ;
     C++ $(object) : $(<) ;
+    Depends $(object) : $(<) ;
     return $(object) ;
 }
 RegisterFileType C++Rule : .cpp .cc .c++ ; # we can't register .C here because
                                            # of windows being case-insensitive.
 RegisterHeaderRule HeaderRule : $(HDRPATTERN) : .cpp .cc .c++ ;
 
-rule C++
-{
-    Depends $(<) : $(>) ;
-}
-
 actions C++
 {
-    $(CXX) -c -o $(<) $(CPPFLAGS) $(C++FLAGS) $(>)
+    $(CXX) -c -o $(<) $(CPPFLAGS) $(CXXFLAGS) $(>)
 }
 } # end if $(CXX)
 

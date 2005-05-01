@@ -42,7 +42,7 @@ public:
   void write(lisp::Writer& writer);
   void read(const lisp::Lisp& lisp);
 
-  int  distros;
+  int  coins;
   int  lives;
   BonusType bonus;
 

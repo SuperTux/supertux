@@ -3,27 +3,13 @@
 #============================================================================
 
 VARIANT ?= optimize ;
-if $(VARIANT) != "debug" && $(VARIANT) != "optimize" && $(VARIANT) != "profile"
-{
-  exit "Invalid modus set, please set VARIANT to debug, profile or optimize" ;
-}
-
-switch $(VARIANT)
-{
-case optimize :
-    SHORTVARIANT = opt ;
-case debug :
-    SHORTVARIANT = dbg ;
-case profile :
-    SHORTVARIANT = prof ;
-}
 
 # Set modus related flags
-CCFLAGS += $(COMPILER_CFLAGS) $(COMPILER_CFLAGS_$(VARIANT)) ;
-C++FLAGS += $(COMPILER_CFLAGS) $(COMPILER_C++FLAGS)
-	    $(COMPILER_CFLAGS_$(VARIANT)) $(COMPILER_C++FLAGS_$(VARIANT)) ;
-LFLAGS += $(LDFLAGS) $(COMPILER_LFLAGS) $(COMPILER_LFLAGS_$(VARIANT)) ;
-LOCATE_OBJECTS = $(LOCATE_OBJECTS)/$(SHORTVARIANT) ;
+CFLAGS += $(COMPILER_CFLAGS) $(COMPILER_CFLAGS_$(VARIANT)) ;
+CXXFLAGS += $(COMPILER_CFLAGS) $(COMPILER_CXXFLAGS)
+	    $(COMPILER_CFLAGS_$(VARIANT)) $(COMPILER_CXXFLAGS_$(VARIANT)) ;
+LIBS += $(LDFLAGS) $(COMPILER_LIBS) $(COMPILER_LIBS_$(VARIANT)) ;
+LOCATE_OBJECTS = $(LOCATE_OBJECTS)/$(VARIANT) ;
 
 ##  SubVariant variantname
 ##    Specify subvarianet which are placed in separate compilation directories.

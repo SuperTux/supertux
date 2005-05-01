@@ -1,3 +1,23 @@
+//  $Id$
+// 
+//  SuperTux
+//  Copyright (C) 2005 Matthias Braun <matze@braunis.de>
+//
+//  This program is free software; you can redistribute it and/or
+//  modify it under the terms of the GNU General Public License
+//  as published by the Free Software Foundation; either version 2
+//  of the License, or (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+// 
+//  You should have received a copy of the GNU General Public License
+//  along with this program; if not, write to the Free Software
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  02111-1307, USA.
+
 /***************************************************************************
                   leveleditor.cpp  -  built'in leveleditor
                      -------------------
@@ -14,7 +34,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-
+#if 0
 #include <config.h>
 
 #include <stdlib.h>
@@ -27,13 +47,13 @@
 #include "app/gettext.h"
 #include "app/setup.h"
 #include "app/globals.h"
-#include "special/sprite.h"
+#include "sprite/sprite.h"
 #include "leveleditor.h"
 #include "resources.h"
 #include "tile.h"
 #include "tile_manager.h"
 #include "sector.h"
-#include "gameloop.h"
+#include "game_session.h"
 #include "object_factory.h"
 #include "object/gameobjs.h"
 #include "object/camera.h"
@@ -59,7 +79,7 @@ LevelEditor::LevelEditor()
   /* Creating menus */
   level_subsets = FileSystem::dsubdirs("/levels", "info");
   subset_menu = new Menu();
-  subset_menu->additem(MN_LABEL,_("Load Subset"),0,0);
+  subset_menu->add_label(_("Load Subset"));
   subset_menu->additem(MN_HL,"",0,0);
   int i = 0;
   for(std::set<std::string>::iterator it = level_subsets.begin(); it != level_subsets.end(); ++it, ++i)
@@ -201,7 +221,7 @@ delete img_next_sector_bt;
 
 void LevelEditor::run(const std::string filename)
 {
-  SoundManager::get()->halt_music();
+  sound_manager->halt_music();
   Menu::set_current(0);
 
   DrawingContext context;
@@ -834,7 +854,7 @@ void LevelEditor::test_level()
   GameSession session(level_filename, ST_GL_TEST);
   session.run();
   //  player_status.reset();
-  SoundManager::get()->halt_music();
+  sound_manager->halt_music();
 }
 
 void LevelEditor::change(int x, int y, int newtile, int layer)
@@ -1032,3 +1052,4 @@ LevelEditor::create_sector(const std::string& name, size_t width, size_t height)
   return sector;
 }
 
+#endif

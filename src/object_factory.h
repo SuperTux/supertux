@@ -23,7 +23,7 @@
 #include <map>
 
 #include "lisp/lisp.h"
-#include "special/game_object.h"
+#include "game_object.h"
 #include "math/vector.h"
 
 using namespace SuperTux;

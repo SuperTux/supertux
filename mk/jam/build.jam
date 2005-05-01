@@ -23,6 +23,7 @@ include $(jamrulesdir)/clean.jam ;
 
 include $(jamrulesdir)/objects.jam ;
 include $(jamrulesdir)/compiler.jam ;
+include $(jamrulesdir)/bisonflex.jam ;
 
 include $(jamrulesdir)/autoconf.jam ;
 

@@ -28,7 +28,7 @@ rule Application
     CheckOptions noinstall console independent : $(3) : $(<) ;
 
     local target = [ ConstructApplicationTarget $(<) : $(3) ] ;
-    local sources = [ DoSourceGrist $(>) ] ;
+    local sources = [ SearchSource $(>) ] ;
     local objects = [ CompileObjects $(sources) ] ;
 
     $(<)_TYPE = application ;
@@ -71,16 +71,18 @@ rule Application
     SystemLinkApplication $(<) : $(objects) : $(3) ;
 
     # Import default flags
-    CppFlags $(<) : $(CPPFLAGS) $(APPLICTION_CPPFLAGS) ;
-    CFlags $(<) : $(CFLAGS) $(APPLICATION_CFLAGS) ;
-    C++Flags $(<) : $(C++FLAGS) $(APPLICATION_C++FLAGS) ;
-    LFlags $(<) : $(LFLAGS) $(APPLICATION_LFLAGS) ;
+    CppFlags $(<) : $(APPLICTION_CPPFLAGS) ;
+    CFlags $(<) : $(APPLICATION_CFLAGS) ;
+    C++Flags $(<) : $(APPLICATION_CXXFLAGS) ;
+    LFlags $(<) : $(APPLICATION_LIBS) ;
 
     # Sources are part of the package
     if ! [ IsElem nopackage : $(3) ]
     {
         Package $(sources) ;
     }
+
+    return $(target) ;
 }
 
 #----------------------------------------------------------------------------

@@ -40,13 +40,13 @@
 #include "lisp/list_iterator.h"
 #include "tile.h"
 #include "audio/sound_manager.h"
-#include "gameloop.h"
+#include "game_session.h"
 #include "resources.h"
 #include "statistics.h"
 #include "collision_grid.h"
 #include "collision_grid_iterator.h"
 #include "object_factory.h"
-#include "special/collision.h"
+#include "collision.h"
 #include "math/rectangle.h"
 #include "math/aatriangle.h"
 #include "object/coin.h"
@@ -741,7 +741,7 @@ Sector::add_bullet(const Vector& pos, float xm, Direction dir)
   }
   add_object(new_bullet);
 
-  SoundManager::get()->play_sound(IDToSound(SND_SHOOT));
+  sound_manager->play_sound("shoot");
 
   return true;
 }
@@ -762,47 +762,28 @@ Sector::add_floating_text(const Vector& pos, const std::string& text)
 void
 Sector::load_music()
 {
-  char* song_path;
-  char* song_subtitle;
-                                                                                
-  level_song = SoundManager::get()->load_music(datadir + "/music/" + song_title);
-                                                                                
-  song_path = (char *) malloc(sizeof(char) * datadir.length() +
-                              strlen(song_title.c_str()) + 8 + 5);
-  song_subtitle = strdup(song_title.c_str());
-  strcpy(strstr(song_subtitle, "."), "\0");
-  sprintf(song_path, "%s/music/%s-fast%s", datadir.c_str(),
-          song_subtitle, strstr(song_title.c_str(), "."));
-  if(!SoundManager::get()->exists_music(song_path)) {
-    level_song_fast = level_song;
-  } else {
-    level_song_fast = SoundManager::get()->load_music(song_path);
-  }
-  free(song_subtitle);
-  free(song_path);
+  level_song = sound_manager->load_music(
+    get_resource_filename("/music/" + song_title));
 }
 
 void
-Sector::play_music(int type)
+Sector::play_music(MusicType type)
 {
   currentmusic = type;
   switch(currentmusic) {
-    case HURRYUP_MUSIC:
-      SoundManager::get()->play_music(level_song_fast);
-      break;
     case LEVEL_MUSIC:
-      SoundManager::get()->play_music(level_song);
+      sound_manager->play_music(level_song);
       break;
     case HERRING_MUSIC:
-      SoundManager::get()->play_music(herring_song);
+      sound_manager->play_music(herring_song);
       break;
     default:
-      SoundManager::get()->halt_music();
+      sound_manager->halt_music();
       break;
   }
 }
 
-int
+MusicType
 Sector::get_music_type()
 {
   return currentmusic;

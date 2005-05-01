@@ -169,6 +169,7 @@ TileMap::draw(DrawingContext& context)
     }
   }
 
+#if 0
   if (debug_grid)
   {
     for (pos.x = start_x; pos.x < end_x; pos.x += 32)
@@ -183,6 +184,7 @@ TileMap::draw(DrawingContext& context)
                   Color(225, 225, 225), LAYER_GUI-50);
     }
   }
+#endif
 
   context.pop_transform();
 }

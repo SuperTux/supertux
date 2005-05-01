@@ -42,24 +42,25 @@ std::string convert(const std::string& text,
   iconv_t cd = iconv_open(to_charset.c_str(), from_charset.c_str());
   
   size_t in_len = text.length();
-  size_t out_len = text.length()*2;
+  size_t out_len = text.length()*3; // FIXME: cross fingers that this is enough	
 
-  char*  out_orig = new char[out_len]; // FIXME: cross fingers that this is enough
+  char*  out_orig = new char[out_len];
   char*  in_orig  = new char[in_len+1];
   strcpy(in_orig, text.c_str());
 
   char* out = out_orig;
   char* in  = in_orig;
+  size_t out_len_temp = out_len; // iconv is counting down the bytes it has
+                                 // written from this...
 
-  //std::cout << "IN: " << (int)in << " " << in_len << " " << (int)out << " " << out_len << std::endl;
-  int retval = iconv(cd, &in, &in_len, &out, &out_len);
-  //std::cout << "OUT: " << (int)in << " " << in_len << " " << (int)out << " " << out_len << std::endl;
-
-  if (retval != 0)
+  size_t retval = iconv(cd, &in, &in_len, &out, &out_len_temp);
+  out_len -= out_len_temp; // see above
+  if (retval == (size_t) -1)
     {
       std::cerr << strerror(errno) << std::endl;
       std::cerr << "Error: conversion from " << from_charset
                 << " to " << to_charset << " went wrong: " << retval << std::endl;
+      return "";
     }
   iconv_close(cd);
 

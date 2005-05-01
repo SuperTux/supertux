@@ -360,7 +360,7 @@
       "coin-7.png"
       "coin-8.png"
     )
-    (distro #t)
+    (coin #t)
     (anim-fps 10)
   )
   (tile
@@ -620,7 +620,7 @@
       "coin3.png"
       "coin2.png"
     )
-    (distro #t)
+    (coin #t)
     (anim-fps 10)
   )
   (tile
