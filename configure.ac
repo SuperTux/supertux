@@ -12,7 +12,7 @@ dnl ===========================================================================
 dnl Process this file with autoconf to produce a configure script.
 AC_PREREQ([2.54])
 AC_INIT(supertux, 0.2-cvs)
-AC_CONFIG_SRCDIR([src/supertux.cpp])
+AC_CONFIG_SRCDIR([src/main.cpp])
 AC_CONFIG_AUX_DIR([mk/autoconf])
 AC_CANONICAL_TARGET
 
