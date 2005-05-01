@@ -1178,34 +1178,43 @@
    (sprite (name "dummyguy")
        (action
          (name "left")
+	 (fps 6)
          (x-offset 0)
-         (y-offset 0)
-         (images "shared/dummyguy-walk-1.png"
-                 "shared/dummyguy-walk-2.png"))
+         (y-offset 40)
+         (images "shared/nolok/nolok_walk0.png"
+		 "shared/nolok/nolok_walk1.png"
+                 "shared/nolok/nolok_walk2.png"
+		 "shared/nolok/nolok_walk3.png"
+		 "shared/nolok/nolok_walk4.png"))
 
        (action
          (name "right")
+	 (fps 6)
          (x-offset 0)
-         (y-offset 0)
+         (y-offset 40)
          (mirror-action "left"))
          
        (action
          (name "stand")
          (x-offset 0)
-         (y-offset 0)
-         (images "shared/dummyguy-stand.png"))
+         (y-offset 40)
+         (images "shared/nolok/nolok_walk0.png"))
          
        (action
          (name "throw")
+	 (fps 6)
          (x-offset 0)
-         (y-offset 0)
-         (images "shared/dummyguy-throw.png"))
+         (y-offset 40)
+         (images "shared/nolok/nolok_throw0.png"
+		 "shared/nolok/nolok_throw1.png"))
 
        (action
          (name "jump")
          (x-offset 0)
-         (y-offset 0)
-         (images "shared/dummyguy-jump.png"))
+         (y-offset 40)
+         (images "shared/nolok/nolok_jump0.png"
+		 "shared/nolok/nolok_jump1.png"
+		 "shared/nolok/nolok_jump2.png"))
          
        (action
          (name "dead")
