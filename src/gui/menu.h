@@ -23,6 +23,7 @@
 #include <set>
 #include <string>
 #include <utility>
+#include <assert.h>
 
 #include "SDL.h"
 
