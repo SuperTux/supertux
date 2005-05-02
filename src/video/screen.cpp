@@ -23,6 +23,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <cerrno>
+#include <assert.h>
 
 #include <unistd.h>
 
