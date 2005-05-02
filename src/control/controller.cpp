@@ -38,10 +38,7 @@ const char* Controller::controlNames[] = {
 
 Controller::Controller()
 {
-  for(int i = 0; i < CONTROLCOUNT; ++i) {
-    controls[i] = false;
-    oldControls[i] = false;
-  }
+  reset();
 }
 
 Controller::~Controller()

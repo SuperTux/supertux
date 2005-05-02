@@ -139,6 +139,8 @@ Menu::pop_current()
     current_->effect.start(500);
 
     last_menus.pop_back();
+  } else {
+    current_ = 0;
   }
 }
 

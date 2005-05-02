@@ -55,7 +55,7 @@ public:
 JoystickKeyboardController::JoystickKeyboardController()
   : wait_for_key(-1), wait_for_joybutton(-1)
 {
-	memset(last_keys, 0, sizeof(last_keys));
+  memset(last_keys, 0, sizeof(last_keys));
 
   // initialize default keyboard map
   keymap.insert(std::make_pair(SDLK_LEFT, LEFT));

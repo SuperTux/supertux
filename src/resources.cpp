@@ -199,7 +199,7 @@ void unload_shared()
 
 std::string get_resource_filename(const std::string& resource)
 {
-  std::string filepath = user_dir + resource;
+  std::string filepath = user_dir + "/" + resource;
   if(FileSystem::faccessible(filepath))
     return filepath;
   

@@ -136,7 +136,7 @@ void generate_contrib_menu()
         delete subset;
         continue;
       }
-      contrib_menu->add_submenu(subset->title, contrib_subset_menu);
+      contrib_menu->add_submenu(subset->title, contrib_subset_menu, i);
       contrib_subsets.push_back(subset);
       ++i;
     }
@@ -244,6 +244,7 @@ void check_contrib_subset_menu()
 void draw_demo(float elapsed_time)
 {
   static float last_tux_x_pos = -1;
+  static float last_tux_y_pos = -1;
   Sector* sector  = titlesession->get_current_sector();
   Player* tux = sector->player;
 
@@ -252,14 +253,21 @@ void draw_demo(float elapsed_time)
   controller->update();
   controller->press(Controller::RIGHT);
   
-  if(random_timer.check() || (int) last_tux_x_pos == (int) tux->get_pos().x) {
-    random_timer.start(float(rand() % 3000 + 3000) / 1000.);
-    walking = !walking;
+  if(random_timer.check() || 
+      (walking && (int) last_tux_x_pos == (int) tux->get_pos().x)) {
+    walking = false;
+    printf("Walking: %d.\n", walking);
   } else {
-      if(!walking)
-        controller->press(Controller::JUMP);
+      if(!walking && (int) tux->get_pos().y == (int) last_tux_y_pos) {
+        random_timer.start(float(rand() % 3000 + 3000) / 1000.);
+        walking = true;
+        printf("Walking: %d.\n", walking);
+      }
   }
+  if(!walking)
+    controller->press(Controller::JUMP);
   last_tux_x_pos = tux->get_pos().x;
+  last_tux_y_pos = tux->get_pos().y;
 
   // Wrap around at the end of the level back to the beginnig
   if(sector->solids->get_width() * 32 - 320 < tux->get_pos().x) {
@@ -304,7 +312,8 @@ void title()
   
   Menu::set_current(main_menu);
   DrawingContext& context = *titlesession->context;
-  while (Menu::current())
+  bool running = true;
+  while (running)
     {
       // Calculate the movement-factor
       Uint32 ticks = SDL_GetTicks();
@@ -326,7 +335,6 @@ void title()
           Menu::current()->event(event);
         }
         main_controller->process_event(event);
-        // FIXME: QUIT signal should be handled more generic, not locally
         if (event.type == SDL_QUIT)
           throw std::runtime_error("Received window close");
       }
@@ -389,7 +397,7 @@ void title()
                   Menu::set_current(main_menu);
                   break;
                 case MNID_QUITMAINMENU:
-                  Menu::set_current(0);
+                  running = false;
                   break;
                 }
             }
@@ -431,6 +439,12 @@ void title()
               check_contrib_subset_menu();
             }
         }
+
+      // reopen menu of user closed it (so that the app doesn't close when user
+      // accidently hit ESC)
+      if(Menu::current() == 0) {
+        Menu::set_current(main_menu);
+      }
 
       mouse_cursor->draw(context);
      
