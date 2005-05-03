@@ -24,7 +24,7 @@ if $(LEX)
 
     return $(object) ;
   }
-  RegisterFileType Flex++Rule : .ll ;
+  RegisterFileType Lex++Rule : .ll ;
 
   if $(COMPILER_TYPE) != "GCC"
   {
@@ -57,7 +57,7 @@ if $(BISON)
 
     Includes $(headerfile:G=) : $(headerfile) ;
     
-    Bison $(cfile) $(headerfile) : $(<) ;
+    Bison $(cfile) : $(<) ;
     # work around jam warning about independent target 
     Includes $(cfile) : $(headerfile) ;
 
@@ -76,8 +76,8 @@ if $(BISON)
     # here
     Includes $(headerfile:G=) : $(headerfile) ;
 
-    Bison $(cppfile) $(headerfile) : $(<) ;
-    Includes $(cppfile) : $(headerfile) ;
+    Bison $(cppfile) : $(<) ;
+#Includes $(cppfile) : $(headerfile) ;
 
     return $(object) ;
   }

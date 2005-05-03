@@ -1,0 +1,9 @@
+SubDir TOP tools miniswig ;
+
+if $(LEX) && $(BISON) {
+    MINISWIG = [ Application miniswig : [ Wildcard *.yy *.ll *.cpp ] ] ;
+    C++Flags miniswig : -Wno-unused ;
+    IncludeDir miniswig : . ;
+    ExternalLibs miniswig : LEX ;
+}
+

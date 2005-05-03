@@ -39,6 +39,12 @@ if test -n "$XGETTEXT" ; then
     fi
 fi
 
+AC_PROG_LEX
+LEX_LIBS=$LEXLIB
+AC_SUBST([LEX_LIBS])
+AC_CHECK_PROGS([BISON], bison)
+AC_SUBST([BISON])
+
 dnl Checks for header files.
 AC_HEADER_DIRENT
 AC_HEADER_STDC
