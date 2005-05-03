@@ -1524,7 +1524,7 @@
   (sprite (name "yeti")
     (action
       (name "normal")
-      (images "shared/yeti/yeti.png")
+      (images "shared/yeti/yeti_b.png")
     )
   )
 )
