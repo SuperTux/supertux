@@ -55,9 +55,10 @@ instr 2
 	a1    pareq   a1, p4,p5, 1, 1 ; growl
 	a1    pareq   a1, p6  ,1+kncrck*p7 ,1, 0 ; "crackling"
 	a1    pareq   a1, p6/2,1+k2crck*p7 ,1, 0 ; "crackling"
+	a1    pareq   a1, p6/3,1+k2crck*p7 ,1, 0 ; "crackling"
 
-	a1    pareq   a1,  10, 0, 1, 1 ; thunder stop (dc correction)
-	a1    pareq   a1, 4000, 0, 1, 2 ; extreme high stop
+	a1    pareq   a1, 10, 0, 0.7, 1 ; thunder stop (dc correction)
+	a1    pareq   a1, p9, 0, 0.7, 2 ; extreme high stop
 
 	out a1*700 ; adjust your volume here
 endin
@@ -77,3 +78,29 @@ instr 3
 	out aout*kamp
 
 endin        
+
+instr 4
+
+	ifqc= cpspch(p4)
+	ihold
+
+	kamp linseg 0,p3/8,1,p3*6/8,1,p3/8,0
+	kfenv expseg 0.001,p3/8,3,p3,1,p3*1,0.001
+
+	asrc oscili p5/4,ifqc,1
+	aout lowres asrc,ifqc*kfenv/2,2
+	aphs phaser2 aout, ifqc*(kfenv+1), 0.89,20, 2, 2, 0.6
+
+	aout = aout - aphs
+
+	aecho reverb aout,0.01,0.1
+	aout=aout+aecho*0.3
+
+	aout balance aout,asrc
+
+	aout butterhp aout,1000,0
+
+
+	out aout*kamp
+
+endin
