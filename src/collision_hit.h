@@ -21,8 +21,6 @@
 
 #include "math/vector.h"
 
-using namespace SuperTux;
-
 /**
  * Used as return value for the collision functions, to indicate how the
  * collision should be handled

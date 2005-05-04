@@ -17,7 +17,6 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
-
 #ifndef __BELL_H__
 #define __BELL_H__
 
@@ -25,8 +24,6 @@
 #include "moving_object.h"
 #include "sprite/sprite.h"
 #include "serializable.h"
-
-using namespace SuperTux;
 
 /**
  * A bell: When tux touches it, it begins ringing and you will respawn at this

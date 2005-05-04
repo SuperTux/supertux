@@ -24,7 +24,6 @@
 #include "sprite/sprite.h"
 
 class Player;
-using namespace SuperTux;
 
 /** This class is the base class for all objects you can interact with in some
  * way. There are several interaction types defined like touch and activate

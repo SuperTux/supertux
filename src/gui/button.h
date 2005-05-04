@@ -17,7 +17,6 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
-
 #ifndef SUPERTUX_BUTTON_H
 #define SUPERTUX_BUTTON_H
 
@@ -29,8 +28,6 @@
 
 class Surface;
 
-namespace SuperTux
-  {
 class ButtonGroup;
 
 enum {
@@ -90,7 +87,5 @@ private:
 
   int buttons_pair_nb;
 };
-
-} //namespace SuperTux
 
 #endif

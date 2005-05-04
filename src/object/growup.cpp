@@ -17,7 +17,6 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
-
 #include <config.h>
 
 #include <math.h>
@@ -26,7 +25,6 @@
 #include "camera.h"
 #include "sector.h"
 #include "player.h"
-#include "app/globals.h"
 #include "sprite/sprite_manager.h"
 
 GrowUp::GrowUp(const Vector& pos)

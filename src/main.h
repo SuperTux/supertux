@@ -17,24 +17,17 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
-
 #ifndef __MAIN_H__
 #define __MAIN_H__
 
-enum GlobalGameState {
-  /** the title screen is showing */
-  STATE_TITLE,
-  /** the worldmap is shown */
-  STATE_WORLDMAP,
-  /** a level is played */
-  STATE_GAMESESSION
-};
-
 void init_video();
+void wait_for_event(float min_delay, float max_delay);
 
-class JoystickKeyboardController;
+static const int SCREEN_WIDTH = 800;
+static const int SCREEN_HEIGHT = 600;
 
 // global variables
+class JoystickKeyboardController;
 extern JoystickKeyboardController* main_controller;
 
 #endif

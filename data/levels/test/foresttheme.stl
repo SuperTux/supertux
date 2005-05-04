@@ -4,7 +4,6 @@
   (name "Forest Theme Test")
   (author "Marek Moeckel")
   (time 300)
-  (end-sequence-animation "none")
   (sector
     (name "main")
     (gravity 10)

@@ -25,11 +25,8 @@
 #include "sprite/sprite.h"
 #include "sprite/sprite_manager.h"
 #include "video/drawing_context.h"
-#include "app/globals.h"
 #include "lisp/lisp.h"
 #include "lisp/writer.h"
-
-using namespace SuperTux;
 
 Door::Door(const lisp::Lisp& reader)
 {

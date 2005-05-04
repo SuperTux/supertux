@@ -17,7 +17,6 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
-
 #include <config.h>
 
 #include <math.h>
@@ -25,9 +24,9 @@
 #include "resources.h"
 #include "camera.h"
 #include "sector.h"
-#include "app/globals.h"
 #include "sprite/sprite_manager.h"
 #include "badguy/badguy.h"
+#include "main.h"
 
 static const float BULLET_XM = 300;
 static const float BULLET_STARTING_YM = 0;

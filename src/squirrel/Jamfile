@@ -1,0 +1,10 @@
+SubDir TOP src squirrel ;
+
+Library squirrel
+    : [ Wildcard squirrel : *.cpp *.h ]
+      [ Wildcard sqstdlib : *.cpp *.h ]
+    : noinstall
+;
+IncludeDir squirrel : include ;
+C++Flags squirrel : -Wno-error -Wno-switch -Wno-missing-field-initializers
+-Wno-unused -Wno-parentheses -Wno-non-virtual-dtor -Wno-sign-compare ;

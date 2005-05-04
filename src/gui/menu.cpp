@@ -29,23 +29,20 @@
 #include <cassert>
 #include <stdexcept>
 
-#include "app/globals.h"
 #include "menu.h"
 #include "video/screen.h"
 #include "video/drawing_context.h"
-#include "app/setup.h"
-#include "app/gettext.h"
+#include "gettext.h"
 #include "math/vector.h"
 #include "main.h"
+#include "resources.h"
 #include "control/joystickkeyboardcontroller.h"
 
 static const int MENU_REPEAT_INITIAL = 400;
 static const int MENU_REPEAT_RATE = 200;
-static const int FLICK_CURSOR_TIME=500;
+static const int FLICK_CURSOR_TIME = 500;
 
 extern SDL_Surface* screen;
-
-using namespace SuperTux;
 
 Surface* checkbox;
 Surface* checkbox_checked;
@@ -128,7 +125,7 @@ Menu::push_current(Menu* pmenu)
     last_menus.push_back(current_);
 
   current_ = pmenu;
-  current_->effect.start(500);
+  current_->effect_ticks = SDL_GetTicks();
 }
 
 void
@@ -136,8 +133,7 @@ Menu::pop_current()
 {
   if (last_menus.size() >= 1) {
     current_ = last_menus.back();
-    current_->effect.start(500);
-
+    current_->effect_ticks = SDL_GetTicks();
     last_menus.pop_back();
   } else {
     current_ = 0;
@@ -150,7 +146,7 @@ Menu::set_current(Menu* menu)
   last_menus.clear();
 
   if (menu)
-    menu->effect.start(500);
+    menu->effect_ticks = SDL_GetTicks();
 
   current_ = menu;
   // just to be sure...
@@ -163,9 +159,6 @@ MenuItem::MenuItem(MenuItemKind _kind, int _id)
   toggled = false;
   selected = false;
   target_menu = 0;
-  input_flickering = false;
-  input_flickering_timer.init(true);
-  input_flickering_timer.start(FLICK_CURSOR_TIME);
 }
 
 void
@@ -182,19 +175,11 @@ MenuItem::change_input(const  std::string& text_)
 
 std::string MenuItem::get_input_with_symbol(bool active_item)
 {
-  if(!active_item)
+  if(!active_item) {
     input_flickering = true;
-  else
-    {
-      if(input_flickering_timer.get_left() < 0)
-        {
-          if(input_flickering)
-            input_flickering = false;
-          else
-            input_flickering = true;
-          input_flickering_timer.start(FLICK_CURSOR_TIME);
-        }
-    }
+  } else {
+    input_flickering = (SDL_GetTicks() / FLICK_CURSOR_TIME) % 2;
+  }
 
   char str[1024];
   if(input_flickering)
@@ -225,9 +210,6 @@ Menu::Menu()
   pos_y        = SCREEN_HEIGHT/2;
   arrange_left = 0;
   active_item  = -1;
-  effect.init(false);
-
-  repeat_timer.init(true);
 }
 
 void Menu::set_pos(int x, int y, float rw, float rh)
@@ -336,21 +318,24 @@ void
 Menu::action()
 {
   /** check main input controller... */
+  Uint32 ticks = SDL_GetTicks();
   if(main_controller->pressed(Controller::UP)) {
     menuaction = MENU_ACTION_UP;
-    repeat_timer.start(MENU_REPEAT_INITIAL);
+    menu_repeat_ticks = ticks + MENU_REPEAT_INITIAL;
   }
-  if(main_controller->hold(Controller::UP) && !repeat_timer.check()) {
+  if(main_controller->hold(Controller::UP) && 
+      menu_repeat_ticks != 0 && ticks > menu_repeat_ticks) {
     menuaction = MENU_ACTION_UP;
-    repeat_timer.start(MENU_REPEAT_RATE);
+    menu_repeat_ticks = ticks + MENU_REPEAT_RATE;
   } 
   if(main_controller->pressed(Controller::DOWN)) {
     menuaction = MENU_ACTION_DOWN;
-    repeat_timer.start(MENU_REPEAT_INITIAL);
+    menu_repeat_ticks = ticks + MENU_REPEAT_INITIAL;
   }
-  if(main_controller->hold(Controller::DOWN) && !repeat_timer.check()) {
+  if(main_controller->hold(Controller::DOWN) && 
+      menu_repeat_ticks != 0 && ticks > menu_repeat_ticks) {
     menuaction = MENU_ACTION_DOWN;
-    repeat_timer.start(MENU_REPEAT_RATE);
+    menu_repeat_ticks = ticks + MENU_REPEAT_RATE;
   }
   if(main_controller->pressed(Controller::JUMP)
      || main_controller->pressed(Controller::ACTION)
@@ -507,13 +492,13 @@ Menu::draw_item(DrawingContext& context, int index)
   MenuItem& pitem = *(items[index]);
 
   int effect_offset = 0;
-  {
-    int effect_time = 0;
-
-    if(effect.check())
-      effect_time = effect.get_left() / 4;
-
-    effect_offset = (index % 2) ? effect_time : -effect_time;
+  if(effect_ticks != 0) {
+    if(SDL_GetTicks() - effect_ticks > 500) {
+      effect_ticks = 0;
+    } else {
+      Uint32 effect_time = (500 - (SDL_GetTicks() - effect_ticks)) / 4;
+      effect_offset = (index % 2) ? effect_time : -effect_time;
+    }
   }
 
   Font* text_font = default_font;
@@ -764,7 +749,7 @@ Menu::is_toggled(int id) const
 void
 Menu::event(const SDL_Event& event)
 {
-  if(effect.started())
+  if(effect_ticks != 0)
     return;
 
   switch(event.type) {

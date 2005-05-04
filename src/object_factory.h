@@ -26,8 +26,6 @@
 #include "game_object.h"
 #include "math/vector.h"
 
-using namespace SuperTux;
-
 class Factory
 {
 public:

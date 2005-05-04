@@ -24,8 +24,7 @@
 #include <stdexcept>
 
 #include "sprite_data.h"
-#include "app/globals.h"
-#include "app/setup.h"
+#include "resources.h"
 #include "video/drawing_context.h"
 #include "lisp/list_iterator.h"
 

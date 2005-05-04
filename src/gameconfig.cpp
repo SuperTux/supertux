@@ -26,16 +26,13 @@
 #include <sstream>
 #include <fstream>
 
-#include "app/setup.h"
-#include "app/globals.h"
 #include "audio/sound_manager.h"
 #include "lisp/parser.h"
 #include "lisp/lisp.h"
 #include "lisp/writer.h"
 #include "control/joystickkeyboardcontroller.h"
+#include "resources.h"
 #include "main.h"
-
-using namespace SuperTux;
 
 Config* config = 0;
 

@@ -1,0 +1,49 @@
+SubDir TOP src scripting ;
+
+if $(MINISWIG)
+{
+    ##  MiniSwigRule outputcppfile : inputfile : modulename : flags
+    rule MiniSwigRule
+    {
+        local sources = [ SearchSource $(>) ] ;
+        local cppfile = [ LocateTarget $(<) : $(SUBDIR) ] ;
+        local headerfile = [ LocateTarget $(<:S=.h) : $(SUBDIR) ] ;
+        SEARCH on $(headerfile) = $(SOURCH_SOURCE) ;
+    
+        MiniSwig $(cppfile) : $(sources) ;
+        CPPFLAGS on $(cppfile) = $(CPPFLAGS) ;
+        headerfile on $(cppfile) = $(headerfile) ;
+        modulename on $(cppfile) = $(3) ;
+        FLAGS on $(cppfile) = $(4) ;
+
+        local object = [ CompileObject $(cppfile) ] ;
+
+        return $(object) ;
+    }
+
+    rule MiniSwig
+    {
+        Depends $(<) : $(>) $(MINISWIG) ;
+        Clean clean : $(<) ;
+    }
+
+    actions MiniSwig bind headerfile
+    {
+        $(CPP) -x c $(CPPFLAGS) $(>) -o $(LOCATE_OBJECTS)/miniswig.tmp
+        $(MINISWIG) --output-cpp $(<) --input $(LOCATE_OBJECTS)/miniswig.tmp --output-hpp $(headerfile) --module $(modulename) $(FLAGS)
+#        rm -f $(LOCATE_OBJECTS)/miniswig.tmp
+    }
+}
+
+wrapper_sources = [ Filter [ Wildcard *.cpp *.h ] : wrapper.cpp wrapper.h ] ;
+if ! $(MINISWIG)
+{
+    wrapper_sources += wrapper.cpp ;
+}
+wrapper_objects = [ CompileObjects $(wrapper_sources) ] ;
+if $(MINISWIG)
+{
+    wrapper_objects += 
+        [ MiniSwigRule wrapper.cpp : wrapper.interface.h : supertux : --select-namespace Scripting ] ;
+}
+

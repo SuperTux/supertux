@@ -23,14 +23,11 @@
 #include <cstring>
 #include <stdexcept>
 
-#include "app/globals.h"
 #include "lisp/parser.h"
 #include "lisp/lisp.h"
 #include "screen.h"
 #include "font.h"
 #include "drawing_context.h"
-
-using namespace SuperTux;
 
 Font::Font(const std::string& file, FontType ntype, int nw, int nh,
         int nshadowsize)

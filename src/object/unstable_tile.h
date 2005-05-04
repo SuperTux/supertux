@@ -17,19 +17,16 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
-
 #ifndef __UNSTABLE_TILE_H__
 #define __UNSTABLE_TILE_H__
 
 #include "moving_object.h"
 #include "lisp/lisp.h"
-#include "math/physic.h"
+#include "physic.h"
 #include "timer.h"
 
 class Sprite;
 class Player;
-
-using namespace SuperTux;
 
 /** A tile that starts falling down if tux stands to long on it */
 class UnstableTile : public MovingObject

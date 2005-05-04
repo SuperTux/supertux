@@ -24,7 +24,6 @@
 #include <iostream>
 #include <cmath>
 
-#include "app/globals.h"
 #include "tile.h"
 #include "tile_manager.h"
 #include "game_session.h"
@@ -35,6 +34,7 @@
 #include "tilemap.h"
 #include "video/drawing_context.h"
 #include "camera.h"
+#include "main.h"
 
 BouncyCoin::BouncyCoin(const Vector& pos)
   : position(pos)

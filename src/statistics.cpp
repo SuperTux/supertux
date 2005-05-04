@@ -20,10 +20,10 @@
 #include <config.h>
 
 #include "video/drawing_context.h"
-#include "app/gettext.h"
-#include "app/globals.h"
+#include "gettext.h"
 #include "lisp/lisp.h"
 #include "resources.h"
+#include "main.h"
 #include "statistics.h"
 
 Statistics global_stats;

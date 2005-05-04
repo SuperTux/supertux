@@ -1,7 +1,11 @@
 SubDir TOP src ;
 
+SubInclude TOP src squirrel ;
+SubInclude TOP src scripting ;
+
 sources = 
     [ Wildcard *.cpp *.h ]
+    [ Wildcard math : *.cpp *.h ]
     [ Wildcard video : *.cpp *.h ]
     [ Wildcard audio : *.cpp *.h ]
     [ Wildcard gui : *.cpp *.h ]
@@ -14,8 +18,9 @@ sources =
 ;
 TRANSLATABLE_SOURCES += [ SearchSource $(sources) ] ;
 
-Application supertux : $(sources) ;
-LinkWith supertux : supertuxlib ;
+Application supertux : $(sources) $(wrapper_objects) ;
+LinkWith supertux : supertuxlib squirrel ;
 ExternalLibs supertux : SDL SDLMIXER SDLIMAGE GL ;
 Help supertux : "Build the supertux executable" ;
+IncludeDir supertux : squirrel/include ;
 

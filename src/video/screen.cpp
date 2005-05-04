@@ -37,14 +37,12 @@
 
 #include "gameconfig.h"
 #include "screen.h"
-#include "app/globals.h"
+#include "main.h"
 #include "video/drawing_context.h"
 #include "math/vector.h"
 
 static const float LOOP_DELAY = 20.0;
 extern SDL_Surface* screen;
-
-using namespace SuperTux;
 
 /* 'Stolen' from the SDL documentation.
  * Return the pixel value at (x, y)

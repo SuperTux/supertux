@@ -25,8 +25,6 @@
 #include "math/rectangle.h"
 #include "lisp/lisp.h"
 
-using namespace SuperTux;
-
 /**
 Tile Class
 */

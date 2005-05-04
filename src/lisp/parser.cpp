@@ -25,10 +25,10 @@
 #include <cassert>
 #include <iostream>
 
-#include "app/setup.h"
-#include "app/tinygettext.h"
+#include "tinygettext/tinygettext.h"
 #include "parser.h"
 #include "lisp.h"
+#include "file_system.h"
 
 namespace lisp
 {
@@ -58,7 +58,7 @@ Parser::parse(const std::string& filename)
   }
 
   if(dictionary_manager) {
-    dictionary_manager->add_directory(SuperTux::FileSystem::dirname(filename));
+    dictionary_manager->add_directory(FileSystem::dirname(filename));
     dictionary = & (dictionary_manager->get_dictionary());
   }
   

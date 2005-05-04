@@ -17,13 +17,10 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
-
 #ifndef __COLLISION_GRID_ITERATOR_H__
 #define __COLLISION_GRID_ITERATOR_H__
 
 #include "math/rectangle.h"
-
-using namespace SuperTux;
 
 class CollisionGrid;
 

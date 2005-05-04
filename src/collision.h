@@ -21,14 +21,9 @@
 #ifndef __COLLISION_H__
 #define __COLLISION_H__
 
-namespace SuperTux {
 class Vector;
 class Rectangle;
 class AATriangle;
-}
-
-using namespace SuperTux;
-
 class CollisionHit;
 
 class Collision

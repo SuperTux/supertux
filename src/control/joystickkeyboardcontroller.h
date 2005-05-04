@@ -53,9 +53,7 @@ private:
   typedef std::map<SDLKey, Control> KeyMap;
   KeyMap keymap;
 
-  int joystick_count;
   std::vector<SDL_Joystick*> joysticks;
-  std::vector<std::string> joystick_names;
     
   typedef std::map<int, Control> ButtonMap;
   ButtonMap joy_button_map;

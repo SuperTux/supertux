@@ -17,7 +17,6 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
-
 #include <config.h>
 
 #include "secretarea_trigger.h"
@@ -25,8 +24,9 @@
 #include "lisp/lisp.h"
 #include "lisp/writer.h"
 #include "object_factory.h"
+#include "main.h"
 
-#define MESSAGE_TIME 3.5
+static const float MESSAGE_TIME=3.5;
 
 //TODO: Count numbers of triggered/total secret areas
 SecretAreaTrigger::SecretAreaTrigger(const lisp::Lisp& reader)

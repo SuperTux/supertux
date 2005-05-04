@@ -1,0 +1,3 @@
+SubDir TOP tools ;
+
+SubInclude TOP tools miniswig ;

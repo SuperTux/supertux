@@ -40,10 +40,8 @@
 #include <ctype.h>
 #endif
 
-#include "app/globals.h"
 #include "game_session.h"
 #include "video/screen.h"
-#include "app/setup.h"
 #include "gui/menu.h"
 #include "sector.h"
 #include "level.h"
@@ -57,7 +55,6 @@
 #include "lisp/lisp.h"
 #include "lisp/parser.h"
 #include "resources.h"
-#include "app/gettext.h"
 #include "worldmap.h"
 #include "misc.h"
 #include "statistics.h"
@@ -67,6 +64,8 @@
 #include "control/codecontroller.h"
 #include "control/joystickkeyboardcontroller.h"
 #include "main.h"
+#include "gameconfig.h"
+#include "gettext.h"
 
 // the engine will be run with a lofical framerate of 64fps.
 // We choose 64fps here because it is a power of 2, so 1/64 gives an "even"
@@ -217,8 +216,7 @@ GameSession::levelintro()
 
   context.do_drawing();
 
-  SDL_Event event;
-  wait_for_event(event,1000,3000,true);
+  wait_for_event(1.0, 3.0);
 }
 
 /* Reset Timers */
@@ -226,7 +224,6 @@ void
 GameSession::start_timers()
 {
   time_left.start(level->timelimit);
-  Ticks::pause_init();
 }
 
 void
@@ -240,10 +237,8 @@ GameSession::on_escape_press()
   } else if (!Menu::current()) {
     Menu::set_current(game_menu);
     game_menu->set_active_item(MNID_CONTINUE);
-    Ticks::pause_start();
     game_pause = true;
   } else {
-    Ticks::pause_stop();
     game_pause = false;
   }
 }
@@ -257,7 +252,6 @@ GameSession::process_events()
   // end of pause mode?
   if(!Menu::current() && game_pause) {
     game_pause = false;
-    Ticks::pause_stop();
   }
 
   if (end_sequence != NO_ENDSEQUENCE) {
@@ -796,8 +790,7 @@ GameSession::drawresultscreen()
 
   context.do_drawing();
   
-  SDL_Event event;
-  wait_for_event(event,2000,5000,true);
+  wait_for_event(2.0, 5.0);
 }
 
 std::string slotinfo(int slot)
@@ -830,33 +823,32 @@ bool process_load_game_menu()
 {
   int slot = load_game_menu->check();
 
-  if(slot != -1 && load_game_menu->get_item_by_id(slot).kind == MN_ACTION)
-    {
-      std::stringstream stream;
-      stream << slot;
-      std::string slotfile = user_dir + "/save/slot" + stream.str() + ".stsg";
+  if(slot == -1)
+    return false;
+  
+  if(load_game_menu->get_item_by_id(slot).kind != MN_ACTION)
+    return false;
+  
+  std::stringstream stream;
+  stream << slot;
+  std::string slotfile = user_dir + "/save/slot" + stream.str() + ".stsg";
 
-      fadeout(256);
-      DrawingContext context;
-      context.draw_text(white_text, "Loading...",
-                        Vector(SCREEN_WIDTH/2, SCREEN_HEIGHT/2), CENTER_ALLIGN, LAYER_FOREGROUND1);
-      context.do_drawing();
+  fadeout(256);
+  DrawingContext context;
+  context.draw_text(white_text, "Loading...",
+                    Vector(SCREEN_WIDTH/2, SCREEN_HEIGHT/2),
+                    CENTER_ALLIGN, LAYER_FOREGROUND1);
+  context.do_drawing();
 
-      WorldMapNS::WorldMap worldmap;
+  WorldMapNS::WorldMap worldmap;
 
-      worldmap.set_map_filename("/levels/world1/worldmap.stwm");
-      // Load the game or at least set the savegame_file variable
-      worldmap.loadgame(slotfile);
+  worldmap.set_map_filename("/levels/world1/worldmap.stwm");
+  // Load the game or at least set the savegame_file variable
+  worldmap.loadgame(slotfile);
 
-      worldmap.display();
+  worldmap.display();
 
-      Menu::set_current(main_menu);
+  Menu::set_current(main_menu);
 
-      Ticks::pause_stop();
-      return true;
-    }
-  else
-    {
-      return false;
-    }
+  return true;
 }

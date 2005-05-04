@@ -19,9 +19,8 @@
 #ifndef SUPERTUX_RESOURCES_H
 #define SUPERTUX_RESOURCES_H
 
+#include <string>
 #include "audio/musicref.h"
-
-using namespace SuperTux;
 
 class SpriteManager;
 class Menu;
@@ -29,6 +28,7 @@ class Font;
 class Surface;
 class SoundManager;
 class TileManager;
+class MouseCursor;
 
 extern Surface* img_super_bkgd;
 extern Surface* tux_life;
@@ -47,6 +47,8 @@ extern Menu* game_menu;
 extern Menu* options_menu;
 extern Menu* load_game_menu;
 
+extern MouseCursor* mouse_cursor;
+
 extern Font* gold_text;
 extern Font* white_text;
 extern Font* blue_text;
@@ -54,6 +56,9 @@ extern Font* gray_text;
 extern Font* white_small_text;
 extern Font* white_big_text;
 extern Font* yellow_nums;
+
+extern std::string datadir;
+extern std::string user_dir;
 
 /** maps a virtual resource path to a real path (ie. levels/bla is mapped to
  * $DATADIR/levels/bla or $HOME/.supertux/levels/bla)

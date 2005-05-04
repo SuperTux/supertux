@@ -17,7 +17,6 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
-
 #ifndef __SECRETAREA_TRIGGER_H__
 #define __SECRETAREA_TRIGGER_H__
 
@@ -25,7 +24,6 @@
 #include "serializable.h"
 #include "resources.h"
 #include "video/drawing_context.h"
-#include "app/globals.h"
 #include "timer.h"
 
 class SecretAreaTrigger : public TriggerBase, public Serializable

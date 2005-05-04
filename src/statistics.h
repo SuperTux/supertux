@@ -24,8 +24,6 @@
 #include "lisp/lisp.h"
 #include "lisp/writer.h"
 
-using namespace SuperTux;
-
 class DrawingContext;
 
 #define SPLAYER 0

@@ -19,8 +19,13 @@
 #include "misc.h"
 #include "main.h"
 #include "gameconfig.h"
-#include "app/globals.h"
 #include "game_session.h"
+#include "gui/menu.h"
+#include "gui/button.h"
+#include "title.h"
+#include "resources.h"
+#include "worldmap.h"
+#include "gettext.h"
 #include "control/joystickkeyboardcontroller.h"
 
 Menu* main_menu      = 0;

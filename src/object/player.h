@@ -27,11 +27,9 @@
 #include "video/surface.h"
 #include "moving_object.h"
 #include "sprite/sprite.h"
-#include "math/physic.h"
+#include "physic.h"
 #include "control/controller.h"
 #include "player_status.h"
-
-using namespace SuperTux;
 
 class BadGuy;
 class Portable;

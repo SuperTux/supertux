@@ -30,8 +30,6 @@
 #include "video/surface.h"
 #include "video/font.h"
 
-using namespace SuperTux;
-
 class Surface;
 
 // some constants for predefined layer values

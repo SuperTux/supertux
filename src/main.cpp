@@ -36,19 +36,22 @@
 #include <SDL.h>
 #include <SDL_mixer.h>
 #include <SDL_image.h>
+#include <SDL_opengl.h>
 
 #include "gameconfig.h"
 #include "resources.h"
-#include "app/globals.h"
-#include "app/setup.h"
-#include "app/gettext.h"
+#include "gettext.h"
 #include "audio/sound_manager.h"
+#include "video/surface.h"
 #include "control/joystickkeyboardcontroller.h"
 #include "misc.h"
+#include "title.h"
 #include "game_session.h"
+#include "file_system.h"
 
 SDL_Surface* screen = 0;
 JoystickKeyboardController* main_controller = 0;
+TinyGetText::DictionaryManager dictionary_manager;
 
 static void init_config()
 {
@@ -74,12 +77,6 @@ static void find_directories()
 
   user_dir = home;
   user_dir += "/.supertux";
-
-  // Remove .supertux config file from old versions
-  if(FileSystem::faccessible(user_dir)) {
-    std::cerr << "Removing old config file " << user_dir << "\n";
-    remove(user_dir.c_str());
-  }
 
   // create directories
   std::string savedir = user_dir + "/save";
@@ -205,6 +202,13 @@ static void init_sdl()
   }
 
   SDL_EnableUNICODE(1);
+
+  // wait 100ms and clear SDL event queue because sometimes we have random
+  // joystick events in the queue on startup...
+  SDL_Delay(100);
+  SDL_Event dummy;
+  while(SDL_PollEvent(&dummy))
+      ;
 }
 
 static void check_gl_error()
@@ -332,6 +336,40 @@ static void quit_audio()
 
     delete sound_manager;
     sound_manager = 0;
+  }
+}
+
+void wait_for_event(float min_delay, float max_delay)
+{
+  assert(min_delay <= max_delay);
+  
+  Uint32 min = (Uint32) (min_delay * 1000);
+  Uint32 max = (Uint32) (max_delay * 1000);
+
+  SDL_Delay(min);
+
+  // clear even queue
+  SDL_Event event;
+  while (SDL_PollEvent(&event))
+  {}
+
+  /* Handle events: */
+  bool running = false;
+  Uint32 ticks = SDL_GetTicks();
+  while(running) {
+    while(SDL_PollEvent(&event)) {
+      switch(event.type) {
+        case SDL_QUIT:
+          throw std::runtime_error("received window close");
+        case SDL_KEYDOWN:
+        case SDL_JOYBUTTONDOWN:
+        case SDL_MOUSEBUTTONDOWN:
+          running = false;
+      }
+    }
+    if(SDL_GetTicks() - ticks >= (max - min))
+      running = false;
+    SDL_Delay(10);
   }
 }
 

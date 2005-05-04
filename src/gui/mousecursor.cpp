@@ -16,29 +16,21 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
 #include <config.h>
 
-#include "app/globals.h"
 #include "video/drawing_context.h"
 #include "gui/mousecursor.h"
-
-using namespace SuperTux;
+#include "main.h"
 
 MouseCursor* MouseCursor::current_ = 0;
 extern SDL_Surface* screen;
 
-MouseCursor::MouseCursor(std::string cursor_file, int frames) : mid_x(0), mid_y(0)
+MouseCursor::MouseCursor(std::string cursor_file) : mid_x(0), mid_y(0)
 {
   cursor = new Surface(cursor_file, true);
   
   cur_state = MC_NORMAL;
-  cur_frame = 0;
-  tot_frames = frames;
 
-  timer.init(false);
-  timer.start(MC_FRAME_PERIOD);
-  
   SDL_ShowCursor(SDL_DISABLE);
 }
 
@@ -76,31 +68,18 @@ void MouseCursor::draw(DrawingContext& context)
   x = int(x * float(SCREEN_WIDTH)/screen->w);
   y = int(y * float(SCREEN_HEIGHT)/screen->h);
 
-  w = cursor->w / tot_frames;
+  w = cursor->w;
   h = cursor->h / MC_STATES_NB;
-  if(ispressed &SDL_BUTTON(1) || ispressed &SDL_BUTTON(2))
-    {
-      if(cur_state != MC_CLICK)
-        {
-          state_before_click = cur_state;
-          cur_state = MC_CLICK;
-        }
+  if(ispressed &SDL_BUTTON(1) || ispressed &SDL_BUTTON(2)) {
+    if(cur_state != MC_CLICK) {
+      state_before_click = cur_state;
+      cur_state = MC_CLICK;
     }
-  else
-    {
-      if(cur_state == MC_CLICK)
-        cur_state = state_before_click;
-    }
+  } else {
+    if(cur_state == MC_CLICK)
+      cur_state = state_before_click;
+  }
 
-  if(timer.get_left() < 0 && tot_frames > 1)
-    {
-      cur_frame++;
-      if(cur_frame++ >= tot_frames)
-        cur_frame = 0;
-
-      timer.start(MC_FRAME_PERIOD);
-    }
-
-  context.draw_surface_part(cursor, Vector(w*cur_frame, h*cur_state), Vector(w,
-        h), Vector(x-mid_x, y-mid_y), LAYER_GUI+100);
+  context.draw_surface_part(cursor, Vector(w, h*cur_state),
+          Vector(w, h), Vector(x-mid_x, y-mid_y), LAYER_GUI+100);
 }

@@ -23,8 +23,6 @@
 #include <stdexcept>
 #include <assert.h>
 #include "video/drawing_context.h"
-#include "app/setup.h"
-#include "app/globals.h"
 #include "lisp/lisp.h"
 #include "lisp/parser.h"
 #include "lisp/list_iterator.h"

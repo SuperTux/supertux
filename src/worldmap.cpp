@@ -26,13 +26,10 @@
 #include <sstream>
 #include <unistd.h>
 
-#include "app/globals.h"
-#include "app/gettext.h"
-#include "app/setup.h"
+#include "gettext.h"
 #include "video/surface.h"
 #include "video/screen.h"
 #include "video/drawing_context.h"
-#include "special/frame_rate.h"
 #include "sprite/sprite_manager.h"
 #include "audio/sound_manager.h"
 #include "lisp/parser.h"
@@ -47,6 +44,9 @@
 #include "player_status.h"
 #include "textscroller.h"
 #include "main.h"
+#include "file_system.h"
+#include "gui/menu.h"
+#include "gui/mousecursor.h"
 #include "control/joystickkeyboardcontroller.h"
 
 Menu* worldmap_menu  = 0;
@@ -688,7 +688,6 @@ WorldMap::update(float delta)
         {
           PlayerStatus old_player_status = player_status;
 
-          std::cout << "Enter the current level: " << level->name << std::endl;
           // do a shriking fade to the level
           shrink_fade(Vector((level->pos.x*32 + 16 + offset.x),
                              (level->pos.y*32 + 16 + offset.y)), 500);
@@ -732,8 +731,6 @@ WorldMap::update(float delta)
                         tux->set_direction(dir);
                         //tux->update(delta);
                       }
-
-                    std::cout << "Walk to dir: " << dir << std::endl;
                   }
               }
 
@@ -772,8 +769,7 @@ WorldMap::update(float delta)
 
               context.do_drawing();
 
-              SDL_Event event;
-              wait_for_event(event,2000,6000,true);
+              wait_for_event(2.0, 6.0);
 
               quit = true;
               player_status.reset();

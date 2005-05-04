@@ -22,7 +22,7 @@
 #define __ROCK_H__
 
 #include "moving_object.h"
-#include "math/physic.h"
+#include "physic.h"
 #include "lisp/lisp.h"
 #include "portable.h"
 #include "serializable.h"

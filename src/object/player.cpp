@@ -23,8 +23,7 @@
 #include <iostream>
 #include <cassert>
 
-#include "app/globals.h"
-#include "app/gettext.h"
+#include "gettext.h"
 #include "sprite/sprite_manager.h"
 #include "player.h"
 #include "tile.h"

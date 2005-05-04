@@ -26,8 +26,6 @@
 #include <vector>
 #include "math/vector.h"
 
-using namespace SuperTux;
-
 /** Stores 8bit RGBA values. */
 class Color
 {

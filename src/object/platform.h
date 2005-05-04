@@ -17,14 +17,11 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
-
 #ifndef __PLATFORM_H__
 #define __PLATFORM_H__
 
 #include "moving_object.h"
 #include "sprite/sprite.h"
-
-using namespace SuperTux;
 
 /**
  * This class is the base class for platforms that tux can stand on

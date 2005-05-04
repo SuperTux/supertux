@@ -23,7 +23,7 @@
 #include <sstream>
 #include "joystickkeyboardcontroller.h"
 #include "gui/menu.h"
-#include "app/gettext.h"
+#include "gettext.h"
 #include "lisp/lisp.h"
 #include "lisp/list_iterator.h"
 #include "game_session.h"
@@ -71,12 +71,9 @@ JoystickKeyboardController::JoystickKeyboardController()
   keymap.insert(std::make_pair(SDLK_RETURN, MENU_SELECT));
   keymap.insert(std::make_pair(SDLK_KP_ENTER, MENU_SELECT));
   
-  joystick_count = SDL_NumJoysticks();
+  int joystick_count = SDL_NumJoysticks();
   min_joybuttons = -1;
   max_joybuttons = -1;
-#ifdef DEBUG
-  std::cout << "Found " << joystick_count << " joysticks.\n";
-#endif
   for(int i = 0; i < joystick_count; ++i) {
     SDL_Joystick* joystick = SDL_JoystickOpen(i);
     bool good = true;
@@ -91,8 +88,6 @@ JoystickKeyboardController::JoystickKeyboardController()
     }
     if(!good) {
       SDL_JoystickClose(joystick);
-      joysticks.push_back(0);
-      joystick_names.push_back("");
       continue;
     }
     
@@ -102,7 +97,6 @@ JoystickKeyboardController::JoystickKeyboardController()
       max_joybuttons = SDL_JoystickNumButtons(joystick);
     }
 
-    joystick_names.push_back(SDL_JoystickName(i));
     joysticks.push_back(joystick);
   }
 
@@ -618,9 +612,13 @@ JoystickKeyboardController::JoystickMenu::JoystickMenu(
 {
   add_label(_("Joystick Setup"));
   add_hl();
-  add_controlfield(Controller::JUMP, _("Jump"));
-  add_controlfield(Controller::ACTION, _("Shoot/Run"));
-  add_controlfield(Controller::PAUSE_MENU, _("Pause/Menu"));
+  if(controller->joysticks.size() > 0) {
+    add_controlfield(Controller::JUMP, _("Jump"));
+    add_controlfield(Controller::ACTION, _("Shoot/Run"));
+    add_controlfield(Controller::PAUSE_MENU, _("Pause/Menu"));
+  } else {
+    add_deactive(-1, _("No Joysticks found"));
+  }
   add_hl();
   add_back(_("Back"));
   update();
@@ -651,6 +649,9 @@ JoystickKeyboardController::JoystickMenu::menu_action(MenuItem* item)
 void
 JoystickKeyboardController::JoystickMenu::update()
 {
+  if(controller->joysticks.size() == 0)
+    return;
+
   // update menu
   get_item_by_id((int) Controller::JUMP).change_input(get_button_name(
     controller->reversemap_joybutton(Controller::JUMP)));

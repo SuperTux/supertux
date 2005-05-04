@@ -24,11 +24,9 @@
 
 #include "drawing_context.h"
 #include "surface.h"
-#include "app/globals.h"
 #include "font.h"
+#include "main.h"
 #include "gameconfig.h"
-
-using namespace SuperTux;
 
 DrawingContext::DrawingContext(SDL_Surface* targetsurface)
 {

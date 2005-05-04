@@ -30,10 +30,10 @@
 #include "tile.h"
 #include "resources.h"
 #include "tile_manager.h"
-#include "app/globals.h"
 #include "lisp/lisp.h"
 #include "lisp/writer.h"
 #include "object_factory.h"
+#include "main.h"
 
 TileMap::TileMap()
   : solid(false), speed(1), width(0), height(0), layer(LAYER_TILES),

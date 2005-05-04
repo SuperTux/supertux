@@ -21,6 +21,7 @@
 
 %%
 
+#.*                                     /* ignore preprocessor directives */
 [[:space:]]+                            /* eat spaces */
 \/\*.*\*\/                              /* eat comment */
 \/\/[^\n]*\n                            /* eat comment */        
@@ -41,10 +42,14 @@ double                                  { return T_DOUBLE; }
 public                                  { return T_PUBLIC; }
 protected                               { return T_PROTECTED; }
 private                                 { return T_PRIVATE; }
+namespace                               { return T_NAMESPACE; }
 [a-zA-Z_][a-zA-Z_0-9]*                  {
+        Namespace* ns = search_namespace;
+        if(ns == 0)
+            ns = current_namespace;          
         // is it a type?
-        for(std::vector<AtomicType*>::iterator i = unit->types.begin();
-                i != unit->types.end(); ++i) {
+        for(std::vector<AtomicType*>::iterator i = ns->types.begin();
+                i != ns->types.end(); ++i) {
             AtomicType* type = *i;
             if(type->name == yytext) {
                 yylval->atomic_type = type;
@@ -52,10 +57,11 @@ private                                 { return T_PRIVATE; }
             }
         }
         // or a namespace? (hack for now...)
-        if(strcmp(yytext, "std") == 0) {
-            yylval->_namespace = unit->namespaces[0];
-            return T_NAMESPACE;
+        yylval->_namespace = ns->_findNamespace(yytext, search_down);
+        if(yylval->_namespace) {
+            return T_NAMESPACEREF;
         }
+        // a new ID
         yylval->str = strdup(yytext);
         return T_ID;
 }

@@ -17,23 +17,19 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
-
 #include <config.h>
 
 #include <sstream>
 #include <stdexcept>
 #include <assert.h>
 #include <unistd.h>
-#include "app/setup.h"
 #include "level.h"
 #include "resources.h"
-#include "app/globals.h"
+#include "file_system.h"
 #include "video/surface.h"
 #include "level_subset.h"
 #include "lisp/parser.h"
 #include "lisp/lisp.h"
-
-using namespace SuperTux;
 
 static bool has_suffix(const std::string& data, const std::string& suffix)
 {

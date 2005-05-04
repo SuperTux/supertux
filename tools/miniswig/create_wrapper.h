@@ -18,7 +18,7 @@ public:
         ind = "  ";
     }
 
-    void create_wrapper(CompilationUnit* unit);
+    void create_wrapper(Namespace* ns);
     void create_class_wrapper(Class* _class);
     void create_class_construct_function(Class* _class);
     void create_class_destruct_function(Class* _class);

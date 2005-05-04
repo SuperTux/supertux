@@ -26,10 +26,13 @@ extern int yylex(YYSTYPE* yylval);
 void yyerror(const char* s);
 extern int yylineno;
 
-static Class* currentClass = 0;
+bool search_down = true;
+Namespace* search_namespace = 0;
+Namespace* current_namespace = 0;
+static Class* current_class = 0;
 static Function* currentFunction = 0;
-static Type* currentType = 0;
-static ClassMember::Visbility currentVisibility;
+static Type* current_type = 0;
+static ClassMember::Visbility current_visibility;
 
 class ParseError : public std::exception
 {
@@ -59,7 +62,7 @@ private:
 %token <str>  T_STRING
 %token <str>  T_ID
 %token <atomic_type> T_ATOMIC_TYPE
-%token <_namespace> T_NAMESPACE;
+%token <_namespace> T_NAMESPACEREF;
 %token T_CLASS
 %token T_STRUCT
 %token T_STATIC
@@ -77,6 +80,7 @@ private:
 %token T_PUBLIC
 %token T_PROTECTED
 %token T_PRIVATE
+%token T_NAMESPACE
 %token T_DDCOL "::"
 
 %type <_class> class_declaration
@@ -88,77 +92,110 @@ private:
 
 %%
 
-input:  /* empty */
-    | compilation_unit
+input:
+        {
+            current_namespace = unit;
+        }
+    namespace_members
 ;
 
-compilation_unit: compilation_unit_part
-    | compilation_unit compilation_unit_part
+namespace_members: /* empty */
+    | namespace_members namespace_member
 ;
 
-compilation_unit_part: class_declaration
-        { unit->types.push_back($1); }  
+namespace_declaration:
+    T_NAMESPACE T_ID '{' 
+        {
+            Namespace* newNamespace = new Namespace();
+            newNamespace->name = $2;
+            free($2);
+            current_namespace->add_namespace(newNamespace);
+            current_namespace = newNamespace;
+        }
+    namespace_members '}'
+        {
+            current_namespace = current_namespace->parent;
+        }
+    | T_NAMESPACE T_NAMESPACEREF '{'
+        {
+            current_namespace = $2;
+        }
+    namespace_members '}'
+        {
+            current_namespace = current_namespace->parent;
+        }
+;
+
+namespace_member:
+    class_declaration
+        { current_namespace->add_type($1); }
     | function_declaration
-        { unit->functions.push_back($1); }
+        { current_namespace->functions.push_back($1); }
+    | namespace_declaration
 ;  
 
-class_declaration: T_CLASS T_ID '{' 
-            {
-                currentClass = new Class();
-                currentClass->name = $2;
-                free($2);
-                currentVisibility = ClassMember::PROTECTED;
-            }
-        class_body '}' ';'
-            {
-                $$ = currentClass;
-            }
+class_declaration:
+    T_CLASS T_ID '{' 
+        {
+            current_class = new Class();
+            current_class->name = $2;
+            free($2);
+            current_visibility = ClassMember::PROTECTED;
+        }
+    class_body '}' ';'
+        {
+            $$ = current_class;
+        }
 ;
 
 class_body: /* empty */
-        | visibility_change class_body
+        | class_body class_body_element
+;
+
+class_body_element:
+        visibility_change
         | constructor_declaration
             { 
-                $1->visibility = currentVisibility;
-                currentClass->members.push_back($1);
+                $1->visibility = current_visibility;
+                current_class->members.push_back($1);
             }
-          class_body
         | destructor_declaration
             {
-                $1->visibility = currentVisibility;
-                currentClass->members.push_back($1);
+                $1->visibility = current_visibility;
+                current_class->members.push_back($1);
             }
-          class_body
         | function_declaration
             {
-                $1->visibility = currentVisibility;
-                currentClass->members.push_back($1);
+                $1->visibility = current_visibility;
+                current_class->members.push_back($1);
             }
-          class_body
-        | variable_declaration class_body
+        | variable_declaration
 ;
 
-visibility_change:  T_PUBLIC ':'
-            { currentVisibility = ClassMember::PUBLIC; }
-        |   T_PROTECTED ':'
-            { currentVisibility = ClassMember::PROTECTED; }
-        |   T_PRIVATE ':'
-            { currentVisibility = ClassMember::PRIVATE; }
+visibility_change:
+    T_PUBLIC ':'
+        { current_visibility = ClassMember::PUBLIC; }
+    |   T_PROTECTED ':'
+        { current_visibility = ClassMember::PROTECTED; }
+    |   T_PRIVATE ':'
+        { current_visibility = ClassMember::PRIVATE; }
 ;
 
-constructor_declaration:    T_ID '('
+constructor_declaration:    
+    T_ID '('
         {
             currentFunction = new Function();
             currentFunction->type = Function::CONSTRUCTOR;
             free($1);
         }
-    param_list ')' ';'
+    parameter_list ')' ';'
         {
             $$ = currentFunction;
         }
 ;
 
-destructor_declaration:     '~' T_ID '(' ')' ';'
+destructor_declaration:
+    '~' T_ID '(' ')' ';'
         {
             currentFunction = new Function();
             currentFunction->type = Function::DESTRUCTOR;
@@ -167,9 +204,12 @@ destructor_declaration:     '~' T_ID '(' ')' ';'
         }
 ;
 
-variable_declaration:   type T_ID ';'
+variable_declaration:
+    type T_ID ';'
+;
 
-function_declaration:       type T_ID '(' 
+function_declaration:
+    type T_ID '(' 
         {
             currentFunction = new Function();
             currentFunction->type = Function::FUNCTION;
@@ -178,83 +218,121 @@ function_declaration:       type T_ID '('
             currentFunction->name = $2;
             free($2);
         }                           
-    param_list ')' ';'
+    parameter_list ')' ';'
         {
             $$ = currentFunction;
         }
 ;
 
-param_list: /* empty */
-        | param_list2
+parameter_list:
+    /* empty */
+    | parameters
 ;
 
-param_list2: parameter
-        | parameter ',' param_list2
+parameters:
+    parameter
+    | parameters ',' parameter
 ;
 
-parameter: type
-            {
-                Parameter parameter;
-                parameter.type = *($1);
-                delete $1;
-                currentFunction->parameters.push_back(parameter);
-            }
-        | type T_ID
-            {
-                Parameter parameter;
-                parameter.type = *($1);
-                delete $1;
-                parameter.name = *($2);
-                free($2);
-                currentFunction->parameters.push_back(parameter);
-            }
+parameter:
+    type
+        {
+            Parameter parameter;
+            parameter.type = *($1);
+            delete $1;
+            currentFunction->parameters.push_back(parameter);
+        }
+    | type T_ID
+        {
+            Parameter parameter;
+            parameter.type = *($1);
+            delete $1;
+            parameter.name = *($2);
+            free($2);
+            currentFunction->parameters.push_back(parameter);
+        }
 ;
 
-type: {
-          currentType = new Type();
-      }
-      prefix_type_modifiers atomic_type postfix_type_modifiers 
-      {
-          $$ = currentType;
-      }
+type:
+        {
+            current_type = new Type();
+        }
+    prefix_type_modifiers atomic_type postfix_type_modifiers 
+        {
+            $$ = current_type;
+        }
 ;
 
-prefix_type_modifiers: /* empty */
-            | T_UNSIGNED prefix_type_modifiers
-            | T_SIGNED prefix_type_modifiers
-            | T_STATIC prefix_type_modifiers
-            | T_CONST prefix_type_modifiers
+prefix_type_modifiers:
+    /* empty */
+    | prefix_type_modifiers prefix_type_modifier
 ;
 
-postfix_type_modifiers: /* empty */
-            | T_CONST postfix_type_modifiers
-                { currentType->_const = true; }
-            |   '*' postfix_type_modifiers
-                { currentType->pointer++; }
-            |   '&' postfix_type_modifiers
-                { currentType->ref++; }
+prefix_type_modifier:
+    T_UNSIGNED
+    | T_SIGNED
+    | T_STATIC
+    | T_CONST
 ;
 
-atomic_type:    T_VOID      { currentType->atomic_type = &BasicType::VOID; }
-            |   T_BOOL      { currentType->atomic_type = &BasicType::BOOL; }
-            |   T_CHAR      { currentType->atomic_type = &BasicType::CHAR; }
-            |   T_SHORT     { currentType->atomic_type = &BasicType::SHORT; }
-            |   T_INT       { currentType->atomic_type = &BasicType::INT; }
-            |   T_LONG      { currentType->atomic_type = &BasicType::LONG; }
-            |   T_FLOAT     { currentType->atomic_type = &BasicType::FLOAT; }
-            |   T_DOUBLE    { currentType->atomic_type = &BasicType::DOUBLE; }
-            |   type_identifier  { currentType->atomic_type = $1; }
+postfix_type_modifiers:
+    /* empty */
+    | postfix_type_modifiers postfix_type_modifier
 ;
 
-type_identifier: T_ATOMIC_TYPE
+postfix_type_modifier:
+    T_CONST
+        { current_type->_const = true; }
+    |   '*'
+        { current_type->pointer++; }
+    |   '&'
+        { current_type->ref++; }
+;
+
+atomic_type:
+    T_VOID
+        { current_type->atomic_type = &BasicType::VOID; }
+    | T_BOOL
+        { current_type->atomic_type = &BasicType::BOOL; }
+    | T_CHAR
+        { current_type->atomic_type = &BasicType::CHAR; }
+    | T_SHORT
+        { current_type->atomic_type = &BasicType::SHORT; }
+    | T_INT
+        { current_type->atomic_type = &BasicType::INT; }
+    | T_LONG
+        { current_type->atomic_type = &BasicType::LONG; }
+    | T_FLOAT
+        { current_type->atomic_type = &BasicType::FLOAT; }
+    | T_DOUBLE
+        { current_type->atomic_type = &BasicType::DOUBLE; }
+    | type_identifier
+        { current_type->atomic_type = $1; }
+;
+
+type_identifier:
+    T_ATOMIC_TYPE
         {
             // search for type in current compilation unit...
             $$ = $1;
         }
-        |   T_NAMESPACE "::" type_identifier
+    | namespace_refs "::" T_ATOMIC_TYPE
         {
-            // hack...
             $$ = $3;
+            search_namespace = 0;
+            search_down = true;
+        }
+;
+
+namespace_refs:
+    T_NAMESPACEREF
+        {
+            search_namespace = $1;
+            search_down = false;
+        }
+    | namespace_refs "::" T_NAMESPACEREF
+        {
+            search_namespace = $3;
         }
 ;
 

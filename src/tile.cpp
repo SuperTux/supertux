@@ -24,7 +24,6 @@
 #include <iostream>
 #include <stdexcept>
 
-#include "app/globals.h"
 #include "lisp/lisp.h"
 #include "tile.h"
 #include "resources.h"

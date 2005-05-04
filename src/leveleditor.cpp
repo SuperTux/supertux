@@ -45,8 +45,6 @@
 #include "gui/button.h"
 #include "audio/sound_manager.h"
 #include "app/gettext.h"
-#include "app/setup.h"
-#include "app/globals.h"
 #include "sprite/sprite.h"
 #include "leveleditor.h"
 #include "resources.h"

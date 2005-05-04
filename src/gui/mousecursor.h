@@ -16,71 +16,60 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
 #ifndef SUPERTUX_MOUSECURSOR_H
 #define SUPERTUX_MOUSECURSOR_H
 
 #include <string>
 
-#include "special/timer.h"
 #include "video/surface.h"
 
-namespace SuperTux
-  {
-
-  #define MC_FRAME_PERIOD 800  // in ms
-
-  #define MC_STATES_NB 3
+#define MC_STATES_NB 3
  
-  enum {
-    MC_NORMAL,
-    MC_CLICK,
-    MC_LINK,
-    MC_HIDE
-  };
+enum {
+  MC_NORMAL,
+  MC_CLICK,
+  MC_LINK,
+  MC_HIDE
+};
 
-  /// Mouse cursor.
-  /** Used to create mouse cursors.
-      The mouse cursors can be animated
-      and can be used in four different states.
-      (MC_NORMAL, MC_CLICK, MC_LINK or MC_HIDE) */
-  class MouseCursor
-    {
-    public:
-      /// Constructor of MouseCursor.
-      /** Expects an imagefile for the cursor and  the number of animation frames it contains. */
-      MouseCursor(std::string cursor_file, int frames);
-      ~MouseCursor();
-      /// Get MouseCursor state.
-      /** (MC_NORMAL, MC_CLICK, MC_LINK or MC_HIDE) */
-      int state();
-      /// Set MouseCursor state.
-      /** (MC_NORMAL, MC_CLICK, MC_LINK or MC_HIDE) */
-      void set_state(int nstate);
-      /// Define the middle of a MouseCursor.
-      /** Useful for cross mouse cursor images in example. */
-      void set_mid(int x, int y);
+/// Mouse cursor.
+/** Used to create mouse cursors.
+    The mouse cursors can be animated
+    and can be used in four different states.
+    (MC_NORMAL, MC_CLICK, MC_LINK or MC_HIDE) */
+class MouseCursor
+{
+public:
+  /// Constructor of MouseCursor.
+  /** Expects an imagefile for the cursor and  the number of animation frames it contains. */
+  MouseCursor(std::string cursor_file);
+  ~MouseCursor();
+  /// Get MouseCursor state.
+  /** (MC_NORMAL, MC_CLICK, MC_LINK or MC_HIDE) */
+  int state();
+  /// Set MouseCursor state.
+  /** (MC_NORMAL, MC_CLICK, MC_LINK or MC_HIDE) */
+  void set_state(int nstate);
+  /// Define the middle of a MouseCursor.
+  /** Useful for cross mouse cursor images in example. */
+  void set_mid(int x, int y);
 
-      /// Draw MouseCursor on screen.
-      void draw(DrawingContext& context);
+  /// Draw MouseCursor on screen.
+  void draw(DrawingContext& context);
 
-      /// Return the current cursor.
-      static MouseCursor* current()
-      {        return current_;      };
-      /// Set current cursor.
-      static void set_current(MouseCursor* pcursor)
-      {        current_ = pcursor;      };
+  /// Return the current cursor.
+  static MouseCursor* current()
+  {        return current_;      };
+  /// Set current cursor.
+  static void set_current(MouseCursor* pcursor)
+  {        current_ = pcursor;      };
 
-    private:
-      int mid_x, mid_y;
-      static MouseCursor* current_;
-      int state_before_click;
-      int cur_state;
-      int cur_frame, tot_frames;
-      Surface* cursor;
-      Timer timer;
-    };
-
-} // namespace SuperTux
+private:
+  int mid_x, mid_y;
+  static MouseCursor* current_;
+  int state_before_click;
+  int cur_state;
+  Surface* cursor;
+};
 
 #endif /*SUPERTUX_MOUSECURSOR_H*/

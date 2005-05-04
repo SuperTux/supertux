@@ -26,8 +26,6 @@
 #include "SDL_mixer.h"
 #include "math/vector.h"
 
-using namespace SuperTux;
-
 class MusicRef;
 class MovingObject;
 

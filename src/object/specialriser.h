@@ -17,13 +17,10 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
-
 #ifndef __SPECIALRISE_H__
 #define __SPECIALRISE_H__
 
 #include "moving_object.h"
-
-using namespace SuperTux;
 
 /**
  * special object that contains another object and slowly rises it out of a

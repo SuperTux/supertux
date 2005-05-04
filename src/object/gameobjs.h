@@ -23,7 +23,7 @@
 
 #include "video/surface.h"
 #include "timer.h"
-#include "math/physic.h"
+#include "physic.h"
 #include "game_object.h"
 #include "moving_object.h"
 #include "serializable.h"

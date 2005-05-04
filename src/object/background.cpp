@@ -16,16 +16,16 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
 #include <config.h>
 
 #include "background.h"
-#include "app/globals.h"
 #include "camera.h"
 #include "video/drawing_context.h"
 #include "lisp/lisp.h"
 #include "lisp/writer.h"
 #include "object_factory.h"
+#include "resources.h"
+#include "main.h"
 
 Background::Background()
   : type(INVALID), layer(LAYER_BACKGROUND0), image(0)

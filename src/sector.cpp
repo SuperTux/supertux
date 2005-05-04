@@ -26,7 +26,6 @@
 #include <fstream>
 #include <stdexcept>
 
-#include "app/globals.h"
 #include "sector.h"
 #include "player_status.h"
 #include "object/gameobjs.h"

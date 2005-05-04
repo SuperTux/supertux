@@ -16,18 +16,19 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
 #include <config.h>
 
-#include "app/globals.h"
 #include "sprite/sprite_manager.h"
-#include "app/setup.h"
 #include "gui/menu.h"
 #include "gui/button.h"
 #include "resources.h"
+#include "file_system.h"
 #include "tile_manager.h"
 #include "object/gameobjs.h"
 #include "object/player.h"
+
+std::string datadir;
+std::string user_dir;
 
 MusicRef herring_song;
 MusicRef level_end_song;
@@ -36,6 +37,8 @@ MusicRef credits_song;
 SpriteManager* sprite_manager = 0;
 TileManager* tile_manager = 0;
 SoundManager* sound_manager = 0;
+
+MouseCursor* mouse_cursor = 0;
 
 Font* gold_text;
 Font* blue_text;
@@ -56,7 +59,7 @@ void load_shared()
   arrow_right = new Surface(datadir + "/images/icons/right.png", true);
 
   /* Load the mouse-cursor */
-  mouse_cursor = new MouseCursor( datadir + "/images/status/mousecursor.png",1);
+  mouse_cursor = new MouseCursor(datadir + "/images/status/mousecursor.png");
   MouseCursor::set_current(mouse_cursor);
 
   /* Load global images: */

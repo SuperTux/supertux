@@ -29,18 +29,17 @@
 #include <memory>
 #include <stdexcept>
 
-#include "app/globals.h"
-#include "app/setup.h"
 #include "video/screen.h"
 #include "lisp/parser.h"
 #include "lisp/lisp.h"
 #include "lisp/list_iterator.h"
 #include "lisp/writer.h"
 #include "level.h"
-#include "math/physic.h"
+#include "physic.h"
 #include "sector.h"
 #include "tile.h"
 #include "resources.h"
+#include "file_system.h"
 #include "object/gameobjs.h"
 #include "object/camera.h"
 #include "object/tilemap.h"

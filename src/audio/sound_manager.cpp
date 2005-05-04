@@ -20,17 +20,14 @@
 
 #include <cmath>
 #include <cassert>
+#include <iostream>
 #include <stdexcept>
 #include <sstream>
 
 #include "audio/sound_manager.h"
 #include "audio/musicref.h"
-#include "app/globals.h"
-#include "app/setup.h"
 #include "moving_object.h"
 #include "resources.h"
-
-using namespace SuperTux;
 
 SoundManager::SoundManager()
   : current_music(0), m_music_enabled(true) , m_sound_enabled(true),
@@ -85,7 +82,7 @@ SoundManager::play_sound(const std::string& sound, const Vector& pos,
   // TODO make sure this formula is good
   float distance 
     = pos2.x- pos.x;
-  int loud = int(255.0/float(SCREEN_WIDTH*2) * fabsf(distance));
+  int loud = int(255.0/float(1600) * fabsf(distance));
   if(loud > 255)
     return;
 

@@ -21,14 +21,13 @@
 #ifndef SUPERTUX_GAMELOOP_H
 #define SUPERTUX_GAMELOOP_H
 
+#include <string>
 #include <SDL.h>
 #include "timer.h"
 #include "statistics.h"
-
-using namespace SuperTux;
+#include "math/vector.h"
 
 /* GameLoop modes */
-
 enum GameSessionMode {
   ST_GL_PLAY,
   ST_GL_TEST,

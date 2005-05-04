@@ -17,14 +17,11 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
-
 #ifndef SUPERTUX_LEVEL_SUBSET_H
 #define SUPERTUX_LEVEL_SUBSET_H
 
 #include <vector>
 #include <string>
-
-using namespace SuperTux;
 
 /** This type holds meta-information about a level-subset. 
     It could be extended to handle manipulation of subsets. */

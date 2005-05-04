@@ -16,7 +16,6 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
 #include <config.h>
 
 #include <stdexcept>
@@ -30,11 +29,9 @@
 #include "player.h"
 #include "tilemap.h"
 #include "game_session.h"
-#include "app/globals.h"
 #include "sector.h"
+#include "main.h"
 #include "object_factory.h"
-
-using namespace SuperTux;
 
 Camera::Camera(Sector* newsector)
   : sector(newsector), do_backscrolling(true), scrollchange(NONE),

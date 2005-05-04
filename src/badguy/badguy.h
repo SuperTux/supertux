@@ -17,7 +17,6 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
-
 #ifndef __BADGUY_H__
 #define __BADGUY_H__
 
@@ -26,7 +25,7 @@
 #include "timer.h"
 #include "moving_object.h"
 #include "sprite/sprite.h"
-#include "math/physic.h"
+#include "physic.h"
 #include "object/player.h"
 #include "serializable.h"
 #include "resources.h"
@@ -38,8 +37,6 @@
 #include "lisp/writer.h"
 #include "video/drawing_context.h"
 #include "sprite/sprite_manager.h"
-
-using namespace SuperTux;
 
 class BadGuy : public MovingObject, public Serializable
 {

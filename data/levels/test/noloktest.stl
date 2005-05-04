@@ -4,7 +4,6 @@
   (name "Nolok Test")
   (author "Marek")
   (time 500)
-  (end-sequence-animation "none")
   (sector
     (name "main")
     (gravity 10)

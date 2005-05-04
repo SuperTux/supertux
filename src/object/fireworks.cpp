@@ -17,7 +17,6 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
-
 #include <config.h>
 
 #include "fireworks.h"
@@ -25,11 +24,9 @@
 #include "sector.h"
 #include "camera.h"
 #include "gameobjs.h"
-#include "app/globals.h"
+#include "main.h"
 #include "video/drawing_context.h"
 #include "audio/sound_manager.h"
-
-using namespace SuperTux;
 
 Fireworks::Fireworks()
 {

@@ -17,7 +17,6 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
-
 #include <config.h>
 
 #include "textscroller.h"
@@ -26,7 +25,6 @@
 #include "resources.h"
 #include "video/font.h"
 #include "video/drawing_context.h"
-#include "app/globals.h"
 #include "lisp/parser.h"
 #include "lisp/lisp.h"
 #include "main.h"

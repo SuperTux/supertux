@@ -17,15 +17,6 @@
 #ifndef SUPERTUX_MISC_H
 #define SUPERTUX_MISC_H
 
-#include "app/setup.h"
-#include "app/gettext.h"
-#include "gui/menu.h"
-#include "gameconfig.h"
-#include "title.h"
-#include "resources.h"
-#include "worldmap.h"
-#include "object/player.h"
-
 enum OptionsMenuIDs {
   MNID_FULLSCREEN,
   MNID_SOUND,

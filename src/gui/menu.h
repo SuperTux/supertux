@@ -29,7 +29,6 @@
 
 #include "video/surface.h"
 #include "video/font.h"
-#include "special/timer.h"
 #include "mousecursor.h"
 
 bool confirm_dialog(Surface* background, std::string text);
@@ -82,7 +81,6 @@ private:
 
   /// keyboard key or joystick button
   bool input_flickering;
-  Timer input_flickering_timer;
 };
 
 class Menu
@@ -132,7 +130,7 @@ private:
   /* input implementation variables */
   int delete_character;
   char mn_input_char;
-  Timer repeat_timer;
+  Uint32 menu_repeat_ticks;
 
 public:
   static Font* default_font;
@@ -192,7 +190,7 @@ protected:
 private:
   void check_controlfield_change_event(const SDL_Event& event);  
   void draw_item(DrawingContext& context, int index);
-  Timer effect;
+  Uint32 effect_ticks;
   int arrange_left;
   int active_item;
 };

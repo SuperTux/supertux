@@ -27,16 +27,12 @@
 #include "audio/musicref.h"
 #include "video/drawing_context.h"
 
-using namespace SuperTux;
-
-namespace SuperTux {
-class Rectangle;
-}
 namespace lisp {
 class Lisp;
 class Writer;
 }
 
+class Rectangle;
 class Sprite;
 class GameObject;
 class Player;

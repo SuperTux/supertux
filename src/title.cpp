@@ -37,14 +37,11 @@
 #include <ctype.h>
 #endif
 
-#include "app/globals.h"
 #include "title.h"
 #include "video/screen.h"
 #include "video/surface.h"
 #include "gui/menu.h"
 #include "timer.h"
-#include "special/frame_rate.h"
-#include "app/setup.h"
 #include "lisp/lisp.h"
 #include "lisp/parser.h"
 #include "level.h"
@@ -59,9 +56,10 @@
 #include "object/camera.h"
 #include "object/player.h"
 #include "resources.h"
-#include "app/gettext.h"
+#include "gettext.h"
 #include "misc.h"
 #include "textscroller.h"
+#include "file_system.h"
 #include "control/joystickkeyboardcontroller.h"
 #include "control/codecontroller.h"
 #include "main.h"
@@ -81,8 +79,6 @@ static CodeController* controller;
 static std::vector<LevelSubset*> contrib_subsets;
 static LevelSubset* current_contrib_subset = 0;
 
-static FrameRate frame_rate(100);
-
 /* If the demo was stopped - because game started, level
    editor was excuted, etc - call this when you get back
    to the title code.
@@ -93,7 +89,7 @@ void resume_demo()
   titlesession->get_current_sector()->activate("main");
   titlesession->set_current();
 
-  frame_rate.update();
+  //frame_rate.update();
 }
 
 void update_load_save_game_menu(Menu* menu)
@@ -225,20 +221,16 @@ void check_levels_contrib_menu()
 void check_contrib_subset_menu()
 {
   int index = contrib_subset_menu->check();
-  if (index != -1)
-    {
-      if (contrib_subset_menu->get_item_by_id(index).kind == MN_ACTION)
-        {
-          std::cout << "Starting level: " << index << std::endl;
-          
-          GameSession session(
-              current_contrib_subset->get_level_filename(index), ST_GL_PLAY);
-          session.run();
-          player_status.reset();
-          Menu::set_current(main_menu);
-          resume_demo();
-        }
-    }  
+  if (index != -1) {
+    if (contrib_subset_menu->get_item_by_id(index).kind == MN_ACTION) {
+      GameSession session(
+          current_contrib_subset->get_level_filename(index), ST_GL_PLAY);
+      session.run();
+      player_status.reset();
+      Menu::set_current(main_menu);
+      resume_demo();
+    }
+  }  
 }
 
 void draw_demo(float elapsed_time)
@@ -256,12 +248,10 @@ void draw_demo(float elapsed_time)
   if(random_timer.check() || 
       (walking && (int) last_tux_x_pos == (int) tux->get_pos().x)) {
     walking = false;
-    printf("Walking: %d.\n", walking);
   } else {
       if(!walking && (int) tux->get_pos().y == (int) last_tux_y_pos) {
         random_timer.start(float(rand() % 3000 + 3000) / 1000.);
         walking = true;
-        printf("Walking: %d.\n", walking);
       }
   }
   if(!walking)
@@ -286,8 +276,6 @@ void title()
   //LevelEditor* leveleditor;
   MusicRef credits_music;
   controller = new CodeController();
-
-  Ticks::pause_init();
 
   titlesession = new GameSession(get_resource_filename("levels/misc/menu.stl"),
       ST_GL_DEMO_GAME);
@@ -374,7 +362,6 @@ void title()
                   break;
                 case MNID_LEVELS_CONTRIB:
                   // Contrib Menu
-                  puts("Entering contrib menu");
                   generate_contrib_menu();
                   break;
 #if 0
@@ -450,7 +437,7 @@ void title()
      
       context.do_drawing();
 
-      frame_rate.update();
+      //frame_rate.update();
 
       /* Pause: */
       frame++;

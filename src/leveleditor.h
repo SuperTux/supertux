@@ -17,9 +17,10 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
-
 #ifndef SUPERTUX_LEVELEDITOR_H
 #define SUPERTUX_LEVELEDITOR_H
+
+#if 0
 
 #include <set>
 #include <string>
@@ -148,5 +149,7 @@ private:
 private:
   Sector* create_sector(const std::string& name, size_t width, size_t height);
 };
+
+#endif
 
 #endif

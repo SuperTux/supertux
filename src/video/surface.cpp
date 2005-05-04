@@ -31,10 +31,6 @@
 #include "gameconfig.h"
 #include "video/surface.h"
 #include "video/screen.h"
-#include "app/globals.h"
-#include "app/setup.h"
-
-using namespace SuperTux;
 
 Surface::Surfaces Surface::surfaces;
 

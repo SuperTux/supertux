@@ -4,10 +4,16 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <sstream>
+#include <stdexcept>
+
+class Namespace;
 
 class AtomicType {
 public:
-    std::string name;
+    AtomicType()
+        : parent(0)
+    { }
     virtual ~AtomicType()
     { }
 
@@ -15,6 +21,9 @@ public:
     {
         out << name;
     }
+
+    std::string name;
+    Namespace* parent;
 };
 
 class BasicType : public AtomicType {
@@ -143,12 +152,10 @@ public:
 
 class Namespace {
 public:
-    std::string name;
-};
-
-class CompilationUnit {
-public:
-    ~CompilationUnit() {
+    Namespace() {
+        parent = 0;
+    }
+    virtual ~Namespace() {
         for(std::vector<Function*>::iterator i = functions.begin();
                 i != functions.end(); ++i)
             delete *i;
@@ -159,10 +166,50 @@ public:
                 i != namespaces.end(); ++i)
             delete *i;
     }
- 
+    void add_type(AtomicType* type)
+    {
+        types.push_back(type);
+        type->parent = this;
+    }
+    void add_namespace(Namespace* ns)
+    {
+        namespaces.push_back(ns);
+        ns->parent = this;
+    }
+    Namespace* _findNamespace(const std::string& name, bool godown = false) {
+        for(std::vector<Namespace*>::iterator i = namespaces.begin();
+                i != namespaces.end(); ++i) {
+            Namespace* ns = *i;
+            if(ns->name == name)
+                return ns;
+        }
+        if(godown && parent)
+            return parent->_findNamespace(name, true);
+
+        return 0;
+    }
+
+    Namespace* findNamespace(const std::string& name, bool godown = false) {
+        Namespace* ret = _findNamespace(name, godown);
+        if(!ret) {
+            std::ostringstream msg;
+            msg << "Couldn't find namespace '" << name << "'.";
+            throw std::runtime_error(msg.str());
+        }
+
+        return ret;
+    }
+                                                                             
     std::vector<Function*> functions;
     std::vector<AtomicType*> types;
     std::vector<Namespace*> namespaces;
+
+    Namespace* parent;
+    std::string name;
+};
+
+class CompilationUnit : public Namespace {
+public:
 };
 
 #endif

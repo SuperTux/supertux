@@ -71,7 +71,6 @@ void
 MrIceBlock::active_action(float elapsed_time)
 {
   if(ice_state == ICESTATE_FLAT && flat_timer.check()) {
-    printf("unflat.\n");
     ice_state = ICESTATE_NORMAL;
     physic.set_velocity_x(dir == LEFT ? -WALKSPEED : WALKSPEED);
     sprite->set_action(dir == LEFT ? "left" : "right");
@@ -161,7 +160,6 @@ MrIceBlock::collision_squished(Player& player)
       sprite->set_action(dir == LEFT ? "flat-left" : "flat-right");
       flat_timer.start(4);
       ice_state = ICESTATE_FLAT;
-      printf("flat.\n");
       break;
     case ICESTATE_FLAT:
       // kick
@@ -175,7 +173,6 @@ MrIceBlock::collision_squished(Player& player)
       physic.set_velocity_x(dir == LEFT ? -KICKSPEED : KICKSPEED);
       sprite->set_action(dir == LEFT ? "flat-left" : "flat-right");
       ice_state = ICESTATE_KICKED;
-      printf("kicked.\n");
       break;
   }
 
