@@ -4,6 +4,9 @@ if ! $(top_builddir)
 }
 top_srcdir = $(TOP) ;
 
+# unset some stuff defined in Jambase
+LEX = ;
+
 JAMCONFIG ?= $(top_builddir)/Jamconfig ;
 include $(JAMCONFIG) ;
 if ! $(JAMCONFIG_READ)

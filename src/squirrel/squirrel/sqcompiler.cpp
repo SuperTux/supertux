@@ -296,7 +296,7 @@ public:
 		case TK_MULEQ: oper = '*'; break;
 		case TK_DIVEQ: oper = '/'; break;
 		case TK_MODEQ: oper = '%'; break;
-		default: assert(0); break;
+		default: oper = 0; assert(0); break;
 		};
 		if(deref) {
 			int val = _fs->PopTarget();

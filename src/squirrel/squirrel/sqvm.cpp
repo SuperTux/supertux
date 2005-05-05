@@ -115,6 +115,7 @@ bool SQVM::ArithMetaMethod(int op,const SQObjectPtr &o1,const SQObjectPtr &o2,SQ
 		case _SC('/'): mm=MT_DIV; break;
 		case _SC('*'): mm=MT_MUL; break;
 		case _SC('%'): mm=MT_MODULO; break;
+                default: mm=MT_ADD; assert(0); break;
 	}
 	if(is_delegable(o1) && _delegable(o1)->_delegate) {
 		Push(o1);Push(o2);
