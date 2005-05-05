@@ -131,7 +131,7 @@ private:
   Vector scroll;
   float zoom;
 
-  Timer2 level_name_timer;
+  Timer level_name_timer;
 
   Surface *img_background_bt, *img_foreground_bt, *img_interactive_bt;
   Surface *img_save_level_bt, *img_setup_level_bt, *img_test_level_bt;

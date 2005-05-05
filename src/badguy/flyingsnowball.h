@@ -41,7 +41,7 @@ protected:
   FlyingSnowballMode mode;
   bool collision_squished(Player& player);
 private:
-  Timer2 timer;
+  Timer timer;
 };
 
 #endif

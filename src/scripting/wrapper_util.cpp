@@ -104,39 +104,6 @@ void print_squirrel_stack(HSQUIRRELVM v)
     printf("--------------------------------------------------------------\n");
 }
 
-void expose_object(HSQUIRRELVM v, void* object, const char* type,
-        const char* name)
-{
-    // part1 of registration of the instance in the root table
-    sq_pushroottable(v);
-    sq_pushstring(v, name, -1);
-
-    // resolve class name
-    sq_pushroottable(v);
-    sq_pushstring(v, type, -1);
-    if(sq_get(v, -2) < 0) {
-        std::ostringstream msg;
-        msg << "Couldn't resolve squirrel type '" << type << "'.";
-        throw std::runtime_error(msg.str());
-    }
-    sq_remove(v, -2); // remove roottable
-
-    // create an instance and set pointer to c++ object
-    if(sq_createinstance(v, -1) < 0 || sq_setinstanceup(v, -1, object)) {
-      std::ostringstream msg;
-      msg << "Couldn't setup squirrel instance for object '"
-          << name << "' of type '" << type << "'.";
-      throw SquirrelError(v, msg.str());
-    }
-    
-    sq_remove(v, -2); // remove class from stack
-
-    // part2 of registration of the instance in the root table
-    if(sq_createslot(v, -3) < 0)
-      throw SquirrelError(v, "Couldn't register object in squirrel root table");
-    sq_pop(v, 2);
-}
-
 //----------------------------------------------------------------------------
 
 SquirrelError::SquirrelError(HSQUIRRELVM v, const std::string& message) throw()

@@ -38,7 +38,7 @@ public:
 
 private:
   int state;
-  Timer2 timer;
+  Timer timer;
 };
 
 #endif

@@ -103,7 +103,7 @@ private:
   Vector current_dir;
 
   // shaking
-  Timer2 shaketimer;
+  Timer shaketimer;
   float shakespeed;
   float shakedepth_x;
   float shakedepth_y;

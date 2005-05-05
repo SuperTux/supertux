@@ -199,6 +199,40 @@ static int ScriptedObject_get_velocity_y_wrapper(HSQUIRRELVM v)
   return 1;
 }
 
+static int ScriptedObject_set_visible_wrapper(HSQUIRRELVM v)
+{
+  Scripting::ScriptedObject* _this;
+  sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
+  SQBool arg0;
+  sq_getbool(v, 2, &arg0);
+  
+  _this->set_visible(arg0);
+  
+  return 0;
+}
+
+static int ScriptedObject_is_visible_wrapper(HSQUIRRELVM v)
+{
+  Scripting::ScriptedObject* _this;
+  sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
+  
+  bool return_value = _this->is_visible();
+  
+  sq_pushbool(v, return_value);
+  return 1;
+}
+
+static int ScriptedObject_get_name_wrapper(HSQUIRRELVM v)
+{
+  Scripting::ScriptedObject* _this;
+  sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
+  
+  std::string return_value = _this->get_name();
+  
+  sq_pushstring(v, return_value.c_str(), return_value.size());
+  return 1;
+}
+
 static int Sound_play_music_wrapper(HSQUIRRELVM v)
 {
   Scripting::Sound* _this;
@@ -263,6 +297,9 @@ static WrappedFunction supertux_ScriptedObject_methods[] = {
   { "set_velocity", &ScriptedObject_set_velocity_wrapper },
   { "get_velocity_x", &ScriptedObject_get_velocity_x_wrapper },
   { "get_velocity_y", &ScriptedObject_get_velocity_y_wrapper },
+  { "set_visible", &ScriptedObject_set_visible_wrapper },
+  { "is_visible", &ScriptedObject_is_visible_wrapper },
+  { "get_name", &ScriptedObject_get_name_wrapper },
 };
 
 static WrappedFunction supertux_Sound_methods[] = {

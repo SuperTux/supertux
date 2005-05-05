@@ -16,7 +16,6 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
 #include <config.h>
 
 #include <memory>
@@ -58,6 +57,8 @@
 #include "trigger/sequence_trigger.h"
 #include "player_status.h"
 #include "scripting/script_interpreter.h"
+#include "scripting/sound.h"
+#include "scripting/scripted_object.h"
 
 //#define USE_GRID
 
@@ -424,6 +425,24 @@ Sector::activate(const std::string& spawnpoint)
       delete interpreter;
       interpreter = 0;
       interpreter = new ScriptInterpreter();
+
+      // expose ScriptedObjects to the script
+      for(GameObjects::iterator i = gameobjects.begin();
+          i != gameobjects.end(); ++i) {
+        GameObject* object = *i;
+        Scripting::ScriptedObject* scripted_object
+          = dynamic_cast<Scripting::ScriptedObject*> (object);
+        if(!scripted_object)
+          continue;
+
+        std::cout << "Exposing " << scripted_object->get_name() << "\n";
+        interpreter->expose_object(scripted_object,
+                                   scripted_object->get_name(),
+                                   "ScriptedObject");
+      }
+      Scripting::Sound* sound = new Scripting::Sound();
+      interpreter->expose_object(sound, "Sound", "Sound");
+
       std::string sourcename = std::string("Sector(") + name + ") - init";
       std::istringstream in(init_script);
       printf("Load script.\n");
@@ -456,6 +475,9 @@ Sector::get_active_region()
 void
 Sector::action(float elapsed_time)
 {
+  if(interpreter)
+    interpreter->update();
+  
   player->check_bounds(camera);
 
 #if 0

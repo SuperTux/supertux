@@ -69,7 +69,7 @@ static Surface* logo;
 static Surface* img_choose_subset;
 
 static bool walking;
-static Timer2 random_timer;
+static Timer random_timer;
 
 static int frame;
 

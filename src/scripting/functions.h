@@ -4,7 +4,8 @@
 namespace Scripting
 {
 
-void wait(float secs);
+/** Suspends the script execution for the specified number of seconds */
+void wait(float seconds);
 
 }
 

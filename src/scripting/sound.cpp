@@ -3,6 +3,8 @@
 #include <string>
 #include <stdio.h>
 #include "sound.h"
+#include "resources.h"
+#include "audio/sound_manager.h"
 
 #define NOIMPL      printf("%s not implemented.\n", __PRETTY_FUNCTION__);
 
@@ -22,8 +24,8 @@ namespace Scripting
   }
 
   void
-  Sound::play_sound(const std::string& )
+  Sound::play_sound(const std::string& name)
   {
-    NOIMPL;
+    sound_manager->play_sound(name);
   }
 }

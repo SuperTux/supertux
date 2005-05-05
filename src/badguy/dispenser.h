@@ -38,7 +38,7 @@ protected:
   void launch_badguy();
   float cycle;
   std::string badguy;
-  Timer2 dispense_timer;
+  Timer dispense_timer;
 };
 
 #endif

@@ -45,7 +45,7 @@ public:
 private:
   Sprite* sprite;
   Vector position;
-  Timer2 timer;
+  Timer timer;
 };
 
 class BrokenBrick : public GameObject
@@ -58,7 +58,7 @@ public:
   virtual void draw(DrawingContext& context);
 
 private:
-  Timer2 timer;
+  Timer timer;
   Sprite* sprite;
   Vector position;
   Vector movement;
@@ -76,7 +76,7 @@ public:
 private:
   Vector position;
   std::string text;
-  Timer2 timer;  
+  Timer timer;  
 };
 
 extern Sprite *img_smoke_cloud;
@@ -90,7 +90,7 @@ public:
   virtual void draw(DrawingContext& context);
 
 private:
-  Timer2 timer;
+  Timer timer;
   Vector position;
 };
 
@@ -107,7 +107,7 @@ public:
 
 private:
   Vector accel;
-  Timer2 timer;
+  Timer timer;
   bool live_forever;
 
   Color color;

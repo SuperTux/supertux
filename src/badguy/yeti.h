@@ -52,7 +52,7 @@ private:
   };
   Direction side;
   YetiState state;
-  Timer2 timer;
+  Timer timer;
   int jumpcount;
   Mix_Chunk* sound_gna;
   Mix_Chunk* sound_roar;

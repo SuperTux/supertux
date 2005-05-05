@@ -38,7 +38,7 @@ public:
   
 protected:
   bool collision_squished(Player& player);
-  Timer2 action_timer;
+  Timer action_timer;
   enum Actions { WALKING, JUMPING, SHOOTING };
   Actions action;
 };

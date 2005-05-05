@@ -35,7 +35,7 @@ public:
   virtual void draw(DrawingContext& context);
 
 private:
-  Timer2 timer;
+  Timer timer;
 };
 
 #endif

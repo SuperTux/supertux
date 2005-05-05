@@ -117,15 +117,15 @@ public:
   enum { MAREK_FLAP, RICARDO_FLAP, RYAN_FLAP, NO_FLAP };
   int flapping_mode;
 
-  Timer2 invincible_timer;
-  Timer2 skidding_timer;
-  Timer2 safe_timer;
-  Timer2 kick_timer;
-  Timer2 shooting_timer;   // used to show the arm when Tux is shooting
-  Timer2 dying_timer;
-  Timer2 growing_timer;
-  Timer2 idle_timer;
-  Timer2 flapping_timer;
+  Timer invincible_timer;
+  Timer skidding_timer;
+  Timer safe_timer;
+  Timer kick_timer;
+  Timer shooting_timer;   // used to show the arm when Tux is shooting
+  Timer dying_timer;
+  Timer growing_timer;
+  Timer idle_timer;
+  Timer flapping_timer;
   Physic physic;
   
 public:

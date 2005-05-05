@@ -77,7 +77,7 @@ public:
 private:
   int stats[NUM_STATS][2];
 
-  Timer2 timer;
+  Timer timer;
   int display_stat;
 };
 

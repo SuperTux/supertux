@@ -1,13 +1,13 @@
 #include <stdio.h>
 #include "functions.h"
+#include "script_interpreter.h"
 
 namespace Scripting
 {
 
-void wait(float secs)
+void wait(float seconds)
 {
-    (void) secs;
-    printf("Wait not implemented.\n");
+  ScriptInterpreter::current()->suspend(seconds);
 }
 
 }

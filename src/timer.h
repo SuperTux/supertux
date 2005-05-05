@@ -25,11 +25,11 @@ extern float global_time;
 /**
  * new simpler timer designed to be used in the update functions of objects
  */
-class Timer2 // TODO rename later
+class Timer
 {
 public:
-  Timer2();
-  ~Timer2();
+  Timer();
+  ~Timer();
 
   /** start the timer with the given period (in seconds).
    * If cyclic=true then the timer willl be reset after each period.

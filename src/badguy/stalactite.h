@@ -38,7 +38,7 @@ public:
   void deactivate();
 
 protected:
-  Timer2 timer;
+  Timer timer;
 
   enum StalactiteState {
     STALACTITE_HANGING,

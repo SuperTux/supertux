@@ -37,7 +37,7 @@ public:
   void explode();
 
 private:
-  Timer2 timer;
+  Timer timer;
 };
 
 #endif

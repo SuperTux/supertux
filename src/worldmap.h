@@ -178,7 +178,7 @@ public:
   };
 
   /** Variables to deal with the passive map messages */
-  Timer2 passive_message_timer;
+  Timer passive_message_timer;
   std::string passive_message;
 
 private:

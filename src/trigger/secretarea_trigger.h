@@ -39,7 +39,7 @@ public:
   
 private:
   std::string message;
-  Timer2 message_timer;
+  Timer message_timer;
   bool message_displayed;
 };
 

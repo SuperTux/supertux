@@ -40,7 +40,7 @@ protected:
   bool collision_squished(Player& player);
   bool set_direction;
   Direction initial_direction;
-  Timer2 collision_timer;
+  Timer collision_timer;
 };
 
 #endif

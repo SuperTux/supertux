@@ -2,14 +2,11 @@
 (supertux-level
   (version 2)
   (name   (_ "Scripting Test"))
-  (author "Matthias Braun")
+  (author "totally pointless script maker")
   (sector
     (name  "main")
     (music  "salcon.mod")
     (gravity 10.000000)
-    (init-script "wait(2);
-print(\"Hello from the script\\n\");
-")
     (tilemap
       (layer  "background")
       (solid #f)
@@ -105,7 +102,60 @@ print(\"Hello from the script\\n\");
        (spawnpoint (name "main") (x 320) (y 384))
        (particles-snow
        )
+       (scriptedobject
+         (name "TUX")
+         (x 160)
+         (y 448)
+         (sprite "dummyguy")
+       )
+       (scriptedobject
+         (name "PENNY")
+         (x 256)
+         (y 448)
+         (sprite "dummyguy")
+       )
+       (scriptedobject
+         (name "NOLOK")
+         (x 420)
+         (y 94)
+         (sprite "dummyguy")
+         (visible #f)
+         (physic-enabled #f)
+       )
+       (init-script "
+print(\"Making tux jump...\");
+TUX.set_animation(\"jump\");
+TUX.set_velocity(150, 200);
+wait(3);
+suspend();
+PENNY.set_velocity(-200, 200);
+tuxjumps <- 2;
+while(true) {
+  wait(0.8);
+  suspend();
+  Sound.play_sound(\"jump\");
+  if(tuxjumps >= 0) {
+    TUX.set_velocity(50, 300);
+  } else {
+    TUX.set_velocity(-50, 300);
+    if(tuxjumps < -2)
+      tuxjumps = 3;
+  }
+  tuxjumps--;
+  wait(0.5);
+  if(PENNY.get_animation() == \"stand\") {
+    PENNY.set_animation(\"throw\");
+  } else if(PENNY.get_animation() == \"throw\") {
+    PENNY.set_animation(\"jump\");
+  } else if(PENNY.get_animation() == \"jump\") {
+    PENNY.set_animation(\"dead\");
+  } else {
+    Sound.play_sound(\"grow\");
+    PENNY.set_animation(\"stand\");
+    PENNY.set_velocity(0, 900);
+  }
+}
+")
    )
- )
+)
 
-;; EOF ;;

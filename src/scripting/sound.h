@@ -7,12 +7,12 @@ namespace Scripting
 class Sound
 {
 public:
-    void play_music(const std::string& musicfile);
-    void play_sound(const std::string& soundfile);
+  void play_music(const std::string& musicfile);
+  void play_sound(const std::string& soundfile);
 
 #ifndef SCRIPTING_API
-    Sound();
-    ~Sound();
+  Sound();
+  ~Sound();
 #endif
 };
 

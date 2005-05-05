@@ -59,7 +59,7 @@ public:
 
 public:
   DrawingContext* context;
-  Timer2 time_left;
+  Timer time_left;
 
   GameSession(const std::string& levelfile, GameSessionMode mode,
               Statistics* statistics=0);
@@ -106,7 +106,7 @@ private:
   void on_escape_press();
   void process_menu();
 
-  Timer2 endsequence_timer;
+  Timer endsequence_timer;
   Level* level;
   Sector* currentsector;
 

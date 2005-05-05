@@ -24,17 +24,17 @@
 
 float global_time = 0;
 
-Timer2::Timer2()
+Timer::Timer()
   : period(0), cycle_start(0), cyclic(false)
 {
 }
 
-Timer2::~Timer2()
+Timer::~Timer()
 {
 }
 
 void
-Timer2::start(float period, bool cyclic)
+Timer::start(float period, bool cyclic)
 {
   this->period = period;
   this->cyclic = cyclic;
@@ -42,7 +42,7 @@ Timer2::start(float period, bool cyclic)
 }
 
 bool
-Timer2::check()
+Timer::check()
 {
   if(period == 0)
     return false;

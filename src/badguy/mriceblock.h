@@ -46,7 +46,7 @@ private:
     ICESTATE_KICKED
   };
   IceState ice_state;
-  Timer2 flat_timer;
+  Timer flat_timer;
   int squishcount;
   bool set_direction;
   Direction initial_direction;  

@@ -144,7 +144,7 @@ private:
   void try_activate();
   
   State state;
-  Timer2 state_timer;
+  Timer state_timer;
 };
 
 #endif

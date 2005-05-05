@@ -42,7 +42,7 @@ public:
 private:
   Physic physic;
   Sprite* sprite;
-  Timer2 timer;
+  Timer timer;
   bool hit;
   bool falling;
 };
