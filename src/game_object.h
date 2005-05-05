@@ -25,16 +25,15 @@ class DrawingContext;
 class ObjectRemoveListener;
 
 /**
- * Base class for all game objects. This contains functions for:
- *  -querying the actual type of the object
- *  -a flag that indicates if the object wants to be removed. Objects with this
- *   flag will be removed at the end of each frame. This is alot safer than
- *   having some uncontrollable "delete this" in the code.
- *  -an action function that is called once per frame and allows the object to
- *   update it's state.
- * 
- * Most GameObjects will also implement the DrawableObject interface so that
- * they can actually be drawn on screen.
+ * This is a base class for all game objects. Each sector of a level will hold a
+ * list of active GameObject while the game is played.
+ *
+ * This class is responsible for:
+ *  - Updating and Drawing the object. This should happen in the update() and
+ *    draw() functions. Both are called once per frame.
+ *  - Providing a safe way to remove the object by calling the remove_me
+ *    functions.
+ *  - a 32bit bitset for flags...
  */
 class GameObject
 {
