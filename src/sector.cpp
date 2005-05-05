@@ -598,11 +598,15 @@ Sector::collision_tilemap(MovingObject* object, int depth)
       const Tile* tile = solids->get_tile(x, y);
       if(!tile)
         continue;
+      // skip non-solid tiles
       if(!(tile->getAttributes() & Tile::SOLID))
         continue;
-      if(tile->getAttributes() & Tile::UNISOLID
-        && (object->movement.y < 0 || dest.p2.y > y*32))
-        continue;
+      // only handle unisolid when the player is falling down and when he was
+      // above the tile before
+      if(tile->getAttributes() & Tile::UNISOLID) {
+        if(object->movement.y < 0 || object->get_bbox().p2.y > y*32)
+          continue;
+      }
 
       if(tile->getAttributes() & Tile::SLOPE) { // slope tile
         AATriangle triangle;
