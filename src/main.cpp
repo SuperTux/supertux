@@ -31,6 +31,7 @@
 #include <sys/types.h>
 #include <dirent.h>
 #include <unistd.h>
+#include <assert.h>
 #ifndef WIN32
 #include <libgen.h>
 #endif

@@ -65,7 +65,7 @@ public:
 			if(_rawval(n->key) == _rawval(key) && type(n->key) == type(key)){
 				return n;
 			}
-		}while(n = n->next);
+		}while( (n = n->next) );
 		return NULL;
 	}
 	bool Get(const SQObjectPtr &key,SQObjectPtr &val);

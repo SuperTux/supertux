@@ -52,8 +52,8 @@ enum SQMetaMethod{
 
 struct SQRefCounted
 {
-        virtual ~SQRefCounted() {}
-
+	virtual ~SQRefCounted()
+	{}
 	unsigned int _uiRef;
 	virtual void Release()=0;
 };

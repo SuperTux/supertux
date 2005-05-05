@@ -2,8 +2,10 @@
 #ifndef _SQOPCODES_H_
 #define _SQOPCODES_H_
 
+#include <limits.h>
+
 #define MAX_FUNC_STACKSIZE 0xFF
-#define MAX_LITERALS 0xFFFFFFFF
+#define MAX_LITERALS INT_MAX
 
 enum BitWiseOP {
 	BW_AND = 0,

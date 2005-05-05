@@ -112,7 +112,7 @@ static int _blob__typeof(HSQUIRRELVM v)
 	return 1;
 }
 
-static int _blob_releasehook(SQUserPointer p, int size)
+static int _blob_releasehook(SQUserPointer p, int )
 {
 	SQBlob *self = (SQBlob*)p;
 	delete self;
@@ -203,7 +203,7 @@ static SQRegFunction bloblib_funcs[]={
 	_DECL_GLOBALBLOB_FUNC(swap2,2,_SC(".n")),
 	_DECL_GLOBALBLOB_FUNC(swap4,2,_SC(".n")),
 	_DECL_GLOBALBLOB_FUNC(swapfloat,2,_SC(".n")),
-	{0,0}
+	{0,0,0,0}
 };
 
 SQRESULT sqstd_getblob(HSQUIRRELVM v,int idx,SQUserPointer *ptr)

@@ -76,6 +76,7 @@ void DumpLiteral(SQObjectPtr &o)
 		case OT_STRING:	scprintf(_SC("\"%s\""),_stringval(o));break;
 		case OT_FLOAT: scprintf(_SC("{%f}"),_float(o));break;
 		case OT_INTEGER: scprintf(_SC("{%d}"),_integer(o));break;
+	        default: break;
 	}
 }
 
@@ -189,7 +190,7 @@ int SQFuncState::GetNumericConstant(const SQFloat cons)
 
 int SQFuncState::GetConstant(SQObjectPtr cons)
 {
-	int n=0;
+	// int n=0;
 	SQObjectPtr val;
 	if(!_table(_literals)->Get(cons,val))
 	{

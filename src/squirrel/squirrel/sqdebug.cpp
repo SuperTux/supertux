@@ -31,6 +31,8 @@ SQRESULT sq_stackinfos(HSQUIRRELVM v, int level, SQStackInfos *si)
 				si->funcname = _stringval(_nativeclosure(ci._closure)->_name);
 			si->line = -1;
 			break;
+		default:
+			break;
 		}
 		return SQ_OK;
 	}

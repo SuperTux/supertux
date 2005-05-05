@@ -705,6 +705,8 @@ SQRESULT sq_getdelegate(HSQUIRRELVM v,int idx)
 		v->Push(SQObjectPtr(_userdata(self)->_delegate));
 		return SQ_OK;
 		break;
+	default:
+		break;
 	}
 	return sq_throwerror(v,_SC("wrong type"));
 }
@@ -872,6 +874,8 @@ void sq_setreleasehook(HSQUIRRELVM v,int idx,SQRELEASEHOOK hook)
 		case OT_INSTANCE:
 			_instance(ud)->_hook = hook;
 			break;
+		default:
+			break;
 		}
 	}
 }
@@ -885,7 +889,7 @@ SQRESULT sq_writeclosure(HSQUIRRELVM v,SQWRITEFUNC w,SQUserPointer up)
 {
 	SQObjectPtr *o = NULL;
 	_GETSAFE_OBJ(v, -1, OT_CLOSURE,o);
-	SQClosure *c=_closure(*o);
+	//SQClosure *c=_closure(*o);
 	unsigned short tag = SQ_BYTECODE_STREAM_TAG;
 	if(w(up,&tag,2) != 2)
 		return sq_throwerror(v,_SC("io error"));

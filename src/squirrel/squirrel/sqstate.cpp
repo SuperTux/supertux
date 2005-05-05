@@ -229,12 +229,14 @@ void SQSharedState::MarkObject(SQObjectPtr &o,SQCollectable **chain)
 	case OT_THREAD:_thread(o)->Mark(chain);break;
 	case OT_CLASS:_class(o)->Mark(chain);break;
 	case OT_INSTANCE:_instance(o)->Mark(chain);break;
+	default: break;
 	}
 }
 
 
 int SQSharedState::CollectGarbage(SQVM *vm)
 {
+	(void) vm;
 	int n=0;
 	SQCollectable *tchain=NULL;
 	SQVM *vms=_thread(_root_vm);

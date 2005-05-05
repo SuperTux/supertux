@@ -62,10 +62,10 @@ SQInteger sqstd_feof(SQFILE file)
 struct SQFile : public SQStream {
 	SQFile() { _handle = NULL; _owns = false;}
 	SQFile(SQFILE file, bool owns) { _handle = file; _owns = owns;}
-	~SQFile() { Close(); }
+	virtual ~SQFile() { Close(); }
 	bool Open(const SQChar *filename ,const SQChar *mode) {
 		Close();
-		if(_handle = sqstd_fopen(filename,mode)) {
+		if( (_handle = sqstd_fopen(filename,mode)) ) {
 			_owns = true;
 			return true;
 		}
@@ -116,6 +116,7 @@ static int _file__typeof(HSQUIRRELVM v)
 
 static int _file_releasehook(SQUserPointer p, int size)
 {
+	(void) size;
 	SQFile *self = (SQFile*)p;
 	delete self;
 	return 1;
@@ -261,7 +262,7 @@ SQRESULT sqstd_dofile(HSQUIRRELVM v,const SQChar *filename,SQBool retval,SQBool 
 {
 	if(SQ_SUCCEEDED(sqstd_loadfile(v,filename,printerror))) {
 		sq_push(v,-2);
-		int ntop = sq_gettop(v);
+		//int ntop = sq_gettop(v);
 		if(SQ_SUCCEEDED(sq_call(v,1,retval))) {
 			sq_remove(v,retval?-2:-1); //removes the closure
 			return 1;
@@ -314,7 +315,7 @@ int _g_io_dofile(HSQUIRRELVM v)
 static SQRegFunction iolib_funcs[]={
 	_DECL_GLOBALIO_FUNC(loadfile,-2,_SC(".sb")),
 	_DECL_GLOBALIO_FUNC(dofile,-2,_SC(".sb")),
-	{0,0}
+	{0,0,0,0}
 };
 
 SQRESULT sqstd_register_iolib(HSQUIRRELVM v)

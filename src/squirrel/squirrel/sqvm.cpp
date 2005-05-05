@@ -144,7 +144,8 @@ bool SQVM::NEG_OP(SQObjectPtr &trg,const SQObjectPtr &o)
 			}
 		}
 		return true;
-
+	default:
+		break;
 	}
 	Raise_Error(_SC("attempt to negate a %s"), GetTypeName(o));
 	return false;
@@ -168,6 +169,8 @@ bool SQVM::ObjCmp(const SQObjectPtr &o1,const SQObjectPtr &o2,int &result)
 		case OT_INSTANCE:
 			Push(o1);Push(o2);
 			if(_delegable(o1)->_delegate)CallMetaMethod(_delegable(o1),MT_CMP,2,res);
+			break;
+		default:
 			break;
 		}
 		if(type(res)!=OT_INTEGER) { Raise_CompareError(o1,o2); return false; }
@@ -318,7 +321,7 @@ bool SQVM::StartCall(SQClosure *closure,int target,int nargs,int stackbase,bool 
 	//const int outerssize = func->_outervalues.size();
 
 	const int paramssize = func->_parameters.size();
-	const int oldtop = _top;
+	// const int oldtop = _top;
 	const int newtop = stackbase + func->_stacksize;
 	
 	
@@ -499,6 +502,8 @@ bool SQVM::FOREACH_OP(SQObjectPtr &o1,SQObjectPtr &o2,SQObjectPtr
 			_generator(o1)->Resume(this, arg_2+1);
 			_FINISH(false);
 		}
+	default:
+		break;
 	}
 	Raise_Error(_SC("cannot iterate %s"), GetTypeName(o1));
 	return false; //cannot be hit(just to avoid warnings)
@@ -535,7 +540,7 @@ bool SQVM::CLOSURE_OP(SQObjectPtr &target, SQFunctionProto *func)
 {
 	int nouters;
 	SQClosure *closure = SQClosure::Create(_ss(this), func);
-	if(nouters = func->_outervalues.size()) {
+	if( (nouters = func->_outervalues.size()) ) {
 		closure->_outervalues.reserve(nouters);
 		for(int i = 0; i<nouters; i++) {
 			SQOuterVar &v = func->_outervalues[i];
@@ -815,6 +820,8 @@ common_prepcall:
 					continue;
 				case OT_CLASS: TARGET = _class(STK(arg1))->_base?_class(STK(arg1))->_base:_null_;
 					continue;
+				default:
+					break;
 				}
 				Raise_Error(_SC("the %s type doesn't have a parent slot"), GetTypeName(STK(arg1)));
 				SQ_THROW();
@@ -995,6 +1002,7 @@ void SQVM::CallDebugHook(int type,int forcedline)
 
 bool SQVM::CallNative(SQNativeClosure *nclosure,int nargs,int stackbase,bool tailcall,SQObjectPtr &retval,bool &suspend)
 {
+	(void) tailcall;
 	if (_nnativecalls + 1 > MAX_NATIVE_CALLS) { Raise_Error(_SC("Native stack overflow")); return false; }
 	int nparamscheck = nclosure->_nparamscheck;
 	if(((nparamscheck > 0) && (nparamscheck != nargs))
@@ -1004,7 +1012,7 @@ bool SQVM::CallNative(SQNativeClosure *nclosure,int nargs,int stackbase,bool tai
 		}
 
 	int tcs;
-	if(tcs = nclosure->_typecheck.size()) {
+	if( (tcs = nclosure->_typecheck.size()) ) {
 		for(int i = 0; i < nargs && i < tcs; i++)
 			if((nclosure->_typecheck[i] != -1) && !(type(_stack[stackbase+i]) & nclosure->_typecheck[i])) {
                 Raise_ParamTypeError(i,nclosure->_typecheck[i],type(_stack[stackbase+i]));
@@ -1064,6 +1072,8 @@ bool SQVM::Get(const SQObjectPtr &self,const SQObjectPtr &key,SQObjectPtr &dest,
 		break;
 	case OT_INSTANCE:
 		if(_instance(self)->Get(key,dest)) return true;
+		break;
+	default:
 		break;
 	}
 	if(FallBackGet(self,key,dest,raw)) return true;

@@ -339,7 +339,7 @@ int SQLexer::ReadNumber()
 #define THEX 3
 #define TSCIENTIFIC 4
 	int type = TINT, firstchar = CUR_CHAR;
-	bool isfloat = false;
+	//bool isfloat = false;
 	SQChar *sTemp;
 	INIT_TEMP_STRING();
 	NEXT();
@@ -390,7 +390,8 @@ int SQLexer::ReadNumber()
 
 int SQLexer::ReadID()
 {
-	int res, size = 0;
+	int res;
+	// int size = 0;
 	INIT_TEMP_STRING();
 	do {
 		APPEND_CHAR(CUR_CHAR);
