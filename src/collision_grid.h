@@ -46,7 +46,7 @@ private:
   struct ObjectWrapper
   {
     MovingObject* object;
-    Rectangle dest;
+    Rect dest;
     /** (pseudo) timestamp. When reading from the grid the timestamp is
      * changed so that you can easily avoid reading an object multiple times
      * when it is in several cells that you check.

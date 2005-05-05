@@ -69,7 +69,7 @@ CollisionGrid::add_object(MovingObject* object)
   objects.push_back(wrapper);
   wrapper->id = objects.size()-1;
   
-  const Rectangle& bbox = object->bbox;
+  const Rect& bbox = object->bbox;
   for(float y = bbox.p1.y; y < bbox.p2.y; y += cell_height) {
     for(float x = bbox.p1.x; x < bbox.p2.x; x += cell_width) {
       int gridx = int(x / cell_width);
@@ -107,7 +107,7 @@ CollisionGrid::remove_object(MovingObject* object)
   }
 #endif
   
-  const Rectangle& bbox = wrapper->dest;
+  const Rect& bbox = wrapper->dest;
   for(float y = bbox.p1.y; y < bbox.p2.y; y += cell_height) {
     for(float x = bbox.p1.x; x < bbox.p2.x; x += cell_width) {
       int gridx = int(x / cell_width);
@@ -129,7 +129,7 @@ CollisionGrid::move_object(ObjectWrapper* wrapper)
 {
   // FIXME not optimal yet... should leave the gridcells untouched that don't
   // need to be changed.
-  const Rectangle& obbox = wrapper->dest;
+  const Rect& obbox = wrapper->dest;
   for(float y = obbox.p1.y; y < obbox.p2.y; y += cell_height) {
     for(float x = obbox.p1.x; x < obbox.p2.x; x += cell_width) {
       int gridx = int(x / cell_width);
@@ -143,7 +143,7 @@ CollisionGrid::move_object(ObjectWrapper* wrapper)
     }
   }
 
-  const Rectangle& nbbox = wrapper->object->bbox;
+  const Rect& nbbox = wrapper->object->bbox;
   for(float y = nbbox.p1.y; y < nbbox.p2.y; y += cell_height) {
     for(float x = nbbox.p1.x; x < nbbox.p2.x; x += cell_width) {
       int gridx = int(x / cell_width);
@@ -204,7 +204,7 @@ CollisionGrid::collide_object(ObjectWrapper* wrapper)
 {
   iterator_timestamp++;
 
-  const Rectangle& bbox = wrapper->object->bbox;
+  const Rect& bbox = wrapper->object->bbox;
   for(float y = bbox.p1.y - cell_height; y < bbox.p2.y + cell_height; y += cell_height) {
     for(float x = bbox.p1.x - cell_width; x < bbox.p2.x + cell_width; x += cell_width) {
       int gridx = int(x / cell_width);
@@ -240,9 +240,9 @@ CollisionGrid::collide_object_object(ObjectWrapper* wrapper,
   MovingObject* object1 = wrapper->object;
   MovingObject* object2 = wrapper2->object;
   
-  Rectangle dest1 = object1->get_bbox();
+  Rect dest1 = object1->get_bbox();
   dest1.move(object1->get_movement());
-  Rectangle dest2 = object2->get_bbox();
+  Rect dest2 = object2->get_bbox();
   dest2.move(object2->get_movement());
 
   Vector movement = object1->get_movement() - object2->get_movement();

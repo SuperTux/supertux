@@ -20,7 +20,7 @@
 #define SUPERTUX_TRIGGER_BASE_H
 
 #include "moving_object.h"
-#include "math/rectangle.h"
+#include "math/rect.h"
 #include "sprite/sprite.h"
 
 class Player;

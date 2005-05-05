@@ -37,7 +37,7 @@ class DisplayManager;
  * layer where it should be drawn and a texture.
  * The coordinate system used here is a virtual one. It would be a bad idea to
  * populate whole levels with particles. So we're using a virtual rectangle
- * here that is tiled onto the level when drawing. This rectangle has the size
+ * here that is tiled onto the level when drawing. This rect.has the size
  * (virtual_width, virtual_height). We're using modulo on the particle
  * coordinates, so when a particle leaves left, it'll reenter at the right
  * side.

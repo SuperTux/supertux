@@ -42,7 +42,7 @@ SecretAreaTrigger::SecretAreaTrigger(const lisp::Lisp& reader)
   message_displayed = false;
 }
 
-SecretAreaTrigger::SecretAreaTrigger(const Rectangle& area)
+SecretAreaTrigger::SecretAreaTrigger(const Rect& area)
 {
   bbox = area;
   message = "You found a secret area!";

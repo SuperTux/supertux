@@ -22,7 +22,7 @@
 #include "game_object.h"
 #include "collision_hit.h"
 #include "math/vector.h"
-#include "math/rectangle.h"
+#include "math/rect.h"
 
 class Sector;
 class CollisionGrid;
@@ -48,7 +48,7 @@ public:
   }
   
   /** returns the bounding box of the Object */
-  const Rectangle& get_bbox() const
+  const Rect& get_bbox() const
   {
     return bbox;
   }
@@ -74,7 +74,7 @@ protected:
   /** The bounding box of the object (as used for collision detection, this
    * isn't necessarily the bounding box for graphics)
    */
-  Rectangle bbox;
+  Rect bbox;
   /** The movement that will happen till next frame
    */
   Vector movement;

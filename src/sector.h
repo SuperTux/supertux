@@ -32,7 +32,7 @@ class Lisp;
 class Writer;
 }
 
-class Rectangle;
+class Rect;
 class Sprite;
 class GameObject;
 class Player;
@@ -86,7 +86,7 @@ public:
   { return name; }
 
   /// tests if a given rectangle is inside the sector
-  bool inside(const Rectangle& rectangle) const;
+  bool inside(const Rect& rectangle) const;
 
   void play_music(MusicType musictype);
   MusicType get_music_type();
@@ -140,7 +140,7 @@ public: // TODO make this private again
   typedef std::vector<SpawnPoint*> SpawnPoints;
   SpawnPoints spawnpoints;                       
 
-  Rectangle get_active_region();
+  Rect get_active_region();
 
 private:
   void fix_old_tiles();

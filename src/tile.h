@@ -22,7 +22,7 @@
 
 #include <vector>
 #include "video/surface.h"
-#include "math/rectangle.h"
+#include "math/rect.h"
 #include "lisp/lisp.h"
 
 /**
@@ -72,12 +72,12 @@ private:
   unsigned int id;
 
   struct ImageSpec {
-    ImageSpec(const std::string& newfile, const Rectangle& newrect)
+    ImageSpec(const std::string& newfile, const Rect& newrect)
       : file(newfile), rect(newrect)
     { }
 
     std::string file;
-    Rectangle rect;
+    Rect rect;
   };
   std::vector<ImageSpec> imagespecs;
   std::vector<Surface*> images;

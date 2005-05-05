@@ -28,14 +28,14 @@
 #include <math.h>
 #include "math/vector.h"
 #include "math/aatriangle.h"
-#include "math/rectangle.h"
+#include "math/rect.h"
 #include "collision_hit.h"
 
 static const float DELTA = .0001;
 
 bool
-Collision::rectangle_rectangle(CollisionHit& hit, const Rectangle& r1,
-    const Vector& movement, const Rectangle& r2)
+Collision::rectangle_rectangle(CollisionHit& hit, const Rect& r1,
+    const Vector& movement, const Rect& r2)
 {
   if(r1.p2.x < r2.p1.x || r1.p1.x > r2.p2.x)
     return false;
@@ -98,10 +98,10 @@ static void makePlane(const Vector& p1, const Vector& p2, Vector& n, float& c)
 }
 
 bool
-Collision::rectangle_aatriangle(CollisionHit& hit, const Rectangle& rect,
+Collision::rectangle_aatriangle(CollisionHit& hit, const Rect& rect,
     const Vector& movement, const AATriangle& triangle)
 {
-  if(!rectangle_rectangle(hit, rect, movement, (const Rectangle&) triangle))
+  if(!rectangle_rectangle(hit, rect, movement, (const Rect&) triangle))
     return false;
 
   Vector normal;

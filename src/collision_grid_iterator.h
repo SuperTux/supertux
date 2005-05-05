@@ -20,14 +20,14 @@
 #ifndef __COLLISION_GRID_ITERATOR_H__
 #define __COLLISION_GRID_ITERATOR_H__
 
-#include "math/rectangle.h"
+#include "math/rect.h"
 
 class CollisionGrid;
 
 class CollisionGridIterator
 {
 public:
-  CollisionGridIterator(CollisionGrid& newgrid, const Rectangle& bbox)
+  CollisionGridIterator(CollisionGrid& newgrid, const Rect& bbox)
     : grid(newgrid)
   {
     start_x = int(bbox.p1.x / grid.cell_width) - 2;

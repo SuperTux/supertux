@@ -22,7 +22,7 @@
 #define __COLLISION_H__
 
 class Vector;
-class Rectangle;
+class Rect;
 class AATriangle;
 class CollisionHit;
 
@@ -32,13 +32,13 @@ public:
   /** does collision detection between 2 rectangles. Returns true in case of
    * collision and fills in the hit structure then.
    */
-  static bool rectangle_rectangle(CollisionHit& hit, const Rectangle& r1,
-      const Vector& movement, const Rectangle& r2);
+  static bool rectangle_rectangle(CollisionHit& hit, const Rect& r1,
+      const Vector& movement, const Rect& r2);
 
   /** does collision detection between a rectangle and an axis aligned triangle
    * Returns true in case of a collision and fills in the hit structure then.
    */                                                                         
-  static bool rectangle_aatriangle(CollisionHit& hit, const Rectangle& rect,
+  static bool rectangle_aatriangle(CollisionHit& hit, const Rect& rect,
       const Vector& movement, const AATriangle& triangle);                                            
 };
 

@@ -46,7 +46,7 @@
 #include "collision_grid_iterator.h"
 #include "object_factory.h"
 #include "collision.h"
-#include "math/rectangle.h"
+#include "math/rect.h"
 #include "math/aatriangle.h"
 #include "object/coin.h"
 #include "object/block.h"
@@ -422,10 +422,10 @@ Sector::activate(const Vector& player_pos)
   camera->reset(player->get_pos());
 }
 
-Rectangle
+Rect
 Sector::get_active_region()
 {
-  return Rectangle(
+  return Rect(
     camera->get_translation() - Vector(1600, 1200),
     camera->get_translation() + Vector(1600, 1200));
 }
@@ -590,7 +590,7 @@ Sector::collision_tilemap(MovingObject* object, int depth)
   int max_y = int(y2+1);
 
   CollisionHit temphit, hit;
-  Rectangle dest = object->get_bbox();
+  Rect dest = object->get_bbox();
   dest.move(object->movement);
   hit.time = -1; // represents an invalid value
   for(int x = starttilex; x*32 < max_x; ++x) {
@@ -615,7 +615,7 @@ Sector::collision_tilemap(MovingObject* object, int depth)
             hit = temphit;
         }
       } else { // normal rectangular tile
-        Rectangle rect(x*32, y*32, (x+1)*32, (y+1)*32);
+        Rect rect(x*32, y*32, (x+1)*32, (y+1)*32);
         if(Collision::rectangle_rectangle(temphit, dest,
               object->movement, rect)) {
           if(temphit.time > hit.time)
@@ -647,9 +647,9 @@ void
 Sector::collision_object(MovingObject* object1, MovingObject* object2)
 {
   CollisionHit hit;
-  Rectangle dest1 = object1->get_bbox();
+  Rect dest1 = object1->get_bbox();
   dest1.move(object1->get_movement());
-  Rectangle dest2 = object2->get_bbox();
+  Rect dest2 = object2->get_bbox();
   dest2.move(object2->get_movement());
 
   Vector movement = object1->get_movement() - object2->get_movement();
@@ -803,7 +803,7 @@ Sector::get_total_badguys()
 }
 
 bool
-Sector::inside(const Rectangle& rect) const
+Sector::inside(const Rect& rect) const
 {
   if(rect.p1.x > solids->get_width() * 32 
       || rect.p1.y > solids->get_height() * 32

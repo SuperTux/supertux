@@ -105,7 +105,7 @@ Tile::parse_images(const lisp::Lisp& images_lisp)
     if(cur->get_type() == lisp::Lisp::TYPE_STRING) {
       std::string file;
       cur->get(file);
-      imagespecs.push_back(ImageSpec(file, Rectangle(0, 0, 0, 0)));
+      imagespecs.push_back(ImageSpec(file, Rect(0, 0, 0, 0)));
     } else if(cur->get_type() == lisp::Lisp::TYPE_CONS && 
         cur->get_car()->get_type() == lisp::Lisp::TYPE_SYMBOL) {
       const lisp::Lisp* ptr = cur->get_cdr();
@@ -117,7 +117,7 @@ Tile::parse_images(const lisp::Lisp& images_lisp)
       ptr->get_car()->get(y); ptr = ptr->get_cdr();
       ptr->get_car()->get(w); ptr = ptr->get_cdr();
       ptr->get_car()->get(h);
-      imagespecs.push_back(ImageSpec(file, Rectangle(x, y, x+w, y+h)));
+      imagespecs.push_back(ImageSpec(file, Rect(x, y, x+w, y+h)));
     } else {
       std::cerr << "Expected string or list in images tag.\n";
       continue;
