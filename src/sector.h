@@ -40,6 +40,7 @@ class Camera;
 class TileMap;
 class Bullet;
 class CollisionGrid;
+class ScriptInterpreter;
 
 class SpawnPoint
 {
@@ -133,6 +134,9 @@ public:
   
 private:
   std::vector<Bullet*> bullets;
+
+  ScriptInterpreter* interpreter;
+  std::string init_script;
 
 public: // TODO make this private again
   typedef std::vector<GameObject*> GameObjects;

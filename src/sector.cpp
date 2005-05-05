@@ -24,6 +24,7 @@
 #include <stdexcept>
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <stdexcept>
 
 #include "sector.h"
@@ -56,6 +57,7 @@
 #include "badguy/spike.h"
 #include "trigger/sequence_trigger.h"
 #include "player_status.h"
+#include "scripting/script_interpreter.h"
 
 //#define USE_GRID
 
@@ -63,7 +65,7 @@ Sector* Sector::_current = 0;
 
 Sector::Sector()
   : gravity(10), player(0), solids(0), camera(0),
-    currentmusic(LEVEL_MUSIC)
+    interpreter(0), currentmusic(LEVEL_MUSIC)
 {
   song_title = "Mortimers_chipdisko.mod";
   player = new Player(&player_status);
@@ -147,6 +149,8 @@ Sector::parse(const lisp::Lisp& sector)
       spawnpoint_lisp->get("x", sp->pos.x);
       spawnpoint_lisp->get("y", sp->pos.y);
       spawnpoints.push_back(sp);
+    } else if(token == "init-script") {
+      iter.value()->get(init_script);
     } else {
       GameObject* object = parse_object(token, *(iter.lisp()));
       if(object) {
@@ -410,6 +414,25 @@ Sector::activate(const std::string& spawnpoint)
     }
   } else {
     activate(sp->pos);
+  }
+
+  // Run init script
+  if(init_script != "") {
+    try {
+      // TODO we should keep the interpreter across sessions (or some variables)
+      // so that you can store information across levels/sectors...
+      delete interpreter;
+      interpreter = 0;
+      interpreter = new ScriptInterpreter();
+      std::string sourcename = std::string("Sector(") + name + ") - init";
+      std::istringstream in(init_script);
+      printf("Load script.\n");
+      interpreter->load_script(in, sourcename);
+      printf("run script.\n");
+      interpreter->run_script();
+    } catch(std::exception& e) {
+      std::cerr << "Couldn't execute init script: " << e.what() << "\n";
+    }
   }
 }
 
