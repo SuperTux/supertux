@@ -600,7 +600,8 @@ Sector::collision_tilemap(MovingObject* object, int depth)
         continue;
       if(!(tile->getAttributes() & Tile::SOLID))
         continue;
-      if((tile->getAttributes() & Tile::UNISOLID) && object->movement.y < 0)
+      if(tile->getAttributes() & Tile::UNISOLID
+        && (object->movement.y < 0 || dest.p2.y > y*32))
         continue;
 
       if(tile->getAttributes() & Tile::SLOPE) { // slope tile

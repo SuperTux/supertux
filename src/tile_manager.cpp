@@ -81,7 +81,7 @@ void TileManager::load_tileset(std::string filename)
     } else if(iter.item() == "properties") {
       // deprecated
     } else {
-      std::cerr << "Unknown symbol '" << iter.item() << "'.\n";
+      std::cerr << "Unknown symbol '" << iter.item() << "' tile defintion file.\n";
     }
   }
 }

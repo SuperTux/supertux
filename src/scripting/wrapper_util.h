@@ -2,6 +2,8 @@
 #define __WRAPPERUTIL_HPP__
 
 #include <squirrel.h>
+#include <exception>
+#include <string>
 
 struct WrappedFunction {
     const char* name;
@@ -12,10 +14,22 @@ struct WrappedClass {
     WrappedFunction* functions;
 };
 
+class SquirrelError : public std::exception
+{
+public:
+  SquirrelError(HSQUIRRELVM v, const std::string& message) throw();
+  virtual ~SquirrelError() throw();
+
+  const char* what() const throw();
+private:
+  std::string message;
+};
+
 void register_functions(HSQUIRRELVM v, WrappedFunction* functions);
 void register_classes(HSQUIRRELVM v, WrappedClass* classes);
 
 void expose_object(HSQUIRRELVM v, void* object, const char* type,
         const char* name);
+void print_squirrel_stack(HSQUIRRELVM v);
 
 #endif

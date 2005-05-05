@@ -28,7 +28,7 @@
 #include "lisp/lisp.h"
 
 InfoBlock::InfoBlock(const lisp::Lisp& lisp)
-  : Block(sprite_manager->create("bonusblock"))
+  : Block(sprite_manager->create("infoblock"))
 {
   Vector pos;
   lisp.get("x", pos.x);

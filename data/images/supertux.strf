@@ -1443,6 +1443,13 @@
         (images "tilesets/brick1.png"))
   )
 
+  (sprite (name "infoblock")
+    (action
+      (name "default")
+      (images "tilesets/infoblock.png")
+    )
+  )
+
   (sprite (name "rock")
       (action
         (name "normal")

@@ -4778,11 +4778,4 @@
             "rainsplash-vertical-3.png")
     (anim-fps 15)
   )
- (tile
-    (id 1321)
-    (images
-       "messagebox.png")
-    )
-    (solid #t)
-  )
 )

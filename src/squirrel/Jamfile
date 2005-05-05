@@ -2,7 +2,7 @@ SubDir TOP src squirrel ;
 
 Library squirrel
     : [ Wildcard squirrel : *.cpp *.h ]
-      [ Wildcard sqstdlib : *.cpp *.h ]
+      [ Wildcard sqstdlib : *.cpp *.c *.h ]
     : noinstall
 ;
 IncludeDir squirrel : include ;
