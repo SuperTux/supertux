@@ -4,9 +4,9 @@
 
 struct SQInstance;
 
-struct SQClassMemeber {
-	SQClassMemeber(){}
-	SQClassMemeber(const SQClassMemeber &o) {
+struct SQClassMember {
+	SQClassMember(){}
+	SQClassMember(const SQClassMember &o) {
 		val = o.val;
 		attrs = o.attrs;
 	}
@@ -14,7 +14,7 @@ struct SQClassMemeber {
 	SQObjectPtr attrs;
 };
 
-typedef sqvector<SQClassMemeber> SQClassMemeberVec;
+typedef sqvector<SQClassMember> SQClassMemberVec;
 
 struct SQClass : public CHAINABLE_OBJ
 {
@@ -29,7 +29,7 @@ public:
 	bool NewSlot(const SQObjectPtr &key,const SQObjectPtr &val);
 	bool Get(const SQObjectPtr &key,SQObjectPtr &val) {
 		if(_members->Get(key,val)) {
-			val = (type(val) == OT_INTEGER?_defaultvalues[_integer(val)].val:_methods[(int)_userpointer(val)].val);
+			val = (type(val) == OT_INTEGER?_defaultvalues[_integer(val)].val:_methods[_integer(val)].val);
 			return true;
 		}
 		return false;
@@ -45,8 +45,8 @@ public:
 	SQTable *_members;
 	//SQTable *_properties;
 	SQClass *_base;
-	SQClassMemeberVec _defaultvalues;
-	SQClassMemeberVec _methods;
+	SQClassMemberVec _defaultvalues;
+	SQClassMemberVec _methods;
 	SQObjectPtrVec _metamethods;
 	SQObjectPtr _attributes;
 	unsigned int _typetag;
@@ -73,7 +73,7 @@ public:
 	~SQInstance();
 	bool Get(const SQObjectPtr &key,SQObjectPtr &val)  {
 		if(_class->_members->Get(key,val)) {
-			val = (type(val) == OT_INTEGER?_values[_integer(val)]:_class->_methods[(int)_userpointer(val)].val);
+			val = (type(val) == OT_INTEGER?_values[_integer(val)]:_class->_methods[_integer(val)].val);
 			return true;
 		}
 		return false;

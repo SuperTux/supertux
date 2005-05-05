@@ -60,7 +60,7 @@ bool SQClass::NewSlot(const SQObjectPtr &key,const SQObjectPtr &val)
 		} 
 		else {
 			if(type(temp) == OT_NULL) {
-				SQClassMemeber m;
+				SQClassMember m;
 				m.val = val;
 				_members->NewSlot(key,SQObjectPtr((SQUserPointer)_methods.size()));
 				_methods.push_back(m);
@@ -71,7 +71,7 @@ bool SQClass::NewSlot(const SQObjectPtr &key,const SQObjectPtr &val)
 		}
 		return true;
 	}
-	SQClassMemeber m;
+	SQClassMember m;
 	m.val = val;
 	_members->NewSlot(key,SQObjectPtr((SQInteger)_defaultvalues.size()));
 	_defaultvalues.push_back(m);
