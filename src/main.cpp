@@ -51,6 +51,10 @@
 #include "game_session.h"
 #include "file_system.h"
 
+#ifdef WIN32
+#define mkdir(dir, mode)    mkdir(dir)
+#endif
+
 SDL_Surface* screen = 0;
 JoystickKeyboardController* main_controller = 0;
 TinyGetText::DictionaryManager dictionary_manager;
