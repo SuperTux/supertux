@@ -138,11 +138,11 @@ WrapperCreator::create_function_wrapper(Class* _class, Function* function)
     }
     
     // declare and retrieve arguments
-    size_t i = 0;
+    int i = 0;
     for(std::vector<Parameter>::iterator p = function->parameters.begin();
             p != function->parameters.end(); ++p) {
         char argname[64];
-        snprintf(argname, sizeof(argname), "arg%u", i);
+        snprintf(argname, sizeof(argname), "arg%d", i);
         prepare_argument(p->type, i + 2, argname);
  
         ++i;

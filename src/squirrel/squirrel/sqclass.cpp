@@ -62,11 +62,11 @@ bool SQClass::NewSlot(const SQObjectPtr &key,const SQObjectPtr &val)
 			if(type(temp) == OT_NULL) {
 				SQClassMember m;
 				m.val = val;
-				_members->NewSlot(key,SQObjectPtr((SQUserPointer)_methods.size()));
+				_members->NewSlot(key, SQObjectPtr((SQUserPointer)_methods.size()));
 				_methods.push_back(m);
 			}
 			else {
-				_methods[(int)_userpointer(temp)].val = val;
+				_methods[_integer(temp)].val = val;
 			}
 		}
 		return true;
@@ -90,7 +90,7 @@ int SQClass::Next(const SQObjectPtr &refpos, SQObjectPtr &outkey, SQObjectPtr &o
 	int idx = _members->Next(refpos,outkey,oval);
 	if(idx != -1) {
 		if(type(oval) != OT_INTEGER) {
-			outval = _methods[(int)_userpointer(oval)].val;
+			outval = _methods[_integer(oval)].val;
 		}
 		else {
 			outval = _defaultvalues[_integer(oval)].val;
@@ -106,7 +106,7 @@ bool SQClass::SetAttributes(const SQObjectPtr &key,const SQObjectPtr &val)
 		if(type(idx) == OT_INTEGER)
 			_defaultvalues[_integer(idx)].attrs = val;
 		else
-			_methods[(int)_userpointer(idx)].attrs = val;
+			_methods[_integer(idx)].attrs = val;
 		return true;
 	}
 	return false;
