@@ -66,6 +66,7 @@ private:
 %token T_CLASS
 %token T_STRUCT
 %token T_STATIC
+%token T_VIRTUAL
 %token T_CONST
 %token T_UNSIGNED
 %token T_SIGNED
@@ -195,13 +196,18 @@ constructor_declaration:
 ;
 
 destructor_declaration:
-    '~' T_ID '(' ')' ';'
+    maybe_virtual '~' T_ID '(' ')' abstract_declaration ';'
         {
             currentFunction = new Function();
             currentFunction->type = Function::DESTRUCTOR;
-            free($2);
+            free($3);
             $$ = currentFunction;
         }
+;
+
+maybe_virtual:
+    /* empty */
+    | T_VIRTUAL
 ;
 
 variable_declaration:
@@ -209,19 +215,24 @@ variable_declaration:
 ;
 
 function_declaration:
-    type T_ID '(' 
+    maybe_virtual type T_ID '(' 
         {
             currentFunction = new Function();
             currentFunction->type = Function::FUNCTION;
-            currentFunction->return_type = *($1);
-            delete $1;
-            currentFunction->name = $2;
-            free($2);
+            currentFunction->return_type = *($2);
+            delete $2;
+            currentFunction->name = $3;
+            free($3);
         }                           
-    parameter_list ')' ';'
+    parameter_list ')' abstract_declaration ';'
         {
             $$ = currentFunction;
         }
+;
+
+abstract_declaration:
+    /* empty */
+    | '=' T_INT
 ;
 
 parameter_list:
@@ -270,9 +281,13 @@ prefix_type_modifiers:
 
 prefix_type_modifier:
     T_UNSIGNED
+        { current_type->_unsigned = true; }
     | T_SIGNED
+        { current_type->_unsigned = false; }
     | T_STATIC
+        { current_type->_static = true; }
     | T_CONST
+        { current_type->_const = true; }
 ;
 
 postfix_type_modifiers:

@@ -12,27 +12,10 @@
 
 using namespace Scripting;
 
-static int Display_release_wrapper(SQUserPointer ptr, int )
-{
-  Display* _this = reinterpret_cast<Display*> (ptr);
-  delete _this;
-  return 0;
-}
-
-static int Display_construct_wrapper(HSQUIRRELVM v)
-{
-  Display* _this = new Display();
-  sq_setinstanceup(v, 1, _this);
-  sq_setreleasehook(v, 1, Display_release_wrapper);
-
-  return 0;
-}
-
 static int Display_set_effect_wrapper(HSQUIRRELVM v)
 {
-  Display* _this;
+  Scripting::Display* _this;
   sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
-  assert(_this != 0);
   const char* arg0;
   sq_getstring(v, 2, &arg0);
   
@@ -41,27 +24,10 @@ static int Display_set_effect_wrapper(HSQUIRRELVM v)
   return 0;
 }
 
-static int Camera_release_wrapper(SQUserPointer ptr, int )
-{
-  Camera* _this = reinterpret_cast<Camera*> (ptr);
-  delete _this;
-  return 0;
-}
-
-static int Camera_construct_wrapper(HSQUIRRELVM v)
-{
-  Camera* _this = new Camera();
-  sq_setinstanceup(v, 1, _this);
-  sq_setreleasehook(v, 1, Camera_release_wrapper);
-
-  return 0;
-}
-
 static int Camera_shake_wrapper(HSQUIRRELVM v)
 {
-  Camera* _this;
+  Scripting::Camera* _this;
   sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
-  assert(_this != 0);
   float arg0;
   sq_getfloat(v, 2, &arg0);
   float arg1;
@@ -76,9 +42,8 @@ static int Camera_shake_wrapper(HSQUIRRELVM v)
 
 static int Camera_set_pos_wrapper(HSQUIRRELVM v)
 {
-  Camera* _this;
+  Scripting::Camera* _this;
   sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
-  assert(_this != 0);
   float arg0;
   sq_getfloat(v, 2, &arg0);
   float arg1;
@@ -91,9 +56,8 @@ static int Camera_set_pos_wrapper(HSQUIRRELVM v)
 
 static int Camera_set_mode_wrapper(HSQUIRRELVM v)
 {
-  Camera* _this;
+  Scripting::Camera* _this;
   sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
-  assert(_this != 0);
   const char* arg0;
   sq_getstring(v, 2, &arg0);
   
@@ -102,27 +66,10 @@ static int Camera_set_mode_wrapper(HSQUIRRELVM v)
   return 0;
 }
 
-static int Level_release_wrapper(SQUserPointer ptr, int )
-{
-  Level* _this = reinterpret_cast<Level*> (ptr);
-  delete _this;
-  return 0;
-}
-
-static int Level_construct_wrapper(HSQUIRRELVM v)
-{
-  Level* _this = new Level();
-  sq_setinstanceup(v, 1, _this);
-  sq_setreleasehook(v, 1, Level_release_wrapper);
-
-  return 0;
-}
-
 static int Level_finish_wrapper(HSQUIRRELVM v)
 {
-  Level* _this;
+  Scripting::Level* _this;
   sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
-  assert(_this != 0);
   
   _this->finish();
   
@@ -131,9 +78,8 @@ static int Level_finish_wrapper(HSQUIRRELVM v)
 
 static int Level_spawn_wrapper(HSQUIRRELVM v)
 {
-  Level* _this;
+  Scripting::Level* _this;
   sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
-  assert(_this != 0);
   const char* arg0;
   sq_getstring(v, 2, &arg0);
   const char* arg1;
@@ -144,27 +90,10 @@ static int Level_spawn_wrapper(HSQUIRRELVM v)
   return 0;
 }
 
-static int ScriptedObject_release_wrapper(SQUserPointer ptr, int )
-{
-  ScriptedObject* _this = reinterpret_cast<ScriptedObject*> (ptr);
-  delete _this;
-  return 0;
-}
-
-static int ScriptedObject_construct_wrapper(HSQUIRRELVM v)
-{
-  ScriptedObject* _this = new ScriptedObject();
-  sq_setinstanceup(v, 1, _this);
-  sq_setreleasehook(v, 1, ScriptedObject_release_wrapper);
-
-  return 0;
-}
-
 static int ScriptedObject_set_animation_wrapper(HSQUIRRELVM v)
 {
-  ScriptedObject* _this;
+  Scripting::ScriptedObject* _this;
   sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
-  assert(_this != 0);
   const char* arg0;
   sq_getstring(v, 2, &arg0);
   
@@ -175,9 +104,8 @@ static int ScriptedObject_set_animation_wrapper(HSQUIRRELVM v)
 
 static int ScriptedObject_get_animation_wrapper(HSQUIRRELVM v)
 {
-  ScriptedObject* _this;
+  Scripting::ScriptedObject* _this;
   sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
-  assert(_this != 0);
   
   std::string return_value = _this->get_animation();
   
@@ -187,9 +115,8 @@ static int ScriptedObject_get_animation_wrapper(HSQUIRRELVM v)
 
 static int ScriptedObject_move_wrapper(HSQUIRRELVM v)
 {
-  ScriptedObject* _this;
+  Scripting::ScriptedObject* _this;
   sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
-  assert(_this != 0);
   float arg0;
   sq_getfloat(v, 2, &arg0);
   float arg1;
@@ -202,9 +129,8 @@ static int ScriptedObject_move_wrapper(HSQUIRRELVM v)
 
 static int ScriptedObject_set_pos_wrapper(HSQUIRRELVM v)
 {
-  ScriptedObject* _this;
+  Scripting::ScriptedObject* _this;
   sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
-  assert(_this != 0);
   float arg0;
   sq_getfloat(v, 2, &arg0);
   float arg1;
@@ -217,9 +143,8 @@ static int ScriptedObject_set_pos_wrapper(HSQUIRRELVM v)
 
 static int ScriptedObject_get_pos_x_wrapper(HSQUIRRELVM v)
 {
-  ScriptedObject* _this;
+  Scripting::ScriptedObject* _this;
   sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
-  assert(_this != 0);
   
   float return_value = _this->get_pos_x();
   
@@ -229,9 +154,8 @@ static int ScriptedObject_get_pos_x_wrapper(HSQUIRRELVM v)
 
 static int ScriptedObject_get_pos_y_wrapper(HSQUIRRELVM v)
 {
-  ScriptedObject* _this;
+  Scripting::ScriptedObject* _this;
   sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
-  assert(_this != 0);
   
   float return_value = _this->get_pos_y();
   
@@ -241,9 +165,8 @@ static int ScriptedObject_get_pos_y_wrapper(HSQUIRRELVM v)
 
 static int ScriptedObject_set_velocity_wrapper(HSQUIRRELVM v)
 {
-  ScriptedObject* _this;
+  Scripting::ScriptedObject* _this;
   sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
-  assert(_this != 0);
   float arg0;
   sq_getfloat(v, 2, &arg0);
   float arg1;
@@ -256,9 +179,8 @@ static int ScriptedObject_set_velocity_wrapper(HSQUIRRELVM v)
 
 static int ScriptedObject_get_velocity_x_wrapper(HSQUIRRELVM v)
 {
-  ScriptedObject* _this;
+  Scripting::ScriptedObject* _this;
   sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
-  assert(_this != 0);
   
   float return_value = _this->get_velocity_x();
   
@@ -268,9 +190,8 @@ static int ScriptedObject_get_velocity_x_wrapper(HSQUIRRELVM v)
 
 static int ScriptedObject_get_velocity_y_wrapper(HSQUIRRELVM v)
 {
-  ScriptedObject* _this;
+  Scripting::ScriptedObject* _this;
   sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
-  assert(_this != 0);
   
   float return_value = _this->get_velocity_y();
   
@@ -278,27 +199,10 @@ static int ScriptedObject_get_velocity_y_wrapper(HSQUIRRELVM v)
   return 1;
 }
 
-static int Sound_release_wrapper(SQUserPointer ptr, int )
-{
-  Sound* _this = reinterpret_cast<Sound*> (ptr);
-  delete _this;
-  return 0;
-}
-
-static int Sound_construct_wrapper(HSQUIRRELVM v)
-{
-  Sound* _this = new Sound();
-  sq_setinstanceup(v, 1, _this);
-  sq_setreleasehook(v, 1, Sound_release_wrapper);
-
-  return 0;
-}
-
 static int Sound_play_music_wrapper(HSQUIRRELVM v)
 {
-  Sound* _this;
+  Scripting::Sound* _this;
   sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
-  assert(_this != 0);
   const char* arg0;
   sq_getstring(v, 2, &arg0);
   
@@ -309,9 +213,8 @@ static int Sound_play_music_wrapper(HSQUIRRELVM v)
 
 static int Sound_play_sound_wrapper(HSQUIRRELVM v)
 {
-  Sound* _this;
+  Scripting::Sound* _this;
   sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
-  assert(_this != 0);
   const char* arg0;
   sq_getstring(v, 2, &arg0);
   
@@ -336,25 +239,21 @@ WrappedFunction supertux_global_functions[] = {
 };
 
 static WrappedFunction supertux_Display_methods[] = {
-  { "constructor", &Display_construct_wrapper },
   { "set_effect", &Display_set_effect_wrapper },
 };
 
 static WrappedFunction supertux_Camera_methods[] = {
-  { "constructor", &Camera_construct_wrapper },
   { "shake", &Camera_shake_wrapper },
   { "set_pos", &Camera_set_pos_wrapper },
   { "set_mode", &Camera_set_mode_wrapper },
 };
 
 static WrappedFunction supertux_Level_methods[] = {
-  { "constructor", &Level_construct_wrapper },
   { "finish", &Level_finish_wrapper },
   { "spawn", &Level_spawn_wrapper },
 };
 
 static WrappedFunction supertux_ScriptedObject_methods[] = {
-  { "constructor", &ScriptedObject_construct_wrapper },
   { "set_animation", &ScriptedObject_set_animation_wrapper },
   { "get_animation", &ScriptedObject_get_animation_wrapper },
   { "move", &ScriptedObject_move_wrapper },
@@ -367,7 +266,6 @@ static WrappedFunction supertux_ScriptedObject_methods[] = {
 };
 
 static WrappedFunction supertux_Sound_methods[] = {
-  { "constructor", &Sound_construct_wrapper },
   { "play_music", &Sound_play_music_wrapper },
   { "play_sound", &Sound_play_sound_wrapper },
 };

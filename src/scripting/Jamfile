@@ -11,7 +11,7 @@ if $(MINISWIG)
         SEARCH on $(headerfile) = $(SOURCH_SOURCE) ;
     
         MiniSwig $(cppfile) : $(sources) ;
-        CPPFLAGS on $(cppfile) = $(CPPFLAGS) ;
+        CPPFLAGS on $(cppfile) = $(CPPFLAGS) -DSCRIPTING_API ;
         headerfile on $(cppfile) = $(headerfile) ;
         modulename on $(cppfile) = $(3) ;
         FLAGS on $(cppfile) = $(4) ;

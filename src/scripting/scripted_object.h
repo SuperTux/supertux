@@ -8,20 +8,20 @@ class ScriptedObject
 {
 public:
 #ifndef SCRIPTING_API
-    ScriptedObject();
-    virtual ~ScriptedObject();
+  ScriptedObject();
+  virtual ~ScriptedObject();
 #endif
 
-    void set_animation(const std::string& animation);
-    std::string get_animation();
+  virtual void set_animation(const std::string& animation) = 0;
+  virtual std::string get_animation() = 0;
 
-    void move(float x, float y);
-    void set_pos(float x, float y);
-    float get_pos_x();
-    float get_pos_y();
-    void set_velocity(float x, float y);
-    float get_velocity_x();
-    float get_velocity_y();
+  virtual void move(float x, float y) = 0;
+  virtual void set_pos(float x, float y) = 0;
+  virtual float get_pos_x() = 0;
+  virtual float get_pos_y() = 0;
+  virtual void set_velocity(float x, float y) = 0;
+  virtual float get_velocity_x() = 0;
+  virtual float get_velocity_y() = 0;
 };
 
 }

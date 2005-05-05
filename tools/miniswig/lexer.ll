@@ -28,6 +28,7 @@
 class                                   { return T_CLASS; }
 struct                                  { return T_STRUCT; }
 static                                  { return T_STATIC; }
+virtual                                 { return T_VIRTUAL; }
 const                                   { return T_CONST; }
 unsigned                                { return T_UNSIGNED; }
 signed                                  { return T_SIGNED; }

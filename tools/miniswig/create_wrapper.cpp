@@ -85,15 +85,13 @@ WrapperCreator::create_wrapper(Namespace* ns)
             
         out << "static WrappedFunction " << modulename << "_"
             << _class->name << "_methods[] = {\n";
-        out << ind << "{ \"constructor\", &"
-            << _class->name << "_" << "construct_wrapper },\n";
         for(std::vector<ClassMember*>::iterator i = _class->members.begin();
                 i != _class->members.end(); ++i) {
             ClassMember* member = *i;
             if(member->visibility != ClassMember::PUBLIC)
                 continue;
             Function* function = dynamic_cast<Function*> (member);
-            if(!function || function->type != Function::FUNCTION)
+            if(!function || function->type == Function::DESTRUCTOR)
                 continue;
 
             out << ind << "{ \"" << function->name << "\", &"
@@ -111,11 +109,15 @@ WrapperCreator::create_wrapper(Namespace* ns)
 void
 WrapperCreator::create_function_wrapper(Class* _class, Function* function)
 {
-    if(function->type == Function::CONSTRUCTOR)
-        throw std::runtime_error("Constructors not supported yet");
     if(function->type == Function::DESTRUCTOR)
-        throw std::runtime_error("Destructors not supported yet");
-    
+        assert(false);
+
+    std::string ns_prefix;
+    if(selected_namespace != "")
+        ns_prefix = selected_namespace + "::";
+    if(function->type == Function::CONSTRUCTOR)
+        function->name = "constructor";
+
     out << "static int ";
     if(_class != 0) {
         out << _class->name << "_";
@@ -124,15 +126,15 @@ WrapperCreator::create_function_wrapper(Class* _class, Function* function)
         << "{\n";
     // avoid warning...
     if(_class == 0 && function->parameters.empty() 
-            && function->return_type.is_void()) {
+            && function->return_type.is_void()
+            && function->type != Function::CONSTRUCTOR) {
         out << ind << "(void) v;\n";
     }
     
-    // eventually retrieve pointer to class
-    if(_class != 0) {
-        out << ind << _class->name << "* _this;\n";
+    // eventually retrieve pointer to class instance
+    if(_class != 0 && function->type != Function::CONSTRUCTOR) {
+        out << ind << ns_prefix <<  _class->name << "* _this;\n";
         out << ind << "sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);\n";
-        out << ind << "assert(_this != 0);\n";
     }
     
     // declare and retrieve arguments
@@ -145,6 +147,7 @@ WrapperCreator::create_function_wrapper(Class* _class, Function* function)
  
         ++i;
     }
+    
     // call function
     out << ind << "\n";
     out << ind;
@@ -153,17 +156,30 @@ WrapperCreator::create_function_wrapper(Class* _class, Function* function)
         out << " return_value = ";
     }
     if(_class != 0) {
-        out << "_this->";
-    } else if(selected_namespace != "") {
-        out << selected_namespace << "::";
+        if(function->type == Function::CONSTRUCTOR) {
+            out << ns_prefix << _class->name << "* _this = new " << ns_prefix;
+        } else {
+            out << "_this->";
+        }
+    } else {
+        out << ns_prefix;
     }
-    out << function->name << "(";
+    if(function->type == Function::CONSTRUCTOR) {
+        out << _class->name << "(";
+    } else {
+        out << function->name << "(";
+    }
     for(size_t i = 0; i < function->parameters.size(); ++i) {
         if(i != 0)
             out << ", ";
         out << "arg" << i;
     }
     out << ");\n";
+    if(function->type == Function::CONSTRUCTOR) {
+        out << ind << "sq_setinstanceup(v, 1, _this);\n";
+        out << ind << "sq_setreleasehook(v, 1, " 
+            << _class->name << "_release_hook);\n";
+    }
     out << ind << "\n";
     // push return value back on stack and return
     if(function->return_type.is_void()) {
@@ -230,8 +246,7 @@ WrapperCreator::push_to_stack(const Type& type, const std::string& var)
 void
 WrapperCreator::create_class_wrapper(Class* _class)
 {
-    create_class_destruct_function(_class);
-    create_class_construct_function(_class);
+    bool release_hook_created = false;
     for(std::vector<ClassMember*>::iterator i = _class->members.begin();
             i != _class->members.end(); ++i) {
         ClassMember* member = *i;
@@ -240,33 +255,22 @@ WrapperCreator::create_class_wrapper(Class* _class)
         Function* function = dynamic_cast<Function*> (member);
         if(!function)
             continue;
-        // don't wrap constructors and destructors (for now...)
-        if(function->type != Function::FUNCTION)
+        if(function->type == Function::CONSTRUCTOR
+            && !release_hook_created) {
+          create_class_release_hook(_class);
+          release_hook_created = true;
+        }
+        // don't wrap destructors
+        if(function->type == Function::DESTRUCTOR)
             continue;
         create_function_wrapper(_class, function);
     }
 }
 
 void
-WrapperCreator::create_class_construct_function(Class* _class)
+WrapperCreator::create_class_release_hook(Class* _class)
 {
-    out << "static int " << _class->name << "_construct_wrapper(HSQUIRRELVM v)\n";
-    out << "{\n";
-    out << ind << _class->name << "* _this = new "
-        << _class->name << "();\n";
-    out << ind << "sq_setinstanceup(v, 1, _this);\n";
-    out << ind << "sq_setreleasehook(v, 1, " 
-        << _class->name << "_release_wrapper);\n";
-    out << "\n";
-    out << ind << "return 0;\n";
-    out << "}\n";
-    out << "\n";
-}
-
-void
-WrapperCreator::create_class_destruct_function(Class* _class)
-{
-    out << "static int " << _class->name << "_release_wrapper(SQUserPointer ptr, int )\n"
+    out << "static int " << _class->name << "_release_hook(SQUserPointer ptr, int )\n"
         << "{\n"
         << ind << _class->name 
         << "* _this = reinterpret_cast<" << _class->name << "*> (ptr);\n"

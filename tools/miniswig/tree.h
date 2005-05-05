@@ -48,7 +48,8 @@ private:
 class Type {
 public:
     Type() 
-        : atomic_type(0), _const(false), _static(false), pointer(0), ref(0)
+        : atomic_type(0), _unsigned(false), _const(false), _static(false),
+        pointer(0), ref(0)
     { }
 
     void write_c_type(std::ostream& out)
@@ -66,12 +67,15 @@ public:
 
     bool is_void() const
     {
+        if(atomic_type == 0)
+            return true;
         if(atomic_type == &BasicType::VOID && pointer == 0)
             return true;
         return false;
     }
 
     AtomicType* atomic_type;
+    bool _unsigned;
     bool _const;
     bool _static;
     // number of '*' in the type declaration...

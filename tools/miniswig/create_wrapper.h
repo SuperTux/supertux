@@ -20,8 +20,7 @@ public:
 
     void create_wrapper(Namespace* ns);
     void create_class_wrapper(Class* _class);
-    void create_class_construct_function(Class* _class);
-    void create_class_destruct_function(Class* _class);
+    void create_class_release_hook(Class* _class);
     void create_function_wrapper(Class* _class, Function* function);
     void prepare_argument(const Type& type, size_t idx, const std::string& var);
     void push_to_stack(const Type& type, const std::string& var);
