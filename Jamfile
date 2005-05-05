@@ -2,7 +2,6 @@ SubDir TOP ;
 
 # Decend into subdirs
 SubInclude TOP tools miniswig ;
-SubInclude TOP lib ;
 SubInclude TOP src ;
 SubInclude TOP data ;
 
