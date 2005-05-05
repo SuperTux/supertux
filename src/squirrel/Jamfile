@@ -6,5 +6,5 @@ Library squirrel
     : noinstall
 ;
 IncludeDir squirrel : include ;
-C++Flags squirrel : -Wno-error -Wno-switch -Wno-missing-field-initializers
+C++Flags squirrel : -Wno-error -Wno-switch -Wno-uninitialized
 -Wno-unused -Wno-parentheses -Wno-non-virtual-dtor -Wno-sign-compare ;

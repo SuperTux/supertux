@@ -5,6 +5,7 @@
 #include <new>
 #include <string>
 #include <squirrel.h>
+#include <assert.h>
 #include "wrapper_util.h"
 #include "wrapper.interface.h"
 
