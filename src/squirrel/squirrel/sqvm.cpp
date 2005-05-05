@@ -4,6 +4,7 @@
 #include "sqpcheader.h"
 #include <math.h>
 #include <stdlib.h>
+#include <assert.h>
 #include "sqopcodes.h"
 #include "sqfuncproto.h"
 #include "sqvm.h"
