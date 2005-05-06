@@ -85,6 +85,7 @@ int main(int argc, char** argv)
         std_namespace->name = "std";
         std_namespace->types.push_back(new StringType());
         unit->namespaces.push_back(std_namespace);
+        unit->types.push_back(new HSQUIRRELVMType());
         
         yyparse();
 

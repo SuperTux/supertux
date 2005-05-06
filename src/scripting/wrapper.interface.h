@@ -4,5 +4,6 @@
 #include "level.h"
 #include "scripted_object.h"
 #include "sound.h"
+#include "text.h"
 #include "functions.h"
 

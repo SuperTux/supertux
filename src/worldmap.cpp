@@ -911,7 +911,7 @@ WorldMap::draw_status(DrawingContext& context)
           Vector(SCREEN_WIDTH - gold_text->get_text_width(str) - tux_life->w, 0),
           LEFT_ALLIGN, LAYER_FOREGROUND1);
       context.draw_surface(tux_life, Vector(SCREEN_WIDTH -
-            gold_text->get_text_width("9"), 0), LEFT_ALLIGN, LAYER_FOREGROUND1);
+            gold_text->get_text_width("9"), 0), LAYER_FOREGROUND1);
     }
   else
     {

@@ -52,6 +52,7 @@
 #include "object/block.h"
 #include "object/invisible_block.h"
 #include "object/bullet.h"
+#include "object/text_object.h"
 #include "badguy/jumpy.h"
 #include "badguy/spike.h"
 #include "trigger/sequence_trigger.h"
@@ -59,6 +60,7 @@
 #include "scripting/script_interpreter.h"
 #include "scripting/sound.h"
 #include "scripting/scripted_object.h"
+#include "scripting/text.h"
 
 //#define USE_GRID
 
@@ -442,6 +444,10 @@ Sector::activate(const std::string& spawnpoint)
       }
       Scripting::Sound* sound = new Scripting::Sound();
       interpreter->expose_object(sound, "Sound", "Sound");
+      TextObject* text_object = new TextObject();
+      add_object(text_object);
+      Scripting::Text* text = static_cast<Scripting::Text*> (text_object);
+      interpreter->expose_object(text, "Text", "Text");
 
       std::string sourcename = std::string("Sector(") + name + ") - init";
       std::istringstream in(init_script);

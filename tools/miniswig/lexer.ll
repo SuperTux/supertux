@@ -49,14 +49,9 @@ namespace                               { return T_NAMESPACE; }
         if(ns == 0)
             ns = current_namespace;          
         // is it a type?
-        for(std::vector<AtomicType*>::iterator i = ns->types.begin();
-                i != ns->types.end(); ++i) {
-            AtomicType* type = *i;
-            if(type->name == yytext) {
-                yylval->atomic_type = type;
-                return T_ATOMIC_TYPE;
-            }
-        }
+        yylval->atomic_type = ns->_findType(yytext, search_down);
+        if(yylval->atomic_type)
+            return T_ATOMIC_TYPE;
         // or a namespace? (hack for now...)
         yylval->_namespace = ns->_findNamespace(yytext, search_down);
         if(yylval->_namespace) {

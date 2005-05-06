@@ -88,7 +88,7 @@ public:
     return true;
   }
 
-  /* conveniance functions which traverse the list until a child with a
+  /** conveniance functions which traverse the list until a child with a
    * specified name is found. The value part is then interpreted in a specific
    * way. The functions return true, if a child was found and could be
    * interpreted correctly, otherwise false is returned and the variable value

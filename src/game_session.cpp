@@ -533,14 +533,19 @@ GameSession::run()
     if(!game_pause)
       global_time += elapsed_time;
 
-    skipdraw = false;
-
     // regulate fps
     ticks = SDL_GetTicks();
     if(ticks > fps_nextframe_ticks) {
-      // don't draw all frames when we're getting too slow
-      skipdraw = true;
+      if(skipdraw == true) {
+        // already skipped last frame? we have to slow down the game then...
+        skipdraw = false;
+        fps_nextframe_ticks -= (Uint32) (1000.0 / LOGICAL_FPS);
+      } else {
+        // don't draw all frames when we're getting too slow
+        skipdraw = true;
+      }
     } else {
+      skipdraw = false;
       while(fps_nextframe_ticks > ticks) {
         /* just wait */
         // If we really have to wait long, then do an imprecise SDL_Delay()

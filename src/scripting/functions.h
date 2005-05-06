@@ -5,7 +5,11 @@ namespace Scripting
 {
 
 /** Suspends the script execution for the specified number of seconds */
-void wait(float seconds);
+void set_wakeup_time(float seconds);
+/** translates a give text into the users language (by looking it up in the .po
+ * files)
+ */
+std::string translate(const std::string& text);
 
 }
 

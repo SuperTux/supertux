@@ -84,6 +84,28 @@ public:
     int ref;
 };
 
+class HSQUIRRELVMType : public AtomicType {
+public:
+    HSQUIRRELVMType()
+    {
+        this->name = "HSQUIRRELVM";
+        assert(_instance == 0);
+        _instance = this;
+    }
+    virtual ~HSQUIRRELVMType()
+    {
+        assert(_instance == this);
+        _instance = 0;
+    }
+
+    static HSQUIRRELVMType* instance()
+    {
+        return _instance;
+    }
+private:
+    static HSQUIRRELVMType* _instance;
+};
+
 class StringType : public AtomicType {
 public:
     StringType()
@@ -181,6 +203,19 @@ public:
         namespaces.push_back(ns);
         ns->parent = this;
     }
+    AtomicType* _findType(const std::string& name, bool godown = false) {
+        for(std::vector<AtomicType*>::iterator i = types.begin();
+                i != types.end(); ++i) {
+            AtomicType* type = *i;
+            if(type->name == name)
+                return type;
+        }
+        if(godown && parent)
+            return parent->_findType(name, true);
+
+        return 0;
+    }
+
     Namespace* _findNamespace(const std::string& name, bool godown = false) {
         for(std::vector<Namespace*>::iterator i = namespaces.begin();
                 i != namespaces.end(); ++i) {

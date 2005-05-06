@@ -43,7 +43,7 @@ DrawingContext::~DrawingContext()
 
 void
 DrawingContext::draw_surface(const Surface* surface, const Vector& position,
-    int layer, uint32_t drawing_effect)
+    int layer)
 {
   assert(surface != 0);
   
@@ -57,7 +57,7 @@ DrawingContext::draw_surface(const Surface* surface, const Vector& position,
     return;
 
   request.layer = layer;
-  request.drawing_effect = transform.drawing_effect | drawing_effect;
+  request.drawing_effect = transform.drawing_effect;
   request.zoom = transform.zoom;
   request.alpha = transform.alpha;
   request.request_data = const_cast<Surface*> (surface);  
@@ -67,7 +67,7 @@ DrawingContext::draw_surface(const Surface* surface, const Vector& position,
 
 void
 DrawingContext::draw_surface_part(const Surface* surface, const Vector& source,
-    const Vector& size, const Vector& dest, int layer, uint32_t drawing_effect)
+    const Vector& size, const Vector& dest, int layer)
 {
   assert(surface != 0);
 
@@ -76,7 +76,7 @@ DrawingContext::draw_surface_part(const Surface* surface, const Vector& source,
   request.type = SURFACE_PART;
   request.pos = transform.apply(dest);
   request.layer = layer;
-  request.drawing_effect = transform.drawing_effect | drawing_effect;
+  request.drawing_effect = transform.drawing_effect;
   request.alpha = transform.alpha;
   
   SurfacePartRequest* surfacepartrequest = new SurfacePartRequest();
@@ -106,15 +106,14 @@ DrawingContext::draw_surface_part(const Surface* surface, const Vector& source,
 
 void
 DrawingContext::draw_text(const Font* font, const std::string& text,
-    const Vector& position, FontAlignment alignment, int layer,
-    uint32_t drawing_effect)
+    const Vector& position, FontAlignment alignment, int layer)
 {
   DrawingRequest request;
 
   request.type = TEXT;
   request.pos = transform.apply(position);
   request.layer = layer;
-  request.drawing_effect = transform.drawing_effect | drawing_effect;
+  request.drawing_effect = transform.drawing_effect;
   request.zoom = transform.zoom;
   request.alpha = transform.alpha;
 
@@ -129,10 +128,10 @@ DrawingContext::draw_text(const Font* font, const std::string& text,
 
 void
 DrawingContext::draw_center_text(const Font* font, const std::string& text,
-    const Vector& position, int layer, uint32_t drawing_effect)
+    const Vector& position, int layer)
 {
   draw_text(font, text, Vector(position.x + SCREEN_WIDTH/2, position.y),
-      CENTER_ALLIGN, layer, drawing_effect);
+      CENTER_ALLIGN, layer);
 }
 
 void
@@ -173,6 +172,9 @@ DrawingContext::draw_filled_rect(const Vector& topleft, const Vector& size,
   FillRectRequest* fillrectrequest = new FillRectRequest;
   fillrectrequest->size = size;
   fillrectrequest->color = color;
+  fillrectrequest->color.alpha
+      = (int) ((float) fillrectrequest->color.alpha 
+              * ((float) transform.alpha / 255.0));
   request.request_data = fillrectrequest;
 
   drawingrequests.push_back(request);
@@ -389,9 +391,15 @@ DrawingContext::pop_transform()
 }
 
 void
-DrawingContext::set_drawing_effect(int effect)
+DrawingContext::set_drawing_effect(uint32_t effect)
 {
   transform.drawing_effect = effect;
+}
+
+uint32_t
+DrawingContext::get_drawing_effect() const
+{
+  return transform.drawing_effect;
 }
 
 void
@@ -401,7 +409,13 @@ DrawingContext::set_zooming(float zoom)
 }
 
 void
-DrawingContext::set_alpha(int alpha)
+DrawingContext::set_alpha(uint8_t alpha)
 {
   transform.alpha = alpha;
+}
+
+uint8_t
+DrawingContext::get_alpha() const
+{
+  return transform.alpha;
 }

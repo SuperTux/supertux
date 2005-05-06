@@ -122,7 +122,6 @@ void
 ScriptInterpreter::suspend(float seconds)
 {
   resume_timer.start(seconds);
-  //sq_suspendvm(v);
 }
 
 void

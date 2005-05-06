@@ -139,12 +139,17 @@ WrapperCreator::create_function_wrapper(Class* _class, Function* function)
     
     // declare and retrieve arguments
     int i = 0;
+    int arg_offset = 2;
     for(std::vector<Parameter>::iterator p = function->parameters.begin();
             p != function->parameters.end(); ++p) {
-        char argname[64];
-        snprintf(argname, sizeof(argname), "arg%d", i);
-        prepare_argument(p->type, i + 2, argname);
- 
+        if(i == 0 && p->type.atomic_type == HSQUIRRELVMType::instance()) {
+            out << ind << "HSQUIRRELVM arg0 = v;\n";
+            arg_offset++;
+        } else {
+            char argname[64];
+            snprintf(argname, sizeof(argname), "arg%d", i);
+            prepare_argument(p->type, i + arg_offset, argname);
+        }
         ++i;
     }
     

@@ -257,18 +257,90 @@ static int Sound_play_sound_wrapper(HSQUIRRELVM v)
   return 0;
 }
 
-static int wait_wrapper(HSQUIRRELVM v)
+static int Text_set_text_wrapper(HSQUIRRELVM v)
 {
-  float arg0;
-  sq_getfloat(v, 2, &arg0);
+  Scripting::Text* _this;
+  sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
+  const char* arg0;
+  sq_getstring(v, 2, &arg0);
   
-  Scripting::wait(arg0);
+  _this->set_text(arg0);
   
   return 0;
 }
 
+static int Text_set_font_wrapper(HSQUIRRELVM v)
+{
+  Scripting::Text* _this;
+  sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
+  const char* arg0;
+  sq_getstring(v, 2, &arg0);
+  
+  _this->set_font(arg0);
+  
+  return 0;
+}
+
+static int Text_fade_in_wrapper(HSQUIRRELVM v)
+{
+  Scripting::Text* _this;
+  sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
+  float arg0;
+  sq_getfloat(v, 2, &arg0);
+  
+  _this->fade_in(arg0);
+  
+  return 0;
+}
+
+static int Text_fade_out_wrapper(HSQUIRRELVM v)
+{
+  Scripting::Text* _this;
+  sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
+  float arg0;
+  sq_getfloat(v, 2, &arg0);
+  
+  _this->fade_out(arg0);
+  
+  return 0;
+}
+
+static int Text_set_visible_wrapper(HSQUIRRELVM v)
+{
+  Scripting::Text* _this;
+  sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
+  SQBool arg0;
+  sq_getbool(v, 2, &arg0);
+  
+  _this->set_visible(arg0);
+  
+  return 0;
+}
+
+static int set_wakeup_time_wrapper(HSQUIRRELVM v)
+{
+  float arg0;
+  sq_getfloat(v, 2, &arg0);
+  
+  Scripting::set_wakeup_time(arg0);
+  
+  return 0;
+}
+
+static int translate_wrapper(HSQUIRRELVM v)
+{
+  const char* arg0;
+  sq_getstring(v, 2, &arg0);
+  
+  std::string return_value = Scripting::translate(arg0);
+  
+  sq_pushstring(v, return_value.c_str(), return_value.size());
+  return 1;
+}
+
 WrappedFunction supertux_global_functions[] = {
-  { "wait", &wait_wrapper },
+  { "set_wakeup_time", &set_wakeup_time_wrapper },
+  { "translate", &translate_wrapper },
   { 0, 0 }
 };
 
@@ -307,12 +379,21 @@ static WrappedFunction supertux_Sound_methods[] = {
   { "play_sound", &Sound_play_sound_wrapper },
 };
 
+static WrappedFunction supertux_Text_methods[] = {
+  { "set_text", &Text_set_text_wrapper },
+  { "set_font", &Text_set_font_wrapper },
+  { "fade_in", &Text_fade_in_wrapper },
+  { "fade_out", &Text_fade_out_wrapper },
+  { "set_visible", &Text_set_visible_wrapper },
+};
+
 WrappedClass supertux_classes[] = {
   { "Display", supertux_Display_methods },
   { "Camera", supertux_Camera_methods },
   { "Level", supertux_Level_methods },
   { "ScriptedObject", supertux_ScriptedObject_methods },
   { "Sound", supertux_Sound_methods },
+  { "Text", supertux_Text_methods },
   { 0, 0 }
 };
 

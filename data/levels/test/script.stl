@@ -110,7 +110,7 @@
        )
        (scriptedobject
          (name "PENNY")
-         (x 256)
+         (x 390)
          (y 448)
          (sprite "dummyguy")
        )
@@ -121,18 +121,25 @@
          (sprite "dummyguy")
          (visible #f)
          (physic-enabled #f)
+         (solid #f)
        )
        (init-script "
-print(\"Making tux jump...\");
+function wait(time) {
+    set_wakeup_time(time);
+    suspend();
+}
+
+Text.set_text(translate(\"The Crazy Nolok Dance\"));
+Text.fade_in(2);
 TUX.set_animation(\"jump\");
-TUX.set_velocity(150, 200);
-wait(3);
-suspend();
+wait(4);
+Text.fade_out(1);
+wait(1);
+NOLOK.set_visible(true);
 PENNY.set_velocity(-200, 200);
 tuxjumps <- 2;
 while(true) {
   wait(0.8);
-  suspend();
   Sound.play_sound(\"jump\");
   if(tuxjumps >= 0) {
     TUX.set_velocity(50, 300);

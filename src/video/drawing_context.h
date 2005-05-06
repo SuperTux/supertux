@@ -24,6 +24,7 @@
 #include <stdint.h>
 
 #include <SDL.h>
+#include <stdint.h>
 
 #include "math/vector.h"
 #include "video/screen.h"
@@ -58,22 +59,19 @@ public:
   
   /// Adds a drawing request for a surface into the request list.
   void draw_surface(const Surface* surface, const Vector& position,
-                    int layer, uint32_t drawing_effect = NONE_EFFECT);
+                    int layer);
   /// Adds a drawing request for part of a surface.
   void draw_surface_part(const Surface* surface, const Vector& source,
-                         const Vector& size, const Vector& dest, int layer,
-                         uint32_t drawing_effect = NONE_EFFECT);
+                         const Vector& size, const Vector& dest, int layer);
   /// Draws a text.
   void draw_text(const Font* font, const std::string& text,
-                 const Vector& position, FontAlignment alignment, int layer,
-                 uint32_t drawing_effect = NONE_EFFECT);
+                 const Vector& position, FontAlignment alignment, int layer);
   
   /// Draws text on screen center (feed Vector.x with a 0).
   /// This is the same as draw_text() with a SCREEN_WIDTH/2 position and
   /// alignment set to LEFT_ALLIGN
   void draw_center_text(const Font* font, const std::string& text,
-                        const Vector& position, int layer,
-                        uint32_t drawing_effect = NONE_EFFECT);
+                        const Vector& position, int layer);
   /// Draws a color gradient onto the whole screen */
   void draw_gradient(Color from, Color to, int layer);
   /// Fills a rectangle.
@@ -85,8 +83,6 @@ public:
   
   const Vector& get_translation() const
   {  return transform.translation;  }
-  uint32_t get_drawing_effect() const
-  {  return transform.drawing_effect;  }
   
   void set_translation(const Vector& newtranslation)
   {  transform.translation = newtranslation;  }
@@ -95,11 +91,15 @@ public:
   void pop_transform();
   
   /// Apply that effect in the next draws (effects are listed on surface.h).
-  void set_drawing_effect(int effect);
+  void set_drawing_effect(uint32_t effect);
+  /// return currently applied drawing effect
+  uint32_t get_drawing_effect() const;
   /// apply that zoom in the next draws */
   void set_zooming(float zoom);
   /// apply that alpha in the next draws */
-  void set_alpha(int alpha);
+  void set_alpha(uint8_t alpha);
+  /// return currently set alpha
+  uint8_t get_alpha() const;
   
 private:
   class Transform
@@ -108,7 +108,7 @@ private:
     Vector translation;
     uint32_t drawing_effect;
     float zoom;
-    int alpha;
+    uint8_t alpha;
     
     Transform()
       : drawing_effect(NONE_EFFECT), zoom(1), alpha(255)

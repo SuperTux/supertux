@@ -246,10 +246,10 @@ void draw_demo(float elapsed_time)
   controller->press(Controller::RIGHT);
   
   if(random_timer.check() || 
-      (walking && (int) last_tux_x_pos == (int) tux->get_pos().x)) {
+      (walking && fabsf(last_tux_x_pos - tux->get_pos().x)) < .1) {
     walking = false;
   } else {
-      if(!walking && (int) tux->get_pos().y == (int) last_tux_y_pos) {
+      if(!walking && fabsf(tux->get_pos().y - last_tux_y_pos) < .1) {
         random_timer.start(float(rand() % 3000 + 3000) / 1000.);
         walking = true;
       }

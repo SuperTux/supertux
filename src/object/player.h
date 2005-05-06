@@ -64,8 +64,7 @@ public:
 
   void set_action(std::string action, int loops = -1);
   void one_time_animation();
-  void draw(DrawingContext& context, const Vector& pos, int layer,
-                Uint32 drawing_effect = NONE_EFFECT);
+  void draw(DrawingContext& context, const Vector& pos, int layer);
 
   Sprite* head;
   Sprite* body;

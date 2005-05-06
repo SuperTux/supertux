@@ -37,12 +37,10 @@ public:
 	~Sprite();
 	
 	/** Draw sprite, automatically calculates next frame */
-	void draw(DrawingContext& context, const Vector& pos, int layer,
-	    Uint32 drawing_effect = NONE_EFFECT);
+	void draw(DrawingContext& context, const Vector& pos, int layer);
 
 	void draw_part(DrawingContext& context, const Vector& source,
-	    const Vector& size, const Vector& pos, int layer,
-	    Uint32 drawing_effect = NONE_EFFECT);
+	    const Vector& size, const Vector& pos, int layer);
 
 	/** Set action (or state) */
 	void set_action(std::string act, int loops = -1);

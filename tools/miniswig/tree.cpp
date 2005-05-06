@@ -10,3 +10,4 @@ BasicType BasicType::FLOAT("float");
 BasicType BasicType::DOUBLE("double");
 
 StringType* StringType::_instance = 0;
+HSQUIRRELVMType* HSQUIRRELVMType::_instance = 0;

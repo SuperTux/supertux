@@ -79,17 +79,16 @@ TuxBodyParts::set_action(std::string action, int loops)
 }
 
 void
-TuxBodyParts::draw(DrawingContext& context, const Vector& pos, int layer,
-                  Uint32 drawing_effect)
+TuxBodyParts::draw(DrawingContext& context, const Vector& pos, int layer)
 {
   if(head != NULL)
-    head->draw(context, pos, layer-1, drawing_effect);
+    head->draw(context, pos, layer-1);
   if(body != NULL)
-    body->draw(context, pos, layer-3, drawing_effect);
+    body->draw(context, pos, layer-3);
   if(arms != NULL)
-    arms->draw(context, pos, layer,   drawing_effect);
+    arms->draw(context, pos, layer);
   if(feet != NULL)
-    feet->draw(context, pos, layer-2, drawing_effect);
+    feet->draw(context, pos, layer-2);
 }
 
 Player::Player(PlayerStatus* _player_status)
