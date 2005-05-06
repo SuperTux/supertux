@@ -63,8 +63,8 @@ Nolok_01::write(lisp::Writer& writer)
 void
 Nolok_01::activate()
 {
-  hitpoints = INITIAL_HITPOINTS;
-  bullet_hitpoints = INITIAL_BULLET_HP;
+  //hitpoints = INITIAL_HITPOINTS;
+  //bullet_hitpoints = INITIAL_BULLET_HP;
   physic.set_velocity_x(dir == LEFT ? -WALKSPEED : WALKSPEED);
   sprite->set_action(dir == LEFT ? "left" : "right");
   action = WALKING;
@@ -111,6 +111,7 @@ Nolok_01::collision_squished(Player& player)
 {
   bool result = false;
   player.bounce(*this);
+#if 0
   if (hitpoints <= 0) {
     bullet_hitpoints = 0;
     sprite->set_action("dead"); 
@@ -118,6 +119,7 @@ Nolok_01::collision_squished(Player& player)
     Sector::current()->add_object(new Door((int)get_pos().x+32, 512, "sector1", "main2"));
     result = true;
   }
+#endif
   return result;
 }
 
@@ -139,6 +141,7 @@ Nolok_01::collision_solid(GameObject& , const CollisionHit& hit)
 void
 Nolok_01::kill_fall()
 {
+#if 0
   bullet_hitpoints--;
   if (bullet_hitpoints <= 0) {
    hitpoints = 0;
@@ -149,6 +152,7 @@ Nolok_01::kill_fall()
    set_state(STATE_FALLING);
    Sector::current()->add_object(new Door((int)get_pos().x+32, 512, "sector1", "main2"));
   }
+#endif
 }
 
 IMPLEMENT_FACTORY(Nolok_01, "nolok_01")

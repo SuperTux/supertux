@@ -31,8 +31,9 @@ static const float JUMP_VEL2 = 700;
 static const float RUN_SPEED = 350;
 static const float JUMP_TIME = 1.6;
 static const float ANGRY_JUMP_WAIT = .5;
+/// the time we are safe when tux just hit us
+static const float SAFE_TIME = .5;
 static const int INITIAL_HITPOINTS = 3;
-static const int INITIAL_BULLET_HP = 10;
 
 Yeti::Yeti(const lisp::Lisp& reader)
 {
@@ -42,15 +43,23 @@ Yeti::Yeti(const lisp::Lisp& reader)
   sprite = sprite_manager->create("yeti");
   state = INIT;
   side = LEFT;
-  hitpoints = INITIAL_HITPOINTS;
-  bullet_hitpoints = INITIAL_BULLET_HP;
   sound_manager->preload_sound("yeti_gna");
-  sound_manager->preload_sound("yeti_roar");  
+  sound_manager->preload_sound("yeti_roar");
+  hit_points = INITIAL_HITPOINTS;
 }
 
 Yeti::~Yeti()
 {
-  Mix_FreeChunk(sound_gna);
+}
+
+void
+Yeti::draw(DrawingContext& context)
+{
+  // we blink when we are safe
+  if(safe_timer.started() && size_t(global_time*40)%2)
+    return;
+
+  BadGuy::draw(context);
 }
 
 void
@@ -117,41 +126,29 @@ Yeti::summon_snowball()
   Sector::current()->add_object(new BouncingSnowball(get_pos().x+(side == LEFT ? 64 : -64), get_pos().y, (side == LEFT ? RIGHT : LEFT)));
 }
 
-HitResponse
-Yeti::collision_player(Player& player, const CollisionHit& hit)
-{
-  if(player.is_invincible()) {
-    kill_fall();
-    return ABORT_MOVE;
-  }
-  if(hit.normal.y > .9) {
-    hitpoints--;
-    bullet_hitpoints--;
-    sound_manager->play_sound("yeti_roar");    
-    if(collision_squished(player))
-      return ABORT_MOVE;
-    else if (hitpoints <= 0) {
-      bullet_hitpoints = 0;
-      player.kill(Player::SHRINK);
-      return FORCE_MOVE;
-    }
-  }
-  player.kill(Player::SHRINK);
-  return FORCE_MOVE;
-}
-
 bool
 Yeti::collision_squished(Player& player)
 {
-  bool result = false;
+  if(safe_timer.started())
+    return true;
+
   player.bounce(*this);
-  if (hitpoints <= 0) {
-    bullet_hitpoints = 0;
-    //sprite->set_action("dead"); 
+  sound_manager->play_sound("yeti_roar");
+  hit_points--;
+  if(hit_points <= 0) {
+    sprite->set_action("dead"); 
     kill_squished(player);
-    result = true;
+  } else {
+    safe_timer.start(SAFE_TIME);
   }
-  return result;
+  
+  return true;
+}
+
+void
+Yeti::kill_fall()
+{
+  // shooting bullets or being invincible won't work :)
 }
 
 void
@@ -221,20 +218,6 @@ Yeti::collision_solid(GameObject& , const CollisionHit& hit)
   }
   
   return CONTINUE;
-}
-
-void
-Yeti::kill_fall()
-{
-  sound_manager->play_sound("yeti_roar");  
-  bullet_hitpoints--;
-  if (bullet_hitpoints <= 0) {
-    sound_manager->play_sound("fall", this,
-                              Sector::current()->player->get_pos());
-    physic.set_velocity_y(0);
-    physic.enable_gravity(true);
-    set_state(STATE_FALLING);
-  }
 }
 
 IMPLEMENT_FACTORY(Yeti, "yeti")

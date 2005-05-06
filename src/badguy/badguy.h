@@ -137,9 +137,6 @@ protected:
   Vector start_position;
 
   Direction dir;
-
-  int hitpoints;
-  int bullet_hitpoints;
 private:
   void try_activate();
   

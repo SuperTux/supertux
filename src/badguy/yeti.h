@@ -17,7 +17,6 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
-
 #ifndef __YETI_H__
 #define __YETI_H__
 
@@ -29,10 +28,10 @@ public:
   Yeti(const lisp::Lisp& lisp);
   ~Yeti();
 
+  void draw(DrawingContext& context);
   void write(lisp::Writer& writer);
   void active_action(float elapsed_time);
-  HitResponse collision_solid(GameObject& other, const CollisionHit& hit);
-  HitResponse collision_player(Player& player, const CollisionHit& hit);
+  HitResponse collision_solid(GameObject& object, const CollisionHit& hit);
   bool collision_squished(Player& player);
   void kill_fall();
 
@@ -53,9 +52,9 @@ private:
   Direction side;
   YetiState state;
   Timer timer;
+  Timer safe_timer;
   int jumpcount;
-  Mix_Chunk* sound_gna;
-  Mix_Chunk* sound_roar;
+  int hit_points;
 };
 
 #endif

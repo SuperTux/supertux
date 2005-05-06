@@ -896,6 +896,6 @@ Player::bounce(BadGuy& )
   if(controller->hold(Controller::JUMP))
     physic.set_velocity_y(520);
   else
-    physic.set_velocity_y(200);
+    physic.set_velocity_y(300);
 }
 

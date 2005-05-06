@@ -17,7 +17,6 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
-
 #include <config.h>
 
 #include "badguy.h"
@@ -30,9 +29,6 @@ static const float Y_OFFSCREEN_DISTANCE = 1200;
 BadGuy::BadGuy()
   : sprite(0), dir(LEFT), state(STATE_INIT)
 {
-  //Set hitpoints and bullet hitpoints
-  hitpoints = 1;
-  bullet_hitpoints = 1;
 }
 
 BadGuy::~BadGuy()
@@ -49,7 +45,7 @@ BadGuy::draw(DrawingContext& context)
     return;
   if(state == STATE_FALLING) {
     uint32_t old_effect = context.get_drawing_effect();
-    context.set_drawing_effect(old_effect & VERTICAL_FLIP);
+    context.set_drawing_effect(old_effect | VERTICAL_FLIP);
     sprite->draw(context, get_pos(), LAYER_OBJECTS);
     context.set_drawing_effect(old_effect);
   } else {
@@ -150,24 +146,20 @@ BadGuy::collision_solid(GameObject& , const CollisionHit& )
 }
 
 HitResponse
-BadGuy::collision_player(Player& player, const CollisionHit& hit)
+BadGuy::collision_player(Player& player, const CollisionHit& )
 {
   if(player.is_invincible()) {
     kill_fall();
     return ABORT_MOVE;
   }
-  if(hit.normal.y > .9) {
-    //TODO: fix inaccuracy (tux sometimes dies even if badguy was hit)
-    //      give badguys some invincible time (prevent them from being hit multiple times)
-    hitpoints--;
-    bullet_hitpoints--;
-    if(collision_squished(player))
-      return ABORT_MOVE;
-    else if (hitpoints <= 0) {
-      bullet_hitpoints = 0;
+  // hit from above?
+  if(player.get_movement().y > 0 && player.get_bbox().p2.y <
+      (get_bbox().p1.y + get_bbox().p2.y) / 2) {
+    // if it's not is it possible to squish us, then this will hurt
+    if(!collision_squished(player))
       player.kill(Player::SHRINK);
-      return FORCE_MOVE;
-    }
+
+    return FORCE_MOVE;
   }
   player.kill(Player::SHRINK);
   return FORCE_MOVE;
@@ -199,15 +191,11 @@ BadGuy::kill_squished(Player& player)
 void
 BadGuy::kill_fall()
 {
-  bullet_hitpoints--;
-  if (bullet_hitpoints <= 0) {
-    hitpoints = 0;
-    sound_manager->play_sound("fall", this,
-                              Sector::current()->player->get_pos());
-    physic.set_velocity_y(0);
-    physic.enable_gravity(true);
-    set_state(STATE_FALLING);
-  }
+  sound_manager->play_sound("fall", this,
+      Sector::current()->player->get_pos());
+  physic.set_velocity_y(0);
+  physic.enable_gravity(true);
+  set_state(STATE_FALLING);
 }
 
 void
