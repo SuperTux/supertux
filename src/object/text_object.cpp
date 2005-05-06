@@ -5,7 +5,7 @@
 #include "video/drawing_context.h"
 
 TextObject::TextObject()
-  : visible(false)
+  : fading(0), fadetime(0), visible(false)
 {
   font = blue_text;
 }
