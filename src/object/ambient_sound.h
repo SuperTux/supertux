@@ -17,6 +17,19 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 
+/**
+ *  Ambient Sound Source, beta version. Features:
+ *
+ *  - "disc" like structure. Full volume up to some distance
+ *    (distance_bias) to the source, then fading proportional to
+ *    inverse square distance
+ *  
+ *  This is experimental and clicks a little. It is not possible to
+ *  get the clicks out without sample-granular volume adjustment.
+ *
+ *      basti_ 
+ */
+
 #ifndef __AMBIENT_SOUND_H__
 #define __AMBIENT_SOUND_H__
 
@@ -24,6 +37,7 @@
 #include "game_object.h"
 #include "resources.h"
 #include "player.h"
+#include "SDL_mixer.h"
 
 class AmbientSound : public GameObject
 {
@@ -37,16 +51,18 @@ protected:
   virtual void startPlaying();
 private:
   Vector position;
-  Sprite *sprite;
 
   std::string sample;
   int playing;
-  float distance_factor;
 
-  float distance_bias;
-  float silence_distance;
+  float distance_factor;  /// distance scaling
+  float distance_bias;    /// 100% volume disc radius
+  float silence_distance; /// not implemented yet 
 
-  float * volume_ptr; // this will be used by the volume adjustment effect.
+  float targetvolume;  /// how loud we want to be
+  float currentvolume; /// how loud we are
+
+  float * volume_ptr; /// this will be used by the volume adjustment effect.
 };
 
 #endif

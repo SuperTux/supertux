@@ -38,11 +38,8 @@ public:
   SoundManager();
   ~SoundManager();
 
-  /// Play sound.
-  void play_sound(const std::string& sound);
-
-  /// Play sound looping, return channel number - basti_
-  int play_sound(const std::string& sound,int loops);
+  /// Play sound (maybe looping), return channel number (or -1 on error)
+  int play_sound(const std::string& sound,int loops=0);
 
   /// Play sound relative to two Vectors.
   void play_sound(const std::string& sound, const Vector& pos,

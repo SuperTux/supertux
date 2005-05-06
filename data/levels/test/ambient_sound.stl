@@ -136,7 +136,7 @@
          (speed 0.500000)
        )
        (spawnpoint (name "main") (x 96) (y 160))
-      (ambient_sound (x 128) (y 800) (distance_factor 0.1) 
+      (ambient_sound (x 128) (y 800) (distance_factor 1) 
         (distance_bias 200) (sample "waterfall"))
       (infoblock (x 128) (y 800)
         (message (_ "-Info

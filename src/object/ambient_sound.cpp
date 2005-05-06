@@ -25,24 +25,18 @@
 #include "lisp/lisp.h"
 #include "sector.h"
 
-/***
- *  Ambient Sound Source, beta version. Features:
- *
- *  - "disc" like structure. Full volume up to some distance
- *    (distance_bias) to the source, then fading proportional to
- *    inverse square distance
- *  
- *  This is experimental, clicks sometimes and still leaks mem 
- *
- *      basti_ 
- */
-
 AmbientSound::AmbientSound(const lisp::Lisp& lisp)
 {
 
-  //  position=pos;
-  lisp.get("x", position.x);
-  lisp.get("y", position.y);
+  position.x=0;
+  position.y=0;
+  distance_factor=0;
+  distance_bias=0;
+  sample="";
+
+  if (!(lisp.get("x", position.x)&&lisp.get("y", position.y))) {
+    std::cerr << "No Position in ambient_sound"  << std::endl;
+  }
   lisp.get("distance_factor",distance_factor);
   lisp.get("distance_bias"  ,distance_bias  );
   lisp.get("sample"         ,sample         );
@@ -52,7 +46,6 @@ AmbientSound::AmbientSound(const lisp::Lisp& lisp)
   else
     silence_distance = distance_factor*10e2;
 
-  volume_ptr=NULL;
   playing=0;
   startPlaying();
 }
@@ -67,11 +60,8 @@ void
 AmbientSound::startPlaying()
 {
   playing=sound_manager->play_sound(sample,-1);
-  volume_ptr=new float[2];
-  volume_ptr[0]=0;
-  volume_ptr[1]=0;
-  sound_manager->register_effect(playing,&SoundManager::volume_adjust,
-				 NULL,(void *)volume_ptr);
+  Mix_Volume(playing,0);
+  currentvolume=targetvolume=1e-20;
 }
 
 void
@@ -86,16 +76,18 @@ AmbientSound::action(float)
   if (distance<0)
     distance=0;
 
-  volume_ptr[0]=1/(1+distance*distance_factor); // inverse square of distance
+  targetvolume=1/(1+distance*distance_factor);
+  float rise=targetvolume/currentvolume;
+  currentvolume*=pow(rise,.05);
+  currentvolume += 1e-30;
+  //  std::cout << currentvolume << " " << targetvolume << std::endl;
+  Mix_Volume(playing,(int)(currentvolume*MIX_MAX_VOLUME));
 
 }
 
 void
-AmbientSound::draw(DrawingContext &dc) 
+AmbientSound::draw(DrawingContext &) 
 {
-  return;
-  sprite->draw(dc,position,1);
-
 }
 
 IMPLEMENT_FACTORY(AmbientSound, "ambient_sound");
