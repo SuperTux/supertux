@@ -40,6 +40,10 @@ public:
 
   /// Play sound.
   void play_sound(const std::string& sound);
+
+  /// Play sound looping, return channel number - basti_
+  int play_sound(const std::string& sound,int loops);
+
   /// Play sound relative to two Vectors.
   void play_sound(const std::string& sound, const Vector& pos,
       const Vector& pos2);
@@ -47,6 +51,13 @@ public:
   void play_sound(const std::string& sound, const MovingObject* object,
       const Vector& pos);
   
+  /// register an effect to a channel - basti_
+  void register_effect(int channel,Mix_EffectFunc_t f,Mix_EffectDone_t d, 
+		       void * arg);
+
+  // effects - basti_ 
+  static void volume_adjust(int,void *,int,void *);
+
   /** Load music.
    * Is used to load the music for a MusicRef.
    */
