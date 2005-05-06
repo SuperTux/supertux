@@ -100,43 +100,6 @@ SoundManager::play_sound(const std::string& sound, const Vector& pos,
     Mix_SetPanning(chan, 24, 230);
 }
 
-/*
-
-ok, i was stupid. We won't need this now.
-
-// Register a sound effect function - basti_
-
-void 
-SoundManager::register_effect(int channel,Mix_EffectFunc_t f,
-			      Mix_EffectDone_t d,void * arg) {
-
-  if(!audio_device || !m_sound_enabled)
-    return;
-  Mix_RegisterEffect(channel,f,d,arg);
-}
-
-// Adjust the Volume of a channel "on line". Needs sizeof(float) static data.
-
-void 
-SoundManager::volume_adjust(int chan, void *stream, int len, void *udata) {
-
-  typedef signed short int atype;
-
-  ((float *)udata)[1]=((float *)udata)[1]*0.95+
-    (((float *)udata)[0]-
-     ((float *)udata)[1])*0.05; // decay towards [0] - declick
-  float vol=((float*)udata)[1];
-
-  for (int i=0;i<len/2;i++)
-    ((atype *)stream)[i]=
-      ((atype)(((atype *)stream)[i]*vol)); 
-  // FIXME: This should be audio-type dependant - how to do this correctly?
-  
-  chan=0; // -Werror sucks
-}
-*/
-
-
 MusicRef
 SoundManager::load_music(const std::string& file)
 {
