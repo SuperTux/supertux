@@ -5,7 +5,7 @@
 #include "parser.hpp"
 #include "globals.h"
 
-#define YY_DECL int yylex YY_PROTO(( YYSTYPE* yylval ))
+#define YY_DECL int yylex(YYSTYPE* yylval)
 
 #define YY_INPUT(buf, result, max_size)                     \
 {                                                           \
