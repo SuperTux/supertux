@@ -150,8 +150,7 @@ Tile::load_images(const std::string& tilesetpath)
   }
   if(editor_imagefile != "") {
     editor_image = new Surface(
-        get_resource_filename(
-          std::string("images/tilesets/") + editor_imagefile), true);
+        get_resource_filename(tilespath + editor_imagefile), true);
   }
 }
 
