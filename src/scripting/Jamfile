@@ -24,7 +24,6 @@ if $(MINISWIG)
     rule MiniSwig
     {
         Depends $(<) : $(>) $(MINISWIG) ;
-        Clean clean : $(<) ;
     }
 
     actions MiniSwig bind headerfile
