@@ -1,0 +1,242 @@
+# Translation of nn to Norwegian Nynorsk
+# Norwegian Nynorsk translations for world package.
+# Copyright (C) 2004 THE world'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the world package.
+# Karl Ove Hufthammer <karl@huftis.org>, 2004.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: nn\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2004-12-07 18:49+0100\n"
+"PO-Revision-Date: 2004-12-10 20:07+0100\n"
+"Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
+"Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: KBabel 1.9\n"
+
+#: data/levels/world1/level1.stl:5
+msgid "Welcome to Antarctica"
+msgstr "Velkommen til Antarktika"
+
+#: data/levels/world1/level10.stl:5
+msgid "23rd Airborne"
+msgstr "Uro i lufta"
+
+#: data/levels/world1/level11.stl:5
+msgid "Night Chill"
+msgstr "Nattefrost"
+
+#: data/levels/world1/level12.stl:5
+msgid "Into the Stars"
+msgstr "Under stjernene"
+
+#: data/levels/world1/level13.stl:5
+msgid "Above the Arctic Skies"
+msgstr "Over skyene"
+
+#: data/levels/world1/level14.stl:5
+msgid "Entrance to the Cave"
+msgstr "Inngangen til hola"
+
+#: data/levels/world1/level15.stl:5
+msgid "Under the Ice"
+msgstr "Under isen"
+
+#: data/levels/world1/level16.stl:5
+msgid "Living in a Fridge"
+msgstr "Mitt liv som djupfrysar"
+
+#: data/levels/world1/level17.stl:5
+msgid "'...or is it just me?'"
+msgstr "Mitt liv som kjøleskap"
+
+#: data/levels/world1/level18.stl:5
+msgid "Ice in the Hole"
+msgstr "Inferno i kvitt"
+
+#: data/levels/world1/level19.stl:5
+msgid "Miyamoto Monument"
+msgstr "Tux på eventyr under jorda"
+
+#: data/levels/world1/level2.stl:5
+msgid "The Journey Begins"
+msgstr "Ei vandring tek til"
+
+#: data/levels/world1/level20.stl:5
+msgid "End of the Tunnel"
+msgstr "Pingvinen som kom ut av kjøleskapet"
+
+#: data/levels/world1/level21.stl:5
+msgid "A Path in the Clouds"
+msgstr "Med himmelen som tak"
+
+#: data/levels/world1/level22.stl:5
+msgid "No more Mr Ice Guy"
+msgstr "Utan isbitar, takk!"
+
+#: data/levels/world1/level23.stl:5
+msgid "The Escape"
+msgstr "På flukt"
+
+#: data/levels/world1/level24.stl:5
+msgid "The Shattered Bridge"
+msgstr "Den knuste brua"
+
+#: data/levels/world1/level25.stl:5
+msgid "Arctic Ruins"
+msgstr "Mørke skyer trugar"
+
+#: data/levels/world1/level26.stl:5
+msgid "The Castle of Nolok"
+msgstr "Borga til Nolok"
+
+#: data/levels/world1/level3.stl:5
+msgid "Via Nostalgica"
+msgstr "Nostalgi"
+
+#: data/levels/world1/level4.stl:5
+msgid "Tobgle Road"
+msgstr "Tobgle-vegen"
+
+#: data/levels/world1/level5.stl:5
+msgid "The Somewhat Smaller Bath"
+msgstr "Oppi stampen"
+
+#: data/levels/world1/level6.stl:5
+msgid "The Frosted Fields"
+msgstr "Frostlagde stigar"
+
+#: data/levels/world1/level7.stl:5
+msgid "Oh no! More Snowballs!"
+msgstr "Og snøballen rullar"
+
+#: data/levels/world1/level8.stl:5
+msgid "Stone Cold"
+msgstr "Steinkald"
+
+#: data/levels/world1/level9.stl:5
+msgid "Grumbel's Sense of Snow"
+msgstr "Tux si fornemming for snø"
+
+#: data/levels/world1/extro.txt:7
+msgid ""
+"-Entering Nolok's Throne Room!\n"
+"\n"
+"#Tux ran into Nolok's throne room,\n"
+"#frantically searching for his beloved.\n"
+"#Alas, he found neither Penny nor Nolok\n"
+"#there, but instead, another note.\n"
+"\n"
+"#\"Well done, Tux, well done. If you are\n"
+"#reading this, you have removed my\n"
+"#control over this icy fortress. But as\n"
+"#you can see, your beloved Penny is not\n"
+"#here. What you did not realize is that\n"
+"#this is just one of my many fortresses,\n"
+"#spread far across the lands!\n"
+"\n"
+"#\"Tux, your ambition is most honorable,\n"
+"#but futile nonetheless. With every\n"
+"#fortress you conquer of mine, I will\n"
+"#escape to another, and take Penny with\n"
+"#me. Do not be silly... it is best that\n"
+"#you give up now.\"\n"
+"\n"
+"#Tux was sadly leaving the room, when he\n"
+"#felt something beneath his foot... an\n"
+"#envelope, addressed to him! Inside was\n"
+"#a roughly sketched map with fortresses\n"
+"#drawn in various lands. On the corner\n"
+"#of the map was Penny's signature, a\n"
+"#drawing of the ice flower.\n"
+"\n"
+"#Tux ran out of the fortress, map in\n"
+"#hand. No, he decided, he would not give\n"
+"#up. Penny was counting on him."
+msgstr ""
+"-På veg inn tronsalen!\n"
+"\n"
+"#Tux sprang inn i tronsalen, på vill jakt\n"
+"#etter hans kjære Penny. Dessverre fann\n"
+"#verken Penny eller Nolok der, berre endå\n"
+"#eit brev:\n"
+"\n"
+"#«Godt gjort, Tux, veldig godt gjort. Om\n"
+"#du les dette, må det tyda at du har klart\n"
+"#å overmanna voktarane mine og innta\n"
+"#isborga. Men som du ser, er ikkje Penny\n"
+"#her. Dette er nemleg berre berre éi av dei\n"
+"#mange borgene eg har, spreidde over\n"
+"#heile verda."
+"\n"
+"#Eg kan berre gratulera deg med god\n"
+"#innsats, men dessverre (for deg), er\n"
+"#han fånyttes. For kvar borg du måtte\n"
+"#klara å innta, vil eg berre rømma til ei ny,\n"
+"#og ta Penny med meg. Det er best for\n"
+"#alle om du gjev opp først som sist.»\n"
+"\n"
+"#Tux var svært trist då han forlot tronsalen,\n"
+"#på veg heim. Men kva var dette? Han\n"
+"#kjende noko under eine fotsålen. Det var –n"
+"#ein konvolutt, adressert til han! Inni konvolutten\n"
+"#fann han eit kart med oversikt over nokre\n"
+"#borger. Og nede i hjørnet sto Pennys signatur,\n"
+"#ei teikning av ei isrose.\n"
+"\n"
+"#Tux sprang ut av borga med kartet i neven.\n"
+"#Nei, han ville aldri gje opp. Penny stolte på han!"
+
+#: data/levels/world1/intro.txt:5
+msgid ""
+"-Penny gets captured!\n"
+"\n"
+"#Tux and Penny were out having a nice\n"
+"#picnic on the ice fields of Antarctica.\n"
+"#Suddenly, a creature jumped from\n"
+"#behind an ice bush, there was a flash,\n"
+"#and Tux fell asleep!\n"
+"\n"
+"#When Tux wakes up, he finds that Penny\n"
+"#is missing. Where she lay before now\n"
+"#lies a letter. \"Tux, my arch enemy!\"\n"
+"#says the letter. \"I have captured\n"
+"#your beautiful Penny and have taken her\n"
+"#to my fortress. The path to my fortress\n"
+"#is littered with my minions. Give up on\n"
+"#the thought of trying to reclaim her,\n"
+"#you haven't a chance! -Nolok\"\n"
+"\n"
+"#Tux looks and see Nolok's fortress in\n"
+"#the distance. Determined to save his\n"
+"#beloved Penny, he begins his journey."
+msgstr ""
+"-Penny vert fanga!\n"
+"\n"
+"#Tux og Penny var ute og koste seg på ein\n"
+"#hyggeleg, liten piknik på eit av isflaka på\n"
+"#sørpolen, då det brått hoppa eit vesen fram\n"
+"#frå ein av isbuskane. Det siste Tux hugsar frå\n"
+"#før han sovna, var eit sterkt og noko underleg\n"
+"#lysglimt!\n"
+"\n"
+"#Når han endeleg vakna, kunne han ikkje sjå\n"
+"#Penny nokon stader. Det einaste han fann var\n"
+"#eit brev: «Tux, eg har tatt med meg Penny\n"
+"#til borga mi. Eg har sett ut folk til å vokta\n"
+"#vegen, så du kan allereie gje opp å prøva å\n"
+"#redda ho tilbake. Du er sjanselaus!\n"
+"#Uvenleg helsing Nolok!»\n"
+"\n"
+"#Tux ser seg rundt, og kan sjå borga til Nolok\n"
+"#lang, langt i det fjerne. Han er fast bestemt\n"
+"#på å redda kjærasten sin, og tek til på vandringa."
+
+#: data/levels/world1/worldmap.stwm:4
+msgid "Icyisland"
+msgstr "Isøya"
+

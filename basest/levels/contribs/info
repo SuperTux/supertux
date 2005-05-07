@@ -1,0 +1,5 @@
+;SuperTux-Level-Subset
+(supertux-level-subset
+  (title "Contributed levels")
+  (description "Levels contributed by users should be placed here.")
+  )
