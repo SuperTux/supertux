@@ -54,7 +54,7 @@ void TileManager::load_tileset(std::string filename)
   } else {
     tiles_path = filename.substr(0, t+1);
   }
-
+ 
   lisp::Parser parser;
   std::auto_ptr<lisp::Lisp> root (parser.parse(
         get_resource_filename(filename)));

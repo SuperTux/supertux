@@ -66,7 +66,7 @@
 
 static Surface* bkg_title;
 static Surface* logo;
-static Surface* img_choose_subset;
+//static Surface* img_choose_subset;
 
 static bool walking;
 static Timer random_timer;
@@ -282,8 +282,8 @@ void title()
 
   /* Load images: */
   bkg_title = new Surface(datadir + "/images/background/arctis.jpg", false);
-  logo = new Surface(datadir + "/images/title/logo.png", true);
-  img_choose_subset = new Surface(datadir + "/images/status/choose-level-subset.png", true);
+  logo = new Surface(datadir + "/images/engine/menu/logo.png", true);
+  //img_choose_subset = new Surface(datadir + "/images/status/choose-level-subset.png", true);
 
   titlesession->get_current_sector()->activate("main");
   titlesession->set_current();
@@ -448,5 +448,5 @@ void title()
   delete titlesession;
   delete bkg_title;
   delete logo;
-  delete img_choose_subset;
+  //delete img_choose_subset;
 }

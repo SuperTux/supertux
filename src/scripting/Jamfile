@@ -37,8 +37,9 @@ if $(MINISWIG)
 wrapper_sources = [ Filter [ Wildcard *.cpp *.h ] : wrapper.cpp wrapper.h ] ;
 if ! $(MINISWIG)
 {
-    wrapper_sources += wrapper.cpp ;
+    wrapper_sources += [ SearchSource wrapper.cpp ] ;
 }
+ echo $(wrapper_sources) ;
 wrapper_objects = [ CompileObjects $(wrapper_sources) ] ;
 if $(MINISWIG)
 {

@@ -73,9 +73,9 @@ void ParticleSystem::draw(DrawingContext& context)
 
 SnowParticleSystem::SnowParticleSystem()
 {
-    snowimages[0] = new Surface(datadir+"/images/shared/snow0.png", true);
-    snowimages[1] = new Surface(datadir+"/images/shared/snow1.png", true);
-    snowimages[2] = new Surface(datadir+"/images/shared/snow2.png", true);
+    snowimages[0] = new Surface(datadir+"/images/objects/particles/snow0.png", true);
+    snowimages[1] = new Surface(datadir+"/images/objects/particles/snow1.png", true);
+    snowimages[2] = new Surface(datadir+"/images/objects/particles/snow2.png", true);
 
     virtual_width = SCREEN_WIDTH * 2;
 
@@ -131,8 +131,8 @@ void SnowParticleSystem::action(float elapsed_time)
 
 RainParticleSystem::RainParticleSystem()
 {
-    rainimages[0] = new Surface(datadir+"/images/shared/rain0.png", true);
-    rainimages[1] = new Surface(datadir+"/images/shared/rain1.png", true);
+    rainimages[0] = new Surface(datadir+"/images/objects/particles/rain0.png", true);
+    rainimages[1] = new Surface(datadir+"/images/objects/particles/rain1.png", true);
 
     virtual_width = SCREEN_WIDTH * 2;
 
@@ -189,7 +189,7 @@ void RainParticleSystem::action(float elapsed_time)
 
 CloudParticleSystem::CloudParticleSystem()
 {
-    cloudimage = new Surface(datadir + "/images/shared/cloud.png", true);
+    cloudimage = new Surface(datadir + "/images/objects/particles/cloud.png", true);
 
     virtual_width = 2000.0;
 

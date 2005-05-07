@@ -1,6 +1,0 @@
-;SuperTux-Level-Subset
-(supertux-level-subset
-  (title "Icyisland levels")
-  (description "World 1 - IcyIsland - levels")
-  (hide-from-contribs #t)
-  )

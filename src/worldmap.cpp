@@ -344,7 +344,7 @@ Tux::action(float delta)
 
 WorldMap::WorldMap()
 {
-  tile_manager = new TileManager("images/worldmap/antarctica.stwt");
+  tile_manager = new TileManager("images/tiles/worldmap/antarctica.stwt");
   
   width  = 20;
   height = 15;
@@ -354,10 +354,10 @@ WorldMap::WorldMap()
 
   tux = new Tux(this);
   
-  leveldot_green = new Surface(datadir +  "/images/worldmap/leveldot_green.png", true);
-  leveldot_red = new Surface(datadir +  "/images/worldmap/leveldot_red.png", true);
-  messagedot   = new Surface(datadir +  "/images/worldmap/messagedot.png", true);
-  teleporterdot   = new Surface(datadir +  "/images/worldmap/teleporterdot.png", true);
+  leveldot_green = new Surface(datadir +  "/images/tiles/worldmap/leveldot_green.png", true);
+  leveldot_red = new Surface(datadir +  "/images/tiles/worldmap/leveldot_red.png", true);
+  messagedot   = new Surface(datadir +  "/images/tiles/worldmap/messagedot.png", true);
+  teleporterdot   = new Surface(datadir +  "/images/tiles/worldmap/teleporterdot.png", true);
 
   name = "<no title>";
   music = "salcon.mod";

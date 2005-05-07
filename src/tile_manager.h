@@ -64,6 +64,7 @@ public:
 
   const Tile* get(uint32_t id) const
   {
+    //FIXME: Commenting out tiles in supertux.stgt makes tiles.size() fail - it's being set to the first tile commented out.
     assert(id < tiles.size());
     Tile* tile = tiles[id];
     if(!tile) {

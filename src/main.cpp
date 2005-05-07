@@ -91,8 +91,8 @@ static void find_directories()
 
   // try current directory as datadir
   if(datadir.empty()) {
-    if(FileSystem::faccessible("./data/credits.txt")) {
-      datadir = "./data/";
+    if(FileSystem::faccessible("./basest/credits.txt")) {
+      datadir = "./basest/";
     }
   }
 
@@ -106,7 +106,7 @@ static void find_directories()
 #endif
     } else {
       std::string exedir = std::string(dirname(exe_file)) + "/";
-      std::string testdir = exedir + "./data/";
+      std::string testdir = exedir + "./basest/";
       if(access(testdir.c_str(), F_OK) == 0) {
         datadir = testdir;
       }
@@ -281,14 +281,14 @@ void init_video()
 
   // set icon
   SDL_Surface* icon = IMG_Load(
-    get_resource_filename("images/supertux.xpm").c_str());
+    get_resource_filename("images/engine/icons/supertux.xpm").c_str());
   if(icon != 0) {
     SDL_WM_SetIcon(icon, 0);
     SDL_FreeSurface(icon);
   }
 #ifdef DEBUG
   else {
-    std::cerr << "Warning: Couldn't find icon 'images/supertux.xpm'.\n";
+    std::cerr << "Warning: Couldn't find icon 'images/engine/icons/supertux.xpm'.\n";
   }
 #endif
 
