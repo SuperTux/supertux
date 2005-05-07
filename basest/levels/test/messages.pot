@@ -1,0 +1,56 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2005-05-06 19:47+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: data/levels/test/sectors.stl:4
+msgid "Sector Test"
+msgstr ""
+
+#: data/levels/test/verticalforest.stl:5
+msgid "Inside The Tree"
+msgstr ""
+
+#: data/levels/test/ambient_sound.stl:4
+msgid "Ambient Sound Test"
+msgstr ""
+
+#: data/levels/test/ambient_sound.stl:142
+msgid ""
+"-Info\n"
+"#An ambient sound source\n"
+"#should be audible here"
+msgstr ""
+
+#: data/levels/test/bonusblock.stl:4
+msgid "Bonus Block Test"
+msgstr ""
+
+#: data/levels/test/bonusblock.stl:141
+msgid ""
+"-Info\n"
+"#This is an info block\n"
+"#(WOW GREAT)\n"
+"#This rocks"
+msgstr ""
+
+#: data/levels/test/script.stl:4
+msgid "Scripting Test"
+msgstr ""
+
+#: data/levels/test/yeti.stl:4
+msgid "Yeti Test"
+msgstr ""
