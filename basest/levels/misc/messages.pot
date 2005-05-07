@@ -16,6 +16,6 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: data/levels/misc/menu.stl:4
+#: basest/levels/misc/menu.stl:4
 msgid "Menu Level"
 msgstr ""

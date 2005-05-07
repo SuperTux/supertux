@@ -16,10 +16,10 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: data/levels/contribs/level1.stl:4
+#: basest/levels/contribs/level1.stl:4
 msgid "The long cave"
 msgstr ""
 
-#: data/levels/contribs/level3.stl:4
+#: basest/levels/contribs/level3.stl:4
 msgid "Een weg door de wolken"
 msgstr ""

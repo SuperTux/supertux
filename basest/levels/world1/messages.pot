@@ -16,15 +16,15 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: data/levels/world1/worldmap.stwm:4
+#: basest/levels/world1/worldmap.stwm:4
 msgid "Icyisland"
 msgstr ""
 
-#: data/levels/world1/level25.stl:5
+#: basest/levels/world1/level25.stl:5
 msgid "Arctic Ruins"
 msgstr ""
 
-#: data/levels/world1/extro.txt:7
+#: basest/levels/world1/extro.txt:7
 msgid ""
 "-Entering Nolok's Throne Room!\n"
 "\n"
@@ -61,87 +61,87 @@ msgid ""
 "#up. Penny was counting on him."
 msgstr ""
 
-#: data/levels/world1/level26.stl:5
+#: basest/levels/world1/level26.stl:5
 msgid "The Castle of Nolok"
 msgstr ""
 
-#: data/levels/world1/level1.stl:5
+#: basest/levels/world1/level1.stl:5
 msgid "Welcome to Antarctica"
 msgstr ""
 
-#: data/levels/world1/level2.stl:5
+#: basest/levels/world1/level2.stl:5
 msgid "The Journey Begins"
 msgstr ""
 
-#: data/levels/world1/level3.stl:5
+#: basest/levels/world1/level3.stl:5
 msgid "Via Nostalgica"
 msgstr ""
 
-#: data/levels/world1/level4.stl:5
+#: basest/levels/world1/level4.stl:5
 msgid "Tobgle Road"
 msgstr ""
 
-#: data/levels/world1/level5.stl:5
+#: basest/levels/world1/level5.stl:5
 msgid "The Somewhat Smaller Bath"
 msgstr ""
 
-#: data/levels/world1/level6.stl:5
+#: basest/levels/world1/level6.stl:5
 msgid "The Frosted Fields"
 msgstr ""
 
-#: data/levels/world1/level7.stl:5
+#: basest/levels/world1/level7.stl:5
 msgid "Oh no! More Snowballs!"
 msgstr ""
 
-#: data/levels/world1/level8.stl:5
+#: basest/levels/world1/level8.stl:5
 msgid "Stone Cold"
 msgstr ""
 
-#: data/levels/world1/level9.stl:5
+#: basest/levels/world1/level9.stl:5
 msgid "Grumbel's Sense of Snow"
 msgstr ""
 
-#: data/levels/world1/level10.stl:5
+#: basest/levels/world1/level10.stl:5
 msgid "23rd Airborne"
 msgstr ""
 
-#: data/levels/world1/level11.stl:5
+#: basest/levels/world1/level11.stl:5
 msgid "Night Chill"
 msgstr ""
 
-#: data/levels/world1/level12.stl:5
+#: basest/levels/world1/level12.stl:5
 msgid "Into the Stars"
 msgstr ""
 
-#: data/levels/world1/level13.stl:5
+#: basest/levels/world1/level13.stl:5
 msgid "Above the Arctic Skies"
 msgstr ""
 
-#: data/levels/world1/level14.stl:5
+#: basest/levels/world1/level14.stl:5
 msgid "Entrance to the Cave"
 msgstr ""
 
-#: data/levels/world1/level15.stl:5
+#: basest/levels/world1/level15.stl:5
 msgid "Under the Ice"
 msgstr ""
 
-#: data/levels/world1/level16.stl:5
+#: basest/levels/world1/level16.stl:5
 msgid "Living in a Fridge"
 msgstr ""
 
-#: data/levels/world1/level17.stl:5
+#: basest/levels/world1/level17.stl:5
 msgid "'...or is it just me?'"
 msgstr ""
 
-#: data/levels/world1/level18.stl:5
+#: basest/levels/world1/level18.stl:5
 msgid "Ice in the Hole"
 msgstr ""
 
-#: data/levels/world1/level19.stl:5
+#: basest/levels/world1/level19.stl:5
 msgid "Miyamoto Monument"
 msgstr ""
 
-#: data/levels/world1/intro.txt:5
+#: basest/levels/world1/intro.txt:5
 msgid ""
 "-Penny gets captured!\n"
 "\n"
@@ -166,22 +166,22 @@ msgid ""
 "#beloved Penny, he begins his journey."
 msgstr ""
 
-#: data/levels/world1/level20.stl:5
+#: basest/levels/world1/level20.stl:5
 msgid "End of the Tunnel"
 msgstr ""
 
-#: data/levels/world1/level21.stl:5
+#: basest/levels/world1/level21.stl:5
 msgid "A Path in the Clouds"
 msgstr ""
 
-#: data/levels/world1/level22.stl:5
+#: basest/levels/world1/level22.stl:5
 msgid "No more Mr Ice Guy"
 msgstr ""
 
-#: data/levels/world1/level23.stl:5
+#: basest/levels/world1/level23.stl:5
 msgid "The Escape"
 msgstr ""
 
-#: data/levels/world1/level24.stl:5
+#: basest/levels/world1/level24.stl:5
 msgid "The Shattered Bridge"
 msgstr ""

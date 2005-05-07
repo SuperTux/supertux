@@ -611,17 +611,6 @@
     (anim-fps 10)
   )
   (tile
-    (id 82)
-    (images
-      "coin1.png"
-      "coin2.png"
-      "coin3.png"
-      "coin2.png"
-    )
-    (coin #t)
-    (anim-fps 10)
-  )
-  (tile
     (id 83)
     (images
       "../objects/bonus_block/full-0.png"
@@ -2112,43 +2101,6 @@
     (id 330)
     (images
       "doodads/liane8.png"
-    )
-  )
-  (tile
-    (id 331)
-    (images
-      "forest/tree_left.png"
-    )
-  )
-  (tile
-    (id 332)
-    (images
-      "forest/tree_left_top.png"
-    )
-  )
-  (tile
-    (id 333)
-    (images
-      "forest/tree_right.png"
-    )
-  )
-  (tile
-    (id 334)
-    (images
-      "forest/tree_right_top.png"
-    )
-  )
-  (tile
-    (id 335)
-    (images
-      "forest/tree_branch1.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 336)
-    (images
-      "forest/tree_branch2.png"
     )
   )
   (tile

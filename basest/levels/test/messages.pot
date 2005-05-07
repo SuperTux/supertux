@@ -16,30 +16,30 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: data/levels/test/sectors.stl:4
+#: basest/levels/test/sectors.stl:4
 msgid "Sector Test"
 msgstr ""
 
-#: data/levels/test/verticalforest.stl:5
+#: basest/levels/test/verticalforest.stl:5
 msgid "Inside The Tree"
 msgstr ""
 
-#: data/levels/test/ambient_sound.stl:4
+#: basest/levels/test/ambient_sound.stl:4
 msgid "Ambient Sound Test"
 msgstr ""
 
-#: data/levels/test/ambient_sound.stl:142
+#: basest/levels/test/ambient_sound.stl:142
 msgid ""
 "-Info\n"
 "#An ambient sound source\n"
 "#should be audible here"
 msgstr ""
 
-#: data/levels/test/bonusblock.stl:4
+#: basest/levels/test/bonusblock.stl:4
 msgid "Bonus Block Test"
 msgstr ""
 
-#: data/levels/test/bonusblock.stl:141
+#: basest/levels/test/bonusblock.stl:141
 msgid ""
 "-Info\n"
 "#This is an info block\n"
@@ -47,10 +47,10 @@ msgid ""
 "#This rocks"
 msgstr ""
 
-#: data/levels/test/script.stl:4
+#: basest/levels/test/script.stl:4
 msgid "Scripting Test"
 msgstr ""
 
-#: data/levels/test/yeti.stl:4
+#: basest/levels/test/yeti.stl:4
 msgid "Yeti Test"
 msgstr ""

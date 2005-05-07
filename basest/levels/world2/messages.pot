@@ -16,19 +16,19 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: data/levels/world2/forest1-grumbel.stl:4
+#: basest/levels/world2/forest1-grumbel.stl:4
 msgid "Forest Level 1"
 msgstr ""
 
-#: data/levels/world2/castle.stl:5
+#: basest/levels/world2/castle.stl:5
 msgid "Iceberg Fortress"
 msgstr ""
 
-#: data/levels/world2/level1.stl:4
+#: basest/levels/world2/level1.stl:4
 msgid "Roots, Woody Roots"
 msgstr ""
 
-#: data/levels/world2/level1.stl:396
+#: basest/levels/world2/level1.stl:396
 msgid ""
 " Hint: If there seems to be no way to reach a door, remember that maybe you "
 "are supposed to reach it from the other side..."
