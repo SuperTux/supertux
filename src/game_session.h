@@ -77,6 +77,8 @@ public:
   { current_ = this; }
   static GameSession* current() { return current_; }
 
+  /// ends the level as finished
+  void finish();
   void respawn(const std::string& sectorname,
       const std::string& spawnpointname);
   void set_reset_point(const std::string& sectorname,

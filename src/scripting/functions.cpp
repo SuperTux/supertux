@@ -11,7 +11,7 @@ namespace Scripting
 
 void set_wakeup_time(float seconds)
 {
-  ScriptInterpreter::current()->suspend(seconds);
+  ScriptInterpreter::current()->set_wakeup_time(seconds);
 }
 
 std::string translate(const std::string& text)

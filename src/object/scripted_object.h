@@ -40,6 +40,8 @@ private:
   bool solid;
   bool physic_enabled;
   bool visible;
+  bool new_vel_set;
+  Vector new_vel;
   Physic physic;
   Sprite* sprite;
 };

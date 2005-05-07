@@ -10,7 +10,7 @@
 #include "math/vector.h"
 
 ScriptedObject::ScriptedObject(const lisp::Lisp& lisp)
-  : solid(true), physic_enabled(true), visible(true)
+  : solid(true), physic_enabled(true), visible(true), new_vel_set(false)
 {
   lisp.get("name", name);
   if(name == "")
@@ -69,7 +69,8 @@ ScriptedObject::get_pos_y()
 void
 ScriptedObject::set_velocity(float x, float y)
 {
-  physic.set_velocity(x, y);
+  new_vel = Vector(x, y);
+  new_vel_set = true;
 }
 
 float
@@ -120,6 +121,10 @@ ScriptedObject::action(float elapsed_time)
   if(!physic_enabled)
     return;
 
+  if(new_vel_set) {
+    physic.set_velocity(new_vel.x, new_vel.y);
+    new_vel_set = false;
+  }
   movement = physic.get_movement(elapsed_time);
 }
 

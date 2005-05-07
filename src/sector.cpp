@@ -68,7 +68,7 @@ Sector* Sector::_current = 0;
 
 Sector::Sector()
   : gravity(10), player(0), solids(0), camera(0),
-    interpreter(0), currentmusic(LEVEL_MUSIC)
+    currentmusic(LEVEL_MUSIC)
 {
   song_title = "Mortimers_chipdisko.mod";
   player = new Player(&player_status);
@@ -422,39 +422,13 @@ Sector::activate(const std::string& spawnpoint)
   // Run init script
   if(init_script != "") {
     try {
-      // TODO we should keep the interpreter across sessions (or some variables)
-      // so that you can store information across levels/sectors...
-      delete interpreter;
-      interpreter = 0;
-      interpreter = new ScriptInterpreter();
-
-      // expose ScriptedObjects to the script
-      for(GameObjects::iterator i = gameobjects.begin();
-          i != gameobjects.end(); ++i) {
-        GameObject* object = *i;
-        Scripting::ScriptedObject* scripted_object
-          = dynamic_cast<Scripting::ScriptedObject*> (object);
-        if(!scripted_object)
-          continue;
-
-        std::cout << "Exposing " << scripted_object->get_name() << "\n";
-        interpreter->expose_object(scripted_object,
-                                   scripted_object->get_name(),
-                                   "ScriptedObject");
-      }
-      Scripting::Sound* sound = new Scripting::Sound();
-      interpreter->expose_object(sound, "Sound", "Sound");
-      TextObject* text_object = new TextObject();
-      add_object(text_object);
-      Scripting::Text* text = static_cast<Scripting::Text*> (text_object);
-      interpreter->expose_object(text, "Text", "Text");
-
+      ScriptInterpreter* interpreter = new ScriptInterpreter(this);
       std::string sourcename = std::string("Sector(") + name + ") - init";
       std::istringstream in(init_script);
-      printf("Load script.\n");
       interpreter->load_script(in, sourcename);
-      printf("run script.\n");
-      interpreter->run_script();
+      interpreter->start_script();
+      add_object(interpreter);
+      init_script = "";
     } catch(std::exception& e) {
       std::cerr << "Couldn't execute init script: " << e.what() << "\n";
     }
@@ -481,9 +455,6 @@ Sector::get_active_region()
 void
 Sector::action(float elapsed_time)
 {
-  if(interpreter)
-    interpreter->update();
-  
   player->check_bounds(camera);
 
 #if 0

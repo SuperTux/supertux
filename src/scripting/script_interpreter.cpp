@@ -14,6 +14,11 @@
 
 #include "wrapper.h"
 #include "wrapper_util.h"
+#include "sector.h"
+#include "object/text_object.h"
+#include "object/scripted_object.h"
+#include "scripting/sound.h"
+#include "scripting/scripted_object.h"
 
 static void printfunc(HSQUIRRELVM, const char* str, ...)
 {
@@ -25,7 +30,8 @@ static void printfunc(HSQUIRRELVM, const char* str, ...)
 
 ScriptInterpreter* ScriptInterpreter::_current = 0;
 
-ScriptInterpreter::ScriptInterpreter()
+ScriptInterpreter::ScriptInterpreter(Sector* sector)
+  : sound(0), level(0)
 {
   v = sq_open(1024);
   if(v == 0)
@@ -52,10 +58,36 @@ ScriptInterpreter::ScriptInterpreter()
   // register supertux API
   register_functions(v, supertux_global_functions);
   register_classes(v, supertux_classes);  
+
+  // expose ScriptedObjects to the script
+  for(Sector::GameObjects::iterator i = sector->gameobjects.begin();
+      i != sector->gameobjects.end(); ++i) {
+    GameObject* object = *i;
+    Scripting::ScriptedObject* scripted_object
+      = dynamic_cast<Scripting::ScriptedObject*> (object);
+    if(!scripted_object)
+      continue;
+    
+    std::cout << "Exposing " << scripted_object->get_name() << "\n";
+    expose_object(scripted_object, scripted_object->get_name(), 
+        "ScriptedObject");
+  }
+  // expose some "global" objects
+  sound = new Scripting::Sound();
+  expose_object(sound, "Sound", "Sound");
+  level = new Scripting::Level();
+  expose_object(level, "Level", "Level");
+  TextObject* text_object = new TextObject();
+  sector->add_object(text_object);
+  Scripting::Text* text = static_cast<Scripting::Text*> (text_object);
+  expose_object(text, "Text", "Text");
 }
 
 ScriptInterpreter::~ScriptInterpreter()
 {
+  sq_close(v);
+  delete sound;
+  delete level;
 }
 
 static SQInteger squirrel_read_char(SQUserPointer file)
@@ -76,13 +108,17 @@ ScriptInterpreter::load_script(std::istream& in, const std::string& sourcename)
 }
 
 void
-ScriptInterpreter::run_script()
+ScriptInterpreter::start_script()
 {
   _current = this;
   sq_push(v, -2);
   if(sq_call(v, 1, false) < 0)
     throw SquirrelError(v, "Couldn't start script");
   _current = 0;
+  if(sq_getvmstate(v) != SQ_VMSTATE_SUSPENDED) {
+    printf("script ended...\n");
+    remove_me();
+  }  
 }
 
 void
@@ -119,18 +155,28 @@ ScriptInterpreter::expose_object(void* object, const std::string& name,
 }
 
 void
-ScriptInterpreter::suspend(float seconds)
+ScriptInterpreter::set_wakeup_time(float seconds)
 {
-  resume_timer.start(seconds);
+  wakeup_timer.start(seconds);
 }
 
 void
-ScriptInterpreter::update()
+ScriptInterpreter::action(float )
 {
-  if(resume_timer.check()) {
-    _current = this;
-    if(sq_wakeupvm(v, false, false) < 0)
-      throw SquirrelError(v, "Couldn't resume script");
-    _current = 0;
+  if(!wakeup_timer.check())
+    return;
+  
+  _current = this;
+  if(sq_wakeupvm(v, false, false) < 0)
+    throw SquirrelError(v, "Couldn't resume script");
+  _current = 0;
+  if(sq_getvmstate(v) != SQ_VMSTATE_SUSPENDED) {
+    printf("script ended...\n");
+    remove_me();
   }
+}
+
+void
+ScriptInterpreter::draw(DrawingContext& )
+{
 }

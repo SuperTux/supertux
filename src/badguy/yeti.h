@@ -55,6 +55,7 @@ private:
   Timer safe_timer;
   int jumpcount;
   int hit_points;
+  std::string dead_script;
 };
 
 #endif

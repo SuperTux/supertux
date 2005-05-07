@@ -21,10 +21,12 @@
 #include <config.h>
 
 #include <float.h>
+#include <sstream>
 #include "yeti.h"
 #include "object/camera.h"
 #include "yeti_stalactite.h"
 #include "bouncing_snowball.h"
+#include "scripting/script_interpreter.h"
 
 static const float JUMP_VEL1 = 250;
 static const float JUMP_VEL2 = 700;
@@ -46,6 +48,7 @@ Yeti::Yeti(const lisp::Lisp& reader)
   sound_manager->preload_sound("yeti_gna");
   sound_manager->preload_sound("yeti_roar");
   hit_points = INITIAL_HITPOINTS;
+  reader.get("dead-script", dead_script);
 }
 
 Yeti::~Yeti()
@@ -136,8 +139,22 @@ Yeti::collision_squished(Player& player)
   sound_manager->play_sound("yeti_roar");
   hit_points--;
   if(hit_points <= 0) {
-    sprite->set_action("dead"); 
+    sprite->set_action("dead");
     kill_squished(player);
+
+    // start script
+    if(dead_script != "") {
+      try {
+        ScriptInterpreter* interpreter 
+          = new ScriptInterpreter(Sector::current());
+        std::istringstream in(dead_script);
+        interpreter->load_script(in, "Yeti - dead-script");
+        interpreter->start_script();
+        Sector::current()->add_object(interpreter);
+      } catch(std::exception& e) {
+        std::cerr << "Couldn't execute yeti dead script: " << e.what() << "\n";
+      }
+    }
   } else {
     safe_timer.start(SAFE_TIME);
   }

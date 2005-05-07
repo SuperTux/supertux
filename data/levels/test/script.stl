@@ -128,7 +128,6 @@ function wait(time) {
     set_wakeup_time(time);
     suspend();
 }
-
 Text.set_text(translate(\"The Crazy Nolok Dance\"));
 Text.fade_in(2);
 TUX.set_animation(\"jump\");
@@ -136,7 +135,6 @@ wait(4);
 Text.fade_out(1);
 wait(1);
 NOLOK.set_visible(true);
-PENNY.set_velocity(-200, 200);
 tuxjumps <- 2;
 while(true) {
   wait(0.8);

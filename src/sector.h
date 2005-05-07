@@ -135,7 +135,6 @@ public:
 private:
   std::vector<Bullet*> bullets;
 
-  ScriptInterpreter* interpreter;
   std::string init_script;
 
 public: // TODO make this private again

@@ -8,8 +8,8 @@ class ScriptedObject
 {
 public:
 #ifndef SCRIPTING_API
-  ScriptedObject();
-  virtual ~ScriptedObject();
+  virtual ~ScriptedObject()
+  {}
 #endif
 
   virtual void set_animation(const std::string& animation) = 0;

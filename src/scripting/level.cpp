@@ -3,8 +3,7 @@
 #include <string>
 #include <stdio.h>
 #include "level.h"
-
-#define NOIMPL      printf("%s not implemented.\n", __PRETTY_FUNCTION__);
+#include "game_session.h"
 
 namespace Scripting
 {
@@ -17,12 +16,12 @@ namespace Scripting
   void
   Level::finish()
   {
-    NOIMPL;
+    GameSession::current()->finish();
   }
 
   void
-  Level::spawn(const std::string& , const std::string& )
+  Level::spawn(const std::string& sector, const std::string& spawnpoint)
   {
-    NOIMPL;
+    GameSession::current()->respawn(sector, spawnpoint);
   }
 }

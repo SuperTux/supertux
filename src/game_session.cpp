@@ -636,6 +636,12 @@ GameSession::run()
 }
 
 void
+GameSession::finish()
+{
+  exit_status = ES_LEVEL_FINISHED;
+}
+
+void
 GameSession::respawn(const std::string& sector, const std::string& spawnpoint)
 {
   newsector = sector;
