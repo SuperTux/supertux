@@ -1,0 +1,59 @@
+; Bad Guys(tm) config file
+(supertux-badguys-specifications 
+  (badguy
+    (kind "mriceblock")
+    (sprite "mriceblock")
+  )
+  (badguy
+    (kind "jumpy")
+    (sprite "jumpy")
+  )
+  (badguy
+    (kind "mrbomb")
+    (sprite "mrbomb")
+  )
+  (badguy
+    (kind "bomb")
+    (sprite "bomb")
+  )
+  (badguy
+    (kind "stalactite")
+    (sprite "stalactite")
+  )
+  (badguy
+    (kind "flame")
+    (sprite "flame")
+  )
+  (badguy
+    (kind "fish")
+    (sprite "fish")
+  )
+  (badguy
+    (kind "flamefish")
+    (sprite "flamefish")
+  )
+  (badguy
+    (kind "bouncingsnowball")
+    (sprite "bouncingsnowball")
+  )
+  (badguy
+    (kind "flyingsnowball")
+    (sprite "flyingsnowball")
+  )
+  (badguy
+    (kind "spiky")
+    (sprite "spiky")
+  )
+  (badguy
+    (kind "snowball")
+    (sprite "snowball")
+  )
+  (badguy
+    (kind "wingling")
+    (sprite "wingling")
+  )
+  (badguy
+    (kind "walkingtree")
+    (sprite "walkingtree")
+  )
+)

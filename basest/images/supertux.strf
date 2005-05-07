@@ -1,0 +1,1537 @@
+;; -*- mode: scheme; -*-
+(supertux-resources
+
+; Small Tux sprite
+ (sprite
+;; Small Tux arms
+       (name "small-tux-arms")
+       (action
+         (name "walk-right")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 14)
+         (images "creatures/tux_small/arms-walk-0.png"
+                 "creatures/tux_small/arms-walk-1.png"
+                 "creatures/tux_small/arms-walk-2.png"
+                 "creatures/tux_small/arms-walk-3.png"
+                 "creatures/tux_small/arms-walk-4.png"
+                 "creatures/tux_small/arms-walk-5.png"
+                 "creatures/tux_small/arms-walk-6.png"
+                 "creatures/tux_small/arms-walk-7.png"))
+
+       (action
+         (name "walk-left")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 14)
+         (mirror-action "walk-right"))
+
+       (action
+         (name "stand-right")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 14)
+         (images "creatures/tux_small/arms-walk-5.png"))
+
+       (action
+         (name "stand-left")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 14)
+         (mirror-action "stand-right"))
+
+       (action
+         (name "jump-right")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 14)
+         (images "creatures/tux_small/arms-jump-0.png"))
+
+       (action
+         (name "jump-left")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 14)
+         (mirror-action "jump-right"))
+
+       (action
+         (name "skid-right")
+         (x-offset 6)
+         (y-offset 15)
+         (images "creatures/tux_small/arms-skid-0.png"))
+
+       (action
+         (name "skid-left")
+         (fps 15.0)
+         (x-offset 6)
+         (y-offset 15)
+         (mirror-action "skid-right"))
+
+       (action
+         (name "kick-right")
+         (x-offset 5)
+         (y-offset 14)
+         (images "creatures/tux_small/arms-kick-0.png"))
+
+       (action
+         (name "kick-left")
+         (x-offset 5)
+         (y-offset 14)
+         (mirror-action "kick-right"))
+
+; Grabbing is arms specific!
+       (action 
+         (name "grab-right")
+         (x-offset 5)
+         (y-offset 14)
+         (z-order 2)
+         (images "creatures/tux_small/arms-grab-0.png"))
+
+       (action
+         (name "grab-left")
+         (x-offset 5)
+         (y-offset 14)
+         (z-order 2)
+         (mirror-action "grab-right")))
+
+;; Small Tux Body
+ (sprite
+       (name "small-tux-body")
+       (action
+         (name "walk-right")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 14)
+         (images "creatures/tux_small/body-walk-0.png"
+                 "creatures/tux_small/body-walk-1.png"
+                 "creatures/tux_small/body-walk-2.png"
+                 "creatures/tux_small/body-walk-3.png"
+                 "creatures/tux_small/body-walk-4.png"
+                 "creatures/tux_small/body-walk-5.png"
+                 "creatures/tux_small/body-walk-6.png"
+                 "creatures/tux_small/body-walk-7.png"))
+
+       (action
+         (name "walk-left")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 14)
+         (mirror-action "walk-right"))
+
+       (action
+         (name "stand-right")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 14)
+         (images "creatures/tux_small/body-walk-5.png"))
+
+       (action
+         (name "stand-left")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 14)
+         (mirror-action "stand-right"))
+
+       (action
+         (name "jump-right")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 14)
+         (images "creatures/tux_small/body-jump-0.png"))
+
+       (action
+         (name "jump-left")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 14)
+         (mirror-action "jump-right"))
+
+       (action
+         (name "skid-right")
+         (x-offset 6)
+         (y-offset 15)
+         (images "creatures/tux_small/body-skid-0.png"))
+
+       (action
+         (name "skid-left")
+         (x-offset 6)
+         (y-offset 15)
+         (mirror-action "skid-right"))
+
+       (action
+         (name "kick-right")
+         (x-offset 5)
+         (y-offset 14)
+         (images "creatures/tux_small/body-kick-0.png"))
+
+       (action
+         (name "kick-left")
+         (x-offset 5)
+         (y-offset 14)
+         (mirror-action "kick-right")))
+
+; End of Small Tux sprite
+
+; Big Tux (no power) sprite
+ (sprite
+;; Big Tux arms
+       (name "big-tux-arms")
+
+       (action
+         (name "walk-right")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 32)
+         (images "creatures/tux_big/arms-walk-0.png"
+                 "creatures/tux_big/arms-walk-1.png"
+                 "creatures/tux_big/arms-walk-2.png"
+                 "creatures/tux_big/arms-walk-3.png"
+                 "creatures/tux_big/arms-walk-4.png"
+                 "creatures/tux_big/arms-walk-5.png"))
+
+       (action
+         (name "walk-left")
+         (fps 15.0)
+         (x-offset 27)
+         (y-offset 32)
+         (mirror-action "walk-right"))
+
+       (action
+         (name "stand-right")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 32)
+         (images "creatures/tux_big/arms-stand-0.png"))
+
+       (action
+         (name "stand-left")
+         (fps 15.0)
+         (x-offset 27)
+         (y-offset 32)
+         (mirror-action "stand-right"))
+
+       (action
+         (name "jump-right")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 30)
+         (images "creatures/tux_big/arms-jump-0.png"))
+
+       (action
+         (name "jump-left")
+         (fps 15.0)
+         (x-offset 27)
+         (y-offset 30)
+         (mirror-action "jump-right"))
+
+       (action
+         (name "duck-right")
+         (x-offset 5)
+         (y-offset 62)
+         (images "creatures/tux_big/arms-duck-0.png"))
+
+       (action
+         (name "duck-left")
+         (x-offset 27)
+         (y-offset 62)
+         (mirror-action "duck-right"))
+
+       (action
+         (name "skid-right")
+         (x-offset 6)
+         (y-offset 31)
+         (images "creatures/tux_big/arms-skid-0.png"))
+
+       (action
+         (name "skid-left")
+         (fps 15.0)
+         (x-offset 27)
+         (y-offset 31)
+         (mirror-action "skid-right"))
+
+       (action
+         (name "kick-right")
+         (x-offset 5)
+         (y-offset 32)
+         (images "creatures/tux_big/arms-stand-0.png"))
+
+       (action
+         (name "kick-left")
+         (x-offset 27)
+         (y-offset 32)
+         (mirror-action "kick-right"))
+
+       (action
+         (name "buttjump-right")
+         (x-offset 5)
+         (y-offset 32)
+         (images "creatures/tux_big/arms-stand-0.png"))
+
+       (action
+         (name "buttjump-left")
+         (x-offset 27)
+         (y-offset 32)
+         (mirror-action "buttjump-right"))
+
+; Grabbing is arms specific!
+       (action 
+         (name "grab-right")
+         (x-offset 5)
+         (y-offset 32)
+         (z-order 2)
+         (images "creatures/tux_big/arms-grab-0.png"))
+
+       (action
+         (name "grab-left")
+         (x-offset 27)
+         (y-offset 32)
+         (z-order 2)
+         (mirror-action "grab-right"))
+
+       (action
+         (name "duck+grab-right")
+         (x-offset 5)
+         (y-offset 62)
+         (z-order 2)
+         (images "creatures/tux_big/arms-duck+grab-0.png"))
+
+       (action
+         (name "duck+grab-left")
+         (x-offset 27)
+         (y-offset 62)
+         (z-order 2)
+         (mirror-action "duck+grab-right")))
+
+;; Big Tux Head
+ (sprite
+       (name "big-tux-head")
+       (action
+         (name "walk-right")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 32)
+         (images "creatures/tux_big/head-stand-0.png"))
+
+       (action
+         (name "walk-left")
+         (fps 15.0)
+         (x-offset 27)
+         (y-offset 32)
+         (mirror-action "walk-right"))
+
+       (action
+         (name "stand-right")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 32)
+         (images "creatures/tux_big/head-stand-0.png"))
+
+       (action
+         (name "stand-left")
+         (fps 15.0)
+         (x-offset 27)
+         (y-offset 32)
+         (mirror-action "stand-right"))
+
+       (action
+         (name "jump-right")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 30)
+         (images "creatures/tux_big/head-stand-0.png"))
+
+       (action
+         (name "jump-left")
+         (fps 15.0)
+         (x-offset 27)
+         (y-offset 30)
+         (mirror-action "jump-right"))
+
+       (action
+         (name "duck-right")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 62)
+         (images "creatures/tux_big/head-duck-0.png"))
+
+       (action
+         (name "duck-left")
+         (fps 15.0)
+         (x-offset 27)
+         (y-offset 62)
+         (mirror-action "duck-right"))
+
+       (action
+         (name "skid-right")
+         (x-offset 6)
+         (y-offset 31)
+         (images "creatures/tux_big/head-skid-0.png"))
+
+       (action
+         (name "skid-left")
+         (fps 15.0)
+         (x-offset 27)
+         (y-offset 31)
+         (mirror-action "skid-right"))
+
+       (action
+         (name "kick-right")
+         (x-offset 5)
+         (y-offset 32)
+         (images "creatures/tux_big/head-stand-0.png"))
+
+       (action
+         (name "kick-left")
+         (fps 15.0)
+         (x-offset 27)
+         (y-offset 32)
+         (mirror-action "kick-right"))
+
+       (action
+         (name "buttjump-right")
+         (x-offset 5)
+         (y-offset 32)
+         (images "creatures/tux_big/head-stand-0.png"))
+
+       (action
+         (name "buttjump-left")
+         (x-offset 27)
+         (y-offset 32)
+         (mirror-action "buttjump-right"))
+
+       (action
+         (name "idle-right")
+         (fps 1.0)
+         (x-offset 6)
+         (y-offset 31)
+         (images "creatures/tux_big/head-idle-blink-0.png"
+                 "creatures/tux_big/head-idle-blink-1.png"))
+
+
+       (action
+         (name "idle-left")
+         (fps 1.0)
+         (x-offset 27)
+         (y-offset 31)
+         (mirror-action "idle-right")))
+
+;; Big Tux Body
+ (sprite
+       (name "big-tux-body")
+       (action
+         (name "walk-right")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 32)
+         (images "creatures/tux_big/body-stand-0.png"))
+
+       (action
+         (name "walk-left")
+         (fps 15.0)
+         (x-offset 27)
+         (y-offset 32)
+         (mirror-action "walk-right"))
+
+       (action
+         (name "stand-right")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 32)
+         (images "creatures/tux_big/body-stand-0.png"))
+
+       (action
+         (name "stand-left")
+         (fps 15.0)
+         (x-offset 27)
+         (y-offset 32)
+         (mirror-action "stand-right"))
+
+       (action
+         (name "jump-right")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 30)
+         (images "creatures/tux_big/body-stand-0.png"))
+
+       (action
+         (name "jump-left")
+         (fps 15.0)
+         (x-offset 27)
+         (y-offset 30)
+         (mirror-action "jump-right"))
+
+       (action
+         (name "duck-right")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 62)
+         (images "creatures/tux_big/body-duck-0.png"))
+
+       (action
+         (name "duck-left")
+         (fps 15.0)
+         (x-offset 27)
+         (y-offset 62)
+         (mirror-action "duck-right"))
+
+       (action
+         (name "skid-right")
+         (x-offset 6)
+         (y-offset 31)
+         (images "creatures/tux_big/body-skid-0.png"))
+
+       (action
+         (name "skid-left")
+         (fps 15.0)
+         (x-offset 27)
+         (y-offset 31)
+         (mirror-action "skid-right"))
+
+       (action
+         (name "kick-right")
+         (x-offset 5)
+         (y-offset 32)
+         (images "creatures/tux_big/body-stand-0.png"))
+
+       (action
+         (name "kick-left")
+         (fps 15.0)
+         (x-offset 27)
+         (y-offset 32)
+         (mirror-action "kick-right"))
+
+       (action
+         (name "buttjump-right")
+         (x-offset 5)
+         (y-offset 32)
+         (images "creatures/tux_big/body-stand-0.png"))
+
+       (action
+         (name "buttjump-left")
+         (fps 15.0)
+         (x-offset 27)
+         (y-offset 32)
+         (mirror-action "buttjump-right")))
+
+;; Big Tux Feet
+ (sprite
+       (name "big-tux-feet")
+       (action
+         (name "walk-right")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 32)
+         (images "creatures/tux_big/feet-walk-0.png"
+                 "creatures/tux_big/feet-walk-1.png"
+                 "creatures/tux_big/feet-walk-2.png"
+                 "creatures/tux_big/feet-walk-3.png"
+                 "creatures/tux_big/feet-walk-4.png"
+                 "creatures/tux_big/feet-walk-5.png"))
+
+       (action
+         (name "walk-left")
+         (fps 15.0)
+         (x-offset 27)
+         (y-offset 32)
+         (mirror-action "walk-right"))
+
+       (action
+         (name "stand-right")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 32)
+         (images "creatures/tux_big/feet-stand-0.png"))
+
+       (action
+         (name "stand-left")
+         (fps 15.0)
+         (x-offset 27)
+         (y-offset 32)
+         (mirror-action "stand-right"))
+
+       (action
+         (name "jump-right")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 30)
+         (images "creatures/tux_big/feet-jump-0.png"))
+
+       (action
+         (name "jump-left")
+         (fps 15.0)
+         (x-offset 27)
+         (y-offset 30)
+         (mirror-action "jump-right"))
+
+       (action
+         (name "duck-right")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 62)
+         (images "creatures/tux_big/feet-duck-0.png"))
+
+       (action
+         (name "duck-left")
+         (fps 15.0)
+         (x-offset 27)
+         (y-offset 62)
+         (mirror-action "duck-right"))
+
+       (action
+         (name "skid-right")
+         (x-offset 6)
+         (y-offset 31)
+         (images "creatures/tux_big/feet-skid-0.png"))
+
+       (action
+         (name "skid-left")
+         (x-offset 27)
+         (y-offset 31)
+         (mirror-action "skid-right"))
+
+       (action
+         (name "kick-right")
+         (x-offset 5)
+         (y-offset 32)
+         (images "creatures/tux_big/feet-kick-0.png"))
+
+       (action
+         (name "kick-left")
+         (x-offset 27)
+         (y-offset 32)
+         (mirror-action "kick-right"))
+
+       (action
+         (name "buttjump-right")
+         (x-offset 5)
+         (y-offset 32)
+         (images "creatures/tux_big/feet-buttjump-0.png"))
+
+       (action
+         (name "buttjump-left")
+         (x-offset 27)
+         (y-offset 32)
+         (mirror-action "buttjump-right")))
+
+; End of Big Tux (no power) sprite
+
+; Big Fire Tux sprite
+ ;; Big Tux Head
+ (sprite
+       (name "big-fire-tux-head")
+       (action
+         (name "walk-right")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 32)
+         (images "creatures/tux_big/head-fire-stand-0.png"))
+
+       (action
+         (name "walk-left")
+         (fps 15.0)
+         (x-offset 27)
+         (y-offset 32)
+         (mirror-action "walk-right"))
+
+       (action
+         (name "stand-right")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 32)
+         (images "creatures/tux_big/head-fire-stand-0.png"))
+
+       (action
+         (name "stand-left")
+         (fps 15.0)
+         (x-offset 27)
+         (y-offset 32)
+         (mirror-action "stand-right"))
+
+       (action
+         (name "jump-right")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 30)
+         (images "creatures/tux_big/head-fire-stand-0.png"))
+
+       (action
+         (name "jump-left")
+         (fps 15.0)
+         (x-offset 27)
+         (y-offset 30)
+         (mirror-action "jump-right"))
+
+       (action
+         (name "duck-right")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 62)
+         (images "creatures/tux_big/head-fire-duck-0.png"))
+
+       (action
+         (name "duck-left")
+         (fps 15.0)
+         (x-offset 27)
+         (y-offset 62)
+         (mirror-action "duck-right"))
+
+       (action
+         (name "skid-right")
+         (x-offset 6)
+         (y-offset 31)
+         (images "creatures/tux_big/head-fire-skid-0.png"))
+
+       (action
+         (name "skid-left")
+         (x-offset 27)
+         (y-offset 31)
+         (mirror-action "skid-right"))
+
+       (action
+         (name "kick-right")
+         (x-offset 5)
+         (y-offset 32)
+         (images "creatures/tux_big/head-fire-stand-0.png"))
+
+       (action
+         (name "kick-left")
+         (x-offset 27)
+         (y-offset 32)
+         (mirror-action "kick-right"))
+
+       (action
+         (name "buttjump-right")
+         (x-offset 5)
+         (y-offset 32)
+         (images "creatures/tux_big/head-fire-stand-0.png"))
+
+       (action
+         (name "buttjump-left")
+         (x-offset 27)
+         (y-offset 32)
+         (mirror-action "buttjump-right"))
+
+       (action
+         (name "idle-right")
+         (fps 1.0)
+         (x-offset 6)
+         (y-offset 31)
+         (images "creatures/tux_big/head-idle-blink-0.png"
+                 "creatures/tux_big/head-idle-blink-1.png"))
+
+       (action
+         (name "idle-left")
+         (fps 1.0)
+         (x-offset 27)
+         (y-offset 31)
+         (mirror-action "idle-right")))
+
+; End of Big Fire Tux sprite
+
+
+ (sprite (name "smalltux-gameover")
+       (action
+         (fps 10.0)
+         (x-offset 13)
+         (y-offset 6)
+         (images "creatures/tux_small/gameover-0.png"
+                 "creatures/tux_small/gameover-1.png")))
+
+ (sprite (name "smalltux-star")
+       (action
+         (x-offset 5)
+         (y-offset 15)
+         (images "creatures/tux_small/extra-star-0.png"
+                 "creatures/tux_small/extra-star-1.png"
+                 "creatures/tux_small/extra-star-2.png")))
+
+ (sprite (name "bigtux-star")
+       (action
+         (x-offset 8)
+         (y-offset 8)
+         (images "creatures/tux_big/extra-star-0.png"
+                 "creatures/tux_big/extra-star-1.png"
+                 "creatures/tux_big/extra-star-2.png")))
+
+;   ;; Growing Tux animation
+;  (sprite (name "tux-grow-left")
+;        (action
+;          (fps 4.0)
+;          (x-offset 6)
+;          (y-offset 2)
+;          (images "creatures/tux_grow/left-1.png"
+;                  "creatures/tux_grow/left-2.png"
+;                  "creatures/tux_grow/left-3.png"
+;                  "creatures/tux_grow/left-4.png"
+;                  "creatures/tux_grow/left-5.png"
+;                  "creatures/tux_grow/left-6.png"
+;                  "creatures/tux_grow/left-7.png")))
+; 
+;  (sprite (name "tux-grow-right")
+;        (action
+;          (fps 4.0)
+;          (x-offset 6)
+;          (y-offset 2)
+;          (images "creatures/tux_grow/right-1.png"
+;                  "creatures/tux_grow/right-2.png"
+;                  "creatures/tux_grow/right-3.png"
+;                  "creatures/tux_grow/right-4.png"
+;                  "creatures/tux_grow/right-5.png"
+;                  "creatures/tux_grow/right-6.png"
+;                  "creatures/tux_grow/right-7.png")))
+
+
+;; Bad Guys follow
+ (sprite (name "spike")
+    (action
+      (name "north")
+      (images "creatures/spike/up.png")
+    )
+    (action
+      (name "south")
+      (images "creatures/spike/down.png")
+    )
+    (action
+      (name "west")
+      (images "creatures/spike/left.png")
+    )
+    (action
+      (name "east")
+      (images "creatures/spike/right.png")
+    )
+ )
+
+ ;; MrIceBlock
+ (sprite (name "mriceblock")
+    (action
+         (name "left")
+         (x-offset 2)
+         (y-offset 3)
+         (images "creatures/mr_iceblock/left-0.png"
+                 "creatures/mr_iceblock/left-1.png"
+                 "creatures/mr_iceblock/left-2.png"
+                 "creatures/mr_iceblock/left-1.png"))
+
+    (action (name "right")
+         (x-offset 2)
+         (y-offset 3)
+         (mirror-action "left"))
+
+    (action (name "falling-left")
+         (x-offset 2)
+         (y-offset 3)
+         (images "creatures/mr_iceblock/flat-left.png"))
+
+    (action (name "falling-right")
+         (x-offset 2)
+         (y-offset 3)
+         (mirror-action "falling-left"))
+ 
+    (action (name "flat-left")
+         (x-offset 2)
+         (y-offset 3)
+         (images "creatures/mr_iceblock/flat-left.png"))
+
+    (action (name "flat-right")
+         (x-offset 2)
+         (y-offset 3)
+         (mirror-action "falling-left")))
+
+ (sprite (name "snowball")
+       (action
+         (name "left")
+         (x-offset 2)
+         (y-offset 4)
+         (images "creatures/snowball/left-0.png"
+                 "creatures/snowball/left-1.png"
+                 "creatures/snowball/left-2.png"
+                 "creatures/snowball/left-1.png"))
+
+       (action
+         (name "right")
+         (x-offset 2)
+         (y-offset 4)
+         (mirror-action "left"))
+       (action
+         (name "squished-left")
+         (x-offset 1)
+         (y-offset -19)
+         (images "creatures/snowball/squished-left.png"))
+
+       (action
+         (name "squished-right")
+         (x-offset 1)
+         (y-offset -19)
+         (mirror-action "squished-left")))
+
+     (sprite (name "jumpy")
+       (action
+         (name "left-up")
+         (x-offset 7)
+         (y-offset 8)
+         (images "creatures/jumpy/left-up.png"))
+       (action
+         (name "right-up")
+         (x-offset 7)
+         (y-offset 8)
+         (mirror-action "left-up"))
+       (action
+         (name "left-down")
+         (x-offset 7)
+         (y-offset 8)
+         (images "creatures/jumpy/left-down.png"))
+       (action
+         (name "right-down")
+         (x-offset 7)
+         (y-offset 8)
+         (mirror-action "left-down"))
+       (action
+         (name "left-middle")
+         (x-offset 7)
+         (y-offset 8)
+         (images "creatures/jumpy/left-middle.png"))
+       (action
+         (name "right-middle")
+         (x-offset 7)
+         (y-offset 8)
+         (mirror-action "left-middle"))
+       (action
+         (name "left-iced")
+         (x-offset 7)
+         (y-offset 8)
+         (images "creatures/jumpy/iced-left-up.png"))
+       (action
+         (name "right-iced")
+         (x-offset 7)
+         (y-offset 8)
+         (mirror-action "left-iced")))
+
+     (sprite (name "mrbomb")
+       (action
+         (name "left")
+         (fps 10.0)
+         (x-offset 3)
+         (y-offset 12)
+         (images "creatures/mr_bomb/left-0.png"
+                 "creatures/mr_bomb/left-1.png"
+                 "creatures/mr_bomb/left-2.png"
+                 "creatures/mr_bomb/left-3.png"))
+
+       (action
+         (name "right")
+         (fps 10.0)
+         (x-offset 7)
+         (y-offset 12)
+         (mirror-action "left"))
+       (action
+         (name "iced-left")
+         (x-offset 3)
+         (y-offset 12)
+         (images "creatures/mr_bomb/iced-left.png"))
+
+       (action
+         (name "iced-right")
+         (x-offset 7)
+         (y-offset 12)
+         (mirror-action "iced-left")))
+
+     (sprite (name "bomb")
+       (action
+         (name "ticking-left")
+         (fps 15.0)
+         (x-offset 3)
+         (y-offset 8)
+         (images "creatures/mr_bomb/exploding-left-0.png"
+                 "creatures/mr_bomb/exploding-left-1.png"))
+       (action
+         (name "ticking-right")
+         (fps 15.0)
+         (x-offset 10)
+         (y-offset 8)
+         (mirror-action "ticking-left"))
+       (action
+         (name "explosion")
+         (fps 15.0)
+         (x-offset 32)
+         (y-offset 32)
+         (images "creatures/mr_bomb/explosion-0.png"
+                 "creatures/mr_bomb/explosion-1.png")))
+
+ (sprite (name "stalactite")
+       (action
+         (name "normal")
+         (x-offset 0)
+         (y-offset 0)
+         (images "creatures/stalactite/falling.png"))
+       (action
+         (name "squished")
+         (x-offset 0)
+         (y-offset 16)
+         (images "creatures/stalactite/broken.png")))
+
+ (sprite (name "flame")
+       (action
+         (name "normal")
+         (images "creatures/flame/flame-0.png"
+                 "creatures/flame/flame-1.png")))
+
+ (sprite (name "fish")
+       (action
+         (name "normal")
+         (x-offset 2)
+         (y-offset 3)
+         (images "creatures/fish/left-0.png"
+                 "creatures/fish/left-1.png"))
+
+       (action
+         (name "down")
+         (x-offset 2)
+         (y-offset 11)
+         (images "creatures/fish/down.png"))
+
+       (action
+         (name "iced")
+         (x-offset 2)
+         (y-offset 3)
+         (images "creatures/fish/iced-left.png"))
+
+       (action
+         (name "iced-down")
+         (x-offset 2)
+         (y-offset 11)
+         (images "creatures/fish/iced-down.png")))
+
+ (sprite (name "flamefish")
+       (action
+         (name "normal")
+         (x-offset 2)
+         (y-offset 3)
+         (images "creatures/flame_fish/left-0.png"
+                 "creatures/flame_fish/left-1.png"))
+
+       (action
+         (name "down")
+         (x-offset 2)
+         (y-offset 11)
+         (images "creatures/flame_fish/down.png")))
+
+ (sprite (name "bouncingsnowball")
+       (action
+         (name "left")
+         (x-offset 1)
+         (y-offset 0)
+         (images "creatures/bouncing_snowball/left-0.png"
+                 "creatures/bouncing_snowball/left-1.png"
+                 "creatures/bouncing_snowball/left-2.png"
+                 "creatures/bouncing_snowball/left-3.png"
+                 "creatures/bouncing_snowball/left-4.png"
+                 "creatures/bouncing_snowball/left-5.png"))
+
+       (action
+         (name "right")
+         (x-offset 1)
+         (y-offset 0)
+         (mirror-action "left"))
+
+       (action
+         (name "squished")
+         (x-offset 1)
+         (y-offset -19)
+         (images "creatures/snowball/squished-left.png")))
+
+ (sprite (name "flyingsnowball")
+       (action
+         (name "left")
+         (x-offset 4)
+         (y-offset 3)
+         (images "creatures/flying_snowball/left-0.png"
+                 "creatures/flying_snowball/left-1.png"))
+       (action
+         (name "right")
+         (x-offset 4)
+         (y-offset 3)
+         (mirror-action "left"))
+
+       (action
+         (name "squished-left")
+         (x-offset 4)
+         (y-offset -12)
+         (images "creatures/flying_snowball/squished-left.png"))
+       (action
+         (name "squished-right")
+         (x-offset 4)
+         (y-offset -12)
+         (mirror-action "squished-left")))
+
+ (sprite (name "spiky")
+       (action
+         (name "left")
+         (x-offset 6)
+         (y-offset 10)
+         (images "creatures/spiky/left-0.png"
+                 "creatures/spiky/left-1.png"
+                 "creatures/spiky/left-2.png"))
+       (action
+         (name "right")
+         (x-offset 6)
+         (y-offset 10)
+         (mirror-action "left"))
+       (action
+         (name "iced-left")
+         (x-offset 6)
+         (y-offset 10)
+         (images "creatures/spiky/iced-left.png"))
+       (action
+         (name "iced-right")
+         (x-offset 6)
+         (y-offset 10)
+         (mirror-action "iced-left")))
+        
+  ; Dispenser
+  (sprite (name "dispenser")
+       (action
+          (name "dropper")
+          (x-offset 0)
+          (y-offset 0)
+          (images "creatures/dispenser/dropper.png"))
+       (action
+          (name "working-left")
+          (x-offset 0)
+          (y-offset 0)
+          (images "creatures/dispenser/working.png"))
+       (action
+          (name "broken-left")
+          (x-offset 0)
+          (y-offset 0)
+          (images "creatures/dispenser/broken.png"))
+       (action
+          (name "working-right")
+          (x-offset 0)
+          (y-offset 0)
+          (mirror-action "working-left"))
+       (action
+          (name "broken-right")
+          (x-offset 0)
+          (y-offset 0)
+          (mirror-action "broken-left")))
+
+   
+   ; MrRocket
+   (sprite (name "mrrocket")
+       (action
+         (name "left")
+         (fps 15.0)
+         (x-offset 3)
+         (y-offset 12)
+         (images "creatures/mr_rocket/flying-0.png"
+	 	 "creatures/mr_rocket/flying-1.png"
+		 "creatures/mr_rocket/flying-2.png"
+		 "creatures/mr_rocket/flying-1.png"))
+
+       (action
+         (name "right")
+         (fps 10.0)
+         (x-offset 7)
+         (y-offset 12)
+         (mirror-action "left"))
+       
+       (action
+         (name "squished-left")
+         (x-offset 7)
+         (y-offset 0)
+         (images "creatures/mr_rocket/squished.png"))
+
+       (action
+         (name "squished-right")
+         (x-offset 7)
+         (y-offset 0)
+         (mirror-action "squished-left"))
+       
+       (action
+         (name "collision-left")
+         (x-offset 3)
+         (y-offset 12)
+         (images "creatures/mr_rocket/collision.png"))
+
+       (action
+         (name "collision-right")
+         (x-offset 3)
+         (y-offset 12)
+         (mirror-action "squished-left")))
+   
+   (sprite (name "rocketexplosion")     
+       (action
+         (name "explosion-left")
+         (fps 15.0)
+         (x-offset 0)
+         (y-offset 32)
+         (images "creatures/mr_rocket/explosion-0.png"
+                 "creatures/mr_rocket/explosion-1.png"))
+       (action
+         (name "explosion-right")
+         (fps 15.0)
+         (x-offset 0)
+         (y-offset 32)
+         (mirror-action "explosion-left")))
+   
+   ; Dummyguy
+   (sprite (name "dummyguy")
+       (action
+         (name "left")
+	 (fps 6)
+         (x-offset 0)
+         (y-offset 40)
+         (images "creatures/nolok/walk-0.png"
+		 "creatures/nolok/walk-1.png"
+                 "creatures/nolok/walk-2.png"
+		 "creatures/nolok/walk-3.png"
+		 "creatures/nolok/walk-4.png"))
+
+       (action
+         (name "right")
+	 (fps 6)
+         (x-offset 0)
+         (y-offset 40)
+         (mirror-action "left"))
+         
+       (action
+         (name "stand")
+         (x-offset 0)
+         (y-offset 40)
+         (images "creatures/nolok/walk-0.png"))
+         
+       (action
+         (name "throw")
+	 (fps 6)
+         (x-offset 0)
+         (y-offset 40)
+         (images "creatures/nolok/throw-0.png"
+		 "creatures/nolok/throw-1.png"))
+
+       (action
+         (name "jump")
+         (x-offset 0)
+         (y-offset 40)
+         (images "creatures/nolok/jump-0.png"
+		 "creatures/nolok/jump-1.png"
+		 "creatures/nolok/jump-2.png"))
+         
+       (action
+         (name "dead")
+         (x-offset 0)
+         (y-offset 0)
+         (images "creatures/dummyguy/dead.png")))
+
+
+  ; MrTree  
+  (sprite (name "mrtree")
+      (action
+        (y-offset -3)
+        (fps 5)
+        (name "left")
+        (images "creatures/mr_tree/walk-left-0.png"
+                "creatures/mr_tree/walk-left-1.png"
+                "creatures/mr_tree/walk-left-2.png")
+      )
+      (action
+        (y-offset -3)
+        (fps 5)
+        (name "right")
+        (mirror-action "left")
+      )
+      (action
+        (y-offset -3)
+        (name "small-left")
+        (images "creatures/mr_tree/small-left-0.png"
+                "creatures/mr_tree/small-left-1.png"
+                "creatures/mr_tree/small-left-2.png")
+      )
+      (action
+        (y-offset -3)
+        (name "small-right")
+        (mirror-action "small-left")
+      )
+      (action
+        (y-offset -6)
+        (name "squished-left")
+        (images "creatures/mr_tree/squished-left.png")
+      )
+      (action
+        (y-offset -6)
+        (name "squished-right")
+        (mirror-action "squished-left")
+      )
+  )
+
+ ; PoisonIvy
+ (sprite (name "poisonivy")
+       (action
+         (name "left")
+         (x-offset 2)
+         (y-offset 4)
+         (images "creatures/poison_ivy/left-0.png"
+                 "creatures/poison_ivy/left-1.png"
+                 "creatures/poison_ivy/left-2.png"))
+
+       (action
+         (name "right")
+         (x-offset 2)
+         (y-offset 4)
+         (mirror-action "left"))
+       (action
+         (name "squished-left")
+         (x-offset 1)
+         (y-offset -19)
+         (images "creatures/poison_ivy/squished.png"))
+
+       (action
+         (name "squished-right")
+         (x-offset 1)
+         (y-offset -19)
+         (mirror-action "squished-left")))
+
+         
+;; Game elements follow
+          
+ (sprite (name "egg")
+       (action
+         (images "powerups/egg/egg.png")))
+ (sprite (name "1up")
+       (action
+         (images "powerups/1up/1up.png")))
+ (sprite (name "star")
+       (action
+         (images "powerups/star/star-0.png"
+                 "powerups/star/star-1.png"
+                 "powerups/star/star-2.png"
+                 "powerups/star/star-3.png"
+                 "powerups/star/star-4.png"
+                 "powerups/star/star-3.png"
+                 "powerups/star/star-2.png"
+                 "powerups/star/star-1.png")))
+ (sprite (name "fireflower")
+       (action
+         (images "powerups/fire_flower/fire_flower-0.png"
+                 "powerups/fire_flower/fire_flower-1.png"
+                 "powerups/fire_flower/fire_flower-2.png"
+                 "powerups/fire_flower/fire_flower-3.png"
+                 "powerups/fire_flower/fire_flower-2.png"
+                 "powerups/fire_flower/fire_flower-1.png")))
+ (sprite (name "iceflower")
+       (action
+         (images "powerups/ice_flower/ice_flower-0.png"
+                 "powerups/ice_flower/ice_flower-1.png"
+                 "powerups/ice_flower/ice_flower-2.png")))
+
+ (sprite (name "firebullet")
+       (action
+         (x-offset 12)
+         (x-offset 12)
+         (fps 20)
+         (images "objects/bullets/fire_bullet-0.png"
+                 "objects/bullets/fire_bullet-1.png"
+                 "objects/bullets/fire_bullet-2.png"
+                 "objects/bullets/fire_bullet-3.png")))
+ (sprite (name "icebullet")
+       (action
+         (x-offset 12)
+         (x-offset 12)
+         (fps 20)
+         (images "objects/bullets/ice_bullet.png")))
+
+;; Game Objects follow
+
+  ; Trampoline
+  (sprite (name "trampoline")
+       (action
+         (x-offset 0)
+         (y-offset 0)
+         (images "objects/trampoline/trampoline1-0.png"
+                 "objects/trampoline/trampoline1-1.png"
+                 "objects/trampoline/trampoline1-2.png"
+                 "objects/trampoline/trampoline1-3.png")))
+
+  ; Flying platform
+  (sprite (name "flying_platform")
+       (action
+         (x-offset 0)
+         (y-offset 0)
+         (images "objects/flying_platform/flying_platform-0.png"
+                 "objects/flying_platform/flying_platform-1.png"
+                 "objects/flying_platform/flying_platform-2.png"
+                 "objects/flying_platform/flying_platform-3.png")))
+  ; Door
+  (sprite (name "door")
+       (action
+          (name "normal")
+          (x-offset 0)
+          (y-offset 0)
+          (images "objects/door/door-0.png"))
+       (action
+          (name "open")
+          (x-offset 0)
+          (y-offset 0)
+          (images "objects/door/door-0.png"
+                  "objects/door/door-1.png"
+                  "objects/door/door-2.png"
+                  "objects/door/door-3.png"
+                  "objects/door/door-4.png"
+                  "objects/door/door-5.png"
+                  "objects/door/door-6.png"
+                  "objects/door/door-7.png"
+                  "objects/door/door-6.png"
+                  "objects/door/door-5.png"
+                  "objects/door/door-4.png"
+                  "objects/door/door-3.png"
+                  "objects/door/door-2.png"
+                  "objects/door/door-1.png"
+                  "objects/door/door-0.png"))
+  )
+
+  ; coin
+  (sprite (name "coin")
+      (action 
+          (name "normal")
+          (images "objects/coin/coin-0.png"
+                  "objects/coin/coin-1.png"
+                  "objects/coin/coin-2.png"
+                  "objects/coin/coin-3.png"
+                  "objects/coin/coin-4.png"
+                  "objects/coin/coin-5.png"
+                  "objects/coin/coin-6.png"
+                  "objects/coin/coin-7.png"))
+      (action
+          (name "still")
+          (images "objects/coin/coin-0.png"))
+  )
+
+  (sprite (name "bonusblock")
+      (action
+         (fps 15)
+         (name "normal")
+         (images "objects/bonus_block/full-0.png"
+                 "objects/bonus_block/full-1.png"
+                 "objects/bonus_block/full-2.png"
+                 "objects/bonus_block/full-3.png"
+                 "objects/bonus_block/full-4.png"
+                 "objects/bonus_block/full-2.png"
+                 "objects/bonus_block/full-1.png"
+                 "objects/bonus_block/full-0.png"
+                 "objects/bonus_block/full-0.png"
+                 "objects/bonus_block/full-0.png"
+                 ))
+      (action
+         (name "empty")
+         (images "objects/bonus_block/empty.png"))
+  )
+
+  (sprite (name "brick")
+      (action 
+        (name "empty")
+        (images "objects/bonus_block/empty.png"))
+      (action 
+        (name "normal")
+        (images "tiles/blocks/brick0.png"))
+  )
+
+  (sprite (name "icedbrick")
+      (action 
+        (name "empty")
+        (images "objects/bonus_block/empty.png"))
+      (action 
+        (name "normal")
+        (images "tiles/blocks/brick1.png"))
+  )
+
+  (sprite (name "infoblock")
+    (action
+      (name "default")
+      (images "objects/bonus_block/info_block.png")
+    )
+  )
+
+  (sprite (name "rock")
+      (action
+        (name "normal")
+        (images "tiles/blocks/block11.png"))
+  )
+
+  (sprite (name "invisibleblock")
+      (action
+        (name "empty")
+        (images "objects/bonus_block/empty.png"))
+  )                                        
+
+  ; Stomp
+  (sprite (name "stomp")
+       (action
+          (x-offset 0)
+          (y-offset 0)
+          (images "objects/particles/stomp.png")
+  ))
+
+  (sprite (name "bell")
+       (action
+          (name "normal")
+          (x-offset 0)
+          (y-offset 0)
+          (images "objects/bell/bell-m.png")
+       )
+       (action
+         (name "ringing")
+         (images "objects/bell/bell-l.png"
+           "objects/bell/bell-m.png"
+           "objects/bell/bell-r.png"
+           "objects/bell/bell-m.png"
+         )
+       )
+  )
+  
+  (sprite (name "unstable_tile")
+    (action
+      (images "objects/unstable_tile/unstable_tile.png"))
+  )
+
+  (sprite (name "worldmaptux")
+    (action
+      (name "small")
+      (y-offset 10) 
+      (images "tiles/worldmap/smalltux.png")
+    )
+    (action
+      (name "large")
+      (y-offset 10) 
+      (images "tiles/worldmap/tux.png")
+    )
+    (action
+      (name "fire")
+      (y-offset 10) 
+      (images "tiles/worldmap/firetux.png")
+    )
+  )
+
+  (sprite (name "hatch")
+       (action
+          (name "normal")
+          (x-offset 0)
+          (y-offset 0)
+          (images "objects/hatch/hatch-0.png"))
+       (action
+          (name "open")
+          (x-offset 0)
+          (y-offset 0)
+          (images "objects/hatch/hatch-0.png"
+                  "objects/hatch/hatch-1.png"
+                  "objects/hatch/hatch-2.png"
+                  "objects/hatch/hatch-3.png"
+                  "objects/hatch/hatch-4.png"
+                  "objects/hatch/hatch-5.png"))
+  )
+
+  (sprite (name "yeti")
+    (action
+      (name "normal")
+      (images "creatures/yeti/yeti_b.png")
+    )
+  )
+)
