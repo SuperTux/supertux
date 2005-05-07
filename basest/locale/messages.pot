@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-05-07 15:47+0200\n"
+"POT-Creation-Date: 2005-05-07 16:56+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -424,14 +424,14 @@ msgstr ""
 msgid "Free"
 msgstr ""
 
-#: src/main.cpp:141
+#: src/main.cpp:142
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] LEVELFILE\n"
 "\n"
 msgstr ""
 
-#: src/main.cpp:143
+#: src/main.cpp:144
 #, c-format
 msgid ""
 "Options:\n"
