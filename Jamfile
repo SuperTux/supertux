@@ -3,7 +3,7 @@ SubDir TOP ;
 # Decend into subdirs
 SubInclude TOP tools miniswig ;
 SubInclude TOP src ;
-SubInclude TOP data ;
+SubInclude TOP basest ;
 
 UseAutoconf ;
 
@@ -13,6 +13,6 @@ Package INSTALL NEWS README COPYING AUTHORS ChangeLog ;
 MakePot basest/locale/messages.pot : $(TRANSLATABLE_SOURCES) ;
 XGETTEXT_FLAGS on basest/locale/messages.pot += --language=C++ ;
 
-InstallPixmap data/images/supertux.png basest/images/supertux.xpm ;
+InstallPixmap basest/images/supertux.png basest/images/supertux.xpm ;
 InstallDesktop supertux.desktop ;
 InstallDoc NEWS README COPYING AUTHORS ChangeLog ;
