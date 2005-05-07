@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-05-07 16:56+0200\n"
+"POT-Creation-Date: 2005-05-07 18:58+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -107,6 +107,25 @@ msgstr ""
 
 #: src/misc.cpp:120
 msgid "Quit Game"
+msgstr ""
+
+#: src/main.cpp:141
+#, c-format
+msgid ""
+"Usage: %s [OPTIONS] LEVELFILE\n"
+"\n"
+msgstr ""
+
+#: src/main.cpp:143
+#, c-format
+msgid ""
+"Options:\n"
+"  -f, --fullscreen             Run in fullscreen mode.\n"
+"  -w, --window                 Run in window mode.\n"
+"  -g, --geometry WIDTHxHEIGHT  Run SuperTux in give resolution\n"
+"  --help                       Show this help message\n"
+"  --version                    Display SuperTux version and quit\n"
+"\n"
 msgstr ""
 
 #: src/leveleditor.cpp:80
@@ -422,25 +441,6 @@ msgstr ""
 
 #: src/game_session.cpp:827
 msgid "Free"
-msgstr ""
-
-#: src/main.cpp:142
-#, c-format
-msgid ""
-"Usage: %s [OPTIONS] LEVELFILE\n"
-"\n"
-msgstr ""
-
-#: src/main.cpp:144
-#, c-format
-msgid ""
-"Options:\n"
-"  -f, --fullscreen             Run in fullscreen mode.\n"
-"  -w, --window                 Run in window mode.\n"
-"  -g, --geometry WIDTHxHEIGHT  Run SuperTux in give resolution\n"
-"  --help                       Show this help message\n"
-"  --version                    Display SuperTux version and quit\n"
-"\n"
 msgstr ""
 
 #: src/gui/menu.cpp:68

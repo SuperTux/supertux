@@ -344,7 +344,7 @@ Tux::action(float delta)
 
 WorldMap::WorldMap()
 {
-  tile_manager = new TileManager("images/tiles/worldmap/antarctica.stwt");
+  tile_manager = new TileManager("images/worldmap.strf");
   
   width  = 20;
   height = 15;

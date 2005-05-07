@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-05-06 19:47+0200\n"
+"POT-Creation-Date: 2005-05-07 18:58+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,7 +28,7 @@ msgstr ""
 msgid "Ambient Sound Test"
 msgstr ""
 
-#: basest/levels/test/ambient_sound.stl:142
+#: basest/levels/test/ambient_sound.stl:138
 msgid ""
 "-Info\n"
 "#An ambient sound source\n"
