@@ -10,9 +10,9 @@ UseAutoconf ;
 # add some additional files to package
 Package INSTALL NEWS README COPYING AUTHORS ChangeLog ;
 
-MakePot data/locale/messages.pot : $(TRANSLATABLE_SOURCES) ;
-XGETTEXT_FLAGS on data/locale/messages.pot += --language=C++ ;
+MakePot basest/locale/messages.pot : $(TRANSLATABLE_SOURCES) ;
+XGETTEXT_FLAGS on basest/locale/messages.pot += --language=C++ ;
 
-InstallPixmap data/images/supertux.png data/images/supertux.xpm ;
+InstallPixmap data/images/supertux.png basest/images/supertux.xpm ;
 InstallDesktop supertux.desktop ;
 InstallDoc NEWS README COPYING AUTHORS ChangeLog ;
