@@ -1290,6 +1290,31 @@
          (y-offset -19)
          (mirror-action "squished-left")))
 
+; Zeekling
+ (sprite (name "zeekling")
+       (action
+         (name "left")
+         (x-offset 2)
+         (y-offset 4)
+         (images "creatures/zeekling/left-0.png"
+                 "creatures/zeekling/left-1.png"
+		 "creatures/zeekling/left-2.png"
+                 "creatures/zeekling/left-3.png"))
+       (action
+         (name "right")
+         (x-offset 2)
+         (y-offset 4)
+         (mirror-action "left"))
+       (action
+         (name "squished-left")
+         (x-offset 1)
+         (y-offset -19)
+         (images "creatures/zeekling/squished.png"))
+       (action
+         (name "squished-right")
+         (x-offset 1)
+         (y-offset -19)
+         (mirror-action "squished-left")))
          
 ;; Game elements follow
           

@@ -393,7 +393,12 @@
                     (height 65.0)
                     (message "You have found a secret area!"))
       (infoblock (x 2816) (y 1600)
-        (message (_ " Hint: If there seems to be no way to reach a door, remember that maybe you are supposed to reach it from the other side..."))
+        (message (_ "-Hint:
+#If there seems to be
+#no way to reach a door,
+#remember that you might
+#be supposed to come out
+#of that door..."))
       )
        (particles-rain
        )
