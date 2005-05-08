@@ -104,3 +104,17 @@ instr 4
 	out aout*kamp
 
 endin
+
+
+instr 5 ; Wind
+
+	ifqc= cpspch(p4)
+	
+	kfmanip oscil3 1,1/p3,1
+	kvol    linseg 0,0.1*p3,1,0.8*p3,1,0.1*p3,0
+	aout	oscil3 p5,ifqc*kfmanip,2
+	aout 	butterhp aout,2000,0.7
+	aout 	butterlp aout,10000,0.7
+	aout    phaser2 aout,ifqc*kfmanip,0.7,1,0.2,0.5
+	out aout*kvol*(kfmanip/2.5)
+endin
