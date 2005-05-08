@@ -338,7 +338,7 @@ void title()
               Vector(0, SCREEN_HEIGHT - 50), LEFT_ALLIGN, LAYER_FOREGROUND1);
       context.draw_text(white_small_text,
         _(
-"Copyright (c) 2003 SuperTux Devel Team\n"
+"Copyright (c) 2005 SuperTux Devel Team\n"
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the file COPYING for details.\n"
         ),

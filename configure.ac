@@ -11,7 +11,7 @@ dnl ===========================================================================
 
 dnl Process this file with autoconf to produce a configure script.
 AC_PREREQ([2.54])
-AC_INIT(supertux, 0.2-cvs)
+AC_INIT(supertux, 0.2-svn)
 AC_CONFIG_SRCDIR([src/main.cpp])
 AC_CONFIG_AUX_DIR([mk/autoconf])
 AC_CANONICAL_TARGET
@@ -83,7 +83,7 @@ else
 fi
 AC_SUBST([VARIANT])
 
-AC_MSG_CHECKING(wether OpenGL should be used)
+AC_MSG_CHECKING(whether OpenGL should be used)
 AC_ARG_ENABLE(opengl,
               AC_HELP_STRING([--disable-opengl], [disable OpenGL support]),
               [enable_opengl=$enableval], enable_opengl=yes)
