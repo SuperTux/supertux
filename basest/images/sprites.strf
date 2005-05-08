@@ -1307,12 +1307,12 @@
          (mirror-action "left"))
        (action
          (name "squished-left")
-         (x-offset 1)
+         (x-offset 2)
          (y-offset -19)
          (images "creatures/zeekling/squished.png"))
        (action
          (name "squished-right")
-         (x-offset 1)
+         (x-offset 2)
          (y-offset -19)
          (mirror-action "squished-left")))
          
