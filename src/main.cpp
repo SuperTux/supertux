@@ -91,8 +91,8 @@ static void find_directories()
 
   // try current directory as datadir
   if(datadir.empty()) {
-    if(FileSystem::faccessible("./basest/credits.txt")) {
-      datadir = "./basest/";
+    if(FileSystem::faccessible("./data/credits.txt")) {
+      datadir = "./data/";
     }
   }
 
@@ -106,7 +106,7 @@ static void find_directories()
 #endif
     } else {
       std::string exedir = std::string(dirname(exe_file)) + "/";
-      std::string testdir = exedir + "./basest/";
+      std::string testdir = exedir + "./data/";
       if(access(testdir.c_str(), F_OK) == 0) {
         datadir = testdir;
       }

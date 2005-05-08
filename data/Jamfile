@@ -1,4 +1,4 @@
-SubDir TOP basest ;
+SubDir TOP data ;
 
 IMAGEPATHS =
   images
