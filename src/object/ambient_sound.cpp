@@ -32,6 +32,7 @@ AmbientSound::AmbientSound(const lisp::Lisp& lisp)
   position.y=0;
   distance_factor=0;
   distance_bias=0;
+  maximumvolume=1;
   sample="";
 
   if (!(lisp.get("x", position.x)&&lisp.get("y", position.y))) {
@@ -40,16 +41,26 @@ AmbientSound::AmbientSound(const lisp::Lisp& lisp)
   lisp.get("distance_factor",distance_factor);
   lisp.get("distance_bias"  ,distance_bias  );
   lisp.get("sample"         ,sample         );
+  lisp.get("volume"         ,maximumvolume  );
+
+  distance_bias*=distance_bias;
+  distance_factor*=distance_factor;
 
   if (distance_factor == 0)
     silence_distance = 10e99;
   else
-    silence_distance = distance_factor*10e2;
+    silence_distance = 1/distance_factor;
+  
+  lisp.get("silence_distance",silence_distance);
 
-  playing=0;
-  startPlaying();
+  playing=-1; // not playing at the beginning
+  latency=0;
+
 }
 
+AmbientSound::~AmbientSound() {
+  stop_playing();
+}
 
 void
 AmbientSound::hit(Player& )
@@ -57,7 +68,15 @@ AmbientSound::hit(Player& )
 }
 
 void
-AmbientSound::startPlaying()
+AmbientSound::stop_playing() {
+  if (playing>=0) {
+    Mix_HaltChannel(playing);
+    playing=-1;
+  }
+}
+
+void
+AmbientSound::start_playing()
 {
   playing=sound_manager->play_sound(sample,-1);
   Mix_Volume(playing,0);
@@ -65,24 +84,41 @@ AmbientSound::startPlaying()
 }
 
 void
-AmbientSound::action(float) 
+AmbientSound::action(float deltat) 
 {
-  float dx=Sector::current()->player->get_pos().x-position.x;
-  float dy=Sector::current()->player->get_pos().y-position.y;
-  float distance=sqrt(dx*dx+dy*dy);
+  if (latency--<=0) {
 
-  distance-=distance_bias;
+    float dx=Sector::current()->player->get_pos().x-position.x;
+    float dy=Sector::current()->player->get_pos().y-position.y;
+    float sqrdistance=dx*dx+dy*dy;
+    
+    sqrdistance-=distance_bias;
+    
+    if (sqrdistance<0)
+      sqrdistance=0;
+    
+    targetvolume=1/(1+sqrdistance*distance_factor);
+    float rise=targetvolume/currentvolume;
+    currentvolume*=pow(rise,deltat*10);
+    currentvolume += 1e-30;
 
-  if (distance<0)
-    distance=0;
+    if (playing>=0) {
+      Mix_Volume(playing,(int)(currentvolume*maximumvolume*MIX_MAX_VOLUME));
+      if (sqrdistance>=silence_distance && currentvolume<0.05)
+	stop_playing();
+      latency=0;
+    } else {
+      if (sqrdistance<silence_distance) {
+	start_playing();
+	latency=0;
+      }
+      else 
+	latency=(int)(10*((sqrdistance-silence_distance)/silence_distance));
+    }
 
-  targetvolume=1/(1+distance*distance_factor);
-  float rise=targetvolume/currentvolume;
-  currentvolume*=pow(rise,.05);
-  currentvolume += 1e-30;
-  //  std::cout << currentvolume << " " << targetvolume << std::endl;
-  Mix_Volume(playing,(int)(currentvolume*MIX_MAX_VOLUME));
-
+  }
+  if (latency>0.001/distance_factor)
+    latency=(int)(0.001/distance_factor);
 }
 
 void

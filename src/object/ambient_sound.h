@@ -24,9 +24,12 @@
  *    (distance_bias) to the source, then fading proportional to
  *    inverse square distance
  *  
- *  This is experimental and clicks a little. It is not possible to
- *  get the clicks out without sample-granular volume adjustment.
- *
+ *  - parameters for point source:
+ *    x, y               position
+ *    distance_factor    high = steep fallofff
+ *    distance_bias      high = big "100% disc"
+ *    silence_distance   defaults reasonably.
+ * 
  *      basti_ 
  */
 
@@ -43,22 +46,25 @@ class AmbientSound : public GameObject
 {
 public:
   AmbientSound(const lisp::Lisp& lisp);
-
+  ~AmbientSound();
 protected:
   virtual void hit(Player& player);
   virtual void action(float time);
   virtual void draw(DrawingContext&);
-  virtual void startPlaying();
+  virtual void start_playing();
+  virtual void stop_playing();
 private:
   Vector position;
 
   std::string sample;
   int playing;
+  int latency;
 
   float distance_factor;  /// distance scaling
   float distance_bias;    /// 100% volume disc radius
   float silence_distance; /// not implemented yet 
 
+  float maximumvolume; /// maximum volume
   float targetvolume;  /// how loud we want to be
   float currentvolume; /// how loud we are
 

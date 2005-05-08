@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-05-07 18:58+0200\n"
+"POT-Creation-Date: 2005-05-08 15:26+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,21 +18,6 @@ msgstr ""
 
 #: basest/levels/test/sectors.stl:4
 msgid "Sector Test"
-msgstr ""
-
-#: basest/levels/test/verticalforest.stl:5
-msgid "Inside The Tree"
-msgstr ""
-
-#: basest/levels/test/ambient_sound.stl:4
-msgid "Ambient Sound Test"
-msgstr ""
-
-#: basest/levels/test/ambient_sound.stl:138
-msgid ""
-"-Info\n"
-"#An ambient sound source\n"
-"#should be audible here"
 msgstr ""
 
 #: basest/levels/test/bonusblock.stl:4
@@ -47,10 +32,44 @@ msgid ""
 "#This rocks"
 msgstr ""
 
+#: basest/levels/test/yeti.stl:4
+msgid "Yeti Test"
+msgstr ""
+
 #: basest/levels/test/script.stl:4
 msgid "Scripting Test"
 msgstr ""
 
-#: basest/levels/test/yeti.stl:4
-msgid "Yeti Test"
+#: basest/levels/test/verticalforest.stl:5
+msgid "Inside The Tree"
+msgstr ""
+
+#: basest/levels/test/ambient_sound.stl:4
+msgid "Ambient Sound Test"
+msgstr ""
+
+#: basest/levels/test/ambient_sound.stl:143
+msgid ""
+"-Info\n"
+"#An ambient sound \n"
+"#source playing the\n"
+"#rain effect should \n"
+"#be audible here.\n"
+"#Find Waterfall and \n"
+"#Lava sources with\n"
+"#smaller geometry \n"
+"#further right.\n"
+msgstr ""
+
+#: basest/levels/test/ambient_sound.stl:155
+msgid ""
+"-Info\n"
+"#Waterfall\n"
+"#Volume 0.2\n"
+msgstr ""
+
+#: basest/levels/test/ambient_sound.stl:161
+msgid ""
+"-Info\n"
+"#Lava\n"
 msgstr ""
