@@ -4810,4 +4810,77 @@
     )
     (solid #t)
   )
+  (tile
+    (id 1337)
+    (images
+      (region "tiles/doodads/shrublong.png" 0 0 800 96)
+    )
+    (solid #t)
+  )
+  (tile
+    (id 1338)
+    (images
+      (region "tiles/doodads/shrublongtop.png" 0 0 800 32)
+    )
+    (solid #t)
+  )
+  (tile
+    (id 1339)
+    (images
+      (region "tiles/doodads/shrublongtop.png" 0 32 800 32)
+    )
+    (solid #t)
+  )
+  (tile
+    (id 1340)
+    (images
+      (region "tiles/doodads/shrublongtop.png" 0 64 800 32)
+    )
+    (solid #t)
+  )
+  (tile
+    (id 1341)
+    (images
+      (region "tiles/doodads/shrublongtop.png" 0 96 800 32)
+    )
+    (solid #t)
+  )
+  (tile
+    (id 1342)
+    (images
+      "tiles/doodads/blueice.png"
+    )
+	(solid #t)
+  )
+  (tile
+    (id 1343)
+    (images
+      "tiles/doodads/blueicetop.png"
+    )
+  )
+  (tile
+    (id 1344)
+    (images
+      "tiles/doodads/snowbg5.png"
+    )
+  )
+  (tile
+    (id 1345)
+    (images
+      "tiles/doodads/snowbg6.png"
+    )
+  )
+  (tile
+    (id 1346)
+    (images
+      "tiles/doodads/snowbg7.png"
+    )
+  )
+  (tile
+    (id 1347)
+    (images
+      (region "tiles/doodads/shrublongbg.png" 0 0 800 96)
+    )
+    (solid #t)
+  )
 )
