@@ -55,30 +55,32 @@ SoundManager::play_sound(const std::string& name,int loops)
     std::cerr << "Sound '" << name << "' not found.\n";
     return -1;
   }
-  return Mix_PlayChannel(-1, chunk, loops);  
+  int chan=Mix_PlayChannel(-1, chunk, loops);  
+  Mix_Volume(chan,MIX_MAX_VOLUME);
+  return chan;
 }
 
 
-void
+int
 SoundManager::play_sound(const std::string& sound, const MovingObject* object,
     const Vector& pos)
 {
   // TODO keep track of the object later and move the sound along with the
   // object.
-  play_sound(sound, object->get_pos(), pos);
+  return play_sound(sound, object->get_pos(), pos);
 }
 
-void
+int
 SoundManager::play_sound(const std::string& sound, const Vector& pos,
     const Vector& pos2)
 {
   if(!audio_device || !m_sound_enabled)
-    return;
+    return -1;
 
   Mix_Chunk* chunk = preload_sound(sound);
   if(chunk == 0) {
     std::cerr << "Sound '" << sound << "' not found.\n";
-    return;                                              
+    return -1;                                               
   }
 
   // TODO make sure this formula is good
@@ -86,11 +88,12 @@ SoundManager::play_sound(const std::string& sound, const Vector& pos,
     = pos2.x- pos.x;
   int loud = int(255.0/float(1600) * fabsf(distance));
   if(loud > 255)
-    return;
+    return -1;
 
   int chan = Mix_PlayChannel(-1, chunk, 0);
   if(chan < 0)
-    return;                                  
+    return -1;         
+  Mix_Volume(chan,MIX_MAX_VOLUME);                         
   Mix_SetDistance(chan, loud);
 
   // very bad way to do this...
@@ -98,6 +101,7 @@ SoundManager::play_sound(const std::string& sound, const Vector& pos,
     Mix_SetPanning(chan, 230, 24);
   else if(distance < -100)
     Mix_SetPanning(chan, 24, 230);
+  return chan;
 }
 
 MusicRef

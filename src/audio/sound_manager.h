@@ -42,10 +42,10 @@ public:
   int play_sound(const std::string& sound,int loops=0);
 
   /// Play sound relative to two Vectors.
-  void play_sound(const std::string& sound, const Vector& pos,
+  int play_sound(const std::string& sound, const Vector& pos,
       const Vector& pos2);
   /// Play sound relative to a MovingObject and a Vector.
-  void play_sound(const std::string& sound, const MovingObject* object,
+  int play_sound(const std::string& sound, const MovingObject* object,
       const Vector& pos);
   
   /** Load music.
