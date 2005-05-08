@@ -79,8 +79,8 @@ TextObject::draw(DrawingContext& context)
   }
 
   context.draw_filled_rect(Vector(125, 50), Vector(550, 120),
-      Color(150, 180, 200, 125), LAYER_GUI-10);
-  context.draw_text(font, text, Vector(125+35, 50+35), LEFT_ALLIGN, LAYER_GUI);
+      Color(150, 180, 200, 125), LAYER_GUI-50);
+  context.draw_text(font, text, Vector(125+35, 50+35), LEFT_ALLIGN, LAYER_GUI-40);
 
   context.pop_transform();
 }

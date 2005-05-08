@@ -100,6 +100,9 @@
          (speed 0.500000)
        )
        (spawnpoint (name "main") (x 480) (y 448))
+       (init-script "
+DisplayEffect.fade_in(2.5);
+")
        (yeti
          (x 2)
          (y 177)
@@ -110,7 +113,7 @@ Text.set_font(\"big\");
 Text.fade_in(1.5);
 set_wakeup_time(4);
 suspend();
-Text.fade_out(1);
+DisplayEffect.fade_out(1.5);
 set_wakeup_time(1.5);
 suspend();
 Level.finish();

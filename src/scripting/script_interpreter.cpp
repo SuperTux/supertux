@@ -17,8 +17,10 @@
 #include "sector.h"
 #include "object/text_object.h"
 #include "object/scripted_object.h"
+#include "object/display_effect.h"
 #include "scripting/sound.h"
 #include "scripting/scripted_object.h"
+#include "scripting/display_effect.h"
 
 static void printfunc(HSQUIRRELVM, const char* str, ...)
 {
@@ -68,19 +70,26 @@ ScriptInterpreter::ScriptInterpreter(Sector* sector)
     if(!scripted_object)
       continue;
     
-    std::cout << "Exposing " << scripted_object->get_name() << "\n";
     expose_object(scripted_object, scripted_object->get_name(), 
         "ScriptedObject");
   }
   // expose some "global" objects
   sound = new Scripting::Sound();
   expose_object(sound, "Sound", "Sound");
+  
   level = new Scripting::Level();
   expose_object(level, "Level", "Level");
+  
   TextObject* text_object = new TextObject();
   sector->add_object(text_object);
   Scripting::Text* text = static_cast<Scripting::Text*> (text_object);
   expose_object(text, "Text", "Text");
+  
+  DisplayEffect* display_effect = new DisplayEffect();
+  sector->add_object(display_effect);
+  Scripting::DisplayEffect* display_effect_api
+    = static_cast<Scripting::DisplayEffect*> (display_effect);
+  expose_object(display_effect_api, "DisplayEffect", "DisplayEffect");
 }
 
 ScriptInterpreter::~ScriptInterpreter()

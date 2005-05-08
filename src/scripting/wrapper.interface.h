@@ -1,5 +1,5 @@
 /** This file is processes by miniswig to produce the scripting API */
-#include "display.h"
+#include "display_effect.h"
 #include "camera.h"
 #include "level.h"
 #include "scripted_object.h"

@@ -12,16 +12,51 @@
 
 using namespace Scripting;
 
-static int Display_set_effect_wrapper(HSQUIRRELVM v)
+static int DisplayEffect_fade_out_wrapper(HSQUIRRELVM v)
 {
-  Scripting::Display* _this;
+  Scripting::DisplayEffect* _this;
   sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
-  const char* arg0;
-  sq_getstring(v, 2, &arg0);
+  float arg0;
+  sq_getfloat(v, 2, &arg0);
   
-  _this->set_effect(arg0);
+  _this->fade_out(arg0);
   
   return 0;
+}
+
+static int DisplayEffect_fade_in_wrapper(HSQUIRRELVM v)
+{
+  Scripting::DisplayEffect* _this;
+  sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
+  float arg0;
+  sq_getfloat(v, 2, &arg0);
+  
+  _this->fade_in(arg0);
+  
+  return 0;
+}
+
+static int DisplayEffect_set_black_wrapper(HSQUIRRELVM v)
+{
+  Scripting::DisplayEffect* _this;
+  sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
+  SQBool arg0;
+  sq_getbool(v, 2, &arg0);
+  
+  _this->set_black(arg0);
+  
+  return 0;
+}
+
+static int DisplayEffect_is_black_wrapper(HSQUIRRELVM v)
+{
+  Scripting::DisplayEffect* _this;
+  sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
+  
+  bool return_value = _this->is_black();
+  
+  sq_pushbool(v, return_value);
+  return 1;
 }
 
 static int Camera_shake_wrapper(HSQUIRRELVM v)
@@ -344,8 +379,11 @@ WrappedFunction supertux_global_functions[] = {
   { 0, 0 }
 };
 
-static WrappedFunction supertux_Display_methods[] = {
-  { "set_effect", &Display_set_effect_wrapper },
+static WrappedFunction supertux_DisplayEffect_methods[] = {
+  { "fade_out", &DisplayEffect_fade_out_wrapper },
+  { "fade_in", &DisplayEffect_fade_in_wrapper },
+  { "set_black", &DisplayEffect_set_black_wrapper },
+  { "is_black", &DisplayEffect_is_black_wrapper },
 };
 
 static WrappedFunction supertux_Camera_methods[] = {
@@ -388,7 +426,7 @@ static WrappedFunction supertux_Text_methods[] = {
 };
 
 WrappedClass supertux_classes[] = {
-  { "Display", supertux_Display_methods },
+  { "DisplayEffect", supertux_DisplayEffect_methods },
   { "Camera", supertux_Camera_methods },
   { "Level", supertux_Level_methods },
   { "ScriptedObject", supertux_ScriptedObject_methods },
