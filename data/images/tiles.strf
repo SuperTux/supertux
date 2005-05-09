@@ -4811,41 +4811,6 @@
     (solid #t)
   )
   (tile
-    (id 1337)
-    (images
-      (region "tiles/doodads/shrublong.png" 0 0 800 96)
-    )
-    (solid #t)
-  )
-  (tile
-    (id 1338)
-    (images
-      (region "tiles/doodads/shrublongtop.png" 0 0 800 32)
-    )
-    (solid #t)
-  )
-  (tile
-    (id 1339)
-    (images
-      (region "tiles/doodads/shrublongtop.png" 0 32 800 32)
-    )
-    (solid #t)
-  )
-  (tile
-    (id 1340)
-    (images
-      (region "tiles/doodads/shrublongtop.png" 0 64 800 32)
-    )
-    (solid #t)
-  )
-  (tile
-    (id 1341)
-    (images
-      (region "tiles/doodads/shrublongtop.png" 0 96 800 32)
-    )
-    (solid #t)
-  )
-  (tile
     (id 1342)
     (images
       "tiles/doodads/blueice.png"
