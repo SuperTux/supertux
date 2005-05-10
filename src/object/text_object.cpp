@@ -25,8 +25,6 @@ TextObject::set_font(const std::string& name)
     font = blue_text;
   } else if(name == "gray") {
     font = gray_text;
-  } else if(name == "white") {
-    font = white_text;
   } else if(name == "big") {
     font = white_big_text;
   } else if(name == "small") {

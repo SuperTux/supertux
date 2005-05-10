@@ -144,51 +144,118 @@ WOOT.set_animation("left");
 </para>
 </sect3>
 
-<!-- TODO: documentation from this marker on -->
-
 <sect3><title>set_animation</title>
-<para></para>
+<para>Usage: <code>&lt;scriptedobject&gt;.set_animation(string animation_name)</code></para>
+<para>Effect: Activates the sprite's animation specified in <code>animation_name</code>.</para>
 </sect3>
+
 <sect3><title>get_animation</title>
-<para></para>
+<para>Usage: <code>&lt;scriptedobject&gt;.get_animation()</code></para>
+<para>Returns: <code>string</code></para>
+<para>Effect: Returns the name of the sprite's current animation.</para>
 </sect3>
+
 <sect3><title>move</title>
-<para></para>
+<para>Usage: <code>&lt;scriptedobject&gt;.move(float x, float y)</code></para>
+<para>Effect: Moves the object by <code>x</code> units to the right and <code>y</code> down <emphasis>relative to its current position</emphasis>.</para>
 </sect3>
+
 <sect3><title>set_pos</title>
-<para></para>
+<para>Usage: <code>&lt;scriptedobject&gt;.set_pos(float x, float y)</code></para>
+<para>Effect: Basically identical to <code>move</code>, except its <emphasis>relativity to the sector origin</emphasis>.</para>
 </sect3>
+
 <sect3><title>get_pos_x</title>
-<para></para>
+<para>Usage: <code>&lt;scriptedobject&gt;.get_pos_x()</code></para>
+<para>Returns: <code>float</code></para>
+<para>Effect: Returns the X coordinate of the object's position.</para>
 </sect3>
+
 <sect3><title>get_pos_y</title>
-<para></para>
+<para>Usage: <code>&lt;scriptedobject&gt;.get_pos_y()</code></para>
+<para>Returns: <code>float</code></para>
+<para>Effect: Totally identical to <code>get_pos_x</code> except for its obvious choice of the other (Y) axis.</para>
 </sect3>
+
 <sect3><title>set_velocity</title>
-<para></para>
+<para>Usage: <code>&lt;scriptedobject&gt;.set_velocity(float x, float y)</code></para>
+<para>Effect: Makes the object move in a certain direction (with a certain speed) given by the <code>x</code> and <code>y</code> coordinates.</para>
 </sect3>
+
 <sect3><title>get_velocity_x</title>
-<para></para>
+<para>Usage: <code>&lt;scriptedobject&gt;.get_velocity_x()</code></para>
+<para>Returns: <code>float</code></para>
+<para>Effect: Returns the object's velocity in the direction of the X coordinate.</para>
 </sect3>
+
 <sect3><title>get_velocity_y</title>
-<para></para>
+<para>Usage: <code>&lt;scriptedobject&gt;.get_velocity_y()</code></para>
+<para>Returns: <code>float</code></para>
+<para>Effect: The difference between this function and <code>get_velocity_x</code> is just the same like between <code>get_pos_y</code> and <code>get_pos_x</code>: same thing, different coordinates.</para>
 </sect3>
+
 <sect3><title>set_visible</title>
-<para></para>
+<para>Usage: <code>&lt;scriptedobject&gt;.set_visible(bool visible)</code></para>
+<para>Effect: Shows or hides the object according to the value of <code>visible</code>.</para>
 </sect3>
+
 <sect3><title>is_visible</title>
-<para></para>
+<para>Usage: <code>&lt;scriptedobject&gt;.is_visible()</code></para>
+<para>Returns: <code>bool</code></para>
+<para>Effect: Returns <code>true</code> if the object is visible. (You've seen this coming, haven't you?)</para>
 </sect3>
+
 <sect3><title>get_name</title>
-<para></para>
+<para>Usage: <code>&lt;scriptedobject&gt;.get_name()</code></para>
+<para>Returns: <code>string</code></para>
+<para>Effect: Simply gives you the name of the scripted object (as if you didn't have it already...)</para>
 </sect3>
 
 </sect2>
 
 <sect2><title>Sound</title>
+<para>This class provides a very simple interface to the audio subsystem.</para>
+
+<sect3><title>play_music (NYI)</title>
+<para>Usage: <code>Sound.play_music(string ???)</code></para>
+<para>Warning: This function has not yet been implemented.</para>
+</sect3>
+
+<sect3><title>play_sound</title>
+<para>Usage: <code>Sound.play_sound(string sound_name)</code></para>
+<para>Effect: Plays the sound specified in <code>sound_name</code> (that is identical to the filename of the sound without the <code>.wav</code> extension).</para>
+</sect3>
+
 </sect2>
 
 <sect2><title>Text</title>
+<para>This module provides access to methods reponsible for displaying text on-screen.</para>
+
+<sect3><title>set_text</title>
+<para>Usage: <code>Text.set_text(string text)</code></para>
+<para>Effect: Sets the text string to be displayed to <code>text</code>.</para>
+</sect3>
+
+<sect3><title>set_font</title>
+<para>Usage: <code>Text.set_font(string font)</code></para>
+<para>Effect: Sets the font of the text to be displayed to <code>text</code>. Currently valid values are <code>gold</code>, <code>white</code>, <code>blue</code>, <code>gray</code>, <code>big</code> and <code>small</code>.</para>
+</sect3>
+
+<sect3><title>fade_in</title>
+<para>Usage: <code>Text.fade_in(float time)</code></para>
+<para>Effect: Fades in the specified text for the next <code>time</code> seconds.</para>
+</sect3>
+
+<sect3><title>fade_out</title>
+<para>Usage: <code>Text.fade_out(float time)</code></para>
+<para>Effect: Just the opposite of <code>fade_out</code>.</para>
+</sect3>
+
+<sect3><title>set_visible</title>
+<para>Usage: <code>Text.set_visible(bool visible)</code></para>
+<para>Effect: Shows or hides the text abruptly (drastic counterpart to <code>fade_in</code> and <code>fade_out</code>.</para>
+</sect3>
+
 </sect2>
 
 </sect1>
