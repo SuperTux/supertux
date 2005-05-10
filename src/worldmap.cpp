@@ -195,7 +195,7 @@ Tux::set_direction(Direction dir)
 }
 
 void
-Tux::action(float delta)
+Tux::update(float delta)
 {
   // check controller
   if(main_controller->pressed(Controller::UP))
@@ -401,7 +401,7 @@ WorldMap::load_map()
         const lisp::Lisp* tilemap_lisp = iter.lisp();
         tilemap_lisp->get("width",  width);
         tilemap_lisp->get("height", height);
-        tilemap_lisp->get_vector("data", tilemap);
+        tilemap_lisp->get_vector("tiles", tilemap);
       } else if(iter.item() == "properties") {
         const lisp::Lisp* props = iter.lisp();
         props->get("name", name);
@@ -409,8 +409,10 @@ WorldMap::load_map()
         props->get("intro-filename", intro_filename);
         props->get("start_pos_x", start_x);
         props->get("start_pos_y", start_y);
-      } else if(iter.item() == "special-tiles") {
-        parse_special_tiles(iter.lisp());
+      } else if(iter.item() == "level") {
+        parse_level_tile(iter.lisp());
+      } else if(iter.item() == "special-tile") {
+        parse_special_tile(iter.lisp());
       } else {
         std::cerr << "Unknown token '" << iter.item() << "' in worldmap.\n";
       }
@@ -427,81 +429,75 @@ WorldMap::load_map()
 }
 
 void
-WorldMap::parse_special_tiles(const lisp::Lisp* lisp)
+WorldMap::parse_special_tile(const lisp::Lisp* lisp)
 {
-  lisp::ListIterator iter(lisp);
-  while(iter.next()) {
-    if(iter.item() == "special-tile") {
-      SpecialTile special_tile;
+  SpecialTile special_tile;
+  
+  lisp->get("x", special_tile.pos.x);
+  lisp->get("y", special_tile.pos.y);
+  lisp->get("map-message", special_tile.map_message);
+  special_tile.passive_message = false;
+  lisp->get("passive-message", special_tile.passive_message);
+  special_tile.teleport_dest = Vector(-1,-1);
+  lisp->get("teleport-to-x", special_tile.teleport_dest.x);
+  lisp->get("teleport-to-y", special_tile.teleport_dest.y);
+  special_tile.invisible = false;
+  lisp->get("invisible-tile", special_tile.invisible);
 
-      const lisp::Lisp* lisp = iter.lisp();
-      lisp->get("x", special_tile.pos.x);
-      lisp->get("y", special_tile.pos.y);
-      lisp->get("map-message", special_tile.map_message);
-      special_tile.passive_message = false;
-      lisp->get("passive-message", special_tile.passive_message);
-      special_tile.teleport_dest = Vector(-1,-1);
-      lisp->get("teleport-to-x", special_tile.teleport_dest.x);
-      lisp->get("teleport-to-y", special_tile.teleport_dest.y);
-      special_tile.invisible = false;
-      lisp->get("invisible-tile", special_tile.invisible);
+  special_tile.apply_action_north = true;
+  special_tile.apply_action_south = true;
+  special_tile.apply_action_east = true;
+  special_tile.apply_action_west = true;
 
+  std::string apply_direction;
+  lisp->get("apply-to-direction", apply_direction);
+  if(!apply_direction.empty()) {
+    special_tile.apply_action_north = false;
+    special_tile.apply_action_south = false;
+    special_tile.apply_action_east = false;
+    special_tile.apply_action_west = false;
+    if(apply_direction.find("north") != std::string::npos)
       special_tile.apply_action_north = true;
+    if(apply_direction.find("south") != std::string::npos)
       special_tile.apply_action_south = true;
+    if(apply_direction.find("east") != std::string::npos)
       special_tile.apply_action_east = true;
+    if(apply_direction.find("west") != std::string::npos)
       special_tile.apply_action_west = true;
-
-      std::string apply_direction;
-      lisp->get("apply-to-direction", apply_direction);
-      if(!apply_direction.empty()) {
-        special_tile.apply_action_north = false;
-        special_tile.apply_action_south = false;
-        special_tile.apply_action_east = false;
-        special_tile.apply_action_west = false;
-        if(apply_direction.find("north") != std::string::npos)
-          special_tile.apply_action_north = true;
-        if(apply_direction.find("south") != std::string::npos)
-          special_tile.apply_action_south = true;
-        if(apply_direction.find("east") != std::string::npos)
-          special_tile.apply_action_east = true;
-        if(apply_direction.find("west") != std::string::npos)
-          special_tile.apply_action_west = true;
-      }
-      
-      special_tiles.push_back(special_tile);
-    } else if(iter.item() == "level") {
-      Level level;
-
-      lisp::Lisp* level_lisp = iter.lisp();
-      level.solved = false;
-                      
-      level.north = true;
-      level.east  = true;
-      level.south = true;
-      level.west  = true;
-
-      level_lisp->get("extro-filename", level.extro_filename);
-      level_lisp->get("next-worldmap", level.next_worldmap);
-
-      level.quit_worldmap = false;
-      level_lisp->get("quit-worldmap", level.quit_worldmap);
-
-      level_lisp->get("name", level.name);
-      level_lisp->get("x", level.pos.x);
-      level_lisp->get("y", level.pos.y);
-
-      level.auto_path = true;
-      level_lisp->get("auto-path", level.auto_path);
-
-      level.vertical_flip = false;
-      level_lisp->get("vertical-flip", level.vertical_flip);
-
-      levels.push_back(level);
-    } else {
-      std::cerr << "Unknown token '" << iter.item() <<
-        "' in worldmap special-tiles list.";
-    }
   }
+  
+  special_tiles.push_back(special_tile);
+}
+
+void
+WorldMap::parse_level_tile(const lisp::Lisp* level_lisp)
+{
+  Level level;
+
+  level.solved = false;
+                  
+  level.north = true;
+  level.east  = true;
+  level.south = true;
+  level.west  = true;
+
+  level_lisp->get("extro-filename", level.extro_filename);
+  level_lisp->get("next-worldmap", level.next_worldmap);
+
+  level.quit_worldmap = false;
+  level_lisp->get("quit-worldmap", level.quit_worldmap);
+
+  level_lisp->get("name", level.name);
+  level_lisp->get("x", level.pos.x);
+  level_lisp->get("y", level.pos.y);
+
+  level.auto_path = true;
+  level_lisp->get("auto-path", level.auto_path);
+
+  level.vertical_flip = false;
+  level_lisp->get("vertical-flip", level.vertical_flip);
+
+  levels.push_back(level);
 }
 
 void
@@ -629,7 +625,7 @@ WorldMap::update(float delta)
 {
   Menu* menu = Menu::current();
   if(menu) {
-    menu->action();
+    menu->update();
 
     if(menu == worldmap_menu) {
       switch (worldmap_menu->check())
@@ -806,7 +802,7 @@ WorldMap::update(float delta)
     }
   else
     {
-      tux->action(delta);
+      tux->update(delta);
 //      tux->set_direction(input_direction);
     }
 }

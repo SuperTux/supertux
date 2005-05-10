@@ -47,7 +47,7 @@ public:
 
   virtual void write(lisp::Writer& writer);
 
-  virtual void action(float elapsed_time);
+  virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);
 
   void set(int width, int height, const std::vector<unsigned int>& vec,

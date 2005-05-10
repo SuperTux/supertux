@@ -453,7 +453,7 @@ Sector::get_active_region()
 }
 
 void
-Sector::action(float elapsed_time)
+Sector::update(float elapsed_time)
 {
   player->check_bounds(camera);
 
@@ -463,7 +463,7 @@ Sector::action(float elapsed_time)
     if(!object->is_valid())
       continue;
 
-    object->action(elapsed_time);
+    object->update(elapsed_time);
   }
 #else
   /* update objects */
@@ -473,7 +473,7 @@ Sector::action(float elapsed_time)
     if(!object->is_valid())
       continue;
     
-    object->action(elapsed_time);
+    object->update(elapsed_time);
   }
 #endif
   

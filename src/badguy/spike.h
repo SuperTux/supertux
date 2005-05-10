@@ -32,7 +32,7 @@ public:
   Spike(const Vector& pos, Direction dir);
   Spike(const lisp::Lisp& reader);
 
-  void active_action(float elapsed_time);
+  void active_update(float elapsed_time);
   void write(lisp::Writer& writer);
   void kill_fall();
 private:

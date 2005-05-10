@@ -45,7 +45,7 @@ Star::~Star()
 }
 
 void
-Star::action(float elapsed_time)
+Star::update(float elapsed_time)
 {
   movement = physic.get_movement(elapsed_time);
 }

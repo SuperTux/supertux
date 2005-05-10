@@ -42,7 +42,7 @@ OneUp::~OneUp()
 }
 
 void
-OneUp::action(float elapsed_time)
+OneUp::update(float elapsed_time)
 {
   if(!Sector::current()->inside(bbox))
     remove_me();

@@ -86,7 +86,7 @@ TextObject::draw(DrawingContext& context)
 }
 
 void
-TextObject::action(float elapsed_time)
+TextObject::update(float elapsed_time)
 {
   if(fading > 0) {
     fading -= elapsed_time;

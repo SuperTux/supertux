@@ -153,7 +153,7 @@ Player::set_controller(Controller* controller)
 }
 
 void
-Player::action(float elapsed_time)
+Player::update(float elapsed_time)
 {
   if(dying && dying_timer.check()) {
     dead = true;

@@ -131,7 +131,7 @@ TileMap::write(lisp::Writer& writer)
 }
 
 void
-TileMap::action(float )
+TileMap::update(float )
 {
 }
 

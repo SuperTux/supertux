@@ -83,7 +83,7 @@ FlyingSnowBall::collision_solid(GameObject& , const CollisionHit& hit)
 }
 
 void
-FlyingSnowBall::active_action(float elapsed_time) 
+FlyingSnowBall::active_update(float elapsed_time) 
 {
   if(timer.check()) {
     if(mode == FLY_UP) {

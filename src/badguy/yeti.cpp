@@ -17,7 +17,6 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
-
 #include <config.h>
 
 #include <float.h>
@@ -43,6 +42,7 @@ Yeti::Yeti(const lisp::Lisp& reader)
   reader.get("y", start_position.y);
   bbox.set_size(80, 120);
   sprite = sprite_manager->create("yeti");
+  sprite->set_action("right");
   state = INIT;
   side = LEFT;
   sound_manager->preload_sound("yeti_gna");
@@ -66,7 +66,7 @@ Yeti::draw(DrawingContext& context)
 }
 
 void
-Yeti::active_action(float elapsed_time)
+Yeti::active_update(float elapsed_time)
 {
   switch(state) {
     case INIT:
@@ -207,10 +207,12 @@ Yeti::collision_solid(GameObject& , const CollisionHit& hit)
     } else if(state == GO_LEFT && !timer.started()) {
       side = LEFT;
       summon_snowball();
+      sprite->set_action("right");
       angry_jumping();
     } else if(state == GO_RIGHT && !timer.started()) {
       side = RIGHT;
       summon_snowball();
+      sprite->set_action("left");
       angry_jumping();
     } else if(state == ANGRY_JUMPING) {
       if(!timer.started()) {

@@ -49,9 +49,9 @@ public:
    */
   virtual void draw(DrawingContext& context);
   /** Called each frame. The default implementation checks badguy state and
-   * calls active_action and inactive_action
+   * calls active_update and inactive_update
    */
-  virtual void action(float elapsed_time);
+  virtual void update(float elapsed_time);
   /** Called when a collision with another object occured. The default
    * implemetnation calls collision_player, collision_solid, collision_badguy
    * and collision_squished
@@ -98,9 +98,9 @@ protected:
   virtual bool collision_squished(Player& player);
 
   /** called each frame when the badguy is activated. */
-  virtual void active_action(float elapsed_time);
+  virtual void active_update(float elapsed_time);
   /** called each frame when the badguy is not activated. */
-  virtual void inactive_action(float elapsed_time);
+  virtual void inactive_update(float elapsed_time);
 
   /**
    * called when the badguy has been activated. (As a side effect the dir

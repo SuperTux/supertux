@@ -51,7 +51,7 @@ public:
   /** @deprecated@ */
   const Vector& get_translation() const;
 
-  virtual void action(float elapsed_time);
+  virtual void update(float elapsed_time);
 
   virtual void draw(DrawingContext& )
   {

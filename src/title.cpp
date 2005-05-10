@@ -265,7 +265,7 @@ void draw_demo(float elapsed_time)
     sector->camera->reset(tux->get_pos());
   }
 
-  sector->action(elapsed_time);
+  sector->update(elapsed_time);
   sector->draw(*titlesession->context);
 }
 
@@ -350,7 +350,7 @@ void title()
       if(menu)
         {
           menu->draw(context);
-          menu->action();
+          menu->update();
   	  
           if(menu == main_menu)
             {

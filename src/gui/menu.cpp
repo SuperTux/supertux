@@ -90,7 +90,7 @@ bool confirm_dialog(Surface *background, std::string text)
         context.draw_surface(background, Vector(0,0), LAYER_BACKGROUND0);
 
       dialog->draw(context);
-      dialog->action();
+      dialog->update();
 
       switch (dialog->check())
         {
@@ -315,7 +315,7 @@ Menu::clear()
 
 /* Process actions done on the menu */
 void
-Menu::action()
+Menu::update()
 {
   /** check main input controller... */
   Uint32 ticks = SDL_GetTicks();
@@ -420,7 +420,7 @@ Menu::action()
         case MN_TEXTFIELD:
         case MN_NUMFIELD:
           menuaction = MENU_ACTION_DOWN;
-          action();
+          update();
           break;
           
         case MN_BACK:

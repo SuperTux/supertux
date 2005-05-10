@@ -37,7 +37,7 @@ SpecialRiser::~SpecialRiser()
 }
 
 void
-SpecialRiser::action(float elapsed_time)
+SpecialRiser::update(float elapsed_time)
 {
   offset += 50 * elapsed_time;
   if(offset > 32) {

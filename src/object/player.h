@@ -133,7 +133,7 @@ public:
 
   void set_controller(Controller* controller);  
 
-  virtual void action(float elapsed_time);
+  virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
 

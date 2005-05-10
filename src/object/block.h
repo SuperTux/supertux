@@ -33,7 +33,7 @@ public:
   ~Block();
 
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
-  virtual void action(float elapsed_time);
+  virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);
 
 protected:

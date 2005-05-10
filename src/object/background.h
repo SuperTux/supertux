@@ -52,7 +52,7 @@ public:
   Color get_gradient_bottom() const
         { return gradient_bottom; }
 
-  virtual void action(float elapsed_time);
+  virtual void update(float elapsed_time);
 
   virtual void draw(DrawingContext& context);
 

@@ -17,7 +17,7 @@ public:
   ~ScriptInterpreter();
 
   void draw(DrawingContext& );
-  void action(float );
+  void update(float );
 
   void load_script(std::istream& in, const std::string& sourcename = "");
   void start_script();

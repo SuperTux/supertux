@@ -68,14 +68,14 @@ MrIceBlock::activate()
 }
 
 void
-MrIceBlock::active_action(float elapsed_time)
+MrIceBlock::active_update(float elapsed_time)
 {
   if(ice_state == ICESTATE_FLAT && flat_timer.check()) {
     ice_state = ICESTATE_NORMAL;
     physic.set_velocity_x(dir == LEFT ? -WALKSPEED : WALKSPEED);
     sprite->set_action(dir == LEFT ? "left" : "right");
   }
-  BadGuy::active_action(elapsed_time);
+  BadGuy::active_update(elapsed_time);
 }
 
 HitResponse

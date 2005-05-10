@@ -80,7 +80,7 @@ public:
     void parse(const lisp::Lisp& lisp);
     void write(lisp::Writer& writer);
 
-    virtual void action(float elapsed_time);
+    virtual void update(float elapsed_time);
 
     std::string type() const
     { return "SnowParticleSystem"; }
@@ -104,7 +104,7 @@ public:
     void parse(const lisp::Lisp& lisp);
     void write(lisp::Writer& writer);
 
-    virtual void action(float elapsed_time);
+    virtual void update(float elapsed_time);
 
     std::string type() const
     { return "RainParticleSystem"; }
@@ -128,7 +128,7 @@ public:
     void parse(const lisp::Lisp& lisp);
     void write(lisp::Writer& writer);
 
-    virtual void action(float elapsed_time);
+    virtual void update(float elapsed_time);
 
     std::string type() const
     { return "SnowParticleSystem"; }    

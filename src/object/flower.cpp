@@ -45,7 +45,7 @@ Flower::~Flower()
 }
 
 void
-Flower::action(float )
+Flower::update(float )
 {
 }
 

@@ -54,7 +54,7 @@ BadGuy::draw(DrawingContext& context)
 }
 
 void
-BadGuy::action(float elapsed_time)
+BadGuy::update(float elapsed_time)
 {
   if(!Sector::current()->inside(bbox)) {
     remove_me();
@@ -66,11 +66,11 @@ BadGuy::action(float elapsed_time)
   
   switch(state) {
     case STATE_ACTIVE:
-      active_action(elapsed_time);
+      active_update(elapsed_time);
       break;
     case STATE_INIT:
     case STATE_INACTIVE:
-      inactive_action(elapsed_time);
+      inactive_update(elapsed_time);
       try_activate();
       break;
     case STATE_SQUISHED:
@@ -97,13 +97,13 @@ BadGuy::deactivate()
 }
 
 void
-BadGuy::active_action(float elapsed_time)
+BadGuy::active_update(float elapsed_time)
 {
   movement = physic.get_movement(elapsed_time);
 }
 
 void
-BadGuy::inactive_action(float )
+BadGuy::inactive_update(float )
 {
 }
 

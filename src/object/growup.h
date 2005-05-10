@@ -30,7 +30,7 @@ public:
   GrowUp(const Vector& pos);
   ~GrowUp();
 
-  virtual void action(float elapsed_time);
+  virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
   

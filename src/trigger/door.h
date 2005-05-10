@@ -36,7 +36,7 @@ public:
 
   virtual void write(lisp::Writer& writer);
   
-  virtual void action(float elapsed_time);
+  virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);
   virtual void event(Player& player, EventType type);
 

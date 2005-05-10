@@ -81,7 +81,7 @@ Block::collision(GameObject& other, const CollisionHit& hitdata)
 }
 
 void
-Block::action(float elapsed_time)
+Block::update(float elapsed_time)
 {
   if(!bouncing)
     return;

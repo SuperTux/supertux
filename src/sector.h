@@ -73,7 +73,7 @@ public:
   void activate(const std::string& spawnpoint);
   void activate(const Vector& player_pos);
 
-  void action(float elapsed_time);
+  void update(float elapsed_time);
   void update_game_objects();
 
   void draw(DrawingContext& context);
@@ -148,7 +148,7 @@ public: // TODO make this private again
 private:
   void fix_old_tiles();
   
-  /// container for newly created objects, they'll be added in Sector::action
+  /// container for newly created objects, they'll be added in Sector::update
   GameObjects gameobjects_new;
  
   MusicType currentmusic;

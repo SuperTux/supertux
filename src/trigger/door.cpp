@@ -72,7 +72,7 @@ Door::write(lisp::Writer& writer)
 }
 
 void
-Door::action(float )
+Door::update(float )
 {
   //Check if door animation is complete
   if(sprite->check_animation()) {

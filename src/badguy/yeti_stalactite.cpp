@@ -45,12 +45,12 @@ YetiStalactite::is_hanging()
 }
 
 void
-YetiStalactite::active_action(float elapsed_time)
+YetiStalactite::active_update(float elapsed_time)
 {
   if(state == STALACTITE_HANGING)
     return;
 
-  Stalactite::active_action(elapsed_time);
+  Stalactite::active_update(elapsed_time);
 }
 
 IMPLEMENT_FACTORY(YetiStalactite, "yeti_stalactite")

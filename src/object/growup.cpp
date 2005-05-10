@@ -43,7 +43,7 @@ GrowUp::~GrowUp()
 }
 
 void
-GrowUp::action(float elapsed_time)
+GrowUp::update(float elapsed_time)
 {
   movement = physic.get_movement(elapsed_time);
 }

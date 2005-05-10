@@ -64,7 +64,7 @@ MrRocket::activate()
 }
 
 void
-MrRocket::active_action(float elapsed_time)
+MrRocket::active_update(float elapsed_time)
 {
   if (collision_timer.check()) {
     Sector::current()->add_object(new RocketExplosion(get_pos(), dir));

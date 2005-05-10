@@ -10,7 +10,7 @@ public:
     DisplayEffect();
     virtual ~DisplayEffect();
 
-    void action(float elapsed_time);
+    void update(float elapsed_time);
     void draw(DrawingContext& context);
 
     void fade_out(float fadetime);

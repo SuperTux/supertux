@@ -46,7 +46,7 @@ public:
    * seconds and should be the base for all timed calculations (don't use
    * SDL_GetTicks directly as this will fail in pause mode)
    */
-  virtual void action(float elapsed_time) = 0;
+  virtual void update(float elapsed_time) = 0;
 
   /** The GameObject should draw itself onto the provided DrawingContext if this
    * function is called.

@@ -116,7 +116,7 @@ SnowParticleSystem::~SnowParticleSystem()
     delete snowimages[i];
 }
 
-void SnowParticleSystem::action(float elapsed_time)
+void SnowParticleSystem::update(float elapsed_time)
 {
     std::vector<Particle*>::iterator i;
     for(i = particles.begin(); i != particles.end(); ++i) {
@@ -173,7 +173,7 @@ RainParticleSystem::~RainParticleSystem()
     delete rainimages[i];
 }
 
-void RainParticleSystem::action(float elapsed_time)
+void RainParticleSystem::update(float elapsed_time)
 {
     std::vector<Particle*>::iterator i;
     for(i = particles.begin(); i != particles.end(); ++i) {
@@ -224,7 +224,7 @@ CloudParticleSystem::~CloudParticleSystem()
   delete cloudimage;
 }
 
-void CloudParticleSystem::action(float elapsed_time)
+void CloudParticleSystem::update(float elapsed_time)
 {
     std::vector<Particle*>::iterator i;
     for(i = particles.begin(); i != particles.end(); ++i) {

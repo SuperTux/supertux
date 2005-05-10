@@ -21,7 +21,7 @@ public:
   bool is_visible();
 
   void draw(DrawingContext& context);
-  void action(float elapsed_time);
+  void update(float elapsed_time);
 
 private:
   Font* font;

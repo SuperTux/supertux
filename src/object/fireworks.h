@@ -31,7 +31,7 @@ public:
   Fireworks();
   ~Fireworks();
     
-  virtual void action(float elapsed_time);
+  virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);
 
 private:

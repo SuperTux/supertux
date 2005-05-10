@@ -49,7 +49,7 @@ Flame::write(lisp::Writer& writer)
 }
 
 void
-Flame::active_action(float elapsed_time)
+Flame::active_update(float elapsed_time)
 {
   angle = fmodf(angle + elapsed_time * speed, 2*M_PI);
   Vector newpos(start_position.x + cos(angle) * radius,

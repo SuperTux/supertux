@@ -49,7 +49,7 @@ public:
   ~AmbientSound();
 protected:
   virtual void hit(Player& player);
-  virtual void action(float time);
+  virtual void update(float time);
   virtual void draw(DrawingContext&);
   virtual void start_playing();
   virtual void stop_playing();

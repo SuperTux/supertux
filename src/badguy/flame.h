@@ -29,7 +29,7 @@ public:
   Flame(const lisp::Lisp& reader);
 
   void write(lisp::Writer& write);
-  void active_action(float elapsed_time);
+  void active_update(float elapsed_time);
   void kill_fall();
 
 private:

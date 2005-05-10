@@ -73,7 +73,7 @@ UnstableTile::draw(DrawingContext& context)
 }
 
 void
-UnstableTile::action(float elapsed_time)
+UnstableTile::update(float elapsed_time)
 {
   if(falling) {
     movement = physic.get_movement(elapsed_time);

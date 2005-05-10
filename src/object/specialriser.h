@@ -32,7 +32,7 @@ public:
   SpecialRiser(MovingObject* child);
   ~SpecialRiser();
 
-  virtual void action(float elapsed_time);
+  virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);
 
 private:

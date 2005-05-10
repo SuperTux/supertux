@@ -1555,8 +1555,12 @@
 
   (sprite (name "yeti")
     (action
-      (name "normal")
+      (name "right")
       (images "creatures/yeti/yeti_b.png")
+    )
+    (action
+      (name "left")
+      (mirror-action "right")
     )
   )
 )

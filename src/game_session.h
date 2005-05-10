@@ -71,7 +71,7 @@ public:
   void record_demo(const std::string& filename);
   void play_demo(const std::string& filename);
   void draw();
-  void action(float frame_ratio);
+  void update(float frame_ratio);
 
   void set_current()
   { current_ = this; }

@@ -31,7 +31,7 @@ public:
   HitResponse collision_badguy(BadGuy& other, const CollisionHit& hit);
 
   void write(lisp::Writer& writer);
-  void active_action(float);
+  void active_update(float);
 
 private:
   HitResponse hit(const CollisionHit& hit);

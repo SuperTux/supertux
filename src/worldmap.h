@@ -82,7 +82,7 @@ public:
   ~Tux();
   
   void draw(DrawingContext& context);
-  void action(float elapsed_time);
+  void update(float elapsed_time);
 
   void set_direction(Direction dir);
 
@@ -257,7 +257,8 @@ public:
 
 private:
   void on_escape_press();
-  void parse_special_tiles(const lisp::Lisp* lisp);
+  void parse_special_tile(const lisp::Lisp* lisp);
+  void parse_level_tile(const lisp::Lisp* lisp);
 };
 
 } // namespace WorldMapNS

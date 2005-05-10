@@ -60,7 +60,7 @@ Platform::collision(GameObject& , const CollisionHit& )
 }
 
 void
-Platform::action(float )
+Platform::update(float )
 {
   // just some test code...
   if(state == 0) {

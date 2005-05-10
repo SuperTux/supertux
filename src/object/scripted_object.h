@@ -14,7 +14,7 @@ public:
   ScriptedObject(const lisp::Lisp& lisp);
   virtual ~ScriptedObject();
 
-  void action(float elapsed_time);
+  void update(float elapsed_time);
   void draw(DrawingContext& context);
   HitResponse collision(GameObject& other, const CollisionHit& hit);
 

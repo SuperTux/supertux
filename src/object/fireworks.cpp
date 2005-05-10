@@ -38,7 +38,7 @@ Fireworks::~Fireworks()
 }
 
 void
-Fireworks::action(float )
+Fireworks::update(float )
 {
     if(timer.check()) {
         Sector* sector = Sector::current();

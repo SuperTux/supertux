@@ -52,7 +52,7 @@ Bell::write(lisp::Writer& writer)
 }
 
 void
-Bell::action(float )
+Bell::update(float )
 {
 }
 

@@ -52,7 +52,7 @@ Coin::~Coin()
 }
 
 void
-Coin::action(float )
+Coin::update(float )
 {
 }
 

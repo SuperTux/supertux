@@ -148,7 +148,7 @@ static const float EPSILON = .00001;
 static const float max_speed_y = 140;
 
 void
-Camera::action(float elapsed_time)
+Camera::update(float elapsed_time)
 {
   if(mode == NORMAL)
     scroll_normal(elapsed_time);

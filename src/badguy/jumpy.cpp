@@ -79,12 +79,18 @@ Jumpy::hit(const CollisionHit& chit)
 }
 
 void
-Jumpy::active_action(float elapsed_time)
+Jumpy::active_update(float elapsed_time)
 {
-  BadGuy::active_action(elapsed_time);
+  BadGuy::active_update(elapsed_time);
   
   dir = Sector::current()->player->get_pos().x > get_pos().x
     ? RIGHT : LEFT;
+    
+  if (!groundhit_pos_set)
+  {
+    sprite->set_action(dir == LEFT ? "left-middle" : "right-middle");
+    return;
+  }
   
   if ( get_pos().y < (pos_groundhit.y - JUMPY_MID_TOLERANCE ) )
     sprite->set_action(dir == LEFT ? "left-up" : "right-up");

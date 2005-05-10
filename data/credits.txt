@@ -29,11 +29,14 @@
 
 	Ryan (sik0fewl) Flegel
 
+
 -Contrib Programming
 
 	Duong-Khang (neoneurone) NGUYEN
 
 	Richard Smith
+
+	Ondra Hosek
 
 
 -Graphics

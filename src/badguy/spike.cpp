@@ -79,7 +79,7 @@ Spike::kill_fall()
 }
 
 void
-Spike::active_action(float )
+Spike::active_update(float )
 {
 }
 

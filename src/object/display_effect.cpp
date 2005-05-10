@@ -15,7 +15,7 @@ DisplayEffect::~DisplayEffect()
 }
 
 void
-DisplayEffect::action(float elapsed_time)
+DisplayEffect::update(float elapsed_time)
 {
     switch(type) {
         case NO_FADE:

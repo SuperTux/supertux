@@ -170,7 +170,7 @@ ScriptInterpreter::set_wakeup_time(float seconds)
 }
 
 void
-ScriptInterpreter::action(float )
+ScriptInterpreter::update(float )
 {
   if(!wakeup_timer.check())
     return;

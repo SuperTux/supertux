@@ -31,7 +31,7 @@ public:
 
   void activate();
   void write(lisp::Writer& writer);
-  void active_action(float elapsed_time);
+  void active_update(float elapsed_time);
 
 protected:
   bool collision_squished(Player& player);

@@ -29,7 +29,7 @@ public:
   YetiStalactite(const lisp::Lisp& lisp);
   virtual ~YetiStalactite();
 
-  void active_action(float elapsed_time);
+  void active_update(float elapsed_time);
   void start_shaking();
   bool is_hanging();
 };

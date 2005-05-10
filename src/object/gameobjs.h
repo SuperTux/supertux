@@ -39,7 +39,7 @@ class BouncyCoin : public GameObject
 public:
   BouncyCoin(const Vector& pos);
   ~BouncyCoin();
-  virtual void action(float elapsed_time);
+  virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);
 
 private:
@@ -54,7 +54,7 @@ public:
   BrokenBrick(Sprite* sprite, const Vector& pos, const Vector& movement);
   ~BrokenBrick();
 
-  virtual void action(float elapsed_time);
+  virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);
 
 private:
@@ -70,7 +70,7 @@ public:
   FloatingText(const Vector& pos, const std::string& text_);
   FloatingText(const Vector& pos, int s);  // use this for score, for instance
   
-  virtual void action(float elapsed_time);
+  virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);
 
 private:
@@ -86,7 +86,7 @@ class SmokeCloud : public GameObject
 public:
   SmokeCloud(const Vector& pos);
   
-  virtual void action(float elapsed_time);
+  virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);
 
 private:
@@ -102,7 +102,7 @@ public:
             int number, Color color, int size, float life_time, int drawing_layer);
   ~Particles();
   
-  virtual void action(float elapsed_time);
+  virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);
 
 private:

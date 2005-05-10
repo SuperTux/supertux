@@ -32,7 +32,7 @@ public:
   MrRocket(float pos_x, float pos_y, Direction d);
 
   void activate();
-  void active_action(float elapsed_time);
+  void active_update(float elapsed_time);
   void write(lisp::Writer& writer);
   HitResponse collision_solid(GameObject& other, const CollisionHit& hit);
 

@@ -116,7 +116,7 @@ ScriptedObject::get_name()
 }
 
 void
-ScriptedObject::action(float elapsed_time)
+ScriptedObject::update(float elapsed_time)
 {
   if(!physic_enabled)
     return;

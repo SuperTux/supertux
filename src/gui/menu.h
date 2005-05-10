@@ -117,7 +117,7 @@ private:
   };
   
   /** Number of the item that got 'hit' (ie. pressed) in the last
-      event()/action() call, -1 if none */
+      event()/update() call, -1 if none */
   int hit_item;
   
   // position of the menu (ie. center of the menu, not top/left)
@@ -156,7 +156,7 @@ public:
 
   virtual void menu_action(MenuItem* item);
   
-  void action();
+  void update();
   
   /** Remove all entries from the menu */
   void clear();

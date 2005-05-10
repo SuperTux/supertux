@@ -35,7 +35,7 @@ public:
   Bullet(const Vector& pos, float xm, int dir, int kind);
   ~Bullet();
   
-  void action(float elapsed_time);
+  void update(float elapsed_time);
   void draw(DrawingContext& context);
   HitResponse collision(GameObject& other, const CollisionHit& hit);
 

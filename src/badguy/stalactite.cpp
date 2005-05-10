@@ -45,7 +45,7 @@ Stalactite::write(lisp::Writer& writer)
 }
 
 void
-Stalactite::active_action(float elapsed_time)
+Stalactite::active_update(float elapsed_time)
 {
   if(state == STALACTITE_HANGING) {
     Player* player = Sector::current()->player;

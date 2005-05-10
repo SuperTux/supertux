@@ -36,7 +36,7 @@ public:
   ~UnstableTile();
 
   HitResponse collision(GameObject& other, const CollisionHit& hit);
-  void action(float elapsed_time);
+  void update(float elapsed_time);
   void draw(DrawingContext& context);
 
 private:

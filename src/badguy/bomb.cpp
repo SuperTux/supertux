@@ -70,7 +70,7 @@ Bomb::collision_badguy(BadGuy& badguy, const CollisionHit& )
 }
 
 void
-Bomb::active_action(float )
+Bomb::active_update(float )
 {
   switch(state) {
     case 0:
@@ -99,6 +99,7 @@ Bomb::explode()
 void
 Bomb::kill_fall()
 {
-  explode();
+  if (state != 1)  // we don't want it exploding again
+    explode();
 }
 

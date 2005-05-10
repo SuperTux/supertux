@@ -72,7 +72,7 @@ Hatch::write(lisp::Writer& writer)
 }
 
 void
-Hatch::action(float )
+Hatch::update(float )
 {
   //Check if hatch animation is complete
   if(sprite->check_animation()) {

@@ -2,9 +2,6 @@
 (supertux-worldmap
   (properties 
     (name (_ "Icyisland"))
-    (name-pt_PT  "Ilha Gelada")
-    (name-de "Eisige Insel")
-    (name-es "Isla de hielo")
     (intro-filename "intro.txt")
     (music "salcon.mod")
     (start_pos_x 4)
@@ -12,7 +9,7 @@
   (tilemap 
     (width  40)
     (height 30)
-    (data
+    (tiles
        9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  
        9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  11 12 9  9  9  9  9  9  9  9  9  9  9  9  
        9  9  9  9  9  9  9  11 16 12 11 16 16 16 16 12 9  9  9  9  11 16 16 12 9  9  14 13 9  9  9  9  9  9  9  9  9  9  9  9  
@@ -45,8 +42,6 @@
        9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  9  
            ))
 
-
-  (special-tiles
     (level
       (x 4)
       (y 6)
@@ -153,11 +148,5 @@
       (extro-filename "extro.txt")
       (name "level26.stl")
       (quit-worldmap #t))
-; In the future, do this to go to another world:
-; (next-worldmap "forest.stwt)
-
-  )
-
-
 )
 

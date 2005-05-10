@@ -84,7 +84,7 @@ AmbientSound::start_playing()
 }
 
 void
-AmbientSound::action(float deltat) 
+AmbientSound::update(float deltat) 
 {
   if (latency--<=0) {
 

@@ -55,7 +55,7 @@ Bullet::~Bullet()
 }
 
 void
-Bullet::action(float elapsed_time)
+Bullet::update(float elapsed_time)
 {
   if(kind == FIRE_BULLET) {
     // @not completely framerate independant :-/

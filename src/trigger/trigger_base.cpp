@@ -32,7 +32,7 @@ TriggerBase::~TriggerBase()
 }
 
 void
-TriggerBase::action(float )
+TriggerBase::update(float )
 {
   lasthit = hit;
   hit = false;

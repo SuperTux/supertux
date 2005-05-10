@@ -26,7 +26,7 @@
 #define MC_STATES_NB 3
  
 enum {
-  MC_NORMAL,
+  MC_NORMAL = 0,
   MC_CLICK,
   MC_LINK,
   MC_HIDE

@@ -39,7 +39,6 @@ if ! $(MINISWIG)
 {
     wrapper_sources += [ SearchSource wrapper.cpp ] ;
 }
- echo $(wrapper_sources) ;
 wrapper_objects = [ CompileObjects $(wrapper_sources) ] ;
 if $(MINISWIG)
 {

@@ -72,7 +72,7 @@ Nolok_01::activate()
 }
 
 void
-Nolok_01::active_action(float elapsed_time)
+Nolok_01::active_update(float elapsed_time)
 {
    if (action_timer.check()) {
      switch (action) {       

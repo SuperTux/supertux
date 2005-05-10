@@ -405,7 +405,7 @@ GameSession::check_end_conditions()
 }
 
 void
-GameSession::action(float elapsed_time)
+GameSession::update(float elapsed_time)
 {
   // handle controller
   if(main_controller->pressed(Controller::PAUSE_MENU))
@@ -414,7 +414,7 @@ GameSession::action(float elapsed_time)
   // advance timers
   if(!currentsector->player->growing_timer.started()) {
     // Update Tux and the World
-    currentsector->action(elapsed_time);
+    currentsector->update(elapsed_time);
   }
 
   // respawning in new sector?
@@ -485,7 +485,7 @@ GameSession::process_menu()
 {
   Menu* menu = Menu::current();
   if(menu) {
-    menu->action();
+    menu->update();
 
     if(menu == game_menu) {
       switch (game_menu->check()) {
@@ -581,9 +581,9 @@ GameSession::run()
       // Update the world
       check_end_conditions();
       if (end_sequence == ENDSEQUENCE_RUNNING)
-        action(elapsed_time/2);
+        update(elapsed_time/2);
       else if(end_sequence == NO_ENDSEQUENCE)
-        action(elapsed_time);
+        update(elapsed_time);
     }
     else
     {

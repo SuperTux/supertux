@@ -80,7 +80,7 @@ Background::write(lisp::Writer& writer)
 }
 
 void
-Background::action(float)
+Background::update(float)
 {
 }
 

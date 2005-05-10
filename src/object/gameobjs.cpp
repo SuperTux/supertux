@@ -50,7 +50,7 @@ BouncyCoin::~BouncyCoin()
 }
 
 void
-BouncyCoin::action(float elapsed_time)
+BouncyCoin::update(float elapsed_time)
 {
   position.y += -200 * elapsed_time;
 
@@ -79,7 +79,7 @@ BrokenBrick::~BrokenBrick()
 }
 
 void
-BrokenBrick::action(float elapsed_time)
+BrokenBrick::update(float elapsed_time)
 {
   position += movement * elapsed_time;
 
@@ -118,7 +118,7 @@ FloatingText::FloatingText(const Vector& pos, int score)
 }
 
 void
-FloatingText::action(float elapsed_time)
+FloatingText::update(float elapsed_time)
 {
   position.y -= 1.4 * elapsed_time;
 
@@ -155,7 +155,7 @@ SmokeCloud::SmokeCloud(const Vector& pos)
 }
 
 void
-SmokeCloud::action(float elapsed_time)
+SmokeCloud::update(float elapsed_time)
 {
   position.y -= 120 * elapsed_time;
 
@@ -209,7 +209,7 @@ Particles::~Particles()
 }
 
 void
-Particles::action(float elapsed_time)
+Particles::update(float elapsed_time)
 {
   Vector camera = Sector::current()->camera->get_translation();
 

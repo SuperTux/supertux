@@ -17,7 +17,6 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
-
 #include <config.h>
 
 #include <sstream>
@@ -53,7 +52,8 @@ public:
 };
   
 JoystickKeyboardController::JoystickKeyboardController()
-  : wait_for_key(-1), wait_for_joybutton(-1)
+  : wait_for_key(-1), wait_for_joybutton(-1), key_options_menu(0),
+    joystick_options_menu(0)
 {
   memset(last_keys, 0, sizeof(last_keys));
 

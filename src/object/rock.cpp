@@ -62,7 +62,7 @@ Rock::draw(DrawingContext& context)
 }
 
 void
-Rock::action(float elapsed_time)
+Rock::update(float elapsed_time)
 {
   if(!grabbed) {
     flags |= FLAG_SOLID;
