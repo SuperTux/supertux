@@ -101,7 +101,7 @@ public:
   bool add_smoke_cloud(const Vector& pos);
   void add_floating_text(const Vector& pos, const std::string& text);
                                                                                 
-  /** @evil@ but can't always be avoided in current design... */
+  /** get currently activated sector. */
   static Sector* current()
   { return _current; }
 
