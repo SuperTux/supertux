@@ -1,0 +1,196 @@
+<?xml version='1.0' ?>
+<!--
+$Id$
+
+SuperTux Documentation
+Copyright (C) 2005 Ondra Hosek <ondra.hosek@gmail.com>
+
+This document is free; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as
+published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This document is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program (see the file named 'COPYING'); if not,
+write to the Free Software Foundation, Inc., 59 Temple Place -
+Suite 330, Boston, MA 02111-1307, USA.
+
+-->
+<!--<?xml-stylesheet type="text/xsl" href="/home/ondra/src/docbook-xsl-1.68.1/xhtml/docbook.xsl" ?>-->
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V5.0/EN" "http://www.oasis-open.org/docbook/xml/5.0/docbook.dtd">
+
+<article xml:lang="en">
+
+<artheader>
+<title>SuperTux Scripting Documentation</title>
+<author><firstname>Ondra</firstname><surname>Hosek</surname></author>
+</artheader>
+<para>Since May 2005, SuperTux sports a Squirrel scripting interface useful for level designers who want to add some interactive pep to their levels. This document poses as a reference article for those who want to explore the various objects of the SuperTux scripting model.</para>
+<sect1><title>What is Squirrel?</title>
+<para>One of your first questions might be, &quot;What does a rodent have to do with a penguin?&quot; <link xlink:href="http://squirrel.sourceforge.net/">Squirrel</link> is a language with a syntax not much unlike other C-like languages (C, C++, Java, ...). In the current implementation, it is integrated as elements in the SuperTux level files.</para>
+</sect1>
+<sect1><title>Squirrel, Scheme and SuperTux</title>
+<para>I have no clue if the developers simply chose Squirrel just because the name so nicely integrates into the series of words &quot;SuperTux&quot; and &quot;Scheme&quot;. Currently, the Squirrel code is integrated in string arguments of Scheme elements in SuperTux level files. (Whew.) This is an example code block inside a level:
+<programlisting>(supertux-level
+  (version 2)
+  (name _("Go Blind"))
+  (author "Team")
+  (sector
+    (name "main")
+    (music "Annoying_penguin_gawking_sounds.mod")
+
+    ;; (Tilemaps, objects, whatever.)
+
+    (init-script "
+DisplayEffect.fade_out(2.5);
+")
+  )
+)</programlisting>
+When this level loads, the screen fades out completely during two and a half seconds right after the level is loaded. (Mind you, this would be a frustrating experience for the player if you add a horde of badguys near the spawn point.)</para>
+</sect1>
+
+<sect1><title>Object reference</title>
+<para>If you are interested in an object and what cans of worms you can open with it, this section is for you.</para>
+<para>&quot;(NYI)&quot; after the function name symbolises functions that haven't been implemented yet. Calling them will result in a line being printed to standard output informing anybody who reads it that the script is using a function that actually doesn't exist. (Win32 users will happily ignore this, because they simply start the application by opening it with Explorer. Unix users are going to be more interested of what SuperTux can actually tell them, so it's better if you don't use non-existent functions in your scripts.)</para>
+
+<sect2><title>DisplayEffect</title>
+<para><code>DisplayEffect</code> is an interface for toying with the display.</para>
+<sect3><title>fade_out</title>
+<para>Usage: <code>DisplayEffect.fade_out(float fadetime)</code></para>
+<para>Effect: Gradually fades out the screen to black for the next <code>fadetime</code> seconds.</para>
+</sect3>
+
+<sect3><title>fade_in</title>
+<para>Usage: <code>DisplayEffect.fade_in(float fadetime)</code></para>
+<para>Effect: Gradually fades in the screen from black for the next <code>fadetime</code> seconds.</para>
+</sect3>
+
+<sect3><title>set_black</title>
+<para>Usage: <code>DisplayEffect.set_black(bool black)</code></para>
+<para>Effect: Blackens or un-blackens the screen (depending on the value of <code>black</code>).</para>
+</sect3>
+
+<sect3><title>is_black</title>
+<para>Usage: <code>DisplayEffect.is_black()</code></para>
+<para>Returns: <code>bool</code></para>
+<para>Effect: Returns true if the screen has been blackened by <code>set_black</code>. Calling <code>fade_in</code> or <code>fade_out</code> resets the return value to <code>false</code>.</para>
+</sect3>
+
+</sect2>
+
+<sect2><title>Camera</title>
+<para><code>Camera</code> is an interface to manipulate the camera.</para>
+
+<sect3><title>shake (NYI)</title>
+<para>Usage: <code>Camera.shake(float time, float x, float y)</code></para>
+<para>Warning: This function has not yet been implemented.</para>
+</sect3>
+
+<sect3><title>set_pos (NYI)</title>
+<para>Usage: <code>Camera.set_pos(float x, float y)</code></para>
+<para>Warning: This function has not yet been implemented.</para>
+</sect3>
+
+<sect3><title>set_mode (NYI)</title>
+<para>Usage: <code>Camera.set_mode(string modestring)</code></para>
+<para>Warning: This function has not yet been implemented.</para>
+</sect3>
+
+</sect2>
+
+<sect2><title>Level</title>
+<para>The <code>Level</code> class provides pretty basic controlling functions for the current level.</para>
+
+<sect3><title>finish</title>
+<para>Usage: <code>Level.finish()</code></para>
+<para>Effect: Ends the current level and marks it as completed if launched from a worldmap.</para>
+<para>Tip: Very useful if you have created a frustrating level and want to, at some point, save the player from agony.</para>
+</sect3>
+
+<sect3><title>spawn</title>
+<para>Usage: <code>Level.spawn(string sectorname, string spawnpointname)</code></para>
+<para>Effect: Respawns Tux in the sector <code>sectorname</code> at the <code>spawnpointname</code> spawnpoint.</para>
+<para>Exceptions: If <code>sectorname</code> or <code>spawnpointname</code> are empty or the specified sector does not exist, the function will bail out first chance it gets. If the specified spawnpoint doesn't exist, Tux will be spawned at the spawnpoint named <code>main</code>. If this spawnpoint doesn't exist either, Tux will simply end up at the origin (top-left 0, 0).</para>
+</sect3>
+
+</sect2>
+
+<sect2><title>ScriptedObject</title>
+<para>A <code>ScriptedObject</code> is basically a SuperTux object that can be scripted to move around and animate. This object will be used in the SuperTux cutscenes a whole lot.</para>
+
+<sect3><title>Usage notes</title>
+<para>Since a <code>ScriptedObject</code> is a reference object and not an active object, you will have to build it into your level file, where a <code>scriptedobject</code> is a child of <code>sector</code>. This is an example definition:
+<programlisting>
+(scripted-object
+  (name "WOOT")
+  (x 420)
+  (y 94)
+  (sprite "snowball")
+  (solid #t)
+  (physic-enabled #f)
+  (visible #t)
+)
+</programlisting>
+</para>
+<para>Now, the object can be accessed in code using the <code>WOOT</code> identifier like so:
+<programlisting>
+WOOT.set_animation("left");
+</programlisting>
+</para>
+</sect3>
+
+<!-- TODO: documentation from this marker on -->
+
+<sect3><title>set_animation</title>
+<para></para>
+</sect3>
+<sect3><title>get_animation</title>
+<para></para>
+</sect3>
+<sect3><title>move</title>
+<para></para>
+</sect3>
+<sect3><title>set_pos</title>
+<para></para>
+</sect3>
+<sect3><title>get_pos_x</title>
+<para></para>
+</sect3>
+<sect3><title>get_pos_y</title>
+<para></para>
+</sect3>
+<sect3><title>set_velocity</title>
+<para></para>
+</sect3>
+<sect3><title>get_velocity_x</title>
+<para></para>
+</sect3>
+<sect3><title>get_velocity_y</title>
+<para></para>
+</sect3>
+<sect3><title>set_visible</title>
+<para></para>
+</sect3>
+<sect3><title>is_visible</title>
+<para></para>
+</sect3>
+<sect3><title>get_name</title>
+<para></para>
+</sect3>
+
+</sect2>
+
+<sect2><title>Sound</title>
+</sect2>
+
+<sect2><title>Text</title>
+</sect2>
+
+</sect1>
+
+</article>
