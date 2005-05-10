@@ -18,17 +18,23 @@
 //  02111-1307, USA.
 
 /**
- *  Ambient Sound Source, beta version. Features:
+ *  Ambient Sound Source, gamma version. Features:
  *
- *  - "disc" like structure. Full volume up to some distance
- *    (distance_bias) to the source, then fading proportional to
- *    inverse square distance
+ *  - "rounded rectancle" geometry with position, dimension and 
+ *    "rounding radius" (extending in all directions) of a 100% 
+ *    volume area, adjustable maximum volume, inverse square 
+ *    falloff outside area.
  *  
- *  - parameters for point source:
+ *  - degenerates gracefully to a disc for dimension=0
+ *  
+ *  - parameters:
+ *
  *    x, y               position
+ *    width, height      dimension
  *    distance_factor    high = steep fallofff
  *    distance_bias      high = big "100% disc"
  *    silence_distance   defaults reasonably.
+ *    sample             sample to be played back in loop mode
  * 
  *      basti_ 
  */
@@ -55,6 +61,7 @@ protected:
   virtual void stop_playing();
 private:
   Vector position;
+  Vector dimension;
 
   std::string sample;
   int playing;

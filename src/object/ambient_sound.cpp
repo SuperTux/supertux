@@ -30,6 +30,10 @@ AmbientSound::AmbientSound(const lisp::Lisp& lisp)
 
   position.x=0;
   position.y=0;
+
+  dimension.x=0;
+  dimension.y=0;
+
   distance_factor=0;
   distance_bias=0;
   maximumvolume=1;
@@ -38,13 +42,21 @@ AmbientSound::AmbientSound(const lisp::Lisp& lisp)
   if (!(lisp.get("x", position.x)&&lisp.get("y", position.y))) {
     std::cerr << "No Position in ambient_sound"  << std::endl;
   }
+
+  lisp.get("width" , dimension.x);
+  lisp.get("height", dimension.y);
+
   lisp.get("distance_factor",distance_factor);
   lisp.get("distance_bias"  ,distance_bias  );
   lisp.get("sample"         ,sample         );
   lisp.get("volume"         ,maximumvolume  );
 
+  // square all distances (saves us a sqrt later)
+
   distance_bias*=distance_bias;
   distance_factor*=distance_factor;
+
+  // set default silence_distance
 
   if (distance_factor == 0)
     silence_distance = 10e99;
@@ -55,7 +67,6 @@ AmbientSound::AmbientSound(const lisp::Lisp& lisp)
 
   playing=-1; // not playing at the beginning
   latency=0;
-
 }
 
 AmbientSound::~AmbientSound() {
@@ -88,23 +99,49 @@ AmbientSound::update(float deltat)
 {
   if (latency--<=0) {
 
-    float dx=Sector::current()->player->get_pos().x-position.x;
-    float dy=Sector::current()->player->get_pos().y-position.y;
-    float sqrdistance=dx*dx+dy*dy;
+    float px,py;
+    float rx,ry;
+
+    // Player position
+
+    px=Sector::current()->player->get_pos().x;
+    py=Sector::current()->player->get_pos().y;
+
+    // Relate to which point in the area
+
+    rx=px<position.x?position.x:
+      (px<position.x+dimension.x?px:position.x+dimension.x);
+    ry=py<position.y?position.y:
+      (py<position.y+dimension.y?py:position.y+dimension.y);
+
+    // calculate square of distance
+
+    float sqrdistance=(px-rx)*(px-rx)+(py-ry)*(py-ry);
     
     sqrdistance-=distance_bias;
+
+    // inside the bias: full volume (distance 0)
     
     if (sqrdistance<0)
       sqrdistance=0;
     
+    // calculate target volume - will never become 0
+
     targetvolume=1/(1+sqrdistance*distance_factor);
+
     float rise=targetvolume/currentvolume;
+
+    // rise/fall half life?
+
     currentvolume*=pow(rise,deltat*10);
-    currentvolume += 1e-30;
+    currentvolume += 1e-6; // volume is at least 1e-6 (0 would never rise)
 
     if (playing>=0) {
+
+      // set the volume
       Mix_Volume(playing,(int)(currentvolume*maximumvolume*MIX_MAX_VOLUME));
-      if (sqrdistance>=silence_distance && currentvolume<0.05)
+
+      if (sqrdistance>=silence_distance && currentvolume<1e-3)
 	stop_playing();
       latency=0;
     } else {
@@ -112,13 +149,16 @@ AmbientSound::update(float deltat)
 	start_playing();
 	latency=0;
       }
-      else 
-	latency=(int)(10*((sqrdistance-silence_distance)/silence_distance));
+      else // set a reasonable latency
+	latency=(int)(0.001/distance_factor);
+      //(int)(10*((sqrdistance-silence_distance)/silence_distance));
     }
+  } 
 
-  }
-  if (latency>0.001/distance_factor)
-    latency=(int)(0.001/distance_factor);
+  // heuristically measured "good" latency maximum
+
+  //  if (latency>0.001/distance_factor)
+  // latency=
 }
 
 void

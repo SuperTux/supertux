@@ -137,7 +137,8 @@
 	(distance_bias 200.0) (sample "rain"))
        (ambient_sound (x 512) (y 900) (distance_factor 0.05) 
 	(distance_bias 100.0) (sample "waterfall") (volume 0.2))
-       (ambient_sound (x 800) (y 900) (distance_factor 0.1) 
+       (ambient_sound (x 700) (y 900) (width 300) 
+(height 200) (distance_factor 0.1) 
 	(distance_bias 50.0) (sample "lava"))
       (infoblock (x 128) (y 864)
         (message (_ "-Info
@@ -145,21 +146,20 @@
 #source playing the
 #rain effect should 
 #be audible here.
-#Find Waterfall and 
-#Lava sources with
-#smaller geometry 
-#further right.
 "))
       )
       (infoblock (x 512) (y 864)
         (message (_ "-Info
 #Waterfall
 #Volume 0.2
+#smaller geometry
+#than rain source
 "))
       )
-      (infoblock (x 800) (y 864)
+      (infoblock (x 700) (y 864)
         (message (_ "-Info
-#Lava
+#Lava (Area)
+#extending right
 "))
       )
    )
