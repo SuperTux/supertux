@@ -29,6 +29,13 @@
 #include "resources.h"
 #include "main.h"
 
+#include "tile.h"
+#include "tilemap.h"
+#include "math/aatriangle.h"
+#include "collision.h"
+#include "collision_hit.h"
+
+
 ParticleSystem::ParticleSystem()
 {
     virtual_width = SCREEN_WIDTH;
@@ -141,7 +148,7 @@ RainParticleSystem::RainParticleSystem()
     for(size_t i=0; i<raindropcount; ++i) {
         RainParticle* particle = new RainParticle;
         particle->pos.x = rand() % int(virtual_width);
-        particle->pos.y = rand() % SCREEN_HEIGHT;
+        particle->pos.y = rand() % int(virtual_height);
         int rainsize = rand() % 2;
         particle->texture = rainimages[rainsize];
         do {
@@ -176,15 +183,91 @@ RainParticleSystem::~RainParticleSystem()
 void RainParticleSystem::update(float elapsed_time)
 {
     std::vector<Particle*>::iterator i;
-    for(i = particles.begin(); i != particles.end(); ++i) {
+    for(
+        i = particles.begin(); i != particles.end(); ++i) {
         RainParticle* particle = (RainParticle*) *i;
-        particle->pos.y += particle->speed * elapsed_time;
-        particle->pos.x -= particle->speed * elapsed_time;
-        if(particle->pos.y > SCREEN_HEIGHT) {
-            particle->pos.y = fmodf(particle->pos.y , virtual_height);
+        float movement = particle->speed * elapsed_time;
+        particle->pos.y += movement;
+        particle->pos.x -= movement;
+        if ((particle->pos.y > SCREEN_HEIGHT) || (collision(particle, Vector(-movement, movement)))) {
+            particle->pos.y = 0;
             particle->pos.x = rand() % int(virtual_width);
         }
     }
+}
+
+bool
+RainParticleSystem::collision(RainParticle* object, Vector movement)
+{
+  TileMap* solids = Sector::current()->solids;
+  // calculate rectangle where the object will move
+  float x1, x2;
+  
+  /*if(object->get_movement().x >= 0) {
+    x1 = object->get_pos().x;
+    x2 = object->get_bbox().p2.x + object->get_movement().x;
+  } else {
+    x1 = object->get_pos().x + object->get_movement().x;
+    x2 = object->get_bbox().p2.x;
+  }*/
+  float y1, y2;
+  /*
+  if(object->get_movement().y >= 0) {
+    y1 = object->get_pos().y;
+    y2 = object->get_bbox().p2.y + object->get_movement().y;
+  } else {
+    y1 = object->get_pos().y + object->get_movement().y;
+    y2 = object->get_bbox().p2.y;
+  }*/
+  x1 = object->pos.x;
+  x2 = x1 + 32 + movement.x;
+  y1 = object->pos.y;
+  y2 = y1 + 32 + movement.y;
+  
+  // test with all tiles in this rectangle
+  int starttilex = int(x1-1) / 32;
+  int starttiley = int(y1-1) / 32;
+  int max_x = int(x2+1);
+  int max_y = int(y2+1);
+
+  CollisionHit temphit, hit;
+  Rect dest = Rect(x1, y1, x2, y2);
+  dest.move(movement);
+  hit.time = -1; // represents an invalid value
+  for(int x = starttilex; x*32 < max_x; ++x) {
+    for(int y = starttiley; y*32 < max_y; ++y) {
+      const Tile* tile = solids->get_tile(x, y);
+      if(!tile)
+        continue;
+      // skip non-solid tiles
+      if(!(tile->getAttributes() & Tile::SOLID))
+        continue;
+
+      if(tile->getAttributes() & Tile::SLOPE) { // slope tile
+        AATriangle triangle;
+        Vector p1(x*32, y*32);
+        Vector p2((x+1)*32, (y+1)*32);
+        triangle = AATriangle(p1, p2, tile->getData());
+
+        if(Collision::rectangle_aatriangle(temphit, dest, movement,
+              triangle)) {
+          if(temphit.time > hit.time)
+            hit = temphit;
+        }
+      } else { // normal rectangular tile
+        Rect rect(x*32, y*32, (x+1)*32, (y+1)*32);
+        if(Collision::rectangle_rectangle(temphit, dest,
+              movement, rect)) {
+          if(temphit.time > hit.time)
+            hit = temphit;
+        }
+      }
+    }
+  }
+  
+  // did we collide at all?
+  if(hit.time < 0)
+    return false; else return true;
 }
 
 CloudParticleSystem::CloudParticleSystem()

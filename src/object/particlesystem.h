@@ -24,6 +24,8 @@
 #include "video/surface.h"
 #include "game_object.h"
 #include "serializable.h"
+#include "sector.h"
+#include "math/vector.h"
 
 namespace lisp {
 class Lisp;
@@ -116,6 +118,7 @@ private:
         float speed;
     };
     
+    bool collision(RainParticle* particle, Vector movement);
     Surface* rainimages[2];
 };
 
