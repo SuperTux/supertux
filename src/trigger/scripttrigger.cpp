@@ -71,6 +71,7 @@ ScriptTrigger::write(lisp::Writer& writer)
   writer.write_float("width", bbox.get_width());
   writer.write_float("height", bbox.get_height());
   writer.write_string("script", script);
+  writer.write_bool("button", (triggerevent == EVENT_ACTIVATE) ? true : false);
 
   writer.end_list("scripttrigger");
 }
