@@ -253,7 +253,7 @@ WOOT.set_animation("left");
 
 <sect3><title>set_visible</title>
 <para>Usage: <code>Text.set_visible(bool visible)</code></para>
-<para>Effect: Shows or hides the text abruptly (drastic counterpart to <code>fade_in</code> and <code>fade_out</code>.</para>
+<para>Effect: Shows or hides the text abruptly (drastic counterpart to <code>fade_in</code> and <code>fade_out</code>).</para>
 </sect3>
 
 </sect2>
