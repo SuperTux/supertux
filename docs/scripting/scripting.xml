@@ -22,17 +22,19 @@ Suite 330, Boston, MA 02111-1307, USA.
 
 -->
 <!--<?xml-stylesheet type="text/xsl" href="/home/ondra/src/docbook-xsl-1.68.1/xhtml/docbook.xsl" ?>-->
-<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V5.0/EN" "http://www.oasis-open.org/docbook/xml/5.0/docbook.dtd">
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.3//EN"
+"http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd">
 
 <article xml:lang="en">
 
-<artheader>
+<articleinfo>
 <title>SuperTux Scripting Documentation</title>
 <author><firstname>Ondra</firstname><surname>Hosek</surname></author>
-</artheader>
+</articleinfo>
 <para>Since May 2005, SuperTux sports a Squirrel scripting interface useful for level designers who want to add some interactive pep to their levels. This document poses as a reference article for those who want to explore the various objects of the SuperTux scripting model.</para>
 <sect1><title>What is Squirrel?</title>
-<para>One of your first questions might be, &quot;What does a rodent have to do with a penguin?&quot; <link xlink:href="http://squirrel.sourceforge.net/">Squirrel</link> is a language with a syntax not much unlike other C-like languages (C, C++, Java, ...). In the current implementation, it is integrated as elements in the SuperTux level files.</para>
+<para>One of your first questions might be, &quot;What does a rodent have to do
+with a penguin?&quot; <ulink url="http://squirrel.sourceforge.net/">Squirrel</ulink> is a language with a syntax not much unlike other C-like languages (C, C++, Java, ...). In the current implementation, it is integrated as elements in the SuperTux level files.</para>
 </sect1>
 <sect1><title>Squirrel, Scheme and SuperTux</title>
 <para>I have no clue if the developers simply chose Squirrel just because the name so nicely integrates into the series of words &quot;SuperTux&quot; and &quot;Scheme&quot;. Currently, the Squirrel code is integrated in string arguments of Scheme elements in SuperTux level files. (Whew.) This is an example code block inside a level:

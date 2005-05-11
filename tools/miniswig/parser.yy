@@ -40,7 +40,8 @@ public:
     ParseError(const std::string& message) throw()
     {
         std::ostringstream msg;
-        msg << "Parse error in line " << yylineno << ": "
+        msg << "Parse error in '" << current_file
+            << "' line " << getCurrentLine() << ": "
             << message;
         this->message = msg.str();
     }
@@ -141,6 +142,8 @@ class_declaration:
             current_class = new Class();
             current_class->name = $2;
             free($2);
+            current_class->docu_comment = last_docucomment;
+            last_docucomment = "";
             current_visibility = ClassMember::PROTECTED;
         }
     class_body '}' ';'
@@ -187,6 +190,8 @@ constructor_declaration:
         {
             currentFunction = new Function();
             currentFunction->type = Function::CONSTRUCTOR;
+            currentFunction->docu_comment = last_docucomment;
+            last_docucomment = "";
             free($1);
         }
     parameter_list ')' ';'
@@ -200,6 +205,8 @@ destructor_declaration:
         {
             currentFunction = new Function();
             currentFunction->type = Function::DESTRUCTOR;
+            currentFunction->docu_comment = last_docucomment;
+            last_docucomment = "";
             free($3);
             $$ = currentFunction;
         }
@@ -223,6 +230,8 @@ function_declaration:
             delete $2;
             currentFunction->name = $3;
             free($3);
+            currentFunction->docu_comment = last_docucomment;
+            last_docucomment = "";
         }                           
     parameter_list ')' abstract_declaration ';'
         {

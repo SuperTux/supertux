@@ -161,6 +161,7 @@ public:
         DESTRUCTOR
     };
     FuncType type;
+    std::string docu_comment;
     std::string name;
     Type return_type;
     std::vector<Parameter> parameters;
@@ -175,6 +176,7 @@ public:
     }
     
     std::vector<ClassMember*> members;
+    std::string docu_comment;
 };
 
 class Namespace {

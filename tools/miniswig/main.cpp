@@ -80,6 +80,7 @@ int main(int argc, char** argv)
             std::cerr << "Couldn't open file '" << input << "' for reading.\n";
             return 1;
         }
+        current_file = inputfile;
         unit = new CompilationUnit();
         Namespace* std_namespace = new Namespace();
         std_namespace->name = "std";

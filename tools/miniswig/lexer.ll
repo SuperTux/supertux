@@ -1,6 +1,8 @@
 %{
 #include <math.h>
 #include <stdlib.h>
+#include <string.h>
+#include <iostream>
 #include "tree.h"
 #include "parser.hpp"
 #include "globals.h"
@@ -12,6 +14,16 @@
     input->read(buf, max_size);                             \
     result = input->gcount();                               \
 }
+
+std::string last_docucomment;
+std::string original_file;
+std::string current_file;
+int offset_lnum;
+
+int getCurrentLine()
+{
+    return yylineno - offset_lnum;
+}
     
 %}
 
@@ -21,10 +33,30 @@
 
 %%
 
+#[ \t]+[0-9]+[ \t]+.*                         {
+    int lnum;
+    char file[1024];
+    if(sscanf(yytext, "# %d \"%1023[^\"]\"", &lnum, file) == 2) {
+        offset_lnum = yylineno - lnum + 1;
+        current_file = file;
+        if(original_file == "")
+            original_file = file;
+    } else {
+        std::cerr << "Warning: Parse error in processor info directive.\n";
+    }
+}
 #.*                                     /* ignore preprocessor directives */
 [[:space:]]+                            /* eat spaces */
-\/\*.*\*\/                              /* eat comment */
-\/\/[^\n]*\n                            /* eat comment */        
+\/\*.*\*\/                              {
+    if(yytext[2] == '*' && yytext[3] != '/') { // It's a docu comment...
+        last_docucomment = std::string(yytext+3, strlen(yytext)-5);
+    }
+}
+\/\/[^\n]*\n                            {
+    if(yytext[2] == '/') { // it's a docu comment...
+        last_docucomment = std::string(yytext+3, strlen(yytext)-4);
+    }
+}
 class                                   { return T_CLASS; }
 struct                                  { return T_STRUCT; }
 static                                  { return T_STATIC; }
