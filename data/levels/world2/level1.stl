@@ -417,7 +417,11 @@
          (spawnpoint "cave05")
        )
        (spawnpoint (name "from_cave05") (x 4736) (y 1824))
-       (ambient_sound (x 608) (y 160) (distance_factor "0.1") (distance_bias "20.0") (sample "rain"))
+       (ambient_sound (x 704) (y 0) (distance_factor 0.200000) (distance_bias 800.000000) (sample "rain"))
+       (zeekling (x 1641) (y 667))
+       (zeekling (x 2690) (y 800))
+       (ambient_sound (x 1696) (y 0) (distance_factor 0.200000) (distance_bias 800.000000) (sample "rain"))
+       (ambient_sound (x 2592) (y 0) (distance_factor 0.200000) (distance_bias 800.000000) (sample "rain"))
    )
   (sector
     (name  "bonuscaves")

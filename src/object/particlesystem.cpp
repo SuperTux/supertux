@@ -34,6 +34,7 @@
 #include "math/aatriangle.h"
 #include "collision.h"
 #include "collision_hit.h"
+#include "object/camera.h"
 
 
 ParticleSystem::ParticleSystem()
@@ -190,7 +191,7 @@ void RainParticleSystem::update(float elapsed_time)
         particle->pos.y += movement;
         particle->pos.x -= movement;
         if ((particle->pos.y > SCREEN_HEIGHT) || (collision(particle, Vector(-movement, movement)))) {
-            particle->pos.y = 0;
+            particle->pos.y = Sector::current()->camera->get_translation().y;
             particle->pos.x = rand() % int(virtual_width);
         }
     }
