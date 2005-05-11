@@ -48,7 +48,7 @@ public:
   /// reset camera postion
   virtual void reset(const Vector& tuxpos);
 
-  /** @deprecated@ */
+  /** return camera position */
   const Vector& get_translation() const;
 
   virtual void update(float elapsed_time);
