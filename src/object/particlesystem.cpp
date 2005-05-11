@@ -202,23 +202,7 @@ RainParticleSystem::collision(RainParticle* object, Vector movement)
   TileMap* solids = Sector::current()->solids;
   // calculate rectangle where the object will move
   float x1, x2;
-  
-  /*if(object->get_movement().x >= 0) {
-    x1 = object->get_pos().x;
-    x2 = object->get_bbox().p2.x + object->get_movement().x;
-  } else {
-    x1 = object->get_pos().x + object->get_movement().x;
-    x2 = object->get_bbox().p2.x;
-  }*/
   float y1, y2;
-  /*
-  if(object->get_movement().y >= 0) {
-    y1 = object->get_pos().y;
-    y2 = object->get_bbox().p2.y + object->get_movement().y;
-  } else {
-    y1 = object->get_pos().y + object->get_movement().y;
-    y2 = object->get_bbox().p2.y;
-  }*/
   x1 = object->pos.x;
   x2 = x1 + 32 + movement.x;
   y1 = object->pos.y;

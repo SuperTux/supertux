@@ -4841,11 +4841,4 @@
       "tiles/doodads/snowbg7.png"
     )
   )
-  (tile
-    (id 1347)
-    (images
-      (region "tiles/doodads/shrublongbg.png" 0 0 800 96)
-    )
-    (solid #t)
-  )
 )
