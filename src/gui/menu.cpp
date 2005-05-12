@@ -76,11 +76,10 @@ bool confirm_dialog(Surface *background, std::string text)
   while(true)
     {
       SDL_Event event;
-
-      if(event.type == SDL_QUIT)
-        throw std::runtime_error("received window close event");
-      
       while (SDL_PollEvent(&event)) {
+        if(event.type == SDL_QUIT)
+          throw std::runtime_error("received window close event");
+        main_controller->process_event(event);
         dialog->event(event);
       }
 
@@ -691,6 +690,10 @@ int Menu::get_height() const
 void
 Menu::draw(DrawingContext& context)
 {
+  if(MouseCursor::current()) {
+    MouseCursor::current()->draw(context);
+  }
+  
   int menu_height = get_height();
   int menu_width = get_width();  
 

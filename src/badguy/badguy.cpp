@@ -153,7 +153,7 @@ BadGuy::collision_player(Player& player, const CollisionHit& )
     return ABORT_MOVE;
   }
   // hit from above?
-  if(player.get_movement().y > 0 && player.get_bbox().p2.y <
+  if(player.get_movement().y - get_movement().y > 0 && player.get_bbox().p2.y <
       (get_bbox().p1.y + get_bbox().p2.y) / 2) {
     // if it's not is it possible to squish us, then this will hurt
     if(!collision_squished(player))

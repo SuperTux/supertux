@@ -1,4 +1,4 @@
-# German translations for world package
+﻿# German translations for world package
 # German messages for world.
 # Copyright (C) 2004 THE world'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the world package.
@@ -13,7 +13,7 @@ msgstr ""
 "Last-Translator:  <matze@braunis.de>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
@@ -45,9 +45,9 @@ msgstr ""
 "\n"
 "#Tux und Penny sassen gemtlich beim Picknick\n"
 "#in den eisigen Ebenen der Antarktis.\n"
-"#Pl�zlich sprang eine dunkle Kreatur hinter\n"
+"#Plötzlich sprang eine dunkle Kreatur hinter\n"
 "#einem Felsen hervor. Tux sah einen grellen\n"
-"#Blitz, dann wurde er ohnm�htig.\n"
+"#Blitz, dann wurde er ohnmächtig.\n"
 "\n"
 "#Als er aufwachte bemerkte er, dass Penny\n"
 "#verschwunden war. Wo sie eben noch gesessen\n"
@@ -82,11 +82,11 @@ msgstr "Zu den Sternen"
 
 #: basest/levels/world1/level13.stl:5
 msgid "Above the Arctic Skies"
-msgstr "�er den Wolken"
+msgstr "Über den Wolken"
 
 #: basest/levels/world1/level14.stl:5
 msgid "Entrance to the Cave"
-msgstr "H�leneingang"
+msgstr "Höhleneingang"
 
 #: basest/levels/world1/level15.stl:5
 msgid "Under the Ice"
@@ -94,7 +94,7 @@ msgstr "Unter dem Eis"
 
 #: basest/levels/world1/level16.stl:5
 msgid "Living in a Fridge"
-msgstr "Leben im Khlschrank"
+msgstr "Leben im Kühlschrank"
 
 #: basest/levels/world1/level17.stl:5
 msgid "'...or is it just me?'"
@@ -126,7 +126,7 @@ msgstr "Die Flucht"
 
 #: basest/levels/world1/level24.stl:5
 msgid "The Shattered Bridge"
-msgstr "Brckentrmmer"
+msgstr "Die zertrümmerte Brücke"
 
 #: basest/levels/world1/level25.stl:5
 msgid "Arctic Ruins"
@@ -146,7 +146,7 @@ msgstr "Die Reise Beginnt"
 
 #: basest/levels/world1/level3.stl:5
 msgid "Via Nostalgica"
-msgstr "Nostalgiestra�"
+msgstr "Nostalgiestraße"
 
 #: basest/levels/world1/level4.stl:5
 msgid "Tobgle Road"
@@ -162,7 +162,7 @@ msgstr "Eisige Felder"
 
 #: basest/levels/world1/level7.stl:5
 msgid "Oh no! More Snowballs!"
-msgstr "Oh Nein! Noch mehr Schneeb�le!"
+msgstr "Oh Nein! Noch mehr Schneebälle!"
 
 #: basest/levels/world1/level8.stl:5
 msgid "Stone Cold"
@@ -170,7 +170,7 @@ msgstr "Steinkalt"
 
 #: basest/levels/world1/level9.stl:5
 msgid "Grumbel's Sense of Snow"
-msgstr "Grumbels Schneegespr"
+msgstr "Grumbels Gespür für Schnee"
 
 #: basest/levels/world1/extro.txt:7
 msgid ""
@@ -228,17 +228,17 @@ msgstr ""
 "#dennoch vergeblich. Mit jeder meiner\n"
 "#Festungen die du eroberst, werde ich zu\n"
 "#einer weiteren fliehen. Sei nicht dumm,\n"
-"#es w�e das beste jetzt aufzugeben.\n"
+"#es wäre das beste jetzt aufzugeben.\n"
 "\n"
 "#Tux verliess traurig den Saal, als etwas\n"
 "#unter seinem Fuss raschelte...\n"
 "#Ein Briefumschlag mit seinem Namen!\n"
 "#In dem Umschlag war eine grobe Karte,\n"
-"#die Festungen in verschiedenen L�dern\n"
+"#die Festungen in verschiedenen Ländern\n"
 "#zeigte. Auf der Rckseite der Karte war\n"
 "#Pennys Zeichen, das Bild einer Eisblume.\n"
 "\n"
 "#Tux nahm die Karte in die Hand und rannte\n"
-"#aus der Festung. Nein, er wrde nicht\n"
+"#aus der Festung. Nein, er würde nicht\n"
 "#einfach aufgeben. Penny verliess sich auf\n"
 "#ihn.\n"

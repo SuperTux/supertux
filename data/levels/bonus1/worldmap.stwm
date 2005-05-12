@@ -3,8 +3,11 @@
   (properties
     (name (_ "Bonus Island I"))
     (music "salcon.mod")
-    (start_pos_x 35)
-    (start_pos_y 2)
+  )
+  (spawnpoint
+    (name "main")
+    (x 35)
+    (y 2)
   )
   (tilemap
     (width 70)

@@ -45,11 +45,13 @@ TileMap::TileMap()
     flags |= FLAG_SOLID;
 }
 
-TileMap::TileMap(const lisp::Lisp& reader)
-  : solid(false), speed(1), width(0), height(0), layer(LAYER_TILES),
+TileMap::TileMap(const lisp::Lisp& reader, TileManager* new_tile_manager)
+  : solid(false), speed(1), width(-1), height(-1), layer(LAYER_TILES),
     drawing_effect(0)
 {
-  tilemanager = tile_manager;
+  tilemanager = new_tile_manager;
+  if(tilemanager == 0)
+    tilemanager = tile_manager;
 
   std::string layer_str;
   if(reader.get("layer", layer_str)) {
@@ -72,10 +74,11 @@ TileMap::TileMap(const lisp::Lisp& reader)
   }
   if(solid)
     flags |= FLAG_SOLID;
-  
-  if(!reader.get("width", width) ||
-     !reader.get("height", height))
-    throw std::runtime_error("No width or height specified in tilemap.");
+ 
+  reader.get("width", width);
+  reader.get("height", height);
+  if(width < 0 || height < 0)
+    throw std::runtime_error("Invalid/No width/height specified in tilemap.");
 
   if(!reader.get_vector("tiles", tiles))
     throw std::runtime_error("No tiles in tilemap.");
@@ -149,9 +152,11 @@ TileMap::draw(DrawingContext& context)
   /** if we don't round here, we'll have a 1 pixel gap on screen sometimes.
    * I have no idea why */
   float start_x = roundf(context.get_translation().x);
-  if(start_x < 0) start_x = 0;
+  if(start_x < 0)
+    start_x = 0;
   float start_y = roundf(context.get_translation().y);
-  if(start_y < 0) start_y = 0;
+  if(start_y < 0)
+    start_y = 0;
   float end_x = std::min(start_x + SCREEN_WIDTH, float(width * 32));
   float end_y = std::min(start_y + SCREEN_HEIGHT, float(height * 32));
   start_x -= int(start_x) % 32;

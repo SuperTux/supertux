@@ -17,7 +17,6 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
-
 #ifndef __FLIP_LEVEL_TRANSFORMER_H__
 #define __FLIP_LEVEL_TRANSFORMER_H__
 

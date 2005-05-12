@@ -35,7 +35,6 @@ class Level
 public:
   std::string name;
   std::string author;
-  int timelimit;
   typedef std::vector<Sector*> Sectors;
   Sectors sectors;
 

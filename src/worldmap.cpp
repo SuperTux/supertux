@@ -44,10 +44,13 @@
 #include "player_status.h"
 #include "textscroller.h"
 #include "main.h"
+#include "spawn_point.h"
 #include "file_system.h"
 #include "gui/menu.h"
 #include "gui/mousecursor.h"
 #include "control/joystickkeyboardcontroller.h"
+#include "object/background.h"
+#include "object/tilemap.h"
 
 Menu* worldmap_menu  = 0;
 
@@ -116,8 +119,6 @@ Tux::Tux(WorldMap* worldmap_)
   
   offset = 0;
   moving = false;
-  tile_pos.x = worldmap->get_start_x();
-  tile_pos.y = worldmap->get_start_y();
   direction = D_NONE;
   input_direction = D_NONE;
 }
@@ -176,7 +177,7 @@ Tux::get_pos()
       break;
     }
   
-  return Vector((int)x, (int)y); 
+  return Vector(x, y);
 }
 
 void
@@ -343,21 +344,21 @@ Tux::update(float delta)
 //---------------------------------------------------------------------------
 
 WorldMap::WorldMap()
+  : tux(0), solids(0)
 {
   tile_manager = new TileManager("images/worldmap.strf");
   
-  width  = 20;
-  height = 15;
-  
-  start_x = 4;
-  start_y = 5;
-
   tux = new Tux(this);
-  
-  leveldot_green = new Surface(datadir +  "/images/tiles/worldmap/leveldot_green.png", true);
-  leveldot_red = new Surface(datadir +  "/images/tiles/worldmap/leveldot_red.png", true);
-  messagedot   = new Surface(datadir +  "/images/tiles/worldmap/messagedot.png", true);
-  teleporterdot   = new Surface(datadir +  "/images/tiles/worldmap/teleporterdot.png", true);
+  add_object(tux);
+    
+  leveldot_green
+    = new Surface(datadir + "/images/tiles/worldmap/leveldot_green.png", true);
+  leveldot_red
+    = new Surface(datadir + "/images/tiles/worldmap/leveldot_red.png", true);
+  messagedot
+    = new Surface(datadir + "/images/tiles/worldmap/messagedot.png", true);
+  teleporterdot
+    = new Surface(datadir + "/images/tiles/worldmap/teleporterdot.png", true);
 
   name = "<no title>";
   music = "salcon.mod";
@@ -368,13 +369,41 @@ WorldMap::WorldMap()
 
 WorldMap::~WorldMap()
 {
-  delete tux;
+  clear_objects();
+  for(SpawnPoints::iterator i = spawn_points.begin();
+      i != spawn_points.end(); ++i) {
+    delete *i;
+  }
+    
   delete tile_manager;
 
   delete leveldot_green;
   delete leveldot_red;
   delete messagedot;
   delete teleporterdot;
+}
+
+void
+WorldMap::add_object(GameObject* object)
+{
+  TileMap* tilemap = dynamic_cast<TileMap*> (object);
+  if(tilemap != 0 && tilemap->is_solid()) {
+    solids = tilemap;
+  }
+
+  game_objects.push_back(object);
+}
+
+void
+WorldMap::clear_objects()
+{
+  for(GameObjects::iterator i = game_objects.begin();
+      i != game_objects.end(); ++i)
+    delete *i;
+  game_objects.clear();
+  solids = 0;
+  tux = new Tux(this);
+  add_object(tux);
 }
 
 // Don't forget to set map_filename before calling this
@@ -392,23 +421,21 @@ WorldMap::load_map()
     if(!lisp)
       throw new std::runtime_error("file isn't a supertux-worldmap file.");
 
+    clear_objects();
     lisp::ListIterator iter(lisp);
     while(iter.next()) {
       if(iter.item() == "tilemap") {
-        if(tilemap.size() > 0)
-          throw new std::runtime_error("multiple tilemaps specified");
-        
-        const lisp::Lisp* tilemap_lisp = iter.lisp();
-        tilemap_lisp->get("width",  width);
-        tilemap_lisp->get("height", height);
-        tilemap_lisp->get_vector("tiles", tilemap);
+        add_object(new TileMap(*(iter.lisp()), tile_manager));
+      } else if(iter.item() == "background") {
+        add_object(new Background(*(iter.lisp())));
       } else if(iter.item() == "properties") {
         const lisp::Lisp* props = iter.lisp();
         props->get("name", name);
         props->get("music", music);
         props->get("intro-filename", intro_filename);
-        props->get("start_pos_x", start_x);
-        props->get("start_pos_y", start_y);
+      } else if(iter.item() == "spawnpoint") {
+        SpawnPoint* sp = new SpawnPoint(iter.lisp());
+        spawn_points.push_back(sp);
       } else if(iter.item() == "level") {
         parse_level_tile(iter.lisp());
       } else if(iter.item() == "special-tile") {
@@ -417,9 +444,20 @@ WorldMap::load_map()
         std::cerr << "Unknown token '" << iter.item() << "' in worldmap.\n";
       }
     }
+    if(solids == 0)
+      throw std::runtime_error("No solid tilemap specified");
 
-    delete tux;
-    tux = new Tux(this);
+    // search for main spawnpoint
+    for(SpawnPoints::iterator i = spawn_points.begin();
+        i != spawn_points.end(); ++i) {
+      SpawnPoint* sp = *i;
+      if(sp->name == "main") {
+        Vector p = sp->pos;
+        tux->set_tile_pos(p);
+        break;
+      }
+    }
+
   } catch(std::exception& e) {
     std::stringstream msg;
     msg << "Problem when parsing worldmap '" << map_filename << "': " <<
@@ -588,8 +626,8 @@ WorldMap::path_ok(Direction direction, Vector old_pos, Vector* new_pos)
 {
   *new_pos = get_next_tile(old_pos, direction);
 
-  if (!(new_pos->x >= 0 && new_pos->x < width
-        && new_pos->y >= 0 && new_pos->y < height))
+  if (!(new_pos->x >= 0 && new_pos->x < solids->get_width()
+        && new_pos->y >= 0 && new_pos->y < solids->get_height()))
     { // New position is outsite the tilemap
       return false;
     }
@@ -644,6 +682,24 @@ WorldMap::update(float delta)
     return;
   }
 
+  // update GameObjects
+  for(GameObjects::iterator i = game_objects.begin();
+      i != game_objects.end(); ++i) {
+    GameObject* object = *i;
+    object->update(delta);
+  }
+  // remove old GameObjects
+  for(GameObjects::iterator i = game_objects.begin();
+      i != game_objects.end(); ) {
+    GameObject* object = *i;
+    if(!object->is_valid()) {
+      delete object;
+      i = game_objects.erase(i);
+    } else {
+      ++i;
+    }
+  }
+  
   bool enter_level = false;
   if(main_controller->pressed(Controller::ACTION)
       || main_controller->pressed(Controller::JUMP)
@@ -725,7 +781,6 @@ WorldMap::update(float delta)
                     if (dir != D_NONE)
                       {
                         tux->set_direction(dir);
-                        //tux->update(delta);
                       }
                   }
               }
@@ -802,7 +857,6 @@ WorldMap::update(float delta)
     }
   else
     {
-      tux->update(delta);
 //      tux->set_direction(input_direction);
     }
 }
@@ -810,14 +864,7 @@ WorldMap::update(float delta)
 const Tile*
 WorldMap::at(Vector p)
 {
-  assert(p.x >= 0 
-         && p.x < width
-         && p.y >= 0
-         && p.y < height);
-
-  int x = int(p.x);
-  int y = int(p.y);
-  return tile_manager->get(tilemap[width * y + x]);
+  return solids->get_tile((int) p.x, (int) p.y);
 }
 
 WorldMap::Level*
@@ -847,13 +894,12 @@ WorldMap::at_special_tile()
 void
 WorldMap::draw(DrawingContext& context)
 {
-  for(int y = 0; y < height; ++y)
-    for(int x = 0; x < width; ++x)
-      {
-        const Tile* tile = at(Vector(x, y));
-        tile->draw(context, Vector(x*32, y*32), LAYER_TILES);
-      }
-
+  for(GameObjects::iterator i = game_objects.begin();
+      i != game_objects.end(); ++i) {
+    GameObject* object = *i;
+    object->draw(context);
+  }
+  
   for(Levels::iterator i = levels.begin(); i != levels.end(); ++i)
     {
       if (i->solved)
@@ -878,7 +924,6 @@ WorldMap::draw(DrawingContext& context)
                 Vector(i->pos.x*32, i->pos.y*32), LAYER_TILES+1);
     }
 
-  tux->draw(context);
   draw_status(context);
 }
 
@@ -887,38 +932,8 @@ WorldMap::draw_status(DrawingContext& context)
 {
   context.push_transform();
   context.set_translation(Vector(0, 0));
-  
-  char str[80];
-  sprintf(str, " %d", total_stats.get_points(SCORE_STAT));
-
-  context.draw_text(white_text, _("SCORE"), Vector(0, 0), LEFT_ALLIGN, LAYER_FOREGROUND1);
-  context.draw_text(gold_text, str, Vector(96, 0), LEFT_ALLIGN, LAYER_FOREGROUND1);
-
-  sprintf(str, "%d", player_status.coins);
-  context.draw_text(white_text, _("COINS"), Vector(SCREEN_WIDTH/2 - 16*5, 0),
-      LEFT_ALLIGN, LAYER_FOREGROUND1);
-  context.draw_text(gold_text, str, Vector(SCREEN_WIDTH/2 + (16*5)/2, 0),
-        LEFT_ALLIGN, LAYER_FOREGROUND1);
-
-  if (player_status.lives >= 5)
-    {
-      sprintf(str, "%dx", player_status.lives);
-      context.draw_text(gold_text, str, 
-          Vector(SCREEN_WIDTH - gold_text->get_text_width(str) - tux_life->w, 0),
-          LEFT_ALLIGN, LAYER_FOREGROUND1);
-      context.draw_surface(tux_life, Vector(SCREEN_WIDTH -
-            gold_text->get_text_width("9"), 0), LAYER_FOREGROUND1);
-    }
-  else
-    {
-      for(int i= 0; i < player_status.lives; ++i)
-        context.draw_surface(tux_life,
-            Vector(SCREEN_WIDTH - tux_life->w*4 + (tux_life->w*i), 0),
-            LAYER_FOREGROUND1);
-    }
-  context.draw_text(white_text, _("LIVES"),
-      Vector(SCREEN_WIDTH - white_text->get_text_width(_("LIVES")) - white_text->get_text_width("   99"), 0),
-      LEFT_ALLIGN, LAYER_FOREGROUND1);
+ 
+  player_status.draw(context);
 
   if (!tux->is_moving())
     {
@@ -985,23 +1000,26 @@ WorldMap::display()
     global_time += elapsed_time;
     lastticks = ticks;
     
-    // 40 fps minimum
+    // 40 fps minimum // TODO use same code as in GameSession here
     if(elapsed_time > .025)
       elapsed_time = .025;
     
     Vector tux_pos = tux->get_pos();
-    
-    offset.x = -tux_pos.x + SCREEN_WIDTH/2;
-    offset.y = -tux_pos.y + SCREEN_HEIGHT/2;
+    offset.x = tux_pos.x - SCREEN_WIDTH/2;
+    offset.y = tux_pos.y - SCREEN_HEIGHT/2;
 
-    if (offset.x > 0) offset.x = 0;
-    if (offset.y > 0) offset.y = 0;
+    if (offset.x < 0)
+      offset.x = 0;
+    if (offset.y < 0)
+      offset.y = 0;
 
-    if (offset.x < SCREEN_WIDTH - width*32) offset.x = SCREEN_WIDTH - width*32;
-    if (offset.y < SCREEN_HEIGHT - height*32) offset.y = SCREEN_HEIGHT - height*32;
-  
+    if (offset.x > solids->get_width()*32 - SCREEN_WIDTH)
+      offset.x = solids->get_width()*32 - SCREEN_WIDTH;
+    if (offset.y > solids->get_height()*32 - SCREEN_HEIGHT)
+      offset.y = solids->get_height()*32 - SCREEN_HEIGHT;
+
     context.push_transform();
-    context.set_translation(-offset);
+    context.set_translation(offset);
     draw(context);
     context.pop_transform();
     get_input();
@@ -1009,7 +1027,6 @@ WorldMap::display()
       
     if(Menu::current()) {
       Menu::current()->draw(context);
-      mouse_cursor->draw(context);
     }
 
     context.do_drawing();
@@ -1140,13 +1157,13 @@ WorldMap::loadgame(const std::string& filename)
           }
         } else {
           std::cerr << "Unknown token '" << iter.item() 
-            << "' in levels block in worldmap.\n";
+                    << "' in levels block in worldmap.\n";
         }
       }
     }
   } catch(std::exception& e) {
     std::cerr << "Problem loading game '" << filename << "': " << e.what() 
-      << "\n";
+              << "\n";
     load_map();
     player_status.reset();
   }

@@ -15,7 +15,6 @@
   (bkgd_red_bottom    255)
   (bkgd_green_bottom  255)
   (bkgd_blue_bottom   255)
-  (time  60)
   (gravity  10.0)
   (particle_system "snow")
   (theme "antarctica")
@@ -76,6 +75,9 @@
   (reset-points
    )
   (objects
+    (leveltime
+      (time 60)
+    )
     (spiky  (x 2171) (y 348))
     (spiky  (x 2035) (y 312))
     (spiky  (x 1947) (y 323))

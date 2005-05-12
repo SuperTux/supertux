@@ -22,6 +22,9 @@
 #include "lisp/lisp.h"
 #include "player_status.h"
 #include "resources.h"
+#include "gettext.h"
+#include "video/drawing_context.h"
+#include "main.h"
 
 static const int START_LIVES = 4;
 static const int MAX_LIVES = 99;
@@ -117,3 +120,43 @@ PlayerStatus::read(const lisp::Lisp& lisp)
   lisp.get("max-score-multiplier", max_score_multiplier);
 }
 
+void
+PlayerStatus::draw(DrawingContext& context)
+{
+  context.push_transform();
+  context.set_translation(Vector(0, 0));
+
+  char str[60];
+  
+  sprintf(str, " %d", player_status.coins);
+  const char* coinstext = _("COINS");
+  context.draw_text(white_text, coinstext,
+      Vector(SCREEN_WIDTH - white_text->get_text_width(coinstext) 
+              - white_text->get_text_width("   99"), 0),
+      LEFT_ALLIGN, LAYER_FOREGROUND1);
+  context.draw_text(gold_text, str,
+      Vector(SCREEN_WIDTH - gold_text->get_text_width(" 99"), 0),
+      LEFT_ALLIGN, LAYER_FOREGROUND1);
+
+  if (player_status.lives >= 5) {
+    sprintf(str, "%dx", player_status.lives);
+    float x = SCREEN_WIDTH - gold_text->get_text_width(str) - tux_life->w;
+    context.draw_text(gold_text, str, Vector(x, 20), LEFT_ALLIGN,
+                      LAYER_FOREGROUND1);
+    context.draw_surface(tux_life, Vector(SCREEN_WIDTH - 16, 20),
+                         LAYER_FOREGROUND1);
+  } else {
+    for(int i= 0; i < player_status.lives; ++i)
+      context.draw_surface(tux_life, 
+          Vector(SCREEN_WIDTH - tux_life->w*4 +(tux_life->w*i), 20),
+          LAYER_FOREGROUND1);
+  }
+
+  const char* livestext = _("LIVES");
+  context.draw_text(white_text, livestext,
+      Vector(SCREEN_WIDTH - white_text->get_text_width(livestext) 
+                - white_text->get_text_width("   99"), 20),
+      LEFT_ALLIGN, LAYER_FOREGROUND1);
+
+  context.pop_transform();
+}

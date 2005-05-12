@@ -43,6 +43,7 @@ public:
   void write(lisp::Writer& writer);
   void read(const lisp::Lisp& lisp);
 	bool check_cheatcode(const std::string& cheatcode);
+  void reset();
 
   Menu* get_key_options_menu();
   Menu* get_joystick_options_menu();

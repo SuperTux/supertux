@@ -116,6 +116,13 @@ JoystickKeyboardController::JoystickKeyboardController()
     if(i != min_joybuttons-1)
       joy_button_map.insert(std::make_pair(i, MENU_SELECT));
   }
+
+  // some joysticks or SDL seem to produce some bogus events after being opened
+  Uint32 ticks = SDL_GetTicks();
+  while(SDL_GetTicks() - ticks < 200) {
+    SDL_Event event;
+    SDL_PollEvent(&event);
+  }
 }
 
 JoystickKeyboardController::~JoystickKeyboardController()
@@ -225,6 +232,14 @@ JoystickKeyboardController::write(lisp::Writer& writer)
     writer.end_list("map");
   }
   writer.end_list("joystick");  
+}
+
+void
+JoystickKeyboardController::reset()
+{
+  Controller::reset();
+  for(size_t i = 0; i < sizeof(last_keys); ++i)
+      last_keys[i] = 0;
 }
 
 void

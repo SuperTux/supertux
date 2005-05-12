@@ -3,7 +3,6 @@
   (version 2)
   (name   (_ "Menu Level"))
   (author "SuperTux Team")
-  (time   500)
   (sector
     (name  "main")
     (music  "theme.ogg")

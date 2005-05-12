@@ -78,6 +78,8 @@ public:
 
   /** Translate the string \a msgid. */
   std::string translate(const std::string& msgid);
+
+  const char* translate(const char* msgid);
     
   /** Add a translation from \a msgid to \a msgstr to the dictionary,
       where \a msgid is the singular form of the message, msgid2 the

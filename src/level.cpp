@@ -51,7 +51,7 @@
 using namespace std;
 
 Level::Level()
-  : name("noname"), author("Mr. X"), timelimit(500)
+  : name("noname"), author("Mr. X")
 {
 }
 
@@ -92,8 +92,6 @@ Level::load(const std::string& filepath)
         iter.value()->get(name);
       } else if(token == "author") {
         iter.value()->get(author);
-      } else if(token == "time") {
-        iter.value()->get(timelimit);
       } else if(token == "sector") {
         Sector* sector = new Sector;
         sector->parse(*(iter.lisp()));
@@ -116,7 +114,6 @@ Level::load_old_format(const lisp::Lisp& reader)
 {
   reader.get("name", name);
   reader.get("author", author);
-  reader.get("time", timelimit);
 
   Sector* sector = new Sector;
   sector->parse_old_format(reader);
@@ -142,7 +139,6 @@ Level::save(const std::string& filename)
 
   writer->write_string("name", name, true);
   writer->write_string("author", author);
-  writer->write_int("time", timelimit);
 
   for(Sectors::iterator i = sectors.begin(); i != sectors.end(); ++i) {
     Sector* sector = *i;

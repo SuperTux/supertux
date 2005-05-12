@@ -433,6 +433,20 @@ Dictionary::translate(const std::string& msgid)
       return msgid;
     }
 }
+
+const char*
+Dictionary::translate(const char* msgid)
+{
+  Entries::iterator i = entries.find(msgid);
+  if(i == entries.end() || i->second.empty()) {
+#ifdef TRANSLATION_DBEUG
+    std::cout << "Error: Couldn't translate: " << msgid << std::endl;
+#endif                                                                     
+    return msgid;
+  }
+
+  return i->second.c_str();
+}
   
 void
 Dictionary::add_translation(const std::string& msgid, const std::string& ,
@@ -477,6 +491,13 @@ public:
   {
     state = WANT_MSGID;
     line_num = 0;
+    char c = in.get();
+    if(c == (char) 0xef) { // skip UTF-8 intro that some texteditors produce
+      in.get();
+      in.get();
+    } else {
+      in.unget();
+    }
     tokenize_po(in);
   }
 

@@ -41,13 +41,7 @@ class TileMap;
 class Bullet;
 class CollisionGrid;
 class ScriptInterpreter;
-
-class SpawnPoint
-{
-public:
-  std::string name;
-  Vector pos;
-};
+class SpawnPoint;
 
 enum MusicType {
   LEVEL_MUSIC,

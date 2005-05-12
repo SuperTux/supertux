@@ -59,7 +59,6 @@ public:
 
 public:
   DrawingContext* context;
-  Timer time_left;
 
   GameSession(const std::string& levelfile, GameSessionMode mode,
               Statistics* statistics=0);
@@ -77,8 +76,8 @@ public:
   { current_ = this; }
   static GameSession* current() { return current_; }
 
-  /// ends the level as finished
-  void finish();
+  /// ends the current level
+  void finish(bool win = true);
   void respawn(const std::string& sectorname,
       const std::string& spawnpointname);
   void set_reset_point(const std::string& sectorname,
@@ -95,7 +94,6 @@ private:
   void restart_level();
 
   void check_end_conditions();
-  void start_timers();
   void process_events();
   void capture_demo_step();
 

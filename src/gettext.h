@@ -22,7 +22,12 @@ extern TinyGetText::DictionaryManager dictionary_manager;
 
 static inline const char* _(const char* message)
 {
-  return dictionary_manager.get_dictionary().translate(message).c_str();
+  return dictionary_manager.get_dictionary().translate(message);
+}
+
+static inline std::string _(const std::string& message)
+{
+  return dictionary_manager.get_dictionary().translate(message);
 }
 
 static inline const char* N_(const char* id, const char* id2, int num)

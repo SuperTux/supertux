@@ -80,6 +80,6 @@ void MouseCursor::draw(DrawingContext& context)
       cur_state = state_before_click;
   }
 
-  context.draw_surface_part(cursor, Vector(w, h*cur_state),
+  context.draw_surface_part(cursor, Vector(0, h*cur_state),
           Vector(w, h), Vector(x-mid_x, y-mid_y), LAYER_GUI+100);
 }

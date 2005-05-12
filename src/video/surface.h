@@ -95,8 +95,8 @@ public:
 class Surface
 {
 public:
-  SurfaceData data;
   SurfaceImpl* impl;
+  SurfaceData data;
   int w;
   int h;
   

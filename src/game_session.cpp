@@ -109,7 +109,7 @@ GameSession::restart_level()
   global_stats.reset();
   global_stats.set_total_points(COINS_COLLECTED_STAT, level->get_total_coins());
   global_stats.set_total_points(BADGUYS_KILLED_STAT, level->get_total_badguys());
-  global_stats.set_total_points(TIME_NEEDED_STAT, level->timelimit);
+  //global_stats.set_total_points(TIME_NEEDED_STAT, level->timelimit);
 
   if(reset_sector != "") {
     currentsector = level->get_sector(reset_sector);
@@ -129,7 +129,6 @@ GameSession::restart_level()
   if(mode == ST_GL_PLAY || mode == ST_GL_LOAD_LEVEL_FILE)
     levelintro();
 
-  start_timers();
   currentsector->play_music(LEVEL_MUSIC);
 
   if(capture_file != "")
@@ -217,13 +216,6 @@ GameSession::levelintro()
   context.do_drawing();
 
   wait_for_event(1.0, 3.0);
-}
-
-/* Reset Timers */
-void
-GameSession::start_timers()
-{
-  time_left.start(level->timelimit);
 }
 
 void
@@ -315,6 +307,8 @@ GameSession::process_events()
 void
 GameSession::try_cheats()
 {
+  if(currentsector == 0)
+    return;
   Player& tux = *currentsector->player;
   
   // Cheating words (the goal of this is really for debugging,
@@ -442,7 +436,6 @@ GameSession::draw()
 
   if(Menu::current()) {
     Menu::current()->draw(*context);
-    mouse_cursor->draw(*context);
   }
 
   context->do_drawing();
@@ -601,10 +594,6 @@ GameSession::run()
 
     //frame_rate.update();
     
-    /* Handle time: */
-    if (time_left.check() && !end_sequence)
-      currentsector->player->kill(Player::KILL);
-    
     /* Handle music: */
     if (currentsector->player->invincible_timer.started() && !end_sequence)
     {
@@ -631,14 +620,18 @@ GameSession::run()
   }
  
   // just in case
+  currentsector = 0;
   main_controller->reset();
   return exit_status;
 }
 
 void
-GameSession::finish()
+GameSession::finish(bool win)
 {
-  exit_status = ES_LEVEL_FINISHED;
+  if(win)
+    exit_status = ES_LEVEL_FINISHED;
+  else
+    exit_status = ES_LEVEL_ABORT;
 }
 
 void
@@ -696,10 +689,6 @@ GameSession::start_sequence(const std::string& sequencename)
     sound_manager->play_music(level_end_song, 0);
     currentsector->player->invincible_timer.start(7.0);
 
-    // add left time to stats
-    global_stats.set_points(TIME_NEEDED_STAT,
-        int(time_left.get_period() - time_left.get_timeleft()));
-
     if(sequencename == "fireworks") {
       currentsector->add_object(new Fireworks());
     }
@@ -714,58 +703,11 @@ GameSession::start_sequence(const std::string& sequencename)
 void
 GameSession::drawstatus(DrawingContext& context)
 {
-  char str[60];
-  
-  snprintf(str, 60, " %d", global_stats.get_points(SCORE_STAT));
-  context.draw_text(white_text, _("SCORE"), Vector(0, 0), LEFT_ALLIGN, LAYER_FOREGROUND1);
-  context.draw_text(gold_text, str, Vector(96, 0), LEFT_ALLIGN, LAYER_FOREGROUND1);
-
-  if(mode == ST_GL_TEST) {
-    context.draw_text(white_text, _("Press ESC To Return"), Vector(0,20),
-                      LEFT_ALLIGN, LAYER_FOREGROUND1);
-  }
-
-  if(time_left.get_timeleft() < 0) {
-    context.draw_text(white_text, _("TIME's UP"), Vector(SCREEN_WIDTH/2, 0),
-        CENTER_ALLIGN, LAYER_FOREGROUND1);
-  } else if (time_left.get_timeleft() > TIME_WARNING
-      || int(global_time * 2.5) % 2) {
-    sprintf(str, " %d", int(time_left.get_timeleft()));
-    context.draw_text(white_text, _("TIME"),
-        Vector(SCREEN_WIDTH/2, 0), CENTER_ALLIGN, LAYER_FOREGROUND1);
-    context.draw_text(gold_text, str,
-        Vector(SCREEN_WIDTH/2 + 4*16, 0), CENTER_ALLIGN, LAYER_FOREGROUND1);
-  }
-
-  sprintf(str, " %d", player_status.coins);
-  context.draw_text(white_text, _("COINS"),
-      Vector(SCREEN_WIDTH - white_text->get_text_width(_("COINS"))-white_text->get_text_width("   99"), 0),
-        LEFT_ALLIGN, LAYER_FOREGROUND1);
-  context.draw_text(gold_text, str,
-      Vector(SCREEN_WIDTH - gold_text->get_text_width(" 99"), 0),LEFT_ALLIGN, LAYER_FOREGROUND1);
-
-  if (player_status.lives >= 5)
-    {
-      sprintf(str, "%dx", player_status.lives);
-      float x = SCREEN_WIDTH - gold_text->get_text_width(str) - tux_life->w;
-      context.draw_text(gold_text, str, Vector(x, 20), LEFT_ALLIGN, LAYER_FOREGROUND1);
-      context.draw_surface(tux_life, Vector(SCREEN_WIDTH - 16, 20),
-          LAYER_FOREGROUND1);
-    }
-  else
-    {
-      for(int i= 0; i < player_status.lives; ++i)
-        context.draw_surface(tux_life, 
-            Vector(SCREEN_WIDTH - tux_life->w*4 +(tux_life->w*i), 20),
-            LAYER_FOREGROUND1);
-    }
-
-  context.draw_text(white_text, _("LIVES"),
-      Vector(SCREEN_WIDTH - white_text->get_text_width(_("LIVES")) - white_text->get_text_width("   99"), 20),
-      LEFT_ALLIGN, LAYER_FOREGROUND1);
+  player_status.draw(context);
 
   if(config->show_fps) {
-    sprintf(str, "%2.1f", fps_fps);
+    char str[60];
+    snprintf(str, sizeof(str), "%2.1f", fps_fps);
     context.draw_text(white_text, "FPS", 
                       Vector(SCREEN_WIDTH -
                              white_text->get_text_width("FPS     "), 40),

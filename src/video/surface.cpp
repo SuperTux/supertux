@@ -137,7 +137,7 @@ static int power_of_two(int input)
 }
 
 Surface::Surface(SDL_Surface* surf, bool use_alpha)
-    : data(surf, use_alpha), w(0), h(0)
+    : impl(0), data(surf, use_alpha), w(0), h(0)
 {
   impl = data.create();
   if (impl)
@@ -149,7 +149,7 @@ Surface::Surface(SDL_Surface* surf, bool use_alpha)
 }
 
 Surface::Surface(const std::string& file, bool use_alpha)
-    : data(file, use_alpha), w(0), h(0)
+    : impl(0), data(file, use_alpha), w(0), h(0)
 {
   impl = data.create();
   if (impl)
@@ -161,7 +161,7 @@ Surface::Surface(const std::string& file, bool use_alpha)
 }
 
 Surface::Surface(const std::string& file, int x, int y, int w_, int h_, bool use_alpha)
-    : data(file, x, y, w_, h_, use_alpha), w(0), h(0)
+    : impl(0), data(file, x, y, w_, h_, use_alpha), w(0), h(0)
 {
   impl = data.create();
   if (impl)
@@ -173,7 +173,7 @@ Surface::Surface(const std::string& file, int x, int y, int w_, int h_, bool use
 }
 
 Surface::Surface(Color top_background, Color bottom_background, int w_, int h_)
-    : data(top_background, bottom_background, w_, h_), w(0), h(0)
+    : impl(0), data(top_background, bottom_background, w_, h_), w(0), h(0)
 {
   impl = data.create();
   if (impl)
@@ -296,8 +296,7 @@ sdl_surface_part_from_file(const std::string& file, int x, int y, int w, int h, 
   SDL_Surface * conv;
 
   temp = IMG_Load(file.c_str());
-
-  if (temp == NULL) {
+  if (temp == 0) {
     std::stringstream msg;
     msg << "Couldn't load '" << file << "': " << SDL_GetError();
     throw std::runtime_error(msg.str());
@@ -346,8 +345,7 @@ sdl_surface_from_file(const std::string& file, bool use_alpha)
   SDL_Surface* temp;
 
   temp = IMG_Load(file.c_str());
-
-  if (temp == NULL) {
+  if (temp == 0) {
     std::stringstream msg;
     msg << "Couldn't load file '" << file << "': " << SDL_GetError();
     throw std::runtime_error(msg.str());
@@ -454,11 +452,13 @@ sdl_surface_from_gradient(Color top, Color bottom, int w, int h)
 //---------------------------------------------------------------------------
 
 SurfaceImpl::SurfaceImpl()
+  : sdl_surface(0)
 {}
 
 SurfaceImpl::~SurfaceImpl()
 {
-  SDL_FreeSurface(sdl_surface);
+  if(sdl_surface != 0)
+    SDL_FreeSurface(sdl_surface);
 }
 
 SDL_Surface* SurfaceImpl::get_sdl_surface() const

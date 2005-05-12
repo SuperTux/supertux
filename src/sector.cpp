@@ -46,6 +46,7 @@
 #include "collision_grid_iterator.h"
 #include "object_factory.h"
 #include "collision.h"
+#include "spawn_point.h"
 #include "math/rect.h"
 #include "math/aatriangle.h"
 #include "object/coin.h"
@@ -145,12 +146,7 @@ Sector::parse(const lisp::Lisp& sector)
       iter.value()->get(song_title);
       load_music();
     } else if(token == "spawnpoint") {
-      const lisp::Lisp* spawnpoint_lisp = iter.lisp();
-      
-      SpawnPoint* sp = new SpawnPoint;
-      spawnpoint_lisp->get("name", sp->name);
-      spawnpoint_lisp->get("x", sp->pos.x);
-      spawnpoint_lisp->get("y", sp->pos.y);
+      SpawnPoint* sp = new SpawnPoint(iter.lisp());
       spawnpoints.push_back(sp);
     } else if(token == "init-script") {
       iter.value()->get(init_script);

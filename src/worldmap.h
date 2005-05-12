@@ -30,9 +30,13 @@
 #include "statistics.h"
 #include "timer.h"
 #include "tile_manager.h"
+#include "game_object.h"
 
 class Sprite;
 class Menu;
+class SpawnPoint;
+class GameObject;
+class TileMap;
 extern Menu* worldmap_menu;
 
 namespace WorldMapNS {
@@ -59,7 +63,7 @@ Direction reverse_dir(Direction d);
 
 class WorldMap;
 
-class Tux
+class Tux : public GameObject
 {
 public:
   Direction back_direction;
@@ -108,13 +112,10 @@ private:
   std::string name;
   std::string music;
 
-  std::vector<int> tilemap;
-  int width;
-  int height;
+  typedef std::vector<GameObject*> GameObjects;
+  GameObjects game_objects;
+  TileMap* solids;
   
-  int start_x;
-  int start_y;
-
   TileManager* tile_manager;
 
 public:
@@ -187,9 +188,10 @@ private:
 
   typedef std::vector<SpecialTile> SpecialTiles;
   SpecialTiles special_tiles;
-
   typedef std::vector<Level> Levels;
   Levels levels;
+  typedef std::vector<SpawnPoint*> SpawnPoints;
+  SpawnPoints spawn_points;
 
   MusicRef song;
 
@@ -219,6 +221,9 @@ public:
   
   void get_input();
 
+  void add_object(GameObject* object);
+  void clear_objects();
+
   /** Update Tux position */
   void update(float delta);
 
@@ -244,16 +249,10 @@ public:
   void loadmap(const std::string& filename);
 
   const std::string& get_world_title() const
-    { return name; }
+  { return name; }
     
-  const int& get_start_x() const
-    { return start_x; }
-  
-  const int& get_start_y() const
-    { return start_y; }
-
   void set_map_filename(std::string filename)
-    { map_filename = filename; }
+  { map_filename = filename; }
 
 private:
   void on_escape_press();

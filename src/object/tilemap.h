@@ -41,7 +41,7 @@ class TileMap : public GameObject, public Serializable
 {
 public:
   TileMap();
-  TileMap(const lisp::Lisp& reader);
+  TileMap(const lisp::Lisp& reader, TileManager* tile_manager = 0);
   TileMap(int layer_, bool solid_, size_t width_, size_t height_);
   virtual ~TileMap();
 

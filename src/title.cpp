@@ -185,14 +185,12 @@ void check_levels_contrib_menu()
 
     // TODO: slots should be available for contrib maps
     worldmap.loadgame(user_dir + "/save/" + subset.name + "-slot1.stsg");
-
     worldmap.display();  // run the map
 
     Menu::set_current(main_menu);
     resume_demo();
   } else if (current_subset != index) {
     current_subset = index;
-    // FIXME: This shouln't be busy looping
     LevelSubset& subset = * (contrib_subsets[index]);
 
     current_contrib_subset = &subset;
@@ -433,8 +431,6 @@ void title()
         Menu::set_current(main_menu);
       }
 
-      mouse_cursor->draw(context);
-     
       context.do_drawing();
 
       //frame_rate.update();

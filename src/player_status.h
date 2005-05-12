@@ -26,6 +26,7 @@
 enum BonusType {
   NO_BONUS, GROWUP_BONUS, FIRE_BONUS, ICE_BONUS
 };
+class DrawingContext;
 
 /** 
  * This class memorizes player status between different game sessions (for
@@ -41,6 +42,8 @@ public:
 
   void write(lisp::Writer& writer);
   void read(const lisp::Lisp& lisp);
+
+  void draw(DrawingContext& context);
 
   int  coins;
   int  lives;
