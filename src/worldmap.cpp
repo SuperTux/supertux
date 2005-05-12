@@ -51,6 +51,7 @@
 #include "control/joystickkeyboardcontroller.h"
 #include "object/background.h"
 #include "object/tilemap.h"
+#include "scripting/script_interpreter.h"
 
 Menu* worldmap_menu  = 0;
 
@@ -432,7 +433,8 @@ WorldMap::load_map()
         const lisp::Lisp* props = iter.lisp();
         props->get("name", name);
         props->get("music", music);
-        props->get("intro-filename", intro_filename);
+      } else if(iter.item() == "intro-script") {
+        iter.value()->get(intro_script);
       } else if(iter.item() == "spawnpoint") {
         SpawnPoint* sp = new SpawnPoint(iter.lisp());
         spawn_points.push_back(sp);
@@ -519,7 +521,7 @@ WorldMap::parse_level_tile(const lisp::Lisp* level_lisp)
   level.south = true;
   level.west  = true;
 
-  level_lisp->get("extro-filename", level.extro_filename);
+  level_lisp->get("extro-script", level.extro_script);
   level_lisp->get("next-worldmap", level.next_worldmap);
 
   level.quit_worldmap = false;
@@ -840,10 +842,12 @@ WorldMap::update(float delta)
       /* The porpose of the next checking is that if the player lost
          the level (in case there is one), don't show anything */
       if(level_finished) {
-        if (!level->extro_filename.empty()) {
-          // Display a text file
-          std::string filename = levels_path + level->extro_filename;
-          display_text_file(filename);
+        if (level->extro_script != "") {
+          ScriptInterpreter* interpreter = new ScriptInterpreter(levels_path);
+          std::istringstream in(level->extro_script);
+          interpreter->load_script(in, "level-extro-script");
+          interpreter->start_script();
+          add_object(interpreter);
         }
 
         if (!level->next_worldmap.empty())
@@ -986,9 +990,13 @@ WorldMap::display()
   song = sound_manager->load_music(datadir +  "/music/" + music);
   sound_manager->play_music(song);
 
-  if(!intro_displayed && intro_filename != "") {
-    std::string filename = levels_path + intro_filename;
-    display_text_file(filename);
+  if(!intro_displayed && intro_script != "") {
+    ScriptInterpreter* interpreter = new ScriptInterpreter(levels_path);
+    std::istringstream in(intro_script);
+    interpreter->load_script(in, "worldmap-intro-script");
+    interpreter->start_script();
+    add_object(interpreter);
+                                           
     intro_displayed = true;
   }
 

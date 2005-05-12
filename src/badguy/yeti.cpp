@@ -25,6 +25,7 @@
 #include "object/camera.h"
 #include "yeti_stalactite.h"
 #include "bouncing_snowball.h"
+#include "game_session.h"
 #include "scripting/script_interpreter.h"
 
 static const float JUMP_VEL1 = 250;
@@ -146,7 +147,8 @@ Yeti::collision_squished(Player& player)
     if(dead_script != "") {
       try {
         ScriptInterpreter* interpreter 
-          = new ScriptInterpreter(Sector::current());
+          = new ScriptInterpreter(GameSession::current()->get_working_directory());
+        interpreter->register_sector(Sector::current());
         std::istringstream in(dead_script);
         interpreter->load_script(in, "Yeti - dead-script");
         interpreter->start_script();

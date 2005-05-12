@@ -89,6 +89,12 @@ public:
   void start_sequence(const std::string& sequencename);
   /// called by JoystickKeyboardController after an ascii key has been pressed
   void try_cheats();
+
+  /** returns the "working directory" usually this is the directory where the
+   * currently played level resides. This is used when locating additional
+   * resources for the current level/world
+   */
+  std::string get_working_directory();
   
 private:
   void restart_level();

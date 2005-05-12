@@ -15,6 +15,8 @@
 #include "wrapper.h"
 #include "wrapper_util.h"
 #include "sector.h"
+#include "file_system.h"
+#include "game_session.h"
 #include "object/text_object.h"
 #include "object/scripted_object.h"
 #include "object/display_effect.h"
@@ -32,8 +34,8 @@ static void printfunc(HSQUIRRELVM, const char* str, ...)
 
 ScriptInterpreter* ScriptInterpreter::_current = 0;
 
-ScriptInterpreter::ScriptInterpreter(Sector* sector)
-  : sound(0), level(0)
+ScriptInterpreter::ScriptInterpreter(const std::string& new_working_directory)
+  : working_directory(new_working_directory), sound(0), level(0)
 {
   v = sq_open(1024);
   if(v == 0)
@@ -59,8 +61,19 @@ ScriptInterpreter::ScriptInterpreter(Sector* sector)
   
   // register supertux API
   register_functions(v, supertux_global_functions);
-  register_classes(v, supertux_classes);  
+  register_classes(v, supertux_classes);
 
+  // expose some "global" objects
+  sound = new Scripting::Sound();
+  expose_object(sound, "Sound", "Sound");  
+  
+  level = new Scripting::Level();
+  expose_object(level, "Level", "Level");
+}
+
+void
+ScriptInterpreter::register_sector(Sector* sector)
+{
   // expose ScriptedObjects to the script
   for(Sector::GameObjects::iterator i = sector->gameobjects.begin();
       i != sector->gameobjects.end(); ++i) {
@@ -73,12 +86,6 @@ ScriptInterpreter::ScriptInterpreter(Sector* sector)
     expose_object(scripted_object, scripted_object->get_name(), 
         "ScriptedObject");
   }
-  // expose some "global" objects
-  sound = new Scripting::Sound();
-  expose_object(sound, "Sound", "Sound");
-  
-  level = new Scripting::Level();
-  expose_object(level, "Level", "Level");
   
   TextObject* text_object = new TextObject();
   sector->add_object(text_object);

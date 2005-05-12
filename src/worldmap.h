@@ -158,9 +158,8 @@ public:
     /** Check if this level should be vertically flipped */
     bool vertical_flip;
 
-    /** Filename of the extro text to show once the level is
-        successfully completed */
-    std::string extro_filename;
+    /** Script that is run when the level is successfully finished */
+    std::string extro_script;
 
     /** Go to this world */
     std::string next_worldmap;
@@ -198,7 +197,7 @@ private:
   Vector offset;
   std::string savegame_file;
   
-  std::string intro_filename;
+  std::string intro_script;
   bool intro_displayed;
 
   void get_level_title(Level& level);

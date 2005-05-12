@@ -354,6 +354,16 @@ static int Text_set_visible_wrapper(HSQUIRRELVM v)
   return 0;
 }
 
+static int display_text_file_wrapper(HSQUIRRELVM v)
+{
+  const char* arg0;
+  sq_getstring(v, 2, &arg0);
+  
+  Scripting::display_text_file(arg0);
+  
+  return 0;
+}
+
 static int set_wakeup_time_wrapper(HSQUIRRELVM v)
 {
   float arg0;
@@ -376,6 +386,7 @@ static int translate_wrapper(HSQUIRRELVM v)
 }
 
 WrappedFunction supertux_global_functions[] = {
+  { "display_text_file", &display_text_file_wrapper },
   { "set_wakeup_time", &set_wakeup_time_wrapper },
   { "translate", &translate_wrapper },
   { 0, 0 }

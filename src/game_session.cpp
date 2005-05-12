@@ -64,6 +64,7 @@
 #include "control/codecontroller.h"
 #include "control/joystickkeyboardcontroller.h"
 #include "main.h"
+#include "file_system.h"
 #include "gameconfig.h"
 #include "gettext.h"
 
@@ -646,6 +647,12 @@ GameSession::set_reset_point(const std::string& sector, const Vector& pos)
 {
   reset_sector = sector;
   reset_pos = pos;
+}
+
+std::string
+GameSession::get_working_directory()
+{
+  return FileSystem::dirname(levelfile);
 }
 
 void

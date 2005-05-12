@@ -2,9 +2,11 @@
 (supertux-worldmap
   (properties 
     (name (_ "Icyisland"))
-    (intro-filename "intro.txt")
     (music "salcon.mod")
   )
+  (intro-script "
+display_text_file(\"intro.txt\")
+")
   (spawnpoint
     (name "main")
     (x 4)
@@ -150,7 +152,9 @@
     (level
       (x 7)
       (y 20)
-      (extro-filename "extro.txt")
+      (extro-script "
+display_text_file(\"extro.txt\")
+")
       (name "level26.stl")
       (quit-worldmap #t))
 )

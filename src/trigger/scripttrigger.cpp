@@ -85,7 +85,9 @@ ScriptTrigger::event(Player& , EventType type)
     {
       try
       {
-        ScriptInterpreter* interpreter = new ScriptInterpreter(Sector::current());
+        ScriptInterpreter* interpreter 
+          = new ScriptInterpreter(GameSession::current()->get_working_directory());
+        interpreter->register_sector(Sector::current());
         std::istringstream in(script);
         interpreter->load_script(in, "trigger-script");
         interpreter->start_script();

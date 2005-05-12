@@ -13,8 +13,10 @@ class Sector;
 class ScriptInterpreter : public GameObject
 {
 public:
-  ScriptInterpreter(Sector* sector);
+  ScriptInterpreter(const std::string& working_dir);
   ~ScriptInterpreter();
+
+  void register_sector(Sector* sector);
 
   void draw(DrawingContext& );
   void update(float );
@@ -32,11 +34,18 @@ public:
     return _current;
   }
 
+  const std::string& get_working_directory() const
+  {
+      return working_directory;
+  }
+
 private:
   HSQUIRRELVM v;
   static ScriptInterpreter* _current;
   Timer wakeup_timer;
 
+  /// this directory is used as base for all filenames used in scripts
+  std::string working_directory;
   Scripting::Sound* sound;
   Scripting::Level* level;
 };

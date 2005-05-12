@@ -418,7 +418,9 @@ Sector::activate(const std::string& spawnpoint)
   // Run init script
   if(init_script != "") {
     try {
-      ScriptInterpreter* interpreter = new ScriptInterpreter(this);
+      ScriptInterpreter* interpreter 
+        = new ScriptInterpreter(GameSession::current()->get_working_directory());
+      interpreter->register_sector(this);
       std::string sourcename = std::string("Sector(") + name + ") - init";
       std::istringstream in(init_script);
       interpreter->load_script(in, sourcename);
