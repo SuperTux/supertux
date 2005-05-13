@@ -30,12 +30,15 @@
   (level
     (x 30)
     (y 39)
-    (name "/bonus-level3.stl")
+    (name "bonus-level3.stl")
   )
   (level
     (x 32)
     (y 46)
-    (name "/bonus-level4.stl")
+    (extro-script "
+display_text_file(\"extro.txt\")
+")
+    (name "bonus-level4.stl")
   )
   (level
     (x 44)
