@@ -38,7 +38,7 @@ Parser::Parser(bool translate)
 {
   if(translate) {
     dictionary_manager = new TinyGetText::DictionaryManager();
-    dictionary_manager->set_charset("ISO8859-1");
+    dictionary_manager->set_charset("UTF-8");
   }
 }
 

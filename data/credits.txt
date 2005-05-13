@@ -4,7 +4,7 @@
   (speed 1.5)
 
   (text (_ "-- SuperTux -
-	Milestone 1
+	On the way to Milestone 2
 
 
 -Maintainer
@@ -29,6 +29,8 @@
 
 	Ryan (sik0fewl) Flegel
 
+	Bastiaan (basti_) Zapf
+
 
 -Contrib Programming
 
@@ -36,7 +38,7 @@
 
 	Richard Smith
 
-	Ondra Hosek
+	Ondra (Ravu al Hemio) Hosek
 
 
 -Graphics
@@ -81,8 +83,8 @@
  Creator of Tux, the Linux penguin
 
 	SDL and OpenGL
- For giving such a great gaming experience
- possible in Linux
+ For making such a great gaming experience
+ possible on Linux
 
 
 -Contact
@@ -110,5 +112,5 @@
 
 
 
-	See you soon in Milestone2!"))
+	See you soon in Milestone 2!"))
 )

@@ -1,0 +1,185 @@
+# Czech translations for SuperTux package (World1)
+# Copyright (C) 2005 Ondrej Hosek <ondra.hosek@gmail.com>
+# This file is distributed under the same license as the SuperTux package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: SuperTux 0.2\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2005-05-13 14:24+0100\n"
+"Last-Translator: Ondřej Hošek <ondra.hosek@gmail.com>\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: data/levels/world1/intro.txt:5
+msgid ""
+"-Penny gets captured!\n"
+"\n"
+"#Tux and Penny were out having a nice\n"
+"#picnic on the ice fields of Antarctica.\n"
+"#Suddenly, a creature jumped from\n"
+"#behind an ice bush, there was a flash,\n"
+"#and Tux fell asleep!\n"
+"\n"
+"#When Tux wakes up, he finds that Penny\n"
+"#is missing. Where she lay before now\n"
+"#lies a letter. \"Tux, my arch enemy!\"\n"
+"#says the letter. \"I have captured\n"
+"#your beautiful Penny and have taken her\n"
+"#to my fortress. The path to my fortress\n"
+"#is littered with my minions. Give up on\n"
+"#the thought of trying to reclaim her,\n"
+"#you haven't a chance! -Nolok\"\n"
+"\n"
+"#Tux looks and see Nolok's fortress in\n"
+"#the distance. Determined to save his\n"
+"#beloved Penny, he begins his journey."
+msgstr ""
+
+#: data/levels/world1/worldmap.stwm:4
+msgid "Icyisland"
+msgstr "Zmrzlý ostrov"
+
+#: data/levels/world1/level10.stl:5
+msgid "23rd Airborne"
+msgstr "23. letecká"
+
+#: data/levels/world1/level11.stl:5
+msgid "Night Chill"
+msgstr "Noční chlad"
+
+#: data/levels/world1/level12.stl:5
+msgid "Into the Stars"
+msgstr "Ke hvězdám"
+
+#: data/levels/world1/level13.stl:5
+msgid "Above the Arctic Skies"
+msgstr "Nad oblohou Antarktidy"
+
+#: data/levels/world1/level14.stl:5
+msgid "Entrance to the Cave"
+msgstr "Vchod do jeskyně"
+
+#: data/levels/world1/level15.stl:5
+msgid "Under the Ice"
+msgstr "Pod ledem"
+
+#: data/levels/world1/level16.stl:5
+msgid "Living in a Fridge"
+msgstr "Život v ledničce"
+
+#: data/levels/world1/level17.stl:5
+msgid "'...or is it just me?'"
+msgstr "'... nebo se mi to jen zdá?'"
+
+#: data/levels/world1/level18.stl:5
+msgid "Ice in the Hole"
+msgstr "Ledová trhavina"
+
+#: data/levels/world1/level19.stl:5
+msgid "Miyamoto Monument"
+msgstr "Miyamotův Monument"
+
+#: data/levels/world1/level20.stl:5
+msgid "End of the Tunnel"
+msgstr "Konec tunelu"
+
+#: data/levels/world1/level21.stl:5
+msgid "A Path in the Clouds"
+msgstr "Stezka v oblacích"
+
+#: data/levels/world1/level22.stl:5
+msgid "No more Mr Ice Guy"
+msgstr "Dejte to k ledu!"
+
+#: data/levels/world1/level23.stl:5
+msgid "The Escape"
+msgstr "Útěk"
+
+#: data/levels/world1/level24.stl:5
+msgid "The Shattered Bridge"
+msgstr "Rozdrcený most"
+
+#: data/levels/world1/level25.stl:5
+msgid "Arctic Ruins"
+msgstr "Antarktické zříceniny"
+
+#: data/levels/world1/level26.stl:5
+msgid "The Castle of Nolok"
+msgstr "Nolokova pevnost"
+
+#: data/levels/world1/level1.stl:5
+msgid "Welcome to Antarctica"
+msgstr "Vítejte v Antarktidě"
+
+#: data/levels/world1/level2.stl:5
+msgid "The Journey Begins"
+msgstr "Zde začíná výprava"
+
+#: data/levels/world1/level3.stl:5
+msgid "Via Nostalgica"
+msgstr "Via Nostalgica"
+
+#: data/levels/world1/level4.stl:5
+msgid "Tobgle Road"
+msgstr "Tobglova cesta"
+
+#: data/levels/world1/level5.stl:5
+msgid "The Somewhat Smaller Bath"
+msgstr "Tak trochu menší koupel"
+
+#: data/levels/world1/level6.stl:5
+msgid "The Frosted Fields"
+msgstr "Omrzlá pole"
+
+#: data/levels/world1/level7.stl:5
+msgid "Oh no! More Snowballs!"
+msgstr "Ach ne! Více sněhových koulí!"
+
+#: data/levels/world1/level8.stl:5
+msgid "Stone Cold"
+msgstr "Zmrzlý až na kost"
+
+#: data/levels/world1/level9.stl:5
+msgid "Grumbel's Sense of Snow"
+msgstr "Grumbelův smysl pro sníh"
+
+#: data/levels/world1/extro.txt:7
+msgid ""
+"-Entering Nolok's Throne Room!\n"
+"\n"
+"#Tux ran into Nolok's throne room,\n"
+"#frantically searching for his beloved.\n"
+"#Alas, he found neither Penny nor Nolok\n"
+"#there, but instead, another note.\n"
+"\n"
+"#\"Well done, Tux, well done. If you are\n"
+"#reading this, you have removed my\n"
+"#control over this icy fortress. But as\n"
+"#you can see, your beloved Penny is not\n"
+"#here. What you did not realize is that\n"
+"#this is just one of my many fortresses,\n"
+"#spread far across the lands!\n"
+"\n"
+"#\"Tux, your ambition is most honorable,\n"
+"#but futile nonetheless. With every\n"
+"#fortress you conquer of mine, I will\n"
+"#escape to another, and take Penny with\n"
+"#me. Do not be silly... it is best that\n"
+"#you give up now.\"\n"
+"\n"
+"#Tux was sadly leaving the room, when he\n"
+"#felt something beneath his foot... an\n"
+"#envelope, addressed to him! Inside was\n"
+"#a roughly sketched map with fortresses\n"
+"#drawn in various lands. On the corner\n"
+"#of the map was Penny's signature, a\n"
+"#drawing of the ice flower.\n"
+"\n"
+"#Tux ran out of the fortress, map in\n"
+"#hand. No, he decided, he would not give\n"
+"#up. Penny was counting on him."
+msgstr ""
+
