@@ -45,7 +45,7 @@ Font::Font(const std::string& file, FontType ntype, int nw, int nh,
       break;
   }
   last_char = first_char + (chars->h / h) * 16;
-  if(last_char > 127) // we have left out some control chars at 128-159
+  if(last_char > 127 && last_char < 160) // we have left out some control chars at 128-159
     last_char += 32;
    
   // Load shadow font.
@@ -87,6 +87,10 @@ Font::get_text_width(const std::string& text) const
     }
   if(hl == 0)
     hl = text.size();
+
+  for (uint i = 0; i < text.size(); i++)
+    if ((unsigned char) text[i] > 0xC2 && (unsigned char) text[i] < 0xC6)
+      hl--;  // control characters are a WASTE.
 
   return hl * w;
 }
@@ -166,12 +170,54 @@ Font::draw_chars(Surface* pchars, const std::string& text, const Vector& pos,
                  uint32_t drawing_effect, uint8_t alpha) const
 {
   SurfaceImpl* impl = pchars->impl;
+  int utf8suppl = 0;
 
   Vector p = pos;
   for(size_t i = 0; i < text.size(); ++i) {
     int c = (unsigned char) text[i];
-    if(c > 127) // correct for the 32 controlchars at 128-159
+    int d = 0;
+    if(c > 127 && c < 160) // correct for the 32 controlchars at 128-159
       c -= 32;
+    if (c > 0xC2 && text.size() == i+1)  // string ends with control char
+    {
+      std::cerr << "String \"" << text << "\" is malformed.\n";
+      return;
+    }
+    else
+      d = (unsigned char) text[i+1];
+    
+    if (c == 0xC3 && d < 160) // first-byte identifier of U0080 ("C1 Control Characters and Latin-1 Supplement")
+    {                         // iso-8859-1 equiv character is capital A with tilde above, signified as "C3 83" in utf-8
+      utf8suppl = 64;
+      continue;
+    }
+    else if (c == 0xC3 && d >= 160) // U0080 pt. 2
+    {
+      utf8suppl = 32;
+      continue;
+    }
+    else if (c == 0xC4 && d < 160)
+    {
+      utf8suppl = 128;
+      continue;
+    }
+    else if (c == 0xC4 && d >= 160)
+    {
+      utf8suppl = 96;
+      continue;
+    }
+    else if (c == 0xC5 && d < 160) // first-byte identifier of U0100 ("Latin Extended-A")
+    {                              // iso-8859-1 equiv character is capital A with ring above, signified as "C3 85" in utf-8
+      utf8suppl = 192;
+      continue;
+    }
+    else if (c == 0xC5 && d >= 160) // first-byte identifier of U0100 ("Latin Extended-A")
+    {                               // iso-8859-1 equiv character is capital A with ring above, signified as "C3 85" in utf-8
+      utf8suppl = 160;
+      continue;
+    }
+    // insert more clauses here once somebody will need them
+
     // a non-printable character?
     if(c == '\n') {
       p.x = pos.x;
@@ -182,6 +228,9 @@ Font::draw_chars(Surface* pchars, const std::string& text, const Vector& pos,
       p.x += w;
       continue;
     }
+
+    c += utf8suppl;
+    utf8suppl = 0;
     
     int index = c - first_char;
     int source_x = (index % 16) * w;

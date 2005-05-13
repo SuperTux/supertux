@@ -133,7 +133,7 @@ static void find_directories()
 static void init_tinygettext()
 {
   dictionary_manager.add_directory(datadir + "/locale");
-  dictionary_manager.set_charset("ISO8859-1");
+  dictionary_manager.set_charset("UTF-8");
 }
 
 static void print_usage(const char* argv0)
