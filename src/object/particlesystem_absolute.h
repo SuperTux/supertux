@@ -1,4 +1,4 @@
-//  $Id$
+//  $Id: ParticleSystem_Absolute.h 2462 2005-05-10 15:38:16Z wansti $
 // 
 //  SuperTux
 //  Copyright (C) 2004 Matthias Braun <matze@braunis.de>
@@ -16,8 +16,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-#ifndef SUPERTUX_PARTICLESYSTEM_H
-#define SUPERTUX_PARTICLESYSTEM_H
+#ifndef SUPERTUX_PARTICLESYSTEM_ABSOLUTE_H
+#define SUPERTUX_PARTICLESYSTEM_ABSOLUTE_H
 
 #include <vector>
 
@@ -48,11 +48,11 @@ class DisplayManager;
  * initialize particles in the constructor and move them in the simulate
  * function.
  */
-class ParticleSystem : public GameObject
+class ParticleSystem_Absolute : public GameObject
 {
 public:
-    ParticleSystem();
-    virtual ~ParticleSystem();
+    ParticleSystem_Absolute();
+    virtual ~ParticleSystem_Absolute();
     
     virtual void draw(DrawingContext& context);
 
@@ -73,11 +73,11 @@ protected:
     float virtual_width, virtual_height;
 };
 
-class SnowParticleSystem : public ParticleSystem, public Serializable
+class RainParticleSystem : public ParticleSystem_Absolute, public Serializable
 {
 public:
-    SnowParticleSystem();
-    virtual ~SnowParticleSystem();
+    RainParticleSystem();
+    virtual ~RainParticleSystem();
 
     void parse(const lisp::Lisp& lisp);
     void write(lisp::Writer& writer);
@@ -85,40 +85,17 @@ public:
     virtual void update(float elapsed_time);
 
     std::string type() const
-    { return "SnowParticleSystem"; }
+    { return "RainParticleSystem"; }
     
 private:
-    class SnowParticle : public Particle
+    class RainParticle : public Particle
     {
     public:
         float speed;
     };
     
-    Surface* snowimages[3];
-};
-
-class CloudParticleSystem : public ParticleSystem, public Serializable
-{
-public:
-    CloudParticleSystem();
-    virtual ~CloudParticleSystem();
-
-    void parse(const lisp::Lisp& lisp);
-    void write(lisp::Writer& writer);
-
-    virtual void update(float elapsed_time);
-
-    std::string type() const
-    { return "SnowParticleSystem"; }    
-    
-private:
-    class CloudParticle : public Particle
-    {
-    public:
-        float speed;
-    };
-    
-    Surface* cloudimage;
+    bool collision(RainParticle* particle, Vector movement);
+    Surface* rainimages[2];
 };
 
 #endif

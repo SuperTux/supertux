@@ -1516,6 +1516,15 @@
     (action
       (images "objects/unstable_tile/unstable_tile.png"))
   )
+  
+  (sprite (name "rainsplash")
+    (action
+      (images "objects/particles/rainsplash-1.png"
+              "objects/particles/rainsplash-2.png"
+              "objects/particles/rainsplash-3.png"
+              "objects/particles/rainsplash-4.png")
+    )
+  )
 
   (sprite (name "worldmaptux")
     (action

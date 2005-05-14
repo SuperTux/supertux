@@ -29,14 +29,6 @@
 #include "resources.h"
 #include "main.h"
 
-#include "tile.h"
-#include "tilemap.h"
-#include "math/aatriangle.h"
-#include "collision.h"
-#include "collision_hit.h"
-#include "object/camera.h"
-
-
 ParticleSystem::ParticleSystem()
 {
     virtual_width = SCREEN_WIDTH;
@@ -135,124 +127,6 @@ void SnowParticleSystem::update(float elapsed_time)
             particle->pos.x = rand() % int(virtual_width);
         }
     }
-}
-
-RainParticleSystem::RainParticleSystem()
-{
-    rainimages[0] = new Surface(datadir+"/images/objects/particles/rain0.png", true);
-    rainimages[1] = new Surface(datadir+"/images/objects/particles/rain1.png", true);
-
-    virtual_width = SCREEN_WIDTH * 2;
-
-    // create some random raindrops
-    size_t raindropcount = size_t(virtual_width/8.0);
-    for(size_t i=0; i<raindropcount; ++i) {
-        RainParticle* particle = new RainParticle;
-        particle->pos.x = rand() % int(virtual_width);
-        particle->pos.y = rand() % int(virtual_height);
-        int rainsize = rand() % 2;
-        particle->texture = rainimages[rainsize];
-        do {
-            particle->speed = (rainsize+1)*45 + (float(rand()%10)*.4);
-        } while(particle->speed < 1);
-        particle->speed *= 10; // gravity
-
-        particles.push_back(particle);
-    }
-}
-
-void
-RainParticleSystem::parse(const lisp::Lisp& reader)
-{
-  reader.get("layer", layer);
-}
-
-void
-RainParticleSystem::write(lisp::Writer& writer)
-{
-  writer.start_list("particles-rain");
-  writer.write_int("layer", layer);
-  writer.end_list("particles-rain");
-}
-
-RainParticleSystem::~RainParticleSystem()
-{
-  for(int i=0;i<2;++i)
-    delete rainimages[i];
-}
-
-void RainParticleSystem::update(float elapsed_time)
-{
-    std::vector<Particle*>::iterator i;
-    for(
-        i = particles.begin(); i != particles.end(); ++i) {
-        RainParticle* particle = (RainParticle*) *i;
-        float movement = particle->speed * elapsed_time;
-        particle->pos.y += movement;
-        particle->pos.x -= movement;
-        if ((particle->pos.y > SCREEN_HEIGHT) || (collision(particle, Vector(-movement, movement)))) {
-            particle->pos.y = Sector::current()->camera->get_translation().y;
-            particle->pos.x = rand() % int(virtual_width);
-        }
-    }
-}
-
-bool
-RainParticleSystem::collision(RainParticle* object, Vector movement)
-{
-  TileMap* solids = Sector::current()->solids;
-  // calculate rectangle where the object will move
-  float x1, x2;
-  float y1, y2;
-  x1 = object->pos.x;
-  x2 = x1 + 32 + movement.x;
-  y1 = object->pos.y;
-  y2 = y1 + 32 + movement.y;
-  
-  // test with all tiles in this rectangle
-  int starttilex = int(x1-1) / 32;
-  int starttiley = int(y1-1) / 32;
-  int max_x = int(x2+1);
-  int max_y = int(y2+1);
-
-  CollisionHit temphit, hit;
-  Rect dest = Rect(x1, y1, x2, y2);
-  dest.move(movement);
-  hit.time = -1; // represents an invalid value
-  for(int x = starttilex; x*32 < max_x; ++x) {
-    for(int y = starttiley; y*32 < max_y; ++y) {
-      const Tile* tile = solids->get_tile(x, y);
-      if(!tile)
-        continue;
-      // skip non-solid tiles
-      if(!(tile->getAttributes() & Tile::SOLID))
-        continue;
-
-      if(tile->getAttributes() & Tile::SLOPE) { // slope tile
-        AATriangle triangle;
-        Vector p1(x*32, y*32);
-        Vector p2((x+1)*32, (y+1)*32);
-        triangle = AATriangle(p1, p2, tile->getData());
-
-        if(Collision::rectangle_aatriangle(temphit, dest, movement,
-              triangle)) {
-          if(temphit.time > hit.time)
-            hit = temphit;
-        }
-      } else { // normal rectangular tile
-        Rect rect(x*32, y*32, (x+1)*32, (y+1)*32);
-        if(Collision::rectangle_rectangle(temphit, dest,
-              movement, rect)) {
-          if(temphit.time > hit.time)
-            hit = temphit;
-        }
-      }
-    }
-  }
-  
-  // did we collide at all?
-  if(hit.time < 0)
-    return false; else return true;
 }
 
 CloudParticleSystem::CloudParticleSystem()
