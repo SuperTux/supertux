@@ -929,14 +929,14 @@
     (images
       "tiles/snow/snowbg3.png"
     )
-    (solid #t)
+    (solid #f)
   )
   (tile
     (id 125)
     (images
       "tiles/snow/snowbg4.png"
     )
-    (solid #t)
+    (solid #f)
   )
   (tile
     (id 126)
@@ -4828,17 +4828,19 @@
     (images
       "tiles/snow/snowbg5.png"
     )
+    (solid #f)
   )
   (tile
     (id 1345)
     (images
-      "tiles/snow/snowbg6.png"
+	"tiles/snow/snowbg6.png"
     )
+    (solid #f)
   )
   (tile
     (id 1346)
     (images
-      "tiles/snow/snowbg7.png"
-    )
+      "tiles/snow/snowbg7.png")
+	(solid #f)
   )
 )
