@@ -100,7 +100,7 @@ ScriptTrigger::event(Player& , EventType type)
     }
     else
     {
-      std::cerr << "... and where's the trigger script I'm supposed to run?\n";
+      std::cerr << "Couldn't find trigger script.\n";
     }
   }
 }

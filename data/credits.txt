@@ -4,7 +4,7 @@
   (speed 1.5)
 
   (text (_ "-- SuperTux -
-	On the way to Milestone 2
+	Milestone 2
 
 
 -Maintainer
@@ -12,7 +12,7 @@
 	Tobias (tobgle) Glaesser
 
 
--Originally developed by
+-Original Developer
 
 	Bill Kendrick
 
@@ -77,6 +77,19 @@
 	CDROMs and FTP sites
 
 
+-Translation
+
+	Antoni Villalonga
+	Ondra Hosek
+	Matthias Braun
+	Javier Beaumont
+	Frederic Rodrigo
+	Iknos
+	Frank van der Loo
+	Karl Ove Hufthammer
+	Ricardo Cruz
+
+
 -Thanks to
 
 	Larry Ewing
@@ -112,5 +125,5 @@
 
 
 
-	See you soon in Milestone 2!"))
+	See you soon in Milestone 3!"))
 )
