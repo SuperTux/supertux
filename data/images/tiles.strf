@@ -2,7 +2,7 @@
 (supertux-tiles
   (tilegroup
     (name "Snow")
-    (tiles 7 8 9 202 13 14 15 204 10 11 12 206 16 17 18 205 22 21 19 203 23 20 207 208 31 30 114 113 115 116 122 123 117 118 124 125 33 32 34 209 35 37 39 210 38 36 43 0 40 41 42 0 119 121 120 0)
+    (tiles 7 8 9 202 13 14 15 204 10 11 12 206 16 17 18 205 22 21 19 203 23 20 207 208 31 30 114 113 115 116 122 123 117 118 124 125 1345 1346 1344 33 32 34 35 37 39 210 38 36 43 0 40 41 42 0 119 121 120 0)
   )
 
 (tilegroup
@@ -4826,19 +4826,19 @@
   (tile
     (id 1344)
     (images
-      "tiles/doodads/snowbg5.png"
+      "tiles/snow/snowbg5.png"
     )
   )
   (tile
     (id 1345)
     (images
-      "tiles/doodads/snowbg6.png"
+      "tiles/snow/snowbg6.png"
     )
   )
   (tile
     (id 1346)
     (images
-      "tiles/doodads/snowbg7.png"
+      "tiles/snow/snowbg7.png"
     )
   )
 )
