@@ -34,16 +34,12 @@ class Lisp;
 class DisplayManager;
 
 /**
- * This is the base class for particle systems. It is responsible for storing a
+ * This is an alternative class for particle systems. It is responsible for storing a
  * set of particles with each having an x- and y-coordinate the number of the
  * layer where it should be drawn and a texture.
- * The coordinate system used here is a virtual one. It would be a bad idea to
- * populate whole levels with particles. So we're using a virtual rectangle
- * here that is tiled onto the level when drawing. This rect.has the size
- * (virtual_width, virtual_height). We're using modulo on the particle
- * coordinates, so when a particle leaves left, it'll reenter at the right
- * side.
- *
+ * This version of the particle system class doesn't use virtual screen coordinates,
+ * but absolute ones. Particle systems which need absolute levels coordinates, such
+ * as rain, should be implemented here.
  * Classes that implement a particle system should subclass from this class,
  * initialize particles in the constructor and move them in the simulate
  * function.

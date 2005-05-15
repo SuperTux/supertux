@@ -36,15 +36,14 @@
 #include "collision_hit.h"
 #include "object/camera.h"
 
-//TODO: Try to equally distribute rain throughout the level
-//      Dynamically create splashes at collision spots
-//      Check why it can rain through boxes
+//TODO: Dynamically create splashes at collision spots
+//      Find a way to make rain collide with objects like bonus blocks
 //      Add an option to set rain strength
 ParticleSystem_Absolute::ParticleSystem_Absolute()
 {
     virtual_width = SCREEN_WIDTH;
     virtual_height = SCREEN_HEIGHT;
-    layer = LAYER_BACKGROUND1;
+    layer = LAYER_TILES;
 }
 
 ParticleSystem_Absolute::~ParticleSystem_Absolute()
@@ -57,25 +56,11 @@ ParticleSystem_Absolute::~ParticleSystem_Absolute()
 
 void ParticleSystem_Absolute::draw(DrawingContext& context)
 {
-  //float scrollx = context.get_translation().x;
-  //float scrolly = context.get_translation().y;
-
   context.push_transform();
-  //context.set_translation(Vector(0,0));
   
     std::vector<Particle*>::iterator i;
     for(i = particles.begin(); i != particles.end(); ++i) {
         Particle* particle = *i;
-
-        // remap x,y coordinates onto screencoordinates
-        /*Vector pos;
-        pos.x = fmodf(particle->pos.x - scrollx, virtual_width);
-        if(pos.x < 0) pos.x += virtual_width;
-        pos.y = fmodf(particle->pos.y - scrolly, virtual_height);
-        if(pos.y < 0) pos.y += virtual_height;
-
-        if(pos.x > SCREEN_WIDTH) pos.x -= virtual_width;
-        if(pos.y > SCREEN_HEIGHT) pos.y -= virtual_height;*/
         context.draw_surface(particle->texture, particle->pos, layer);
     }
 
@@ -90,7 +75,7 @@ RainParticleSystem::RainParticleSystem()
     virtual_width = SCREEN_WIDTH * 2;
 
     // create some random raindrops
-    size_t raindropcount = size_t(virtual_width/4.0);
+    size_t raindropcount = size_t(virtual_width/6.0);
     for(size_t i=0; i<raindropcount; ++i) {
         RainParticle* particle = new RainParticle;
         particle->pos.x = rand() % int(virtual_width);
@@ -138,8 +123,11 @@ void RainParticleSystem::update(float elapsed_time)
         particle->pos.y += movement;
         particle->pos.x -= movement;
         if ((particle->pos.y > SCREEN_HEIGHT + abs_y) || (collision(particle, Vector(-movement, movement)))) {
-            particle->pos.y = 0;
-            particle->pos.x = rand() % int(abs_x + virtual_width);
+            int new_x = (rand() % int(virtual_width)) + int(abs_x);
+            int new_y = 0;
+            //FIXME: Don't move particles over solid tiles
+            particle->pos.x = new_x;
+            particle->pos.y = new_y;
         }
     }
 }
@@ -169,7 +157,6 @@ RainParticleSystem::collision(RainParticle* object, Vector movement)
   for(int x = starttilex; x*32 < max_x; ++x) {
     for(int y = starttiley; y*32 < max_y; ++y) {
       const Tile* tile = solids->get_tile(x, y);
-      //std::cout << "Tile at: " << x << "," << y << std::endl;
       if(!tile)
         continue;
       // skip non-solid tiles
