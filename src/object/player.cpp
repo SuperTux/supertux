@@ -343,7 +343,7 @@ Player::handle_vertical_input()
     flapping = false;
     falling_from_flap = false;
     if (flapping_timer.started()) {
-      flapping_timer.start(0);
+      flapping_timer.stop();
     }
 
     physic.set_acceleration_y(0); //for flapping
@@ -351,15 +351,12 @@ Player::handle_vertical_input()
 
   // Press jump key
   if(controller->pressed(Controller::JUMP) && can_jump && on_ground()) {
-    if(duck) { // only jump a little bit when in duck mode {
+    if (duck) // only jump a little bit when in duck mode
       physic.set_velocity_y(300);
-    } else {
-      // jump higher if we are running
-      if (fabs(physic.get_velocity_x()) > MAX_WALK_XM)
-        physic.set_velocity_y(580);
-      else
-        physic.set_velocity_y(520);
-    }
+    else if (fabs(physic.get_velocity_x()) > MAX_WALK_XM) // jump higher if we are running
+      physic.set_velocity_y(580);
+    else
+      physic.set_velocity_y(520);
     
     //bbox.move(Vector(0, -1));
     jumping = true;
@@ -380,8 +377,8 @@ Player::handle_vertical_input()
       physic.set_velocity_y(0);
     }
   }
-
-  // temporary to help player's choosing a flapping
+#if CHOOSEFLAPSTYLE
+  // temporary to help players choosing a flapping
   if(flapping_mode == RICARDO_FLAP) {
     // Flapping, Ricardo's version
     // similar to SM3 Fox
@@ -391,35 +388,40 @@ Player::handle_vertical_input()
       flaps_nb++;
     }
   } else if(flapping_mode == MAREK_FLAP) {
-    // Flapping, Marek's version
+#endif
+    // Flapping, Marek and Ondra's version
     if (controller->hold(Controller::JUMP) && can_flap)
     {
-      if (!flapping_timer.started())
+      if (flapping_timer.check()) 
+      {
+        can_flap = false;
+        //flapping = false;
+        falling_from_flap = true;
+      }
+      else if (!flapping_timer.started())
       {
         flapping_timer.start(TUX_FLAPPING_TIME);
         flapping_velocity = physic.get_velocity_x();
       }
-      if (flapping_timer.check()) 
+      else
       {
-        can_flap = false;
-        falling_from_flap = true;
-      }
-      jumping = true;
-      flapping = true;
-      if (!flapping_timer.check()) {
+        jumping = true;
+        flapping = true;
         float cv = flapping_velocity * sqrt(
           TUX_FLAPPING_TIME - flapping_timer.get_timegone() 
           / TUX_FLAPPING_TIME);
-        
+      
         //Handle change of direction while flapping
         if (((dir == LEFT) && (cv > 0)) || (dir == RIGHT) && (cv < 0)) {
           cv *= (-1);
         }
         physic.set_velocity_x(cv);
-        physic.set_velocity_y(
-          flapping_timer.get_timegone()/.850);
+        physic.set_velocity_y(flapping_timer.get_timegone()
+            * TUX_FLAPPING_STRENGTH);
+        //std::cout << "Timegone: " << flapping_timer.get_timegone() << ", Y velocity: " << physic.get_velocity_y() << "\n";
       }
     }
+#if CHOOSEFLAPSTYLE
   } else if(flapping_mode == RYAN_FLAP) {
     // Flapping, Ryan's version
     if (controller->hold(Controller::JUMP) && can_flap)
@@ -461,6 +463,7 @@ Player::handle_vertical_input()
       physic.set_acceleration_y(0);
     }
   }
+#endif
 
   /* In case the player has pressed Down while in a certain range of air,
      enable butt jump action */

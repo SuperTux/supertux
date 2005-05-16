@@ -39,6 +39,7 @@ static const float TUX_SAFE_TIME = 1.250;
 static const float TUX_INVINCIBLE_TIME = 10.0;
 static const float TUX_INVINCIBLE_TIME_WARNING = 2.0;
 static const float TUX_FLAPPING_TIME = 1; /* How long Tux can flap his wings to gain additional jump height */
+static const float TUX_FLAPPING_STRENGTH = 150; /* How much velocity Tux gains when flapping */
 static const float GROWING_TIME = 1.0;
 static const int GROWING_FRAMES = 7;
 
@@ -112,6 +113,7 @@ public:
   int flaps_nb;
 
   // temporary to help player's choosing a flapping
+  // TODO: remove this after agreeing on flapstyle!
   enum { MAREK_FLAP, RICARDO_FLAP, RYAN_FLAP, NO_FLAP };
   int flapping_mode;
 
