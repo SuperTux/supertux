@@ -40,6 +40,7 @@ Dispenser::Dispenser(const lisp::Lisp& reader)
      sprite->set_action(dir == LEFT ? "working-left" : "working-right");
   }
   else {sprite->set_action("dropper");}
+  countMe = false;
 }
 
 void

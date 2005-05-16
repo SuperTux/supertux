@@ -5,7 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux 0.2\n"
-"POT-Creation-Date: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2005-05-16 13:28+0200\n"
 "PO-Revision-Date: 2005-05-12 20:08+0100\n"
 "Last-Translator: Ondřej Hošek <ondra.hosek@gmail.com>\n"
 "Language-Team: Czech\n"
@@ -15,65 +16,50 @@ msgstr ""
 "X-Poedit-Language: Czech\n"
 "X-Poedit-Country: CZECH REPUBLIC\n"
 
-#: src/worldmap.cpp:756
+#: src/worldmap.cpp:813
 msgid "GAMEOVER"
 msgstr "KONEC HRY"
 
-#: src/worldmap.cpp:759
-#: src/game_session.cpp:799
+#: src/worldmap.cpp:816 src/game_session.cpp:748
 #, c-format
 msgid "COINS: %d"
 msgstr "MINCE: %d"
 
-#: src/worldmap.cpp:764
+#: src/worldmap.cpp:821
 msgid "Total Statistics"
 msgstr "Celková statistika"
 
-#: src/worldmap.cpp:894
-#: src/game_session.cpp:720
-msgid "SCORE"
-msgstr "SKÓRÉ"
-
-#: src/worldmap.cpp:898
-#: src/game_session.cpp:741
-#: src/game_session.cpp:742
+#: src/player_status.cpp:132
 msgid "COINS"
 msgstr "MINCE"
 
-#: src/worldmap.cpp:919
-#: src/worldmap.cpp:920
-#: src/game_session.cpp:763
-#: src/game_session.cpp:764
+#: src/player_status.cpp:155
 msgid "LIVES"
 msgstr "ŽIVOTY"
 
-#: src/title.cpp:122
-#: src/misc.cpp:80
+#: src/title.cpp:122 src/misc.cpp:80
 msgid "Contrib Levels"
 msgstr "Přispěné úrovně"
 
-#: src/title.cpp:141
-#: src/title.cpp:214
-#: src/misc.cpp:96
-#: src/misc.cpp:106
-#: src/leveleditor.cpp:86
-#: src/leveleditor.cpp:96
-#: src/control/joystickkeyboardcontroller.cpp:539
-#: src/control/joystickkeyboardcontroller.cpp:623
+#: src/title.cpp:141 src/title.cpp:212 src/misc.cpp:96 src/misc.cpp:106
+#: src/control/joystickkeyboardcontroller.cpp:554
+#: src/control/joystickkeyboardcontroller.cpp:638
 msgid "Back"
 msgstr "Zpět"
 
-#: src/title.cpp:341
+#: src/title.cpp:339
 msgid ""
 "Copyright (c) 2005 SuperTux Devel Team\n"
-"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
+"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you "
+"are welcome to\n"
 "redistribute it under certain conditions; see the file COPYING for details.\n"
 msgstr ""
 "Copyright (c) 2005 Tým vývojářů SuperTuxu\n"
-"Tato hra přichází BEZ JAKÉKOLIV ZÁRUKY. Tento program je volný software, smíš jej\n"
+"Tato hra přichází BEZ JAKÉKOLIV ZÁRUKY. Tento program je volný software, "
+"smíš jej\n"
 "distribuovat dle pokynů v souboru COPYING.\n"
 
-#: src/title.cpp:402
+#: src/title.cpp:400
 msgid "Are you sure you want to delete slot"
 msgstr "Opravdu chcete smazat uloženou hru"
 
@@ -149,20 +135,15 @@ msgstr "Nejvíce zneškod. protivníků: %d / %d"
 msgid "Min time needed:       %d / %d"
 msgstr "Nejméně upotřebeného času:   %d / %d"
 
-#: src/misc.cpp:79
-#: src/misc.cpp:98
+#: src/misc.cpp:79 src/misc.cpp:98
 msgid "Start Game"
 msgstr "Spustit hru"
 
-#: src/misc.cpp:81
-#: src/misc.cpp:86
-#: src/misc.cpp:111
-#: src/misc.cpp:118
+#: src/misc.cpp:81 src/misc.cpp:86 src/misc.cpp:111 src/misc.cpp:118
 msgid "Options"
 msgstr "Nastavení"
 
 #: src/misc.cpp:82
-#: src/leveleditor.cpp:578
 msgid "Level Editor"
 msgstr "Editor úrovní"
 
@@ -194,13 +175,11 @@ msgstr "Nastavit ovládání"
 msgid "Setup Joystick"
 msgstr "Nastavit joystick"
 
-#: src/misc.cpp:108
-#: src/misc.cpp:115
+#: src/misc.cpp:108 src/misc.cpp:115
 msgid "Pause"
 msgstr "Pauza"
 
-#: src/misc.cpp:110
-#: src/misc.cpp:117
+#: src/misc.cpp:110 src/misc.cpp:117
 msgid "Continue"
 msgstr "Pokračovat"
 
@@ -220,40 +199,28 @@ msgstr "Autor: "
 msgid "Best Level Statistics"
 msgstr "Statistika nejlepších v úrovni"
 
-#: src/game_session.cpp:468
+#: src/game_session.cpp:462
 msgid "PAUSE - Press 'P' To Play"
 msgstr "PAUZA - Stiskněte 'P' k pokračování"
 
-#: src/game_session.cpp:471
+#: src/game_session.cpp:465
 msgid "Playing: "
 msgstr "Úroveň: "
 
-#: src/game_session.cpp:724
-msgid "Press ESC To Return"
-msgstr "Stiskněte ESC k návratu"
-
-#: src/game_session.cpp:729
-msgid "TIME's UP"
-msgstr "ČAS VYPRŠEL"
-
-#: src/game_session.cpp:734
-msgid "TIME"
-msgstr "ČAS"
-
-#: src/game_session.cpp:793
+#: src/game_session.cpp:742
 msgid "Result:"
 msgstr "Výsledek:"
 
-#: src/game_session.cpp:796
+#: src/game_session.cpp:745
 #, c-format
 msgid "SCORE: %d"
 msgstr "SKÓRÉ: %d"
 
-#: src/game_session.cpp:826
+#: src/game_session.cpp:775
 msgid "Slot"
 msgstr "Hra"
 
-#: src/game_session.cpp:827
+#: src/game_session.cpp:776
 msgid "Free"
 msgstr "Volná"
 
@@ -265,106 +232,113 @@ msgstr "Ano"
 msgid "No"
 msgstr "Ne"
 
-#: src/control/joystickkeyboardcontroller.cpp:530
+#: src/object/level_time.cpp:56
+msgid "TIME's UP"
+msgstr "ČAS VYPRŠEL"
+
+#: src/object/level_time.cpp:61
+msgid "TIME"
+msgstr "ČAS"
+
+#: src/control/joystickkeyboardcontroller.cpp:545
 msgid "Keyboard Setup"
 msgstr "Nastavení ovládání"
 
-#: src/control/joystickkeyboardcontroller.cpp:532
+#: src/control/joystickkeyboardcontroller.cpp:547
 msgid "Up"
 msgstr "Nahoru"
 
-#: src/control/joystickkeyboardcontroller.cpp:533
+#: src/control/joystickkeyboardcontroller.cpp:548
 msgid "Down"
 msgstr "Dolů"
 
-#: src/control/joystickkeyboardcontroller.cpp:534
+#: src/control/joystickkeyboardcontroller.cpp:549
 msgid "Left"
 msgstr "Vlevo"
 
-#: src/control/joystickkeyboardcontroller.cpp:535
+#: src/control/joystickkeyboardcontroller.cpp:550
 msgid "Right"
 msgstr "Vpravo"
 
-#: src/control/joystickkeyboardcontroller.cpp:536
-#: src/control/joystickkeyboardcontroller.cpp:616
+#: src/control/joystickkeyboardcontroller.cpp:551
+#: src/control/joystickkeyboardcontroller.cpp:631
 msgid "Jump"
 msgstr "Skok"
 
-#: src/control/joystickkeyboardcontroller.cpp:537
-#: src/control/joystickkeyboardcontroller.cpp:617
+#: src/control/joystickkeyboardcontroller.cpp:552
+#: src/control/joystickkeyboardcontroller.cpp:632
 msgid "Shoot/Run"
 msgstr "Střela/Běh"
 
-#: src/control/joystickkeyboardcontroller.cpp:551
-#: src/control/joystickkeyboardcontroller.cpp:634
+#: src/control/joystickkeyboardcontroller.cpp:566
+#: src/control/joystickkeyboardcontroller.cpp:649
 msgid "None"
 msgstr "Nic"
 
-#: src/control/joystickkeyboardcontroller.cpp:553
+#: src/control/joystickkeyboardcontroller.cpp:568
 msgid "Up cursor"
 msgstr "Šipka nahoru"
 
-#: src/control/joystickkeyboardcontroller.cpp:555
+#: src/control/joystickkeyboardcontroller.cpp:570
 msgid "Down cursor"
 msgstr "Šipka dolů"
 
-#: src/control/joystickkeyboardcontroller.cpp:557
+#: src/control/joystickkeyboardcontroller.cpp:572
 msgid "Left cursor"
 msgstr "Šipka vlevo"
 
-#: src/control/joystickkeyboardcontroller.cpp:559
+#: src/control/joystickkeyboardcontroller.cpp:574
 msgid "Right cursor"
 msgstr "Šipka vpravo"
 
-#: src/control/joystickkeyboardcontroller.cpp:561
+#: src/control/joystickkeyboardcontroller.cpp:576
 msgid "Return"
 msgstr "Enter"
 
-#: src/control/joystickkeyboardcontroller.cpp:563
+#: src/control/joystickkeyboardcontroller.cpp:578
 msgid "Space"
 msgstr "Mezerník"
 
-#: src/control/joystickkeyboardcontroller.cpp:565
+#: src/control/joystickkeyboardcontroller.cpp:580
 msgid "Right Shift"
 msgstr "Pravý shift"
 
-#: src/control/joystickkeyboardcontroller.cpp:567
+#: src/control/joystickkeyboardcontroller.cpp:582
 msgid "Left Shift"
 msgstr "Levý shift"
 
-#: src/control/joystickkeyboardcontroller.cpp:569
+#: src/control/joystickkeyboardcontroller.cpp:584
 msgid "Right Control"
 msgstr "Pravý Ctrl"
 
-#: src/control/joystickkeyboardcontroller.cpp:571
+#: src/control/joystickkeyboardcontroller.cpp:586
 msgid "Left Control"
 msgstr "Levý Ctrl"
 
-#: src/control/joystickkeyboardcontroller.cpp:573
+#: src/control/joystickkeyboardcontroller.cpp:588
 msgid "Right Alt"
 msgstr "Pravý Alt"
 
-#: src/control/joystickkeyboardcontroller.cpp:575
+#: src/control/joystickkeyboardcontroller.cpp:590
 msgid "Left Alt"
 msgstr "Levý Alt"
 
-#: src/control/joystickkeyboardcontroller.cpp:585
+#: src/control/joystickkeyboardcontroller.cpp:600
 msgid "Press Key"
 msgstr "Stiskněte klávesu"
 
-#: src/control/joystickkeyboardcontroller.cpp:613
+#: src/control/joystickkeyboardcontroller.cpp:628
 msgid "Joystick Setup"
 msgstr "Nastavení joysticku"
 
-#: src/control/joystickkeyboardcontroller.cpp:618
+#: src/control/joystickkeyboardcontroller.cpp:633
 msgid "Pause/Menu"
 msgstr "Pauza/Menu"
 
-#: src/control/joystickkeyboardcontroller.cpp:620
+#: src/control/joystickkeyboardcontroller.cpp:635
 msgid "No Joysticks found"
 msgstr "Nenalezen žádný joystick"
 
-#: src/control/joystickkeyboardcontroller.cpp:645
+#: src/control/joystickkeyboardcontroller.cpp:660
 msgid "Press Button"
 msgstr "Stiskněte tlačítko"
-

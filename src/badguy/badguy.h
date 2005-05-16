@@ -72,6 +72,10 @@ public:
   {
     start_position = vec;
   }
+  
+  /** Count this badguy to the statistics? This value should not be changed
+   * during runtime. */
+  bool countMe;
 
 protected:
   enum State {

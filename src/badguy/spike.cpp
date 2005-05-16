@@ -27,6 +27,7 @@ Spike::Spike(const Vector& pos, Direction dir)
   bbox.set_pos(Vector(0, 0));
   bbox.set_size(32, 32);
   set_direction(dir);
+  countMe = false;
 }
 
 Spike::Spike(const lisp::Lisp& reader)
@@ -38,6 +39,7 @@ Spike::Spike(const lisp::Lisp& reader)
   int idir = 0;
   reader.get("direction", idir);
   set_direction((Direction) idir);
+  countMe = false;
 }
 
 void

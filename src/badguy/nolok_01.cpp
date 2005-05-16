@@ -39,6 +39,7 @@ Nolok_01::Nolok_01(const lisp::Lisp& reader)
   reader.get("y", start_position.y);
   bbox.set_size(31.8, 63.8);
   sprite = sprite_manager->create("dummyguy");
+  countMe = false;
 }
 
 Nolok_01::Nolok_01(float pos_x, float pos_y)
@@ -47,6 +48,7 @@ Nolok_01::Nolok_01(float pos_x, float pos_y)
   start_position.y = pos_y;
   bbox.set_size(31.8, 63.8);
   sprite = sprite_manager->create("dummyguy");
+  countMe = false;
 }
 
 void

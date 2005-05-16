@@ -21,13 +21,14 @@
 
 #include "badguy.h"
 #include "object/camera.h"
+#include "statistics.h"
 
 static const float SQUISH_TIME = 2;
 static const float X_OFFSCREEN_DISTANCE = 1600;
 static const float Y_OFFSCREEN_DISTANCE = 1200;
 
 BadGuy::BadGuy()
-  : sprite(0), dir(LEFT), state(STATE_INIT)
+  : countMe(true), sprite(0), dir(LEFT), state(STATE_INIT)
 {
 }
 
@@ -185,6 +186,7 @@ BadGuy::kill_squished(Player& player)
   physic.set_velocity_x(0);
   physic.set_velocity_y(0);
   set_state(STATE_SQUISHED);
+  global_stats.add_points(BADGUYS_KILLED_STAT, 1);
   player.bounce(*this);
 }
 
@@ -193,6 +195,7 @@ BadGuy::kill_fall()
 {
   sound_manager->play_sound("fall", this,
       Sector::current()->player->get_pos());
+  global_stats.add_points(BADGUYS_KILLED_STAT, 1);
   physic.set_velocity_y(0);
   physic.enable_gravity(true);
   set_state(STATE_FALLING);

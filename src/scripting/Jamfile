@@ -7,9 +7,10 @@ if $(MINISWIG)
     {
         local sources = [ SearchSource $(>) ] ;
         local cppfile = [ LocateTarget $(<) : $(SUBDIR) ] ;
-        local headerfile = [ LocateTarget $(<:S=.h) : $(SUBDIR) ] ;
+        local headerfile = [ LocateTarget $(<:S=.h) : $(SUBDIR) ] ;	
         SEARCH on $(headerfile) = $(SOURCH_SOURCE) ;
-    
+
+        Depends $(cppfile) : $(headerfile) ;
         MiniSwig $(cppfile) : $(sources) ;
         CPPFLAGS on $(cppfile) = $(CPPFLAGS) -DSCRIPTING_API ;
         headerfile on $(cppfile) = $(headerfile) ;

@@ -821,7 +821,7 @@ Sector::get_total_badguys()
   for(GameObjects::iterator i = gameobjects.begin();
       i != gameobjects.end(); ++i) {
     BadGuy* badguy = dynamic_cast<BadGuy*> (*i);
-    if(badguy)
+    if (badguy && badguy->countMe)
       total_badguys++;
   }
 

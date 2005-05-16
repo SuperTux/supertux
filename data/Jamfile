@@ -1,21 +1,71 @@
 SubDir TOP data ;
 
 IMAGEPATHS =
-  images
-  images/background
-  images/fonts
-  images/highscore
-  images/icons
-  images/intro
-  images/leveleditor
-  images/map
-  images/shared
-  images/shared/smalltux
-  images/shared/bigtux
-  images/status
-  images/tilesets
-  images/title
-  images/worldmap
+	images/tiles
+	images/tiles/goal
+	images/tiles/grey
+	images/tiles/lava
+	images/tiles/pipe
+	images/tiles/pole
+	images/tiles/snow
+	images/tiles/darksnow
+	images/tiles/signs
+	images/tiles/water
+	images/tiles/doodads
+	images/tiles/waterfall
+	images/tiles/auxiliary
+	images/tiles/background
+	images/tiles/blocks
+	images/tiles/forest
+	images/tiles/jungle
+	images/tiles/worldmap
+	images/background
+	images/powerups
+	images/powerups/1up
+	images/powerups/egg
+	images/powerups/star
+	images/powerups/ice_flower
+	images/powerups/fire_flower
+	images/engine
+	images/engine/menu
+	images/engine/fonts
+	images/engine/icons
+	images/engine/editor
+	images/objects
+	images/objects/bell
+	images/objects/coin
+	images/objects/door
+	images/objects/particles
+	images/objects/hatch
+	images/objects/flying_platform
+	images/objects/bonus_block
+	images/objects/unstable_tile
+	images/objects/trampoline
+	images/objects/bullets
+	images/creatures
+	images/creatures/fish
+	images/creatures/yeti
+	images/creatures/snowball
+	images/creatures/tux_small
+	images/creatures/dispenser
+	images/creatures/mr_iceblock
+	images/creatures/flame
+	images/creatures/jumpy
+	images/creatures/nolok
+	images/creatures/spike
+	images/creatures/spiky
+	images/creatures/stalactite
+	images/creatures/mr_bomb
+	images/creatures/mr_tree
+	images/creatures/flying_snowball
+	images/creatures/tux_big
+	images/creatures/flame_fish
+	images/creatures/tux_grow
+	images/creatures/poison_ivy
+	images/creatures/zeekling
+	images/creatures/mr_rocket
+	images/creatures/bouncing_snowball
+	images/creatures/dummyguy
 ;
 
 for p in $(IMAGEPATHS) {
@@ -44,5 +94,5 @@ for p in $(LEVELPATHS) {
 }
 InstallData [ Wildcard *.txt ] ;
 InstallData [ Wildcard music : *.mod *.ogg ] : music ;
-InstallData [ Wildcard sound : *.wav ] : sound ;
+InstallData [ Wildcard sounds : *.wav ] : sounds ;
 InstallData [ Wildcard locale : *.po ] : locale ;

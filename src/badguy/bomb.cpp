@@ -35,6 +35,7 @@ Bomb::Bomb(const Vector& pos, Direction dir)
   timer.start(TICKINGTIME);
   this->dir = dir;
   sprite->set_action(dir == LEFT ? "ticking-left" : "ticking-right");
+  countMe = false;
 }
 
 void

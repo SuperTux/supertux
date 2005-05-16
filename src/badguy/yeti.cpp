@@ -50,6 +50,7 @@ Yeti::Yeti(const lisp::Lisp& reader)
   sound_manager->preload_sound("yeti_roar");
   hit_points = INITIAL_HITPOINTS;
   reader.get("dead-script", dead_script);
+  countMe = false;
 }
 
 Yeti::~Yeti()
