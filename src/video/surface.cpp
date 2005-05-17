@@ -550,7 +550,7 @@ SurfaceOpenGL::create_gl(SDL_Surface * surf, GLuint * tex)
   // is present store in RGB instead of RGBA, this saves a few bytes
   // of memory, but much more importantly it makes the game look
   // *much* better in 16bit color mode
-  int internal_format = GL_RGB10_A2;
+  int internal_format = GL_RGBA/*GL_RGB10_A2*/;
   bool has_alpha = false;
 
   unsigned char* buf = static_cast<unsigned char*>(conv->pixels);
