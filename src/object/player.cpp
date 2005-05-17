@@ -590,7 +590,7 @@ Player::handle_input()
 void
 Player::set_bonus(BonusType type, bool animate)
 {
-  if(player_status->bonus == type)
+  if(player_status->bonus >= type)
     return;
   
   if(player_status->bonus == NO_BONUS) {
