@@ -97,6 +97,30 @@ private:
     Surface* snowimages[3];
 };
 
+class GhostParticleSystem : public ParticleSystem, public Serializable
+{
+public:
+    GhostParticleSystem();
+    virtual ~GhostParticleSystem();
+
+    void parse(const lisp::Lisp& lisp);
+    void write(lisp::Writer& writer);
+
+    virtual void update(float elapsed_time);
+
+    std::string type() const
+    { return "GhostParticleSystem"; }
+    
+private:
+    class GhostParticle : public Particle
+    {
+    public:
+        float speed;
+    };
+    
+    Surface* ghosts[2];
+};
+
 class CloudParticleSystem : public ParticleSystem, public Serializable
 {
 public:

@@ -129,6 +129,63 @@ void SnowParticleSystem::update(float elapsed_time)
     }
 }
 
+GhostParticleSystem::GhostParticleSystem()
+{
+    ghosts[0] = new Surface(datadir+"/images/objects/particles/ghost0.png", true);
+    ghosts[1] = new Surface(datadir+"/images/objects/particles/ghost1.png", true);
+
+    virtual_width = SCREEN_WIDTH * 2;
+
+    // create some random snowflakes
+    size_t ghostcount = 2;
+    for(size_t i=0; i<ghostcount; ++i) {
+        GhostParticle* particle = new GhostParticle;
+        particle->pos.x = rand() % int(virtual_width);
+        particle->pos.y = rand() % SCREEN_HEIGHT;
+        int size = rand() % 2;
+        particle->texture = ghosts[size];
+        do {
+            particle->speed = size*.2 + (float(rand()%10)*.4);
+        } while(particle->speed < 1);
+        particle->speed *= 50;
+        particles.push_back(particle);
+    }
+}
+
+void
+GhostParticleSystem::parse(const lisp::Lisp& reader)
+{
+  reader.get("layer", layer);
+}
+
+void
+GhostParticleSystem::write(lisp::Writer& writer)
+{
+  writer.start_list("particles-ghost");
+  writer.write_int("layer", layer);
+  writer.end_list("particles-ghost");
+}
+
+GhostParticleSystem::~GhostParticleSystem()
+{
+  for(int i=0;i<2;++i)
+    delete ghosts[i];
+}
+
+void GhostParticleSystem::update(float elapsed_time)
+{
+    std::vector<Particle*>::iterator i;
+    for(i = particles.begin(); i != particles.end(); ++i) {
+        GhostParticle* particle = (GhostParticle*) *i;
+        particle->pos.y -= particle->speed * elapsed_time;
+        particle->pos.x -= particle->speed * elapsed_time;
+        if(particle->pos.y > SCREEN_HEIGHT) {
+            particle->pos.y = fmodf(particle->pos.y , virtual_height);
+            particle->pos.x = rand() % int(virtual_width);
+        }
+    }
+}
+
 CloudParticleSystem::CloudParticleSystem()
 {
     cloudimage = new Surface(datadir + "/images/objects/particles/cloud.png", true);
