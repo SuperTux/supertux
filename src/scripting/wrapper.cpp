@@ -127,6 +127,16 @@ static int Level_spawn_wrapper(HSQUIRRELVM v)
   return 0;
 }
 
+static int Level_flip_vertically_wrapper(HSQUIRRELVM v)
+{
+  Scripting::Level* _this;
+  sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
+  
+  _this->flip_vertically();
+  
+  return 0;
+}
+
 static int ScriptedObject_set_animation_wrapper(HSQUIRRELVM v)
 {
   Scripting::ScriptedObject* _this;
@@ -408,6 +418,7 @@ static WrappedFunction supertux_Camera_methods[] = {
 static WrappedFunction supertux_Level_methods[] = {
   { "finish", &Level_finish_wrapper },
   { "spawn", &Level_spawn_wrapper },
+  { "flip_vertically", &Level_flip_vertically_wrapper },
 };
 
 static WrappedFunction supertux_ScriptedObject_methods[] = {

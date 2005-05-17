@@ -51,10 +51,7 @@ public:
    */
   float get_text_width(const std::string& text) const;
   
-  /** returns the height of a given text. (Note that I won't add a normal
-   * get_width function here, as we might switch to variable width fonts in the
-   * future.)
-   * Supports breaklines.
+  /** returns the height of a given text. This function supports breaklines.
    * In case, you are positive that your text doesn't use break lines, you can
    * just use get_height().
    */
@@ -85,9 +82,9 @@ private:
   int shadowsize;
   
   /// the number of the first character that is represented in the font
-  int first_char;
+  uint32_t first_char;
   /// the number of the last character that is represented in the font
-  int last_char;
+  uint32_t char_count;
 };
 
 #endif

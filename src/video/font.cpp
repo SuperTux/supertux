@@ -44,9 +44,7 @@ Font::Font(const std::string& file, FontType ntype, int nw, int nh,
       first_char = 48;
       break;
   }
-  last_char = first_char + (chars->h / h) * 16;
-  if(last_char > 127 && last_char < 160) // we have left out some control chars at 128-159
-    last_char += 32;
+  char_count = (chars->h / h) * 16;
    
   // Load shadow font.
   if(shadowsize > 0) {
@@ -165,77 +163,93 @@ Font::draw_text(const std::string& text, const Vector& pos,
   draw_chars(chars, text, pos, drawing_effect, alpha);
 }
 
+/** decoding of a byte stream to a single unicode character.
+ * This should be correct for well formed utf-8 sequences but doesn't check for
+ * all forms of illegal sequences.
+ * (see unicode standard section 3.10 table 3-5 and 3-6 for details)
+ */
+uint32_t decode_utf8(const std::string& text, size_t& p)
+{
+  // 1 byte sequence
+  uint32_t c = (unsigned char) text[p++];
+  if(c <= 0x7F) {
+    return c;
+  }
+  
+  // 2 byte sequence
+  if(p >= text.size())
+    throw std::runtime_error("Malformed utf-8 sequence");
+  uint32_t c2 = (unsigned char) text[p++];
+  if(c <= 0xDF) {
+    if(c < 0xC2)
+      throw std::runtime_error("Malformed utf-8 sequence");
+    return (c & 0x1F) << 6 | (c2 & 0x3F);
+  }
+  
+  // 3 byte sequence
+  if(p >= text.size())
+    throw std::runtime_error("Malformed utf-8 sequence");
+  uint32_t c3 = (unsigned char) text[p++];
+  if(c <= 0xEF) {
+    return (c & 0x0F) << 12 | (c2 & 0x3F) << 6 | (c3 & 0x3F);
+  }
+  
+  // 4 byte sequence
+  if(p >= text.size())
+    throw std::runtime_error("Malformed utf-8 sequence");
+  uint32_t c4 = (unsigned char) text[p++];
+  if(c <= 0xF4) {
+    return (c & 0x07) << 18 | (c2 & 0x3F) << 12 | (c3 & 0x3F) << 6 
+      | (c4 & 0x3F);
+  }
+
+  throw std::runtime_error("Malformed utf-8 sequence");
+}
+
 void
 Font::draw_chars(Surface* pchars, const std::string& text, const Vector& pos,
                  uint32_t drawing_effect, uint8_t alpha) const
 {
   SurfaceImpl* impl = pchars->impl;
-  int utf8suppl = 0;
 
   Vector p = pos;
-  for(size_t i = 0; i < text.size(); ++i) {
-    int c = (unsigned char) text[i];
-    int d = 0;
-    if(c > 127 && c < 160) // correct for the 32 controlchars at 128-159
-      c -= 32;
-    if (c > 0xC2 && text.size() == i+1)  // string ends with control char
-    {
-      std::cerr << "String \"" << text << "\" is malformed.\n";
-      return;
-    }
-    else
-      d = (unsigned char) text[i+1];
-    
-    if (c == 0xC3 && d < 160) // first-byte identifier of U0080 ("C1 Control Characters and Latin-1 Supplement")
-    {                         // iso-8859-1 equiv character is capital A with tilde above, signified as "C3 83" in utf-8
-      utf8suppl = 64;
-      continue;
-    }
-    else if (c == 0xC3 && d >= 160) // U0080 pt. 2
-    {
-      utf8suppl = 32;
-      continue;
-    }
-    else if (c == 0xC4 && d < 160)
-    {
-      utf8suppl = 128;
-      continue;
-    }
-    else if (c == 0xC4 && d >= 160)
-    {
-      utf8suppl = 96;
-      continue;
-    }
-    else if (c == 0xC5 && d < 160) // first-byte identifier of U0100 ("Latin Extended-A")
-    {                              // iso-8859-1 equiv character is capital A with ring above, signified as "C3 85" in utf-8
-      utf8suppl = 192;
-      continue;
-    }
-    else if (c == 0xC5 && d >= 160) // first-byte identifier of U0100 ("Latin Extended-A")
-    {                               // iso-8859-1 equiv character is capital A with ring above, signified as "C3 85" in utf-8
-      utf8suppl = 160;
-      continue;
-    }
-    // insert more clauses here once somebody will need them
+  size_t i = 0;
+  while(i < text.size()) {
+    uint32_t c = decode_utf8(text, i);
+    ssize_t font_index;
 
     // a non-printable character?
-    if(c == '\n') {
+    if(c == '\n') {                                      
       p.x = pos.x;
       p.y += h + 2;
       continue;
     }
-    if(c == ' ' || c < first_char || c > last_char) {
+    if(c == ' ') {
       p.x += w;
       continue;
     }
 
-    c += utf8suppl;
-    utf8suppl = 0;
-    
-    int index = c - first_char;
-    int source_x = (index % 16) * w;
-    int source_y = (index / 16) * h;
+    font_index = c - first_char;
+    // we don't have the control chars 0x80-0xa0 in the font
+    if(c >= 0x80) {
+      font_index -= 32;
+      if(c <= 0xa0) {
+#ifdef DEBUG
+        std::cout << "Unsupported utf-8 character '" << c << "' found\n";
+#endif
+        font_index = 0;
+      }
+    }
+        
+    if(font_index < 0 || font_index >= (ssize_t) char_count) {
+#ifdef DEBUG
+      std::cout << "Unsupported utf-8 character found\n";
+#endif
+      font_index = 0;
+    }                   
 
+    int source_x = (font_index % 16) * w;
+    int source_y = (font_index / 16) * h;
     impl->draw_part(source_x, source_y, p.x, p.y, w, h, alpha, drawing_effect);
     p.x += w;
   }

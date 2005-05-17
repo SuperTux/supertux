@@ -86,6 +86,9 @@ public:
   Sector* get_current_sector()
   { return currentsector; }
 
+  Level* get_current_level()
+  { return level; }
+
   void start_sequence(const std::string& sequencename);
   /// called by JoystickKeyboardController after an ascii key has been pressed
   void try_cheats();

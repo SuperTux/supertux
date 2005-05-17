@@ -16,6 +16,8 @@ public:
     void finish();
     /** spawn tux at specified sector and spawnpoint */
     void spawn(const std::string& sector, const std::string& spawnpoint);
+    /** Flip level vertically */
+    void flip_vertically();
 };
 
 }
