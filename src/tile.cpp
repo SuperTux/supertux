@@ -89,6 +89,10 @@ Tile::parse(const lisp::Lisp& reader)
   if(reader.get("slope-type", data)) {
     attributes |= SOLID | SLOPE;
   }
+  
+  if (!reader.get("alpha", alpha)) {
+  	alpha = 255;
+  }
 
   const lisp::Lisp* images = reader.get_lisp("images");
   if(images)
@@ -168,11 +172,15 @@ Tile::get_editor_image() const
 void
 Tile::draw(DrawingContext& context, const Vector& pos, int layer) const
 {
+  context.set_alpha(this->alpha);
+  
   if(images.size() > 1) {
     size_t frame = size_t(global_time * anim_fps) % images.size();
     context.draw_surface(images[frame], pos, layer);
   } else if (images.size() == 1) {
     context.draw_surface(images[0], pos, layer);
   }
+  
+  context.set_alpha(255);
 }
 

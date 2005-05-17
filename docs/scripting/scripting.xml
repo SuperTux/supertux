@@ -58,10 +58,34 @@ When this level loads, the screen fades out completely during two and a half sec
 
 <sect1><title>Object reference</title>
 <para>If you are interested in an object and what cans of worms you can open with it, this section is for you.</para>
-<para>&quot;(NYI)&quot; after the function name symbolises functions that haven't been implemented yet. Calling them will result in a line being printed to standard output informing anybody who reads it that the script is using a function that actually doesn't exist. (Win32 users will happily ignore this, because they simply start the application by opening it with Explorer. Unix users are going to be more interested of what SuperTux can actually tell them, so it's better if you don't use non-existent functions in your scripts.)</para>
+<para>&quot;(NYI)&quot; after the function name symbolises functions that haven't been implemented yet. Calling them will result in a line being printed to standard output informing anybody who reads it that the script is using a function that actually doesn't exist. (Win32 users will happily ignore this, because they simply start the application by opening it with Explorer. Unix users are going to be more interested in what SuperTux can actually tell them, so it's better if you don't use non-existent functions in your scripts.)</para>
+
+<sect2><title>Global Functions</title>
+<para>These global functions access basic or generic methods of SuperTux. They are called without an object name.</para>
+
+<sect3><title>display_text_file</title>
+<para>Usage: <code>display_text_file(string filename)</code></para>
+<para>Effect: Displays the SuperTux text file named <code>filename</code>. (The path is relative to the level file.)</para>
+<para>See also: SuperTux file format reference, SuperTux texts</para>
+</sect3>
+
+<sect3><title>set_wakeup_time</title>
+<para>Usage: <code>set_wakeup_time(float waketime)</code></para>
+<para>Effect: When used before a call to <code>suspend()</code>, the script only stays suspended for <code>waketime</code> seconds.</para>
+</sect3>
+
+<sect3><title>translate</title>
+<para>Usage: <code>translate(string text)</code></para>
+<para>Returns: Translated string</para>
+<para>Effect: Translates <code>text</code> into the user's locale.</para>
+<para>Note: This construct is not yet recognised by XGetText, and so is subject to change.</para>
+</sect3>
+
+</sect2>
 
 <sect2><title>DisplayEffect</title>
 <para><code>DisplayEffect</code> is an interface for toying with the display.</para>
+
 <sect3><title>fade_out</title>
 <para>Usage: <code>DisplayEffect.fade_out(float fadetime)</code></para>
 <para>Effect: Gradually fades out the screen to black for the next <code>fadetime</code> seconds.</para>
