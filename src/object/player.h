@@ -39,7 +39,8 @@ static const float TUX_SAFE_TIME = 1.250;
 static const float TUX_INVINCIBLE_TIME = 10.0;
 static const float TUX_INVINCIBLE_TIME_WARNING = 2.0;
 static const float TUX_FLAPPING_TIME = 1; /* How long Tux can flap his wings to gain additional jump height */
-static const float TUX_FLAPPING_STRENGTH = 100; /* How much velocity Tux gains when flapping */
+static const float TUX_FLAPPING_STRENGTH = 100; /* How much Y velocity Tux gains when flapping */
+static const float TUX_FLAPPING_LEAST_X = 30; /* How much X velocity Tux gains when flapping from vertical jump */
 static const float GROWING_TIME = 1.0;
 static const int GROWING_FRAMES = 7;
 

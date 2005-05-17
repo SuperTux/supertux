@@ -415,6 +415,14 @@ Player::handle_vertical_input()
         if (((dir == LEFT) && (cv > 0)) || (dir == RIGHT) && (cv < 0)) {
           cv *= (-1);
         }
+        else if (cv == 0) {
+          if (controller->hold(Controller::LEFT)) {
+          	cv = -TUX_FLAPPING_LEAST_X;
+          }
+          else if (controller->hold(Controller::RIGHT)) {
+            cv = TUX_FLAPPING_LEAST_X;
+          }
+        }
         physic.set_velocity_x(cv);
         physic.set_velocity_y(flapping_timer.get_timegone()
             * TUX_FLAPPING_STRENGTH);

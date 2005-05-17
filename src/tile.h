@@ -91,9 +91,6 @@ private:
   /** General purpose data attached to a tile (content of a box, type of coin)*/
   int data;
   
-  /** Alpha (opacity) of tile */
-  int alpha;
-
   float anim_fps;
 
 public:
