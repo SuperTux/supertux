@@ -51,6 +51,13 @@ AmbientSound::AmbientSound(const lisp::Lisp& lisp)
   lisp.get("sample"         ,sample         );
   lisp.get("volume"         ,maximumvolume  );
 
+  // set dimension to zero if smaller than 64, which is default size in flexlay
+  
+  if ((dimension.x <= 64) || (dimension.y <= 64)) {
+    dimension.x = 0;
+    dimension.y = 0;
+  }
+  
   // square all distances (saves us a sqrt later)
 
   distance_bias*=distance_bias;
