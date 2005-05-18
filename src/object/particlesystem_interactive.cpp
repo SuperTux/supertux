@@ -21,7 +21,7 @@
 #include <iostream>
 #include <cmath>
 
-#include "particlesystem_absolute.h"
+#include "particlesystem_interactive.h"
 #include "video/drawing_context.h"
 #include "lisp/parser.h"
 #include "lisp/lisp.h"
@@ -40,14 +40,14 @@
 //TODO: Dynamically create splashes at collision spots
 //      Find a way to make rain collide with objects like bonus blocks
 //      Add an option to set rain strength
-ParticleSystem_Absolute::ParticleSystem_Absolute()
+ParticleSystem_Interactive::ParticleSystem_Interactive()
 {
     virtual_width = SCREEN_WIDTH;
     virtual_height = SCREEN_HEIGHT;
     layer = LAYER_TILES;
 }
 
-ParticleSystem_Absolute::~ParticleSystem_Absolute()
+ParticleSystem_Interactive::~ParticleSystem_Interactive()
 {
     std::vector<Particle*>::iterator i;
     for(i = particles.begin(); i != particles.end(); ++i) {
@@ -55,7 +55,7 @@ ParticleSystem_Absolute::~ParticleSystem_Absolute()
     }
 }
 
-void ParticleSystem_Absolute::draw(DrawingContext& context)
+void ParticleSystem_Interactive::draw(DrawingContext& context)
 {
   context.push_transform();
   
@@ -69,7 +69,7 @@ void ParticleSystem_Absolute::draw(DrawingContext& context)
 }
 
 bool
-ParticleSystem_Absolute::collision(Particle* object, Vector movement)
+ParticleSystem_Interactive::collision(Particle* object, Vector movement)
 {
   TileMap* solids = Sector::current()->solids;
   // calculate rectangle where the object will move

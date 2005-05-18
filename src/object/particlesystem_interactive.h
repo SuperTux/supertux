@@ -1,4 +1,4 @@
-//  $Id: ParticleSystem_Absolute.h 2462 2005-05-10 15:38:16Z wansti $
+//  $Id: ParticleSystem_Interactive.h 2462 2005-05-10 15:38:16Z wansti $
 // 
 //  SuperTux
 //  Copyright (C) 2004 Matthias Braun <matze@braunis.de>
@@ -16,8 +16,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-#ifndef SUPERTUX_PARTICLESYSTEM_ABSOLUTE_H
-#define SUPERTUX_PARTICLESYSTEM_ABSOLUTE_H
+#ifndef SUPERTUX_PARTICLESYSTEM_INTERACTIVE_H
+#define SUPERTUX_PARTICLESYSTEM_INTERACTIVE_H
 
 #include <vector>
 
@@ -38,17 +38,17 @@ class DisplayManager;
  * set of particles with each having an x- and y-coordinate the number of the
  * layer where it should be drawn and a texture.
  * This version of the particle system class doesn't use virtual screen coordinates,
- * but absolute ones. Particle systems which need absolute levels coordinates, such
+ * but Interactive ones. Particle systems which need Interactive levels coordinates, such
  * as rain, should be implemented here.
  * Classes that implement a particle system should subclass from this class,
  * initialize particles in the constructor and move them in the simulate
  * function.
  */
-class ParticleSystem_Absolute : public GameObject
+class ParticleSystem_Interactive : public GameObject
 {
 public:
-    ParticleSystem_Absolute();
-    virtual ~ParticleSystem_Absolute();
+    ParticleSystem_Interactive();
+    virtual ~ParticleSystem_Interactive();
     
     virtual void draw(DrawingContext& context);
 
@@ -70,7 +70,7 @@ protected:
     bool collision(Particle* particle, Vector movement);
 };
 
-class RainParticleSystem : public ParticleSystem_Absolute, public Serializable
+class RainParticleSystem : public ParticleSystem_Interactive, public Serializable
 {
 public:
     RainParticleSystem();
@@ -94,7 +94,7 @@ private:
     Surface* rainimages[2];
 };
 
-class CometParticleSystem : public ParticleSystem_Absolute, public Serializable
+class CometParticleSystem : public ParticleSystem_Interactive, public Serializable
 {
 public:
     CometParticleSystem();

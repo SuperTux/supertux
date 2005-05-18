@@ -32,7 +32,7 @@
 #include "object/camera.h"
 #include "object/background.h"
 #include "object/particlesystem.h"
-#include "object/particlesystem_absolute.h"
+#include "object/particlesystem_interactive.h"
 #include "object/tilemap.h"
 #include "lisp/parser.h"
 #include "lisp/lisp.h"
