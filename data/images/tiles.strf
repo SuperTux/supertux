@@ -4706,112 +4706,112 @@
   (tile
     (id 1321)
     (images
-      (region "tiles/doodads/iceshrub2.png" 0 0 32 32)
+      (region "tiles/doodads/iceshrub.png" 0 0 32 32)
     )
     (solid #t)
   )
   (tile
     (id 1322)
     (images
-      (region "tiles/doodads/iceshrub2.png" 32 0 32 32)
+      (region "tiles/doodads/iceshrub.png" 32 0 32 32)
     )
     (solid #t)
   )
   (tile
     (id 1323)
     (images
-      (region "tiles/doodads/iceshrub2.png" 64 0 32 32)
+      (region "tiles/doodads/iceshrub.png" 64 0 32 32)
     )
     (solid #t)
   )
   (tile
     (id 1324)
     (images
-      (region "tiles/doodads/iceshrub2.png" 96 0 32 32)
+      (region "tiles/doodads/iceshrub.png" 96 0 32 32)
     )
     (solid #t)
   )
   (tile
     (id 1325)
     (images
-      (region "tiles/doodads/iceshrub2.png" 0 32 32 32)
+      (region "tiles/doodads/iceshrub.png" 0 32 32 32)
     )
     (solid #t)
   )
   (tile
     (id 1326)
     (images
-      (region "tiles/doodads/iceshrub2.png" 32 32 32 32)
+      (region "tiles/doodads/iceshrub.png" 32 32 32 32)
     )
     (solid #t)
   )
   (tile
     (id 1327)
     (images
-      (region "tiles/doodads/iceshrub2.png" 64 32 32 32)
+      (region "tiles/doodads/iceshrub.png" 64 32 32 32)
     )
     (solid #t)
   )
   (tile
     (id 1328)
     (images
-      (region "tiles/doodads/iceshrub2.png" 96 32 32 32)
+      (region "tiles/doodads/iceshrub.png" 96 32 32 32)
     )
     (solid #t)
   )
   (tile
     (id 1329)
     (images
-      (region "tiles/doodads/iceshrub2.png" 0 64 32 32)
+      (region "tiles/doodads/iceshrub.png" 0 64 32 32)
     )
     (solid #t)
   )
   (tile
     (id 1330)
     (images
-      (region "tiles/doodads/iceshrub2.png" 32 64 32 32)
+      (region "tiles/doodads/iceshrub.png" 32 64 32 32)
     )
     (solid #t)
   )
   (tile
     (id 1331)
     (images
-      (region "tiles/doodads/iceshrub2.png" 64 64 32 32)
+      (region "tiles/doodads/iceshrub.png" 64 64 32 32)
     )
     (solid #t)
   )
   (tile
     (id 1332)
     (images
-      (region "tiles/doodads/iceshrub2.png" 96 64 32 32)
+      (region "tiles/doodads/iceshrub.png" 96 64 32 32)
     )
     (solid #t)
   )
   (tile
     (id 1333)
     (images
-      (region "tiles/doodads/iceshrub2.png" 0 96 32 32)
+      (region "tiles/doodads/iceshrub.png" 0 96 32 32)
     )
     (solid #t)
   )
   (tile
     (id 1334)
     (images
-      (region "tiles/doodads/iceshrub2.png" 32 96 32 32)
+      (region "tiles/doodads/iceshrub.png" 32 96 32 32)
     )
     (solid #t)
   )
   (tile
     (id 1335)
     (images
-      (region "tiles/doodads/iceshrub2.png" 64 96 32 32)
+      (region "tiles/doodads/iceshrub.png" 64 96 32 32)
     )
     (solid #t)
   )
   (tile
     (id 1336)
     (images
-      (region "tiles/doodads/iceshrub2.png" 96 96 32 32)
+      (region "tiles/doodads/iceshrub.png" 96 96 32 32)
     )
     (solid #t)
   )
