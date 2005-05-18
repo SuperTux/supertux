@@ -26,9 +26,10 @@
 #include "sector.h"
 #include "sprite/sprite_manager.h"
 
-SpecialRiser::SpecialRiser(MovingObject* _child)
+SpecialRiser::SpecialRiser(Vector pos, MovingObject* _child)
   : child(_child)
 {
+  _child->set_pos(pos - Vector(0, 32));
   offset = 0;
 }
 

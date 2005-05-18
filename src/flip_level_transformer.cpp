@@ -21,6 +21,7 @@
 
 #include "flip_level_transformer.h"
 #include "object/tilemap.h"
+#include "object/camera.h"
 #include "badguy/badguy.h"
 #include "sector.h"
 #include "tile_manager.h"
@@ -40,20 +41,31 @@ FlipLevelTransformer::transform_sector(Sector* sector)
     if(tilemap) {
       transform_tilemap(tilemap);
     }
+    Player* player = dynamic_cast<Player*> (object);
+    if(player) {
+      Vector pos = player->get_pos();
+      pos.y = height - pos.y;
+      player->move(pos);
+      continue;
+    }
     BadGuy* badguy = dynamic_cast<BadGuy*> (object);
     if(badguy) {
       transform_badguy(height, badguy);
-    } else {
-      MovingObject* mobject = dynamic_cast<MovingObject*> (object);
-      if(mobject) {
-        transform_moving_object(height, mobject);
-      }
+      continue;
+    }
+    
+    MovingObject* mobject = dynamic_cast<MovingObject*> (object);
+    if(mobject) {
+      transform_moving_object(height, mobject);
     }
   }
   for(Sector::SpawnPoints::iterator i = sector->spawnpoints.begin();
       i != sector->spawnpoints.end(); ++i) {
     transform_spawnpoint(height, *i);
   }
+
+  if(sector->camera != 0 && sector->player != 0)
+    sector->camera->reset(sector->player->get_pos());
 }
 
 void
@@ -69,7 +81,11 @@ FlipLevelTransformer::transform_tilemap(TileMap* tilemap)
       tilemap->change(x, y2, t1->getID());
     }
   }
-  tilemap->set_drawing_effect(VERTICAL_FLIP);
+  if(tilemap->get_drawing_effect() != 0) {
+    tilemap->set_drawing_effect(0);
+  } else {
+    tilemap->set_drawing_effect(VERTICAL_FLIP);
+  }
 }
 
 void

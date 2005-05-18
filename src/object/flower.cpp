@@ -27,10 +27,9 @@
 #include "player.h"
 #include "sprite/sprite_manager.h"
 
-Flower::Flower(const Vector& pos, Type _type)
+Flower::Flower(Type _type)
   : type(_type)
 {
-  bbox.set_pos(pos);
   bbox.set_size(32, 32);
 
   if(_type == FIREFLOWER)

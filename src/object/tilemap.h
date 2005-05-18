@@ -89,6 +89,11 @@ public:
     drawing_effect = effect;
   }
 
+  int get_drawing_effect()
+  {
+    return drawing_effect;
+  }
+
 private:
   typedef std::vector<uint32_t> Tiles;
   Tiles tiles;

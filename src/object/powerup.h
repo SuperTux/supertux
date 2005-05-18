@@ -1,4 +1,4 @@
-//  $Id: growup.h 2458 2005-05-10 11:29:58Z matzebraun $
+//  $Id$
 // 
 //  SuperTux
 //  Copyright (C) 2005 Matthias Braun <matze@braunis.de>
@@ -39,7 +39,7 @@ public:
 private:
   Sprite* sprite;
   Physic physic;
-  std::string type;
+  std::string script;
 };
 
 #endif

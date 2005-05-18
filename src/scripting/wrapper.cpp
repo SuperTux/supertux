@@ -364,6 +364,50 @@ static int Text_set_visible_wrapper(HSQUIRRELVM v)
   return 0;
 }
 
+static int Player_set_bonus_wrapper(HSQUIRRELVM v)
+{
+  Scripting::Player* _this;
+  sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
+  const char* arg0;
+  sq_getstring(v, 2, &arg0);
+  
+  _this->set_bonus(arg0);
+  
+  return 0;
+}
+
+static int Player_make_invincible_wrapper(HSQUIRRELVM v)
+{
+  Scripting::Player* _this;
+  sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
+  
+  _this->make_invincible();
+  
+  return 0;
+}
+
+static int Player_add_life_wrapper(HSQUIRRELVM v)
+{
+  Scripting::Player* _this;
+  sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
+  
+  _this->add_life();
+  
+  return 0;
+}
+
+static int Player_add_coins_wrapper(HSQUIRRELVM v)
+{
+  Scripting::Player* _this;
+  sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
+  int arg0;
+  sq_getinteger(v, 2, &arg0);
+  
+  _this->add_coins(arg0);
+  
+  return 0;
+}
+
 static int display_text_file_wrapper(HSQUIRRELVM v)
 {
   const char* arg0;
@@ -449,6 +493,13 @@ static WrappedFunction supertux_Text_methods[] = {
   { "set_visible", &Text_set_visible_wrapper },
 };
 
+static WrappedFunction supertux_Player_methods[] = {
+  { "set_bonus", &Player_set_bonus_wrapper },
+  { "make_invincible", &Player_make_invincible_wrapper },
+  { "add_life", &Player_add_life_wrapper },
+  { "add_coins", &Player_add_coins_wrapper },
+};
+
 WrappedClass supertux_classes[] = {
   { "DisplayEffect", supertux_DisplayEffect_methods },
   { "Camera", supertux_Camera_methods },
@@ -456,6 +507,7 @@ WrappedClass supertux_classes[] = {
   { "ScriptedObject", supertux_ScriptedObject_methods },
   { "Sound", supertux_Sound_methods },
   { "Text", supertux_Text_methods },
+  { "Player", supertux_Player_methods },
   { 0, 0 }
 };
 

@@ -30,7 +30,7 @@ public:
   enum Type {
     FIREFLOWER, ICEFLOWER
   };
-  Flower(const Vector& pos, Type type);
+  Flower(Type type);
   ~Flower();
 
   virtual void update(float elapsed_time);

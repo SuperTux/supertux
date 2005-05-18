@@ -6,4 +6,4 @@
 #include "sound.h"
 #include "text.h"
 #include "functions.h"
-
+#include "player.h"

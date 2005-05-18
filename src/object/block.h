@@ -52,6 +52,7 @@ class BonusBlock : public Block
 public:
   BonusBlock(const Vector& pos, int data);
   BonusBlock(const lisp::Lisp& lisp);
+  virtual ~BonusBlock();
 
   void try_open();
 
@@ -64,10 +65,12 @@ private:
     CONTENT_FIREGROW,
     CONTENT_ICEGROW,
     CONTENT_STAR,
-    CONTENT_1UP
+    CONTENT_1UP,
+    CONTENT_CUSTOM
   };
 
   Contents contents;
+  MovingObject* object;
 };
 
 class Brick : public Block

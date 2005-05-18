@@ -843,11 +843,16 @@ WorldMap::update(float delta)
          the level (in case there is one), don't show anything */
       if(level_finished) {
         if (level->extro_script != "") {
-          ScriptInterpreter* interpreter = new ScriptInterpreter(levels_path);
-          std::istringstream in(level->extro_script);
-          interpreter->load_script(in, "level-extro-script");
-          interpreter->start_script();
-          add_object(interpreter);
+          try {
+            std::auto_ptr<ScriptInterpreter> interpreter 
+              (new ScriptInterpreter(levels_path));
+            std::istringstream in(level->extro_script);
+            interpreter->load_script(in, "level-extro-script");
+            interpreter->start_script();
+            add_object(interpreter.release());
+          } catch(std::exception& e) {
+            std::cerr << "Couldn't run level-extro-script:" << e.what() << "\n";
+          }
         }
 
         if (!level->next_worldmap.empty())
@@ -991,11 +996,17 @@ WorldMap::display()
   sound_manager->play_music(song);
 
   if(!intro_displayed && intro_script != "") {
-    ScriptInterpreter* interpreter = new ScriptInterpreter(levels_path);
-    std::istringstream in(intro_script);
-    interpreter->load_script(in, "worldmap-intro-script");
-    interpreter->start_script();
-    add_object(interpreter);
+    try {
+      std::auto_ptr<ScriptInterpreter> interpreter 
+        (new ScriptInterpreter(levels_path));
+      std::istringstream in(intro_script);
+      interpreter->load_script(in, "worldmap-intro-script");
+      interpreter->start_script();
+      add_object(interpreter.release());
+    } catch(std::exception& e) {
+      std::cerr << "Couldn't execute worldmap-intro-script: "
+        << e.what() << "\n";
+    }
                                            
     intro_displayed = true;
   }

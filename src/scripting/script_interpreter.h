@@ -29,6 +29,12 @@ public:
 
   void set_wakeup_time(float seconds);
 
+  /** helper function that parses a script, starts it and adds it to the sector
+   * specified
+   */
+  static void add_script_object(Sector* sector, const std::string& scriptname,
+      const std::string& script);
+
   static ScriptInterpreter* current()
   {
     return _current;

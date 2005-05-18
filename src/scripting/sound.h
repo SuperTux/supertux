@@ -8,6 +8,9 @@ class Sound
 {
 public:
   void play_music(const std::string& musicfile);
+  /**
+   * Play a sound effect. The name should be without path or .wav extension
+   */
   void play_sound(const std::string& soundfile);
 
 #ifndef SCRIPTING_API

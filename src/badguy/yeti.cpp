@@ -21,6 +21,7 @@
 
 #include <float.h>
 #include <sstream>
+#include <memory>
 #include "yeti.h"
 #include "object/camera.h"
 #include "yeti_stalactite.h"
@@ -146,17 +147,8 @@ Yeti::collision_squished(Player& player)
 
     // start script
     if(dead_script != "") {
-      try {
-        ScriptInterpreter* interpreter 
-          = new ScriptInterpreter(GameSession::current()->get_working_directory());
-        interpreter->register_sector(Sector::current());
-        std::istringstream in(dead_script);
-        interpreter->load_script(in, "Yeti - dead-script");
-        interpreter->start_script();
-        Sector::current()->add_object(interpreter);
-      } catch(std::exception& e) {
-        std::cerr << "Couldn't execute yeti dead script: " << e.what() << "\n";
-      }
+      ScriptInterpreter::add_script_object(Sector::current(),
+          "Yeti - dead-script", dead_script);
     }
   } else {
     safe_timer.start(SAFE_TIME);

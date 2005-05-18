@@ -17,10 +17,12 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
-
 #include <config.h>
 
 #include "block.h"
+
+#include <stdexcept>
+
 #include "resources.h"
 #include "player.h"
 #include "sector.h"
@@ -37,6 +39,8 @@
 #include "player_status.h"
 #include "badguy/badguy.h"
 #include "coin.h"
+#include "object_factory.h"
+#include "lisp/list_iterator.h"
 #include "object_factory.h"
 
 static const float BOUNCY_BRICK_MAX_OFFSET=8;
@@ -117,7 +121,7 @@ Block::start_bounce()
 //---------------------------------------------------------------------------
 
 BonusBlock::BonusBlock(const Vector& pos, int data)
-  : Block(sprite_manager->create("bonusblock"))
+  : Block(sprite_manager->create("bonusblock")), object(0)
 {
   bbox.set_pos(pos);
   sprite->set_action("normal");
@@ -138,27 +142,55 @@ BonusBlock::BonusBlock(const lisp::Lisp& lisp)
   : Block(sprite_manager->create("bonusblock"))
 {
   Vector pos;
-  lisp.get("x", pos.x);
-  lisp.get("y", pos.y);
-  bbox.set_pos(pos);
 
-  std::string contentstring;
   contents = CONTENT_COIN;
-  if(lisp.get("contents", contentstring)) {
-    if(contentstring == "coin") {
-      contents = CONTENT_COIN;
-    } else if(contentstring == "firegrow") {
-      contents = CONTENT_FIREGROW;
-    } else if(contentstring == "icegrow") {
-      contents = CONTENT_ICEGROW;
-    } else if(contentstring == "star") {
-      contents = CONTENT_STAR;
-    } else if(contentstring == "1up") {
-      contents = CONTENT_1UP;
+  lisp::ListIterator iter(&lisp);
+  while(iter.next()) {
+    const std::string& token = iter.item();
+    if(token == "x") {
+      iter.value()->get(pos.x);
+    } else if(token == "y") {
+      iter.value()->get(pos.y);
+    } else if(token == "contents") {
+      std::string contentstring;
+      iter.value()->get(contentstring);
+      if(contentstring == "coin") {
+        contents = CONTENT_COIN;
+      } else if(contentstring == "firegrow") {
+        contents = CONTENT_FIREGROW;
+      } else if(contentstring == "icegrow") {
+        contents = CONTENT_ICEGROW;
+      } else if(contentstring == "star") {
+        contents = CONTENT_STAR;
+      } else if(contentstring == "1up") {
+        contents = CONTENT_1UP;
+      } else if(contentstring == "custom") {
+        contents = CONTENT_CUSTOM;
+      } else {
+        std::cerr << "Invalid box contents '" << contentstring << "'.\n";
+      }
     } else {
-      std::cerr << "Invalid box contents '" << contentstring << "'.\n";
-    }
+      if(contents == CONTENT_CUSTOM) {
+        GameObject* game_object = create_object(token, *(iter.lisp()));
+        object = dynamic_cast<MovingObject*> (game_object);
+        if(object == 0)
+          throw std::runtime_error(
+            "Only MovingObjects are allowed inside BonusBlocks");
+      } else {
+        std::cerr << "Invalid element '" << token << "' in bonusblock.\n";
+      }
+    }  
   }
+
+  if(contents == CONTENT_CUSTOM && object == 0)
+    throw std::runtime_error("Need to specify content object for custom block");
+  
+  bbox.set_pos(pos);
+}
+
+BonusBlock::~BonusBlock()
+{
+  delete object;
 }
 
 void
@@ -185,12 +217,11 @@ BonusBlock::try_open()
 
     case CONTENT_FIREGROW:
       if(player.get_status()->bonus == NO_BONUS) {
-        SpecialRiser* riser = new SpecialRiser(
-            new GrowUp(get_pos() + Vector(0, -32)));
+        SpecialRiser* riser = new SpecialRiser(get_pos(), new GrowUp());
         sector->add_object(riser);
       } else {
         SpecialRiser* riser = new SpecialRiser(
-            new Flower(get_pos() + Vector(0, -32), Flower::FIREFLOWER));
+            get_pos(), new Flower(Flower::FIREFLOWER));
         sector->add_object(riser);
       }
       sound_manager->play_sound("upgrade");
@@ -198,12 +229,11 @@ BonusBlock::try_open()
 
     case CONTENT_ICEGROW:
       if(player.get_status()->bonus == NO_BONUS) {
-        SpecialRiser* riser = new SpecialRiser(
-            new GrowUp(get_pos() + Vector(0, -32)));
+        SpecialRiser* riser = new SpecialRiser(get_pos(), new GrowUp());
         sector->add_object(riser);                                            
       } else {
-        SpecialRiser* riser = new SpecialRiser(                               
-            new Flower(get_pos() + Vector(0, -32), Flower::ICEFLOWER));
+        SpecialRiser* riser = new SpecialRiser(
+            get_pos(), new Flower(Flower::ICEFLOWER));
         sector->add_object(riser);
       }      
       sound_manager->play_sound("upgrade");
@@ -217,6 +247,13 @@ BonusBlock::try_open()
       sector->add_object(new OneUp(get_pos()));
       break;
 
+    case CONTENT_CUSTOM:
+      SpecialRiser* riser = new SpecialRiser(get_pos(), object);
+      object = 0;
+      sector->add_object(riser);
+      sound_manager->play_sound("upgrade");
+      break;
+
     default:
       assert(false);
   }
@@ -225,7 +262,7 @@ BonusBlock::try_open()
   sprite->set_action("empty");
 }
 
-IMPLEMENT_FACTORY(BonusBlock, "bonusblock")
+IMPLEMENT_FACTORY(BonusBlock, "bonusblock");
 
 //---------------------------------------------------------------------------
 
@@ -286,4 +323,5 @@ Brick::try_break(bool playerhit)
   }
 }
 
-//IMPLEMENT_FACTORY(Brick, "brick")
+//IMPLEMENT_FACTORY(Brick, "brick");
+

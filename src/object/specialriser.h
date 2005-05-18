@@ -29,7 +29,7 @@
 class SpecialRiser : public GameObject
 {
 public:
-  SpecialRiser(MovingObject* child);
+  SpecialRiser(Vector pos, MovingObject* child);
   ~SpecialRiser();
 
   virtual void update(float elapsed_time);

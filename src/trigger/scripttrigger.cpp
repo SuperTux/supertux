@@ -21,6 +21,8 @@
 #include <config.h>
 
 #include <sstream>
+#include <stdexcept>
+#include <memory>
 
 #include "scripttrigger.h"
 #include "game_session.h"
@@ -42,6 +44,9 @@ ScriptTrigger::ScriptTrigger(const lisp::Lisp& reader)
   bbox.set_size(w, h);
   reader.get("script", script);
   reader.get("button", must_activate);
+  if(script == "") {
+    throw std::runtime_error("Need to specify a script for trigger object");
+  }
   
   if (must_activate)
     triggerevent = EVENT_ACTIVATE;
@@ -79,30 +84,11 @@ ScriptTrigger::write(lisp::Writer& writer)
 void
 ScriptTrigger::event(Player& , EventType type)
 {
-  if(type == triggerevent)
-  {
-    if (script != "")
-    {
-      try
-      {
-        ScriptInterpreter* interpreter 
-          = new ScriptInterpreter(GameSession::current()->get_working_directory());
-        interpreter->register_sector(Sector::current());
-        std::istringstream in(script);
-        interpreter->load_script(in, "trigger-script");
-        interpreter->start_script();
-        Sector::current()->add_object(interpreter);
-      }
-      catch(std::exception& e)
-      {
-          std::cerr << "Couldn't execute trigger script: " << e.what() << "\n";
-      }
-    }
-    else
-    {
-      std::cerr << "Couldn't find trigger script.\n";
-    }
-  }
+  if(type != triggerevent)
+    return;
+
+  ScriptInterpreter::add_script_object(Sector::current(), "trigger - scritp",
+      script);
 }
 
 IMPLEMENT_FACTORY(ScriptTrigger, "scripttrigger");

@@ -26,14 +26,17 @@
 #include "sprite/sprite_manager.h"
 #include "object_factory.h"
 #include "sector.h"
+#include "scripting/script_interpreter.h"
 
 PowerUp::PowerUp(const lisp::Lisp& lisp)
 {
+  std::string sprite_name;
   lisp.get("x", bbox.p1.x);
   lisp.get("y", bbox.p1.y);
-  lisp.get("type", type);
+  lisp.get("sprite", sprite_name);
+  lisp.get("script", script);
   bbox.set_size(32, 32);   
-  sprite = sprite_manager->create(type);
+  sprite = sprite_manager->create(sprite_name);
   physic.enable_gravity(true);
 }
 
@@ -56,27 +59,30 @@ PowerUp::collision(GameObject& other, const CollisionHit& hit)
   }
   
   Player* player = dynamic_cast<Player*>(&other);
-  if(player != 0) {
-    if (type == "egg") {
-      player->set_bonus(GROWUP_BONUS, true);
-      sound_manager->play_sound("grow");
-    }
-    else if (type == "fireflower") {
-      player->set_bonus(FIRE_BONUS, true);
-      sound_manager->play_sound("fire-flower");
-    }
-    else if (type == "star") {
-      player->make_invincible();
-    }
-    else if (type == "1up") {
-      player->get_status()->incLives();
-    }    
-    remove_me();
-    
+  if(player == 0)
+    return FORCE_MOVE;
+
+  remove_me();
+
+  if (script != "") {
+    ScriptInterpreter::add_script_object(Sector::current(), "powerup-script",
+        script);
     return ABORT_MOVE;
   }
-
-  return FORCE_MOVE;
+  
+  // some defaults if no script has been set
+  if (sprite->get_name() == "egg") {
+    player->set_bonus(GROWUP_BONUS, true);
+    sound_manager->play_sound("grow");
+  } else if (sprite->get_name() == "fireflower") {
+    player->set_bonus(FIRE_BONUS, true);
+    sound_manager->play_sound("fire-flower");
+  } else if (sprite->get_name() == "star") {
+    player->make_invincible();
+  } else if (sprite->get_name() == "1up") {
+    player->get_status()->incLives();
+  }
+  return ABORT_MOVE;
 }
 
 void

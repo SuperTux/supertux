@@ -27,9 +27,8 @@
 #include "player.h"
 #include "sprite/sprite_manager.h"
 
-GrowUp::GrowUp(const Vector& pos)
+GrowUp::GrowUp()
 {
-  bbox.set_pos(pos);
   bbox.set_size(32, 32);
   
   sprite = sprite_manager->create("egg");

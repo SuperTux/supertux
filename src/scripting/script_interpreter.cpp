@@ -196,3 +196,21 @@ void
 ScriptInterpreter::draw(DrawingContext& )
 {
 }
+
+void
+ScriptInterpreter::add_script_object(Sector* sector, const std::string& name,
+    const std::string& script)
+{
+  try {
+    std::auto_ptr<ScriptInterpreter> interpreter
+      (new ScriptInterpreter(GameSession::current()->get_working_directory()));
+    interpreter->register_sector(sector);
+    std::istringstream in(script);
+    interpreter->load_script(in, name);
+    interpreter->start_script();
+    sector->add_object(interpreter.release());
+  } catch(std::exception& e) {
+    std::cerr << "Couldn't start '" << name << "' script: " << e.what() << "\n";
+  }
+}
+

@@ -1572,4 +1572,21 @@
       (mirror-action "right")
     )
   )
+
+  (sprite
+    (name "red-potion")
+    (action
+      (name "default")
+      (images "powerups/potions/red-potion.png")
+    )
+  )
+
+  (sprite
+    (name "blue-potion")
+    (action
+      (name "default")
+      (images "powerups/potions/blue-potion.png")
+    )
+  )
 )
+

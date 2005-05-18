@@ -27,7 +27,7 @@
 class GrowUp : public MovingObject
 {
 public:
-  GrowUp(const Vector& pos);
+  GrowUp();
   ~GrowUp();
 
   virtual void update(float elapsed_time);
