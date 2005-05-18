@@ -161,9 +161,9 @@ GhostParticleSystem::parse(const lisp::Lisp& reader)
 void
 GhostParticleSystem::write(lisp::Writer& writer)
 {
-  writer.start_list("particles-ghost");
+  writer.start_list("particles-ghosts");
   writer.write_int("layer", layer);
-  writer.end_list("particles-ghost");
+  writer.end_list("particles-ghosts");
 }
 
 GhostParticleSystem::~GhostParticleSystem()

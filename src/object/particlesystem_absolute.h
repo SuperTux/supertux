@@ -67,6 +67,7 @@ protected:
     
     std::vector<Particle*> particles;
     float virtual_width, virtual_height;
+    bool collision(Particle* particle, Vector movement);
 };
 
 class RainParticleSystem : public ParticleSystem_Absolute, public Serializable
@@ -90,8 +91,31 @@ private:
         float speed;
     };
     
-    bool collision(RainParticle* particle, Vector movement);
     Surface* rainimages[2];
+};
+
+class CometParticleSystem : public ParticleSystem_Absolute, public Serializable
+{
+public:
+    CometParticleSystem();
+    virtual ~CometParticleSystem();
+
+    void parse(const lisp::Lisp& lisp);
+    void write(lisp::Writer& writer);
+
+    virtual void update(float elapsed_time);
+
+    std::string type() const
+    { return "CometParticleSystem"; }
+    
+private:
+    class CometParticle : public Particle
+    {
+    public:
+        float speed;
+    };
+    
+    Surface* cometimages[2];
 };
 
 #endif

@@ -194,7 +194,7 @@
 	 (speed 1.2)
 	 (layer 400)
        )
-       (particles-ghost
+       (particles-ghosts
        )
        (particles-rain
        )

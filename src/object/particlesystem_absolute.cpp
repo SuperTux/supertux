@@ -35,6 +35,7 @@
 #include "collision.h"
 #include "collision_hit.h"
 #include "object/camera.h"
+#include "badguy/bomb.h"
 
 //TODO: Dynamically create splashes at collision spots
 //      Find a way to make rain collide with objects like bonus blocks
@@ -65,6 +66,64 @@ void ParticleSystem_Absolute::draw(DrawingContext& context)
     }
 
     context.pop_transform();
+}
+
+bool
+ParticleSystem_Absolute::collision(Particle* object, Vector movement)
+{
+  TileMap* solids = Sector::current()->solids;
+  // calculate rectangle where the object will move
+  float x1, x2;
+  float y1, y2;
+  x1 = object->pos.x;
+  x2 = x1 + 32 + movement.x;
+  y1 = object->pos.y;
+  y2 = y1 + 32 + movement.y;
+  
+  // test with all tiles in this rectangle
+  int starttilex = int(x1-1) / 32;
+  int starttiley = int(y1-1) / 32;
+  int max_x = int(x2+1);
+  int max_y = int(y2+1);
+  
+  CollisionHit temphit, hit;
+  Rect dest = Rect(x1, y1, x2, y2);
+  dest.move(movement);
+  hit.time = -1; // represents an invalid value
+  for(int x = starttilex; x*32 < max_x; ++x) {
+    for(int y = starttiley; y*32 < max_y; ++y) {
+      const Tile* tile = solids->get_tile(x, y);
+      if(!tile)
+        continue;
+      // skip non-solid tiles
+      if(!(tile->getAttributes() & Tile::SOLID))
+        continue;
+
+      if(tile->getAttributes() & Tile::SLOPE) { // slope tile
+        AATriangle triangle;
+        Vector p1(x*32, y*32);
+        Vector p2((x+1)*32, (y+1)*32);
+        triangle = AATriangle(p1, p2, tile->getData());
+
+        if(Collision::rectangle_aatriangle(temphit, dest, movement,
+              triangle)) {
+          if(temphit.time > hit.time)
+            hit = temphit;
+        }
+      } else { // normal rectangular tile
+        Rect rect(x*32, y*32, (x+1)*32, (y+1)*32);
+        if(Collision::rectangle_rectangle(temphit, dest,
+              movement, rect)) {
+          if(temphit.time > hit.time)
+            hit = temphit;
+        }
+      }
+    }
+  }
+  
+  // did we collide at all?
+  if(hit.time < 0)
+    return false; else return true;
 }
 
 RainParticleSystem::RainParticleSystem()
@@ -132,60 +191,70 @@ void RainParticleSystem::update(float elapsed_time)
     }
 }
 
-bool
-RainParticleSystem::collision(RainParticle* object, Vector movement)
+CometParticleSystem::CometParticleSystem()
 {
-  TileMap* solids = Sector::current()->solids;
-  // calculate rectangle where the object will move
-  float x1, x2;
-  float y1, y2;
-  x1 = object->pos.x;
-  x2 = x1 + 32 + movement.x;
-  y1 = object->pos.y;
-  y2 = y1 + 32 + movement.y;
-  
-  // test with all tiles in this rectangle
-  int starttilex = int(x1-1) / 32;
-  int starttiley = int(y1-1) / 32;
-  int max_x = int(x2+1);
-  int max_y = int(y2+1);
-  
-  CollisionHit temphit, hit;
-  Rect dest = Rect(x1, y1, x2, y2);
-  dest.move(movement);
-  hit.time = -1; // represents an invalid value
-  for(int x = starttilex; x*32 < max_x; ++x) {
-    for(int y = starttiley; y*32 < max_y; ++y) {
-      const Tile* tile = solids->get_tile(x, y);
-      if(!tile)
-        continue;
-      // skip non-solid tiles
-      if(!(tile->getAttributes() & Tile::SOLID))
-        continue;
+    cometimages[0] = new Surface(datadir+"/images/creatures/mr_bomb/exploding-left-0.png", true);
+    cometimages[1] = new Surface(datadir+"/images/creatures/mr_bomb/exploding-left-0.png", true);
 
-      if(tile->getAttributes() & Tile::SLOPE) { // slope tile
-        AATriangle triangle;
-        Vector p1(x*32, y*32);
-        Vector p2((x+1)*32, (y+1)*32);
-        triangle = AATriangle(p1, p2, tile->getData());
+    virtual_width = SCREEN_WIDTH * 2;
 
-        if(Collision::rectangle_aatriangle(temphit, dest, movement,
-              triangle)) {
-          if(temphit.time > hit.time)
-            hit = temphit;
-        }
-      } else { // normal rectangular tile
-        Rect rect(x*32, y*32, (x+1)*32, (y+1)*32);
-        if(Collision::rectangle_rectangle(temphit, dest,
-              movement, rect)) {
-          if(temphit.time > hit.time)
-            hit = temphit;
-        }
-      }
+    // create some random comets
+    size_t cometcount = 2;
+    for(size_t i=0; i<cometcount; ++i) {
+        CometParticle* particle = new CometParticle;
+        particle->pos.x = rand() % int(virtual_width);
+        particle->pos.y = rand() % int(virtual_height);
+        int cometsize = rand() % 2;
+        particle->texture = cometimages[cometsize];
+        do {
+            particle->speed = (cometsize+1)*30 + (float(rand()%10)*.4);
+        } while(particle->speed < 1);
+        particle->speed *= 10; // gravity
+
+        particles.push_back(particle);
     }
-  }
-  
-  // did we collide at all?
-  if(hit.time < 0)
-    return false; else return true;
+}
+
+void
+CometParticleSystem::parse(const lisp::Lisp& reader)
+{
+  reader.get("layer", layer);
+}
+
+void
+CometParticleSystem::write(lisp::Writer& writer)
+{
+  writer.start_list("particles-comets");
+  writer.write_int("layer", layer);
+  writer.end_list("particles-comets");
+}
+
+CometParticleSystem::~CometParticleSystem()
+{
+  for(int i=0;i<2;++i)
+    delete cometimages[i];
+}
+
+void CometParticleSystem::update(float elapsed_time)
+{
+    std::vector<Particle*>::iterator i;
+    for(
+        i = particles.begin(); i != particles.end(); ++i) {
+        CometParticle* particle = (CometParticle*) *i;
+        float movement = particle->speed * elapsed_time;
+        float abs_x = Sector::current()->camera->get_translation().x;
+        float abs_y = Sector::current()->camera->get_translation().y;
+        particle->pos.y += movement;
+        particle->pos.x -= movement;
+        if ((particle->pos.y > SCREEN_HEIGHT + abs_y) || (collision(particle, Vector(-movement, movement)))) {
+            if (particle->pos.y <= SCREEN_HEIGHT + abs_y) {
+              Sector::current()->add_object(new Bomb(particle->pos, LEFT));
+            }
+            int new_x = (rand() % int(virtual_width)) + int(abs_x);
+            int new_y = 0;
+            //FIXME: Don't move particles over solid tiles
+            particle->pos.x = new_x;
+            particle->pos.y = new_y;
+        }
+    }
 }

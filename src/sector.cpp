@@ -114,7 +114,11 @@ Sector::parse_object(const std::string& name, const lisp::Lisp& reader)
     RainParticleSystem* partsys = new RainParticleSystem();
     partsys->parse(reader);
     return partsys;
-  } else if(name == "particles-ghost") {
+  } else if(name == "particles-comets") {
+    CometParticleSystem* partsys = new CometParticleSystem();
+    partsys->parse(reader);
+    return partsys;
+  } else if(name == "particles-ghosts") {
     GhostParticleSystem* partsys = new GhostParticleSystem();
     partsys->parse(reader);
     return partsys;
