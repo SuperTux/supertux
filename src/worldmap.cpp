@@ -977,7 +977,7 @@ WorldMap::draw_status(DrawingContext& context)
         }
     }
   /* Display a passive message in the map, if needed */
-  if(passive_message_timer.check())
+  if(passive_message_timer.started())
     context.draw_text(gold_text, passive_message, 
             Vector(SCREEN_WIDTH/2, SCREEN_HEIGHT - white_text->get_height() - 60),
             CENTER_ALLIGN, LAYER_FOREGROUND1);
