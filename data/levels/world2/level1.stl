@@ -423,7 +423,7 @@
        (ambient_sound (x 1696) (y 0) (distance_factor 0.200000) (distance_bias 800.000000) (sample "rain"))
        (ambient_sound (x 2592) (y 0) (distance_factor 0.200000) (distance_bias 800.000000) (sample "rain"))
       (powerup (x 192) (y 2496)
-        (type (_ "fireflower"))
+        (sprite (_ "fireflower"))
       )
    )
   (sector

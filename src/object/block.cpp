@@ -254,8 +254,8 @@ BonusBlock::try_open()
       sound_manager->play_sound("upgrade");
       break;
 
-    default:
-      assert(false);
+    //default:
+      //assert(false);
   }
 
   start_bounce();
