@@ -35,6 +35,7 @@
 #include "collision.h"
 #include "collision_hit.h"
 #include "object/camera.h"
+#include "object/rainsplash.h"
 #include "badguy/bomb.h"
 
 //TODO: Dynamically create splashes at collision spots
@@ -182,6 +183,21 @@ void RainParticleSystem::update(float elapsed_time)
         particle->pos.y += movement;
         particle->pos.x -= movement;
         if ((particle->pos.y > SCREEN_HEIGHT + abs_y) || (collision(particle, Vector(-movement, movement)))) {
+            //Create rainsplash
+            if (particle->pos.y <= SCREEN_HEIGHT + abs_y){
+              //TODO: Find out at which side of the tile the collision happens
+              bool vertical = false;
+              int splash_x, splash_y;
+              if (vertical) {
+                splash_x = int(particle->pos.x) - (int(particle->pos.x) % 32) + 32;
+                splash_y = int(particle->pos.y);                
+              }
+              else {
+                splash_x = int(particle->pos.x);
+                splash_y = int(particle->pos.y) - (int(particle->pos.y) % 32) + 32;
+              }
+              Sector::current()->add_object(new RainSplash(Vector(splash_x, splash_y),vertical));
+            }
             int new_x = (rand() % int(virtual_width)) + int(abs_x);
             int new_y = 0;
             //FIXME: Don't move particles over solid tiles

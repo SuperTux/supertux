@@ -1519,13 +1519,23 @@
   
   (sprite (name "rainsplash")
     (action
+      (fps 20)
       (images "objects/particles/rainsplash-1.png"
               "objects/particles/rainsplash-2.png"
               "objects/particles/rainsplash-3.png"
               "objects/particles/rainsplash-4.png")
     )
   )
-
+  (sprite (name "rainsplash-vertical")
+    (action
+      (fps 20)
+      (images "objects/particles/rainsplash-vertical-1.png"
+              "objects/particles/rainsplash-vertical-2.png"
+              "objects/particles/rainsplash-vertical-3.png"
+              "objects/particles/rainsplash-vertical-4.png")
+    )
+  )
+  
   (sprite (name "worldmaptux")
     (action
       (name "small")
