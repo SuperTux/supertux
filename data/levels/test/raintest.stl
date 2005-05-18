@@ -198,6 +198,31 @@
        )
        (particles-rain
        )
+     (bonusblock (x 160) (y 160)
+          (contents "custom")
+          (powerup
+            (sprite "red-potion")
+            (script "
+function wait(time) {
+  set_wakeup_time(time);
+  suspend();
+}
+
+DisplayEffect.set_black(true);
+wait(0.1);
+DisplayEffect.set_black(false);
+wait(0.07);
+DisplayEffect.set_black(true);
+wait(0.11);
+DisplayEffect.set_black(false);
+wait(0.09);
+DisplayEffect.set_black(true);
+wait(0.6);
+Level.flip_vertically();
+DisplayEffect.fade_in(1);
+")
+          )
+      )
    )
  )
 
