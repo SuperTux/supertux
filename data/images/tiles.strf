@@ -4866,4 +4866,10 @@
       "tiles/pole/vert_end_bm.png")
 	(solid #f)
   )
+  (tile
+    (id 1350)
+    (images
+      "tiles/doodads/platter.png")
+	(solid #f)
+  )
 )
