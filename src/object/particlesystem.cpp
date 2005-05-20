@@ -129,6 +129,8 @@ void SnowParticleSystem::update(float elapsed_time)
     }
 }
 
+//FIXME: Sometimes both ghosts have the same image
+//       Ghosts don't change their movement pattern - not random
 GhostParticleSystem::GhostParticleSystem()
 {
     ghosts[0] = new Surface(datadir+"/images/objects/particles/ghost0.png", true);
@@ -136,7 +138,7 @@ GhostParticleSystem::GhostParticleSystem()
 
     virtual_width = SCREEN_WIDTH * 2;
 
-    // create some random snowflakes
+    // create two ghosts
     size_t ghostcount = 2;
     for(size_t i=0; i<ghostcount; ++i) {
         GhostParticle* particle = new GhostParticle;
