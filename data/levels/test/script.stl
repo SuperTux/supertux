@@ -102,6 +102,9 @@
        (spawnpoint (name "main") (x 320) (y 416))
        (particles-snow
        )
+       (ambient_sound (x 674) (y 390) (distance_factor 0.01) 
+	(distance_bias 200.0) (sample "phone")
+	)
       (infoblock (x 674) (y 390)
         (message (_ "-VoiceMail
 #
@@ -117,7 +120,7 @@
          (name "TUX")
          (x 160)
          (y 448)
-         (sprite "dummyguy")
+         (sprite "yeti")
        )
        (scriptedobject
          (name "PENNY")
