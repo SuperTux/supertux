@@ -19,10 +19,10 @@
 //  02111-1307, USA.
 
 #include <config.h>
+#include <math.h>
 
 #include "zeekling.h"
 
-static const float SPEED = 150;
 
 //TODO: Make the Zeekling behave more interesting
 Zeekling::Zeekling(const lisp::Lisp& reader)
@@ -58,8 +58,9 @@ Zeekling::write(lisp::Writer& writer)
 void
 Zeekling::activate()
 {
+  speed = 130 + (rand() % 41);
   if (set_direction) {dir = initial_direction;}
-  physic.set_velocity_x(dir == LEFT ? -SPEED : SPEED);
+  physic.set_velocity_x(dir == LEFT ? -speed : speed);
   physic.enable_gravity(false);
   sprite->set_action(dir == LEFT ? "left" : "right");
 }
@@ -81,7 +82,7 @@ Zeekling::collision_solid(GameObject& , const CollisionHit& hit)
   } else { // hit right or left
     dir = (dir == LEFT ? RIGHT : LEFT);
     sprite->set_action(dir == LEFT ? "left" : "right");
-    physic.set_velocity_x(dir == LEFT ? -SPEED : SPEED);
+    physic.set_velocity_x(dir == LEFT ? -speed : speed);
   }
 
   return CONTINUE;

@@ -37,6 +37,7 @@ protected:
   bool collision_squished(Player& player);
   bool set_direction;
   Direction initial_direction;
+  float speed;
 };
 
 #endif
