@@ -41,7 +41,7 @@ InfoBlock::InfoBlock(const lisp::Lisp& lisp)
   if(!lisp.get("message", message)) {
     std::cerr << "No message in InfoBlock!\n";
   }
-  ringing = true;
+  ringing = false;
 }
 
 InfoBlock::~InfoBlock()
