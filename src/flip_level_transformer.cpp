@@ -51,9 +51,7 @@ FlipLevelTransformer::transform_sector(Sector* sector)
     BadGuy* badguy = dynamic_cast<BadGuy*> (object);
     if(badguy) {
       transform_badguy(height, badguy);
-      continue;
     }
-    
     MovingObject* mobject = dynamic_cast<MovingObject*> (object);
     if(mobject) {
       transform_moving_object(height, mobject);
