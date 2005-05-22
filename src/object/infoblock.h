@@ -31,7 +31,9 @@ public:
   
 protected:
   virtual void hit(Player& player);
+  virtual void update(float elapsed_time);
   std::string message;
+  bool ringing;
 };
 
 #endif

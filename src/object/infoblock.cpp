@@ -26,6 +26,9 @@
 #include "sprite/sprite_manager.h"
 #include "object_factory.h"
 #include "lisp/lisp.h"
+#include "audio/sound_manager.h"
+#include "sector.h"
+#include "player.h"
 
 InfoBlock::InfoBlock(const lisp::Lisp& lisp)
   : Block(sprite_manager->create("infoblock"))
@@ -38,6 +41,7 @@ InfoBlock::InfoBlock(const lisp::Lisp& lisp)
   if(!lisp.get("message", message)) {
     std::cerr << "No message in InfoBlock!\n";
   }
+  ringing = true;
 }
 
 InfoBlock::~InfoBlock()
@@ -45,9 +49,17 @@ InfoBlock::~InfoBlock()
 }
 
 void
+InfoBlock::update(float elapsed_time)
+{
+  elapsed_time = 0;
+  if (ringing) sound_manager->play_sound("phone",get_pos(),Sector::current()->player->get_pos());
+}
+
+void
 InfoBlock::hit(Player& )
 {
   GameSession::current()->display_info_box(message);
+  ringing = false;
   start_bounce();
 }
 
