@@ -44,7 +44,7 @@ FlipLevelTransformer::transform_sector(Sector* sector)
     Player* player = dynamic_cast<Player*> (object);
     if(player) {
       Vector pos = player->get_pos();
-      pos.y = height - pos.y;
+      pos.y = height - pos.y - player->get_bbox().get_height();
       player->move(pos);
       continue;
     }
@@ -108,7 +108,7 @@ void
 FlipLevelTransformer::transform_moving_object(float height, MovingObject*object)
 {
   Vector pos = object->get_pos();
-  pos.y = height - pos.y;
+  pos.y = height - pos.y - object->get_bbox().get_height();
   object->set_pos(pos);
 }
 
