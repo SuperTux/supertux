@@ -37,7 +37,17 @@
   )
   (tilegroup
     (name "Misc")
-    (tiles 75 76 200 201 80 126 127 129 130 134 135 81 295 296 297 298 173 174 1347 1348)
+    (tiles 75 76 200 201 
+	80 126 127 129 
+	130 134 135 81 
+	295 296 297 298 
+	173 174 1347 1348
+	0 0 0 0 
+	0 0 0 0
+	0 0 0 0  
+	1355 0 0 
+	1356 0 0 
+    )
   )
   (tilegroup
     (name "Pipe")
@@ -4901,5 +4911,19 @@
     (images
       (region "tiles/forest/hole.png" 0 128 32 32)
     )
+  )
+(tile
+    (id 1355)
+    (images
+      (region "tiles/doodads/pedestal.png" 0 0 32 32)
+    )
+    (solid #t)
+  )
+(tile
+    (id 1356)
+    (images
+      (region "tiles/doodads/pedestal.png" 0 32 32 32)
+    )
+    (solid #t)
   )
 )
