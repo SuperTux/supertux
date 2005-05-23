@@ -34,6 +34,7 @@ protected:
   virtual void hit(Player& player);
   std::string message;
   AmbientSound* ringing;
+  bool stopped;
 };
 
 #endif

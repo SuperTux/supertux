@@ -39,8 +39,9 @@ InfoBlock::InfoBlock(const lisp::Lisp& lisp)
   if(!lisp.get("message", message)) {
     std::cerr << "No message in InfoBlock!\n";
   }
+  stopped = false;
   ringing = new AmbientSound(get_pos(), 0.5, 300, 1, "phone");
-  Sector::current()->add_object(ringing);
+  Sector::current()->add_object(ringing);  
 }
 
 InfoBlock::~InfoBlock()
@@ -52,7 +53,10 @@ InfoBlock::hit(Player& )
 {
   GameSession::current()->display_info_box(message);
   start_bounce();
-  ringing->remove_me();
+  if (!stopped) {
+    ringing->remove_me();
+    stopped = true;
+  }
 }
 
 IMPLEMENT_FACTORY(InfoBlock, "infoblock")
