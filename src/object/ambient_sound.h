@@ -52,6 +52,7 @@ class AmbientSound : public GameObject
 {
 public:
   AmbientSound(const lisp::Lisp& lisp);
+  AmbientSound(Vector pos, float factor, float bias, float vol, std::string file);
   ~AmbientSound();
 protected:
   virtual void hit(Player& player);

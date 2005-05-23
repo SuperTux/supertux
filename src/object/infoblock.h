@@ -22,6 +22,7 @@
 #define __INFOBLOCK_H__
 
 #include "block.h"
+#include "object/ambient_sound.h"
 
 class InfoBlock : public Block
 {
@@ -31,9 +32,8 @@ public:
   
 protected:
   virtual void hit(Player& player);
-  virtual void update(float elapsed_time);
   std::string message;
-  bool ringing;
+  AmbientSound* ringing;
 };
 
 #endif

@@ -76,6 +76,31 @@ AmbientSound::AmbientSound(const lisp::Lisp& lisp)
   latency=0;
 }
 
+AmbientSound::AmbientSound(Vector pos, float factor, float bias, float vol, std::string file)
+{
+
+  position.x=pos.x;
+  position.y=pos.y;
+
+  dimension.x=0;
+  dimension.y=0;
+
+  distance_factor=factor*factor;
+  distance_bias=bias*bias;
+  maximumvolume=vol;
+  sample=file;
+  
+  // set default silence_distance
+
+  if (distance_factor == 0)
+    silence_distance = 10e99;
+  else
+    silence_distance = 1/distance_factor;
+
+  playing=-1; // not playing at the beginning
+  latency=0;
+}
+
 AmbientSound::~AmbientSound() {
   stop_playing();
 }
