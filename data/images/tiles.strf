@@ -17,7 +17,7 @@
 
   (tilegroup
     (name "Forest (Foreground)")
-    (tiles 1000 1001 1002 1003 1004 1005 1006 1007 1008 1009 1010 1011 1012 1013 1014 1015 1016 1017 1018 1019 0 1060 1061 0 1063 1064 1065 1066 1067 1068 1069 1070 1045 1046 1051 1052 1047 1048 1053 1054 1049 1050 1055 1056 1042 1043 1057 1058 1034 1035 1029 1030 1041 1040 1031 1032 1036 1037 0 1038 1020 1021 1022 1044 1023 1024 1025 1033 1026 1027 1028 1039 1351 0 0 0 1352 0 0 0 1353 0 0 0 1354 0 0 0)
+    (tiles 1000 1001 1002 1003 1004 1005 1006 1007 1008 1009 1010 1011 1012 1013 1014 1015 1016 1017 1018 1019 0 1060 1061 0 1063 1064 1065 1066 1067 1068 1069 1070 1045 1046 1051 1052 1047 1048 1053 1054 1049 1050 1055 1056 1042 1043 1057 1058 1034 1035 1029 1030 1041 1040 1031 1032 1036 1037 0 1038 1020 1021 1022 1044 1023 1024 1025 1033 1026 1027 1028 1039 1351 0 0 0 1352 0 0 0 1353 1357 0 0 1354 0 0 0 1358 1359 1360 0 1361 1362 1363 0 1364 1365 1366 0)
   )
   (tilegroup
     (name "Forest (Background)")
@@ -4912,18 +4912,78 @@
       (region "tiles/forest/hole.png" 0 128 32 32)
     )
   )
-(tile
+  (tile
     (id 1355)
     (images
       (region "tiles/doodads/pedestal.png" 0 0 32 32)
     )
     (solid #t)
   )
-(tile
+  (tile
     (id 1356)
     (images
       (region "tiles/doodads/pedestal.png" 0 32 32 32)
     )
     (solid #t)
+  )
+  (tile
+    (id 1357)
+    (images
+      (region "tiles/forest/vine1.png" 0 0 32 32)
+    )
+  )
+  (tile
+    (id 1358)
+    (images
+      (region "tiles/forest/brush.png" 0 0 32 32)
+    )
+  )
+  (tile
+    (id 1359)
+    (images
+      (region "tiles/forest/brush.png" 32 0 32 32)
+    )
+  )
+  (tile
+    (id 1360)
+    (images
+      (region "tiles/forest/brush.png" 64 0 32 32)
+    )
+  )
+  (tile
+    (id 1361)
+    (images
+      (region "tiles/forest/brush.png" 0 32 32 32)
+    )
+  )
+  (tile
+    (id 1362)
+    (images
+      (region "tiles/forest/brush.png" 32 32 32 32)
+    )
+  )
+  (tile
+    (id 1363)
+    (images
+      (region "tiles/forest/brush.png" 64 32 32 32)
+    )
+  )
+  (tile
+    (id 1364)
+    (images
+      (region "tiles/forest/brush.png" 0 64 32 32)
+    )
+  )
+  (tile
+    (id 1365)
+    (images
+      (region "tiles/forest/brush.png" 32 64 32 32)
+    )
+  )
+  (tile
+    (id 1366)
+    (images
+      (region "tiles/forest/brush.png" 64 64 32 32)
+    )
   )
 )
