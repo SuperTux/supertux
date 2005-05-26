@@ -1606,5 +1606,12 @@
       (images "tiles/doodads/platter.png")
     )
   )
+    (sprite
+    (name "gold-key")
+    (action
+      (name "default")
+      (images "objects/keys/key_gold.png")
+    )
+  )
 )
 

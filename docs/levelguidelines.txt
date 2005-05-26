@@ -13,10 +13,11 @@ items (coins, boxes) in the background.
 3. Be careful not to create dead ends. Test your level thoroughly to find possible paths
 you might have missed before.
 4. Use everything the engine offers - but don't place it all in a single level!
-5. Avoid large amounts of objects and badguys on the screen at once - your level might not
-be playable on slower machines.
-6. Don't make your levels too hard! Levels you built often appear a lot easier for
-yourself, so be sure to let other people test them.
+5. Avoid large amounts of objects and badguys on the screen at once as it greatly
+decreases playability. Also, your level might not be playable on slower machines anymore.
+6. Find the right difficulty! Too easy levels get boring very quickly while too hard ones
+can be frustrating. Levels you built often appear a lot easier for yourself, so be sure
+to let other people test them.
 7. Don't make your level too short or too long - good size largely depends on the level's
 overall design, so there's no general "good" value. In longer levels, make sure there are
 enough reset points, so players won't have to repeat large portions of the level.
