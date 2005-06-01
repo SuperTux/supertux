@@ -4986,11 +4986,4 @@
       (region "tiles/forest/brush.png" 64 64 32 32)
     )
   )
-  (tile
-    (id 1366)
-    (images
-      "objects/bell/hang.png"
-    )
-    (solid #f)
-  )
 )
