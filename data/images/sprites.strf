@@ -1504,9 +1504,14 @@
        )
        (action
          (name "ringing")
-         (images "objects/bell/bell-l.png"
+         (images 
+           "objects/bell/bell-l_0.png"
+           "objects/bell/bell-l.png"
+           "objects/bell/bell-l_0.png"
            "objects/bell/bell-m.png"
+	   "objects/bell/bell-r_0.png"
            "objects/bell/bell-r.png"
+	   "objects/bell/bell-r_0.png"
            "objects/bell/bell-m.png"
          )
        )
