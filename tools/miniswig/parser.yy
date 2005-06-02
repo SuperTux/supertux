@@ -219,6 +219,10 @@ maybe_virtual:
 
 variable_declaration:
     type T_ID ';'
+        {
+            delete $1;
+            free($2);
+        }
 ;
 
 function_declaration:
