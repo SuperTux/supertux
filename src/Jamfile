@@ -21,7 +21,7 @@ TRANSLATABLE_SOURCES += [ SearchSource $(sources) ] ;
 
 Application supertux : $(sources) $(wrapper_objects) ;
 LinkWith supertux : squirrel ;
-ExternalLibs supertux : SDL SDLMIXER SDLIMAGE GL ;
+ExternalLibs supertux : SDL SDLMIXER SDLIMAGE GL ICONV ;
 Help supertux : "Build the supertux executable" ;
 IncludeDir supertux : squirrel/include ;
 

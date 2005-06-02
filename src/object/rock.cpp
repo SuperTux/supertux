@@ -17,7 +17,6 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
-
 #include <config.h>
 
 #include "rock.h"
@@ -78,13 +77,17 @@ Rock::update(float elapsed_time)
 }
 
 HitResponse
-Rock::collision(GameObject& , const CollisionHit& )
+Rock::collision(GameObject& object, const CollisionHit& )
 {
   if(grabbed)
     return FORCE_MOVE;
 
-  physic.set_velocity(0, 0);
-  return CONTINUE;
+  if(object.get_flags() & FLAG_SOLID) {
+      physic.set_velocity(0, 0);
+      return CONTINUE;
+  }
+
+  return FORCE_MOVE;
 }
 
 void
@@ -94,5 +97,5 @@ Rock::grab(MovingObject& , const Vector& pos)
   grabbed = true;
 }
 
-IMPLEMENT_FACTORY(Rock, "rock")
+IMPLEMENT_FACTORY(Rock, "rock");
 

@@ -49,7 +49,7 @@ std::string convert(const std::string& text,
   strcpy(in_orig, text.c_str());
 
   char* out = out_orig;
-  char* in  = in_orig;
+  ICONV_CONST char* in  = in_orig;
   size_t out_len_temp = out_len; // iconv is counting down the bytes it has
                                  // written from this...
 

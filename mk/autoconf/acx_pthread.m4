@@ -1,3 +1,49 @@
+dnl @synopsis ACX_PTHREAD([ACTION-IF-FOUND[, ACTION-IF-NOT-FOUND]])
+dnl
+dnl This macro figures out how to build C programs using POSIX threads.
+dnl It sets the PTHREAD_LIBS output variable to the threads library and
+dnl linker flags, and the PTHREAD_CFLAGS output variable to any special
+dnl C compiler flags that are needed. (The user can also force certain
+dnl compiler flags/libs to be tested by setting these environment
+dnl variables.)
+dnl
+dnl Also sets PTHREAD_CC to any special C compiler that is needed for
+dnl multi-threaded programs (defaults to the value of CC otherwise).
+dnl (This is necessary on AIX to use the special cc_r compiler alias.)
+dnl
+dnl NOTE: You are assumed to not only compile your program with these
+dnl flags, but also link it with them as well. e.g. you should link
+dnl with $PTHREAD_CC $CFLAGS $PTHREAD_CFLAGS $LDFLAGS ... $PTHREAD_LIBS
+dnl $LIBS
+dnl
+dnl If you are only building threads programs, you may wish to use
+dnl these variables in your default LIBS, CFLAGS, and CC:
+dnl
+dnl        LIBS="$PTHREAD_LIBS $LIBS"
+dnl        CFLAGS="$CFLAGS $PTHREAD_CFLAGS"
+dnl        CC="$PTHREAD_CC"
+dnl
+dnl In addition, if the PTHREAD_CREATE_JOINABLE thread-attribute
+dnl constant has a nonstandard name, defines PTHREAD_CREATE_JOINABLE to
+dnl that name (e.g. PTHREAD_CREATE_UNDETACHED on AIX).
+dnl
+dnl ACTION-IF-FOUND is a list of shell commands to run if a threads
+dnl library is found, and ACTION-IF-NOT-FOUND is a list of commands to
+dnl run it if it is not found. If ACTION-IF-FOUND is not specified, the
+dnl default action will define HAVE_PTHREAD.
+dnl
+dnl Please let the authors know if this macro fails on any platform, or
+dnl if you have any other suggestions or comments. This macro was based
+dnl on work by SGJ on autoconf scripts for FFTW (www.fftw.org) (with
+dnl help from M. Frigo), as well as ac_pthread and hb_pthread macros
+dnl posted by Alejandro Forero Cuervo to the autoconf macro repository.
+dnl We are also grateful for the helpful feedback of numerous users.
+dnl
+dnl @category InstalledPackages
+dnl @author Steven G. Johnson <stevenj@alum.mit.edu>
+dnl @version 2005-01-14
+dnl @license GPLWithACException
+
 AC_DEFUN([ACX_PTHREAD], [
 AC_REQUIRE([AC_CANONICAL_HOST])
 AC_LANG_SAVE
@@ -86,12 +132,12 @@ for flag in $acx_pthread_flags; do
                 PTHREAD_CFLAGS="$flag"
                 ;;
 
-                pthread-config)
-                AC_CHECK_PROG(acx_pthread_config, pthread-config, yes, no)
-                if test x"$acx_pthread_config" = xno; then continue; fi
-                PTHREAD_CFLAGS="`pthread-config --cflags`"
-                PTHREAD_LIBS="`pthread-config --ldflags` `pthread-config --libs`"
-                ;;
+		pthread-config)
+		AC_CHECK_PROG(acx_pthread_config, pthread-config, yes, no)
+		if test x"$acx_pthread_config" = xno; then continue; fi
+		PTHREAD_CFLAGS="`pthread-config --cflags`"
+		PTHREAD_LIBS="`pthread-config --ldflags` `pthread-config --libs`"
+		;;
 
                 *)
                 AC_MSG_CHECKING([for the pthreads library -l$flag])
@@ -139,36 +185,29 @@ if test "x$acx_pthread_ok" = xyes; then
         save_CFLAGS="$CFLAGS"
         CFLAGS="$CFLAGS $PTHREAD_CFLAGS"
 
-        # Detect AIX lossage: threads are created detached by default
-        # and the JOINABLE attribute has a nonstandard name (UNDETACHED).
-        AC_MSG_CHECKING([for joinable pthread attribute])
-        AC_TRY_LINK([#include <pthread.h>],
-                    [int attr=PTHREAD_CREATE_JOINABLE;],
-                    ok=PTHREAD_CREATE_JOINABLE, ok=unknown)
-        if test x"$ok" = xunknown; then
-                AC_TRY_LINK([#include <pthread.h>],
-                            [int attr=PTHREAD_CREATE_UNDETACHED;],
-                            ok=PTHREAD_CREATE_UNDETACHED, ok=unknown)
-        fi
-        if test x"$ok" != xPTHREAD_CREATE_JOINABLE; then
-                AC_DEFINE(PTHREAD_CREATE_JOINABLE, $ok,
-                          [Define to the necessary symbol if this constant
-                           uses a non-standard name on your system.])
-        fi
-        AC_MSG_RESULT(${ok})
-        if test x"$ok" = xunknown; then
-                AC_MSG_WARN([we do not know how to create joinable pthreads])
+        # Detect AIX lossage: JOINABLE attribute is called UNDETACHED.
+	AC_MSG_CHECKING([for joinable pthread attribute])
+	attr_name=unknown
+	for attr in PTHREAD_CREATE_JOINABLE PTHREAD_CREATE_UNDETACHED; do
+	    AC_TRY_LINK([#include <pthread.h>], [int attr=$attr;],
+                        [attr_name=$attr; break])
+	done
+        AC_MSG_RESULT($attr_name)
+        if test "$attr_name" != PTHREAD_CREATE_JOINABLE; then
+            AC_DEFINE_UNQUOTED(PTHREAD_CREATE_JOINABLE, $attr_name,
+                               [Define to necessary symbol if this constant
+                                uses a non-standard name on your system.])
         fi
 
         AC_MSG_CHECKING([if more special flags are required for pthreads])
         flag=no
         case "${host_cpu}-${host_os}" in
-                *-aix* | *-freebsd*)     flag="-D_THREAD_SAFE";;
-                *solaris* | *-osf* | *-hpux*) flag="-D_REENTRANT";;
+            *-aix* | *-freebsd* | *-darwin*) flag="-D_THREAD_SAFE";;
+            *solaris* | *-osf* | *-hpux*) flag="-D_REENTRANT";;
         esac
         AC_MSG_RESULT(${flag})
         if test "x$flag" != xno; then
-                PTHREAD_CFLAGS="$flag $PTHREAD_CFLAGS"
+            PTHREAD_CFLAGS="$flag $PTHREAD_CFLAGS"
         fi
 
         LIBS="$save_LIBS"

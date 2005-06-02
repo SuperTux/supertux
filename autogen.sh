@@ -6,8 +6,8 @@ if test ! -f configure.ac ; then
   exit 1
 fi
 
-autoheader
 aclocal -I mk/autoconf
+autoheader
 
 # generate Jamconfig.in
 autoconf --trace=AC_SUBST \
