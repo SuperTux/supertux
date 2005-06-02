@@ -63,7 +63,7 @@ private:
 %token <str>  T_STRING
 %token <str>  T_ID
 %token <atomic_type> T_ATOMIC_TYPE
-%token <_namespace> T_NAMESPACEREF;
+%token <_namespace> T_NAMESPACEREF
 %token T_CLASS
 %token T_STRUCT
 %token T_STATIC
