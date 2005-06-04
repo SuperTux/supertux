@@ -97,27 +97,29 @@ static void find_directories()
   }
 
   // Detect datadir with some linux magic
-#ifndef WIN32
   if(datadir.empty()) {
     char exe_file[PATH_MAX];
+#ifdef WIN32
+    strcpy(exe_file, ".");
+#else
     if(readlink("/proc/self/exe", exe_file, PATH_MAX) < 0) {
 #ifdef DEBUG
       std::cerr << "Couldn't read /proc/self/exe \n";
 #endif
-    } else {
-      std::string exedir = std::string(dirname(exe_file)) + "/";
-      std::string testdir = exedir + "./data/";
-      if(access(testdir.c_str(), F_OK) == 0) {
-        datadir = testdir;
-      }
-      
-      testdir = exedir + "../share/supertux/";
-      if(datadir.empty() && access(testdir.c_str(), F_OK) == 0) {
-        datadir = testdir;
-      }
-    }  
-  }
+      strcpy(exe_file, ".");
+    }
 #endif
+    std::string exedir = std::string(dirname(exe_file)) + "/";
+    std::string testdir = exedir + "./data/";
+    if(access(testdir.c_str(), F_OK) == 0) {
+      datadir = testdir;
+    }
+    
+    testdir = exedir + "../share/supertux/";
+    if(datadir.empty() && access(testdir.c_str(), F_OK) == 0) {
+      datadir = testdir;
+    }
+  }  
   
 #ifdef DATA_PREFIX
   // use default location
