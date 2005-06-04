@@ -68,8 +68,8 @@
 #include "gameconfig.h"
 #include "gettext.h"
 
-// the engine will be run with a lofical framerate of 64fps.
-// We choose 64fps here because it is a power of 2, so 1/64 gives an "even"
+// the engine will be run with a logical framerate of 64fps.
+// We chose 64fps here because it is a power of 2, so 1/64 gives an "even"
 // binary fraction...
 static const float LOGICAL_FPS = 64.0;
 
@@ -85,6 +85,7 @@ GameSession::GameSession(const std::string& levelfile_, GameSessionMode mode,
   current_ = this;
   
   game_pause = false;
+  music_playing = false;
   fps_fps = 0;
 
   context = new DrawingContext();
@@ -130,7 +131,11 @@ GameSession::restart_level()
   if(mode == ST_GL_PLAY || mode == ST_GL_LOAD_LEVEL_FILE)
     levelintro();
 
-  currentsector->play_music(LEVEL_MUSIC);
+  if (!music_playing)
+  {
+    currentsector->play_music(LEVEL_MUSIC);
+    music_playing = true;
+  }
 
   if(capture_file != "")
     record_demo(capture_file);
@@ -182,7 +187,7 @@ GameSession::play_demo(const std::string& filename)
 void
 GameSession::levelintro()
 {
-  sound_manager->halt_music();
+  //sound_manager->halt_music();
   
   char str[60];
 
