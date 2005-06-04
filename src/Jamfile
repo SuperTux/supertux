@@ -20,6 +20,7 @@ sources =
 TRANSLATABLE_SOURCES += [ SearchSource $(sources) ] ;
 
 Application supertux : $(sources) $(wrapper_objects) ;
+C++Flags supertux : -DDATA_PREFIX='\"$(appdatadir)\"' ;
 LinkWith supertux : squirrel ;
 ExternalLibs supertux : SDL SDLMIXER SDLIMAGE GL ICONV ;
 Help supertux : "Build the supertux executable" ;
