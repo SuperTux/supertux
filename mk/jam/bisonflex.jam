@@ -6,7 +6,7 @@ if $(LEX)
 {
   rule LexRule
   {
-    local cfile = [ LocateTarget $(<:S=.c) ] ;
+    local cfile = [ LocateTarget $(<:S=.c) : $(SUBDIR) ] ;
     local object = [ CompileObjects $(cfile) ] ;
 
     Lex $(cfile) : $(<) ;
@@ -17,7 +17,7 @@ if $(LEX)
   
   rule Lex++Rule
   {
-    local cppfile = [ LocateTarget $(<:S=.cpp) ] ;
+    local cppfile = [ LocateTarget $(<:S=.cpp) : $(SUBDIR) ] ;
     local object = [ CompileObjects $(cppfile) ] ;
 
     Lex $(cppfile) : $(<) ;
@@ -51,8 +51,8 @@ if $(BISON)
 {
   rule BisonRule
   {
-    local cfile = [ LocateTarget $(<:S=.c) ] ;
-    local headerfile = [ LocateTarget $(<:S=.h) ] ;
+    local cfile = [ LocateTarget $(<:S=.c) : $(SUBDIR) ] ;
+    local headerfile = [ LocateTarget $(<:S=.h) : $(SUBDIR) ] ;
     local object = [ CompileObjects $(cfile) ] ;
 
     Includes $(headerfile:G=) : $(headerfile) ;
@@ -67,8 +67,8 @@ if $(BISON)
 
   rule Bison++Rule
   {
-    local cppfile = [ LocateTarget $(<:S=.cpp) ] ;
-    local headerfile = [ LocateTarget $(<:S=.hpp) ] ;
+    local cppfile = [ LocateTarget $(<:S=.cpp) : $(SUBDIR) ] ;
+    local headerfile = [ LocateTarget $(<:S=.hpp) : $(SUBDIR) ] ;
     headerfile = $(headerfile:G=) ;
     local object = [ CompileObjects $(cppfile) ] ;
 
