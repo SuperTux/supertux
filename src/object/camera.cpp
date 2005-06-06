@@ -210,7 +210,7 @@ Camera::scroll_normal(float elapsed_time)
       target_y = player->get_bbox().p2.y;
 
     // delta_y is the distance we'd have to travel to directly reach target_y
-    float delta_y = translation.y - (target_y - SCREEN_HEIGHT/2);
+    float delta_y = translation.y - (target_y - SCREEN_HEIGHT*2/3);
     // speed is the speed the camera would need to reach target_y in this frame
     float speed_y = delta_y / elapsed_time;
 
