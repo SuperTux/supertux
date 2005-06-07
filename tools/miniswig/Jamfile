@@ -1,7 +1,8 @@
 SubDir TOP tools miniswig ;
 
 if $(LEX) && $(BISON) {
-    MINISWIG = [ Application miniswig : [ Wildcard *.yy *.ll *.cpp ] ] ;
+    sources = [ Filter [ Wildcard *.yy *.ll *.cpp ] : parser.cpp lexer.cpp ] ;
+    MINISWIG = [ Application miniswig : $(sources) ] ;
     C++Flags miniswig : -Wno-unused ;
     IncludeDir miniswig : . ;
     ExternalLibs miniswig : LEX ;
