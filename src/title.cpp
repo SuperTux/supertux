@@ -33,11 +33,6 @@
 #include <SDL_image.h>
 #include <physfs.h>
 
-#ifndef WIN32
-#include <sys/types.h>
-#include <ctype.h>
-#endif
-
 #include "title.h"
 #include "video/screen.h"
 #include "video/surface.h"
@@ -79,6 +74,7 @@ static CodeController* controller;
 
 static std::vector<LevelSubset*> contrib_subsets;
 static LevelSubset* current_contrib_subset = 0;
+static int current_subset = -1;
 
 /* If the demo was stopped - because game started, level
    editor was excuted, etc - call this when you get back
@@ -111,6 +107,8 @@ void free_contrib_menu()
 
   contrib_subsets.clear();
   contrib_menu->clear();
+  current_contrib_subset = 0;
+  current_subset = -1;
 }
 
 void generate_contrib_menu()
@@ -174,8 +172,6 @@ std::string get_level_name(const std::string& filename)
 
 void check_levels_contrib_menu()
 {
-  static int current_subset = -1;
-
   int index = contrib_menu->check();
   if (index == -1)
     return;
