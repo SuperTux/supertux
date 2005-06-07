@@ -417,9 +417,7 @@ void wait_for_event(float min_delay, float max_delay)
 
 int main(int argc, char** argv) 
 {
-#ifndef DEBUG // we want backtraces in debug mode so don't catch exceptions
   try {
-#endif
     srand(time(0));
     init_physfs(argv[0]);
     init_sdl();
@@ -448,8 +446,6 @@ int main(int argc, char** argv)
       // normal game
       title();
     }    
-    
-#ifndef DEBUG
   } catch(std::exception& e) {
     std::cerr << "Unexpected exception: " << e.what() << std::endl;
     return 1;
@@ -457,7 +453,6 @@ int main(int argc, char** argv)
     std::cerr << "Unexpected exception." << std::endl;
     return 1;
   }
-#endif
 
   free_menu();
   unload_shared();
