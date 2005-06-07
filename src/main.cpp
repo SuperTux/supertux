@@ -140,29 +140,34 @@ static void init_physfs(const char* argv0)
   dir += "/data";
   std::string testfname = dir;
   testfname += "/credits.txt";
+  bool sourcedir = false;
   FILE* f = fopen(testfname.c_str(), "r");
   if(f) {
     fclose(f);
     if(!PHYSFS_addToSearchPath(dir.c_str(), 1)) {
       std::cout << "Warning: Couldn't add '" << dir 
                 << "' to physfs searchpath: " << PHYSFS_getLastError() << "\n";
+    } else {
+      sourcedir = true;
     }
   }
 
+  if(!sourcedir) {
 #if defined(APPDATADIR) || defined(ENABLE_BINRELOC)
-  std::string datadir;
+    std::string datadir;
 #ifdef ENABLE_BINRELOC
-  char* brdatadir = br_strcat(DATADIR, "/" PACKAGE_NAME);
-  datadir = brdatadir;
-  free(brdatadir);
+    char* brdatadir = br_strcat(DATADIR, "/" PACKAGE_NAME);
+    datadir = brdatadir;
+    free(brdatadir);
 #else
-  datadir = APPDATADIR;
+    datadir = APPDATADIR;
 #endif
-  if(!PHYSFS_addToSearchPath(datadir.c_str(), 1)) {
-    std::cout << "Couldn't add '" << datadir
-              << "' to physfs searchpath: " << PHYSFS_getLastError() << "\n";
+    if(!PHYSFS_addToSearchPath(datadir.c_str(), 1)) {
+      std::cout << "Couldn't add '" << datadir
+        << "' to physfs searchpath: " << PHYSFS_getLastError() << "\n";
+    }
+#endif
   }
-#endif
 
   // allow symbolic links
   PHYSFS_permitSymbolicLinks(1);
