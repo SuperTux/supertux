@@ -97,6 +97,18 @@ AM_ICONV
 AC_SUBST([ICONV_LIBS], [$LIBICONV])
 
 dnl ===========================================================================
+dnl Check for OpenGL
+if test "$enable_opengl" = "yes"; then
+  AX_CHECK_GL
+fi
+if test "$no_gl" = "yes" -o "$enable_opengl" = "no"; then
+  GL_AVAILABLE="no"
+  AC_DEFINE([NOOPENGL],, [Define if opengl should not be used])
+else
+  GL_AVAILABLE="yes"
+fi
+AC_SUBST([GL_AVAILABLE])
+
 dnl Check for SDL
 SDL_VERSION=1.2.4
 AM_PATH_SDL($SDL_VERSION,
@@ -126,16 +138,14 @@ NP_FINDLIB([SDLIMAGE], [SDL_image], [SDL_image >= 1.2],
         [AC_MSG_ERROR([Please install SDLImage >= 1.2.1])],
         [$SDL_CFLAGS], [$SDL_LIBS])
 
-if test "$enable_opengl" = "yes"; then
-  AX_CHECK_GL
-fi
-if test "$no_gl" = "yes" -o "$enable_opengl" = "no"; then
-  GL_AVAILABLE="no"
-  AC_DEFINE([NOOPENGL],, [Define if opengl should not be used])
-else
-  GL_AVAILABLE="yes"
-fi
-AC_SUBST([GL_AVAILABLE])
+NP_FINDLIB([PHYSFS], [physfs], [physfs >= 1.0.0],
+        NP_LANG_PROGRAM([#include <physfs.h>
+#if PHYSFS_VER_MAJOR < 1
+# error PHYSFS is too old
+#endif]),
+        [], [-lphysfs],
+        [],
+        [AC_MSG_ERROR([Please install physfs >= 1.0])])
 
 dnl Checks for library functions.
 AC_CHECK_FUNCS(mkdir strdup strstr)

@@ -61,7 +61,7 @@ void
 Config::load()
 {
   lisp::Parser parser;
-  std::auto_ptr<lisp::Lisp> root (parser.parse(user_dir + "/config"));
+  std::auto_ptr<lisp::Lisp> root (parser.parse("config"));
 
   const lisp::Lisp* config_lisp = root->get_lisp("supertux-config");
   if(!config_lisp)
@@ -96,14 +96,7 @@ Config::load()
 void
 Config::save()
 {
-  std::string configfile = user_dir + "/config";
-  std::ofstream file( (user_dir + "/config").c_str() );
-  if(!file.good()) {
-    std::stringstream msg;
-    msg << "Couldn't write config file '" << configfile << "'";
-    throw std::runtime_error(msg.str());
-  }
-  lisp::Writer writer(file);
+  lisp::Writer writer("config");
 
   writer.start_list("supertux-config");
 

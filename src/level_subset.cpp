@@ -23,6 +23,7 @@
 #include <stdexcept>
 #include <assert.h>
 #include <unistd.h>
+#include <physfs.h>
 #include "level.h"
 #include "resources.h"
 #include "file_system.h"
@@ -30,6 +31,7 @@
 #include "level_subset.h"
 #include "lisp/parser.h"
 #include "lisp/lisp.h"
+#include "lisp/writer.h"
 
 static bool has_suffix(const std::string& data, const std::string& suffix)
 {
@@ -80,90 +82,55 @@ void LevelSubset::load(const std::string& subset)
 {
   name = subset;
   
-  // Check in which directory our subset is located (ie. ~/.supertux/
-  // or SUPERTUX_DATADIR)
-  std::string filename = get_resource_filename(
-      std::string("levels/") + subset + "/info");
-  if(filename == "") {
-    std::stringstream msg;
-    msg << "Couldn't find level subset '" << subset << "'.";
-    throw new std::runtime_error(msg.str());
-  }
- 
+  std::string infofile = subset + "/info";
   try {
-    read_info_file(filename);
+    read_info_file(infofile);
   } catch(std::exception& e) {
     std::stringstream msg;
-    msg << "Couldn't parse info file '" << filename << "': " << e.what();
-    throw new std::runtime_error(msg.str());
+    msg << "Couldn't parse info file '" << infofile << "': " << e.what();
+    throw std::runtime_error(msg.str());
   }
 
   // test is a worldmap exists
   has_worldmap = false;
-  std::string worldmap = get_resource_filename(
-      std::string("levels/") + subset + "/worldmap.stwm");
-  if(worldmap != "") {
+  std::string worldmap = subset + "/worldmap.stwm";
+  if(PHYSFS_exists(worldmap.c_str())) {
     has_worldmap = true;
   }
 
-  if (levels.empty())
-    { // Level info file doesn't define any levels, so read the
-      // directory to see what we can find
-      std::set<std::string> files;
-  
-      filename = datadir + "/levels/" + subset + "/";
-      files = FileSystem::read_directory(filename);
-
-      filename = user_dir + "/levels/" + subset + "/";
-      std::set<std::string> user_files = FileSystem::read_directory(filename);
-      files.insert(user_files.begin(), user_files.end());
-  
-      for(std::set<std::string>::iterator i = files.begin(); i != files.end(); ++i)
-        {
-          if (has_suffix(*i, ".stl"))
-            levels.push_back(get_resource_filename(
-                  std::string("levels/" + subset+ "/" + *i)));
-        }
+  if (levels.empty()) { 
+    // Level info file doesn't define any levels, so read the
+    // directory to see what we can find
+      
+    std::string path = subset + "/";
+    char** files = PHYSFS_enumerateFiles(path.c_str());
+    if(!files) {
+      std::cerr << "Warning: Couldn't read subset dir '" 
+                << path << "'.\n";
+      return;
     }
+
+    for(const char* const* filename = files; *filename != 0; ++filename) {
+      if(has_suffix(*filename, ".stl")) {
+        levels.push_back(path + *filename);
+      }
+    }
+    PHYSFS_freeList(files);
+  }
 }
 
 void
 LevelSubset::save()
 {
-  FILE* fi;
-  std::string filename;
-
   /* Save data file: */
-  filename = "/levels/" + name + "/";
+  std::string filename = name + "/info";
+  lisp::Writer writer(filename);
 
-  FileSystem::fcreatedir(filename.c_str());
-  filename = std::string(user_dir) + "/levels/" + name + "/info";
-  if(!FileSystem::fwriteable(filename.c_str()))
-    filename = datadir + "/levels/" + name + "/info";
-  if(FileSystem::fwriteable(filename.c_str()))
-    {
-      fi = fopen(filename.c_str(), "w");
-      if (fi == NULL)
-        {
-          perror(filename.c_str());
-        }
-
-      /* Write header: */
-      fprintf(fi,";; SuperTux-Level-Subset\n");
-      fprintf(fi,"(supertux-level-subset\n");
-
-      /* Save title info: */
-      fprintf(fi,"  (title \"%s\")\n", title.c_str());
-
-      /* Save the description: */
-      fprintf(fi,"  (description \"%s\")\n", description.c_str());
-
-      /* Save the hide from Contrbis menu boolean: */
-      fprintf(fi,"  (hide-from-contribs %s)\n", hide_from_contribs ? "#t" : "#f");
-
-      fprintf( fi,")");
-      fclose(fi);
-    }
+  writer.start_list("supertux-level-subset");
+  writer.write_string("title", title);
+  writer.write_string("description", description);
+  writer.write_bool("hide-from-contribs", hide_from_contribs);
+  writer.end_list("supertux-level-subset");
 }
 
 void
@@ -182,7 +149,7 @@ LevelSubset::get_level_filename(unsigned int num)
 std::string
 LevelSubset::get_worldmap_filename()
 {
-  return std::string("/levels/" + name + "/worldmap.stwm");
+  return std::string(name + "/worldmap.stwm");
 }
 
 int

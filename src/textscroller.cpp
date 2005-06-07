@@ -53,7 +53,7 @@ static void split_text(const std::string& text, std::vector<std::string>& lines)
   }
 }
 
-void display_text_file(const std::string& file)
+void display_text_file(const std::string& filename)
 {
   const Font* heading_font = white_big_text;
   const Font* normal_font = white_text;
@@ -66,7 +66,6 @@ void display_text_file(const std::string& file)
   std::string background_file;
   std::vector<std::string> lines;
 
-  std::string filename = datadir + "/" + file;
   lisp::Parser parser;
   try {
     std::auto_ptr<lisp::Lisp> root (parser.parse(filename));
@@ -91,8 +90,8 @@ void display_text_file(const std::string& file)
   split_text(text, lines);
 
   // load background image
-  Surface* background = new Surface(
-      get_resource_filename("images/background/" + background_file), false);
+  Surface* background 
+    = new Surface("images/background/" + background_file, false);
 
   bool done = false;
   float scroll = 0;

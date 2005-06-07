@@ -31,6 +31,7 @@
 #include <cmath>
 #include <SDL.h>
 #include <SDL_image.h>
+#include <physfs.h>
 
 #ifndef WIN32
 #include <sys/types.h>
@@ -115,7 +116,14 @@ void free_contrib_menu()
 void generate_contrib_menu()
 {
   /** Generating contrib levels list by making use of Level Subset  */
-  std::set<std::string> level_subsets = FileSystem::dsubdirs("/levels", "info");
+  std::vector<std::string> level_subsets; 
+  char** files = PHYSFS_enumerateFiles("levels/");
+  for(const char* const* filename = files; *filename != 0; ++filename) {
+    std::string filepath = std::string("levels/") + *filename;
+    if(PHYSFS_isDirectory(filepath.c_str()))
+      level_subsets.push_back(filepath);
+  }
+  PHYSFS_freeList(files);
 
   free_contrib_menu();
 
@@ -123,24 +131,26 @@ void generate_contrib_menu()
   contrib_menu->add_hl();
   
   int i = 0;
-  for (std::set<std::string>::iterator it = level_subsets.begin();
-      it != level_subsets.end(); ++it)
-    {
-      LevelSubset* subset = new LevelSubset();
+  for (std::vector<std::string>::iterator it = level_subsets.begin();
+      it != level_subsets.end(); ++it) {
+    try {
+      std::auto_ptr<LevelSubset> subset (new LevelSubset());
       subset->load(*it);
       if(subset->hide_from_contribs) {
-        delete subset;
         continue;
       }
-      contrib_menu->add_submenu(subset->title, contrib_subset_menu, i);
-      contrib_subsets.push_back(subset);
-      ++i;
+      contrib_menu->add_submenu(subset->title, contrib_subset_menu, i++);
+      contrib_subsets.push_back(subset.release());
+    } catch(std::exception& e) {
+#ifdef DEBUG
+      std::cerr << "Couldn't parse levelset info for '"
+        << *it << "': " << e.what() << "\n";
+#endif
     }
+  }
 
   contrib_menu->add_hl();
   contrib_menu->add_back(_("Back"));
-  
-  level_subsets.clear();
 }
 
 std::string get_level_name(const std::string& filename)
@@ -184,7 +194,7 @@ void check_levels_contrib_menu()
     context.do_drawing();
 
     // TODO: slots should be available for contrib maps
-    worldmap.loadgame(user_dir + "/save/" + subset.name + "-slot1.stsg");
+    worldmap.loadgame("save/" + subset.name + "-slot1.stsg");
     worldmap.display();  // run the map
 
     Menu::set_current(main_menu);
@@ -275,13 +285,12 @@ void title()
   MusicRef credits_music;
   controller = new CodeController();
 
-  titlesession = new GameSession(get_resource_filename("levels/misc/menu.stl"),
-      ST_GL_DEMO_GAME);
+  titlesession = new GameSession("levels/misc/menu.stl", ST_GL_DEMO_GAME);
 
   /* Load images: */
-  bkg_title = new Surface(datadir + "/images/background/arctis.jpg", false);
-  logo = new Surface(datadir + "/images/engine/menu/logo.png", true);
-  //img_choose_subset = new Surface(datadir + "/images/status/choose-level-subset.png", true);
+  bkg_title = new Surface("images/background/arctis.jpg", false);
+  logo = new Surface("images/engine/menu/logo.png", true);
+  //img_choose_subset = new Surface("images/status/choose-level-subset.png", true);
 
   titlesession->get_current_sector()->activate("main");
   titlesession->set_current();
@@ -375,7 +384,7 @@ void title()
                 case MNID_CREDITS:
                   fadeout(500);
                   credits_music = sound_manager->load_music(
-                    get_resource_filename("/music/credits.ogg"));
+                      "/music/credits.ogg");
                   sound_manager->play_music(credits_music);
                   display_text_file("credits.txt");
                   fadeout(500);
@@ -399,12 +408,11 @@ void title()
                 stream << slot;
                 std::string str = _("Are you sure you want to delete slot") + stream.str() + "?";
                 
-                if(confirm_dialog(bkg_title, str.c_str()))
-                  {
-                  str = user_dir + "/save/slot" + stream.str() + ".stsg";
+                if(confirm_dialog(bkg_title, str.c_str())) {
+                  str = "save/slot" + stream.str() + ".stsg";
                   printf("Removing: %s\n",str.c_str());
-                  remove(str.c_str());
-                  }
+                  PHYSFS_delete(str.c_str());
+                }
 
                 update_load_save_game_menu(load_game_menu);
                 Menu::set_current(main_menu);

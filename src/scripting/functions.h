@@ -12,6 +12,10 @@ void set_wakeup_time(float seconds);
  * files)
  */
 std::string translate(const std::string& text);
+/** load a script file and executes it 
+ * This is typically used to import functions from external files.
+ * */
+void import(HSQUIRRELVM v, const std::string& filename);
 
 }
 

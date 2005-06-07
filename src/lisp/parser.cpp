@@ -26,6 +26,8 @@
 #include <iostream>
 
 #include "tinygettext/tinygettext.h"
+#include "physfs/physfs_stream.h"
+#include "resources.h"
 #include "parser.h"
 #include "lisp.h"
 #include "file_system.h"
@@ -51,7 +53,7 @@ Parser::~Parser()
 Lisp*
 Parser::parse(const std::string& filename)
 {
-  std::ifstream in(filename.c_str());
+  IFileStream in(filename);
   if(!in.good()) {
     std::stringstream msg;
     msg << "Parser problem: Couldn't open file '" << filename << "'.";
@@ -115,7 +117,7 @@ Parser::read()
         // evaluate translation function (_ str) in place here
         token = lexer->getNextToken();
         if(token != Lexer::TOKEN_STRING)
-          throw new std::runtime_error("Expected string after '(_'");
+          throw std::runtime_error("Expected string after '(_'");
         
         result = new Lisp(Lisp::TYPE_STRING);
         if(dictionary) {
@@ -129,7 +131,7 @@ Parser::read()
         }
         token = lexer->getNextToken();
         if(token != Lexer::TOKEN_CLOSE_PAREN)
-          throw new std::runtime_error("Expected ')' after '(_ string'");
+          throw std::runtime_error("Expected ')' after '(_ string'");
         break;
       }
 

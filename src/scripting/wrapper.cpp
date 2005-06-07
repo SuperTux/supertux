@@ -439,10 +439,22 @@ static int translate_wrapper(HSQUIRRELVM v)
   return 1;
 }
 
+static int import_wrapper(HSQUIRRELVM v)
+{
+  HSQUIRRELVM arg0 = v;
+  const char* arg1;
+  sq_getstring(v, 4, &arg1);
+  
+  Scripting::import(arg0, arg1);
+  
+  return 0;
+}
+
 WrappedFunction supertux_global_functions[] = {
   { "display_text_file", &display_text_file_wrapper },
   { "set_wakeup_time", &set_wakeup_time_wrapper },
   { "translate", &translate_wrapper },
+  { "import", &import_wrapper },
   { 0, 0 }
 };
 

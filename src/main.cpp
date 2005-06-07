@@ -32,9 +32,7 @@
 #include <dirent.h>
 #include <unistd.h>
 #include <assert.h>
-#ifndef WIN32
-#include <libgen.h>
-#endif
+#include <physfs.h>
 #include <SDL.h>
 #include <SDL_mixer.h>
 #include <SDL_image.h>
@@ -50,10 +48,7 @@
 #include "title.h"
 #include "game_session.h"
 #include "file_system.h"
-
-#ifdef WIN32
-#define mkdir(dir, mode)    mkdir(dir)
-#endif
+#include "physfs/physfs_sdl.h"
 
 SDL_Surface* screen = 0;
 JoystickKeyboardController* main_controller = 0;
@@ -71,73 +66,110 @@ static void init_config()
   }
 }
 
-static void find_directories()
-{
-  const char* home = getenv("HOME");
-  if(home == 0) {
-#ifdef DEBUG
-    std::cerr << "Couldn't find home directory.\n";
-#endif
-    home = ".";
-  }
-
-  user_dir = home;
-  user_dir += "/.supertux";
-
-  // create directories
-  std::string savedir = user_dir + "/save";
-  mkdir(user_dir.c_str(), 0755);
-  mkdir(savedir.c_str(), 0755);
-
-  // try current directory as datadir
-  if(datadir.empty()) {
-    if(FileSystem::faccessible("./data/credits.txt")) {
-      datadir = "./data/";
-    }
-  }
-
-  // Detect datadir with some linux magic
-  if(datadir.empty()) {
-    std::string exedir;
-#ifdef WIN32
-    exedir = ".";
-#else
-    char exe_file[PATH_MAX];
-    if(readlink("/proc/self/exe", exe_file, PATH_MAX) >= 0) {
-      exedir = std::string(dirname(exe_file));
-    } else {
-#ifdef DEBUG
-      std::cerr << "Couldn't read /proc/self/exe \n";
-#endif
-      exedir = ".";
-    }
-#endif
-    std::string testdir = exedir + "/data/";
-    if(access(testdir.c_str(), F_OK) == 0) {
-      datadir = testdir;
-    }
-    
-    testdir = exedir + "/../share/supertux/";
-    if(datadir.empty() && access(testdir.c_str(), F_OK) == 0) {
-      datadir = testdir;
-    }
-  }  
-  
-#ifdef DATA_PREFIX
-  // use default location
-  if(datadir.empty()) {
-    datadir = DATA_PREFIX;
-  }
-#endif
-
-  if(datadir.empty())
-    throw std::runtime_error("Couldn't find datadir");
-}
-
 static void init_tinygettext()
 {
-  dictionary_manager.add_directory(datadir + "/locale");
+  dictionary_manager.add_directory("locale");
   dictionary_manager.set_charset("UTF-8");
+}
+
+static void init_physfs(const char* argv0)
+{
+  if(!PHYSFS_init(argv0)) {
+    std::stringstream msg;
+    msg << "Couldn't initialize physfs: " << PHYSFS_getLastError();
+    throw std::runtime_error(msg.str());
+  }
+
+  // Initialize physfs (this is a slightly modified version of
+  // PHYSFS_setSaneConfig
+  const char* application = PACKAGE_NAME;
+  const char* userdir = PHYSFS_getUserDir();
+  const char* dirsep = PHYSFS_getDirSeparator();
+  char* writedir = new char[strlen(userdir) + strlen(application) + 2];
+
+  // Set configuration directory
+  sprintf(writedir, "%s.%s", userdir, application);
+  if(!PHYSFS_setWriteDir(writedir)) {
+    // try to create the directory
+    char* mkdir = new char[strlen(application) + 2];
+    sprintf(mkdir, ".%s", application);
+    if(!PHYSFS_setWriteDir(userdir) || !PHYSFS_mkdir(mkdir)) {
+      std::ostringstream msg;
+      msg << "Failed creating configuration directory '" 
+          << writedir << "': " << PHYSFS_getLastError();
+      delete[] writedir;
+      delete[] mkdir;
+      throw std::runtime_error(msg.str());
+    }
+    delete[] mkdir;
+    
+    if(!PHYSFS_setWriteDir(writedir)) {
+      std::ostringstream msg;
+      msg << "Failed to use configuration directory '" 
+          <<  writedir << "': " << PHYSFS_getLastError();
+      delete[] writedir;
+      throw std::runtime_error(msg.str());
+    }
+  }
+  PHYSFS_addToSearchPath(writedir, 0);
+  delete[] writedir;
+
+  // Search for archives and add them to the search path
+  const char* archiveExt = "zip";
+  char** rc = PHYSFS_enumerateFiles("/");
+  size_t extlen = strlen(archiveExt);
+
+  for(char** i = rc; *i != 0; ++i) {
+    size_t l = strlen(*i);
+    if((l > extlen) && ((*i)[l - extlen - 1] == '.')) {
+      const char* ext = (*i) + (l - extlen);
+      if(strcasecmp(ext, archiveExt) == 0) {
+        const char* d = PHYSFS_getRealDir(*i);
+        char* str = new char[strlen(d) + strlen(dirsep) + l + 1];
+        sprintf(str, "%s%s%s", d, dirsep, *i);
+        PHYSFS_addToSearchPath(str, 1);
+        delete[] str;
+      }
+    }
+  }
+  
+  PHYSFS_freeList(rc);
+
+  // when started from source dir...
+  std::string dir = PHYSFS_getBaseDir();
+  dir += "/data";
+  std::string testfname = dir;
+  testfname += "/credits.txt";
+  FILE* f = fopen(testfname.c_str(), "r");
+  if(f) {
+    fclose(f);
+    if(!PHYSFS_addToSearchPath(dir.c_str(), 1)) {
+      std::cout << "Warning: Couldn't add '" << dir 
+                << "' to physfs searchpath: " << PHYSFS_getLastError() << "\n";
+    }
+  }
+
+#if defined(APPDATADIR) || defined(ENABLE_BINRELOC)
+  std::string datadir;
+#ifdef ENABLE_BINRELOC
+  char* brdatadir = br_strcat(DATADIR, "/" PACKAGE_NAME);
+  datadir = brdatadir;
+  free(brdatadir);
+#else
+  datadir = APPDATADIR;
+#endif
+  if(!PHYSFS_addToSearchPath(datadir.c_str(), 1)) {
+    std::cout << "Couldn't add '" << datadir
+              << "' to physfs searchpath: " << PHYSFS_getLastError() << "\n";
+  }
+#endif
+
+  // allow symbolic links
+  PHYSFS_permitSymbolicLinks(1);
+
+  //show search Path
+  for(char** i = PHYSFS_getSearchPath(); *i != NULL; i++)
+    printf("[%s] is in the search path.\n", *i);
 }
 
 static void print_usage(const char* argv0)
@@ -284,8 +316,8 @@ void init_video()
   SDL_WM_SetCaption(PACKAGE_NAME " " PACKAGE_VERSION, 0);
 
   // set icon
-  SDL_Surface* icon = IMG_Load(
-    get_resource_filename("images/engine/icons/supertux.xpm").c_str());
+  SDL_Surface* icon = IMG_Load_RW(
+      get_physfs_SDLRWops("images/engine/icons/supertux.xpm"), true);
   if(icon != 0) {
     SDL_WM_SetIcon(icon, 0);
     SDL_FreeSurface(icon);
@@ -389,9 +421,9 @@ int main(int argc, char** argv)
   try {
 #endif
     srand(time(0));
+    init_physfs(argv[0]);
     init_sdl();
     main_controller = new JoystickKeyboardController();    
-    find_directories();
     init_config();
     init_tinygettext();
     parse_commandline(argc, argv);
@@ -401,7 +433,12 @@ int main(int argc, char** argv)
     setup_menu();
     load_shared();
     if(config->start_level != "") {
-      GameSession session(config->start_level, ST_GL_LOAD_LEVEL_FILE);
+      // we have a normal path specified at commandline not physfs paths.
+      // So we simply mount that path here...
+      std::string dir = FileSystem::dirname(config->start_level);
+      PHYSFS_addToSearchPath(dir.c_str(), true);
+      GameSession session(
+          FileSystem::basename(config->start_level), ST_GL_LOAD_LEVEL_FILE);
       if(config->start_demo != "")
         session.play_demo(config->start_demo);
       if(config->record_demo != "")
@@ -434,6 +471,7 @@ int main(int argc, char** argv)
   delete config;
   delete main_controller;
   SDL_Quit();
+  PHYSFS_deinit();
   
   return 0;
 }

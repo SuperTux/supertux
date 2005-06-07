@@ -21,8 +21,7 @@ public:
   void draw(DrawingContext& );
   void update(float );
 
-  void load_script(std::istream& in, const std::string& sourcename = "");
-  void start_script();
+  void run_script(std::istream& in, const std::string& sourcename = "");
   
   void expose_object(void* object, const std::string& name,
                      const std::string& type);

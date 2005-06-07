@@ -784,8 +784,7 @@ Sector::add_floating_text(const Vector& pos, const std::string& text)
 void
 Sector::load_music()
 {
-  level_song = sound_manager->load_music(
-    get_resource_filename("/music/" + song_title));
+  level_song = sound_manager->load_music("/music/" + song_title);
 }
 
 void

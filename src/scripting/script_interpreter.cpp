@@ -5,6 +5,7 @@
 #include <stdarg.h>
 #include <stdexcept>
 #include <sstream>
+#include <fstream>
 #include <sqstdio.h>
 #include <sqstdaux.h>
 #include <sqstdblob.h>
@@ -17,6 +18,8 @@
 #include "sector.h"
 #include "file_system.h"
 #include "game_session.h"
+#include "resources.h"
+#include "physfs/physfs_stream.h"
 #include "object/text_object.h"
 #include "object/scripted_object.h"
 #include "object/display_effect.h"
@@ -115,17 +118,12 @@ static SQInteger squirrel_read_char(SQUserPointer file)
   return c;
 }
 
-
 void
-ScriptInterpreter::load_script(std::istream& in, const std::string& sourcename)
+ScriptInterpreter::run_script(std::istream& in, const std::string& sourcename)
 {
   if(sq_compile(v, squirrel_read_char, &in, sourcename.c_str(), true) < 0)
     throw SquirrelError(v, "Couldn't parse script");
-}
-
-void
-ScriptInterpreter::start_script()
-{
+ 
   _current = this;
   sq_push(v, -2);
   if(sq_call(v, 1, false) < 0)
@@ -202,12 +200,22 @@ ScriptInterpreter::add_script_object(Sector* sector, const std::string& name,
     const std::string& script)
 {
   try {
-    std::auto_ptr<ScriptInterpreter> interpreter
-      (new ScriptInterpreter(GameSession::current()->get_working_directory()));
+    std::string workdir = GameSession::current()->get_working_directory();
+    std::auto_ptr<ScriptInterpreter> interpreter(
+		new ScriptInterpreter(workdir));
     interpreter->register_sector(sector);
+
+    // load default.nut file if it exists
+    try {
+      std::string filename = workdir + "/default.nut";
+      IFileStream in(filename);
+      interpreter->run_script(in, filename);
+    } catch(std::exception& e) {
+      // nothing
+    }
+	
     std::istringstream in(script);
-    interpreter->load_script(in, name);
-    interpreter->start_script();
+    interpreter->run_script(in, name);
     sector->add_object(interpreter.release());
   } catch(std::exception& e) {
     std::cerr << "Couldn't start '" << name << "' script: " << e.what() << "\n";

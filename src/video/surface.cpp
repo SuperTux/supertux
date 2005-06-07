@@ -29,6 +29,7 @@
 #include <SDL_image.h>
 
 #include "gameconfig.h"
+#include "physfs/physfs_sdl.h"
 #include "video/surface.h"
 #include "video/screen.h"
 
@@ -295,7 +296,7 @@ sdl_surface_part_from_file(const std::string& file, int x, int y, int w, int h, 
   SDL_Surface * temp;
   SDL_Surface * conv;
 
-  temp = IMG_Load(file.c_str());
+  temp = IMG_Load_RW(get_physfs_SDLRWops(file), true);
   if (temp == 0) {
     std::stringstream msg;
     msg << "Couldn't load '" << file << "': " << SDL_GetError();
@@ -344,7 +345,7 @@ sdl_surface_from_file(const std::string& file, bool use_alpha)
   SDL_Surface* sdl_surface;
   SDL_Surface* temp;
 
-  temp = IMG_Load(file.c_str());
+  temp = IMG_Load_RW(get_physfs_SDLRWops(file), true);
   if (temp == 0) {
     std::stringstream msg;
     msg << "Couldn't load file '" << file << "': " << SDL_GetError();

@@ -20,12 +20,13 @@
 
 #include <sys/types.h>
 #include <iconv.h>
-#include <dirent.h>
 #include <fstream>
 #include <iostream>
 #include <ctype.h>
 #include <errno.h>
+
 #include "tinygettext.h"
+#include "physfs/physfs_stream.h"
 
 //#define TRANSLATION_DEBUG
 
@@ -34,7 +35,7 @@ namespace TinyGetText {
 /** Convert \a which is in \a from_charset to \a to_charset and return it */
 std::string convert(const std::string& text,
                     const std::string& from_charset,
-                    const std::string& to_charset)           
+                    const std::string& to_charset)
 {
   if (from_charset == to_charset)
     return text;
@@ -42,7 +43,7 @@ std::string convert(const std::string& text,
   iconv_t cd = iconv_open(to_charset.c_str(), from_charset.c_str());
   
   size_t in_len = text.length();
-  size_t out_len = text.length()*3; // FIXME: cross fingers that this is enough	
+  size_t out_len = text.length()*3; // FIXME: cross fingers that this is enough
 
   char*  out_orig = new char[out_len];
   char*  in_orig  = new char[in_len+1];
@@ -244,31 +245,27 @@ DictionaryManager::get_dictionary(const std::string& spec)
 
       for (SearchPath::iterator p = search_path.begin(); p != search_path.end(); ++p)
         {
-          DIR* dir = opendir(p->c_str());
-          if (!dir)
+          char** files = PHYSFS_enumerateFiles(p->c_str());
+          if(!files) 
             {
-              std::cerr << "Error: opendir() failed on " << *p << std::endl;
+              std::cerr << "Error: enumerateFiles() failed on " << *p << std::endl;
             }
           else
             {
-              struct dirent* ent;
-              while((ent = readdir(dir)))
-                {
-                  if (std::string(ent->d_name) == lang + ".po")
-                    {
-                      std::string pofile = *p + "/" + ent->d_name;
-                      std::ifstream in(pofile.c_str());
-                      if (!in)
-                        {
-                          std::cerr << "Error: Failure file opening: " << pofile << std::endl;
-                        }
-                      else
-                        {
-                          read_po_file(dict, in);
-                        }
-                    }
+              for(const char* const* filename = files;
+                      *filename != 0; filename++) {
+                if(std::string(*filename) == lang + ".po") {
+                  std::string pofile = *p + "/" + *filename;
+                  try {
+                      IFileStream in(pofile);
+                      read_po_file(dict, in);
+                  } catch(std::exception& e) {
+                      std::cerr << "Error: Failure file opening: " << pofile << std::endl;
+                      std::cerr << e.what() << "\n";
+                  }
                 }
-              closedir(dir);
+              }
+              PHYSFS_freeList(files);
             }
         }
 
@@ -283,23 +280,20 @@ DictionaryManager::get_languages()
 
   for (SearchPath::iterator p = search_path.begin(); p != search_path.end(); ++p)
     {
-      DIR* dir = opendir(p->c_str());
-      if (!dir)
+      char** files = PHYSFS_enumerateFiles(p->c_str());
+      if (!files)
         {
           std::cerr << "Error: opendir() failed on " << *p << std::endl;
         }
       else
         {
-          struct dirent* ent;
-          while((ent = readdir(dir)))
-            {
-              if (has_suffix(ent->d_name, ".po"))
-                {
-                  std::string filename = ent->d_name;
+          for(const char* const* file = files; *file != 0; file++) {
+              if(has_suffix(*file, ".po")) {
+                  std::string filename = *file;
                   languages.insert(filename.substr(0, filename.length()-3));
-                }
-            }
-          closedir(dir);
+              }
+          }
+          PHYSFS_freeList(files);
         }
     }  
   return languages;
@@ -310,6 +304,12 @@ DictionaryManager::set_language(const std::string& lang)
 {
   language = get_language_from_spec(lang);
   current_dict = & (get_dictionary(language));
+}
+
+const std::string&
+DictionaryManager::get_language() const
+{
+  return language;
 }
 
 void
@@ -417,6 +417,23 @@ Dictionary::translate(const std::string& msgid, const std::string& msgid2, int n
     }
 }
 
+const char*
+Dictionary::translate(const char* msgid)
+{
+  Entries::iterator i = entries.find(msgid);
+  if (i != entries.end() && !i->second.empty())
+    {
+      return i->second.c_str();
+    }
+  else
+    {
+#ifdef TRANSLATION_DBEUG
+      std::cout << "Error: Couldn't translate: " << msgid << std::endl;
+#endif
+      return msgid;
+    }
+}
+
 std::string
 Dictionary::translate(const std::string& msgid) 
 {
@@ -432,20 +449,6 @@ Dictionary::translate(const std::string& msgid)
 #endif
       return msgid;
     }
-}
-
-const char*
-Dictionary::translate(const char* msgid)
-{
-  Entries::iterator i = entries.find(msgid);
-  if(i == entries.end() || i->second.empty()) {
-#ifdef TRANSLATION_DBEUG
-    std::cout << "Error: Couldn't translate: " << msgid << std::endl;
-#endif                                                                     
-    return msgid;
-  }
-
-  return i->second.c_str();
 }
   
 void
@@ -493,10 +496,10 @@ public:
     line_num = 0;
     char c = in.get();
     if(c == (char) 0xef) { // skip UTF-8 intro that some texteditors produce
-      in.get();
-      in.get();
+        in.get();
+        in.get();
     } else {
-      in.unget();
+        in.unget();
     }
     tokenize_po(in);
   }
@@ -532,8 +535,8 @@ public:
 
     to_charset = dict.get_charset();
     if (to_charset.empty())
-      { // No charset requested from the dict, so we use the one from the .po 
-        to_charset = from_charset;
+      { // No charset requested from the dict, use utf-8
+        to_charset = "utf-8";
         dict.set_charset(from_charset);
       }
   }

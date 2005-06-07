@@ -765,7 +765,7 @@ std::string slotinfo(int slot)
   std::string title;
   std::stringstream stream;
   stream << slot;
-  slotfile = user_dir + "/save/slot" + stream.str() + ".stsg";
+  slotfile = "save/slot" + stream.str() + ".stsg";
 
   try {
     lisp::Parser parser;
@@ -796,7 +796,7 @@ bool process_load_game_menu()
   
   std::stringstream stream;
   stream << slot;
-  std::string slotfile = user_dir + "/save/slot" + stream.str() + ".stsg";
+  std::string slotfile = "save/slot" + stream.str() + ".stsg";
 
   fadeout(256);
   DrawingContext context;

@@ -27,9 +27,6 @@
 #include "object/gameobjs.h"
 #include "object/player.h"
 
-std::string datadir;
-std::string user_dir;
-
 MusicRef herring_song;
 MusicRef level_end_song;
 MusicRef credits_song;
@@ -52,29 +49,26 @@ Font* white_big_text;
 void load_shared()
 {
   /* Load GUI/menu images: */
-  checkbox = new Surface(datadir + "/images/engine/menu/checkbox-unchecked.png", true);
-  checkbox_checked = new Surface(datadir + "/images/engine/menu/checkbox-checked.png", true);
-  back = new Surface(datadir + "/images/engine/menu/arrow-back.png", true);
-  arrow_left = new Surface(datadir + "/images/engine/menu/arrow-left.png", true);
-  arrow_right = new Surface(datadir + "/images/engine/menu/arrow-right.png", true);
+  checkbox = new Surface("images/engine/menu/checkbox-unchecked.png", true);
+  checkbox_checked = new Surface("images/engine/menu/checkbox-checked.png", true);
+  back = new Surface("images/engine/menu/arrow-back.png", true);
+  arrow_left = new Surface("images/engine/menu/arrow-left.png", true);
+  arrow_right = new Surface("images/engine/menu/arrow-right.png", true);
 
   /* Load the mouse-cursor */
-  mouse_cursor = new MouseCursor(datadir + "/images/engine/menu/mousecursor.png");
+  mouse_cursor = new MouseCursor("images/engine/menu/mousecursor.png");
   MouseCursor::set_current(mouse_cursor);
 
   /* Load global images: */
-  gold_text = new Font(datadir + "/images/engine/fonts/gold.png", Font::TEXT, 16,18);
-  blue_text = new Font(datadir + "/images/engine/fonts/blue.png", Font::TEXT, 16,18,3);
-  white_text  = new Font(datadir + "/images/engine/fonts/white.png",
-                         Font::TEXT, 16,18);
-  gray_text  = new Font(datadir + "/images/engine/fonts/gray.png",
-                        Font::TEXT, 16,18);
-  white_small_text = new Font(datadir + "/images/engine/fonts/white-small.png",
+  gold_text = new Font("images/engine/fonts/gold.png", Font::TEXT, 16,18);
+  blue_text = new Font("images/engine/fonts/blue.png", Font::TEXT, 16,18,3);
+  white_text  = new Font("images/engine/fonts/white.png", Font::TEXT, 16,18);
+  gray_text  = new Font("images/engine/fonts/gray.png", Font::TEXT, 16,18);
+  white_small_text = new Font("images/engine/fonts/white-small.png",
                               Font::TEXT, 8,9, 1);
-  white_big_text   = new Font(datadir + "/images/engine/fonts/white-big.png",
+  white_big_text   = new Font("images/engine/fonts/white-big.png",
                               Font::TEXT, 20,22, 3);
-  yellow_nums = new Font(datadir + "/images/engine/fonts/numbers.png",
-                         Font::NUM, 32,32);
+  yellow_nums = new Font("images/engine/fonts/numbers.png", Font::NUM, 32,32);
 
   Menu::default_font = white_text;
   Menu::active_font = blue_text;
@@ -84,18 +78,17 @@ void load_shared()
   
   Button::info_font = white_small_text;
 
-  sprite_manager = new SpriteManager(
-      get_resource_filename("/images/sprites.strf"));
-  tile_manager = new TileManager("/images/tiles.strf");
+  sprite_manager = new SpriteManager("images/sprites.strf");
+  tile_manager = new TileManager("images/tiles.strf");
 
   /* Tuxes: */
   char img_name[1024];
   for (int i = 0; i < GROWING_FRAMES; i++)
     {
-      sprintf(img_name, "%s/images/creatures/tux_grow/left-%i.png", datadir.c_str(), i+1);
+      sprintf(img_name, "images/creatures/tux_grow/left-%i.png", i+1);
       growingtux_left[i] = new Surface(img_name, true);
 
-      sprintf(img_name, "%s/images/creatures/tux_grow/right-%i.png", datadir.c_str(), i+1);
+      sprintf(img_name, "images/creatures/tux_grow/right-%i.png", i+1);
       growingtux_right[i] = new Surface(img_name, true);
     }
 
@@ -127,8 +120,7 @@ void load_shared()
   load_object_gfx();
 
   /* Tux life: */
-  tux_life = new Surface(datadir + "/images/creatures/tux_small/tux-life.png",
-                         true);
+  tux_life = new Surface("images/creatures/tux_small/tux-life.png", true);
 
   /* Sound effects: */
   sound_manager->preload_sound("jump");
@@ -154,8 +146,8 @@ void load_shared()
   sound_manager->preload_sound("fireworks");
 
   /* Herring song */
-  herring_song = sound_manager->load_music(datadir + "/music/salcon.mod");
-  level_end_song = sound_manager->load_music(datadir + "/music/leveldone.mod");
+  herring_song = sound_manager->load_music("music/salcon.mod");
+  level_end_song = sound_manager->load_music("music/leveldone.mod");
 }
 
 /* Free shared data: */
@@ -200,16 +192,3 @@ void unload_shared()
   delete mouse_cursor;
 }
 
-std::string get_resource_filename(const std::string& resource)
-{
-  std::string filepath = user_dir + "/" + resource;
-  if(FileSystem::faccessible(filepath))
-    return filepath;
-  
-  filepath = datadir + resource;
-  if(FileSystem::faccessible(filepath))
-    return filepath;
-
-  std::cerr << "Couldn't find resource: '" << resource  << "'." << std::endl;
-  return "";
-}

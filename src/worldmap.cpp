@@ -352,14 +352,10 @@ WorldMap::WorldMap()
   tux = new Tux(this);
   add_object(tux);
     
-  leveldot_green
-    = new Surface(datadir + "/images/tiles/worldmap/leveldot_green.png", true);
-  leveldot_red
-    = new Surface(datadir + "/images/tiles/worldmap/leveldot_red.png", true);
-  messagedot
-    = new Surface(datadir + "/images/tiles/worldmap/messagedot.png", true);
-  teleporterdot
-    = new Surface(datadir + "/images/tiles/worldmap/teleporterdot.png", true);
+  leveldot_green= new Surface("images/tiles/worldmap/leveldot_green.png", true);
+  leveldot_red = new Surface("images/tiles/worldmap/leveldot_red.png", true);
+  messagedot = new Surface("images/tiles/worldmap/messagedot.png", true);
+  teleporterdot = new Surface("images/tiles/worldmap/teleporterdot.png", true);
 
   name = "<no title>";
   music = "salcon.mod";
@@ -415,12 +411,11 @@ WorldMap::load_map()
 
   try {
     lisp::Parser parser;
-    std::string filename = get_resource_filename(map_filename);
-    std::auto_ptr<lisp::Lisp> root (parser.parse(filename));
+    std::auto_ptr<lisp::Lisp> root (parser.parse(map_filename));
 
     const lisp::Lisp* lisp = root->get_lisp("supertux-worldmap");
     if(!lisp)
-      throw new std::runtime_error("file isn't a supertux-worldmap file.");
+      throw std::runtime_error("file isn't a supertux-worldmap file.");
 
     clear_objects();
     lisp::ListIterator iter(lisp);
@@ -548,8 +543,7 @@ WorldMap::get_level_title(Level& level)
 
   try {
     lisp::Parser parser;
-    std::auto_ptr<lisp::Lisp> root (
-        parser.parse(get_resource_filename(levels_path + level.name)));
+    std::auto_ptr<lisp::Lisp> root (parser.parse(levels_path + level.name));
 
     const lisp::Lisp* level_lisp = root->get_lisp("supertux-level");
     if(!level_lisp)
@@ -745,7 +739,7 @@ WorldMap::update(float delta)
           // do a shriking fade to the level
           shrink_fade(Vector((level->pos.x*32 + 16 + offset.x),
                              (level->pos.y*32 + 16 + offset.y)), 500);
-          GameSession session(get_resource_filename(levels_path + level->name),
+          GameSession session(levels_path + level->name,
                               ST_GL_LOAD_LEVEL_FILE, &level->statistics);
 
           switch (session.run())
@@ -847,8 +841,7 @@ WorldMap::update(float delta)
             std::auto_ptr<ScriptInterpreter> interpreter 
               (new ScriptInterpreter(levels_path));
             std::istringstream in(level->extro_script);
-            interpreter->load_script(in, "level-extro-script");
-            interpreter->start_script();
+            interpreter->run_script(in, "level-extro-script");
             add_object(interpreter.release());
           } catch(std::exception& e) {
             std::cerr << "Couldn't run level-extro-script:" << e.what() << "\n";
@@ -992,7 +985,7 @@ WorldMap::display()
 
   quit = false;
 
-  song = sound_manager->load_music(datadir +  "/music/" + music);
+  song = sound_manager->load_music("music/" + music);
   sound_manager->play_music(song);
 
   if(!intro_displayed && intro_script != "") {
@@ -1000,8 +993,7 @@ WorldMap::display()
       std::auto_ptr<ScriptInterpreter> interpreter 
         (new ScriptInterpreter(levels_path));
       std::istringstream in(intro_script);
-      interpreter->load_script(in, "worldmap-intro-script");
-      interpreter->start_script();
+      interpreter->run_script(in, "worldmap-intro-script");
       add_object(interpreter.release());
     } catch(std::exception& e) {
       std::cerr << "Couldn't execute worldmap-intro-script: "
@@ -1058,8 +1050,7 @@ WorldMap::savegame(const std::string& filename)
   if(filename == "")
     return;
 
-  std::ofstream file(filename.c_str(), std::ios::out);
-  lisp::Writer writer(file);
+  lisp::Writer writer(filename);
 
   int nb_solved_levels = 0, total_levels = 0;
   for(Levels::iterator i = levels.begin(); i != levels.end(); ++i) {

@@ -23,10 +23,12 @@
 #include <iostream>
 #include <stdexcept>
 #include <sstream>
+#include <physfs.h>
 
 #include "audio/sound_manager.h"
 
 #include "audio/musicref.h"
+#include "physfs/physfs_sdl.h"
 #include "moving_object.h"
 #include "resources.h"
 
@@ -122,25 +124,28 @@ SoundManager::load_music(const std::string& file)
 }
 
 bool
-SoundManager::exists_music(const std::string& file)
+SoundManager::exists_music(const std::string& filename)
 {
   if(!audio_device)
     return true;
   
   // song already loaded?
-  std::map<std::string, MusicResource>::iterator i = musics.find(file);
+  std::map<std::string, MusicResource>::iterator i = musics.find(filename);
   if(i != musics.end()) {
     return true;                                      
   }
-  
-  Mix_Music* song = Mix_LoadMUS(file.c_str());
+ 
+  const char* dir = PHYSFS_getRealDir(filename.c_str());
+  if(dir == 0)
+    return false;
+  Mix_Music* song = Mix_LoadMUS( (std::string(dir) + "/" + filename).c_str() );
   if(song == 0)
     return false;
 
   // insert into music list
   std::pair<std::map<std::string, MusicResource>::iterator, bool> result = 
     musics.insert(
-        std::make_pair<std::string, MusicResource> (file, MusicResource()));
+        std::make_pair<std::string, MusicResource> (filename, MusicResource()));
   MusicResource& resource = result.first->second;
   resource.manager = this;
   resource.music = song;
@@ -236,9 +241,8 @@ Mix_Chunk* SoundManager::preload_sound(const std::string& name)
   std::string filename = "sounds/";
   filename += name;
   filename += ".wav";
-  filename = get_resource_filename(filename);
   
-  Mix_Chunk* chunk = Mix_LoadWAV(filename.c_str());
+  Mix_Chunk* chunk = Mix_LoadWAV_RW(get_physfs_SDLRWops(filename), true);
   if(chunk != 0) {
     sounds.insert(std::make_pair(name, chunk));
   }

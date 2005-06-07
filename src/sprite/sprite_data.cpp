@@ -108,8 +108,7 @@ SpriteData::parse_action(const lisp::Lisp* lisp)
     }
 
     for(std::vector<std::string>::size_type i = 0; i < images.size(); i++) {
-      action->surfaces.push_back(
-          new Surface(datadir + "/images/" + images[i], true));
+      action->surfaces.push_back(new Surface("images/" + images[i], true));
     }
   }
   actions[action->name] = action;

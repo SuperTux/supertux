@@ -57,16 +57,6 @@ extern Font* white_small_text;
 extern Font* white_big_text;
 extern Font* yellow_nums;
 
-extern std::string datadir;
-extern std::string user_dir;
-
-/** maps a virtual resource path to a real path (ie. levels/bla is mapped to
- * $DATADIR/levels/bla or $HOME/.supertux/levels/bla)
- * All paths inside the game should be handled in as virtual paths and then
- * expanded with this function just before the call to fopen or std::ifstream.
- */
-std::string get_resource_filename(const std::string& resource);
-
 void load_shared();
 void unload_shared();
 

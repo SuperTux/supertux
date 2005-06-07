@@ -56,8 +56,7 @@ void TileManager::load_tileset(std::string filename)
   }
  
   lisp::Parser parser;
-  std::auto_ptr<lisp::Lisp> root (parser.parse(
-        get_resource_filename(filename)));
+  std::auto_ptr<lisp::Lisp> root (parser.parse(filename));
 
   const lisp::Lisp* tiles_lisp = root->get_lisp("supertux-tiles");
   if(!tiles_lisp)

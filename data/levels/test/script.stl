@@ -138,10 +138,6 @@
          (solid #f)
        )
        (init-script "
-function wait(time) {
-    set_wakeup_time(time);
-    suspend();
-}
 Text.set_text(translate(\"The Crazy Nolok Dance\"));
 Text.fade_in(2);
 TUX.set_animation(\"jump\");

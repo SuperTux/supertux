@@ -5,24 +5,25 @@ SubInclude TOP src scripting ;
 
 sources = 
     [ Wildcard *.cpp *.h ]
-    [ Wildcard math : *.cpp *.h ]
-    [ Wildcard video : *.cpp *.h ]
     [ Wildcard audio : *.cpp *.h ]
+    [ Wildcard badguy : *.cpp *.h ]
+    [ Wildcard control : *.cpp *.h ]
     [ Wildcard gui : *.cpp *.h ]
     [ Wildcard lisp : *.cpp *.h ]
+    [ Wildcard math : *.cpp *.h ]
     [ Wildcard object : *.cpp *.h ]
-    [ Wildcard badguy : *.cpp *.h ]
+    [ Wildcard physfs : *.cpp *.h ]
     [ Wildcard sprite : *.cpp *.h ]
-    [ Wildcard trigger : *.cpp *.h ]
     [ Wildcard tinygettext : *.cpp *.h ]
-    [ Wildcard control : *.cpp *.h ]
+    [ Wildcard trigger : *.cpp *.h ]
+    [ Wildcard video : *.cpp *.h ]
 ;
 TRANSLATABLE_SOURCES += [ SearchSource $(sources) ] ;
 
 Application supertux : $(sources) $(wrapper_objects) ;
-C++Flags supertux : -DDATA_PREFIX='\"$(appdatadir)\"' ;
+C++Flags supertux : -DAPPDATADIR='\"$(appdatadir)\"' ;
 LinkWith supertux : squirrel ;
-ExternalLibs supertux : SDL SDLMIXER SDLIMAGE GL ICONV ;
+ExternalLibs supertux : SDL SDLMIXER SDLIMAGE GL ICONV PHYSFS BINRELOC ;
 Help supertux : "Build the supertux executable" ;
 IncludeDir supertux : squirrel/include ;
 

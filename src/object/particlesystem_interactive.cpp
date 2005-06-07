@@ -129,8 +129,8 @@ ParticleSystem_Interactive::collision(Particle* object, Vector movement)
 
 RainParticleSystem::RainParticleSystem()
 {
-    rainimages[0] = new Surface(datadir+"/images/objects/particles/rain0.png", true);
-    rainimages[1] = new Surface(datadir+"/images/objects/particles/rain1.png", true);
+    rainimages[0] = new Surface("images/objects/particles/rain0.png", true);
+    rainimages[1] = new Surface("images/objects/particles/rain1.png", true);
 
     virtual_width = SCREEN_WIDTH * 2;
 
@@ -209,8 +209,8 @@ void RainParticleSystem::update(float elapsed_time)
 
 CometParticleSystem::CometParticleSystem()
 {
-    cometimages[0] = new Surface(datadir+"/images/creatures/mr_bomb/exploding-left-0.png", true);
-    cometimages[1] = new Surface(datadir+"/images/creatures/mr_bomb/exploding-left-0.png", true);
+    cometimages[0] = new Surface("images/creatures/mr_bomb/exploding-left-0.png", true);
+    cometimages[1] = new Surface("images/creatures/mr_bomb/exploding-left-0.png", true);
 
     virtual_width = SCREEN_WIDTH * 2;
 

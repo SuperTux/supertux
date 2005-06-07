@@ -70,13 +70,6 @@ Level::load(const std::string& filepath)
     level->get("version", version);
     if(version == 1) {
       load_old_format(*level);
-
-#if 0
-      // test for now
-      FlipLevelTransformer* transformer = new FlipLevelTransformer();  
-      transformer->transform(this);
-#endif
-     
       return;
     }
 
@@ -123,12 +116,7 @@ Level::load_old_format(const lisp::Lisp& reader)
 void
 Level::save(const std::string& filename)
 {
-  std::string filepath = "levels/" + filename;
-  int last_slash = filepath.find_last_of('/');
-  FileSystem::fcreatedir(filepath.substr(0,last_slash).c_str());
-  filepath = user_dir + "/" + filepath;
-  ofstream file(filepath.c_str(), ios::out);
-  lisp::Writer* writer = new lisp::Writer(file);
+  lisp::Writer* writer = new lisp::Writer(filename);
 
   writer->write_comment("Level made using SuperTux's built-in Level Editor");
 
@@ -150,7 +138,6 @@ Level::save(const std::string& filename)
   writer->end_list("supertux-level");
 
   delete writer;
-  file.close();
 }
 
 Level::~Level()

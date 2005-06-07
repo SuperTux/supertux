@@ -78,7 +78,7 @@ public:
 
   /** Translate the string \a msgid. */
   std::string translate(const std::string& msgid);
-
+  /** Translate the string \a msgid. */
   const char* translate(const char* msgid);
     
   /** Add a translation from \a msgid to \a msgstr to the dictionary,
@@ -124,6 +124,9 @@ public:
 
   /** Set a language based on a four? letter country code */
   void set_language(const std::string& langspec);
+
+  /** returns the (normalized) country code of the currently used language */
+  const std::string& get_language() const;
 
   /** Set a charset that will be set on the returned dictionaries */
   void set_charset(const std::string& charset);
