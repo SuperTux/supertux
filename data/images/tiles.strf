@@ -498,42 +498,42 @@
   (tile
     (id 64)
     (images
-      "tiles/grey/grey.png"
+      "tiles/castle/grey.png"
     )
     (solid #t)
   )
   (tile
     (id 65)
     (images
-      "tiles/grey/grey2.png"
+      "tiles/castle/grey2.png"
     )
     (solid #t)
   )
   (tile
     (id 66)
     (images
-      "tiles/grey/grey3.png"
+      "tiles/castle/grey3.png"
     )
     (solid #t)
   )
   (tile
     (id 67)
     (images
-      "tiles/grey/grey4.png"
+      "tiles/castle/grey4.png"
     )
     (solid #t)
   )
   (tile
     (id 68)
     (images
-      "tiles/grey/grey5.png"
+      "tiles/castle/grey5.png"
     )
     (solid #t)
   )
   (tile
     (id 69)
     (images
-      "tiles/grey/grey6.png"
+      "tiles/castle/grey6.png"
     )
     (solid #t)
   )
@@ -2060,7 +2060,7 @@
   (tile
     (id 321)
     (images
-      "tiles/grey/grey_jungle.png"
+      "tiles/castle/grey_jungle.png"
     )
     (solid #t)
   )
@@ -4989,210 +4989,210 @@
   (tile
     (id 1367)
     (images
-      (region "tiles/grey/stone.png" 32 0 32 32)
+      (region "tiles/castle/stone.png" 32 0 32 32)
     )
     (solid #t)
   )
   (tile
     (id 1368)
     (images
-      (region "tiles/grey/stone.png" 64 0 32 32)
+      (region "tiles/castle/stone.png" 64 0 32 32)
     )
     (solid #t)
   )
   (tile
     (id 1369)
     (images
-      (region "tiles/grey/stone.png" 96 0 32 32)
+      (region "tiles/castle/stone.png" 96 0 32 32)
     )
     (solid #t)
   )
   (tile
     (id 1370)
     (images
-      (region "tiles/grey/stone.png" 0 32 32 32)
+      (region "tiles/castle/stone.png" 0 32 32 32)
     )
     (solid #t)
   )
   (tile
     (id 1371)
     (images
-      (region "tiles/grey/stone.png" 32 32 32 32)
+      (region "tiles/castle/stone.png" 32 32 32 32)
     )
     (solid #t)
   )
   (tile
     (id 1372)
     (images
-      (region "tiles/grey/stone.png" 64 32 32 32)
+      (region "tiles/castle/stone.png" 64 32 32 32)
     )
     (solid #t)
   )
     (tile
     (id 1373)
     (images
-      (region "tiles/grey/stone.png" 96 32 32 32)
+      (region "tiles/castle/stone.png" 96 32 32 32)
     )
     (solid #t)
   )
     (tile
     (id 1374)
     (images
-      (region "tiles/grey/stone.png" 0 64 32 32)
+      (region "tiles/castle/stone.png" 0 64 32 32)
     )
     (solid #t)
   )
     (tile
     (id 1375)
     (images
-      (region "tiles/grey/stone.png" 32 64 32 32)
+      (region "tiles/castle/stone.png" 32 64 32 32)
     )
     (solid #t)
   )
     (tile
     (id 1376)
     (images
-      (region "tiles/grey/stone.png" 64 64 32 32)
+      (region "tiles/castle/stone.png" 64 64 32 32)
     )
     (solid #t)
   )
     (tile
     (id 1377)
     (images
-      (region "tiles/grey/stone.png" 96 64 32 32)
+      (region "tiles/castle/stone.png" 96 64 32 32)
     )
     (solid #t)
   )
   (tile
     (id 1378)
     (images
-      (region "tiles/grey/stone.png" 128 0 32 32)
+      (region "tiles/castle/stone.png" 128 0 32 32)
     )
     (solid #t)
   )
   (tile
     (id 1379)
     (images
-      (region "tiles/grey/stone.png" 160 0 32 32)
+      (region "tiles/castle/stone.png" 160 0 32 32)
     )
     (solid #t)
   )
   (tile
     (id 1380)
     (images
-      (region "tiles/grey/stone.png" 192 0 32 32)
+      (region "tiles/castle/stone.png" 192 0 32 32)
     )
     (solid #t)
   )
   (tile
     (id 1381)
     (images
-      (region "tiles/grey/stone.png" 128 32 32 32)
+      (region "tiles/castle/stone.png" 128 32 32 32)
     )
     (solid #t)
   )
   (tile
     (id 1382)
     (images
-      (region "tiles/grey/stone.png" 160 32 32 32)
+      (region "tiles/castle/stone.png" 160 32 32 32)
     )
     (solid #t)
   )
   (tile
     (id 1383)
     (images
-      (region "tiles/grey/stone.png" 192 32 32 32)
+      (region "tiles/castle/stone.png" 192 32 32 32)
     )
     (solid #t)
   )
   (tile
     (id 1384)
     (images
-      (region "tiles/grey/stone.png" 224 32 32 32)
+      (region "tiles/castle/stone.png" 224 32 32 32)
     )
     (solid #t)
   )
   (tile
     (id 1385)
     (images
-      (region "tiles/grey/stone.png" 128 64 32 32)
+      (region "tiles/castle/stone.png" 128 64 32 32)
     )
     (solid #t)
   )
   (tile
     (id 1386)
     (images
-      (region "tiles/grey/stone.png" 160 64 32 32)
+      (region "tiles/castle/stone.png" 160 64 32 32)
     )
     (solid #t)
   )
   (tile
     (id 1387)
     (images
-      (region "tiles/grey/stone.png" 192 64 32 32)
+      (region "tiles/castle/stone.png" 192 64 32 32)
     )
     (solid #t)
   )
   (tile
     (id 1388)
     (images
-      (region "tiles/grey/stone.png" 224 64 32 32)
+      (region "tiles/castle/stone.png" 224 64 32 32)
     )
     (solid #t)
   )
   (tile
     (id 1389)
     (images
-      (region "tiles/grey/stone.png" 0 96 32 32)
+      (region "tiles/castle/stone.png" 0 96 32 32)
     )
     (solid #t)
   )
   (tile
     (id 1390)
     (images
-      (region "tiles/grey/stone.png" 32 96 32 32)
+      (region "tiles/castle/stone.png" 32 96 32 32)
     )
     (solid #t)
   )
   (tile
     (id 1391)
     (images
-      (region "tiles/grey/stone.png" 64 96 32 32)
+      (region "tiles/castle/stone.png" 64 96 32 32)
     )
     (solid #t)
   )
   (tile
     (id 1392)
     (images
-      (region "tiles/grey/stone.png" 96 96 32 32)
+      (region "tiles/castle/stone.png" 96 96 32 32)
     )
     (solid #t)
   )
   (tile
     (id 1393)
     (images
-      (region "tiles/grey/stone.png" 0 128 32 32)
+      (region "tiles/castle/stone.png" 0 128 32 32)
     )
     (solid #t)
   )
   (tile
     (id 1394)
     (images
-      (region "tiles/grey/stone.png" 32 128 32 32)
+      (region "tiles/castle/stone.png" 32 128 32 32)
     )
     (solid #t)
   )
   (tile
     (id 1395)
     (images
-      (region "tiles/grey/stone.png" 64 128 32 32)
+      (region "tiles/castle/stone.png" 64 128 32 32)
     )
     (solid #t)
   )
   (tile
     (id 1396)
     (images
-      (region "tiles/grey/stone.png" 96 128 32 32)
+      (region "tiles/castle/stone.png" 96 128 32 32)
     )
     (solid #t)
   )
@@ -5200,98 +5200,98 @@
   (tile
     (id 1397)
     (images
-      (region "tiles/grey/stone.png" 32 160 32 32)
+      (region "tiles/castle/stone.png" 32 160 32 32)
     )
     (solid #t)
   )
   (tile
     (id 1398)
     (images
-      (region "tiles/grey/stone.png" 64 160 32 32)
+      (region "tiles/castle/stone.png" 64 160 32 32)
     )
     (solid #t)
   )
   (tile
     (id 1399)
     (images
-      (region "tiles/grey/stone.png" 96 160 32 32)
+      (region "tiles/castle/stone.png" 96 160 32 32)
     )
     (solid #t)
   )
   (tile
     (id 1400)
     (images
-      (region "tiles/grey/stone.png" 128 96 32 32)
+      (region "tiles/castle/stone.png" 128 96 32 32)
     )
     (solid #t)
   )
   (tile
     (id 1401)
     (images
-      (region "tiles/grey/stone.png" 160 96 32 32)
+      (region "tiles/castle/stone.png" 160 96 32 32)
     )
     (solid #t)
   )
   (tile
     (id 1402)
     (images
-      (region "tiles/grey/stone.png" 192 96 32 32)
+      (region "tiles/castle/stone.png" 192 96 32 32)
     )
     (solid #t)
   )
   (tile
     (id 1403)
     (images
-      (region "tiles/grey/stone.png" 224 96 32 32)
+      (region "tiles/castle/stone.png" 224 96 32 32)
     )
     (solid #t)
   )
   (tile
     (id 1404)
     (images
-      (region "tiles/grey/stone.png" 128 128 32 32)
+      (region "tiles/castle/stone.png" 128 128 32 32)
     )
     (solid #t)
   )
   (tile
     (id 1405)
     (images
-      (region "tiles/grey/stone.png" 160 128 32 32)
+      (region "tiles/castle/stone.png" 160 128 32 32)
     )
     (solid #t)
   )
   (tile
     (id 1406)
     (images
-      (region "tiles/grey/stone.png" 192 128 32 32)
+      (region "tiles/castle/stone.png" 192 128 32 32)
     )
     (solid #t)
   )
   (tile
     (id 1407)
     (images
-      (region "tiles/grey/stone.png" 224 128 32 32)
+      (region "tiles/castle/stone.png" 224 128 32 32)
     )
     (solid #t)
   )
   (tile
     (id 1408)
     (images
-      (region "tiles/grey/stone.png" 128 160 32 32)
+      (region "tiles/castle/stone.png" 128 160 32 32)
     )
     (solid #t)
   )
   (tile
     (id 1409)
     (images
-      (region "tiles/grey/stone.png" 160 160 32 32)
+      (region "tiles/castle/stone.png" 160 160 32 32)
     )
     (solid #t)
   )
   (tile
     (id 1410)
     (images
-      (region "tiles/grey/stone.png" 192 160 32 32)
+      (region "tiles/castle/stone.png" 192 160 32 32)
     )
     (solid #t)
   )
