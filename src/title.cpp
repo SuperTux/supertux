@@ -146,7 +146,12 @@ void check_contrib_menu()
       WorldMapNS::WorldMap worldmap;
       worldmap.loadmap(worldmap_list.item[index - contrib_subsets.size()]);
 //      worldmap.set_levels_as_solved();
-      worldmap.loadgame(std::string(st_save_dir) + "/bonus_island.stsg");
+      std::string savegame = worldmap_list.item[index - contrib_subsets.size()];
+      // remove .stwm...
+      savegame = savegame.substr(0, savegame.size()-4);
+      savegame = std::string(st_save_dir) + "/" + savegame + ".stsg";
+      std::cout << "SaveGameName: " << savegame << "\n";
+      worldmap.loadgame(savegame.c_str());
 
       worldmap.display();
 
@@ -247,8 +252,14 @@ void title(void)
   /* Generating contrib maps by only using a string_list */
   // Since there isn't any world dir or anything, add a hardcoded entry for Bonus Island
   string_list_init(&worldmap_list);
-  string_list_add_item(&worldmap_list, "bonusisland.stwm");
-//  worldmap_list = dfiles("levels/default", NULL, "icyisland.stwm");
+
+  string_list_type files = dfiles("levels/default/", ".stwm", "couldn't list worldmaps");
+  for(int i = 0; i < files.num_items; ++i) {
+    if(strcmp(files.item[i], "worldmap.stwm") == 0)
+      continue;
+    string_list_add_item(&worldmap_list, files.item[i]);
+  }
+  string_list_free(&files);
 
   /* --- Main title loop: --- */
   frame = 0;
