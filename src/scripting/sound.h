@@ -4,6 +4,9 @@
 namespace Scripting
 {
 
+/**
+ * This class allows manipulating the sound output of the game
+ */
 class Sound
 {
 public:

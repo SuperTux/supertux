@@ -18,6 +18,7 @@
 std::string last_docucomment;
 std::string original_file;
 std::string current_file;
+std::string comm;
 int offset_lnum;
 
 int getCurrentLine()
@@ -31,6 +32,7 @@ int getCurrentLine()
 %option yylineno
 /* %option never-interactive */
 
+%x comment
 %%
 
 #[ \t]+[0-9]+[ \t]+.*                         {
@@ -47,9 +49,24 @@ int getCurrentLine()
 }
 #.*                                     /* ignore preprocessor directives */
 [[:space:]]+                            /* eat spaces */
-\/\*.*\*\/                              {
-    if(yytext[2] == '*' && yytext[3] != '/') { // It's a docu comment...
-        last_docucomment = std::string(yytext+3, strlen(yytext)-5);
+"/*"                                    { BEGIN(comment); comm = ""; }
+<comment>[^*\n]*                        { comm += yytext; }
+<comment>"*"+[^*/]*                     { comm += yytext; }
+<comment>"*/"                    {
+    BEGIN(INITIAL);
+    if(comm[0] == '*') { // It's a docu comment...
+        last_docucomment = "";
+        bool linestart = true;
+        for(size_t i = 1; i < comm.size(); ++i) {
+            if(linestart && (comm[i] == '*' || isspace(comm[i]))) {
+                continue;
+            } else if(comm[i] == '\n') {
+                linestart = true;
+            } else {
+                linestart = false;
+            }
+            last_docucomment += comm[i];
+        }
     }
 }
 \/\/[^\n]*\n                            {

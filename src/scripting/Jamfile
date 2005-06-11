@@ -29,7 +29,7 @@ if $(MINISWIG)
 
     actions MiniSwig bind headerfile
     {
-        $(CPP) -x c $(CPPFLAGS) $(>) -o $(LOCATE_OBJECTS)/miniswig.tmp
+        $(CPP) -x c -CC $(CPPFLAGS) $(>) -o $(LOCATE_OBJECTS)/miniswig.tmp
         ./miniswig --output-cpp $(<) --input $(LOCATE_OBJECTS)/miniswig.tmp --output-hpp $(headerfile) --module $(modulename) $(FLAGS)
 #       rm -f $(LOCATE_OBJECTS)/miniswig.tmp
     }

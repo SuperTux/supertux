@@ -5,6 +5,7 @@
 #include "tree.h"
 #include "globals.h"
 #include "create_wrapper.h"
+#include "create_docu.h"
 
 extern int yyparse();
 extern int yylex();
@@ -25,6 +26,7 @@ int main(int argc, char** argv)
 {
     std::string outputcpp;
     std::string outputhpp;
+    std::string output_doc;
     for(int i = 0; i < argc; ++i) {
         if(strcmp(argv[i], "--module") == 0) {
             if(i+1 >= argc) {
@@ -61,6 +63,13 @@ int main(int argc, char** argv)
                 return 1;
             }
             selected_namespace = argv[++i];
+        } else if(strcmp(argv[i], "--output-doc") == 0) {
+          if(i+1 >= argc) {
+            std::cerr << "Need to specify document xml file.\n";
+            usage();
+            return 1;
+          }
+          output_doc = argv[++i];
         } else if(argv[i][0] == '-') {
             std::cerr << "Unknown option '" << argv[i] << "'.\n";
             usage();
@@ -68,7 +77,8 @@ int main(int argc, char** argv)
         } else {
         }
     }
-    if(inputfile == "" || outputcpp == "" || outputhpp == "") {
+    if( inputfile == "" || (
+            (outputcpp == "" || outputhpp == "") && output_doc == "")) {
         std::cerr << "Not all options specified.\n";
         usage();
         return 1;
@@ -90,24 +100,39 @@ int main(int argc, char** argv)
         
         yyparse();
 
-        std::ofstream cppout(outputcpp.c_str());
-        if(!cppout.good()) {
-            std::cerr << "Couldn't open file '" << outputcpp << "' for writing.\n";
-            return 1;
-        }
-        std::ofstream hppout(outputhpp.c_str());
-        if(!hppout.good()) {
-            std::cerr << "Couldn't open file '" << outputhpp << "' for writing.\n";
-            return 1;
-        }
-
         Namespace* ns = unit;
         if(selected_namespace != "") {
             ns = ns->findNamespace(selected_namespace);
+        }                                                      
+
+        if(outputcpp != "") {
+            std::ofstream cppout(outputcpp.c_str());
+            if(!cppout.good()) {
+                std::cerr << "Couldn't open file '" 
+                          << outputcpp << "' for writing.\n";
+                return 1;
+            }
+            std::ofstream hppout(outputhpp.c_str());
+            if(!hppout.good()) {
+                std::cerr << "Couldn't open file '" << outputhpp 
+                          << "' for writing.\n";
+                return 1;
+            }
+
+            WrapperCreator creator(cppout, hppout);
+            creator.create_wrapper(ns);
         }
 
-        WrapperCreator creator(cppout, hppout);
-        creator.create_wrapper(ns);
+        if(output_doc != "") {
+            std::ofstream dout(output_doc.c_str());
+            if(!dout.good()) {
+                std::cerr << "Couldn't open file '" 
+                    << dout << "' for writing.\n";
+                return 1;
+            }
+            DocuCreator creator(dout);
+            creator.create_docu(ns);
+        }
     } catch(std::exception& e) {
         std::cerr << e.what() << "\n";
         return 1;

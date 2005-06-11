@@ -271,7 +271,7 @@ parameter:
             Parameter parameter;
             parameter.type = *($1);
             delete $1;
-            parameter.name = *($2);
+            parameter.name = $2;
             free($2);
             currentFunction->parameters.push_back(parameter);
         }

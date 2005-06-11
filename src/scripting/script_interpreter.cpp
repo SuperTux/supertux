@@ -119,8 +119,11 @@ static SQInteger squirrel_read_char(SQUserPointer file)
 }
 
 void
-ScriptInterpreter::run_script(std::istream& in, const std::string& sourcename)
+ScriptInterpreter::run_script(std::istream& in, const std::string& sourcename,
+        bool remove_when_terminated)
 {
+  printf("Stackbefore:\n");
+  print_squirrel_stack(v);
   if(sq_compile(v, squirrel_read_char, &in, sourcename.c_str(), true) < 0)
     throw SquirrelError(v, "Couldn't parse script");
  
@@ -130,9 +133,15 @@ ScriptInterpreter::run_script(std::istream& in, const std::string& sourcename)
     throw SquirrelError(v, "Couldn't start script");
   _current = 0;
   if(sq_getvmstate(v) != SQ_VMSTATE_SUSPENDED) {
-    printf("script ended...\n");
-    remove_me();
-  }  
+    if(remove_when_terminated) {
+      remove_me();
+    }
+    printf("ended.\n");
+    // remove closure from stack
+    sq_pop(v, 1);
+  }
+  printf("After:\n");
+  print_squirrel_stack(v);
 }
 
 void
@@ -209,7 +218,7 @@ ScriptInterpreter::add_script_object(Sector* sector, const std::string& name,
     try {
       std::string filename = workdir + "/default.nut";
       IFileStream in(filename);
-      interpreter->run_script(in, filename);
+      interpreter->run_script(in, filename, false);
     } catch(std::exception& e) {
       // nothing
     }

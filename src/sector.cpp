@@ -76,7 +76,11 @@ Sector::Sector()
   player = new Player(&player_status);
   add_object(player);
 
+#ifdef USE_GRID
   grid = new CollisionGrid(32000, 32000);
+#else
+  grid = 0;
+#endif
 }
 
 Sector::~Sector()
@@ -497,10 +501,12 @@ Sector::update_game_objects()
           std::remove(bullets.begin(), bullets.end(), bullet),
           bullets.end());
     }
+#ifdef USE_GRID
     MovingObject* movingobject = dynamic_cast<MovingObject*> (object);
     if(movingobject) {
       grid->remove_object(movingobject);
     }
+#endif
     delete *i;
     i = gameobjects.erase(i);
   }
@@ -515,9 +521,11 @@ Sector::update_game_objects()
     if(bullet)
       bullets.push_back(bullet);
 
+#ifdef USE_GRID
     MovingObject* movingobject = dynamic_cast<MovingObject*> (object);
     if(movingobject)
       grid->add_object(movingobject);
+#endif
     
     TileMap* tilemap = dynamic_cast<TileMap*> (object);
     if(tilemap && tilemap->is_solid()) {
@@ -570,7 +578,7 @@ Sector::draw(DrawingContext& context)
   context.pop_transform();
 }
 
-static const float DELTA = .001;
+static const float DELTA = .0001;
 
 void
 Sector::collision_tilemap(MovingObject* object, int depth)
