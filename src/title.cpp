@@ -148,7 +148,7 @@ void check_contrib_menu()
 //      worldmap.set_levels_as_solved();
       std::string savegame = worldmap_list.item[index - contrib_subsets.size()];
       // remove .stwm...
-      savegame = savegame.substr(0, savegame.size()-4);
+      savegame = savegame.substr(0, savegame.size()-5);
       savegame = std::string(st_save_dir) + "/" + savegame + ".stsg";
       std::cout << "SaveGameName: " << savegame << "\n";
       worldmap.loadgame(savegame.c_str());
