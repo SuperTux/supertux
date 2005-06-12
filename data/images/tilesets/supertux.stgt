@@ -710,4 +710,7 @@
        (anim-speed 45))
 
       )
+ (tile (id 295)
+       (images "tree.png")
+ )
 
