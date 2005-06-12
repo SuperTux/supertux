@@ -84,10 +84,16 @@
       (level (name "bonus2/fansite-level11.stl")
            (x 28)
            (y 30))
-      ;(level (name "bonus2/bonus2-level1.stl")
+      ;(level (name "bonus2/fansite-level12.stl") //finished?
+      ;     (x 28)
+      ;     (y 30))
+      (level (name "bonus2/fansite-level13.stl") //place near castle
+           (x 28)
+           (y 27))
+      ;(level (name "bonus2/bonus2-level1.stl") //start level
       ;     (x 22)
       ;     (y 19))
-      ;(level (name "bonus2/bonus2-level2.stl")
+      ;(level (name "bonus2/bonus2-level2.stl") //secret level
       ;     (x 50)
       ;     (y 20))
    )
