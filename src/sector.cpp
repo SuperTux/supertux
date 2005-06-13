@@ -578,7 +578,7 @@ Sector::draw(DrawingContext& context)
   context.pop_transform();
 }
 
-static const float DELTA = .0001;
+static const float DELTA = .001;
 
 void
 Sector::collision_tilemap(MovingObject* object, int depth)
