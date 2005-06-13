@@ -708,9 +708,8 @@
        (images "waterfall5-4-1.png" "waterfall5-4-2.png" "waterfall5-4-3.png" "waterfall5-4-4.png")
        (water #t)
        (anim-speed 45))
-
-      )
  (tile (id 295)
-       (images "tree.png")
- )
+       (images "tree.png"))
 
+)
+ 
