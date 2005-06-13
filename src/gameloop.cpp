@@ -173,8 +173,8 @@ GameSession::levelintro(void)
 void
 GameSession::start_timers()
 {
-  time_left.start(world->get_level()->time_left*1000);
   st_pause_ticks_init();
+  time_left.start(world->get_level()->time_left*1000);
   update_time = st_get_ticks();
 }
 
