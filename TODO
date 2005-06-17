@@ -1,81 +1,12 @@
 
-- To do for Milestone1 -
-http://super-tux.sf.net/
+SuperTux 0.1.2 TO 0.1.3 - TODO
 
-Last update: May 3, 2004
-
-These are mostly bugs:
-
-Todo
-----
-H: high priority
-L: low priority
-
-[H] Frame ratio code has been changed and so the animation may need tuning.
-    Somebody do some testing and change the definitions regarding this.
-[M] When aborting a level, lives and score should remain the same as they
-    were before. Solution: make more dependency between the game engine and worldmap
-    or just backup those variables before starting a level.
-[L] time runs while being in in-game menu, at least a bit (jump, go to
-   menu, wait a bit, leave menu, Tux will 'flip' to the ground,
-   instead of fall, pause mode doesn't seem to have this problem, only
-   menu)
-[L] Backscroll is really messed up right now :)
-[L] change lispreader to throw exceptions instead of simply assert() on
-    syntax error
-[L] tux sometimes makes short jumps in the endsequence, mostly when
-    going through the goal with a small jump, might be old_up related
-[L] fadein/out for intro/extro would be nice
-[L] when bumping a special with 2 blocks at once, it won't change direction
-[L] tux get killed if he kicks a iceblock while at the same time
-   bouncing on the roof
-[L] in the "Welcome to Antarctica" level, the blocks next to the first growup
-    look like there are 2 blocks above each other when bumping against them as
-    small tux...
-[L] Enemies should turn upside down after being hit by an kicked
-   iceblock
-
-
-Stuff for past milestone1:
---------------------------
-Note that this list is far from complete, but lists some bugs that we don't want
-to touch before milestone1 at the moment.
-- You shouldn't be able to stand on invisible blocks, before you bumped them
-- bombs should explode directly when hit by another bomb or a mr.iceblock
-- we only have a global counter for multiple coin blocks. This should be handled
-  per block.
-- We should reduced the width of tux collision rectangle so that he falls easier
-  between 1 tile wide holes.
-- The enabled/disabled icon in the options shouldn't be a cross. Some people
-  think the options are disabled because they're crossed. Better use a green
-  check mark.
-
-Fixed
------
-
-- leveleditor lacks enemies support - fixed
-- points aren't reset when gameover
-- when jumping into the exit with a star, the endgame music will change back to
-  levelmusic after a short time
-- when jupming against the 2nd multiple coin block in a level only 1 coin will
-  come out.
-- when you interrupted the intro (by going to credits for example) and go back
-  to it, tux doesn't jump anymore
-- supertux crashs from time to time - fixed
-- mriceblock doesn't fall down when being squished in the air - fixed
-- It's not possible to duck while jumping - fixed
-- Intro/Extro textspeed is CPU dependent - fixed
-- sometimes the level restarts/you die after collecing a growup - fixed
-- mriceblock doesn't disapear after being kicked my another iceblock,
-  not sure when exactly it happens, might depend on direction or so - fixed
-- Life counter should be decreased once the die-animation starts,
-   not when it ends - fixed
-- background in underground levels scrolls far too slow, makes them
-   hardly playable, since once too easily get focused on the
-   background instead of the playfield - fixed
-- tux can be killed by back bouncing iceblocks in the exit sequence
-   (all enemies should be removed/turned to coins once the exit
-   sequence started) - fixed
-- leveleditor crashs when pressing the button with the levelsettings - fixed
-- titlescreen level doesn't seamlessly wrap around, might be due to the new
-    scrolling code or due to the worldmap doing the drawing - fixed
+-Fix reset point bugs:
+  *not working when placed at certain locations
+  *if you respawn at a rp and walk left, you start at the beginning next time
+-Give Tux more invincible time after hit (also in milestone 2)
+-Change default display mode to fullscreen, default jump key to space
+-Enable Tux' ability to jump off badguys
+-Apply joypad fix
+-build levels, check contributed ones
+-support custom world maps [done]
