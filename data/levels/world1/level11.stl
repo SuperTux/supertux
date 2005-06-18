@@ -74,7 +74,7 @@
       )
 
   (reset-points
-    (point (x 6988) (y 222))
+    (point (x 6858) (y 222))
    )
   (objects
     (money  (x 686) (y 305))

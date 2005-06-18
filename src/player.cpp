@@ -43,7 +43,7 @@ PlayerKeymap keymap;
 
 PlayerKeymap::PlayerKeymap()
 {
-  keymap.jump  = SDLK_UP;
+  keymap.jump  = SDLK_SPACE;
   keymap.duck  = SDLK_DOWN;
   keymap.left  = SDLK_LEFT;
   keymap.right = SDLK_RIGHT;
@@ -494,6 +494,16 @@ Player::grow()
   base.y -= 32;
 
   old_base = previous_base = base;
+}
+
+void
+Player::jump_of_badguy(BadGuy* badguy)
+{
+  if(input.up)
+    physic.set_velocity_y(5.2);
+  else
+    physic.set_velocity_y(2.0);
+  base.y = badguy->base.y - base.height-2;
 }
 
 void

@@ -31,7 +31,7 @@
 
 /* Times: */
 
-#define TUX_SAFE_TIME 1250
+#define TUX_SAFE_TIME 1800
 #define TUX_INVINCIBLE_TIME 10000
 #define TUX_INVINCIBLE_TIME_WARNING 2000
 #define TIME_WARNING 20000     /* When to alert player they're low on time! */
@@ -75,6 +75,7 @@ struct player_input_type
 void player_input_init(player_input_type* pplayer_input);
 
 class Sprite;
+class BadGuy;
 
 extern Surface* tux_life;
 
@@ -149,6 +150,8 @@ public:
   bool on_ground();
   bool under_solid();
   void grow();
+
+  void jump_of_badguy(BadGuy* badguy);
   
   std::string type() { return "Player";};
   

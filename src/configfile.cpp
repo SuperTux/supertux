@@ -37,7 +37,7 @@ static void defaults ()
   debug_mode = false;
   audio_device = true;
 
-  use_fullscreen = false;
+  use_fullscreen = true;
   show_fps = false;
   use_gl = false;
 
