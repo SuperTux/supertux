@@ -38,9 +38,9 @@
 #include "object/rainsplash.h"
 #include "badguy/bomb.h"
 
-//TODO: Dynamically create splashes at collision spots
-//      Find a way to make rain collide with objects like bonus blocks
+//TODO: Find a way to make rain collide with objects like bonus blocks
 //      Add an option to set rain strength
+//      Fix rain being "respawned" over solid tiles
 ParticleSystem_Interactive::ParticleSystem_Interactive()
 {
     virtual_width = SCREEN_WIDTH;
