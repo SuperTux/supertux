@@ -69,7 +69,7 @@ void ParticleSystem_Interactive::draw(DrawingContext& context)
     context.pop_transform();
 }
 
-bool
+int
 ParticleSystem_Interactive::collision(Particle* object, Vector movement)
 {
   TileMap* solids = Sector::current()->solids;
@@ -123,8 +123,14 @@ ParticleSystem_Interactive::collision(Particle* object, Vector movement)
   }
   
   // did we collide at all?
-  if(hit.time < 0)
-    return false; else return true;
+  if(hit.time < 0) {
+    return -1; //no collision
+  }
+  else {
+    if ((hit.normal.x == 1) && (hit.normal.y == 0))
+      return 1; //collision from right
+    else return 0; //collision from above
+  }
 }
 
 RainParticleSystem::RainParticleSystem()
@@ -182,21 +188,23 @@ void RainParticleSystem::update(float elapsed_time)
         float abs_y = Sector::current()->camera->get_translation().y;
         particle->pos.y += movement;
         particle->pos.x -= movement;
-        if ((particle->pos.y > SCREEN_HEIGHT + abs_y) || (collision(particle, Vector(-movement, movement)))) {
+        int col = collision(particle, Vector(-movement, movement));
+        if ((particle->pos.y > SCREEN_HEIGHT + abs_y) || (col >= 0)) {
             //Create rainsplash
             if (particle->pos.y <= SCREEN_HEIGHT + abs_y){
-              //TODO: Find out at which side of the tile the collision happens
-              bool vertical = false;
+              bool vertical = (col == 1);
               int splash_x, splash_y;
-              if (vertical) {
-                splash_x = int(particle->pos.x) - (int(particle->pos.x) % 32) + 32;
-                splash_y = int(particle->pos.y);                
-              }
-              else {
+              if (!vertical) { //check if collision happened from above
                 splash_x = int(particle->pos.x);
                 splash_y = int(particle->pos.y) - (int(particle->pos.y) % 32) + 32;
+                Sector::current()->add_object(new RainSplash(Vector(splash_x, splash_y),vertical));
               }
-              Sector::current()->add_object(new RainSplash(Vector(splash_x, splash_y),vertical));
+              // Uncomment the following to display vertical splashes, too
+              /* else {
+                splash_x = int(particle->pos.x) - (int(particle->pos.x) % 32) + 32;
+                splash_y = int(particle->pos.y);
+                Sector::current()->add_object(new RainSplash(Vector(splash_x, splash_y),vertical));
+              } */
             }
             int new_x = (rand() % int(virtual_width)) + int(abs_x);
             int new_y = 0;
@@ -262,7 +270,7 @@ void CometParticleSystem::update(float elapsed_time)
         float abs_y = Sector::current()->camera->get_translation().y;
         particle->pos.y += movement;
         particle->pos.x -= movement;
-        if ((particle->pos.y > SCREEN_HEIGHT + abs_y) || (collision(particle, Vector(-movement, movement)))) {
+        if ((particle->pos.y > SCREEN_HEIGHT + abs_y) || (collision(particle, Vector(-movement, movement)) >= 0)) {
             if (particle->pos.y <= SCREEN_HEIGHT + abs_y) {
               Sector::current()->add_object(new Bomb(particle->pos, LEFT));
             }

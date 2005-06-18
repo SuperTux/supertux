@@ -67,7 +67,7 @@ protected:
     
     std::vector<Particle*> particles;
     float virtual_width, virtual_height;
-    bool collision(Particle* particle, Vector movement);
+    int collision(Particle* particle, Vector movement);
 };
 
 class RainParticleSystem : public ParticleSystem_Interactive, public Serializable
