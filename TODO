@@ -4,9 +4,10 @@ SuperTux 0.1.2 TO 0.1.3 - TODO
 -Fix reset point bugs:
   *not working when placed at certain locations
   *if you respawn at a rp and walk left, you start at the beginning next time
--Give Tux more invincible time after hit (also in milestone 2)
--Change default display mode to fullscreen, default jump key to space
--Enable Tux' ability to jump off badguys
+  [added warnings about reset points inside a wall]
+-Give Tux more invincible time after hit (also in milestone 2) [done]
+-Change default display mode to fullscreen, default jump key to space [done]
+-Enable Tux' ability to jump off badguys [done]
 -Apply joypad fix
 -build levels, check contributed ones
 -support custom world maps [done]
