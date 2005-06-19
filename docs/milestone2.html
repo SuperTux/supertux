@@ -85,6 +85,7 @@ repository.<br>
 Level events can be automated using scripts in order to create in-game
 cutscenes.<br>
 <br>
+<br>
 Scripting:<br>
 Milestone 2 will feature a scripting system that can be used to
 customize events and objects inside a level. </small><small>Any level
@@ -100,14 +101,31 @@ definition inside the level file, macros can be defined in external
 badguys<br>
 &nbsp;&nbsp;&nbsp; -Finish a level<br>
 </small><small><br>
+<br>
 </small><small>Powerups:<br>
-&nbsp;&nbsp;&nbsp; -Super Buttjump<br>
-We are in desperate need of ideas and, most importantly, final
-decisions on that topic.<br>
+In Milestone 2 in general, the favourite way of enhancing Tux'
+abilities will be through level objects that temporarily grant Tux
+special abilities (see Level Objects section for more details), rather
+than permanent powerups like fire and ice shots. Those will still be
+there, but they'll remain relatively weak, so they don't get in the way
+of level design. An ice shot will be implemented, the fire shot's
+behaviour will be improved [need more detail here]. The fire shot gets
+a new ability to burn through specific tiles to reveal paths. These
+paths, however, should contain only bonus items like coins; it must be
+possible to finish a level without needing the fire powerup.<br>
+&nbsp;&nbsp;&nbsp; -Ice shot<br>
+&nbsp;&nbsp;&nbsp; -Fire melts ice, ice freezes water<br>
+&nbsp;&nbsp;&nbsp; -Super Buttjump (timed)<br>
+General idea: More level objects than powerups, they can be placed
+where they are needed.<br>
+Powers like fire must not get in the way of level design<br>
 </small><small><br>
+<br>
 </small><small>Permanent Abilities:<br>
 &nbsp;&nbsp;&nbsp; -Flapping<br>
-&nbsp;&nbsp;&nbsp; -Butt Jump<br>
+&nbsp;&nbsp;&nbsp; -Butt Jump (permanent for big tux)<br>
+Always big Tux in forest world?<br>
+<br>
 <br>
 </small><small>Level Objects:<br>
 &nbsp;&nbsp;&nbsp; -Coin - collect 100 coins to get an extra life.<br>
@@ -134,11 +152,17 @@ as egg, flower, star, extra life, or potion.<br>
 &nbsp;&nbsp;&nbsp; -Message Trigger - display a message as soon as Tux
 enters their range. Used to mark secret areas.<br>
 &nbsp;&nbsp;&nbsp; -Sequence Trigger - executes a script on contact.<br>
-&nbsp;&nbsp;&nbsp; -Moving Platform - <br>
+&nbsp;&nbsp;&nbsp; -Moving Platform - [still needs to be defined.]<br>
 &nbsp;&nbsp;&nbsp; -Camera Blocker - prevents the camera from scrolling
 into a specific direction. Instantly kill Tux on contact.<br>
 &nbsp;&nbsp;&nbsp; -Carryable Block - Blocks that can be carried around
 and stacked.<br>
+&nbsp;&nbsp;&nbsp; -Bubble Dispenser - Releases bubbles that Tux can
+use to travel upwards.<br>
+&nbsp;&nbsp;&nbsp; -Ice Cube/Straw Block - a block that can be
+destroyed by the fire shot. Appearance depends on the world it's used
+in.<br>
+<br>
 <br>
 Badguys:<br>
 &nbsp;&nbsp;&nbsp; Poison Ivy - Forest equivalent to Mr. Snowball.<br>
@@ -152,10 +176,12 @@ badguys.<br>
 straight towards Tux when he gets close.<br>
 &nbsp;&nbsp;&nbsp; other badguy ideas: bird creatures, moles, ghosts<br>
 <br>
+<br>
 Bosses:<br>
 &nbsp;&nbsp;&nbsp; Yeti<br>
 &nbsp;&nbsp;&nbsp; Forest Boss needed!</small><small><br>
 </small><br>
+<br>
 <small>Engine:<br>
 Apart from the code needed to create the game elements mentioned above,
 one goal is to make it easier to add custom content. Though it will not
@@ -167,6 +193,8 @@ browse the data folders for custom levels, worldmaps and scripts. All
 game data, except music files, will be stored in a .zip archive located
 in the data directory. Additional data paths can be specified using
 command line options.<br>
+OpenGL only.<br>
+<br>
 <br>
 Graphics:<br>
 &nbsp;&nbsp;&nbsp; Tilesets:<br>
@@ -176,10 +204,13 @@ dark grey, Fog, Ghosts<br>
 &nbsp;&nbsp;&nbsp; Castle: add dead flowers and plants on the walls<br>
 &nbsp;&nbsp;&nbsp; Tilable level backgrounds<br>
 &nbsp;&nbsp;&nbsp; Portals<br>
+&nbsp;&nbsp;&nbsp; no more pipes<br>
+<br>
 <br>
 Sound:<br>
 &nbsp;&nbsp;&nbsp; Ambient sounds<br>
 &nbsp;&nbsp;&nbsp; Sounds with added environment effects (echoes, etc.)<br>
+<br>
 <br>
 Music:<br>
 Musical themes will be added for the following events and environments:<br>
@@ -193,9 +224,12 @@ e) Game-Over music<br>
 every world.<br>
 An enhanced version of the main theme will be used.<br>
 <br>
+<br>
 Story:<br>
+More focus on the story<br>
 Cutscenes at beginning and end of every world, maybe one interlude per
 world.<br>
+<br>
 <br>
 Level Editor:<br>
 The in-game editor will be replaced by the external editor Flexlay.
