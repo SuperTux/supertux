@@ -11,3 +11,4 @@ SuperTux 0.1.2 TO 0.1.3 - TODO
 -Apply joypad fix
 -build levels, check contributed ones
 -support custom world maps [done]
+-make --worldmap parameter work again or remove from usage list
