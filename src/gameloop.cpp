@@ -111,7 +111,7 @@ GameSession::restart_level()
       for(std::vector<ResetPoint>::iterator i = get_level()->reset_points.begin();
           i != get_level()->reset_points.end(); ++i)
         {
-          if (i->x < old_x_pos && best_reset_point.x < i->x)
+          if (i->x - SCREEN_W/2 < old_x_pos && best_reset_point.x < i->x)
             best_reset_point = *i;
         }
       
