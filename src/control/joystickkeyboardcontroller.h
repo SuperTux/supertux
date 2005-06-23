@@ -99,7 +99,7 @@ private:
   friend class KeyboardMenu;
   friend class JoystickMenu;
 
-	char last_keys[20];
+  char last_keys[20];
 };
 
 #endif

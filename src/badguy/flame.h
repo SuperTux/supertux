@@ -27,6 +27,10 @@ class Flame : public BadGuy
 {
 public:
   Flame(const lisp::Lisp& reader);
+  ~Flame();
+
+  void activate();
+  void deactivate();
 
   void write(lisp::Writer& write);
   void active_update(float elapsed_time);
@@ -36,6 +40,8 @@ private:
   float angle;
   float radius;
   float speed;
+
+  SoundSource* source;
 };
 
 #endif

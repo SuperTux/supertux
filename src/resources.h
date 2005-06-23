@@ -20,7 +20,6 @@
 #define SUPERTUX_RESOURCES_H
 
 #include <string>
-#include "audio/musicref.h"
 
 class SpriteManager;
 class Menu;
@@ -32,9 +31,6 @@ class MouseCursor;
 
 extern Surface* img_super_bkgd;
 extern Surface* tux_life;
-
-extern MusicRef herring_song;
-extern MusicRef level_end_song;
 
 extern SpriteManager* sprite_manager;
 extern TileManager* tile_manager;

@@ -23,7 +23,6 @@
 #include <string>
 
 #include "math/vector.h"
-#include "audio/musicref.h"
 #include "video/screen.h"
 #include "lisp/lisp.h"
 #include "control/controller.h"
@@ -191,8 +190,6 @@ private:
   Levels levels;
   typedef std::vector<SpawnPoint*> SpawnPoints;
   SpawnPoints spawn_points;
-
-  MusicRef song;
 
   Vector offset;
   std::string savegame_file;

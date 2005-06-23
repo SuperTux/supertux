@@ -26,7 +26,6 @@
 #include <sstream>
 #include <fstream>
 
-#include "audio/sound_manager.h"
 #include "lisp/parser.h"
 #include "lisp/lisp.h"
 #include "lisp/writer.h"
@@ -47,11 +46,6 @@ Config::Config()
   screenwidth = 800;
   screenheight = 600;
   use_gl = true;
-
-  audio_frequency = MIX_DEFAULT_FREQUENCY;
-  audio_channels = MIX_DEFAULT_CHANNELS;
-  audio_chunksize = 2048;
-  audio_voices = MIX_CHANNELS;
 }
 
 Config::~Config()
@@ -81,10 +75,6 @@ Config::load()
   if(config_audio_lisp) {
     config_audio_lisp->get("sound_enabled", sound_enabled);
     config_audio_lisp->get("music_enabled", music_enabled);
-    config_audio_lisp->get("frequency", audio_frequency);
-    config_audio_lisp->get("channels", audio_channels);
-    config_audio_lisp->get("voices", audio_voices);
-    config_audio_lisp->get("chunksize", audio_chunksize);
   }
 
   const lisp::Lisp* config_control_lisp = config_lisp->get_lisp("control");
@@ -112,10 +102,6 @@ Config::save()
   writer.start_list("audio");
   writer.write_bool("sound_enabled", sound_enabled);
   writer.write_bool("music_enabled", music_enabled);
-  writer.write_int("frequency", audio_frequency);
-  writer.write_int("channels", audio_channels);
-  writer.write_int("voices", audio_voices);
-  writer.write_int("chunksize", audio_chunksize);
   writer.end_list("audio");
 
   if(main_controller) {

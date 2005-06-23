@@ -147,7 +147,7 @@ Nolok_01::kill_fall()
   bullet_hitpoints--;
   if (bullet_hitpoints <= 0) {
    hitpoints = 0;
-   sound_manager->play_sound("fall", this,
+   sound_manager->play("fall", this,
                              Sector::current()->player->get_pos());
    physic.set_velocity_y(0);
    physic.enable_gravity(true);

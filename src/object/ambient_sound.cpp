@@ -19,15 +19,17 @@
 #include <config.h>
 
 #include <math.h>
+#include <stdexcept>
 
 #include "ambient_sound.h"
 #include "object_factory.h"
 #include "lisp/lisp.h"
 #include "sector.h"
+#include "audio/sound_manager.h"
+#include "audio/sound_source.h"
 
 AmbientSound::AmbientSound(const lisp::Lisp& lisp)
 {
-
   position.x=0;
   position.y=0;
 
@@ -72,13 +74,12 @@ AmbientSound::AmbientSound(const lisp::Lisp& lisp)
   
   lisp.get("silence_distance",silence_distance);
 
-  playing=-1; // not playing at the beginning
+  sound_source = 0; // not playing at the beginning
   latency=0;
 }
 
 AmbientSound::AmbientSound(Vector pos, float factor, float bias, float vol, std::string file)
 {
-
   position.x=pos.x;
   position.y=pos.y;
 
@@ -97,7 +98,7 @@ AmbientSound::AmbientSound(Vector pos, float factor, float bias, float vol, std:
   else
     silence_distance = 1/distance_factor;
 
-  playing=-1; // not playing at the beginning
+  sound_source = 0; // not playing at the beginning
   latency=0;
 }
 
@@ -112,18 +113,30 @@ AmbientSound::hit(Player& )
 
 void
 AmbientSound::stop_playing() {
-  if (playing>=0) {
-    Mix_HaltChannel(playing);
-    playing=-1;
-  }
+  delete sound_source;
+  sound_source = 0;
 }
 
 void
 AmbientSound::start_playing()
 {
-  playing=sound_manager->play_sound(sample,-1);
-  Mix_Volume(playing,0);
-  currentvolume=targetvolume=1e-20;
+  try {
+    std::string filename = "sounds/";
+    filename += sample;
+    filename += ".wav";
+    sound_source = sound_manager->create_sound_source(filename);
+    if(!sound_source)
+      throw std::runtime_error("file not found");
+   
+    sound_source->set_gain(0);
+    sound_source->set_looping(true);
+    currentvolume=targetvolume=1e-20;
+    sound_source->play();
+  } catch(std::exception& e) {
+    std::cerr << "Couldn't play '" << sample << "': " << e.what() << "\n";
+    delete sound_source;
+    sound_source = 0;
+  }
 }
 
 void
@@ -168,10 +181,10 @@ AmbientSound::update(float deltat)
     currentvolume*=pow(rise,deltat*10);
     currentvolume += 1e-6; // volume is at least 1e-6 (0 would never rise)
 
-    if (playing>=0) {
+    if (sound_source != 0) {
 
       // set the volume
-      Mix_Volume(playing,(int)(currentvolume*maximumvolume*MIX_MAX_VOLUME));
+      sound_source->set_gain(currentvolume*maximumvolume);
 
       if (sqrdistance>=silence_distance && currentvolume<1e-3)
 	stop_playing();

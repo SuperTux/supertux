@@ -36,6 +36,7 @@
 #include "title.h"
 #include "video/screen.h"
 #include "video/surface.h"
+#include "audio/sound_manager.h"
 #include "gui/menu.h"
 #include "timer.h"
 #include "lisp/lisp.h"
@@ -44,7 +45,6 @@
 #include "level_subset.h"
 #include "game_session.h"
 #include "worldmap.h"
-#include "leveleditor.h"
 #include "player_status.h"
 #include "tile.h"
 #include "sector.h"
@@ -278,7 +278,6 @@ void title()
 {
   walking = true;
   //LevelEditor* leveleditor;
-  MusicRef credits_music;
   controller = new CodeController();
 
   titlesession = new GameSession("levels/misc/menu.stl", ST_GL_DEMO_GAME);
@@ -379,9 +378,7 @@ void title()
 #endif
                 case MNID_CREDITS:
                   fadeout(500);
-                  credits_music = sound_manager->load_music(
-                      "/music/credits.ogg");
-                  sound_manager->play_music(credits_music);
+                  sound_manager->play_music("music/credits.ogg");
                   display_text_file("credits.txt");
                   fadeout(500);
                   Menu::set_current(main_menu);
@@ -436,6 +433,7 @@ void title()
       }
 
       context.do_drawing();
+      sound_manager->update();
 
       //frame_rate.update();
 

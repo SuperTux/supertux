@@ -35,13 +35,9 @@
 
 #include <SDL.h>
 
-#ifndef WIN32
-#include <sys/types.h>
-#include <ctype.h>
-#endif
-
 #include "game_session.h"
 #include "video/screen.h"
+#include "audio/sound_manager.h"
 #include "gui/menu.h"
 #include "sector.h"
 #include "level.h"
@@ -429,6 +425,10 @@ GameSession::update(float elapsed_time)
     newsector = "";
     newspawnpoint = "";
   }
+
+  // update sounds
+  sound_manager->set_listener_position(currentsector->player->get_pos());
+  sound_manager->update();
 }
 
 void 
@@ -698,7 +698,7 @@ GameSession::start_sequence(const std::string& sequencename)
     end_sequence = ENDSEQUENCE_RUNNING;
     endsequence_timer.start(7.0); // 7 seconds until we finish the map
     last_x_pos = -1;
-    sound_manager->play_music(level_end_song, 0);
+    sound_manager->play_music("music/leveldone.mod");
     currentsector->player->invincible_timer.start(7.0);
 
     if(sequencename == "fireworks") {

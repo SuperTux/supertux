@@ -25,6 +25,7 @@
 #include "camera.h"
 #include "sector.h"
 #include "player.h"
+#include "audio/sound_manager.h"
 #include "sprite/sprite_manager.h"
 
 Flower::Flower(Type _type)
@@ -66,7 +67,7 @@ Flower::collision(GameObject& other, const CollisionHit& )
   else
     player->set_bonus(ICE_BONUS, true);
   
-  sound_manager->play_sound("fire-flower");
+  sound_manager->play("fire-flower");
   remove_me();
   return ABORT_MOVE;
 }

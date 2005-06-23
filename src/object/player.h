@@ -35,7 +35,7 @@ class BadGuy;
 class Portable;
 
 /* Times: */
-static const float TUX_SAFE_TIME = 1.250;
+static const float TUX_SAFE_TIME = 1.8;
 static const float TUX_INVINCIBLE_TIME = 10.0;
 static const float TUX_INVINCIBLE_TIME_WARNING = 2.0;
 static const float TUX_FLAPPING_TIME = 1; /* How long Tux can flap his wings to gain additional jump height */

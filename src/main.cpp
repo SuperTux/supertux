@@ -355,32 +355,13 @@ static void init_audio()
 {
   sound_manager = new SoundManager();
   
-  int format = MIX_DEFAULT_FORMAT;
-  if(Mix_OpenAudio(config->audio_frequency, format, config->audio_channels,
-                   config->audio_chunksize) < 0) {
-    std::cerr << "Couldn't initialize audio ("
-              << config->audio_frequency << "HZ, " << config->audio_channels
-              << " Channels, Format " << format << ", ChunkSize "
-              << config->audio_chunksize << "): " << SDL_GetError() << "\n";
-    return;
-  }
-  sound_manager->set_audio_device_available(true);
   sound_manager->enable_sound(config->sound_enabled);
   sound_manager->enable_music(config->music_enabled);
-  
-  if(Mix_AllocateChannels(config->audio_voices) < 0) {
-    std::cerr << "Couldn't allocate '" << config->audio_voices << "' audio voices: "
-              << SDL_GetError() << "\n";
-    return;
-  }
 }
 
 static void quit_audio()
 {
   if(sound_manager) {
-    if(sound_manager->audio_device_available())
-      Mix_CloseAudio();
-
     delete sound_manager;
     sound_manager = 0;
   }
@@ -416,6 +397,7 @@ void wait_for_event(float min_delay, float max_delay)
     }
     if(SDL_GetTicks() - ticks >= (max - min))
       running = false;
+    sound_manager->update();
     SDL_Delay(10);
   }
 }

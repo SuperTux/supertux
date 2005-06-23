@@ -24,7 +24,6 @@
 
 #include "direction.h"
 #include "math/vector.h"
-#include "audio/musicref.h"
 #include "video/drawing_context.h"
 
 namespace lisp {
@@ -42,6 +41,7 @@ class Bullet;
 class CollisionGrid;
 class ScriptInterpreter;
 class SpawnPoint;
+class MovingObject;
 
 enum MusicType {
   LEVEL_MUSIC,
@@ -108,14 +108,11 @@ public:
 private:
   void collision_object(MovingObject* object1, MovingObject* object2);
   
-  void load_music();
   GameObject* parse_object(const std::string& name, const lisp::Lisp& lisp);
   
   static Sector* _current;
   
   std::string name;
-
-  MusicRef level_song;
 
 public:
   std::string song_title;

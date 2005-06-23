@@ -713,7 +713,7 @@ WorldMap::update(float delta)
         if (special_tile->teleport_dest != Vector(-1,-1))
           {
           // TODO: an animation, camera scrolling or a fading would be a nice touch
-          sound_manager->play_sound("warp");
+          sound_manager->play("warp");
           tux->back_direction = D_NONE;
           tux->set_tile_pos(special_tile->teleport_dest);
           SDL_Delay(1000);
@@ -828,7 +828,7 @@ WorldMap::update(float delta)
               break;
             }
 
-          sound_manager->play_music(song);
+          sound_manager->play_music(std::string("music/") + music);
           Menu::set_current(0);
           if (!savegame_file.empty())
             savegame(savegame_file);
@@ -985,8 +985,7 @@ WorldMap::display()
 
   quit = false;
 
-  song = sound_manager->load_music("music/" + music);
-  sound_manager->play_music(song);
+  sound_manager->play_music(std::string("music/") + music);
 
   if(!intro_displayed && intro_script != "") {
     try {
@@ -1035,6 +1034,7 @@ WorldMap::display()
     context.pop_transform();
     get_input();
     update(elapsed_time);
+    sound_manager->update();
       
     if(Menu::current()) {
       Menu::current()->draw(context);

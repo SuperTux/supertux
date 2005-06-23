@@ -24,6 +24,7 @@
 #include "resources.h"
 #include "gettext.h"
 #include "video/drawing_context.h"
+#include "audio/sound_manager.h"
 #include "main.h"
 
 static const int START_LIVES = 4;
@@ -54,7 +55,7 @@ PlayerStatus::incLives()
 {
   if(lives < MAX_LIVES)
     ++lives;
-  sound_manager->play_sound("lifeup");
+  sound_manager->play("lifeup");
 }
 
 void
@@ -65,7 +66,7 @@ PlayerStatus::incCoins()
     incLives();
     coins = 0;
   }
-  sound_manager->play_sound("coin");
+  sound_manager->play("coin");
 }
 
 void

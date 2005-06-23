@@ -1,136 +1,74 @@
-//  $Id: sound_manager.h 2353 2005-04-06 23:00:16Z matzebraun $
-//
-//  SuperTux -  A Jump'n Run
-//  Copyright (C) 2004 Matthias Braun <matze@braunis.de
-//
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-#ifndef SUPERTUX_SOUND_MANAGER_H
-#define SUPERTUX_SOUND_MANAGER_H
+#ifndef __SOUND_MANAGER_H__
+#define __SOUND_MANAGER_H__
 
+#include "math/vector.h"
 #include <string>
 #include <vector>
 #include <map>
 
-#include "SDL_mixer.h"
-#include "math/vector.h"
+#include <AL/alc.h>
+#include <AL/al.h>
 
-class MusicRef;
-class MovingObject;
+typedef void* SoundHandle;
 
-/** Sound manager
- * This class handles all sounds that are played
- */
+class SoundFile;
+class SoundSource;
+class StreamSoundSource;
+
 class SoundManager
 {
 public:
   SoundManager();
-  ~SoundManager();
+  virtual ~SoundManager();
 
-  /// Play sound (maybe looping), return channel number (or -1 on error)
-  int play_sound(const std::string& sound,int loops=0);
-
-  /// Play sound relative to two Vectors.
-  int play_sound(const std::string& sound, const Vector& pos,
-      const Vector& pos2);
-  /// Play sound relative to a MovingObject and a Vector.
-  int play_sound(const std::string& sound, const MovingObject* object,
-      const Vector& pos);
-  
-  /** Load music.
-   * Is used to load the music for a MusicRef.
-   */
-  MusicRef load_music(const std::string& file);
-
+  void enable_sound(bool sound_enabled);
   /**
-   * If the sound isn't loaded yet try to load it.
-   * Returns an existing instance of the sound, loads a new one and returns that
-   * or returns 0 if loading failed.
+   * Creates a new sound source object which plays the specified soundfile.
+   * You are responsible for deleting the sound source later (this will stop the
+   * sound).
+   * This function might throw exceptions. It returns 0 if no audio device is
+   * available.
    */
-  Mix_Chunk* preload_sound(const std::string& name);
-
-  /// Test if a certain music file exists.
-  bool exists_music(const std::string& filename);
-
-  /** Play music.
-   * @param loops: Defaults to -1, which means endless loops.
+  SoundSource* create_sound_source(const std::string& filename);
+  /**
+   * Convenience function to simply play a sound at a given position.
+   * This functions constructs prepends sounds/ to the name and adds .wav
    */
-  void play_music(const MusicRef& music, int loops = -1);
+  void play(const std::string& name, const Vector& pos = Vector(-1, -1));
 
-  /// Halt music.
-  void halt_music();
+  void set_listener_position(Vector position);
+  void set_listener_velocity(Vector velocity);
 
-  /// Enable/Disable music.
-  void enable_music(bool enable);
+  void enable_music(bool music_enabled);
+  void play_music(const std::string& filename);
 
-  /// Is music enabled?
-  bool music_enabled()
-  {
-    return m_music_enabled;
-  }
-
-  /// Enable/Disable sound.
-  void enable_sound(bool enable);
-
-  /// Is sound enabled?
-  bool sound_enabled()
-  {
-    return m_sound_enabled;
-  }
-
-  /// Is audio available?
-  bool audio_device_available()
-  {
-    return audio_device;
-  }
-
-  void set_audio_device_available(bool available)
-  {
-    audio_device = available;
-  }
+  void update();
 
 private:
-  friend class MusicRef;
-  friend class Setup;
-  
-  /// Resource for music.
-  /** Contains the raw music data and
-      information for music reference
-      counting. */
-  class MusicResource
-    {
-    public:
-      ~MusicResource();
+  friend class SoundSource;
+  friend class StreamSoundSource;
 
-      SoundManager* manager;
-      Mix_Music* music;
-      int refcount;
-    };
+  static ALuint load_file_into_buffer(const std::string& filename);
+  static ALenum get_sample_format(SoundFile* file);
 
-  void free_music(MusicResource* music);
+  void print_openal_version();
+  void check_alc_error(const char* message);
+  static void check_al_error(const char* message);
 
-  typedef std::map<std::string, Mix_Chunk*> Sounds;
-  Sounds sounds;
+  ALCdevice* device;
+  ALCcontext* context;
+  bool sound_enabled;
 
-  typedef std::map<std::string, MusicResource> Musics;
-  Musics musics;
+  typedef std::map<std::string, ALuint> SoundBuffers;
+  SoundBuffers buffers;
+  typedef std::vector<SoundSource*> SoundSources;
+  SoundSources sources;
 
-  MusicResource* current_music;
-  bool m_music_enabled;
-  bool m_sound_enabled;
-  bool audio_device;        /* true: available and initialized */
+  StreamSoundSource* music_source;
+
+  bool music_enabled;
+  std::string current_music;
 };
 
-#endif /*SUPERTUX_SOUND_MANAGER_H*/
+#endif
 

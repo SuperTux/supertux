@@ -22,6 +22,7 @@
 #include "game_session.h"
 #include "gui/menu.h"
 #include "gui/button.h"
+#include "audio/sound_manager.h"
 #include "title.h"
 #include "resources.h"
 #include "worldmap.h"

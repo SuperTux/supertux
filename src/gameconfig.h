@@ -36,11 +36,6 @@ public:
   int screenheight;
   bool use_gl;
 
-  int audio_frequency;
-  int audio_channels;
-  int audio_voices;
-  int audio_chunksize;
-  
   bool use_fullscreen;
   bool show_fps;
   bool sound_enabled;

@@ -197,10 +197,6 @@
                     (powerup (x 3168) (y 416)
         (sprite (_ "eat-me"))
         (script "
-function wait(time) {
-  set_wakeup_time(time);
-  suspend();
-}
 DisplayEffect.fade_out(1);
 wait(1);
 Level.flip_vertically();
@@ -212,10 +208,6 @@ DisplayEffect.fade_in(1);
         (powerup
           (sprite "red-potion")
           (script "
-function wait(time) {
-  set_wakeup_time(time);
-  suspend();
-}
 DisplayEffect.fade_out(1);
 wait(1);
 Level.flip_vertically();
@@ -226,10 +218,6 @@ DisplayEffect.fade_in(1);
       (powerup (x 8608) (y 1024)
         (sprite "red-potion")
         (script "
-function wait(time) {
-  set_wakeup_time(time);
-  suspend();
-}
 DisplayEffect.fade_out(1);
 wait(1);
 Level.flip_vertically();
@@ -239,10 +227,6 @@ DisplayEffect.fade_in(1);
       (powerup (x 9952) (y 416)
         (sprite "red-potion")
         (script "
-function wait(time) {
-  set_wakeup_time(time);
-  suspend();
-}
 DisplayEffect.fade_out(1);
 wait(1);
 Level.flip_vertically();
@@ -251,10 +235,7 @@ DisplayEffect.fade_in(1);
       )
       (powerup (x 8000) (y 352)
         (sprite "gold-key")
-        (script "function wait(time) {
-                 set_wakeup_time(time);
-                 suspend();}
-                 wait(7);
+        (script "wait(7);
                  Level.finish();")
       )
       (infoblock (x 2560) (y 320)

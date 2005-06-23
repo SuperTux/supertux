@@ -27,6 +27,7 @@
 #include "video/drawing_context.h"
 #include "lisp/parser.h"
 #include "lisp/lisp.h"
+#include "audio/sound_manager.h"
 #include "main.h"
 #include "control/joystickkeyboardcontroller.h"
 
@@ -168,6 +169,7 @@ void display_text_file(const std::string& filename)
     }
     
     context.do_drawing();
+    sound_manager->update();
     
     if(SCREEN_HEIGHT+y-scroll < 0 && 20+SCREEN_HEIGHT+y-scroll < 0)
       done = 1;

@@ -27,10 +27,6 @@
 #include "object/gameobjs.h"
 #include "object/player.h"
 
-MusicRef herring_song;
-MusicRef level_end_song;
-MusicRef credits_song;
-
 SpriteManager* sprite_manager = 0;
 TileManager* tile_manager = 0;
 SoundManager* sound_manager = 0;
@@ -122,6 +118,7 @@ void load_shared()
   /* Tux life: */
   tux_life = new Surface("images/creatures/tux_small/tux-life.png", true);
 
+#if 0
   /* Sound effects: */
   sound_manager->preload_sound("jump");
   sound_manager->preload_sound("bigjump");
@@ -144,10 +141,7 @@ void load_shared()
   sound_manager->preload_sound("explosion");
   sound_manager->preload_sound("warp");
   sound_manager->preload_sound("fireworks");
-
-  /* Herring song */
-  herring_song = sound_manager->load_music("music/salcon.mod");
-  level_end_song = sound_manager->load_music("music/leveldone.mod");
+#endif
 }
 
 /* Free shared data: */

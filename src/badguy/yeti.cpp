@@ -47,8 +47,10 @@ Yeti::Yeti(const lisp::Lisp& reader)
   sprite->set_action("right");
   state = INIT;
   side = LEFT;
+#if 0
   sound_manager->preload_sound("yeti_gna");
   sound_manager->preload_sound("yeti_roar");
+#endif
   hit_points = INITIAL_HITPOINTS;
   reader.get("dead-script", dead_script);
   countMe = false;
@@ -87,7 +89,7 @@ Yeti::active_update(float elapsed_time)
     case ANGRY_JUMPING:
       if(timer.check()) {
         // jump
-        sound_manager->play_sound("yeti_gna");
+        sound_manager->play("yeti_gna");
         physic.set_velocity_y(JUMP_VEL1);
       }
       break;
@@ -139,7 +141,7 @@ Yeti::collision_squished(Player& player)
     return true;
 
   player.bounce(*this);
-  sound_manager->play_sound("yeti_roar");
+  sound_manager->play("yeti_roar");
   hit_points--;
   if(hit_points <= 0) {
     sprite->set_action("dead");

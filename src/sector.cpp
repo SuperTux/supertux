@@ -157,7 +157,6 @@ Sector::parse(const lisp::Lisp& sector)
       iter.value()->get(gravity);
     } else if(token == "music") {
       iter.value()->get(song_title);
-      load_music();
     } else if(token == "spawnpoint") {
       SpawnPoint* sp = new SpawnPoint(iter.lisp());
       spawnpoints.push_back(sp);
@@ -244,7 +243,6 @@ Sector::parse_old_format(const lisp::Lisp& reader)
 
   song_title = "Mortimers_chipdisko.mod";
   reader.get("music", song_title);
-  load_music();
 
   int width, height = 15;
   reader.get("width", width);
@@ -771,7 +769,7 @@ Sector::add_bullet(const Vector& pos, float xm, Direction dir)
   }
   add_object(new_bullet);
 
-  sound_manager->play_sound("shoot");
+  sound_manager->play("shoot");
 
   return true;
 }
@@ -790,24 +788,18 @@ Sector::add_floating_text(const Vector& pos, const std::string& text)
 }
 
 void
-Sector::load_music()
-{
-  level_song = sound_manager->load_music("/music/" + song_title);
-}
-
-void
 Sector::play_music(MusicType type)
 {
   currentmusic = type;
   switch(currentmusic) {
     case LEVEL_MUSIC:
-      sound_manager->play_music(level_song);
+      sound_manager->play_music(std::string("music/") + song_title);
       break;
     case HERRING_MUSIC:
-      sound_manager->play_music(herring_song);
+      sound_manager->play_music("music/salcon.mod");
       break;
     default:
-      sound_manager->halt_music();
+      sound_manager->play_music("");
       break;
   }
 }

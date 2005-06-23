@@ -25,6 +25,7 @@
 
 #include "gettext.h"
 #include "sprite/sprite_manager.h"
+#include "audio/sound_manager.h"
 #include "player.h"
 #include "tile.h"
 #include "sprite/sprite.h"
@@ -269,7 +270,7 @@ Player::handle_horizontal_input()
     // let's skid!
     if(fabs(vx)>SKID_XM && !skidding_timer.started()) {
       skidding_timer.start(SKID_TIME);
-      sound_manager->play_sound("skid");
+      sound_manager->play("skid");
       // dust some partcles
       Sector::current()->add_object(
         new Particles(
@@ -365,9 +366,9 @@ Player::handle_vertical_input()
     can_flap = false;
     flaps_nb = 0; // Ricardo's flapping
     if (is_big())
-      sound_manager->play_sound("bigjump");
+      sound_manager->play("bigjump");
     else
-      sound_manager->play_sound("jump");
+      sound_manager->play("jump");
   } else if(!controller->hold(Controller::JUMP)) { // Let go of jump key
     if (!flapping && !duck && !falling_from_flap && !on_ground()) {
       can_flap = true;
@@ -789,7 +790,7 @@ Player::collision(GameObject& other, const CollisionHit& hit)
 void
 Player::make_invincible()
 {
-  sound_manager->play_sound("invincible");
+  sound_manager->play("invincible");
   invincible_timer.start(TUX_INVINCIBLE_TIME);
   Sector::current()->play_music(HERRING_MUSIC);               
 }
@@ -805,7 +806,7 @@ Player::kill(HurtMode mode)
           safe_timer.get_timeleft() > 0 || invincible_timer.get_timeleft() > 0)
     return;                          
   
-  sound_manager->play_sound("hurt");
+  sound_manager->play("hurt");
 
   physic.set_velocity_x(0);
 

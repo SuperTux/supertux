@@ -105,8 +105,7 @@ MrIceBlock::collision_solid(GameObject& object, const CollisionHit& hit)
       dir = dir == LEFT ? RIGHT : LEFT;
       sprite->set_action(dir == LEFT ? "flat-left" : "flat-right");
       physic.set_velocity_x(-physic.get_velocity_x());
-      sound_manager->play_sound("ricochet", get_pos(),
-                                Sector::current()->player->get_pos());
+      sound_manager->play("ricochet", get_pos());
       break;
     }
     case ICESTATE_FLAT:
@@ -153,7 +152,7 @@ MrIceBlock::collision_squished(Player& player)
       }
 
       // flatten
-      sound_manager->play_sound("stomp", get_pos(), player.get_pos());
+      sound_manager->play("stomp", get_pos());
       physic.set_velocity_x(0);
       physic.set_velocity_y(0); 
       
@@ -163,7 +162,7 @@ MrIceBlock::collision_squished(Player& player)
       break;
     case ICESTATE_FLAT:
       // kick
-      sound_manager->play_sound("kick", this, player.get_pos());
+      sound_manager->play("kick", get_pos());
 
       if(player.get_pos().x < get_pos().x) {
         dir = RIGHT;

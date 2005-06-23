@@ -83,6 +83,8 @@ else
 fi
 AC_SUBST([VARIANT])
 
+AC_C_BIGENDIAN()
+
 AC_MSG_CHECKING(whether OpenGL should be used)
 AC_ARG_ENABLE(opengl,
               AC_HELP_STRING([--disable-opengl], [disable OpenGL support]),
@@ -115,21 +117,8 @@ AM_PATH_SDL($SDL_VERSION,
             :,
 	    AC_MSG_ERROR([*** SDL version $SDL_VERSION not found!]))
 
-NP_FINDLIB([SDLMIXER], [SDL_mixer], [SDL_mixer >= 1.2],
-        NP_LANG_PROGRAM([#include <SDL_mixer.h>
-#if MIX_MAJOR_VERSION < 1
-# error SDLMix too old
-#else
-# if MIX_MAJOR_VERSION == 1
-#  if MIX_MINOR_VERSION < 2
-#   error SDLMix too old
-#  endif
-# endif
-#endif], [Mix_OpenAudio(0, 0, 0, 0);]),
-        [], [-lSDL_mixer],
-        [],
-        [AC_MSG_ERROR([Please install SDLMixer >=1.2.2])],
-        [$SDL_CFLAGS], [$SDL_LIBS])
+XIPH_PATH_VORBIS(, [AC_MSG_ERROR([Please install libvorbis])])
+XIPH_PATH_OGG(, [AC_MSG_ERROR([Please install libogg])])
 
 NP_FINDLIB([SDLIMAGE], [SDL_image], [SDL_image >= 1.2],
         NP_LANG_PROGRAM([#include <SDL_image.h>], [IMG_Load("");]),
@@ -146,6 +135,14 @@ NP_FINDLIB([PHYSFS], [physfs], [physfs >= 1.0.0],
         [], [-lphysfs],
         [],
         [AC_MSG_ERROR([Please install physfs >= 1.0])])
+
+NP_FINDLIB([OPENAL], [OpenAL], [OpenAL],
+         NP_LANG_PROGRAM([#include <AL/alut.h>],
+           [alutInit(0, 0);]),
+         [], [-lopenal],
+         [],
+         [AC_MSG_ERROR([Please intall OpenAL])],
+         [], [])
 
 dnl Checks for library functions.
 AC_CHECK_FUNCS(mkdir strdup strstr)

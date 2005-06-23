@@ -19,6 +19,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 #include "physfs_stream.h"
 
+#include <assert.h>
 #include <physfs.h>
 #include <stdexcept>
 #include <sstream>
@@ -42,15 +43,58 @@ IFileStreambuf::~IFileStreambuf()
 int
 IFileStreambuf::underflow()
 {
-    if(PHYSFS_eof(file))
+    if(PHYSFS_eof(file)) {
         return traits_type::eof();
-    
-    size_t bytesread = (size_t) PHYSFS_read(file, buf, 1, sizeof(buf));
-    if(bytesread == 0)
+    }
+   
+    PHYSFS_sint64 bytesread = (size_t) PHYSFS_read(file, buf, 1, sizeof(buf));
+    if(bytesread <= 0) {
         return traits_type::eof();
+    }
     setg(buf, buf, buf + bytesread);
 
     return buf[0];
+}
+
+IFileStreambuf::pos_type
+IFileStreambuf::seekpos(pos_type pos, std::ios_base::openmode)
+{
+  if(PHYSFS_seek(file, static_cast<PHYSFS_uint64> (pos)) == 0) {
+    return pos_type(off_type(-1));
+  }
+
+  // the seek invalidated the buffer
+  setg(buf, buf, buf);
+  return pos;
+}
+
+IFileStreambuf::pos_type
+IFileStreambuf::seekoff(off_type off, std::ios_base::seekdir dir,
+                        std::ios_base::openmode mode)
+{
+  off_type pos = off;
+  PHYSFS_sint64 ptell = PHYSFS_tell(file);
+  
+  switch(dir) {
+    case std::ios_base::beg:
+      break;
+    case std::ios_base::cur:
+      if(off == 0)
+        return static_cast<pos_type> (ptell) - static_cast<pos_type> (egptr() - gptr());
+      pos += static_cast<off_type> (ptell) - static_cast<off_type> (egptr() - gptr());
+      break;
+    case std::ios_base::end:
+      pos += static_cast<off_type> (PHYSFS_fileLength(file));
+      break;
+    default:
+#ifdef DEBUG
+      assert(false);
+#else
+      return pos_type(off_type(-1));
+#endif
+  }
+
+  return seekpos(static_cast<pos_type> (pos), mode);
 }
 
 //---------------------------------------------------------------------------

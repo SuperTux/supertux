@@ -42,11 +42,12 @@
 #ifndef __AMBIENT_SOUND_H__
 #define __AMBIENT_SOUND_H__
 
-
 #include "game_object.h"
 #include "resources.h"
 #include "player.h"
 #include "SDL_mixer.h"
+
+class SoundSource;
 
 class AmbientSound : public GameObject
 {
@@ -65,7 +66,7 @@ private:
   Vector dimension;
 
   std::string sample;
-  int playing;
+  SoundSource* sound_source;
   int latency;
 
   float distance_factor;  /// distance scaling

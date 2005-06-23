@@ -292,14 +292,14 @@ static int Sound_play_music_wrapper(HSQUIRRELVM v)
   return 0;
 }
 
-static int Sound_play_sound_wrapper(HSQUIRRELVM v)
+static int Sound_play_wrapper(HSQUIRRELVM v)
 {
   Scripting::Sound* _this;
   sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
   const char* arg0;
   sq_getstring(v, 2, &arg0);
   
-  _this->play_sound(arg0);
+  _this->play(arg0);
   
   return 0;
 }
@@ -494,7 +494,7 @@ static WrappedFunction supertux_ScriptedObject_methods[] = {
 
 static WrappedFunction supertux_Sound_methods[] = {
   { "play_music", &Sound_play_music_wrapper },
-  { "play_sound", &Sound_play_sound_wrapper },
+  { "play", &Sound_play_wrapper },
 };
 
 static WrappedFunction supertux_Text_methods[] = {

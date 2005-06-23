@@ -6,8 +6,6 @@
 #include "resources.h"
 #include "audio/sound_manager.h"
 
-#define NOIMPL      printf("%s not implemented.\n", __PRETTY_FUNCTION__);
-
 namespace Scripting
 {
 
@@ -18,14 +16,17 @@ namespace Scripting
   {}
 
   void
-  Sound::play_music(const std::string& )
+  Sound::play_music(const std::string& name)
   {
-    NOIMPL;
+    std::string filename = "music/";
+    filename += name;
+    filename += ".ogg";
+    sound_manager->play_music(name);
   }
 
   void
-  Sound::play_sound(const std::string& name)
+  Sound::play(const std::string& name)
   {
-    sound_manager->play_sound(name);
+    sound_manager->play(name);
   }
 }

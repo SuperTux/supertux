@@ -25,6 +25,7 @@
 #include "sprite/sprite.h"
 #include "sprite/sprite_manager.h"
 #include "video/drawing_context.h"
+#include "audio/sound_manager.h"
 #include "object_factory.h"
 
 InvisibleBlock::InvisibleBlock(const Vector& pos)
@@ -48,7 +49,7 @@ InvisibleBlock::hit(Player& )
     return;
 
   sprite->set_action("empty");
-  sound_manager->play_sound("brick");
+  sound_manager->play("brick");
   start_bounce();
   flags |= FLAG_SOLID;
   visible = true;

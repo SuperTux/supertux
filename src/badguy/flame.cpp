@@ -23,7 +23,7 @@
 #include "flame.h"
 
 Flame::Flame(const lisp::Lisp& reader)
-  : angle(0), radius(100), speed(2)
+  : angle(0), radius(100), speed(2), source(0)
 {
   reader.get("x", start_position.x);
   reader.get("y", start_position.y);
@@ -34,6 +34,11 @@ Flame::Flame(const lisp::Lisp& reader)
   bbox.set_size(32, 32);  
   sprite = sprite_manager->create("flame");
   countMe = false;
+}
+
+Flame::~Flame()
+{
+  delete source;
 }
 
 void
@@ -56,6 +61,31 @@ Flame::active_update(float elapsed_time)
   Vector newpos(start_position.x + cos(angle) * radius,
                 start_position.y + sin(angle) * radius);
   movement = newpos - get_pos();
+
+  source->set_position(get_pos());
+}
+
+void
+Flame::activate()
+{
+  delete source;
+  source = sound_manager->create_sound_source("sounds/flame.wav");
+  if(!source) {
+    std::cerr << "Couldn't start flame sound.\n";
+    return;
+  }
+  source->set_position(get_pos());
+  source->set_looping(true);
+  source->set_gain(2.0);
+  source->set_reference_distance(32);
+  source->play();
+}
+
+void
+Flame::deactivate()
+{
+  delete source;
+  source = 0;
 }
 
 void

@@ -64,7 +64,7 @@ MrTree::collision_squished(Player& player)
     mystate = STATE_NORMAL;
     activate();
 
-    sound_manager->play_sound("squish", get_pos(), player.get_pos());      
+    sound_manager->play("squish", get_pos());
     player.bounce(*this);
   } else {
     sprite->set_action(dir == LEFT ? "squished-left" : "squished-right");

@@ -1,252 +1,265 @@
-//  $Id: sound_manager.cpp 2334 2005-04-04 16:26:14Z grumbel $
-//
-//  SuperTux -  A Jump'n Run
-//  Copyright (C) 2004 Matthias Braun <matze@braunis.de
-//
-//  This program is free software; you can redistribute it and/or
-//  modify it under the terms of the GNU General Public License
-//  as published by the Free Software Foundation; either version 2
-//  of the License, or (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License
-//  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-#include <config.h>
+#include "sound_manager.h"
 
-#include <cmath>
-#include <cassert>
-#include <iostream>
 #include <stdexcept>
+#include <iostream>
 #include <sstream>
-#include <physfs.h>
+#include <memory>
 
-#include "audio/sound_manager.h"
-
-#include "audio/musicref.h"
-#include "physfs/physfs_sdl.h"
-#include "moving_object.h"
-#include "resources.h"
+#include "sound_file.h"
+#include "sound_source.h"
+#include "stream_sound_source.h"
 
 SoundManager::SoundManager()
-  : current_music(0), m_music_enabled(true) , m_sound_enabled(true),
-    audio_device(false)
+  : device(0), context(0), sound_enabled(false), music_source(0)
 {
+  try {
+    device = alcOpenDevice(0);
+    if(device == 0) {
+      print_openal_version();
+      throw std::runtime_error("Couldn't open audio device.");
+    }
+
+    int attributes[] = { 0 };
+    context = alcCreateContext(device, attributes);
+    check_alc_error("Couldn't create audio context: ");
+    alcMakeContextCurrent(context);
+    check_alc_error("Couldn't select audio context: ");
+
+    check_al_error("Audio error after init: ");
+    sound_enabled = true;
+  } catch(std::exception& e) {
+    device = 0;
+    context = 0;
+    std::cerr << "Couldn't initialize audio device:" << e.what() << "\n";
+    print_openal_version();
+  }
 }
 
 SoundManager::~SoundManager()
 {
-  for(Sounds::iterator i = sounds.begin(); i != sounds.end(); ++i) {
-    Mix_FreeChunk(i->second);
-  }
-  sounds.clear();
-}
+  delete music_source;
 
-int
-SoundManager::play_sound(const std::string& name,int loops)
-{
-  if(!audio_device || !m_sound_enabled)
-    return -1;
-  
-  Mix_Chunk* chunk = preload_sound(name);
-  if(chunk == 0) {
-    std::cerr << "Sound '" << name << "' not found.\n";
-    return -1;
-  }
-  int chan=Mix_PlayChannel(-1, chunk, loops);  
-  Mix_Volume(chan,MIX_MAX_VOLUME);
-  return chan;
-}
-
-
-int
-SoundManager::play_sound(const std::string& sound, const MovingObject* object,
-    const Vector& pos)
-{
-  // TODO keep track of the object later and move the sound along with the
-  // object.
-  return play_sound(sound, object->get_pos(), pos);
-}
-
-int
-SoundManager::play_sound(const std::string& sound, const Vector& pos,
-    const Vector& pos2)
-{
-  if(!audio_device || !m_sound_enabled)
-    return -1;
-
-  Mix_Chunk* chunk = preload_sound(sound);
-  if(chunk == 0) {
-    std::cerr << "Sound '" << sound << "' not found.\n";
-    return -1;                                               
+  for(SoundSources::iterator i = sources.begin(); i != sources.end(); ++i) {
+    delete *i;
   }
 
-  // TODO make sure this formula is good
-  float distance 
-    = pos2.x- pos.x;
-  int loud = int(255.0/float(1600) * fabsf(distance));
-  if(loud > 255)
-    return -1;
-
-  int chan = Mix_PlayChannel(-1, chunk, 0);
-  if(chan < 0)
-    return -1;         
-  Mix_Volume(chan,MIX_MAX_VOLUME);                         
-  Mix_SetDistance(chan, loud);
-
-  // very bad way to do this...
-  if(distance > 100)
-    Mix_SetPanning(chan, 230, 24);
-  else if(distance < -100)
-    Mix_SetPanning(chan, 24, 230);
-  return chan;
-}
-
-MusicRef
-SoundManager::load_music(const std::string& file)
-{
-  if(!audio_device)
-    return MusicRef(0);
-
-  if(!exists_music(file)) {
-    std::stringstream msg;
-    msg << "Couldn't load musicfile '" << file << "': " << SDL_GetError();
-    throw std::runtime_error(msg.str());
+  for(SoundBuffers::iterator i = buffers.begin(); i != buffers.end(); ++i) {
+    ALuint buffer = i->second;
+    alDeleteBuffers(1, &buffer);
   }
 
-  std::map<std::string, MusicResource>::iterator i = musics.find(file);
-  assert(i != musics.end());
-  return MusicRef(& (i->second));
-}
-
-bool
-SoundManager::exists_music(const std::string& filename)
-{
-  if(!audio_device)
-    return true;
-  
-  // song already loaded?
-  std::map<std::string, MusicResource>::iterator i = musics.find(filename);
-  if(i != musics.end()) {
-    return true;                                      
+  if(context != 0) {
+    alcMakeContextCurrent(0);
+    alcDestroyContext(context);
   }
- 
-  const char* dir = PHYSFS_getRealDir(filename.c_str());
-  if(dir == 0)
-    return false;
-  Mix_Music* song = Mix_LoadMUS( (std::string(dir) + "/" + filename).c_str() );
-  if(song == 0)
-    return false;
-
-  // insert into music list
-  std::pair<std::map<std::string, MusicResource>::iterator, bool> result = 
-    musics.insert(
-        std::make_pair<std::string, MusicResource> (filename, MusicResource()));
-  MusicResource& resource = result.first->second;
-  resource.manager = this;
-  resource.music = song;
-
-  return true;
-}
-
-void
-SoundManager::free_music(MusicResource* )
-{
-  // TODO free music, currently we can't do this since SDL_mixer seems to have
-  // some bugs if you load/free alot of mod files.  
-}
-
-void
-SoundManager::play_music(const MusicRef& musicref, int loops)
-{
-  if(!audio_device)
-    return;
-
-  if(musicref.music == 0 || current_music == musicref.music)
-    return;
-
-  if(current_music)
-    current_music->refcount--;
-  
-  current_music = musicref.music;
-  current_music->refcount++;
-  
-  if(m_music_enabled)
-    Mix_PlayMusic(current_music->music, loops);
-}
-
-void
-SoundManager::halt_music()
-{
-  if(!audio_device)
-    return;
-  
-  Mix_HaltMusic();
-  
-  if(current_music) {
-    current_music->refcount--;
-    if(current_music->refcount == 0)
-      free_music(current_music);
-    current_music = 0;
+  if(device != 0) {
+    alcCloseDevice(device);
   }
 }
 
-void
-SoundManager::enable_music(bool enable)
+ALuint
+SoundManager::load_file_into_buffer(const std::string& filename)
 {
-  if(!audio_device)
-    return;
-
-  if(enable == m_music_enabled)
-    return;
+  // open sound file
+  std::auto_ptr<SoundFile> file (load_sound_file(filename));
   
-  m_music_enabled = enable;
-  if(m_music_enabled == false) {
-    Mix_HaltMusic();
+  ALenum format = get_sample_format(file.get());
+  ALuint buffer;
+  alGenBuffers(1, &buffer);
+  check_al_error("Couldn't create audio buffer: ");
+  char* samples = new char[file->size];
+  try {
+    file->read(samples, file->size);
+    alBufferData(buffer, format, samples,
+        static_cast<ALsizei> (file->size),
+        static_cast<ALsizei> (file->rate));
+    check_al_error("Couldn't fill audio buffer: ");
+  } catch(...) {
+    delete[] samples;
+    throw;
+  }
+  delete[] samples;
+
+  return buffer;
+}
+
+SoundSource*
+SoundManager::create_sound_source(const std::string& filename)
+{
+  if(!sound_enabled)
+    return 0;
+
+  ALuint buffer;
+  
+  // reuse an existing static sound buffer            
+  SoundBuffers::iterator i = buffers.find(filename);
+  if(i != buffers.end()) {
+    buffer = i->second;
   } else {
-    if(current_music)
-      Mix_PlayMusic(current_music->music, -1);
+    buffer = load_file_into_buffer(filename);
+    buffers.insert(std::make_pair(filename, buffer));
+  }
+  
+  SoundSource* source = new SoundSource();
+  alSourcei(source->source, AL_BUFFER, buffer);
+  return source;  
+}
+
+void
+SoundManager::play(const std::string& soundname, const Vector& pos)
+{
+  std::string filename = "sounds/";
+  filename += soundname;
+  filename += ".wav";
+  try {
+    SoundSource* source = create_sound_source(filename);
+    if(source == 0)
+      return;
+    if(pos == Vector(-1, -1)) {
+      alSourcef(source->source, AL_ROLLOFF_FACTOR, 0);
+    } else {
+      source->set_position(pos);
+    }
+    source->play();
+    sources.push_back(source);
+  } catch(std::exception& e) {
+    std::cout << "Couldn't play sound " << filename << ": " << e.what() << "\n";
   }
 }
 
 void
 SoundManager::enable_sound(bool enable)
 {
-  if(!audio_device)
+  if(device == 0)
     return;
-  
-  m_sound_enabled = enable;
+  sound_enabled = enable;
 }
 
-SoundManager::MusicResource::~MusicResource()
+void
+SoundManager::enable_music(bool enable)
 {
-  // don't free music buggy SDL_Mixer crashs for some mod files
-  // Mix_FreeMusic(music);
+  if(device == 0)
+    return;
+  music_enabled = enable;
+  if(music_enabled) {
+    play_music(current_music);
+  } else {
+    if(music_source) {
+      delete music_source;
+      music_source = 0;
+    }
+  }
 }
 
-Mix_Chunk* SoundManager::preload_sound(const std::string& name)
+void
+SoundManager::play_music(const std::string& filename)
 {
-  if(!audio_device)
-    return 0;
+  if(filename == current_music)
+    return;
+  current_music = filename;
+  if(!music_enabled)
+    return;
 
-  Sounds::iterator i = sounds.find(name);
-  if(i != sounds.end()) {
-    return i->second;
+  try {
+    StreamSoundSource* newmusic 
+      = new StreamSoundSource(load_sound_file(filename));
+
+    alSourcef(newmusic->source, AL_ROLLOFF_FACTOR, 0);
+    newmusic->play();
+ 
+    delete music_source;
+    music_source = newmusic;
+  } catch(std::exception& e) {
+    std::cerr << "Couldn't play music file '" << filename << "': "
+      << e.what() << "\n";
   }
+}
 
-  std::string filename = "sounds/";
-  filename += name;
-  filename += ".wav";
+void
+SoundManager::set_listener_position(Vector pos)
+{
+  alListener3f(AL_POSITION, pos.x, pos.y, 0);
+}
+
+void
+SoundManager::set_listener_velocity(Vector vel)
+{
+  alListener3f(AL_VELOCITY, vel.x, vel.y, 0);
+}
+
+void
+SoundManager::update()
+{
+  // check for finished sound sources
+  for(SoundSources::iterator i = sources.begin(); i != sources.end(); ) {
+    SoundSource* source = *i;
+    if(!source->playing()) {
+      delete source;
+      i = sources.erase(i);
+    } else {
+      ++i;
+    }
+  }
+  // check streaming sounds
+  if(music_source)
+    music_source->update();
   
-  Mix_Chunk* chunk = Mix_LoadWAV_RW(get_physfs_SDLRWops(filename), true);
-  if(chunk != 0) {
-    sounds.insert(std::make_pair(name, chunk));
-  }
+  alcProcessContext(context);
+  check_alc_error("Error while processing audio context: ");
+}
 
-  return chunk;
+ALenum
+SoundManager::get_sample_format(SoundFile* file)
+{
+  if(file->channels == 2) {
+    if(file->bits_per_sample == 16) {
+      return AL_FORMAT_STEREO16;
+    } else if(file->bits_per_sample == 8) {
+      return AL_FORMAT_STEREO8;
+    } else {
+      throw std::runtime_error("Only 16 and 8 bit samples supported");
+    }
+  } else if(file->channels == 1) {
+    if(file->bits_per_sample == 16) {
+      return AL_FORMAT_MONO16;
+    } else if(file->bits_per_sample == 8) {
+      return AL_FORMAT_MONO8;
+    } else {
+      throw std::runtime_error("Only 16 and 8 bit samples supported");
+    }
+  }
+  
+  throw std::runtime_error("Only 1 and 2 channel samples supported");
+}
+
+void
+SoundManager::print_openal_version()
+{
+  std::cout << "OpenAL Vendor: " << alGetString(AL_VENDOR) << "\n"
+            << "OpenAL Version: " << alGetString(AL_VERSION) << "\n" 
+            << "OpenAL Renderer: " << alGetString(AL_RENDERER) << "\n"
+            << "OpenAl Extensions: " << alGetString(AL_RENDERER) << "\n";
+}
+
+void
+SoundManager::check_alc_error(const char* message)
+{
+  int err = alcGetError(device);
+  if(err != ALC_NO_ERROR) {
+    std::stringstream msg;
+    msg << message << alcGetString(device, err);
+    throw std::runtime_error(msg.str());
+  }                
+}
+
+void
+SoundManager::check_al_error(const char* message)
+{
+  int err = alGetError();
+  if(err != AL_NO_ERROR) {
+    std::stringstream msg;
+    msg << message << alGetString(err);
+    throw std::runtime_error(msg.str());
+  }  
 }
 

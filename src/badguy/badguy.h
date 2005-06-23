@@ -36,6 +36,8 @@
 #include "lisp/lisp.h"
 #include "lisp/writer.h"
 #include "video/drawing_context.h"
+#include "audio/sound_manager.h"
+#include "audio/sound_source.h"
 #include "sprite/sprite_manager.h"
 
 class BadGuy : public MovingObject, public Serializable

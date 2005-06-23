@@ -14,7 +14,7 @@ public:
   /**
    * Play a sound effect. The name should be without path or .wav extension
    */
-  void play_sound(const std::string& soundfile);
+  void play(const std::string& soundfile);
 
 #ifndef SCRIPTING_API
   Sound();

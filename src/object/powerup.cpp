@@ -24,6 +24,7 @@
 #include "resources.h"
 #include "player.h"
 #include "sprite/sprite_manager.h"
+#include "audio/sound_manager.h"
 #include "object_factory.h"
 #include "sector.h"
 #include "scripting/script_interpreter.h"
@@ -73,10 +74,10 @@ PowerUp::collision(GameObject& other, const CollisionHit& hit)
   // some defaults if no script has been set
   if (sprite->get_name() == "egg") {
     player->set_bonus(GROWUP_BONUS, true);
-    sound_manager->play_sound("grow");
+    sound_manager->play("grow");
   } else if (sprite->get_name() == "fireflower") {
     player->set_bonus(FIRE_BONUS, true);
-    sound_manager->play_sound("fire-flower");
+    sound_manager->play("fire-flower");
   } else if (sprite->get_name() == "star") {
     player->make_invincible();
   } else if (sprite->get_name() == "1up") {
