@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <stdexcept>
 #include <sstream>
+#include <assert.h>
 #include <physfs.h>
 #include <vorbis/codec.h>
 #include <vorbis/vorbisfile.h>
