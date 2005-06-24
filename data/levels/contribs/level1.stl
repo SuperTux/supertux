@@ -3,7 +3,7 @@
   (version 1)
   (name (_ "The long cave"))
   (author "Torfi Gunnarsson")
-  (music "cave.mod")
+  (music "cave.ogg")
   (background "cave2.jpg")
   (particle_system "")
   (bkgd_speed 50)

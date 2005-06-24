@@ -698,7 +698,7 @@ GameSession::start_sequence(const std::string& sequencename)
     end_sequence = ENDSEQUENCE_RUNNING;
     endsequence_timer.start(7.0); // 7 seconds until we finish the map
     last_x_pos = -1;
-    sound_manager->play_music("music/leveldone.mod");
+    sound_manager->play_music("music/leveldone.ogg");
     currentsector->player->invincible_timer.start(7.0);
 
     if(sequencename == "fireworks") {

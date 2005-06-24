@@ -8,7 +8,7 @@
   (start_pos_x    100)
   (start_pos_y    100)
   (background "")
-  (music "fortress2.mod")
+  (music "fortress2.ogg")
   (bkgd_red_top    50)
   (bkgd_green_top  50)
   (bkgd_blue_top   50)

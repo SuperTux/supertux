@@ -2,7 +2,7 @@
 (supertux-worldmap
   (properties 
     (name (_ "Icyisland"))
-    (music "salcon.mod")
+    (music "salcon.ogg")
   )
   (intro-script "
 display_text_file(\"intro.txt\")

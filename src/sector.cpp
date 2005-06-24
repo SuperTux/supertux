@@ -72,7 +72,7 @@ Sector::Sector()
   : gravity(10), player(0), solids(0), camera(0),
     currentmusic(LEVEL_MUSIC)
 {
-  song_title = "Mortimers_chipdisko.mod";
+  song_title = "chipdisko.ogg";
   player = new Player(&player_status);
   add_object(player);
 
@@ -241,7 +241,7 @@ Sector::parse_old_format(const lisp::Lisp& reader)
   spawn->name = "main";
   spawnpoints.push_back(spawn);
 
-  song_title = "Mortimers_chipdisko.mod";
+  song_title = "chipdisko.ogg";
   reader.get("music", song_title);
 
   int width, height = 15;
@@ -796,7 +796,7 @@ Sector::play_music(MusicType type)
       sound_manager->play_music(std::string("music/") + song_title);
       break;
     case HERRING_MUSIC:
-      sound_manager->play_music("music/salcon.mod");
+      sound_manager->play_music("music/salcon.ogg");
       break;
     default:
       sound_manager->play_music("");

@@ -3,7 +3,7 @@
   (version 1)
   (name (_ "Een weg door de wolken"))
   (author "Tobe Deprez")
-  (music "Mortimers_chipdisko.mod")
+  (music "chipdisko.ogg")
   (background "")
   (particle_system "clouds")
   (bkgd_speed 50)

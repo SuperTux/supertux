@@ -2,7 +2,7 @@
 (supertux-worldmap
   (properties
     (name (_ "Bonus Island I"))
-    (music "salcon.mod")
+    (music "salcon.ogg")
   )
   (spawnpoint
     (name "main")

@@ -6,7 +6,7 @@
   (width  100)
   (height 15)
   (background "arctis.jpg")
-  (music "Mortimers_chipdisko.mod")
+  (music "chipdisko.ogg")
   (bkgd_red    150)
   (bkgd_green  200)
   (bkgd_blue   255)

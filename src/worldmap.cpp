@@ -358,7 +358,7 @@ WorldMap::WorldMap()
   teleporterdot = new Surface("images/tiles/worldmap/teleporterdot.png", true);
 
   name = "<no title>";
-  music = "salcon.mod";
+  music = "salcon.ogg";
   intro_displayed = false;
 
   total_stats.reset();

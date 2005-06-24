@@ -8,7 +8,7 @@
     (name  "main")
     (width  60)
     (height  30)
-    (music  "forest2.mod")
+    (music  "forest2.ogg")
     (gravity 10.000000)
     (background (image "forest1.jpg")
                 (speed 0.5))

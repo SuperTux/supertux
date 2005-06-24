@@ -5,7 +5,7 @@
   (author "SuperTux Team")
   (sector
     (name  "main")
-    (music  "cave.mod")
+    (music  "cave.ogg")
     (gravity 10.000000)
     (tilemap
       (layer  "background")

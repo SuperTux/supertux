@@ -5,7 +5,7 @@
   (author "Development Team")
   (sector
     (name  "main")
-    (music  "salcon.mod")
+    (music  "salcon.ogg")
     (gravity 10.000000)
     (tilemap
       (layer  "background")

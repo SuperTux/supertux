@@ -5,7 +5,7 @@
   (author "SuperTux Team")
   (sector
     (name  "main")
-    (music  "forest2.mod")
+    (music  "forest2.ogg")
     (gravity 10.000000)
     (tilemap
       (layer  "background")
@@ -484,7 +484,7 @@
    )
   (sector
     (name  "bonuscaves")
-    (music  "bonuscave.mod")
+    (music  "bonuscave.ogg")
     (gravity 10.000000)
     (tilemap
       (layer  "background")

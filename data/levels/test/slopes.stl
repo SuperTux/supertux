@@ -3,7 +3,7 @@
   (version 1)
   (name "Slope/Platform Test")
   (author "Ingo Ruhnke")
-  (music "Mortimers_chipdisko.mod")
+  (music "chipdisko.ogg")
   (background "")
   (particle_system "")
   (bkgd_speed 50)
