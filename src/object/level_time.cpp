@@ -1,16 +1,16 @@
 #include <config.h>
 
-#include "level_time.h"
+#include "level_time.hpp"
 
 #include <stdexcept>
-#include "main.h"
-#include "resources.h"
-#include "sector.h"
-#include "gettext.h"
-#include "object_factory.h"
-#include "object/player.h"
-#include "video/drawing_context.h"
-#include "lisp/list_iterator.h"
+#include "main.hpp"
+#include "resources.hpp"
+#include "sector.hpp"
+#include "gettext.hpp"
+#include "object_factory.hpp"
+#include "object/player.hpp"
+#include "video/drawing_context.hpp"
+#include "lisp/list_iterator.hpp"
 
 /** When to alert player they're low on time! */
 static const float TIME_WARNING = 20;

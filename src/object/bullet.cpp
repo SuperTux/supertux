@@ -20,13 +20,13 @@
 #include <config.h>
 
 #include <math.h>
-#include "bullet.h"
-#include "resources.h"
-#include "camera.h"
-#include "sector.h"
-#include "sprite/sprite_manager.h"
-#include "badguy/badguy.h"
-#include "main.h"
+#include "bullet.hpp"
+#include "resources.hpp"
+#include "camera.hpp"
+#include "sector.hpp"
+#include "sprite/sprite_manager.hpp"
+#include "badguy/badguy.hpp"
+#include "main.hpp"
 
 static const float BULLET_XM = 300;
 static const float BULLET_STARTING_YM = 0;

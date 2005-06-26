@@ -2,9 +2,9 @@
 
 #include <stdexcept>
 #include <iostream>
-#include "spawn_point.h"
-#include "lisp/lisp.h"
-#include "lisp/list_iterator.h"
+#include "spawn_point.hpp"
+#include "lisp/lisp.hpp"
+#include "lisp/list_iterator.hpp"
 
 SpawnPoint::SpawnPoint()
 {}

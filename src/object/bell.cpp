@@ -19,14 +19,14 @@
 //  02111-1307, USA.
 #include <config.h>
 
-#include "bell.h"
-#include "resources.h"
-#include "sprite/sprite_manager.h"
-#include "video/drawing_context.h"
-#include "player.h"
-#include "object_factory.h"
-#include "game_session.h"
-#include "sector.h"
+#include "bell.hpp"
+#include "resources.hpp"
+#include "sprite/sprite_manager.hpp"
+#include "video/drawing_context.hpp"
+#include "player.hpp"
+#include "object_factory.hpp"
+#include "game_session.hpp"
+#include "sector.hpp"
 
 Bell::Bell(const lisp::Lisp& lisp)
   : ringing(false)

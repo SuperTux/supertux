@@ -19,29 +19,29 @@
 //  02111-1307, USA.
 #include <config.h>
 
-#include "block.h"
+#include "block.hpp"
 
 #include <stdexcept>
 
-#include "resources.h"
-#include "player.h"
-#include "sector.h"
-#include "sprite/sprite.h"
-#include "sprite/sprite_manager.h"
-#include "video/drawing_context.h"
-#include "lisp/lisp.h"
-#include "gameobjs.h"
-#include "specialriser.h"
-#include "growup.h"
-#include "flower.h"
-#include "oneup.h"
-#include "star.h"
-#include "player_status.h"
-#include "badguy/badguy.h"
-#include "coin.h"
-#include "object_factory.h"
-#include "lisp/list_iterator.h"
-#include "object_factory.h"
+#include "resources.hpp"
+#include "player.hpp"
+#include "sector.hpp"
+#include "sprite/sprite.hpp"
+#include "sprite/sprite_manager.hpp"
+#include "video/drawing_context.hpp"
+#include "lisp/lisp.hpp"
+#include "gameobjs.hpp"
+#include "specialriser.hpp"
+#include "growup.hpp"
+#include "flower.hpp"
+#include "oneup.hpp"
+#include "star.hpp"
+#include "player_status.hpp"
+#include "badguy/badguy.hpp"
+#include "coin.hpp"
+#include "object_factory.hpp"
+#include "lisp/list_iterator.hpp"
+#include "object_factory.hpp"
 
 static const float BOUNCY_BRICK_MAX_OFFSET=8;
 static const float BOUNCY_BRICK_SPEED=90;

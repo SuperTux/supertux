@@ -19,12 +19,12 @@
 //  02111-1307, USA.
 #include <config.h>
 
-#include "secretarea_trigger.h"
-#include "game_session.h"
-#include "lisp/lisp.h"
-#include "lisp/writer.h"
-#include "object_factory.h"
-#include "main.h"
+#include "secretarea_trigger.hpp"
+#include "game_session.hpp"
+#include "lisp/lisp.hpp"
+#include "lisp/writer.hpp"
+#include "object_factory.hpp"
+#include "main.hpp"
 
 static const float MESSAGE_TIME=3.5;
 

@@ -1,6 +1,6 @@
 #include <config.h>
 
-#include "script_interpreter.h"
+#include "script_interpreter.hpp"
 
 #include <stdarg.h>
 #include <stdexcept>
@@ -13,19 +13,19 @@
 #include <sqstdmath.h>
 #include <sqstdstring.h>
 
-#include "wrapper.h"
-#include "wrapper_util.h"
-#include "sector.h"
-#include "file_system.h"
-#include "game_session.h"
-#include "resources.h"
-#include "physfs/physfs_stream.h"
-#include "object/text_object.h"
-#include "object/scripted_object.h"
-#include "object/display_effect.h"
-#include "scripting/sound.h"
-#include "scripting/scripted_object.h"
-#include "scripting/display_effect.h"
+#include "wrapper.hpp"
+#include "wrapper_util.hpp"
+#include "sector.hpp"
+#include "file_system.hpp"
+#include "game_session.hpp"
+#include "resources.hpp"
+#include "physfs/physfs_stream.hpp"
+#include "object/text_object.hpp"
+#include "object/scripted_object.hpp"
+#include "object/display_effect.hpp"
+#include "scripting/sound.hpp"
+#include "scripting/scripted_object.hpp"
+#include "scripting/display_effect.hpp"
 
 static void printfunc(HSQUIRRELVM, const char* str, ...)
 {

@@ -28,10 +28,10 @@
 #include <SDL.h>
 #include <SDL_image.h>
 
-#include "gameconfig.h"
-#include "physfs/physfs_sdl.h"
-#include "video/surface.h"
-#include "video/screen.h"
+#include "gameconfig.hpp"
+#include "physfs/physfs_sdl.hpp"
+#include "video/surface.hpp"
+#include "video/screen.hpp"
 
 Surface::Surfaces Surface::surfaces;
 

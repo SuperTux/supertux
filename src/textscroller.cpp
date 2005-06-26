@@ -19,17 +19,17 @@
 //  02111-1307, USA.
 #include <config.h>
 
-#include "textscroller.h"
+#include "textscroller.hpp"
 
 #include <stdexcept>
-#include "resources.h"
-#include "video/font.h"
-#include "video/drawing_context.h"
-#include "lisp/parser.h"
-#include "lisp/lisp.h"
-#include "audio/sound_manager.h"
-#include "main.h"
-#include "control/joystickkeyboardcontroller.h"
+#include "resources.hpp"
+#include "video/font.hpp"
+#include "video/drawing_context.hpp"
+#include "lisp/parser.hpp"
+#include "lisp/lisp.hpp"
+#include "audio/sound_manager.hpp"
+#include "main.hpp"
+#include "control/joystickkeyboardcontroller.hpp"
 
 static const float DEFAULT_SPEED = .02;
 static const float SCROLL = 60;

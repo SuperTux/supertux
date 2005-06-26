@@ -1,13 +1,13 @@
-#include "sound_manager.h"
+#include "sound_manager.hpp"
 
 #include <stdexcept>
 #include <iostream>
 #include <sstream>
 #include <memory>
 
-#include "sound_file.h"
-#include "sound_source.h"
-#include "stream_sound_source.h"
+#include "sound_file.hpp"
+#include "sound_source.hpp"
+#include "stream_sound_source.hpp"
 
 SoundManager::SoundManager()
   : device(0), context(0), sound_enabled(false), music_source(0)

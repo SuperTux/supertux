@@ -22,12 +22,12 @@
 #include <float.h>
 #include <sstream>
 #include <memory>
-#include "yeti.h"
-#include "object/camera.h"
-#include "yeti_stalactite.h"
-#include "bouncing_snowball.h"
-#include "game_session.h"
-#include "scripting/script_interpreter.h"
+#include "yeti.hpp"
+#include "object/camera.hpp"
+#include "yeti_stalactite.hpp"
+#include "bouncing_snowball.hpp"
+#include "game_session.hpp"
+#include "scripting/script_interpreter.hpp"
 
 static const float JUMP_VEL1 = 250;
 static const float JUMP_VEL2 = 700;

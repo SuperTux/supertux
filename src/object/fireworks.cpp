@@ -19,14 +19,14 @@
 //  02111-1307, USA.
 #include <config.h>
 
-#include "fireworks.h"
-#include "resources.h"
-#include "sector.h"
-#include "camera.h"
-#include "gameobjs.h"
-#include "main.h"
-#include "video/drawing_context.h"
-#include "audio/sound_manager.h"
+#include "fireworks.hpp"
+#include "resources.hpp"
+#include "sector.hpp"
+#include "camera.hpp"
+#include "gameobjs.hpp"
+#include "main.hpp"
+#include "video/drawing_context.hpp"
+#include "audio/sound_manager.hpp"
 
 Fireworks::Fireworks()
 {

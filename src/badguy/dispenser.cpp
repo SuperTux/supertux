@@ -20,13 +20,13 @@
 
 #include <config.h>
 
-#include "dispenser.h"
-#include "badguy/bouncing_snowball.h"
-#include "badguy/snowball.h"
-#include "badguy/mrbomb.h"
-#include "badguy/mriceblock.h"
-#include "badguy/mrrocket.h"
-#include "badguy/poisonivy.h"
+#include "dispenser.hpp"
+#include "badguy/bouncing_snowball.hpp"
+#include "badguy/snowball.hpp"
+#include "badguy/mrbomb.hpp"
+#include "badguy/mriceblock.hpp"
+#include "badguy/mrrocket.hpp"
+#include "badguy/poisonivy.hpp"
 
 Dispenser::Dispenser(const lisp::Lisp& reader)
 {

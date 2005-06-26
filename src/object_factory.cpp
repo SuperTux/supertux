@@ -21,9 +21,9 @@
 #include <sstream>
 #include <stdexcept>
 
-#include "lisp/lisp.h"
-#include "lisp/parser.h"
-#include "object_factory.h"
+#include "lisp/lisp.hpp"
+#include "lisp/parser.hpp"
+#include "object_factory.hpp"
 
 Factories* object_factories = 0;
 

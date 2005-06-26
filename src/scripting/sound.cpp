@@ -2,9 +2,9 @@
 
 #include <string>
 #include <stdio.h>
-#include "sound.h"
-#include "resources.h"
-#include "audio/sound_manager.h"
+#include "sound.hpp"
+#include "resources.hpp"
+#include "audio/sound_manager.hpp"
 
 namespace Scripting
 {

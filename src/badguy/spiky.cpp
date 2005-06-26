@@ -20,7 +20,7 @@
 
 #include <config.h>
 
-#include "spiky.h"
+#include "spiky.hpp"
 
 static const float WALKSPEED = 80;
 

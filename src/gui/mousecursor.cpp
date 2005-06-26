@@ -18,9 +18,9 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <config.h>
 
-#include "video/drawing_context.h"
-#include "gui/mousecursor.h"
-#include "main.h"
+#include "video/drawing_context.hpp"
+#include "gui/mousecursor.hpp"
+#include "main.hpp"
 
 MouseCursor* MouseCursor::current_ = 0;
 extern SDL_Surface* screen;

@@ -23,11 +23,11 @@
 #include <cstring>
 #include <stdexcept>
 
-#include "lisp/parser.h"
-#include "lisp/lisp.h"
-#include "screen.h"
-#include "font.h"
-#include "drawing_context.h"
+#include "lisp/parser.hpp"
+#include "lisp/lisp.hpp"
+#include "screen.hpp"
+#include "font.hpp"
+#include "drawing_context.hpp"
 
 Font::Font(const std::string& file, FontType ntype, int nw, int nh,
         int nshadowsize)

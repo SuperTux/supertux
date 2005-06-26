@@ -1,9 +1,9 @@
 #include <config.h>
-#include "display_effect.h"
+#include "display_effect.hpp"
 
 #include <assert.h>
-#include "video/drawing_context.h"
-#include "main.h"
+#include "video/drawing_context.hpp"
+#include "main.hpp"
 
 DisplayEffect::DisplayEffect()
     : type(NO_FADE), fadetime(0), fading(0), black(false)

@@ -21,13 +21,13 @@
 #include <iostream>
 #include <cmath>
 
-#include "particlesystem.h"
-#include "video/drawing_context.h"
-#include "lisp/parser.h"
-#include "lisp/lisp.h"
-#include "lisp/writer.h"
-#include "resources.h"
-#include "main.h"
+#include "particlesystem.hpp"
+#include "video/drawing_context.hpp"
+#include "lisp/parser.hpp"
+#include "lisp/lisp.hpp"
+#include "lisp/writer.hpp"
+#include "resources.hpp"
+#include "main.hpp"
 
 ParticleSystem::ParticleSystem()
 {

@@ -44,6 +44,6 @@ wrapper_objects = [ CompileObjects $(wrapper_sources) ] ;
 if $(MINISWIG)
 {
     wrapper_objects += 
-        [ MiniSwigRule wrapper.cpp : wrapper.interface.h : supertux : --select-namespace Scripting ] ;
+        [ MiniSwigRule wrapper.cpp : wrapper.interface.hpp : supertux : --select-namespace Scripting ] ;
 }
 

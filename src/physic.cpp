@@ -19,7 +19,7 @@
 //  02111-1307, USA.
 #include <config.h>
 
-#include "physic.h"
+#include "physic.hpp"
 
 Physic::Physic()
     : ax(0), ay(0), vx(0), vy(0), gravity_enabled(true)

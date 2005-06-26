@@ -19,9 +19,9 @@
 //  02111-1307, USA.
 #include <config.h>
 
-#include "badguy.h"
-#include "object/camera.h"
-#include "statistics.h"
+#include "badguy.hpp"
+#include "object/camera.hpp"
+#include "statistics.hpp"
 
 static const float SQUISH_TIME = 2;
 static const float X_OFFSCREEN_DISTANCE = 1600;

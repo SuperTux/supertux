@@ -20,12 +20,12 @@
 
 #include <config.h>
 
-#include "star.h"
-#include "resources.h"
-#include "player.h"
-#include "player_status.h"
-#include "sprite/sprite_manager.h"
-#include "video/drawing_context.h"
+#include "star.hpp"
+#include "resources.hpp"
+#include "player.hpp"
+#include "player_status.hpp"
+#include "sprite/sprite_manager.hpp"
+#include "video/drawing_context.hpp"
 
 static const float INITIALJUMP = 400;
 static const float SPEED = 150;

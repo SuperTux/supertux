@@ -2,7 +2,7 @@
 
 #include <stdexcept>
 #include <sstream>
-#include "wrapper_util.h"
+#include "wrapper_util.hpp"
 
 static void register_function(HSQUIRRELVM v, SQFUNCTION func, const char* name)
 {

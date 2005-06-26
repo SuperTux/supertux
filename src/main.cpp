@@ -20,7 +20,7 @@
 #include <config.h>
 #include <assert.h>
 
-#include "main.h"
+#include "main.hpp"
 
 #include <stdexcept>
 #include <iostream>
@@ -38,17 +38,17 @@
 #include <SDL_image.h>
 #include <SDL_opengl.h>
 
-#include "gameconfig.h"
-#include "resources.h"
-#include "gettext.h"
-#include "audio/sound_manager.h"
-#include "video/surface.h"
-#include "control/joystickkeyboardcontroller.h"
-#include "misc.h"
-#include "title.h"
-#include "game_session.h"
-#include "file_system.h"
-#include "physfs/physfs_sdl.h"
+#include "gameconfig.hpp"
+#include "resources.hpp"
+#include "gettext.hpp"
+#include "audio/sound_manager.hpp"
+#include "video/surface.hpp"
+#include "control/joystickkeyboardcontroller.hpp"
+#include "misc.hpp"
+#include "title.hpp"
+#include "game_session.hpp"
+#include "file_system.hpp"
+#include "physfs/physfs_sdl.hpp"
 
 SDL_Surface* screen = 0;
 JoystickKeyboardController* main_controller = 0;

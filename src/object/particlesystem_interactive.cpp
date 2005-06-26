@@ -21,22 +21,22 @@
 #include <iostream>
 #include <cmath>
 
-#include "particlesystem_interactive.h"
-#include "video/drawing_context.h"
-#include "lisp/parser.h"
-#include "lisp/lisp.h"
-#include "lisp/writer.h"
-#include "resources.h"
-#include "main.h"
+#include "particlesystem_interactive.hpp"
+#include "video/drawing_context.hpp"
+#include "lisp/parser.hpp"
+#include "lisp/lisp.hpp"
+#include "lisp/writer.hpp"
+#include "resources.hpp"
+#include "main.hpp"
 
-#include "tile.h"
-#include "tilemap.h"
-#include "math/aatriangle.h"
-#include "collision.h"
-#include "collision_hit.h"
-#include "object/camera.h"
-#include "object/rainsplash.h"
-#include "badguy/bomb.h"
+#include "tile.hpp"
+#include "tilemap.hpp"
+#include "math/aatriangle.hpp"
+#include "collision.hpp"
+#include "collision_hit.hpp"
+#include "object/camera.hpp"
+#include "object/rainsplash.hpp"
+#include "badguy/bomb.hpp"
 
 //TODO: Find a way to make rain collide with objects like bonus blocks
 //      Add an option to set rain strength

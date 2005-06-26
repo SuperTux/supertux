@@ -20,7 +20,7 @@
 
 #include <config.h>
 
-#include "snowball.h"
+#include "snowball.hpp"
 
 static const float WALKSPEED = 80;
 

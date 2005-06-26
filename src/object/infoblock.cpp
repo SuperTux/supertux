@@ -20,13 +20,13 @@
 
 #include <config.h>
 
-#include "infoblock.h"
-#include "game_session.h"
-#include "resources.h"
-#include "sprite/sprite_manager.h"
-#include "object_factory.h"
-#include "lisp/lisp.h"
-#include "sector.h"
+#include "infoblock.hpp"
+#include "game_session.hpp"
+#include "resources.hpp"
+#include "sprite/sprite_manager.hpp"
+#include "object_factory.hpp"
+#include "lisp/lisp.hpp"
+#include "sector.hpp"
 
 InfoBlock::InfoBlock(const lisp::Lisp& lisp)
   : Block(sprite_manager->create("infoblock"))

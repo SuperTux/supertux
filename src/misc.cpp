@@ -16,18 +16,18 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <config.h>
 
-#include "misc.h"
-#include "main.h"
-#include "gameconfig.h"
-#include "game_session.h"
-#include "gui/menu.h"
-#include "gui/button.h"
-#include "audio/sound_manager.h"
-#include "title.h"
-#include "resources.h"
-#include "worldmap.h"
-#include "gettext.h"
-#include "control/joystickkeyboardcontroller.h"
+#include "misc.hpp"
+#include "main.hpp"
+#include "gameconfig.hpp"
+#include "game_session.hpp"
+#include "gui/menu.hpp"
+#include "gui/button.hpp"
+#include "audio/sound_manager.hpp"
+#include "title.hpp"
+#include "resources.hpp"
+#include "worldmap.hpp"
+#include "gettext.hpp"
+#include "control/joystickkeyboardcontroller.hpp"
 
 Menu* main_menu      = 0;
 Menu* game_menu      = 0;

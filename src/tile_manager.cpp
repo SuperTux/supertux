@@ -22,13 +22,13 @@
 #include <memory>
 #include <stdexcept>
 #include <assert.h>
-#include "video/drawing_context.h"
-#include "lisp/lisp.h"
-#include "lisp/parser.h"
-#include "lisp/list_iterator.h"
-#include "tile.h"
-#include "tile_manager.h"
-#include "resources.h"
+#include "video/drawing_context.hpp"
+#include "lisp/lisp.hpp"
+#include "lisp/parser.hpp"
+#include "lisp/list_iterator.hpp"
+#include "tile.hpp"
+#include "tile_manager.hpp"
+#include "resources.hpp"
 
 TileManager::TileManager(const std::string& filename)
 {

@@ -24,13 +24,13 @@
 #include <stdexcept>
 #include <memory>
 
-#include "scripttrigger.h"
-#include "game_session.h"
-#include "lisp/lisp.h"
-#include "lisp/writer.h"
-#include "object_factory.h"
-#include "scripting/script_interpreter.h"
-#include "sector.h"
+#include "scripttrigger.hpp"
+#include "game_session.hpp"
+#include "lisp/lisp.hpp"
+#include "lisp/writer.hpp"
+#include "object_factory.hpp"
+#include "scripting/script_interpreter.hpp"
+#include "sector.hpp"
 
 ScriptTrigger::ScriptTrigger(const lisp::Lisp& reader)
 {

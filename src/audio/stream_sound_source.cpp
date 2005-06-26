@@ -1,8 +1,8 @@
 #include <config.h>
 
-#include "stream_sound_source.h"
-#include "sound_manager.h"
-#include "sound_file.h"
+#include "stream_sound_source.hpp"
+#include "sound_manager.hpp"
+#include "sound_file.hpp"
 
 StreamSoundSource::StreamSoundSource(SoundFile* file)
 {

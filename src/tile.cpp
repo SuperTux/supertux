@@ -24,12 +24,12 @@
 #include <iostream>
 #include <stdexcept>
 
-#include "lisp/lisp.h"
-#include "tile.h"
-#include "resources.h"
-#include "timer.h"
-#include "math/vector.h"
-#include "video/drawing_context.h"
+#include "lisp/lisp.hpp"
+#include "tile.hpp"
+#include "resources.hpp"
+#include "timer.hpp"
+#include "math/vector.hpp"
+#include "video/drawing_context.hpp"
 
 Tile::Tile()
   : id(0), editor_image(0), attributes(0), data(0), anim_fps(1)

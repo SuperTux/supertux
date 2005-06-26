@@ -19,8 +19,8 @@
 
 #include <config.h>
 
-#include "game_object.h"
-#include "object_remove_listener.h"
+#include "game_object.hpp"
+#include "object_remove_listener.hpp"
 
 GameObject::GameObject()
   : wants_to_die(false), remove_listeners(0), flags(0)

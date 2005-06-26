@@ -20,11 +20,11 @@
 #include <config.h>
 
 #include <math.h>
-#include "specialriser.h"
-#include "resources.h"
-#include "camera.h"
-#include "sector.h"
-#include "sprite/sprite_manager.h"
+#include "specialriser.hpp"
+#include "resources.hpp"
+#include "camera.hpp"
+#include "sector.hpp"
+#include "sprite/sprite_manager.hpp"
 
 SpecialRiser::SpecialRiser(Vector pos, MovingObject* _child)
   : child(_child)

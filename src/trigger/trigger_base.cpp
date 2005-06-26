@@ -18,9 +18,9 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <config.h>
 
-#include "trigger_base.h"
-#include "video/drawing_context.h"
-#include "object/player.h"
+#include "trigger_base.hpp"
+#include "video/drawing_context.hpp"
+#include "object/player.hpp"
 
 TriggerBase::TriggerBase()
   : sprite(0)

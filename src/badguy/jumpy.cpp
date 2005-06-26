@@ -19,7 +19,7 @@
 //  02111-1307, USA.
 #include <config.h>
 
-#include "jumpy.h"
+#include "jumpy.hpp"
 
 static const float JUMPSPEED=600;
 static const float JUMPY_MID_TOLERANCE=4;

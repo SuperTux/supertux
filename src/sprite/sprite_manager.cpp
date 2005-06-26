@@ -22,12 +22,12 @@
 #include <sstream>
 #include <stdexcept>
 
-#include "sprite_manager.h"
-#include "sprite_data.h"
-#include "sprite.h"
-#include "lisp/lisp.h"
-#include "lisp/parser.h"
-#include "lisp/list_iterator.h"
+#include "sprite_manager.hpp"
+#include "sprite_data.hpp"
+#include "sprite.hpp"
+#include "lisp/lisp.hpp"
+#include "lisp/parser.hpp"
+#include "lisp/list_iterator.hpp"
 
 SpriteManager::SpriteManager(const std::string& filename)
 {

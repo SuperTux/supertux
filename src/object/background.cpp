@@ -18,14 +18,14 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <config.h>
 
-#include "background.h"
-#include "camera.h"
-#include "video/drawing_context.h"
-#include "lisp/lisp.h"
-#include "lisp/writer.h"
-#include "object_factory.h"
-#include "resources.h"
-#include "main.h"
+#include "background.hpp"
+#include "camera.hpp"
+#include "video/drawing_context.hpp"
+#include "lisp/lisp.hpp"
+#include "lisp/writer.hpp"
+#include "object_factory.hpp"
+#include "resources.hpp"
+#include "main.hpp"
 
 Background::Background()
   : type(INVALID), layer(LAYER_BACKGROUND0), image(0)

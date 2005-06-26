@@ -18,7 +18,7 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 
-#include "yeti_stalactite.h"
+#include "yeti_stalactite.hpp"
 
 static const float SHAKE_TIME = .8;
 

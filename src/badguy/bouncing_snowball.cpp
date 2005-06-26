@@ -20,7 +20,7 @@
 
 #include <config.h>
 
-#include "bouncing_snowball.h"
+#include "bouncing_snowball.hpp"
 
 static const float JUMPSPEED = 450;
 static const float WALKSPEED = 80;

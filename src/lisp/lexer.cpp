@@ -22,7 +22,7 @@
 #include <stdexcept>
 #include <iostream>
 
-#include "lexer.h"
+#include "lexer.hpp"
 
 namespace lisp
 {

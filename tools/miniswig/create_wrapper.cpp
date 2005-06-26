@@ -20,7 +20,7 @@ WrapperCreator::create_wrapper(Namespace* ns)
         << "#ifndef __" << modulename << "_WRAPPER_H__\n"
         << "#define __" << modulename << "_WRAPPER_H__\n"
         << "\n"
-        << "#include \"wrapper_util.h\"\n"
+        << "#include \"wrapper_util.hpp\"\n"
         << "\n"
         << "extern WrappedFunction " << modulename << "_global_functions[];\n"
         << "extern WrappedClass " << modulename << "_classes[];\n"
@@ -40,8 +40,8 @@ WrapperCreator::create_wrapper(Namespace* ns)
         << "#include <assert.h>\n"
         << "#include <string>\n"
         << "#include <squirrel.h>\n"
-        << "#include \"wrapper_util.h\"\n"
-        << "#include \"wrapper.interface.h\"\n"
+        << "#include \"wrapper_util.hpp\"\n"
+        << "#include \"wrapper.interface.hpp\"\n"
         << "\n";
     if(selected_namespace != "") {
         out << "using namespace " << selected_namespace << ";\n";

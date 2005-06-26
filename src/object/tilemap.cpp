@@ -24,16 +24,16 @@
 #include <stdexcept>
 #include <cmath>
 
-#include "tilemap.h"
-#include "video/drawing_context.h"
-#include "level.h"
-#include "tile.h"
-#include "resources.h"
-#include "tile_manager.h"
-#include "lisp/lisp.h"
-#include "lisp/writer.h"
-#include "object_factory.h"
-#include "main.h"
+#include "tilemap.hpp"
+#include "video/drawing_context.hpp"
+#include "level.hpp"
+#include "tile.hpp"
+#include "resources.hpp"
+#include "tile_manager.hpp"
+#include "lisp/lisp.hpp"
+#include "lisp/writer.hpp"
+#include "object_factory.hpp"
+#include "main.hpp"
 
 TileMap::TileMap()
   : solid(false), speed(1), width(0), height(0), layer(LAYER_TILES),

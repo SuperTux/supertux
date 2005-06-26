@@ -46,7 +46,7 @@ include $(TOP)/mk/jam/build.jam ;
 
 # Include Dirs
 IncludeDir $(top_builddir) ; # for config.h
-IncludeDir lib src ;
+IncludeDir $(top_srcdir)/src ;
 
 if $(XGETTEXT) != ""
 {

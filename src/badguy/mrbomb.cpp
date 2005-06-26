@@ -20,8 +20,8 @@
 
 #include <config.h>
 
-#include "mrbomb.h"
-#include "bomb.h"
+#include "mrbomb.hpp"
+#include "bomb.hpp"
 
 static const float WALKSPEED = 80;
 

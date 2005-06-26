@@ -20,7 +20,7 @@
 
 #include <config.h>
 
-#include "controller.h"
+#include "controller.hpp"
 
 extern Controller* main_controller;
 

@@ -20,12 +20,12 @@
 #include <config.h>
 
 #include <sstream>
-#include "joystickkeyboardcontroller.h"
-#include "gui/menu.h"
-#include "gettext.h"
-#include "lisp/lisp.h"
-#include "lisp/list_iterator.h"
-#include "game_session.h"
+#include "joystickkeyboardcontroller.hpp"
+#include "gui/menu.hpp"
+#include "gettext.hpp"
+#include "lisp/lisp.hpp"
+#include "lisp/list_iterator.hpp"
+#include "game_session.hpp"
 
 class JoystickKeyboardController::JoystickMenu : public Menu
 {

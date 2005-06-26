@@ -2,9 +2,9 @@
 
 #include <string>
 #include <stdio.h>
-#include "level.h"
-#include "game_session.h"
-#include "flip_level_transformer.h"
+#include "level.hpp"
+#include "game_session.hpp"
+#include "flip_level_transformer.hpp"
 
 namespace Scripting
 {

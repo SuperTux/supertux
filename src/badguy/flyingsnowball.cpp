@@ -21,7 +21,7 @@
 #include <config.h>
 #include <stdio.h>
 
-#include "flyingsnowball.h"
+#include "flyingsnowball.hpp"
 
 static const float FLYTIME = 1.0;
 static const float FLYSPEED = 100.0;

@@ -18,7 +18,7 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <config.h>
 
-#include "gameconfig.h"
+#include "gameconfig.hpp"
 
 #include <cstdlib>
 #include <string>
@@ -26,12 +26,12 @@
 #include <sstream>
 #include <fstream>
 
-#include "lisp/parser.h"
-#include "lisp/lisp.h"
-#include "lisp/writer.h"
-#include "control/joystickkeyboardcontroller.h"
-#include "resources.h"
-#include "main.h"
+#include "lisp/parser.hpp"
+#include "lisp/lisp.hpp"
+#include "lisp/writer.hpp"
+#include "control/joystickkeyboardcontroller.hpp"
+#include "resources.hpp"
+#include "main.hpp"
 
 Config* config = 0;
 

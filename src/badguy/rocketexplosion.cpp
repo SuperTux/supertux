@@ -20,7 +20,7 @@
 
 #include <config.h>
 
-#include "rocketexplosion.h"
+#include "rocketexplosion.hpp"
 
 static const float EXPLOSIONTIME = 1;
 

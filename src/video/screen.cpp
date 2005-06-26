@@ -35,11 +35,11 @@
 #include <ctype.h>
 #endif
 
-#include "gameconfig.h"
-#include "screen.h"
-#include "main.h"
-#include "video/drawing_context.h"
-#include "math/vector.h"
+#include "gameconfig.hpp"
+#include "screen.hpp"
+#include "main.hpp"
+#include "video/drawing_context.hpp"
+#include "math/vector.hpp"
 
 static const float LOOP_DELAY = 20.0;
 extern SDL_Surface* screen;

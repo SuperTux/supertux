@@ -20,7 +20,7 @@
 
 #include <config.h>
 
-#include "mrrocket.h"
+#include "mrrocket.hpp"
 
 static const float SPEED = 200;
 

@@ -20,11 +20,11 @@
 
 #include <config.h>
 
-#include "sequence_trigger.h"
-#include "game_session.h"
-#include "lisp/lisp.h"
-#include "lisp/writer.h"
-#include "object_factory.h"
+#include "sequence_trigger.hpp"
+#include "game_session.hpp"
+#include "lisp/lisp.hpp"
+#include "lisp/writer.hpp"
+#include "object_factory.hpp"
 
 SequenceTrigger::SequenceTrigger(const lisp::Lisp& reader)
 {

@@ -20,7 +20,7 @@
 
 #include <config.h>
 
-#include "stalactite.h"
+#include "stalactite.hpp"
 
 static const int SHAKE_RANGE = 40;
 static const float SHAKE_TIME = .8;

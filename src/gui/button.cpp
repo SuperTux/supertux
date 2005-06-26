@@ -19,14 +19,14 @@
 //  02111-1307, USA.
 #include <config.h>
 
-#include "SDL.h"
+#include <SDL.h>
 #include <iostream>
 
-#include "main.h"
-#include "button.h"
-#include "mousecursor.h"
-#include "video/font.h"
-#include "video/surface.h"
+#include "main.hpp"
+#include "button.hpp"
+#include "mousecursor.hpp"
+#include "video/font.hpp"
+#include "video/surface.hpp"
 
 Font* Button::info_font = 0;
 extern SDL_Surface* screen;

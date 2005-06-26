@@ -19,17 +19,17 @@
 //  02111-1307, USA.
 #include <config.h>
 
-#include "collision.h"
+#include "collision.hpp"
 
 #include <algorithm>
 #include <iostream>
 #include <stdio.h>
 #include <float.h>
 #include <math.h>
-#include "math/vector.h"
-#include "math/aatriangle.h"
-#include "math/rect.h"
-#include "collision_hit.h"
+#include "math/vector.hpp"
+#include "math/aatriangle.hpp"
+#include "math/rect.hpp"
+#include "collision_hit.hpp"
 
 static const float DELTA = .0001;
 

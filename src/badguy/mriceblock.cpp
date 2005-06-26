@@ -20,8 +20,8 @@
 
 #include <config.h>
 
-#include "mriceblock.h"
-#include "object/block.h"
+#include "mriceblock.hpp"
+#include "object/block.hpp"
 
 static const float WALKSPEED = 80;
 static const float KICKSPEED = 500;

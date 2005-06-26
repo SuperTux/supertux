@@ -2,7 +2,7 @@
 
 #include <string>
 #include <stdio.h>
-#include "camera.h"
+#include "camera.hpp"
 
 #define NOIMPL      printf("%s not implemented.\n", __PRETTY_FUNCTION__);
 

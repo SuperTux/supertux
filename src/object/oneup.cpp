@@ -20,13 +20,13 @@
 
 #include <config.h>
 
-#include "oneup.h"
-#include "resources.h"
-#include "player.h"
-#include "player_status.h"
-#include "sector.h"
-#include "sprite/sprite_manager.h"
-#include "video/drawing_context.h"
+#include "oneup.hpp"
+#include "resources.hpp"
+#include "player.hpp"
+#include "player_status.hpp"
+#include "sector.hpp"
+#include "sprite/sprite_manager.hpp"
+#include "video/drawing_context.hpp"
 
 OneUp::OneUp(const Vector& pos)
 {

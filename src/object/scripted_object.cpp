@@ -2,12 +2,12 @@
 
 #include <stdexcept>
 
-#include "scripted_object.h"
-#include "video/drawing_context.h"
-#include "sprite/sprite_manager.h"
-#include "resources.h"
-#include "object_factory.h"
-#include "math/vector.h"
+#include "scripted_object.hpp"
+#include "video/drawing_context.hpp"
+#include "sprite/sprite_manager.hpp"
+#include "resources.hpp"
+#include "object_factory.hpp"
+#include "math/vector.hpp"
 
 ScriptedObject::ScriptedObject(const lisp::Lisp& lisp)
   : solid(true), physic_enabled(true), visible(true), new_vel_set(false)

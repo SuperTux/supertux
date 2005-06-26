@@ -22,16 +22,16 @@
 #include <sstream>
 #include <cmath>
 
-#include "lisp/lisp.h"
-#include "lisp/writer.h"
-#include "lisp/list_iterator.h"
-#include "camera.h"
-#include "player.h"
-#include "tilemap.h"
-#include "game_session.h"
-#include "sector.h"
-#include "main.h"
-#include "object_factory.h"
+#include "lisp/lisp.hpp"
+#include "lisp/writer.hpp"
+#include "lisp/list_iterator.hpp"
+#include "camera.hpp"
+#include "player.hpp"
+#include "tilemap.hpp"
+#include "game_session.hpp"
+#include "sector.hpp"
+#include "main.hpp"
+#include "object_factory.hpp"
 
 Camera::Camera(Sector* newsector)
   : sector(newsector), do_backscrolling(true), scrollchange(NONE),

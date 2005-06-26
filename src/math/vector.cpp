@@ -20,7 +20,7 @@
 
 #include <cmath>
 
-#include "math/vector.h"
+#include "math/vector.hpp"
 
 Vector Vector::unit() const
 {

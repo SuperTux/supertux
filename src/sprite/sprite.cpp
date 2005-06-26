@@ -23,8 +23,8 @@
 #include <cassert>
 #include <stdexcept>
 
-#include "sprite.h"
-#include "video/drawing_context.h"
+#include "sprite.hpp"
+#include "video/drawing_context.hpp"
 
 Sprite::Sprite(SpriteData& newdata)
   : data(newdata), frame(0), animation_loops(-1)

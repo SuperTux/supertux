@@ -1,7 +1,7 @@
 #include <config.h>
 
-#include "sound_source.h"
-#include "sound_manager.h"
+#include "sound_source.hpp"
+#include "sound_manager.hpp"
 
 SoundSource::SoundSource()
 {

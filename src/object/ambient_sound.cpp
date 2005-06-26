@@ -21,12 +21,12 @@
 #include <math.h>
 #include <stdexcept>
 
-#include "ambient_sound.h"
-#include "object_factory.h"
-#include "lisp/lisp.h"
-#include "sector.h"
-#include "audio/sound_manager.h"
-#include "audio/sound_source.h"
+#include "ambient_sound.hpp"
+#include "object_factory.hpp"
+#include "lisp/lisp.hpp"
+#include "sector.hpp"
+#include "audio/sound_manager.hpp"
+#include "audio/sound_source.hpp"
 
 AmbientSound::AmbientSound(const lisp::Lisp& lisp)
 {

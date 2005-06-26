@@ -18,14 +18,14 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <config.h>
 
-#include "lisp/writer.h"
-#include "lisp/lisp.h"
-#include "player_status.h"
-#include "resources.h"
-#include "gettext.h"
-#include "video/drawing_context.h"
-#include "audio/sound_manager.h"
-#include "main.h"
+#include "lisp/writer.hpp"
+#include "lisp/lisp.hpp"
+#include "player_status.hpp"
+#include "resources.hpp"
+#include "gettext.hpp"
+#include "video/drawing_context.hpp"
+#include "audio/sound_manager.hpp"
+#include "main.hpp"
 
 static const int START_LIVES = 4;
 static const int MAX_LIVES = 99;

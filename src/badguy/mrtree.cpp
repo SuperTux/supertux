@@ -20,7 +20,7 @@
 
 #include <config.h>
 
-#include "mrtree.h"
+#include "mrtree.hpp"
 
 static const float WALKSPEED = 50;
 static const float WALKSPEED_SMALL = 30;

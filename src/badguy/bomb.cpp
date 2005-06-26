@@ -20,7 +20,7 @@
 
 #include <config.h>
 
-#include "bomb.h"
+#include "bomb.hpp"
 
 static const float TICKINGTIME = 1;
 static const float EXPLOSIONTIME = 1;

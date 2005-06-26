@@ -20,9 +20,9 @@
 
 #include <config.h>
 
-#include "nolok_01.h"
-#include "badguy/bouncing_snowball.h"
-#include "trigger/door.h"
+#include "nolok_01.hpp"
+#include "badguy/bouncing_snowball.hpp"
+#include "trigger/door.hpp"
 
 #define WALK_TIME 2.5
 #define SHOOT_TIME 0.4

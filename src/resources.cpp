@@ -18,14 +18,14 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <config.h>
 
-#include "sprite/sprite_manager.h"
-#include "gui/menu.h"
-#include "gui/button.h"
-#include "resources.h"
-#include "file_system.h"
-#include "tile_manager.h"
-#include "object/gameobjs.h"
-#include "object/player.h"
+#include "sprite/sprite_manager.hpp"
+#include "gui/menu.hpp"
+#include "gui/button.hpp"
+#include "resources.hpp"
+#include "file_system.hpp"
+#include "tile_manager.hpp"
+#include "object/gameobjs.hpp"
+#include "object/player.hpp"
 
 SpriteManager* sprite_manager = 0;
 TileManager* tile_manager = 0;

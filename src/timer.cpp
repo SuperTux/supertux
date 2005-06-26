@@ -20,7 +20,7 @@
 #include <config.h>
 
 #include <math.h>
-#include "timer.h"
+#include "timer.hpp"
 
 float global_time = 0;
 

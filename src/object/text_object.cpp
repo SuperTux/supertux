@@ -1,8 +1,8 @@
 #include <config.h>
 
-#include "text_object.h"
-#include "resources.h"
-#include "video/drawing_context.h"
+#include "text_object.hpp"
+#include "resources.hpp"
+#include "video/drawing_context.hpp"
 
 TextObject::TextObject()
   : fading(0), fadetime(0), visible(false)

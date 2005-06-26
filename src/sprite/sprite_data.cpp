@@ -23,10 +23,10 @@
 #include <sstream>
 #include <stdexcept>
 
-#include "sprite_data.h"
-#include "resources.h"
-#include "video/drawing_context.h"
-#include "lisp/list_iterator.h"
+#include "sprite_data.hpp"
+#include "resources.hpp"
+#include "video/drawing_context.hpp"
+#include "lisp/list_iterator.hpp"
 
 SpriteData::Action::Action()
 {

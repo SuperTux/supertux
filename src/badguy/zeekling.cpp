@@ -21,7 +21,7 @@
 #include <config.h>
 #include <math.h>
 
-#include "zeekling.h"
+#include "zeekling.hpp"
 
 
 //TODO: Make the Zeekling behave more interesting

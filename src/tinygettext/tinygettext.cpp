@@ -25,8 +25,8 @@
 #include <ctype.h>
 #include <errno.h>
 
-#include "tinygettext.h"
-#include "physfs/physfs_stream.h"
+#include "tinygettext.hpp"
+#include "physfs/physfs_stream.hpp"
 
 //#define TRANSLATION_DEBUG
 

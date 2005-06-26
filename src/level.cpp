@@ -29,24 +29,24 @@
 #include <memory>
 #include <stdexcept>
 
-#include "video/screen.h"
-#include "lisp/parser.h"
-#include "lisp/lisp.h"
-#include "lisp/list_iterator.h"
-#include "lisp/writer.h"
-#include "level.h"
-#include "physic.h"
-#include "sector.h"
-#include "tile.h"
-#include "resources.h"
-#include "file_system.h"
-#include "object/gameobjs.h"
-#include "object/camera.h"
-#include "object/tilemap.h"
-#include "object/coin.h"
+#include "video/screen.hpp"
+#include "lisp/parser.hpp"
+#include "lisp/lisp.hpp"
+#include "lisp/list_iterator.hpp"
+#include "lisp/writer.hpp"
+#include "level.hpp"
+#include "physic.hpp"
+#include "sector.hpp"
+#include "tile.hpp"
+#include "resources.hpp"
+#include "file_system.hpp"
+#include "object/gameobjs.hpp"
+#include "object/camera.hpp"
+#include "object/tilemap.hpp"
+#include "object/coin.hpp"
 
 // test
-#include "flip_level_transformer.h"
+#include "flip_level_transformer.hpp"
 
 using namespace std;
 

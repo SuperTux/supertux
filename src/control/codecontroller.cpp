@@ -20,7 +20,7 @@
 
 #include <config.h>
 
-#include "codecontroller.h"
+#include "codecontroller.hpp"
 
 CodeController::CodeController()
 {}

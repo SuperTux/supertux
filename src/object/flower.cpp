@@ -20,13 +20,13 @@
 #include <config.h>
 
 #include <math.h>
-#include "flower.h"
-#include "resources.h"
-#include "camera.h"
-#include "sector.h"
-#include "player.h"
-#include "audio/sound_manager.h"
-#include "sprite/sprite_manager.h"
+#include "flower.hpp"
+#include "resources.hpp"
+#include "camera.hpp"
+#include "sector.hpp"
+#include "player.hpp"
+#include "audio/sound_manager.hpp"
+#include "sprite/sprite_manager.hpp"
 
 Flower::Flower(Type _type)
   : type(_type)

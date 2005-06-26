@@ -20,14 +20,14 @@
 #include <config.h>
 
 #include <math.h>
-#include "powerup.h"
-#include "resources.h"
-#include "player.h"
-#include "sprite/sprite_manager.h"
-#include "audio/sound_manager.h"
-#include "object_factory.h"
-#include "sector.h"
-#include "scripting/script_interpreter.h"
+#include "powerup.hpp"
+#include "resources.hpp"
+#include "player.hpp"
+#include "sprite/sprite_manager.hpp"
+#include "audio/sound_manager.hpp"
+#include "object_factory.hpp"
+#include "sector.hpp"
+#include "scripting/script_interpreter.hpp"
 
 PowerUp::PowerUp(const lisp::Lisp& lisp)
 {

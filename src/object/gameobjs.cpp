@@ -24,17 +24,17 @@
 #include <iostream>
 #include <cmath>
 
-#include "tile.h"
-#include "tile_manager.h"
-#include "game_session.h"
-#include "gameobjs.h"
-#include "sprite/sprite_manager.h"
-#include "resources.h"
-#include "sector.h"
-#include "tilemap.h"
-#include "video/drawing_context.h"
-#include "camera.h"
-#include "main.h"
+#include "tile.hpp"
+#include "tile_manager.hpp"
+#include "game_session.hpp"
+#include "gameobjs.hpp"
+#include "sprite/sprite_manager.hpp"
+#include "resources.hpp"
+#include "sector.hpp"
+#include "tilemap.hpp"
+#include "video/drawing_context.hpp"
+#include "camera.hpp"
+#include "main.hpp"
 
 BouncyCoin::BouncyCoin(const Vector& pos)
   : position(pos)

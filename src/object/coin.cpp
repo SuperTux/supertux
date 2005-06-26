@@ -20,16 +20,16 @@
 
 #include <config.h>
 
-#include "coin.h"
-#include "resources.h"
-#include "video/drawing_context.h"
-#include "sprite/sprite_manager.h"
-#include "player.h"
-#include "sector.h"
-#include "player_status.h"
-#include "gameobjs.h"
-#include "statistics.h"
-#include "object_factory.h"
+#include "coin.hpp"
+#include "resources.hpp"
+#include "video/drawing_context.hpp"
+#include "sprite/sprite_manager.hpp"
+#include "player.hpp"
+#include "sector.hpp"
+#include "player_status.hpp"
+#include "gameobjs.hpp"
+#include "statistics.hpp"
+#include "object_factory.hpp"
 
 Coin::Coin(const Vector& pos)
 {

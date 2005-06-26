@@ -2,12 +2,12 @@
 #include <string>
 #include <squirrel.h>
 #include <sqstdio.h>
-#include "textscroller.h"
-#include "functions.h"
-#include "script_interpreter.h"
-#include "tinygettext/tinygettext.h"
-#include "resources.h"
-#include "gettext.h"
+#include "textscroller.hpp"
+#include "functions.hpp"
+#include "script_interpreter.hpp"
+#include "tinygettext/tinygettext.hpp"
+#include "resources.hpp"
+#include "gettext.hpp"
 
 namespace Scripting
 {

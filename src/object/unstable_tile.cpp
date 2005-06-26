@@ -20,14 +20,14 @@
 
 #include <config.h>
 
-#include "unstable_tile.h"
-#include "lisp/lisp.h"
-#include "object_factory.h"
-#include "player.h"
-#include "sector.h"
-#include "resources.h"
-#include "sprite/sprite_manager.h"
-#include "sprite/sprite.h"
+#include "unstable_tile.hpp"
+#include "lisp/lisp.hpp"
+#include "object_factory.hpp"
+#include "player.hpp"
+#include "sector.hpp"
+#include "resources.hpp"
+#include "sprite/sprite_manager.hpp"
+#include "sprite/sprite.hpp"
 
 static const float CRACKTIME = 0.3;
 static const float FALLTIME = 0.8;

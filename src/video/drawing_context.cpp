@@ -22,11 +22,11 @@
 #include <cassert>
 #include <iostream>
 
-#include "drawing_context.h"
-#include "surface.h"
-#include "font.h"
-#include "main.h"
-#include "gameconfig.h"
+#include "drawing_context.hpp"
+#include "surface.hpp"
+#include "font.hpp"
+#include "main.hpp"
+#include "gameconfig.hpp"
 
 DrawingContext::DrawingContext(SDL_Surface* targetsurface)
 {

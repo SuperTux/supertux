@@ -29,14 +29,14 @@
 #include <cassert>
 #include <stdexcept>
 
-#include "menu.h"
-#include "video/screen.h"
-#include "video/drawing_context.h"
-#include "gettext.h"
-#include "math/vector.h"
-#include "main.h"
-#include "resources.h"
-#include "control/joystickkeyboardcontroller.h"
+#include "menu.hpp"
+#include "video/screen.hpp"
+#include "video/drawing_context.hpp"
+#include "gettext.hpp"
+#include "math/vector.hpp"
+#include "main.hpp"
+#include "resources.hpp"
+#include "control/joystickkeyboardcontroller.hpp"
 
 static const int MENU_REPEAT_INITIAL = 400;
 static const int MENU_REPEAT_RATE = 200;

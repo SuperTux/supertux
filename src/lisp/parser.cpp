@@ -25,12 +25,10 @@
 #include <cassert>
 #include <iostream>
 
-#include "tinygettext/tinygettext.h"
-#include "physfs/physfs_stream.h"
-#include "resources.h"
-#include "parser.h"
-#include "lisp.h"
-#include "file_system.h"
+#include "tinygettext/tinygettext.hpp"
+#include "physfs/physfs_stream.hpp"
+#include "parser.hpp"
+#include "lisp.hpp"
 
 namespace lisp
 {
@@ -50,6 +48,15 @@ Parser::~Parser()
   delete dictionary_manager;
 }
 
+static std::string dirname(std::string filename)
+{
+  std::string::size_type p = filename.find_last_of('/');
+  if(p == std::string::npos)
+    return "";
+
+  return filename.substr(0, p+1);
+}
+
 Lisp*
 Parser::parse(const std::string& filename)
 {
@@ -61,7 +68,7 @@ Parser::parse(const std::string& filename)
   }
 
   if(dictionary_manager) {
-    dictionary_manager->add_directory(FileSystem::dirname(filename));
+    dictionary_manager->add_directory(dirname(filename));
     dictionary = & (dictionary_manager->get_dictionary());
   }
   

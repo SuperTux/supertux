@@ -19,13 +19,13 @@
 //  02111-1307, USA.
 #include <config.h>
 
-#include "rock.h"
-#include "sprite/sprite.h"
-#include "sprite/sprite_manager.h"
-#include "lisp/writer.h"
-#include "video/drawing_context.h"
-#include "resources.h"
-#include "object_factory.h"
+#include "rock.hpp"
+#include "sprite/sprite.hpp"
+#include "sprite/sprite_manager.hpp"
+#include "lisp/writer.hpp"
+#include "video/drawing_context.hpp"
+#include "resources.hpp"
+#include "object_factory.hpp"
 
 Rock::Rock(const lisp::Lisp& reader)
 {

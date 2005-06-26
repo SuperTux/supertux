@@ -20,8 +20,8 @@
 
 #include <config.h>
 
-#include "level_transformer.h"
-#include "level.h"
+#include "level_transformer.hpp"
+#include "level.hpp"
 
 LevelTransformer::~LevelTransformer()
 {

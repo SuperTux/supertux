@@ -19,12 +19,12 @@
 
 #include <config.h>
 
-#include "video/drawing_context.h"
-#include "gettext.h"
-#include "lisp/lisp.h"
-#include "resources.h"
-#include "main.h"
-#include "statistics.h"
+#include "video/drawing_context.hpp"
+#include "gettext.hpp"
+#include "lisp/lisp.hpp"
+#include "resources.hpp"
+#include "main.hpp"
+#include "statistics.hpp"
 
 Statistics global_stats;
 

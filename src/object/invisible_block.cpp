@@ -20,13 +20,13 @@
 
 #include <config.h>
 
-#include "invisible_block.h"
-#include "resources.h"
-#include "sprite/sprite.h"
-#include "sprite/sprite_manager.h"
-#include "video/drawing_context.h"
-#include "audio/sound_manager.h"
-#include "object_factory.h"
+#include "invisible_block.hpp"
+#include "resources.hpp"
+#include "sprite/sprite.hpp"
+#include "sprite/sprite_manager.hpp"
+#include "video/drawing_context.hpp"
+#include "audio/sound_manager.hpp"
+#include "object_factory.hpp"
 
 InvisibleBlock::InvisibleBlock(const Vector& pos)
   : Block(sprite_manager->create("invisibleblock")), visible(false)

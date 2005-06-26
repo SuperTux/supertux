@@ -20,7 +20,7 @@
 
 #include <config.h>
 
-#include "flame.h"
+#include "flame.hpp"
 
 Flame::Flame(const lisp::Lisp& reader)
   : angle(0), radius(100), speed(2), source(0)

@@ -18,15 +18,15 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <config.h>
 
-#include "hatch.h"
-#include "game_session.h"
-#include "resources.h"
-#include "object_factory.h"
-#include "sprite/sprite.h"
-#include "sprite/sprite_manager.h"
-#include "video/drawing_context.h"
-#include "lisp/lisp.h"
-#include "lisp/writer.h"
+#include "hatch.hpp"
+#include "game_session.hpp"
+#include "resources.hpp"
+#include "object_factory.hpp"
+#include "sprite/sprite.hpp"
+#include "sprite/sprite_manager.hpp"
+#include "video/drawing_context.hpp"
+#include "lisp/lisp.hpp"
+#include "lisp/writer.hpp"
 
 Hatch::Hatch(const lisp::Lisp& reader)
 {

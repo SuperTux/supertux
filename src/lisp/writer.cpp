@@ -21,8 +21,8 @@
 
 #include <iostream>
 
-#include "writer.h"
-#include "physfs/physfs_stream.h"
+#include "writer.hpp"
+#include "physfs/physfs_stream.hpp"
 
 namespace lisp
 {

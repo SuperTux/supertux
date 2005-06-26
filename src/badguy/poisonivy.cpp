@@ -20,7 +20,7 @@
 
 #include <config.h>
 
-#include "poisonivy.h"
+#include "poisonivy.hpp"
 
 static const float WALKSPEED = 80;
 

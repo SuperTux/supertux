@@ -24,14 +24,14 @@
 #include <assert.h>
 #include <unistd.h>
 #include <physfs.h>
-#include "level.h"
-#include "resources.h"
-#include "file_system.h"
-#include "video/surface.h"
-#include "level_subset.h"
-#include "lisp/parser.h"
-#include "lisp/lisp.h"
-#include "lisp/writer.h"
+#include "level.hpp"
+#include "resources.hpp"
+#include "file_system.hpp"
+#include "video/surface.hpp"
+#include "level_subset.hpp"
+#include "lisp/parser.hpp"
+#include "lisp/lisp.hpp"
+#include "lisp/writer.hpp"
 
 static bool has_suffix(const std::string& data, const std::string& suffix)
 {

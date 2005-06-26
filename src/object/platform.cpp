@@ -20,14 +20,14 @@
 
 #include <config.h>
 
-#include "platform.h"
-#include "video/drawing_context.h"
-#include "resources.h"
-#include "player.h"
-#include "sprite/sprite_manager.h"
-#include "lisp/lisp.h"
-#include "lisp/writer.h"
-#include "object_factory.h"
+#include "platform.hpp"
+#include "video/drawing_context.hpp"
+#include "resources.hpp"
+#include "player.hpp"
+#include "sprite/sprite_manager.hpp"
+#include "lisp/lisp.hpp"
+#include "lisp/writer.hpp"
+#include "object_factory.hpp"
 
 Platform::Platform(const lisp::Lisp& reader)
 {

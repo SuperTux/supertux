@@ -4,20 +4,20 @@ SubInclude TOP src squirrel ;
 SubInclude TOP src scripting ;
 
 sources = 
-    [ Wildcard *.cpp *.h ]
-    [ Wildcard audio : *.cpp *.h ]
-    [ Wildcard audio/newapi : *.cpp *.h ]
-    [ Wildcard badguy : *.cpp *.h ]
-    [ Wildcard control : *.cpp *.h ]
-    [ Wildcard gui : *.cpp *.h ]
-    [ Wildcard lisp : *.cpp *.h ]
-    [ Wildcard math : *.cpp *.h ]
-    [ Wildcard object : *.cpp *.h ]
-    [ Wildcard physfs : *.cpp *.h ]
-    [ Wildcard sprite : *.cpp *.h ]
-    [ Wildcard tinygettext : *.cpp *.h ]
-    [ Wildcard trigger : *.cpp *.h ]
-    [ Wildcard video : *.cpp *.h ]
+    [ Wildcard *.cpp *.hpp ]
+    [ Wildcard audio : *.cpp *.hpp ]
+    [ Wildcard audio/newapi : *.cpp *.hpp ]
+    [ Wildcard badguy : *.cpp *.hpp ]
+    [ Wildcard control : *.cpp *.hpp ]
+    [ Wildcard gui : *.cpp *.hpp ]
+    [ Wildcard lisp : *.cpp *.hpp ]
+    [ Wildcard math : *.cpp *.hpp ]
+    [ Wildcard object : *.cpp *.hpp ]
+    [ Wildcard physfs : *.cpp *.hpp ]
+    [ Wildcard sprite : *.cpp *.hpp ]
+    [ Wildcard tinygettext : *.cpp *.hpp ]
+    [ Wildcard trigger : *.cpp *.hpp ]
+    [ Wildcard video : *.cpp *.hpp ]
 ;
 TRANSLATABLE_SOURCES += [ SearchSource $(sources) ] ;
 

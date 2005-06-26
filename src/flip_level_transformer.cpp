@@ -19,13 +19,13 @@
 //  02111-1307, USA.
 #include <config.h>
 
-#include "flip_level_transformer.h"
-#include "object/tilemap.h"
-#include "object/camera.h"
-#include "badguy/badguy.h"
-#include "sector.h"
-#include "tile_manager.h"
-#include "spawn_point.h"
+#include "flip_level_transformer.hpp"
+#include "object/tilemap.hpp"
+#include "object/camera.hpp"
+#include "badguy/badguy.hpp"
+#include "sector.hpp"
+#include "tile_manager.hpp"
+#include "spawn_point.hpp"
 
 void
 FlipLevelTransformer::transform_sector(Sector* sector)

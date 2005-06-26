@@ -21,10 +21,10 @@
 #include <config.h>
 
 #include <iostream>
-#include "collision_grid.h"
-#include "collision.h"
-#include "sector.h"
-#include "collision_grid_iterator.h"
+#include "collision_grid.hpp"
+#include "collision.hpp"
+#include "sector.hpp"
+#include "collision_grid_iterator.hpp"
 
 static const float DELTA = .001;
 
