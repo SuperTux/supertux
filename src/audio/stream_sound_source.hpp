@@ -2,6 +2,7 @@
 #define __STREAM_SOUND_SOURCE_H__
 
 #include <stdio.h>
+#include <SDL.h>
 #include "sound_source.hpp"
 
 class SoundFile;
@@ -12,6 +13,9 @@ public:
   StreamSoundSource(SoundFile* file);
   virtual ~StreamSoundSource();
 
+  enum FadeState { NoFading, FadingOn, FadingOff };
+
+  void setFading(FadeState state, float fadetime);
   void update();
   
 private:
@@ -25,9 +29,9 @@ private:
   ALuint buffers[STREAMFRAGMENTS];
   ALenum format;
 
-  enum FadeState { NoFading, FadingOn, FadingOff };
   FadeState fade_state;
-  // TODO
+  Uint32 fade_start_ticks;
+  float fade_time;
 };
 
 #endif

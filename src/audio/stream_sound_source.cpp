@@ -1,5 +1,6 @@
 #include <config.h>
 
+#include <SDL.h>
 #include "stream_sound_source.hpp"
 #include "sound_manager.hpp"
 #include "sound_file.hpp"
@@ -50,7 +51,33 @@ StreamSoundSource::update()
     SoundManager::check_al_error("Couldn't restart audio source: ");
   }
 
-  // TODO handle fading
+  if(fade_state == FadingOn) {
+    Uint32 ticks = SDL_GetTicks();
+    float time = (ticks - fade_start_ticks) / 1000.0;
+    if(time >= fade_time) {
+      set_gain(1.0);
+      fade_state = NoFading;
+    } else {
+      set_gain(time / fade_time);
+    }
+  } else if(fade_state == FadingOff) {
+    Uint32 ticks = SDL_GetTicks();
+    float time = (ticks - fade_start_ticks) / 1000.0;
+    if(time >= fade_time) {                              
+      stop();
+      fade_state = NoFading;
+    } else {
+      set_gain( (fade_time-time) / fade_time);
+    }
+  }
+}
+
+void
+StreamSoundSource::setFading(FadeState state, float fade_time)
+{
+  this->fade_state = state;
+  this->fade_time = fade_time;
+  this->fade_start_ticks = SDL_GetTicks();
 }
 
 void

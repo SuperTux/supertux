@@ -39,7 +39,7 @@ public:
   void set_listener_velocity(Vector velocity);
 
   void enable_music(bool music_enabled);
-  void play_music(const std::string& filename);
+  void play_music(const std::string& filename, bool fade = true);
 
   void update();
 
@@ -64,6 +64,7 @@ private:
   SoundSources sources;
 
   StreamSoundSource* music_source;
+  StreamSoundSource* next_music_source;
 
   bool music_enabled;
   std::string current_music;

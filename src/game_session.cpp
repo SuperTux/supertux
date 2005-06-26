@@ -79,6 +79,7 @@ GameSession::GameSession(const std::string& levelfile_, GameSessionMode mode,
     capture_demo_stream(0), playback_demo_stream(0), demo_controller(0)
 {
   current_ = this;
+  currentsector = 0;
   
   game_pause = false;
   music_playing = false;
@@ -698,7 +699,7 @@ GameSession::start_sequence(const std::string& sequencename)
     end_sequence = ENDSEQUENCE_RUNNING;
     endsequence_timer.start(7.0); // 7 seconds until we finish the map
     last_x_pos = -1;
-    sound_manager->play_music("music/leveldone.ogg");
+    sound_manager->play_music("music/leveldone.ogg", false);
     currentsector->player->invincible_timer.start(7.0);
 
     if(sequencename == "fireworks") {

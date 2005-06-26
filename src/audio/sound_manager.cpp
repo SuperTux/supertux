@@ -10,7 +10,8 @@
 #include "stream_sound_source.hpp"
 
 SoundManager::SoundManager()
-  : device(0), context(0), sound_enabled(false), music_source(0)
+  : device(0), context(0), sound_enabled(false), music_source(0),
+    next_music_source(0)
 {
   try {
     device = alcOpenDevice(0);
@@ -38,6 +39,7 @@ SoundManager::SoundManager()
 SoundManager::~SoundManager()
 {
   delete music_source;
+  delete next_music_source;
 
   for(SoundSources::iterator i = sources.begin(); i != sources.end(); ++i) {
     delete *i;
@@ -149,7 +151,7 @@ SoundManager::enable_music(bool enable)
 }
 
 void
-SoundManager::play_music(const std::string& filename)
+SoundManager::play_music(const std::string& filename, bool fade)
 {
   if(filename == current_music)
     return;
@@ -162,10 +164,18 @@ SoundManager::play_music(const std::string& filename)
       = new StreamSoundSource(load_sound_file(filename));
 
     alSourcef(newmusic->source, AL_ROLLOFF_FACTOR, 0);
-    newmusic->play();
  
-    delete music_source;
-    music_source = newmusic;
+    if(fade) {
+      if(music_source)
+        music_source->setFading(StreamSoundSource::FadingOff, .25f);
+      delete next_music_source;
+      next_music_source = newmusic;
+    } else {
+      delete music_source;
+      music_source = newmusic;
+      music_source->play();
+      next_music_source = 0;
+    }
   } catch(std::exception& e) {
     std::cerr << "Couldn't play music file '" << filename << "': "
       << e.what() << "\n";
@@ -198,8 +208,17 @@ SoundManager::update()
     }
   }
   // check streaming sounds
-  if(music_source)
+  if(music_source) {
     music_source->update();
+  }
+  
+  if(next_music_source && !music_source || !music_source->playing()) {
+    delete music_source;
+    music_source = next_music_source;
+    //music_source->setFading(StreamSoundSource::FadingOn, 1.0f);
+    music_source->play();
+    next_music_source = 0;
+  }
   
   alcProcessContext(context);
   check_alc_error("Error while processing audio context: ");
