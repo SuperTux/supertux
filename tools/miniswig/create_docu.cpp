@@ -1,9 +1,9 @@
-#include "tree.h"
+#include "tree.hpp"
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
-#include "create_docu.h"
-#include "globals.h"
+#include "create_docu.hpp"
+#include "globals.hpp"
 
 void
 DocuCreator::create_docu(Namespace* ns)

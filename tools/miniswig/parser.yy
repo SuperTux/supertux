@@ -3,8 +3,8 @@
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
-#include "tree.h"
-#include "globals.h"
+#include "tree.hpp"
+#include "globals.hpp"
 
 %}
 

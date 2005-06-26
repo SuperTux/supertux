@@ -1,9 +1,9 @@
-#include "tree.h"
+#include "tree.hpp"
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
-#include "create_wrapper.h"
-#include "globals.h"
+#include "create_wrapper.hpp"
+#include "globals.hpp"
 
 void
 WrapperCreator::create_wrapper(Namespace* ns)

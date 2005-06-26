@@ -2,7 +2,7 @@
 
 #include <stdexcept>
 #include <sstream>
-#include "xmlwriter.h"
+#include "xmlwriter.hpp"
 
 XmlWriter::XmlWriter(std::ostream& outstream)
     : out(outstream), indent(0)

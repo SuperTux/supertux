@@ -3,9 +3,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <iostream>
-#include "tree.h"
+#include "tree.hpp"
 #include "parser.hpp"
-#include "globals.h"
+#include "globals.hpp"
 
 #define YY_DECL int yylex(YYSTYPE* yylval)
 

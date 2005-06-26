@@ -2,10 +2,10 @@
 #include <fstream>
 #include <vector>
 #include <string>
-#include "tree.h"
-#include "globals.h"
-#include "create_wrapper.h"
-#include "create_docu.h"
+#include "tree.hpp"
+#include "globals.hpp"
+#include "create_wrapper.hpp"
+#include "create_docu.hpp"
 
 extern int yyparse();
 extern int yylex();

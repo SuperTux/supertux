@@ -1,7 +1,7 @@
 #ifndef __CREATE_WRAPPER_H__
 #define __CREATE_WRAPPER_H__
 
-#include "tree.h"
+#include "tree.hpp"
 
 class WrapperCreator
 {

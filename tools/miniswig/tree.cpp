@@ -1,4 +1,4 @@
-#include "tree.h"
+#include "tree.hpp"
 
 BasicType BasicType::VOID("void");
 BasicType BasicType::BOOL("bool");

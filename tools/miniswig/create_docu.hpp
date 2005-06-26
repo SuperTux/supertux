@@ -1,8 +1,8 @@
 #ifndef __CREATE_DOCU_H__
 #define __CREATE_DOCU_H__
 
-#include "tree.h"
-#include "xmlwriter.h"
+#include "tree.hpp"
+#include "xmlwriter.hpp"
 
 class DocuCreator
 {
