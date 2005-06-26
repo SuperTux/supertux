@@ -32,7 +32,6 @@ public:
   SoundSource* create_sound_source(const std::string& filename);
   /**
    * Convenience function to simply play a sound at a given position.
-   * This functions prepends sounds/ to the name and adds .wav
    */
   void play(const std::string& name, const Vector& pos = Vector(-1, -1));
 
