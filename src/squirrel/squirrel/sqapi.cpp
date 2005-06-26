@@ -9,8 +9,8 @@
 #include "sqfuncproto.h"
 #include "sqclosure.h"
 #include "squserdata.h"
-#include "sqfuncstate.h"
 #include "sqcompiler.h"
+#include "sqfuncstate.h"
 #include "sqclass.h"
 
 bool sq_aux_gettypedarg(HSQUIRRELVM v,int idx,SQObjectType type,SQObjectPtr **o)
@@ -363,6 +363,9 @@ SQRESULT sq_setparamscheck(HSQUIRRELVM v,int nparamscheck,const SQChar *typemask
 	else {
 		nc->_typecheck.resize(0);
 	}
+	if(nparamscheck == SQ_MATCHTYPEMASKSTRING) {
+		nc->_nparamscheck = nc->_typecheck.size();
+	}
 	return SQ_OK;
 }
 
@@ -705,8 +708,6 @@ SQRESULT sq_getdelegate(HSQUIRRELVM v,int idx)
 		v->Push(SQObjectPtr(_userdata(self)->_delegate));
 		return SQ_OK;
 		break;
-	default:
-		break;
 	}
 	return sq_throwerror(v,_SC("wrong type"));
 }
@@ -874,8 +875,6 @@ void sq_setreleasehook(HSQUIRRELVM v,int idx,SQRELEASEHOOK hook)
 		case OT_INSTANCE:
 			_instance(ud)->_hook = hook;
 			break;
-		default:
-			break;
 		}
 	}
 }
@@ -889,7 +888,7 @@ SQRESULT sq_writeclosure(HSQUIRRELVM v,SQWRITEFUNC w,SQUserPointer up)
 {
 	SQObjectPtr *o = NULL;
 	_GETSAFE_OBJ(v, -1, OT_CLOSURE,o);
-	//SQClosure *c=_closure(*o);
+	SQClosure *c=_closure(*o);
 	unsigned short tag = SQ_BYTECODE_STREAM_TAG;
 	if(w(up,&tag,2) != 2)
 		return sq_throwerror(v,_SC("io error"));

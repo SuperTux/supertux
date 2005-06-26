@@ -392,7 +392,7 @@ static const SQChar *sqstd_rex_matchnode(SQRex* exp,SQRexNode *node,const SQChar
 	case OP_OR: {
 			const SQChar *asd = str;
 			SQRexNode *temp=&exp->_nodes[node->left];
-			while( (asd = sqstd_rex_matchnode(exp,temp,asd)) ) {
+			while(asd = sqstd_rex_matchnode(exp,temp,asd)) {
 				if(temp->next != -1)
 					temp = &exp->_nodes[temp->next];
 				else
@@ -400,7 +400,7 @@ static const SQChar *sqstd_rex_matchnode(SQRex* exp,SQRexNode *node,const SQChar
 			}
 			asd = str;
 			temp = &exp->_nodes[node->right];
-			while( (asd = sqstd_rex_matchnode(exp,temp,asd)) ) {
+			while(asd = sqstd_rex_matchnode(exp,temp,asd)) {
 				if(temp->next != -1)
 					temp = &exp->_nodes[temp->next];
 				else
@@ -435,10 +435,10 @@ static const SQChar *sqstd_rex_matchnode(SQRex* exp,SQRexNode *node,const SQChar
 			return cur;
 	}				 
 	case OP_WB:
-		if((str == exp->_bol && !isspace(*str))
+		if(str == exp->_bol && !isspace(*str)
 		 || (str == exp->_eol && !isspace(*(str-1)))
-		 || ((!isspace(*str) && isspace(*(str+1))))
-		 || ((isspace(*str) && !isspace(*(str+1)))) ) {
+		 || (!isspace(*str) && isspace(*(str+1)))
+		 || (isspace(*str) && !isspace(*(str+1))) ) {
 			return (node->left == 'b')?str:NULL;
 		}
 		return (node->left == 'b')?NULL:str;

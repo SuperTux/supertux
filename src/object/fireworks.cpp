@@ -51,7 +51,7 @@ Fireworks::update(float )
         sector->add_object(new Particles(pos, 0, 360, Vector(140, 140),
                 Vector(0, 0), 45, Color(red, green, 0), 3, 1.3,
                 LAYER_FOREGROUND1+1));
-        sound_manager->play("fireworks");
+        sound_manager->play("sounds/fireworks.wav");
         timer.start(((float) rand() / RAND_MAX) + .5);
     }
 }

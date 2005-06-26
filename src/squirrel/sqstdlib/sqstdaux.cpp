@@ -28,7 +28,7 @@ void sqstd_printcallstack(HSQUIRRELVM v)
 
 		for(level=0;level<10;level++){
 			seq=0;
-			while( (name=sq_getlocal(v,level,seq)) )
+			while(name=sq_getlocal(v,level,seq))
 			{
 				seq++;
 				switch(sq_gettype(v,-1))
@@ -74,8 +74,6 @@ void sqstd_printcallstack(HSQUIRRELVM v)
 					break;
 				case OT_INSTANCE:
 					pf(v,_SC("[%s] INSTANCE\n"),name);
-					break;
-				default:
 					break;
 				}
 				sq_pop(v,1);

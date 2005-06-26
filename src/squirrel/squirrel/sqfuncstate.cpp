@@ -76,14 +76,14 @@ void DumpLiteral(SQObjectPtr &o)
 		case OT_STRING:	scprintf(_SC("\"%s\""),_stringval(o));break;
 		case OT_FLOAT: scprintf(_SC("{%f}"),_float(o));break;
 		case OT_INTEGER: scprintf(_SC("{%d}"),_integer(o));break;
-	        default: break;
 	}
 }
 
-SQFuncState::SQFuncState(SQSharedState *ss,SQFunctionProto *func,SQFuncState *parent)
+SQFuncState::SQFuncState(SQSharedState *ss,SQFunctionProto *func,SQFuncState *parent,CompilerErrorFunc efunc,void *ed)
 {
 		_nliterals = 0;
 		_literals = SQTable::Create(ss,0);
+		_strings =  SQTable::Create(ss,0);
 		_sharedstate = ss;
 		_lastline = 0;
 		_optimization = true;
@@ -93,6 +93,14 @@ SQFuncState::SQFuncState(SQSharedState *ss,SQFunctionProto *func,SQFuncState *pa
 		_traps = 0;
 		_returnexp = 0;
 		_varparams = false;
+		_errfunc = efunc;
+		_errtarget = ed;
+
+}
+
+void SQFuncState::Error(const SQChar *err)
+{
+	_errfunc(_errtarget,err);
 }
 
 #ifdef _DEBUG_DUMP
@@ -173,31 +181,34 @@ void SQFuncState::Dump()
 	scprintf(_SC("--------------------------------------------------------------------\n\n"));
 }
 #endif
-int SQFuncState::GetStringConstant(const SQChar *cons)
+/*int SQFuncState::GetStringConstant(SQObjectPtr &cons)
 {
-	return GetConstant(SQString::Create(_sharedstate,cons));
-}
+	return GetConstant(cons);
+}*/
 
 int SQFuncState::GetNumericConstant(const SQInteger cons)
 {
-	return GetConstant(cons);
+	return GetConstant(SQObjectPtr(cons));
 }
 
 int SQFuncState::GetNumericConstant(const SQFloat cons)
 {
-	return GetConstant(cons);
+	return GetConstant(SQObjectPtr(cons));
 }
 
-int SQFuncState::GetConstant(SQObjectPtr cons)
+int SQFuncState::GetConstant(const SQObject &cons)
 {
-	// int n=0;
+	int n=0;
 	SQObjectPtr val;
 	if(!_table(_literals)->Get(cons,val))
 	{
 		val = _nliterals;
 		_table(_literals)->NewSlot(cons,val);
 		_nliterals++;
-		if(_nliterals > MAX_LITERALS) throw ParserException(_SC("internal compiler error: too many literals"));
+		if(_nliterals > MAX_LITERALS) {
+			val.Null();
+			Error(_SC("internal compiler error: too many literals"));
+		}
 	}
 	return _integer(val);
 }
@@ -226,7 +237,7 @@ int SQFuncState::AllocStackPos()
 	int npos=_vlocals.size();
 	_vlocals.push_back(SQLocalVarInfo());
 	if(_vlocals.size()>((unsigned int)_stacksize)) {
-		if(_stacksize>MAX_FUNC_STACKSIZE) throw ParserException(_SC("internal compiler error: too many locals"));
+		if(_stacksize>MAX_FUNC_STACKSIZE) Error(_SC("internal compiler error: too many locals"));
 		_stacksize=_vlocals.size();
 	}
 	return npos;
@@ -287,7 +298,7 @@ bool SQFuncState::IsLocal(unsigned int stkpos)
 	return false;
 }
 
-int SQFuncState::PushLocalVariable(const SQObjectPtr &name)
+int SQFuncState::PushLocalVariable(const SQObject &name)
 {
 	int pos=_vlocals.size();
 	SQLocalVarInfo lvi;
@@ -300,7 +311,7 @@ int SQFuncState::PushLocalVariable(const SQObjectPtr &name)
 	return pos;
 }
 
-int SQFuncState::GetLocalVariable(const SQObjectPtr &name)
+int SQFuncState::GetLocalVariable(const SQObject &name)
 {
 	int locals=_vlocals.size();
 	while(locals>=1){
@@ -312,7 +323,7 @@ int SQFuncState::GetLocalVariable(const SQObjectPtr &name)
 	return -1;
 }
 
-int SQFuncState::GetOuterVariable(const SQObjectPtr &name)
+int SQFuncState::GetOuterVariable(const SQObject &name)
 {
 	int outers = _outervalues.size();
 	for(int i = 0; i<outers; i++) {
@@ -322,7 +333,7 @@ int SQFuncState::GetOuterVariable(const SQObjectPtr &name)
 	return -1;
 }
 
-void SQFuncState::AddOuterValue(const SQObjectPtr &name)
+void SQFuncState::AddOuterValue(const SQObject &name)
 {
 	//AddParameter(name);
 	int pos=-1;
@@ -343,7 +354,7 @@ void SQFuncState::AddOuterValue(const SQObjectPtr &name)
 	_outervalues.push_back(SQOuterVar(name,name,otSYMBOL)); //global
 }
 
-void SQFuncState::AddParameter(const SQObjectPtr &name)
+void SQFuncState::AddParameter(const SQObject &name)
 {
 	PushLocalVariable(name);
 	_parameters.push_back(name);
@@ -450,10 +461,10 @@ void SQFuncState::AddInstruction(SQInstruction &i)
 	_instructions.push_back(i);
 }
 
-SQObject SQFuncState::CreateString(const SQChar *s)
+SQObject SQFuncState::CreateString(const SQChar *s,int len)
 {
-	SQObjectPtr ns(SQString::Create(_sharedstate,s));
-	_stringrefs.push_back(ns);
+	SQObjectPtr ns(SQString::Create(_sharedstate,s,len));
+	_table(_strings)->NewSlot(ns,1);
 	return ns;
 }
 
@@ -480,4 +491,27 @@ void SQFuncState::Finalize()
 	f->_lineinfos.resize(_lineinfos.size());
 	f->_lineinfos.copy(_lineinfos);
 	f->_varparams = _varparams;
+}
+
+SQFuncState *SQFuncState::PushChildState(SQSharedState *ss,SQFunctionProto *func)
+{
+	SQFuncState *child = (SQFuncState *)sq_malloc(sizeof(SQFuncState));
+	new (child) SQFuncState(ss,func,this,_errfunc,_errtarget);
+	_childstates.push_back(child);
+	return child;
+}
+
+void SQFuncState::PopChildState()
+{
+	SQFuncState *child = _childstates.back();
+	sq_delete(child,SQFuncState);
+	_childstates.pop_back();
+}
+
+SQFuncState::~SQFuncState()
+{
+	while(_childstates.size() > 0)
+	{
+		PopChildState();
+	}
 }

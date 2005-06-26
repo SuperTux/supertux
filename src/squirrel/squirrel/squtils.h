@@ -60,11 +60,11 @@ public:
 	T& top() const { return _vals[_size - 1]; }
 	inline unsigned int size() const { return _size; }
 	bool empty() const { return (_size <= 0); }
-	inline void push_back(const T& val = T())
+	inline T &push_back(const T& val = T())
 	{
 		if(_allocated <= _size)
 			_realloc(_size * 2);
-		new ((void *)&_vals[_size++]) T(val);
+		return *(new ((void *)&_vals[_size++]) T(val));
 	}
 	inline void pop_back()
 	{
@@ -88,7 +88,7 @@ public:
 	}
 	unsigned int capacity() { return _allocated; }
 	inline T &back() const { return _vals[_size - 1]; }
-	T& operator[](unsigned int pos) const{ return _vals[pos]; }
+	inline T& operator[](unsigned int pos) const{ return _vals[pos]; }
 	T* _vals;
 private:
 	void _realloc(unsigned int newsize)

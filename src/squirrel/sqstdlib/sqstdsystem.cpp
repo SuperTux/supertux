@@ -125,7 +125,7 @@ static SQRegFunction systemlib_funcs[]={
 	_DECL_FUNC(date,-1,_SC(".nn")),
 	_DECL_FUNC(remove,2,_SC(".s")),
 	_DECL_FUNC(rename,3,_SC(".ss")),
-	{0,0,0,0}
+	{0,0}
 };
 
 

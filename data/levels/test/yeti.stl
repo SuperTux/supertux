@@ -107,7 +107,7 @@ DisplayEffect.fade_in(2.5);
          (x 2)
          (y 177)
          (dead-script "
-Sound.play_sound(\"invincible\");
+Sound.play(\"sounds/invincible.wav\");
 Text.set_text(\"You made it!\");
 Text.set_font(\"big\");
 Text.fade_in(1.5);

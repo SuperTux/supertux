@@ -106,11 +106,8 @@ SoundManager::create_sound_source(const std::string& filename)
 }
 
 void
-SoundManager::play(const std::string& soundname, const Vector& pos)
+SoundManager::play(const std::string& filename, const Vector& pos)
 {
-  std::string filename = "sounds/";
-  filename += soundname;
-  filename += ".wav";
   try {
     SoundSource* source = create_sound_source(filename);
     if(source == 0)

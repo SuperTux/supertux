@@ -55,7 +55,7 @@ PlayerStatus::incLives()
 {
   if(lives < MAX_LIVES)
     ++lives;
-  sound_manager->play("lifeup");
+  sound_manager->play("sounds/lifeup.wav");
 }
 
 void
@@ -66,7 +66,7 @@ PlayerStatus::incCoins()
     incLives();
     coins = 0;
   }
-  sound_manager->play("coin");
+  sound_manager->play("sounds/coin.wav");
 }
 
 void

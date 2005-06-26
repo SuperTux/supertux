@@ -42,6 +42,7 @@ bool CompileTypemask(SQIntVec &res,const SQChar *typemask)
 	while(typemask[i] != 0) {
 		
 		switch(typemask[i]){
+				case 'o': mask |= _RT_NULL; break;
 				case 'i': mask |= _RT_INTEGER; break;
 				case 'f': mask |= _RT_FLOAT; break;
 				case 'n': mask |= (_RT_FLOAT | _RT_INTEGER); break;
@@ -229,14 +230,12 @@ void SQSharedState::MarkObject(SQObjectPtr &o,SQCollectable **chain)
 	case OT_THREAD:_thread(o)->Mark(chain);break;
 	case OT_CLASS:_class(o)->Mark(chain);break;
 	case OT_INSTANCE:_instance(o)->Mark(chain);break;
-	default: break;
 	}
 }
 
 
 int SQSharedState::CollectGarbage(SQVM *vm)
 {
-	(void) vm;
 	int n=0;
 	SQCollectable *tchain=NULL;
 	SQVM *vms=_thread(_root_vm);

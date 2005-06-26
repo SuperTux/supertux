@@ -89,7 +89,7 @@ Yeti::active_update(float elapsed_time)
     case ANGRY_JUMPING:
       if(timer.check()) {
         // jump
-        sound_manager->play("yeti_gna");
+        sound_manager->play("sounds/yeti_gna.wav");
         physic.set_velocity_y(JUMP_VEL1);
       }
       break;
@@ -141,7 +141,7 @@ Yeti::collision_squished(Player& player)
     return true;
 
   player.bounce(*this);
-  sound_manager->play("yeti_roar");
+  sound_manager->play("sounds/yeti_roar.wav");
   hit_points--;
   if(hit_points <= 0) {
     sprite->set_action("dead");

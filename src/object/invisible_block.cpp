@@ -49,7 +49,7 @@ InvisibleBlock::hit(Player& )
     return;
 
   sprite->set_action("empty");
-  sound_manager->play("brick");
+  sound_manager->play("sounds/brick.wav");
   start_bounce();
   flags |= FLAG_SOLID;
   visible = true;

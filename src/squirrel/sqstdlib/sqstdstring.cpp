@@ -133,7 +133,6 @@ static int _string_format(HSQUIRRELVM v)
 
 static int _rexobj_releasehook(SQUserPointer p, int size)
 {
-	(void) size;
 	SQRex *self = ((SQRex *)p);
 	sqstd_rex_free(self);
 	return 1;
@@ -233,13 +232,13 @@ static SQRegFunction rexobj_funcs[]={
 	_DECL_REX_FUNC(capture,-2,_SC("xsn")),
 	_DECL_REX_FUNC(subexpcount,1,_SC("x")),
 	_DECL_REX_FUNC(_typeof,1,_SC("x")),
-	{0,0,0,0}
+	{0,0}
 };
 
 #define _DECL_FUNC(name,nparams,pmask) {_SC(#name),_string_##name,nparams,pmask}
 static SQRegFunction stringlib_funcs[]={
 	_DECL_FUNC(format,-2,_SC(".s")),
-	{0,0,0,0}
+	{0,0}
 };
 
 

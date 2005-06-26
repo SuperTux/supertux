@@ -42,7 +42,7 @@ int _stream_readstr(HSQUIRRELVM v)
 		break;
 	case _SC('u'): {
 		wchar_t *temp;
-		if(self->Read(sq_getscratchpad(v, (size + 1) * sizeof(wchar_t)), size * sizeof(wchar_t)) != (int) (size * sizeof(wchar_t)))
+		if(self->Read(sq_getscratchpad(v, (size + 1) * sizeof(wchar_t)),size * sizeof(wchar_t)) != (size * sizeof(wchar_t)))
 			return sq_throwerror(v, _SC("io failure"));
 		
 #ifdef _UNICODE
@@ -315,7 +315,7 @@ static SQRegFunction _stream_methods[] = {
 	_DECL_STREAM_FUNC(len,1,_SC("x")),
 	_DECL_STREAM_FUNC(eos,1,_SC("x")),
 	_DECL_STREAM_FUNC(flush,1,_SC("x")),
-	{0,0,0,0}
+	{0,0}
 };
 
 void init_streamclass(HSQUIRRELVM v)

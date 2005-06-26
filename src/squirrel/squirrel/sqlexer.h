@@ -4,13 +4,16 @@
 
 #define MAX_STRING 2024
 
+
+
 struct SQLexer
 {
 	SQLexer();
 	~SQLexer();
-	void Init(SQSharedState *ss,SQLEXREADFUNC rg,SQUserPointer up);
+	void Init(SQSharedState *ss,SQLEXREADFUNC rg,SQUserPointer up,CompilerErrorFunc efunc,void *ed);
+	void Error(const SQChar *err);
 	int Lex();
-	SQObjectPtr Tok2Str(int tok);
+	const SQChar *Tok2Str(int tok);
 private:
 	int GetIDType(SQChar *s);
 	int ReadString(int ndelim,bool verbatim);
@@ -37,6 +40,8 @@ public:
 #endif
 	SQSharedState *_sharedstate;
 	sqvector<SQChar> _longstr;
+	CompilerErrorFunc _errfunc;
+	void *_errtarget;
 };
 
 #endif

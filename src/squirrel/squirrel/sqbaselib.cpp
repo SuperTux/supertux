@@ -99,7 +99,7 @@ static int base_getstackinfos(HSQUIRRELVM v)
 		sq_pushstring(v, _SC("locals"), -1);
 		sq_newtable(v);
 		seq=0;
-		while ( (name = sq_getlocal(v, level, seq)) ) {
+		while (name = sq_getlocal(v, level, seq)) {
 			sq_pushstring(v, name, -1);
 			sq_push(v, -2);
 			sq_createslot(v, -4);
@@ -236,7 +236,7 @@ static SQRegFunction base_funcs[]={
 #ifndef NO_GARBAGE_COLLECTOR
 	{_SC("collectgarbage"),base_collectgarbage,1, _SC("t")},
 #endif
-	{0,0,0,0}
+	{0,0}
 };
 
 void sq_base_register(HSQUIRRELVM v)
@@ -381,7 +381,7 @@ SQRegFunction SQSharedState::_table_default_delegate_funcz[]={
 	{_SC("rawset"),table_rawset,3, _SC("t")},
 	{_SC("rawdelete"),table_rawdelete,2, _SC("t")},
 	{_SC("rawin"),container_rawexists,2, _SC("t")},
-	{0,0,0,0}
+	{0,0}
 };
 
 //ARRAY DEFAULT DELEGATE///////////////////////////////////////
@@ -458,8 +458,6 @@ static int array_resize(HSQUIRRELVM v)
 //QSORT ala Sedgewick
 bool _qsort_compare(HSQUIRRELVM v,SQObjectPtr &arr,SQObjectPtr &a,SQObjectPtr &b,int func,int &ret)
 {
-	(void) arr;
-
 	if(func < 0) {
 		if(!v->ObjCmp(a,b,ret)) return false;
 	}
@@ -559,7 +557,7 @@ SQRegFunction SQSharedState::_array_default_delegate_funcz[]={
 	{_SC("reverse"),array_reverse,1, _SC("a")},
 	{_SC("sort"),array_sort,-1, _SC("ac")},
 	{_SC("slice"),array_slice,-1, _SC("ann")},
-	{0,0,0,0}
+	{0,0}
 };
 
 //STRING DEFAULT DELEGATE//////////////////////////
@@ -618,7 +616,7 @@ SQRegFunction SQSharedState::_string_default_delegate_funcz[]={
 	{_SC("find"),string_find,-2, _SC("s s n ")},
 	{_SC("tolower"),string_tolower,1, _SC("s")},
 	{_SC("toupper"),string_toupper,1, _SC("s")},
-	{0,0,0,0}
+	{0,0}
 };
 
 //INTEGER DEFAULT DELEGATE//////////////////////////
@@ -627,7 +625,7 @@ SQRegFunction SQSharedState::_number_default_delegate_funcz[]={
 	{_SC("tofloat"),default_delegate_tofloat,1, _SC("n|b")},
 	{_SC("tostring"),default_delegate_tostring,1, _SC("n|b")},
 	{_SC("tochar"),number_delegate_tochar,1, _SC("n|b")},
-	{0,0,0,0}
+	{0,0}
 };
 
 //CLOSURE DEFAULT DELEGATE//////////////////////////
@@ -648,7 +646,7 @@ static int closure_acall(HSQUIRRELVM v)
 SQRegFunction SQSharedState::_closure_default_delegate_funcz[]={
 	{_SC("call"),closure_call,-1, _SC("c")},
 	{_SC("acall"),closure_acall,2, _SC("ca")},
-	{0,0,0,0}
+	{0,0}
 };
 
 //GENERATOR DEFAULT DELEGATE
@@ -665,7 +663,7 @@ static int generator_getstatus(HSQUIRRELVM v)
 
 SQRegFunction SQSharedState::_generator_default_delegate_funcz[]={
 	{_SC("getstatus"),generator_getstatus,1, _SC("g")},
-	{0,0,0,0}
+	{0,0}
 };
 
 //THREAD DEFAULT DELEGATE
@@ -744,7 +742,7 @@ SQRegFunction SQSharedState::_thread_default_delegate_funcz[] = {
 	{_SC("call"), thread_call, -1, _SC("v")},
 	{_SC("wakeup"), thread_wakeup, -1, _SC("v")},
 	{_SC("getstatus"), thread_getstatus, 1, _SC("v")},
-	{0,0,0,0},
+	{0,0},
 };
 
 static int class_getattributes(HSQUIRRELVM v)
@@ -765,7 +763,7 @@ SQRegFunction SQSharedState::_class_default_delegate_funcz[] = {
 	{_SC("getattributes"), class_getattributes, 2, _SC("y.")},
 	{_SC("setattributes"), class_setattributes, 3, _SC("y..")},
 	{_SC("rawin"),container_rawexists,2, _SC("y")},
-	{0,0,0,0}
+	{0,0}
 };
 
 static int instance_getclass(HSQUIRRELVM v)
@@ -778,6 +776,6 @@ static int instance_getclass(HSQUIRRELVM v)
 SQRegFunction SQSharedState::_instance_default_delegate_funcz[] = {
 	{_SC("getclass"), instance_getclass, 1, _SC("x")},
 	{_SC("rawin"),container_rawexists,2, _SC("x")},
-	{0,0,0,0}
+	{0,0}
 };
 

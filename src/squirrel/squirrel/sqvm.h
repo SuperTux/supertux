@@ -48,7 +48,7 @@ struct SQVM : public CHAINABLE_OBJ
 		int _target;
 		SQInstruction *_ip;
 		int _ncalls;
-		bool _root;
+		SQBool _root;
 		VarArgs _vargs;
 	};
 
@@ -92,22 +92,21 @@ public:
 	void TypeOf(const SQObjectPtr &obj1, SQObjectPtr &dest);
 	bool CallMetaMethod(SQDelegable *del, SQMetaMethod mm, int nparams, SQObjectPtr &outres);
 	bool ArithMetaMethod(int op, const SQObjectPtr &o1, const SQObjectPtr &o2, SQObjectPtr &dest);
-	//void Modulo(const SQObjectPtr &o1, const SQObjectPtr &o2, SQObjectPtr &dest);
 	bool Return(int _arg0, int _arg1, SQObjectPtr &retval);
 	//new stuff
-	bool ARITH_OP(unsigned int op,SQObjectPtr &trg,const SQObjectPtr &o1,const SQObjectPtr &o2);
-	bool BW_OP(unsigned int op,SQObjectPtr &trg,const SQObjectPtr &o1,const SQObjectPtr &o2);
-	bool NEG_OP(SQObjectPtr &trg,const SQObjectPtr &o1);
-	bool CMP_OP(CmpOP op, const SQObjectPtr &o1,const SQObjectPtr &o2,SQObjectPtr &res);
+	inline bool ARITH_OP(unsigned int op,SQObjectPtr &trg,const SQObjectPtr &o1,const SQObjectPtr &o2);
+	inline bool BW_OP(unsigned int op,SQObjectPtr &trg,const SQObjectPtr &o1,const SQObjectPtr &o2);
+	inline bool NEG_OP(SQObjectPtr &trg,const SQObjectPtr &o1);
+	inline bool CMP_OP(CmpOP op, const SQObjectPtr &o1,const SQObjectPtr &o2,SQObjectPtr &res);
 	bool CLOSURE_OP(SQObjectPtr &target, SQFunctionProto *func);
 	bool GETVARGV_OP(SQObjectPtr &target,SQObjectPtr &idx,CallInfo *ci);
 	bool CLASS_OP(SQObjectPtr &target,int base,int attrs);
 	//return true if the loop is finished
 	bool FOREACH_OP(SQObjectPtr &o1,SQObjectPtr &o2,SQObjectPtr &o3,SQObjectPtr &o4,int arg_2,bool &finished);
 	bool DELEGATE_OP(SQObjectPtr &trg,SQObjectPtr &o1,SQObjectPtr &o2);
-	bool LOCAL_INC(int op,SQObjectPtr &target, SQObjectPtr &a, SQObjectPtr &incr);
-	bool PLOCAL_INC(int op,SQObjectPtr &target, SQObjectPtr &a, SQObjectPtr &incr);
-	bool DerefInc(int op,SQObjectPtr &target, SQObjectPtr &self, SQObjectPtr &key, SQObjectPtr &incr, bool postfix);
+	inline bool LOCAL_INC(int op,SQObjectPtr &target, SQObjectPtr &a, SQObjectPtr &incr);
+	inline bool PLOCAL_INC(int op,SQObjectPtr &target, SQObjectPtr &a, SQObjectPtr &incr);
+	inline bool DerefInc(int op,SQObjectPtr &target, SQObjectPtr &self, SQObjectPtr &key, SQObjectPtr &incr, bool postfix);
 	void PopVarArgs(VarArgs &vargs);
 #ifdef _DEBUG_DUMP
 	void dumpstack(int stackbase=-1, bool dumpall = false);
@@ -121,15 +120,23 @@ public:
 	void Release(){ sq_delete(this,SQVM); } //does nothing
 ////////////////////////////////////////////////////////////////////////////
 	//stack functions for the api
-	void Pop();
-	void Pop(int n);
 	void Remove(int n);
 
-	void Push(const SQObjectPtr &o);
-	SQObjectPtr &Top();
-	SQObjectPtr &PopGet();
-	SQObjectPtr &GetUp(int n);
-	SQObjectPtr &GetAt(int n);
+	inline void Pop() {
+		_stack[--_top] = _null_;
+	}
+
+	inline void Pop(int n) {
+		for(int i = 0; i < n; i++){
+			_stack[--_top] = _null_;
+		}
+	}
+
+	inline void Push(const SQObjectPtr &o) { _stack[_top++] = o; }
+	inline SQObjectPtr &Top() { return _stack[_top-1]; }
+	inline SQObjectPtr &PopGet() { return _stack[--_top]; }
+	inline SQObjectPtr &GetUp(int n) { return _stack[_top+n]; }
+	inline SQObjectPtr &GetAt(int n) { return _stack[n]; }
 
 	SQObjectPtrVec _stack;
 	SQObjectPtrVec _vargsstack;
@@ -150,8 +157,8 @@ public:
 	SQSharedState *_sharedstate;
 	int _nnativecalls;
 	//suspend infos
-	bool _suspended;
-	bool _suspended_root;
+	SQBool _suspended;
+	SQBool _suspended_root;
 	int _suspended_target;
 	int _suspended_traps;
 };
@@ -175,8 +182,7 @@ const SQChar *IdType2Name(SQObjectType type);
 #endif
 
 #define PUSH_CALLINFO(v,nci){ \
-	v->_callsstack.push_back(nci); \
-	v->ci = &v->_callsstack.back(); \
+	v->ci = &v->_callsstack.push_back(nci); \
 }
 
 #define POP_CALLINFO(v){ \

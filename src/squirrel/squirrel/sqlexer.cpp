@@ -24,8 +24,10 @@ SQLexer::~SQLexer()
 	_keywords->Release();
 }
 
-void SQLexer::Init(SQSharedState *ss, SQLEXREADFUNC rg, SQUserPointer up)
+void SQLexer::Init(SQSharedState *ss, SQLEXREADFUNC rg, SQUserPointer up,CompilerErrorFunc efunc,void *ed)
 {
+	_errfunc = efunc;
+	_errtarget = ed;
 	_sharedstate = ss;
 	_keywords = SQTable::Create(ss, 26);
 	ADD_KEYWORD(while, TK_WHILE);
@@ -72,10 +74,15 @@ void SQLexer::Init(SQSharedState *ss, SQLEXREADFUNC rg, SQUserPointer up)
 	Next();
 }
 
+void SQLexer::Error(const SQChar *err)
+{
+	_errfunc(_errtarget,err);
+}
+
 void SQLexer::Next()
 {
 	SQInteger t = _readf(_up);
-	if(t > MAX_CHAR) throw ParserException(_SC("Invalid character"));
+	if(t > MAX_CHAR) Error(_SC("Invalid character"));
 	if(t != 0) {
 		_currdata = t;
 		return;
@@ -83,16 +90,16 @@ void SQLexer::Next()
 	_currdata = SQUIRREL_EOB;
 }
 
-SQObjectPtr SQLexer::Tok2Str(int tok)
+const SQChar *SQLexer::Tok2Str(int tok)
 {
 	SQObjectPtr itr, key, val;
 	int nitr;
 	while((nitr = _keywords->Next(itr, key, val)) != -1) {
 		itr = (SQInteger)nitr;
 		if(((int)_integer(val)) == tok)
-			return key;
+			return _stringval(key);
 	}
-	return SQObjectPtr();
+	return NULL;
 }
 
 void SQLexer::LexBlockComment()
@@ -103,7 +110,7 @@ void SQLexer::LexBlockComment()
 			case _SC('*'): { NEXT(); if(CUR_CHAR == _SC('/')) { done = true; NEXT(); }}; continue;
 			//case _SC('/'): { NEXT(); if(CUR_CHAR == _SC('*')) { nest++; NEXT(); }}; continue;
 			case _SC('\n'): _currentline++; NEXT(); continue;
-			case SQUIRREL_EOB: throw ParserException(_SC("missing \"*/\" in comment"));
+			case SQUIRREL_EOB: Error(_SC("missing \"*/\" in comment"));
 			default: NEXT();
 		}
 	}
@@ -175,11 +182,11 @@ int SQLexer::Lex()
 			int stype;
 			NEXT(); 
 			if(CUR_CHAR != _SC('"'))
-				throw ParserException(_SC("string expected"));
+				Error(_SC("string expected"));
 			if((stype=ReadString('"',true))!=-1) {
 				RETURN_TOKEN(stype);
 			}
-			throw ParserException(_SC("error parsing the string"));
+			Error(_SC("error parsing the string"));
 					   }
 		case _SC('"'):
 		case _SC('\''): {
@@ -187,7 +194,7 @@ int SQLexer::Lex()
 			if((stype=ReadString(CUR_CHAR,false))!=-1){
 				RETURN_TOKEN(stype);
 			}
-			throw ParserException(_SC("error parsing the string"));
+			Error(_SC("error parsing the string"));
 			}
 		case _SC('{'): case _SC('}'): case _SC('('): case _SC(')'): case _SC('['): case _SC(']'):
 		case _SC(';'): case _SC(','): case _SC('?'): case _SC('^'): case _SC('~'):
@@ -197,7 +204,7 @@ int SQLexer::Lex()
 			NEXT();
 			if (CUR_CHAR != _SC('.')){ RETURN_TOKEN('.') }
 			NEXT();
-			if (CUR_CHAR != _SC('.')){ throw ParserException(_SC("invalid token '..'")); }
+			if (CUR_CHAR != _SC('.')){ Error(_SC("invalid token '..'")); }
 			NEXT();
 			RETURN_TOKEN(TK_VARPARAMS);
 		case _SC('&'):
@@ -243,7 +250,7 @@ int SQLexer::Lex()
 				}
 				else {
 					int c = CUR_CHAR;
-					if (sciscntrl(c)) throw ParserException(_SC("unexpected character(control)"));
+					if (sciscntrl(c)) Error(_SC("unexpected character(control)"));
 					NEXT();
 					RETURN_TOKEN(c);  
 				}
@@ -273,10 +280,10 @@ int SQLexer::ReadString(int ndelim,bool verbatim)
 		while(CUR_CHAR != ndelim) {
 			switch(CUR_CHAR) {
 			case SQUIRREL_EOB:
-				throw ParserException(_SC("unfinished string"));
+				Error(_SC("unfinished string"));
 				return -1;
 			case _SC('\n'): 
-				if(!verbatim) throw ParserException(_SC("newline in a constant")); 
+				if(!verbatim) Error(_SC("newline in a constant")); 
 				APPEND_CHAR(CUR_CHAR); NEXT(); 
 				break;
 			case _SC('\\'):
@@ -284,9 +291,23 @@ int SQLexer::ReadString(int ndelim,bool verbatim)
 					APPEND_CHAR('\\'); NEXT(); 
 				}
 				else {
-
 					NEXT();
 					switch(CUR_CHAR) {
+					case _SC('x'): NEXT(); {
+						if(!isxdigit(CUR_CHAR)) Error(_SC("hexadecimal number expected")); 
+						const int maxdigits = 4;
+						SQChar temp[maxdigits+1];
+						int n = 0;
+						while(isxdigit(CUR_CHAR) && n < maxdigits) {
+							temp[n] = CUR_CHAR;
+							n++;
+							NEXT();
+						}
+						temp[n] = 0;
+						SQChar *sTemp;
+						APPEND_CHAR((SQChar)scstrtoul(temp,&sTemp,16));
+					}
+				    break;
 					case _SC('t'): APPEND_CHAR(_SC('\t')); NEXT(); break;
 					case _SC('a'): APPEND_CHAR(_SC('\a')); NEXT(); break;
 					case _SC('b'): APPEND_CHAR(_SC('\b')); NEXT(); break;
@@ -299,7 +320,7 @@ int SQLexer::ReadString(int ndelim,bool verbatim)
 					case _SC('"'): APPEND_CHAR(_SC('"')); NEXT(); break;
 					case _SC('\''): APPEND_CHAR(_SC('\'')); NEXT(); break;
 					default:
-						throw ParserException(_SC("unrecognised escaper char"));
+						Error(_SC("unrecognised escaper char"));
 					break;
 					}
 				}
@@ -321,8 +342,8 @@ int SQLexer::ReadString(int ndelim,bool verbatim)
 	TERMINATE_BUFFER();
 	int len = _longstr.size()-1;
 	if(ndelim == _SC('\'')) {
-		if(len == 0) throw ParserException(_SC("empty constant"));
-		if(len > 1) throw ParserException(_SC("constant too long"));
+		if(len == 0) Error(_SC("empty constant"));
+		if(len > 1) Error(_SC("constant too long"));
 		_nvalue = _longstr[0];
 		return TK_INTEGER;
 	}
@@ -339,7 +360,7 @@ int SQLexer::ReadNumber()
 #define THEX 3
 #define TSCIENTIFIC 4
 	int type = TINT, firstchar = CUR_CHAR;
-	//bool isfloat = false;
+	bool isfloat = false;
 	SQChar *sTemp;
 	INIT_TEMP_STRING();
 	NEXT();
@@ -350,14 +371,14 @@ int SQLexer::ReadNumber()
 			APPEND_CHAR(CUR_CHAR);
 			NEXT();
 		}
-		if(_longstr.size() > 8) throw ParserException(_SC("Hex number over 8 digits"));
+		if(_longstr.size() > 8) Error(_SC("Hex number over 8 digits"));
 	}
 	else {
 		APPEND_CHAR(firstchar);
 		while (CUR_CHAR == _SC('.') || scisdigit(CUR_CHAR) || isexponent(CUR_CHAR)) {
             if(CUR_CHAR == _SC('.')) type = TFLOAT;
 			if(isexponent(CUR_CHAR)) {
-				if(type != TFLOAT) throw ParserException(_SC("invalid numeric format"));
+				if(type != TFLOAT) Error(_SC("invalid numeric format"));
 				type = TSCIENTIFIC;
 				APPEND_CHAR(CUR_CHAR);
 				NEXT();
@@ -365,7 +386,7 @@ int SQLexer::ReadNumber()
 					APPEND_CHAR(CUR_CHAR);
 					NEXT();
 				}
-				if(!scisdigit(CUR_CHAR)) throw ParserException(_SC("exponent expected"));
+				if(!scisdigit(CUR_CHAR)) Error(_SC("exponent expected"));
 			}
 			
 			APPEND_CHAR(CUR_CHAR);
@@ -390,8 +411,7 @@ int SQLexer::ReadNumber()
 
 int SQLexer::ReadID()
 {
-	int res;
-	// int size = 0;
+	int res, size = 0;
 	INIT_TEMP_STRING();
 	do {
 		APPEND_CHAR(CUR_CHAR);

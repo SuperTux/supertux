@@ -30,8 +30,6 @@ unsigned int TranslateIndex(const SQObjectPtr &idx)
 			return 0;
 		case OT_INTEGER:
 			return (unsigned int)_integer(idx);
-		default:
-			break;
 	}
 	assert(0);
 	return 0;
