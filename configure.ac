@@ -137,8 +137,8 @@ NP_FINDLIB([PHYSFS], [physfs], [physfs >= 1.0.0],
         [AC_MSG_ERROR([Please install physfs >= 1.0])])
 
 NP_FINDLIB([OPENAL], [OpenAL], [OpenAL],
-         NP_LANG_PROGRAM([#include <AL/alut.h>],
-           [alutInit(0, 0);]),
+         NP_LANG_PROGRAM([#include <AL/al.h>],
+           [alcOpenDevice(0);]),
          [], [-lopenal],
          [],
          [AC_MSG_ERROR([Please intall OpenAL])],
