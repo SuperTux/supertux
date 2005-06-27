@@ -181,6 +181,7 @@ void check_levels_contrib_menu()
   if(subset.has_worldmap) {
     WorldMapNS::WorldMap worldmap;
     worldmap.set_map_filename(subset.get_worldmap_filename());
+    sound_manager->stop_music();
 
     // some fading
     fadeout(256);
@@ -227,6 +228,7 @@ void check_contrib_subset_menu()
   int index = contrib_subset_menu->check();
   if (index != -1) {
     if (contrib_subset_menu->get_item_by_id(index).kind == MN_ACTION) {
+      sound_manager->stop_music();
       GameSession session(
           current_contrib_subset->get_level_filename(index), ST_GL_PLAY);
       session.run();
@@ -377,9 +379,11 @@ void title()
                 }
 #endif
                 case MNID_CREDITS:
+                  sound_manager->stop_music();
                   fadeout(500);
                   sound_manager->play_music("music/credits.ogg");
                   display_text_file("credits.txt");
+                  sound_manager->stop_music();
                   fadeout(500);
                   Menu::set_current(main_menu);
                   break;

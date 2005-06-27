@@ -734,6 +734,7 @@ WorldMap::update(float delta)
 
       if (level->pos == tux->get_tile_pos())
         {
+          sound_manager->stop_music();
           PlayerStatus old_player_status = player_status;
 
           // do a shriking fade to the level

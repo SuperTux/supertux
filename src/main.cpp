@@ -374,7 +374,11 @@ void wait_for_event(float min_delay, float max_delay)
   Uint32 min = (Uint32) (min_delay * 1000);
   Uint32 max = (Uint32) (max_delay * 1000);
 
-  SDL_Delay(min);
+  Uint32 ticks = SDL_GetTicks();
+  while(SDL_GetTicks() - ticks < min) {
+    SDL_Delay(10);
+    sound_manager->update();
+  }
 
   // clear even queue
   SDL_Event event;
@@ -383,7 +387,7 @@ void wait_for_event(float min_delay, float max_delay)
 
   /* Handle events: */
   bool running = false;
-  Uint32 ticks = SDL_GetTicks();
+  ticks = SDL_GetTicks();
   while(running) {
     while(SDL_PollEvent(&event)) {
       switch(event.type) {

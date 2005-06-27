@@ -39,6 +39,7 @@
 #include "screen.hpp"
 #include "main.hpp"
 #include "video/drawing_context.hpp"
+#include "audio/sound_manager.hpp"
 #include "math/vector.hpp"
 
 static const float LOOP_DELAY = 20.0;
@@ -266,6 +267,7 @@ void fadeout(int fade_time)
                                                    
     DrawingContext context; // ugly...
     context.do_drawing();
+    sound_manager->update();
     
     SDL_Delay(int(LOOP_DELAY));
   }
@@ -295,7 +297,8 @@ void shrink_fade(const Vector& point, int fade_time)
     fillrect(0, SCREEN_HEIGHT - down_cor, SCREEN_WIDTH, down_cor+1, 0,0,0);  // down side                                                                                
     DrawingContext context; // ugly...
     context.do_drawing();
-    
+  
+    sound_manager->update();
     SDL_Delay(int(LOOP_DELAY));
   }
 }

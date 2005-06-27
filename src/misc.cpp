@@ -80,7 +80,7 @@ void setup_menu()
   main_menu->add_submenu(_("Start Game"), load_game_menu, MNID_STARTGAME);
   main_menu->add_submenu(_("Contrib Levels"), contrib_menu, MNID_LEVELS_CONTRIB);
   main_menu->add_submenu(_("Options"), options_menu);
-  main_menu->add_entry(MNID_LEVELEDITOR, _("Level Editor"));
+  //main_menu->add_entry(MNID_LEVELEDITOR, _("Level Editor"));
   main_menu->add_entry(MNID_CREDITS, _("Credits"));
   main_menu->add_entry(MNID_QUITMAINMENU, _("Quit"));
   

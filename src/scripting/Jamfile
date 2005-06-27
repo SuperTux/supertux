@@ -7,7 +7,7 @@ if $(MINISWIG)
     {
         local sources = [ SearchSource $(>) ] ;
         local cppfile = [ LocateTarget $(<) : $(SUBDIR) ] ;
-        local headerfile = [ LocateTarget $(<:S=.h) : $(SUBDIR) ] ;	
+        local headerfile = [ LocateTarget $(<:S=.hpp) : $(SUBDIR) ] ;	
         SEARCH on $(headerfile) = $(SOURCH_SOURCE) ;
 
         Depends $(cppfile) : $(headerfile) ;
@@ -35,7 +35,7 @@ if $(MINISWIG)
     }
 }
 
-wrapper_sources = [ Filter [ Wildcard *.cpp *.h ] : wrapper.cpp wrapper.h ] ;
+wrapper_sources = [ Filter [ Wildcard *.cpp *.hpp ] : wrapper.cpp wrapper.hpp ] ;
 if ! $(MINISWIG)
 {
     wrapper_sources += [ SearchSource wrapper.cpp ] ;

@@ -184,8 +184,6 @@ GameSession::play_demo(const std::string& filename)
 void
 GameSession::levelintro()
 {
-  //sound_manager->halt_music();
-  
   char str[60];
 
   DrawingContext context;
@@ -429,7 +427,6 @@ GameSession::update(float elapsed_time)
 
   // update sounds
   sound_manager->set_listener_position(currentsector->player->get_pos());
-  sound_manager->update();
 }
 
 void 
@@ -592,6 +589,9 @@ GameSession::run()
 
     if(!skipdraw)
       draw();
+
+    // update sounds
+    sound_manager->update();
 
     /* Time stops in pause mode */
     if(game_pause || Menu::current())
@@ -799,6 +799,7 @@ bool process_load_game_menu()
   stream << slot;
   std::string slotfile = "save/slot" + stream.str() + ".stsg";
 
+  sound_manager->stop_music();
   fadeout(256);
   DrawingContext context;
   context.draw_text(white_text, "Loading...",

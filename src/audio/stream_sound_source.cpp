@@ -5,51 +5,60 @@
 #include "sound_manager.hpp"
 #include "sound_file.hpp"
 
-StreamSoundSource::StreamSoundSource(SoundFile* file)
+StreamSoundSource::StreamSoundSource()
+  : file(0), fade_state(NoFading)
 {
-  this->file = file;
   alGenBuffers(STREAMFRAGMENTS, buffers);
   SoundManager::check_al_error("Couldn't allocate audio buffers: ");
-  format = SoundManager::get_sample_format(file);
-  try {
-    for(size_t i = 0; i < STREAMFRAGMENTS; ++i) {
-      fillBufferAndQueue(buffers[i]);
-    }
-  } catch(...) {
-    alDeleteBuffers(STREAMFRAGMENTS, buffers);
-  }
 }
 
 StreamSoundSource::~StreamSoundSource()
 {
+  delete file;
   alDeleteBuffers(STREAMFRAGMENTS, buffers);
   SoundManager::check_al_error("Couldn't delete audio buffers: ");
 }
 
 void
+StreamSoundSource::set_sound_file(SoundFile* newfile)
+{
+  delete file;
+  file = newfile;
+
+  ALint queued;
+  alGetSourcei(source, AL_BUFFERS_QUEUED, &queued);
+  for(size_t i = 0; i < STREAMFRAGMENTS - queued; ++i) {
+    fillBufferAndQueue(buffers[i]);
+  }
+}
+
+void
 StreamSoundSource::update()
 {
-  if(!playing())
-    return;
-
   ALint processed = 0;
   alGetSourcei(source, AL_BUFFERS_PROCESSED, &processed);
-  while(processed > 0) {
-    processed--;
-
+  for(ALint i = 0; i < processed; ++i) {
     ALuint buffer;
     alSourceUnqueueBuffers(source, 1, &buffer);
     SoundManager::check_al_error("Couldn't unqueu audio buffer: ");
 
     fillBufferAndQueue(buffer);
   }
-  
-  // we might have to restart the source if we had a buffer underrun
+
   if(!playing()) {
+    if(processed == 0)
+      return;
+    
+    // we might have to restart the source if we had a buffer underrun  
     std::cerr << "Restarting audio source because of buffer underrun.\n";
-    alSourcePlay(source);
-    SoundManager::check_al_error("Couldn't restart audio source: ");
+    play();
   }
+
+#ifdef DEBUG
+  ALint queued;
+  alGetSourcei(source, AL_BUFFERS_QUEUED, &queued);
+  assert(queued == (ALint) STREAMFRAGMENTS);
+#endif
 
   if(fade_state == FadingOn) {
     Uint32 ticks = SDL_GetTicks();
@@ -63,7 +72,7 @@ StreamSoundSource::update()
   } else if(fade_state == FadingOff) {
     Uint32 ticks = SDL_GetTicks();
     float time = (ticks - fade_start_ticks) / 1000.0;
-    if(time >= fade_time) {                              
+    if(time >= fade_time) {
       stop();
       fade_state = NoFading;
     } else {
@@ -73,7 +82,7 @@ StreamSoundSource::update()
 }
 
 void
-StreamSoundSource::setFading(FadeState state, float fade_time)
+StreamSoundSource::set_fading(FadeState state, float fade_time)
 {
   this->fade_state = state;
   this->fade_time = fade_time;
@@ -94,6 +103,7 @@ StreamSoundSource::fillBufferAndQueue(ALuint buffer)
     }
   } while(bytesread < STREAMFRAGMENTSIZE);
   
+  ALenum format = SoundManager::get_sample_format(file);
   alBufferData(buffer, format, bufferdata, STREAMFRAGMENTSIZE, file->rate);
   delete[] bufferdata;
   SoundManager::check_al_error("Couldn't refill audio buffer: ");
