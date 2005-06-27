@@ -9,6 +9,8 @@
 #include "sound_source.hpp"
 #include "stream_sound_source.hpp"
 
+SoundManager* sound_manager;
+
 SoundManager::SoundManager()
   : device(0), context(0), sound_enabled(false), music_source(0),
     next_music_source(0)
@@ -51,7 +53,6 @@ SoundManager::~SoundManager()
   }
 
   if(context != 0) {
-    alcMakeContextCurrent(0);
     alcDestroyContext(context);
   }
   if(device != 0) {

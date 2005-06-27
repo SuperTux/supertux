@@ -70,5 +70,7 @@ private:
   std::string current_music;
 };
 
+extern SoundManager* sound_manager;
+
 #endif
 

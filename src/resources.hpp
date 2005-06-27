@@ -34,7 +34,6 @@ extern Surface* tux_life;
 
 extern SpriteManager* sprite_manager;
 extern TileManager* tile_manager;
-extern SoundManager* sound_manager;
 
 extern Menu* contrib_menu;
 extern Menu* contrib_subset_menu;

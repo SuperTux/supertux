@@ -29,7 +29,6 @@
 
 SpriteManager* sprite_manager = 0;
 TileManager* tile_manager = 0;
-SoundManager* sound_manager = 0;
 
 MouseCursor* mouse_cursor = 0;
 
