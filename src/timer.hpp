@@ -20,7 +20,7 @@
 #ifndef __SUPERTUX_TIMER_H__
 #define __SUPERTUX_TIMER_H__
 
-extern float global_time;
+extern float game_time;
 
 /**
  * new simpler timer designed to be used in the update functions of objects
@@ -48,9 +48,9 @@ public:
   float get_period() const
   { return period; }
   float get_timeleft() const
-  { return period - (global_time - cycle_start); }
+  { return period - (game_time - cycle_start); }
   float get_timegone() const
-  { return global_time - cycle_start; }
+  { return game_time - cycle_start; }
   bool started() const
   { return period != 0 && get_timeleft() > 0; }
 

@@ -528,7 +528,7 @@ GameSession::run()
     static const float elapsed_time = 1.0 / LOGICAL_FPS;
     // old code... float elapsed_time = float(ticks - lastticks) / 1000.;
     if(!game_pause)
-      global_time += elapsed_time;
+      game_time += elapsed_time;
 
     // regulate fps
     ticks = SDL_GetTicks();

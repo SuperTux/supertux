@@ -167,7 +167,7 @@ void
 Tile::draw(DrawingContext& context, const Vector& pos, int layer) const
 {
   if(images.size() > 1) {
-    size_t frame = size_t(global_time * anim_fps) % images.size();
+    size_t frame = size_t(game_time * anim_fps) % images.size();
     context.draw_surface(images[frame], pos, layer);
   } else if (images.size() == 1) {
     context.draw_surface(images[0], pos, layer);

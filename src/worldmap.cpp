@@ -1008,7 +1008,7 @@ WorldMap::display()
   while(!quit) {
     Uint32 ticks = SDL_GetTicks();
     float elapsed_time = float(ticks - lastticks) / 1000;
-    global_time += elapsed_time;
+    game_time += elapsed_time;
     lastticks = ticks;
     
     // 40 fps minimum // TODO use same code as in GameSession here

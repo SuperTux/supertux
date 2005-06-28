@@ -56,7 +56,7 @@ LevelTime::draw(DrawingContext& context)
     context.draw_text(white_text, _("TIME's UP"), Vector(SCREEN_WIDTH/2, 0),
         CENTER_ALLIGN, LAYER_FOREGROUND1);
   } else if (time_left.get_timeleft() > TIME_WARNING
-      || int(global_time * 2.5) % 2) {
+      || int(game_time * 2.5) % 2) {
     snprintf(str, sizeof(str), " %d", int(time_left.get_timeleft()));
     context.draw_text(white_text, _("TIME"),
         Vector(SCREEN_WIDTH/2, 0), CENTER_ALLIGN, LAYER_FOREGROUND1);

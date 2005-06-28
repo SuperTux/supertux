@@ -148,7 +148,7 @@ WrapperCreator::create_function_wrapper(Class* _class, Function* function)
             p != function->parameters.end(); ++p) {
         if(i == 0 && p->type.atomic_type == HSQUIRRELVMType::instance()) {
             out << ind << "HSQUIRRELVM arg0 = v;\n";
-            arg_offset++;
+            arg_offset--;
         } else {
             char argname[64];
             snprintf(argname, sizeof(argname), "arg%d", i);

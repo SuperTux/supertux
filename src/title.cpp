@@ -310,7 +310,7 @@ void title()
       // Calculate the movement-factor
       Uint32 ticks = SDL_GetTicks();
       float elapsed_time = float(ticks - lastticks) / 1000.;
-      global_time += elapsed_time;
+      game_time += elapsed_time;
       lastticks = ticks;
       // 40fps is minimum
       if(elapsed_time > .04)

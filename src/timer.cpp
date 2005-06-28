@@ -22,7 +22,7 @@
 #include <math.h>
 #include "timer.hpp"
 
-float global_time = 0;
+float game_time = 0;
 
 Timer::Timer()
   : period(0), cycle_start(0), cyclic(false)
@@ -38,7 +38,7 @@ Timer::start(float period, bool cyclic)
 {
   this->period = period;
   this->cyclic = cyclic;
-  cycle_start = global_time;
+  cycle_start = game_time;
 }
 
 bool
@@ -47,9 +47,9 @@ Timer::check()
   if(period == 0)
     return false;
   
-  if(global_time - cycle_start >= period) {
+  if(game_time - cycle_start >= period) {
     if(cyclic) {
-      cycle_start = global_time - fmodf(global_time - cycle_start, period);
+      cycle_start = game_time - fmodf(game_time - cycle_start, period);
     } else {
       period = 0;
     }
