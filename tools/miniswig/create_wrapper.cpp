@@ -192,7 +192,11 @@ WrapperCreator::create_function_wrapper(Class* _class, Function* function)
     out << ind << "\n";
     // push return value back on stack and return
     if(function->return_type.is_void()) {
-        out << ind << "return 0;\n";
+        if(function->docu_comment.find("@SUSPEND@") != std::string::npos) {
+          out << ind << "sq_suspendvm(v);\n";
+        } else {
+          out << ind << "return 0;\n";
+        }
     } else {
         push_to_stack(function->return_type, "return_value");
         out << ind << "return 1;\n";
