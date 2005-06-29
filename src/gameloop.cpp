@@ -374,6 +374,35 @@ GameSession::process_events()
                       }
                   }
                   break;
+		
+		case SDL_JOYHATMOTION:
+		  if ((event.jhat.value == SDL_HAT_RIGHT) || 
+		      (event.jhat.value == SDL_HAT_RIGHTUP) ){
+			tux.input.left  = UP;
+			tux.input.right = DOWN;
+		  }
+		  if ((event.jhat.value == SDL_HAT_LEFT) ||
+		      (event.jhat.value == SDL_HAT_LEFTUP) ){
+			tux.input.left  = DOWN;
+			tux.input.right = UP;
+		  }
+		  if (event.jhat.value == SDL_HAT_CENTERED) {
+                        tux.input.left  = DOWN;
+			tux.input.right = DOWN;
+                  }
+		 
+		  if ( (event.jhat.value ==  ( SDL_HAT_DOWN)) ||
+		       (event.jhat.value ==  ( SDL_HAT_LEFTDOWN)) ||
+		       (event.jhat.value ==  ( SDL_HAT_RIGHTDOWN)) )
+			 tux.input.down = DOWN;
+
+		  if ((event.jhat.value != ( SDL_HAT_DOWN)) && 
+                      (event.jhat.value != ( SDL_HAT_LEFTDOWN)) &&
+                      (event.jhat.value != ( SDL_HAT_RIGHTDOWN)))
+			 tux.input.down = UP;
+                           
+                  break;
+
 
                 case SDL_JOYAXISMOTION:
                   if (event.jaxis.axis == joystick_keymap.x_axis)

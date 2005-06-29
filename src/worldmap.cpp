@@ -607,6 +607,17 @@ WorldMap::get_input()
                 }
               break;
 
+	    case SDL_JOYHATMOTION:
+	      if (event.jhat.value == SDL_HAT_UP)
+                    input_direction = D_NORTH;
+	      if (event.jhat.value == SDL_HAT_DOWN)
+                    input_direction = D_SOUTH;
+	      if (event.jhat.value == SDL_HAT_LEFT)
+                    input_direction = D_WEST;
+	      if (event.jhat.value == SDL_HAT_RIGHT)
+                    input_direction = D_EAST;
+	      break;
+
             case SDL_JOYBUTTONDOWN:
               if (event.jbutton.button == joystick_keymap.b_button)
                 enter_level = true;

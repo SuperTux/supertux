@@ -800,6 +800,12 @@ Menu::event(SDL_Event& event)
       break;
     }
     break;
+  case  SDL_JOYHATMOTION:
+      if(event.jhat.value == SDL_HAT_UP)
+           menuaction = MENU_ACTION_UP;
+      if(event.jhat.value == SDL_HAT_DOWN)
+           menuaction = MENU_ACTION_DOWN;
+       break;
   case  SDL_JOYAXISMOTION:
     if(event.jaxis.axis == joystick_keymap.y_axis)
     {
