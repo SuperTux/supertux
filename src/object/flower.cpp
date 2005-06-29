@@ -67,7 +67,7 @@ Flower::collision(GameObject& other, const CollisionHit& )
   else
     player->set_bonus(ICE_BONUS, true);
   
-  sound_manager->play("sounds/fire-flower.wav");
+  sound_manager->play("sounds/fire-flower.ogg");
   remove_me();
   return ABORT_MOVE;
 }

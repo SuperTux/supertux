@@ -181,7 +181,7 @@ BadGuy::collision_squished(Player& )
 void
 BadGuy::kill_squished(Player& player)
 {
-  sound_manager->play("sounds/squish.wav", get_pos());
+  sound_manager->play("sounds/squish.ogg", get_pos());
   physic.enable_gravity(true);
   physic.set_velocity_x(0);
   physic.set_velocity_y(0);
@@ -193,7 +193,7 @@ BadGuy::kill_squished(Player& player)
 void
 BadGuy::kill_fall()
 {
-  sound_manager->play("sounds/fall.wav", get_pos());
+  sound_manager->play("sounds/fall.ogg", get_pos());
   global_stats.add_points(BADGUYS_KILLED_STAT, 1);
   physic.set_velocity_y(0);
   physic.enable_gravity(true);

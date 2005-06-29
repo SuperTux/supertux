@@ -123,7 +123,7 @@ AmbientSound::start_playing()
   try {
     std::string filename = "sounds/";
     filename += sample;
-    filename += ".wav";
+    filename += ".ogg";
     sound_source = sound_manager->create_sound_source(filename);
     if(!sound_source)
       throw std::runtime_error("file not found");

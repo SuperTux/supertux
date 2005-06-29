@@ -69,7 +69,7 @@ void
 Flame::activate()
 {
   delete source;
-  source = sound_manager->create_sound_source("sounds/flame.wav");
+  source = sound_manager->create_sound_source("sounds/flame.ogg");
   if(!source) {
     std::cerr << "Couldn't start flame sound.\n";
     return;

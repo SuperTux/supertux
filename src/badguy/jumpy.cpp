@@ -70,7 +70,7 @@ Jumpy::hit(const CollisionHit& chit)
     
     physic.set_velocity_y(JUMPSPEED);
     // TODO create a nice sound for this...
-    //sound_manager->play("sounds/skid.wav");
+    //sound_manager->play("sounds/skid.ogg");
   } else if(chit.normal.y < .5) { // bumped on roof
     physic.set_velocity_y(0);
   }

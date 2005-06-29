@@ -203,7 +203,7 @@ void
 BonusBlock::try_open()
 {
   if(sprite->get_action_name() == "empty") {
-    sound_manager->play("sounds/brick.wav");
+    sound_manager->play("sounds/brick.ogg");
     return;
   }
   
@@ -224,7 +224,7 @@ BonusBlock::try_open()
             get_pos(), new Flower(Flower::FIREFLOWER));
         sector->add_object(riser);
       }
-      sound_manager->play("sounds/upgrade.wav");
+      sound_manager->play("sounds/upgrade.ogg");
       break;
 
     case CONTENT_ICEGROW:
@@ -236,7 +236,7 @@ BonusBlock::try_open()
             get_pos(), new Flower(Flower::ICEFLOWER));
         sector->add_object(riser);
       }      
-      sound_manager->play("sounds/upgrade.wav");
+      sound_manager->play("sounds/upgrade.ogg");
       break;
 
     case CONTENT_STAR:
@@ -251,7 +251,7 @@ BonusBlock::try_open()
       SpecialRiser* riser = new SpecialRiser(get_pos(), object);
       object = 0;
       sector->add_object(riser);
-      sound_manager->play("sounds/upgrade.wav");
+      sound_manager->play("sounds/upgrade.ogg");
       break;
 
     //default:
@@ -292,7 +292,7 @@ Brick::try_break(bool playerhit)
   if(sprite->get_action_name() == "empty")
     return;
   
-  sound_manager->play("sounds/brick.wav");
+  sound_manager->play("sounds/brick.ogg");
   Sector* sector = Sector::current();
   Player& player = *(sector->player);
   if(coin_counter > 0) {

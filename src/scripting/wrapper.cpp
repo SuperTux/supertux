@@ -443,7 +443,7 @@ static int import_wrapper(HSQUIRRELVM v)
 {
   HSQUIRRELVM arg0 = v;
   const char* arg1;
-  sq_getstring(v, 4, &arg1);
+  sq_getstring(v, 2, &arg1);
   
   Scripting::import(arg0, arg1);
   

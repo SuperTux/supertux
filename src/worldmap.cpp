@@ -713,7 +713,7 @@ WorldMap::update(float delta)
         if (special_tile->teleport_dest != Vector(-1,-1))
           {
           // TODO: an animation, camera scrolling or a fading would be a nice touch
-          sound_manager->play("sounds/warp.wav");
+          sound_manager->play("sounds/warp.ogg");
           tux->back_direction = D_NONE;
           tux->set_tile_pos(special_tile->teleport_dest);
           SDL_Delay(1000);
