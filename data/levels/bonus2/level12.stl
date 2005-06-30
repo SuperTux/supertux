@@ -1,7 +1,7 @@
 ;SuperTux-Level
 (supertux-level
   (version 1)
-  (name "Blind to the word")
+  (name "Blind To The World")
   (author "Daniel Alston")
   (music "Mortimers_chipdisko.mod")
   (background "arctis2.jpg")

@@ -1045,7 +1045,7 @@ void parseargs(int argc, char * argv[])
           puts("Display Options:\n"
                "  --fullscreen        Run in fullscreen mode.\n"
                "  --opengl            If opengl support was compiled in, this will enable\n"
-               "                      the EXPERIMENTAL OpenGL mode.\n"
+               "                      the OpenGL mode.\n"
                "  --sdl               Use non-opengl renderer\n"
                "\n"
                "Sound Options:\n"
@@ -1098,7 +1098,7 @@ void usage(char * prog, int ret)
 
   /* Display the usage message: */
 
-  fprintf(fi, "Usage: %s [--fullscreen] [--opengl] [--disable-sound] [--disable-music] [--debug-mode] | [--usage | --help | --version] [--worldmap] FILENAME\n",
+  fprintf(fi, "Usage: %s [--fullscreen] [--opengl] [--disable-sound] [--disable-music] [--debug-mode] | [--usage | --help | --version] FILENAME\n",
           prog);
 
 
