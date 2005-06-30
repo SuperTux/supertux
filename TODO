@@ -2,7 +2,7 @@
 SuperTux 0.1.2 TO 0.1.3 - TODO
 
 -Fix reset point bugs:
-  *not working when placed at certain locations
+  *not working when placed at certain locations (see bonus2/level17 for an example)
   *if you respawn at a rp and walk left, you start at the beginning next time
   [added warnings about reset points inside a wall]
 -Give Tux more invincible time after hit (also in milestone 2) [done]
