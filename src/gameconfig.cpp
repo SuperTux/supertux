@@ -43,7 +43,6 @@ Config::Config()
 
   screenwidth = 800;
   screenheight = 600;
-  use_gl = true;
 }
 
 Config::~Config()
