@@ -7,6 +7,7 @@
 #include "parser.hpp"
 #include "globals.hpp"
 
+#define YY_NEVER_INTERACTIVE 1
 #define YY_DECL int yylex(YYSTYPE* yylval)
 
 #define YY_INPUT(buf, result, max_size)                     \
