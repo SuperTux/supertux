@@ -12,7 +12,7 @@
 namespace Scripting
 {
 
-void set_wakeup_time(float seconds)
+void wait(float seconds)
 {
   ScriptInterpreter::current()->set_wakeup_time(seconds);
 }

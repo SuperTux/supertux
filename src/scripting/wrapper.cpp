@@ -418,14 +418,14 @@ static int display_text_file_wrapper(HSQUIRRELVM v)
   return 0;
 }
 
-static int set_wakeup_time_wrapper(HSQUIRRELVM v)
+static int wait_wrapper(HSQUIRRELVM v)
 {
   float arg0;
   sq_getfloat(v, 2, &arg0);
   
-  Scripting::set_wakeup_time(arg0);
+  Scripting::wait(arg0);
   
-  return 0;
+  return sq_suspendvm(v);
 }
 
 static int translate_wrapper(HSQUIRRELVM v)
@@ -452,7 +452,7 @@ static int import_wrapper(HSQUIRRELVM v)
 
 WrappedFunction supertux_global_functions[] = {
   { "display_text_file", &display_text_file_wrapper },
-  { "set_wakeup_time", &set_wakeup_time_wrapper },
+  { "wait", &wait_wrapper },
   { "translate", &translate_wrapper },
   { "import", &import_wrapper },
   { 0, 0 }

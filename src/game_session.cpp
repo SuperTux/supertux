@@ -684,6 +684,7 @@ GameSession::display_info_box(const std::string& text)
       running = false;
     box->draw(*context);
     draw();
+    sound_manager->update();
   }
 
   delete box;

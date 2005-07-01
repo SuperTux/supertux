@@ -192,6 +192,13 @@ SoundManager::play_music(const std::string& filename, bool fade)
 void
 SoundManager::set_listener_position(const Vector& pos)
 {
+  static Uint32 lastticks = SDL_GetTicks();
+
+  Uint32 current_ticks = SDL_GetTicks();
+  if(current_ticks - lastticks < 300)
+    return;
+  lastticks = current_ticks;                 
+
   alListener3f(AL_POSITION, pos.x, pos.y, 0);
 }
 
@@ -204,6 +211,13 @@ SoundManager::set_listener_velocity(const Vector& vel)
 void
 SoundManager::update()
 {
+  static Uint32 lastticks = SDL_GetTicks();
+
+  Uint32 current_ticks = SDL_GetTicks();
+  if(current_ticks - lastticks < 300)
+    return;
+  lastticks = current_ticks;
+
   // check for finished sound sources
   for(SoundSources::iterator i = sources.begin(); i != sources.end(); ) {
     SoundSource* source = *i;
