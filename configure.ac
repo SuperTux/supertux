@@ -27,7 +27,7 @@ AC_PROG_CC
 AC_PROG_CXX
 AC_PROG_INSTALL
 
-AC_CHECK_PROGS(XGETTEXT, xgettext)
+AC_CHECK_PROGS(XGETTEXT, [xgettext xgettext.exe])
 if test -n "$XGETTEXT" ; then
     AC_MSG_CHECKING([if xgettext supports lisp])
     if echo '(gettext "test")' | xgettext -o - -L Lisp - >& /dev/null; then
@@ -42,7 +42,7 @@ fi
 AC_PROG_LEX
 LEX_LIBS=$LEXLIB
 AC_SUBST([LEX_LIBS])
-AC_CHECK_PROGS([BISON], bison)
+AC_CHECK_PROGS([BISON], [bison bison.exe])
 AC_SUBST([BISON])
 
 dnl Checks for header files.
