@@ -15,14 +15,21 @@ static void register_function(HSQUIRRELVM v, SQFUNCTION func, const char* name)
     }
 }
 
+static void _register_functions(HSQUIRRELVM v, WrappedFunction* functions)
+{
+    for(WrappedFunction* func = functions; func->name != 0; ++func) {
+        register_function(v, func->f, func->name);
+    }
+}
+
 static void register_class(HSQUIRRELVM v, WrappedClass* wclass)
 {
     sq_pushstring(v, wclass->name, -1);
     sq_newclass(v, false);
-    register_functions(v, wclass->functions);
-    register_constants(v, wclass->int_consts);
-    register_constants(v, wclass->float_consts);
-    register_constants(v, wclass->string_consts);
+    _register_functions(v, wclass->functions);
+    _register_constants(v, wclass->int_consts);
+    _register_constants(v, wclass->float_consts);
+    _register_constants(v, wclass->string_consts);
 
     if(sq_createslot(v, -3) < 0) {
         std::stringstream msg;
@@ -34,9 +41,7 @@ static void register_class(HSQUIRRELVM v, WrappedClass* wclass)
 void register_functions(HSQUIRRELVM v, WrappedFunction* functions)
 {
     sq_pushroottable(v);
-    for(WrappedFunction* func = functions; func->name != 0; ++func) {
-        register_function(v, func->f, func->name);
-    }
+    _register_functions(v, functions);
     sq_pop(v, 1);
 }
 

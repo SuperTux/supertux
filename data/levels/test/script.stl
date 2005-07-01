@@ -148,7 +148,7 @@ NOLOK.set_visible(true);
 tuxjumps <- 2;
 while(true) {
   wait(0.8);
-  Sound.play(\"jump\");
+  Sound.play(\"sounds/jump.ogg\");
   if(tuxjumps >= 0) {
     TUX.set_velocity(50, 300);
   } else {
@@ -165,7 +165,7 @@ while(true) {
   } else if(PENNY.get_animation() == \"jump\") {
     PENNY.set_animation(\"dead\");
   } else {
-    Sound.play(\"grow\");
+    Sound.play(\"sounds/grow.ogg\");
     PENNY.set_animation(\"stand\");
     PENNY.set_velocity(0, 900);
   }

@@ -55,10 +55,9 @@ static inline void push_value(HSQUIRRELVM v, const char* str)
 }
 
 template<typename T>
-void register_constants(HSQUIRRELVM v, WrappedConstant<T>* constants)
+void _register_constants(HSQUIRRELVM v, WrappedConstant<T>* constants)
 {
-    sq_pushroottable(v);
-    for(WrappedConstant<T>* c = constants; *constants->name != 0; ++c) {
+    for(WrappedConstant<T>* c = constants; c->name != 0; ++c) {
         sq_pushstring(v, c->name, -1);
         push_value(v, c->value);
         if(sq_createslot(v, -3) < 0) {
@@ -67,6 +66,13 @@ void register_constants(HSQUIRRELVM v, WrappedConstant<T>* constants)
             throw SquirrelError(v, msg.str());
         }
     }
+}
+
+template<typename T>
+void register_constants(HSQUIRRELVM v, WrappedConstant<T>* constants)
+{
+    sq_pushroottable(v);
+    _register_constants(v, constants);
     sq_pop(v, 1);
 }
 
