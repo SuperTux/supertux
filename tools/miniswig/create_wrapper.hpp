@@ -19,6 +19,11 @@ public:
     }
 
     void create_wrapper(Namespace* ns);
+
+private:
+    void create_function_list(Namespace* ns);
+    void create_const_lists(Namespace* ns);
+    void create_class_const_lists(Class* _class);
     void create_class_wrapper(Class* _class);
     void create_class_release_hook(Class* _class);
     void create_function_wrapper(Class* _class, Function* function);

@@ -458,11 +458,35 @@ WrappedFunction supertux_global_functions[] = {
   { 0, 0 }
 };
 
+WrappedConstant<int> supertux_int_constants[] = {
+  { 0, 0}
+};
+
+WrappedConstant<float> supertux_float_constants[] = {
+  { 0, 0}
+};
+
+WrappedConstant<const char*> supertux_string_constants[] = {
+  { 0, 0}
+};
+
 static WrappedFunction supertux_DisplayEffect_methods[] = {
   { "fade_out", &DisplayEffect_fade_out_wrapper },
   { "fade_in", &DisplayEffect_fade_in_wrapper },
   { "set_black", &DisplayEffect_set_black_wrapper },
   { "is_black", &DisplayEffect_is_black_wrapper },
+};
+
+static WrappedConstant<int> supertux_DisplayEffect_int_consts[] = {
+  { 0, 0}
+};
+
+WrappedConstant<float> supertux_DisplayEffect_float_consts[] = {
+  { 0, 0}
+};
+
+WrappedConstant<const char*> supertux_DisplayEffect_string_consts[] = {
+  { 0, 0}
 };
 
 static WrappedFunction supertux_Camera_methods[] = {
@@ -471,10 +495,34 @@ static WrappedFunction supertux_Camera_methods[] = {
   { "set_mode", &Camera_set_mode_wrapper },
 };
 
+static WrappedConstant<int> supertux_Camera_int_consts[] = {
+  { 0, 0}
+};
+
+WrappedConstant<float> supertux_Camera_float_consts[] = {
+  { 0, 0}
+};
+
+WrappedConstant<const char*> supertux_Camera_string_consts[] = {
+  { 0, 0}
+};
+
 static WrappedFunction supertux_Level_methods[] = {
   { "finish", &Level_finish_wrapper },
   { "spawn", &Level_spawn_wrapper },
   { "flip_vertically", &Level_flip_vertically_wrapper },
+};
+
+static WrappedConstant<int> supertux_Level_int_consts[] = {
+  { 0, 0}
+};
+
+WrappedConstant<float> supertux_Level_float_consts[] = {
+  { 0, 0}
+};
+
+WrappedConstant<const char*> supertux_Level_string_consts[] = {
+  { 0, 0}
 };
 
 static WrappedFunction supertux_ScriptedObject_methods[] = {
@@ -492,9 +540,33 @@ static WrappedFunction supertux_ScriptedObject_methods[] = {
   { "get_name", &ScriptedObject_get_name_wrapper },
 };
 
+static WrappedConstant<int> supertux_ScriptedObject_int_consts[] = {
+  { 0, 0}
+};
+
+WrappedConstant<float> supertux_ScriptedObject_float_consts[] = {
+  { 0, 0}
+};
+
+WrappedConstant<const char*> supertux_ScriptedObject_string_consts[] = {
+  { 0, 0}
+};
+
 static WrappedFunction supertux_Sound_methods[] = {
   { "play_music", &Sound_play_music_wrapper },
   { "play", &Sound_play_wrapper },
+};
+
+static WrappedConstant<int> supertux_Sound_int_consts[] = {
+  { 0, 0}
+};
+
+WrappedConstant<float> supertux_Sound_float_consts[] = {
+  { 0, 0}
+};
+
+WrappedConstant<const char*> supertux_Sound_string_consts[] = {
+  { 0, 0}
 };
 
 static WrappedFunction supertux_Text_methods[] = {
@@ -505,6 +577,18 @@ static WrappedFunction supertux_Text_methods[] = {
   { "set_visible", &Text_set_visible_wrapper },
 };
 
+static WrappedConstant<int> supertux_Text_int_consts[] = {
+  { 0, 0}
+};
+
+WrappedConstant<float> supertux_Text_float_consts[] = {
+  { 0, 0}
+};
+
+WrappedConstant<const char*> supertux_Text_string_consts[] = {
+  { 0, 0}
+};
+
 static WrappedFunction supertux_Player_methods[] = {
   { "set_bonus", &Player_set_bonus_wrapper },
   { "make_invincible", &Player_make_invincible_wrapper },
@@ -512,14 +596,26 @@ static WrappedFunction supertux_Player_methods[] = {
   { "add_coins", &Player_add_coins_wrapper },
 };
 
+static WrappedConstant<int> supertux_Player_int_consts[] = {
+  { 0, 0}
+};
+
+WrappedConstant<float> supertux_Player_float_consts[] = {
+  { 0, 0}
+};
+
+WrappedConstant<const char*> supertux_Player_string_consts[] = {
+  { 0, 0}
+};
+
 WrappedClass supertux_classes[] = {
-  { "DisplayEffect", supertux_DisplayEffect_methods },
-  { "Camera", supertux_Camera_methods },
-  { "Level", supertux_Level_methods },
-  { "ScriptedObject", supertux_ScriptedObject_methods },
-  { "Sound", supertux_Sound_methods },
-  { "Text", supertux_Text_methods },
-  { "Player", supertux_Player_methods },
-  { 0, 0 }
+  { "DisplayEffect", supertux_DisplayEffect_methods, supertux_DisplayEffect_int_consts, supertux_DisplayEffect_float_consts, supertux_DisplayEffect_string_consts },
+  { "Camera", supertux_Camera_methods, supertux_Camera_int_consts, supertux_Camera_float_consts, supertux_Camera_string_consts },
+  { "Level", supertux_Level_methods, supertux_Level_int_consts, supertux_Level_float_consts, supertux_Level_string_consts },
+  { "ScriptedObject", supertux_ScriptedObject_methods, supertux_ScriptedObject_int_consts, supertux_ScriptedObject_float_consts, supertux_ScriptedObject_string_consts },
+  { "Sound", supertux_Sound_methods, supertux_Sound_int_consts, supertux_Sound_float_consts, supertux_Sound_string_consts },
+  { "Text", supertux_Text_methods, supertux_Text_int_consts, supertux_Text_float_consts, supertux_Text_string_consts },
+  { "Player", supertux_Player_methods, supertux_Player_int_consts, supertux_Player_float_consts, supertux_Player_string_consts },
+  { 0, 0, 0, 0, 0 }
 };
 

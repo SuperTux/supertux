@@ -15,6 +15,7 @@
     float       fval;
     Class*      _class;
     Function*   function;
+    Field*      field;
     Type*       type;
     AtomicType* atomic_type;
     Namespace*  _namespace;
@@ -30,8 +31,9 @@ bool search_down = true;
 Namespace* search_namespace = 0;
 Namespace* current_namespace = 0;
 static Class* current_class = 0;
-static Function* currentFunction = 0;
+static Function* current_function = 0;
 static Type* current_type = 0;
+static Field* current_field = 0;
 static ClassMember::Visbility current_visibility;
 
 class ParseError : public std::exception
@@ -67,7 +69,6 @@ private:
 %token T_CLASS
 %token T_STRUCT
 %token T_STATIC
-%token T_VIRTUAL
 %token T_CONST
 %token T_UNSIGNED
 %token T_SIGNED
@@ -89,6 +90,7 @@ private:
 %type <function> function_declaration
 %type <function> constructor_declaration;
 %type <function> destructor_declaration;
+%type <field> field_declaration;
 %type <type>   type
 %type <atomic_type> type_identifier
 
@@ -134,6 +136,8 @@ namespace_member:
     | function_declaration
         { current_namespace->functions.push_back($1); }
     | namespace_declaration
+    | field_declaration
+        { current_namespace->fields.push_back($1); }
 ;  
 
 class_declaration:
@@ -173,7 +177,11 @@ class_body_element:
                 $1->visibility = current_visibility;
                 current_class->members.push_back($1);
             }
-        | variable_declaration
+        | field_declaration
+            {
+                $1->visibility = current_visibility;
+                current_class->members.push_back($1);
+            }
 ;
 
 visibility_change:
@@ -188,58 +196,93 @@ visibility_change:
 constructor_declaration:    
     T_ID '('
         {
-            currentFunction = new Function();
-            currentFunction->type = Function::CONSTRUCTOR;
-            currentFunction->docu_comment = last_docucomment;
+            current_function = new Function();
+            current_function->type = Function::CONSTRUCTOR;
+            current_function->docu_comment = last_docucomment;
             last_docucomment = "";
             free($1);
         }
     parameter_list ')' ';'
         {
-            $$ = currentFunction;
+            $$ = current_function;
         }
 ;
 
 destructor_declaration:
-    maybe_virtual '~' T_ID '(' ')' abstract_declaration ';'
+    '~' T_ID '(' ')' abstract_declaration ';'
         {
-            currentFunction = new Function();
-            currentFunction->type = Function::DESTRUCTOR;
-            currentFunction->docu_comment = last_docucomment;
+            current_function = new Function();
+            current_function->type = Function::DESTRUCTOR;
+            current_function->docu_comment = last_docucomment;
             last_docucomment = "";
-            free($3);
-            $$ = currentFunction;
+            free($2);
+            $$ = current_function;
         }
 ;
 
-maybe_virtual:
-    /* empty */
-    | T_VIRTUAL
-;
-
-variable_declaration:
-    type T_ID ';'
+field_declaration:
+    type T_ID 
         {
-            delete $1;
+            current_field = new Field();
+            current_field->type = $1;
+            current_field->name = $2;
             free($2);
         }
+    maybe_const_initialisation ';'
+        {
+            $$ = current_field;
+        }
 ;
 
-function_declaration:
-    maybe_virtual type T_ID '(' 
+maybe_const_initialisation:
+    /* empty */
+    | '=' T_INT
         {
-            currentFunction = new Function();
-            currentFunction->type = Function::FUNCTION;
-            currentFunction->return_type = *($2);
+            if(current_field->type->atomic_type == &BasicType::FLOAT) {
+                current_field->const_float_value = (float) $2;
+            } else {
+                current_field->const_int_value = $2;
+            }
+            current_field->has_const_value = true;
+        }
+    | '=' T_FLOAT
+        {
+            current_field->const_float_value = $2;
+            current_field->has_const_value = true;
+        }
+    | '=' T_STRING
+        {
+            current_field->const_string_value = $2;
+            current_field->has_const_value = true;
+        }
+;          
+
+function_declaration:
+    type T_ID '(' 
+        {
+            /*
+            current_function = new Function();
+            current_function->type = Function::FUNCTION;
+            current_function->return_type = *($2);
             delete $2;
-            currentFunction->name = $3;
+            current_function->name = $3;
             free($3);
-            currentFunction->docu_comment = last_docucomment;
+            current_function->docu_comment = last_docucomment;
+            last_docucomment = "";
+            */
+
+            current_function = new Function();
+            current_function->type = Function::FUNCTION;
+            current_function->return_type = *($1);
+            delete $1;
+            current_function->name = $2;
+            free($2);
+            current_function->docu_comment = last_docucomment;
             last_docucomment = "";
         }                           
     parameter_list ')' abstract_declaration ';'
         {
-            $$ = currentFunction;
+            $$ = current_function;
         }
 ;
 
@@ -264,7 +307,7 @@ parameter:
             Parameter parameter;
             parameter.type = *($1);
             delete $1;
-            currentFunction->parameters.push_back(parameter);
+            current_function->parameters.push_back(parameter);
         }
     | type T_ID
         {
@@ -273,7 +316,7 @@ parameter:
             delete $1;
             parameter.name = $2;
             free($2);
-            currentFunction->parameters.push_back(parameter);
+            current_function->parameters.push_back(parameter);
         }
 ;
 

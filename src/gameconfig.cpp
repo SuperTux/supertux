@@ -23,8 +23,6 @@
 #include <cstdlib>
 #include <string>
 #include <stdexcept>
-#include <sstream>
-#include <fstream>
 
 #include "lisp/parser.hpp"
 #include "lisp/lisp.hpp"

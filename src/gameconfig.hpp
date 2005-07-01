@@ -21,7 +21,8 @@
 
 #include <string>
 
-class Config {
+class Config
+{
 public:
   Config();
   ~Config();

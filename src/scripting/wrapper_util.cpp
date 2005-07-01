@@ -8,17 +8,27 @@ static void register_function(HSQUIRRELVM v, SQFUNCTION func, const char* name)
 {
     sq_pushstring(v, name, -1);
     sq_newclosure(v, func, 0); //create a new function
-    sq_createslot(v, -3);
+    if(sq_createslot(v, -3) < 0) {
+        std::stringstream msg;
+        msg << "Couldn't register function '" << name << "'";
+        throw SquirrelError(v, msg.str());
+    }
 }
 
 static void register_class(HSQUIRRELVM v, WrappedClass* wclass)
 {
     sq_pushstring(v, wclass->name, -1);
     sq_newclass(v, false);
-    for(WrappedFunction* func = wclass->functions; func->name != 0; ++func) {
-        register_function(v, func->f, func->name);
+    register_functions(v, wclass->functions);
+    register_constants(v, wclass->int_consts);
+    register_constants(v, wclass->float_consts);
+    register_constants(v, wclass->string_consts);
+
+    if(sq_createslot(v, -3) < 0) {
+        std::stringstream msg;
+        msg << "Couldn't register function '" << wclass->name << "'";
+        throw SquirrelError(v, msg.str());
     }
-    sq_createslot(v, -3);
 }
 
 void register_functions(HSQUIRRELVM v, WrappedFunction* functions)
@@ -38,6 +48,7 @@ void register_classes(HSQUIRRELVM v, WrappedClass* classes)
     }
     sq_pop(v, 1);
 }
+
 
 void print_squirrel_stack(HSQUIRRELVM v)
 {
@@ -89,6 +100,9 @@ void print_squirrel_stack(HSQUIRRELVM v)
             case OT_USERPOINTER:
                 printf("userpointer");
                 break;
+            case OT_THREAD:
+                printf("thread");
+                break;
             case OT_CLASS:
                 printf("class");
                 break;
@@ -112,7 +126,11 @@ SquirrelError::SquirrelError(HSQUIRRELVM v, const std::string& message) throw()
   msg << "SQuirrel error: " << message << " (";
   const char* lasterr;
   sq_getlasterror(v);
-  sq_getstring(v, -1, &lasterr);
+  if(sq_gettype(v, -1) != OT_STRING) {
+    lasterr = "no error info";
+  } else {
+    sq_getstring(v, -1, &lasterr);
+  }
   sq_pop(v, 1);
   msg << lasterr << ")";
   this->message = msg.str();

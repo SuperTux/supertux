@@ -78,7 +78,7 @@ int getCurrentLine()
 class                                   { return T_CLASS; }
 struct                                  { return T_STRUCT; }
 static                                  { return T_STATIC; }
-virtual                                 { return T_VIRTUAL; }
+virtual                                 { }
 const                                   { return T_CONST; }
 unsigned                                { return T_UNSIGNED; }
 signed                                  { return T_SIGNED; }
@@ -112,18 +112,18 @@ namespace                               { return T_NAMESPACE; }
         return T_ID;
 }
 \:\:                                    { return T_DDCOL; }
-[0-9]+                                  { 
-                                            yylval->ival = atoi(yytext);
-                                            return T_INT;
-                                        }
-[0-9]*\.[0-9]+(e[0-9]+)?                { 
-                                            yylval->fval = atof(yytext);
-                                            return T_FLOAT;
-                                        }
-\".*\"                                  {
-                                            yylval->str = strdup(yytext);
-                                            return T_STRING;
-                                        }
+(0x)?[0-9]+ {
+        sscanf(yytext, "%i", &(yylval->ival));
+        return T_INT;
+}
+[0-9]*\.[0-9]+(e[0-9]+)? { 
+        sscanf(yytext, "%f", &(yylval->fval));
+        return T_FLOAT;
+}
+\".*\" {
+        yylval->str = strdup(yytext);
+        return T_STRING;
+}
 .                                       { return yytext[0]; }
 
 %%

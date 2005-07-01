@@ -167,6 +167,25 @@ public:
     std::vector<Parameter> parameters;
 };
 
+class Field : public ClassMember {
+public:
+    Field()
+    {
+        has_const_value = false;
+    }
+    
+    Type* type;
+    std::string docu_comment;
+    std::string name;
+    bool has_const_value;
+
+    union {
+        float const_float_value;
+        int const_int_value;
+    };
+    std::string const_string_value;
+};
+
 class Class : public AtomicType {
 public:
     ~Class() {
@@ -243,6 +262,7 @@ public:
     }
                                                                              
     std::vector<Function*> functions;
+    std::vector<Field*> fields;
     std::vector<AtomicType*> types;
     std::vector<Namespace*> namespaces;
 
