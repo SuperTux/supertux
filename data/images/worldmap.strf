@@ -328,4 +328,13 @@
      (south #f)
      (west  #t)
      (east  #f))
+
+;; Yet another invisible one
+(tile (id 72)
+     (image "road_e.png")
+     (stop #t)
+     (north #f)
+     (south #f)
+     (west  #t)
+     (east  #t))
 )
