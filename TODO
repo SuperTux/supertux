@@ -7,11 +7,3 @@ SuperTux 0.1.2 TO 0.1.3 - TODO
   [added warnings about reset points inside a wall]
 -build levels, check contributed ones
 
-Changes:
--Bonus Island II with 28 levels (24 contributed)
--Support for custom world maps
--Tux has now more invincible time
--Tux can jump off badguys
--Default display mode is fullscreen
--Default jump key is space
--small bugfixes
