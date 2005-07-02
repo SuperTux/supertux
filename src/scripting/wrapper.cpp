@@ -15,16 +15,14 @@
 namespace SquirrelWrapper
 {
 
-using namespace Scripting;
-
 static int DisplayEffect_release_hook(SQUserPointer ptr, int )
 {
-  DisplayEffect* _this = reinterpret_cast<DisplayEffect*> (ptr);
+  Scripting::DisplayEffect* _this = reinterpret_cast<Scripting::DisplayEffect*> (ptr);
   delete _this;
   return 0;
 }
 
-void create_squirrel_instance(HSQUIRRELVM v, DisplayEffect* object, bool setup_releasehook)
+void create_squirrel_instance(HSQUIRRELVM v, Scripting::DisplayEffect* object, bool setup_releasehook)
 {
   sq_pushstring(v, "DisplayEffect", -1);
   if(sq_get(v, -2) < 0) {
@@ -93,12 +91,12 @@ static int DisplayEffect_is_black_wrapper(HSQUIRRELVM v)
 
 static int Camera_release_hook(SQUserPointer ptr, int )
 {
-  Camera* _this = reinterpret_cast<Camera*> (ptr);
+  Scripting::Camera* _this = reinterpret_cast<Scripting::Camera*> (ptr);
   delete _this;
   return 0;
 }
 
-void create_squirrel_instance(HSQUIRRELVM v, Camera* object, bool setup_releasehook)
+void create_squirrel_instance(HSQUIRRELVM v, Scripting::Camera* object, bool setup_releasehook)
 {
   sq_pushstring(v, "Camera", -1);
   if(sq_get(v, -2) < 0) {
@@ -162,12 +160,12 @@ static int Camera_set_mode_wrapper(HSQUIRRELVM v)
 
 static int Level_release_hook(SQUserPointer ptr, int )
 {
-  Level* _this = reinterpret_cast<Level*> (ptr);
+  Scripting::Level* _this = reinterpret_cast<Scripting::Level*> (ptr);
   delete _this;
   return 0;
 }
 
-void create_squirrel_instance(HSQUIRRELVM v, Level* object, bool setup_releasehook)
+void create_squirrel_instance(HSQUIRRELVM v, Scripting::Level* object, bool setup_releasehook)
 {
   sq_pushstring(v, "Level", -1);
   if(sq_get(v, -2) < 0) {
@@ -223,12 +221,12 @@ static int Level_flip_vertically_wrapper(HSQUIRRELVM v)
 
 static int ScriptedObject_release_hook(SQUserPointer ptr, int )
 {
-  ScriptedObject* _this = reinterpret_cast<ScriptedObject*> (ptr);
+  Scripting::ScriptedObject* _this = reinterpret_cast<Scripting::ScriptedObject*> (ptr);
   delete _this;
   return 0;
 }
 
-void create_squirrel_instance(HSQUIRRELVM v, ScriptedObject* object, bool setup_releasehook)
+void create_squirrel_instance(HSQUIRRELVM v, Scripting::ScriptedObject* object, bool setup_releasehook)
 {
   sq_pushstring(v, "ScriptedObject", -1);
   if(sq_get(v, -2) < 0) {
@@ -393,12 +391,12 @@ static int ScriptedObject_get_name_wrapper(HSQUIRRELVM v)
 
 static int Sound_release_hook(SQUserPointer ptr, int )
 {
-  Sound* _this = reinterpret_cast<Sound*> (ptr);
+  Scripting::Sound* _this = reinterpret_cast<Scripting::Sound*> (ptr);
   delete _this;
   return 0;
 }
 
-void create_squirrel_instance(HSQUIRRELVM v, Sound* object, bool setup_releasehook)
+void create_squirrel_instance(HSQUIRRELVM v, Scripting::Sound* object, bool setup_releasehook)
 {
   sq_pushstring(v, "Sound", -1);
   if(sq_get(v, -2) < 0) {
@@ -444,12 +442,12 @@ static int Sound_play_wrapper(HSQUIRRELVM v)
 
 static int Text_release_hook(SQUserPointer ptr, int )
 {
-  Text* _this = reinterpret_cast<Text*> (ptr);
+  Scripting::Text* _this = reinterpret_cast<Scripting::Text*> (ptr);
   delete _this;
   return 0;
 }
 
-void create_squirrel_instance(HSQUIRRELVM v, Text* object, bool setup_releasehook)
+void create_squirrel_instance(HSQUIRRELVM v, Scripting::Text* object, bool setup_releasehook)
 {
   sq_pushstring(v, "Text", -1);
   if(sq_get(v, -2) < 0) {
@@ -531,12 +529,12 @@ static int Text_set_visible_wrapper(HSQUIRRELVM v)
 
 static int Player_release_hook(SQUserPointer ptr, int )
 {
-  Player* _this = reinterpret_cast<Player*> (ptr);
+  Scripting::Player* _this = reinterpret_cast<Scripting::Player*> (ptr);
   delete _this;
   return 0;
 }
 
-void create_squirrel_instance(HSQUIRRELVM v, Player* object, bool setup_releasehook)
+void create_squirrel_instance(HSQUIRRELVM v, Scripting::Player* object, bool setup_releasehook)
 {
   sq_pushstring(v, "Player", -1);
   if(sq_get(v, -2) < 0) {

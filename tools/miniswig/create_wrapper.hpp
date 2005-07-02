@@ -21,6 +21,8 @@ public:
     void create_wrapper(Namespace* ns);
 
 private:
+    std::string ns_prefix;
+    
     void create_register_functions_code(Namespace* ns);
     void create_register_function_code(Function* function, Class* _class);
     void create_register_classes_code(Namespace* ns);

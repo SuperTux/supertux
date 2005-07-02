@@ -10,6 +10,11 @@ WrapperCreator::create_wrapper(Namespace* ns)
 {
     std::string fromfile = original_file != "" ? original_file : inputfile;
 
+    if(selected_namespace != "") {
+        ns_prefix = selected_namespace;
+        ns_prefix += "::";
+    }
+
     // hpp file
     hppout
         << "/**\n"
@@ -21,35 +26,12 @@ WrapperCreator::create_wrapper(Namespace* ns)
         << "#define __" << modulename << "_WRAPPER_H__\n"
         << "\n"
         << "#include <squirrel.h>\n"
+        << "#include \"wrapper.interface.hpp\"\n"
+        << "\n"
+        << "namespace SquirrelWrapper\n"
+        << "{\n"
         << "\n";
-    if(selected_namespace != "") {
-      hppout << "namespace " << selected_namespace << "\n"
-             << "{\n";
-    }
-    for(std::vector<AtomicType*>::iterator i = ns->types.begin();
-            i != ns->types.end(); ++i) {
-        AtomicType* type = *i;
-        Class* _class = dynamic_cast<Class*> (type);                 
-        if(_class == 0)
-          continue;
 
-        hppout << "class " << _class->name << ";\n";
-    }
-
-    if(selected_namespace != "") {
-      hppout << "}\n";
-    }
-    
-    hppout << "\n"
-           << "namespace SquirrelWrapper\n"
-           << "{\n"
-           << "\n";
-
-    if(selected_namespace != "") {
-      hppout << "using namespace " << selected_namespace << ";\n"
-             << "\n";
-    }
-    
     hppout << "void register_" << modulename << "_wrapper(HSQUIRRELVM v);\n"
            << "\n";
 
@@ -61,7 +43,7 @@ WrapperCreator::create_wrapper(Namespace* ns)
             continue;
 
         hppout << "void create_squirrel_instance(HSQUIRRELVM v, "
-               << _class->name
+               << ns_prefix << _class->name
                << "* object, bool setup_releasehook = false);\n";
     }
     hppout <<"\n"
@@ -89,11 +71,6 @@ WrapperCreator::create_wrapper(Namespace* ns)
         << "{\n"
         << "\n";
 
-    if(selected_namespace != "") {
-        out << "using namespace " << selected_namespace << ";\n";
-        out << "\n";
-    }
-    
     for(std::vector<AtomicType*>::iterator i = ns->types.begin();
             i != ns->types.end(); ++i) {
         AtomicType* type = *i;
@@ -426,7 +403,7 @@ void
 WrapperCreator::create_squirrel_instance(Class* _class)
 {
     out << "void create_squirrel_instance(HSQUIRRELVM v, "
-        << _class->name 
+        << ns_prefix << _class->name 
         << "* object, bool setup_releasehook)\n"
         << "{\n"
         << ind << "sq_pushstring(v, \"" << _class->name << "\", -1);\n"
@@ -458,8 +435,9 @@ WrapperCreator::create_class_release_hook(Class* _class)
 {
     out << "static int " << _class->name << "_release_hook(SQUserPointer ptr, int )\n"
         << "{\n"
-        << ind << _class->name 
-        << "* _this = reinterpret_cast<" << _class->name << "*> (ptr);\n"
+        << ind << ns_prefix << _class->name 
+        << "* _this = reinterpret_cast<" << ns_prefix << _class->name 
+        << "*> (ptr);\n"
         << ind << "delete _this;\n"
         << ind << "return 0;\n"
         << "}\n"
