@@ -38,6 +38,7 @@ void create_squirrel_instance(HSQUIRRELVM v, DisplayEffect* object, bool setup_r
     msg << "Couldn't setup squirrel instance for object of type 'DisplayEffect'";
     throw SquirrelError(v, msg.str());
   }
+  sq_remove(v, -2);
 
   if(setup_releasehook) {
     sq_setreleasehook(v, -1, DisplayEffect_release_hook);
@@ -111,6 +112,7 @@ void create_squirrel_instance(HSQUIRRELVM v, Camera* object, bool setup_releaseh
     msg << "Couldn't setup squirrel instance for object of type 'Camera'";
     throw SquirrelError(v, msg.str());
   }
+  sq_remove(v, -2);
 
   if(setup_releasehook) {
     sq_setreleasehook(v, -1, Camera_release_hook);
@@ -179,6 +181,7 @@ void create_squirrel_instance(HSQUIRRELVM v, Level* object, bool setup_releaseho
     msg << "Couldn't setup squirrel instance for object of type 'Level'";
     throw SquirrelError(v, msg.str());
   }
+  sq_remove(v, -2);
 
   if(setup_releasehook) {
     sq_setreleasehook(v, -1, Level_release_hook);
@@ -239,6 +242,7 @@ void create_squirrel_instance(HSQUIRRELVM v, ScriptedObject* object, bool setup_
     msg << "Couldn't setup squirrel instance for object of type 'ScriptedObject'";
     throw SquirrelError(v, msg.str());
   }
+  sq_remove(v, -2);
 
   if(setup_releasehook) {
     sq_setreleasehook(v, -1, ScriptedObject_release_hook);
@@ -408,6 +412,7 @@ void create_squirrel_instance(HSQUIRRELVM v, Sound* object, bool setup_releaseho
     msg << "Couldn't setup squirrel instance for object of type 'Sound'";
     throw SquirrelError(v, msg.str());
   }
+  sq_remove(v, -2);
 
   if(setup_releasehook) {
     sq_setreleasehook(v, -1, Sound_release_hook);
@@ -458,6 +463,7 @@ void create_squirrel_instance(HSQUIRRELVM v, Text* object, bool setup_releasehoo
     msg << "Couldn't setup squirrel instance for object of type 'Text'";
     throw SquirrelError(v, msg.str());
   }
+  sq_remove(v, -2);
 
   if(setup_releasehook) {
     sq_setreleasehook(v, -1, Text_release_hook);
@@ -544,6 +550,7 @@ void create_squirrel_instance(HSQUIRRELVM v, Player* object, bool setup_releaseh
     msg << "Couldn't setup squirrel instance for object of type 'Player'";
     throw SquirrelError(v, msg.str());
   }
+  sq_remove(v, -2);
 
   if(setup_releasehook) {
     sq_setreleasehook(v, -1, Player_release_hook);

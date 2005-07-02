@@ -444,6 +444,7 @@ WrapperCreator::create_squirrel_instance(Class* _class)
         << "object of type '" << _class->name << "'\";\n"
         << ind << ind << "throw SquirrelError(v, msg.str());\n"
         << ind << "}\n"
+        << ind << "sq_remove(v, -2);\n"
         << "\n"
         << ind << "if(setup_releasehook) {\n"
         << ind << ind << "sq_setreleasehook(v, -1, "
