@@ -84,27 +84,7 @@ SurfaceData::~SurfaceData()
 SurfaceImpl*
 SurfaceData::create()
 {
-  if (config->use_gl)
-    return create_SurfaceOpenGL();
-  else
-    return create_SurfaceSDL();
-}
-
-SurfaceSDL*
-SurfaceData::create_SurfaceSDL()
-{
-  switch(type)
-  {
-  case LOAD:
-    return new SurfaceSDL(file, use_alpha);
-  case LOAD_PART:
-    return new SurfaceSDL(file, x, y, w, h, use_alpha);
-  case SURFACE:
-    return new SurfaceSDL(surface, use_alpha);
-  case GRADIENT:
-    return new SurfaceSDL(top_gradient, bottom_gradient, w, h);
-  }
-  assert(0);
+  return create_SurfaceOpenGL();
 }
 
 SurfaceOpenGL*
@@ -113,11 +93,11 @@ SurfaceData::create_SurfaceOpenGL()
   switch(type)
   {
     case LOAD:
-      return new SurfaceOpenGL(file, use_alpha);
+      return new SurfaceOpenGL(file);
     case LOAD_PART:
-      return new SurfaceOpenGL(file, x, y, w, h, use_alpha);
+      return new SurfaceOpenGL(file, x, y, w, h);
     case SURFACE:
-      return new SurfaceOpenGL(surface, use_alpha);
+      return new SurfaceOpenGL(surface);
     case GRADIENT:
       return new SurfaceOpenGL(top_gradient, bottom_gradient, w, h);
     default:
@@ -253,7 +233,7 @@ void
 apply_filter_to_surface(SDL_Surface* surface, int filter, Color color)
 {
   if(filter == HORIZONTAL_FLIP_FILTER) {
-    SDL_Surface* sur_copy = sdl_surface_from_sdl_surface(surface, true);
+    SDL_Surface* sur_copy = sdl_surface_from_sdl_surface(surface);
     SDL_BlitSurface(surface, NULL, sur_copy, NULL);
     SDL_SetAlpha(sur_copy,0,0);
 
@@ -269,7 +249,7 @@ apply_filter_to_surface(SDL_Surface* surface, int filter, Color color)
 
     SDL_FreeSurface(sur_copy);
   } else if(filter == MASK_FILTER) {
-    SDL_Surface* sur_copy = sdl_surface_from_sdl_surface(surface, true);
+    SDL_Surface* sur_copy = sdl_surface_from_sdl_surface(surface);
 
     Uint8 r,g,b,a;
 
@@ -289,7 +269,7 @@ apply_filter_to_surface(SDL_Surface* surface, int filter, Color color)
 }
 
 SDL_Surface*
-sdl_surface_part_from_file(const std::string& file, int x, int y, int w, int h,  bool use_alpha)
+sdl_surface_part_from_file(const std::string& file, int x, int y, int w, int h)
 {
   SDL_Rect src;
   SDL_Surface * sdl_surface;
@@ -319,19 +299,13 @@ sdl_surface_part_from_file(const std::string& file, int x, int y, int w, int h, 
   SDL_SetAlpha(temp,0,0);
 
   SDL_BlitSurface(temp, &src, conv, NULL);
-  if(use_alpha == false && !config->use_gl)
-    sdl_surface = SDL_DisplayFormat(conv);
-  else
-    sdl_surface = SDL_DisplayFormatAlpha(conv);
+  sdl_surface = SDL_DisplayFormatAlpha(conv);
 
   if (sdl_surface == NULL) {
     std::stringstream msg;
     msg << "Can't convert file '" << file << "' to display format.";
     throw std::runtime_error(msg.str());
   }
-
-  if (use_alpha == false && !config->use_gl)
-    SDL_SetAlpha(sdl_surface, 0, 0);
 
   SDL_FreeSurface(temp);
   SDL_FreeSurface(conv);
@@ -340,7 +314,7 @@ sdl_surface_part_from_file(const std::string& file, int x, int y, int w, int h, 
 }
 
 SDL_Surface*
-sdl_surface_from_file(const std::string& file, bool use_alpha)
+sdl_surface_from_file(const std::string& file)
 {
   SDL_Surface* sdl_surface;
   SDL_Surface* temp;
@@ -352,10 +326,7 @@ sdl_surface_from_file(const std::string& file, bool use_alpha)
     throw std::runtime_error(msg.str());
   }
 
-  if(use_alpha == false && !config->use_gl)
-    sdl_surface = SDL_DisplayFormat(temp);
-  else
-    sdl_surface = SDL_DisplayFormatAlpha(temp);
+  sdl_surface = SDL_DisplayFormatAlpha(temp);
 
   if (sdl_surface == NULL) {
     std::stringstream msg;
@@ -363,54 +334,20 @@ sdl_surface_from_file(const std::string& file, bool use_alpha)
     throw std::runtime_error(msg.str());
   }
 
-  if (use_alpha == false && !config->use_gl)
-    SDL_SetAlpha(sdl_surface, 0, 0);
-
   SDL_FreeSurface(temp);
 
   return sdl_surface;
 }
 
 SDL_Surface*
-sdl_surface_from_sdl_surface(SDL_Surface* sdl_surf, bool use_alpha)
+sdl_surface_from_sdl_surface(SDL_Surface* sdl_surf)
 {
-  SDL_Surface* sdl_surface;
-#if 0
-  Uint32 saved_flags;
-  Uint8  saved_alpha;
-
-  /* Save the alpha blending attributes */
-  saved_flags = sdl_surf->flags&(SDL_SRCALPHA|SDL_RLEACCELOK);
-  saved_alpha = sdl_surf->format->alpha;
-  if ( (saved_flags & SDL_SRCALPHA)
-       == SDL_SRCALPHA )
-  {
-    SDL_SetAlpha(sdl_surf, 0, 0);
-  }
-#endif
-
-  if(use_alpha == false && !config->use_gl)
-    sdl_surface = SDL_DisplayFormat(sdl_surf);
-  else
-    sdl_surface = SDL_DisplayFormatAlpha(sdl_surf);
-
-#if 0
-  /* Restore the alpha blending attributes */
-  if ( (saved_flags & SDL_SRCALPHA)
-       == SDL_SRCALPHA )
-  {
-    SDL_SetAlpha(sdl_surface, saved_flags, saved_alpha);
-  }
-#endif
-
-  if (sdl_surface == NULL) {
+  SDL_Surface* sdl_surface = SDL_DisplayFormatAlpha(sdl_surf);
+  if (sdl_surface == 0) {
     std::stringstream msg;
     msg << "Can't convert surface to display format.";
     throw std::runtime_error(msg.str());
   }
-
-  if (use_alpha == false && !config->use_gl)
-    SDL_SetAlpha(sdl_surface, 0, 0);
 
   return sdl_surface;
 }
@@ -467,18 +404,18 @@ SDL_Surface* SurfaceImpl::get_sdl_surface() const
   return sdl_surface;
 }
 
-SurfaceOpenGL::SurfaceOpenGL(SDL_Surface* surf, bool use_alpha)
+SurfaceOpenGL::SurfaceOpenGL(SDL_Surface* surf)
 {
-  sdl_surface = sdl_surface_from_sdl_surface(surf, use_alpha);
+  sdl_surface = sdl_surface_from_sdl_surface(surf);
   create_gl(sdl_surface,&gl_texture);
 
   w = sdl_surface->w;
   h = sdl_surface->h;
 }
 
-SurfaceOpenGL::SurfaceOpenGL(const std::string& file, bool use_alpha)
+SurfaceOpenGL::SurfaceOpenGL(const std::string& file)
 {
-  sdl_surface = sdl_surface_from_file(file, use_alpha);
+  sdl_surface = sdl_surface_from_file(file);
   create_gl(sdl_surface,&gl_texture);
 
   w = sdl_surface->w;
@@ -486,9 +423,9 @@ SurfaceOpenGL::SurfaceOpenGL(const std::string& file, bool use_alpha)
 }
 
 SurfaceOpenGL::SurfaceOpenGL(const std::string& file_, int x_, int y_,
-    int w_, int h_, bool use_alpha_)
+    int w_, int h_)
 {
-  sdl_surface = sdl_surface_part_from_file(file_,x_,y_,w_,h_,use_alpha_);
+  sdl_surface = sdl_surface_part_from_file(file_, x_, y_, w_, h_);
   
   create_gl(sdl_surface, &gl_texture);
   w = sdl_surface->w;
@@ -844,217 +781,3 @@ SurfaceOpenGL::apply_filter(int filter, Color color)
   w = sdl_surface->w;
   h = sdl_surface->h;
 }
-
-SurfaceSDL::SurfaceSDL(SDL_Surface* surf, bool use_alpha)
-{
-  sdl_surface = sdl_surface_from_sdl_surface(surf, use_alpha);
-  w = sdl_surface->w;
-  h = sdl_surface->h;
-}
-
-SurfaceSDL::SurfaceSDL(const std::string& file, bool use_alpha)
-{
-  sdl_surface = sdl_surface_from_file(file, use_alpha);
-  w = sdl_surface->w;
-  h = sdl_surface->h;
-}
-
-SurfaceSDL::SurfaceSDL(const std::string& file, int x, int y, int _w, int _h,
-    bool use_alpha)
-{
-  sdl_surface = sdl_surface_part_from_file(file, x, y, _w, _h, use_alpha);
-  w = sdl_surface->w;
-  h = sdl_surface->h;  
-}
-
-SurfaceSDL::SurfaceSDL(Color top_gradient, Color bottom_gradient,
-    int _w, int _h)
-{
-  sdl_surface = sdl_surface_from_gradient(top_gradient, bottom_gradient,_w,_h);
-  w = sdl_surface->w;
-  h = sdl_surface->h;  
-}
-
-int
-SurfaceSDL::draw(float x, float y, Uint8 alpha, Uint32 effect)
-{
-  SDL_Rect dest;
-
-  dest.x = (int)x;
-  dest.y = (int)y;
-  dest.w = w;
-  dest.h = h;
-
-  if(effect & SEMI_TRANSPARENT)
-    alpha = 128;
-
-  if(effect & VERTICAL_FLIP & HORIZONTAL_FLIP)
-    {
-    // FIXME: this hack is damn slow. Just keep it cause it isn't that used.
-    for(float sx = 0; sx < w; sx++)
-      for(float sy = 0; sy < h; sy++)
-        if(draw_part(sx, sy, x+(w-sx), y+(h-sy), 1, 1, alpha, NONE_EFFECT) == -2)
-          return -2;
-    return 0;
-    }
-  else if(effect & VERTICAL_FLIP)    // FIXME: feel free to replace this hack
-    {
-    for(float sy = 0; sy < h; sy++)
-      if(draw_part(0, sy, x, y+(h-sy), w, 1, alpha, NONE_EFFECT) == -2)
-        return -2;
-    return 0;
-    }
-  else if(effect & HORIZONTAL_FLIP)    // FIXME: feel free to replace this hack
-    {
-    for(float sx = 0; sx < w; sx++)
-      if(draw_part(sx, 0, x+(w-sx), y, 1, h, alpha, NONE_EFFECT) == -2)
-        return -2;
-    return 0;
-    }
-
-  if(alpha != 255)
-    {
-    /* Create a Surface, make it using colorkey, blit surface into temp, apply alpha
-      to temp sur, blit the temp into the screen */
-    /* Note: this has to be done, since SDL doesn't allow to set alpha to surfaces that
-      already have an alpha mask yet... */
-
-    SDL_Surface* sdl_surface_copy = SDL_CreateRGBSurface (sdl_surface->flags,
-                                    sdl_surface->w, sdl_surface->h, sdl_surface->format->BitsPerPixel,
-                                    sdl_surface->format->Rmask, sdl_surface->format->Gmask,
-                                    sdl_surface->format->Bmask,
-                                    0);
-    int colorkey = SDL_MapRGB(sdl_surface_copy->format, 255, 0, 255);
-    SDL_FillRect(sdl_surface_copy, NULL, colorkey);
-    SDL_SetColorKey(sdl_surface_copy, SDL_SRCCOLORKEY, colorkey);
-
-
-    SDL_BlitSurface(sdl_surface, NULL, sdl_surface_copy, NULL);
-    SDL_SetAlpha(sdl_surface_copy ,SDL_SRCALPHA,alpha);
-
-    int ret = SDL_BlitSurface(sdl_surface_copy, NULL, screen, &dest);
-
-    SDL_FreeSurface (sdl_surface_copy);
-    return ret;
-    }
-
-  int ret = SDL_BlitSurface(sdl_surface, NULL, screen, &dest);
-
-  return ret;
-}
-
-int
-SurfaceSDL::draw_part(float sx, float sy, float x, float y, float w, float h, Uint8 alpha, Uint32 effect)
-{
-  SDL_Rect src, dest;
-
-  src.x = (int)sx;
-  src.y = (int)sy;
-  src.w = (int)w;
-  src.h = (int)h;
-
-  dest.x = (int)x;
-  dest.y = (int)y;
-  dest.w = (int)w;
-  dest.h = (int)h;
-
-  if(effect & SEMI_TRANSPARENT)
-    alpha = 128;
-
-  if(effect & VERTICAL_FLIP & HORIZONTAL_FLIP)
-    {
-    // FIXME: this hack is damn slow. Just keep it cause it isn't that used.
-    for(float sx_ = 0; sx_ < w; sx++)
-      for(float sy_ = 0; sy_ < h; sy++)
-        if(draw_part(sx_, sy_, sx+(w-sx_), sy+(h-sy_), 1, 1, alpha, NONE_EFFECT) == -2)
-          return -2;
-    return 0;
-    }
-  else if(effect & VERTICAL_FLIP)    // FIXME: feel free to replace this hack
-    {
-    for(float sy_ = sy; sy_ < h; sy_++)
-      if(draw_part(sx, sy_, x, y+(h-sy_), w, 1, alpha, NONE_EFFECT) == -2)
-        return -2;
-    return 0;
-    }
-  else if(effect & HORIZONTAL_FLIP)    // FIXME: feel free to replace this hack
-    {
-    for(float sx_ = 0; sx_ < w; sx_++)
-      if(draw_part(sx_, 0, sx+(w-sx_), sy, 1, h, alpha, NONE_EFFECT) == -2)
-        return -2;
-    return 0;
-    }
-
-  if(alpha != 255)
-    {
-    /* Create a Surface, make it using colorkey, blit surface into temp, apply alpha
-      to temp sur, blit the temp into the screen */
-    /* Note: this has to be done, since SDL doesn't allow to set alpha to surfaces that
-      already have an alpha mask, yet... */
-
-    SDL_Surface* sdl_surface_copy = SDL_CreateRGBSurface (sdl_surface->flags,
-                                    (int)w, (int)h, sdl_surface->format->BitsPerPixel,
-                                    sdl_surface->format->Rmask, sdl_surface->format->Gmask,
-                                    sdl_surface->format->Bmask,
-                                    0);
-    int colorkey = SDL_MapRGB(sdl_surface_copy->format, 255, 0, 255);
-    SDL_FillRect(sdl_surface_copy, NULL, colorkey);
-    SDL_SetColorKey(sdl_surface_copy, SDL_SRCCOLORKEY, colorkey);
-
-
-    SDL_BlitSurface(sdl_surface, &src, sdl_surface_copy, NULL);
-    SDL_SetAlpha(sdl_surface_copy ,SDL_SRCALPHA,alpha);
-
-    int ret = SDL_BlitSurface(sdl_surface_copy, NULL, screen, &dest);
-
-    SDL_FreeSurface (sdl_surface_copy);
-    return ret;
-    }
-
-  int ret = SDL_BlitSurface(sdl_surface, &src, screen, &dest);
-
-  return ret;
-}
-
-int
-SurfaceSDL::draw_stretched(float x, float y, int sw, int sh, Uint8 alpha, Uint32 effect)
-{
-  SDL_Rect dest;
-
-  dest.x = (int)x;
-  dest.y = (int)y;
-  dest.w = (int)sw;
-  dest.h = (int)sh;
-
-  if(effect & SEMI_TRANSPARENT)
-    alpha = 128;
-
-  SDL_Surface* sdl_surface_copy = SDL_CreateRGBSurface (sdl_surface->flags,
-                                  sw, sh, sdl_surface->format->BitsPerPixel,
-                                  sdl_surface->format->Rmask, sdl_surface->format->Gmask,
-                                  sdl_surface->format->Bmask,
-                                  0);
-
-  SDL_BlitSurface(sdl_surface, NULL, sdl_surface_copy, NULL);
-  SDL_SoftStretch(sdl_surface_copy, NULL, sdl_surface_copy, &dest);
-
-  if(alpha != 255)
-    SDL_SetAlpha(sdl_surface_copy,SDL_SRCALPHA,alpha);
-
-  int ret = SDL_BlitSurface(sdl_surface_copy,NULL,screen,&dest);
-  SDL_FreeSurface(sdl_surface_copy);
-
-  return ret;
-}
-
-void
-SurfaceSDL::apply_filter(int filter, Color color)
-{
-  ::apply_filter_to_surface(sdl_surface, filter, color);
-
-  w = sdl_surface->w;
-  h = sdl_surface->h;
-}
-
-SurfaceSDL::~SurfaceSDL()
-{}

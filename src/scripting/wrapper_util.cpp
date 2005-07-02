@@ -4,57 +4,6 @@
 #include <sstream>
 #include "wrapper_util.hpp"
 
-static void register_function(HSQUIRRELVM v, SQFUNCTION func, const char* name)
-{
-    sq_pushstring(v, name, -1);
-    sq_newclosure(v, func, 0); //create a new function
-    if(sq_createslot(v, -3) < 0) {
-        std::stringstream msg;
-        msg << "Couldn't register function '" << name << "'";
-        throw SquirrelError(v, msg.str());
-    }
-}
-
-static void _register_functions(HSQUIRRELVM v, WrappedFunction* functions)
-{
-    for(WrappedFunction* func = functions; func->name != 0; ++func) {
-        register_function(v, func->f, func->name);
-    }
-}
-
-static void register_class(HSQUIRRELVM v, WrappedClass* wclass)
-{
-    sq_pushstring(v, wclass->name, -1);
-    sq_newclass(v, false);
-    _register_functions(v, wclass->functions);
-    _register_constants(v, wclass->int_consts);
-    _register_constants(v, wclass->float_consts);
-    _register_constants(v, wclass->string_consts);
-
-    if(sq_createslot(v, -3) < 0) {
-        std::stringstream msg;
-        msg << "Couldn't register function '" << wclass->name << "'";
-        throw SquirrelError(v, msg.str());
-    }
-}
-
-void register_functions(HSQUIRRELVM v, WrappedFunction* functions)
-{
-    sq_pushroottable(v);
-    _register_functions(v, functions);
-    sq_pop(v, 1);
-}
-
-void register_classes(HSQUIRRELVM v, WrappedClass* classes)
-{
-    sq_pushroottable(v);
-    for(WrappedClass* wclass = classes; wclass->name != 0; ++wclass) {
-        register_class(v, wclass);
-    }
-    sq_pop(v, 1);
-}
-
-
 void print_squirrel_stack(HSQUIRRELVM v)
 {
     printf("--------------------------------------------------------------\n");

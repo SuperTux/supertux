@@ -20,27 +20,9 @@ WrapperCreator::create_wrapper(Namespace* ns)
         << "#ifndef __" << modulename << "_WRAPPER_H__\n"
         << "#define __" << modulename << "_WRAPPER_H__\n"
         << "\n"
-        << "#include \"wrapper_util.hpp\"\n"
+        << "#include <squirrel.h>\n"
         << "\n"
-        << "extern WrappedFunction " << modulename << "_global_functions[];\n"
-        << "extern WrappedClass " << modulename << "_classes[];\n"
-        << "extern WrappedConstant<int> "
-        << modulename << "_int_constants[];\n"
-        << "extern WrappedConstant<float> "
-        << modulename << "_float_constants[];\n"
-        << "extern WrappedConstant<const char*> "
-        << modulename << "_string_constants[];\n"
-        << "\n"
-        << "static inline void register_"
-        << modulename << "_wrapper(HSQUIRRELVM v)\n"
-        << "{\n"
-        << "    register_functions(v, "
-        << modulename << "_global_functions);\n"
-        << "    register_classes(v, " << modulename << "_classes);\n"
-        << "    register_constants(v, " << modulename << "_int_constants);\n"
-        << "    register_constants(v, " << modulename << "_float_constants);\n"
-        << "    register_constants(v, "<< modulename << "_string_constants);\n"
-        << "}\n"
+        << "void register_" << modulename << "_wrapper(HSQUIRRELVM v);\n"
         << "\n"
         << "#endif\n"
         << "\n";
@@ -77,177 +59,151 @@ WrapperCreator::create_wrapper(Namespace* ns)
         create_function_wrapper(0, *i);
     }
 
-    // create function list...
-    create_function_list(ns);
-    create_const_lists(ns);
+    out << "void register_" << modulename << "_wrapper(HSQUIRRELVM v)\n";
+    out << "{\n";
+    out << ind << "sq_pushroottable(v);\n";
 
-    // create class list...
-    std::ostringstream classlist;
-    classlist << "WrappedClass " << modulename << "_classes[] = {\n";
+    create_register_constants_code(ns);
+    create_register_functions_code(ns);
+    create_register_classes_code(ns);
 
-    for(std::vector<AtomicType*>::iterator i = ns->types.begin();
-            i != ns->types.end(); ++i) {
-        AtomicType* type = *i;
-        Class* _class = dynamic_cast<Class*> (type);
-        if(_class == 0)
-            continue;
-        
-        classlist << ind << "{ \"" << _class->name << "\", "
-                  << modulename << "_" << _class->name << "_methods, "
-                  << modulename << "_" << _class->name << "_int_consts, "
-                  << modulename << "_" << _class->name << "_float_consts, "
-                  << modulename << "_" << _class->name << "_string_consts "
-                  << "},\n";
-        
-        out << "static WrappedFunction " << modulename << "_"
-            << _class->name << "_methods[] = {\n";
-        for(std::vector<ClassMember*>::iterator i = _class->members.begin();
-                i != _class->members.end(); ++i) {
-            ClassMember* member = *i;
-            if(member->visibility != ClassMember::PUBLIC)
-                continue;
-            Function* function = dynamic_cast<Function*> (member);
-            if(!function || function->type == Function::DESTRUCTOR)
-                continue;
-
-            out << ind << "{ \"" << function->name << "\", &"
-                << _class->name << "_" << function->name << "_wrapper },\n";
-        }
-        out << "};\n"
-            << "\n";
-        create_class_const_lists(_class);
-    }
-    classlist << ind << "{ 0, 0, 0, 0, 0 }\n";
-    classlist << "};\n";
-    out << classlist.str();
-    out << "\n";
+    out << ind << "sq_pop(v, 1);\n";
+    out << "}\n";
 }
 
 void
-WrapperCreator::create_function_list(Namespace* ns)
+WrapperCreator::create_register_function_code(Function* function, Class* _class)
 {
-    out << "WrappedFunction " << modulename << "_global_functions[] = {\n";
+    if(function->type == Function::DESTRUCTOR)
+        return;
+    
+    out << ind << "sq_pushstring(v, \"" << function->name << "\", -1);\n";
+    out << ind << "sq_newclosure(v, &" 
+        << (_class != 0 ? _class->name + "_" : "") << function->name 
+        << "_wrapper, 0);\n";
+    create_register_slot_code("function", function->name);
+    out << "\n";                                                              
+}
+
+void
+WrapperCreator::create_register_functions_code(Namespace* ns)
+{
     for(std::vector<Function*>::iterator i = ns->functions.begin();
             i != ns->functions.end(); ++i) {
         Function* function = *i;
-        out << ind << "{ \"" << function->name << "\", &"
-            << function->name << "_wrapper },\n";
+        create_register_function_code(function, 0);
     }
-    out << ind << "{ 0, 0 }\n"
-        << "};\n"
-        << "\n";
 }
 
 void
-WrapperCreator::create_const_lists(Namespace* ns)
+WrapperCreator::create_register_classes_code(Namespace* ns)
 {
-    out << "WrappedConstant<int> " << modulename << "_int_constants[] = {\n";
-    for(std::vector<Field*>::iterator i = ns->fields.begin();
-            i != ns->fields.end(); ++i) {
-        Field* field = *i;
-        if(!field->has_const_value
-           || field->type->atomic_type != &BasicType::INT)
+    for(std::vector<AtomicType*>::iterator i = ns->types.begin();
+            i != ns->types.end(); ++i) {
+        AtomicType* type = *i;
+        Class* _class = dynamic_cast<Class*> (type);                 
+        if(_class == 0)
             continue;
-        out << ind << "{ \"" << field->name << "\", " 
-            << field->const_int_value << "},\n";
+        if(_class->super_classes.size() > 0)
+            continue;
+
+        create_register_class_code(_class);
     }
-    out << ind << "{ 0, 0}\n";
-    out << "};\n";
-    out << "\n";
+}
+
+void
+WrapperCreator::create_register_class_code(Class* _class)
+{
+    out << ind << "// Register class " << _class->name << "\n";
+    out << ind << "sq_pushstring(v, \"" 
+        << _class->name << "\", -1);\n";    
     
-    out << "WrappedConstant<float> " 
-        << modulename << "_float_constants[] = {\n";
-    for(std::vector<Field*>::iterator i = ns->fields.begin();
-            i != ns->fields.end(); ++i) {
-        Field* field = *i;
-        if(!field->has_const_value 
-                || field->type->atomic_type != &BasicType::FLOAT)
-            continue;
-        out << ind << "{ \"" << field->name << "\", " 
-            << field->const_float_value << "},\n";
+    if(_class->super_classes.size() > 0) {
+        if(_class->super_classes.size() > 1) {
+            std::stringstream msg;
+            msg << "Multiple inheritance not supported (at class '"
+                << _class->name << "')";
+            throw std::runtime_error(msg.str());
+        }
+        
+        out << ind << "sq_pushstring(v, \""
+            << _class->super_classes[0]->name << "\", -1);\n";
+        out << ind << "sq_get(v, -3);\n";
     }
-    out << ind << "{ 0, 0}\n";
-    out << "};\n";
-    out << "\n";
+    out << ind << "if(sq_newclass(v, "
+        << (_class->super_classes.size() > 0 ? "SQTrue" : "SQFalse")
+        << ") < 0) {\n";
+    out << ind << ind << "std::stringstream msg;\n";
+    out << ind << ind << "msg << \"Couldn't create new class '" 
+        << _class->name << "'\";\n";
+    out << ind << ind << "throw SquirrelError(v, msg.str());\n";
+    out << ind << "}\n";
 
-    out << "WrappedConstant<const char*> " 
-        << modulename << "_string_constants[] = {\n";
-    for(std::vector<Field*>::iterator i = ns->fields.begin();
-            i != ns->fields.end(); ++i) {
-        Field* field = *i;
-        if(!field->has_const_value 
-                || field->type->atomic_type != StringType::instance())
-            continue;
-        out << ind << "{ \"" << field->name << "\", " 
-            << field->const_float_value << "},\n";
-    }                                                                                
-    out << ind << "{ 0, 0}\n";
-    out << "};\n";
-    out << "\n";
-}
-
-void
-WrapperCreator::create_class_const_lists(Class* _class)
-{
-    out << "static WrappedConstant<int> " 
-        << modulename << "_" << _class->name << "_int_consts[] = {\n";
     for(std::vector<ClassMember*>::iterator i = _class->members.begin();
             i != _class->members.end(); ++i) {
         ClassMember* member = *i;
         if(member->visibility != ClassMember::PUBLIC)
             continue;
+        Function* function = dynamic_cast<Function*> (member);
+        if(function) {
+            create_register_function_code(function, _class);
+        }
         Field* field = dynamic_cast<Field*> (member);
-        if(!field)
-            continue;
-        if(!field->has_const_value
-           || field->type->atomic_type != &BasicType::INT)
-            continue;
-        out << ind << "{ \"" << field->name << "\", " 
-            << field->const_int_value << "},\n";
+        if(field) {
+            create_register_constant_code(field);
+        }
     }
-    out << ind << "{ 0, 0}\n";
-    out << "};\n";
+
+    create_register_slot_code("class", _class->name);
     out << "\n";
     
-    out << "WrappedConstant<float> " 
-        << modulename << "_" << _class->name << "_float_consts[] = {\n";
-    for(std::vector<ClassMember*>::iterator i = _class->members.begin();
-            i != _class->members.end(); ++i) {
-        ClassMember* member = *i;
-        if(member->visibility != ClassMember::PUBLIC)
-            continue;
-        Field* field = dynamic_cast<Field*> (member);        
-        if(!field)
-            continue;
-        if(!field->has_const_value 
-                || field->type->atomic_type != &BasicType::FLOAT)
-            continue;
-        out << ind << "{ \"" << field->name << "\", " 
-            << field->const_float_value << "},\n";
+    for(std::vector<Class*>::iterator i = _class->sub_classes.begin();
+            i != _class->sub_classes.end(); ++i) {
+        Class* _class = *i;
+        create_register_class_code(_class);
     }
-    out << ind << "{ 0, 0}\n";
-    out << "};\n";
-    out << "\n";
+}
 
-    out << "WrappedConstant<const char*> " 
-        << modulename << "_" << _class->name << "_string_consts[] = {\n";
-    for(std::vector<ClassMember*>::iterator i = _class->members.begin();
-            i != _class->members.end(); ++i) {
-        ClassMember* member = *i;
-        if(member->visibility != ClassMember::PUBLIC)
-            continue;
-        Field* field = dynamic_cast<Field*> (member);        
-        if(!field)
-            continue;
-        if(!field->has_const_value 
-                || field->type->atomic_type != StringType::instance())
-            continue;
-        out << ind << "{ \"" << field->name << "\", " 
-            << field->const_float_value << "},\n";
-    }                                                                                
-    out << ind << "{ 0, 0}\n";
-    out << "};\n";
+void
+WrapperCreator::create_register_constants_code(Namespace* ns)
+{
+    for(std::vector<Field*>::iterator i = ns->fields.begin();
+            i != ns->fields.end(); ++i) {
+        Field* field = *i;
+        create_register_constant_code(field);
+    }
+}
+
+void
+WrapperCreator::create_register_constant_code(Field* field)
+{
+    if(!field->has_const_value)
+        return;
+    out << ind << "sq_pushstring(v, \"" << field->name << "\", -1);\n";
+    if(field->type->atomic_type == &BasicType::INT) {
+        out << ind << "sq_pushinteger(v, " << field->const_int_value << ")\n";
+    } else if(field->type->atomic_type == &BasicType::FLOAT) {
+        out << ind << "sq_pushfloat(v, " << field->const_float_value << ")\n";
+    } else if(field->type->atomic_type == StringType::instance()) {
+        out << ind << "sq_pushstring(v, \""
+            << field->const_string_value << "\", -1);\n";
+    } else {
+      throw std::runtime_error("Constant is not int, float or string");
+    }
+    create_register_slot_code("constant", field->name);
     out << "\n";
+}
+
+void
+WrapperCreator::create_register_slot_code(const std::string& what,
+                                          const std::string& name)
+{
+    out << ind << "if(sq_createslot(v, -3) < 0) {\n";
+    out << ind << ind << "std::stringstream msg;\n";
+    out << ind << ind << "msg << \"Couldn't register " << what << "'"
+        << name << "'\";\n";
+    out << ind << ind << "throw SquirrelError(v, msg.str());\n";
+    out << ind << "}\n";
 }
 
 void

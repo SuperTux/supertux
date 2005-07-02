@@ -30,7 +30,7 @@
 #include "video/screen.hpp"
 
 void apply_filter_to_surface(SDL_Surface *surface, int filter, int value);
-SDL_Surface* sdl_surface_from_sdl_surface(SDL_Surface* sdl_surf, bool use_alpha);
+SDL_Surface* sdl_surface_from_sdl_surface(SDL_Surface* sdl_surf);
 SDL_Surface* sdl_surface_from_nothing();
 
 class SurfaceImpl;
@@ -144,31 +144,15 @@ public:
   virtual void apply_filter(int filter, Color color = Color(0,0,0)) = 0;
 };
 
-class SurfaceSDL : public SurfaceImpl
-{
-public:
-  SurfaceSDL(SDL_Surface* surf, bool use_alpha);
-  SurfaceSDL(const std::string& file, bool use_alpha);
-  SurfaceSDL(const std::string& file, int x, int y, int w_, int h_, bool use_alpha);
-  SurfaceSDL(Color top_gradient, Color bottom_gradient, int w, int h);
-  virtual ~SurfaceSDL();
-  
-  int draw(float x, float y, Uint8 alpha, Uint32 effect = NONE_EFFECT);
-  int draw_part(float sx, float sy, float x, float y, float w, float h,  Uint8 alpha, Uint32 effect = NONE_EFFECT);
-  int draw_stretched(float x, float y, int w, int h, Uint8 alpha, Uint32 effect = NONE_EFFECT);
-  
-  void apply_filter(int filter, Color color);
-};
-
 class SurfaceOpenGL : public SurfaceImpl
 {
 public:
   GLuint gl_texture;
   
 public:
-  SurfaceOpenGL(SDL_Surface* surf, bool use_alpha);
-  SurfaceOpenGL(const std::string& file, bool use_alpha);
-  SurfaceOpenGL(const std::string& file, int x, int y, int w, int h, bool use_alpha);
+  SurfaceOpenGL(SDL_Surface* surf);
+  SurfaceOpenGL(const std::string& file);
+  SurfaceOpenGL(const std::string& file, int x, int y, int w, int h);
   SurfaceOpenGL(Color top_gradient, Color bottom_gradient, int w, int h);
   
   virtual ~SurfaceOpenGL();

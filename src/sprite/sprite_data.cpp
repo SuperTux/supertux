@@ -93,7 +93,7 @@ SpriteData::parse_action(const lisp::Lisp* lisp)
       for(int i = 0; static_cast<unsigned int>(i) < act_tmp->surfaces.size();
           i++) {
         Surface* surface = new Surface(sdl_surface_from_sdl_surface(
-              act_tmp->surfaces[i]->impl->get_sdl_surface(), true), true);
+              act_tmp->surfaces[i]->impl->get_sdl_surface()), true);
         surface->apply_filter(HORIZONTAL_FLIP_FILTER);
         action->surfaces.push_back(surface);
       }

@@ -195,6 +195,8 @@ public:
     }
     
     std::vector<ClassMember*> members;
+    std::vector<Class*> super_classes;
+    std::vector<Class*> sub_classes;
     std::string docu_comment;
 };
 

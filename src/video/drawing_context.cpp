@@ -202,41 +202,14 @@ DrawingContext::draw_gradient(DrawingRequest& request)
   const Color& top = gradientrequest->top;
   const Color& bottom = gradientrequest->bottom;
   
-#ifndef NOOPENGL
-  if(config->use_gl)
-    {
-      glBegin(GL_QUADS);
-      glColor3ub(top.red, top.green, top.blue);
-      glVertex2f(0, 0);
-      glVertex2f(SCREEN_WIDTH, 0);
-      glColor3ub(bottom.red, bottom.green, bottom.blue);
-      glVertex2f(SCREEN_WIDTH, SCREEN_HEIGHT);
-      glVertex2f(0, SCREEN_HEIGHT);
-      glEnd();
-    }
-  else
-  {
-#endif
-    if(&top == &bottom)
-      {
-      fillrect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, top.red, top.green, top.blue);
-      }
-    else
-      {
-      float redstep = (float(bottom.red)-float(top.red)) / float(SCREEN_HEIGHT);
-      float greenstep = (float(bottom.green)-float(top.green)) / float(SCREEN_HEIGHT);
-      float bluestep = (float(bottom.blue) - float(top.blue)) / float(SCREEN_HEIGHT);
-
-      for(float y = 0; y < SCREEN_HEIGHT; y += 2)
-        fillrect(0, (int)y, SCREEN_WIDTH, 2,
-            int(float(top.red) + redstep * y),
-            int(float(top.green) + greenstep * y),
-            int(float(top.blue) + bluestep * y), 255);
-      }
-#ifndef NOOPENGL
-
-    }
-#endif
+  glBegin(GL_QUADS);
+  glColor3ub(top.red, top.green, top.blue);
+  glVertex2f(0, 0);
+  glVertex2f(SCREEN_WIDTH, 0);
+  glColor3ub(bottom.red, bottom.green, bottom.blue);
+  glVertex2f(SCREEN_WIDTH, SCREEN_HEIGHT);
+  glVertex2f(0, SCREEN_HEIGHT);
+  glEnd();
 
   delete gradientrequest;
 }
@@ -262,66 +235,18 @@ DrawingContext::draw_filled_rect(DrawingRequest& request)
   float w = fillrectrequest->size.x;
   float h = fillrectrequest->size.y;
 
-#ifndef NOOPENGL
-  if(config->use_gl)
-    {
-      glEnable(GL_BLEND);
-      glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-      glColor4ub(fillrectrequest->color.red, fillrectrequest->color.green,
-          fillrectrequest->color.blue, fillrectrequest->color.alpha);
-
-      glBegin(GL_POLYGON);
-      glVertex2f(x, y);
-      glVertex2f(x+w, y);
-      glVertex2f(x+w, y+h);
-      glVertex2f(x, y+h);
-      glEnd();
-      glDisable(GL_BLEND);
-    }
-  else
-    {
-#endif
-      SDL_Rect src, rect;
-      SDL_Surface *temp = NULL;
-                                                                                
-      rect.x = (int)x;
-      rect.y = (int)y;
-      rect.w = (int)w;
-      rect.h = (int)h;
-                                                                                
-      if(fillrectrequest->color.alpha != 255)
-        {
-          temp = SDL_CreateRGBSurface(screen->flags, rect.w, rect.h, screen->format->BitsPerPixel,
-                                      screen->format->Rmask,
-                                      screen->format->Gmask,
-                                      screen->format->Bmask,
-                                      screen->format->Amask);
-                                                                                
-                                                                                
-          src.x = 0;
-          src.y = 0;
-          src.w = rect.w;
-          src.h = rect.h;
-                                                                                
-          SDL_FillRect(temp, &src, SDL_MapRGB(screen->format, 
-                fillrectrequest->color.red, fillrectrequest->color.green,
-                fillrectrequest->color.blue));
-                                                                                
-          SDL_SetAlpha(temp, SDL_SRCALPHA, fillrectrequest->color.alpha);
-                                                                                
-          SDL_BlitSurface(temp,0,screen,&rect);
-                                                                                
-          SDL_FreeSurface(temp);
-        }
-      else
-        SDL_FillRect(screen, &rect, SDL_MapRGB(screen->format, 
-              fillrectrequest->color.red, fillrectrequest->color.green,
-              fillrectrequest->color.blue));
-                                                                                
-#ifndef NOOPENGL
-                                                                                
-    }
-#endif
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  glColor4ub(fillrectrequest->color.red, fillrectrequest->color.green,
+             fillrectrequest->color.blue, fillrectrequest->color.alpha);
+  
+  glBegin(GL_POLYGON);
+  glVertex2f(x, y);
+  glVertex2f(x+w, y);
+  glVertex2f(x+w, y+h);
+  glVertex2f(x, y+h);
+  glEnd();
+  glDisable(GL_BLEND);
 
   delete fillrectrequest;
 }
@@ -366,13 +291,10 @@ DrawingContext::do_drawing()
     }
   }
 
-  // update screen
-  if(config->use_gl)
-    SDL_GL_SwapBuffers();
-  else
-    SDL_Flip(screen);
-
   drawingrequests.clear();
+
+  // update screen
+  SDL_GL_SwapBuffers();
 }
 
 void

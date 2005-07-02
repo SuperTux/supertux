@@ -141,7 +141,7 @@ namespace_member:
 ;  
 
 class_declaration:
-    T_CLASS T_ID '{' 
+    T_CLASS T_ID 
         {
             current_class = new Class();
             current_class->name = $2;
@@ -150,10 +150,37 @@ class_declaration:
             last_docucomment = "";
             current_visibility = ClassMember::PROTECTED;
         }
-    class_body '}' ';'
+    superclass_list '{' class_body '}' ';'
         {
             $$ = current_class;
         }
+;
+
+superclass_list:
+    /* empty */
+    | ':' superclasses
+;
+
+superclasses:
+      superclass
+    | superclasses ',' superclass
+;
+
+superclass:
+    superclass_visibility type_identifier
+        {
+            Class* superclass = dynamic_cast<Class*> ($2);
+            if(superclass == 0)
+                throw ParseError("SuperClass is not a Class type");
+            current_class->super_classes.push_back(superclass);
+            superclass->sub_classes.push_back(current_class);
+        }
+;
+
+superclass_visibility:
+    T_PUBLIC
+    | T_PROTECTED
+    | T_PRIVATE
 ;
 
 class_body: /* empty */
@@ -225,6 +252,8 @@ field_declaration:
         {
             current_field = new Field();
             current_field->type = $1;
+            current_field->docu_comment = last_docucomment;
+            last_docucomment = "";
             current_field->name = $2;
             free($2);
         }
@@ -260,17 +289,6 @@ maybe_const_initialisation:
 function_declaration:
     type T_ID '(' 
         {
-            /*
-            current_function = new Function();
-            current_function->type = Function::FUNCTION;
-            current_function->return_type = *($2);
-            delete $2;
-            current_function->name = $3;
-            free($3);
-            current_function->docu_comment = last_docucomment;
-            last_docucomment = "";
-            */
-
             current_function = new Function();
             current_function->type = Function::FUNCTION;
             current_function->return_type = *($1);
@@ -280,10 +298,15 @@ function_declaration:
             current_function->docu_comment = last_docucomment;
             last_docucomment = "";
         }                           
-    parameter_list ')' abstract_declaration ';'
+    parameter_list ')' maybe_const abstract_declaration ';'
         {
             $$ = current_function;
         }
+;
+
+maybe_const:
+    /* empty */
+    | T_CONST
 ;
 
 abstract_declaration:
@@ -384,7 +407,6 @@ atomic_type:
 type_identifier:
     T_ATOMIC_TYPE
         {
-            // search for type in current compilation unit...
             $$ = $1;
         }
     | namespace_refs "::" T_ATOMIC_TYPE

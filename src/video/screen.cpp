@@ -156,48 +156,17 @@ void fillrect(float x, float y, float w, float h, int r, int g, int b, int a)
     h = -h;
   }
 
-  if(config->use_gl) {
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glColor4ub(r, g, b,a);
-    
-    glBegin(GL_POLYGON);
-    glVertex2f(x, y);
-    glVertex2f(x+w, y);
-    glVertex2f(x+w, y+h);
-    glVertex2f(x, y+h);
-    glEnd();
-    glDisable(GL_BLEND);
-  } else {
-    SDL_Rect src, rect;
-    SDL_Surface *temp = NULL;
-
-    rect.x = (int)x;
-    rect.y = (int)y;
-    rect.w = (int)w;
-    rect.h = (int)h;
-    
-    if(a != 255) {
-      temp = SDL_CreateRGBSurface(screen->flags, rect.w, rect.h, screen->format->BitsPerPixel,
-                                  screen->format->Rmask,
-                                  screen->format->Gmask,
-                                  screen->format->Bmask,
-                                  screen->format->Amask);
-      
-      
-      src.x = 0;
-      src.y = 0;
-      src.w = rect.w;
-      src.h = rect.h;
-      
-      SDL_FillRect(temp, &src, SDL_MapRGB(screen->format, r, g, b));
-      SDL_SetAlpha(temp, SDL_SRCALPHA, a);
-      SDL_BlitSurface(temp,0,screen,&rect);
-      SDL_FreeSurface(temp);
-    } else {
-      SDL_FillRect(screen, &rect, SDL_MapRGB(screen->format, r, g, b));
-    }
-  }
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  glColor4ub(r, g, b,a);
+  
+  glBegin(GL_POLYGON);
+  glVertex2f(x, y);
+  glVertex2f(x+w, y);
+  glVertex2f(x+w, y+h);
+  glVertex2f(x, y+h);
+  glEnd();
+  glDisable(GL_BLEND);
 }
 
 /* Needed for line calculations */
@@ -207,52 +176,15 @@ void fillrect(float x, float y, float w, float h, int r, int g, int b, int a)
 void draw_line(float x1, float y1, float x2, float y2,
                          int r, int g, int b, int a)
 {
-  if(config->use_gl) {
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glColor4ub(r, g, b,a);
-    
-    glBegin(GL_LINES);
-    glVertex2f(x1, y1);
-    glVertex2f(x2, y2);
-    glEnd();
-    glDisable(GL_BLEND);
-  } else {
-    /* Basic unantialiased Bresenham line algorithm */
-    int lg_delta, sh_delta, cycle, lg_step, sh_step;
-    Uint32 color = SDL_MapRGBA(screen->format, r, g, b, a);
-    
-    lg_delta = (int)(x2 - x1);
-    sh_delta = (int)(y2 - y1);
-    lg_step = SGN(lg_delta);
-    lg_delta = ABS(lg_delta);
-    sh_step = SGN(sh_delta);
-    sh_delta = ABS(sh_delta);
-    if (sh_delta < lg_delta) {
-      cycle = lg_delta >> 1;
-      while (x1 != x2) {
-        drawpixel((int)x1, (int)y1, color);
-        cycle += sh_delta;
-        if (cycle > lg_delta) {
-          cycle -= lg_delta;
-          y1 += sh_step;
-        }
-        x1 += lg_step;
-      }
-      drawpixel((int)x1, (int)y1, color);
-    }
-    cycle = sh_delta >> 1;
-    while (y1 != y2) {
-      drawpixel((int)x1, (int)y1, color);
-      cycle += lg_delta;
-      if (cycle > sh_delta) {
-        cycle -= sh_delta;
-        x1 += lg_step;
-      }
-      y1 += sh_step;
-    }
-    drawpixel((int)x1, (int)y1, color);
-  }
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  glColor4ub(r, g, b,a);
+  
+  glBegin(GL_LINES);
+  glVertex2f(x1, y1);
+  glVertex2f(x2, y2);
+  glEnd();
+  glDisable(GL_BLEND);
 }
 
 

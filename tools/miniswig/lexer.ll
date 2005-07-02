@@ -100,8 +100,9 @@ namespace                               { return T_NAMESPACE; }
             ns = current_namespace;          
         // is it a type?
         yylval->atomic_type = ns->_findType(yytext, search_down);
-        if(yylval->atomic_type)
+        if(yylval->atomic_type) {
             return T_ATOMIC_TYPE;
+        }
         // or a namespace? (hack for now...)
         yylval->_namespace = ns->_findNamespace(yytext, search_down);
         if(yylval->_namespace) {
