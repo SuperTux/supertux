@@ -181,9 +181,9 @@ WrapperCreator::create_register_constant_code(Field* field)
         return;
     out << ind << "sq_pushstring(v, \"" << field->name << "\", -1);\n";
     if(field->type->atomic_type == &BasicType::INT) {
-        out << ind << "sq_pushinteger(v, " << field->const_int_value << ")\n";
+        out << ind << "sq_pushinteger(v, " << field->const_int_value << ");\n";
     } else if(field->type->atomic_type == &BasicType::FLOAT) {
-        out << ind << "sq_pushfloat(v, " << field->const_float_value << ")\n";
+        out << ind << "sq_pushfloat(v, " << field->const_float_value << ");\n";
     } else if(field->type->atomic_type == StringType::instance()) {
         out << ind << "sq_pushstring(v, \""
             << field->const_string_value << "\", -1);\n";
