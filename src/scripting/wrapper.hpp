@@ -8,7 +8,33 @@
 
 #include <squirrel.h>
 
+namespace Scripting
+{
+class DisplayEffect;
+class Camera;
+class Level;
+class ScriptedObject;
+class Sound;
+class Text;
+class Player;
+}
+
+namespace SquirrelWrapper
+{
+
+using namespace Scripting;
+
 void register_supertux_wrapper(HSQUIRRELVM v);
+
+void create_squirrel_instance(HSQUIRRELVM v, DisplayEffect* object, bool setup_releasehook = false);
+void create_squirrel_instance(HSQUIRRELVM v, Camera* object, bool setup_releasehook = false);
+void create_squirrel_instance(HSQUIRRELVM v, Level* object, bool setup_releasehook = false);
+void create_squirrel_instance(HSQUIRRELVM v, ScriptedObject* object, bool setup_releasehook = false);
+void create_squirrel_instance(HSQUIRRELVM v, Sound* object, bool setup_releasehook = false);
+void create_squirrel_instance(HSQUIRRELVM v, Text* object, bool setup_releasehook = false);
+void create_squirrel_instance(HSQUIRRELVM v, Player* object, bool setup_releasehook = false);
+
+}
 
 #endif
 

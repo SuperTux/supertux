@@ -21,11 +21,54 @@ WrapperCreator::create_wrapper(Namespace* ns)
         << "#define __" << modulename << "_WRAPPER_H__\n"
         << "\n"
         << "#include <squirrel.h>\n"
-        << "\n"
-        << "void register_" << modulename << "_wrapper(HSQUIRRELVM v);\n"
-        << "\n"
-        << "#endif\n"
         << "\n";
+    if(selected_namespace != "") {
+      hppout << "namespace " << selected_namespace << "\n"
+             << "{\n";
+    }
+    for(std::vector<AtomicType*>::iterator i = ns->types.begin();
+            i != ns->types.end(); ++i) {
+        AtomicType* type = *i;
+        Class* _class = dynamic_cast<Class*> (type);                 
+        if(_class == 0)
+          continue;
+
+        hppout << "class " << _class->name << ";\n";
+    }
+
+    if(selected_namespace != "") {
+      hppout << "}\n";
+    }
+    
+    hppout << "\n"
+           << "namespace SquirrelWrapper\n"
+           << "{\n"
+           << "\n";
+
+    if(selected_namespace != "") {
+      hppout << "using namespace " << selected_namespace << ";\n"
+             << "\n";
+    }
+    
+    hppout << "void register_" << modulename << "_wrapper(HSQUIRRELVM v);\n"
+           << "\n";
+
+    for(std::vector<AtomicType*>::iterator i = ns->types.begin();
+            i != ns->types.end(); ++i) {
+        AtomicType* type = *i;
+        Class* _class = dynamic_cast<Class*> (type);                 
+        if(_class == 0)
+            continue;
+
+        hppout << "void create_squirrel_instance(HSQUIRRELVM v, "
+               << _class->name
+               << "* object, bool setup_releasehook = false);\n";
+    }
+    hppout <<"\n"
+           << "}\n"
+           << "\n"
+           << "#endif\n"
+           << "\n";
     
     // cpp header
     out << "/**\n"
@@ -41,7 +84,11 @@ WrapperCreator::create_wrapper(Namespace* ns)
         << "#include <squirrel.h>\n"
         << "#include \"wrapper_util.hpp\"\n"
         << "#include \"wrapper.interface.hpp\"\n"
+        << "\n"
+        << "namespace SquirrelWrapper\n"
+        << "{\n"
         << "\n";
+
     if(selected_namespace != "") {
         out << "using namespace " << selected_namespace << ";\n";
         out << "\n";
@@ -59,16 +106,19 @@ WrapperCreator::create_wrapper(Namespace* ns)
         create_function_wrapper(0, *i);
     }
 
-    out << "void register_" << modulename << "_wrapper(HSQUIRRELVM v)\n";
-    out << "{\n";
-    out << ind << "sq_pushroottable(v);\n";
+    out << "void register_" << modulename << "_wrapper(HSQUIRRELVM v)\n"
+        << "{\n"
+        << ind << "sq_pushroottable(v);\n";
 
     create_register_constants_code(ns);
     create_register_functions_code(ns);
     create_register_classes_code(ns);
 
-    out << ind << "sq_pop(v, 1);\n";
-    out << "}\n";
+    out << ind << "sq_pop(v, 1);\n"
+        << "}\n"
+        << "\n"
+        << "}\n"
+        << "\n";
 }
 
 void
@@ -120,7 +170,7 @@ WrapperCreator::create_register_class_code(Class* _class)
     
     if(_class->super_classes.size() > 0) {
         if(_class->super_classes.size() > 1) {
-            std::stringstream msg;
+            std::ostringstream msg;
             msg << "Multiple inheritance not supported (at class '"
                 << _class->name << "')";
             throw std::runtime_error(msg.str());
@@ -133,7 +183,7 @@ WrapperCreator::create_register_class_code(Class* _class)
     out << ind << "if(sq_newclass(v, "
         << (_class->super_classes.size() > 0 ? "SQTrue" : "SQFalse")
         << ") < 0) {\n";
-    out << ind << ind << "std::stringstream msg;\n";
+    out << ind << ind << "std::ostringstream msg;\n";
     out << ind << ind << "msg << \"Couldn't create new class '" 
         << _class->name << "'\";\n";
     out << ind << ind << "throw SquirrelError(v, msg.str());\n";
@@ -199,7 +249,7 @@ WrapperCreator::create_register_slot_code(const std::string& what,
                                           const std::string& name)
 {
     out << ind << "if(sq_createslot(v, -3) < 0) {\n";
-    out << ind << ind << "std::stringstream msg;\n";
+    out << ind << ind << "std::ostringstream msg;\n";
     out << ind << ind << "msg << \"Couldn't register " << what << "'"
         << name << "'\";\n";
     out << ind << ind << "throw SquirrelError(v, msg.str());\n";
@@ -355,7 +405,8 @@ WrapperCreator::push_to_stack(const Type& type, const std::string& var)
 void
 WrapperCreator::create_class_wrapper(Class* _class)
 {
-    bool release_hook_created = false;
+    create_class_release_hook(_class);
+    create_squirrel_instance(_class);
     for(std::vector<ClassMember*>::iterator i = _class->members.begin();
             i != _class->members.end(); ++i) {
         ClassMember* member = *i;
@@ -364,16 +415,41 @@ WrapperCreator::create_class_wrapper(Class* _class)
         Function* function = dynamic_cast<Function*> (member);
         if(!function)
             continue;
-        if(function->type == Function::CONSTRUCTOR
-            && !release_hook_created) {
-          create_class_release_hook(_class);
-          release_hook_created = true;
-        }
         // don't wrap destructors
         if(function->type == Function::DESTRUCTOR)
             continue;
         create_function_wrapper(_class, function);
     }
+}
+
+void
+WrapperCreator::create_squirrel_instance(Class* _class)
+{
+    out << "void create_squirrel_instance(HSQUIRRELVM v, "
+        << _class->name 
+        << "* object, bool setup_releasehook)\n"
+        << "{\n"
+        << ind << "sq_pushstring(v, \"" << _class->name << "\", -1);\n"
+        << ind << "if(sq_get(v, -2) < 0) {\n"
+        << ind << ind << "std::ostringstream msg;\n"
+        << ind << ind << "msg << \"Couldn't resolved squirrel type '"
+        << _class->name << "'\";\n"
+        << ind << ind << "throw SquirrelError(v, msg.str());\n"
+        << ind << "}\n"
+        << "\n"
+        << ind << "if(sq_createinstance(v, -1) < 0 || "
+        << "sq_setinstanceup(v, -1, object) < 0) {\n"
+        << ind << ind << "std::ostringstream msg;\n"
+        << ind << ind << "msg << \"Couldn't setup squirrel instance for "
+        << "object of type '" << _class->name << "'\";\n"
+        << ind << ind << "throw SquirrelError(v, msg.str());\n"
+        << ind << "}\n"
+        << "\n"
+        << ind << "if(setup_releasehook) {\n"
+        << ind << ind << "sq_setreleasehook(v, -1, "
+        << _class->name << "_release_hook);\n"
+        << ind << "}\n"
+        << "}\n";
 }
 
 void

@@ -63,7 +63,7 @@ ScriptInterpreter::ScriptInterpreter(const std::string& new_working_directory)
   sq_setprintfunc(v, printfunc);
   
   // register supertux API
-  register_supertux_wrapper(v);
+  SquirrelWrapper::register_supertux_wrapper(v);
 
   // expose some "global" objects
   sound = new Scripting::Sound();

@@ -12,8 +12,37 @@
 #include "wrapper_util.hpp"
 #include "wrapper.interface.hpp"
 
+namespace SquirrelWrapper
+{
+
 using namespace Scripting;
 
+static int DisplayEffect_release_hook(SQUserPointer ptr, int )
+{
+  DisplayEffect* _this = reinterpret_cast<DisplayEffect*> (ptr);
+  delete _this;
+  return 0;
+}
+
+void create_squirrel_instance(HSQUIRRELVM v, DisplayEffect* object, bool setup_releasehook)
+{
+  sq_pushstring(v, "DisplayEffect", -1);
+  if(sq_get(v, -2) < 0) {
+    std::ostringstream msg;
+    msg << "Couldn't resolved squirrel type 'DisplayEffect'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  if(sq_createinstance(v, -1) < 0 || sq_setinstanceup(v, -1, object) < 0) {
+    std::ostringstream msg;
+    msg << "Couldn't setup squirrel instance for object of type 'DisplayEffect'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  if(setup_releasehook) {
+    sq_setreleasehook(v, -1, DisplayEffect_release_hook);
+  }
+}
 static int DisplayEffect_fade_out_wrapper(HSQUIRRELVM v)
 {
   Scripting::DisplayEffect* _this;
@@ -61,6 +90,32 @@ static int DisplayEffect_is_black_wrapper(HSQUIRRELVM v)
   return 1;
 }
 
+static int Camera_release_hook(SQUserPointer ptr, int )
+{
+  Camera* _this = reinterpret_cast<Camera*> (ptr);
+  delete _this;
+  return 0;
+}
+
+void create_squirrel_instance(HSQUIRRELVM v, Camera* object, bool setup_releasehook)
+{
+  sq_pushstring(v, "Camera", -1);
+  if(sq_get(v, -2) < 0) {
+    std::ostringstream msg;
+    msg << "Couldn't resolved squirrel type 'Camera'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  if(sq_createinstance(v, -1) < 0 || sq_setinstanceup(v, -1, object) < 0) {
+    std::ostringstream msg;
+    msg << "Couldn't setup squirrel instance for object of type 'Camera'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  if(setup_releasehook) {
+    sq_setreleasehook(v, -1, Camera_release_hook);
+  }
+}
 static int Camera_shake_wrapper(HSQUIRRELVM v)
 {
   Scripting::Camera* _this;
@@ -103,6 +158,32 @@ static int Camera_set_mode_wrapper(HSQUIRRELVM v)
   return 0;
 }
 
+static int Level_release_hook(SQUserPointer ptr, int )
+{
+  Level* _this = reinterpret_cast<Level*> (ptr);
+  delete _this;
+  return 0;
+}
+
+void create_squirrel_instance(HSQUIRRELVM v, Level* object, bool setup_releasehook)
+{
+  sq_pushstring(v, "Level", -1);
+  if(sq_get(v, -2) < 0) {
+    std::ostringstream msg;
+    msg << "Couldn't resolved squirrel type 'Level'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  if(sq_createinstance(v, -1) < 0 || sq_setinstanceup(v, -1, object) < 0) {
+    std::ostringstream msg;
+    msg << "Couldn't setup squirrel instance for object of type 'Level'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  if(setup_releasehook) {
+    sq_setreleasehook(v, -1, Level_release_hook);
+  }
+}
 static int Level_finish_wrapper(HSQUIRRELVM v)
 {
   Scripting::Level* _this;
@@ -137,6 +218,32 @@ static int Level_flip_vertically_wrapper(HSQUIRRELVM v)
   return 0;
 }
 
+static int ScriptedObject_release_hook(SQUserPointer ptr, int )
+{
+  ScriptedObject* _this = reinterpret_cast<ScriptedObject*> (ptr);
+  delete _this;
+  return 0;
+}
+
+void create_squirrel_instance(HSQUIRRELVM v, ScriptedObject* object, bool setup_releasehook)
+{
+  sq_pushstring(v, "ScriptedObject", -1);
+  if(sq_get(v, -2) < 0) {
+    std::ostringstream msg;
+    msg << "Couldn't resolved squirrel type 'ScriptedObject'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  if(sq_createinstance(v, -1) < 0 || sq_setinstanceup(v, -1, object) < 0) {
+    std::ostringstream msg;
+    msg << "Couldn't setup squirrel instance for object of type 'ScriptedObject'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  if(setup_releasehook) {
+    sq_setreleasehook(v, -1, ScriptedObject_release_hook);
+  }
+}
 static int ScriptedObject_set_animation_wrapper(HSQUIRRELVM v)
 {
   Scripting::ScriptedObject* _this;
@@ -280,6 +387,32 @@ static int ScriptedObject_get_name_wrapper(HSQUIRRELVM v)
   return 1;
 }
 
+static int Sound_release_hook(SQUserPointer ptr, int )
+{
+  Sound* _this = reinterpret_cast<Sound*> (ptr);
+  delete _this;
+  return 0;
+}
+
+void create_squirrel_instance(HSQUIRRELVM v, Sound* object, bool setup_releasehook)
+{
+  sq_pushstring(v, "Sound", -1);
+  if(sq_get(v, -2) < 0) {
+    std::ostringstream msg;
+    msg << "Couldn't resolved squirrel type 'Sound'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  if(sq_createinstance(v, -1) < 0 || sq_setinstanceup(v, -1, object) < 0) {
+    std::ostringstream msg;
+    msg << "Couldn't setup squirrel instance for object of type 'Sound'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  if(setup_releasehook) {
+    sq_setreleasehook(v, -1, Sound_release_hook);
+  }
+}
 static int Sound_play_music_wrapper(HSQUIRRELVM v)
 {
   Scripting::Sound* _this;
@@ -304,6 +437,32 @@ static int Sound_play_wrapper(HSQUIRRELVM v)
   return 0;
 }
 
+static int Text_release_hook(SQUserPointer ptr, int )
+{
+  Text* _this = reinterpret_cast<Text*> (ptr);
+  delete _this;
+  return 0;
+}
+
+void create_squirrel_instance(HSQUIRRELVM v, Text* object, bool setup_releasehook)
+{
+  sq_pushstring(v, "Text", -1);
+  if(sq_get(v, -2) < 0) {
+    std::ostringstream msg;
+    msg << "Couldn't resolved squirrel type 'Text'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  if(sq_createinstance(v, -1) < 0 || sq_setinstanceup(v, -1, object) < 0) {
+    std::ostringstream msg;
+    msg << "Couldn't setup squirrel instance for object of type 'Text'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  if(setup_releasehook) {
+    sq_setreleasehook(v, -1, Text_release_hook);
+  }
+}
 static int Text_set_text_wrapper(HSQUIRRELVM v)
 {
   Scripting::Text* _this;
@@ -364,6 +523,32 @@ static int Text_set_visible_wrapper(HSQUIRRELVM v)
   return 0;
 }
 
+static int Player_release_hook(SQUserPointer ptr, int )
+{
+  Player* _this = reinterpret_cast<Player*> (ptr);
+  delete _this;
+  return 0;
+}
+
+void create_squirrel_instance(HSQUIRRELVM v, Player* object, bool setup_releasehook)
+{
+  sq_pushstring(v, "Player", -1);
+  if(sq_get(v, -2) < 0) {
+    std::ostringstream msg;
+    msg << "Couldn't resolved squirrel type 'Player'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  if(sq_createinstance(v, -1) < 0 || sq_setinstanceup(v, -1, object) < 0) {
+    std::ostringstream msg;
+    msg << "Couldn't setup squirrel instance for object of type 'Player'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  if(setup_releasehook) {
+    sq_setreleasehook(v, -1, Player_release_hook);
+  }
+}
 static int Player_set_bonus_wrapper(HSQUIRRELVM v)
 {
   Scripting::Player* _this;
@@ -456,7 +641,7 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_pushstring(v, "display_text_file", -1);
   sq_newclosure(v, &display_text_file_wrapper, 0);
   if(sq_createslot(v, -3) < 0) {
-    std::stringstream msg;
+    std::ostringstream msg;
     msg << "Couldn't register function'display_text_file'";
     throw SquirrelError(v, msg.str());
   }
@@ -464,7 +649,7 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_pushstring(v, "wait", -1);
   sq_newclosure(v, &wait_wrapper, 0);
   if(sq_createslot(v, -3) < 0) {
-    std::stringstream msg;
+    std::ostringstream msg;
     msg << "Couldn't register function'wait'";
     throw SquirrelError(v, msg.str());
   }
@@ -472,7 +657,7 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_pushstring(v, "translate", -1);
   sq_newclosure(v, &translate_wrapper, 0);
   if(sq_createslot(v, -3) < 0) {
-    std::stringstream msg;
+    std::ostringstream msg;
     msg << "Couldn't register function'translate'";
     throw SquirrelError(v, msg.str());
   }
@@ -480,7 +665,7 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_pushstring(v, "import", -1);
   sq_newclosure(v, &import_wrapper, 0);
   if(sq_createslot(v, -3) < 0) {
-    std::stringstream msg;
+    std::ostringstream msg;
     msg << "Couldn't register function'import'";
     throw SquirrelError(v, msg.str());
   }
@@ -488,14 +673,14 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   // Register class DisplayEffect
   sq_pushstring(v, "DisplayEffect", -1);
   if(sq_newclass(v, SQFalse) < 0) {
-    std::stringstream msg;
+    std::ostringstream msg;
     msg << "Couldn't create new class 'DisplayEffect'";
     throw SquirrelError(v, msg.str());
   }
   sq_pushstring(v, "fade_out", -1);
   sq_newclosure(v, &DisplayEffect_fade_out_wrapper, 0);
   if(sq_createslot(v, -3) < 0) {
-    std::stringstream msg;
+    std::ostringstream msg;
     msg << "Couldn't register function'fade_out'";
     throw SquirrelError(v, msg.str());
   }
@@ -503,7 +688,7 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_pushstring(v, "fade_in", -1);
   sq_newclosure(v, &DisplayEffect_fade_in_wrapper, 0);
   if(sq_createslot(v, -3) < 0) {
-    std::stringstream msg;
+    std::ostringstream msg;
     msg << "Couldn't register function'fade_in'";
     throw SquirrelError(v, msg.str());
   }
@@ -511,7 +696,7 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_pushstring(v, "set_black", -1);
   sq_newclosure(v, &DisplayEffect_set_black_wrapper, 0);
   if(sq_createslot(v, -3) < 0) {
-    std::stringstream msg;
+    std::ostringstream msg;
     msg << "Couldn't register function'set_black'";
     throw SquirrelError(v, msg.str());
   }
@@ -519,13 +704,13 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_pushstring(v, "is_black", -1);
   sq_newclosure(v, &DisplayEffect_is_black_wrapper, 0);
   if(sq_createslot(v, -3) < 0) {
-    std::stringstream msg;
+    std::ostringstream msg;
     msg << "Couldn't register function'is_black'";
     throw SquirrelError(v, msg.str());
   }
 
   if(sq_createslot(v, -3) < 0) {
-    std::stringstream msg;
+    std::ostringstream msg;
     msg << "Couldn't register class'DisplayEffect'";
     throw SquirrelError(v, msg.str());
   }
@@ -533,14 +718,14 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   // Register class Camera
   sq_pushstring(v, "Camera", -1);
   if(sq_newclass(v, SQFalse) < 0) {
-    std::stringstream msg;
+    std::ostringstream msg;
     msg << "Couldn't create new class 'Camera'";
     throw SquirrelError(v, msg.str());
   }
   sq_pushstring(v, "shake", -1);
   sq_newclosure(v, &Camera_shake_wrapper, 0);
   if(sq_createslot(v, -3) < 0) {
-    std::stringstream msg;
+    std::ostringstream msg;
     msg << "Couldn't register function'shake'";
     throw SquirrelError(v, msg.str());
   }
@@ -548,7 +733,7 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_pushstring(v, "set_pos", -1);
   sq_newclosure(v, &Camera_set_pos_wrapper, 0);
   if(sq_createslot(v, -3) < 0) {
-    std::stringstream msg;
+    std::ostringstream msg;
     msg << "Couldn't register function'set_pos'";
     throw SquirrelError(v, msg.str());
   }
@@ -556,13 +741,13 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_pushstring(v, "set_mode", -1);
   sq_newclosure(v, &Camera_set_mode_wrapper, 0);
   if(sq_createslot(v, -3) < 0) {
-    std::stringstream msg;
+    std::ostringstream msg;
     msg << "Couldn't register function'set_mode'";
     throw SquirrelError(v, msg.str());
   }
 
   if(sq_createslot(v, -3) < 0) {
-    std::stringstream msg;
+    std::ostringstream msg;
     msg << "Couldn't register class'Camera'";
     throw SquirrelError(v, msg.str());
   }
@@ -570,14 +755,14 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   // Register class Level
   sq_pushstring(v, "Level", -1);
   if(sq_newclass(v, SQFalse) < 0) {
-    std::stringstream msg;
+    std::ostringstream msg;
     msg << "Couldn't create new class 'Level'";
     throw SquirrelError(v, msg.str());
   }
   sq_pushstring(v, "finish", -1);
   sq_newclosure(v, &Level_finish_wrapper, 0);
   if(sq_createslot(v, -3) < 0) {
-    std::stringstream msg;
+    std::ostringstream msg;
     msg << "Couldn't register function'finish'";
     throw SquirrelError(v, msg.str());
   }
@@ -585,7 +770,7 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_pushstring(v, "spawn", -1);
   sq_newclosure(v, &Level_spawn_wrapper, 0);
   if(sq_createslot(v, -3) < 0) {
-    std::stringstream msg;
+    std::ostringstream msg;
     msg << "Couldn't register function'spawn'";
     throw SquirrelError(v, msg.str());
   }
@@ -593,13 +778,13 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_pushstring(v, "flip_vertically", -1);
   sq_newclosure(v, &Level_flip_vertically_wrapper, 0);
   if(sq_createslot(v, -3) < 0) {
-    std::stringstream msg;
+    std::ostringstream msg;
     msg << "Couldn't register function'flip_vertically'";
     throw SquirrelError(v, msg.str());
   }
 
   if(sq_createslot(v, -3) < 0) {
-    std::stringstream msg;
+    std::ostringstream msg;
     msg << "Couldn't register class'Level'";
     throw SquirrelError(v, msg.str());
   }
@@ -607,14 +792,14 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   // Register class ScriptedObject
   sq_pushstring(v, "ScriptedObject", -1);
   if(sq_newclass(v, SQFalse) < 0) {
-    std::stringstream msg;
+    std::ostringstream msg;
     msg << "Couldn't create new class 'ScriptedObject'";
     throw SquirrelError(v, msg.str());
   }
   sq_pushstring(v, "set_animation", -1);
   sq_newclosure(v, &ScriptedObject_set_animation_wrapper, 0);
   if(sq_createslot(v, -3) < 0) {
-    std::stringstream msg;
+    std::ostringstream msg;
     msg << "Couldn't register function'set_animation'";
     throw SquirrelError(v, msg.str());
   }
@@ -622,7 +807,7 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_pushstring(v, "get_animation", -1);
   sq_newclosure(v, &ScriptedObject_get_animation_wrapper, 0);
   if(sq_createslot(v, -3) < 0) {
-    std::stringstream msg;
+    std::ostringstream msg;
     msg << "Couldn't register function'get_animation'";
     throw SquirrelError(v, msg.str());
   }
@@ -630,7 +815,7 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_pushstring(v, "move", -1);
   sq_newclosure(v, &ScriptedObject_move_wrapper, 0);
   if(sq_createslot(v, -3) < 0) {
-    std::stringstream msg;
+    std::ostringstream msg;
     msg << "Couldn't register function'move'";
     throw SquirrelError(v, msg.str());
   }
@@ -638,7 +823,7 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_pushstring(v, "set_pos", -1);
   sq_newclosure(v, &ScriptedObject_set_pos_wrapper, 0);
   if(sq_createslot(v, -3) < 0) {
-    std::stringstream msg;
+    std::ostringstream msg;
     msg << "Couldn't register function'set_pos'";
     throw SquirrelError(v, msg.str());
   }
@@ -646,7 +831,7 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_pushstring(v, "get_pos_x", -1);
   sq_newclosure(v, &ScriptedObject_get_pos_x_wrapper, 0);
   if(sq_createslot(v, -3) < 0) {
-    std::stringstream msg;
+    std::ostringstream msg;
     msg << "Couldn't register function'get_pos_x'";
     throw SquirrelError(v, msg.str());
   }
@@ -654,7 +839,7 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_pushstring(v, "get_pos_y", -1);
   sq_newclosure(v, &ScriptedObject_get_pos_y_wrapper, 0);
   if(sq_createslot(v, -3) < 0) {
-    std::stringstream msg;
+    std::ostringstream msg;
     msg << "Couldn't register function'get_pos_y'";
     throw SquirrelError(v, msg.str());
   }
@@ -662,7 +847,7 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_pushstring(v, "set_velocity", -1);
   sq_newclosure(v, &ScriptedObject_set_velocity_wrapper, 0);
   if(sq_createslot(v, -3) < 0) {
-    std::stringstream msg;
+    std::ostringstream msg;
     msg << "Couldn't register function'set_velocity'";
     throw SquirrelError(v, msg.str());
   }
@@ -670,7 +855,7 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_pushstring(v, "get_velocity_x", -1);
   sq_newclosure(v, &ScriptedObject_get_velocity_x_wrapper, 0);
   if(sq_createslot(v, -3) < 0) {
-    std::stringstream msg;
+    std::ostringstream msg;
     msg << "Couldn't register function'get_velocity_x'";
     throw SquirrelError(v, msg.str());
   }
@@ -678,7 +863,7 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_pushstring(v, "get_velocity_y", -1);
   sq_newclosure(v, &ScriptedObject_get_velocity_y_wrapper, 0);
   if(sq_createslot(v, -3) < 0) {
-    std::stringstream msg;
+    std::ostringstream msg;
     msg << "Couldn't register function'get_velocity_y'";
     throw SquirrelError(v, msg.str());
   }
@@ -686,7 +871,7 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_pushstring(v, "set_visible", -1);
   sq_newclosure(v, &ScriptedObject_set_visible_wrapper, 0);
   if(sq_createslot(v, -3) < 0) {
-    std::stringstream msg;
+    std::ostringstream msg;
     msg << "Couldn't register function'set_visible'";
     throw SquirrelError(v, msg.str());
   }
@@ -694,7 +879,7 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_pushstring(v, "is_visible", -1);
   sq_newclosure(v, &ScriptedObject_is_visible_wrapper, 0);
   if(sq_createslot(v, -3) < 0) {
-    std::stringstream msg;
+    std::ostringstream msg;
     msg << "Couldn't register function'is_visible'";
     throw SquirrelError(v, msg.str());
   }
@@ -702,13 +887,13 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_pushstring(v, "get_name", -1);
   sq_newclosure(v, &ScriptedObject_get_name_wrapper, 0);
   if(sq_createslot(v, -3) < 0) {
-    std::stringstream msg;
+    std::ostringstream msg;
     msg << "Couldn't register function'get_name'";
     throw SquirrelError(v, msg.str());
   }
 
   if(sq_createslot(v, -3) < 0) {
-    std::stringstream msg;
+    std::ostringstream msg;
     msg << "Couldn't register class'ScriptedObject'";
     throw SquirrelError(v, msg.str());
   }
@@ -716,14 +901,14 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   // Register class Sound
   sq_pushstring(v, "Sound", -1);
   if(sq_newclass(v, SQFalse) < 0) {
-    std::stringstream msg;
+    std::ostringstream msg;
     msg << "Couldn't create new class 'Sound'";
     throw SquirrelError(v, msg.str());
   }
   sq_pushstring(v, "play_music", -1);
   sq_newclosure(v, &Sound_play_music_wrapper, 0);
   if(sq_createslot(v, -3) < 0) {
-    std::stringstream msg;
+    std::ostringstream msg;
     msg << "Couldn't register function'play_music'";
     throw SquirrelError(v, msg.str());
   }
@@ -731,13 +916,13 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_pushstring(v, "play", -1);
   sq_newclosure(v, &Sound_play_wrapper, 0);
   if(sq_createslot(v, -3) < 0) {
-    std::stringstream msg;
+    std::ostringstream msg;
     msg << "Couldn't register function'play'";
     throw SquirrelError(v, msg.str());
   }
 
   if(sq_createslot(v, -3) < 0) {
-    std::stringstream msg;
+    std::ostringstream msg;
     msg << "Couldn't register class'Sound'";
     throw SquirrelError(v, msg.str());
   }
@@ -745,14 +930,14 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   // Register class Text
   sq_pushstring(v, "Text", -1);
   if(sq_newclass(v, SQFalse) < 0) {
-    std::stringstream msg;
+    std::ostringstream msg;
     msg << "Couldn't create new class 'Text'";
     throw SquirrelError(v, msg.str());
   }
   sq_pushstring(v, "set_text", -1);
   sq_newclosure(v, &Text_set_text_wrapper, 0);
   if(sq_createslot(v, -3) < 0) {
-    std::stringstream msg;
+    std::ostringstream msg;
     msg << "Couldn't register function'set_text'";
     throw SquirrelError(v, msg.str());
   }
@@ -760,7 +945,7 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_pushstring(v, "set_font", -1);
   sq_newclosure(v, &Text_set_font_wrapper, 0);
   if(sq_createslot(v, -3) < 0) {
-    std::stringstream msg;
+    std::ostringstream msg;
     msg << "Couldn't register function'set_font'";
     throw SquirrelError(v, msg.str());
   }
@@ -768,7 +953,7 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_pushstring(v, "fade_in", -1);
   sq_newclosure(v, &Text_fade_in_wrapper, 0);
   if(sq_createslot(v, -3) < 0) {
-    std::stringstream msg;
+    std::ostringstream msg;
     msg << "Couldn't register function'fade_in'";
     throw SquirrelError(v, msg.str());
   }
@@ -776,7 +961,7 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_pushstring(v, "fade_out", -1);
   sq_newclosure(v, &Text_fade_out_wrapper, 0);
   if(sq_createslot(v, -3) < 0) {
-    std::stringstream msg;
+    std::ostringstream msg;
     msg << "Couldn't register function'fade_out'";
     throw SquirrelError(v, msg.str());
   }
@@ -784,56 +969,28 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_pushstring(v, "set_visible", -1);
   sq_newclosure(v, &Text_set_visible_wrapper, 0);
   if(sq_createslot(v, -3) < 0) {
-    std::stringstream msg;
+    std::ostringstream msg;
     msg << "Couldn't register function'set_visible'";
     throw SquirrelError(v, msg.str());
   }
 
   if(sq_createslot(v, -3) < 0) {
-    std::stringstream msg;
+    std::ostringstream msg;
     msg << "Couldn't register class'Text'";
-    throw SquirrelError(v, msg.str());
-  }
-
-  // Register class A
-  sq_pushstring(v, "A", -1);
-  if(sq_newclass(v, SQFalse) < 0) {
-    std::stringstream msg;
-    msg << "Couldn't create new class 'A'";
-    throw SquirrelError(v, msg.str());
-  }
-  if(sq_createslot(v, -3) < 0) {
-    std::stringstream msg;
-    msg << "Couldn't register class'A'";
-    throw SquirrelError(v, msg.str());
-  }
-
-  // Register class B
-  sq_pushstring(v, "B", -1);
-  sq_pushstring(v, "A", -1);
-  sq_get(v, -3);
-  if(sq_newclass(v, SQTrue) < 0) {
-    std::stringstream msg;
-    msg << "Couldn't create new class 'B'";
-    throw SquirrelError(v, msg.str());
-  }
-  if(sq_createslot(v, -3) < 0) {
-    std::stringstream msg;
-    msg << "Couldn't register class'B'";
     throw SquirrelError(v, msg.str());
   }
 
   // Register class Player
   sq_pushstring(v, "Player", -1);
   if(sq_newclass(v, SQFalse) < 0) {
-    std::stringstream msg;
+    std::ostringstream msg;
     msg << "Couldn't create new class 'Player'";
     throw SquirrelError(v, msg.str());
   }
   sq_pushstring(v, "set_bonus", -1);
   sq_newclosure(v, &Player_set_bonus_wrapper, 0);
   if(sq_createslot(v, -3) < 0) {
-    std::stringstream msg;
+    std::ostringstream msg;
     msg << "Couldn't register function'set_bonus'";
     throw SquirrelError(v, msg.str());
   }
@@ -841,7 +998,7 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_pushstring(v, "make_invincible", -1);
   sq_newclosure(v, &Player_make_invincible_wrapper, 0);
   if(sq_createslot(v, -3) < 0) {
-    std::stringstream msg;
+    std::ostringstream msg;
     msg << "Couldn't register function'make_invincible'";
     throw SquirrelError(v, msg.str());
   }
@@ -849,7 +1006,7 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_pushstring(v, "add_life", -1);
   sq_newclosure(v, &Player_add_life_wrapper, 0);
   if(sq_createslot(v, -3) < 0) {
-    std::stringstream msg;
+    std::ostringstream msg;
     msg << "Couldn't register function'add_life'";
     throw SquirrelError(v, msg.str());
   }
@@ -857,16 +1014,19 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_pushstring(v, "add_coins", -1);
   sq_newclosure(v, &Player_add_coins_wrapper, 0);
   if(sq_createslot(v, -3) < 0) {
-    std::stringstream msg;
+    std::ostringstream msg;
     msg << "Couldn't register function'add_coins'";
     throw SquirrelError(v, msg.str());
   }
 
   if(sq_createslot(v, -3) < 0) {
-    std::stringstream msg;
+    std::ostringstream msg;
     msg << "Couldn't register class'Player'";
     throw SquirrelError(v, msg.str());
   }
 
   sq_pop(v, 1);
 }
+
+}
+
