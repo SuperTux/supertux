@@ -67,10 +67,10 @@ ScriptInterpreter::ScriptInterpreter(const std::string& new_working_directory)
 
   // expose some "global" objects
   sound = new Scripting::Sound();
-  expose_object(sound, "Sound", "Sound");  
+  expose_object(sound, "Sound");
   
   level = new Scripting::Level();
-  expose_object(level, "Level", "Level");
+  expose_object(level, "Level");
 }
 
 void
@@ -85,20 +85,19 @@ ScriptInterpreter::register_sector(Sector* sector)
     if(!scripted_object)
       continue;
     
-    expose_object(scripted_object, scripted_object->get_name(), 
-        "ScriptedObject");
+    expose_object(scripted_object, scripted_object->get_name());
   }
   
   TextObject* text_object = new TextObject();
   sector->add_object(text_object);
   Scripting::Text* text = static_cast<Scripting::Text*> (text_object);
-  expose_object(text, "Text", "Text");
+  expose_object(text, "Text");
   
   DisplayEffect* display_effect = new DisplayEffect();
   sector->add_object(display_effect);
   Scripting::DisplayEffect* display_effect_api
     = static_cast<Scripting::DisplayEffect*> (display_effect);
-  expose_object(display_effect_api, "DisplayEffect", "DisplayEffect");
+  expose_object(display_effect_api, "DisplayEffect");
 }
 
 ScriptInterpreter::~ScriptInterpreter()
@@ -141,39 +140,6 @@ ScriptInterpreter::run_script(std::istream& in, const std::string& sourcename,
   }
   printf("After:\n");
   print_squirrel_stack(v);
-}
-
-void
-ScriptInterpreter::expose_object(void* object, const std::string& name,
-                                 const std::string& type)
-{
-  // part1 of registration of the instance in the root table
-  sq_pushroottable(v);
-  sq_pushstring(v, name.c_str(), -1);
-
-  // resolve class name
-  sq_pushroottable(v);
-  sq_pushstring(v, type.c_str(), -1);
-  if(sq_get(v, -2) < 0) {
-    std::ostringstream msg;
-    msg << "Couldn't resolve squirrel type '" << type << "'.";
-    throw std::runtime_error(msg.str());
-  }
-  sq_remove(v, -2); // remove roottable
-  
-  // create an instance and set pointer to c++ object
-  if(sq_createinstance(v, -1) < 0 || sq_setinstanceup(v, -1, object)) {
-    std::ostringstream msg;
-    msg << "Couldn't setup squirrel instance for object '"
-        << name << "' of type '" << type << "'.";
-    throw SquirrelError(v, msg.str());
-  }
-  
-  sq_remove(v, -2); // remove class from stack
-  
-  // part2 of registration of the instance in the root table
-  if(sq_createslot(v, -3) < 0)
-    throw SquirrelError(v, "Couldn't register object in squirrel root table");    sq_pop(v, 1);
 }
 
 void
