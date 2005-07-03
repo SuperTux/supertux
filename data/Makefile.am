@@ -1,8 +1,6 @@
 EXTRA_DIST = \
   supertux.strf \
-  intro.txt \
-  extro.txt \
-  extro-bonus.txt \
+  $(wildcard *.txt) \
   CREDITS \
   $(wildcard sounds/*.wav) \
   images/icon.xpm \
@@ -28,6 +26,7 @@ EXTRA_DIST = \
   $(wildcard levels/*/*.stl) \
   $(wildcard levels/*/*.stwm) \
   $(wildcard levels/*/info) \
+  $(wildcard music/*.ogg) \
   $(wildcard music/*.mod) \
   $(wildcard music/*.MOD) \
   $(wildcard sounds/*.wav)
