@@ -14,4 +14,5 @@ SuperTux 0.1.2 TO 0.1.3 - TODO
 * Check life counter: do you get the last life twice?
 * http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=259974 (patch included!)
 * add .desktop file
+* make sure new files get installed (esp. .ogg music file and  extro text)
 
