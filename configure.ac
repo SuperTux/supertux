@@ -36,7 +36,9 @@ dnl Give advanced users some options to play with
 
 AC_MSG_CHECKING(for gprof mode)
 AC_ARG_ENABLE(gprof,
-              AC_HELP_STRING([--enable-gprof], [enable GNU profiling support]),, enable_gprof="no")
+              AC_HELP_STRING([--enable-gprof], [enable GNU profiling support]),
+              [enable_gprof="$enableval"],
+              [enable_gprof="no"])
 if test "x${enable_gprof}" != "xno"; then
     CXXFLAGS="$CXXFLAGS -pg"
     AC_MSG_RESULT([enabled])
@@ -46,7 +48,9 @@ fi
 
 AC_MSG_CHECKING(for debug mode)
 AC_ARG_ENABLE(debug,
-              AC_HELP_STRING([--enable-debug], [enable debugging mode]),, enable_debug="yes")
+              AC_HELP_STRING([--enable-debug], [enable debugging mode]),
+              [enable_debug="$enableval"],
+              [enable_debug="no"])
 if test "x${enable_debug}" != "xno"; then
     CXXFLAGS="$CXXFLAGS -Wall -W -DDEBUG -O0 -g3"
     AC_MSG_RESULT([enabled])

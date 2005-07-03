@@ -1,0 +1,21 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Encoding=UTF-8
+Name=SuperTux
+Name[en]=SuperTux
+Name[de]=SuperTux
+Name[cs]=SuperTux
+GenericName=A Platform Game
+GenericName[en]=A Platform Game
+GenericName[de]=Ein Jump&Run Spiel
+GenericName[cs]=Plošinová hra
+Comment=A Super Mario inspired penguin platform game
+Comment[en]=A Super Mario inspired penguin platform game
+Comment[de]=Ein von Super Mario inspiriertes Pinguin Jump&Run Spiel
+Comment[cs]=Plošinovka inspirovaná SuperMariem s tučňákem Tuxem v hlavní roli
+Icon=supertux.png
+Exec=supertux
+Terminal=false
+StartupNotify=false
+Categories=Application;Game;ArcadeGame
