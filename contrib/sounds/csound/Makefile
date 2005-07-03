@@ -2,14 +2,17 @@
 CSOUND = /usr/bin/csound
 SOX = /usr/bin/sox
 
-sounds: bubble.wav rain.wav lava.wav waterfall.wav flower.wav wind.wav
+sounds: bubble.ogg rain.ogg lava.ogg waterfall.ogg flower.ogg wind.ogg splash.ogg
 
-%.wav: %.sco sfx.orc 
-	$(CSOUND) sfx.orc $< -W -o $@.1 -g
-	$(SOX) -r 22100 -s $@.1 $@
-	rm $@.1
+%.ogg: %.sco sfx.orc 
+	$(CSOUND) sfx.orc $< -W -o $*.wav -g -s
+	oggenc $*.wav
+	rm $*.wav
+        
 
 clean: 
+	rm *.ogg
 	rm *.wav
 	rm *~
+
 

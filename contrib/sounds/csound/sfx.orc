@@ -118,3 +118,19 @@ instr 5 ; Wind
 	aout    phaser2 aout,ifqc*kfmanip,0.7,1,0.2,0.5
 	out aout*kvol*(kfmanip/2.5)
 endin
+
+instr 6 
+	aout1 dripwater 1,0.1,50,1.98,300,350,430
+	aout2 dripwater 1,0.1,50,1.98,400,440,580
+	aout3 dripwater 1,0.1,50,1.98,500,530,600
+	aout4 dripwater 1,0.1,200,1.96,300,350,430
+	aout5 dripwater 1,0.1,200,1.96,400,440,580
+	aout6 dripwater 1,0.1,200,1.96,500,530,600
+
+	aout =aout1+aout2+aout3+aout4+aout5+aout6
+      	aout2 oscili 1,100+aout/10000,1
+	aout2 =aout2*aout/1000+aout/1000
+	aout = aout2
+	aout butterlp aout,5000,0.4
+    	out aout
+endin

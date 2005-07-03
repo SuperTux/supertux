@@ -1,6 +1,8 @@
 #include <config.h>
+#include <assert.h>
 
 #include <SDL.h>
+
 #include "stream_sound_source.hpp"
 #include "sound_manager.hpp"
 #include "sound_file.hpp"
