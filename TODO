@@ -1,9 +1,17 @@
 
 SuperTux 0.1.2 TO 0.1.3 - TODO
 
--Fix reset point bugs:
-  *not working when placed at certain locations (see bonus2/level17 for an example)
-  *if you respawn at a rp and walk left, you start at the beginning next time
+*Fix reset point bugs: [done?]
+  -not working when placed at certain locations (see bonus2/level17 for an example)
+  -if you respawn at a rp and walk left, you start at the beginning next time
   [added warnings about reset points inside a wall]
--build levels, check contributed ones
+*build levels, check contributed ones:
+  -complete levels 17-20
+  -High Gravity cannot be finished
+  -check reset points in all levels
+* Status (small/big/fire) gets reset when aborting a level
+  (i.e. start a level as big Tux, get small, abort -> Tux is big again)
+* Check life counter: do you get the last life twice?
+* http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=259974 (patch included!)
+* add .desktop file
 
