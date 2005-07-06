@@ -15,7 +15,6 @@
 	Daniel Alston
 	Nilrok
 	Corlin Heydman
-	Lars Stoltenow
 
 
 	Once again, we'd like to thank

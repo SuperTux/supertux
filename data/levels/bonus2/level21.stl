@@ -2,7 +2,7 @@
 (supertux-level
   (version 1)
   (name "Nolok's Party Pit")
-  (author "Lars Stoltenow")
+  (author "Penguinmaster")
   (music "fortress.mod")
   (background "")
   (particle_system "snow")

@@ -2,7 +2,7 @@
 (supertux-level
   (version 1)
   (name "High Gravity")
-  (author "Lars Stoltenow")
+  (author "Penguinmaster")
   (music "Mortimers_chipdisko.mod")
   (background "arctis2.jpg")
   (particle_system "snow")

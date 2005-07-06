@@ -2,7 +2,7 @@
 (supertux-level
   (version 1)
   (author "Lars Stoltenow")
-  (name "A Cold Bath")
+  (name "Penguinmaster")
   (width  185)
   (height 15)
   (start_pos_x    100)

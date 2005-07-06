@@ -2,7 +2,7 @@
 (supertux-level
   (version 1)
   (name "Firestorm")
-  (author "Lars Stoltenow")
+  (author "Penguinmaster")
   (music "Mortimers_chipdisko.mod")
   (background "ocean.png")
   (particle_system "")
