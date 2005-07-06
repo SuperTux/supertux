@@ -7,10 +7,6 @@
 	Milestone 2
 
 
--Maintainer
-
-	Tobias (tobgle) Glaesser
-
 
 -Original Developer
 
