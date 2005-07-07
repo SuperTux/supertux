@@ -1,7 +1,7 @@
 ;SuperTux-Level
 (supertux-level
   (version 1)
-  (name "Frozen Tunnle")
+  (name "Frozen Tunnel")
   (author "Nilrok")
   (music "SALCON.MOD")
   (background "cave2.jpg")
