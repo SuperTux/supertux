@@ -774,7 +774,7 @@ WorldMap::update(float delta)
                         // Display final credits and go back to the main menu
                         display_text_file(level->extro_filename,
                                           "/images/background/extro.jpg", SCROLL_SPEED_MESSAGE);
-			music_manager->play_music(credits);
+			music_manager->play_music(credits,0);
 			display_text_file("CREDITS",
                                           "/images/background/oiltux.jpg", SCROLL_SPEED_CREDITS);
                         music_manager->play_music(theme);
