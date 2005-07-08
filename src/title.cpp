@@ -253,9 +253,9 @@ void title(void)
   // Since there isn't any world dir or anything, add a hardcoded entry for Bonus Island
   string_list_init(&worldmap_list);
 
-  string_list_type files = dfiles("levels/default/", ".stwm", "couldn't list worldmaps");
+  string_list_type files = dfiles("levels/worldmaps/", ".stwm", "couldn't list worldmaps");
   for(int i = 0; i < files.num_items; ++i) {
-    if(strcmp(files.item[i], "worldmap.stwm") == 0)
+    if(strcmp(files.item[i], "world1.stwm") == 0)
       continue;
     string_list_add_item(&worldmap_list, files.item[i]);
   }

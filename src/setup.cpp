@@ -510,7 +510,7 @@ bool process_load_game_menu()
       WorldMapNS::WorldMap worldmap;
       
       //TODO: Define the circumstances under which BonusIsland is chosen
-      worldmap.set_map_file("worldmap.stwm");
+      worldmap.set_map_file("world1.stwm");
       worldmap.load_map();
      
       // Load the game or at least set the savegame_file variable

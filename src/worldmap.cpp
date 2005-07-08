@@ -389,7 +389,7 @@ WorldMap::WorldMap()
   leveldot_red = new Surface(datadir +  "/images/worldmap/leveldot_red.png", USE_ALPHA);
   leveldot_teleporter = new Surface(datadir +  "/images/worldmap/teleporter.png", USE_ALPHA);
   
-  map_file = datadir + "/levels/default/worldmap.stwm";
+  map_file = datadir + "/levels/worldmaps/world1.stwm";
   
   input_direction = D_NONE;
   enter_level = false;
@@ -412,7 +412,7 @@ WorldMap::~WorldMap()
 void
 WorldMap::set_map_file(std::string mapfile)
 {
-  map_file = datadir + "/levels/default/" + mapfile;
+  map_file = datadir + "/levels/worldmaps/" + mapfile;
 }
 
 void
