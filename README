@@ -125,19 +125,6 @@ SCORING
     You can also score by shooting at the enemies. Don't forget to get
     the iceflower in order to get the ability to fire.
 
-
-OPTIONS FILE
-------------
-
-  When SuperTux starts up, it looks for an options file.
-
-  Under Linux, this file is "config" in your directory
-  ($HOME/.supertux/).
-  Under Windows, this file is "supertux.dat" in the SuperTux folder.
-  
-  This file records program's settings. It uses the LISP syntax. There
-  should be no reason to edit this file by hand.
-
 THE END
 -------
   Thanks for trying out SuperTux.
