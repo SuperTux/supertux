@@ -1,13 +1,2 @@
 
-SuperTux 0.1.2 TO 0.1.3 - TODO
-
-*build levels, check contributed ones:
-  -complete levels 17-20
-  -High Gravity cannot be finished
-  -check reset points in all levels
-* Status (small/big/fire) gets reset when aborting a level
-  (i.e. start a level as big Tux, get small, abort -> Tux is big again)
-* Check life counter: do you get the last life twice?
-* http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=259974 (patch included!)
-* make sure new files get installed (esp. .ogg music file and  extro text)
-
+release 0.1.3 :-)

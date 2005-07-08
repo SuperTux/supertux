@@ -8,24 +8,21 @@ EXTRA_DIST = \
   $(wildcard images/*.xpm) \
   $(wildcard images/background/*.png) \
   $(wildcard images/background/*.jpg) \
-  $(wildcard images/highscore/*.png) \
   $(wildcard images/icons/*.png) \
   $(wildcard images/icons/*.xpm) \
-  $(wildcard images/intro/*.png) \
-  $(wildcard images/leveleditor/*.png) \
-  $(wildcard images/map/*.png) \
   $(wildcard images/shared/*.png) \
   $(wildcard images/status/*.png) \
-  $(wildcard images/themes/*/*.png) \
   $(wildcard images/worldmap/*.png) \
   $(wildcard images/worldmap/*.stwt) \
   $(wildcard images/title/*.png) \
   $(wildcard images/title/*.jpg) \
   $(wildcard images/tilesets/*.png) \
   $(wildcard images/tilesets/*.stgt) \
-  $(wildcard levels/*/*.stl) \
-  $(wildcard levels/*/*.stwm) \
-  $(wildcard levels/*/info) \
+  $(wildcard levels/bonus1/*.stl) \
+  $(wildcard levels/bonus2/*.stl) \
+  $(wildcard levels/default/*.stwm) \
+  $(wildcard levels/misc/*.stl) \
+  $(wildcard levels/world1/*.stl) \
   $(wildcard music/*.ogg) \
   $(wildcard music/*.mod) \
   $(wildcard music/*.MOD) \

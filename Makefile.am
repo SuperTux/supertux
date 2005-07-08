@@ -11,4 +11,4 @@ icon_DATA = supertux.png
 
 EXTRA_DIST = AUTHORS README COPYING INSTALL NEWS LEVELDESIGN ChangeLog \
 	     supertux.desktop supertux.png autogen.sh \
-	     contrib/levelconverter-0.0.6_0.0.7.py $(wildcard mk/autoconf/*.m4)
+	     $(wildcard mk/autoconf/*.m4)
