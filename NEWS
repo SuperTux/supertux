@@ -6,8 +6,8 @@ SuperTux 0.1.3 (09 July 05)
     -increased Tux' invincible time after being hit
     -added ability to jump off badguys (hold the jump key after hitting a badguy)
   * changed default jump key to space, default window mode to fullscreen
-  * fixed a spot on Bonus Island I where Tux could get stuck
-  * small bugfixes and music/graphics additions
+  * a few bug fixes in code and level design
+  * minor additions to music and graphics
   
   
 SuperTux 0.1.2 (24 August 04)
