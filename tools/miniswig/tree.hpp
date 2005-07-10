@@ -155,12 +155,18 @@ public:
 
 class Function : public ClassMember {
 public:
+    Function() {
+      type = FUNCTION;
+      suspend = false;
+    }
+  
     enum FuncType {
         FUNCTION,
         CONSTRUCTOR,
         DESTRUCTOR
     };
     FuncType type;
+    bool suspend;
     std::string docu_comment;
     std::string name;
     Type return_type;

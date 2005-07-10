@@ -69,6 +69,7 @@ private:
 %token T_CLASS
 %token T_STRUCT
 %token T_STATIC
+%token T_SUSPEND
 %token T_CONST
 %token T_UNSIGNED
 %token T_SIGNED
@@ -298,15 +299,19 @@ function_declaration:
             current_function->docu_comment = last_docucomment;
             last_docucomment = "";
         }                           
-    parameter_list ')' maybe_const abstract_declaration ';'
+    parameter_list ')' function_attributes abstract_declaration ';'
         {
             $$ = current_function;
         }
 ;
 
-maybe_const:
+function_attributes:
     /* empty */
-    | T_CONST
+    | T_CONST function_attributes
+    | T_SUSPEND function_attributes
+      {
+        current_function->suspend = true;
+      }
 ;
 
 abstract_declaration:

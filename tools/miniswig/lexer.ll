@@ -94,6 +94,7 @@ public                                  { return T_PUBLIC; }
 protected                               { return T_PROTECTED; }
 private                                 { return T_PRIVATE; }
 namespace                               { return T_NAMESPACE; }
+__suspend                               { return T_SUSPEND; }
 [a-zA-Z_][a-zA-Z_0-9]*                  {
         Namespace* ns = search_namespace;
         if(ns == 0)

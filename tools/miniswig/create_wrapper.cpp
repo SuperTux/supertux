@@ -314,12 +314,16 @@ WrapperCreator::create_function_wrapper(Class* _class, Function* function)
     }
     out << ind << "\n";
     // push return value back on stack and return
-    if(function->return_type.is_void()) {
-        if(function->docu_comment.find("@SUSPEND@") != std::string::npos) {
-          out << ind << "return sq_suspendvm(v);\n";
-        } else {
-          out << ind << "return 0;\n";
+    if(function->suspend) {
+        if(!function->return_type.is_void()) {
+            std::stringstream msg;
+            msg << "Function '" << function->name << "' declared as suspend"
+                << " but has a return value.";
+            throw std::runtime_error(msg.str());
         }
+        out << ind << "return sq_suspendvm(v);\n";
+    } else if(function->return_type.is_void()) {
+        out << ind << "return 0;\n";
     } else {
         push_to_stack(function->return_type, "return_value");
         out << ind << "return 1;\n";

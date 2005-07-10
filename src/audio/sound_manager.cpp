@@ -267,7 +267,7 @@ SoundManager::print_openal_version()
   std::cout << "OpenAL Vendor: " << alGetString(AL_VENDOR) << "\n"
             << "OpenAL Version: " << alGetString(AL_VERSION) << "\n" 
             << "OpenAL Renderer: " << alGetString(AL_RENDERER) << "\n"
-            << "OpenAl Extensions: " << alGetString(AL_RENDERER) << "\n";
+            << "OpenAl Extensions: " << alGetString(AL_EXTENSIONS) << "\n";
 }
 
 void
