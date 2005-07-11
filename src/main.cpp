@@ -182,11 +182,14 @@ static void print_usage(const char* argv0)
   fprintf(stderr, _("Usage: %s [OPTIONS] LEVELFILE\n\n"), argv0);
   fprintf(stderr,
           _("Options:\n"
-            "  -f, --fullscreen             Run in fullscreen mode.\n"
-            "  -w, --window                 Run in window mode.\n"
-            "  -g, --geometry WIDTHxHEIGHT  Run SuperTux in give resolution\n"
+            "  -f, --fullscreen             Run in fullscreen mode\n"
+            "  -w, --window                 Run in window mode\n"
+            "  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution\n"
             "  --help                       Show this help message\n"
             "  --version                    Display SuperTux version and quit\n"
+            "  --show-fps                   Display framerate in levels\n"
+            "  --record-demo FILE LEVEL     Record a demo to FILE\n"
+            "  --play-demo FILE LEVEL       Play a recorded demo\n"
             "\n"));
 }
 
