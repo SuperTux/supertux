@@ -263,6 +263,28 @@ WrapperCreator::create_function_wrapper(Class* _class, Function* function)
         out << ind << ns_prefix <<  _class->name << "* _this;\n";
         out << ind << "sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);\n";
     }
+
+    // custom function?
+    if(function->custom) {
+        if(function->type != Function::FUNCTION)
+            throw std::runtime_error(
+                    "custom not allow constructor+destructor yet");
+        if(function->return_type.atomic_type != &BasicType::INT)
+            throw std::runtime_error("custom function has to return int");
+        if(function->parameters.size() != 1)
+            throw std::runtime_error(
+                    "custom function must have 1 HSQUIRRELVM parameter");
+
+        out << ind << "return ";
+        if(_class != 0)
+            out << "_this->";
+        else
+            out << ns_prefix;
+        out << function->name << "(v);\n";
+        out << "}\n";
+        out << "\n";
+        return;
+    }
     
     // declare and retrieve arguments
     int i = 0;
@@ -431,7 +453,8 @@ WrapperCreator::create_squirrel_instance(Class* _class)
         << ind << ind << "sq_setreleasehook(v, -1, "
         << _class->name << "_release_hook);\n"
         << ind << "}\n"
-        << "}\n";
+        << "}\n"
+        << "\n";
 }
 
 void

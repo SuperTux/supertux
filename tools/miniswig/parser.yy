@@ -70,6 +70,7 @@ private:
 %token T_STRUCT
 %token T_STATIC
 %token T_SUSPEND
+%token T_CUSTOM
 %token T_CONST
 %token T_UNSIGNED
 %token T_SIGNED
@@ -308,6 +309,10 @@ function_declaration:
 function_attributes:
     /* empty */
     | T_CONST function_attributes
+    | T_CUSTOM function_attributes
+      {
+        current_function->custom = true;
+      }
     | T_SUSPEND function_attributes
       {
         current_function->suspend = true;

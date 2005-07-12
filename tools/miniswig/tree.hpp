@@ -158,6 +158,7 @@ public:
     Function() {
       type = FUNCTION;
       suspend = false;
+      custom = false;
     }
   
     enum FuncType {
@@ -166,7 +167,10 @@ public:
         DESTRUCTOR
     };
     FuncType type;
+    /// function should suspend squirrel VM after execution
     bool suspend;
+    /// a custom wrapper (just pass along HSQUIRRELVM)
+    bool custom;
     std::string docu_comment;
     std::string name;
     Type return_type;

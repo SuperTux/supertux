@@ -97,7 +97,7 @@ int main(int argc, char** argv)
         std_namespace->types.push_back(new StringType());
         unit->namespaces.push_back(std_namespace);
         unit->types.push_back(new HSQUIRRELVMType());
-        
+       
         yyparse();
 
         Namespace* ns = unit;
@@ -127,14 +127,14 @@ int main(int argc, char** argv)
             std::ofstream dout(output_doc.c_str());
             if(!dout.good()) {
                 std::cerr << "Couldn't open file '" 
-                    << dout << "' for writing.\n";
+                    << output_doc << "' for writing.\n";
                 return 1;
             }
             DocuCreator creator(dout);
             creator.create_docu(ns);
         }
     } catch(std::exception& e) {
-        std::cerr << e.what() << "\n";
+        std::cerr << "Exception: " << e.what() << "\n";
         return 1;
     }
 
