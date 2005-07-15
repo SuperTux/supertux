@@ -1,7 +1,7 @@
 //  $Id$
-// 
+//
 //  SuperTux
-//  Copyright (C) 2005 Matthias Braun <matze@braunis.de>
+//  Copyright (C) 2005 Marek Moeckel <wansti@gmx.de>
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -26,20 +26,26 @@
 #include "player.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "lisp/lisp.hpp"
-#include "lisp/writer.hpp"
 #include "object_factory.hpp"
 
 Platform::Platform(const lisp::Lisp& reader)
 {
-  sprite = sprite_manager->create("flying_platform");
-  movement = Vector(0, 1);
+  std::string use_path;
+  std::string type;
+
   reader.get("x", bbox.p1.x);
   reader.get("y", bbox.p1.y);
+  reader.get("type", type);
+  reader.get("use_path", use_path);
+  sprite = sprite_manager->create("platform");
+  sprite->set_action(type);
   bbox.set_size(sprite->get_width(), sprite->get_height());
 
   flags |= FLAG_SOLID;
 
-  state = 0;
+  path = Path::GetByName(use_path);
+
+  path_offset = bbox.p1 - path->GetStart();
 }
 
 Platform::~Platform()
@@ -48,46 +54,26 @@ Platform::~Platform()
 }
 
 HitResponse
-Platform::collision(GameObject& , const CollisionHit& )
+Platform::collision(GameObject& other, const CollisionHit& hit)
 {
-#if 0
-  if(typeid(object) == typeid(Player)) {
-    Player* player = (Player*) &object;
-    //player->movement += movement;
+  if (typeid(other) == typeid(Player)) {
+    Player* player = (Player*) &other;
+    if ((hit.normal.x == 0) && (hit.normal.y == 1)) {
+      //Tux is standing on the platform
+      player->movement += path->GetLastMovement();
+    }
   }
-#endif
+  if(other.get_flags() & FLAG_SOLID) {
+    //Collision with a solid tile
+    //does nothing, because the movement vector isn't used at the moment
+  }
   return FORCE_MOVE;
 }
 
 void
-Platform::update(float )
+Platform::update(float elapsed_time)
 {
-  // just some test code...
-  if(state == 0) {
-    movement = Vector(0, 1);
-    if(bbox.p1.y > 250)
-      state = 1;
-  }
-  if(state == 1) {
-    movement = Vector(0, -1);
-    if(bbox.p1.y < 50)
-      state = 2;
-  }
-  if(state == 2) {
-    movement = Vector(1, 0);
-    if(bbox.p1.x > 800)
-      state = 3;
-  }
-  if(state == 3) {
-    movement = Vector(-1, 0);
-    if(bbox.p1.x < 400)
-      state = 4;
-  }
-  if(state == 4) {
-    movement = Vector(-1, 1);
-    if(bbox.p1.x < 0)
-      state = 0;
-  }
+  set_pos(path->GetPosition() + path_offset);
 }
 
 void
@@ -96,4 +82,4 @@ Platform::draw(DrawingContext& context)
   sprite->draw(context, get_pos(), LAYER_OBJECTS);
 }
 
-IMPLEMENT_FACTORY(Platform, "flying_platform");
+IMPLEMENT_FACTORY(Platform, "platform");

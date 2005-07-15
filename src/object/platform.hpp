@@ -1,7 +1,7 @@
 //  $Id$
-// 
+//
 //  SuperTux
-//  Copyright (C) 2005 Matthias Braun <matze@braunis.de>
+//  Copyright (C) 2005 Marek Moeckel <wansti@gmx.de>
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -22,6 +22,7 @@
 
 #include "moving_object.hpp"
 #include "sprite/sprite.hpp"
+#include "object/path.hpp"
 
 /**
  * This class is the base class for platforms that tux can stand on
@@ -37,8 +38,9 @@ public:
   virtual void draw(DrawingContext& context);
 
 private:
-  int state;
   Sprite* sprite;
+  Path* path;
+  Vector path_offset;
 };
 
 #endif

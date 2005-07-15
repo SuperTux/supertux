@@ -1377,14 +1377,41 @@
                  "objects/trampoline/trampoline1-3.png")))
 
   ; Flying platform
-  (sprite (name "flying_platform")
+  (sprite (name "platform")
        (action
+         (name "flying")
          (x-offset 0)
          (y-offset 0)
          (images "objects/flying_platform/flying_platform-0.png"
                  "objects/flying_platform/flying_platform-1.png"
                  "objects/flying_platform/flying_platform-2.png"
-                 "objects/flying_platform/flying_platform-3.png")))
+                 "objects/flying_platform/flying_platform-3.png")
+       )
+       (action
+         (name "block1")
+         (x-offset 0)
+         (y-offset 0)
+         (images "tiles/blocks/block1.png")
+       )
+       (action
+         (name "block2")
+         (x-offset 0)
+         (y-offset 0)
+         (images "tiles/blocks/block2.png")
+       )
+       (action
+         (name "block3")
+         (x-offset 0)
+         (y-offset 0)
+         (images "tiles/blocks/block3.png")
+       )
+       (action
+         (name "block4")
+         (x-offset 0)
+         (y-offset 0)
+         (images "tiles/blocks/block4.png")
+       )
+  )
   ; Door
   (sprite (name "door")
        (action
