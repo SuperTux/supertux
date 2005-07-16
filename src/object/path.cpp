@@ -1,4 +1,4 @@
-//  $Id:$
+//  $Id$
 // 
 //  SuperTux
 //  Copyright (C) 2005 Philipp <balinor@pnxs.de>
@@ -33,6 +33,7 @@
 
 Path::Path(const lisp::Lisp& reader)
 {
+  forward = true;
   float x,y;
 
   lisp::ListIterator iter(&reader);
@@ -41,6 +42,12 @@ Path::Path(const lisp::Lisp& reader)
   std::string token = iter.item();
   assert(token == "name");
   iter.value()->get(name);
+
+  circular = true;
+  assert (iter.next());
+  token = iter.item();
+  assert(token == "circular");
+  iter.value()->get(circular);
 
   pixels_per_second = DEFAULT_PIXELS_PER_SECOND;
   assert (iter.next());
@@ -87,7 +94,7 @@ Path::update(float elapsed_time)
 void
 Path::draw(DrawingContext& context)
 {
-  // NOOP ;-)
+   // TODO: Add a visible flag, draw the path if true
 }
 
 const Vector&
@@ -110,9 +117,21 @@ Path::calc_next_velocity()
 {
   Vector distance;
 
-  ++next_target;
-  if (next_target == points.end()) {
-    next_target = points.begin();
+  if (circular) {
+    ++next_target;
+    if (next_target == points.end()) {
+      next_target = points.begin();
+    }
+  }
+  else if (forward) {
+    ++next_target;
+    if (next_target == points.end()) {
+      forward = false;
+    }
+  }
+  else {
+    //FIXME: Implement going backwards on the list
+    //       I have no f***ing idea how this is done in C++
   }
 
   distance = *next_target - pos;

@@ -1,4 +1,4 @@
-//  $Id:$
+//  $Id$
 // 
 //  SuperTux
 //  Copyright (C) 2005 Philipp <balinor@pnxs.de>
@@ -54,13 +54,16 @@ public:
   static Path* GetByName(const std::string& name);
 
 private:
-  std::string   name;
-  float         pixels_per_second;
-  PathPoints    points;	
-  PathPointIter next_target;
-  Vector        pos;
-  Vector        velocity;
-  Vector        last_movement;
+  std::string       name;
+  float             pixels_per_second;
+  PathPoints        points;	
+  PathPointIter     next_target;
+  Vector            pos;
+  Vector            velocity;
+  Vector            last_movement;
+
+  bool              circular;
+  bool              forward;
 
   void calc_next_velocity();
 

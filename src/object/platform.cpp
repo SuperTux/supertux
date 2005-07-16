@@ -44,6 +44,9 @@ Platform::Platform(const lisp::Lisp& reader)
   flags |= FLAG_SOLID;
 
   path = Path::GetByName(use_path);
+  if (path == NULL) { 
+     std::cerr << "Warning: Path for moving platform not found! Make sure that the name is spelled correctly,\nand that the path is initialized before the platform in the level file!\n";
+  }
 
   path_offset = bbox.p1 - path->GetStart();
 }
@@ -53,6 +56,9 @@ Platform::~Platform()
   delete sprite;
 }
 
+//TODO: Squish Tux when standing between platform and solid tile/object
+//      Improve collision handling
+//      Move all MovingObjects lying on the platform instead of only the player
 HitResponse
 Platform::collision(GameObject& other, const CollisionHit& hit)
 {
@@ -66,6 +72,7 @@ Platform::collision(GameObject& other, const CollisionHit& hit)
   if(other.get_flags() & FLAG_SOLID) {
     //Collision with a solid tile
     //does nothing, because the movement vector isn't used at the moment
+    return ABORT_MOVE;
   }
   return FORCE_MOVE;
 }
