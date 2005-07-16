@@ -46,8 +46,10 @@ Path::Path(const lisp::Lisp& reader)
   circular = true;
   assert (iter.next());
   token = iter.item();
-  assert(token == "circular");
-  iter.value()->get(circular);
+  if (token == "circular") {
+    iter.value()->get(circular);
+    iter.next();
+  }
 
   pixels_per_second = DEFAULT_PIXELS_PER_SECOND;
   assert (iter.next());
