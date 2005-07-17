@@ -85,31 +85,15 @@ AC_SUBST([VARIANT])
 
 AC_C_BIGENDIAN()
 
-AC_MSG_CHECKING(whether OpenGL should be used)
-AC_ARG_ENABLE(opengl,
-              AC_HELP_STRING([--disable-opengl], [disable OpenGL support]),
-              [enable_opengl=$enableval], enable_opengl=yes)
-if test "$enable_opengl" = "yes"; then
-    AC_MSG_RESULT([yes])
-else
-    AC_MSG_RESULT([no])
-fi
-
 AM_ICONV
 AC_SUBST([ICONV_LIBS], [$LIBICONV])
 
 dnl ===========================================================================
 dnl Check for OpenGL
-if test "$enable_opengl" = "yes"; then
-  AX_CHECK_GL
+AX_CHECK_GL
+if test "$no_gl" = "yes"; then
+  AC_MSG_ERROR([Please install opengl libraries and headers])
 fi
-if test "$no_gl" = "yes" -o "$enable_opengl" = "no"; then
-  GL_AVAILABLE="no"
-  AC_DEFINE([NOOPENGL],, [Define if opengl should not be used])
-else
-  GL_AVAILABLE="yes"
-fi
-AC_SUBST([GL_AVAILABLE])
 
 dnl Check for SDL
 SDL_VERSION=1.2.4
