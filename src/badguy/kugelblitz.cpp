@@ -20,6 +20,9 @@
 #include <config.h>
 
 #include "kugelblitz.hpp"
+#include "sector.hpp"
+#include "object/tilemap.hpp"
+#include "tile.hpp"
 
 Kugelblitz::Kugelblitz(const lisp::Lisp& reader)
     : groundhit_pos_set(false)
@@ -48,6 +51,7 @@ Kugelblitz::activate()
 {
   physic.set_velocity_y(-300);
   physic.set_velocity_x(-20); //fall a little to the left
+  direction = 1;
 }
 
 HitResponse
@@ -71,12 +75,12 @@ Kugelblitz::hit(const CollisionHit& chit)
   if(chit.normal.y < -.5) {
     if (!groundhit_pos_set)
     {
-      pos_groundhit = get_pos(); //I'm leaving this in, we might need it here, too
+      pos_groundhit = get_pos();
       groundhit_pos_set = true;
     }
     sprite->set_action("flying");
     physic.set_velocity_y(0);
-    physic.set_velocity_x(100);
+    movement_timer.start(1500);
 
   } else if(chit.normal.y < .5) { // bumped on roof
     physic.set_velocity_y(0);
@@ -88,7 +92,20 @@ Kugelblitz::hit(const CollisionHit& chit)
 void
 Kugelblitz::active_update(float elapsed_time)
 {
-  BadGuy::active_update(elapsed_time);
+  if (groundhit_pos_set) {
+    if (movement_timer.check()) {
+      //std::cout << "IM HERE" << std::endl;
+      //FIXME: Find out why the program never gets here
+      if (direction == 1) direction = -1; else direction = 1;
+      int speed = (300 + (rand() % 300)) * direction;
+      physic.set_velocity_x(speed);
+      movement_timer.start(1500);
+    }
+  }
+  if (Sector::current()->solids->get_tile_at(get_pos())->getAttributes() == 16) {
+    //HIT WATER
+  }
+  BadGuy::active_update(elapsed_time);  
 }
 
 IMPLEMENT_FACTORY(Kugelblitz, "kugelblitz")

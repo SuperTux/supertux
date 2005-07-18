@@ -21,6 +21,7 @@
 #define __KUGELBLITZ_H__
 
 #include "badguy.hpp"
+#include "timer.hpp"
 
 class Kugelblitz : public BadGuy
 {
@@ -38,6 +39,8 @@ private:
   HitResponse hit(const CollisionHit& hit);
   Vector pos_groundhit;
   bool groundhit_pos_set;
+  Timer movement_timer;
+  int direction;
 };
 
 #endif
