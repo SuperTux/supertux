@@ -1315,6 +1315,24 @@
          (x-offset 2)
          (y-offset -19)
          (mirror-action "squished-left")))
+
+; Kugelblitz
+ (sprite (name "kugelblitz")
+       (action
+         (name "falling")
+         (x-offset 0)
+         (y-offset )
+         (images "creatures/kugelblitz/falling-0.png"
+                 "creatures/kugelblitz/falling-1.png"
+                 "creatures/kugelblitz/falling-2.png"))
+       (action
+         (name "flying")
+         (x-offset 0)
+         (y-offset 0)
+         (images "creatures/kugelblitz/flying-0.png"
+                 "creatures/kugelblitz/flying-1.png"
+                 "creatures/kugelblitz/flying-2.png"))
+ )
          
 ;; Game elements follow
           
