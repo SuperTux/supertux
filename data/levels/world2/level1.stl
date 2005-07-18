@@ -336,7 +336,7 @@
     )
 
        (background
-         (image "forest1.jpg")
+         (image "forest2.jpg")
          (speed 1.000000)
        )
        (dispenser (x 31) (y 605) (badguy "poisonivy") (cycle 4))
