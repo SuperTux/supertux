@@ -21,16 +21,12 @@
 
 #include "kugelblitz.hpp"
 
-static const float JUMPSPEED=600;
-static const float Kugelblitz_MID_TOLERANCE=4;
-static const float Kugelblitz_LOW_TOLERANCE=2;
-
 Kugelblitz::Kugelblitz(const lisp::Lisp& reader)
     : groundhit_pos_set(false)
 {
   reader.get("x", start_position.x);
   start_position.y = 0; //place above visible area
-  bbox.set_size(63.8, 127.8);
+  bbox.set_size(63.8, 63.8);
   sprite = sprite_manager->create("kugelblitz");
   sprite->set_action("falling");
   physic.enable_gravity(false);
@@ -51,10 +47,11 @@ void
 Kugelblitz::activate()
 {
   physic.set_velocity_y(-300);
+  physic.set_velocity_x(-20); //fall a little to the left
 }
 
 HitResponse
-Kugelblitz::collision_solid(GameObject& , const CollisionHit& chit)
+Kugelblitz::collision_solid(GameObject& other, const CollisionHit& chit)
 {
   return hit(chit);
 }
@@ -62,6 +59,7 @@ Kugelblitz::collision_solid(GameObject& , const CollisionHit& chit)
 HitResponse
 Kugelblitz::collision_badguy(BadGuy& other , const CollisionHit& chit)
 {
+  //Let the Kugelblitz explode, too?
   other.kill_fall();
   return hit(chit);
 }
@@ -73,10 +71,9 @@ Kugelblitz::hit(const CollisionHit& chit)
   if(chit.normal.y < -.5) {
     if (!groundhit_pos_set)
     {
-      pos_groundhit = get_pos();
+      pos_groundhit = get_pos(); //I'm leaving this in, we might need it here, too
       groundhit_pos_set = true;
     }
-    bbox.set_size(63.8, 63.8);
     sprite->set_action("flying");
     physic.set_velocity_y(0);
     physic.set_velocity_x(100);
