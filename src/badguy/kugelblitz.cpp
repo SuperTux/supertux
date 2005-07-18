@@ -33,7 +33,7 @@ Kugelblitz::Kugelblitz(const lisp::Lisp& reader)
   bbox.set_size(63.8, 127.8);
   sprite = sprite_manager->create("kugelblitz");
   sprite->set_action("falling");
-  physic.enable_gravity(true);
+  physic.enable_gravity(false);
 }
 
 void
