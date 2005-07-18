@@ -95,13 +95,15 @@
       (mode "normal")
     )
 
+       (spawnpoint (name "main") (x 950) (y 400))
        (background
          (image "ghostforest.jpg")
          (speed 1.000000)
        )
-       (poisonivy (x 987) (y 440))
-       (poisonivy (x 873) (y 438))
+       (poisonivy (x 800) (y 440))
+       (poisonivy (x 100) (y 438))
        (kugelblitz (x 519) (y 32))
+       (kugelblitz (x 700) (y 32))
        (kugelblitz (x 1100) (y 169))
    )
  )

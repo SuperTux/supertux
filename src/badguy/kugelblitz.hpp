@@ -34,12 +34,15 @@ public:
 
   void write(lisp::Writer& writer);
   void active_update(float);
+  void kill_fall();
 
 private:
   HitResponse hit(const CollisionHit& hit);
   Vector pos_groundhit;
   bool groundhit_pos_set;
+  bool dying;
   Timer movement_timer;
+  Timer lifetime;
   int direction;
 };
 

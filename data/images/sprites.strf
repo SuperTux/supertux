@@ -1332,6 +1332,16 @@
          (images "creatures/kugelblitz/flying-0.png"
                  "creatures/kugelblitz/flying-1.png"
                  "creatures/kugelblitz/flying-2.png"))
+
+       (action
+         (name "pop")
+         (x-offset 0)
+         (y-offset 0)
+         (fps 20)
+         (images "creatures/kugelblitz/pop-0.png"
+                 "creatures/kugelblitz/pop-1.png"
+                 "creatures/kugelblitz/pop-2.png"
+                 "creatures/kugelblitz/pop-3.png"))
  )
          
 ;; Game elements follow
