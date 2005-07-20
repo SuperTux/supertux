@@ -864,6 +864,33 @@
          (y-offset -19)
          (mirror-action "squished-left")))
 
+ (sprite (name "fluffy")
+       (action
+         (name "left")
+         (x-offset 2)
+         (y-offset 4)
+         (images "creatures/mr_fluffy/left-0.png"
+                 "creatures/mr_fluffy/left-1.png"
+                 "creatures/mr_fluffy/left-2.png"
+                 "creatures/mr_fluffy/left-1.png"))
+
+       (action
+         (name "right")
+         (x-offset 2)
+         (y-offset 4)
+         (mirror-action "left"))
+       (action
+         (name "squished-left")
+         (x-offset 1)
+         (y-offset -19)
+         (images "creatures/mr_fluffy/squished-left.png"))
+
+       (action
+         (name "squished-right")
+         (x-offset 1)
+         (y-offset -19)
+         (mirror-action "squished-left")))
+
      (sprite (name "jumpy")
        (action
          (name "left-up")
