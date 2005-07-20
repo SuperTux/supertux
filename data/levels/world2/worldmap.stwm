@@ -2,7 +2,7 @@
 (supertux-worldmap
   (properties
     (name (_ "Forest World"))
-    (music "salcon.ogg")
+    (music "forestmap.ogg")
   )
   (spawnpoint
     (name "main")
