@@ -92,7 +92,7 @@ Bomb::explode()
 {
   state = 1;
   sprite->set_action("explosion");
-  sound_manager->play("sounds/explosion.ogg", get_pos());
+  sound_manager->play("sounds/explosion.wav", get_pos());
   timer.start(EXPLOSIONTIME);
 }
 

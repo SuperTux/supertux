@@ -64,7 +64,7 @@ GrowUp::collision(GameObject& other, const CollisionHit& hit)
   Player* player = dynamic_cast<Player*>(&other);
   if(player != 0) {
     player->set_bonus(GROWUP_BONUS, true);
-    sound_manager->play("sounds/grow.ogg");
+    sound_manager->play("sounds/grow.wav");
     remove_me();
     
     return ABORT_MOVE;

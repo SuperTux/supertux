@@ -76,7 +76,7 @@ void
 RocketExplosion::explode()
 {
   sprite->set_action(dir == LEFT ? "explosion-left" : "explosion-right");
-  sound_manager->play("sounds/explosion.ogg", get_pos());
+  sound_manager->play("sounds/explosion.wav", get_pos());
   timer.start(EXPLOSIONTIME, true);
 }
 

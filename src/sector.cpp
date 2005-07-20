@@ -769,7 +769,7 @@ Sector::add_bullet(const Vector& pos, float xm, Direction dir)
   }
   add_object(new_bullet);
 
-  sound_manager->play("sounds/shoot.ogg");
+  sound_manager->play("sounds/shoot.wav");
 
   return true;
 }
