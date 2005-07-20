@@ -1600,17 +1600,17 @@
     (action
       (name "small")
       (y-offset 10) 
-      (images "tiles/worldmap/smalltux.png")
+      (images "worldmap/common/smalltux.png")
     )
     (action
       (name "large")
       (y-offset 10) 
-      (images "tiles/worldmap/tux.png")
+      (images "worldmap/common/tux.png")
     )
     (action
       (name "fire")
       (y-offset 10) 
-      (images "tiles/worldmap/firetux.png")
+      (images "worldmap/common/firetux.png")
     )
   )
 

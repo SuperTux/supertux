@@ -352,10 +352,10 @@ WorldMap::WorldMap()
   tux = new Tux(this);
   add_object(tux);
     
-  leveldot_green= new Surface("images/tiles/worldmap/leveldot_green.png", true);
-  leveldot_red = new Surface("images/tiles/worldmap/leveldot_red.png", true);
-  messagedot = new Surface("images/tiles/worldmap/messagedot.png", true);
-  teleporterdot = new Surface("images/tiles/worldmap/teleporterdot.png", true);
+  leveldot_green= new Surface("images/worldmap/common/leveldot_green.png", true);
+  leveldot_red = new Surface("images/worldmap/common/leveldot_red.png", true);
+  messagedot = new Surface("images/worldmap/common/messagedot.png", true);
+  teleporterdot = new Surface("images/worldmap/common/teleporterdot.png", true);
 
   name = "<no title>";
   music = "salcon.ogg";

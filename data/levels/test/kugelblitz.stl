@@ -95,6 +95,8 @@
       (mode "normal")
     )
 
+       (particles-rain)
+       (particles-ghosts)
        (spawnpoint (name "main") (x 950) (y 400))
        (background
          (image "ghostforest.jpg")
