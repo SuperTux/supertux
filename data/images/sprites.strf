@@ -1331,10 +1331,7 @@
          (y-offset 0)
          (images "creatures/kugelblitz/flying-0.png"
                  "creatures/kugelblitz/flying-1.png"
-                 "creatures/kugelblitz/flying-2.png"
-		 "creatures/kugelblitz/flying-3.png"
-		 "creatures/kugelblitz/flying-4.png"
-		 "creatures/kugelblitz/flying-5.png"))
+                 "creatures/kugelblitz/flying-2.png"))
 
        (action
          (name "pop")
