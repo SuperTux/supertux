@@ -339,7 +339,7 @@
      (east  #t))
 
 (tile (id 73)
-     (images "worldmap/forest/water.png")
+     (images "worldmap/forest/m16.png")
      (stop #t)
      (north #f)
      (south #f)
@@ -510,5 +510,11 @@
      (images "worldmap/forest/m11.png"))
 (tile (id 113)
      (images "worldmap/forest/m12.png"))
+(tile (id 114)
+     (images "worldmap/forest/m13.png"))
+(tile (id 115)
+     (images "worldmap/forest/m14.png"))
+(tile (id 116)
+     (images "worldmap/forest/m15.png"))
 )
 
