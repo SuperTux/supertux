@@ -1,11 +1,18 @@
 SubDir TOP tools miniswig ;
 
 if $(LEX) && $(BISON) {
+  
+    # hack because SDL does nasty -Dmain=SDL_main on windows
+    old_CXXFLAGS = $(CXXFLAGS) ;
+    CXXFLAGS = [ Filter $(CXXFLAGS) : -Dmain=SDL_main ] ;
+  
     sources = [ Filter [ Wildcard *.yy *.ll *.cpp ] : parser.cpp lexer.cpp ] ;
     MINISWIG = [ Application miniswig : $(sources) ] ;
     C++Flags miniswig : -Wno-unused ;
     IncludeDir miniswig : . ;
     ExternalLibs miniswig : LEX ;
+
+    CXXFLAGS = $(old_CXXFLAGS) ;
 
 # we gotta run bison before flex
     lexer_cpp = [ SearchSource lexer.cpp ] ;
