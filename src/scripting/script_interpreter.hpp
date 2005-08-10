@@ -11,6 +11,7 @@
 #include "scripting/wrapper_util.hpp"
 #include "scripting/sound.hpp"
 #include "scripting/level.hpp"
+#include "scripting/squirrel_error.hpp"
 
 class Sector;
 
@@ -35,14 +36,14 @@ public:
     sq_pushstring(v, name.c_str(), -1);
 
     sq_pushroottable(v);
-    SquirrelWrapper::create_squirrel_instance(v, object, free);
+    Scripting::create_squirrel_instance(v, object, free);
     sq_remove(v, -2);
                         
     // register instance in root table
     if(sq_createslot(v, -3) < 0) {
       std::ostringstream msg;
       msg << "Couldn't register object '" << name << "' in squirrel root table";
-      throw SquirrelError(v, msg.str());
+      throw Scripting::SquirrelError(v, msg.str());
     }
     
     sq_pop(v, 1);

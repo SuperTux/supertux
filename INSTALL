@@ -7,10 +7,6 @@ Last update: April 26, 2004
 REQUIREMENTS
 ------------
 
-  CONTROLS
-  --------
-    The game can be played with either a the keyboard or a joystick.
-
   SDL
   ---
     "SuperTux" was programed using the "Simple DirectMedia Layer"

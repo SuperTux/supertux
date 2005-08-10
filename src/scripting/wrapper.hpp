@@ -9,7 +9,7 @@
 #include <squirrel.h>
 #include "wrapper.interface.hpp"
 
-namespace SquirrelWrapper
+namespace Scripting
 {
 
 void register_supertux_wrapper(HSQUIRRELVM v);

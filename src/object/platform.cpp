@@ -78,7 +78,7 @@ Platform::collision(GameObject& other, const CollisionHit& hit)
 }
 
 void
-Platform::update(float elapsed_time)
+Platform::update(float )
 {
   set_pos(path->GetPosition() + path_offset);
 }

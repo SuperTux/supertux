@@ -26,6 +26,7 @@
 #include "scripting/sound.hpp"
 #include "scripting/scripted_object.hpp"
 #include "scripting/display_effect.hpp"
+#include "scripting/squirrel_error.hpp"
 
 static void printfunc(HSQUIRRELVM, const char* str, ...)
 {
@@ -49,21 +50,21 @@ ScriptInterpreter::ScriptInterpreter(const std::string& new_working_directory)
   // register squirrel libs
   sq_pushroottable(v);
   if(sqstd_register_bloblib(v) < 0)
-    throw SquirrelError(v, "Couldn't register blob lib");
+    throw Scripting::SquirrelError(v, "Couldn't register blob lib");
   if(sqstd_register_iolib(v) < 0)
-    throw SquirrelError(v, "Couldn't register io lib");
+    throw Scripting::SquirrelError(v, "Couldn't register io lib");
   if(sqstd_register_systemlib(v) < 0)
-    throw SquirrelError(v, "Couldn't register system lib");
+    throw Scripting::SquirrelError(v, "Couldn't register system lib");
   if(sqstd_register_mathlib(v) < 0)
-    throw SquirrelError(v, "Couldn't register math lib");
+    throw Scripting::SquirrelError(v, "Couldn't register math lib");
   if(sqstd_register_stringlib(v) < 0)
-    throw SquirrelError(v, "Couldn't register string lib");
+    throw Scripting::SquirrelError(v, "Couldn't register string lib");
 
   // register print function
   sq_setprintfunc(v, printfunc);
   
   // register supertux API
-  SquirrelWrapper::register_supertux_wrapper(v);
+  Scripting::register_supertux_wrapper(v);
 
   // expose some "global" objects
   sound = new Scripting::Sound();
@@ -123,12 +124,12 @@ ScriptInterpreter::run_script(std::istream& in, const std::string& sourcename,
   printf("Stackbefore:\n");
   print_squirrel_stack(v);
   if(sq_compile(v, squirrel_read_char, &in, sourcename.c_str(), true) < 0)
-    throw SquirrelError(v, "Couldn't parse script");
+    throw Scripting::SquirrelError(v, "Couldn't parse script");
  
   _current = this;
   sq_push(v, -2);
   if(sq_call(v, 1, false) < 0)
-    throw SquirrelError(v, "Couldn't start script");
+    throw Scripting::SquirrelError(v, "Couldn't start script");
   _current = 0;
   if(sq_getvmstate(v) != SQ_VMSTATE_SUSPENDED) {
     if(remove_when_terminated) {
@@ -156,7 +157,7 @@ ScriptInterpreter::update(float )
   
   _current = this;
   if(sq_wakeupvm(v, false, false) < 0)
-    throw SquirrelError(v, "Couldn't resume script");
+    throw Scripting::SquirrelError(v, "Couldn't resume script");
   _current = 0;
   if(sq_getvmstate(v) != SQ_VMSTATE_SUSPENDED) {
     printf("script ended...\n");

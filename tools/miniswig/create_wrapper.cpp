@@ -28,7 +28,7 @@ WrapperCreator::create_wrapper(Namespace* ns)
         << "#include <squirrel.h>\n"
         << "#include \"wrapper.interface.hpp\"\n"
         << "\n"
-        << "namespace SquirrelWrapper\n"
+        << "namespace Scripting\n"
         << "{\n"
         << "\n";
 
@@ -63,11 +63,14 @@ WrapperCreator::create_wrapper(Namespace* ns)
         << "#include <new>\n"
         << "#include <assert.h>\n"
         << "#include <string>\n"
+        << "#include <sstream>\n"
         << "#include <squirrel.h>\n"
-        << "#include \"wrapper_util.hpp\"\n"
+        << "#include \"squirrel_error.hpp\"\n"
         << "#include \"wrapper.interface.hpp\"\n"
         << "\n"
-        << "namespace SquirrelWrapper\n"
+        << "namespace Scripting\n"
+        << "{\n"
+        << "namespace Wrapper\n"
         << "{\n"
         << "\n";
 
@@ -83,8 +86,21 @@ WrapperCreator::create_wrapper(Namespace* ns)
         create_function_wrapper(0, *i);
     }
 
+    out << "} // end of namespace Wrapper\n";
+    out << "\n";
+
+    for(std::vector<AtomicType*>::iterator i = ns->types.begin();
+            i != ns->types.end(); ++i) {                             
+        AtomicType* type = *i;
+        Class* _class = dynamic_cast<Class*> (type);
+        if(_class != 0)
+            create_squirrel_instance(_class);
+    }
+    
     out << "void register_" << modulename << "_wrapper(HSQUIRRELVM v)\n"
         << "{\n"
+        << ind << "using namespace Wrapper;\n"
+        << "\n"
         << ind << "sq_pushroottable(v);\n";
 
     create_register_constants_code(ns);
@@ -94,7 +110,7 @@ WrapperCreator::create_wrapper(Namespace* ns)
     out << ind << "sq_pop(v, 1);\n"
         << "}\n"
         << "\n"
-        << "}\n"
+        << "} // end of namespace Scripting\n"
         << "\n";
 }
 
@@ -225,7 +241,7 @@ void
 WrapperCreator::create_register_slot_code(const std::string& what,
                                           const std::string& name)
 {
-    out << ind << "if(sq_createslot(v, -3) < 0) {\n";
+    out << ind << "if(SQ_FAILED(sq_createslot(v, -3))) {\n";
     out << ind << ind << "std::ostringstream msg;\n";
     out << ind << ind << "msg << \"Couldn't register " << what << "'"
         << name << "'\";\n";
@@ -409,7 +425,6 @@ void
 WrapperCreator::create_class_wrapper(Class* _class)
 {
     create_class_release_hook(_class);
-    create_squirrel_instance(_class);
     for(std::vector<ClassMember*>::iterator i = _class->members.begin();
             i != _class->members.end(); ++i) {
         ClassMember* member = *i;
@@ -432,27 +447,32 @@ WrapperCreator::create_squirrel_instance(Class* _class)
         << ns_prefix << _class->name 
         << "* object, bool setup_releasehook)\n"
         << "{\n"
+        << ind << "using namespace Wrapper;\n"
+        << "\n"
+        << ind << "sq_pushroottable(v);\n"
         << ind << "sq_pushstring(v, \"" << _class->name << "\", -1);\n"
-        << ind << "if(sq_get(v, -2) < 0) {\n"
+        << ind << "if(SQ_FAILED(sq_get(v, -2))) {\n"
         << ind << ind << "std::ostringstream msg;\n"
         << ind << ind << "msg << \"Couldn't resolved squirrel type '"
         << _class->name << "'\";\n"
         << ind << ind << "throw SquirrelError(v, msg.str());\n"
         << ind << "}\n"
         << "\n"
-        << ind << "if(sq_createinstance(v, -1) < 0 || "
-        << "sq_setinstanceup(v, -1, object) < 0) {\n"
+        << ind << "if(SQ_FAILED(sq_createinstance(v, -1)) || "
+        << "SQ_FAILED(sq_setinstanceup(v, -1, object))) {\n"
         << ind << ind << "std::ostringstream msg;\n"
         << ind << ind << "msg << \"Couldn't setup squirrel instance for "
         << "object of type '" << _class->name << "'\";\n"
         << ind << ind << "throw SquirrelError(v, msg.str());\n"
         << ind << "}\n"
-        << ind << "sq_remove(v, -2);\n"
+        << ind << "sq_remove(v, -2); // remove object name\n"
         << "\n"
         << ind << "if(setup_releasehook) {\n"
         << ind << ind << "sq_setreleasehook(v, -1, "
         << _class->name << "_release_hook);\n"
         << ind << "}\n"
+        << "\n"
+        << ind << "sq_remove(v, -2); // remove root table\n"
         << "}\n"
         << "\n";
 }

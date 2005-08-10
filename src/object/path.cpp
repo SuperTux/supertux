@@ -94,7 +94,7 @@ Path::update(float elapsed_time)
 }
 
 void
-Path::draw(DrawingContext& context)
+Path::draw(DrawingContext& )
 {
    // TODO: Add a visible flag, draw the path if true
 }

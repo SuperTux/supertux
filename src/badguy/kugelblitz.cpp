@@ -61,7 +61,7 @@ Kugelblitz::activate()
 }
 
 HitResponse
-Kugelblitz::collision_solid(GameObject& other, const CollisionHit& chit)
+Kugelblitz::collision_solid(GameObject& , const CollisionHit& chit)
 {
   //TODO: Explode when Tux is hit
   return hit(chit);
