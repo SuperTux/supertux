@@ -643,5 +643,9 @@
      (south #f)
      (west  #t)
      (east  #t))
+(tile (id 153)
+     (images "worldmap/forest/fall1.png"))
+(tile (id 154)
+     (images "worldmap/forest/fall2.png"))
 )
 
