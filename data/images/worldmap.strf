@@ -663,5 +663,13 @@
      (images "worldmap/forest/fall9.png"))
 (tile (id 162)
      (images "worldmap/forest/fall0.png"))
+(tile (id 163)
+     (images "worldmap/forest/stream8.png"))
+(tile (id 164)
+     (images "worldmap/forest/stream9.png"))
+(tile (id 165)
+     (images "worldmap/forest/stream10.png"))
+(tile (id 166)
+     (images "worldmap/forest/shrub0.png"))
 )
 
