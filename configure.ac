@@ -112,7 +112,9 @@ NP_FINDLIB([SDLIMAGE], [SDL_image], [SDL_image >= 1.2],
         [$SDL_CFLAGS], [$SDL_LIBS])
 
 NP_FINDLIB([PHYSFS], [physfs], [physfs >= 1.0.0],
-        NP_LANG_PROGRAM([#include <physfs.h>
+        NP_LANG_PROGRAM([
+#include <stdio.h>
+#include <physfs.h>
 #if PHYSFS_VER_MAJOR < 1
 # error PHYSFS is too old
 #endif]),
