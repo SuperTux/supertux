@@ -772,7 +772,7 @@ Player::collision(GameObject& other, const CollisionHit& hit)
         kill(SHRINK);
 
       if(! (thit->tileflags & Tile::SOLID))
-        return CONTINUE;
+        return FORCE_MOVE;
     }
     
     if(hit.normal.y < 0) { // landed on floor?
