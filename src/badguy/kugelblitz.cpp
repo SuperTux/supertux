@@ -90,7 +90,8 @@ Kugelblitz::collision_player(Player& player, const CollisionHit& )
 HitResponse
 Kugelblitz::collision_badguy(BadGuy& other , const CollisionHit& chit)
 {
-  //Let the Kugelblitz explode, too?
+  //Let the Kugelblitz explode, too? The problem with that is that
+  //two Kugelblitzes would cancel each other out on contact...
   other.kill_fall();
   return hit(chit);
 }

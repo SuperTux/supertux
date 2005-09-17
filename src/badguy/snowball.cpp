@@ -28,8 +28,12 @@ SnowBall::SnowBall(const lisp::Lisp& reader)
 {
   reader.get("x", start_position.x);
   reader.get("y", start_position.y);
+  //This is for a hidden badguy :)
+  bool fluffy = false;  
+  reader.get("fluffy",fluffy);
   bbox.set_size(31.8, 31.8);
-  sprite = sprite_manager->create("snowball");
+  if (fluffy) sprite = sprite_manager->create("fluffy");
+  else sprite = sprite_manager->create("snowball");
   set_direction = false;
 }
 

@@ -15,54 +15,56 @@
 
 -Programming
 
-	Tobias (tobgle) Glaesser
+	Matthias \"MatzeB\" Braun
 
-	Ricardo (blacksheep) Cruz
- 
-	Ingo (grumbel) Ruhnke
- 
-	Matthias (MatzeB) Braun
+	Tobias \"tobgle\" Glaesser
 
-	Ryan (sik0fewl) Flegel
+	Ricardo \"blacksheep\" Cruz
 
-	Bastiaan (basti_) Zapf
+	Ingo \"grumbel\" Ruhnke
+
+	Ryan \"sik0fewl\" Flegel
+
+	Bastiaan \"basti_\" Zapf
+
+	Marek \"Wansti\" Moeckel
 
 
 -Contrib Programming
 
-	Duong-Khang (neoneurone) NGUYEN
+	Duong-Khang \"neoneurone\" NGUYEN
 
 	Richard Smith
 
-	Ondra (Ravu al Hemio) Hosek
+	Ondra \"Ravu al Hemio\" Hosek
 
 
 -Graphics
 
-	Ingo (grumbel) Ruhnke
- 
-	Christopher A. (paroneayea) Webber
+	Ingo \"grumbel\" Ruhnke
 
-	Benjamin P. (litespeed) Jung
+	Christopher A. \"paroneayea\" Webber
+
+	Benjamin P. \"litespeed\" Jung
 
 	Stephen Groundwater
 
 
 -Level Design
 
-	Marek (Wansti) Moeckel
- 
-	Ingo (grumbel) Ruhnke
+	Marek \"Wansti\" Moeckel
+
+	Ingo \"grumbel\" Ruhnke
 
 
 -Story
 
-	Christopher A. (paroneayea) Webber
+	Christopher A. \"paroneayea\" Webber
 
 
 -Music
 
-	Marek (Wansti) Moeckel
+	Marek \"Wansti\" Moeckel
 
 	Mystical
 
@@ -123,5 +125,5 @@
 
 
 
-	See you soon in Milestone 3!"))
+	Penny awaits you in Milestone 3!"))
 )
