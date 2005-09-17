@@ -4,8 +4,8 @@
   (name   (_ "Dark Forest Keep - The Black Tower"))
   (author "SuperTux Team")
   (sector
-    (name  "main")
-    (music  "darkforestkeep.ogg")
+    (name "main")
+    (music "darkforestkeep.ogg")
     (gravity 10.000000)
     (tilemap
       (layer  "background")

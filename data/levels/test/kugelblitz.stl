@@ -104,7 +104,7 @@
        )
        (poisonivy (x 800) (y 440))
        (poisonivy (x 100) (y 438))
-       (kugelblitz (x 519) (y 32))
+       (kugelblitz (x 219) (y 32))
        (kugelblitz (x 700) (y 32))
        (kugelblitz (x 1100) (y 169))
    )

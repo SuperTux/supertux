@@ -56,7 +56,6 @@
 #include "object/bullet.hpp"
 #include "object/text_object.hpp"
 #include "badguy/jumpy.hpp"
-#include "badguy/spike.hpp"
 #include "trigger/sequence_trigger.hpp"
 #include "player_status.hpp"
 #include "scripting/script_interpreter.hpp"

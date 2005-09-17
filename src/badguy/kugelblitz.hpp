@@ -29,12 +29,14 @@ public:
   Kugelblitz(const lisp::Lisp& reader);
 
   void activate();
-  HitResponse collision_solid(GameObject& other, const CollisionHit& hit);
   HitResponse collision_badguy(BadGuy& other, const CollisionHit& hit);
+  HitResponse collision_solid(GameObject& other, const CollisionHit& hit);
+  HitResponse collision_player(Player& player, const CollisionHit& hit);
 
   void write(lisp::Writer& writer);
   void active_update(float);
   void kill_fall();
+  void explode();
 
 private:
   HitResponse hit(const CollisionHit& hit);
@@ -43,6 +45,7 @@ private:
   bool dying;
   Timer movement_timer;
   Timer lifetime;
+  Timer electrify_timer;
   int direction;
 };
 

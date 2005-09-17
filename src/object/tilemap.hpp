@@ -79,6 +79,9 @@ public:
 
   void change_at(const Vector& pos, uint32_t newtile);
 
+  /// changes all tiles with the given ID
+  void change_all(uint32_t oldtile, uint32_t newtile);
+
   TileManager* get_tilemanager() const
   {
     return tilemanager;

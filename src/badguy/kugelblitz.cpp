@@ -63,8 +63,28 @@ Kugelblitz::activate()
 HitResponse
 Kugelblitz::collision_solid(GameObject& , const CollisionHit& chit)
 {
-  //TODO: Explode when Tux is hit
   return hit(chit);
+}
+
+HitResponse
+Kugelblitz::collision_player(Player& player, const CollisionHit& )
+{
+  if(player.is_invincible()) {
+    explode();
+    return ABORT_MOVE;
+  }
+  // hit from above?
+  if(player.get_movement().y - get_movement().y > 0 && player.get_bbox().p2.y <
+      (get_bbox().p1.y + get_bbox().p2.y) / 2) {
+    // if it's not is it possible to squish us, then this will hurt
+    if(!collision_squished(player))
+      player.kill(Player::SHRINK);
+      explode();
+    return FORCE_MOVE;
+  }
+  player.kill(Player::SHRINK);
+  explode();
+  return FORCE_MOVE;
 }
 
 HitResponse
@@ -104,13 +124,13 @@ Kugelblitz::hit(const CollisionHit& chit)
 void
 Kugelblitz::active_update(float elapsed_time)
 {
-  if (lifetime.check()) {
-    if (!dying) {
-      sprite->set_action("pop");
-      lifetime.start(0.2);
-      dying = true;
-    }
-    else remove_me();
+  if (electrify_timer.check()) {
+    Sector::current()->solids->change_all(1421,75);
+    Sector::current()->solids->change_all(1422,76);
+    explode();
+  }
+  else if (lifetime.check()) {
+    explode();
   }
   else {
     if (groundhit_pos_set) {
@@ -123,6 +143,11 @@ Kugelblitz::active_update(float elapsed_time)
     }
     if (Sector::current()->solids->get_tile_at(get_pos())->getAttributes() == 16) {
       //HIT WATER
+      Sector::current()->solids->change_all(75,1421);
+      Sector::current()->solids->change_all(76,1422);
+      physic.set_velocity_x(0);
+      physic.set_velocity_y(0);
+      electrify_timer.start(1);
     }
   }
   BadGuy::active_update(elapsed_time);  
@@ -131,6 +156,17 @@ Kugelblitz::active_update(float elapsed_time)
 void
 Kugelblitz::kill_fall()
 {
+}
+
+void
+Kugelblitz::explode()
+{
+  if (!dying) {
+    sprite->set_action("pop");
+    lifetime.start(0.2);
+    dying = true;
+  }
+  else remove_me();
 }
 
 IMPLEMENT_FACTORY(Kugelblitz, "kugelblitz")

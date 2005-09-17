@@ -1275,6 +1275,7 @@
       "tiles/lava/lava1-4.png"
     )
     (water #t)
+    (spike #t)
     (anim-fps 10)
   )
   (tile
@@ -1286,6 +1287,7 @@
       "tiles/lava/lava2-4.png"
     )
     (water #t)
+    (spike #t)
     (anim-fps 10)
   )
   (tile
@@ -5364,5 +5366,25 @@
       (region "tiles/castle/window.png" 0 96 32 32)
     )
     (solid #t)
+  )
+  (tile
+    (id 1421)
+    (images
+      "tiles/water/electrified-0.png"
+      "tiles/water/electrified-1.png"
+    )
+    (anim-fps 5)
+    (spike #t)
+    (water #t)
+  )
+  (tile
+    (id 1422)
+    (images
+      "tiles/water/electrified_waves-0.png"
+      "tiles/water/electrified_waves-1.png"
+    )
+    (anim-fps 5)
+    (spike #t)
+    (water #t)
   )
 )

@@ -281,4 +281,13 @@ TileMap::change_at(const Vector& pos, uint32_t newtile)
   change(int(pos.x)/32, int(pos.y)/32, newtile);
 }
 
+void
+TileMap::change_all(uint32_t oldtile, uint32_t newtile)
+{
+  for (size_t x = 0; x < get_width(); x++)
+    for (size_t y = 0; y < get_height(); y++) {
+      if (get_tile(x,y)->getID() == oldtile) change(x,y,newtile);
+    }
+}
+
 IMPLEMENT_FACTORY(TileMap, "tilemap");
