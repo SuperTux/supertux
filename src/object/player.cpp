@@ -271,7 +271,7 @@ Player::handle_horizontal_input()
     if(fabs(vx)>SKID_XM && !skidding_timer.started()) {
       skidding_timer.start(SKID_TIME);
       sound_manager->play("sounds/skid.wav");
-      // dust some partcles
+      // dust some particles
       Sector::current()->add_object(
         new Particles(
           Vector(bbox.p1.x + (dir == RIGHT ? bbox.get_width() : 0),
@@ -763,6 +763,18 @@ Player::collision(GameObject& other, const CollisionHit& hit)
   }
  
   if(other.get_flags() & FLAG_SOLID) {
+    TileMap* tilemap = dynamic_cast<TileMap*> (&other);
+    if(tilemap) {
+      const TilemapCollisionHit* thit = 
+        static_cast<const TilemapCollisionHit*> (&hit);
+      printf("Tileattrs. %d\n", thit->tileflags);
+      if(thit->tileflags & Tile::SPIKE)
+        kill(SHRINK);
+
+      if(! (thit->tileflags & Tile::SOLID))
+        return CONTINUE;
+    }
+    
     if(hit.normal.y < 0) { // landed on floor?
       if (physic.get_velocity_y() < 0)
         physic.set_velocity_y(0);

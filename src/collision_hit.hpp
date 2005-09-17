@@ -27,8 +27,6 @@
  */
 enum HitResponse
 {
-  // note: keep the elements in this order
-
   /// don't move the object
   ABORT_MOVE = 0,
   /// move object out of collision and check for collisions again
@@ -50,6 +48,13 @@ public:
   float time;
   /// The normal of the side we collided with
   Vector normal;
+};
+
+class TilemapCollisionHit : public CollisionHit
+{
+public:
+  /// the flags of all tiles tux collided with
+  int tileflags;
 };
 
 #endif

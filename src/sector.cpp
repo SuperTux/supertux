@@ -325,18 +325,6 @@ Sector::fix_old_tiles()
       if(tile->getID() == 112) {
         add_object(new InvisibleBlock(pos));
         solids->change(x, y, 0);
-      } else if(tile->getID() == 295) {
-        add_object(new Spike(pos, Spike::NORTH));
-        solids->change(x, y, 0);
-      } else if(tile->getID() == 296) {
-        add_object(new Spike(pos, Spike::EAST));
-        solids->change(x, y, 0);
-      } else if(tile->getID() == 297) {
-        add_object(new Spike(pos, Spike::SOUTH));
-        solids->change(x, y, 0);
-      } else if(tile->getID() == 298) {
-        add_object(new Spike(pos, Spike::WEST));
-        solids->change(x, y, 0);
       } else if(tile->getAttributes() & Tile::COIN) {
         add_object(new Coin(pos));
         solids->change(x, y, 0);
@@ -613,9 +601,10 @@ Sector::collision_tilemap(MovingObject* object, int depth)
   int max_x = int(x2+1);
   int max_y = int(y2+1);
 
-  CollisionHit temphit, hit;
+  TilemapCollisionHit temphit, hit;
   Rect dest = object->get_bbox();
   dest.move(object->movement);
+  hit.tileflags = 0;
   hit.time = -1; // represents an invalid value
   for(int x = starttilex; x*32 < max_x; ++x) {
     for(int y = starttiley; y*32 < max_y; ++y) {
@@ -623,7 +612,7 @@ Sector::collision_tilemap(MovingObject* object, int depth)
       if(!tile)
         continue;
       // skip non-solid tiles
-      if(!(tile->getAttributes() & Tile::SOLID))
+      if(tile->getAttributes() == 0)
         continue;
       // only handle unisolid when the player is falling down and when he was
       // above the tile before
@@ -640,15 +629,21 @@ Sector::collision_tilemap(MovingObject* object, int depth)
 
         if(Collision::rectangle_aatriangle(temphit, dest, object->movement,
               triangle)) {
-          if(temphit.time > hit.time)
+          hit.tileflags |= tile->getAttributes();
+          if(temphit.time > hit.time) {
+            temphit.tileflags = hit.tileflags;
             hit = temphit;
+          }
         }
       } else { // normal rectangular tile
         Rect rect(x*32, y*32, (x+1)*32, (y+1)*32);
         if(Collision::rectangle_rectangle(temphit, dest,
               object->movement, rect)) {
-          if(temphit.time > hit.time)
+          hit.tileflags |= tile->getAttributes();
+          if(temphit.time > hit.time) {
+            temphit.tileflags = hit.tileflags;
             hit = temphit;
+          }
         }
       }
     }
