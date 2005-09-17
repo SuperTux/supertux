@@ -16,6 +16,7 @@ public class Tile {
     public bool Ice;
     public bool Water;
     public bool Slope;
+    public bool Hidden;
     public bool Spike;
     public bool FullBox;
     public bool Brick;
@@ -68,6 +69,8 @@ public class Tile {
             writer.Write("slope-type", Data);
         if(Spike)
             writer.Write("spike", true);
+        if(Hidden)
+            writer.Write("hidden", true);
         if(Coin)
             writer.Write("coin", true);
         if(FullBox)
@@ -129,6 +132,9 @@ public class Tile {
                         break;
                     case "spike":
                         Spike = parser.BoolValue;
+                        break;
+                    case "hidden":
+                        Hidden = parser.BoolValue;
                         break;
                     case "data":
                         Data = parser.IntegerValue;

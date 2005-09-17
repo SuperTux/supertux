@@ -24,6 +24,8 @@ public class Application {
     [Glade.Widget]
     private Gtk.CheckButton DontUseCheckButton;
     [Glade.Widget]
+    private Gtk.CheckButton HiddenCheckButton;
+    [Glade.Widget]
     private Gtk.Entry DataEntry;
     [Glade.Widget]
     private Gtk.Entry AnimFpsEntry;
@@ -174,8 +176,7 @@ public class Application {
         try {
             pixbuf = new Pixbuf(tilesetdir + "/" + file);
             if(pixbuf.Width % 32 != 0 || pixbuf.Height % 32 != 0)
-                throw new Exception(
-                        "Image Width or Height is not a multiple of 32");
+                Console.WriteLine("Warning: Image Width or Height is not a multiple of 32");
         } catch(Exception e) {
             ShowException(e);
             return;
@@ -338,6 +339,8 @@ public class Application {
                 tile.Water = WaterCheckButton.Active;
             if(sender == SlopeCheckButton)
                 tile.Slope = SlopeCheckButton.Active;
+            if(sender == HiddenCheckButton)
+                tile.Hidden = HiddenCheckButton.Active;
             if(sender == DontUseCheckButton)
                 tile.ID = DontUseCheckButton.Active ? -1 : 0;
         }
@@ -388,6 +391,7 @@ public class Application {
                 IceCheckButton.Active = tile.Ice;
                 WaterCheckButton.Active = tile.Water;
                 SlopeCheckButton.Active = tile.Slope;
+                HiddenCheckButton.Active = tile.Hidden;
                 DontUseCheckButton.Active = tile.ID == -1;
                 DataEntry.Text = tile.Data.ToString();
                 AnimFpsEntry.Text = tile.AnimFps.ToString();
