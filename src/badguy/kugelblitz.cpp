@@ -20,7 +20,6 @@
 #include <config.h>
 
 #include "kugelblitz.hpp"
-#include "sector.hpp"
 #include "object/tilemap.hpp"
 #include "tile.hpp"
 
@@ -125,12 +124,7 @@ Kugelblitz::hit(const CollisionHit& chit)
 void
 Kugelblitz::active_update(float elapsed_time)
 {
-  if (electrify_timer.check()) {
-    Sector::current()->solids->change_all(1421,75);
-    Sector::current()->solids->change_all(1422,76);
-    explode();
-  }
-  else if (lifetime.check()) {
+  if (lifetime.check()) {
     explode();
   }
   else {
@@ -144,11 +138,9 @@ Kugelblitz::active_update(float elapsed_time)
     }
     if (Sector::current()->solids->get_tile_at(get_pos())->getAttributes() == 16) {
       //HIT WATER
-      Sector::current()->solids->change_all(75,1421);
-      Sector::current()->solids->change_all(76,1422);
-      physic.set_velocity_x(0);
-      physic.set_velocity_y(0);
-      electrify_timer.start(1);
+      Sector::current()->add_object(new Electrifier(75,1421,1.5));
+      Sector::current()->add_object(new Electrifier(76,1422,1.5));
+      explode();
     }
   }
   BadGuy::active_update(elapsed_time);  

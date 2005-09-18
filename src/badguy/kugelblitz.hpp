@@ -22,6 +22,7 @@
 
 #include "badguy.hpp"
 #include "timer.hpp"
+#include "object/electrifier.hpp"
 
 class Kugelblitz : public BadGuy
 {
@@ -45,7 +46,6 @@ private:
   bool dying;
   Timer movement_timer;
   Timer lifetime;
-  Timer electrify_timer;
   int direction;
 };
 
