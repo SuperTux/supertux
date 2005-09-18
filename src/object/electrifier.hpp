@@ -18,6 +18,8 @@
 #ifndef __ELECTRIFIER_H__
 #define __ELECTRIFIER_H__
 
+#include <config.h>
+#include "resources.hpp"
 #include "game_object.hpp"
 #include "timer.hpp"
 

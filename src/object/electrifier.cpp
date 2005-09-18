@@ -29,7 +29,6 @@ Electrifier::Electrifier(uint32_t oldtile, uint32_t newtile, float seconds)
 }
   
 Electrifier::~Electrifier() {
-  remove_me();
 }
 
 void
