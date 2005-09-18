@@ -5373,7 +5373,7 @@
       "tiles/water/electrified-0.png"
       "tiles/water/electrified-1.png"
     )
-    (anim-fps 5)
+    (anim-fps 10)
     (spike #t)
     (water #t)
   )
@@ -5383,7 +5383,7 @@
       "tiles/water/electrified_waves-0.png"
       "tiles/water/electrified_waves-1.png"
     )
-    (anim-fps 5)
+    (anim-fps 10)
     (spike #t)
     (water #t)
   )
