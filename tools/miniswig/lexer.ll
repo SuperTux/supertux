@@ -7,6 +7,10 @@
 #include "parser.hpp"
 #include "globals.hpp"
 
+// there seems to be a bug in flex that adds some ECHO directives
+// in some rules, we don't need debug output
+#define ECHO  {}
+
 #define YY_NEVER_INTERACTIVE 1
 #define YY_DECL int yylex(YYSTYPE* yylval)
 
