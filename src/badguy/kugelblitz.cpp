@@ -136,10 +136,16 @@ Kugelblitz::active_update(float elapsed_time)
         movement_timer.start(MOVETIME);
       }
     }
+    if (Sector::current()->solids->get_tile_at(get_pos())->getAttributes() != 0)
+    std::cout << Sector::current()->solids->get_tile_at(get_pos())->getAttributes() << std::endl;
     if (Sector::current()->solids->get_tile_at(get_pos())->getAttributes() == 16) {
       //HIT WATER
       Sector::current()->add_object(new Electrifier(75,1421,1.5));
       Sector::current()->add_object(new Electrifier(76,1422,1.5));
+      explode();
+    }
+    if (Sector::current()->solids->get_tile_at(get_pos())->getAttributes() == 48) {
+      //HIT ELECTRIFIED WATER
       explode();
     }
   }
