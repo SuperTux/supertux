@@ -21,6 +21,8 @@
 
 #include "badguy.hpp"
 #include "object/camera.hpp"
+#include "object/tilemap.hpp"
+#include "tile.hpp"
 #include "statistics.hpp"
 
 static const float SQUISH_TIME = 2;
@@ -116,8 +118,16 @@ BadGuy::collision(GameObject& other, const CollisionHit& hit)
     case STATE_INACTIVE:
       return ABORT_MOVE;
     case STATE_ACTIVE: {
-      if(other.get_flags() & FLAG_SOLID)
-        return collision_solid(other, hit);
+      TileMap* tilemap = dynamic_cast<TileMap*> (&other);
+      if(tilemap != 0) {
+        const TilemapCollisionHit* thit 
+          = static_cast<const TilemapCollisionHit*> (&hit);
+        if(thit->tileflags & Tile::SPIKE)
+          kill_fall();
+        if(thit->tileflags & Tile::SOLID)
+          return collision_solid(other, hit);
+        return FORCE_MOVE;
+      }
 
       BadGuy* badguy = dynamic_cast<BadGuy*> (&other);
       if(badguy && badguy->state == STATE_ACTIVE)

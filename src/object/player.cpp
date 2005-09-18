@@ -767,7 +767,6 @@ Player::collision(GameObject& other, const CollisionHit& hit)
     if(tilemap) {
       const TilemapCollisionHit* thit = 
         static_cast<const TilemapCollisionHit*> (&hit);
-      printf("Tileattrs. %d\n", thit->tileflags);
       if(thit->tileflags & Tile::SPIKE)
         kill(SHRINK);
 
