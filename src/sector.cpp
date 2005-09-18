@@ -629,7 +629,7 @@ Sector::collision_tilemap(MovingObject* object, int depth)
         if(Collision::rectangle_aatriangle(temphit, dest, object->movement,
               triangle)) {
           hit.tileflags |= tile->getAttributes();
-          if(temphit.time > hit.time) {
+          if(temphit.time > hit.time && (tile->getAttributes() & Tile::SOLID)) {
             temphit.tileflags = hit.tileflags;
             hit = temphit;
           }
@@ -639,7 +639,7 @@ Sector::collision_tilemap(MovingObject* object, int depth)
         if(Collision::rectangle_rectangle(temphit, dest,
               object->movement, rect)) {
           hit.tileflags |= tile->getAttributes();
-          if(temphit.time > hit.time) {
+          if(temphit.time > hit.time && (tile->getAttributes() & Tile::SOLID)) {
             temphit.tileflags = hit.tileflags;
             hit = temphit;
           }
@@ -649,7 +649,7 @@ Sector::collision_tilemap(MovingObject* object, int depth)
   }
 
   // did we collide at all?
-  if(hit.time < 0)
+  if(hit.tileflags == 0)
     return;
  
   // call collision function
