@@ -40,6 +40,7 @@ public:
   void explode();
 
 private:
+  void try_activate();
   HitResponse hit(const CollisionHit& hit);
   Vector pos_groundhit;
   bool groundhit_pos_set;
@@ -47,6 +48,7 @@ private:
   Timer movement_timer;
   Timer lifetime;
   int direction;
+  State state;
 };
 
 #endif

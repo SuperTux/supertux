@@ -80,6 +80,7 @@ ParticleSystem_Interactive::collision(Particle* object, Vector movement)
   x2 = x1 + 32 + movement.x;
   y1 = object->pos.y;
   y2 = y1 + 32 + movement.y;
+  bool water = false;
   
   // test with all tiles in this rectangle
   int starttilex = int(x1-1) / 32;
@@ -96,8 +97,10 @@ ParticleSystem_Interactive::collision(Particle* object, Vector movement)
       const Tile* tile = solids->get_tile(x, y);
       if(!tile)
         continue;
-      // skip non-solid tiles
-      if(!(tile->getAttributes() & Tile::SOLID))
+      // skip non-solid tiles, except water
+      if (tile->getAttributes() & Tile::WATER)
+        water = true;
+      if(!water && !(tile->getAttributes() & Tile::SOLID))
         continue;
 
       if(tile->getAttributes() & Tile::SLOPE) { // slope tile
@@ -127,9 +130,13 @@ ParticleSystem_Interactive::collision(Particle* object, Vector movement)
     return -1; //no collision
   }
   else {
-    if ((hit.normal.x == 1) && (hit.normal.y == 0))
-      return 1; //collision from right
-    else return 0; //collision from above
+    if (water)
+      return 0; //collision with water tile - don't draw splash
+    else {
+      if ((hit.normal.x == 1) && (hit.normal.y == 0))
+        return 2; //collision from right
+      else return 1; //collision from above
+    }
   }
 }
 
@@ -191,8 +198,8 @@ void RainParticleSystem::update(float elapsed_time)
         int col = collision(particle, Vector(-movement, movement));
         if ((particle->pos.y > SCREEN_HEIGHT + abs_y) || (col >= 0)) {
             //Create rainsplash
-            if (particle->pos.y <= SCREEN_HEIGHT + abs_y){
-              bool vertical = (col == 1);
+            if ((particle->pos.y <= SCREEN_HEIGHT + abs_y) && (col >= 1)){
+              bool vertical = (col == 2);
               int splash_x, splash_y;
               if (!vertical) { //check if collision happened from above
                 splash_x = int(particle->pos.x);
@@ -270,8 +277,9 @@ void CometParticleSystem::update(float elapsed_time)
         float abs_y = Sector::current()->camera->get_translation().y;
         particle->pos.y += movement;
         particle->pos.x -= movement;
-        if ((particle->pos.y > SCREEN_HEIGHT + abs_y) || (collision(particle, Vector(-movement, movement)) >= 0)) {
-            if (particle->pos.y <= SCREEN_HEIGHT + abs_y) {
+        int col = collision(particle, Vector(-movement, movement));
+        if ((particle->pos.y > SCREEN_HEIGHT + abs_y) || (col >= 0)) {
+            if ((particle->pos.y <= SCREEN_HEIGHT + abs_y) && (col >= 1)) {
               Sector::current()->add_object(new Bomb(particle->pos, LEFT));
             }
             int new_x = (rand() % int(virtual_width)) + int(abs_x);
