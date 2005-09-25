@@ -12,6 +12,7 @@ public:
   {}
 #endif
 
+#if 0
   /**
    * Set tux bonus.
    * This can be "grow", "fireflow" or "iceflower" at the moment
@@ -29,6 +30,7 @@ public:
    * Give tux more coins
    */
   virtual void add_coins(int count) = 0;
+#endif
 };
 
 }

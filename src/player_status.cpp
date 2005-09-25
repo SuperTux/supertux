@@ -25,12 +25,14 @@
 #include "gettext.hpp"
 #include "video/drawing_context.hpp"
 #include "audio/sound_manager.hpp"
+#include "sprite/sprite_manager.hpp"
+#include "math/vector.hpp"
 #include "main.hpp"
 
 static const int START_LIVES = 4;
 static const int MAX_LIVES = 99;
 
-PlayerStatus player_status;
+PlayerStatus* player_status = 0;
 
 PlayerStatus::PlayerStatus()
   : coins(0),
@@ -39,11 +41,32 @@ PlayerStatus::PlayerStatus()
     score_multiplier(1),
     max_score_multiplier(1)
 {
+  reset();
+  key_brass = sprite_manager->create("key-brass");
+  key_iron = sprite_manager->create("key-iron");
+  key_bronze = sprite_manager->create("key-bronze");
+  key_silver = sprite_manager->create("key-silver");
+  key_gold = sprite_manager->create("key-gold");
+  key_brass->set_action("outline");
+  key_iron->set_action("outline");
+  key_bronze->set_action("outline");
+  key_silver->set_action("outline");
+  key_gold->set_action("outline");
+}
+
+PlayerStatus::~PlayerStatus()
+{
+  delete key_brass;
+  delete key_iron;
+  delete key_bronze;
+  delete key_silver;
+  delete key_gold;
 }
 
 void PlayerStatus::reset()
 {
   coins = 0;
+  keys = 0;
   lives = START_LIVES;
   bonus = NO_BONUS;
   score_multiplier = 1;
@@ -70,6 +93,17 @@ PlayerStatus::incCoins()
 }
 
 void
+PlayerStatus::set_keys(int new_key)
+{
+  keys |= new_key;
+  key_brass->set_action(keys & KEY_BRASS ? "display" : "outline");
+  key_iron->set_action(keys & KEY_IRON ? "display" : "outline");
+  key_bronze->set_action(keys & KEY_BRONZE ? "display" : "outline");
+  key_silver->set_action(keys & KEY_SILVER ? "display" : "outline");
+  key_gold->set_action(keys & KEY_GOLD ? "display" : "outline");
+}
+
+void
 PlayerStatus::write(lisp::Writer& writer)
 {
   switch(bonus) {
@@ -89,6 +123,11 @@ PlayerStatus::write(lisp::Writer& writer)
       std::cerr << "Unknown bonus type.\n";
       writer.write_string("bonus", "none");
   }
+  writer.write_bool("key-brass", keys & KEY_BRASS);
+  writer.write_bool("key-iron", keys & KEY_IRON);
+  writer.write_bool("key-bronze", keys & KEY_BRONZE);
+  writer.write_bool("key-silver", keys & KEY_SILVER);
+  writer.write_bool("key-gold", keys & KEY_GOLD);
 
   writer.write_int("lives", lives);
   writer.write_int("coins", coins);
@@ -115,10 +154,39 @@ PlayerStatus::read(const lisp::Lisp& lisp)
       bonus = NO_BONUS;
     }
   }
+  bool val;
+  if(lisp.get("key-brass", val) && val == true)
+    set_keys(KEY_BRASS);
+  if(lisp.get("key-iron", val) && val == true)
+    set_keys(KEY_IRON);
+  if(lisp.get("key-bronze", val) && val == true)
+    set_keys(KEY_BRONZE);
+  if(lisp.get("key-silver", val) && val == true)
+    set_keys(KEY_SILVER);
+  if(lisp.get("key-gold", val) && val == true)
+    set_keys(KEY_GOLD);
 
   lisp.get("lives", lives);
   lisp.get("coins", coins);
   lisp.get("max-score-multiplier", max_score_multiplier);
+}
+
+void
+PlayerStatus::draw_keys(DrawingContext& context)
+{
+  const float SPACING = 10;
+  float x,y; 
+  x = BORDER_X; y = BORDER_Y;
+  key_brass->draw(context, Vector(x, y), LAYER_FOREGROUND1);
+  x += key_brass->get_width() + SPACING;
+  key_iron->draw(context, Vector(x, y), LAYER_FOREGROUND1);
+  x += key_iron->get_width() + SPACING;
+  key_bronze->draw(context, Vector(x, y), LAYER_FOREGROUND1);
+  x += key_bronze->get_width() + SPACING;
+  key_silver->draw(context, Vector(x, y), LAYER_FOREGROUND1);
+  x += key_silver->get_width() + SPACING;
+  key_gold->draw(context, Vector(x, y), LAYER_FOREGROUND1);
+  x += key_gold->get_width() + SPACING;
 }
 
 void
@@ -129,35 +197,37 @@ PlayerStatus::draw(DrawingContext& context)
 
   char str[60];
   
-  sprintf(str, " %d", player_status.coins);
+  sprintf(str, " %d", player_status->coins);
   const char* coinstext = _("COINS");
   context.draw_text(white_text, coinstext,
       Vector(SCREEN_WIDTH - white_text->get_text_width(coinstext) 
-              - white_text->get_text_width("   99"), 0),
+              - white_text->get_text_width("   99") - BORDER_X, BORDER_Y),
       LEFT_ALLIGN, LAYER_FOREGROUND1);
   context.draw_text(gold_text, str,
-      Vector(SCREEN_WIDTH - gold_text->get_text_width(" 99"), 0),
+      Vector(SCREEN_WIDTH - gold_text->get_text_width(" 99") - BORDER_X, BORDER_Y),
       LEFT_ALLIGN, LAYER_FOREGROUND1);
 
-  if (player_status.lives >= 5) {
-    sprintf(str, "%dx", player_status.lives);
+  if (player_status->lives >= 5) {
+    sprintf(str, "%dx", player_status->lives);
     float x = SCREEN_WIDTH - gold_text->get_text_width(str) - tux_life->w;
-    context.draw_text(gold_text, str, Vector(x, 20), LEFT_ALLIGN,
+    context.draw_text(gold_text, str, Vector(x - BORDER_X, BORDER_Y + 20), LEFT_ALLIGN,
                       LAYER_FOREGROUND1);
-    context.draw_surface(tux_life, Vector(SCREEN_WIDTH - 16, 20),
+    context.draw_surface(tux_life, Vector(SCREEN_WIDTH - 16 - BORDER_X, BORDER_Y + 20),
                          LAYER_FOREGROUND1);
   } else {
-    for(int i= 0; i < player_status.lives; ++i)
+    for(int i= 0; i < player_status->lives; ++i)
       context.draw_surface(tux_life, 
-          Vector(SCREEN_WIDTH - tux_life->w*4 +(tux_life->w*i), 20),
+          Vector(SCREEN_WIDTH - tux_life->w*4 +(tux_life->w*i) - BORDER_X, BORDER_Y + 20),
           LAYER_FOREGROUND1);
   }
 
   const char* livestext = _("LIVES");
   context.draw_text(white_text, livestext,
       Vector(SCREEN_WIDTH - white_text->get_text_width(livestext) 
-                - white_text->get_text_width("   99"), 20),
+                - white_text->get_text_width("   99") - BORDER_X, BORDER_Y + 20),
       LEFT_ALLIGN, LAYER_FOREGROUND1);
+  
+  draw_keys(context);  
 
   context.pop_transform();
 }

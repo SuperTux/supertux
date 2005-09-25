@@ -116,31 +116,8 @@ void load_shared()
 
   /* Tux life: */
   tux_life = new Surface("images/creatures/tux_small/tux-life.png", true);
-
-#if 0
-  /* Sound effects: */
-  sound_manager->preload_sound("jump");
-  sound_manager->preload_sound("bigjump");
-  sound_manager->preload_sound("skid");
-  sound_manager->preload_sound("coin");
-  sound_manager->preload_sound("invincible");
-  sound_manager->preload_sound("brick");
-  sound_manager->preload_sound("hurt");
-  sound_manager->preload_sound("squish");
-  sound_manager->preload_sound("fall");
-  sound_manager->preload_sound("ricochet");
-  sound_manager->preload_sound("bump-upgrade");
-  sound_manager->preload_sound("upgrade");
-  sound_manager->preload_sound("grow");
-  sound_manager->preload_sound("fire-flower");
-  sound_manager->preload_sound("shoot");
-  sound_manager->preload_sound("lifeup");
-  sound_manager->preload_sound("stomp");
-  sound_manager->preload_sound("kick");
-  sound_manager->preload_sound("explosion");
-  sound_manager->preload_sound("warp");
-  sound_manager->preload_sound("fireworks");
-#endif
+  
+  player_status = new PlayerStatus();
 }
 
 /* Free shared data: */

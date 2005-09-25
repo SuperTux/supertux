@@ -72,7 +72,7 @@ Sector::Sector()
     currentmusic(LEVEL_MUSIC)
 {
   song_title = "chipdisko.ogg";
-  player = new Player(&player_status);
+  player = new Player(player_status);
   add_object(player);
 
 #ifdef USE_GRID
@@ -750,11 +750,11 @@ Sector::add_bullet(const Vector& pos, float xm, Direction dir)
   static const size_t MAX_ICE_BULLETS = 1;
 
   Bullet* new_bullet = 0;
-  if(player_status.bonus == FIRE_BONUS) {
+  if(player_status->bonus == FIRE_BONUS) {
     if(bullets.size() > MAX_FIRE_BULLETS-1)
       return false;
     new_bullet = new Bullet(pos, xm, dir, FIRE_BULLET);
-  } else if(player_status.bonus == ICE_BONUS) {
+  } else if(player_status->bonus == ICE_BONUS) {
     if(bullets.size() > MAX_ICE_BULLETS-1)
       return false;
     new_bullet = new Bullet(pos, xm, dir, ICE_BULLET);

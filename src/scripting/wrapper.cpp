@@ -417,50 +417,6 @@ static int Player_release_hook(SQUserPointer ptr, int )
   return 0;
 }
 
-static int Player_set_bonus_wrapper(HSQUIRRELVM v)
-{
-  Scripting::Player* _this;
-  sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
-  const char* arg0;
-  sq_getstring(v, 2, &arg0);
-  
-  _this->set_bonus(arg0);
-  
-  return 0;
-}
-
-static int Player_make_invincible_wrapper(HSQUIRRELVM v)
-{
-  Scripting::Player* _this;
-  sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
-  
-  _this->make_invincible();
-  
-  return 0;
-}
-
-static int Player_add_life_wrapper(HSQUIRRELVM v)
-{
-  Scripting::Player* _this;
-  sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
-  
-  _this->add_life();
-  
-  return 0;
-}
-
-static int Player_add_coins_wrapper(HSQUIRRELVM v)
-{
-  Scripting::Player* _this;
-  sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
-  int arg0;
-  sq_getinteger(v, 2, &arg0);
-  
-  _this->add_coins(arg0);
-  
-  return 0;
-}
-
 static int display_text_file_wrapper(HSQUIRRELVM v)
 {
   const char* arg0;
@@ -499,6 +455,16 @@ static int import_wrapper(HSQUIRRELVM v)
   sq_getstring(v, 2, &arg1);
   
   Scripting::import(arg0, arg1);
+  
+  return 0;
+}
+
+static int add_key_wrapper(HSQUIRRELVM v)
+{
+  int arg0;
+  sq_getinteger(v, 2, &arg0);
+  
+  Scripting::add_key(arg0);
   
   return 0;
 }
@@ -692,6 +658,46 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   using namespace Wrapper;
 
   sq_pushroottable(v);
+  sq_pushstring(v, "KEY_BRASS", -1);
+  sq_pushinteger(v, 1);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    std::ostringstream msg;
+    msg << "Couldn't register constant'KEY_BRASS'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  sq_pushstring(v, "KEY_IRON", -1);
+  sq_pushinteger(v, 2);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    std::ostringstream msg;
+    msg << "Couldn't register constant'KEY_IRON'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  sq_pushstring(v, "KEY_BRONZE", -1);
+  sq_pushinteger(v, 4);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    std::ostringstream msg;
+    msg << "Couldn't register constant'KEY_BRONZE'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  sq_pushstring(v, "KEY_SILVER", -1);
+  sq_pushinteger(v, 8);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    std::ostringstream msg;
+    msg << "Couldn't register constant'KEY_SILVER'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  sq_pushstring(v, "KEY_GOLD", -1);
+  sq_pushinteger(v, 16);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    std::ostringstream msg;
+    msg << "Couldn't register constant'KEY_GOLD'";
+    throw SquirrelError(v, msg.str());
+  }
+
   sq_pushstring(v, "display_text_file", -1);
   sq_newclosure(v, &display_text_file_wrapper, 0);
   if(SQ_FAILED(sq_createslot(v, -3))) {
@@ -721,6 +727,14 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   if(SQ_FAILED(sq_createslot(v, -3))) {
     std::ostringstream msg;
     msg << "Couldn't register function'import'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  sq_pushstring(v, "add_key", -1);
+  sq_newclosure(v, &add_key_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    std::ostringstream msg;
+    msg << "Couldn't register function'add_key'";
     throw SquirrelError(v, msg.str());
   }
 
@@ -1041,38 +1055,6 @@ void register_supertux_wrapper(HSQUIRRELVM v)
     msg << "Couldn't create new class 'Player'";
     throw SquirrelError(v, msg.str());
   }
-  sq_pushstring(v, "set_bonus", -1);
-  sq_newclosure(v, &Player_set_bonus_wrapper, 0);
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    std::ostringstream msg;
-    msg << "Couldn't register function'set_bonus'";
-    throw SquirrelError(v, msg.str());
-  }
-
-  sq_pushstring(v, "make_invincible", -1);
-  sq_newclosure(v, &Player_make_invincible_wrapper, 0);
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    std::ostringstream msg;
-    msg << "Couldn't register function'make_invincible'";
-    throw SquirrelError(v, msg.str());
-  }
-
-  sq_pushstring(v, "add_life", -1);
-  sq_newclosure(v, &Player_add_life_wrapper, 0);
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    std::ostringstream msg;
-    msg << "Couldn't register function'add_life'";
-    throw SquirrelError(v, msg.str());
-  }
-
-  sq_pushstring(v, "add_coins", -1);
-  sq_newclosure(v, &Player_add_coins_wrapper, 0);
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    std::ostringstream msg;
-    msg << "Couldn't register function'add_coins'";
-    throw SquirrelError(v, msg.str());
-  }
-
   if(SQ_FAILED(sq_createslot(v, -3))) {
     std::ostringstream msg;
     msg << "Couldn't register class'Player'";

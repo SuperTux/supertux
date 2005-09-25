@@ -30,6 +30,7 @@
 #include "physic.hpp"
 #include "control/controller.hpp"
 #include "player_status.hpp"
+#include "scripting/player.hpp"
 
 class BadGuy;
 class Portable;
@@ -78,7 +79,7 @@ extern TuxBodyParts* big_tux;
 extern TuxBodyParts* fire_tux;
 extern TuxBodyParts* ice_tux;
 
-class Player : public MovingObject
+class Player : public MovingObject, public Scripting::Player
 {
 public:
   enum HurtMode { KILL, SHRINK };

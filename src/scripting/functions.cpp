@@ -47,5 +47,10 @@ void import(HSQUIRRELVM v, const std::string& filename)
   }
 }
 
+void add_key(int new_key)
+{
+  player_status->set_keys(new_key);
+}
+
 }
 

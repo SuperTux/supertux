@@ -200,7 +200,7 @@ GameSession::levelintro()
   context.draw_center_text(gold_text, level->get_name(), Vector(0, 160),
       LAYER_FOREGROUND1);
 
-  sprintf(str, "TUX x %d", player_status.lives);
+  sprintf(str, "TUX x %d", player_status->lives);
   context.draw_text(white_text, str, Vector(SCREEN_WIDTH/2, 210),
       CENTER_ALLIGN, LAYER_FOREGROUND1);
 
@@ -324,10 +324,10 @@ GameSession::try_cheats()
     tux.set_bonus(ICE_BONUS, false);
   }
   if(main_controller->check_cheatcode("lifeup")) {
-    player_status.lives++;
+    player_status->lives++;
   }
   if(main_controller->check_cheatcode("lifedown")) {
-    player_status.lives--;
+    player_status->lives--;
   }
   if(main_controller->check_cheatcode("grease")) {
     tux.physic.set_velocity_x(tux.physic.get_velocity_x()*3);
@@ -342,7 +342,7 @@ GameSession::try_cheats()
   }
   if(main_controller->check_cheatcode("kill")) {
     // kill Tux, but without losing a life
-    player_status.lives++;
+    player_status->lives++;
     tux.kill(tux.KILL);
   }
 #if 0
@@ -389,7 +389,7 @@ GameSession::check_end_conditions()
     exit_status = ES_LEVEL_FINISHED;
     return;
   } else if (!end_sequence && tux->is_dead()) {
-    if (player_status.lives < 0) { // No more lives!?
+    if (player_status->lives < 0) { // No more lives!?
       exit_status = ES_GAME_OVER;
     } else { // Still has lives, so reset Tux to the levelstart
       restart_level();
@@ -717,17 +717,17 @@ GameSession::start_sequence(const std::string& sequencename)
 void
 GameSession::drawstatus(DrawingContext& context)
 {
-  player_status.draw(context);
+  player_status->draw(context);
 
   if(config->show_fps) {
     char str[60];
     snprintf(str, sizeof(str), "%2.1f", fps_fps);
     context.draw_text(white_text, "FPS", 
                       Vector(SCREEN_WIDTH -
-                             white_text->get_text_width("FPS     "), 40),
+                             white_text->get_text_width("FPS     ") - BORDER_X, BORDER_Y + 40),
                       LEFT_ALLIGN, LAYER_FOREGROUND1);
     context.draw_text(gold_text, str,
-                      Vector(SCREEN_WIDTH-4*16, 40),
+                      Vector(SCREEN_WIDTH-4*16 - BORDER_X, BORDER_Y + 40),
                       LEFT_ALLIGN, LAYER_FOREGROUND1);
   }
 }
@@ -752,7 +752,7 @@ GameSession::drawresultscreen()
   sprintf(str, _("SCORE: %d"), global_stats.get_points(SCORE_STAT));
   context.draw_text(gold_text, str, Vector(SCREEN_WIDTH/2, 224), CENTER_ALLIGN, LAYER_FOREGROUND1);
 
-  sprintf(str, _("COINS: %d"), player_status.coins);
+  sprintf(str, _("COINS: %d"), player_status->coins);
   context.draw_text(gold_text, str, Vector(SCREEN_WIDTH/2, 256), CENTER_ALLIGN, LAYER_FOREGROUND1);
 
   context.do_drawing();

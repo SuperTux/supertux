@@ -132,7 +132,7 @@ Tux::~Tux()
 void
 Tux::draw(DrawingContext& context)
 {
-  switch (player_status.bonus) {
+  switch (player_status->bonus) {
     case GROWUP_BONUS:
       tux_sprite->set_action("large");
       break;
@@ -735,7 +735,7 @@ WorldMap::update(float delta)
       if (level->pos == tux->get_tile_pos())
         {
           sound_manager->stop_music();
-          PlayerStatus old_player_status = player_status;
+          PlayerStatus old_player_status = *player_status;
 
           // do a shriking fade to the level
           shrink_fade(Vector((level->pos.x*32 + 16 + offset.x),
@@ -787,9 +787,9 @@ WorldMap::update(float delta)
               level_finished = false;
               /* In case the player's abort the level, keep it using the old
                   status. But the minimum lives and no bonus. */
-              player_status.coins = old_player_status.coins;
-              player_status.lives = std::min(old_player_status.lives, player_status.lives);
-              player_status.bonus = NO_BONUS;
+              player_status->coins = old_player_status.coins;
+              player_status->lives = std::min(old_player_status.lives, player_status->lives);
+              player_status->bonus = NO_BONUS;
 
               break;
             case GameSession::ES_GAME_OVER:
@@ -808,7 +808,7 @@ WorldMap::update(float delta)
               context.draw_text(blue_text, _("GAMEOVER"), 
                   Vector(SCREEN_WIDTH/2, 200), CENTER_ALLIGN, LAYER_FOREGROUND1);
 
-              sprintf(str, _("COINS: %d"), player_status.coins);
+              sprintf(str, _("COINS: %d"), player_status->coins);
               context.draw_text(gold_text, str,
                   Vector(SCREEN_WIDTH/2, SCREEN_WIDTH - 32), CENTER_ALLIGN,
                   LAYER_FOREGROUND1);
@@ -820,7 +820,7 @@ WorldMap::update(float delta)
               wait_for_event(2.0, 6.0);
 
               quit = true;
-              player_status.reset();
+              player_status->reset();
               break;
               }
             case GameSession::ES_NONE:
@@ -936,7 +936,7 @@ WorldMap::draw_status(DrawingContext& context)
   context.push_transform();
   context.set_translation(Vector(0, 0));
  
-  player_status.draw(context);
+  player_status->draw(context);
 
   if (!tux->is_moving())
     {
@@ -1078,7 +1078,7 @@ WorldMap::savegame(const std::string& filename)
   writer.write_float("x", tux->get_tile_pos().x);
   writer.write_float("y", tux->get_tile_pos().y);
   writer.write_string("back", direction_to_string(tux->back_direction));
-  player_status.write(writer);
+  player_status->write(writer);
   writer.write_string("back", direction_to_string(tux->back_direction));
 
   writer.end_list("tux");
@@ -1124,11 +1124,11 @@ WorldMap::loadgame(const std::string& filename)
     load_map(); 
 
     savegame->get("intro-displayed", intro_displayed);
-    savegame->get("lives", player_status.lives);
-    savegame->get("coins", player_status.coins);
-    savegame->get("max-score-multiplier", player_status.max_score_multiplier);
-    if (player_status.lives < 0)
-      player_status.reset();
+    savegame->get("lives", player_status->lives);
+    savegame->get("coins", player_status->coins);
+    savegame->get("max-score-multiplier", player_status->max_score_multiplier);
+    if (player_status->lives < 0)
+      player_status->reset();
 
     const lisp::Lisp* tux_lisp = savegame->get_lisp("tux");
     if(tux)
@@ -1139,7 +1139,7 @@ WorldMap::loadgame(const std::string& filename)
       tux_lisp->get("x", p.x);
       tux_lisp->get("y", p.y);
       tux_lisp->get("back", back_str);
-      player_status.read(*tux_lisp);
+      player_status->read(*tux_lisp);
       
       tux->back_direction = string_to_direction(back_str);      
       tux->set_tile_pos(p);
@@ -1176,7 +1176,7 @@ WorldMap::loadgame(const std::string& filename)
     std::cerr << "Problem loading game '" << filename << "': " << e.what() 
               << "\n";
     load_map();
-    player_status.reset();
+    player_status->reset();
   }
 
   calculate_total_stats();

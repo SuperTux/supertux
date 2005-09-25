@@ -22,6 +22,10 @@
 #include "lisp/lisp.hpp"
 #include "timer.hpp"
 #include "serializable.hpp"
+#include "sprite/sprite.hpp"
+
+static const float BORDER_X = 10;
+static const float BORDER_Y = 10;
 
 enum BonusType {
   NO_BONUS, GROWUP_BONUS, FIRE_BONUS, ICE_BONUS
@@ -36,14 +40,17 @@ class PlayerStatus : public Serializable
 {
 public:
   PlayerStatus();
+  ~PlayerStatus();
   void reset();     
   void incLives();
   void incCoins();
+  void set_keys(int new_key);
 
   void write(lisp::Writer& writer);
   void read(const lisp::Lisp& lisp);
 
   void draw(DrawingContext& context);
+  void draw_keys(DrawingContext& context);
 
   int  coins;
   int  lives;
@@ -51,9 +58,25 @@ public:
 
   int score_multiplier;
   int max_score_multiplier;
+  
+  enum {
+    KEY_BRASS  = 0x001,
+    KEY_IRON   = 0x002,
+    KEY_BRONZE = 0x004,
+    KEY_SILVER = 0x008,
+    KEY_GOLD   = 0x010,
+  };
+
+private:
+  int  keys;
+  Sprite* key_iron;
+  Sprite* key_brass;
+  Sprite* key_bronze;
+  Sprite* key_silver;
+  Sprite* key_gold;
 };
 
 // global player state
-extern PlayerStatus player_status;
+extern PlayerStatus* player_status;
 
 #endif

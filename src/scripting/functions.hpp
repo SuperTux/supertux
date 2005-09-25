@@ -3,10 +3,18 @@
 
 #ifndef SCRIPTING_API
 #define __suspend
+#include "player_status.hpp"
 #endif
 
 namespace Scripting
 {
+
+//TODO: Get this from PlayerStatus (update MiniSwig!)
+static const int KEY_BRASS  = 0x001;
+static const int KEY_IRON   = 0x002;
+static const int KEY_BRONZE = 0x004;
+static const int KEY_SILVER = 0x008;
+static const int KEY_GOLD   = 0x010;
 
 /** displays a text file and scrolls it over the screen */
 void display_text_file(const std::string& filename);
@@ -22,6 +30,9 @@ std::string translate(const std::string& text);
  * This is typically used to import functions from external files.
  */
 void import(HSQUIRRELVM v, const std::string& filename);
+/** add a key to the inventory
+ */
+void add_key(int new_key);
 
 }
 

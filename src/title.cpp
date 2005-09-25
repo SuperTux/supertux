@@ -82,7 +82,7 @@ static int current_subset = -1;
  */
 void resume_demo()
 {
-  player_status.reset();
+  player_status->reset();
   titlesession->get_current_sector()->activate("main");
   titlesession->set_current();
 
@@ -232,7 +232,7 @@ void check_contrib_subset_menu()
       GameSession session(
           current_contrib_subset->get_level_filename(index), ST_GL_PLAY);
       session.run();
-      player_status.reset();
+      player_status->reset();
       Menu::set_current(main_menu);
       resume_demo();
     }

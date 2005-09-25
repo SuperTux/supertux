@@ -21,7 +21,7 @@ namespace Scripting
     std::string filename = "music/";
     filename += name;
     filename += ".ogg";
-    sound_manager->play_music(name);
+    sound_manager->play_music(filename);
   }
 
   void
