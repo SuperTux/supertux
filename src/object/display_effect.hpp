@@ -17,6 +17,8 @@ public:
     void fade_in(float fadetime);
     void set_black(bool enabled);
     bool is_black();
+    void sixteen_to_nine();
+    void four_to_three();
 
 private:
     enum FadeType {
@@ -26,6 +28,7 @@ private:
     float fadetime;
     float fading;
     bool black;
+    bool cutscene_borders;
 };
 
 #endif

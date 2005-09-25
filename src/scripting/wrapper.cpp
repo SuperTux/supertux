@@ -72,6 +72,26 @@ static int DisplayEffect_is_black_wrapper(HSQUIRRELVM v)
   return 1;
 }
 
+static int DisplayEffect_sixteen_to_nine_wrapper(HSQUIRRELVM v)
+{
+  Scripting::DisplayEffect* _this;
+  sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
+  
+  _this->sixteen_to_nine();
+  
+  return 0;
+}
+
+static int DisplayEffect_four_to_three_wrapper(HSQUIRRELVM v)
+{
+  Scripting::DisplayEffect* _this;
+  sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
+  
+  _this->four_to_three();
+  
+  return 0;
+}
+
 static int Camera_release_hook(SQUserPointer ptr, int )
 {
   Scripting::Camera* _this = reinterpret_cast<Scripting::Camera*> (ptr);
@@ -414,6 +434,48 @@ static int Player_release_hook(SQUserPointer ptr, int )
 {
   Scripting::Player* _this = reinterpret_cast<Scripting::Player*> (ptr);
   delete _this;
+  return 0;
+}
+
+static int Player_make_invincible_wrapper(HSQUIRRELVM v)
+{
+  Scripting::Player* _this;
+  sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
+  
+  _this->make_invincible();
+  
+  return 0;
+}
+
+static int Player_deactivate_wrapper(HSQUIRRELVM v)
+{
+  Scripting::Player* _this;
+  sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
+  
+  _this->deactivate();
+  
+  return 0;
+}
+
+static int Player_activate_wrapper(HSQUIRRELVM v)
+{
+  Scripting::Player* _this;
+  sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
+  
+  _this->activate();
+  
+  return 0;
+}
+
+static int Player_walk_wrapper(HSQUIRRELVM v)
+{
+  Scripting::Player* _this;
+  sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
+  float arg0;
+  sq_getfloat(v, 2, &arg0);
+  
+  _this->walk(arg0);
+  
   return 0;
 }
 
@@ -777,6 +839,22 @@ void register_supertux_wrapper(HSQUIRRELVM v)
     throw SquirrelError(v, msg.str());
   }
 
+  sq_pushstring(v, "sixteen_to_nine", -1);
+  sq_newclosure(v, &DisplayEffect_sixteen_to_nine_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    std::ostringstream msg;
+    msg << "Couldn't register function'sixteen_to_nine'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  sq_pushstring(v, "four_to_three", -1);
+  sq_newclosure(v, &DisplayEffect_four_to_three_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    std::ostringstream msg;
+    msg << "Couldn't register function'four_to_three'";
+    throw SquirrelError(v, msg.str());
+  }
+
   if(SQ_FAILED(sq_createslot(v, -3))) {
     std::ostringstream msg;
     msg << "Couldn't register class'DisplayEffect'";
@@ -1055,6 +1133,38 @@ void register_supertux_wrapper(HSQUIRRELVM v)
     msg << "Couldn't create new class 'Player'";
     throw SquirrelError(v, msg.str());
   }
+  sq_pushstring(v, "make_invincible", -1);
+  sq_newclosure(v, &Player_make_invincible_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    std::ostringstream msg;
+    msg << "Couldn't register function'make_invincible'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  sq_pushstring(v, "deactivate", -1);
+  sq_newclosure(v, &Player_deactivate_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    std::ostringstream msg;
+    msg << "Couldn't register function'deactivate'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  sq_pushstring(v, "activate", -1);
+  sq_newclosure(v, &Player_activate_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    std::ostringstream msg;
+    msg << "Couldn't register function'activate'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  sq_pushstring(v, "walk", -1);
+  sq_newclosure(v, &Player_walk_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    std::ostringstream msg;
+    msg << "Couldn't register function'walk'";
+    throw SquirrelError(v, msg.str());
+  }
+
   if(SQ_FAILED(sq_createslot(v, -3))) {
     std::ostringstream msg;
     msg << "Couldn't register class'Player'";

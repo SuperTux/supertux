@@ -23,6 +23,7 @@
 #include "object/text_object.hpp"
 #include "object/scripted_object.hpp"
 #include "object/display_effect.hpp"
+#include "object/player.hpp"
 #include "scripting/sound.hpp"
 #include "scripting/scripted_object.hpp"
 #include "scripting/display_effect.hpp"
@@ -89,6 +90,7 @@ ScriptInterpreter::register_sector(Sector* sector)
     expose_object(scripted_object, scripted_object->get_name());
   }
   
+  expose_object(static_cast<Scripting::Player*> (sector->player), "Tux");
   TextObject* text_object = new TextObject();
   sector->add_object(text_object);
   Scripting::Text* text = static_cast<Scripting::Text*> (text_object);

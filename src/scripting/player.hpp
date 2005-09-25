@@ -15,13 +15,9 @@ public:
 #if 0
   /**
    * Set tux bonus.
-   * This can be "grow", "fireflow" or "iceflower" at the moment
+   * This can be "grow", "fireflower" or "iceflower" at the moment
    */
   virtual void set_bonus(const std::string& bonus) = 0;
-  /**
-   * Make tux invicible for a short amount of time
-   */
-  virtual void make_invincible() = 0;
   /**
    * Give tux another life
    */
@@ -31,6 +27,22 @@ public:
    */
   virtual void add_coins(int count) = 0;
 #endif
+  /**
+   * Make tux invicible for a short amount of time
+   */
+  virtual void make_invincible() = 0;
+  /**
+   * Deactivate user input for Tux
+   */
+  virtual void deactivate() = 0;
+  /**
+   * Give control back to user
+   */
+  virtual void activate() = 0;
+  /**
+   * Make Tux walk
+   */
+  virtual void walk(float speed) = 0;
 };
 
 }

@@ -168,11 +168,16 @@ public:
 private:
   void handle_input();
   bool on_ground();
+  bool deactivated;
   
   void init();
   
   void handle_horizontal_input();
   void handle_vertical_input();
+
+  void activate();
+  void deactivate();
+  void walk(float speed);
 
   Portable* grabbed_object;
 

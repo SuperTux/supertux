@@ -20,6 +20,10 @@ public:
     virtual void set_black(bool enabled) = 0;
     /// check if display is set to black
     virtual bool is_black() = 0;
+    /// set black borders for cutscenes
+    virtual void sixteen_to_nine() = 0;
+    /// deactivate borders
+    virtual void four_to_three() = 0;
 
     // fade display until just a small visible circle is left
     // (like what happens in some cartoons at the end)

@@ -132,6 +132,7 @@ Player::init()
   falling_from_flap = false;
   enable_hover = false;
   butt_jump = false;
+  deactivated = false;
   
   flapping_velocity = 0;
 
@@ -177,7 +178,7 @@ Player::update(float elapsed_time)
     }
   }
 
-  if(!dying)
+  if(!dying && !deactivated)
     handle_input();
 
   movement = physic.get_movement(elapsed_time);
@@ -810,7 +811,7 @@ Player::make_invincible()
 void
 Player::kill(HurtMode mode)
 {
-  if(dying)
+  if(dying || deactivated)
     return;
 
   if(mode != KILL && 
@@ -922,3 +923,23 @@ Player::bounce(BadGuy& )
     physic.set_velocity_y(300);
 }
 
+//Scripting Functions Below
+
+void
+Player::deactivate()
+{
+  deactivated = true;
+  physic.set_velocity_x(0);
+  physic.set_velocity_y(0);
+}
+
+void
+Player::activate()
+{
+  deactivated = false;
+}
+
+void Player::walk(float speed)
+{
+  physic.set_velocity_x(WALK_SPEED);
+}

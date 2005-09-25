@@ -8,6 +8,7 @@
 DisplayEffect::DisplayEffect()
     : type(NO_FADE), fadetime(0), fading(0), black(false)
 {
+  cutscene_borders = false;
 }
 
 DisplayEffect::~DisplayEffect()
@@ -41,32 +42,39 @@ DisplayEffect::update(float elapsed_time)
 void
 DisplayEffect::draw(DrawingContext& context)
 {
-    if(!black && type == NO_FADE)
-        return;
-    
     context.push_transform();
     context.set_translation(Vector(0, 0));
 
-    uint8_t alpha;
-    if(black) {
-        alpha = 255;
-    } else {
-        switch(type) {
-            case FADE_IN:
-                alpha = static_cast<uint8_t>
-                    (fading * 255.0 / fadetime);
-                break;
-            case FADE_OUT:
-                alpha = static_cast<uint8_t>
-                    ((fadetime-fading) * 255.0 / fadetime);
-                break;
-            default:
-                alpha = 0;
-                assert(false);
-        }
+    if(black || type != NO_FADE) {    
+      uint8_t alpha;
+      if(black) {
+          alpha = 255;
+      } else {
+          switch(type) {
+              case FADE_IN:
+                  alpha = static_cast<uint8_t>
+                      (fading * 255.0 / fadetime);
+                  break;
+              case FADE_OUT:
+                  alpha = static_cast<uint8_t>
+                      ((fadetime-fading) * 255.0 / fadetime);
+                  break;
+              default:
+                  alpha = 0;
+                  assert(false);
+          }
+      }
+      context.draw_filled_rect(Vector(0, 0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT),
+              Color(0, 0, 0, alpha), LAYER_GUI-10);
     }
-    context.draw_filled_rect(Vector(0, 0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT),
-            Color(0, 0, 0, alpha), LAYER_GUI-10);
+
+    if (cutscene_borders) {
+      context.draw_filled_rect(Vector(0, 0), Vector(SCREEN_WIDTH, 75),
+              Color(0, 0, 0, 255), LAYER_GUI-10);
+      context.draw_filled_rect(Vector(0, SCREEN_HEIGHT - 75), Vector(SCREEN_WIDTH, 75),
+              Color(0, 0, 0, 255), LAYER_GUI-10);
+    }
+
     context.pop_transform();
 }
 
@@ -100,3 +108,14 @@ DisplayEffect::is_black()
     return black;
 }
 
+void
+DisplayEffect::sixteen_to_nine()
+{
+  cutscene_borders = true;
+}
+
+void
+DisplayEffect::four_to_three()
+{
+  cutscene_borders = false;
+}
