@@ -477,7 +477,7 @@
                        (y 575.55859375)
                        (width 398.47265625)
                        (height 125.03515625)
-                       (sample "rainl")
+                       (sample "rain")
                        (distance_factor 0.5)
                        (distance_bias 100.0)
                        (volume 1))
