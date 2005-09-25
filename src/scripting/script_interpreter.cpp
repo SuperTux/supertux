@@ -183,7 +183,7 @@ ScriptInterpreter::add_script_object(Sector* sector, const std::string& name,
     // load global default.nut file if it exists
     //TODO: Load all .nut files from that directory
     try {
-      std::string filename = "data/script/default.nut";
+      std::string filename = "script/default.nut";
       IFileStream in(filename);
       interpreter->run_script(in, filename, false);
     } catch(std::exception& e) {

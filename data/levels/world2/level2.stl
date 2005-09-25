@@ -235,12 +235,7 @@ DisplayEffect.fade_in(1);
       )
       (powerup (x 8000) (y 352)
         (sprite "key-gold")
-        (script "add_key(KEY_GOLD);
-                 Sound.play_music(\"leveldone\");
-                 wait(6);
-                 DisplayEffect.fade_out(2);
-                 wait(2);
-                 Level.finish();")
+        (script "get_gold_key();")
       )
       (infoblock (x 2560) (y 320)
         (message (_ "-Oh no!
