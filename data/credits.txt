@@ -16,6 +16,7 @@
 -Programming
 
 	Matthias \"MatzeB\" Braun
+!images/credits/matze.jpg
 
 	Tobias \"tobgle\" Glaesser
 
@@ -53,6 +54,7 @@
 -Level Design
 
 	Marek \"Wansti\" Moeckel
+!images/credits/wansti.jpg
 
 	Ingo \"grumbel\" Ruhnke
 
