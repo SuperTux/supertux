@@ -66,6 +66,7 @@ void display_text_file(const std::string& filename)
   std::string text;
   std::string background_file;
   std::vector<std::string> lines;
+  std::map<std::string, Surface*> images;
 
   lisp::Parser parser;
   try {
@@ -89,6 +90,17 @@ void display_text_file(const std::string& filename)
 
   // Split text string lines into a vector
   split_text(text, lines);
+
+  for(size_t i = 0; i < lines.size(); ++i) {
+    const std::string& line = lines[i];
+    if(line.size() == 0)
+      continue;
+    if(line[0] == '!') {
+      std::string imagename = line.substr(1, line.size()-1);
+      std::cout << "Imagename: " << imagename << "\n";
+      images.insert(std::make_pair(imagename, new Surface(imagename, true)));
+    }
+  }
 
   // load background image
   Surface* background 
@@ -138,6 +150,7 @@ void display_text_file(const std::string& filename)
       }
       
       const Font* font = 0;
+      const Surface* image = 0;
       bool center = true;
       switch(line[0])
       {
@@ -146,26 +159,38 @@ void display_text_file(const std::string& filename)
         case '-': font = heading_font; break;
         case '*': font = reference_font; break;
         case '#': font = normal_font; center = false; break;
+        case '!': {
+            std::string imagename = line.substr(1, line.size()-1);
+            image = images[imagename];
+            break;
+        }
         default:
           std::cerr << "Warning: text contains an unformated line.\n";
           font = normal_font;
           center = false;
           break;
       }
-      
-      if(center) {
-        context.draw_text(font,
-                          line.substr(1, line.size()-1),
-                          Vector(SCREEN_WIDTH/2, SCREEN_HEIGHT + y - scroll),
-                          CENTER_ALLIGN, LAYER_FOREGROUND1);
-      } else {
-        context.draw_text(font,
-                          line.substr(1, line.size()-1),
-                          Vector(left_border, SCREEN_HEIGHT + y - scroll),
-                          LEFT_ALLIGN, LAYER_FOREGROUND1);
+     
+      if(font != 0) {
+        if(center) {
+          context.draw_text(font,
+              line.substr(1, line.size()-1),
+              Vector(SCREEN_WIDTH/2, SCREEN_HEIGHT + y - scroll),
+              CENTER_ALLIGN, LAYER_FOREGROUND1);
+        } else {
+          context.draw_text(font,
+              line.substr(1, line.size()-1),
+              Vector(left_border, SCREEN_HEIGHT + y - scroll),
+              LEFT_ALLIGN, LAYER_FOREGROUND1);
+        }
+        y += font->get_height() + ITEMS_SPACE;
       }
-      
-      y += font->get_height() + ITEMS_SPACE;
+      if(image != 0) {
+        context.draw_surface(image,
+            Vector( (SCREEN_WIDTH - image->w) / 2,
+                    SCREEN_HEIGHT + y - scroll), 255);
+        y += image->h + ITEMS_SPACE;
+      }
     }
     
     context.do_drawing();
@@ -182,7 +207,11 @@ void display_text_file(const std::string& filename)
     
     SDL_Delay(10);
   }
-  
+
+  for(std::map<std::string, Surface*>::iterator i = images.begin();
+      i != images.end(); ++i)
+    delete i->second;
+
   SDL_EnableKeyRepeat(0, 0);    // disables key repeating
   delete background;
 }
