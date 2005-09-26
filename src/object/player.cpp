@@ -941,5 +941,5 @@ Player::activate()
 
 void Player::walk(float speed)
 {
-  physic.set_velocity_x(WALK_SPEED);
+  physic.set_velocity_x(speed);
 }
