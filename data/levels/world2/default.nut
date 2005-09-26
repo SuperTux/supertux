@@ -7,6 +7,8 @@ function get_gold_key()
 
 function level2_init()
 {
+  add_key(KEY_BRASS);
+  add_key(KEY_IRON);
   Tux.deactivate();
   DisplayEffect.sixteen_to_nine();
   Text.set_text(translate("---Insert Cutscene Here---"));
