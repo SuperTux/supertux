@@ -430,6 +430,18 @@ static int Text_set_visible_wrapper(HSQUIRRELVM v)
   return 0;
 }
 
+static int Text_set_centered_wrapper(HSQUIRRELVM v)
+{
+  Scripting::Text* _this;
+  sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
+  SQBool arg0;
+  sq_getbool(v, 2, &arg0);
+  
+  _this->set_centered(arg0);
+  
+  return 0;
+}
+
 static int Player_release_hook(SQUserPointer ptr, int )
 {
   Scripting::Player* _this = reinterpret_cast<Scripting::Player*> (ptr);
@@ -1117,6 +1129,14 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   if(SQ_FAILED(sq_createslot(v, -3))) {
     std::ostringstream msg;
     msg << "Couldn't register function'set_visible'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  sq_pushstring(v, "set_centered", -1);
+  sq_newclosure(v, &Text_set_centered_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    std::ostringstream msg;
+    msg << "Couldn't register function'set_centered'";
     throw SquirrelError(v, msg.str());
   }
 

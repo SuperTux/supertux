@@ -8,6 +8,7 @@ TextObject::TextObject()
   : fading(0), fadetime(0), visible(false)
 {
   font = blue_text;
+  centered = false;
 }
 
 TextObject::~TextObject()
@@ -62,6 +63,12 @@ TextObject::set_visible(bool visible)
 }
 
 void
+TextObject::set_centered(bool centered)
+{
+  this->centered = centered;
+}
+
+void
 TextObject::draw(DrawingContext& context)
 {
   context.push_transform();
@@ -78,7 +85,10 @@ TextObject::draw(DrawingContext& context)
 
   context.draw_filled_rect(Vector(125, 50), Vector(550, 120),
       Color(150, 180, 200, 125), LAYER_GUI-50);
-  context.draw_text(font, text, Vector(125+35, 50+35), LEFT_ALLIGN, LAYER_GUI-40);
+  if (centered) {
+    context.draw_center_text(font, text, Vector(0, 50+35), LAYER_GUI-40);
+  }
+  else context.draw_text(font, text, Vector(125+35, 50+35), LEFT_ALLIGN, LAYER_GUI-40);
 
   context.pop_transform();
 }

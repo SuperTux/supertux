@@ -17,6 +17,7 @@ public:
   virtual void fade_in(float fadetime) = 0;
   virtual void fade_out(float fadetime) = 0;
   virtual void set_visible(bool visible) = 0;
+  virtual void set_centered(bool centered) = 0;
 };
 
 }

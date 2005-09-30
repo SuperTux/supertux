@@ -1208,11 +1208,8 @@
 	 (fps 6)
          (x-offset 0)
          (y-offset 40)
-         (images "creatures/nolok/walk-0.png"
-		 "creatures/nolok/walk-1.png"
-                 "creatures/nolok/walk-2.png"
-		 "creatures/nolok/walk-3.png"
-		 "creatures/nolok/walk-4.png"))
+         (images "creatures/dummyguy/walk-1.png"
+		           "creatures/dummyguy/walk-2.png"))
 
        (action
          (name "right")
@@ -1225,23 +1222,20 @@
          (name "stand")
          (x-offset 0)
          (y-offset 40)
-         (images "creatures/nolok/walk-0.png"))
+         (images "creatures/dummyguy/stand.png"))
          
        (action
          (name "throw")
 	 (fps 6)
          (x-offset 0)
          (y-offset 40)
-         (images "creatures/nolok/throw-0.png"
-		 "creatures/nolok/throw-1.png"))
+         (images "creatures/dummyguy/throw.png"))
 
        (action
          (name "jump")
          (x-offset 0)
          (y-offset 40)
-         (images "creatures/nolok/jump-0.png"
-		 "creatures/nolok/jump-1.png"
-		 "creatures/nolok/jump-2.png"))
+         (images "creatures/dummyguy/jump.png"))
          
        (action
          (name "dead")

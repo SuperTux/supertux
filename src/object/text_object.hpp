@@ -18,6 +18,7 @@ public:
   void fade_in(float fadetime);
   void fade_out(float fadetime);
   void set_visible(bool visible);
+  void set_centered(bool centered);
   bool is_visible();
 
   void draw(DrawingContext& context);
@@ -29,6 +30,7 @@ private:
   float fading;
   float fadetime;
   bool visible;
+  bool centered;
 };
 
 #endif
