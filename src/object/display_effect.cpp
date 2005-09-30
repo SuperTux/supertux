@@ -8,7 +8,9 @@
 DisplayEffect::DisplayEffect()
     : type(NO_FADE), fadetime(0), fading(0), black(false)
 {
-  cutscene_borders = false;
+ border_size = 0; 
+ borders_fading = false;
+ borders_active = false;
 }
 
 DisplayEffect::~DisplayEffect()
@@ -18,6 +20,14 @@ DisplayEffect::~DisplayEffect()
 void
 DisplayEffect::update(float elapsed_time)
 {
+    if (borders_fading) {
+      if (border_size < 75) border_size += 1.5;
+      else borders_active = true;
+    }
+    else if (borders_active) {
+      if (border_size > 0) border_size -= 1.5;
+      else borders_active = false;
+    }
     switch(type) {
         case NO_FADE:
             return;
@@ -68,10 +78,10 @@ DisplayEffect::draw(DrawingContext& context)
               Color(0, 0, 0, alpha), LAYER_GUI-10);
     }
 
-    if (cutscene_borders) {
-      context.draw_filled_rect(Vector(0, 0), Vector(SCREEN_WIDTH, 75),
+    if (borders_fading || borders_active) {
+      context.draw_filled_rect(Vector(0, 0), Vector(SCREEN_WIDTH, border_size),
               Color(0, 0, 0, 255), LAYER_GUI-10);
-      context.draw_filled_rect(Vector(0, SCREEN_HEIGHT - 75), Vector(SCREEN_WIDTH, 75),
+      context.draw_filled_rect(Vector(0, SCREEN_HEIGHT - border_size), Vector(SCREEN_WIDTH, border_size),
               Color(0, 0, 0, 255), LAYER_GUI-10);
     }
 
@@ -111,11 +121,11 @@ DisplayEffect::is_black()
 void
 DisplayEffect::sixteen_to_nine()
 {
-  cutscene_borders = true;
+  borders_fading = true;
 }
 
 void
 DisplayEffect::four_to_three()
 {
-  cutscene_borders = false;
+  borders_fading = false;
 }

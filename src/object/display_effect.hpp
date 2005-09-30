@@ -28,7 +28,9 @@ private:
     float fadetime;
     float fading;
     bool black;
-    bool cutscene_borders;
+    bool borders_fading;
+    bool borders_active;
+    float border_size;
 };
 
 #endif
