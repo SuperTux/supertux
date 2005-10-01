@@ -1,4 +1,4 @@
-;; -*- mode: scheme -*-
+ ;; -*- mode: scheme -*-
 ;; (tile (id INT)
 ;;       (directions TOP RIGHT DOWN LEFT) 
 ;;
@@ -658,13 +658,19 @@
 (tile (id 159)
      (images "worldmap/forest/fall7.png"))
 (tile (id 160)
-     (images "worldmap/forest/fall8.png")
-     (images "worldmap/forest/fall8b.png")
+(anim-fps -15)
+     (images "worldmap/forest/fall8.png"
+             "worldmap/forest/fall8b.png"
+             "worldmap/forest/fall8c.png")
 )
 (tile (id 161)
      (images "worldmap/forest/fall9.png"))
 (tile (id 162)
-     (images "worldmap/forest/fall0.png"))
+(anim-fps -15)
+     (images "worldmap/forest/fall0.png"
+             "worldmap/forest/fall0b.png"
+             "worldmap/forest/fall0c.png"
+))
 (tile (id 163)
      (images "worldmap/forest/stream8.png"))
 (tile (id 164)
@@ -673,5 +679,1566 @@
      (images "worldmap/forest/stream10.png"))
 (tile (id 166)
      (images "worldmap/forest/shrub0.png"))
+(tile
+    (id 167)
+    (images
+      (region "worldmap/forest/castlemap.png" 0 0 32 32)
+    )
+    (solid #t))
+(tile
+    (id 168)
+    (images
+      (region "worldmap/forest/castlemap.png" 32 0 32 32)
+    )
+    (solid #t))
+(tile
+    (id 169)
+    (images
+      (region "worldmap/forest/castlemap.png" 64 0 32 32)
+    )
+    (solid #t))
+(tile
+    (id 170)
+    (images
+      (region "worldmap/forest/castlemap.png" 96 0 32 32)
+    )
+    (solid #t))
+(tile
+    (id 171)
+    (images
+      (region "worldmap/forest/castlemap.png" 128 0 32 32)
+    )
+    (solid #t))
+(tile
+    (id 172)
+    (images
+      (region "worldmap/forest/castlemap.png" 160 0 32 32)
+    )
+    (solid #t))
+(tile
+    (id 173)
+    (images
+      (region "worldmap/forest/castlemap.png" 192 0 32 32)
+    )
+    (solid #t))
+(tile
+    (id 174)
+    (images
+      (region "worldmap/forest/castlemap.png" 224 0 32 32)
+    )
+    (solid #t))
+(tile
+    (id 175)
+    (images
+      (region "worldmap/forest/castlemap.png" 256 0 32 32)
+    )
+    (solid #t))
+(tile
+    (id 176)
+    (images
+      (region "worldmap/forest/castlemap.png" 288 0 32 32)
+    )
+    (solid #t))
+(tile
+    (id 177)
+    (images
+      (region "worldmap/forest/castlemap.png" 310 0 32 32)
+    )
+    (solid #t))
+(tile
+    (id 178)
+    (images
+      (region "worldmap/forest/castlemap.png" 342 0 32 32)
+    )
+    (solid #t))
+(tile
+    (id 179)
+    (images
+      (region "worldmap/forest/castlemap.png" 374 0 32 32)
+    )
+    (solid #t))
+(tile
+    (id 180)
+    (images
+      (region "worldmap/forest/castlemap.png" 0 32 32 32)
+    )
+    (solid #t))
+(tile
+    (id 181)
+    (images
+      (region "worldmap/forest/castlemap.png" 32 32 32 32)
+    )
+    (solid #t))
+(tile
+    (id 182)
+    (images
+      (region "worldmap/forest/castlemap.png" 64 32 32 32)
+    )
+    (solid #t))
+(tile
+    (id 183)
+    (images
+      (region "worldmap/forest/castlemap.png" 96 32 32 32)
+    )
+    (solid #t))
+(tile
+    (id 184)
+    (images
+      (region "worldmap/forest/castlemap.png" 128 32 32 32)
+    )
+    (solid #t))
+(tile
+    (id 185)
+    (images
+      (region "worldmap/forest/castlemap.png" 160 32 32 32)
+    )
+    (solid #t))
+(tile
+    (id 186)
+    (images
+      (region "worldmap/forest/castlemap.png" 192 32 32 32)
+    )
+    (solid #t))
+(tile
+    (id 187)
+    (images
+      (region "worldmap/forest/castlemap.png" 224 32 32 32)
+    )
+    (solid #t))
+(tile
+    (id 188)
+    (images
+      (region "worldmap/forest/castlemap.png" 256 32 32 32)
+    )
+    (solid #t))
+(tile
+    (id 189)
+    (images
+      (region "worldmap/forest/castlemap.png" 288 32 32 32)
+    )
+    (solid #t))
+(tile
+    (id 190)
+    (images
+      (region "worldmap/forest/castlemap.png" 360 32 32 32)
+    )
+    (solid #t))
+(tile
+    (id 191)
+    (images
+      (region "worldmap/forest/castlemap.png" 352 32 32 32)
+    )
+    (solid #t))
+(tile
+    (id 192)
+    (images
+      (region "worldmap/forest/castlemap.png" 384 32 32 32)
+    )
+    (solid #t))
+(tile
+    (id 193)
+    (images
+      (region "worldmap/forest/castlemap.png" 0 64 32 32)
+    )
+    (solid #t))
+(tile
+    (id 194)
+    (images
+      (region "worldmap/forest/castlemap.png" 32 64 32 32)
+    )
+    (solid #t))
+(tile
+    (id 195)
+    (images
+      (region "worldmap/forest/castlemap.png" 64 64 32 32)
+    )
+    (solid #t))
+(tile
+    (id 196)
+    (images
+      (region "worldmap/forest/castlemap.png" 96 64 32 32)
+    )
+    (solid #t))
+(tile
+    (id 197)
+    (images
+      (region "worldmap/forest/castlemap.png" 128 64 32 32)
+    )
+    (solid #t))
+(tile
+    (id 198)
+    (images
+      (region "worldmap/forest/castlemap.png" 160 64 32 32)
+    )
+    (solid #t))
+(tile
+    (id 199)
+    (images
+      (region "worldmap/forest/castlemap.png" 192 64 32 32)
+    )
+    (solid #t))
+(tile
+    (id 200)
+    (images
+      (region "worldmap/forest/castlemap.png" 224 64 32 32)
+    )
+    (solid #t))
+(tile
+    (id 201)
+    (images
+      (region "worldmap/forest/castlemap.png" 256 64 32 32)
+  )         
+     (stop #f)
+     (north #f)
+     (south #t)
+     (west  #t)
+     (east  #f))
+(tile
+    (id 202)
+    (images
+      (region "worldmap/forest/castlemap.png" 288 64 32 32)
+    )
+    (solid #t))
+(tile
+    (id 203)
+    (images
+      (region "worldmap/forest/castlemap.png" 320 64 32 32)
+    )
+    (solid #t))
+(tile
+    (id 204)
+    (images
+      (region "worldmap/forest/castlemap.png" 352 64 32 32)
+    )
+    (solid #t))
+(tile
+    (id 205)
+    (images
+      (region "worldmap/forest/castlemap.png" 384 64 32 32)
+    )
+    (solid #t))
+(tile
+    (id 206)
+    (images
+      (region "worldmap/forest/castlemap.png" 0 96 32 32)
+    )
+    (solid #t))
+(tile
+    (id 207)
+    (images
+      (region "worldmap/forest/castlemap.png" 32 96 32 32)
+    )
+    (solid #t))
+(tile
+    (id 208)
+    (images
+      (region "worldmap/forest/castlemap.png" 64 96 32 32)
+    )
+    (solid #t))
+(tile
+    (id 209)
+    (images
+      (region "worldmap/forest/castlemap.png" 96 96 32 32)
+    )
+    (solid #t))
+(tile
+    (id 210)
+    (images
+      (region "worldmap/forest/castlemap.png" 128 96 32 32)
+    )
+    (solid #t))
+(tile
+    (id 211)
+    (images
+      (region "worldmap/forest/castlemap.png" 160 96 32 32)
+    )
+    (solid #t))
+(tile
+    (id 212)
+    (images
+      (region "worldmap/forest/castlemap.png" 192 96 32 32)
+    )
+    (solid #t))
+(tile
+    (id 213)
+    (images
+      (region "worldmap/forest/castlemap.png" 224 96 32 32)
+    )
+    (solid #t))
+(tile
+    (id 214)
+    (images
+      (region "worldmap/forest/castlemap.png" 256 96 32 32)
+   )         
+     (stop #t)
+     (north #f)
+     (south #t)
+     (west  #f)
+     (east  #f))
+(tile
+    (id 215)
+    (images
+      (region "worldmap/forest/castlemap.png" 288 96 32 32)
+    )
+    (solid #t))
+(tile
+    (id 216)
+    (images
+      (region "worldmap/forest/castlemap.png" 320 96 32 32)
+    )
+    (solid #t))
+(tile
+    (id 217)
+    (images
+      (region "worldmap/forest/castlemap.png" 352 96 32 32)
+    )
+    (solid #t))
+(tile
+    (id 218)
+    (images
+      (region "worldmap/forest/castlemap.png" 384 96 32 32)
+    )
+    (solid #t))
+(tile
+    (id 219)
+    (images
+      (region "worldmap/forest/castlemap.png" 0 128 32 32)
+    )
+    (solid #t))
+(tile
+    (id 220)
+    (images
+      (region "worldmap/forest/castlemap.png" 32 128 32 32)
+    )
+    (solid #t))
+(tile
+    (id 221)
+    (images
+      (region "worldmap/forest/castlemap.png" 64 128 32 32)
+    )
+    (solid #t))
+(tile
+    (id 222)
+    (images
+      (region "worldmap/forest/castlemap.png" 96 128 32 32)
+    )
+    (solid #t))
+(tile
+    (id 223)
+    (images
+      (region "worldmap/forest/castlemap.png" 128 128 32 32)
+    )
+    (solid #t))
+(tile
+    (id 224)
+    (images
+      (region "worldmap/forest/castlemap.png" 160 128 32 32)
+    )
+    (solid #t))
+(tile
+    (id 225)
+    (images
+      (region "worldmap/forest/castlemap.png" 192 128 32 32)
+    )
+    (solid #t))
+(tile
+    (id 226)
+    (images
+      (region "worldmap/forest/castlemap.png" 224 128 32 32)
+    )
+    (solid #t))
+(tile
+    (id 227)
+    (images
+      (region "worldmap/forest/castlemap.png" 256 128 32 32)
+ )         
+     (stop #f)
+     (north #t)
+     (south #t)
+     (west  #f)
+     (east  #f))
+(tile
+    (id 228)
+    (images
+      (region "worldmap/forest/castlemap.png" 288 128 32 32)
+    )
+    (solid #t))
+(tile
+    (id 229)
+    (images
+      (region "worldmap/forest/castlemap.png" 320 128 32 32)
+    )
+    (solid #t))
+(tile
+    (id 230)
+    (images
+      (region "worldmap/forest/castlemap.png" 352 128 32 32)
+    )
+    (solid #t))
+(tile
+    (id 231)
+    (images
+      (region "worldmap/forest/castlemap.png" 384 128 32 32)
+    )
+    (solid #t))
+(tile
+    (id 232)
+    (images
+      (region "worldmap/forest/castlemap.png" 0 160 32 32)
+    )
+    (solid #t))
+(tile
+    (id 233)
+    (images
+      (region "worldmap/forest/castlemap.png" 32 160 32 32)
+    )
+    (solid #t))
+(tile
+    (id 234)
+    (images
+      (region "worldmap/forest/castlemap.png" 64 160 32 32)
+    )
+    (solid #t))
+(tile
+    (id 235)
+    (images
+      (region "worldmap/forest/castlemap.png" 96 160 32 32)
+    )
+    (solid #t))
+(tile
+    (id 236)
+    (images
+      (region "worldmap/forest/castlemap.png" 128 160 32 32)
+     )
+    (solid #t))
+(tile
+    (id 237)
+    (images
+      (region "worldmap/forest/castlemap.png" 160 160 32 32)
+    )
+    (solid #t))
+(tile
+    (id 238)
+    (images
+      (region "worldmap/forest/castlemap.png" 192 160 32 32)
+    )
+    (solid #t))
+(tile
+    (id 239)
+    (images
+      (region "worldmap/forest/castlemap.png" 224 160 32 32)
+    )
+    (solid #t))
+(tile
+    (id 240)
+    (images
+      (region "worldmap/forest/castlemap.png" 256 160 32 32)
+ )         
+     (stop #f)
+     (north #t)
+     (south #t)
+     (west  #f)
+     (east  #f))
+(tile
+    (id 241)
+    (images
+      (region "worldmap/forest/castlemap.png" 288 160 32 32)
+    )
+    (solid #t))
+(tile
+    (id 242)
+    (images
+      (region "worldmap/forest/castlemap.png" 320 160 32 32)
+    )
+    (solid #t))
+(tile
+    (id 243)
+    (images
+      (region "worldmap/forest/castlemap.png" 352 160 32 32)
+    )
+    (solid #t))
+(tile
+    (id 244)
+    (images
+      (region "worldmap/forest/castlemap.png" 384 160 32 32)
+    )
+    (solid #t))
+(tile
+    (id 245)
+    (images
+      (region "worldmap/forest/castlemap.png" 0 192 32 32)
+    )
+    (solid #t))
+(tile
+    (id 246)
+    (images
+      (region "worldmap/forest/castlemap.png" 32 192 32 32)
+   )
+    (solid #t))
+(tile
+    (id 247)
+    (images
+      (region "worldmap/forest/castlemap.png" 64 192 32 32)
+    )
+    (solid #t))
+(tile
+    (id 248)
+    (images
+      (region "worldmap/forest/castlemap.png" 96 192 32 32)
+ )         
+     (stop #f)
+     (north #f)
+     (south #t)
+     (west  #f)
+     (east  #t))
+(tile
+    (id 249)
+    (images
+      (region "worldmap/forest/castlemap.png" 128 192 32 32)
+ )         
+     (stop #f)
+     (north #f)
+     (south #f)
+     (west  #t)
+     (east  #t))
+(tile
+    (id 250)
+    (images
+      (region "worldmap/forest/castlemap.png" 160 192 32 32)
+   )         
+     (stop #f)
+     (north #f)
+     (south #f)
+     (west  #t)
+     (east  #t))
+(tile
+    (id 251)
+    (images
+      (region "worldmap/forest/castlemap.png" 192 192 32 32)
+    )         
+     (stop #f)
+     (north #f)
+     (south #t)
+     (west  #t)
+     (east  #f))
+(tile
+    (id 252)
+    (images
+      (region "worldmap/forest/castlemap.png" 224 192 32 32)
+    )
+    (solid #t))
+(tile
+    (id 253)
+    (images
+      (region "worldmap/forest/castlemap.png" 256 192 32 32)
+ )         
+     (stop #f)
+     (north #t)
+     (south #f)
+     (west  #f)
+     (east  #t))
+(tile
+    (id 254)
+    (images
+      (region "worldmap/forest/castlemap.png" 288 192 32 32)
+ )         
+     (stop #f)
+     (north #f)
+     (south #t)
+     (west  #t)
+     (east  #f))
+(tile
+    (id 255)
+    (images
+      (region "worldmap/forest/castlemap.png" 320 192 32 32)
+    )
+    (solid #t))
+(tile
+    (id 256)
+    (images
+      (region "worldmap/forest/castlemap.png" 352 192 32 32)
+    )
+    (solid #t))
+(tile
+    (id 257)
+    (images
+      (region "worldmap/forest/castlemap.png" 384 192 32 32)
+    )
+    (solid #t))
+(tile
+    (id 258)
+    (images
+      (region "worldmap/forest/castlemap.png" 0 224 32 32)
+    )
+    (solid #t))
+(tile
+    (id 259)
+    (images
+      (region "worldmap/forest/castlemap.png" 32 224 32 32)
+    )
+    (solid #t))
+(tile
+    (id 260)
+    (images
+      (region "worldmap/forest/castlemap.png" 64 224 32 32)
+    )
+    (solid #t))
+(tile
+    (id 261)
+    (images
+      (region "worldmap/forest/castlemap.png" 96 224 32 32)
+  )         
+     (stop #f)
+     (north #t)
+     (south #t)
+     (west  #f)
+     (east  #f))
+(tile
+    (id 262)
+    (images
+      (region "worldmap/forest/castlemap.png" 128 224 32 32)
+    )
+    (solid #t))
+(tile
+    (id 263)
+    (images
+      (region "worldmap/forest/castlemap.png" 160 224 32 32)
+    )
+    (solid #t))
+(tile
+    (id 264)
+    (images
+      (region "worldmap/forest/castlemap.png" 192 224 32 32)
+ )         
+     (stop #f)
+     (north #t)
+     (south #t)
+     (west  #f)
+     (east  #f))
+(tile
+    (id 265)
+    (images
+      (region "worldmap/forest/castlemap.png" 224 224 32 32)
+    )
+    (solid #t))
+(tile
+    (id 266)
+    (images
+      (region "worldmap/forest/castlemap.png" 256 224 32 32)
+    )
+    (solid #t))
+(tile
+    (id 267)
+    (images
+      (region "worldmap/forest/castlemap.png" 288 224 32 32)
+ )         
+     (stop #f)
+     (north #t)
+     (south #t)
+     (west  #f)
+     (east  #f))
+(tile
+    (id 268)
+    (images
+      (region "worldmap/forest/castlemap.png" 320 224 32 32)
+    )
+    (solid #t))
+(tile
+    (id 269)
+    (images
+      (region "worldmap/forest/castlemap.png" 352 224 32 32)
+    )
+    (solid #t))
+(tile
+    (id 270)
+    (images
+      (region "worldmap/forest/castlemap.png" 384 224 32 32)
+   )         
+     (stop #f)
+     (north #t)
+     (south #t)
+     (west  #f)
+     (east  #f))
+(tile
+    (id 271)
+    (images
+      (region "worldmap/forest/castlemap.png" 0 256 32 32)
+    )
+    (solid #t))
+(tile
+    (id 272)
+    (images
+      (region "worldmap/forest/castlemap.png" 32 256 32 32)
+    )
+    (solid #t))
+(tile
+    (id 273)
+    (images
+      (region "worldmap/forest/castlemap.png" 64 256 32 32)
+    )
+    (solid #t))
+(tile
+    (id 274)
+    (images
+      (region "worldmap/forest/castlemap.png" 96 256 32 32)
+ )         
+     (stop #f)
+     (north #t)
+     (south #f)
+     (west  #f)
+     (east  #t))
+(tile
+    (id 275)
+    (images
+      (region "worldmap/forest/castlemap.png" 128 256 32 32)
+  )         
+     (stop #f)
+     (north #f)
+     (south #t)
+     (west  #t)
+     (east  #f))
+(tile
+    (id 276)
+    (images
+      (region "worldmap/forest/castlemap.png" 160 256 32 32)
+    )
+    (solid #t))
+(tile
+    (id 277)
+    (images
+      (region "worldmap/forest/castlemap.png" 192 256 32 32)
+  )         
+     (stop #f)
+     (north #t)
+     (south #t)
+     (west  #f)
+     (east  #f))
+(tile
+    (id 278)
+    (images
+      (region "worldmap/forest/castlemap.png" 224 256 32 32)
+    )
+    (solid #t))
+(tile
+    (id 279)
+    (images
+      (region "worldmap/forest/castlemap.png" 256 256 32 32)
+    )
+    (solid #t))
+(tile
+    (id 280)
+    (images
+      (region "worldmap/forest/castlemap.png" 288 256 32 32)
+   )         
+     (stop #f)
+     (north #t)
+     (south #t)
+     (west  #f)
+     (east  #f))
+(tile
+    (id 281)
+    (images
+      (region "worldmap/forest/castlemap.png" 320 256 32 32)
+    )
+    (solid #t))
+(tile
+    (id 282)
+    (images
+      (region "worldmap/forest/castlemap.png" 352 256 32 32)
+    )
+    (solid #t))
+(tile
+    (id 283)
+    (images
+      (region "worldmap/forest/castlemap.png" 384 256 32 32)
+    )
+    (solid #t))
+(tile
+    (id 284)
+    (images
+      (region "worldmap/forest/castlemap.png" 0 288 32 32)
+    )
+    (solid #t))
+(tile
+    (id 285)
+    (images
+      (region "worldmap/forest/castlemap.png" 32 288 32 32)
+    )
+    (solid #t))
+(tile
+    (id 286)
+    (images
+      (region "worldmap/forest/castlemap.png" 64 288 32 32)
+    )
+    (solid #t))
+(tile
+    (id 287)
+    (images
+      (region "worldmap/forest/castlemap.png" 96 288 32 32)
+    )
+    (solid #t))
+(tile
+    (id 288)
+    (images
+      (region "worldmap/forest/castlemap.png" 128 288 32 32)
+  )         
+     (stop #f)
+     (north #t)
+     (south #t)
+     (west  #f)
+     (east  #f))
+(tile
+    (id 289)
+    (images
+      (region "worldmap/forest/castlemap.png" 160 288 32 32)
+    )
+    (solid #t))
+(tile
+    (id 290)
+    (images
+      (region "worldmap/forest/castlemap.png" 192 288 32 32)
+  )         
+     (stop #f)
+     (north #t)
+     (south #t)
+     (west  #f)
+     (east  #f))
+(tile
+    (id 291)
+    (images
+      (region "worldmap/forest/castlemap.png" 224 288 32 32)
+    )
+    (solid #t))
+(tile
+    (id 292)
+    (images
+      (region "worldmap/forest/castlemap.png" 256 288 32 32)
+ )         
+     (stop #f)
+     (north #t)
+     (south #t)
+     (west  #f)
+     (east  #f))
+(tile
+    (id 293)
+    (images
+      (region "worldmap/forest/castlemap.png" 288 288 32 32)
+ )         
+     (stop #f)
+     (north #t)
+     (south #t)
+     (west  #f)
+     (east  #f))
+(tile
+    (id 294)
+    (images
+      (region "worldmap/forest/castlemap.png" 320 288 32 32)
+    )
+    (solid #t))
+(tile
+    (id 295)
+    (images
+      (region "worldmap/forest/castlemap.png" 352 288 32 32)
+    )
+    (solid #t))
+(tile
+    (id 296)
+    (images
+      (region "worldmap/forest/castlemap.png" 384 288 32 32)
+    )
+    (solid #t))
+(tile
+    (id 297)
+    (images
+      (region "worldmap/forest/castlemap.png" 0 320 32 32)
+    )
+    (solid #t))
+(tile
+    (id 298)
+    (images
+      (region "worldmap/forest/castlemap.png" 32 320 32 32)
+    )
+    (solid #t))
+(tile
+    (id 299)
+    (images
+      (region "worldmap/forest/castlemap.png" 64 320 32 32)
+    )
+    (solid #t))
+(tile
+    (id 300)
+    (images
+      (region "worldmap/forest/castlemap.png" 96 320 32 32)
+    )
+    (solid #t))
+(tile
+    (id 301)
+    (images
+      (region "worldmap/forest/castlemap.png" 128 320 32 32)
+  )         
+     (stop #f)
+     (north #t)
+     (south #t)
+     (west  #f)
+     (east  #f))
+(tile
+    (id 302)
+    (images
+      (region "worldmap/forest/castlemap.png" 160 320 32 32)
+    )
+    (solid #t))
+(tile
+    (id 303)
+    (images
+      (region "worldmap/forest/castlemap.png" 192 320 32 32)
+  )         
+     (stop #f)
+     (north #t)
+     (south #f)
+     (west  #f)
+     (east  #t))
+(tile
+    (id 304)
+    (images
+      (region "worldmap/forest/castlemap.png" 224 320 32 32)
+  )         
+     (stop #f)
+     (north #f)
+     (south #f)
+     (west  #t)
+     (east  #t))
+(tile
+    (id 305)
+    (images
+      (region "worldmap/forest/castlemap.png" 256 320 32 32)
+  )         
+     (stop #f)
+     (north #f)
+     (south #f)
+     (west  #t)
+     (east  #t))
+(tile
+    (id 306)
+    (images
+      (region "worldmap/forest/castlemap.png" 288 320 32 32)
+  )         
+     (stop #f)
+     (north #t)
+     (south #f)
+     (west  #t)
+     (east  #f))
+(tile
+    (id 307)
+    (images
+      (region "worldmap/forest/castlemap.png" 320 320 32 32)
+    )
+    (solid #t))
+(tile
+    (id 308)
+    (images
+      (region "worldmap/forest/castlemap.png" 352 320 32 32)
+    )
+    (solid #t))
+(tile
+    (id 309)
+    (images
+      (region "worldmap/forest/castlemap.png" 384 320 32 32)
+    )
+    (solid #t))
+(tile
+    (id 310)
+    (images
+      (region "worldmap/forest/castlemap.png" 0 352 32 32)
+ )         
+     (stop #f)
+     (north #t)
+     (south #t)
+     (west  #f)
+     (east  #f))
+(tile
+    (id 311)
+    (images
+      (region "worldmap/forest/castlemap.png" 32 352 32 32)
+    )
+    (solid #t))
+(tile
+    (id 312)
+    (images
+      (region "worldmap/forest/castlemap.png" 64 352 32 32)
+    )
+    (solid #t))
+(tile
+    (id 313)
+    (images
+      (region "worldmap/forest/castlemap.png" 96 352 32 32)
+    )
+    (solid #t))
+(tile
+    (id 314)
+    (images
+      (region "worldmap/forest/castlemap.png" 128 352 32 32)
+  )         
+     (stop #f)
+     (north #t)
+     (south #t)
+     (west  #f)
+     (east  #f))
+(tile
+    (id 315)
+    (images
+      (region "worldmap/forest/castlemap.png" 160 352 32 32)
+    )
+    (solid #t))
+(tile
+    (id 316)
+    (images
+      (region "worldmap/forest/castlemap.png" 192 352 32 32)
+    )
+    (solid #t))
+(tile
+    (id 317)
+    (images
+      (region "worldmap/forest/castlemap.png" 224 352 32 32)
+    )
+    (solid #t))
+(tile
+    (id 318)
+    (images
+      (region "worldmap/forest/castlemap.png" 256 352 32 32)
+    )
+    (solid #t))
+(tile
+    (id 319)
+    (images
+      (region "worldmap/forest/castlemap.png" 288 352 32 32)
+    )
+    (solid #t))
+(tile
+    (id 320)
+    (images
+      (region "worldmap/forest/castlemap.png" 320 352 32 32)
+    )
+    (solid #t))
+(tile
+    (id 321)
+    (images
+      (region "worldmap/forest/castlemap.png" 352 352 32 32)
+    )
+    (solid #t))
+(tile
+    (id 322)
+    (images
+      (region "worldmap/forest/castlemap.png" 384 352 32 32)
+    )
+    (solid #t))
+(tile
+    (id 323)
+    (images
+      (region "worldmap/forest/castlemap.png" 0 384 32 32)
+ )         
+     (stop #f)
+     (north #t)
+     (south #t)
+     (west  #f)
+     (east  #f))
+(tile
+    (id 324)
+    (images
+      (region "worldmap/forest/castlemap.png" 32 384 32 32)
+    )
+    (solid #t))
+(tile
+    (id 325)
+    (images
+      (region "worldmap/forest/castlemap.png" 64 384 32 32)
+    )
+    (solid #t))
+(tile
+    (id 326)
+    (images
+      (region "worldmap/forest/castlemap.png" 96 384 32 32)
+    )
+    (solid #t))
+(tile
+    (id 327)
+    (images
+      (region "worldmap/forest/castlemap.png" 128 384 32 32)
+  )         
+     (stop #f)
+     (north #t)
+     (south #t)
+     (west  #f)
+     (east  #f))
+(tile
+    (id 328)
+    (images
+      (region "worldmap/forest/castlemap.png" 160 384 32 32)
+    )
+    (solid #t))
+(tile
+    (id 329)
+    (images
+      (region "worldmap/forest/castlemap.png" 192 384 32 32)
+    )
+    (solid #t))
+(tile
+    (id 330)
+    (images
+      (region "worldmap/forest/castlemap.png" 224 384 32 32)
+    )
+    (solid #t))
+(tile
+    (id 331)
+    (images
+      (region "worldmap/forest/castlemap.png" 256 384 32 32)
+    )
+    (solid #t))
+(tile
+    (id 332)
+    (images
+      (region "worldmap/forest/castlemap.png" 288 384 32 32)
+    )
+    (solid #t))
+(tile
+    (id 333)
+    (images
+      (region "worldmap/forest/castlemap.png" 320 384 32 32)
+    )
+    (solid #t))
+(tile
+    (id 334)
+    (images
+      (region "worldmap/forest/castlemap.png" 352 384 32 32)
+    )
+    (solid #t))
+(tile
+    (id 335)
+    (images
+      (region "worldmap/forest/castlemap.png" 384 384 32 32)
+    )
+    (solid #t))
+(tile
+    (id 336)
+    (images
+      (region "worldmap/forest/castlemap.png" 0 416 32 32)
+    )
+    (solid #t))
+(tile
+    (id 337)
+    (images
+      (region "worldmap/forest/castlemap.png" 32 416 32 32)
+    )
+    (solid #t))
+(tile
+    (id 338)
+    (images
+      (region "worldmap/forest/castlemap.png" 64 416 32 32)
+    )
+    (solid #t))
+(tile
+    (id 339)
+    (images
+      (region "worldmap/forest/castlemap.png" 96 416 32 32)
+    )
+    (solid #t))
+(tile
+    (id 340)
+    (images
+      (region "worldmap/forest/castlemap.png" 128 416 32 32)
+  )         
+     (stop #f)
+     (north #t)
+     (south #f)
+     (west  #f)
+     (east  #t))
+(tile
+    (id 341)
+    (images
+      (region "worldmap/forest/castlemap.png" 160 416 32 32)
+  )         
+     (stop #f)
+     (north #f)
+     (south #f)
+     (west  #t)
+     (east  #t))
+(tile
+    (id 342)
+    (images
+      (region "worldmap/forest/castlemap.png" 192 416 32 32)
+    )         
+     (stop #f)
+     (north #f)
+     (south #f)
+     (west  #t)
+     (east  #t))
+(tile
+    (id 343)
+    (images
+      (region "worldmap/forest/castlemap.png" 224 416 32 32)
+    )         
+     (stop #f)
+     (north #f)
+     (south #t)
+     (west  #t)
+     (east  #f))
+(tile
+    (id 344)
+    (images
+      (region "worldmap/forest/castlemap.png" 256 416 32 32)
+    )
+    (solid #t))
+(tile
+    (id 345)
+    (images
+      (region "worldmap/forest/castlemap.png" 288 416 32 32)
+    )
+    (solid #t))
+(tile
+    (id 346)
+    (images
+      (region "worldmap/forest/castlemap.png" 320 416 32 32)
+    )
+    (solid #t))
+(tile
+    (id 347)
+    (images
+      (region "worldmap/forest/castlemap.png" 352 416 32 32)
+    )
+    (solid #t))
+(tile
+    (id 348)
+    (images
+      (region "worldmap/forest/castlemap.png" 384 416 32 32)
+    )
+    (solid #t))
+(tile
+    (id 349)
+    (images
+      (region "worldmap/forest/castlemap.png" 0 448 32 32)
+    )
+    (solid #t))
+(tile
+    (id 350)
+    (images
+      (region "worldmap/forest/castlemap.png" 32 448 32 32)
+    )
+    (solid #t))
+(tile
+    (id 351)
+    (images
+      (region "worldmap/forest/castlemap.png" 64 448 32 32)
+    )
+    (solid #t))
+(tile
+    (id 352)
+    (images
+      (region "worldmap/forest/castlemap.png" 96 448 32 32)
+    )
+    (solid #t))
+(tile
+    (id 353)
+    (images
+      (region "worldmap/forest/castlemap.png" 128 448 32 32)
+    )
+    (solid #t))
+(tile
+    (id 354)
+    (images
+      (region "worldmap/forest/castlemap.png" 160 448 32 32)
+    )
+    (solid #t))
+(tile
+    (id 355)
+    (images
+      (region "worldmap/forest/castlemap.png" 192 448 32 32)
+    )
+    (solid #t))
+(tile
+    (id 356)
+    (images
+      (region "worldmap/forest/castlemap.png" 224 448 32 32)
+    )         
+     (stop #f)
+     (north #t)
+     (south #t)
+     (west  #f)
+     (east  #t))
+(tile
+    (id 357)
+    (images
+      (region "worldmap/forest/castlemap.png" 256 448 32 32)
+    )
+    (solid #t))
+(tile
+    (id 358)
+    (images
+      (region "worldmap/forest/castlemap.png" 288 448 32 32)
+    )
+    (solid #t))
+(tile
+    (id 359)
+    (images
+      (region "worldmap/forest/castlemap.png" 320 448 32 32)
+    )
+    (solid #t))
+(tile
+    (id 360)
+    (images
+      (region "worldmap/forest/castlemap.png" 352 448 32 32)
+    )
+    (solid #t))
+(tile
+    (id 361)
+    (images
+      (region "worldmap/forest/castlemap.png" 384 448 32 32)
+    )
+    (solid #t))
+(tile
+    (id 362)
+    (images
+      (region "worldmap/forest/castlemap.png" 0 480 32 32)
+    )
+    (solid #t))
+(tile
+    (id 363)
+    (images
+      (region "worldmap/forest/castlemap.png" 32 480 32 32)
+    )
+    (solid #t))
+(tile
+    (id 364)
+    (images
+      (region "worldmap/forest/castlemap.png" 64 480 32 32)
+    )
+    (solid #t))
+(tile
+    (id 365)
+    (images
+      (region "worldmap/forest/castlemap.png" 96 480 32 32)
+    )
+    (solid #t))
+(tile
+    (id 366)
+    (images
+      (region "worldmap/forest/castlemap.png" 128 480 32 32)
+    )
+    (solid #t))
+(tile
+    (id 367)
+    (images
+      (region "worldmap/forest/castlemap.png" 160 480 32 32)
+    )
+    (solid #t))
+(tile
+    (id 368)
+    (images
+      (region "worldmap/forest/castlemap.png" 192 480 32 32)
+    )
+    (solid #t))
+(tile
+    (id 369)
+    (images
+      (region "worldmap/forest/castlemap.png" 224 480 32 32)
+       )         
+     (stop #f)
+     (north #t)
+     (south #t)
+     (west  #f)
+     (east  #t))
+(tile
+    (id 370)
+    (images
+      (region "worldmap/forest/castlemap.png" 256 480 32 32)
+    )
+    (solid #t))
+(tile
+    (id 371)
+    (images
+      (region "worldmap/forest/castlemap.png" 288 480 32 32)
+    )
+    (solid #t))
+(tile
+    (id 372)
+    (images
+      (region "worldmap/forest/castlemap.png" 320 480 32 32)
+    )
+    (solid #t))
+(tile
+    (id 373)
+    (images
+      (region "worldmap/forest/castlemap.png" 352 480 32 32)
+    )
+    (solid #t))
+(tile
+    (id 374)
+    (images
+      (region "worldmap/forest/castlemap.png" 384 480 32 32)
+    )
+    (solid #t))
+(tile
+    (id 376)
+    (images
+      (region "worldmap/forest/castlemap.png" 0 512 32 32)
+    )
+    (solid #t))
+(tile
+    (id 377)
+    (images
+      (region "worldmap/forest/castlemap.png" 32 512 32 32)
+    )
+    (solid #t))
+(tile
+    (id 378)
+    (images
+      (region "worldmap/forest/castlemap.png" 64 512 32 32)
+    )
+    (solid #t))
+(tile
+    (id 379)
+    (images
+      (region "worldmap/forest/castlemap.png" 96 512 32 32)
+    )
+    (solid #t))
+(tile
+    (id 380)
+    (images
+      (region "worldmap/forest/castlemap.png" 128 512 32 32)
+    )
+    (solid #t))
+(tile
+    (id 381)
+    (images
+      (region "worldmap/forest/castlemap.png" 160 512 32 32)
+    )
+    (solid #t))
+(tile
+    (id 382)
+    (images
+      (region "worldmap/forest/castlemap.png" 192 512 32 32)
+    )
+    (solid #t))
+
+(tile
+    (id 383)
+    (images
+      (region "worldmap/forest/castlemap.png" 224 512 32 32)
+    )         
+     (stop #f)
+     (north #t)
+     (south #t)
+     (west  #f)
+     (east  #t))
+(tile
+    (id 384)
+    (images
+      (region "worldmap/forest/castlemap.png" 256 512 32 32)
+    )
+    (solid #t))
+(tile
+    (id 385)
+    (images
+      (region "worldmap/forest/castlemap.png" 288 512 32 32)
+    )
+    (solid #t))
+(tile
+    (id 386)
+    (images
+      (region "worldmap/forest/castlemap.png" 320 512 32 32)
+    )
+    (solid #t))
+(tile
+    (id 387)
+    (images
+      (region "worldmap/forest/castlemap.png" 352 512 32 32)
+    )
+    (solid #t))
+(tile
+    (id 388)
+    (images
+      (region "worldmap/forest/castlemap.png" 384 512 32 32)
+    )
+    (solid #t))
+(tile
+    (id 389)
+    (images
+      (region "worldmap/forest/castlemap.png" 0 544 32 32)
+    )
+    (solid #t))
+(tile
+    (id 390)
+    (images
+      (region "worldmap/forest/castlemap.png" 32 544 32 32)
+    )
+    (solid #t))
+(tile
+    (id 391)
+    (images
+      (region "worldmap/forest/castlemap.png" 64 544 32 32)
+    )
+    (solid #t))
+(tile
+    (id 392)
+    (images
+      (region "worldmap/forest/castlemap.png" 96 544 32 32)
+    )
+    (solid #t))
+(tile
+    (id 393)
+    (images
+      (region "worldmap/forest/castlemap.png" 128 544 32 32)
+    )
+    (solid #t))
+(tile
+    (id 394)
+    (images
+      (region "worldmap/forest/castlemap.png" 160 544 32 32)
+    )
+    (solid #t))
+(tile
+    (id 395)
+    (images
+      (region "worldmap/forest/castlemap.png" 192 544 32 32)
+    )
+    (solid #t))
+(tile
+    (id 396)
+    (images
+      (region "worldmap/forest/castlemap.png" 224 544 32 32)
+    )     
+     (stop #f)
+     (north #t)
+     (south #t)
+     (west  #f)
+     (east  #t))
+(tile
+    (id 397)
+    (images
+      (region "worldmap/forest/castlemap.png" 256 544 32 32)
+    )
+    (solid #t))
+(tile
+    (id 3985)
+    (images
+      (region "worldmap/forest/castlemap.png" 288 544 32 32)
+    )
+    (solid #t))
+(tile
+    (id 399)
+    (images
+      (region "worldmap/forest/castlemap.png" 320 544 32 32)
+    )
+    (solid #t))
+(tile
+    (id 400)
+    (images
+      (region "worldmap/forest/castlemap.png" 352 544 32 32)
+    )
+    (solid #t))
+(tile
+    (id 401)
+    (images
+      (region "worldmap/forest/castlemap.png" 384 544 32 32)
+    )
+    (solid #t))
 )
 
