@@ -253,7 +253,7 @@ JoystickKeyboardController::process_event(const SDL_Event& event)
           (event.key.keysym.unicode & 0xFF80) == 0) {
         memmove(last_keys, last_keys+1, sizeof(last_keys)-1);
         last_keys[sizeof(last_keys)-1] = event.key.keysym.unicode;
-        if(GameSession::current())
+        if(GameSession::current() != NULL)
           GameSession::current()->try_cheats();
       }
 			

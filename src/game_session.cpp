@@ -147,6 +147,8 @@ GameSession::~GameSession()
   delete end_sequence_controller;
   delete level;
   delete context;
+
+  current_ = NULL;
 }
 
 void

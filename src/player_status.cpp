@@ -231,3 +231,15 @@ PlayerStatus::draw(DrawingContext& context)
 
   context.pop_transform();
 }
+
+void
+PlayerStatus::operator= (const PlayerStatus& other)
+{
+  coins = other.coins;
+  lives = other.lives;
+  bonus = other.bonus;
+  score_multiplier = other.score_multiplier;
+  max_score_multiplier = other.max_score_multiplier;
+  keys = other.keys;
+}
+

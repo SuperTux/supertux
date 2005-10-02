@@ -168,11 +168,6 @@
           (powerup
             (sprite "red-potion")
             (script "
-function wait(time) {
-  set_wakeup_time(time);
-  suspend();
-}
-
 DisplayEffect.set_black(true);
 wait(0.1);
 DisplayEffect.set_black(false);

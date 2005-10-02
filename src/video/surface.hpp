@@ -24,7 +24,7 @@
 #include <list>
 
 #include <SDL.h>
-#include <SDL_opengl.h>
+#include <GL/gl.h>
 
 #include "math/vector.hpp"
 #include "video/screen.hpp"
@@ -34,7 +34,6 @@ SDL_Surface* sdl_surface_from_sdl_surface(SDL_Surface* sdl_surf);
 SDL_Surface* sdl_surface_from_nothing();
 
 class SurfaceImpl;
-class SurfaceSDL;
 class SurfaceOpenGL;
 class DrawingContext;
   
@@ -83,7 +82,6 @@ public:
   SurfaceData(Color top_gradient_, Color bottom_gradient_, int w_, int h_);
   ~SurfaceData();
   
-  SurfaceSDL* create_SurfaceSDL();
   SurfaceOpenGL* create_SurfaceOpenGL();
   SurfaceImpl* create();
 };

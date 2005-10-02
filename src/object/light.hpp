@@ -1,7 +1,7 @@
-//  $Id: configfile.h 2293 2005-03-25 20:39:56Z matzebraun $
+//  $Id$
 //
 //  SuperTux -  A Jump'n Run
-//  Copyright (C) 2004 Michael George <mike@georgetech.com>
+//  Copyright (C) 2004 Matthias Braun <matze@braunis.de
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -16,39 +16,26 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-#ifndef SUPERTUX_CONFIG_H
-#define SUPERTUX_CONFIG_H
+#ifndef __LIGHT_HPP__
+#define __LIGHT_HPP__
 
-#include <string>
+#include "game_object.hpp"
+#include "lisp/lisp.hpp"
 
-class Config
+class Sprite;
+
+class Light : public GameObject
 {
 public:
-  Config();
-  ~Config();
-  
-  void load();
-  void save();
+  Light(const lisp::Lisp& reader);
+  virtual ~Light();
 
-  /** screen width in pixel (warning: this is the real screen width+height,
-   * you should use the logical SCREEN_WIDTH and SCREEN_HEIGHT for your
-   * rendering code.)
-   */
-  int screenwidth;
-  int screenheight;
+  void update(float elapsed_time);
+  void draw(DrawingContext& context);
 
-  bool use_fullscreen;
-  bool show_fps;
-  bool sound_enabled;
-  bool music_enabled;
-  bool cheats_enabled;
-
-  /** this variable is set if supertux should start in a specific level */
-  std::string start_level;
-  std::string start_demo;
-  std::string record_demo;
+private:
+  Sprite* sprite;
 };
 
-extern Config* config;
-
 #endif
+

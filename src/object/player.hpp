@@ -29,8 +29,8 @@
 #include "sprite/sprite.hpp"
 #include "physic.hpp"
 #include "control/controller.hpp"
-#include "player_status.hpp"
 #include "scripting/player.hpp"
+#include "player_status.hpp"
 
 class BadGuy;
 class Portable;

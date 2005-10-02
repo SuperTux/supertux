@@ -1679,6 +1679,14 @@
       (images "powerups/potions/blue-potion.png")
     )
   )
+
+  (sprite
+    (name "lightmap_light")
+    (action
+      (name "default")
+      (images "effects/light_red.png")
+    )
+  )
   
   (sprite
     (name "eat-me")
@@ -1754,13 +1762,28 @@
       (name "default")
       (images "objects/keys/key_gold.png")
     )
-   (action
+    (action
       (name "display")
       (images "objects/keys/display_gold.png")
     )
     (action
       (name "outline")
       (images "objects/keys/outline_gold.png")
+    )
+  )
+  (sprite
+    (name "leveldot")
+    (action
+      (name "default")
+      (x-offset 16)
+      (y-offset 16)
+      (images "worldmap/common/leveldot_red.png")
+    )
+    (action
+      (name "solved")
+      (x-offset 16)
+      (y-offset 16)
+      (images "worldmap/common/leveldot_green.png")
     )
   )
 )

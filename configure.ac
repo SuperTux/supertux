@@ -89,12 +89,6 @@ AM_ICONV
 AC_SUBST([ICONV_LIBS], [$LIBICONV])
 
 dnl ===========================================================================
-dnl Check for OpenGL
-AX_CHECK_GL
-if test "$no_gl" = "yes"; then
-  AC_MSG_ERROR([Please install opengl libraries and headers])
-fi
-
 dnl Check for SDL
 SDL_VERSION=1.2.4
 AM_PATH_SDL($SDL_VERSION,
@@ -129,6 +123,15 @@ NP_FINDLIB([OPENAL], [OpenAL], [OpenAL],
          [],
          [AC_MSG_ERROR([Please intall OpenAL])],
          [], [])
+
+AX_CHECK_GL
+if test "$no_gl" = "yes"; then
+  AC_MSG_ERROR([Please install opengl libraries and headers])
+fi
+AX_CHECK_GLU
+if test "$no_glu" = "yes"; then
+  AC_MSG_ERROR([Please install opengl utility libraries and headers])
+fi
 
 dnl Checks for library functions.
 AC_CHECK_FUNCS(mkdir strdup strstr)

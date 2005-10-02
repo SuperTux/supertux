@@ -41,6 +41,7 @@
 #include "trigger/trigger_base.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
 #include "main.hpp"
+#include "player_status.hpp"
 
 static const int TILES_FOR_BUTTJUMP = 3;
 static const float SHOOTING_TIME = .150;

@@ -25,6 +25,7 @@
 
 #include <SDL.h>
 #include <stdint.h>
+#include <memory>
 
 #include "math/vector.hpp"
 #include "video/screen.hpp"
@@ -32,6 +33,7 @@
 #include "video/font.hpp"
 
 class Surface;
+class Texture;
 
 // some constants for predefined layer values
 enum {
@@ -46,7 +48,6 @@ enum {
   LAYER_GUI         = 500
 };
 
-/// Handles drawing of things.
 /**
  * This class provides functions for drawing things on screen. It also
  * maintains a stack of transforms that are applied to graphics.
@@ -54,7 +55,7 @@ enum {
 class DrawingContext
 {
 public:
-  DrawingContext(SDL_Surface* targetsurface = 0);
+  DrawingContext();
   ~DrawingContext();
   
   /// Adds a drawing request for a surface into the request list.
@@ -100,6 +101,13 @@ public:
   void set_alpha(uint8_t alpha);
   /// return currently set alpha
   uint8_t get_alpha() const;
+
+  enum Target {
+    NORMAL, LIGHTMAP
+  };
+  void push_target();
+  void pop_target();
+  void set_target(Target target);
   
 private:
   class Transform
@@ -124,6 +132,19 @@ private:
   std::vector<Transform> transformstack;
   /// the currently active transform
   Transform transform;
+
+  class Blend
+  {
+  public:
+    GLenum sfactor;
+    GLenum dfactor;
+    
+    Blend()
+      : sfactor(GL_SRC_ALPHA), dfactor(GL_ONE_MINUS_SRC_ALPHA)
+    {}
+  };
+  std::vector<Blend> blend_stack;
+  Blend blend_mode;
   
   enum RequestType
   {
@@ -164,6 +185,7 @@ private:
     uint32_t drawing_effect;
     float zoom;
     int alpha;
+    Blend blend;
     
     void* request_data;
     
@@ -172,17 +194,27 @@ private:
       return layer < other.layer;
     }
   };
+
+  typedef std::vector<DrawingRequest> DrawingRequests;
   
+  void handle_drawing_requests(DrawingRequests& requests);
   void draw_surface_part(DrawingRequest& request);
   void draw_text(DrawingRequest& request);
   void draw_text_center(DrawingRequest& request);
   void draw_gradient(DrawingRequest& request);
   void draw_filled_rect(DrawingRequest& request);
   
-  typedef std::vector<DrawingRequest> DrawingRequests;
-  DrawingRequests drawingrequests;
+  DrawingRequests drawing_requests;
+  DrawingRequests lightmap_requests;
+
+  DrawingRequests* requests;
 
   SDL_Surface* screen;
+  Target target;
+  std::vector<Target> target_stack;
+  std::auto_ptr<Texture> lightmap;
+  int lightmap_width, lightmap_height;
+  float lightmap_uv_right, lightmap_uv_bottom;
 };
 
 #endif

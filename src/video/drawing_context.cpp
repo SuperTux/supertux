@@ -21,20 +21,44 @@
 #include <algorithm>
 #include <cassert>
 #include <iostream>
+#include <SDL_image.h>
+#include <GL/gl.h>
+#include <GL/glu.h>
 
 #include "drawing_context.hpp"
 #include "surface.hpp"
 #include "font.hpp"
 #include "main.hpp"
 #include "gameconfig.hpp"
+#include "glutil.hpp"
+#include "texture.hpp"
 
-DrawingContext::DrawingContext(SDL_Surface* targetsurface)
+#define LIGHTMAP_DIV 4
+
+static inline int next_po2(int val)
 {
-  if(targetsurface) {
-    screen = targetsurface;
-  } else {
-    screen = SDL_GetVideoSurface();
-  }
+  int result = 1;
+  while(result < val)
+    result *= 2;
+  
+  return result;
+}
+
+DrawingContext::DrawingContext()
+{
+  screen = SDL_GetVideoSurface();
+
+  lightmap_width = screen->w / LIGHTMAP_DIV;
+  lightmap_height = screen->h / LIGHTMAP_DIV;
+  int width = next_po2(lightmap_width);
+  int height = next_po2(lightmap_height);
+
+  lightmap.reset(new Texture(width, height, GL_RGB));
+
+  lightmap_uv_right = static_cast<float>(lightmap_width) / static_cast<float>(width);
+  lightmap_uv_bottom = static_cast<float>(lightmap_height) / static_cast<float>(height);
+
+  requests = &drawing_requests;
 }
 
 DrawingContext::~DrawingContext()
@@ -62,7 +86,7 @@ DrawingContext::draw_surface(const Surface* surface, const Vector& position,
   request.alpha = transform.alpha;
   request.request_data = const_cast<Surface*> (surface);  
 
-  drawingrequests.push_back(request);
+  requests->push_back(request);
 }
 
 void
@@ -101,7 +125,7 @@ DrawingContext::draw_surface_part(const Surface* surface, const Vector& source,
   }
   request.request_data = surfacepartrequest;
 
-  drawingrequests.push_back(request);
+  requests->push_back(request);
 }
 
 void
@@ -123,7 +147,7 @@ DrawingContext::draw_text(const Font* font, const std::string& text,
   textrequest->alignment = alignment;
   request.request_data = textrequest;
 
-  drawingrequests.push_back(request);
+  requests->push_back(request);
 }
 
 void
@@ -152,7 +176,7 @@ DrawingContext::draw_gradient(Color top, Color bottom, int layer)
   gradientrequest->bottom = bottom;
   request.request_data = gradientrequest;
 
-  drawingrequests.push_back(request);
+  requests->push_back(request);
 }
 
 void
@@ -177,7 +201,7 @@ DrawingContext::draw_filled_rect(const Vector& topleft, const Vector& size,
               * ((float) transform.alpha / 255.0));
   request.request_data = fillrectrequest;
 
-  drawingrequests.push_back(request);
+  requests->push_back(request);
 }
 
 void
@@ -256,13 +280,85 @@ DrawingContext::do_drawing()
 {
 #ifdef DEBUG
   assert(transformstack.empty());
+  assert(target_stack.empty());
 #endif
   transformstack.clear();
-    
-  std::stable_sort(drawingrequests.begin(), drawingrequests.end());
+  target_stack.clear();
 
-  for(DrawingRequests::iterator i = drawingrequests.begin();
-      i != drawingrequests.end(); ++i) {
+  bool use_lightmap = lightmap_requests.size() != 0;
+  
+  // PART1: create lightmap
+  if(use_lightmap) {
+    glViewport(0, screen->h - lightmap_height, lightmap_width, lightmap_height);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();               
+    glOrtho(0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, -1.0, 1.0);
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+
+    glClearColor(1, 1, 1, 1);
+    glClear(GL_COLOR_BUFFER_BIT);
+    handle_drawing_requests(lightmap_requests);
+    lightmap_requests.clear();
+  
+    glDisable(GL_BLEND);
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, lightmap->handle);
+    glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, screen->h - lightmap_height, lightmap_width, lightmap_height);
+
+    glViewport(0, 0, screen->w, screen->h);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();               
+    glOrtho(0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, -1.0, 1.0);
+    glMatrixMode(GL_MODELVIEW);    
+    glLoadIdentity();
+  }
+
+  //glClear(GL_COLOR_BUFFER_BIT);
+  handle_drawing_requests(drawing_requests);
+  drawing_requests.clear();
+
+  if(use_lightmap) {
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_DST_COLOR, GL_ZERO);
+    //glDisable(GL_BLEND);
+    //glColor4f((float) rand() / (float) RAND_MAX, .22, .88, 1.0f);
+
+    glEnable(GL_TEXTURE_2D);
+    glDisable(GL_DEPTH_TEST);
+    glDisable(GL_CULL_FACE);
+    glDisable(GL_ALPHA_TEST);    
+
+    glBindTexture(GL_TEXTURE_2D, lightmap->handle);
+    glBegin(GL_QUADS);
+
+    glTexCoord2f(0, lightmap_uv_bottom);
+    glVertex2f(0, 0);
+
+    glTexCoord2f(lightmap_uv_right, lightmap_uv_bottom);
+    glVertex2f(SCREEN_WIDTH, 0);
+
+    glTexCoord2f(lightmap_uv_right, 0);
+    glVertex2f(SCREEN_WIDTH, SCREEN_HEIGHT);
+
+    glTexCoord2f(0, 0);
+    glVertex2f(0, SCREEN_HEIGHT);
+    
+    glEnd();
+  }
+
+  assert_gl("drawing");
+
+  SDL_GL_SwapBuffers();
+}
+
+void
+DrawingContext::handle_drawing_requests(DrawingRequests& requests)
+{
+  std::stable_sort(requests.begin(), requests.end());
+  
+  for(DrawingRequests::iterator i = requests.begin();
+      i != requests.end(); ++i) {
     switch(i->type) {
       case SURFACE:
       {
@@ -290,11 +386,6 @@ DrawingContext::do_drawing()
         break;
     }
   }
-
-  drawingrequests.clear();
-
-  // update screen
-  SDL_GL_SwapBuffers();
 }
 
 void
@@ -341,3 +432,27 @@ DrawingContext::get_alpha() const
 {
   return transform.alpha;
 }
+
+void
+DrawingContext::push_target()
+{
+  target_stack.push_back(target);
+}
+
+void
+DrawingContext::pop_target()
+{
+  set_target(target_stack.back());
+  target_stack.pop_back();
+}
+
+void
+DrawingContext::set_target(Target target)
+{
+  this->target = target;
+  if(target == LIGHTMAP)
+    requests = &lightmap_requests;
+  else
+    requests = &drawing_requests;
+}
+

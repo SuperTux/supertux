@@ -59,10 +59,6 @@ private:
 	  /** Frames per second */
 	  float fps;
 
-	  /** Mirror is used to avoid duplicating left and right side
-	    sprites */
-	  // bool mirror;
-
 	  std::vector<Surface*> surfaces;
 	};
 

@@ -149,6 +149,8 @@ public:
     std::string title;
     bool solved;
 
+    Sprite* sprite;
+
     /** Statistics for level tiles */
     Statistics statistics;
 

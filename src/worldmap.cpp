@@ -352,8 +352,6 @@ WorldMap::WorldMap()
   tux = new Tux(this);
   add_object(tux);
     
-  leveldot_green= new Surface("images/worldmap/common/leveldot_green.png", true);
-  leveldot_red = new Surface("images/worldmap/common/leveldot_red.png", true);
   messagedot = new Surface("images/worldmap/common/messagedot.png", true);
   teleporterdot = new Surface("images/worldmap/common/teleporterdot.png", true);
 
@@ -371,11 +369,13 @@ WorldMap::~WorldMap()
       i != spawn_points.end(); ++i) {
     delete *i;
   }
-    
+  for(Levels::iterator i = levels.begin(); i != levels.end(); ++i) {
+    Level& level = *i;
+    delete level.sprite;
+  }
+  
   delete tile_manager;
 
-  delete leveldot_green;
-  delete leveldot_red;
   delete messagedot;
   delete teleporterdot;
 }
@@ -515,6 +515,10 @@ WorldMap::parse_level_tile(const lisp::Lisp* level_lisp)
   level.east  = true;
   level.south = true;
   level.west  = true;
+
+  std::string sprite = "leveldot";
+  level_lisp->get("sprite", sprite);
+  level.sprite = sprite_manager->create(sprite);
 
   level_lisp->get("extro-script", level.extro_script);
   level_lisp->get("next-worldmap", level.next_worldmap);
@@ -735,7 +739,8 @@ WorldMap::update(float delta)
       if (level->pos == tux->get_tile_pos())
         {
           sound_manager->stop_music();
-          PlayerStatus old_player_status = *player_status;
+          PlayerStatus old_player_status;
+          old_player_status = *player_status;
 
           // do a shriking fade to the level
           shrink_fade(Vector((level->pos.x*32 + 16 + offset.x),
@@ -750,6 +755,7 @@ WorldMap::update(float delta)
                 level_finished = true;
                 bool old_level_state = level->solved;
                 level->solved = true;
+                level->sprite->set_action("solved");
 
                 // deal with statistics
                 level->statistics.merge(global_stats);
@@ -905,12 +911,8 @@ WorldMap::draw(DrawingContext& context)
   
   for(Levels::iterator i = levels.begin(); i != levels.end(); ++i)
     {
-      if (i->solved)
-        context.draw_surface(leveldot_green,
-            Vector(i->pos.x*32, i->pos.y*32), LAYER_TILES+1);
-      else
-        context.draw_surface(leveldot_red,
-            Vector(i->pos.x*32, i->pos.y*32), LAYER_TILES+1);
+      const Level& level = *i;
+      level.sprite->draw(context, level.pos*32 + Vector(16, 16), LAYER_TILES+1);
     }
 
   for(SpecialTiles::iterator i = special_tiles.begin(); i != special_tiles.end(); ++i)
@@ -1162,6 +1164,7 @@ WorldMap::loadgame(const std::string& filename)
             if (name == i->name)
             {
               i->solved = solved;
+              i->sprite->set_action(solved ? "solved" : "default");
               i->statistics.parse(*level);
               break;
             }

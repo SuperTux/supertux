@@ -1,7 +1,7 @@
-//  $Id: configfile.h 2293 2005-03-25 20:39:56Z matzebraun $
+//  $Id$
 //
 //  SuperTux -  A Jump'n Run
-//  Copyright (C) 2004 Michael George <mike@georgetech.com>
+//  Copyright (C) 2004 Matthias Braun <matze@braunis.de
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -16,39 +16,32 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-#ifndef SUPERTUX_CONFIG_H
-#define SUPERTUX_CONFIG_H
+#ifndef __TEXTURE_HPP__
+#define __TEXTURE_HPP__
 
-#include <string>
+#include <SDL.h>
+#include <GL/gl.h>
 
-class Config
+/**
+ * This class is a very simple wrapper around a texture handle
+ */
+class Texture
 {
 public:
-  Config();
-  ~Config();
+  GLuint handle;
+  unsigned int width;
+  unsigned int height;
   
-  void load();
-  void save();
+  Texture(unsigned int width, unsigned int height, GLenum glformat);
+  Texture(SDL_Surface* surface, GLenum glformat);
+  ~Texture();
 
-  /** screen width in pixel (warning: this is the real screen width+height,
-   * you should use the logical SCREEN_WIDTH and SCREEN_HEIGHT for your
-   * rendering code.)
-   */
-  int screenwidth;
-  int screenheight;
-
-  bool use_fullscreen;
-  bool show_fps;
-  bool sound_enabled;
-  bool music_enabled;
-  bool cheats_enabled;
-
-  /** this variable is set if supertux should start in a specific level */
-  std::string start_level;
-  std::string start_demo;
-  std::string record_demo;
+  void upload_texture(SDL_Surface* image, int src_x, int src_y, int dst_x, int dst_y, 
+                      int width, int height);
+private:
+  void set_texture_params();
 };
 
-extern Config* config;
 
 #endif
+

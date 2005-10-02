@@ -19,6 +19,7 @@
 #ifndef SUPERTUX_PLAYERSTATUS_H
 #define SUPERTUX_PLAYERSTATUS_H
 
+#include <assert.h>
 #include "lisp/lisp.hpp"
 #include "timer.hpp"
 #include "serializable.hpp"
@@ -58,6 +59,8 @@ public:
 
   int score_multiplier;
   int max_score_multiplier;
+
+  void operator= (const PlayerStatus& other);
   
   enum {
     KEY_BRASS  = 0x001,
@@ -68,6 +71,9 @@ public:
   };
 
 private:
+  // don't use this
+  PlayerStatus(const PlayerStatus& other);
+  
   int  keys;
   Sprite* key_iron;
   Sprite* key_brass;
