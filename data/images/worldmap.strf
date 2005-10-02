@@ -1183,13 +1183,15 @@
     (solid #t))
 (tile
     (id 248)
-    (images
-      (region "worldmap/forest/castlemap.png" 96 192 32 32)
- )         
+(anim-fps 15)
+     (images "worldmap/forest/torch1.png"
+             "worldmap/forest/torch2.png"
+             "worldmap/forest/torch3.png")
+       
      (stop #f)
      (north #f)
-     (south #t)
-     (west  #f)
+     (south #f)
+     (west  #t)
      (east  #t))
 (tile
     (id 249)
