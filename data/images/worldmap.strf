@@ -742,7 +742,7 @@
 (tile
     (id 177)
     (images
-      (region "worldmap/forest/castlemap.png" 310 0 32 32)
+      (region "worldmap/forest/castlemap.png" 320 0 32 32)
     )
     (solid #t))
 (tile
