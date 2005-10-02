@@ -1183,16 +1183,16 @@
     (solid #t))
 (tile
     (id 248)
-(anim-fps 15)
-     (images "worldmap/forest/torch1.png"
-             "worldmap/forest/torch2.png"
-             "worldmap/forest/torch3.png")
+    (anim-fps 3)
+    (images "worldmap/forest/torch1.png"
+            "worldmap/forest/torch2.png"
+            "worldmap/forest/torch3.png")
        
-     (stop #f)
-     (north #f)
-     (south #f)
-     (west  #t)
-     (east  #t))
+    (stop #f)
+    (north #f)
+    (south #t)
+    (west  #f)
+    (east  #t))
 (tile
     (id 249)
     (images
