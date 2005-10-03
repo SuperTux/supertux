@@ -46,8 +46,8 @@ Fireworks::update(float )
         pos += Vector(SCREEN_WIDTH * ((float) rand() / RAND_MAX),
                       SCREEN_HEIGHT/2 * ((float) rand() / RAND_MAX));
 
-        int red = rand() % 255;
-        int green = rand() % red;
+        float red = static_cast<float>(rand() % 255) / 255.0;
+        float green = static_cast<float>(rand() % ((int) red*255)) / 255.0;
         sector->add_object(new Particles(pos, 0, 360, Vector(140, 140),
                 Vector(0, 0), 45, Color(red, green, 0), 3, 1.3,
                 LAYER_FOREGROUND1+1));

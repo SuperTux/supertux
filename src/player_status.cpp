@@ -209,7 +209,7 @@ PlayerStatus::draw(DrawingContext& context)
 
   if (player_status->lives >= 5) {
     sprintf(str, "%dx", player_status->lives);
-    float x = SCREEN_WIDTH - gold_text->get_text_width(str) - tux_life->w;
+    float x = SCREEN_WIDTH - gold_text->get_text_width(str) - tux_life->get_width();
     context.draw_text(gold_text, str, Vector(x - BORDER_X, BORDER_Y + 20), LEFT_ALLIGN,
                       LAYER_FOREGROUND1);
     context.draw_surface(tux_life, Vector(SCREEN_WIDTH - 16 - BORDER_X, BORDER_Y + 20),
@@ -217,7 +217,8 @@ PlayerStatus::draw(DrawingContext& context)
   } else {
     for(int i= 0; i < player_status->lives; ++i)
       context.draw_surface(tux_life, 
-          Vector(SCREEN_WIDTH - tux_life->w*4 +(tux_life->w*i) - BORDER_X, BORDER_Y + 20),
+          Vector(SCREEN_WIDTH - tux_life->get_width()*4 +(tux_life->get_width()*i) - BORDER_X,
+                 BORDER_Y + 20),
           LAYER_FOREGROUND1);
   }
 

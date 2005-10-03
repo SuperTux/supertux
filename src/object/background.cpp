@@ -40,10 +40,11 @@ Background::Background(const lisp::Lisp& reader)
       && reader.get("speed", speed)) {
     set_image(imagefile, speed);
   } else {
-    std::vector <unsigned int> bkgd_top_color, bkgd_bottom_color;
+    std::vector<float> bkgd_top_color, bkgd_bottom_color;
     if(reader.get_vector("top_color", bkgd_top_color) &&
         reader.get_vector("bottom_color", bkgd_bottom_color))
-      set_gradient(Color(bkgd_top_color), Color(bkgd_bottom_color));
+      set_gradient(Color(bkgd_top_color),
+                   Color(bkgd_bottom_color));
   }
 }
 
@@ -64,15 +65,15 @@ Background::write(lisp::Writer& writer)
     writer.write_string("image", imagefile);
     writer.write_float("speed", speed);
   } else if(type == GRADIENT) {
-    std::vector <unsigned int> bkgd_top_color, bkgd_bottom_color;
+    std::vector<float> bkgd_top_color, bkgd_bottom_color;
     bkgd_top_color.push_back(gradient_top.red);
     bkgd_top_color.push_back(gradient_top.green);
     bkgd_top_color.push_back(gradient_top.blue);
     bkgd_bottom_color.push_back(gradient_top.red);
     bkgd_bottom_color.push_back(gradient_top.green);
     bkgd_bottom_color.push_back(gradient_top.blue);
-    writer.write_int_vector("top_color", bkgd_top_color);
-    writer.write_int_vector("bottom_color", bkgd_bottom_color);
+    writer.write_float_vector("top_color", bkgd_top_color);
+    writer.write_float_vector("bottom_color", bkgd_bottom_color);
   }
   writer.write_int("layer", layer);
   
@@ -92,7 +93,7 @@ Background::set_image(const std::string& name, float speed)
   this->speed = speed;
 
   delete image;
-  image = new Surface("images/background/" + name, false);
+  image = new Surface("images/background/" + name);
 }
 
 void
@@ -103,7 +104,7 @@ Background::set_gradient(Color top, Color bottom)
   gradient_bottom = bottom;
 
   delete image;
-  image = new Surface(top, bottom, SCREEN_WIDTH, SCREEN_HEIGHT);
+  image = NULL;
 }
 
 void
@@ -112,18 +113,20 @@ Background::draw(DrawingContext& context)
   if(type == GRADIENT) {
     context.push_transform();
     context.set_translation(Vector(0, 0));
-    context.draw_surface(image, Vector(0, 0), layer);
+    context.draw_gradient(gradient_top, gradient_bottom, layer);
     context.pop_transform();
   } else if(type == IMAGE) {
     if(!image)
       return;
     
-    int sx = int(-context.get_translation().x * speed) % image->w - image->w;
-    int sy = int(-context.get_translation().y * speed) % image->h - image->h;
+    int w = (int) image->get_width();
+    int h = (int) image->get_height();
+    int sx = int(-context.get_translation().x * speed) % w - w;
+    int sy = int(-context.get_translation().y * speed) % h - h;
     context.push_transform();
     context.set_translation(Vector(0, 0));
-    for(int x = sx; x < SCREEN_WIDTH; x += image->w)
-      for(int y = sy; y < SCREEN_HEIGHT; y += image->h)
+    for(int x = sx; x < SCREEN_WIDTH; x += w)
+      for(int y = sy; y < SCREEN_HEIGHT; y += h)
         context.draw_surface(image, Vector(x, y), layer);
     context.pop_transform();
   }

@@ -98,13 +98,12 @@ void display_text_file(const std::string& filename)
     if(line[0] == '!') {
       std::string imagename = line.substr(1, line.size()-1);
       std::cout << "Imagename: " << imagename << "\n";
-      images.insert(std::make_pair(imagename, new Surface(imagename, true)));
+      images.insert(std::make_pair(imagename, new Surface(imagename)));
     }
   }
 
   // load background image
-  Surface* background 
-    = new Surface("images/background/" + background_file, false);
+  Surface* background = new Surface("images/background/" + background_file);
 
   bool done = false;
   float scroll = 0;
@@ -187,9 +186,9 @@ void display_text_file(const std::string& filename)
       }
       if(image != 0) {
         context.draw_surface(image,
-            Vector( (SCREEN_WIDTH - image->w) / 2,
+            Vector( (SCREEN_WIDTH - image->get_width()) / 2,
                     SCREEN_HEIGHT + y - scroll), 255);
-        y += image->h + ITEMS_SPACE;
+        y += image->get_height() + ITEMS_SPACE;
       }
     }
     
@@ -240,7 +239,7 @@ InfoBox::draw(DrawingContext& context)
   float height = 200;
   
   context.draw_filled_rect(Vector(x1, y1), Vector(width, height),
-      Color(150, 180, 200, 125), LAYER_GUI-1);
+      Color(0.6f, 0.7f, 0.8f, 0.5f), LAYER_GUI-1);
 
   float y = y1;
   for(size_t i = firstline; i < lines.size(); ++i) {

@@ -50,7 +50,6 @@ extern Font* blue_text;
 extern Font* gray_text;
 extern Font* white_small_text;
 extern Font* white_big_text;
-extern Font* yellow_nums;
 
 void load_shared();
 void unload_shared();

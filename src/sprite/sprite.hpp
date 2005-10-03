@@ -21,73 +21,74 @@
 #define SUPERTUX_SPRITE_H
 
 #include <string>
-#include <vector>
-#include <cassert>
-#include <map>
+#include <assert.h>
+#include <SDL.h>
 
 #include "video/surface.hpp"
 #include "math/vector.hpp"
 #include "sprite_data.hpp"
 
+class DrawingContext;
+
 class Sprite
 {
 public:
-	Sprite(SpriteData& data);
-	Sprite(const Sprite& other);
-	~Sprite();
-	
-	/** Draw sprite, automatically calculates next frame */
-	void draw(DrawingContext& context, const Vector& pos, int layer);
+  Sprite(SpriteData& data);
+  Sprite(const Sprite& other);
+  ~Sprite();
 
-	void draw_part(DrawingContext& context, const Vector& source,
-	    const Vector& size, const Vector& pos, int layer);
+  /** Draw sprite, automatically calculates next frame */
+  void draw(DrawingContext& context, const Vector& pos, int layer);
 
-	/** Set action (or state) */
-	void set_action(std::string act, int loops = -1);
+  void draw_part(DrawingContext& context, const Vector& source,
+      const Vector& size, const Vector& pos, int layer);
 
-	/* Stop animation */
-	void stop_animation()
-	{ animation_loops = 0; }
-	/** Check if animation is stopped or not */
-	bool check_animation();
+  /** Set action (or state) */
+  void set_action(const std::string& act, int loops = -1);
 
-	float get_fps() const
-	{ return action->fps; }
-	/** Get current action total frames */
-	int get_frames() const
-	{ return action->surfaces.size(); }
-	/** Get sprite's name */
-	const std::string& get_name() const
-	{ return data.name; }
-	/** Get current action name */
-	const std::string& get_action_name() const
-	{ return action->name; }
+  /* Stop animation */
+  void stop_animation()
+  { animation_loops = 0; }
+  /** Check if animation is stopped or not */
+  bool check_animation();
 
-	int get_width() const;
-	int get_height() const;
+  float get_fps() const
+  { return action->fps; }
+  /** Get current action total frames */
+  int get_frames() const
+  { return action->surfaces.size(); }
+  /** Get sprite's name */
+  const std::string& get_name() const
+  { return data.name; }
+  /** Get current action name */
+  const std::string& get_action_name() const
+  { return action->name; }
 
-	/** Get current frame */
-	int get_frame() const
-	{ return (int)frame; }
-	/** Set current frame */
-	void set_frame(int frame_)
-	{ if(frame_ > get_frames()) frame = 0; else frame = frame_; }
-	Surface* get_frame(unsigned int frame)
-	{
-	  assert(frame < action->surfaces.size());
-	  return action->surfaces[frame];
-	}    
+  int get_width() const;
+  int get_height() const;
+
+  /** Get current frame */
+  int get_frame() const
+  { return (int)frame; }
+  /** Set current frame */
+  void set_frame(int frame_)
+  { if(frame_ > get_frames()) frame = 0; else frame = frame_; }
+  Surface* get_frame(unsigned int frame)
+  {
+    assert(frame < action->surfaces.size());
+    return action->surfaces[frame];
+  }    
 
 private:
-	void update();
+  void update();
 
-	SpriteData& data;
+  SpriteData& data;
 
-	float frame;
-	int animation_loops;
-	Uint32 last_ticks;
+  float frame;
+  int animation_loops;
+  Uint32 last_ticks;
 
-	SpriteData::Action* action;
+  SpriteData::Action* action;
 };
 
 #endif

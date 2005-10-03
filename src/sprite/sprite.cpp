@@ -48,7 +48,7 @@ Sprite::~Sprite()
 }
 
 void
-Sprite::set_action(std::string name, int loops)
+Sprite::set_action(const std::string& name, int loops)
 {
   if(action && action->name == name)
     return;
@@ -129,13 +129,13 @@ Sprite::draw_part(DrawingContext& context, const Vector& source,
 int
 Sprite::get_width() const
 {
-  return action->surfaces[get_frame()]->w;
+  return (int) action->surfaces[get_frame()]->get_width();
 }
 
 int
 Sprite::get_height() const
 {
-  return action->surfaces[get_frame()]->h;
+  return (int) action->surfaces[get_frame()]->get_height();
 }
 
 

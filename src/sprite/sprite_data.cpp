@@ -90,9 +90,8 @@ SpriteData::parse_action(const lisp::Lisp* lisp, const std::string& basedir)
     } else {
       for(int i = 0; static_cast<unsigned int>(i) < act_tmp->surfaces.size();
           i++) {
-        Surface* surface = new Surface(sdl_surface_from_sdl_surface(
-              act_tmp->surfaces[i]->impl->get_sdl_surface()), true);
-        surface->apply_filter(HORIZONTAL_FLIP_FILTER);
+        Surface* surface = new Surface(*(act_tmp->surfaces[i]));
+        surface->hflip();
         action->surfaces.push_back(surface);
       }
     }
@@ -106,7 +105,7 @@ SpriteData::parse_action(const lisp::Lisp* lisp, const std::string& basedir)
     }
 
     for(std::vector<std::string>::size_type i = 0; i < images.size(); i++) {
-      action->surfaces.push_back(new Surface(basedir + images[i], true));
+      action->surfaces.push_back(new Surface(basedir + images[i]));
     }
   }
   actions[action->name] = action;

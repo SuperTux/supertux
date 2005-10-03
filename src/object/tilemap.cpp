@@ -37,7 +37,7 @@
 
 TileMap::TileMap()
   : solid(false), speed(1), width(0), height(0), layer(LAYER_TILES),
-    drawing_effect(0)
+    drawing_effect(NO_EFFECT)
 {
   tilemanager = tile_manager;
 
@@ -47,7 +47,7 @@ TileMap::TileMap()
 
 TileMap::TileMap(const lisp::Lisp& reader, TileManager* new_tile_manager)
   : solid(false), speed(1), width(-1), height(-1), layer(LAYER_TILES),
-    drawing_effect(0)
+    drawing_effect(NO_EFFECT)
 {
   tilemanager = new_tile_manager;
   if(tilemanager == 0)
@@ -94,7 +94,7 @@ TileMap::TileMap(const lisp::Lisp& reader, TileManager* new_tile_manager)
 
 TileMap::TileMap(int layer_, bool solid_, size_t width_, size_t height_)
   : solid(solid_), speed(1), width(0), height(0), layer(layer_),
-    drawing_effect(0)
+    drawing_effect(NO_EFFECT)
 {
   tilemanager = tile_manager;
   
@@ -180,13 +180,13 @@ TileMap::draw(DrawingContext& context)
     for (pos.x = start_x; pos.x < end_x; pos.x += 32)
     {
        context.draw_filled_rect(Vector (pos.x, start_y), Vector(1, fabsf(start_y - end_y)),
-                  Color(225, 225, 225), LAYER_GUI-50);
+                  Color(0.8f, 0.8f, 0.8f), LAYER_GUI-50);
     }
 
     for (pos.y = start_y; pos.y < end_y; pos.y += 32)
     {
        context.draw_filled_rect(Vector (start_x, pos.y), Vector(fabsf(start_x - end_x), 1),
-                  Color(225, 225, 225), LAYER_GUI-50);
+                  Color(1.0f, 1.0f, 1.0f), LAYER_GUI-50);
     }
   }
 #endif

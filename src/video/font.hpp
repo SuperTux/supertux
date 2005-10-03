@@ -35,13 +35,8 @@ enum FontAlignment {
 class Font
 {
 public:
-  enum FontType {
-    TEXT, // images for all characters
-    NUM   // only images for numbers
-  };
-  
-  Font(const std::string& file, FontType type, int w, int h,
-       int shadowsize=2);
+  Font(const std::string& file, const std::string& shadowfile,
+       int w, int h, int shadowsize = 2);
   ~Font();
   
   /** returns the width of a given text. (Note that I won't add a normal
@@ -63,20 +58,22 @@ public:
    * Type of alignment, drawing effect and alpha are optional. */
   void draw(const std::string& text, const Vector& pos,
             FontAlignment allignment = LEFT_ALLIGN,
-            uint32_t drawing_effect = NONE_EFFECT, uint8_t alpha = 255) const;
+            DrawingEffect drawing_effect = NO_EFFECT,
+            float alpha = 1.0f) const;
   
 private:
   friend class DrawingContext;
   
   void draw_text(const std::string& text, const Vector& pos,
-                 uint32_t drawing_effect = NONE_EFFECT, uint8_t alpha = 255) const;
+                 DrawingEffect drawing_effect = NO_EFFECT,
+                 float alpha = 1.0f) const;
   
   void draw_chars(Surface* pchars, const std::string& text,
-                  const Vector& position, uint32_t drawing_effect, uint8_t alpha) const;
+                  const Vector& position, DrawingEffect drawing_effect,
+                  float alpha) const;
   
   Surface* chars;
   Surface* shadow_chars;
-  FontType type;
   int w;
   int h;
   int shadowsize;

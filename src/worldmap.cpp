@@ -352,8 +352,8 @@ WorldMap::WorldMap()
   tux = new Tux(this);
   add_object(tux);
     
-  messagedot = new Surface("images/worldmap/common/messagedot.png", true);
-  teleporterdot = new Surface("images/worldmap/common/teleporterdot.png", true);
+  messagedot = new Surface("images/worldmap/common/messagedot.png");
+  teleporterdot = new Surface("images/worldmap/common/teleporterdot.png");
 
   name = "<no title>";
   music = "salcon.ogg";

@@ -23,25 +23,41 @@
 #include <GL/gl.h>
 
 /**
- * This class is a very simple wrapper around a texture handle
+ * This class is a wrapper around a texture handle. It stores the texture width
+ * and height and provides convenience functions for uploading SDL_Surfaces
+ * into the texture
  */
 class Texture
 {
-public:
+protected:
+  friend class TextureManager;
   GLuint handle;
   unsigned int width;
   unsigned int height;
-  
+
+public:
   Texture(unsigned int width, unsigned int height, GLenum glformat);
   Texture(SDL_Surface* surface, GLenum glformat);
-  ~Texture();
+  virtual ~Texture();
+  
+  GLuint get_handle() const
+  {
+    return handle;
+  }
 
-  void upload_texture(SDL_Surface* image, int src_x, int src_y, int dst_x, int dst_y, 
-                      int width, int height);
+  unsigned int get_width() const
+  {
+    return width;
+  }
+
+  unsigned int get_height() const
+  {
+    return height;
+  }
+
 private:
   void set_texture_params();
 };
-
 
 #endif
 

@@ -32,6 +32,7 @@
 #include "gameconfig.hpp"
 #include "glutil.hpp"
 #include "texture.hpp"
+#include "texture_manager.hpp"
 
 #define LIGHTMAP_DIV 4
 
@@ -50,19 +51,22 @@ DrawingContext::DrawingContext()
 
   lightmap_width = screen->w / LIGHTMAP_DIV;
   lightmap_height = screen->h / LIGHTMAP_DIV;
-  int width = next_po2(lightmap_width);
-  int height = next_po2(lightmap_height);
+  unsigned int width = next_po2(lightmap_width);
+  unsigned int height = next_po2(lightmap_height);
 
-  lightmap.reset(new Texture(width, height, GL_RGB));
+  lightmap = new Texture(width, height, GL_RGB);
 
   lightmap_uv_right = static_cast<float>(lightmap_width) / static_cast<float>(width);
   lightmap_uv_bottom = static_cast<float>(lightmap_height) / static_cast<float>(height);
+  texture_manager->register_texture(lightmap);
 
   requests = &drawing_requests;
 }
 
 DrawingContext::~DrawingContext()
 {
+  texture_manager->remove_texture(lightmap);
+  delete lightmap;
 }
 
 void
@@ -77,12 +81,12 @@ DrawingContext::draw_surface(const Surface* surface, const Vector& position,
   request.pos = transform.apply(position);
 
   if(request.pos.x >= SCREEN_WIDTH || request.pos.y >= SCREEN_HEIGHT
-      || request.pos.x + surface->w < 0 || request.pos.y + surface->h < 0)
+      || request.pos.x + surface->get_width() < 0 
+      || request.pos.y + surface->get_height() < 0)
     return;
 
   request.layer = layer;
   request.drawing_effect = transform.drawing_effect;
-  request.zoom = transform.zoom;
   request.alpha = transform.alpha;
   request.request_data = const_cast<Surface*> (surface);  
 
@@ -138,7 +142,6 @@ DrawingContext::draw_text(const Font* font, const std::string& text,
   request.pos = transform.apply(position);
   request.layer = layer;
   request.drawing_effect = transform.drawing_effect;
-  request.zoom = transform.zoom;
   request.alpha = transform.alpha;
 
   TextRequest* textrequest = new TextRequest;
@@ -159,7 +162,7 @@ DrawingContext::draw_center_text(const Font* font, const std::string& text,
 }
 
 void
-DrawingContext::draw_gradient(Color top, Color bottom, int layer)
+DrawingContext::draw_gradient(const Color& top, const Color& bottom, int layer)
 {
   DrawingRequest request;
 
@@ -168,7 +171,6 @@ DrawingContext::draw_gradient(Color top, Color bottom, int layer)
   request.layer = layer;
 
   request.drawing_effect = transform.drawing_effect;
-  request.zoom = transform.zoom;
   request.alpha = transform.alpha;
 
   GradientRequest* gradientrequest = new GradientRequest;
@@ -181,7 +183,7 @@ DrawingContext::draw_gradient(Color top, Color bottom, int layer)
 
 void
 DrawingContext::draw_filled_rect(const Vector& topleft, const Vector& size,
-        Color color, int layer)
+                                 const Color& color, int layer)
 {
   DrawingRequest request;
 
@@ -190,15 +192,12 @@ DrawingContext::draw_filled_rect(const Vector& topleft, const Vector& size,
   request.layer = layer;
 
   request.drawing_effect = transform.drawing_effect;
-  request.zoom = transform.zoom;
   request.alpha = transform.alpha;                    
 
   FillRectRequest* fillrectrequest = new FillRectRequest;
   fillrectrequest->size = size;
   fillrectrequest->color = color;
-  fillrectrequest->color.alpha
-      = (int) ((float) fillrectrequest->color.alpha 
-              * ((float) transform.alpha / 255.0));
+  fillrectrequest->color.alpha = color.alpha * transform.alpha;
   request.request_data = fillrectrequest;
 
   requests->push_back(request);
@@ -210,11 +209,11 @@ DrawingContext::draw_surface_part(DrawingRequest& request)
   SurfacePartRequest* surfacepartrequest
     = (SurfacePartRequest*) request.request_data;
 
-  surfacepartrequest->surface->impl->draw_part(
+  surfacepartrequest->surface->draw_part(
       surfacepartrequest->source.x, surfacepartrequest->source.y,
       request.pos.x, request.pos.y,
-      surfacepartrequest->size.x, surfacepartrequest->size.y, request.alpha,
-      request.drawing_effect);
+      surfacepartrequest->size.x, surfacepartrequest->size.y,
+      request.alpha, request.drawing_effect);
 
   delete surfacepartrequest;
 }
@@ -227,10 +226,10 @@ DrawingContext::draw_gradient(DrawingRequest& request)
   const Color& bottom = gradientrequest->bottom;
   
   glBegin(GL_QUADS);
-  glColor3ub(top.red, top.green, top.blue);
+  glColor4f(top.red, top.green, top.blue, top.alpha);
   glVertex2f(0, 0);
   glVertex2f(SCREEN_WIDTH, 0);
-  glColor3ub(bottom.red, bottom.green, bottom.blue);
+  glColor4f(bottom.red, bottom.green, bottom.blue, bottom.alpha);
   glVertex2f(SCREEN_WIDTH, SCREEN_HEIGHT);
   glVertex2f(0, SCREEN_HEIGHT);
   glEnd();
@@ -259,18 +258,17 @@ DrawingContext::draw_filled_rect(DrawingRequest& request)
   float w = fillrectrequest->size.x;
   float h = fillrectrequest->size.y;
 
-  glEnable(GL_BLEND);
-  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-  glColor4ub(fillrectrequest->color.red, fillrectrequest->color.green,
-             fillrectrequest->color.blue, fillrectrequest->color.alpha);
-  
-  glBegin(GL_POLYGON);
+  glDisable(GL_TEXTURE_2D);
+  glColor4f(fillrectrequest->color.red, fillrectrequest->color.green,
+            fillrectrequest->color.blue, fillrectrequest->color.alpha);
+ 
+  glBegin(GL_QUADS);
   glVertex2f(x, y);
   glVertex2f(x+w, y);
   glVertex2f(x+w, y+h);
   glVertex2f(x, y+h);
   glEnd();
-  glDisable(GL_BLEND);
+  glEnable(GL_TEXTURE_2D);
 
   delete fillrectrequest;
 }
@@ -296,14 +294,13 @@ DrawingContext::do_drawing()
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
-    glClearColor(1, 1, 1, 1);
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
     handle_drawing_requests(lightmap_requests);
     lightmap_requests.clear();
   
     glDisable(GL_BLEND);
-    glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D, lightmap->handle);
+    glBindTexture(GL_TEXTURE_2D, lightmap->get_handle());
     glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, screen->h - lightmap_height, lightmap_width, lightmap_height);
 
     glViewport(0, 0, screen->w, screen->h);
@@ -312,6 +309,7 @@ DrawingContext::do_drawing()
     glOrtho(0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, -1.0, 1.0);
     glMatrixMode(GL_MODELVIEW);    
     glLoadIdentity();
+    glEnable(GL_BLEND);
   }
 
   //glClear(GL_COLOR_BUFFER_BIT);
@@ -319,17 +317,9 @@ DrawingContext::do_drawing()
   drawing_requests.clear();
 
   if(use_lightmap) {
-    glEnable(GL_BLEND);
     glBlendFunc(GL_DST_COLOR, GL_ZERO);
-    //glDisable(GL_BLEND);
-    //glColor4f((float) rand() / (float) RAND_MAX, .22, .88, 1.0f);
 
-    glEnable(GL_TEXTURE_2D);
-    glDisable(GL_DEPTH_TEST);
-    glDisable(GL_CULL_FACE);
-    glDisable(GL_ALPHA_TEST);    
-
-    glBindTexture(GL_TEXTURE_2D, lightmap->handle);
+    glBindTexture(GL_TEXTURE_2D, lightmap->get_handle());
     glBegin(GL_QUADS);
 
     glTexCoord2f(0, lightmap_uv_bottom);
@@ -345,6 +335,8 @@ DrawingContext::do_drawing()
     glVertex2f(0, SCREEN_HEIGHT);
     
     glEnd();
+
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   }
 
   assert_gl("drawing");
@@ -363,13 +355,7 @@ DrawingContext::handle_drawing_requests(DrawingRequests& requests)
       case SURFACE:
       {
         const Surface* surface = (const Surface*) i->request_data;
-
-        if(i->zoom != 1.0)
-          surface->impl->draw_stretched(i->pos.x * i->zoom, i->pos.y * i->zoom,
-                         (int)(surface->w * i->zoom), (int)(surface->h * i->zoom),
-                         i->alpha, i->drawing_effect);
-        else
-          surface->impl->draw(i->pos.x, i->pos.y, i->alpha, i->drawing_effect);
+        surface->draw(i->pos.x, i->pos.y, i->alpha, i->drawing_effect);
         break;
       }
       case SURFACE_PART:
@@ -404,30 +390,24 @@ DrawingContext::pop_transform()
 }
 
 void
-DrawingContext::set_drawing_effect(uint32_t effect)
+DrawingContext::set_drawing_effect(DrawingEffect effect)
 {
   transform.drawing_effect = effect;
 }
 
-uint32_t
+DrawingEffect
 DrawingContext::get_drawing_effect() const
 {
   return transform.drawing_effect;
 }
 
 void
-DrawingContext::set_zooming(float zoom)
-{
-  transform.zoom = zoom;
-}
-
-void
-DrawingContext::set_alpha(uint8_t alpha)
+DrawingContext::set_alpha(float alpha)
 {
   transform.alpha = alpha;
 }
 
-uint8_t
+float
 DrawingContext::get_alpha() const
 {
   return transform.alpha;

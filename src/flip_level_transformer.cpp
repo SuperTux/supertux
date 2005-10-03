@@ -80,7 +80,7 @@ FlipLevelTransformer::transform_tilemap(TileMap* tilemap)
     }
   }
   if(tilemap->get_drawing_effect() != 0) {
-    tilemap->set_drawing_effect(0);
+    tilemap->set_drawing_effect(NO_EFFECT);
   } else {
     tilemap->set_drawing_effect(VERTICAL_FLIP);
   }

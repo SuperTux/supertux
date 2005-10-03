@@ -137,18 +137,18 @@ Tile::load_images(const std::string& tilesetpath)
     Surface* surface;
     std::string file = tilesetpath + spec.file;
     if(spec.rect.get_width() <= 0) {
-      surface = new Surface(file, true);
+      surface = new Surface(file);
     } else {
       surface = new Surface(file,
           (int) spec.rect.p1.x,
           (int) spec.rect.p1.y,
           (int) spec.rect.get_width(),
-          (int) spec.rect.get_height(), true);
+          (int) spec.rect.get_height());
     }
     images.push_back(surface);
   }
   if(editor_imagefile != "") {
-    editor_image = new Surface(tilesetpath + editor_imagefile, true);
+    editor_image = new Surface(tilesetpath + editor_imagefile);
   }
 }
 

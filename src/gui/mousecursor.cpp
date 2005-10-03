@@ -27,7 +27,7 @@ extern SDL_Surface* screen;
 
 MouseCursor::MouseCursor(std::string cursor_file) : mid_x(0), mid_y(0)
 {
-  cursor = new Surface(cursor_file, true);
+  cursor = new Surface(cursor_file);
   
   cur_state = MC_NORMAL;
 
@@ -68,8 +68,8 @@ void MouseCursor::draw(DrawingContext& context)
   x = int(x * float(SCREEN_WIDTH)/screen->w);
   y = int(y * float(SCREEN_HEIGHT)/screen->h);
 
-  w = cursor->w;
-  h = cursor->h / MC_STATES_NB;
+  w = (int) cursor->get_width();
+  h = (int) (cursor->get_height() / MC_STATES_NB);
   if(ispressed &SDL_BUTTON(1) || ispressed &SDL_BUTTON(2)) {
     if(cur_state != MC_CLICK) {
       state_before_click = cur_state;

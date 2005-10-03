@@ -25,6 +25,7 @@
 #include <vector>
 #include <string>
 #include <map>
+#include <iostream>
 #include <stdint.h>
 #include <assert.h>
 #include "tile.hpp"

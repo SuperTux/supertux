@@ -21,6 +21,7 @@
 
 #include <memory>
 #include <stdexcept>
+#include <iostream>
 #include <assert.h>
 #include "video/drawing_context.hpp"
 #include "lisp/lisp.hpp"

@@ -285,9 +285,9 @@ void title()
   titlesession = new GameSession("levels/misc/menu.stl", ST_GL_DEMO_GAME);
 
   /* Load images: */
-  bkg_title = new Surface("images/background/arctis.jpg", false);
-  logo = new Surface("images/engine/menu/logo.png", true);
-  //img_choose_subset = new Surface("images/status/choose-level-subset.png", true);
+  bkg_title = new Surface("images/background/arctis.jpg");
+  logo = new Surface("images/engine/menu/logo.png");
+  //img_choose_subset = new Surface("images/status/choose-level-subset.png");
 
   titlesession->get_current_sector()->activate("main");
   titlesession->set_current();
@@ -335,7 +335,7 @@ void title()
       draw_demo(elapsed_time);
 
       if (Menu::current() == main_menu)
-        context.draw_surface(logo, Vector(SCREEN_WIDTH/2 - logo->w/2, 30),
+        context.draw_surface(logo, Vector(SCREEN_WIDTH/2 - logo->get_width()/2, 30),
             LAYER_FOREGROUND1+1);
 
       context.draw_text(white_small_text, " SuperTux " PACKAGE_VERSION "\n",

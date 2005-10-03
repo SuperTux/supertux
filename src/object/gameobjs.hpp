@@ -27,6 +27,7 @@
 #include "game_object.hpp"
 #include "moving_object.hpp"
 #include "serializable.hpp"
+#include "video/color.hpp"
 
 /* Bounciness of distros: */
 #define NO_BOUNCE 0

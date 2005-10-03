@@ -29,37 +29,15 @@
 #include "font.hpp"
 #include "drawing_context.hpp"
 
-Font::Font(const std::string& file, FontType ntype, int nw, int nh,
-        int nshadowsize)
-    : chars(0), shadow_chars(0), type(ntype), w(nw), h(nh),
-      shadowsize(nshadowsize)
+Font::Font(const std::string& file, const std::string& shadowfile,
+           int w, int h, int shadowsize)
+    : chars(0), shadow_chars(0), w(w), h(h), shadowsize(shadowsize)
 {
-  chars = new Surface(file, true);
+  chars = new Surface(file);
+  shadow_chars = new Surface(shadowfile);
  
-  switch(type) {
-    case TEXT:
-      first_char = 32;
-      break;
-    case NUM:
-      first_char = 48;
-      break;
-  }
-  char_count = (chars->h / h) * 16;
-   
-  // Load shadow font.
-  if(shadowsize > 0) {
-    SDL_Surface* conv = SDL_DisplayFormatAlpha(chars->impl->get_sdl_surface());
-    int pixels = conv->w * conv->h;
-    SDL_LockSurface(conv);
-    for(int i = 0; i < pixels; ++i) {
-      Uint32 *p = (Uint32 *)conv->pixels + i;
-      *p = *p & conv->format->Amask;
-    }
-    SDL_UnlockSurface(conv);
-    SDL_SetAlpha(conv, SDL_SRCALPHA, 128);
-    shadow_chars = new Surface(conv, true);
-    SDL_FreeSurface(conv);
-  }
+  first_char = 32;
+  char_count = ((int) chars->get_height() / h) * 16;
 }
 
 Font::~Font()
@@ -118,7 +96,7 @@ Font::get_height() const
 
 void
 Font::draw(const std::string& text, const Vector& pos_, FontAlignment alignment,
-    uint32_t drawing_effect, uint8_t alpha) const
+           DrawingEffect drawing_effect, float alpha) const
 {
   /* Cut lines changes into seperate strings, needed to support center/right text
      alignments with break lines.
@@ -154,7 +132,7 @@ Font::draw(const std::string& text, const Vector& pos_, FontAlignment alignment,
 
 void
 Font::draw_text(const std::string& text, const Vector& pos, 
-    uint32_t drawing_effect, uint8_t alpha) const
+                DrawingEffect drawing_effect, float alpha) const
 {
   if(shadowsize > 0)
     draw_chars(shadow_chars, text, pos + Vector(shadowsize, shadowsize),
@@ -208,10 +186,8 @@ uint32_t decode_utf8(const std::string& text, size_t& p)
 
 void
 Font::draw_chars(Surface* pchars, const std::string& text, const Vector& pos,
-                 uint32_t drawing_effect, uint8_t alpha) const
+                 DrawingEffect drawing_effect, float alpha) const
 {
-  SurfaceImpl* impl = pchars->impl;
-
   Vector p = pos;
   size_t i = 0;
   while(i < text.size()) {
@@ -250,7 +226,8 @@ Font::draw_chars(Surface* pchars, const std::string& text, const Vector& pos,
 
     int source_x = (font_index % 16) * w;
     int source_y = (font_index / 16) * h;
-    impl->draw_part(source_x, source_y, p.x, p.y, w, h, alpha, drawing_effect);
+    pchars->draw_part(source_x, source_y, p.x, p.y, w, h, alpha,
+                      drawing_effect);
     p.x += w;
   }
 }

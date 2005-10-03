@@ -28,12 +28,6 @@
 #include <unistd.h>
 
 #include <SDL.h>
-#include <SDL_image.h>
-
-#ifndef WIN32
-#include <sys/types.h>
-#include <ctype.h>
-#endif
 
 #include "gameconfig.hpp"
 #include "screen.hpp"
@@ -43,107 +37,6 @@
 #include "math/vector.hpp"
 
 static const float LOOP_DELAY = 20.0;
-extern SDL_Surface* screen;
-
-/* 'Stolen' from the SDL documentation.
- * Return the pixel value at (x, y)
- * NOTE: The surface must be locked before calling this!
- */
-Uint32 getpixel(SDL_Surface *surface, int x, int y)
-{
-    int bpp = surface->format->BytesPerPixel;
-    /* Here p is the address to the pixel we want to retrieve */
-    Uint8 *p = (Uint8 *)surface->pixels + y * surface->pitch + x * bpp;
-
-    switch(bpp) {
-    case 1:
-        return *p;
-
-    case 2:
-        return *(Uint16 *)p;
-
-    case 3:
-        if(SDL_BYTEORDER == SDL_BIG_ENDIAN)
-            return p[0] << 16 | p[1] << 8 | p[2];
-        else
-            return p[0] | p[1] << 8 | p[2] << 16;
-
-    case 4:
-        return *(Uint32 *)p;
-
-    default:
-        return 0;       /* shouldn't happen, but avoids warnings */
-    }
-}
-
-/* 'Stolen' from the SDL documentation.
- * Set the pixel at (x, y) to the given value
- * NOTE: The surface must be locked before calling this!
- */
-void putpixel(SDL_Surface *surface, int x, int y, Uint32 pixel)
-{
-  int bpp = surface->format->BytesPerPixel;
-  /* Here p is the address to the pixel we want to set */
-  Uint8 *p = (Uint8 *)surface->pixels + y * surface->pitch + x * bpp;
-
-  switch(bpp) {
-    case 1:
-      *p = pixel;
-      break;
-
-    case 2:
-      *(Uint16 *)p = pixel;
-      break;
-
-    case 3:
-      if(SDL_BYTEORDER == SDL_BIG_ENDIAN)
-        {
-          p[0] = (pixel >> 16) & 0xff;
-          p[1] = (pixel >> 8) & 0xff;
-          p[2] = pixel & 0xff;
-        }
-      else
-        {
-          p[0] = pixel & 0xff;
-          p[1] = (pixel >> 8) & 0xff;
-          p[2] = (pixel >> 16) & 0xff;
-        }
-      break;
-
-    case 4:
-      *(Uint32 *)p = pixel;
-      break;
-
-    default:
-      assert(false);
-  }
-}
-
-/* Draw a single pixel on the screen. */
-void drawpixel(int x, int y, Uint32 pixel)
-{
-  /* Lock the screen for direct access to the pixels */
-  if ( SDL_MUSTLOCK(screen) )
-    {
-      if ( SDL_LockSurface(screen) < 0 )
-        {
-          fprintf(stderr, "Can't lock screen: %s\n", SDL_GetError());
-          return;
-        }
-    }
-
-  if(!(x < 0 || y < 0 || x > SCREEN_WIDTH || y > SCREEN_HEIGHT))
-    putpixel(screen, x, y, pixel);
-
-  if ( SDL_MUSTLOCK(screen) )
-    {
-      SDL_UnlockSurface(screen);
-    }
-  /* Update just the part of the display that we've changed */
-  SDL_UpdateRect(screen, x, y, 1, 1);
-}
-
-/* --- FILL A RECT --- */
 
 void fillrect(float x, float y, float w, float h, int r, int g, int b, int a)
 {
@@ -156,37 +49,17 @@ void fillrect(float x, float y, float w, float h, int r, int g, int b, int a)
     h = -h;
   }
 
-  glEnable(GL_BLEND);
-  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   glColor4ub(r, g, b,a);
-  
+
+  glDisable(GL_TEXTURE_2D);
   glBegin(GL_POLYGON);
   glVertex2f(x, y);
   glVertex2f(x+w, y);
   glVertex2f(x+w, y+h);
   glVertex2f(x, y+h);
   glEnd();
-  glDisable(GL_BLEND);
+  glEnable(GL_TEXTURE_2D);
 }
-
-/* Needed for line calculations */
-#define SGN(x) ((x)>0 ? 1 : ((x)==0 ? 0:(-1)))
-#define ABS(x) ((x)>0 ? (x) : (-x))
-
-void draw_line(float x1, float y1, float x2, float y2,
-                         int r, int g, int b, int a)
-{
-  glEnable(GL_BLEND);
-  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-  glColor4ub(r, g, b,a);
-  
-  glBegin(GL_LINES);
-  glVertex2f(x1, y1);
-  glVertex2f(x2, y2);
-  glEnd();
-  glDisable(GL_BLEND);
-}
-
 
 void fadeout(int fade_time)
 {
@@ -196,9 +69,8 @@ void fadeout(int fade_time)
   while(alpha > 0) {
     alpha -= alpha_inc;
     fillrect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0,0,0, (int)alpha_inc);  // left side
-                                                   
-    DrawingContext context; // ugly...
-    context.do_drawing();
+    
+    SDL_GL_SwapBuffers();
     sound_manager->update();
     
     SDL_Delay(int(LOOP_DELAY));
@@ -227,8 +99,8 @@ void shrink_fade(const Vector& point, int fade_time)
     fillrect(SCREEN_WIDTH - right_cor, 0, right_cor, SCREEN_HEIGHT, 0,0,0);  // right side
     fillrect(0, 0, SCREEN_WIDTH, up_cor, 0,0,0);  // up side
     fillrect(0, SCREEN_HEIGHT - down_cor, SCREEN_WIDTH, down_cor+1, 0,0,0);  // down side                                                                                
-    DrawingContext context; // ugly...
-    context.do_drawing();
+
+    SDL_GL_SwapBuffers();
   
     sound_manager->update();
     SDL_Delay(int(LOOP_DELAY));

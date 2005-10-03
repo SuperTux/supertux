@@ -96,12 +96,6 @@ Texture::~Texture()
   glDeleteTextures(1, &handle);
 }
 
-void upload_texture(SDL_Surface* , int , int , int , int , int , int )
-{
-  // TODO
-  assert(false);
-}
-
 void
 Texture::set_texture_params()
 {
@@ -109,7 +103,6 @@ Texture::set_texture_params()
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_CLAMP);
 
   assert_gl("set texture params");
 }

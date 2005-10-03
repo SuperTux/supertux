@@ -23,14 +23,15 @@
 #include <string>
 #include <stdint.h>
 
+#include <GL/gl.h>
 #include <SDL.h>
 #include <stdint.h>
 #include <memory>
 
 #include "math/vector.hpp"
-#include "video/screen.hpp"
-#include "video/surface.hpp"
-#include "video/font.hpp"
+#include "surface.hpp"
+#include "font.hpp"
+#include "color.hpp"
 
 class Surface;
 class Texture;
@@ -74,10 +75,10 @@ public:
   void draw_center_text(const Font* font, const std::string& text,
                         const Vector& position, int layer);
   /// Draws a color gradient onto the whole screen */
-  void draw_gradient(Color from, Color to, int layer);
+  void draw_gradient(const Color& from, const Color& to, int layer);
   /// Fills a rectangle.
   void draw_filled_rect(const Vector& topleft, const Vector& size,
-                        Color color, int layer);
+                        const Color& color, int layer);
   
   /// Processes all pending drawing requests and flushes the list.
   void do_drawing();
@@ -92,15 +93,13 @@ public:
   void pop_transform();
   
   /// Apply that effect in the next draws (effects are listed on surface.h).
-  void set_drawing_effect(uint32_t effect);
+  void set_drawing_effect(DrawingEffect effect);
   /// return currently applied drawing effect
-  uint32_t get_drawing_effect() const;
-  /// apply that zoom in the next draws */
-  void set_zooming(float zoom);
-  /// apply that alpha in the next draws */
-  void set_alpha(uint8_t alpha);
+  DrawingEffect get_drawing_effect() const;
+  /// apply that alpha in the next draws (1.0 means fully opaque) */
+  void set_alpha(float alpha);
   /// return currently set alpha
-  uint8_t get_alpha() const;
+  float get_alpha() const;
 
   enum Target {
     NORMAL, LIGHTMAP
@@ -114,12 +113,11 @@ private:
   {
   public:
     Vector translation;
-    uint32_t drawing_effect;
-    float zoom;
-    uint8_t alpha;
+    DrawingEffect drawing_effect;
+    float alpha;
     
     Transform()
-      : drawing_effect(NONE_EFFECT), zoom(1), alpha(255)
+      : drawing_effect(NO_EFFECT), alpha(1.0f)
     { }
     
     Vector apply(const Vector& v) const
@@ -182,9 +180,8 @@ private:
     Vector pos;                
     
     int layer;
-    uint32_t drawing_effect;
-    float zoom;
-    int alpha;
+    DrawingEffect drawing_effect;
+    float alpha;
     Blend blend;
     
     void* request_data;
@@ -212,7 +209,7 @@ private:
   SDL_Surface* screen;
   Target target;
   std::vector<Target> target_stack;
-  std::auto_ptr<Texture> lightmap;
+  Texture* lightmap;
   int lightmap_width, lightmap_height;
   float lightmap_uv_right, lightmap_uv_bottom;
 };

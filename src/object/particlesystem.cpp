@@ -73,9 +73,9 @@ void ParticleSystem::draw(DrawingContext& context)
 
 SnowParticleSystem::SnowParticleSystem()
 {
-    snowimages[0] = new Surface("images/objects/particles/snow0.png", true);
-    snowimages[1] = new Surface("images/objects/particles/snow1.png", true);
-    snowimages[2] = new Surface("images/objects/particles/snow2.png", true);
+    snowimages[0] = new Surface("images/objects/particles/snow0.png");
+    snowimages[1] = new Surface("images/objects/particles/snow1.png");
+    snowimages[2] = new Surface("images/objects/particles/snow2.png");
 
     virtual_width = SCREEN_WIDTH * 2;
 
@@ -133,8 +133,8 @@ void SnowParticleSystem::update(float elapsed_time)
 //       Ghosts don't change their movement pattern - not random
 GhostParticleSystem::GhostParticleSystem()
 {
-    ghosts[0] = new Surface("images/objects/particles/ghost0.png", true);
-    ghosts[1] = new Surface("images/objects/particles/ghost1.png", true);
+    ghosts[0] = new Surface("images/objects/particles/ghost0.png");
+    ghosts[1] = new Surface("images/objects/particles/ghost1.png");
 
     virtual_width = SCREEN_WIDTH * 2;
 
@@ -190,7 +190,7 @@ void GhostParticleSystem::update(float elapsed_time)
 
 CloudParticleSystem::CloudParticleSystem()
 {
-    cloudimage = new Surface("images/objects/particles/cloud.png", true);
+    cloudimage = new Surface("images/objects/particles/cloud.png");
 
     virtual_width = 2000.0;
 

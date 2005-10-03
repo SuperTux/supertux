@@ -35,7 +35,6 @@ MouseCursor* mouse_cursor = 0;
 Font* gold_text;
 Font* blue_text;
 Font* gray_text;
-Font* yellow_nums;
 Font* white_text;
 Font* white_small_text;
 Font* white_big_text;				    
@@ -44,26 +43,29 @@ Font* white_big_text;
 void load_shared()
 {
   /* Load GUI/menu images: */
-  checkbox = new Surface("images/engine/menu/checkbox-unchecked.png", true);
-  checkbox_checked = new Surface("images/engine/menu/checkbox-checked.png", true);
-  back = new Surface("images/engine/menu/arrow-back.png", true);
-  arrow_left = new Surface("images/engine/menu/arrow-left.png", true);
-  arrow_right = new Surface("images/engine/menu/arrow-right.png", true);
+  checkbox = new Surface("images/engine/menu/checkbox-unchecked.png");
+  checkbox_checked = new Surface("images/engine/menu/checkbox-checked.png");
+  back = new Surface("images/engine/menu/arrow-back.png");
+  arrow_left = new Surface("images/engine/menu/arrow-left.png");
+  arrow_right = new Surface("images/engine/menu/arrow-right.png");
 
   /* Load the mouse-cursor */
   mouse_cursor = new MouseCursor("images/engine/menu/mousecursor.png");
   MouseCursor::set_current(mouse_cursor);
 
   /* Load global images: */
-  gold_text = new Font("images/engine/fonts/gold.png", Font::TEXT, 16,18);
-  blue_text = new Font("images/engine/fonts/blue.png", Font::TEXT, 16,18,3);
-  white_text  = new Font("images/engine/fonts/white.png", Font::TEXT, 16,18);
-  gray_text  = new Font("images/engine/fonts/gray.png", Font::TEXT, 16,18);
+  gold_text = new Font("images/engine/fonts/gold.png",
+                       "images/engine/fonts/shadow.png", 16, 18);
+  blue_text = new Font("images/engine/fonts/blue.png", 
+                       "images/engine/fonts/shadow.png", 16, 18, 3);
+  white_text = new Font("images/engine/fonts/white.png",
+                        "images/engine/fonts/shadow.png", 16, 18);
+  gray_text = new Font("images/engine/fonts/gray.png",
+                       "images/engine/fonts/shadow.png", 16, 18);
   white_small_text = new Font("images/engine/fonts/white-small.png",
-                              Font::TEXT, 8,9, 1);
-  white_big_text   = new Font("images/engine/fonts/white-big.png",
-                              Font::TEXT, 20,22, 3);
-  yellow_nums = new Font("images/engine/fonts/numbers.png", Font::NUM, 32,32);
+                              "images/engine/fonts/shadow-small.png", 8, 9, 1);
+  white_big_text = new Font("images/engine/fonts/white-big.png",
+                            "images/engine/fonts/shadow-big.png", 20, 22, 3);
 
   Menu::default_font = white_text;
   Menu::active_font = blue_text;
@@ -81,10 +83,10 @@ void load_shared()
   for (int i = 0; i < GROWING_FRAMES; i++)
     {
       sprintf(img_name, "images/creatures/tux_grow/left-%i.png", i+1);
-      growingtux_left[i] = new Surface(img_name, true);
+      growingtux_left[i] = new Surface(img_name);
 
       sprintf(img_name, "images/creatures/tux_grow/right-%i.png", i+1);
-      growingtux_right[i] = new Surface(img_name, true);
+      growingtux_right[i] = new Surface(img_name);
     }
 
   small_tux = new TuxBodyParts();
@@ -115,7 +117,7 @@ void load_shared()
   load_object_gfx();
 
   /* Tux life: */
-  tux_life = new Surface("images/creatures/tux_small/tux-life.png", true);
+  tux_life = new Surface("images/creatures/tux_small/tux-life.png");
   
   player_status = new PlayerStatus();
 }
@@ -130,7 +132,6 @@ void unload_shared()
   delete gray_text;
   delete white_small_text;
   delete white_big_text;
-  delete yellow_nums;
   
   free_object_gfx();
 

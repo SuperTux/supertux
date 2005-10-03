@@ -143,6 +143,17 @@ Writer::write_int_vector(const std::string& name,
 }
 
 void
+Writer::write_float_vector(const std::string& name,
+                           const std::vector<float>& value)
+{
+  indent();
+  *out << '(' << name;
+  for(std::vector<float>::const_iterator i = value.begin(); i != value.end(); ++i)
+    *out << " " << *i;
+  *out << ")\n";
+}
+
+void
 Writer::indent()
 {
   for(int i = 0; i<indent_depth; ++i)

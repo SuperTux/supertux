@@ -25,6 +25,7 @@
 #include "game_object.hpp"
 #include "serializable.hpp"
 #include "math/vector.hpp"
+#include "video/drawing_context.hpp"
 
 namespace lisp {
 class Lisp;
@@ -87,12 +88,12 @@ public:
     return tilemanager;
   }
 
-  void set_drawing_effect(int effect)
+  void set_drawing_effect(DrawingEffect effect)
   {
     drawing_effect = effect;
   }
 
-  int get_drawing_effect()
+  DrawingEffect get_drawing_effect()
   {
     return drawing_effect;
   }
@@ -108,7 +109,7 @@ private:
   int width, height;
   int layer;
 
-  int drawing_effect;
+  DrawingEffect drawing_effect;
 };
 
 #endif /*SUPERTUX_TILEMAP_H*/

@@ -1,6 +1,8 @@
 #include <config.h>
 
 #include "text_object.hpp"
+
+#include <iostream>
 #include "resources.hpp"
 #include "video/drawing_context.hpp"
 
@@ -74,17 +76,16 @@ TextObject::draw(DrawingContext& context)
   context.push_transform();
   context.set_translation(Vector(0, 0));
   if(fading > 0) {
-    context.set_alpha(static_cast<uint8_t> 
-        ((fadetime-fading) * 255.0 / fadetime));
+    context.set_alpha((fadetime-fading) / fadetime);
   } else if(fading < 0) {
-    context.set_alpha(static_cast<uint8_t> (-fading * 255.0 / fadetime));
+    context.set_alpha(-fading / fadetime);
   } else if(!visible) {
     context.pop_transform();
     return;
   }
 
   context.draw_filled_rect(Vector(125, 50), Vector(550, 120),
-      Color(150, 180, 200, 125), LAYER_GUI-50);
+      Color(0.6, 0.7, 0.8, 0.5), LAYER_GUI-50);
   if (centered) {
     context.draw_center_text(font, text, Vector(0, 50+35), LAYER_GUI-40);
   }

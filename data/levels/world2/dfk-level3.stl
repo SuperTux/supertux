@@ -1087,8 +1087,8 @@
 
        (spawnpoint (name "main") (x 64) (y 11040))
        (background
-         (top_color 0 0 50)
-         (bottom_color 0 0 150)
+         (top_color 0 0 0.2)
+         (bottom_color 0 0 0.6)
          (speed 1.000000)
        )
        (particles-clouds
@@ -1221,8 +1221,8 @@
     )
 
        (background
-         (top_color 0 0 50)
-         (bottom_color 0 0 150)
+         (top_color 0 0 0.2)
+         (bottom_color 0 0 0.6)
          (speed 1.000000)
        )
        (particles-clouds

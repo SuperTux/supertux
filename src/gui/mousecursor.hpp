@@ -32,6 +32,8 @@ enum {
   MC_HIDE
 };
 
+class DrawingContext;
+
 /// Mouse cursor.
 /** Used to create mouse cursors.
     The mouse cursors can be animated

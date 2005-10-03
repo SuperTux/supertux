@@ -56,18 +56,16 @@ DisplayEffect::draw(DrawingContext& context)
     context.set_translation(Vector(0, 0));
 
     if(black || type != NO_FADE) {    
-      uint8_t alpha;
+      float alpha;
       if(black) {
-          alpha = 255;
+          alpha = 1.0f;
       } else {
           switch(type) {
               case FADE_IN:
-                  alpha = static_cast<uint8_t>
-                      (fading * 255.0 / fadetime);
+                  alpha = fading / fadetime;
                   break;
               case FADE_OUT:
-                  alpha = static_cast<uint8_t>
-                      ((fadetime-fading) * 255.0 / fadetime);
+                  alpha = (fadetime-fading) / fadetime;
                   break;
               default:
                   alpha = 0;
@@ -80,9 +78,9 @@ DisplayEffect::draw(DrawingContext& context)
 
     if (borders_fading || borders_active) {
       context.draw_filled_rect(Vector(0, 0), Vector(SCREEN_WIDTH, border_size),
-              Color(0, 0, 0, 255), LAYER_GUI-10);
+              Color(0, 0, 0, 1.0f), LAYER_GUI-10);
       context.draw_filled_rect(Vector(0, SCREEN_HEIGHT - border_size), Vector(SCREEN_WIDTH, border_size),
-              Color(0, 0, 0, 255), LAYER_GUI-10);
+              Color(0, 0, 0, 1.0f), LAYER_GUI-10);
     }
 
     context.pop_transform();
@@ -129,3 +127,4 @@ DisplayEffect::four_to_three()
 {
   borders_fading = false;
 }
+

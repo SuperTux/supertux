@@ -26,53 +26,7 @@
 #include <vector>
 #include "math/vector.hpp"
 
-/** Stores 8bit RGBA values. */
-class Color
-{
-public:
-  Color()
-    : red(0), green(0), blue(0), alpha(255)
-  {}
-  
-  Color(Uint8 red_, Uint8 green_, Uint8 blue_, Uint8 alpha_ = 255)
-    : red(red_), green(green_), blue(blue_), alpha(alpha_)
-  {}
-  
-  Color(std::vector <unsigned int> color)
-    : red(0), green(0), blue(0), alpha(255)
-  { if(color.size() >= 3) { red = color[0]; green = color[1]; blue = color[2]; }
-  if(color.size() == 4) alpha = color[3]; }
-  
-  Color(std::vector <int> color)
-    : red(0), green(0), blue(0), alpha(255)
-  { if(color.size() >= 3) { red = color[0]; green = color[1]; blue = color[2]; }
-  if(color.size() == 4) alpha = color[3]; }
-  
-  Color(const Color& o)
-    : red(o.red), green(o.green), blue(o.blue), alpha(o.alpha)
-  { }
-  
-  bool operator==(const Color& o)
-  {
-    if(red == o.red && green == o.green &&
-       blue == o.blue && alpha == o.alpha)
-      return true;
-    return false;
-  }
-  
-  Uint32 map_rgb(SDL_Surface* surface)
-  { return SDL_MapRGB(surface->format, red, green, blue); }
-  Uint32 map_rgba(SDL_Surface* surface)
-  { return SDL_MapRGBA(surface->format, red, green, blue, alpha); }
-  
-  Uint8 red, green, blue, alpha;
-};
-
-Uint32 getpixel(SDL_Surface* surface, int x, int y);
-void putpixel(SDL_Surface* surface, int x, int y, Uint32 pixel);
-void drawpixel(int x, int y, Uint32 pixel);
 void fillrect(float x, float y, float w, float h, int r, int g, int b, int a = 255);
-void draw_line(float x1, float y1, float x2, float y2, int r, int g, int b, int a = 255);
 
 void fadeout(int fade_time);
 void shrink_fade(const Vector& point, int fade_time);

@@ -84,7 +84,8 @@ bool confirm_dialog(Surface *background, std::string text)
       }
 
       if(background == NULL)
-        context.draw_gradient(Color(200,240,220), Color(200,200,220), LAYER_BACKGROUND0);
+        context.draw_gradient(Color(0.8, 0.95, 0.85), Color(0.8, 0.8, 0.8),
+                              LAYER_BACKGROUND0);
       else
         context.draw_surface(background, Vector(0,0), LAYER_BACKGROUND0);
 
@@ -537,9 +538,11 @@ Menu::draw_item(DrawingContext& context, int index)
         int y = y_pos - 12 - effect_offset;
         /* Draw a horizontal line with a little 3d effect */
         context.draw_filled_rect(Vector(x, y + 6),
-                                 Vector(menu_width, 4), Color(150,200,255,225), LAYER_GUI);
+                                 Vector(menu_width, 4),
+                                 Color(0.6f, 0.7f, 1.0f, 1.0f), LAYER_GUI);
         context.draw_filled_rect(Vector(x, y + 6),
-                                 Vector(menu_width, 2), Color(255,255,255,255), LAYER_GUI);
+                                 Vector(menu_width, 2),
+                                 Color(1.0f, 1.0f, 1.0f, 1.0f), LAYER_GUI);
         break;
       }
     case MN_LABEL:
@@ -560,11 +563,11 @@ Menu::draw_item(DrawingContext& context, int index)
         context.draw_filled_rect(
           Vector(input_pos - 5, y_pos - 10),
           Vector(input_width + 10, 20),
-          Color(255,255,255,255), LAYER_GUI-5);
+          Color(1.0f, 1.0f, 1.0f, 1.0f), LAYER_GUI-5);
         context.draw_filled_rect(
           Vector(input_pos - 4, y_pos - 9),
           Vector(input_width + 8, 18),
-          Color(0,0,0,128), LAYER_GUI-4);
+          Color(0, 0, 0, 0.5f), LAYER_GUI-4);
 
         if(pitem.kind == MN_TEXTFIELD || pitem.kind == MN_NUMFIELD)
           {
@@ -607,11 +610,11 @@ Menu::draw_item(DrawingContext& context, int index)
         context.draw_filled_rect(
           Vector(x_pos - list_pos + text_pos - 1, y_pos - 10),
           Vector(list_pos_2 + 2, 20),
-          Color(255,255,255,255), LAYER_GUI - 4);
+          Color(1.0f, 1.0f, 1.0f, 1.0f), LAYER_GUI - 4);
         context.draw_filled_rect(
           Vector(x_pos - list_pos + text_pos, y_pos - 9),
           Vector(list_pos_2, 18),
-          Color(0,0,0,128), LAYER_GUI - 5);
+          Color(0, 0, 0, 0.5f), LAYER_GUI - 5);
 
         context.draw_text(text_font, pitem.list[pitem.selected],
                                  Vector(SCREEN_WIDTH/2 + text_pos, y_pos - int(text_font->get_height()/2)),
@@ -701,7 +704,7 @@ Menu::draw(DrawingContext& context)
   context.draw_filled_rect(
     Vector(pos_x - menu_width/2, pos_y - 24*items.size()/2 - 10),
     Vector(menu_width,menu_height + 20),
-    Color(150,180,200,125), LAYER_GUI-10);
+    Color(0.6f, 0.7f, 0.8f, 0.5f), LAYER_GUI-10);
 
   for(unsigned int i = 0; i < items.size(); ++i)
     {

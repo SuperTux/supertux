@@ -457,12 +457,17 @@ GameSession::draw_pause()
           -((pause_menu_frame * i)%SCREEN_WIDTH)
           ,(i*20+pause_menu_frame)%SCREEN_HEIGHT),
         Vector(SCREEN_WIDTH,10),
-        Color(20,20,20, rand() % 20 + 1), LAYER_FOREGROUND1+1);
+        Color(0.1, 0.1, 0.1, static_cast<float>(rand() % 20 + 1) / 255.0),
+        LAYER_FOREGROUND1+1);
   }
 
   context->draw_filled_rect(
       Vector(0,0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT),
-      Color(rand() % 50, rand() % 50, rand() % 50, 128), LAYER_FOREGROUND1);
+      Color(
+        static_cast<float>(rand() % 50) / 255.0,
+        static_cast<float>(rand() % 50) / 255.0,
+        static_cast<float>(rand() % 50) / 255.0,
+        0.5), LAYER_FOREGROUND1);
 #if 0
   context->draw_text(blue_text, _("PAUSE - Press 'P' To Play"),
       Vector(SCREEN_WIDTH/2, 230), CENTER_ALLIGN, LAYER_FOREGROUND1+2);

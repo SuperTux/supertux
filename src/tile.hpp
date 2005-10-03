@@ -21,9 +21,12 @@
 #define TILE_H
 
 #include <vector>
+#include <SDL.h>
 #include "video/surface.hpp"
 #include "math/rect.hpp"
 #include "lisp/lisp.hpp"
+
+class DrawingContext;
 
 /**
 Tile Class
@@ -115,7 +118,7 @@ public:
   { 
     if(!images.size())
       return 0;
-    return images[0]->w;
+    return (int) images[0]->get_width();
   }
 
   /// returns the height of the tiles in pixels
@@ -123,7 +126,7 @@ public:
   {
     if(!images.size())
       return 0;
-    return images[0]->h;
+    return (int) images[0]->get_height();
   }
 
 protected:

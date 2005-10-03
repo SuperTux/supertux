@@ -201,16 +201,16 @@ Sector::parse_old_format(const lisp::Lisp& reader)
   reader.get("bkgd_red_top", r);
   reader.get("bkgd_green_top",  g);
   reader.get("bkgd_blue_top",  b);
-  bkgd_top.red = r;
-  bkgd_top.green = g;
-  bkgd_top.blue = b;
+  bkgd_top.red = static_cast<float> (r) / 255.0f;
+  bkgd_top.green = static_cast<float> (g) / 255.0f;
+  bkgd_top.blue = static_cast<float> (b) / 255.0f;
   
   reader.get("bkgd_red_bottom",  r);
   reader.get("bkgd_green_bottom", g);
   reader.get("bkgd_blue_bottom", b);
-  bkgd_bottom.red = r;
-  bkgd_bottom.green = g;
-  bkgd_bottom.blue = b;
+  bkgd_bottom.red = static_cast<float> (r) / 255.0f;
+  bkgd_bottom.green = static_cast<float> (g) / 255.0f;
+  bkgd_bottom.blue = static_cast<float> (b) / 255.0f;
   
   if(backgroundimage != "") {
     Background* background = new Background;

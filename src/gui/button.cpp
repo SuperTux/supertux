@@ -37,7 +37,7 @@ Button::Button(Surface* image_, std::string info_, SDLKey binding_)
   : binding(binding_)
 {
   image = image_;
-  size = Vector(image->w, image->h);
+  size = Vector(image->get_width(), image->get_height());
   id = 0;
   info = info_;
 }

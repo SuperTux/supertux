@@ -3,6 +3,7 @@
 #include "level_time.hpp"
 
 #include <stdexcept>
+#include <iostream>
 #include "main.hpp"
 #include "resources.hpp"
 #include "sector.hpp"

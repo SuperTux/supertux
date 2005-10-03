@@ -20,6 +20,7 @@
 
 #include <math.h>
 #include <stdexcept>
+#include <iostream>
 
 #include "ambient_sound.hpp"
 #include "object_factory.hpp"

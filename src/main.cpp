@@ -43,6 +43,7 @@
 #include "gettext.hpp"
 #include "audio/sound_manager.hpp"
 #include "video/surface.hpp"
+#include "video/texture_manager.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
 #include "misc.hpp"
 #include "title.hpp"
@@ -301,6 +302,9 @@ static void check_gl_error()
 
 void init_video()
 {
+  if(texture_manager != NULL)
+    texture_manager->save_textures();
+  
   SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1); 
   SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 5);
   SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 5);
@@ -339,6 +343,9 @@ void init_video()
   // setup opengl state and transform
   glDisable(GL_DEPTH_TEST);
   glDisable(GL_CULL_FACE);
+  glEnable(GL_TEXTURE_2D);
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
   glViewport(0, 0, screen->w, screen->h);
   glMatrixMode(GL_PROJECTION);
@@ -351,7 +358,10 @@ void init_video()
 
   check_gl_error();
 
-  Surface::reload_all();
+  if(texture_manager != NULL)
+    texture_manager->reload_textures();
+  else
+    texture_manager = new TextureManager();
 }
 
 static void init_audio()
@@ -450,15 +460,13 @@ int main(int argc, char** argv)
 
   free_menu();
   unload_shared();
-#ifdef DEBUG
-  Surface::debug_check();
-#endif
   quit_audio();
 
   if(config)
     config->save();
   delete config;
   delete main_controller;
+  delete texture_manager;
   SDL_Quit();
   PHYSFS_deinit();
   
