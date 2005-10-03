@@ -658,7 +658,7 @@
 (tile (id 159)
      (images "worldmap/forest/fall7.png"))
 (tile (id 160)
-(anim-fps -15)
+(anim-fps 2)
      (images "worldmap/forest/fall8.png"
              "worldmap/forest/fall8b.png"
              "worldmap/forest/fall8c.png")
@@ -666,7 +666,7 @@
 (tile (id 161)
      (images "worldmap/forest/fall9.png"))
 (tile (id 162)
-(anim-fps -15)
+(anim-fps 2)
      (images "worldmap/forest/fall0.png"
              "worldmap/forest/fall0b.png"
              "worldmap/forest/fall0c.png"
@@ -1183,16 +1183,14 @@
     (solid #t))
 (tile
     (id 248)
-    (anim-fps 3)
-    (images "worldmap/forest/torch1.png"
-            "worldmap/forest/torch2.png"
-            "worldmap/forest/torch3.png")
-       
-    (stop #f)
-    (north #f)
-    (south #t)
-    (west  #f)
-    (east  #t))
+    (images
+      (region "worldmap/forest/castlemap.png" 96 192 32 32)
+ )         
+     (stop #f)
+     (north #f)
+     (south #t)
+     (west  #f)
+     (east  #t))
 (tile
     (id 249)
     (images
