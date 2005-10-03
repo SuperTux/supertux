@@ -111,11 +111,9 @@ Sound.play(\"sounds/invincible.wav\");
 Text.set_text(\"You made it!\");
 Text.set_font(\"big\");
 Text.fade_in(1.5);
-set_wakeup_time(4);
-suspend();
+wait(4);
 DisplayEffect.fade_out(1.5);
-set_wakeup_time(1.5);
-suspend();
+wait(1.5);
 Level.finish();
 ")
         )

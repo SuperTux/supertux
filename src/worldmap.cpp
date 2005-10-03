@@ -516,7 +516,7 @@ WorldMap::parse_level_tile(const lisp::Lisp* level_lisp)
   level.south = true;
   level.west  = true;
 
-  std::string sprite = "leveldot";
+  std::string sprite = "images/worldmap/common/leveldot.sprite";
   level_lisp->get("sprite", sprite);
   level.sprite = sprite_manager->create(sprite);
 

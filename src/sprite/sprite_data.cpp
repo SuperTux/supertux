@@ -43,20 +43,18 @@ SpriteData::Action::~Action()
     delete *i;
 }
 
-SpriteData::SpriteData(const lisp::Lisp* lisp)
+SpriteData::SpriteData(const lisp::Lisp* lisp, const std::string& basedir)
 {
   lisp::ListIterator iter(lisp);
   while(iter.next()) {
     if(iter.item() == "name") {
       iter.value()->get(name);
     } else if(iter.item() == "action") {
-      parse_action(iter.lisp());
+      parse_action(iter.lisp(), basedir);
     } else {
       std::cerr << "Unknown sprite field: " << iter.item() << "\n";
     }
   }
-  if(name.empty())
-    throw std::runtime_error("Error: Sprite wihtout name.");
   if(actions.empty())
     throw std::runtime_error("Error: Sprite wihtout actions.");
 }
@@ -68,7 +66,7 @@ SpriteData::~SpriteData()
 }
 
 void
-SpriteData::parse_action(const lisp::Lisp* lisp)
+SpriteData::parse_action(const lisp::Lisp* lisp, const std::string& basedir)
 {
   Action* action = new Action;
 
@@ -108,7 +106,7 @@ SpriteData::parse_action(const lisp::Lisp* lisp)
     }
 
     for(std::vector<std::string>::size_type i = 0; i < images.size(); i++) {
-      action->surfaces.push_back(new Surface("images/" + images[i], true));
+      action->surfaces.push_back(new Surface(basedir + images[i], true));
     }
   }
   actions[action->name] = action;

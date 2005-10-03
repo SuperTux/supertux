@@ -166,7 +166,7 @@
              (bonusblock (x 160) (y 288)
           (contents "custom")
           (powerup
-            (sprite "red-potion")
+            (sprite "images/powerups/potions/images/powerups/potions/red-potion.sprite.sprite")
             (script "
 DisplayEffect.set_black(true);
 wait(0.1);

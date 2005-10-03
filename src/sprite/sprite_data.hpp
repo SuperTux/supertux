@@ -30,46 +30,46 @@
 class SpriteData
 {
 public:
-	/** cur has to be a pointer to data in the form of ((x-offset 5)
-	  (y-offset 10) ...) */
-	SpriteData(const lisp::Lisp* cur);                                         
-	~SpriteData();
+  /** cur has to be a pointer to data in the form of ((x-offset 5)
+    (y-offset 10) ...) */
+  SpriteData(const lisp::Lisp* cur, const std::string& basedir);
+  ~SpriteData();
 
-	const std::string& get_name() const
-	{
-	  return name;
-	}
+  const std::string& get_name() const
+  {
+    return name;
+  }
 
 private:
-	friend class Sprite;
+  friend class Sprite;
 
-	struct Action
-	{
-	  Action();
-	  ~Action();
-	  
-	  std::string name;
+  struct Action
+  {
+    Action();
+    ~Action();
 
-	  /** Position correction */
-	  int x_offset;
-	  int y_offset;
-	  /** Drawing priority in queue */
-	  int z_order;
+    std::string name;
 
-	  /** Frames per second */
-	  float fps;
+    /** Position correction */
+    int x_offset;
+    int y_offset;
+    /** Drawing priority in queue */
+    int z_order;
 
-	  std::vector<Surface*> surfaces;
-	};
+    /** Frames per second */
+    float fps;
 
-	typedef std::map <std::string, Action*> Actions;
-	Actions actions;
+    std::vector<Surface*> surfaces;
+  };
 
-	void parse_action(const lisp::Lisp* lispreader);
-	/** Get an action */
-	Action* get_action(std::string act);
+  typedef std::map <std::string, Action*> Actions;
+  Actions actions;
 
-	std::string name;
+  void parse_action(const lisp::Lisp* lispreader, const std::string& basedir);
+  /** Get an action */
+  Action* get_action(std::string act);
+
+  std::string name;
 };
 
 #endif

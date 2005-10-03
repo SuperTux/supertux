@@ -1201,49 +1201,6 @@
          (y-offset 32)
          (mirror-action "explosion-left")))
    
-   ; Dummyguy
-   (sprite (name "dummyguy")
-       (action
-         (name "left")
-	 (fps 6)
-         (x-offset 0)
-         (y-offset 40)
-         (images "creatures/dummyguy/walk-1.png"
-		           "creatures/dummyguy/walk-2.png"))
-
-       (action
-         (name "right")
-	 (fps 6)
-         (x-offset 0)
-         (y-offset 40)
-         (mirror-action "left"))
-         
-       (action
-         (name "stand")
-         (x-offset 0)
-         (y-offset 40)
-         (images "creatures/dummyguy/stand.png"))
-         
-       (action
-         (name "throw")
-	 (fps 6)
-         (x-offset 0)
-         (y-offset 40)
-         (images "creatures/dummyguy/throw.png"))
-
-       (action
-         (name "jump")
-         (x-offset 0)
-         (y-offset 40)
-         (images "creatures/dummyguy/jump.png"))
-         
-       (action
-         (name "dead")
-         (x-offset 0)
-         (y-offset 0)
-         (images "creatures/dummyguy/dead.png")))
-
-
   ; MrTree  
   (sprite (name "mrtree")
       (action
@@ -1653,33 +1610,6 @@
                   "objects/hatch/hatch-5.png"))
   )
 
-  (sprite (name "yeti")
-    (action
-      (name "right")
-      (images "creatures/yeti/yeti_b.png")
-    )
-    (action
-      (name "left")
-      (mirror-action "right")
-    )
-  )
-
-  (sprite
-    (name "red-potion")
-    (action
-      (name "default")
-      (images "powerups/potions/red-potion.png")
-    )
-  )
-
-  (sprite
-    (name "blue-potion")
-    (action
-      (name "default")
-      (images "powerups/potions/blue-potion.png")
-    )
-  )
-
   (sprite
     (name "lightmap_light")
     (action
@@ -1769,21 +1699,6 @@
     (action
       (name "outline")
       (images "objects/keys/outline_gold.png")
-    )
-  )
-  (sprite
-    (name "leveldot")
-    (action
-      (name "default")
-      (x-offset 16)
-      (y-offset 16)
-      (images "worldmap/common/leveldot_red.png")
-    )
-    (action
-      (name "solved")
-      (x-offset 16)
-      (y-offset 16)
-      (images "worldmap/common/leveldot_green.png")
     )
   )
 )

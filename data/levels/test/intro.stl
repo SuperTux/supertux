@@ -106,7 +106,7 @@
          (name "PENNY")
          (x 390)
          (y 510)
-         (sprite "dummyguy")
+         (sprite "images/creatures/dummyguy/dummyguy.sprite")
        )
        (init-script "intro();")
    )

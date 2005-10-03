@@ -28,6 +28,7 @@
 #include "lisp/lisp.hpp"
 #include "lisp/parser.hpp"
 #include "lisp/list_iterator.hpp"
+#include "file_system.hpp"
 
 SpriteManager::SpriteManager(const std::string& filename)
 {
@@ -55,7 +56,7 @@ SpriteManager::load_resfile(const std::string& filename)
     lisp::ListIterator iter(resources);
     while(iter.next()) {
       if(iter.item() == "sprite") {
-        SpriteData* spritedata = new SpriteData(iter.lisp());
+        SpriteData* spritedata = new SpriteData(iter.lisp(), "images/");
 
         Sprites::iterator i = sprites.find(spritedata->get_name());
         if (i == sprites.end()) {
@@ -82,11 +83,39 @@ Sprite*
 SpriteManager::create(const std::string& name)
 {
   Sprites::iterator i = sprites.find(name);
+  SpriteData* data;
   if(i == sprites.end()) {
-    std::stringstream msg;
-    msg << "Sprite '" << name << "' not found.";
+    // try loading the spritefile
+    data = load(name);
+    if(data == NULL) {
+      std::stringstream msg;
+      msg << "Sprite '" << name << "' not found.";
+      throw std::runtime_error(msg.str());
+    }
+  } else {
+    data = i->second;
+  }
+  
+  return new Sprite(*data);
+}
+
+SpriteData*
+SpriteManager::load(const std::string& filename)
+{
+  lisp::Parser parser;
+  std::auto_ptr<lisp::Lisp> root (parser.parse(filename));
+
+  const lisp::Lisp* sprite = root->get_lisp("supertux-sprite");
+  if(!sprite) {
+    std::ostringstream msg;
+    msg << "'" << filename << "' is not a supertux-sprite file";
     throw std::runtime_error(msg.str());
   }
-  return new Sprite(*i->second);
+
+  std::auto_ptr<SpriteData> data (
+      new SpriteData(sprite, FileSystem::dirname(filename)) );
+  sprites[filename] = data.release();
+  
+  return sprites[filename];
 }
 

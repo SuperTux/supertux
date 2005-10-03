@@ -1,0 +1,11 @@
+(supertux-sprite
+  (action
+    (name "right")
+    (images "yeti_b.png")
+  )
+  (action
+    (name "left")
+    (mirror-action "right")
+  )
+)
+  

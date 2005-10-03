@@ -22,22 +22,25 @@
 
 #include <map>
 
-#include "sprite.hpp"
+class SpriteData;
+class Sprite;
 
 class SpriteManager
 {
 private:
-	typedef std::map<std::string, SpriteData*> Sprites;
-	Sprites sprites;
+  typedef std::map<std::string, SpriteData*> Sprites;
+  Sprites sprites;
+  
 public:
-	SpriteManager(const std::string& filename);
-	~SpriteManager();
+  SpriteManager(const std::string& filename);
+  ~SpriteManager();
 
-	void load_resfile(const std::string& filename);
-	/** loads a sprite.
-	 * (contrary to the old api you have to delete the sprite!)
-	 */
-	Sprite* create(const std::string& name);
+  void load_resfile(const std::string& filename);
+  /** loads a sprite. */
+  Sprite* create(const std::string& filename);
+
+private:
+  SpriteData* load(const std::string& filename);
 };
 
 #endif

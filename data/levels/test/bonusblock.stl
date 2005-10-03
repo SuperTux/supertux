@@ -145,13 +145,8 @@
        (bonusblock (x 96) (y 800)
           (contents "custom")
           (powerup
-            (sprite "red-potion")
+            (sprite "images/powerups/potions/red-potion.sprite")
             (script "
-function wait(time) {
-  set_wakeup_time(time);
-  suspend();
-}
-
 DisplayEffect.set_black(true);
 wait(0.1);
 DisplayEffect.set_black(false);
@@ -170,12 +165,8 @@ DisplayEffect.fade_in(1);
       (bonusblock (x 470) (y 96)
         (contents "custom")
         (powerup
-          (sprite "blue-potion")
+          (sprite "images/powerups/potions/blue-potion.sprite")
           (script "
-function wait(time) {
-  set_wakeup_time(time);
-  suspend();
-}
 DisplayEffect.fade_out(1);
 wait(1);
 Level.flip_vertically();

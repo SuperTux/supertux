@@ -29,6 +29,7 @@
 #include "game_session.hpp"
 #include "gameobjs.hpp"
 #include "sprite/sprite_manager.hpp"
+#include "sprite/sprite.hpp"
 #include "resources.hpp"
 #include "sector.hpp"
 #include "tilemap.hpp"
