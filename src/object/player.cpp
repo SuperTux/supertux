@@ -191,14 +191,6 @@ Player::update(float elapsed_time)
              bbox.get_height()*0.66666 - 32);
     grabbed_object->grab(*this, pos);
   }
-  
-  if (backflipping) {
-    if (backflip_direction == 0) {
-      dir == LEFT ? backflip_direction = 1 : backflip_direction = -1;
-    }
-    else backflip_direction == 1 ? dir = LEFT : dir = RIGHT; //prevent player from changing direction when backflipping 
-    if (backflip_timer.check()) physic.set_velocity_x(100 * backflip_direction);
-  }
 }
 
 bool
@@ -451,6 +443,14 @@ Player::handle_input()
 {
   /* Handle horizontal movement: */
   if (!backflipping) handle_horizontal_input();
+  else {
+    if (backflip_direction == 0) {
+      dir == LEFT ? backflip_direction = 1 : backflip_direction = -1;
+    }
+    else backflip_direction == 1 ? dir = LEFT : dir = RIGHT; //prevent player from changing direction when backflipping 
+    if (backflip_timer.check()) physic.set_velocity_x(100 * backflip_direction);
+  }
+
 
   /* Jump/jumping? */
   if (on_ground() && !controller->hold(Controller::JUMP))
