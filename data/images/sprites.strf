@@ -782,25 +782,7 @@
 
 
 ;; Bad Guys follow
- (sprite (name "spike")
-    (action
-      (name "north")
-      (images "creatures/spike/up.png")
-    )
-    (action
-      (name "south")
-      (images "creatures/spike/down.png")
-    )
-    (action
-      (name "west")
-      (images "creatures/spike/left.png")
-    )
-    (action
-      (name "east")
-      (images "creatures/spike/right.png")
-    )
- )
-
+ 
  ;; MrIceBlock
  (sprite (name "mriceblock")
     (action
@@ -857,33 +839,6 @@
          (x-offset 1)
          (y-offset -19)
          (images "creatures/snowball/squished-left.png"))
-
-       (action
-         (name "squished-right")
-         (x-offset 1)
-         (y-offset -19)
-         (mirror-action "squished-left")))
-
- (sprite (name "fluffy")
-       (action
-         (name "left")
-         (x-offset 2)
-         (y-offset 4)
-         (images "creatures/mr_fluffy/left-0.png"
-                 "creatures/mr_fluffy/left-1.png"
-                 "creatures/mr_fluffy/left-2.png"
-                 "creatures/mr_fluffy/left-1.png"))
-
-       (action
-         (name "right")
-         (x-offset 2)
-         (y-offset 4)
-         (mirror-action "left"))
-       (action
-         (name "squished-left")
-         (x-offset 1)
-         (y-offset -19)
-         (images "creatures/mr_fluffy/squished-left.png"))
 
        (action
          (name "squished-right")

@@ -353,10 +353,6 @@ GameSession::try_cheats()
     debug_grid = !debug_grid;
   }
 #endif
-  if(main_controller->check_cheatcode("hover")) {
-    // toggle hover ability on/off
-    tux.enable_hover = !tux.enable_hover;
-  }
   if(main_controller->check_cheatcode("gotoend")) {
     // goes to the end of the level
     tux.move(Vector(
@@ -368,16 +364,6 @@ GameSession::try_cheats()
     // finish current sector
     exit_status = ES_LEVEL_FINISHED;
     // don't add points to stats though...
-  }
-  // temporary to help player's choosing a flapping
-  if(main_controller->check_cheatcode("marek")) {
-    tux.flapping_mode = Player::MAREK_FLAP;
-  }
-  if(main_controller->check_cheatcode("ricardo")) {
-    tux.flapping_mode = Player::RICARDO_FLAP;
-  }
-  if(main_controller->check_cheatcode("ryan")) {
-    tux.flapping_mode = Player::RYAN_FLAP;
   }
 }
 

@@ -39,9 +39,6 @@ class Portable;
 static const float TUX_SAFE_TIME = 1.8;
 static const float TUX_INVINCIBLE_TIME = 10.0;
 static const float TUX_INVINCIBLE_TIME_WARNING = 2.0;
-static const float TUX_FLAPPING_TIME = 1; /* How long Tux can flap his wings to gain additional jump height */
-static const float TUX_FLAPPING_STRENGTH = 100; /* How much Y velocity Tux gains when flapping */
-static const float TUX_FLAPPING_LEAST_X = 30; /* How much X velocity Tux gains when flapping from vertical jump */
 static const float GROWING_TIME = 1.0;
 static const int GROWING_FRAMES = 7;
 
@@ -92,6 +89,8 @@ public:
 
 private:
   bool dying;
+  bool backflipping;
+  int  backflip_direction;
 public:
 
   Direction dir;
@@ -102,23 +101,9 @@ public:
 
   bool on_ground_flag;
   bool jumping;
-  bool flapping;
   bool can_jump;
-  bool can_flap;
-  bool falling_from_flap;
-  bool enable_hover;
   bool butt_jump;
   
-  float flapping_velocity;
-
-  // Ricardo's flapping
-  int flaps_nb;
-
-  // temporary to help player's choosing a flapping
-  // TODO: remove this after agreeing on flapstyle!
-  enum { MAREK_FLAP, RICARDO_FLAP, RYAN_FLAP, NO_FLAP };
-  int flapping_mode;
-
   Timer invincible_timer;
   Timer skidding_timer;
   Timer safe_timer;
@@ -127,7 +112,7 @@ public:
   Timer dying_timer;
   Timer growing_timer;
   Timer idle_timer;
-  Timer flapping_timer;
+  Timer backflip_timer;
   Physic physic;
   
 public:

@@ -127,22 +127,12 @@ Player::init()
   last_ground_y = 0;
   fall_mode = ON_GROUND;
   jumping = false;
-  flapping = false;
   can_jump = true;
-  can_flap = false;
-  falling_from_flap = false;
-  enable_hover = false;
   butt_jump = false;
   deactivated = false;
+  backflipping = false;
+  backflip_direction = 0;
   
-  flapping_velocity = 0;
-
-  // temporary to help player's choosing a flapping
-  flapping_mode = NO_FLAP;
-
-  // Ricardo's flapping
-  flaps_nb = 0;
-
   on_ground_flag = false;
   grabbed_object = 0;
 
@@ -200,6 +190,14 @@ Player::update(float elapsed_time)
       Vector(dir == LEFT ? -16 : 16,
              bbox.get_height()*0.66666 - 32);
     grabbed_object->grab(*this, pos);
+  }
+  
+  if (backflipping) {
+    if (backflip_direction == 0) {
+      dir == LEFT ? backflip_direction = 1 : backflip_direction = -1;
+    }
+    else backflip_direction == 1 ? dir = LEFT : dir = RIGHT; //prevent player from changing direction when backflipping 
+    if (backflip_timer.check()) physic.set_velocity_x(100 * backflip_direction);
   }
 }
 
@@ -343,19 +341,23 @@ Player::handle_vertical_input()
 
   if(on_ground()) { /* Make sure jumping is off. */
     jumping = false;
-    flapping = false;
-    falling_from_flap = false;
-    if (flapping_timer.started()) {
-      flapping_timer.stop();
+    if (backflipping) {
+      backflipping = false;
+      backflip_direction = 0;
     }
-
-    physic.set_acceleration_y(0); //for flapping
   }
 
   // Press jump key
   if(controller->pressed(Controller::JUMP) && can_jump && on_ground()) {
-    if (duck) // only jump a little bit when in duck mode
-      physic.set_velocity_y(300);
+    if (duck) { 
+      if (physic.get_velocity_x() != 0) // only jump a little bit when running ducked
+        physic.set_velocity_y(300);
+      else { //do a backflip
+        backflipping = true;
+        physic.set_velocity_y(580);
+        backflip_timer.start(0.15);
+      }
+    }
     else if (fabs(physic.get_velocity_x()) > MAX_WALK_XM) // jump higher if we are running
       physic.set_velocity_y(580);
     else
@@ -363,118 +365,17 @@ Player::handle_vertical_input()
     
     //bbox.move(Vector(0, -1));
     jumping = true;
-    flapping = false;
     can_jump = false;
-    can_flap = false;
-    flaps_nb = 0; // Ricardo's flapping
     if (is_big())
       sound_manager->play("sounds/bigjump.wav");
     else
       sound_manager->play("sounds/jump.wav");
   } else if(!controller->hold(Controller::JUMP)) { // Let go of jump key
-    if (!flapping && !duck && !falling_from_flap && !on_ground()) {
-      can_flap = true;
-    }
-    if (jumping && physic.get_velocity_y() > 0) {
+    if (!backflipping && jumping && physic.get_velocity_y() > 0) {
       jumping = false;
       physic.set_velocity_y(0);
     }
   }
-#if CHOOSEFLAPSTYLE
-  // temporary to help players choosing a flapping
-  if(flapping_mode == RICARDO_FLAP) {
-    // Flapping, Ricardo's version
-    // similar to SM3 Fox
-    if(controller->pressed(Controller::JUMP) && can_flap && flaps_nb < 3) {
-      physic.set_velocity_y(350);
-      physic.set_velocity_x(physic.get_velocity_x() * 35);
-      flaps_nb++;
-    }
-  } else if(flapping_mode == MAREK_FLAP) {
-#endif
-    // Flapping, Marek and Ondra's version
-    if (controller->hold(Controller::JUMP) && can_flap)
-    {
-      if (flapping_timer.check()) 
-      {
-        can_flap = false;
-        //flapping = false;
-        falling_from_flap = true;
-      }
-      else if (!flapping_timer.started())
-      {
-        flapping_timer.start(TUX_FLAPPING_TIME);
-        flapping_velocity = physic.get_velocity_x();
-      }
-      else
-      {
-        jumping = true;
-        flapping = true;
-        float cv = flapping_velocity * sqrt(
-          TUX_FLAPPING_TIME - flapping_timer.get_timegone() 
-          / TUX_FLAPPING_TIME);
-      
-        //Handle change of direction while flapping
-        if (((dir == LEFT) && (cv > 0)) || (dir == RIGHT) && (cv < 0)) {
-          cv *= (-1);
-        }
-        else if (cv == 0) {
-          if (controller->hold(Controller::LEFT)) {
-          	cv = -TUX_FLAPPING_LEAST_X;
-          }
-          else if (controller->hold(Controller::RIGHT)) {
-            cv = TUX_FLAPPING_LEAST_X;
-          }
-        }
-        physic.set_velocity_x(cv);
-        physic.set_velocity_y(flapping_timer.get_timegone()
-            * TUX_FLAPPING_STRENGTH);
-        //std::cout << "Timegone: " << flapping_timer.get_timegone() << ", Y velocity: " << physic.get_velocity_y() << "\n";
-      }
-    }
-#if CHOOSEFLAPSTYLE
-  } else if(flapping_mode == RYAN_FLAP) {
-    // Flapping, Ryan's version
-    if (controller->hold(Controller::JUMP) && can_flap)
-    {
-      if (!flapping_timer.started())
-      {
-        flapping_timer.start(TUX_FLAPPING_TIME);
-      }
-      if (flapping_timer.check()) 
-      {
-        can_flap = false;
-        falling_from_flap = true;
-      }
-      jumping = true;
-      flapping = true;
-      if (flapping && flapping_timer.get_timegone() <= TUX_FLAPPING_TIME
-          && physic.get_velocity_y() < 0)
-      {
-        float gravity = Sector::current()->gravity;
-        (void)gravity;
-        float xr = (fabsf(physic.get_velocity_x()) / MAX_RUN_XM);
-        
-        // XXX: magic numbers. should be a percent of gravity
-        //      gravity is (by default) -0.1f
-        physic.set_acceleration_y(12 + 1*xr);
-        
-#if 0
-        // To slow down x-vel when flapping (not working)
-        if (fabsf(physic.get_velocity_x()) > MAX_WALK_XM)
-        {
-          if (physic.get_velocity_x() < 0)
-            physic.set_acceleration_x(1.0f);
-          else if (physic.get_velocity_x() > 0)
-            physic.set_acceleration_x(-1.0f);
-        }
-#endif
-      }
-    } else {
-      physic.set_acceleration_y(0);
-    }
-  }
-#endif
 
   /* In case the player has pressed Down while in a certain range of air,
      enable butt jump action */
@@ -549,7 +450,7 @@ void
 Player::handle_input()
 {
   /* Handle horizontal movement: */
-  handle_horizontal_input();
+  if (!backflipping) handle_horizontal_input();
 
   /* Jump/jumping? */
   if (on_ground() && !controller->hold(Controller::JUMP))
@@ -914,10 +815,6 @@ Player::check_bounds(Camera* camera)
 void
 Player::bounce(BadGuy& )
 {
-  //Make sure we stopped flapping
-  flapping = false;
-  falling_from_flap = false;
-  
   if(controller->hold(Controller::JUMP))
     physic.set_velocity_y(520);
   else
