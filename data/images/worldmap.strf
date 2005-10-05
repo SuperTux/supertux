@@ -1186,7 +1186,7 @@
     (images
       (region "worldmap/forest/castlemap.png" 96 192 32 32)
  )         
-     (stop #f)
+     (stop #t)
      (north #f)
      (south #t)
      (west  #f)

@@ -11,6 +11,7 @@
 -Original Developer
 
 	Bill Kendrick
+!images/credits/bill.jpg
 
 
 -Programming
@@ -49,6 +50,7 @@
 	Benjamin P. \"litespeed\" Jung
 
 	Stephen Groundwater
+!images/credits/gwater.jpg
 
 
 -Level Design

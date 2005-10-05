@@ -39,4 +39,10 @@
     (y 5)
     (name "level6.stl")
   )
+  (level
+    (x 32)
+    (y 17)
+    (sprite "images/worldmap/common/torch.sprite")
+    (name "castle.stl")
+  )
 )
