@@ -3,8 +3,8 @@
   (background "oiltux.jpg")
   (speed 1.5)
 
-  (text (_ "-- SuperTux -
-	Milestone 2
+  (text (_ "!images/credits/milestone.png
+
 
 
 
