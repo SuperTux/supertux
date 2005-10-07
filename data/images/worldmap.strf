@@ -2019,5 +2019,29 @@
       (region "worldmap/forest/icewood.png" 128 96 32 32)
     )
     (solid #t))
+(tile
+    (id 422)
+    (images
+      (region "worldmap/forest/icewood.png" 0 128 32 32)
+    )
+    (solid #t))
+(tile
+    (id 423)
+    (images
+      (region "worldmap/forest/icewood.png" 32 128 32 32)
+    )
+    (solid #t))
+(tile
+    (id 424)
+    (images
+      (region "worldmap/forest/icewood.png" 64 128 32 32)
+    )
+    (solid #t))
+(tile
+    (id 425)
+    (images
+      (region "worldmap/forest/icewood.png" 96 128 32 32)
+    )
+    (solid #t))
 )
 
