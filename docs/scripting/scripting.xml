@@ -21,7 +21,6 @@ write to the Free Software Foundation, Inc., 59 Temple Place -
 Suite 330, Boston, MA 02111-1307, USA.
 
 -->
-<!--<?xml-stylesheet type="text/xsl" href="/home/ondra/src/docbook-xsl-1.68.1/xhtml/docbook.xsl" ?>-->
 <!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.3//EN"
 "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd">
 
@@ -33,8 +32,7 @@ Suite 330, Boston, MA 02111-1307, USA.
 </articleinfo>
 <para>Since May 2005, SuperTux sports a Squirrel scripting interface useful for level designers who want to add some interactive pep to their levels. This document poses as a reference article for those who want to explore the various objects of the SuperTux scripting model.</para>
 <sect1><title>What is Squirrel?</title>
-<para>One of your first questions might be, &quot;What does a rodent have to do
-with a penguin?&quot; <ulink url="http://squirrel.sourceforge.net/">Squirrel</ulink> is a language with a syntax not much unlike other C-like languages (C, C++, Java, ...). In the current implementation, it is integrated as elements in the SuperTux level files.</para>
+<para>One of your first questions might be, &quot;What does a rodent have to do with a penguin?&quot; <ulink url="http://squirrel.sourceforge.net/">Squirrel</ulink> is a language with a syntax not much unlike other C-like languages (C, C++, Java, ...). In the current implementation, it is integrated as elements in the SuperTux level files.</para>
 </sect1>
 <sect1><title>Squirrel, Scheme and SuperTux</title>
 <para>I have no clue if the developers simply chose Squirrel just because the name so nicely integrates into the series of words &quot;SuperTux&quot; and &quot;Scheme&quot;. Currently, the Squirrel code is integrated in string arguments of Scheme elements in SuperTux level files. (Whew.) This is an example code block inside a level:
@@ -60,25 +58,76 @@ When this level loads, the screen fades out completely during two and a half sec
 <para>If you are interested in an object and what cans of worms you can open with it, this section is for you.</para>
 <para>&quot;(NYI)&quot; after the function name symbolises functions that haven't been implemented yet. Calling them will result in a line being printed to standard output informing anybody who reads it that the script is using a function that actually doesn't exist. (Win32 users will happily ignore this, because they simply start the application by opening it with Explorer. Unix users are going to be more interested in what SuperTux can actually tell them, so it's better if you don't use non-existent functions in your scripts.)</para>
 
+<sect2><title>Global Constants</title>
+<para>These constants can be accessed from anywhere in the game code.</para>
+
+<sect3><title>KEY_BRASS</title>
+<para>Type: integer</para>
+<para>Value: <code>1</code></para>
+<para>Represents the brass key.</para>
+<para>Used in: <code>add_key</code> as argument 1</para>
+</sect3>
+
+<sect3><title>KEY_IRON</title>
+<para>Type: integer</para>
+<para>Value: <code>2</code></para>
+<para>Represents the iron key.</para>
+<para>Used in: <code>add_key</code> as argument 1</para>
+</sect3>
+
+<sect3><title>KEY_BRONZE</title>
+<para>Type: integer</para>
+<para>Value: <code>4</code></para>
+<para>Represents the bronze key.</para>
+<para>Used in: <code>add_key</code> as argument 1</para>
+</sect3>
+
+<sect3><title>KEY_SILVER</title>
+<para>Type: integer</para>
+<para>Value: <code>8</code></para>
+<para>Represents the silver key.</para>
+<para>Used in: <code>add_key</code> as argument 1</para>
+</sect3>
+
+<sect3><title>KEY_GOLD</title>
+<para>Type: integer</para>
+<para>Value: <code>16</code></para>
+<para>Represents the gold key.</para>
+<para>Used in: <code>add_key</code> as argument 1</para>
+</sect3>
+
+</sect2>
+
 <sect2><title>Global Functions</title>
 <para>These global functions access basic or generic methods of SuperTux. They are called without an object name.</para>
 
 <sect3><title>display_text_file</title>
 <para>Usage: <code>display_text_file(string filename)</code></para>
-<para>Effect: Displays the SuperTux text file named <code>filename</code>. (The path is relative to the level file.)</para>
+<para>Displays the SuperTux text file named <code>filename</code>. (The path is relative to the level file.)</para>
 <para>See also: SuperTux file format reference, SuperTux texts</para>
 </sect3>
 
-<sect3><title>set_wakeup_time</title>
-<para>Usage: <code>set_wakeup_time(float waketime)</code></para>
-<para>Effect: When used before a call to <code>suspend()</code>, the script only stays suspended for <code>waketime</code> seconds.</para>
+<sect3><title>wait</title>
+<para>Usage: <code>wait(float time)</code></para>
+<para>Pauses execution of the squirrel code for <code>time</code> seconds.</para>
 </sect3>
 
 <sect3><title>translate</title>
 <para>Usage: <code>translate(string text)</code></para>
 <para>Returns: Translated string</para>
-<para>Effect: Translates <code>text</code> into the user's locale.</para>
-<para>Note: This construct is not yet recognised by XGetText, and so is subject to change.</para>
+<para>Translates <code>text</code> into the user's locale.</para>
+<para>Note: This construct is unfortunately not yet recognised by XGetText, so translation files have to be written manually.</para>
+</sect3>
+
+<sect3><title>import</title>
+<para>Usage: <code>import(string filename)</code></para>
+<para>Imports and runs the Squirrel script <code>filename</code>. (The path is relative to the level file.)</para>
+</sect3>
+
+<sect3><title>add_key</title>
+<para>Usage: <code>add_key(int key)</code></para>
+<para>Adds or removes a key from the player's posession. <code>key</code> should be replaced with one of the <code>KEY_</code> constants.</para>
+<para>See also: src/player_status.hpp</para>
 </sect3>
 
 </sect2>
@@ -88,23 +137,33 @@ When this level loads, the screen fades out completely during two and a half sec
 
 <sect3><title>fade_out</title>
 <para>Usage: <code>DisplayEffect.fade_out(float fadetime)</code></para>
-<para>Effect: Gradually fades out the screen to black for the next <code>fadetime</code> seconds.</para>
+<para>Gradually fades out the screen to black for the next <code>fadetime</code> seconds.</para>
 </sect3>
 
 <sect3><title>fade_in</title>
 <para>Usage: <code>DisplayEffect.fade_in(float fadetime)</code></para>
-<para>Effect: Gradually fades in the screen from black for the next <code>fadetime</code> seconds.</para>
+<para>Gradually fades in the screen from black for the next <code>fadetime</code> seconds.</para>
 </sect3>
 
 <sect3><title>set_black</title>
 <para>Usage: <code>DisplayEffect.set_black(bool black)</code></para>
-<para>Effect: Blackens or un-blackens the screen (depending on the value of <code>black</code>).</para>
+<para>Blackens or un-blackens the screen (depending on the value of <code>black</code>).</para>
 </sect3>
 
 <sect3><title>is_black</title>
 <para>Usage: <code>DisplayEffect.is_black()</code></para>
 <para>Returns: <code>bool</code></para>
-<para>Effect: Returns true if the screen has been blackened by <code>set_black</code>. Calling <code>fade_in</code> or <code>fade_out</code> resets the return value to <code>false</code>.</para>
+<para>Returns true if the screen has been blackened by <code>set_black</code>. Calling <code>fade_in</code> or <code>fade_out</code> resets the return value to <code>false</code>.</para>
+</sect3>
+
+<sect3><title>sixteen_to_nine</title>
+<para>Usage: <code>DisplayEffect.sixteen_to_nine()</code></para>
+<para>Sets the display ratio to 16:9, effectively adding black bars at the top and bottom of the screen. Should be used before cutscenes.</para>
+</sect3>
+
+<sect3><title>four_to_three</title>
+<para>Usage: <code>DisplayEffect.four_to_three()</code></para>
+<para>Sets the display ratio to 4:3, removing the black bars added by <code>sixteen_to_nine()</code>. Should be used after cutscenes.</para>
 </sect3>
 
 </sect2>
@@ -130,18 +189,24 @@ When this level loads, the screen fades out completely during two and a half sec
 </sect2>
 
 <sect2><title>Level</title>
-<para>The <code>Level</code> class provides pretty basic controlling functions for the current level.</para>
+<para>The <code>Level</code> class provides basic controlling functions for the current level.</para>
 
 <sect3><title>finish</title>
 <para>Usage: <code>Level.finish()</code></para>
-<para>Effect: Ends the current level and marks it as completed if launched from a worldmap.</para>
+<para>Ends the current level and marks it as completed if launched from a worldmap.</para>
 <para>Tip: Very useful if you have created a frustrating level and want to, at some point, save the player from agony.</para>
 </sect3>
 
 <sect3><title>spawn</title>
 <para>Usage: <code>Level.spawn(string sectorname, string spawnpointname)</code></para>
-<para>Effect: Respawns Tux in the sector <code>sectorname</code> at the <code>spawnpointname</code> spawnpoint.</para>
+<para>Respawns Tux in the sector <code>sectorname</code> at the <code>spawnpointname</code> spawnpoint.</para>
 <para>Exceptions: If <code>sectorname</code> or <code>spawnpointname</code> are empty or the specified sector does not exist, the function will bail out first chance it gets. If the specified spawnpoint doesn't exist, Tux will be spawned at the spawnpoint named <code>main</code>. If this spawnpoint doesn't exist either, Tux will simply end up at the origin (top-left 0, 0).</para>
+</sect3>
+
+<sect3><title>flip_vertically</title>
+<para>Usage: <code>Level.flip_vertically()</code></para>
+<para>Flips the level vertically (i.e. top is now bottom and vice versa). Call again to revert the effect.</para>
+<para>Tip: Make sure the player can land on something after the level is flipped!</para>
 </sect3>
 
 </sect2>
@@ -150,7 +215,7 @@ When this level loads, the screen fades out completely during two and a half sec
 <para>A <code>ScriptedObject</code> is basically a SuperTux object that can be scripted to move around and animate. This object will be used in the SuperTux cutscenes a whole lot.</para>
 
 <sect3><title>Usage notes</title>
-<para>Since a <code>ScriptedObject</code> is a reference object and not an active object, you will have to build it into your level file, where a <code>scriptedobject</code> is a child of <code>sector</code>. This is an example definition:
+<para>Since a <code>ScriptedObject</code> is a reference object and not a statically declared object, you will have to build it into your level file, where a <code>scriptedobject</code> is a child of <code>sector</code>. This is an example definition:
 <programlisting>
 (scripted-object
   (name "WOOT")
@@ -172,69 +237,69 @@ WOOT.set_animation("left");
 
 <sect3><title>set_animation</title>
 <para>Usage: <code>&lt;scriptedobject&gt;.set_animation(string animation_name)</code></para>
-<para>Effect: Activates the sprite's animation specified in <code>animation_name</code>.</para>
+<para>Activates the sprite's animation specified in <code>animation_name</code>.</para>
 </sect3>
 
 <sect3><title>get_animation</title>
 <para>Usage: <code>&lt;scriptedobject&gt;.get_animation()</code></para>
 <para>Returns: <code>string</code></para>
-<para>Effect: Returns the name of the sprite's current animation.</para>
+<para>Returns the name of the sprite's current animation.</para>
 </sect3>
 
 <sect3><title>move</title>
 <para>Usage: <code>&lt;scriptedobject&gt;.move(float x, float y)</code></para>
-<para>Effect: Moves the object by <code>x</code> units to the right and <code>y</code> down <emphasis>relative to its current position</emphasis>.</para>
+<para>Moves the object by <code>x</code> units to the right and <code>y</code> down <emphasis>relative to its current position</emphasis>.</para>
 </sect3>
 
 <sect3><title>set_pos</title>
 <para>Usage: <code>&lt;scriptedobject&gt;.set_pos(float x, float y)</code></para>
-<para>Effect: Basically identical to <code>move</code>, except its <emphasis>relativity to the sector origin</emphasis>.</para>
+<para>Basically identical to <code>move</code>, except its <emphasis>relativity to the sector origin</emphasis>.</para>
 </sect3>
 
 <sect3><title>get_pos_x</title>
 <para>Usage: <code>&lt;scriptedobject&gt;.get_pos_x()</code></para>
 <para>Returns: <code>float</code></para>
-<para>Effect: Returns the X coordinate of the object's position.</para>
+<para>Returns the X coordinate of the object's position.</para>
 </sect3>
 
 <sect3><title>get_pos_y</title>
 <para>Usage: <code>&lt;scriptedobject&gt;.get_pos_y()</code></para>
 <para>Returns: <code>float</code></para>
-<para>Effect: Totally identical to <code>get_pos_x</code> except for its obvious choice of the other (Y) axis.</para>
+<para>Totally identical to <code>get_pos_x</code> except for its obvious choice of the other (Y) axis.</para>
 </sect3>
 
 <sect3><title>set_velocity</title>
 <para>Usage: <code>&lt;scriptedobject&gt;.set_velocity(float x, float y)</code></para>
-<para>Effect: Makes the object move in a certain direction (with a certain speed) given by the <code>x</code> and <code>y</code> coordinates.</para>
+<para>Makes the object move in a certain direction (with a certain speed) given by the <code>x</code> and <code>y</code> coordinates.</para>
 </sect3>
 
 <sect3><title>get_velocity_x</title>
 <para>Usage: <code>&lt;scriptedobject&gt;.get_velocity_x()</code></para>
 <para>Returns: <code>float</code></para>
-<para>Effect: Returns the object's velocity in the direction of the X coordinate.</para>
+<para>Returns the object's velocity in the direction of the X coordinate.</para>
 </sect3>
 
 <sect3><title>get_velocity_y</title>
 <para>Usage: <code>&lt;scriptedobject&gt;.get_velocity_y()</code></para>
 <para>Returns: <code>float</code></para>
-<para>Effect: The difference between this function and <code>get_velocity_x</code> is just the same like between <code>get_pos_y</code> and <code>get_pos_x</code>: same thing, different coordinates.</para>
+<para>The difference between this function and <code>get_velocity_x</code> is just the same like between <code>get_pos_y</code> and <code>get_pos_x</code>: same thing, different coordinates.</para>
 </sect3>
 
 <sect3><title>set_visible</title>
 <para>Usage: <code>&lt;scriptedobject&gt;.set_visible(bool visible)</code></para>
-<para>Effect: Shows or hides the object according to the value of <code>visible</code>.</para>
+<para>Shows or hides the object according to the value of <code>visible</code>.</para>
 </sect3>
 
 <sect3><title>is_visible</title>
 <para>Usage: <code>&lt;scriptedobject&gt;.is_visible()</code></para>
 <para>Returns: <code>bool</code></para>
-<para>Effect: Returns <code>true</code> if the object is visible. (You've seen this coming, haven't you?)</para>
+<para>Returns <code>true</code> if the object is visible. (You've seen this coming, haven't you?)</para>
 </sect3>
 
 <sect3><title>get_name</title>
 <para>Usage: <code>&lt;scriptedobject&gt;.get_name()</code></para>
 <para>Returns: <code>string</code></para>
-<para>Effect: Simply gives you the name of the scripted object (as if you didn't have it already...)</para>
+<para>Simply gives you the name of the scripted object (as if you didn't have it already...)</para>
 </sect3>
 
 </sect2>
@@ -242,14 +307,14 @@ WOOT.set_animation("left");
 <sect2><title>Sound</title>
 <para>This class provides a very simple interface to the audio subsystem.</para>
 
-<sect3><title>play_music (NYI)</title>
-<para>Usage: <code>Sound.play_music(string ???)</code></para>
-<para>Warning: This function has not yet been implemented.</para>
+<sect3><title>play_music</title>
+<para>Usage: <code>Sound.play_music(string track_name)</code></para>
+<para>Plays the selected music track (automatically prepending the path to the music folder and appending the <code>.ogg</code> extension).</para>
 </sect3>
 
 <sect3><title>play_sound</title>
 <para>Usage: <code>Sound.play_sound(string sound_name)</code></para>
-<para>Effect: Plays the sound specified in <code>sound_name</code> (that is identical to the filename of the sound without the <code>.wav</code> extension).</para>
+<para>Plays the sound specified in <code>sound_name</code> (that is identical to the filename of the sound without the <code>.wav</code> extension).</para>
 </sect3>
 
 </sect2>
@@ -259,27 +324,59 @@ WOOT.set_animation("left");
 
 <sect3><title>set_text</title>
 <para>Usage: <code>Text.set_text(string text)</code></para>
-<para>Effect: Sets the text string to be displayed to <code>text</code>.</para>
+<para>Sets the text string to be displayed to <code>text</code>.</para>
 </sect3>
 
 <sect3><title>set_font</title>
 <para>Usage: <code>Text.set_font(string font)</code></para>
-<para>Effect: Sets the font of the text to be displayed to <code>text</code>. Currently valid values are <code>gold</code>, <code>white</code>, <code>blue</code>, <code>gray</code>, <code>big</code> and <code>small</code>.</para>
+<para>Sets the font of the text to be displayed to <code>text</code>. Currently valid values are <code>gold</code>, <code>white</code>, <code>blue</code>, <code>gray</code>, <code>big</code> and <code>small</code>.</para>
 </sect3>
 
 <sect3><title>fade_in</title>
 <para>Usage: <code>Text.fade_in(float time)</code></para>
-<para>Effect: Fades in the specified text for the next <code>time</code> seconds.</para>
+<para>Fades in the specified text for the next <code>time</code> seconds.</para>
 </sect3>
 
 <sect3><title>fade_out</title>
 <para>Usage: <code>Text.fade_out(float time)</code></para>
-<para>Effect: Just the opposite of <code>fade_out</code>.</para>
+<para>Just the opposite of <code>fade_out</code>.</para>
 </sect3>
 
 <sect3><title>set_visible</title>
 <para>Usage: <code>Text.set_visible(bool visible)</code></para>
-<para>Effect: Shows or hides the text abruptly (drastic counterpart to <code>fade_in</code> and <code>fade_out</code>).</para>
+<para>Shows or hides the text abruptly (drastic counterpart to <code>fade_in</code> and <code>fade_out</code>).</para>
+</sect3>
+
+<sect3><title>set_centered</title>
+<para>Usage: <code>Text.set_centered(bool centered)</code></para>
+<para>If <code>centered</code> is <code>true</code>, the text will be centered on the screen. Otherwise, it will be left-aligned.</para>
+</sect3>
+
+</sect2>
+
+<sect2><title>Player</title>
+<para>This module contains methods controlling the player. (No, SuperTux doesn't use mind control. Player refers to the player object.)</para>
+
+<sect3><title>make_invincible</title>
+<para>Usage: <code>Player.make_invincible()</code></para>
+<para>Makes the player invincible for a predefined amount of time.</para>
+<para>See also: <code>TUX_INVINCIBLE_TIME</code> in src/object/player.hpp for the amount of seconds that the player becomes invincible.</para>
+</sect3>
+
+<sect3><title>deactivate</title>
+<para>Usage: <code>Player.deactivate()</code></para>
+<para>Stops the player and blocks the movement controls.</para>
+<para>Tip: Don't call this in front of a horde of badguys.</para>
+</sect3>
+
+<sect3><title>activate</title>
+<para>Usage: <code>Player.activate()</code></para>
+<para>Reactivates the player's movement controls.</para>
+</sect3>
+
+<sect3><title>walk</title>
+<para>Usage: <code>Player.walk(float velocity)</code></para>
+<para>Makes the player move in a certain horizontal velocity (specified by <code>velocity</code>). A negative velocity moves the player to the left.</para>
 </sect3>
 
 </sect2>
