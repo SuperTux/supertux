@@ -2,6 +2,7 @@
 #define __SURFACE_TEXTURE_HPP__
 
 #include <string>
+#include <assert.h>
 #include "texture.hpp"
 
 class ImageTexture : public Texture
