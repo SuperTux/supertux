@@ -1903,145 +1903,567 @@
     (id 402)
     (images
       (region "worldmap/forest/icewood.png" 0 0 32 32)
-    )
-    (solid #t))
+    )  (north #f)
+       (south #t)
+       (east  #t)
+       (west  #f)
+       (stop  #f))
 (tile
     (id 403)
     (images
       (region "worldmap/forest/icewood.png" 32 0 32 32)
-    )
-    (solid #t))
+    )  (north #t)
+       (south #t)
+       (east  #t)
+       (west  #f)
+       (stop  #t))
 (tile
     (id 404)
     (images
       (region "worldmap/forest/icewood.png" 64 0 32 32)
-    )
-    (solid #t))
+    )  (north #f)
+       (south #t)
+       (east  #t)
+       (west  #f)
+       (stop  #f))
 (tile
     (id 405)
     (images
       (region "worldmap/forest/icewood.png" 96 0 32 32)
-    )
-    (solid #t))
+    )  (north #f)
+       (south #t)
+       (east  #f)
+       (west  #t)
+       (stop  #f))
 (tile
     (id 406)
     (images
       (region "worldmap/forest/icewood.png" 128 0 32 32)
-    )
-    (solid #t))
+    )  (north #f)
+       (south #f)
+       (east  #t)
+       (west  #t)
+       (stop  #f))
+(tile
+    (id 405)
+    (images
+      (region "worldmap/forest/icewood.png" 0 32 32 32)
+    )  (north #f)
+       (south #t)
+       (east  #t)
+       (west  #t)
+       (stop  #t))
 (tile
     (id 407)
     (images
-      (region "worldmap/forest/icewood.png" 0 32 32 32)
-    )
-    (solid #t))
+      (region "worldmap/forest/icewood.png" 32 32 32 32)
+    )  (north #t)
+       (south #t)
+       (east  #f)
+       (west  #t)
+       (stop  #t))
 (tile
     (id 408)
     (images
-      (region "worldmap/forest/icewood.png" 32 32 32 32)
-    )
-    (solid #t))
+      (region "worldmap/forest/icewood.png" 64 32 32 32)
+    )  (north #t)
+       (south #t)
+       (east  #f)
+       (west  #f)
+       (stop  #f))
 (tile
     (id 409)
     (images
-      (region "worldmap/forest/icewood.png" 64 32 32 32)
-    )
-    (solid #t))
+      (region "worldmap/forest/icewood.png" 96 32 32 32)
+    )  (north #t)
+       (south #t)
+       (east  #t)
+       (west  #f)
+       (stop  #t))
 (tile
     (id 410)
     (images
-      (region "worldmap/forest/icewood.png" 96 32 32 32)
-    )
-    (solid #t))
+      (region "worldmap/forest/icewood.png" 128 32 32 32)
+    )  (north #t)
+       (south #f)
+       (east  #t)
+       (west  #f)
+       (stop  #f))
 (tile
     (id 411)
     (images
-      (region "worldmap/forest/icewood.png" 128 32 32 32)
-    )
-    (solid #t))
+      (region "worldmap/forest/icewood.png" 0 64 32 32)
+     ) (north #t)
+       (south #f)
+       (east  #t)
+       (west  #t)
+       (stop  #t)
+)
 (tile
     (id 412)
     (images
-      (region "worldmap/forest/icewood.png" 0 64 32 32)
-    )
-    (solid #t))
+      (region "worldmap/forest/icewood.png" 32 64 32 32)
+     ) (north #t)
+       (south #f)
+       (east  #f)
+       (west  #t)
+       (stop  #t)
+)
 (tile
     (id 413)
-    (images
-      (region "worldmap/forest/icewood.png" 32 64 32 32)
-    )
-    (solid #t))
-(tile
-    (id 414)
     (images
       (region "worldmap/forest/icewood.png" 64 64 32 32)
     )
     (solid #t))
 (tile
-    (id 415)
+    (id 414)
     (images
       (region "worldmap/forest/icewood.png" 96 64 32 32)
     )
     (solid #t))
 (tile
-    (id 416)
+    (id 415)
     (images
       (region "worldmap/forest/icewood.png" 128 64 32 32)
     )
     (solid #t))
 (tile
-    (id 417)
+    (id 416)
     (images
-      (region "worldmap/forest/icewood.png" 0 96 32 32)
+      (region "worldmap/forest/icewood.png" 0 64 32 32)
     )
     (solid #t))
 (tile
-    (id 418)
+    (id 417)
     (images
       (region "worldmap/forest/icewood.png" 32 96 32 32)
     )
     (solid #t))
 (tile
-    (id 419)
+    (id 418)
     (images
       (region "worldmap/forest/icewood.png" 64 96 32 32)
     )
     (solid #t))
 (tile
-    (id 420)
+    (id 419)
     (images
       (region "worldmap/forest/icewood.png" 96 96 32 32)
     )
     (solid #t))
 (tile
-    (id 421)
+    (id 420)
     (images
       (region "worldmap/forest/icewood.png" 128 96 32 32)
     )
     (solid #t))
 (tile
-    (id 422)
+    (id 421)
     (images
-      (region "worldmap/forest/icewood.png" 0 128 32 32)
+      (region "worldmap/forest/icewood.png" 0 96 32 32)
     )
     (solid #t))
 (tile
-    (id 423)
+    (id 422)
     (images
       (region "worldmap/forest/icewood.png" 32 128 32 32)
     )
     (solid #t))
 (tile
-    (id 424)
+    (id 423)
     (images
       (region "worldmap/forest/icewood.png" 64 128 32 32)
     )
     (solid #t))
 (tile
-    (id 425)
+    (id 424)
     (images
       (region "worldmap/forest/icewood.png" 96 128 32 32)
     )
     (solid #t))
+(tile
+    (id 425)
+    (images
+      (region "worldmap/forest/icewood.png" 128 128 32 32)
+    )
+    (solid #t))
+(tile(id 426)(images
+(region "worldmap/forest/snowforest.png" 0 0 32 32))
+(solid #t))
+(tile(id 427)(images
+(region "worldmap/forest/snowforest.png" 32 0 32 32))
+(solid #t))
+(tile(id 428)(images
+(region "worldmap/forest/snowforest.png" 64 0 32 32))
+(solid #t))
+(tile(id 429)(images
+(region "worldmap/forest/snowforest.png" 96 0 32 32))
+(solid #t))
+(tile(id 430)(images
+(region "worldmap/forest/snowforest.png" 128 0 32 32))
+(solid #t))
+(tile(id 431)(images
+(region "worldmap/forest/snowforest.png" 160 0 32 32))
+(solid #t))
+(tile(id 432)(images
+(region "worldmap/forest/snowforest.png" 192 0 32 32))
+(solid #t))
+(tile(id 433)(images
+(region "worldmap/forest/snowforest.png" 224 0 32 32))
+(solid #t))
+(tile(id 434)(images
+(region "worldmap/forest/snowforest.png" 256 0 32 32))
+(solid #t))
+(tile(id 435)(images
+(region "worldmap/forest/snowforest.png" 0 32 32 32))
+(solid #t))
+(tile(id 436)(images
+(region "worldmap/forest/snowforest.png" 32 32 32 32))
+(solid #t))
+(tile(id 437)(images
+(region "worldmap/forest/snowforest.png" 64 32 32 32))
+(solid #t))
+(tile(id 438)(images
+(region "worldmap/forest/snowforest.png" 96 32 32 32))
+(solid #t))
+(tile(id 439)(images
+(region "worldmap/forest/snowforest.png" 128 32 32 32))
+(solid #t))
+(tile(id 440)(images
+(region "worldmap/forest/snowforest.png" 160 32 32 32))
+(solid #t))
+(tile(id 441)(images
+(region "worldmap/forest/snowforest.png" 192 32 32 32))
+(solid #t))
+(tile(id 442)(images
+(region "worldmap/forest/snowforest.png" 224 32 32 32))
+(solid #t))
+(tile(id 443)(images
+(region "worldmap/forest/snowforest.png" 256 32 32 32))
+(solid #t))
+(tile(id 444)(images
+(region "worldmap/forest/snowforest.png" 0 64 32 32))
+(solid #t))
+(tile(id 445)(images
+(region "worldmap/forest/snowforest.png" 32 64 32 32))
+(solid #t))
+(tile(id 446)(images
+(region "worldmap/forest/snowforest.png" 64 64 32 32))
+(solid #t))
+(tile(id 447)(images
+(region "worldmap/forest/snowforest.png" 96 64 32 32))
+(solid #t))
+(tile(id 448)(images
+(region "worldmap/forest/snowforest.png" 128 64 32 32))
+(solid #t))
+(tile(id 449)(images
+(region "worldmap/forest/snowforest.png" 160 64 32 32))
+(solid #t))
+(tile(id 450)(images
+(region "worldmap/forest/snowforest.png" 192 64 32 32))
+(solid #t))
+(tile(id 451)(images
+(region "worldmap/forest/snowforest.png" 224 64 32 32))
+(solid #t))
+(tile(id 452)(images
+(region "worldmap/forest/snowforest.png" 256 64 32 32))
+(solid #t))
+(tile(id 453)(images
+(region "worldmap/forest/snowforest.png" 0 96 32 32))
+(solid #t))
+(tile(id 454)(images
+(region "worldmap/forest/snowforest.png" 32 96 32 32))
+(solid #t))
+(tile(id 455)(images
+(region "worldmap/forest/snowforest.png" 64 96 32 32))
+(solid #t))
+(tile(id 456)(images
+(region "worldmap/forest/snowforest.png" 96 96 32 32))
+(solid #t))
+(tile(id 457)(images
+(region "worldmap/forest/snowforest.png" 128 96 32 32))
+(solid #t))
+(tile(id 458)(images
+(region "worldmap/forest/snowforest.png" 160 96 32 32))
+(solid #t))
+(tile(id 459)(images
+(region "worldmap/forest/snowforest.png" 192 96 32 32))
+(solid #t))
+(tile(id 460)(images
+(region "worldmap/forest/snowforest.png" 224 96 32 32))
+(solid #t))
+(tile(id 461)(images
+(region "worldmap/forest/snowforest.png" 256 96 32 32))
+(solid #t))
+(tile(id 462)(images
+(region "worldmap/forest/snowforest.png" 0 128 32 32))
+(solid #t))
+(tile(id 463)(images
+(region "worldmap/forest/snowforest.png" 32 128 32 32))
+(solid #t))
+(tile(id 464)(images
+(region "worldmap/forest/snowforest.png" 64 128 32 32))
+(solid #t))
+(tile(id 465)(images
+(region "worldmap/forest/snowforest.png" 96 128 32 32))
+(solid #t))
+(tile(id 466)(images
+(region "worldmap/forest/snowforest.png" 128 128 32 32))
+(solid #t))
+(tile(id 467)(images
+(region "worldmap/forest/snowforest.png" 160 128 32 32))
+(solid #t))
+(tile(id 468)(images
+(region "worldmap/forest/snowforest.png" 192 128 32 32))
+(solid #t))
+(tile(id 469)(images
+(region "worldmap/forest/snowforest.png" 224 128 32 32))
+(solid #t))
+(tile(id 470)(images
+(region "worldmap/forest/snowforest.png" 256 128 32 32))
+(solid #t))
+(tile(id 471)(images
+(region "worldmap/forest/snowforest.png" 0 160 32 32))
+(solid #t))
+(tile(id 472)(images
+(region "worldmap/forest/snowforest.png" 32 160 32 32))
+(solid #t))
+(tile(id 473)(images
+(region "worldmap/forest/snowforest.png" 64 160 32 32))
+(solid #t))
+(tile(id 474)(images
+(region "worldmap/forest/snowforest.png" 96 160 32 32))
+(solid #t))
+(tile(id 475)(images
+(region "worldmap/forest/snowforest.png" 128 160 32 32))
+(solid #t))
+(tile(id 476)(images
+(region "worldmap/forest/snowforest.png" 160 160 32 32))
+(solid #t))
+(tile(id 477)(images
+(region "worldmap/forest/snowforest.png" 192 160 32 32))
+(solid #t))
+(tile(id 478)(images
+(region "worldmap/forest/snowforest.png" 224 160 32 32))
+(solid #t))
+(tile(id 479)(images
+(region "worldmap/forest/snowforest.png" 256 160 32 32))
+(solid #t))
+(tile(id 480)(images
+(region "worldmap/forest/snowforest.png" 0 192 32 32))
+(solid #t))
+(tile(id 481)(images
+(region "worldmap/forest/snowforest.png" 32 192 32 32))
+(solid #t))
+(tile(id 482)(images
+(region "worldmap/forest/snowforest.png" 64 192 32 32))
+(solid #t))
+(tile(id 483)(images
+(region "worldmap/forest/snowforest.png" 96 192 32 32))
+(solid #t))
+(tile(id 484)(images
+(region "worldmap/forest/snowforest.png" 128 192 32 32))
+(solid #t))
+(tile(id 485)(images
+(region "worldmap/forest/snowforest.png" 160 192 32 32))
+(solid #t))
+(tile(id 486)(images
+(region "worldmap/forest/snowforest.png" 192 192 32 32))
+(solid #t))
+(tile(id 487)(images
+(region "worldmap/forest/snowforest.png" 224 192 32 32))
+(solid #t))
+(tile(id 488)(images
+(region "worldmap/forest/snowforest.png" 256 192 32 32))
+(solid #t))
+(tile(id 489)(images
+(region "worldmap/forest/snowforest.png" 0 224 32 32))
+(solid #t))
+(tile(id 490)(images
+(region "worldmap/forest/snowforest.png" 32 224 32 32))
+(solid #t))
+(tile(id 491)(images
+(region "worldmap/forest/snowforest.png" 64 224 32 32))
+(solid #t))
+(tile(id 492)(images
+(region "worldmap/forest/snowforest.png" 96 224 32 32))
+(solid #t))
+(tile(id 493)(images
+(region "worldmap/forest/snowforest.png" 128 224 32 32))
+(solid #t))
+(tile(id 494)(images
+(region "worldmap/forest/snowforest.png" 160 224 32 32))
+(solid #t))
+(tile(id 495)(images
+(region "worldmap/forest/snowforest.png" 192 224 32 32))
+(solid #t))
+(tile(id 496)(images
+(region "worldmap/forest/snowforest.png" 224 224 32 32))
+(solid #t))
+(tile(id 497)(images
+(region "worldmap/forest/snowforest.png" 256 224 32 32))
+(solid #t))
+(tile(id 498)(images
+(region "worldmap/forest/snowforest.png" 0 256 32 32))
+(solid #t))
+(tile(id 499)(images
+(region "worldmap/forest/snowforest.png" 32 256 32 32))
+(solid #t))
+(tile(id 500)(images
+(region "worldmap/forest/snowforest.png" 64 256 32 32))
+(solid #t))
+(tile(id 501)(images
+(region "worldmap/forest/snowforest.png" 96 256 32 32))
+(solid #t))
+(tile(id 502)(images
+(region "worldmap/forest/snowforest.png" 128 256 32 32))
+(solid #t))
+(tile(id 503)(images
+(region "worldmap/forest/snowforest.png" 160 256 32 32))
+(solid #t))
+(tile(id 504)(images
+(region "worldmap/forest/snowforest.png" 192 256 32 32))
+(solid #t))
+(tile(id 505)(images
+(region "worldmap/forest/snowforest.png" 224 256 32 32))
+(solid #t))
+(tile(id 506)(images
+(region "worldmap/forest/snowforest.png" 256 256 32 32))
+(solid #t))
+(tile(id 507)(images
+(region "worldmap/forest/snowforest.png" 0 288 32 32))
+(solid #t))
+(tile(id 508)(images
+(region "worldmap/forest/snowforest.png" 32 288 32 32))
+(solid #t))
+(tile(id 509)(images
+(region "worldmap/forest/snowforest.png" 64 288 32 32))
+(solid #t))
+(tile(id 510)(images
+(region "worldmap/forest/snowforest.png" 96 288 32 32))
+(solid #t))
+(tile(id 511)(images
+(region "worldmap/forest/snowforest.png" 128 288 32 32))
+(solid #t))
+(tile(id 512)(images
+(region "worldmap/forest/snowforest.png" 160 288 32 32))
+(solid #t))
+(tile(id 513)(images
+(region "worldmap/forest/snowforest.png" 192 288 32 32))
+(solid #t))
+(tile(id 514)(images
+(region "worldmap/forest/snowforest.png" 224 288 32 32))
+(solid #t))
+(tile(id 515)(images
+(region "worldmap/forest/snowforest.png" 256 288 32 32))
+(solid #t))
+(tile(id 516)(images
+(region "worldmap/forest/snowforest.png" 0 320 32 32))
+(solid #t))
+(tile(id 517)(images
+(region "worldmap/forest/snowforest.png" 32 320 32 32))
+(solid #t))
+(tile(id 518)(images
+(region "worldmap/forest/snowforest.png" 64 320 32 32))
+(solid #t))
+(tile(id 519)(images
+(region "worldmap/forest/snowforest.png" 96 320 32 32))
+(solid #t))
+(tile(id 520)(images
+(region "worldmap/forest/snowforest.png" 128 320 32 32))
+(solid #t))
+(tile(id 521)(images
+(region "worldmap/forest/snowforest.png" 160 320 32 32))
+(solid #t))
+(tile(id 522)(images
+(region "worldmap/forest/snowforest.png" 192 320 32 32))
+(solid #t))
+(tile(id 523)(images
+(region "worldmap/forest/snowforest.png" 224 320 32 32))
+(solid #t))
+(tile(id 524)(images
+(region "worldmap/forest/snowforest.png" 256 320 32 32))
+(solid #t))
+(tile(id 525)(images
+(region "worldmap/forest/snowforest.png" 0 352 32 32))
+(solid #t))
+(tile(id 526)(images
+(region "worldmap/forest/snowforest.png" 32 352 32 32))
+(solid #t))
+(tile(id 527)(images
+(region "worldmap/forest/snowforest.png" 64 352 32 32))
+(solid #t))
+(tile(id 528)(images
+(region "worldmap/forest/snowforest.png" 96 352 32 32))
+(solid #t))
+(tile(id 529)(images
+(region "worldmap/forest/snowforest.png" 128 352 32 32))
+(solid #t))
+(tile(id 530)(images
+(region "worldmap/forest/snowforest.png" 160 352 32 32))
+(solid #t))
+(tile(id 531)(images
+(region "worldmap/forest/snowforest.png" 192 352 32 32))
+(solid #t))
+(tile(id 532)(images
+(region "worldmap/forest/snowforest.png" 224 352 32 32))
+(solid #t))
+(tile(id 533)(images
+(region "worldmap/forest/snowforest.png" 256 352 32 32))
+(solid #t))
+(tile(id 534)(images
+(region "worldmap/forest/snowforest.png" 0 384 32 32))
+(solid #t))
+(tile(id 535)(images
+(region "worldmap/forest/snowforest.png" 32 384 32 32))
+(solid #t))
+(tile(id 536)(images
+(region "worldmap/forest/snowforest.png" 64 384 32 32))
+(solid #t))
+(tile(id 537)(images
+(region "worldmap/forest/snowforest.png" 96 384 32 32))
+(solid #t))
+(tile(id 538)(images
+(region "worldmap/forest/snowforest.png" 128 384 32 32))
+(solid #t))
+(tile(id 539)(images
+(region "worldmap/forest/snowforest.png" 160 384 32 32))
+(solid #t))
+(tile(id 540)(images
+(region "worldmap/forest/snowforest.png" 192 384 32 32))
+(solid #t))
+(tile(id 541)(images
+(region "worldmap/forest/snowforest.png" 224 384 32 32))
+(solid #t))
+(tile(id 542)(images
+(region "worldmap/forest/snowforest.png" 256 384 32 32))
+(solid #t))
+(tile(id 543)(images
+(region "worldmap/forest/snowforest.png" 0 416 32 32))
+(solid #t))
+(tile(id 544)(images
+(region "worldmap/forest/snowforest.png" 32 416 32 32))
+(solid #t))
+(tile(id 545)(images
+(region "worldmap/forest/snowforest.png" 64 416 32 32))
+(solid #t))
+(tile(id 545)(images
+(region "worldmap/forest/snowforest.png" 96 416 32 32))
+(solid #t))
+(tile(id 547)(images
+(region "worldmap/forest/snowforest.png" 128 416 32 32))
+(solid #t))
+(tile(id 548)(images
+(region "worldmap/forest/snowforest.png" 160 416 32 32))
+(solid #t))
+(tile(id 549)(images
+(region "worldmap/forest/snowforest.png" 192 416 32 32))
+(solid #t))
+(tile(id 550)(images
+(region "worldmap/forest/snowforest.png" 224 416 32 32))
+(solid #t))
+(tile(id 551)(images
+(region "worldmap/forest/snowforest.png" 256 416 32 32))
+(solid #t))
 )
 
