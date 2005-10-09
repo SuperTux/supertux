@@ -10,7 +10,7 @@
     (height  50)
     (music "forest.ogg")
     (gravity 10.000000)
-    (background (image "forest2.jpg")
+    (background (image "arctis.jpg")
                 (speed 0.5))
     (tilemap
       (layer  "background")
