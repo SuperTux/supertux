@@ -21,8 +21,7 @@ write to the Free Software Foundation, Inc., 59 Temple Place -
 Suite 330, Boston, MA 02111-1307, USA.
 
 -->
-<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.3//EN"
-"http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd">
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.3//EN" "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd">
 
 <article xml:lang="en">
 
@@ -149,7 +148,8 @@ Suite 330, Boston, MA 02111-1307, USA.
     
       (layer 201)                    ;; -100 are background, 0 are interactive, 200 are foreground tiles.
                                      ;; Choose a number to put the rain between two layers. In this case,
-                                     ;; the rain is in front of the foreground tiles. (see also src/video/drawing_context.h)
+                                     ;; the rain is in front of the foreground tiles. (see also
+                                     ;; src/video/drawing_context.hpp)
     )
   ) ;; End of sector
   
@@ -168,9 +168,7 @@ Suite 330, Boston, MA 02111-1307, USA.
   (stay-on-platform #f)   ;; Optional. Should the badguy do its best not to fall from the platform it's on? (NYI)
 )
 </programlisting></para>
-<para>Bouncing Snowballs, Flying Snowballs, Jumpies, Mr Bombs, Mr Iceblocks, Mr Rockets, Mr Trees, World 1 Noloks,
-Poison Ivies, Snowballs, Spikies, Stalactites, Yeti Stalactites and Zeeklings only require this list of
-parameters. Simply substitute <code>&lt;badguy-name&gt;</code> with one of the following:
+<para>Bouncing Snowballs, Flying Snowballs, Jumpies, Mr Bombs, Mr Iceblocks, Mr Rockets, Mr Trees, World 1 Noloks, Poison Ivies, Snowballs, Spikies, Stalactites, Yeti Stalactites and Zeeklings only require this list of parameters. Simply substitute <code>&lt;badguy-name&gt;</code> with one of the following:
 <itemizedlist>
 <listitem><code>bouncingsnowball</code></listitem>
 <listitem><code>flyingsnowball</code></listitem>
@@ -197,8 +195,7 @@ parameters. Simply substitute <code>&lt;badguy-name&gt;</code> with one of the f
   
   (badguy random)         ;; Valid values are "snowball", "bouncingsnowball", "mrbomb",
                           ;; "mriceblock", "mrrocket", "poisonivy" or "random".
-)
-</programlisting></para>
+)</programlisting></para>
 </sect3>
 
 <sect3><title>Flame</title>
@@ -207,21 +204,22 @@ parameters. Simply substitute <code>&lt;badguy-name&gt;</code> with one of the f
                           ;; follows?
   
   (speed 10)              ;; How fast should the flame be?
-)
-</programlisting></para>
+)</programlisting></para>
+</sect3>
+
+<sect3><title>Lightning orb</title>
+<para>The lighting orb ("kugelblitz") ignores the <code>y</code> coordinate, spawning above the visible screen.</para>
 </sect3>
 
 <sect3><title>Spike</title>
-<para>Don't mistake this badguy for Spiky! Spiky is the snowball-like creature with
-spikes, whilst a spike is an object serving the same purpose like the stalactite.</para>
+<para>Don't mistake this badguy for Spiky! Spiky is the snowball-like creature with spikes, whilst a spike is an object serving the same purpose like the stalactite.</para>
 <para><programlisting>(spike
   (direction 2)           ;; 0: north, 1: south, 2: west, 3: east
-)
-</programlisting></para>
+)</programlisting></para>
 </sect3>
 
 <sect3><title>Yeti</title>
-<para><programlisting>(spike
+<para><programlisting>(yeti
   (dead-script "
 // A squirrel script that is executed once the Yeti dies.
 ")
@@ -247,19 +245,74 @@ spikes, whilst a spike is an object serving the same purpose like the stalactite
  This is a line in a small font.
 #This is a left-aligned line.
 *This should be printed in a blue font.
+!Filename of the picture to be embedded into the scrolling text (relative to scrolltext file path)
 
 ")
   )
-)
-</programlisting>
+)</programlisting>
 </para>
+
+</sect1>
+
+<sect1><title>Worldmaps</title>
+<para>Worldmaps are basically level files with a few nuances.</para>
+
+<sect2><title>Basic worldmap syntax</title>
+<para>It's time for a hands-on example. Let's just picture somebody with the idea to write a level set that takes place in London (represented by a lonely island):
+<programlisting>(supertux-worldmap
+  (properties                               ;; Global worldmap properties.
+    (name (_ "London"))                     ;; Name of the worldmap
+    (music "bigben.ogg")                    ;; Music to be played while on worldmap
+  )
+  (spawnpoint                               ;; At the moment, defining multiple spawnpoints on a worldmap is useless.
+    (name "main")                           ;; Call your spawn point "main".
+    (x 3)                                   ;; Note that the coordinates are, unlike in a level, bound to the tilemap.
+    (y 3)
+  )
+  (tilemap
+    (width 5)                               ;; Number of tiles in a row. Four is just for demonstrational purposes.
+    (height 5)
+    (layer "interactive")                   ;; This has to be "interactive".
+    (solid #t)                              ;; This has to be true.
+    (speed 1.000000)                        ;; This has to be 1.0.
+    (tiles
+      0  0  0  0  0                         ;; The tiles as defined in data/images/worldmap.strf.
+      0  11 16 12 0
+      0  15 60 17 0
+      0  14 18 13 0
+      0  0  0  0  0
+    )
+  )
+  (level                                  ;; Repeat this block for each level. Continuing from a level tile is only possible when the level is completed.
+    (x 3)                                 ;; Coordinates of the level entry point.
+    (y 3)
+    (name "heathrow.stl")                 ;; Filename of the level, relative to the location of the worldmap file.
+    (extro-script "
+// A Squirrel script to execute once this level is completed.
+    ")
+  )
+  (special-tile                           ;; This is a sample message tile.
+    (x 4)
+    (y 3)
+    (map-message (_ "Hello."))            ;; Display the following text when Tux steps on this tile.
+    (passive-message #t)                  ;; Set to #f to stop Tux when he steps on this tile.
+    (apply-to-direction "north-west")     ;; The message is displayed only when Tux comes from one of the specified directions (north, south, west, east, concatenate with a hyphen).
+  )
+  (special-tile                           ;; This is a sample portal tile.
+    (x 2)
+    (y 3)
+    (map-message (_ "Warp to the Tower"))
+    (teleport-to-x 1)                     ;; Worldmap coordinates to which Tux is teleported.
+    (teleport-to-y 1)
+  )
+)</programlisting></para>
+</sect2>
 
 </sect1>
 
 <!--
 
 TODO:
-* Worldmap
 * Level subset
 * Sprite definitions
 * Tile definitions
