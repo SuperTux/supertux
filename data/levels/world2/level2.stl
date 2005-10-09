@@ -186,7 +186,7 @@
     )
 
        (background
-         (image "forest1.jpg")
+         (image "forest2.jpg")
          (speed 1.000000)
        )
        (init-script "level2_init();")
