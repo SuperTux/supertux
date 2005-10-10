@@ -55,6 +55,10 @@ SnowBall::write(lisp::Writer& writer)
   writer.write_float("x", start_position.x);
   writer.write_float("y", start_position.y);
 
+  if (fluffy) {  // don't give us away at every snowball
+    writer.write_bool("fluffy", true)
+  }
+
   writer.end_list("snowball");
 }
 

@@ -1,0 +1,98 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: SuperTux 0.2\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2005-10-10 18:40+0100\n"
+"Last-Translator: Ondřej Hošek <ondra.hosek@gmail.com>\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Czech\n"
+"X-Poedit-Country: CZECH REPUBLIC\n"
+
+#: data/levels/world2/dfk-level2.stl:4
+msgid "Dark Forest Keep - The Evil Chamber"
+msgstr "Hrad v Tmavém Lese - Komnata zla"
+
+#: data/levels/world2/dfk-level3.stl:4
+msgid "Dark Forest Keep - The Black Tower"
+msgstr "Hrad v Tmavém Lese - Černá věž"
+
+#: data/levels/world2/worldmap.stwm:4
+msgid "Forest World"
+msgstr "Lesní země"
+
+#: data/levels/world2/castle.stl:5
+msgid "Iceberg Fortress"
+msgstr "Ledovcová pevnost"
+
+#: data/levels/world2/level1.stl:4
+msgid "Roots, Woody Roots"
+msgstr "Kořeny, dřevité kořeny"
+
+#: data/levels/world2/level1.stl:396
+msgid ""
+"-Hint:\n"
+"#If there seems to be\n"
+"#no way to reach a door,\n"
+"#remember that you might\n"
+"#be supposed to come out\n"
+"#of that door..."
+msgstr ""
+"-Tip:\n"
+"#Pokud nemůžeš najít\n"
+"#cestu k některým\n"
+"#dveřím, možná tudy\n"
+"#někdy vyjdeš..."
+
+#: data/levels/world2/level1.stl:429
+msgid "fireflower"
+msgstr "ohnivá květina"
+
+#: data/levels/world2/level2.stl:4
+msgid "Down The Rabbit Hole"
+msgstr "Dolů králičí norou"
+
+#: data/levels/world2/level2.stl:199
+msgid "eat-me"
+msgstr "sněz mě"
+
+#: data/levels/world2/level2.stl:222
+msgid ""
+"-Oh no!\n"
+"#The path is blocked! It\n"
+"#seems that the only way\n"
+"#leads through that dark\n"
+"#hole in the ground..."
+msgstr ""
+"-A jéje!\n"
+"#Cesta je zatarasená!\n"
+"#Vypadá to, že jediná\n"
+"#cesta, která vede dál,\n"
+"#je touto dírou dolů..."
+
+#: data/levels/world2/level2.stl:248
+msgid "-Are you lost?"
+msgstr "-Ztratil ses?"
+
+#: data/levels/world2/level4.stl:4
+msgid "Going Underground"
+msgstr "Do podzemí!"
+
+#: data/levels/world2/level5.stl:4
+msgid "Green Hills"
+msgstr "Zelené pláně"
+
+#: data/levels/world2/level5.stl:194
+msgid "silver-key"
+msgstr "stříbrný klíč"
+
+#: data/levels/world2/level6.stl:4
+msgid "No Name"
+msgstr "Beze jména"
+
+#: data/levels/world2/forest1-grumbel.stl:4
+msgid "Forest Level 1"
+msgstr "Lesní úroveň 1"
+

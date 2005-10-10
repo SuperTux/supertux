@@ -38,7 +38,7 @@ RocketExplosion::RocketExplosion(const Vector& pos, Direction dir)
 void
 RocketExplosion::write(lisp::Writer& )
 {
-  // bombs are only temporarily so don't write them out...
+  // rocket explosions are only temporarily so don't write them out...
 }
 
 HitResponse

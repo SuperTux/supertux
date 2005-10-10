@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: SuperTux 0.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-05-16 13:28+0200\n"
-"PO-Revision-Date: 2005-05-12 20:08+0100\n"
+"PO-Revision-Date: 2005-10-10 18:15+0100\n"
 "Last-Translator: Ondřej Hošek <ondra.hosek@gmail.com>\n"
 "Language-Team: Czech\n"
 "MIME-Version: 1.0\n"
@@ -16,54 +16,57 @@ msgstr ""
 "X-Poedit-Language: Czech\n"
 "X-Poedit-Country: CZECH REPUBLIC\n"
 
-#: src/worldmap.cpp:813
+#: src/worldmap.cpp:814
 msgid "GAMEOVER"
 msgstr "KONEC HRY"
 
-#: src/worldmap.cpp:816 src/game_session.cpp:748
+#: src/worldmap.cpp:817
+#: src/game_session.cpp:748
 #, c-format
 msgid "COINS: %d"
 msgstr "MINCE: %d"
 
-#: src/worldmap.cpp:821
+#: src/worldmap.cpp:822
 msgid "Total Statistics"
 msgstr "Celková statistika"
 
-#: src/player_status.cpp:132
+#: src/player_status.cpp:201
 msgid "COINS"
 msgstr "MINCE"
 
-#: src/player_status.cpp:155
+#: src/player_status.cpp:225
 msgid "LIVES"
 msgstr "ŽIVOTY"
 
-#: src/title.cpp:122 src/misc.cpp:80
+#: src/title.cpp:128
+#: src/misc.cpp:81
 msgid "Contrib Levels"
 msgstr "Přispěné úrovně"
 
-#: src/title.cpp:141 src/title.cpp:212 src/misc.cpp:96 src/misc.cpp:106
+#: src/title.cpp:151
+#: src/title.cpp:219
+#: src/misc.cpp:97
+#: src/misc.cpp:107
 #: src/control/joystickkeyboardcontroller.cpp:554
 #: src/control/joystickkeyboardcontroller.cpp:638
 msgid "Back"
 msgstr "Zpět"
 
-#: src/title.cpp:339
+#: src/title.cpp:345
 msgid ""
 "Copyright (c) 2005 SuperTux Devel Team\n"
-"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you "
-"are welcome to\n"
+"This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the file COPYING for details.\n"
 msgstr ""
 "Copyright (c) 2005 Tým vývojářů SuperTuxu\n"
-"Tato hra přichází BEZ JAKÉKOLIV ZÁRUKY. Tento program je volný software, "
-"smíš jej\n"
+"Tato hra přichází BEZ JAKÉKOLIV ZÁRUKY. Tento program je volný software, smíš jej\n"
 "distribuovat dle pokynů v souboru COPYING.\n"
 
-#: src/title.cpp:400
+#: src/title.cpp:406
 msgid "Are you sure you want to delete slot"
 msgstr "Opravdu chcete smazat uloženou hru"
 
-#: src/main.cpp:141
+#: src/main.cpp:183
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] LEVELFILE\n"
@@ -72,15 +75,18 @@ msgstr ""
 "Použití: %s [NASTAVENÍ] SOUBOR_ÚROVNĚ\n"
 "\n"
 
-#: src/main.cpp:143
+#: src/main.cpp:185
 #, c-format
 msgid ""
 "Options:\n"
-"  -f, --fullscreen             Run in fullscreen mode.\n"
-"  -w, --window                 Run in window mode.\n"
-"  -g, --geometry WIDTHxHEIGHT  Run SuperTux in give resolution\n"
+"  -f, --fullscreen             Run in fullscreen mode\n"
+"  -w, --window                 Run in window mode\n"
+"  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution\n"
 "  --help                       Show this help message\n"
 "  --version                    Display SuperTux version and quit\n"
+"  --show-fps                   Display framerate in levels\n"
+"  --record-demo FILE LEVEL     Record a demo to FILE\n"
+"  --play-demo FILE LEVEL       Play a recorded demo\n"
 "\n"
 msgstr ""
 "Nastavení:\n"
@@ -89,6 +95,9 @@ msgstr ""
 "  -g, --geometry ŠÍŘKAxVÝŠKA   Spustit SuperTux v zadaném rozlišení\n"
 "  --help                       Zobrazit tento text\n"
 "  --version                    Zobrazit verzi a ukončit program\n"
+"  --show-fps                   Zobrazovat rychlost vykreslování\n"
+"  --record-demo SOUBOR ÚROVEŇ  Nahrát demo úrovně ÚROVEŇ do SOUBORu\n"
+"  --play-demo SOUBOR ÚROVEŇ    Přehrát demo úrovně ÚROVEŇ ze SOBORu\n"
 "\n"
 
 #: src/statistics.cpp:111
@@ -135,75 +144,77 @@ msgstr "Nejvíce zneškod. protivníků: %d / %d"
 msgid "Min time needed:       %d / %d"
 msgstr "Nejméně upotřebeného času:   %d / %d"
 
-#: src/misc.cpp:79 src/misc.cpp:98
+#: src/misc.cpp:80
+#: src/misc.cpp:99
 msgid "Start Game"
 msgstr "Spustit hru"
 
-#: src/misc.cpp:81 src/misc.cpp:86 src/misc.cpp:111 src/misc.cpp:118
+#: src/misc.cpp:82
+#: src/misc.cpp:87
+#: src/misc.cpp:112
+#: src/misc.cpp:119
 msgid "Options"
 msgstr "Nastavení"
 
-#: src/misc.cpp:82
-msgid "Level Editor"
-msgstr "Editor úrovní"
-
-#: src/misc.cpp:83
+#: src/misc.cpp:84
 msgid "Credits"
 msgstr "Autoři"
 
-#: src/misc.cpp:84
+#: src/misc.cpp:85
 msgid "Quit"
 msgstr "Ukončit"
 
-#: src/misc.cpp:88
+#: src/misc.cpp:89
 msgid "Fullscreen"
 msgstr "Plná obrazovka"
 
-#: src/misc.cpp:89
+#: src/misc.cpp:90
 msgid "Sound"
 msgstr "Zvuk"
 
-#: src/misc.cpp:90
+#: src/misc.cpp:91
 msgid "Music"
 msgstr "Hudba"
 
-#: src/misc.cpp:91
+#: src/misc.cpp:92
 msgid "Setup Keys"
 msgstr "Nastavit ovládání"
 
-#: src/misc.cpp:93
+#: src/misc.cpp:94
 msgid "Setup Joystick"
 msgstr "Nastavit joystick"
 
-#: src/misc.cpp:108 src/misc.cpp:115
+#: src/misc.cpp:109
+#: src/misc.cpp:116
 msgid "Pause"
 msgstr "Pauza"
 
-#: src/misc.cpp:110 src/misc.cpp:117
+#: src/misc.cpp:111
+#: src/misc.cpp:118
 msgid "Continue"
 msgstr "Pokračovat"
 
-#: src/misc.cpp:113
+#: src/misc.cpp:114
 msgid "Abort Level"
 msgstr "Přerušit úroveň"
 
-#: src/misc.cpp:120
+#: src/misc.cpp:121
 msgid "Quit Game"
 msgstr "Ukončit hru"
 
-#: src/game_session.cpp:210
+#: src/game_session.cpp:212
 msgid "contributed by "
 msgstr "Autor: "
 
-#: src/game_session.cpp:215
+#: src/game_session.cpp:217
 msgid "Best Level Statistics"
 msgstr "Statistika nejlepších v úrovni"
 
-#: src/game_session.cpp:462
+#: src/game_session.cpp:458
 msgid "PAUSE - Press 'P' To Play"
 msgstr "PAUZA - Stiskněte 'P' k pokračování"
 
-#: src/game_session.cpp:465
+#: src/game_session.cpp:461
 msgid "Playing: "
 msgstr "Úroveň: "
 
@@ -223,22 +234,6 @@ msgstr "Hra"
 #: src/game_session.cpp:776
 msgid "Free"
 msgstr "Volná"
-
-#: src/gui/menu.cpp:68
-msgid "Yes"
-msgstr "Ano"
-
-#: src/gui/menu.cpp:69
-msgid "No"
-msgstr "Ne"
-
-#: src/object/level_time.cpp:56
-msgid "TIME's UP"
-msgstr "ČAS VYPRŠEL"
-
-#: src/object/level_time.cpp:61
-msgid "TIME"
-msgstr "ČAS"
 
 #: src/control/joystickkeyboardcontroller.cpp:545
 msgid "Keyboard Setup"
@@ -342,3 +337,20 @@ msgstr "Nenalezen žádný joystick"
 #: src/control/joystickkeyboardcontroller.cpp:660
 msgid "Press Button"
 msgstr "Stiskněte tlačítko"
+
+#: src/gui/menu.cpp:68
+msgid "Yes"
+msgstr "Ano"
+
+#: src/gui/menu.cpp:69
+msgid "No"
+msgstr "Ne"
+
+#: src/object/level_time.cpp:57
+msgid "TIME's UP"
+msgstr "ČAS VYPRŠEL"
+
+#: src/object/level_time.cpp:62
+msgid "TIME"
+msgstr "ČAS"
+

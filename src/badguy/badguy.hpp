@@ -66,6 +66,11 @@ public:
    */
   virtual void kill_fall();
 
+  /** Writes out the badguy into the included lisp::Writer. Useful e.g. when
+   * converting an old-format level to the new format.
+   */
+  virtual void save(lisp::Writer& );
+
   Vector get_start_position() const
   {
     return start_position;

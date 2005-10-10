@@ -168,6 +168,16 @@ Yeti::kill_fall()
 void
 Yeti::write(lisp::Writer& )
 {
+  writer.start_list("yeti");
+
+  writer.write_float("x", start_position.x);
+  writer.write_float("y", start_position.y);
+
+  if(dead_script != "") {
+    writer.write_string("dead-script", dead_script);
+  }
+
+  writer.end_list("yeti");
 }
 
 void

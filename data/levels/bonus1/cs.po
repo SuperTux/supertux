@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux 0.2\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-05-13 16:29+0100\n"
+"PO-Revision-Date: 2005-10-10 18:15+0100\n"
 "Last-Translator: Ondřej Hošek <ondra.hosek@gmail.com>\n"
 "Language-Team: Czech\n"
 "MIME-Version: 1.0\n"
@@ -72,55 +72,55 @@ msgstr "Lháři!"
 msgid "Train Leaves in One Minute"
 msgstr "Vlak odjíždí za minutu"
 
-#: data/levels/bonus1/worldmap.stwm:133
+#: data/levels/bonus1/worldmap.stwm:136
 msgid "You found a secret place!"
 msgstr "Našel jsi tajné místo!"
 
-#: data/levels/bonus1/worldmap.stwm:140
+#: data/levels/bonus1/worldmap.stwm:143
 msgid "Hint: Use igloos to get back here."
 msgstr "Tip: použij iglú k návratu."
 
-#: data/levels/bonus1/worldmap.stwm:147
+#: data/levels/bonus1/worldmap.stwm:150
 msgid "Warp to Matr1x' Sector"
 msgstr "Přenést se do Matr1xova sektoru"
 
-#: data/levels/bonus1/worldmap.stwm:154
+#: data/levels/bonus1/worldmap.stwm:157
 msgid "Warp to Thompson's Domain"
 msgstr "Přenést se do Thompsonovy domény"
 
-#: data/levels/bonus1/worldmap.stwm:161
+#: data/levels/bonus1/worldmap.stwm:164
 msgid "Warp to the SuperTux Team Island"
 msgstr "Přenést se na ostrov týmu SuperTux"
 
-#: data/levels/bonus1/worldmap.stwm:168
+#: data/levels/bonus1/worldmap.stwm:171
 msgid "Warp to Abednego's Area"
 msgstr "Přenést se do Abendnegova pole"
 
-#: data/levels/bonus1/worldmap.stwm:175
+#: data/levels/bonus1/worldmap.stwm:178
 msgid "Warp to Torfi's Territory"
 msgstr "Přenést se do Torfiho teritoria"
 
-#: data/levels/bonus1/worldmap.stwm:182
+#: data/levels/bonus1/worldmap.stwm:185
 msgid "Leave Matrix' Sector"
 msgstr "Opustit Matr1xův sektor"
 
-#: data/levels/bonus1/worldmap.stwm:189
+#: data/levels/bonus1/worldmap.stwm:192
 msgid "Leave Thompson's Domain"
 msgstr "Opustit Thompsonovu doménu"
 
-#: data/levels/bonus1/worldmap.stwm:196
+#: data/levels/bonus1/worldmap.stwm:199
 msgid "Leave SuperTux Team Island"
 msgstr "Opustit ostrov týmu SuperTux"
 
-#: data/levels/bonus1/worldmap.stwm:203
+#: data/levels/bonus1/worldmap.stwm:206
 msgid "Leave Abednego's Area"
 msgstr "Opustit Abendnegovo pole"
 
-#: data/levels/bonus1/worldmap.stwm:210
+#: data/levels/bonus1/worldmap.stwm:213
 msgid "Leave Torfi's Territory"
 msgstr "Opustit Torfiho teritorium"
 
-#: data/levels/bonus1/worldmap.stwm:217
+#: data/levels/bonus1/worldmap.stwm:220
 msgid "Warp home"
 msgstr "Přenést se domů"
 
