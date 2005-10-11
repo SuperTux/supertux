@@ -29,13 +29,13 @@ Suite 330, Boston, MA 02111-1307, USA.
 <title>SuperTux File Format Documentation</title>
 <author><firstname>Ondra</firstname><surname>Hosek</surname></author>
 </articleinfo>
-<para>This document serves the simple purpose of a reference for the files specific to SuperTux (levels, worldmaps, ...). Some of these files can be modified using an editor such as </para>
+<para>This document serves the simple purpose of a reference for the files specific to SuperTux (levels, worldmaps, ...). Some of these files can be modified using an editor such as Flexlay.</para>
 <sect1><title>Brackets, brackets, brackets (About the Language)</title>
 <para>As you might have already noticed, the SuperTux definition files (just about for everything) are full of brackets ('(' and ')'). I know that <acronym>BASIC</acronym> programmers already freak out when seeing the vast amount of brackets used in C. The truth is that you can never have too many brackets. (Okay, that's a lie, but I don't know how lenient your compiler is.)</para>
-<para>&quot;That Crazy File Format&quot; used by SuperTux is Lisp. In most of its implementations, it is used as a programming language, but the devs simply thought why not to implement it as a data storage language. And so, the SuperTux data language, nearly fully based on Lisp, was born.</para>
+<para>"That Crazy File Format" used by SuperTux is Lisp. In most of its implementations, it is used as a programming language, but the devs simply thought why not to implement it as a data storage language. And so, the SuperTux data language, nearly fully based on Lisp, was born.</para>
 
 <sect2><title>Basic Syntax</title>
-<para>So now you expect me to teach you Lisp. &quot;You'd like that, wouldn't ya?&quot; Okay, okay, let me teach you a bit.</para>
+<para>So now you expect me to teach you Lisp. "You'd like that, wouldn't ya?" Okay, okay, let me teach you a bit.</para>
 <para>Language syntax is (nearly) always best consumable when demonstrated on an example, like so:
 <programlisting>(supertux-lisp-example
     ; This is a comment. It is initiated by a semi-colon. (Yes, you un-believer.)
@@ -69,7 +69,7 @@ Suite 330, Boston, MA 02111-1307, USA.
   (sector                            ;; A level is divided into independent sectors that can be connected
                                      ;; by doors.
 
-    (name "main")                    ;; Tux begins in the sector named &quot;main&quot;.
+    (name "main")                    ;; Tux begins in the sector named "main".
 
     (music "Ondras_chipdisko.mod")   ;; Name of the music file. See the data/music/ directory.
     
@@ -77,8 +77,8 @@ Suite 330, Boston, MA 02111-1307, USA.
                                      ;; apply the level design correctly).
     
     (tilemap                         ;; Here come the files.
-      (layer  "background"           ;; Currently, there are three layer types: &quot;background&quot;,
-                                     ;; &quot;interactive&quot; and &quot;foreground&quot;.
+      (layer  "background"           ;; Currently, there are three layer types: "background",
+                                     ;; "interactive" and "foreground".
 
       (solid  #f)                    ;; Will Tux collide with tiles in this tilemap?
       
@@ -255,10 +255,7 @@ Suite 330, Boston, MA 02111-1307, USA.
 </sect1>
 
 <sect1><title>Worldmaps</title>
-<para>Worldmaps are basically level files with a few nuances.</para>
-
-<sect2><title>Basic worldmap syntax</title>
-<para>It's time for a hands-on example. Let's just picture somebody with the idea to write a level set that takes place in London (represented by a lonely island):
+<para>Worldmaps are basically level files with a few nuances. To explain the syntax, let's just picture somebody with the idea to write a level set that takes place in London (represented by a lonely island):
 <programlisting>(supertux-worldmap
   (properties                               ;; Global worldmap properties.
     (name (_ "London"))                     ;; Name of the worldmap
@@ -306,14 +303,21 @@ Suite 330, Boston, MA 02111-1307, USA.
     (teleport-to-y 1)
   )
 )</programlisting></para>
-</sect2>
 
+</sect1>
+
+<sect1><title>Level subsets</title>
+<para>Whilst creating a worldmap is optional, you'll need to write a level subset file to make your level package to appear in the contribs menu (or, ironically, inhibiting this behaviour). A file containing a level subset is called <code>info</code> and lies in <code>data/levels/&lt;subset_name&gt;.</code>
+<programlisting>(supertux-level-subset
+  (title "Domain of the Hosek siblings")                        ;; Give your levelset a nice name...
+  (description "Levels by Ondra and Klara, the Hosek siblings") ;; ... and a short description.
+  (hide-from-contribs #f)                                       ;; Set to true if you don't want your levelset to appear in the "Contrib Levels" menu.
+)</programlisting></para>
 </sect1>
 
 <!--
 
 TODO:
-* Level subset
 * Sprite definitions
 * Tile definitions
 
