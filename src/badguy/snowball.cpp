@@ -29,7 +29,7 @@ SnowBall::SnowBall(const lisp::Lisp& reader)
   reader.get("x", start_position.x);
   reader.get("y", start_position.y);
   //This is for a hidden badguy :)
-  bool fluffy = false;  
+  fluffy = false;  
   reader.get("fluffy",fluffy);
   bbox.set_size(31.8, 31.8);
   if (fluffy) sprite = sprite_manager->create("fluffy");
@@ -56,7 +56,7 @@ SnowBall::write(lisp::Writer& writer)
   writer.write_float("y", start_position.y);
 
   if (fluffy) {  // don't give us away at every snowball
-    writer.write_bool("fluffy", true)
+    writer.write_bool("fluffy", true);
   }
 
   writer.end_list("snowball");

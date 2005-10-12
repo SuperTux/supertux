@@ -52,7 +52,7 @@ Tile::parse(const lisp::Lisp& reader)
     throw std::runtime_error("Missing tile-id.");
   }
   
-  bool value;
+  bool value = false;
   if(reader.get("solid", value) && value)
     attributes |= SOLID;
   if(reader.get("unisolid", value) && value)
@@ -111,7 +111,7 @@ Tile::parse_images(const lisp::Lisp& images_lisp)
       const lisp::Lisp* ptr = cur->get_cdr();
 
       std::string file;
-      float x, y, w, h;
+      float x = 0, y = 0, w = 0, h = 0;
       ptr->get_car()->get(file); ptr = ptr->get_cdr();
       ptr->get_car()->get(x); ptr = ptr->get_cdr();
       ptr->get_car()->get(y); ptr = ptr->get_cdr();

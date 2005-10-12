@@ -34,7 +34,7 @@
 Path::Path(const lisp::Lisp& reader)
 {
   forward = true;
-  float x,y;
+  float x = 0, y = 0;
 
   lisp::ListIterator iter(&reader);
 

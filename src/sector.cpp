@@ -243,7 +243,7 @@ Sector::parse_old_format(const lisp::Lisp& reader)
   song_title = "chipdisko.ogg";
   reader.get("music", song_title);
 
-  int width, height = 15;
+  int width = 30, height = 15;
   reader.get("width", width);
   reader.get("height", height);
   

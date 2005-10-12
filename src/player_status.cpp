@@ -154,7 +154,7 @@ PlayerStatus::read(const lisp::Lisp& lisp)
       bonus = NO_BONUS;
     }
   }
-  bool val;
+  bool val = false;
   if(lisp.get("key-brass", val) && val == true)
     set_keys(KEY_BRASS);
   if(lisp.get("key-iron", val) && val == true)

@@ -46,6 +46,9 @@ public:
     end_y = int(bbox.p2.y / grid.cell_height) + 2;
     if(end_y > (int) grid.cells_y)
       end_y = grid.cells_y;
+    
+    timestamp = grid.iterator_timestamp++;
+    entry = 0;
 
     if(start_x >= end_x) {
       printf("bad region.\n");
@@ -53,9 +56,6 @@ public:
       end_y = 0;
       return;
     }
-
-    timestamp = grid.iterator_timestamp++;
-    entry = 0;
   }
 
   MovingObject* next()

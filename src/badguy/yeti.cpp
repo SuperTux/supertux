@@ -166,7 +166,7 @@ Yeti::kill_fall()
 }
 
 void
-Yeti::write(lisp::Writer& )
+Yeti::write(lisp::Writer& writer)
 {
   writer.start_list("yeti");
 

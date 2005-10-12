@@ -34,11 +34,11 @@
 
 ScriptTrigger::ScriptTrigger(const lisp::Lisp& reader)
 {
-  bool must_activate;
+  bool must_activate = false;
   
   reader.get("x", bbox.p1.x);
   reader.get("y", bbox.p1.y);
-  float w, h;
+  float w = 0, h = 0;
   reader.get("width", w);
   reader.get("height", h);
   bbox.set_size(w, h);
