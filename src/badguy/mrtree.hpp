@@ -18,15 +18,15 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 
-#ifndef __TOTEM_H__
-#define __TOTEM_H__
+#ifndef __MRTREE_H__
+#define __MRTREE_H__
 
 #include "badguy.hpp"
 
-class Totem : public BadGuy
+class MrTree : public BadGuy
 {
 public:
-  Totem(const lisp::Lisp& reader);
+  MrTree(const lisp::Lisp& reader);
 
   void activate();
   void write(lisp::Writer& writer);
