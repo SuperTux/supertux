@@ -70,7 +70,7 @@ SnowSnail::activate()
 void
 SnowSnail::active_update(float elapsed_time)
 {
-  if(flat_timer.started()) {
+  if((ice_state != ICESTATE_KICKED) && flat_timer.started()) {
     sprite->set_fps(64 - 15 * flat_timer.get_timegone());
   }
   if(ice_state == ICESTATE_FLAT && flat_timer.check()) {
@@ -107,6 +107,7 @@ SnowSnail::collision_solid(GameObject& object, const CollisionHit& hit)
       
       dir = dir == LEFT ? RIGHT : LEFT;
       sprite->set_action(dir == LEFT ? "flat-left" : "flat-right");
+      sprite->set_fps(64);
       physic.set_velocity_x(-physic.get_velocity_x());
       sound_manager->play("sounds/iceblock_bump.wav", get_pos());
       break;
@@ -175,6 +176,7 @@ SnowSnail::collision_squished(Player& player)
       }
       physic.set_velocity_x(dir == LEFT ? -KICKSPEED : KICKSPEED);
       sprite->set_action(dir == LEFT ? "flat-left" : "flat-right");
+      sprite->set_fps(64);
       ice_state = ICESTATE_KICKED;
       break;
   }
