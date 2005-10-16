@@ -59,7 +59,7 @@
   )
   (tilegroup
     (name "Stone Brick Walls")
-    (tiles 64 65 66 67 68 69 0 0 0 1367 1368 1369 1370 1371 1372 1373 1374 1375 1376 1377 1378 1379 1380 0 1381 1382 1383 1384 1385 1386 1387 1388 1389 1390 1391 1392 1393 1394 1395 1396 0 1397 1398 1399 1400 1401 1402 1403 1404 1405 1406 1407 1408 1409 1410 0 0 0 0 1355 0 0 0 1356 0 0 0 1411 1412 1413 1414 1415 1416 1417 1418 1419 1420)
+    (tiles 64 65 66 67 68 69 0 0 0 1367 1368 1369 1370 1371 1372 1373 1374 1375 1376 1377 1378 1379 1380 0 1381 1382 1383 1384 1385 1386 1387 1388 1389 1390 1391 1392 1393 1394 1395 1396 0 1397 1398 1399 1400 1401 1402 1403 1404 1405 1406 1407 1408 1409 1410 0 0 0 0 1355 0 0 0 1356 0 0 0 1411 1412 1413 1414 1415 1416 1417 1418 1419 1420 1467 1468 1469 1470 1471 1472 1473 1474)
   )
   (tilegroup
     (name "Signs")
@@ -85,7 +85,11 @@
     (name "Waterfall-edgecloud")
     (tiles 195 196 197 198 199)
   )
-  (tile
+  (tilegroup
+    (name "IceWood")
+    (tiles 1442 1423 1424 1425 1426 1427 1428 1429 1430 1431 1432 1433 1434 1435 1436 1437 1438 1439 1440 1441 0 1443 1444 0 1445 1446 1447 1448 1449 1450 1451 1452 1453 1454 1459 1460 1455 1456 1461 1462 1457 1458 1463 1464 0 0 1465 1466)
+)  
+(tile
     (id 0)
     (editor-images "objects/bonus_block/bonus-fire_flower.png")
   )
@@ -5387,4 +5391,377 @@
     (spike #t)
     (water #t)
   )
+  (tile
+    (id 1423)
+    (images
+      (region "tiles/icewood/icewood-1.png" 32 0 32 32)
+    )
+  )
+  (tile
+    (id 1424)
+    (images
+      (region "tiles/icewood/icewood-1.png" 64 0 32 32)
+    )
+  )
+  (tile
+    (id 1425)
+    (images
+      (region "tiles/icewood/icewood-1.png" 96 0 32 32)
+    )
+  )
+  (tile
+    (id 1426)
+    (images
+      (region "tiles/icewood/icewood-1.png" 0 32 32 32)
+    )
+    (solid #t)
+  )
+  (tile
+    (id 1427)
+    (images
+      (region "tiles/icewood/icewood-1.png" 32 32 32 32)
+    )
+    (solid #t)
+  )
+  (tile
+    (id 1428)
+    (images
+      (region "tiles/icewood/icewood-1.png" 64 32 32 32)
+    )
+    (solid #t)
+  )
+  (tile
+    (id 1429)
+    (images
+      (region "tiles/icewood/icewood-1.png" 96 32 32 32)
+    )
+    (solid #t)
+  )
+  (tile
+    (id 1430)
+    (images
+      (region "tiles/icewood/icewood-1.png" 0 64 32 32)
+    )
+    (solid #t)
+  )
+  (tile
+    (id 1431)
+    (images
+      (region "tiles/icewood/icewood-1.png" 32 64 32 32)
+    )
+    (solid #t)
+  )
+  (tile
+    (id 1432)
+    (images
+      (region "tiles/icewood/icewood-1.png" 64 64 32 32)
+    )
+    (solid #t)
+  )
+  (tile
+    (id 1433)
+    (images
+      (region "tiles/icewood/icewood-1.png" 96 64 32 32)
+    )
+    (solid #t)
+  )
+  (tile
+    (id 1434)
+    (images
+      (region "tiles/icewood/icewood-1.png" 0 96 32 32)
+    )
+    (solid #t)
+  )
+  (tile
+    (id 1435)
+    (images
+      (region "tiles/icewood/icewood-1.png" 32 96 32 32)
+    )
+    (solid #t)
+  )
+  (tile
+    (id 1436)
+    (images
+      (region "tiles/icewood/icewood-1.png" 64 96 32 32)
+    )
+    (solid #t)
+  )
+  (tile
+    (id 1437)
+    (images
+      (region "tiles/icewood/icewood-1.png" 96 96 32 32)
+    )
+    (solid #t)
+  )
+  (tile
+    (id 1438)
+    (images
+      (region "tiles/icewood/icewood-1.png" 0 128 32 32)
+    )
+    (solid #t)
+  )
+  (tile
+    (id 1439)
+    (images
+      (region "tiles/icewood/icewood-1.png" 32 128 32 32)
+    )
+    (solid #t)
+  )
+  (tile
+    (id 1440)
+    (images
+      (region "tiles/icewood/icewood-1.png" 64 128 32 32)
+    )
+    (solid #t)
+  )
+  (tile
+    (id 1441)
+    (images
+      (region "tiles/icewood/icewood-1.png" 96 128 32 32)
+    )
+    (solid #t)
+  )
+(tile
+    (id 1442)
+    (images
+      (region "tiles/icewood/icewood-1.png" 0 0 32 32)
+    )
+)
+(tile
+    (id 1443)
+    (images
+      (region "tiles/icewood/icewood-7.png" 32 0 32 32)
+    )
+  )
+  (tile
+    (id 1444)
+    (images
+      (region "tiles/icewood/icewood-7.png" 64 0 32 32)
+    )
+  )
+  (tile
+    (id 1445)
+    (images
+      (region "tiles/icewood/icewood-7.png" 0 32 32 32)
+    )
+    (solid #t)
+    (slope-type 18)
+    (data 18)
+  )
+  (tile
+    (id 1446)
+    (images
+      (region "tiles/icewood/icewood-7.png" 32 32 32 32)
+    )
+    (solid #t)
+    (slope-type 34)
+    (data 34)
+  )
+  (tile
+    (id 1447)
+    (images
+      (region "tiles/icewood/icewood-7.png" 64 32 32 32)
+    )
+    (solid #t)
+    (slope-type 32)
+    (data 32)
+  )
+  (tile
+    (id 1448)
+    (images
+      (region "tiles/icewood/icewood-7.png" 96 32 32 32)
+    )
+    (solid #t)
+    (slope-type 16)
+    (data 16)
+  )
+  (tile
+    (id 1449)
+    (images
+      (region "tiles/icewood/icewood-7.png" 0 64 32 32)
+    )
+    (solid #t)
+  )
+  (tile
+    (id 1450)
+    (images
+      (region "tiles/icewood/icewood-7.png" 32 64 32 32)
+    )
+    (solid #t)
+  )
+  (tile
+    (id 1451)
+    (images
+      (region "tiles/icewood/icewood-7.png" 64 64 32 32)
+    )
+    (solid #t)
+  )
+  (tile
+    (id 1452)
+    (images
+      (region "tiles/icewood/icewood-7.png" 96 64 32 32)
+    )
+    (solid #t)
+  )
+ (tile
+    (id 1453)
+    (images
+      (region "tiles/icewood/icewood-5.png" 0 0 32 32)
+    )
+  )
+  (tile
+    (id 1454)
+    (images
+      (region "tiles/icewood/icewood-5.png" 32 0 32 32)
+    )
+  )
+  (tile
+    (id 1455)
+    (images
+      (region "tiles/icewood/icewood-5.png" 0 32 32 32)
+    )
+    (solid #t)
+    (slope-type 2)
+    (data 2)
+  )
+  (tile
+    (id 1456)
+    (images
+      (region "tiles/icewood/icewood-5.png" 32 32 32 32)
+    )
+    (solid #t)
+    (slope-type 0)
+  )
+  (tile
+    (id 1457)
+    (images
+      (region "tiles/icewood/icewood-5.png" 0 64 32 32)
+    )
+    (solid #t)
+  )
+  (tile
+    (id 1458)
+    (images
+      (region "tiles/icewood/icewood-5.png" 32 64 32 32)
+    )
+    (solid #t)
+  )
+  (tile
+    (id 1459)
+    (images
+      (region "tiles/icewood/icewood-6.png" 0 0 32 32)
+    )
+  )
+  (tile
+    (id 1460)
+    (images
+      (region "tiles/icewood/icewood-6.png" 32 0 32 32)
+    )
+  )
+  (tile
+    (id 1461)
+    (images
+      (region "tiles/icewood/icewood-6.png" 0 32 32 32)
+    )
+    (slope-type 66)
+    (data 66)
+  )
+  (tile
+    (id 1462)
+    (images
+      (region "tiles/icewood/icewood-6.png" 32 32 32 32)
+    )
+    (slope-type 48)
+    (data 48)
+  )
+  (tile
+    (id 1463)
+    (images
+      (region "tiles/icewood/icewood-6.png" 0 64 32 32)
+    )
+    (solid #t)
+    (slope-type 50)
+    (data 50)
+  )
+  (tile
+    (id 1464)
+    (images
+      (region "tiles/icewood/icewood-6.png" 32 64 32 32)
+    )
+    (solid #t)
+    (slope-type 64)
+    (data 64)
+  )
+  (tile
+    (id 1465)
+    (images
+      (region "tiles/icewood/icewood-6.png" 0 96 32 32)
+    )
+    (solid #t)
+  )
+  (tile
+    (id 1466)
+    (images
+      (region "tiles/icewood/icewood-6.png" 32 96 32 32)
+    )
+    (solid #t)
+  )
+  (tile
+    (id 1467)
+    (images
+      (region "tiles/castle/web.png" 0 0 32 32)
+    )
+    (solid #f)
+  )
+  (tile
+    (id 1468)
+    (images
+      (region "tiles/castle/web.png" 32 0 32 32)
+    )
+    (solid #f)
+    ) 
+  (tile
+    (id 1469)
+    (images
+      (region "tiles/castle/web.png" 64 0 32 32)
+    )
+    (solid #f)
+    )
+  (tile
+    (id 1470)
+    (images
+      (region "tiles/castle/web.png" 96 0 32 32)
+    )
+    (solid #f)
+)
+  (tile
+    (id 1471)
+    (images
+      (region "tiles/castle/web.png" 0 32 32 32)
+    )
+    (solid #f)
+)
+  (tile
+    (id 1472)
+    (images
+      (region "tiles/castle/web.png" 32 32 32 32)
+    )
+    (solid #f)
+)
+  (tile
+    (id 1473)
+    (images
+      (region "tiles/castle/web.png" 64 32 32 32)
+    )
+    (solid #f)
+)
+  (tile
+    (id 1474)
+    (images
+      (region "tiles/castle/web.png" 96 32 32 32)
+    )
+    (solid #f)
+)
+
+)
 )

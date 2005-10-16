@@ -27,6 +27,7 @@
 #include "badguy/mriceblock.hpp"
 #include "badguy/mrrocket.hpp"
 #include "badguy/poisonivy.hpp"
+#include "badguy/snowsnail.hpp"
 
 Dispenser::Dispenser(const lisp::Lisp& reader)
 {
@@ -98,6 +99,8 @@ Dispenser::launch_badguy()
       Sector::current()->add_object(new MrBomb(get_pos().x, get_pos().y+32, dir));
     else if (badguy == "mriceblock")
       Sector::current()->add_object(new MrIceBlock(get_pos().x, get_pos().y+32, dir));
+    else if (badguy == "snowsnail")
+      Sector::current()->add_object(new SnowSnail(get_pos().x, get_pos().y+32, dir));
     else if (badguy == "mrrocket") {
       Sector::current()->add_object(new MrRocket(get_pos().x+(dir == LEFT ? -32 : 32), get_pos().y, dir));}
     else if (badguy == "poisonivy")

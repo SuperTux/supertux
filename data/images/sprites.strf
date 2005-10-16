@@ -818,6 +818,55 @@
          (x-offset 2)
          (y-offset 3)
          (mirror-action "falling-left")))
+ ;; SnowSnail
+ (sprite (name "snowsnail")
+    (action
+         (name "left")
+         (x-offset 2)
+         (y-offset 3)
+         (images "creatures/snowsnail/snowsnail1.png"
+	         "creatures/snowsnail/snowsnail2.png"
+                 "creatures/snowsnail/snowsnail3.png"
+))
+
+    (action (name "right")
+         (x-offset 2)
+         (y-offset 3)
+         (mirror-action "left"))
+
+    (action (name "falling-left")
+         (x-offset 2)
+         (y-offset 3)
+         (images "creatures/snowsnail/snowsnail_flip1.png"
+"creatures/snowsnail/snowsnail_flip2.png"
+"creatures/snowsnail/snowsnail_flip3.png"
+"creatures/snowsnail/snowsnail_flip4.png"
+"creatures/snowsnail/snowsnail_flip5.png"
+"creatures/snowsnail/snowsnail_flip6.png"
+"creatures/snowsnail/snowsnail_flip7.png"
+))
+
+    (action (name "falling-right")
+         (x-offset 2)
+         (y-offset 3)
+         (mirror-action "falling-left"))
+
+    (action (name "flat-left")
+         (x-offset 2)
+         (y-offset 3)
+         (images "creatures/snowsnail/snowsnail_flip1.png"
+"creatures/snowsnail/snowsnail_flip2.png"
+"creatures/snowsnail/snowsnail_flip3.png"
+"creatures/snowsnail/snowsnail_flip4.png"
+"creatures/snowsnail/snowsnail_flip5.png"
+"creatures/snowsnail/snowsnail_flip6.png"
+"creatures/snowsnail/snowsnail_flip7.png"
+))
+
+    (action (name "flat-right")
+         (x-offset 2)
+         (y-offset 3)
+         (mirror-action "falling-left")))
 
  (sprite (name "snowball")
        (action
@@ -1044,6 +1093,30 @@
          (x-offset 4)
          (y-offset -12)
          (mirror-action "squished-left")))
+(sprite (name "spidermite")
+       (action
+         (name "left")
+         (x-offset 4)
+         (y-offset 3)
+         (images "creatures/spidermite/spidermite.png"
+                 "creatures/spidermite/spidermite.png"))
+       (action
+         (name "right")
+         (x-offset 4)
+         (y-offset 3)
+         (mirror-action "left"))
+
+       (action
+         (name "squished-left")
+         (x-offset 4)
+         (y-offset -12)
+         (images "creatures/spidermite/spidermite.png"))
+       (action
+         (name "squished-right")
+         (x-offset 4)
+         (y-offset -12)
+         (mirror-action "squished-left")))
+
 
  (sprite (name "spiky")
        (action
