@@ -1099,7 +1099,9 @@
          (x-offset 4)
          (y-offset 3)
          (images "creatures/spidermite/spidermite.png"
-                 "creatures/spidermite/spidermite.png"))
+"creatures/spidermite/spidermite0.png"
+                 "creatures/spidermite/spidermite1.png"
+"creatures/spidermite/spidermite0.png"))
        (action
          (name "right")
          (x-offset 4)
@@ -1268,7 +1270,45 @@
         (mirror-action "squished-left")
       )
   )
-
+; Totem  
+  (sprite (name "totem")
+      (action
+        (y-offset -3)
+        (fps 5)
+        (name "left")
+        (images "creatures/totem/walk-left-0.png"
+                "creatures/totem/walk-left-0.png"
+                "creatures/totem/walk-left-0.png")
+      )
+      (action
+        (y-offset -3)
+        (fps 5)
+        (name "right")
+        (mirror-action "left")
+      )
+      (action
+        (y-offset -3)
+        (name "small-left")
+        (images "creatures/totem/small-left-0.png"
+                "creatures/totem/walk-left-0.png"
+                "creatures/totem/walk-left-0.png")
+      )
+      (action
+        (y-offset -3)
+        (name "small-right")
+        (mirror-action "small-left")
+      )
+      (action
+        (y-offset -6)
+        (name "squished-left")
+        (images "creatures/totem/walk-left-0.png")
+      )
+      (action
+        (y-offset -6)
+        (name "squished-right")
+        (mirror-action "squished-left")
+      )
+  )
  ; PoisonIvy
  (sprite (name "poisonivy")
        (action
