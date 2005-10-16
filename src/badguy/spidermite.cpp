@@ -23,7 +23,7 @@
 
 #include "spidermite.hpp"
 
-static const float FLYTIME = 1.0;
+static const float FLYTIME = 1.2;
 static const float FLYSPEED = 100.0;
 
 SpiderMite::SpiderMite(const lisp::Lisp& reader)
@@ -75,7 +75,7 @@ SpiderMite::collision_squished(Player& player)
 HitResponse
 SpiderMite::collision_solid(GameObject& , const CollisionHit& hit)
 {
-  if(fabsf(hit.normal.y) > .5) { // hit floor or roof?
+  if(fabsf(hit.normal.y) > 1.5) { // hit floor or roof?
     physic.set_velocity_y(0);
   }
 
