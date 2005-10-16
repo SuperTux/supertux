@@ -138,4 +138,10 @@ Sprite::get_height() const
   return (int) action->surfaces[get_frame()]->get_height();
 }
 
+void
+Sprite::set_fps(float new_fps)
+{
+  action->fps = new_fps;
+}
+
 

@@ -30,8 +30,8 @@ static inline void assert_gl(const char* message)
   GLenum error = glGetError();
   if(error != GL_NO_ERROR) {
     std::ostringstream msg;
-    msg << "OpenGLError while '" << message << "': "
-        << gluErrorString(error);
+    msg << "OpenGLError while '" << message << "': ";
+        //<< gluErrorString(error);
     throw std::runtime_error(msg.str());
   }
 #endif

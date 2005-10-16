@@ -70,6 +70,9 @@ SnowSnail::activate()
 void
 SnowSnail::active_update(float elapsed_time)
 {
+  if(flat_timer.started()) {
+    sprite->set_fps(64 - 15 * flat_timer.get_timegone());
+  }
   if(ice_state == ICESTATE_FLAT && flat_timer.check()) {
     ice_state = ICESTATE_NORMAL;
     physic.set_velocity_x(dir == LEFT ? -WALKSPEED : WALKSPEED);
@@ -157,6 +160,7 @@ SnowSnail::collision_squished(Player& player)
       physic.set_velocity_y(0); 
       
       sprite->set_action(dir == LEFT ? "flat-left" : "flat-right");
+      sprite->set_fps(64);
       flat_timer.start(4);
       ice_state = ICESTATE_FLAT;
       break;

@@ -854,7 +854,7 @@
     (action (name "flat-left")
          (x-offset 2)
          (y-offset 3)
-         (images "creatures/snowsnail/snowsnail_flip1.png"
+	 (images "creatures/snowsnail/snowsnail_flip1.png"
 "creatures/snowsnail/snowsnail_flip2.png"
 "creatures/snowsnail/snowsnail_flip3.png"
 "creatures/snowsnail/snowsnail_flip4.png"
