@@ -36,6 +36,12 @@ Tile::Tile()
 {
 }
 
+Tile::Tile(unsigned int id_, Uint32 attributes_, const ImageSpec& imagespec)
+  : id(id_), editor_image(0), attributes(attributes_), data(0), anim_fps(1)
+{
+  imagespecs.push_back(imagespec);
+}
+
 Tile::~Tile()
 {
   for(std::vector<Surface*>::iterator i = images.begin(); i != images.end();

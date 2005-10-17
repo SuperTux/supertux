@@ -21,6 +21,7 @@
 
 #include <memory>
 #include <stdexcept>
+#include <sstream>
 #include <iostream>
 #include <assert.h>
 #include "video/drawing_context.hpp"
@@ -73,11 +74,56 @@ void TileManager::load_tileset(std::string filename)
       }
       tiles[tile->id] = tile;
     } else if(iter.item() == "tilegroup") {
-        TileGroup tilegroup;
-        const lisp::Lisp* tilegroup_lisp = iter.lisp();
-        tilegroup_lisp->get("name", tilegroup.name);
-        tilegroup_lisp->get_vector("tiles", tilegroup.tiles);
-        tilegroups.insert(tilegroup);
+      TileGroup tilegroup;
+      const lisp::Lisp* tilegroup_lisp = iter.lisp();
+      tilegroup_lisp->get("name", tilegroup.name);
+      tilegroup_lisp->get_vector("tiles", tilegroup.tiles);
+      tilegroups.insert(tilegroup);
+    } else if (iter.item() == "tiles") {
+      // List of ids (use 0 if the tile should be ignored)
+      std::vector<unsigned int> ids;
+      // List of attributes of the tile
+      std::vector<unsigned int> attributes;
+      std::string image;
+
+      // width and height of the image in tile units, this is used for two
+      // purposes: 
+      //  a) so we don't have to load the image here to know its dimensions
+      //  b) so that the resulting 'tiles' entry is more robust,
+      //  ie. enlarging the image won't break the tile id mapping
+      // FIXME: height is actually not used, since width might be enough for
+      // all purposes, still feels somewhat more natural this way
+      unsigned int width  = 0;
+      unsigned int height = 0;
+
+      iter.lisp()->get_vector("ids",        ids);
+      iter.lisp()->get_vector("attributes", attributes);
+      iter.lisp()->get("image",      image);
+      iter.lisp()->get("width",      width);
+      iter.lisp()->get("height",     height);
+
+      if (ids.size() != attributes.size())
+        {
+          std::ostringstream err;
+          err << "Number of ids (" << ids.size() <<  ") and attributes (" << attributes.size()
+              << ") missmatch for image '" << image << "', but must be equal";
+          throw std::runtime_error(err.str());
+        }
+
+      for(std::vector<unsigned int>::size_type i = 0; i < ids.size() && i < width*height; ++i)
+        {
+          if (ids[i])
+            {
+              if(ids[i] >= tiles.size())
+                tiles.resize(ids[i]+1, 0);
+
+              int x = 32*(i % width);
+              int y = 32*(i / width);
+              Tile* tile = new Tile(ids[i], attributes[i], Tile::ImageSpec(image, Rect(x, y, x + 32, y + 32)));
+              tiles[ids[i]] = tile;
+            }
+        }
+      
     } else if(iter.item() == "properties") {
       // deprecated
     } else {

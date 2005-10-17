@@ -1056,30 +1056,15 @@
       "tiles/doodads/nolok2.png"
     )
   )
-  (tile
-    (id 136)
-    (images
-      "tiles/signs/run1.png"
-    )
-  )
-  (tile
-    (id 137)
-    (images
-      "tiles/signs/run2.png"
-    )
-  )
-  (tile
-    (id 138)
-    (images
-      "tiles/signs/run3.png"
-    )
-  )
-  (tile
-    (id 139)
-    (images
-      "tiles/signs/run4.png"
-    )
-  )
+
+  (tiles
+   (width 2)
+   (height 2)
+   (ids 136 137        
+        138 139)
+   (attributes 0 0 0 0)
+   (image "tiles/signs/run.png"))
+    
   (tile
     (id 140)
     (images

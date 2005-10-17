@@ -71,9 +71,6 @@ public:
     WORLDMAP_STOP  = 0x0010
   };
   
-private:
-  unsigned int id;
-
   struct ImageSpec {
     ImageSpec(const std::string& newfile, const Rect& newrect)
       : file(newfile), rect(newrect)
@@ -82,6 +79,10 @@ private:
     std::string file;
     Rect rect;
   };
+
+private:
+  unsigned int id;
+
   std::vector<ImageSpec> imagespecs;
   std::vector<Surface*> images;
 
@@ -132,6 +133,7 @@ public:
 protected:
   friend class TileManager;
   Tile();
+  Tile(unsigned int id, Uint32 attributes, const ImageSpec& imagespec);
 
   void load_images(const std::string& tilesetpath);
 
