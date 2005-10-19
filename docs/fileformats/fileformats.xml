@@ -121,6 +121,9 @@ Suite 330, Boston, MA 02111-1307, USA.
           ;; ...
         )
       )
+      
+      (backscrolling #f)             ;; You can prevent the camera from scrolling
+                                     ;; backwards with this setting.
     )
     
     (background
@@ -150,6 +153,12 @@ Suite 330, Boston, MA 02111-1307, USA.
                                      ;; Choose a number to put the rain between two layers. In this case,
                                      ;; the rain is in front of the foreground tiles. (see also
                                      ;; src/video/drawing_context.hpp)
+    )
+    
+    (leveltime
+    
+      (time 300)                     ;; The player must complete this level
+                                     ;; within 300 seconds.
     )
   ) ;; End of sector
   

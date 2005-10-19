@@ -2,16 +2,16 @@
 - An introduction for SuperTux -
 http://supertux.berlios.de/
 
-Last update: April 26, 2004
- 
+Last update: October 13, 2005
+
 DESCRIPTION
 -----------
-  SuperTux is a jump'n run like game, with strong inspiration from the
-  Super Mario Bros games for Nintendo.
+  SuperTux is a jump'n'run game with strong inspiration from the
+  Super Mario Bros. games for the various Nintendo platforms.
 
   Run and jump through multiple worlds, fighting off enemies by jumping
-  on them or bumping them from below.  Grabbing power-ups and other stuff
-  on the way.
+  on them, bumping them from below or tossing objects at them, grabbing
+  power-ups and other stuff on the way.
 
 
 STORY
@@ -35,7 +35,7 @@ STORY
   the thought of trying to reclaim her,
   you haven't a chance! -Nolok"
 
-  Tux looks and see Nolok's fortress in
+  Tux looks and sees Nolok's fortress in
   the distance. Determined to save his
   beloved Penny, he begins his journey.
 
@@ -45,35 +45,40 @@ DOCUMENTATION
   Important documentation for SuperTux is contained in multiple files.
   Please see them:
 
-    AUTHORS     - Credits for people that contributed to the creation
-                  of SuperTux.
-    NEWS        - Changes since the previous versions of "SuperTux"
-    COPYING     - The GNU Public License, which "SuperTux" is liscensed
-                  under.
-    INSTALL     - Instructions on requirements, compiling and installing.
-    README      - (This file.)  Game story, usage, rules and controls.
-    TODO        - A wish-list for this version of "SuperTux"
-    LEVELDESIGN - Very useful information for those that want to design
-                  levels for SuperTux.
+    AUTHORS              - Credits for people that contributed to the creation
+                           of SuperTux. (You can view these in the game menu
+                           as well.)
+    NEWS                 - Changes since the previous versions of SuperTux.
+    COPYING              - The GNU General Public License, under whose terms
+                           SuperTux is licensed.
+    INSTALL              - Instructions on requirements, compiling and installing.
+    README               - (This file.)  Game story, usage, rules and controls.
+
+  The following documents can be found and read in the docs/ directory:
+
+    levelguidelines.txt  - Very useful information for those that want to design
+                           levels for SuperTux.
+    fileformats.txt/htm  - Documentation on the various file formats used by the
+                           game.
+    scripting.txt/htm    - Reference to the scripting language used by SuperTux.
 
 
 RUNNING THE GAME
 ----------------
   SuperTux makes use of proc to see where it is. In other words, it does not
   have any need to be installed and can be run from anywhere. This makes
-  it possible to click in the executable in your filemanager (ie. Konqueror,
-  Nautilus) as oposited to most of Linux games.
+  it possible to click in the executable in your filemanager (i.e. Konqueror or
+  Nautilus) as opposed to many other Linux games.
 
   Options can be reached from the menu, so you don't need to specify arguments,
-  but if you want, type 'supertux --help' to check the ones that are avaible.
-  Also, notice that SuperTux saves the options, so you don't need to be allways
-  specifying them.
+  but if you want, type 'supertux --help' to check the ones that are available.
+  Also, notice that SuperTux saves the options, so it's often enough to
+  specify them once.
 
-  The game has two frontends: SDL and OpenGL. Currently, there isn't any
-  noticiable difference between them. Basically, SDL uses software to draw
-  the game and OpenGL makes use of the videocards CPU (if the videocard has
-  one and the drivers support it). Under linux, nVidia is recommendaded
-  (with the closed drivers), but an ATI video card should work just fine.
+  The game uses OpenGL to render the graphics. You will either need a CPU
+  with about 10 GHz or an accelerated video card with the vendor's drivers.
+  (On Linux, the team recommends using cards from NVidia with the proprietary
+  drivers, but ATI or another verndor should do.)
 
 
 PLAYING THE GAME
@@ -83,66 +88,35 @@ PLAYING THE GAME
   Both keyboards and joysticks/gamepads are supported. You can change the
   controls via the Options menu. Basically, the only keys you will need to
   use in-game are to do the following actions: jump, duck, right, left, power
-  and 'P' to pause/unpause the game. I don't think there is anything to
-  explain about the others, but the power key, also called run, allow you
-  to run and use the power of the powerup you got. For instance, with the
-  fire flower, you can shoot bullets (note that this is the only power
-  currently implemented).
-  
+  and 'P' to pause/unpause the game. There isn't much to tell about the first
+  few, but the "run" key allows you to run and use the power of the powerup
+  you got. For instance, with the fire flower, you can shoot bullets (note
+  that this is the only power currently implemented).
+
   Other useful keys include the Esc key, which is used to go to the menu or
   to go up a level in the menu. The menu can be navigated using the arrow
   keys or the mouse.
 
-  In the worldmap, the arrow keys are used to navigate and Enter enters the
-  current level.
-
-  The leveleditor is controled via the mouse, but there are shortcuts that
-  may make your life easier. To see the shortcuts for the buttons, just
-  do a Right-click on them. If you are interested in creating SuperTux
-  levels, we advise you to read LEVELDESIGN to learn more about the editor
-  and creating new levels.
-
+  In the worldmap, the arrow keys are used to navigate and Enter to enter
+  the current level.
 
 SCREEN LAYOUT
 -------------
   Status
   ------
-    The amount of time you have left to complete this level is displayed in
-    the center at the top of the screen.  (Note: Time is NOT in seconds!)
-
-    The number of coins you have collected is displayed at the upper right.
-
-SCORING
--------
-  Enemies
-  -------
-    If you kill more than one enemy at a time without landing on the ground,
-    each enemy is worth more points.  For example, if there are three in a
-    row and you jump on the first, it's worth 50 points.  If you bounce off
-    the first and onto the second, it's worth 100 points.  If you also get
-    the third, it's worth 150 points.
-
-    You can also score by shooting at the enemies. Don't forget to get
-    the iceflower in order to get the ability to fire.
-
-VIDEO/AUDIO CONFIGURATION
--------------------------
-
-We're using SDL for the low-level audio and video output. Configuring SDL is
-explained here:
-
-  http://sdldoc.csn.ul.ie/sdlenvvars.php
+    The amount of time you have left to complete this level as well as the
+    number of coins and lives you have collected is displayed on the right
+    at the top of the screen. (Note: the time is NOT written in seconds!)
 
 OPTIONS FILE
 ------------
 
   When SuperTux starts up, it looks for an options file.
 
-  Under Linux, this file is "config" in your directory
-  ($HOME/.supertux/).
-  Under Windows, this file is "supertux.dat" in the SuperTux folder.
-  
-  This file records program's settings. It uses the LISP syntax. There
+  On Linux, this file is "config" in your directory (~/.supertux/). On
+  Windows, this file is "supertux.dat" in the SuperTux folder.
+
+  This file records program's settings using the syntax of Lisp. There
   should be no reason to edit this file by hand.
 
 THE END
@@ -155,7 +129,6 @@ THE END
     http://www.happypenguin.org/
 
   Search for "SuperTux"!
-
 
   Thanks!
 

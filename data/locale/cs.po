@@ -97,7 +97,7 @@ msgstr ""
 "  --version                    Zobrazit verzi a ukončit program\n"
 "  --show-fps                   Zobrazovat rychlost vykreslování\n"
 "  --record-demo SOUBOR ÚROVEŇ  Nahrát demo úrovně ÚROVEŇ do SOUBORu\n"
-"  --play-demo SOUBOR ÚROVEŇ    Přehrát demo úrovně ÚROVEŇ ze SOBORu\n"
+"  --play-demo SOUBOR ÚROVEŇ    Přehrát demo úrovně ÚROVEŇ ze SOUBORu\n"
 "\n"
 
 #: src/statistics.cpp:111

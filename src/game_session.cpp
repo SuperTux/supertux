@@ -338,6 +338,10 @@ GameSession::try_cheats()
     // be invincle for the rest of the level
     tux.invincible_timer.start(10000);
   }
+  if(main_controller->check_cheatcode("mortal")) {
+    // give up invincibility
+    tux.invincible_timer.stop();
+  }
   if(main_controller->check_cheatcode("shrink")) {
     // remove powerups
     tux.kill(tux.SHRINK);
@@ -346,6 +350,9 @@ GameSession::try_cheats()
     // kill Tux, but without losing a life
     player_status->lives++;
     tux.kill(tux.KILL);
+  }
+  if(main_controller->check_cheatcode("whereami")) {
+    std::cout << "You are at x " << tux.get_pos().x << ", y " << tux.get_pos().y << "." << std::endl;
   }
 #if 0
   if(main_controller->check_cheatcode("grid")) {
