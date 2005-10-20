@@ -76,7 +76,7 @@ Suite 330, Boston, MA 02111-1307, USA.
     (gravity 10.0)                   ;; Gravity of Tux. 10.0 is the default and sanest value (unless you
                                      ;; apply the level design correctly).
     
-    (tilemap                         ;; Here come the files.
+    (tilemap                         ;; Here come the tiles.
       (layer  "background"           ;; Currently, there are three layer types: "background",
                                      ;; "interactive" and "foreground".
 

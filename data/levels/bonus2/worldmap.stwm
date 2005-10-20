@@ -153,7 +153,6 @@
     (name "level19.stl")
   )
   (level
-    (extro-filename "extro-bonus2.txt")
     (x 21)
     (y 8)
     (extro-script "
