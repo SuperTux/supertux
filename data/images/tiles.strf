@@ -59,7 +59,7 @@
   )
   (tilegroup
     (name "Stone Brick Walls")
-    (tiles 64 65 66 67 68 69 0 0 0 1367 1368 1369 1370 1371 1372 1373 1374 1375 1376 1377 1378 1379 1380 0 1381 1382 1383 1384 1385 1386 1387 1388 1389 1390 1391 1392 1393 1394 1395 1396 0 1397 1398 1399 1400 1401 1402 1403 1404 1405 1406 1407 1408 1409 1410 0 0 0 0 1355 0 0 0 1356 0 0 0 1411 1412 1413 1414 1415 1416 1417 1418 1419 1420 1467 1468 1469 1470 1471 1472 1473 1474 1475)
+    (tiles 64 65 66 67 68 69 0 0 0 1367 1368 1369 1370 1371 1372 1373 1374 1375 1376 1377 1378 1379 1380 0 1381 1382 1383 1384 1385 1386 1387 1388 1389 1390 1391 1392 1393 1394 1395 1396 0 1397 1398 1399 1400 1401 1402 1403 1404 1405 1406 1407 1408 1409 1410 0 0 0 0 1355 0 0 0 1356 0 0 0 1411 1412 1413 1414 1415 1416 1417 1418 1419 1420 1467 1468 1469 1470 1471 1472 1473 1474 1475 1476 1477 1478 1479 1480 1481 1482 1483 1484 1485 1486 1487 1488 1489 1490 1491 1492 1493 1494 1495 1496 1497 1498 1499 1500 1501 1502 1503 1504 1505 1506 1507 1508 1509 1510 1511 1512 1513 1514 1515 1516)
   )
   (tilegroup
     (name "Signs")
@@ -5754,5 +5754,294 @@
     )
     (solid #f)
 )
+
+  (tile
+    (id 1476)
+    (images
+      (region "tiles/castle/castle_wall.png" 0 0 32 32)
+    )
+    (solid #f)
+)
+  (tile
+    (id 1477)
+    (images
+      (region "tiles/castle/castle_wall.png" 32 0 32 32)
+    )
+    (solid #f)
+)
+  (tile
+    (id 1478)
+    (images
+      (region "tiles/castle/castle_wall.png" 64 0 32 32)
+    )
+    (solid #f)
+)
+  (tile
+    (id 1479)
+    (images
+      (region "tiles/castle/castle_wall.png" 96 0 32 32)
+    )
+    (solid #f)
+)
+  (tile
+    (id 1480)
+    (images
+      (region "tiles/castle/castle_wall.png"  128 0 32 32)
+    )
+    (solid #f)
+)
+  (tile
+    (id 1481)
+    (images
+      (region "tiles/castle/castle_wall.png"  160 0 32 32)
+    )
+    (solid #f)
+)
+  (tile
+    (id 1482)
+    (images
+      (region "tiles/castle/castle_wall.png"  192 0 32 32)
+    )
+    (solid #f)
+)
+  (tile
+    (id 1483)
+    (images
+      (region "tiles/castle/castle_wall.png" 0 32 32 32)
+    )
+    (solid #f)
+)
+  (tile
+    (id 1484)
+    (images
+      (region "tiles/castle/castle_wall.png" 32 32 32 32)
+    )
+    (solid #f)
+)
+  (tile
+    (id 1485)
+    (images
+      (region "tiles/castle/castle_wall.png" 64 32 32 32)
+    )
+    (solid #f)
+)
+  (tile
+    (id 1486)
+    (images
+      (region "tiles/castle/castle_wall.png" 96 32 32 32)
+    )
+    (solid #f)
+)
+  (tile
+    (id 1487)
+    (images
+      (region "tiles/castle/castle_wall.png"  128 32 32 32)
+    )
+    (solid #f)
+)
+  (tile
+    (id 1488)
+    (images
+      (region "tiles/castle/castle_wall.png"  160 32 32 32)
+    )
+    (solid #f)
+)
+  (tile
+    (id 1489)
+    (images
+      (region "tiles/castle/castle_wall.png"  192 32 32 32)
+    )
+    (solid #f)
+)
+  (tile
+    (id 1490)
+    (images
+      (region "tiles/castle/castle_wall.png" 0 64 32 32)
+    )
+    (solid #f)
+)
+  (tile
+    (id 1491)
+    (images
+      (region "tiles/castle/castle_wall.png" 32 64 32 32)
+    )
+    (solid #f)
+)
+  (tile
+    (id 1492)
+    (images
+      (region "tiles/castle/castle_wall.png" 64 64 32 32)
+    )
+    (solid #f)
+)
+  (tile
+    (id 1493)
+    (images
+      (region "tiles/castle/castle_wall.png" 96 64 32 32)
+    )
+    (solid #f)
+)
+  (tile
+    (id 1494)
+    (images
+      (region "tiles/castle/castle_wall.png"  128 64 32 32)
+    )
+    (solid #f)
+)
+  (tile
+    (id 1495)
+    (images
+      (region "tiles/castle/castle_wall.png"  160 64 32 32)
+    )
+    (solid #f)
+)
+  (tile
+    (id 1496)
+    (images
+      (region "tiles/castle/castle_wall.png"  192 64 32 32)
+    )
+    (solid #f)
+)
+  (tile
+    (id 1497)
+    (images
+      (region "tiles/castle/castle_wall.png" 0 96 32 32)
+    )
+    (solid #f)
+)
+  (tile
+    (id 1498)
+    (images
+      (region "tiles/castle/castle_wall.png" 32 96 32 32)
+    )
+    (solid #f)
+)
+  (tile
+    (id 1499)
+    (images
+      (region "tiles/castle/castle_wall.png" 64 96 32 32)
+    )
+    (solid #f)
+)
+  (tile
+    (id 1500)
+    (images
+      (region "tiles/castle/castle_wall.png" 96 96 32 32)
+    )
+    (solid #f)
+)
+  (tile
+    (id 1501)
+    (images
+      (region "tiles/castle/castle_wall.png"  128 96 32 32)
+    )
+    (solid #f)
+)
+  (tile
+    (id 1502)
+    (images
+      (region "tiles/castle/castle_wall.png"  160 96 32 32)
+    )
+    (solid #f)
+)
+  (tile
+    (id 1503)
+    (images
+      (region "tiles/castle/castle_wall.png"  192 96 32 32)
+    )
+    (solid #f)
+)
+  (tile
+    (id 1504)
+    (images
+      (region "tiles/castle/castle_wall.png" 0 128 32 32)
+    )
+    (solid #f)
+)
+  (tile
+    (id 1505)
+    (images
+      (region "tiles/castle/castle_wall.png" 32 128 32 32)
+    )
+    (solid #f)
+)
+  (tile
+    (id 1506)
+    (images
+      (region "tiles/castle/castle_wall.png" 64 128 32 32)
+    )
+    (solid #f)
+)
+  (tile
+    (id 1507)
+    (images
+      (region "tiles/castle/castle_wall.png" 96 128 32 32)
+    )
+    (solid #f)
+)
+  (tile
+    (id 1508)
+    (images
+      (region "tiles/castle/castle_wall.png"  128 128 32 32)
+    )
+    (solid #f)
+)
+  (tile
+    (id 1509)
+    (images
+      (region "tiles/castle/castle_wall.png"  160 128 32 32)
+    )
+    (solid #f)
+)
+  (tile
+    (id 1510)
+    (images
+      (region "tiles/castle/castle_wall.png"  192 128 32 32)
+    )
+    (solid #f)
+)
+   (tile
+    (id 1511)
+    (images
+      (region "tiles/castle/stonewindow.png" 0 0 32 32)
+    )
+    (solid #f)
+)
+  (tile
+    (id 1512)
+    (images
+      (region "tiles/castle/stonewindow.png" 32 0 32 32)
+    )
+    (solid #f)
+)
+  (tile
+    (id 1513)
+    (images
+      (region "tiles/castle/stonewindow.png" 0 32 32 32)
+    )
+    (solid #f)
+)
+  (tile
+    (id 1514)
+    (images
+      (region "tiles/castle/stonewindow.png" 32 32 32 32)
+    )
+    (solid #f)
+)
+  (tile
+    (id 1515)
+    (images
+      (region "tiles/castle/stonewindow.png"  0 64 32 32)
+    )
+    (solid #f)
+)
+  (tile
+    (id 1516)
+    (images
+      (region "tiles/castle/stonewindow.png"  32 64 32 32)
+    )
+    (solid #f)
+)
+
 )
 )
