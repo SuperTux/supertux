@@ -143,7 +143,7 @@ Tux::draw(DrawingContext& context)
       tux_sprite->set_action("small");
       break;
     default:
-#ifdef DBEUG
+#ifdef DEBUG
       std::cerr << "Bonus type not handled in worldmap.\n";
 #endif
       tux_sprite->set_action("large");
