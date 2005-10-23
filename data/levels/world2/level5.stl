@@ -191,7 +191,7 @@
        )
        (spawnpoint (name "main") (x 32) (y 1248))
       (powerup (x 416) (y 32)
-        (sprite (_ "silver-key"))
+        (sprite "silver-key")
       )
        (particles-rain
        )

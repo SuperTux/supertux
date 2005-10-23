@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux 0.2\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-10-10 18:16+0100\n"
+"PO-Revision-Date: 2005-10-23 16:24+0100\n"
 "Last-Translator: Ondřej Hošek <ondra.hosek@gmail.com>\n"
 "Language-Team: Czech\n"
 "MIME-Version: 1.0\n"
@@ -76,43 +76,43 @@ msgstr "Noční chlad"
 msgid "Into the Stars"
 msgstr "Ke hvězdám"
 
-#: data/levels/world1/level13.stl:5
+#: data/levels/world1/level13.stl:6
 msgid "Above the Arctic Skies"
 msgstr "Nad oblohou Antarktidy"
 
-#: data/levels/world1/level14.stl:5
+#: data/levels/world1/level14.stl:4
 msgid "Entrance to the Cave"
 msgstr "Vchod do jeskyně"
 
-#: data/levels/world1/level15.stl:5
+#: data/levels/world1/level15.stl:4
 msgid "Under the Ice"
 msgstr "Pod ledem"
 
-#: data/levels/world1/level16.stl:5
+#: data/levels/world1/level16.stl:4
 msgid "Living in a Fridge"
 msgstr "Život v ledničce"
 
-#: data/levels/world1/level17.stl:5
+#: data/levels/world1/level17.stl:4
 msgid "'...or is it just me?'"
 msgstr "'... nebo se mi to jen zdá?'"
 
-#: data/levels/world1/level18.stl:5
+#: data/levels/world1/level18.stl:4
 msgid "Ice in the Hole"
 msgstr "Ledová trhavina"
 
-#: data/levels/world1/level19.stl:5
+#: data/levels/world1/level19.stl:4
 msgid "Miyamoto Monument"
 msgstr "Miyamotův Monument"
 
-#: data/levels/world1/level20.stl:5
+#: data/levels/world1/level20.stl:4
 msgid "End of the Tunnel"
 msgstr "Konec tunelu"
 
-#: data/levels/world1/level21.stl:5
+#: data/levels/world1/level21.stl:4
 msgid "A Path in the Clouds"
 msgstr "Stezka v oblacích"
 
-#: data/levels/world1/level22.stl:5
+#: data/levels/world1/level22.stl:4
 msgid "No more Mr Ice Guy"
 msgstr "Dejte to k ledu!"
 
@@ -124,11 +124,11 @@ msgstr "Útěk"
 msgid "The Shattered Bridge"
 msgstr "Rozdrcený most"
 
-#: data/levels/world1/level25.stl:5
+#: data/levels/world1/level25.stl:6
 msgid "Arctic Ruins"
 msgstr "Antarktické zříceniny"
 
-#: data/levels/world1/level26.stl:5
+#: data/levels/world1/level26.stl:4
 msgid "The Castle of Nolok"
 msgstr "Nolokova pevnost"
 

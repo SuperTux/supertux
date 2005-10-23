@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: SuperTux 0.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-05-16 13:28+0200\n"
-"PO-Revision-Date: 2005-10-10 18:15+0100\n"
+"PO-Revision-Date: 2005-10-23 16:32+0100\n"
 "Last-Translator: Ondřej Hošek <ondra.hosek@gmail.com>\n"
 "Language-Team: Czech\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +21,7 @@ msgid "GAMEOVER"
 msgstr "KONEC HRY"
 
 #: src/worldmap.cpp:817
-#: src/game_session.cpp:748
+#: src/game_session.cpp:755
 #, c-format
 msgid "COINS: %d"
 msgstr "MINCE: %d"
@@ -210,28 +210,28 @@ msgstr "Autor: "
 msgid "Best Level Statistics"
 msgstr "Statistika nejlepších v úrovni"
 
-#: src/game_session.cpp:458
+#: src/game_session.cpp:465
 msgid "PAUSE - Press 'P' To Play"
 msgstr "PAUZA - Stiskněte 'P' k pokračování"
 
-#: src/game_session.cpp:461
+#: src/game_session.cpp:468
 msgid "Playing: "
 msgstr "Úroveň: "
 
-#: src/game_session.cpp:742
+#: src/game_session.cpp:749
 msgid "Result:"
 msgstr "Výsledek:"
 
-#: src/game_session.cpp:745
+#: src/game_session.cpp:752
 #, c-format
 msgid "SCORE: %d"
 msgstr "SKÓRÉ: %d"
 
-#: src/game_session.cpp:775
+#: src/game_session.cpp:782
 msgid "Slot"
 msgstr "Hra"
 
-#: src/game_session.cpp:776
+#: src/game_session.cpp:783
 msgid "Free"
 msgstr "Volná"
 
