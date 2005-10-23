@@ -170,14 +170,16 @@ Sector::parse(const lisp::Lisp& sector)
   }
 
   update_game_objects();
+
+  if(!solids)
+    throw std::runtime_error("sector does not contain a solid tile layer.");
+
   fix_old_tiles();
   if(!camera) {
     std::cerr << "sector '" << name << "' does not contain a camera.\n";
     update_game_objects();
     add_object(new Camera(this));
   }
-  if(!solids)
-    throw std::runtime_error("sector does not contain a solid tile layer.");
 
   update_game_objects();
 }
@@ -306,10 +308,12 @@ Sector::parse_old_format(const lisp::Lisp& reader)
   add_object(camera);
 
   update_game_objects();
+
+  if(solids == 0)
+    throw std::runtime_error("sector does not contain a solid tile layer.");
+
   fix_old_tiles();
   update_game_objects();
-  if(solids == 0)
-    throw std::runtime_error("sector does not contain a solid tile layer.");  
 }
 
 void
@@ -338,7 +342,7 @@ Sector::fix_old_tiles()
         add_object(new SequenceTrigger(pos, sequence));
         solids->change(x, y, 0);
       }
-    }                                                   
+    }
   }
 }
 
