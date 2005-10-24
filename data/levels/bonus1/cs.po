@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux 0.2\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-10-23 16:23+0100\n"
+"PO-Revision-Date: 2005-10-24 21:33+0100\n"
 "Last-Translator: Ondřej Hošek <ondra.hosek@gmail.com>\n"
 "Language-Team: Czech\n"
 "MIME-Version: 1.0\n"
@@ -11,11 +11,11 @@ msgstr ""
 "X-Poedit-Language: Czech\n"
 "X-Poedit-Country: CZECH REPUBLIC\n"
 
-#: data/levels/bonus1/bonus-level4.stl:5
+#: data/levels/bonus1/bonus-level4.stl:4
 msgid "Bonus Island Castle"
 msgstr "Hrad na bonusovém ostrově"
 
-#: data/levels/bonus1/bonus-level5.stl:5
+#: data/levels/bonus1/bonus-level5.stl:4
 msgid "Area 42"
 msgstr "Oblast 42"
 
@@ -24,31 +24,31 @@ msgstr "Oblast 42"
 msgid "Bonus Island I"
 msgstr "Bonusový ostrov I"
 
-#: data/levels/bonus1/matr1x-level1.stl:5
+#: data/levels/bonus1/matr1x-level1.stl:4
 msgid "Pipe Down Over There"
 msgstr "Tamtou trubkou dolů"
 
-#: data/levels/bonus1/matr1x-level2.stl:5
+#: data/levels/bonus1/matr1x-level2.stl:4
 msgid "Something Fishy"
 msgstr "Rybina"
 
-#: data/levels/bonus1/matr1x-level3.stl:5
+#: data/levels/bonus1/matr1x-level3.stl:4
 msgid "Fire In The Sky"
 msgstr "Oheň na obloze"
 
-#: data/levels/bonus1/wansti-level1.stl:5
+#: data/levels/bonus1/wansti-level1.stl:4
 msgid "Semi-Frozen"
 msgstr "Napolo zmrzlý"
 
-#: data/levels/bonus1/wansti-level2.stl:5
+#: data/levels/bonus1/wansti-level2.stl:4
 msgid "Cave Of Mirrors"
 msgstr "Jeskyně zrcadel"
 
-#: data/levels/bonus1/wansti-level3.stl:5
+#: data/levels/bonus1/wansti-level3.stl:4
 msgid "A Maze In The Sky"
 msgstr "Bludiště na nebi"
 
-#: data/levels/bonus1/wansti-level4.stl:5
+#: data/levels/bonus1/wansti-level4.stl:4
 msgid "Collapse Imminent!"
 msgstr "Pozor, sesype se to!"
 
@@ -56,19 +56,19 @@ msgstr "Pozor, sesype se to!"
 msgid "Tip Of The Iceberg"
 msgstr "Špička ledovce"
 
-#: data/levels/bonus1/abednego-level1.stl:5
+#: data/levels/bonus1/abednego-level1.stl:4
 msgid "Flight Test"
 msgstr "Zkušební let"
 
-#: data/levels/bonus1/abednego-level2.stl:5
+#: data/levels/bonus1/abednego-level2.stl:4
 msgid "Dungeons but no Dragons"
 msgstr "Kobky bez draků"
 
-#: data/levels/bonus1/abednego-level3.stl:5
+#: data/levels/bonus1/abednego-level3.stl:4
 msgid "Lies!"
 msgstr "Lháři!"
 
-#: data/levels/bonus1/abednego-level4.stl:5
+#: data/levels/bonus1/abednego-level4.stl:4
 msgid "Train Leaves in One Minute"
 msgstr "Vlak odjíždí za minutu"
 
@@ -124,7 +124,7 @@ msgstr "Opustit Torfiho teritorium"
 msgid "Warp home"
 msgstr "Přenést se domů"
 
-#: data/levels/bonus1/thompson-level1.stl:5
+#: data/levels/bonus1/thompson-level1.stl:4
 msgid "Have I been here before?"
 msgstr "Nebyl jsem už tady náhodou?"
 
@@ -136,11 +136,11 @@ msgstr "Zlejšci jsou na nic!"
 msgid "A good start"
 msgstr "Pěkný začátek"
 
-#: data/levels/bonus1/torfi-level2.stl:5
+#: data/levels/bonus1/torfi-level2.stl:4
 msgid "Too easy"
 msgstr "Moc jednoduché"
 
-#: data/levels/bonus1/torfi-level3.stl:5
+#: data/levels/bonus1/torfi-level3.stl:4
 msgid "Still too easy"
 msgstr "Ještě pořád moc jedoduché"
 
@@ -178,7 +178,7 @@ msgstr ""
 "\ts úrovněmi\n"
 "\tJasona W. Thompsona\n"
 "\tTorfiho Gunnarssona\n"
-"\tAbendnega\n"
+"\tAbednega\n"
 "\tMatr1xe\n"
 "\n"
 "\t\n"
@@ -191,15 +191,15 @@ msgstr ""
 "#Velké \"Díky\" každému, kdo k této verzi\n"
 "#přispěl. Doufáme, že se ti líbila."
 
-#: data/levels/bonus1/bonus-level1.stl:5
+#: data/levels/bonus1/bonus-level1.stl:4
 msgid "Bonus Dias!"
 msgstr "Bonus Dias!"
 
-#: data/levels/bonus1/bonus-level2.stl:5
+#: data/levels/bonus1/bonus-level2.stl:4
 msgid "Castle Gate"
 msgstr "Brána pevnosti"
 
-#: data/levels/bonus1/bonus-level3.stl:5
+#: data/levels/bonus1/bonus-level3.stl:4
 msgid "A Long Way Home"
 msgstr "Dlouhá cesta domů"
 
