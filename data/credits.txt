@@ -39,6 +39,7 @@
 	Richard Smith
 
 	Ondra \"Ravu al Hemio\" Hosek
+!images/credits/ondra.jpg
 
 
 -Graphics
