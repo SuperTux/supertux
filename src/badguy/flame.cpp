@@ -62,12 +62,16 @@ Flame::active_update(float elapsed_time)
                 start_position.y + sin(angle) * radius);
   movement = newpos - get_pos();
 
-  source->set_position(get_pos());
+  if (sound_manager->is_sound_enabled())
+    source->set_position(get_pos());
 }
 
 void
 Flame::activate()
 {
+  if (!sound_manager->is_sound_enabled())
+    return;
+
   delete source;
   source = sound_manager->create_sound_source("sounds/flame.wav");
   if(!source) {
