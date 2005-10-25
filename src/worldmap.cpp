@@ -25,6 +25,7 @@
 #include <stdexcept>
 #include <sstream>
 #include <unistd.h>
+#include <physfs.h>
 
 #include "gettext.hpp"
 #include "video/surface.hpp"
@@ -1112,74 +1113,83 @@ WorldMap::loadgame(const std::string& filename)
 {
   std::cout << "loadgame: " << filename << std::endl;
   savegame_file = filename;
-
-  try {
-    lisp::Parser parser;
-    std::auto_ptr<lisp::Lisp> root (parser.parse(filename));
   
-    const lisp::Lisp* savegame = root->get_lisp("supertux-savegame");
-    if(!savegame)
-      throw std::runtime_error("File is not a supertux-savegame file.");
+  if (PHYSFS_exists(filename.c_str())) // savegame exists
+  {
+    try {
+      lisp::Parser parser;
+      
+      std::auto_ptr<lisp::Lisp> root (parser.parse(filename));
+    
+      const lisp::Lisp* savegame = root->get_lisp("supertux-savegame");
+      if(!savegame)
+        throw std::runtime_error("File is not a supertux-savegame file.");
 
-    /* Get the Map filename and then load it before setting level settings */
-    std::string cur_map_filename = map_filename;
-    savegame->get("map", map_filename);
-    load_map(); 
+      /* Get the Map filename and then load it before setting level settings */
+      std::string cur_map_filename = map_filename;
+      savegame->get("map", map_filename);
+      load_map(); 
 
-    savegame->get("intro-displayed", intro_displayed);
-    savegame->get("lives", player_status->lives);
-    savegame->get("coins", player_status->coins);
-    savegame->get("max-score-multiplier", player_status->max_score_multiplier);
-    if (player_status->lives < 0)
+      savegame->get("intro-displayed", intro_displayed);
+      savegame->get("lives", player_status->lives);
+      savegame->get("coins", player_status->coins);
+      savegame->get("max-score-multiplier", player_status->max_score_multiplier);
+      if (player_status->lives < 0)
       player_status->reset();
 
-    const lisp::Lisp* tux_lisp = savegame->get_lisp("tux");
-    if(tux)
-    {
-      Vector p;
-      std::string back_str = "none";
+      const lisp::Lisp* tux_lisp = savegame->get_lisp("tux");
+      if(tux)
+      {
+        Vector p;
+        std::string back_str = "none";
 
-      tux_lisp->get("x", p.x);
-      tux_lisp->get("y", p.y);
-      tux_lisp->get("back", back_str);
-      player_status->read(*tux_lisp);
+        tux_lisp->get("x", p.x);
+        tux_lisp->get("y", p.y);
+        tux_lisp->get("back", back_str);
+          player_status->read(*tux_lisp);
       
-      tux->back_direction = string_to_direction(back_str);      
-      tux->set_tile_pos(p);
-    }
+        tux->back_direction = string_to_direction(back_str);      
+        tux->set_tile_pos(p);
+      }
 
-    const lisp::Lisp* levels_lisp = savegame->get_lisp("levels");
-    if(levels_lisp) {
-      lisp::ListIterator iter(levels_lisp);
-      while(iter.next()) {
-        if(iter.item() == "level") {
-          std::string name;
-          bool solved = false;
+      const lisp::Lisp* levels_lisp = savegame->get_lisp("levels");
+      if(levels_lisp) {
+        lisp::ListIterator iter(levels_lisp);
+        while(iter.next()) {
+          if(iter.item() == "level") {
+            std::string name;
+            bool solved = false;
 
-          const lisp::Lisp* level = iter.lisp();
-          level->get("name", name);
-          level->get("solved", solved);
+            const lisp::Lisp* level = iter.lisp();
+            level->get("name", name);
+            level->get("solved", solved);
 
-          for(Levels::iterator i = levels.begin(); i != levels.end(); ++i)
-          {
-            if (name == i->name)
+            for(Levels::iterator i = levels.begin(); i != levels.end(); ++i)
             {
-              i->solved = solved;
-              i->sprite->set_action(solved ? "solved" : "default");
-              i->statistics.parse(*level);
-              break;
+              if (name == i->name)
+              {
+                i->solved = solved;
+                i->sprite->set_action(solved ? "solved" : "default");
+                i->statistics.parse(*level);
+                break;
+              }
             }
+          } else {
+            std::cerr << "Unknown token '" << iter.item() 
+                      << "' in levels block in worldmap.\n";
           }
-        } else {
-          std::cerr << "Unknown token '" << iter.item() 
-                    << "' in levels block in worldmap.\n";
         }
       }
+    } catch(std::exception& e) {
+      std::cerr << "Problem loading game '" << filename << "': " << e.what() 
+                << "\n";
+      load_map();
+      player_status->reset();
     }
-  } catch(std::exception& e) {
-    std::cerr << "Problem loading game '" << filename << "': " << e.what() 
-              << "\n";
-    load_map();
+  }
+  else
+  {
+  	load_map();
     player_status->reset();
   }
 
