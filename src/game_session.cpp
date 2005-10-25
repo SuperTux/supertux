@@ -63,6 +63,7 @@
 #include "file_system.hpp"
 #include "gameconfig.hpp"
 #include "gettext.hpp"
+#include "exceptions.hpp"
 
 // the engine will be run with a logical framerate of 64fps.
 // We chose 64fps here because it is a power of 2, so 1/64 gives an "even"
@@ -270,7 +271,7 @@ GameSession::process_events()
       Menu::current()->event(event);
     main_controller->process_event(event);
     if(event.type == SDL_QUIT)
-      throw std::runtime_error("Received window close");  
+      throw graceful_shutdown();
   }
 
   // playback a demo?
@@ -674,7 +675,7 @@ GameSession::display_info_box(const std::string& text)
     while (SDL_PollEvent(&event)) {
       main_controller->process_event(event);
       if(event.type == SDL_QUIT)
-        throw std::runtime_error("Received window close event");
+        throw graceful_shutdown();
     }
 
     if(main_controller->pressed(Controller::JUMP)

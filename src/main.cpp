@@ -50,6 +50,7 @@
 #include "game_session.hpp"
 #include "file_system.hpp"
 #include "physfs/physfs_sdl.hpp"
+#include "exceptions.hpp"
 
 SDL_Surface* screen = 0;
 JoystickKeyboardController* main_controller = 0;
@@ -229,10 +230,10 @@ static void parse_commandline(int argc, char** argv)
       config->record_demo = argv[++i];
     } else if(arg == "--help") {
       print_usage(argv[0]);
-      throw std::runtime_error("");
+      throw graceful_shutdown();
     } else if(arg == "--version") {
       std::cerr << PACKAGE_NAME << " " << PACKAGE_VERSION << "\n";
-      throw std::runtime_error("");
+      throw graceful_shutdown();
     } else if(arg[0] != '-') {
       config->start_level = arg;
     } else {
@@ -405,7 +406,7 @@ void wait_for_event(float min_delay, float max_delay)
     while(SDL_PollEvent(&event)) {
       switch(event.type) {
         case SDL_QUIT:
-          throw std::runtime_error("received window close");
+          throw graceful_shutdown();
         case SDL_KEYDOWN:
         case SDL_JOYBUTTONDOWN:
         case SDL_MOUSEBUTTONDOWN:
@@ -449,7 +450,8 @@ int main(int argc, char** argv)
     } else {
       // normal game
       title();
-    }    
+    }
+  } catch(graceful_shutdown& e) {
   } catch(std::exception& e) {
     std::cerr << "Unexpected exception: " << e.what() << std::endl;
     return 1;

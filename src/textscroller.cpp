@@ -30,6 +30,7 @@
 #include "audio/sound_manager.hpp"
 #include "main.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
+#include "exceptions.hpp"
 
 static const float DEFAULT_SPEED = .02;
 static const float SCROLL = 60;
@@ -120,7 +121,7 @@ void display_text_file(const std::string& filename)
     while(SDL_PollEvent(&event)) {
       main_controller->process_event(event);
       if(event.type == SDL_QUIT)
-        throw std::runtime_error("received window close");
+        throw graceful_shutdown();
     }
 
     if(main_controller->hold(Controller::UP)) {

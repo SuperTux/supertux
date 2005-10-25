@@ -59,6 +59,7 @@
 #include "control/joystickkeyboardcontroller.hpp"
 #include "control/codecontroller.hpp"
 #include "main.hpp"
+#include "exceptions.hpp"
 
 static Surface* bkg_title;
 static Surface* logo;
@@ -328,7 +329,7 @@ void title()
         }
         main_controller->process_event(event);
         if (event.type == SDL_QUIT)
-          throw std::runtime_error("Received window close");
+          throw graceful_shutdown();
       }
   
       /* Draw the background: */

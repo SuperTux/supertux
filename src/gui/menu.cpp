@@ -37,6 +37,7 @@
 #include "main.hpp"
 #include "resources.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
+#include "exceptions.hpp"
 
 static const int MENU_REPEAT_INITIAL = 400;
 static const int MENU_REPEAT_RATE = 200;
@@ -78,7 +79,7 @@ bool confirm_dialog(Surface *background, std::string text)
       SDL_Event event;
       while (SDL_PollEvent(&event)) {
         if(event.type == SDL_QUIT)
-          throw std::runtime_error("received window close event");
+          throw graceful_shutdown();
         main_controller->process_event(event);
         dialog->event(event);
       }

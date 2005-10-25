@@ -52,6 +52,7 @@
 #include "object/background.hpp"
 #include "object/tilemap.hpp"
 #include "scripting/script_interpreter.hpp"
+#include "exceptions.hpp"
 
 Menu* worldmap_menu  = 0;
 
@@ -595,7 +596,7 @@ WorldMap::get_input()
       Menu::current()->event(event);
     main_controller->process_event(event);
     if(event.type == SDL_QUIT)
-      throw std::runtime_error("Received window close");
+      throw graceful_shutdown();
   }
 }
 
