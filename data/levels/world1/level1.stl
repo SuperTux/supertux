@@ -108,6 +108,67 @@
       (y 100)
     )
     (bell (x 5313) (y 289))
+    (infoblock
+      (x 192) (y 320)
+      (message (_ "-Information blocks:
+!images/objects/bonus_block/info_block.png
+#Information blocks often
+#contain useful tips.
+
+#As you have already
+#found out, they can be
+#activated by hitting
+#them from the bottom.
+#Most blocks are
+#activated this way."))
+    )
+    (infoblock
+      (x 256) (y 320)
+      (message (_ "-Items:
+!images/powerups/egg/egg.png
+#The egg makes Tux grow
+#larger.
+
+!images/powerups/fire_flower/fire_flower-0.png
+#The fire flower gives
+#Tux the ability to
+#shoot fireballs.
+
+!images/objects/coin/coin-0.png
+#You should collect as
+#many coins as possible.
+#Once you have a hundred,
+#they are traded for an
+#additional life.
+
+!images/powerups/1up/1up.png
+#The penguin gives Tux an
+#additional life.
+
+!images/objects/bonus_block/full-0.png
+#Bonus blocks can contain
+#coins, eggs, fire flowers
+#or lives."))
+    )
+    (infoblock
+      (x 5377) (y 225)
+      (message (_ "-Bells:
+!images/objects/bell/bell-m.png
+#If you activate the bell
+#now, you will restart
+#under it if you die."))
+    )
+    (infoblock
+      (x 7616) (y 320)
+      (message (_ "!images/tiles/signs/run.png
+#The path in front of you
+#is blocked. You'll have
+#to run before jumping
+#over the blocks. Use your
+#Run key (set to Control
+#by default) to gain
+#speed."))
+    )
     (snowball  (x 1089) (y 404))
     (snowball  (x 1687) (y 408))
     (snowball  (x 1970) (y 408))

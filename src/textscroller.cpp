@@ -25,6 +25,7 @@
 #include "resources.hpp"
 #include "video/font.hpp"
 #include "video/drawing_context.hpp"
+#include "video/surface.hpp"
 #include "lisp/parser.hpp"
 #include "lisp/lisp.hpp"
 #include "audio/sound_manager.hpp"
@@ -220,7 +221,7 @@ InfoBox::InfoBox(const std::string& text)
   : firstline(0)
 {
   split_text(text, lines);
-  
+
   for(size_t i = 0; i < lines.size(); ++i) {
     if(lines[i].size() == 0)
       continue;
@@ -228,6 +229,19 @@ InfoBox::InfoBox(const std::string& text)
       std::string imagename = lines[i].substr(1, lines[i].size()-1);
       images.insert(std::make_pair(imagename, new Surface(imagename)));
     }
+  }
+
+  try
+  {
+    // get the arrow sprites
+    arrow_scrollup   = new Surface("images/engine/menu/scroll-up.png");
+    arrow_scrolldown = new Surface("images/engine/menu/scroll-down.png");
+  }
+  catch (std::exception& e)
+  {
+    std::cout << "Could not load scrolling images: " << e.what() << std::endl;
+    arrow_scrollup = 0;
+    arrow_scrolldown = 0;
   }
 }
 
@@ -245,12 +259,12 @@ InfoBox::draw(DrawingContext& context)
   const Font* normal_font = white_text;
   const Font* small_font = white_small_text;
   const Font* reference_font = blue_text;
-  
+
   float x1 = 200;
   float y1 = 100;
   float width = 400;
   float height = 200;
-  
+
   context.draw_filled_rect(Vector(x1, y1), Vector(width, height),
       Color(0.6f, 0.7f, 0.8f, 0.5f), LAYER_GUI-1);
 
@@ -286,7 +300,7 @@ InfoBox::draw(DrawingContext& context)
         center = false;
         break;
     }
-    
+
     if(image != 0) {
       context.draw_surface(image,
       Vector( (SCREEN_WIDTH - image->get_width()) / 2,
@@ -304,7 +318,19 @@ InfoBox::draw(DrawingContext& context)
           Vector(x1, y),
           LEFT_ALLIGN, LAYER_GUI);
       y += font->get_height() + ITEMS_SPACE;
-    }   
+    }
+
+    // draw the scrolling arrows
+    if (arrow_scrollup && firstline > 0)
+      context.draw_surface(arrow_scrollup,
+      Vector( x1 + width  - arrow_scrollup->get_width(),  // top-right corner of box
+              y1), LAYER_GUI);
+
+    if (arrow_scrolldown && firstline < lines.size()-1)
+      context.draw_surface(arrow_scrolldown,
+      Vector( x1 + width  - arrow_scrolldown->get_width(),  // bottom-light corner of box
+              y1 + height - arrow_scrolldown->get_height()),
+              LAYER_GUI);
   }
 }
 

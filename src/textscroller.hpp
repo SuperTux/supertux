@@ -47,6 +47,8 @@ private:
   size_t firstline;
   std::vector<std::string> lines;
   std::map<std::string, Surface*> images;
+  Surface* arrow_scrollup;
+  Surface* arrow_scrolldown;
 };
 
 /** Reads a text file (using LispReader, so it as to be in its formatting)
