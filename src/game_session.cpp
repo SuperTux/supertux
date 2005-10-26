@@ -683,6 +683,10 @@ GameSession::display_info_box(const std::string& text)
         || main_controller->pressed(Controller::PAUSE_MENU)
         || main_controller->pressed(Controller::MENU_SELECT))
       running = false;
+    else if(main_controller->pressed(Controller::DOWN))
+      box->scrolldown();
+    else if(main_controller->pressed(Controller::UP))
+      box->scrollup();
     box->draw(*context);
     draw();
     sound_manager->update();

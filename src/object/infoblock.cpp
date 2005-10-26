@@ -51,12 +51,12 @@ InfoBlock::~InfoBlock()
 void
 InfoBlock::hit(Player& )
 {
-  GameSession::current()->display_info_box(message);
   start_bounce();
   if (!stopped) {
     ringing->remove_me();
     stopped = true;
   }
+  GameSession::current()->display_info_box(message);
 }
 
 IMPLEMENT_FACTORY(InfoBlock, "infoblock")

@@ -220,10 +220,22 @@ InfoBox::InfoBox(const std::string& text)
   : firstline(0)
 {
   split_text(text, lines);
+  
+  for(size_t i = 0; i < lines.size(); ++i) {
+    if(lines[i].size() == 0)
+      continue;
+    if(lines[i][0] == '!') {
+      std::string imagename = lines[i].substr(1, lines[i].size()-1);
+      images.insert(std::make_pair(imagename, new Surface(imagename)));
+    }
+  }
 }
 
 InfoBox::~InfoBox()
 {
+  for(std::map<std::string, Surface*>::iterator i = images.begin();
+    i != images.end(); ++i)
+    delete i->second;
 }
 
 void
@@ -254,6 +266,7 @@ InfoBox::draw(DrawingContext& context)
     }
 
     const Font* font = 0;
+    const Surface* image = 0;
     bool center = true;
     switch(line[0])
     {
@@ -262,26 +275,36 @@ InfoBox::draw(DrawingContext& context)
       case '-': font = heading_font; break;
       case '*': font = reference_font; break;
       case '#': font = normal_font; center = false; break;
+      case '!': {
+        std::string imagename = line.substr(1, line.size()-1);
+        image = images[imagename];
+        break;
+      }
       default:
-        std::cerr << "Warning: text contains an unformated line.\n";
+        std::cerr << "Warning: text contains an unformatted line.\n";
         font = normal_font;
         center = false;
         break;
     }
     
-    if(center) {
+    if(image != 0) {
+      context.draw_surface(image,
+      Vector( (SCREEN_WIDTH - image->get_width()) / 2,
+              y), LAYER_GUI);
+      y += image->get_height() + ITEMS_SPACE;
+    } else if(center) {
       context.draw_text(font,
           line.substr(1, line.size()-1),
           Vector(SCREEN_WIDTH/2, y),
           CENTER_ALLIGN, LAYER_GUI);
+      y += font->get_height() + ITEMS_SPACE;
     } else {
       context.draw_text(font,
           line.substr(1, line.size()-1),
           Vector(x1, y),
           LEFT_ALLIGN, LAYER_GUI);
-    }
-      
-    y += font->get_height() + ITEMS_SPACE;
+      y += font->get_height() + ITEMS_SPACE;
+    }   
   }
 }
 

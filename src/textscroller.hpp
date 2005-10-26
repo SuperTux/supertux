@@ -23,6 +23,9 @@
 
 #include <vector>
 #include <string>
+#include <map>
+
+#include "video/surface.hpp"
 
 class DrawingContext;
 
@@ -43,6 +46,7 @@ public:
 private:
   size_t firstline;
   std::vector<std::string> lines;
+  std::map<std::string, Surface*> images;
 };
 
 /** Reads a text file (using LispReader, so it as to be in its formatting)
