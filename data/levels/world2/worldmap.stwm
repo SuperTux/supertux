@@ -43,6 +43,6 @@
     (x 32)
     (y 17)
     (sprite "images/worldmap/common/torch.sprite")
-    (name "castle.stl")
+    (name "castle1.stl")
   )
 )
