@@ -69,9 +69,9 @@ Background::write(lisp::Writer& writer)
     bkgd_top_color.push_back(gradient_top.red);
     bkgd_top_color.push_back(gradient_top.green);
     bkgd_top_color.push_back(gradient_top.blue);
-    bkgd_bottom_color.push_back(gradient_top.red);
-    bkgd_bottom_color.push_back(gradient_top.green);
-    bkgd_bottom_color.push_back(gradient_top.blue);
+    bkgd_bottom_color.push_back(gradient_bottom.red);
+    bkgd_bottom_color.push_back(gradient_bottom.green);
+    bkgd_bottom_color.push_back(gradient_bottom.blue);
     writer.write_float_vector("top_color", bkgd_top_color);
     writer.write_float_vector("bottom_color", bkgd_bottom_color);
   }
@@ -102,6 +102,13 @@ Background::set_gradient(Color top, Color bottom)
   type = GRADIENT;
   gradient_top = top;
   gradient_bottom = bottom;
+  
+  if (gradient_top.red > 1.0 || gradient_top.green > 1.0
+   || gradient_top.blue > 1.0 || gradient_top.alpha > 1.0)
+    std::cerr << "Warning: top gradient color has values above 1.0." << std::endl;
+  if (gradient_bottom.red > 1.0 || gradient_bottom.green > 1.0
+   || gradient_bottom.blue > 1.0 || gradient_bottom.alpha > 1.0)
+    std::cerr << "Warning: bottom gradient color has values above 1.0." << std::endl;
 
   delete image;
   image = NULL;

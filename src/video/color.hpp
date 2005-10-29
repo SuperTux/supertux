@@ -19,6 +19,8 @@ public:
     blue = vals[2];
     if(vals.size() > 3)
       alpha = vals[3];
+    else
+      alpha = 1.0;
   }
 
   float red, green, blue, alpha;

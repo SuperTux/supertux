@@ -225,6 +225,7 @@ DrawingContext::draw_gradient(DrawingRequest& request)
   const Color& top = gradientrequest->top;
   const Color& bottom = gradientrequest->bottom;
   
+  glDisable(GL_TEXTURE_2D);
   glBegin(GL_QUADS);
   glColor4f(top.red, top.green, top.blue, top.alpha);
   glVertex2f(0, 0);
@@ -233,6 +234,7 @@ DrawingContext::draw_gradient(DrawingRequest& request)
   glVertex2f(SCREEN_WIDTH, SCREEN_HEIGHT);
   glVertex2f(0, SCREEN_HEIGHT);
   glEnd();
+  glEnable(GL_TEXTURE_2D);
 
   delete gradientrequest;
 }

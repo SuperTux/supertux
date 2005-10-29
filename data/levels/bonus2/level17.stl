@@ -1,4 +1,5 @@
 ;; Converted by Ondra Hosek
+;; FIXME: Doesn't seem to have a normal exit
 (supertux-level
   (version 2)
   (name (_ "...Where Everything Is Possible"))
@@ -80,8 +81,8 @@
       )
     )
     (background
-      (top_color 150 200 255)
-      (bottom_color 150 200 255)
+      (top_color 0.6 0.8 1.0)
+      (bottom_color 0.6 0.8 1.0)
     )
     (leveltime
       (time 300)

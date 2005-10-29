@@ -80,8 +80,8 @@
       )
     )
     (background
-      (top_color 50 50 50)
-      (bottom_color 50 50 50)
+      (top_color 0.2 0.2 0.2)
+      (bottom_color 0.2 0.2 0.2)
     )
     (leveltime
       (time 300)
