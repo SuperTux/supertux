@@ -58,13 +58,13 @@ Fish::write(lisp::Writer& writer)
 }
 
 HitResponse
-Fish::collision_solid(GameObject& other, const CollisionHit& chit)
+Fish::collision_solid(GameObject& , const CollisionHit& chit)
 {
   return hit(chit);
 }
 
 HitResponse
-Fish::collision_badguy(BadGuy& other, const CollisionHit& chit)
+Fish::collision_badguy(BadGuy& , const CollisionHit& chit)
 {
   return hit(chit);
 }
