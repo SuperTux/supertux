@@ -84,7 +84,7 @@
       (speed 0.5)
     )
     (leveltime
-      (time 500) ;60)
+      (time 60)
     )
     (particles-snow
       (layer -200)

@@ -54,14 +54,14 @@ LevelTime::draw(DrawingContext& context)
   char str[60];
     
   if(time_left.get_timeleft() < 0) {
-    context.draw_text(white_text, _("TIME's UP"), Vector(SCREEN_WIDTH/2, 0),
+    context.draw_text(white_text, _("TIME's UP"), Vector(SCREEN_WIDTH/2, BORDER_Y),
         CENTER_ALLIGN, LAYER_FOREGROUND1);
   } else if (time_left.get_timeleft() > TIME_WARNING
       || int(game_time * 2.5) % 2) {
     snprintf(str, sizeof(str), " %d", int(time_left.get_timeleft()));
     context.draw_text(white_text, _("TIME"),
-        Vector(SCREEN_WIDTH/2, 0), CENTER_ALLIGN, LAYER_FOREGROUND1);
-    context.draw_text(gold_text, str, Vector(SCREEN_WIDTH/2 + 4*16, 0),
+        Vector(SCREEN_WIDTH/2, BORDER_Y), CENTER_ALLIGN, LAYER_FOREGROUND1);
+    context.draw_text(gold_text, str, Vector(SCREEN_WIDTH/2 + 4*16, BORDER_Y),
                       CENTER_ALLIGN, LAYER_FOREGROUND1);
   }
 
