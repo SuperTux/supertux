@@ -1,11 +1,16 @@
 (supertux-sprite
   (action
     (name "right")
-    (images "yeti_b.png")
+    (images "yeti_b.png"
+   "yeti_b1.png")
   )
   (action
     (name "left")
     (mirror-action "right")
+  )
+  (action
+    (name "angry_jumping")
+    (images "yeti_c.png")
   )
 )
   
