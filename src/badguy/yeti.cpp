@@ -224,6 +224,8 @@ Yeti::collision_solid(GameObject& , const CollisionHit& hit)
     } else if(state == ANGRY_JUMPING) {
       if(!timer.started()) {
         // we just landed
+       // FixME need help here setting the walk,stand,jump image states
+	sprite->set_action("jump-right");
         jumpcount++;
         // make a stalactite falling down and shake camera a bit
         Sector::current()->camera->shake(.1, 0, 10);
