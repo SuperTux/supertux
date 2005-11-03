@@ -64,6 +64,7 @@
 #include "gameconfig.hpp"
 #include "gettext.hpp"
 #include "exceptions.hpp"
+#include "flip_level_transformer.hpp"
 
 // the engine will be run with a logical framerate of 64fps.
 // We chose 64fps here because it is a power of 2, so 1/64 gives an "even"
@@ -367,6 +368,10 @@ GameSession::try_cheats()
           (currentsector->solids->get_width()*32) - (SCREEN_WIDTH*2), 0));
     currentsector->camera->reset(
         Vector(tux.get_pos().x, tux.get_pos().y));
+  }
+  if(main_controller->check_cheatcode("flip")) {
+  	FlipLevelTransformer flip_transformer;
+    flip_transformer.transform(GameSession::current()->get_current_level());
   }
   if(main_controller->check_cheatcode("finish")) {
     // finish current sector

@@ -1,10 +1,10 @@
 (supertux-sprite
   (action
     (name "right")
-    (images "iceyeti_0.png"  
+    (images "iceyeti_0.png"
 	    "iceyeti_1.png"
 	    "iceyeti_2.png"
- 	    "iceyeti_1.png")
+	    "iceyeti_1.png")
   )
   (action
     (name "left")
@@ -18,5 +18,12 @@
     (name "jump-left")
     (mirror-action "jump-right")
   )
+  (action
+    (name "stand-right")
+    (images "iceyeti_1.png")
+  )
+  (action
+    (name "stand-left")
+    (mirror-action "stand-right")
+  )
 )
-  

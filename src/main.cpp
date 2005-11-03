@@ -187,6 +187,8 @@ static void print_usage(const char* argv0)
             "  -f, --fullscreen             Run in fullscreen mode\n"
             "  -w, --window                 Run in window mode\n"
             "  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution\n"
+            "  --disable-sfx                Disable sound effects\n"
+            "  --disable-music              Disable music\n"
             "  --help                       Show this help message\n"
             "  --version                    Display SuperTux version and quit\n"
             "  --show-fps                   Display framerate in levels\n"
@@ -216,6 +218,10 @@ static void parse_commandline(int argc, char** argv)
       }
     } else if(arg == "--show-fps") {
       config->show_fps = true;
+    } else if(arg == "--disable-sfx") {
+      config->sound_enabled = false;
+    } else if(arg == "--disable-music") {
+      config->music_enabled = false;
     } else if(arg == "--play-demo") {
       if(i+1 >= argc) {
         print_usage(argv[0]);

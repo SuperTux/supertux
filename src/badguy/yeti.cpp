@@ -91,6 +91,10 @@ Yeti::active_update(float elapsed_time)
         // jump
         sound_manager->play("sounds/yeti_gna.wav");
         physic.set_velocity_y(JUMP_VEL1);
+        if (side == LEFT)  // on the left, facing Tux who is on the right
+          sprite->set_action("jump-right");
+        else
+          sprite->set_action("jump-left");
       }
       break;
     default:
@@ -104,6 +108,7 @@ void
 Yeti::go_right()
 {
   // jump and move right
+  sprite->set_action("right");
   physic.set_velocity_y(JUMP_VEL1);
   physic.set_velocity_x(RUN_SPEED);
   state = GO_RIGHT;
@@ -113,6 +118,7 @@ Yeti::go_right()
 void
 Yeti::go_left()
 {
+  sprite->set_action("left");
   physic.set_velocity_y(JUMP_VEL1);
   physic.set_velocity_x(-RUN_SPEED);
   state = GO_LEFT;
@@ -214,18 +220,20 @@ Yeti::collision_solid(GameObject& , const CollisionHit& hit)
     } else if(state == GO_LEFT && !timer.started()) {
       side = LEFT;
       summon_snowball();
-      sprite->set_action("right");
+      sprite->set_action("stand-right");
       angry_jumping();
     } else if(state == GO_RIGHT && !timer.started()) {
       side = RIGHT;
       summon_snowball();
-      sprite->set_action("left");
+      sprite->set_action("stand-left");
       angry_jumping();
     } else if(state == ANGRY_JUMPING) {
       if(!timer.started()) {
         // we just landed
-       // FixME need help here setting the walk,stand,jump image states
-	sprite->set_action("jump-right");
+        if (side == LEFT)  // standing on the left, facing Tux who is on the right
+ 	      sprite->set_action("stand-right");
+ 	    else
+ 	      sprite->set_action("stand-left");
         jumpcount++;
         // make a stalactite falling down and shake camera a bit
         Sector::current()->camera->shake(.1, 0, 10);
