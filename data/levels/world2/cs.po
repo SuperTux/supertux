@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux 0.2\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-10-23 16:31+0100\n"
+"PO-Revision-Date: 2005-11-03 13:34+0100\n"
 "Last-Translator: Ondřej Hošek <ondra.hosek@gmail.com>\n"
 "Language-Team: Czech\n"
 "MIME-Version: 1.0\n"
@@ -99,4 +99,18 @@ msgstr "Beze jména"
 #: data/levels/world2/forest1-grumbel.stl:4
 msgid "Forest Level 1"
 msgstr "Lesní úroveň 1"
+
+#: data/levels/world2/castle1.stl:4
+msgid "Nolok's Hallway"
+msgstr "Nolokova chodba"
+
+#: data/levels/world2/castle1.stl:294
+msgid ""
+"\n"
+"!images/credits/milestone.png\n"
+" VoiceMail message here"
+msgstr ""
+"\n"
+"!images/credits/milestone.png\n"
+" Zprávu hlasové schránky sem"
 

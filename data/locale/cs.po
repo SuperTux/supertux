@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: SuperTux 0.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-05-16 13:28+0200\n"
-"PO-Revision-Date: 2005-10-23 16:32+0100\n"
+"PO-Revision-Date: 2005-11-03 13:37+0100\n"
 "Last-Translator: Ondřej Hošek <ondra.hosek@gmail.com>\n"
 "Language-Team: Czech\n"
 "MIME-Version: 1.0\n"
@@ -16,17 +16,17 @@ msgstr ""
 "X-Poedit-Language: Czech\n"
 "X-Poedit-Country: CZECH REPUBLIC\n"
 
-#: src/worldmap.cpp:814
+#: src/worldmap.cpp:816
 msgid "GAMEOVER"
 msgstr "KONEC HRY"
 
-#: src/worldmap.cpp:817
-#: src/game_session.cpp:755
+#: src/worldmap.cpp:819
+#: src/game_session.cpp:765
 #, c-format
 msgid "COINS: %d"
 msgstr "MINCE: %d"
 
-#: src/worldmap.cpp:822
+#: src/worldmap.cpp:824
 msgid "Total Statistics"
 msgstr "Celková statistika"
 
@@ -38,13 +38,13 @@ msgstr "MINCE"
 msgid "LIVES"
 msgstr "ŽIVOTY"
 
-#: src/title.cpp:128
+#: src/title.cpp:129
 #: src/misc.cpp:81
 msgid "Contrib Levels"
 msgstr "Přispěné úrovně"
 
-#: src/title.cpp:151
-#: src/title.cpp:219
+#: src/title.cpp:152
+#: src/title.cpp:220
 #: src/misc.cpp:97
 #: src/misc.cpp:107
 #: src/control/joystickkeyboardcontroller.cpp:554
@@ -52,7 +52,7 @@ msgstr "Přispěné úrovně"
 msgid "Back"
 msgstr "Zpět"
 
-#: src/title.cpp:345
+#: src/title.cpp:346
 msgid ""
 "Copyright (c) 2005 SuperTux Devel Team\n"
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
@@ -62,11 +62,11 @@ msgstr ""
 "Tato hra přichází BEZ JAKÉKOLIV ZÁRUKY. Tento program je volný software, smíš jej\n"
 "distribuovat dle pokynů v souboru COPYING.\n"
 
-#: src/title.cpp:406
+#: src/title.cpp:407
 msgid "Are you sure you want to delete slot"
 msgstr "Opravdu chcete smazat uloženou hru"
 
-#: src/main.cpp:183
+#: src/main.cpp:184
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] LEVELFILE\n"
@@ -75,13 +75,15 @@ msgstr ""
 "Použití: %s [NASTAVENÍ] SOUBOR_ÚROVNĚ\n"
 "\n"
 
-#: src/main.cpp:185
+#: src/main.cpp:186
 #, c-format
 msgid ""
 "Options:\n"
 "  -f, --fullscreen             Run in fullscreen mode\n"
 "  -w, --window                 Run in window mode\n"
 "  -g, --geometry WIDTHxHEIGHT  Run SuperTux in given resolution\n"
+"  --disable-sfx                Disable sound effects\n"
+"  --disable-music              Disable music\n"
 "  --help                       Show this help message\n"
 "  --version                    Display SuperTux version and quit\n"
 "  --show-fps                   Display framerate in levels\n"
@@ -93,6 +95,8 @@ msgstr ""
 "  -f, --fullscreen             Spustit přes celou obrazovku\n"
 "  -w, --window                 Spustit v okně\n"
 "  -g, --geometry ŠÍŘKAxVÝŠKA   Spustit SuperTux v zadaném rozlišení\n"
+"  --disable-sfx                Vypnout zvukové efekty\n"
+"  --disable-music              Vypnout hudbu\n"
 "  --help                       Zobrazit tento text\n"
 "  --version                    Zobrazit verzi a ukončit program\n"
 "  --show-fps                   Zobrazovat rychlost vykreslování\n"
@@ -202,36 +206,36 @@ msgstr "Přerušit úroveň"
 msgid "Quit Game"
 msgstr "Ukončit hru"
 
-#: src/game_session.cpp:212
+#: src/game_session.cpp:214
 msgid "contributed by "
 msgstr "Autor: "
 
-#: src/game_session.cpp:217
+#: src/game_session.cpp:219
 msgid "Best Level Statistics"
 msgstr "Statistika nejlepších v úrovni"
 
-#: src/game_session.cpp:465
+#: src/game_session.cpp:471
 msgid "PAUSE - Press 'P' To Play"
 msgstr "PAUZA - Stiskněte 'P' k pokračování"
 
-#: src/game_session.cpp:468
+#: src/game_session.cpp:474
 msgid "Playing: "
 msgstr "Úroveň: "
 
-#: src/game_session.cpp:749
+#: src/game_session.cpp:759
 msgid "Result:"
 msgstr "Výsledek:"
 
-#: src/game_session.cpp:752
+#: src/game_session.cpp:762
 #, c-format
 msgid "SCORE: %d"
 msgstr "SKÓRÉ: %d"
 
-#: src/game_session.cpp:782
+#: src/game_session.cpp:792
 msgid "Slot"
 msgstr "Hra"
 
-#: src/game_session.cpp:783
+#: src/game_session.cpp:793
 msgid "Free"
 msgstr "Volná"
 
@@ -338,11 +342,11 @@ msgstr "Nenalezen žádný joystick"
 msgid "Press Button"
 msgstr "Stiskněte tlačítko"
 
-#: src/gui/menu.cpp:68
+#: src/gui/menu.cpp:69
 msgid "Yes"
 msgstr "Ano"
 
-#: src/gui/menu.cpp:69
+#: src/gui/menu.cpp:70
 msgid "No"
 msgstr "Ne"
 

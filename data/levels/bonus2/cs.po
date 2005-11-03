@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux 0.2\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-10-23 16:23+0100\n"
+"PO-Revision-Date: 2005-11-03 13:15+0100\n"
 "Last-Translator: Ondřej Hošek <ondra.hosek@gmail.com>\n"
 "Language-Team: Czech\n"
 "MIME-Version: 1.0\n"
@@ -57,7 +57,7 @@ msgstr "Zamrzlý tunel"
 msgid "Luft Airship"
 msgstr "Vzducholoď v luftě"
 
-#: data/levels/bonus2/level17.stl:4
+#: data/levels/bonus2/level17.stl:5
 msgid "...Where Everything Is Possible"
 msgstr "... kde je všechno možné"
 
