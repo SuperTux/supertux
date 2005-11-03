@@ -192,6 +192,7 @@
        (unstable_tile (x 1184) (y 352))
        (spidermite (x 934) (y 343))
        (spawnpoint (name "main") (x 64) (y 0))
+       (nolok_01 (x 1248) (y 103))
    )
   (sector
     (name  "test")
@@ -292,7 +293,7 @@
       (infoblock (x 96) (y 320)
         (message (_ "
 !images/credits/milestone.png
- phone message here"))
+ VoiceMail message here"))
       )
        (spidermite (x 731) (y 407))
        (spidermite (x 506) (y 84))
