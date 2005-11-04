@@ -108,12 +108,15 @@ DisplayEffect.fade_in(2.5);
          (y 177)
          (dead-script "
 Sound.play(\"sounds/invincible.wav\");
-Text.set_text(\"You made it!\");
+Text.set_text(\"You Made It BIG TIME!\");
 Text.set_font(\"big\");
 Text.fade_in(1.5);
 wait(4);
 DisplayEffect.fade_out(1.5);
 wait(1.5);
+
+
+
 Level.finish();
 ")
         )

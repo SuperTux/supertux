@@ -26,4 +26,19 @@
     (name "stand-left")
     (mirror-action "stand-right")
   )
+  (action
+    (name "roar")
+    (images "iceyeti_hit.png")
+  )
+  (action
+    (name "dead")
+    (images "iceyeti_flip0.png"
+	    "iceyeti_flip1.png"
+	    "iceyeti_flip2.png"
+	    "iceyeti_flip3.png"
+	    "iceyeti_flip0.png"
+	    "iceyeti_flip1.png"
+	    "iceyeti_flip2.png"
+	    "iceyeti_flip3.png")
+  )
 )
