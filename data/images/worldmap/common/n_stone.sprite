@@ -1,0 +1,14 @@
+(supertux-sprite
+  (action
+    (name "default")
+    (x-offset 16)
+    (y-offset 16)
+    (images "n_stone.png")
+  )
+  (action
+    (name "solved")
+    (x-offset 16)
+    (y-offset 16)
+    (images "n_stone.png")
+  )
+)
