@@ -288,16 +288,16 @@
        (spawnpoint (name "main") (x 96) (y 0))
       (infoblock (x 96) (y 320)
         (message (_"!images/objects/voicemail/voicemail.png
-_Hey Tux,
-_Some friends have 
-_left you voicemail 
-_messages with advice
-_to find Penny. So 
-_don't forget to check
-_your voicemail and 
-_good luck!
-_
-_The SuperTux Team"))
+#Hey Tux,
+#Some friends have 
+#left you voicemail 
+#messages with advice
+#to find Penny. So 
+#don't forget to check
+#your voicemail and 
+#good luck!
+
+#The SuperTux Team"))
       )
        (spidermite (x 731) (y 407))
        (spidermite (x 506) (y 84))
