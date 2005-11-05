@@ -49,6 +49,6 @@
     (x 33)
     (y 24)
     (sprite "images/worldmap/common/n_stone.sprite")
-    (name "castle1.stl")
+    (name "castledoor.stl")
   )
 )
