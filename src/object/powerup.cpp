@@ -36,6 +36,8 @@ PowerUp::PowerUp(const lisp::Lisp& lisp)
   lisp.get("y", bbox.p1.y);
   lisp.get("sprite", sprite_name);
   lisp.get("script", script);
+  no_physics = false;
+  lisp.get("disable-physics", no_physics);
   bbox.set_size(32, 32);   
   sprite = sprite_manager->create(sprite_name);
   physic.enable_gravity(true);
@@ -89,7 +91,8 @@ PowerUp::collision(GameObject& other, const CollisionHit& hit)
 void
 PowerUp::update(float elapsed_time)
 {
-  movement = physic.get_movement(elapsed_time);
+  if (!no_physics)
+    movement = physic.get_movement(elapsed_time);
 }
 
 void

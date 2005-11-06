@@ -40,6 +40,7 @@ private:
   Sprite* sprite;
   Physic physic;
   std::string script;
+  bool no_physics;
 };
 
 #endif

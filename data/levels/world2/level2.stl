@@ -217,6 +217,7 @@
       (powerup (x 8000) (y 352)
         (sprite "key-gold")
         (script "get_gold_key();")
+        (disable-physics #t)
       )
       (infoblock (x 2560) (y 320)
         (message (_ "-Oh no!
