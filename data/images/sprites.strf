@@ -1498,6 +1498,15 @@
          (y-offset 0)
          (images "tiles/blocks/block4.png")
        )
+       (action
+         (name "firefly")
+         (x-offset 0)
+         (y-offset 0)
+         (images "tiles/firefly/firefly1.png"
+	         "tiles/firefly/firefly2.png"
+                 "tiles/firefly/firefly3.png"
+                 "tiles/firefly/firefly2.png")
+       )
   )
   ; Door
   (sprite (name "door")
@@ -1635,7 +1644,10 @@
     (action
       (images "objects/unstable_tile/unstable_tile.png"))
   )
-  
+   (sprite (name "skull_tile")
+    (action
+      (images "objects/skulls/skull.png"))
+  ) 
   (sprite (name "rainsplash")
     (action
       (fps 20)
