@@ -85,15 +85,15 @@
 
 -Translation
 
-	Antoni Villalonga
-	Ondra Hosek
-	Matthias Braun
-	Javier Beaumont
-	Frederic Rodrigo
-	Iknos
-	Frank van der Loo
-	Karl Ove Hufthammer
-	Ricardo Cruz
+	ca - Antoni Villalonga
+	cs - Ondra Hosek
+	de - Matthias Braun
+	es - Javier Beaumont
+	fr - Frederic Rodrigo
+	it - Iknos
+	nl - Frank van der Loo
+	nn - Karl Ove Hufthammer
+	pt - Ricardo Cruz
 
 
 -Thanks to
