@@ -6,7 +6,7 @@
   (sector
     (name  "main")
     (gravity 10.000000)
-    (music "ghostforest2.ogg")
+    (music "ghostforest.ogg")
     (tilemap
       (layer  "background")
       (solid #f)
