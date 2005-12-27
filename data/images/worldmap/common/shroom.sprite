@@ -1,0 +1,27 @@
+(supertux-sprite
+  (action
+    (name "default")
+    (x-offset 16)
+    (y-offset 16)
+    (images "shroom.png"
+"shroom1.png"
+"shroom2.png"
+"shroom3.png"
+"shroom4.png"
+"shroom5.png"
+"shroom6.png"
+"shroom6.png"
+"shroom5.png"
+"shroom4.png"
+"shroom3.png"
+"shroom2.png"
+"shroom1.png"
+"shroom.png")
+  )
+  (action
+    (name "solved")
+    (x-offset 16)
+    (y-offset 16)
+    (images "shroom.png")
+  )
+)

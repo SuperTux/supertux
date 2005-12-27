@@ -111,14 +111,14 @@
 
        (spawnpoint (name "main") (x 736) (y 640))
        (hatch
-         (x 640) (y 512)         (sector "main")
+         (x 736) (y 512)         (sector "main")
          (spawnpoint "main")
        )
        (spidermite (x 201) (y 221))
        (spidermite (x 338) (y 334))
        (spidermite (x 86) (y 356))
       (infoblock (x 736) (y 192)
-              (message (_"!images/objects/voicemail/voicemail.png
+        (message (_ "!images/objects/voicemail/voicemail.png
 _Hey Tux,
 _Some friends have 
 _left you voicemail 
@@ -129,9 +129,18 @@ _your voicemail and
 _good luck!
 _
 _The SuperTux Team"))
-
       )
        (poisonivy (x 112) (y 611))
+        (secretarea (x 460.5625)
+                    (y 209.5625)
+                    (width 224.9375)
+                    (height 89.0)
+                    (message "Use the payphone to check your voicemail Tux."))
+        (secretarea (x 365.3125)
+                    (y 472.4375)
+                    (width 229.625)
+                    (height 90.5625)
+                    (message "Nolok's vault doors can be used as transporters. Use them to explore his hidden areas."))
    )
  )
 

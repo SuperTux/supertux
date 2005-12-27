@@ -2465,5 +2465,688 @@
 (tile(id 551)(images
 (region "worldmap/forest/snowforest.png" 256 416 32 32))
 (solid #t))
+(tile(id 552)(images
+(region "worldmap/forest/cropcircle.png" 0 0 32 32))
+(solid #t))
+(tile(id 553)(images
+(region "worldmap/forest/cropcircle.png" 32 0 32 32))
+(solid #t))
+(tile(id 554)(images
+(region "worldmap/forest/cropcircle.png" 64 0 32 32))
+(solid #t))
+(tile(id 555)(images
+(region "worldmap/forest/cropcircle.png" 0 32 32 32))
+(solid #t))
+(tile(id 556)(images
+(region "worldmap/forest/cropcircle.png" 32 32 32 32))
+(solid #t))
+(tile(id 557)(images
+(region "worldmap/forest/cropcircle.png" 64 32 32 32))
+(solid #t))
+(tile(id 558)(images
+(region "worldmap/forest/ghostforest.png" 0 0 32 32))
+(solid #t))
+(tile(id 559)(images
+(region "worldmap/forest/ghostforest.png" 32 0 32 32))
+(solid #t))
+(tile(id 560)(images
+(region "worldmap/forest/ghostforest.png" 64 0 32 32))
+(solid #t))
+(tile(id 561)(images
+(region "worldmap/forest/ghostforest.png" 96 0 32 32))
+(solid #t))
+(tile(id 562)(images
+(region "worldmap/forest/ghostforest.png" 128 0 32 32))
+(solid #t))
+(tile(id 563)(images
+(region "worldmap/forest/ghostforest.png" 160 0 32 32))
+(solid #t))
+(tile(id 564)(images
+(region "worldmap/forest/ghostforest.png" 192 0 32 32))
+(solid #t))
+(tile(id 565)(images
+(region "worldmap/forest/ghostforest.png" 224 0 32 32))
+(solid #t))
+(tile(id 566)(images
+(region "worldmap/forest/ghostforest.png" 256 0 32 32))
+(solid #t))
+(tile(id 567)(images
+(region "worldmap/forest/ghostforest.png" 0 32 32 32))
+(solid #t))
+(tile(id 568)(images
+(region "worldmap/forest/ghostforest.png" 32 32 32 32))
+(solid #t))
+(tile(id 569)(images
+(region "worldmap/forest/ghostforest.png" 64 32 32 32))
+(solid #t))
+(tile(id 570)(images
+(region "worldmap/forest/ghostforest.png" 96 32 32 32))
+(solid #t))
+(tile(id 571)(images
+(region "worldmap/forest/ghostforest.png" 128 32 32 32))
+(solid #t))
+(tile(id 572)(images
+(region "worldmap/forest/ghostforest.png" 160 32 32 32))
+(solid #t))
+(tile(id 573)(images
+(region "worldmap/forest/ghostforest.png" 192 32 32 32))
+(solid #t))
+(tile(id 574)(images
+(region "worldmap/forest/ghostforest.png" 224 32 32 32))
+(solid #t))
+(tile(id 575)(images
+(region "worldmap/forest/ghostforest.png" 256 32 32 32))
+(solid #t))
+(tile(id 576)(images
+(region "worldmap/forest/ghostforest.png" 0 64 32 32))
+(solid #t))
+(tile(id 577)(images
+(region "worldmap/forest/ghostforest.png" 32 64 32 32))
+(solid #t))
+(tile(id 578)(images
+(region "worldmap/forest/ghostforest.png" 64 64 32 32))
+(solid #t))
+(tile(id 579)(images
+(region "worldmap/forest/ghostforest.png" 96 64 32 32))
+(solid #t))
+(tile(id 580)(images
+(region "worldmap/forest/ghostforest.png" 128 64 32 32))
+(solid #t))
+(tile(id 581)(images
+(region "worldmap/forest/ghostforest.png" 160 64 32 32))
+(solid #t))
+(tile(id 582)(images
+(region "worldmap/forest/ghostforest.png" 192 64 32 32))
+(solid #t))
+(tile(id 583)(images
+(region "worldmap/forest/ghostforest.png" 224 64 32 32))
+(solid #t))
+(tile(id 584)(images
+(region "worldmap/forest/ghostforest.png" 256 64 32 32))
+(solid #t))
+(tile(id 585)(images
+(region "worldmap/forest/ghostforest.png" 0 96 32 32))
+(solid #t))
+(tile(id 586)(images
+(region "worldmap/forest/ghostforest.png" 32 96 32 32))
+(solid #t))
+(tile(id 587)(images
+(region "worldmap/forest/ghostforest.png" 64 96 32 32))
+(solid #t))
+(tile(id 588)(images
+(region "worldmap/forest/ghostforest.png" 96 96 32 32))
+(solid #t))
+(tile(id 589)(images
+(region "worldmap/forest/ghostforest.png" 128 96 32 32))
+(solid #t))
+(tile(id 590)(images
+(region "worldmap/forest/ghostforest.png" 160 96 32 32))
+(solid #t))
+(tile(id 591)(images
+(region "worldmap/forest/ghostforest.png" 192 96 32 32))
+(solid #t))
+(tile(id 592)(images
+(region "worldmap/forest/ghostforest.png" 224 96 32 32))
+(solid #t))
+(tile(id 593)(images
+(region "worldmap/forest/ghostforest.png" 256 96 32 32))
+(solid #t))
+(tile(id 594)(images
+(region "worldmap/forest/ghostforest.png" 0 128 32 32))
+(solid #t))
+(tile(id 595)(images
+(region "worldmap/forest/ghostforest.png" 32 128 32 32))
+(solid #t))
+(tile(id 596)(images
+(region "worldmap/forest/ghostforest.png" 64 128 32 32))
+(solid #t))
+(tile(id 597)(images
+(region "worldmap/forest/ghostforest.png" 96 128 32 32))
+(solid #t))
+(tile(id 598)(images
+(region "worldmap/forest/ghostforest.png" 128 128 32 32))
+(solid #t))
+(tile(id 599)(images
+(region "worldmap/forest/ghostforest.png" 160 128 32 32))
+(solid #t))
+(tile(id 600)(images
+(region "worldmap/forest/ghostforest.png" 192 128 32 32))
+(solid #t))
+(tile(id 601)(images
+(region "worldmap/forest/ghostforest.png" 256 128 32 32))
+(solid #t))
+(tile(id 602)(images
+(region "worldmap/forest/ghostforest.png" 0 160 32 32))
+(solid #t))
+(tile(id 603)(images
+(region "worldmap/forest/ghostforest.png" 32 160 32 32))
+(solid #t))
+(tile(id 604)(images
+(region "worldmap/forest/ghostforest.png" 64 160 32 32))
+(solid #t))
+(tile(id 605)(images
+(region "worldmap/forest/ghostforest.png" 96 160 32 32))
+(solid #t))
+(tile(id 606)(images
+(region "worldmap/forest/ghostforest.png" 128 160 32 32))
+(solid #t))
+(tile(id 607)(images
+(region "worldmap/forest/ghostforest.png" 160 160 32 32))
+(solid #t))
+(tile(id 608)(images
+(region "worldmap/forest/ghostforest.png" 192 160 32 32))
+(solid #t))
+(tile(id 609)(images
+(region "worldmap/forest/ghostforest.png" 224 160 32 32))
+(solid #t))
+(tile(id 610)(images
+(region "worldmap/forest/ghostforest.png" 256 160 32 32))
+(solid #t))
+(tile(id 611)(images
+(region "worldmap/forest/ghostforest.png" 0 192 32 32))
+(solid #t))
+(tile(id 612)(images
+(region "worldmap/forest/ghostforest.png" 32 192 32 32))
+(solid #t))
+(tile(id 613)(images
+(region "worldmap/forest/ghostforest.png" 64 192 32 32))
+(solid #t))
+(tile(id 614)(images
+(region "worldmap/forest/ghostforest.png" 96 192 32 32))
+(solid #t))
+(tile(id 615)(images
+(region "worldmap/forest/ghostforest.png" 128 192 32 32))
+(solid #t))
+(tile(id 616)(images
+(region "worldmap/forest/ghostforest.png" 160 192 32 32))
+(solid #t))
+(tile(id 617)(images
+(region "worldmap/forest/ghostforest.png" 192 192 32 32))
+(solid #t))
+(tile(id 618)(images
+(region "worldmap/forest/ghostforest.png" 224 192 32 32))
+(solid #t))
+(tile(id 619)(images
+(region "worldmap/forest/ghostforest.png" 256 192 32 32))
+(solid #t))
+(tile(id 620)(images
+(region "worldmap/forest/ghostforest.png" 0 224 32 32))
+  (stop #f)
+     (north #f)
+     (south #f)
+     (west  #t)
+     (east  #t))
+(tile(id 621)(images
+(region "worldmap/forest/ghostforest.png" 32 224 32 32))
+  (stop #f)
+     (north #f)
+     (south #f)
+     (west  #t)
+     (east  #t))
+(tile(id 622)(images
+(region "worldmap/forest/ghostforest.png" 64 224 32 32))
+(solid #t))
+(tile(id 623)(images
+(region "worldmap/forest/ghostforest.png" 96 224 32 32))
+(solid #t))
+(tile(id 624)(images
+(region "worldmap/forest/ghostforest.png" 128 224 32 32))
+(solid #t))
+(tile(id 625)(images
+(region "worldmap/forest/ghostforest.png" 160 224 32 32))
+(solid #t))
+(tile(id 626)(images
+(region "worldmap/forest/ghostforest.png" 192 224 32 32))
+(solid #t))
+(tile(id 627)(images
+(region "worldmap/forest/ghostforest.png" 224 224 32 32))
+(solid #t))
+(tile(id 628)(images
+(region "worldmap/forest/ghostforest.png" 256 224 32 32))
+(solid #t))
+(tile(id 629)(images
+(region "worldmap/forest/ghostforest.png" 0 256 32 32))
+(solid #t))
+(tile(id 630)(images
+(region "worldmap/forest/ghostforest.png" 32 256 32 32))
+(solid #t))
+(tile(id 631)(images
+(region "worldmap/forest/ghostforest.png" 64 256 32 32))
+(solid #t))
+(tile(id 632)(images
+(region "worldmap/forest/ghostforest.png" 96 256 32 32))
+(solid #t))
+(tile(id 633)(images
+(region "worldmap/forest/ghostforest.png" 128 256 32 32))
+(solid #t))
+(tile(id 634)(images
+(region "worldmap/forest/ghostforest.png" 160 256 32 32))
+(solid #t))
+(tile(id 635)(images
+(region "worldmap/forest/ghostforest.png" 192 256 32 32))
+(solid #t))
+(tile(id 636)(images
+(region "worldmap/forest/ghostforest.png" 224 256 32 32))
+(solid #t))
+(tile(id 637)(images
+(region "worldmap/forest/ghostforest.png" 256 256 32 32))
+(solid #t))
+(tile(id 638)(images
+(region "worldmap/forest/ghostforest.png" 0 288 32 32))
+(solid #t))
+(tile(id 639)(images
+(region "worldmap/forest/ghostforest.png" 32 288 32 32))
+(solid #t))
+(tile(id 640)(images
+(region "worldmap/forest/ghostforest.png" 64 288 32 32))
+(solid #t))
+(tile(id 641)(images
+(region "worldmap/forest/ghostforest.png" 96 288 32 32))
+(solid #t))
+(tile(id 642)(images
+(region "worldmap/forest/ghostforest.png" 128 288 32 32))
+(solid #t))
+(tile(id 643)(images
+(region "worldmap/forest/ghostforest.png" 160 288 32 32))
+(solid #t))
+(tile(id 644)(images
+(region "worldmap/forest/ghostforest.png" 192 288 32 32))
+(solid #t))
+(tile(id 645)(images
+(region "worldmap/forest/ghostforest.png" 224 288 32 32))
+(solid #t))
+(tile(id 646)(images
+(region "worldmap/forest/ghostforest.png" 256 288 32 32))
+(solid #t))
+(tile(id 647)(images
+(region "worldmap/forest/ghostforest.png" 0 320 32 32))
+(solid #t))
+(tile(id 648)(images
+(region "worldmap/forest/ghostforest.png" 32 320 32 32))
+(solid #t))
+(tile(id 649)(images
+(region "worldmap/forest/ghostforest.png" 64 320 32 32))
+(solid #t))
+(tile(id 650)(images
+(region "worldmap/forest/ghostforest.png" 96 320 32 32))
+(solid #t))
+(tile(id 651)(images
+(region "worldmap/forest/ghostforest.png" 128 320 32 32))
+(solid #t))
+(tile(id 652)(images
+(region "worldmap/forest/ghostforest.png" 160 320 32 32))
+(solid #t))
+(tile(id 653)(images
+(region "worldmap/forest/ghostforest.png" 192 320 32 32))
+(solid #t))
+(tile(id 654)(images
+(region "worldmap/forest/ghostforest.png" 224 320 32 32))
+(solid #t))
+(tile(id 655)(images
+(region "worldmap/forest/ghostforest.png" 256 320 32 32))
+(solid #t))
+(tile(id 656)(images
+(region "worldmap/forest/ghostforest.png" 0 352 32 32))
+(solid #t))
+(tile(id 657)(images
+(region "worldmap/forest/ghostforest.png" 32 352 32 32))
+(solid #t))
+(tile(id 658)(images
+(region "worldmap/forest/ghostforest.png" 64 352 32 32))
+(solid #t))
+(tile(id 659)(images
+(region "worldmap/forest/ghostforest.png" 96 352 32 32))
+(solid #t))
+(tile(id 660)(images
+(region "worldmap/forest/ghostforest.png" 128 352 32 32))
+(solid #t))
+(tile(id 661)(images
+(region "worldmap/forest/ghostforest.png" 160 352 32 32))
+(solid #t))
+(tile(id 662)(images
+(region "worldmap/forest/ghostforest.png" 192 352 32 32))
+(solid #t))
+(tile(id 663)(images
+(region "worldmap/forest/ghostforest.png" 224 352 32 32))
+(solid #t))
+(tile(id 664)(images
+(region "worldmap/forest/ghostforest.png" 256 352 32 32))
+(solid #t))
+(tile(id 665)(images
+(region "worldmap/forest/ghostforest.png" 0 384 32 32))
+(solid #t))
+(tile(id 666)(images
+(region "worldmap/forest/ghostforest.png" 32 384 32 32))
+(solid #t))
+(tile(id 667)(images
+(region "worldmap/forest/ghostforest.png" 64 384 32 32))
+(solid #t))
+(tile(id 668)(images
+(region "worldmap/forest/ghostforest.png" 96 384 32 32))
+(solid #t))
+(tile(id 669)(images
+(region "worldmap/forest/ghostforest.png" 128 384 32 32))
+(solid #t))
+(tile(id 670)(images
+(region "worldmap/forest/ghostforest.png" 160 384 32 32))
+(solid #t))
+(tile(id 671)(images
+(region "worldmap/forest/ghostforest.png" 192 384 32 32))
+(solid #t))
+(tile(id 672)(images
+(region "worldmap/forest/ghostforest.png" 224 384 32 32))
+(solid #t))
+(tile(id 673)(images
+(region "worldmap/forest/ghostforest.png" 256 384 32 32))
+(solid #t))
+(tile(id 674)(images
+(region "worldmap/forest/ghostforest.png" 0 416 32 32))
+(solid #t))
+(tile(id 675)(images
+(region "worldmap/forest/ghostforest.png" 32 416 32 32))
+(solid #t))
+(tile(id 676)(images
+(region "worldmap/forest/ghostforest.png" 64 416 32 32))
+(solid #t))
+(tile(id 677)(images
+(region "worldmap/forest/ghostforest.png" 96 416 32 32))
+(solid #t))
+(tile(id 678)(images
+(region "worldmap/forest/ghostforest.png" 128 416 32 32))
+(solid #t))
+(tile(id 679)(images
+(region "worldmap/forest/ghostforest.png" 160 416 32 32))
+(solid #t))
+(tile(id 680)(images
+(region "worldmap/forest/ghostforest.png" 192 416 32 32))
+(solid #t))
+(tile(id 681)(images
+(region "worldmap/forest/ghostforest.png" 224 416 32 32))
+(solid #t))
+(tile(id 682)(images
+(region "worldmap/forest/ghostforest.png" 256 416 32 32))
+(solid #t))
+(tile(id 683)(images
+(region "worldmap/forest/stream.png" 0 0 32 32))
+(solid #t))
+(tile(id 684)(images
+(region "worldmap/forest/stream.png" 32 0 32 32))
+(solid #t))
+(tile(id 685)(images
+(region "worldmap/forest/stream.png" 64 0 32 32))
+(solid #t))
+(tile(id 686)(images
+(region "worldmap/forest/stream.png" 96 0 32 32))
+(solid #t))
+(tile(id 687)(images
+(region "worldmap/forest/stream.png" 128 0 32 32))
+(solid #t))
+
+(tile(id 688)(images
+(region "worldmap/forest/stream.png" 0 32 32 32))
+(solid #t))
+(tile(id 689)(images
+(region "worldmap/forest/stream.png" 32 32 32 32))
+(solid #t))
+(tile(id 690)(images
+(region "worldmap/forest/stream.png" 64 32 32 32))
+(solid #t))
+(tile(id 691)(images
+(region "worldmap/forest/stream.png" 96 32 32 32))
+(solid #t))
+(tile(id 692)(images
+(region "worldmap/forest/stream.png" 128 32 32 32))
+(solid #t))
+
+(tile(id 693)(images
+(region "worldmap/forest/stream.png" 0 64 32 32))
+(solid #t))
+(tile(id 694)(images
+(region "worldmap/forest/stream.png" 32 64 32 32))
+(solid #t))
+(tile(id 695)(images
+(region "worldmap/forest/stream.png" 64 64 32 32))
+(solid #t))
+(tile(id 696)(images
+(region "worldmap/forest/stream.png" 96 64 32 32))
+(solid #t))
+(tile(id 697)(images
+(region "worldmap/forest/stream.png" 128 64 32 32))
+(solid #t))
+
+(tile(id 698)(images
+(region "worldmap/forest/stream.png" 0 96 32 32))
+(solid #t))
+(tile(id 699)(images
+(region "worldmap/forest/stream.png" 32 96 32 32))
+(solid #t))
+
+
+(tile(id 700)(images
+(region "worldmap/forest/stream.png" 64 96 32 32))
+(north #f)
+(south #f)
+(east  #t)
+(west  #t)
+(stop  #f))
+
+
+(tile(id 701)(images
+(region "worldmap/forest/stream.png" 96 96 32 32))
+(north #f)
+(south #f)
+(east  #t)
+(west  #t)
+(stop  #f))
+(tile(id 702)(images
+(region "worldmap/forest/stream.png" 128 96 32 32))
+(solid #t))
+
+(tile(id 703)(images
+(region "worldmap/forest/stream.png" 0 128 32 32))
+(solid #t))
+(tile(id 704)(images
+(region "worldmap/forest/stream.png" 32 128 32 32))
+(solid #t))
+(tile(id 705)(images
+(region "worldmap/forest/stream.png" 64 128 32 32))
+(solid #t))
+(tile(id 706)(images
+(region "worldmap/forest/stream.png" 96 128 32 32))
+(solid #t))
+(tile(id 707)(images
+(region "worldmap/forest/stream.png" 128 128 32 32))
+(solid #t))
+
+(tile
+    (id 708)
+    (images
+      (region "worldmap/forest/ghostwood.png" 0 0 32 32)
+    )  (north #f)
+       (south #t)
+       (east  #t)
+       (west  #f)
+       (stop  #f))
+(tile
+    (id 709)
+    (images
+      (region "worldmap/forest/ghostwood.png" 32 0 32 32)
+    )  (north #t)
+       (south #t)
+       (east  #t)
+       (west  #f)
+       (stop  #t))
+(tile
+    (id 710)
+    (images
+      (region "worldmap/forest/ghostwood.png" 64 0 32 32)
+    )  (north #f)
+       (south #t)
+       (east  #t)
+       (west  #f)
+       (stop  #f))
+(tile
+    (id 711)
+    (images
+      (region "worldmap/forest/ghostwood.png" 96 0 32 32)
+    )  (north #f)
+       (south #t)
+       (east  #f)
+       (west  #t)
+       (stop  #f))
+(tile
+    (id 712)
+    (images
+      (region "worldmap/forest/ghostwood.png" 128 0 32 32)
+    )  (north #f)
+       (south #f)
+       (east  #t)
+       (west  #t)
+       (stop  #f))
+(tile
+    (id 713)
+    (images
+      (region "worldmap/forest/ghostwood.png" 0 32 32 32)
+    )  (north #f)
+       (south #t)
+       (east  #t)
+       (west  #t)
+       (stop  #t))
+(tile
+    (id 714)
+    (images
+      (region "worldmap/forest/ghostwood.png" 32 32 32 32)
+    )  (north #t)
+       (south #t)
+       (east  #f)
+       (west  #t)
+       (stop  #t))
+(tile
+    (id 715)
+    (images
+      (region "worldmap/forest/ghostwood.png" 64 32 32 32)
+    )  (north #t)
+       (south #t)
+       (east  #f)
+       (west  #f)
+       (stop  #f))
+(tile
+    (id 716)
+    (images
+      (region "worldmap/forest/ghostwood.png" 96 32 32 32)
+    )  (north #t)
+       (south #t)
+       (east  #t)
+       (west  #f)
+       (stop  #t))
+(tile
+    (id 717)
+    (images
+      (region "worldmap/forest/ghostwood.png" 128 32 32 32)
+    )  (north #t)
+       (south #f)
+       (east  #t)
+       (west  #f)
+       (stop  #f))
+(tile
+    (id 718)
+    (images
+      (region "worldmap/forest/ghostwood.png" 0 64 32 32)
+     ) (north #t)
+       (south #f)
+       (east  #t)
+       (west  #t)
+       (stop  #t)
+)
+(tile
+    (id 719)
+    (images
+      (region "worldmap/forest/ghostwood.png" 32 64 32 32)
+     ) (north #t)
+       (south #f)
+       (east  #f)
+       (west  #t)
+       (stop  #t)
+)
+(tile
+    (id 720)
+    (images
+      (region "worldmap/forest/ghostwood.png" 64 64 32 32)
+    )
+    (solid #t))
+(tile
+    (id 721)
+    (images
+      (region "worldmap/forest/ghostwood.png" 96 64 32 32)
+    )
+    (solid #t))
+(tile
+    (id 722)
+    (images
+      (region "worldmap/forest/ghostwood.png" 128 64 32 32)
+    )
+    (solid #t))
+(tile
+    (id 723)
+    (images
+      (region "worldmap/forest/ghostwood.png" 0 64 32 32)
+    )
+    (solid #t))
+(tile
+    (id 724)
+    (images
+      (region "worldmap/forest/ghostwood.png" 32 96 32 32)
+    )
+    (solid #t))
+(tile
+    (id 725)
+    (images
+      (region "worldmap/forest/ghostwood.png" 64 96 32 32)
+    )
+    (solid #t))
+(tile
+    (id 726)
+    (images
+      (region "worldmap/forest/ghostwood.png" 96 96 32 32)
+    )
+    (solid #t))
+(tile
+    (id 727)
+    (images
+      (region "worldmap/forest/ghostwood.png" 128 96 32 32)
+    )
+    (solid #t))
+(tile
+    (id 728)
+    (images
+      (region "worldmap/forest/ghostwood.png" 0 96 32 32)
+    )
+    (solid #t))
+(tile
+    (id 728)
+    (images
+      (region "worldmap/forest/ghostwood.png" 32 128 32 32)
+    )
+    (solid #t))
+(tile
+    (id 730)
+    (images
+      (region "worldmap/forest/ghostwood.png" 64 128 32 32)
+    )
+    (solid #t))
+(tile
+    (id 731)
+    (images
+      (region "worldmap/forest/ghostwood.png" 96 128 32 32)
+    )
+    (solid #t))
+(tile
+    (id 732)
+    (images
+      (region "worldmap/forest/ghostwood.png" 128 128 32 32)
+    )
+    (solid #t))
+
+)
 )
 

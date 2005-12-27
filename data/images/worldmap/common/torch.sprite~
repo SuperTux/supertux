@@ -4,10 +4,10 @@
     (x-offset 16)
     (y-offset 16)
     (images "torch.png"
-"torch.png"
-"torch1.png"
-"torch1.png"
-"torch1.png")
+images "torch.png"
+images "torch1.png"
+images "torch1.png"
+images "torch1.png")
   )
   (action
     (name "solved")
