@@ -1055,6 +1055,19 @@ WorldMap::savegame(const std::string& filename)
   if(filename == "")
     return;
 
+  std::string dir = FileSystem::dirname(filename);
+  if(PHYSFS_exists(dir.c_str()) == 0 && PHYSFS_mkdir(dir.c_str()) == 0) {
+    std::ostringstream msg;
+    msg << "Couldn't create directory '" << dir << "' for savegame:"
+        << PHYSFS_getLastError();
+    throw std::runtime_error(msg.str());
+  }
+  if(!PHYSFS_isDirectory(dir.c_str())) {
+    std::ostringstream msg;
+    msg << "'" << dir << "' is not a directory.";
+    throw std::runtime_error(msg.str());
+  }
+  
   lisp::Writer writer(filename);
 
   int nb_solved_levels = 0, total_levels = 0;
