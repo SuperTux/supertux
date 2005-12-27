@@ -17,7 +17,6 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
-
 #include <config.h>
 
 #include "unstable_tile.hpp"
@@ -40,6 +39,7 @@ UnstableTile::UnstableTile(const lisp::Lisp& lisp)
   bbox.set_size(32, 32);
   sprite = sprite_manager->create("unstable_tile");
   flags |= FLAG_SOLID;
+  set_group(COLGROUP_STATIC);
 }
 
 UnstableTile::~UnstableTile()

@@ -41,6 +41,8 @@ PowerUp::PowerUp(const lisp::Lisp& lisp)
   bbox.set_size(32, 32);   
   sprite = sprite_manager->create(sprite_name);
   physic.enable_gravity(true);
+
+  set_group(COLGROUP_MOVING);
 }
 
 PowerUp::~PowerUp()

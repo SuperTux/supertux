@@ -17,7 +17,6 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
-
 #include <config.h>
 
 #include <iostream>
@@ -102,8 +101,8 @@ CollisionGrid::remove_object(MovingObject* object)
   assert(wrapper != 0);
 #else
   if(wrapper == 0) {
-	std::cerr << "Tried to remove nonexistant object!\n";
-	return;
+    std::cerr << "Tried to remove nonexistant object!\n";
+    return;
   }
 #endif
   
@@ -134,8 +133,8 @@ CollisionGrid::move_object(ObjectWrapper* wrapper)
     for(float x = obbox.p1.x; x < obbox.p2.x; x += cell_width) {
       int gridx = int(x / cell_width);
       int gridy = int(y / cell_height);
-      if(gridx < 0 || gridy < 0 
-          || gridx >= int(cells_x) || gridy >= int(cells_y)) {
+      if(gridx < 0 || gridy < 0  ||
+         gridx >= int(cells_x) || gridy >= int(cells_y)) {
         std::cerr << "Object out of range: " << gridx << ", " << gridy << "\n";
         continue;
       }
@@ -174,7 +173,7 @@ CollisionGrid::check_collisions()
     MovingObject* object = wrapper->object;
     if(!object->is_valid())
       continue;
-    if(object->get_flags() & GameObject::FLAG_NO_COLLDET) {
+    if(object->get_group() == COLGROUP_DISABLED) {
       object->bbox.move(object->movement);
       object->movement = Vector(0, 0);
       moved_objects.push_back(wrapper);

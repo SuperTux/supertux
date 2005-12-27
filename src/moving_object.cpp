@@ -22,6 +22,7 @@
 
 MovingObject::MovingObject()
 {
+  group = COLGROUP_MOVING;
 }
 
 MovingObject::~MovingObject()

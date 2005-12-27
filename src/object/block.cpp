@@ -51,6 +51,7 @@ Block::Block(Sprite* newsprite)
   : sprite(newsprite), bouncing(false), bounce_dir(0), bounce_offset(0)
 {
   bbox.set_size(32, 32.1);
+  set_group(COLGROUP_STATIC);
   flags |= FLAG_SOLID;
 }
 

@@ -89,7 +89,7 @@ public:
   /** Checks for all possible collisions. And calls the
       collision_handlers, which the collision_objects provide for this
       case (or not). */
-  void collision_handler();
+  void handle_collisions();
 
   bool add_bullet(const Vector& pos, float xm, Direction dir);
   bool add_smoke_cloud(const Vector& pos);
@@ -131,6 +131,8 @@ private:
 public: // TODO make this private again
   typedef std::vector<GameObject*> GameObjects;
   GameObjects gameobjects;
+  typedef std::vector<MovingObject*> MovingObjects;
+  MovingObjects moving_objects;
   typedef std::vector<SpawnPoint*> SpawnPoints;
   SpawnPoints spawnpoints;                       
 

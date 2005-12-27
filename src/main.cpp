@@ -62,9 +62,8 @@ static void init_config()
   try {
     config->load();
   } catch(std::exception& e) {
-#ifdef DEBUG
     std::cerr << "Couldn't load config file: " << e.what() << "\n";
-#endif
+    std::cerr << "Using default settings.\n";
   }
 }
 

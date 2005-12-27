@@ -27,6 +27,16 @@
 class Sector;
 class CollisionGrid;
 
+enum CollisionGroup {
+  COLGROUP_DISABLED,
+  COLGROUP_MOVING,
+  COLGROUP_STATIC,
+  COLGROUP_MOVINGSTATIC,
+  COLGROUP_TOUCHABLE,
+  
+  COLGROUP_TILEMAP /* not really used at the moment */
+};
+
 /**
  * Base class for all dynamic/moving game objects. This class contains things
  * for handling the bounding boxes and collision feedback.
@@ -66,6 +76,16 @@ public:
   {
     bbox.set_pos(pos);
   }
+
+  CollisionGroup get_group() const
+  {
+    return group;
+  }
+
+  void set_group(CollisionGroup group)
+  {
+    this->group = group;
+  }
   
 protected:
   friend class Sector;
@@ -79,6 +99,8 @@ protected:
   /** The movement that will happen till next frame
    */
   Vector movement;
+  /** The collision group */
+  CollisionGroup group;
 };
 
 #endif

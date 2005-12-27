@@ -17,7 +17,6 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
-
 #include <config.h>
 
 #include "star.hpp"
@@ -37,6 +36,8 @@ Star::Star(const Vector& pos)
   bbox.set_size(32, 32);
   sprite = sprite_manager->create("star");
   physic.set_velocity(SPEED, INITIALJUMP);
+
+  set_group(COLGROUP_MOVING);
 }
 
 Star::~Star()

@@ -33,7 +33,7 @@ SnowBall::SnowBall(const lisp::Lisp& reader)
   reader.get("fluffy",fluffy);
   bbox.set_size(31.8, 31.8);
   if (fluffy) sprite = sprite_manager->create("fluffy");
-  else sprite = sprite_manager->create("snowball");
+  else sprite = sprite_manager->create("images/creatures/snowball/snowball.sprite");
   set_direction = false;
 }
 

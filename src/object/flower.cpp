@@ -37,6 +37,8 @@ Flower::Flower(Type _type)
     sprite = sprite_manager->create("fireflower");
   else
     sprite = sprite_manager->create("iceflower"); 
+
+  set_group(COLGROUP_TOUCHABLE);
 }
 
 Flower::~Flower()

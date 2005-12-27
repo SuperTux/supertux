@@ -731,7 +731,7 @@ GameSession::drawstatus(DrawingContext& context)
 
   if(config->show_fps) {
     char str[60];
-    snprintf(str, sizeof(str), "%2.1f", fps_fps);
+    snprintf(str, sizeof(str), "%3.1f", fps_fps);
     context.draw_text(white_text, "FPS", 
                       Vector(SCREEN_WIDTH -
                              white_text->get_text_width("FPS     ") - BORDER_X, BORDER_Y + 40),

@@ -229,7 +229,7 @@ BadGuy::set_state(State state)
       state_timer.start(SQUISH_TIME);
       break;
     case STATE_ACTIVE:
-      flags &= ~FLAG_NO_COLLDET;
+      set_group(COLGROUP_MOVING);
       bbox.set_pos(start_position);
       break;
     case STATE_INACTIVE:
@@ -237,10 +237,10 @@ BadGuy::set_state(State state)
       if(laststate == STATE_SQUISHED || laststate == STATE_FALLING) {
         remove_me();
       }
-      flags |= FLAG_NO_COLLDET;
+      set_group(COLGROUP_DISABLED);
       break;
     case STATE_FALLING:
-      flags |= FLAG_NO_COLLDET;
+      set_group(COLGROUP_DISABLED);
       break;
     default:
       break;

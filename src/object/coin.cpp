@@ -17,7 +17,6 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
-
 #include <config.h>
 
 #include "coin.hpp"
@@ -36,6 +35,7 @@ Coin::Coin(const Vector& pos)
   bbox.set_pos(pos);
   bbox.set_size(32, 32);
   sprite = sprite_manager->create("coin");
+  set_group(COLGROUP_TOUCHABLE);
 }
 
 Coin::Coin(const lisp::Lisp& reader)
@@ -44,6 +44,7 @@ Coin::Coin(const lisp::Lisp& reader)
   reader.get("y", bbox.p1.y);
   bbox.set_size(32, 32);
   sprite = sprite_manager->create("coin");
+  set_group(COLGROUP_TOUCHABLE);
 }
 
 Coin::~Coin()

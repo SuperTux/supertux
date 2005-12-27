@@ -750,7 +750,7 @@ Player::kill(HurtMode mode)
       player_status->bonus = NO_BONUS;
       dying = true;
       dying_timer.start(3.0);
-      flags |= FLAG_NO_COLLDET;
+      set_group(COLGROUP_DISABLED);
     }
 }
 

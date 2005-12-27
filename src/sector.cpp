@@ -467,7 +467,7 @@ Sector::update(float elapsed_time)
 #endif
   
   /* Handle all possible collisions. */
-  collision_handler();                                                                              
+  handle_collisions();
   update_game_objects();
 }
 
@@ -475,6 +475,30 @@ void
 Sector::update_game_objects()
 {
   /** cleanup marked objects */
+  for(std::vector<Bullet*>::iterator i = bullets.begin();
+      i != bullets.end(); /* nothing */) {
+    Bullet* bullet = *i;
+    if(bullet->is_valid()) {
+      ++i;
+      continue;
+    }
+
+    i = bullets.erase(i);
+  }
+  for(MovingObjects::iterator i = moving_objects.begin();
+      i != moving_objects.end(); /* nothing */) {
+    MovingObject* moving_object = *i;
+    if(moving_object->is_valid()) {
+      ++i;
+      continue;
+    }
+
+#ifdef USE_GRID
+    grid->remove_object(moving_object);
+#endif
+    
+    i = moving_objects.erase(i);
+  }
   for(std::vector<GameObject*>::iterator i = gameobjects.begin();
       i != gameobjects.end(); /* nothing */) {
     GameObject* object = *i;
@@ -484,18 +508,6 @@ Sector::update_game_objects()
       continue;
     }
     
-    Bullet* bullet = dynamic_cast<Bullet*> (object);
-    if(bullet) {
-      bullets.erase(
-          std::remove(bullets.begin(), bullets.end(), bullet),
-          bullets.end());
-    }
-#ifdef USE_GRID
-    MovingObject* movingobject = dynamic_cast<MovingObject*> (object);
-    if(movingobject) {
-      grid->remove_object(movingobject);
-    }
-#endif
     delete *i;
     i = gameobjects.erase(i);
   }
@@ -510,11 +522,13 @@ Sector::update_game_objects()
     if(bullet)
       bullets.push_back(bullet);
 
-#ifdef USE_GRID
     MovingObject* movingobject = dynamic_cast<MovingObject*> (object);
-    if(movingobject)
+    if(movingobject) {
+      moving_objects.push_back(movingobject);
+ #ifdef USE_GRID
       grid->add_object(movingobject);
 #endif
+    }
     
     TileMap* tilemap = dynamic_cast<TileMap*> (object);
     if(tilemap && tilemap->is_solid()) {
@@ -703,18 +717,87 @@ Sector::collision_object(MovingObject* object1, MovingObject* object2)
 }
 
 void
-Sector::collision_handler()
+Sector::handle_collisions()
 {
 #ifdef USE_GRID
   grid->check_collisions();
 #else
-  for(std::vector<GameObject*>::iterator i = gameobjects.begin();
-      i != gameobjects.end(); ++i) {
-    GameObject* gameobject = *i;
-    if(!gameobject->is_valid())
+  // part1: COLGROUP_MOVING vs COLGROUP_STATIC and tilemap
+  for(MovingObjects::iterator i = moving_objects.begin();
+      i != moving_objects.end(); ++i) {
+    MovingObject* movingobject = *i;
+    if(movingobject->get_group() != COLGROUP_MOVING
+        || !movingobject->is_valid())
       continue;
-    MovingObject* movingobject = dynamic_cast<MovingObject*> (gameobject);
-    if(!movingobject)
+
+    // collision with tilemap
+    collision_tilemap(movingobject, 0);
+   
+    // collision with other objects
+    for(MovingObjects::iterator i2 = i+1;
+        i2 != moving_objects.end(); ++i2) {
+      MovingObject* movingobject2 = *i2;
+      if(movingobject2->get_group() != COLGROUP_STATIC
+         || !movingobject2->is_valid())
+        continue;
+
+      collision_object(movingobject, movingobject2);
+    }
+  }
+
+  // part2: COLGROUP_MOVING vs COLGROUP_TOUCHABLE
+  for(MovingObjects::iterator i = moving_objects.begin();
+      i != moving_objects.end(); ++i) {
+    MovingObject* moving_object = *i;
+    if(moving_object->get_group() != COLGROUP_MOVING
+        || !moving_object->is_valid())
+      continue;
+
+    for(MovingObjects::iterator i2 = moving_objects.begin();
+        i2 != moving_objects.end(); ++i2) {
+      MovingObject* moving_object_2 = *i2;
+      if(moving_object_2->get_group() != COLGROUP_TOUCHABLE
+         || !moving_object_2->is_valid())
+        continue;
+
+      collision_object(moving_object, moving_object_2);
+    } 
+  }
+
+  // part3: COLGROUP_MOVING vs COLGROUP_MOVING
+  for(MovingObjects::iterator i = moving_objects.begin();
+      i != moving_objects.end(); ++i) {
+    MovingObject* moving_object = *i;
+
+    if(moving_object->get_group() != COLGROUP_MOVING
+        || !moving_object->is_valid())
+      continue;
+
+    for(MovingObjects::iterator i2 = i+1;
+        i2 != moving_objects.end(); ++i2) {
+      MovingObject* moving_object_2 = *i2;
+      if(moving_object_2->get_group() != COLGROUP_MOVING
+         || !moving_object_2->is_valid())
+        continue;
+
+      collision_object(moving_object, moving_object_2);
+    }    
+  }
+
+  // apply object movement
+  for(MovingObjects::iterator i = moving_objects.begin();
+      i != moving_objects.end(); ++i) {
+    MovingObject* moving_object = *i;
+
+    moving_object->bbox.move(moving_object->get_movement());
+    moving_object->movement = Vector(0, 0);
+  }
+ 
+#if 0
+  for(MovingObjects::iterator i = moving_objects.begin();
+      i != moving_objects.end(); ++i) {
+    MovingObject* movingobject = *i;
+    if(!movingobject->is_valid())
       continue;
     if(movingobject->get_flags() & GameObject::FLAG_NO_COLLDET) {
       movingobject->bbox.move(movingobject->movement);
@@ -727,14 +810,11 @@ Sector::collision_handler()
       collision_tilemap(movingobject, 0);
 
     // collision with other objects
-    for(std::vector<GameObject*>::iterator i2 = i+1;
-        i2 != gameobjects.end(); ++i2) {
-      GameObject* other_object = *i2;
-      if(!other_object->is_valid() 
-          || other_object->get_flags() & GameObject::FLAG_NO_COLLDET)
-        continue;
-      MovingObject* movingobject2 = dynamic_cast<MovingObject*> (other_object);
-      if(!movingobject2)
+    for(MovingObjects::iterator i2 = i+1;
+        i2 != moving_objects.end(); ++i2) {
+      MovingObject* movingobject2 = *i2;
+      if(!movingobject2->is_valid()
+          || movingobject2->get_flags() & GameObject::FLAG_NO_COLLDET)
         continue;
 
       collision_object(movingobject, movingobject2);
@@ -743,6 +823,8 @@ Sector::collision_handler()
     movingobject->bbox.move(movingobject->get_movement());
     movingobject->movement = Vector(0, 0);
   }
+#endif
+  
 #endif
 }
 

@@ -65,12 +65,12 @@ Rock::update(float elapsed_time)
 {
   if(!grabbed) {
     flags |= FLAG_SOLID;
-    flags &= ~FLAG_NO_COLLDET;
+    set_group(COLGROUP_STATIC);
     movement = physic.get_movement(elapsed_time);
   } else {
     physic.set_velocity(0, 0);
     flags &= ~FLAG_SOLID;
-    flags |= FLAG_NO_COLLDET;
+    set_group(COLGROUP_DISABLED);
   }
   
   grabbed = false;

@@ -78,9 +78,7 @@ public:
   // flags
   enum {
     /// the tile so you can stand on it
-    FLAG_SOLID       = 0x0001,
-    /// can be used to temporatily disable collision detection
-    FLAG_NO_COLLDET  = 0x0002
+    FLAG_SOLID       = 0x0001
   };                     
 
   int get_flags() const

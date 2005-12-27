@@ -35,6 +35,7 @@ GrowUp::GrowUp()
   sprite = sprite_manager->create("egg");
   physic.enable_gravity(true);
   physic.set_velocity_x(100);
+  set_group(COLGROUP_MOVING);
 }
 
 GrowUp::~GrowUp()

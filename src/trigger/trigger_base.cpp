@@ -25,6 +25,7 @@
 TriggerBase::TriggerBase()
   : sprite(0)
 {
+  set_group(COLGROUP_TOUCHABLE);
 }
 
 TriggerBase::~TriggerBase()
