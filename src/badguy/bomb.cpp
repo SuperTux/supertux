@@ -17,7 +17,6 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
-
 #include <config.h>
 
 #include "bomb.hpp"
@@ -30,7 +29,7 @@ Bomb::Bomb(const Vector& pos, Direction dir)
   start_position = pos;
   bbox.set_pos(pos);
   bbox.set_size(31.8, 31.8);
-  sprite = sprite_manager->create("bomb");
+  sprite = sprite_manager->create("images/creatures/mr_bomb/bomb.sprite");
   state = 0;
   timer.start(TICKINGTIME);
   this->dir = dir;

@@ -17,7 +17,6 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
-
 #include <config.h>
 
 #include "flame.hpp"
@@ -32,7 +31,7 @@ Flame::Flame(const lisp::Lisp& reader)
   bbox.set_pos(Vector(start_position.x + cos(angle) * radius,
                       start_position.y + sin(angle) * radius));
   bbox.set_size(32, 32);  
-  sprite = sprite_manager->create("flame");
+  sprite = sprite_manager->create("images/creatures/flame.sprite");
   countMe = false;
 }
 

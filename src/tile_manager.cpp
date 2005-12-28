@@ -72,6 +72,9 @@ void TileManager::load_tileset(std::string filename)
       while(tile->id >= tiles.size()) {
         tiles.push_back(0);
       }
+      if(tiles[tile->id] != 0) {
+        std::cout << "Warning: Tile with ID " << tile->id << " redefined\n";
+      }
       tiles[tile->id] = tile;
     } else if(iter.item() == "tilegroup") {
       TileGroup tilegroup;

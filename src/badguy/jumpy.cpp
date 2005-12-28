@@ -31,7 +31,7 @@ Jumpy::Jumpy(const lisp::Lisp& reader)
   reader.get("x", start_position.x);
   reader.get("y", start_position.y);
   bbox.set_size(31.8, 31.8);
-  sprite = sprite_manager->create("jumpy");
+  sprite = sprite_manager->create("images/creatures/jumpy/jumpy.sprite");
 }
 
 void

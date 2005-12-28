@@ -12,6 +12,7 @@
 #include "physfs/physfs_sdl.hpp"
 #include "image_texture.hpp"
 #include "glutil.hpp"
+#include "file_system.hpp"
 
 TextureManager* texture_manager = NULL;
 
@@ -33,8 +34,9 @@ TextureManager::~TextureManager()
 }
 
 ImageTexture*
-TextureManager::get(const std::string& filename)
+TextureManager::get(const std::string& _filename)
 {
+  std::string filename = FileSystem::normalize(_filename);
   ImageTextures::iterator i = image_textures.find(filename);
 
   ImageTexture* texture = NULL;
