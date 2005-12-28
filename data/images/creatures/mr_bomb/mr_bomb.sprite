@@ -1,0 +1,31 @@
+(supertux-sprite
+ (action
+  (name "left")
+  (fps 10.0)
+  (x-offset 3)
+  (y-offset 12)
+  (images "left-0.png"
+          "left-1.png"
+          "left-2.png"
+          "left-3.png"))
+
+ (action
+  (name "right")
+  (fps 10.0)
+  (x-offset 7)
+  (y-offset 12)
+  (mirror-action "left"))
+ 
+ (action
+  (name "iced-left")
+  (x-offset 3)
+  (y-offset 12)
+  (images "iced-left.png"))
+ 
+ (action
+  (name "iced-right")
+  (x-offset 7)
+  (y-offset 12)
+  (mirror-action "iced-left"))
+)
+

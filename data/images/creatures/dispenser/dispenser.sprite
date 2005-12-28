@@ -1,0 +1,32 @@
+(supertux-sprite
+ (action
+  (name "dropper")
+  (x-offset 0)
+  (y-offset 0)
+  (images "dropper.png"))
+ 
+ (action
+  (name "working-left")
+  (x-offset 0)
+  (y-offset 0)
+  (images "working.png"))
+ 
+ (action
+  (name "broken-left")
+  (x-offset 0)
+  (y-offset 0)
+  (images "broken.png"))
+ 
+ (action
+  (name "working-right")
+  (x-offset 0)
+  (y-offset 0)
+  (mirror-action "working-left"))
+ 
+ (action
+  (name "broken-right")
+  (x-offset 0)
+  (y-offset 0)
+  (mirror-action "broken-left"))
+)
+

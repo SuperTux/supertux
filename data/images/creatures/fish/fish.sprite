@@ -1,0 +1,27 @@
+(supertux-sprite
+ (action
+  (name "normal")
+  (x-offset 2)
+  (y-offset 3)
+  (images "left-0.png"
+          "left-1.png"))
+
+ (action
+  (name "down")
+  (x-offset 2)
+  (y-offset 11)
+  (images "down.png"))
+
+ (action
+  (name "iced")
+  (x-offset 2)
+  (y-offset 3)
+  (images "iced-left.png"))
+
+ (action
+  (name "iced-down")
+  (x-offset 2)
+  (y-offset 11)
+  (images "iced-down.png"))
+)
+

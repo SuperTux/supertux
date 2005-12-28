@@ -1,0 +1,26 @@
+(supertux-sprite
+ (action
+  (name "left")
+  (x-offset 4)
+  (y-offset 3)
+  (images "left-0.png"
+          "left-1.png"))
+ 
+ (action
+  (name "right")
+  (x-offset 4)
+  (y-offset 3)
+  (mirror-action "left"))
+
+ (action
+  (name "squished-left")
+  (x-offset 4)
+  (y-offset -12)
+  (images "squished-left.png"))
+
+ (action
+  (name "squished-right")
+  (x-offset 4)
+  (y-offset -12)
+  (mirror-action "squished-left"))
+)
