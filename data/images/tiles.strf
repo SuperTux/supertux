@@ -4898,12 +4898,6 @@
     )
   )
   (tile
-    (id 1354)
-    (images
-      (region "tiles/forest/hole.png" 0 128 32 32)
-    )
-  )
-  (tile
     (id 1355)
     (images
       (region "tiles/doodads/pedestal.png" 0 0 32 32)
