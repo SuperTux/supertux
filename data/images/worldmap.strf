@@ -2440,9 +2440,6 @@
 (region "worldmap/forest/snowforest.png" 32 416 32 32))
 (solid #t))
 (tile(id 545)(images
-(region "worldmap/forest/snowforest.png" 64 416 32 32))
-(solid #t))
-(tile(id 545)(images
 (region "worldmap/forest/snowforest.png" 96 416 32 32))
 (solid #t))
 (tile(id 547)(images
@@ -3111,12 +3108,7 @@
       (region "worldmap/forest/ghostwood.png" 128 96 32 32)
     )
     (solid #t))
-(tile
-    (id 728)
-    (images
-      (region "worldmap/forest/ghostwood.png" 0 96 32 32)
-    )
-    (solid #t))
+
 (tile
     (id 728)
     (images
