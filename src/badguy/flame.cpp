@@ -31,7 +31,7 @@ Flame::Flame(const lisp::Lisp& reader)
   bbox.set_pos(Vector(start_position.x + cos(angle) * radius,
                       start_position.y + sin(angle) * radius));
   bbox.set_size(32, 32);  
-  sprite = sprite_manager->create("images/creatures/flame.sprite");
+  sprite = sprite_manager->create("images/creatures/flame/flame.sprite");
   countMe = false;
 }
 
