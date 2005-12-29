@@ -57,6 +57,8 @@ PowerUp::collision(GameObject& other, const CollisionHit& hit)
     if(fabsf(hit.normal.y) > .5) { // roof or ground
       physic.set_velocity_y(0);
     } else { // bumped left or right
+      printf("Normal: %f %f\n", hit.normal.x, hit.normal.y);
+      printf("LRbounce, new speed. %f\n", physic.get_velocity_x());
       physic.set_velocity_x(-physic.get_velocity_x());
     }
 

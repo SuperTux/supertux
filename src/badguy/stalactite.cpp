@@ -76,6 +76,7 @@ Stalactite::collision_solid(GameObject& , const CollisionHit& hit)
   
   if(fabsf(hit.normal.y) > .5) { // hit floor or roof?
     state = STALACTITE_SQUISHED;
+    set_group(COLGROUP_MOVING_ONLY_STATIC);
     physic.set_velocity_y(0);
     sprite->set_action("squished");
     if(!timer.started())

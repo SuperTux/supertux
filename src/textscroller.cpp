@@ -250,6 +250,8 @@ InfoBox::~InfoBox()
   for(std::map<std::string, Surface*>::iterator i = images.begin();
     i != images.end(); ++i)
     delete i->second;
+  delete arrow_scrollup;
+  delete arrow_scrolldown;
 }
 
 void

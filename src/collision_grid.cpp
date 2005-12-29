@@ -167,7 +167,8 @@ void
 CollisionGrid::check_collisions()
 {
   std::vector<ObjectWrapper*> moved_objects;
-  
+ 
+#if 0
   CollisionGridIterator iter(*this, Sector::current()->get_active_region());
   while(ObjectWrapper* wrapper = iter.next_wrapper()) {
     MovingObject* object = wrapper->object;
@@ -191,6 +192,7 @@ CollisionGrid::check_collisions()
       moved_objects.push_back(wrapper);
     }
   }
+#endif
 
   for(std::vector<ObjectWrapper*>::iterator i = moved_objects.begin();
       i != moved_objects.end(); ++i) {

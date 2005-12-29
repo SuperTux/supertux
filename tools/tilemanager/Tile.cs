@@ -17,7 +17,7 @@ public class Tile {
     public bool Water;
     public bool Slope;
     public bool Hidden;
-    public bool Spike;
+    public bool Hurts;
     public bool FullBox;
     public bool Brick;
     public bool Coin;
@@ -67,8 +67,8 @@ public class Tile {
             writer.Write("water", true);
         if(Slope)
             writer.Write("slope-type", Data);
-        if(Spike)
-            writer.Write("spike", true);
+        if(Hurts)
+            writer.Write("hurts", true);
         if(Hidden)
             writer.Write("hidden", true);
         if(Coin)
@@ -130,8 +130,8 @@ public class Tile {
                     case "anim-fps":
                         AnimFps = parser.FloatValue;
                         break;
-                    case "spike":
-                        Spike = parser.BoolValue;
+                    case "hurts":
+                        Hurts = parser.BoolValue;
                         break;
                     case "hidden":
                         Hidden = parser.BoolValue;

@@ -22,6 +22,7 @@
 
 #include <vector>
 #include <SDL.h>
+#include <stdint.h>
 #include "video/surface.hpp"
 #include "math/rect.hpp"
 #include "lisp/lisp.hpp"
@@ -42,23 +43,27 @@ public:
     UNISOLID  = 0x0002,
     /** a brick that can be destroyed by jumping under it */
     BRICK     = 0x0004,
-    /** an ice brick that makes tux sliding more than usual */
-    ICE       = 0x0008,
-    /** a water tile in which tux starts to swim */                         
-    WATER     = 0x0010,
-    /** a tile that hurts the player if he touches it */
-    SPIKE     = 0x0020,
-    /** Bonusbox, content is stored in \a data */
-    FULLBOX   = 0x0040,
-    /** Tile is a coin */
-    COIN      = 0x0080,
     /** the level should be finished when touching a goaltile.
      * if data is 0 then the endsequence should be triggered, if data is 1
      * then we can finish the level instantly.
      */
-    GOAL      = 0x0100,
+    GOAL      = 0x0008,
     /** slope tile */
-    SLOPE     = 0x0200,
+    SLOPE     = 0x0010,
+    /** Bonusbox, content is stored in \a data */
+    FULLBOX   = 0x0020,
+    /** Tile is a coin */
+    COIN      = 0x0040,
+
+    /* interesting flags (the following are passed to gameobjects) */
+    FIRST_INTERESTING_FLAG = 0x0100,
+    
+    /** an ice brick that makes tux sliding more than usual */
+    ICE       = 0x0100,
+    /** a water tile in which tux starts to swim */                         
+    WATER     = 0x0200,
+    /** a tile that hurts the player if he touches it */
+    HURTS     = 0x0400,
   };
 
   /// worldmap flags
@@ -90,7 +95,7 @@ private:
   Surface* editor_image;
   
   /** tile attributes */
-  Uint32 attributes;
+  uint32_t attributes;
   
   /** General purpose data attached to a tile (content of a box, type of coin)*/
   int data;
@@ -108,7 +113,7 @@ public:
   unsigned int getID() const
   { return id; }
 
-  Uint32 getAttributes() const
+  uint32_t getAttributes() const
   { return attributes; }
 
   int getData() const

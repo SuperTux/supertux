@@ -124,6 +124,7 @@ public:
   virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
+  virtual void collision_tile(uint32_t tile_attributes);
 
   void make_invincible();
   bool is_invincible() const

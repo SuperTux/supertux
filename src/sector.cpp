@@ -25,6 +25,7 @@
 #include <fstream>
 #include <sstream>
 #include <stdexcept>
+#include <float.h>
 
 #include "sector.hpp"
 #include "player_status.hpp"
@@ -62,8 +63,6 @@
 #include "scripting/sound.hpp"
 #include "scripting/scripted_object.hpp"
 #include "scripting/text.hpp"
-
-//#define USE_GRID
 
 Sector* Sector::_current = 0;
 
@@ -559,15 +558,6 @@ Sector::draw(DrawingContext& context)
   context.push_transform();
   context.set_translation(camera->get_translation());
 
-#if 0
-  CollisionGridIterator iter(*grid, get_active_region());
-  while(MovingObject* object = iter.next()) {
-    if(!object->is_valid())
-      continue;
-
-    object->draw(context);
-  }
-#else
   for(GameObjects::iterator i = gameobjects.begin();
       i != gameobjects.end(); ++i) {
     GameObject* object = *i; 
@@ -576,7 +566,6 @@ Sector::draw(DrawingContext& context)
     
     object->draw(context);
   }
-#endif
 
   context.pop_transform();
 }
@@ -584,45 +573,36 @@ Sector::draw(DrawingContext& context)
 static const float DELTA = .001;
 
 void
-Sector::collision_tilemap(MovingObject* object, int depth)
+Sector::collision_tilemap(MovingObject* object, CollisionHit& hit) const
 {
-  if(depth >= 4) {
-#ifdef DEBUG
-    std::cout << "Max collision depth reached.\n";
-#endif
-    object->movement = Vector(0, 0);
-    return;
-  }
-
   // calculate rectangle where the object will move
   float x1, x2;
   if(object->get_movement().x >= 0) {
-    x1 = object->get_pos().x;
+    x1 = object->get_bbox().p1.x;
     x2 = object->get_bbox().p2.x + object->get_movement().x;
   } else {
-    x1 = object->get_pos().x + object->get_movement().x;
+    x1 = object->get_bbox().p1.x + object->get_movement().x;
     x2 = object->get_bbox().p2.x;
   }
   float y1, y2;
   if(object->get_movement().y >= 0) {
-    y1 = object->get_pos().y;
+    y1 = object->get_bbox().p1.y;
     y2 = object->get_bbox().p2.y + object->get_movement().y;
   } else {
-    y1 = object->get_pos().y + object->get_movement().y;
+    y1 = object->get_bbox().p1.y + object->get_movement().y;
     y2 = object->get_bbox().p2.y;
   }
 
   // test with all tiles in this rectangle
-  int starttilex = int(x1-1) / 32;
-  int starttiley = int(y1-1) / 32;
-  int max_x = int(x2+1);
+  int starttilex = int(x1) / 32;
+  int starttiley = int(y1) / 32;
+  int max_x = int(x2);
+  // the +1 is somehow needed to make characters stay on the floor
   int max_y = int(y2+1);
 
-  TilemapCollisionHit temphit, hit;
+  CollisionHit temphit;
   Rect dest = object->get_bbox();
   dest.move(object->movement);
-  hit.tileflags = 0;
-  hit.time = -1; // represents an invalid value
   for(int x = starttilex; x*32 < max_x; ++x) {
     for(int y = starttiley; y*32 < max_y; ++y) {
       const Tile* tile = solids->get_tile(x, y);
@@ -646,9 +626,7 @@ Sector::collision_tilemap(MovingObject* object, int depth)
 
         if(Collision::rectangle_aatriangle(temphit, dest, object->movement,
               triangle)) {
-          hit.tileflags |= tile->getAttributes();
           if(temphit.time > hit.time && (tile->getAttributes() & Tile::SOLID)) {
-            temphit.tileflags = hit.tileflags;
             hit = temphit;
           }
         }
@@ -656,36 +634,63 @@ Sector::collision_tilemap(MovingObject* object, int depth)
         Rect rect(x*32, y*32, (x+1)*32, (y+1)*32);
         if(Collision::rectangle_rectangle(temphit, dest,
               object->movement, rect)) {
-          hit.tileflags |= tile->getAttributes();
           if(temphit.time > hit.time && (tile->getAttributes() & Tile::SOLID)) {
-            temphit.tileflags = hit.tileflags;
             hit = temphit;
           }
         }
       }
     }
   }
+}
 
-  // did we collide at all?
-  if(hit.tileflags == 0)
-    return;
- 
-  // call collision function
-  HitResponse response = object->collision(*solids, hit);
-  if(response == ABORT_MOVE) {
-    object->movement = Vector(0, 0);
-    return;
+uint32_t
+Sector::collision_tile_attributes(MovingObject* object) const
+{
+  /** XXX This function doesn't work correctly as it will check all tiles
+   * in the bounding box of the object movement, this might include tiles
+   * that have actually never been touched by the object
+   * (though this only occures for very fast objects...)
+   */
+  
+  // calculate rectangle where the object will move
+  float x1, x2;
+  if(object->get_movement().x >= 0) {
+    x1 = object->get_bbox().p1.x;
+    x2 = object->get_bbox().p2.x + object->get_movement().x;
+  } else {
+    x1 = object->get_bbox().p1.x + object->get_movement().x;
+    x2 = object->get_bbox().p2.x;
   }
-  if(response == FORCE_MOVE) {
-      return;
+  float y1, y2;
+  if(object->get_movement().y >= 0) {
+    y1 = object->get_bbox().p1.y;
+    y2 = object->get_bbox().p2.y + object->get_movement().y;
+  } else {
+    y1 = object->get_bbox().p1.y + object->get_movement().y;
+    y2 = object->get_bbox().p2.y;
   }
-  // move out of collision and try again
-  object->movement += hit.normal * (hit.depth + DELTA);
-  collision_tilemap(object, depth+1);
+
+  // test with all tiles in this rectangle
+  int starttilex = int(x1-1) / 32;
+  int starttiley = int(y1-1) / 32;
+  int max_x = int(x2+1);
+  int max_y = int(y2+1);
+
+  uint32_t result = 0;
+  for(int x = starttilex; x*32 < max_x; ++x) {
+    for(int y = starttiley; y*32 < max_y; ++y) {
+      const Tile* tile = solids->get_tile(x, y);
+      if(!tile)
+        continue;
+      result |= tile->getAttributes();
+    }
+  }
+
+  return result;
 }
 
 void
-Sector::collision_object(MovingObject* object1, MovingObject* object2)
+Sector::collision_object(MovingObject* object1, MovingObject* object2) const
 {
   CollisionHit hit;
   Rect dest1 = object1->get_bbox();
@@ -719,33 +724,90 @@ Sector::collision_object(MovingObject* object1, MovingObject* object2)
 void
 Sector::handle_collisions()
 {
-#ifdef USE_GRID
-  grid->check_collisions();
-#else
   // part1: COLGROUP_MOVING vs COLGROUP_STATIC and tilemap
+  //   we do this up to 4 times and have to sort all results for the smallest
+  //   one before we can continue here
   for(MovingObjects::iterator i = moving_objects.begin();
       i != moving_objects.end(); ++i) {
-    MovingObject* movingobject = *i;
-    if(movingobject->get_group() != COLGROUP_MOVING
-        || !movingobject->is_valid())
+    MovingObject* moving_object = *i;
+    if((moving_object->get_group() != COLGROUP_MOVING
+          && moving_object->get_group() != COLGROUP_MOVING_ONLY_STATIC)
+        || !moving_object->is_valid())
       continue;
 
-    // collision with tilemap
-    collision_tilemap(movingobject, 0);
-   
-    // collision with other objects
-    for(MovingObjects::iterator i2 = i+1;
-        i2 != moving_objects.end(); ++i2) {
-      MovingObject* movingobject2 = *i2;
-      if(movingobject2->get_group() != COLGROUP_STATIC
-         || !movingobject2->is_valid())
-        continue;
+    // up to 4 tries
+    for(int t = 0; t < 4; ++t) {
+      CollisionHit hit;
+      hit.time = -1;
+      MovingObject* collided_with = NULL; 
+      
+      // collision with tilemap
+      collision_tilemap(moving_object, hit);
+    
+      // collision with other objects
+      Rect dest1 = moving_object->get_bbox();
+      dest1.move(moving_object->get_movement());
+      CollisionHit temphit;
+      
+      for(MovingObjects::iterator i2 = moving_objects.begin();
+          i2 != moving_objects.end(); ++i2) {
+        MovingObject* moving_object_2 = *i2;
+        if(moving_object_2->get_group() != COLGROUP_STATIC
+           || !moving_object_2->is_valid())
+          continue;
+        
+        Rect dest2 = moving_object_2->get_bbox();
+        dest2.move(moving_object_2->get_movement());
+        Vector movement 
+          = moving_object->get_movement() - moving_object_2->get_movement();
+        if(Collision::rectangle_rectangle(temphit, dest1, movement, dest2)
+            && temphit.time > hit.time) {
+          hit = temphit;
+          collided_with = moving_object_2;
+        }
+      }
 
-      collision_object(movingobject, movingobject2);
+      if(hit.time < 0)
+        break;
+
+      // call collision callbacks
+      HitResponse response;
+      if(collided_with != 0) {
+        response = moving_object->collision(*collided_with, hit);
+        hit.normal *= -1;
+        collided_with->collision(*moving_object, hit);
+      } else {
+        response = moving_object->collision(*solids, hit);
+        hit.normal *= -1;
+      }
+   
+      if(response == CONTINUE) {
+        moving_object->movement += -hit.normal * (hit.depth + DELTA);
+      } else if(response == ABORT_MOVE) {
+        moving_object->movement = Vector(0, 0);
+        break;
+      } else { // force move
+        break;
+      }
     }
   }
 
-  // part2: COLGROUP_MOVING vs COLGROUP_TOUCHABLE
+  // part2: COLGROUP_MOVING vs tile attributes
+  for(MovingObjects::iterator i = moving_objects.begin();
+      i != moving_objects.end(); ++i) {
+    MovingObject* moving_object = *i;
+    if((moving_object->get_group() != COLGROUP_MOVING
+          && moving_object->get_group() != COLGROUP_MOVING_ONLY_STATIC)
+        || !moving_object->is_valid())
+      continue;
+
+    uint32_t tile_attributes = collision_tile_attributes(moving_object);
+    if(tile_attributes > Tile::FIRST_INTERESTING_FLAG) {
+      moving_object->collision_tile(tile_attributes);
+    }
+  }
+
+  // part2.5: COLGROUP_MOVING vs COLGROUP_TOUCHABLE
   for(MovingObjects::iterator i = moving_objects.begin();
       i != moving_objects.end(); ++i) {
     MovingObject* moving_object = *i;
@@ -792,40 +854,6 @@ Sector::handle_collisions()
     moving_object->bbox.move(moving_object->get_movement());
     moving_object->movement = Vector(0, 0);
   }
- 
-#if 0
-  for(MovingObjects::iterator i = moving_objects.begin();
-      i != moving_objects.end(); ++i) {
-    MovingObject* movingobject = *i;
-    if(!movingobject->is_valid())
-      continue;
-    if(movingobject->get_flags() & GameObject::FLAG_NO_COLLDET) {
-      movingobject->bbox.move(movingobject->movement);
-      movingobject->movement = Vector(0, 0);
-      continue;
-    }
-
-    // collision with tilemap
-    if(! (movingobject->movement == Vector(0, 0)))
-      collision_tilemap(movingobject, 0);
-
-    // collision with other objects
-    for(MovingObjects::iterator i2 = i+1;
-        i2 != moving_objects.end(); ++i2) {
-      MovingObject* movingobject2 = *i2;
-      if(!movingobject2->is_valid()
-          || movingobject2->get_flags() & GameObject::FLAG_NO_COLLDET)
-        continue;
-
-      collision_object(movingobject, movingobject2);
-    }
-
-    movingobject->bbox.move(movingobject->get_movement());
-    movingobject->movement = Vector(0, 0);
-  }
-#endif
-  
-#endif
 }
 
 bool

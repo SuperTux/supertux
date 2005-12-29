@@ -655,6 +655,13 @@ Player::draw(DrawingContext& context)
   } 
 }
 
+void
+Player::collision_tile(uint32_t tile_attributes)
+{
+  if(tile_attributes & Tile::HURTS)
+    kill(SHRINK);
+}
+
 HitResponse
 Player::collision(GameObject& other, const CollisionHit& hit)
 {
@@ -666,19 +673,8 @@ Player::collision(GameObject& other, const CollisionHit& hit)
   }
  
   if(other.get_flags() & FLAG_SOLID) {
-    TileMap* tilemap = dynamic_cast<TileMap*> (&other);
-    if(tilemap) {
-      const TilemapCollisionHit* thit = 
-        static_cast<const TilemapCollisionHit*> (&hit);
-      if(thit->tileflags & Tile::SPIKE)
-        kill(SHRINK);
-
-      if(! (thit->tileflags & Tile::SOLID))
-        return FORCE_MOVE;
-    }
-    
     if(hit.normal.y < 0) { // landed on floor?
-      if (physic.get_velocity_y() < 0)
+      if(physic.get_velocity_y() < 0)
         physic.set_velocity_y(0);
       on_ground_flag = true;
     } else if(hit.normal.y > 0) { // bumped against the roof
@@ -696,9 +692,11 @@ Player::collision(GameObject& other, const CollisionHit& hit)
   if(trigger) {
     if(controller->pressed(Controller::UP))
       trigger->event(*this, TriggerBase::EVENT_ACTIVATE);
+
+    return FORCE_MOVE;
   }
 
-  return FORCE_MOVE;
+  return CONTINUE;
 }
 
 void

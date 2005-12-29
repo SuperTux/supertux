@@ -42,6 +42,7 @@ class CollisionGrid;
 class ScriptInterpreter;
 class SpawnPoint;
 class MovingObject;
+class CollisionHit;
 
 enum MusicType {
   LEVEL_MUSIC,
@@ -102,12 +103,11 @@ public:
   /** Get total number of badguys */
   int get_total_badguys();
 
-  // make this private again soon
-  void collision_tilemap(MovingObject* object, int depth);
+  void collision_tilemap(MovingObject* object, CollisionHit& hit) const;
+  uint32_t collision_tile_attributes(MovingObject* object) const;
 
 private:
-  void collision_object(MovingObject* object1, MovingObject* object2);
-  
+  void collision_object(MovingObject* object1, MovingObject* object2) const;
   GameObject* parse_object(const std::string& name, const lisp::Lisp& lisp);
   
   static Sector* _current;

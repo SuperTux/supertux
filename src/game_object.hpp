@@ -78,7 +78,7 @@ public:
   // flags
   enum {
     /// the tile so you can stand on it
-    FLAG_SOLID       = 0x0001
+    FLAG_SOLID       = 0x0001,
   };                     
 
   int get_flags() const

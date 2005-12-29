@@ -1264,7 +1264,7 @@
       "tiles/lava/lava1-4.png"
     )
     (water #t)
-    (spike #t)
+    (hurts #t)
     (anim-fps 10)
   )
   (tile
@@ -1276,7 +1276,7 @@
       "tiles/lava/lava2-4.png"
     )
     (water #t)
-    (spike #t)
+    (hurts #t)
     (anim-fps 10)
   )
   (tile
@@ -1880,28 +1880,28 @@
     (images
       "creatures/spike/up.png"
     )
-    (spike #t)
+    (hurts #t)
   )
   (tile
     (id 296)
     (images
       "creatures/spike/right.png"
     )
-    (spike #t)
+    (hurts #t)
   )
   (tile
     (id 297)
     (images
       "creatures/spike/down.png"
     )
-    (spike #t)
+    (hurts #t)
   )
   (tile
     (id 298)
     (images
       "creatures/spike/left.png"
     )
-    (spike #t)
+    (hurts #t)
   )
   (tile
     (id 301)
@@ -5357,7 +5357,7 @@
       "tiles/water/electrified-1.png"
     )
     (anim-fps 10)
-    (spike #t)
+    (hurts #t)
     (water #t)
   )
   (tile
@@ -5367,7 +5367,7 @@
       "tiles/water/electrified_waves-1.png"
     )
     (anim-fps 10)
-    (spike #t)
+    (hurts #t)
     (water #t)
   )
   (tile

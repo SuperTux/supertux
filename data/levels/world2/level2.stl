@@ -195,10 +195,11 @@
                     (width 24.0)
                     (height 19.0)
                     (message (_ "Drink me")))
-                    (powerup (x 3168) (y 416)
-        (sprite "eat-me")
-        (script "levelflip();")       
-      )
+       
+        (powerup (x 3168) (y 416)
+                 (sprite "eat-me")
+                 (script "levelflip();")       
+        )
       (bonusblock (x 672) (y 1056)
         (contents "custom")
         (powerup

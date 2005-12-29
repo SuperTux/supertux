@@ -30,6 +30,8 @@ class CollisionGrid;
 enum CollisionGroup {
   COLGROUP_DISABLED,
   COLGROUP_MOVING,
+  // moving object but don't collide against other moving objects
+  COLGROUP_MOVING_ONLY_STATIC,
   COLGROUP_STATIC,
   COLGROUP_MOVINGSTATIC,
   COLGROUP_TOUCHABLE,
@@ -51,6 +53,11 @@ public:
    */
   virtual HitResponse collision(GameObject& other,
                                 const CollisionHit& hit) = 0;
+  /** called when tiles with special attributes have been touched */
+  virtual void collision_tile(uint32_t tile_attributes)
+  {
+    (void) tile_attributes;
+  }
   
   const Vector& get_pos() const
   {

@@ -61,6 +61,9 @@ public:
   virtual HitResponse collision(GameObject& other,
       const CollisionHit& hit);
 
+  /** Called when a collision with tile with special attributes occured */
+  virtual void collision_tile(uint32_t tile_attributes);
+
   /** Set the badguy to kill/falling state, which makes him falling of the
    * screen (his sprite is turned upside-down)
    */

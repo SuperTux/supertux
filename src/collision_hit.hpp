@@ -50,12 +50,5 @@ public:
   Vector normal;
 };
 
-class TilemapCollisionHit : public CollisionHit
-{
-public:
-  /// the flags of all tiles tux collided with
-  int tileflags;
-};
-
 #endif
 

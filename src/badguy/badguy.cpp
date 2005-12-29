@@ -32,6 +32,7 @@ static const float Y_OFFSCREEN_DISTANCE = 1200;
 BadGuy::BadGuy()
   : countMe(true), sprite(0), dir(LEFT), state(STATE_INIT)
 {
+  set_group(COLGROUP_DISABLED);
 }
 
 BadGuy::~BadGuy()
@@ -116,6 +117,13 @@ BadGuy::inactive_update(float )
 {
 }
 
+void
+BadGuy::collision_tile(uint32_t tile_attributes)
+{
+  if(tile_attributes & Tile::HURTS)
+    kill_fall();
+}
+
 HitResponse
 BadGuy::collision(GameObject& other, const CollisionHit& hit)
 {
@@ -124,16 +132,8 @@ BadGuy::collision(GameObject& other, const CollisionHit& hit)
     case STATE_INACTIVE:
       return ABORT_MOVE;
     case STATE_ACTIVE: {
-      TileMap* tilemap = dynamic_cast<TileMap*> (&other);
-      if(tilemap != 0) {
-        const TilemapCollisionHit* thit 
-          = static_cast<const TilemapCollisionHit*> (&hit);
-        if(thit->tileflags & Tile::SPIKE)
-          kill_fall();
-        if(thit->tileflags & Tile::SOLID)
-          return collision_solid(other, hit);
-        return FORCE_MOVE;
-      }
+      if(other.get_flags() & FLAG_SOLID)
+        return collision_solid(other, hit);
 
       BadGuy* badguy = dynamic_cast<BadGuy*> (&other);
       if(badguy && badguy->state == STATE_ACTIVE)
@@ -172,7 +172,7 @@ BadGuy::collision_player(Player& player, const CollisionHit& )
   // hit from above?
   if(player.get_movement().y - get_movement().y > 0 && player.get_bbox().p2.y <
       (get_bbox().p1.y + get_bbox().p2.y) / 2) {
-    // if it's not is it possible to squish us, then this will hurt
+    // if it's not possible to squish us, then this will hurt
     if(!collision_squished(player))
       player.kill(Player::SHRINK);
 
@@ -202,6 +202,7 @@ BadGuy::kill_squished(Player& player)
   physic.set_velocity_x(0);
   physic.set_velocity_y(0);
   set_state(STATE_SQUISHED);
+  set_group(COLGROUP_MOVING_ONLY_STATIC);
   global_stats.add_points(BADGUYS_KILLED_STAT, 1);
   player.bounce(*this);
 }

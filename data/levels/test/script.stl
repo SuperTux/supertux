@@ -120,7 +120,7 @@
          (name "TUX")
          (x 160)
          (y 448)
-         (sprite "images/creatues/yeti/yeti.sprite")
+         (sprite "images/creatures/yeti/yeti.sprite")
        )
        (scriptedobject
          (name "PENNY")
