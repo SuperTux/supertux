@@ -84,7 +84,7 @@
     (powerup (x 980) (y 140) (sprite "egg"))
     (powerup (x 1020) (y 140) (sprite "1up"))
     (powerup (x 1400) (y 140)
-      (sprite "images/powerups/potions/images/powerups/potions/red-potion.sprite.sprite")
+      (sprite "images/powerups/potions/red-potion.sprite")
       (contents "custom")
       (script "Level.flip_vertically();")
     )
