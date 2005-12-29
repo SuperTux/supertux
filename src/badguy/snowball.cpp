@@ -42,7 +42,7 @@ SnowBall::SnowBall(float pos_x, float pos_y, Direction d)
   start_position.x = pos_x;
   start_position.y = pos_y;
   bbox.set_size(31.8, 31.8);
-  sprite = sprite_manager->create("snowball");
+  sprite = sprite_manager->create("images/creatures/snowball/snowball.sprite");
   set_direction = true;
   initial_direction = d;
 }
