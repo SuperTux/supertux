@@ -106,6 +106,11 @@ public:
   void collision_tilemap(MovingObject* object, CollisionHit& hit) const;
   uint32_t collision_tile_attributes(MovingObject* object) const;
 
+  /** Checks if at the specified rectangle are gameobjects with STATIC flag set
+   * (or solid tiles from the tilemap)
+   */
+  bool is_free_space(const Rect& rect) const;
+
 private:
   void collision_object(MovingObject* object1, MovingObject* object2) const;
   GameObject* parse_object(const std::string& name, const lisp::Lisp& lisp);

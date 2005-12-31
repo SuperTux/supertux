@@ -17,7 +17,6 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
-
 #ifndef __COLLISION_H__
 #define __COLLISION_H__
 
@@ -29,6 +28,9 @@ class CollisionHit;
 class Collision
 {
 public:
+  /** checks if 2 rectangle intersect each other */
+  static bool intersects(const Rect& r1, const Rect& r2);
+  
   /** does collision detection between 2 rectangles. Returns true in case of
    * collision and fills in the hit structure then.
    */

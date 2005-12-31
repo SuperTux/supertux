@@ -11,8 +11,8 @@
                 (speed 0.5))
     (spawnpoint (name "main") (x 150) (y 100))
     (rock (x 50) (y 50))
-    ;;(rock (x 50) (y 100))
-    ;;(rock (x 50) (y 150))
+    ;(rock (x 50) (y 100))
+    ;(rock (x 50) (y 150))
     (tilemap
       (layer  "background")
       (solid #f)

@@ -857,6 +857,39 @@ Sector::handle_collisions()
 }
 
 bool
+Sector::is_free_space(const Rect& rect) const
+{
+  // test with all tiles in this rectangle
+  int starttilex = int(rect.p1.x) / 32;
+  int starttiley = int(rect.p1.y) / 32;
+  int max_x = int(rect.p2.x);
+  int max_y = int(rect.p2.y);
+
+  for(int x = starttilex; x*32 < max_x; ++x) {
+    for(int y = starttiley; y*32 < max_y; ++y) {
+      const Tile* tile = solids->get_tile(x, y);
+      if(!tile)
+        continue;
+      if(tile->getAttributes() & Tile::SOLID)
+        return false;
+    }
+  }
+
+  for(MovingObjects::const_iterator i = moving_objects.begin();
+      i != moving_objects.end(); ++i) {
+    const MovingObject* moving_object = *i;
+    if(moving_object->get_group() != COLGROUP_STATIC
+        || !moving_object->is_valid())
+      continue;
+
+    if(Collision::intersects(rect, moving_object->get_bbox()))
+      return false;
+  }
+
+  return true;
+}
+
+bool
 Sector::add_bullet(const Vector& pos, float xm, Direction dir)
 {
   // TODO remove this function and move these checks elsewhere...

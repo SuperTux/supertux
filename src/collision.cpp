@@ -34,6 +34,17 @@
 static const float DELTA = .0001;
 
 bool
+Collision::intersects(const Rect& r1, const Rect& r2)
+{
+  if(r1.p2.x < r2.p1.x || r1.p1.x > r2.p2.x)
+    return false;
+  if(r1.p2.y < r2.p1.y || r1.p1.y > r2.p2.y)
+    return false;
+
+  return true;
+}
+
+bool
 Collision::rectangle_rectangle(CollisionHit& hit, const Rect& r1,
     const Vector& movement, const Rect& r2)
 {
