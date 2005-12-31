@@ -35,6 +35,7 @@ Bell::Bell(const lisp::Lisp& lisp)
   lisp.get("y", bbox.p1.y);
   bbox.set_size(32, 32);
   sprite = sprite_manager->create("bell");
+  set_group(COLGROUP_TOUCHABLE);
 }
 
 Bell::~Bell()

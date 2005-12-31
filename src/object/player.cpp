@@ -696,6 +696,13 @@ Player::collision(GameObject& other, const CollisionHit& hit)
     return FORCE_MOVE;
   }
 
+  MovingObject* moving_object = static_cast<MovingObject*> (&other);
+  if(moving_object->get_group() == COLGROUP_TOUCHABLE)
+    return FORCE_MOVE;
+
+  if(is_invincible())
+    return FORCE_MOVE;
+
   return CONTINUE;
 }
 
