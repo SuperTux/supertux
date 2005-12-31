@@ -529,6 +529,17 @@ WorldMap::parse_level_tile(const lisp::Lisp* level_lisp)
   level_lisp->get("quit-worldmap", level.quit_worldmap);
 
   level_lisp->get("name", level.name);
+  
+  if (!PHYSFS_exists((levels_path + level.name).c_str()))
+  {
+  	// Do we want to bail out instead...? We might get messages from modders
+  	// who can't make their levels run because they're too dumb to watch
+  	// their terminals...
+    std::cerr << "Error: level file '" << level.name
+      << "' does not exist and will not be added to the worldmap." << std::endl;
+    return;
+  }
+
   level_lisp->get("x", level.pos.x);
   level_lisp->get("y", level.pos.y);
 

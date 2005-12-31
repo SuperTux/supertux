@@ -119,16 +119,16 @@
        (spidermite (x 86) (y 356))
       (infoblock (x 736) (y 192)
         (message (_ "!images/objects/voicemail/voicemail.png
-_Hey Tux,
-_Some friends have 
-_left you voicemail 
-_messages with advice
-_to find Penny. So 
-_don't forget to check
-_your voicemail and 
-_good luck!
-_
-_The SuperTux Team"))
+#Hey Tux,
+#Some friends have 
+#left you voicemail 
+#messages with advice
+#to find Penny. So 
+#don't forget to check
+#your voicemail and 
+#good luck!
+#The SuperTux Team"))
+
       )
        (poisonivy (x 112) (y 611))
         (secretarea (x 460.5625)

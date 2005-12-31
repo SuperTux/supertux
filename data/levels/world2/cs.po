@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: SuperTux 0.2\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2005-11-03 13:34+0100\n"
+"PO-Revision-Date: 2005-12-31 13:33+0100\n"
 "Last-Translator: Ondřej Hošek <ondra.hosek@gmail.com>\n"
 "Language-Team: Czech\n"
 "MIME-Version: 1.0\n"
@@ -62,7 +62,7 @@ msgstr "Dolů králičí norou"
 msgid "Drink me"
 msgstr "Vypij mne"
 
-#: data/levels/world2/level2.stl:222
+#: data/levels/world2/level2.stl:224
 msgid ""
 "-Oh no!\n"
 "#The path is blocked! It\n"
@@ -76,11 +76,11 @@ msgstr ""
 "#cesta, která vede dál,\n"
 "#je touto dírou dolů..."
 
-#: data/levels/world2/level2.stl:246
+#: data/levels/world2/level2.stl:248
 msgid "Eat me"
 msgstr "Sněz mne"
 
-#: data/levels/world2/level2.stl:248
+#: data/levels/world2/level2.stl:250
 msgid "-Are you lost?"
 msgstr "-Ztratil ses?"
 
@@ -100,17 +100,31 @@ msgstr "Beze jména"
 msgid "Forest Level 1"
 msgstr "Lesní úroveň 1"
 
-#: data/levels/world2/castle1.stl:4
-msgid "Nolok's Hallway"
-msgstr "Nolokova chodba"
+#: data/levels/world2/castledoor.stl:4
+msgid "Find The Pay Phone"
+msgstr "Najdi telefonní budku"
 
-#: data/levels/world2/castle1.stl:294
+#: data/levels/world2/castledoor.stl:300
 msgid ""
+"!images/objects/voicemail/voicemail.png\n"
+"#Hey Tux,\n"
+"#Some friends have \n"
+"#left you voicemail \n"
+"#messages with advice\n"
+"#to find Penny. So \n"
+"#don't forget to check\n"
+"#your voicemail and \n"
+"#good luck!\n"
 "\n"
-"!images/credits/milestone.png\n"
-" VoiceMail message here"
+"#The SuperTux Team"
 msgstr ""
+"!images/objects/voicemail/voicemail.png\n"
+"#Ahoj Tuxi,\n"
+"#Pár přátel ti zanechalo\n"
+"#hlasové zprávy s radami\n"
+"#k osvobození Penny.\n"
+"#Nezapomeň je kontrolovat!\n"
+"#Hodně štěstí!\n"
 "\n"
-"!images/credits/milestone.png\n"
-" Zprávu hlasové schránky sem"
+"#Tým SuperTux"
 
