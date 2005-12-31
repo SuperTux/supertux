@@ -56,7 +56,6 @@ Rock::write(lisp::Writer& writer)
 void
 Rock::draw(DrawingContext& context)
 {
-
   sprite->draw(context, get_pos(), LAYER_OBJECTS);
 }
 
@@ -65,7 +64,7 @@ Rock::update(float elapsed_time)
 {
   if(!grabbed) {
     flags |= FLAG_SOLID;
-    set_group(COLGROUP_STATIC);
+    set_group(COLGROUP_MOVING);
     movement = physic.get_movement(elapsed_time);
   } else {
     physic.set_velocity(0, 0);
@@ -79,12 +78,13 @@ Rock::update(float elapsed_time)
 HitResponse
 Rock::collision(GameObject& object, const CollisionHit& )
 {
-  if(grabbed)
+  if(grabbed) {
     return FORCE_MOVE;
+  }
 
   if(object.get_flags() & FLAG_SOLID) {
-      physic.set_velocity(0, 0);
-      return CONTINUE;
+    physic.set_velocity(0, 0);
+    return CONTINUE;
   }
 
   return FORCE_MOVE;
