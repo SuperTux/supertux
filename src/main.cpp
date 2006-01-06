@@ -180,7 +180,7 @@ static void init_physfs(const char* argv0)
 
 static void print_usage(const char* argv0)
 {
-  fprintf(stderr, _("Usage: %s [OPTIONS] LEVELFILE\n\n"), argv0);
+  fprintf(stderr, _("Usage: %s [OPTIONS] [LEVELFILE]\n\n"), argv0);
   fprintf(stderr,
           _("Options:\n"
             "  -f, --fullscreen             Run in fullscreen mode\n"

@@ -38,6 +38,7 @@
 #include "object/camera.hpp"
 #include "object/gameobjs.hpp"
 #include "object/portable.hpp"
+#include "object/bullet.hpp"
 #include "trigger/trigger_base.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
 #include "main.hpp"
@@ -151,6 +152,14 @@ Player::update(float elapsed_time)
   if(dying && dying_timer.check()) {
     dead = true;
     return;
+  }
+
+  // fixes the "affected even while blinking" bug
+  if (safe_timer.started() && this->get_group() != COLGROUP_MOVING_ONLY_STATIC) {
+    this->set_group(COLGROUP_MOVING_ONLY_STATIC);
+  }
+  else if (!safe_timer.started() && this->get_group() == COLGROUP_MOVING_ONLY_STATIC) {
+    this->set_group(COLGROUP_MOVING);
   }
 
   if(!controller->hold(Controller::ACTION) && grabbed_object) {
@@ -668,6 +677,11 @@ Player::collision_tile(uint32_t tile_attributes)
 HitResponse
 Player::collision(GameObject& other, const CollisionHit& hit)
 {
+  Bullet* bullet = dynamic_cast<Bullet*> (&other);
+  if(bullet) {
+    return FORCE_MOVE;
+  }
+
   Portable* portable = dynamic_cast<Portable*> (&other);
   if(portable && grabbed_object == 0 && controller->hold(Controller::ACTION)
      && fabsf(hit.normal.x) > .9) {
