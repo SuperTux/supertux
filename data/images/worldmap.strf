@@ -3416,6 +3416,7 @@
     (images
       (region "worldmap/forest/icewood.png" 96 96 32 32)
     )
+    (solid #t))
 (tile
     (id 783)
     (images
@@ -3447,7 +3448,381 @@
     )
     (solid #t))
 
-
+(tile(id 789)(images
+(region "worldmap/forest/forest.png" 0 0 32 32))
+(solid #t))
+(tile(id 790)(images
+(region "worldmap/forest/forest.png" 32 0 32 32))
+(solid #t))
+(tile(id 791)(images
+(region "worldmap/forest/forest.png" 64 0 32 32))
+(solid #t))
+(tile(id 792)(images
+(region "worldmap/forest/forest.png" 96 0 32 32))
+(solid #t))
+(tile(id 793)(images
+(region "worldmap/forest/forest.png" 128 0 32 32))
+(solid #t))
+(tile(id 794)(images
+(region "worldmap/forest/forest.png" 160 0 32 32))
+(solid #t))
+(tile(id 795)(images
+(region "worldmap/forest/forest.png" 192 0 32 32))
+(solid #t))
+(tile(id 796)(images
+(region "worldmap/forest/forest.png" 224 0 32 32))
+(solid #t))
+(tile(id 797)(images
+(region "worldmap/forest/forest.png" 256 0 32 32))
+(solid #t))
+(tile(id 798)(images
+(region "worldmap/forest/forest.png" 0 32 32 32))
+(solid #t))
+(tile(id 799)(images
+(region "worldmap/forest/forest.png" 32 32 32 32))
+(solid #t))
+(tile(id 800)(images
+(region "worldmap/forest/forest.png" 64 32 32 32))
+(solid #t))
+(tile(id 801)(images
+(region "worldmap/forest/forest.png" 96 32 32 32))
+(solid #t))
+(tile(id 802)(images
+(region "worldmap/forest/forest.png" 128 32 32 32))
+(solid #t))
+(tile(id 803)(images
+(region "worldmap/forest/forest.png" 160 32 32 32))
+(solid #t))
+(tile(id 804)(images
+(region "worldmap/forest/forest.png" 192 32 32 32))
+(solid #t))
+(tile(id 805)(images
+(region "worldmap/forest/forest.png" 224 32 32 32))
+(solid #t))
+(tile(id 806)(images
+(region "worldmap/forest/forest.png" 256 32 32 32))
+(solid #t))
+(tile(id 807)(images
+(region "worldmap/forest/forest.png" 0 64 32 32))
+(solid #t))
+(tile(id 808)(images
+(region "worldmap/forest/forest.png" 32 64 32 32))
+(solid #t))
+(tile(id 809)(images
+(region "worldmap/forest/forest.png" 64 64 32 32))
+(solid #t))
+(tile(id 810)(images
+(region "worldmap/forest/forest.png" 96 64 32 32))
+(solid #t))
+(tile(id 811)(images
+(region "worldmap/forest/forest.png" 128 64 32 32))
+(solid #t))
+(tile(id 812)(images
+(region "worldmap/forest/forest.png" 160 64 32 32))
+(solid #t))
+(tile(id 813)(images
+(region "worldmap/forest/forest.png" 192 64 32 32))
+(solid #t))
+(tile(id 814)(images
+(region "worldmap/forest/forest.png" 224 64 32 32))
+(solid #t))
+(tile(id 815)(images
+(region "worldmap/forest/forest.png" 256 64 32 32))
+(solid #t))
+(tile(id 816)(images
+(region "worldmap/forest/forest.png" 0 96 32 32))
+(solid #t))
+(tile(id 817)(images
+(region "worldmap/forest/forest.png" 32 96 32 32))
+(solid #t))
+(tile(id 818)(images
+(region "worldmap/forest/forest.png" 64 96 32 32))
+(solid #t))
+(tile(id 819)(images
+(region "worldmap/forest/forest.png" 96 96 32 32))
+(solid #t))
+(tile(id 820)(images
+(region "worldmap/forest/forest.png" 128 96 32 32))
+(solid #t))
+(tile(id 821)(images
+(region "worldmap/forest/forest.png" 160 96 32 32))
+(solid #t))
+(tile(id 822)(images
+(region "worldmap/forest/forest.png" 192 96 32 32))
+(solid #t))
+(tile(id 823)(images
+(region "worldmap/forest/forest.png" 224 96 32 32))
+(solid #t))
+(tile(id 824)(images
+(region "worldmap/forest/forest.png" 256 96 32 32))
+(solid #t))
+(tile(id 825)(images
+(region "worldmap/forest/forest.png" 0 128 32 32))
+(solid #t))
+(tile(id 826)(images
+(region "worldmap/forest/forest.png" 32 128 32 32))
+(solid #t))
+(tile(id 827)(images
+(region "worldmap/forest/forest.png" 64 128 32 32))
+(solid #t))
+(tile(id 828)(images
+(region "worldmap/forest/forest.png" 96 128 32 32))
+(solid #t))
+(tile(id 829)(images
+(region "worldmap/forest/forest.png" 128 128 32 32))
+(solid #t))
+(tile(id 830)(images
+(region "worldmap/forest/forest.png" 160 128 32 32))
+(solid #t))
+(tile(id 831)(images
+(region "worldmap/forest/forest.png" 192 128 32 32))
+(solid #t))
+(tile(id 832)(images
+(region "worldmap/forest/forest.png" 224 128 32 32))
+(solid #t))
+(tile(id 933)(images
+(region "worldmap/forest/forest.png" 256 128 32 32))
+(solid #t))
+(tile(id 834)(images
+(region "worldmap/forest/forest.png" 0 160 32 32))
+(solid #t))
+(tile(id 835)(images
+(region "worldmap/forest/forest.png" 32 160 32 32))
+(solid #t))
+(tile(id 836)(images
+(region "worldmap/forest/forest.png" 64 160 32 32))
+(solid #t))
+(tile(id 837)(images
+(region "worldmap/forest/forest.png" 96 160 32 32))
+(solid #t))
+(tile(id 838)(images
+(region "worldmap/forest/forest.png" 128 160 32 32))
+(solid #t))
+(tile(id 839)(images
+(region "worldmap/forest/forest.png" 160 160 32 32))
+(solid #t))
+(tile(id 840)(images
+(region "worldmap/forest/forest.png" 192 160 32 32))
+(solid #t))
+(tile(id 841)(images
+(region "worldmap/forest/forest.png" 224 160 32 32))
+(solid #t))
+(tile(id 842)(images
+(region "worldmap/forest/forest.png" 256 160 32 32))
+(solid #t))
+(tile(id 843)(images
+(region "worldmap/forest/forest.png" 0 192 32 32))
+(solid #t))
+(tile(id 844)(images
+(region "worldmap/forest/forest.png" 32 192 32 32))
+(solid #t))
+(tile(id 845)(images
+(region "worldmap/forest/forest.png" 64 192 32 32))
+(solid #t))
+(tile(id 846)(images
+(region "worldmap/forest/forest.png" 96 192 32 32))
+(solid #t))
+(tile(id 847)(images
+(region "worldmap/forest/forest.png" 128 192 32 32))
+(solid #t))
+(tile(id 848)(images
+(region "worldmap/forest/forest.png" 160 192 32 32))
+(solid #t))
+(tile(id 849)(images
+(region "worldmap/forest/forest.png" 192 192 32 32))
+(solid #t))
+(tile(id 850)(images
+(region "worldmap/forest/forest.png" 224 192 32 32))
+(solid #t))
+(tile(id 851)(images
+(region "worldmap/forest/forest.png" 256 192 32 32))
+(solid #t))
+(tile(id 852)(images
+(region "worldmap/forest/forest.png" 0 224 32 32))
+(solid #t))
+(tile(id 853)(images
+(region "worldmap/forest/forest.png" 32 224 32 32))
+(solid #t))
+(tile(id 854)(images
+(region "worldmap/forest/forest.png" 64 224 32 32))
+(solid #t))
+(tile(id 855)(images
+(region "worldmap/forest/forest.png" 96 224 32 32))
+(solid #t))
+(tile(id 856)(images
+(region "worldmap/forest/forest.png" 128 224 32 32))
+(solid #t))
+(tile(id 857)(images
+(region "worldmap/forest/forest.png" 160 224 32 32))
+(solid #t))
+(tile(id 858)(images
+(region "worldmap/forest/forest.png" 192 224 32 32))
+(solid #t))
+(tile(id 859)(images
+(region "worldmap/forest/forest.png" 224 224 32 32))
+(solid #t))
+(tile(id 860)(images
+(region "worldmap/forest/forest.png" 256 224 32 32))
+(solid #t))
+(tile(id 861)(images
+(region "worldmap/forest/forest.png" 0 256 32 32))
+(solid #t))
+(tile(id 862)(images
+(region "worldmap/forest/forest.png" 32 256 32 32))
+(solid #t))
+(tile(id 863)(images
+(region "worldmap/forest/forest.png" 64 256 32 32))
+(solid #t))
+(tile(id 864)(images
+(region "worldmap/forest/forest.png" 96 256 32 32))
+(solid #t))
+(tile(id 865)(images
+(region "worldmap/forest/forest.png" 128 256 32 32))
+(solid #t))
+(tile(id 866)(images
+(region "worldmap/forest/forest.png" 160 256 32 32))
+(solid #t))
+(tile(id 867)(images
+(region "worldmap/forest/forest.png" 192 256 32 32))
+(solid #t))
+(tile(id 868)(images
+(region "worldmap/forest/forest.png" 224 256 32 32))
+(solid #t))
+(tile(id 869)(images
+(region "worldmap/forest/forest.png" 256 256 32 32))
+(solid #t))
+(tile(id 870)(images
+(region "worldmap/forest/forest.png" 0 288 32 32))
+(solid #t))
+(tile(id 871)(images
+(region "worldmap/forest/forest.png" 32 288 32 32))
+(solid #t))
+(tile(id 872)(images
+(region "worldmap/forest/forest.png" 64 288 32 32))
+(solid #t))
+(tile(id 873)(images
+(region "worldmap/forest/forest.png" 96 288 32 32))
+(solid #t))
+(tile(id 874)(images
+(region "worldmap/forest/forest.png" 128 288 32 32))
+(solid #t))
+(tile(id 875)(images
+(region "worldmap/forest/forest.png" 160 288 32 32))
+(solid #t))
+(tile(id 876)(images
+(region "worldmap/forest/forest.png" 192 288 32 32))
+(solid #t))
+(tile(id 877)(images
+(region "worldmap/forest/forest.png" 224 288 32 32))
+(solid #t))
+(tile(id 878)(images
+(region "worldmap/forest/forest.png" 256 288 32 32))
+(solid #t))
+(tile(id 879)(images
+(region "worldmap/forest/forest.png" 0 320 32 32))
+(solid #t))
+(tile(id 880)(images
+(region "worldmap/forest/forest.png" 32 320 32 32))
+(solid #t))
+(tile(id 881)(images
+(region "worldmap/forest/forest.png" 64 320 32 32))
+(solid #t))
+(tile(id 882)(images
+(region "worldmap/forest/forest.png" 96 320 32 32))
+(solid #t))
+(tile(id 883)(images
+(region "worldmap/forest/forest.png" 128 320 32 32))
+(solid #t))
+(tile(id 884)(images
+(region "worldmap/forest/forest.png" 160 320 32 32))
+(solid #t))
+(tile(id 885)(images
+(region "worldmap/forest/forest.png" 192 320 32 32))
+(solid #t))
+(tile(id 886)(images
+(region "worldmap/forest/forest.png" 224 320 32 32))
+(solid #t))
+(tile(id 887)(images
+(region "worldmap/forest/forest.png" 256 320 32 32))
+(solid #t))
+(tile(id 888)(images
+(region "worldmap/forest/forest.png" 0 352 32 32))
+(solid #t))
+(tile(id 889)(images
+(region "worldmap/forest/forest.png" 32 352 32 32))
+(solid #t))
+(tile(id 890)(images
+(region "worldmap/forest/forest.png" 64 352 32 32))
+(solid #t))
+(tile(id 891)(images
+(region "worldmap/forest/forest.png" 96 352 32 32))
+(solid #t))
+(tile(id 892)(images
+(region "worldmap/forest/forest.png" 128 352 32 32))
+(solid #t))
+(tile(id 893)(images
+(region "worldmap/forest/forest.png" 160 352 32 32))
+(solid #t))
+(tile(id 894)(images
+(region "worldmap/forest/forest.png" 192 352 32 32))
+(solid #t))
+(tile(id 895)(images
+(region "worldmap/forest/forest.png" 224 352 32 32))
+(solid #t))
+(tile(id 896)(images
+(region "worldmap/forest/forest.png" 256 352 32 32))
+(solid #t))
+(tile(id 897)(images
+(region "worldmap/forest/forest.png" 0 384 32 32))
+(solid #t))
+(tile(id 898)(images
+(region "worldmap/forest/forest.png" 32 384 32 32))
+(solid #t))
+(tile(id 899)(images
+(region "worldmap/forest/forest.png" 64 384 32 32))
+(solid #t))
+(tile(id 900)(images
+(region "worldmap/forest/forest.png" 96 384 32 32))
+(solid #t))
+(tile(id 901)(images
+(region "worldmap/forest/forest.png" 128 384 32 32))
+(solid #t))
+(tile(id 902)(images
+(region "worldmap/forest/forest.png" 160 384 32 32))
+(solid #t))
+(tile(id 903)(images
+(region "worldmap/forest/forest.png" 192 384 32 32))
+(solid #t))
+(tile(id 904)(images
+(region "worldmap/forest/forest.png" 224 384 32 32))
+(solid #t))
+(tile(id 905)(images
+(region "worldmap/forest/forest.png" 256 384 32 32))
+(solid #t))
+(tile(id 906)(images
+(region "worldmap/forest/forest.png" 0 416 32 32))
+(solid #t))
+(tile(id 907)(images
+(region "worldmap/forest/forest.png" 32 416 32 32))
+(solid #t))
+(tile(id 908)(images
+(region "worldmap/forest/forest.png" 96 416 32 32))
+(solid #t))
+(tile(id 909)(images
+(region "worldmap/forest/forest.png" 128 416 32 32))
+(solid #t))
+(tile(id 910)(images
+(region "worldmap/forest/forest.png" 160 416 32 32))
+(solid #t))
+(tile(id 911)(images
+(region "worldmap/forest/forest.png" 192 416 32 32))
+(solid #t))
+(tile(id 912)(images
+(region "worldmap/forest/forest.png" 224 416 32 32))
+(solid #t))
+(tile(id 913)(images
+(region "worldmap/forest/forest.png" 256 416 32 32))
+(solid #t))
 
 )
 )
