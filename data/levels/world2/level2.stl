@@ -216,7 +216,7 @@
         (script "levelflip();")
       )
       (powerup (x 8000) (y 352)
-        (sprite "key-gold")
+        (sprite "images/objects/keys/key_gold.sprite")
         (script "get_gold_key();")
         (disable-physics #t)
       )

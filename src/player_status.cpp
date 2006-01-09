@@ -42,11 +42,11 @@ PlayerStatus::PlayerStatus()
     max_score_multiplier(1)
 {
   reset();
-  key_brass = sprite_manager->create("key-brass");
-  key_iron = sprite_manager->create("key-iron");
-  key_bronze = sprite_manager->create("key-bronze");
-  key_silver = sprite_manager->create("key-silver");
-  key_gold = sprite_manager->create("key-gold");
+  key_brass = sprite_manager->create("images/objects/keys/key_brass.sprite");
+  key_iron = sprite_manager->create("images/objects/keys/key_iron.sprite");
+  key_bronze = sprite_manager->create("images/objects/keys/key_bronze.sprite");
+  key_silver = sprite_manager->create("images/objects/keys/key_silver.sprite");
+  key_gold = sprite_manager->create("images/objects/keys/key_gold.sprite");
   key_brass->set_action("outline");
   key_iron->set_action("outline");
   key_bronze->set_action("outline");

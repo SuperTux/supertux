@@ -1,0 +1,14 @@
+(supertux-sprite
+ (action
+  (name "default")
+  (images "key_brass.png")
+ )
+ (action
+  (name "display")
+  (images "display_brass.png")
+ )
+ (action
+  (name "outline")
+  (images "outline_brass.png")
+ )
+)
