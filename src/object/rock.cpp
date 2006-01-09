@@ -91,7 +91,7 @@ Rock::collision(GameObject& object, const CollisionHit& )
 }
 
 void
-Rock::grab(MovingObject& , const Vector& pos)
+Rock::grab(MovingObject& , const Vector& pos, Direction)
 {
   movement = pos - get_pos();
   grabbed = true;

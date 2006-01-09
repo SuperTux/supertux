@@ -22,8 +22,9 @@
 #define __MRICEBLOCK_H__
 
 #include "badguy.hpp"
+#include "object/portable.hpp"
 
-class MrIceBlock : public BadGuy
+class MrIceBlock : public BadGuy, public Portable
 {
 public:
   MrIceBlock(const lisp::Lisp& reader);
@@ -31,10 +32,15 @@ public:
 
   void activate();
   void write(lisp::Writer& writer);
+  HitResponse collision(GameObject& object, const CollisionHit& hit);
   HitResponse collision_solid(GameObject& object, const CollisionHit& hit);
   HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
+  HitResponse collision_player(Player& player, const CollisionHit& hit);
 
   void active_update(float elapsed_time);
+  
+  void grab(MovingObject& object, const Vector& pos, Direction dir);
+  void ungrab(MovingObject& object, Direction dir);
 
 protected:
   bool collision_squished(Player& player);
@@ -43,13 +49,17 @@ private:
   enum IceState {
     ICESTATE_NORMAL,
     ICESTATE_FLAT,
+    ICESTATE_GRABBED,
     ICESTATE_KICKED
   };
+
+  void set_state(IceState state);
+ 
   IceState ice_state;
   Timer flat_timer;
   int squishcount;
   bool set_direction;
-  Direction initial_direction;  
+  Direction initial_direction;
 };
 
 #endif

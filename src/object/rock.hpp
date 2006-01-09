@@ -39,7 +39,7 @@ public:
   void draw(DrawingContext& context);
   void write(lisp::Writer& writer);
     
-  void grab(MovingObject& object, const Vector& pos);
+  void grab(MovingObject& object, const Vector& pos, Direction dir);
 
 private:
   bool grabbed;

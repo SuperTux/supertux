@@ -78,7 +78,9 @@ public:
   // flags
   enum {
     /// the tile so you can stand on it
-    FLAG_SOLID       = 0x0001,
+    FLAG_SOLID       = (1 << 0),
+    /// the object can be carried around (inherits from Portable)
+    FLAG_PORTABLE    = (1 << 1)
   };                     
 
   int get_flags() const

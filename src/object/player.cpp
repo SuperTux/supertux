@@ -57,6 +57,8 @@ static const float MAX_WALK_XM = 230;
 static const float MAX_RUN_XM = 320;
 static const float WALK_SPEED = 100;
 
+static const float KICK_TIME = .3;
+
 // growing animation
 Surface* growingtux_left[GROWING_FRAMES];
 Surface* growingtux_right[GROWING_FRAMES];
@@ -177,6 +179,7 @@ Player::update(float elapsed_time)
         std::cout << "Non MovingObjetc grabbed?!?\n";
 #endif
       }
+      grabbed_object->ungrab(*this, dir);
       grabbed_object = 0;
     }
   }
@@ -201,7 +204,7 @@ Player::update(float elapsed_time)
     Vector pos = get_pos() + 
       Vector(dir == LEFT ? -16 : 16,
              bbox.get_height()*0.66666 - 32);
-    grabbed_object->grab(*this, pos);
+    grabbed_object->grab(*this, pos, dir);
   }
 }
 
@@ -520,6 +523,12 @@ Player::set_bonus(BonusType type, bool animate)
 }
 
 void
+Player::kick()
+{
+  kick_timer.start(KICK_TIME);
+}
+
+void
 Player::draw(DrawingContext& context)
 {
   TuxBodyParts* tux_body;
@@ -682,11 +691,13 @@ Player::collision(GameObject& other, const CollisionHit& hit)
     return FORCE_MOVE;
   }
 
-  Portable* portable = dynamic_cast<Portable*> (&other);
-  if(portable && grabbed_object == 0 && controller->hold(Controller::ACTION)
-     && fabsf(hit.normal.x) > .9) {
-    grabbed_object = portable;
-    return CONTINUE;
+  if(other.get_flags() & FLAG_PORTABLE) {
+    Portable* portable = dynamic_cast<Portable*> (&other);
+    if(portable && grabbed_object == 0 && controller->hold(Controller::ACTION)
+        && fabsf(hit.normal.x) > .9) {
+      grabbed_object = portable;
+      return CONTINUE;
+    }
   }
  
   if(other.get_flags() & FLAG_SOLID) {

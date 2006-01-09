@@ -62,7 +62,10 @@ MrIceBlock::write(lisp::Writer& writer)
 void
 MrIceBlock::activate()
 {
-  if (set_direction) {dir = initial_direction;}
+  if (set_direction) {
+    dir = initial_direction;
+  }
+
   physic.set_velocity_x(dir == LEFT ? -WALKSPEED : WALKSPEED);
   sprite->set_action(dir == LEFT ? "left" : "right");
 }
@@ -70,11 +73,13 @@ MrIceBlock::activate()
 void
 MrIceBlock::active_update(float elapsed_time)
 {
+  if(ice_state == ICESTATE_GRABBED)
+    return;
+
   if(ice_state == ICESTATE_FLAT && flat_timer.check()) {
-    ice_state = ICESTATE_NORMAL;
-    physic.set_velocity_x(dir == LEFT ? -WALKSPEED : WALKSPEED);
-    sprite->set_action(dir == LEFT ? "left" : "right");
+    set_state(ICESTATE_NORMAL);
   }
+  
   BadGuy::active_update(elapsed_time);
 }
 
@@ -111,9 +116,45 @@ MrIceBlock::collision_solid(GameObject& object, const CollisionHit& hit)
     case ICESTATE_FLAT:
       physic.set_velocity_x(0);
       break;
+    case ICESTATE_GRABBED:
+      return FORCE_MOVE;
   }
 
   return CONTINUE;
+}
+
+HitResponse
+MrIceBlock::collision(GameObject& object, const CollisionHit& hit)
+{
+  if(ice_state == ICESTATE_GRABBED)
+    return FORCE_MOVE;
+
+  return BadGuy::collision(object, hit);
+}
+
+HitResponse
+MrIceBlock::collision_player(Player& player, const CollisionHit& hit)
+{
+  if(ice_state == ICESTATE_GRABBED)
+    return FORCE_MOVE;
+
+  // handle kicks from left or right side
+  if(ice_state == ICESTATE_FLAT && get_state() == STATE_ACTIVE) {
+    // hit from left side
+    if(hit.normal.x > 0.7) {
+      dir = RIGHT;
+      player.kick();
+      set_state(ICESTATE_KICKED);
+      return FORCE_MOVE;
+    } else if(hit.normal.x < -0.7) {
+      dir = LEFT;
+      player.kick();
+      set_state(ICESTATE_KICKED);
+      return FORCE_MOVE;
+    }
+  }
+  
+  return BadGuy::collision_player(player, hit);
 }
 
 HitResponse
@@ -151,32 +192,86 @@ MrIceBlock::collision_squished(Player& player)
         return true;
       }
 
-      // flatten
+      set_state(ICESTATE_FLAT);
+      break;
+    case ICESTATE_FLAT:
+      if(player.get_pos().x < get_pos().x) {
+        dir = RIGHT;
+      } else {
+        dir = LEFT;
+      }
+      set_state(ICESTATE_KICKED);
+      break;
+    case ICESTATE_GRABBED:
+      assert(false);
+      break;
+  }
+
+  player.bounce(*this);
+  return true;
+}
+
+void
+MrIceBlock::set_state(IceState state)
+{
+  if(ice_state == state)
+    return;
+  
+  if(state == ICESTATE_FLAT)
+    flags |= FLAG_PORTABLE;
+  else
+    flags &= ~FLAG_PORTABLE;
+
+  if(ice_state == ICESTATE_KICKED) {
+    bbox.set_size(31.8, 31.8);
+  }
+
+  switch(state) {
+    case ICESTATE_NORMAL:
+      physic.set_velocity_x(dir == LEFT ? -WALKSPEED : WALKSPEED);
+      sprite->set_action(dir == LEFT ? "left" : "right");
+      break;
+    case ICESTATE_FLAT:
       sound_manager->play("sounds/stomp.wav", get_pos());
       physic.set_velocity_x(0);
       physic.set_velocity_y(0); 
       
       sprite->set_action(dir == LEFT ? "flat-left" : "flat-right");
       flat_timer.start(4);
-      ice_state = ICESTATE_FLAT;
       break;
-    case ICESTATE_FLAT:
-      // kick
+    case ICESTATE_KICKED:
       sound_manager->play("sounds/kick.wav", get_pos());
 
-      if(player.get_pos().x < get_pos().x) {
-        dir = RIGHT;
-      } else {
-        dir = LEFT;
-      }
       physic.set_velocity_x(dir == LEFT ? -KICKSPEED : KICKSPEED);
       sprite->set_action(dir == LEFT ? "flat-left" : "flat-right");
-      ice_state = ICESTATE_KICKED;
+      // we should slide above 1 block holes now...
+      bbox.set_size(32.5, 31.8);
       break;
+    case ICESTATE_GRABBED:
+      flat_timer.stop();
+      break;
+    default:
+      assert(false);
   }
+  ice_state = state;
+}
 
-  player.bounce(*this);
-  return true;
+void
+MrIceBlock::grab(MovingObject&, const Vector& pos, Direction dir)
+{
+  movement = pos - get_pos();
+  this->dir = dir;
+  sprite->set_action(dir == LEFT ? "flat-left" : "flat-right");
+  set_state(ICESTATE_GRABBED);
+  set_group(COLGROUP_DISABLED);
+}
+
+void
+MrIceBlock::ungrab(MovingObject& , Direction dir)
+{
+  this->dir = dir;
+  set_state(ICESTATE_KICKED);
+  set_group(COLGROUP_MOVING);
 }
 
 IMPLEMENT_FACTORY(MrIceBlock, "mriceblock")

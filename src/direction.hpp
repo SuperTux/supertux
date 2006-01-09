@@ -23,5 +23,4 @@
 
 enum Direction { LEFT = 0, RIGHT = 1 };
 
-#endif /*SUPERTUX_DEFINES_H*/
-
+#endif

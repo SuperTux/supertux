@@ -21,6 +21,7 @@
 #define __PORTABLE_H__
 
 #include "moving_object.hpp"
+#include "direction.hpp"
 
 /**
  * An object that inherits from this object is considered "portable" and can
@@ -37,7 +38,10 @@ public:
   /**
    * called each frame when the object has been grabbed.
    */
-  virtual void grab(MovingObject& object, const Vector& pos) = 0;
+  virtual void grab(MovingObject& object, const Vector& pos, Direction dir) = 0;
+
+  virtual void ungrab(MovingObject& , Direction )
+  {}
 };
 
 #endif

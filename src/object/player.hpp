@@ -144,6 +144,8 @@ public:
   {
     return player_status;
   }
+  // set kick animation
+  void kick();
 
   void bounce(BadGuy& badguy);
 
