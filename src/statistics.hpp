@@ -1,6 +1,8 @@
+//  $Id$
 //
-//  SuperTux -  A Jump'n Run
+//  SuperTux (Statistics module)
 //  Copyright (C) 2004 Ricardo Cruz <rick2@aeiou.pt>
+//  Copyright (C) 2006 Ondrej Hosek <white.timberwolf@aon.at>
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -14,8 +16,7 @@
 // 
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
-//  02111-1307, USA.
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #ifndef SUPERTUX_STATISTICS_H
 #define SUPERTUX_STATISTICS_H
@@ -30,7 +31,7 @@ class DrawingContext;
 #define STOTAL  1
 
 enum {
-  SCORE_STAT,
+//  SCORE_STAT,
   COINS_COLLECTED_STAT,
   BADGUYS_KILLED_STAT,
   TIME_NEEDED_STAT,

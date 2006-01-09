@@ -717,6 +717,11 @@ GameSession::start_sequence(const std::string& sequencename)
       currentsector->add_object(new Fireworks());
     }
   } else if(sequencename == "stoptux") {
+    if(!end_sequence) {
+      std::cout << "WARNING: Final target reached without "
+        << "an active end sequence." << std::endl;
+      this->start_sequence("endsequence");
+    }
     end_sequence =  ENDSEQUENCE_WAITING;
   } else {
     std::cout << "Unknown sequence '" << sequencename << "'.\n";
@@ -759,11 +764,12 @@ GameSession::drawresultscreen()
   context.draw_text(blue_text, _("Result:"), Vector(SCREEN_WIDTH/2, 200),
       CENTER_ALLIGN, LAYER_FOREGROUND1);
 
-  sprintf(str, _("SCORE: %d"), global_stats.get_points(SCORE_STAT));
-  context.draw_text(gold_text, str, Vector(SCREEN_WIDTH/2, 224), CENTER_ALLIGN, LAYER_FOREGROUND1);
+//  sprintf(str, _("SCORE: %d"), global_stats.get_points(SCORE_STAT));
+//  context.draw_text(gold_text, str, Vector(SCREEN_WIDTH/2, 224), CENTER_ALLIGN, LAYER_FOREGROUND1);
 
+  // y == 256 before removal of score
   sprintf(str, _("COINS: %d"), player_status->coins);
-  context.draw_text(gold_text, str, Vector(SCREEN_WIDTH/2, 256), CENTER_ALLIGN, LAYER_FOREGROUND1);
+  context.draw_text(gold_text, str, Vector(SCREEN_WIDTH/2, 224), CENTER_ALLIGN, LAYER_FOREGROUND1);
 
   context.do_drawing();
   

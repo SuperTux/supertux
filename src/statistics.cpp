@@ -1,6 +1,8 @@
+//  $Id$
 //
-//  SuperTux -  A Jump'n Run
+//  SuperTux (Statistics module)
 //  Copyright (C) 2004 Ricardo Cruz <rick2@aeiou.pt>
+//  Copyright (C) 2006 Ondrej Hosek <white.timberwolf@aon.at>
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -14,8 +16,7 @@
 // 
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
-//  02111-1307, USA.
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #include <config.h>
 
@@ -33,8 +34,8 @@ stat_name_to_string(int stat_enum)
 {
   switch(stat_enum)
     {
-    case SCORE_STAT:
-      return "score";
+//    case SCORE_STAT:
+//      return "score";
     case COINS_COLLECTED_STAT:
       return "coins-collected";
     case BADGUYS_KILLED_STAT:
@@ -86,8 +87,11 @@ Statistics::write(lisp::Writer& writer)
   }
 }
 
-#define TOTAL_DISPLAY_TIME 3400
-#define FADING_TIME         600
+//define TOTAL_DISPLAY_TIME  3400
+//define FADING_TIME          600
+
+#define TOTAL_DISPLAY_TIME  5
+#define FADING_TIME         1
 
 #define WMAP_INFO_LEFT_X  520
 #define WMAP_INFO_RIGHT_X 740
@@ -95,16 +99,24 @@ Statistics::write(lisp::Writer& writer)
 void
 Statistics::draw_worldmap_info(DrawingContext& context)
 {
-  if(stats[SCORE_STAT][SPLAYER] == -1)  // not initialized yet
+  if(stats[COINS_COLLECTED_STAT][SPLAYER] == -1)  // not initialized yet
     return;
 
-  if(timer.check())
-    {
+//  if(timer.check())
+  if (!timer.started())
+  {
     timer.start(TOTAL_DISPLAY_TIME);
     display_stat++;
     if(display_stat >= NUM_STATS)
-      display_stat = 1;
+      display_stat = 0;
+
+    if((display_stat == TIME_NEEDED_STAT) && (stats[TIME_NEEDED_STAT][STOTAL] == -1))
+    { // no timer in level
+      display_stat++;
+      if(display_stat >= NUM_STATS)
+        display_stat = 0;
     }
+  }
 
   char str[128];
 
@@ -112,21 +124,20 @@ Statistics::draw_worldmap_info(DrawingContext& context)
                     Vector((WMAP_INFO_LEFT_X + WMAP_INFO_RIGHT_X) / 2, 470),
                     CENTER_ALLIGN, LAYER_GUI);
 
-  sprintf(str, _("Max score:"));
-  context.draw_text(white_small_text, str, Vector(WMAP_INFO_LEFT_X, 490), LEFT_ALLIGN, LAYER_GUI);
+  // Score has been removed
+  //sprintf(str, _("Max score:"));
+  //context.draw_text(white_small_text, str, Vector(WMAP_INFO_LEFT_X, 490), LEFT_ALLIGN, LAYER_GUI);
 
-  sprintf(str, "%d", stats[SCORE_STAT][SPLAYER]);
-  context.draw_text(white_small_text, str, Vector(WMAP_INFO_RIGHT_X, 490), RIGHT_ALLIGN, LAYER_GUI);
+  //sprintf(str, "%d", stats[SCORE_STAT][SPLAYER]);
+  //context.draw_text(white_small_text, str, Vector(WMAP_INFO_RIGHT_X, 490), RIGHT_ALLIGN, LAYER_GUI);
 
-  // draw other small info
-
-  int alpha;
+  float alpha;
   if(timer.get_timegone() < FADING_TIME)
-    alpha = int(timer.get_timegone() * 255 / FADING_TIME);
+    alpha = (timer.get_timegone() * 1.0f / FADING_TIME);
   else if(timer.get_timeleft() < FADING_TIME)
-    alpha = int(timer.get_timeleft() * 255 / FADING_TIME);
+    alpha = (timer.get_timeleft() * 1.0f / FADING_TIME);
   else
-    alpha = 255;
+    alpha = 1.0f;
 
   context.push_transform();
   context.set_alpha(alpha);
@@ -138,7 +149,8 @@ Statistics::draw_worldmap_info(DrawingContext& context)
   else// if(display_stat == TIME_NEEDED_STAT)
     sprintf(str, _("Min time needed:"));
 
-  context.draw_text(white_small_text, str, Vector(WMAP_INFO_LEFT_X, 508), LEFT_ALLIGN, LAYER_GUI);
+  // y == 508 before score was removed
+  context.draw_text(white_small_text, str, Vector(WMAP_INFO_LEFT_X, 490), LEFT_ALLIGN, LAYER_GUI);
 
   if(display_stat == COINS_COLLECTED_STAT)
     sprintf(str, "%d/%d", stats[COINS_COLLECTED_STAT][SPLAYER],
@@ -150,7 +162,7 @@ Statistics::draw_worldmap_info(DrawingContext& context)
     sprintf(str, "%d/%d", stats[TIME_NEEDED_STAT][SPLAYER],
                           stats[TIME_NEEDED_STAT][STOTAL]);
 
-  context.draw_text(white_small_text, str, Vector(WMAP_INFO_RIGHT_X, 508), RIGHT_ALLIGN, LAYER_GUI);
+  context.draw_text(white_small_text, str, Vector(WMAP_INFO_RIGHT_X, 490), RIGHT_ALLIGN, LAYER_GUI);
 
   context.pop_transform();
 }
@@ -158,15 +170,15 @@ Statistics::draw_worldmap_info(DrawingContext& context)
 void
 Statistics::draw_message_info(DrawingContext& context, std::string title)
 {
-  if(stats[SCORE_STAT][SPLAYER] == -1)  // not initialized yet
+  if(stats[COINS_COLLECTED_STAT][SPLAYER] == -1)  // not initialized yet
     return;
 
   context.draw_text(gold_text, title, Vector(SCREEN_WIDTH/2, 410), CENTER_ALLIGN, LAYER_GUI);
 
   char str[128];
 
-  sprintf(str, _(    "Max score:             %d"), stats[SCORE_STAT][SPLAYER]);
-  context.draw_text(white_text, str, Vector(SCREEN_WIDTH/2, 450), CENTER_ALLIGN, LAYER_GUI);
+  //sprintf(str, _(    "Max score:             %d"), stats[SCORE_STAT][SPLAYER]);
+  //context.draw_text(white_text, str, Vector(SCREEN_WIDTH/2, 450), CENTER_ALLIGN, LAYER_GUI);
 
   for(int i = 1; i < NUM_STATS; i++)
     {
@@ -184,7 +196,8 @@ Statistics::draw_message_info(DrawingContext& context, std::string title)
               stats[TIME_NEEDED_STAT][STOTAL]);
 
 
-    context.draw_text(white_small_text, str, Vector(SCREEN_WIDTH/2, 462 + i*18), CENTER_ALLIGN, LAYER_GUI);
+    // y == (462 + i*18) before score removal
+    context.draw_text(white_small_text, str, Vector(SCREEN_WIDTH/2, 450 + i*18), CENTER_ALLIGN, LAYER_GUI);
     }
 }
 
@@ -222,7 +235,7 @@ Statistics::reset()
 void
 Statistics::merge(Statistics& stats_)
 {
-  stats[SCORE_STAT][SPLAYER] = std::max(stats[SCORE_STAT][SPLAYER], stats_.stats[SCORE_STAT][SPLAYER]);
+//  stats[SCORE_STAT][SPLAYER] = std::max(stats[SCORE_STAT][SPLAYER], stats_.stats[SCORE_STAT][SPLAYER]);
   stats[COINS_COLLECTED_STAT][SPLAYER] = std::max(stats[COINS_COLLECTED_STAT][SPLAYER], stats_.stats[COINS_COLLECTED_STAT][SPLAYER]);
   stats[BADGUYS_KILLED_STAT][SPLAYER] =
     std::max(stats[BADGUYS_KILLED_STAT][SPLAYER], stats_.stats[BADGUYS_KILLED_STAT][SPLAYER]);
