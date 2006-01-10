@@ -1,0 +1,17 @@
+(supertux-sprite
+ (action
+  (name "explosion-left")
+  (fps 15.0)
+  (x-offset 0)
+  (y-offset 32)
+  (images "explosion-0.png"
+   "explosion-1.png")
+ )
+ (action
+  (name "explosion-right")
+  (fps 15.0)
+  (x-offset 0)
+  (y-offset 32)
+  (mirror-action "explosion-left")
+ )
+)

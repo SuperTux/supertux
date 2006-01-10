@@ -37,7 +37,7 @@ Door::Door(const lisp::Lisp& reader)
   reader.get("sector", target_sector);
   reader.get("spawnpoint", target_spawnpoint);
 
-  sprite = sprite_manager->create("door");
+  sprite = sprite_manager->create("images/objects/door/door.sprite");
 }
 
 Door::Door(int x, int y, std::string sector, std::string spawnpoint)

@@ -1,0 +1,38 @@
+(supertux-sprite
+ (action
+  (y-offset -3)
+  (fps 5)
+  (name "left")
+  (images "walk-left-0.png"
+   "walk-left-1.png"
+   "walk-left-2.png")
+ )
+ (action
+  (y-offset -3)
+  (fps 5)
+  (name "right")
+  (mirror-action "left")
+ )
+ (action
+  (y-offset -3)
+  (name "small-left")
+  (images "small-left-0.png"
+   "small-left-1.png"
+   "small-left-2.png")
+ )
+  (action
+   (y-offset -3)
+   (name "small-right")
+   (mirror-action "small-left")
+  )
+  (action
+   (y-offset -6)
+   (name "squished-left")
+   (images "squished-left.png")
+  )
+  (action
+   (y-offset -6)
+   (name "squished-right")
+   (mirror-action "squished-left")
+  )
+)

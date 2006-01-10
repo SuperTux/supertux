@@ -31,7 +31,7 @@ MrTree::MrTree(const lisp::Lisp& reader)
   reader.get("x", start_position.x);
   reader.get("y", start_position.y);
   bbox.set_size(84.8, 95.8);
-  sprite = sprite_manager->create("mrtree");
+  sprite = sprite_manager->create("images/creatures/mr_tree/mr_tree.sprite");
 }
 
 void

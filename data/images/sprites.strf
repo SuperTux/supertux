@@ -906,88 +906,6 @@
          (y-offset -12)
          (mirror-action "squished-left")))
 
-
- (sprite (name "spiky")
-       (action
-         (name "left")
-         (x-offset 6)
-         (y-offset 10)
-         (images "creatures/spiky/left-0.png"
-                 "creatures/spiky/left-1.png"
-                 "creatures/spiky/left-2.png"))
-       (action
-         (name "right")
-         (x-offset 6)
-         (y-offset 10)
-         (mirror-action "left"))
-       (action
-         (name "iced-left")
-         (x-offset 6)
-         (y-offset 10)
-         (images "creatures/spiky/iced-left.png"))
-       (action
-         (name "iced-right")
-         (x-offset 6)
-         (y-offset 10)
-         (mirror-action "iced-left")))
-        
-   ; MrRocket
-   (sprite (name "mrrocket")
-       (action
-         (name "left")
-         (fps 15.0)
-         (x-offset 3)
-         (y-offset 12)
-         (images "creatures/mr_rocket/flying-0.png"
-	 	 "creatures/mr_rocket/flying-1.png"
-		 "creatures/mr_rocket/flying-2.png"
-		 "creatures/mr_rocket/flying-1.png"))
-
-       (action
-         (name "right")
-         (fps 10.0)
-         (x-offset 7)
-         (y-offset 12)
-         (mirror-action "left"))
-       
-       (action
-         (name "squished-left")
-         (x-offset 7)
-         (y-offset 0)
-         (images "creatures/mr_rocket/squished.png"))
-
-       (action
-         (name "squished-right")
-         (x-offset 7)
-         (y-offset 0)
-         (mirror-action "squished-left"))
-       
-       (action
-         (name "collision-left")
-         (x-offset 3)
-         (y-offset 12)
-         (images "creatures/mr_rocket/collision.png"))
-
-       (action
-         (name "collision-right")
-         (x-offset 3)
-         (y-offset 12)
-         (mirror-action "squished-left")))
-   
-   (sprite (name "rocketexplosion")     
-       (action
-         (name "explosion-left")
-         (fps 15.0)
-         (x-offset 0)
-         (y-offset 32)
-         (images "creatures/mr_rocket/explosion-0.png"
-                 "creatures/mr_rocket/explosion-1.png"))
-       (action
-         (name "explosion-right")
-         (fps 15.0)
-         (x-offset 0)
-         (y-offset 32)
-         (mirror-action "explosion-left")))
 ; Nolok
    (sprite (name "nolok")
        (action
@@ -1035,77 +953,6 @@
          (x-offset 0)
          (y-offset 0)
          (images "creatures/nolok/throw-0.png")))
-
-
-
-
-   
-  ; MrTree  
-  (sprite (name "mrtree")
-      (action
-        (y-offset -3)
-        (fps 5)
-        (name "left")
-        (images "creatures/mr_tree/walk-left-0.png"
-                "creatures/mr_tree/walk-left-1.png"
-                "creatures/mr_tree/walk-left-2.png")
-      )
-      (action
-        (y-offset -3)
-        (fps 5)
-        (name "right")
-        (mirror-action "left")
-      )
-      (action
-        (y-offset -3)
-        (name "small-left")
-        (images "creatures/mr_tree/small-left-0.png"
-                "creatures/mr_tree/small-left-1.png"
-                "creatures/mr_tree/small-left-2.png")
-      )
-      (action
-        (y-offset -3)
-        (name "small-right")
-        (mirror-action "small-left")
-      )
-      (action
-        (y-offset -6)
-        (name "squished-left")
-        (images "creatures/mr_tree/squished-left.png")
-      )
-      (action
-        (y-offset -6)
-        (name "squished-right")
-        (mirror-action "squished-left")
-      )
-  )
-
- ; PoisonIvy
- (sprite (name "poisonivy")
-       (action
-         (name "left")
-         (x-offset 2)
-         (y-offset 4)
-         (images "creatures/poison_ivy/left-0.png"
-                 "creatures/poison_ivy/left-1.png"
-                 "creatures/poison_ivy/left-2.png"))
-
-       (action
-         (name "right")
-         (x-offset 2)
-         (y-offset 4)
-         (mirror-action "left"))
-       (action
-         (name "squished-left")
-         (x-offset 1)
-         (y-offset -19)
-         (images "creatures/poison_ivy/squished.png"))
-
-       (action
-         (name "squished-right")
-         (x-offset 1)
-         (y-offset -19)
-         (mirror-action "squished-left")))
 
 ; Zeekling
  (sprite (name "zeekling")
@@ -1183,16 +1030,6 @@
 
 ;; Game Objects follow
 
-  ; Trampoline
-  (sprite (name "trampoline")
-       (action
-         (x-offset 0)
-         (y-offset 0)
-         (images "objects/trampoline/trampoline1-0.png"
-                 "objects/trampoline/trampoline1-1.png"
-                 "objects/trampoline/trampoline1-2.png"
-                 "objects/trampoline/trampoline1-3.png")))
-
   ; Flying platform
   (sprite (name "platform")
        (action
@@ -1237,33 +1074,6 @@
                  "tiles/firefly/firefly3.png"
                  "tiles/firefly/firefly2.png")
        )
-  )
-  ; Door
-  (sprite (name "door")
-       (action
-          (name "normal")
-          (x-offset 0)
-          (y-offset 0)
-          (images "objects/door/door-0.png"))
-       (action
-          (name "open")
-          (x-offset 0)
-          (y-offset 0)
-          (images "objects/door/door-0.png"
-                  "objects/door/door-1.png"
-                  "objects/door/door-2.png"
-                  "objects/door/door-3.png"
-                  "objects/door/door-4.png"
-                  "objects/door/door-5.png"
-                  "objects/door/door-6.png"
-                  "objects/door/door-7.png"
-                  "objects/door/door-6.png"
-                  "objects/door/door-5.png"
-                  "objects/door/door-4.png"
-                  "objects/door/door-3.png"
-                  "objects/door/door-2.png"
-                  "objects/door/door-1.png"
-                  "objects/door/door-0.png"))
   )
 
   ; coin
@@ -1348,28 +1158,6 @@
           (images "objects/particles/stomp.png")
   ))
 
-  (sprite (name "bell")
-       (action
-          (name "normal")
-          (x-offset 0)
-          (y-offset 0)
-          (images "objects/bell/bell-m.png")
-       )
-       (action
-         (name "ringing")
-         (images 
-           "objects/bell/bell-l_0.png"
-           "objects/bell/bell-l.png"
-           "objects/bell/bell-l_0.png"
-           "objects/bell/bell-m.png"
-	   "objects/bell/bell-r_0.png"
-           "objects/bell/bell-r.png"
-	   "objects/bell/bell-r_0.png"
-           "objects/bell/bell-m.png"
-         )
-       )
-  )
-  
   (sprite (name "unstable_tile")
     (action
       (images "objects/unstable_tile/unstable_tile.png"))
@@ -1397,24 +1185,6 @@
     )
   )
   
-  (sprite (name "worldmaptux")
-    (action
-      (name "small")
-      (y-offset 10) 
-      (images "worldmap/common/smalltux.png")
-    )
-    (action
-      (name "large")
-      (y-offset 10) 
-      (images "worldmap/common/tux.png")
-    )
-    (action
-      (name "fire")
-      (y-offset 10) 
-      (images "worldmap/common/firetux.png")
-    )
-  )
-
   (sprite (name "hatch")
        (action
           (name "normal")

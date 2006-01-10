@@ -248,11 +248,6 @@ Particles::draw(DrawingContext& context)
 
 void load_object_gfx()
 {
-#if 0
-  img_trampoline = sprite_manager->load("trampoline");
-  img_trampoline->start_animation(0);
-  img_flying_platform = sprite_manager->load("flying_platform");
-#endif
   img_smoke_cloud = sprite_manager->create("stomp");
 }
 

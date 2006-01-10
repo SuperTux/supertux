@@ -118,7 +118,7 @@ string_to_direction(const std::string& directory)
 Tux::Tux(WorldMap* worldmap_)
   : worldmap(worldmap_)
 {
-  tux_sprite = sprite_manager->create("worldmaptux");
+  tux_sprite = sprite_manager->create("images/worldmap/common/tux.sprite");
   
   offset = 0;
   moving = false;

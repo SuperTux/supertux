@@ -1,0 +1,17 @@
+(supertux-sprite
+ (action
+  (name "small")
+  (y-offset 10)
+  (images "smalltux.png")
+ )
+ (action
+  (name "large")
+  (y-offset 10)
+  (images "tux.png")
+ )
+ (action
+  (name "fire")
+  (y-offset 10)
+  (images "firetux.png")
+ )
+)

@@ -29,7 +29,7 @@ RocketExplosion::RocketExplosion(const Vector& pos, Direction dir)
   start_position = pos;
   bbox.set_pos(pos);
   bbox.set_size(31.8, 31.8);
-  sprite = sprite_manager->create("rocketexplosion");
+  sprite = sprite_manager->create("images/creatures/mr_rocket/explosion.sprite");
   this->dir = dir;
   countMe = false;
   explode();

@@ -29,7 +29,7 @@ PoisonIvy::PoisonIvy(const lisp::Lisp& reader)
   reader.get("x", start_position.x);
   reader.get("y", start_position.y);
   bbox.set_size(31.8, 31.8);
-  sprite = sprite_manager->create("poisonivy");
+  sprite = sprite_manager->create("images/creatures/poison_ivy/poison_ivy.sprite");
   set_direction = false;
 }
 
@@ -38,7 +38,7 @@ PoisonIvy::PoisonIvy(float pos_x, float pos_y, Direction d)
   start_position.x = pos_x;
   start_position.y = pos_y;
   bbox.set_size(31.8, 31.8);
-  sprite = sprite_manager->create("poisonivy");
+  sprite = sprite_manager->create("images/creatures/poison_ivy/poison_ivy.sprite");
   set_direction = true;
   initial_direction = d;
 }
