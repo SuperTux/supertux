@@ -19,6 +19,8 @@
 #ifndef SUPERTUX_MOVING_OBJECT_H
 #define SUPERTUX_MOVING_OBJECT_H
 
+#include <stdint.h>
+
 #include "game_object.hpp"
 #include "collision_hit.hpp"
 #include "math/vector.hpp"

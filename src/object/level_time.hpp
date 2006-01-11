@@ -13,6 +13,8 @@ public:
 
     void update(float elapsed_time);
     void draw(DrawingContext& context);
+    float get_level_time();
+    float get_remaining_time();
 
 private:
     Timer time_left;

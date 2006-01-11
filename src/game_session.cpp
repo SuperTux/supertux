@@ -48,6 +48,7 @@
 #include "object/tilemap.hpp"
 #include "object/camera.hpp"
 #include "object/player.hpp"
+#include "object/level_time.hpp"
 #include "lisp/lisp.hpp"
 #include "lisp/parser.hpp"
 #include "resources.hpp"
@@ -110,7 +111,24 @@ GameSession::restart_level()
   global_stats.reset();
   global_stats.set_total_points(COINS_COLLECTED_STAT, level->get_total_coins());
   global_stats.set_total_points(BADGUYS_KILLED_STAT, level->get_total_badguys());
-  //global_stats.set_total_points(TIME_NEEDED_STAT, level->timelimit);
+  
+  // get time
+  int time = 0;
+  for(std::vector<Sector*>::iterator i = level->sectors.begin(); i != level->sectors.end(); ++i)
+  {
+    Sector* sec = *i;
+
+    for(std::vector<GameObject*>::iterator j = sec->gameobjects.begin();
+        j != sec->gameobjects.end(); ++j)
+    {
+      GameObject* obj = *j;
+      
+      LevelTime* lt = dynamic_cast<LevelTime*> (obj);
+      if(lt)
+        time += int(lt->get_level_time());
+    }
+  }
+  global_stats.set_total_points(TIME_NEEDED_STAT, (time == 0) ? -1 : time);
 
   if(reset_sector != "") {
     currentsector = level->get_sector(reset_sector);
@@ -388,6 +406,28 @@ GameSession::check_end_conditions()
   /* End of level? */
   if(end_sequence && endsequence_timer.check()) {
     exit_status = ES_LEVEL_FINISHED;
+    
+    // add time spent to statistics
+    int tottime = 0, remtime = 0;
+    for(std::vector<Sector*>::iterator i = level->sectors.begin(); i != level->sectors.end(); ++i)
+    {
+      Sector* sec = *i;
+
+      for(std::vector<GameObject*>::iterator j = sec->gameobjects.begin();
+          j != sec->gameobjects.end(); ++j)
+      {
+        GameObject* obj = *j;
+
+        LevelTime* lt = dynamic_cast<LevelTime*> (obj);
+        if(lt)
+        {
+          tottime += int(lt->get_level_time());
+          remtime += int(lt->get_remaining_time());
+        }
+      }
+    }
+    global_stats.set_points(TIME_NEEDED_STAT, (tottime == 0 ? -1 : (tottime-remtime)));
+
     return;
   } else if (!end_sequence && tux->is_dead()) {
     if (player_status->lives < 0) { // No more lives!?

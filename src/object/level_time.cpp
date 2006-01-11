@@ -68,4 +68,16 @@ LevelTime::draw(DrawingContext& context)
   context.pop_transform();
 }
 
+float
+LevelTime::get_level_time()
+{
+  return time_left.get_period();
+}
+
+float
+LevelTime::get_remaining_time()
+{
+  return time_left.get_timeleft();
+}
+
 IMPLEMENT_FACTORY(LevelTime, "leveltime");
