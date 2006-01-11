@@ -1,0 +1,8 @@
+(supertux-sprite
+ (action
+  (x-offset 12)
+  (x-offset 12)
+  (fps 20)
+  (images "ice_bullet.png")
+ )
+)
