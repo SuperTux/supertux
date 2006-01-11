@@ -28,7 +28,7 @@
 #include "badguy/badguy.hpp"
 #include "main.hpp"
 
-static const float BULLET_XM = 300;
+static const float BULLET_XM = 600;
 static const float BULLET_STARTING_YM = 0;
 
 Bullet::Bullet(const Vector& pos, float xm, int dir, int kind_)
@@ -43,9 +43,9 @@ Bullet::Bullet(const Vector& pos, float xm, int dir, int kind_)
 
   if (kind == ICE_BULLET) {
     life_count = 6; //ice-bullets get "extra lives" for bumping off walls
-    sprite = sprite_manager->create("icebullet");
+    sprite = sprite_manager->create("images/objects/bullets/icebullet.sprite");
   } else if(kind == FIRE_BULLET) {
-    sprite = sprite_manager->create("firebullet");
+    sprite = sprite_manager->create("images/objects/bullets/firebullet.sprite");
   }
 }
 
