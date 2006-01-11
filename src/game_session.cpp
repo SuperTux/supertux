@@ -579,7 +579,9 @@ GameSession::run()
     //frame_rate.update();
     
     /* Handle music: */
-    if (currentsector->player->invincible_timer.started() && !end_sequence)
+    if (currentsector->player->invincible_timer.started() && 
+            currentsector->player->invincible_timer.get_timeleft() 
+            > TUX_INVINCIBLE_TIME_WARNING && !end_sequence)
     {
       currentsector->play_music(HERRING_MUSIC);
     }

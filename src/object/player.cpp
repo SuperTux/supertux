@@ -42,6 +42,7 @@
 #include "trigger/trigger_base.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
 #include "main.hpp"
+#include "badguy/badguy.hpp"
 #include "player_status.hpp"
 
 static const int TILES_FOR_BUTTJUMP = 3;
@@ -487,21 +488,20 @@ Player::handle_input()
     bbox.move(Vector(0, 32));
     bbox.set_height(31.8);
   } else if(!controller->hold(Controller::DOWN) && is_big() && duck) {
-    // try if we can really unduck
+    // if we have some velocity left then check if there is space for
+    // unducking
     bbox.move(Vector(0, -32));
     bbox.set_height(63.8);
-    duck = false;
-    // FIXME
-#if 0
-    // when unducking in air we need some space to do so
-    if(on_ground() || !collision_object_map(bbox)) {
+    if(Sector::current()->is_free_space(bbox) || (
+        physic.get_velocity_x() > -.01 && physic.get_velocity_x() < .01
+        && physic.get_velocity_y() > -.01 && physic.get_velocity_y() < .01))
+    {
       duck = false;
     } else {
       // undo the ducking changes
       bbox.move(Vector(0, 32));
-      bbox.set_height(31.8);
+      bbox.set_height(31.8); 
     }
-#endif
   }
 }
 
@@ -723,6 +723,11 @@ Player::collision(GameObject& other, const CollisionHit& hit)
     return FORCE_MOVE;
   }
 
+  BadGuy* badguy = dynamic_cast<BadGuy*> (&other);
+  if(badguy != NULL)
+    return CONTINUE;
+
+#if 0
   MovingObject* moving_object = static_cast<MovingObject*> (&other);
   if(moving_object->get_group() == COLGROUP_TOUCHABLE)
     return FORCE_MOVE;
@@ -731,6 +736,8 @@ Player::collision(GameObject& other, const CollisionHit& hit)
     return FORCE_MOVE;
 
   return CONTINUE;
+#endif
+  return FORCE_MOVE;
 }
 
 void
