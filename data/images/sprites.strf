@@ -1150,14 +1150,6 @@
         (images "objects/bonus_block/empty.png"))
   )                                        
 
-  ; Stomp
-  (sprite (name "stomp")
-       (action
-          (x-offset 0)
-          (y-offset 0)
-          (images "objects/particles/stomp.png")
-  ))
-
   (sprite (name "unstable_tile")
     (action
       (images "objects/unstable_tile/unstable_tile.png"))

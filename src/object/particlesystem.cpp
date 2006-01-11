@@ -83,8 +83,8 @@ SnowParticleSystem::SnowParticleSystem()
     size_t snowflakecount = size_t(virtual_width/10.0);
     for(size_t i=0; i<snowflakecount; ++i) {
         SnowParticle* particle = new SnowParticle;
-        particle->pos.x = rand() % int(virtual_width);
-        particle->pos.y = rand() % SCREEN_HEIGHT;
+        particle->pos.x = fmodf(rand(), virtual_width);
+        particle->pos.y = fmodf(rand(), SCREEN_HEIGHT);
         int snowsize = rand() % 3;
         particle->texture = snowimages[snowsize];
         do {
@@ -142,8 +142,8 @@ GhostParticleSystem::GhostParticleSystem()
     size_t ghostcount = 2;
     for(size_t i=0; i<ghostcount; ++i) {
         GhostParticle* particle = new GhostParticle;
-        particle->pos.x = rand() % int(virtual_width);
-        particle->pos.y = rand() % SCREEN_HEIGHT;
+        particle->pos.x = fmodf(rand(), virtual_width);
+        particle->pos.y = fmodf(rand(), SCREEN_HEIGHT);
         int size = rand() % 2;
         particle->texture = ghosts[size];
         do {

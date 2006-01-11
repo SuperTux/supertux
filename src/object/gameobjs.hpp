@@ -80,50 +80,20 @@ private:
   Timer timer;  
 };
 
-extern Sprite *img_smoke_cloud;
-
 class SmokeCloud : public GameObject
 {
 public:
   SmokeCloud(const Vector& pos);
+  ~SmokeCloud();
   
   virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);
 
 private:
+  Sprite* sprite;
   Timer timer;
   Vector position;
 };
-
-class Particles : public GameObject
-{
-public:
-  Particles(const Vector& epicenter, int min_angle, int max_angle,
-            const Vector& initial_velocity, const Vector& acceleration,
-            int number, Color color, int size, float life_time, int drawing_layer);
-  ~Particles();
-  
-  virtual void update(float elapsed_time);
-  virtual void draw(DrawingContext& context);
-
-private:
-  Vector accel;
-  Timer timer;
-  bool live_forever;
-
-  Color color;
-  float size;
-  int drawing_layer;
-
-  struct Particle {
-    Vector pos, vel;
-//     float angle;
-    };
-  std::vector <Particle*> particles;
-};
-
-void load_object_gfx();
-void free_object_gfx();
 
 #endif 
 

@@ -36,7 +36,7 @@
 #include "game_session.hpp"
 #include "object/tilemap.hpp"
 #include "object/camera.hpp"
-#include "object/gameobjs.hpp"
+#include "object/particles.hpp"
 #include "object/portable.hpp"
 #include "object/bullet.hpp"
 #include "trigger/trigger_base.hpp"
@@ -281,10 +281,9 @@ Player::handle_horizontal_input()
       // dust some particles
       Sector::current()->add_object(
         new Particles(
-          Vector(bbox.p1.x + (dir == RIGHT ? bbox.get_width() : 0),
-                 bbox.p2.y),
+          Vector(dir == RIGHT ? bbox.p2.x : bbox.p1.x, bbox.p2.y),
           dir == RIGHT ? 270+20 : 90-40, dir == RIGHT ? 270+40 : 90-20,
-          Vector(280,-260), Vector(0,0.030), 3, Color(100,100,100), 3, .8,
+          Vector(280, -260), Vector(0, 300), 3, Color(.4, .4, .4), 3, .8,
           LAYER_OBJECTS+1));
       
       ax *= 2.5;

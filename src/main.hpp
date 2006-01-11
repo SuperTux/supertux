@@ -23,8 +23,8 @@
 void init_video();
 void wait_for_event(float min_delay, float max_delay);
 
-static const int SCREEN_WIDTH = 800;
-static const int SCREEN_HEIGHT = 600;
+static const float SCREEN_WIDTH = 800;
+static const float SCREEN_HEIGHT = 600;
 
 // global variables
 class JoystickKeyboardController;

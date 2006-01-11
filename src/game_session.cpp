@@ -449,38 +449,9 @@ GameSession::draw()
 void
 GameSession::draw_pause()
 {
-  int x = SCREEN_HEIGHT / 20;
-  for(int i = 0; i < x; ++i) {
-    context->draw_filled_rect(
-        Vector(i % 2 ? (pause_menu_frame * i)%SCREEN_WIDTH :
-          -((pause_menu_frame * i)%SCREEN_WIDTH)
-          ,(i*20+pause_menu_frame)%SCREEN_HEIGHT),
-        Vector(SCREEN_WIDTH,10),
-        Color(0.1, 0.1, 0.1, static_cast<float>(rand() % 20 + 1) / 255.0),
-        LAYER_FOREGROUND1+1);
-  }
-
   context->draw_filled_rect(
       Vector(0,0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT),
-      Color(
-        static_cast<float>(rand() % 50) / 255.0,
-        static_cast<float>(rand() % 50) / 255.0,
-        static_cast<float>(rand() % 50) / 255.0,
-        0.5), LAYER_FOREGROUND1);
-#if 0
-  context->draw_text(blue_text, _("PAUSE - Press 'P' To Play"),
-      Vector(SCREEN_WIDTH/2, 230), CENTER_ALLIGN, LAYER_FOREGROUND1+2);
-
-  const char* str1 = _("Playing: ");
-  const char* str2 = level->get_name().c_str();
-
-  context->draw_text(blue_text, str1,
-      Vector((SCREEN_WIDTH - (blue_text->get_text_width(str1) + white_text->get_text_width(str2)))/2, 340),
-      LEFT_ALLIGN, LAYER_FOREGROUND1+2);
-  context->draw_text(white_text, str2,
-      Vector(((SCREEN_WIDTH - (blue_text->get_text_width(str1) + white_text->get_text_width(str2)))/2)+blue_text->get_text_width(str1), 340),
-      LEFT_ALLIGN, LAYER_FOREGROUND1+2);
-#endif
+      Color(.2, .2, .2, .5), LAYER_FOREGROUND1);
 }
   
 void

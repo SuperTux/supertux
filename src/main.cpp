@@ -425,21 +425,52 @@ void wait_for_event(float min_delay, float max_delay)
   }
 }
 
+#ifdef DEBUG
+static Uint32 last_timelog_ticks = 0;
+static const char* last_timelog_component = 0;
+
+static inline void timelog(const char* component)
+{
+  Uint32 current_ticks = SDL_GetTicks();
+  
+  if(last_timelog_component != 0) {
+    printf("Component '%s' finished after %f seconds\n",
+        last_timelog_component, (current_ticks - last_timelog_ticks) / 1000.0);
+  }
+
+  last_timelog_ticks = current_ticks;
+  last_timelog_component = component;
+}
+#else
+static inline void timelog(const char* )
+{
+}
+#endif
+
 int main(int argc, char** argv) 
 {
   try {
     srand(time(0));
     init_physfs(argv[0]);
     init_sdl();
+    timelog("controller");
     main_controller = new JoystickKeyboardController();    
+    timelog("config");
     init_config();
+    timelog("tinygettext");
     init_tinygettext();
+    timelog("commandline");
     parse_commandline(argc, argv);
+    timelog("audio");
     init_audio();
+    timelog("video");
     init_video();
 
+    timelog("menu");
     setup_menu();
+    timelog("resources");
     load_shared();
+    timelog(0);
     if(config->start_level != "") {
       // we have a normal path specified at commandline not physfs paths.
       // So we simply mount that path here...

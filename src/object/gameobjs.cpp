@@ -153,6 +153,12 @@ SmokeCloud::SmokeCloud(const Vector& pos)
   : position(pos)
 {
   timer.start(.3);
+  sprite = sprite_manager->create("images/objects/particles/stomp.sprite");
+}
+
+SmokeCloud::~SmokeCloud()
+{
+  delete sprite;
 }
 
 void
@@ -167,92 +173,6 @@ SmokeCloud::update(float elapsed_time)
 void
 SmokeCloud::draw(DrawingContext& context)
 {
-  img_smoke_cloud->draw(context, position, LAYER_OBJECTS+1);
-}
-
-Particles::Particles(const Vector& epicenter, int min_angle, int max_angle,
-        const Vector& initial_velocity, const Vector& acceleration, int number,
-        Color color_, int size_, float life_time, int drawing_layer_)
-  : accel(acceleration), color(color_), size(size_), drawing_layer(drawing_layer_)
-{
-  if(life_time == 0) {
-    live_forever = true;
-  } else {
-    live_forever = false;
-    timer.start(life_time);
-  }
-
-  // create particles
-  for(int p = 0; p < number; p++)
-    {
-    Particle* particle = new Particle;
-    particle->pos = epicenter;
-
-    float angle = ((rand() % (max_angle-min_angle))+min_angle)
-                      * (M_PI / 180);  // convert to radius
-    particle->vel.x = /*fabs*/(sin(angle)) * initial_velocity.x;
-//    if(angle >= M_PI && angle < M_PI*2)
-//      particle->vel.x *= -1;  // work around to fix signal
-    particle->vel.y = /*fabs*/(cos(angle)) * initial_velocity.y;
-//    if(angle >= M_PI_2 && angle < 3*M_PI_2)
-//      particle->vel.y *= -1;
-
-    particles.push_back(particle);
-    }
-}
-
-Particles::~Particles()
-{
-  // free particles
-  for(std::vector<Particle*>::iterator i = particles.begin();
-      i < particles.end(); i++)
-    delete (*i);
-}
-
-void
-Particles::update(float elapsed_time)
-{
-  Vector camera = Sector::current()->camera->get_translation();
-
-  // update particles
-  for(std::vector<Particle*>::iterator i = particles.begin();
-      i != particles.end(); ) {
-    (*i)->pos.x += (*i)->vel.x * elapsed_time;
-    (*i)->pos.y += (*i)->vel.y * elapsed_time;
-
-    (*i)->vel.x += accel.x * elapsed_time;
-    (*i)->vel.y += accel.y * elapsed_time;
-
-    if((*i)->pos.x < camera.x || (*i)->pos.x > SCREEN_WIDTH + camera.x ||
-       (*i)->pos.y < camera.y || (*i)->pos.y > SCREEN_HEIGHT + camera.y) {
-      delete (*i);
-      i = particles.erase(i);
-    } else {
-      ++i;
-    }
-  }
-
-  if((timer.check() && !live_forever) || particles.size() == 0)
-    remove_me();
-}
-
-void
-Particles::draw(DrawingContext& context)
-{
-  // draw particles
-  for(std::vector<Particle*>::iterator i = particles.begin();
-      i != particles.end(); i++) {
-    context.draw_filled_rect((*i)->pos, Vector(size,size), color,drawing_layer);
-  }
-}
-
-void load_object_gfx()
-{
-  img_smoke_cloud = sprite_manager->create("stomp");
-}
-
-void free_object_gfx()
-{
-  delete img_smoke_cloud;
+  sprite->draw(context, position, LAYER_OBJECTS+1);
 }
 

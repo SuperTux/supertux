@@ -121,8 +121,8 @@ private:
   int hit_item;
   
   // position of the menu (ie. center of the menu, not top/left)
-  int pos_x;
-  int pos_y;
+  float pos_x;
+  float pos_y;
   
   /** input event for the menu (up, down, left, right, etc.) */
   MenuAction menuaction;
@@ -176,7 +176,7 @@ public:
   void set_active_item(int id);
   
   void draw(DrawingContext& context);  
-  void set_pos(int x, int y, float rw = 0, float rh = 0);
+  void set_pos(float x, float y, float rw = 0, float rh = 0);
   
   void event(const SDL_Event& event);
 

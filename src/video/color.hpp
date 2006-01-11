@@ -11,7 +11,11 @@ public:
   { }
   Color(float red, float green, float blue, float alpha = 1.0)
     : red(red), green(green), blue(blue), alpha(alpha)
-  { }
+  {
+#ifdef DEBUG
+    check_color_ranges();
+#endif
+  }
   Color(const std::vector<float>& vals)
   {
     red = vals[0];
@@ -21,6 +25,18 @@ public:
       alpha = vals[3];
     else
       alpha = 1.0;
+#ifdef DEBUG
+    check_color_ranges();
+#endif
+  }
+
+  void check_color_ranges()
+  {
+    if(red < 0 || red > 1.0 || green < 0 || green > 1.0
+            || blue < 0 || blue > 1.0
+            || alpha < 0 || alpha > 1.0)
+      printf("Warning: color value out of range: %f %f %f %f\n",
+              red, green, blue, alpha);
   }
 
   float red, green, blue, alpha;

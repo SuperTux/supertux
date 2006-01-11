@@ -113,9 +113,6 @@ void load_shared()
   ice_tux->arms = sprite_manager->create("big-tux-arms");
   ice_tux->feet = sprite_manager->create("big-tux-feet");
 
-  /* Objects */
-  load_object_gfx();
-
   /* Tux life: */
   tux_life = new Surface("images/creatures/tux_small/tux-life.png");
   
@@ -133,8 +130,6 @@ void unload_shared()
   delete white_small_text;
   delete white_big_text;
   
-  free_object_gfx();
-
   delete tux_life;
 
   delete small_tux;

@@ -213,10 +213,10 @@ Menu::Menu()
   active_item  = -1;
 }
 
-void Menu::set_pos(int x, int y, float rw, float rh)
+void Menu::set_pos(float x, float y, float rw, float rh)
 {
-  pos_x = x + (int)((float)get_width() * rw);
-  pos_y = y + (int)((float)get_height() * rh);
+  pos_x = x + get_width() * rw;
+  pos_y = y + get_height() * rh;
 }
 
 /* Add an item to a menu */
@@ -503,8 +503,8 @@ Menu::draw_item(DrawingContext& context, int index)
   }
 
   Font* text_font = default_font;
-  int x_pos       = pos_x;
-  int y_pos       = pos_y + 24*index - menu_height/2 + 12 + effect_offset;
+  float x_pos       = pos_x;
+  float y_pos       = pos_y + 24*index - menu_height/2 + 12 + effect_offset;
   int shadow_size = 2;
   int text_width  = int(text_font->get_text_width(pitem.text));
   int input_width = int(text_font->get_text_width(pitem.input) + 10);
@@ -535,8 +535,8 @@ Menu::draw_item(DrawingContext& context, int index)
     case MN_HL:
       {
         // TODO
-        int x = pos_x - menu_width/2;
-        int y = y_pos - 12 - effect_offset;
+        float x = pos_x - menu_width/2;
+        float y = y_pos - 12 - effect_offset;
         /* Draw a horizontal line with a little 3d effect */
         context.draw_filled_rect(Vector(x, y + 6),
                                  Vector(menu_width, 4),
@@ -557,9 +557,9 @@ Menu::draw_item(DrawingContext& context, int index)
     case MN_NUMFIELD:
     case MN_CONTROLFIELD:
       {
-        int width = text_width + input_width + 5;
-        int text_pos = SCREEN_WIDTH/2 - width/2;
-        int input_pos = text_pos + text_width + 10;
+        float width = text_width + input_width + 5;
+        float text_pos = SCREEN_WIDTH/2 - width/2;
+        float input_pos = text_pos + text_width + 10;
 
         context.draw_filled_rect(
           Vector(input_pos - 5, y_pos - 10),
@@ -777,15 +777,16 @@ Menu::event(const SDL_Event& event)
 
     case SDL_MOUSEMOTION:
       {
-        int x = int(event.motion.x * float(SCREEN_WIDTH)/screen->w);
-        int y = int(event.motion.y * float(SCREEN_HEIGHT)/screen->h);
+        float x = event.motion.x * SCREEN_WIDTH/screen->w;
+        float y = event.motion.y * SCREEN_HEIGHT/screen->h;
 
         if(x > pos_x - get_width()/2 &&
             x < pos_x + get_width()/2 &&
             y > pos_y - get_height()/2 &&
             y < pos_y + get_height()/2)
           {
-            int new_active_item = (y - (pos_y - get_height()/2)) / 24;
+            int new_active_item 
+              = static_cast<int> ((y - (pos_y - get_height()/2)) / 24);
           
             /* only change the mouse focus to a selectable item */
             if ((items[new_active_item]->kind != MN_HL)

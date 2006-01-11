@@ -32,7 +32,13 @@
 
 SpriteManager::SpriteManager(const std::string& filename)
 {
+#ifdef DEBUG
+  Uint32 ticks = SDL_GetTicks();
+#endif
   load_resfile(filename);
+#ifdef DEBUG
+  printf("Loaded sprites in %f seconds\n", (SDL_GetTicks() - ticks) / 1000.0f);
+#endif
 }
 
 SpriteManager::~SpriteManager()

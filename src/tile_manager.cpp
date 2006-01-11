@@ -24,6 +24,7 @@
 #include <sstream>
 #include <iostream>
 #include <assert.h>
+#include <SDL.h>
 #include "video/drawing_context.hpp"
 #include "lisp/lisp.hpp"
 #include "lisp/parser.hpp"
@@ -34,7 +35,13 @@
 
 TileManager::TileManager(const std::string& filename)
 {
+#ifdef DEBUG
+  Uint32 ticks = SDL_GetTicks();
+#endif
   load_tileset(filename);
+#ifdef DEBUG
+  printf("Tiles loaded in %f seconds\n", (SDL_GetTicks() - ticks) / 1000.0);
+#endif
 }
 
 TileManager::~TileManager()
