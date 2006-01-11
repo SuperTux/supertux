@@ -167,11 +167,17 @@ SoundManager::stop_music(bool fade)
 void
 SoundManager::play_music(const std::string& filename, bool fade)
 {
-  if(filename == current_music)
+  if(filename == current_music && music_source != NULL)
     return;
   current_music = filename;
   if(!music_enabled)
     return;
+
+  if(filename == "") {
+    delete music_source;
+    music_source = 0;
+    return;
+  }
 
   try {
     std::auto_ptr<StreamSoundSource> newmusic (new StreamSoundSource());
