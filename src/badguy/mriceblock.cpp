@@ -32,6 +32,7 @@ MrIceBlock::MrIceBlock(const lisp::Lisp& reader)
 {
   reader.get("x", start_position.x);
   reader.get("y", start_position.y);
+  reader.get("stay-on-platform", stay_on_platform);
   bbox.set_size(31.8, 31.8);
   sprite = sprite_manager->create("mriceblock");
   set_direction = false;
@@ -79,7 +80,16 @@ MrIceBlock::active_update(float elapsed_time)
   if(ice_state == ICESTATE_FLAT && flat_timer.check()) {
     set_state(ICESTATE_NORMAL);
   }
-  
+
+  if (ice_state == ICESTATE_NORMAL &&
+      stay_on_platform &&
+      may_fall_off_platform())
+  {
+    dir = (dir == LEFT ? RIGHT : LEFT);
+    sprite->set_action(dir == LEFT ? "left" : "right");
+    physic.set_velocity_x(-physic.get_velocity_x());
+  }
+
   BadGuy::active_update(elapsed_time);
 }
 

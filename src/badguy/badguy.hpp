@@ -147,7 +147,11 @@ protected:
    * after being deactivated.
    */
   bool is_offscreen();
-  
+  /**
+   * Checks if the badguy may fall off a platform if continuing a given movement.
+   */
+  bool may_fall_off_platform();
+
   Vector start_position;
 
   Direction dir;

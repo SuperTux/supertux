@@ -59,6 +59,7 @@ private:
   Timer flat_timer;
   int squishcount;
   bool set_direction;
+  bool stay_on_platform;
   Direction initial_direction;
 };
 
