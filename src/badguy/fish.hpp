@@ -26,19 +26,23 @@ class Fish : public BadGuy
 {
 public:
   Fish(const lisp::Lisp& );
-  Fish(float , float );
+  Fish(float x, float y);
+
+  void draw(DrawingContext& context);
 
   HitResponse collision_solid(GameObject& , const CollisionHit& );
   HitResponse collision_badguy(BadGuy& , const CollisionHit& );
+  void collision_tile(uint32_t tile_attributes);
 
   void write(lisp::Writer& );
   void active_update(float);
 
 private:
   HitResponse hit(const CollisionHit& );
-  bool waiting;
-  float waiting_for;
   void start_waiting();
+  void jump();
+  
+  Timer waiting;
 };
 
 #endif

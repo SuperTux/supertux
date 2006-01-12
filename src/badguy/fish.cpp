@@ -20,14 +20,13 @@
 #include <config.h>
 
 #include "fish.hpp"
+#include "tile.hpp"
 #include "object/tilemap.hpp"
 
-static const float FISH_JUMP_POWER = 700;
-static const float FISH_FALL_BY_Y = 10;
-static const float FISH_WAIT_TIME = 3;
+static const float FISH_JUMP_POWER = 600;
+static const float FISH_WAIT_TIME = 1;
 
 Fish::Fish(const lisp::Lisp& reader)
-    : waiting(false)
 {
   reader.get("x", start_position.x);
   reader.get("y", start_position.y);
@@ -37,7 +36,6 @@ Fish::Fish(const lisp::Lisp& reader)
 }
 
 Fish::Fish(float pos_x, float pos_y)
-    : waiting(false)
 {
   start_position.x = pos_x;
   start_position.y = pos_y;
@@ -69,6 +67,15 @@ Fish::collision_badguy(BadGuy& , const CollisionHit& chit)
   return hit(chit);
 }
 
+void
+Fish::draw(DrawingContext& context)
+{
+  if(waiting.started())
+    return;
+
+  BadGuy::draw(context);
+}
+
 HitResponse
 Fish::hit(const CollisionHit& chit)
 {
@@ -80,25 +87,22 @@ Fish::hit(const CollisionHit& chit)
 }
 
 void
+Fish::collision_tile(uint32_t tile_attributes)
+{
+  if(tile_attributes & Tile::WATER) {
+    start_waiting();
+    movement = Vector(0, 0);
+  }
+}
+
+void
 Fish::active_update(float elapsed_time)
 {
   BadGuy::active_update(elapsed_time);
 
-  // check state and modify accordingly
-  if (!waiting && physic.get_velocity_y() < 0
-               && (get_pos().y - start_position.y) >= FISH_FALL_BY_Y) // we fell far enough
-  {
-  	start_waiting();
-  }
-  else if (waiting)
-  {
-  	waiting_for += elapsed_time;
-  	if (waiting_for >= FISH_WAIT_TIME) // we've been waiting long enough
-  	{
-  	  waiting = false;
-  	  physic.set_velocity_y(FISH_JUMP_POWER);
-  	  physic.enable_gravity(true);
-  	}
+  // waited long enough?
+  if(waiting.check()) {
+    jump();
   }
   
   // set sprite
@@ -107,23 +111,26 @@ Fish::active_update(float elapsed_time)
   // we can't afford flying out of the tilemap, 'cause the engine would remove us.
   if ((get_pos().y - 31.8) < 0) // too high, let us fall
   {
-  	physic.set_velocity_y(0);
-  	physic.enable_gravity(true);
-  }
-  else if (Sector::current() && // spares us from possible segfaults
-          (get_pos().y - 31.8) > (Sector::current()->solids->get_height() * 32)) // too low, wait.
-  {
-  	start_waiting();
+    physic.set_velocity_y(0);
+    physic.enable_gravity(true);
   }
 }
 
 void
 Fish::start_waiting()
 {
-  waiting_for = 0;
-  waiting = true;
+  waiting.start(FISH_WAIT_TIME);
+  set_group(COLGROUP_DISABLED);
   physic.enable_gravity(false);
   physic.set_velocity_y(0);
+}
+
+void
+Fish::jump()
+{
+  physic.set_velocity_y(FISH_JUMP_POWER);
+  physic.enable_gravity(true);
+  set_group(COLGROUP_MOVING);
 }
 
 IMPLEMENT_FACTORY(Fish, "fish")
