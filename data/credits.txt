@@ -31,15 +31,15 @@
 
 	Marek \"Wansti\" Moeckel
 
+	Ondra \"Ravu al Hemio\" Hosek
+!images/credits/ondra.jpg
+
 
 -Contrib Programming
 
 	Duong-Khang \"neoneurone\" NGUYEN
 
 	Richard Smith
-
-	Ondra \"Ravu al Hemio\" Hosek
-!images/credits/ondra.jpg
 
 
 -Graphics
