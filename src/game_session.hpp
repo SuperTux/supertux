@@ -136,7 +136,6 @@ private:
   CodeController* end_sequence_controller;
 
   bool game_pause;
-  bool music_playing;
 
   std::string levelfile;
 

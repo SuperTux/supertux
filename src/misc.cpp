@@ -47,18 +47,21 @@ void process_options_menu()
       if(config->use_fullscreen != options_menu->is_toggled(MNID_FULLSCREEN)) {
         config->use_fullscreen = !config->use_fullscreen;
         init_video();
+        config->save();
       }
       break;
     case MNID_SOUND:
       if(config->sound_enabled != options_menu->is_toggled(MNID_SOUND)) {
         config->sound_enabled = !config->sound_enabled;
         sound_manager->enable_sound(config->sound_enabled);
+        config->save();
       }
       break;
     case MNID_MUSIC:
       if(config->music_enabled != options_menu->is_toggled(MNID_MUSIC)) {
         config->music_enabled = !config->music_enabled;
         sound_manager->enable_music(config->music_enabled);
+        config->save();
       }
       break;
     default:

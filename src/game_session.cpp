@@ -85,7 +85,6 @@ GameSession::GameSession(const std::string& levelfile_, GameSessionMode mode,
   currentsector = 0;
   
   game_pause = false;
-  music_playing = false;
   fps_fps = 0;
 
   context = new DrawingContext();
@@ -148,11 +147,7 @@ GameSession::restart_level()
   if(mode == ST_GL_PLAY || mode == ST_GL_LOAD_LEVEL_FILE)
     levelintro();
 
-  if (!music_playing)
-  {
-    currentsector->play_music(LEVEL_MUSIC);
-    music_playing = true;
-  }
+  currentsector->play_music(LEVEL_MUSIC);
 
   if(capture_file != "")
     record_demo(capture_file);
@@ -207,6 +202,8 @@ void
 GameSession::levelintro()
 {
   char str[60];
+
+  sound_manager->stop_music();
 
   DrawingContext context;
   for(Sector::GameObjects::iterator i = currentsector->gameobjects.begin();

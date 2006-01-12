@@ -40,7 +40,7 @@ public:
 
   void enable_music(bool music_enabled);
   void play_music(const std::string& filename, bool fade = false);
-  void stop_music(bool fade = true);
+  void stop_music(float fadetime = 0);
   
   bool is_sound_enabled() { return sound_enabled; }
 

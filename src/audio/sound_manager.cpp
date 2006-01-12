@@ -151,12 +151,12 @@ SoundManager::enable_music(bool enable)
 }
 
 void
-SoundManager::stop_music(bool fade)
+SoundManager::stop_music(float fadetime)
 {
-  if(fade) {
+  if(fadetime > 0) {
     if(music_source
         && music_source->get_fade_state() != StreamSoundSource::FadingOff)
-      music_source->set_fading(StreamSoundSource::FadingOff, .5f);
+      music_source->set_fading(StreamSoundSource::FadingOff, fadetime);
   } else {
     delete music_source;
     music_source = 0;
