@@ -1067,7 +1067,7 @@ WorldMap::savegame(const std::string& filename)
     return;
 
   std::string dir = FileSystem::dirname(filename);
-  if(PHYSFS_exists(dir.c_str()) == 0 && PHYSFS_mkdir(dir.c_str()) == 0) {
+  if(PHYSFS_exists(dir.c_str()) == 0 && PHYSFS_mkdir(dir.c_str()) != 0) {
     std::ostringstream msg;
     msg << "Couldn't create directory '" << dir << "' for savegame:"
         << PHYSFS_getLastError();

@@ -31,6 +31,7 @@
 #include "control/controller.hpp"
 #include "scripting/player.hpp"
 #include "player_status.hpp"
+#include "display_effect.hpp"
 
 class BadGuy;
 class Portable;

@@ -756,7 +756,7 @@ Player::kill(HurtMode mode)
     return;
 
   if(mode != KILL && 
-          safe_timer.get_timeleft() > 0 || invincible_timer.get_timeleft() > 0)
+          (safe_timer.get_timeleft() > 0 || invincible_timer.get_timeleft() > 0))
     return;                          
   
   sound_manager->play("sounds/hurt.wav");
@@ -790,6 +790,11 @@ Player::kill(HurtMode mode)
       dying = true;
       dying_timer.start(3.0);
       set_group(COLGROUP_DISABLED);
+
+      DisplayEffect* effect = new DisplayEffect();
+      effect->fade_out(3.0);
+      Sector::current()->add_object(effect);
+      sound_manager->stop_music(3.0);
     }
 }
 
