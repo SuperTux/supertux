@@ -83,6 +83,13 @@
 	CDROMs and FTP sites
 
 
+-Voice Acting
+
+	Tux - Daniel Alston
+	Penny - Mathilda Edmunds
+	Yeti - Matthias Braun
+
+
 -Translation
 
 	ca - Antoni Villalonga
