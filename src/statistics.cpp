@@ -180,7 +180,7 @@ Statistics::draw_message_info(DrawingContext& context, std::string title)
   //sprintf(str, _(    "Max score:             %d"), stats[SCORE_STAT][SPLAYER]);
   //context.draw_text(white_text, str, Vector(SCREEN_WIDTH/2, 450), CENTER_ALLIGN, LAYER_GUI);
 
-  for(int i = 1; i < NUM_STATS; i++)
+  for(int i = 0; i < NUM_STATS; i++)
     {
     if(i == COINS_COLLECTED_STAT)
       sprintf(str, _("Max coins collected:   %d / %d"),
@@ -190,14 +190,16 @@ Statistics::draw_message_info(DrawingContext& context, std::string title)
       sprintf(str, _("Max fragging:          %d / %d"),
               stats[BADGUYS_KILLED_STAT][SPLAYER],
               stats[BADGUYS_KILLED_STAT][STOTAL]);
-    else// if(i == TIME_NEEDED_STAT)
+    else if((i == TIME_NEEDED_STAT) && (stats[TIME_NEEDED_STAT][STOTAL] != -1))
       sprintf(str, _("Min time needed:       %d / %d"),
               stats[TIME_NEEDED_STAT][SPLAYER],
               stats[TIME_NEEDED_STAT][STOTAL]);
+    else
+      continue;
 
 
     // y == (462 + i*18) before score removal
-    context.draw_text(white_small_text, str, Vector(SCREEN_WIDTH/2, 450 + i*18), CENTER_ALLIGN, LAYER_GUI);
+    context.draw_text(white_small_text, str, Vector(SCREEN_WIDTH/2, 450 + (i+1)*18), CENTER_ALLIGN, LAYER_GUI);
     }
 }
 

@@ -83,6 +83,9 @@
     (leveltime
       (time 400)
     )
+    (camera
+      (mode "normal")
+    )
     (spawnpoint
       (name "main")
       (x 100)

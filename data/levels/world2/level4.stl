@@ -3,6 +3,10 @@
   (version 2)
   (name   (_ "Going Underground"))
   (author "Anubis")
+  (extro
+    (music "gameover_forest.ogg")
+    (length 12.7)
+  )
   (sector
     (name  "main")
     (music  "forest2.ogg")

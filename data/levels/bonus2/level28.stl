@@ -80,9 +80,8 @@
       )
     )
     (background
-      (color_top 0 0 0)
-      (color_bottom 255 255 255)
-      (speed 0.5)
+      (top_color 0.0 0.0 0.0)
+      (bottom_color 1.0 1.0 1.0)
     )
     (leveltime
       (time 200)

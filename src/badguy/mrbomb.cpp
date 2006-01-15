@@ -28,15 +28,18 @@ MrBomb::MrBomb(const lisp::Lisp& reader)
 {
   reader.get("x", start_position.x);
   reader.get("y", start_position.y);
+  stay_on_platform = false;
+  reader.get("stay-on-platform", stay_on_platform);
   bbox.set_size(31.8, 31.8);
   sprite = sprite_manager->create("images/creatures/mr_bomb/mr_bomb.sprite");
   set_direction = false;
 }
 
-MrBomb::MrBomb(float pos_x, float pos_y, Direction d)
+MrBomb::MrBomb(float pos_x, float pos_y, Direction d, bool stay_on_plat = false)
 {
   start_position.x = pos_x;
   start_position.y = pos_y;
+  stay_on_platform = stay_on_plat;
   bbox.set_size(31.8, 31.8);
   sprite = sprite_manager->create("images/creatures/mr_bomb/mr_bomb.sprite");
   set_direction = true;
@@ -50,6 +53,7 @@ MrBomb::write(lisp::Writer& writer)
 
   writer.write_float("x", start_position.x);
   writer.write_float("y", start_position.y);
+  writer.write_bool("stay-on-platform", stay_on_platform);
 
   writer.end_list("mrbomb");
 }
@@ -60,6 +64,19 @@ MrBomb::activate()
   if (set_direction) {dir = initial_direction;}
   physic.set_velocity_x(dir == LEFT ? -WALKSPEED : WALKSPEED);
   sprite->set_action(dir == LEFT ? "left" : "right");
+}
+
+void
+MrBomb::active_update(float elapsed_time)
+{
+  if (stay_on_platform && may_fall_off_platform())
+  {
+    dir = (dir == LEFT ? RIGHT : LEFT);
+    sprite->set_action(dir == LEFT ? "left" : "right");
+    physic.set_velocity_x(-physic.get_velocity_x());
+  }
+
+  BadGuy::active_update(elapsed_time);
 }
 
 bool

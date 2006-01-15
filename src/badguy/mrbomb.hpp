@@ -27,9 +27,10 @@ class MrBomb : public BadGuy
 {
 public:
   MrBomb(const lisp::Lisp& reader);
-  MrBomb(float pos_x, float pos_y, Direction d);
+  MrBomb(float pos_x, float pos_y, Direction d, bool stay_on_plat);
 
   void activate();
+  void active_update(float elapsed_time);
   void write(lisp::Writer& writer);
   HitResponse collision_solid(GameObject& other, const CollisionHit& hit);
   HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
@@ -38,6 +39,7 @@ public:
 protected:
   bool collision_squished(Player& player);
   bool set_direction;
+  bool stay_on_platform;
   Direction initial_direction;  
 };
 

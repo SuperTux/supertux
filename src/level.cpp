@@ -51,7 +51,7 @@
 using namespace std;
 
 Level::Level()
-  : name("noname"), author("Mr. X")
+  : name("noname"), author("Mr. X"), extro_music("leveldone.ogg"), extro_length(7.0)
 {
 }
 
@@ -85,6 +85,17 @@ Level::load(const std::string& filepath)
         iter.value()->get(name);
       } else if(token == "author") {
         iter.value()->get(author);
+      } else if(token == "extro") {
+        const lisp::Lisp* ext = iter.lisp();
+        lisp::ListIterator ext_iter(ext);
+        while(ext_iter.next()) {
+          const std::string& ext_token = ext_iter.item();
+          if(ext_token == "music") {
+            ext_iter.value()->get(extro_music);
+          } else if(ext_token == "length") {
+            ext_iter.value()->get(extro_length);
+          }
+        }
       } else if(token == "sector") {
         Sector* sector = new Sector;
         sector->parse(*(iter.lisp()));

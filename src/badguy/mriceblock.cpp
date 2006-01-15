@@ -32,17 +32,19 @@ MrIceBlock::MrIceBlock(const lisp::Lisp& reader)
 {
   reader.get("x", start_position.x);
   reader.get("y", start_position.y);
+  stay_on_platform = false;
   reader.get("stay-on-platform", stay_on_platform);
   bbox.set_size(31.8, 31.8);
   sprite = sprite_manager->create("mriceblock");
   set_direction = false;
 }
 
-MrIceBlock::MrIceBlock(float pos_x, float pos_y, Direction d)
+MrIceBlock::MrIceBlock(float pos_x, float pos_y, Direction d, bool stay_on_plat = false )
   : ice_state(ICESTATE_NORMAL), squishcount(0)
 {
   start_position.x = pos_x;
   start_position.y = pos_y;
+  stay_on_platform = stay_on_plat;
   bbox.set_size(31.8, 31.8);
   sprite = sprite_manager->create("mriceblock");
   set_direction = true;
@@ -56,6 +58,7 @@ MrIceBlock::write(lisp::Writer& writer)
 
   writer.write_float("x", start_position.x);
   writer.write_float("y", start_position.y);
+  writer.write_bool("stay-on-platform", stay_on_platform);
 
   writer.end_list("mriceblock");
 }

@@ -28,7 +28,7 @@ class MrIceBlock : public BadGuy, public Portable
 {
 public:
   MrIceBlock(const lisp::Lisp& reader);
-  MrIceBlock(float pos_x, float pos_y, Direction d);
+  MrIceBlock(float pos_x, float pos_y, Direction d, bool stay_on_plat);
 
   void activate();
   void write(lisp::Writer& writer);
