@@ -29,6 +29,7 @@ public:
   MrTree(const lisp::Lisp& reader);
 
   void activate();
+  void active_update(float elapsed_time);
   void write(lisp::Writer& writer);
   HitResponse collision_solid(GameObject& other, const CollisionHit& hit);
   HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
@@ -38,7 +39,8 @@ protected:
     STATE_BIG, STATE_NORMAL
   };
   MyState mystate;
-  
+  bool stay_on_platform;
+
   bool collision_squished(Player& player);
 };
 

@@ -30,6 +30,8 @@ MrTree::MrTree(const lisp::Lisp& reader)
 {
   reader.get("x", start_position.x);
   reader.get("y", start_position.y);
+  stay_on_platform = false;
+  reader.get("stay-on-platform", stay_on_platform);
   bbox.set_size(84.8, 95.8);
   sprite = sprite_manager->create("images/creatures/mr_tree/mr_tree.sprite");
 }
@@ -55,6 +57,19 @@ MrTree::activate()
     physic.set_velocity_x(dir == LEFT ? -WALKSPEED_SMALL : WALKSPEED_SMALL);
     sprite->set_action(dir == LEFT ? "small-left" : "small-right");
   }
+}
+
+void
+MrTree::active_update(float elapsed_time)
+{
+  if (stay_on_platform && may_fall_off_platform())
+  {
+    dir = (dir == LEFT ? RIGHT : LEFT);
+    sprite->set_action(dir == LEFT ? "left" : "right");
+    physic.set_velocity_x(-physic.get_velocity_x());
+  }
+
+  BadGuy::active_update(elapsed_time);
 }
 
 bool

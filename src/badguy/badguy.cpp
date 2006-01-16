@@ -24,6 +24,7 @@
 #include "object/tilemap.hpp"
 #include "tile.hpp"
 #include "statistics.hpp"
+#include "game_session.hpp"
 
 static const float SQUISH_TIME = 2;
 static const float X_OFFSCREEN_DISTANCE = 1600;
@@ -310,10 +311,14 @@ bool
 BadGuy::may_fall_off_platform()
 {
   int tile_x, tile_y;
-  // First, let's say the badguy moves once its width in the
-  // direction it's heading.
-  Vector pos = get_pos();
-  pos.x += (dir == LEFT ? -bbox.get_width() : bbox.get_width());
+  // First, let's say the badguy moves 32 units in the
+  // direction it's heading, so do some voodoo maths magic
+  // to determine its future position.
+  Vector pos;
+  if (dir == LEFT)
+    pos = Vector(bbox.p1.x - 32.f, bbox.p2.y);
+  else
+    pos = Vector(bbox.p2.x, bbox.p2.y);
 
   // Now, snap the badguy's X coordinate to the 32x32/cell grid.
   if (dir == LEFT) // use the ceiling
@@ -325,8 +330,14 @@ BadGuy::may_fall_off_platform()
   // get the lower position. (Positive Y goes downward.)
   tile_y = (int)ceilf(pos.y/32.0f);
 
+#if defined(DEBUG_STAY_ON_PLATFORM)
+  // Draw!
+  GameSession::current()->context->draw_filled_rect(Vector(tile_x*32.0f, tile_y*32.0f), Vector(32.f, 32.f), Color(1.f, 0.f, 0.f), 999);
+#endif
+
   // Now, if the badguy intersects with a tile, he won't fall off.
   // If he doesn't intersect, he probably will.
+  // Note that the tile's Y coordinate is offset by +1 from the object's Y.
   if (Sector::current()->solids->get_tile(tile_x, tile_y)->getAttributes() & FLAG_SOLID)
   {
     // It's a solid tile. Good.
