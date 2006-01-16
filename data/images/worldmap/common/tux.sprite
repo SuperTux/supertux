@@ -1,8 +1,45 @@
 (supertux-sprite
  (action
   (name "small")
-  (y-offset 10)
-  (images "smalltux.png")
+  (y-offset 20)
+ (x-offset 5)
+  (images "smalltux.png"
+"smalltux.png"
+"smalltux.png"
+"smalltux1.png"
+"smalltux1.png"
+"smalltux2.png"
+"smalltux2.png"
+"smalltux3.png"
+"smalltux3.png"
+"smalltux4.png"
+"smalltux4.png"
+"smalltux5.png"
+"smalltux5.png"
+"smalltux6.png"
+"smalltux6.png"
+"smalltux7.png"
+"smalltux7.png"
+"smalltux8.png"
+"smalltux8.png"
+"smalltux7.png"
+"smalltux6.png"
+"smalltux6.png"
+"smalltux5.png"
+"smalltux5.png"
+"smalltux4.png"
+"smalltux4.png"
+"smalltux3.png"
+"smalltux3.png"
+"smalltux2.png"
+"smalltux2.png"
+"smalltux1.png"
+"smalltux1.png"
+"smalltux.png"
+"smalltux.png"
+
+
+)
  )
  (action
   (name "large")
