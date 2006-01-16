@@ -13,11 +13,14 @@ public:
 
     void update(float elapsed_time);
     void draw(DrawingContext& context);
+    void stop();
     float get_level_time();
     float get_remaining_time();
 
 private:
     Timer time_left;
+    float final_level_time;
+    float final_remaining_time;
 };
 
 #endif

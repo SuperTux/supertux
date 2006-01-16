@@ -718,10 +718,21 @@ GameSession::start_sequence(const std::string& sequencename)
       return;
     
     end_sequence = ENDSEQUENCE_RUNNING;
-    endsequence_timer.start(level->extro_length); // 7 seconds until we finish the map
+    endsequence_timer.start(level->extro_length);
     last_x_pos = -1;
     sound_manager->play_music("music/" + level->extro_music, false);
     currentsector->player->invincible_timer.start(level->extro_length);
+
+    // Stop all clocks.
+    for(std::vector<GameObject*>::iterator i = currentsector->gameobjects.begin();
+        i != currentsector->gameobjects.end(); ++i)
+    {
+      GameObject* obj = *i;
+      
+      LevelTime* lt = dynamic_cast<LevelTime*> (obj);
+      if(lt)
+        lt->stop();
+    }
 
     if(sequencename == "fireworks") {
       currentsector->add_object(new Fireworks());
