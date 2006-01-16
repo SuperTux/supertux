@@ -136,19 +136,19 @@ Tux::draw(DrawingContext& context)
 {
   switch (player_status->bonus) {
     case GROWUP_BONUS:
-      tux_sprite->set_action("large");
+      tux_sprite->set_action(moving ? "large-walking" : "large-stop");
       break;
     case FIRE_BONUS:
-      tux_sprite->set_action("fire");
+      tux_sprite->set_action(moving ? "fire-walking" : "fire-stop");
       break;
     case NO_BONUS:
-      tux_sprite->set_action("small");
+      tux_sprite->set_action(moving ? "small-walking" : "small-stop");
       break;
     default:
 #ifdef DEBUG
       std::cerr << "Bonus type not handled in worldmap.\n";
 #endif
-      tux_sprite->set_action("large");
+      tux_sprite->set_action("large-stop");
       break;
   }
 

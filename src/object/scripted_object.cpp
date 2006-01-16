@@ -10,7 +10,8 @@
 #include "math/vector.hpp"
 
 ScriptedObject::ScriptedObject(const lisp::Lisp& lisp)
-  : solid(true), physic_enabled(true), visible(true), new_vel_set(false)
+  : solid(true), physic_enabled(true), visible(true), new_vel_set(false),
+    layer(LAYER_OBJECTS)
 {
   lisp.get("name", name);
   if(name == "")
@@ -33,6 +34,7 @@ ScriptedObject::ScriptedObject(const lisp::Lisp& lisp)
   lisp.get("solid", solid);
   lisp.get("physic-enabled", physic_enabled);
   lisp.get("visible", visible);
+  lisp.get("layer", layer);
   if(solid)
     flags |= FLAG_SOLID;
 }
@@ -134,7 +136,7 @@ ScriptedObject::draw(DrawingContext& context)
   if(!visible)
     return;
 
-  sprite->draw(context, get_pos(), LAYER_OBJECTS);
+  sprite->draw(context, get_pos(), layer);
 }
 
 HitResponse

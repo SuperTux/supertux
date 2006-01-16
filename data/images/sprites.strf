@@ -1012,22 +1012,6 @@
                  "powerups/ice_flower/ice_flower-1.png"
                  "powerups/ice_flower/ice_flower-2.png")))
 
- (sprite (name "firebullet")
-       (action
-         (x-offset 12)
-         (x-offset 12)
-         (fps 20)
-         (images "objects/bullets/fire_bullet-0.png"
-                 "objects/bullets/fire_bullet-1.png"
-                 "objects/bullets/fire_bullet-2.png"
-                 "objects/bullets/fire_bullet-3.png")))
- (sprite (name "icebullet")
-       (action
-         (x-offset 12)
-         (x-offset 12)
-         (fps 20)
-         (images "objects/bullets/ice_bullet.png")))
-
 ;; Game Objects follow
 
   ; Flying platform

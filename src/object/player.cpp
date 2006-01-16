@@ -715,10 +715,16 @@ Player::collision(GameObject& other, const CollisionHit& hit)
     return CONTINUE;
   }
 
-  TriggerBase* trigger = dynamic_cast<TriggerBase*> (&other);
-  if(trigger) {
-    if(controller->pressed(Controller::UP))
-      trigger->event(*this, TriggerBase::EVENT_ACTIVATE);
+#ifdef DEBUG
+  assert(dynamic_cast<MovingObject*> (&other) != NULL);
+#endif
+  MovingObject* moving_object = static_cast<MovingObject*> (&other); 
+  if(moving_object->get_group() == COLGROUP_TOUCHABLE) {
+    TriggerBase* trigger = dynamic_cast<TriggerBase*> (&other);
+    if(trigger) {
+      if(controller->pressed(Controller::UP))
+        trigger->event(*this, TriggerBase::EVENT_ACTIVATE);
+    }
 
     return FORCE_MOVE;
   }
@@ -727,16 +733,6 @@ Player::collision(GameObject& other, const CollisionHit& hit)
   if(badguy != NULL)
     return CONTINUE;
 
-#if 0
-  MovingObject* moving_object = static_cast<MovingObject*> (&other);
-  if(moving_object->get_group() == COLGROUP_TOUCHABLE)
-    return FORCE_MOVE;
-
-  if(is_invincible())
-    return FORCE_MOVE;
-
-  return CONTINUE;
-#endif
   return FORCE_MOVE;
 }
 

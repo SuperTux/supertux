@@ -1,8 +1,14 @@
 (supertux-sprite
  (action
-  (name "small")
+  (name "small-stop")
+  (x-offset 5)
   (y-offset 20)
- (x-offset 5)
+  (images "smalltux.png")
+ )
+ (action
+  (name "small-walking")
+  (x-offset 5)
+  (y-offset 20)
   (images "smalltux.png"
 "smalltux.png"
 "smalltux.png"
@@ -37,18 +43,27 @@
 "smalltux1.png"
 "smalltux.png"
 "smalltux.png"
-
-
 )
  )
  (action
-  (name "large")
+  (name "large-walking")
   (y-offset 10)
   (images "tux.png")
  )
  (action
-  (name "fire")
+  (name "large-stop")
+  (y-offset 10)
+  (images "tux.png")
+ )
+ (action
+  (name "fire-walking")
+  (y-offset 10)
+  (images "firetux.png")
+ )
+ (action
+  (name "fire-stop")
   (y-offset 10)
   (images "firetux.png")
  )
 )
+

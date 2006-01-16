@@ -3051,14 +3051,15 @@
        (stop  #t)
 )
 (tile
-    (id 719)
-    (images
-      (region "worldmap/forest/ghostwood.png" 32 64 32 32)
-     ) (north #t)
-       (south #f)
-       (east  #f)
-       (west  #t)
-       (stop  #t)
+ (id 719)
+ (images
+  (region "worldmap/forest/ghostwood.png" 32 64 32 32)
+ )
+ (north #t)
+ (south #f)
+ (east  #f)
+ (west  #t)
+ (stop  #f)
 )
 (tile
     (id 720)

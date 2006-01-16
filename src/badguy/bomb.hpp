@@ -37,7 +37,12 @@ public:
   void explode();
 
 private:
-  int state;
+  enum State {
+    STATE_TICKING,
+    STATE_EXPLODING
+  };
+  
+  State state;
   Timer timer;
 };
 

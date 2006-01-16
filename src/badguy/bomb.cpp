@@ -30,11 +30,13 @@ Bomb::Bomb(const Vector& pos, Direction dir)
   bbox.set_pos(pos);
   bbox.set_size(31.8, 31.8);
   sprite = sprite_manager->create("images/creatures/mr_bomb/bomb.sprite");
-  state = 0;
+  state = STATE_TICKING;
   timer.start(TICKINGTIME);
   this->dir = dir;
   sprite->set_action(dir == LEFT ? "ticking-left" : "ticking-right");
   countMe = false;
+
+  set_group(COLGROUP_TOUCHABLE);
 }
 
 void
@@ -55,7 +57,7 @@ Bomb::collision_solid(GameObject& , const CollisionHit& hit)
 HitResponse
 Bomb::collision_player(Player& player, const CollisionHit& )
 {
-  if(state == 1) {
+  if(state == STATE_EXPLODING) {
     player.kill(Player::SHRINK);
   }
   return ABORT_MOVE;
@@ -64,7 +66,7 @@ Bomb::collision_player(Player& player, const CollisionHit& )
 HitResponse
 Bomb::collision_badguy(BadGuy& badguy, const CollisionHit& )
 {
-  if(state == 1)
+  if(state == STATE_EXPLODING)
     badguy.kill_fall();
   return ABORT_MOVE;
 }
@@ -73,12 +75,12 @@ void
 Bomb::active_update(float )
 {
   switch(state) {
-    case 0:
+    case STATE_TICKING:
       if(timer.check()) {
         explode();
       }
       break;
-    case 1:
+    case STATE_EXPLODING:
       if(timer.check()) {
         remove_me();
       }
@@ -89,7 +91,8 @@ Bomb::active_update(float )
 void
 Bomb::explode()
 {
-  state = 1;
+  state = STATE_EXPLODING;
+  set_group(COLGROUP_TOUCHABLE);
   sprite->set_action("explosion");
   sound_manager->play("sounds/explosion.wav", get_pos());
   timer.start(EXPLOSIONTIME);
@@ -98,7 +101,7 @@ Bomb::explode()
 void
 Bomb::kill_fall()
 {
-  if (state != 1)  // we don't want it exploding again
+  if (state != STATE_EXPLODING)  // we don't want it exploding again
     explode();
 }
 
