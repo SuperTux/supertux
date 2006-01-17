@@ -5,7 +5,11 @@
   (name "left")
   (images "walk-left-0.png"
    "walk-left-1.png"
-   "walk-left-2.png")
+   "walk-left-2.png"
+   "walk-left-3.png"
+"walk-left-2.png"
+"walk-left-1.png"
+)
  )
  (action
   (y-offset -3)
