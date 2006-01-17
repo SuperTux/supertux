@@ -7,8 +7,8 @@
    "walk-left-1.png"
    "walk-left-2.png"
    "walk-left-3.png"
-"walk-left-2.png"
-"walk-left-1.png"
+   "walk-left-2.png"
+   "walk-left-1.png"
 )
  )
  (action
@@ -22,7 +22,10 @@
   (name "small-left")
   (images "small-left-0.png"
    "small-left-1.png"
-   "small-left-2.png")
+   "small-left-2.png"
+   "small-left-3.png"
+   "small-left-2.png"
+   "small-left-1.png")
  )
   (action
    (y-offset -3)
