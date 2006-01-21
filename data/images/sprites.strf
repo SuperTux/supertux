@@ -906,54 +906,6 @@
          (y-offset -12)
          (mirror-action "squished-left")))
 
-; Nolok
-   (sprite (name "nolok")
-       (action
-         (name "left")
-	 (fps 6)
-         (x-offset 0)
-         (y-offset 40)
-         (images "creatures/nolok/walk-0.png"
-		 "creatures/nolok/walk-1.png"
-                 "creatures/nolok/walk-2.png"
-		 "creatures/nolok/walk-3.png"
-		 "creatures/nolok/walk-4.png"))
-
-       (action
-         (name "right")
-	 (fps 6)
-         (x-offset 0)
-         (y-offset 40)
-         (mirror-action "left"))
-         
-       (action
-         (name "stand")
-         (x-offset 0)
-         (y-offset 40)
-         (images "creatures/nolok/walk-0.png"))
-         
-       (action
-         (name "throw")
-	 (fps 6)
-         (x-offset 0)
-         (y-offset 40)
-         (images "creatures/nolok/throw-0.png"
-		 "creatures/nolok/throw-1.png"))
-
-       (action
-         (name "jump")
-         (x-offset 0)
-         (y-offset 40)
-         (images "creatures/nolok/jump-0.png"
-		 "creatures/nolok/jump-1.png"
-		 "creatures/nolok/jump-2.png"))
-         
-       (action
-         (name "dead")
-         (x-offset 0)
-         (y-offset 0)
-         (images "creatures/nolok/throw-0.png")))
-
 ; Zeekling
  (sprite (name "zeekling")
        (action

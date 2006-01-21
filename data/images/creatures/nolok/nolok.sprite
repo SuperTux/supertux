@@ -1,0 +1,53 @@
+(supertux-sprite
+ (action
+  (name "left")
+  (fps 6)
+  (x-offset 0)
+  (y-offset 40)
+  (images "walk-0.png"
+          "walk-1.png"
+          "walk-2.png"
+          "walk-3.png"
+	  "walk-4.png")
+ )
+
+ (action
+  (name "right")
+  (fps 6)
+  (x-offset 0)
+  (y-offset 40)
+  (mirror-action "left")
+ )
+         
+ (action
+  (name "stand")
+  (x-offset 0)
+  (y-offset 40)
+  (images "walk-0.png")
+ )
+         
+ (action
+  (name "throw")
+  (fps 6)
+  (x-offset 0)
+  (y-offset 40)
+  (images "throw-0.png"
+          "throw-1.png")
+ )
+
+ (action
+  (name "jump")
+  (x-offset 0)
+  (y-offset 40)
+  (images "jump-0.png"
+          "jump-1.png"
+          "jump-2.png")
+ )
+         
+ (action
+  (name "dead")
+  (x-offset 0)
+  (y-offset 0)
+  (images "throw-0.png")
+ )
+)
