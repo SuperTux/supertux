@@ -34,7 +34,7 @@ Rock::Rock(const lisp::Lisp& reader)
   bbox.set_size(31.8, 31.8);
   sprite = sprite_manager->create("rock");
   grabbed = false;
-  flags |= FLAG_SOLID;
+  flags |= FLAG_SOLID | FLAG_PORTABLE;
 }
 
 Rock::~Rock()
