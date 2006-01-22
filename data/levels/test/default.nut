@@ -7,12 +7,15 @@ function intro()
   DisplayEffect.sixteen_to_nine(0);
   DisplayEffect.fade_in(2);
   Camera.scroll_to(0, 945, 15);
-  // Camera.scroll_to(0, 945, 150);
   // Sound.play_music("music/intro.ogg");
-  wait(2);
-
-  wait(20);
-  
+  wait(16);
+  Camera.scroll_to(3200, 945, 19);
+  wait(10);
+  Text.set_text("SuperTux\n(Replace this with the title logo)");
+  Text.fade_in(2);
+  wait(5);
+  Text.fade_out(2);	 
+  wait(4);
   Level.finish();
 }
 
