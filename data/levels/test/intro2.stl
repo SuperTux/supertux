@@ -189,8 +189,9 @@
        (particles-snow
        )
        (background
+         (image "images/background/intro_background.png")
          (top_color 0 0.85 1)
-         (bottom_color 0 0.6 1)
+         (bottom_color 0 3.6 1)
          (speed 1.000000)
        )
        (spawnpoint (name "main") (x 96) (y 0))
