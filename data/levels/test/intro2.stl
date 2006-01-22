@@ -202,6 +202,15 @@
         (physic-enabled #t)
         (solid #t)
        )
+       (scriptedobject
+        (x 3500) (y 800)
+        (name "PENNY")
+        (sprite "images/creatures/penny/penny.sprite")
+        (layer 100)
+        (visible #t)
+        (physic-enabled #t)
+        (solid #t)
+      )
    )
  )
 

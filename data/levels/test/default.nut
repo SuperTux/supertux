@@ -3,6 +3,7 @@
 function intro()
 {
   SUPERTUX.set_action("stand-right");  
+  PENNY.set_action("stand-left");
   Tux.deactivate();
   Tux.set_visible(false);
   DisplayEffect.sixteen_to_nine(0);
@@ -16,10 +17,10 @@ function intro()
   Text.set_text("SuperTux\n(Replace this with the title logo)");
   Text.fade_in(2);
   wait(5);
-  Text.fade_out(2);	 
-  wait(20);
-  //SUPERTUX.set_velocity(0,0);
-  //wait(5);
+  Text.fade_out(2);
+  wait(6);
+  SUPERTUX.set_velocity(0,0);
+  wait(10);
   Level.finish();
 }
 
