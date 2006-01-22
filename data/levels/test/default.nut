@@ -3,6 +3,7 @@
 function intro()
 {
   SUPERTUX.set_action("stand-right");  
+  RADIO.set_action("quiet");  
   PENNY.set_action("stand-left");
   Tux.deactivate();
   Tux.set_visible(false);
@@ -20,6 +21,7 @@ function intro()
   Text.fade_out(2);
   wait(6);
   SUPERTUX.set_velocity(0,0);
+  RADIO.set_action("loud");
   wait(10);
   Level.finish();
 }
