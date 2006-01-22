@@ -212,7 +212,7 @@
         (solid #t)
       )
       (scriptedobject
-        (x 3420) (y 800)
+        (x 3415) (y 800)
         (name "RADIO")
         (sprite "images/objects/radio/radio.sprite")
         (layer 100)
@@ -221,7 +221,7 @@
         (solid #t)
       )
       (scriptedobject
-        (x 3600) (y 850)
+        (x 3650) (y 850)
         (name "BUSH")
         (sprite "images/tiles/doodads/iceshrub.sprite")
         (layer 105)
