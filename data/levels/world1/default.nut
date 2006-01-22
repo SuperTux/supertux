@@ -37,7 +37,9 @@ function intro()
 
   wait(1)
   NOLOK.set_velocity(-120, 700);
-  wait(2);
+  wait(1.2);
+  NOLOK.set_velocity(0, 0);
+  wait(1);
 
 // nolok casts his spell...
   NOLOK.set_action("throw");

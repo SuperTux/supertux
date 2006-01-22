@@ -16,6 +16,8 @@ function intro()
   wait(5);
   Text.fade_out(2);	 
   wait(4);
+
+  wait(20);
   Level.finish();
 }
 

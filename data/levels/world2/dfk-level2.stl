@@ -756,7 +756,7 @@
     )
 
        (background
-         (image "images/background/images/background/arctis_dark.jpg")
+         (image "images/background/arctis_dark.jpg")
          (speed 1.000000)
        )
        (spawnpoint (name "main") (x 448) (y 2976))

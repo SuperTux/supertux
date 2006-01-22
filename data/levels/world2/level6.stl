@@ -942,7 +942,7 @@
 
        (spawnpoint (name "main") (x 64) (y 9536))
        (background
-         (image "images/background/images/background/forest1.jpg")
+         (image "images/background/forest1.jpg")
          (speed 1.000000)
        )
        (poisonivy (x 1349) (y 8844))
