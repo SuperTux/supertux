@@ -62,7 +62,6 @@ Camera::parse(const lisp::Lisp& reader)
     do_backscrolling = true;
     reader.get("backscrolling", do_backscrolling);
   } else if(modename == "autoscroll") {
-    printf("autoscroll.\n");
     mode = AUTOSCROLL;
     
     const lisp::Lisp* path_lisp = reader.get_lisp("path");
@@ -341,6 +340,6 @@ Camera::update_scroll_to(float elapsed_time)
     return;
   }
 
-  translation = (scroll_goal - scroll_from) * scroll_to_pos;
+  translation = scroll_from + (scroll_goal - scroll_from) * scroll_to_pos;
 }
 
