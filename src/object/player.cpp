@@ -522,6 +522,18 @@ Player::set_bonus(BonusType type, bool animate)
 }
 
 void
+Player::set_visible(bool visible)
+{
+  this->visible = visible;
+}
+
+bool
+Player::get_visible()
+{
+  return visible;
+}
+
+void
 Player::kick()
 {
   kick_timer.start(KICK_TIME);
@@ -530,6 +542,9 @@ Player::kick()
 void
 Player::draw(DrawingContext& context)
 {
+  if(!visible)
+    return;
+  
   TuxBodyParts* tux_body;
           
   if (player_status->bonus == GROWUP_BONUS)

@@ -10,7 +10,7 @@ function level2_init()
   add_key(KEY_BRASS);
   add_key(KEY_IRON);
   Tux.deactivate();
-  DisplayEffect.sixteen_to_nine();
+  DisplayEffect.sixteen_to_nine(2);
   Text.set_text(translate("---Insert Cutscene Here---"));
   Tux.walk(100);
   Text.fade_in(2);

@@ -20,9 +20,18 @@ public:
   void set_fading(FadeState state, float fadetime);
   FadeState get_fade_state() const
   {
-      return fade_state;
+    return fade_state;
   }
   void update();
+
+  void set_looping(bool looping)
+  {
+    this->looping = looping;
+  }
+  bool get_looping() const
+  {
+    return looping;
+  }
   
 private:
   static const size_t STREAMBUFFERSIZE = 1024 * 500;
@@ -30,13 +39,14 @@ private:
   static const size_t STREAMFRAGMENTSIZE 
     = STREAMBUFFERSIZE / STREAMFRAGMENTS;
 
-  void fillBufferAndQueue(ALuint buffer);
+  bool fillBufferAndQueue(ALuint buffer);
   SoundFile* file;
   ALuint buffers[STREAMFRAGMENTS];
 
   FadeState fade_state;
   Uint32 fade_start_ticks;
   float fade_time;
+  bool looping;
 };
 
 #endif

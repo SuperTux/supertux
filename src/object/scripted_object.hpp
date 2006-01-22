@@ -20,8 +20,8 @@ public:
 
   // --- Scripting Interface stuff ---
 
-  void set_animation(const std::string& animation);
-  std::string get_animation();
+  void set_action(const std::string& animation);
+  std::string get_action();
 
   void move(float x, float y);
   void set_pos(float x, float y);

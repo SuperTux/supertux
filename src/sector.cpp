@@ -70,7 +70,6 @@ Sector::Sector()
   : gravity(10), player(0), solids(0), camera(0),
     currentmusic(LEVEL_MUSIC)
 {
-  song_title = "chipdisko.ogg";
   player = new Player(player_status);
   add_object(player);
 

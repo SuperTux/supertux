@@ -12,8 +12,8 @@ public:
   {}
 #endif
 
-  virtual void set_animation(const std::string& animation) = 0;
-  virtual std::string get_animation() = 0;
+  virtual void set_action(const std::string& animation) = 0;
+  virtual std::string get_action() = 0;
 
   virtual void move(float x, float y) = 0;
   virtual void set_pos(float x, float y) = 0;

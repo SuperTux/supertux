@@ -76,8 +76,10 @@ static int DisplayEffect_sixteen_to_nine_wrapper(HSQUIRRELVM v)
 {
   Scripting::DisplayEffect* _this;
   sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
+  float arg0;
+  sq_getfloat(v, 2, &arg0);
   
-  _this->sixteen_to_nine();
+  _this->sixteen_to_nine(arg0);
   
   return 0;
 }
@@ -86,8 +88,10 @@ static int DisplayEffect_four_to_three_wrapper(HSQUIRRELVM v)
 {
   Scripting::DisplayEffect* _this;
   sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
+  float arg0;
+  sq_getfloat(v, 2, &arg0);
   
-  _this->four_to_three();
+  _this->four_to_three(arg0);
   
   return 0;
 }
@@ -189,24 +193,24 @@ static int ScriptedObject_release_hook(SQUserPointer ptr, int )
   return 0;
 }
 
-static int ScriptedObject_set_animation_wrapper(HSQUIRRELVM v)
+static int ScriptedObject_set_action_wrapper(HSQUIRRELVM v)
 {
   Scripting::ScriptedObject* _this;
   sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
   const char* arg0;
   sq_getstring(v, 2, &arg0);
   
-  _this->set_animation(arg0);
+  _this->set_action(arg0);
   
   return 0;
 }
 
-static int ScriptedObject_get_animation_wrapper(HSQUIRRELVM v)
+static int ScriptedObject_get_action_wrapper(HSQUIRRELVM v)
 {
   Scripting::ScriptedObject* _this;
   sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
   
-  std::string return_value = _this->get_animation();
+  std::string return_value = _this->get_action();
   
   sq_pushstring(v, return_value.c_str(), return_value.size());
   return 1;
@@ -489,6 +493,29 @@ static int Player_walk_wrapper(HSQUIRRELVM v)
   _this->walk(arg0);
   
   return 0;
+}
+
+static int Player_set_visible_wrapper(HSQUIRRELVM v)
+{
+  Scripting::Player* _this;
+  sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
+  SQBool arg0;
+  sq_getbool(v, 2, &arg0);
+  
+  _this->set_visible(arg0);
+  
+  return 0;
+}
+
+static int Player_get_visible_wrapper(HSQUIRRELVM v)
+{
+  Scripting::Player* _this;
+  sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
+  
+  bool return_value = _this->get_visible();
+  
+  sq_pushbool(v, return_value);
+  return 1;
 }
 
 static int display_text_file_wrapper(HSQUIRRELVM v)
@@ -954,19 +981,19 @@ void register_supertux_wrapper(HSQUIRRELVM v)
     msg << "Couldn't create new class 'ScriptedObject'";
     throw SquirrelError(v, msg.str());
   }
-  sq_pushstring(v, "set_animation", -1);
-  sq_newclosure(v, &ScriptedObject_set_animation_wrapper, 0);
+  sq_pushstring(v, "set_action", -1);
+  sq_newclosure(v, &ScriptedObject_set_action_wrapper, 0);
   if(SQ_FAILED(sq_createslot(v, -3))) {
     std::ostringstream msg;
-    msg << "Couldn't register function'set_animation'";
+    msg << "Couldn't register function'set_action'";
     throw SquirrelError(v, msg.str());
   }
 
-  sq_pushstring(v, "get_animation", -1);
-  sq_newclosure(v, &ScriptedObject_get_animation_wrapper, 0);
+  sq_pushstring(v, "get_action", -1);
+  sq_newclosure(v, &ScriptedObject_get_action_wrapper, 0);
   if(SQ_FAILED(sq_createslot(v, -3))) {
     std::ostringstream msg;
-    msg << "Couldn't register function'get_animation'";
+    msg << "Couldn't register function'get_action'";
     throw SquirrelError(v, msg.str());
   }
 
@@ -1182,6 +1209,22 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   if(SQ_FAILED(sq_createslot(v, -3))) {
     std::ostringstream msg;
     msg << "Couldn't register function'walk'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  sq_pushstring(v, "set_visible", -1);
+  sq_newclosure(v, &Player_set_visible_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    std::ostringstream msg;
+    msg << "Couldn't register function'set_visible'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  sq_pushstring(v, "get_visible", -1);
+  sq_newclosure(v, &Player_get_visible_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    std::ostringstream msg;
+    msg << "Couldn't register function'get_visible'";
     throw SquirrelError(v, msg.str());
   }
 

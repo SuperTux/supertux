@@ -30,7 +30,8 @@ StreamSoundSource::set_sound_file(SoundFile* newfile)
   ALint queued;
   alGetSourcei(source, AL_BUFFERS_QUEUED, &queued);
   for(size_t i = 0; i < STREAMFRAGMENTS - queued; ++i) {
-    fillBufferAndQueue(buffers[i]);
+    if(fillBufferAndQueue(buffers[i]) == false)
+      break;
   }
 }
 
@@ -44,23 +45,18 @@ StreamSoundSource::update()
     alSourceUnqueueBuffers(source, 1, &buffer);
     SoundManager::check_al_error("Couldn't unqueu audio buffer: ");
 
-    fillBufferAndQueue(buffer);
+    if(fillBufferAndQueue(buffer) == false)
+      break;
   }
 
   if(!playing()) {
-    if(processed == 0)
+    if(processed == 0 || !looping)
       return;
     
     // we might have to restart the source if we had a buffer underrun  
     std::cerr << "Restarting audio source because of buffer underrun.\n";
     play();
   }
-
-#ifdef DEBUG
-  ALint queued;
-  alGetSourcei(source, AL_BUFFERS_QUEUED, &queued);
-  assert(queued == (ALint) STREAMFRAGMENTS);
-#endif
 
   if(fade_state == FadingOn) {
     Uint32 ticks = SDL_GetTicks();
@@ -91,7 +87,7 @@ StreamSoundSource::set_fading(FadeState state, float fade_time)
   this->fade_start_ticks = SDL_GetTicks();
 }
 
-void
+bool
 StreamSoundSource::fillBufferAndQueue(ALuint buffer)
 {
   // fill buffer
@@ -100,16 +96,26 @@ StreamSoundSource::fillBufferAndQueue(ALuint buffer)
   do {
     bytesread += file->read(bufferdata + bytesread,
         STREAMFRAGMENTSIZE - bytesread);
+    // end of sound file
     if(bytesread < STREAMFRAGMENTSIZE) {
-      file->reset();
+      if(looping)
+        file->reset();
+      else
+        break;
     }
   } while(bytesread < STREAMFRAGMENTSIZE);
-  
-  ALenum format = SoundManager::get_sample_format(file);
-  alBufferData(buffer, format, bufferdata, STREAMFRAGMENTSIZE, file->rate);
-  delete[] bufferdata;
-  SoundManager::check_al_error("Couldn't refill audio buffer: ");
 
-  alSourceQueueBuffers(source, 1, &buffer);
-  SoundManager::check_al_error("Couldn't queue audio buffer: ");
+  if(bytesread > 0) {
+    ALenum format = SoundManager::get_sample_format(file);
+    alBufferData(buffer, format, bufferdata, bytesread, file->rate);
+    delete[] bufferdata;
+    SoundManager::check_al_error("Couldn't refill audio buffer: ");
+
+    alSourceQueueBuffers(source, 1, &buffer);
+    SoundManager::check_al_error("Couldn't queue audio buffer: ");
+  }
+
+  // return false if there aren't more buffers to fill
+  return bytesread >= STREAMFRAGMENTSIZE;
 }
+

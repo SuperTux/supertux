@@ -60,12 +60,9 @@ SoundManager::~SoundManager()
 }
 
 ALuint
-SoundManager::load_file_into_buffer(const std::string& filename)
+SoundManager::load_file_into_buffer(SoundFile* file)
 {
-  // open sound file
-  std::auto_ptr<SoundFile> file (load_sound_file(filename));
-  
-  ALenum format = get_sample_format(file.get());
+  ALenum format = get_sample_format(file);
   ALuint buffer;
   alGenBuffers(1, &buffer);
   check_al_error("Couldn't create audio buffer: ");
@@ -98,8 +95,17 @@ SoundManager::create_sound_source(const std::string& filename)
   if(i != buffers.end()) {
     buffer = i->second;
   } else {
-    buffer = load_file_into_buffer(filename);
-    buffers.insert(std::make_pair(filename, buffer));
+    // Load sound file
+    std::auto_ptr<SoundFile> file (load_sound_file(filename));
+
+    if(file->size < 100000) {
+      buffer = load_file_into_buffer(file.get());
+      buffers.insert(std::make_pair(filename, buffer));
+    } else {
+      StreamSoundSource* source = new StreamSoundSource();
+      source->set_sound_file(file.release());
+      return source;
+    }
   }
   
   SoundSource* source = new SoundSource();
@@ -224,9 +230,12 @@ SoundManager::update()
     return;
   lastticks = current_ticks;
 
-  // check for finished sound sources
+  // update and check for finished sound sources
   for(SoundSources::iterator i = sources.begin(); i != sources.end(); ) {
     SoundSource* source = *i;
+
+    source->update();
+    
     if(!source->playing()) {
       delete source;
       i = sources.erase(i);

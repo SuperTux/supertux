@@ -153,6 +153,9 @@ public:
   bool is_dead() const
   { return dead; }
   bool is_big();
+
+  void set_visible(bool visible);
+  bool get_visible();
   
 private:
   void handle_input();
@@ -167,6 +170,8 @@ private:
   void activate();
   void deactivate();
   void walk(float speed);
+
+  bool visible;
 
   Portable* grabbed_object;
 

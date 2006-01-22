@@ -50,7 +50,7 @@ private:
   friend class SoundSource;
   friend class StreamSoundSource;
 
-  static ALuint load_file_into_buffer(const std::string& filename);
+  static ALuint load_file_into_buffer(SoundFile* file);
   static ALenum get_sample_format(SoundFile* file);
 
   void print_openal_version();

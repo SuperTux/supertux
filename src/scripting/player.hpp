@@ -43,6 +43,15 @@ public:
    * Make Tux walk
    */
   virtual void walk(float speed) = 0;
+  /**
+   * Set player visible or not visible
+   */
+  virtual void set_visible(bool visible) = 0;
+  /**
+   * returns true if the player is currently visible (that is he was not set
+   * inivisible by the set_visible method)
+   */
+  virtual bool get_visible() = 0;
 };
 
 }

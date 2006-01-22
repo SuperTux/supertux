@@ -40,6 +40,11 @@ SoundSource::playing()
 }
 
 void
+SoundSource::update()
+{
+}
+
+void
 SoundSource::set_looping(bool looping)
 {
   alSourcei(source, AL_LOOPING, looping ? AL_TRUE : AL_FALSE);

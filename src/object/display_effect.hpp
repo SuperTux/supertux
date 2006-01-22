@@ -17,20 +17,23 @@ public:
     void fade_in(float fadetime);
     void set_black(bool enabled);
     bool is_black();
-    void sixteen_to_nine();
-    void four_to_three();
+    void sixteen_to_nine(float fadetime);
+    void four_to_three(float fadetime);
 
 private:
     enum FadeType {
         NO_FADE, FADE_IN, FADE_OUT
     };
-    FadeType type;
-    float fadetime;
-    float fading;
-    bool black;
-    bool borders_fading;
-    bool borders_active;
+    FadeType screen_fade;
+    float screen_fadetime;
+    float screen_fading;
+    FadeType border_fade;
+    float border_fadetime;
+    float border_fading;
     float border_size;
+    
+    bool black;
+    bool borders;
 };
 
 #endif

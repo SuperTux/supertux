@@ -100,13 +100,13 @@ ScriptedObject::is_visible()
 }
 
 void
-ScriptedObject::set_animation(const std::string& animation)
+ScriptedObject::set_action(const std::string& animation)
 {
   sprite->set_action(animation);
 }
 
 std::string
-ScriptedObject::get_animation()
+ScriptedObject::get_action()
 {
   return sprite->get_action_name();
 }

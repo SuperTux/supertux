@@ -3,7 +3,7 @@
 function intro()
 {
   DisplayEffect.sixteen_to_nine();
-  PENNY.set_animation("stand");
+  PENNY.set_action("stand");
   Text.set_centered(true);
   Text.set_text(translate("SuperTux\nMilestone 2"));
   Text.fade_in(2);
