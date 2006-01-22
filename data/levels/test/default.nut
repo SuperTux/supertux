@@ -7,7 +7,8 @@ function intro()
   DisplayEffect.sixteen_to_nine(0);
   DisplayEffect.fade_in(2);
   Camera.scroll_to(0, 945, 15);
-  // Sound.play_music("music/tux_intro.ogg");
+  // Camera.scroll_to(0, 945, 150);
+  // Sound.play_music("music/intro.ogg");
   wait(2);
 
   wait(20);

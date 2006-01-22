@@ -6,7 +6,7 @@
   (sector
     (name  "main")
     (init-script "intro()")
-    (music "tux_intro.ogg")
+    (music "intro.ogg")
     (gravity 10.000000)
     (tilemap
       (layer  "background")
