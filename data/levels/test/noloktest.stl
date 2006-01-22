@@ -7,9 +7,9 @@
   (sector
     (name "main")
     (gravity 10)
-    (background (image "arctis_dark.jpg")
+    (background (image "images/background/arctis_dark.jpg")
                 (speed 0.5))
-    (music "bossattack.ogg")
+    (music "music/bossattack.ogg")
     (spawnpoint (name "main") (x 100) (y 100))
     (nolok_01 (x 650) (y 512))
     (tilemap
@@ -44,8 +44,8 @@
   (sector
     (name "sector1")
     (gravity 10)
-    (music "chipdisko.ogg")
-    (background (image "forest1.jpg")
+    (music "music/chipdisko.ogg")
+    (background (image "images/background/forest1.jpg")
                 (speed 0.5))
     (spawnpoint (name "main2") (x 100) (y 100))
     (secretarea (x 100) (y 100) (message "You found a secret area!"))

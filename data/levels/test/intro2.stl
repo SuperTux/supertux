@@ -6,7 +6,7 @@
   (sector
     (name  "main")
     (init-script "intro()")
-    (music "intro.ogg")
+    (music "music/intro.ogg")
     (gravity 10.000000)
     (tilemap
       (layer  "background")

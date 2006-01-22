@@ -1,5 +1,5 @@
 (supertux-text
-  (background "arctis.jpg")
+  (background "images/background/arctis.jpg")
   (text (_ "-Congratulations!
 
 #You have successfully finished

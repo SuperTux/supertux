@@ -186,7 +186,7 @@
     )
 
        (background
-         (image "forest1.jpg")
+         (image "images/background/forest1.jpg")
          (speed 1.000000)
        )
        (init-script "level2_init();")
@@ -203,7 +203,7 @@
       (bonusblock (x 672) (y 1056)
         (contents "custom")
         (powerup
-          (sprite "images/powerups/potions/red-potion.sprite")
+          (sprite "potions/red-potion.sprite")
           (script "levelflip();")
         )
       )

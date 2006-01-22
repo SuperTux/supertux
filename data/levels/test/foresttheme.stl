@@ -7,7 +7,7 @@
   (sector
     (name "main")
     (gravity 10)
-    (music "forest2.ogg")
+    (music "music/forest2.ogg")
     (spawnpoint
       (name "main")
       (x 100)
@@ -19,7 +19,7 @@
       (y 201)
     )
     (background
-      (image "forest1.jpg")
+      (image "images/background/forest1.jpg")
       (speed 0.005)
     )
     (tilemap

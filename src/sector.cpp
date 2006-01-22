@@ -153,7 +153,7 @@ Sector::parse(const lisp::Lisp& sector)
     } else if(token == "gravity") {
       iter.value()->get(gravity);
     } else if(token == "music") {
-      iter.value()->get(song_title);
+      iter.value()->get(music);
     } else if(token == "spawnpoint") {
       SpawnPoint* sp = new SpawnPoint(iter.lisp());
       spawnpoints.push_back(sp);
@@ -214,7 +214,8 @@ Sector::parse_old_format(const lisp::Lisp& reader)
   
   if(backgroundimage != "") {
     Background* background = new Background;
-    background->set_image(backgroundimage, bgspeed);
+    background->set_image(
+            std::string("images/background/") + backgroundimage, bgspeed);
     add_object(background);
   } else {
     Background* background = new Background;
@@ -240,8 +241,9 @@ Sector::parse_old_format(const lisp::Lisp& reader)
   spawn->name = "main";
   spawnpoints.push_back(spawn);
 
-  song_title = "chipdisko.ogg";
-  reader.get("music", song_title);
+  music = "chipdisko.ogg";
+  reader.get("music", music);
+  music = "music/" + music;
 
   int width = 30, height = 15;
   reader.get("width", width);
@@ -349,7 +351,7 @@ Sector::write(lisp::Writer& writer)
 {
   writer.write_string("name", name);
   writer.write_float("gravity", gravity);
-  writer.write_string("music", song_title);
+  writer.write_string("music", music);
 
   // write spawnpoints
   for(SpawnPoints::iterator i = spawnpoints.begin(); i != spawnpoints.end();
@@ -933,7 +935,7 @@ Sector::play_music(MusicType type)
   currentmusic = type;
   switch(currentmusic) {
     case LEVEL_MUSIC:
-      sound_manager->play_music(std::string("music/") + song_title);
+      sound_manager->play_music(music);
       break;
     case HERRING_MUSIC:
       sound_manager->play_music("music/salcon.ogg");

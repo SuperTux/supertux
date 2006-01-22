@@ -336,7 +336,7 @@
     )
 
        (background
-         (image "forest1.jpg")
+         (image "images/background/forest1.jpg")
          (speed 1.000000)
        )
        (dispenser (x 31) (y 605) (badguy "poisonivy") (cycle 4))
@@ -839,7 +839,7 @@
          (spawnpoint "secret01")
        )
        (background
-         (image "forest1.jpg")
+         (image "images/background/forest1.jpg")
          (speed 1.000000)
        )
        (door

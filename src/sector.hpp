@@ -120,7 +120,7 @@ private:
   std::string name;
 
 public:
-  std::string song_title;
+  std::string music;
   float gravity;
 
   // some special objects, where we need direct access

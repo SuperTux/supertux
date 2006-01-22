@@ -7,7 +7,7 @@
   (sector
     (name  "main")
     (gravity 10.000000)
-    (background (image "arctis.jpg")
+    (background (image "images/background/arctis.jpg")
                 (speed 0.5))
     (spawnpoint (name "main") (x 150) (y 100))
     (rock (x 50) (y 50))

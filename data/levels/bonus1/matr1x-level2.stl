@@ -5,7 +5,7 @@
   (author "Matr1x")
   (sector
     (name "main")
-    (music "chipdisko.ogg")
+    (music "music/chipdisko.ogg")
     (gravity 10.0)
     (tilemap
       (layer "background")

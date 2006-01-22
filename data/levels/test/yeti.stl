@@ -96,7 +96,7 @@
     )
 
        (background
-         (image "semi_arctic.jpg")
+         (image "images/background/semi_arctic.jpg")
          (speed 0.500000)
        )
        (spawnpoint (name "main") (x 480) (y 448))

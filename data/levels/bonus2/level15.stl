@@ -5,7 +5,7 @@
   (author "Nilrok")
   (sector
     (name "main")
-    (music "salcon.ogg")
+    (music "music/salcon.ogg")
     (gravity 10.0)
     (tilemap
       (layer "background")
@@ -38,7 +38,7 @@
       )
     )
     (background
-      (image "cave2.jpg")
+      (image "images/background/cave2.jpg")
       (speed 0.5)
     )
     (leveltime

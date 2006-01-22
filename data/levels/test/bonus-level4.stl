@@ -164,7 +164,7 @@
        (jumpy (x 15063) (y 268))
        (spawnpoint (name "main") (x 96) (y 96))
        (background
-         (image "arctis_dark.jpg")
+         (image "images/background/arctis_dark.jpg")
          (speed 0.500000)
        )
    )

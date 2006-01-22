@@ -7,7 +7,7 @@
   ;(time  180)
   (sector
     (name "main")
-    (music "fortress2.ogg")
+    (music "music/fortress2.ogg")
     (gravity 10.0)
     (tilemap
       (layer "background")
@@ -82,7 +82,7 @@
       )
     )
     (background
-      (image "arctis_dark.jpg")
+      (image "images/background/arctis_dark.jpg")
       (speed 0.5)
     )
     (leveltime

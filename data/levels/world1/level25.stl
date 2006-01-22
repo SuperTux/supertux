@@ -7,7 +7,7 @@
   (author "SuperTux Team")
   (sector
     (name "main")
-    (music "chipdisko.ogg")
+    (music "music/chipdisko.ogg")
     (gravity 10.0)
     (tilemap
       (layer "background")
@@ -94,7 +94,7 @@
       )
     )
     (background
-      (image "ocean.jpg")
+      (image "images/background/ocean.jpg")
       (speed 0.5)
     )
     (leveltime

@@ -160,7 +160,7 @@
        (mrbomb (x 10713) (y 301))
        (spawnpoint (name "main") (x 96) (y 96))
        (background
-         (image "cave2.jpg")
+         (image "images/background/cave2.jpg")
          (speed 0.500000)
        )
              (bonusblock (x 160) (y 288)

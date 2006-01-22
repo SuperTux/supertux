@@ -6,7 +6,7 @@
   (author "Marek Moeckel")
   (sector
     (name "main")
-    (music "theme.ogg")
+    (music "music/theme.ogg")
     (gravity 10.0)
     (tilemap
       (layer "background")

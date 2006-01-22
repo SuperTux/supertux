@@ -5,7 +5,7 @@
   (author "Marek Moeckel")
   (sector
     (name "main")
-    (music "salcon.ogg")
+    (music "music/salcon.ogg")
     (gravity 10.0)
     (tilemap
       (layer "background")

@@ -2,7 +2,7 @@
 (supertux-worldmap
   (properties
     (name (_ "Forest World"))
-    (music "forestmap.ogg")
+    (music "music/forestmap.ogg")
     (start_pos_x 0)
     (start_pos_y 0)
   )

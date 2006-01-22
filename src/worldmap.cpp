@@ -358,7 +358,7 @@ WorldMap::WorldMap()
   teleporterdot = new Surface("images/worldmap/common/teleporterdot.png");
 
   name = "<no title>";
-  music = "salcon.ogg";
+  music = "music/salcon.ogg";
   intro_displayed = false;
 
   total_stats.reset();
@@ -848,7 +848,7 @@ WorldMap::update(float delta)
               break;
             }
 
-          sound_manager->play_music(std::string("music/") + music);
+          sound_manager->play_music(music);
           Menu::set_current(0);
           if (!savegame_file.empty())
             savegame(savegame_file);
@@ -1001,7 +1001,7 @@ WorldMap::display()
 
   quit = false;
 
-  sound_manager->play_music(std::string("music/") + music);
+  sound_manager->play_music(music);
 
   if(!intro_displayed && intro_script != "") {
     try {

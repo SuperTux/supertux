@@ -5,7 +5,7 @@
   (author "Denilson")
   (sector
     (name "main")
-    (music "chipdisko.ogg")
+    (music "music/chipdisko.ogg")
     (gravity 10.0)
     (tilemap
       (layer "background")
@@ -52,7 +52,7 @@
       )
     )
     (background
-      (image "arctis.jpg")
+      (image "images/background/arctis.jpg")
       (speed 0.3)
     )
     (leveltime

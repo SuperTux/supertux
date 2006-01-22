@@ -4,7 +4,7 @@
   (name   (_ "Going Underground"))
   (author "Anubis")
   (extro
-    (music "gameover_forest.ogg")
+    (music "music/music/gameover_forest.ogg")
     (length 12.7)
   )
   (sector
@@ -340,7 +340,7 @@
     )
 
        (background
-         (image "ghostforest.jpg")
+         (image "images/background/ghostforest.jpg")
          (speed 1.000000)
        )
        (particles-rain

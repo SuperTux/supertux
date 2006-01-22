@@ -186,7 +186,7 @@
     )
 
        (background
-         (image "forest1.jpg")
+         (image "images/background/forest1.jpg")
          (speed 0.100000)
        )
        (spawnpoint (name "main") (x 32) (y 1248))

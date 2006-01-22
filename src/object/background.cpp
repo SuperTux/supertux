@@ -93,7 +93,7 @@ Background::set_image(const std::string& name, float speed)
   this->speed = speed;
 
   delete image;
-  image = new Surface("images/background/" + name);
+  image = new Surface(name);
 }
 
 void

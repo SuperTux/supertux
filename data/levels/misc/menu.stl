@@ -5,9 +5,9 @@
   (author "SuperTux Team")
   (sector
     (name  "main")
-    (music  "theme.ogg")
+    (music  "music/theme.ogg")
     (gravity 10.000000)
-    (background (image "arctis.jpg")
+    (background (image "images/background/arctis.jpg")
                 (speed 0.5))
     (tilemap
       (layer  "background")

@@ -8,9 +8,9 @@
     (name  "main")
     (width  100)
     (height  50)
-    (music "forest.ogg")
+    (music "music/forest.ogg")
     (gravity 10.000000)
-    (background (image "forest1.jpg")
+    (background (image "images/background/forest1.jpg")
                 (speed 0.5))
     (tilemap
       (layer  "background")

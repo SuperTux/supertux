@@ -5,7 +5,7 @@
   (author "Kevin")
   (sector
     (name "main")
-    (music "fortress2.ogg")
+    (music "music/fortress2.ogg")
     (gravity 10.0)
     (tilemap
       (layer "background")
@@ -38,7 +38,7 @@
       )
     )
     (background
-      (image "ocean.jpg")
+      (image "images/background/ocean.jpg")
       (speed 0.5)
     )
     (leveltime

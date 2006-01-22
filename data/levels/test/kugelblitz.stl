@@ -99,7 +99,7 @@
        )
        (spawnpoint (name "main") (x 2496) (y 128))
        (background
-         (image "ghostforest.jpg")
+         (image "images/background/ghostforest.jpg")
          (speed 1.000000)
        )
        (poisonivy (x 800) (y 440))

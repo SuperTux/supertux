@@ -125,11 +125,11 @@
     )
 
        (background
-         (image "arctis.jpg")
+         (image "images/background/arctis.jpg")
          (speed 0.500000)
        )
        (background
-         (image "arctis.jpg")
+         (image "images/background/arctis.jpg")
          (speed 0.500000)
        )
        (spawnpoint (name "main") (x 96) (y 160))

@@ -7,7 +7,7 @@
   (sector
     (name  "main")
     (gravity 10.000000)
-    (background (image "arctis.jpg")
+    (background (image "images/background/arctis.jpg")
                 (speed 0.5))
     (tilemap
       (layer  "background")
@@ -84,7 +84,7 @@
 
        (spawnpoint (name "main") (x 96) (y 160))
        (background
-         (image "arctis.jpg")
+         (image "images/background/arctis.jpg")
          (speed 0.500000)
        )
        (door
@@ -107,7 +107,7 @@
   (sector
     (name  "another_world")
     (gravity 10.000000)
-    (background (image "arctis.jpg")
+    (background (image "images/background/arctis.jpg")
                 (speed 0.5))
     (tilemap
       (layer  "background")
@@ -739,7 +739,7 @@
 
        (trampoline (x 1900) (y 1500))
        (background
-         (image "cave2.jpg")
+         (image "images/background/cave2.jpg")
          (speed 0.500000)
        )
        (door

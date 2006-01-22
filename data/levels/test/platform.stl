@@ -125,7 +125,7 @@
     )
 
        (background
-         (image "arctis.jpg")
+         (image "images/background/arctis.jpg")
          (speed 0.500000)
        )
    (path (name "path1") (circular #t) (speed 100) (x 0) (y 0) (x 0) (y -100) (x 100) (y -100) (x 100) (y 0))
