@@ -132,7 +132,7 @@ Camera::reset(const Vector& tuxpos)
   translation.y = tuxpos.y - SCREEN_HEIGHT/2;
   shakespeed = 0;
   shaketimer.stop();
-  keep_in_bounds();
+  keep_in_bounds(translation);
 }
 
 void
@@ -144,20 +144,41 @@ Camera::shake(float time, float x, float y)
   shakespeed = M_PI/2 / time;
 }
 
+void
+Camera::scroll_to(const Vector& goal, float scrolltime)
+{
+  scroll_from = translation;
+  scroll_goal = goal;
+  keep_in_bounds(scroll_goal);
+
+  scroll_to_pos = 0;
+  scrollspeed = 1.0 / scrolltime;
+  mode = SCROLLTO;
+}
+
 static const float EPSILON = .00001;
 static const float max_speed_y = 140;
 
 void
 Camera::update(float elapsed_time)
 {
-  if(mode == NORMAL)
-    scroll_normal(elapsed_time);
-  else if(mode == AUTOSCROLL)
-    scroll_autoscroll(elapsed_time);
+  switch(mode) {
+    case NORMAL:
+      update_scroll_normal(elapsed_time);
+      break;
+    case AUTOSCROLL:
+      update_scroll_autoscroll(elapsed_time);
+      break;
+    case SCROLLTO:
+      update_scroll_to(elapsed_time);
+      break;
+    default:
+      break;
+  }
 }
 
 void
-Camera::keep_in_bounds()
+Camera::keep_in_bounds(Vector& translation)
 {
   float width = sector->solids->get_width() * 32;
   float height = sector->solids->get_height() * 32;
@@ -183,7 +204,7 @@ Camera::shake()
 }
 
 void
-Camera::scroll_normal(float elapsed_time)
+Camera::update_scroll_normal(float elapsed_time)
 {
   assert(sector != 0);
   Player* player = sector->player;
@@ -269,12 +290,12 @@ Camera::scroll_normal(float elapsed_time)
   // apply scrolling
   translation.x -= speed_x * elapsed_time;
 
-  keep_in_bounds();
+  keep_in_bounds(translation);
   shake();
 }
 
 void
-Camera::scroll_autoscroll(float elapsed_time)
+Camera::update_scroll_autoscroll(float elapsed_time)
 {
   Player* player = sector->player;
   
@@ -292,7 +313,7 @@ Camera::scroll_autoscroll(float elapsed_time)
 
     // construct path for next point
     if(auto_idx+1 >= scrollpoints.size()) {
-      keep_in_bounds();
+      keep_in_bounds(translation);
       return;
     }
     Vector distance = scrollpoints[auto_idx+1].position 
@@ -306,7 +327,20 @@ Camera::scroll_autoscroll(float elapsed_time)
     auto_idx++;
   }
 
-  keep_in_bounds();
+  keep_in_bounds(translation);
   shake();
+}
+
+void
+Camera::update_scroll_to(float elapsed_time)
+{
+  scroll_to_pos += elapsed_time * scrollspeed;
+  if(scroll_to_pos >= 1.0) {
+    mode = MANUAL;
+    translation = scroll_goal;
+    return;
+  }
+
+  translation = (scroll_goal - scroll_from) * scroll_to_pos;
 }
 

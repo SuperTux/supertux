@@ -393,6 +393,11 @@ GameSession::try_cheats()
     exit_status = ES_LEVEL_FINISHED;
     // don't add points to stats though...
   }
+  if(main_controller->check_cheatcode("camera")) {
+    std::cout << "Camera is at " 
+              << Sector::current()->camera->get_translation().x << "," 
+              << Sector::current()->camera->get_translation().y << "\n";
+  }
 }
 
 void

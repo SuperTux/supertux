@@ -5,7 +5,8 @@
   (author "No Author")
   (sector
     (name  "main")
-    (init-script "")
+    (init-script "intro()")
+    (music "tux_intro.ogg")
     (gravity 10.000000)
     (tilemap
       (layer  "background")

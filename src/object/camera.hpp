@@ -66,23 +66,30 @@ public:
     translation.y = scroll_y;
   }
 
+  /**
+   * scroll the upper left edge of the camera in scrolltime seconds
+   * to the position goal
+   */
+  void scroll_to(const Vector& goal, float scrolltime);
+
   enum CameraMode
   {
-    NORMAL, AUTOSCROLL, MANUAL
+    NORMAL, AUTOSCROLL, SCROLLTO, MANUAL
   };
   CameraMode mode;
 
 private:
-  void scroll_normal(float elapsed_time);
-  void scroll_autoscroll(float elapsed_time);
-  void keep_in_bounds();
+  void update_scroll_normal(float elapsed_time);
+  void update_scroll_autoscroll(float elapsed_time);
+  void update_scroll_to(float elapsed_time);
+  void keep_in_bounds(Vector& vector);
   void shake();
 
   enum LeftRightScrollChange
   {
     NONE, LEFT, RIGHT
   };
-    
+
   Vector translation;
 
   Sector* sector;
@@ -107,6 +114,12 @@ private:
   float shakespeed;
   float shakedepth_x;
   float shakedepth_y;
+
+  // scrollto mode
+  Vector scroll_from;
+  Vector scroll_goal;
+  float scroll_to_pos;
+  float scrollspeed;
 };
 
 #endif /*SUPERTUX_CAMERA_H*/

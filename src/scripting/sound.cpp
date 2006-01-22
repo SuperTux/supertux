@@ -16,11 +16,8 @@ namespace Scripting
   {}
 
   void
-  Sound::play_music(const std::string& name)
+  Sound::play_music(const std::string& filename)
   {
-    std::string filename = "music/";
-    filename += name;
-    filename += ".ogg";
     sound_manager->play_music(filename);
   }
 

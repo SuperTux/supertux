@@ -2,13 +2,16 @@
 
 #include <string>
 #include <stdio.h>
-#include "camera.hpp"
+#include "object/camera.hpp"
+#include "scripting/camera.hpp"
+#include "math/vector.hpp"
 
 #define NOIMPL      printf("%s not implemented.\n", __PRETTY_FUNCTION__);
 
 namespace Scripting
 {
-  Camera::Camera()
+  Camera::Camera(::Camera* camera)
+    : camera(camera)
   { }
 
   Camera::~Camera()
@@ -30,5 +33,11 @@ namespace Scripting
   Camera::set_mode(const std::string& )
   {
     NOIMPL;
-  }  
+  }
+
+  void
+  Camera::scroll_to(float x, float y, float scrolltime)
+  {
+    camera->scroll_to(Vector(x, y), scrolltime);
+  }
 }

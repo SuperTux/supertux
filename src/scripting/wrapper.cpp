@@ -145,6 +145,22 @@ static int Camera_set_mode_wrapper(HSQUIRRELVM v)
   return 0;
 }
 
+static int Camera_scroll_to_wrapper(HSQUIRRELVM v)
+{
+  Scripting::Camera* _this;
+  sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
+  float arg0;
+  sq_getfloat(v, 2, &arg0);
+  float arg1;
+  sq_getfloat(v, 3, &arg1);
+  float arg2;
+  sq_getfloat(v, 4, &arg2);
+  
+  _this->scroll_to(arg0, arg1, arg2);
+  
+  return 0;
+}
+
 static int Level_release_hook(SQUserPointer ptr, int )
 {
   Scripting::Level* _this = reinterpret_cast<Scripting::Level*> (ptr);
@@ -928,6 +944,14 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   if(SQ_FAILED(sq_createslot(v, -3))) {
     std::ostringstream msg;
     msg << "Couldn't register function'set_mode'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  sq_pushstring(v, "scroll_to", -1);
+  sq_newclosure(v, &Camera_scroll_to_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    std::ostringstream msg;
+    msg << "Couldn't register function'scroll_to'";
     throw SquirrelError(v, msg.str());
   }
 

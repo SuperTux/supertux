@@ -40,7 +40,7 @@ static void printfunc(HSQUIRRELVM, const char* str, ...)
 ScriptInterpreter* ScriptInterpreter::_current = 0;
 
 ScriptInterpreter::ScriptInterpreter(const std::string& new_working_directory)
-  : working_directory(new_working_directory), sound(0), level(0)
+  : working_directory(new_working_directory), sound(0), level(0), camera(0)
 {
   v = sq_open(1024);
   if(v == 0)
@@ -101,6 +101,9 @@ ScriptInterpreter::register_sector(Sector* sector)
   Scripting::DisplayEffect* display_effect_api
     = static_cast<Scripting::DisplayEffect*> (display_effect);
   expose_object(display_effect_api, "DisplayEffect");
+
+  Scripting::Camera* camera = new Scripting::Camera(sector->camera);
+  expose_object(camera, "Camera");
 }
 
 ScriptInterpreter::~ScriptInterpreter()
@@ -108,6 +111,7 @@ ScriptInterpreter::~ScriptInterpreter()
   sq_close(v);
   delete sound;
   delete level;
+  delete camera;
 }
 
 static SQInteger squirrel_read_char(SQUserPointer file)

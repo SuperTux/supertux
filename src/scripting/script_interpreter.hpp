@@ -12,6 +12,7 @@
 #include "scripting/sound.hpp"
 #include "scripting/level.hpp"
 #include "scripting/squirrel_error.hpp"
+#include "scripting/camera.hpp"
 
 class Sector;
 
@@ -76,6 +77,7 @@ private:
   std::string working_directory;
   Scripting::Sound* sound;
   Scripting::Level* level;
+  Scripting::Camera* camera;
 };
 
 #endif
