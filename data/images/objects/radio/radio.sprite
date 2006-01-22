@@ -1,0 +1,15 @@
+(supertux-sprite
+ (action
+  (name "quiet")
+  (x-offset 0)
+  (y-offset 0)
+  (images "radio1.png"))
+ (action
+  (name "loud")
+  (x-offset 0)
+  (y-offset 0)
+  (images "radio1.png"
+   "radio2.png"
+   "radio3.png")
+  )
+)
