@@ -136,6 +136,7 @@ Player::init()
   deactivated = false;
   backflipping = false;
   backflip_direction = 0;
+  visible = true;
   
   on_ground_flag = false;
   grabbed_object = 0;
