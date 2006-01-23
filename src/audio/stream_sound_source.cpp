@@ -8,7 +8,7 @@
 #include "sound_file.hpp"
 
 StreamSoundSource::StreamSoundSource()
-  : file(0), fade_state(NoFading)
+  : file(0), fade_state(NoFading), looping(false)
 {
   alGenBuffers(STREAMFRAGMENTS, buffers);
   SoundManager::check_al_error("Couldn't allocate audio buffers: ");

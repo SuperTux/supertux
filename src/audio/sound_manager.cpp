@@ -189,6 +189,7 @@ SoundManager::play_music(const std::string& filename, bool fade)
     std::auto_ptr<StreamSoundSource> newmusic (new StreamSoundSource());
     alSourcef(newmusic->source, AL_ROLLOFF_FACTOR, 0);
     newmusic->set_sound_file(load_sound_file(filename));
+    newmusic->set_looping(true);
     if(fade)
       newmusic->set_fading(StreamSoundSource::FadingOn, .5f);
     newmusic->play();
