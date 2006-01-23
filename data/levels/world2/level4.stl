@@ -9,7 +9,7 @@
   )
   (sector
     (name  "main")
-    (music  "forest2.ogg")
+    (music  "music/forest2.ogg")
     (gravity 10.000000)
     (tilemap
       (layer  "background")

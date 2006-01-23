@@ -2,9 +2,10 @@
 (supertux-level
   (version 2)
   (name   (_ "No Name"))
-  (author "No Author")
+  (author "Anubis")
   (sector
     (name  "main")
+    (music "music/forest2.ogg")
     (gravity 10.000000)
     (tilemap
       (layer  "background")

@@ -1,0 +1,9 @@
+SUPERTUX FIXME'S
+This file is for small, obvious and temporary issues that are too minor to be put into the TODO at the wiki.
+Just put them here so you don't forget.
+---
+
+Tux is invisible!
+Some sound effects (growup, being hit) loop endlessly
+Some levels don't have the music path set correctly
+Revert Tux to single image sprite
