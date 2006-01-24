@@ -10,8 +10,6 @@
 "walk-left-4.png"
 "walk-left-5.png"
 
-
-
 )
  )
  (action
@@ -26,9 +24,7 @@
   (images "small-left-0.png"
    "small-left-1.png"
    "small-left-2.png"
-   "small-left-3.png"
-   "small-left-2.png"
-   "small-left-1.png")
+)
  )
   (action
    (y-offset -3)

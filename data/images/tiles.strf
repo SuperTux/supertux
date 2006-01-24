@@ -6141,18 +6141,6 @@
     )
     (solid #f)
 )
-  (tile
-    (id 1532)
-    (images
-      (region "objects/radio/radio1.png"  0 0 32 32)
-    )
-    (solid #f)
-)
-  (tile
-    (id 1533)
-    (images
-      (region "objects/radio/radio1.png"  32 0 32 32)
-    )
-    (solid #f)
+
 )
 )
