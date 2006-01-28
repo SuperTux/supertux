@@ -46,12 +46,12 @@ function intro()
   shake_bush();
   wait(2);
   shake_bush();
-  wait(1);
+  wait(1.3);
   
   //enter Nolok
-  NOLOK.set_velocity(-180, 600);
+  NOLOK.set_velocity(-220, 600);
   NOLOK.set_visible(true);
-  DisplayEffect.fade_out(1.5);
+  DisplayEffect.fade_out(1.3);
   wait(3);
 
   //darkness
@@ -70,8 +70,8 @@ function intro()
   tux_upset();
   wait(4);
   SUPERTUX.set_action("stand-right");
-  SUPERTUX.set_velocity(300,700);
-  wait(1);
+  SUPERTUX.set_velocity(300,0);
+  wait(2);
   
   //end intro sequence
   DisplayEffect.fade_out(2);
