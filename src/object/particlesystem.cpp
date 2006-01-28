@@ -28,6 +28,7 @@
 #include "lisp/writer.hpp"
 #include "resources.hpp"
 #include "main.hpp"
+#include "object/camera.hpp"
 
 ParticleSystem::ParticleSystem()
 {
@@ -122,7 +123,7 @@ void SnowParticleSystem::update(float elapsed_time)
     for(i = particles.begin(); i != particles.end(); ++i) {
         SnowParticle* particle = (SnowParticle*) *i;
         particle->pos.y += particle->speed * elapsed_time;
-        if(particle->pos.y > SCREEN_HEIGHT) {
+        if(particle->pos.y > SCREEN_HEIGHT + Sector::current()->camera->get_translation().y) {
             particle->pos.y = fmodf(particle->pos.y , virtual_height);
             particle->pos.x = rand() % int(virtual_width);
         }

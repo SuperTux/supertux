@@ -203,7 +203,7 @@
       (bonusblock (x 672) (y 1056)
         (contents "custom")
         (powerup
-          (sprite "potions/red-potion.sprite")
+          (sprite "images/powerups/potions/red-potion.sprite")
           (script "levelflip();")
         )
       )
