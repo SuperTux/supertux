@@ -6,7 +6,7 @@
   (sector
     (name  "main")
     (init-script "intro()")
-    (music "music/intro.ogg")
+    ;; (music "music/intro.ogg")
     (gravity 10.000000)
     (tilemap
       (layer  "background")
@@ -227,7 +227,16 @@
         (layer 105)
         (visible #t)
         (physic-enabled #t)
-        (solid #f)
+        (solid #t)
+      )
+      (scriptedobject
+        (x 3650) (y 850)
+        (name "NOLOK")
+        (sprite "images/creatures/nolok/nolok.sprite")
+        (layer 100)
+        (visible #t)
+        (physic-enabled #t)
+        (solid #t)
       )
    )
  )
