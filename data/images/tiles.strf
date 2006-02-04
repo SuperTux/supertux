@@ -6141,6 +6141,12 @@
     )
     (solid #f)
 )
-
+  (tile
+    (id 1532)
+    (images
+      "tiles/doodads/clover.png" )
+    )
+    (solid #f)
+)
 )
 )

@@ -1,20 +1,20 @@
 (supertux-sprite
  (action
   (y-offset -3)
-  (fps 7)
+  (fps 4)
   (name "left")
   (images "walk-left-0.png"
    "walk-left-1.png"
-"walk-left-2.png"
-"walk-left-3.png"
-"walk-left-4.png"
-"walk-left-5.png"
+   "walk-left-2.png"
+   "walk-left-3.png"
+   "walk-left-4.png"
+   "walk-left-5.png"
 
 )
  )
  (action
   (y-offset -3)
-  (fps 5)
+  (fps 4)
   (name "right")
   (mirror-action "left")
  )
@@ -24,6 +24,9 @@
   (images "small-left-0.png"
    "small-left-1.png"
    "small-left-2.png"
+   "small-left-3.png"
+   "small-left-4.png"
+   "small-left-5.png"
 )
  )
   (action
