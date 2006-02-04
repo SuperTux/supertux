@@ -6139,14 +6139,13 @@
     (images
       (region "tiles/castle/door.png"  96 64 32 32)
     )
-    (solid #f)
+ 
 )
   (tile
     (id 1532)
     (images
       "tiles/doodads/clover.png" )
-    )
-    (solid #f)
-)
+    (solid #t)
+  )
 )
 )
