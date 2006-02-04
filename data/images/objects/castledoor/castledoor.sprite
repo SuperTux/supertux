@@ -1,0 +1,7 @@
+(supertux-sprite
+ (action
+  (name "closed")
+  (x-offset 0)
+  (y-offset 0)
+  (images "castledoor.png"))
+)
