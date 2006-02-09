@@ -9,7 +9,7 @@
 
 #include "sqstring.h"
 
-#define hashptr(p)  (((SQHash)(p)) >> 3)
+#define hashptr(p)  (((SQHash)(reinterpret_cast<long>(p))) >> 3)
 
 struct SQTable : public SQDelegable 
 {
