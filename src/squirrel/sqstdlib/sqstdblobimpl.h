@@ -4,7 +4,7 @@
 
 struct SQBlob : public SQStream
 {
-	SQBlob(int size) {
+	SQBlob(SQInteger size) {
 		_size = size;
 		_allocated = size;
 		_buf = (unsigned char *)sq_malloc(size);
@@ -13,7 +13,7 @@ struct SQBlob : public SQStream
 		_owns = true;
 	}
 	~SQBlob() {
-		sq_free(_buf, _size);
+		sq_free(_buf, _allocated);
 	}
 	SQInteger Write(void *buffer, SQInteger size) {
 		if(!CanAdvance(size)) {
@@ -24,7 +24,7 @@ struct SQBlob : public SQStream
 		return size;
 	}
 	SQInteger Read(void *buffer,SQInteger size) {
-		int n = size;
+		SQInteger n = size;
 		if(!CanAdvance(size)) {
 			if((_size - _ptr) > 0)
 				n = _size - _ptr;
@@ -34,7 +34,7 @@ struct SQBlob : public SQStream
 		_ptr += n;
 		return n;
 	}
-	bool Resize(int n) {
+	bool Resize(SQInteger n) {
 		if(!_owns) return false;
 		if(n != _allocated) {
 			unsigned char *newbuf = (unsigned char *)sq_malloc(n);
@@ -53,7 +53,7 @@ struct SQBlob : public SQStream
 		}
 		return true;
 	}
-	bool GrowBufOf(int n)
+	bool GrowBufOf(SQInteger n)
 	{
 		bool ret = true;
 		if(_size + n > _allocated) {
@@ -65,22 +65,22 @@ struct SQBlob : public SQStream
 		_size = _size + n;
 		return ret;
 	}
-	bool CanAdvance(int n) {
+	bool CanAdvance(SQInteger n) {
 		if(_ptr+n>_size)return false;
 		return true;
 	}
-	SQInteger Seek(long offset, int origin) {
+	SQInteger Seek(SQInteger offset, SQInteger origin) {
 		switch(origin) {
 			case SQ_SEEK_SET:
-				if(offset >= _size || offset < 0) return -1;
+				if(offset > _size || offset < 0) return -1;
 				_ptr = offset;
 				break;
 			case SQ_SEEK_CUR:
-				if(_ptr + offset >= _size || _ptr + offset < 0) return -1;
+				if(_ptr + offset > _size || _ptr + offset < 0) return -1;
 				_ptr += offset;
 				break;
 			case SQ_SEEK_END:
-				if(_size + offset >= _size || _size + offset < 0) return -1;
+				if(_size + offset > _size || _size + offset < 0) return -1;
 				_ptr = _size + offset;
 				break;
 			default: return -1;
@@ -93,14 +93,14 @@ struct SQBlob : public SQStream
 	bool EOS() {
 		return _ptr == _size;
 	}
-	int Flush() { return 0; }
-	long Tell() { return _ptr; }
+	SQInteger Flush() { return 0; }
+	SQInteger Tell() { return _ptr; }
 	SQInteger Len() { return _size; }
 	SQUserPointer GetBuf(){ return _buf; }
 private:
-	int _size;
-	int _allocated;
-	int _ptr;
+	SQInteger _size;
+	SQInteger _allocated;
+	SQInteger _ptr;
 	unsigned char *_buf;
 	bool _owns;
 };

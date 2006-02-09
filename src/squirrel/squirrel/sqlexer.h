@@ -12,22 +12,22 @@ struct SQLexer
 	~SQLexer();
 	void Init(SQSharedState *ss,SQLEXREADFUNC rg,SQUserPointer up,CompilerErrorFunc efunc,void *ed);
 	void Error(const SQChar *err);
-	int Lex();
-	const SQChar *Tok2Str(int tok);
+	SQInteger Lex();
+	const SQChar *Tok2Str(SQInteger tok);
 private:
-	int GetIDType(SQChar *s);
-	int ReadString(int ndelim,bool verbatim);
-	int ReadNumber();
+	SQInteger GetIDType(SQChar *s);
+	SQInteger ReadString(SQInteger ndelim,bool verbatim);
+	SQInteger ReadNumber();
 	void LexBlockComment();
-	int ReadID();
+	SQInteger ReadID();
 	void Next();
-	int _curtoken;
+	SQInteger _curtoken;
 	SQTable *_keywords;
 public:
-	int _prevtoken;
-	int _currentline;
-	int _lasttokenline;
-	int _currentcolumn;
+	SQInteger _prevtoken;
+	SQInteger _currentline;
+	SQInteger _lasttokenline;
+	SQInteger _currentcolumn;
 	const SQChar *_svalue;
 	SQInteger _nvalue;
 	SQFloat _fvalue;

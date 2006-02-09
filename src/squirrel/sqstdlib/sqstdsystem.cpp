@@ -20,7 +20,7 @@
 #define screname rename
 #endif
 
-static int _system_getenv(HSQUIRRELVM v)
+static SQInteger _system_getenv(HSQUIRRELVM v)
 {
 	const SQChar *s;
 	if(SQ_SUCCEEDED(sq_getstring(v,2,&s))){
@@ -31,7 +31,7 @@ static int _system_getenv(HSQUIRRELVM v)
 }
 
 
-static int _system_system(HSQUIRRELVM v)
+static SQInteger _system_system(HSQUIRRELVM v)
 {
 	const SQChar *s;
 	if(SQ_SUCCEEDED(sq_getstring(v,2,&s))){
@@ -42,13 +42,13 @@ static int _system_system(HSQUIRRELVM v)
 }
 
 
-static int _system_clock(HSQUIRRELVM v)
+static SQInteger _system_clock(HSQUIRRELVM v)
 {
 	sq_pushfloat(v,((SQFloat)clock())/(SQFloat)CLOCKS_PER_SEC);
 	return 1;
 }
 
-static int _system_time(HSQUIRRELVM v)
+static SQInteger _system_time(HSQUIRRELVM v)
 {
 	time_t t;
 	time(&t);
@@ -56,7 +56,7 @@ static int _system_time(HSQUIRRELVM v)
 	return 1;
 }
 
-static int _system_remove(HSQUIRRELVM v)
+static SQInteger _system_remove(HSQUIRRELVM v)
 {
 	const SQChar *s;
 	sq_getstring(v,2,&s);
@@ -65,7 +65,7 @@ static int _system_remove(HSQUIRRELVM v)
 	return 0;
 }
 
-static int _system_rename(HSQUIRRELVM v)
+static SQInteger _system_rename(HSQUIRRELVM v)
 {
 	const SQChar *oldn,*newn;
 	sq_getstring(v,2,&oldn);
@@ -82,7 +82,7 @@ static void _set_integer_slot(HSQUIRRELVM v,const SQChar *name,SQInteger val)
 	sq_rawset(v,-3);
 }
 
-static int _system_date(HSQUIRRELVM v)
+static SQInteger _system_date(HSQUIRRELVM v)
 {
 	time_t t;
 	SQInteger format = 'l';
@@ -129,9 +129,9 @@ static SQRegFunction systemlib_funcs[]={
 };
 
 
-int sqstd_register_systemlib(HSQUIRRELVM v)
+SQInteger sqstd_register_systemlib(HSQUIRRELVM v)
 {
-	int i=0;
+	SQInteger i=0;
 	while(systemlib_funcs[i].name!=0)
 	{
 		sq_pushstring(v,systemlib_funcs[i].name,-1);

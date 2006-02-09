@@ -46,30 +46,30 @@ typedef int SQRexNodeType;
 
 typedef struct tagSQRexNode{
 	SQRexNodeType type;
-	long left;
-	long right;
-	int next;
+	SQInteger left;
+	SQInteger right;
+	SQInteger next;
 }SQRexNode;
 
 struct SQRex{
 	const SQChar *_eol;
 	const SQChar *_bol;
 	const SQChar *_p;
-	int _first;
-	int _op;
+	SQInteger _first;
+	SQInteger _op;
 	SQRexNode *_nodes;
-	int _nallocated;
-	int _nsize;
-	int _nsubexpr;
+	SQInteger _nallocated;
+	SQInteger _nsize;
+	SQInteger _nsubexpr;
 	SQRexMatch *_matches;
-	int _currsubexp;
+	SQInteger _currsubexp;
 	void *_jmpbuf;
 	const SQChar **_error;
 };
 
-static int sqstd_rex_list(SQRex *exp);
+static SQInteger sqstd_rex_list(SQRex *exp);
 
-static int sqstd_rex_newnode(SQRex *exp, SQRexNodeType type)
+static SQInteger sqstd_rex_newnode(SQRex *exp, SQRexNodeType type)
 {
 	SQRexNode n;
 	n.type = type;
@@ -77,12 +77,12 @@ static int sqstd_rex_newnode(SQRex *exp, SQRexNodeType type)
 	if(type == OP_EXPR)
 		n.right = exp->_nsubexpr++;
 	if(exp->_nallocated < (exp->_nsize + 1)) {
-		int oldsize = exp->_nallocated;
+		SQInteger oldsize = exp->_nallocated;
 		exp->_nallocated *= 2;
 		exp->_nodes = (SQRexNode *)sq_realloc(exp->_nodes, oldsize * sizeof(SQRexNode) ,exp->_nallocated * sizeof(SQRexNode));
 	}
 	exp->_nodes[exp->_nsize++] = n;
-	return (int)exp->_nsize - 1;
+	return (SQInteger)exp->_nsize - 1;
 }
 
 static void sqstd_rex_error(SQRex *exp,const SQChar *error)
@@ -91,7 +91,7 @@ static void sqstd_rex_error(SQRex *exp,const SQChar *error)
 	longjmp(*((jmp_buf*)exp->_jmpbuf),-1);
 }
 
-static void sqstd_rex_expect(SQRex *exp, int n){
+static void sqstd_rex_expect(SQRex *exp, SQInteger n){
 	if((*exp->_p) != n) 
 		sqstd_rex_error(exp, _SC("expected paren"));
 	exp->_p++;
@@ -125,14 +125,14 @@ static SQChar sqstd_rex_escapechar(SQRex *exp)
 	return (*exp->_p++);
 }
 
-static int sqstd_rex_charclass(SQRex *exp,int classid)
+static SQInteger sqstd_rex_charclass(SQRex *exp,SQInteger classid)
 {
-	int n = sqstd_rex_newnode(exp,OP_CCLASS);
+	SQInteger n = sqstd_rex_newnode(exp,OP_CCLASS);
 	exp->_nodes[n].left = classid;
 	return n;
 }
 
-static int sqstd_rex_charnode(SQRex *exp,SQBool isclass)
+static SQInteger sqstd_rex_charnode(SQRex *exp,SQBool isclass)
 {
 	if(*exp->_p == SQREX_SYMBOL_ESCAPE_CHAR) {
 		exp->_p++;
@@ -153,7 +153,7 @@ static int sqstd_rex_charnode(SQRex *exp,SQBool isclass)
 			case 'b': 
 			case 'B':
 				if(!isclass) {
-					int node = sqstd_rex_newnode(exp,OP_WB);
+					SQInteger node = sqstd_rex_newnode(exp,OP_WB);
 					exp->_nodes[node].left = *exp->_p;
 					exp->_p++; 
 					return node;
@@ -167,10 +167,10 @@ static int sqstd_rex_charnode(SQRex *exp,SQBool isclass)
 	}
 	return sqstd_rex_newnode(exp,*exp->_p++);
 }
-static int sqstd_rex_class(SQRex *exp)
+static SQInteger sqstd_rex_class(SQRex *exp)
 {
-	int ret = -1;
-	int first = -1,chain;
+	SQInteger ret = -1;
+	SQInteger first = -1,chain;
 	if(*exp->_p == SQREX_SYMBOL_BEGINNING_OF_STRING){
 		ret = sqstd_rex_newnode(exp,OP_NCLASS);
 		exp->_p++;
@@ -183,7 +183,7 @@ static int sqstd_rex_class(SQRex *exp)
 	chain = ret;
 	while(*exp->_p != ']' && exp->_p != exp->_eol) {
 		if(*exp->_p == '-' && first != -1){ 
-			int r;
+			SQInteger r;
 			if(*exp->_p++ == ']') sqstd_rex_error(exp,_SC("unfinished range"));
 			r = sqstd_rex_newnode(exp,OP_RANGE);
 			if(first>*exp->_p) sqstd_rex_error(exp,_SC("invalid range"));
@@ -196,7 +196,7 @@ static int sqstd_rex_class(SQRex *exp)
 		}
 		else{
 			if(first!=-1){
-				int c = first;
+				SQInteger c = first;
 				exp->_nodes[chain].next = c;
 				chain = c;
 				first = sqstd_rex_charnode(exp,SQTrue);
@@ -207,7 +207,7 @@ static int sqstd_rex_class(SQRex *exp)
 		}
 	}
 	if(first!=-1){
-		int c = first;
+		SQInteger c = first;
 		exp->_nodes[chain].next = c;
 		chain = c;
 		first = -1;
@@ -218,10 +218,10 @@ static int sqstd_rex_class(SQRex *exp)
 	return ret;
 }
 
-static int sqstd_rex_parsenumber(SQRex *exp)
+static SQInteger sqstd_rex_parsenumber(SQRex *exp)
 {
-	int ret = *exp->_p-'0';
-	int positions = 10;
+	SQInteger ret = *exp->_p-'0';
+	SQInteger positions = 10;
 	exp->_p++;
 	while(isdigit(*exp->_p)) {
 		ret = ret*10+(*exp->_p++-'0');
@@ -231,13 +231,13 @@ static int sqstd_rex_parsenumber(SQRex *exp)
 	return ret;
 }
 
-static int sqstd_rex_element(SQRex *exp)
+static SQInteger sqstd_rex_element(SQRex *exp)
 {
-	int ret;
+	SQInteger ret;
 	switch(*exp->_p)
 	{
 	case '(': {
-		int expr;
+		SQInteger expr;
 		exp->_p++;
 		
 		
@@ -266,7 +266,7 @@ static int sqstd_rex_element(SQRex *exp)
 	}
 	/* scope block */
 	{
-		int op;
+		SQInteger op;
 		unsigned short p0 = 0, p1 = 0;
 		switch(*exp->_p){
 		case SQREX_SYMBOL_GREEDY_ZERO_OR_MORE: p0 = 0; p1 = 0xFFFF; exp->_p++; goto __end;
@@ -293,7 +293,7 @@ static int sqstd_rex_element(SQRex *exp)
 			}
 		}
 		__end: {
-				int nnode = sqstd_rex_newnode(exp,OP_GREEDY);
+				SQInteger nnode = sqstd_rex_newnode(exp,OP_GREEDY);
 				op = OP_GREEDY;
 				exp->_nodes[nnode].left = ret;
 				exp->_nodes[nnode].right = ((p0)<<16)|p1;
@@ -306,9 +306,9 @@ static int sqstd_rex_element(SQRex *exp)
 	return ret;
 }
 
-static int sqstd_rex_list(SQRex *exp)
+static SQInteger sqstd_rex_list(SQRex *exp)
 {
-	int ret=-1,e;
+	SQInteger ret=-1,e;
 	if(*exp->_p == SQREX_SYMBOL_BEGINNING_OF_STRING) {
 		exp->_p++;
 		ret = sqstd_rex_newnode(exp,OP_BOL);
@@ -320,7 +320,7 @@ static int sqstd_rex_list(SQRex *exp)
 	else ret = e;
 
 	if(*exp->_p == SQREX_SYMBOL_BRANCH) {
-		int temp;
+		SQInteger temp;
 		exp->_p++;
 		temp = sqstd_rex_newnode(exp,OP_OR);
 		exp->_nodes[temp].left = ret;
@@ -330,7 +330,7 @@ static int sqstd_rex_list(SQRex *exp)
 	return ret;
 }
 
-static SQBool sqstd_rex_matchcclass(int cclass,SQChar c)
+static SQBool sqstd_rex_matchcclass(SQInteger cclass,SQChar c)
 {
 	switch(cclass) {
 	case 'a': return isalpha(c)?SQTrue:SQFalse;
@@ -375,7 +375,7 @@ static const SQChar *sqstd_rex_matchnode(SQRex* exp,SQRexNode *node,const SQChar
 	SQRexNodeType type = node->type;
 	switch(type) {
 	case OP_GREEDY: {
-		int p0 = (node->right >> 16)&0x0000FFFF, p1 = node->right&0x0000FFFF, nmaches = 0;
+		SQInteger p0 = (node->right >> 16)&0x0000FFFF, p1 = node->right&0x0000FFFF, nmaches = 0;
 		const SQChar *s=str, *good = str;
 		while((nmaches == 0xFFFF || nmaches < p1) 
 			&& (s = sqstd_rex_matchnode(exp,&exp->_nodes[node->left],s))) {
@@ -413,7 +413,7 @@ static const SQChar *sqstd_rex_matchnode(SQRex* exp,SQRexNode *node,const SQChar
 	case OP_NOCAPEXPR:{
 			SQRexNode *n = &exp->_nodes[node->left];
 			const SQChar *cur = str;
-			int capture = -1;
+			SQInteger capture = -1;
 			if(node->type != OP_NOCAPEXPR && node->right == exp->_currsubexp) {
 				capture = exp->_currsubexp;
 				exp->_matches[capture].begin = cur;
@@ -477,7 +477,7 @@ SQRex *sqstd_rex_compile(const SQChar *pattern,const SQChar **error)
 {
 	SQRex *exp = (SQRex *)sq_malloc(sizeof(SQRex));
 	exp->_p = pattern;
-	exp->_nallocated = (int)scstrlen(pattern) * sizeof(SQChar);
+	exp->_nallocated = (SQInteger)scstrlen(pattern) * sizeof(SQChar);
 	exp->_nodes = (SQRexNode *)sq_malloc(exp->_nallocated * sizeof(SQRexNode));
 	exp->_nsize = 0;
 	exp->_matches = 0;
@@ -491,7 +491,7 @@ SQRex *sqstd_rex_compile(const SQChar *pattern,const SQChar **error)
 			sqstd_rex_error(exp,_SC("unexpected character"));
 #ifdef _DEBUG
 		{
-			int nsize,i;
+			SQInteger nsize,i;
 			SQRexNode *t;
 			nsize = exp->_nsize;
 			t = &exp->_nodes[0];
@@ -541,7 +541,7 @@ SQBool sqstd_rex_match(SQRex* exp,const SQChar* text)
 SQBool sqstd_rex_searchrange(SQRex* exp,const SQChar* text_begin,const SQChar* text_end,const SQChar** out_begin, const SQChar** out_end)
 {
 	const SQChar *cur = NULL;
-	int node = exp->_first;
+	SQInteger node = exp->_first;
 	if(text_begin >= text_end) return SQFalse;
 	exp->_bol = text_begin;
 	exp->_eol = text_end;
@@ -572,12 +572,12 @@ SQBool sqstd_rex_search(SQRex* exp,const SQChar* text, const SQChar** out_begin,
 	return sqstd_rex_searchrange(exp,text,text + scstrlen(text),out_begin,out_end);
 }
 
-int sqstd_rex_getsubexpcount(SQRex* exp)
+SQInteger sqstd_rex_getsubexpcount(SQRex* exp)
 {
 	return exp->_nsubexpr;
 }
 
-SQBool sqstd_rex_getsubexp(SQRex* exp, int n, SQRexMatch *subexp)
+SQBool sqstd_rex_getsubexp(SQRex* exp, SQInteger n, SQRexMatch *subexp)
 {
 	if( n<0 || n >= exp->_nsubexpr) return SQFalse;
 	*subexp = exp->_matches[n];

@@ -8,9 +8,9 @@
 #include "sqclosure.h"
 #include "sqstring.h"
 
-SQRESULT sq_stackinfos(HSQUIRRELVM v, int level, SQStackInfos *si)
+SQRESULT sq_stackinfos(HSQUIRRELVM v, SQInteger level, SQStackInfos *si)
 {
-	int cssize = v->_callsstack.size();
+	SQInteger cssize = v->_callsstack.size();
 	if (cssize > level) {
 		memset(si, 0, sizeof(SQStackInfos));
 		SQVM::CallInfo &ci = v->_callsstack[cssize-level-1];
@@ -81,13 +81,13 @@ void SQVM::Raise_CompareError(const SQObject &o1, const SQObject &o2)
 }
 
 
-void SQVM::Raise_ParamTypeError(int nparam,int typemask,int type)
+void SQVM::Raise_ParamTypeError(SQInteger nparam,SQInteger typemask,SQInteger type)
 {
 	SQObjectPtr exptypes = SQString::Create(_ss(this), _SC(""), -1);
-	int found = 0;	
-	for(int i=0; i<16; i++)
+	SQInteger found = 0;	
+	for(SQInteger i=0; i<16; i++)
 	{
-		int mask = 0x00000001 << i;
+		SQInteger mask = 0x00000001 << i;
 		if(typemask & (mask)) {
 			if(found>0) StringCat(exptypes,SQString::Create(_ss(this), _SC("|"), -1), exptypes);
 			found ++;

@@ -16,6 +16,16 @@ struct SQClassMemeber {
 
 typedef sqvector<SQClassMemeber> SQClassMemeberVec;
 
+#define MEMBER_TYPE_METHOD 0x01000000
+#define MEMBER_TYPE_FIELD 0x02000000
+
+#define _ismethod(o) (_integer(o)&MEMBER_TYPE_METHOD)
+#define _isfield(o) (_integer(o)&MEMBER_TYPE_FIELD)
+#define _make_method_idx(i) ((SQInteger)(MEMBER_TYPE_METHOD|i))
+#define _make_field_idx(i) ((SQInteger)(MEMBER_TYPE_FIELD|i))
+#define _member_type(o) (_integer(o)&0xFF000000)
+#define _member_idx(o) (_integer(o)&0x00FFFFFF)
+
 struct SQClass : public CHAINABLE_OBJ
 {
 	SQClass(SQSharedState *ss,SQClass *base);
@@ -29,7 +39,13 @@ public:
 	bool NewSlot(const SQObjectPtr &key,const SQObjectPtr &val);
 	bool Get(const SQObjectPtr &key,SQObjectPtr &val) {
 		if(_members->Get(key,val)) {
-			val = (type(val) == OT_INTEGER?_defaultvalues[_integer(val)].val:_methods[(int)_userpointer(val)].val);
+			if(_isfield(val)) {
+				SQObjectPtr &o = _defaultvalues[_member_idx(val)].val;
+				val = _realval(o);
+			}
+			else {
+				val = _methods[_member_idx(val)].val;
+			}
 			return true;
 		}
 		return false;
@@ -40,7 +56,7 @@ public:
 	void Release() { sq_delete(this, SQClass);	}
 	void Finalize();
 	void Mark(SQCollectable ** );
-	int Next(const SQObjectPtr &refpos, SQObjectPtr &outkey, SQObjectPtr &outval);
+	SQInteger Next(const SQObjectPtr &refpos, SQObjectPtr &outkey, SQObjectPtr &outval);
 	SQInstance *CreateInstance();
 	SQTable *_members;
 	//SQTable *_properties;
@@ -49,46 +65,59 @@ public:
 	SQClassMemeberVec _methods;
 	SQObjectPtrVec _metamethods;
 	SQObjectPtr _attributes;
-	unsigned int _typetag;
+	SQUserPointer _typetag;
 	bool _locked;
 };
 
+#define calcinstancesize(_theclass_) \
+	(sizeof(SQInstance)+(sizeof(SQObjectPtr)*(_theclass_->_defaultvalues.size()>0?_theclass_->_defaultvalues.size()-1:0)))
 struct SQInstance : public SQDelegable 
 {
 	void Init(SQSharedState *ss);
-	SQInstance(SQSharedState *ss, SQClass *c);
-	SQInstance(SQSharedState *ss, SQInstance *c);
+	SQInstance(SQSharedState *ss, SQClass *c, SQInteger memsize);
+	SQInstance(SQSharedState *ss, SQInstance *c, SQInteger memsize);
 public:
 	static SQInstance* Create(SQSharedState *ss,SQClass *theclass) {
-		SQInstance *newinst = (SQInstance *)SQ_MALLOC(sizeof(SQInstance));
-		new (newinst) SQInstance(ss, theclass);
+		
+		SQInteger size = calcinstancesize(theclass);
+		SQInstance *newinst = (SQInstance *)SQ_MALLOC(size);
+		new (newinst) SQInstance(ss, theclass,size);
 		return newinst;
 	}
 	SQInstance *Clone(SQSharedState *ss)
 	{
-		SQInstance *newinst = (SQInstance *)SQ_MALLOC(sizeof(SQInstance));
-		new (newinst) SQInstance(ss, this);
+		SQInteger size = calcinstancesize(_class);
+		SQInstance *newinst = (SQInstance *)SQ_MALLOC(size);
+		new (newinst) SQInstance(ss, this,size);
 		return newinst;
 	}
 	~SQInstance();
 	bool Get(const SQObjectPtr &key,SQObjectPtr &val)  {
 		if(_class->_members->Get(key,val)) {
-			val = (type(val) == OT_INTEGER?_values[_integer(val)]:_class->_methods[(int)_userpointer(val)].val);
+			if(_isfield(val)) {
+				SQObjectPtr &o = _values[_member_idx(val)];
+				val = _realval(o);
+			}
+			else {
+				val = _class->_methods[_member_idx(val)].val;
+			}
 			return true;
 		}
 		return false;
 	}
 	bool Set(const SQObjectPtr &key,const SQObjectPtr &val) {
 		SQObjectPtr idx;
-		if(_class->_members->Get(key,idx) && type(idx) == OT_INTEGER) {
-            _values[_integer(idx)] = val;
+		if(_class->_members->Get(key,idx) && _isfield(idx)) {
+            _values[_member_idx(idx)] = val;
 			return true;
 		}
 		return false;
 	}
 	void Release() { 
 		if (_hook) { _hook(_userpointer,0);}
-		sq_delete(this, SQInstance);
+		SQInteger size = _memsize;
+		this->~SQInstance();
+		SQ_FREE(this, size);
 	}
 	void Finalize();
 	void Mark(SQCollectable ** );
@@ -98,7 +127,9 @@ public:
 	SQClass *_class;
 	SQUserPointer _userpointer;
 	SQRELEASEHOOK _hook;
-	SQObjectPtrVec _values;
+	SQUnsignedInteger _nvalues;
+	SQInteger _memsize;
+	SQObjectPtr _values[1];
 };
 
 #endif //_SQCLASS_H_

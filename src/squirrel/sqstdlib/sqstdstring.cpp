@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <ctype.h>
+#include <assert.h>
 
 #ifdef _UNICODE
 #define scstrchr wcschr
@@ -19,11 +20,11 @@
 #define MAX_WFORMAT_LEN	3
 #define ADDITIONAL_FORMAT_SPACE (100*sizeof(SQChar))
 
-static int validate_format(HSQUIRRELVM v, SQChar *fmt, const SQChar *src, int n,int &width)
+static SQInteger validate_format(HSQUIRRELVM v, SQChar *fmt, const SQChar *src, SQInteger n,SQInteger &width)
 {
 	SQChar swidth[MAX_WFORMAT_LEN];
-	int wc = 0;
-	int start = n;
+	SQInteger wc = 0;
+	SQInteger start = n;
 	fmt[0] = '%';
 	while (scstrchr(_SC("-+ #0"), src[n])) n++;
 	while (scisdigit(src[n])) {
@@ -62,30 +63,33 @@ static int validate_format(HSQUIRRELVM v, SQChar *fmt, const SQChar *src, int n,
 	return n;
 }
 
-static int _string_format(HSQUIRRELVM v)
+static SQInteger _string_format(HSQUIRRELVM v)
 {
 	const SQChar *format;
 	SQChar *dest;
 	SQChar fmt[MAX_FORMAT_LEN];
 	sq_getstring(v,2,&format);
-	int allocated = (sq_getsize(v,2)+1)*sizeof(SQChar);
+	SQInteger allocated = (sq_getsize(v,2)+1)*sizeof(SQChar);
 	dest = sq_getscratchpad(v,allocated);
-	int n = 0,i = 0, nparam = 3, w;
+	SQInteger n = 0,i = 0, nparam = 3, w;
 	while(format[n] != '\0') {
 		if(format[n] != '%') {
+			assert(i < allocated);
 			dest[i++] = format[n];
 			n++;
 		}
-		else if(format[++n] == '%') {
-			dest[i++] = '%';
+		else if(format[n+1] == '%') { //handles %%
+				dest[i++] = '%';
+				n += 2; 
 		}
 		else {
+			n++;
 			if( nparam > sq_gettop(v) )
 				return sq_throwerror(v,_SC("not enough paramters for the given format string"));
 			n = validate_format(v,fmt,format,n,w);
 			if(n < 0) return -1;
-			int addlen = 0;
-			int valtype = 0;
+			SQInteger addlen = 0;
+			SQInteger valtype = 0;
 			const SQChar *ts;
 			SQInteger ti;
 			SQFloat tf;
@@ -113,7 +117,7 @@ static int _string_format(HSQUIRRELVM v)
 			}
 			n++;
 			if((allocated-i) < addlen)
-				allocated += addlen - (allocated-i);
+				allocated += addlen;
 			dest = sq_getscratchpad(v,allocated);
 			switch(valtype) {
 			case 's': i += scsprintf(&dest[i],fmt,ts); break;
@@ -131,14 +135,14 @@ static int _string_format(HSQUIRRELVM v)
 	SQRex *self = NULL; \
 	sq_getinstanceup(v,1,(SQUserPointer *)&self,0); 
 
-static int _rexobj_releasehook(SQUserPointer p, int size)
+static SQInteger _rexobj_releasehook(SQUserPointer p, SQInteger size)
 {
 	SQRex *self = ((SQRex *)p);
 	sqstd_rex_free(self);
 	return 1;
 }
 
-static int _regexp_match(HSQUIRRELVM v)
+static SQInteger _regexp_match(HSQUIRRELVM v)
 {
 	SETUP_REX(v);
 	const SQChar *str;
@@ -162,7 +166,7 @@ static void _addrexmatch(HSQUIRRELVM v,const SQChar *str,const SQChar *begin,con
 	sq_rawset(v,-3);
 }
 
-static int _regexp_search(HSQUIRRELVM v)
+static SQInteger _regexp_search(HSQUIRRELVM v)
 {
 	SETUP_REX(v);
 	const SQChar *str,*begin,*end;
@@ -176,7 +180,7 @@ static int _regexp_search(HSQUIRRELVM v)
 	return 0;
 }
 
-static int _regexp_capture(HSQUIRRELVM v)
+static SQInteger _regexp_capture(HSQUIRRELVM v)
 {
 	SETUP_REX(v);
 	const SQChar *str,*begin,*end;
@@ -200,14 +204,14 @@ static int _regexp_capture(HSQUIRRELVM v)
 	return 0;
 }
 
-static int _regexp_subexpcount(HSQUIRRELVM v)
+static SQInteger _regexp_subexpcount(HSQUIRRELVM v)
 {
 	SETUP_REX(v);
 	sq_pushinteger(v,sqstd_rex_getsubexpcount(self));
 	return 1;
 }
 
-static int _regexp_constructor(HSQUIRRELVM v)
+static SQInteger _regexp_constructor(HSQUIRRELVM v)
 {
 	const SQChar *error,*pattern;
 	sq_getstring(v,2,&pattern);
@@ -218,7 +222,7 @@ static int _regexp_constructor(HSQUIRRELVM v)
 	return 0;
 }
 
-static int _regexp__typeof(HSQUIRRELVM v)
+static SQInteger _regexp__typeof(HSQUIRRELVM v)
 {
 	sq_pushstring(v,_SC("regexp"),-1);
 	return 1;
@@ -242,11 +246,11 @@ static SQRegFunction stringlib_funcs[]={
 };
 
 
-int sqstd_register_stringlib(HSQUIRRELVM v)
+SQInteger sqstd_register_stringlib(HSQUIRRELVM v)
 {
 	sq_pushstring(v,_SC("regexp"),-1);
 	sq_newclass(v,SQFalse);
-	int i = 0;
+	SQInteger i = 0;
 	while(rexobj_funcs[i].name != 0) {
 		SQRegFunction &f = rexobj_funcs[i];
 		sq_pushstring(v,f.name,-1);

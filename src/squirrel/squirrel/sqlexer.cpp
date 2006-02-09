@@ -90,13 +90,13 @@ void SQLexer::Next()
 	_currdata = SQUIRREL_EOB;
 }
 
-const SQChar *SQLexer::Tok2Str(int tok)
+const SQChar *SQLexer::Tok2Str(SQInteger tok)
 {
 	SQObjectPtr itr, key, val;
-	int nitr;
-	while((nitr = _keywords->Next(itr, key, val)) != -1) {
+	SQInteger nitr;
+	while((nitr = _keywords->Next(false,itr, key, val)) != -1) {
 		itr = (SQInteger)nitr;
-		if(((int)_integer(val)) == tok)
+		if(((SQInteger)_integer(val)) == tok)
 			return _stringval(key);
 	}
 	return NULL;
@@ -108,7 +108,6 @@ void SQLexer::LexBlockComment()
 	while(!done) {
 		switch(CUR_CHAR) {
 			case _SC('*'): { NEXT(); if(CUR_CHAR == _SC('/')) { done = true; NEXT(); }}; continue;
-			//case _SC('/'): { NEXT(); if(CUR_CHAR == _SC('*')) { nest++; NEXT(); }}; continue;
 			case _SC('\n'): _currentline++; NEXT(); continue;
 			case SQUIRREL_EOB: Error(_SC("missing \"*/\" in comment"));
 			default: NEXT();
@@ -116,7 +115,7 @@ void SQLexer::LexBlockComment()
 	}
 }
 
-int SQLexer::Lex()
+SQInteger SQLexer::Lex()
 {
 	_lasttokenline = _currentline;
 	while(CUR_CHAR != SQUIRREL_EOB) {
@@ -179,7 +178,7 @@ int SQLexer::Lex()
 			if (CUR_CHAR != _SC('=')){ RETURN_TOKEN('!')}
 			else { NEXT(); RETURN_TOKEN(TK_NE); }
 		case _SC('@'): {
-			int stype;
+			SQInteger stype;
 			NEXT(); 
 			if(CUR_CHAR != _SC('"'))
 				Error(_SC("string expected"));
@@ -190,7 +189,7 @@ int SQLexer::Lex()
 					   }
 		case _SC('"'):
 		case _SC('\''): {
-			int stype;
+			SQInteger stype;
 			if((stype=ReadString(CUR_CHAR,false))!=-1){
 				RETURN_TOKEN(stype);
 			}
@@ -198,7 +197,7 @@ int SQLexer::Lex()
 			}
 		case _SC('{'): case _SC('}'): case _SC('('): case _SC(')'): case _SC('['): case _SC(']'):
 		case _SC(';'): case _SC(','): case _SC('?'): case _SC('^'): case _SC('~'):
-			{int ret = CUR_CHAR;
+			{SQInteger ret = CUR_CHAR;
 			NEXT(); RETURN_TOKEN(ret); }
 		case _SC('.'):
 			NEXT();
@@ -241,15 +240,15 @@ int SQLexer::Lex()
 			return 0;
 		default:{
 				if (scisdigit(CUR_CHAR)) {
-					int ret = ReadNumber();
+					SQInteger ret = ReadNumber();
 					RETURN_TOKEN(ret);
 				}
 				else if (scisalpha(CUR_CHAR) || CUR_CHAR == _SC('_')) {
-					int t = ReadID();
+					SQInteger t = ReadID();
 					RETURN_TOKEN(t);
 				}
 				else {
-					int c = CUR_CHAR;
+					SQInteger c = CUR_CHAR;
 					if (sciscntrl(c)) Error(_SC("unexpected character(control)"));
 					NEXT();
 					RETURN_TOKEN(c);  
@@ -261,17 +260,17 @@ int SQLexer::Lex()
 	return 0;    
 }
 	
-int SQLexer::GetIDType(SQChar *s)
+SQInteger SQLexer::GetIDType(SQChar *s)
 {
 	SQObjectPtr t;
 	if(_keywords->Get(SQString::Create(_sharedstate, s), t)) {
-		return int(_integer(t));
+		return SQInteger(_integer(t));
 	}
 	return TK_IDENTIFIER;
 }
 
 
-int SQLexer::ReadString(int ndelim,bool verbatim)
+SQInteger SQLexer::ReadString(SQInteger ndelim,bool verbatim)
 {
 	INIT_TEMP_STRING();
 	NEXT();
@@ -285,6 +284,7 @@ int SQLexer::ReadString(int ndelim,bool verbatim)
 			case _SC('\n'): 
 				if(!verbatim) Error(_SC("newline in a constant")); 
 				APPEND_CHAR(CUR_CHAR); NEXT(); 
+				_currentline++;
 				break;
 			case _SC('\\'):
 				if(verbatim) {
@@ -295,9 +295,9 @@ int SQLexer::ReadString(int ndelim,bool verbatim)
 					switch(CUR_CHAR) {
 					case _SC('x'): NEXT(); {
 						if(!isxdigit(CUR_CHAR)) Error(_SC("hexadecimal number expected")); 
-						const int maxdigits = 4;
+						const SQInteger maxdigits = 4;
 						SQChar temp[maxdigits+1];
-						int n = 0;
+						SQInteger n = 0;
 						while(isxdigit(CUR_CHAR) && n < maxdigits) {
 							temp[n] = CUR_CHAR;
 							n++;
@@ -340,7 +340,7 @@ int SQLexer::ReadString(int ndelim,bool verbatim)
 		}
 	}
 	TERMINATE_BUFFER();
-	int len = _longstr.size()-1;
+	SQInteger len = _longstr.size()-1;
 	if(ndelim == _SC('\'')) {
 		if(len == 0) Error(_SC("empty constant"));
 		if(len > 1) Error(_SC("constant too long"));
@@ -351,15 +351,15 @@ int SQLexer::ReadString(int ndelim,bool verbatim)
 	return TK_STRING_LITERAL;
 }
 
-int isexponent(int c) { return c == 'e' || c=='E'; }
+SQInteger isexponent(SQInteger c) { return c == 'e' || c=='E'; }
 
-int SQLexer::ReadNumber()
+SQInteger SQLexer::ReadNumber()
 {
 #define TINT 1
 #define TFLOAT 2
 #define THEX 3
 #define TSCIENTIFIC 4
-	int type = TINT, firstchar = CUR_CHAR;
+	SQInteger type = TINT, firstchar = CUR_CHAR;
 	bool isfloat = false;
 	SQChar *sTemp;
 	INIT_TEMP_STRING();
@@ -400,18 +400,18 @@ int SQLexer::ReadNumber()
 		_fvalue = (SQFloat)scstrtod(&_longstr[0],&sTemp);
 		return TK_FLOAT;
 	case TINT:
-		_nvalue = (SQInteger)scatoi(&_longstr[0]);
+		_nvalue = (SQInteger)scstrtol(&_longstr[0],&sTemp,10);
 		return TK_INTEGER;
 	case THEX:
-		*((unsigned long *)&_nvalue) = scstrtoul(&_longstr[0],&sTemp,16);
+		*((SQUnsignedInteger *)&_nvalue) = scstrtoul(&_longstr[0],&sTemp,16);
 		return TK_INTEGER;
 	}
 	return 0;
 }
 
-int SQLexer::ReadID()
+SQInteger SQLexer::ReadID()
 {
-	int res, size = 0;
+	SQInteger res, size = 0;
 	INIT_TEMP_STRING();
 	do {
 		APPEND_CHAR(CUR_CHAR);

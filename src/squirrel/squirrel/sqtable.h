@@ -9,7 +9,7 @@
 
 #include "sqstring.h"
 
-#define hashptr(p)  (((unsigned long)(p)) >> 3)
+#define hashptr(p)  (((SQHash)(p)) >> 3)
 
 struct SQTable : public SQDelegable 
 {
@@ -22,15 +22,15 @@ private:
 	};
 	_HashNode *_firstfree;
 	_HashNode *_nodes;
-	int _numofnodes;
-	int _usednodes;
+	SQInteger _numofnodes;
+	SQInteger _usednodes;
 	
 ///////////////////////////
-	void AllocNodes(int nSize);
+	void AllocNodes(SQInteger nSize);
 	void Rehash(bool force);
-	SQTable(SQSharedState *ss, int nInitialSize);
+	SQTable(SQSharedState *ss, SQInteger nInitialSize);
 public:
-	static SQTable* Create(SQSharedState *ss,int nInitialSize)
+	static SQTable* Create(SQSharedState *ss,SQInteger nInitialSize)
 	{
 		SQTable *newtable = (SQTable*)SQ_MALLOC(sizeof(SQTable));
 		new (newtable) SQTable(ss, nInitialSize);
@@ -43,22 +43,22 @@ public:
 	{
 		SetDelegate(NULL);
 		REMOVE_FROM_CHAIN(&_sharedstate->_gc_chain, this);
-		for (int i = 0; i < _numofnodes; i++) _nodes[i].~_HashNode();
+		for (SQInteger i = 0; i < _numofnodes; i++) _nodes[i].~_HashNode();
 		SQ_FREE(_nodes, _numofnodes * sizeof(_HashNode));
 	}
 #ifndef NO_GARBAGE_COLLECTOR 
 	void Mark(SQCollectable **chain);
 #endif
-	inline unsigned long HashKey(const SQObjectPtr &key)
+	inline SQHash HashKey(const SQObjectPtr &key)
 	{
 		switch(type(key)){
 			case OT_STRING:		return _string(key)->_hash;
-			case OT_FLOAT:		return (unsigned long)((long)_float(key));
-			case OT_INTEGER:	return (unsigned long)((long)_integer(key));
+			case OT_FLOAT:		return (SQHash)((SQInteger)_float(key));
+			case OT_INTEGER:	return (SQHash)((SQInteger)_integer(key));
 			default:			return hashptr(key._unVal.pRefCounted);
 		}
 	}
-	inline _HashNode *_Get(const SQObjectPtr &key,unsigned long hash)
+	inline _HashNode *_Get(const SQObjectPtr &key,SQHash hash)
 	{
 		_HashNode *n = &_nodes[hash];
 		do{
@@ -73,16 +73,14 @@ public:
 	bool Set(const SQObjectPtr &key, const SQObjectPtr &val);
 	//returns true if a new slot has been created false if it was already present
 	bool NewSlot(const SQObjectPtr &key,const SQObjectPtr &val);
-	int Next(const SQObjectPtr &refpos, SQObjectPtr &outkey, SQObjectPtr &outval);
+	SQInteger Next(bool getweakrefs,const SQObjectPtr &refpos, SQObjectPtr &outkey, SQObjectPtr &outval);
 	
-	int CountUsed();
+	SQInteger CountUsed(){ return _usednodes;}
 	void Release()
 	{
 		sq_delete(this, SQTable);
 	}
-	bool SetDelegate(SQTable *mt);
 	
-
 };
 
 #endif //_SQTABLE_H_

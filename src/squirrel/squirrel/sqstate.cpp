@@ -36,9 +36,9 @@ SQSharedState::SQSharedState()
 
 bool CompileTypemask(SQIntVec &res,const SQChar *typemask)
 {
-	int i = 0;
+	SQInteger i = 0;
 	
-	int mask = 0;
+	SQInteger mask = 0;
 	while(typemask[i] != 0) {
 		
 		switch(typemask[i]){
@@ -57,6 +57,7 @@ bool CompileTypemask(SQIntVec &res,const SQChar *typemask)
 				case 'v': mask |= _RT_THREAD; break;
 				case 'x': mask |= _RT_INSTANCE; break;
 				case 'y': mask |= _RT_CLASS; break;
+				case 'r': mask |= _RT_WEAKREF; break;
 				case '.': mask = -1; res.push_back(mask); i++; mask = 0; continue;
 				case ' ': i++; continue; //ignores spaces
 				default:
@@ -78,7 +79,7 @@ bool CompileTypemask(SQIntVec &res,const SQChar *typemask)
 
 SQTable *CreateDefaultDelegate(SQSharedState *ss,SQRegFunction *funcz)
 {
-	int i=0;
+	SQInteger i=0;
 	SQTable *t=SQTable::Create(ss,0);
 	while(funcz[i].name!=0){
 		SQNativeClosure *nc = SQNativeClosure::Create(ss,funcz[i].f);
@@ -137,6 +138,7 @@ void SQSharedState::Init()
 	newmetamethod(MM_CLONED);
 	newmetamethod(MM_NEWSLOT);
 	newmetamethod(MM_DELSLOT);
+	newmetamethod(MM_TOSTRING);
 
 	_constructoridx = SQString::Create(this,_SC("constructor"));
 	_refs_table = SQTable::Create(this,0);
@@ -150,6 +152,7 @@ void SQSharedState::Init()
 	_thread_default_delegate=CreateDefaultDelegate(this,_thread_default_delegate_funcz);
 	_class_default_delegate=CreateDefaultDelegate(this,_class_default_delegate_funcz);
 	_instance_default_delegate=CreateDefaultDelegate(this,_instance_default_delegate_funcz);
+	_weakref_default_delegate=CreateDefaultDelegate(this,_weakref_default_delegate_funcz);
 
 }
 
@@ -177,6 +180,7 @@ SQSharedState::~SQSharedState()
 	_thread_default_delegate=_null_;
 	_class_default_delegate=_null_;
 	_instance_default_delegate=_null_;
+	_weakref_default_delegate=_null_;
 	
 #ifndef NO_GARBAGE_COLLECTOR
 	
@@ -234,14 +238,14 @@ void SQSharedState::MarkObject(SQObjectPtr &o,SQCollectable **chain)
 }
 
 
-int SQSharedState::CollectGarbage(SQVM *vm)
+SQInteger SQSharedState::CollectGarbage(SQVM *vm)
 {
-	int n=0;
+	SQInteger n=0;
 	SQCollectable *tchain=NULL;
 	SQVM *vms=_thread(_root_vm);
 	
 	vms->Mark(&tchain);
-	int x = _table(_thread(_root_vm)->_roottable)->CountUsed();
+	SQInteger x = _table(_thread(_root_vm)->_roottable)->CountUsed();
 	MarkObject(_refs_table,&tchain);
 	MarkObject(_registry,&tchain);
 	MarkObject(_metamethodsmap,&tchain);
@@ -254,6 +258,7 @@ int SQSharedState::CollectGarbage(SQVM *vm)
 	MarkObject(_closure_default_delegate,&tchain);
 	MarkObject(_class_default_delegate,&tchain);
 	MarkObject(_instance_default_delegate,&tchain);
+	MarkObject(_weakref_default_delegate,&tchain);
 	
 	SQCollectable *t=_gc_chain;
 	SQCollectable *nx=NULL;
@@ -273,7 +278,7 @@ int SQSharedState::CollectGarbage(SQVM *vm)
 		t=t->_next;
 	}
 	_gc_chain=tchain;
-	int z = _table(_thread(_root_vm)->_roottable)->CountUsed();
+	SQInteger z = _table(_thread(_root_vm)->_roottable)->CountUsed();
 	assert(z == x);
 	return n;
 }
@@ -299,9 +304,9 @@ void SQCollectable::RemoveFromChain(SQCollectable **chain,SQCollectable *c)
 }
 #endif
 
-SQChar* SQSharedState::GetScratchPad(int size)
+SQChar* SQSharedState::GetScratchPad(SQInteger size)
 {
-	int newsize;
+	SQInteger newsize;
 	if(size>0){
 		if(_scratchpadsize<size){
 			newsize=size+(size>>1);
@@ -325,9 +330,9 @@ SQChar* SQSharedState::GetScratchPad(int size)
 * http://www.lua.org/source/4.0.1/src_lstring.c.html
 */
 
-int SQString::Next(const SQObjectPtr &refpos, SQObjectPtr &outkey, SQObjectPtr &outval)
+SQInteger SQString::Next(const SQObjectPtr &refpos, SQObjectPtr &outkey, SQObjectPtr &outval)
 {
-	int idx = (int)TranslateIndex(refpos);
+	SQInteger idx = (SQInteger)TranslateIndex(refpos);
 	while(idx < _len){
 		outkey = (SQInteger)idx;
 		outval = SQInteger(_val[idx]);
@@ -350,7 +355,7 @@ StringTable::~StringTable()
 	_strings=NULL;
 }
 
-void StringTable::AllocNodes(int size)
+void StringTable::AllocNodes(SQInteger size)
 {
 	_numofslots=size;
 	//_slotused=0;
@@ -358,11 +363,11 @@ void StringTable::AllocNodes(int size)
 	memset(_strings,0,sizeof(SQString*)*_numofslots);
 }
 
-SQString *StringTable::Add(const SQChar *news,int len)
+SQString *StringTable::Add(const SQChar *news,SQInteger len)
 {
 	if(len<0)
 		len=scstrlen(news);
-	unsigned int h=::_hashstr(news,len)&(_numofslots-1);
+	SQHash h = ::_hashstr(news,len)&(_numofslots-1);
 	SQString *s;
 	for (s = _strings[h]; s; s = s->_next){
 		if(s->_len == len && (!memcmp(news,s->_val,rsl(len))))
@@ -372,31 +377,30 @@ SQString *StringTable::Add(const SQChar *news,int len)
 	SQString *t=(SQString *)SQ_MALLOC(rsl(len)+sizeof(SQString));
 	new (t) SQString;
 	memcpy(t->_val,news,rsl(len));
-	t->_val[len]=_SC('\0');
-	t->_len=len;
-	t->_hash=::_hashstr(news,len);
-	t->_next=_strings[h];
-	t->_uiRef=0;
-	_strings[h]=t;
+	t->_val[len] = _SC('\0');
+	t->_len = len;
+	t->_hash = ::_hashstr(news,len);
+	t->_next = _strings[h];
+	_strings[h] = t;
 	_slotused++;
 	if (_slotused > _numofslots)  /* too crowded? */
 		Resize(_numofslots*2);
 	return t;
 }
 
-void StringTable::Resize(int size)
+void StringTable::Resize(SQInteger size)
 {
-	int oldsize=_numofslots;
+	SQInteger oldsize=_numofslots;
 	SQString **oldtable=_strings;
 	AllocNodes(size);
-	for (int i=0; i<oldsize; i++){
+	for (SQInteger i=0; i<oldsize; i++){
 		SQString *p = oldtable[i];
 		while(p){
 			SQString *next = p->_next;
-			unsigned int h=p->_hash&(_numofslots-1);
-			p->_next=_strings[h];
+			SQHash h = p->_hash&(_numofslots-1);
+			p->_next = _strings[h];
 			_strings[h] = p;
-			p=next;
+			p = next;
 		}
 	}
 	SQ_FREE(oldtable,oldsize*sizeof(SQString*));
@@ -406,7 +410,7 @@ void StringTable::Remove(SQString *bs)
 {
 	SQString *s;
 	SQString *prev=NULL;
-	unsigned int h=bs->_hash&(_numofslots-1);
+	SQHash h = bs->_hash&(_numofslots - 1);
 	
 	for (s = _strings[h]; s; ){
 		if(s == bs){
@@ -415,9 +419,9 @@ void StringTable::Remove(SQString *bs)
 			else
 				_strings[h] = s->_next;
 			_slotused--;
-			int slen=s->_len;
+			SQInteger slen = s->_len;
 			s->~SQString();
-			SQ_FREE(s,sizeof(SQString)+rsl(slen));
+			SQ_FREE(s,sizeof(SQString) + rsl(slen));
 			return;
 		}
 		prev = s;

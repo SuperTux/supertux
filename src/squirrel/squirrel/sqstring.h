@@ -2,9 +2,9 @@
 #ifndef _SQSTRING_H_
 #define _SQSTRING_H_
 
-inline unsigned int _hashstr (const SQChar *s, size_t l)
+inline SQHash _hashstr (const SQChar *s, size_t l)
 {
-		unsigned int h = l;  /* seed */
+		SQHash h = l;  /* seed */
 		size_t step = (l>>5)|1;  /* if string is too long, don't hash all its chars */
 		for (; l>=step; l-=step)
 			h = h ^ ((h<<5)+(h>>2)+(unsigned short)*(s++));
@@ -16,13 +16,13 @@ struct SQString : public SQRefCounted
 	SQString(){}
 	~SQString(){}
 public:
-	static SQString *Create(SQSharedState *ss, const SQChar *, int len = -1 );
-	int Next(const SQObjectPtr &refpos, SQObjectPtr &outkey, SQObjectPtr &outval);
+	static SQString *Create(SQSharedState *ss, const SQChar *, SQInteger len = -1 );
+	SQInteger Next(const SQObjectPtr &refpos, SQObjectPtr &outkey, SQObjectPtr &outval);
 	void Release();
 	SQSharedState *_sharedstate;
 	SQString *_next; //chain for the string table
-	int _len;
-	int _hash;
+	SQInteger _len;
+	SQHash _hash;
 	SQChar _val[1];
 };
 

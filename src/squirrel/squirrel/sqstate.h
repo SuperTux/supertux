@@ -17,14 +17,14 @@ struct StringTable
 	//so when there is a table query, if the string doesn't exists in the global state
 	//it cannot be in a table so the result will be always null
 	//SQString *get(const SQChar *news);
-	SQString *Add(const SQChar *,int len);
+	SQString *Add(const SQChar *,SQInteger len);
 	void Remove(SQString *);
 private:
-	void Resize(int size);
-	void AllocNodes(int size);
+	void Resize(SQInteger size);
+	void AllocNodes(SQInteger size);
 	SQString **_strings;
-	unsigned int _numofslots;
-	unsigned int _slotused;
+	SQUnsignedInteger _numofslots;
+	SQUnsignedInteger _slotused;
 };
 
 #define ADD_STRING(ss,str,len) ss->_stringtable->Add(str,len)
@@ -38,10 +38,10 @@ struct SQSharedState
 	~SQSharedState();
 	void Init();
 public:
-	SQChar* GetScratchPad(int size);
+	SQChar* GetScratchPad(SQInteger size);
 	SQInteger GetMetaMethodIdxByName(const SQObjectPtr &name);
 #ifndef NO_GARBAGE_COLLECTOR
-	int CollectGarbage(SQVM *vm); 
+	SQInteger CollectGarbage(SQVM *vm); 
 	static void MarkObject(SQObjectPtr &o,SQCollectable **chain);
 #endif
 	SQObjectPtrVec *_metamethods;
@@ -74,13 +74,15 @@ public:
 	static SQRegFunction _class_default_delegate_funcz[];
 	SQObjectPtr _instance_default_delegate;
 	static SQRegFunction _instance_default_delegate_funcz[];
+	SQObjectPtr _weakref_default_delegate;
+	static SQRegFunction _weakref_default_delegate_funcz[];
 	
 	SQCOMPILERERROR _compilererrorhandler;
 	SQPRINTFUNCTION _printfunc;
 	bool _debuginfo;
 private:
 	SQChar *_scratchpad;
-	int _scratchpadsize;
+	SQInteger _scratchpadsize;
 };
 
 #define _sp(s) (_sharedstate->GetScratchPad(s))
@@ -95,6 +97,7 @@ private:
 #define _thread_ddel	_table(_sharedstate->_thread_default_delegate) 
 #define _class_ddel		_table(_sharedstate->_class_default_delegate) 
 #define _instance_ddel	_table(_sharedstate->_instance_default_delegate) 
+#define _weakref_ddel	_table(_sharedstate->_weakref_default_delegate) 
 
 #ifdef SQUNICODE //rsl REAL STRING LEN
 #define rsl(l) ((l)<<1)
@@ -110,7 +113,7 @@ extern SQObjectPtr _minusone_;
 
 bool CompileTypemask(SQIntVec &res,const SQChar *typemask);
 
-void *sq_vm_malloc(unsigned int size);
-void *sq_vm_realloc(void *p,unsigned int oldsize,unsigned int size);
-void sq_vm_free(void *p,unsigned int size);
+void *sq_vm_malloc(SQUnsignedInteger size);
+void *sq_vm_realloc(void *p,SQUnsignedInteger oldsize,SQUnsignedInteger size);
+void sq_vm_free(void *p,SQUnsignedInteger size);
 #endif //_SQSTATE_H_

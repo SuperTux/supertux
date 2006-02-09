@@ -6,48 +6,49 @@
 
 struct SQFuncState
 {
-	SQFuncState(SQSharedState *ss,SQFunctionProto *func,SQFuncState *parent,CompilerErrorFunc efunc,void *ed);
+	SQFuncState(SQSharedState *ss,SQFuncState *parent,CompilerErrorFunc efunc,void *ed);
 	~SQFuncState();
 #ifdef _DEBUG_DUMP
-	void Dump();
+	void Dump(SQFunctionProto *func);
 #endif
 	void Error(const SQChar *err);
-	SQFuncState *PushChildState(SQSharedState *ss,SQFunctionProto *func);
+	SQFuncState *PushChildState(SQSharedState *ss);
 	void PopChildState();
-	void AddInstruction(SQOpcode _op,int arg0=0,int arg1=0,int arg2=0,int arg3=0){SQInstruction i(_op,arg0,arg1,arg2,arg3);AddInstruction(i);}
+	void AddInstruction(SQOpcode _op,SQInteger arg0=0,SQInteger arg1=0,SQInteger arg2=0,SQInteger arg3=0){SQInstruction i(_op,arg0,arg1,arg2,arg3);AddInstruction(i);}
 	void AddInstruction(SQInstruction &i);
-	void SetIntructionParams(int pos,int arg0,int arg1,int arg2=0,int arg3=0);
-	void SetIntructionParam(int pos,int arg,int val);
-	SQInstruction &GetInstruction(int pos){return _instructions[pos];}
-	void PopInstructions(int size){for(int i=0;i<size;i++)_instructions.pop_back();}
-	void SetStackSize(int n);
+	void SetIntructionParams(SQInteger pos,SQInteger arg0,SQInteger arg1,SQInteger arg2=0,SQInteger arg3=0);
+	void SetIntructionParam(SQInteger pos,SQInteger arg,SQInteger val);
+	SQInstruction &GetInstruction(SQInteger pos){return _instructions[pos];}
+	void PopInstructions(SQInteger size){for(SQInteger i=0;i<size;i++)_instructions.pop_back();}
+	void SetStackSize(SQInteger n);
 	void SnoozeOpt(){_optimization=false;}
-	int GetCurrentPos(){return _instructions.size()-1;}
-	//int GetStringConstant(const SQChar *cons);
-	int GetNumericConstant(const SQInteger cons);
-	int GetNumericConstant(const SQFloat cons);
-	int PushLocalVariable(const SQObject &name);
+	SQInteger GetCurrentPos(){return _instructions.size()-1;}
+	//SQInteger GetStringConstant(const SQChar *cons);
+	SQInteger GetNumericConstant(const SQInteger cons);
+	SQInteger GetNumericConstant(const SQFloat cons);
+	SQInteger PushLocalVariable(const SQObject &name);
 	void AddParameter(const SQObject &name);
 	void AddOuterValue(const SQObject &name);
-	int GetLocalVariable(const SQObject &name);
-	int GetOuterVariable(const SQObject &name);
-	int GenerateCode();
-	int GetStackSize();
-	int CalcStackFrameSize();
-	void AddLineInfos(int line,bool lineop,bool force=false);
-	void Finalize();
-	int AllocStackPos();
-	int PushTarget(int n=-1);
-	int PopTarget();
-	int TopTarget();
-	int GetUpTarget(int n);
-	bool IsLocal(unsigned int stkpos);
-	SQObject CreateString(const SQChar *s,int len = -1);
-	int _returnexp;
+	SQInteger GetLocalVariable(const SQObject &name);
+	SQInteger GetOuterVariable(const SQObject &name);
+	SQInteger GenerateCode();
+	SQInteger GetStackSize();
+	SQInteger CalcStackFrameSize();
+	void AddLineInfos(SQInteger line,bool lineop,bool force=false);
+	SQFunctionProto *BuildProto();
+	SQInteger AllocStackPos();
+	SQInteger PushTarget(SQInteger n=-1);
+	SQInteger PopTarget();
+	SQInteger TopTarget();
+	SQInteger GetUpTarget(SQInteger n);
+	bool IsLocal(SQUnsignedInteger stkpos);
+	SQObject CreateString(const SQChar *s,SQInteger len = -1);
+	SQInteger _returnexp;
 	SQLocalVarInfoVec _vlocals;
 	SQIntVec _targetstack;
-	int _stacksize;
+	SQInteger _stacksize;
 	bool _varparams;
+	bool _bgenerator;
 	SQIntVec _unresolvedbreaks;
 	SQIntVec _unresolvedcontinues;
 	SQObjectPtrVec _functions;
@@ -57,18 +58,19 @@ struct SQFuncState
 	SQLocalVarInfoVec _localvarinfos;
 	SQObjectPtr _literals;
 	SQObjectPtr _strings;
+	SQObjectPtr _name;
+	SQObjectPtr _sourcename;
 	SQInteger _nliterals;
 	SQLineInfoVec _lineinfos;
-	SQObjectPtr _func;
 	SQFuncState *_parent;
 	SQIntVec _breaktargets; //contains number of nested exception traps
 	SQIntVec _continuetargets;
-	int _lastline;
-	int _traps;
+	SQInteger _lastline;
+	SQInteger _traps;
 	bool _optimization;
 	SQSharedState *_sharedstate;
 	sqvector<SQFuncState*> _childstates;
-	int GetConstant(const SQObject &cons);
+	SQInteger GetConstant(const SQObject &cons);
 private:
 	CompilerErrorFunc _errfunc;
 	void *_errtarget;

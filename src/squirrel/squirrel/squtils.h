@@ -25,7 +25,7 @@ public:
 	void copy(const sqvector<T>& v)
 	{
 		resize(v._size);
-		for(unsigned int i = 0; i < v._size; i++) {
+		for(SQUnsignedInteger i = 0; i < v._size; i++) {
 			new ((void *)&_vals[i]) T(v._vals[i]);
 		}
 		_size = v._size;
@@ -33,13 +33,13 @@ public:
 	~sqvector()
 	{
 		if(_allocated) {
-			for(unsigned int i = 0; i < _size; i++)
+			for(SQUnsignedInteger i = 0; i < _size; i++)
 				_vals[i].~T();
 			SQ_FREE(_vals, (_allocated * sizeof(T)));
 		}
 	}
-	void reserve(unsigned int newsize) { _realloc(newsize); }
-	void resize(unsigned int newsize, const T& fill = T())
+	void reserve(SQUnsignedInteger newsize) { _realloc(newsize); }
+	void resize(SQUnsignedInteger newsize, const T& fill = T())
 	{
 		if(newsize > _allocated)
 			_realloc(newsize);
@@ -50,7 +50,7 @@ public:
 			}
 		}
 		else{
-			for(unsigned int i = newsize; i < _size; i++) {
+			for(SQUnsignedInteger i = newsize; i < _size; i++) {
 				_vals[i].~T();
 			}
 			_size = newsize;
@@ -58,7 +58,7 @@ public:
 	}
 	void shrinktofit() { if(_size > 4) { _realloc(_size); } }
 	T& top() const { return _vals[_size - 1]; }
-	inline unsigned int size() const { return _size; }
+	inline SQUnsignedInteger size() const { return _size; }
 	bool empty() const { return (_size <= 0); }
 	inline T &push_back(const T& val = T())
 	{
@@ -70,15 +70,15 @@ public:
 	{
 		_size--; _vals[_size].~T();
 	}
-	void insert(unsigned int idx, const T& val)
+	void insert(SQUnsignedInteger idx, const T& val)
 	{
 		resize(_size + 1);
-		for(unsigned int i = _size - 1; i > idx; i--) {
+		for(SQUnsignedInteger i = _size - 1; i > idx; i--) {
 			_vals[i] = _vals[i - 1];
 		}
     	_vals[idx] = val;
 	}
-	void remove(unsigned int idx)
+	void remove(SQUnsignedInteger idx)
 	{
 		_vals[idx].~T();
 		if(idx < (_size - 1)) {
@@ -86,19 +86,19 @@ public:
 		}
 		_size--;
 	}
-	unsigned int capacity() { return _allocated; }
+	SQUnsignedInteger capacity() { return _allocated; }
 	inline T &back() const { return _vals[_size - 1]; }
-	inline T& operator[](unsigned int pos) const{ return _vals[pos]; }
+	inline T& operator[](SQUnsignedInteger pos) const{ return _vals[pos]; }
 	T* _vals;
 private:
-	void _realloc(unsigned int newsize)
+	void _realloc(SQUnsignedInteger newsize)
 	{
 		newsize = (newsize > 0)?newsize:4;
 		_vals = (T*)SQ_REALLOC(_vals, _allocated * sizeof(T), newsize * sizeof(T));
 		_allocated = newsize;
 	}
-	unsigned int _size;
-	unsigned int _allocated;
+	SQUnsignedInteger _size;
+	SQUnsignedInteger _allocated;
 };
 
 #endif //_SQUTILS_H_

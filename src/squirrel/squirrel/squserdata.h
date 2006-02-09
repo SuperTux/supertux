@@ -4,13 +4,13 @@
 
 struct SQUserData : SQDelegable
 {
-	SQUserData(SQSharedState *ss){ _uiRef = 0; _delegate = 0; _hook = NULL; INIT_CHAIN(); ADD_TO_CHAIN(&_ss(this)->_gc_chain, this); }
+	SQUserData(SQSharedState *ss){ _delegate = 0; _hook = NULL; INIT_CHAIN(); ADD_TO_CHAIN(&_ss(this)->_gc_chain, this); }
 	~SQUserData()
 	{
 		REMOVE_FROM_CHAIN(&_ss(this)->_gc_chain, this);
 		SetDelegate(NULL);
 	}
-	static SQUserData* Create(SQSharedState *ss, int size)
+	static SQUserData* Create(SQSharedState *ss, SQInteger size)
 	{
 		SQUserData* ud = (SQUserData*)SQ_MALLOC(sizeof(SQUserData)+(size-1));
 		new (ud) SQUserData(ss);
@@ -24,21 +24,14 @@ struct SQUserData : SQDelegable
 #endif
 	void Release() {
 		if (_hook) _hook(_val,_size);
-		int tsize = _size - 1;
+		SQInteger tsize = _size - 1;
 		this->~SQUserData();
 		SQ_FREE(this, sizeof(SQUserData) + tsize);
 	}
-	void SetDelegate(SQTable *mt)
-	{
-		if (mt)	__ObjAddRef(mt);
-		__ObjRelease(_delegate);
-		_delegate = mt;
-	}
-
-	
-	int _size;
+		
+	SQInteger _size;
 	SQRELEASEHOOK _hook;
-	unsigned int _typetag;
+	SQUserPointer _typetag;
 	SQChar _val[1];
 };
 

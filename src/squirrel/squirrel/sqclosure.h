@@ -7,7 +7,7 @@ struct SQFunctionProto;
 struct SQClosure : public CHAINABLE_OBJ
 {
 private:
-	SQClosure(SQSharedState *ss,SQFunctionProto *func){_uiRef=0;_function=func; INIT_CHAIN();ADD_TO_CHAIN(&_ss(this)->_gc_chain,this);}
+	SQClosure(SQSharedState *ss,SQFunctionProto *func){_function=func; INIT_CHAIN();ADD_TO_CHAIN(&_ss(this)->_gc_chain,this);}
 public:
 	static SQClosure *Create(SQSharedState *ss,SQFunctionProto *func){
 		SQClosure *nc=(SQClosure*)SQ_MALLOC(sizeof(SQClosure));
@@ -35,7 +35,7 @@ struct SQGenerator : public CHAINABLE_OBJ
 {
 	enum SQGeneratorState{eRunning,eSuspended,eDead};
 private:
-	SQGenerator(SQSharedState *ss,SQClosure *closure){_uiRef=0;_closure=closure;_state=eRunning;_ci._generator=_null_;INIT_CHAIN();ADD_TO_CHAIN(&_ss(this)->_gc_chain,this);}
+	SQGenerator(SQSharedState *ss,SQClosure *closure){_closure=closure;_state=eRunning;_ci._generator=_null_;INIT_CHAIN();ADD_TO_CHAIN(&_ss(this)->_gc_chain,this);}
 public:
 	static SQGenerator *Create(SQSharedState *ss,SQClosure *closure){
 		SQGenerator *nc=(SQGenerator*)SQ_MALLOC(sizeof(SQGenerator));
@@ -54,7 +54,7 @@ public:
 		sq_delete(this,SQGenerator);
 	}
 	bool Yield(SQVM *v);
-	bool Resume(SQVM *v,int target);
+	bool Resume(SQVM *v,SQInteger target);
 #ifndef NO_GARBAGE_COLLECTOR
 	void Mark(SQCollectable **chain);
 	void Finalize(){_stack.resize(0);_closure=_null_;}
@@ -70,7 +70,7 @@ public:
 struct SQNativeClosure : public CHAINABLE_OBJ
 {
 private:
-	SQNativeClosure(SQSharedState *ss,SQFUNCTION func){_uiRef=0;_function=func;INIT_CHAIN();ADD_TO_CHAIN(&_ss(this)->_gc_chain,this);	}
+	SQNativeClosure(SQSharedState *ss,SQFUNCTION func){_function=func;INIT_CHAIN();ADD_TO_CHAIN(&_ss(this)->_gc_chain,this);	}
 public:
 	static SQNativeClosure *Create(SQSharedState *ss,SQFUNCTION func)
 	{
@@ -93,7 +93,7 @@ public:
 	SQObjectPtr _name;
 	SQObjectPtrVec _outervalues;
 	SQIntVec _typecheck;
-	int _nparamscheck;
+	SQInteger _nparamscheck;
 };
 
 

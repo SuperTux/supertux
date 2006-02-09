@@ -10,9 +10,9 @@ void sqstd_printcallstack(HSQUIRRELVM v)
 		SQInteger i;
 		SQFloat f;
 		const SQChar *s;
-		int level=1; //1 is to skip this function that is level 0
+		SQInteger level=1; //1 is to skip this function that is level 0
 		const SQChar *name=0; 
-		int seq=0;
+		SQInteger seq=0;
 		pf(v,_SC("\nCALLSTACK\n"));
 		while(SQ_SUCCEEDED(sq_stackinfos(v,level,&si)))
 		{
@@ -82,7 +82,7 @@ void sqstd_printcallstack(HSQUIRRELVM v)
 	}
 }
 
-static int _sqstd_aux_printerror(HSQUIRRELVM v)
+static SQInteger _sqstd_aux_printerror(HSQUIRRELVM v)
 {
 	SQPRINTFUNCTION pf = sq_getprintfunc(v);
 	if(pf) {
@@ -100,11 +100,11 @@ static int _sqstd_aux_printerror(HSQUIRRELVM v)
 	return 0;
 }
 
-void _sqstd_compiler_error(HSQUIRRELVM v,const SQChar *sErr,const SQChar *sSource,int line,int column)
+void _sqstd_compiler_error(HSQUIRRELVM v,const SQChar *sErr,const SQChar *sSource,SQInteger line,SQInteger column)
 {
 	SQPRINTFUNCTION pf = sq_getprintfunc(v);
 	if(pf) {
-		pf(v,_SC("ERROR %s line=(%d) column=(%d) [%s]\n"),sErr,line,column,sSource);
+		pf(v,_SC("%s line = (%d) column = (%d) : error %s\n"),sSource,line,column,sErr);
 	}
 }
 

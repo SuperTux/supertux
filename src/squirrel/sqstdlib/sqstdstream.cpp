@@ -11,12 +11,12 @@
 
 #define SETUP_STREAM(v) \
 	SQStream *self = NULL; \
-	if(SQ_FAILED(sq_getinstanceup(v,1,(SQUserPointer*)&self,SQSTD_STREAM_TYPE_TAG))) \
+	if(SQ_FAILED(sq_getinstanceup(v,1,(SQUserPointer*)&self,(SQUserPointer)SQSTD_STREAM_TYPE_TAG))) \
 		return sq_throwerror(v,_SC("invalid type tag")); \
 	if(!self->IsValid())  \
 		return sq_throwerror(v,_SC("the stream is invalid"));
 
-int _stream_readstr(HSQUIRRELVM v)
+SQInteger _stream_readstr(HSQUIRRELVM v)
 {
     SETUP_STREAM(v);
 	SQInteger type = _SC('a'), size = 0;
@@ -63,7 +63,7 @@ int _stream_readstr(HSQUIRRELVM v)
 	return 1;
 }
 
-int _stream_readblob(HSQUIRRELVM v)
+SQInteger _stream_readblob(HSQUIRRELVM v)
 {
 	SETUP_STREAM(v);
 	SQUserPointer data,blobp;
@@ -84,14 +84,14 @@ int _stream_readblob(HSQUIRRELVM v)
 #define SAFE_READN(ptr,len) { \
 	if(self->Read(ptr,len) != len) return sq_throwerror(v,_SC("io error")); \
 	}
-int _stream_readn(HSQUIRRELVM v)
+SQInteger _stream_readn(HSQUIRRELVM v)
 {
 	SETUP_STREAM(v);
 	SQInteger format;
 	sq_getinteger(v, 2, &format);
 	switch(format) {
 	case 'i': {
-		int i;
+		SQInteger i;
 		SAFE_READN(&i, sizeof(i));
 		sq_pushinteger(v, i);
 			  }
@@ -138,7 +138,7 @@ int _stream_readn(HSQUIRRELVM v)
 	return 1;
 }
 
-int _stream_writestr(HSQUIRRELVM v)
+SQInteger _stream_writestr(HSQUIRRELVM v)
 {
 	SETUP_STREAM(v);
 	const SQChar *str,*res;
@@ -174,10 +174,10 @@ int _stream_writestr(HSQUIRRELVM v)
 	return 0;
 }
 
-int _stream_writeblob(HSQUIRRELVM v)
+SQInteger _stream_writeblob(HSQUIRRELVM v)
 {
 	SQUserPointer data;
-	int size;
+	SQInteger size;
 	SETUP_STREAM(v);
 	if(SQ_FAILED(sqstd_getblob(v,2,&data)))
 		return sq_throwerror(v,_SC("invalid parameter"));
@@ -188,7 +188,7 @@ int _stream_writeblob(HSQUIRRELVM v)
 	return 1;
 }
 
-int _stream_writen(HSQUIRRELVM v)
+SQInteger _stream_writen(HSQUIRRELVM v)
 {
 	SETUP_STREAM(v);
 	SQInteger format, ti;
@@ -196,10 +196,10 @@ int _stream_writen(HSQUIRRELVM v)
 	sq_getinteger(v, 3, &format);
 	switch(format) {
 	case 'i': {
-		int i;
+		SQInteger i;
 		sq_getinteger(v, 2, &ti);
 		i = ti;
-		self->Write(&i, sizeof(int));
+		self->Write(&i, sizeof(SQInteger));
 			  }
 		break;
 	case 's': {
@@ -250,7 +250,7 @@ int _stream_writen(HSQUIRRELVM v)
 	return 0;
 }
 
-int _stream_seek(HSQUIRRELVM v)
+SQInteger _stream_seek(HSQUIRRELVM v)
 {
 	SETUP_STREAM(v);
 	SQInteger offset, origin = SQ_SEEK_SET;
@@ -269,21 +269,21 @@ int _stream_seek(HSQUIRRELVM v)
 	return 1;
 }
 
-int _stream_tell(HSQUIRRELVM v)
+SQInteger _stream_tell(HSQUIRRELVM v)
 {
 	SETUP_STREAM(v);
 	sq_pushinteger(v, self->Tell());
 	return 1;
 }
 
-int _stream_len(HSQUIRRELVM v)
+SQInteger _stream_len(HSQUIRRELVM v)
 {
 	SETUP_STREAM(v);
 	sq_pushinteger(v, self->Len());
 	return 1;
 }
 
-int _stream_flush(HSQUIRRELVM v)
+SQInteger _stream_flush(HSQUIRRELVM v)
 {
 	SETUP_STREAM(v);
 	if(!self->Flush())
@@ -293,7 +293,7 @@ int _stream_flush(HSQUIRRELVM v)
 	return 1;
 }
 
-int _stream_eos(HSQUIRRELVM v)
+SQInteger _stream_eos(HSQUIRRELVM v)
 {
 	SETUP_STREAM(v);
 	if(self->EOS())
@@ -325,8 +325,8 @@ void init_streamclass(HSQUIRRELVM v)
 	if(SQ_FAILED(sq_get(v,-2))) {
 		sq_pushstring(v,_SC("std_stream"),-1);
 		sq_newclass(v,SQFalse);
-		sq_settypetag(v,-1,SQSTD_STREAM_TYPE_TAG);
-		int i = 0;
+		sq_settypetag(v,-1,(SQUserPointer)SQSTD_STREAM_TYPE_TAG);
+		SQInteger i = 0;
 		while(_stream_methods[i].name != 0) {
 			SQRegFunction &f = _stream_methods[i];
 			sq_pushstring(v,f.name,-1);
@@ -343,11 +343,11 @@ void init_streamclass(HSQUIRRELVM v)
 	sq_pop(v,1);
 }
 
-SQRESULT declare_stream(HSQUIRRELVM v,SQChar* name,int typetag,SQChar* reg_name,SQRegFunction *methods,SQRegFunction *globals)
+SQRESULT declare_stream(HSQUIRRELVM v,SQChar* name,SQUserPointer typetag,SQChar* reg_name,SQRegFunction *methods,SQRegFunction *globals)
 {
 	if(sq_gettype(v,-1) != OT_TABLE)
 		return sq_throwerror(v,_SC("table expected"));
-	int top = sq_gettop(v);
+	SQInteger top = sq_gettop(v);
 	//create delegate
     init_streamclass(v);
 	sq_pushregistrytable(v);
@@ -356,7 +356,7 @@ SQRESULT declare_stream(HSQUIRRELVM v,SQChar* name,int typetag,SQChar* reg_name,
 	if(SQ_SUCCEEDED(sq_get(v,-3))) {
 		sq_newclass(v,SQTrue);
 		sq_settypetag(v,-1,typetag);
-		int i = 0;
+		SQInteger i = 0;
 		while(methods[i].name != 0) {
 			SQRegFunction &f = methods[i];
 			sq_pushstring(v,f.name,-1);
