@@ -26,6 +26,18 @@ public:
     assert(p1.x <= p2.x && p1.y <= p2.y);
   }
 
+  float get_left() const
+  { return p1.x; }
+
+  float get_right() const
+  { return p2.x; }
+
+  float get_top() const
+  { return p1.y; }
+
+  float get_bottom() const
+  { return p2.y; }
+
   float get_width() const
   { return p2.x - p1.x; }
 

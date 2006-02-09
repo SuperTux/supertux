@@ -187,7 +187,7 @@
 
        (background
          (image "images/background/forest1.jpg")
-         (speed 1.000000)
+         (speed 0.7)
        )
        (init-script "level2_init();")
        (secretarea (x 673.0)

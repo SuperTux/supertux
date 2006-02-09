@@ -35,8 +35,9 @@ enum DrawingEffect {
 };
 
 /**
- * Container class that holds a surface, necessary so that we can
- * reload Surface implementations on the fly
+ * A rectangular image.
+ * The class basically holds a reference to a texture with additional UV
+ * coordinates that specify a rectangular area on this texture
  */
 class Surface
 {
@@ -66,9 +67,6 @@ public:
   /** flip the surface horizontally */
   void hflip();
   
-  /** Reload the surface, which is necesarry in case of a mode swich */
-  void reload();
-
   const Surface& operator= (const Surface& other);
 
   float get_width() const

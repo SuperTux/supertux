@@ -7,3 +7,6 @@
 #include "text.hpp"
 #include "functions.hpp"
 #include "player.hpp"
+#include "floating_image.hpp"
+#include "anchor_points.hpp"
+

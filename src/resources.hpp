@@ -19,8 +19,6 @@
 #ifndef SUPERTUX_RESOURCES_H
 #define SUPERTUX_RESOURCES_H
 
-#include <string>
-
 class SpriteManager;
 class Menu;
 class Font;

@@ -7,6 +7,7 @@ function intro()
   RADIO.set_action("quiet");  
   PENNY.set_action("stand-left");
   NOLOK.set_visible(false);
+  local logo = FloatingImage("images/objects/logo/logo.sprite");
   Tux.deactivate();
   Tux.set_visible(false);
   DisplayEffect.sixteen_to_nine(0);
@@ -24,10 +25,11 @@ function intro()
   SUPERTUX.set_velocity(50,0);
   Camera.scroll_to(3100, 945, 18);
   wait(10);
-  Text.set_text("SuperTux\n(Replace this with the title logo)");
-  Text.fade_in(2);
+  logo.set_anchor_point(ANCHOR_TOP);
+  logo.set_pos(0, 50);
+  logo.set_visible(true);
   wait(5);
-  Text.fade_out(2);
+  logo.set_visible(false);
   wait(6);
   
   //begin conversation and Tux rap

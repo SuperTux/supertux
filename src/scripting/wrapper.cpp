@@ -534,6 +534,130 @@ static int Player_get_visible_wrapper(HSQUIRRELVM v)
   return 1;
 }
 
+static int FloatingImage_release_hook(SQUserPointer ptr, int )
+{
+  Scripting::FloatingImage* _this = reinterpret_cast<Scripting::FloatingImage*> (ptr);
+  delete _this;
+  return 0;
+}
+
+static int FloatingImage_constructor_wrapper(HSQUIRRELVM v)
+{
+  const char* arg0;
+  sq_getstring(v, 2, &arg0);
+  
+  Scripting::FloatingImage* _this = new Scripting::FloatingImage(arg0);
+  sq_setinstanceup(v, 1, _this);
+  sq_setreleasehook(v, 1, FloatingImage_release_hook);
+  
+  return 0;
+}
+
+static int FloatingImage_set_layer_wrapper(HSQUIRRELVM v)
+{
+  Scripting::FloatingImage* _this;
+  sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
+  int arg0;
+  sq_getinteger(v, 2, &arg0);
+  
+  _this->set_layer(arg0);
+  
+  return 0;
+}
+
+static int FloatingImage_get_layer_wrapper(HSQUIRRELVM v)
+{
+  Scripting::FloatingImage* _this;
+  sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
+  
+  int return_value = _this->get_layer();
+  
+  sq_pushinteger(v, return_value);
+  return 1;
+}
+
+static int FloatingImage_set_pos_wrapper(HSQUIRRELVM v)
+{
+  Scripting::FloatingImage* _this;
+  sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
+  float arg0;
+  sq_getfloat(v, 2, &arg0);
+  float arg1;
+  sq_getfloat(v, 3, &arg1);
+  
+  _this->set_pos(arg0, arg1);
+  
+  return 0;
+}
+
+static int FloatingImage_get_pos_x_wrapper(HSQUIRRELVM v)
+{
+  Scripting::FloatingImage* _this;
+  sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
+  
+  float return_value = _this->get_pos_x();
+  
+  sq_pushfloat(v, return_value);
+  return 1;
+}
+
+static int FloatingImage_get_pos_y_wrapper(HSQUIRRELVM v)
+{
+  Scripting::FloatingImage* _this;
+  sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
+  
+  float return_value = _this->get_pos_y();
+  
+  sq_pushfloat(v, return_value);
+  return 1;
+}
+
+static int FloatingImage_set_anchor_point_wrapper(HSQUIRRELVM v)
+{
+  Scripting::FloatingImage* _this;
+  sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
+  int arg0;
+  sq_getinteger(v, 2, &arg0);
+  
+  _this->set_anchor_point(arg0);
+  
+  return 0;
+}
+
+static int FloatingImage_get_anchor_point_wrapper(HSQUIRRELVM v)
+{
+  Scripting::FloatingImage* _this;
+  sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
+  
+  int return_value = _this->get_anchor_point();
+  
+  sq_pushinteger(v, return_value);
+  return 1;
+}
+
+static int FloatingImage_set_visible_wrapper(HSQUIRRELVM v)
+{
+  Scripting::FloatingImage* _this;
+  sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
+  SQBool arg0;
+  sq_getbool(v, 2, &arg0);
+  
+  _this->set_visible(arg0);
+  
+  return 0;
+}
+
+static int FloatingImage_get_visible_wrapper(HSQUIRRELVM v)
+{
+  Scripting::FloatingImage* _this;
+  sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
+  
+  bool return_value = _this->get_visible();
+  
+  sq_pushbool(v, return_value);
+  return 1;
+}
+
 static int display_text_file_wrapper(HSQUIRRELVM v)
 {
   const char* arg0;
@@ -770,6 +894,32 @@ void create_squirrel_instance(HSQUIRRELVM v, Scripting::Player* object, bool set
   sq_remove(v, -2); // remove root table
 }
 
+void create_squirrel_instance(HSQUIRRELVM v, Scripting::FloatingImage* object, bool setup_releasehook)
+{
+  using namespace Wrapper;
+
+  sq_pushroottable(v);
+  sq_pushstring(v, "FloatingImage", -1);
+  if(SQ_FAILED(sq_get(v, -2))) {
+    std::ostringstream msg;
+    msg << "Couldn't resolved squirrel type 'FloatingImage'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  if(SQ_FAILED(sq_createinstance(v, -1)) || SQ_FAILED(sq_setinstanceup(v, -1, object))) {
+    std::ostringstream msg;
+    msg << "Couldn't setup squirrel instance for object of type 'FloatingImage'";
+    throw SquirrelError(v, msg.str());
+  }
+  sq_remove(v, -2); // remove object name
+
+  if(setup_releasehook) {
+    sq_setreleasehook(v, -1, FloatingImage_release_hook);
+  }
+
+  sq_remove(v, -2); // remove root table
+}
+
 void register_supertux_wrapper(HSQUIRRELVM v)
 {
   using namespace Wrapper;
@@ -812,6 +962,78 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   if(SQ_FAILED(sq_createslot(v, -3))) {
     std::ostringstream msg;
     msg << "Couldn't register constant'KEY_GOLD'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  sq_pushstring(v, "ANCHOR_TOP", -1);
+  sq_pushinteger(v, 16);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    std::ostringstream msg;
+    msg << "Couldn't register constant'ANCHOR_TOP'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  sq_pushstring(v, "ANCHOR_BOTTOM", -1);
+  sq_pushinteger(v, 32);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    std::ostringstream msg;
+    msg << "Couldn't register constant'ANCHOR_BOTTOM'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  sq_pushstring(v, "ANCHOR_LEFT", -1);
+  sq_pushinteger(v, 1);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    std::ostringstream msg;
+    msg << "Couldn't register constant'ANCHOR_LEFT'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  sq_pushstring(v, "ANCHOR_RIGHT", -1);
+  sq_pushinteger(v, 2);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    std::ostringstream msg;
+    msg << "Couldn't register constant'ANCHOR_RIGHT'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  sq_pushstring(v, "ANCHOR_MIDDLE", -1);
+  sq_pushinteger(v, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    std::ostringstream msg;
+    msg << "Couldn't register constant'ANCHOR_MIDDLE'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  sq_pushstring(v, "ANCHOR_TOP_LEFT", -1);
+  sq_pushinteger(v, 17);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    std::ostringstream msg;
+    msg << "Couldn't register constant'ANCHOR_TOP_LEFT'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  sq_pushstring(v, "ANCHOR_TOP_RIGHT", -1);
+  sq_pushinteger(v, 18);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    std::ostringstream msg;
+    msg << "Couldn't register constant'ANCHOR_TOP_RIGHT'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  sq_pushstring(v, "ANCHOR_BOTTOM_LEFT", -1);
+  sq_pushinteger(v, 33);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    std::ostringstream msg;
+    msg << "Couldn't register constant'ANCHOR_BOTTOM_LEFT'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  sq_pushstring(v, "ANCHOR_BOTTOM_RIGHT", -1);
+  sq_pushinteger(v, 34);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    std::ostringstream msg;
+    msg << "Couldn't register constant'ANCHOR_BOTTOM_RIGHT'";
     throw SquirrelError(v, msg.str());
   }
 
@@ -1255,6 +1477,99 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   if(SQ_FAILED(sq_createslot(v, -3))) {
     std::ostringstream msg;
     msg << "Couldn't register class'Player'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  // Register class FloatingImage
+  sq_pushstring(v, "FloatingImage", -1);
+  if(sq_newclass(v, SQFalse) < 0) {
+    std::ostringstream msg;
+    msg << "Couldn't create new class 'FloatingImage'";
+    throw SquirrelError(v, msg.str());
+  }
+  sq_pushstring(v, "constructor", -1);
+  sq_newclosure(v, &FloatingImage_constructor_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    std::ostringstream msg;
+    msg << "Couldn't register function'constructor'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  sq_pushstring(v, "set_layer", -1);
+  sq_newclosure(v, &FloatingImage_set_layer_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    std::ostringstream msg;
+    msg << "Couldn't register function'set_layer'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  sq_pushstring(v, "get_layer", -1);
+  sq_newclosure(v, &FloatingImage_get_layer_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    std::ostringstream msg;
+    msg << "Couldn't register function'get_layer'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  sq_pushstring(v, "set_pos", -1);
+  sq_newclosure(v, &FloatingImage_set_pos_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    std::ostringstream msg;
+    msg << "Couldn't register function'set_pos'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  sq_pushstring(v, "get_pos_x", -1);
+  sq_newclosure(v, &FloatingImage_get_pos_x_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    std::ostringstream msg;
+    msg << "Couldn't register function'get_pos_x'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  sq_pushstring(v, "get_pos_y", -1);
+  sq_newclosure(v, &FloatingImage_get_pos_y_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    std::ostringstream msg;
+    msg << "Couldn't register function'get_pos_y'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  sq_pushstring(v, "set_anchor_point", -1);
+  sq_newclosure(v, &FloatingImage_set_anchor_point_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    std::ostringstream msg;
+    msg << "Couldn't register function'set_anchor_point'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  sq_pushstring(v, "get_anchor_point", -1);
+  sq_newclosure(v, &FloatingImage_get_anchor_point_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    std::ostringstream msg;
+    msg << "Couldn't register function'get_anchor_point'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  sq_pushstring(v, "set_visible", -1);
+  sq_newclosure(v, &FloatingImage_set_visible_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    std::ostringstream msg;
+    msg << "Couldn't register function'set_visible'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  sq_pushstring(v, "get_visible", -1);
+  sq_newclosure(v, &FloatingImage_get_visible_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    std::ostringstream msg;
+    msg << "Couldn't register function'get_visible'";
+    throw SquirrelError(v, msg.str());
+  }
+
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    std::ostringstream msg;
+    msg << "Couldn't register class'FloatingImage'";
     throw SquirrelError(v, msg.str());
   }
 

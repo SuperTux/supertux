@@ -138,6 +138,11 @@
          (solid #f)
        )
        (init-script "
+
+        local logo = FloatingImage(\"images/objects/logo/logo.sprite\");
+
+        logo.set_visible(true);
+        
 Text.set_text(translate(\"The Crazy Nolok Dance\"));
 Text.fade_in(2);
 TUX.set_action(\"jump\");
@@ -158,11 +163,11 @@ while(true) {
   }
   tuxjumps--;
   wait(0.5);
-  if(PENNY.get_animation() == \"stand\") {
+  if(PENNY.get_action() == \"stand\") {
     PENNY.set_action(\"throw\");
-  } else if(PENNY.get_animation() == \"throw\") {
+  } else if(PENNY.get_action() == \"throw\") {
     PENNY.set_action(\"jump\");
-  } else if(PENNY.get_animation() == \"jump\") {
+  } else if(PENNY.get_action() == \"jump\") {
     PENNY.set_action(\"dead\");
   } else {
     Sound.play(\"sounds/grow.wav\");
