@@ -75,7 +75,7 @@ if $(BISON)
     # here
     Includes $(headerfile:G=) : $(headerfile) ;
 
-    Bison $(cppfile) $(headerfile:G=) : $(<) ;
+    Bison $(cppfile) $(headerfile) : $(<) ;
 #Includes $(cppfile) : $(headerfile:G=) ;
 
     return $(object) ;
