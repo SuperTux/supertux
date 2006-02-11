@@ -69,7 +69,6 @@ if $(BISON)
   {
     local cppfile = [ LocateTarget $(<:S=.cpp) : $(SUBDIR) ] ;
     local headerfile = [ LocateTarget $(<:S=.hpp) : $(SUBDIR) ] ;
-    headerfile = $(headerfile:G=) ;
     local object = [ CompileObjects $(cppfile) ] ;
 
     # jams header file scannning doesn't use grist so we have to workaround this
