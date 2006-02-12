@@ -141,6 +141,8 @@ Player::init()
   on_ground_flag = false;
   grabbed_object = 0;
 
+  floor_normal = Vector(0,-1);
+
   physic.reset();
 }
 
@@ -327,6 +329,16 @@ Player::handle_horizontal_input()
     bbox.set_width(33);
   } else {
     bbox.set_width(31.8);
+  }
+
+  // on downward slopes, adjust vertical velocity to match slope angle
+  if (on_ground()) {
+    if (floor_normal.y != 0) {
+      if ((floor_normal.x * vx) > 0) {
+        // we overdo it a little, just to be on the safe side
+        vy = vx * (floor_normal.x / floor_normal.y) * 2;
+      }
+    }
   }
 
   physic.set_velocity(vx, vy);
@@ -720,6 +732,18 @@ Player::collision(GameObject& other, const CollisionHit& hit)
       if(physic.get_velocity_y() < 0)
         physic.set_velocity_y(0);
       on_ground_flag = true;
+
+      // remember normal of this tile
+      if (hit.normal.y > -0.9) {
+        floor_normal.x = hit.normal.x;
+        floor_normal.y = hit.normal.y;
+      } else {
+        // slowly adjust to unisolid tiles. 
+        // Necessary because our bounding box sometimes reaches through slopes and thus hits unisolid tiles
+        floor_normal.x = (floor_normal.x * 0.9) + (hit.normal.x * 0.1);
+        floor_normal.y = (floor_normal.y * 0.9) + (hit.normal.y * 0.1);
+      }
+
     } else if(hit.normal.y > 0) { // bumped against the roof
       physic.set_velocity_y(.1);
     }

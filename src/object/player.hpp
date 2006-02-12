@@ -178,6 +178,7 @@ private:
   Sprite* smalltux_gameover;
   Sprite* smalltux_star;
   Sprite* bigtux_star;
+  Vector floor_normal;
 };
 
 #endif /*SUPERTUX_PLAYER_H*/
