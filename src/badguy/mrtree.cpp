@@ -22,8 +22,8 @@
 
 #include "mrtree.hpp"
 
-static const float WALKSPEED = 50;
-static const float WALKSPEED_SMALL = 30;
+static const float WALKSPEED = 100;
+static const float WALKSPEED_SMALL =120;
 
 MrTree::MrTree(const lisp::Lisp& reader)
   : mystate(STATE_BIG)
@@ -32,7 +32,7 @@ MrTree::MrTree(const lisp::Lisp& reader)
   reader.get("y", start_position.y);
   stay_on_platform = false;
   reader.get("stay-on-platform", stay_on_platform);
-  bbox.set_size(84.8, 95.8);
+  bbox.set_size(99.8, 99.8);
   sprite = sprite_manager->create("images/creatures/mr_tree/mr_tree.sprite");
 }
 
@@ -55,6 +55,7 @@ MrTree::activate()
     sprite->set_action(dir == LEFT ? "left" : "right");
   } else {
     physic.set_velocity_x(dir == LEFT ? -WALKSPEED_SMALL : WALKSPEED_SMALL);
+    bbox.set_size(31.8, 68.8);
     sprite->set_action(dir == LEFT ? "small-left" : "small-right");
   }
 }
@@ -79,11 +80,15 @@ MrTree::collision_squished(Player& player)
     mystate = STATE_NORMAL;
     activate();
 
-    sound_manager->play("sounds/squish.wav", get_pos());
+  
+    sound_manager->play("sounds/mr_tree.ogg", get_pos());
     player.bounce(*this);
   } else {
-    sprite->set_action(dir == LEFT ? "squished-left" : "squished-right");
-    kill_squished(player);
+bbox.set_size(67.8, 99.8);
+sprite->set_action(dir == LEFT ? "squished-left" : "squished-right");
+sound_manager->play("sounds/mr_treehit.ogg", get_pos());
+player.bounce(*this);
+   
   }
   
   return true;

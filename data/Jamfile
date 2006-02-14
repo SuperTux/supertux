@@ -66,6 +66,8 @@ IMAGEPATHS =
 	images/creatures/mr_rocket
 	images/creatures/bouncing_snowball
 	images/creatures/dummyguy
+        images/creatures/plant
+	images/creatures/sspiky
 ;
 
 for p in $(IMAGEPATHS) {

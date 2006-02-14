@@ -41,6 +41,7 @@
 
 	Richard Smith
 
+	Christoph Sommer
 
 -Graphics
 
