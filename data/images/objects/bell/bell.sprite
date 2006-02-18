@@ -3,19 +3,19 @@
   (name "normal")
   (x-offset 0)
   (y-offset 0)
-  (images "bell-m.png")
+  (images "bell1.png")
  )
  (action
   (name "ringing")
   (images
-   "bell-l_0.png"
-   "bell-l.png"
-   "bell-l_0.png"
-   "bell-m.png"
-   "bell-r_0.png"
-   "bell-r.png"
-   "bell-r_0.png"
-   "bell-m.png"
+   "bell1.png"
+   "bell2.png"
+   "bell3.png"
+   "bell2.png"
+   "bell1.png"
+   "bell4.png"
+   "bell5.png"
+   "bell4.png"
   )
  )              
 )
