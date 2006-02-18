@@ -3,21 +3,14 @@
     (name "default")
     (x-offset 16)
     (y-offset 16)
+(fps 6)
     (images "torch.png"
-"torch.png"
+
 "torch1.png"
-"torch1.png"
-"torch2.png"
 "torch2.png"
 "torch3.png"
-"torch3.png"
-"torch4.png"
-"torch4.png"
-"torch4.png"
 "torch4.png"
 "torch3.png"
-"torch3.png"
-"torch2.png"
 "torch2.png"
 )
   )
@@ -25,6 +18,10 @@
     (name "solved")
     (x-offset 16)
     (y-offset 16)
-    (images "torch.png")
+(fps 1)
+    (images "smoke1.png"
+"smoke2.png"
+"smoke3.png"
+"smoke4.png")
   )
 )
