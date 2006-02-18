@@ -6147,5 +6147,48 @@
       "tiles/doodads/clover.png" )
     (solid #t)
   )
+
+  (tile
+    (id 1533)
+    (images
+      (region "tiles/forest/fishbone.png" 0 0 32 32)
+    )
+    (solid #f)
+  )
+  (tile
+    (id 1534)
+    (images
+      (region "tiles/forest/fishbone.png" 32 0 32 32)
+    )
+    (solid #f)
+    ) 
+  (tile
+    (id 1535)
+    (images
+      (region "tiles/forest/fishbone.png" 64 0 32 32)
+    )
+    (solid #f)
+    )
+  (tile
+    (id 1536)
+    (images
+      (region "tiles/forest/fishbone.png" 0 32 32 32)
+    )
+    (solid #f)
+  )
+  (tile
+    (id 1537)
+    (images
+      (region "tiles/forest/fishbone.png" 32 32 32 32)
+    )
+    (solid #f)
+    ) 
+  (tile
+    (id 1538)
+    (images
+      (region "tiles/forest/fishbone.png" 64 32 32 32)
+    )
+    (solid #f)
+    )
 )
 )
