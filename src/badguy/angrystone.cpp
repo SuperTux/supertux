@@ -74,7 +74,7 @@ AngryStone::collision_solid(GameObject& , const CollisionHit& hit)
 }
 
 HitResponse
-AngryStone::collision_badguy(BadGuy& badguy, const CollisionHit& hit)
+AngryStone::collision_badguy(BadGuy& badguy, const CollisionHit& )
 {
   if (state == ATTACKING) {
     badguy.kill_fall();
