@@ -76,6 +76,10 @@ INSTALLING UNDER LINUX/UNIX
        `sh ./configure' instead to prevent `csh' from trying to execute
        `configure' itself.
 
+       If no configure script exists (e.g. in case you've retrieved SuperTux
+       from SVN), just run the autogen.sh script. You'll need autoconf
+       for this.
+
        Running `configure' takes awhile.  While running, it prints some
        messages telling which features it is checking for.
 
@@ -106,10 +110,6 @@ INSTALLING UNDER LINUX/UNIX
 Note for SVN users:
   SuperTux does not need to be installed on the system, you can run it from
   its own directory.
-  
-  If no configure script exists (e.g. in case you've retrieved SuperTux
-  from SVN), just run the autogen.sh script. You'll need autoconf
-  for this.
 
 
 ICON FILE
