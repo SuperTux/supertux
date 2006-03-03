@@ -944,6 +944,52 @@
          (name "attacking")
          (images "creatures/angrystone/attacking-0.png")))
 
+; SkullyHop
+ (sprite (name "skullyhop")
+       (action
+         (name "standing-left")
+         (x-offset 0)
+         (y-offset 0)
+         (images "creatures/skullyhop/standing-0.png"))
+       (action
+         (name "standing-right")
+         (x-offset 0)
+         (y-offset 0)
+         (mirror-action "standing-left"))
+       (action
+         (name "charging-left")
+         (x-offset 0)
+         (y-offset 0)
+         (fps 10.0)
+         (images "creatures/skullyhop/charging-0.png"
+                 "creatures/skullyhop/charging-1.png"))
+       (action
+         (name "charging-right")
+         (fps 10.0)
+         (x-offset 0)
+         (y-offset 0)
+         (mirror-action "charging-left"))
+       (action
+         (name "jumping-left")
+         (x-offset 0)
+         (y-offset 0)
+         (images "creatures/skullyhop/jumping-0.png"))
+       (action
+         (name "jumping-right")
+         (x-offset 0)
+         (y-offset 0)
+         (mirror-action "jumping-left"))
+       (action
+         (name "squished-left")
+         (x-offset 0)
+         (y-offset -14)
+         (images "creatures/skullyhop/squished-0.png"))
+       (action
+         (name "squished-right")
+         (x-offset 0)
+         (y-offset -14)
+         (mirror-action "squished-left")))
+
 ;; Game elements follow
           
  (sprite (name "egg")

@@ -27,6 +27,7 @@
 #include "badguy/mrrocket.hpp"
 #include "badguy/poisonivy.hpp"
 #include "badguy/snowsnail.hpp"
+#include "badguy/skullyhop.hpp"
 
 Dispenser::Dispenser(const lisp::Lisp& reader)
 {
@@ -104,9 +105,11 @@ Dispenser::launch_badguy()
       Sector::current()->add_object(new MrRocket(get_pos().x+(dir == LEFT ? -32 : 32), get_pos().y, dir));}
     else if (badguy == "poisonivy")
       Sector::current()->add_object(new PoisonIvy(get_pos().x, get_pos().y+32, dir));
+    else if (badguy == "skullyhop")
+      Sector::current()->add_object(new SkullyHop(get_pos().x, get_pos().y+44, dir));
     else if (badguy == "random")
     {
-      switch (rand()%6)
+      switch (rand()%7)
       {
         case 0: Sector::current()->add_object(new SnowBall(get_pos().x, get_pos().y+32, dir)); break;
         case 1: Sector::current()->add_object(new BouncingSnowball(get_pos().x, get_pos().y+32, dir)); break;
@@ -114,6 +117,7 @@ Dispenser::launch_badguy()
         case 3: Sector::current()->add_object(new MrIceBlock(get_pos().x, get_pos().y+32, dir, false)); break;
         case 4: Sector::current()->add_object(new PoisonIvy(get_pos().x, get_pos().y+32, dir)); break;
         case 5: Sector::current()->add_object(new SnowSnail(get_pos().x, get_pos().y+32, dir)); break;
+        case 6: Sector::current()->add_object(new SkullyHop(get_pos().x, get_pos().y+44, dir)); break;
       }
     }
   }
