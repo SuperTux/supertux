@@ -932,6 +932,18 @@
          (y-offset -19)
          (mirror-action "squished-left")))
 
+; Angry Stone
+ (sprite (name "angrystone")
+       (action
+         (name "idle")
+         (images "creatures/angrystone/idle-0.png"))
+       (action
+         (name "charging")
+         (images "creatures/angrystone/charging-0.png"))
+       (action
+         (name "attacking")
+         (images "creatures/angrystone/attacking-0.png")))
+
 ;; Game elements follow
           
  (sprite (name "egg")
