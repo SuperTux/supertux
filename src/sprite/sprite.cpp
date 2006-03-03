@@ -67,7 +67,7 @@ Sprite::set_action(const std::string& name, int loops)
 }
 
 bool
-Sprite::check_animation()
+Sprite::animation_done()
 {
   return animation_loops == 0;
 }
@@ -75,7 +75,7 @@ Sprite::check_animation()
 void
 Sprite::update()
 {
-  if(animation_loops == 0)
+  if(animation_done())
     return;
 
   Uint32 ticks = SDL_GetTicks();
@@ -85,11 +85,11 @@ Sprite::update()
   frame += frame_inc;
 
   if(frame >= get_frames()) {
-    frame = fmodf(frame+get_frames(), get_frames());
-    
+    frame = fmodf(frame, get_frames());
+      
     animation_loops--;
-    if(animation_loops == 0)
-      frame = 0;
+    if(animation_done())
+      frame = get_frames()-1;
   }
 }
 

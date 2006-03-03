@@ -53,7 +53,7 @@ public:
   void stop_animation()
   { animation_loops = 0; }
   /** Check if animation is stopped or not */
-  bool check_animation();
+  bool animation_done();
 
   float get_fps() const
   { return action->fps; }
@@ -74,8 +74,10 @@ public:
   int get_frame() const
   { return (int)frame; }
   /** Set current frame */
-  void set_frame(int frame_)
-  { if(frame_ > get_frames()) frame = 0; else frame = frame_; }
+  void set_frame(int frame)
+  { 
+    this->frame = (frame % get_frames()); 
+  }
   Surface* get_frame(unsigned int frame)
   {
     assert(frame < action->surfaces.size());
