@@ -1,7 +1,7 @@
 //  $Id: angrystone.cpp 2979 2006-01-10 00:00:04Z matzebraun $
 // 
-//  SuperTux
-//  Copyright (C) 2005 Matthias Braun <matze@braunis.de>
+//  AngryStone - A spiked block that charges towards the player
+//  Copyright (C) 2006 Christoph Sommer <supertux@2006.expires.deltadevelopment.de>
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -71,6 +71,12 @@ AngryStone::collision_solid(GameObject& , const CollisionHit& hit)
   }
 
   return CONTINUE;
+}
+
+void
+AngryStone::kill_fall()
+{
+  //prevents AngryStone from getting killed by other enemies or the player
 }
 
 HitResponse

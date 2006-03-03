@@ -1,7 +1,7 @@
 //  $Id: angrystone.hpp 2642 2005-06-26 13:38:53Z matzebraun $
 // 
-//  SuperTux
-//  Copyright (C) 2005 Matthias Braun <matze@braunis.de>
+//  AngryStone - A spiked block that charges towards the player
+//  Copyright (C) 2006 Christoph Sommer <supertux@2006.expires.deltadevelopment.de>
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -33,6 +33,7 @@ public:
   HitResponse collision_solid(GameObject& other, const CollisionHit& hit);
   HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
   void active_update(float elapsed_time);
+  void kill_fall();
 
 protected:
   Vector attackDirection;  /**< 1-normalized vector of current attack direction */
