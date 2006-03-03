@@ -7,15 +7,17 @@
  )
  (action
   (name "ringing")
+(fps 14)
   (images
-   "bell1.png"
-   "bell2.png"
-   "bell3.png"
-   "bell2.png"
-   "bell1.png"
-   "bell4.png"
-   "bell5.png"
-   "bell4.png"
+"bell2.png"
+"bell3.png"
+"bell4.png"
+"bell3.png"
+"bell5.png"
+"bell6.png"
+"bell7.png"
+"bell6.png"
+
   )
  )              
 )
