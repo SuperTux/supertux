@@ -930,7 +930,17 @@
          (name "squished-right")
          (x-offset 2)
          (y-offset -19)
-         (mirror-action "squished-left")))
+         (mirror-action "squished-left"))
+       (action
+         (name "diving-left")
+         (x-offset 2)
+         (y-offset 4)
+         (images "creatures/zeekling/diving.png"))
+       (action
+         (name "diving-right")
+         (x-offset 2)
+         (y-offset 4)
+         (mirror-action "left")))
 
 ; Angry Stone
  (sprite (name "angrystone")

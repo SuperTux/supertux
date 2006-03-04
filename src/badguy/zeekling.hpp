@@ -1,7 +1,8 @@
 //  $Id$
 // 
-//  SuperTux
+//  Zeekling - flyer that swoops down when she spots the player
 //  Copyright (C) 2005 Matthias Braun <matze@braunis.de>
+//  Copyright (C) 2006 Christoph Sommer <supertux@2006.expires.deltadevelopment.de>
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -32,12 +33,28 @@ public:
   void activate();
   void write(lisp::Writer& writer);
   HitResponse collision_solid(GameObject& other, const CollisionHit& hit);
+  void active_update(float elapsed_time);
 
 protected:
   bool collision_squished(Player& player);
   bool set_direction;
   Direction initial_direction;
   float speed;
+
+  Timer diveRecoverTimer;
+
+  enum ZeeklingState {
+    FLYING,
+    DIVING,
+    CLIMBING
+  };
+  ZeeklingState state;
+
+private:
+  bool should_we_dive();
+  void onBumpHorizontal();
+  void onBumpVertical();
+
 };
 
 #endif
