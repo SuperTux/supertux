@@ -20,7 +20,6 @@
 #define SUPERTUX_SCREEN_H
 
 #include <SDL.h>
-#include <GL/gl.h>
 #include <iostream>
 
 #include <vector>

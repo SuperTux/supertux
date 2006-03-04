@@ -1,7 +1,6 @@
 #ifndef __IMAGE_TEXTURE_MANAGER_HPP__
 #define __IMAGE_TEXTURE_MANAGER_HPP__
 
-#include <GL/gl.h>
 #include <string>
 #include <vector>
 #include <map>

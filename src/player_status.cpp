@@ -174,6 +174,8 @@ PlayerStatus::read(const lisp::Lisp& lisp)
 void
 PlayerStatus::draw_keys(DrawingContext& context)
 {
+//FIXME: causes some hickups, so it's commented out at the moment
+/*
   const float SPACING = 10;
   float x,y; 
   x = BORDER_X; y = BORDER_Y;
@@ -187,6 +189,7 @@ PlayerStatus::draw_keys(DrawingContext& context)
   x += key_silver->get_width() + SPACING;
   key_gold->draw(context, Vector(x, y), LAYER_FOREGROUND1);
   x += key_gold->get_width() + SPACING;
+*/
 }
 
 void

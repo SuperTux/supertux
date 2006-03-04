@@ -22,8 +22,6 @@
 #include <cassert>
 #include <iostream>
 #include <SDL_image.h>
-#include <GL/gl.h>
-#include <GL/glu.h>
 
 #include "drawing_context.hpp"
 #include "surface.hpp"
@@ -49,30 +47,20 @@ DrawingContext::DrawingContext()
 {
   screen = SDL_GetVideoSurface();
 
-  lightmap_width = screen->w / LIGHTMAP_DIV;
-  lightmap_height = screen->h / LIGHTMAP_DIV;
-  unsigned int width = next_po2(lightmap_width);
-  unsigned int height = next_po2(lightmap_height);
-
-  lightmap = new Texture(width, height, GL_RGB);
-
-  lightmap_uv_right = static_cast<float>(lightmap_width) / static_cast<float>(width);
-  lightmap_uv_bottom = static_cast<float>(lightmap_height) / static_cast<float>(height);
-  texture_manager->register_texture(lightmap);
-
+  target = NORMAL;
   requests = &drawing_requests;
 }
 
 DrawingContext::~DrawingContext()
 {
-  texture_manager->remove_texture(lightmap);
-  delete lightmap;
 }
 
 void
 DrawingContext::draw_surface(const Surface* surface, const Vector& position,
     int layer)
 {
+  if(target != NORMAL) return;
+
   assert(surface != 0);
   
   DrawingRequest request;
@@ -97,6 +85,8 @@ void
 DrawingContext::draw_surface_part(const Surface* surface, const Vector& source,
     const Vector& size, const Vector& dest, int layer)
 {
+  if(target != NORMAL) return;
+
   assert(surface != 0);
 
   DrawingRequest request;
@@ -136,6 +126,8 @@ void
 DrawingContext::draw_text(const Font* font, const std::string& text,
     const Vector& position, FontAlignment alignment, int layer)
 {
+  if(target != NORMAL) return;
+
   DrawingRequest request;
 
   request.type = TEXT;
@@ -157,6 +149,8 @@ void
 DrawingContext::draw_center_text(const Font* font, const std::string& text,
     const Vector& position, int layer)
 {
+  if(target != NORMAL) return;
+
   draw_text(font, text, Vector(position.x + SCREEN_WIDTH/2, position.y),
       CENTER_ALLIGN, layer);
 }
@@ -164,6 +158,8 @@ DrawingContext::draw_center_text(const Font* font, const std::string& text,
 void
 DrawingContext::draw_gradient(const Color& top, const Color& bottom, int layer)
 {
+  if(target != NORMAL) return;
+
   DrawingRequest request;
 
   request.type = GRADIENT;
@@ -185,6 +181,8 @@ void
 DrawingContext::draw_filled_rect(const Vector& topleft, const Vector& size,
                                  const Color& color, int layer)
 {
+  if(target != NORMAL) return;
+
   DrawingRequest request;
 
   request.type = FILLRECT;
@@ -218,23 +216,55 @@ DrawingContext::draw_surface_part(DrawingRequest& request)
   delete surfacepartrequest;
 }
 
+namespace
+{
+  void fillrect(SDL_Surface* screen, float x, float y, float w, float h, int r, int g, int b, int a)
+  {
+    if(w < 0) {
+      x += w;
+      w = -w;
+    }
+    if(h < 0) {
+      y += h;
+      h = -h;
+    }
+
+    SDL_Rect src, rect;
+    SDL_Surface *temp = NULL;
+
+    rect.x = (int)x;
+    rect.y = (int)y;
+    rect.w = (int)w;
+    rect.h = (int)h;
+
+    if(a != 255) {
+      temp = SDL_CreateRGBSurface(screen->flags, rect.w, rect.h, screen->format->BitsPerPixel, screen->format->Rmask, screen->format->Gmask, screen->format->Bmask, screen->format->Amask);
+
+      src.x = 0;
+      src.y = 0;
+      src.w = rect.w;
+      src.h = rect.h;
+
+      SDL_FillRect(temp, &src, SDL_MapRGB(screen->format, r, g, b));
+      SDL_SetAlpha(temp, SDL_SRCALPHA, a);
+      SDL_BlitSurface(temp,0,screen,&rect);
+      SDL_FreeSurface(temp);
+    } else {
+      SDL_FillRect(screen, &rect, SDL_MapRGB(screen->format, r, g, b));
+    }
+  }
+}
+
 void
 DrawingContext::draw_gradient(DrawingRequest& request)
 {
   GradientRequest* gradientrequest = (GradientRequest*) request.request_data;
   const Color& top = gradientrequest->top;
   const Color& bottom = gradientrequest->bottom;
-  
-  glDisable(GL_TEXTURE_2D);
-  glBegin(GL_QUADS);
-  glColor4f(top.red, top.green, top.blue, top.alpha);
-  glVertex2f(0, 0);
-  glVertex2f(SCREEN_WIDTH, 0);
-  glColor4f(bottom.red, bottom.green, bottom.blue, bottom.alpha);
-  glVertex2f(SCREEN_WIDTH, SCREEN_HEIGHT);
-  glVertex2f(0, SCREEN_HEIGHT);
-  glEnd();
-  glEnable(GL_TEXTURE_2D);
+
+  int width = 800;
+  int height = 600;
+  for(float y = 0; y < height; y += 2) ::fillrect(screen, 0, (int)y, width, 2, (int)(((float)(top.red-bottom.red)/(0-height)) * y + top.red), (int)(((float)(top.green-bottom.green)/(0-height)) * y + top.green), (int)(((float)(top.blue-bottom.blue)/(0-height)) * y + top.blue), 255);
 
   delete gradientrequest;
 }
@@ -260,17 +290,12 @@ DrawingContext::draw_filled_rect(DrawingRequest& request)
   float w = fillrectrequest->size.x;
   float h = fillrectrequest->size.y;
 
-  glDisable(GL_TEXTURE_2D);
-  glColor4f(fillrectrequest->color.red, fillrectrequest->color.green,
-            fillrectrequest->color.blue, fillrectrequest->color.alpha);
- 
-  glBegin(GL_QUADS);
-  glVertex2f(x, y);
-  glVertex2f(x+w, y);
-  glVertex2f(x+w, y+h);
-  glVertex2f(x, y+h);
-  glEnd();
-  glEnable(GL_TEXTURE_2D);
+  int r = static_cast<int>(fillrectrequest->color.red);
+  int g = static_cast<int>(fillrectrequest->color.green);
+  int b = static_cast<int>(fillrectrequest->color.blue);
+  int a = static_cast<int>(fillrectrequest->color.alpha);
+
+  ::fillrect(screen, x, y, w, h, r, g, b, a);
 
   delete fillrectrequest;
 }
@@ -285,65 +310,10 @@ DrawingContext::do_drawing()
   transformstack.clear();
   target_stack.clear();
 
-  bool use_lightmap = lightmap_requests.size() != 0;
-  
-  // PART1: create lightmap
-  if(use_lightmap) {
-    glViewport(0, screen->h - lightmap_height, lightmap_width, lightmap_height);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();               
-    glOrtho(0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, -1.0, 1.0);
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-
-    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
-    handle_drawing_requests(lightmap_requests);
-    lightmap_requests.clear();
-  
-    glDisable(GL_BLEND);
-    glBindTexture(GL_TEXTURE_2D, lightmap->get_handle());
-    glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, screen->h - lightmap_height, lightmap_width, lightmap_height);
-
-    glViewport(0, 0, screen->w, screen->h);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();               
-    glOrtho(0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, -1.0, 1.0);
-    glMatrixMode(GL_MODELVIEW);    
-    glLoadIdentity();
-    glEnable(GL_BLEND);
-  }
-
-  //glClear(GL_COLOR_BUFFER_BIT);
   handle_drawing_requests(drawing_requests);
   drawing_requests.clear();
 
-  if(use_lightmap) {
-    glBlendFunc(GL_DST_COLOR, GL_ZERO);
-
-    glBindTexture(GL_TEXTURE_2D, lightmap->get_handle());
-    glBegin(GL_QUADS);
-
-    glTexCoord2f(0, lightmap_uv_bottom);
-    glVertex2f(0, 0);
-
-    glTexCoord2f(lightmap_uv_right, lightmap_uv_bottom);
-    glVertex2f(SCREEN_WIDTH, 0);
-
-    glTexCoord2f(lightmap_uv_right, 0);
-    glVertex2f(SCREEN_WIDTH, SCREEN_HEIGHT);
-
-    glTexCoord2f(0, 0);
-    glVertex2f(0, SCREEN_HEIGHT);
-    
-    glEnd();
-
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-  }
-
-  assert_gl("drawing");
-
-  SDL_GL_SwapBuffers();
+  SDL_Flip(screen);
 }
 
 void
@@ -432,9 +402,5 @@ void
 DrawingContext::set_target(Target target)
 {
   this->target = target;
-  if(target == LIGHTMAP)
-    requests = &lightmap_requests;
-  else
-    requests = &drawing_requests;
 }
 

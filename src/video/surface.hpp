@@ -20,7 +20,9 @@
 #ifndef __SURFACE_HPP__
 #define __SURFACE_HPP__
 
+#include <SDL_image.h>
 #include <string>
+#include <list>
 
 class ImageTexture;
 
@@ -35,6 +37,15 @@ enum DrawingEffect {
 };
 
 /**
+ * Helper class to buffer a pre-transformed SDL_Surface
+ */
+class TransformedSurface {
+    public:
+       SDL_Surface* surface;
+       DrawingEffect effect;
+};
+
+/**
  * A rectangular image.
  * The class basically holds a reference to a texture with additional UV
  * coordinates that specify a rectangular area on this texture
@@ -46,18 +57,23 @@ private:
   friend class Font;
   ImageTexture* texture;
 
-  float uv_left;
-  float uv_top;
-  float uv_right;
-  float uv_bottom;
+  bool flipx;
 
+  /** draw the surface on the screen, applying a ::DrawingEffect on-the-fly. Transformed Surfaces will be cached in ::transformedSurfaces */
   void draw(float x, float y, float alpha, DrawingEffect effect) const;
+
+  /** draw the surface on the screen, applying a ::DrawingEffect on-the-fly. Transformed Surfaces will be cached in ::transformedSurfaces */
   void draw_part(float src_x, float src_y, float dst_x, float dst_y,
                  float width, float height,
                  float alpha, DrawingEffect effect) const;
 
-  float width;
-  float height;
+  int offsetx; /**< Region in ::surface to be used for blitting */
+  int offsety; /**< Region in ::surface to be used for blitting */
+  int width;   /**< Region in ::surface to be used for blitting */
+  int height;  /**< Region in ::surface to be used for blitting */
+
+  mutable std::list<TransformedSurface*> transformedSurfaces; /**< Cache for pre-transformed surfaces */
+
 public:
   Surface(const std::string& file);
   Surface(const std::string& file, int x, int y, int w, int h);

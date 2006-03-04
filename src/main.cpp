@@ -36,7 +36,6 @@
 #include <SDL.h>
 #include <SDL_mixer.h>
 #include <SDL_image.h>
-#include <SDL_opengl.h>
 
 #include "gameconfig.hpp"
 #include "resources.hpp"
@@ -268,44 +267,6 @@ static void init_sdl()
       ;
 }
 
-static void check_gl_error()
-{
-  GLenum glerror = glGetError();
-  std::string errormsg;
-  
-  if(glerror != GL_NO_ERROR) {
-    switch(glerror) {
-      case GL_INVALID_ENUM:
-        errormsg = "Invalid enumeration value";
-        break;
-      case GL_INVALID_VALUE:
-        errormsg = "Numeric argzment out of range";
-        break;
-      case GL_INVALID_OPERATION:
-        errormsg = "Invalid operation";
-        break;
-      case GL_STACK_OVERFLOW:
-        errormsg = "stack overflow";
-        break;
-      case GL_STACK_UNDERFLOW:
-        errormsg = "stack underflow";
-        break;
-      case GL_OUT_OF_MEMORY:
-        errormsg = "out of memory";
-        break;
-      case GL_TABLE_TOO_LARGE:
-        errormsg = "table too large";
-        break;
-      default:
-        errormsg = "unknown error number";
-        break;
-    }
-    std::stringstream msg;
-    msg << "OpenGL Error: " << errormsg;
-    throw std::runtime_error(msg.str());
-  }
-}
-
 void init_video()
 {
   if(texture_manager != NULL)
@@ -316,7 +277,7 @@ void init_video()
   SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 5);
   SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 5);
   
-  int flags = SDL_OPENGL;
+  int flags = SDL_SWSURFACE;
   if(config->use_fullscreen)
     flags |= SDL_FULLSCREEN;
   int width = config->screenwidth;
@@ -345,24 +306,6 @@ void init_video()
     std::cerr << "Warning: Couldn't find icon 'images/engine/icons/supertux.xpm'.\n";
   }
 #endif
-
-  // setup opengl state and transform
-  glDisable(GL_DEPTH_TEST);
-  glDisable(GL_CULL_FACE);
-  glEnable(GL_TEXTURE_2D);
-  glEnable(GL_BLEND);
-  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-  glViewport(0, 0, screen->w, screen->h);
-  glMatrixMode(GL_PROJECTION);
-  glLoadIdentity();
-  // logical resolution here not real monitor resolution
-  glOrtho(0, 800, 600, 0, -1.0, 1.0);
-  glMatrixMode(GL_MODELVIEW);
-  glLoadIdentity();
-  glTranslatef(0, 0, 0);
-
-  check_gl_error();
 
   if(texture_manager != NULL)
     texture_manager->reload_textures();

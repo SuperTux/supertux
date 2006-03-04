@@ -11,7 +11,7 @@ dnl ===========================================================================
 
 dnl Process this file with autoconf to produce a configure script.
 AC_PREREQ([2.54])
-AC_INIT(supertux, 0.2-svn)
+AC_INIT(supertux, 0.2-nogl-svn)
 AC_CONFIG_SRCDIR([src/main.cpp])
 AC_CONFIG_AUX_DIR([mk/autoconf])
 AC_CANONICAL_TARGET
@@ -105,6 +105,14 @@ NP_FINDLIB([SDLIMAGE], [SDL_image], [SDL_image >= 1.2],
         [AC_MSG_ERROR([Please install SDLImage >= 1.2.1])],
         [$SDL_CFLAGS], [$SDL_LIBS])
 
+dnl FIXME: This is far from perfect
+NP_FINDLIB([SDLGFX], [SDL_gfx], [SDL_gfx >= 2.0.13],
+        NP_LANG_PROGRAM([#include <SDL_rotozoom.h>], [0;]),
+        [], [-lSDL_gfx],
+        [],
+        [AC_MSG_ERROR([Please install SDL_gfx >= 2.0.13])],
+        [$SDL_CFLAGS], [$SDL_LIBS])
+
 NP_FINDLIB([PHYSFS], [physfs], [physfs >= 1.0.0],
         NP_LANG_PROGRAM([
 #include <stdio.h>
@@ -123,11 +131,6 @@ NP_FINDLIB([OPENAL], [OpenAL], [OpenAL],
          [],
          [AC_MSG_ERROR([Please intall OpenAL])],
          [], [])
-
-AX_CHECK_GL
-if test "$no_gl" = "yes"; then
-  AC_MSG_ERROR([Please install opengl libraries and headers])
-fi
 
 dnl Checks for library functions.
 AC_CHECK_FUNCS(mkdir strdup strstr)

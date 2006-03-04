@@ -20,7 +20,7 @@
 #define __TEXTURE_HPP__
 
 #include <SDL.h>
-#include <GL/gl.h>
+#include "glutil.hpp"
 
 /**
  * This class is a wrapper around a texture handle. It stores the texture width
@@ -30,8 +30,9 @@
 class Texture
 {
 protected:
+  SDL_Surface* surface; /**< non-GL branch stores optimized surface */
+
   friend class TextureManager;
-  GLuint handle;
   unsigned int width;
   unsigned int height;
 
@@ -40,11 +41,6 @@ public:
   Texture(SDL_Surface* surface, GLenum glformat);
   virtual ~Texture();
   
-  GLuint get_handle() const
-  {
-    return handle;
-  }
-
   unsigned int get_width() const
   {
     return width;
@@ -53,6 +49,14 @@ public:
   unsigned int get_height() const
   {
     return height;
+  }
+
+  SDL_Surface* getSurface() {
+    return surface;
+  }
+
+  void setSurface(SDL_Surface* surface) {
+    this->surface = surface;
   }
 
 private:

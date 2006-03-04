@@ -17,6 +17,7 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
+
 #include <config.h>
 
 #include <cassert>
@@ -28,6 +29,7 @@
 
 #include <SDL.h>
 #include <SDL_image.h>
+#include <SDL_rotozoom.h>
 
 #include "gameconfig.hpp"
 #include "physfs/physfs_sdl.hpp"
@@ -40,13 +42,13 @@ Surface::Surface(const std::string& file)
 {
   texture = texture_manager->get(file);
   texture->ref();
-  uv_left = 0;
-  uv_top = 0;
-  uv_right = texture->get_uv_right();
-  uv_bottom = texture->get_uv_bottom();
 
-  width = texture->get_image_width();
-  height = texture->get_image_height();
+  offsetx = 0;
+  offsety = 0;
+  width = static_cast<int>(texture->get_image_width());
+  height = static_cast<int>(texture->get_image_height());
+
+  flipx = false;
 }
 
 Surface::Surface(const std::string& file, int x, int y, int w, int h)
@@ -54,15 +56,12 @@ Surface::Surface(const std::string& file, int x, int y, int w, int h)
   texture = texture_manager->get(file);
   texture->ref();
 
-  float tex_w = static_cast<float> (texture->get_width());
-  float tex_h = static_cast<float> (texture->get_height());
-  uv_left = static_cast<float>(x) / tex_w;
-  uv_top = static_cast<float>(y) / tex_h;
-  uv_right = static_cast<float>(x+w) / tex_w;
-  uv_bottom = static_cast<float>(y+h) / tex_h;
-
+  offsetx = x;
+  offsety = y;
   width = w;
   height = h;
+
+  flipx = false;
 }
 
 Surface::Surface(const Surface& other)
@@ -70,12 +69,12 @@ Surface::Surface(const Surface& other)
   texture = other.texture;
   texture->ref();
 
-  uv_left = other.uv_left;
-  uv_top = other.uv_top;
-  uv_right = other.uv_right;
-  uv_bottom = other.uv_bottom;
+  offsetx = other.offsetx;
+  offsety = other.offsety;
   width = other.width;
   height = other.height;
+
+  flipx = other.flipx;
 }
 
 const Surface&
@@ -85,12 +84,12 @@ Surface::operator= (const Surface& other)
   texture->unref();
   texture = other.texture;
 
-  uv_left = other.uv_left;
-  uv_top = other.uv_top;
-  uv_right = other.uv_right;
-  uv_bottom = other.uv_bottom;
+  offsetx = other.offsetx;
+  offsety = other.offsety;
   width = other.width;
   height = other.height;
+
+  flipx = other.flipx;
 
   return *this;
 }
@@ -98,48 +97,23 @@ Surface::operator= (const Surface& other)
 Surface::~Surface()
 {
   texture->unref();
+
+  for (std::list<TransformedSurface*>::iterator i = transformedSurfaces.begin(); i != transformedSurfaces.end(); i++) {
+    SDL_FreeSurface((*i)->surface);
+    delete (*i);
+  }
 }
 
 void
 Surface::hflip()
 {
-  std::swap(uv_left, uv_right);
-}
-
-static inline void intern_draw(float left, float top, float right, float bottom,                               float uv_left, float uv_top,
-                               float uv_right, float uv_bottom,
-                               DrawingEffect effect)
-{
-  if(effect & HORIZONTAL_FLIP)
-    std::swap(uv_left, uv_right);
-  if(effect & VERTICAL_FLIP) {
-    std::swap(uv_top, uv_bottom);
-  }
-  
-  glBegin(GL_QUADS);
-  glTexCoord2f(uv_left, uv_top);
-  glVertex2f(left, top);
-  
-  glTexCoord2f(uv_right, uv_top);
-  glVertex2f(right, top);
-
-  glTexCoord2f(uv_right, uv_bottom);
-  glVertex2f(right, bottom);
-
-  glTexCoord2f(uv_left, uv_bottom);
-  glVertex2f(left, bottom);
-  glEnd();
+  flipx = !flipx;
 }
 
 void
 Surface::draw(float x, float y, float alpha, DrawingEffect effect) const
 {
-  glColor4f(1.0f, 1.0f, 1.0f, alpha);
-  glBindTexture(GL_TEXTURE_2D, texture->get_handle());
-
-  intern_draw(x, y,
-              x + width, y + height,
-              uv_left, uv_top, uv_right, uv_bottom, effect);
+  draw_part(0, 0, x, y, width, height, alpha, effect);
 }
 
 void
@@ -147,19 +121,58 @@ Surface::draw_part(float src_x, float src_y, float dst_x, float dst_y,
                    float width, float height, float alpha,
                    DrawingEffect effect) const
 {
-  float uv_width = uv_right - uv_left;
-  float uv_height = uv_bottom - uv_top;
-  
-  float uv_left = this->uv_left + (uv_width * src_x) / this->width;
-  float uv_top = this->uv_top + (uv_height * src_y) / this->height;
-  float uv_right = this->uv_left + (uv_width * (src_x + width)) / this->width;
-  float uv_bottom = this->uv_top + (uv_height * (src_y + height)) / this->height;
-  
-  glColor4f(1.0f, 1.0f, 1.0f, alpha);
-  glBindTexture(GL_TEXTURE_2D, texture->get_handle());  
-  
-  intern_draw(dst_x, dst_y,
-              dst_x + width, dst_y + height,
-              uv_left, uv_top, uv_right, uv_bottom, effect);
+  //FIXME: support parameter "alpha"
+  SDL_Surface* surface = texture->getSurface();
+
+  // get and check SDL_Surface
+  if (surface == 0) {
+    std::cerr << "Warning: Tried to draw NULL surface, skipped draw" << std::endl;
+    return;
+  }	
+
+  SDL_Surface* transformedSurface = surface;
+
+  if (flipx) effect = HORIZONTAL_FLIP;
+
+  if (effect != NO_EFFECT) {
+    transformedSurface = 0;
+
+    // check if we have this effect buffered
+    for (std::list<TransformedSurface*>::const_iterator i = transformedSurfaces.begin(); i != transformedSurfaces.end(); i++) {
+      if ((*i)->effect == effect) transformedSurface = (*i)->surface;
+    }
+
+    // if not: transform and buffer
+    if (!transformedSurface) {
+      if (effect == HORIZONTAL_FLIP) transformedSurface = zoomSurface(surface, -1, 1, 0);
+      if (effect == VERTICAL_FLIP) transformedSurface = zoomSurface(surface, 1, -1, 0);
+      if (transformedSurface == 0) {
+        std::cerr << "Warning: No known transformation applies to surface, skipped draw" << std::endl;
+        return;
+      }	
+      TransformedSurface* su = new TransformedSurface();
+      su->surface = transformedSurface;
+      su->effect = effect;
+
+      transformedSurfaces.push_front(su);
+    }
+  }
+
+  int ox = offsetx; if (effect == HORIZONTAL_FLIP) ox = static_cast<int>(surface->w) - (ox+static_cast<int>(width));
+  int oy = offsety; if (effect == VERTICAL_FLIP) oy = static_cast<int>(surface->h) - (oy+static_cast<int>(height));
+  // draw surface to screen
+  SDL_Surface* screen = SDL_GetVideoSurface();
+
+  SDL_Rect srcRect;
+  srcRect.x = static_cast<int>(ox+src_x);
+  srcRect.y = static_cast<int>(oy+src_y);
+  srcRect.w = static_cast<int>(width);
+  srcRect.h = static_cast<int>(height);
+
+  SDL_Rect dstRect;
+  dstRect.x = static_cast<int>(dst_x);
+  dstRect.y = static_cast<int>(dst_y);
+
+  SDL_BlitSurface(transformedSurface, &srcRect, screen, &dstRect);
 }
 

@@ -38,27 +38,43 @@
 
 static const float LOOP_DELAY = 20.0;
 
+
 void fillrect(float x, float y, float w, float h, int r, int g, int b, int a)
-{
-  if(w < 0) {
-    x += w;
-    w = -w;
-  }
-  if(h < 0) {
-    y += h;
-    h = -h;
-  }
+  {
+    SDL_Surface* screen = SDL_GetVideoSurface();
 
-  glColor4ub(r, g, b,a);
+    if(w < 0) {
+      x += w;
+      w = -w;
+    }
+    if(h < 0) {
+      y += h;
+      h = -h;
+    }
 
-  glDisable(GL_TEXTURE_2D);
-  glBegin(GL_POLYGON);
-  glVertex2f(x, y);
-  glVertex2f(x+w, y);
-  glVertex2f(x+w, y+h);
-  glVertex2f(x, y+h);
-  glEnd();
-  glEnable(GL_TEXTURE_2D);
+    SDL_Rect src, rect;
+    SDL_Surface *temp = NULL;
+
+    rect.x = (int)x;
+    rect.y = (int)y;
+    rect.w = (int)w;
+    rect.h = (int)h;
+
+    if(a != 255) {
+      temp = SDL_CreateRGBSurface(screen->flags, rect.w, rect.h, screen->format->BitsPerPixel, screen->format->Rmask, screen->format->Gmask, screen->format->Bmask, screen->format->Amask);
+
+      src.x = 0;
+      src.y = 0;
+      src.w = rect.w;
+      src.h = rect.h;
+
+      SDL_FillRect(temp, &src, SDL_MapRGB(screen->format, r, g, b));
+      SDL_SetAlpha(temp, SDL_SRCALPHA, a);
+      SDL_BlitSurface(temp,0,screen,&rect);
+      SDL_FreeSurface(temp);
+    }
+    else
+    SDL_FillRect(screen, &rect, SDL_MapRGB(screen->format, r, g, b));
 }
 
 void fadeout(int fade_time)
@@ -70,12 +86,11 @@ void fadeout(int fade_time)
     alpha -= alpha_inc;
     fillrect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0,0,0, (int)alpha_inc);  // left side
     
-    SDL_GL_SwapBuffers();
+    SDL_Flip(SDL_GetVideoSurface());
     sound_manager->update();
     
     SDL_Delay(int(LOOP_DELAY));
   }
-
   fillrect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 0, 255);
 }
 
@@ -95,12 +110,12 @@ void shrink_fade(const Vector& point, int fade_time)
     up_cor    += up_inc;
     down_cor  += down_inc;
                                                                                 
-    fillrect(0, 0, left_cor, SCREEN_HEIGHT, 0,0,0);  // left side
-    fillrect(SCREEN_WIDTH - right_cor, 0, right_cor, SCREEN_HEIGHT, 0,0,0);  // right side
-    fillrect(0, 0, SCREEN_WIDTH, up_cor, 0,0,0);  // up side
-    fillrect(0, SCREEN_HEIGHT - down_cor, SCREEN_WIDTH, down_cor+1, 0,0,0);  // down side                                                                                
+    fillrect(0, 0, left_cor, SCREEN_HEIGHT, 0,0,0, 255);  // left side
+    fillrect(SCREEN_WIDTH - right_cor, 0, right_cor, SCREEN_HEIGHT, 0,0,0, 255);  // right side
+    fillrect(0, 0, SCREEN_WIDTH, up_cor, 0,0,0, 255);  // up side
+    fillrect(0, SCREEN_HEIGHT - down_cor, SCREEN_WIDTH, down_cor+1, 0,0,0, 255);  // down side
 
-    SDL_GL_SwapBuffers();
+    SDL_Flip(SDL_GetVideoSurface());
   
     sound_manager->update();
     SDL_Delay(int(LOOP_DELAY));

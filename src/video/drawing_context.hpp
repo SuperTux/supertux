@@ -23,7 +23,6 @@
 #include <string>
 #include <stdint.h>
 
-#include <GL/gl.h>
 #include <SDL.h>
 #include <stdint.h>
 #include <memory>
@@ -33,8 +32,9 @@
 #include "font.hpp"
 #include "color.hpp"
 
+#include "glutil.hpp"
+
 class Surface;
-class Texture;
 
 // some constants for predefined layer values
 enum {
@@ -202,16 +202,12 @@ private:
   void draw_filled_rect(DrawingRequest& request);
   
   DrawingRequests drawing_requests;
-  DrawingRequests lightmap_requests;
 
   DrawingRequests* requests;
 
   SDL_Surface* screen;
   Target target;
   std::vector<Target> target_stack;
-  Texture* lightmap;
-  int lightmap_width, lightmap_height;
-  float lightmap_uv_right, lightmap_uv_bottom;
 };
 
 #endif

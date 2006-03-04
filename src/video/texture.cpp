@@ -20,7 +20,6 @@
 
 #include "texture.hpp"
 
-#include <GL/gl.h>
 #include <assert.h>
 #include "glutil.hpp"
 
@@ -36,21 +35,8 @@ Texture::Texture(unsigned int w, unsigned int h, GLenum glformat)
 
   this->width = w;
   this->height = h;
-  
-  assert_gl("before creating texture");
-  glGenTextures(1, &handle);
-  
-  try {
-    glBindTexture(GL_TEXTURE_2D, handle);
 
-    glTexImage2D(GL_TEXTURE_2D, 0, glformat, width, height, 0, GL_RGBA,
-                 GL_UNSIGNED_BYTE, 0);
-
-    set_texture_params();
-  } catch(...) {
-    glDeleteTextures(1, &handle);
-    throw;
-  }
+  surface = 0;
 }
 
 Texture::Texture(SDL_Surface* image, GLenum glformat)
@@ -60,50 +46,19 @@ Texture::Texture(SDL_Surface* image, GLenum glformat)
     throw std::runtime_error("image has no power of 2 size");
   if(format->BitsPerPixel != 24 && format->BitsPerPixel != 32)
     throw std::runtime_error("image has no 24 or 32 bit color depth");
-  
+
   this->width = image->w;
   this->height = image->h;
 
-  assert_gl("before creating texture");
-  glGenTextures(1, &handle);
-  
-  try {
-    GLenum sdl_format;
-    if(format->BytesPerPixel == 3)
-      sdl_format = GL_RGB;
-    else if(format->BytesPerPixel == 4)
-      sdl_format = GL_RGBA;
-    else
-      assert(false);
-
-    glBindTexture(GL_TEXTURE_2D, handle);
-    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-    glPixelStorei(GL_UNPACK_ROW_LENGTH, image->pitch/format->BytesPerPixel);
-    glTexImage2D(GL_TEXTURE_2D, 0, glformat, width, height, 0, sdl_format,
-            GL_UNSIGNED_BYTE, image->pixels);
-
-    assert_gl("creating texture");
-
-    set_texture_params();    
-  } catch(...) {
-    glDeleteTextures(1, &handle);
-    throw;
-  }
+  surface = SDL_DisplayFormatAlpha(image);
 }
 
 Texture::~Texture()
 {
-  glDeleteTextures(1, &handle);
 }
 
 void
 Texture::set_texture_params()
 {
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-
-  assert_gl("set texture params");
 }
 

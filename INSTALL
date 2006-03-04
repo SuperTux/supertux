@@ -1,7 +1,7 @@
 - Install instructions for SuperTux -
 http://supertux.berlios.de/
 
-Last update: October 11, 2005 by Ondra Hosek
+Last update: March 4, 2006 by Christoph Sommer
 
 BINARIES
 --------
@@ -34,16 +34,14 @@ REQUIREMENTS
     Download: ftp://ftp.perforce.com/pub/jam
     Homepage: http://www.perforce.com/jam/jam.html
 
-* OpenGL headers and libraries
-    opengl libraries and headers are specific to your graphics card. Make sure
-    that you have hardware accelerated opengl drivers installed. Software
-    renderers like Mesa will make supertux unplayable slow.
-
 * SDL 1.2.5 or later (1.2.8 is recommended on MacOS/X)
     http://www.libsdl.org
 
 * SDL_image (any version)
     http://www.libsdl.org/projects/SDL_image
+
+* SDL_gfx (2.0.13 or later)
+    http://www.ferzkopp.net/Software/SDL_gfx-2.0/
 
 * PhysicsFS (1.0.0, the development branch 1.1.x is buggy and does not work,
              1.2.0 and later should work when it is released)

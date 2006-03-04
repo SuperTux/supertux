@@ -339,7 +339,7 @@ void title()
         context.draw_surface(logo, Vector(SCREEN_WIDTH/2 - logo->get_width()/2, 30),
             LAYER_FOREGROUND1+1);
 
-      context.draw_text(white_small_text, " SuperTux " PACKAGE_VERSION "\n",
+      context.draw_text(white_small_text, " SuperTux " PACKAGE_VERSION " - This is an unsupported, experimental branch made by Christoph Sommer\n",
               Vector(0, SCREEN_HEIGHT - 50), LEFT_ALLIGN, LAYER_FOREGROUND1);
       context.draw_text(white_small_text,
         _(

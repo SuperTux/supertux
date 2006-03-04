@@ -2,7 +2,7 @@
 - An introduction for SuperTux -
 http://supertux.berlios.de/
 
-Last update: October 13, 2005
+Last update: March 4, 2006 by Christoph Sommer
 
 DESCRIPTION
 -----------
@@ -75,10 +75,9 @@ RUNNING THE GAME
   Also, notice that SuperTux saves the options, so it's often enough to
   specify them once.
 
-  The game uses OpenGL to render the graphics. You will either need a CPU
-  with about 10 GHz or an accelerated video card with the vendor's drivers.
-  (On Linux, the team recommends using cards from NVidia with the proprietary
-  drivers, but ATI or another verndor should do.)
+  The game uses SDL to render the graphics. You will either need a CPU
+  with about 1 GHz or go get the original version of SuperTux which uses
+  OpenGL.
 
 
 PLAYING THE GAME
