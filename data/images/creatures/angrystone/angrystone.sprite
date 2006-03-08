@@ -1,0 +1,10 @@
+(supertux-sprite
+	(action
+	  (name "idle")
+	  (images "idle-0.png"))
+	(action
+	  (name "charging")
+	  (images "charging-0.png"))
+	(action
+	  (name "attacking")
+	  (images "attacking-0.png")))

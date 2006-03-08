@@ -1,0 +1,48 @@
+(supertux-sprite
+	(action
+	  (name "left")
+	  (x-offset 2)
+	  (y-offset 3)
+	  (images "snowsnail1.png"
+		  "snowsnail2.png"
+		  "snowsnail3.png"
+		  ))
+
+	(action (name "right")
+		(x-offset 2)
+		(y-offset 3)
+		(mirror-action "left"))
+
+	(action (name "falling-left")
+		(x-offset 2)
+		(y-offset 3)
+		(images "snowsnail_flip1.png"
+			"snowsnail_flip2.png"
+			"snowsnail_flip3.png"
+			"snowsnail_flip4.png"
+			"snowsnail_flip5.png"
+			"snowsnail_flip6.png"
+			"snowsnail_flip7.png"
+			))
+
+	(action (name "falling-right")
+		(x-offset 2)
+		(y-offset 3)
+		(mirror-action "falling-left"))
+
+	(action (name "flat-left")
+		(x-offset 2)
+		(y-offset 3)
+		(images "snowsnail_flip1.png"
+			"snowsnail_flip2.png"
+			"snowsnail_flip3.png"
+			"snowsnail_flip4.png"
+			"snowsnail_flip5.png"
+			"snowsnail_flip6.png"
+			"snowsnail_flip7.png"
+			))
+
+	(action (name "flat-right")
+		(x-offset 2)
+		(y-offset 3)
+		(mirror-action "falling-left")))

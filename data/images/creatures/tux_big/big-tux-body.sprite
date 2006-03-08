@@ -1,0 +1,95 @@
+(supertux-sprite
+       (action
+         (name "walk-right")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 32)
+         (images "body-stand-0.png"))
+
+       (action
+         (name "walk-left")
+         (fps 15.0)
+         (x-offset 27)
+         (y-offset 32)
+         (mirror-action "walk-right"))
+
+       (action
+         (name "stand-right")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 32)
+         (images "body-stand-0.png"))
+
+       (action
+         (name "stand-left")
+         (fps 15.0)
+         (x-offset 27)
+         (y-offset 32)
+         (mirror-action "stand-right"))
+
+       (action
+         (name "jump-right")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 30)
+         (images "body-stand-0.png"))
+
+       (action
+         (name "jump-left")
+         (fps 15.0)
+         (x-offset 27)
+         (y-offset 30)
+         (mirror-action "jump-right"))
+
+       (action
+         (name "duck-right")
+         (fps 15.0)
+         (x-offset 5)
+         (y-offset 62)
+         (images "body-duck-0.png"))
+
+       (action
+         (name "duck-left")
+         (fps 15.0)
+         (x-offset 27)
+         (y-offset 62)
+         (mirror-action "duck-right"))
+
+       (action
+         (name "skid-right")
+         (x-offset 6)
+         (y-offset 31)
+         (images "body-skid-0.png"))
+
+       (action
+         (name "skid-left")
+         (fps 15.0)
+         (x-offset 27)
+         (y-offset 31)
+         (mirror-action "skid-right"))
+
+       (action
+         (name "kick-right")
+         (x-offset 5)
+         (y-offset 32)
+         (images "body-stand-0.png"))
+
+       (action
+         (name "kick-left")
+         (fps 15.0)
+         (x-offset 27)
+         (y-offset 32)
+         (mirror-action "kick-right"))
+
+       (action
+         (name "buttjump-right")
+         (x-offset 5)
+         (y-offset 32)
+         (images "body-stand-0.png"))
+
+       (action
+         (name "buttjump-left")
+         (fps 15.0)
+         (x-offset 27)
+         (y-offset 32)
+         (mirror-action "buttjump-right")))

@@ -31,7 +31,7 @@ Stalactite::Stalactite(const lisp::Lisp& lisp)
   lisp.get("x", start_position.x);
   lisp.get("y", start_position.y);
   bbox.set_size(31.8, 31.8);
-  sprite = sprite_manager->create("stalactite");
+  sprite = sprite_manager->create("images/creatures/stalactite/stalactite.sprite");
   state = STALACTITE_HANGING;
   countMe = false;
 }

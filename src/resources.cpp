@@ -91,27 +91,27 @@ void load_shared()
 
   small_tux = new TuxBodyParts();
   small_tux->head = 0;
-  small_tux->body = sprite_manager->create("small-tux-body");
-  small_tux->arms = sprite_manager->create("small-tux-arms");
+  small_tux->body = sprite_manager->create("images/creatures/tux_small/small-tux-body.sprite");
+  small_tux->arms = sprite_manager->create("images/creatures/tux_small/small-tux-arms.sprite");
   small_tux->feet = 0;
 
   big_tux = new TuxBodyParts();
-  big_tux->head = sprite_manager->create("big-tux-head");
-  big_tux->body = sprite_manager->create("big-tux-body");
-  big_tux->arms = sprite_manager->create("big-tux-arms");
-  big_tux->feet = sprite_manager->create("big-tux-feet");
+  big_tux->head = sprite_manager->create("images/creatures/tux_big/big-tux-head.sprite");
+  big_tux->body = sprite_manager->create("images/creatures/tux_big/big-tux-body.sprite");
+  big_tux->arms = sprite_manager->create("images/creatures/tux_big/big-tux-arms.sprite");
+  big_tux->feet = sprite_manager->create("images/creatures/tux_big/big-tux-feet.sprite");
 
   fire_tux = new TuxBodyParts();
-  fire_tux->head = sprite_manager->create("big-fire-tux-head");
-  fire_tux->body = sprite_manager->create("big-tux-body");
-  fire_tux->arms = sprite_manager->create("big-tux-arms");
-  fire_tux->feet = sprite_manager->create("big-tux-feet");
+  fire_tux->head = sprite_manager->create("images/creatures/tux_big/big-fire-tux-head.sprite");
+  fire_tux->body = sprite_manager->create("images/creatures/tux_big/big-tux-body.sprite");
+  fire_tux->arms = sprite_manager->create("images/creatures/tux_big/big-tux-arms.sprite");
+  fire_tux->feet = sprite_manager->create("images/creatures/tux_big/big-tux-feet.sprite");
 
   ice_tux = new TuxBodyParts();
-  ice_tux->head = sprite_manager->create("big-tux-head");
-  ice_tux->body = sprite_manager->create("big-tux-body");
-  ice_tux->arms = sprite_manager->create("big-tux-arms");
-  ice_tux->feet = sprite_manager->create("big-tux-feet");
+  ice_tux->head = sprite_manager->create("images/creatures/tux_big/big-tux-head.sprite");
+  ice_tux->body = sprite_manager->create("images/creatures/tux_big/big-tux-body.sprite");
+  ice_tux->arms = sprite_manager->create("images/creatures/tux_big/big-tux-arms.sprite");
+  ice_tux->feet = sprite_manager->create("images/creatures/tux_big/big-tux-feet.sprite");
 
   /* Tux life: */
   tux_life = new Surface("images/creatures/tux_small/tux-life.png");
