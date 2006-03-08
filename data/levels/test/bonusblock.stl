@@ -133,7 +133,7 @@
          (image "images/background/arctis.jpg")
          (speed 0.500000)
        )
-       (powerup (x 135) (y 600) (sprite "egg"))
+       (powerup (x 135) (y 600) (sprite "images/powerups/egg/egg.sprite"))
        (spawnpoint (name "main") (x 33) (y 160))
       (infoblock (x 128) (y 800)
         (message (_ "-Info

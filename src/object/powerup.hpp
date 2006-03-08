@@ -37,6 +37,7 @@ public:
   virtual HitResponse collision(GameObject& other, const CollisionHit& hit);
   
 private:
+  std::string sprite_name;
   Sprite* sprite;
   Physic physic;
   std::string script;

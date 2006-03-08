@@ -34,9 +34,9 @@ Flower::Flower(Type _type)
   bbox.set_size(32, 32);
 
   if(_type == FIREFLOWER)
-    sprite = sprite_manager->create("fireflower");
+    sprite = sprite_manager->create("images/powerups/fireflower/fireflower.sprite");
   else
-    sprite = sprite_manager->create("iceflower"); 
+    sprite = sprite_manager->create("images/powerups/iceflower/iceflower.sprite"); 
 
   set_group(COLGROUP_TOUCHABLE);
 }

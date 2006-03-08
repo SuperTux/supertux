@@ -5,37 +5,7 @@
 
 ;; Bad Guys are in separate .sprite files
 
-;; Game elements follow
-          
- (sprite (name "egg")
-       (action
-         (images "powerups/egg/egg.png")))
- (sprite (name "1up")
-       (action
-         (images "powerups/1up/1up.png")))
- (sprite (name "star")
-       (action
-         (images "powerups/star/star-0.png"
-                 "powerups/star/star-1.png"
-                 "powerups/star/star-2.png"
-                 "powerups/star/star-3.png"
-                 "powerups/star/star-4.png"
-                 "powerups/star/star-3.png"
-                 "powerups/star/star-2.png"
-                 "powerups/star/star-1.png")))
- (sprite (name "fireflower")
-       (action
-         (images "powerups/fire_flower/fire_flower-0.png"
-                 "powerups/fire_flower/fire_flower-1.png"
-                 "powerups/fire_flower/fire_flower-2.png"
-                 "powerups/fire_flower/fire_flower-3.png"
-                 "powerups/fire_flower/fire_flower-2.png"
-                 "powerups/fire_flower/fire_flower-1.png")))
- (sprite (name "iceflower")
-       (action
-         (images "powerups/ice_flower/ice_flower-0.png"
-                 "powerups/ice_flower/ice_flower-1.png"
-                 "powerups/ice_flower/ice_flower-2.png")))
+;; Game elements are in separate .sprite files
 
 ;; Game Objects follow
 

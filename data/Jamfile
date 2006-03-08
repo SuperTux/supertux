@@ -24,8 +24,8 @@ IMAGEPATHS =
 	images/powerups/1up
 	images/powerups/egg
 	images/powerups/star
-	images/powerups/ice_flower
-	images/powerups/fire_flower
+	images/powerups/iceflower
+	images/powerups/fireflower
 	images/engine
 	images/engine/menu
 	images/engine/fonts

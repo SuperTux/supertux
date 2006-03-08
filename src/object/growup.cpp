@@ -32,7 +32,7 @@ GrowUp::GrowUp()
 {
   bbox.set_size(32, 32);
   
-  sprite = sprite_manager->create("egg");
+  sprite = sprite_manager->create("images/powerups/egg/egg.sprite");
   physic.enable_gravity(true);
   physic.set_velocity_x(100);
   set_group(COLGROUP_MOVING);

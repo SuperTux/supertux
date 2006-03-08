@@ -31,7 +31,6 @@
 
 PowerUp::PowerUp(const lisp::Lisp& lisp)
 {
-  std::string sprite_name;
   lisp.get("x", bbox.p1.x);
   lisp.get("y", bbox.p1.y);
   lisp.get("sprite", sprite_name);
@@ -76,17 +75,17 @@ PowerUp::collision(GameObject& other, const CollisionHit& hit)
         script);
     return ABORT_MOVE;
   }
-  
+
   // some defaults if no script has been set
-  if (sprite->get_name() == "egg") {
+  if (sprite_name == "images/powerups/egg/egg.sprite") {
     player->set_bonus(GROWUP_BONUS, true);
     sound_manager->play("sounds/grow.wav");
-  } else if (sprite->get_name() == "fireflower") {
+  } else if (sprite_name == "images/powerups/fireflower/fireflower.sprite") {
     player->set_bonus(FIRE_BONUS, true);
     sound_manager->play("sounds/fire-flower.wav");
-  } else if (sprite->get_name() == "star") {
+  } else if (sprite_name == "images/powerups/star/star.sprite") {
     player->make_invincible();
-  } else if (sprite->get_name() == "1up") {
+  } else if (sprite_name == "images/powerups/1up/1up.sprite") {
     player->get_status()->incLives();
   }
   return ABORT_MOVE;
