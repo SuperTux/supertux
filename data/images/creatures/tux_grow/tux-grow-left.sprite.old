@@ -1,0 +1,12 @@
+(supertux-sprite
+       (action
+          (fps 4.0)
+          (x-offset 6)
+          (y-offset 2)
+          (images "left-1.png"
+                  "left-2.png"
+                  "left-3.png"
+                  "left-4.png"
+                  "left-5.png"
+                  "left-6.png"
+                  "left-7.png")))

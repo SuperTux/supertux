@@ -101,9 +101,9 @@ Player::Player(PlayerStatus* _player_status)
   : player_status(_player_status), grabbed_object(0)
 {
   controller = main_controller;
-  smalltux_gameover = sprite_manager->create("smalltux-gameover");
-  smalltux_star = sprite_manager->create("smalltux-star");
-  bigtux_star = sprite_manager->create("bigtux-star");
+  smalltux_gameover = sprite_manager->create("images/creatures/tux_small/smalltux-gameover.sprite");
+  smalltux_star = sprite_manager->create("images/creatures/tux_small/smalltux-star.sprite");
+  bigtux_star = sprite_manager->create("images/creatures/tux_big/bigtux-star.sprite");
   init();
 }
 

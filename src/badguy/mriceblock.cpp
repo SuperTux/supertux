@@ -35,7 +35,7 @@ MrIceBlock::MrIceBlock(const lisp::Lisp& reader)
   stay_on_platform = false;
   reader.get("stay-on-platform", stay_on_platform);
   bbox.set_size(31.8, 31.8);
-  sprite = sprite_manager->create("mriceblock");
+  sprite = sprite_manager->create("images/creatures/mr_iceblock/mr_iceblock.sprite");
   set_direction = false;
 }
 
@@ -46,7 +46,7 @@ MrIceBlock::MrIceBlock(float pos_x, float pos_y, Direction d, bool stay_on_plat 
   start_position.y = pos_y;
   stay_on_platform = stay_on_plat;
   bbox.set_size(31.8, 31.8);
-  sprite = sprite_manager->create("mriceblock");
+  sprite = sprite_manager->create("images/creatures/mr_iceblock/mr_iceblock.sprite");
   set_direction = true;
   initial_direction = d;
 }

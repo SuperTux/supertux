@@ -1,0 +1,11 @@
+(supertux-sprite
+	(action
+	  (name "normal")
+	  (x-offset 0)
+	  (y-offset 0)
+	  (images "falling.png"))
+	(action
+	  (name "squished")
+	  (x-offset 0)
+	  (y-offset 16)
+	  (images "broken.png")))

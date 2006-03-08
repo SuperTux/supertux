@@ -1,0 +1,7 @@
+(supertux-sprite
+       (action
+         (x-offset 5)
+         (y-offset 15)
+         (images "extra-star-0.png"
+                 "extra-star-1.png"
+                 "extra-star-2.png")))
