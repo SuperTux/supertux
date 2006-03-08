@@ -140,7 +140,7 @@
    (platform (use_path "path2") (x 424) (y 650) (type "block2"))
    (platform (use_path "path1") (x 456) (y 850) (type "block2"))
    (platform (use_path "path1") (x 488) (y 850) (type "block3"))
-   (powerup (x 100) (y 700) (sprite "egg"))
+   (powerup (x 100) (y 700) (sprite "images/powerups/egg/egg.sprite"))
    (jumpy (x 140) (y 750))
    (spawnpoint (name "main") (x 340) (y 800))
    )

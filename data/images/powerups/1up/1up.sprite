@@ -1,0 +1,3 @@
+(supertux-sprite
+       (action
+         (images "1up.png")))

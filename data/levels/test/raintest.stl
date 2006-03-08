@@ -201,7 +201,7 @@
      (bonusblock (x 160) (y 160)
           (contents "custom")
           (powerup
-            (sprite "images/powerups/potions/images/powerups/potions/red-potion.sprite.sprite")
+            (sprite "images/powerups/potions/red-potion.sprite")
             (script "
 function wait(time) {
   set_wakeup_time(time);

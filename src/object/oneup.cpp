@@ -31,7 +31,7 @@ OneUp::OneUp(const Vector& pos)
 {
   bbox.set_pos(pos);
   bbox.set_size(32, 32);
-  sprite = sprite_manager->create("1up");
+  sprite = sprite_manager->create("images/powerups/1up/1up.sprite");
   physic.set_velocity(100, 400);
   set_group(COLGROUP_TOUCHABLE);
 }

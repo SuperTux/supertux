@@ -34,7 +34,7 @@ Star::Star(const Vector& pos)
 {
   bbox.set_pos(pos);
   bbox.set_size(32, 32);
-  sprite = sprite_manager->create("star");
+  sprite = sprite_manager->create("images/powerups/star/star.sprite");
   physic.set_velocity(SPEED, INITIALJUMP);
 
   set_group(COLGROUP_MOVING);

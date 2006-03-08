@@ -426,7 +426,7 @@
                        (distance_bias 100.0)
                        (volume 1))
       (powerup (x 192) (y 2496)
-        (sprite "fireflower")
+        (sprite "images/powerups/fireflower/fireflower.sprite")
       )
        (zeekling (x 1614) (y 665))
        (zeekling (x 3744) (y 779))
