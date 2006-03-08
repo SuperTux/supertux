@@ -63,7 +63,7 @@
   )
   (tilegroup
     (name "Signs")
-    (tiles 136 137 141 142 138 139 143 144)
+    (tiles 136 137 141 142 138 139 143 144 1600 1601 1602 1603 1604 1605 1606 1607 1608 1609 1610 1611 1612 1613 1614 1615 1616 1617 1618 1619 1620 1621 1622 1623 1624 1625 1626 1627 1628 1629 1630 1631)
   )
   (tilegroup
     (name "Jungle")
@@ -1087,30 +1087,79 @@
     (data 5)
     (anim-fps 2)
   )
-  (tile
-    (id 141)
-    (images
-      "tiles/signs/sign_right1.png"
-    )
-  )
-  (tile
-    (id 142)
-    (images
-      "tiles/signs/sign_right2.png"
-    )
-  )
-  (tile
-    (id 143)
-    (images
-      "tiles/signs/sign_right3.png"
-    )
-  )
-  (tile
-    (id 144)
-    (images
-      "tiles/signs/sign_right4.png"
-    )
-  )
+
+  (tiles
+   (width 2)
+   (height 2)
+   (ids 141 142
+        143 144)
+   (attributes 0 0 0 0)
+   (image "tiles/signs/right.png"))
+
+  (tiles
+   (width 2)
+   (height 2)
+   (ids 1600 1601
+        1602 1603)
+   (attributes 0 0 0 0)
+   (image "tiles/signs/rightup.png"))
+
+  (tiles
+   (width 2)
+   (height 2)
+   (ids 1604 1605
+        1606 1607)
+   (attributes 0 0 0 0)
+   (image "tiles/signs/rightdown.png"))
+
+  (tiles
+   (width 2)
+   (height 2)
+   (ids 1608 1609
+        1610 1611)
+   (attributes 0 0 0 0)
+   (image "tiles/signs/left.png"))
+
+  (tiles
+   (width 2)
+   (height 2)
+   (ids 1612 1613
+        1614 1615)
+   (attributes 0 0 0 0)
+   (image "tiles/signs/leftup.png"))
+
+  (tiles
+   (width 2)
+   (height 2)
+   (ids 1616 1617
+        1618 1619)
+   (attributes 0 0 0 0)
+   (image "tiles/signs/leftdown.png"))
+
+  (tiles
+   (width 2)
+   (height 2)
+   (ids 1620 1621
+        1622 1623)
+   (attributes 0 0 0 0)
+   (image "tiles/signs/up.png"))
+
+  (tiles
+   (width 2)
+   (height 2)
+   (ids 1624 1625
+        1626 1627)
+   (attributes 0 0 0 0)
+   (image "tiles/signs/down.png"))
+
+  (tiles
+   (width 2)
+   (height 2)
+   (ids 1628 1629
+        1630 1631)
+   (attributes 0 0 0 0)
+   (image "tiles/signs/danger.png"))
+
   (tile
     (id 149)
     (images
