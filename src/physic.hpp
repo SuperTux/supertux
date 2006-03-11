@@ -62,6 +62,7 @@ public:
 
   /// Enables or disables handling of gravity.
   void enable_gravity(bool gravity_enabled);
+  bool gravity_enabled() const;
 
   Vector get_movement(float elapsed_time);
 
@@ -71,7 +72,7 @@ private:
   /// horizontal and vertical velocity
   float vx, vy;
   /// should we respect gravity in out calculations?
-  bool gravity_enabled;
+  bool gravity_enabled_flag;
 };
 
 #endif

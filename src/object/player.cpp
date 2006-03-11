@@ -155,17 +155,19 @@ Player::set_controller(Controller* controller)
 void
 Player::update(float elapsed_time)
 {
+  // do we need to enable gravity again?
+  if(on_ground_flag) {
+    Rect lower = bbox;
+    lower.move(Vector(0, 4.0));
+    if(Sector::current()->is_free_space(lower)) {
+      physic.enable_gravity(true);
+      on_ground_flag = false;
+    }
+  }
+    
   if(dying && dying_timer.check()) {
     dead = true;
     return;
-  }
-
-  // fixes the "affected even while blinking" bug
-  if (safe_timer.started() && this->get_group() != COLGROUP_MOVING_ONLY_STATIC) {
-    this->set_group(COLGROUP_MOVING_ONLY_STATIC);
-  }
-  else if (!safe_timer.started() && this->get_group() == COLGROUP_MOVING_ONLY_STATIC) {
-    this->set_group(COLGROUP_MOVING);
   }
 
   if(!controller->hold(Controller::ACTION) && grabbed_object) {
@@ -192,7 +194,6 @@ Player::update(float elapsed_time)
     handle_input();
 
   movement = physic.get_movement(elapsed_time);
-  on_ground_flag = false;
 
 #if 0
   // special exception for cases where we're stuck under tiles after
@@ -326,7 +327,7 @@ Player::handle_horizontal_input()
   // extend/shrink tux collision rectangle so that we fall through/walk over 1
   // tile holes
   if(fabsf(vx) > MAX_WALK_XM) {
-    bbox.set_width(33);
+    bbox.set_width(34);
   } else {
     bbox.set_width(31.8);
   }
@@ -744,6 +745,8 @@ Player::collision(GameObject& other, const CollisionHit& hit)
         floor_normal.y = (floor_normal.y * 0.9) + (hit.normal.y * 0.1);
       }
 
+      // disable gravity
+      physic.enable_gravity(false);
     } else if(hit.normal.y > 0) { // bumped against the roof
       physic.set_velocity_y(.1);
     }
@@ -770,8 +773,12 @@ Player::collision(GameObject& other, const CollisionHit& hit)
   }
 
   BadGuy* badguy = dynamic_cast<BadGuy*> (&other);
-  if(badguy != NULL)
+  if(badguy != NULL) {
+    if(safe_timer.started())
+      return FORCE_MOVE;
+
     return CONTINUE;
+  }
 
   return FORCE_MOVE;
 }
@@ -842,7 +849,6 @@ Player::move(const Vector& vector)
     bbox.set_size(31.8, 63.8);
   else
     bbox.set_size(31.8, 31.8);
-  on_ground_flag = false;
   duck = false;
   last_ground_y = vector.y;
 
