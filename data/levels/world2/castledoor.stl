@@ -236,8 +236,8 @@
       )
    (scriptedobject
         (x 653) (y 531)
-        (name "ICEBOX")
-        (sprite "images/objects/icebox/icebox.sprite")
+        (name "ICECUBE")
+        (sprite "images/objects/icecube/icecube.sprite")
         (layer 100)
         (visible #t)
         (physic-enabled #f)
