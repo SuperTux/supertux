@@ -1,10 +1,33 @@
 (supertux-sprite
- (action
+  (action
   (name "normal")
   (x-offset 0)
   (y-offset 0)
-(fps 2)
+(fps 5)
   (images 
 "straw.png"
+))
+(action
+  (name "burn")
+  (x-offset 0)
+  (y-offset 0)
+(fps 5)
+  (images 
+"straw_01.png"
+"straw_02.png"
+"straw_03.png"
+"straw_04.png"
+"straw_05.png"
+"straw_06.png"
+"straw_07.png"
+"straw_08.png"
+"straw_09.png"
+"straw_10.png"
+"straw_11.png"
+"straw_12.png"
+"straw_12.png"
+"straw_12.png"
+"straw_12.png"
+
 ))
 )
