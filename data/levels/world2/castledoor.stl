@@ -234,7 +234,15 @@
         (physic-enabled #f)
         (solid #t)
       )
-
+   (scriptedobject
+        (x 653) (y 531)
+        (name "ICEBOX")
+        (sprite "images/objects/icebox/icebox.sprite")
+        (layer 100)
+        (visible #t)
+        (physic-enabled #f)
+        (solid #t)
+      )
    )
  )
 

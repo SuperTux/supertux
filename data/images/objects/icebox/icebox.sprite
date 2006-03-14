@@ -1,0 +1,10 @@
+(supertux-sprite
+  (action
+  (name "normal")
+  (x-offset 0)
+  (y-offset 0)
+(fps 5)
+  (images 
+"icebox.png"
+))
+)
