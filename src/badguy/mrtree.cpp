@@ -23,7 +23,8 @@
 #include "mrtree.hpp"
 
 static const float WALKSPEED = 100;
-static const float WALKSPEED_SMALL =120;
+static const float WALKSPEED_SMALL = 120;
+static const float INVINCIBLE_TIME = 1;
 
 MrTree::MrTree(const lisp::Lisp& reader)
   : mystate(STATE_BIG)
@@ -50,13 +51,15 @@ MrTree::write(lisp::Writer& writer)
 void
 MrTree::activate()
 {
-  if(mystate == STATE_BIG) {
+  if (mystate == STATE_BIG) {
     physic.set_velocity_x(dir == LEFT ? -WALKSPEED : WALKSPEED);
     sprite->set_action(dir == LEFT ? "large-left" : "large-right");
-  } else {
+    return;
+  }
+  if (mystate == STATE_NORMAL) {
     physic.set_velocity_x(dir == LEFT ? -WALKSPEED_SMALL : WALKSPEED_SMALL);
-    bbox.set_size(31.8, 31.8);
     sprite->set_action(dir == LEFT ? "small-left" : "small-right");
+    return;
   }
 }
 
@@ -66,8 +69,7 @@ MrTree::active_update(float elapsed_time)
   if (stay_on_platform && may_fall_off_platform())
   {
     dir = (dir == LEFT ? RIGHT : LEFT);
-    sprite->set_action(dir == LEFT ? "large-left" : "large-right");
-    physic.set_velocity_x(-physic.get_velocity_x());
+    activate();
   }
 
   BadGuy::active_update(elapsed_time);
@@ -76,21 +78,37 @@ MrTree::active_update(float elapsed_time)
 bool
 MrTree::collision_squished(Player& player)
 {
+  // if we're big, we shrink
   if(mystate == STATE_BIG) {
     mystate = STATE_NORMAL;
     activate();
 
-  
+    // shrink bounding box and adjust sprite position to where the stump once was
+    bbox.set_size(42, 62);
+    Vector pos = get_pos();
+    pos.x += 20;
+    pos.y += 23;
+    set_pos(pos);
+
     sound_manager->play("sounds/mr_tree.ogg", get_pos());
     player.bounce(*this);
-  } else {
-bbox.set_size(67.8, 99.8);
-sprite->set_action(dir == LEFT ? "squished-left" : "squished-right");
-sound_manager->play("sounds/mr_treehit.ogg", get_pos());
-player.bounce(*this);
-   
+
+    invincible_timer.start(INVINCIBLE_TIME);
+
+    return true;
   }
-  
+
+  // if we're small, but still invincible, we ignore the hit
+  if (!invincible_timer.check()) {
+    sound_manager->play("sounds/mr_treehit.ogg", get_pos());
+    player.bounce(*this);
+    return true;
+  }
+
+  // if we're small and no longer invincible, we die
+  sprite->set_action(dir == LEFT ? "squished-left" : "squished-right");
+  bbox.set_size(42, 42);
+  kill_squished(player);
   return true;
 }
 
