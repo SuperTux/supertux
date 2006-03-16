@@ -41,6 +41,8 @@ protected:
   MyState mystate;
   bool stay_on_platform;
 
+  Timer invincible_timer;
+
   bool collision_squished(Player& player);
 };
 

@@ -16,7 +16,8 @@
   (mirror-action "large-left")
  )
  (action
-  (y-offset 12)
+  (x-offset 20)
+  (y-offset 23)
   (name "small-left")
   (images "small-left-1.png"
           "small-left-2.png"
@@ -28,17 +29,20 @@
 )
  )
   (action
-   (y-offset 12)
+   (x-offset 20)
+   (y-offset 23)
    (name "small-right")
    (mirror-action "small-left")
   )
   (action
-   (y-offset )
+   (x-offset 20)
+   (y-offset 23)
    (name "squished-left")
    (images "squished-left.png")
   )
   (action
-   (y-offset )
+   (x-offset 20)
+   (y-offset 23)
    (name "squished-right")
    (mirror-action "squished-left")
   )
