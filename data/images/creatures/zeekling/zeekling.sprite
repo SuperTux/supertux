@@ -32,5 +32,7 @@
   (name "diving-right")
   (x-offset 2)
   (y-offset 4)
-  (mirror-action "left")))
+  (mirror-action "diving-left")
+ )
+)
 

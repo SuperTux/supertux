@@ -22,7 +22,7 @@
 #include "physic.hpp"
 
 Physic::Physic()
-    : ax(0), ay(0), vx(0), vy(0), gravity_enabled(true)
+    : ax(0), ay(0), vx(0), vy(0), gravity_enabled_flag(true)
 {
 }
 
@@ -34,7 +34,7 @@ void
 Physic::reset()
 {
     ax = ay = vx = vy = 0;
-    gravity_enabled = true;
+    gravity_enabled_flag = true;
 }
 
 void
@@ -112,13 +112,19 @@ Physic::get_acceleration_y()
 void
 Physic::enable_gravity(bool enable_gravity)
 {
-  gravity_enabled = enable_gravity;
+  gravity_enabled_flag = enable_gravity;
+}
+
+bool
+Physic::gravity_enabled() const
+{
+  return gravity_enabled_flag;
 }
 
 Vector
 Physic::get_movement(float elapsed_time)
 {
-  float grav = gravity_enabled ? 1000 : 0;
+  float grav = gravity_enabled_flag ? 1000 : 0;
   
   Vector result(
       vx * elapsed_time + ax * elapsed_time * elapsed_time,
