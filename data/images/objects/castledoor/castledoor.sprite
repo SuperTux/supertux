@@ -4,15 +4,6 @@
   (x-offset 0)
   (y-offset 0)
 (fps 4)
-  (images 
-"castledoor_1.png"
-"castledoor_2.png"
-"castledoor_3.png"
-"castledoor_4.png"
-"castledoor_5.png"
-"castledoor_4.png"
-"castledoor_3.png"
-"castledoor_2.png"
-"castledoor_1.png"
+  (images "castledoor_0.png"
 ))
 )
