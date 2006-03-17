@@ -36,7 +36,7 @@ public:
 
 protected:
   enum MyState {
-    STATE_BIG, STATE_NORMAL
+    STATE_BIG, STATE_INVINCIBLE, STATE_NORMAL
   };
   MyState mystate;
   bool stay_on_platform;

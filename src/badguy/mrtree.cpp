@@ -21,6 +21,7 @@
 #include <config.h>
 
 #include "mrtree.hpp"
+#include "poisonivy.hpp"
 
 static const float WALKSPEED = 100;
 static const float WALKSPEED_SMALL = 120;
@@ -56,6 +57,11 @@ MrTree::activate()
     sprite->set_action(dir == LEFT ? "large-left" : "large-right");
     return;
   }
+  if (mystate == STATE_INVINCIBLE) {
+    physic.set_velocity_x(0);
+    sprite->set_action(dir == LEFT ? "small-left" : "small-right");
+    return;
+  }
   if (mystate == STATE_NORMAL) {
     physic.set_velocity_x(dir == LEFT ? -WALKSPEED_SMALL : WALKSPEED_SMALL);
     sprite->set_action(dir == LEFT ? "small-left" : "small-right");
@@ -66,6 +72,11 @@ MrTree::activate()
 void
 MrTree::active_update(float elapsed_time)
 {
+  if ((mystate == STATE_INVINCIBLE) && (invincible_timer.check())) {
+    mystate = STATE_NORMAL;
+    activate();
+  }
+
   if (stay_on_platform && may_fall_off_platform())
   {
     dir = (dir == LEFT ? RIGHT : LEFT);
@@ -80,7 +91,8 @@ MrTree::collision_squished(Player& player)
 {
   // if we're big, we shrink
   if(mystate == STATE_BIG) {
-    mystate = STATE_NORMAL;
+    mystate = STATE_INVINCIBLE;
+    invincible_timer.start(INVINCIBLE_TIME);
     activate();
 
     // shrink bounding box and adjust sprite position to where the stump once was
@@ -93,22 +105,36 @@ MrTree::collision_squished(Player& player)
     sound_manager->play("sounds/mr_tree.ogg", get_pos());
     player.bounce(*this);
 
-    invincible_timer.start(INVINCIBLE_TIME);
+    Rect leaf1_bbox = Rect(pos.x-32-1, pos.y-23+1, pos.x-32-1+32, pos.y-23+1+32);
+    if (Sector::current()->is_free_space(leaf1_bbox)) {
+      PoisonIvy* leaf1 = new PoisonIvy(leaf1_bbox.p1.x, leaf1_bbox.p1.y, LEFT);
+      Sector::current()->add_object(leaf1);
+    }
+    Rect leaf2_bbox = Rect(pos.x+42+1, pos.y-23+1, pos.x+32+1+32, pos.y-23+1+32);
+    if (Sector::current()->is_free_space(leaf2_bbox)) {
+      PoisonIvy* leaf2 = new PoisonIvy(leaf2_bbox.p1.x, leaf2_bbox.p1.y, RIGHT);
+      Sector::current()->add_object(leaf2);
+    }
 
     return true;
   }
 
-  // if we're small, but still invincible, we ignore the hit
-  if (!invincible_timer.check()) {
+  // if we're still invincible, we ignore the hit
+  if (mystate == STATE_INVINCIBLE) {
     sound_manager->play("sounds/mr_treehit.ogg", get_pos());
     player.bounce(*this);
     return true;
   }
 
-  // if we're small and no longer invincible, we die
-  sprite->set_action(dir == LEFT ? "squished-left" : "squished-right");
-  bbox.set_size(42, 42);
-  kill_squished(player);
+  // if we're small, we die
+  if (mystate == STATE_NORMAL) {
+    sprite->set_action(dir == LEFT ? "squished-left" : "squished-right");
+    bbox.set_size(42, 42);
+    kill_squished(player);
+    return true;
+  }
+
+  //TODO: exception?
   return true;
 }
 
