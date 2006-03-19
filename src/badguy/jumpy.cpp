@@ -83,8 +83,11 @@ Jumpy::active_update(float elapsed_time)
 {
   BadGuy::active_update(elapsed_time);
   
-  dir = Sector::current()->player->get_pos().x > get_pos().x
-    ? RIGHT : LEFT;
+  Player* player = this->get_nearest_player();
+  if (player)
+  {
+    dir = (player->get_pos().x > get_pos().x) ? RIGHT : LEFT;
+  }
     
   if (!groundhit_pos_set)
   {

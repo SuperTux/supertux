@@ -129,7 +129,9 @@ Zeekling::collision_solid(GameObject& , const CollisionHit& hit)
  */
 bool 
 Zeekling::should_we_dive() {
-  const MovingObject* player = Sector::current()->player;
+  const MovingObject* player = this->get_nearest_player();
+  if (!player) return false;
+
   const MovingObject* badguy = this;
 
   const Vector playerPos = player->get_pos();

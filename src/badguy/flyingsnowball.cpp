@@ -96,8 +96,12 @@ FlyingSnowBall::active_update(float elapsed_time)
     timer.start(FLYTIME);
   }
   movement=physic.get_movement(elapsed_time);
-  dir= Sector::current()->player->get_pos().x>get_pos().x?RIGHT:LEFT;
-  sprite->set_action(dir == LEFT ? "left" : "right");
+
+  Player* player = this->get_nearest_player();
+  if (player) {
+    dir = (player->get_pos().x > get_pos().x) ? RIGHT : LEFT;
+    sprite->set_action(dir == LEFT ? "left" : "right");
+  }
 }
 
 IMPLEMENT_FACTORY(FlyingSnowBall, "flyingsnowball")

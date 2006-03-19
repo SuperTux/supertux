@@ -49,12 +49,14 @@ void
 Stalactite::active_update(float elapsed_time)
 {
   if(state == STALACTITE_HANGING) {
-    Player* player = Sector::current()->player;
-    if(player->get_bbox().p2.x > bbox.p1.x - SHAKE_RANGE
-        && player->get_bbox().p1.x < bbox.p2.x + SHAKE_RANGE
-        && player->get_bbox().p2.y > bbox.p1.y) {
-      timer.start(SHAKE_TIME);
-      state = STALACTITE_SHAKING;
+    Player* player = this->get_nearest_player();
+    if (player) {
+      if(player->get_bbox().p2.x > bbox.p1.x - SHAKE_RANGE
+          && player->get_bbox().p1.x < bbox.p2.x + SHAKE_RANGE
+          && player->get_bbox().p2.y > bbox.p1.y) {
+        timer.start(SHAKE_TIME);
+        state = STALACTITE_SHAKING;
+      }
     }
   } else if(state == STALACTITE_SHAKING) {
     if(timer.check()) {
