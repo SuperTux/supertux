@@ -29,7 +29,7 @@
 #include "sector.hpp"
 
 InfoBlock::InfoBlock(const lisp::Lisp& lisp)
-  : Block(sprite_manager->create("infoblock"))
+  : Block(sprite_manager->create("images/objects/bonus_block/infoblock.sprite"))
 {
   Vector pos;
   lisp.get("x", pos.x);

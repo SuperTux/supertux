@@ -34,7 +34,7 @@ Coin::Coin(const Vector& pos)
 {
   bbox.set_pos(pos);
   bbox.set_size(32, 32);
-  sprite = sprite_manager->create("coin");
+  sprite = sprite_manager->create("images/objects/coin/coin.sprite");
   set_group(COLGROUP_TOUCHABLE);
 }
 
@@ -43,7 +43,7 @@ Coin::Coin(const lisp::Lisp& reader)
   reader.get("x", bbox.p1.x);
   reader.get("y", bbox.p1.y);
   bbox.set_size(32, 32);
-  sprite = sprite_manager->create("coin");
+  sprite = sprite_manager->create("images/objects/coin/coin.sprite");
   set_group(COLGROUP_TOUCHABLE);
 }
 

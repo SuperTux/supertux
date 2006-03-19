@@ -47,7 +47,7 @@ Door::Door(int x, int y, std::string sector, std::string spawnpoint)
   target_sector = sector;
   target_spawnpoint = spawnpoint;
 
-  sprite = sprite_manager->create("door");
+  sprite = sprite_manager->create("images/objects/door/door.sprite");
 }
 
 Door::~Door()

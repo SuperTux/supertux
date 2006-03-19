@@ -37,7 +37,7 @@ UnstableTile::UnstableTile(const lisp::Lisp& lisp)
   lisp.get("x", bbox.p1.x);
   lisp.get("y", bbox.p1.y);
   bbox.set_size(32, 32);
-  sprite = sprite_manager->create("unstable_tile");
+  sprite = sprite_manager->create("images/objects/unstable_tile/unstable_tile.sprite");
   flags |= FLAG_SOLID;
   set_group(COLGROUP_STATIC);
 }

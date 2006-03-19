@@ -1,0 +1,17 @@
+(supertux-sprite
+       (action
+          (name "normal")
+          (x-offset 0)
+          (y-offset 0)
+          (images "hatch-0.png"))
+       (action
+          (name "open")
+          (x-offset 0)
+          (y-offset 0)
+          (images "hatch-0.png"
+                  "hatch-1.png"
+                  "hatch-2.png"
+                  "hatch-3.png"
+                  "hatch-4.png"
+                  "hatch-5.png"))
+)

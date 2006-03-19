@@ -10,7 +10,7 @@
 
 Light::Light(const lisp::Lisp& )
 {
-  sprite = sprite_manager->create("lightmap_light");
+  sprite = sprite_manager->create("images/objects/lightmap_light/lightmap_light.sprite");
 }
 
 Light::~Light()

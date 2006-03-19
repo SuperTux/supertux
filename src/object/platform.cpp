@@ -38,7 +38,7 @@ Platform::Platform(const lisp::Lisp& reader)
   reader.get("y", bbox.p1.y);
   reader.get("type", type);
   reader.get("use_path", use_path);
-  sprite = sprite_manager->create("platform");
+  sprite = sprite_manager->create("images/objects/flying_platform/platform.sprite");
   sprite->set_action(type);
   bbox.set_size(sprite->get_width(), sprite->get_height());
 
