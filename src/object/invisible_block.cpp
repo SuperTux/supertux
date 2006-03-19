@@ -29,7 +29,7 @@
 #include "object_factory.hpp"
 
 InvisibleBlock::InvisibleBlock(const Vector& pos)
-  : Block(sprite_manager->create("invisibleblock")), visible(false)
+  : Block(sprite_manager->create("images/objects/bonus_block/invisibleblock.sprite")), visible(false)
 {
   bbox.set_pos(pos);
   flags &= ~FLAG_SOLID;

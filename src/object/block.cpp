@@ -122,7 +122,7 @@ Block::start_bounce()
 //---------------------------------------------------------------------------
 
 BonusBlock::BonusBlock(const Vector& pos, int data)
-  : Block(sprite_manager->create("bonusblock")), object(0)
+  : Block(sprite_manager->create("images/objects/bonus_block/bonusblock.sprite")), object(0)
 {
   bbox.set_pos(pos);
   sprite->set_action("normal");
@@ -140,7 +140,7 @@ BonusBlock::BonusBlock(const Vector& pos, int data)
 }
 
 BonusBlock::BonusBlock(const lisp::Lisp& lisp)
-  : Block(sprite_manager->create("bonusblock"))
+  : Block(sprite_manager->create("images/objects/bonus_block/bonusblock.sprite"))
 {
   Vector pos;
 
@@ -268,7 +268,7 @@ IMPLEMENT_FACTORY(BonusBlock, "bonusblock");
 //---------------------------------------------------------------------------
 
 Brick::Brick(const Vector& pos, int data)
-  : Block(sprite_manager->create("brick")), breakable(false),
+  : Block(sprite_manager->create("images/objects/bonus_block/brick.sprite")), breakable(false),
     coin_counter(0)
 {
   bbox.set_pos(pos);

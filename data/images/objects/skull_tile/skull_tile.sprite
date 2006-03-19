@@ -1,0 +1,4 @@
+(supertux-sprite
+    (action
+      (images "../skulls/skull.png"))
+) 

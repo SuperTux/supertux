@@ -37,7 +37,7 @@ Hatch::Hatch(const lisp::Lisp& reader)
   reader.get("sector", target_sector);
   reader.get("spawnpoint", target_spawnpoint);
 
-  sprite = sprite_manager->create("hatch");
+  sprite = sprite_manager->create("images/objects/hatch/hatch.sprite");
 }
 
 Hatch::Hatch(int x, int y, std::string sector, std::string spawnpoint)
@@ -47,7 +47,7 @@ Hatch::Hatch(int x, int y, std::string sector, std::string spawnpoint)
   target_sector = sector;
   target_spawnpoint = spawnpoint;
 
-  sprite = sprite_manager->create("hatch");
+  sprite = sprite_manager->create("images/objects/hatch/hatch.sprite");
 }
 
 Hatch::~Hatch()

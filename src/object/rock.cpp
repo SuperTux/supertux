@@ -32,7 +32,7 @@ Rock::Rock(const lisp::Lisp& reader)
   reader.get("x", bbox.p1.x);
   reader.get("y", bbox.p1.y);
   bbox.set_size(31.8, 31.8);
-  sprite = sprite_manager->create("rock");
+  sprite = sprite_manager->create("images/objects/rock/rock.sprite");
   grabbed = false;
   flags |= FLAG_SOLID | FLAG_PORTABLE;
 }

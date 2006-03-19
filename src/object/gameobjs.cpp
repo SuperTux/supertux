@@ -41,7 +41,7 @@ BouncyCoin::BouncyCoin(const Vector& pos)
   : position(pos)
 {
   timer.start(.3);
-  sprite = sprite_manager->create("coin");
+  sprite = sprite_manager->create("images/objects/coin/coin.sprite");
   sprite->set_action("still");
 }
 

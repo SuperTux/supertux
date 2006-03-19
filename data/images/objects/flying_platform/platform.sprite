@@ -1,0 +1,45 @@
+(supertux-sprite
+       (action
+         (name "flying")
+         (x-offset 0)
+         (y-offset 0)
+         (images "flying_platform-0.png"
+                 "flying_platform-1.png"
+                 "flying_platform-2.png"
+                 "flying_platform-3.png")
+       )
+       (action
+         (name "block1")
+         (x-offset 0)
+         (y-offset 0)
+         (images "../../tiles/blocks/block1.png")
+       )
+       (action
+         (name "block2")
+         (x-offset 0)
+         (y-offset 0)
+         (images "../../tiles/blocks/block2.png")
+       )
+       (action
+         (name "block3")
+         (x-offset 0)
+         (y-offset 0)
+         (images "../../tiles/blocks/block3.png")
+       )
+       (action
+         (name "block4")
+         (x-offset 0)
+         (y-offset 0)
+         (images "../../tiles/blocks/block4.png")
+       )
+       (action
+         (name "firefly")
+         (x-offset 0)
+         (y-offset 0)
+         (images "../../tiles/firefly/firefly1.png"
+	         "../../tiles/firefly/firefly2.png"
+                 "../../tiles/firefly/firefly3.png"
+                 "../../tiles/firefly/firefly2.png")
+       )
+)
+
