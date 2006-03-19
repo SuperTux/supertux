@@ -89,17 +89,23 @@ SSpiky::active_update(float elapsed_time) {
   BadGuy::active_update(elapsed_time);
 
   if(state == SSPIKY_SLEEPING) {
-    const Vector playerPos = Sector::current()->player->get_pos();
-    const Vector myPos = this->get_pos();
-    float dx = (playerPos.x - myPos.x);
-    float dy = (playerPos.y - myPos.y);
 
-    // if we "see" the player
-    if ((((dir == LEFT) && (dx > -128) && (dx < 0)) || ((dir == RIGHT) && (dx > 0) && (dx < 128))) && (dy > -32) && (dy < 32)) {
-      // wake up
-      sprite->set_action(dir == LEFT ? "waking-left" : "waking-right");
-      if(!timer.started()) timer.start(WAKE_TIME);
-      state = SSPIKY_WAKING;
+    Player* player = this->get_nearest_player();
+    if (player) {
+      Rect mb = this->get_bbox();
+      Rect pb = player->get_bbox();
+
+      bool inReach_left = (pb.p2.x >= mb.p2.x-((dir == LEFT) ? 256 : 0));
+      bool inReach_right = (pb.p1.x <= mb.p1.x+((dir == RIGHT) ? 256 : 0));
+      bool inReach_top = (pb.p2.y >= mb.p2.y);
+      bool inReach_bottom = (pb.p1.y <= mb.p1.y);
+
+      if (inReach_left && inReach_right && inReach_top && inReach_bottom) {
+        // wake up
+        sprite->set_action(dir == LEFT ? "waking-left" : "waking-right");
+        if(!timer.started()) timer.start(WAKE_TIME);
+        state = SSPIKY_WAKING;
+      }
     }
   }
 

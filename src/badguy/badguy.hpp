@@ -131,11 +131,9 @@ protected:
   { return state; }
     
   /**
-   * returns a pointer to the player, try to avoid this function to avoid
-   * problems later when we have multiple players or no player in scripted
-   * sequence.
+   * returns a pointer to the nearest player or 0 if no player is available
    */
-  Player* get_player();
+  Player* get_nearest_player();
   
   Sprite* sprite;
   Physic physic;

@@ -192,13 +192,16 @@ Yeti::drop_stalactite()
   YetiStalactite* nearest = 0;
   float dist = FLT_MAX;
 
+  Player* player = this->get_nearest_player();
+  if (!player) return;
+
   Sector* sector = Sector::current();
   for(Sector::GameObjects::iterator i = sector->gameobjects.begin();
       i != sector->gameobjects.end(); ++i) {
     YetiStalactite* stalactite = dynamic_cast<YetiStalactite*> (*i);
     if(stalactite && stalactite->is_hanging()) {
       float sdist 
-        = fabsf(stalactite->get_pos().x - sector->player->get_pos().x);
+        = fabsf(stalactite->get_pos().x - player->get_pos().x);
       if(sdist < dist) {
         nearest = stalactite;
         dist = sdist;

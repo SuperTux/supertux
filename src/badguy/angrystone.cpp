@@ -95,7 +95,7 @@ AngryStone::active_update(float elapsed_time) {
   BadGuy::active_update(elapsed_time);
 
   if (state == IDLE) {
-    MovingObject* player = Sector::current()->player;
+    MovingObject* player = this->get_nearest_player();
     MovingObject* badguy = this;
     const Vector playerPos = player->get_pos();
     const Vector badguyPos = badguy->get_pos();

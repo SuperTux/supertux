@@ -111,6 +111,13 @@ public:
    */
   bool is_free_space(const Rect& rect) const;
 
+  /**
+   * returns a list of players currently in the sector
+   */
+  std::vector<Player*> get_players() {
+    return std::vector<Player*>(1, this->player);
+  }
+
 private:
   void collision_object(MovingObject* object1, MovingObject* object2) const;
   GameObject* parse_object(const std::string& name, const lisp::Lisp& lisp);

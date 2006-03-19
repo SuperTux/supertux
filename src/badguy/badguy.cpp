@@ -347,3 +347,17 @@ BadGuy::may_fall_off_platform()
   // Watch out there buddy, you might take a sticky end!
   return true;
 }
+
+Player* 
+BadGuy::get_nearest_player()
+{
+  // FIXME: does not really return nearest player
+
+  std::vector<Player*> players = Sector::current()->get_players();
+  for (std::vector<Player*>::iterator playerIter = players.begin(); playerIter != players.end(); ++playerIter) {
+    Player* player = *playerIter;
+    return player;
+  }
+
+  return 0;
+}
