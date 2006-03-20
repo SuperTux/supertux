@@ -14,14 +14,14 @@
   (mirror-action "left"))
  (action
   (name "squished-left")
-  (x-offset 1)
-  (y-offset -19)
+  (x-offset 0)
+  (y-offset 3)
   (images "squished.png"))
 
  (action
   (name "squished-right")
-  (x-offset 1)
-  (y-offset -19)
+  (x-offset 0)
+  (y-offset 3)
   (mirror-action "squished-left")
  )
 )
