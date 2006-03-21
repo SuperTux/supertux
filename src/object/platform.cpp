@@ -49,7 +49,7 @@ Platform::Platform(const lisp::Lisp& reader)
      std::cerr << "Warning: Path for moving platform not found! Make sure that the name is spelled correctly,\nand that the path is initialized before the platform in the level file!\n";
   }
 
-  path_offset = bbox.p1 - path->GetStart();
+  path_offset = bbox.p1;
 }
 
 Platform::~Platform()

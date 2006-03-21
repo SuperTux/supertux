@@ -1,7 +1,8 @@
 //  $Id$
 // 
-//  SuperTux
+//  SuperTux Path
 //  Copyright (C) 2005 Philipp <balinor@pnxs.de>
+//  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -25,53 +26,50 @@
 #include "object_factory.hpp"
 
 #include <assert.h>
+#include <iostream>
+#include <stdexcept>
 
-
-// some constants
-#define DEFAULT_PIXELS_PER_SECOND	50
-#define EPSILON				1.5
+// snap to destination if within EPSILON pixels
+#define EPSILON 1.5
 
 Path::Path(const lisp::Lisp& reader)
 {
-  forward = true;
-  float x = 0, y = 0;
-
-  lisp::ListIterator iter(&reader);
-
-  assert (iter.next());
-  std::string token = iter.item();
-  assert(token == "name");
-  iter.value()->get(name);
-
   circular = true;
-  assert (iter.next());
-  token = iter.item();
-  if (token == "circular") {
-    iter.value()->get(circular);
-    iter.next();
-  }
+  forward = true;
 
-  pixels_per_second = DEFAULT_PIXELS_PER_SECOND;
-  assert (iter.next());
-  token = iter.item();
-  if (token == "speed") {
-    iter.value()->get(pixels_per_second);
-    iter.next();
-  }
-  do {
-    token = iter.item();
-    if(token == "x") {
-      iter.value()->get(x);
-    } else if(token == "y") {
-      iter.value()->get(y);
-      points.push_back(Vector(x,y));
+  if (!reader.get("name", name)) throw std::runtime_error("Path without name");
+  reader.get("circular", circular);
+  reader.get("forward", forward);
+
+  const lisp::Lisp* nodes_lisp = reader.get_lisp("nodes");
+  if(!nodes_lisp) throw std::runtime_error("Path without nodes");
+
+  lisp::ListIterator iter(nodes_lisp);
+
+  PathNode node;
+  node.time = 1;
+
+  while(iter.next()) {
+    if(iter.item() != "node") {
+      std::cerr << "Warning: unknown token '" << iter.item() << "' in Path nodes list. Ignored." << std::endl;
+      continue;
     }
-  } while(iter.next());
+    const lisp::Lisp* node_lisp = iter.lisp();
 
-  next_target = points.begin();
-  pos = *next_target;
+    // each new node will inherit all values from the last one
+    node_lisp->get("x", node.position.x);
+    node_lisp->get("y", node.position.y);
+    node_lisp->get("time", node.time);
 
-  calc_next_velocity();
+    if(node.time <= 0) throw std::runtime_error("Path node with non-positive time");
+
+    pathNodes.push_back(node);
+  }
+
+  if (pathNodes.size() < 1) throw std::runtime_error("Path with zero nodes");
+
+  // initial position and velocity will be set with the first update, as timeToGo is initialized to 0.
+  destinationNode = 0;
 
   // register this path for lookup:
   registry[name] = this;
@@ -82,31 +80,62 @@ Path::~Path()
   registry.erase(name);
 }
 
-void
+	void
 Path::update(float elapsed_time)
 {
-  last_movement = velocity * elapsed_time;
-  pos += last_movement;
-  if ((pos - *next_target).norm() < EPSILON) {
-    pos = *next_target;
-    calc_next_velocity();
+
+  // advance to next node at scheduled time
+  if (timeToGo <= 0) {
+    position = pathNodes[destinationNode].position;
+
+    // set destinationNode to next node
+    if (forward) {
+      destinationNode++;
+      if (destinationNode >= (int)pathNodes.size()) {
+	if (circular) {
+	  destinationNode = 0;
+	} else {
+	  destinationNode = (int)pathNodes.size()-1;
+	}
+      }
+    } else {
+      destinationNode--;
+      if (destinationNode < 0) {
+	if (circular) {
+	  destinationNode = (int)pathNodes.size()-1;
+	} else {
+	  destinationNode = 0;
+	}
+      }
+    }
+
+    PathNode dn = pathNodes[destinationNode];
+    timeToGo = dn.time;
+    velocity = (dn.position - position) / timeToGo;
   }
+
+  // move according to stored velocity
+  last_movement = velocity * elapsed_time;
+  position += last_movement;
+  timeToGo -= elapsed_time;
+
+  // stop when we arrive at our destination
+  PathNode dn = pathNodes[destinationNode];
+  if ((position - dn.position).norm() < EPSILON) {
+    velocity = Vector(0,0);
+  }
+
 }
 
 void
 Path::draw(DrawingContext& )
 {
-   // TODO: Add a visible flag, draw the path if true
+  // TODO: Add a visible flag, draw the path if true
 }
 
 const Vector&
 Path::GetPosition() {
-  return pos;
-}
-
-const Vector&
-Path::GetStart() {
-  return *(points.begin());
+  return position;
 }
 
 const Vector&
@@ -114,36 +143,11 @@ Path::GetLastMovement() {
   return last_movement;
 }
 
-void
-Path::calc_next_velocity()
-{
-  Vector distance;
-
-  if (circular) {
-    ++next_target;
-    if (next_target == points.end()) {
-      next_target = points.begin();
-    }
-  }
-  else if (forward) {
-    ++next_target;
-    if (next_target == points.end()) {
-      forward = false;
-    }
-  }
-  else {
-    //FIXME: Implement going backwards on the list
-    //       I have no f***ing idea how this is done in C++
-  }
-
-  distance = *next_target - pos;
-  velocity = distance.unit() * pixels_per_second;
-}
 
 //////////////////////////////////////////////////////////////////////////////
 // static stuff
 
-PathRegistry Path::registry;
+std::map<std::string,Path*> Path::registry;
 
 Path*
 Path::GetByName(const std::string& name) {
