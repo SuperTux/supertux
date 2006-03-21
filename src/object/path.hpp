@@ -1,7 +1,8 @@
 //  $Id$
 // 
-//  SuperTux
+//  SuperTux Path
 //  Copyright (C) 2005 Philipp <balinor@pnxs.de>
+//  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -29,14 +30,20 @@
 #include "lisp/lisp.hpp"
 
 
-class   Path;
-typedef std::map<std::string,Path*>       PathRegistry;
+/**
+ * Helper class that stores an individual node of a Path
+ */
+class PathNode
+{
+public:
+  Vector position; /**< position (in pixels) of this node */
+  float time; /**< time (in seconds) to get to this node */
+};
 
 
-typedef std::list<Vector>                 PathPoints;
-typedef std::list<Vector>::const_iterator PathPointIter;
-
-
+/**
+ * Path an object can travel along. Made up of multiple nodes of type PathNode.
+ */
 class Path : public GameObject
 {
 public:
@@ -47,27 +54,25 @@ public:
   virtual void draw(DrawingContext& context);
 
   const Vector& GetPosition();
-  const Vector& GetStart();
   const Vector& GetLastMovement();
 
   // WARNING: returns NULL if not found !
   static Path* GetByName(const std::string& name);
 
 private:
-  std::string       name;
-  float             pixels_per_second;
-  PathPoints        points;	
-  PathPointIter     next_target;
-  Vector            pos;
-  Vector            velocity;
-  Vector            last_movement;
+  std::string name; /**< name this path can be referenced with, stored in PathRegistry */
+  bool circular; /**< true: start with the first node once the last one has been reached. false: path will stop at last node */
+  bool forward; /**< true: travel to nodes in the order they were defined. false: inverse order */
+  std::vector<PathNode> pathNodes; /**< list of nodes that make up this path */
 
-  bool              circular;
-  bool              forward;
+  Vector position; /**< current position */
+  Vector velocity; /**< current velocity */
+  Vector last_movement; /**< amount of pixels we moved in the last call to update */
 
-  void calc_next_velocity();
+  int destinationNode; /**< current destination Node */
+  float timeToGo; /**< seconds until we arrive at the destination */
 
-  static PathRegistry registry;
+  static std::map<std::string,Path*> registry;
 };
 
 #endif
