@@ -6,6 +6,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <GL/gl.h>
+#include <GL/glext.h>
 #include <iostream>
 #include <sstream>
 #include <stdexcept>

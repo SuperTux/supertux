@@ -52,10 +52,6 @@ static inline void assert_gl(const char* message)
         msg << "OUT_OF_MEMORY: There is not enough memory left to execute the "
                "command.";
         break;
-      case GL_TABLE_TOO_LARGE:
-        msg << "TABLE_TOO_LARGE: The specified table exceeds the "
-               "implementation's maximum supported table size.";
-        break;
       default:
         msg << "Unknown error (code " << error << ")";
     }
