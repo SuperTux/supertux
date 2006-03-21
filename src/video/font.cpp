@@ -64,7 +64,7 @@ Font::get_text_width(const std::string& text) const
   if(hl == 0)
     hl = text.size();
 
-  for (uint i = 0; i < text.size(); i++)
+  for (unsigned int i = 0; i < text.size(); i++)
     if ((unsigned char) text[i] > 0xC2 && (unsigned char) text[i] < 0xC6)
       hl--;  // control characters are a WASTE.
 
