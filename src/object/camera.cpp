@@ -34,8 +34,7 @@
 #include "object_factory.hpp"
 
 Camera::Camera(Sector* newsector)
-  : sector(newsector), do_backscrolling(true), scrollchange(NONE),
-    auto_idx(0), auto_t(0)
+  : sector(newsector), do_backscrolling(true), scrollchange(NONE)
 {
   mode = NORMAL;
 }
@@ -63,30 +62,15 @@ Camera::parse(const lisp::Lisp& reader)
     reader.get("backscrolling", do_backscrolling);
   } else if(modename == "autoscroll") {
     mode = AUTOSCROLL;
+    std::string use_path;
     
-    const lisp::Lisp* path_lisp = reader.get_lisp("path");
-    if(!path_lisp)
-      throw std::runtime_error("No path specified in autoscroll camera.");
+    if (!reader.get("path", use_path)) throw std::runtime_error("No path specified in autoscroll camera.");
 
-    lisp::ListIterator iter(path_lisp);
-    float speed = .5;
-    while(iter.next()) {
-      if(iter.item() != "point") {
-        std::cerr << "Warning: unknown token '" << iter.item() 
-          << "' in camera path.\n";
-        continue;
-      }
-      const lisp::Lisp* point_lisp = iter.lisp();
-
-      ScrollPoint point;
-      if(!point_lisp->get("x", point.position.x) ||
-         !point_lisp->get("y", point.position.y)) {
-        throw std::runtime_error("x and y missing in point of camerapath");
-      }
-      point_lisp->get("speed", speed);
-      point.speed = speed;
-      scrollpoints.push_back(point);
+    autoscrollPath = Path::GetByName(use_path);
+    if (autoscrollPath == NULL) { 
+      std::cerr << "Warning: Path for autoscroll camera not found! Make sure that the name is spelled correctly and that the path is initialized before the platform in the level file!" << std::endl;
     }
+
   } else if(modename == "manual") {
     mode = MANUAL;
   } else {
@@ -106,17 +90,7 @@ Camera::write(lisp::Writer& writer)
     writer.write_bool("backscrolling", do_backscrolling);
   } else if(mode == AUTOSCROLL) {
     writer.write_string("mode", "autoscroll");
-    writer.start_list("path");
-    for(std::vector<ScrollPoint>::iterator i = scrollpoints.begin();
-        i != scrollpoints.end(); ++i) {
-      writer.start_list("point");
-      writer.write_float("x", i->position.x);
-      writer.write_float("y", i->position.y);
-      writer.write_float("speed", i->speed);
-      writer.end_list("point");
-    }
-
-    writer.end_list("path");
+    writer.write_string("path", autoscrollPath->GetName());
   } else if(mode == MANUAL) {
     writer.write_string("mode", "manual");
   }
@@ -301,30 +275,7 @@ Camera::update_scroll_autoscroll(float elapsed_time)
   if(player->is_dying())
     return;
 
-  if(auto_t - elapsed_time >= 0) {
-    translation += current_dir * elapsed_time;
-    auto_t -= elapsed_time;
-  } else {
-    // do the rest of the old movement
-    translation += current_dir * auto_t;
-    elapsed_time -= auto_t;
-    auto_t = 0;
-
-    // construct path for next point
-    if(auto_idx+1 >= scrollpoints.size()) {
-      keep_in_bounds(translation);
-      return;
-    }
-    Vector distance = scrollpoints[auto_idx+1].position 
-                      - scrollpoints[auto_idx].position;
-    current_dir = distance.unit() * scrollpoints[auto_idx].speed;
-    auto_t = distance.norm() / scrollpoints[auto_idx].speed;
-
-    // do movement for the remaining time
-    translation += current_dir * elapsed_time;
-    auto_t -= elapsed_time;
-    auto_idx++;
-  }
+  translation = autoscrollPath->GetPosition();
 
   keep_in_bounds(translation);
   shake();

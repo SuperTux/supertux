@@ -44,12 +44,17 @@
     (leveltime
       (time 350)
     )
+    (path 
+      (name "cameraPath1") 
+      (circular #f)
+      (nodes 
+        (node (x 100)   (y 170)) 
+        (node (x 22383) (y 225)  (time 223)) 
+      )
+    )
     (camera
       (mode "autoscroll")
-      (path
-        (point (x 100) (y 170) (speed 100.0))
-        (point (x 22383) (y 225) (speed 0.0))
-      )
+      (path "cameraPath1")
     )
     (spawnpoint
       (name "main")

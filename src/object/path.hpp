@@ -56,6 +56,8 @@ public:
   const Vector& GetPosition();
   const Vector& GetLastMovement();
 
+  const std::string GetName();
+
   // WARNING: returns NULL if not found !
   static Path* GetByName(const std::string& name);
 

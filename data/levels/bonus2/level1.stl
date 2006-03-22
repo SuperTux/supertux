@@ -47,12 +47,17 @@
     (particles-clouds
       (layer -200)
     )
+    (path 
+      (name "cameraPath1") 
+      (circular #f)
+      (nodes 
+        (node (x 100)   (y 352)) 
+        (node (x 18500) (y 352)  (time 205)) 
+      )
+    )
     (camera
       (mode "autoscroll")
-      (path
-        (point (x 100) (y 352) (speed 90.0))
-        (point (x 18500) (y 352) (speed 0.0))
-      )
+      (path "cameraPath1")
     )
     (spawnpoint
       (name "main")
