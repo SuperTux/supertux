@@ -191,8 +191,7 @@
         ))
     (camera
       (mode "normal")
-      (path
-    ))
+    )
 
    )
  )

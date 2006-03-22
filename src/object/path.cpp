@@ -84,6 +84,34 @@ Path::~Path()
 Path::update(float elapsed_time)
 {
 
+  // TODO: carry excess time over to next node? This is how it was done in camera.cpp:
+  /*
+  if(auto_t - elapsed_time >= 0) {
+    translation += current_dir * elapsed_time;
+    auto_t -= elapsed_time;
+  } else {
+    // do the rest of the old movement
+    translation += current_dir * auto_t;
+    elapsed_time -= auto_t;
+    auto_t = 0;
+
+    // construct path for next point
+    if(auto_idx+1 >= scrollpoints.size()) {
+      keep_in_bounds(translation);
+      return;
+    }
+    Vector distance = scrollpoints[auto_idx+1].position 
+                      - scrollpoints[auto_idx].position;
+    current_dir = distance.unit() * scrollpoints[auto_idx].speed;
+    auto_t = distance.norm() / scrollpoints[auto_idx].speed;
+
+    // do movement for the remaining time
+    translation += current_dir * elapsed_time;
+    auto_t -= elapsed_time;
+    auto_idx++;
+  }
+  */
+
   // advance to next node at scheduled time
   if (timeToGo <= 0) {
     position = pathNodes[destinationNode].position;
@@ -143,6 +171,10 @@ Path::GetLastMovement() {
   return last_movement;
 }
 
+const std::string
+Path::GetName() {
+  return name;
+}
 
 //////////////////////////////////////////////////////////////////////////////
 // static stuff

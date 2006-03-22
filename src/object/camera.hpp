@@ -27,6 +27,7 @@
 #include "video/drawing_context.hpp"
 #include "serializable.hpp"
 #include "timer.hpp"
+#include "object/path.hpp"
 
 namespace lisp {
 class Lisp;
@@ -99,15 +100,7 @@ private:
   LeftRightScrollChange scrollchange;
 
   // autoscroll mode
-  class ScrollPoint {
-  public:
-    Vector position;
-    float speed;
-  };
-  std::vector<ScrollPoint> scrollpoints;
-  size_t auto_idx;
-  float auto_t;
-  Vector current_dir;
+  Path* autoscrollPath;
 
   // shaking
   Timer shaketimer;
