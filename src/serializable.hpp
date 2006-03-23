@@ -19,9 +19,7 @@
 #ifndef SUPERTUX_SERIALIZABLE_H
 #define SUPERTUX_SERIALIZABLE_H
 
-namespace lisp {
-class Writer;
-}
+#include "lisp/writer.hpp"
 
 class Serializable
 {

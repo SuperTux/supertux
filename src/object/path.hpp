@@ -28,6 +28,7 @@
 #include "math/vector.hpp"
 #include "game_object.hpp"
 #include "lisp/lisp.hpp"
+#include "serializable.hpp"
 
 
 /**
@@ -44,7 +45,7 @@ public:
 /**
  * Path an object can travel along. Made up of multiple nodes of type PathNode.
  */
-class Path : public GameObject
+class Path : public GameObject, public Serializable
 {
 public:
   Path(const lisp::Lisp& reader);
@@ -52,6 +53,8 @@ public:
 
   virtual void update(float elapsed_time);
   virtual void draw(DrawingContext& context);
+
+  virtual void write(lisp::Writer& writer);
 
   const Vector& GetPosition();
   const Vector& GetLastMovement();
