@@ -161,6 +161,29 @@ Path::draw(DrawingContext& )
   // TODO: Add a visible flag, draw the path if true
 }
 
+void
+Path::write(lisp::Writer& writer)
+{
+  writer.start_list("path");
+
+  writer.write_string("name", name);
+  writer.write_bool("circular", circular);
+  writer.write_bool("forward", forward);
+
+  for (int i=0; i < (int)pathNodes.size(); i++) {
+    PathNode node = pathNodes[i];
+
+    writer.start_list("node");
+    writer.write_float("x", node.position.x);
+    writer.write_float("y", node.position.y);
+    writer.write_float("time", node.time);
+
+    writer.end_list("node");
+  }
+
+  writer.end_list("path");
+}
+
 const Vector&
 Path::GetPosition() {
   return position;
