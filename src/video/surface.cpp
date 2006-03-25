@@ -122,6 +122,8 @@ Surface::draw_part(float src_x, float src_y, float dst_x, float dst_y,
                    float width, float height, float alpha,
                    DrawingEffect effect) const
 {
+  alpha = 0; // FIXME: this is just so alpha gets used once
+
   //FIXME: support parameter "alpha"
   SDL_Surface* surface = texture->getSurface();
 

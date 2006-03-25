@@ -81,7 +81,7 @@ public:
 
 private:
   void update_scroll_normal(float elapsed_time);
-  void update_scroll_autoscroll(float elapsed_time);
+  void update_scroll_autoscroll();
   void update_scroll_to(float elapsed_time);
   void keep_in_bounds(Vector& vector);
   void shake();

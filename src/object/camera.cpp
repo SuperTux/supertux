@@ -141,7 +141,7 @@ Camera::update(float elapsed_time)
       update_scroll_normal(elapsed_time);
       break;
     case AUTOSCROLL:
-      update_scroll_autoscroll(elapsed_time);
+      update_scroll_autoscroll();
       break;
     case SCROLLTO:
       update_scroll_to(elapsed_time);
@@ -269,7 +269,7 @@ Camera::update_scroll_normal(float elapsed_time)
 }
 
 void
-Camera::update_scroll_autoscroll(float elapsed_time)
+Camera::update_scroll_autoscroll()
 {
   Player* player = sector->player;
   

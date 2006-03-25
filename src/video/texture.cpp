@@ -30,6 +30,8 @@ static inline bool is_power_of_2(int v)
 
 Texture::Texture(unsigned int w, unsigned int h, GLenum glformat)
 {
+  glformat = 0; // FIXME: this is just so glformat gets used once
+
   assert(is_power_of_2(w));
   assert(is_power_of_2(h));
 
@@ -41,6 +43,8 @@ Texture::Texture(unsigned int w, unsigned int h, GLenum glformat)
 
 Texture::Texture(SDL_Surface* image, GLenum glformat)
 {
+  glformat = 0; // FIXME: this is just so glformat gets used once
+
   const SDL_PixelFormat* format = image->format;
   if(!is_power_of_2(image->w) || !is_power_of_2(image->h))
     throw std::runtime_error("image has no power of 2 size");
