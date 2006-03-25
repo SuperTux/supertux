@@ -41,7 +41,7 @@ InfoBlock::InfoBlock(const lisp::Lisp& lisp)
     msg_warning("No message in InfoBlock");
   }
   stopped = false;
-  ringing = new AmbientSound(get_pos(), 0.5, 300, 1, "phone");
+  ringing = new AmbientSound(get_pos(), 0.5, 300, 1, "sounds/phone.wav");
   Sector::current()->add_object(ringing);  
 }
 
