@@ -12,6 +12,7 @@
 #include <physfs.h>
 #include <vorbis/codec.h>
 #include <vorbis/vorbisfile.h>
+#include "msg.hpp"
 
 class WavSoundFile : public SoundFile
 {
@@ -54,7 +55,7 @@ WavSoundFile::WavSoundFile(PHYSFS_file* file)
   if(PHYSFS_read(file, magic, sizeof(magic), 1) != 1)
     throw std::runtime_error("Couldn't read file magic (not a wave file)");
   if(strncmp(magic, "RIFF", 4) != 0) {
-    printf("MAGIC: %4s.\n", magic);
+    msg_debug("MAGIC: " << magic);
     throw std::runtime_error("file is not a RIFF wav file");
   }
 

@@ -60,6 +60,7 @@
 #include "control/codecontroller.hpp"
 #include "main.hpp"
 #include "exceptions.hpp"
+#include "msg.hpp"
 
 static Surface* bkg_title;
 static Surface* logo;
@@ -92,7 +93,7 @@ void resume_demo()
 
 void update_load_save_game_menu(Menu* menu)
 {
-  printf("update loadsavemenu.\n");
+  msg_debug("update loadsavemenu");
   for(int i = 1; i < 6; ++i) {
     MenuItem& item = menu->get_item_by_id(i);
     item.kind = MN_ACTION;
@@ -142,8 +143,8 @@ void generate_contrib_menu()
       contrib_subsets.push_back(subset.release());
     } catch(std::exception& e) {
 #ifdef DEBUG
-      std::cerr << "Couldn't parse levelset info for '"
-        << *it << "': " << e.what() << "\n";
+      msg_warning("Couldn't parse levelset info for '"
+        << *it << "': " << e.what() << "");
 #endif
     }
   }
@@ -166,7 +167,7 @@ std::string get_level_name(const std::string& filename)
     level->get("name", name);
     return name;
   } catch(std::exception& e) {
-    std::cerr << "Problem getting name of '" << filename << "'.\n";
+    msg_warning("Problem getting name of '" << filename << "'.");
     return "";
   }
 }
@@ -408,7 +409,7 @@ void title()
                 
                 if(confirm_dialog(bkg_title, str.c_str())) {
                   str = "save/slot" + stream.str() + ".stsg";
-                  printf("Removing: %s\n",str.c_str());
+                  msg_debug("Removing: " << str);
                   PHYSFS_delete(str.c_str());
                 }
 

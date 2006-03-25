@@ -28,6 +28,7 @@
 #include <physfs.h>
 
 #include "gettext.hpp"
+#include "msg.hpp"
 #include "video/surface.hpp"
 #include "video/screen.hpp"
 #include "video/drawing_context.hpp"
@@ -145,9 +146,7 @@ Tux::draw(DrawingContext& context)
       tux_sprite->set_action(moving ? "small-walking" : "small-stop");
       break;
     default:
-#ifdef DEBUG
-      std::cerr << "Bonus type not handled in worldmap.\n";
-#endif
+      msg_debug("Bonus type not handled in worldmap.");
       tux_sprite->set_action("large-stop");
       break;
   }
@@ -440,7 +439,7 @@ WorldMap::load_map()
       } else if(iter.item() == "special-tile") {
         parse_special_tile(iter.lisp());
       } else {
-        std::cerr << "Unknown token '" << iter.item() << "' in worldmap.\n";
+        msg_warning("Unknown token '" << iter.item() << "' in worldmap");
       }
     }
     if(solids == 0)
@@ -535,8 +534,8 @@ WorldMap::parse_level_tile(const lisp::Lisp* level_lisp)
   	// Do we want to bail out instead...? We might get messages from modders
   	// who can't make their levels run because they're too dumb to watch
   	// their terminals...
-    std::cerr << "Error: level file '" << level.name
-      << "' does not exist and will not be added to the worldmap." << std::endl;
+    msg_warning("level file '" << level.name
+      << "' does not exist and will not be added to the worldmap");
     return;
   }
 
@@ -568,7 +567,7 @@ WorldMap::get_level_title(Level& level)
     
     level_lisp->get("name", level.title);
   } catch(std::exception& e) {
-    std::cerr << "Problem when reading leveltitle: " << e.what() << "\n";
+    msg_warning("Problem when reading leveltitle: " << e.what());
     return;
   }
 }
@@ -742,9 +741,8 @@ WorldMap::update(float delta)
       Level* level = at_level();
       if (!level)
         {
-        std::cout << "No level to enter at: "
-          << tux->get_tile_pos().x << ", " << tux->get_tile_pos().y
-          << std::endl;
+        msg_warning("No level to enter at: "
+          << tux->get_tile_pos().x << ", " << tux->get_tile_pos().y);
         return;
         }
 
@@ -864,7 +862,7 @@ WorldMap::update(float delta)
             interpreter->run_script(in, "level-extro-script");
             add_object(interpreter.release());
           } catch(std::exception& e) {
-            std::cerr << "Couldn't run level-extro-script:" << e.what() << "\n";
+            msg_warning("Couldn't run level-extro-script:" << e.what());
           }
         }
 
@@ -1011,8 +1009,8 @@ WorldMap::display()
       interpreter->run_script(in, "worldmap-intro-script");
       add_object(interpreter.release());
     } catch(std::exception& e) {
-      std::cerr << "Couldn't execute worldmap-intro-script: "
-        << e.what() << "\n";
+      msg_warning("Couldn't execute worldmap-intro-script: "
+        << e.what());
     }
                                            
     intro_displayed = true;
@@ -1135,7 +1133,7 @@ WorldMap::savegame(const std::string& filename)
 void
 WorldMap::loadgame(const std::string& filename)
 {
-  std::cout << "loadgame: " << filename << std::endl;
+  msg_debug("loadgame: " << filename);
   savegame_file = filename;
   
   if (PHYSFS_exists(filename.c_str())) // savegame exists
@@ -1199,14 +1197,13 @@ WorldMap::loadgame(const std::string& filename)
               }
             }
           } else {
-            std::cerr << "Unknown token '" << iter.item() 
-                      << "' in levels block in worldmap.\n";
+            msg_warning("Unknown token '" << iter.item() 
+                      << "' in levels block in worldmap");
           }
         }
       }
     } catch(std::exception& e) {
-      std::cerr << "Problem loading game '" << filename << "': " << e.what() 
-                << "\n";
+      msg_warning("Problem loading game '" << filename << "': " << e.what());
       load_map();
       player_status->reset();
     }

@@ -30,6 +30,8 @@
 #include "timer.hpp"
 #include "math/vector.hpp"
 #include "video/drawing_context.hpp"
+#include "msg.hpp"
+
 
 Tile::Tile()
   : id(0), editor_image(0), attributes(0), data(0), anim_fps(1)
@@ -125,7 +127,7 @@ Tile::parse_images(const lisp::Lisp& images_lisp)
       ptr->get_car()->get(h);
       imagespecs.push_back(ImageSpec(file, Rect(x, y, x+w, y+h)));
     } else {
-      std::cerr << "Expected string or list in images tag.\n";
+      msg_warning("Expected string or list in images tag");
       continue;
     }
     

@@ -28,6 +28,7 @@
 #include "sprite/sprite_manager.hpp"
 #include "math/vector.hpp"
 #include "main.hpp"
+#include "msg.hpp"
 
 static const int START_LIVES = 4;
 static const int MAX_LIVES = 99;
@@ -120,7 +121,7 @@ PlayerStatus::write(lisp::Writer& writer)
       writer.write_string("bonus", "iceflower");
       break;
     default:
-      std::cerr << "Unknown bonus type.\n";
+      msg_warning("Unknown bonus type.");
       writer.write_string("bonus", "none");
   }
   writer.write_bool("key-brass", keys & KEY_BRASS);
@@ -150,7 +151,7 @@ PlayerStatus::read(const lisp::Lisp& lisp)
     } else if(bonusname == "iceflower") {
       bonus = ICE_BONUS;
     } else {
-      std::cerr << "Unknown bonus '" << bonusname << "' in savefile.\n";
+      msg_warning("Unknown bonus '" << bonusname << "' in savefile");
       bonus = NO_BONUS;
     }
   }

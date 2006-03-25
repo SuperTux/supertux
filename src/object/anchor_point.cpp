@@ -4,6 +4,7 @@
 #include <sstream>
 #include "anchor_point.hpp"
 #include "math/rect.hpp"
+#include "msg.hpp"
 
 std::string anchor_point_to_string(AnchorPoint point)
 {
@@ -75,7 +76,7 @@ Vector get_anchor_pos(const Rect& rect, AnchorPoint point)
 #ifdef DEBUG
       throw new std::runtime_error("Invalid anchor point found");
 #endif
-      printf("Invalid anchor point found");
+      msg_warning("Invalid anchor point found");
       result.x = rect.get_left();
       break;
   }
@@ -94,7 +95,7 @@ Vector get_anchor_pos(const Rect& rect, AnchorPoint point)
 #ifdef DEBUG
       throw new std::runtime_error("Invalid anchor point found");
 #endif
-      printf("Invalid anchor point found");
+      msg_warning("Invalid anchor point found");
       result.y = rect.get_top();
       break;
   }
@@ -121,7 +122,7 @@ Vector get_anchor_pos(const Rect& destrect, float width, float height,
 #ifdef DEBUG
       throw new std::runtime_error("Invalid anchor point found");
 #endif
-      printf("Invalid anchor point found");
+      msg_warning("Invalid anchor point found");
       result.x = destrect.get_left();
       break;
   }
@@ -140,7 +141,7 @@ Vector get_anchor_pos(const Rect& destrect, float width, float height,
 #ifdef DEBUG
       throw new std::runtime_error("Invalid anchor point found");
 #endif
-      printf("Invalid anchor point found");
+      msg_warning("Invalid anchor point found");
       result.y = destrect.get_top();
       break;
   }

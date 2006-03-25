@@ -24,6 +24,7 @@
 #include "lisp/lisp.hpp"
 #include "lisp/list_iterator.hpp"
 #include "object_factory.hpp"
+#include "msg.hpp"
 
 #include <assert.h>
 #include <iostream>
@@ -51,7 +52,7 @@ Path::Path(const lisp::Lisp& reader)
 
   while(iter.next()) {
     if(iter.item() != "node") {
-      std::cerr << "Warning: unknown token '" << iter.item() << "' in Path nodes list. Ignored." << std::endl;
+      msg_warning("unknown token '" << iter.item() << "' in Path nodes list. Ignored.");
       continue;
     }
     const lisp::Lisp* node_lisp = iter.lisp();

@@ -8,6 +8,7 @@
 #include "tinygettext/tinygettext.hpp"
 #include "resources.hpp"
 #include "gettext.hpp"
+#include "msg.hpp"
 
 namespace Scripting
 {
@@ -34,15 +35,15 @@ void import(HSQUIRRELVM v, const std::string& filename)
   std::string file 
     = ScriptInterpreter::current()->get_working_directory() + filename;
   if(sqstd_loadfile(v, file.c_str(), true) < 0) {
-    std::cerr << "Warning couldn't load script '" << filename << "' ("
-      << file << ").\n";
+    msg_warning("couldn't load script '" << filename << "' ("
+      << file << ")");
     return;
   }
 
   sq_push(v, -2);
   if(sq_call(v, 1, false) < 0) {
-    std::cerr << "Couldn't execute script '" << filename << "' ("
-      << file << ").\n";
+    msg_warning("Couldn't execute script '" << filename << "' ("
+      << file << ")");
     return;
   }
 }

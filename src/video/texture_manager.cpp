@@ -12,6 +12,7 @@
 #include "image_texture.hpp"
 #include "glutil.hpp"
 #include "file_system.hpp"
+#include "msg.hpp"
 
 TextureManager* texture_manager = NULL;
 
@@ -25,9 +26,7 @@ TextureManager::~TextureManager()
       i != image_textures.end(); ++i) {
     if(i->second == NULL)
       continue;
-#ifdef DEBUG
-    std::cerr << "Warning: Texture '" << i->first << "' not freed\n";
-#endif
+    msg_warning("Texture '" << i->first << "' not freed");
     delete i->second;
   }
 }

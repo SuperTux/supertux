@@ -26,6 +26,7 @@
 #include <assert.h>
 #include <SDL.h>
 #include "video/drawing_context.hpp"
+#include "msg.hpp"
 #include "lisp/lisp.hpp"
 #include "lisp/parser.hpp"
 #include "lisp/list_iterator.hpp"
@@ -40,7 +41,7 @@ TileManager::TileManager(const std::string& filename)
 #endif
   load_tileset(filename);
 #ifdef DEBUG
-  printf("Tiles loaded in %f seconds\n", (SDL_GetTicks() - ticks) / 1000.0);
+  msg_debug("Tiles loaded in " << (SDL_GetTicks() - ticks) / 1000.0 << "seconds");
 #endif
 }
 
@@ -80,7 +81,7 @@ void TileManager::load_tileset(std::string filename)
         tiles.push_back(0);
       }
       if(tiles[tile->id] != 0) {
-        std::cout << "Warning: Tile with ID " << tile->id << " redefined\n";
+        msg_warning("Tile with ID " << tile->id << " redefined");
       }
       tiles[tile->id] = tile;
     } else if(iter.item() == "tilegroup") {
@@ -137,7 +138,7 @@ void TileManager::load_tileset(std::string filename)
     } else if(iter.item() == "properties") {
       // deprecated
     } else {
-      std::cerr << "Unknown symbol '" << iter.item() << "' tile defintion file.\n";
+      msg_warning("Unknown symbol '" << iter.item() << "' tile defintion file");
     }
   }
 }

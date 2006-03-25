@@ -1,10 +1,10 @@
 #include <config.h>
 
+#include "msg.hpp"
 #include "file_system.hpp"
 
 #include <string>
 #include <vector>
-#include <iostream>
 #include <sstream>
 
 namespace FileSystem
@@ -55,7 +55,8 @@ std::string normalize(const std::string& filename)
     
     if(pathelem == "..") {
       if(path_stack.empty()) {
-        std::cout << "Invalid '..' in path '" << filename << "'.\n";
+
+        msg_warning("Invalid '..' in path '" << filename << "'");
         // push it into the result path so that the users sees his error...
         path_stack.push_back(pathelem);
       } else {

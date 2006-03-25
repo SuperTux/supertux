@@ -21,6 +21,7 @@
 
 #include <iostream>
 #include "collision_grid.hpp"
+#include "msg.hpp"
 #include "collision.hpp"
 #include "sector.hpp"
 #include "collision_grid_iterator.hpp"
@@ -75,7 +76,7 @@ CollisionGrid::add_object(MovingObject* object)
       int gridy = int(y / cell_height);
       if(gridx < 0 || gridy < 0 
           || gridx >= int(cells_x) || gridy >= int(cells_y)) {
-        std::cerr << "Object out of range: " << gridx << ", " << gridy << "\n";
+        msg_warning("Object out of range: " << gridx << ", " << gridy);
         continue;
       }
       GridEntry* entry = new GridEntry;
@@ -101,7 +102,7 @@ CollisionGrid::remove_object(MovingObject* object)
   assert(wrapper != 0);
 #else
   if(wrapper == 0) {
-    std::cerr << "Tried to remove nonexistant object!\n";
+    msg_warning("Tried to remove nonexistant object");
     return;
   }
 #endif
@@ -113,7 +114,7 @@ CollisionGrid::remove_object(MovingObject* object)
       int gridy = int(y / cell_height);
       if(gridx < 0 || gridy < 0 
           || gridx >= int(cells_x) || gridy >= int(cells_y)) {
-        std::cerr << "Object out of range: " << gridx << ", " << gridy << "\n";
+        msg_warning("Object out of range: " << gridx << ", " << gridy);
         continue;
       }
       remove_object_from_gridcell(gridy*cells_x + gridx, wrapper);
@@ -135,7 +136,7 @@ CollisionGrid::move_object(ObjectWrapper* wrapper)
       int gridy = int(y / cell_height);
       if(gridx < 0 || gridy < 0  ||
          gridx >= int(cells_x) || gridy >= int(cells_y)) {
-        std::cerr << "Object out of range: " << gridx << ", " << gridy << "\n";
+        msg_warning("Object out of range: " << gridx << ", " << gridy);
         continue;
       }
       remove_object_from_gridcell(gridy*cells_x + gridx, wrapper);
@@ -149,7 +150,7 @@ CollisionGrid::move_object(ObjectWrapper* wrapper)
       int gridy = int(y / cell_height);
       if(gridx < 0 || gridy < 0 
           || gridx >= int(cells_x) || gridy >= int(cells_y)) {
-        std::cerr << "Object out of range: " << gridx << ", " << gridy << "\n";
+        msg_warning("Object out of range: " << gridx << ", " << gridy);
         continue;
       }
 
@@ -212,7 +213,7 @@ CollisionGrid::collide_object(ObjectWrapper* wrapper)
       int gridy = int(y / cell_height);
       if(gridx < 0 || gridy < 0 
           || gridx >= int(cells_x) || gridy >= int(cells_y)) {
-        //std::cerr << "Object out of range: " << gridx << ", " << gridy << "\n";
+        //msg_warning("Object out of range: " << gridx << ", " << gridy);
         continue;
       }
   
@@ -290,6 +291,6 @@ CollisionGrid::remove_object_from_gridcell(int gridcell, ObjectWrapper* wrapper)
     entry = entry->next;
   };
 
-  std::cerr << "Couldn't find object in cell.\n";
+  msg_warning("Couldn't find object in cell");
 }
 

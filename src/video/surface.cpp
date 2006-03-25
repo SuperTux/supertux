@@ -37,6 +37,7 @@
 #include "video/screen.hpp"
 #include "image_texture.hpp"
 #include "texture_manager.hpp"
+#include "msg.hpp"
 
 Surface::Surface(const std::string& file)
 {
@@ -126,7 +127,7 @@ Surface::draw_part(float src_x, float src_y, float dst_x, float dst_y,
 
   // get and check SDL_Surface
   if (surface == 0) {
-    std::cerr << "Warning: Tried to draw NULL surface, skipped draw" << std::endl;
+    msg_warning("Tried to draw NULL surface, skipped draw");
     return;
   }	
 
@@ -147,7 +148,7 @@ Surface::draw_part(float src_x, float src_y, float dst_x, float dst_y,
       if (effect == HORIZONTAL_FLIP) transformedSurface = zoomSurface(surface, -1, 1, 0);
       if (effect == VERTICAL_FLIP) transformedSurface = zoomSurface(surface, 1, -1, 0);
       if (transformedSurface == 0) {
-        std::cerr << "Warning: No known transformation applies to surface, skipped draw" << std::endl;
+        msg_warning("No known transformation applies to surface, skipped draw");
         return;
       }	
       TransformedSurface* su = new TransformedSurface();

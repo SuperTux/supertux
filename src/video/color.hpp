@@ -2,6 +2,7 @@
 #define __COLOR_HPP__
 
 #include <vector>
+#include "msg.hpp"
 
 class Color
 {
@@ -35,8 +36,7 @@ public:
     if(red < 0 || red > 1.0 || green < 0 || green > 1.0
             || blue < 0 || blue > 1.0
             || alpha < 0 || alpha > 1.0)
-      printf("Warning: color value out of range: %f %f %f %f\n",
-              red, green, blue, alpha);
+      msg_warning("color value out of range: " << red << ", " << green << ", " << blue << ", " << alpha);
   }
 
   float red, green, blue, alpha;

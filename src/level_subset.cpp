@@ -25,6 +25,7 @@
 #include <unistd.h>
 #include <physfs.h>
 #include "level.hpp"
+#include "msg.hpp"
 #include "resources.hpp"
 #include "file_system.hpp"
 #include "video/surface.hpp"
@@ -105,8 +106,8 @@ void LevelSubset::load(const std::string& subset)
     std::string path = subset + "/";
     char** files = PHYSFS_enumerateFiles(path.c_str());
     if(!files) {
-      std::cerr << "Warning: Couldn't read subset dir '" 
-                << path << "'.\n";
+      msg_warning("Couldn't read subset dir '" 
+                << path << "'");
       return;
     }
 

@@ -32,6 +32,7 @@
 #include "sector.hpp"
 #include "main.hpp"
 #include "object_factory.hpp"
+#include "msg.hpp"
 
 Camera::Camera(Sector* newsector)
   : sector(newsector), do_backscrolling(true), scrollchange(NONE)
@@ -68,7 +69,7 @@ Camera::parse(const lisp::Lisp& reader)
 
     autoscrollPath = Path::GetByName(use_path);
     if (autoscrollPath == NULL) { 
-      std::cerr << "Warning: Path for autoscroll camera not found! Make sure that the name is spelled correctly and that the path is initialized before the platform in the level file!" << std::endl;
+      msg_warning("Path for autoscroll camera not found! Make sure that the name is spelled correctly and that the path is initialized before the platform in the level file!");
     }
 
   } else if(modename == "manual") {

@@ -44,6 +44,7 @@
 #include "main.hpp"
 #include "badguy/badguy.hpp"
 #include "player_status.hpp"
+#include "msg.hpp"
 
 static const int TILES_FOR_BUTTJUMP = 3;
 static const float SHOOTING_TIME = .150;
@@ -181,9 +182,7 @@ Player::update(float elapsed_time)
       if(moving_object) {
         moving_object->set_pos(pos);
       } else {
-#ifdef DEBUG
-        std::cout << "Non MovingObjetc grabbed?!?\n";
-#endif
+        msg_debug("Non MovingObjetc grabbed?!?");
       }
       grabbed_object->ungrab(*this, dir);
       grabbed_object = 0;

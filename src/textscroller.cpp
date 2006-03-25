@@ -22,6 +22,7 @@
 #include "textscroller.hpp"
 
 #include <stdexcept>
+#include "msg.hpp"
 #include "resources.hpp"
 #include "video/font.hpp"
 #include "video/drawing_context.hpp"
@@ -85,8 +86,7 @@ void display_text_file(const std::string& filename)
     if(text_lisp->get("speed", defaultspeed))
       defaultspeed /= 50;
   } catch(std::exception& e) {
-    std::cerr << "Couldn't load file '" << filename << "': " << e.what() <<
-      "\n";
+    msg_warning("Couldn't load file '" << filename << "': " << e.what());
     return;
   }
 
@@ -99,7 +99,7 @@ void display_text_file(const std::string& filename)
       continue;
     if(line[0] == '!') {
       std::string imagename = line.substr(1, line.size()-1);
-      std::cout << "Imagename: " << imagename << "\n";
+      msg_debug("Imagename: " << imagename);
       images.insert(std::make_pair(imagename, new Surface(imagename)));
     }
   }
@@ -166,7 +166,7 @@ void display_text_file(const std::string& filename)
             break;
         }
         default:
-          std::cerr << "Warning: text contains an unformated line.\n";
+          msg_warning("text contains an unformated line");
           font = normal_font;
           center = false;
           break;
@@ -239,7 +239,7 @@ InfoBox::InfoBox(const std::string& text)
   }
   catch (std::exception& e)
   {
-    std::cout << "Could not load scrolling images: " << e.what() << std::endl;
+    msg_warning("Could not load scrolling images: " << e.what());
     arrow_scrollup = 0;
     arrow_scrolldown = 0;
   }
@@ -297,7 +297,7 @@ InfoBox::draw(DrawingContext& context)
         break;
       }
       default:
-        std::cerr << "Warning: text contains an unformatted line.\n";
+        msg_warning("text contains an unformatted line");
         font = normal_font;
         center = false;
         break;

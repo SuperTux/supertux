@@ -20,7 +20,6 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <config.h>
 
-#include <iostream>
 #include <fstream>
 #include <sstream>
 #include <cassert>
@@ -36,6 +35,7 @@
 #include <SDL.h>
 
 #include "game_session.hpp"
+#include "msg.hpp"
 #include "video/screen.hpp"
 #include "audio/sound_manager.hpp"
 #include "gui/menu.hpp"
@@ -369,7 +369,7 @@ GameSession::try_cheats()
     tux.kill(tux.KILL);
   }
   if(main_controller->check_cheatcode("whereami")) {
-    std::cout << "You are at x " << tux.get_pos().x << ", y " << tux.get_pos().y << "." << std::endl;
+    msg_info("You are at x " << tux.get_pos().x << ", y " << tux.get_pos().y);
   }
 #if 0
   if(main_controller->check_cheatcode("grid")) {
@@ -394,9 +394,9 @@ GameSession::try_cheats()
     // don't add points to stats though...
   }
   if(main_controller->check_cheatcode("camera")) {
-    std::cout << "Camera is at " 
+    msg_info("Camera is at " 
               << Sector::current()->camera->get_translation().x << "," 
-              << Sector::current()->camera->get_translation().y << "\n";
+              << Sector::current()->camera->get_translation().y);
   }
 }
 
@@ -459,7 +459,7 @@ GameSession::update(float elapsed_time)
   if(newsector != "" && newspawnpoint != "") {
     Sector* sector = level->get_sector(newsector);
     if(sector == 0) {
-      std::cerr << "Sector '" << newsector << "' not found.\n";
+      msg_warning("Sector '" << newsector << "' not found");
     }
     sector->activate(newspawnpoint);
     sector->play_music(LEVEL_MUSIC);
@@ -744,13 +744,13 @@ GameSession::start_sequence(const std::string& sequencename)
     }
   } else if(sequencename == "stoptux") {
     if(!end_sequence) {
-      std::cout << "WARNING: Final target reached without "
-        << "an active end sequence." << std::endl;
+      msg_warning("Final target reached without "
+        << "an active end sequence");
       this->start_sequence("endsequence");
     }
     end_sequence =  ENDSEQUENCE_WAITING;
   } else {
-    std::cout << "Unknown sequence '" << sequencename << "'.\n";
+    msg_warning("Unknown sequence '" << sequencename << "'");
   }
 }
 
