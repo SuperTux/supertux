@@ -63,6 +63,7 @@
 #include "scripting/sound.hpp"
 #include "scripting/scripted_object.hpp"
 #include "scripting/text.hpp"
+#include "msg.hpp"
 
 Sector* Sector::_current = 0;
 
@@ -134,7 +135,7 @@ Sector::parse_object(const std::string& name, const lisp::Lisp& reader)
   try {
     return create_object(name, reader);
   } catch(std::exception& e) {
-    std::cerr << e.what() << "\n";
+    msg_warning(e.what() << "");
   }
   
   return 0;
@@ -174,7 +175,7 @@ Sector::parse(const lisp::Lisp& sector)
 
   fix_old_tiles();
   if(!camera) {
-    std::cerr << "sector '" << name << "' does not contain a camera.\n";
+    msg_warning("sector '" << name << "' does not contain a camera.");
     update_game_objects();
     add_object(new Camera(this));
   }
@@ -284,7 +285,7 @@ Sector::parse_old_format(const lisp::Lisp& reader)
           spawnpoints.push_back(sp);
           }
       } else {
-        std::cerr << "Unknown token '" << iter.item() << "' in reset-points.\n";
+        msg_warning("Unknown token '" << iter.item() << "' in reset-points.");
       }
     }
   }
@@ -298,7 +299,7 @@ Sector::parse_old_format(const lisp::Lisp& reader)
       if(object) {
         add_object(object);
       } else {
-        std::cerr << "Unknown object '" << iter.item() << "' in level.\n";
+        msg_warning("Unknown object '" << iter.item() << "' in level.");
       }
     }
   }
@@ -407,7 +408,7 @@ Sector::activate(const std::string& spawnpoint)
     }
   }                                                                           
   if(!sp) {
-    std::cerr << "Spawnpoint '" << spawnpoint << "' not found.\n";
+    msg_warning("Spawnpoint '" << spawnpoint << "' not found.");
     if(spawnpoint != "main") {
       activate("main");
     } else {
@@ -535,14 +536,14 @@ Sector::update_game_objects()
       if(solids == 0) {
         solids = tilemap;
       } else {
-        std::cerr << "Another solid tilemaps added. Ignoring.";
+        msg_warning("Another solid tilemaps added. Ignoring");
       }
     }
 
     Camera* camera = dynamic_cast<Camera*> (object);
     if(camera) {
       if(this->camera != 0) {
-        std::cerr << "Warning: Multiple cameras added. Ignoring.";
+        msg_warning("Multiple cameras added. Ignoring");
         continue;
       }
       this->camera = camera;

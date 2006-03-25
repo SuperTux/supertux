@@ -20,6 +20,7 @@
 #include <config.h>
 
 #include "flame.hpp"
+#include "msg.hpp"
 
 Flame::Flame(const lisp::Lisp& reader)
   : angle(0), radius(100), speed(2), source(0)
@@ -74,7 +75,7 @@ Flame::activate()
   delete source;
   source = sound_manager->create_sound_source("sounds/flame.wav");
   if(!source) {
-    std::cerr << "Couldn't start flame sound.\n";
+    msg_warning("Couldn't start flame sound");
     return;
   }
   source->set_position(get_pos());

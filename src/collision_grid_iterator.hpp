@@ -21,6 +21,7 @@
 #define __COLLISION_GRID_ITERATOR_H__
 
 #include "math/rect.hpp"
+#include "msg.hpp"
 
 class CollisionGrid;
 
@@ -51,7 +52,7 @@ public:
     entry = 0;
 
     if(start_x >= end_x) {
-      printf("bad region.\n");
+      msg_debug("bad region");
       y = 0;
       end_y = 0;
       return;

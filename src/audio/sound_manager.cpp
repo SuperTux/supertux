@@ -8,6 +8,7 @@
 #include "sound_file.hpp"
 #include "sound_source.hpp"
 #include "stream_sound_source.hpp"
+#include "msg.hpp"
 
 SoundManager* sound_manager = 0;
 
@@ -33,7 +34,7 @@ SoundManager::SoundManager()
   } catch(std::exception& e) {
     device = 0;
     context = 0;
-    std::cerr << "Couldn't initialize audio device:" << e.what() << "\n";
+    msg_warning("Couldn't initialize audio device:" << e.what());
     print_openal_version();
   }
 }
@@ -128,7 +129,7 @@ SoundManager::play(const std::string& filename, const Vector& pos)
     source->play();
     sources.push_back(source);
   } catch(std::exception& e) {
-    std::cout << "Couldn't play sound " << filename << ": " << e.what() << "\n";
+    msg_warning("Couldn't play sound " << filename << ": " << e.what());
   }
 }
 
@@ -197,8 +198,8 @@ SoundManager::play_music(const std::string& filename, bool fade)
     delete music_source;
     music_source = newmusic.release();
   } catch(std::exception& e) {
-    std::cerr << "Couldn't play music file '" << filename << "': "
-      << e.what() << "\n";
+    msg_warning("Couldn't play music file '" << filename << "': "
+      << e.what());
   }
 }
 
@@ -280,10 +281,10 @@ SoundManager::get_sample_format(SoundFile* file)
 void
 SoundManager::print_openal_version()
 {
-  std::cout << "OpenAL Vendor: " << alGetString(AL_VENDOR) << "\n"
-            << "OpenAL Version: " << alGetString(AL_VERSION) << "\n" 
-            << "OpenAL Renderer: " << alGetString(AL_RENDERER) << "\n"
-            << "OpenAl Extensions: " << alGetString(AL_EXTENSIONS) << "\n";
+  msg_info("OpenAL Vendor: " << alGetString(AL_VENDOR));
+  msg_info("OpenAL Version: " << alGetString(AL_VERSION));
+  msg_info("OpenAL Renderer: " << alGetString(AL_RENDERER));
+  msg_info("OpenAl Extensions: " << alGetString(AL_EXTENSIONS));
 }
 
 void

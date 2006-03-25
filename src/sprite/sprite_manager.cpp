@@ -29,6 +29,7 @@
 #include "lisp/parser.hpp"
 #include "lisp/list_iterator.hpp"
 #include "file_system.hpp"
+#include "msg.hpp"
 
 SpriteManager::SpriteManager(const std::string& filename)
 {
@@ -37,7 +38,7 @@ SpriteManager::SpriteManager(const std::string& filename)
 #endif
   load_resfile(filename);
 #ifdef DEBUG
-  printf("Loaded sprites in %f seconds\n", (SDL_GetTicks() - ticks) / 1000.0f);
+  msg_debug("Loaded sprites in " << (SDL_GetTicks() - ticks) / 1000.0f << " seconds");
 #endif
 }
 
@@ -70,12 +71,12 @@ SpriteManager::load_resfile(const std::string& filename)
         } else {
           delete i->second;
           i->second = spritedata;
-          std::cout << "Warning: dulpicate entry: '" << spritedata->get_name()
-            << "' in spritefile." << std::endl;
+          msg_warning("dulpicate entry: '" << spritedata->get_name()
+            << "' in spritefile.");
         }
       } else {
-        std::cout << "SpriteManager: Unknown tag '" << iter.item() 
-          << "' in spritefile.\n";
+        msg_warning("Unknown tag '" << iter.item() 
+          << "' in spritefile.");
       }
     }
   } catch(std::exception& e) {

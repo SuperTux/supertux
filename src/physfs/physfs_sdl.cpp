@@ -26,6 +26,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include <iostream>
 
 #include <assert.h>
+#include "msg.hpp"
 
 static int funcSeek(struct SDL_RWops* context, int offset, int whence)
 {
@@ -47,7 +48,7 @@ static int funcSeek(struct SDL_RWops* context, int offset, int whence)
             break;
     }
     if(res == 0) {
-        std::cerr << "Error seeking in file: " << PHYSFS_getLastError() << "\n";
+        msg_warning("Error seeking in file: " << PHYSFS_getLastError());
         return -1;
     }
 

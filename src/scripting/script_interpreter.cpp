@@ -13,6 +13,7 @@
 #include <sqstdmath.h>
 #include <sqstdstring.h>
 
+#include "msg.hpp"
 #include "wrapper.hpp"
 #include "wrapper_util.hpp"
 #include "sector.hpp"
@@ -204,7 +205,7 @@ ScriptInterpreter::add_script_object(Sector* sector, const std::string& name,
     interpreter->run_script(in, name);
     sector->add_object(interpreter.release());
   } catch(std::exception& e) {
-    std::cerr << "Couldn't start '" << name << "' script: " << e.what() << "\n";
+    msg_warning("Couldn't start '" << name << "' script: " << e.what());
   }
 }
 

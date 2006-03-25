@@ -28,6 +28,7 @@
 #include "object_factory.hpp"
 #include "sector.hpp"
 #include "scripting/script_interpreter.hpp"
+#include "msg.hpp"
 
 PowerUp::PowerUp(const lisp::Lisp& lisp)
 {
@@ -56,8 +57,8 @@ PowerUp::collision(GameObject& other, const CollisionHit& hit)
     if(fabsf(hit.normal.y) > .5) { // roof or ground
       physic.set_velocity_y(0);
     } else { // bumped left or right
-      printf("Normal: %f %f\n", hit.normal.x, hit.normal.y);
-      printf("LRbounce, new speed. %f\n", physic.get_velocity_x());
+      msg_debug("Normal: " << hit.normal.x << "," << hit.normal.y);
+      msg_debug("LRbounce, new speed: " << physic.get_velocity_x());
       physic.set_velocity_x(-physic.get_velocity_x());
     }
 

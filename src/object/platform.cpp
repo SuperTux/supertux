@@ -21,7 +21,7 @@
 
 #include "platform.hpp"
 
-#include <iostream>
+#include "msg.hpp"
 #include "video/drawing_context.hpp"
 #include "resources.hpp"
 #include "player.hpp"
@@ -45,8 +45,9 @@ Platform::Platform(const lisp::Lisp& reader)
   flags |= FLAG_SOLID;
 
   path = Path::GetByName(use_path);
-  if (path == NULL) { 
-     std::cerr << "Warning: Path for moving platform not found! Make sure that the name is spelled correctly,\nand that the path is initialized before the platform in the level file!\n";
+
+  if (path == NULL) {
+    msg_warning("Path \"" << use_path << "\" for moving platform not found! Make sure that the name is spelled correctly and that the path is initialized before the platform in the level file!");
   }
 
   path_offset = bbox.p1;

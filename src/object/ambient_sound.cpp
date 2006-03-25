@@ -28,6 +28,7 @@
 #include "sector.hpp"
 #include "audio/sound_manager.hpp"
 #include "audio/sound_source.hpp"
+#include "msg.hpp"
 
 AmbientSound::AmbientSound(const lisp::Lisp& lisp)
 {
@@ -43,7 +44,7 @@ AmbientSound::AmbientSound(const lisp::Lisp& lisp)
   sample="";
 
   if (!(lisp.get("x", position.x)&&lisp.get("y", position.y))) {
-    std::cerr << "No Position in ambient_sound"  << std::endl;
+    msg_warning("No Position in ambient_sound");
   }
 
   lisp.get("width" , dimension.x);
@@ -131,7 +132,7 @@ AmbientSound::start_playing()
     currentvolume=targetvolume=1e-20;
     sound_source->play();
   } catch(std::exception& e) {
-    std::cerr << "Couldn't play '" << sample << "': " << e.what() << "\n";
+    msg_warning("Couldn't play '" << sample << "': " << e.what() << "");
     delete sound_source;
     sound_source = 0;
   }

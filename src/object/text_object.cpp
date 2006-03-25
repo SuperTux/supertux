@@ -5,6 +5,7 @@
 #include <iostream>
 #include "resources.hpp"
 #include "video/drawing_context.hpp"
+#include "msg.hpp"
 
 TextObject::TextObject()
   : fading(0), fadetime(0), visible(false)
@@ -33,7 +34,7 @@ TextObject::set_font(const std::string& name)
   } else if(name == "small") {
     font = white_small_text;
   } else {
-    std::cerr << "Unknown font '" << name << "'.\n";
+    msg_warning("Unknown font '" << name << "'.");
   }
 }
 

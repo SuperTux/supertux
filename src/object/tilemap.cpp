@@ -34,6 +34,7 @@
 #include "lisp/writer.hpp"
 #include "object_factory.hpp"
 #include "main.hpp"
+#include "msg.hpp"
 
 TileMap::TileMap()
   : solid(false), speed(1), width(0), height(0), layer(LAYER_TILES),
@@ -62,14 +63,14 @@ TileMap::TileMap(const lisp::Lisp& reader, TileManager* new_tile_manager)
     else if(layer_str == "foreground")
       layer = LAYER_FOREGROUNDTILES;
     else
-      std::cerr << "Unknown layer '" << layer_str << "' in tilemap.\n";
+      msg_warning("Unknown layer '" << layer_str << "' in tilemap");
   }
 
   reader.get("solid", solid);
   reader.get("speed", speed);
 
   if(solid && speed != 1) {
-    std::cout << "Speed of solid tilemap is not 1. fixing.\n";
+    msg_warning("Speed of solid tilemap is not 1. fixing");
     speed = 1;
   }
   if(solid)
@@ -121,7 +122,7 @@ TileMap::write(lisp::Writer& writer)
     writer.write_string("layer", "foreground");
   else {
     writer.write_string("layer", "unknown");
-    std::cerr << "Warning unknown layer in tilemap.\n";
+    msg_warning("unknown layer in tilemap");
   }
 
   writer.write_bool("solid", solid);
@@ -253,9 +254,7 @@ const Tile*
 TileMap::get_tile(int x, int y) const
 {
   if(x < 0 || x >= width || y < 0 || y >= height) {
-#ifdef DEBUG
-    //std::cout << "Warning: tile outside tilemap requested!\n";
-#endif
+    //msg_warning("tile outside tilemap requested");
     return tilemanager->get(0);
   }
 

@@ -26,7 +26,9 @@
 #include <errno.h>
 
 #include "tinygettext.hpp"
+#include "msg.hpp"
 #include "physfs/physfs_stream.hpp"
+#include "msg.hpp"
 
 //#define TRANSLATION_DEBUG
 
@@ -58,9 +60,9 @@ std::string convert(const std::string& text,
   out_len -= out_len_temp; // see above
   if (retval == (size_t) -1)
     {
-      std::cerr << strerror(errno) << std::endl;
-      std::cerr << "Error: conversion from " << from_charset
-                << " to " << to_charset << " went wrong: " << retval << std::endl;
+      msg_warning(strerror(errno));
+      msg_warning("Error: conversion from " << from_charset
+                << " to " << to_charset << " went wrong: " << retval);
       return "";
     }
   iconv_close(cd);
@@ -236,7 +238,7 @@ DictionaryManager::get_dictionary(const std::string& spec)
     }
   else // Dictionary for languages lang isn't loaded, so we load it
     {
-      //std::cout << "get_dictionary: " << lang << std::endl;
+      //msg_debug("get_dictionary: " << lang);
       Dictionary& dict = dictionaries[lang];
 
       dict.set_language(get_language_def(lang));
@@ -248,7 +250,7 @@ DictionaryManager::get_dictionary(const std::string& spec)
           char** files = PHYSFS_enumerateFiles(p->c_str());
           if(!files) 
             {
-              std::cerr << "Error: enumerateFiles() failed on " << *p << std::endl;
+              msg_warning("Error: enumerateFiles() failed on " << *p);
             }
           else
             {
@@ -260,8 +262,8 @@ DictionaryManager::get_dictionary(const std::string& spec)
                       IFileStream in(pofile);
                       read_po_file(dict, in);
                   } catch(std::exception& e) {
-                      std::cerr << "Error: Failure file opening: " << pofile << std::endl;
-                      std::cerr << e.what() << "\n";
+                      msg_warning("Error: Failure file opening: " << pofile);
+                      msg_warning(e.what() << "");
                   }
                 }
               }
@@ -283,7 +285,7 @@ DictionaryManager::get_languages()
       char** files = PHYSFS_enumerateFiles(p->c_str());
       if (!files)
         {
-          std::cerr << "Error: opendir() failed on " << *p << std::endl;
+          msg_warning("Error: opendir() failed on " << *p);
         }
       else
         {
@@ -404,10 +406,10 @@ Dictionary::translate(const std::string& msgid, const std::string& msgid2, int n
   else
     {
 #ifdef TRANSLATION_DEBUG
-      std::cerr << "Warning: Couldn't translate: " << msgid << std::endl;
-      std::cerr << "Candidates: " << std::endl;
+      msg_warning("Couldn't translate: " << msgid);
+      msg_warning("Candidates: ");
       for (PluralEntries::iterator i = plural_entries.begin(); i != plural_entries.end(); ++i)
-        std::cout << "'" << i->first << "'" << std::endl;
+        msg_debug("'" << i->first << "'");
 #endif
 
       if (plural2_1(num)) // default to english rules
@@ -428,7 +430,7 @@ Dictionary::translate(const char* msgid)
   else
     {
 #ifdef TRANSLATION_DBEUG
-      std::cout << "Error: Couldn't translate: " << msgid << std::endl;
+      msg_warning("Couldn't translate: " << msgid);
 #endif
       return msgid;
     }
@@ -445,7 +447,7 @@ Dictionary::translate(const std::string& msgid)
   else
     {
 #ifdef TRANSLATION_DBEUG
-      std::cout << "Error: Couldn't translate: " << msgid << std::endl;
+      msg_warning("Couldn't translate: " << msgid);
 #endif
       return msgid;
     }
@@ -529,7 +531,7 @@ public:
 
     if (from_charset.empty() || from_charset == "CHARSET")
       {
-        std::cerr << "Error: Charset not specified for .po, fallback to ISO-8859-1" << std::endl;
+        msg_warning("Error: Charset not specified for .po, fallback to ISO-8859-1");
         from_charset = "ISO-8859-1";
       }
 
@@ -553,12 +555,12 @@ public:
           }
         else if (token.keyword.empty())
           {
-            //std::cerr << "Got EOF, everything looks ok." << std::endl;
+            //msg_warning("Got EOF, everything looks ok.");
           }
         else
           {
-            std::cerr << "tinygettext: expected 'msgid' keyword, got " << token.keyword 
-                      << " at line " << line_num << std::endl;
+            msg_warning("tinygettext: expected 'msgid' keyword, got " << token.keyword 
+                      << " at line " << line_num);
           }
         break;
     
@@ -590,8 +592,8 @@ public:
           } 
         else
           {
-            std::cerr << "tinygettext: expected 'msgstr' keyword, got " << token.keyword 
-                      << " at line " << line_num << std::endl;
+            msg_warning("tinygettext: expected 'msgstr' keyword, got " << token.keyword 
+                      << " at line " << line_num);
           }
         break;
 
@@ -601,7 +603,7 @@ public:
             int num;
             if (sscanf(token.keyword.c_str(), "msgstr[%d]", &num) != 1) 
               {
-                std::cerr << "Error: Couldn't parse: " << token.keyword << std::endl;
+                msg_warning("Error: Couldn't parse: " << token.keyword);
               } 
             else 
               {
@@ -640,7 +642,7 @@ public:
 
     while((c = getchar(in)) != EOF)
       {
-        //std::cout << "Lexing char: " << char(c) << " " << state << std::endl;
+        //msg_debug("Lexing char: " << char(c) << " " << state);
         switch(state)
           {
           case READ_KEYWORD:
@@ -691,12 +693,12 @@ public:
                   else if (c == '"') token.content += '"';
                   else
                     {
-                      std::cout << "Unhandled escape character: " << char(c) << std::endl;
+                      msg_warning("Unhandled escape character: " << char(c));
                     }
                 }
               else
                 {
-                  std::cout << "Unterminated string" << std::endl;
+                  msg_warning("Unterminated string");
                 }
             } else if (c == '"') { // Content string is terminated
               state = READ_CONTENT;
