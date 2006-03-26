@@ -1,0 +1,27 @@
+(supertux-sprite
+  (action
+    (name "walking-left")
+    (images "walking1.png" "walking2.png" "walking3.png" "walking4.png")
+    )
+  (action
+    (name "walking-right")
+    (mirror-action "walking-left")
+    )
+  (action
+    (name "stacked-left")
+    (images "stacked.png")
+    )
+  (action
+    (name "stacked-right")
+    (mirror-action "stacked-left")
+    )
+  (action
+    (name "squished-left")
+    (images "squished.png")
+    )
+  (action
+    (name "squished-right")
+    (mirror-action "squished-left")
+    )
+
+  )
