@@ -337,15 +337,7 @@
       (mode "normal")
     )
 
-       (background
-         (image "arctis.jpg")
-         (speed 0.500000)
-       )
        (spawnpoint (name "main") (x 0) (y 0))
-       (background
-         (image "arctis.jpg")
-         (speed 0.500000)
-       )
    )
  )
 

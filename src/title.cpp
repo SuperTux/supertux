@@ -66,9 +66,6 @@ static Surface* bkg_title;
 static Surface* logo;
 //static Surface* img_choose_subset;
 
-static bool walking;
-static Timer random_timer;
-
 static int frame;
 
 static GameSession* titlesession;
@@ -243,8 +240,12 @@ void check_contrib_subset_menu()
 
 void draw_demo(float elapsed_time)
 {
+  static Timer randomWaitTimer;
+  static Timer jumpPushTimer;
+  static Timer jumpRecoverTimer;
   static float last_tux_x_pos = -1;
   static float last_tux_y_pos = -1;
+
   Sector* sector  = titlesession->get_current_sector();
   Player* tux = sector->player;
 
@@ -252,18 +253,31 @@ void draw_demo(float elapsed_time)
 
   controller->update();
   controller->press(Controller::RIGHT);
+
+  // Determine how far we moved since last frame
+  float dx = fabsf(last_tux_x_pos - tux->get_pos().x); 
+  float dy = fabsf(last_tux_y_pos - tux->get_pos().y); 
+ 
+  // Calculate space to check for obstacles 
+  Rect lookahead = Rect(tux->get_bbox());
+  lookahead.move(Vector(lookahead.get_width()*2,0));
   
-  if(random_timer.check() || 
-      (walking && fabsf(last_tux_x_pos - tux->get_pos().x)) < .1) {
-    walking = false;
-  } else {
-      if(!walking && fabsf(tux->get_pos().y - last_tux_y_pos) < .1) {
-        random_timer.start(float(rand() % 3000 + 3000) / 1000.);
-        walking = true;
-      }
+  // Check if we should press the jump button
+  bool randomJump = !randomWaitTimer.started();
+  bool mayJump = !jumpRecoverTimer.started();
+  bool notMoving = (dx+dy < 0.1);
+  bool pathBlocked = !sector->is_free_space(lookahead); 
+  if ((notMoving || pathBlocked || randomJump) && mayJump) {
+    float jumpDuration = float(rand() % 200 + 500) / 1000.0;
+    jumpPushTimer.start(jumpDuration);
+    jumpRecoverTimer.start(jumpDuration+0.1);
+    randomWaitTimer.start(float(rand() % 3000 + 3000) / 1000.0);
   }
-  if(!walking)
-    controller->press(Controller::JUMP);
+
+  // Keep jump button pressed
+  if (jumpPushTimer.started()) controller->press(Controller::JUMP);
+
+  // Remember last position, so we can determine if we moved
   last_tux_x_pos = tux->get_pos().x;
   last_tux_y_pos = tux->get_pos().y;
 
@@ -280,7 +294,6 @@ void draw_demo(float elapsed_time)
 /* --- TITLE SCREEN --- */
 void title()
 {
-  walking = true;
   //LevelEditor* leveleditor;
   controller = new CodeController();
 
@@ -299,8 +312,6 @@ void title()
 
   /* --- Main title loop: --- */
   frame = 0;
-
-  random_timer.start(float(rand() % 2000 + 2000) / 1000.0);
 
   Uint32 lastticks = SDL_GetTicks();
   
