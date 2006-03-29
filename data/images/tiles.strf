@@ -2,7 +2,7 @@
 (supertux-tiles
   (tilegroup
     (name "Snow")
-    (tiles 7 8 9 202 13 14 15 204 10 11 12 206 16 17 18 205 22 21 19 203 23 20 207 208 31 30 114 113 115 116 0 0 117 118 0 0 122 209 123 0 124 210 125 0 1345 1346 1344 0 33 32 34 0 35 37 39 0 38 36 43 0 40 41 42 0 119 121 120 0 )
+    (tiles 7 8 9 202 13 14 15 204 10 11 12 206 16 17 18 205 22 21 19 203 23 20 207 208 31 30 114 113 115 116 0 0 117 118 0 0 122 209 123 0 124 210 125 0 1345 1346 1344 0 33 32 34 0 35 37 39 0 38 36 43 0 40 41 42 0 119 121 120 0 1539)
   )
 
 (tilegroup
@@ -100,119 +100,62 @@
     )
     (solid #t)
   )
-  (tile
-    (id 7)
-    (images
-      "tiles/snow/snow1.png"
-    )
+  (tiles
+    (width 3)
+    (height 4)
+    (ids  7  8  9
+         13 14 15
+         10 11 12
+ 	 16 17 18)
+    (attributes 0 0 0
+                1 1 1
+		1 1 1
+		1 1 1)
+    (image "tiles/snow/convex.png")
   )
-  (tile
-    (id 8)
-    (images
-      "tiles/snow/snow2.png"
-    )
+  (tiles
+    (width 2)
+    (height 3)
+    (ids 30 31
+         21 22
+ 	 20 23)
+    (attributes 1 1
+                1 1
+		1 1)
+    (image "tiles/snow/concave.png")
   )
-  (tile
-    (id 9)
-    (images
-      "tiles/snow/snow3.png"
-    )
+  (tiles
+    (width 2)
+    (height 3)
+    (ids 115 116
+         117 118
+ 	 19 1539)
+    (attributes 1 1
+                1 1
+		1 1)
+    (image "tiles/snow/variants.png")
   )
-  (tile
-    (id 10)
-    (images
-      "tiles/snow/snow4.png"
-    )
-    (solid #t)
+  (tiles
+    (width 3)
+    (height 3)
+    (ids 205 202 203
+         113 204 114
+ 	 208 205 207)
+    (attributes 1 0 1
+                1 1 1
+		1 1 1)
+    (image "tiles/snow/special.png")
   )
-  (tile
-    (id 11)
-    (images
-      "tiles/snow/snow5.png"
-    )
-    (solid #t)
-    (ice #t)
-  )
-  (tile
-    (id 12)
-    (images
-      "tiles/snow/snow6.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 13)
-    (images
-      "tiles/snow/snow7.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 14)
-    (images
-      "tiles/snow/snow8.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 15)
-    (images
-      "tiles/snow/snow9.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 16)
-    (images
-      "tiles/snow/snow10.png"
-    )
-  )
-  (tile
-    (id 17)
-    (images
-      "tiles/snow/snow11.png"
-    )
-  )
-  (tile
-    (id 18)
-    (images
-      "tiles/snow/snow12.png"
-    )
-  )
-  (tile
-    (id 19)
-    (images
-      "tiles/snow/snow13.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 20)
-    (images
-      "tiles/snow/snow14.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 21)
-    (images
-      "tiles/snow/snow15.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 22)
-    (images
-      "tiles/snow/snow16.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 23)
-    (images
-      "tiles/snow/snow17.png"
-    )
-    (solid #t)
+  (tiles
+    (width 3)
+    (height 3)
+    (ids 122 209 123
+         124 210 125
+ 	 1345 1346 1344)
+    (attributes 3 3 3
+                0 1 0
+		0 0 0)
+    (image "tiles/snow/background.png")
   )
   (tile
     (id 24)
@@ -265,20 +208,6 @@
     (id 29)
     (images
       "tiles/blocks/block3.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 30)
-    (images
-      "tiles/snow/snow18.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 31)
-    (images
-      "tiles/snow/snow19.png"
     )
     (solid #t)
   )
@@ -865,48 +794,6 @@
     (editor-images "objects/bonus_block/bonus-invisible.png")
   )
   (tile
-    (id 113)
-    (images
-      "tiles/snow/snow20.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 114)
-    (images
-      "tiles/snow/snow21.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 115)
-    (images
-      "tiles/snow/snow22.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 116)
-    (images
-      "tiles/snow/snow23.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 117)
-    (images
-      "tiles/snow/snow24.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 118)
-    (images
-      "tiles/snow/snow25.png"
-    )
-    (solid #t)
-  )
-  (tile
     (id 119)
     (images
       "tiles/darksnow/darksnow13.png"
@@ -926,36 +813,6 @@
       "tiles/darksnow/darksnow15.png"
     )
     (solid #t)
-  )
-  (tile
-    (id 122)
-    (images
-      "tiles/snow/snowbg1.png"
-    )
-    (solid #t)
-    (unisolid #t)
-  )
-  (tile
-    (id 123)
-    (images
-      "tiles/snow/snowbg2.png"
-    )
-    (solid #t)
-    (unisolid #t)
-  )
-  (tile
-    (id 124)
-    (images
-      "tiles/snow/snowbg3.png"
-    )
-    (solid #f)
-  )
-  (tile
-    (id 125)
-    (images
-      "tiles/snow/snowbg4.png"
-    )
-    (solid #f)
   )
   (tile
     (id 126)
@@ -1620,70 +1477,7 @@
     (water #t)
     (anim-fps 10)
   )
-  (tile
-    (id 202)
-    (images
-      "tiles/snow/snow1b.png"
-    )
-  )
-  (tile
-    (id 203)
-    (images
-      "tiles/snow/snow7b.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 204)
-    (images
-      "tiles/snow/snow7c.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 205)
-    (images
-      "tiles/snow/snow15b.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 206)
-    (images
-      "tiles/snow/snow14b.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 207)
-    (images
-      "tiles/snow/snow18b.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 208)
-    (images
-      "tiles/snow/snow19b.png"
-    )
-    (solid #t)
-  )
-  (tile
-    (id 209)
-    (images
-      "tiles/snow/snowbg1b.png"
-    )
-    (solid #t)
-    (unisolid #t)
-  )
-  (tile
-    (id 210)
-    (images
-      "tiles/snow/snowbg3b.png"
-    )
-    (solid #t)
-  )
-  (tile
+    (tile
     (id 211)
     (images
       "tiles/blocks/block1b.png"
@@ -4877,26 +4671,6 @@
     (images
       "tiles/doodads/blueicetop.png"
     )
-  )
-  (tile
-    (id 1344)
-    (images
-      "tiles/snow/snowbg5.png"
-    )
-    (solid #f)
-  )
-  (tile
-    (id 1345)
-    (images
-	"tiles/snow/snowbg6.png"
-    )
-    (solid #f)
-  )
-  (tile
-    (id 1346)
-    (images
-      "tiles/snow/snowbg7.png")
-	(solid #f)
   )
   (tile
     (id 1347)
