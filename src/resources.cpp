@@ -75,7 +75,7 @@ void load_shared()
   
   Button::info_font = white_small_text;
 
-  sprite_manager = new SpriteManager("images/sprites.strf");
+  sprite_manager = new SpriteManager();
   tile_manager = new TileManager("images/tiles.strf");
 
   /* Tuxes: */

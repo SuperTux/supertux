@@ -31,58 +31,14 @@
 #include "file_system.hpp"
 #include "msg.hpp"
 
-SpriteManager::SpriteManager(const std::string& filename)
+SpriteManager::SpriteManager()
 {
-#ifdef DEBUG
-  Uint32 ticks = SDL_GetTicks();
-#endif
-  load_resfile(filename);
-#ifdef DEBUG
-  msg_debug("Loaded sprites in " << (SDL_GetTicks() - ticks) / 1000.0f << " seconds");
-#endif
 }
 
 SpriteManager::~SpriteManager()
 {
   for(Sprites::iterator i = sprites.begin(); i != sprites.end(); ++i) {
     delete i->second;
-  }
-}
-
-void
-SpriteManager::load_resfile(const std::string& filename)
-{
-  lisp::Parser parser;
-  try {
-    std::auto_ptr<lisp::Lisp> root (parser.parse(filename));
-
-    const lisp::Lisp* resources = root->get_lisp("supertux-resources");
-    if(!resources)
-      throw std::runtime_error("file is not a supertux-resources files");
-
-    lisp::ListIterator iter(resources);
-    while(iter.next()) {
-      if(iter.item() == "sprite") {
-        SpriteData* spritedata = new SpriteData(iter.lisp(), "images/");
-
-        Sprites::iterator i = sprites.find(spritedata->get_name());
-        if (i == sprites.end()) {
-          sprites[spritedata->get_name()] = spritedata;
-        } else {
-          delete i->second;
-          i->second = spritedata;
-          msg_warning("dulpicate entry: '" << spritedata->get_name()
-            << "' in spritefile.");
-        }
-      } else {
-        msg_warning("Unknown tag '" << iter.item() 
-          << "' in spritefile.");
-      }
-    }
-  } catch(std::exception& e) {
-    std::stringstream msg;
-    msg << "Couldn't load file '" << filename << "': " << e.what() << "\n";
-    throw std::runtime_error(msg.str());
   }
 }
 

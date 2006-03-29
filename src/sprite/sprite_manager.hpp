@@ -32,10 +32,9 @@ private:
   Sprites sprites;
   
 public:
-  SpriteManager(const std::string& filename);
+  SpriteManager();
   ~SpriteManager();
 
-  void load_resfile(const std::string& filename);
   /** loads a sprite. */
   Sprite* create(const std::string& filename);
 

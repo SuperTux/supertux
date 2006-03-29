@@ -1,8 +1,0 @@
-;; -*- mode: scheme; -*-
-(supertux-resources
-
-;; All sprites are in seperate .sprite files
-(ignore-me)
-
-)
-
