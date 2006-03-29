@@ -1994,13 +1994,16 @@
     )
     (solid #t)
   )
+
+  ; experimental unisolid tile
   (tile
     (id 359)
     (images
-      "tiles/snow/snow11.png"
+      "tiles/auxiliary/notile.png"
     )
     (unisolid #t)
   )
+
   (tile
     (id 360)
     (images
