@@ -36,6 +36,7 @@ SoundManager::SoundManager()
     context = 0;
     msg_warning("Couldn't initialize audio device:" << e.what());
     print_openal_version();
+    throw e;
   }
 }
 
