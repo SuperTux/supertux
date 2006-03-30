@@ -63,9 +63,15 @@ private:
   
   Type type;
   int layer;
+  std::string imagefile_top;
   std::string imagefile;
-  float speed;
-  Surface* image;
+  std::string imagefile_bottom;
+  Vector pos; /**< coordinates of upper-left corner of image */
+  float speed; /**< scroll-speed in horizontal direction */
+  float speed_y; /**< scroll-speed in vertical direction */
+  Surface* image_top; /**< image to draw above pos */
+  Surface* image; /**< image to draw, anchored at pos */
+  Surface* image_bottom; /**< image to draw below pos+<screenheight> */
   Color gradient_top, gradient_bottom;
 };
 
