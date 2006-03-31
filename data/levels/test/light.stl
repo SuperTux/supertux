@@ -3,7 +3,7 @@
   (version 1)
   (name "One Block Fall-through / Spikes")
   (author "")
-  (music "music/chipdisko.ogg")
+  (music "chipdisko.ogg")
   (background "arctis.jpg")
   (particle_system "")
   (bkgd_speed 50)

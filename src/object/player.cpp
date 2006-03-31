@@ -556,7 +556,7 @@ Player::draw(DrawingContext& context)
 {
   if(!visible)
     return;
-  
+
   TuxBodyParts* tux_body;
           
   if (player_status->bonus == GROWUP_BONUS)
@@ -599,7 +599,7 @@ Player::draw(DrawingContext& context)
     else // dir == RIGHT
       tux_body->set_action("buttjump-right");
     }
-  else if (physic.get_velocity_y() != 0 && !on_ground())
+  else if (!on_ground())
     {
     if(dir == LEFT)
       tux_body->set_action("jump-left");
@@ -711,6 +711,14 @@ Player::collision(GameObject& other, const CollisionHit& hit)
   }
  
   if(other.get_flags() & FLAG_SOLID) {
+    /*
+    printf("Col %p: HN: %3.1f %3.1f D %.1f P: %3.1f %3.1f M: %3.1f %3.1f\n",
+        &other,
+        hit.normal.x, hit.normal.y, hit.depth,
+        get_pos().x, get_pos().y,
+        movement.x, movement.y);
+    */
+    
     if(hit.normal.y < 0) { // landed on floor?
       if(physic.get_velocity_y() < 0)
         physic.set_velocity_y(0);
