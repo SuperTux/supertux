@@ -29,7 +29,7 @@ PathWalker::PathWalker(const Path* path)
     walking_speed(1.0)
 {
   last_pos = path->nodes[0].position;
-  node_time = path->nodes[0].time;
+  node_mult = 1 / path->nodes[0].time;
 }
 
 PathWalker::~PathWalker()
@@ -44,8 +44,8 @@ PathWalker::advance(float elapsed_time)
   elapsed_time *= fabsf(walking_speed);
   
   const Path::Node* current_node = & (path->nodes[current_node_nr]);
-  while(node_time - elapsed_time < 0) {
-    elapsed_time -= current_node->time - node_time;
+  while(node_time + elapsed_time * node_mult >= 1) {
+    elapsed_time -= (1 - node_time) * node_mult;
 
     if(walking_speed > 0) {
       advance_node();
@@ -54,19 +54,19 @@ PathWalker::advance(float elapsed_time)
     }
 
     current_node = & (path->nodes[current_node_nr]);
+    node_time = 0;
     if(walking_speed > 0) {
-      node_time = current_node->time;
+      node_mult = 1 / current_node->time;
     } else {
-      node_time = path->nodes[next_node_nr].time;
+      node_mult = 1 / path->nodes[next_node_nr].time;
     }
   }
   
   const Path::Node* next_node = & (path->nodes[next_node_nr]);
-  node_time -= elapsed_time;
+  node_time += elapsed_time * node_mult;
  
   Vector new_pos = current_node->position + 
-    (next_node->position - current_node->position)
-    * (1 - (node_time / current_node->time));
+    (next_node->position - current_node->position) * node_time;
     
   Vector result = new_pos - last_pos;
   last_pos = new_pos;

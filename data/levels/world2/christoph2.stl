@@ -41,36 +41,6 @@
       (speed 0.5)
       (speed-y 1.0)
     )
-    (path 
-     (name "path1") 
-     (circular #t) 
-     (nodes 
-       (node (x 0)   (y 0)    (time 3)) 
-       (node (x 0)   (y 0)    (time 1)) 
-       (node (x 0)   (y -416) (time 3)) 
-       (node (x 0)   (y -416) (time 1)) 
-       )
-     )
-    (path 
-     (name "path2") 
-     (circular #t) 
-     (nodes 
-       (node (x 0)   (y 0)    (time 3)) 
-       (node (x 0)   (y 0)    (time 1)) 
-       (node (x 0)   (y 416) (time 3)) 
-       (node (x 0)   (y 416) (time 1)) 
-       )
-     )
-    (path 
-     (name "path3") 
-     (circular #t) 
-     (nodes 
-       (node (x 0)   (y 0)    (time 1)) 
-       (node (x 0)   (y 0)    (time 1)) 
-       (node (x 0)   (y -448) (time 2)) 
-       (node (x 0)   (y -448) (time 1)) 
-       )
-     )
     (spawnpoint
       (x 96)
       (y 1306)

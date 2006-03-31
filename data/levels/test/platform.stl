@@ -133,7 +133,7 @@
      (path
        (mode "pingpong") 
        (node (x 200)    (y 850)) 
-       (node (x 200)    (y 750))
+       (node (x 200)    (y 750) (time 0.5))
        (node (x 100)    (y 750))
      )
      (sprite "images/objects/platforms/small.sprite")
@@ -160,7 +160,7 @@
    (platform
      (path
        (mode "circular")
-       (node (x 392)   (y 850)    (time 1)) 
+       (node (x 392)   (y 850) (time 1))
        (node (x 392)   (y 750) (time 1)) 
        (node (x 392)   (y 650) (time 0.6)) 
        (node (x 392)   (y 750) (time 1)) 

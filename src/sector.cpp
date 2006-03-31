@@ -665,10 +665,10 @@ Sector::collision_tile_attributes(const Rect& dest) const
   float y2 = dest.p2.y;
 
   // test with all tiles in this rectangle
-  int starttilex = int(x1-1) / 32;
-  int starttiley = int(y1-1) / 32;
-  int max_x = int(x2+1);
-  int max_y = int(y2+1);
+  int starttilex = int(x1) / 32;
+  int starttiley = int(y1) / 32;
+  int max_x = int(x2);
+  int max_y = int(y2);
 
   uint32_t result = 0;
   for(int x = starttilex; x*32 < max_x; ++x) {

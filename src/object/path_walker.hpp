@@ -53,8 +53,12 @@ private:
 
   Vector last_pos;
 
-  /** the time we already spend in the current node */
+  /**
+   * the position between the current node and the next node as fraction
+   * between 0 and 1
+   */
   float node_time;
+  float node_mult;
 
   float walking_speed;
 };
