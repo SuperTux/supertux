@@ -41,7 +41,7 @@ public:
    * Returns true in case of a collision and fills in the hit structure then.
    */                                                                         
   static bool rectangle_aatriangle(CollisionHit& hit, const Rect& rect,
-      const Vector& movement, const AATriangle& triangle);                                            
+      const Vector& movement, const AATriangle& triangle);
 };
 
 #endif

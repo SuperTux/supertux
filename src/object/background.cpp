@@ -29,12 +29,12 @@
 #include "msg.hpp"
 
 Background::Background()
-  : type(INVALID), layer(LAYER_BACKGROUND0), image_top(0), image(0), image_bottom(0)
+  : type(INVALID), layer(LAYER_BACKGROUND0)
 {
 }
 
 Background::Background(const lisp::Lisp& reader)
-  : type(INVALID), layer(LAYER_BACKGROUND0), image_top(0), image(0), image_bottom(0)
+  : type(INVALID), layer(LAYER_BACKGROUND0)
 {
   // read position, defaults to (0,0)
   float px = 0;
@@ -47,12 +47,15 @@ Background::Background(const lisp::Lisp& reader)
   speed_y = 1.0;
 
   reader.get("layer", layer);
-  if(reader.get("image", imagefile) 
-      && reader.get("speed", speed)) {
+  if(reader.get("image", imagefile) && reader.get("speed", speed)) {
     set_image(imagefile, speed);
     reader.get("speed-y", speed_y);
-    if (reader.get("image-top", imagefile_top)) image_top = new Surface(imagefile_top);
-    if (reader.get("image-bottom", imagefile_bottom)) image_bottom = new Surface(imagefile_bottom);
+    if (reader.get("image-top", imagefile_top)) {
+      image_top.reset(new Surface(imagefile_top));
+    }
+    if (reader.get("image-bottom", imagefile_bottom)) {
+      image_bottom.reset(new Surface(imagefile_bottom));
+    }
   } else {
     std::vector<float> bkgd_top_color, bkgd_bottom_color;
     if(reader.get_vector("top_color", bkgd_top_color) &&
@@ -64,7 +67,6 @@ Background::Background(const lisp::Lisp& reader)
 
 Background::~Background()
 {
-  delete image;
 }
 
 void
@@ -76,9 +78,13 @@ Background::write(lisp::Writer& writer)
   writer.start_list("background");
 
   if(type == IMAGE) {
-    if (image_top) writer.write_string("image-top", imagefile_top);
+    if (image_top.get() != NULL)
+      writer.write_string("image-top", imagefile_top);
+    
     writer.write_string("image", imagefile);
-    if (image_bottom) writer.write_string("image-bottom", imagefile_bottom);
+    if (image_bottom.get() != NULL)
+      writer.write_string("image-bottom", imagefile_bottom);
+
     writer.write_float("speed", speed);
     writer.write_float("speed-y", speed_y);
   } else if(type == GRADIENT) {
@@ -109,8 +115,7 @@ Background::set_image(const std::string& name, float speed)
   this->imagefile = name;
   this->speed = speed;
 
-  delete image;
-  image = new Surface(name);
+  image.reset(new Surface(name));
 }
 
 void
@@ -127,8 +132,7 @@ Background::set_gradient(Color top, Color bottom)
    || gradient_bottom.blue > 1.0 || gradient_bottom.alpha > 1.0)
     msg_warning("bottom gradient color has values above 1.0");
 
-  delete image;
-  image = NULL;
+  image.release();
 }
 
 void
@@ -140,7 +144,7 @@ Background::draw(DrawingContext& context)
     context.draw_gradient(gradient_top, gradient_bottom, layer);
     context.pop_transform();
   } else if(type == IMAGE) {
-    if(!image)
+    if(image.get() == NULL)
       return;
     
     int w = (int) image->get_width();
@@ -153,15 +157,15 @@ Background::draw(DrawingContext& context)
     context.set_translation(Vector(0, 0));
     for(int x = sx; x < SCREEN_WIDTH; x += w) {
       for(int y = sy; y < SCREEN_HEIGHT; y += h) {
-	if (image_top && (y < center_image_py)) {
-          context.draw_surface(image_top, Vector(x, y), layer);
+	if (image_top.get() != NULL && (y < center_image_py)) {
+          context.draw_surface(image_top.get(), Vector(x, y), layer);
 	  continue;
 	} 
-	if (image_bottom && (y >= bottom_image_py)) {
-          context.draw_surface(image_bottom, Vector(x, y), layer);
+	if (image_bottom.get() != NULL && (y >= bottom_image_py)) {
+          context.draw_surface(image_bottom.get(), Vector(x, y), layer);
 	  continue;
 	}
-        context.draw_surface(image, Vector(x, y), layer);
+        context.draw_surface(image.get(), Vector(x, y), layer);
       }
     }
     context.pop_transform();

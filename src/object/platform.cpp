@@ -21,41 +21,41 @@
 
 #include "platform.hpp"
 
+#include <stdexcept>
 #include "msg.hpp"
 #include "video/drawing_context.hpp"
 #include "resources.hpp"
 #include "player.hpp"
+#include "path.hpp"
+#include "path_walker.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "lisp/lisp.hpp"
 #include "object_factory.hpp"
 
 Platform::Platform(const lisp::Lisp& reader)
 {
-  std::string use_path;
-  std::string type;
+  std::string sprite_name;
+  reader.get("sprite", sprite_name);
+  if(sprite_name == "")
+    throw new std::runtime_error("No sprite specified in platform object"); 
+  sprite.reset(sprite_manager->create(sprite_name));
 
-  reader.get("x", bbox.p1.x);
-  reader.get("y", bbox.p1.y);
-  reader.get("type", type);
-  reader.get("path", use_path);
-  sprite = sprite_manager->create("images/objects/flying_platform/platform.sprite");
-  sprite->set_action(type);
+  const lisp::Lisp* pathLisp = reader.get_lisp("path");
+  if(pathLisp == NULL)
+    throw new std::runtime_error("No path specified for platform");
+  path.reset(new Path());
+  path->read(*pathLisp);
+  walker.reset(new PathWalker(path.get()));
+
+  bbox.p1 = path->get_base();
   bbox.set_size(sprite->get_width(), sprite->get_height());
-
+  
+  set_group(COLGROUP_STATIC);
   flags |= FLAG_SOLID;
-
-  path = Path::GetByName(use_path);
-
-  if (path == NULL) {
-    msg_warning("Path \"" << use_path << "\" for moving platform not found! Make sure that the name is spelled correctly and that the path is initialized before the platform in the level file!");
-  }
-
-  path_offset = bbox.p1;
 }
 
 Platform::~Platform()
 {
-  delete sprite;
 }
 
 //TODO: Squish Tux when standing between platform and solid tile/object
@@ -65,24 +65,25 @@ HitResponse
 Platform::collision(GameObject& other, const CollisionHit& hit)
 {
   if (typeid(other) == typeid(Player)) {
-    Player* player = (Player*) &other;
-    if ((hit.normal.x == 0) && (hit.normal.y == 1)) {
+    if (hit.normal.y >= 0.9) {
       //Tux is standing on the platform
-      player->movement += path->GetLastMovement();
+      //Player* player = (Player*) &other;
+      //player->add_velocity(speed * 1.5);
+      return PASS_MOVEMENT;
     }
   }
   if(other.get_flags() & FLAG_SOLID) {
     //Collision with a solid tile
-    //does nothing, because the movement vector isn't used at the moment
     return ABORT_MOVE;
   }
   return FORCE_MOVE;
 }
 
 void
-Platform::update(float )
+Platform::update(float elapsed_time)
 {
-  set_pos(path->GetPosition() + path_offset);
+  movement = walker->advance(elapsed_time);
+  speed = movement / elapsed_time;
 }
 
 void

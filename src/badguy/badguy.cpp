@@ -165,19 +165,24 @@ BadGuy::collision_solid(GameObject& , const CollisionHit& )
 }
 
 HitResponse
-BadGuy::collision_player(Player& player, const CollisionHit& )
+BadGuy::collision_player(Player& player, const CollisionHit& hit)
 {
   if(player.is_invincible()) {
     kill_fall();
     return ABORT_MOVE;
   }
 
+  printf("PlayerHit: PM: %3.1f %3.1f BM: %3.1f %3.1f Hit: %3.1f %3.1f\n",
+          player.get_movement().x, player.get_movement().y,
+          get_movement().x, get_movement().y,
+          hit.normal.x, hit.normal.y);
   // hit from above?
-  if(player.get_movement().y - get_movement().y > 0 && player.get_bbox().p2.y <
+  if(player.get_movement().y /*- get_movement().y*/ > 0 
+          && player.get_bbox().p2.y <
       (get_bbox().p1.y + get_bbox().p2.y) / 2) {
     // if it's not possible to squish us, then this will hurt
     if(collision_squished(player))
-      return CONTINUE;
+      return ABORT_MOVE;
   }
 
   player.kill(Player::SHRINK);

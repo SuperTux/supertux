@@ -82,6 +82,13 @@ public:
     return *this;
   }
 
+  const Vector& operator -=(const Vector& other)
+  {
+    x -= other.x;
+    y -= other.y;
+    return *this;
+  }
+
   const Vector& operator *=(float val)
   {
     x *= val;

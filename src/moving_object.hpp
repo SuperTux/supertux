@@ -110,6 +110,10 @@ protected:
   Vector movement;
   /** The collision group */
   CollisionGroup group;
+
+private:
+  // this is only here for internal collision detection use
+  Rect dest;
 };
 
 #endif

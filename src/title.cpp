@@ -381,16 +381,6 @@ void title()
                   // Contrib Menu
                   generate_contrib_menu();
                   break;
-#if 0
-                case MNID_LEVELEDITOR: {
-                  LevelEdtiro* leveleditor = new LevelEditor();
-                  leveleditor->run();
-                  delete leveleditor;
-                  Menu::set_current(main_menu);
-                  resume_demo();
-                  break;
-                }
-#endif
                 case MNID_CREDITS:
                   sound_manager->stop_music();
                   fadeout(500);

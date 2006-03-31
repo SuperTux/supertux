@@ -721,19 +721,19 @@ GameSession::start_sequence(const std::string& sequencename)
   if(sequencename == "endsequence" || sequencename == "fireworks") {
     if(end_sequence)
       return;
-    
+
     end_sequence = ENDSEQUENCE_RUNNING;
-    endsequence_timer.start(level->extro_length);
+    endsequence_timer.start(7.3);
     last_x_pos = -1;
-    sound_manager->play_music("music/" + level->extro_music, false);
-    currentsector->player->invincible_timer.start(level->extro_length);
+    sound_manager->play_music("music/leveldone.ogg", false);
+    currentsector->player->invincible_timer.start(7.3);
 
     // Stop all clocks.
     for(std::vector<GameObject*>::iterator i = currentsector->gameobjects.begin();
         i != currentsector->gameobjects.end(); ++i)
     {
       GameObject* obj = *i;
-      
+
       LevelTime* lt = dynamic_cast<LevelTime*> (obj);
       if(lt)
         lt->stop();

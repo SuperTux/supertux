@@ -76,7 +76,7 @@ Stalactite::collision_solid(GameObject& , const CollisionHit& hit)
   if(state != STALACTITE_FALLING && state != STALACTITE_SQUISHED)
     return FORCE_MOVE;
   
-  if(fabsf(hit.normal.y) > .5) { // hit floor or roof?
+  if(hit.normal.y < .9) { // hit floor?
     state = STALACTITE_SQUISHED;
     set_group(COLGROUP_MOVING_ONLY_STATIC);
     physic.set_velocity_y(0);

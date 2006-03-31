@@ -197,7 +197,7 @@
                     (message (_ "Drink me")))
        
         (powerup (x 3168) (y 416)
-                 (sprite "eat-me")
+                 (sprite "images/objects/eat-me/eat-me.sprite")
                  (script "levelflip();")       
         )
       (bonusblock (x 672) (y 1056)

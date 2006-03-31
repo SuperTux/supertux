@@ -33,6 +33,8 @@
 #include "main.hpp"
 #include "object_factory.hpp"
 #include "msg.hpp"
+#include "path.hpp"
+#include "path_walker.hpp"
 
 Camera::Camera(Sector* newsector)
   : sector(newsector), do_backscrolling(true), scrollchange(NONE)
@@ -63,15 +65,14 @@ Camera::parse(const lisp::Lisp& reader)
     reader.get("backscrolling", do_backscrolling);
   } else if(modename == "autoscroll") {
     mode = AUTOSCROLL;
-    std::string use_path;
-    
-    if (!reader.get("path", use_path)) throw std::runtime_error("No path specified in autoscroll camera.");
 
-    autoscrollPath = Path::GetByName(use_path);
-    if (autoscrollPath == NULL) { 
-      msg_warning("Path for autoscroll camera not found! Make sure that the name is spelled correctly and that the path is initialized before the platform in the level file!");
-    }
+    const lisp::Lisp* pathLisp = reader.get_lisp("path");
+    if(pathLisp == NULL)
+      throw std::runtime_error("No path specified in autoscroll camera.");
 
+    autoscroll_path.reset(new Path());
+    autoscroll_path->read(*pathLisp);
+    autoscroll_walker.reset(new PathWalker(autoscroll_path.get()));
   } else if(modename == "manual") {
     mode = MANUAL;
   } else {
@@ -91,7 +92,7 @@ Camera::write(lisp::Writer& writer)
     writer.write_bool("backscrolling", do_backscrolling);
   } else if(mode == AUTOSCROLL) {
     writer.write_string("mode", "autoscroll");
-    writer.write_string("path", autoscrollPath->GetName());
+    autoscroll_path->write(writer);
   } else if(mode == MANUAL) {
     writer.write_string("mode", "manual");
   }
@@ -141,7 +142,7 @@ Camera::update(float elapsed_time)
       update_scroll_normal(elapsed_time);
       break;
     case AUTOSCROLL:
-      update_scroll_autoscroll();
+      update_scroll_autoscroll(elapsed_time);
       break;
     case SCROLLTO:
       update_scroll_to(elapsed_time);
@@ -269,14 +270,13 @@ Camera::update_scroll_normal(float elapsed_time)
 }
 
 void
-Camera::update_scroll_autoscroll()
+Camera::update_scroll_autoscroll(float elapsed_time)
 {
-  Player* player = sector->player;
-  
+  Player* player = sector->player; 
   if(player->is_dying())
     return;
 
-  translation = autoscrollPath->GetPosition();
+  translation += autoscroll_walker->advance(elapsed_time);
 
   keep_in_bounds(translation);
   shake();

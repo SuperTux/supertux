@@ -33,6 +33,7 @@ InvisibleBlock::InvisibleBlock(const Vector& pos)
 {
   bbox.set_pos(pos);
   flags &= ~FLAG_SOLID;
+  set_group(COLGROUP_MOVING);
 }
 
 void
@@ -52,6 +53,7 @@ InvisibleBlock::hit(Player& )
   sound_manager->play("sounds/brick.wav");
   start_bounce();
   flags |= FLAG_SOLID;
+  set_group(COLGROUP_STATIC);
   visible = true;
 }
 
