@@ -760,7 +760,7 @@ Sector::collision_static(MovingObject* object, const Vector& movement)
       // the static object "wins" move tux out of the collision
       object->dest.move(-hit.normal * (hit.depth + DELTA));
       return false;
-    } else if(other_response == TEST) {
+    } else if(other_response == PASS_MOVEMENT) {
       object->dest.move(moving_object->get_movement());
       //object->movement += moving_object->get_movement();
     }

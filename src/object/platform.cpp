@@ -69,7 +69,7 @@ Platform::collision(GameObject& other, const CollisionHit& hit)
       //Tux is standing on the platform
       //Player* player = (Player*) &other;
       //player->add_velocity(speed * 1.5);
-      return TEST;
+      return PASS_MOVEMENT;
     }
   }
   if(other.get_flags() & FLAG_SOLID) {

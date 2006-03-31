@@ -34,7 +34,8 @@ enum HitResponse
   CONTINUE,
   /// do the move ignoring the collision
   FORCE_MOVE,
-  TEST
+  /// passes movement to collided object
+  PASS_MOVEMENT
 };
 
 /**
