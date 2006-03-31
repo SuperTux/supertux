@@ -24,6 +24,7 @@
 #include "moving_object.hpp"
 #include "sprite/sprite.hpp"
 #include "object/path.hpp"
+#include "object/path_walker.hpp"
 
 /**
  * This class is the base class for platforms that tux can stand on
