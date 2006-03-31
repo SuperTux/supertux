@@ -824,8 +824,8 @@ Player::kill(HurtMode mode)
         }
       else 
         {
-          growing_timer.start(GROWING_TIME);
-          safe_timer.start(TUX_SAFE_TIME + GROWING_TIME);
+          //growing_timer.start(GROWING_TIME);
+          safe_timer.start(TUX_SAFE_TIME /* + GROWING_TIME */);
           adjust_height = 31.8;
           duck = false;
           player_status->bonus = NO_BONUS;
