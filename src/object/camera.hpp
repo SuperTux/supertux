@@ -21,19 +21,21 @@
 
 #include <vector>
 #include <cassert>
+#include <memory>
 
 #include "math/vector.hpp"
 #include "game_object.hpp"
 #include "video/drawing_context.hpp"
 #include "serializable.hpp"
 #include "timer.hpp"
-#include "object/path.hpp"
 
 namespace lisp {
 class Lisp;
 }
 
 class Sector;
+class Path;
+class PathWalker;
 
 class Camera : public GameObject, public Serializable
 {
@@ -81,7 +83,7 @@ public:
 
 private:
   void update_scroll_normal(float elapsed_time);
-  void update_scroll_autoscroll();
+  void update_scroll_autoscroll(float elapsed_time);
   void update_scroll_to(float elapsed_time);
   void keep_in_bounds(Vector& vector);
   void shake();
@@ -100,7 +102,8 @@ private:
   LeftRightScrollChange scrollchange;
 
   // autoscroll mode
-  Path* autoscrollPath;
+  std::auto_ptr<Path> autoscroll_path;
+  std::auto_ptr<PathWalker> autoscroll_walker;
 
   // shaking
   Timer shaketimer;

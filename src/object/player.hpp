@@ -92,8 +92,8 @@ private:
   bool dying;
   bool backflipping;
   int  backflip_direction;
+  
 public:
-
   Direction dir;
   Direction old_dir;
 
@@ -104,7 +104,7 @@ public:
   bool jumping;
   bool can_jump;
   bool butt_jump;
-  
+
   Timer invincible_timer;
   Timer skidding_timer;
   Timer safe_timer;
@@ -148,6 +148,11 @@ public:
   // set kick animation
   void kick();
 
+  /**
+   * Adds velocity to the player (be carefull when using this)
+   */
+  void add_velocity(const Vector& velocity);
+
   void bounce(BadGuy& badguy);
 
   bool is_dead() const
@@ -172,6 +177,8 @@ private:
   void walk(float speed);
 
   bool visible;
+
+  float adjust_height;
 
   Portable* grabbed_object;
 

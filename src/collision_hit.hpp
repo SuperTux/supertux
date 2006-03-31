@@ -33,7 +33,8 @@ enum HitResponse
   /// if this happens to often then the move will just be aborted    
   CONTINUE,
   /// do the move ignoring the collision
-  FORCE_MOVE
+  FORCE_MOVE,
+  TEST
 };
 
 /**

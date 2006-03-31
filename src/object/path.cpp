@@ -3,6 +3,7 @@
 //  SuperTux Path
 //  Copyright (C) 2005 Philipp <balinor@pnxs.de>
 //  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
+//  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -18,6 +19,7 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
+#include <config.h>
 
 #include "path.hpp"
 
@@ -29,28 +31,42 @@
 #include <assert.h>
 #include <iostream>
 #include <stdexcept>
+#include <sstream>
 
-// snap to destination if within EPSILON pixels
-#define EPSILON 1.5
-
-Path::Path(const lisp::Lisp& reader)
+Path::Path()
 {
-  circular = true;
-  forward = true;
+}
 
-  if (!reader.get("name", name)) throw std::runtime_error("Path without name");
-  reader.get("circular", circular);
-  reader.get("forward", forward);
+Path::~Path()
+{
+}
 
-  const lisp::Lisp* nodes_lisp = reader.get_lisp("nodes");
-  if(!nodes_lisp) throw std::runtime_error("Path without nodes");
+void
+Path::read(const lisp::Lisp& reader)
+{
+  lisp::ListIterator iter(&reader);
 
-  lisp::ListIterator iter(nodes_lisp);
-
-  PathNode node;
-  node.time = 1;
-
+  mode = CIRCULAR;
   while(iter.next()) {
+    if(iter.item() == "mode") {
+      std::string mode_string;
+      if(!iter.value()->get(mode_string))
+        throw new std::runtime_error("Pathmode not a string");
+
+      if(mode_string == "oneshot")
+        mode = ONE_SHOT;
+      else if(mode_string == "pingpong")
+        mode = PING_PONG;
+      else if(mode_string == "circular")
+        mode = CIRCULAR;
+      else {
+        std::ostringstream msg;
+        msg << "Unknown pathmode '" << mode_string << "' found";
+        throw new std::runtime_error(msg.str());
+      }
+      continue;
+    }
+    
     if(iter.item() != "node") {
       msg_warning("unknown token '" << iter.item() << "' in Path nodes list. Ignored.");
       continue;
@@ -58,108 +74,21 @@ Path::Path(const lisp::Lisp& reader)
     const lisp::Lisp* node_lisp = iter.lisp();
 
     // each new node will inherit all values from the last one
-    node_lisp->get("x", node.position.x);
-    node_lisp->get("y", node.position.y);
+    Node node;
+    node.time = 1;
+    if( (!node_lisp->get("x", node.position.x) ||
+          !node_lisp->get("y", node.position.y)))
+      throw new std::runtime_error("Path node without x and y coordinate specified");
     node_lisp->get("time", node.time);
 
-    if(node.time <= 0) throw std::runtime_error("Path node with non-positive time");
+    if(node.time <= 0)
+      throw std::runtime_error("Path node with non-positive time");
 
-    pathNodes.push_back(node);
+    nodes.push_back(node);
   }
 
-  if (pathNodes.size() < 1) throw std::runtime_error("Path with zero nodes");
-
-  // initial position and velocity will be set with the first update, as timeToGo is initialized to 0.
-  destinationNode = 0;
-
-  // register this path for lookup:
-  registry[name] = this;
-}
-
-Path::~Path()
-{
-  registry.erase(name);
-}
-
-	void
-Path::update(float elapsed_time)
-{
-
-  // TODO: carry excess time over to next node? This is how it was done in camera.cpp:
-  /*
-  if(auto_t - elapsed_time >= 0) {
-    translation += current_dir * elapsed_time;
-    auto_t -= elapsed_time;
-  } else {
-    // do the rest of the old movement
-    translation += current_dir * auto_t;
-    elapsed_time -= auto_t;
-    auto_t = 0;
-
-    // construct path for next point
-    if(auto_idx+1 >= scrollpoints.size()) {
-      keep_in_bounds(translation);
-      return;
-    }
-    Vector distance = scrollpoints[auto_idx+1].position 
-                      - scrollpoints[auto_idx].position;
-    current_dir = distance.unit() * scrollpoints[auto_idx].speed;
-    auto_t = distance.norm() / scrollpoints[auto_idx].speed;
-
-    // do movement for the remaining time
-    translation += current_dir * elapsed_time;
-    auto_t -= elapsed_time;
-    auto_idx++;
-  }
-  */
-
-  // advance to next node at scheduled time
-  if (timeToGo <= 0) {
-    position = pathNodes[destinationNode].position;
-
-    // set destinationNode to next node
-    if (forward) {
-      destinationNode++;
-      if (destinationNode >= (int)pathNodes.size()) {
-	if (circular) {
-	  destinationNode = 0;
-	} else {
-	  destinationNode = (int)pathNodes.size()-1;
-	}
-      }
-    } else {
-      destinationNode--;
-      if (destinationNode < 0) {
-	if (circular) {
-	  destinationNode = (int)pathNodes.size()-1;
-	} else {
-	  destinationNode = 0;
-	}
-      }
-    }
-
-    PathNode dn = pathNodes[destinationNode];
-    timeToGo = dn.time;
-    velocity = (dn.position - position) / timeToGo;
-  }
-
-  // move according to stored velocity
-  last_movement = velocity * elapsed_time;
-  position += last_movement;
-  timeToGo -= elapsed_time;
-
-  // stop when we arrive at our destination
-  PathNode dn = pathNodes[destinationNode];
-  if ((position - dn.position).norm() < EPSILON) {
-    velocity = Vector(0,0);
-  }
-
-}
-
-void
-Path::draw(DrawingContext& )
-{
-  // TODO: Add a visible flag, draw the path if true
+  if (nodes.empty())
+    throw std::runtime_error("Path with zero nodes");
 }
 
 void
@@ -167,12 +96,23 @@ Path::write(lisp::Writer& writer)
 {
   writer.start_list("path");
 
-  writer.write_string("name", name);
-  writer.write_bool("circular", circular);
-  writer.write_bool("forward", forward);
+  switch(mode) {
+    case ONE_SHOT:
+      writer.write_string("mode", "oneshot");
+      break;
+    case PING_PONG:
+      writer.write_string("mode", "pingpong");
+      break;
+    case CIRCULAR:
+      writer.write_string("mode", "circular");
+      break;
+    default:
+      msg_warning("Don't know how to write mode " << (int) mode << " ?!?");
+      break;
+  }
 
-  for (int i=0; i < (int)pathNodes.size(); i++) {
-    PathNode node = pathNodes[i];
+  for (size_t i=0; i < nodes.size(); i++) {
+    const Node& node = nodes[i];
 
     writer.start_list("node");
     writer.write_float("x", node.position.x);
@@ -185,29 +125,12 @@ Path::write(lisp::Writer& writer)
   writer.end_list("path");
 }
 
-const Vector&
-Path::GetPosition() {
-  return position;
+Vector
+Path::get_base() const
+{
+  if(nodes.empty())
+    return Vector(0, 0);
+  
+  return nodes[0].position;
 }
 
-const Vector&
-Path::GetLastMovement() {
-  return last_movement;
-}
-
-const std::string
-Path::GetName() {
-  return name;
-}
-
-//////////////////////////////////////////////////////////////////////////////
-// static stuff
-
-std::map<std::string,Path*> Path::registry;
-
-Path*
-Path::GetByName(const std::string& name) {
-  return registry[name];
-}
-
-IMPLEMENT_FACTORY(Path, "path");

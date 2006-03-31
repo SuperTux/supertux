@@ -1,5 +1,6 @@
 (supertux-sprite
  (action
+  (name "normal")
   (images "iceshrub.png")
  )
 )

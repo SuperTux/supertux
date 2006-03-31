@@ -575,25 +575,14 @@ Sector::draw(DrawingContext& context)
 static const float DELTA = .001;
 
 void
-Sector::collision_tilemap(MovingObject* object, CollisionHit& hit) const
+Sector::collision_tilemap(const Rect& dest, const Vector& movement,
+                          CollisionHit& hit) const
 {
   // calculate rectangle where the object will move
-  float x1, x2;
-  if(object->get_movement().x >= 0) {
-    x1 = object->get_bbox().p1.x;
-    x2 = object->get_bbox().p2.x + object->get_movement().x;
-  } else {
-    x1 = object->get_bbox().p1.x + object->get_movement().x;
-    x2 = object->get_bbox().p2.x;
-  }
-  float y1, y2;
-  if(object->get_movement().y >= 0) {
-    y1 = object->get_bbox().p1.y;
-    y2 = object->get_bbox().p2.y + object->get_movement().y;
-  } else {
-    y1 = object->get_bbox().p1.y + object->get_movement().y;
-    y2 = object->get_bbox().p2.y;
-  }
+  float x1 = dest.get_left();
+  float x2 = dest.get_right();
+  float y1 = dest.get_top();
+  float y2 = dest.get_bottom();
 
   // test with all tiles in this rectangle
   int starttilex = int(x1) / 32;
@@ -603,8 +592,6 @@ Sector::collision_tilemap(MovingObject* object, CollisionHit& hit) const
   int max_y = int(y2+1);
 
   CollisionHit temphit;
-  Rect dest = object->get_bbox();
-  dest.move(object->movement);
   for(int x = starttilex; x*32 < max_x; ++x) {
     for(int y = starttiley; y*32 < max_y; ++y) {
       const Tile* tile = solids->get_tile(x, y);
@@ -616,7 +603,7 @@ Sector::collision_tilemap(MovingObject* object, CollisionHit& hit) const
       // only handle unisolid when the player is falling down and when he was
       // above the tile before
       if(tile->getAttributes() & Tile::UNISOLID) {
-        if(object->movement.y < 0 || object->get_bbox().p2.y > y*32)
+        if(movement.y < 0 || dest.get_top() - movement.y > y*32)
           continue;
       }
 
@@ -626,7 +613,7 @@ Sector::collision_tilemap(MovingObject* object, CollisionHit& hit) const
         Vector p2((x+1)*32, (y+1)*32);
         triangle = AATriangle(p1, p2, tile->getData());
 
-        if(Collision::rectangle_aatriangle(temphit, dest, object->movement,
+        if(Collision::rectangle_aatriangle(temphit, dest, movement,
               triangle)) {
           if(temphit.time > hit.time && (tile->getAttributes() & Tile::SOLID)) {
             hit = temphit;
@@ -634,8 +621,7 @@ Sector::collision_tilemap(MovingObject* object, CollisionHit& hit) const
         }
       } else { // normal rectangular tile
         Rect rect(x*32, y*32, (x+1)*32, (y+1)*32);
-        if(Collision::rectangle_rectangle(temphit, dest,
-              object->movement, rect)) {
+        if(Collision::rectangle_rectangle(temphit, dest, movement, rect)) {
           if(temphit.time > hit.time && (tile->getAttributes() & Tile::SOLID)) {
             hit = temphit;
           }
@@ -646,14 +632,15 @@ Sector::collision_tilemap(MovingObject* object, CollisionHit& hit) const
 }
 
 uint32_t
-Sector::collision_tile_attributes(MovingObject* object) const
+Sector::collision_tile_attributes(const Rect& dest) const
 {
   /** XXX This function doesn't work correctly as it will check all tiles
    * in the bounding box of the object movement, this might include tiles
    * that have actually never been touched by the object
    * (though this only occures for very fast objects...)
    */
-  
+ 
+#if 0
   // calculate rectangle where the object will move
   float x1, x2;
   if(object->get_movement().x >= 0) {
@@ -671,6 +658,11 @@ Sector::collision_tile_attributes(MovingObject* object) const
     y1 = object->get_bbox().p1.y + object->get_movement().y;
     y2 = object->get_bbox().p2.y;
   }
+#endif
+  float x1 = dest.p1.x;
+  float y1 = dest.p1.y;
+  float x2 = dest.p2.x;
+  float y2 = dest.p2.y;
 
   // test with all tiles in this rectangle
   int starttilex = int(x1-1) / 32;
@@ -695,37 +687,109 @@ void
 Sector::collision_object(MovingObject* object1, MovingObject* object2) const
 {
   CollisionHit hit;
-  Rect dest1 = object1->get_bbox();
-  dest1.move(object1->get_movement());
-  Rect dest2 = object2->get_bbox();
-  dest2.move(object2->get_movement());
 
   Vector movement = object1->get_movement() - object2->get_movement();
-  if(Collision::rectangle_rectangle(hit, dest1, movement, dest2)) {
+  if(Collision::rectangle_rectangle(hit, object1->dest, movement, object2->dest)) {
     HitResponse response1 = object1->collision(*object2, hit);
     hit.normal *= -1;
     HitResponse response2 = object2->collision(*object1, hit);
 
     if(response1 != CONTINUE) {
       if(response1 == ABORT_MOVE)
-        object1->movement = Vector(0, 0);
+        object1->dest = object1->get_bbox();
       if(response2 == CONTINUE)
-        object2->movement += hit.normal * (hit.depth + DELTA);
+        object2->dest.move(hit.normal * (hit.depth + DELTA));
     } else if(response2 != CONTINUE) {
       if(response2 == ABORT_MOVE)
-        object2->movement = Vector(0, 0);
+        object2->dest = object2->get_bbox();
       if(response1 == CONTINUE)
-        object1->movement += -hit.normal * (hit.depth + DELTA);
+        object1->dest.move(-hit.normal * (hit.depth + DELTA));
     } else {
-      object1->movement += -hit.normal * (hit.depth/2 + DELTA);
-      object2->movement += hit.normal * (hit.depth/2 + DELTA);
+      object1->dest.move(-hit.normal * (hit.depth/2 + DELTA));
+      object2->dest.move(hit.normal * (hit.depth/2 + DELTA));
     }
   }
+}
+
+bool
+Sector::collision_static(MovingObject* object, const Vector& movement)
+{
+  GameObject* collided_with = solids;
+  CollisionHit hit;
+  hit.time = -1;
+
+  collision_tilemap(object->dest, movement, hit);
+
+  // collision with other (static) objects
+  CollisionHit temphit;
+  for(MovingObjects::iterator i2 = moving_objects.begin();
+      i2 != moving_objects.end(); ++i2) {
+    MovingObject* moving_object_2 = *i2;
+    if(moving_object_2->get_group() != COLGROUP_STATIC
+        || !moving_object_2->is_valid())
+      continue;
+        
+    Rect dest2 = moving_object_2->get_bbox();
+    // We're using the old position of the object here,
+    // this might seem a bit wrong but improves some situations
+    // like stacked boxes and badguys alot 
+    //
+    dest2.move(moving_object_2->get_movement());
+    Vector rel_movement 
+      = movement - moving_object_2->get_movement();
+    //Vector movement = 
+        
+    if(Collision::rectangle_rectangle(temphit, object->dest, rel_movement, dest2)
+        && temphit.time > hit.time) {
+      hit = temphit;
+      collided_with = moving_object_2;
+    }
+  }
+
+  if(hit.time < 0)
+    return true;
+
+  HitResponse response = object->collision(*collided_with, hit);
+  hit.normal *= -1;
+  if(collided_with != solids) {
+    MovingObject* moving_object = (MovingObject*) collided_with;
+    HitResponse other_response = moving_object->collision(*object, hit);
+    if(other_response == ABORT_MOVE) {
+      moving_object->dest = moving_object->get_bbox();
+    } else if(other_response == FORCE_MOVE) {
+      // the static object "wins" move tux out of the collision
+      object->dest.move(-hit.normal * (hit.depth + DELTA));
+      return false;
+    } else if(other_response == TEST) {
+      object->dest.move(moving_object->get_movement());
+      //object->movement += moving_object->get_movement();
+    }
+  }
+
+  if(response == CONTINUE) {
+    object->dest.move(-hit.normal * (hit.depth + DELTA));
+    return false;
+  } else if(response == ABORT_MOVE) {
+    object->dest = object->get_bbox();
+    return true;
+  }
+  
+  // force move
+  return false;
 }
 
 void
 Sector::handle_collisions()
 {
+  // calculate destination positions of the objects
+  for(MovingObjects::iterator i = moving_objects.begin();
+      i != moving_objects.end(); ++i) {
+    MovingObject* moving_object = *i;
+
+    moving_object->dest = moving_object->get_bbox();
+    moving_object->dest.move(moving_object->get_movement());
+  }
+    
   // part1: COLGROUP_MOVING vs COLGROUP_STATIC and tilemap
   //   we do this up to 4 times and have to sort all results for the smallest
   //   one before we can continue here
@@ -737,59 +801,39 @@ Sector::handle_collisions()
         || !moving_object->is_valid())
       continue;
 
-    // up to 4 tries
-    for(int t = 0; t < 4; ++t) {
-      CollisionHit hit;
-      hit.time = -1;
-      MovingObject* collided_with = NULL; 
-      
-      // collision with tilemap
-      collision_tilemap(moving_object, hit);
-    
-      // collision with other objects
-      Rect dest1 = moving_object->get_bbox();
-      dest1.move(moving_object->get_movement());
-      CollisionHit temphit;
-      
-      for(MovingObjects::iterator i2 = moving_objects.begin();
-          i2 != moving_objects.end(); ++i2) {
-        MovingObject* moving_object_2 = *i2;
-        if(moving_object_2->get_group() != COLGROUP_STATIC
-           || !moving_object_2->is_valid())
-          continue;
-        
-        Rect dest2 = moving_object_2->get_bbox();
-        dest2.move(moving_object_2->get_movement());
-        Vector movement 
-          = moving_object->get_movement() - moving_object_2->get_movement();
-        if(Collision::rectangle_rectangle(temphit, dest1, movement, dest2)
-            && temphit.time > hit.time) {
-          hit = temphit;
-          collided_with = moving_object_2;
-        }
-      }
+    Vector movement = moving_object->get_movement();
 
-      if(hit.time < 0)
-        break;
+    // test if x or y movement is dominant
+    if(fabsf(moving_object->get_movement().x) > fabsf(moving_object->get_movement().y)) {
 
-      // call collision callbacks
-      HitResponse response;
-      if(collided_with != 0) {
-        response = moving_object->collision(*collided_with, hit);
-        hit.normal *= -1;
-        collided_with->collision(*moving_object, hit);
-      } else {
-        response = moving_object->collision(*solids, hit);
-        hit.normal *= -1;
+      // test in x direction first, then y direction
+      moving_object->dest.move(Vector(0, -movement.y));
+      for(int i = 0; i < 2; ++i) {
+        bool res = collision_static(moving_object, /*Vector(movement.x, 0)*/ movement);
+        if(res)
+          break;
       }
-   
-      if(response == CONTINUE) {
-        moving_object->movement += -hit.normal * (hit.depth + DELTA);
-      } else if(response == ABORT_MOVE) {
-        moving_object->movement = Vector(0, 0);
-        break;
-      } else { // force move
-        break;
+      moving_object->dest.move(Vector(0, movement.y));
+      for(int i = 0; i < 2; ++i) {
+        bool res = collision_static(moving_object, /*Vector(0, movement.y)*/ movement);
+        if(res)
+          break;
+      }
+      
+    } else {
+
+      // test in y direction first, then x direction
+      moving_object->dest.move(Vector(-movement.x, 0));
+      for(int i = 0; i < 2; ++i) {
+        bool res = collision_static(moving_object, movement/*Vector(0, movement.y)*/);
+        if(res)
+          break;
+      }
+      moving_object->dest.move(Vector(movement.x, 0)); 
+      for(int i = 0; i < 2; ++i) {
+        bool res = collision_static(moving_object, movement /*Vector(movement.x, 0)*/);
+        if(res)
+          break;
       }
     }
   }
@@ -803,7 +847,7 @@ Sector::handle_collisions()
         || !moving_object->is_valid())
       continue;
 
-    uint32_t tile_attributes = collision_tile_attributes(moving_object);
+    uint32_t tile_attributes = collision_tile_attributes(moving_object->dest);
     if(tile_attributes > Tile::FIRST_INTERESTING_FLAG) {
       moving_object->collision_tile(tile_attributes);
     }
@@ -853,7 +897,7 @@ Sector::handle_collisions()
       i != moving_objects.end(); ++i) {
     MovingObject* moving_object = *i;
 
-    moving_object->bbox.move(moving_object->get_movement());
+    moving_object->bbox = moving_object->dest;
     moving_object->movement = Vector(0, 0);
   }
 }

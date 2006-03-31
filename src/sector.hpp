@@ -87,11 +87,6 @@ public:
   void play_music(MusicType musictype);
   MusicType get_music_type();
   
-  /** Checks for all possible collisions. And calls the
-      collision_handlers, which the collision_objects provide for this
-      case (or not). */
-  void handle_collisions();
-
   bool add_bullet(const Vector& pos, float xm, Direction dir);
   bool add_smoke_cloud(const Vector& pos);
   void add_floating_text(const Vector& pos, const std::string& text);
@@ -103,8 +98,7 @@ public:
   /** Get total number of badguys */
   int get_total_badguys();
 
-  void collision_tilemap(MovingObject* object, CollisionHit& hit) const;
-  uint32_t collision_tile_attributes(MovingObject* object) const;
+  void collision_tilemap(const Rect& dest, const Vector& movement, CollisionHit& hit) const;
 
   /** Checks if at the specified rectangle are gameobjects with STATIC flag set
    * (or solid tiles from the tilemap)
@@ -119,6 +113,15 @@ public:
   }
 
 private:
+  uint32_t collision_tile_attributes(const Rect& dest) const;
+  
+  bool collision_static(MovingObject* object, const Vector& movement);
+  
+  /** Checks for all possible collisions. And calls the
+      collision_handlers, which the collision_objects provide for this
+      case (or not). */
+  void handle_collisions();
+  
   void collision_object(MovingObject* object1, MovingObject* object2) const;
   GameObject* parse_object(const std::string& name, const lisp::Lisp& lisp);
   

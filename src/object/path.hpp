@@ -3,6 +3,7 @@
 //  SuperTux Path
 //  Copyright (C) 2005 Philipp <balinor@pnxs.de>
 //  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
+//  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -21,63 +22,48 @@
 #ifndef __PATH_HPP__
 #define __PATH_HPP__
 
-#include <string>
-#include <list>
-#include <map>
-
+#include <vector>
 #include "math/vector.hpp"
-#include "game_object.hpp"
 #include "lisp/lisp.hpp"
 #include "serializable.hpp"
 
-
-/**
- * Helper class that stores an individual node of a Path
- */
-class PathNode
+class Path : public Serializable
 {
 public:
-  Vector position; /**< position (in pixels) of this node */
-  float time; /**< time (in seconds) to get to this node */
-};
-
-
-/**
- * Path an object can travel along. Made up of multiple nodes of type PathNode.
- */
-class Path : public GameObject, public Serializable
-{
-public:
-  Path(const lisp::Lisp& reader);
+  Path();
   ~Path();
 
-  virtual void update(float elapsed_time);
-  virtual void draw(DrawingContext& context);
+  void read(const lisp::Lisp& reader);
+  void write(lisp::Writer& writer);
 
-  virtual void write(lisp::Writer& writer);
-
-  const Vector& GetPosition();
-  const Vector& GetLastMovement();
-
-  const std::string GetName();
-
-  // WARNING: returns NULL if not found !
-  static Path* GetByName(const std::string& name);
+  Vector get_base() const;
 
 private:
-  std::string name; /**< name this path can be referenced with, stored in PathRegistry */
-  bool circular; /**< true: start with the first node once the last one has been reached. false: path will stop at last node */
-  bool forward; /**< true: travel to nodes in the order they were defined. false: inverse order */
-  std::vector<PathNode> pathNodes; /**< list of nodes that make up this path */
+  friend class PathWalker;
 
-  Vector position; /**< current position */
-  Vector velocity; /**< current velocity */
-  Vector last_movement; /**< amount of pixels we moved in the last call to update */
+  enum WalkMode {
+    // moves from first to last path node and stops
+    ONE_SHOT,
+    // moves from first to last node then in reverse order back to first
+    PING_PONG,
+    // moves from last node back to the first node
+    CIRCULAR
+  };
 
-  int destinationNode; /**< current destination Node */
-  float timeToGo; /**< seconds until we arrive at the destination */
+  /**
+   * Helper class that stores an individual node of a Path
+   */
+  class Node
+  {
+  public:
+    Vector position; /**< the position of this node */
+    float time; /**< time (in seconds) to get from this node to next node */
+  };
 
-  static std::map<std::string,Path*> registry;
+  std::vector<Node> nodes;
+  
+  WalkMode mode;
 };
 
 #endif
+

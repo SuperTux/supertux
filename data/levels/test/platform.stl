@@ -129,67 +129,54 @@
          (speed 0.500000)
        )
 
-   (path 
-     (name "path1") 
-     (circular #t) 
-     (nodes 
-       (node (x 0)   (y 0)) 
-       (node (x 0)   (y 0)) 
-       (node (x 0)   (y -100)) 
-       (node (x -100)(y -100)) 
-       )
+   (platform 
+     (path
+       (mode "pingpong") 
+       (node (x 200)    (y 850)) 
+       (node (x 200)    (y 750))
+       (node (x 100)    (y 750))
      )
-   (path 
-     (name "path2") 
-     (circular #t) 
-     (nodes 
-       (node (x 0)   (y 0)    (time 1)) 
-       (node (x 0)   (y 0)    (time 1)) 
-       (node (x 0)   (y -100) (time 1)) 
-       (node (x 0)   (y -100) (time 1)) 
-       )
+     (sprite "images/objects/platforms/small.sprite")
+   )
+   (platform
+     (path
+       (mode "pingpong")  
+       (node (x 264)   (y 850)    (time 1)) 
+       (node (x 264)   (y 850)    (time 1)) 
+       (node (x 264)   (y 750) (time 1)) 
+       (node (x 264)   (y 750) (time 1))
      )
-   (path 
-     (name "path3") 
-     (circular #t) 
-     (nodes 
-       (node (x 0)   (y 0)    (time 1)) 
-       (node (x 0)   (y 0)    (time 1)) 
-       (node (x 0)   (y -100) (time 2)) 
-       )
+     (sprite "images/objects/platforms/small.sprite")
+   )
+   (platform
+     (path
+       (mode "circular")
+       (node (x 328)   (y 850)    (time 1)) 
+       (node (x 328)   (y 850)    (time 1)) 
+       (node (x 328)   (y 750) (time 2))
      )
-   (path 
-     (name "path4") 
-     (circular #t) 
-     (nodes 
-       (node (x 0)   (y 0)    (time 1)) 
-       (node (x 0)   (y -100) (time 1)) 
-       (node (x 0)   (y -200) (time 1)) 
-       (node (x 0)   (y -100) (time 1)) 
-       )
+     (sprite "images/objects/platforms/small.sprite")
+   )
+   (platform
+     (path
+       (mode "circular")
+       (node (x 392)   (y 850)    (time 1)) 
+       (node (x 392)   (y 750) (time 1)) 
+       (node (x 392)   (y 650) (time 0.6)) 
+       (node (x 392)   (y 750) (time 1)) 
      )
-   (path 
-     (name "path5") 
-     (circular #f) 
-     (nodes 
-       (node)
-       (node (y -100))
-       (node (x 100))
-       (node (y 0))
-       (node (x 0))
-       )
+     (sprite "images/objects/platforms/small.sprite")
+   )
+   (platform
+     (path
+       (mode "circular")
+       (node (x 456) (y 750))
+       (node (x 100) (y 300))
+       (node (x 456) (y 300))
+       (node (x 456) (y 750))
      )
-
-   (platform (path "path1") (x 200) (y 850) (type "block1"))
-   (platform (path "path1") (x 232) (y 850) (type "block3"))   
-   (platform (path "path2") (x 264) (y 850) (type "block1"))
-   (platform (path "path2") (x 296) (y 850) (type "block3"))
-   (platform (path "path3") (x 328) (y 850) (type "block1"))
-   (platform (path "path3") (x 360) (y 850) (type "block3"))
-   (platform (path "path4") (x 392) (y 850) (type "block1"))
-   (platform (path "path4") (x 424) (y 850) (type "block3"))
-   (platform (path "path5") (x 456) (y 850) (type "block1"))
-   (platform (path "path5") (x 488) (y 850) (type "block3"))
+     (sprite "images/objects/platforms/small.sprite")
+   )
    (powerup (x 100) (y 700) (sprite "images/powerups/egg/egg.sprite"))
    (jumpy (x 140) (y 750))
    (spawnpoint (name "main") (x 340) (y 800))

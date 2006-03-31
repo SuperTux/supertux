@@ -35,8 +35,6 @@ class Level
 public:
   std::string name;
   std::string author;
-  std::string extro_music;
-  float extro_length;
   typedef std::vector<Sector*> Sectors;
   Sectors sectors;
 

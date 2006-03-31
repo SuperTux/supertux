@@ -35,6 +35,7 @@ Rock::Rock(const lisp::Lisp& reader)
   sprite = sprite_manager->create("images/objects/rock/rock.sprite");
   grabbed = false;
   flags |= FLAG_SOLID | FLAG_PORTABLE;
+  set_group(COLGROUP_MOVING);
 }
 
 Rock::~Rock()
@@ -73,16 +74,21 @@ Rock::update(float elapsed_time)
   }
   
   grabbed = false;
+  printf("%p - V %3.1f %3.1f - P %3.1f %3.1f\n", this,
+          physic.get_velocity().x, physic.get_velocity().y,
+          get_pos().x, get_pos().y);
 }
 
 HitResponse
-Rock::collision(GameObject& object, const CollisionHit& )
+Rock::collision(GameObject& object, const CollisionHit& hit)
 {
   if(grabbed) {
     return FORCE_MOVE;
   }
 
   if(object.get_flags() & FLAG_SOLID) {
+    printf("%p vs %p - %3.1f %3.1f D %3.1f\n", this, &object,
+        hit.normal.x, hit.normal.y, hit.depth);
     physic.set_velocity(0, 0);
     return CONTINUE;
   }

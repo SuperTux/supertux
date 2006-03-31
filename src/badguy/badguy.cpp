@@ -177,7 +177,7 @@ BadGuy::collision_player(Player& player, const CollisionHit& )
       (get_bbox().p1.y + get_bbox().p2.y) / 2) {
     // if it's not possible to squish us, then this will hurt
     if(collision_squished(player))
-      return CONTINUE;
+      return ABORT_MOVE;
   }
 
   player.kill(Player::SHRINK);

@@ -42,6 +42,7 @@
 #include "trigger/trigger_base.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
 #include "main.hpp"
+#include "platform.hpp"
 #include "badguy/badguy.hpp"
 #include "player_status.hpp"
 #include "msg.hpp"
@@ -122,6 +123,7 @@ Player::init()
     bbox.set_size(31.8, 63.8);
   else
     bbox.set_size(31.8, 31.8);
+  adjust_height = 0;
 
   dir = RIGHT;
   old_dir = dir;
@@ -156,19 +158,15 @@ Player::set_controller(Controller* controller)
 void
 Player::update(float elapsed_time)
 {
-  // do we need to enable gravity again?
-  if(on_ground_flag) {
-    Rect lower = bbox;
-    lower.move(Vector(0, 4.0));
-    if(Sector::current()->is_free_space(lower)) {
-      physic.enable_gravity(true);
-      on_ground_flag = false;
-    }
-  }
-    
   if(dying && dying_timer.check()) {
     dead = true;
     return;
+  }
+
+  if(adjust_height != 0) {
+    bbox.move(Vector(0, bbox.get_height() - adjust_height));
+    bbox.set_height(adjust_height);
+    adjust_height = 0;
   }
 
   if(!controller->hold(Controller::ACTION) && grabbed_object) {
@@ -210,6 +208,8 @@ Player::update(float elapsed_time)
              bbox.get_height()*0.66666 - 32);
     grabbed_object->grab(*this, pos, dir);
   }
+
+  on_ground_flag = false;
 }
 
 bool
@@ -525,8 +525,7 @@ Player::set_bonus(BonusType type, bool animate)
     return;
   
   if(player_status->bonus == NO_BONUS) {
-    bbox.set_height(63.8);
-    bbox.move(Vector(0, -32));
+    adjust_height = 63.8;
     if(animate)
       growing_timer.start(GROWING_TIME);
   }
@@ -600,7 +599,7 @@ Player::draw(DrawingContext& context)
     else // dir == RIGHT
       tux_body->set_action("buttjump-right");
     }
-  else if (physic.get_velocity_y() != 0)
+  else if (physic.get_velocity_y() != 0 && !on_ground())
     {
     if(dir == LEFT)
       tux_body->set_action("jump-left");
@@ -731,6 +730,7 @@ Player::collision(GameObject& other, const CollisionHit& hit)
     if(hit.normal.y < 0) { // landed on floor?
       if(physic.get_velocity_y() < 0)
         physic.set_velocity_y(0);
+
       on_ground_flag = true;
 
       // remember normal of this tile
@@ -744,16 +744,41 @@ Player::collision(GameObject& other, const CollisionHit& hit)
         floor_normal.y = (floor_normal.y * 0.9) + (hit.normal.y * 0.1);
       }
 
-      // disable gravity
-      physic.enable_gravity(false);
+      // hack platforms so that we stand normally on them when going down...
+      Platform* platform = dynamic_cast<Platform*> (&other);
+      if(platform != NULL) {
+        if(platform->get_speed().y > 0)
+          physic.set_velocity_y(-platform->get_speed().y);
+        //physic.set_velocity_x(platform->get_speed().x);
+      }
     } else if(hit.normal.y > 0) { // bumped against the roof
       physic.set_velocity_y(.1);
+
+      // hack platform so that we are not glued to it from below
+      Platform* platform = dynamic_cast<Platform*> (&other);
+      if(platform != NULL) {
+        physic.set_velocity_y(-platform->get_speed().y);
+      }      
     }
     
     if(fabsf(hit.normal.x) > .9) { // hit on the side?
       physic.set_velocity_x(0);
     }
 
+    MovingObject* omov = dynamic_cast<MovingObject*> (&other);
+    if(omov != NULL) {
+      Vector mov = movement - omov->get_movement();
+      /*
+      printf("W %p - HITN: %3.1f %3.1f D:%3.1f TM: %3.1f %3.1f TD: %3.1f %3.1f PM: %3.2f %3.1f\n",
+          omov,
+          hit.normal.x, hit.normal.y,
+          hit.depth,
+          movement.x, movement.y,
+          dest.p1.x, dest.p1.y,
+          omov->get_movement().x, omov->get_movement().y);
+      */
+    }
+    
     return CONTINUE;
   }
 
@@ -817,7 +842,7 @@ Player::kill(HurtMode mode)
         {
           growing_timer.start(GROWING_TIME);
           safe_timer.start(TUX_SAFE_TIME + GROWING_TIME);
-          bbox.set_height(31.8);
+          adjust_height = 31.8;
           duck = false;
           player_status->bonus = NO_BONUS;
         }
@@ -895,6 +920,12 @@ Player::check_bounds(Camera* camera)
     }
 #endif
   }
+}
+
+void
+Player::add_velocity(const Vector& velocity)
+{
+  physic.set_velocity(physic.get_velocity() + velocity);
 }
 
 void
