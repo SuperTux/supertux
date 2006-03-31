@@ -36,6 +36,8 @@ public:
   void active_update(float elapsed_time);
   void kill_fall();
 
+  virtual void draw(DrawingContext& context);
+
 protected:
   HitResponse collision_player(Player& player, const CollisionHit& hit);
 

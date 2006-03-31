@@ -59,6 +59,19 @@ WillOWisp::write(lisp::Writer& writer)
 }
 
 void
+WillOWisp::draw(DrawingContext& context)
+{
+  sprite->draw(context, get_pos(), LAYER_OBJECTS);
+  
+  context.push_target();
+  context.set_target(DrawingContext::LIGHTMAP);
+
+  sprite->draw(context, get_pos(), LAYER_OBJECTS);
+  
+  context.pop_target();
+}
+
+void
 WillOWisp::active_update(float elapsed_time)
 {
   Player* player = get_nearest_player();

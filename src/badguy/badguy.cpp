@@ -172,7 +172,8 @@ BadGuy::collision_player(Player& player, const CollisionHit& hit)
     return ABORT_MOVE;
   }
 
-  printf("PlayerHit: PM: %3.1f %3.1f BM: %3.1f %3.1f Hit: %3.1f %3.1f\n",
+  printf("PlayerHit: GT %3.1f PM: %3.1f %3.1f BM: %3.1f %3.1f Hit: %3.1f %3.1f\n",
+          game_time,
           player.get_movement().x, player.get_movement().y,
           get_movement().x, get_movement().y,
           hit.normal.x, hit.normal.y);

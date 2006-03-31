@@ -660,28 +660,12 @@ Player::draw(DrawingContext& context)
   if(dying) {
     smalltux_gameover->draw(context, get_pos(), layer);
   } else if(growing_timer.get_timeleft() > 0) {
-    if(!is_big())
-      {
-      if (dir == RIGHT)
-        context.draw_surface(growingtux_right[GROWING_FRAMES-1 - 
-                 int((growing_timer.get_timegone() *
-                 GROWING_FRAMES) / GROWING_TIME)], get_pos(), layer);
-      else
-        context.draw_surface(growingtux_left[GROWING_FRAMES-1 - 
-                int((growing_timer.get_timegone() *
-                GROWING_FRAMES) / GROWING_TIME)], get_pos(), layer);
-      }
-    else
-      {
-      if (dir == RIGHT)
-        context.draw_surface(growingtux_right[
-            int((growing_timer.get_timegone() *
-                GROWING_FRAMES) / GROWING_TIME)], get_pos(), layer);
-      else
-        context.draw_surface(growingtux_left[
-            int((growing_timer.get_timegone() *
-                             GROWING_FRAMES) / GROWING_TIME)],
-            get_pos(), layer);
+      if (dir == RIGHT) {
+        context.draw_surface(growingtux_right[int((growing_timer.get_timegone() *
+                 GROWING_FRAMES) / GROWING_TIME)], get_pos() - Vector(0, 32), layer);
+      } else {
+        context.draw_surface(growingtux_left[int((growing_timer.get_timegone() *
+                GROWING_FRAMES) / GROWING_TIME)], get_pos() - Vector(0, 32), layer);
       }
     }
   else if (safe_timer.started() && size_t(game_time*40)%2)
