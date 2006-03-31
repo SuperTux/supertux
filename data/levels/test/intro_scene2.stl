@@ -187,10 +187,9 @@
 
        (particles-rain
        )
-       (background
+       (gradient
          (top_color 1 0.85 0)
          (bottom_color 1 0.6 0)
-         (speed 1.000000)
        )
       (scriptedobject
         (x 0) (y 1276)

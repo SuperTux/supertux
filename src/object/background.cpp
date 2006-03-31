@@ -18,6 +18,7 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <config.h>
 
+#include <stdexcept>
 #include "background.hpp"
 #include "camera.hpp"
 #include "video/drawing_context.hpp"
@@ -29,12 +30,12 @@
 #include "msg.hpp"
 
 Background::Background()
-  : type(INVALID), layer(LAYER_BACKGROUND0)
+  : layer(LAYER_BACKGROUND0)
 {
 }
 
 Background::Background(const lisp::Lisp& reader)
-  : type(INVALID), layer(LAYER_BACKGROUND0)
+  : layer(LAYER_BACKGROUND0)
 {
   // read position, defaults to (0,0)
   float px = 0;
@@ -47,21 +48,16 @@ Background::Background(const lisp::Lisp& reader)
   speed_y = 1.0;
 
   reader.get("layer", layer);
-  if(reader.get("image", imagefile) && reader.get("speed", speed)) {
-    set_image(imagefile, speed);
-    reader.get("speed-y", speed_y);
-    if (reader.get("image-top", imagefile_top)) {
-      image_top.reset(new Surface(imagefile_top));
-    }
-    if (reader.get("image-bottom", imagefile_bottom)) {
-      image_bottom.reset(new Surface(imagefile_bottom));
-    }
-  } else {
-    std::vector<float> bkgd_top_color, bkgd_bottom_color;
-    if(reader.get_vector("top_color", bkgd_top_color) &&
-        reader.get_vector("bottom_color", bkgd_bottom_color))
-      set_gradient(Color(bkgd_top_color),
-                   Color(bkgd_bottom_color));
+  if(!reader.get("image", imagefile) || !reader.get("speed", speed))
+    throw std::runtime_error("Must specify image and speed for background");
+  
+  set_image(imagefile, speed);
+  reader.get("speed-y", speed_y);
+  if (reader.get("image-top", imagefile_top)) {
+    image_top.reset(new Surface(imagefile_top));
+  }
+  if (reader.get("image-bottom", imagefile_bottom)) {
+    image_bottom.reset(new Surface(imagefile_bottom));
   }
 }
 
@@ -72,32 +68,17 @@ Background::~Background()
 void
 Background::write(lisp::Writer& writer)
 {
-  if(type == INVALID)
-    return;
-    
   writer.start_list("background");
 
-  if(type == IMAGE) {
-    if (image_top.get() != NULL)
-      writer.write_string("image-top", imagefile_top);
+  if (image_top.get() != NULL)
+    writer.write_string("image-top", imagefile_top);
     
-    writer.write_string("image", imagefile);
-    if (image_bottom.get() != NULL)
-      writer.write_string("image-bottom", imagefile_bottom);
+  writer.write_string("image", imagefile);
+  if (image_bottom.get() != NULL)
+    writer.write_string("image-bottom", imagefile_bottom);
 
-    writer.write_float("speed", speed);
-    writer.write_float("speed-y", speed_y);
-  } else if(type == GRADIENT) {
-    std::vector<float> bkgd_top_color, bkgd_bottom_color;
-    bkgd_top_color.push_back(gradient_top.red);
-    bkgd_top_color.push_back(gradient_top.green);
-    bkgd_top_color.push_back(gradient_top.blue);
-    bkgd_bottom_color.push_back(gradient_bottom.red);
-    bkgd_bottom_color.push_back(gradient_bottom.green);
-    bkgd_bottom_color.push_back(gradient_bottom.blue);
-    writer.write_float_vector("top_color", bkgd_top_color);
-    writer.write_float_vector("bottom_color", bkgd_bottom_color);
-  }
+  writer.write_float("speed", speed);
+  writer.write_float("speed-y", speed_y);
   writer.write_int("layer", layer);
   
   writer.end_list("background");
@@ -111,7 +92,6 @@ Background::update(float)
 void
 Background::set_image(const std::string& name, float speed)
 {
-  this->type = IMAGE;
   this->imagefile = name;
   this->speed = speed;
 
@@ -119,57 +99,33 @@ Background::set_image(const std::string& name, float speed)
 }
 
 void
-Background::set_gradient(Color top, Color bottom)
-{
-  type = GRADIENT;
-  gradient_top = top;
-  gradient_bottom = bottom;
-  
-  if (gradient_top.red > 1.0 || gradient_top.green > 1.0
-   || gradient_top.blue > 1.0 || gradient_top.alpha > 1.0)
-    msg_warning("top gradient color has values above 1.0");
-  if (gradient_bottom.red > 1.0 || gradient_bottom.green > 1.0
-   || gradient_bottom.blue > 1.0 || gradient_bottom.alpha > 1.0)
-    msg_warning("bottom gradient color has values above 1.0");
-
-  image.release();
-}
-
-void
 Background::draw(DrawingContext& context)
 {
-  if(type == GRADIENT) {
-    context.push_transform();
-    context.set_translation(Vector(0, 0));
-    context.draw_gradient(gradient_top, gradient_bottom, layer);
-    context.pop_transform();
-  } else if(type == IMAGE) {
-    if(image.get() == NULL)
-      return;
+  if(image.get() == NULL)
+    return;
     
-    int w = (int) image->get_width();
-    int h = (int) image->get_height();
-    int sx = int(pos.x-context.get_translation().x * speed) % w - w;
-    int sy = int(pos.y-context.get_translation().y * speed_y) % h - h;
-    int center_image_py = int(pos.y-context.get_translation().y * speed_y);
-    int bottom_image_py = int(pos.y-context.get_translation().y * speed_y) + h;
-    context.push_transform();
-    context.set_translation(Vector(0, 0));
-    for(int x = sx; x < SCREEN_WIDTH; x += w) {
-      for(int y = sy; y < SCREEN_HEIGHT; y += h) {
-	if (image_top.get() != NULL && (y < center_image_py)) {
-          context.draw_surface(image_top.get(), Vector(x, y), layer);
-	  continue;
-	} 
-	if (image_bottom.get() != NULL && (y >= bottom_image_py)) {
-          context.draw_surface(image_bottom.get(), Vector(x, y), layer);
-	  continue;
-	}
-        context.draw_surface(image.get(), Vector(x, y), layer);
+  int w = (int) image->get_width();
+  int h = (int) image->get_height();
+  int sx = int(pos.x-context.get_translation().x * speed) % w - w;
+  int sy = int(pos.y-context.get_translation().y * speed_y) % h - h;
+  int center_image_py = int(pos.y-context.get_translation().y * speed_y);
+  int bottom_image_py = int(pos.y-context.get_translation().y * speed_y) + h;
+  context.push_transform();
+  context.set_translation(Vector(0, 0));
+  for(int x = sx; x < SCREEN_WIDTH; x += w) {
+    for(int y = sy; y < SCREEN_HEIGHT; y += h) {
+      if (image_top.get() != NULL && (y < center_image_py)) {
+        context.draw_surface(image_top.get(), Vector(x, y), layer);
+        continue;
+      } 
+      if (image_bottom.get() != NULL && (y >= bottom_image_py)) {
+        context.draw_surface(image_bottom.get(), Vector(x, y), layer);
+        continue;
       }
+      context.draw_surface(image.get(), Vector(x, y), layer);
     }
-    context.pop_transform();
   }
+  context.pop_transform();
 }
 
 IMPLEMENT_FACTORY(Background, "background");

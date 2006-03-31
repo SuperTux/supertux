@@ -32,6 +32,7 @@
 #include "object/gameobjs.hpp"
 #include "object/camera.hpp"
 #include "object/background.hpp"
+#include "object/gradient.hpp"
 #include "object/particlesystem.hpp"
 #include "object/particlesystem_interactive.hpp"
 #include "object/tilemap.hpp"
@@ -214,14 +215,14 @@ Sector::parse_old_format(const lisp::Lisp& reader)
   bkgd_bottom.blue = static_cast<float> (b) / 255.0f;
   
   if(backgroundimage != "") {
-    Background* background = new Background;
+    Background* background = new Background();
     background->set_image(
             std::string("images/background/") + backgroundimage, bgspeed);
     add_object(background);
   } else {
-    Background* background = new Background;
-    background->set_gradient(bkgd_top, bkgd_bottom);
-    add_object(background);
+    Gradient* gradient = new Gradient();
+    gradient->set_gradient(bkgd_top, bkgd_bottom);
+    add_object(gradient);
   }
 
   std::string particlesystem;
@@ -587,7 +588,7 @@ Sector::collision_tilemap(const Rect& dest, const Vector& movement,
   // test with all tiles in this rectangle
   int starttilex = int(x1) / 32;
   int starttiley = int(y1) / 32;
-  int max_x = int(x2);
+  int max_x = int(x2 + (1 - DELTA));
   int max_y = int(y2 + (1 - DELTA));
 
   CollisionHit temphit;

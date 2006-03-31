@@ -51,7 +51,7 @@ Path::read(const lisp::Lisp& reader)
     if(iter.item() == "mode") {
       std::string mode_string;
       if(!iter.value()->get(mode_string))
-        throw new std::runtime_error("Pathmode not a string");
+        throw std::runtime_error("Pathmode not a string");
 
       if(mode_string == "oneshot")
         mode = ONE_SHOT;
@@ -62,7 +62,7 @@ Path::read(const lisp::Lisp& reader)
       else {
         std::ostringstream msg;
         msg << "Unknown pathmode '" << mode_string << "' found";
-        throw new std::runtime_error(msg.str());
+        throw std::runtime_error(msg.str());
       }
       continue;
     }
@@ -78,7 +78,7 @@ Path::read(const lisp::Lisp& reader)
     node.time = 1;
     if( (!node_lisp->get("x", node.position.x) ||
           !node_lisp->get("y", node.position.y)))
-      throw new std::runtime_error("Path node without x and y coordinate specified");
+      throw std::runtime_error("Path node without x and y coordinate specified");
     node_lisp->get("time", node.time);
 
     if(node.time <= 0)

@@ -42,27 +42,16 @@ public:
 
   void set_image(const std::string& name, float bkgd_speed);
 
-  void set_gradient(Color top, Color bottom);
-
   std::string get_image() const
-        { return imagefile; }
+  { return imagefile; }
   float get_speed() const
-        { return speed; }
-  Color get_gradient_top() const
-        { return gradient_top; }
-  Color get_gradient_bottom() const
-        { return gradient_bottom; }
+  { return speed; }
 
   virtual void update(float elapsed_time);
 
   virtual void draw(DrawingContext& context);
 
 private:
-  enum Type {
-    INVALID, GRADIENT, IMAGE      
-  };
-  
-  Type type;
   int layer;
   std::string imagefile_top;
   std::string imagefile;
@@ -73,7 +62,6 @@ private:
   std::auto_ptr<Surface> image_top; /**< image to draw above pos */
   std::auto_ptr<Surface> image; /**< image to draw, anchored at pos */
   std::auto_ptr<Surface> image_bottom; /**< image to draw below pos+<screenheight> */
-  Color gradient_top, gradient_bottom;
 };
 
 #endif /*SUPERTUX_BACKGROUND_H*/
