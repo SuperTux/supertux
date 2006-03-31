@@ -129,7 +129,7 @@
         (node (x 1984)   (y 1568) (time 1)) 
         (node (x 1984)   (y 1568) (time 3)) 
         (node (x 1984)   (y 1152) (time 1)) 
-        (node (x 1984)   (y 1152) (time 1)) 
+        (node (x 1984)   (y 1152) (time 3)) 
       )
     )
     (platform
@@ -139,7 +139,7 @@
         (node (x 1856)   (y 736)  (time 1)) 
         (node (x 1856)   (y 736)  (time 3)) 
         (node (x 1856)   (y 1152) (time 1)) 
-        (node (x 1856)   (y 1152) (time 1)) 
+        (node (x 1856)   (y 1152) (time 3)) 
       )
     )
     (platform
@@ -149,7 +149,7 @@
         (node (x 896)   (y 736) (time 1)) 
         (node (x 896)   (y 736) (time 2)) 
         (node (x 896)   (y 288) (time 1)) 
-        (node (x 896)   (y 288) (time 1)) 
+        (node (x 896)   (y 288) (time 2)) 
       )
     )
   )

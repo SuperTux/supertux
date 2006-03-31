@@ -19,6 +19,7 @@
 #ifndef SUPERTUX_BACKGROUND_H
 #define SUPERTUX_BACKGROUND_H
 
+#include <memory>
 #include "video/surface.hpp"
 #include "video/drawing_context.hpp"
 #include "game_object.hpp"
@@ -69,9 +70,9 @@ private:
   Vector pos; /**< coordinates of upper-left corner of image */
   float speed; /**< scroll-speed in horizontal direction */
   float speed_y; /**< scroll-speed in vertical direction */
-  Surface* image_top; /**< image to draw above pos */
-  Surface* image; /**< image to draw, anchored at pos */
-  Surface* image_bottom; /**< image to draw below pos+<screenheight> */
+  std::auto_ptr<Surface> image_top; /**< image to draw above pos */
+  std::auto_ptr<Surface> image; /**< image to draw, anchored at pos */
+  std::auto_ptr<Surface> image_bottom; /**< image to draw below pos+<screenheight> */
   Color gradient_top, gradient_bottom;
 };
 
