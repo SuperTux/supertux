@@ -30,6 +30,7 @@ PathWalker::PathWalker(const Path* path)
 {
   last_pos = path->nodes[0].position;
   node_mult = 1 / path->nodes[0].time;
+  next_node_nr = path->nodes.size() > 1 ? 1 : 0;
 }
 
 PathWalker::~PathWalker()
@@ -45,7 +46,7 @@ PathWalker::advance(float elapsed_time)
   
   const Path::Node* current_node = & (path->nodes[current_node_nr]);
   while(node_time + elapsed_time * node_mult >= 1) {
-    elapsed_time -= (1 - node_time) * node_mult;
+    elapsed_time -= (1 - node_time) / node_mult;
 
     if(walking_speed > 0) {
       advance_node();
@@ -119,6 +120,7 @@ PathWalker::goback_node()
   switch(path->mode) {
     case Path::PING_PONG:
       walking_speed = -walking_speed;
+      next_node_nr = path->nodes.size() > 1 ? 1 : 0;
       return;
     default:
       break;

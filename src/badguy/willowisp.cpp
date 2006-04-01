@@ -104,7 +104,7 @@ WillOWisp::activate()
   sprite->set_action("idle");
 
   delete soundSource;
-  soundSource = sound_manager->create_sound_source("sounds/rain.wav");
+  soundSource = sound_manager->create_sound_source("sounds/willowisp.wav");
   if(!soundSource) {
     msg_warning("Couldn't start WillOWisp sound");
     return;

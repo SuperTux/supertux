@@ -187,10 +187,9 @@
 
        (particles-snow
        )
-       (background
+       (gradient
          (top_color 0 0.85 1)
          (bottom_color 0 0.6 1)
-         (speed 1.000000)
        )
       (scriptedobject
         (x 2291) (y 1275)

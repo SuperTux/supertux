@@ -1,4 +1,6 @@
 (supertux-sprite
-    (action
-      (images "unstable_tile.png"))
+  (action
+    (name "default")
+    (images "unstable_tile.png")
+  )
 )

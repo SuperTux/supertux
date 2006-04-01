@@ -37,12 +37,12 @@ Platform::Platform(const lisp::Lisp& reader)
   std::string sprite_name;
   reader.get("sprite", sprite_name);
   if(sprite_name == "")
-    throw new std::runtime_error("No sprite specified in platform object"); 
+    throw std::runtime_error("No sprite specified in platform object"); 
   sprite.reset(sprite_manager->create(sprite_name));
 
   const lisp::Lisp* pathLisp = reader.get_lisp("path");
   if(pathLisp == NULL)
-    throw new std::runtime_error("No path specified for platform");
+    throw std::runtime_error("No path specified for platform");
   path.reset(new Path());
   path->read(*pathLisp);
   walker.reset(new PathWalker(path.get()));

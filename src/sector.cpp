@@ -32,6 +32,7 @@
 #include "object/gameobjs.hpp"
 #include "object/camera.hpp"
 #include "object/background.hpp"
+#include "object/gradient.hpp"
 #include "object/particlesystem.hpp"
 #include "object/particlesystem_interactive.hpp"
 #include "object/tilemap.hpp"
@@ -214,14 +215,14 @@ Sector::parse_old_format(const lisp::Lisp& reader)
   bkgd_bottom.blue = static_cast<float> (b) / 255.0f;
   
   if(backgroundimage != "") {
-    Background* background = new Background;
+    Background* background = new Background();
     background->set_image(
             std::string("images/background/") + backgroundimage, bgspeed);
     add_object(background);
   } else {
-    Background* background = new Background;
-    background->set_gradient(bkgd_top, bkgd_bottom);
-    add_object(background);
+    Gradient* gradient = new Gradient();
+    gradient->set_gradient(bkgd_top, bkgd_bottom);
+    add_object(gradient);
   }
 
   std::string particlesystem;
@@ -572,7 +573,7 @@ Sector::draw(DrawingContext& context)
   context.pop_transform();
 }
 
-static const float DELTA = .001;
+static const float DELTA = .1;
 
 void
 Sector::collision_tilemap(const Rect& dest, const Vector& movement,
@@ -587,9 +588,8 @@ Sector::collision_tilemap(const Rect& dest, const Vector& movement,
   // test with all tiles in this rectangle
   int starttilex = int(x1) / 32;
   int starttiley = int(y1) / 32;
-  int max_x = int(x2);
-  // the +1 is somehow needed to make characters stay on the floor
-  int max_y = int(y2+1);
+  int max_x = int(x2 + (1 - DELTA));
+  int max_y = int(y2 + (1 - DELTA));
 
   CollisionHit temphit;
   for(int x = starttilex; x*32 < max_x; ++x) {
@@ -729,17 +729,12 @@ Sector::collision_static(MovingObject* object, const Vector& movement)
         || !moving_object_2->is_valid())
       continue;
         
-    Rect dest2 = moving_object_2->get_bbox();
-    // We're using the old position of the object here,
-    // this might seem a bit wrong but improves some situations
-    // like stacked boxes and badguys alot 
-    //
-    dest2.move(moving_object_2->get_movement());
+    Rect dest = moving_object_2->dest;
+
     Vector rel_movement 
       = movement - moving_object_2->get_movement();
-    //Vector movement = 
-        
-    if(Collision::rectangle_rectangle(temphit, object->dest, rel_movement, dest2)
+
+    if(Collision::rectangle_rectangle(temphit, object->dest, rel_movement, dest)
         && temphit.time > hit.time) {
       hit = temphit;
       collided_with = moving_object_2;
@@ -804,18 +799,18 @@ Sector::handle_collisions()
     Vector movement = moving_object->get_movement();
 
     // test if x or y movement is dominant
-    if(fabsf(moving_object->get_movement().x) > fabsf(moving_object->get_movement().y)) {
+    if(fabsf(moving_object->get_movement().x) < fabsf(moving_object->get_movement().y)) {
 
       // test in x direction first, then y direction
       moving_object->dest.move(Vector(0, -movement.y));
       for(int i = 0; i < 2; ++i) {
-        bool res = collision_static(moving_object, /*Vector(movement.x, 0)*/ movement);
+        bool res = collision_static(moving_object, Vector(movement.x, 0));
         if(res)
           break;
       }
       moving_object->dest.move(Vector(0, movement.y));
       for(int i = 0; i < 2; ++i) {
-        bool res = collision_static(moving_object, /*Vector(0, movement.y)*/ movement);
+        bool res = collision_static(moving_object, Vector(0, movement.y));
         if(res)
           break;
       }
@@ -825,13 +820,13 @@ Sector::handle_collisions()
       // test in y direction first, then x direction
       moving_object->dest.move(Vector(-movement.x, 0));
       for(int i = 0; i < 2; ++i) {
-        bool res = collision_static(moving_object, movement/*Vector(0, movement.y)*/);
+        bool res = collision_static(moving_object, Vector(0, movement.y));
         if(res)
           break;
       }
       moving_object->dest.move(Vector(movement.x, 0)); 
       for(int i = 0; i < 2; ++i) {
-        bool res = collision_static(moving_object, movement /*Vector(movement.x, 0)*/);
+        bool res = collision_static(moving_object, Vector(movement.x, 0));
         if(res)
           break;
       }

@@ -1,7 +1,7 @@
-//  $Id$
+//  $Id: background.hpp 3144 2006-03-31 10:31:03Z matzebraun $
 //
 //  SuperTux -  A Jump'n Run
-//  Copyright (C) 2004 Matthias Braun <matze@braunis.de
+//  Copyright (C) 2006 Matthias Braun <matze@braunis.de
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -16,8 +16,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-#ifndef SUPERTUX_BACKGROUND_H
-#define SUPERTUX_BACKGROUND_H
+#ifndef SUPERTUX_GRADIENT_H
+#define SUPERTUX_GRADIENT_H
 
 #include <memory>
 #include "video/surface.hpp"
@@ -31,21 +31,22 @@ namespace lisp {
 class Lisp;
 }
 
-class Background : public GameObject, public Serializable
+class Gradient : public GameObject, public Serializable
 {
 public:
-  Background();
-  Background(const lisp::Lisp& reader);
-  virtual ~Background();
+  Gradient();
+  Gradient(const lisp::Lisp& reader);
+  virtual ~Gradient();
 
   virtual void write(lisp::Writer& writer);
 
-  void set_image(const std::string& name, float bkgd_speed);
+  void set_gradient(Color top, Color bottom);
 
-  std::string get_image() const
-  { return imagefile; }
-  float get_speed() const
-  { return speed; }
+  Color get_gradient_top() const
+  { return gradient_top; }
+  
+  Color get_gradient_bottom() const
+  { return gradient_bottom; }
 
   virtual void update(float elapsed_time);
 
@@ -53,15 +54,7 @@ public:
 
 private:
   int layer;
-  std::string imagefile_top;
-  std::string imagefile;
-  std::string imagefile_bottom;
-  Vector pos; /**< coordinates of upper-left corner of image */
-  float speed; /**< scroll-speed in horizontal direction */
-  float speed_y; /**< scroll-speed in vertical direction */
-  std::auto_ptr<Surface> image_top; /**< image to draw above pos */
-  std::auto_ptr<Surface> image; /**< image to draw, anchored at pos */
-  std::auto_ptr<Surface> image_bottom; /**< image to draw below pos+<screenheight> */
+  Color gradient_top, gradient_bottom;
 };
 
 #endif /*SUPERTUX_BACKGROUND_H*/

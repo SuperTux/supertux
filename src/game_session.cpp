@@ -45,6 +45,7 @@
 #include "player_status.hpp"
 #include "object/particlesystem.hpp"
 #include "object/background.hpp"
+#include "object/gradient.hpp"
 #include "object/tilemap.hpp"
 #include "object/camera.hpp"
 #include "object/player.hpp"
@@ -211,6 +212,10 @@ GameSession::levelintro()
     Background* background = dynamic_cast<Background*> (*i);
     if(background) {
       background->draw(context);
+    }
+    Gradient* gradient = dynamic_cast<Gradient*> (*i);
+    if(gradient) {
+      gradient->draw(context);
     }
   }
 
