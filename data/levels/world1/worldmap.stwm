@@ -46,7 +46,7 @@
   )
   (level
     (x 29)
-    (y 17)
+    (y 12)
     (name "level7.stl")
   )
   (level
@@ -120,13 +120,13 @@
     (name "level21.stl")
   )
   (level
-    (x 29)
-    (y 12)
+    (x 26)
+    (y 19)
     (name "level22.stl")
   )
   (level
-    (x 26)
-    (y 21)
+    (x 29)
+    (y 17)
     (name "level23.stl")
   )
   (level
