@@ -143,7 +143,6 @@
     (x 21)
     (y 15)
     (name "level26.stl")
-    (quit-worldmap #t)
   )
   (special-tile
     (x 17)
@@ -184,6 +183,7 @@
   (level
     (x 29)
     (y 15)
-    (name "")
+    (name "yeti.stl")
+    (quit-worldmap #t)
   )
 )
