@@ -107,7 +107,7 @@
       (x 100)
       (y 170)
     )
-    (bell (x 7648) (y 331))
+    (fiefly (x 7648) (y 331))
     (stalactite  (x 1469) (y 192))
     (stalactite  (x 1631) (y 192))
     (stalactite  (x 2622) (y 261))

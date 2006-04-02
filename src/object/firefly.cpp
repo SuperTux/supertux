@@ -1,4 +1,4 @@
-//  $Id$
+//  $Id: Firefly.cpp 2979 2006-01-10 00:00:04Z matzebraun $
 // 
 //  SuperTux
 //  Copyright (C) 2005 Matthias Braun <matze@braunis.de>
@@ -19,7 +19,7 @@
 //  02111-1307, USA.
 #include <config.h>
 
-#include "bell.hpp"
+#include "firefly.hpp"
 #include "resources.hpp"
 #include "sprite/sprite_manager.hpp"
 #include "video/drawing_context.hpp"
@@ -28,43 +28,43 @@
 #include "game_session.hpp"
 #include "sector.hpp"
 
-Bell::Bell(const lisp::Lisp& lisp)
+Firefly::Firefly(const lisp::Lisp& lisp)
   : ringing(false)
 {
   lisp.get("x", bbox.p1.x);
   lisp.get("y", bbox.p1.y);
   bbox.set_size(32, 32);
-  sprite = sprite_manager->create("images/objects/bell/bell.sprite");
+  sprite = sprite_manager->create("images/objects/firefly/firefly.sprite");
   set_group(COLGROUP_TOUCHABLE);
 }
 
-Bell::~Bell()
+Firefly::~Firefly()
 {
   delete sprite;
 }
 
 void
-Bell::write(lisp::Writer& writer)
+Firefly::write(lisp::Writer& writer)
 {
-  writer.start_list("bell");
+  writer.start_list("firefly");
   writer.write_float("x", bbox.p1.x);
   writer.write_float("y", bbox.p1.y);
-  writer.end_list("bell");
+  writer.end_list("Firefly");
 }
 
 void
-Bell::update(float )
+Firefly::update(float )
 {
 }
 
 void
-Bell::draw(DrawingContext& context)
+Firefly::draw(DrawingContext& context)
 {
   sprite->draw(context, get_pos(), LAYER_TILES);
 }
 
 HitResponse
-Bell::collision(GameObject& other, const CollisionHit& )
+Firefly::collision(GameObject& other, const CollisionHit& )
 {
   if(ringing)
     return ABORT_MOVE;
@@ -81,4 +81,4 @@ Bell::collision(GameObject& other, const CollisionHit& )
   return ABORT_MOVE;
 }
 
-IMPLEMENT_FACTORY(Bell, "bell");
+IMPLEMENT_FACTORY(Firefly, "firefly");

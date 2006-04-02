@@ -338,6 +338,46 @@
      (west  #t)
      (east  #t))
 
+(tile (id 73)
+      (images "worldmap/antarctica/icebridge1.png")
+      (north #f)
+      (south #f)
+      (west  #t)
+      (east  #t)
+      (stop  #f))
+
+(tile (id 74)
+      (images "worldmap/antarctica/icebridge2.png")
+      (north #f)
+      (south #f)
+      (west  #t)
+      (east  #t)
+      (stop  #f))
+
+(tile (id 75)
+      (images "worldmap/antarctica/icebridge3.png")
+      (north #f)
+      (south #f)
+      (west  #t)
+      (east  #t)
+      (stop  #f))
+
+(tile (id 76)
+      (images "worldmap/antarctica/castle10.png")
+      (north #f)
+      (south #f)
+      (west  #t)
+      (east  #t)
+      (stop  #f))
+
+(tile (id 77)
+      (images "worldmap/antarctica/castle11.png")
+      (north #f)
+      (south #f)
+      (west  #t)
+      (east  #t)
+      (stop  #f))
+
 (tile
     (id 167)
     (images

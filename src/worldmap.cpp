@@ -414,24 +414,28 @@ WorldMap::load_map()
     lisp::Parser parser;
     std::auto_ptr<lisp::Lisp> root (parser.parse(map_filename));
 
-    const lisp::Lisp* lisp = root->get_lisp("supertux-worldmap");
+    const lisp::Lisp* lisp = root->get_lisp("supertux-level");
     if(!lisp)
-      throw std::runtime_error("file isn't a supertux-worldmap file.");
+      throw std::runtime_error("file isn't a supertux-level file.");
 
+    lisp->get("name", name);
+    
+    const lisp::Lisp* sector = lisp->get_lisp("sector");
+    if(!sector)
+      throw std::runtime_error("No sector sepcified in worldmap file.");
+    
     clear_objects();
-    lisp::ListIterator iter(lisp);
+    lisp::ListIterator iter(sector);
     while(iter.next()) {
       if(iter.item() == "tilemap") {
         add_object(new TileMap(*(iter.lisp()), tile_manager));
       } else if(iter.item() == "background") {
         add_object(new Background(*(iter.lisp())));
-      } else if(iter.item() == "properties") {
-        const lisp::Lisp* props = iter.lisp();
-        props->get("name", name);
-        props->get("music", music);
+      } else if(iter.item() == "music") {
+        iter.value()->get(music);
       } else if(iter.item() == "intro-script") {
         iter.value()->get(intro_script);
-      } else if(iter.item() == "spawnpoint") {
+      } else if(iter.item() == "worldmap-spawnpoint") {
         SpawnPoint* sp = new SpawnPoint(iter.lisp());
         spawn_points.push_back(sp);
       } else if(iter.item() == "level") {

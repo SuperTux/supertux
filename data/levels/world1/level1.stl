@@ -107,7 +107,7 @@
       (x 100)
       (y 100)
     )
-    (bell (x 5313) (y 289))
+    (firefly (x 5313) (y 289))
     (infoblock
       (x 192) (y 320)
       (message (_ "-Information blocks:
@@ -152,9 +152,9 @@
     )
     (infoblock
       (x 5377) (y 225)
-      (message (_ "-Bells:
-!images/objects/bell/bell-m.png
-#If you activate the bell
+      (message (_ "-Fireflies:
+!images/objects/firefly/firefly1.png
+#If you activate the firefly
 #now, you will restart
 #under it if you die."))
     )

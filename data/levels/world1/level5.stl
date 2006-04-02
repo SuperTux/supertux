@@ -107,7 +107,7 @@
       (x 100)
       (y 170)
     )
-    (bell (x 5006) (y 269))
+    (firefly (x 5006) (y 269))
     (snowball  (x 4800) (y 160))
     (snowball  (x 8153) (y 153))
     (jumpy  (x 9056) (y 159))

@@ -20,7 +20,7 @@ function intro()
   Text.set_text(translate("Then suddenly..."));
   Text.fade_in(1);
 
-// let's shake the bush...
+  // let's shake the bush...
   // Sound.play("sounds/rustle.wav");
   local bushx = BUSH.get_pos_x();
   local bushy = BUSH.get_pos_y();
