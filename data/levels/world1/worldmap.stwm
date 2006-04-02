@@ -1,5 +1,6 @@
 (supertux-level
   (name (_ "Icyisland"))
+  (tileset "images/worldmap.strf")
 
   (sector
     (name "main")
