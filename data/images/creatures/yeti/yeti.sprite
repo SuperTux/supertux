@@ -1,34 +1,53 @@
 (supertux-sprite
   (action
     (name "right")
-    (images "iceyeti_0.png"
-	    "iceyeti_1.png"
-	    "iceyeti_2.png"
-	    "iceyeti_1.png")
+    (fps 4.0)
+         (x-offset 0)
+         (y-offset -15)
+    (images "y1.png"
+	    "y2.png"
+	    "y3.png"
+	    "y4.png"
+	    "y5.png"
+	    "y6.png"
+)
   )
   (action
     (name "left")
     (mirror-action "right")
+    (fps 4.0)
+         (x-offset 0)
+         (y-offset -15)
   )
   (action
     (name "jump-right")
-    (images "iceyeti_jump.png")
+    (images "y-jump.png")
+         (x-offset -40)
+         (y-offset -15)
   )
   (action
     (name "jump-left")
     (mirror-action "jump-right")
+         (x-offset 40)
+         (y-offset -15)
   )
   (action
     (name "stand-right")
-    (images "iceyeti_1.png")
+    (images "y.png")
+         (x-offset -40)
+         (y-offset -15)
   )
   (action
     (name "stand-left")
     (mirror-action "stand-right")
+         (x-offset 40)
+         (y-offset -15)
   )
   (action
     (name "roar")
-    (images "iceyeti_hit.png")
+    (images "y-jump2.png")
+         (x-offset 10)
+         (y-offset -15)
   )
   (action
     (name "dead")
