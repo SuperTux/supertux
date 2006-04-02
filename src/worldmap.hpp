@@ -2,6 +2,7 @@
 // 
 //  SuperTux
 //  Copyright (C) 2004 Ingo Ruhnke <grumbel@gmx.de>
+//  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -112,7 +113,7 @@ private:
   Surface* leveldot_green;
   Surface* leveldot_red;
   Surface* messagedot;
-  Surface* teleporterdot;
+  Sprite* teleporterdot;
 
   std::string name;
   std::string music;
@@ -129,6 +130,9 @@ public:
     Vector pos;
 
     /** Optional flags: */
+
+    /** Sprite to render instead of guessing what image to draw */
+    Sprite* sprite;
 
     /** Position to swap to player */
     Vector teleport_dest;

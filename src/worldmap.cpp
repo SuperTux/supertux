@@ -2,6 +2,7 @@
 //
 //  SuperTux -  A Jump'n Run
 //  Copyright (C) 2004 Ingo Ruhnke <grumbel@gmx.de>
+//  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -345,7 +346,7 @@ WorldMap::WorldMap()
   add_object(tux);
     
   messagedot = new Surface("images/worldmap/common/messagedot.png");
-  teleporterdot = new Surface("images/worldmap/common/teleporterdot.png");
+  teleporterdot = sprite_manager->create("images/worldmap/common/teleporter.sprite");
 
   name = "<no title>";
   music = "music/salcon.ogg";
@@ -364,6 +365,9 @@ WorldMap::~WorldMap()
   for(Levels::iterator i = levels.begin(); i != levels.end(); ++i) {
     Level& level = *i;
     delete level.sprite;
+  }
+  for(SpecialTiles::iterator i = special_tiles.begin(); i != special_tiles.end(); ++i) {
+    delete i->sprite;
   }
   
   delete tile_manager;
@@ -466,6 +470,14 @@ WorldMap::parse_special_tile(const lisp::Lisp* lisp)
   
   lisp->get("x", special_tile.pos.x);
   lisp->get("y", special_tile.pos.y);
+
+  std::string sprite;
+  if (lisp->get("sprite", sprite)) {
+    special_tile.sprite = sprite_manager->create(sprite);
+  } else {
+    special_tile.sprite = 0;
+  }
+
   lisp->get("map-message", special_tile.map_message);
   special_tile.passive_message = false;
   lisp->get("passive-message", special_tile.passive_message);
@@ -926,9 +938,11 @@ WorldMap::draw(DrawingContext& context)
       if(i->invisible)
         continue;
 
-      if (i->teleport_dest != Vector(-1, -1))
-        context.draw_surface(teleporterdot,
-                Vector(i->pos.x*32, i->pos.y*32), LAYER_TILES+1);
+      if (i->sprite)
+	i->sprite->draw(context, i->pos*32 + Vector(16, 16), LAYER_TILES+1);
+
+      else if (i->teleport_dest != Vector(-1, -1))
+	teleporterdot->draw(context, i->pos*32 + Vector(16, 16), LAYER_TILES+1);
 
       else if (!i->map_message.empty() && !i->passive_message)
         context.draw_surface(messagedot,
