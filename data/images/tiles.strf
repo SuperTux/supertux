@@ -89,6 +89,10 @@
     (name "IceWood")
     (tiles 1442 1423 1424 1425 1426 1427 1428 1429 1430 1431 1432 1433 1434 1435 1436 1437 1438 1439 1440 1441 0 1443 1444 0 1445 1446 1447 1448 1449 1450 1451 1452 1453 1454 1459 1460 1455 1456 1461 1462 1457 1458 1463 1464 0 0 1465 1466)
 )  
+(tilegroup
+    (name "Icebridge")
+    (tiles 0 1540 1541 1542 1543 1544 1545 1546 1547 1548 1549 1550 1551)
+)  
 (tile
     (id 0)
     (editor-images "objects/bonus_block/bonus-fire_flower.png")
@@ -6015,5 +6019,89 @@
       (region "tiles/forest/fishbone.png" 64 32 32 32)
     )
     (solid #f)
+    )
+  (tile
+    (id 1540)
+    (images
+      (region "tiles/blocks/icebridge.png" 32 0 32 32)
+    )
+    (solid #t)
+    )
+  (tile
+    (id 1541)
+    (images
+      (region "tiles/blocks/icebridge.png" 64 0 32 32)
+    )
+    (solid #t)
+    )
+  (tile
+    (id 1542)
+    (images
+      (region "tiles/blocks/icebridge.png" 96 0 32 32)
+    )
+    (solid #t)
+    )
+  (tile
+    (id 1543)
+    (images
+      (region "tiles/blocks/icebridge.png" 0 32 32 32)
+    )
+    (solid #t)
+    )
+  (tile
+    (id 1544)
+    (images
+      (region "tiles/blocks/icebridge.png" 32 32 32 32)
+    )
+    (solid #t)
+    )
+  (tile
+    (id 1545)
+    (images
+      (region "tiles/blocks/icebridge.png" 64 32 32 32)
+    )
+    (solid #t)
+    )
+  (tile
+    (id 1546)
+    (images
+      (region "tiles/blocks/icebridge.png" 96 32 32 32)
+    )
+    (solid #t)
+    )
+  (tile
+    (id 1547)
+    (images
+      (region "tiles/blocks/icebridge.png" 0 64 32 32)
+    )
+    (solid #t)
+    )
+  (tile
+    (id 1548)
+    (images
+      (region "tiles/blocks/icebridge.png" 32 64 32 32)
+    )
+    (solid #t)
+    )
+  (tile
+    (id 1549)
+    (images
+      (region "tiles/blocks/icebridge.png" 64 64 32 32)
+    )
+    (solid #t)
+    )
+  (tile
+    (id 1550)
+    (images
+      (region "tiles/blocks/icebridge.png" 96 64 32 32)
+    )
+    (solid #t)
+    )
+(tile
+    (id 1551)
+    (images
+      (region "tiles/blocks/icebridge.png" 0 0 32 32)
+    )
+    (solid #t)
     )
 )
