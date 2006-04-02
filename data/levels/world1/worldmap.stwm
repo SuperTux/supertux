@@ -147,14 +147,14 @@
   (special-tile
     (x 17)
     (y 25)
-    (teleport-to-x 4)
-    (teleport-to-y 8)
+    (teleport-to-x 9)
+    (teleport-to-y 15)
   )
   (special-tile
     (x 36)
     (y 10)
-    (teleport-to-x 4)
-    (teleport-to-y 8)
+    (teleport-to-x 9)
+    (teleport-to-y 15)
   )
   (special-tile
     (x 9)
