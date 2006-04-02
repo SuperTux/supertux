@@ -197,150 +197,141 @@ Tux::set_direction(Direction dir)
   input_direction = dir;
 }
 
-void
-Tux::update(float delta)
+void 
+Tux::tryStartWalking() 
 {
-  // check controller
-  if(main_controller->pressed(Controller::UP))
-    input_direction = D_NORTH;
-  else if(main_controller->pressed(Controller::DOWN))
-    input_direction = D_SOUTH;
-  else if(main_controller->pressed(Controller::LEFT))
-    input_direction = D_WEST;
-  else if(main_controller->pressed(Controller::RIGHT))
-    input_direction = D_EAST;
+  if (moving) return;
+  if (input_direction == D_NONE) return;
 
-  if(!moving)
+  WorldMap::Level* level = worldmap->at_level();
+
+  // We got a new direction, so lets start walking when possible
+  Vector next_tile;
+  if ((!level || level->solved) && worldmap->path_ok(input_direction, tile_pos, &next_tile))
+  {
+    tile_pos = next_tile;
+    moving = true;
+    direction = input_direction;
+    back_direction = reverse_dir(direction);
+  }
+  else if (input_direction == back_direction)
+  {
+    moving = true;
+    direction = input_direction;
+    tile_pos = worldmap->get_next_tile(tile_pos, direction);
+    back_direction = reverse_dir(direction);
+  }
+
+}
+
+bool 
+Tux::canWalk(const Tile* tile, Direction dir)
+{
+  return ((tile->getData() & Tile::WORLDMAP_NORTH && dir == D_NORTH) ||
+	  (tile->getData() & Tile::WORLDMAP_SOUTH && dir == D_SOUTH) ||
+	  (tile->getData() & Tile::WORLDMAP_EAST && dir == D_EAST) ||
+	  (tile->getData() & Tile::WORLDMAP_WEST && dir == D_WEST));
+}
+
+void 
+Tux::tryContinueWalking(float elapsed_time)
+{
+  if (!moving) return;
+
+  // Let tux walk
+  offset += TUXSPEED * elapsed_time;
+
+  // Do nothing if we have not yet reached the next tile
+  if (offset <= 32) return;
+
+  offset -= 32;
+
+  // if this is a special_tile with passive_message, display it
+  WorldMap::SpecialTile* special_tile = worldmap->at_special_tile();
+  if(special_tile && special_tile->passive_message)
+  {  
+    // direction and the apply_action_ are opposites, since they "see"
+    // directions in a different way
+    if((direction == D_NORTH && special_tile->apply_action_south) ||
+		    (direction == D_SOUTH && special_tile->apply_action_north) ||
+		    (direction == D_WEST && special_tile->apply_action_east) ||
+		    (direction == D_EAST && special_tile->apply_action_west))
     {
-      if (input_direction != D_NONE)
-        { 
-          WorldMap::Level* level = worldmap->at_level();
-
-          // We got a new direction, so lets start walking when possible
-          Vector next_tile;
-          if ((!level || level->solved)
-              && worldmap->path_ok(input_direction, tile_pos, &next_tile))
-            {
-              tile_pos = next_tile;
-              moving = true;
-              direction = input_direction;
-              back_direction = reverse_dir(direction);
-            }
-          else if (input_direction == back_direction)
-            {
-              moving = true;
-              direction = input_direction;
-              tile_pos = worldmap->get_next_tile(tile_pos, direction);
-              back_direction = reverse_dir(direction);
-            }
-        }
+      worldmap->passive_message = special_tile->map_message;
+      worldmap->passive_message_timer.start(map_message_TIME);
     }
+  }
+
+  // stop if we reached a level, a WORLDMAP_STOP tile or a special tile without a passive_message
+  if ((worldmap->at_level()) || (worldmap->at(tile_pos)->getData() & Tile::WORLDMAP_STOP) || (special_tile && !special_tile->passive_message))
+  {
+    if(special_tile && !special_tile->map_message.empty() && !special_tile->passive_message) worldmap->passive_message_timer.start(0);
+    stop();
+    return;
+  }
+
+  // if user wants to change direction, try changing, else guess the direction in which to walk next
+  const Tile* tile = worldmap->at(tile_pos);
+  if (direction != input_direction)
+  { 
+    if(canWalk(tile, input_direction))
+    {  
+      direction = input_direction;
+      back_direction = reverse_dir(direction);
+    }
+  }
   else
+  {
+    Direction dir = D_NONE;
+    if (tile->getData() & Tile::WORLDMAP_NORTH && back_direction != D_NORTH) dir = D_NORTH;
+    else if (tile->getData() & Tile::WORLDMAP_SOUTH && back_direction != D_SOUTH) dir = D_SOUTH;
+    else if (tile->getData() & Tile::WORLDMAP_EAST && back_direction != D_EAST) dir = D_EAST;
+    else if (tile->getData() & Tile::WORLDMAP_WEST && back_direction != D_WEST) dir = D_WEST;
+
+    if (dir == D_NONE) 
     {
-      // Let tux walk
-      offset += TUXSPEED * delta;
-
-      if (offset > 32)
-        { // We reached the next tile, so we check what to do now
-          offset -= 32;
-
-          WorldMap::SpecialTile* special_tile = worldmap->at_special_tile();
-          if(special_tile && special_tile->passive_message)
-            {  // direction and the apply_action_ are opposites, since they "see"
-               // directions in a different way
-            if((direction == D_NORTH && special_tile->apply_action_south) ||
-               (direction == D_SOUTH && special_tile->apply_action_north) ||
-               (direction == D_WEST && special_tile->apply_action_east) ||
-               (direction == D_EAST && special_tile->apply_action_west))
-              {
-              worldmap->passive_message = special_tile->map_message;
-              worldmap->passive_message_timer.start(map_message_TIME);
-              }
-            }
-
-          if (worldmap->at(tile_pos)->getData() & Tile::WORLDMAP_STOP ||
-             (special_tile && !special_tile->passive_message) ||
-              worldmap->at_level())
-            {
-              if(special_tile && !special_tile->map_message.empty() &&
-                !special_tile->passive_message)
-                worldmap->passive_message_timer.start(0);
-              stop();
-            }
-          else
-            {
-              const Tile* tile = worldmap->at(tile_pos);
-              if (direction != input_direction)
-                { 
-                  // Turn to a new direction
-                  const Tile* tile = worldmap->at(tile_pos);
-
-                  if((tile->getData() & Tile::WORLDMAP_NORTH 
-                      && input_direction == D_NORTH) ||
-                     (tile->getData() & Tile::WORLDMAP_SOUTH
-                      && input_direction == D_SOUTH) ||
-                     (tile->getData() & Tile::WORLDMAP_EAST
-                      && input_direction == D_EAST) ||
-                     (tile->getData() & Tile::WORLDMAP_WEST
-                      && input_direction == D_WEST))
-                    {  // player has changed direction during auto-movement
-                      direction = input_direction;
-                      back_direction = reverse_dir(direction);
-                    }
-                  else
-                    {  // player has changed to impossible tile
-                      back_direction = reverse_dir(direction);
-                      stop();
-                    }
-                }
-              else
-                {
-                Direction dir = D_NONE;
-              
-                if (tile->getData() & Tile::WORLDMAP_NORTH
-                    && back_direction != D_NORTH)
-                  dir = D_NORTH;
-                else if (tile->getData() & Tile::WORLDMAP_SOUTH
-                    && back_direction != D_SOUTH)
-                  dir = D_SOUTH;
-                else if (tile->getData() & Tile::WORLDMAP_EAST
-                    && back_direction != D_EAST)
-                  dir = D_EAST;
-                else if (tile->getData() & Tile::WORLDMAP_WEST
-                    && back_direction != D_WEST)
-                  dir = D_WEST;
-
-                if (dir != D_NONE)
-                  {
-                  direction = dir;
-                  input_direction = direction;
-                  back_direction = reverse_dir(direction);
-                  }
-                else
-                  {
-                  // Should never be reached if tiledata is good
-                  stop();
-                  return;
-                  }
-                }
-
-              // Walk automatically to the next tile
-              if(direction != D_NONE)
-                {
-                Vector next_tile;
-                if (worldmap->path_ok(direction, tile_pos, &next_tile))
-                  {
-                  tile_pos = next_tile;
-                  }
-                else
-                  {
-                  puts("Tilemap data is buggy");
-                  stop();
-                  }
-                }
-            }
-        }
+      // Should never be reached if tiledata is good
+      msg_warning("Could not determine where to walk next");
+      stop();
+      return;
     }
+
+    direction = dir;
+    input_direction = direction;
+    back_direction = reverse_dir(direction);
+  }
+
+  // Walk automatically to the next tile
+  if(direction != D_NONE)
+  {
+    Vector next_tile;
+    if (worldmap->path_ok(direction, tile_pos, &next_tile))
+    {
+      tile_pos = next_tile;
+    }
+    else
+    {
+      msg_warning("Tilemap data is buggy");
+      stop();
+    }
+  }
+}
+
+void
+Tux::updateInputDirection()
+{
+  if(main_controller->hold(Controller::UP)) input_direction = D_NORTH;
+  else if(main_controller->hold(Controller::DOWN)) input_direction = D_SOUTH;
+  else if(main_controller->hold(Controller::LEFT)) input_direction = D_WEST;
+  else if(main_controller->hold(Controller::RIGHT)) input_direction = D_EAST;
+}
+
+
+void
+Tux::update(float elapsed_time)
+{
+  updateInputDirection(); 
+  if (moving) tryContinueWalking(elapsed_time); else tryStartWalking();
 }
 
 //---------------------------------------------------------------------------
