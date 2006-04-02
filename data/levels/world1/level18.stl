@@ -106,7 +106,7 @@
       (x 100)
       (y 170)
     )
-    (bell (x 8365) (y 311))
+    (firefly (x 8365) (y 311))
     (mriceblock  (x 733) (y 183))
     (mriceblock  (x 1149) (y 183))
     (mriceblock  (x 1406) (y 185))

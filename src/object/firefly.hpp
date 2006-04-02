@@ -1,4 +1,4 @@
-//  $Id$
+//  $Id: bell.hpp 2642 2005-06-26 13:38:53Z matzebraun $
 // 
 //  SuperTux
 //  Copyright (C) 2005 Matthias Braun <matze@braunis.de>
@@ -17,8 +17,8 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
-#ifndef __BELL_H__
-#define __BELL_H__
+#ifndef __FIREFLY_H__
+#define __FIREFLY_H__
 
 #include "lisp/lisp.hpp"
 #include "moving_object.hpp"
@@ -26,14 +26,14 @@
 #include "serializable.hpp"
 
 /**
- * A bell: When tux touches it, it begins ringing and you will respawn at this
+ * A Firefly: When tux touches it, it begins buzzing and you will respawn at this
  * position.
  */
-class Bell : public MovingObject, public Serializable
+class Firefly : public MovingObject, public Serializable
 {
 public:
-  Bell(const lisp::Lisp& lisp);
-  ~Bell();
+  Firefly(const lisp::Lisp& lisp);
+  ~Firefly();
 
   void write(lisp::Writer& writer);
   void update(float elapsed_time);

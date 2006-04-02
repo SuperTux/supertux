@@ -107,7 +107,7 @@
       (x 100)
       (y 170)
     )
-    (bell (x 8329) (y 175))
+    (firfly (x 8329) (y 175))
     (mriceblock  (x 1565) (y 249))
     (mriceblock  (x 1621) (y 251))
     (jumpy  (x 2032) (y 213))
