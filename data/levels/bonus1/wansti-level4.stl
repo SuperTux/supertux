@@ -94,7 +94,7 @@
       (x 100)
       (y 100)
     )
-    (bell (x 7393) (y 295))
+    (firefly (x 7393) (y 295))
     (snowball  (x 954) (y 375))
     (snowball  (x 881) (y 374))
     (snowball  (x 811) (y 373))

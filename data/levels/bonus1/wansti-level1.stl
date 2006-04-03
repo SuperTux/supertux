@@ -94,7 +94,7 @@
       (x 100)
       (y 100)
     )
-    (bell (x 7745) (y 320))
+    (firefly (x 7745) (y 320))
     (stalactite  (x 434) (y 40))
     (stalactite  (x 629) (y 39))
     (stalactite  (x 817) (y 40))
