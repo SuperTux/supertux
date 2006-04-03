@@ -35,8 +35,8 @@
     )
     (level
       (name "05 - The Somewhat Smaller Bath.stl")
-      (x 26)
-      (y 25)
+      (x 18)
+      (y 6)
     )
     (level
       (name "06 - The Frosted Fields.stl")
@@ -50,18 +50,18 @@
     )
     (level
       (name "08 - Stone Cold.stl")
-      (x 18)
-      (y 6)
+      (x 26)
+      (y 24)
     )
     (level
       (name "09 - Grumbels Sense of Snow.stl")
-      (x 16)
-      (y 8)
+      (x 36)
+      (y 10)
     )
     (level
       (name "10 - 23rd Airborne.stl")
-      (x 36)
-      (y 10)
+      (x 16)
+      (y 8)
     )
     (level
       (name "11 - Night Chill.stl")
@@ -189,7 +189,7 @@
       (invisible-tile #t)
       (passive-message #t)
       (x 1)
-      (y 28)
+      (y 27)
     )
   )
   (tileset "images/worldmap.strf")
