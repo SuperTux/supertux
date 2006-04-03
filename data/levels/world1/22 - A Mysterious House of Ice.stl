@@ -1,7 +1,7 @@
 ;; Converted by Ondra Hosek
 (supertux-level
   (version 2)
-  (name (_ "No more Mr Ice Guy"))
+  (name (_ "A Mysterious House of Ice"))
   (author "SuperTux Team")
   (sector
     (name "main")
