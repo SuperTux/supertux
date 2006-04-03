@@ -171,6 +171,7 @@
     (level
       (x 29)
       (y 15)
+      (sprite "images/worldmap/common/yeti.sprite")
       (name "yeti.stl")
       (quit-worldmap #t)
     )
