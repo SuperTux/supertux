@@ -22,7 +22,7 @@
 #define __INFOBLOCK_H__
 
 #include "block.hpp"
-#include "object/ambient_sound.hpp"
+//#include "object/ambient_sound.hpp"
 
 class InfoBlock : public Block
 {
@@ -33,8 +33,8 @@ public:
 protected:
   virtual void hit(Player& player);
   std::string message;
-  AmbientSound* ringing;
-  bool stopped;
+  //AmbientSound* ringing;
+  //bool stopped;
 };
 
 #endif
