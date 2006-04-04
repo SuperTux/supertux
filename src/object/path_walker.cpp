@@ -22,6 +22,7 @@
 #include <config.h>
 
 #include <math.h>
+#include <assert.h>
 #include "path_walker.hpp"
 
 PathWalker::PathWalker(const Path* path)
