@@ -94,7 +94,7 @@
       (x 100)
       (y 170)
     )
-    (bell (x 4194) (y 387))
+    (firefly (x 4194) (y 387))
     (mrbomb  (x 760) (y 352))
     (mrbomb  (x 1868) (y 367))
     (mrbomb  (x 2083) (y 408))
