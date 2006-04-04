@@ -18,6 +18,7 @@ StreamSoundSource::StreamSoundSource()
 StreamSoundSource::~StreamSoundSource()
 {
   delete file;
+  stop();
   alDeleteBuffers(STREAMFRAGMENTS, buffers);
   SoundManager::check_al_error("Couldn't delete audio buffers: ");
 }
