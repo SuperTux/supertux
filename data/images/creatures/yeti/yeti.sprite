@@ -5,11 +5,12 @@
          (x-offset 0)
          (y-offset -15)
     (images "y1.png"
-	    "y2.png"
-	    "y3.png"
-	    "y4.png"
-	    "y5.png"
-	    "y6.png"
+"y2.png"
+"y3.png"
+"y4.png"	    
+"y5.png"
+"y6.png"
+"y7.png"
 )
   )
   (action
