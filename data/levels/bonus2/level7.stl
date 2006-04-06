@@ -53,7 +53,7 @@
       (x 100)
       (y 170)
     )
-    (bell (x 6988) (y 222))
+    (firefly (x 6988) (y 222))
     (bouncingsnowball (x 5630) (y -32) (stay-on-platform #f))
     (bouncingsnowball (x 6113) (y -32) (stay-on-platform #f))
     (snowball (x 2115) (y 416) (stay-on-platform #t))

@@ -57,7 +57,7 @@
       (x 100)
       (y 170)
     )
-    (bell (x 8461) (y 354))
+    (firefly (x 8461) (y 354))
     (mrbomb (x 550) (y 260) (stay-on-platform #t))
     (mrbomb (x 769) (y 258) (stay-on-platform #t))
     (mrbomb (x 1331) (y 134) (stay-on-platform #t))

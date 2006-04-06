@@ -96,7 +96,7 @@
       (x 100)
       (y 170)
     )
-    (bell (x 5118) (y 293))
+    (firefly (x 5118) (y 293))
     (snowball (x 454) (y 98) (stay-on-platform #t))
     (snowball (x 481) (y 262) (stay-on-platform #t))
     (snowball (x 674) (y 156) (stay-on-platform #t))

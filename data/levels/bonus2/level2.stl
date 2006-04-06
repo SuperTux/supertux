@@ -61,7 +61,7 @@
       (x 100)
       (y 170)
     )
-    (bell (x 9950) (y 64))
+    (firefly (x 9950) (y 64))
     (jumpy (x 1437) (y 335) (stay-on-platform #f))
     (jumpy (x 1552) (y 334) (stay-on-platform #f))
     (jumpy (x 1664) (y 334) (stay-on-platform #f))

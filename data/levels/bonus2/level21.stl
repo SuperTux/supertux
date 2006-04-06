@@ -56,7 +56,7 @@
       (x 100)
       (y 170)
     )
-    (bell (x 4450) (y 168))
+    (firefly (x 4450) (y 168))
     (mriceblock (x 958) (y 242) (stay-on-platform #f))
     (mriceblock (x 995) (y 243) (stay-on-platform #f))
     (mriceblock (x 1032) (y 241) (stay-on-platform #f))
