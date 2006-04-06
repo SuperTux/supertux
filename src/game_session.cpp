@@ -89,6 +89,7 @@ GameSession::GameSession(const std::string& levelfile_, GameSessionMode mode,
   fps_fps = 0;
 
   context = new DrawingContext();
+  console = new Console(context);
 
   restart_level();
 }
@@ -163,6 +164,7 @@ GameSession::~GameSession()
   delete end_sequence_controller;
   delete level;
   delete context;
+  delete console;
 
   current_ = NULL;
 }
@@ -238,6 +240,7 @@ GameSession::levelintro()
   if(best_level_statistics != NULL)
     best_level_statistics->draw_message_info(context, _("Best Level Statistics"));
 
+  console->draw();
   context.do_drawing();
 
   wait_for_event(1.0, 3.0);
@@ -490,6 +493,7 @@ GameSession::draw()
     Menu::current()->draw(*context);
   }
 
+  console->draw();
   context->do_drawing();
 }
 
@@ -802,6 +806,7 @@ GameSession::drawresultscreen()
   sprintf(str, _("COINS: %d"), player_status->coins);
   context.draw_text(gold_text, str, Vector(SCREEN_WIDTH/2, 224), CENTER_ALLIGN, LAYER_FOREGROUND1);
 
+  console->draw();
   context.do_drawing();
   
   wait_for_event(2.0, 5.0);

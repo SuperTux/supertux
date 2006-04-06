@@ -18,25 +18,29 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 
-#ifndef __SUPERTUX_DEBUG_H__
-#define __SUPERTUX_DEBUG_H__
+#ifndef __SUPERTUX_MSG_H__
+#define __SUPERTUX_MSG_H__
 
 #include <iostream>
 #include <stdio.h>
 
+#include "console.hpp"
+
+// TODO: make macros more C++ish?
+
 #ifdef DEBUG
 
-#define msg_debug(message) std::cerr << "[DEBUG] " << __FILE__ << " l." << __LINE__ << ": " << message << std::endl
-#define msg_info(message) std::cout << "[INFO] " << message << std::endl
-#define msg_warning(message) std::cerr << "[WARNING] " << __FILE__ << " l." << __LINE__ << ": " << message << std::endl
-#define msg_fatal(message) std::cerr << "[FATAL] " << __FILE__ << " l." << __LINE__ << ": " << message << std::endl
+#define msg_debug(message) Console::output << "[DEBUG] " << __FILE__ << " l." << __LINE__ << ": " << message << std::endl
+#define msg_info(message) Console::output << "[INFO] " << message << std::endl
+#define msg_warning(message) Console::output << "[WARNING] " << __FILE__ << " l." << __LINE__ << ": " << message << std::endl
+#define msg_fatal(message) Console::output << "[FATAL] " << __FILE__ << " l." << __LINE__ << ": " << message << std::endl
 
 #else
 
 #define msg_debug(message) 
-#define msg_info(message) std::cout << message << std::endl
-#define msg_warning(message) std::cerr << "Warning: " << message << std::endl
-#define msg_fatal(message) std::cerr << "Fatal: " << message << std::endl
+#define msg_info(message) Console::output << message << std::endl
+#define msg_warning(message) Console::output << "Warning: " << message << std::endl
+#define msg_fatal(message) Console::output << "Fatal: " << message << std::endl
 
 #endif
 

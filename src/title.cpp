@@ -61,6 +61,7 @@
 #include "main.hpp"
 #include "exceptions.hpp"
 #include "msg.hpp"
+#include "console.hpp"
 
 static Surface* bkg_title;
 static Surface* logo;
@@ -74,6 +75,8 @@ static CodeController* controller;
 static std::vector<LevelSubset*> contrib_subsets;
 static LevelSubset* current_contrib_subset = 0;
 static int current_subset = -1;
+
+static Console* console;
 
 /* If the demo was stopped - because game started, level
    editor was excuted, etc - call this when you get back
@@ -317,6 +320,9 @@ void title()
   
   Menu::set_current(main_menu);
   DrawingContext& context = *titlesession->context;
+
+  console = new Console(&context);
+
   bool running = true;
   while (running)
     {
@@ -439,6 +445,8 @@ void title()
         Menu::set_current(main_menu);
       }
 
+      console->draw();
+
       context.do_drawing();
       sound_manager->update();
 
@@ -453,5 +461,6 @@ void title()
   delete titlesession;
   delete bkg_title;
   delete logo;
+  delete console;
   //delete img_choose_subset;
 }

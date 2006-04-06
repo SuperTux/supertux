@@ -1027,6 +1027,7 @@ WorldMap::display()
 
   Uint32 lastticks = SDL_GetTicks();
   DrawingContext context;
+  Console* console = new Console(&context);
   while(!quit) {
     Uint32 ticks = SDL_GetTicks();
     float elapsed_time = float(ticks - lastticks) / 1000;
@@ -1063,8 +1064,11 @@ WorldMap::display()
       Menu::current()->draw(context);
     }
 
+    console->draw();
     context.do_drawing();
   }
+  
+  delete console;
 }
 
 void

@@ -31,6 +31,7 @@
 #include "timer.hpp"
 #include "tile_manager.hpp"
 #include "game_object.hpp"
+#include "console.hpp"
 
 class Sprite;
 class Menu;
@@ -123,6 +124,8 @@ private:
   TileMap* solids;
   
   TileManager* tile_manager;
+  
+  Console* console;
 
 public:
   struct SpecialTile

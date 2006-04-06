@@ -26,6 +26,7 @@
 #include "timer.hpp"
 #include "statistics.hpp"
 #include "math/vector.hpp"
+#include "console.hpp"
 
 /* GameLoop modes */
 enum GameSessionMode {
@@ -156,6 +157,7 @@ private:
   std::string capture_file;
   std::istream* playback_demo_stream;
   CodeController* demo_controller;
+  Console* console;
 };
 
 std::string slotinfo(int slot);
