@@ -53,7 +53,7 @@ class CodeController;
 /** The GameSession class controlls the controll flow of a World, ie.
     present the menu on specifc keypresses, render and update it while
     keeping the speed and framerate sane, etc. */
-class GameSession
+class GameSession : public ConsoleCommandReceiver
 {
 public:
   enum ExitStatus { ES_NONE, ES_LEVEL_FINISHED, ES_GAME_OVER, ES_LEVEL_ABORT };
@@ -91,15 +91,14 @@ public:
   { return level; }
 
   void start_sequence(const std::string& sequencename);
-  /// called by JoystickKeyboardController after an ascii key has been pressed
-  void try_cheats();
 
   /** returns the "working directory" usually this is the directory where the
    * currently played level resides. This is used when locating additional
    * resources for the current level/world
    */
   std::string get_working_directory();
-  
+  bool consoleCommand(std::string command); /**< callback from Console; return false if command was unknown, true otherwise */
+
 private:
   void restart_level();
 

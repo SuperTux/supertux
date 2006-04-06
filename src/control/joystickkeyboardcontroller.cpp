@@ -57,8 +57,6 @@ JoystickKeyboardController::JoystickKeyboardController()
   : wait_for_key(-1), wait_for_joybutton(-1), key_options_menu(0),
     joystick_options_menu(0)
 {
-  memset(last_keys, 0, sizeof(last_keys));
-
   // initialize default keyboard map
   keymap.insert(std::make_pair(SDLK_LEFT, LEFT));
   keymap.insert(std::make_pair(SDLK_RIGHT, RIGHT));
@@ -240,8 +238,6 @@ void
 JoystickKeyboardController::reset()
 {
   Controller::reset();
-  for(size_t i = 0; i < sizeof(last_keys); ++i)
-      last_keys[i] = 0;
 }
 
 void
@@ -250,12 +246,7 @@ JoystickKeyboardController::process_event(const SDL_Event& event)
   switch(event.type) {
     case SDL_KEYUP:
     case SDL_KEYDOWN:
-      // remember ascii keys for cheat codes...
-      if(event.type == SDL_KEYDOWN && 
-          (event.key.keysym.unicode & 0xFF80) == 0) {
-        memmove(last_keys, last_keys+1, sizeof(last_keys)-1);
-        last_keys[sizeof(last_keys)-1] = event.key.keysym.unicode;
-
+      if(event.type == SDL_KEYDOWN && (event.key.keysym.unicode & 0xFF80) == 0) {
 	if (Console::hasFocus()) {
 	  // if the Console is open, send keys there
 	  char c = event.key.keysym.unicode;
@@ -274,9 +265,6 @@ JoystickKeyboardController::process_event(const SDL_Event& event)
 	    Console::show();
 	  }
 	}
-
-        if(GameSession::current() != NULL)
-          GameSession::current()->try_cheats();
       }
 
       if(Console::hasFocus()) {
@@ -538,21 +526,6 @@ JoystickKeyboardController::get_joystick_options_menu()
   }
 
   return joystick_options_menu;
-}
-
-bool
-JoystickKeyboardController::check_cheatcode(const std::string& cheatcode)
-{
-  if(cheatcode.size() > sizeof(last_keys)) {
-    msg_debug("Cheat Code too long");
-    return false;
-  }
-
-  for(size_t i = 0; i < cheatcode.size(); ++i) {
-    if(last_keys[sizeof(last_keys)-1 - i] != cheatcode[cheatcode.size()-1-i])
-      return false;
-  }
-  return true;
 }
 
 //----------------------------------------------------------------------------

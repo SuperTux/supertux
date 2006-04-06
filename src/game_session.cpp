@@ -90,6 +90,7 @@ GameSession::GameSession(const std::string& levelfile_, GameSessionMode mode,
 
   context = new DrawingContext();
   console = new Console(context);
+  Console::registerCommandReceiver(this);
 
   restart_level();
 }
@@ -164,6 +165,7 @@ GameSession::~GameSession()
   delete end_sequence_controller;
   delete level;
   delete context;
+  Console::unregisterCommandReceiver(this);
   delete console;
 
   current_ = NULL;
@@ -332,80 +334,102 @@ GameSession::process_events()
   }
 }
 
-void
-GameSession::try_cheats()
+bool
+GameSession::consoleCommand(std::string command)
 {
-  if(currentsector == 0)
-    return;
+  if (command == "foo") {
+    msg_info("bar");
+    return true;
+  }
+
+  if (currentsector == 0) return false;
   Player& tux = *currentsector->player;
   
   // Cheating words (the goal of this is really for debugging,
   // but could be used for some cheating, nothing wrong with that)
-  if(main_controller->check_cheatcode("grow")) {
+  if (command == "grow") {
     tux.set_bonus(GROWUP_BONUS, false);
+    return true;
   }
-  if(main_controller->check_cheatcode("fire")) {
+  if (command == "fire") {
     tux.set_bonus(FIRE_BONUS, false);
+    return true;
   }
-  if(main_controller->check_cheatcode("ice")) {
+  if (command == "ice") {
     tux.set_bonus(ICE_BONUS, false);
+    return true;
   }
-  if(main_controller->check_cheatcode("lifeup")) {
+  if (command == "lifeup") {
     player_status->lives++;
+    return true;
   }
-  if(main_controller->check_cheatcode("lifedown")) {
+  if (command == "lifedown") {
     player_status->lives--;
+    return true;
   }
-  if(main_controller->check_cheatcode("grease")) {
+  if (command == "grease") {
     tux.physic.set_velocity_x(tux.physic.get_velocity_x()*3);
+    return true;
   }
-  if(main_controller->check_cheatcode("invincible")) {
+  if (command == "invincible") {
     // be invincle for the rest of the level
     tux.invincible_timer.start(10000);
+    return true;
   }
-  if(main_controller->check_cheatcode("mortal")) {
+  if (command == "mortal") {
     // give up invincibility
     tux.invincible_timer.stop();
+    return true;
   }
-  if(main_controller->check_cheatcode("shrink")) {
+  if (command == "shrink") {
     // remove powerups
     tux.kill(tux.SHRINK);
+    return true;
   }
-  if(main_controller->check_cheatcode("kill")) {
+  if (command == "kill") {
     // kill Tux, but without losing a life
     player_status->lives++;
     tux.kill(tux.KILL);
+    return true;
   }
-  if(main_controller->check_cheatcode("whereami")) {
+  if (command == "whereami") {
     msg_info("You are at x " << tux.get_pos().x << ", y " << tux.get_pos().y);
+    return true;
   }
 #if 0
-  if(main_controller->check_cheatcode("grid")) {
+  if(command == "grid")) {
     // toggle debug grid
     debug_grid = !debug_grid;
+    return true;
   }
 #endif
-  if(main_controller->check_cheatcode("gotoend")) {
+  if (command == "gotoend") {
     // goes to the end of the level
     tux.move(Vector(
           (currentsector->solids->get_width()*32) - (SCREEN_WIDTH*2), 0));
     currentsector->camera->reset(
         Vector(tux.get_pos().x, tux.get_pos().y));
+    return true;
   }
-  if(main_controller->check_cheatcode("flip")) {
+  if (command == "flip") {
   	FlipLevelTransformer flip_transformer;
     flip_transformer.transform(GameSession::current()->get_current_level());
+    return true;
   }
-  if(main_controller->check_cheatcode("finish")) {
+  if (command == "finish") {
     // finish current sector
     exit_status = ES_LEVEL_FINISHED;
     // don't add points to stats though...
+    return true;
   }
-  if(main_controller->check_cheatcode("camera")) {
+  if (command == "camera") {
     msg_info("Camera is at " 
               << Sector::current()->camera->get_translation().x << "," 
               << Sector::current()->camera->get_translation().y);
+    return true;
   }
+
+  return false;
 }
 
 void

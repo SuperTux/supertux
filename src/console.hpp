@@ -27,6 +27,7 @@
 
 class Console;
 class ConsoleStreamBuffer;
+class ConsoleCommandReceiver;
 class DrawingContext;
 class Surface;
 
@@ -45,9 +46,12 @@ class Console
     static void show(); /**< display the console */
     static void hide(); /**< hide the console */
     static bool hasFocus(); /**< true if characters should be sent to the console instead of their normal target */
+    static void registerCommandReceiver(ConsoleCommandReceiver* ccr); /**< register instance to notify of commands entered in the console */
+    static void unregisterCommandReceiver(ConsoleCommandReceiver* ccr); /**< new commands should no longer be sent to this ccr */
 
   protected:
     static std::list<std::string> lines; /**< backbuffer of lines sent to the console */
+    static std::list<ConsoleCommandReceiver*> commandReceivers; /**< list of instances to notify of new console commands */
     DrawingContext* context; /**< context to draw to */
     Surface* background; /**< console background image */
     static int height; /**< height of the console in px */
@@ -70,6 +74,18 @@ class ConsoleStreamBuffer : public std::stringbuf
     }
 };
 
+class ConsoleCommandReceiver
+{
+  public:
+    ConsoleCommandReceiver()
+    {
+      //Console::registerCommandReceiver(this);
+    }
+    virtual bool consoleCommand(std::string command) = 0; /**< callback from Console; return false if command was unknown, true otherwise */
+    virtual ~ConsoleCommandReceiver()
+    {
+      //Console::unregisterCommandReceiver(this);
+    }
+};
+
 #endif
-
-

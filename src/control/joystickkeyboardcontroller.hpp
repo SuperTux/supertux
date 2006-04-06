@@ -42,7 +42,6 @@ public:
 
   void write(lisp::Writer& writer);
   void read(const lisp::Lisp& lisp);
-	bool check_cheatcode(const std::string& cheatcode);
   void reset();
 
   Menu* get_key_options_menu();
@@ -98,8 +97,6 @@ private:
   JoystickMenu* joystick_options_menu;
   friend class KeyboardMenu;
   friend class JoystickMenu;
-
-  char last_keys[20];
 };
 
 #endif

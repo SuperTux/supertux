@@ -78,6 +78,10 @@ Console::addLine(std::string s)
 void
 Console::parse(std::string s) 
 {
+  for (std::list<ConsoleCommandReceiver*>::iterator i = commandReceivers.begin(); i != commandReceivers.end(); i++) {
+    ConsoleCommandReceiver* ccr = *i;
+    if (ccr->consoleCommand(s) == true) return;
+  }
   addLine("unknown command: \"" + s + "\"");
 }
 
@@ -132,9 +136,23 @@ Console::draw()
   }
 }
 
+void 
+Console::registerCommandReceiver(ConsoleCommandReceiver* ccr)
+{
+  commandReceivers.push_front(ccr);
+}
+
+void 
+Console::unregisterCommandReceiver(ConsoleCommandReceiver* ccr)
+{
+  std::list<ConsoleCommandReceiver*>::iterator i = find(commandReceivers.begin(), commandReceivers.end(), ccr);
+  if (i != commandReceivers.end()) commandReceivers.erase(i);
+}
+
 int Console::height = 0;
 bool Console::focused = false;
 std::list<std::string> Console::lines;
+std::list<ConsoleCommandReceiver*> Console::commandReceivers;
 ConsoleStreamBuffer Console::inputBuffer;
 ConsoleStreamBuffer Console::outputBuffer;
 std::ostream Console::input(&Console::inputBuffer);
