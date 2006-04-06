@@ -133,7 +133,7 @@ public:
     virtual void update(float elapsed_time);
 
     std::string type() const
-    { return "SnowParticleSystem"; }    
+    { return "CloudParticleSystem"; }    
     
 private:
     class CloudParticle : public Particle
