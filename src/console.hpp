@@ -36,19 +36,28 @@ class Console
     Console(DrawingContext* context);
     ~Console();
 
-    static std::ostream output;
+    static std::ostream input; /**< stream of keyboard input to send to the console. Do not forget to send std::endl or to flush the stream. */
+    static std::ostream output; /**< stream of characters to output to the console. Do not forget to send std::endl or to flush the stream. */
 
-    static void flush();
+    static void flush(ConsoleStreamBuffer* buffer); /**< act upon changes in a stream, normally called by the stream itself */
 
-    void draw();
+    void draw(); /**< draw the console to its */
+    static void show(); /**< display the console */
+    static void hide(); /**< hide the console */
+    static bool hasFocus(); /**< true if characters should be sent to the console instead of their normal target */
 
   protected:
-    static std::list<std::string> lines;
-    DrawingContext* context;
-    Surface* background;
-    static int height;
+    static std::list<std::string> lines; /**< backbuffer of lines sent to the console */
+    DrawingContext* context; /**< context to draw to */
+    Surface* background; /**< console background image */
+    static int height; /**< height of the console in px */
+    static bool focused; /**< true if console has input focus */
 
-    static ConsoleStreamBuffer outputBuffer;
+    static ConsoleStreamBuffer inputBuffer; /**< stream buffer used by input stream */
+    static ConsoleStreamBuffer outputBuffer; /**< stream buffer used by output stream */
+
+    static void addLine(std::string s); /**< display a line in the console */
+    static void parse(std::string s); /**< react to a given command */
 };
 
 class ConsoleStreamBuffer : public std::stringbuf 
@@ -56,7 +65,7 @@ class ConsoleStreamBuffer : public std::stringbuf
   public:
     int sync() 
     {
-      Console::flush();
+      Console::flush(this);
       return std::stringbuf::sync();
     }
 };

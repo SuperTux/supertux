@@ -27,6 +27,7 @@
 #include "lisp/lisp.hpp"
 #include "lisp/list_iterator.hpp"
 #include "game_session.hpp"
+#include "console.hpp"
 
 class JoystickKeyboardController::JoystickMenu : public Menu
 {
@@ -254,12 +255,35 @@ JoystickKeyboardController::process_event(const SDL_Event& event)
           (event.key.keysym.unicode & 0xFF80) == 0) {
         memmove(last_keys, last_keys+1, sizeof(last_keys)-1);
         last_keys[sizeof(last_keys)-1] = event.key.keysym.unicode;
+
+	if (Console::hasFocus()) {
+	  // if the Console is open, send keys there
+	  char c = event.key.keysym.unicode;
+	  if ((c >= 32) && (c <= 126)) {
+	    Console::input << c;
+	  }
+	  if ((c == '\n') || (c == '\r')) {
+	    Console::input << std::endl;
+	  }
+	  if (c == '\t') {
+	    Console::hide();
+	  }
+	} else {
+	  char c = event.key.keysym.unicode;
+	  if (c == '\t') {
+	    Console::show();
+	  }
+	}
+
         if(GameSession::current() != NULL)
           GameSession::current()->try_cheats();
       }
-			
-      // menu mode?
-      if(Menu::current()) { // menu mode
+
+      if(Console::hasFocus()) {
+	// console is open - ignore key
+      } 
+      else if(Menu::current()) { 
+	// menu mode
         process_menu_key_event(event);
         return;
       } else {
