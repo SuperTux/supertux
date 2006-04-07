@@ -811,18 +811,17 @@ WorldMap::update(float delta)
               level_finished = false;
               /* In case the player's abort the level, keep it using the old
                   status. But the minimum lives and no bonus. */
-              player_status->coins = old_player_status.coins;
-              player_status->lives = std::min(old_player_status.lives, player_status->lives);
+              player_status->coins = std::min(old_player_status.coins, player_status->coins);
               player_status->bonus = NO_BONUS;
-
               break;
+	    /*
             case GameSession::ES_GAME_OVER:
               {
               level_finished = false;
-              /* draw an end screen */
-              /* TODO: in the future, this should make a dialog a la SuperMario, asking
-              if the player wants to restart the world map with no score and from
-              level 1 */
+              // draw an end screen
+              // TODO: in the future, this should make a dialog a la SuperMario, asking
+              // if the player wants to restart the world map with no score and from
+              // level 1
               char str[80];
 
               DrawingContext context;
@@ -847,6 +846,7 @@ WorldMap::update(float delta)
               player_status->reset();
               break;
               }
+	    */
             case GameSession::ES_NONE:
               assert(false);
               // Should never be reached 
@@ -1166,11 +1166,6 @@ WorldMap::loadgame(const std::string& filename)
       load_map(); 
 
       savegame->get("intro-displayed", intro_displayed);
-      savegame->get("lives", player_status->lives);
-      savegame->get("coins", player_status->coins);
-      savegame->get("max-score-multiplier", player_status->max_score_multiplier);
-      if (player_status->lives < 0)
-      player_status->reset();
 
       const lisp::Lisp* tux_lisp = savegame->get_lisp("tux");
       if(tux)
@@ -1181,8 +1176,8 @@ WorldMap::loadgame(const std::string& filename)
         tux_lisp->get("x", p.x);
         tux_lisp->get("y", p.y);
         tux_lisp->get("back", back_str);
-          player_status->read(*tux_lisp);
-      
+        player_status->read(*tux_lisp);
+        if (player_status->coins < 0) player_status->reset();
         tux->back_direction = string_to_direction(back_str);      
         tux->set_tile_pos(p);
       }
@@ -1223,7 +1218,7 @@ WorldMap::loadgame(const std::string& filename)
   }
   else
   {
-  	load_map();
+    load_map();
     player_status->reset();
   }
 

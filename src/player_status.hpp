@@ -54,7 +54,6 @@ public:
   void draw_keys(DrawingContext& context);
 
   int  coins;
-  int  lives;
   BonusType bonus;
 
   int score_multiplier;

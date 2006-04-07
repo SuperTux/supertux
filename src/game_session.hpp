@@ -56,7 +56,7 @@ class CodeController;
 class GameSession : public ConsoleCommandReceiver
 {
 public:
-  enum ExitStatus { ES_NONE, ES_LEVEL_FINISHED, ES_GAME_OVER, ES_LEVEL_ABORT };
+  enum ExitStatus { ES_NONE, ES_LEVEL_FINISHED, /*ES_GAME_OVER,*/ ES_LEVEL_ABORT };
 
 public:
   DrawingContext* context;
@@ -100,7 +100,7 @@ public:
   bool consoleCommand(std::string command); /**< callback from Console; return false if command was unknown, true otherwise */
 
 private:
-  void restart_level();
+  void restart_level(bool fromBeginning = true);
 
   void check_end_conditions();
   void process_events();

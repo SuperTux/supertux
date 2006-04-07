@@ -92,11 +92,11 @@ GameSession::GameSession(const std::string& levelfile_, GameSessionMode mode,
   console = new Console(context);
   Console::registerCommandReceiver(this);
 
-  restart_level();
+  restart_level(true);
 }
 
 void
-GameSession::restart_level()
+GameSession::restart_level(bool fromBeginning)
 {
   game_pause   = false;
   exit_status  = ES_NONE;
@@ -132,6 +132,7 @@ GameSession::restart_level()
   }
   global_stats.set_total_points(TIME_NEEDED_STAT, (time == 0) ? -1 : time);
 
+  if (fromBeginning) reset_sector="";
   if(reset_sector != "") {
     currentsector = level->get_sector(reset_sector);
     if(!currentsector) {
@@ -228,7 +229,7 @@ GameSession::levelintro()
   context.draw_center_text(gold_text, level->get_name(), Vector(0, 160),
       LAYER_FOREGROUND1);
 
-  sprintf(str, "TUX x %d", player_status->lives);
+  sprintf(str, "Coins: %d", player_status->coins);
   context.draw_text(white_text, str, Vector(SCREEN_WIDTH/2, 210),
       CENTER_ALLIGN, LAYER_FOREGROUND1);
 
@@ -349,9 +350,9 @@ GameSession::consoleCommand(std::string command)
   }
   //TODO: remove (or at least hide) this before release
   if (command == "cheats") {
-    msg_info("grow, fire, ice, lifeup, numberofthebeast, lifedown, grease,\ninvincible, mortal, shrink, kill, gotoend, flip, finish");
+    msg_info("grow, fire, ice, lifeup, numberofthebeast, lifedown, grease, invincible, mortal, shrink, kill, gotoend, flip, finish");
     return true;
-  } 
+  }
 
   if (currentsector == 0) return false;
   Player& tux = *currentsector->player;
@@ -371,15 +372,15 @@ GameSession::consoleCommand(std::string command)
     return true;
   }
   if (command == "lifeup") {
-    player_status->lives++;
+    player_status->incLives();
     return true;
   }
   if (command == "numberofthebeast") {
-    player_status->lives = 55;
+    player_status->coins = 55;
     return true;
   }
   if (command == "lifedown") {
-    player_status->lives--;
+    player_status->coins = std::max(player_status->coins-25, 0);
     return true;
   }
   if (command == "grease") {
@@ -402,8 +403,6 @@ GameSession::consoleCommand(std::string command)
     return true;
   }
   if (command == "kill") {
-    // kill Tux, but without losing a life
-    player_status->lives++;
     tux.kill(tux.KILL);
     return true;
   }
@@ -479,10 +478,13 @@ GameSession::check_end_conditions()
 
     return;
   } else if (!end_sequence && tux->is_dead()) {
-    if (player_status->lives < 0) { // No more lives!?
-      exit_status = ES_GAME_OVER;
-    } else { // Still has lives, so reset Tux to the levelstart
-      restart_level();
+    if (player_status->coins < 0) { 
+      // No more coins: restart level from beginning
+      player_status->coins = 0;
+      restart_level(true);
+    } else { 
+      // Still has coins: restart level from last reset point
+      restart_level(false);
     }
     
     return;
@@ -811,13 +813,9 @@ GameSession::drawstatus(DrawingContext& context)
   if(config->show_fps) {
     char str[60];
     snprintf(str, sizeof(str), "%3.1f", fps_fps);
-    context.draw_text(white_text, "FPS", 
-                      Vector(SCREEN_WIDTH -
-                             white_text->get_text_width("FPS     ") - BORDER_X, BORDER_Y + 40),
-                      LEFT_ALLIGN, LAYER_FOREGROUND1);
-    context.draw_text(gold_text, str,
-                      Vector(SCREEN_WIDTH-4*16 - BORDER_X, BORDER_Y + 40),
-                      LEFT_ALLIGN, LAYER_FOREGROUND1);
+    const char* fpstext = "FPS";
+    context.draw_text(white_text, fpstext, Vector(SCREEN_WIDTH - white_text->get_text_width(fpstext) - gold_text->get_text_width(" 99999") - BORDER_X, BORDER_Y + 20), LEFT_ALLIGN, LAYER_FOREGROUND1);
+    context.draw_text(gold_text, str, Vector(SCREEN_WIDTH - BORDER_X, BORDER_Y + 20), RIGHT_ALLIGN, LAYER_FOREGROUND1);
   }
 }
 

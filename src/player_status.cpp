@@ -30,14 +30,13 @@
 #include "main.hpp"
 #include "msg.hpp"
 
-static const int START_LIVES = 4;
-static const int MAX_LIVES = 99;
+static const int START_COINS = 100;
+static const int MAX_COINS = 99999;
 
 PlayerStatus* player_status = 0;
 
 PlayerStatus::PlayerStatus()
-  : coins(0),
-    lives(START_LIVES),
+  : coins(START_COINS),
     bonus(NO_BONUS),
     score_multiplier(1),
     max_score_multiplier(1)
@@ -66,9 +65,8 @@ PlayerStatus::~PlayerStatus()
 
 void PlayerStatus::reset()
 {
-  coins = 0;
+  coins = START_COINS;
   keys = 0;
-  lives = START_LIVES;
   bonus = NO_BONUS;
   score_multiplier = 1;
   max_score_multiplier = 1;
@@ -77,8 +75,7 @@ void PlayerStatus::reset()
 void
 PlayerStatus::incLives()
 {
-  if(lives < MAX_LIVES)
-    ++lives;
+  player_status->coins = std::min(player_status->coins+100, MAX_COINS);
   sound_manager->play("sounds/lifeup.wav");
 }
 
@@ -86,10 +83,6 @@ void
 PlayerStatus::incCoins()
 {
   coins++;
-  if(coins >= 100) {
-    incLives();
-    coins = 0;
-  }
   sound_manager->play("sounds/coin.wav");
 }
 
@@ -130,7 +123,6 @@ PlayerStatus::write(lisp::Writer& writer)
   writer.write_bool("key-silver", keys & KEY_SILVER);
   writer.write_bool("key-gold", keys & KEY_GOLD);
 
-  writer.write_int("lives", lives);
   writer.write_int("coins", coins);
   writer.write_int("max-score-multiplier", max_score_multiplier);
 }
@@ -167,7 +159,6 @@ PlayerStatus::read(const lisp::Lisp& lisp)
   if(lisp.get("key-gold", val) && val == true)
     set_keys(KEY_GOLD);
 
-  lisp.get("lives", lives);
   lisp.get("coins", coins);
   lisp.get("max-score-multiplier", max_score_multiplier);
 }
@@ -197,38 +188,13 @@ PlayerStatus::draw(DrawingContext& context)
   context.set_translation(Vector(0, 0));
 
   char str[60];
-  
-  sprintf(str, " %d", player_status->coins);
+ 
+  int displayCoins = std::max(player_status->coins, 0);
+  sprintf(str, "%d", displayCoins);
   const char* coinstext = _("COINS");
-  context.draw_text(white_text, coinstext,
-      Vector(SCREEN_WIDTH - white_text->get_text_width(coinstext) 
-              - white_text->get_text_width("   99") - BORDER_X, BORDER_Y),
-      LEFT_ALLIGN, LAYER_FOREGROUND1);
-  context.draw_text(gold_text, str,
-      Vector(SCREEN_WIDTH - gold_text->get_text_width(" 99") - BORDER_X, BORDER_Y),
-      LEFT_ALLIGN, LAYER_FOREGROUND1);
+  context.draw_text(white_text, coinstext, Vector(SCREEN_WIDTH - white_text->get_text_width(coinstext) - gold_text->get_text_width(" 99999") - BORDER_X, BORDER_Y), LEFT_ALLIGN, LAYER_FOREGROUND1);
+  context.draw_text(gold_text, str, Vector(SCREEN_WIDTH - BORDER_X, BORDER_Y), RIGHT_ALLIGN, LAYER_FOREGROUND1);
 
-  if (player_status->lives >= 5) {
-    sprintf(str, "%dx", player_status->lives);
-    float x = SCREEN_WIDTH - gold_text->get_text_width(str) - tux_life->get_width();
-    context.draw_text(gold_text, str, Vector(x - BORDER_X, BORDER_Y + 20), LEFT_ALLIGN,
-                      LAYER_FOREGROUND1);
-    context.draw_surface(tux_life, Vector(SCREEN_WIDTH - 16 - BORDER_X, BORDER_Y + 20),
-                         LAYER_FOREGROUND1);
-  } else {
-    for(int i= 0; i < player_status->lives; ++i)
-      context.draw_surface(tux_life, 
-          Vector(SCREEN_WIDTH - tux_life->get_width()*4 +(tux_life->get_width()*i) - BORDER_X,
-                 BORDER_Y + 20),
-          LAYER_FOREGROUND1);
-  }
-
-  const char* livestext = _("LIVES");
-  context.draw_text(white_text, livestext,
-      Vector(SCREEN_WIDTH - white_text->get_text_width(livestext) 
-                - white_text->get_text_width("   99") - BORDER_X, BORDER_Y + 20),
-      LEFT_ALLIGN, LAYER_FOREGROUND1);
-  
   draw_keys(context);  
 
   context.pop_transform();
@@ -238,7 +204,6 @@ void
 PlayerStatus::operator= (const PlayerStatus& other)
 {
   coins = other.coins;
-  lives = other.lives;
   bonus = other.bonus;
   score_multiplier = other.score_multiplier;
   max_score_multiplier = other.max_score_multiplier;
