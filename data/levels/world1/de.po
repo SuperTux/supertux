@@ -60,7 +60,7 @@ msgstr ""
 "#hast keine Chance! -Nolok\"\n"
 "\n"
 "#Tux blickte auf und sah Noloks Festung in\n"
-"#der Ferne. Fest entschlossen seine gelibte\n"
+"#der Ferne. Fest entschlossen seine geliebte\n"
 "#Penny zu retten machte er sich auf den Weg."
 
 #: basest/levels/world1/worldmap.stwm:4

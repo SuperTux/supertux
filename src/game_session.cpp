@@ -394,13 +394,6 @@ GameSession::consoleCommand(std::string command)
     msg_info("You are at x " << tux.get_pos().x << ", y " << tux.get_pos().y);
     return true;
   }
-#if 0
-  if(command == "grid")) {
-    // toggle debug grid
-    debug_grid = !debug_grid;
-    return true;
-  }
-#endif
   if (command == "gotoend") {
     // goes to the end of the level
     tux.move(Vector(
@@ -410,15 +403,12 @@ GameSession::consoleCommand(std::string command)
     return true;
   }
   if (command == "flip") {
-  	FlipLevelTransformer flip_transformer;
+    FlipLevelTransformer flip_transformer;
     flip_transformer.transform(GameSession::current()->get_current_level());
     return true;
   }
   if (command == "finish") {
-    if(WorldMap::current() != NULL) {
-      WorldMap::current()->finished_level(levelfile);
-    }
-
+    finish(true);
     return true;
   }
   if (command == "camera") {

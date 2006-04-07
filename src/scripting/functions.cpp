@@ -27,7 +27,7 @@ std::string translate(const std::string& text)
 void display_text_file(const std::string& filename)
 {
   std::string file 
-    = ScriptInterpreter::current()->get_working_directory() + filename;
+      = ScriptInterpreter::current()->get_working_directory() + filename;
   main_loop->push_screen(new TextScroller(file));
 }
 

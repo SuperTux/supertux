@@ -315,14 +315,14 @@ msgstr "OpenGL (nicht vorhanden)"
 
 #: src/misc.cpp:111
 msgid "Fullscreen"
-msgstr "Ganzer Bildschirm"
+msgstr "Vollbild"
 
 #: src/misc.cpp:114 src/misc.cpp:119
-msgid "Sound     "
+msgid "Sound"
 msgstr "Sound"
 
 #: src/misc.cpp:115 src/misc.cpp:120
-msgid "Music     "
+msgid "Music"
 msgstr "Musik"
 
 #: src/misc.cpp:122

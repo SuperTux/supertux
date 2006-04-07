@@ -45,6 +45,7 @@
 #include "worldmap.hpp"
 #include "resources.hpp"
 #include "misc.hpp"
+#include "msg.hpp"
 #include "player_status.hpp"
 #include "textscroller.hpp"
 #include "main.hpp"
@@ -440,6 +441,8 @@ WorldMap::load_map()
         parse_level_tile(iter.lisp());
       } else if(iter.item() == "special-tile") {
         parse_special_tile(iter.lisp());
+      } else if(iter.item() == "name") {
+        // skip
       } else {
         msg_warning("Unknown token '" << iter.item() << "' in worldmap");
       }
@@ -722,6 +725,26 @@ WorldMap::finished_level(const std::string& filename)
       tux->set_direction(dir);
     }
   }
+
+  if (level->extro_script != "") {
+    try {
+      std::auto_ptr<ScriptInterpreter> interpreter
+        (new ScriptInterpreter(levels_path));
+      std::istringstream in(level->extro_script);
+      interpreter->run_script(in, "level-extro-script");
+      add_object(interpreter.release());
+    } catch(std::exception& e) {
+      msg_fatal("Couldn't run level-extro-script:" << e.what());
+    }
+  }
+  
+  if (!level->next_worldmap.empty()) {
+    // Load given worldmap
+    loadmap(level->next_worldmap);
+  }
+  
+  if (level->quit_worldmap)
+    main_loop->exit_screen();
 }
 
 void
@@ -808,7 +831,6 @@ WorldMap::update(float delta)
         }
 
       /* Check level action */
-      bool level_finished = true;
       Level* level = at_level();
       if (!level) {
         msg_warning("No level to enter at: "
@@ -816,40 +838,20 @@ WorldMap::update(float delta)
         return;
       }
 
-      if (level->pos == tux->get_tile_pos())
-        {
-          // do a shriking fade to the level
-          shrink_fade(Vector((level->pos.x*32 + 16 + offset.x),
-                             (level->pos.y*32 + 16 + offset.y)), 500);
+      if (level->pos == tux->get_tile_pos()) {
+        // do a shriking fade to the level
+        shrink_fade(Vector((level->pos.x*32 + 16 + offset.x),
+                           (level->pos.y*32 + 16 + offset.y)), 500);
 
+        try {
           GameSession *session =
-              new GameSession(levels_path + level->name,
-                              ST_GL_LOAD_LEVEL_FILE, &level->statistics);
+            new GameSession(levels_path + level->name,
+                ST_GL_LOAD_LEVEL_FILE, &level->statistics);
           main_loop->push_screen(session);
+        } catch(std::exception& e) {
+          msg_fatal("Couldn't load level: " << e.what());
         }
-      /* The porpose of the next checking is that if the player lost
-         the level (in case there is one), don't show anything */
-      if(level_finished) {
-        if (level->extro_script != "") {
-          try {
-            std::auto_ptr<ScriptInterpreter> interpreter 
-              (new ScriptInterpreter(levels_path));
-            std::istringstream in(level->extro_script);
-            interpreter->run_script(in, "level-extro-script");
-            add_object(interpreter.release());
-          } catch(std::exception& e) {
-            msg_warning("Couldn't run level-extro-script:" << e.what());
-          }
-        }
-
-        if (!level->next_worldmap.empty())
-          {
-          // Load given worldmap
-          loadmap(level->next_worldmap);
-          }
-        if (level->quit_worldmap)
-          main_loop->exit_screen();
-        }
+      }
     }
   else
     {
