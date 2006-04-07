@@ -342,6 +342,17 @@ GameSession::consoleCommand(std::string command)
     return true;
   }
 
+  //TODO: Build command list automatically
+  if (command == "cmdlist") {
+    msg_info("foo, cmdlist, cheats, whereami, camera");
+    return true;
+  }
+  //TODO: remove (or at least hide) this before release
+  if (command == "cheats") {
+    msg_info("grow, fire, ice, lifeup, numberofthebeast, lifedown, grease,\ninvincible, mortal, shrink, kill, gotoend, flip, finish");
+    return true;
+  } 
+
   if (currentsector == 0) return false;
   Player& tux = *currentsector->player;
   
@@ -361,6 +372,10 @@ GameSession::consoleCommand(std::string command)
   }
   if (command == "lifeup") {
     player_status->lives++;
+    return true;
+  }
+  if (command == "numberofthebeast") {
+    player_status->lives = 55;
     return true;
   }
   if (command == "lifedown") {
