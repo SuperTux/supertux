@@ -376,7 +376,7 @@ GameSession::consoleCommand(std::string command)
     return true;
   }
   if (command == "numberofthebeast") {
-    player_status->coins = 55;
+    player_status->coins += 55;
     return true;
   }
   if (command == "lifedown") {

@@ -154,8 +154,10 @@
       (x 5377) (y 225)
       (message (_ "-Fireflies:
 !images/objects/firefly/firefly1.png
-#If you activate the firefly
-#now, you will restart
+#Activate the firefly
+#and as long as you
+#have coins left,
+#you will restart
 #under it if you die."))
     )
     (infoblock
