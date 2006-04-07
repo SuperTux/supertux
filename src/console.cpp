@@ -102,7 +102,7 @@ void
 Console::hide()
 {
   focused = false;
-  ticks = 0;
+  height = 0;
 }
 
 void 

@@ -246,36 +246,33 @@ JoystickKeyboardController::process_event(const SDL_Event& event)
   switch(event.type) {
     case SDL_KEYUP:
     case SDL_KEYDOWN:
-      if(event.type == SDL_KEYDOWN && (event.key.keysym.unicode & 0xFF80) == 0) {
-	if (Console::hasFocus()) {
-	  // if the Console is open, send keys there
-	  char c = event.key.keysym.unicode;
+      if (event.key.keysym.unicode == '\t') {
+	// console key was pressed - toggle console
+	if (event.type == SDL_KEYDOWN) {
+	  if (Console::hasFocus()) {
+	    Console::hide();
+	  } else {
+	    Console::show();
+	  }
+	}
+      } else if (Console::hasFocus()) {
+	// console is open - send key there
+	int c = event.key.keysym.unicode;
+	if (event.type == SDL_KEYDOWN) {
 	  if ((c >= 32) && (c <= 126)) {
-	    Console::input << c;
+	    Console::input << (char)c;
 	  }
 	  if ((c == '\n') || (c == '\r')) {
 	    Console::input << std::endl;
 	  }
-	  if (c == '\t') {
-	    Console::hide();
-	  }
-	} else {
-	  char c = event.key.keysym.unicode;
-	  if (c == '\t') {
-	    Console::show();
-	  }
 	}
-      }
-
-      if(Console::hasFocus()) {
-	// console is open - ignore key
       } 
-      else if(Menu::current()) { 
-	// menu mode
+      else if (Menu::current()) { 
+	// menu mode - send key there
         process_menu_key_event(event);
         return;
       } else {
-        // normal mode, find key in keymap
+        // normal mode - find key in keymap
         KeyMap::iterator i = keymap.find(event.key.keysym.sym);
         if(i == keymap.end()) {
           msg_debug("Pressed key without mapping");
