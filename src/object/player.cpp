@@ -660,12 +660,28 @@ Player::draw(DrawingContext& context)
   if(dying) {
     smalltux_gameover->draw(context, get_pos(), layer);
   } else if(growing_timer.get_timeleft() > 0) {
-      if (dir == RIGHT) {
-        context.draw_surface(growingtux_right[int((growing_timer.get_timegone() *
-                 GROWING_FRAMES) / GROWING_TIME)], get_pos() - Vector(0, 32), layer);
-      } else {
-        context.draw_surface(growingtux_left[int((growing_timer.get_timegone() *
-                GROWING_FRAMES) / GROWING_TIME)], get_pos() - Vector(0, 32), layer);
+    if(!is_big())
+      {
+      if (dir == RIGHT)
+        context.draw_surface(growingtux_right[GROWING_FRAMES-1 - 
+                 int((growing_timer.get_timegone() *
+                 GROWING_FRAMES) / GROWING_TIME)], get_pos(), layer);
+      else
+        context.draw_surface(growingtux_left[GROWING_FRAMES-1 - 
+                int((growing_timer.get_timegone() *
+                GROWING_FRAMES) / GROWING_TIME)], get_pos(), layer);
+      }
+    else
+      {
+      if (dir == RIGHT)
+        context.draw_surface(growingtux_right[
+            int((growing_timer.get_timegone() *
+                GROWING_FRAMES) / GROWING_TIME)], get_pos(), layer);
+      else
+        context.draw_surface(growingtux_left[
+            int((growing_timer.get_timegone() *
+                             GROWING_FRAMES) / GROWING_TIME)],
+            get_pos(), layer);
       }
     }
   else if (safe_timer.started() && size_t(game_time*40)%2)
@@ -844,7 +860,7 @@ Player::kill(HurtMode mode)
       physic.enable_gravity(true);
       physic.set_acceleration(0, 0);
       physic.set_velocity(0, 700);
-      player_status->lives -= 1;
+      player_status->coins -= 25;
       player_status->bonus = NO_BONUS;
       dying = true;
       dying_timer.start(3.0);
