@@ -41,7 +41,7 @@ TileManager::TileManager(const std::string& filename)
 #endif
   load_tileset(filename);
 #ifdef DEBUG
-  msg_debug("Tiles loaded in " << (SDL_GetTicks() - ticks) / 1000.0 << "seconds");
+  msg_debug("Tiles loaded in " << (SDL_GetTicks() - ticks) / 1000.0 << " seconds");
 #endif
 }
 

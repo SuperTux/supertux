@@ -45,12 +45,6 @@ static const int FLICK_CURSOR_TIME = 500;
 
 extern SDL_Surface* screen;
 
-Surface* checkbox;
-Surface* checkbox_checked;
-Surface* back;
-Surface* arrow_left;
-Surface* arrow_right;
-
 std::vector<Menu*> Menu::last_menus;
 Menu* Menu::current_ = 0;
 Font* Menu::default_font;
@@ -211,6 +205,12 @@ Menu::Menu()
   pos_y        = SCREEN_HEIGHT/2;
   arrange_left = 0;
   active_item  = -1;
+
+  checkbox.reset(new Surface("images/engine/menu/checkbox-unchecked.png"));
+  checkbox_checked.reset(new Surface("images/engine/menu/checkbox-checked.png"));
+  back.reset(new Surface("images/engine/menu/arrow-back.png"));
+  arrow_left.reset(new Surface("images/engine/menu/arrow-left.png"));
+  arrow_right.reset(new Surface("images/engine/menu/arrow-right.png"));
 }
 
 void Menu::set_pos(float x, float y, float rw, float rh)
@@ -600,10 +600,10 @@ Menu::draw_item(DrawingContext& context, int index)
         int text_pos   = (text_width + 16)/2;
 
         /* Draw arrows */
-        context.draw_surface(arrow_left,
+        context.draw_surface(arrow_left.get(),
                              Vector(x_pos - list_pos + text_pos - 17, y_pos - 8),
                              LAYER_GUI);
-        context.draw_surface(arrow_right,
+        context.draw_surface(arrow_right.get(),
                              Vector(x_pos - list_pos + text_pos - 1 + list_pos_2, y_pos - 8),
                              LAYER_GUI);
 
@@ -630,7 +630,7 @@ Menu::draw_item(DrawingContext& context, int index)
         context.draw_text(text_font, pitem.text,
                           Vector(SCREEN_WIDTH/2, y_pos - int(text_font->get_height()/2)),
                           CENTER_ALLIGN, LAYER_GUI);
-        context.draw_surface(back,
+        context.draw_surface(back.get(),
                              Vector(x_pos + text_width/2  + 16, y_pos - 8),
                              LAYER_GUI);
         break;
@@ -643,11 +643,11 @@ Menu::draw_item(DrawingContext& context, int index)
                           CENTER_ALLIGN, LAYER_GUI);
 
         if(pitem.toggled)
-          context.draw_surface(checkbox_checked,
+          context.draw_surface(checkbox_checked.get(),
                                Vector(x_pos + (text_width+16)/2, y_pos - 8),
                                LAYER_GUI + 1);
         else
-          context.draw_surface(checkbox,
+          context.draw_surface(checkbox.get(),
                                Vector(x_pos + (text_width+16)/2, y_pos - 8),
                                LAYER_GUI + 1);
         break;

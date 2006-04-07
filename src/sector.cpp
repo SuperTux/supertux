@@ -573,7 +573,7 @@ Sector::draw(DrawingContext& context)
   context.pop_transform();
 }
 
-static const float DELTA = .1;
+static const float DELTA = .001;
 
 void
 Sector::collision_tilemap(const Rect& dest, const Vector& movement,

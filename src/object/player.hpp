@@ -161,10 +161,11 @@ public:
 
   void set_visible(bool visible);
   bool get_visible();
+
+  bool on_ground();
   
 private:
   void handle_input();
-  bool on_ground();
   bool deactivated;
   
   void init();

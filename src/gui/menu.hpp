@@ -20,6 +20,7 @@
 #define SUPERTUX_MENU_H
 
 #include <vector>
+#include <memory>
 #include <set>
 #include <string>
 #include <utility>
@@ -89,12 +90,13 @@ private:
   static std::vector<Menu*> last_menus;
   static Menu* current_;
   
-  static void push_current(Menu* pmenu);
   static void pop_current();
   
 public:
   /** Set the current menu, if pmenu is NULL, hide the current menu */
   static void set_current(Menu* pmenu);
+
+  static void push_current(Menu* pmenu); 
   
   /** Return the current active menu or NULL if none is active */
   static Menu* current()
@@ -193,12 +195,12 @@ private:
   Uint32 effect_ticks;
   int arrange_left;
   int active_item;
-};
 
-extern Surface* checkbox;
-extern Surface* checkbox_checked;
-extern Surface* back;
-extern Surface* arrow_left;
-extern Surface* arrow_right;
+  std::auto_ptr<Surface> checkbox;
+  std::auto_ptr<Surface> checkbox_checked;
+  std::auto_ptr<Surface> back;
+  std::auto_ptr<Surface> arrow_left;
+  std::auto_ptr<Surface> arrow_right;
+};
 
 #endif

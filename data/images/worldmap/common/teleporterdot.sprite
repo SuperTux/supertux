@@ -1,0 +1,8 @@
+(supertux-sprite
+  (action
+    (name "default")
+    (x-offset 16)
+    (y-offset 16)
+    (images "teleporterdot.png")
+  )
+)

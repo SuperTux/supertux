@@ -23,6 +23,7 @@
 
 #include <string>
 #include <SDL.h>
+#include "screen.hpp"
 #include "timer.hpp"
 #include "statistics.hpp"
 #include "math/vector.hpp"
@@ -50,32 +51,28 @@ class Statistics;
 class DrawingContext;
 class CodeController;
 
-/** The GameSession class controlls the controll flow of a World, ie.
-    present the menu on specifc keypresses, render and update it while
-    keeping the speed and framerate sane, etc. */
-class GameSession : public ConsoleCommandReceiver
+/**
+ * The GameSession class controlls the controll flow of the Game (the part
+ * where you actually play a level)
+ */
+class GameSession : public Screen, public ConsoleCommandReceiver
 {
 public:
-  enum ExitStatus { ES_NONE, ES_LEVEL_FINISHED, /*ES_GAME_OVER,*/ ES_LEVEL_ABORT };
-
-public:
-  DrawingContext* context;
-
   GameSession(const std::string& levelfile, GameSessionMode mode,
-              Statistics* statistics=0);
+              Statistics* statistics = NULL);
   ~GameSession();
-
-  /** Enter the busy loop */
-  ExitStatus run();
 
   void record_demo(const std::string& filename);
   void play_demo(const std::string& filename);
-  void draw();
+
+  void draw(DrawingContext& context);
   void update(float frame_ratio);
+  void setup();
 
   void set_current()
   { current_ = this; }
-  static GameSession* current() { return current_; }
+  static GameSession* current()
+  { return current_; }
 
   /// ends the current level
   void finish(bool win = true);
@@ -84,6 +81,7 @@ public:
   void set_reset_point(const std::string& sectorname,
       const Vector& pos);
   void display_info_box(const std::string& text);
+  
   Sector* get_current_sector()
   { return currentsector; }
 
@@ -108,9 +106,7 @@ private:
 
   void levelintro();
   void drawstatus(DrawingContext& context);
-  void drawendscreen();
-  void drawresultscreen();
-  void draw_pause();
+  void draw_pause(DrawingContext& context);
 
   void on_escape_press();
   void process_menu();
@@ -150,7 +146,6 @@ private:
   static GameSession* current_;
 
   Statistics* best_level_statistics;
-  ExitStatus exit_status;
 
   std::ostream* capture_demo_stream;
   std::string capture_file;
@@ -158,11 +153,6 @@ private:
   CodeController* demo_controller;
   Console* console;
 };
-
-std::string slotinfo(int slot);
-
-/** Return true if the gameloop() was entered, false otherwise */
-bool process_load_game_menu();
 
 #endif /*SUPERTUX_GAMELOOP_H*/
 

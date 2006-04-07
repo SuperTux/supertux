@@ -34,7 +34,9 @@
 #include <physfs.h>
 
 #include "title.hpp"
+#include "mainloop.hpp"
 #include "video/screen.hpp"
+#include "video/drawing_context.hpp"
 #include "video/surface.hpp"
 #include "audio/sound_manager.hpp"
 #include "gui/menu.hpp"
@@ -42,7 +44,7 @@
 #include "lisp/lisp.hpp"
 #include "lisp/parser.hpp"
 #include "level.hpp"
-#include "level_subset.hpp"
+#include "world.hpp"
 #include "game_session.hpp"
 #include "worldmap.hpp"
 #include "player_status.hpp"
@@ -63,84 +65,62 @@
 #include "msg.hpp"
 #include "console.hpp"
 
-static Surface* bkg_title;
-static Surface* logo;
-//static Surface* img_choose_subset;
-
-static int frame;
-
-static GameSession* titlesession;
-static CodeController* controller;
-
-static std::vector<LevelSubset*> contrib_subsets;
-static LevelSubset* current_contrib_subset = 0;
-static int current_subset = -1;
-
-static Console* console;
-
-/* If the demo was stopped - because game started, level
-   editor was excuted, etc - call this when you get back
-   to the title code.
- */
-void resume_demo()
+void
+TitleScreen::update_load_game_menu()
 {
-  player_status->reset();
-  titlesession->get_current_sector()->activate("main");
-  titlesession->set_current();
+  load_game_menu.reset(new Menu());
 
-  //frame_rate.update();
-}
-
-void update_load_save_game_menu(Menu* menu)
-{
-  msg_debug("update loadsavemenu");
-  for(int i = 1; i < 6; ++i) {
-    MenuItem& item = menu->get_item_by_id(i);
-    item.kind = MN_ACTION;
-    item.change_text(slotinfo(i));
+  load_game_menu->add_label(_("Start Game"));
+  load_game_menu->add_hl();
+  for(int i = 1; i <= 5; ++i) {
+    load_game_menu->add_entry(i, get_slotinfo(i));
   }
+  load_game_menu->add_hl();
+  load_game_menu->add_back(_("Back"));
 }
 
-void free_contrib_menu()
+void
+TitleScreen::free_contrib_menu()
 {
-  for(std::vector<LevelSubset*>::iterator i = contrib_subsets.begin();
-      i != contrib_subsets.end(); ++i)
+  for(std::vector<World*>::iterator i = contrib_worlds.begin();
+      i != contrib_worlds.end(); ++i)
     delete *i;
 
-  contrib_subsets.clear();
-  contrib_menu->clear();
-  current_contrib_subset = 0;
-  current_subset = -1;
+  contrib_worlds.clear();
+  current_contrib_world = 0;
+  current_world = -1;
 }
 
-void generate_contrib_menu()
+void
+TitleScreen::generate_contrib_menu()
 {
   /** Generating contrib levels list by making use of Level Subset  */
-  std::vector<std::string> level_subsets; 
+  std::vector<std::string> level_worlds; 
   char** files = PHYSFS_enumerateFiles("levels/");
   for(const char* const* filename = files; *filename != 0; ++filename) {
     std::string filepath = std::string("levels/") + *filename;
     if(PHYSFS_isDirectory(filepath.c_str()))
-      level_subsets.push_back(filepath);
+      level_worlds.push_back(filepath);
   }
   PHYSFS_freeList(files);
 
   free_contrib_menu();
+  contrib_menu.reset(new Menu());
 
   contrib_menu->add_label(_("Contrib Levels"));
   contrib_menu->add_hl();
   
   int i = 0;
-  for (std::vector<std::string>::iterator it = level_subsets.begin();
-      it != level_subsets.end(); ++it) {
+  for (std::vector<std::string>::iterator it = level_worlds.begin();
+      it != level_worlds.end(); ++it) {
     try {
-      std::auto_ptr<LevelSubset> subset (new LevelSubset());
-      subset->load(*it);
-      if(subset->hide_from_contribs) {
+      std::auto_ptr<World> world (new World());
+      world->load(*it + "/info");
+      if(world->hide_from_contribs) {
         continue;
       }
-      contrib_menu->add_submenu(subset->title, contrib_subset_menu, i++);
-      contrib_subsets.push_back(subset.release());
+      contrib_menu->add_entry(i++, world->title);
+      contrib_worlds.push_back(world.release());
     } catch(std::exception& e) {
 #ifdef DEBUG
       msg_warning("Couldn't parse levelset info for '"
@@ -153,7 +133,8 @@ void generate_contrib_menu()
   contrib_menu->add_back(_("Back"));
 }
 
-std::string get_level_name(const std::string& filename)
+std::string
+TitleScreen::get_level_name(const std::string& filename)
 {
   try {
     lisp::Parser parser;
@@ -172,87 +153,73 @@ std::string get_level_name(const std::string& filename)
   }
 }
 
-void check_levels_contrib_menu()
+void
+TitleScreen::check_levels_contrib_menu()
 {
   int index = contrib_menu->check();
   if (index == -1)
     return;
 
-  LevelSubset& subset = * (contrib_subsets[index]);
-  
-  if(subset.has_worldmap) {
-    WorldMapNS::WorldMap worldmap;
-    worldmap.set_map_filename(subset.get_worldmap_filename());
-    sound_manager->stop_music();
+  World& world = * (contrib_worlds[index]);
 
-    // some fading
-    fadeout(256);
-    DrawingContext context;
-    context.draw_text(white_text, "Loading...",
-        Vector(SCREEN_WIDTH/2, SCREEN_HEIGHT/2), CENTER_ALLIGN, LAYER_FOREGROUND1);
-    context.do_drawing();
+  if(!world.is_levelset) {
+    // TODO fade out
+    world.run();
+  }
 
-    // TODO: slots should be available for contrib maps
-    worldmap.loadgame("save/" + subset.name + "-slot1.stsg");
-    worldmap.display();  // run the map
+  if (current_world != index) {
+    current_world = index;
+    World& world = * (contrib_worlds[index]);
 
-    Menu::set_current(main_menu);
-    resume_demo();
-  } else if (current_subset != index) {
-    current_subset = index;
-    LevelSubset& subset = * (contrib_subsets[index]);
+    current_contrib_world = &world;
 
-    current_contrib_subset = &subset;
+    contrib_world_menu.reset(new Menu());
 
-    contrib_subset_menu->clear();
+    contrib_world_menu->add_label(world.title);
+    contrib_world_menu->add_hl();
 
-    contrib_subset_menu->add_label(subset.title);
-    contrib_subset_menu->add_hl();
-
-    for (int i = 0; i < subset.get_num_levels(); ++i)
+    for (unsigned int i = 0; i < world.get_num_levels(); ++i)
     {
       /** get level's title */
-      std::string filename = subset.get_level_filename(i);
+      std::string filename = world.get_level_filename(i);
       std::string title = get_level_name(filename);
-      contrib_subset_menu->add_entry(i, title);
+      contrib_world_menu->add_entry(i, title);
     }
 
-    contrib_subset_menu->add_hl();
-    contrib_subset_menu->add_back(_("Back"));
+    contrib_world_menu->add_hl();
+    contrib_world_menu->add_back(_("Back"));
 
-    titlesession->get_current_sector()->activate("main");
-    titlesession->set_current();
+    Menu::push_current(contrib_world_menu.get());
   }
 }
 
-void check_contrib_subset_menu()
+void
+TitleScreen::check_contrib_world_menu()
 {
-  int index = contrib_subset_menu->check();
+  int index = contrib_world_menu->check();
   if (index != -1) {
-    if (contrib_subset_menu->get_item_by_id(index).kind == MN_ACTION) {
+    if (contrib_world_menu->get_item_by_id(index).kind == MN_ACTION) {
       sound_manager->stop_music();
-      GameSession session(
-          current_contrib_subset->get_level_filename(index), ST_GL_PLAY);
-      session.run();
-      player_status->reset();
-      Menu::set_current(main_menu);
-      resume_demo();
+      GameSession* session =
+        new GameSession(
+          current_contrib_world->get_level_filename(index), ST_GL_PLAY);
+      main_loop->push_screen(session);
     }
   }  
 }
 
-void draw_demo(float elapsed_time)
+void
+TitleScreen::make_tux_jump()
 {
   static Timer randomWaitTimer;
   static Timer jumpPushTimer;
-  static Timer jumpRecoverTimer;
   static float last_tux_x_pos = -1;
   static float last_tux_y_pos = -1;
 
   Sector* sector  = titlesession->get_current_sector();
   Player* tux = sector->player;
 
-  sector->play_music(LEVEL_MUSIC);
+  //sector->play_music(LEVEL_MUSIC);
 
   controller->update();
   controller->press(Controller::RIGHT);
@@ -262,23 +229,27 @@ void draw_demo(float elapsed_time)
   float dy = fabsf(last_tux_y_pos - tux->get_pos().y); 
  
   // Calculate space to check for obstacles 
-  Rect lookahead = Rect(tux->get_bbox());
-  lookahead.move(Vector(lookahead.get_width()*2,0));
+  Rect lookahead = tux->get_bbox();
+  lookahead.move(Vector(96, 0));
   
   // Check if we should press the jump button
   bool randomJump = !randomWaitTimer.started();
-  bool mayJump = !jumpRecoverTimer.started();
-  bool notMoving = (dx+dy < 0.1);
+  bool notMoving = (fabsf(dx) + fabsf(dy)) < 0.1;
   bool pathBlocked = !sector->is_free_space(lookahead); 
-  if ((notMoving || pathBlocked || randomJump) && mayJump) {
-    float jumpDuration = float(rand() % 200 + 500) / 1000.0;
+  if (!controller->released(Controller::JUMP)
+      && (notMoving || pathBlocked || randomJump)) {
+    float jumpDuration;
+    if(pathBlocked)
+      jumpDuration = 0.5;
+    else
+      jumpDuration = float(rand() % 500 + 300) / 1000.0;
     jumpPushTimer.start(jumpDuration);
-    jumpRecoverTimer.start(jumpDuration+0.1);
     randomWaitTimer.start(float(rand() % 3000 + 3000) / 1000.0);
   }
 
   // Keep jump button pressed
-  if (jumpPushTimer.started()) controller->press(Controller::JUMP);
+  if (jumpPushTimer.started())
+    controller->press(Controller::JUMP);
 
   // Remember last position, so we can determine if we moved
   last_tux_x_pos = tux->get_pos().x;
@@ -289,178 +260,192 @@ void draw_demo(float elapsed_time)
     sector->activate("main");
     sector->camera->reset(tux->get_pos());
   }
-
-  sector->update(elapsed_time);
-  sector->draw(*titlesession->context);
 }
 
-/* --- TITLE SCREEN --- */
-void title()
+TitleScreen::TitleScreen()
 {
-  //LevelEditor* leveleditor;
-  controller = new CodeController();
+  controller.reset(new CodeController());
+  titlesession.reset(new GameSession("levels/misc/menu.stl", ST_GL_DEMO_GAME));
 
-  titlesession = new GameSession("levels/misc/menu.stl", ST_GL_DEMO_GAME);
-
-  /* Load images: */
-  bkg_title = new Surface("images/background/arctis.jpg");
-  logo = new Surface("images/engine/menu/logo.png");
-  //img_choose_subset = new Surface("images/status/choose-level-subset.png");
+  // delete contrib_world_menu;
+  // contrib_world_menu = new Menu();
 
   titlesession->get_current_sector()->activate("main");
   titlesession->set_current();
 
   Player* player = titlesession->get_current_sector()->player;
-  player->set_controller(controller);
+  player->set_controller(controller.get());
 
-  /* --- Main title loop: --- */
-  frame = 0;
+  Menu::set_current(main_menu); 
+}
 
-  Uint32 lastticks = SDL_GetTicks();
-  
+TitleScreen::~TitleScreen()
+{
+}
+
+void
+TitleScreen::setup()
+{
+  player_status->reset();
+
+  Sector* sector = titlesession->get_current_sector();
+  sector->play_music(LEVEL_MUSIC);
+  sector->activate(sector->player->get_pos());
+
   Menu::set_current(main_menu);
-  DrawingContext& context = *titlesession->context;
+}
 
-  console = new Console(&context);
-
-  bool running = true;
-  while (running)
-    {
-      // Calculate the movement-factor
-      Uint32 ticks = SDL_GetTicks();
-      float elapsed_time = float(ticks - lastticks) / 1000.;
-      game_time += elapsed_time;
-      lastticks = ticks;
-      // 40fps is minimum
-      if(elapsed_time > .04)
-        elapsed_time = .04;
-      
-      /* Lower the speed so that Tux doesn't jump too hectically throught
-         the demo. */
-      elapsed_time /= 2;
-
-      SDL_Event event;
-      main_controller->update();
-      while (SDL_PollEvent(&event)) {
-        if (Menu::current()) {
-          Menu::current()->event(event);
-        }
-        main_controller->process_event(event);
-        if (event.type == SDL_QUIT)
-          throw graceful_shutdown();
-      }
-  
-      /* Draw the background: */
-      draw_demo(elapsed_time);
-
-      if (Menu::current() == main_menu)
-        context.draw_surface(logo, Vector(SCREEN_WIDTH/2 - logo->get_width()/2, 30),
+void
+TitleScreen::draw(DrawingContext& context)
+{
+  Sector* sector  = titlesession->get_current_sector();
+  sector->draw(context);
+ 
+  /*
+  if (Menu::current() == main_menu)
+    context.draw_surface(logo, Vector(SCREEN_WIDTH/2 - logo->get_width()/2, 30),
             LAYER_FOREGROUND1+1);
+  */
 
-      context.draw_text(white_small_text, " SuperTux " PACKAGE_VERSION "\n",
-              Vector(0, SCREEN_HEIGHT - 50), LEFT_ALLIGN, LAYER_FOREGROUND1);
-      context.draw_text(white_small_text,
-        _(
+  context.draw_text(white_small_text, " SuperTux " PACKAGE_VERSION "\n",
+      Vector(0, SCREEN_HEIGHT - 50), LEFT_ALLIGN, LAYER_FOREGROUND1);
+  context.draw_text(white_small_text,
+      _(
 "Copyright (c) 2006 SuperTux Devel Team\n"
 "This game comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to\n"
 "redistribute it under certain conditions; see the file COPYING for details.\n"
-        ),
-        Vector(0, SCREEN_HEIGHT - 50 + white_small_text->get_height() + 5),
-        LEFT_ALLIGN, LAYER_FOREGROUND1);
+),
+      Vector(0, SCREEN_HEIGHT - 50 + white_small_text->get_height() + 5),
+      LEFT_ALLIGN, LAYER_FOREGROUND1);
+}
 
-      /* Don't draw menu, if quit is true */
-      Menu* menu = Menu::current();
-      if(menu)
-        {
-          menu->draw(context);
-          menu->update();
+void
+TitleScreen::update(float elapsed_time)
+{
+  main_loop->set_speed(0.6);
+  Sector* sector  = titlesession->get_current_sector();
+  sector->update(elapsed_time);
+
+  make_tux_jump();
+  
+  Menu* menu = Menu::current();
+  if(menu) {
+    menu->update();
   	  
-          if(menu == main_menu)
-            {
-              switch (main_menu->check())
-                {
-                case MNID_STARTGAME:
-                  // Start Game, ie. goto the slots menu
-                  update_load_save_game_menu(load_game_menu);
-                  break;
-                case MNID_LEVELS_CONTRIB:
-                  // Contrib Menu
-                  generate_contrib_menu();
-                  break;
-                case MNID_CREDITS:
-                  sound_manager->stop_music();
-                  fadeout(500);
-                  sound_manager->play_music("music/credits.ogg");
-                  display_text_file("credits.txt");
-                  sound_manager->stop_music();
-                  fadeout(500);
-                  Menu::set_current(main_menu);
-                  break;
-                case MNID_QUITMAINMENU:
-                  running = false;
-                  break;
-                }
-            }
-          else if(menu == options_menu)
-            {
-              process_options_menu();
-            }
-          else if(menu == load_game_menu)
-            {
-              if(event.key.keysym.sym == SDLK_DELETE)
-                {
-                int slot = menu->get_active_item_id();
-                std::stringstream stream;
-                stream << slot;
-                std::string str = _("Are you sure you want to delete slot") + stream.str() + "?";
-                
-                if(confirm_dialog(bkg_title, str.c_str())) {
-                  str = "save/slot" + stream.str() + ".stsg";
-                  msg_debug("Removing: " << str);
-                  PHYSFS_delete(str.c_str());
-                }
-
-                update_load_save_game_menu(load_game_menu);
-                Menu::set_current(main_menu);
-                resume_demo();
-                }
-              else if (process_load_game_menu())
-                {
-                  resume_demo();
-                }
-            }
-          else if(menu == contrib_menu)
-            {
-              check_levels_contrib_menu();
-            }
-          else if (menu == contrib_subset_menu)
-            {
-              check_contrib_subset_menu();
-            }
+    if(menu == main_menu) {
+      switch (main_menu->check()) {
+        case MNID_STARTGAME:
+          // Start Game, ie. goto the slots menu
+          update_load_game_menu();
+          Menu::push_current(load_game_menu.get());
+          break;
+        case MNID_LEVELS_CONTRIB:
+          // Contrib Menu
+          generate_contrib_menu();
+          Menu::push_current(contrib_menu.get());
+          break;
+        case MNID_CREDITS:
+          fadeout(500);
+          main_loop->push_screen(new TextScroller("credits.txt"));
+          break;
+        case MNID_QUITMAINMENU:
+          main_loop->quit();
+          break;
+      }
+    } else if(menu == options_menu) {
+      process_options_menu();
+    } else if(menu == load_game_menu.get()) {
+      /*
+      if(event.key.keysym.sym == SDLK_DELETE) {
+        int slot = menu->get_active_item_id();
+        std::stringstream stream;
+        stream << slot;
+        std::string str = _("Are you sure you want to delete slot") + stream.str() + "?";
+        
+        if(confirm_dialog(bkg_title, str.c_str())) {
+          str = "save/slot" + stream.str() + ".stsg";
+          msg_debug("Removing: " << str);
+          PHYSFS_delete(str.c_str());
         }
 
-      // reopen menu of user closed it (so that the app doesn't close when user
-      // accidently hit ESC)
-      if(Menu::current() == 0) {
+        update_load_save_game_menu(load_game_menu);
         Menu::set_current(main_menu);
-      }
-
-      console->draw();
-
-      context.do_drawing();
-      sound_manager->update();
-
-      //frame_rate.update();
-
-      /* Pause: */
-      frame++;
+      }*/
+      process_load_game_menu();
+    } else if(menu == contrib_menu.get()) {
+      check_levels_contrib_menu();
+    } else if (menu == contrib_world_menu.get()) {
+      check_contrib_world_menu();
     }
-  /* Free surfaces: */
+  }
 
-  free_contrib_menu();
-  delete titlesession;
-  delete bkg_title;
-  delete logo;
-  delete console;
-  //delete img_choose_subset;
+  // reopen menu of user closed it (so that the app doesn't close when user
+  // accidently hit ESC)
+  if(Menu::current() == 0) {
+    Menu::set_current(main_menu);
+  }
 }
+
+std::string
+TitleScreen::get_slotinfo(int slot)
+{
+  std::string tmp;
+  std::string slotfile;
+  std::string title;
+  std::stringstream stream;
+  stream << slot;
+  slotfile = "save/slot" + stream.str() + ".stsg";
+
+  try {
+    lisp::Parser parser;
+    std::auto_ptr<lisp::Lisp> root (parser.parse(slotfile));
+
+    const lisp::Lisp* savegame = root->get_lisp("supertux-savegame");
+    if(!savegame)
+      throw std::runtime_error("file is not a supertux-savegame.");
+
+    savegame->get("title", title);
+  } catch(std::exception& e) {
+    return std::string(_("Slot")) + " " + stream.str() + " - " +
+      std::string(_("Free"));
+  }
+
+  return std::string("Slot ") + stream.str() + " - " + title;
+}
+
+bool
+TitleScreen::process_load_game_menu()
+{
+  int slot = load_game_menu->check();
+
+  if(slot == -1)
+    return false;
+
+  if(load_game_menu->get_item_by_id(slot).kind != MN_ACTION)
+    return false;
+
+  std::stringstream stream;
+  stream << slot;
+  std::string slotfile = "save/slot" + stream.str() + ".stsg";
+
+  sound_manager->stop_music();
+  fadeout(256);
+  DrawingContext context;
+  context.draw_text(white_text, "Loading...",
+                    Vector(SCREEN_WIDTH/2, SCREEN_HEIGHT/2),
+                    CENTER_ALLIGN, LAYER_FOREGROUND1);
+  context.do_drawing();
+
+  WorldMapNS::WorldMap* worldmap = new WorldMapNS::WorldMap();
+
+  worldmap->set_map_filename("/levels/world1/worldmap.stwm");
+  // Load the game or at least set the savegame_file variable
+  worldmap->loadgame(slotfile);
+
+  main_loop->push_screen(worldmap);
+
+  //Menu::set_current(main_menu);
+
+  return true;
+}
+

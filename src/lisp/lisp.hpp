@@ -47,6 +47,7 @@ public:
   { return v.cons.car; }
   Lisp* get_cdr() const
   { return v.cons.cdr; }
+  
   bool get(std::string& val) const
   { 
     if(type != TYPE_STRING && type != TYPE_SYMBOL)
@@ -54,6 +55,13 @@ public:
     val = v.string;
     return true;
   }
+  
+  std::string get_string() const
+  {
+    assert(type == TYPE_STRING);
+    return v.string;
+  }
+  
   bool get(unsigned int& val) const
   {
     if(type != TYPE_INTEGER)
@@ -61,6 +69,7 @@ public:
     val = v.integer;
     return true;
   }
+  
   bool get(int& val) const
   {
     if(type != TYPE_INTEGER)
@@ -68,6 +77,13 @@ public:
     val = v.integer;
     return true;
   }
+
+  int get_int() const
+  {
+    assert(type == TYPE_INTEGER);
+    return v.integer;
+  }
+  
   bool get(float& val) const
   {
     if(type != TYPE_REAL) {
@@ -80,12 +96,25 @@ public:
     val = v.real;
     return true;
   }
+
+  float get_float() const
+  {
+    assert(type == TYPE_REAL);
+    return v.real;
+  }
+
   bool get(bool& val) const
   {
     if(type != TYPE_BOOLEAN)
       return false;
     val = v.boolean;
     return true;
+  }
+
+  bool get_bool() const
+  {
+    assert(type == TYPE_BOOLEAN);
+    return v.boolean;
   }
 
   /** conveniance functions which traverse the list until a child with a

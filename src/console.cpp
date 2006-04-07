@@ -30,7 +30,7 @@ namespace {
   int ticks; // TODO: use a clock?
 }
 
-Console::Console(DrawingContext* context) : context(context)
+Console::Console()
 {
   background = new Surface("images/engine/console.jpg");
 }
@@ -106,7 +106,7 @@ Console::hide()
 }
 
 void 
-Console::draw() 
+Console::draw(DrawingContext& context)
 {
   if (height == 0) return;
   if (!focused) {
@@ -118,21 +118,21 @@ Console::draw()
     if (height == 0) return;
   }
 
-  context->draw_surface(background, Vector(SCREEN_WIDTH/2 - background->get_width()/2, height - background->get_height()), LAYER_FOREGROUND1+1);
+  context.draw_surface(background, Vector(SCREEN_WIDTH/2 - background->get_width()/2, height - background->get_height()), LAYER_FOREGROUND1+1);
 
   int lineNo = 0;
 
   if (focused) {
     lineNo++;
     float py = height-4-1*9;
-    context->draw_text(white_small_text, "> "+inputBuffer.str(), Vector(4, py), LEFT_ALLIGN, LAYER_FOREGROUND1+1);
+    context.draw_text(white_small_text, "> "+inputBuffer.str(), Vector(4, py), LEFT_ALLIGN, LAYER_FOREGROUND1+1);
   }
 
   for (std::list<std::string>::iterator i = lines.begin(); i != lines.end(); i++) {
     lineNo++;
     float py = height-4-lineNo*9;
     if (py < -9) break;
-    context->draw_text(white_small_text, *i, Vector(4, py), LEFT_ALLIGN, LAYER_FOREGROUND1+1);
+    context.draw_text(white_small_text, *i, Vector(4, py), LEFT_ALLIGN, LAYER_FOREGROUND1+1);
   }
 }
 

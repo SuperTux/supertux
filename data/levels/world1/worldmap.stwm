@@ -163,14 +163,12 @@
     (special-tile
       (teleport-to-x 9)
       (teleport-to-y 15)
-      (map-message (_ ""))
       (x 16)
       (y 25)
     )
     (special-tile
       (teleport-to-x 1)
       (teleport-to-y 26)
-      (map-message (_ ""))
       (invisible-tile #t)
       (x 29)
       (y 18)
@@ -178,7 +176,6 @@
     (special-tile
       (teleport-to-x 22)
       (teleport-to-y 4)
-      (map-message (_ ""))
       (x 1)
       (y 26)
     )

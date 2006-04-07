@@ -1,7 +1,7 @@
-//  $Id$
+//  $Id: worldmap.hpp 2800 2005-10-02 22:57:31Z matzebraun $
 // 
 //  SuperTux
-//  Copyright (C) 2004 SuperTux Development Team, see AUTHORS for details
+//  Copyright (C) 2004 Ingo Ruhnke <grumbel@gmx.de>
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -15,49 +15,37 @@
 // 
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
-//  02111-1307, USA.
-#ifndef SUPERTUX_LEVEL_SUBSET_H
-#define SUPERTUX_LEVEL_SUBSET_H
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+#ifndef SUPERTUX_WORLD_H
+#define SUPERTUX_WORLD_H
 
 #include <vector>
 #include <string>
 
-/** This type holds meta-information about a level-subset. 
-    It could be extended to handle manipulation of subsets. */
-class LevelSubset
+class World
 {
 private:
-  /** Level filenames without the leading path ("level1.stl",
-      "level3.stl", ...) */
   std::vector<std::string> levels;
+  std::string basedir;
 
 public:
-  LevelSubset();
-  ~LevelSubset();
+  World();
+  ~World();
 
-  static void create(const std::string& subset_name);
   void load(const std::string& filename);
-  void save();
+  
+  const std::string& get_level_filename(unsigned int i) const;
+  unsigned int get_num_levels() const;
 
-  void add_level(const std::string& name);
+  const std::string& get_basedir() const;
 
-  std::string get_level_filename(unsigned int i);
-  std::string get_worldmap_filename();
-  int get_num_levels() const;
+  void run();
 
-  std::string name;
   std::string title;
   std::string description;
   bool hide_from_contribs;
-  bool has_worldmap;
-
-private:
-  void read_info_file(const std::string& info_file);
+  bool is_levelset;
 };
 
 #endif
 
-/* Local Variables: */
-/* mode:c++ */
-/* End: */

@@ -34,7 +34,7 @@ class Surface;
 class Console 
 {
   public:
-    Console(DrawingContext* context);
+    Console();
     ~Console();
 
     static std::ostream input; /**< stream of keyboard input to send to the console. Do not forget to send std::endl or to flush the stream. */
@@ -42,7 +42,7 @@ class Console
 
     static void flush(ConsoleStreamBuffer* buffer); /**< act upon changes in a stream, normally called by the stream itself */
 
-    void draw(); /**< draw the console to its */
+    void draw(DrawingContext& context); /**< draw the console to its */
     static void show(); /**< display the console */
     static void hide(); /**< hide the console */
     static bool hasFocus(); /**< true if characters should be sent to the console instead of their normal target */

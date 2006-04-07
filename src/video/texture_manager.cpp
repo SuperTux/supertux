@@ -54,7 +54,7 @@ TextureManager::get(const std::string& _filename)
 void
 TextureManager::release(ImageTexture* texture)
 {
-  image_textures[texture->filename] = NULL;
+  image_textures.erase(texture->filename);
   delete texture;
 }
 

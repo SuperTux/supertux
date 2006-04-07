@@ -32,13 +32,6 @@
 Menu* main_menu      = 0;
 Menu* game_menu      = 0;
 Menu* options_menu   = 0;
-Menu* options_keys_menu     = 0;
-Menu* options_joystick_menu = 0;
-Menu* highscore_menu = 0;
-Menu* load_game_menu = 0;
-Menu* save_game_menu = 0;
-Menu* contrib_menu   = 0;
-Menu* contrib_subset_menu   = 0;
 
 void process_options_menu()
 {
@@ -73,15 +66,12 @@ void setup_menu()
 {
   main_menu      = new Menu();
   options_menu   = new Menu();
-  load_game_menu = new Menu();
   game_menu      = new Menu();
-  contrib_menu   = new Menu();
-  contrib_subset_menu   = new Menu();
   worldmap_menu  = new Menu();
 
   main_menu->set_pos(SCREEN_WIDTH/2, 335);
-  main_menu->add_submenu(_("Start Game"), load_game_menu, MNID_STARTGAME);
-  main_menu->add_submenu(_("Contrib Levels"), contrib_menu, MNID_LEVELS_CONTRIB);
+  main_menu->add_entry(MNID_STARTGAME, _("Start Game"));
+  main_menu->add_entry(MNID_LEVELS_CONTRIB, _("Contrib Levels"));
   main_menu->add_submenu(_("Options"), options_menu);
   //main_menu->add_entry(MNID_LEVELEDITOR, _("Level Editor"));
   main_menu->add_entry(MNID_CREDITS, _("Credits"));
@@ -98,16 +88,6 @@ void setup_menu()
                             main_controller->get_joystick_options_menu());
   options_menu->add_hl();
   options_menu->add_back(_("Back"));
-  
-  load_game_menu->add_label(_("Start Game"));
-  load_game_menu->add_hl();
-  load_game_menu->add_deactive(1, "Slot 1");
-  load_game_menu->add_deactive(2, "Slot 2");
-  load_game_menu->add_deactive(3, "Slot 3");
-  load_game_menu->add_deactive(4, "Slot 4");
-  load_game_menu->add_deactive(5, "Slot 5");
-  load_game_menu->add_hl();
-  load_game_menu->add_back(_("Back"));
   
   game_menu->add_label(_("Pause"));
   game_menu->add_hl();
@@ -130,8 +110,5 @@ void free_menu()
   delete main_menu;
   delete game_menu;
   delete options_menu;
-  delete contrib_menu;
-  delete contrib_subset_menu;
-  delete load_game_menu;
 }
 

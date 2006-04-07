@@ -30,6 +30,7 @@
 
 #include "gettext.hpp"
 #include "msg.hpp"
+#include "mainloop.hpp"
 #include "video/surface.hpp"
 #include "video/screen.hpp"
 #include "video/drawing_context.hpp"
@@ -63,6 +64,8 @@ static const float TUXSPEED = 200;
 static const float map_message_TIME = 2.8;
 
 namespace WorldMapNS {
+
+WorldMap* WorldMap::current_ = NULL;
 
 Direction reverse_dir(Direction direction)
 {
@@ -678,6 +681,50 @@ WorldMap::path_ok(Direction direction, Vector old_pos, Vector* new_pos)
 }
 
 void
+WorldMap::finished_level(const std::string& filename)
+{
+  // TODO calculate level from filename?
+  (void) filename;
+  Level* level = at_level();
+
+  bool old_level_state = level->solved;
+  level->solved = true;
+  level->sprite->set_action("solved");
+
+  // deal with statistics
+  level->statistics.merge(global_stats);
+  calculate_total_stats();
+
+  if(savegame_file != "")
+    savegame(savegame_file);
+
+  if (old_level_state != level->solved && level->auto_path) {
+    // Try to detect the next direction to which we should walk
+    // FIXME: Mostly a hack
+    Direction dir = D_NONE;
+  
+    const Tile* tile = at(tux->get_tile_pos());
+
+    if (tile->getData() & Tile::WORLDMAP_NORTH
+        && tux->back_direction != D_NORTH)
+      dir = D_NORTH;
+    else if (tile->getData() & Tile::WORLDMAP_SOUTH
+        && tux->back_direction != D_SOUTH)
+      dir = D_SOUTH;
+    else if (tile->getData() & Tile::WORLDMAP_EAST
+        && tux->back_direction != D_EAST)
+      dir = D_EAST;
+    else if (tile->getData() & Tile::WORLDMAP_WEST
+        && tux->back_direction != D_WEST)
+      dir = D_WEST;
+
+    if (dir != D_NONE) {
+      tux->set_direction(dir);
+    }
+  }
+}
+
+void
 WorldMap::update(float delta)
 {
   Menu* menu = Menu::current();
@@ -691,7 +738,7 @@ WorldMap::update(float delta)
           Menu::set_current(0);
           break;
         case MNID_QUITWORLDMAP: // Quit Worldmap
-          quit = true;                               
+          main_loop->exit_screen();
           break;
       }
     } else if(menu == options_menu) {
@@ -707,6 +754,7 @@ WorldMap::update(float delta)
     GameObject* object = *i;
     object->update(delta);
   }
+
   // remove old GameObjects
   for(GameObjects::iterator i = game_objects.begin();
       i != game_objects.end(); ) {
@@ -718,7 +766,23 @@ WorldMap::update(float delta)
       ++i;
     }
   }
-  
+
+  // position "camera"
+  Vector tux_pos = tux->get_pos();
+  camera_offset.x = tux_pos.x - SCREEN_WIDTH/2;
+  camera_offset.y = tux_pos.y - SCREEN_HEIGHT/2;
+
+  if (camera_offset.x < 0)
+    camera_offset.x = 0;
+  if (camera_offset.y < 0)
+    camera_offset.y = 0;
+
+  if (camera_offset.x > solids->get_width()*32 - SCREEN_WIDTH)
+    camera_offset.x = solids->get_width()*32 - SCREEN_WIDTH;
+  if (camera_offset.y > solids->get_height()*32 - SCREEN_HEIGHT)
+    camera_offset.y = solids->get_height()*32 - SCREEN_HEIGHT;
+
+  // handle input
   bool enter_level = false;
   if(main_controller->pressed(Controller::ACTION)
       || main_controller->pressed(Controller::JUMP)
@@ -746,117 +810,22 @@ WorldMap::update(float delta)
       /* Check level action */
       bool level_finished = true;
       Level* level = at_level();
-      if (!level)
-        {
+      if (!level) {
         msg_warning("No level to enter at: "
-          << tux->get_tile_pos().x << ", " << tux->get_tile_pos().y);
+            << tux->get_tile_pos().x << ", " << tux->get_tile_pos().y);
         return;
-        }
-
+      }
 
       if (level->pos == tux->get_tile_pos())
         {
-          sound_manager->stop_music();
-          PlayerStatus old_player_status;
-          old_player_status = *player_status;
-
           // do a shriking fade to the level
           shrink_fade(Vector((level->pos.x*32 + 16 + offset.x),
                              (level->pos.y*32 + 16 + offset.y)), 500);
-          GameSession session(levels_path + level->name,
+
+          GameSession *session =
+              new GameSession(levels_path + level->name,
                               ST_GL_LOAD_LEVEL_FILE, &level->statistics);
-
-          switch (session.run())
-            {
-            case GameSession::ES_LEVEL_FINISHED:
-              {
-                level_finished = true;
-                bool old_level_state = level->solved;
-                level->solved = true;
-                level->sprite->set_action("solved");
-
-                // deal with statistics
-                level->statistics.merge(global_stats);
-                calculate_total_stats();
-
-                if (old_level_state != level->solved && level->auto_path)
-                  { // Try to detect the next direction to which we should walk
-                    // FIXME: Mostly a hack
-                    Direction dir = D_NONE;
-                
-                    const Tile* tile = at(tux->get_tile_pos());
-
-                    if (tile->getData() & Tile::WORLDMAP_NORTH
-                        && tux->back_direction != D_NORTH)
-                      dir = D_NORTH;
-                    else if (tile->getData() & Tile::WORLDMAP_SOUTH
-                        && tux->back_direction != D_SOUTH)
-                      dir = D_SOUTH;
-                    else if (tile->getData() & Tile::WORLDMAP_EAST
-                        && tux->back_direction != D_EAST)
-                      dir = D_EAST;
-                    else if (tile->getData() & Tile::WORLDMAP_WEST
-                        && tux->back_direction != D_WEST)
-                      dir = D_WEST;
-
-                    if (dir != D_NONE)
-                      {
-                        tux->set_direction(dir);
-                      }
-                  }
-              }
-
-              break;
-            case GameSession::ES_LEVEL_ABORT:
-              level_finished = false;
-              /* In case the player's abort the level, keep it using the old
-                  status. But the minimum lives and no bonus. */
-              player_status->coins = std::min(old_player_status.coins, player_status->coins);
-              player_status->bonus = NO_BONUS;
-              break;
-	    /*
-            case GameSession::ES_GAME_OVER:
-              {
-              level_finished = false;
-              // draw an end screen
-              // TODO: in the future, this should make a dialog a la SuperMario, asking
-              // if the player wants to restart the world map with no score and from
-              // level 1
-              char str[80];
-
-              DrawingContext context;
-              context.draw_gradient(Color (200,240,220), Color(200,200,220),
-                  LAYER_BACKGROUND0);
-
-              context.draw_text(blue_text, _("GAMEOVER"), 
-                  Vector(SCREEN_WIDTH/2, 200), CENTER_ALLIGN, LAYER_FOREGROUND1);
-
-              sprintf(str, _("COINS: %d"), player_status->coins);
-              context.draw_text(gold_text, str,
-                  Vector(SCREEN_WIDTH/2, SCREEN_WIDTH - 32), CENTER_ALLIGN,
-                  LAYER_FOREGROUND1);
-
-              total_stats.draw_message_info(context, _("Total Statistics"));
-
-              context.do_drawing();
-
-              wait_for_event(2.0, 6.0);
-
-              quit = true;
-              player_status->reset();
-              break;
-              }
-	    */
-            case GameSession::ES_NONE:
-              assert(false);
-              // Should never be reached 
-              break;
-            }
-
-          sound_manager->play_music(music);
-          Menu::set_current(0);
-          if (!savegame_file.empty())
-            savegame(savegame_file);
+          main_loop->push_screen(session);
         }
       /* The porpose of the next checking is that if the player lost
          the level (in case there is one), don't show anything */
@@ -879,7 +848,7 @@ WorldMap::update(float delta)
           loadmap(level->next_worldmap);
           }
         if (level->quit_worldmap)
-          quit = true;
+          main_loop->exit_screen();
         }
     }
   else
@@ -921,6 +890,9 @@ WorldMap::at_special_tile()
 void
 WorldMap::draw(DrawingContext& context)
 {
+  context.push_transform();
+  context.set_translation(camera_offset);
+  
   for(GameObjects::iterator i = game_objects.begin();
       i != game_objects.end(); ++i) {
     GameObject* object = *i;
@@ -950,6 +922,7 @@ WorldMap::draw(DrawingContext& context)
     }
 
   draw_status(context);
+  context.pop_transform();
 }
 
 void
@@ -1002,73 +975,12 @@ WorldMap::draw_status(DrawingContext& context)
 }
 
 void
-WorldMap::display()
+WorldMap::setup()
 {
-  Menu::set_current(0);
-
-  quit = false;
-
   sound_manager->play_music(music);
+  Menu::set_current(NULL);
 
-  if(!intro_displayed && intro_script != "") {
-    try {
-      std::auto_ptr<ScriptInterpreter> interpreter 
-        (new ScriptInterpreter(levels_path));
-      std::istringstream in(intro_script);
-      interpreter->run_script(in, "worldmap-intro-script");
-      add_object(interpreter.release());
-    } catch(std::exception& e) {
-      msg_warning("Couldn't execute worldmap-intro-script: "
-        << e.what());
-    }
-                                           
-    intro_displayed = true;
-  }
-
-  Uint32 lastticks = SDL_GetTicks();
-  DrawingContext context;
-  Console* console = new Console(&context);
-  while(!quit) {
-    Uint32 ticks = SDL_GetTicks();
-    float elapsed_time = float(ticks - lastticks) / 1000;
-    game_time += elapsed_time;
-    lastticks = ticks;
-    
-    // 40 fps minimum // TODO use same code as in GameSession here
-    if(elapsed_time > .025)
-      elapsed_time = .025;
-    
-    Vector tux_pos = tux->get_pos();
-    offset.x = tux_pos.x - SCREEN_WIDTH/2;
-    offset.y = tux_pos.y - SCREEN_HEIGHT/2;
-
-    if (offset.x < 0)
-      offset.x = 0;
-    if (offset.y < 0)
-      offset.y = 0;
-
-    if (offset.x > solids->get_width()*32 - SCREEN_WIDTH)
-      offset.x = solids->get_width()*32 - SCREEN_WIDTH;
-    if (offset.y > solids->get_height()*32 - SCREEN_HEIGHT)
-      offset.y = solids->get_height()*32 - SCREEN_HEIGHT;
-
-    context.push_transform();
-    context.set_translation(offset);
-    draw(context);
-    context.pop_transform();
-    get_input();
-    update(elapsed_time);
-    sound_manager->update();
-      
-    if(Menu::current()) {
-      Menu::current()->draw(context);
-    }
-
-    console->draw();
-    context.do_drawing();
-  }
-  
-  delete console;
+  current_ = this;
 }
 
 void

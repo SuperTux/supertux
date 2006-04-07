@@ -172,8 +172,10 @@ static int Level_finish_wrapper(HSQUIRRELVM v)
 {
   Scripting::Level* _this;
   sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);
+  SQBool arg0;
+  sq_getbool(v, 2, &arg0);
   
-  _this->finish();
+  _this->finish(arg0);
   
   return 0;
 }

@@ -15,9 +15,9 @@ namespace Scripting
   {}
 
   void
-  Level::finish()
+  Level::finish(bool win)
   {
-    GameSession::current()->finish();
+    GameSession::current()->finish(win);
   }
 
   void

@@ -65,6 +65,12 @@ Controller::pressed(Control control)
   return oldControls[control] == false && controls[control] == true;
 }
 
+bool
+Controller::released(Control control)
+{
+  return oldControls[control] == true && controls[control] == false;
+}
+
 void
 Controller::update()
 {

@@ -9,6 +9,7 @@
 #include "resources.hpp"
 #include "gettext.hpp"
 #include "msg.hpp"
+#include "mainloop.hpp"
 
 namespace Scripting
 {
@@ -27,7 +28,7 @@ void display_text_file(const std::string& filename)
 {
   std::string file 
     = ScriptInterpreter::current()->get_working_directory() + filename;
-  ::display_text_file(file);
+  main_loop->push_screen(new TextScroller(file));
 }
 
 void import(HSQUIRRELVM v, const std::string& filename)

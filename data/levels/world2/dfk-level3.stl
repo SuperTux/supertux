@@ -1086,7 +1086,7 @@
     )
 
        (spawnpoint (name "main") (x 64) (y 11040))
-       (background
+       (gradient
          (top_color 0 0 0.2)
          (bottom_color 0 0 0.6)
          (speed 1.000000)
@@ -1220,7 +1220,7 @@
       (mode "normal")
     )
 
-       (background
+       (gradient
          (top_color 0 0 0.2)
          (bottom_color 0 0 0.6)
          (speed 1.000000)

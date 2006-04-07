@@ -1,7 +1,8 @@
 ; Credits text
 (supertux-text
   (background "oiltux.jpg")
-  (speed 1.5)
+  (music "music/credits.ogg")
+  (speed 30)
 
   (text (_ "!images/credits/milestone.png
 
@@ -27,6 +28,8 @@
 
 	Ryan \"sik0fewl\" Flegel
 
+	Christoph Sommer
+
 	Bastiaan \"basti_\" Zapf
 
 	Marek \"Wansti\" Moeckel
@@ -41,7 +44,6 @@
 
 	Richard Smith
 
-	Christoph Sommer
 
 -Graphics
 

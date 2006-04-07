@@ -13,7 +13,7 @@ public:
 #endif
 
     /** Instantly finish the currently played level */
-    void finish();
+    void finish(bool win);
     /** spawn tux at specified sector and spawnpoint */
     void spawn(const std::string& sector, const std::string& spawnpoint);
     /** Flip level vertically */

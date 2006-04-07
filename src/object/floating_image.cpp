@@ -37,10 +37,10 @@ FloatingImage::draw(DrawingContext& context)
   context.push_transform();
   context.set_translation(Vector(0, 0));
 
-  Vector pos = get_anchor_pos(Rect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT),
+  Vector spos = pos + get_anchor_pos(Rect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT),
       sprite->get_width(), sprite->get_height(), anchor);
 
-  sprite->draw(context, pos, layer);
+  sprite->draw(context, spos, layer);
 
   context.pop_transform();
 }

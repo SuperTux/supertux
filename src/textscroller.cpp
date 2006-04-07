@@ -23,10 +23,13 @@
 
 #include <stdexcept>
 #include "msg.hpp"
+#include "mainloop.hpp"
 #include "resources.hpp"
 #include "video/font.hpp"
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
+#include "video/screen.hpp"
+#include "gui/menu.hpp"
 #include "lisp/parser.hpp"
 #include "lisp/lisp.hpp"
 #include "audio/sound_manager.hpp"
@@ -34,7 +37,8 @@
 #include "control/joystickkeyboardcontroller.hpp"
 #include "exceptions.hpp"
 
-static const float DEFAULT_SPEED = .02;
+static const float DEFAULT_SPEED = 20;
+static const float LEFT_BORDER = 50;
 static const float SCROLL = 60;
 static const float ITEMS_SPACE = 4;
 
@@ -57,19 +61,13 @@ static void split_text(const std::string& text, std::vector<std::string>& lines)
   }
 }
 
-void display_text_file(const std::string& filename)
+TextScroller::TextScroller(const std::string& filename)
 {
-  const Font* heading_font = white_big_text;
-  const Font* normal_font = white_text;
-  const Font* small_font = white_small_text;
-  const Font* reference_font = blue_text;
-  float defaultspeed = DEFAULT_SPEED;
-  float speed = defaultspeed;
+  defaultspeed = DEFAULT_SPEED;
+  speed = defaultspeed;
   
   std::string text;
   std::string background_file;
-  std::vector<std::string> lines;
-  std::map<std::string, Surface*> images;
 
   lisp::Parser parser;
   try {
@@ -83,8 +81,8 @@ void display_text_file(const std::string& filename)
       throw std::runtime_error("file doesn't contain a text field");
     if(!text_lisp->get("background", background_file))
       throw std::runtime_error("file doesn't contain a background file");
-    if(text_lisp->get("speed", defaultspeed))
-      defaultspeed /= 50;
+    text_lisp->get("speed", defaultspeed);
+    text_lisp->get("music", music);
   } catch(std::exception& e) {
     msg_warning("Couldn't load file '" << filename << "': " << e.what());
     return;
@@ -99,122 +97,115 @@ void display_text_file(const std::string& filename)
       continue;
     if(line[0] == '!') {
       std::string imagename = line.substr(1, line.size()-1);
-      msg_debug("Imagename: " << imagename);
       images.insert(std::make_pair(imagename, new Surface(imagename)));
     }
   }
 
   // load background image
-  Surface* background = new Surface("images/background/" + background_file);
+  background.reset(new Surface("images/background/" + background_file));
 
-  bool done = false;
-  float scroll = 0;
-  float left_border = 50;
+  scroll = 0;
+}
 
-  DrawingContext context;
-  SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
-
-  Uint32 lastticks = SDL_GetTicks();
-  while(!done) {
-    main_controller->update();
-    /* in case of input, exit */
-    SDL_Event event;
-    while(SDL_PollEvent(&event)) {
-      main_controller->process_event(event);
-      if(event.type == SDL_QUIT)
-        throw graceful_shutdown();
-    }
-
-    if(main_controller->hold(Controller::UP)) {
-      speed = -defaultspeed*5;
-    } else if(main_controller->hold(Controller::DOWN)) {
-      speed = defaultspeed*5;
-    } else {
-      speed = defaultspeed;
-    }
-    if(main_controller->pressed(Controller::JUMP)
-       || main_controller->pressed(Controller::ACTION)
-       || main_controller->pressed(Controller::MENU_SELECT))
-      scroll += SCROLL;    
-    if(main_controller->pressed(Controller::PAUSE_MENU))
-      done = true;
-    
-    /* draw the credits */
-    context.draw_surface(background, Vector(0,0), 0);
-
-    float y = 0;
-    for(size_t i = 0; i < lines.size(); i++) {
-      const std::string& line = lines[i];
-      if(line.size() == 0) {
-        y += normal_font->get_height() + ITEMS_SPACE;
-        continue;
-      }
-      
-      const Font* font = 0;
-      const Surface* image = 0;
-      bool center = true;
-      switch(line[0])
-      {
-        case ' ': font = small_font; break;
-        case '\t': font = normal_font; break;
-        case '-': font = heading_font; break;
-        case '*': font = reference_font; break;
-        case '#': font = normal_font; center = false; break;
-        case '!': {
-            std::string imagename = line.substr(1, line.size()-1);
-            image = images[imagename];
-            break;
-        }
-        default:
-          msg_warning("text contains an unformated line");
-          font = normal_font;
-          center = false;
-          break;
-      }
-     
-      if(font != 0) {
-        if(center) {
-          context.draw_text(font,
-              line.substr(1, line.size()-1),
-              Vector(SCREEN_WIDTH/2, SCREEN_HEIGHT + y - scroll),
-              CENTER_ALLIGN, LAYER_FOREGROUND1);
-        } else {
-          context.draw_text(font,
-              line.substr(1, line.size()-1),
-              Vector(left_border, SCREEN_HEIGHT + y - scroll),
-              LEFT_ALLIGN, LAYER_FOREGROUND1);
-        }
-        y += font->get_height() + ITEMS_SPACE;
-      }
-      if(image != 0) {
-        context.draw_surface(image,
-            Vector( (SCREEN_WIDTH - image->get_width()) / 2,
-                    SCREEN_HEIGHT + y - scroll), 255);
-        y += image->get_height() + ITEMS_SPACE;
-      }
-    }
-    
-    context.do_drawing();
-    sound_manager->update();
-    
-    if(SCREEN_HEIGHT+y-scroll < 0 && 20+SCREEN_HEIGHT+y-scroll < 0)
-      done = 1;
-    
-    Uint32 ticks = SDL_GetTicks();
-    scroll += speed * (ticks - lastticks);
-    lastticks = ticks;
-    if(scroll < 0)
-      scroll = 0;
-    
-    SDL_Delay(10);
-  }
-
+TextScroller::~TextScroller()
+{
   for(std::map<std::string, Surface*>::iterator i = images.begin();
       i != images.end(); ++i)
-    delete i->second;
+    delete i->second; 
+}
 
-  SDL_EnableKeyRepeat(0, 0);    // disables key repeating
-  delete background;
+void
+TextScroller::setup()
+{
+  sound_manager->play_music(music);
+  Menu::set_current(NULL);
+}
+
+void
+TextScroller::update(float elapsed_time)
+{
+  if(main_controller->hold(Controller::UP)) {
+    speed = -defaultspeed*5;
+  } else if(main_controller->hold(Controller::DOWN)) {
+    speed = defaultspeed*5;
+  } else {
+    speed = defaultspeed;
+  }
+  if(main_controller->pressed(Controller::JUMP)
+      || main_controller->pressed(Controller::ACTION)
+      || main_controller->pressed(Controller::MENU_SELECT))
+    scroll += SCROLL;    
+  if(main_controller->pressed(Controller::PAUSE_MENU)) {
+    fadeout(500);
+    main_loop->exit_screen();
+  }
+
+  scroll += speed * elapsed_time;
+    
+  if(scroll < 0)
+    scroll = 0;
+}
+
+void
+TextScroller::draw(DrawingContext& context)
+{
+  context.draw_surface(background.get(), Vector(0,0), 0);
+
+  float y = SCREEN_HEIGHT - scroll;
+  for(size_t i = 0; i < lines.size(); i++) {
+    const std::string& line = lines[i];
+    if(line.size() == 0) {
+      y += white_text->get_height() + ITEMS_SPACE;
+      continue;
+    }
+      
+    const Font* font = 0;
+    const Surface* image = 0;
+    bool center = true;
+    switch(line[0])
+    {
+      case ' ': font = white_small_text; break;
+      case '\t': font = white_text; break;
+      case '-': font = white_big_text; break;
+      case '*': font = blue_text; break;
+      case '#': font = white_text; center = false; break;
+      case '!': {
+                  std::string imagename = line.substr(1, line.size()-1);
+                  image = images[imagename];
+                  break;
+                }
+      default:
+                msg_warning("text contains an unformated line");
+                font = white_text;
+                center = false;
+                break;
+    }
+    
+    if(font != 0) {
+      if(center) {
+        context.draw_text(font,
+            line.substr(1, line.size()-1),
+            Vector(SCREEN_WIDTH/2, y),
+            CENTER_ALLIGN, LAYER_FOREGROUND1);
+      } else {
+        context.draw_text(font,
+            line.substr(1, line.size()-1),
+            Vector(LEFT_BORDER, y),
+            LEFT_ALLIGN, LAYER_FOREGROUND1);
+      }
+      y += font->get_height() + ITEMS_SPACE;
+    }
+    if(image != 0) {
+      context.draw_surface(image,
+          Vector( (SCREEN_WIDTH - image->get_width()) / 2, y), 255);
+      y += image->get_height() + ITEMS_SPACE;
+    }
+  }
+
+  if(y < 0) {
+    fadeout(500); 
+    main_loop->exit_screen();
+  }
 }
 
 InfoBox::InfoBox(const std::string& text)

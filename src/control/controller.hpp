@@ -46,6 +46,8 @@ public:
   bool hold(Control control);
   /** returns true if the control has just been pressed down this frame */
   bool pressed(Control control);
+  /** returns true if the control has just been released down this frame */ 
+  bool released(Control control);
 
   virtual void reset();
   virtual void update();

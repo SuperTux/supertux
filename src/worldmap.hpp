@@ -29,6 +29,7 @@
 #include "control/controller.hpp"
 #include "statistics.hpp"
 #include "timer.hpp"
+#include "screen.hpp"
 #include "tile_manager.hpp"
 #include "game_object.hpp"
 #include "console.hpp"
@@ -104,17 +105,18 @@ public:
 };
 
 /** */
-class WorldMap
+class WorldMap : public Screen
 {
 private:
   Tux* tux;
-
-  bool quit;
 
   Surface* leveldot_green;
   Surface* leveldot_red;
   Surface* messagedot;
   Sprite* teleporterdot;
+  static WorldMap* current_;
+
+  Vector camera_offset;
 
   std::string name;
   std::string music;
@@ -225,15 +227,17 @@ public:
   WorldMap();
   ~WorldMap();
 
-  /** Busy loop */
-  void display();
-
   void load_map();
   
   void get_input();
 
   void add_object(GameObject* object);
   void clear_objects();
+
+  static WorldMap* current()
+  { return current_; }
+
+  void setup();
 
   /** Update Tux position */
   void update(float delta);
@@ -243,6 +247,12 @@ public:
 
   Vector get_next_tile(Vector pos, Direction direction);
   const Tile* at(Vector pos);
+
+  /**
+   * gets called from the GameSession when a level has been successfully
+   * finished
+   */
+  void finished_level(const std::string& filename);
 
   WorldMap::Level* at_level();
   WorldMap::SpecialTile* at_special_tile();

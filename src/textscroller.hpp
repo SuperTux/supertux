@@ -25,9 +25,10 @@
 #include <string>
 #include <map>
 
-#include "video/surface.hpp"
+#include "screen.hpp"
 
 class DrawingContext;
+class Surface;
 
 /** This class is displaying a box with information text inside the game
  */
@@ -51,12 +52,25 @@ private:
   Surface* arrow_scrolldown;
 };
 
-/** Reads a text file (using LispReader, so it as to be in its formatting)
- * and scroll it over the screen
- * (this call blocks until all text scrolled through or the user aborted the
- *  textscrolling)
- */
-void display_text_file(const std::string& file);
+class TextScroller : public Screen
+{
+public:
+  TextScroller(const std::string& file);
+  virtual ~TextScroller();
+
+  void setup();
+  void draw(DrawingContext& context);
+  void update(float elapsed_time);
+
+private:
+  float defaultspeed;
+  float speed;
+  std::string music;
+  std::auto_ptr<Surface> background;
+  std::vector<std::string> lines;
+  std::map<std::string, Surface*> images;
+  float scroll;
+};
 
 #endif
 

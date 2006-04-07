@@ -20,6 +20,7 @@
 #define SUPERTUX_PLAYERSTATUS_H
 
 #include <assert.h>
+#include <memory>
 #include "lisp/lisp.hpp"
 #include "timer.hpp"
 #include "serializable.hpp"
@@ -74,11 +75,12 @@ private:
   PlayerStatus(const PlayerStatus& other);
   
   int  keys;
-  Sprite* key_iron;
-  Sprite* key_brass;
-  Sprite* key_bronze;
-  Sprite* key_silver;
-  Sprite* key_gold;
+  std::auto_ptr<Sprite> tux_life;
+  std::auto_ptr<Sprite> key_iron;
+  std::auto_ptr<Sprite> key_brass;
+  std::auto_ptr<Sprite> key_bronze;
+  std::auto_ptr<Sprite> key_silver;
+  std::auto_ptr<Sprite> key_gold;
 };
 
 // global player state

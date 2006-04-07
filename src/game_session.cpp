@@ -36,6 +36,8 @@
 
 #include "game_session.hpp"
 #include "msg.hpp"
+#include "worldmap.hpp"
+#include "mainloop.hpp"
 #include "video/screen.hpp"
 #include "audio/sound_manager.hpp"
 #include "gui/menu.hpp"
@@ -73,6 +75,8 @@
 // binary fraction...
 static const float LOGICAL_FPS = 64.0;
 
+using namespace WorldMapNS;
+
 GameSession* GameSession::current_ = 0;
 
 GameSession::GameSession(const std::string& levelfile_, GameSessionMode mode,
@@ -88,8 +92,6 @@ GameSession::GameSession(const std::string& levelfile_, GameSessionMode mode,
   game_pause = false;
   fps_fps = 0;
 
-  context = new DrawingContext();
-  console = new Console(context);
   Console::registerCommandReceiver(this);
 
   restart_level(true);
@@ -99,7 +101,6 @@ void
 GameSession::restart_level(bool fromBeginning)
 {
   game_pause   = false;
-  exit_status  = ES_NONE;
   end_sequence = NO_ENDSEQUENCE;
 
   main_controller->reset();
@@ -165,9 +166,7 @@ GameSession::~GameSession()
 
   delete end_sequence_controller;
   delete level;
-  delete context;
   Console::unregisterCommandReceiver(this);
-  delete console;
 
   current_ = NULL;
 }
@@ -243,9 +242,6 @@ GameSession::levelintro()
   if(best_level_statistics != NULL)
     best_level_statistics->draw_message_info(context, _("Best Level Statistics"));
 
-  console->draw();
-  context.do_drawing();
-
   wait_for_event(1.0, 3.0);
 }
 
@@ -256,7 +252,7 @@ GameSession::on_escape_press()
     return;   // don't let the player open the menu, when he is dying
   
   if(mode == ST_GL_TEST) {
-    exit_status = ES_LEVEL_ABORT;
+    main_loop->exit_screen();
   } else if (!Menu::current()) {
     Menu::set_current(game_menu);
     game_menu->set_active_item(MNID_CONTINUE);
@@ -270,7 +266,6 @@ void
 GameSession::process_events()
 {
   Player& tux = *currentsector->player;
-  main_controller->update();
 
   // end of pause mode?
   if(!Menu::current() && game_pause) {
@@ -288,17 +283,6 @@ GameSession::process_events()
     if (int(last_x_pos) == int(tux.get_pos().x))
       end_sequence_controller->press(Controller::JUMP);    
     last_x_pos = tux.get_pos().x;
-  }
-
-  main_controller->update();
-  SDL_Event event;
-  while (SDL_PollEvent(&event)) {
-    /* Check for menu-events, if the menu is shown */
-    if (Menu::current())
-      Menu::current()->event(event);
-    main_controller->process_event(event);
-    if(event.type == SDL_QUIT)
-      throw graceful_shutdown();
   }
 
   // playback a demo?
@@ -431,9 +415,10 @@ GameSession::consoleCommand(std::string command)
     return true;
   }
   if (command == "finish") {
-    // finish current sector
-    exit_status = ES_LEVEL_FINISHED;
-    // don't add points to stats though...
+    if(WorldMap::current() != NULL) {
+      WorldMap::current()->finished_level(levelfile);
+    }
+
     return true;
   }
   if (command == "camera") {
@@ -453,7 +438,7 @@ GameSession::check_end_conditions()
 
   /* End of level? */
   if(end_sequence && endsequence_timer.check()) {
-    exit_status = ES_LEVEL_FINISHED;
+    finish(true);
     
     // add time spent to statistics
     int tottime = 0, remtime = 0;
@@ -491,57 +476,20 @@ GameSession::check_end_conditions()
   }
 }
 
-void
-GameSession::update(float elapsed_time)
-{
-  // handle controller
-  if(main_controller->pressed(Controller::PAUSE_MENU))
-    on_escape_press();
-  
-  // advance timers
-  if(!currentsector->player->growing_timer.started()) {
-    // Update Tux and the World
-    currentsector->update(elapsed_time);
-  }
-
-  // respawning in new sector?
-  if(newsector != "" && newspawnpoint != "") {
-    Sector* sector = level->get_sector(newsector);
-    if(sector == 0) {
-      msg_warning("Sector '" << newsector << "' not found");
-    }
-    sector->activate(newspawnpoint);
-    sector->play_music(LEVEL_MUSIC);
-    currentsector = sector;
-    newsector = "";
-    newspawnpoint = "";
-  }
-
-  // update sounds
-  sound_manager->set_listener_position(currentsector->player->get_pos());
-}
-
 void 
-GameSession::draw()
+GameSession::draw(DrawingContext& context)
 {
-  currentsector->draw(*context);
-  drawstatus(*context);
+  currentsector->draw(context);
+  drawstatus(context);
 
   if(game_pause)
-    draw_pause();
-
-  if(Menu::current()) {
-    Menu::current()->draw(*context);
-  }
-
-  console->draw();
-  context->do_drawing();
+    draw_pause(context);
 }
 
 void
-GameSession::draw_pause()
+GameSession::draw_pause(DrawingContext& context)
 {
-  context->draw_filled_rect(
+  context.draw_filled_rect(
       Vector(0,0), Vector(SCREEN_WIDTH, SCREEN_HEIGHT),
       Color(.2, .2, .2, .5), LAYER_FOREGROUND1);
 }
@@ -560,18 +508,77 @@ GameSession::process_menu()
           break;
         case MNID_ABORTLEVEL:
           Menu::set_current(0);
-          exit_status = ES_LEVEL_ABORT;
+          main_loop->exit_screen();
           break;
       }
     } else if(menu == options_menu) {
       process_options_menu();
-    } else if(menu == load_game_menu ) {
-      process_load_game_menu();
     }
   }
 }
 
+void
+GameSession::setup()
+{
+  Menu::set_current(NULL);
+  current_ = this;
 
+  // Eat unneeded events
+  SDL_Event event;
+  while(SDL_PollEvent(&event))
+  {}
+}
+
+void
+GameSession::update(float elapsed_time)
+{
+  process_events();
+  process_menu();
+
+  check_end_conditions();
+
+  // handle controller
+  if(main_controller->pressed(Controller::PAUSE_MENU))
+    on_escape_press();
+  
+  // respawning in new sector?
+  if(newsector != "" && newspawnpoint != "") {
+    Sector* sector = level->get_sector(newsector);
+    if(sector == 0) {
+      msg_warning("Sector '" << newsector << "' not found");
+    }
+    sector->activate(newspawnpoint);
+    sector->play_music(LEVEL_MUSIC);
+    currentsector = sector;
+    newsector = "";
+    newspawnpoint = "";
+  }
+
+  // Update the world state and all objects in the world
+  if(!game_pause) {
+    // Update the world
+    if (end_sequence == ENDSEQUENCE_RUNNING) {
+      currentsector->update(elapsed_time/2);
+    } else if(end_sequence == NO_ENDSEQUENCE) {
+      if(!currentsector->player->growing_timer.started())
+        currentsector->update(elapsed_time);
+    } 
+  }
+
+  // update sounds
+  sound_manager->set_listener_position(currentsector->player->get_pos());
+
+  /* Handle music: */
+  if (currentsector->player->invincible_timer.started() && 
+      currentsector->player->invincible_timer.get_timeleft() 
+      > TUX_INVINCIBLE_TIME_WARNING && !end_sequence) {
+    currentsector->play_music(HERRING_MUSIC);
+  } else if(currentsector->get_music_type() != LEVEL_MUSIC && !end_sequence) {
+    currentsector->play_music(LEVEL_MUSIC);
+  }
+}
+
+#if 0
 GameSession::ExitStatus
 GameSession::run()
 {
@@ -594,6 +601,8 @@ GameSession::run()
 
   while (exit_status == ES_NONE) {
     // we run in a logical framerate so elapsed time is a constant
+    // This will make the game run determistic and not different on different
+    // machines
     static const float elapsed_time = 1.0 / LOGICAL_FPS;
     // old code... float elapsed_time = float(ticks - lastticks) / 1000.;
     if(!game_pause)
@@ -624,25 +633,11 @@ GameSession::run()
     }
     fps_nextframe_ticks = ticks + (Uint32) (1000.0 / LOGICAL_FPS);
 
-#if 0
-    float diff = SDL_GetTicks() - fps_nextframe_ticks;
-    if (diff > 5.0) {
-         // sets the ticks that must have elapsed
-    	fps_nextframe_ticks = SDL_GetTicks() + (1000.0 / LOGICAL_FPS);
-    } else {
-        // sets the ticks that must have elapsed
-        // in order for the next frame to start.
-    	fps_nextframe_ticks += 1000.0 / LOGICAL_FPS;
-    }
-#endif
-
     process_events();
     process_menu();
 
     // Update the world state and all objects in the world
-    // Do that with a constante time-delta so that the game will run
-    // determistic and not different on different machines
-    if(!game_pause && !Menu::current())
+    if(!game_pause)
     {
       // Update the world
       check_end_conditions();
@@ -650,10 +645,6 @@ GameSession::run()
         update(elapsed_time/2);
       else if(end_sequence == NO_ENDSEQUENCE)
         update(elapsed_time);
-    }
-    else
-    {
-      ++pause_menu_frame;
     }
 
     if(!skipdraw)
@@ -668,8 +659,6 @@ GameSession::run()
       continue;
     }
 
-    //frame_rate.update();
-    
     /* Handle music: */
     if (currentsector->player->invincible_timer.started() && 
             currentsector->player->invincible_timer.get_timeleft() 
@@ -702,14 +691,17 @@ GameSession::run()
   main_controller->reset();
   return exit_status;
 }
+#endif
 
 void
 GameSession::finish(bool win)
 {
-  if(win)
-    exit_status = ES_LEVEL_FINISHED;
-  else
-    exit_status = ES_LEVEL_ABORT;
+  if(win) {
+    if(WorldMap::current())
+      WorldMap::current()->finished_level(levelfile);
+  }
+  
+  main_loop->exit_screen();
 }
 
 void
@@ -738,6 +730,8 @@ GameSession::display_info_box(const std::string& text)
   InfoBox* box = new InfoBox(text);
 
   bool running = true;
+  DrawingContext context;
+  
   while(running)  {
 
     main_controller->update();
@@ -757,8 +751,9 @@ GameSession::display_info_box(const std::string& text)
       box->scrolldown();
     else if(main_controller->pressed(Controller::UP))
       box->scrollup();
-    box->draw(*context);
-    draw();
+    box->draw(context);
+    draw(context);
+    context.do_drawing();
     sound_manager->update();
   }
 
@@ -819,93 +814,3 @@ GameSession::drawstatus(DrawingContext& context)
   }
 }
 
-void
-GameSession::drawresultscreen()
-{
-  char str[80];
-
-  DrawingContext context;
-  for(Sector::GameObjects::iterator i = currentsector->gameobjects.begin();
-      i != currentsector->gameobjects.end(); ++i) {
-    Background* background = dynamic_cast<Background*> (*i);
-    if(background) {
-      background->draw(context);
-    }
-  }
-
-  context.draw_text(blue_text, _("Result:"), Vector(SCREEN_WIDTH/2, 200),
-      CENTER_ALLIGN, LAYER_FOREGROUND1);
-
-//  sprintf(str, _("SCORE: %d"), global_stats.get_points(SCORE_STAT));
-//  context.draw_text(gold_text, str, Vector(SCREEN_WIDTH/2, 224), CENTER_ALLIGN, LAYER_FOREGROUND1);
-
-  // y == 256 before removal of score
-  sprintf(str, _("COINS: %d"), player_status->coins);
-  context.draw_text(gold_text, str, Vector(SCREEN_WIDTH/2, 224), CENTER_ALLIGN, LAYER_FOREGROUND1);
-
-  console->draw();
-  context.do_drawing();
-  
-  wait_for_event(2.0, 5.0);
-}
-
-std::string slotinfo(int slot)
-{
-  std::string tmp;
-  std::string slotfile;
-  std::string title;
-  std::stringstream stream;
-  stream << slot;
-  slotfile = "save/slot" + stream.str() + ".stsg";
-
-  try {
-    lisp::Parser parser;
-    std::auto_ptr<lisp::Lisp> root (parser.parse(slotfile));
-
-    const lisp::Lisp* savegame = root->get_lisp("supertux-savegame");
-    if(!savegame)
-      throw std::runtime_error("file is not a supertux-savegame.");
-
-    savegame->get("title", title);
-  } catch(std::exception& e) {
-    return std::string(_("Slot")) + " " + stream.str() + " - " +
-      std::string(_("Free"));
-  }
-
-  return std::string("Slot ") + stream.str() + " - " + title;
-}
-
-bool process_load_game_menu()
-{
-  int slot = load_game_menu->check();
-
-  if(slot == -1)
-    return false;
-  
-  if(load_game_menu->get_item_by_id(slot).kind != MN_ACTION)
-    return false;
-  
-  std::stringstream stream;
-  stream << slot;
-  std::string slotfile = "save/slot" + stream.str() + ".stsg";
-
-  sound_manager->stop_music();
-  fadeout(256);
-  DrawingContext context;
-  context.draw_text(white_text, "Loading...",
-                    Vector(SCREEN_WIDTH/2, SCREEN_HEIGHT/2),
-                    CENTER_ALLIGN, LAYER_FOREGROUND1);
-  context.do_drawing();
-
-  WorldMapNS::WorldMap worldmap;
-
-  worldmap.set_map_filename("/levels/world1/worldmap.stwm");
-  // Load the game or at least set the savegame_file variable
-  worldmap.loadgame(slotfile);
-
-  worldmap.display();
-
-  Menu::set_current(main_menu);
-
-  return true;
-}

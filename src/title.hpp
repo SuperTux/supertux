@@ -21,16 +21,48 @@
 #ifndef SUPERTUX_TITLE_H
 #define SUPERTUX_TITLE_H
 
-enum MainMenuIDs {
-  MNID_STARTGAME,
-  MNID_LEVELS_CONTRIB,
-  MNID_OPTIONMENU,
-  MNID_LEVELEDITOR,
-  MNID_CREDITS,
-  MNID_QUITMAINMENU
-  };
-  
-void title();
+#include <memory>
+#include <vector>
+#include "screen.hpp"
+#include "game_session.hpp"
 
-#endif //SUPERTUX_TITLE_H
+class Menu;
+class World;
+class CodeController;
+
+class TitleScreen : public Screen
+{
+public:
+  TitleScreen();
+  virtual ~TitleScreen();
+
+  virtual void setup();
+
+  virtual void draw(DrawingContext& context);
+
+  virtual void update(float elapsed_time);
+
+private:
+  std::string get_slotinfo(int slot);
+  std::string get_level_name(const std::string& levelfile);
+  bool process_load_game_menu();
+  void make_tux_jump();
+  void update_load_game_menu();
+  void generate_contrib_menu();
+  void check_levels_contrib_menu();
+  void check_contrib_world_menu();
+  void free_contrib_menu();
+
+  std::auto_ptr<Menu> load_game_menu;
+  std::auto_ptr<Menu> contrib_menu;
+  std::auto_ptr<Menu> contrib_world_menu;
+  std::vector<World*> contrib_worlds;
+  int current_world;
+  World* current_contrib_world;
+  
+  std::auto_ptr<CodeController> controller;
+  std::auto_ptr<GameSession> titlesession;
+};
+
+#endif
 

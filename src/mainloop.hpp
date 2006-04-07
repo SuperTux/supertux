@@ -1,7 +1,7 @@
-//  $Id: screen.h 1850 2004-08-27 20:34:56Z rmcruz $
-//
-//  SuperTux -  A Jump'n Run
-//  Copyright (C) 2000 Bill Kendrick <bill@newbreedsoftware.com>
+//  $Id: worldmap.hpp 2800 2005-10-02 22:57:31Z matzebraun $
+// 
+//  SuperTux
+//  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -12,21 +12,44 @@
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
-//
+// 
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-#ifndef SUPERTUX_SCREEN_H
-#define SUPERTUX_SCREEN_H
+#ifndef __MAINLOOP_HPP__
+#define __MAINLOOP_HPP__
 
-#include <SDL.h>
-#include <GL/gl.h>
-#include <iostream>
-
+#include <memory>
 #include <vector>
-#include "math/vector.hpp"
 
-void fadeout(float fade_time);
-void shrink_fade(const Vector& point, float fade_time);
+class Screen;
+class Console;
+
+class MainLoop
+{
+public:
+  MainLoop();
+  ~MainLoop();
+  
+  void run();
+  void exit_screen();
+  void quit();
+  void set_speed(float speed);
+
+  // push new screen on screen_stack
+  void push_screen(Screen* screen);
+
+private:
+  bool running;
+  float speed;
+  bool nextpush;
+  std::auto_ptr<Screen> next_screen;
+  std::auto_ptr<Screen> current_screen;
+  std::auto_ptr<Console> console;
+  std::vector<Screen*> screen_stack;
+};
+
+extern MainLoop* main_loop;
 
 #endif
+

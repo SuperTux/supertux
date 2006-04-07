@@ -78,7 +78,7 @@ function intro()
   //end intro sequence
   DisplayEffect.fade_out(2);
   wait(3);
-  Level.finish();
+  Level.finish(true);
 }
 
 function shake_bush()
@@ -124,6 +124,6 @@ function intro_scene2()
   SUPERTUX.set_visible(true);
   SUPERTUX.set_velocity(300,0);
   wait(24);
-  Level.finish();
+  Level.finish(true);
 }
 

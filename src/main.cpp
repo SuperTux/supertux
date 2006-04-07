@@ -45,6 +45,7 @@
 #include "video/texture_manager.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
 #include "misc.hpp"
+#include "mainloop.hpp"
 #include "title.hpp"
 #include "game_session.hpp"
 #include "file_system.hpp"
@@ -467,22 +468,29 @@ int main(int argc, char** argv)
     timelog("resources");
     load_shared();
     timelog(0);
+
+    main_loop = new MainLoop(); 
     if(config->start_level != "") {
       // we have a normal path specified at commandline not physfs paths.
       // So we simply mount that path here...
       std::string dir = FileSystem::dirname(config->start_level);
       PHYSFS_addToSearchPath(dir.c_str(), true);
-      GameSession session(
+      GameSession* session
+        = new GameSession(
           FileSystem::basename(config->start_level), ST_GL_LOAD_LEVEL_FILE);
       if(config->start_demo != "")
-        session.play_demo(config->start_demo);
+        session->play_demo(config->start_demo);
       if(config->record_demo != "")
-        session.record_demo(config->record_demo);
-      session.run();
+        session->record_demo(config->record_demo);
+      main_loop->push_screen(session);
     } else {
-      // normal game
-      title();
+      main_loop->push_screen(new TitleScreen());
     }
+
+    main_loop->run();
+
+    delete main_loop;
+    main_loop = NULL;
   } catch(graceful_shutdown& e) {
   } catch(std::exception& e) {
     msg_fatal("Unexpected exception: " << e.what());

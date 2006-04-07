@@ -42,13 +42,6 @@ Font* white_big_text;
 /* Load graphics/sounds shared between all levels: */
 void load_shared()
 {
-  /* Load GUI/menu images: */
-  checkbox = new Surface("images/engine/menu/checkbox-unchecked.png");
-  checkbox_checked = new Surface("images/engine/menu/checkbox-checked.png");
-  back = new Surface("images/engine/menu/arrow-back.png");
-  arrow_left = new Surface("images/engine/menu/arrow-left.png");
-  arrow_right = new Surface("images/engine/menu/arrow-right.png");
-
   /* Load the mouse-cursor */
   mouse_cursor = new MouseCursor("images/engine/menu/mousecursor.png");
   MouseCursor::set_current(mouse_cursor);
@@ -113,9 +106,6 @@ void load_shared()
   ice_tux->arms = sprite_manager->create("images/creatures/tux_big/big-tux-arms.sprite");
   ice_tux->feet = sprite_manager->create("images/creatures/tux_big/big-tux-feet.sprite");
 
-  /* Tux life: */
-  tux_life = new Surface("images/creatures/tux_small/tux-life.png");
-  
   player_status = new PlayerStatus();
 }
 
@@ -130,8 +120,6 @@ void unload_shared()
   delete white_small_text;
   delete white_big_text;
   
-  delete tux_life;
-
   delete small_tux;
   delete big_tux;
   delete fire_tux;
@@ -146,13 +134,6 @@ void unload_shared()
   sprite_manager = 0;
   delete tile_manager;
   tile_manager = 0;
-
-  /* Free GUI/menu images: */
-  delete checkbox;
-  delete checkbox_checked;
-  delete back;
-  delete arrow_left;
-  delete arrow_right;
 
   /* Free mouse-cursor */
   delete mouse_cursor;

@@ -27,18 +27,12 @@ class SoundManager;
 class TileManager;
 class MouseCursor;
 
-extern Surface* img_super_bkgd;
-extern Surface* tux_life;
-
 extern SpriteManager* sprite_manager;
 extern TileManager* tile_manager;
 
-extern Menu* contrib_menu;
-extern Menu* contrib_subset_menu;
 extern Menu* main_menu;
 extern Menu* game_menu;
 extern Menu* options_menu;
-extern Menu* load_game_menu;
 
 extern MouseCursor* mouse_cursor;
 
