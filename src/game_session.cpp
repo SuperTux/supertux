@@ -93,7 +93,9 @@ namespace {
 	  "kill",
 	  "gotoend",
 	  "flip",
-	  "finish"
+	  "finish",
+          "restart",
+          "quit"
   };
 }
 
@@ -405,6 +407,10 @@ GameSession::consoleCommand(std::string command)
     tux.kill(tux.KILL);
     return true;
   }
+  if (command == "restart") {
+    restart_level(true);
+    return true;
+  }
   if (command == "whereami") {
     msg_info("You are at x " << tux.get_pos().x << ", y " << tux.get_pos().y);
     return true;
@@ -430,6 +436,10 @@ GameSession::consoleCommand(std::string command)
     msg_info("Camera is at " 
               << Sector::current()->camera->get_translation().x << "," 
               << Sector::current()->camera->get_translation().y);
+    return true;
+  }
+  if (command == "quit") {
+    msg_info("Please implement me! :-)");
     return true;
   }
 
