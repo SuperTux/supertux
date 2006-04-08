@@ -246,7 +246,7 @@ JoystickKeyboardController::process_event(const SDL_Event& event)
   switch(event.type) {
     case SDL_KEYUP:
     case SDL_KEYDOWN:
-      if (event.key.keysym.sym == SDLK_CARET) {
+      if (event.key.keysym.scancode == 49) {
 	// console key was pressed - toggle console
 	if (event.type == SDL_KEYDOWN) {
 	  if (Console::hasFocus()) {
