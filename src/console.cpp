@@ -88,20 +88,19 @@ Console::autocomplete()
 
   std::string cmdList = "";
   int cmdListLen = 0;
-  for (std::map<std::string, ConsoleCommandReceiver*>::iterator i = commands.begin(); i != commands.end(); i++) {
+  for (std::map<std::string, std::list<ConsoleCommandReceiver*> >::iterator i = commands.begin(); i != commands.end(); i++) {
     std::string cmdKnown = i->first;
     if (cmdKnown.substr(0, cmdPart.length()) == cmdPart) {
-      if (cmdListLen == 0) {
-	inputBuffer.str(cmdKnown);
-	inputBuffer.pubseekoff(0, std::ios_base::end, std::ios_base::out);
-      } else {
-	cmdList = cmdList + ", ";
-      }
+      if (cmdListLen > 0) cmdList = cmdList + ", ";
       cmdList = cmdList + cmdKnown;
       cmdListLen++;
     }
   }
   if (cmdListLen == 0) addLine("No known command starts with \""+cmdPart+"\"");
+  if (cmdListLen == 1) {
+    inputBuffer.str(cmdList);
+    inputBuffer.pubseekoff(0, std::ios_base::end, std::ios_base::out);
+  }
   if (cmdListLen > 1) addLine(cmdList);
 }
 
@@ -109,7 +108,7 @@ void
 Console::addLine(std::string s) 
 {
   lines.push_front(s);
-  if (lines.size() >= 256) lines.pop_back();
+  if (lines.size() >= 65535) lines.pop_back();
   if (height < 64) {
     if (height < 4+9) height=4+9;
     height+=9;
@@ -121,11 +120,14 @@ Console::addLine(std::string s)
 void
 Console::parse(std::string s) 
 {
-  if (commands.find(s) == commands.end()) {
+  std::map<std::string, std::list<ConsoleCommandReceiver*> >::iterator i = commands.find(s);
+  if ((i == commands.end()) || (i->second.size() == 0)) {
     addLine("unknown command: \"" + s + "\"");
     return;
   }
-  ConsoleCommandReceiver* ccr = commands[s];
+
+  // send command to the most recently registered ccr
+  ConsoleCommandReceiver* ccr = i->second.front();
   if (ccr->consoleCommand(s) != true) msg_warning("Sent command to registered ccr, but command was unhandled");
 }
 
@@ -147,6 +149,20 @@ Console::hide()
 {
   focused = false;
   height = 0;
+
+  // clear input buffer
+  inputBuffer.str(std::string());
+}
+
+void 
+Console::toggle()
+{
+  if (Console::hasFocus()) {
+    Console::hide(); 
+  } 
+  else { 
+    Console::show();
+  }
 }
 
 void 
@@ -185,31 +201,29 @@ Console::draw(DrawingContext& context)
 void 
 Console::registerCommand(std::string command, ConsoleCommandReceiver* ccr)
 {
-  if (commands.find(command) != commands.end()) {
-    msg_warning("Command \"" << command << "\" already associated with a command receiver. Not associated.");
-    return;
-  }
-  commands[command] = ccr;
+  commands[command].push_front(ccr);
 }
 
 void 
 Console::unregisterCommand(std::string command, ConsoleCommandReceiver* ccr)
 {
-  if (commands.find(command) == commands.end()) {
+  std::map<std::string, std::list<ConsoleCommandReceiver*> >::iterator i = commands.find(command);
+  if ((i == commands.end()) || (i->second.size() == 0)) {
     msg_warning("Command \"" << command << "\" not associated with a command receiver. Not dissociated.");
     return;
   }
-  if (commands[command] != ccr) {
-    msg_warning("Command \"" << command << "\" associated with another command receiver. Not dissociated.");
+  std::list<ConsoleCommandReceiver*>::iterator j = find(i->second.begin(), i->second.end(), ccr);
+  if (j == i->second.end()) {
+    msg_warning("Command \"" << command << "\" not associated with given command receiver. Not dissociated.");
     return;
   }
-  commands.erase(command);
+  i->second.erase(j);
 }
 
 int Console::height = 0;
 bool Console::focused = false;
 std::list<std::string> Console::lines;
-std::map<std::string, ConsoleCommandReceiver*> Console::commands;
+std::map<std::string, std::list<ConsoleCommandReceiver*> > Console::commands;
 ConsoleStreamBuffer Console::inputBuffer;
 ConsoleStreamBuffer Console::outputBuffer;
 std::ostream Console::input(&Console::inputBuffer);

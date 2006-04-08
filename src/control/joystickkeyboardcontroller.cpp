@@ -70,6 +70,7 @@ JoystickKeyboardController::JoystickKeyboardController()
   keymap.insert(std::make_pair(SDLK_PAUSE, PAUSE_MENU));  
   keymap.insert(std::make_pair(SDLK_RETURN, MENU_SELECT));
   keymap.insert(std::make_pair(SDLK_KP_ENTER, MENU_SELECT));
+  keymap.insert(std::make_pair(SDLK_CARET, CONSOLE));
   
   int joystick_count = SDL_NumJoysticks();
   min_joybuttons = -1;
@@ -246,57 +247,7 @@ JoystickKeyboardController::process_event(const SDL_Event& event)
   switch(event.type) {
     case SDL_KEYUP:
     case SDL_KEYDOWN:
-      if (event.key.keysym.scancode == 49) {
-	// console key was pressed - toggle console
-	if (event.type == SDL_KEYDOWN) {
-	  if (Console::hasFocus()) {
-	    Console::hide();
-	  } else {
-	    Console::show();
-	  }
-	}
-      } else if (Console::hasFocus()) {
-	// console is open - send key there
-	if (event.type == SDL_KEYDOWN) {
-	  int c = event.key.keysym.unicode;
-	  if ((c >= 32) && (c <= 126)) {
-	    Console::input << (char)c;
-	  }
-	  switch (event.key.keysym.sym) {
-	    case SDLK_RETURN:
-	      Console::input << std::endl;
-	      break;
-	    case SDLK_BACKSPACE:
-	      Console::backspace();
-	      break;
-	    case SDLK_TAB:
-	      Console::autocomplete();
-	      break;
-	    case SDLK_PAGEUP:
-	      Console::scroll(-1);
-	      break;
-	    case SDLK_PAGEDOWN:
-	      Console::scroll(+1);
-	      break;
-	    default:
-	      break;
-	  }
-	}
-      } 
-      else if (Menu::current()) { 
-	// menu mode - send key there
-        process_menu_key_event(event);
-        return;
-      } else {
-        // normal mode - find key in keymap
-        KeyMap::iterator i = keymap.find(event.key.keysym.sym);
-        if(i == keymap.end()) {
-          msg_debug("Pressed key without mapping");
-          return;
-        }
-        Control control = i->second;
-        controls[control] = event.type == SDL_KEYDOWN ? true : false;
-      }
+      process_key_event(event);
       break;
 
     case SDL_JOYAXISMOTION:
@@ -381,6 +332,72 @@ JoystickKeyboardController::process_event(const SDL_Event& event)
     }
 
     default:
+      break;
+  }
+}
+
+void
+JoystickKeyboardController::process_key_event(const SDL_Event& event)
+{
+  KeyMap::iterator key_mapping = keymap.find(event.key.keysym.sym);
+
+  // if console key was pressed: toggle console
+  if ((key_mapping != keymap.end()) && (key_mapping->second == CONSOLE)) {
+    if (event.type != SDL_KEYDOWN) return;
+    Console::toggle();
+    return;
+  }
+
+  // if console is open: send key there
+  if (Console::hasFocus()) {
+    process_console_key_event(event);
+    return;
+  } 
+
+  // if menu mode: send key there
+  if (Menu::current()) { 
+    process_menu_key_event(event);
+    return;
+  }
+
+  // default action: update controls
+  if(key_mapping == keymap.end()) {
+    msg_debug("Key " << event.key.keysym.sym << " is unbound");
+    return;
+  }
+  Control control = key_mapping->second;
+  controls[control] = event.type == SDL_KEYDOWN ? true : false;
+}
+
+void
+JoystickKeyboardController::process_console_key_event(const SDL_Event& event)
+{
+  if (event.type != SDL_KEYDOWN) return;
+
+  switch (event.key.keysym.sym) {
+    case SDLK_RETURN:
+      Console::input << std::endl;
+      break;
+    case SDLK_BACKSPACE:
+      Console::backspace();
+      break;
+    case SDLK_TAB:
+      Console::autocomplete();
+      break;
+    case SDLK_PAGEUP:
+      Console::scroll(-1);
+      break;
+    case SDLK_PAGEDOWN:
+      Console::scroll(+1);
+      break;
+    case SDLK_END:
+      Console::scroll(+65535);
+      break;
+    default:
+      int c = event.key.keysym.unicode;
+      if ((c >= 32) && (c <= 126)) {
+	Console::input << (char)c;
+      }
       break;
   }
 }

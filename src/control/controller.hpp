@@ -35,6 +35,7 @@ public:
     ACTION,
     PAUSE_MENU,
     MENU_SELECT,
+    CONSOLE,
     
     CONTROLCOUNT
   };

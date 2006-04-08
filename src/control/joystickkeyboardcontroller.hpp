@@ -48,6 +48,8 @@ public:
   Menu* get_joystick_options_menu();
 
 private:
+  void process_key_event(const SDL_Event& event);
+  void process_console_key_event(const SDL_Event& event);
   void process_menu_key_event(const SDL_Event& event);
   
   typedef std::map<SDLKey, Control> KeyMap;
@@ -67,14 +69,15 @@ private:
   int min_joybuttons;
   /// the max number of buttons a joystick has
   int max_joybuttons;
-
+/*
   enum {
     MNID_KEY_UP,
     MNID_KEY_DOWN,
     MNID_KEY_LEFT,
     MNID_KEY_RIGHT,
     MNID_KEY_JUMP,
-    MNID_KEY_ACTION
+    MNID_KEY_ACTION,
+    MNID_KEY_CONSOLE
   };
   enum {
     MNID_JS_JUMP,
@@ -82,6 +85,7 @@ private:
     MNID_JS_MENU,
     MNID_JS_PAUSE
   };
+  */
   SDLKey reversemap_key(Control c);
   int reversemap_joybutton(Control c);
   void reset_joybutton(int button, Control c);

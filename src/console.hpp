@@ -48,13 +48,15 @@ class Console
     void draw(DrawingContext& context); /**< draw the console in a DrawingContext */
     static void show(); /**< display the console */
     static void hide(); /**< hide the console */
+    static void toggle(); /**< display the console if hidden, hide otherwise */
+
     static bool hasFocus(); /**< true if characters should be sent to the console instead of their normal target */
     static void registerCommand(std::string command, ConsoleCommandReceiver* ccr); /**< associate command with the given CCR */
     static void unregisterCommand(std::string command, ConsoleCommandReceiver* ccr); /**< dissociate command and CCR */
 
   protected:
     static std::list<std::string> lines; /**< backbuffer of lines sent to the console */
-    static std::map<std::string, ConsoleCommandReceiver*> commands; /**< map of console commands and their associated ConsoleCommandReceivers */
+    static std::map<std::string, std::list<ConsoleCommandReceiver*> > commands; /**< map of console commands and a list of associated ConsoleCommandReceivers */
     Surface* background; /**< console background image */
     static int height; /**< height of the console in px */
     static int offset; /**< decrease to scroll text up */
