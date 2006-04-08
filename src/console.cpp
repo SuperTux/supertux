@@ -32,7 +32,7 @@ namespace {
 
 Console::Console()
 {
-  background = new Surface("images/engine/console.jpg");
+  background = new Surface("images/engine/console.png");
 }
 
 Console::~Console() 
