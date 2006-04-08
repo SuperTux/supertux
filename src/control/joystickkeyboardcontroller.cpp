@@ -246,7 +246,7 @@ JoystickKeyboardController::process_event(const SDL_Event& event)
   switch(event.type) {
     case SDL_KEYUP:
     case SDL_KEYDOWN:
-      if (event.key.keysym.unicode == '\t') {
+      if (event.key.keysym.sym == SDLK_CARET) {
 	// console key was pressed - toggle console
 	if (event.type == SDL_KEYDOWN) {
 	  if (Console::hasFocus()) {
@@ -257,13 +257,29 @@ JoystickKeyboardController::process_event(const SDL_Event& event)
 	}
       } else if (Console::hasFocus()) {
 	// console is open - send key there
-	int c = event.key.keysym.unicode;
 	if (event.type == SDL_KEYDOWN) {
+	  int c = event.key.keysym.unicode;
 	  if ((c >= 32) && (c <= 126)) {
 	    Console::input << (char)c;
 	  }
-	  if ((c == '\n') || (c == '\r')) {
-	    Console::input << std::endl;
+	  switch (event.key.keysym.sym) {
+	    case SDLK_RETURN:
+	      Console::input << std::endl;
+	      break;
+	    case SDLK_BACKSPACE:
+	      Console::backspace();
+	      break;
+	    case SDLK_TAB:
+	      Console::autocomplete();
+	      break;
+	    case SDLK_PAGEUP:
+	      Console::scroll(-1);
+	      break;
+	    case SDLK_PAGEDOWN:
+	      Console::scroll(+1);
+	      break;
+	    default:
+	      break;
 	  }
 	}
       } 

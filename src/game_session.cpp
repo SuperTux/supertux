@@ -75,6 +75,28 @@
 // binary fraction...
 static const float LOGICAL_FPS = 64.0;
 
+namespace {
+  const char* consoleCommands[] = {
+	  "foo",
+	  "whereami",
+	  "camera",
+	  "grow", 
+	  "fire", 
+	  "ice",
+	  "lifeup",
+	  "numberofthebeast",
+	  "lifedown",
+	  "grease",
+	  "invincible",
+	  "mortal",
+	  "shrink", 
+	  "kill",
+	  "gotoend",
+	  "flip",
+	  "finish"
+  };
+}
+
 using namespace WorldMapNS;
 
 GameSession* GameSession::current_ = 0;
@@ -92,7 +114,9 @@ GameSession::GameSession(const std::string& levelfile_, GameSessionMode mode,
   game_pause = false;
   fps_fps = 0;
 
-  Console::registerCommandReceiver(this);
+  for (uint16_t i=0; i < sizeof(::consoleCommands)/sizeof(typeof(consoleCommands[0])); i++) {
+    Console::registerCommand(consoleCommands[i], this);
+  }
 
   restart_level(true);
 }
@@ -166,7 +190,9 @@ GameSession::~GameSession()
 
   delete end_sequence_controller;
   delete level;
-  Console::unregisterCommandReceiver(this);
+  for (uint16_t i=0; i < sizeof(::consoleCommands)/sizeof(typeof(consoleCommands[0])); i++) {
+    Console::unregisterCommand(consoleCommands[i], this);
+  }
 
   current_ = NULL;
 }
@@ -324,17 +350,6 @@ GameSession::consoleCommand(std::string command)
 {
   if (command == "foo") {
     msg_info("bar");
-    return true;
-  }
-
-  //TODO: Build command list automatically
-  if (command == "cmdlist") {
-    msg_info("foo, cmdlist, cheats, whereami, camera");
-    return true;
-  }
-  //TODO: remove (or at least hide) this before release
-  if (command == "cheats") {
-    msg_info("grow, fire, ice, lifeup, numberofthebeast, lifedown, grease, invincible, mortal, shrink, kill, gotoend, flip, finish");
     return true;
   }
 

@@ -21,6 +21,7 @@
 #define SUPERTUX_CONSOLE_H
 
 #include <list>
+#include <map>
 #include <string>
 #include <sstream>
 #include <iostream>
@@ -40,21 +41,23 @@ class Console
     static std::ostream input; /**< stream of keyboard input to send to the console. Do not forget to send std::endl or to flush the stream. */
     static std::ostream output; /**< stream of characters to output to the console. Do not forget to send std::endl or to flush the stream. */
 
-    static void flush(ConsoleStreamBuffer* buffer); /**< act upon changes in a stream, normally called by the stream itself */
+    static void backspace(); /**< delete last character sent to the input stream */
+    static void scroll(int offset); /**< scroll console text up or down by @c offset lines */
+    static void autocomplete(); /**< autocomplete current command */
 
-    void draw(DrawingContext& context); /**< draw the console to its */
+    void draw(DrawingContext& context); /**< draw the console in a DrawingContext */
     static void show(); /**< display the console */
     static void hide(); /**< hide the console */
     static bool hasFocus(); /**< true if characters should be sent to the console instead of their normal target */
-    static void registerCommandReceiver(ConsoleCommandReceiver* ccr); /**< register instance to notify of commands entered in the console */
-    static void unregisterCommandReceiver(ConsoleCommandReceiver* ccr); /**< new commands should no longer be sent to this ccr */
+    static void registerCommand(std::string command, ConsoleCommandReceiver* ccr); /**< associate command with the given CCR */
+    static void unregisterCommand(std::string command, ConsoleCommandReceiver* ccr); /**< dissociate command and CCR */
 
   protected:
     static std::list<std::string> lines; /**< backbuffer of lines sent to the console */
-    static std::list<ConsoleCommandReceiver*> commandReceivers; /**< list of instances to notify of new console commands */
-    DrawingContext* context; /**< context to draw to */
+    static std::map<std::string, ConsoleCommandReceiver*> commands; /**< map of console commands and their associated ConsoleCommandReceivers */
     Surface* background; /**< console background image */
     static int height; /**< height of the console in px */
+    static int offset; /**< decrease to scroll text up */
     static bool focused; /**< true if console has input focus */
 
     static ConsoleStreamBuffer inputBuffer; /**< stream buffer used by input stream */
@@ -62,6 +65,9 @@ class Console
 
     static void addLine(std::string s); /**< display a line in the console */
     static void parse(std::string s); /**< react to a given command */
+
+    friend class ConsoleStreamBuffer;
+    static void flush(ConsoleStreamBuffer* buffer); /**< act upon changes in a ConsoleStreamBuffer */
 };
 
 class ConsoleStreamBuffer : public std::stringbuf 

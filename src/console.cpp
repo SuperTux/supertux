@@ -62,6 +62,49 @@ Console::flush(ConsoleStreamBuffer* buffer)
   }
 }
 
+void
+Console::backspace()
+{
+  std::string s = inputBuffer.str();
+  if (s.length() > 0) {
+    s.erase(s.length()-1);
+    inputBuffer.str(s);
+    inputBuffer.pubseekoff(0, std::ios_base::end, std::ios_base::out);
+  }
+}
+
+void
+Console::scroll(int numLines)
+{
+  offset += numLines;
+  if (offset > 0) offset = 0;
+}
+
+void
+Console::autocomplete()
+{
+  std::string cmdPart = inputBuffer.str();
+  addLine("> "+cmdPart);
+
+  std::string cmdList = "";
+  int cmdListLen = 0;
+  for (std::map<std::string, ConsoleCommandReceiver*>::iterator i = commands.begin(); i != commands.end(); i++) {
+    std::string cmdKnown = i->first;
+    if (cmdKnown.substr(0, cmdPart.length()) == cmdPart) {
+      if (cmdListLen == 0) {
+	inputBuffer.str(cmdKnown);
+	inputBuffer.pubseekoff(0, std::ios_base::end, std::ios_base::out);
+      } else {
+	cmdList = cmdList + ", ";
+      }
+      cmdList = cmdList + cmdKnown;
+      cmdListLen++;
+    }
+  }
+  if (cmdListLen == 0) addLine("No known command starts with \""+cmdPart+"\"");
+  if (cmdListLen > 1) addLine(cmdList);
+}
+
 void 
 Console::addLine(std::string s) 
 {
@@ -71,18 +114,19 @@ Console::addLine(std::string s)
     if (height < 4+9) height=4+9;
     height+=9;
   }
-  ticks=120;
+  ticks=60;
   std::cerr << s << std::endl;
 }
 
 void
 Console::parse(std::string s) 
 {
-  for (std::list<ConsoleCommandReceiver*>::iterator i = commandReceivers.begin(); i != commandReceivers.end(); i++) {
-    ConsoleCommandReceiver* ccr = *i;
-    if (ccr->consoleCommand(s) == true) return;
+  if (commands.find(s) == commands.end()) {
+    addLine("unknown command: \"" + s + "\"");
+    return;
   }
-  addLine("unknown command: \"" + s + "\"");
+  ConsoleCommandReceiver* ccr = commands[s];
+  if (ccr->consoleCommand(s) != true) msg_warning("Sent command to registered ccr, but command was unhandled");
 }
 
 bool
@@ -95,7 +139,7 @@ void
 Console::show()
 {
   focused = true;
-  height = 128;
+  height = 256;
 }
 
 void 
@@ -111,7 +155,7 @@ Console::draw(DrawingContext& context)
   if (height == 0) return;
   if (!focused) {
     if (ticks-- < 0) {
-      height-=1;
+      height-=10;
       ticks=0;
       if (height < 0) height=0;
     }
@@ -125,10 +169,12 @@ Console::draw(DrawingContext& context)
   if (focused) {
     lineNo++;
     float py = height-4-1*9;
-    context.draw_text(white_small_text, "> "+inputBuffer.str(), Vector(4, py), LEFT_ALLIGN, LAYER_FOREGROUND1+1);
+    context.draw_text(white_small_text, "> "+inputBuffer.str()+"_", Vector(4, py), LEFT_ALLIGN, LAYER_FOREGROUND1+1);
   }
 
+  int skipLines = -offset;
   for (std::list<std::string>::iterator i = lines.begin(); i != lines.end(); i++) {
+    if (skipLines-- > 0) continue;
     lineNo++;
     float py = height-4-lineNo*9;
     if (py < -9) break;
@@ -137,24 +183,36 @@ Console::draw(DrawingContext& context)
 }
 
 void 
-Console::registerCommandReceiver(ConsoleCommandReceiver* ccr)
+Console::registerCommand(std::string command, ConsoleCommandReceiver* ccr)
 {
-  commandReceivers.push_front(ccr);
+  if (commands.find(command) != commands.end()) {
+    msg_warning("Command \"" << command << "\" already associated with a command receiver. Not associated.");
+    return;
+  }
+  commands[command] = ccr;
 }
 
 void 
-Console::unregisterCommandReceiver(ConsoleCommandReceiver* ccr)
+Console::unregisterCommand(std::string command, ConsoleCommandReceiver* ccr)
 {
-  std::list<ConsoleCommandReceiver*>::iterator i = find(commandReceivers.begin(), commandReceivers.end(), ccr);
-  if (i != commandReceivers.end()) commandReceivers.erase(i);
+  if (commands.find(command) == commands.end()) {
+    msg_warning("Command \"" << command << "\" not associated with a command receiver. Not dissociated.");
+    return;
+  }
+  if (commands[command] != ccr) {
+    msg_warning("Command \"" << command << "\" associated with another command receiver. Not dissociated.");
+    return;
+  }
+  commands.erase(command);
 }
 
 int Console::height = 0;
 bool Console::focused = false;
 std::list<std::string> Console::lines;
-std::list<ConsoleCommandReceiver*> Console::commandReceivers;
+std::map<std::string, ConsoleCommandReceiver*> Console::commands;
 ConsoleStreamBuffer Console::inputBuffer;
 ConsoleStreamBuffer Console::outputBuffer;
 std::ostream Console::input(&Console::inputBuffer);
 std::ostream Console::output(&Console::outputBuffer);
+int Console::offset = 0;
 
