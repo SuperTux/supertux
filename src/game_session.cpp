@@ -119,6 +119,8 @@ GameSession::GameSession(const std::string& levelfile_, GameSessionMode mode,
     Console::registerCommand(consoleCommands[i], this);
   }
 
+  statistics_backdrop = new Surface("images/engine/menu/score-backdrop.png");
+
   restart_level(true);
 }
 
@@ -194,6 +196,8 @@ GameSession::~GameSession()
   for (uint16_t i=0; i < sizeof(::consoleCommands)/sizeof(typeof(consoleCommands[0])); i++) {
     Console::unregisterCommand(consoleCommands[i], this);
   }
+
+  delete statistics_backdrop;
 
   current_ = NULL;
 }
@@ -451,28 +455,6 @@ GameSession::check_end_conditions()
   /* End of level? */
   if(end_sequence && endsequence_timer.check()) {
     finish(true);
-    
-    // add time spent to statistics
-    int tottime = 0, remtime = 0;
-    for(std::vector<Sector*>::iterator i = level->sectors.begin(); i != level->sectors.end(); ++i)
-    {
-      Sector* sec = *i;
-
-      for(std::vector<GameObject*>::iterator j = sec->gameobjects.begin();
-          j != sec->gameobjects.end(); ++j)
-      {
-        GameObject* obj = *j;
-
-        LevelTime* lt = dynamic_cast<LevelTime*> (obj);
-        if(lt)
-        {
-          tottime += int(lt->get_level_time());
-          remtime += int(lt->get_remaining_time());
-        }
-      }
-    }
-    global_stats.set_points(TIME_NEEDED_STAT, (tottime == 0 ? -1 : (tottime-remtime)));
-
     return;
   } else if (!end_sequence && tux->is_dead()) {
     if (player_status->coins < 0) { 
@@ -796,6 +778,27 @@ GameSession::start_sequence(const std::string& sequencename)
         lt->stop();
     }
 
+    // add time spent to statistics
+    int tottime = 0, remtime = 0;
+    for(std::vector<Sector*>::iterator i = level->sectors.begin(); i != level->sectors.end(); ++i)
+    {
+      Sector* sec = *i;
+
+      for(std::vector<GameObject*>::iterator j = sec->gameobjects.begin();
+          j != sec->gameobjects.end(); ++j)
+      {
+        GameObject* obj = *j;
+
+        LevelTime* lt = dynamic_cast<LevelTime*> (obj);
+        if(lt)
+        {
+          tottime += int(lt->get_level_time());
+          remtime += int(lt->get_remaining_time());
+        }
+      }
+    }
+    global_stats.set_points(TIME_NEEDED_STAT, (tottime == 0 ? -1 : (tottime-remtime)));
+
     if(sequencename == "fireworks") {
       currentsector->add_object(new Fireworks());
     }
@@ -822,6 +825,11 @@ GameSession::drawstatus(DrawingContext& context)
     const char* fpstext = "FPS";
     context.draw_text(white_text, fpstext, Vector(SCREEN_WIDTH - white_text->get_text_width(fpstext) - gold_text->get_text_width(" 99999") - BORDER_X, BORDER_Y + 20), LEFT_ALLIGN, LAYER_FOREGROUND1);
     context.draw_text(gold_text, str, Vector(SCREEN_WIDTH - BORDER_X, BORDER_Y + 20), RIGHT_ALLIGN, LAYER_FOREGROUND1);
+  }
+
+  // draw level stats while end_sequence is running
+  if (end_sequence) {
+    global_stats.draw_endseq_panel(context, best_level_statistics, statistics_backdrop);
   }
 }
 

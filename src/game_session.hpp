@@ -28,6 +28,7 @@
 #include "statistics.hpp"
 #include "math/vector.hpp"
 #include "console.hpp"
+#include "video/surface.hpp"
 
 /* GameLoop modes */
 enum GameSessionMode {
@@ -113,6 +114,8 @@ private:
 
   Timer endsequence_timer;
   Level* level;
+  Surface* statistics_backdrop; // FIXME: where to put this?
+
   Sector* currentsector;
 
   GameSessionMode mode;

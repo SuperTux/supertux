@@ -24,8 +24,8 @@
 #include "timer.hpp"
 #include "lisp/lisp.hpp"
 #include "lisp/writer.hpp"
-
-class DrawingContext;
+#include "video/surface.hpp"
+#include "video/drawing_context.hpp"
 
 #define SPLAYER 0
 #define STOTAL  1
@@ -58,6 +58,7 @@ public:
   // TODO: make this functions working
   void draw_worldmap_info(DrawingContext& context);
   void draw_message_info(DrawingContext& context, std::string title);
+  void draw_endseq_panel(DrawingContext& context, Statistics* best_stats, Surface* backdrop); /**< draw panel shown during level's end sequence */
 
   /* Add / Set / Get points to/from one of the stats this can keep track of */
   void add_points(int stat, int points);

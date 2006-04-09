@@ -203,6 +203,66 @@ Statistics::draw_message_info(DrawingContext& context, std::string title)
     }
 }
 
+void 
+Statistics::draw_endseq_panel(DrawingContext& context, Statistics* best_stats, Surface* backdrop)
+{
+  // abort if statistics are not yet initialized
+  if(stats[COINS_COLLECTED_STAT][SPLAYER] == -1) return;
+
+  // abort if we have no backdrop
+  if (!backdrop) return;
+  
+  int box_w = 130+130+130;
+  int box_h = 30+20+20+20;
+  int box_x = (int)((SCREEN_WIDTH - box_w) / 2);
+  int box_y = (int)(SCREEN_HEIGHT / 2) - box_h;
+
+  int bd_w = (int)backdrop->get_width();
+  int bd_h = (int)backdrop->get_height();
+  int bd_x = (int)((SCREEN_WIDTH - bd_w) / 2);
+  int bd_y = box_y + (box_h / 2) - (bd_h / 2);
+
+  int col1_x = box_x;
+  int col2_x = col1_x+130;
+  int col3_x = col2_x+130;
+
+  int row1_y = box_y;
+  int row2_y = row1_y+30;
+  int row3_y = row2_y+20;
+  int row4_y = row3_y+20;
+
+  context.draw_surface(backdrop, Vector(bd_x, bd_y), LAYER_GUI);
+
+  char buf[129];
+  context.draw_text(white_text, "You", Vector(col2_x, row1_y), LEFT_ALLIGN, LAYER_GUI);
+  context.draw_text(white_text, "Best", Vector(col3_x, row1_y), LEFT_ALLIGN, LAYER_GUI);
+
+  context.draw_text(white_text, "Coins", Vector(col1_x, row2_y), LEFT_ALLIGN, LAYER_GUI);
+  snprintf(buf, 128, "%d/%d", stats[COINS_COLLECTED_STAT][SPLAYER], stats[COINS_COLLECTED_STAT][STOTAL]);
+  context.draw_text(gold_text, buf, Vector(col2_x, row2_y), LEFT_ALLIGN, LAYER_GUI);
+  if (best_stats && (best_stats->stats[COINS_COLLECTED_STAT][SPLAYER] > stats[COINS_COLLECTED_STAT][SPLAYER])) {
+    snprintf(buf, 128, "%d/%d", best_stats->stats[COINS_COLLECTED_STAT][SPLAYER], best_stats->stats[COINS_COLLECTED_STAT][STOTAL]);
+  }
+  context.draw_text(gold_text, buf, Vector(col3_x, row2_y), LEFT_ALLIGN, LAYER_GUI);
+
+  context.draw_text(white_text, "Time", Vector(col1_x, row3_y), LEFT_ALLIGN, LAYER_GUI);
+  snprintf(buf, 128, "%d:%02d", stats[TIME_NEEDED_STAT][SPLAYER] / 60, stats[TIME_NEEDED_STAT][SPLAYER] % 60);
+  context.draw_text(gold_text, buf, Vector(col2_x, row3_y), LEFT_ALLIGN, LAYER_GUI);
+  if (best_stats && (best_stats->stats[TIME_NEEDED_STAT][SPLAYER] < stats[TIME_NEEDED_STAT][SPLAYER])) {
+    snprintf(buf, 128, "%d:%02d", best_stats->stats[TIME_NEEDED_STAT][SPLAYER] / 60, best_stats->stats[TIME_NEEDED_STAT][SPLAYER] % 60);
+  }
+  context.draw_text(gold_text, buf, Vector(col3_x, row3_y), LEFT_ALLIGN, LAYER_GUI);
+  
+  context.draw_text(white_text, "Badguys", Vector(col1_x, row4_y), LEFT_ALLIGN, LAYER_GUI);
+  snprintf(buf, 128, "%d/%d", stats[BADGUYS_KILLED_STAT][SPLAYER], stats[BADGUYS_KILLED_STAT][STOTAL]);
+  context.draw_text(gold_text, buf, Vector(col2_x, row4_y), LEFT_ALLIGN, LAYER_GUI);
+  if (best_stats && (best_stats->stats[BADGUYS_KILLED_STAT][SPLAYER] > stats[BADGUYS_KILLED_STAT][SPLAYER])) {
+    snprintf(buf, 128, "%d/%d", best_stats->stats[BADGUYS_KILLED_STAT][SPLAYER], best_stats->stats[BADGUYS_KILLED_STAT][STOTAL]);
+  }
+  context.draw_text(gold_text, buf, Vector(col3_x, row4_y), LEFT_ALLIGN, LAYER_GUI);
+
+}
+
 void
 Statistics::add_points(int stat, int points)
 {
