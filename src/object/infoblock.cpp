@@ -38,7 +38,7 @@ InfoBlock::InfoBlock(const lisp::Lisp& lisp)
   bbox.set_pos(pos);
 
   if(!lisp.get("message", message)) {
-    msg_warning("No message in InfoBlock");
+    msg_warning << "No message in InfoBlock" << std::endl;
   }
   //stopped = false;
   //ringing = new AmbientSound(get_pos(), 0.5, 300, 1, "sounds/phone.wav");

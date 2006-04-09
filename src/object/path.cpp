@@ -68,7 +68,7 @@ Path::read(const lisp::Lisp& reader)
     }
     
     if(iter.item() != "node") {
-      msg_warning("unknown token '" << iter.item() << "' in Path nodes list. Ignored.");
+      msg_warning << "unknown token '" << iter.item() << "' in Path nodes list. Ignored." << std::endl;
       continue;
     }
     const lisp::Lisp* node_lisp = iter.lisp();
@@ -107,7 +107,7 @@ Path::write(lisp::Writer& writer)
       writer.write_string("mode", "circular");
       break;
     default:
-      msg_warning("Don't know how to write mode " << (int) mode << " ?!?");
+      msg_warning << "Don't know how to write mode " << (int) mode << " ?!?" << std::endl;
       break;
   }
 

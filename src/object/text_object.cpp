@@ -34,7 +34,7 @@ TextObject::set_font(const std::string& name)
   } else if(name == "small") {
     font = white_small_text;
   } else {
-    msg_warning("Unknown font '" << name << "'.");
+    msg_warning << "Unknown font '" << name << "'." << std::endl;
   }
 }
 

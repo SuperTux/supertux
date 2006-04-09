@@ -27,8 +27,7 @@ LevelTime::LevelTime(const lisp::Lisp& reader)
             iter.value()->get(time);
             break;
         } else {
-            msg_warning("Unknown token '" << iter.item() 
-                      << "' in LevelTime object");
+            msg_warning << "Unknown token '" << iter.item() << "' in LevelTime object" << std::endl;
         }
     }
     if(time < 0)

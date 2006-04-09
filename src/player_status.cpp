@@ -111,7 +111,7 @@ PlayerStatus::write(lisp::Writer& writer)
       writer.write_string("bonus", "iceflower");
       break;
     default:
-      msg_warning("Unknown bonus type.");
+      msg_warning << "Unknown bonus type." << std::endl;
       writer.write_string("bonus", "none");
   }
   writer.write_bool("key-brass", keys & KEY_BRASS);
@@ -140,7 +140,7 @@ PlayerStatus::read(const lisp::Lisp& lisp)
     } else if(bonusname == "iceflower") {
       bonus = ICE_BONUS;
     } else {
-      msg_warning("Unknown bonus '" << bonusname << "' in savefile");
+      msg_warning << "Unknown bonus '" << bonusname << "' in savefile" << std::endl;
       bonus = NO_BONUS;
     }
   }

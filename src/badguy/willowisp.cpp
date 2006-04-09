@@ -119,7 +119,7 @@ WillOWisp::activate()
   delete soundSource;
   soundSource = sound_manager->create_sound_source("sounds/willowisp.wav");
   if(!soundSource) {
-    msg_warning("Couldn't start WillOWisp sound");
+    msg_warning << "Couldn't start WillOWisp sound" << std::endl;
     return;
   }
   soundSource->set_position(get_pos());

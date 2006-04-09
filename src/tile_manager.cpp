@@ -41,7 +41,7 @@ TileManager::TileManager(const std::string& filename)
 #endif
   load_tileset(filename);
 #ifdef DEBUG
-  msg_debug("Tiles loaded in " << (SDL_GetTicks() - ticks) / 1000.0 << " seconds");
+  msg_debug << "Tiles loaded in " << (SDL_GetTicks() - ticks) / 1000.0 << " seconds" << std::endl;
 #endif
 }
 
@@ -81,7 +81,7 @@ void TileManager::load_tileset(std::string filename)
         tiles.push_back(0);
       }
       if(tiles[tile->id] != 0) {
-        msg_warning("Tile with ID " << tile->id << " redefined");
+        msg_warning << "Tile with ID " << tile->id << " redefined" << std::endl;
       }
       tiles[tile->id] = tile;
     } else if(iter.item() == "tilegroup") {
@@ -138,7 +138,7 @@ void TileManager::load_tileset(std::string filename)
     } else if(iter.item() == "properties") {
       // deprecated
     } else {
-      msg_warning("Unknown symbol '" << iter.item() << "' tile defintion file");
+      msg_warning << "Unknown symbol '" << iter.item() << "' tile defintion file" << std::endl;
     }
   }
 }

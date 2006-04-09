@@ -180,7 +180,7 @@ Player::update(float elapsed_time)
       if(moving_object) {
         moving_object->set_pos(pos);
       } else {
-        msg_debug("Non MovingObjetc grabbed?!?");
+        msg_debug << "Non MovingObjetc grabbed?!?" << std::endl;
       }
       grabbed_object->ungrab(*this, dir);
       grabbed_object = 0;

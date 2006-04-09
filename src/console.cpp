@@ -128,7 +128,7 @@ Console::parse(std::string s)
 
   // send command to the most recently registered ccr
   ConsoleCommandReceiver* ccr = i->second.front();
-  if (ccr->consoleCommand(s) != true) msg_warning("Sent command to registered ccr, but command was unhandled");
+  if (ccr->consoleCommand(s) != true) msg_warning << "Sent command to registered ccr, but command was unhandled" << std::endl;
 }
 
 bool
@@ -209,12 +209,12 @@ Console::unregisterCommand(std::string command, ConsoleCommandReceiver* ccr)
 {
   std::map<std::string, std::list<ConsoleCommandReceiver*> >::iterator i = commands.find(command);
   if ((i == commands.end()) || (i->second.size() == 0)) {
-    msg_warning("Command \"" << command << "\" not associated with a command receiver. Not dissociated.");
+    msg_warning << "Command \"" << command << "\" not associated with a command receiver. Not dissociated." << std::endl;
     return;
   }
   std::list<ConsoleCommandReceiver*>::iterator j = find(i->second.begin(), i->second.end(), ccr);
   if (j == i->second.end()) {
-    msg_warning("Command \"" << command << "\" not associated with given command receiver. Not dissociated.");
+    msg_warning << "Command \"" << command << "\" not associated with given command receiver. Not dissociated." << std::endl;
     return;
   }
   i->second.erase(j);

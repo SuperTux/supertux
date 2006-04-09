@@ -134,7 +134,7 @@ BonusBlock::BonusBlock(const Vector& pos, int data)
     case 4: contents = CONTENT_1UP; break;
     case 5: contents = CONTENT_ICEGROW; break;
     default:
-      msg_warning("Invalid box contents");
+      msg_warning << "Invalid box contents" << std::endl;
       contents = CONTENT_COIN;
       break;
   }          
@@ -169,7 +169,7 @@ BonusBlock::BonusBlock(const lisp::Lisp& lisp)
       } else if(contentstring == "custom") {
         contents = CONTENT_CUSTOM;
       } else {
-        msg_warning("Invalid box contents '" << contentstring << "'");
+        msg_warning << "Invalid box contents '" << contentstring << "'" << std::endl;
       }
     } else {
       if(contents == CONTENT_CUSTOM) {
@@ -179,7 +179,7 @@ BonusBlock::BonusBlock(const lisp::Lisp& lisp)
           throw std::runtime_error(
             "Only MovingObjects are allowed inside BonusBlocks");
       } else {
-        msg_warning("Invalid element '" << token << "' in bonusblock");
+        msg_warning << "Invalid element '" << token << "' in bonusblock" << std::endl;
       }
     }  
   }

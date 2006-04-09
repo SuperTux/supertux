@@ -52,7 +52,7 @@ public:
     entry = 0;
 
     if(start_x >= end_x) {
-      msg_debug("bad region");
+      msg_debug << "bad region" << std::endl;
       y = 0;
       end_y = 0;
       return;

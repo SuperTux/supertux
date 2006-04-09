@@ -211,13 +211,13 @@ Font::draw_chars(Surface* pchars, const std::string& text, const Vector& pos,
     if(c >= 0x80) {
       font_index -= 32;
       if(c <= 0xa0) {
-        msg_debug("Unsupported utf-8 character '" << c << "' found");
+        msg_debug << "Unsupported utf-8 character '" << c << "' found" << std::endl;
         font_index = 0;
       }
     }
         
     if(font_index < 0 || font_index >= (ssize_t) char_count) {
-      msg_debug("Unsupported utf-8 character found");
+      msg_debug << "Unsupported utf-8 character found" << std::endl;
       font_index = 0;
     }                   
 

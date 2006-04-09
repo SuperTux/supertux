@@ -70,7 +70,7 @@ public:
     assert(id < tiles.size());
     Tile* tile = tiles[id];
     if(!tile) {
-      msg_warning("Invalid tile: " << id);
+      msg_warning << "Invalid tile: " << id << std::endl;
       return tiles[0];
     }
 

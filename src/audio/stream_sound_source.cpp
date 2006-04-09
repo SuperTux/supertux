@@ -56,7 +56,7 @@ StreamSoundSource::update()
       return;
     
     // we might have to restart the source if we had a buffer underrun  
-    msg_info("Restarting audio source because of buffer underrun");
+    msg_info << "Restarting audio source because of buffer underrun" << std::endl;
     play();
   }
 

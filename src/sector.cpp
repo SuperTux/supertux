@@ -136,7 +136,7 @@ Sector::parse_object(const std::string& name, const lisp::Lisp& reader)
   try {
     return create_object(name, reader);
   } catch(std::exception& e) {
-    msg_warning(e.what() << "");
+    msg_warning << e.what() << "" << std::endl;
   }
   
   return 0;
@@ -176,7 +176,7 @@ Sector::parse(const lisp::Lisp& sector)
 
   fix_old_tiles();
   if(!camera) {
-    msg_warning("sector '" << name << "' does not contain a camera.");
+    msg_warning << "sector '" << name << "' does not contain a camera." << std::endl;
     update_game_objects();
     add_object(new Camera(this));
   }
@@ -286,7 +286,7 @@ Sector::parse_old_format(const lisp::Lisp& reader)
           spawnpoints.push_back(sp);
           }
       } else {
-        msg_warning("Unknown token '" << iter.item() << "' in reset-points.");
+        msg_warning << "Unknown token '" << iter.item() << "' in reset-points." << std::endl;
       }
     }
   }
@@ -300,7 +300,7 @@ Sector::parse_old_format(const lisp::Lisp& reader)
       if(object) {
         add_object(object);
       } else {
-        msg_warning("Unknown object '" << iter.item() << "' in level.");
+        msg_warning << "Unknown object '" << iter.item() << "' in level." << std::endl;
       }
     }
   }
@@ -409,7 +409,7 @@ Sector::activate(const std::string& spawnpoint)
     }
   }                                                                           
   if(!sp) {
-    msg_warning("Spawnpoint '" << spawnpoint << "' not found.");
+    msg_warning << "Spawnpoint '" << spawnpoint << "' not found." << std::endl;
     if(spawnpoint != "main") {
       activate("main");
     } else {
@@ -537,14 +537,14 @@ Sector::update_game_objects()
       if(solids == 0) {
         solids = tilemap;
       } else {
-        msg_warning("Another solid tilemaps added. Ignoring");
+        msg_warning << "Another solid tilemaps added. Ignoring" << std::endl;
       }
     }
 
     Camera* camera = dynamic_cast<Camera*> (object);
     if(camera) {
       if(this->camera != 0) {
-        msg_warning("Multiple cameras added. Ignoring");
+        msg_warning << "Multiple cameras added. Ignoring" << std::endl;
         continue;
       }
       this->camera = camera;

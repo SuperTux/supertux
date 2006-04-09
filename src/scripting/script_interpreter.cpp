@@ -205,7 +205,7 @@ ScriptInterpreter::add_script_object(Sector* sector, const std::string& name,
     interpreter->run_script(in, name);
     sector->add_object(interpreter.release());
   } catch(std::exception& e) {
-    msg_warning("Couldn't start '" << name << "' script: " << e.what());
+    msg_warning << "Couldn't start '" << name << "' script: " << e.what() << std::endl;
   }
 }
 

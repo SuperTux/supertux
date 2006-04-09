@@ -26,21 +26,57 @@
 
 #include "console.hpp"
 
-// TODO: make macros more C++ish?
-
 #ifdef DEBUG
 
-#define msg_debug(message) Console::output << "[DEBUG] " << __FILE__ << " l." << __LINE__ << ": " << message << std::endl
-#define msg_info(message) Console::output << "[INFO] " << message << std::endl
-#define msg_warning(message) Console::output << "[WARNING] " << __FILE__ << " l." << __LINE__ << ": " << message << std::endl
-#define msg_fatal(message) Console::output << "[FATAL] " << __FILE__ << " l." << __LINE__ << ": " << message << std::endl
+inline std::ostream& msg_debug_f(const char* file, int line) {
+  Console::output << "[DEBUG] " << file << " l." << line << ": ";
+  return Console::output;
+}
+
+inline std::ostream& msg_info_f(const char* file, int line) {
+  Console::output << "[INFO] " << file << " l." << line << ": ";
+  return Console::output;
+}
+
+inline std::ostream& msg_warning_f(const char* file, int line) {
+  Console::output << "[WARNING] " << file << " l." << line << ": ";
+  return Console::output;
+}
+
+inline std::ostream& msg_fatal_f(const char* file, int line) {
+  Console::output << "[FATAL] " << file << " l." << line << ": ";
+  return Console::output;
+}
+
+#define msg_debug msg_debug_f(__FILE__, __LINE__)
+#define msg_info msg_info_f(__FILE__, __LINE__)
+#define msg_warning msg_warning_f(__FILE__, __LINE__)
+#define msg_fatal msg_fatal_f(__FILE__, __LINE__)
 
 #else
 
-#define msg_debug(message) 
-#define msg_info(message) Console::output << message << std::endl
-#define msg_warning(message) Console::output << "Warning: " << message << std::endl
-#define msg_fatal(message) Console::output << "Fatal: " << message << std::endl
+inline std::ostream& msg_debug_f(const char* file, int line) {
+  return Console::output;
+}
+
+inline std::ostream& msg_info_f(const char* file, int line) {
+  return Console::output;
+}
+
+inline std::ostream& msg_warning_f(const char* file, int line) {
+  Console::output << "Warning: ";
+  return Console::output;
+}
+
+inline std::ostream& msg_fatal_f(const char* file, int line) {
+  Console::output << "Fatal: ";
+  return Console::output;
+}
+
+#define msg_debug if (0) msg_debug_f(__FILE__, __LINE__)
+#define msg_info msg_info_f(__FILE__, __LINE__)
+#define msg_warning msg_warning_f(__FILE__, __LINE__)
+#define msg_fatal msg_fatal_f(__FILE__, __LINE__)
 
 #endif
 

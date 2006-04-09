@@ -28,8 +28,7 @@ SpawnPoint::SpawnPoint(const lisp::Lisp* slisp)
         } else if(token == "y") {
             iter.value()->get(pos.y);
         } else {
-            msg_warning("unknown token '" << token 
-                      << "' in SpawnPoint");
+            msg_warning << "unknown token '" << token << "' in SpawnPoint" << std::endl;
         }
     }
 

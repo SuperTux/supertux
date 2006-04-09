@@ -36,15 +36,13 @@ void import(HSQUIRRELVM v, const std::string& filename)
   std::string file 
     = ScriptInterpreter::current()->get_working_directory() + filename;
   if(sqstd_loadfile(v, file.c_str(), true) < 0) {
-    msg_warning("couldn't load script '" << filename << "' ("
-      << file << ")");
+    msg_warning << "couldn't load script '" << filename << "' (" << file << ")" << std::endl;
     return;
   }
 
   sq_push(v, -2);
   if(sq_call(v, 1, false) < 0) {
-    msg_warning("Couldn't execute script '" << filename << "' ("
-      << file << ")");
+    msg_warning << "Couldn't execute script '" << filename << "' (" << file << ")" << std::endl;
     return;
   }
 }

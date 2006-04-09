@@ -44,7 +44,7 @@ AmbientSound::AmbientSound(const lisp::Lisp& lisp)
   sample="";
 
   if (!(lisp.get("x", position.x)&&lisp.get("y", position.y))) {
-    msg_warning("No Position in ambient_sound");
+    msg_warning << "No Position in ambient_sound" << std::endl;
   }
 
   lisp.get("width" , dimension.x);
@@ -132,7 +132,7 @@ AmbientSound::start_playing()
     currentvolume=targetvolume=1e-20;
     sound_source->play();
   } catch(std::exception& e) {
-    msg_warning("Couldn't play '" << sample << "': " << e.what() << "");
+    msg_warning << "Couldn't play '" << sample << "': " << e.what() << "" << std::endl;
     delete sound_source;
     sound_source = 0;
   }

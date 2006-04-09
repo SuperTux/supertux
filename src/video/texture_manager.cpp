@@ -28,7 +28,7 @@ TextureManager::~TextureManager()
       i != image_textures.end(); ++i) {
     if(i->second == NULL)
       continue;
-    msg_warning("Texture '" << i->first << "' not freed");
+    msg_warning << "Texture '" << i->first << "' not freed" << std::endl;
     delete i->second;
   }
 }

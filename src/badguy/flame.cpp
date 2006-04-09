@@ -75,7 +75,7 @@ Flame::activate()
   delete source;
   source = sound_manager->create_sound_source("sounds/flame.wav");
   if(!source) {
-    msg_warning("Couldn't start flame sound");
+    msg_warning << "Couldn't start flame sound" << std::endl;
     return;
   }
   source->set_position(get_pos());

@@ -53,7 +53,7 @@ SpriteData::SpriteData(const lisp::Lisp* lisp, const std::string& basedir)
     } else if(iter.item() == "action") {
       parse_action(iter.lisp(), basedir);
     } else {
-      msg_warning("Unknown sprite field: " << iter.item());
+      msg_warning << "Unknown sprite field: " << iter.item() << std::endl;
     }
   }
   if(actions.empty())

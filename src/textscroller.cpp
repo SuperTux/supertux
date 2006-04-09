@@ -84,7 +84,7 @@ TextScroller::TextScroller(const std::string& filename)
     text_lisp->get("speed", defaultspeed);
     text_lisp->get("music", music);
   } catch(std::exception& e) {
-    msg_warning("Couldn't load file '" << filename << "': " << e.what());
+    msg_warning << "Couldn't load file '" << filename << "': " << e.what() << std::endl;
     return;
   }
 
@@ -175,7 +175,7 @@ TextScroller::draw(DrawingContext& context)
                   break;
                 }
       default:
-                msg_warning("text contains an unformated line");
+                msg_warning << "text contains an unformated line" << std::endl;
                 font = white_text;
                 center = false;
                 break;
@@ -230,7 +230,7 @@ InfoBox::InfoBox(const std::string& text)
   }
   catch (std::exception& e)
   {
-    msg_warning("Could not load scrolling images: " << e.what());
+    msg_warning << "Could not load scrolling images: " << e.what() << std::endl;
     arrow_scrollup = 0;
     arrow_scrolldown = 0;
   }
@@ -288,7 +288,7 @@ InfoBox::draw(DrawingContext& context)
         break;
       }
       default:
-        msg_warning("text contains an unformatted line");
+        msg_warning << "text contains an unformatted line" << std::endl;
         font = normal_font;
         center = false;
         break;

@@ -77,8 +77,7 @@ World::load(const std::string& filename)
   std::string path = basedir + "/";
   char** files = PHYSFS_enumerateFiles(path.c_str());
   if(!files) {
-    msg_warning("Couldn't read subset dir '" 
-              << path << "'");
+    msg_warning << "Couldn't read subset dir '" << path << "'" << std::endl;
     return;
   }
 
@@ -100,7 +99,7 @@ World::run()
   
     interpeter->run_script(in, filename, true);
   } catch(std::exception& e) {
-    msg_warning("Problem running world script: " << e.what());
+    msg_warning << "Problem running world script: " << e.what() << std::endl;
   }
 }
 

@@ -62,7 +62,7 @@ static void init_config()
   try {
     config->load();
   } catch(std::exception& e) {
-    msg_info("Couldn't load config file: " << e.what() << ", using default settings");
+    msg_info << "Couldn't load config file: " << e.what() << ", using default settings" << std::endl;
   }
 }
 
@@ -145,8 +145,7 @@ static void init_physfs(const char* argv0)
   if(f) {
     fclose(f);
     if(!PHYSFS_addToSearchPath(dir.c_str(), 1)) {
-      msg_warning("Couldn't add '" << dir 
-                << "' to physfs searchpath: " << PHYSFS_getLastError());
+      msg_warning << "Couldn't add '" << dir << "' to physfs searchpath: " << PHYSFS_getLastError() << std::endl;
     } else {
       sourcedir = true;
     }
@@ -163,8 +162,7 @@ static void init_physfs(const char* argv0)
     datadir = APPDATADIR;
 #endif
     if(!PHYSFS_addToSearchPath(datadir.c_str(), 1)) {
-      msg_warning("Couldn't add '" << datadir
-        << "' to physfs searchpath: " << PHYSFS_getLastError());
+      msg_warning << "Couldn't add '" << datadir << "' to physfs searchpath: " << PHYSFS_getLastError() << std::endl;
     }
 #endif
   }
@@ -174,7 +172,7 @@ static void init_physfs(const char* argv0)
 
   //show search Path
   for(char** i = PHYSFS_getSearchPath(); *i != NULL; i++)
-    msg_info("[" << *i << "] is in the search path");
+    msg_info << "[" << *i << "] is in the search path" << std::endl;
 }
 
 static void print_usage(const char* argv0)
@@ -236,12 +234,12 @@ static void parse_commandline(int argc, char** argv)
       print_usage(argv[0]);
       throw graceful_shutdown();
     } else if(arg == "--version") {
-      msg_info(PACKAGE_NAME << " " << PACKAGE_VERSION);
+      msg_info << PACKAGE_NAME << " " << PACKAGE_VERSION << std::endl;
       throw graceful_shutdown();
     } else if(arg[0] != '-') {
       config->start_level = arg;
     } else {
-      msg_warning("Unknown option '" << arg << "'. Use --help to see a list of options");
+      msg_warning << "Unknown option '" << arg << "'. Use --help to see a list of options" << std::endl;
     }
   }
 
@@ -340,7 +338,7 @@ void init_video()
   }
 #ifdef DEBUG
   else {
-    msg_warning("Couldn't find icon 'images/engine/icons/supertux.xpm'");
+    msg_warning << "Couldn't find icon 'images/engine/icons/supertux.xpm'" << std::endl;
   }
 #endif
 
@@ -432,7 +430,7 @@ static inline void timelog(const char* component)
   Uint32 current_ticks = SDL_GetTicks();
   
   if(last_timelog_component != 0) {
-    msg_info("Component '" << last_timelog_component <<  "' finished after " << (current_ticks - last_timelog_ticks) / 1000.0 << " seconds");
+    msg_info << "Component '" << last_timelog_component <<  "' finished after " << (current_ticks - last_timelog_ticks) / 1000.0 << " seconds" << std::endl;
   }
 
   last_timelog_ticks = current_ticks;
@@ -493,10 +491,10 @@ int main(int argc, char** argv)
     main_loop = NULL;
   } catch(graceful_shutdown& e) {
   } catch(std::exception& e) {
-    msg_fatal("Unexpected exception: " << e.what());
+    msg_fatal << "Unexpected exception: " << e.what() << std::endl;
     return 1;
   } catch(...) {
-    msg_fatal("Unexpected exception");
+    msg_fatal << "Unexpected exception" << std::endl;
     return 1;
   }
 

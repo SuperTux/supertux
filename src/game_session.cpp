@@ -351,7 +351,7 @@ bool
 GameSession::consoleCommand(std::string command)
 {
   if (command == "foo") {
-    msg_info("bar");
+    msg_info << "bar" << std::endl;
     return true;
   }
 
@@ -412,7 +412,7 @@ GameSession::consoleCommand(std::string command)
     return true;
   }
   if (command == "whereami") {
-    msg_info("You are at x " << tux.get_pos().x << ", y " << tux.get_pos().y);
+    msg_info << "You are at x " << tux.get_pos().x << ", y " << tux.get_pos().y << std::endl;
     return true;
   }
   if (command == "gotoend") {
@@ -433,13 +433,11 @@ GameSession::consoleCommand(std::string command)
     return true;
   }
   if (command == "camera") {
-    msg_info("Camera is at " 
-              << Sector::current()->camera->get_translation().x << "," 
-              << Sector::current()->camera->get_translation().y);
+    msg_info << "Camera is at " << Sector::current()->camera->get_translation().x << "," << Sector::current()->camera->get_translation().y << std::endl;
     return true;
   }
   if (command == "quit") {
-    msg_info("Please implement me! :-)");
+    msg_info << "Please implement me! :-)" << std::endl;
     return true;
   }
 
@@ -560,7 +558,7 @@ GameSession::update(float elapsed_time)
   if(newsector != "" && newspawnpoint != "") {
     Sector* sector = level->get_sector(newsector);
     if(sector == 0) {
-      msg_warning("Sector '" << newsector << "' not found");
+      msg_warning << "Sector '" << newsector << "' not found" << std::endl;
     }
     sector->activate(newspawnpoint);
     sector->play_music(LEVEL_MUSIC);
@@ -804,13 +802,12 @@ GameSession::start_sequence(const std::string& sequencename)
     }
   } else if(sequencename == "stoptux") {
     if(!end_sequence) {
-      msg_warning("Final target reached without "
-        << "an active end sequence");
+      msg_warning << "Final target reached without an active end sequence" << std::endl;
       this->start_sequence("endsequence");
     }
     end_sequence =  ENDSEQUENCE_WAITING;
   } else {
-    msg_warning("Unknown sequence '" << sequencename << "'");
+    msg_warning << "Unknown sequence '" << sequencename << "'" << std::endl;
   }
 }
 

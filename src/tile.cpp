@@ -127,7 +127,7 @@ Tile::parse_images(const lisp::Lisp& images_lisp)
       ptr->get_car()->get(h);
       imagespecs.push_back(ImageSpec(file, Rect(x, y, x+w, y+h)));
     } else {
-      msg_warning("Expected string or list in images tag");
+      msg_warning << "Expected string or list in images tag" << std::endl;
       continue;
     }
     

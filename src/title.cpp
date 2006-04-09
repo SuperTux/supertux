@@ -123,8 +123,7 @@ TitleScreen::generate_contrib_menu()
       contrib_worlds.push_back(world.release());
     } catch(std::exception& e) {
 #ifdef DEBUG
-      msg_warning("Couldn't parse levelset info for '"
-        << *it << "': " << e.what() << "");
+      msg_warning << "Couldn't parse levelset info for '" << *it << "': " << e.what() << std::endl;
 #endif
     }
   }
@@ -148,7 +147,7 @@ TitleScreen::get_level_name(const std::string& filename)
     level->get("name", name);
     return name;
   } catch(std::exception& e) {
-    msg_warning("Problem getting name of '" << filename << "'.");
+    msg_warning << "Problem getting name of '" << filename << "'." << std::endl;
     return "";
   }
 }
@@ -364,7 +363,7 @@ TitleScreen::update(float elapsed_time)
         
         if(confirm_dialog(bkg_title, str.c_str())) {
           str = "save/slot" + stream.str() + ".stsg";
-          msg_debug("Removing: " << str);
+          msg_debug << "Removing: " << str << std::endl;
           PHYSFS_delete(str.c_str());
         }
 
