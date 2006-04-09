@@ -126,6 +126,9 @@ Console::addLine(std::string s)
 void
 Console::parse(std::string s) 
 {
+  // make sure we actually have something to parse
+  if (s.length() == 0) return;
+	
   // split line into list of args
   std::vector<std::string> args;
   size_t start = 0;
