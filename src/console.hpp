@@ -58,6 +58,8 @@ class Console
     static std::list<std::string> lines; /**< backbuffer of lines sent to the console */
     static std::map<std::string, std::list<ConsoleCommandReceiver*> > commands; /**< map of console commands and a list of associated ConsoleCommandReceivers */
     Surface* background; /**< console background image */
+    Surface* background2; /**< second, moving console background image */
+    static int backgroundOffset; /**< current offset of scrolling background image */
     static int height; /**< height of the console in px */
     static int offset; /**< decrease to scroll text up */
     static bool focused; /**< true if console has input focus */

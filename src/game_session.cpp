@@ -437,7 +437,7 @@ GameSession::consoleCommand(std::string command)
     return true;
   }
   if (command == "quit") {
-    msg_info << "Please implement me! :-)" << std::endl;
+    main_loop->quit();
     return true;
   }
 

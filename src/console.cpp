@@ -33,11 +33,13 @@ namespace {
 Console::Console()
 {
   background = new Surface("images/engine/console.png");
+  background2 = new Surface("images/engine/console2.png");
 }
 
 Console::~Console() 
 {
   delete background;
+  delete background2;
 }
 
 void 
@@ -107,14 +109,18 @@ Console::autocomplete()
 void 
 Console::addLine(std::string s) 
 {
+  std::cerr << s << std::endl;
+  while (s.length() > 99) {
+    lines.push_front(s.substr(0, 99-3)+"...");
+    s = "..."+s.substr(99-3);
+  }
   lines.push_front(s);
-  if (lines.size() >= 65535) lines.pop_back();
+  while (lines.size() >= 65535) lines.pop_back();
   if (height < 64) {
     if (height < 4+9) height=4+9;
     height+=9;
   }
   ticks=60;
-  std::cerr << s << std::endl;
 }
 
 void
@@ -178,7 +184,11 @@ Console::draw(DrawingContext& context)
     if (height == 0) return;
   }
 
+  context.draw_surface(background2, Vector(SCREEN_WIDTH/2 - background->get_width()/2 - background->get_width() + backgroundOffset, height - background->get_height()), LAYER_FOREGROUND1+1);
+  context.draw_surface(background2, Vector(SCREEN_WIDTH/2 - background->get_width()/2 + backgroundOffset, height - background->get_height()), LAYER_FOREGROUND1+1);
   context.draw_surface(background, Vector(SCREEN_WIDTH/2 - background->get_width()/2, height - background->get_height()), LAYER_FOREGROUND1+1);
+  backgroundOffset+=10;
+  if (backgroundOffset > (int)background->get_width()) backgroundOffset -= (int)background->get_width();
 
   int lineNo = 0;
 
@@ -229,4 +239,5 @@ ConsoleStreamBuffer Console::outputBuffer;
 std::ostream Console::input(&Console::inputBuffer);
 std::ostream Console::output(&Console::outputBuffer);
 int Console::offset = 0;
+int Console::backgroundOffset = 0;
 
