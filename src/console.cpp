@@ -126,15 +126,31 @@ Console::addLine(std::string s)
 void
 Console::parse(std::string s) 
 {
-  std::map<std::string, std::list<ConsoleCommandReceiver*> >::iterator i = commands.find(s);
+  // split line into list of args
+  std::vector<std::string> args;
+  size_t start = 0;
+  size_t end = 0;
+  while (1) {
+    start = s.find_first_not_of(" ,", end);
+    end = s.find_first_of(" ,", start);
+    if (start == s.npos) break;
+    args.push_back(s.substr(start, end-start));
+  }
+
+  // command is args[0]
+  std::string command = args.front();
+  args.erase(args.begin());
+
+  // look up registered ccr
+  std::map<std::string, std::list<ConsoleCommandReceiver*> >::iterator i = commands.find(command);
   if ((i == commands.end()) || (i->second.size() == 0)) {
-    addLine("unknown command: \"" + s + "\"");
+    addLine("unknown command: \"" + command + "\"");
     return;
   }
 
   // send command to the most recently registered ccr
   ConsoleCommandReceiver* ccr = i->second.front();
-  if (ccr->consoleCommand(s) != true) msg_warning << "Sent command to registered ccr, but command was unhandled" << std::endl;
+  if (ccr->consoleCommand(command, args) != true) msg_warning << "Sent command to registered ccr, but command was unhandled" << std::endl;
 }
 
 bool

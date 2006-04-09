@@ -83,9 +83,8 @@ namespace {
 	  "grow", 
 	  "fire", 
 	  "ice",
-	  "lifeup",
+	  "coins",
 	  "numberofthebeast",
-	  "lifedown",
 	  "grease",
 	  "invincible",
 	  "mortal",
@@ -348,7 +347,7 @@ GameSession::process_events()
 }
 
 bool
-GameSession::consoleCommand(std::string command)
+GameSession::consoleCommand(std::string command, std::vector<std::string> arguments)
 {
   if (command == "foo") {
     msg_info << "bar" << std::endl;
@@ -372,16 +371,16 @@ GameSession::consoleCommand(std::string command)
     tux.set_bonus(ICE_BONUS, false);
     return true;
   }
-  if (command == "lifeup") {
-    player_status->incLives();
+  if (command == "coins") {
+    if ((arguments.size() < 1) || (!Console::string_is<int>(arguments[0]))) {
+      msg_info << "Usage: coins <number>" << std::endl;
+    } else {
+      player_status->coins = Console::string_to<int>(arguments[0]);
+    }
     return true;
   }
   if (command == "numberofthebeast") {
     player_status->coins += 55;
-    return true;
-  }
-  if (command == "lifedown") {
-    player_status->coins = std::max(player_status->coins-25, 0);
     return true;
   }
   if (command == "grease") {

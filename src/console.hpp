@@ -22,6 +22,7 @@
 
 #include <list>
 #include <map>
+#include <vector>
 #include <string>
 #include <sstream>
 #include <iostream>
@@ -53,6 +54,27 @@ class Console
     static bool hasFocus(); /**< true if characters should be sent to the console instead of their normal target */
     static void registerCommand(std::string command, ConsoleCommandReceiver* ccr); /**< associate command with the given CCR */
     static void unregisterCommand(std::string command, ConsoleCommandReceiver* ccr); /**< dissociate command and CCR */
+    static void unregisterCommands(ConsoleCommandReceiver* ccr); /**< dissociate all commands of given CCR */
+
+    template<typename T> static bool string_is(std::string s) {
+      std::istringstream iss(s);
+      T i;
+      if ((iss >> i) && iss.eof()) {
+	return true;
+      } else {
+	return false;
+      }
+    }
+
+    template<typename T> static T string_to(std::string s) {
+      std::istringstream iss(s);
+      T i;
+      if ((iss >> i) && iss.eof()) {
+	return i;
+      } else {
+	return T();
+      }
+    }
 
   protected:
     static std::list<std::string> lines; /**< backbuffer of lines sent to the console */
@@ -91,7 +113,7 @@ class ConsoleCommandReceiver
     {
       //Console::registerCommandReceiver(this);
     }
-    virtual bool consoleCommand(std::string command) = 0; /**< callback from Console; return false if command was unknown, true otherwise */
+    virtual bool consoleCommand(std::string command, std::vector<std::string> arguments) = 0; /**< callback from Console; return false if command was unknown, true otherwise */
     virtual ~ConsoleCommandReceiver()
     {
       //Console::unregisterCommandReceiver(this);

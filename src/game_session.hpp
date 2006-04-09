@@ -95,7 +95,7 @@ public:
    * resources for the current level/world
    */
   std::string get_working_directory();
-  bool consoleCommand(std::string command); /**< callback from Console; return false if command was unknown, true otherwise */
+  bool consoleCommand(std::string command, std::vector<std::string> arguments); /**< callback from Console; return false if command was unknown, true otherwise */
 
 private:
   void restart_level(bool fromBeginning = true);
