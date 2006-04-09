@@ -28,6 +28,8 @@
 
 #ifdef DEBUG
 
+namespace {
+
 inline std::ostream& msg_debug_f(const char* file, int line) {
   Console::output << "[DEBUG] " << file << " l." << line << ": ";
   return Console::output;
@@ -48,6 +50,8 @@ inline std::ostream& msg_fatal_f(const char* file, int line) {
   return Console::output;
 }
 
+}
+
 #define msg_debug msg_debug_f(__FILE__, __LINE__)
 #define msg_info msg_info_f(__FILE__, __LINE__)
 #define msg_warning msg_warning_f(__FILE__, __LINE__)
@@ -55,28 +59,24 @@ inline std::ostream& msg_fatal_f(const char* file, int line) {
 
 #else
 
-inline std::ostream& msg_debug_f(const char* file, int line) {
-  return Console::output;
-}
+namespace {
 
-inline std::ostream& msg_info_f(const char* file, int line) {
-  return Console::output;
-}
-
-inline std::ostream& msg_warning_f(const char* file, int line) {
+inline std::ostream& msg_warning_f() {
   Console::output << "Warning: ";
   return Console::output;
 }
 
-inline std::ostream& msg_fatal_f(const char* file, int line) {
+inline std::ostream& msg_fatal_f() {
   Console::output << "Fatal: ";
   return Console::output;
 }
 
-#define msg_debug if (0) msg_debug_f(__FILE__, __LINE__)
-#define msg_info msg_info_f(__FILE__, __LINE__)
-#define msg_warning msg_warning_f(__FILE__, __LINE__)
-#define msg_fatal msg_fatal_f(__FILE__, __LINE__)
+}
+
+#define msg_debug if (0) std::cerr
+#define msg_info Console::output
+#define msg_warning msg_warning_f()
+#define msg_fatal msg_fatal_f()
 
 #endif
 
