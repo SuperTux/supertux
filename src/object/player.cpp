@@ -106,6 +106,9 @@ Player::Player(PlayerStatus* _player_status)
   smalltux_gameover = sprite_manager->create("images/creatures/tux_small/smalltux-gameover.sprite");
   smalltux_star = sprite_manager->create("images/creatures/tux_small/smalltux-star.sprite");
   bigtux_star = sprite_manager->create("images/creatures/tux_big/bigtux-star.sprite");
+
+  Console::registerCommand("set_bonus", this);
+
   init();
 }
 
@@ -949,3 +952,28 @@ void Player::walk(float speed)
 {
   physic.set_velocity_x(speed);
 }
+
+bool
+Player::consoleCommand(std::string command, std::vector<std::string> arguments)
+{
+  if (command == "set_bonus") {
+    if (arguments.size() == 1) {
+      if (arguments[0] == "egg") {
+	set_bonus(GROWUP_BONUS, false);
+	return true;
+      }
+      if (arguments[0] == "fire") {
+	set_bonus(FIRE_BONUS, false);
+	return true;
+      }
+      if (arguments[0] == "ice") {
+	set_bonus(ICE_BONUS, false);
+	return true;
+      }
+    }
+    msg_info << "Usage: give {\"egg\" | \"fire\" | \"ice\"}" << std::endl;
+    return true;
+  }
+  return false;
+}
+

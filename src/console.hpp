@@ -91,6 +91,7 @@ class Console
 
     static void addLine(std::string s); /**< display a line in the console */
     static void parse(std::string s); /**< react to a given command */
+    static bool consoleCommand(std::string command, std::vector<std::string> arguments); /**< process internal command; return false if command was unknown, true otherwise */
 
     friend class ConsoleStreamBuffer;
     static void flush(ConsoleStreamBuffer* buffer); /**< act upon changes in a ConsoleStreamBuffer */
@@ -109,14 +110,11 @@ class ConsoleStreamBuffer : public std::stringbuf
 class ConsoleCommandReceiver
 {
   public:
-    ConsoleCommandReceiver()
-    {
-      //Console::registerCommandReceiver(this);
-    }
+    ConsoleCommandReceiver() {}
     virtual bool consoleCommand(std::string command, std::vector<std::string> arguments) = 0; /**< callback from Console; return false if command was unknown, true otherwise */
     virtual ~ConsoleCommandReceiver()
     {
-      //Console::unregisterCommandReceiver(this);
+      Console::unregisterCommands(this);
     }
 };
 

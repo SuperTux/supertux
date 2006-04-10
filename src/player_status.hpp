@@ -25,6 +25,7 @@
 #include "timer.hpp"
 #include "serializable.hpp"
 #include "sprite/sprite.hpp"
+#include "console.hpp"
 
 static const float BORDER_X = 10;
 static const float BORDER_Y = 10;
@@ -38,7 +39,7 @@ class DrawingContext;
  * This class memorizes player status between different game sessions (for
  * example when switching maps in the worldmap)
  */
-class PlayerStatus : public Serializable
+class PlayerStatus : public Serializable, public ConsoleCommandReceiver
 {
 public:
   PlayerStatus();
@@ -54,6 +55,8 @@ public:
   void draw(DrawingContext& context);
   void draw_keys(DrawingContext& context);
 
+  bool consoleCommand(std::string command, std::vector<std::string> arguments); /**< callback from Console; return false if command was unknown, true otherwise */
+  
   int  coins;
   BonusType bonus;
 

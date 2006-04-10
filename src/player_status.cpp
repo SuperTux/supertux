@@ -54,6 +54,8 @@ PlayerStatus::PlayerStatus()
   key_gold->set_action("outline");
   
   tux_life.reset(sprite_manager->create("images/creatures/tux_small/tux-life.sprite"));
+
+  Console::registerCommand("coins", this);
 }
 
 PlayerStatus::~PlayerStatus()
@@ -205,5 +207,19 @@ PlayerStatus::operator= (const PlayerStatus& other)
   score_multiplier = other.score_multiplier;
   max_score_multiplier = other.max_score_multiplier;
   keys = other.keys;
+}
+
+bool
+PlayerStatus::consoleCommand(std::string command, std::vector<std::string> arguments)
+{
+  if (command == "coins") {
+    if ((arguments.size() < 1) || (!Console::string_is<int>(arguments[0]))) {
+      msg_info << "Usage: coins <number>" << std::endl;
+    } else {
+      coins = Console::string_to<int>(arguments[0]);
+    }
+    return true;
+  }
+  return false;
 }
 

@@ -144,6 +144,9 @@ Console::parse(std::string s)
   std::string command = args.front();
   args.erase(args.begin());
 
+  // ignore if it's an internal command
+  if (consoleCommand(command,args)) return;
+
   // look up registered ccr
   std::map<std::string, std::list<ConsoleCommandReceiver*> >::iterator i = commands.find(command);
   if ((i == commands.end()) || (i->second.size() == 0)) {
@@ -154,6 +157,35 @@ Console::parse(std::string s)
   // send command to the most recently registered ccr
   ConsoleCommandReceiver* ccr = i->second.front();
   if (ccr->consoleCommand(command, args) != true) msg_warning << "Sent command to registered ccr, but command was unhandled" << std::endl;
+}
+
+bool
+Console::consoleCommand(std::string command, std::vector<std::string> arguments) 
+{
+  if (command == "ccrs") {
+    if (arguments.size() != 1) {
+      msg_info << "Usage: ccrs <command>" << std::endl;
+      return true;
+    }
+    std::map<std::string, std::list<ConsoleCommandReceiver*> >::iterator i = commands.find(arguments[0]);
+    if ((i == commands.end()) || (i->second.size() == 0)) {
+      msg_info << "unknown command: \"" << arguments[0] << "\"" << std::endl;
+      return true;
+    }
+
+    std::ostringstream ccr_list;
+    std::list<ConsoleCommandReceiver*> &ccrs = i->second;
+    std::list<ConsoleCommandReceiver*>::iterator j;
+    for (j = ccrs.begin(); j != ccrs.end(); j++) {
+      if (j != ccrs.begin()) ccr_list << ", ";
+      ccr_list << "[" << *j << "]";
+    }
+
+    msg_info << "registered ccrs for \"" << arguments[0] << "\": " << ccr_list.str() << std::endl;
+    return true;
+  }
+
+  return false;
 }
 
 bool
@@ -247,6 +279,18 @@ Console::unregisterCommand(std::string command, ConsoleCommandReceiver* ccr)
     return;
   }
   i->second.erase(j);
+}
+
+void 
+Console::unregisterCommands(ConsoleCommandReceiver* ccr)
+{
+  for (std::map<std::string, std::list<ConsoleCommandReceiver*> >::iterator i = commands.begin(); i != commands.end(); i++) {
+    std::list<ConsoleCommandReceiver*> &ccrs = i->second;
+    std::list<ConsoleCommandReceiver*>::iterator j;
+    while ((j = find(ccrs.begin(), ccrs.end(), ccr)) != ccrs.end()) {
+      ccrs.erase(j);
+    }
+  }
 }
 
 int Console::height = 0;

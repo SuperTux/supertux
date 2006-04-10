@@ -80,11 +80,6 @@ namespace {
 	  "foo",
 	  "whereami",
 	  "camera",
-	  "grow", 
-	  "fire", 
-	  "ice",
-	  "coins",
-	  "numberofthebeast",
 	  "grease",
 	  "invincible",
 	  "mortal",
@@ -193,9 +188,6 @@ GameSession::~GameSession()
 
   delete end_sequence_controller;
   delete level;
-  for (uint16_t i=0; i < sizeof(::consoleCommands)/sizeof(typeof(consoleCommands[0])); i++) {
-    Console::unregisterCommand(consoleCommands[i], this);
-  }
 
   delete statistics_backdrop;
 
@@ -351,7 +343,7 @@ GameSession::process_events()
 }
 
 bool
-GameSession::consoleCommand(std::string command, std::vector<std::string> arguments)
+GameSession::consoleCommand(std::string command, std::vector<std::string>)
 {
   if (command == "foo") {
     msg_info << "bar" << std::endl;
@@ -363,30 +355,6 @@ GameSession::consoleCommand(std::string command, std::vector<std::string> argume
   
   // Cheating words (the goal of this is really for debugging,
   // but could be used for some cheating, nothing wrong with that)
-  if (command == "grow") {
-    tux.set_bonus(GROWUP_BONUS, false);
-    return true;
-  }
-  if (command == "fire") {
-    tux.set_bonus(FIRE_BONUS, false);
-    return true;
-  }
-  if (command == "ice") {
-    tux.set_bonus(ICE_BONUS, false);
-    return true;
-  }
-  if (command == "coins") {
-    if ((arguments.size() < 1) || (!Console::string_is<int>(arguments[0]))) {
-      msg_info << "Usage: coins <number>" << std::endl;
-    } else {
-      player_status->coins = Console::string_to<int>(arguments[0]);
-    }
-    return true;
-  }
-  if (command == "numberofthebeast") {
-    player_status->coins += 55;
-    return true;
-  }
   if (command == "grease") {
     tux.physic.set_velocity_x(tux.physic.get_velocity_x()*3);
     return true;

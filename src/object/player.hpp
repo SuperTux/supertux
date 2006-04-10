@@ -32,6 +32,7 @@
 #include "scripting/player.hpp"
 #include "player_status.hpp"
 #include "display_effect.hpp"
+#include "console.hpp"
 
 class BadGuy;
 class Portable;
@@ -77,7 +78,7 @@ extern TuxBodyParts* big_tux;
 extern TuxBodyParts* fire_tux;
 extern TuxBodyParts* ice_tux;
 
-class Player : public MovingObject, public Scripting::Player
+class Player : public MovingObject, public Scripting::Player, public ConsoleCommandReceiver
 {
 public:
   enum HurtMode { KILL, SHRINK };
@@ -163,6 +164,8 @@ public:
   bool get_visible();
 
   bool on_ground();
+
+  bool consoleCommand(std::string command, std::vector<std::string> arguments); /**< callback from Console; return false if command was unknown, true otherwise */
   
 private:
   void handle_input();
