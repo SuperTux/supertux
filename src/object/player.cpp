@@ -41,6 +41,7 @@
 #include "object/bullet.hpp"
 #include "trigger/trigger_base.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
+#include "scripting/wrapper_util.hpp"
 #include "main.hpp"
 #include "platform.hpp"
 #include "badguy/badguy.hpp"
@@ -107,8 +108,6 @@ Player::Player(PlayerStatus* _player_status)
   smalltux_star = sprite_manager->create("images/creatures/tux_small/smalltux-star.sprite");
   bigtux_star = sprite_manager->create("images/creatures/tux_big/bigtux-star.sprite");
 
-  Console::registerCommand("set_bonus", this);
-
   init();
 }
 
@@ -150,6 +149,19 @@ Player::init()
   floor_normal = Vector(0,-1);
 
   physic.reset();
+}
+
+void
+Player::expose(HSQUIRRELVM vm, int table_idx)
+{
+  Scripting::Player* interface = static_cast<Scripting::Player*> (this);
+  expose_object(vm, table_idx, interface, "Tux", false);
+}
+
+void
+Player::unexpose(HSQUIRRELVM vm, int table_idx)
+{
+  Scripting::unexpose_object(vm, table_idx, "Tux");
 }
 
 void
@@ -951,29 +963,5 @@ Player::activate()
 void Player::walk(float speed)
 {
   physic.set_velocity_x(speed);
-}
-
-bool
-Player::consoleCommand(std::string command, std::vector<std::string> arguments)
-{
-  if (command == "set_bonus") {
-    if (arguments.size() == 1) {
-      if (arguments[0] == "egg") {
-	set_bonus(GROWUP_BONUS, false);
-	return true;
-      }
-      if (arguments[0] == "fire") {
-	set_bonus(FIRE_BONUS, false);
-	return true;
-      }
-      if (arguments[0] == "ice") {
-	set_bonus(ICE_BONUS, false);
-	return true;
-      }
-    }
-    msg_info << "Usage: give {\"egg\" | \"fire\" | \"ice\"}" << std::endl;
-    return true;
-  }
-  return false;
 }
 

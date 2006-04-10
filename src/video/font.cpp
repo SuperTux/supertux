@@ -114,6 +114,9 @@ Font::draw(const std::string& text, const Vector& pos_, FontAlignment alignment,
       l = text.size();
       done = true;
     }
+
+    if(l > sizeof(temp)-1)
+      l = sizeof(temp)-1;
     
     temp[text.copy(temp, l - i, i)] = '\0';
     

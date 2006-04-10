@@ -35,7 +35,6 @@
 #include "audio/sound_manager.hpp"
 #include "main.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
-#include "exceptions.hpp"
 
 static const float DEFAULT_SPEED = 20;
 static const float LEFT_BORDER = 50;
@@ -84,8 +83,9 @@ TextScroller::TextScroller(const std::string& filename)
     text_lisp->get("speed", defaultspeed);
     text_lisp->get("music", music);
   } catch(std::exception& e) {
-    msg_warning << "Couldn't load file '" << filename << "': " << e.what() << std::endl;
-    return;
+    std::ostringstream msg;
+    msg << "Couldn't load file '" << filename << "': " << e.what() << std::endl;
+    throw std::runtime_error(msg.str());
   }
 
   // Split text string lines into a vector

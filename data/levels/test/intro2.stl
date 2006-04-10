@@ -5,7 +5,10 @@
   (author "SuperTux Team")
   (sector
     (name  "main")
-    (init-script "intro()")
+    (init-script "
+      import(\"levels/test/default.nut\");
+      intro(); 
+    ")
     (gravity 10.000000)
     (tilemap
       (layer  "background")

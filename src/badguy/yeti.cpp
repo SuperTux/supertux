@@ -27,7 +27,6 @@
 #include "yeti_stalactite.hpp"
 #include "bouncing_snowball.hpp"
 #include "game_session.hpp"
-#include "scripting/script_interpreter.hpp"
 
 static const float JUMP_VEL1 = 250;
 static const float JUMP_VEL2 = 700;
@@ -155,8 +154,8 @@ Yeti::collision_squished(Player& player)
 
     // start script
     if(dead_script != "") {
-      ScriptInterpreter::add_script_object(Sector::current(),
-          "Yeti - dead-script", dead_script);
+      std::istringstream stream(dead_script);
+      Sector::current()->run_script(stream, "Yeti - dead-script");
     }
   } else {
     safe_timer.start(SAFE_TIME);

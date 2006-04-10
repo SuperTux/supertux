@@ -27,11 +27,26 @@ public:
   virtual ~Screen()
   {}
 
+  /**
+   * gets called before this screen gets activated (which is at least once
+   * before the first draw or update call
+   */
   virtual void setup()
   {}
+  /** gets called when the current screen is temporarily suspended */
+  virtual void leave()
+  {}
 
+  /**
+   * gets called once per frame. The screen should draw itself in this function.
+   * State changes should not be done in this function, but rather in update
+   */
   virtual void draw(DrawingContext& context) = 0;
 
+  /**
+   * gets called for once (per logical) frame. Screens should do their state
+   * updates and logic here
+   */
   virtual void update(float elapsed_time) = 0;
 };
 

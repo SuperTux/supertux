@@ -21,6 +21,7 @@
 
 #include <string>
 #include <vector>
+#include <squirrel.h>
 
 #include "direction.hpp"
 #include "math/vector.hpp"
@@ -67,11 +68,18 @@ public:
   /// activates this sector (change music, intialize player class, ...)
   void activate(const std::string& spawnpoint);
   void activate(const Vector& player_pos);
+  void deactivate();
 
   void update(float elapsed_time);
   void update_game_objects();
 
   void draw(DrawingContext& context);
+
+  /**
+   * runs a script in the context of the sector (sector_table will be the
+   * roottable of this squirrel VM)
+   */
+  HSQUIRRELVM run_script(std::istream& in, const std::string& sourcename);
 
   /// adds a gameobject
   void add_object(GameObject* object);
@@ -112,8 +120,16 @@ public:
     return std::vector<Player*>(1, this->player);
   }
 
+  Rect get_active_region();
+
 private:
   uint32_t collision_tile_attributes(const Rect& dest) const;
+
+  void before_object_remove(GameObject* object);
+  bool before_object_add(GameObject* object);
+
+  void try_expose(GameObject* object);
+  void try_unexpose(GameObject* object);
   
   bool collision_static(MovingObject* object, const Vector& movement);
   
@@ -124,44 +140,43 @@ private:
   
   void collision_object(MovingObject* object1, MovingObject* object2) const;
   GameObject* parse_object(const std::string& name, const lisp::Lisp& lisp);
-  
+
+  void fix_old_tiles();
+
+  typedef std::vector<GameObject*> GameObjects;
+  typedef std::vector<MovingObject*> MovingObjects;
+  typedef std::vector<SpawnPoint*> SpawnPoints;
+
   static Sector* _current;
   
   std::string name;
 
-public:
-  std::string music;
-  float gravity;
-
-  // some special objects, where we need direct access
-  Player* player;
-  TileMap* solids;
-  Camera* camera;
-  
-private:
   std::vector<Bullet*> bullets;
 
   std::string init_script;
 
-public: // TODO make this private again
-  typedef std::vector<GameObject*> GameObjects;
-  GameObjects gameobjects;
-  typedef std::vector<MovingObject*> MovingObjects;
-  MovingObjects moving_objects;
-  typedef std::vector<SpawnPoint*> SpawnPoints;
-  SpawnPoints spawnpoints;                       
-
-  Rect get_active_region();
-
-private:
-  void fix_old_tiles();
-  
   /// container for newly created objects, they'll be added in Sector::update
   GameObjects gameobjects_new;
  
   MusicType currentmusic;
 
   CollisionGrid* grid;
+
+  HSQOBJECT sector_table;
+
+public: // TODO make this private again
+  GameObjects gameobjects;
+  MovingObjects moving_objects;
+  SpawnPoints spawnpoints;                       
+
+  std::string music;
+  float gravity;
+
+  // some special objects, where we need direct access
+  // (try to avoid accessing them directly)
+  Player* player;
+  TileMap* solids;
+  Camera* camera;
 };
 
 #endif

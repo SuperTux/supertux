@@ -242,10 +242,8 @@ WrapperCreator::create_register_slot_code(const std::string& what,
                                           const std::string& name)
 {
     out << ind << "if(SQ_FAILED(sq_createslot(v, -3))) {\n";
-    out << ind << ind << "std::ostringstream msg;\n";
-    out << ind << ind << "msg << \"Couldn't register " << what << "'"
-        << name << "'\";\n";
-    out << ind << ind << "throw SquirrelError(v, msg.str());\n";
+    out << ind << ind << "throw SquirrelError(v, \""
+        << "Couldn't register " << what << " '" << name << "'\");\n";
     out << ind << "}\n";
 }
 
@@ -265,19 +263,22 @@ WrapperCreator::create_function_wrapper(Class* _class, Function* function)
     if(_class != 0) {
         out << _class->name << "_";
     }
-    out << function->name << "_wrapper(HSQUIRRELVM v)\n"
+    out << function->name << "_wrapper(HSQUIRRELVM vm)\n"
         << "{\n";
     // avoid warning...
     if(_class == 0 && function->parameters.empty() 
             && function->return_type.is_void()
             && function->type != Function::CONSTRUCTOR) {
-        out << ind << "(void) v;\n";
+        out << ind << "(void) vm;\n";
     }
     
-    // eventually retrieve pointer to class instance
+    // retrieve pointer to class instance
     if(_class != 0 && function->type != Function::CONSTRUCTOR) {
         out << ind << ns_prefix <<  _class->name << "* _this;\n";
-        out << ind << "sq_getinstanceup(v, 1, (SQUserPointer*) &_this, 0);\n";
+        out << ind << "if(SQ_FAILED(sq_getinstanceup(vm, 1, reinterpret_cast<SQUserPointer*> (&_this), 0))) {\n";
+        out << ind << ind << "sq_throwerror(vm, _SC(\"'" << function->name << "' called without instance\"));\n";
+        out << ind << ind << "return SQ_ERROR;\n";
+        out << ind << "}\n";
     }
 
     // custom function?
@@ -296,7 +297,7 @@ WrapperCreator::create_function_wrapper(Class* _class, Function* function)
             out << "_this->";
         else
             out << ns_prefix;
-        out << function->name << "(v);\n";
+        out << function->name << "(vm);\n";
         out << "}\n";
         out << "\n";
         return;
@@ -308,7 +309,7 @@ WrapperCreator::create_function_wrapper(Class* _class, Function* function)
     for(std::vector<Parameter>::iterator p = function->parameters.begin();
             p != function->parameters.end(); ++p) {
         if(i == 0 && p->type.atomic_type == HSQUIRRELVMType::instance()) {
-            out << ind << "HSQUIRRELVM arg0 = v;\n";
+            out << ind << "HSQUIRRELVM arg0 = vm;\n";
             arg_offset--;
         } else {
             char argname[64];
@@ -320,7 +321,8 @@ WrapperCreator::create_function_wrapper(Class* _class, Function* function)
     
     // call function
     out << ind << "\n";
-    out << ind;
+    out << ind << "try {\n";
+    out << ind << ind;
     if(!function->return_type.is_void()) {
         function->return_type.write_c_type(out);
         out << " return_value = ";
@@ -346,8 +348,11 @@ WrapperCreator::create_function_wrapper(Class* _class, Function* function)
     }
     out << ");\n";
     if(function->type == Function::CONSTRUCTOR) {
-        out << ind << "sq_setinstanceup(v, 1, _this);\n";
-        out << ind << "sq_setreleasehook(v, 1, " 
+        out << ind << "if(SQ_FAILED(sq_setinstanceup(vm, 1, _this))) {\n";
+        out << ind << ind << "sq_throwerror(vm, _SC(\"Couldn't setup instance of '" << _class->name << "' class\"));\n";
+        out << ind << ind << "return SQ_ERROR;\n";
+        out << ind << "}\n";
+        out << ind << "sq_setreleasehook(vm, 1, " 
             << _class->name << "_release_hook);\n";
     }
     out << ind << "\n";
@@ -359,13 +364,24 @@ WrapperCreator::create_function_wrapper(Class* _class, Function* function)
                 << " but has a return value.";
             throw std::runtime_error(msg.str());
         }
-        out << ind << "return sq_suspendvm(v);\n";
+        out << ind << ind << "return sq_suspendvm(vm);\n";
     } else if(function->return_type.is_void()) {
-        out << ind << "return 0;\n";
+        out << ind << ind << "return 0;\n";
     } else {
         push_to_stack(function->return_type, "return_value");
-        out << ind << "return 1;\n";
+        out << ind << ind << "return 1;\n";
     }
+
+    out << ind << "\n";
+    out << ind << "} catch(std::exception& e) {\n";
+    out << ind << ind << "sq_throwerror(vm, e.what());\n";
+    out << ind << ind << "return SQ_ERROR;\n";
+    out << ind << "} catch(...) {\n";
+    out << ind << ind << "sq_throwerror(vm, _SC(\"Unexpected exception while executing function '" << function->name << "'\"));\n";
+    out << ind << ind << "return SQ_ERROR;\n";
+    out << ind << "}\n";
+    out << ind << "\n";
+    
     out << "}\n";
     out << "\n";
 }
@@ -380,16 +396,28 @@ WrapperCreator::prepare_argument(const Type& type, size_t index,
         throw std::runtime_error("Pointers not handled yet");
     if(type.atomic_type == &BasicType::INT) {
         out << ind << "int " << var << ";\n";
-        out << ind << "sq_getinteger(v, " << index << ", &" << var << ");\n";
+        out << ind << "if(SQ_FAILED(sq_getinteger(vm, " << index << ", &" << var << "))) {\n";
+        out << ind << ind << "sq_throwerror(vm, _SC(\"Argument " << (index-1) << " not an integer\"));\n";
+        out << ind << ind << "return SQ_ERROR;\n";
+        out << ind << "}\n";
     } else if(type.atomic_type == &BasicType::FLOAT) {
         out << ind << "float " << var << ";\n";
-        out << ind << "sq_getfloat(v, " << index << ", &" << var << ");\n";
+        out << ind << "if(SQ_FAILED(sq_getfloat(vm, " << index << ", &" << var << "))) {\n";
+        out << ind << ind << "sq_throwerror(vm, _SC(\"Argument " << (index-1) << " not a float\"));\n";
+        out << ind << ind << "return SQ_ERROR;\n";
+        out << ind << "}\n";
     } else if(type.atomic_type == &BasicType::BOOL) {
         out << ind << "SQBool " << var << ";\n";
-        out << ind << "sq_getbool(v, " << index << ", &" << var << ");\n";
+        out << ind << "if(SQ_FAILED(sq_getbool(vm, " << index << ", &" << var << "))) {\n";
+        out << ind << ind << "sq_throwerror(vm, _SC(\"Argument " << (index-1) << " not a bool\"));\n";
+        out << ind << ind << "return SQ_ERROR;\n";
+        out << ind << "}\n";
     } else if(type.atomic_type == StringType::instance()) {
         out << ind << "const char* " << var << ";\n";
-        out << ind << "sq_getstring(v, " << index << ", &" << var << ");\n";
+        out << ind << "if(SQ_FAILED(sq_getstring(vm, " << index << ", &" << var << "))) {\n";
+        out << ind << ind << "sq_throwerror(vm, _SC(\"Argument " << (index-1) << " not a string\"));\n";
+        out << ind << ind << "return SQ_ERROR;\n";
+        out << ind << "}\n";
     } else {
         std::ostringstream msg;
         msg << "Type '" << type.atomic_type->name << "' not supported yet.";
@@ -404,15 +432,15 @@ WrapperCreator::push_to_stack(const Type& type, const std::string& var)
         throw std::runtime_error("References not handled yet");
     if(type.pointer > 0)
         throw std::runtime_error("Pointers not handled yet");
-    out << ind;
+    out << ind << ind;
     if(type.atomic_type == &BasicType::INT) {
-        out << "sq_pushinteger(v, " << var << ");\n";
+        out << "sq_pushinteger(vm, " << var << ");\n";
     } else if(type.atomic_type == &BasicType::FLOAT) {
-        out << "sq_pushfloat(v, " << var << ");\n";
+        out << "sq_pushfloat(vm, " << var << ");\n";
     } else if(type.atomic_type == &BasicType::BOOL) {
-        out << "sq_pushbool(v, " << var << ");\n";
+        out << "sq_pushbool(vm, " << var << ");\n";
     } else if(type.atomic_type == StringType::instance()) {
-        out << "sq_pushstring(v, " << var << ".c_str(), " 
+        out << "sq_pushstring(vm, " << var << ".c_str(), " 
             << var << ".size());\n";
     } else {
         std::ostringstream msg;

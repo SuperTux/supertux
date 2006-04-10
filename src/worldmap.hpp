@@ -229,8 +229,6 @@ public:
 
   void load_map();
   
-  void get_input();
-
   void add_object(GameObject* object);
   void clear_objects();
 

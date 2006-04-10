@@ -1,4 +1,4 @@
-/* This file is processes by miniswig to produce the scripting API */
+/* This file is processed by miniswig to produce the scripting API */
 #include "display_effect.hpp"
 #include "camera.hpp"
 #include "level.hpp"

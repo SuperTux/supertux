@@ -3,6 +3,7 @@
 
 #include <assert.h>
 #include "video/drawing_context.hpp"
+#include "scripting/wrapper_util.hpp"
 #include "main.hpp"
 
 static const float BORDER_SIZE = 75;
@@ -16,6 +17,23 @@ DisplayEffect::DisplayEffect()
 
 DisplayEffect::~DisplayEffect()
 {
+}
+
+void
+DisplayEffect::expose(HSQUIRRELVM vm, int table_idx)
+{
+  Scripting::DisplayEffect* interface = static_cast<Scripting::DisplayEffect*> (this);
+  expose_object(vm, table_idx, interface, "Effect", false);
+}
+
+void
+DisplayEffect::unexpose(HSQUIRRELVM vm, int table_idx)
+{
+  try {
+    Scripting::unexpose_object(vm, table_idx, "Effect");
+  } catch(...) {
+    // for now...
+  }
 }
 
 void

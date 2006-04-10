@@ -108,7 +108,10 @@
          (y 510)
          (sprite "images/creatures/dummyguy/dummyguy.sprite")
        )
-       (init-script "intro();")
+       (init-script "
+          import(\"levels/test/default.nut\");
+          intro();
+        ")
    )
  )
 

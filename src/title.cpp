@@ -61,7 +61,6 @@
 #include "control/joystickkeyboardcontroller.hpp"
 #include "control/codecontroller.hpp"
 #include "main.hpp"
-#include "exceptions.hpp"
 #include "msg.hpp"
 #include "console.hpp"
 
@@ -292,6 +291,13 @@ TitleScreen::setup()
   sector->activate(sector->player->get_pos());
 
   Menu::set_current(main_menu);
+}
+
+void
+TitleScreen::leave()
+{
+  Sector* sector = titlesession->get_current_sector();
+  sector->deactivate();
 }
 
 void

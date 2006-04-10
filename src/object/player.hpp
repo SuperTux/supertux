@@ -32,6 +32,7 @@
 #include "scripting/player.hpp"
 #include "player_status.hpp"
 #include "display_effect.hpp"
+#include "script_interface.hpp"
 #include "console.hpp"
 
 class BadGuy;
@@ -78,7 +79,7 @@ extern TuxBodyParts* big_tux;
 extern TuxBodyParts* fire_tux;
 extern TuxBodyParts* ice_tux;
 
-class Player : public MovingObject, public Scripting::Player, public ConsoleCommandReceiver
+class Player : public MovingObject, public Scripting::Player, public ScriptInterface
 {
 public:
   enum HurtMode { KILL, SHRINK };
@@ -120,6 +121,9 @@ public:
 public:
   Player(PlayerStatus* player_status);
   virtual ~Player();
+
+  virtual void expose(HSQUIRRELVM vm, int table_idx);
+  virtual void unexpose(HSQUIRRELVM vm, int table_idx);
 
   void set_controller(Controller* controller);  
 
@@ -165,8 +169,6 @@ public:
 
   bool on_ground();
 
-  bool consoleCommand(std::string command, std::vector<std::string> arguments); /**< callback from Console; return false if command was unknown, true otherwise */
-  
 private:
   void handle_input();
   bool deactivated;

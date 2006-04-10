@@ -56,8 +56,6 @@
 #include "control/joystickkeyboardcontroller.hpp"
 #include "object/background.hpp"
 #include "object/tilemap.hpp"
-#include "scripting/script_interpreter.hpp"
-#include "exceptions.hpp"
 
 Menu* worldmap_menu  = 0;
 
@@ -608,21 +606,6 @@ WorldMap::on_escape_press()
   }
 }
 
-void
-WorldMap::get_input()
-{
-  main_controller->update();
-
-  SDL_Event event;
-  while (SDL_PollEvent(&event)) {
-    if (Menu::current())
-      Menu::current()->event(event);
-    main_controller->process_event(event);
-    if(event.type == SDL_QUIT)
-      throw graceful_shutdown();
-  }
-}
-
 Vector
 WorldMap::get_next_tile(Vector pos, Direction direction)
 {
@@ -726,6 +709,7 @@ WorldMap::finished_level(const std::string& filename)
   }
 
   if (level->extro_script != "") {
+    /* TODO
     try {
       std::auto_ptr<ScriptInterpreter> interpreter
         (new ScriptInterpreter(levels_path));
@@ -735,6 +719,7 @@ WorldMap::finished_level(const std::string& filename)
     } catch(std::exception& e) {
       msg_fatal << "Couldn't run level-extro-script:" << e.what() << std::endl;
     }
+    */
   }
   
   if (!level->next_worldmap.empty()) {

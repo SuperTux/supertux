@@ -6,13 +6,18 @@
 #include "sprite/sprite.hpp"
 #include "lisp/lisp.hpp"
 #include "moving_object.hpp"
+#include "script_interface.hpp"
 #include "scripting/scripted_object.hpp"
 
-class ScriptedObject : public MovingObject, public Scripting::ScriptedObject
+class ScriptedObject : public MovingObject, public Scripting::ScriptedObject,
+                       public ScriptInterface
 {
 public:
   ScriptedObject(const lisp::Lisp& lisp);
   virtual ~ScriptedObject();
+
+  virtual void expose(HSQUIRRELVM vm, int table_idx);
+  virtual void unexpose(HSQUIRRELVM vm, int table_idx);
 
   void update(float elapsed_time);
   void draw(DrawingContext& context);

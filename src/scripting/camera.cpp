@@ -6,7 +6,7 @@
 #include "scripting/camera.hpp"
 #include "math/vector.hpp"
 
-#define NOIMPL      printf("%s not implemented.\n", __PRETTY_FUNCTION__);
+#define NOIMPL      msg_fatal << __PRETTY_FUNCTION__ << " not implemented."
 
 namespace Scripting
 {
@@ -30,9 +30,15 @@ namespace Scripting
   }
 
   void
-  Camera::set_mode(const std::string& )
+  Camera::set_mode(const std::string& mode)
   {
-    NOIMPL;
+    if(mode == "normal") {
+      camera->mode = ::Camera::NORMAL;
+    } else if(mode == "manual") {
+      camera->mode = ::Camera::MANUAL;
+    } else {
+      msg_fatal << "Camera mode '" << mode << "' unknown.";
+    }
   }
 
   void

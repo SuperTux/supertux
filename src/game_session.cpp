@@ -67,7 +67,7 @@
 #include "file_system.hpp"
 #include "gameconfig.hpp"
 #include "gettext.hpp"
-#include "exceptions.hpp"
+#include "console.hpp"
 #include "flip_level_transformer.hpp"
 
 // the engine will be run with a logical framerate of 64fps.
@@ -696,12 +696,13 @@ GameSession::display_info_box(const std::string& text)
   
   while(running)  {
 
+    // TODO make a screen out of this, another mainloop is ugly
     main_controller->update();
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
       main_controller->process_event(event);
       if(event.type == SDL_QUIT)
-        throw graceful_shutdown();
+        main_loop->quit();
     }
 
     if(main_controller->pressed(Controller::JUMP)

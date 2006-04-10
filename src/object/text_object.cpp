@@ -5,6 +5,7 @@
 #include <iostream>
 #include "resources.hpp"
 #include "video/drawing_context.hpp"
+#include "scripting/wrapper_util.hpp"
 #include "msg.hpp"
 
 TextObject::TextObject()
@@ -16,6 +17,19 @@ TextObject::TextObject()
 
 TextObject::~TextObject()
 {
+}
+
+void
+TextObject::expose(HSQUIRRELVM vm, int table_idx)
+{
+  Scripting::Text* interface = static_cast<Scripting::Text*> (this);
+  Scripting::expose_object(vm, table_idx, interface, "Text", false);
+}
+
+void
+TextObject::unexpose(HSQUIRRELVM vm, int table_idx)
+{
+  Scripting::unexpose_object(vm, table_idx, "Text");
 }
 
 void

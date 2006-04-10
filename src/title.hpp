@@ -37,6 +37,7 @@ public:
   virtual ~TitleScreen();
 
   virtual void setup();
+  virtual void leave();
 
   virtual void draw(DrawingContext& context);
 

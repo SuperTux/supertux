@@ -1,8 +1,29 @@
+//  $Id: main.cpp 3275 2006-04-09 00:32:34Z sommer $
+// 
+//  SuperTux
+//  Copyright (C) 2005 Matthias Braun <matze@braunis.de>
+//
+//  This program is free software; you can redistribute it and/or
+//  modify it under the terms of the GNU General Public License
+//  as published by the Free Software Foundation; either version 2
+//  of the License, or (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+// 
+//  You should have received a copy of the GNU General Public License
+//  along with this program; if not, write to the Free Software
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  02111-1307, USA.
 #ifndef __FUNCTIONS_H__
 #define __FUNCTIONS_H__
 
 #ifndef SCRIPTING_API
 #define __suspend
+#define __custom
+#include <string>
 #include "player_status.hpp"
 #endif
 
@@ -16,25 +37,50 @@ static const int KEY_BRONZE = 0x004;
 static const int KEY_SILVER = 0x008;
 static const int KEY_GOLD   = 0x010;
 
-/** displays a text file and scrolls it over the screen */
+/**
+ * Display the value of the argument. This is usefull for inspecting tables.
+ */
+int display(HSQUIRRELVM vm) __custom;
+
+/**
+ * Display a text file and scrolls it over the screen (on next screenswitch)
+ */
 void display_text_file(const std::string& filename);
 
 /**
- * Suspends the script execution for the specified number of seconds
+ * Load and display a worldmap (on next screenswitch)
  */
-void wait(float seconds) __suspend;
+void load_worldmap(const std::string& filename);
 
-/** translates a give text into the users language (by looking it up in the .po
+/**
+ * Load and display a level (on next screenswitch)
+ */
+void load_level(const std::string& filename);
+
+/**
+ * Suspend the script execution for the specified number of seconds
+ */
+void wait(HSQUIRRELVM vm, float seconds) __suspend;
+
+/**
+ * Suspend the script execution until the current screen has been changed
+ */
+void wait_for_screenswitch(HSQUIRRELVM vm) __suspend;
+
+/**
+ * Translate a text into the users language (by looking it up in the .po
  * files)
  */
 std::string translate(const std::string& text);
 
-/** load a script file and executes it 
- * This is typically used to import functions from external files.
+/**
+ * Load a script file and executes it. This is typically used to import
+ * functions from external files.
  */
 void import(HSQUIRRELVM v, const std::string& filename);
 
-/** add a key to the inventory
+/**
+ * Add a key to the inventory
  */
 void add_key(int new_key);
 

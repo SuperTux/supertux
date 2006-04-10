@@ -27,7 +27,6 @@
 #include "audio/sound_manager.hpp"
 #include "object_factory.hpp"
 #include "sector.hpp"
-#include "scripting/script_interpreter.hpp"
 #include "msg.hpp"
 
 PowerUp::PowerUp(const lisp::Lisp& lisp)
@@ -70,8 +69,8 @@ PowerUp::collision(GameObject& other, const CollisionHit& hit)
   remove_me();
 
   if (script != "") {
-    ScriptInterpreter::add_script_object(Sector::current(), "powerup-script",
-        script);
+    std::istringstream stream(script);
+    Sector::current()->run_script(stream, "powerup-script");
     return ABORT_MOVE;
   }
 

@@ -30,6 +30,7 @@
 #include <stdexcept>
 
 #include "menu.hpp"
+#include "mainloop.hpp"
 #include "video/screen.hpp"
 #include "video/drawing_context.hpp"
 #include "gettext.hpp"
@@ -37,7 +38,6 @@
 #include "main.hpp"
 #include "resources.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
-#include "exceptions.hpp"
 
 static const int MENU_REPEAT_INITIAL = 400;
 static const int MENU_REPEAT_RATE = 200;
@@ -68,12 +68,13 @@ bool confirm_dialog(Surface *background, std::string text)
 
   DrawingContext context;
 
+  // TODO make this a screen and not another mainloop...
   while(true)
     {
       SDL_Event event;
       while (SDL_PollEvent(&event)) {
         if(event.type == SDL_QUIT)
-          throw graceful_shutdown();
+          main_loop->quit();
         main_controller->process_event(event);
         dialog->event(event);
       }

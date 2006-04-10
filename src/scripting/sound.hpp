@@ -16,9 +16,10 @@ public:
    */
   void play(const std::string& soundfile);
 
+  ~Sound();
+
 #ifndef SCRIPTING_API
   Sound();
-  ~Sound();
 #endif
 };
 

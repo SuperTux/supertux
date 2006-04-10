@@ -3,15 +3,20 @@
 
 #include "game_object.hpp"
 #include "scripting/text.hpp"
+#include "script_interface.hpp"
 
 class Font;
 
 /** A text object intended for scripts that want to tell a story */
-class TextObject : public GameObject, public Scripting::Text
+class TextObject : public GameObject, public Scripting::Text,
+                   public ScriptInterface
 {
 public:
   TextObject();
   virtual ~TextObject();
+
+  void expose(HSQUIRRELVM vm, int table_idx);
+  void unexpose(HSQUIRRELVM vm, int table_idx);
 
   void set_text(const std::string& text);
   void set_font(const std::string& name);

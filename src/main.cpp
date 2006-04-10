@@ -48,9 +48,12 @@
 #include "mainloop.hpp"
 #include "title.hpp"
 #include "game_session.hpp"
+#include "script_manager.hpp"
+#include "scripting/sound.hpp"
+#include "scripting/level.hpp"
+#include "scripting/wrapper_util.hpp"
 #include "file_system.hpp"
 #include "physfs/physfs_sdl.hpp"
-#include "exceptions.hpp"
 
 SDL_Surface* screen = 0;
 JoystickKeyboardController* main_controller = 0;
@@ -193,7 +196,7 @@ static void print_usage(const char* argv0)
             "\n"));
 }
 
-static void parse_commandline(int argc, char** argv)
+static bool parse_commandline(int argc, char** argv)
 {
   for(int i = 1; i < argc; ++i) {
     std::string arg = argv[i];
@@ -232,10 +235,10 @@ static void parse_commandline(int argc, char** argv)
       config->record_demo = argv[++i];
     } else if(arg == "--help") {
       print_usage(argv[0]);
-      throw graceful_shutdown();
+      return true;
     } else if(arg == "--version") {
       msg_info << PACKAGE_NAME << " " << PACKAGE_VERSION << std::endl;
-      throw graceful_shutdown();
+      return true;
     } else if(arg[0] != '-') {
       config->start_level = arg;
     } else {
@@ -243,7 +246,7 @@ static void parse_commandline(int argc, char** argv)
     }
   }
 
-  // TODO joystick switchyes...
+  return false;
 }
 
 static void init_sdl()
@@ -374,11 +377,22 @@ static void init_audio()
   sound_manager->enable_music(config->music_enabled);
 }
 
+static void init_scripting()
+{
+  script_manager = new ScriptManager();
+
+  HSQUIRRELVM vm = script_manager->get_global_vm();
+  sq_pushroottable(vm); 
+  expose_object(vm, -1, new Scripting::Sound(), "Sound", true);
+  expose_object(vm, -1, new Scripting::Level(), "Level", true);
+  sq_pop(vm, 1);
+}
+
 static void quit_audio()
 {
-  if(sound_manager) {
+  if(sound_manager != NULL) {
     delete sound_manager;
-    sound_manager = 0;
+    sound_manager = NULL;
   }
 }
 
@@ -395,7 +409,7 @@ void wait_for_event(float min_delay, float max_delay)
     sound_manager->update();
   }
 
-  // clear even queue
+  // clear event queue
   SDL_Event event;
   while (SDL_PollEvent(&event))
   {}
@@ -407,7 +421,8 @@ void wait_for_event(float min_delay, float max_delay)
     while(SDL_PollEvent(&event)) {
       switch(event.type) {
         case SDL_QUIT:
-          throw graceful_shutdown();
+          main_loop->quit();
+          break;
         case SDL_KEYDOWN:
         case SDL_JOYBUTTONDOWN:
         case SDL_MOUSEBUTTONDOWN:
@@ -455,11 +470,14 @@ int main(int argc, char** argv)
     timelog("tinygettext");
     init_tinygettext();
     timelog("commandline");
-    parse_commandline(argc, argv);
+    if(parse_commandline(argc, argv))
+      return 0;
     timelog("audio");
     init_audio();
     timelog("video");
     init_video();
+    timelog("scripting");
+    init_scripting();
 
     timelog("menu");
     setup_menu();
@@ -489,7 +507,6 @@ int main(int argc, char** argv)
 
     delete main_loop;
     main_loop = NULL;
-  } catch(graceful_shutdown& e) {
   } catch(std::exception& e) {
     msg_fatal << "Unexpected exception: " << e.what() << std::endl;
     return 1;
@@ -499,14 +516,20 @@ int main(int argc, char** argv)
   }
 
   free_menu();
+  delete script_manager;
+  script_manager = NULL;
+  printf("crashunloadshared?\n");
   unload_shared();
   quit_audio();
 
   if(config)
     config->save();
   delete config;
+  config = NULL;
   delete main_controller;
+  main_controller = NULL;
   delete texture_manager;
+  texture_manager = NULL;
   SDL_Quit();
   PHYSFS_deinit();
   

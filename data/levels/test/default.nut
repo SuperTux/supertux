@@ -1,4 +1,5 @@
 /* Default functions for the whole levelset */
+print("default.nut loaded\n");
 
 function intro()
 {  
@@ -7,13 +8,13 @@ function intro()
   RADIO.set_action("quiet");  
   PENNY.set_action("stand-left");
   NOLOK.set_visible(false);
-  local logo = FloatingImage("images/objects/logo/logo.sprite");
+  logo <- FloatingImage("images/objects/logo/logo.sprite");
   Tux.deactivate();
   Tux.set_visible(false);
-  DisplayEffect.sixteen_to_nine(0);
+  Effect.sixteen_to_nine(0);
   
   //begin scrolling sequence
-  DisplayEffect.fade_in(2);
+  Effect.fade_in(2);
   Camera.scroll_to(0, 945, 15);
   Sound.play("music/intro.ogg");
   wait(3);
@@ -53,7 +54,7 @@ function intro()
   //enter Nolok
   NOLOK.set_velocity(-220, 600);
   NOLOK.set_visible(true);
-  DisplayEffect.fade_out(1.3);
+  Effect.fade_out(1.3);
   wait(3);
 
   //darkness
@@ -63,7 +64,7 @@ function intro()
   SUPERTUX.set_pos(3550, SUPERTUX.get_pos_y());
 
   //wake up, Tux...
-  DisplayEffect.fade_in(4);
+  Effect.fade_in(4);
   wait(4);
   Sound.play("speech/tux_upset.ogg");
   wait(3);
@@ -76,7 +77,7 @@ function intro()
   wait(2);
   
   //end intro sequence
-  DisplayEffect.fade_out(2);
+  Effect.fade_out(2);
   wait(3);
   Level.finish(true);
 }
@@ -113,9 +114,9 @@ function intro_scene2()
   NOLOK.set_visible(false);
   Tux.deactivate();
   Tux.set_visible(false);
-  DisplayEffect.sixteen_to_nine(0);
+  Effect.sixteen_to_nine(0);
   Sound.play("music/nolok.ogg");
-  DisplayEffect.fade_in(5);
+  Effect.fade_in(5);
   wait(5);
   Camera.scroll_to(3100, 945, 8);
   NOLOK.set_visible(true);  

@@ -189,7 +189,11 @@
          (image "images/background/forest1.jpg")
          (speed 0.7)
        )
-       (init-script "level2_init();")
+       (init-script "
+          import(\"levels/world2/default.nut\");
+          import(\"script/default.nut\");
+          level2_init();
+        ")
        (secretarea (x 673.0)
                     (y 1090.0)
                     (width 24.0)

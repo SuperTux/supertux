@@ -25,6 +25,8 @@
 #include "lisp/lisp.hpp"
 #include "lisp/writer.hpp"
 #include "lisp/list_iterator.hpp"
+#include "scripting/camera.hpp"
+#include "scripting/wrapper_util.hpp"
 #include "camera.hpp"
 #include "player.hpp"
 #include "tilemap.hpp"
@@ -44,6 +46,19 @@ Camera::Camera(Sector* newsector)
 
 Camera::~Camera()
 {
+}
+
+void
+Camera::expose(HSQUIRRELVM vm, int table_idx)
+{
+  Scripting::Camera* interface = new Scripting::Camera(this);
+  expose_object(vm, table_idx, interface, "Camera", true);
+}
+
+void
+Camera::unexpose(HSQUIRRELVM vm, int table_idx)
+{
+  Scripting::unexpose_object(vm, table_idx, "Camera");
 }
 
 const Vector&

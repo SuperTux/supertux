@@ -1,4 +1,4 @@
-//  $Id$
+//  $Id: main.cpp 3275 2006-04-09 00:32:34Z sommer $
 // 
 //  SuperTux
 //  Copyright (C) 2005 Matthias Braun <matze@braunis.de>
@@ -17,17 +17,24 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
-#ifndef __EXCEPTIONS_H__
-#define __EXCEPTIONS_H__
+#ifndef __SCRIPT_INTERFACE_HPP__
+#define __SCRIPT_INTERFACE_HPP__
 
-#include <exception>
+#include <squirrel.h>
 
-/** Throw this exception to gracefully shut SuperTux down.
+/**
+ * Objects that want to expose themself to the scripting environment
+ * should implement this interface
  */
-class graceful_shutdown : public std::exception
+class ScriptInterface
 {
 public:
-  explicit graceful_shutdown() {};
+  virtual ~ScriptInterface()
+  {}
+  
+  virtual void expose(HSQUIRRELVM vm, int table_idx) = 0;
+  virtual void unexpose(HSQUIRRELVM vm, int table_idx) = 0;
 };
 
 #endif
+

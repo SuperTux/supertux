@@ -91,6 +91,10 @@ class Console
 
     static void addLine(std::string s); /**< display a line in the console */
     static void parse(std::string s); /**< react to a given command */
+    
+    /** execute squirrel script and output result */
+    static void execute_script(const std::string& s);
+    
     static bool consoleCommand(std::string command, std::vector<std::string> arguments); /**< process internal command; return false if command was unknown, true otherwise */
 
     friend class ConsoleStreamBuffer;
@@ -102,20 +106,25 @@ class ConsoleStreamBuffer : public std::stringbuf
   public:
     int sync() 
     {
+      int result = std::stringbuf::sync();
       Console::flush(this);
-      return std::stringbuf::sync();
+      return result;
     }
 };
 
 class ConsoleCommandReceiver
 {
-  public:
-    ConsoleCommandReceiver() {}
-    virtual bool consoleCommand(std::string command, std::vector<std::string> arguments) = 0; /**< callback from Console; return false if command was unknown, true otherwise */
-    virtual ~ConsoleCommandReceiver()
-    {
-      Console::unregisterCommands(this);
-    }
+public:
+  virtual ~ConsoleCommandReceiver()
+  {
+    Console::unregisterCommands(this);
+  }
+   
+  /**
+   * callback from Console; return false if command was unknown,
+   * true otherwise
+   */
+  virtual bool consoleCommand(std::string command, std::vector<std::string> arguments) = 0;
 };
 
 #endif

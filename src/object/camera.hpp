@@ -28,6 +28,7 @@
 #include "video/drawing_context.hpp"
 #include "serializable.hpp"
 #include "timer.hpp"
+#include "script_interface.hpp"
 
 namespace lisp {
 class Lisp;
@@ -37,7 +38,7 @@ class Sector;
 class Path;
 class PathWalker;
 
-class Camera : public GameObject, public Serializable
+class Camera : public GameObject, public Serializable, public ScriptInterface
 {
 public:
   Camera(Sector* sector);
@@ -59,6 +60,9 @@ public:
   virtual void draw(DrawingContext& )
   {
   }
+
+  virtual void expose(HSQUIRRELVM vm, int table_idx);
+  virtual void unexpose(HSQUIRRELVM vm, int table_idx);
 
   // shake camera in a direction 1 time
   void shake(float speed, float x, float y);

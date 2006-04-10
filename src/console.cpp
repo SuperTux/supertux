@@ -16,13 +16,16 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
 #include <config.h>
+
 #include <iostream>
 #include "console.hpp"
 #include "video/drawing_context.hpp"
 #include "video/surface.hpp"
+#include "scripting/squirrel_error.hpp"
+#include "scripting/wrapper_util.hpp"
 #include "player_status.hpp"
+#include "script_manager.hpp"
 #include "main.hpp"
 #include "resources.hpp"
 
@@ -61,6 +64,39 @@ Console::flush(ConsoleStreamBuffer* buffer)
       parse(s);
       inputBuffer.str(std::string());
     }
+  }
+}
+
+void
+Console::execute_script(const std::string& command)
+{
+  using namespace Scripting;
+
+  HSQUIRRELVM vm = script_manager->get_global_vm();
+
+  if(command == "")
+    return;
+  
+  int oldtop = sq_gettop(vm); 
+  try {
+    if(SQ_FAILED(sq_compilebuffer(vm, command.c_str(), command.length(),
+                 "", SQTrue)))
+      throw SquirrelError(vm, "Couldn't compile command");
+
+    sq_pushroottable(vm);
+    if(SQ_FAILED(sq_call(vm, 1, SQTrue)))
+      throw SquirrelError(vm, "Problem while executing command");
+
+    if(sq_gettype(vm, -1) != OT_NULL)
+      addLine(squirrel2string(vm, -1));
+  } catch(std::exception& e) {
+    addLine(e.what());
+  }
+  int newtop = sq_gettop(vm);
+  if(newtop < oldtop) {
+    msg_fatal << "Script destroyed squirrel stack..." << std::endl;
+  } else {
+    sq_settop(vm, oldtop);
   }
 }
 
@@ -150,7 +186,11 @@ Console::parse(std::string s)
   // look up registered ccr
   std::map<std::string, std::list<ConsoleCommandReceiver*> >::iterator i = commands.find(command);
   if ((i == commands.end()) || (i->second.size() == 0)) {
-    addLine("unknown command: \"" + command + "\"");
+    try {
+      execute_script(s);
+    } catch(std::exception& e) {
+      addLine(e.what());
+    }
     return;
   }
 

@@ -6,6 +6,7 @@
 #include "scripted_object.hpp"
 #include "video/drawing_context.hpp"
 #include "sprite/sprite_manager.hpp"
+#include "scripting/wrapper_util.hpp"
 #include "resources.hpp"
 #include "object_factory.hpp"
 #include "math/vector.hpp"
@@ -43,6 +44,19 @@ ScriptedObject::ScriptedObject(const lisp::Lisp& lisp)
 ScriptedObject::~ScriptedObject()
 {
   delete sprite;
+}
+
+void
+ScriptedObject::expose(HSQUIRRELVM vm, int table_idx)
+{
+  Scripting::ScriptedObject* interface = static_cast<Scripting::ScriptedObject*> (this);
+  expose_object(vm, table_idx, interface, name, false);
+}
+
+void
+ScriptedObject::unexpose(HSQUIRRELVM vm, int table_idx)
+{
+  Scripting::unexpose_object(vm, table_idx, name);
 }
 
 void

@@ -27,7 +27,8 @@
 #include "lisp/parser.hpp"
 #include "lisp/lisp.hpp"
 #include "physfs/physfs_stream.hpp"
-#include "scripting/script_interpreter.hpp"
+#include "script_manager.hpp"
+#include "scripting/wrapper_util.hpp"
 #include "msg.hpp"
 
 static bool has_suffix(const std::string& data, const std::string& suffix)
@@ -92,15 +93,11 @@ World::load(const std::string& filename)
 void
 World::run()
 {
-  try {
-    std::string filename = basedir + "/world.nut";
-    std::auto_ptr<ScriptInterpreter> interpeter (new ScriptInterpreter(basedir));
-    IFileStream in(filename);
-  
-    interpeter->run_script(in, filename, true);
-  } catch(std::exception& e) {
-    msg_warning << "Problem running world script: " << e.what() << std::endl;
-  }
+  std::string filename = basedir + "/world.nut";
+  IFileStream in(filename);
+
+  HSQUIRRELVM vm = script_manager->create_thread();
+  Scripting::compile_and_run(vm, in, filename);
 }
 
 const std::string&

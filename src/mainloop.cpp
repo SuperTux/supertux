@@ -26,9 +26,11 @@
 #include "control/joystickkeyboardcontroller.hpp"
 #include "gui/menu.hpp"
 #include "audio/sound_manager.hpp"
+#include "script_manager.hpp"
 #include "gameconfig.hpp"
 #include "main.hpp"
 #include "resources.hpp"
+#include "script_manager.hpp"
 #include "screen.hpp"
 #include "timer.hpp"
 
@@ -97,10 +99,13 @@ MainLoop::run()
   running = true;
   while(running) {
     if(next_screen.get() != NULL) {
-      if(nextpush)
+      if(nextpush && current_screen.get() != NULL) {
+        current_screen->leave();
         screen_stack.push_back(current_screen.release());
+      }
       
       next_screen->setup();
+      script_manager->fire_wakeup_event(ScriptManager::SCREEN_SWITCHED);
       current_screen.reset(next_screen.release());
       next_screen.reset(NULL);
       nextpush = false;
@@ -159,8 +164,9 @@ MainLoop::run()
     elapsed_time *= speed;
 
     game_time += elapsed_time;
+    script_manager->update();
     current_screen->update(elapsed_time);
-
+ 
     main_controller->update();
     SDL_Event event;
     while(SDL_PollEvent(&event)) {

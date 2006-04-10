@@ -29,7 +29,6 @@
 #include "lisp/lisp.hpp"
 #include "lisp/writer.hpp"
 #include "object_factory.hpp"
-#include "scripting/script_interpreter.hpp"
 #include "sector.hpp"
 
 ScriptTrigger::ScriptTrigger(const lisp::Lisp& reader)
@@ -87,8 +86,8 @@ ScriptTrigger::event(Player& , EventType type)
   if(type != triggerevent)
     return;
 
-  ScriptInterpreter::add_script_object(Sector::current(), "trigger - scritp",
-      script);
+  std::istringstream stream(script);
+  Sector::current()->run_script(stream, "ScriptTrigger");
 }
 
 IMPLEMENT_FACTORY(ScriptTrigger, "scripttrigger");
