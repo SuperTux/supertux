@@ -35,7 +35,7 @@
 #include <physfs.h>
 #include <SDL.h>
 #include <SDL_image.h>
-#include <SDL_opengl.h>
+#include <GL/gl.h>
 
 #include "gameconfig.hpp"
 #include "resources.hpp"
