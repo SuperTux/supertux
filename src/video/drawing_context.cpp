@@ -23,7 +23,6 @@
 #include <iostream>
 #include <SDL_image.h>
 #include <GL/gl.h>
-#include <GL/glu.h>
 
 #include "drawing_context.hpp"
 #include "surface.hpp"
