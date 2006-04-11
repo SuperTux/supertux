@@ -7,12 +7,12 @@ DEEPCOPY ?= "cp -R" ;
 
 # Experience seems to indicate that library scanning misbehaves on MacOS/X with
 # Jam 2.4, consequently we disable it.
-AR = "ar ru" ;
+MACLIBTOOL = "libtool" ;
 NOARUPDATE = true ;
 NOARSCAN = true ;
 actions Archive
 {
-  $(AR) $(<) $(>)
+  $(MACLIBTOOL) -static -o $(<) $(>)
 }
 
 #------------------------------------------------------------------------------
