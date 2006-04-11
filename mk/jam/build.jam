@@ -43,6 +43,8 @@ case mingw32* :
   include $(jamrulesdir)/win32.jam ;
 case apple-darwin :
   include $(jamrulesdir)/macosx.jam ;
+case darwin* :
+  include $(jamrulesdir)/macosx.jam ;
 case linux-gnu :
   include $(jamrulesdir)/unix.jam ;
 case * :

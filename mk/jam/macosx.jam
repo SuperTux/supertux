@@ -1,6 +1,7 @@
 #============================================================================
 # Jam configuration and actions for MacOS/X
 # Copyright (C) 2003 by Eric Sunshine <sunshine@sunshineco.com>
+# Copyright (C) 2006 by Ondrej Hosek <ondra.hosek@gmail.com>
 #============================================================================
 SHELL ?= "/bin/sh" ;
 DEEPCOPY ?= "cp -R" ;
