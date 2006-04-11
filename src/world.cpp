@@ -95,6 +95,10 @@ void
 World::run()
 {
   std::string filename = basedir + "/world.nut";
+  std::cout << filename << std::endl;
+  if (!PHYSFS_exists(filename.c_str()))
+    return;
+
   IFileStream in(filename);
 
   HSQUIRRELVM vm = script_manager->create_thread();
