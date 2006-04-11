@@ -151,6 +151,23 @@ WavSoundFile::read(void* buffer, size_t buffer_size)
   if(PHYSFS_read(file, buffer, readsize, 1) != 1)
     throw std::runtime_error("read error while reading samples");
 
+#ifdef WORDS_BIGENDIAN
+  if (bits_per_sample != 16)
+    return readsize;
+  char *tmp = (char*)buffer;
+
+  size_t i;
+  char c;
+  for (i = 0; i < readsize / 2; i++)
+  {
+    c          = tmp[2*i];
+    tmp[2*i]   = tmp[2*i+1];
+    tmp[2*i+1] = c;
+  }
+
+  buffer = tmp;
+#endif
+
   return readsize;
 }
 
@@ -203,8 +220,13 @@ OggSoundFile::read(void* _buffer, size_t buffer_size)
 
   while(buffer_size>0){
     long bytesRead 
-      = ov_read(&vorbis_file, buffer, static_cast<int> (buffer_size), 0, 2, 1,
-          &section);
+      = ov_read(&vorbis_file, buffer, static_cast<int> (buffer_size),
+#ifdef WORDS_BIGENDIAN
+1,
+#else
+0,
+#endif
+          2, 1, &section);
     if(bytesRead==0){
       break;
     }
