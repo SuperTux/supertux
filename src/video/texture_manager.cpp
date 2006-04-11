@@ -148,19 +148,19 @@ TextureManager::save_texture(Texture* texture)
   saved_texture.texture = texture;
   glBindTexture(GL_TEXTURE_2D, texture->get_handle());
   glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH,
-                           (GLint*)&saved_texture.width);
+                           &saved_texture.width);
   glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT,
-                           (GLint*)&saved_texture.height);
+                           &saved_texture.height);
   glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_BORDER,
-                           (GLint*)&saved_texture.border);
+                           &saved_texture.border);
   glGetTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
-                      (GLint*)&saved_texture.min_filter);
+                      &saved_texture.min_filter);
   glGetTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,
-                      (GLint*)&saved_texture.mag_filter);
+                      &saved_texture.mag_filter);
   glGetTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,
-                      (GLint*)&saved_texture.wrap_s);
+                      &saved_texture.wrap_s);
   glGetTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,
-                      (GLint*)&saved_texture.wrap_t);
+                      &saved_texture.wrap_t);
 
   size_t pixelssize = saved_texture.width * saved_texture.height * 4;
   saved_texture.pixels = new char[pixelssize];
@@ -173,7 +173,7 @@ TextureManager::save_texture(Texture* texture)
   glDeleteTextures(1, &(texture->handle));
   texture->handle = 0;
 
-  assert_gl("retrieving texture");
+  assert_gl("retrieving texture for save");
 }
 
 void

@@ -39,15 +39,15 @@ private:
   struct SavedTexture
   {
     Texture* texture;
-    int width;
-    int height;
+    GLint width;
+    GLint height;
     char* pixels;
-    int border;                              
+    GLint border;                              
 
-    int min_filter;
-    int mag_filter;
-    int wrap_s;
-    int wrap_t;
+    GLint min_filter;
+    GLint mag_filter;
+    GLint wrap_s;
+    GLint wrap_t;
   };
   std::vector<SavedTexture> saved_textures;
 
