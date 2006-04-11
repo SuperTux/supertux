@@ -163,6 +163,8 @@ TitleScreen::check_levels_contrib_menu()
   if(!world.is_levelset) {
     // TODO fade out
     world.run();
+    world.set_savegame_filename("save/test.save");
+    world.save();
   }
 
   if (current_world != index) {
@@ -265,16 +267,8 @@ TitleScreen::TitleScreen()
   controller.reset(new CodeController());
   titlesession.reset(new GameSession("levels/misc/menu.stl", ST_GL_DEMO_GAME));
 
-  // delete contrib_world_menu;
-  // contrib_world_menu = new Menu();
-
-  titlesession->get_current_sector()->activate("main");
-  titlesession->set_current();
-
   Player* player = titlesession->get_current_sector()->player;
   player->set_controller(controller.get());
-
-  Menu::set_current(main_menu); 
 }
 
 TitleScreen::~TitleScreen()
@@ -287,8 +281,10 @@ TitleScreen::setup()
   player_status->reset();
 
   Sector* sector = titlesession->get_current_sector();
-  sector->play_music(LEVEL_MUSIC);
-  sector->activate(sector->player->get_pos());
+  if(Sector::current() != sector) {
+    sector->play_music(LEVEL_MUSIC);
+    sector->activate(sector->player->get_pos());
+  }
 
   Menu::set_current(main_menu);
 }
@@ -357,8 +353,6 @@ TitleScreen::update(float elapsed_time)
           main_loop->quit();
           break;
       }
-    } else if(menu == options_menu) {
-      process_options_menu();
     } else if(menu == load_game_menu.get()) {
       /*
       if(event.key.keysym.sym == SDLK_DELETE) {

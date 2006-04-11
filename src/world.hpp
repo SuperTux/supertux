@@ -1,7 +1,7 @@
-//  $Id: worldmap.hpp 2800 2005-10-02 22:57:31Z matzebraun $
+//  $Id$
 // 
 //  SuperTux
-//  Copyright (C) 2004 Ingo Ruhnke <grumbel@gmx.de>
+//  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -21,18 +21,26 @@
 
 #include <vector>
 #include <string>
+#include <squirrel.h>
 
 class World
 {
 private:
   std::vector<std::string> levels;
   std::string basedir;
+  std::string savegame_filename;
+  /// squirrel table that saves persistent state (about the world)
+  HSQOBJECT state_table;
 
 public:
   World();
   ~World();
 
+  void set_savegame_filename(const std::string& filename);
   void load(const std::string& filename);
+
+  void save();
+  void load();
   
   const std::string& get_level_filename(unsigned int i) const;
   unsigned int get_num_levels() const;

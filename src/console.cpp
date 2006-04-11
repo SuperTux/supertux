@@ -72,7 +72,7 @@ Console::execute_script(const std::string& command)
 {
   using namespace Scripting;
 
-  HSQUIRRELVM vm = script_manager->get_global_vm();
+  HSQUIRRELVM vm = ScriptManager::instance->get_vm();
 
   if(command == "")
     return;

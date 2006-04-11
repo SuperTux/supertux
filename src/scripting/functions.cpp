@@ -50,11 +50,15 @@ int display(HSQUIRRELVM vm)
 
 void wait(HSQUIRRELVM vm, float seconds)
 {
+  SQUserPointer ptr = sq_getforeignptr(vm);
+  ScriptManager* script_manager = reinterpret_cast<ScriptManager*> (ptr);
   script_manager->set_wakeup_event(vm, ScriptManager::TIME, seconds);
 }
 
 void wait_for_screenswitch(HSQUIRRELVM vm)
 {
+  SQUserPointer ptr = sq_getforeignptr(vm);
+  ScriptManager* script_manager = reinterpret_cast<ScriptManager*> (ptr);
   script_manager->set_wakeup_event(vm, ScriptManager::SCREEN_SWITCHED);
 }
 

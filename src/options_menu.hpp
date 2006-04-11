@@ -1,7 +1,5 @@
 //  $Id$
-//
-//  SuperTux -  A Jump'n Run
-//  Copyright (C) 2003 Tobias Glaesser <tobi.web@gmx.de>
+//  Copyright (C) 2004 Tobas Glaesser <tobi.web@gmx.de>
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -12,37 +10,15 @@
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
-//
+// 
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-#ifndef SUPERTUX_RESOURCES_H
-#define SUPERTUX_RESOURCES_H
+#ifndef __OPTIONS_MENU_HPP__
+#define __OPTIONS_MENU_HPP__
 
-class SpriteManager;
 class Menu;
-class Font;
-class Surface;
-class SoundManager;
-class TileManager;
-class MouseCursor;
-
-extern SpriteManager* sprite_manager;
-extern TileManager* tile_manager;
-
-extern Menu* main_menu;
-extern Menu* game_menu;
-
-extern MouseCursor* mouse_cursor;
-
-extern Font* gold_text;
-extern Font* white_text;
-extern Font* blue_text;
-extern Font* gray_text;
-extern Font* white_small_text;
-extern Font* white_big_text;
-
-void load_shared();
-void unload_shared();
+Menu* get_options_menu();
+void free_options_menu();
 
 #endif

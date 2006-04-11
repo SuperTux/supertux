@@ -748,8 +748,6 @@ WorldMap::update(float delta)
           main_loop->exit_screen();
           break;
       }
-    } else if(menu == options_menu) {
-      process_options_menu();
     }
 
     return;

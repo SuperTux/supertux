@@ -379,9 +379,9 @@ static void init_audio()
 
 static void init_scripting()
 {
-  script_manager = new ScriptManager();
+  ScriptManager::instance = new ScriptManager();
 
-  HSQUIRRELVM vm = script_manager->get_global_vm();
+  HSQUIRRELVM vm = ScriptManager::instance->get_vm();
   sq_pushroottable(vm); 
   expose_object(vm, -1, new Scripting::Sound(), "Sound", true);
   expose_object(vm, -1, new Scripting::Level(), "Level", true);
@@ -516,9 +516,8 @@ int main(int argc, char** argv)
   }
 
   free_menu();
-  delete script_manager;
-  script_manager = NULL;
-  printf("crashunloadshared?\n");
+  delete ScriptManager::instance;
+  ScriptManager::instance = NULL;
   unload_shared();
   quit_audio();
 

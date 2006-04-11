@@ -122,9 +122,9 @@ void
 Player::init()
 {
   if(is_big())
-    bbox.set_size(31.8, 63.8);
+    bbox.set_size(31.8, 62.8);
   else
-    bbox.set_size(31.8, 31.8);
+    bbox.set_size(31.8, 30.8);
   adjust_height = 0;
 
   dir = RIGHT;
@@ -540,7 +540,7 @@ Player::set_bonus(BonusType type, bool animate)
     return;
   
   if(player_status->bonus == NO_BONUS) {
-    adjust_height = 63.8;
+    adjust_height = 62.8;
     if(animate)
       growing_timer.start(GROWING_TIME);
   }
@@ -849,7 +849,7 @@ Player::kill(HurtMode mode)
         {
           //growing_timer.start(GROWING_TIME);
           safe_timer.start(TUX_SAFE_TIME /* + GROWING_TIME */);
-          adjust_height = 31.8;
+          adjust_height = 30.8;
           duck = false;
           player_status->bonus = NO_BONUS;
         }

@@ -26,15 +26,6 @@ enum MainMenuIDs {
   MNID_QUITMAINMENU
 };
 
-enum OptionsMenuIDs {
-  MNID_FULLSCREEN,
-  MNID_SOUND,
-  MNID_MUSIC
-};
-
-/* Handle changes made to global settings in the options menu. */
-void process_options_menu();
-
 /* Create and setup menus. */
 void setup_menu();
 void free_menu();

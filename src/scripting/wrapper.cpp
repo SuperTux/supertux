@@ -1822,7 +1822,6 @@ void register_supertux_wrapper(HSQUIRRELVM v)
 {
   using namespace Wrapper;
 
-  sq_pushroottable(v);
   sq_pushstring(v, "KEY_BRASS", -1);
   sq_pushinteger(v, 1);
   if(SQ_FAILED(sq_createslot(v, -3))) {
@@ -2343,7 +2342,6 @@ void register_supertux_wrapper(HSQUIRRELVM v)
     throw SquirrelError(v, "Couldn't register class 'FloatingImage'");
   }
 
-  sq_pop(v, 1);
 }
 
 } // end of namespace Scripting

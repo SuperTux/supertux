@@ -11,15 +11,13 @@
 #include "floating_image.hpp"
 
 FloatingImage::FloatingImage(const std::string& spritefile) 
-  : sprite(NULL), layer(LAYER_FOREGROUND1 + 1), visible(false),
-    anchor(ANCHOR_MIDDLE)
+  : layer(LAYER_FOREGROUND1 + 1), visible(false), anchor(ANCHOR_MIDDLE)
 {
-  sprite = sprite_manager->create(spritefile);
+  sprite.reset(sprite_manager->create(spritefile));
 }
 
 FloatingImage::~FloatingImage()
 {
-  delete sprite;
 }
 
 void

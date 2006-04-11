@@ -26,7 +26,6 @@
 #include "control/joystickkeyboardcontroller.hpp"
 #include "gui/menu.hpp"
 #include "audio/sound_manager.hpp"
-#include "script_manager.hpp"
 #include "gameconfig.hpp"
 #include "main.hpp"
 #include "resources.hpp"
@@ -105,7 +104,7 @@ MainLoop::run()
       }
       
       next_screen->setup();
-      script_manager->fire_wakeup_event(ScriptManager::SCREEN_SWITCHED);
+      ScriptManager::instance->fire_wakeup_event(ScriptManager::SCREEN_SWITCHED);
       current_screen.reset(next_screen.release());
       next_screen.reset(NULL);
       nextpush = false;
@@ -164,7 +163,7 @@ MainLoop::run()
     elapsed_time *= speed;
 
     game_time += elapsed_time;
-    script_manager->update();
+    ScriptManager::instance->update();
     current_screen->update(elapsed_time);
  
     main_controller->update();

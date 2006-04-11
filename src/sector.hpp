@@ -21,9 +21,11 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 #include <squirrel.h>
 
 #include "direction.hpp"
+#include "script_manager.hpp"
 #include "math/vector.hpp"
 #include "video/drawing_context.hpp"
 
@@ -50,8 +52,9 @@ enum MusicType {
   HERRING_MUSIC
 };
 
-/** This class holds a sector (a part of a level) and all the game objects
- * (badguys, player, background, tilemap, ...)
+/**
+ * This class holds a sector (a part of a level) and all the game objects in
+ * the sector
  */
 class Sector
 {
@@ -160,9 +163,11 @@ private:
  
   MusicType currentmusic;
 
-  CollisionGrid* grid;
+  std::auto_ptr<CollisionGrid> grid;
 
   HSQOBJECT sector_table;
+  /// sector scripts
+  std::auto_ptr<ScriptManager> script_manager;
 
 public: // TODO make this private again
   GameObjects gameobjects;

@@ -112,40 +112,28 @@ void load_shared()
 /* Free shared data: */
 void unload_shared()
 {
-  printf("0\n");
-  
   /* Free global images: */
   delete gold_text;
-  printf("first\n");
   delete white_text;
   delete blue_text;
   delete gray_text;
   delete white_small_text;
-  printf("last\n");
   delete white_big_text;
 
-  printf("1\n");
-  
   delete small_tux;
   delete big_tux;
   delete fire_tux;
   delete ice_tux;
-
-  printf("2\n");
 
   for (int i = 0; i < GROWING_FRAMES; i++) {
     delete growingtux_left[i];
     delete growingtux_right[i];
   }
 
-  printf("3\n");
-
   delete sprite_manager;
   sprite_manager = 0;
   delete tile_manager;
   tile_manager = 0;
-
-  printf("4\n");
 
   /* Free mouse-cursor */
   delete mouse_cursor;

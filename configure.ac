@@ -26,6 +26,11 @@ CXXFLAGS="$CXXFLAGS -ffast-math"
 AC_PROG_CC
 AC_PROG_CXX
 AC_PROG_INSTALL
+AC_PATH_PROG(AR, ar)
+if test "$AR" = "" ; then
+  AC_MSG_ERROR([Couldn't find ar])
+fi
+AR="$AR ru"
 
 AC_C_BIGENDIAN
 

@@ -30,6 +30,7 @@
 #include "physfs/physfs_stream.hpp"
 #include "script_manager.hpp"
 #include "scripting/wrapper_util.hpp"
+#include "scripting/serialize.hpp"
 #include "msg.hpp"
 
 static bool has_suffix(const std::string& data, const std::string& suffix)
@@ -48,6 +49,12 @@ World::World()
 
 World::~World()
 {
+}
+
+void
+World::set_savegame_filename(const std::string& filename)
+{
+  this->savegame_filename = filename;
 }
 
 void
@@ -94,15 +101,47 @@ World::load(const std::string& filename)
 void
 World::run()
 {
-  std::string filename = basedir + "/world.nut";
-  std::cout << filename << std::endl;
-  if (!PHYSFS_exists(filename.c_str()))
-    return;
+  // create new squirrel table for persisten game state
+  HSQUIRRELVM vm = ScriptManager::instance->get_vm();
 
+  sq_pushroottable(vm);
+  sq_pushstring(vm, "state", -1);
+  sq_newtable(vm);
+  if(SQ_FAILED(sq_createslot(vm, -3)))
+    throw Scripting::SquirrelError(vm, "Couldn't create state table");
+  sq_pop(vm, 1);
+  
+  std::string filename = basedir + "/world.nut";
   IFileStream in(filename);
 
-  HSQUIRRELVM vm = script_manager->create_thread();
-  Scripting::compile_and_run(vm, in, filename);
+  HSQUIRRELVM new_vm = ScriptManager::instance->create_thread();
+  Scripting::compile_and_run(new_vm, in, filename);
+}
+
+void
+World::save()
+{
+  lisp::Writer writer(savegame_filename);
+
+  writer.start_list("supertux-savegame");
+  writer.write_int("version", 1);
+
+  writer.start_list("tux");
+  player_status->write(writer);
+  writer.end_list("tux");
+
+  writer.start_list("state");
+  HSQUIRRELVM vm = ScriptManager::instance->get_vm();
+  sq_pushroottable(vm);
+  sq_pushstring(vm, "state", -1);
+  if(SQ_SUCCEEDED(sq_get(vm, -2))) {
+    Scripting::save_squirrel_table(vm, -1, writer);
+    sq_pop(vm, 1);
+  }
+  sq_pop(vm, 1);
+  writer.end_list("state");
+  
+  writer.end_list("supertux-savegame");
 }
 
 const std::string&

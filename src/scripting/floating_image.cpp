@@ -9,6 +9,7 @@ namespace Scripting
 
 FloatingImage::FloatingImage(const std::string& spritefile)
 {
+  assert(Sector::current() != NULL);
   floating_image = new _FloatingImage(spritefile); 
   Sector::current()->add_object(floating_image);
 }

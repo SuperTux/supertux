@@ -4,6 +4,7 @@
 #include "game_object.hpp"
 #include "math/vector.hpp"
 #include "anchor_point.hpp"
+#include <memory>
 
 class Sprite;
 
@@ -46,7 +47,7 @@ public:
   void draw(DrawingContext& context);
 
 private:
-  Sprite* sprite;
+  std::auto_ptr<Sprite> sprite;
   int layer;
   bool visible;
   AnchorPoint anchor;

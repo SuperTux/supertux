@@ -100,15 +100,13 @@ WrapperCreator::create_wrapper(Namespace* ns)
     out << "void register_" << modulename << "_wrapper(HSQUIRRELVM v)\n"
         << "{\n"
         << ind << "using namespace Wrapper;\n"
-        << "\n"
-        << ind << "sq_pushroottable(v);\n";
+        << "\n";
 
     create_register_constants_code(ns);
     create_register_functions_code(ns);
     create_register_classes_code(ns);
 
-    out << ind << "sq_pop(v, 1);\n"
-        << "}\n"
+    out << "}\n"
         << "\n"
         << "} // end of namespace Scripting\n"
         << "\n";

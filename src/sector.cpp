@@ -76,13 +76,13 @@ Sector::Sector()
   add_object(new TextObject());
 
 #ifdef USE_GRID
-  grid = new CollisionGrid(32000, 32000);
-#else
-  grid = 0;
+  grid.reset(new CollisionGrid(32000, 32000));
 #endif
 
+  script_manager.reset(new ScriptManager(ScriptManager::instance));
+
   // create a new squirrel table for the sector
-  HSQUIRRELVM vm = script_manager->get_global_vm();
+  HSQUIRRELVM vm = ScriptManager::instance->get_vm();
   
   sq_newtable(vm);
   sq_pushroottable(vm);
@@ -98,12 +98,13 @@ Sector::Sector()
 
 Sector::~Sector()
 {
+  deactivate();
+  
+  script_manager.reset(NULL);
+  sq_release(ScriptManager::instance->get_vm(), &sector_table);
+ 
   update_game_objects();
   assert(gameobjects_new.size() == 0);
-
-  deactivate();
-
-  delete grid;
 
   for(GameObjects::iterator i = gameobjects.begin(); i != gameobjects.end();
       ++i) {
@@ -114,8 +115,6 @@ Sector::~Sector()
   for(SpawnPoints::iterator i = spawnpoints.begin(); i != spawnpoints.end();
       ++i)
     delete *i;
-
-  sq_release(script_manager->get_global_vm(), &sector_table);
 }
 
 GameObject*
@@ -390,9 +389,13 @@ Sector::write(lisp::Writer& writer)
 HSQUIRRELVM
 Sector::run_script(std::istream& in, const std::string& sourcename)
 {
+  // create new thread and keep a weakref
   HSQUIRRELVM vm = script_manager->create_thread();
+
+  // set sector_table as roottable for the thread
   sq_pushobject(vm, sector_table);
   sq_setroottable(vm);
+
   Scripting::compile_and_run(vm, in, sourcename);
 
   return vm;
@@ -452,12 +455,12 @@ Sector::activate(const Vector& player_pos)
     _current = this;
 
     // register sectortable as current_sector in scripting
-    HSQUIRRELVM vm = script_manager->get_global_vm();
+    HSQUIRRELVM vm = ScriptManager::instance->get_vm();
     sq_pushroottable(vm);
-    sq_pushstring(vm, "current_sector", -1);
+    sq_pushstring(vm, "sector", -1);
     sq_pushobject(vm, sector_table);
     if(SQ_FAILED(sq_createslot(vm, -3)))
-      throw Scripting::SquirrelError(vm, "Couldn't set current_sector in roottable");
+      throw Scripting::SquirrelError(vm, "Couldn't set sector in roottable");
     sq_pop(vm, 1);
 
     for(GameObjects::iterator i = gameobjects.begin();
@@ -484,11 +487,12 @@ Sector::deactivate()
   if(_current != this)
     return;
 
-  HSQUIRRELVM vm = script_manager->get_global_vm();
+  // remove sector entry from global vm
+  HSQUIRRELVM vm = ScriptManager::instance->get_vm();
   sq_pushroottable(vm);
-  sq_pushstring(vm, "current_sector", -1);
+  sq_pushstring(vm, "sector", -1);
   if(SQ_FAILED(sq_deleteslot(vm, -2, SQFalse)))
-    throw Scripting::SquirrelError(vm, "Couldn't unset current_sector in roottable");
+    throw Scripting::SquirrelError(vm, "Couldn't unset sector in roottable");
   sq_pop(vm, 1);
   
   for(GameObjects::iterator i = gameobjects.begin();
@@ -512,6 +516,8 @@ Sector::get_active_region()
 void
 Sector::update(float elapsed_time)
 {
+  script_manager->update();
+
   player->check_bounds(camera);
 
 #if 0
@@ -649,7 +655,7 @@ Sector::try_expose(GameObject* object)
 {
   ScriptInterface* interface = dynamic_cast<ScriptInterface*> (object);
   if(interface != NULL) {
-    HSQUIRRELVM vm = script_manager->get_global_vm();
+    HSQUIRRELVM vm = script_manager->get_vm();
     sq_pushobject(vm, sector_table);
     interface->expose(vm, -1);
     sq_pop(vm, 1);
@@ -668,7 +674,7 @@ Sector::try_unexpose(GameObject* object)
 {
   ScriptInterface* interface = dynamic_cast<ScriptInterface*> (object);
   if(interface != NULL) {
-    HSQUIRRELVM vm = script_manager->get_global_vm();
+    HSQUIRRELVM vm = script_manager->get_vm();
     sq_pushobject(vm, sector_table);
     interface->unexpose(vm, -1);
     sq_pop(vm, 1);

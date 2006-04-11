@@ -37,6 +37,7 @@ class ScriptManager
 {
 public:
   ScriptManager();
+  ScriptManager(ScriptManager* parent);
   ~ScriptManager();
 
   void update();
@@ -45,11 +46,11 @@ public:
    * Creates a new thread and registers it with the script manager
    * (so it can suspend and register for wakeup events)
    */
-  HSQUIRRELVM create_thread();
+  HSQUIRRELVM create_thread(bool leave_thread_on_stack = false);
 
-  HSQUIRRELVM get_global_vm() const
+  HSQUIRRELVM get_vm() const
   {
-    return v;
+    return vm;
   }
 
   enum WakeupEvent {
@@ -75,6 +76,9 @@ public:
   void set_wakeup_event(HSQUIRRELVM vm, WakeupData  event, float timeout = -1);
   void fire_wakeup_event(WakeupEvent event);
   void fire_wakeup_event(WakeupData  event);
+
+  // global (root) instance of the ScriptManager
+  static ScriptManager* instance;
   
 private:
   class SquirrelVM
@@ -91,10 +95,10 @@ private:
   typedef std::list<SquirrelVM> SquirrelVMs;
   SquirrelVMs squirrel_vms;
 
-  HSQUIRRELVM v;
+  HSQUIRRELVM vm;
+  ScriptManager* parent;
+  std::vector<ScriptManager*> childs;
 };
-
-extern ScriptManager* script_manager;
 
 #endif
 
