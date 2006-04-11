@@ -125,6 +125,10 @@ public:
 
   Rect get_active_region();
 
+  typedef std::vector<GameObject*> GameObjects;
+  typedef std::vector<MovingObject*> MovingObjects;
+  typedef std::vector<SpawnPoint*> SpawnPoints;
+
 private:
   uint32_t collision_tile_attributes(const Rect& dest) const;
 
@@ -145,10 +149,6 @@ private:
   GameObject* parse_object(const std::string& name, const lisp::Lisp& lisp);
 
   void fix_old_tiles();
-
-  typedef std::vector<GameObject*> GameObjects;
-  typedef std::vector<MovingObject*> MovingObjects;
-  typedef std::vector<SpawnPoint*> SpawnPoints;
 
   static Sector* _current;
   
