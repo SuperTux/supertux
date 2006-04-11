@@ -32,8 +32,10 @@
 #
 #  patch -p1 < contrib/supertux-nogl.diff
 #
+#  This patch works for revision 3294. It may break for later revisions.
+#
 # -----------------------------------------------------------------------------
-diff -Naur -x .svn -x build -x doxygen supertux/INSTALL supertux-nogl/INSTALL
+diff -Naur supertux/INSTALL supertux-nogl/INSTALL
 --- supertux/INSTALL	2006-03-03 21:49:07.000000000 +0100
 +++ supertux-nogl/INSTALL	2006-04-07 04:13:00.000000000 +0200
 @@ -1,7 +1,7 @@
@@ -66,7 +68,7 @@ diff -Naur -x .svn -x build -x doxygen supertux/INSTALL supertux-nogl/INSTALL
  * PhysicsFS (1.0.0, the development branch 1.1.x is buggy and does not work,
               1.2.0 and later should work when it is released)
      http://www.icculus.org/physfs
-diff -Naur -x .svn -x build -x doxygen supertux/README supertux-nogl/README
+diff -Naur supertux/README supertux-nogl/README
 --- supertux/README	2006-03-03 20:43:38.000000000 +0100
 +++ supertux-nogl/README	2006-04-07 04:13:00.000000000 +0200
 @@ -2,7 +2,7 @@
@@ -92,7 +94,7 @@ diff -Naur -x .svn -x build -x doxygen supertux/README supertux-nogl/README
  
  
  PLAYING THE GAME
-diff -Naur -x .svn -x build -x doxygen supertux/configure.ac supertux-nogl/configure.ac
+diff -Naur supertux/configure.ac supertux-nogl/configure.ac
 --- supertux/configure.ac	2006-03-03 20:43:38.000000000 +0100
 +++ supertux-nogl/configure.ac	2006-04-07 04:13:00.000000000 +0200
 @@ -11,7 +11,7 @@
@@ -131,7 +133,7 @@ diff -Naur -x .svn -x build -x doxygen supertux/configure.ac supertux-nogl/confi
  dnl Checks for library functions.
  AC_CHECK_FUNCS(mkdir strdup strstr)
  
-diff -Naur -x .svn -x build -x doxygen supertux/src/Jamfile supertux-nogl/src/Jamfile
+diff -Naur supertux/src/Jamfile supertux-nogl/src/Jamfile
 --- supertux/src/Jamfile	2006-03-03 20:34:49.000000000 +0100
 +++ supertux-nogl/src/Jamfile	2006-04-07 04:11:50.000000000 +0200
 @@ -24,7 +24,7 @@
@@ -143,7 +145,7 @@ diff -Naur -x .svn -x build -x doxygen supertux/src/Jamfile supertux-nogl/src/Ja
  Help supertux : "Build the supertux executable" ;
  IncludeDir supertux : squirrel/include ;
  
-diff -Naur -x .svn -x build -x doxygen supertux/src/main.cpp supertux-nogl/src/main.cpp
+diff -Naur supertux/src/main.cpp supertux-nogl/src/main.cpp
 --- supertux/src/main.cpp	2006-04-07 03:32:14.000000000 +0200
 +++ supertux-nogl/src/main.cpp	2006-04-07 04:11:50.000000000 +0200
 @@ -35,7 +35,6 @@
@@ -233,7 +235,7 @@ diff -Naur -x .svn -x build -x doxygen supertux/src/main.cpp supertux-nogl/src/m
    if(texture_manager != NULL)
      texture_manager->reload_textures();
    else
-diff -Naur -x .svn -x build -x doxygen supertux/src/video/drawing_context.cpp supertux-nogl/src/video/drawing_context.cpp
+diff -Naur supertux/src/video/drawing_context.cpp supertux-nogl/src/video/drawing_context.cpp
 --- supertux/src/video/drawing_context.cpp	2006-03-31 04:18:01.000000000 +0200
 +++ supertux-nogl/src/video/drawing_context.cpp	2006-04-07 04:11:49.000000000 +0200
 @@ -22,8 +22,6 @@
@@ -493,7 +495,7 @@ diff -Naur -x .svn -x build -x doxygen supertux/src/video/drawing_context.cpp su
 -    requests = &drawing_requests;
  }
  
-diff -Naur -x .svn -x build -x doxygen supertux/src/video/drawing_context.hpp supertux-nogl/src/video/drawing_context.hpp
+diff -Naur supertux/src/video/drawing_context.hpp supertux-nogl/src/video/drawing_context.hpp
 --- supertux/src/video/drawing_context.hpp	2006-03-03 20:34:27.000000000 +0100
 +++ supertux-nogl/src/video/drawing_context.hpp	2006-04-07 04:11:49.000000000 +0200
 @@ -23,7 +23,6 @@
@@ -532,10 +534,10 @@ diff -Naur -x .svn -x build -x doxygen supertux/src/video/drawing_context.hpp su
  };
  
  #endif
-diff -Naur -x .svn -x build -x doxygen supertux/src/video/glutil.hpp supertux-nogl/src/video/glutil.hpp
+diff -Naur supertux/src/video/glutil.hpp supertux-nogl/src/video/glutil.hpp
 --- supertux/src/video/glutil.hpp	2006-03-21 16:13:11.000000000 +0100
 +++ supertux-nogl/src/video/glutil.hpp	2006-04-07 04:11:49.000000000 +0200
-@@ -21,45 +21,13 @@
+@@ -21,45 +21,14 @@
  
  #include <sstream>
  #include <stdexcept>
@@ -579,6 +581,7 @@ diff -Naur -x .svn -x build -x doxygen supertux/src/video/glutil.hpp supertux-no
 -#endif
 -}
 +#define GLenum int
++#define GLint int
 +#define GL_SRC_ALPHA 0
 +#define GL_ONE_MINUS_SRC_ALPHA 1
 +#define GL_RGBA 2
@@ -587,7 +590,7 @@ diff -Naur -x .svn -x build -x doxygen supertux/src/video/glutil.hpp supertux-no
  
  #endif
  
-diff -Naur -x .svn -x build -x doxygen supertux/src/video/screen.cpp supertux-nogl/src/video/screen.cpp
+diff -Naur supertux/src/video/screen.cpp supertux-nogl/src/video/screen.cpp
 --- supertux/src/video/screen.cpp	2006-04-07 03:32:13.000000000 +0200
 +++ supertux-nogl/src/video/screen.cpp	2006-04-07 04:11:49.000000000 +0200
 @@ -38,61 +38,70 @@
@@ -719,7 +722,7 @@ diff -Naur -x .svn -x build -x doxygen supertux/src/video/screen.cpp supertux-no
    }
  }
 -
-diff -Naur -x .svn -x build -x doxygen supertux/src/video/screen.hpp supertux-nogl/src/video/screen.hpp
+diff -Naur supertux/src/video/screen.hpp supertux-nogl/src/video/screen.hpp
 --- supertux/src/video/screen.hpp	2006-04-07 03:32:13.000000000 +0200
 +++ supertux-nogl/src/video/screen.hpp	2006-04-07 04:11:49.000000000 +0200
 @@ -20,7 +20,6 @@
@@ -730,7 +733,7 @@ diff -Naur -x .svn -x build -x doxygen supertux/src/video/screen.hpp supertux-no
  #include <iostream>
  
  #include <vector>
-diff -Naur -x .svn -x build -x doxygen supertux/src/video/surface.cpp supertux-nogl/src/video/surface.cpp
+diff -Naur supertux/src/video/surface.cpp supertux-nogl/src/video/surface.cpp
 --- supertux/src/video/surface.cpp	2006-03-25 01:16:31.000000000 +0100
 +++ supertux-nogl/src/video/surface.cpp	2006-04-07 04:11:49.000000000 +0200
 @@ -28,6 +29,7 @@
@@ -945,7 +948,7 @@ diff -Naur -x .svn -x build -x doxygen supertux/src/video/surface.cpp supertux-n
 +  SDL_BlitSurface(transformedSurface, &srcRect, screen, &dstRect);
  }
  
-diff -Naur -x .svn -x build -x doxygen supertux/src/video/surface.hpp supertux-nogl/src/video/surface.hpp
+diff -Naur supertux/src/video/surface.hpp supertux-nogl/src/video/surface.hpp
 --- supertux/src/video/surface.hpp	2006-03-03 20:34:27.000000000 +0100
 +++ supertux-nogl/src/video/surface.hpp	2006-04-07 04:11:49.000000000 +0200
 @@ -20,7 +20,9 @@
@@ -1004,7 +1007,7 @@ diff -Naur -x .svn -x build -x doxygen supertux/src/video/surface.hpp supertux-n
  public:
    Surface(const std::string& file);
    Surface(const std::string& file, int x, int y, int w, int h);
-diff -Naur -x .svn -x build -x doxygen supertux/src/video/texture.cpp supertux-nogl/src/video/texture.cpp
+diff -Naur supertux/src/video/texture.cpp supertux-nogl/src/video/texture.cpp
 --- supertux/src/video/texture.cpp	2006-03-03 20:34:27.000000000 +0100
 +++ supertux-nogl/src/video/texture.cpp	2006-04-07 04:11:49.000000000 +0200
 @@ -20,7 +20,6 @@
@@ -1103,7 +1106,7 @@ diff -Naur -x .svn -x build -x doxygen supertux/src/video/texture.cpp supertux-n
 -  assert_gl("set texture params");
  }
  
-diff -Naur -x .svn -x build -x doxygen supertux/src/video/texture.hpp supertux-nogl/src/video/texture.hpp
+diff -Naur supertux/src/video/texture.hpp supertux-nogl/src/video/texture.hpp
 --- supertux/src/video/texture.hpp	2006-03-03 20:34:27.000000000 +0100
 +++ supertux-nogl/src/video/texture.hpp	2006-04-07 04:11:49.000000000 +0200
 @@ -20,7 +20,7 @@
@@ -1153,7 +1156,7 @@ diff -Naur -x .svn -x build -x doxygen supertux/src/video/texture.hpp supertux-n
  private:
    void set_texture_params();
  };
-diff -Naur -x .svn -x build -x doxygen supertux/src/video/texture_manager.cpp supertux-nogl/src/video/texture_manager.cpp
+diff -Naur supertux/src/video/texture_manager.cpp supertux-nogl/src/video/texture_manager.cpp
 --- supertux/src/video/texture_manager.cpp	2006-04-07 03:32:13.000000000 +0200
 +++ supertux-nogl/src/video/texture_manager.cpp	2006-04-07 04:11:49.000000000 +0200
 @@ -5,8 +5,6 @@
@@ -1209,7 +1212,7 @@ diff -Naur -x .svn -x build -x doxygen supertux/src/video/texture_manager.cpp su
 -  glDeleteTextures(1, &(texture->handle));
 -  texture->handle = 0;
 -
--  assert_gl("retrieving texture");
+-  assert_gl("retrieving texture for save");
  }
  
  void
@@ -1254,14 +1257,15 @@ diff -Naur -x .svn -x build -x doxygen supertux/src/video/texture_manager.cpp su
    saved_textures.clear();
  }
  
-diff -Naur -x .svn -x build -x doxygen supertux/src/video/texture_manager.hpp supertux-nogl/src/video/texture_manager.hpp
+diff -Naur supertux/src/video/texture_manager.hpp supertux-nogl/src/video/texture_manager.hpp
 --- supertux/src/video/texture_manager.hpp	2006-03-03 20:34:27.000000000 +0100
 +++ supertux-nogl/src/video/texture_manager.hpp	2006-04-07 04:11:49.000000000 +0200
-@@ -1,7 +1,6 @@
+@@ -1,7 +1,7 @@
  #ifndef __IMAGE_TEXTURE_MANAGER_HPP__
  #define __IMAGE_TEXTURE_MANAGER_HPP__
  
 -#include <GL/gl.h>
++#include "video/glutil.hpp"
  #include <string>
  #include <vector>
  #include <map>
