@@ -27,6 +27,8 @@ AC_PROG_CC
 AC_PROG_CXX
 AC_PROG_INSTALL
 
+AC_C_BIGENDIAN
+
 AC_CHECK_PROGS(XGETTEXT, [xgettext xgettext.exe])
 if test -n "$XGETTEXT" ; then
     AC_MSG_CHECKING([if xgettext supports lisp])
