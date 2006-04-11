@@ -6,97 +6,99 @@
 #include "lisp/list_iterator.hpp"
 #include "lisp/parser.hpp"
 #include "lisp/writer.hpp"
+#include "squirrel_error.hpp"
 
 namespace Scripting
 {
 
-void load_squirrel_table(HSQUIRRELVM v, int table_idx, const lisp::Lisp* lisp)
+void load_squirrel_table(HSQUIRRELVM vm, int table_idx, const lisp::Lisp* lisp)
 {
   using namespace lisp;
+
+  if(table_idx < 0)
+    table_idx -= 2; 
  
   lisp::ListIterator iter(lisp);
   while(iter.next()) {
     const std::string& token = iter.item();
-    sq_pushstring(v, token.c_str(), token.size());
+    sq_pushstring(vm, token.c_str(), token.size());
 
     const lisp::Lisp* value = iter.value();
     switch(value->get_type()) {
       case Lisp::TYPE_CONS:
-        sq_newtable(v);
-        //load_squirrel_table(v, sq_gettop(v), *iter);
+        sq_newtable(vm);
+        load_squirrel_table(vm, sq_gettop(vm), iter.lisp());
         break;
       case Lisp::TYPE_INTEGER:
-        sq_pushinteger(v, value->get_int());
+        sq_pushinteger(vm, value->get_int());
         break;
       case Lisp::TYPE_REAL:
-        sq_pushfloat(v, value->get_float());
+        sq_pushfloat(vm, value->get_float());
         break;
       case Lisp::TYPE_STRING:
-        sq_pushstring(v, value->get_string().c_str(), -1);
+        sq_pushstring(vm, value->get_string().c_str(), -1);
         break;
       case Lisp::TYPE_BOOLEAN:
-        sq_pushbool(v, value->get_bool());
+        sq_pushbool(vm, value->get_bool() ? SQTrue : SQFalse);
         break;
       case Lisp::TYPE_SYMBOL:
         std::cerr << "Unexpected symbol in lisp file...";
-        sq_pushnull(v);
+        sq_pushnull(vm);
         break;
       default:
         assert(false);
         break;
     }
-    if(table_idx < 0) {
-      sq_createslot(v, table_idx - 2);
-    } else {
-      sq_createslot(v, table_idx);
-    }
+
+    if(SQ_FAILED(sq_createslot(vm, table_idx)))
+      throw Scripting::SquirrelError(vm, "Couldn't create new index");
   }
 }
 
-void save_squirrel_table(HSQUIRRELVM v, int table_idx, lisp::Writer& writer)
+void save_squirrel_table(HSQUIRRELVM vm, int table_idx, lisp::Writer& writer)
 {
   // offset because of sq_pushnull
   if(table_idx < 0)
-    table_idx--;
+    table_idx -= 1;
   
   //iterator table
-  sq_pushnull(v);
-  while(SQ_SUCCEEDED(sq_next(v, table_idx))) {
-    if(sq_gettype(v, -2) != OT_STRING) {
+  sq_pushnull(vm);
+  while(SQ_SUCCEEDED(sq_next(vm, table_idx))) {
+    if(sq_gettype(vm, -2) != OT_STRING) {
       std::cerr << "Table contains non-string key\n";
       continue;
     }
     const char* key;
-    sq_getstring(v, -2, &key);
+    sq_getstring(vm, -2, &key);
 
-    switch(sq_gettype(v, -1)) {
+    switch(sq_gettype(vm, -1)) {
       case OT_INTEGER: {
         int val;
-        sq_getinteger(v, -1, &val);
+        sq_getinteger(vm, -1, &val);
         writer.write_int(key, val);
         break;
       }
       case OT_FLOAT: {
         float val;
-        sq_getfloat(v, -1, &val);
+        sq_getfloat(vm, -1, &val);
         writer.write_float(key, val);
         break;
       }
       case OT_BOOL: {
         SQBool val;
-        sq_getbool(v, -1, &val);
+        sq_getbool(vm, -1, &val);
         writer.write_bool(key, val);
         break;
       }
       case OT_STRING: {
         const char* str;
-        sq_getstring(v, -1, &str);
+        sq_getstring(vm, -1, &str);
         writer.write_string(key, str);
         break;
       }
       case OT_TABLE: {
-        writer.start_list(key);
-        save_squirrel_table(v, -1, writer);
+        writer.start_list(key, true);
+        save_squirrel_table(vm, -1, writer);
         writer.end_list(key);
         break;
       }
@@ -108,9 +110,9 @@ void save_squirrel_table(HSQUIRRELVM v, int table_idx, lisp::Writer& writer)
         std::cerr << "Can't serialize key '" << key << "' in table.\n";
         break;
     }
-    sq_pop(v, 2);
+    sq_pop(vm, 2);
   }
-  sq_pop(v, 1);
+  sq_pop(vm, 1);
 }
 
 }

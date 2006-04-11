@@ -28,6 +28,8 @@
 #include <unistd.h>
 #include <physfs.h>
 
+#include "worldmap.hpp"
+
 #include "gettext.hpp"
 #include "msg.hpp"
 #include "mainloop.hpp"
@@ -56,6 +58,8 @@
 #include "control/joystickkeyboardcontroller.hpp"
 #include "object/background.hpp"
 #include "object/tilemap.hpp"
+#include "scripting/squirrel_error.hpp"
+#include "scripting/wrapper_util.hpp"
 
 Menu* worldmap_menu  = 0;
 
@@ -680,8 +684,7 @@ WorldMap::finished_level(const std::string& filename)
   level->statistics.merge(global_stats);
   calculate_total_stats();
 
-  if(savegame_file != "")
-    savegame(savegame_file);
+  save_state();
 
   if (old_level_state != level->solved && level->auto_path) {
     // Try to detect the next direction to which we should walk
@@ -964,161 +967,234 @@ WorldMap::setup()
   Menu::set_current(NULL);
 
   current_ = this;
+  load_state();
+}
+
+static void store_float(HSQUIRRELVM vm, const char* name, float val)
+{
+  sq_pushstring(vm, name, -1);
+  sq_pushfloat(vm, val);
+  if(SQ_FAILED(sq_createslot(vm, -3)))
+    throw Scripting::SquirrelError(vm, "Couldn't add float value to table");
+}
+
+/*
+static void store_int(HSQUIRRELVM vm, const char* name, int val)
+{
+  sq_pushstring(vm, name, -1);
+  sq_pushinteger(vm, val);
+  if(SQ_FAILED(sq_createslot(vm, -3)))
+    throw Scripting::SquirrelError(vm, "Couldn't add float value to table");
+}
+*/
+
+static void store_string(HSQUIRRELVM vm, const char* name, const std::string& val)
+{
+  sq_pushstring(vm, name, -1);
+  sq_pushstring(vm, val.c_str(), val.length());
+  if(SQ_FAILED(sq_createslot(vm, -3)))
+    throw Scripting::SquirrelError(vm, "Couldn't add float value to table");
+}
+
+static void store_bool(HSQUIRRELVM vm, const char* name, bool val)
+{
+  sq_pushstring(vm, name, -1);
+  sq_pushbool(vm, val ? SQTrue : SQFalse);
+  if(SQ_FAILED(sq_createslot(vm, -3)))
+    throw Scripting::SquirrelError(vm, "Couldn't add float value to table");
+}
+
+static float read_float(HSQUIRRELVM vm, const char* name)
+{
+  sq_pushstring(vm, name, -1);
+  if(SQ_FAILED(sq_get(vm, -2))) {
+    std::ostringstream msg;
+    msg << "Couldn't get float value for '" << name << "' from table";
+    throw Scripting::SquirrelError(vm, msg.str());
+  }
+  
+  float result;
+  if(SQ_FAILED(sq_getfloat(vm, -1, &result))) {
+    std::ostringstream msg;
+    msg << "Couldn't get float value for '" << name << "' from table";
+    throw Scripting::SquirrelError(vm, msg.str());
+  }
+  sq_pop(vm, 1);
+
+  return result;
+}
+
+static std::string read_string(HSQUIRRELVM vm, const char* name)
+{
+  sq_pushstring(vm, name, -1);
+  if(SQ_FAILED(sq_get(vm, -2))) {
+    std::ostringstream msg;
+    msg << "Couldn't get string value for '" << name << "' from table";
+    throw Scripting::SquirrelError(vm, msg.str());
+  }
+  
+  const char* result;
+  if(SQ_FAILED(sq_getstring(vm, -1, &result))) {
+    std::ostringstream msg;
+    msg << "Couldn't get string value for '" << name << "' from table";
+    throw Scripting::SquirrelError(vm, msg.str());
+  }
+  sq_pop(vm, 1);
+
+  return std::string(result);
+}
+
+static bool read_bool(HSQUIRRELVM vm, const char* name)
+{
+  sq_pushstring(vm, name, -1);
+  if(SQ_FAILED(sq_get(vm, -2))) {
+    std::ostringstream msg;
+    msg << "Couldn't get bool value for '" << name << "' from table";
+    throw Scripting::SquirrelError(vm, msg.str());
+  } 
+  
+  SQBool result;
+  if(SQ_FAILED(sq_getbool(vm, -1, &result))) {
+    std::ostringstream msg;
+    msg << "Couldn't get bool value for '" << name << "' from table";
+    throw Scripting::SquirrelError(vm, msg.str());
+  }
+  sq_pop(vm, 1);
+
+  return result == SQTrue;
 }
 
 void
-WorldMap::savegame(const std::string& filename)
+WorldMap::save_state()
 {
-  if(filename == "")
-    return;
+  HSQUIRRELVM vm = ScriptManager::instance->get_vm();
+  int oldtop = sq_gettop(vm);
 
-  std::string dir = FileSystem::dirname(filename);
-  if(PHYSFS_exists(dir.c_str()) == 0 && PHYSFS_mkdir(dir.c_str()) != 0) {
-    std::ostringstream msg;
-    msg << "Couldn't create directory '" << dir << "' for savegame:"
-        << PHYSFS_getLastError();
-    throw std::runtime_error(msg.str());
-  }
-  if(!PHYSFS_isDirectory(dir.c_str())) {
-    std::ostringstream msg;
-    msg << "'" << dir << "' is not a directory.";
-    throw std::runtime_error(msg.str());
-  }
-  
-  lisp::Writer writer(filename);
+  try {
+    // get state table
+    sq_pushroottable(vm);
+    sq_pushstring(vm, "state", -1);
+    if(SQ_FAILED(sq_get(vm, -2)))
+      throw Scripting::SquirrelError(vm, "Couldn't get state table");
 
-  int nb_solved_levels = 0, total_levels = 0;
-  for(Levels::iterator i = levels.begin(); i != levels.end(); ++i) {
-    ++total_levels;
-    if (i->solved)
-      ++nb_solved_levels;
-  }
-  char nb_solved_levels_str[80], total_levels_str[80];
-  sprintf(nb_solved_levels_str, "%d", nb_solved_levels);
-  sprintf(total_levels_str, "%d", total_levels);
+    // get or create worlds table
+    sq_pushstring(vm, "worlds", -1);
+    if(SQ_FAILED(sq_get(vm, -2))) {
+      sq_pushstring(vm, "worlds", -1);
+      sq_newtable(vm);
+      if(SQ_FAILED(sq_createslot(vm, -3)))
+        throw Scripting::SquirrelError(vm, "Couldn't create state.worlds");
 
-  writer.write_comment("Worldmap save file");
-
-  writer.start_list("supertux-savegame");
-
-  writer.write_int("version", 1);
-  writer.write_string("title",
-      std::string(name + " - " + nb_solved_levels_str+"/"+total_levels_str));
-  writer.write_string("map", map_filename);
-  writer.write_bool("intro-displayed", intro_displayed);
-
-  writer.start_list("tux");
-
-  writer.write_float("x", tux->get_tile_pos().x);
-  writer.write_float("y", tux->get_tile_pos().y);
-  writer.write_string("back", direction_to_string(tux->back_direction));
-  player_status->write(writer);
-  writer.write_string("back", direction_to_string(tux->back_direction));
-
-  writer.end_list("tux");
-
-  writer.start_list("levels");
-
-  for(Levels::iterator i = levels.begin(); i != levels.end(); ++i)
-    {
-      if (i->solved)
-        {
-        writer.start_list("level");
-
-        writer.write_string("name", i->name);
-        writer.write_bool("solved", true);
-        i->statistics.write(writer);
-
-        writer.end_list("level");
-        }
-    }  
-
-  writer.end_list("levels");
-
-  writer.end_list("supertux-savegame");
-}
-
-void
-WorldMap::loadgame(const std::string& filename)
-{
-  msg_debug << "loadgame: " << filename << std::endl;
-  savegame_file = filename;
-  
-  if (PHYSFS_exists(filename.c_str())) // savegame exists
-  {
-    try {
-      lisp::Parser parser;
-      
-      std::auto_ptr<lisp::Lisp> root (parser.parse(filename));
-    
-      const lisp::Lisp* savegame = root->get_lisp("supertux-savegame");
-      if(!savegame)
-        throw std::runtime_error("File is not a supertux-savegame file.");
-
-      /* Get the Map filename and then load it before setting level settings */
-      std::string cur_map_filename = map_filename;
-      savegame->get("map", map_filename);
-      load_map(); 
-
-      savegame->get("intro-displayed", intro_displayed);
-
-      const lisp::Lisp* tux_lisp = savegame->get_lisp("tux");
-      if(tux)
-      {
-        Vector p;
-        std::string back_str = "none";
-
-        tux_lisp->get("x", p.x);
-        tux_lisp->get("y", p.y);
-        tux_lisp->get("back", back_str);
-        player_status->read(*tux_lisp);
-        if (player_status->coins < 0) player_status->reset();
-        tux->back_direction = string_to_direction(back_str);      
-        tux->set_tile_pos(p);
-      }
-
-      const lisp::Lisp* levels_lisp = savegame->get_lisp("levels");
-      if(levels_lisp) {
-        lisp::ListIterator iter(levels_lisp);
-        while(iter.next()) {
-          if(iter.item() == "level") {
-            std::string name;
-            bool solved = false;
-
-            const lisp::Lisp* level = iter.lisp();
-            level->get("name", name);
-            level->get("solved", solved);
-
-            for(Levels::iterator i = levels.begin(); i != levels.end(); ++i)
-            {
-              if (name == i->name)
-              {
-                i->solved = solved;
-                i->sprite->set_action(solved ? "solved" : "default");
-                i->statistics.parse(*level);
-                break;
-              }
-            }
-          } else {
-            msg_warning << "Unknown token '" << iter.item() << "' in levels block in worldmap" << std::endl;
-          }
-        }
-      }
-    } catch(std::exception& e) {
-      msg_warning << "Problem loading game '" << filename << "': " << e.what() << std::endl;
-      load_map();
-      player_status->reset();
+      sq_pushstring(vm, "worlds", -1);
+      if(SQ_FAILED(sq_get(vm, -2)))
+        throw Scripting::SquirrelError(vm, "Couldn't create.get state.worlds");
     }
-  }
-  else
-  {
-    load_map();
-    player_status->reset();
+    
+    sq_pushstring(vm, map_filename.c_str(), map_filename.length());
+    if(SQ_FAILED(sq_deleteslot(vm, -2, SQFalse)))
+      sq_pop(vm, 1);
+
+    // construct new table for this worldmap
+    sq_pushstring(vm, map_filename.c_str(), map_filename.length());
+    sq_newtable(vm);
+
+    // store tux
+    sq_pushstring(vm, "tux", -1);
+    sq_newtable(vm);
+    
+    store_float(vm, "x", tux->get_tile_pos().x);
+    store_float(vm, "y", tux->get_tile_pos().y);
+    store_string(vm, "back", direction_to_string(tux->back_direction));
+
+    sq_createslot(vm, -3);
+    
+    // levels...
+    sq_pushstring(vm, "levels", -1);
+    sq_newtable(vm);
+
+    for(Levels::iterator i = levels.begin(); i != levels.end(); ++i) {
+      if (i->solved) {
+        sq_pushstring(vm, i->name.c_str(), -1);
+        sq_newtable(vm);
+
+        store_bool(vm, "solved", true);            
+        // TODO write statistics
+        // i->statistics.write(writer);
+
+        sq_createslot(vm, -3);
+      }
+    }
+    
+    sq_createslot(vm, -3);
+
+    // push world into worlds table
+    sq_createslot(vm, -3);
+  } catch(std::exception& e) {
+    sq_settop(vm, oldtop);
   }
 
-  calculate_total_stats();
+  sq_settop(vm, oldtop);
 }
 
+void
+WorldMap::load_state()
+{
+  HSQUIRRELVM vm = ScriptManager::instance->get_vm();
+  int oldtop = sq_gettop(vm);
+ 
+  try {
+    // get state table
+    sq_pushroottable(vm);
+    sq_pushstring(vm, "state", -1);
+    if(SQ_FAILED(sq_get(vm, -2)))
+      throw Scripting::SquirrelError(vm, "Couldn't get state table");
+
+    // get worlds table
+    sq_pushstring(vm, "worlds", -1);
+    if(SQ_FAILED(sq_get(vm, -2)))
+      throw Scripting::SquirrelError(vm, "Couldn't get state.worlds");
+
+    // get table for our world
+    sq_pushstring(vm, map_filename.c_str(), map_filename.length());
+    if(SQ_FAILED(sq_get(vm, -2)))
+      throw Scripting::SquirrelError(vm, "Couldn't get state.world.mapfilename");
+
+    // load tux
+    sq_pushstring(vm, "tux", -1);
+    if(SQ_FAILED(sq_get(vm, -2)))
+      throw Scripting::SquirrelError(vm, "Couldn't get tux");
+
+    Vector p;
+    p.x = read_float(vm, "x");
+    p.y = read_float(vm, "y");
+    std::string back_str = read_string(vm, "back");
+    tux->back_direction = string_to_direction(back_str);
+    tux->set_tile_pos(p);
+
+    sq_pop(vm, 1);
+
+    // load levels
+    sq_pushstring(vm, "levels", -1);
+    if(SQ_FAILED(sq_get(vm, -2)))
+      throw Scripting::SquirrelError(vm, "Couldn't get levels");
+
+    for(Levels::iterator i = levels.begin(); i != levels.end(); ++i) {
+      sq_pushstring(vm, i->name.c_str(), -1);
+      if(SQ_SUCCEEDED(sq_get(vm, -2))) {
+        i->solved = read_bool(vm, "solved");
+        i->sprite->set_action(i->solved ? "solved" : "default");
+        // i->statistics.parse(*level);
+        sq_pop(vm, 1);
+      }
+    }
+    sq_pop(vm, 1);
+
+  } catch(std::exception& e) {
+    msg_debug << "Not loading worldmap state: " << e.what() << std::endl;
+  }
+  sq_settop(vm, oldtop);
+}
+    
 void
 WorldMap::loadmap(const std::string& filename)
 {

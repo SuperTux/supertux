@@ -54,7 +54,7 @@ static void printfunc(HSQUIRRELVM, const char* str, ...)
 ScriptManager::ScriptManager()
   : parent(NULL)
 {
-  vm = sq_open(1024);
+  vm = sq_open(64);
   if(vm == 0)
     throw std::runtime_error("Couldn't initialize squirrel vm");
   sq_setforeignptr(vm, (SQUserPointer) this);
@@ -102,7 +102,7 @@ ScriptManager::~ScriptManager()
 HSQUIRRELVM
 ScriptManager::create_thread(bool leave_thread_on_stack)
 {
-  HSQUIRRELVM new_vm = sq_newthread(vm, 1024);
+  HSQUIRRELVM new_vm = sq_newthread(vm, 64);
   if(new_vm == NULL)
     throw SquirrelError(vm, "Couldn't create new VM");
   sq_setforeignptr(new_vm, (SQUserPointer) this);

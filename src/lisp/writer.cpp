@@ -58,10 +58,15 @@ Writer::write_comment(const std::string& comment)
 }
 
 void
-Writer::start_list(const std::string& listname)
+Writer::start_list(const std::string& listname, bool string)
 {
   indent();
-  *out << '(' << listname << '\n';
+  *out << '(';
+  if(string)
+    write_escaped_string(listname);
+  else
+    *out << listname;
+  *out << '\n';
   indent_depth += 2;
 
   lists.push_back(listname);
@@ -106,9 +111,13 @@ Writer::write_string(const std::string& name, const std::string& value,
   indent();
   *out << '(' << name;
   if(translatable) {
-    *out << " (_ \"" << value << "\"))\n";
+    *out << " (_ ";
+    write_escaped_string(value);
+    *out << "))\n";
   } else {
-    *out << " \"" << value << "\")\n";
+    *out << " ";
+    write_escaped_string(value);
+    *out << ")\n";
   }
 }
 
@@ -150,6 +159,21 @@ Writer::write_float_vector(const std::string& name,
   for(std::vector<float>::const_iterator i = value.begin(); i != value.end(); ++i)
     *out << " " << *i;
   *out << ")\n";
+}
+
+void
+Writer::write_escaped_string(const std::string& str)
+{
+  *out << '"';
+  for(const char* c = str.c_str(); *c != 0; ++c) {
+    if(*c == '\"')
+      *out << "\\\"";
+    else if(*c == '\\')
+      *out << "\\\\";
+    else
+      *out << *c;
+  }
+  *out << '"';
 }
 
 void

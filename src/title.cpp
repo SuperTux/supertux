@@ -161,10 +161,8 @@ TitleScreen::check_levels_contrib_menu()
   World& world = * (contrib_worlds[index]);
 
   if(!world.is_levelset) {
-    // TODO fade out
-    world.run();
     world.set_savegame_filename("save/test.save");
-    world.save();
+    world.run();
   }
 
   if (current_world != index) {
@@ -439,7 +437,7 @@ TitleScreen::process_load_game_menu()
 
   worldmap->set_map_filename("/levels/world1/worldmap.stwm");
   // Load the game or at least set the savegame_file variable
-  worldmap->loadgame(slotfile);
+  //worldmap->loadgame(slotfile);
 
   main_loop->push_screen(worldmap);
 

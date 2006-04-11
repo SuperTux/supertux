@@ -31,6 +31,7 @@ private:
   std::string savegame_filename;
   /// squirrel table that saves persistent state (about the world)
   HSQOBJECT state_table;
+  static World* current_;
 
 public:
   World();
@@ -39,13 +40,18 @@ public:
   void set_savegame_filename(const std::string& filename);
   void load(const std::string& filename);
 
-  void save();
-  void load();
+  void save_state();
+  void load_state();
   
   const std::string& get_level_filename(unsigned int i) const;
   unsigned int get_num_levels() const;
 
   const std::string& get_basedir() const;
+
+  static World* current()
+  {
+    return current_;
+  }
 
   void run();
 

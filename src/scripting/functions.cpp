@@ -35,6 +35,7 @@
 #include "msg.hpp"
 #include "mainloop.hpp"
 #include "worldmap.hpp"
+#include "world.hpp"
 
 #include "squirrel_error.hpp"
 #include "wrapper_util.hpp"
@@ -116,6 +117,14 @@ void import(HSQUIRRELVM vm, const std::string& filename)
 void add_key(int new_key)
 {
   player_status->set_keys(new_key);
+}
+
+void save_state()
+{
+  if(World::current() == NULL)
+    throw std::runtime_error("Can't save state without active World");
+
+  World::current()->save_state();
 }
 
 }

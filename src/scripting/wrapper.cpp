@@ -1585,6 +1585,25 @@ static int import_wrapper(HSQUIRRELVM vm)
   
 }
 
+static int save_state_wrapper(HSQUIRRELVM vm)
+{
+  (void) vm;
+  
+  try {
+    Scripting::save_state();
+  
+    return 0;
+  
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'save_state'"));
+    return SQ_ERROR;
+  }
+  
+}
+
 static int add_key_wrapper(HSQUIRRELVM vm)
 {
   int arg0;
@@ -1952,6 +1971,12 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_newclosure(v, &import_wrapper, 0);
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'import'");
+  }
+
+  sq_pushstring(v, "save_state", -1);
+  sq_newclosure(v, &save_state_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'save_state'");
   }
 
   sq_pushstring(v, "add_key", -1);

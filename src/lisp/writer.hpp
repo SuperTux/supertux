@@ -36,7 +36,7 @@ namespace lisp
 
     void write_comment(const std::string& comment);
 
-    void start_list(const std::string& listname);
+    void start_list(const std::string& listname, bool string = false);
 
     void write_int(const std::string& name, int value);
     void write_float(const std::string& name, float value);
@@ -51,6 +51,7 @@ namespace lisp
     void end_list(const std::string& listname);
 
   private:
+    void write_escaped_string(const std::string& str);
     void indent();
 
     std::ostream* out;

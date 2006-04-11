@@ -259,12 +259,17 @@ public:
       if possible, write the new position to \a new_pos */
   bool path_ok(Direction direction, Vector pos, Vector* new_pos);
 
-  /* Save map to slot */
-  void savegame(const std::string& filename);
-  /* Load map from slot
-     You should call set_map_filename() before this */
-  void loadgame(const std::string& filename);
-  /* Load map directly from file */
+  /**
+   * Save worldmap state to squirrel state table
+   */
+  void save_state();
+  /**
+   * Load worldmap state from squirrel state table
+   */
+  void load_state();
+  /**
+   * Load a worldmap
+   */
   void loadmap(const std::string& filename);
 
   const std::string& get_world_title() const

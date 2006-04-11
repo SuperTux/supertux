@@ -80,6 +80,11 @@ std::string translate(const std::string& text);
 void import(HSQUIRRELVM v, const std::string& filename);
 
 /**
+ * Save world state to savegame
+ */
+void save_state();
+
+/**
  * Add a key to the inventory
  */
 void add_key(int new_key);

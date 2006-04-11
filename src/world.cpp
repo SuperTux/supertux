@@ -41,6 +41,8 @@ static bool has_suffix(const std::string& data, const std::string& suffix)
     return false;
 }
 
+World* World::current_ = NULL;
+
 World::World()
 {
   is_levelset = true;
@@ -49,6 +51,8 @@ World::World()
 
 World::~World()
 {
+  if(current_ == this)
+    current_ = NULL;
 }
 
 void
@@ -101,6 +105,8 @@ World::load(const std::string& filename)
 void
 World::run()
 {
+  current_ = this;
+  
   // create new squirrel table for persisten game state
   HSQUIRRELVM vm = ScriptManager::instance->get_vm();
 
@@ -110,6 +116,8 @@ World::run()
   if(SQ_FAILED(sq_createslot(vm, -3)))
     throw Scripting::SquirrelError(vm, "Couldn't create state table");
   sq_pop(vm, 1);
+
+  load_state();
   
   std::string filename = basedir + "/world.nut";
   IFileStream in(filename);
@@ -119,7 +127,7 @@ World::run()
 }
 
 void
-World::save()
+World::save_state()
 {
   lisp::Writer writer(savegame_filename);
 
@@ -142,6 +150,48 @@ World::save()
   writer.end_list("state");
   
   writer.end_list("supertux-savegame");
+}
+
+void
+World::load_state()
+{
+  try {
+    lisp::Parser parser;
+    std::auto_ptr<lisp::Lisp> root (parser.parse(savegame_filename));
+
+    const lisp::Lisp* lisp = root->get_lisp("supertux-savegame");
+    if(lisp == NULL)
+      throw std::runtime_error("file is not a supertux-savegame file");
+
+    int version = 1;
+    lisp->get("version", version);
+    if(version != 1)
+      throw std::runtime_error("incompatible savegame version");
+
+    const lisp::Lisp* tux = lisp->get_lisp("tux");
+    if(tux == NULL)
+      throw std::runtime_error("No tux section in savegame");
+    player_status->read(*tux);
+
+    const lisp::Lisp* state = lisp->get_lisp("state");
+    if(state == NULL)
+      throw std::runtime_error("No state section in savegame");
+    
+    HSQUIRRELVM vm = ScriptManager::instance->get_vm();
+    sq_pushroottable(vm);
+    sq_pushstring(vm, "state", -1);
+    if(SQ_FAILED(sq_deleteslot(vm, -2, SQFalse)))
+      sq_pop(vm, 1);
+    
+    sq_pushstring(vm, "state", -1);
+    sq_newtable(vm);
+    Scripting::load_squirrel_table(vm, -1, state);
+    if(SQ_FAILED(sq_createslot(vm, -3)))
+      throw std::runtime_error("Couldn't create state table");
+    sq_pop(vm, 1); 
+  } catch(std::exception& e) {
+    msg_debug << "Couldn't load savegame: " << e.what() << std::endl;
+  }
 }
 
 const std::string&
