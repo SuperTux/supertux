@@ -11,11 +11,13 @@ autoheader
 
 # generate Jamconfig.in
 cat > Jamconfig.in << __EOF__
+# the following unsets some stuff from Jambase
 CC = ;
 CFLAGS = ;
 LINK = ;
 LINKFLAGS = ;
 AR = ;
+# Configuration part (you can customize this)
 __EOF__
 autoconf --trace=AC_SUBST \
   | sed -e 's/configure.ac:[0-9]*:AC_SUBST:\([^:]*\).*/\1 ?= "@\1@" ;/g' \
