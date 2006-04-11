@@ -21,6 +21,7 @@ rule CcRule
     CPPFLAGS on $(object) = $(CPPFLAGS) ;
     Cc $(object) : $(<) ;
     Depends $(object) : $(<) ;
+
     return $(object) ;
 }
 RegisterFileType CcRule : .c ;
