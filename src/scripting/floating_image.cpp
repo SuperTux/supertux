@@ -1,5 +1,6 @@
 #include <config.h>
 
+#include <assert.h>
 #include "floating_image.hpp"
 #include "sector.hpp"
 #include "object/floating_image.hpp"
