@@ -148,19 +148,19 @@ TextureManager::save_texture(Texture* texture)
   saved_texture.texture = texture;
   glBindTexture(GL_TEXTURE_2D, texture->get_handle());
   glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH,
-                           &saved_texture.width);
+                           (GLint*)&saved_texture.width);
   glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT,
-                           &saved_texture.height);
+                           (GLint*)&saved_texture.height);
   glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_BORDER,
-                           &saved_texture.border);
+                           (GLint*)&saved_texture.border);
   glGetTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
-                      &saved_texture.min_filter);
+                      (GLint*)&saved_texture.min_filter);
   glGetTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,
-                      &saved_texture.mag_filter);
+                      (GLint*)&saved_texture.mag_filter);
   glGetTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,
-                      &saved_texture.wrap_s);
+                      (GLint*)&saved_texture.wrap_s);
   glGetTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,
-                      &saved_texture.wrap_t);
+                      (GLint*)&saved_texture.wrap_t);
 
   size_t pixelssize = saved_texture.width * saved_texture.height * 4;
   saved_texture.pixels = new char[pixelssize];

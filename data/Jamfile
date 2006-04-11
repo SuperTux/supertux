@@ -1,78 +1,122 @@
 SubDir TOP data ;
 
 IMAGEPATHS =
-	images/tiles
-	images/tiles/goal
-	images/tiles/grey
-	images/tiles/lava
-	images/tiles/pipe
-	images/tiles/pole
-	images/tiles/snow
-	images/tiles/darksnow
-	images/tiles/signs
-	images/tiles/water
-	images/tiles/doodads
-	images/tiles/waterfall
-	images/tiles/auxiliary
-	images/tiles/background
-	images/tiles/blocks
-	images/tiles/forest
-	images/tiles/jungle
-	images/tiles/worldmap
+	images
 	images/background
+	images/creatures
+	images/creatures/angrystone
+	images/creatures/bouncing_snowball
+	images/creatures/colorlamp
+	images/creatures/dispenser
+	images/creatures/dummyguy
+	images/creatures/evilpenguin
+	images/creatures/fish
+	images/creatures/flame
+	images/creatures/flame_fish
+	images/creatures/fluffy
+	images/creatures/flying_snowball
+	images/creatures/ghost
+	images/creatures/granito
+	images/creatures/jumpy
+	images/creatures/kirby
+	images/creatures/kugelblitz
+	images/creatures/mr_bomb
+	images/creatures/mr_fluffy
+	images/creatures/mr_iceblock
+	images/creatures/mr_rocket
+	images/creatures/mr_tree
+	images/creatures/nolok
+	images/creatures/penny
+	images/creatures/plant
+	images/creatures/poison_ivy
+	images/creatures/skullhead
+	images/creatures/skullyhop
+	images/creatures/snowball
+	images/creatures/snowsnail
+	images/creatures/spidermite
+	images/creatures/spike
+	images/creatures/spiky
+	images/creatures/sspiky
+	images/creatures/stalactite
+	images/creatures/stony
+	images/creatures/totem
+	images/creatures/tux_big
+	images/creatures/tux_grow
+	images/creatures/tux_small
+	images/creatures/willowisp
+	images/creatures/yeti
+	images/creatures/zeekling
+	images/credits
+	images/effects
+	images/engine
+	images/engine/editor
+	images/engine/fonts
+	images/engine/icons
+	images/engine/menu
+	images/objects
+	images/objects/bonus_block
+	images/objects/bullets
+	images/objects/castledoor
+	images/objects/coin
+	images/objects/door
+	images/objects/eat-me
+	images/objects/firefly
+	images/objects/flying_platform
+	images/objects/hatch
+	images/objects/icecube
+	images/objects/keys
+	images/objects/lamp
+	images/objects/lightmap_light
+	images/objects/logo
+	images/objects/particles
+	images/objects/platforms
+	images/objects/radio
+	images/objects/rock
+	images/objects/skull_tile
+	images/objects/skulls
+	images/objects/spotlight
+	images/objects/strawbox
+	images/objects/trampoline
+	images/objects/unstable_tile
+	images/objects/voicemail
 	images/powerups
 	images/powerups/1up
 	images/powerups/egg
-	images/powerups/star
-	images/powerups/iceflower
 	images/powerups/fireflower
-	images/engine
-	images/engine/menu
-	images/engine/fonts
-	images/engine/icons
-	images/engine/editor
-	images/objects
-	images/objects/bell
-	images/objects/coin
-	images/objects/door
-	images/objects/particles
-	images/objects/hatch
-	images/objects/flying_platform
-	images/objects/bonus_block
-	images/objects/unstable_tile
-	images/objects/trampoline
-	images/objects/bullets
-	images/creatures
-	images/creatures/fish
-	images/creatures/yeti
-	images/creatures/snowball
-	images/creatures/tux_small
-	images/creatures/dispenser
-	images/creatures/mr_iceblock
-	images/creatures/flame
-	images/creatures/jumpy
-	images/creatures/nolok
-	images/creatures/spike
-	images/creatures/spiky
-	images/creatures/stalactite
-	images/creatures/mr_bomb
-	images/creatures/mr_tree
-	images/creatures/flying_snowball
-	images/creatures/tux_big
-	images/creatures/flame_fish
-	images/creatures/tux_grow
-	images/creatures/poison_ivy
-	images/creatures/zeekling
-	images/creatures/mr_rocket
-	images/creatures/bouncing_snowball
-	images/creatures/dummyguy
-        images/creatures/plant
-	images/creatures/sspiky
+	images/powerups/iceflower
+	images/powerups/potions
+	images/powerups/star
+	images/tiles
+	images/tiles/auxiliary
+	images/tiles/background
+	images/tiles/blocks
+	images/tiles/castle
+	images/tiles/color
+	images/tiles/darksnow
+	images/tiles/doodads
+	images/tiles/firefly
+	images/tiles/forest
+	images/tiles/ghostforest
+	images/tiles/goal
+	images/tiles/icewood
+	images/tiles/jungle
+	images/tiles/lava
+	images/tiles/pipe
+	images/tiles/pole
+	images/tiles/signs
+	images/tiles/snow
+	images/tiles/underground
+	images/tiles/water
+	images/tiles/waterfall
+	images/worldmap
+	images/worldmap/antarctica
+	images/worldmap/common
+	images/worldmap/forest
 ;
 
 for p in $(IMAGEPATHS) {
     InstallData 
-        [ Wildcard $(p) : *.png *.jpg *.xpm *.strf *.ico *.stgt *.stwt ] 
+        [ Wildcard $(p) : *.png *.jpg *.xpm *.strf *.sprite *.ico *.stgt *.stwt ] 
       : $(p)
     ;
 }
@@ -88,14 +132,16 @@ LEVELPATHS =
 ;
 
 for p in $(LEVELPATHS) {
-  InstallData [ Wildcard $(p) : info *.stl *.stwm *.txt *.po ] : $(p) ;
+  InstallData [ Wildcard $(p) : info *.nut *.stl *.stwm *.txt *.po ] : $(p) ;
 
   local translatable_lisp = [ Wildcard $(p) : info *.stl *.stwm *.txt ] ;
   SEARCH on $(translatable_lisp) = $(SEARCH_SOURCE) ;
   MakePot $(SUBDIR)/$(p)/messages.pot : $(translatable_lisp) ;
   XGETTEXT_FLAGS on $(SUBDIR)/$(p)/messages.pot += --language=Lisp ;
 }
-InstallData [ Wildcard *.txt ] ;
+InstallData [ Wildcard *.txt *.po ] ;
 InstallData [ Wildcard music : *.ogg ] : music ;
+InstallData [ Wildcard script : *.nut ] : script ;
+InstallData [ Wildcard speech : *.ogg ] : speech ;
 InstallData [ Wildcard sounds : *.wav ] : sounds ;
 InstallData [ Wildcard locale : *.po ] : locale ;

@@ -177,6 +177,7 @@ Console::parse(std::string s)
   }
 
   // command is args[0]
+  if (args.size() == 0) return;
   std::string command = args.front();
   args.erase(args.begin());
 

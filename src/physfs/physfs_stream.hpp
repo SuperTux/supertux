@@ -18,6 +18,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #ifndef __PHYSFSSTREAM_HPP__
 #define __PHYSFSSTREAM_HPP__
 
+#include <stddef.h>
 #include <physfs.h>
 #include <string>
 #include <streambuf>

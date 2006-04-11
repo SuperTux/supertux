@@ -277,6 +277,7 @@ MrIceBlock::grab(MovingObject&, const Vector& pos, Direction dir)
   sprite->set_action(dir == LEFT ? "flat-left" : "flat-right");
   set_state(ICESTATE_GRABBED);
   set_group(COLGROUP_DISABLED);
+  remove_out_of_bounds = false;
 }
 
 void
@@ -285,6 +286,7 @@ MrIceBlock::ungrab(MovingObject& , Direction dir)
   this->dir = dir;
   set_state(ICESTATE_KICKED);
   set_group(COLGROUP_MOVING);
+  remove_out_of_bounds = true;
 }
 
 IMPLEMENT_FACTORY(MrIceBlock, "mriceblock")
