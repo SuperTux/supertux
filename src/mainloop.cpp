@@ -43,7 +43,6 @@ MainLoop* main_loop = NULL;
 MainLoop::MainLoop()
   : speed(1.0)
 {
-  console.reset(new Console());
 }
 
 MainLoop::~MainLoop()
@@ -142,7 +141,7 @@ MainLoop::run()
       current_screen->draw(context);
       if(Menu::current() != NULL)
           Menu::current()->draw(context);
-      console->draw(context);
+      Console::instance->draw(context);
 
       context.do_drawing();
 
@@ -165,6 +164,7 @@ MainLoop::run()
     game_time += elapsed_time;
     ScriptManager::instance->update();
     current_screen->update(elapsed_time);
+    Console::instance->update(elapsed_time);
  
     main_controller->update();
     SDL_Event event;

@@ -343,12 +343,12 @@ JoystickKeyboardController::process_key_event(const SDL_Event& event)
   // if console key was pressed: toggle console
   if ((key_mapping != keymap.end()) && (key_mapping->second == CONSOLE)) {
     if (event.type != SDL_KEYDOWN) return;
-    Console::toggle();
+    Console::instance->toggle();
     return;
   }
 
   // if console is open: send key there
-  if (Console::hasFocus()) {
+  if (Console::instance->hasFocus()) {
     process_console_key_event(event);
     return;
   } 
@@ -375,27 +375,27 @@ JoystickKeyboardController::process_console_key_event(const SDL_Event& event)
 
   switch (event.key.keysym.sym) {
     case SDLK_RETURN:
-      Console::input << std::endl;
+      Console::instance->input << std::endl;
       break;
     case SDLK_BACKSPACE:
-      Console::backspace();
+      Console::instance->backspace();
       break;
     case SDLK_TAB:
-      Console::autocomplete();
+      Console::instance->autocomplete();
       break;
     case SDLK_PAGEUP:
-      Console::scroll(-1);
+      Console::instance->scroll(-1);
       break;
     case SDLK_PAGEDOWN:
-      Console::scroll(+1);
+      Console::instance->scroll(+1);
       break;
     case SDLK_END:
-      Console::scroll(+65535);
+      Console::instance->scroll(+65535);
       break;
     default:
       int c = event.key.keysym.unicode;
       if ((c >= 32) && (c <= 126)) {
-	Console::input << (char)c;
+	Console::instance->input << (char)c;
       }
       break;
   }

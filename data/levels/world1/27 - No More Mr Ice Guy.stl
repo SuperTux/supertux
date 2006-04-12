@@ -101,7 +101,7 @@
        )
        (spawnpoint (name "main") (x 480) (y 448))
        (init-script "
-DisplayEffect.fade_in(2.5);
+Effect.fade_in(1);
 ")
        (yeti
          (x 2)
@@ -112,12 +112,9 @@ Text.set_text(\"You Made It BIG TIME!\");
 Text.set_font(\"big\");
 Text.fade_in(1.5);
 wait(6);
-DisplayEffect.fade_out(1.5);
+Effect.fade_out(1.5);
 wait(1.5);
-
-
-
-Level.finish();
+Level.finish(true);
 ")
         )
        (particles-snow

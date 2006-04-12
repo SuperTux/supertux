@@ -473,6 +473,7 @@ Sector::activate(const Vector& player_pos)
 
   player->move(player_pos);
   camera->reset(player->get_pos());
+  update_game_objects();
 
   // Run init script
   if(init_script != "") {
@@ -675,9 +676,14 @@ Sector::try_unexpose(GameObject* object)
   ScriptInterface* interface = dynamic_cast<ScriptInterface*> (object);
   if(interface != NULL) {
     HSQUIRRELVM vm = script_manager->get_vm();
+    int oldtop = sq_gettop(vm);
     sq_pushobject(vm, sector_table);
-    interface->unexpose(vm, -1);
-    sq_pop(vm, 1);
+    try {
+      interface->unexpose(vm, -1);
+    } catch(std::exception& e) {
+      msg_warning << "Couldn't unregister object: " << e.what() << std::endl;
+    }
+    sq_settop(vm, oldtop);
   }
 } 
 

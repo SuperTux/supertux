@@ -111,10 +111,10 @@ GameSession::GameSession(const std::string& levelfile_, GameSessionMode mode,
   fps_fps = 0;
 
   for (uint16_t i=0; i < sizeof(::consoleCommands)/sizeof(typeof(consoleCommands[0])); i++) {
-    Console::registerCommand(consoleCommands[i], this);
+    Console::instance->registerCommand(consoleCommands[i], this);
   }
 
-  statistics_backdrop = new Surface("images/engine/menu/score-backdrop.png");
+  statistics_backdrop.reset(new Surface("images/engine/menu/score-backdrop.png"));
 
   restart_level(true);
 }
@@ -127,10 +127,9 @@ GameSession::restart_level(bool fromBeginning)
 
   main_controller->reset();
 
-  delete level;
   currentsector = 0;
 
-  level = new Level;
+  level.reset(new Level);
   level->load(levelfile);
 
   global_stats.reset();
@@ -187,9 +186,6 @@ GameSession::~GameSession()
   delete demo_controller;
 
   delete end_sequence_controller;
-  delete level;
-
-  delete statistics_backdrop;
 
   current_ = NULL;
 }
@@ -802,7 +798,7 @@ GameSession::drawstatus(DrawingContext& context)
 
   // draw level stats while end_sequence is running
   if (end_sequence) {
-    global_stats.draw_endseq_panel(context, best_level_statistics, statistics_backdrop);
+    global_stats.draw_endseq_panel(context, best_level_statistics, statistics_backdrop.get());
   }
 }
 

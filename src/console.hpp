@@ -35,70 +35,78 @@ class Surface;
 
 class Console 
 {
-  public:
-    Console();
-    ~Console();
+public:
+  Console();
+  ~Console();
 
-    static std::ostream input; /**< stream of keyboard input to send to the console. Do not forget to send std::endl or to flush the stream. */
-    static std::ostream output; /**< stream of characters to output to the console. Do not forget to send std::endl or to flush the stream. */
+  static Console* instance;
 
-    static void backspace(); /**< delete last character sent to the input stream */
-    static void scroll(int offset); /**< scroll console text up or down by @c offset lines */
-    static void autocomplete(); /**< autocomplete current command */
+  static std::ostream input; /**< stream of keyboard input to send to the console. Do not forget to send std::endl or to flush the stream. */
+  static std::ostream output; /**< stream of characters to output to the console. Do not forget to send std::endl or to flush the stream. */
 
-    void draw(DrawingContext& context); /**< draw the console in a DrawingContext */
-    static void show(); /**< display the console */
-    static void hide(); /**< hide the console */
-    static void toggle(); /**< display the console if hidden, hide otherwise */
+  void backspace(); /**< delete last character sent to the input stream */
+  void scroll(int offset); /**< scroll console text up or down by @c offset lines */
+  void autocomplete(); /**< autocomplete current command */
 
-    static bool hasFocus(); /**< true if characters should be sent to the console instead of their normal target */
-    static void registerCommand(std::string command, ConsoleCommandReceiver* ccr); /**< associate command with the given CCR */
-    static void unregisterCommand(std::string command, ConsoleCommandReceiver* ccr); /**< dissociate command and CCR */
-    static void unregisterCommands(ConsoleCommandReceiver* ccr); /**< dissociate all commands of given CCR */
+  void draw(DrawingContext& context); /**< draw the console in a DrawingContext */
+  void update(float elapsed_time);
+  
+  void show(); /**< display the console */
+  void hide(); /**< hide the console */
+  void toggle(); /**< display the console if hidden, hide otherwise */
 
-    template<typename T> static bool string_is(std::string s) {
-      std::istringstream iss(s);
-      T i;
-      if ((iss >> i) && iss.eof()) {
-	return true;
-      } else {
-	return false;
-      }
+  bool hasFocus(); /**< true if characters should be sent to the console instead of their normal target */
+  void registerCommand(std::string command, ConsoleCommandReceiver* ccr); /**< associate command with the given CCR */
+  void unregisterCommand(std::string command, ConsoleCommandReceiver* ccr); /**< dissociate command and CCR */
+  void unregisterCommands(ConsoleCommandReceiver* ccr); /**< dissociate all commands of given CCR */
+
+  template<typename T> static bool string_is(std::string s) {
+    std::istringstream iss(s);
+    T i;
+    if ((iss >> i) && iss.eof()) {
+      return true;
+    } else {
+      return false;
     }
+  }
 
-    template<typename T> static T string_to(std::string s) {
-      std::istringstream iss(s);
-      T i;
-      if ((iss >> i) && iss.eof()) {
-	return i;
-      } else {
-	return T();
-      }
+  template<typename T> static T string_to(std::string s) {
+    std::istringstream iss(s);
+    T i;
+    if ((iss >> i) && iss.eof()) {
+      return i;
+    } else {
+      return T();
     }
+  }
 
-  protected:
-    static std::list<std::string> lines; /**< backbuffer of lines sent to the console */
-    static std::map<std::string, std::list<ConsoleCommandReceiver*> > commands; /**< map of console commands and a list of associated ConsoleCommandReceivers */
-    Surface* background; /**< console background image */
-    Surface* background2; /**< second, moving console background image */
-    static int backgroundOffset; /**< current offset of scrolling background image */
-    static int height; /**< height of the console in px */
-    static int offset; /**< decrease to scroll text up */
-    static bool focused; /**< true if console has input focus */
+private:
+  std::list<std::string> lines; /**< backbuffer of lines sent to the console */
+  std::map<std::string, std::list<ConsoleCommandReceiver*> > commands; /**< map of console commands and a list of associated ConsoleCommandReceivers */
+  
+  std::auto_ptr<Surface> background; /**< console background image */
+  std::auto_ptr<Surface> background2; /**< second, moving console background image */
+  
+  int backgroundOffset; /**< current offset of scrolling background image */
+  float height; /**< height of the console in px */
+  int offset; /**< decrease to scroll text up */
+  bool focused; /**< true if console has input focus */
 
-    static ConsoleStreamBuffer inputBuffer; /**< stream buffer used by input stream */
-    static ConsoleStreamBuffer outputBuffer; /**< stream buffer used by output stream */
+  float stayOpen;
 
-    static void addLine(std::string s); /**< display a line in the console */
-    static void parse(std::string s); /**< react to a given command */
+  static ConsoleStreamBuffer inputBuffer; /**< stream buffer used by input stream */
+  static ConsoleStreamBuffer outputBuffer; /**< stream buffer used by output stream */
+
+  void addLine(std::string s); /**< display a line in the console */
+  void parse(std::string s); /**< react to a given command */
     
-    /** execute squirrel script and output result */
-    static void execute_script(const std::string& s);
+  /** execute squirrel script and output result */
+  void execute_script(const std::string& s);
     
-    static bool consoleCommand(std::string command, std::vector<std::string> arguments); /**< process internal command; return false if command was unknown, true otherwise */
+  bool consoleCommand(std::string command, std::vector<std::string> arguments); /**< process internal command; return false if command was unknown, true otherwise */
 
-    friend class ConsoleStreamBuffer;
-    static void flush(ConsoleStreamBuffer* buffer); /**< act upon changes in a ConsoleStreamBuffer */
+  friend class ConsoleStreamBuffer;
+  void flush(ConsoleStreamBuffer* buffer); /**< act upon changes in a ConsoleStreamBuffer */
 };
 
 class ConsoleStreamBuffer : public std::stringbuf 
@@ -107,7 +115,8 @@ class ConsoleStreamBuffer : public std::stringbuf
     int sync() 
     {
       int result = std::stringbuf::sync();
-      Console::flush(this);
+      if(Console::instance != NULL)
+        Console::instance->flush(this);
       return result;
     }
 };
@@ -117,7 +126,7 @@ class ConsoleCommandReceiver
 public:
   virtual ~ConsoleCommandReceiver()
   {
-    Console::unregisterCommands(this);
+    Console::instance->unregisterCommands(this);
   }
    
   /**

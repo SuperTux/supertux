@@ -87,7 +87,7 @@ public:
   { return currentsector; }
 
   Level* get_current_level()
-  { return level; }
+  { return level.get(); }
 
   void start_sequence(const std::string& sequencename);
 
@@ -113,8 +113,8 @@ private:
   void process_menu();
 
   Timer endsequence_timer;
-  Level* level;
-  Surface* statistics_backdrop; // FIXME: where to put this?
+  std::auto_ptr<Level> level;
+  std::auto_ptr<Surface> statistics_backdrop;
 
   Sector* currentsector;
 
@@ -154,7 +154,6 @@ private:
   std::string capture_file;
   std::istream* playback_demo_stream;
   CodeController* demo_controller;
-  Console* console;
 };
 
 #endif /*SUPERTUX_GAMELOOP_H*/

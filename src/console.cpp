@@ -29,20 +29,18 @@
 #include "main.hpp"
 #include "resources.hpp"
 
-namespace {
-  int ticks; // TODO: use a clock?
-}
+/// speed (pixels/s) the console closes
+static const float CLOSE_SPEED = 50;
 
 Console::Console()
+  : backgroundOffset(0), height(0), offset(0), focused(false), stayOpen(0)
 {
-  background = new Surface("images/engine/console.png");
-  background2 = new Surface("images/engine/console2.png");
+  background.reset(new Surface("images/engine/console.png"));
+  background2.reset(new Surface("images/engine/console2.png"));
 }
 
 Console::~Console() 
 {
-  delete background;
-  delete background2;
 }
 
 void 
@@ -156,7 +154,9 @@ Console::addLine(std::string s)
     if (height < 4+9) height=4+9;
     height+=9;
   }
-  ticks=60;
+
+  if(stayOpen < 5)
+    stayOpen += 0.7;
 }
 
 void
@@ -247,6 +247,7 @@ Console::hide()
 {
   focused = false;
   height = 0;
+  stayOpen = 0;
 
   // clear input buffer
   inputBuffer.str(std::string());
@@ -263,22 +264,29 @@ Console::toggle()
   }
 }
 
+void
+Console::update(float elapsed_time)
+{
+  if(stayOpen > 0) {
+    stayOpen -= elapsed_time;
+    if(stayOpen < 0)
+      stayOpen = 0;
+  } else if(!focused && height > 0) {
+    height -= elapsed_time * CLOSE_SPEED;
+    if(height < 0)
+      height = 0;
+  }
+}
+
 void 
 Console::draw(DrawingContext& context)
 {
-  if (height == 0) return;
-  if (!focused) {
-    if (ticks-- < 0) {
-      height-=10;
-      ticks=0;
-      if (height < 0) height=0;
-    }
-    if (height == 0) return;
-  }
+  if (height == 0)
+    return;
 
-  context.draw_surface(background2, Vector(SCREEN_WIDTH/2 - background->get_width()/2 - background->get_width() + backgroundOffset, height - background->get_height()), LAYER_FOREGROUND1+1);
-  context.draw_surface(background2, Vector(SCREEN_WIDTH/2 - background->get_width()/2 + backgroundOffset, height - background->get_height()), LAYER_FOREGROUND1+1);
-  context.draw_surface(background, Vector(SCREEN_WIDTH/2 - background->get_width()/2, height - background->get_height()), LAYER_FOREGROUND1+1);
+  context.draw_surface(background2.get(), Vector(SCREEN_WIDTH/2 - background->get_width()/2 - background->get_width() + backgroundOffset, height - background->get_height()), LAYER_FOREGROUND1+1);
+  context.draw_surface(background2.get(), Vector(SCREEN_WIDTH/2 - background->get_width()/2 + backgroundOffset, height - background->get_height()), LAYER_FOREGROUND1+1);
+  context.draw_surface(background.get(), Vector(SCREEN_WIDTH/2 - background->get_width()/2, height - background->get_height()), LAYER_FOREGROUND1+1);
   backgroundOffset+=10;
   if (backgroundOffset > (int)background->get_width()) backgroundOffset -= (int)background->get_width();
 
@@ -334,14 +342,9 @@ Console::unregisterCommands(ConsoleCommandReceiver* ccr)
   }
 }
 
-int Console::height = 0;
-bool Console::focused = false;
-std::list<std::string> Console::lines;
-std::map<std::string, std::list<ConsoleCommandReceiver*> > Console::commands;
+Console* Console::instance = NULL;
 ConsoleStreamBuffer Console::inputBuffer;
 ConsoleStreamBuffer Console::outputBuffer;
 std::ostream Console::input(&Console::inputBuffer);
 std::ostream Console::output(&Console::outputBuffer);
-int Console::offset = 0;
-int Console::backgroundOffset = 0;
 

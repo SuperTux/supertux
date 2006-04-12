@@ -97,9 +97,6 @@
       (image "images/background/ocean.jpg")
       (speed 0.5)
     )
-    (leveltime
-      (time 300)
-    )
     (camera
       (mode "normal")
     )

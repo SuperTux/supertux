@@ -97,9 +97,6 @@
       (top_color 0.4 0.6 1.0)
       (bottom_color 1.0 1.0 1.0)
     )
-    (leveltime
-      (time 200)
-    )
     (particles-clouds
       (layer -200)
     )

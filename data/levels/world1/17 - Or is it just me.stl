@@ -95,9 +95,6 @@
       (image "images/background/cave2.jpg")
       (speed 0.5)
     )
-    (leveltime
-      (time 300)
-    )
     (camera
       (mode "normal")
     )

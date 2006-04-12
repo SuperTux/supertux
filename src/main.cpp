@@ -256,6 +256,8 @@ static void init_sdl()
     msg << "Couldn't initialize SDL: " << SDL_GetError();
     throw std::runtime_error(msg.str());
   }
+  // just to be sure
+  atexit(SDL_Quit);
 
   SDL_EnableUNICODE(1);
 
@@ -459,6 +461,8 @@ static inline void timelog(const char* )
 
 int main(int argc, char** argv) 
 {
+  int result = 0;
+    
   try {
     srand(time(0));
     init_physfs(argv[0]);
@@ -476,6 +480,7 @@ int main(int argc, char** argv)
     init_audio();
     timelog("video");
     init_video();
+    Console::instance = new Console();
     timelog("scripting");
     init_scripting();
 
@@ -504,16 +509,16 @@ int main(int argc, char** argv)
     }
 
     main_loop->run();
-
-    delete main_loop;
-    main_loop = NULL;
   } catch(std::exception& e) {
     msg_fatal << "Unexpected exception: " << e.what() << std::endl;
-    return 1;
+    result = 1;
   } catch(...) {
     msg_fatal << "Unexpected exception" << std::endl;
-    return 1;
+    result = 1;
   }
+
+  delete main_loop;
+  main_loop = NULL;
 
   free_menu();
   delete ScriptManager::instance;
@@ -527,10 +532,12 @@ int main(int argc, char** argv)
   config = NULL;
   delete main_controller;
   main_controller = NULL;
+  delete Console::instance;
+  Console::instance = NULL;
   delete texture_manager;
   texture_manager = NULL;
   SDL_Quit();
   PHYSFS_deinit();
   
-  return 0;
+  return result;
 }

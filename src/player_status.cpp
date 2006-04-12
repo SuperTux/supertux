@@ -55,7 +55,7 @@ PlayerStatus::PlayerStatus()
   
   tux_life.reset(sprite_manager->create("images/creatures/tux_small/tux-life.sprite"));
 
-  Console::registerCommand("coins", this);
+  Console::instance->registerCommand("coins", this);
 }
 
 PlayerStatus::~PlayerStatus()

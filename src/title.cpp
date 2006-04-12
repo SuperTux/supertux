@@ -430,11 +430,14 @@ TitleScreen::process_load_game_menu()
   stream << "save/" << worlddirname << "_" << slot << ".stsg";
   std::string slotfile = stream.str();
 
-  sound_manager->stop_music();
   fadeout(256);
 
-  current_world->set_savegame_filename(slotfile);
-  current_world->run();
+  try {
+    current_world->set_savegame_filename(slotfile);
+    current_world->run();
+  } catch(std::exception& e) {
+    msg_fatal << "Couldn't start world: " << e.what() << std::endl;
+  }
 
   return true;
 }
