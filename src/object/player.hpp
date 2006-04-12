@@ -34,6 +34,7 @@
 #include "display_effect.hpp"
 #include "script_interface.hpp"
 #include "console.hpp"
+#include "coin.hpp"
 
 class BadGuy;
 class Portable;
@@ -78,6 +79,20 @@ extern TuxBodyParts* small_tux;
 extern TuxBodyParts* big_tux;
 extern TuxBodyParts* fire_tux;
 extern TuxBodyParts* ice_tux;
+
+class FallingCoin : public GameObject
+{
+public:
+  FallingCoin(const Vector& start_position, const int x_vel);
+  ~FallingCoin();
+
+  void draw(DrawingContext& context);
+  void update(float elapsed_time);
+private:
+  Vector  pos;
+  Sprite* sprite;
+  Physic  physic;
+};
 
 class Player : public MovingObject, public Scripting::Player, public ScriptInterface
 {

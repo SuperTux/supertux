@@ -100,6 +100,33 @@ TuxBodyParts::draw(DrawingContext& context, const Vector& pos, int layer)
     feet->draw(context, pos, layer-2);
 }
 
+FallingCoin::FallingCoin(const Vector& start_position, const int vel_x)
+{
+  pos = start_position;
+  sprite = sprite_manager->create("images/objects/coin/coin.sprite");
+  physic.set_velocity_y(800);
+  physic.set_velocity_x(vel_x);
+}
+
+FallingCoin::~FallingCoin()
+{
+  delete sprite;
+}
+
+void
+FallingCoin::draw(DrawingContext& context)
+{
+  sprite->draw(context, pos, LAYER_OBJECTS + 5);
+}
+
+void
+FallingCoin::update(float elapsed_time)
+{
+  pos += physic.get_movement(elapsed_time);
+  if (pos.y > SCREEN_HEIGHT)
+    remove_me();
+}
+
 Player::Player(PlayerStatus* _player_status)
   : player_status(_player_status), grabbed_object(0)
 {
@@ -856,6 +883,13 @@ Player::kill(HurtMode mode)
     }
   else
     {
+      srand(time(0));
+      int i;
+      for (i = 0; (i < 5) && (i < player_status->coins); i++)
+      {
+        // the numbers: starting x, starting y, velocity y
+        Sector::current()->add_object(new FallingCoin(get_pos() + Vector(rand()%5, rand()%50 - 32), rand()%200 - 100));
+      }
       physic.enable_gravity(true);
       physic.set_acceleration(0, 0);
       physic.set_velocity(0, 700);
