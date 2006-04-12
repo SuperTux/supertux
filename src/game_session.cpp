@@ -529,11 +529,17 @@ GameSession::update(float elapsed_time)
   sound_manager->set_listener_position(currentsector->player->get_pos());
 
   /* Handle music: */
-  if (currentsector->player->invincible_timer.started() && 
-      currentsector->player->invincible_timer.get_timeleft() 
-      > TUX_INVINCIBLE_TIME_WARNING && !end_sequence) {
-    currentsector->play_music(HERRING_MUSIC);
-  } else if(currentsector->get_music_type() != LEVEL_MUSIC && !end_sequence) {
+  if (end_sequence)
+    return;
+  
+  if(currentsector->player->invincible_timer.started()) {
+    if(currentsector->player->invincible_timer.get_timeleft() <=
+       TUX_INVINCIBLE_TIME_WARNING) {
+      currentsector->play_music(HERRING_WARNING_MUSIC);
+    } else {
+      currentsector->play_music(HERRING_MUSIC);
+    }
+  } else if(currentsector->get_music_type() != LEVEL_MUSIC) {
     currentsector->play_music(LEVEL_MUSIC);
   }
 }

@@ -1106,6 +1106,9 @@ Sector::play_music(MusicType type)
     case HERRING_MUSIC:
       sound_manager->play_music("music/salcon.ogg");
       break;
+    case HERRING_WARNING_MUSIC:
+      sound_manager->stop_music(TUX_INVINCIBLE_TIME_WARNING);
+      break;
     default:
       sound_manager->play_music("");
       break;

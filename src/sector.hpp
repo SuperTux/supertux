@@ -49,7 +49,8 @@ class CollisionHit;
 
 enum MusicType {
   LEVEL_MUSIC,
-  HERRING_MUSIC
+  HERRING_MUSIC,
+  HERRING_WARNING_MUSIC
 };
 
 /**
