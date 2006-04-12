@@ -246,6 +246,9 @@ public:
   Vector get_next_tile(Vector pos, Direction direction);
   const Tile* at(Vector pos);
 
+  size_t level_count();
+  size_t solved_level_count();
+
   /**
    * gets called from the GameSession when a level has been successfully
    * finished
@@ -272,7 +275,7 @@ public:
    */
   void loadmap(const std::string& filename);
 
-  const std::string& get_world_title() const
+  const std::string& get_title() const
   { return name; }
     
   void set_map_filename(std::string filename)

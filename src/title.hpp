@@ -57,9 +57,9 @@ private:
   std::auto_ptr<Menu> load_game_menu;
   std::auto_ptr<Menu> contrib_menu;
   std::auto_ptr<Menu> contrib_world_menu;
+  std::auto_ptr<World> main_world;
   std::vector<World*> contrib_worlds;
-  int current_world;
-  World* current_contrib_world;
+  World* current_world;
   
   std::auto_ptr<CodeController> controller;
   std::auto_ptr<GameSession> titlesession;

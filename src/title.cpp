@@ -86,8 +86,6 @@ TitleScreen::free_contrib_menu()
     delete *i;
 
   contrib_worlds.clear();
-  current_contrib_world = 0;
-  current_world = -1;
 }
 
 void
@@ -158,28 +156,21 @@ TitleScreen::check_levels_contrib_menu()
   if (index == -1)
     return;
 
-  World& world = * (contrib_worlds[index]);
+  current_world = contrib_worlds[index];
 
-  if(!world.is_levelset) {
-    world.set_savegame_filename("save/test.save");
-    world.run();
-  }
-
-  if (current_world != index) {
-    current_world = index;
-    World& world = * (contrib_worlds[index]);
-
-    current_contrib_world = &world;
-
+  if(!current_world->is_levelset) {
+    update_load_game_menu();
+    Menu::push_current(load_game_menu.get());
+  } else {
     contrib_world_menu.reset(new Menu());
 
-    contrib_world_menu->add_label(world.title);
+    contrib_world_menu->add_label(current_world->title);
     contrib_world_menu->add_hl();
 
-    for (unsigned int i = 0; i < world.get_num_levels(); ++i)
+    for (unsigned int i = 0; i < current_world->get_num_levels(); ++i)
     {
       /** get level's title */
-      std::string filename = world.get_level_filename(i);
+      std::string filename = current_world->get_level_filename(i);
       std::string title = get_level_name(filename);
       contrib_world_menu->add_entry(i, title);
     }
@@ -200,7 +191,7 @@ TitleScreen::check_contrib_world_menu()
       sound_manager->stop_music();
       GameSession* session =
         new GameSession(
-          current_contrib_world->get_level_filename(index), ST_GL_PLAY);
+          current_world->get_level_filename(index), ST_GL_PLAY);
       main_loop->push_screen(session);
     }
   }  
@@ -335,6 +326,11 @@ TitleScreen::update(float elapsed_time)
       switch (main_menu->check()) {
         case MNID_STARTGAME:
           // Start Game, ie. goto the slots menu
+          if(main_world.get() == NULL) {
+            main_world.reset(new World());
+            main_world->load("levels/world1/info");
+          }
+          current_world = main_world.get();
           update_load_game_menu();
           Menu::push_current(load_game_menu.get());
           break;
@@ -387,11 +383,14 @@ std::string
 TitleScreen::get_slotinfo(int slot)
 {
   std::string tmp;
-  std::string slotfile;
   std::string title;
-  std::stringstream stream;
-  stream << slot;
-  slotfile = "save/slot" + stream.str() + ".stsg";
+
+  std::string basename = current_world->get_basedir();
+  basename = basename.substr(0, basename.length()-1);
+  std::string worlddirname = FileSystem::basename(basename);
+  std::ostringstream stream;
+  stream << "save/" << worlddirname << "_" << slot << ".stsg";
+  std::string slotfile = stream.str();
 
   try {
     lisp::Parser parser;
@@ -403,11 +402,14 @@ TitleScreen::get_slotinfo(int slot)
 
     savegame->get("title", title);
   } catch(std::exception& e) {
-    return std::string(_("Slot")) + " " + stream.str() + " - " +
-      std::string(_("Free"));
+    std::ostringstream slottitle;
+    slottitle << _("Slot") << " " << slot << " - " << _("Free");
+    return slottitle.str();
   }
 
-  return std::string("Slot ") + stream.str() + " - " + title;
+  std::ostringstream slottitle;
+  slottitle << _("Slot") << " " << slot << " - " << title;
+  return slottitle.str();
 }
 
 bool
@@ -421,27 +423,18 @@ TitleScreen::process_load_game_menu()
   if(load_game_menu->get_item_by_id(slot).kind != MN_ACTION)
     return false;
 
+  std::string basename = current_world->get_basedir();
+  basename = basename.substr(0, basename.length()-1);
+  std::string worlddirname = FileSystem::basename(basename);
   std::stringstream stream;
-  stream << slot;
-  std::string slotfile = "save/slot" + stream.str() + ".stsg";
+  stream << "save/" << worlddirname << "_" << slot << ".stsg";
+  std::string slotfile = stream.str();
 
   sound_manager->stop_music();
   fadeout(256);
-  DrawingContext context;
-  context.draw_text(white_text, "Loading...",
-                    Vector(SCREEN_WIDTH/2, SCREEN_HEIGHT/2),
-                    CENTER_ALLIGN, LAYER_FOREGROUND1);
-  context.do_drawing();
 
-  WorldMapNS::WorldMap* worldmap = new WorldMapNS::WorldMap();
-
-  worldmap->set_map_filename("/levels/world1/worldmap.stwm");
-  // Load the game or at least set the savegame_file variable
-  //worldmap->loadgame(slotfile);
-
-  main_loop->push_screen(worldmap);
-
-  //Menu::set_current(main_menu);
+  current_world->set_savegame_filename(slotfile);
+  current_world->run();
 
   return true;
 }

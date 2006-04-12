@@ -25,7 +25,7 @@ std::string basename(const std::string& filename)
   if(p == std::string::npos)
     return filename;
 
-  return filename.substr(p, filename.size()-p);
+  return filename.substr(p+1, filename.size()-p-1);
 }
 
 std::string normalize(const std::string& filename)

@@ -48,6 +48,7 @@
 #include "resources.hpp"
 #include "misc.hpp"
 #include "msg.hpp"
+#include "world.hpp"
 #include "player_status.hpp"
 #include "textscroller.hpp"
 #include "main.hpp"
@@ -363,6 +364,9 @@ WorldMap::WorldMap()
 
 WorldMap::~WorldMap()
 {
+  if(current_ == this)
+    current_ = NULL;
+
   clear_objects();
   for(SpawnPoints::iterator i = spawn_points.begin();
       i != spawn_points.end(); ++i) {
@@ -685,6 +689,8 @@ WorldMap::finished_level(const std::string& filename)
   calculate_total_stats();
 
   save_state();
+  if(World::current() != NULL)
+    World::current()->save_state();
 
   if (old_level_state != level->solved && level->auto_path) {
     // Try to detect the next direction to which we should walk
@@ -1193,6 +1199,24 @@ WorldMap::load_state()
     msg_debug << "Not loading worldmap state: " << e.what() << std::endl;
   }
   sq_settop(vm, oldtop);
+}
+
+size_t
+WorldMap::level_count()
+{
+  return levels.size();
+}
+
+size_t
+WorldMap::solved_level_count()
+{
+  size_t count = 0;
+  for(Levels::iterator i = levels.begin(); i != levels.end(); ++i) {
+    if(i->solved)
+      count++;
+  }
+
+  return count;
 }
     
 void

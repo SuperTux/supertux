@@ -32,6 +32,8 @@
 #include "scripting/wrapper_util.hpp"
 #include "scripting/serialize.hpp"
 #include "msg.hpp"
+#include "worldmap.hpp"
+#include "mainloop.hpp"
 
 static bool has_suffix(const std::string& data, const std::string& suffix)
 {
@@ -120,10 +122,18 @@ World::run()
   load_state();
   
   std::string filename = basedir + "/world.nut";
-  IFileStream in(filename);
+  try {
+    IFileStream in(filename);
 
-  HSQUIRRELVM new_vm = ScriptManager::instance->create_thread();
-  Scripting::compile_and_run(new_vm, in, filename);
+    HSQUIRRELVM new_vm = ScriptManager::instance->create_thread();
+    Scripting::compile_and_run(new_vm, in, filename);
+  } catch(std::exception& e) {
+    using namespace WorldMapNS;
+    // fallback try to load worldmap
+    std::auto_ptr<WorldMap> worldmap (new WorldMap);
+    worldmap->loadmap(basedir + "worldmap.stwm");
+    main_loop->push_screen(worldmap.release());
+  }
 }
 
 void
@@ -133,6 +143,15 @@ World::save_state()
 
   writer.start_list("supertux-savegame");
   writer.write_int("version", 1);
+  
+  using namespace WorldMapNS;
+  if(WorldMap::current() != NULL) {
+    std::ostringstream title;
+    title << WorldMap::current()->get_title();
+    title << " (" << WorldMap::current()->solved_level_count() 
+          << "/" << WorldMap::current()->level_count() << ")";
+    writer.write_string("title", title.str());
+  }
 
   writer.start_list("tux");
   player_status->write(writer);
@@ -206,3 +225,8 @@ World::get_num_levels() const
   return levels.size();
 }
 
+const std::string&
+World::get_basedir() const
+{
+  return basedir;
+}
