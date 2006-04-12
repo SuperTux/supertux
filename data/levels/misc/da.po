@@ -1,0 +1,25 @@
+# translation of da.po to
+# Danish translations for supertux package
+# Danske oversættelser for pakke supertux.
+# Copyright (C) 2006 THE supertux'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the supertux package.
+# Anders <anders@ersej.dk>, 2006.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: da\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2006-04-11 18:31+0200\n"
+"PO-Revision-Date: 2006-04-11 21:45+0200\n"
+"Last-Translator: \n"
+"Language-Team:  <da@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: KBabel 1.11.2\n"
+
+#: data/levels/misc/menu.stl:3
+msgid "Menu Level"
+msgstr "Menu Niveau"
+

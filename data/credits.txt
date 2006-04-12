@@ -98,6 +98,7 @@
 	ca - Antoni Villalonga
 	cs - Ondra Hosek
 	de - Matthias Braun
+	da - Anders
 	es - Javier Beaumont
 	fr - Frederic Rodrigo
 	it - Iknos
