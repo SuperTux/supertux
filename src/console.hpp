@@ -32,6 +32,7 @@ class ConsoleStreamBuffer;
 class ConsoleCommandReceiver;
 class DrawingContext;
 class Surface;
+class Font;
 
 class Console 
 {
@@ -89,8 +90,10 @@ private:
   
   int backgroundOffset; /**< current offset of scrolling background image */
   float height; /**< height of the console in px */
+  float alpha;
   int offset; /**< decrease to scroll text up */
   bool focused; /**< true if console has input focus */
+  std::auto_ptr<Font> font;
 
   float stayOpen;
 

@@ -35,7 +35,7 @@
 #include <SDL.h>
 
 #include "game_session.hpp"
-#include "msg.hpp"
+#include "log.hpp"
 #include "worldmap.hpp"
 #include "mainloop.hpp"
 #include "video/screen.hpp"
@@ -342,7 +342,7 @@ bool
 GameSession::consoleCommand(std::string command, std::vector<std::string>)
 {
   if (command == "foo") {
-    msg_info << "bar" << std::endl;
+    log_info << "bar" << std::endl;
     return true;
   }
 
@@ -379,7 +379,7 @@ GameSession::consoleCommand(std::string command, std::vector<std::string>)
     return true;
   }
   if (command == "whereami") {
-    msg_info << "You are at x " << tux.get_pos().x << ", y " << tux.get_pos().y << std::endl;
+    log_info << "You are at x " << tux.get_pos().x << ", y " << tux.get_pos().y << std::endl;
     return true;
   }
   if (command == "gotoend") {
@@ -400,7 +400,7 @@ GameSession::consoleCommand(std::string command, std::vector<std::string>)
     return true;
   }
   if (command == "camera") {
-    msg_info << "Camera is at " << Sector::current()->camera->get_translation().x << "," << Sector::current()->camera->get_translation().y << std::endl;
+    log_info << "Camera is at " << Sector::current()->camera->get_translation().x << "," << Sector::current()->camera->get_translation().y << std::endl;
     return true;
   }
   if (command == "quit") {
@@ -501,7 +501,7 @@ GameSession::update(float elapsed_time)
   if(newsector != "" && newspawnpoint != "") {
     Sector* sector = level->get_sector(newsector);
     if(sector == 0) {
-      msg_warning << "Sector '" << newsector << "' not found" << std::endl;
+      log_warning << "Sector '" << newsector << "' not found" << std::endl;
     }
     sector->activate(newspawnpoint);
     sector->play_music(LEVEL_MUSIC);
@@ -773,12 +773,12 @@ GameSession::start_sequence(const std::string& sequencename)
     }
   } else if(sequencename == "stoptux") {
     if(!end_sequence) {
-      msg_warning << "Final target reached without an active end sequence" << std::endl;
+      log_warning << "Final target reached without an active end sequence" << std::endl;
       this->start_sequence("endsequence");
     }
     end_sequence =  ENDSEQUENCE_WAITING;
   } else {
-    msg_warning << "Unknown sequence '" << sequencename << "'" << std::endl;
+    log_warning << "Unknown sequence '" << sequencename << "'" << std::endl;
   }
 }
 

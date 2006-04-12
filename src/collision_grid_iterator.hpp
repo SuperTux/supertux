@@ -21,7 +21,7 @@
 #define __COLLISION_GRID_ITERATOR_H__
 
 #include "math/rect.hpp"
-#include "msg.hpp"
+#include "log.hpp"
 
 class CollisionGrid;
 
@@ -52,7 +52,7 @@ public:
     entry = 0;
 
     if(start_x >= end_x) {
-      msg_debug << "bad region" << std::endl;
+      log_debug << "bad region" << std::endl;
       y = 0;
       end_y = 0;
       return;

@@ -63,7 +63,7 @@
 #include "script_manager.hpp"
 #include "scripting/wrapper_util.hpp"
 #include "script_interface.hpp"
-#include "msg.hpp"
+#include "log.hpp"
 
 Sector* Sector::_current = 0;
 
@@ -151,7 +151,7 @@ Sector::parse_object(const std::string& name, const lisp::Lisp& reader)
   try {
     return create_object(name, reader);
   } catch(std::exception& e) {
-    msg_warning << e.what() << "" << std::endl;
+    log_warning << e.what() << "" << std::endl;
   }
   
   return 0;
@@ -189,7 +189,7 @@ Sector::parse(const lisp::Lisp& sector)
 
   fix_old_tiles();
   if(!camera) {
-    msg_warning << "sector '" << name << "' does not contain a camera." << std::endl;
+    log_warning << "sector '" << name << "' does not contain a camera." << std::endl;
     update_game_objects();
     add_object(new Camera(this));
   }
@@ -297,7 +297,7 @@ Sector::parse_old_format(const lisp::Lisp& reader)
           spawnpoints.push_back(sp);
           }
       } else {
-        msg_warning << "Unknown token '" << iter.item() << "' in reset-points." << std::endl;
+        log_warning << "Unknown token '" << iter.item() << "' in reset-points." << std::endl;
       }
     }
   }
@@ -311,7 +311,7 @@ Sector::parse_old_format(const lisp::Lisp& reader)
       if(object) {
         add_object(object);
       } else {
-        msg_warning << "Unknown object '" << iter.item() << "' in level." << std::endl;
+        log_warning << "Unknown object '" << iter.item() << "' in level." << std::endl;
       }
     }
   }
@@ -435,7 +435,7 @@ Sector::activate(const std::string& spawnpoint)
     }
   }                                                                           
   if(!sp) {
-    msg_warning << "Spawnpoint '" << spawnpoint << "' not found." << std::endl;
+    log_warning << "Spawnpoint '" << spawnpoint << "' not found." << std::endl;
     if(spawnpoint != "main") {
       activate("main");
     } else {
@@ -622,14 +622,14 @@ Sector::before_object_add(GameObject* object)
     if(solids == 0) {
       solids = tilemap;
     } else {
-      msg_warning << "Another solid tilemaps added. Ignoring" << std::endl;
+      log_warning << "Another solid tilemaps added. Ignoring" << std::endl;
     }
   }
 
   Camera* camera = dynamic_cast<Camera*> (object);
   if(camera) {
     if(this->camera != 0) {
-      msg_warning << "Multiple cameras added. Ignoring" << std::endl;
+      log_warning << "Multiple cameras added. Ignoring" << std::endl;
       return false;
     }
     this->camera = camera;
@@ -638,7 +638,7 @@ Sector::before_object_add(GameObject* object)
   Player* player = dynamic_cast<Player*> (object);
   if(player) {
     if(this->player != 0) {
-      msg_warning << "Multiple players added. Ignoring" << std::endl;
+      log_warning << "Multiple players added. Ignoring" << std::endl;
       return false;
     }
     this->player = player;
@@ -681,7 +681,7 @@ Sector::try_unexpose(GameObject* object)
     try {
       interface->unexpose(vm, -1);
     } catch(std::exception& e) {
-      msg_warning << "Couldn't unregister object: " << e.what() << std::endl;
+      log_warning << "Couldn't unregister object: " << e.what() << std::endl;
     }
     sq_settop(vm, oldtop);
   }

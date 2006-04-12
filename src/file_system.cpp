@@ -1,6 +1,6 @@
 #include <config.h>
 
-#include "msg.hpp"
+#include "log.hpp"
 #include "file_system.hpp"
 
 #include <string>
@@ -56,7 +56,7 @@ std::string normalize(const std::string& filename)
     if(pathelem == "..") {
       if(path_stack.empty()) {
 
-        msg_warning << "Invalid '..' in path '" << filename << "'" << std::endl;
+        log_warning << "Invalid '..' in path '" << filename << "'" << std::endl;
         // push it into the result path so that the users sees his error...
         path_stack.push_back(pathelem);
       } else {

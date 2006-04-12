@@ -30,11 +30,14 @@
 #include "resources.hpp"
 
 /// speed (pixels/s) the console closes
-static const float CLOSE_SPEED = 50;
+static const float FADE_SPEED = 1;
 
 Console::Console()
-  : backgroundOffset(0), height(0), offset(0), focused(false), stayOpen(0)
+  : backgroundOffset(0), height(0), alpha(1.0), offset(0), focused(false),
+    stayOpen(0)
 {
+  font.reset(new Font("images/engine/fonts/white-small.png",
+                      "images/engine/fonts/shadow-small.png", 8, 9, 1));
   background.reset(new Surface("images/engine/console.png"));
   background2.reset(new Surface("images/engine/console2.png"));
 }
@@ -92,7 +95,7 @@ Console::execute_script(const std::string& command)
   }
   int newtop = sq_gettop(vm);
   if(newtop < oldtop) {
-    msg_fatal << "Script destroyed squirrel stack..." << std::endl;
+    log_fatal << "Script destroyed squirrel stack..." << std::endl;
   } else {
     sq_settop(vm, oldtop);
   }
@@ -149,14 +152,19 @@ Console::addLine(std::string s)
     s = "..."+s.substr(99-3);
   }
   lines.push_front(s);
-  while (lines.size() >= 65535) lines.pop_back();
+  
+  while (lines.size() >= 1000)
+    lines.pop_back();
+  
   if (height < 64) {
-    if (height < 4+9) height=4+9;
-    height+=9;
+    if(height < 4)
+      height = 4;
+    height += font->get_height();
   }
 
+  alpha = 1.0;
   if(stayOpen < 5)
-    stayOpen += 0.7;
+    stayOpen += 1;
 }
 
 void
@@ -197,7 +205,7 @@ Console::parse(std::string s)
 
   // send command to the most recently registered ccr
   ConsoleCommandReceiver* ccr = i->second.front();
-  if (ccr->consoleCommand(command, args) != true) msg_warning << "Sent command to registered ccr, but command was unhandled" << std::endl;
+  if (ccr->consoleCommand(command, args) != true) log_warning << "Sent command to registered ccr, but command was unhandled" << std::endl;
 }
 
 bool
@@ -205,12 +213,12 @@ Console::consoleCommand(std::string command, std::vector<std::string> arguments)
 {
   if (command == "ccrs") {
     if (arguments.size() != 1) {
-      msg_info << "Usage: ccrs <command>" << std::endl;
+      log_info << "Usage: ccrs <command>" << std::endl;
       return true;
     }
     std::map<std::string, std::list<ConsoleCommandReceiver*> >::iterator i = commands.find(arguments[0]);
     if ((i == commands.end()) || (i->second.size() == 0)) {
-      msg_info << "unknown command: \"" << arguments[0] << "\"" << std::endl;
+      log_info << "unknown command: \"" << arguments[0] << "\"" << std::endl;
       return true;
     }
 
@@ -222,7 +230,7 @@ Console::consoleCommand(std::string command, std::vector<std::string> arguments)
       ccr_list << "[" << *j << "]";
     }
 
-    msg_info << "registered ccrs for \"" << arguments[0] << "\": " << ccr_list.str() << std::endl;
+    log_info << "registered ccrs for \"" << arguments[0] << "\": " << ccr_list.str() << std::endl;
     return true;
   }
 
@@ -240,6 +248,7 @@ Console::show()
 {
   focused = true;
   height = 256;
+  alpha = 1.0;
 }
 
 void 
@@ -272,9 +281,11 @@ Console::update(float elapsed_time)
     if(stayOpen < 0)
       stayOpen = 0;
   } else if(!focused && height > 0) {
-    height -= elapsed_time * CLOSE_SPEED;
-    if(height < 0)
+    alpha -= elapsed_time * FADE_SPEED;
+    if(alpha < 0) {
+      alpha = 0;
       height = 0;
+    }
   }
 }
 
@@ -284,6 +295,8 @@ Console::draw(DrawingContext& context)
   if (height == 0)
     return;
 
+  context.push_transform();
+  context.set_alpha(alpha);
   context.draw_surface(background2.get(), Vector(SCREEN_WIDTH/2 - background->get_width()/2 - background->get_width() + backgroundOffset, height - background->get_height()), LAYER_FOREGROUND1+1);
   context.draw_surface(background2.get(), Vector(SCREEN_WIDTH/2 - background->get_width()/2 + backgroundOffset, height - background->get_height()), LAYER_FOREGROUND1+1);
   context.draw_surface(background.get(), Vector(SCREEN_WIDTH/2 - background->get_width()/2, height - background->get_height()), LAYER_FOREGROUND1+1);
@@ -295,7 +308,7 @@ Console::draw(DrawingContext& context)
   if (focused) {
     lineNo++;
     float py = height-4-1*9;
-    context.draw_text(white_small_text, "> "+inputBuffer.str()+"_", Vector(4, py), LEFT_ALLIGN, LAYER_FOREGROUND1+1);
+    context.draw_text(font.get(), "> "+inputBuffer.str()+"_", Vector(4, py), LEFT_ALLIGN, LAYER_FOREGROUND1+1);
   }
 
   int skipLines = -offset;
@@ -304,8 +317,10 @@ Console::draw(DrawingContext& context)
     lineNo++;
     float py = height-4-lineNo*9;
     if (py < -9) break;
-    context.draw_text(white_small_text, *i, Vector(4, py), LEFT_ALLIGN, LAYER_FOREGROUND1+1);
+    context.draw_text(font.get(), *i, Vector(4, py), LEFT_ALLIGN, LAYER_FOREGROUND1+1);
   }
+
+  context.pop_transform();
 }
 
 void 
@@ -319,12 +334,12 @@ Console::unregisterCommand(std::string command, ConsoleCommandReceiver* ccr)
 {
   std::map<std::string, std::list<ConsoleCommandReceiver*> >::iterator i = commands.find(command);
   if ((i == commands.end()) || (i->second.size() == 0)) {
-    msg_warning << "Command \"" << command << "\" not associated with a command receiver. Not dissociated." << std::endl;
+    log_warning << "Command \"" << command << "\" not associated with a command receiver. Not dissociated." << std::endl;
     return;
   }
   std::list<ConsoleCommandReceiver*>::iterator j = find(i->second.begin(), i->second.end(), ccr);
   if (j == i->second.end()) {
-    msg_warning << "Command \"" << command << "\" not associated with given command receiver. Not dissociated." << std::endl;
+    log_warning << "Command \"" << command << "\" not associated with given command receiver. Not dissociated." << std::endl;
     return;
   }
   i->second.erase(j);

@@ -61,7 +61,7 @@
 #include "control/joystickkeyboardcontroller.hpp"
 #include "control/codecontroller.hpp"
 #include "main.hpp"
-#include "msg.hpp"
+#include "log.hpp"
 #include "console.hpp"
 
 void
@@ -120,7 +120,7 @@ TitleScreen::generate_contrib_menu()
       contrib_worlds.push_back(world.release());
     } catch(std::exception& e) {
 #ifdef DEBUG
-      msg_warning << "Couldn't parse levelset info for '" << *it << "': " << e.what() << std::endl;
+      log_warning << "Couldn't parse levelset info for '" << *it << "': " << e.what() << std::endl;
 #endif
     }
   }
@@ -144,7 +144,7 @@ TitleScreen::get_level_name(const std::string& filename)
     level->get("name", name);
     return name;
   } catch(std::exception& e) {
-    msg_warning << "Problem getting name of '" << filename << "'." << std::endl;
+    log_warning << "Problem getting name of '" << filename << "'." << std::endl;
     return "";
   }
 }
@@ -357,7 +357,7 @@ TitleScreen::update(float elapsed_time)
         
         if(confirm_dialog(bkg_title, str.c_str())) {
           str = "save/slot" + stream.str() + ".stsg";
-          msg_debug << "Removing: " << str << std::endl;
+          log_debug << "Removing: " << str << std::endl;
           PHYSFS_delete(str.c_str());
         }
 
@@ -436,7 +436,7 @@ TitleScreen::process_load_game_menu()
     current_world->set_savegame_filename(slotfile);
     current_world->run();
   } catch(std::exception& e) {
-    msg_fatal << "Couldn't start world: " << e.what() << std::endl;
+    log_fatal << "Couldn't start world: " << e.what() << std::endl;
   }
 
   return true;

@@ -22,7 +22,7 @@
 #include "platform.hpp"
 
 #include <stdexcept>
-#include "msg.hpp"
+#include "log.hpp"
 #include "video/drawing_context.hpp"
 #include "resources.hpp"
 #include "player.hpp"

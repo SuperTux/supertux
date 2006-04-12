@@ -12,7 +12,7 @@
 #include "object/player.hpp"
 #include "video/drawing_context.hpp"
 #include "lisp/list_iterator.hpp"
-#include "msg.hpp"
+#include "log.hpp"
 
 /** When to alert player they're low on time! */
 static const float TIME_WARNING = 20;
@@ -27,7 +27,7 @@ LevelTime::LevelTime(const lisp::Lisp& reader)
             iter.value()->get(time);
             break;
         } else {
-            msg_warning << "Unknown token '" << iter.item() << "' in LevelTime object" << std::endl;
+            log_warning << "Unknown token '" << iter.item() << "' in LevelTime object" << std::endl;
         }
     }
     if(time < 0)

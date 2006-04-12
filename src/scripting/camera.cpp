@@ -6,7 +6,7 @@
 #include "scripting/camera.hpp"
 #include "math/vector.hpp"
 
-#define NOIMPL      msg_fatal << __PRETTY_FUNCTION__ << " not implemented."
+#define NOIMPL      log_fatal << __PRETTY_FUNCTION__ << " not implemented."
 
 namespace Scripting
 {
@@ -37,7 +37,7 @@ namespace Scripting
     } else if(mode == "manual") {
       camera->mode = ::Camera::MANUAL;
     } else {
-      msg_fatal << "Camera mode '" << mode << "' unknown.";
+      log_fatal << "Camera mode '" << mode << "' unknown.";
     }
   }
 

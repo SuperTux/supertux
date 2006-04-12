@@ -27,7 +27,7 @@
 #include "audio/sound_manager.hpp"
 #include "object_factory.hpp"
 #include "sector.hpp"
-#include "msg.hpp"
+#include "log.hpp"
 
 PowerUp::PowerUp(const lisp::Lisp& lisp)
 {

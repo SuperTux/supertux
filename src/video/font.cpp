@@ -28,7 +28,7 @@
 #include "screen.hpp"
 #include "font.hpp"
 #include "drawing_context.hpp"
-#include "msg.hpp"
+#include "log.hpp"
 
 Font::Font(const std::string& file, const std::string& shadowfile,
            int w, int h, int shadowsize)
@@ -214,13 +214,13 @@ Font::draw_chars(Surface* pchars, const std::string& text, const Vector& pos,
     if(c >= 0x80) {
       font_index -= 32;
       if(c <= 0xa0) {
-        msg_debug << "Unsupported utf-8 character '" << c << "' found" << std::endl;
+        log_debug << "Unsupported utf-8 character '" << c << "' found" << std::endl;
         font_index = 0;
       }
     }
         
     if(font_index < 0 || font_index >= (ssize_t) char_count) {
-      msg_debug << "Unsupported utf-8 character found" << std::endl;
+      log_debug << "Unsupported utf-8 character found" << std::endl;
       font_index = 0;
     }                   
 

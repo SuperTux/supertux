@@ -27,7 +27,7 @@
 #include "object_factory.hpp"
 #include "resources.hpp"
 #include "main.hpp"
-#include "msg.hpp"
+#include "log.hpp"
 
 Background::Background()
   : layer(LAYER_BACKGROUND0)

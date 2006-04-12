@@ -27,7 +27,7 @@
 #include "object_factory.hpp"
 #include "lisp/lisp.hpp"
 #include "sector.hpp"
-#include "msg.hpp"
+#include "log.hpp"
 
 InfoBlock::InfoBlock(const lisp::Lisp& lisp)
   : Block(sprite_manager->create("images/objects/bonus_block/infoblock.sprite"))
@@ -38,7 +38,7 @@ InfoBlock::InfoBlock(const lisp::Lisp& lisp)
   bbox.set_pos(pos);
 
   if(!lisp.get("message", message)) {
-    msg_warning << "No message in InfoBlock" << std::endl;
+    log_warning << "No message in InfoBlock" << std::endl;
   }
   //stopped = false;
   //ringing = new AmbientSound(get_pos(), 0.5, 300, 1, "sounds/phone.wav");

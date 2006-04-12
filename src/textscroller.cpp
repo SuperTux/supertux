@@ -22,7 +22,7 @@
 #include "textscroller.hpp"
 
 #include <stdexcept>
-#include "msg.hpp"
+#include "log.hpp"
 #include "mainloop.hpp"
 #include "resources.hpp"
 #include "video/font.hpp"
@@ -175,7 +175,7 @@ TextScroller::draw(DrawingContext& context)
                   break;
                 }
       default:
-                msg_warning << "text contains an unformated line" << std::endl;
+                log_warning << "text contains an unformated line" << std::endl;
                 font = white_text;
                 center = false;
                 break;
@@ -230,7 +230,7 @@ InfoBox::InfoBox(const std::string& text)
   }
   catch (std::exception& e)
   {
-    msg_warning << "Could not load scrolling images: " << e.what() << std::endl;
+    log_warning << "Could not load scrolling images: " << e.what() << std::endl;
     arrow_scrollup = 0;
     arrow_scrolldown = 0;
   }
@@ -288,7 +288,7 @@ InfoBox::draw(DrawingContext& context)
         break;
       }
       default:
-        msg_warning << "text contains an unformatted line" << std::endl;
+        log_warning << "text contains an unformatted line" << std::endl;
         font = normal_font;
         center = false;
         break;

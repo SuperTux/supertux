@@ -25,7 +25,7 @@
 
 #include "sprite.hpp"
 #include "video/drawing_context.hpp"
-#include "msg.hpp"
+#include "log.hpp"
 
 Sprite::Sprite(SpriteData& newdata)
   : data(newdata), frame(0), animation_loops(-1)
@@ -56,7 +56,7 @@ Sprite::set_action(const std::string& name, int loops)
 
   SpriteData::Action* newaction = data.get_action(name);
   if(!newaction) {
-    msg_debug << "Action '" << name << "' not found." << std::endl;
+    log_debug << "Action '" << name << "' not found." << std::endl;
     return;
   }
 
@@ -99,7 +99,7 @@ Sprite::draw(DrawingContext& context, const Vector& pos, int layer)
   update();
 
   if((int)frame >= get_frames() || (int)frame < 0)
-    msg_warning << "frame out of range: " << (int)frame << "/" << get_frames() << " at " << get_name() << "/" << get_action_name() << std::endl;
+    log_warning << "frame out of range: " << (int)frame << "/" << get_frames() << " at " << get_name() << "/" << get_action_name() << std::endl;
   else
     context.draw_surface(action->surfaces[(int)frame],
             pos - Vector(action->x_offset, action->y_offset),
@@ -114,7 +114,7 @@ Sprite::draw_part(DrawingContext& context, const Vector& source,
   update();
 
   if((int)frame >= get_frames() || (int)frame < 0)
-    msg_warning << "frame out of range: " << (int)frame << "/" << get_frames() << " at sprite: " << get_name() << "/" << get_action_name() << std::endl;
+    log_warning << "frame out of range: " << (int)frame << "/" << get_frames() << " at sprite: " << get_name() << "/" << get_action_name() << std::endl;
   else
     context.draw_surface_part(action->surfaces[(int)frame], source, size,
             pos - Vector(action->x_offset, action->y_offset),

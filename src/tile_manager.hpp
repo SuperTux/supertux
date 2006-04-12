@@ -28,7 +28,7 @@
 #include <iostream>
 #include <stdint.h>
 #include <assert.h>
-#include "msg.hpp"
+#include "log.hpp"
 #include "tile.hpp"
 
 struct TileGroup
@@ -70,7 +70,7 @@ public:
     assert(id < tiles.size());
     Tile* tile = tiles[id];
     if(!tile) {
-      msg_warning << "Invalid tile: " << id << std::endl;
+      log_warning << "Invalid tile: " << id << std::endl;
       return tiles[0];
     }
 

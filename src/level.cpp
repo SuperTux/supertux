@@ -30,7 +30,7 @@
 #include <stdexcept>
 
 #include "video/screen.hpp"
-#include "msg.hpp"
+#include "log.hpp"
 #include "lisp/parser.hpp"
 #include "lisp/lisp.hpp"
 #include "lisp/list_iterator.hpp"
@@ -80,7 +80,7 @@ Level::load(const std::string& filepath)
       if(token == "version") {
         iter.value()->get(version);
         if(version > 2) {
-          msg_warning << "level format newer than application" << std::endl;
+          log_warning << "level format newer than application" << std::endl;
         }
       } else if(token == "name") {
         iter.value()->get(name);
@@ -91,7 +91,7 @@ Level::load(const std::string& filepath)
         sector->parse(*(iter.lisp()));
         add_sector(sector);
       } else {
-        msg_warning << "Unknown token '" << token << "' in level file" << std::endl;
+        log_warning << "Unknown token '" << token << "' in level file" << std::endl;
         continue;
       }
     }

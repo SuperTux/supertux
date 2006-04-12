@@ -26,7 +26,7 @@
 #include "lisp/lisp.hpp"
 #include "lisp/list_iterator.hpp"
 #include "object_factory.hpp"
-#include "msg.hpp"
+#include "log.hpp"
 
 #include <assert.h>
 #include <iostream>
@@ -68,7 +68,7 @@ Path::read(const lisp::Lisp& reader)
     }
     
     if(iter.item() != "node") {
-      msg_warning << "unknown token '" << iter.item() << "' in Path nodes list. Ignored." << std::endl;
+      log_warning << "unknown token '" << iter.item() << "' in Path nodes list. Ignored." << std::endl;
       continue;
     }
     const lisp::Lisp* node_lisp = iter.lisp();
@@ -107,7 +107,7 @@ Path::write(lisp::Writer& writer)
       writer.write_string("mode", "circular");
       break;
     default:
-      msg_warning << "Don't know how to write mode " << (int) mode << " ?!?" << std::endl;
+      log_warning << "Don't know how to write mode " << (int) mode << " ?!?" << std::endl;
       break;
   }
 

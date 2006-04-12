@@ -25,7 +25,7 @@
 #include "tile.hpp"
 #include "statistics.hpp"
 #include "game_session.hpp"
-#include "msg.hpp"
+#include "log.hpp"
 
 static const float SQUISH_TIME = 2;
 static const float X_OFFSCREEN_DISTANCE = 1600;
@@ -105,7 +105,7 @@ BadGuy::deactivate()
 void
 BadGuy::save(lisp::Writer& )
 {
-	msg_warning << "tried to write out a generic badguy" << std::endl;
+	log_warning << "tried to write out a generic badguy" << std::endl;
 }
 
 void

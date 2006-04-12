@@ -27,7 +27,7 @@
 #include "resources.hpp"
 #include "video/drawing_context.hpp"
 #include "lisp/list_iterator.hpp"
-#include "msg.hpp"
+#include "log.hpp"
 
 SpriteData::Action::Action()
 {
@@ -53,7 +53,7 @@ SpriteData::SpriteData(const lisp::Lisp* lisp, const std::string& basedir)
     } else if(iter.item() == "action") {
       parse_action(iter.lisp(), basedir);
     } else {
-      msg_warning << "Unknown sprite field: " << iter.item() << std::endl;
+      log_warning << "Unknown sprite field: " << iter.item() << std::endl;
     }
   }
   if(actions.empty())

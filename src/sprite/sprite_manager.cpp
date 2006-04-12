@@ -29,7 +29,7 @@
 #include "lisp/parser.hpp"
 #include "lisp/list_iterator.hpp"
 #include "file_system.hpp"
-#include "msg.hpp"
+#include "log.hpp"
 
 SpriteManager::SpriteManager()
 {

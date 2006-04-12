@@ -6,7 +6,7 @@
 #include "stream_sound_source.hpp"
 #include "sound_manager.hpp"
 #include "sound_file.hpp"
-#include "msg.hpp"
+#include "log.hpp"
 
 StreamSoundSource::StreamSoundSource()
   : file(0), fade_state(NoFading), looping(false)
@@ -56,7 +56,7 @@ StreamSoundSource::update()
       return;
     
     // we might have to restart the source if we had a buffer underrun  
-    msg_info << "Restarting audio source because of buffer underrun" << std::endl;
+    log_info << "Restarting audio source because of buffer underrun" << std::endl;
     play();
   }
 

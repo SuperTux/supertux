@@ -21,7 +21,7 @@
 #include <config.h>
 
 #include "totem.hpp"
-#include "msg.hpp"
+#include "log.hpp"
 
 static const float WALKSPEED = 100;
 static const float JUMP_ON_SPEED_Y = 400;
@@ -211,7 +211,7 @@ void
 Totem::jump_on(Totem* target)
 {
   if (target->carrying) {
-    msg_warning << "target is already carrying someone" << std::endl;
+    log_warning << "target is already carrying someone" << std::endl;
     return;
   }
   
@@ -227,7 +227,7 @@ Totem::jump_on(Totem* target)
 void
 Totem::jump_off() {
   if (!carried_by) {
-    msg_warning << "not carried by anyone" << std::endl;
+    log_warning << "not carried by anyone" << std::endl;
     return;
   }
 

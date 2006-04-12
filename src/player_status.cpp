@@ -28,7 +28,7 @@
 #include "sprite/sprite_manager.hpp"
 #include "math/vector.hpp"
 #include "main.hpp"
-#include "msg.hpp"
+#include "log.hpp"
 
 static const int START_COINS = 100;
 static const int MAX_COINS = 99999;
@@ -113,7 +113,7 @@ PlayerStatus::write(lisp::Writer& writer)
       writer.write_string("bonus", "iceflower");
       break;
     default:
-      msg_warning << "Unknown bonus type." << std::endl;
+      log_warning << "Unknown bonus type." << std::endl;
       writer.write_string("bonus", "none");
   }
   writer.write_bool("key-brass", keys & KEY_BRASS);
@@ -142,7 +142,7 @@ PlayerStatus::read(const lisp::Lisp& lisp)
     } else if(bonusname == "iceflower") {
       bonus = ICE_BONUS;
     } else {
-      msg_warning << "Unknown bonus '" << bonusname << "' in savefile" << std::endl;
+      log_warning << "Unknown bonus '" << bonusname << "' in savefile" << std::endl;
       bonus = NO_BONUS;
     }
   }
@@ -214,7 +214,7 @@ PlayerStatus::consoleCommand(std::string command, std::vector<std::string> argum
 {
   if (command == "coins") {
     if ((arguments.size() < 1) || (!Console::string_is<int>(arguments[0]))) {
-      msg_info << "Usage: coins <number>" << std::endl;
+      log_info << "Usage: coins <number>" << std::endl;
     } else {
       coins = Console::string_to<int>(arguments[0]);
     }

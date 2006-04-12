@@ -23,7 +23,7 @@
 
 #include "writer.hpp"
 #include "physfs/physfs_stream.hpp"
-#include "msg.hpp"
+#include "log.hpp"
 
 namespace lisp
 {
@@ -45,7 +45,7 @@ Writer::Writer(std::ostream* newout)
 Writer::~Writer()
 {
   if(lists.size() > 0) {
-    msg_warning << "Not all sections closed in lispwriter" << std::endl;
+    log_warning << "Not all sections closed in lispwriter" << std::endl;
   }
   if(out_owned)
     delete out;
@@ -76,11 +76,11 @@ void
 Writer::end_list(const std::string& listname)
 {
   if(lists.size() == 0) {
-    msg_warning << "Trying to close list '" << listname << "', which is not open" << std::endl;
+    log_warning << "Trying to close list '" << listname << "', which is not open" << std::endl;
     return;
   }
   if(lists.back() != listname) {
-    msg_warning << "trying to close list '" << listname << "' while list '" << lists.back() << "' is open" << std::endl;
+    log_warning << "trying to close list '" << listname << "' while list '" << lists.back() << "' is open" << std::endl;
     return;
   }
   lists.pop_back();

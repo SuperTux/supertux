@@ -21,7 +21,7 @@
 
 #include <sstream>
 #include "joystickkeyboardcontroller.hpp"
-#include "msg.hpp"
+#include "log.hpp"
 #include "gui/menu.hpp"
 #include "gettext.hpp"
 #include "lisp/lisp.hpp"
@@ -79,12 +79,12 @@ JoystickKeyboardController::JoystickKeyboardController()
     SDL_Joystick* joystick = SDL_JoystickOpen(i);
     bool good = true;
     if(SDL_JoystickNumButtons(joystick) < 2) {
-      msg_warning << "Joystick " << i << " has less than 2 buttons" << std::endl;
+      log_warning << "Joystick " << i << " has less than 2 buttons" << std::endl;
       good = false;
     }
     if(SDL_JoystickNumAxes(joystick) < 2
        && SDL_JoystickNumHats(joystick) == 0) {
-      msg_warning << "Joystick " << i << " has less than 2 axes and no hat" << std::endl;
+      log_warning << "Joystick " << i << " has less than 2 axes and no hat" << std::endl;
       good = false;
     }
     if(!good) {
@@ -153,7 +153,7 @@ JoystickKeyboardController::read(const lisp::Lisp& lisp)
         map->get("key", key);
         map->get("control", control);
         if(key < SDLK_FIRST || key >= SDLK_LAST) {
-          msg_warning << "Invalid key '" << key << "' in keymap" << std::endl;
+          log_warning << "Invalid key '" << key << "' in keymap" << std::endl;
           continue;
         }
 
@@ -163,12 +163,12 @@ JoystickKeyboardController::read(const lisp::Lisp& lisp)
             break;
         }
         if(controlNames[i] == 0) {
-          msg_warning << "Invalid control '" << control << "' in keymap" << std::endl;
+          log_warning << "Invalid control '" << control << "' in keymap" << std::endl;
           continue;
         }
         keymap.insert(std::make_pair((SDLKey) key, (Control) i));
       } else {
-        msg_warning << "Invalid lisp element '" << iter.item() << "' in keymap" << std::endl;
+        log_warning << "Invalid lisp element '" << iter.item() << "' in keymap" << std::endl;
       }
     }
   }
@@ -189,7 +189,7 @@ JoystickKeyboardController::read(const lisp::Lisp& lisp)
         map->get("button", button);
         map->get("control", control);
         if(button < 0 || button >= max_joybuttons) {
-          msg_warning << "Invalid button '" << button << "' in buttonmap" << std::endl;
+          log_warning << "Invalid button '" << button << "' in buttonmap" << std::endl;
           continue;
         }
         
@@ -199,7 +199,7 @@ JoystickKeyboardController::read(const lisp::Lisp& lisp)
             break;
         }                                                                           
         if(controlNames[i] == 0) {
-          msg_warning << "Invalid control '" << control << "' in buttonmap" << std::endl;
+          log_warning << "Invalid control '" << control << "' in buttonmap" << std::endl;
           continue;
         }
         reset_joybutton(button, (Control) i);
@@ -321,7 +321,7 @@ JoystickKeyboardController::process_event(const SDL_Event& event)
 
       ButtonMap::iterator i = joy_button_map.find(event.jbutton.button);
       if(i == joy_button_map.end()) {
-        msg_debug << "Unmapped joybutton " << (int)event.jbutton.button << " pressed" << std::endl;
+        log_debug << "Unmapped joybutton " << (int)event.jbutton.button << " pressed" << std::endl;
         return;
       }
       
@@ -361,7 +361,7 @@ JoystickKeyboardController::process_key_event(const SDL_Event& event)
 
   // default action: update controls
   if(key_mapping == keymap.end()) {
-    msg_debug << "Key " << event.key.keysym.sym << " is unbound" << std::endl;
+    log_debug << "Key " << event.key.keysym.sym << " is unbound" << std::endl;
     return;
   }
   Control control = key_mapping->second;

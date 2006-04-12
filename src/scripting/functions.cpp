@@ -32,7 +32,7 @@
 #include "script_manager.hpp"
 #include "resources.hpp"
 #include "gettext.hpp"
-#include "msg.hpp"
+#include "log.hpp"
 #include "mainloop.hpp"
 #include "worldmap.hpp"
 #include "world.hpp"

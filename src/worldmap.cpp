@@ -31,7 +31,7 @@
 #include "worldmap.hpp"
 
 #include "gettext.hpp"
-#include "msg.hpp"
+#include "log.hpp"
 #include "mainloop.hpp"
 #include "video/surface.hpp"
 #include "video/screen.hpp"
@@ -47,7 +47,7 @@
 #include "worldmap.hpp"
 #include "resources.hpp"
 #include "misc.hpp"
-#include "msg.hpp"
+#include "log.hpp"
 #include "world.hpp"
 #include "player_status.hpp"
 #include "textscroller.hpp"
@@ -154,7 +154,7 @@ Tux::draw(DrawingContext& context)
       tux_sprite->set_action(moving ? "small-walking" : "small-stop");
       break;
     default:
-      msg_debug << "Bonus type not handled in worldmap." << std::endl;
+      log_debug << "Bonus type not handled in worldmap." << std::endl;
       tux_sprite->set_action("large-stop");
       break;
   }
@@ -299,7 +299,7 @@ Tux::tryContinueWalking(float elapsed_time)
     if (dir == D_NONE) 
     {
       // Should never be reached if tiledata is good
-      msg_warning << "Could not determine where to walk next" << std::endl;
+      log_warning << "Could not determine where to walk next" << std::endl;
       stop();
       return;
     }
@@ -319,7 +319,7 @@ Tux::tryContinueWalking(float elapsed_time)
     }
     else
     {
-      msg_warning << "Tilemap data is buggy" << std::endl;
+      log_warning << "Tilemap data is buggy" << std::endl;
       stop();
     }
   }
@@ -450,7 +450,7 @@ WorldMap::load_map()
       } else if(iter.item() == "name") {
         // skip
       } else {
-        msg_warning << "Unknown token '" << iter.item() << "' in worldmap" << std::endl;
+        log_warning << "Unknown token '" << iter.item() << "' in worldmap" << std::endl;
       }
     }
     if(solids == 0)
@@ -553,7 +553,7 @@ WorldMap::parse_level_tile(const lisp::Lisp* level_lisp)
   	// Do we want to bail out instead...? We might get messages from modders
   	// who can't make their levels run because they're too dumb to watch
   	// their terminals...
-    msg_warning << "level file '" << level.name << "' does not exist and will not be added to the worldmap" << std::endl;
+    log_warning << "level file '" << level.name << "' does not exist and will not be added to the worldmap" << std::endl;
     return;
   }
 
@@ -585,7 +585,7 @@ WorldMap::get_level_title(Level& level)
     
     level_lisp->get("name", level.title);
   } catch(std::exception& e) {
-    msg_warning << "Problem when reading leveltitle: " << e.what() << std::endl;
+    log_warning << "Problem when reading leveltitle: " << e.what() << std::endl;
     return;
   }
 }
@@ -726,7 +726,7 @@ WorldMap::finished_level(const std::string& filename)
       interpreter->run_script(in, "level-extro-script");
       add_object(interpreter.release());
     } catch(std::exception& e) {
-      msg_fatal << "Couldn't run level-extro-script:" << e.what() << std::endl;
+      log_fatal << "Couldn't run level-extro-script:" << e.what() << std::endl;
     }
     */
   }
@@ -824,7 +824,7 @@ WorldMap::update(float delta)
       /* Check level action */
       Level* level = at_level();
       if (!level) {
-        msg_warning << "No level to enter at: " << tux->get_tile_pos().x << ", " << tux->get_tile_pos().y << std::endl;
+        log_warning << "No level to enter at: " << tux->get_tile_pos().x << ", " << tux->get_tile_pos().y << std::endl;
         return;
       }
 
@@ -839,7 +839,7 @@ WorldMap::update(float delta)
                 ST_GL_LOAD_LEVEL_FILE, &level->statistics);
           main_loop->push_screen(session);
         } catch(std::exception& e) {
-          msg_fatal << "Couldn't load level: " << e.what() << std::endl;
+          log_fatal << "Couldn't load level: " << e.what() << std::endl;
         }
       }
     }
@@ -1196,7 +1196,7 @@ WorldMap::load_state()
     sq_pop(vm, 1);
 
   } catch(std::exception& e) {
-    msg_debug << "Not loading worldmap state: " << e.what() << std::endl;
+    log_debug << "Not loading worldmap state: " << e.what() << std::endl;
   }
   sq_settop(vm, oldtop);
 }

@@ -31,7 +31,7 @@
 #include "script_manager.hpp"
 #include "scripting/wrapper_util.hpp"
 #include "scripting/serialize.hpp"
-#include "msg.hpp"
+#include "log.hpp"
 #include "worldmap.hpp"
 #include "mainloop.hpp"
 
@@ -108,7 +108,7 @@ World::load(const std::string& filename)
   std::string path = basedir + "/";
   char** files = PHYSFS_enumerateFiles(path.c_str());
   if(!files) {
-    msg_warning << "Couldn't read subset dir '" << path << "'" << std::endl;
+    log_warning << "Couldn't read subset dir '" << path << "'" << std::endl;
     return;
   }
 
@@ -225,7 +225,7 @@ World::load_state()
       throw std::runtime_error("Couldn't create state table");
     sq_pop(vm, 1); 
   } catch(std::exception& e) {
-    msg_debug << "Couldn't load savegame: " << e.what() << std::endl;
+    log_debug << "Couldn't load savegame: " << e.what() << std::endl;
   }
 }
 

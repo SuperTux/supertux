@@ -5,7 +5,7 @@
 #include "spawn_point.hpp"
 #include "lisp/lisp.hpp"
 #include "lisp/list_iterator.hpp"
-#include "msg.hpp"
+#include "log.hpp"
 
 SpawnPoint::SpawnPoint()
 {}
@@ -28,7 +28,7 @@ SpawnPoint::SpawnPoint(const lisp::Lisp* slisp)
         } else if(token == "y") {
             iter.value()->get(pos.y);
         } else {
-            msg_warning << "unknown token '" << token << "' in SpawnPoint" << std::endl;
+            log_warning << "unknown token '" << token << "' in SpawnPoint" << std::endl;
         }
     }
 

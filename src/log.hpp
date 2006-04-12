@@ -17,7 +17,6 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
-
 #ifndef __SUPERTUX_MSG_H__
 #define __SUPERTUX_MSG_H__
 
@@ -30,53 +29,53 @@
 
 namespace {
 
-inline std::ostream& msg_debug_f(const char* file, int line) {
+inline std::ostream& log_debug_f(const char* file, int line) {
   Console::output << "[DEBUG] " << file << " l." << line << ": ";
   return Console::output;
 }
 
-inline std::ostream& msg_info_f(const char* file, int line) {
+inline std::ostream& log_info_f(const char* file, int line) {
   Console::output << "[INFO] " << file << " l." << line << ": ";
   return Console::output;
 }
 
-inline std::ostream& msg_warning_f(const char* file, int line) {
+inline std::ostream& log_warning_f(const char* file, int line) {
   Console::output << "[WARNING] " << file << " l." << line << ": ";
   return Console::output;
 }
 
-inline std::ostream& msg_fatal_f(const char* file, int line) {
+inline std::ostream& log_fatal_f(const char* file, int line) {
   Console::output << "[FATAL] " << file << " l." << line << ": ";
   return Console::output;
 }
 
 }
 
-#define msg_debug msg_debug_f(__FILE__, __LINE__)
-#define msg_info msg_info_f(__FILE__, __LINE__)
-#define msg_warning msg_warning_f(__FILE__, __LINE__)
-#define msg_fatal msg_fatal_f(__FILE__, __LINE__)
+#define log_debug log_debug_f(__FILE__, __LINE__)
+#define log_info log_info_f(__FILE__, __LINE__)
+#define log_warning log_warning_f(__FILE__, __LINE__)
+#define log_fatal log_fatal_f(__FILE__, __LINE__)
 
 #else
 
 namespace {
 
-inline std::ostream& msg_warning_f() {
+inline std::ostream& log_warning_f() {
   Console::output << "Warning: ";
   return Console::output;
 }
 
-inline std::ostream& msg_fatal_f() {
+inline std::ostream& log_fatal_f() {
   Console::output << "Fatal: ";
   return Console::output;
 }
 
 }
 
-#define msg_debug if (0) std::cerr
-#define msg_info Console::output
-#define msg_warning msg_warning_f()
-#define msg_fatal msg_fatal_f()
+#define log_debug if (0) std::cerr
+#define log_info Console::output
+#define log_warning log_warning_f()
+#define log_fatal log_fatal_f()
 
 #endif
 
