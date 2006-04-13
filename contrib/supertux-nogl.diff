@@ -156,7 +156,7 @@ diff -Naur supertux/src/main.cpp supertux-nogl/src/main.cpp
  
  #include "gameconfig.hpp"
  #include "resources.hpp"
-@@ -269,44 +265,6 @@
+@@ -269,46 +265,6 @@
        ;
  }
  
@@ -185,9 +185,11 @@ diff -Naur supertux/src/main.cpp supertux-nogl/src/main.cpp
 -      case GL_OUT_OF_MEMORY:
 -        errormsg = "out of memory";
 -        break;
+-#ifdef GL_TABLE_TOO_LARGE
 -      case GL_TABLE_TOO_LARGE:
 -        errormsg = "table too large";
 -        break;
+-#endif
 -      default:
 -        errormsg = "unknown error number";
 -        break;
