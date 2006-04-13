@@ -1,4 +1,4 @@
-//  $Id: totem.cpp 3096 2006-03-17 12:03:02Z sommer $
+//  $Id$
 // 
 //  SuperTux - "Totem" Badguy
 //  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>

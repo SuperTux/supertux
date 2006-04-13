@@ -1,7 +1,7 @@
-//  $Id: game_object.cpp 2277 2005-01-16 12:11:22Z matzebraun $
+//  $Id$
 //
-//  SuperTux -  A Jump'n Run
-//  Copyright (C) 2004 Matthias Braun <matze@braunis.de>
+//  SuperTux
+//  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License

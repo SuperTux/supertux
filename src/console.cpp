@@ -1,4 +1,4 @@
-//  $Id: worldmap.cpp 3209 2006-04-02 22:19:22Z sommer $
+//  $Id$
 //
 //  SuperTux - Console
 //  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>

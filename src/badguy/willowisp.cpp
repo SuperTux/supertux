@@ -1,4 +1,4 @@
-//  $Id: willowisp.cpp 3117 2006-03-25 17:19:54Z sommer $
+//  $Id$
 // 
 //  SuperTux - "Will-O-Wisp" Badguy
 //  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>

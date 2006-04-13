@@ -1,7 +1,7 @@
 //  $Id$
-// 
+//
 //  SuperTux
-//  Copyright (C) 2005 Matthias Braun <matze@braunis.de>
+//  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -12,7 +12,7 @@
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
-// 
+//
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
@@ -153,6 +153,23 @@ static void init_physfs(const char* argv0)
       sourcedir = true;
     }
   }
+
+#ifdef MACOSX
+  // when started from Application file on Mac OS X...
+  dir = PHYSFS_getBaseDir();
+  dir += "SuperTux.app/Contents/Resources/data";
+  testfname = dir + "/credits.txt";
+  sourcedir = false;
+  f = fopen(testfname.c_str(), "r");
+  if(f) {
+    fclose(f);
+    if(!PHYSFS_addToSearchPath(dir.c_str(), 1)) {
+      msg_warning << "Couldn't add '" << dir << "' to physfs searchpath: " << PHYSFS_getLastError() << std::endl;
+    } else {
+      sourcedir = true;
+    }
+  }
+#endif
 
   if(!sourcedir) {
 #if defined(APPDATADIR) || defined(ENABLE_BINRELOC)

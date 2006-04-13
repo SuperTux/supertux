@@ -1,4 +1,4 @@
-//  $Id: willowisp.hpp 2642 2005-06-26 13:38:53Z matzebraun $
+//  $Id$
 // 
 //  SuperTux - "Will-O-Wisp" Badguy
 //  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>

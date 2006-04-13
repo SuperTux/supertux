@@ -1,7 +1,7 @@
-//  $Id: moving_object.cpp 2168 2004-11-24 14:10:27Z matzebraun $
+//  $Id$
 //
-//  SuperTux -  A Jump'n Run
-//  Copyright (C) 2004 Matthias Braun <matze@braunis.de
+//  SuperTux
+//  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License

@@ -1,7 +1,8 @@
 //  $Id$
 //
-//  SuperTux -  A Jump'n Run
+//  SuperTux
 //  Copyright (C) 2004 Ricardo Cruz <rick2@aeiou.pt>
+//  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
