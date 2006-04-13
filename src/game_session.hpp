@@ -54,7 +54,7 @@ class CodeController;
  * The GameSession class controlls the controll flow of the Game (the part
  * where you actually play a level)
  */
-class GameSession : public Screen, public ConsoleCommandReceiver
+class GameSession : public Screen
 {
 public:
   GameSession(const std::string& levelfile, GameSessionMode mode,
@@ -94,11 +94,9 @@ public:
    * resources for the current level/world
    */
   std::string get_working_directory();
-  bool consoleCommand(std::string command, std::vector<std::string> arguments); /**< callback from Console; return false if command was unknown, true otherwise */
-
-private:
   void restart_level(bool fromBeginning = true);
 
+private:
   void check_end_conditions();
   void process_events();
   void capture_demo_step();

@@ -68,6 +68,7 @@
 Sector* Sector::_current = 0;
 
 bool Sector::show_collrects = false;
+bool Sector::draw_solids_only = false;
 
 Sector::Sector()
   : currentmusic(LEVEL_MUSIC), gravity(10),
@@ -700,7 +701,14 @@ Sector::draw(DrawingContext& context)
     GameObject* object = *i; 
     if(!object->is_valid())
       continue;
-    
+
+    if (draw_solids_only)
+    {
+      TileMap* tm = dynamic_cast<TileMap*>(object);
+      if (tm && !tm->is_solid())
+        continue;
+    }
+
     object->draw(context);
   }
 

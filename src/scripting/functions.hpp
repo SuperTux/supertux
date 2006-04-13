@@ -100,6 +100,72 @@ void add_key(int new_key);
  */
 void debug_collrects(bool enable);
 
+/**
+ * enable/disable drawing of non-solid layers
+ */
+void draw_solids_only(bool enable);
+
+// ------- Items after this line were formerly in game_session.cpp
+
+/**
+ * speeds Tux up
+ */
+void grease();
+
+/**
+ * makes Tux invincible for 10000 units of time
+ */
+void invincible();
+
+/**
+ * recall Tux's invincibility
+ */
+void mortal();
+
+/**
+ * hurt Tux (kill when Small Tux, otherwise lose powerup or shrink)
+ */
+void shrink();
+
+/**
+ * kill Tux
+ */
+void kill();
+
+/**
+ * reinitialise and respawn Tux at the beginning of the current level
+ */
+void restart();
+
+/**
+ * print Tux's current coordinates in a level
+ */
+void whereami();
+
+/**
+ * move Tux near the end of the level
+ */
+void gotoend();
+
+/**
+ * flip the level vertically
+ */
+void flip();
+
+/**
+ * quit the level, marking it as solved
+ */
+void finish();
+
+/**
+ * show the camera's coordinates
+ */
+void camera();
+
+/**
+ * exit the game
+ */
+void quit();
 }
 
 #endif

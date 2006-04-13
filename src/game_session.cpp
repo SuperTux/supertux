@@ -72,24 +72,6 @@
 // binary fraction...
 static const float LOGICAL_FPS = 64.0;
 
-namespace {
-  const char* consoleCommands[] = {
-	  "foo",
-	  "whereami",
-	  "camera",
-	  "grease",
-	  "invincible",
-	  "mortal",
-	  "shrink", 
-	  "kill",
-	  "gotoend",
-	  "flip",
-	  "finish",
-          "restart",
-          "quit"
-  };
-}
-
 using namespace WorldMapNS;
 
 GameSession* GameSession::current_ = 0;
@@ -106,10 +88,6 @@ GameSession::GameSession(const std::string& levelfile_, GameSessionMode mode,
   
   game_pause = false;
   fps_fps = 0;
-
-  for (uint16_t i=0; i < sizeof(::consoleCommands)/sizeof(typeof(consoleCommands[0])); i++) {
-    Console::instance->registerCommand(consoleCommands[i], this);
-  }
 
   statistics_backdrop.reset(new Surface("images/engine/menu/score-backdrop.png"));
 
@@ -333,79 +311,6 @@ GameSession::process_events()
     capture_demo_stream ->put(main_controller->hold(Controller::JUMP));   
     capture_demo_stream ->put(main_controller->hold(Controller::ACTION));
   }
-}
-
-bool
-GameSession::consoleCommand(std::string command, std::vector<std::string>)
-{
-  if (command == "foo") {
-    log_info << "bar" << std::endl;
-    return true;
-  }
-
-  if (currentsector == 0) return false;
-  Player& tux = *currentsector->player;
-  
-  // Cheating words (the goal of this is really for debugging,
-  // but could be used for some cheating, nothing wrong with that)
-  if (command == "grease") {
-    tux.physic.set_velocity_x(tux.physic.get_velocity_x()*3);
-    return true;
-  }
-  if (command == "invincible") {
-    // be invincle for the rest of the level
-    tux.invincible_timer.start(10000);
-    return true;
-  }
-  if (command == "mortal") {
-    // give up invincibility
-    tux.invincible_timer.stop();
-    return true;
-  }
-  if (command == "shrink") {
-    // remove powerups
-    tux.kill(tux.SHRINK);
-    return true;
-  }
-  if (command == "kill") {
-    tux.kill(tux.KILL);
-    return true;
-  }
-  if (command == "restart") {
-    restart_level(true);
-    return true;
-  }
-  if (command == "whereami") {
-    log_info << "You are at x " << tux.get_pos().x << ", y " << tux.get_pos().y << std::endl;
-    return true;
-  }
-  if (command == "gotoend") {
-    // goes to the end of the level
-    tux.move(Vector(
-          (currentsector->solids->get_width()*32) - (SCREEN_WIDTH*2), 0));
-    currentsector->camera->reset(
-        Vector(tux.get_pos().x, tux.get_pos().y));
-    return true;
-  }
-  if (command == "flip") {
-    FlipLevelTransformer flip_transformer;
-    flip_transformer.transform(GameSession::current()->get_current_level());
-    return true;
-  }
-  if (command == "finish") {
-    finish(true);
-    return true;
-  }
-  if (command == "camera") {
-    log_info << "Camera is at " << Sector::current()->camera->get_translation().x << "," << Sector::current()->camera->get_translation().y << std::endl;
-    return true;
-  }
-  if (command == "quit") {
-    main_loop->quit();
-    return true;
-  }
-
-  return false;
 }
 
 void

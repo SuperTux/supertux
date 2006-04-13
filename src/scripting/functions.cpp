@@ -37,6 +37,11 @@
 #include "worldmap.hpp"
 #include "world.hpp"
 #include "sector.hpp"
+#include "object/player.hpp"
+#include "object/tilemap.hpp"
+#include "main.hpp"
+#include "object/camera.hpp"
+#include "flip_level_transformer.hpp"
 
 #include "squirrel_error.hpp"
 #include "wrapper_util.hpp"
@@ -130,12 +135,134 @@ void debug_collrects(bool enable)
   Sector::show_collrects = enable;
 }
 
+void draw_solids_only(bool enable)
+{
+  Sector::draw_solids_only = enable;
+}
+
 void save_state()
 {
   if(World::current() == NULL)
     throw std::runtime_error("Can't save state without active World");
 
   World::current()->save_state();
+}
+
+// not added to header, function to only be used by others
+// in this file
+bool validate_sector_player()
+{
+  if (Sector::current() == 0)
+  {
+    log_info << "No current sector." << std::endl;
+	return false;
+  }
+
+  if (Sector::current()->player == 0)
+  {
+    log_info << "No player." << std::endl;
+	return false;
+  }
+  return true;
+}
+
+void grease()
+{
+  if (!validate_sector_player()) return;
+  ::Player* tux = Sector::current()->player; // Scripting::Player != ::Player
+  tux->physic.set_velocity_x(tux->physic.get_velocity_x()*3);
+}
+
+void invincible()
+{
+  if (!validate_sector_player()) return;
+  ::Player* tux = Sector::current()->player;
+  tux->invincible_timer.start(10000);
+}
+
+void mortal()
+{
+  if (!validate_sector_player()) return;
+  ::Player* tux = Sector::current()->player;
+  tux->invincible_timer.stop();
+}
+
+void shrink()
+{
+  if (!validate_sector_player()) return;
+  ::Player* tux = Sector::current()->player;
+  tux->kill(tux->SHRINK);
+}
+
+void kill()
+{
+  if (!validate_sector_player()) return;
+  ::Player* tux = Sector::current()->player;
+  tux->kill(tux->KILL);
+}
+
+void restart()
+{
+  if (GameSession::current() == 0)
+  {
+    log_info << "No game session" << std::endl;
+    return;
+  }
+  GameSession::current()->restart_level();
+}
+
+void whereami()
+{
+  if (!validate_sector_player()) return;
+  ::Player* tux = Sector::current()->player;
+  log_info << "You are at x " << tux->get_pos().x << ", y " << tux->get_pos().y << std::endl;
+}
+
+void gotoend()
+{
+  if (!validate_sector_player()) return;
+  ::Player* tux = Sector::current()->player;
+  tux->move(Vector(
+          (Sector::current()->solids->get_width()*32) - (SCREEN_WIDTH*2), 0));
+  Sector::current()->camera->reset(
+        Vector(tux->get_pos().x, tux->get_pos().y));
+}
+
+void flip()
+{
+  if (GameSession::current() == 0)
+  {
+    log_info << "No game session" << std::endl;
+    return;
+  }
+  if (GameSession::current()->get_current_level() == 0)
+  {
+    log_info << "No current level" << std::endl;
+	return;
+  }
+  FlipLevelTransformer flip_transformer;
+  flip_transformer.transform(GameSession::current()->get_current_level());
+}
+
+void finish()
+{
+  if (GameSession::current() == 0)
+  {
+    log_info << "No game session" << std::endl;
+    return;
+  }
+  GameSession::current()->finish(true);
+}
+
+void camera()
+{
+  if (!validate_sector_player()) return;
+  log_info << "Camera is at " << Sector::current()->camera->get_translation().x << "," << Sector::current()->camera->get_translation().y << std::endl;
+}
+
+void quit()
+{
+  main_loop->quit();
 }
 
 }

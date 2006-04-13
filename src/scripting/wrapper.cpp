@@ -1725,6 +1725,257 @@ static int debug_collrects_wrapper(HSQUIRRELVM vm)
   
 }
 
+static int draw_solids_only_wrapper(HSQUIRRELVM vm)
+{
+  SQBool arg0;
+  if(SQ_FAILED(sq_getbool(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a bool"));
+    return SQ_ERROR;
+  }
+  
+  try {
+    Scripting::draw_solids_only(arg0);
+  
+    return 0;
+  
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'draw_solids_only'"));
+    return SQ_ERROR;
+  }
+  
+}
+
+static int grease_wrapper(HSQUIRRELVM vm)
+{
+  (void) vm;
+  
+  try {
+    Scripting::grease();
+  
+    return 0;
+  
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'grease'"));
+    return SQ_ERROR;
+  }
+  
+}
+
+static int invincible_wrapper(HSQUIRRELVM vm)
+{
+  (void) vm;
+  
+  try {
+    Scripting::invincible();
+  
+    return 0;
+  
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'invincible'"));
+    return SQ_ERROR;
+  }
+  
+}
+
+static int mortal_wrapper(HSQUIRRELVM vm)
+{
+  (void) vm;
+  
+  try {
+    Scripting::mortal();
+  
+    return 0;
+  
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'mortal'"));
+    return SQ_ERROR;
+  }
+  
+}
+
+static int shrink_wrapper(HSQUIRRELVM vm)
+{
+  (void) vm;
+  
+  try {
+    Scripting::shrink();
+  
+    return 0;
+  
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'shrink'"));
+    return SQ_ERROR;
+  }
+  
+}
+
+static int kill_wrapper(HSQUIRRELVM vm)
+{
+  (void) vm;
+  
+  try {
+    Scripting::kill();
+  
+    return 0;
+  
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'kill'"));
+    return SQ_ERROR;
+  }
+  
+}
+
+static int restart_wrapper(HSQUIRRELVM vm)
+{
+  (void) vm;
+  
+  try {
+    Scripting::restart();
+  
+    return 0;
+  
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'restart'"));
+    return SQ_ERROR;
+  }
+  
+}
+
+static int whereami_wrapper(HSQUIRRELVM vm)
+{
+  (void) vm;
+  
+  try {
+    Scripting::whereami();
+  
+    return 0;
+  
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'whereami'"));
+    return SQ_ERROR;
+  }
+  
+}
+
+static int gotoend_wrapper(HSQUIRRELVM vm)
+{
+  (void) vm;
+  
+  try {
+    Scripting::gotoend();
+  
+    return 0;
+  
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'gotoend'"));
+    return SQ_ERROR;
+  }
+  
+}
+
+static int flip_wrapper(HSQUIRRELVM vm)
+{
+  (void) vm;
+  
+  try {
+    Scripting::flip();
+  
+    return 0;
+  
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'flip'"));
+    return SQ_ERROR;
+  }
+  
+}
+
+static int finish_wrapper(HSQUIRRELVM vm)
+{
+  (void) vm;
+  
+  try {
+    Scripting::finish();
+  
+    return 0;
+  
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'finish'"));
+    return SQ_ERROR;
+  }
+  
+}
+
+static int camera_wrapper(HSQUIRRELVM vm)
+{
+  (void) vm;
+  
+  try {
+    Scripting::camera();
+  
+    return 0;
+  
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'camera'"));
+    return SQ_ERROR;
+  }
+  
+}
+
+static int quit_wrapper(HSQUIRRELVM vm)
+{
+  (void) vm;
+  
+  try {
+    Scripting::quit();
+  
+    return 0;
+  
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'quit'"));
+    return SQ_ERROR;
+  }
+  
+}
+
 } // end of namespace Wrapper
 
 void create_squirrel_instance(HSQUIRRELVM v, Scripting::DisplayEffect* object, bool setup_releasehook)
@@ -2093,6 +2344,84 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_newclosure(v, &debug_collrects_wrapper, 0);
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'debug_collrects'");
+  }
+
+  sq_pushstring(v, "draw_solids_only", -1);
+  sq_newclosure(v, &draw_solids_only_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'draw_solids_only'");
+  }
+
+  sq_pushstring(v, "grease", -1);
+  sq_newclosure(v, &grease_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'grease'");
+  }
+
+  sq_pushstring(v, "invincible", -1);
+  sq_newclosure(v, &invincible_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'invincible'");
+  }
+
+  sq_pushstring(v, "mortal", -1);
+  sq_newclosure(v, &mortal_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'mortal'");
+  }
+
+  sq_pushstring(v, "shrink", -1);
+  sq_newclosure(v, &shrink_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'shrink'");
+  }
+
+  sq_pushstring(v, "kill", -1);
+  sq_newclosure(v, &kill_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'kill'");
+  }
+
+  sq_pushstring(v, "restart", -1);
+  sq_newclosure(v, &restart_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'restart'");
+  }
+
+  sq_pushstring(v, "whereami", -1);
+  sq_newclosure(v, &whereami_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'whereami'");
+  }
+
+  sq_pushstring(v, "gotoend", -1);
+  sq_newclosure(v, &gotoend_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'gotoend'");
+  }
+
+  sq_pushstring(v, "flip", -1);
+  sq_newclosure(v, &flip_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'flip'");
+  }
+
+  sq_pushstring(v, "finish", -1);
+  sq_newclosure(v, &finish_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'finish'");
+  }
+
+  sq_pushstring(v, "camera", -1);
+  sq_newclosure(v, &camera_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'camera'");
+  }
+
+  sq_pushstring(v, "quit", -1);
+  sq_newclosure(v, &quit_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'quit'");
   }
 
   // Register class DisplayEffect
