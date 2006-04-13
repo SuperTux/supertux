@@ -64,8 +64,7 @@ MainLoop::push_screen(Screen* screen)
 void
 MainLoop::exit_screen()
 {
-  if (screen_stack.size() < 1)
-  {
+  if (screen_stack.size() < 1) {
     quit();
     return;
   }

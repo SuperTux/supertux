@@ -214,7 +214,7 @@ BonusBlock::try_open()
   switch(contents) {
     case CONTENT_COIN:
       Sector::current()->add_object(new BouncyCoin(get_pos()));
-      player.get_status()->incCoins();
+      player.get_status()->add_coins(1);
       break;
 
     case CONTENT_FIREGROW:
@@ -300,7 +300,7 @@ Brick::try_break(bool playerhit)
   if(coin_counter > 0) {
     sector->add_object(new BouncyCoin(get_pos()));
     coin_counter--;
-    player.get_status()->incCoins();
+    player.get_status()->add_coins(1);
     if(coin_counter == 0)
       sprite->set_action("empty");
     start_bounce();

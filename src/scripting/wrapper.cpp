@@ -999,6 +999,62 @@ static int Player_release_hook(SQUserPointer ptr, int )
   return 0;
 }
 
+static int Player_set_bonus_wrapper(HSQUIRRELVM vm)
+{
+  Scripting::Player* _this;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, reinterpret_cast<SQUserPointer*> (&_this), 0))) {
+    sq_throwerror(vm, _SC("'set_bonus' called without instance"));
+    return SQ_ERROR;
+  }
+  const char* arg0;
+  if(SQ_FAILED(sq_getstring(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a string"));
+    return SQ_ERROR;
+  }
+  
+  try {
+    _this->set_bonus(arg0);
+  
+    return 0;
+  
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_bonus'"));
+    return SQ_ERROR;
+  }
+  
+}
+
+static int Player_add_coins_wrapper(HSQUIRRELVM vm)
+{
+  Scripting::Player* _this;
+  if(SQ_FAILED(sq_getinstanceup(vm, 1, reinterpret_cast<SQUserPointer*> (&_this), 0))) {
+    sq_throwerror(vm, _SC("'add_coins' called without instance"));
+    return SQ_ERROR;
+  }
+  int arg0;
+  if(SQ_FAILED(sq_getinteger(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not an integer"));
+    return SQ_ERROR;
+  }
+  
+  try {
+    _this->add_coins(arg0);
+  
+    return 0;
+  
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'add_coins'"));
+    return SQ_ERROR;
+  }
+  
+}
+
 static int Player_make_invincible_wrapper(HSQUIRRELVM vm)
 {
   Scripting::Player* _this;
@@ -1537,6 +1593,25 @@ static int wait_for_screenswitch_wrapper(HSQUIRRELVM vm)
   
 }
 
+static int exit_screen_wrapper(HSQUIRRELVM vm)
+{
+  (void) vm;
+  
+  try {
+    Scripting::exit_screen();
+  
+    return 0;
+  
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'exit_screen'"));
+    return SQ_ERROR;
+  }
+  
+}
+
 static int translate_wrapper(HSQUIRRELVM vm)
 {
   const char* arg0;
@@ -1961,6 +2036,12 @@ void register_supertux_wrapper(HSQUIRRELVM v)
     throw SquirrelError(v, "Couldn't register function 'wait_for_screenswitch'");
   }
 
+  sq_pushstring(v, "exit_screen", -1);
+  sq_newclosure(v, &exit_screen_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'exit_screen'");
+  }
+
   sq_pushstring(v, "translate", -1);
   sq_newclosure(v, &translate_wrapper, 0);
   if(SQ_FAILED(sq_createslot(v, -3))) {
@@ -2256,6 +2337,18 @@ void register_supertux_wrapper(HSQUIRRELVM v)
     msg << "Couldn't create new class 'Player'";
     throw SquirrelError(v, msg.str());
   }
+  sq_pushstring(v, "set_bonus", -1);
+  sq_newclosure(v, &Player_set_bonus_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'set_bonus'");
+  }
+
+  sq_pushstring(v, "add_coins", -1);
+  sq_newclosure(v, &Player_add_coins_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'add_coins'");
+  }
+
   sq_pushstring(v, "make_invincible", -1);
   sq_newclosure(v, &Player_make_invincible_wrapper, 0);
   if(SQ_FAILED(sq_createslot(v, -3))) {

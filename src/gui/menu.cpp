@@ -488,8 +488,8 @@ Menu::menu_action(MenuItem* )
 void
 Menu::draw_item(DrawingContext& context, int index)
 {
-  int menu_height = get_height();
-  int menu_width = get_width();  
+  float menu_height = get_height();
+  float menu_width = get_width();  
 
   MenuItem& pitem = *(items[index]);
 
@@ -667,29 +667,33 @@ Menu::draw_item(DrawingContext& context, int index)
     }
 }
 
-int Menu::get_width() const
+float Menu::get_width() const
+{
+  /* The width of the menu has to be more than the width of the text
+     with the most characters */
+  float menu_width = 0;
+  for(unsigned int i = 0; i < items.size(); ++i)
   {
-    /* The width of the menu has to be more than the width of the text
-       with the most characters */
-    int menu_width = 0;
-    for(unsigned int i = 0; i < items.size(); ++i)
-      {
-        int w = items[i]->text.size() + items[i]->input.size() + 1;
-        if(w > menu_width)
-          {
-            menu_width = w;
-            if( items[i]->kind == MN_TOGGLE)
-              menu_width += 2;
-          }
-      }
+    Font* font = default_font;
+    if(items[i]->kind == MN_LABEL)
+      font = label_font;
 
-    return (menu_width * 16 + 24);
+    float w = font->get_text_width(items[i]->text) +
+        label_font->get_text_width(items[i]->input) + 16;
+    if(items[i]->kind == MN_TOGGLE)
+      w += 32;
+    
+    if(w > menu_width)
+      menu_width = w;
   }
+  
+  return menu_width + 24;
+}
 
-int Menu::get_height() const
-  {
-    return items.size() * 24;
-  }
+float Menu::get_height() const
+{
+  return items.size() * 24;
+}
 
 /* Draw the current menu. */
 void
@@ -699,8 +703,8 @@ Menu::draw(DrawingContext& context)
     MouseCursor::current()->draw(context);
   }
   
-  int menu_height = get_height();
-  int menu_width = get_width();  
+  float menu_height = get_height();
+  float menu_width = get_width();  
 
   /* Draw a transparent background */
   context.draw_filled_rect(

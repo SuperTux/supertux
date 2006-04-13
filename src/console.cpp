@@ -295,11 +295,13 @@ Console::draw(DrawingContext& context)
   if (height == 0)
     return;
 
+  int layer = LAYER_GUI + 1;
+
   context.push_transform();
   context.set_alpha(alpha);
-  context.draw_surface(background2.get(), Vector(SCREEN_WIDTH/2 - background->get_width()/2 - background->get_width() + backgroundOffset, height - background->get_height()), LAYER_FOREGROUND1+1);
-  context.draw_surface(background2.get(), Vector(SCREEN_WIDTH/2 - background->get_width()/2 + backgroundOffset, height - background->get_height()), LAYER_FOREGROUND1+1);
-  context.draw_surface(background.get(), Vector(SCREEN_WIDTH/2 - background->get_width()/2, height - background->get_height()), LAYER_FOREGROUND1+1);
+  context.draw_surface(background2.get(), Vector(SCREEN_WIDTH/2 - background->get_width()/2 - background->get_width() + backgroundOffset, height - background->get_height()), layer);
+  context.draw_surface(background2.get(), Vector(SCREEN_WIDTH/2 - background->get_width()/2 + backgroundOffset, height - background->get_height()), layer);
+  context.draw_surface(background.get(), Vector(SCREEN_WIDTH/2 - background->get_width()/2, height - background->get_height()), layer);
   backgroundOffset+=10;
   if (backgroundOffset > (int)background->get_width()) backgroundOffset -= (int)background->get_width();
 
@@ -308,7 +310,7 @@ Console::draw(DrawingContext& context)
   if (focused) {
     lineNo++;
     float py = height-4-1*9;
-    context.draw_text(font.get(), "> "+inputBuffer.str()+"_", Vector(4, py), LEFT_ALLIGN, LAYER_FOREGROUND1+1);
+    context.draw_text(font.get(), "> "+inputBuffer.str()+"_", Vector(4, py), LEFT_ALLIGN, layer);
   }
 
   int skipLines = -offset;
@@ -317,7 +319,7 @@ Console::draw(DrawingContext& context)
     lineNo++;
     float py = height-4-lineNo*9;
     if (py < -9) break;
-    context.draw_text(font.get(), *i, Vector(4, py), LEFT_ALLIGN, LAYER_FOREGROUND1+1);
+    context.draw_text(font.get(), *i, Vector(4, py), LEFT_ALLIGN, layer);
   }
 
   context.pop_transform();

@@ -63,6 +63,11 @@ void wait_for_screenswitch(HSQUIRRELVM vm)
   script_manager->set_wakeup_event(vm, ScriptManager::SCREEN_SWITCHED);
 }
 
+void exit_screen()
+{
+  main_loop->exit_screen();
+}
+
 std::string translate(const std::string& text)
 {
   return dictionary_manager.get_dictionary().translate(text);

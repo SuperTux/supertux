@@ -160,6 +160,9 @@ public:
   void kill(HurtMode mode);
   void check_bounds(Camera* camera);
   void move(const Vector& vector);
+
+  virtual void set_bonus(const std::string& bonus);
+  virtual void add_coins(int count);
   void set_bonus(BonusType type, bool animate = false);
   PlayerStatus* get_status()
   {

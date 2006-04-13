@@ -93,9 +93,8 @@
     (name "Icebridge")
     (tiles 0 1540 1541 1542 1543 1544 1545 1546 1547 1548 1549 1550 1551)
 )  
-(tile
+  (tile
     (id 0)
-    (editor-images "objects/bonus_block/bonus-fire_flower.png")
   )
   (tile
     (id 1)

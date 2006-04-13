@@ -45,8 +45,7 @@ public:
   PlayerStatus();
   ~PlayerStatus();
   void reset();     
-  void incLives();
-  void incCoins();
+  void add_coins(int count);
   void set_keys(int new_key);
 
   void write(lisp::Writer& writer);

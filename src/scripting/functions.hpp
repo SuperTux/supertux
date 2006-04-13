@@ -68,6 +68,12 @@ void wait(HSQUIRRELVM vm, float seconds) __suspend;
 void wait_for_screenswitch(HSQUIRRELVM vm) __suspend;
 
 /**
+ * Exits the currently running screen (force exit from worldmap or scrolling
+ * text for example)
+ */
+void exit_screen();
+
+/**
  * Translate a text into the users language (by looking it up in the .po
  * files)
  */

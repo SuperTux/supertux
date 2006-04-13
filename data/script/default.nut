@@ -6,7 +6,7 @@ function end_level()
   wait(6);
   Effect.fade_out(2);
   wait(2);
-  Level.finish();
+  Level.finish(true);
 }
 
 function levelflip()

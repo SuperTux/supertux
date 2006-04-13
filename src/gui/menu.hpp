@@ -186,8 +186,8 @@ public:
 
 protected:
   void additem(MenuItem* pmenu_item);  
-  int get_width() const;
-  int get_height() const;
+  float get_width() const;
+  float get_height() const;
 
 private:
   void check_controlfield_change_event(const SDL_Event& event);  

@@ -84,7 +84,7 @@ PowerUp::collision(GameObject& other, const CollisionHit& hit)
   } else if (sprite_name == "images/powerups/star/star.sprite") {
     player->make_invincible();
   } else if (sprite_name == "images/powerups/1up/1up.sprite") {
-    player->get_status()->incLives();
+    player->get_status()->add_coins(100);
   }
   return ABORT_MOVE;
 }

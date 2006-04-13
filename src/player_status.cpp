@@ -72,17 +72,13 @@ void PlayerStatus::reset()
 }
 
 void
-PlayerStatus::incLives()
+PlayerStatus::add_coins(int count)
 {
-  player_status->coins = std::min(player_status->coins+100, MAX_COINS);
-  sound_manager->play("sounds/lifeup.wav");
-}
-
-void
-PlayerStatus::incCoins()
-{
-  coins++;
-  sound_manager->play("sounds/coin.wav");
+  coins = std::min(coins + count, MAX_COINS);
+  if(count > 100)
+    sound_manager->play("sounds/lifeup.wav");
+  else
+    sound_manager->play("sounds/coin.wav");
 }
 
 void
