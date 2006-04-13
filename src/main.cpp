@@ -311,9 +311,11 @@ static void check_gl_error()
       case GL_OUT_OF_MEMORY:
         errormsg = "out of memory";
         break;
+#ifdef GL_TABLE_TOO_LARGE
       case GL_TABLE_TOO_LARGE:
         errormsg = "table too large";
         break;
+#endif
       default:
         errormsg = "unknown error number";
         break;
