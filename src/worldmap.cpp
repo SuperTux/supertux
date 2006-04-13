@@ -699,7 +699,12 @@ WorldMap::finished_level(const std::string& filename)
   
     const Tile* tile = at(tux->get_tile_pos());
 
-    if (tile->getData() & Tile::WORLDMAP_NORTH
+    // first, test for crossroads
+    if (tile->getData() & Tile::WORLDMAP_CNSE || tile->getData() && Tile::WORLDMAP_CNSW
+     || tile->getData() & Tile::WORLDMAP_CNEW || tile->getData() && Tile::WORLDMAP_CSEW
+     || tile->getData() & Tile::WORLDMAP_CNSEW)
+      dir = D_NONE;
+    else if (tile->getData() & Tile::WORLDMAP_NORTH
         && tux->back_direction != D_NORTH)
       dir = D_NORTH;
     else if (tile->getData() & Tile::WORLDMAP_SOUTH

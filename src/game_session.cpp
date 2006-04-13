@@ -55,7 +55,6 @@
 #include "lisp/lisp.hpp"
 #include "lisp/parser.hpp"
 #include "resources.hpp"
-#include "worldmap.hpp"
 #include "misc.hpp"
 #include "statistics.hpp"
 #include "timer.hpp"

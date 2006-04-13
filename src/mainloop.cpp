@@ -64,6 +64,11 @@ MainLoop::push_screen(Screen* screen)
 void
 MainLoop::exit_screen()
 {
+  if (screen_stack.size() < 1)
+  {
+    quit();
+    return;
+  }
   next_screen.reset(screen_stack.back());
   nextpush = false;
   screen_stack.pop_back();
