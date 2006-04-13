@@ -1702,6 +1702,29 @@ static int add_key_wrapper(HSQUIRRELVM vm)
   
 }
 
+static int debug_collrects_wrapper(HSQUIRRELVM vm)
+{
+  SQBool arg0;
+  if(SQ_FAILED(sq_getbool(vm, 2, &arg0))) {
+    sq_throwerror(vm, _SC("Argument 1 not a bool"));
+    return SQ_ERROR;
+  }
+  
+  try {
+    Scripting::debug_collrects(arg0);
+  
+    return 0;
+  
+  } catch(std::exception& e) {
+    sq_throwerror(vm, e.what());
+    return SQ_ERROR;
+  } catch(...) {
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'debug_collrects'"));
+    return SQ_ERROR;
+  }
+  
+}
+
 } // end of namespace Wrapper
 
 void create_squirrel_instance(HSQUIRRELVM v, Scripting::DisplayEffect* object, bool setup_releasehook)
@@ -2064,6 +2087,12 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_newclosure(v, &add_key_wrapper, 0);
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'add_key'");
+  }
+
+  sq_pushstring(v, "debug_collrects", -1);
+  sq_newclosure(v, &debug_collrects_wrapper, 0);
+  if(SQ_FAILED(sq_createslot(v, -3))) {
+    throw SquirrelError(v, "Couldn't register function 'debug_collrects'");
   }
 
   // Register class DisplayEffect

@@ -67,6 +67,8 @@
 
 Sector* Sector::_current = 0;
 
+bool Sector::show_collrects = false;
+
 Sector::Sector()
   : currentmusic(LEVEL_MUSIC), gravity(10),
     player(0), solids(0), camera(0)
@@ -700,6 +702,17 @@ Sector::draw(DrawingContext& context)
       continue;
     
     object->draw(context);
+  }
+
+  if(show_collrects) {
+    Color col(0.2, 0.2, 0.2, 0.7);
+    for(MovingObjects::iterator i = moving_objects.begin();
+            i != moving_objects.end(); ++i) {
+      MovingObject* object = *i;
+      const Rect& rect = object->get_bbox();
+
+      context.draw_filled_rect(rect, col, LAYER_FOREGROUND1 + 10);
+    }
   }
 
   context.pop_transform();

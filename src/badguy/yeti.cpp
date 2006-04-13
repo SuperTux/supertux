@@ -41,7 +41,7 @@ Yeti::Yeti(const lisp::Lisp& reader)
 {
   reader.get("x", start_position.x);
   reader.get("y", start_position.y);
-  bbox.set_size(80, 120);
+  bbox.set_size(90, 106);
   sprite = sprite_manager->create("images/creatures/yeti/yeti.sprite");
   sprite->set_action("right");
   state = INIT;

@@ -29,6 +29,7 @@
 #include <memory>
 
 #include "math/vector.hpp"
+#include "math/rect.hpp"
 #include "surface.hpp"
 #include "font.hpp"
 #include "color.hpp"
@@ -79,6 +80,7 @@ public:
   /// Fills a rectangle.
   void draw_filled_rect(const Vector& topleft, const Vector& size,
                         const Color& color, int layer);
+  void draw_filled_rect(const Rect& rect, const Color& color, int layer);
   
   /// Processes all pending drawing requests and flushes the list.
   void do_drawing();

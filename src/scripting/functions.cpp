@@ -36,6 +36,7 @@
 #include "mainloop.hpp"
 #include "worldmap.hpp"
 #include "world.hpp"
+#include "sector.hpp"
 
 #include "squirrel_error.hpp"
 #include "wrapper_util.hpp"
@@ -122,6 +123,11 @@ void import(HSQUIRRELVM vm, const std::string& filename)
 void add_key(int new_key)
 {
   player_status->set_keys(new_key);
+}
+
+void debug_collrects(bool enable)
+{
+  Sector::show_collrects = enable;
 }
 
 void save_state()

@@ -171,6 +171,9 @@ private:
   std::auto_ptr<ScriptManager> script_manager;
 
 public: // TODO make this private again
+  /// show collision rectangles of moving objects (for debugging)
+  static bool show_collrects;
+  
   GameObjects gameobjects;
   MovingObjects moving_objects;
   SpawnPoints spawnpoints;                       

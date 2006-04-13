@@ -203,6 +203,28 @@ DrawingContext::draw_filled_rect(const Vector& topleft, const Vector& size,
 }
 
 void
+DrawingContext::draw_filled_rect(const Rect& rect, const Color& color,
+                                 int layer)
+{
+  DrawingRequest request;
+
+  request.type = FILLRECT;
+  request.pos = transform.apply(rect.p1);
+  request.layer = layer;
+
+  request.drawing_effect = transform.drawing_effect;
+  request.alpha = transform.alpha;                    
+
+  FillRectRequest* fillrectrequest = new FillRectRequest;
+  fillrectrequest->size = Vector(rect.get_width(), rect.get_height());
+  fillrectrequest->color = color;
+  fillrectrequest->color.alpha = color.alpha * transform.alpha;
+  request.request_data = fillrectrequest;
+
+  requests->push_back(request);
+}
+
+void
 DrawingContext::draw_surface_part(DrawingRequest& request)
 {
   SurfacePartRequest* surfacepartrequest

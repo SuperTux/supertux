@@ -95,6 +95,11 @@ void save_state();
  */
 void add_key(int new_key);
 
+/**
+ * enable/disable drawing of collision rectangles
+ */
+void debug_collrects(bool enable);
+
 }
 
 #endif
