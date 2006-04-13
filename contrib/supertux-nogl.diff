@@ -32,7 +32,7 @@
 #
 #  patch -p1 < contrib/supertux-nogl.diff
 #
-#  This patch works for revision 3294. It may break for later revisions.
+#  This patch works for revision 3321. It may break for later revisions.
 #
 # -----------------------------------------------------------------------------
 diff -Naur supertux/INSTALL supertux-nogl/INSTALL
@@ -106,7 +106,7 @@ diff -Naur supertux/configure.ac supertux-nogl/configure.ac
  AC_CONFIG_SRCDIR([src/main.cpp])
  AC_CONFIG_AUX_DIR([mk/autoconf])
  AC_CANONICAL_TARGET
-@@ -105,6 +105,14 @@
+@@ -112,6 +105,14 @@
          [AC_MSG_ERROR([Please install SDLImage >= 1.2.1])],
          [$SDL_CFLAGS], [$SDL_LIBS])
  
@@ -121,7 +121,7 @@ diff -Naur supertux/configure.ac supertux-nogl/configure.ac
  NP_FINDLIB([PHYSFS], [physfs], [physfs >= 1.0.0],
          NP_LANG_PROGRAM([
  #include <stdio.h>
-@@ -124,11 +132,6 @@
+@@ -131,11 +132,6 @@
           [AC_MSG_ERROR([Please intall OpenAL])],
           [], [])
  
@@ -152,11 +152,11 @@ diff -Naur supertux/src/main.cpp supertux-nogl/src/main.cpp
  #include <physfs.h>
  #include <SDL.h>
  #include <SDL_image.h>
--#include <SDL_opengl.h>
+-#include <GL/gl.h>
  
  #include "gameconfig.hpp"
  #include "resources.hpp"
-@@ -266,44 +265,6 @@
+@@ -269,44 +265,6 @@
        ;
  }
  
@@ -201,7 +201,7 @@ diff -Naur supertux/src/main.cpp supertux-nogl/src/main.cpp
  void init_video()
  {
    if(texture_manager != NULL)
-@@ -314,7 +275,7 @@
+@@ -317,7 +275,7 @@
    SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 5);
    SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 5);
    
@@ -210,7 +210,7 @@ diff -Naur supertux/src/main.cpp supertux-nogl/src/main.cpp
    if(config->use_fullscreen)
      flags |= SDL_FULLSCREEN;
    int width = config->screenwidth;
-@@ -344,24 +305,6 @@
+@@ -347,24 +305,6 @@
    }
  #endif
  
@@ -238,16 +238,15 @@ diff -Naur supertux/src/main.cpp supertux-nogl/src/main.cpp
 diff -Naur supertux/src/video/drawing_context.cpp supertux-nogl/src/video/drawing_context.cpp
 --- supertux/src/video/drawing_context.cpp	2006-03-31 04:18:01.000000000 +0200
 +++ supertux-nogl/src/video/drawing_context.cpp	2006-04-07 04:11:49.000000000 +0200
-@@ -22,8 +22,6 @@
+@@ -22,7 +22,6 @@
  #include <cassert>
  #include <iostream>
  #include <SDL_image.h>
 -#include <GL/gl.h>
--#include <GL/glu.h>
  
  #include "drawing_context.hpp"
  #include "surface.hpp"
-@@ -49,30 +47,20 @@
+@@ -48,30 +47,20 @@
  {
    screen = SDL_GetVideoSurface();
  
@@ -281,7 +280,7 @@ diff -Naur supertux/src/video/drawing_context.cpp supertux-nogl/src/video/drawin
    assert(surface != 0);
    
    DrawingRequest request;
-@@ -97,6 +85,8 @@
+@@ -96,6 +85,8 @@
  DrawingContext::draw_surface_part(const Surface* surface, const Vector& source,
      const Vector& size, const Vector& dest, int layer)
  {
@@ -290,7 +289,7 @@ diff -Naur supertux/src/video/drawing_context.cpp supertux-nogl/src/video/drawin
    assert(surface != 0);
  
    DrawingRequest request;
-@@ -136,6 +126,8 @@
+@@ -135,6 +126,8 @@
  DrawingContext::draw_text(const Font* font, const std::string& text,
      const Vector& position, FontAlignment alignment, int layer)
  {
@@ -299,7 +298,7 @@ diff -Naur supertux/src/video/drawing_context.cpp supertux-nogl/src/video/drawin
    DrawingRequest request;
  
    request.type = TEXT;
-@@ -157,6 +149,8 @@
+@@ -156,6 +149,8 @@
  DrawingContext::draw_center_text(const Font* font, const std::string& text,
      const Vector& position, int layer)
  {
@@ -308,7 +307,7 @@ diff -Naur supertux/src/video/drawing_context.cpp supertux-nogl/src/video/drawin
    draw_text(font, text, Vector(position.x + SCREEN_WIDTH/2, position.y),
        CENTER_ALLIGN, layer);
  }
-@@ -164,6 +158,8 @@
+@@ -163,6 +158,8 @@
  void
  DrawingContext::draw_gradient(const Color& top, const Color& bottom, int layer)
  {
@@ -317,7 +316,7 @@ diff -Naur supertux/src/video/drawing_context.cpp supertux-nogl/src/video/drawin
    DrawingRequest request;
  
    request.type = GRADIENT;
-@@ -185,6 +181,8 @@
+@@ -184,6 +181,8 @@
  DrawingContext::draw_filled_rect(const Vector& topleft, const Vector& size,
                                   const Color& color, int layer)
  {
@@ -326,7 +325,7 @@ diff -Naur supertux/src/video/drawing_context.cpp supertux-nogl/src/video/drawin
    DrawingRequest request;
  
    request.type = FILLRECT;
-@@ -218,23 +216,55 @@
+@@ -217,23 +216,55 @@
    delete surfacepartrequest;
  }
  
@@ -393,7 +392,7 @@ diff -Naur supertux/src/video/drawing_context.cpp supertux-nogl/src/video/drawin
  
    delete gradientrequest;
  }
-@@ -260,17 +290,12 @@
+@@ -259,17 +290,12 @@
    float w = fillrectrequest->size.x;
    float h = fillrectrequest->size.y;
  
@@ -417,7 +416,7 @@ diff -Naur supertux/src/video/drawing_context.cpp supertux-nogl/src/video/drawin
  
    delete fillrectrequest;
  }
-@@ -285,66 +310,10 @@
+@@ -284,66 +310,10 @@
    transformstack.clear();
    target_stack.clear();
  
@@ -485,7 +484,7 @@ diff -Naur supertux/src/video/drawing_context.cpp supertux-nogl/src/video/drawin
  }
  
  void
-@@ -433,9 +402,5 @@
+@@ -432,9 +402,5 @@
  DrawingContext::set_target(Target target)
  {
    this->target = target;
