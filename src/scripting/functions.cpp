@@ -228,32 +228,6 @@ void gotoend()
         Vector(tux->get_pos().x, tux->get_pos().y));
 }
 
-void flip()
-{
-  if (GameSession::current() == 0)
-  {
-    log_info << "No game session" << std::endl;
-    return;
-  }
-  if (GameSession::current()->get_current_level() == 0)
-  {
-    log_info << "No current level" << std::endl;
-	return;
-  }
-  FlipLevelTransformer flip_transformer;
-  flip_transformer.transform(GameSession::current()->get_current_level());
-}
-
-void finish()
-{
-  if (GameSession::current() == 0)
-  {
-    log_info << "No game session" << std::endl;
-    return;
-  }
-  GameSession::current()->finish(true);
-}
-
 void camera()
 {
   if (!validate_sector_player()) return;

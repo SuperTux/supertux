@@ -146,16 +146,6 @@ void whereami();
 void gotoend();
 
 /**
- * flip the level vertically
- */
-void flip();
-
-/**
- * quit the level, marking it as solved
- */
-void finish();
-
-/**
  * show the camera's coordinates
  */
 void camera();
