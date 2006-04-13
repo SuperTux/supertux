@@ -26,6 +26,7 @@
 #include <string>
 #include <sstream>
 #include <iostream>
+#include <squirrel.h>
 
 class Console;
 class ConsoleStreamBuffer;
@@ -87,6 +88,9 @@ private:
   
   std::auto_ptr<Surface> background; /**< console background image */
   std::auto_ptr<Surface> background2; /**< second, moving console background image */
+
+  HSQUIRRELVM vm; /**< squirrel thread for the console (with custom roottable */
+  HSQOBJECT vm_object;
   
   int backgroundOffset; /**< current offset of scrolling background image */
   float height; /**< height of the console in px */

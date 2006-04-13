@@ -105,8 +105,6 @@ void debug_collrects(bool enable);
  */
 void draw_solids_only(bool enable);
 
-// ------- Items after this line were formerly in game_session.cpp
-
 /**
  * speeds Tux up
  */

@@ -1,3 +1,7 @@
+/**
+ * This script gets loaded into the squirrel root vm in supertux. So functions
+ * and variables you define here can be used in all threads
+ */
 
 function end_level()
 {
@@ -16,3 +20,4 @@ function levelflip()
   Level.flip_vertically();
   Effect.fade_in(1);
 }
+

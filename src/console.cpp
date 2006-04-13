@@ -24,17 +24,19 @@
 #include "video/surface.hpp"
 #include "scripting/squirrel_error.hpp"
 #include "scripting/wrapper_util.hpp"
+#include "physfs/physfs_stream.hpp"
 #include "player_status.hpp"
 #include "script_manager.hpp"
 #include "main.hpp"
+#include "log.hpp"
 #include "resources.hpp"
 
 /// speed (pixels/s) the console closes
 static const float FADE_SPEED = 1;
 
 Console::Console()
-  : backgroundOffset(0), height(0), alpha(1.0), offset(0), focused(false),
-    stayOpen(0)
+  : vm(NULL), backgroundOffset(0), height(0), alpha(1.0), offset(0),
+    focused(false), stayOpen(0)
 {
   font.reset(new Font("images/engine/fonts/white-small.png",
                       "images/engine/fonts/shadow-small.png", 8, 9, 1));
@@ -44,6 +46,9 @@ Console::Console()
 
 Console::~Console() 
 {
+  if(vm != NULL) {
+    sq_release(ScriptManager::instance->get_vm(), &vm_object);
+  }
 }
 
 void 
@@ -73,18 +78,46 @@ Console::execute_script(const std::string& command)
 {
   using namespace Scripting;
 
-  HSQUIRRELVM vm = ScriptManager::instance->get_vm();
+  if(vm == NULL) {
+    vm = ScriptManager::instance->get_vm();
+    HSQUIRRELVM new_vm = sq_newthread(vm, 16);
+    if(new_vm == NULL)
+      throw Scripting::SquirrelError(ScriptManager::instance->get_vm(),
+          "Couldn't create new VM thread for console");
 
-  if(command == "")
-    return;
-  
+    // store reference to thread
+    sq_resetobject(&vm_object);
+    if(SQ_FAILED(sq_getstackobj(vm, -1, &vm_object)))
+      throw Scripting::SquirrelError(vm, "Couldn't get vm object for console");
+    sq_addref(vm, &vm_object);
+    sq_pop(vm, 1);
+    
+    // create new roottable for thread
+    sq_newtable(new_vm);
+    sq_pushroottable(new_vm);
+    if(SQ_FAILED(sq_setdelegate(new_vm, -2)))
+      throw Scripting::SquirrelError(new_vm, "Couldn't set console_table delegate");
+
+    sq_setroottable(new_vm);
+
+    vm = new_vm;
+    
+    try {
+      std::string filename = "scripts/console.nut";
+      IFileStream stream(filename);
+      Scripting::compile_and_run(vm, stream, filename);
+    } catch(std::exception& e) {
+      log_warning << "Couldn't load console.nut: " << e.what() << std::endl;
+    }
+  }
+    
   int oldtop = sq_gettop(vm); 
   try {
     if(SQ_FAILED(sq_compilebuffer(vm, command.c_str(), command.length(),
                  "", SQTrue)))
       throw SquirrelError(vm, "Couldn't compile command");
 
-    sq_pushroottable(vm);
+    sq_pushroottable(vm); 
     if(SQ_FAILED(sq_call(vm, 1, SQTrue)))
       throw SquirrelError(vm, "Problem while executing command");
 

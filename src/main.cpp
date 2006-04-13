@@ -540,8 +540,6 @@ int main(int argc, char** argv)
   main_loop = NULL;
 
   free_menu();
-  delete ScriptManager::instance;
-  ScriptManager::instance = NULL;
   unload_shared();
   quit_audio();
 
@@ -553,6 +551,8 @@ int main(int argc, char** argv)
   main_controller = NULL;
   delete Console::instance;
   Console::instance = NULL;
+  delete ScriptManager::instance;
+  ScriptManager::instance = NULL; 
   delete texture_manager;
   texture_manager = NULL;
   SDL_Quit();

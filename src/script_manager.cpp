@@ -32,6 +32,7 @@
 
 #include "timer.hpp"
 #include "console.hpp"
+#include "log.hpp"
 #include "scripting/wrapper.hpp"
 #include "scripting/wrapper_util.hpp"
 #include "scripting/squirrel_error.hpp"
@@ -75,6 +76,15 @@ ScriptManager::ScriptManager()
   sq_setprintfunc(vm, printfunc);
   // register default error handlers
   sqstd_seterrorhandlers(vm); 
+
+  // try to load default script
+  try {
+    std::string filename = "scripts/default.nut";
+    IFileStream stream(filename);
+    Scripting::compile_and_run(vm, stream, filename);
+  } catch(std::exception& e) {
+    log_warning << "Couldn't load default.nut: " << e.what() << std::endl;
+  }
 }
 
 ScriptManager::ScriptManager(ScriptManager* parent)
