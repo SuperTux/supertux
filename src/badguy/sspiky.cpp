@@ -31,7 +31,7 @@ SSpiky::SSpiky(const lisp::Lisp& reader)
   stay_on_platform = false;
   reader.get("stay-on-platform", stay_on_platform);
   bbox.set_size(31.8, 31.8);
-  sprite = sprite_manager->create("images/creatures/sspiky/sspiky.sprite");
+  sprite = sprite_manager->create("images/creatures/spiky/sleepingspiky.sprite");
   state = SSPIKY_SLEEPING;
 }
 
