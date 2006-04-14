@@ -1900,44 +1900,6 @@ static int gotoend_wrapper(HSQUIRRELVM vm)
   
 }
 
-static int flip_wrapper(HSQUIRRELVM vm)
-{
-  (void) vm;
-  
-  try {
-    Scripting::flip();
-  
-    return 0;
-  
-  } catch(std::exception& e) {
-    sq_throwerror(vm, e.what());
-    return SQ_ERROR;
-  } catch(...) {
-    sq_throwerror(vm, _SC("Unexpected exception while executing function 'flip'"));
-    return SQ_ERROR;
-  }
-  
-}
-
-static int finish_wrapper(HSQUIRRELVM vm)
-{
-  (void) vm;
-  
-  try {
-    Scripting::finish();
-  
-    return 0;
-  
-  } catch(std::exception& e) {
-    sq_throwerror(vm, e.what());
-    return SQ_ERROR;
-  } catch(...) {
-    sq_throwerror(vm, _SC("Unexpected exception while executing function 'finish'"));
-    return SQ_ERROR;
-  }
-  
-}
-
 static int camera_wrapper(HSQUIRRELVM vm)
 {
   (void) vm;
@@ -2398,18 +2360,6 @@ void register_supertux_wrapper(HSQUIRRELVM v)
   sq_newclosure(v, &gotoend_wrapper, 0);
   if(SQ_FAILED(sq_createslot(v, -3))) {
     throw SquirrelError(v, "Couldn't register function 'gotoend'");
-  }
-
-  sq_pushstring(v, "flip", -1);
-  sq_newclosure(v, &flip_wrapper, 0);
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'flip'");
-  }
-
-  sq_pushstring(v, "finish", -1);
-  sq_newclosure(v, &finish_wrapper, 0);
-  if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'finish'");
   }
 
   sq_pushstring(v, "camera", -1);
