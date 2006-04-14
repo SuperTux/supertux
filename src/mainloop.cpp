@@ -133,8 +133,8 @@ MainLoop::run()
         /* just wait */
         // If we really have to wait long, then do an imprecise SDL_Delay()
         Uint32 diff = fps_nextframe_ticks - ticks;
-        if(diff > 15) {
-          SDL_Delay(diff - 10);
+        if(diff > 10) {
+          SDL_Delay(diff - 2);
         }
         ticks = SDL_GetTicks();
       }

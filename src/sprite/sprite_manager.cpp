@@ -32,6 +32,8 @@
 #include "file_system.hpp"
 #include "log.hpp"
 
+SpriteManager* sprite_manager = NULL;
+
 SpriteManager::SpriteManager()
 {
 }

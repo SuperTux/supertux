@@ -157,6 +157,7 @@
       (teleport-to-y 15)
       (x 16)
       (y 25)
+      (sprite "images/worldmap/common/teleporterdot.sprite")
     )
     (special-tile
       (teleport-to-x 1)
@@ -170,6 +171,7 @@
       (teleport-to-y 4)
       (x 1)
       (y 26)
+      (sprite "images/worldmap/common/teleporterdot.sprite")
     )
     (special-tile
       (teleport-to-x 0)

@@ -32,7 +32,7 @@
 #include "scripting/wrapper_util.hpp"
 #include "scripting/serialize.hpp"
 #include "log.hpp"
-#include "worldmap.hpp"
+#include "worldmap/worldmap.hpp"
 #include "mainloop.hpp"
 
 static bool has_suffix(const std::string& data, const std::string& suffix)

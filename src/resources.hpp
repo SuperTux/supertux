@@ -28,9 +28,6 @@ class SoundManager;
 class TileManager;
 class MouseCursor;
 
-extern SpriteManager* sprite_manager;
-extern TileManager* tile_manager;
-
 extern Menu* main_menu;
 extern Menu* game_menu;
 

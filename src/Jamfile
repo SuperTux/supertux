@@ -18,6 +18,7 @@ sources =
     [ Wildcard tinygettext : *.cpp *.hpp ]
     [ Wildcard trigger : *.cpp *.hpp ]
     [ Wildcard video : *.cpp *.hpp ]
+    [ Wildcard worldmap : *.cpp *.hpp ]
 ;
 TRANSLATABLE_SOURCES += [ SearchSource $(sources) ] ;
 

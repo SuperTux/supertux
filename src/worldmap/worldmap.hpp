@@ -39,14 +39,13 @@ class Menu;
 class SpawnPoint;
 class GameObject;
 class TileMap;
-extern Menu* worldmap_menu;
 
 namespace WorldMapNS {
 
-enum WorldMapMenuIDs {
-  MNID_RETURNWORLDMAP,
-  MNID_QUITWORLDMAP
-};
+class Tux;
+class Level;
+class SpecialTile;
+class SpriteChange;
 
 // For one way tiles
 enum {
@@ -63,58 +62,15 @@ std::string direction_to_string(Direction d);
 Direction   string_to_direction(const std::string& d);
 Direction reverse_dir(Direction d);
 
-class WorldMap;
-
-class Tux : public GameObject
-{
-public:
-  Direction back_direction;
-private:
-  WorldMap* worldmap;
-  Sprite* tux_sprite;
-  Controller* controller;
-
-  Direction input_direction;
-  Direction direction;
-  Vector tile_pos;
-  /** Length by which tux is away from its current tile, length is in
-      input_direction direction */
-  float offset;
-  bool  moving;
-
-  void stop();
-
-  bool canWalk(const Tile* tile, Direction dir); /**< check if we can leave "tile" in direction "dir" */
-  void updateInputDirection(); /**< if controller was pressed, update input_direction */
-  void tryStartWalking(); /**< try starting to walk in input_direction */
-  void tryContinueWalking(float elapsed_time); /**< try to continue walking in current direction */
-
-public: 
-  Tux(WorldMap* worldmap_);
-  ~Tux();
-  
-  void draw(DrawingContext& context);
-  void update(float elapsed_time);
-
-  void set_direction(Direction dir);
-
-  bool is_moving() const { return moving; }
-  Vector get_pos();
-  Vector get_tile_pos() const { return tile_pos; } 
-  void  set_tile_pos(Vector p) { tile_pos = p; } 
-};
-
 /** */
 class WorldMap : public Screen
 {
 private:
   Tux* tux;
 
-  Surface* leveldot_green;
-  Surface* leveldot_red;
-  Surface* messagedot;
-  Sprite* teleporterdot;
   static WorldMap* current_;
+
+  std::auto_ptr<Menu> worldmap_menu;
 
   Vector camera_offset;
 
@@ -125,74 +81,9 @@ private:
   GameObjects game_objects;
   TileMap* solids;
   
-  TileManager* tile_manager;
+  std::auto_ptr<TileManager> tile_manager;
   
-  Console* console;
-
 public:
-  struct SpecialTile
-  {
-    Vector pos;
-
-    /** Optional flags: */
-
-    /** Sprite to render instead of guessing what image to draw */
-    Sprite* sprite;
-
-    /** Position to swap to player */
-    Vector teleport_dest;
-
-    /** Message to show in the Map */
-    std::string map_message;
-    bool passive_message;
-
-    /** Hide special tile */
-    bool invisible;
-
-    /** Only applies actions (ie. passive messages) when going to that direction */
-    bool apply_action_north;
-    bool apply_action_east;
-    bool apply_action_south;
-    bool apply_action_west;
-  };
-
-  struct Level
-  {
-    Vector pos;
-
-    std::string name;
-    std::string title;
-    bool solved;
-
-    Sprite* sprite;
-
-    /** Statistics for level tiles */
-    Statistics statistics;
-
-    /** Optional flags: */
-
-    /** Check if this level should be vertically flipped */
-    bool vertical_flip;
-
-    /** Script that is run when the level is successfully finished */
-    std::string extro_script;
-
-    /** Go to this world */
-    std::string next_worldmap;
-
-    /** Quit the worldmap */
-    bool quit_worldmap;
-
-    /** If false, disables the auto walking after finishing a level */
-    bool auto_path;
-
-    // Directions which are walkable from this level
-    bool north;
-    bool east;
-    bool south;
-    bool west;
-  };
-
   /** Variables to deal with the passive map messages */
   Timer passive_message_timer;
   std::string passive_message;
@@ -201,10 +92,12 @@ private:
   std::string map_filename;
   std::string levels_path;
 
-  typedef std::vector<SpecialTile> SpecialTiles;
+  typedef std::vector<SpecialTile*> SpecialTiles;
   SpecialTiles special_tiles;
-  typedef std::vector<Level> Levels;
+  typedef std::vector<Level*> Levels;
   Levels levels;
+  typedef std::vector<SpriteChange*> SpriteChanges;
+  SpriteChanges sprite_changes;
   typedef std::vector<SpawnPoint*> SpawnPoints;
   SpawnPoints spawn_points;
 
@@ -255,8 +148,9 @@ public:
    */
   void finished_level(const std::string& filename);
 
-  WorldMap::Level* at_level();
-  WorldMap::SpecialTile* at_special_tile();
+  Level* at_level();
+  SpecialTile* at_special_tile();
+  SpriteChange* at_sprite_change();
 
   /** Check if it is possible to walk from \a pos into \a direction,
       if possible, write the new position to \a new_pos */
@@ -284,13 +178,9 @@ public:
 private:
   void on_escape_press();
   void parse_special_tile(const lisp::Lisp* lisp);
-  void parse_level_tile(const lisp::Lisp* lisp);
+  void parse_sprite_change(const lisp::Lisp* lisp);
 };
 
 } // namespace WorldMapNS
 
 #endif
-
-/* Local Variables: */
-/* mode:c++ */
-/* End: */

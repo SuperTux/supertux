@@ -130,6 +130,7 @@
     )
     (special-tile
       (map-message (_ "Hint: Use igloos to get back here."))
+      (invisible-tile #t)
       (passive-message #t)
       (apply-to-direction "north")
       (x 35)
@@ -141,6 +142,7 @@
       (map-message (_ "Warp to Matr1x' Sector"))
       (x 33)
       (y 8)
+      (sprite "images/worldmap/common/teleporterdot.sprite")
     )
     (special-tile
       (teleport-to-x 34)
@@ -148,6 +150,7 @@
       (map-message (_ "Warp to Thompson's Domain"))
       (x 31)
       (y 8)
+      (sprite "images/worldmap/common/teleporterdot.sprite")
     )
     (special-tile
       (teleport-to-x 51)
@@ -155,6 +158,7 @@
       (map-message (_ "Warp to the SuperTux Team Island"))
       (x 35)
       (y 8)
+      (sprite "images/worldmap/common/teleporterdot.sprite")
     )
     (special-tile
       (teleport-to-x 15)
@@ -162,6 +166,7 @@
       (map-message (_ "Warp to Abednego's Area"))
       (x 37)
       (y 8)
+      (sprite "images/worldmap/common/teleporterdot.sprite")
     )
     (special-tile
       (teleport-to-x 61)
@@ -169,6 +174,7 @@
       (map-message (_ "Warp to Torfi's Territory"))
       (x 39)
       (y 8)
+      (sprite "images/worldmap/common/teleporterdot.sprite")
     )
     (special-tile
       (teleport-to-x 32)
@@ -176,6 +182,7 @@
       (map-message (_ "Leave Matrix' Sector"))
       (x 19)
       (y 24)
+      (sprite "images/worldmap/common/teleporterdot.sprite")
     )
     (special-tile
       (teleport-to-x 35)
@@ -183,6 +190,7 @@
       (map-message (_ "Leave Thompson's Domain"))
       (x 35)
       (y 26)
+      (sprite "images/worldmap/common/teleporterdot.sprite")
     )
     (special-tile
       (teleport-to-x 35)
@@ -190,6 +198,7 @@
       (map-message (_ "Leave SuperTux Team Island"))
       (x 54)
       (y 25)
+      (sprite "images/worldmap/common/teleporterdot.sprite")
     )
     (special-tile
       (teleport-to-x 35)
@@ -197,6 +206,7 @@
       (map-message (_ "Leave Abednego's Area"))
       (x 18)
       (y 43)
+      (sprite "images/worldmap/common/teleporterdot.sprite")
     )
     (special-tile
       (teleport-to-x 35)
@@ -204,6 +214,7 @@
       (map-message (_ "Leave Torfi's Territory"))
       (x 65)
       (y 43)
+      (sprite "images/worldmap/common/teleporterdot.sprite")
     )
     (special-tile
       (teleport-to-x 35)
@@ -211,6 +222,7 @@
       (map-message (_ "Warp home"))
       (x 27)
       (y 39)
+      (sprite "images/worldmap/common/teleporterdot.sprite")
     )
     (special-tile
       (teleport-to-x 35)

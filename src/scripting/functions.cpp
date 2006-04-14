@@ -34,7 +34,7 @@
 #include "gettext.hpp"
 #include "log.hpp"
 #include "mainloop.hpp"
-#include "worldmap.hpp"
+#include "worldmap/worldmap.hpp"
 #include "world.hpp"
 #include "sector.hpp"
 #include "object/player.hpp"

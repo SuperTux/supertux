@@ -28,19 +28,18 @@
 #include "audio/sound_manager.hpp"
 #include "title.hpp"
 #include "resources.hpp"
-#include "worldmap.hpp"
+#include "worldmap/worldmap.hpp"
 #include "gettext.hpp"
 #include "options_menu.hpp"
 #include "control/joystickkeyboardcontroller.hpp"
 
-Menu* main_menu      = 0;
-Menu* game_menu      = 0;
+Menu* main_menu      = NULL;
+Menu* game_menu      = NULL;
 
 void setup_menu()
 {
   main_menu      = new Menu();
   game_menu      = new Menu();
-  worldmap_menu  = new Menu();
 
   main_menu->set_pos(SCREEN_WIDTH/2, 335);
   main_menu->add_entry(MNID_STARTGAME, _("Start Game"));
@@ -55,18 +54,10 @@ void setup_menu()
   game_menu->add_submenu(_("Options"), get_options_menu());
   game_menu->add_hl();
   game_menu->add_entry(MNID_ABORTLEVEL, _("Abort Level"));
-
-  worldmap_menu->add_label(_("Pause"));
-  worldmap_menu->add_hl();
-  worldmap_menu->add_entry(WorldMapNS::MNID_RETURNWORLDMAP, _("Continue"));
-  worldmap_menu->add_submenu(_("Options"), get_options_menu());
-  worldmap_menu->add_hl();
-  worldmap_menu->add_entry(WorldMapNS::MNID_QUITWORLDMAP, _("Quit Game"));
 }
 
 void free_menu()
 {
-  delete worldmap_menu;
   delete main_menu;
   delete game_menu;
   free_options_menu();

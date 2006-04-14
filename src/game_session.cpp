@@ -34,7 +34,7 @@
 
 #include "game_session.hpp"
 #include "log.hpp"
-#include "worldmap.hpp"
+#include "worldmap/worldmap.hpp"
 #include "mainloop.hpp"
 #include "video/screen.hpp"
 #include "audio/sound_manager.hpp"
@@ -72,9 +72,7 @@
 // binary fraction...
 static const float LOGICAL_FPS = 64.0;
 
-using namespace WorldMapNS;
-
-GameSession* GameSession::current_ = 0;
+GameSession* GameSession::current_ = NULL;
 
 GameSession::GameSession(const std::string& levelfile_, GameSessionMode mode,
     Statistics* statistics)
@@ -84,7 +82,7 @@ GameSession::GameSession(const std::string& levelfile_, GameSessionMode mode,
     capture_demo_stream(0), playback_demo_stream(0), demo_controller(0)
 {
   current_ = this;
-  currentsector = 0;
+  currentsector = NULL;
   
   game_pause = false;
   fps_fps = 0;
@@ -252,6 +250,7 @@ GameSession::on_escape_press()
     game_menu->set_active_item(MNID_CONTINUE);
     game_pause = true;
   } else {
+    Menu::set_current(NULL);
     game_pause = false;
   }
 }
@@ -560,6 +559,8 @@ GameSession::run()
 void
 GameSession::finish(bool win)
 {
+  using namespace WorldMapNS;
+
   if(win) {
     if(WorldMap::current())
       WorldMap::current()->finished_level(levelfile);

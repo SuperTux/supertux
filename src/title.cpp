@@ -46,7 +46,7 @@
 #include "level.hpp"
 #include "world.hpp"
 #include "game_session.hpp"
-#include "worldmap.hpp"
+#include "worldmap/worldmap.hpp"
 #include "player_status.hpp"
 #include "tile.hpp"
 #include "sector.hpp"

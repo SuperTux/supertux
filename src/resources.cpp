@@ -28,18 +28,15 @@
 #include "object/gameobjs.hpp"
 #include "object/player.hpp"
 
-SpriteManager* sprite_manager = 0;
-TileManager* tile_manager = 0;
+MouseCursor* mouse_cursor = NULL;
 
-MouseCursor* mouse_cursor = 0;
+Font* gold_text = NULL;
+Font* blue_text = NULL;
+Font* gray_text = NULL;
+Font* white_text = NULL;
+Font* white_small_text = NULL;
+Font* white_big_text = NULL;
 
-Font* gold_text;
-Font* blue_text;
-Font* gray_text;
-Font* white_text;
-Font* white_small_text;
-Font* white_big_text;				    
-				    
 /* Load graphics/sounds shared between all levels: */
 void load_shared()
 {
@@ -132,9 +129,9 @@ void unload_shared()
   }
 
   delete sprite_manager;
-  sprite_manager = 0;
+  sprite_manager = NULL;
   delete tile_manager;
-  tile_manager = 0;
+  tile_manager = NULL;
 
   /* Free mouse-cursor */
   delete mouse_cursor;

@@ -35,6 +35,8 @@
 #include "tile_manager.hpp"
 #include "resources.hpp"
 
+TileManager* tile_manager = NULL;
+
 TileManager::TileManager(const std::string& filename)
 {
 #ifdef DEBUG

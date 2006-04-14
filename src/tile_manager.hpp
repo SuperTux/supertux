@@ -97,4 +97,6 @@ public:
   }
 };
 
+extern TileManager* tile_manager;
+
 #endif
