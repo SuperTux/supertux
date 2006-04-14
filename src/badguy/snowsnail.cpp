@@ -31,16 +31,19 @@ SnowSnail::SnowSnail(const lisp::Lisp& reader)
 {
   reader.get("x", start_position.x);
   reader.get("y", start_position.y);
+  stay_on_platform = false;
+  reader.get("stay-on-platform", stay_on_platform);
   bbox.set_size(31.8, 31.8);
   sprite = sprite_manager->create("images/creatures/snowsnail/snowsnail.sprite");
   set_direction = false;
 }
 
-SnowSnail::SnowSnail(float pos_x, float pos_y, Direction d)
+SnowSnail::SnowSnail(float pos_x, float pos_y, Direction d, bool stay_on_plat = false)
   : ice_state(ICESTATE_NORMAL), squishcount(0)
 {
   start_position.x = pos_x;
   start_position.y = pos_y;
+  stay_on_platform = stay_on_plat;
   bbox.set_size(31.8, 31.8);
   sprite = sprite_manager->create("images/creatures/snowsnail/snowsnail.sprite");
   set_direction = true;
@@ -54,6 +57,7 @@ SnowSnail::write(lisp::Writer& writer)
 
   writer.write_float("x", start_position.x);
   writer.write_float("y", start_position.y);
+  if (stay_on_platform) writer.write_bool("stay-on-platform", true);
 
   writer.end_list("snowsnail");
 }
@@ -76,6 +80,13 @@ SnowSnail::active_update(float elapsed_time)
     ice_state = ICESTATE_NORMAL;
     physic.set_velocity_x(dir == LEFT ? -WALKSPEED : WALKSPEED);
     sprite->set_action(dir == LEFT ? "left" : "right");
+  }
+  if(ice_state == ICESTATE_NORMAL && stay_on_platform
+     && may_fall_off_platform())
+  {
+    dir = (dir == LEFT ? RIGHT : LEFT);
+    sprite->set_action(dir == LEFT ? "left" : "right");
+    physic.set_velocity_x(-physic.get_velocity_x());
   }
   BadGuy::active_update(elapsed_time);
 }

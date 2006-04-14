@@ -1,7 +1,7 @@
-//  $Id$
+//  $Id: infoblock.hpp 3327 2006-04-13 15:02:40Z ravu_al_hemio $
 //
 //  SuperTux
-//  Copyright (C) 2006 Matthias Braun <matze@braunis.de>
+//  Copyright (C) 2006 Ondrej Hosek <ondra.hosek@gmail.com>
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -17,30 +17,27 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-#ifndef __SNOWBALL_H__
-#define __SNOWBALL_H__
+#ifndef __FALLING_COIN_H__
+#define __FALLING_COIN_H__
 
-#include "badguy.hpp"
+#include "game_object.hpp"
+#include "math/vector.hpp"
+#include "sprite/sprite.hpp"
+#include "video/drawing_context.hpp"
+#include "physic.hpp"
 
-class SnowBall : public BadGuy
+class FallingCoin : public GameObject
 {
 public:
-  SnowBall(const lisp::Lisp& reader);
-  SnowBall(float pos_x, float pos_y, Direction d, bool stay_on_plat);
+  FallingCoin(const Vector& start_position, const int x_vel);
+  ~FallingCoin();
 
-  void activate();
-  void write(lisp::Writer& writer);
-  void active_update(float elapsed_time);
-  HitResponse collision_solid(GameObject& other, const CollisionHit& hit);
-  HitResponse collision_badguy(BadGuy& other, const CollisionHit& hit);
-  
-protected:
-  bool collision_squished(Player& player);
-  bool set_direction;
-  bool stay_on_platform;
-  Direction initial_direction;  
-  bool fluffy;
+  void draw(DrawingContext& context);
+  void update(float elapsed_time);
+private:
+  Vector  pos;
+  Sprite* sprite;
+  Physic  physic;
 };
 
 #endif
-

@@ -106,12 +106,12 @@ MrTree::collision_squished(Player& player)
 
     Rect leaf1_bbox = Rect(pos.x-32-1, pos.y-23+1, pos.x-32-1+32, pos.y-23+1+32);
     if (Sector::current()->is_free_space(leaf1_bbox)) {
-      PoisonIvy* leaf1 = new PoisonIvy(leaf1_bbox.p1.x, leaf1_bbox.p1.y, LEFT);
+      PoisonIvy* leaf1 = new PoisonIvy(leaf1_bbox.p1.x, leaf1_bbox.p1.y, LEFT, true);
       Sector::current()->add_object(leaf1);
     }
     Rect leaf2_bbox = Rect(pos.x+42+1, pos.y-23+1, pos.x+32+1+32, pos.y-23+1+32);
     if (Sector::current()->is_free_space(leaf2_bbox)) {
-      PoisonIvy* leaf2 = new PoisonIvy(leaf2_bbox.p1.x, leaf2_bbox.p1.y, RIGHT);
+      PoisonIvy* leaf2 = new PoisonIvy(leaf2_bbox.p1.x, leaf2_bbox.p1.y, RIGHT, true);
       Sector::current()->add_object(leaf2);
     }
 

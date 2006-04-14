@@ -29,8 +29,11 @@ public:
 
   void activate();
   void write(lisp::Writer& writer);
+  void active_update(float elapsed_time);
   HitResponse collision_solid(GameObject& other, const CollisionHit& hit);
   HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
+private:
+  bool stay_on_platform;
 };
 
 #endif

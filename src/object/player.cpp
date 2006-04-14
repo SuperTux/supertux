@@ -48,6 +48,7 @@
 #include "badguy/badguy.hpp"
 #include "player_status.hpp"
 #include "log.hpp"
+#include "falling_coin.hpp"
 
 static const int TILES_FOR_BUTTJUMP = 3;
 static const float SHOOTING_TIME = .150;
@@ -99,33 +100,6 @@ TuxBodyParts::draw(DrawingContext& context, const Vector& pos, int layer)
     arms->draw(context, pos, layer);
   if(feet != NULL)
     feet->draw(context, pos, layer-2);
-}
-
-FallingCoin::FallingCoin(const Vector& start_position, const int vel_x)
-{
-  pos = start_position;
-  sprite = sprite_manager->create("images/objects/coin/coin.sprite");
-  physic.set_velocity_y(800);
-  physic.set_velocity_x(vel_x);
-}
-
-FallingCoin::~FallingCoin()
-{
-  delete sprite;
-}
-
-void
-FallingCoin::draw(DrawingContext& context)
-{
-  sprite->draw(context, pos, LAYER_OBJECTS + 5);
-}
-
-void
-FallingCoin::update(float elapsed_time)
-{
-  pos += physic.get_movement(elapsed_time);
-  if (pos.y > SCREEN_HEIGHT)
-    remove_me();
 }
 
 Player::Player(PlayerStatus* _player_status)

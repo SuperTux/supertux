@@ -30,16 +30,19 @@ SnowBall::SnowBall(const lisp::Lisp& reader)
   //This is for a hidden badguy :)
   fluffy = false;  
   reader.get("fluffy",fluffy);
+  stay_on_platform = false;
+  reader.get("stay-on-platform", stay_on_platform);
   bbox.set_size(31.8, 31.8);
   if (fluffy) sprite = sprite_manager->create("images/creatures/fluffy/fluffy.sprite");
   else sprite = sprite_manager->create("images/creatures/snowball/snowball.sprite");
   set_direction = false;
 }
 
-SnowBall::SnowBall(float pos_x, float pos_y, Direction d)
+SnowBall::SnowBall(float pos_x, float pos_y, Direction d, bool stay_on_plat = false)
 {
   start_position.x = pos_x;
   start_position.y = pos_y;
+  stay_on_platform = stay_on_plat;
   bbox.set_size(31.8, 31.8);
   sprite = sprite_manager->create("images/creatures/snowball/snowball.sprite");
   set_direction = true;
@@ -58,6 +61,9 @@ SnowBall::write(lisp::Writer& writer)
     writer.write_bool("fluffy", true);
   }
 
+  if (stay_on_platform)
+    writer.write_bool("stay-on-platform", true);
+
   writer.end_list("snowball");
 }
 
@@ -67,6 +73,17 @@ SnowBall::activate()
   if (set_direction) {dir = initial_direction;}
   physic.set_velocity_x(dir == LEFT ? -WALKSPEED : WALKSPEED);
   sprite->set_action(dir == LEFT ? "left" : "right");
+}
+
+void
+SnowBall::active_update(float elapsed_time)
+{
+  if (stay_on_platform && may_fall_off_platform())
+  {
+    dir = (dir == LEFT ? RIGHT : LEFT);
+    sprite->set_action(dir == LEFT ? "left" : "right");
+    physic.set_velocity_x(-physic.get_velocity_x());
+  }
 }
 
 bool

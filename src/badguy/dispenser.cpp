@@ -92,7 +92,7 @@ Dispenser::launch_badguy()
   //FIXME: Does is_offscreen() work right here?
   if (!is_offscreen()) {
     if (badguy == "snowball")
-      Sector::current()->add_object(new SnowBall(get_pos().x, get_pos().y+32, dir));
+      Sector::current()->add_object(new SnowBall(get_pos().x, get_pos().y+32, dir, false));
     else if (badguy == "bouncingsnowball")
       Sector::current()->add_object(new BouncingSnowball(get_pos().x, get_pos().y+32, dir));
     else if (badguy == "mrbomb")
@@ -100,23 +100,23 @@ Dispenser::launch_badguy()
     else if (badguy == "mriceblock")
       Sector::current()->add_object(new MrIceBlock(get_pos().x, get_pos().y+32, dir, false));
     else if (badguy == "snowsnail")
-      Sector::current()->add_object(new SnowSnail(get_pos().x, get_pos().y+32, dir));
+      Sector::current()->add_object(new SnowSnail(get_pos().x, get_pos().y+32, dir, false));
     else if (badguy == "mrrocket") {
       Sector::current()->add_object(new MrRocket(get_pos().x+(dir == LEFT ? -32 : 32), get_pos().y, dir));}
     else if (badguy == "poisonivy")
-      Sector::current()->add_object(new PoisonIvy(get_pos().x, get_pos().y+32, dir));
+      Sector::current()->add_object(new PoisonIvy(get_pos().x, get_pos().y+32, dir, false));
     else if (badguy == "skullyhop")
       Sector::current()->add_object(new SkullyHop(get_pos().x, get_pos().y+44, dir));
     else if (badguy == "random")
     {
       switch (rand()%7)
       {
-        case 0: Sector::current()->add_object(new SnowBall(get_pos().x, get_pos().y+32, dir)); break;
+        case 0: Sector::current()->add_object(new SnowBall(get_pos().x, get_pos().y+32, dir, false)); break;
         case 1: Sector::current()->add_object(new BouncingSnowball(get_pos().x, get_pos().y+32, dir)); break;
         case 2: Sector::current()->add_object(new MrBomb(get_pos().x, get_pos().y+32, dir, false)); break;
         case 3: Sector::current()->add_object(new MrIceBlock(get_pos().x, get_pos().y+32, dir, false)); break;
-        case 4: Sector::current()->add_object(new PoisonIvy(get_pos().x, get_pos().y+32, dir)); break;
-        case 5: Sector::current()->add_object(new SnowSnail(get_pos().x, get_pos().y+32, dir)); break;
+        case 4: Sector::current()->add_object(new PoisonIvy(get_pos().x, get_pos().y+32, dir, false)); break;
+        case 5: Sector::current()->add_object(new SnowSnail(get_pos().x, get_pos().y+32, dir, false)); break;
         case 6: Sector::current()->add_object(new SkullyHop(get_pos().x, get_pos().y+44, dir)); break;
       }
     }
