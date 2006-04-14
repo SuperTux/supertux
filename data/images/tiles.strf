@@ -103,6 +103,14 @@
     )
     (solid #t)
   )
+  (tile
+    (id 2)
+    (images
+      "tiles/auxiliary/blank.png"
+    )
+    (solid #t)
+
+  )
   (tiles
     (width 3)
     (height 4)
