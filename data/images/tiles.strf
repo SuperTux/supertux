@@ -85,10 +85,6 @@
     (name "Waterfall-edgecloud")
     (tiles 195 196 197 198 199)
   )
-  (tilegroup
-    (name "IceWood")
-    (tiles 1442 1423 1424 1425 1426 1427 1428 1429 1430 1431 1432 1433 1434 1435 1436 1437 1438 1439 1440 1441 0 1443 1444 0 1445 1446 1447 1448 1449 1450 1451 1452 1453 1454 1459 1460 1455 1456 1461 1462 1457 1458 1463 1464 0 0 1465 1466)
-)  
 (tilegroup
     (name "Icebridge")
     (tiles 0 1540 1541 1542 1543 1544 1545 1546 1547 1548 1549 1550 1551)
@@ -5208,29 +5204,28 @@
 	 1435 1436 1437 1438
          1439 1440 1441 1442)
   (attributes 0 0 0 0 
-              0 0 0 0 
-  	      0 0 0 0
-	      0 0 0 0
-	      0 0 0 0)
- (image "tiles/icewood/icewood-1.png")
+              1 1 1 1 
+  	      1 1 1 1
+	      1 1 1 1
+	      1 1 1 1)
+ (image "tiles/ghostwood/ghostwood-1.png")
  )
-
 (tile
     (id 1443)
     (images
-      (region "tiles/icewood/icewood-7.png" 32 0 32 32)
+      (region "tiles/ghostwood/ghostwood-7.png" 32 0 32 32)
     )
   )
   (tile
     (id 1444)
     (images
-      (region "tiles/icewood/icewood-7.png" 64 0 32 32)
+      (region "tiles/ghostwood/ghostwood-7.png" 64 0 32 32)
     )
   )
   (tile
     (id 1445)
     (images
-      (region "tiles/icewood/icewood-7.png" 0 32 32 32)
+      (region "tiles/ghostwood/ghostwood-7.png" 0 32 32 32)
     )
     (solid #t)
     (slope-type 18)
@@ -5239,7 +5234,7 @@
   (tile
     (id 1446)
     (images
-      (region "tiles/icewood/icewood-7.png" 32 32 32 32)
+      (region "tiles/ghostwood/ghostwood-7.png" 32 32 32 32)
     )
     (solid #t)
     (slope-type 34)
@@ -5248,7 +5243,7 @@
   (tile
     (id 1447)
     (images
-      (region "tiles/icewood/icewood-7.png" 64 32 32 32)
+      (region "tiles/ghostwood/ghostwood-7.png" 64 32 32 32)
     )
     (solid #t)
     (slope-type 32)
@@ -5257,7 +5252,7 @@
   (tile
     (id 1448)
     (images
-      (region "tiles/icewood/icewood-7.png" 96 32 32 32)
+      (region "tiles/ghostwood/ghostwood-7.png" 96 32 32 32)
     )
     (solid #t)
     (slope-type 16)
@@ -5266,131 +5261,28 @@
   (tile
     (id 1449)
     (images
-      (region "tiles/icewood/icewood-7.png" 0 64 32 32)
+      (region "tiles/ghostwood/ghostwood-7.png" 0 64 32 32)
     )
     (solid #t)
   )
   (tile
     (id 1450)
     (images
-      (region "tiles/icewood/icewood-7.png" 32 64 32 32)
+      (region "tiles/ghostwood/ghostwood-7.png" 32 64 32 32)
     )
     (solid #t)
   )
   (tile
     (id 1451)
     (images
-      (region "tiles/icewood/icewood-7.png" 64 64 32 32)
+      (region "tiles/ghostwood/ghostwood-7.png" 64 64 32 32)
     )
     (solid #t)
   )
   (tile
     (id 1452)
     (images
-      (region "tiles/icewood/icewood-7.png" 96 64 32 32)
-    )
-    (solid #t)
-  )
- (tile
-    (id 1453)
-    (images
-      (region "tiles/icewood/icewood-5.png" 0 0 32 32)
-    )
-  )
-  (tile
-    (id 1454)
-    (images
-      (region "tiles/icewood/icewood-5.png" 32 0 32 32)
-    )
-  )
-  (tile
-    (id 1455)
-    (images
-      (region "tiles/icewood/icewood-5.png" 0 32 32 32)
-    )
-    (solid #t)
-    (slope-type 2)
-    (data 2)
-  )
-  (tile
-    (id 1456)
-    (images
-      (region "tiles/icewood/icewood-5.png" 32 32 32 32)
-    )
-    (solid #t)
-    (slope-type 0)
-  )
-  (tile
-    (id 1457)
-    (images
-      (region "tiles/icewood/icewood-5.png" 0 64 32 32)
-    )
-    (solid #t)
-  )
-  (tile
-    (id 1458)
-    (images
-      (region "tiles/icewood/icewood-5.png" 32 64 32 32)
-    )
-    (solid #t)
-  )
-  (tile
-    (id 1459)
-    (images
-      (region "tiles/icewood/icewood-6.png" 0 0 32 32)
-    )
-  )
-  (tile
-    (id 1460)
-    (images
-      (region "tiles/icewood/icewood-6.png" 32 0 32 32)
-    )
-  )
-  (tile
-    (id 1461)
-    (images
-      (region "tiles/icewood/icewood-6.png" 0 32 32 32)
-    )
-    (slope-type 66)
-    (data 66)
-  )
-  (tile
-    (id 1462)
-    (images
-      (region "tiles/icewood/icewood-6.png" 32 32 32 32)
-    )
-    (slope-type 48)
-    (data 48)
-  )
-  (tile
-    (id 1463)
-    (images
-      (region "tiles/icewood/icewood-6.png" 0 64 32 32)
-    )
-    (solid #t)
-    (slope-type 50)
-    (data 50)
-  )
-  (tile
-    (id 1464)
-    (images
-      (region "tiles/icewood/icewood-6.png" 32 64 32 32)
-    )
-    (solid #t)
-    (slope-type 64)
-    (data 64)
-  )
-  (tile
-    (id 1465)
-    (images
-      (region "tiles/icewood/icewood-6.png" 0 96 32 32)
-    )
-    (solid #t)
-  )
-  (tile
-    (id 1466)
-    (images
-      (region "tiles/icewood/icewood-6.png" 32 96 32 32)
+      (region "tiles/ghostwood/ghostwood-7.png" 96 64 32 32)
     )
     (solid #t)
   )

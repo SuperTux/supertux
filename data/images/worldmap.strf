@@ -3864,6 +3864,29 @@
 (tile(id 913)(images
 (region "worldmap/forest/forest.png" 256 416 32 32))
 (solid #t))
-
+ (tile (id 914) 
+       (images 
+       (region "worldmap/antarctica/pier.png" 0 0 32 32))
+       (stop  #f)
+       (north #f)
+       (south #f)
+       (west  #t)
+       (east  #t))
+ (tile (id 915) 
+       (images 
+       (region "worldmap/antarctica/pier.png" 32 0 32 32))
+       (stop  #f)
+       (north #f)
+       (south #f)
+       (west  #t)
+       (east  #t))
+ (tile (id 916) 
+       (images 
+       (region "worldmap/antarctica/pier.png" 64 0 32 32))
+       (stop  #t)
+       (north #f)
+       (south #f)
+       (west  #t)
+       (east  #f))
 )
 
