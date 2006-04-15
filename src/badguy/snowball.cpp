@@ -76,8 +76,10 @@ SnowBall::activate()
 }
 
 void
-SnowBall::active_update(float )
+SnowBall::active_update(float elapsed_time)
 {
+  BadGuy::active_update(elapsed_time);
+
   if (stay_on_platform && may_fall_off_platform())
   {
     dir = (dir == LEFT ? RIGHT : LEFT);
