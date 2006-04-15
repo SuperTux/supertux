@@ -26,7 +26,7 @@ namespace {
   const float SPEED = 200;
 }
 
-Dart::Dart(const lisp::Lisp& reader) : set_direction(false), parent(0)
+Dart::Dart(const lisp::Lisp& reader) : set_direction(false), parent(0), soundSource(0)
 {
   reader.get("x", start_position.x);
   reader.get("y", start_position.y);
@@ -36,7 +36,7 @@ Dart::Dart(const lisp::Lisp& reader) : set_direction(false), parent(0)
   countMe = false;
 }
 
-Dart::Dart(float pos_x, float pos_y, Direction d, const BadGuy* parent = 0) : set_direction(true), initial_direction(d), parent(parent)
+Dart::Dart(float pos_x, float pos_y, Direction d, const BadGuy* parent = 0) : set_direction(true), initial_direction(d), parent(parent), soundSource(0)
 {
   start_position.x = pos_x;
   start_position.y = pos_y;
@@ -44,6 +44,11 @@ Dart::Dart(float pos_x, float pos_y, Direction d, const BadGuy* parent = 0) : se
   sprite = sprite_manager->create("images/creatures/dart/dart.sprite");
   physic.enable_gravity(false);
   countMe = false;
+}
+
+Dart::~Dart()
+{
+  delete soundSource;
 }
 
 void
@@ -61,17 +66,40 @@ Dart::activate()
   if (set_direction) dir = initial_direction;
   physic.set_velocity_x(dir == LEFT ? -::SPEED : ::SPEED);
   sprite->set_action(dir == LEFT ? "flying-left" : "flying-right");
+
+  delete soundSource;
+  soundSource = sound_manager->create_sound_source("sounds/flame.wav");
+  if(soundSource) {
+    soundSource->set_position(get_pos());
+    soundSource->set_looping(true);
+    soundSource->set_gain(1.0);
+    soundSource->set_reference_distance(32);
+    soundSource->play();
+  } else {
+    log_warning << "Couldn't start Dart ambient sound" << std::endl;
+  }
 }
 
 void
 Dart::deactivate()
 {  
+  delete soundSource;
+  soundSource = 0;
   remove_me();
 }
+
+void 
+Dart::active_update(float elapsed_time)
+{
+  BadGuy::active_update(elapsed_time);
+  if (soundSource) soundSource->set_position(get_pos());
+}
+
 
 HitResponse 
 Dart::collision_solid(GameObject& , const CollisionHit& )
 {
+  sound_manager->play("sounds/stomp.wav", get_pos());
   remove_me();
   return ABORT_MOVE;
 }
@@ -83,6 +111,7 @@ Dart::collision_badguy(BadGuy& badguy, const CollisionHit& )
   if (&badguy == parent) {
     return FORCE_MOVE;
   }
+  sound_manager->play("sounds/stomp.wav", get_pos());
   remove_me();
   badguy.kill_fall();
   return ABORT_MOVE;
@@ -91,11 +120,10 @@ Dart::collision_badguy(BadGuy& badguy, const CollisionHit& )
 HitResponse 
 Dart::collision_player(Player& player, const CollisionHit& hit)
 {
+  sound_manager->play("sounds/stomp.wav", get_pos());
   remove_me();
   return BadGuy::collision_player(player, hit);
 }
-
-
 
 IMPLEMENT_FACTORY(Dart, "dart")
 

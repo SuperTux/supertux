@@ -31,10 +31,13 @@ class Dart : public BadGuy
 public:
   Dart(const lisp::Lisp& reader);
   Dart(float pos_x, float pos_y, Direction d, const BadGuy* parent);
+  ~Dart();
 
   void activate();
   void deactivate();
   void write(lisp::Writer& writer);
+
+  void active_update(float elapsed_time);
 
   HitResponse collision_solid(GameObject& object, const CollisionHit& hit);
   HitResponse collision_badguy(BadGuy& badguy, const CollisionHit& hit);
@@ -44,6 +47,7 @@ protected:
   bool set_direction;
   Direction initial_direction;
   const BadGuy* parent; /**< collisions with this BadGuy will be ignored */
+  SoundSource* soundSource; /**< SoundSource for ambient sound */
 };
 
 #endif

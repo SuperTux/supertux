@@ -26,7 +26,7 @@ namespace {
   const float MUZZLE_Y = 28; /**< [px] muzzle y-offset from top */
 }
 
-DartTrap::DartTrap(const lisp::Lisp& reader) : initial_delay(0), fire_delay(2), ammo(-1), state(IDLE)
+DartTrap::DartTrap(const lisp::Lisp& reader) : set_direction(true), initial_direction(LEFT), initial_delay(0), fire_delay(2), ammo(-1), state(IDLE)
 {
   reader.get("x", start_position.x);
   reader.get("y", start_position.y);
@@ -99,6 +99,7 @@ DartTrap::fire()
   float py = get_pos().y;
   py += MUZZLE_Y;
 
+  sound_manager->play("sounds/squish.wav", get_pos());
   Sector::current()->add_object(new Dart(px, py, dir, this));
   state = IDLE;
   sprite->set_action(dir == LEFT ? "idle-left" : "idle-right");
