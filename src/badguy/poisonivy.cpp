@@ -66,7 +66,7 @@ PoisonIvy::activate()
 }
 
 void
-PoisonIvy::active_update(float elapsed_time)
+PoisonIvy::active_update(float )
 {
   if (stay_on_platform && may_fall_off_platform())
   {

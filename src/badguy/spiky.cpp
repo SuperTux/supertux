@@ -53,7 +53,7 @@ Spiky::activate()
 }
 
 void
-Spiky::active_update(float elapsed_time)
+Spiky::active_update(float )
 {
   if (stay_on_platform && may_fall_off_platform())
   {
