@@ -39,6 +39,8 @@ PlayerStatus* player_status = 0;
 PlayerStatus::PlayerStatus()
   : coins(START_COINS),
     bonus(NO_BONUS),
+    max_fire_bullets(0),
+    max_ice_bullets(0),
     score_multiplier(1),
     max_score_multiplier(1)
 {
@@ -113,6 +115,9 @@ PlayerStatus::write(lisp::Writer& writer)
       log_warning << "Unknown bonus type." << std::endl;
       writer.write_string("bonus", "none");
   }
+  writer.write_int("fireflowers", max_fire_bullets);
+  writer.write_int("iceflowers", max_ice_bullets);
+  
   writer.write_bool("key-brass", keys & KEY_BRASS);
   writer.write_bool("key-iron", keys & KEY_IRON);
   writer.write_bool("key-bronze", keys & KEY_BRONZE);
@@ -143,6 +148,9 @@ PlayerStatus::read(const lisp::Lisp& lisp)
       bonus = NO_BONUS;
     }
   }
+  lisp.get("fireflowers", max_fire_bullets);
+  lisp.get("iceflowers", max_ice_bullets);
+
   bool val = false;
   if(lisp.get("key-brass", val) && val == true)
     set_keys(KEY_BRASS);

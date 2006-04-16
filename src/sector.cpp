@@ -1087,16 +1087,14 @@ bool
 Sector::add_bullet(const Vector& pos, float xm, Direction dir)
 {
   // TODO remove this function and move these checks elsewhere...
-  static const size_t MAX_FIRE_BULLETS = 2;
-  static const size_t MAX_ICE_BULLETS = 1;
 
   Bullet* new_bullet = 0;
   if(player_status->bonus == FIRE_BONUS) {
-    if(bullets.size() > MAX_FIRE_BULLETS-1)
+    if((int)bullets.size() >= player_status->max_fire_bullets)
       return false;
     new_bullet = new Bullet(pos, xm, dir, FIRE_BULLET);
   } else if(player_status->bonus == ICE_BONUS) {
-    if(bullets.size() > MAX_ICE_BULLETS-1)
+    if((int)bullets.size() >= player_status->max_ice_bullets)
       return false;
     new_bullet = new Bullet(pos, xm, dir, ICE_BULLET);
   } else {

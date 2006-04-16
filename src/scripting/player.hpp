@@ -35,7 +35,7 @@ public:
    * Set tux bonus.
    * This can be "grow", "fireflower" or "iceflower" at the moment
    */
-  virtual void set_bonus(const std::string& bonus) = 0;
+  virtual void add_bonus(const std::string& bonus) = 0;
   /**
    * Give tux more coins
    */

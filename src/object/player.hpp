@@ -148,9 +148,10 @@ public:
   void check_bounds(Camera* camera);
   void move(const Vector& vector);
 
-  virtual void set_bonus(const std::string& bonus);
+  virtual void add_bonus(const std::string& bonus);
   virtual void add_coins(int count);
-  void set_bonus(BonusType type, bool animate = false);
+  void add_bonus(BonusType type, bool animate = false); /**< picks up a bonus, taking care not to pick up lesser bonus items than we already have */
+  void set_bonus(BonusType type, bool animate = false); /**< like add_bonus, but can also downgrade the bonus items carried */
   PlayerStatus* get_status()
   {
     return player_status;

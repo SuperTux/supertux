@@ -999,11 +999,11 @@ static int Player_release_hook(SQUserPointer ptr, int )
   return 0;
 }
 
-static int Player_set_bonus_wrapper(HSQUIRRELVM vm)
+static int Player_add_bonus_wrapper(HSQUIRRELVM vm)
 {
   Scripting::Player* _this;
   if(SQ_FAILED(sq_getinstanceup(vm, 1, reinterpret_cast<SQUserPointer*> (&_this), 0))) {
-    sq_throwerror(vm, _SC("'set_bonus' called without instance"));
+    sq_throwerror(vm, _SC("'add_bonus' called without instance"));
     return SQ_ERROR;
   }
   const char* arg0;
@@ -1013,7 +1013,7 @@ static int Player_set_bonus_wrapper(HSQUIRRELVM vm)
   }
   
   try {
-    _this->set_bonus(arg0);
+    _this->add_bonus(arg0);
   
     return 0;
   
@@ -1021,7 +1021,7 @@ static int Player_set_bonus_wrapper(HSQUIRRELVM vm)
     sq_throwerror(vm, e.what());
     return SQ_ERROR;
   } catch(...) {
-    sq_throwerror(vm, _SC("Unexpected exception while executing function 'set_bonus'"));
+    sq_throwerror(vm, _SC("Unexpected exception while executing function 'add_bonus'"));
     return SQ_ERROR;
   }
   
@@ -2645,10 +2645,10 @@ void register_supertux_wrapper(HSQUIRRELVM v)
     msg << "Couldn't create new class 'Player'";
     throw SquirrelError(v, msg.str());
   }
-  sq_pushstring(v, "set_bonus", -1);
-  sq_newclosure(v, &Player_set_bonus_wrapper, 0);
+  sq_pushstring(v, "add_bonus", -1);
+  sq_newclosure(v, &Player_add_bonus_wrapper, 0);
   if(SQ_FAILED(sq_createslot(v, -3))) {
-    throw SquirrelError(v, "Couldn't register function 'set_bonus'");
+    throw SquirrelError(v, "Couldn't register function 'add_bonus'");
   }
 
   sq_pushstring(v, "add_coins", -1);

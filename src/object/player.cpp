@@ -542,16 +542,16 @@ Player::add_coins(int count)
 }
 
 void
-Player::set_bonus(const std::string& bonustype)
+Player::add_bonus(const std::string& bonustype)
 {
   if(bonustype == "grow")
-    set_bonus(GROWUP_BONUS);
+    add_bonus(GROWUP_BONUS);
   else if(bonustype == "fireflower")
-    set_bonus(FIRE_BONUS);
+    add_bonus(FIRE_BONUS);
   else if(bonustype == "iceflower")
-    set_bonus(ICE_BONUS);
+    add_bonus(ICE_BONUS);
   else if(bonustype == "none")
-    set_bonus(NO_BONUS);
+    add_bonus(NO_BONUS);
   
   
   std::ostringstream msg;
@@ -560,17 +560,39 @@ Player::set_bonus(const std::string& bonustype)
 }
 
 void
+Player::add_bonus(BonusType type, bool animate)
+{
+  // always ignore NO_BONUS
+  if (type == NO_BONUS) {
+    return;
+  }
+
+  // ignore GROWUP_BONUS if we're already big
+  if (type == GROWUP_BONUS) {
+    if (player_status->bonus == GROWUP_BONUS) return; 
+    if (player_status->bonus == FIRE_BONUS) return;
+    if (player_status->bonus == ICE_BONUS) return;
+  }
+
+  set_bonus(type, animate);
+}
+
+void
 Player::set_bonus(BonusType type, bool animate)
 {
-  if(player_status->bonus >= type)
-    return;
-  
   if(player_status->bonus == NO_BONUS) {
     adjust_height = 62.8;
     if(animate)
       growing_timer.start(GROWING_TIME);
   }
-  
+
+  if ((type == NO_BONUS) || (type == GROWUP_BONUS)) {
+    player_status->max_fire_bullets = 0;
+    player_status->max_ice_bullets = 0;
+  }
+  if (type == FIRE_BONUS) player_status->max_fire_bullets++;
+  if (type == ICE_BONUS) player_status->max_ice_bullets++;
+
   player_status->bonus = type;
 }
 
@@ -869,7 +891,7 @@ Player::kill(HurtMode mode)
           || player_status->bonus == ICE_BONUS)
         {
           safe_timer.start(TUX_SAFE_TIME);
-          player_status->bonus = GROWUP_BONUS;
+	  set_bonus(GROWUP_BONUS);
         }
       else 
         {
@@ -877,7 +899,7 @@ Player::kill(HurtMode mode)
           safe_timer.start(TUX_SAFE_TIME /* + GROWING_TIME */);
           adjust_height = 30.8;
           duck = false;
-          player_status->bonus = NO_BONUS;
+          set_bonus(NO_BONUS);
         }
     }
   else
@@ -893,7 +915,7 @@ Player::kill(HurtMode mode)
       physic.set_acceleration(0, 0);
       physic.set_velocity(0, 700);
       player_status->coins -= 25;
-      player_status->bonus = NO_BONUS;
+      set_bonus(NO_BONUS);
       dying = true;
       dying_timer.start(3.0);
       set_group(COLGROUP_DISABLED);

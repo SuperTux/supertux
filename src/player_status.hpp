@@ -59,6 +59,8 @@ public:
   
   int  coins;
   BonusType bonus;
+  int max_fire_bullets; /**< maximum number of fire bullets in play */
+  int max_ice_bullets; /**< maximum number of ice bullets in play */
 
   int score_multiplier;
   int max_score_multiplier;
@@ -77,7 +79,8 @@ private:
   // don't use this
   PlayerStatus(const PlayerStatus& other);
   
-  int  keys;
+  int keys;
+
   std::auto_ptr<Sprite> tux_life;
   std::auto_ptr<Sprite> key_iron;
   std::auto_ptr<Sprite> key_brass;

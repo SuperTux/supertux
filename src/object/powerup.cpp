@@ -76,10 +76,10 @@ PowerUp::collision(GameObject& other, const CollisionHit& hit)
 
   // some defaults if no script has been set
   if (sprite_name == "images/powerups/egg/egg.sprite") {
-    player->set_bonus(GROWUP_BONUS, true);
+    player->add_bonus(GROWUP_BONUS, true);
     sound_manager->play("sounds/grow.wav");
   } else if (sprite_name == "images/powerups/fireflower/fireflower.sprite") {
-    player->set_bonus(FIRE_BONUS, true);
+    player->add_bonus(FIRE_BONUS, true);
     sound_manager->play("sounds/fire-flower.wav");
   } else if (sprite_name == "images/powerups/star/star.sprite") {
     player->make_invincible();
