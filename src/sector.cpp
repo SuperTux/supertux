@@ -1165,7 +1165,7 @@ Sector::inside(const Rect& rect) const
 {
   if(rect.p1.x > solids->get_width() * 32 
       || rect.p1.y > solids->get_height() * 32
-      || rect.p2.x < 0 || rect.p2.y < 0)
+      || rect.p2.x < 0)
     return false;
 
   return true;

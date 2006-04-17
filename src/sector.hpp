@@ -93,7 +93,10 @@ public:
   const std::string& get_name() const
   { return name; }
 
-  /// tests if a given rectangle is inside the sector
+  /**
+   * tests if a given rectangle is inside the sector
+   * (a rectangle that is on top of the sector is considered inside)
+   */
   bool inside(const Rect& rectangle) const;
 
   void play_music(MusicType musictype);

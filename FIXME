@@ -1,8 +1,0 @@
-SUPERTUX FIXME'S
-This file is for small, obvious and temporary issues that are too minor to be put into the TODO at the wiki.
-Just put them here so you don't forget.
----
-
-Errors in scripts crash X-Server (very annoying, please fix)
-Some levels don't have the music path set correctly
-Revert Tux to single image sprite

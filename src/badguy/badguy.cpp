@@ -32,7 +32,7 @@ static const float X_OFFSCREEN_DISTANCE = 1600;
 static const float Y_OFFSCREEN_DISTANCE = 1200;
 
 BadGuy::BadGuy()
-  : countMe(true), sprite(0), remove_out_of_bounds(true), dir(LEFT), state(STATE_INIT)
+  : countMe(true), sprite(0), dir(LEFT), state(STATE_INIT)
 {
   set_group(COLGROUP_DISABLED);
 }
@@ -62,7 +62,7 @@ BadGuy::draw(DrawingContext& context)
 void
 BadGuy::update(float elapsed_time)
 {
-  if(!Sector::current()->inside(bbox) && remove_out_of_bounds) {
+  if(!Sector::current()->inside(bbox)) {
     remove_me();
     return;
   }

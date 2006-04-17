@@ -378,6 +378,116 @@
       (east  #t)
       (stop  #f))
 
+  (tile (id 78)
+    (images "worldmap/antarctica/water.png")
+    (editor-images
+      (region "worldmap/antarctica/water-editor.png" 0 0 32 32)
+    )
+    (north #f)
+    (south #f)
+    (west #t)
+    (east #t)
+  )
+
+  (tile (id 79)
+    (images "worldmap/antarctica/water.png")
+    (editor-images
+      (region "worldmap/antarctica/water-editor.png" 32 0 32 32)
+    )
+    (north #t)
+    (south #t)
+    (west #f)
+    (east #f)
+  )
+
+  (tile (id 80)
+    (images "worldmap/antarctica/water.png")
+    (editor-images
+      (region "worldmap/antarctica/water-editor.png" 64 0 32 32)
+    )
+    (north #f)
+    (south #t)
+    (west #f)
+    (east #t)
+  )
+
+  (tile (id 81)
+    (images "worldmap/antarctica/water.png")
+    (editor-images
+      (region "worldmap/antarctica/water-editor.png" 96 0 32 32)
+    )
+    (north #f)
+    (south #t)
+    (west #t)
+    (east #f)
+  )
+
+  (tile (id 82)
+    (images "worldmap/antarctica/water.png")
+    (editor-images
+      (region "worldmap/antarctica/water-editor.png" 0 32 32 32)
+    )
+    (north #t)
+    (south #t)
+    (west #f)
+    (east #t)
+  )
+
+  (tile (id 83)
+    (images "worldmap/antarctica/water.png")
+    (editor-images
+      (region "worldmap/antarctica/water-editor.png" 32 32 32 32)
+    )
+    (north #t)
+    (south #t)
+    (west #t)
+    (east #f)
+  )
+
+  (tile (id 84)
+    (images "worldmap/antarctica/water.png")
+    (editor-images
+      (region "worldmap/antarctica/water-editor.png" 64 32 32 32)
+    )
+    (north #t)
+    (south #f)
+    (west #f)
+    (east #t)
+  )
+
+  (tile (id 85)
+    (images "worldmap/antarctica/water.png")
+    (editor-images
+      (region "worldmap/antarctica/water-editor.png" 96 32 32 32)
+    )
+    (north #t)
+    (south #f)
+    (west #t)
+    (east #f)
+  )
+
+  (tile (id 86)
+    (images "worldmap/antarctica/water.png")
+    (editor-images
+      (region "worldmap/antarctica/water-editor.png" 0 64 32 32)
+    )
+    (north #t)
+    (south #f)
+    (west #t)
+    (east #t)
+  )
+
+  (tile (id 87)
+    (images "worldmap/antarctica/water.png")
+    (editor-images
+      (region "worldmap/antarctica/water-editor.png" 32 64 32 32)
+    )
+    (north #f)
+    (south #t)
+    (west #t)
+    (east #t)
+  )
+
 (tile
     (id 167)
     (images

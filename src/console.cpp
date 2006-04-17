@@ -196,8 +196,8 @@ Console::addLine(std::string s)
   }
 
   alpha = 1.0;
-  if(stayOpen < 5)
-    stayOpen += 1;
+  if(stayOpen < 6)
+    stayOpen += 1.5;
 }
 
 void

@@ -160,10 +160,12 @@ public:
    * Save worldmap state to squirrel state table
    */
   void save_state();
+
   /**
    * Load worldmap state from squirrel state table
    */
   void load_state();
+
   /**
    * Load a worldmap
    */

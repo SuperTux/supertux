@@ -1,18 +1,30 @@
 (supertux-sprite
   (action
-    (name "default")
-    (x-offset 0)
-    (y-offset 0)
-(fps 5)
-    (images "boat.png"
-)
+    (name "empty")
+    (images "boat_empty.png")
   )
   (action
-    (name "solved")
-    (x-offset 0)
-    (y-offset 0)
-(fps 5)
-    (images "boat.png"
-)
+    (name "small-stop")
+    (images "boat.png")
+  )
+  (action
+    (name "small-walking")
+    (images "boat.png")
+  )
+  (action
+    (name "fire-stop")
+    (images "boat.png")
+  )
+  (action
+    (name "fire-walking")
+    (images "boat.png")
+  )
+  (action
+    (name "large-stop")
+    (images "boat.png")
+  )
+  (action
+    (name "large-walking")
+    (images "boat.png")
   )
 )

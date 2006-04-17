@@ -141,12 +141,6 @@ protected:
   /// is the enemy activated
   bool activated;
   /**
-   * Should the badguy be removed when it leaves the bounds of the sector?
-   * Use this when the badguy is portable and picked up by the player, who
-   * may actually leave the sector's bounds sometimes.
-   */
-  bool remove_out_of_bounds;
-  /**
    * initial position of the enemy. Also the position where enemy respawns when
    * after being deactivated.
    */

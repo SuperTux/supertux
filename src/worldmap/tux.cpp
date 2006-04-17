@@ -182,6 +182,8 @@ Tux::tryContinueWalking(float elapsed_time)
     }
   }
 
+
+
   // stop if we reached a level, a WORLDMAP_STOP tile or a special tile without a passive_message
   if ((worldmap->at_level()) || (worldmap->at(tile_pos)->getData() & Tile::WORLDMAP_STOP) || (special_tile && !special_tile->passive_message))
   {
